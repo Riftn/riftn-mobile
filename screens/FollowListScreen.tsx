@@ -59,6 +59,9 @@ type RouteParams = {
     username?: string;
     initialTab?: "followers" | "following" | "requests";
     hideFollowers?: boolean;
+    /** Each list can be hidden on its own (customs.followersListVisibility / followingListVisibility). */
+    hideFollowersList?: boolean;
+    hideFollowingList?: boolean;
     isOwnProfile?: boolean;
     /** Opened from a grouped follow notification: how many followers are new. */
     newCount?: number;
@@ -329,6 +332,8 @@ const FollowListScreen: React.FC = () => {
     username,
     initialTab = "followers",
     hideFollowers = false,
+    hideFollowersList = false,
+    hideFollowingList = false,
     isOwnProfile = false,
     newCount = 0,
     newUsernames,
@@ -338,12 +343,13 @@ const FollowListScreen: React.FC = () => {
 
   // Determine if we can show the list
   const isOwner = isOwnProfile || lower(authUser?.address) === lower(address);
-  const canViewList = !hideFollowers || isOwner;
 
   const isPrivateForTab = authUser?.isPrivate === true;
   const [activeTab, setActiveTab] = useState<TabKey>(
     initialTab === "requests" && !(isOwner && isPrivateForTab) ? "followers" : initialTab as TabKey
   );
+  const tabHidden = activeTab === "followers" ? hideFollowersList : activeTab === "following" ? hideFollowingList : false;
+  const canViewList = isOwner || (!hideFollowers && !tabHidden);
   const [searchQuery, setSearchQuery] = useSurfaceDraft("screens/FollowListScreen.tsx:searchQuery", "");
   const searchMaterial = useSearchFieldMaterial();
   const [sortOption, setSortOption] = useState<SortOption>("recent");

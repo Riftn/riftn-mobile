@@ -1545,7 +1545,15 @@
     "themeColorBrandNoAvatar": "Ajoutez une photo de profil pour utiliser les couleurs de Marque",
     "themeColorBrandFailed": "Impossible de lire les couleurs de votre photo de profil",
     "chatTextSize": "Taille du texte du chat",
-    "chatTextSizeDesc": "Messages plus grands ou plus petits dans tous les chats. S'ajoute à la taille du texte de votre téléphone."
+    "chatTextSizeDesc": "Messages plus grands ou plus petits dans tous les chats. S'ajoute à la taille du texte de votre téléphone.",
+    "showLikes": "Montrer mes j'aime à tout le monde",
+    "showLikesDesc": "Tout le monde peut ouvrir l'onglet J'aime de ton profil. Désactivé par défaut : toi seul vois ce que tu as aimé.",
+    "showFollowersList": "Montrer qui me suit",
+    "showFollowersListDesc": "Permet à tout le monde d'ouvrir ta liste d'abonnés. Désactivé, toi seul peux la voir.",
+    "showFollowingList": "Montrer qui je suis",
+    "showFollowingListDesc": "Permet à tout le monde d'ouvrir la liste des personnes que tu suis. Désactivé, toi seul peux la voir.",
+    "showFollowCounts": "Montrer mes nombres d'abonnés",
+    "showFollowCountsDesc": "Affiche combien d'abonnés tu as et combien de personnes tu suis. Le désactiver masque aussi les deux listes."
   },
   "common": {
     "refresh": "Actualiser",
@@ -2949,7 +2957,13 @@
       "saveFailed": "Impossible d'enregistrer votre ordre. Veuillez réessayer.",
       "loadFailed": "Impossible de charger vos publications. Fermez ceci et réessayez.",
       "empty": "Rien à organiser pour l'instant. Publiez d'abord quelque chose."
-    }
+    },
+    "tabLikes": "J'aime",
+    "likesEmptyTitle": "Aucun j'aime pour l'instant",
+    "likesEmptyOwn": "Les publications que tu aimes apparaissent ici. Toi seul peux les voir, sauf si tu actives Montrer mes j'aime dans les Paramètres.",
+    "likesEmptyOther": "Rien d'aimé pour l'instant.",
+    "likesPrivateTitle": "Les j'aime sont privés",
+    "likesPrivateDesc": "Ce compte garde ses j'aime pour lui."
   },
   "tv": {
     "title": "Télévision",

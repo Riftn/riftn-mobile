@@ -3731,7 +3731,15 @@
     "themeColorBrandNoAvatar": "브랜드 색상을 쓰려면 프로필 사진을 추가하세요",
     "themeColorBrandFailed": "프로필 사진에서 색상을 읽을 수 없습니다",
     "chatTextSize": "채팅 글자 크기",
-    "chatTextSizeDesc": "모든 채팅의 메시지를 더 크거나 작게 표시합니다. 휴대폰 글자 크기에 더해집니다."
+    "chatTextSizeDesc": "모든 채팅의 메시지를 더 크거나 작게 표시합니다. 휴대폰 글자 크기에 더해집니다.",
+    "showLikes": "내 좋아요를 모두에게 보이기",
+    "showLikesDesc": "누구나 내 프로필의 좋아요 탭을 열 수 있어요. 기본값은 꺼짐이라 내가 좋아요한 게시물은 나만 볼 수 있어요.",
+    "showFollowersList": "나를 팔로우하는 사람 보이기",
+    "showFollowersListDesc": "누구나 내 팔로워 목록을 열 수 있게 해요. 끄면 나만 볼 수 있어요.",
+    "showFollowingList": "내가 팔로우하는 사람 보이기",
+    "showFollowingListDesc": "누구나 내가 팔로우하는 사람 목록을 열 수 있게 해요. 끄면 나만 볼 수 있어요.",
+    "showFollowCounts": "팔로워 수 보이기",
+    "showFollowCountsDesc": "팔로워 수와 팔로잉 수를 보여줘요. 끄면 두 목록도 숨겨져요."
   },
   "common": {
     "refresh": "새로고침",
@@ -5030,7 +5038,13 @@
       "votes_other": "{{value}}표",
       "members_one": "{{value}}명 멤버",
       "members_other": "{{value}}명 멤버"
-    }
+    },
+    "tabLikes": "좋아요",
+    "likesEmptyTitle": "아직 좋아요가 없어요",
+    "likesEmptyOwn": "좋아요한 게시물이 여기에 표시돼요. 설정에서 내 좋아요를 모두에게 보이기를 켜지 않으면 나만 볼 수 있어요.",
+    "likesEmptyOther": "아직 좋아요한 게시물이 없어요.",
+    "likesPrivateTitle": "좋아요는 비공개예요",
+    "likesPrivateDesc": "이 계정은 좋아요를 공개하지 않아요."
   },
   "tv": {
     "title": "TV",

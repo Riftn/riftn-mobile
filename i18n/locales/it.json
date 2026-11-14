@@ -3732,7 +3732,15 @@
     "themeColorBrandNoAvatar": "Aggiungi una foto profilo per usare i colori Brand",
     "themeColorBrandFailed": "Non è stato possibile leggere i colori della tua foto profilo",
     "chatTextSize": "Dimensione del testo della chat",
-    "chatTextSizeDesc": "Messaggi più grandi o più piccoli in ogni chat. Si somma alla dimensione del testo del telefono."
+    "chatTextSizeDesc": "Messaggi più grandi o più piccoli in ogni chat. Si somma alla dimensione del testo del telefono.",
+    "showLikes": "Mostra i miei Mi piace a tutti",
+    "showLikesDesc": "Chiunque può aprire la scheda Mi piace del tuo profilo. Disattivato di default, quindi solo tu vedi cosa ti è piaciuto.",
+    "showFollowersList": "Mostra chi mi segue",
+    "showFollowersListDesc": "Permetti a chiunque di aprire la lista dei tuoi follower. Se disattivato, solo tu puoi vederla.",
+    "showFollowingList": "Mostra chi seguo",
+    "showFollowingListDesc": "Permetti a chiunque di aprire la lista delle persone che segui. Se disattivato, solo tu puoi vederla.",
+    "showFollowCounts": "Mostra i miei numeri di follower",
+    "showFollowCountsDesc": "Mostra quanti follower hai e quante persone segui. Disattivarlo nasconde anche entrambe le liste."
   },
   "common": {
     "refresh": "Aggiorna",
@@ -5031,7 +5039,13 @@
       "votes_other": "{{value}} voti",
       "members_one": "{{value}} membro",
       "members_other": "{{value}} membri"
-    }
+    },
+    "tabLikes": "Mi piace",
+    "likesEmptyTitle": "Ancora nessun Mi piace",
+    "likesEmptyOwn": "I post che ti piacciono compaiono qui. Solo tu puoi vederli, a meno che non attivi Mostra i miei Mi piace nelle Impostazioni.",
+    "likesEmptyOther": "Ancora nessun Mi piace.",
+    "likesPrivateTitle": "I Mi piace sono privati",
+    "likesPrivateDesc": "Questo account tiene per sé i suoi Mi piace."
   },
   "tv": {
     "title": "TV",

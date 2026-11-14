@@ -1545,7 +1545,15 @@
     "themeColorBrandNoAvatar": "Añade una foto de perfil para usar los colores de Marca",
     "themeColorBrandFailed": "No se pudieron leer los colores de tu foto de perfil",
     "chatTextSize": "Tamaño del texto del chat",
-    "chatTextSizeDesc": "Mensajes más grandes o más pequeños en todos los chats. Se suma al tamaño de texto de tu teléfono."
+    "chatTextSizeDesc": "Mensajes más grandes o más pequeños en todos los chats. Se suma al tamaño de texto de tu teléfono.",
+    "showLikes": "Mostrar mis me gusta a todos",
+    "showLikesDesc": "Cualquiera puede abrir la pestaña Me gusta de tu perfil. Desactivado por defecto, así que solo tú ves lo que te gustó.",
+    "showFollowersList": "Mostrar quién me sigue",
+    "showFollowersListDesc": "Deja que cualquiera abra tu lista de seguidores. Si está desactivado, solo tú puedes verla.",
+    "showFollowingList": "Mostrar a quién sigo",
+    "showFollowingListDesc": "Deja que cualquiera abra la lista de personas que sigues. Si está desactivado, solo tú puedes verla.",
+    "showFollowCounts": "Mostrar mis números de seguidores",
+    "showFollowCountsDesc": "Muestra cuántos seguidores tienes y a cuántas personas sigues. Al desactivarlo también se ocultan ambas listas."
   },
   "common": {
     "refresh": "Actualizar",
@@ -2949,7 +2957,13 @@
       "saveFailed": "No se pudo guardar tu orden. Inténtalo de nuevo.",
       "loadFailed": "No se pudieron cargar tus publicaciones. Cierra esto e inténtalo de nuevo.",
       "empty": "Aún no hay nada que ordenar. Publica algo primero."
-    }
+    },
+    "tabLikes": "Me gusta",
+    "likesEmptyTitle": "Aún no hay me gusta",
+    "likesEmptyOwn": "Las publicaciones que te gustan aparecen aquí. Solo tú puedes verlas, salvo que actives Mostrar mis me gusta en Ajustes.",
+    "likesEmptyOther": "Aún no le ha gustado nada.",
+    "likesPrivateTitle": "Los me gusta son privados",
+    "likesPrivateDesc": "Esta cuenta mantiene sus me gusta en privado."
   },
   "tv": {
     "title": "TV",

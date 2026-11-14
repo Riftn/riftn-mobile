@@ -3732,7 +3732,15 @@
     "themeColorBrandNoAvatar": "Tambahkan foto profil untuk memakai warna Merek",
     "themeColorBrandFailed": "Tidak bisa membaca warna dari foto profil Anda",
     "chatTextSize": "Ukuran teks chat",
-    "chatTextSizeDesc": "Pesan lebih besar atau lebih kecil di semua chat. Ditambahkan ke ukuran teks ponsel Anda."
+    "chatTextSizeDesc": "Pesan lebih besar atau lebih kecil di semua chat. Ditambahkan ke ukuran teks ponsel Anda.",
+    "showLikes": "Tampilkan suka saya ke semua orang",
+    "showLikesDesc": "Siapa pun bisa membuka tab Suka di profilmu. Mati secara bawaan, jadi hanya kamu yang melihat apa yang kamu sukai.",
+    "showFollowersList": "Tampilkan siapa yang mengikuti saya",
+    "showFollowersListDesc": "Izinkan siapa pun membuka daftar pengikutmu. Jika mati, hanya kamu yang bisa melihatnya.",
+    "showFollowingList": "Tampilkan siapa yang saya ikuti",
+    "showFollowingListDesc": "Izinkan siapa pun membuka daftar orang yang kamu ikuti. Jika mati, hanya kamu yang bisa melihatnya.",
+    "showFollowCounts": "Tampilkan jumlah pengikut saya",
+    "showFollowCountsDesc": "Menampilkan berapa pengikutmu dan berapa orang yang kamu ikuti. Mematikannya juga menyembunyikan kedua daftar."
   },
   "common": {
     "refresh": "Segarkan",
@@ -5031,7 +5039,13 @@
       "votes_other": "{{value}} suara",
       "members_one": "{{value}} anggota",
       "members_other": "{{value}} anggota"
-    }
+    },
+    "tabLikes": "Suka",
+    "likesEmptyTitle": "Belum ada suka",
+    "likesEmptyOwn": "Postingan yang kamu sukai muncul di sini. Hanya kamu yang bisa melihatnya kecuali kamu menyalakan Tampilkan suka saya di Pengaturan.",
+    "likesEmptyOther": "Belum ada yang disukai.",
+    "likesPrivateTitle": "Suka bersifat pribadi",
+    "likesPrivateDesc": "Akun ini menyimpan sukanya untuk dirinya sendiri."
   },
   "tv": {
     "title": "TV",

@@ -34,6 +34,7 @@ import { useAuthActions, useUser } from "../../context/AuthContext";
 import { isReservedUsername } from "../../libs/reserved-usernames";
 import { getDefaultProfileTab } from "../../libs/profile-default-tab";
 import { dislikesArePublic } from '../../libs/disliked-posts-store';
+import { likesArePublic } from '../../libs/profile-privacy';
 
 const FallbackAvatar = require("../../assets/default-avatar.png");
 
@@ -487,6 +488,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
         pendingTab={pendingTab}
         defaultTab={getDefaultProfileTab(data)}
         showDislikesTab={dislikesArePublic((data as any)?.customs)}
+        showLikesTab={likesArePublic((data as any)?.customs)}
         hasCustomOrder={!!(data as any)?.profileOrderAt}
         onPendingTabConsumed={handlePendingTabConsumed}
         backToTopBottom={backToTopBottom}

@@ -1545,7 +1545,15 @@
     "themeColorBrandNoAvatar": "Marka renklerini kullanmak için bir profil fotoğrafı ekleyin",
     "themeColorBrandFailed": "Profil fotoğrafınızdan renkler okunamadı",
     "chatTextSize": "Sohbet metin boyutu",
-    "chatTextSizeDesc": "Tüm sohbetlerde daha büyük veya küçük mesajlar. Telefonunuzun metin boyutuna eklenir."
+    "chatTextSizeDesc": "Tüm sohbetlerde daha büyük veya küçük mesajlar. Telefonunuzun metin boyutuna eklenir.",
+    "showLikes": "Beğenilerimi herkese göster",
+    "showLikesDesc": "Herkes profilindeki Beğeniler sekmesini açabilir. Varsayılan olarak kapalı, yani neyi beğendiğini yalnızca sen görürsün.",
+    "showFollowersList": "Beni kimlerin takip ettiğini göster",
+    "showFollowersListDesc": "Herkesin takipçi listeni açmasına izin ver. Kapalıyken yalnızca sen görebilirsin.",
+    "showFollowingList": "Kimleri takip ettiğimi göster",
+    "showFollowingListDesc": "Herkesin takip ettiğin kişilerin listesini açmasına izin ver. Kapalıyken yalnızca sen görebilirsin.",
+    "showFollowCounts": "Takipçi sayılarımı göster",
+    "showFollowCountsDesc": "Kaç takipçin olduğunu ve kaç kişiyi takip ettiğini gösterir. Kapatmak iki listeyi de gizler."
   },
   "common": {
     "refresh": "Yenile",
@@ -2949,7 +2957,13 @@
       "saveFailed": "Sıralamanız kaydedilemedi. Lütfen tekrar deneyin.",
       "loadFailed": "Gönderileriniz yüklenemedi. Bunu kapatıp tekrar deneyin.",
       "empty": "Henüz sıralanacak bir şey yok. Önce bir şey paylaşın."
-    }
+    },
+    "tabLikes": "Beğeniler",
+    "likesEmptyTitle": "Henüz beğeni yok",
+    "likesEmptyOwn": "Beğendiğin gönderiler burada görünür. Ayarlar'da Beğenilerimi herkese göster'i açmadıkça yalnızca sen görürsün.",
+    "likesEmptyOther": "Henüz hiçbir şey beğenilmedi.",
+    "likesPrivateTitle": "Beğeniler gizli",
+    "likesPrivateDesc": "Bu hesap beğenilerini kendine saklıyor."
   },
   "tv": {
     "title": "TV",
