@@ -23,7 +23,8 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { setOpenConversation, clearOpenConversation } from "../libs/activeChat";
 import Icon from "../components/ui/Icon";
 
 import ScreenHeader, { SCREEN_HEADER_TITLE_FONT_SIZE } from "../components/ScreenHeader";
@@ -360,6 +361,15 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
 
   const currentConvId = convId || createdConvIdRef.current;
+  // A push for this chat stays quiet while it is on screen (push.service).
+  useFocusEffect(
+    useCallback(() => {
+      if (!currentConvId) return;
+      const id = String(currentConvId);
+      setOpenConversation(id);
+      return () => clearOpenConversation(id);
+    }, [currentConvId]),
+  );
 
   const currentConversation = useMemo(
     () => conversations.find((c) => c._id === currentConvId) ?? null,
