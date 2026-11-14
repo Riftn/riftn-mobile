@@ -287,6 +287,13 @@ const LiveChatScreen: React.FC = () => {
     }
   }, [scrollToBottom]);
 
+  // A first page that fits on one screen can never be scrolled up from: keep
+  // reading back until it fills the screen or the history runs out.
+  useEffect(() => {
+    if (!initialScrollDone || !hasMore || loadingMore || messages.length === 0) return;
+    if (contentHeightRef.current > 0 && contentHeightRef.current <= layoutHeightRef.current) loadMoreMessages();
+  }, [initialScrollDone, hasMore, loadingMore, messages.length, loadMoreMessages]);
+
   const handleLayout = useCallback((e: { nativeEvent: { layout: { height: number } } }) => {
     layoutHeightRef.current = e.nativeEvent.layout.height;
     listSlack.value = Math.max(0, layoutHeightRef.current - contentHeightRef.current);
