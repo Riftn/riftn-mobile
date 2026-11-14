@@ -61,7 +61,7 @@ import {
   useProfileContentFilters,
 } from "../Profile/useProfileContentFilters";
 import { useProfileContentCounts } from "../Profile/useProfileContentCounts";
-import { useProfileDislikesCount } from "../Profile/useProfileDislikesCount";
+import { useProfileDislikesCount, useProfileLikesCount } from "../Profile/useProfileDislikesCount";
 import { getPlans, type SubscriptionPlan } from "../../services/subscription.service";
 import { useTranslation } from "react-i18next";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -99,6 +99,8 @@ interface UserProfileBottomContentTabsProps {
   defaultTab?: ProfileDefaultTab;
   /** Someone else's profile whose owner made their Dislikes tab public. */
   showDislikesTab?: boolean;
+  /** Someone else's profile whose owner made their Likes tab public (private by default). */
+  showLikesTab?: boolean;
   /** The creator arranged their posts in their own order; the profile opens in it. */
   hasCustomOrder?: boolean;
   /** Back-to-top button's distance from the bottom; the host knows what sits there. */
@@ -131,6 +133,7 @@ type ContentTab =
   | "pinned"
   | "playlists"
   | "articles"
+  | "likes"
   | "dislikes";
 
 const BASE_TAB_ITEMS: ProfileTabItem<ContentTab>[] = [
@@ -175,6 +178,7 @@ const UserProfileBottomContentTabs: React.FC<
   defaultTab = DEFAULT_PROFILE_TAB,
   backToTopBottom,
   showDislikesTab = false,
+  showLikesTab = false,
   hasCustomOrder = false,
 }) => {
   // The App Store build lists nobody else's paid plans (3.1.1), so another
@@ -198,6 +202,7 @@ const UserProfileBottomContentTabs: React.FC<
   }, []);
   const counts = useProfileContentCounts(address);
   const dislikesCount = useProfileDislikesCount(address, isOwnProfile || showDislikesTab);
+  const likesCount = useProfileLikesCount(address, isOwnProfile || showLikesTab);
 
   // Active content tab
   const [activeTab, setActiveTab] = useState<ContentTab>(startTab);
@@ -271,8 +276,11 @@ const UserProfileBottomContentTabs: React.FC<
     const dislikes: ProfileTabItem<ContentTab>[] = isOwnProfile || showDislikesTab
       ? [{ key: "dislikes", label: t("profile.tabDislikes"), icon: "ThumbsDown", count: dislikesCount }]
       : [];
-    return [home, ...rest, ...dislikes];
-  }, [counts, t, isOwnProfile, showDislikesTab, dislikesCount, subsHidden]);
+    const likes: ProfileTabItem<ContentTab>[] = isOwnProfile || showLikesTab
+      ? [{ key: "likes", label: t("profile.tabLikes"), icon: "ThumbsUp", count: likesCount }]
+      : [];
+    return [home, ...rest, ...likes, ...dislikes];
+  }, [counts, t, isOwnProfile, showDislikesTab, dislikesCount, showLikesTab, likesCount, subsHidden]);
 
   // Once the profile has settled, build its busiest other tabs in the
   // background (hidden, like a kept tab), so the first tap on one shows a
@@ -281,7 +289,7 @@ const UserProfileBottomContentTabs: React.FC<
     if (!isFullScreen || !canViewContent) return;
     const timer = setTimeout(() => {
       const next = tabItems
-        .filter((item) => item.key !== activeTab && item.key !== "dislikes" && (item.count ?? 0) > 0)
+        .filter((item) => item.key !== activeTab && item.key !== "dislikes" && item.key !== "likes" && (item.count ?? 0) > 0)
         .slice(0, PRERENDERED_TABS)
         .map((item) => item.key);
       setKeptTabs((kept) => {
@@ -815,6 +823,12 @@ const UserProfileBottomContentTabs: React.FC<
         return (
           <View style={{ flex: 1, marginTop: mt }}>
             <PinnedRoute listRef={listRefFor(tab)} address={address} onBeforeNavigate={onClose} onScroll={scrollHandler} listHeader={isFullScreen ? fullScreenListHeader : undefined} />
+          </View>
+        );
+      case "likes":
+        return (
+          <View style={{ flex: 1, marginTop: mt }}>
+            <DislikesRoute kind="likes" listRef={listRefFor(tab)} address={address} isOwnProfile={isOwnProfile} onBeforeNavigate={onClose} onScroll={scrollHandler} listHeader={isFullScreen ? fullScreenListHeader : undefined} />
           </View>
         );
       case "dislikes":

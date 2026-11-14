@@ -3732,7 +3732,15 @@
     "themeColorBrandNoAvatar": "Thêm ảnh đại diện để dùng màu Thương hiệu",
     "themeColorBrandFailed": "Không đọc được màu từ ảnh đại diện của bạn",
     "chatTextSize": "Cỡ chữ trò chuyện",
-    "chatTextSizeDesc": "Tin nhắn lớn hơn hoặc nhỏ hơn trong mọi cuộc trò chuyện. Cộng thêm vào cỡ chữ của điện thoại."
+    "chatTextSizeDesc": "Tin nhắn lớn hơn hoặc nhỏ hơn trong mọi cuộc trò chuyện. Cộng thêm vào cỡ chữ của điện thoại.",
+    "showLikes": "Hiển thị lượt thích của tôi cho mọi người",
+    "showLikesDesc": "Ai cũng có thể mở tab Lượt thích trên hồ sơ của bạn. Mặc định tắt, nên chỉ bạn thấy những gì mình đã thích.",
+    "showFollowersList": "Hiển thị ai theo dõi tôi",
+    "showFollowersListDesc": "Cho phép mọi người mở danh sách người theo dõi bạn. Khi tắt, chỉ bạn xem được.",
+    "showFollowingList": "Hiển thị tôi theo dõi ai",
+    "showFollowingListDesc": "Cho phép mọi người mở danh sách những người bạn theo dõi. Khi tắt, chỉ bạn xem được.",
+    "showFollowCounts": "Hiển thị số người theo dõi",
+    "showFollowCountsDesc": "Hiển thị bạn có bao nhiêu người theo dõi và đang theo dõi bao nhiêu người. Tắt đi cũng ẩn cả hai danh sách."
   },
   "common": {
     "refresh": "Làm mới",
@@ -5042,7 +5050,13 @@
       "votes_other": "{{value}} phiếu",
       "members_one": "{{value}} thành viên",
       "members_other": "{{value}} thành viên"
-    }
+    },
+    "tabLikes": "Lượt thích",
+    "likesEmptyTitle": "Chưa có lượt thích",
+    "likesEmptyOwn": "Các bài bạn thích sẽ hiện ở đây. Chỉ bạn xem được, trừ khi bạn bật Hiển thị lượt thích của tôi trong Cài đặt.",
+    "likesEmptyOther": "Chưa thích gì cả.",
+    "likesPrivateTitle": "Lượt thích là riêng tư",
+    "likesPrivateDesc": "Tài khoản này giữ lượt thích cho riêng mình."
   },
   "tv": {
     "title": "TV",

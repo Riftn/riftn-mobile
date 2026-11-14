@@ -11,7 +11,7 @@ const RECOUNT_DELAY_MS = 1500;
  * when a post is disliked or undone in this session. 0 when the dislikes are
  * private to someone else (403) or the tab is not shown.
  */
-export function useProfileDislikesCount(address: string | undefined, enabled: boolean): number {
+export function useProfileDislikesCount(address: string | undefined, enabled: boolean, kind: "likes" | "dislikes" = "dislikes"): number {
   const [count, setCount] = useState(0);
   const version = useDislikedPostsVersion();
 
@@ -24,7 +24,7 @@ export function useProfileDislikesCount(address: string | undefined, enabled: bo
     const timer = setTimeout(async () => {
       try {
         const res = await apiClient.get<{ result: unknown[]; pagination?: { totalCount?: number } }>(
-          `/disliked_posts`,
+          kind === "likes" ? `/liked_posts` : `/disliked_posts`,
           { params: { address: address.toLowerCase(), page: 1, limit: 1 } },
         );
         if (!cancelled) setCount(res?.pagination?.totalCount ?? res?.result?.length ?? 0);
@@ -36,7 +36,12 @@ export function useProfileDislikesCount(address: string | undefined, enabled: bo
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [address, enabled, version]);
+  }, [address, enabled, version, kind]);
 
   return count;
+}
+
+/** How many posts this account liked, for the Likes tab badge. 0 when private to someone else. */
+export function useProfileLikesCount(address: string | undefined, enabled: boolean): number {
+  return useProfileDislikesCount(address, enabled, "likes");
 }

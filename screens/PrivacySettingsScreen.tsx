@@ -56,6 +56,7 @@ import RemixPermissionsSection from '../components/Settings/RemixPermissionsSect
 import AiConsentSection from '../components/Settings/AiConsentSection';
 import { DEFAULT_PROFILE_TAB, PROFILE_DEFAULT_TAB_OPTIONS, parseDefaultProfileTab, type ProfileDefaultTab } from '../libs/profile-default-tab';
 import { DISLIKES_VISIBILITY_KEY, dislikesArePublic } from '../libs/disliked-posts-store';
+import { FOLLOWERS_LIST_VISIBILITY_KEY, FOLLOWING_LIST_VISIBILITY_KEY, LIKES_VISIBILITY_KEY, followListsUpdate, likesArePublic, parseFollowLists } from '../libs/profile-privacy';
 
 const logger = createLogger('PrivacySettings');
 
@@ -115,6 +116,8 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   const [aiScraping, setAiScraping] = useState<AiScrapingPreference>('allow');
   const [showOnline, setShowOnline] = useState(false);
   const [showDislikes, setShowDislikes] = useState(false);
+  const [showLikes, setShowLikes] = useState(false);
+  const [followLists, setFollowLists] = useState({ followers: true, following: true, counts: true });
 
   const [showPublicModal, setShowPublicModal] = useState(false);
   const [publicModalBusy, setPublicModalBusy] = useState(false);
@@ -124,9 +127,6 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   const [requests, setRequests] = useState<FollowRequest[]>([]);
   const [requestsLoading, setRequestsLoading] = useState(false);
   const [processingId, setProcessingId] = useState<string | null>(null);
-
-  // Follower visibility modal
-  const [showFollowerVisModal, setShowFollowerVisModal] = useState(false);
 
   // Post visibility modal
   const [showPostVisModal, setShowPostVisModal] = useState(false);
@@ -177,11 +177,16 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     aiScraping: getAiScrapingPreference(customs),
     showOnline: getShowOnline(customs),
     showDislikes: dislikesArePublic(customs),
+    showLikes: likesArePublic(customs),
+    followLists: (() => {
+      const lists = parseFollowLists(customs, (user as any)?.hideFollowers === true);
+      return { followers: lists.showFollowersList, following: lists.showFollowingList, counts: lists.showCounts };
+    })(),
     defaultProfileTab: parseDefaultProfileTab(customs.defaultProfileTab),
   }), [user, customs]);
 
   const userKey = useMemo(() => {
-    return `${(user as any)?.hideFollowers}|${(user as any)?.isPrivate}|${(user as any)?.hideBadgeAndBalance}|${customs.followVisibility}|${customs.defaultPostVisibility}|${(user as any)?.hideFollowerCounts}|${(user as any)?.showFollowersFollowing}|${(user as any)?.defaultPostVisibility}|${customs.aiScraping}|${customs.showOnline}|${customs.defaultProfileTab}|${customs[DISLIKES_VISIBILITY_KEY]}`;
+    return `${(user as any)?.hideFollowers}|${(user as any)?.isPrivate}|${(user as any)?.hideBadgeAndBalance}|${customs.followVisibility}|${customs.defaultPostVisibility}|${(user as any)?.hideFollowerCounts}|${(user as any)?.showFollowersFollowing}|${(user as any)?.defaultPostVisibility}|${customs.aiScraping}|${customs.showOnline}|${customs.defaultProfileTab}|${customs[DISLIKES_VISIBILITY_KEY]}|${customs[LIKES_VISIBILITY_KEY]}|${customs[FOLLOWERS_LIST_VISIBILITY_KEY]}|${customs[FOLLOWING_LIST_VISIBILITY_KEY]}`;
   }, [user, customs]);
 
   /**
@@ -228,6 +233,8 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     setAiScraping(initial.aiScraping);
     setShowOnline(initial.showOnline);
     setShowDislikes(initial.showDislikes);
+    setShowLikes(initial.showLikes);
+    setFollowLists(initial.followLists);
     setDefaultProfileTab(initial.defaultProfileTab);
     if (user && synced) setLoading(false);
   }, [userKey, saving, synced]);
@@ -282,6 +289,8 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
       setAiScraping(initial.aiScraping);
       setShowOnline(initial.showOnline);
       setShowDislikes(initial.showDislikes);
+      setShowLikes(initial.showLikes);
+      setFollowLists(initial.followLists);
       setDefaultProfileTab(initial.defaultProfileTab);
     } finally {
       setSaving(false);
@@ -305,17 +314,6 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   const handleTogglePrivateBalance = useCallback((value: boolean) => {
     setHideBadgeAndBalance(value);
     saveSetting({ hideBadgeAndBalance: value });
-  }, [saveSetting]);
-
-  const handleFollowerVisChange = useCallback((vis: FollowerVisibility) => {
-    setFollowerVisibility(vis);
-    setShowFollowerVisModal(false);
-    // `hideFollowers` is the persisted top-level flag both clients agree on;
-    // the three-way granularity lives in customs.followVisibility, same as web.
-    saveSetting(
-      { hideFollowers: vis !== 'public' },
-      { followVisibility: vis }
-    );
   }, [saveSetting]);
 
   const handlePostVisChange = useCallback((vis: PostVisibility) => {
@@ -347,6 +345,25 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     setShowDislikes(value);
     saveSetting({}, { [DISLIKES_VISIBILITY_KEY]: value ? 'public' : 'private' });
   }, [saveSetting]);
+
+  // Same customs key and values as web: 'public' | 'private' (absent = private).
+  const handleToggleShowLikes = useCallback((value: boolean) => {
+    setShowLikes(value);
+    saveSetting({}, { [LIKES_VISIBILITY_KEY]: value ? 'public' : 'private' });
+  }, [saveSetting]);
+
+  // Followers list, following list and the numbers each have their own switch.
+  // Hiding the numbers hides both lists; opening a list brings the numbers back.
+  const handleFollowListToggle = useCallback((which: 'followers' | 'following' | 'counts', value: boolean) => {
+    const next = { ...followLists, [which]: value };
+    if (which === 'counts' && !value) { next.followers = false; next.following = false; }
+    if (which !== 'counts' && value) next.counts = true;
+    setFollowLists(next);
+    const update = followListsUpdate(next);
+    setHideFollowers(update.hideFollowers);
+    setFollowerVisibility(update.customs.followVisibility as FollowerVisibility);
+    saveSetting({ hideFollowers: update.hideFollowers }, update.customs);
+  }, [saveSetting, followLists]);
 
   const pendingCount = (user as any)?.pendingFollowRequests || 0;
 
@@ -422,12 +439,6 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
       setProcessingId(null);
     }
   }, [patchUser]);
-
-  const followerVisLabel: Record<FollowerVisibility, string> = {
-    'public': t('settings.publicOption'),
-    'counts-only': t('settings.numbersOnly'),
-    'hidden': t('settings.hiddenOption'),
-  };
 
   const postVisLabel: Record<PostVisibility, string> = {
     'public': t('settings.public'),
@@ -522,6 +533,22 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
                     </View>
                   </View>
                   <CustomSwitch value={showOnline} onValueChange={handleToggleShowOnline} disabled={saving} />
+                </View>
+              </SettingsAnchor>
+              <SettingsAnchor id="show-likes">
+                <View className="px-4 py-2 flex-row items-center justify-between">
+                  <View className="flex-row items-center flex-1 pr-3">
+                    <View className="mr-3 w-5 h-5 items-center justify-center">
+                      <Icon name="ThumbsUp" size={20} color="#8B8D90" />
+                    </View>
+                    <View className="flex-1">
+                      <Text className="text-white text-base leading-5 font-medium">{t('settings.showLikes')}</Text>
+                      <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">
+                        {t('settings.showLikesDesc')}
+                      </Text>
+                    </View>
+                  </View>
+                  <CustomSwitch value={showLikes} onValueChange={handleToggleShowLikes} disabled={saving} />
                 </View>
               </SettingsAnchor>
               <SettingsAnchor id="show-dislikes">
@@ -671,28 +698,48 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
               {t('settings.followerVisibilitySection')}
             </Text>
             <View className="-mx-4">
-              <TouchableOpacity
-                onPress={() => setShowFollowerVisModal(true)}
-                activeOpacity={0.7}
-                className="px-4 py-2 flex-row items-center"
-                disabled={saving}
-              >
-                <View className="mr-3 w-5 h-5 items-center justify-center">
-                  <Icon name="EyeOff" size={20} color="#8B8D90" />
+              <View className="px-4 py-2 flex-row items-center justify-between">
+                <View className="flex-row items-center flex-1 pr-3">
+                  <View className="mr-3 w-5 h-5 items-center justify-center">
+                    <Icon name="Users" size={20} color="#8B8D90" />
+                  </View>
+                  <View className="flex-1">
+                    <Text className="text-white text-base leading-5 font-medium">{t('settings.showFollowersList')}</Text>
+                    <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">
+                      {t('settings.showFollowersListDesc')}
+                    </Text>
+                  </View>
                 </View>
-                <View className="flex-1 mr-2">
-                  <Text className="text-white text-base leading-5 font-medium">{t('settings.hideFollowersFollowing')}</Text>
-                  <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">
-                    {followerVisibility === 'public' && t('settings.followerVisPublicDesc')}
-                    {followerVisibility === 'counts-only' && t('settings.followerVisCountsDesc')}
-                    {followerVisibility === 'hidden' && t('settings.followerVisHiddenDesc')}
-                  </Text>
+                <CustomSwitch value={followLists.followers} onValueChange={(v: boolean) => handleFollowListToggle('followers', v)} disabled={saving} />
+              </View>
+              <View className="px-4 py-2 flex-row items-center justify-between">
+                <View className="flex-row items-center flex-1 pr-3">
+                  <View className="mr-3 w-5 h-5 items-center justify-center">
+                    <Icon name="UserCheck" size={20} color="#8B8D90" />
+                  </View>
+                  <View className="flex-1">
+                    <Text className="text-white text-base leading-5 font-medium">{t('settings.showFollowingList')}</Text>
+                    <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">
+                      {t('settings.showFollowingListDesc')}
+                    </Text>
+                  </View>
                 </View>
-                <View className="flex-row items-center">
-                  <Text className="text-theme-neutrals-400 text-xs mr-2">{followerVisLabel[followerVisibility]}</Text>
-                  <Icon name="ChevronRight" size={18} color="#6b7280" />
+                <CustomSwitch value={followLists.following} onValueChange={(v: boolean) => handleFollowListToggle('following', v)} disabled={saving} />
+              </View>
+              <View className="px-4 py-2 flex-row items-center justify-between">
+                <View className="flex-row items-center flex-1 pr-3">
+                  <View className="mr-3 w-5 h-5 items-center justify-center">
+                    <Icon name="Hash" size={20} color="#8B8D90" />
+                  </View>
+                  <View className="flex-1">
+                    <Text className="text-white text-base leading-5 font-medium">{t('settings.showFollowCounts')}</Text>
+                    <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">
+                      {t('settings.showFollowCountsDesc')}
+                    </Text>
+                  </View>
                 </View>
-              </TouchableOpacity>
+                <CustomSwitch value={followLists.counts} onValueChange={(v: boolean) => handleFollowListToggle('counts', v)} disabled={saving} />
+              </View>
             </View>
             <Text className="text-theme-neutrals-500 text-xs mt-2 mx-1">
               {t('settings.followerVisibilityNote')}
@@ -974,40 +1021,6 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
         </View>
       </GlassModal>
 
-      {/* Follower Visibility Picker */}
-      <GlassModal scrollable
-        visible={showFollowerVisModal}
-        onClose={() => setShowFollowerVisModal(false)}
-        presentation="bottom"
-        maxHeight="50%"
-        blurIntensity={30}
-      >
-        <View className="pb-4 pt-2">
-          <Text className="text-theme-neutrals-400 text-xs text-center py-3 font-semibold uppercase tracking-widest">
-            {t('settings.followerVisibilitySection')}
-          </Text>
-          {([
-            { value: 'public', label: t('settings.publicOption'), desc: t('settings.followerVisPublicOptionDesc') },
-            { value: 'counts-only', label: t('settings.numbersOnly'), desc: t('settings.followerVisCountsOptionDesc') },
-            { value: 'hidden', label: t('settings.hiddenOption'), desc: t('settings.followerVisHiddenOptionDesc') },
-          ] as { value: FollowerVisibility; label: string; desc: string }[]).map(opt => (
-            <TouchableOpacity
-              key={opt.value}
-              onPress={() => handleFollowerVisChange(opt.value)}
-              activeOpacity={0.7}
-              className="flex-row items-center px-5 py-3.5"
-            >
-              <View className="flex-1">
-                <Text className="text-white text-[15px] font-medium">{opt.label}</Text>
-                <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">{opt.desc}</Text>
-              </View>
-              {followerVisibility === opt.value && (
-                <Icon name="Check" size={18} color="#D4D4D8" />
-              )}
-            </TouchableOpacity>
-          ))}
-        </View>
-      </GlassModal>
 
       {/* Post Visibility Picker */}
       <GlassModal scrollable

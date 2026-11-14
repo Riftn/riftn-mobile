@@ -17,6 +17,8 @@ interface DislikesRouteProps {
   listHeader?: React.ReactElement | null;
   onBeforeNavigate?: () => void;
   isOwnProfile?: boolean;
+  /** Which reactions to list. The Likes tab reuses this route. */
+  kind?: "likes" | "dislikes";
 }
 
 const PAGE_SIZE = 20;
@@ -27,7 +29,8 @@ const PAGE_SIZE = 20;
  * post back. The API answers 403 for someone else's dislikes unless they made
  * them public, which shows as the private state below.
  */
-const DislikesRoute: React.FC<DislikesRouteProps> = ({ address, listRef, onScroll, listHeader, onBeforeNavigate, isOwnProfile }) => {
+const DislikesRoute: React.FC<DislikesRouteProps> = ({ address, listRef, onScroll, listHeader, onBeforeNavigate, isOwnProfile, kind = "dislikes" }) => {
+  const endpoint = kind === "likes" ? "/liked_posts" : "/disliked_posts";
   const { t } = useTranslation();
   const cinematicPhone = useCinematicPhone();
   const cinematic = cinematicPhone && !!listHeader;
@@ -43,7 +46,7 @@ const DislikesRoute: React.FC<DislikesRouteProps> = ({ address, listRef, onScrol
   const fetchPage = useCallback(async (page: number) => {
     if (!address) return;
     const res = await apiClient.get<{ result: any[]; pagination?: any }>(
-      `/disliked_posts`,
+      endpoint,
       { params: { address: address.toLowerCase(), page, limit: PAGE_SIZE } },
     );
     const mapped: UnifiedFeedItem[] = res?.result || [];
@@ -55,7 +58,7 @@ const DislikesRoute: React.FC<DislikesRouteProps> = ({ address, listRef, onScrol
     if (mapped.length < PAGE_SIZE || !res?.pagination?.hasMore) {
       endRef.current = true;
     }
-  }, [address]);
+  }, [address, endpoint]);
 
   const load = useCallback(() => {
     if (!address) { setLoading(false); return; }
@@ -132,8 +135,12 @@ const DislikesRoute: React.FC<DislikesRouteProps> = ({ address, listRef, onScrol
         {listHeader}
         <ProfileEmptyState
           kind="posts"
-          title={isPrivate ? t("profile.dislikesPrivateTitle") : t("profile.dislikesEmptyTitle")}
-          subtitle={isPrivate ? t("profile.dislikesPrivateDesc") : isOwnProfile ? t("profile.dislikesEmptyOwn") : t("profile.dislikesEmptyOther")}
+          title={kind === "likes"
+            ? (isPrivate ? t("profile.likesPrivateTitle") : t("profile.likesEmptyTitle"))
+            : (isPrivate ? t("profile.dislikesPrivateTitle") : t("profile.dislikesEmptyTitle"))}
+          subtitle={kind === "likes"
+            ? (isPrivate ? t("profile.likesPrivateDesc") : isOwnProfile ? t("profile.likesEmptyOwn") : t("profile.likesEmptyOther"))
+            : (isPrivate ? t("profile.dislikesPrivateDesc") : isOwnProfile ? t("profile.dislikesEmptyOwn") : t("profile.dislikesEmptyOther"))}
         />
       </Animated.ScrollView>
     );

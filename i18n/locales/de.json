@@ -3647,7 +3647,15 @@
     "themeColorBrandNoAvatar": "Füge ein Profilbild hinzu, um Markenfarben zu nutzen",
     "themeColorBrandFailed": "Farben deines Profilbilds konnten nicht gelesen werden",
     "chatTextSize": "Chat-Textgröße",
-    "chatTextSizeDesc": "Größere oder kleinere Nachrichten in allen Chats. Kommt zur Textgröße deines Telefons hinzu."
+    "chatTextSizeDesc": "Größere oder kleinere Nachrichten in allen Chats. Kommt zur Textgröße deines Telefons hinzu.",
+    "showLikes": "Meine Likes allen zeigen",
+    "showLikesDesc": "Jeder kann den Likes-Tab in deinem Profil öffnen. Standardmäßig aus, also siehst nur du, was dir gefallen hat.",
+    "showFollowersList": "Zeigen, wer mir folgt",
+    "showFollowersListDesc": "Jeder kann deine Follower-Liste öffnen. Wenn das aus ist, siehst nur du sie.",
+    "showFollowingList": "Zeigen, wem ich folge",
+    "showFollowingListDesc": "Jeder kann die Liste der Personen öffnen, denen du folgst. Wenn das aus ist, siehst nur du sie.",
+    "showFollowCounts": "Meine Follower-Zahlen zeigen",
+    "showFollowCountsDesc": "Zeigt, wie viele Follower du hast und wie vielen Personen du folgst. Ausschalten blendet auch beide Listen aus."
   },
   "common": {
     "refresh": "Aktualisieren",
@@ -4967,7 +4975,13 @@
       "saveFailed": "Deine Reihenfolge konnte nicht gespeichert werden. Bitte versuche es erneut.",
       "loadFailed": "Deine Beiträge konnten nicht geladen werden. Schließe dies und versuche es erneut.",
       "empty": "Noch nichts zum Anordnen. Poste zuerst etwas."
-    }
+    },
+    "tabLikes": "Likes",
+    "likesEmptyTitle": "Noch keine Likes",
+    "likesEmptyOwn": "Beiträge, die dir gefallen, erscheinen hier. Nur du siehst sie, außer du schaltest in den Einstellungen Meine Likes allen zeigen ein.",
+    "likesEmptyOther": "Noch nichts geliked.",
+    "likesPrivateTitle": "Likes sind privat",
+    "likesPrivateDesc": "Dieses Konto behält seine Likes für sich."
   },
   "tv": {
     "title": "TV",

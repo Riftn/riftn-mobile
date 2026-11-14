@@ -3602,7 +3602,15 @@
     "themeColorBrandNoAvatar": "ブランドカラーを使うにはプロフィール画像を追加してください",
     "themeColorBrandFailed": "プロフィール画像から色を読み取れませんでした",
     "chatTextSize": "チャットの文字サイズ",
-    "chatTextSizeDesc": "すべてのチャットでメッセージを大きく、または小さく表示します。端末の文字サイズに上乗せされます。"
+    "chatTextSizeDesc": "すべてのチャットでメッセージを大きく、または小さく表示します。端末の文字サイズに上乗せされます。",
+    "showLikes": "いいねを全員に表示",
+    "showLikesDesc": "誰でもプロフィールの「いいね」タブを開けます。初期設定はオフなので、自分がいいねした投稿は自分だけが見られます。",
+    "showFollowersList": "フォロワーを表示",
+    "showFollowersListDesc": "誰でもフォロワー一覧を開けるようにします。オフにすると自分だけが見られます。",
+    "showFollowingList": "フォロー中を表示",
+    "showFollowingListDesc": "誰でもあなたがフォローしている人の一覧を開けるようにします。オフにすると自分だけが見られます。",
+    "showFollowCounts": "フォロー数を表示",
+    "showFollowCountsDesc": "フォロワー数とフォロー数を表示します。オフにすると両方の一覧も非表示になります。"
   },
   "common": {
     "remove": "削除",
@@ -4901,7 +4909,13 @@
       "votes_other": "{{value}}票",
       "members_one": "{{value}}人のメンバー",
       "members_other": "{{value}}人のメンバー"
-    }
+    },
+    "tabLikes": "いいね",
+    "likesEmptyTitle": "まだいいねはありません",
+    "likesEmptyOwn": "いいねした投稿はここに表示されます。設定で「いいねを全員に表示」をオンにしない限り、自分だけが見られます。",
+    "likesEmptyOther": "まだいいねはありません。",
+    "likesPrivateTitle": "いいねは非公開です",
+    "likesPrivateDesc": "このアカウントはいいねを公開していません。"
   },
   "tv": {
     "title": "テレビ",

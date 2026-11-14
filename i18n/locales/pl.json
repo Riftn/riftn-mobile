@@ -3670,7 +3670,15 @@
     "themeColorBrandNoAvatar": "Dodaj zdjęcie profilowe, aby użyć kolorów marki",
     "themeColorBrandFailed": "Nie udało się odczytać kolorów ze zdjęcia profilowego",
     "chatTextSize": "Rozmiar tekstu czatu",
-    "chatTextSizeDesc": "Większe lub mniejsze wiadomości we wszystkich czatach. Dodaje się do rozmiaru tekstu w telefonie."
+    "chatTextSizeDesc": "Większe lub mniejsze wiadomości we wszystkich czatach. Dodaje się do rozmiaru tekstu w telefonie.",
+    "showLikes": "Pokazuj moje polubienia wszystkim",
+    "showLikesDesc": "Każdy może otworzyć kartę Polubienia na twoim profilu. Domyślnie wyłączone, więc tylko ty widzisz, co polubiłeś.",
+    "showFollowersList": "Pokazuj, kto mnie obserwuje",
+    "showFollowersListDesc": "Pozwól każdemu otworzyć listę twoich obserwujących. Gdy wyłączone, widzisz ją tylko ty.",
+    "showFollowingList": "Pokazuj, kogo obserwuję",
+    "showFollowingListDesc": "Pozwól każdemu otworzyć listę osób, które obserwujesz. Gdy wyłączone, widzisz ją tylko ty.",
+    "showFollowCounts": "Pokazuj liczby obserwujących",
+    "showFollowCountsDesc": "Pokazuje, ilu masz obserwujących i ile osób obserwujesz. Wyłączenie ukrywa też obie listy."
   },
   "common": {
     "refresh": "Odśwież",
@@ -4969,7 +4977,13 @@
       "votes_other": "{{value}} głosy",
       "members_one": "{{value}} członek",
       "members_other": "{{value}} członków"
-    }
+    },
+    "tabLikes": "Polubienia",
+    "likesEmptyTitle": "Brak polubień",
+    "likesEmptyOwn": "Posty, które polubisz, pojawią się tutaj. Widzisz je tylko ty, chyba że włączysz Pokazuj moje polubienia wszystkim w Ustawieniach.",
+    "likesEmptyOther": "Jeszcze nic nie polubiono.",
+    "likesPrivateTitle": "Polubienia są prywatne",
+    "likesPrivateDesc": "To konto zachowuje swoje polubienia dla siebie."
   },
   "tv": {
     "title": "TV",

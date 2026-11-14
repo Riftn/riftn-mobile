@@ -38,7 +38,7 @@ import {
 } from "./useProfileContentFilters";
 import { useUser } from "../../context/AuthContext";
 import { useProfileContentCounts } from "./useProfileContentCounts";
-import { useProfileDislikesCount } from "./useProfileDislikesCount";
+import { useProfileDislikesCount, useProfileLikesCount } from "./useProfileDislikesCount";
 import { useTabBarScrollHide } from "../../hooks/useTabBarScrollHide";
 import { getDefaultProfileTab } from "../../libs/profile-default-tab";
 
@@ -65,6 +65,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
   const articleTile = useResolvedArticleTile(address, user?.customs);
   const counts = useProfileContentCounts(address);
   const dislikesCount = useProfileDislikesCount(address, true);
+  const likesCount = useProfileLikesCount(address, true);
   const collapse = useProfileCollapse(address);
   // Pull down at the top to reload your header, counts and every tab's posts.
   const { refreshUser } = useAuthActions();
@@ -177,8 +178,13 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
         ((counts as Record<string, number | undefined>)[b.key] ?? 0) -
         ((counts as Record<string, number | undefined>)[a.key] ?? 0),
     );
-    // Your own Dislikes are always here, last: they are what you turned away, not what you made.
-    return [home, ...rest, { key: "dislikes", title: t("profile.tabDislikes"), icon: "ThumbsDown" }];
+    // Your own Likes and Dislikes are always here, last: they are what you reacted to, not what you made.
+    return [
+      home,
+      ...rest,
+      { key: "likes", title: t("profile.tabLikes"), icon: "ThumbsUp" },
+      { key: "dislikes", title: t("profile.tabDislikes"), icon: "ThumbsDown" },
+    ];
   }, [counts, t, _copy]);
 
   const tabItems = useMemo<ProfileTabItem[]>(
@@ -187,9 +193,9 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
         key: route.key,
         label: route.title,
         icon: route.icon,
-        count: route.key === "dislikes" ? dislikesCount : (counts as Record<string, number | undefined>)[route.key] ?? (route.key === "fractions" || !counts.loaded ? undefined : 0),
+        count: route.key === "dislikes" ? dislikesCount : route.key === "likes" ? likesCount : (counts as Record<string, number | undefined>)[route.key] ?? (route.key === "fractions" || !counts.loaded ? undefined : 0),
       })),
-    [counts, routes, dislikesCount],
+    [counts, routes, dislikesCount, likesCount],
   );
 
   // Once the profile has settled, build its busiest other tabs in the
@@ -198,7 +204,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
   useEffect(() => {
     const timer = setTimeout(() => {
       const next = tabItems
-        .filter((item) => item.key !== activeKey && item.key !== "dislikes" && (item.count ?? 0) > 0)
+        .filter((item) => item.key !== activeKey && item.key !== "dislikes" && item.key !== "likes" && (item.count ?? 0) > 0)
         .slice(0, PRERENDERED_TABS)
         .map((item) => item.key);
       setKeptKeys((kept) => {
@@ -284,6 +290,8 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
         return <ProfileFeedTypeRoute address={address} postType="article" emptyKind="posts" emptyTitle={t("profile.articlesEmptyTitle")} emptySubtitle={t("profile.articlesEmptySubtitle")} listHeader={listHeader} onScroll={workletScroll} />;
       case "playlists":
         return <PlaylistsRoute address={address} listHeader={listHeader} onScroll={workletScroll} isOwnProfile />;
+      case "likes":
+        return <DislikesRoute kind="likes" address={address} listHeader={listHeader} onScroll={workletScroll} isOwnProfile />;
       case "dislikes":
         return <DislikesRoute address={address} listHeader={listHeader} onScroll={workletScroll} isOwnProfile />;
       default:

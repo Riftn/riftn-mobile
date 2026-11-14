@@ -1,5 +1,6 @@
 import { usePerfProbe } from "../../libs/perfTrace";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { parseFollowLists } from "../../libs/profile-privacy";
 import { View, useWindowDimensions } from "react-native";
 import { storageImage } from "../../libs/cdnImage";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -98,6 +99,10 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
     handleMessage(onClose);
   }, [handleMessage, onClose]);
 
+  const followLists = useMemo(
+    () => parseFollowLists((data as any)?.customs, data?.hideFollowers),
+    [data],
+  );
   const handleStatPress = useCallback((key: string) => {
     if (!profileData?.address) return;
     const initialTab = key === "following" ? "following" : "followers";
@@ -110,10 +115,12 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
         username: profileData.username,
         initialTab,
         hideFollowers: data?.hideFollowers,
+        hideFollowersList: !followLists.showFollowersList,
+        hideFollowingList: !followLists.showFollowingList,
         isOwnProfile: false,
       }),
     );
-  }, [navigation, profileData, data, onClose]);
+  }, [navigation, profileData, data, onClose, followLists]);
 
   const profileBar = (
     <CollapsingProfileHeader
