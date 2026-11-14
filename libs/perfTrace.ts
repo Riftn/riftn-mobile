@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 /**
  * Opt-in timings for profiling a release build on a phone over adb.
@@ -164,4 +164,44 @@ export function usePerfProbe(label: string): void {
       setTimeout(flush, 0);
     }
   });
+}
+
+function changedKeys(prev: Record<string, unknown>, next: Record<string, unknown>): string[] {
+  const keys = new Set([...Object.keys(prev), ...Object.keys(next)]);
+  return [...keys].filter(key => !Object.is(prev[key], next[key]));
+}
+
+/**
+ * A memo comparator that behaves like React's own shallow check and, with the
+ * trace on, names the props that made a memoised component render again. No
+ * line for a render means its props were equal: state or context drove it.
+ */
+export function perfPropsEqual(label: string) {
+  return (prev: object, next: object): boolean => {
+    const a = prev as Record<string, unknown>;
+    const b = next as Record<string, unknown>;
+    if (!on) {
+      const keys = Object.keys(a);
+      if (keys.length !== Object.keys(b).length) return false;
+      for (const key of keys) {
+        if (!Object.prototype.hasOwnProperty.call(b, key) || !Object.is(a[key], b[key])) return false;
+      }
+      return true;
+    }
+    const changed = changedKeys(a, b);
+    if (changed.length === 0) return true;
+    log(`why ${label}: props ${changed.join(", ")}`);
+    return false;
+  };
+}
+
+/** For a component driven by state and context: names which of `values` changed since its last render. */
+export function usePerfWhy(label: string, values: Record<string, unknown>): void {
+  const last = useRef<Record<string, unknown> | null>(null);
+  if (!on) return;
+  const prev = last.current;
+  last.current = values;
+  if (!prev) return;
+  const changed = changedKeys(prev, values);
+  log(`why ${label}: ${changed.length ? changed.join(", ") : "none of the watched values"}`);
 }

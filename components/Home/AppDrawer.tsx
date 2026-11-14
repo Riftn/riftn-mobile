@@ -51,7 +51,7 @@ import { useTranslation } from "react-i18next";
 import { useAppTheme } from "../../context/ThemeContext";
 import { themeIconUrl } from "../../theme/icons";
 import { ReorderItem, justDropped, useReorder, type ReorderCtx } from "../common/Reorder";
-import { usePerfProbe } from "../../libs/perfTrace";
+import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
 import { applyNavOrder, navOrderId, resetNavOrder, saveNavOrder, useNavOrder } from "../../libs/navOrder";
 import SearchRequestPrompt from "../Search/SearchRequestPrompt";
 
@@ -1095,4 +1095,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(AppDrawer);
+export default memo(AppDrawer, perfPropsEqual("SideMenu"));

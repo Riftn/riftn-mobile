@@ -1,4 +1,4 @@
-import { usePerfProbe } from "../../libs/perfTrace";
+import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
 import { FEED_ICON_SIZE, FEED_BOOKMARK_STYLE } from './feed-icon-size';
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useMemo, useRef } from "react";
@@ -420,5 +420,5 @@ const FeedActionBarComponent: React.FC<FeedActionBarProps> = ({
   );
 };
 
-const FeedActionBar = memo(FeedActionBarComponent);
+const FeedActionBar = memo(FeedActionBarComponent, perfPropsEqual("CardActions"));
 export default FeedActionBar;
