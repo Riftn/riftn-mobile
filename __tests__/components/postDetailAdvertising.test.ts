@@ -20,7 +20,14 @@ describe("post detail advertising continuation", () => {
     expect(detail).toContain('const leanPost = !!item && stage && !videoPost && !focusCommentId && resolveContentType(item) === "image";');
     expect(detail).toContain("data={leanPost ? EMPTY_COMMENTS : listComments}");
     expect(detail).toContain("onEndReached={handleEndReached}");
-    expect(continuation).toContain("{hasNextPage && !autoLoad && (");
+    expect(continuation).toContain("{hasNextPage && !autoLoad && !drawing && (");
+  });
+
+  it("draws the posts below one at a time, and asks for no page while it does", () => {
+    expect(continuation).toContain("const [drawn, setDrawn] = useState(FIRST_POSTS);");
+    expect(continuation).toContain("startTransition(() => setDrawn((n) => n + 1))");
+    expect(continuation).toContain("{posts.slice(0, drawn).map((post) => (");
+    expect(continuation).toContain("if (!loadMoreSignal || !hasNextPage || isFetchingNextPage || drawing) return;");
   });
 
   it("uses the same served-ad and tracking endpoints as web", () => {
