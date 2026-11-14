@@ -159,6 +159,14 @@ export interface GetLeaderboardParams {
   force?: boolean;
 }
 
+/**
+ * The board this session last loaded for a sort and period, however old, or
+ * undefined. For the first frame only: the page draws it and then asks again.
+ */
+export function peekLeaderboard(sort: string, period: string): LeaderboardData | undefined {
+  return sortCaches.get(memoryKey(sort, period))?.data;
+}
+
 export async function getLeaderboard(params?: GetLeaderboardParams): Promise<LeaderboardResponse> {
   const { sort = 'holdings', period = 'all', force = false } = params || {};
   const now = Date.now();
