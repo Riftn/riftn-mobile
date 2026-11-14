@@ -2,16 +2,18 @@
  * LiveNowBar — one thin row at the top of the home feed for everyone live
  * =====================================================================
  * Port of web's `components/app/feeds/LiveNowBar`. Stage hosts and people
- * livestreaming share one row of stacked rippling faces, people you follow
- * first, then the busiest. With one person live the row names their room and
+ * livestreaming share one frosted row over the live picture itself, people
+ * you follow first, then the busiest. With one person live the row names their room and
  * a tap goes straight in; with more it reads "Live now" and a tap opens a
  * sheet listing every Stage and stream.
  *
  * @module components/Home/LiveNowBar
  */
 
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image } from "expo-image";
+import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
@@ -24,7 +26,9 @@ import { useUser } from "../../context/AuthContext";
 import { liveStreamsQuery, liveStreamRows } from "../../hooks/useLiveStreams";
 import { getFollowList } from "../../services/user.service";
 import { isStreamLive } from "../../libs/live-status";
-import { getAvatarUrl, storedAvatarSources } from "../../libs/misc";
+import { buildCdnPath, getAvatarUrl, storedAvatarSources } from "../../libs/misc";
+import { liveThumbnailFor } from "../../libs/live-ingest";
+import { useAppTheme } from "../../context/ThemeContext";
 import { compactCount } from "../Music/CinematicMusic";
 import { watchingNow } from "../../libs/viewers.util";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -46,6 +50,8 @@ export interface LiveNowItem {
   count: string;
   followed: boolean;
   size: number;
+  /** A frame of the broadcast when the stream has one; Stages never do. */
+  cover?: string | null;
 }
 
 const handleOf = (item: LiveNowItem) => `@${item.username || item.wallet?.slice(0, 6) || "?"}`;
@@ -102,6 +108,10 @@ export function useLiveNowItems(onBeforeOpen?: () => void) {
       const avatarPath = account?.avatarImageUrl || account?.avatarUrl;
       const watching = watchingNow(row);
       const wallet = String(row.address || account?.address || "");
+      const rawThumb: string | undefined = row.thumbnail || row.thumbnailUrl;
+      const cover = rawThumb
+        ? rawThumb.startsWith("http") ? rawThumb : buildCdnPath(rawThumb) ?? null
+        : liveThumbnailFor(row) ?? null;
       list.push({
         kind: "stream",
         id,
@@ -113,6 +123,7 @@ export function useLiveNowItems(onBeforeOpen?: () => void) {
         count: watching == null ? "" : compactCount(watching),
         followed: isFollowed(wallet),
         size: watching ?? 0,
+        cover,
       });
     });
 
@@ -159,12 +170,19 @@ const LiveNowBar: React.FC = () => {
   );
 };
 
-export function LiveFace({ item, size }: { item: LiveNowItem; size: number }) {
-  const sources =
-    item.kind === "stage"
-      ? storedAvatarSources(item.avatar, item.wallet, size)
-      : { uri: item.avatar, fallbackUri: null };
-  return <Avatar {...sources} size={size} name={item.username || item.wallet} live />;
+function faceSources(item: LiveNowItem, size: number) {
+  return item.kind === "stage"
+    ? storedAvatarSources(item.avatar, item.wallet, size)
+    : { uri: item.avatar, fallbackUri: null };
+}
+
+export function LiveFace({ item, size, live = true }: { item: LiveNowItem; size: number; live?: boolean }) {
+  return <Avatar {...faceSources(item, size)} size={size} name={item.username || item.wallet} live={live} />;
+}
+
+/** What the glass shows: the broadcast when there is a picture, else the host's face. */
+function pictureOf(item: LiveNowItem): string | undefined {
+  return item.cover || faceSources(item, 96).uri || undefined;
 }
 
 /** LIVE, then who is in it in words: "8 watching" on a stream, "5 here" on a Stage. */
@@ -182,7 +200,14 @@ export function LiveCount({ item }: { item: LiveNowItem }) {
   );
 }
 
-/** The single row. Exported for the shot harness. */
+/**
+ * The single row. Exported for the shot harness.
+ *
+ * Frosted glass over the broadcast itself: the live picture (or the host's
+ * face when there is no picture) sits blurred behind the row, a small still
+ * on the left carries the face on its corner, and one soft dot breathes by
+ * the count. No ping, no red rings. Same as web's LiveNowRow.
+ */
 export function LiveNowRow({
   items,
   onOpen,
@@ -193,50 +218,118 @@ export function LiveNowRow({
   onSeeAll: () => void;
 }) {
   const { t } = useTranslation();
+  const { isLight, theme } = useAppTheme();
   const single = items.length === 1 ? items[0] : null;
   const names = items.slice(0, 2).map(handleOf);
   const rest = items.length - names.length;
+  const glassUri = pictureOf(items.find((item) => item.cover) ?? items[0]);
+  const tone = theme === "osaka" ? "#FFB05C" : isLight ? "#E04046" : "#FF6363";
+  // Written dark: System Light's colour pass turns this veil white.
+  const veil = isLight ? "rgba(8,8,10,0.62)" : theme === "osaka" ? "rgba(17,14,28,0.6)" : "rgba(8,8,10,0.5)";
 
   return (
     <View style={styles.wrap}>
       <TouchableOpacity onPress={() => (single ? onOpen(single) : onSeeAll())} activeOpacity={0.85} style={styles.row}>
-        <View style={styles.dotWrap}>
-          <View style={styles.liveDot} />
+        {/* One picture behind the glass: the first stream's frame (or face). Native
+            blurs each image on its own, so several side by side showed seams. */}
+        <View style={styles.glass} pointerEvents="none">
+          {glassUri ? (
+            <Image source={{ uri: glassUri }} style={styles.glassPart} contentFit="cover" blurRadius={24} cachePolicy="memory-disk" transition={200} />
+          ) : null}
         </View>
-        <View style={styles.stack}>
-          {items.slice(0, 4).map((item, i) => (
-            <View key={`${item.kind}-${item.id}`} style={i > 0 ? styles.stacked : undefined}>
-              <LiveFace item={item} size={24} />
-            </View>
-          ))}
-        </View>
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: veil }]} pointerEvents="none" />
+
+        {single ? (
+          <LiveStill item={single} cornerRing={isLight ? "#FFFFFF" : theme === "osaka" ? "#15121F" : "#000000"} />
+        ) : (
+          <View style={styles.fan}>
+            {items.slice(0, 3).reverse().map((item, i, arr) => (
+              <View key={`${item.kind}-${item.id}`} style={[styles.fanItem, fanStyle(i, arr.length)]}>
+                <LiveStill item={item} small />
+              </View>
+            ))}
+          </View>
+        )}
+
         <View style={styles.text}>
           <Text style={styles.title} numberOfLines={1}>
             {single ? single.title : t("stages.liveNow")}
           </Text>
           <Text style={styles.sub} numberOfLines={1}>
-            {single ? (
-              <>
-                {single.kind === "stage" ? `${t("stages.hostedBy")} ` : ""}
-                <Text style={styles.host}>{handleOf(single)}</Text>
-              </>
-            ) : (
-              <>
-                <Text style={styles.host}>{names.join(", ")}</Text>
-                {rest > 0 ? ` +${rest}` : ""}
-              </>
-            )}
+            {single
+              ? `${single.kind === "stage" ? `${t("stages.hostedBy")} ` : ""}${handleOf(single)}`
+              : `${names.join(", ")}${rest > 0 ? ` +${rest}` : ""}`}
           </Text>
         </View>
-        {single ? (
-          <LiveCount item={single} />
-        ) : (
-          <View style={styles.seeAll}>
-            <Text style={styles.seeAllText}>{t("stages.seeAll")}</Text>
-            <Icon name="ChevronRight" size={12} color="rgba(255,255,255,0.6)" />
+
+        <View style={styles.meta}>
+          <BreathingDot color={tone} />
+          {single ? (
+            <Text style={styles.metaText} numberOfLines={1}>
+              {single.count
+                ? t(single.kind === "stage" ? "liveViewer.hereCount" : "liveViewer.watchingCount", { formatted: single.count })
+                : t("stages.live")}
+            </Text>
+          ) : (
+            <>
+              <Text style={styles.metaText}>{t("stages.seeAll")}</Text>
+              <Icon name="ChevronRight" size={12} color="rgba(255,255,255,0.75)" />
+            </>
+          )}
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function fanStyle(i: number, count: number) {
+  if (count === 1) return { left: 0 };
+  const steps = [
+    { left: 0, opacity: 0.75, transform: [{ rotate: "-5deg" }, { scale: 0.9 }] },
+    { left: 10, transform: [{ rotate: "-2deg" }, { scale: 0.95 }] },
+    { left: 20 },
+  ];
+  return steps[count === 2 ? i + 1 : i];
+}
+
+/** Small 16:9 frame: the broadcast still with the face on its corner, or the face alone in soft focus. */
+function LiveStill({ item, small = false, cornerRing = "#000000" }: { item: LiveNowItem; small?: boolean; cornerRing?: string }) {
+  const [broken, setBroken] = useState(false);
+  const cover = !broken ? item.cover : null;
+  const frame = small ? styles.stillSmall : styles.still;
+  if (cover) {
+    return (
+      <View>
+        <Image source={{ uri: cover }} style={frame} contentFit="cover" cachePolicy="memory-disk" onError={() => setBroken(true)} />
+        {!small && (
+          <View style={[styles.corner, { borderColor: cornerRing }]}>
+            <LiveFace item={item} size={20} live={false} />
           </View>
         )}
-      </TouchableOpacity>
+      </View>
+    );
+  }
+  const face = faceSources(item, 96).uri;
+  return (
+    <View style={[frame, styles.faceFrame]}>
+      {face ? <Image source={{ uri: face }} style={StyleSheet.absoluteFill} contentFit="cover" blurRadius={10} /> : null}
+      {!small && <LiveFace item={item} size={24} live={false} />}
+    </View>
+  );
+}
+
+/** One soft dot that breathes every 3 seconds. */
+function BreathingDot({ color }: { color: string }) {
+  const p = useSharedValue(0);
+  useEffect(() => {
+    p.value = withRepeat(withTiming(1, { duration: 1500, easing: Easing.inOut(Easing.ease) }), -1, true);
+  }, [p]);
+  const halo = useAnimatedStyle(() => ({ opacity: p.value * 0.22, transform: [{ scale: 1 + p.value * 0.9 }] }));
+  const core = useAnimatedStyle(() => ({ opacity: 0.75 + p.value * 0.25 }));
+  return (
+    <View style={styles.dotBox}>
+      <Animated.View style={[styles.dotHalo, { backgroundColor: color }, halo]} />
+      <Animated.View style={[styles.dot, { backgroundColor: color }, core]} />
     </View>
   );
 }
@@ -288,36 +381,95 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
+    gap: 12,
+    minHeight: 52,
     paddingHorizontal: 12,
     paddingVertical: 8,
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
-    backgroundColor: "rgba(255,255,255,0.05)",
+    borderColor: "rgba(255,255,255,0.1)",
+    overflow: "hidden",
   },
-  dotWrap: {
-    width: 20,
-    alignItems: "center",
-  },
-  stack: {
+  glass: {
+    ...StyleSheet.absoluteFillObject,
     flexDirection: "row",
+    transform: [{ scale: 1.35 }],
   },
-  stacked: {
-    marginLeft: -4,
+  glassPart: {
+    flex: 1,
+    height: "100%",
+  },
+  still: {
+    width: 56,
+    height: 34,
+    borderRadius: 8,
+  },
+  stillSmall: {
+    width: 48,
+    height: 30,
+    borderRadius: 7,
+  },
+  faceFrame: {
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.08)",
+  },
+  corner: {
+    position: "absolute",
+    right: -6,
+    bottom: -5,
+    borderWidth: 2,
+    borderRadius: 7,
+    overflow: "hidden",
+  },
+  fan: {
+    width: 70,
+    height: 36,
+  },
+  fanItem: {
+    position: "absolute",
+    top: 3,
+  },
+  meta: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  metaText: {
+    color: "rgba(255,255,255,0.85)",
+    fontSize: 11.5,
+    fontWeight: "600",
+  },
+  dotBox: {
+    width: 14,
+    height: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+  },
+  dotHalo: {
+    position: "absolute",
+    width: 6,
+    height: 6,
+    borderRadius: 3,
   },
   text: {
     flex: 1,
     minWidth: 0,
   },
   title: {
-    color: "rgba(255,255,255,0.9)",
-    fontSize: 12,
-    fontWeight: "500",
+    color: "rgba(255,255,255,0.95)",
+    fontSize: 13,
+    fontWeight: "700",
   },
   sub: {
-    color: "rgba(255,255,255,0.5)",
-    fontSize: 11,
+    color: "rgba(255,255,255,0.6)",
+    fontSize: 11.5,
   },
   host: {
     color: "rgba(255,255,255,0.7)",
