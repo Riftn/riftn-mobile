@@ -1,6 +1,6 @@
 import { useSurfaceDraft } from '../hooks/useSurfaceDraft';
 import { useSearchFieldMaterial, SEARCH_INPUT_CLEAR } from '../hooks/useSearchFieldMaterial';
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -42,6 +42,9 @@ type Shown = {
   mine: UserCommunityRow[];
 };
 let lastShown: Shown | null = null;
+
+type Row = Community & { _section?: string; _role?: string };
+const NO_ROWS: Row[] = [];
 const shownFor = (wallet: string): Shown | null => (lastShown && lastShown.wallet === wallet ? lastShown : null);
 
 const CommunitiesScreen: React.FC = () => {
@@ -139,7 +142,6 @@ const CommunitiesScreen: React.FC = () => {
   );
 
   const flatData = useMemo(() => {
-    type Row = Community & { _section?: string; _role?: string };
     const sortedMine = [...myCommunities].sort((a, b) => {
       if (a._role === "owner" && b._role !== "owner") return -1;
       if (a._role !== "owner" && b._role === "owner") return 1;
@@ -156,6 +158,11 @@ const CommunitiesScreen: React.FC = () => {
     }
     return out;
   }, [myCommunities, otherCommunities, filterBySearch, roleMap, t]);
+
+  // The page's first frame holds no rows, so the slide in starts at the tap:
+  // a list kept from the last visit is drawn straight after, while it runs.
+  const rows = useDeferredValue(flatData, NO_ROWS);
+  const filling = rows.length === 0 && flatData.length > 0;
 
   const openCommunity = (slug: string) => {
     navigation.navigate(ScreenNames.CommunityDetail, { slug });
@@ -200,7 +207,7 @@ const CommunitiesScreen: React.FC = () => {
     <View className="flex-1 bg-theme-neutrals-900">
       <Animated.FlatList
         {...listProps({ paddingHorizontal: 16 })}
-        data={flatData}
+        data={rows}
         keyExtractor={(item) => item.id}
         initialNumToRender={8}
         maxToRenderPerBatch={6}
@@ -223,7 +230,7 @@ const CommunitiesScreen: React.FC = () => {
         ListEmptyComponent={
           // While loading, the page is already its real self (header, search,
           // tabs) with card shapes where the communities will land.
-          loading ? (
+          loading || filling ? (
             <View accessibilityLabel={t("common.loading", "Loading")}>
               {[0, 1, 2, 3, 4].map((i) => (
                 <View key={i} className="flex-row items-center bg-theme-neutrals-800 rounded-2xl p-3 mb-3" style={{ opacity: 0.6 }}>
@@ -255,7 +262,7 @@ const CommunitiesScreen: React.FC = () => {
         }
         renderItem={({ item, index }) => {
           const showSection =
-            index === 0 || flatData[index - 1]?._section !== item._section;
+            index === 0 || rows[index - 1]?._section !== item._section;
           return (
             <View>
               {showSection && (
