@@ -4706,6 +4706,10 @@
     "walletSignupBlocked": "このウォレットは新品です。新しいウォレットでアカウントを作るには、残高または過去の取引が必要です。下のいずれかの方法で登録してから、設定でこのウォレットを接続してください。"
   },
   "messages": {
+    "unreadMarkerOne": "未読メッセージ 1件",
+    "unreadMarkerMany": "未読メッセージ {{value}}件",
+    "jumpToUnread": "最初の未読メッセージへ移動",
+    "jumpToLatest": "最新のメッセージへ移動",
     "encryptionSetupFailed": "暗号化のセットアップに失敗しました。もう一度やり直してください。",
     "encryptionTurningOn": "ウォレットが暗号化を有効にするのを待っています…",
     "lockedBody": "{{name}}さんとのチャットはエンドツーエンドで暗号化されています。 このデバイスでウォレットのロックを解除して開きます。",

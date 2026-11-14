@@ -2714,6 +2714,10 @@
     "accountDeletedDays_other": "Bu hesap silindi. Aynı e-posta veya telefonla yaklaşık {{count}} gün sonra tekrar kaydolabilirsiniz."
   },
   "messages": {
+    "unreadMarkerOne": "1 okunmamış mesaj",
+    "unreadMarkerMany": "{{value}} okunmamış mesaj",
+    "jumpToUnread": "İlk okunmamış mesaja git",
+    "jumpToLatest": "En son mesaja git",
     "smartRepliesOff": "Önerilen yanıtlar kapatıldı",
     "smartRepliesOffWhere": "Ayarlar → Mesajlar bölümünden yeniden aç.",
     "smartRepliesUndo": "Geri al",

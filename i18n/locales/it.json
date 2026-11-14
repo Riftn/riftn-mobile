@@ -4836,6 +4836,10 @@
     "walletSignupBlocked": "Questo wallet è nuovo di zecca. I wallet nuovi devono avere un saldo o una transazione passata per aprire un account. Registrati con una delle opzioni qui sotto, poi collega questo wallet dalle Impostazioni."
   },
   "messages": {
+    "unreadMarkerOne": "1 messaggio non letto",
+    "unreadMarkerMany": "{{value}} messaggi non letti",
+    "jumpToUnread": "Vai al primo messaggio non letto",
+    "jumpToLatest": "Vai all'ultimo messaggio",
     "encryptionSetupFailed": "Configurazione della crittografia non riuscita. Riprova.",
     "encryptionTurningOn": "In attesa che il tuo portafoglio attivi la crittografia...",
     "lockedBody": "La tua chat con {{name}} è crittografata end-to-end. Sblocca il tuo portafoglio su questo dispositivo per aprirlo.",

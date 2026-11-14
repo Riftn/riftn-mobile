@@ -35,6 +35,8 @@ import ChatInputBar, {
 } from "../components/DM/ChatInputBar";
 import type { SmartReplyTurn } from "../services/ai.service";
 import ChatDayPill, { chatDayKey } from "../components/DM/ChatDayPill";
+import { UnreadMarker, UnreadJumpButton } from "../components/DM/UnreadJump";
+import { findUnreadAnchor } from "../libs/chatUnreadAnchor";
 import MessageContextMenu, {
   type MessageLayout,
 } from "../components/DM/MessageContextMenu";
@@ -505,6 +507,32 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [userId, address],
   );
 
+  // "Unread messages" marker. The store marks lines read as soon as they
+  // land, so the count is taken on the first render, before the read effect
+  // below zeroes the conversation's badge. See libs/chatUnreadAnchor.
+  const openedAtRef = useRef(Date.now());
+  const unreadAtOpenRef = useRef(0);
+  const unreadSnapTakenRef = useRef(false);
+  if (!unreadSnapTakenRef.current) {
+    const fromConversation = Number(currentConversation?.unreadCount ?? 0) || 0;
+    const fromFlags = storeMessages.filter((m) => !isMine(m) && m.isRead === false).length;
+    unreadAtOpenRef.current = Math.max(unreadAtOpenRef.current, fromConversation, fromFlags);
+    if (currentConversation || storeMessages.length > 0) unreadSnapTakenRef.current = true;
+  }
+  const unreadAnchor = useMemo(
+    () => findUnreadAnchor(
+      messageList.map((m) => ({
+        id: m._id,
+        mine: isMine(m),
+        createdAt: m.createdAt,
+        skip: !!m.undecryptable || String(m._id).startsWith("temp"),
+      })),
+      unreadAtOpenRef.current,
+      openedAtRef.current,
+    ),
+    [messageList, isMine],
+  );
+
   /**
    * Tail of the thread handed to the reply drafter, oldest first. Text only —
    * an image or voice note carries nothing the model can reply to.
@@ -547,12 +575,14 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   }, []);
 
   const scrollRetryRef = useRef(0);
+  const scrollViewPositionRef = useRef(0.3);
   const highlightAndScroll = useCallback(
     (messageId: string) => {
       const idx = messageList.findIndex((m) => m._id === messageId);
       if (idx < 0) return;
       setHighlightedId(null);
       scrollRetryRef.current = 0;
+      scrollViewPositionRef.current = 0.3;
       try {
         listRef.current?.scrollToIndex({ index: idx, animated: true, viewPosition: 0.3 });
       } catch {
@@ -580,12 +610,77 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       scrollRetryRef.current += 1;
       setTimeout(() => {
         try {
-          listRef.current?.scrollToIndex({ index: info.index, animated: true, viewPosition: 0.3 });
+          listRef.current?.scrollToIndex({ index: info.index, animated: true, viewPosition: scrollViewPositionRef.current });
         } catch {}
       }, 250);
     },
     [],
   );
+
+  // Jump capsule state: unread lines below the screen, and whether the marker
+  // is still above it. Driven by which rows are on screen (list is inverted:
+  // index 0 is the newest line at the bottom).
+  const [unreadBelow, setUnreadBelow] = useState(0);
+  const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
+  const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
+  const visibleRangeRef = useRef<{ min: number; max: number } | null>(null);
+  const unreadStateRef = useRef({ anchor: unreadAnchor, list: messageList });
+  unreadStateRef.current = { anchor: unreadAnchor, list: messageList };
+  const refreshUnreadJump = useCallback(() => {
+    const { anchor, list } = unreadStateRef.current;
+    const range = visibleRangeRef.current;
+    if (!anchor || !range) {
+      setUnreadBelow(0);
+      setUnreadMarkerAbove(false);
+      return;
+    }
+    let below = 0;
+    for (const id of anchor.ids) {
+      const i = list.findIndex((m) => m._id === id);
+      if (i >= 0 && i < range.min) below++;
+    }
+    setUnreadBelow(below);
+    const anchorIndex = list.findIndex((m) => m._id === anchor.id);
+    setUnreadMarkerAbove(anchorIndex > range.max);
+    if (anchorIndex >= range.min && anchorIndex <= range.max) setUnreadMarkerSeen(true);
+  }, []);
+  useEffect(() => { refreshUnreadJump(); }, [unreadAnchor, refreshUnreadJump]);
+  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
+    const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
+    visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    refreshUnreadJump();
+  }).current;
+  const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 10 }).current;
+
+  const scrollToUnreadMarker = useCallback((animated = true) => {
+    const anchor = unreadStateRef.current.anchor;
+    if (!anchor) return;
+    const index = unreadStateRef.current.list.findIndex((m) => m._id === anchor.id);
+    if (index < 0) return;
+    scrollRetryRef.current = 0;
+    // viewPosition 1 on an inverted list puts the row (marker on top of it)
+    // at the top of the screen; few enough unread to fit and it clamps to
+    // the newest line.
+    scrollViewPositionRef.current = 0.98;
+    isAtBottomRef.current = false;
+    try {
+      listRef.current?.scrollToIndex({ index, animated, viewPosition: 0.98 });
+    } catch {}
+    setUnreadMarkerSeen(true);
+  }, []);
+
+  // Open on the marker once the thread has loaded.
+  const unreadPlacedRef = useRef(false);
+  useEffect(() => {
+    if (unreadPlacedRef.current || !unreadAnchor || initialLoading) return;
+    // Placed inside the timer: a head refresh starting in between cancels it
+    // and the effect runs again once the fresh page is in.
+    const timer = setTimeout(() => {
+      unreadPlacedRef.current = true;
+      scrollToUnreadMarker(false);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [unreadAnchor, initialLoading, scrollToUnreadMarker]);
 
   // Depends on highlightAndScroll — must be declared after it
   const scrollToPinnedMessage = useCallback(() => {
@@ -1699,11 +1794,13 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       const dayPill = item.createdAt && (!older || chatDayKey(older.createdAt) !== chatDayKey(item.createdAt))
         ? <ChatDayPill iso={item.createdAt} />
         : null;
+      const unreadMarker = unreadAnchor?.id === item._id ? <UnreadMarker count={unreadAnchor.count} /> : null;
       // Poll messages use a dedicated card
       if (item.msgType === "poll" && item.poll?.tokenId) {
         return (
           <View>
             {dayPill}
+            {unreadMarker}
             <PollCard
               tokenId={item.poll.tokenId}
               pollOwnerAddress={
@@ -1716,13 +1813,14 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         );
       }
       const run = undecryptableRuns.get(item._id);
-      if (run !== undefined) return run > 0 ? <>{dayPill}<DmUndecryptableRun count={run} /></> : null;
+      if (run !== undefined) return run > 0 ? <>{dayPill}{unreadMarker}<DmUndecryptableRun count={run} /></> : null;
       // The long-press menu floats its own copy of this bubble over the list.
       // The copy is see-through, so the original underneath showed its text
       // and time a second time; hide it while the menu is open.
       return (
         <View style={liftedId === item._id ? { opacity: 0 } : undefined}>
           {dayPill}
+          {unreadMarker}
           <MessageBubble
             message={item}
             isMine={mine}
@@ -1740,7 +1838,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         </View>
       );
     },
-    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, address, toggleReaction, liftedId],
+    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, address, toggleReaction, liftedId, unreadAnchor],
   );
 
   // The temp id a line was drawn under stays its key after the send lands.
@@ -1921,13 +2019,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               onEndReached={loadMore}
               onEndReachedThreshold={0.3}
               onScrollToIndexFailed={onScrollToIndexFailed}
+              onViewableItemsChanged={onViewableItemsChanged}
+              viewabilityConfig={viewabilityConfig}
               ListFooterComponent={listFooter}
               showsVerticalScrollIndicator={false}
             />
           )}
 
-          {/* Jump to bottom */}
-          {showJumpBtn && !dmDisabled && !showNewChatIntro && (
+          {/* Jump capsule: up to the unread marker until it has been on
+              screen, then down to the newest line; count = unread below. */}
+          {(showJumpBtn || (!!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove)) && !dmDisabled && !showNewChatIntro && (
             <Animated.View
               entering={FadeIn.duration(200)}
               exiting={FadeOut.duration(150)}
@@ -1937,15 +2038,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               // tall and paints over the pill.
               style={{ bottom: inputBarHeight + inputLift + 12 }}
             >
-              <TouchableOpacity
-                onPress={scrollToBottom}
-                activeOpacity={0.8}
-                hitSlop={8}
-                className="bg-theme-neutrals-700/90 rounded-xl px-3 py-2 flex-row items-center"
-              >
-                <Icon name="ChevronDown" size={16} color="#E5E7EB" />
-                <Text className="text-theme-neutrals-100 text-xs ml-1">{_copy("copy.18fdd549b2ed", { defaultValue: "New" })}</Text>
-              </TouchableOpacity>
+              {(() => {
+                const up = !!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove;
+                return (
+                  <UnreadJumpButton
+                    up={up}
+                    count={unreadBelow}
+                    onPress={up ? () => scrollToUnreadMarker(true) : scrollToBottom}
+                  />
+                );
+              })()}
             </Animated.View>
           )}
 

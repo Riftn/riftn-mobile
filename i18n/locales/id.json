@@ -4836,6 +4836,10 @@
     "walletSignupBlocked": "Dompet ini benar-benar baru. Dompet baru perlu saldo atau transaksi sebelumnya untuk membuka akun. Daftar dengan salah satu opsi di bawah, lalu hubungkan dompet ini dari Pengaturan."
   },
   "messages": {
+    "unreadMarkerOne": "1 pesan belum dibaca",
+    "unreadMarkerMany": "{{value}} pesan belum dibaca",
+    "jumpToUnread": "Lompat ke pesan pertama yang belum dibaca",
+    "jumpToLatest": "Lompat ke pesan terbaru",
     "encryptionSetupFailed": "Penyiapan enkripsi gagal. Silakan coba lagi.",
     "encryptionTurningOn": "Menunggu dompet Anda mengaktifkan enkripsi...",
     "lockedBody": "Obrolan Anda dengan {{name}} dienkripsi dari ujung ke ujung. Buka dompet Anda di perangkat ini untuk membukanya.",

@@ -2760,6 +2760,10 @@
     "signInPageWouldNotOpen": "The sign-in page closed before it opened. Try again, or continue with email."
   },
   "messages": {
+    "unreadMarkerOne": "1 unread message",
+    "unreadMarkerMany": "{{value}} unread messages",
+    "jumpToUnread": "Jump to first unread message",
+    "jumpToLatest": "Jump to latest message",
     "smartRepliesOff": "Suggested replies turned off",
     "smartRepliesOffWhere": "Turn them back on in Settings → Messages.",
     "smartRepliesUndo": "Undo",

@@ -4835,6 +4835,10 @@
     "walletSignupBlocked": "완전히 새 지갑이에요. 새 지갑으로 계정을 만들려면 잔액이나 이전 거래 내역이 있어야 해요. 아래 방법 중 하나로 가입한 뒤 설정에서 이 지갑을 연결하세요."
   },
   "messages": {
+    "unreadMarkerOne": "읽지 않은 메시지 1개",
+    "unreadMarkerMany": "읽지 않은 메시지 {{value}}개",
+    "jumpToUnread": "첫 번째 읽지 않은 메시지로 이동",
+    "jumpToLatest": "최신 메시지로 이동",
     "encryptionSetupFailed": "암호화 설정에 실패했습니다. 다시 시도하십시오.",
     "encryptionTurningOn": "지갑에서 암호화가 켜지기를 기다리는 중...",
     "lockedBody": "{{name}} 님과의 채팅은 엔드 투 엔드 암호화되어 있습니다. 이 기기에서 지갑을 잠금 해제하여 여세요.",

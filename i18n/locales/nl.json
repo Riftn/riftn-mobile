@@ -2902,6 +2902,10 @@
     "accountDeletedDays_other": "Dit account is verwijderd. Over ongeveer {{count}} dagen kun je je opnieuw aanmelden met hetzelfde e-mailadres of telefoonnummer."
   },
   "messages": {
+    "unreadMarkerOne": "1 ongelezen bericht",
+    "unreadMarkerMany": "{{value}} ongelezen berichten",
+    "jumpToUnread": "Naar eerste ongelezen bericht",
+    "jumpToLatest": "Naar nieuwste bericht",
     "smartRepliesOff": "Voorgestelde antwoorden uitgezet",
     "smartRepliesOffWhere": "Zet ze weer aan in Instellingen → Berichten.",
     "smartRepliesUndo": "Ongedaan maken",

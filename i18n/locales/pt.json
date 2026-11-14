@@ -4765,6 +4765,10 @@
     "accountDeletedDays_other": "Esta conta foi excluída. Você poderá se cadastrar de novo com o mesmo e-mail ou telefone em cerca de {{count}} dias."
   },
   "messages": {
+    "unreadMarkerOne": "1 mensagem não lida",
+    "unreadMarkerMany": "{{value}} mensagens não lidas",
+    "jumpToUnread": "Ir para a primeira mensagem não lida",
+    "jumpToLatest": "Ir para a mensagem mais recente",
     "encryptionSetupFailed": "A configuração da encriptação falhou. Tente novamente.",
     "encryptionTurningOn": "A aguardar que a sua carteira ative a encriptação...",
     "lockedBody": "O seu chat com {{name}} está encriptado de ponta a ponta. Desbloqueie a sua carteira neste dispositivo para abri-la.",
