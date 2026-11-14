@@ -117,7 +117,7 @@ export function clearFallbackKeys(
 export async function clearAppCaches(): Promise<void> {
   await freeAsyncStorageSpace();
   try {
-    storage.delete("dehub-query-cache");
+    require("./queryCacheStore").dropSavedQueryCache();
   } catch {
     // feed cache already gone
   }

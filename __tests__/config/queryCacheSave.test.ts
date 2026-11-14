@@ -1,4 +1,4 @@
-jest.mock("../../libs/storage", () => ({ storage: { getString: jest.fn(), set: jest.fn(), delete: jest.fn() } }));
+jest.mock("../../libs/queryCacheStore", () => ({ readSavedQueryCache: jest.fn(() => null), writeSavedQueryCache: jest.fn(), savedQueryCacheExists: jest.fn(() => true), dropSavedQueryCache: jest.fn() }));
 jest.mock("../../libs/errorReporter", () => ({ reportError: jest.fn() }));
 jest.mock("react-native", () => ({ AppState: { addEventListener: jest.fn() } }));
 
@@ -26,11 +26,10 @@ it("writes a clean cache untouched", () => {
 it("saves straight to disk when asked", () => {
   jest.spyOn(console, "warn").mockImplementation(() => {});
   const { queryClient, saveQueryCacheNow } = require("../../config/queryClient");
-  const { storage } = require("../../libs/storage");
+  const { writeSavedQueryCache } = require("../../libs/queryCacheStore");
   queryClient.setQueryData(["home-feed", 1], { pages: [[1], [2]], pageParams: [0, 1] });
   saveQueryCacheNow("test");
-  const [key, text] = storage.set.mock.calls[storage.set.mock.calls.length - 1];
-  expect(key).toBe("dehub-query-cache");
+  const [text] = writeSavedQueryCache.mock.calls[writeSavedQueryCache.mock.calls.length - 1];
   const saved = JSON.parse(text);
   expect(saved.buster).toBe("v1");
   expect(saved.clientState.queries[0].state.data.pages).toEqual([[1]]);
