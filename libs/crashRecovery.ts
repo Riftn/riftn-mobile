@@ -1,5 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { storage } from "./storage";
+import { dropSavedQueryCache } from "./queryCacheStore";
 
 /**
  * What the app does after a fault instead of dying.
@@ -44,9 +45,9 @@ export function dropPersistedQueryCache(): void {
   try {
     // eslint-disable-next-line no-console
     console.warn("[cache] dropped after a fault");
-    storage.delete(QUERY_CACHE_KEY);
+    dropSavedQueryCache();
   } catch {
-    /* MMKV unavailable — nothing to drop */
+    /* nothing to drop */
   }
 }
 

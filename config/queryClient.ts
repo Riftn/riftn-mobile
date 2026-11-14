@@ -2,7 +2,7 @@ import { AppState } from "react-native";
 import { QueryClient, dehydrate, focusManager } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import type { PersistedClient } from "@tanstack/react-query-persist-client";
-import { storage } from "../libs/storage";
+import { dropSavedQueryCache, readSavedQueryCache, savedQueryCacheExists, writeSavedQueryCache } from "../libs/queryCacheStore";
 
 // React Native has no window focus — drive react-query's focus state from
 // AppState so stale queries refetch when the app returns to the foreground.
@@ -132,12 +132,7 @@ let savedNoted = false;
 function noteSaved(length: number, reason: string): void {
   if (savedNoted) return;
   savedNoted = true;
-  let onDisk = false;
-  try {
-    onDisk = storage.contains("dehub-query-cache");
-  } catch {
-    /* reported as not on disk */
-  }
+  const onDisk = savedQueryCacheExists();
   // eslint-disable-next-line no-console
   console.warn(`[cache] saved ${Math.round(length / 1024)}kB (${reason}), on disk: ${onDisk}`);
 }
@@ -166,27 +161,27 @@ function reportSaveFailure(message: string): void {
   }
 }
 
-// MMKV is synchronous, so the restore completes before the first frame.
+// The file is read synchronously, so the restore completes before the first frame.
 const baseCachePersister = createSyncStoragePersister({
   serialize: serializePersistedClient,
   storage: {
-    getItem: (key) => {
-      const saved = storage.getString(key) ?? null;
+    getItem: () => {
+      const saved = readSavedQueryCache();
       noteCache("disk", saved ? `${Math.round(saved.length / 1024)}kB` : "empty");
       return saved;
     },
-    setItem: (key, value) => {
+    setItem: (_key, value) => {
       try {
-        storage.set(key, value);
+        writeSavedQueryCache(value);
         noteSaved(value.length, "timer");
       } catch (error) {
         reportSaveFailure(`write failed (${Math.round(value.length / 1024)}kB): ${String((error as Error)?.message).slice(0, 160)}`);
         throw error;
       }
     },
-    removeItem: (key) => {
+    removeItem: () => {
       noteCache("diskDropped", "expired or changed");
-      storage.delete(key);
+      dropSavedQueryCache();
     },
   },
   key: "dehub-query-cache",
@@ -230,7 +225,7 @@ export function saveQueryCacheNow(reason: string): void {
     const text = serializePersistedClient(
       trimPersistedClient({ buster: PERSIST_BUSTER, timestamp: Date.now(), clientState: dehydrate(queryClient) }),
     );
-    storage.set("dehub-query-cache", text);
+    writeSavedQueryCache(text);
     noteSaved(text.length, reason);
   } catch (error) {
     reportSaveFailure(`save failed (${reason}): ${String((error as Error)?.message).slice(0, 160)}`);
