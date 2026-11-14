@@ -6,7 +6,7 @@ import {
   getAuthUser, setAuthUser, removeAuthUser,
   hasSeenAuth, setHasSeenAuth,
   hasSeenOnboarding, setHasSeenOnboarding,
-  clearAuthData, createAuthHeaders, isTokenExpired,
+  clearAuthData, createAuthHeaders, isTokenExpired, isTokenForCachedUser,
   setAuthMethod, getAuthMethod, clearAuthMethod,
   setPreferredChainId, getPreferredChainId,
   AUTH_TOKEN_KEY, REFRESH_TOKEN_KEY, AUTH_USER_KEY,
@@ -163,6 +163,24 @@ describe('libs/auth.utils', () => {
       const payload = btoa(JSON.stringify({ exp: futureExp }));
       const token = `${header}.${payload}.signature`;
       expect(isTokenExpired(token)).toBe(false);
+    });
+  });
+
+  describe('isTokenForCachedUser', () => {
+    const tokenFor = (claims: object) =>
+      `${btoa(JSON.stringify({ alg: 'HS256' }))}.${btoa(JSON.stringify(claims))}.signature`;
+
+    it('matches an expired token issued to the cached address', () => {
+      const token = tokenFor({ address: '0xabc', exp: 0 });
+      expect(isTokenForCachedUser({ address: '0xABC' }, token)).toBe(true);
+      expect(isTokenForCachedUser({ walletAddress: '0xabc' }, token)).toBe(true);
+    });
+
+    it('refuses another address, no address, or a bad token', () => {
+      expect(isTokenForCachedUser({ address: '0xdef' }, tokenFor({ address: '0xabc' }))).toBe(false);
+      expect(isTokenForCachedUser({}, tokenFor({ address: '0xabc' }))).toBe(false);
+      expect(isTokenForCachedUser({ address: '0xabc' }, tokenFor({ sub: 'x' }))).toBe(false);
+      expect(isTokenForCachedUser({ address: '0xabc' }, 'not.a.jwt')).toBe(false);
     });
   });
 

@@ -1,7 +1,8 @@
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
 import Constants from 'expo-constants';
-import { Platform } from 'react-native';
+import { AppState, Platform } from 'react-native';
+import { isConversationOpen } from '../../libs/activeChat';
 import { apiClient } from '../../libs/api.client';
 import { getDeviceId, getDeviceName } from '../../libs/device';
 import { createLogger } from '../../libs/logger';
@@ -118,8 +119,16 @@ Notifications.setNotificationHandler({
   handleNotification: async (notification) => {
     // With the app open the incoming-call screen is already up; a banner and
     // a second sound on top of it would only be noise.
-    const isCall = (notification?.request?.content?.data as any)?.type === 'incoming_call';
-    const show = !isCall;
+    const data = (notification?.request?.content?.data ?? {}) as any;
+    const isCall = data.type === 'incoming_call';
+    // A message for the chat already open on screen: the reader is in it, the
+    // line lands in the thread, so no banner and no sound.
+    const conversationId = data.conversationId
+      ?? (typeof data.deepLink === 'string' ? data.deepLink.match(/\/dm\/([^/?#]+)/)?.[1] : undefined);
+    const inOpenChat = data.type === 'new_message'
+      && AppState.currentState === 'active'
+      && isConversationOpen(conversationId);
+    const show = !isCall && !inOpenChat;
     return {
       shouldShowAlert: show,
       shouldPlaySound: show,

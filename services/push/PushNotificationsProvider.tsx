@@ -202,6 +202,8 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   const { isSignedIn, needsUsername } = useAuthState();
   const { patchUser } = useAuthActions();
   const isFullySignedIn = isSignedIn && !needsUsername;
+  const isFullySignedInRef = useRef(isFullySignedIn);
+  isFullySignedInRef.current = isFullySignedIn;
   // A new member's walkthrough offer is a modal of its own; the pre-prompt
   // waits until it has been answered rather than stacking on top of it.
   const onboarding = useOnboarding();
@@ -712,6 +714,14 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           return;
         }
         logger.info('Processing cold-start notification', { type: data.type, responseId });
+        // One row per notification launch, so a slow or stuck one can be read
+        // back from the logs (none of this path reported anything before).
+        try {
+          require('../../libs/errorReporter').reportError('PushColdStart', ['notification opened the app'], {
+            level: 'info',
+            metadata: { type: data.type, signedIn: isFullySignedInRef.current },
+          });
+        } catch {}
         handleNotificationNavigation(data, responseId);
       } catch (error) {
         logger.error('Failed to check cold-start notification', error);

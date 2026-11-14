@@ -547,7 +547,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     ensureProvider,
     refreshCachedProfile: (cached, token) => enrichAndStoreUser(cached, { refetch: true, expectedToken: token }),
     canRestoreCachedProfile: async (cached, token) => {
-      const { isVerifiedCachedProfile } = await import('../libs/auth.utils');
+      const { isVerifiedCachedProfile, isTokenForCachedUser, getStoredSupabaseUserId } = await import('../libs/auth.utils');
       const { supabase } = await import('../services/supabase');
       const { readStoredSessionUserId } = await import('../libs/supabase-session');
       const { resilientAsyncStorage } = await import('../libs/storage-full');
@@ -556,7 +556,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       // still refreshes in the background, and APIs and signing keep their own
       // live-token checks; this only decides whether the cached profile shows.
       const uid = await readStoredSessionUserId(resilientAsyncStorage, (supabase.auth as any).storageKey);
-      return !!uid && isVerifiedCachedProfile(cached, token, uid);
+      if (uid) return isVerifiedCachedProfile(cached, token, uid);
+      // Wallet-only session: nothing in Supabase to check against, so the
+      // token's own address is the proof (see isTokenForCachedUser).
+      if (await getStoredSupabaseUserId()) return false;
+      return isTokenForCachedUser(cached, token);
     },
     reconcileProfile: async () => {
       if ((await getAuthMethod())?.method !== 'local') return false;
