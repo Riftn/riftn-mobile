@@ -1,5 +1,5 @@
 import { useTranslation as _useCopy } from 'react-i18next';
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,10 @@ import {
 const HOUSE_AD_POST_ID = "2008";
 const POSTS_PER_PAGE = 6;
 const PROFILE_POSTS_PER_PAGE = 10;
+/** Posts drawn as soon as the list arrives; the rest follow one at a time. */
+const FIRST_POSTS = 1;
+/** Gap between two posts being drawn, so taps and scrolls get a turn. */
+const NEXT_POST_AFTER_MS = 50;
 /** Pages read while looking for the opened post in its profile list. */
 const MAX_SEARCH_PAGES = 5;
 
@@ -87,12 +91,6 @@ export default function PostDetailContinuation({ currentPostId, profileFeed, loa
   });
 
   const autoLoad = loadMoreSignal !== undefined;
-  useEffect(() => {
-    if (!loadMoreSignal || !hasNextPage || isFetchingNextPage) return;
-    void fetchNextPage();
-    // Only a new signal asks for a page; the fetch state just gates it.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loadMoreSignal]);
 
   const loaded = useMemo(() => data?.pages.flatMap((page) => page.result) ?? [], [data]);
   const profileIndex = useMemo(
@@ -123,6 +121,25 @@ export default function PostDetailContinuation({ currentPostId, profileFeed, loa
       return true;
     });
   }, [currentPostId, loaded, fromProfile, profileIndex]);
+
+  // These posts sit below the fold. Drawn together they held the page still
+  // for a moment right after it opened, so they come in one at a time.
+  const [drawn, setDrawn] = useState(FIRST_POSTS);
+  const drawing = drawn < posts.length;
+  useEffect(() => {
+    if (!drawing) return;
+    const timer = setTimeout(() => startTransition(() => setDrawn((n) => n + 1)), NEXT_POST_AFTER_MS);
+    return () => clearTimeout(timer);
+  }, [drawing, drawn]);
+
+  useEffect(() => {
+    // A list still being drawn is short, which reads as "near the end"; the
+    // list asks again once it has its full height.
+    if (!loadMoreSignal || !hasNextPage || isFetchingNextPage || drawing) return;
+    void fetchNextPage();
+    // Only a new signal asks for a page; the fetch state just gates it.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadMoreSignal]);
 
   return (
     <ProfileFeedOriginContext.Provider value={feedSource}>
@@ -165,7 +182,7 @@ export default function PostDetailContinuation({ currentPostId, profileFeed, loa
       {/* These render in the detail list's footer with no viewability tracking,
           so none of them may autoplay: a video here would start below the fold
           and take playback focus from the post being viewed. Tap to play. */}
-      {posts.map((post) => (
+      {posts.slice(0, drawn).map((post) => (
         // Minimal: FeedCards draw their own hairline, so no vertical gap between them.
         <View key={String(post.tokenId ?? post.id)} className={isMinimal ? "px-4" : "px-4 py-2"}>
           <FeedCard item={post} isAutoplayActive={false} />
@@ -184,7 +201,7 @@ export default function PostDetailContinuation({ currentPostId, profileFeed, loa
         </View>
       )}
 
-      {hasNextPage && !autoLoad && (
+      {hasNextPage && !autoLoad && !drawing && (
         <TouchableOpacity
           onPress={() => void fetchNextPage()}
           disabled={isFetchingNextPage}

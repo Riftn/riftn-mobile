@@ -1,3 +1,238 @@
+diff --git a/node_modules/react-native/Libraries/Modal/Modal.js b/node_modules/react-native/Libraries/Modal/Modal.js
+index eb0e1a9..9bfebc9 100644
+--- a/node_modules/react-native/Libraries/Modal/Modal.js
++++ b/node_modules/react-native/Libraries/Modal/Modal.js
+@@ -59,6 +59,19 @@ const ModalEventEmitter =
+ // destroyed before the callback is fired.
+ let uniqueModalIdentifier = 0;
+ 
++// iOS shows one modal per presenter. A second one asked for while another is
++// still up (or still closing) is dropped by UIKit without a word, and nothing
++// tells React. These track the modals that asked and were never shown, so
++// they can ask again once the screen is free.
++const PRESENT_CHECK_MS = 2500;
++const PRESENT_TRIES = 6;
++const CLOSE_UNSHOWN_MS = 1000;
++const unshownModals: Set<{_presentAgain: (fromTimer: boolean) => void, ...}> =
++  new Set();
++function presentUnshownModals() {
++  unshownModals.forEach(modal => modal._presentAgain(false));
++}
++
+ type OrientationChangeEvent = $ReadOnly<{
+   orientation: 'portrait' | 'landscape',
+ }>;
+@@ -215,6 +228,8 @@ function confirmProps(props: ModalProps) {
+ // This is the only prop that controls whether the modal is rendered or not.
+ type ModalState = {
+   isRendered: boolean,
++  // iOS: the native `visible` is dropped for a moment to ask UIKit again.
++  askingAgain?: boolean,
+ };
+ 
+ class Modal extends React.Component<ModalProps, ModalState> {
+@@ -227,6 +242,12 @@ class Modal extends React.Component<ModalProps, ModalState> {
+ 
+   _identifier: number;
+   _eventSubscription: ?EventSubscription;
++  _shown: boolean = false;
++  _mounted: boolean = false;
++  _askedAt: number = 0;
++  _tries: number = 0;
++  _presentTimer: ?TimeoutID = null;
++  _closeTimer: ?TimeoutID = null;
+ 
+   constructor(props: ModalProps) {
+     super(props);
+@@ -240,6 +261,10 @@ class Modal extends React.Component<ModalProps, ModalState> {
+   }
+ 
+   componentDidMount() {
++    this._mounted = true;
++    if (this.props.visible === true) {
++      this._watchPresentation();
++    }
+     // 'modalDismissed' is for the old renderer in iOS only
+     if (ModalEventEmitter) {
+       this._eventSubscription = ModalEventEmitter.addListener(
+@@ -256,8 +281,19 @@ class Modal extends React.Component<ModalProps, ModalState> {
+   }
+ 
+   componentWillUnmount() {
++    this._mounted = false;
++    this._stopWatchingPresentation();
++    if (this._closeTimer != null) {
++      clearTimeout(this._closeTimer);
++      this._closeTimer = null;
++    }
+     if (Platform.OS === 'ios') {
+       this.setState({isRendered: false});
++      if (this._shown) {
++        // Gone with its screen: the others can ask once it has faded out.
++        this._shown = false;
++        setTimeout(presentUnshownModals, 500);
++      }
+     }
+     if (this._eventSubscription) {
+       this._eventSubscription.remove();
+@@ -267,6 +303,25 @@ class Modal extends React.Component<ModalProps, ModalState> {
+   componentDidUpdate(prevProps: ModalProps) {
+     if (prevProps.visible === false && this.props.visible === true) {
+       this.setState({isRendered: true});
++      this._watchPresentation();
++    }
++    if (prevProps.visible === true && this.props.visible !== true) {
++      this._stopWatchingPresentation();
++      if (Platform.OS === 'ios' && !this._shown) {
++        // It may never have got on screen, and then UIKit has nothing to
++        // dismiss and reports nothing. Give it a moment, then finish the
++        // close here.
++        this._closeTimer = setTimeout(() => {
++          this._closeTimer = null;
++          if (
++            this._mounted &&
++            this.props.visible !== true &&
++            this.state.isRendered === true
++          ) {
++            this._finishDismiss();
++          }
++        }, CLOSE_UNSHOWN_MS);
++      }
+     }
+ 
+     if (__DEV__) {
+@@ -274,6 +329,80 @@ class Modal extends React.Component<ModalProps, ModalState> {
+     }
+   }
+ 
++  // iOS only. From the moment the modal is asked for until UIKit says it is
++  // up, it counts as not shown; if that never comes it asks again, on a timer
++  // for a while and whenever another modal has finished closing.
++  _watchPresentation() {
++    if (Platform.OS !== 'ios') {
++      return;
++    }
++    this._shown = false;
++    this._tries = 0;
++    this._askedAt = Date.now();
++    unshownModals.add(this);
++    this._schedulePresentCheck();
++  }
++
++  _schedulePresentCheck() {
++    if (this._presentTimer != null) {
++      clearTimeout(this._presentTimer);
++    }
++    this._presentTimer = setTimeout(() => {
++      this._presentTimer = null;
++      this._presentAgain(true);
++    }, PRESENT_CHECK_MS);
++  }
++
++  _stopWatchingPresentation() {
++    unshownModals.delete(this);
++    if (this._presentTimer != null) {
++      clearTimeout(this._presentTimer);
++      this._presentTimer = null;
++    }
++  }
++
++  _presentAgain(fromTimer: boolean) {
++    if (!this._mounted || this.props.visible !== true || this._shown) {
++      this._stopWatchingPresentation();
++      return;
++    }
++    if (fromTimer) {
++      this._tries += 1;
++    } else if (Date.now() - this._askedAt < PRESENT_CHECK_MS) {
++      // Asked a moment ago and may be on its way up: its own check follows.
++      return;
++    }
++    this._askedAt = Date.now();
++    console.warn(
++      `Modal ${this._identifier} was not shown; asking again` +
++        (fromTimer ? ` (${this._tries})` : ' (another closed)'),
++    );
++    this.setState({askingAgain: true}, () => {
++      setTimeout(() => {
++        if (this._mounted) {
++          this.setState({askingAgain: false});
++        }
++      }, 50);
++    });
++    if (this._tries < PRESENT_TRIES) {
++      this._schedulePresentCheck();
++    }
++  }
++
++  _finishDismiss() {
++    this._shown = false;
++    if (this._closeTimer != null) {
++      clearTimeout(this._closeTimer);
++      this._closeTimer = null;
++    }
++    this.setState({isRendered: false}, () => {
++      if (this.props.onDismiss) {
++        this.props.onDismiss();
++      }
++    });
++    presentUnshownModals();
++  }
++
+   // Helper function to encapsulate platform specific logic to show or not the Modal.
+   _shouldShowModal(): boolean {
+     if (Platform.OS === 'ios') {
+@@ -314,11 +443,24 @@ class Modal extends React.Component<ModalProps, ModalState> {
+     const onDismiss = () => {
+       // OnDismiss is implemented on iOS only.
+       if (Platform.OS === 'ios') {
+-        this.setState({isRendered: false}, () => {
+-          if (this.props.onDismiss) {
+-            this.props.onDismiss();
+-          }
+-        });
++        if (this.props.visible === true) {
++          // The end of an earlier close, or of asking again: it is meant to
++          // be up, so this is not the app's close.
++          return;
++        }
++        if (this.state.isRendered !== true) {
++          // Already finished (it was never on screen).
++          return;
++        }
++        this._finishDismiss();
++      }
++    };
++
++    const onShow = (event: any) => {
++      this._shown = true;
++      this._stopWatchingPresentation();
++      if (this.props.onShow) {
++        this.props.onShow(event);
+       }
+     };
+ 
+@@ -331,10 +473,18 @@ class Modal extends React.Component<ModalProps, ModalState> {
+         transparent={this.props.transparent}
+         hardwareAccelerated={this.props.hardwareAccelerated}
+         onRequestClose={this.props.onRequestClose}
+-        onShow={this.props.onShow}
++        onShow={onShow}
+         onDismiss={onDismiss}
+         ref={this.props.modalRef}
+-        visible={this.props.visible}
++        visible={
++          this.props.visible === true && this.state.askingAgain === true
++            ? false
++            : this.props.visible
++        }
++        // Its children live in the presented controller. The host itself is
++        // an empty, screen-sized view in the page: left to take touches, one
++        // that iOS never presented swallows every tap in the app.
++        pointerEvents={Platform.OS === 'ios' ? 'none' : undefined}
+         statusBarTranslucent={this.props.statusBarTranslucent}
+         navigationBarTranslucent={this.props.navigationBarTranslucent}
+         identifier={this._identifier}
 diff --git a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js
 index 98a91dc..8b6c3d7 100644
 --- a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js
