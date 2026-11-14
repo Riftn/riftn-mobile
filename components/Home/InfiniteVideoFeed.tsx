@@ -1,4 +1,5 @@
 import { usePerfProbe } from "../../libs/perfTrace";
+import { useLaunchMotionStarted } from "../../libs/bootReveal";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, {
   memo,
@@ -1039,7 +1040,11 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
   // (bitmaps stay resident on the GPU while their row is mounted).
   const { height: screenHeight } = useWindowDimensions();
   const renderBudget = useMemo(() => feedRenderBudget(cappedItems), [cappedItems]);
-  const drawDistance = Math.round((screenHeight * (renderBudget.windowSize - 1)) / 4);
+  // While the launch cover is still up only the rows on screen are drawn: the
+  // rows ahead used to render behind the logo and held it for half a second.
+  // They fill in as the cover lifts, before anything can be scrolled.
+  const launchMotionStarted = useLaunchMotionStarted();
+  const drawDistance = launchMotionStarted ? Math.round((screenHeight * (renderBudget.windowSize - 1)) / 4) : 0;
 
   const endReached = hasNextPage === false;
   const error = queryError ? (queryError as Error).message || t("copy.3d2301d732a7", { defaultValue: "Failed to load" }) : null;

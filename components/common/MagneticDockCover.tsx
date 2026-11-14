@@ -2,6 +2,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import { AccessibilityInfo, Animated, Easing, Image, StyleSheet, View, useWindowDimensions } from 'react-native';
 import SplashScreen from '../../screens/SplashScreen';
 import { measureDockTarget, type DockTarget } from '../../libs/magneticDock';
+import { markLaunchMotionStarted } from '../../libs/bootReveal';
+
+// One frame after start(), so the native side has the animation before
+// JavaScript gets busy with the rows that were waiting on it.
+const motionStarted = () => { requestAnimationFrame(markLaunchMotionStarted); };
 
 const MARK = require('../../assets/web-icons/dehub-island-logo.png');
 const CROSSFADE_MS = 420;
@@ -52,6 +57,7 @@ export default function MagneticDockCover({ reveal, enabled, onComplete }: {
       // arrives quickly and settles; the mark drifts forward as it goes.
       motion = Animated.timing(fade, { toValue: 0, duration: CROSSFADE_MS, easing: Easing.out(Easing.cubic), useNativeDriver: true });
       motion.start(finish);
+      motionStarted();
     };
     void (async () => {
       target = enabled && !reduced.current ? await measureDockTarget() : null;
@@ -82,6 +88,7 @@ export default function MagneticDockCover({ reveal, enabled, onComplete }: {
     animation.start(({ finished }) => {
       if (finished) finishRef.current();
     });
+    motionStarted();
     return () => animation.stop();
   }, [landing, progress]);
 
