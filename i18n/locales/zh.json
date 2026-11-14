@@ -4706,6 +4706,10 @@
     "walletSignupBlocked": "这个钱包是全新的。新钱包需要有余额或过往交易才能开设账户。请用下方任一方式注册，然后在设置中连接这个钱包。"
   },
   "messages": {
+    "unreadMarkerOne": "1 条未读消息",
+    "unreadMarkerMany": "{{value}} 条未读消息",
+    "jumpToUnread": "跳到第一条未读消息",
+    "jumpToLatest": "跳到最新消息",
     "encryptionSetupFailed": "加密设置失败。请重试。",
     "encryptionTurningOn": "等待您的钱包启用加密…",
     "lockedBody": "您与 {{name}} 的聊天是端到端加密的。请在此设备上解锁您的钱包以打开它。",

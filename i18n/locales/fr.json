@@ -2714,6 +2714,10 @@
     "accountDeletedDays_other": "Ce compte a été supprimé. Vous pourrez vous réinscrire avec le même e-mail ou téléphone dans environ {{count}} jours."
   },
   "messages": {
+    "unreadMarkerOne": "1 message non lu",
+    "unreadMarkerMany": "{{value}} messages non lus",
+    "jumpToUnread": "Aller au premier message non lu",
+    "jumpToLatest": "Aller au dernier message",
     "smartRepliesOff": "Réponses suggérées désactivées",
     "smartRepliesOffWhere": "Réactivez-les dans Paramètres → Messages.",
     "smartRepliesUndo": "Annuler",

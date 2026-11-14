@@ -2722,6 +2722,10 @@
     "accountDeletedDays_other": "تم حذف هذا الحساب. يمكنك التسجيل مجددًا بنفس البريد الإلكتروني أو رقم الهاتف بعد {{count}} يوم تقريبًا."
   },
   "messages": {
+    "unreadMarkerOne": "رسالة واحدة غير مقروءة",
+    "unreadMarkerMany": "{{value}} رسائل غير مقروءة",
+    "jumpToUnread": "الانتقال إلى أول رسالة غير مقروءة",
+    "jumpToLatest": "الانتقال إلى أحدث رسالة",
     "smartRepliesOff": "تم إيقاف الردود المقترحة",
     "smartRepliesOffWhere": "أعِد تشغيلها من الإعدادات ← الرسائل.",
     "smartRepliesUndo": "تراجع",

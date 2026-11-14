@@ -4847,6 +4847,10 @@
     "walletSignupBlocked": "Ví này hoàn toàn mới. Ví mới cần có số dư hoặc một giao dịch trước đó để mở tài khoản. Hãy đăng ký bằng một trong các tùy chọn bên dưới, sau đó kết nối ví này trong Cài đặt."
   },
   "messages": {
+    "unreadMarkerOne": "1 tin nhắn chưa đọc",
+    "unreadMarkerMany": "{{value}} tin nhắn chưa đọc",
+    "jumpToUnread": "Chuyển đến tin nhắn chưa đọc đầu tiên",
+    "jumpToLatest": "Chuyển đến tin nhắn mới nhất",
     "encryptionSetupFailed": "Không thể thiết lập mã hóa. Vui lòng thử lại.",
     "encryptionTurningOn": "Đang chờ ví của bạn bật mã hóa…",
     "lockedBody": "Cuộc trò chuyện của bạn với {{name}} đã được mã hóa từ đầu đến cuối. Mở khóa ví của bạn trên thiết bị này để mở ví.",

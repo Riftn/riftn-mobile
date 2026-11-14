@@ -2714,6 +2714,10 @@
     "accountDeletedDays_other": "Esta cuenta fue eliminada. Podrás registrarte de nuevo con el mismo correo o teléfono en aproximadamente {{count}} días."
   },
   "messages": {
+    "unreadMarkerOne": "1 mensaje sin leer",
+    "unreadMarkerMany": "{{value}} mensajes sin leer",
+    "jumpToUnread": "Ir al primer mensaje sin leer",
+    "jumpToLatest": "Ir al mensaje más reciente",
     "smartRepliesOff": "Respuestas sugeridas desactivadas",
     "smartRepliesOffWhere": "Vuelve a activarlas en Ajustes → Mensajes.",
     "smartRepliesUndo": "Deshacer",

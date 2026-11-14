@@ -4774,6 +4774,10 @@
     "walletSignupBlocked": "Ten portfel jest zupełnie nowy. Nowe portfele potrzebują salda lub wcześniejszej transakcji, aby otworzyć konto. Zarejestruj się jedną z poniższych opcji, a potem połącz ten portfel w Ustawieniach."
   },
   "messages": {
+    "unreadMarkerOne": "1 nieprzeczytana wiadomość",
+    "unreadMarkerMany": "Nieprzeczytane wiadomości: {{value}}",
+    "jumpToUnread": "Przejdź do pierwszej nieprzeczytanej wiadomości",
+    "jumpToLatest": "Przejdź do najnowszej wiadomości",
     "encryptionSetupFailed": "Konfiguracja szyfrowania nie powiodła się. Spróbuj ponownie.",
     "encryptionTurningOn": "Czekam, aż Twój portfel włączy szyfrowanie…",
     "lockedBody": "Twój czat z {{name}} jest szyfrowany end-to-end. Odblokuj portfel na tym urządzeniu, aby go otworzyć.",
