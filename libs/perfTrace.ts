@@ -9,6 +9,9 @@ import { useLayoutEffect } from "react";
  *   adb shell am start -a android.intent.action.VIEW -d "dehub://perf-trace/on"
  *   adb logcat -s ReactNativeJS
  *
+ * To trace a cold start, open dehub://perf-trace/launch, force-stop the app
+ * and start it again: that one launch is traced from its first render.
+ *
  * It switches itself off after half an hour, or with dehub://perf-trace/off.
  *
  * What it prints, one line per JavaScript task:
@@ -84,11 +87,49 @@ export function setPerfTrace(next: boolean): void {
   watchStalls();
 }
 
-/** dehub://perf-trace/on or /off. Returns true when the link was this switch. */
+const LAUNCH_FLAG = "perf-trace-next-launch";
+
+type FlagFile = { exists: boolean; create(options?: { overwrite?: boolean }): void; delete(): void };
+function launchFlag(): FlagFile | null {
+  try {
+    const { File, Paths } = require("expo-file-system");
+    return new File(Paths.cache, LAUNCH_FLAG) as FlagFile;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * dehub://perf-trace/launch asks for the NEXT cold start to be traced from its
+ * first render: the switch above only comes on once links are handled, which
+ * is after the launch it would need to measure. One launch, then it is spent.
+ */
+export function armPerfTraceForLaunch(): void {
+  try {
+    const flag = launchFlag();
+    if (!flag?.exists) return;
+    flag.delete();
+    setPerfTrace(true);
+  } catch {
+    /* tracing is optional */
+  }
+}
+
+/** dehub://perf-trace/on, /off or /launch. Returns true when the link was this switch. */
 export function handlePerfTraceLink(url: string | null | undefined): boolean {
-  const match = /^dehub:\/\/perf-trace\/(on|off)\b/i.exec(url ?? "");
+  const match = /^dehub:\/\/perf-trace\/(on|off|launch)\b/i.exec(url ?? "");
   if (!match) return false;
-  setPerfTrace(match[1].toLowerCase() === "on");
+  const mode = match[1].toLowerCase();
+  if (mode === "launch") {
+    try {
+      launchFlag()?.create({ overwrite: true });
+      log("trace armed for the next launch");
+    } catch {
+      log("trace could not be armed");
+    }
+    return true;
+  }
+  setPerfTrace(mode === "on");
   return true;
 }
 
