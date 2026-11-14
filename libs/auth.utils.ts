@@ -257,12 +257,10 @@ export async function createAuthHeaders(): Promise<Record<string, string>> {
  * @param token - JWT token to validate
  * @returns boolean indicating if the token is expired
  */
-export function isTokenExpired(token: string): boolean {
-  if (!token) return true;
-  
+function readTokenClaims(token: string): Record<string, any> | null {
   try {
     const base64Url = token.split('.')[1];
-    if (!base64Url) return true;
+    if (!base64Url) return null;
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
     const jsonPayload = decodeURIComponent(
       atob(base64)
@@ -270,13 +268,32 @@ export function isTokenExpired(token: string): boolean {
         .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join('')
     );
-    
-    const { exp } = JSON.parse(jsonPayload);
-    return exp * 1000 < Date.now();
-  } catch (error) {
-    // If token is not a valid JWT or doesn't have an exp claim
-    return true;
+    return JSON.parse(jsonPayload);
+  } catch {
+    return null;
   }
+}
+
+export function isTokenExpired(token: string): boolean {
+  if (!token) return true;
+  const claims = readTokenClaims(token);
+  // Not a valid JWT, or no exp claim
+  if (!claims || typeof claims.exp !== 'number') return true;
+  return claims.exp * 1000 < Date.now();
+}
+
+/**
+ * A wallet-only session (signed in with a wallet, no Supabase account) has no
+ * Supabase id to tie the cached profile to. Its own token names the address it
+ * was issued to, even once expired, so the cached profile is this session's
+ * when the two match. Without this, every launch after the token expired held
+ * the logo on a network refresh (6s+ on slow phones), which read as a hang,
+ * worst when the launch came from a notification tap.
+ */
+export function isTokenForCachedUser(user: any, token: string): boolean {
+  const address = String(user?.address || user?.walletAddress || '').toLowerCase();
+  const claimed = String(readTokenClaims(token)?.address || '').toLowerCase();
+  return !!address && address === claimed;
 }
 
 // We avoid serializing full provider objects (non-serializable, circular). Instead store
