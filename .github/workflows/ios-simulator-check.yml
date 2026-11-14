@@ -16,11 +16,15 @@ on:
         required: false
         default: 'dark light syslight'
       task:
-        description: 'walk = open every page and screenshot it. nav = time page switches, main against this branch. probe = look for where a switch spends its time'
+        description: 'walk = open every page and screenshot it. nav = time page switches, main against this branch. probe = look for where a switch spends its time. touch = real finger swipes back and a tap, with a picture of each'
         required: false
         default: 'walk'
       app_run_id:
         description: 'nav only: reuse the simulator app an earlier run of this workflow built (its run id), when native code has not changed'
+        required: false
+        default: ''
+      account:
+        description: "nav and probe: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
         required: false
         default: ''
   pull_request:
@@ -161,17 +165,20 @@ jobs:
           grep -cE "warning:" xcodebuild.log > sim-check/warning-count.txt || true
           gzip -c xcodebuild.log > sim-check/xcodebuild.log.gz
       - name: Walk every page in dark, light and System Light
-        if: inputs.task != 'nav' && inputs.task != 'probe'
+        if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch'
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-simulator-walk.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
         env:
           THEMES: ${{ inputs.themes || 'dark light syslight' }}
       - name: Time page switches, main against this branch
-        if: inputs.task == 'nav' || inputs.task == 'probe'
+        if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch'
         env:
           NAV_MODE: ${{ inputs.task }}
           SIM_TEST_KEY: ${{ secrets.SIM_TEST_KEY }}
+          # Read from App Store Connect inside the script; never printed.
+          SIM_REVIEW_LOGIN: ${{ inputs.account == 'review' && '1' || '0' }}
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-nav-timing.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
@@ -185,6 +192,8 @@ jobs:
             sim-check/
             !sim-check/**/*.mov
           if-no-files-found: ignore
+          # 0 keeps the repository's usual time.
+          retention-days: ${{ inputs.account == 'review' && 2 || 0 }}
       - uses: actions/upload-artifact@v4
         if: always()
         continue-on-error: true

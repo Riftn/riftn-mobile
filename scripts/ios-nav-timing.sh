@@ -72,6 +72,8 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
+elif [ "$MODE" = touch ]; then
+  bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
   git checkout --quiet "$BEFORE_SHA" -- . ':(exclude).github' ':(exclude)scripts' || exit 1
@@ -173,11 +175,14 @@ PY
 # run <before|after> <name> [record] [tour: 1 = main switches, pages = every page] [theme]
 run() {
   local variant="$1" name="$2" record="${3:-}" tour="${4:-1}" theme="${5:-$THEME}"
-  local recorder="" started=0 swiped=0 tries=180
+  local recorder="" started=0 touched="" touch="" tries=180
   use_bundle "$variant"
   storage drop dehub.perfTour.result dehub.perfTour.swipe dehub.perfTour.shot dehub.perfTour.sample
   storage set dehub.theme "$theme" dehub.perfTour "$tour"
-  [ "$tour" = login ] && storage set dehub.perfTour.key "$SIM_TEST_KEY"
+  [ "$tour" = login ] && storage set dehub.perfTour.key "$LOGIN"
+  # A real account on a public run: its personal pages are not pictured
+  # (tour.ts) and nothing is filmed.
+  if [ "$PRIVATE_RUN" = 1 ]; then storage set dehub.perfTour.private 1; record=""; fi
   if [ "$tour" != 1 ]; then
     tries=480
     [ "$tour" = login ] && tries=45
@@ -194,13 +199,21 @@ run() {
   local result=""
   for _ in $(seq 1 "$tries"); do
     sleep 2
-    # The tour ends on Settings and waits for a slow swipe in from the left
-    # edge: a real touch, which only idb can make.
-    if [ "$swiped" = 0 ] && [ "$(storage get dehub.perfTour.swipe)" = "ready" ]; then
-      swiped=1
+    # The tour asks for real touches, which only idb can make: a slow swipe
+    # in from the left edge ("ready", "swipe:<label>") or a tap
+    # ("tap:<label>:<x>:<y>"). Each request is acted on once.
+    touch="$(storage get dehub.perfTour.swipe)"
+    if [ -n "$touch" ] && [ "$touch" != "$touched" ]; then
+      touched="$touch"
       if command -v idb >/dev/null 2>&1; then
-        python3 -c 'import time; print(int(time.time()*1000))' > "$OUT/nav/$name.swipe-start"
-        idb ui swipe --udid "$UDID" --duration 1.2 1 430 330 430 >/dev/null 2>&1 || echo "$name: idb swipe failed"
+        case "$touch" in
+          tap:*)
+            IFS=: read -r _ _ tap_x tap_y <<< "$touch"
+            idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;
+          *)
+            python3 -c 'import time; print(int(time.time()*1000))' > "$OUT/nav/$name.swipe-start"
+            idb ui swipe --udid "$UDID" --duration 1.2 1 430 330 430 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+        esac
       fi
     fi
     result="$(storage get dehub.perfTour.result)"
@@ -218,12 +231,66 @@ for service in photos camera microphone location; do
   xcrun simctl privacy "$UDID" grant "$service" "$BUNDLE" >/dev/null 2>&1 || true
 done
 
-# With a test account's recovery words or key (repository secret SIM_TEST_KEY),
-# sign the simulator in first: the session stays for every run after it, and
-# the tours then cover the pages only an account has.
-if [ -n "${SIM_TEST_KEY:-}" ]; then
+# With a test account, sign the simulator in first: the session stays for
+# every run after it, and the tours then cover the pages only an account has.
+# The account is the repository secret SIM_TEST_KEY (recovery words or a key),
+# or, when asked for with SIM_REVIEW_LOGIN=1, the sign-in Apple's reviewers
+# use, read from App Store Connect here and never printed.
+LOGIN="${SIM_TEST_KEY:-}"
+PRIVATE_RUN=0
+if [ -z "$LOGIN" ] && [ "${SIM_REVIEW_LOGIN:-0}" = 1 ]; then
+  LOGIN="$(node scripts/ios-nav/review-login.mjs 2> "$OUT/logs/review-login.txt")" || LOGIN=""
+  [ -n "$LOGIN" ] && PRIVATE_RUN=1 || echo "The review sign-in could not be read: $(cut -c1-200 "$OUT/logs/review-login.txt" | head -3)"
+fi
+if [ -n "$LOGIN" ]; then
   run after login "" login
   python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print("Signed in:", d.get("login") or d.get("error") or "no")' "$OUT/nav/login.json" 2>/dev/null || echo "Sign-in did not finish"
+fi
+
+# Before anything is uploaded: the sign-in itself, and any session token the
+# app logged, are taken out of every text file this run wrote.
+scrub() {
+  LOGIN="$LOGIN" python3 - "$OUT" <<'PY'
+import json, os, re, sys
+secrets = set()
+raw = os.environ.get("LOGIN", "")
+if raw:
+    secrets.add(raw)
+    try:
+        for value in json.loads(raw).values():
+            value = str(value)
+            secrets.add(value)
+            digits = re.sub(r"\D", "", value)
+            if len(digits) >= 6:
+                secrets.add(digits)
+    except Exception:
+        pass
+token = re.compile(rb"eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}")
+for folder, _, files in os.walk(sys.argv[1]):
+    for name in files:
+        if not name.endswith((".txt", ".log", ".json", ".md", ".ips")):
+            continue
+        path = os.path.join(folder, name)
+        try:
+            data = open(path, "rb").read()
+        except Exception:
+            continue
+        clean = token.sub(b"[token]", data)
+        for secret in sorted(secrets, key=len, reverse=True):
+            if secret:
+                clean = clean.replace(secret.encode(), b"[removed]")
+        if clean != data:
+            open(path, "wb").write(clean)
+PY
+}
+trap scrub EXIT
+
+if [ "$MODE" = touch ]; then
+  run after touch "" touch
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  python3 -c 'import json,sys; [print(c) for c in json.load(open(sys.argv[1])).get("touch", [])]' "$OUT/nav/touch.json" 2>/dev/null || true
+  exit 0
 fi
 
 if [ "$MODE" = probe ]; then

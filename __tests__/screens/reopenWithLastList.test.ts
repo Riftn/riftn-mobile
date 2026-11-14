@@ -17,6 +17,12 @@ describe("pages reopen with what they last showed", () => {
     expect(effect.slice(0, effect.indexOf("}, [load, walletAddress]);"))).toMatch(/\}\s*load\(\);\s*$/);
   });
 
+  it("Communities draws its rows after the first frame, with card shapes until then", () => {
+    expect(communities).toContain("useDeferredValue(flatData, NO_ROWS)");
+    expect(communities).toContain("data={rows}");
+    expect(communities).toContain("loading || filling ?");
+  });
+
   it("Leaderboard draws the default board the session already loaded", () => {
     expect(service).toContain("export function peekLeaderboard(sort: string, period: string)");
     expect(leaderboard).toContain('peekLeaderboard(DEFAULT_SORT_CATEGORY, "all")');

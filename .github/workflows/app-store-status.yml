@@ -7,6 +7,10 @@ on:
         description: Release the version if Apple approved it and it waits on us
         type: boolean
         default: false
+      review_login_shape:
+        description: Also say what kind of sign-in the review account is (never its values)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -30,3 +34,8 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           RELEASE_IF_APPROVED: ${{ inputs.release_if_approved }}
         run: node scripts/app-store-status.mjs
+      - name: Review sign-in shape
+        if: ${{ inputs.review_login_shape }}
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: node scripts/ios-nav/review-login.mjs --shape | tee -a "$GITHUB_STEP_SUMMARY"
