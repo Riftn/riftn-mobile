@@ -200,8 +200,9 @@ run() {
   for _ in $(seq 1 "$tries"); do
     sleep 2
     # The tour asks for real touches, which only idb can make: a slow swipe
-    # in from the left edge ("ready", "swipe:<label>") or a tap
-    # ("tap:<label>:<x>:<y>"). Each request is acted on once.
+    # in from the left edge ("ready", "swipe:<label>"), a tap
+    # ("tap:<label>:<x>:<y>") or a tap on a button found by its text
+    # ("find:<label>:<text>"). Each request is acted on once.
     touch="$(storage get dehub.perfTour.swipe)"
     if [ -n "$touch" ] && [ "$touch" != "$touched" ]; then
       touched="$touch"
@@ -210,6 +211,15 @@ run() {
           tap:*)
             IFS=: read -r _ _ tap_x tap_y <<< "$touch"
             idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;
+          find:*)
+            # "find:<label>:<button text>": tap the button with that text,
+            # wherever it is drawn; nothing is tapped when it is not up.
+            IFS=: read -r _ find_name find_text <<< "$touch"
+            idb ui describe-all --udid "$UDID" > "$WORK/ax.json" 2>/dev/null || echo "[]" > "$WORK/ax.json"
+            read -r tap_x tap_y <<< "$(python3 scripts/ios-nav/ax-find.py "$WORK/ax.json" "$find_text" "$OUT/nav/$name-finds.txt" "$find_name")"
+            if [ -n "$tap_x" ]; then
+              idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed"
+            fi ;;
           *)
             python3 -c 'import time; print(int(time.time()*1000))' > "$OUT/nav/$name.swipe-start"
             idb ui swipe --udid "$UDID" --duration 1.2 1 430 330 430 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;

@@ -31,3 +31,13 @@ page views (`RNSScreen`, `RNSModalScreen`) on iOS: the page still stops
 rendering while frozen, and the screen container already takes it off screen.
 It touches the three Fabric renderer builds (dev, prod, profiling) and nothing
 native, so it ships in an update. Recreate it when react-native is upgraded.
+
+The same patch makes a modal that iPhone did not present harmless. iOS shows
+one modal per presenter: a second one asked for while another is still up (a
+timed prompt while a sheet is open, say) is dropped by UIKit, and React is
+never told. It stayed "visible" in React, never appeared, and its host view
+(an empty, screen-sized view in the page) then took every touch in the app
+once the first modal closed. `Libraries/Modal/Modal.js` now gives that host
+`pointerEvents="none"` on iOS, and a modal that has not reported `onShow`
+asks again: a few times on a timer, and whenever another modal has finished
+closing. JavaScript only, so it ships in an update.
