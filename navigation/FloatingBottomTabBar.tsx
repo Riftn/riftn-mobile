@@ -1,5 +1,5 @@
 import { haptic } from "../libs/haptics";
-import { usePerfProbe, perfMark } from "../libs/perfTrace";
+import { usePerfProbe, perfMark, perfPropsEqual } from "../libs/perfTrace";
 import { useTranslation as _useCopy } from 'react-i18next';
 import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
 import React, { memo, startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -1138,4 +1138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(FloatingBottomTabBar);
+export default memo(FloatingBottomTabBar, perfPropsEqual("TabBar"));
