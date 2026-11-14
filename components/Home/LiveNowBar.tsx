@@ -26,7 +26,9 @@ import { useUser } from "../../context/AuthContext";
 import { liveStreamsQuery, liveStreamRows } from "../../hooks/useLiveStreams";
 import { getFollowList } from "../../services/user.service";
 import { isStreamLive } from "../../libs/live-status";
-import { buildCdnPath, getAvatarUrl, storedAvatarSources } from "../../libs/misc";
+import { buildCdnPath, getAvatarUrl, getBadgeHoverOpticalStyle, getBadgeUrlFor, storedAvatarSources } from "../../libs/misc";
+import BadgeArtwork from "../common/BadgeArtwork";
+import AccountBadge from "../common/AccountBadge";
 import { liveThumbnailFor } from "../../libs/live-ingest";
 import { useAppTheme } from "../../context/ThemeContext";
 import { compactCount } from "../Music/CinematicMusic";
@@ -52,6 +54,10 @@ export interface LiveNowItem {
   size: number;
   /** A frame of the broadcast when the stream has one; Stages never do. */
   cover?: string | null;
+  /** Name shown before the badge; the handle when there is none. */
+  displayName?: string | null;
+  /** Staking badge art when the row carried the account (streams); Stages look it up by wallet. */
+  badge?: number;
 }
 
 const handleOf = (item: LiveNowItem) => `@${item.username || item.wallet?.slice(0, 6) || "?"}`;
@@ -124,6 +130,8 @@ export function useLiveNowItems(onBeforeOpen?: () => void) {
         followed: isFollowed(wallet),
         size: watching ?? 0,
         cover,
+        displayName: account?.displayName ?? null,
+        badge: account && !account.hideBadgeAndBalance ? getBadgeUrlFor(account) : undefined,
       });
     });
 
@@ -255,11 +263,29 @@ export function LiveNowRow({
           <Text style={styles.title} numberOfLines={1}>
             {single ? single.title : t("stages.liveNow")}
           </Text>
-          <Text style={styles.sub} numberOfLines={1}>
-            {single
-              ? `${single.kind === "stage" ? `${t("stages.hostedBy")} ` : ""}${handleOf(single)}`
-              : `${names.join(", ")}${rest > 0 ? ` +${rest}` : ""}`}
-          </Text>
+          <View style={styles.subRow}>
+            {single ? (
+              <>
+                {single.kind === "stage" ? <Text style={styles.sub}>{t("stages.hostedBy")} </Text> : null}
+                <NameWithBadge item={single} />
+                {single.displayName ? (
+                  <Text style={[styles.sub, styles.shrink]} numberOfLines={1}>
+                    {handleOf(single)}
+                  </Text>
+                ) : null}
+              </>
+            ) : (
+              <>
+                {items.slice(0, 2).map((item, i) => (
+                  <React.Fragment key={`${item.kind}-${item.id}`}>
+                    <NameWithBadge item={item} />
+                    {i === 0 ? <Text style={styles.sub}>, </Text> : null}
+                  </React.Fragment>
+                ))}
+                {rest > 0 ? <Text style={styles.sub}> +{rest}</Text> : null}
+              </>
+            )}
+          </View>
         </View>
 
         <View style={styles.meta}>
@@ -281,6 +307,29 @@ export function LiveNowRow({
     </View>
   );
 }
+
+/** Display name (or handle) with the staking badge right after it. */
+function NameWithBadge({ item }: { item: LiveNowItem }) {
+  return (
+    <View style={styles.nameBadge}>
+      <Text style={[styles.sub, styles.subName]} numberOfLines={1}>
+        {item.displayName || handleOf(item)}
+      </Text>
+      {item.badge != null ? (
+        <BadgeArtwork
+          source={item.badge}
+          style={[getBadgeHoverOpticalStyle(item.badge, BADGE_SIZE, 0, SUB_LINE), { marginLeft: 3 }]}
+          contentFit="contain"
+        />
+      ) : item.kind === "stage" ? (
+        <AccountBadge lookupId={item.username || item.wallet} size={BADGE_SIZE} lineHeight={SUB_LINE} />
+      ) : null}
+    </View>
+  );
+}
+
+const BADGE_SIZE = 12;
+const SUB_LINE = 15;
 
 function fanStyle(i: number, count: number) {
   if (count === 1) return { left: 0 };
@@ -357,10 +406,10 @@ export function LiveNowSheet({ items, onOpen }: { items: LiveNowItem[]; onOpen: 
               <Text style={[styles.title, styles.sheetRowTitle]} numberOfLines={1}>
                 {item.title}
               </Text>
-              <Text style={styles.sub} numberOfLines={1}>
-                {item.kind === "stage" ? `${t("stages.hostedBy")} ` : ""}
-                <Text style={styles.host}>{handleOf(item)}</Text>
-              </Text>
+              <View style={styles.subRow}>
+                {item.kind === "stage" ? <Text style={styles.sub}>{t("stages.hostedBy")} </Text> : null}
+                <NameWithBadge item={item} />
+              </View>
             </View>
             <LiveCount item={item} />
           </TouchableOpacity>
@@ -470,6 +519,29 @@ const styles = StyleSheet.create({
   sub: {
     color: "rgba(255,255,255,0.6)",
     fontSize: 11.5,
+    lineHeight: SUB_LINE,
+  },
+  subRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    minWidth: 0,
+    overflow: "hidden",
+  },
+  nameBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexShrink: 1,
+    minWidth: 0,
+  },
+  subName: {
+    color: "rgba(255,255,255,0.85)",
+    fontWeight: "500",
+    flexShrink: 1,
+  },
+  shrink: {
+    flexShrink: 1,
+    marginLeft: 4,
+    color: "rgba(255,255,255,0.5)",
   },
   host: {
     color: "rgba(255,255,255,0.7)",
