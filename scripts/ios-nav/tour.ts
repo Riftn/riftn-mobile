@@ -280,6 +280,31 @@ async function runTouch(): Promise<void> {
     await backToTabs();
     await sleep(800);
   };
+  // A fresh sign-in is offered a profile photo and notifications a few
+  // seconds in. A person answers those before going anywhere, so the script
+  // taps "Not now" on each (where each one draws it), twice over in case the
+  // second waited for the first to close.
+  await shot("0-home-start");
+  await sleep(6000);
+  let asks = 0;
+  const tapAt = async (label: string, x: number, y: number) => {
+    asks += 1;
+    await AsyncStorage.setItem(SWIPE_KEY, `tap:${label}-${asks}:${x}:${y}`);
+    await sleep(4500);
+    await shot(`0-${label}-${asks}`);
+    await sleep(700);
+  };
+  for (let round = 0; round < 2; round++) {
+    await tapAt("photo-not-now", 201, 802);
+    await tapAt("alerts-not-now", 201, 649);
+    await sleep(5000);
+  }
+  // A tap that needs no page open: the Search tab in the bottom bar.
+  await tapAt("search-tab", 307, 812);
+  checks.push({ check: "0-tap-search-tab", opened: true, went: nav.getCurrentRoute()?.name === ScreenNames.Explore, endedOn: nav.getCurrentRoute()?.name });
+  console.error(`[perf-tour] 0-tap-search-tab: ended on ${nav.getCurrentRoute()?.name}`);
+  nav.navigate(ScreenNames.Home);
+  await sleep(1500);
   await touchOn("1-swipe-leaderboard", ScreenNames.Leaderboard, "swipe");
   await touchOn("2-swipe-requests", ScreenNames.FeatureRequests, "swipe");
   await touchOn("3-swipe-search", ScreenNames.Search, "swipe");
