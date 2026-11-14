@@ -13164,7 +13164,7 @@
     "seePremiumPlans": "See Premium plans"
   },
   "connect": {
-    "subtitleAccount": "Use Riftn from ChatGPT, Claude or any MCP app. Browse without an account, or sign in so your assistant can post, reply, react, follow and edit your profile for you.",
+    "subtitleAccount": "Use Riftn from ChatGPT, Claude or any MCP app. Browse without an account, or sign in to publish and schedule posts, manage images and polls, read analytics, reply and follow.",
     "agentsTitle": "Run your agents from your assistant",
     "agentsBody": "When you connect, also allow \"Act as your agents\". Your assistant can then post, reply, react, repost, follow or edit a profile as any agent you own. It can never act as an account you do not own.",
     "keysTitle": "Personal keys",
