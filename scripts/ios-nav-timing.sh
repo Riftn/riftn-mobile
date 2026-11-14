@@ -72,6 +72,8 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
+elif [ "$MODE" = touch ]; then
+  bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
   git checkout --quiet "$BEFORE_SHA" -- . ':(exclude).github' ':(exclude)scripts' || exit 1
@@ -173,7 +175,7 @@ PY
 # run <before|after> <name> [record] [tour: 1 = main switches, pages = every page] [theme]
 run() {
   local variant="$1" name="$2" record="${3:-}" tour="${4:-1}" theme="${5:-$THEME}"
-  local recorder="" started=0 swiped=0 tries=180
+  local recorder="" started=0 touched="" touch="" tries=180
   use_bundle "$variant"
   storage drop dehub.perfTour.result dehub.perfTour.swipe dehub.perfTour.shot dehub.perfTour.sample
   storage set dehub.theme "$theme" dehub.perfTour "$tour"
@@ -197,13 +199,21 @@ run() {
   local result=""
   for _ in $(seq 1 "$tries"); do
     sleep 2
-    # The tour ends on Settings and waits for a slow swipe in from the left
-    # edge: a real touch, which only idb can make.
-    if [ "$swiped" = 0 ] && [ "$(storage get dehub.perfTour.swipe)" = "ready" ]; then
-      swiped=1
+    # The tour asks for real touches, which only idb can make: a slow swipe
+    # in from the left edge ("ready", "swipe:<label>") or a tap
+    # ("tap:<label>:<x>:<y>"). Each request is acted on once.
+    touch="$(storage get dehub.perfTour.swipe)"
+    if [ -n "$touch" ] && [ "$touch" != "$touched" ]; then
+      touched="$touch"
       if command -v idb >/dev/null 2>&1; then
-        python3 -c 'import time; print(int(time.time()*1000))' > "$OUT/nav/$name.swipe-start"
-        idb ui swipe --udid "$UDID" --duration 1.2 1 430 330 430 >/dev/null 2>&1 || echo "$name: idb swipe failed"
+        case "$touch" in
+          tap:*)
+            IFS=: read -r _ _ tap_x tap_y <<< "$touch"
+            idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;
+          *)
+            python3 -c 'import time; print(int(time.time()*1000))' > "$OUT/nav/$name.swipe-start"
+            idb ui swipe --udid "$UDID" --duration 1.2 1 430 330 430 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+        esac
       fi
     fi
     result="$(storage get dehub.perfTour.result)"
@@ -274,6 +284,14 @@ for folder, _, files in os.walk(sys.argv[1]):
 PY
 }
 trap scrub EXIT
+
+if [ "$MODE" = touch ]; then
+  run after touch "" touch
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  python3 -c 'import json,sys; [print(c) for c in json.load(open(sys.argv[1])).get("touch", [])]' "$OUT/nav/touch.json" 2>/dev/null || true
+  exit 0
+fi
 
 if [ "$MODE" = probe ]; then
   run after probe record probe

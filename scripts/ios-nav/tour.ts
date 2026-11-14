@@ -239,6 +239,65 @@ async function runPages(): Promise<void> {
   console.error("[perf-tour] done");
 }
 
+/**
+ * Real touches, made by the script: does a slow swipe in from the left edge
+ * leave the page, and does a tap on Back land. A picture is taken before and
+ * after each, so a touch that did nothing shows what was on screen.
+ */
+async function runTouch(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "touch" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(14000);
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+  const checks: { check: string; opened: boolean; went: boolean; endedOn: string | undefined }[] = [];
+  extra.touch = checks;
+  const touchOn = async (check: string, page: string, request: string, open: () => void = () => nav.navigate(page)) => {
+    open();
+    await sleep(2200);
+    const opened = nav.getCurrentRoute()?.name === page;
+    let went = false;
+    if (opened) {
+      await shot(`${check}-before`);
+      await sleep(600);
+      await AsyncStorage.setItem(SWIPE_KEY, `${request.startsWith("tap") ? "tap" : "swipe"}:${check}${request.startsWith("tap") ? request.slice(3) : ""}`);
+      const since = Date.now();
+      while (!went && Date.now() - since < 12000) {
+        await sleep(50);
+        went = nav.getCurrentRoute()?.name !== page;
+      }
+      await sleep(700);
+      await shot(`${check}-after`);
+      await sleep(600);
+    }
+    checks.push({ check, opened, went, endedOn: nav.getCurrentRoute()?.name });
+    console.error(`[perf-tour] ${check}: ${!opened ? "page did not open" : went ? "left the page" : "did nothing"}`);
+    await save(false);
+    await backToTabs();
+    await sleep(800);
+  };
+  await touchOn("1-swipe-leaderboard", ScreenNames.Leaderboard, "swipe");
+  await touchOn("2-swipe-requests", ScreenNames.FeatureRequests, "swipe");
+  await touchOn("3-swipe-search", ScreenNames.Search, "swipe");
+  if (signedIn) {
+    nav.navigate(ScreenNames.Notifications);
+    await sleep(2500);
+    if (nav.getCurrentRoute()?.name === ScreenNames.Notifications) nav.goBack();
+    await sleep(1800);
+    await touchOn("4-swipe-leaderboard-after-bell", ScreenNames.Leaderboard, "swipe");
+  }
+  // Back's arrow sits at the left of the top pill.
+  await touchOn("5-tap-back-leaderboard", ScreenNames.Leaderboard, "tap:27:87");
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] done");
+}
+
 type ElementType = string | { displayName?: string; name?: string; render?: ElementType; type?: ElementType } | null;
 
 function typeName(type: ElementType): string {
@@ -573,13 +632,14 @@ async function run(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
     if (mode === "login") await runLogin();
     else if (mode === "pages") await runPages();
     else if (mode === "probe") await runProbe();
+    else if (mode === "touch") await runTouch();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);
