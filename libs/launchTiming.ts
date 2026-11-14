@@ -31,6 +31,16 @@ const launchPhases: Record<string, number> = {};
 
 export function markLaunchPhase(phase: 'appModuleReady' | 'authStarted' | 'authStorageReady' | 'authCacheChecked' | 'authReconcileStarted' | 'authReconcileReady' | 'authRefreshStarted' | 'authReady' | 'fontsReady' | 'navigationReady' | 'firstScreenWait' | 'firstScreenReady'): void {
   if (!launchReported && launchPhases[phase] == null) launchPhases[phase] = ms(clock() - jsStartedAt);
+  traceMark(phase);
+}
+
+/** Shows the phase in the opt-in trace (libs/perfTrace). Loaded on use, see the header. */
+function traceMark(label: string): void {
+  try {
+    require("./perfTrace").perfMark(`launch ${label}`);
+  } catch {
+    /* tracing is optional */
+  }
 }
 
 const launchNotes: Record<string, string> = {};
@@ -56,6 +66,7 @@ export function reportLaunchRevealed(context: { signedIn: boolean; theme?: strin
   if (launchReported) return;
   launchReported = true;
   const revealedAt = clock();
+  traceMark('reveal');
 
   let nativeInitToBundleMs: number | null = null;
   try {

@@ -77,6 +77,7 @@ import i18n from "./i18n";
 import { useAppLifecycle } from "./hooks/useAppLifecycle";
 import { checkForOtaUpdate } from "./libs/otaUpdates";
 import { createLogger } from "./libs/logger";
+import { armPerfTraceForLaunch } from "./libs/perfTrace";
 import { flushNavigationTiming, markLaunchPhase, markNavigationSettled, reportLaunchRevealed, trackNavigationTiming } from "./libs/launchTiming";
 import { installJsStallMonitor } from "./libs/jsStallMonitor";
 import { forceFlushBatchViews } from "./services/view.service";
@@ -122,6 +123,7 @@ import { FIRST_SCREEN_MAX_WAIT_MS, whenFirstScreenReady } from "./libs/firstScre
 
 const logger = createLogger("App");
 markLaunchPhase('appModuleReady');
+armPerfTraceForLaunch();
 
 
 export const navigationRef = createNavigationContainerRef();
