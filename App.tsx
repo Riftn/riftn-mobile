@@ -342,11 +342,18 @@ const LIGHT_FILL = { backgroundColor: LIGHT_PAGE_FILL } as const;
 /** The root view, carrying the active theme's CSS variables to everything below it. */
 const ThemedRootView: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const vars = useThemeRootStyle();
+  const { isLight, isMinimal, skin } = useAppTheme();
+  // The page colour is set here by value, never by class. A class colour is
+  // turned light by System Light's colour pass, which draws this view through
+  // a different component: every switch between System Light and a dark
+  // surface (opening a live stream) then rebuilt the whole app under it, and
+  // the stream never stayed open.
+  const fill = isMinimal ? "#000" : skin ? skin.page : isLight ? LIGHT_PAGE_FILL : "#010305";
   // Kept between renders: a new array reads as new variables to the styling
   // library, and every styled view in the app draws again.
-  const style = useMemo(() => [FILL, vars], [vars]);
+  const style = useMemo(() => [FILL, { backgroundColor: fill }, vars], [fill, vars]);
   return (
-    <GestureHandlerRootView className="bg-theme-background" style={style}>
+    <GestureHandlerRootView style={style}>
       {/* First, so everything else draws over it: a canvas theme's live
           background, which the home feed shows through. Null otherwise. */}
       <FrostedBackdropProvider backdrop={<ThemeBackdrop />}>
