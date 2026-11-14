@@ -69,6 +69,8 @@ type RouteParams = {
 
 type TabKey = "followers" | "following" | "requests";
 type SortOption = "recent" | "oldest" | "alphabetical";
+/** @riftn: every member follows it, so its followers open on the earliest members. */
+const OFFICIAL_ACCOUNT_ADDRESS = "0x06da979225262715ed57449d0573329a1e685140";
 
 /** What the viewer's own relationship to a listed account is. */
 interface Relationship {
@@ -346,7 +348,13 @@ const FollowListScreen: React.FC = () => {
   );
   const [searchQuery, setSearchQuery] = useSurfaceDraft("screens/FollowListScreen.tsx:searchQuery", "");
   const searchMaterial = useSearchFieldMaterial();
-  const [sortOption, setSortOption] = useState<SortOption>("recent");
+  const isOfficialAccount = lower(address) === OFFICIAL_ACCOUNT_ADDRESS;
+  const [sortOption, setSortOption] = useState<SortOption>(
+    isOfficialAccount && activeTab === "followers" ? "oldest" : "recent"
+  );
+  useEffect(() => {
+    if (isOfficialAccount) setSortOption(activeTab === "followers" ? "oldest" : "recent");
+  }, [isOfficialAccount, activeTab]);
   const [showSortPicker, setShowSortPicker] = useState(false);
 
   const [data, setData] = useState<FollowListItem[]>([]);
