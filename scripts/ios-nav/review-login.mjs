@@ -2,9 +2,11 @@
 // Information), for the simulator check: the same account the store build is
 // reviewed with, so no second test account has to be kept anywhere.
 //
-//   node scripts/ios-nav/review-login.mjs          prints the import secret
-//                                                  (recovery words or key) on
-//                                                  stdout and nothing else
+//   node scripts/ios-nav/review-login.mjs          prints the sign-in as one
+//                                                  line of JSON on stdout and
+//                                                  nothing else: a phone and
+//                                                  its fixed code, or recovery
+//                                                  words / a key
 //   node scripts/ios-nav/review-login.mjs --shape  prints only what kind of
 //                                                  sign-in is stored: counts
 //                                                  and yes/no, never a value
@@ -87,9 +89,22 @@ async function reviewDetail() {
   return null;
 }
 
+/** A phone number as the sign-in takes it: + and digits only. */
+function phoneIn(text) {
+  const value = String(text ?? '').trim();
+  if (!/^\+?[0-9 ()-]{7,}$/.test(value)) return null;
+  const digits = value.replace(/\D/g, '');
+  return digits.length >= 7 && digits.length <= 15 ? `+${digits}` : null;
+}
+
 const detail = await reviewDetail();
 const fields = detail ? [detail.demoAccountPassword, detail.demoAccountName, detail.notes] : [];
 const secret = fields.map(importSecretIn).find(Boolean) ?? null;
+// Reviewers cannot receive a text message, so their number signs in with a
+// code that never changes (request-phone-otp's reviewer path).
+const phone = phoneIn(detail?.demoAccountName);
+const code = /^\d{6}$/.test(String(detail?.demoAccountPassword ?? '').trim()) ? String(detail.demoAccountPassword).trim() : null;
+const signIn = secret ? { secret } : phone && code ? { phone, code } : null;
 
 if (process.argv.includes('--shape')) {
   const kind = v => {
@@ -113,12 +128,12 @@ if (process.argv.includes('--shape')) {
     console.log(`- password field: ${kind(detail.demoAccountPassword)}`);
     console.log(`- notes: ${notes.length} characters, mention: ${mentions.join(', ') || 'none of the sign-in words'}`);
     console.log(`- notes hold recovery words or a key: ${importSecretIn(notes) ? 'yes' : 'no'}`);
-    console.log(`- usable by the simulator as it is (recovery words or key): ${secret ? 'yes' : 'no'}`);
+    console.log(`- usable by the simulator: ${secret ? 'yes, recovery words or key' : phone && code ? 'yes, phone number with a fixed 6-digit code' : 'no'}`);
   }
 } else {
-  if (!secret) {
-    console.error('The review sign-in holds no recovery words or key the simulator can import.');
+  if (!signIn) {
+    console.error('The review sign-in is neither a phone number with a 6-digit code nor recovery words or a key.');
     process.exit(1);
   }
-  process.stdout.write(secret);
+  process.stdout.write(JSON.stringify(signIn));
 }

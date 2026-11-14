@@ -177,7 +177,10 @@ run() {
   use_bundle "$variant"
   storage drop dehub.perfTour.result dehub.perfTour.swipe dehub.perfTour.shot dehub.perfTour.sample
   storage set dehub.theme "$theme" dehub.perfTour "$tour"
-  [ "$tour" = login ] && storage set dehub.perfTour.key "$SIM_TEST_KEY"
+  [ "$tour" = login ] && storage set dehub.perfTour.key "$LOGIN"
+  # A real account on a public run: its personal pages are not pictured
+  # (tour.ts) and nothing is filmed.
+  if [ "$PRIVATE_RUN" = 1 ]; then storage set dehub.perfTour.private 1; record=""; fi
   if [ "$tour" != 1 ]; then
     tries=480
     [ "$tour" = login ] && tries=45
@@ -218,13 +221,59 @@ for service in photos camera microphone location; do
   xcrun simctl privacy "$UDID" grant "$service" "$BUNDLE" >/dev/null 2>&1 || true
 done
 
-# With a test account's recovery words or key (repository secret SIM_TEST_KEY),
-# sign the simulator in first: the session stays for every run after it, and
-# the tours then cover the pages only an account has.
-if [ -n "${SIM_TEST_KEY:-}" ]; then
+# With a test account, sign the simulator in first: the session stays for
+# every run after it, and the tours then cover the pages only an account has.
+# The account is the repository secret SIM_TEST_KEY (recovery words or a key),
+# or, when asked for with SIM_REVIEW_LOGIN=1, the sign-in Apple's reviewers
+# use, read from App Store Connect here and never printed.
+LOGIN="${SIM_TEST_KEY:-}"
+PRIVATE_RUN=0
+if [ -z "$LOGIN" ] && [ "${SIM_REVIEW_LOGIN:-0}" = 1 ]; then
+  LOGIN="$(node scripts/ios-nav/review-login.mjs 2> "$OUT/logs/review-login.txt")" || LOGIN=""
+  [ -n "$LOGIN" ] && PRIVATE_RUN=1 || echo "The review sign-in could not be read: $(cut -c1-200 "$OUT/logs/review-login.txt" | head -3)"
+fi
+if [ -n "$LOGIN" ]; then
   run after login "" login
   python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print("Signed in:", d.get("login") or d.get("error") or "no")' "$OUT/nav/login.json" 2>/dev/null || echo "Sign-in did not finish"
 fi
+
+# Before anything is uploaded: the sign-in itself, and any session token the
+# app logged, are taken out of every text file this run wrote.
+scrub() {
+  LOGIN="$LOGIN" python3 - "$OUT" <<'PY'
+import json, os, re, sys
+secrets = set()
+raw = os.environ.get("LOGIN", "")
+if raw:
+    secrets.add(raw)
+    try:
+        for value in json.loads(raw).values():
+            value = str(value)
+            secrets.add(value)
+            digits = re.sub(r"\D", "", value)
+            if len(digits) >= 6:
+                secrets.add(digits)
+    except Exception:
+        pass
+token = re.compile(rb"eyJ[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}\.[A-Za-z0-9_-]{8,}")
+for folder, _, files in os.walk(sys.argv[1]):
+    for name in files:
+        if not name.endswith((".txt", ".log", ".json", ".md", ".ips")):
+            continue
+        path = os.path.join(folder, name)
+        try:
+            data = open(path, "rb").read()
+        except Exception:
+            continue
+        clean = token.sub(b"[token]", data)
+        for secret in sorted(secrets, key=len, reverse=True):
+            if secret:
+                clean = clean.replace(secret.encode(), b"[removed]")
+        if clean != data:
+            open(path, "wb").write(clean)
+PY
+}
+trap scrub EXIT
 
 if [ "$MODE" = probe ]; then
   run after probe record probe

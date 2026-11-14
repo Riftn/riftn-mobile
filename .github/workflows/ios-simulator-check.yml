@@ -23,6 +23,10 @@ on:
         description: 'nav only: reuse the simulator app an earlier run of this workflow built (its run id), when native code has not changed'
         required: false
         default: ''
+      account:
+        description: "nav and probe: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
+        required: false
+        default: ''
   pull_request:
     paths:
       - .github/workflows/ios-simulator-check.yml
@@ -172,6 +176,9 @@ jobs:
         env:
           NAV_MODE: ${{ inputs.task }}
           SIM_TEST_KEY: ${{ secrets.SIM_TEST_KEY }}
+          # Read from App Store Connect inside the script; never printed.
+          SIM_REVIEW_LOGIN: ${{ inputs.account == 'review' && '1' || '0' }}
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-nav-timing.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
@@ -185,6 +192,8 @@ jobs:
             sim-check/
             !sim-check/**/*.mov
           if-no-files-found: ignore
+          # 0 keeps the repository's usual time.
+          retention-days: ${{ inputs.account == 'review' && 2 || 0 }}
       - uses: actions/upload-artifact@v4
         if: always()
         continue-on-error: true

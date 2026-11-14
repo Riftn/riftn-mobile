@@ -182,6 +182,13 @@ const ACCOUNT_PAGES = new Set([
 
 const shot = (name: string) => AsyncStorage.setItem(SHOT_KEY, name).catch(() => undefined);
 
+/**
+ * Pages that show the account's own contact details and devices. With the
+ * script's "private" flag (a real account on a run anyone can download) they
+ * are timed like the rest but never pictured.
+ */
+const PERSONAL_PAGES = new Set(["AccountSettings", "ActiveSessions", "EditProfile", "PrivacySettings", "NotificationSettings"]);
+
 /** Back out of whatever is open until a bottom-bar tab is showing again. */
 async function backToTabs(): Promise<void> {
   for (let i = 0; i < 6; i++) {
@@ -204,6 +211,7 @@ async function runPages(): Promise<void> {
   const names = ScreenNames as unknown as Record<string, string>;
   const signedIn = await hasSession();
   extra.signedIn = signedIn;
+  const unpictured = (await AsyncStorage.getItem(`${FLAG_KEY}.private`)) === "1" ? PERSONAL_PAGES : new Set<string>();
   let index = 0;
   for (const page of PAGES) {
     const name = names[page];
@@ -214,14 +222,14 @@ async function runPages(): Promise<void> {
     const reached = nav.getCurrentRoute()?.name === name;
     // Pictures: the page once it has settled, and (below) the page half a
     // second into its second visit, when anything it kept should be showing.
-    await shot(label);
+    if (!unpictured.has(page)) await shot(label);
     await sleep(900);
     await measure(`${page} back`, back(), { watchMs: 900, restMs: 300 });
     await backToTabs();
     if (!reached) continue;
     await measure(`${page} open again`, () => {
       nav.navigate(name);
-      setTimeout(() => void shot(`${label}-again`), 450);
+      if (!unpictured.has(page)) setTimeout(() => void shot(`${label}-again`), 450);
     }, { watchMs: 1500, restMs: 300 });
     await measure(`${page} back again`, back(), { watchMs: 900, restMs: 300 });
     await backToTabs();
@@ -368,15 +376,74 @@ async function runProbe(): Promise<void> {
 }
 
 /**
- * Signs the simulator in as the test account whose recovery words or key the
- * script was given, the way Import wallet does, so the next launches open
- * signed in. The secret is read once and removed from storage.
+ * Signs in with a phone number and its code, the way the sign-in screen does
+ * for an account that already exists: the code proves the number, the server
+ * answers with the profile linked to it. No wallet key is involved, so the
+ * session opens with reads working and signing locked, as on a new phone.
+ *
+ * This runs with the sign-in Apple's reviewers use, and the run's logs are
+ * public: nothing here may put the number or the code in an error.
+ */
+async function signInWithPhoneCode(phone: string, code: string): Promise<{ username?: string; isNew: boolean }> {
+  let stage = "send code";
+  try {
+    const { sendPhoneOtp, verifyPhoneOtp, getSupabaseAccessToken } = require("../../services/auth/supabaseAuth.service");
+    const { fetchWalletReliably } = require("../../libs/wallet-core/store");
+    const { AuthService } = require("../../services/auth.service");
+    const auth = require("../../libs/auth.utils");
+    await sendPhoneOtp(phone);
+    stage = "check code";
+    const supabaseUserId: string = await verifyPhoneOtp(phone, code);
+    stage = "open profile";
+    const accessToken: string | null = await getSupabaseAccessToken();
+    if (!accessToken) throw new Error("no session after the code");
+    const hint = (await fetchWalletReliably(supabaseUserId).catch(() => null))?.wallet?.ethAddress;
+    const result = await AuthService.authenticateWithSupabaseSession(accessToken, hint);
+    const address = String(result.user?.address || result.user?.walletAddress || "").toLowerCase();
+    if (!result.token || !/^0x[0-9a-f]{40}$/.test(address)) throw new Error("no profile is linked to this sign-in");
+    stage = "save session";
+    await auth.setStoredSupabaseUserId(supabaseUserId);
+    await auth.setAuthToken(result.token);
+    if (result.refreshToken) await auth.setRefreshToken(result.refreshToken);
+    if (result.expiresIn) await auth.setTokenExpiresAt(Date.now() + result.expiresIn * 1000);
+    await auth.setAuthMethod("local", address);
+    await auth.setAuthUser(result.user);
+    await auth.setHasSeenAuth();
+    return { username: result.user?.username, isNew: !!result.needsUsername };
+  } catch (error) {
+    // Letters only: a server message can quote the number it was sent.
+    const why = String((error as Error)?.message ?? error).replace(/[0-9+]/g, "#").slice(0, 160);
+    throw new Error(`phone sign-in stopped at "${stage}": ${why}`);
+  }
+}
+
+/**
+ * Signs the simulator in as the test account the script was given, so the
+ * next launches open signed in: recovery words or a key, the way Import
+ * wallet does, or a phone number with its code. The secret is read once and
+ * removed from storage.
  */
 async function runLogin(): Promise<void> {
   extra = { startedAt: Date.now(), mode: "login" };
   const secret = await AsyncStorage.getItem(`${FLAG_KEY}.key`);
   await AsyncStorage.removeItem(`${FLAG_KEY}.key`);
   if (!secret) throw new Error("no test account key");
+  if (secret.startsWith("{")) {
+    const given = JSON.parse(secret) as { phone?: string; code?: string; secret?: string };
+    if (given.phone && given.code) {
+      extra.login = await signInWithPhoneCode(given.phone, given.code);
+      extra.finishedAt = Date.now();
+      await save(true);
+      console.error("[perf-tour] signed in");
+      return;
+    }
+    if (!given.secret) throw new Error("the test account has no usable sign-in");
+    return importAndSignIn(given.secret);
+  }
+  return importAndSignIn(secret);
+}
+
+async function importAndSignIn(secret: string): Promise<void> {
   const { privateKeyFromImportSecret } = require("../../libs/wallet-core/derive");
   const { deriveAddressFromPrivateKey } = require("../../libs/wallet.utils");
   const { upsertLocalAccount } = require("../../libs/wallets.local");
