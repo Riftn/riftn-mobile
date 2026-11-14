@@ -32,6 +32,18 @@ import { ScreenNames } from "../navigation/ScreenNames";
 
 type SortMode = "top" | "new" | "hot";
 
+// What the page last showed, kept for the session. Opening it again draws
+// the list at once and refreshes behind it (a join or a new community made
+// meanwhile lands with that refresh), instead of a skeleton every time.
+type Shown = {
+  wallet: string;
+  discover: Community[];
+  scores: Record<string, number>;
+  mine: UserCommunityRow[];
+};
+let lastShown: Shown | null = null;
+const shownFor = (wallet: string): Shown | null => (lastShown && lastShown.wallet === wallet ? lastShown : null);
+
 const CommunitiesScreen: React.FC = () => {
   const searchMaterial = useSearchFieldMaterial();
   const { t } = useTranslation();
@@ -44,10 +56,10 @@ const CommunitiesScreen: React.FC = () => {
 
   const [search, setSearch] = useSurfaceDraft("screens/CommunitiesScreen.tsx:search", "");
   const [sortMode, setSortMode] = useState<SortMode>("top");
-  const [userRows, setUserRows] = useState<UserCommunityRow[]>([]);
-  const [allCommunities, setAllCommunities] = useState<Community[]>([]);
-  const [activityScores, setActivityScores] = useState<Record<string, number>>({});
-  const [loading, setLoading] = useState(true);
+  const [userRows, setUserRows] = useState<UserCommunityRow[]>(() => shownFor(walletAddress)?.mine ?? []);
+  const [allCommunities, setAllCommunities] = useState<Community[]>(() => shownFor(walletAddress)?.discover ?? []);
+  const [activityScores, setActivityScores] = useState<Record<string, number>>(() => shownFor(walletAddress)?.scores ?? {});
+  const [loading, setLoading] = useState(() => !shownFor(walletAddress));
   const [loadError, setLoadError] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [createOpen, setCreateOpen] = useState(false);
@@ -59,6 +71,7 @@ const CommunitiesScreen: React.FC = () => {
         getCommunityActivityScores(),
         walletAddress ? getUserCommunities(walletAddress) : Promise.resolve([]),
       ]);
+      lastShown = { wallet: walletAddress, discover, scores, mine };
       setAllCommunities(discover);
       setActivityScores(scores);
       setUserRows(mine);
@@ -73,9 +86,17 @@ const CommunitiesScreen: React.FC = () => {
   }, [walletAddress]);
 
   useEffect(() => {
-    setLoading(true);
+    const kept = shownFor(walletAddress);
+    if (kept) {
+      setAllCommunities(kept.discover);
+      setActivityScores(kept.scores);
+      setUserRows(kept.mine);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
     load();
-  }, [load]);
+  }, [load, walletAddress]);
 
   const userCommunityIds = useMemo(() => new Set(userRows.map((r) => r.community_id)), [userRows]);
   const roleMap = useMemo(() => {

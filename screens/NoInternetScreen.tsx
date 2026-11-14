@@ -14,7 +14,11 @@ interface NoInternetScreenProps {
 export default function NoInternetScreen({ onRetry }: NoInternetScreenProps) {
   const { t } = useTranslation();
   return (
-    <View className="flex-1 bg-theme-neutrals-900">
+    // Laid over the running app (App.tsx), so the fill must be solid: pinned
+    // to the edges it counts as an overlay, and a canvas theme (Hazy, Cosmic,
+    // Osaka) does not thin it into the see-through page veil that let the
+    // feed show through the text.
+    <View className="absolute inset-0 bg-theme-neutrals-900">
       <View className="flex-1 justify-center items-center px-6">
         <ThemePanel className="bg-theme-neutrals-800 rounded-2xl p-6 mb-6 relative">
           <Ionicons

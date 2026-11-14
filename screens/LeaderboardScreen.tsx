@@ -29,6 +29,7 @@ import LeaderboardRowItem, {
 import LeaderboardSkeleton from "../components/Leaderboard/LeaderboardSkeleton";
 import {
   getLeaderboard,
+  peekLeaderboard,
   refreshMyLeaderboardPosition,
   type LeaderboardUser,
 } from "../services/leaderboard.service";
@@ -157,6 +158,16 @@ const toRow = (u: LeaderboardUser & { directReferrals?: number; secondaryReferra
   hideBadgeAndBalance: u.hideBadgeAndBalance,
 });
 
+/**
+ * The default board as this session last loaded it, ready for the first
+ * frame: the page reopens with its rows instead of a skeleton, then refreshes.
+ */
+const keptRows = (): LBRow[] | null => {
+  const entries = peekLeaderboard(DEFAULT_SORT_CATEGORY, "all")?.result?.byWalletBalance;
+  if (!entries?.length) return null;
+  return applyLeaderboardRules(entries, { sort: DEFAULT_SORT_CATEGORY, period: "all" }).map(toRow);
+};
+
 const LeaderboardScreen = () => {
   const { t } = useTranslation();
   const { headerProps, listProps, refreshOffset, headerHeight, showHeader } = useCollapsibleScreen();
@@ -164,8 +175,9 @@ const LeaderboardScreen = () => {
   const authUser = useUser();
   const { showUserProfile } = useUserProfileSheet();
 
-  const [data, setData] = useState<LBRow[]>([]);
-  const [loading, setLoading] = useState(true); // only for initial load
+  const [kept] = useState(keptRows);
+  const [data, setData] = useState<LBRow[]>(kept ?? []);
+  const [loading, setLoading] = useState(!kept); // only for initial load
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(false);
   const [sortCategory, setSortCategory] = useState<SortCategory>(DEFAULT_SORT_CATEGORY);
@@ -177,7 +189,10 @@ const LeaderboardScreen = () => {
   const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
   const [refreshMeBusy, setRefreshMeBusy] = useState(false);
   const [refreshMeCooldown, setRefreshMeCooldown] = useState(false);
-  const hasLoadedOnce = useRef(false);
+  const hasLoadedOnce = useRef(!!kept);
+  // With kept rows the first focus would ask a second time, beside the
+  // initial load below.
+  const skipFirstFocus = useRef(!!kept);
   const pendingCategoryRef = useRef<SortCategory>(DEFAULT_SORT_CATEGORY);
   const pendingPeriodRef = useRef<TimePeriod>("all");
   // Only the newest request may commit; a slow earlier one must not overwrite it.
@@ -242,6 +257,10 @@ const LeaderboardScreen = () => {
   // the service keeps a quick tab flick from hitting the network.
   useFocusEffect(
     useCallback(() => {
+      if (skipFirstFocus.current) {
+        skipFirstFocus.current = false;
+        return;
+      }
       if (!hasLoadedOnce.current) return;
       loadData(pendingCategoryRef.current, pendingPeriodRef.current, { isRefresh: true });
     }, [loadData])
