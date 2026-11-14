@@ -359,8 +359,15 @@ const MountProbe: React.FC<{ name: string }> = ({ name }) => {
 
 const ThemedRootView: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const style = useThemeRootStyle();
+  const { isLight, isMinimal, skin } = useAppTheme();
+  // The page colour is set here by value, never by class. A class colour is
+  // turned light by System Light's colour pass, which draws this view through
+  // a different component: every switch between System Light and a dark
+  // surface (opening a live stream) then rebuilt the whole app under it, and
+  // the stream never stayed open.
+  const fill = isMinimal ? "#000" : skin ? skin.page : isLight ? LIGHT_PAGE_FILL : "#010305";
   return (
-    <GestureHandlerRootView className="bg-theme-background" style={[{ flex: 1 }, style]}>
+    <GestureHandlerRootView style={[{ flex: 1, backgroundColor: fill }, style]}>
       {/* First, so everything else draws over it: a canvas theme's live
           background, which the home feed shows through. Null otherwise. */}
       <FrostedBackdropProvider backdrop={<ThemeBackdrop />}>
