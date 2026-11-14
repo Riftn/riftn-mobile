@@ -77,6 +77,7 @@ import i18n from "./i18n";
 import { useAppLifecycle } from "./hooks/useAppLifecycle";
 import { checkForOtaUpdate } from "./libs/otaUpdates";
 import { createLogger } from "./libs/logger";
+import { armPerfTraceForLaunch } from "./libs/perfTrace";
 import { flushNavigationTiming, markLaunchPhase, markNavigationSettled, reportLaunchRevealed, trackNavigationTiming } from "./libs/launchTiming";
 import { installJsStallMonitor } from "./libs/jsStallMonitor";
 import { forceFlushBatchViews } from "./services/view.service";
@@ -101,7 +102,7 @@ import RadioMiniPlayer from "./components/Music/RadioMiniPlayer";
 import SpotifyMiniPlayer from "./components/Music/SpotifyMiniPlayer";
 import AudioPostMiniPlayer from "./components/Home/AudioPostMiniPlayer";
 import WalletRuntimeHost from "./components/auth/WalletRuntimeHost";
-import { bootRevealed, markBootRevealed } from "./libs/bootReveal";
+import { bootRevealed, markBootRevealed, markLaunchMotionStarted } from "./libs/bootReveal";
 import { shouldDockLaunch } from "./libs/magneticDock";
 import BadgeLadderSync from "./components/Badge/BadgeLadderSync";
 import DefaultChainSync from "./components/common/DefaultChainSync";
@@ -122,6 +123,7 @@ import { FIRST_SCREEN_MAX_WAIT_MS, whenFirstScreenReady } from "./libs/firstScre
 
 const logger = createLogger("App");
 markLaunchPhase('appModuleReady');
+armPerfTraceForLaunch();
 
 
 export const navigationRef = createNavigationContainerRef();
@@ -650,7 +652,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
           it until the fade starts, which is the point — there is nothing to
           interact with underneath until the reveal begins. */}
       {coverMounted && (
-        <MagneticDockCover reveal={revealStarted} enabled={dockLaunch} onComplete={() => setCoverMounted(false)} />
+        <MagneticDockCover reveal={revealStarted} enabled={dockLaunch} onComplete={() => { markLaunchMotionStarted(); setCoverMounted(false); }} />
       )}
       {/* Once per install: the jump from DeHub to Riftn, after the preloader lifts. */}
       <RiftnMoveIntro />

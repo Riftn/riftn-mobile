@@ -1,4 +1,4 @@
-import { usePerfProbe, perfMark } from "../../libs/perfTrace";
+import { usePerfProbe, perfMark, perfPropsEqual } from "../../libs/perfTrace";
 import { useCommentCount } from '../../libs/comment-count-store';
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useVideoDownload } from "../../context/VideoDownloadContext";
@@ -3408,6 +3408,6 @@ const FeedCard = memo(function GuardedFeedCard(props: FeedCardProps) {
       </KeywordFilterGate>
     </ErrorBoundary>
   );
-});
+}, perfPropsEqual("FeedCard"));
 
 export default FeedCard;

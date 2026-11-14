@@ -70,6 +70,12 @@ const EVENTS = {
   AUTHENTICATE: "livechat:authenticate",
 } as const;
 
+/**
+ * The chat opens on the newest 20 lines and reads 20 further back each time
+ * the reader nears the top, until the start of the room.
+ */
+const CHAT_PAGE_SIZE = 20;
+
 export interface UseLiveChatReturn {
   connected: boolean;
   joining: boolean;
@@ -139,6 +145,8 @@ export const useLiveChat = (
   const [hasMore, setHasMore] = useState(true);
 
   const socketRef = useRef<Socket | null>(null);
+  /** Older pages the reader scrolled back for in this room. */
+  const olderPagesRef = useRef(0);
   /** Latest access token, sent with each action so the server can sign a guest connection in. */
   const tokenRef = useRef<string | null>(null);
   const signInTriedRef = useRef<string | null>(null);
@@ -166,13 +174,14 @@ export const useLiveChat = (
     setMessages(roomId ? [] : readRecentChat());
     setRoom(null);
     setHasMore(true);
+    olderPagesRef.current = 0;
     setJoining(true); // Show loading immediately
 
     // History over plain HTTP, in parallel with the socket. The join's own copy
     // waits behind the socket handshake and the token read, which on a phone
     // network is several round trips; this one is one. Whichever lands first
     // paints, and the join always has the last word.
-    getLiveChatMessages({ limit: 50, roomId })
+    getLiveChatMessages({ limit: CHAT_PAGE_SIZE, roomId })
       .then((res) => {
         if (cancelled || joinedRef.current || !res?.messages?.length) return;
         setMessages(res.messages.map(normalizeMsg).reverse());
@@ -261,7 +270,17 @@ export const useLiveChat = (
             ? { ...data.room, pinnedMessages: (data.room.pinnedMessages || []).map(normalizeMsg) }
             : data.room,
         );
-        setMessages((data.messages || []).map(normalizeMsg).reverse());
+        // A rejoin (network blip, app back from the background) brings the
+        // newest page again; history the reader already scrolled back for
+        // stays above it instead of being thrown away.
+        const joined = (data.messages || []).map(normalizeMsg).reverse();
+        setMessages((prev) => {
+          if (!olderPagesRef.current || !joined.length) return joined;
+          const oldestJoined = Date.parse(joined[0].createdAt) || 0;
+          const ids = new Set(joined.map((m) => m._id));
+          const older = prev.filter((m) => !ids.has(m._id) && (Date.parse(m.createdAt) || 0) < oldestJoined);
+          return [...older, ...joined];
+        });
         setMyUser(data.yourUser);
         setIsBanned(data.isBanned);
         setCanSend(data.canSendMessages);
@@ -562,10 +581,11 @@ export const useLiveChat = (
       // Scoped to this room, or the page comes back full of global chat.
       const res = await getLiveChatMessages({
         before: oldest._id,
-        limit: 50,
+        limit: CHAT_PAGE_SIZE,
         roomId: roomIdRef.current,
       });
       if (res.messages.length > 0) {
+        olderPagesRef.current += 1;
         setMessages((prev) => {
           const existingIds = new Set(prev.map((m) => m._id));
           const older = res.messages

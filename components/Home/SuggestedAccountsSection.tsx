@@ -22,7 +22,7 @@
  *
  * Placed as a ListHeaderComponent inside InfiniteVideoFeed on the HomeScreen.
  */
-import { usePerfProbe } from "../../libs/perfTrace";
+import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, LayoutAnimation, Platform, UIManager, type ListRenderItem } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
@@ -370,7 +370,7 @@ const SuggestedAccountsSection: React.FC<SuggestedAccountsSectionProps> = ({ sur
   return sectionGuard ? <GestureDetector gesture={sectionGuard}>{section}</GestureDetector> : section;
 };
 
-export default React.memo(SuggestedAccountsSection);
+export default React.memo(SuggestedAccountsSection, perfPropsEqual("SuggestedAccounts"));
 
 const styles = StyleSheet.create({
   lineOnly: {

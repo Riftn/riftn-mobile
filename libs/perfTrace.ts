@@ -1,4 +1,4 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 /**
  * Opt-in timings for profiling a release build on a phone over adb.
@@ -8,6 +8,9 @@ import { useLayoutEffect } from "react";
  *
  *   adb shell am start -a android.intent.action.VIEW -d "dehub://perf-trace/on"
  *   adb logcat -s ReactNativeJS
+ *
+ * To trace a cold start, open dehub://perf-trace/launch, force-stop the app
+ * and start it again: that one launch is traced from its first render.
  *
  * It switches itself off after half an hour, or with dehub://perf-trace/off.
  *
@@ -84,11 +87,49 @@ export function setPerfTrace(next: boolean): void {
   watchStalls();
 }
 
-/** dehub://perf-trace/on or /off. Returns true when the link was this switch. */
+const LAUNCH_FLAG = "perf-trace-next-launch";
+
+type FlagFile = { exists: boolean; create(options?: { overwrite?: boolean }): void; delete(): void };
+function launchFlag(): FlagFile | null {
+  try {
+    const { File, Paths } = require("expo-file-system");
+    return new File(Paths.cache, LAUNCH_FLAG) as FlagFile;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * dehub://perf-trace/launch asks for the NEXT cold start to be traced from its
+ * first render: the switch above only comes on once links are handled, which
+ * is after the launch it would need to measure. One launch, then it is spent.
+ */
+export function armPerfTraceForLaunch(): void {
+  try {
+    const flag = launchFlag();
+    if (!flag?.exists) return;
+    flag.delete();
+    setPerfTrace(true);
+  } catch {
+    /* tracing is optional */
+  }
+}
+
+/** dehub://perf-trace/on, /off or /launch. Returns true when the link was this switch. */
 export function handlePerfTraceLink(url: string | null | undefined): boolean {
-  const match = /^dehub:\/\/perf-trace\/(on|off)\b/i.exec(url ?? "");
+  const match = /^dehub:\/\/perf-trace\/(on|off|launch)\b/i.exec(url ?? "");
   if (!match) return false;
-  setPerfTrace(match[1].toLowerCase() === "on");
+  const mode = match[1].toLowerCase();
+  if (mode === "launch") {
+    try {
+      launchFlag()?.create({ overwrite: true });
+      log("trace armed for the next launch");
+    } catch {
+      log("trace could not be armed");
+    }
+    return true;
+  }
+  setPerfTrace(mode === "on");
   return true;
 }
 
@@ -123,4 +164,44 @@ export function usePerfProbe(label: string): void {
       setTimeout(flush, 0);
     }
   });
+}
+
+function changedKeys(prev: Record<string, unknown>, next: Record<string, unknown>): string[] {
+  const keys = new Set([...Object.keys(prev), ...Object.keys(next)]);
+  return [...keys].filter(key => !Object.is(prev[key], next[key]));
+}
+
+/**
+ * A memo comparator that behaves like React's own shallow check and, with the
+ * trace on, names the props that made a memoised component render again. No
+ * line for a render means its props were equal: state or context drove it.
+ */
+export function perfPropsEqual(label: string) {
+  return (prev: object, next: object): boolean => {
+    const a = prev as Record<string, unknown>;
+    const b = next as Record<string, unknown>;
+    if (!on) {
+      const keys = Object.keys(a);
+      if (keys.length !== Object.keys(b).length) return false;
+      for (const key of keys) {
+        if (!Object.prototype.hasOwnProperty.call(b, key) || !Object.is(a[key], b[key])) return false;
+      }
+      return true;
+    }
+    const changed = changedKeys(a, b);
+    if (changed.length === 0) return true;
+    log(`why ${label}: props ${changed.join(", ")}`);
+    return false;
+  };
+}
+
+/** For a component driven by state and context: names which of `values` changed since its last render. */
+export function usePerfWhy(label: string, values: Record<string, unknown>): void {
+  const last = useRef<Record<string, unknown> | null>(null);
+  if (!on) return;
+  const prev = last.current;
+  last.current = values;
+  if (!prev) return;
+  const changed = changedKeys(prev, values);
+  log(`why ${label}: ${changed.length ? changed.join(", ") : "none of the watched values"}`);
 }

@@ -76,7 +76,7 @@ import {
   useUserProfileSheet,
 } from "../context/UserProfileSheetContext";
 import { FeedPlaybackActiveContext } from "../libs/visualActivity";
-import { usePerfProbe } from "../libs/perfTrace";
+import { usePerfProbe, usePerfWhy } from "../libs/perfTrace";
 import UserProfileBottomSheet from "../components/UserProfile/UserProfileBottomSheet";
 import GettingStartedCard from "../components/Onboarding/GettingStartedCard";
 import { pagerPageIntersectsViewport } from "../libs/pagerVisibility";
@@ -1024,6 +1024,11 @@ export default function HomeScreen() {
   // (NewPostsBead), with saved presets in the filter panel.
   const [feedPresets, setFeedPresets] = useState<AppFeedPreset[]>(readFeedPresets);
   useEffect(() => feedPresetsEvents.subscribe(() => setFeedPresets(readFeedPresets())), []);
+  usePerfWhy("HomeScreen", {
+    isFocused, theme, skin, isSignedIn, filters, selectedCategory, categories, categoriesLoading, mountedTabs,
+    shuffleSeed, searchOpen, searchQuery, pillTopInHeader, navOverlap, pillBottom, searchLoading, watchFeedFetches,
+    feedPresets, filterPanelVisible, imageFeed, feedPost, islandMenuOpen, pageWidth, pageHeight,
+  });
   const homeFilterPostType = filters.postType === "article" || filters.postType === "video" ? filters.postType : undefined;
   const currentPreset = useMemo<Omit<AppFeedPreset, "name">>(() => ({
     sortBy: filters.sortBy !== DEFAULT_FILTERS.sortBy ? filters.sortBy : undefined,

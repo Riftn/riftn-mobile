@@ -1,4 +1,5 @@
-import { usePerfProbe } from "../../libs/perfTrace";
+import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
+import { useLaunchMotionStarted } from "../../libs/bootReveal";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, {
   memo,
@@ -344,7 +345,7 @@ const VisibleFeedCard = memo(function VisibleFeedCard({
     </View>
     </FeedSplitCommentsContext.Provider>
   );
-});
+}, perfPropsEqual("FeedRow"));
 
 /** Scrolls the Home list for split comments; one stable object per list. */
 interface FeedScroller {
@@ -1039,7 +1040,11 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
   // (bitmaps stay resident on the GPU while their row is mounted).
   const { height: screenHeight } = useWindowDimensions();
   const renderBudget = useMemo(() => feedRenderBudget(cappedItems), [cappedItems]);
-  const drawDistance = Math.round((screenHeight * (renderBudget.windowSize - 1)) / 4);
+  // While the launch cover is still up only the rows on screen are drawn: the
+  // rows ahead used to render behind the logo and held it for half a second.
+  // They fill in as the cover lifts, before anything can be scrolled.
+  const launchMotionStarted = useLaunchMotionStarted();
+  const drawDistance = launchMotionStarted ? Math.round((screenHeight * (renderBudget.windowSize - 1)) / 4) : 0;
 
   const endReached = hasNextPage === false;
   const error = queryError ? (queryError as Error).message || t("copy.3d2301d732a7", { defaultValue: "Failed to load" }) : null;
@@ -1550,4 +1555,4 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
 // Home keeps all six tab pages mounted, so without this every tab switch
 // re-rendered five off-screen feeds along with the one the user asked for.
 // HomeScreen holds every prop stable across a switch except `active`.
-export default memo(InfiniteVideoFeed);
+export default memo(InfiniteVideoFeed, perfPropsEqual("InfiniteVideoFeed"));
