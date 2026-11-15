@@ -2593,7 +2593,19 @@
     "f6f4688ff23d": "Kachay",
     "fc036ea0e9f0": "Huk p'anqaman t'inki",
     "fef6a1a97127": "Qatiqninqa {{value1}}",
-    "ff701a069af2": "Kaqninta qhawariy & Kichay"
+    "ff701a069af2": "Kaqninta qhawariy & Kichay",
+    "c0963b7d9c5d": "Libri lliw",
+    "55b1ec6f0360": "Chuska qhipa",
+    "284b838e96e5": "Chuska qhipa qallariy",
+    "46b0e30a32b0": "Llapan takiy",
+    "3a84120779c5": "Chuska qhipa chaykuy",
+    "1cb1b494ee3b": "Chuska qhipa video-ymanta ({{value1}}) rikhurqan.",
+    "0418db35eb35": "Kay sonidu ruwachiy",
+    "ecb30523a48a": "Takikunata, musuqkunata maskay",
+    "cbade2afaee2": "Audius-pi kay semana llaqtaykuna. Mana chaylla, musuqninamanta rikhurqaqa post-ymanta.",
+    "d2e45b7406fc": "Wikimedia Commons-manta dominio público, Creative Commons takikuna. Musuqninamanta rikhurqaqa post-ymanta.",
+    "d0c1a3684775": "Takikuna mana apamuchkan. Huk pacha kutichiy.",
+    "d14064f80f52": "Sonidu yapay"
   },
   "dehubLinks": {
     "kind": {

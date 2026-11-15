@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, AppState, Animated, Easing, Platform } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, AppState, Animated, Easing, Platform, Linking } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import IosGlassPill from "../ui/IosGlassPill";
 import { useIsFocused } from "@react-navigation/native";
@@ -10,6 +10,7 @@ import { postMediaIsTransferring } from "../../libs/post-media-session";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { requestAudioFocus, releaseAudioFocus } from "../../libs/audioFocus";
 import { configureForDuckedPlayback } from "../../libs/audioSession";
+import { playableSoundUrl, soundCredit, soundWindowCorrection, soundWindowProgress, SOUND_SOURCE_NAMES } from "../../libs/soundWindow";
 
 interface Props {
   title: string;
@@ -86,6 +87,11 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
       if (!ownsPlayer()) return;
       if (!wanted.current) return;
       if (status.playbackState === "error" || status.playbackState === "failed") { fail(); return; }
+      // A post can use one part of the song: start there and loop it.
+      if (status.isLoaded) {
+        const jump = soundWindowCorrection(url, status.currentTime ?? 0);
+        if (jump != null) { void player.seekTo(jump).catch(() => {}); }
+      }
       const buffering = !status.isLoaded || status.isBuffering;
       if (confirmed.current && !status.playing && !buffering) { pause(); return; }
       if (status.playing && !buffering) confirmed.current = true;
@@ -95,7 +101,7 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
       else if (buffering && !timeout.current) timeout.current = setTimeout(fail, 15000);
     });
     return () => { subscription.remove(); clearLoadingTimeout(); releaseAudioFocus(pause); };
-  }, [player, ownsAudio, ownsPlayer, pause, fail, clearLoadingTimeout]);
+  }, [player, ownsAudio, ownsPlayer, pause, fail, clearLoadingTimeout, url]);
 
   useEffect(() => {
     setError(false);
@@ -113,12 +119,12 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
     const read = () => {
       const audio = session.value;
       const duration = audio?.duration ?? 0;
-      setProgress(audio && duration > 0 ? audio.currentTime / duration : 0);
+      setProgress(audio && duration > 0 ? soundWindowProgress(url, audio.currentTime, duration) : 0);
     };
     read();
     const id = setInterval(read, 250);
     return () => clearInterval(id);
-  }, [playing, variant, session]);
+  }, [playing, variant, session, url]);
 
   const toggle = useCallback(async () => {
     if (wanted.current) { pause(); return; }
@@ -135,13 +141,13 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
       if (!ownsPlayer() || generation.current !== attempt || !wanted.current || !active.current) return;
       let audio = session.value;
       if (!audio) {
-        audio = createAudioPlayer({ uri: url });
+        audio = createAudioPlayer({ uri: playableSoundUrl(url) });
         session.value = audio;
         loadedUrl.current = url;
         refresh(version => version + 1);
       }
       if (loadedUrl.current !== url) {
-        audio.replace({ uri: url });
+        audio.replace({ uri: playableSoundUrl(url) });
         loadedUrl.current = url;
       }
       audio.loop = true;
@@ -159,6 +165,11 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
   const label = `${action}: ${name}${creator ? ` — ${creator}` : ""}`;
   const onPress = (event: { stopPropagation?: () => void }) => { event.stopPropagation?.(); void toggle(); };
   const open = playing || loading;
+  // Songs from outside libraries credit the artist, the licence and the song's page.
+  const credit = soundCredit(url);
+  const library = credit && credit.source !== "riftn" ? SOUND_SOURCE_NAMES[credit.source] : null;
+  const creditLine = library ? [creator ? `© ${creator}` : "", credit?.license, library].filter(Boolean).join(" · ") : "";
+  const openCredit = () => { if (credit?.page) void Linking.openURL(credit.page).catch(() => {}); };
 
   if (variant === "overlay" && open) {
     return (
@@ -170,12 +181,15 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
           pointerEvents="none"
         />
         <View style={styles.edgeRow} pointerEvents="box-none">
-          <View style={styles.edgeMeta} pointerEvents="none">
+          <View style={styles.edgeMeta} pointerEvents={creditLine ? "box-none" : "none"}>
             <View style={styles.edgeTitleRow}>
               <Ionicons name="musical-note" size={13} color="#fff" />
               <Text style={[styles.edgeTitle, styles.shadow]} numberOfLines={1}>{name}</Text>
             </View>
             {!!creator && <Text style={[styles.edgeCreator, styles.shadow]} numberOfLines={1}>{creator}</Text>}
+            {!!creditLine && (
+              <Text onPress={openCredit} style={[styles.edgeCredit, styles.shadow]} numberOfLines={1} accessibilityRole="link">{creditLine}</Text>
+            )}
           </View>
           <TouchableOpacity onPress={onPress} activeOpacity={0.75} accessibilityRole="button" accessibilityLabel={label} style={styles.edgeButton}>
             <GlassFill radius={20} />
@@ -200,6 +214,7 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
         : loading ? <ActivityIndicator size="small" color="#fff" />
         : <Ionicons name="musical-note" size={14} color="#fff" />}
       <Text style={styles.capsuleTitle} numberOfLines={1}>{name}</Text>
+      {!!library && <Text style={styles.capsuleLibrary} numberOfLines={1}>{library}</Text>}
       {playing ? <Ionicons name="pause" size={13} color="#fff" /> : !error && !loading ? <Ionicons name="play" size={13} color="#fff" /> : null}
     </TouchableOpacity>
   );
@@ -299,6 +314,8 @@ const styles = StyleSheet.create({
   capsule: { flexDirection: "row", alignItems: "center", gap: 8, height: 36, paddingHorizontal: 12, borderRadius: 18, alignSelf: "flex-start", maxWidth: 240, overflow: "hidden" },
   capsuleOverlay: { position: "absolute", left: 10, bottom: 10 },
   capsuleTitle: { color: "#fff", fontSize: 12, fontWeight: "600", flexShrink: 1 },
+  capsuleLibrary: { color: "rgba(255,255,255,0.7)", fontSize: 11, fontWeight: "500" },
+  edgeCredit: { color: "rgba(255,255,255,0.7)", fontSize: 10, marginTop: 2 },
   edge: { position: "absolute", left: 0, right: 0, bottom: 0, paddingTop: 40, paddingBottom: 8 },
   edgeRow: { flexDirection: "row", alignItems: "flex-end", gap: 12, paddingHorizontal: 12 },
   edgeMeta: { flex: 1, minWidth: 0 },

@@ -2593,7 +2593,19 @@
     "f6f4688ff23d": "Odeslat",
     "fc036ea0e9f0": "Odkaz na konkrétní stránku",
     "fef6a1a97127": "Sledováno {{value1}}",
-    "ff701a069af2": "Ověřit & Odemknout"
+    "ff701a069af2": "Ověřit & Odemknout",
+    "c0963b7d9c5d": "Volná knihovna",
+    "55b1ec6f0360": "Vyberte část",
+    "284b838e96e5": "Kde část začíná",
+    "46b0e30a32b0": "Celá skladba",
+    "3a84120779c5": "Posunutím vyber část",
+    "1cb1b494ee3b": "Část odpovídá vašemu videu ({{value1}}).",
+    "0418db35eb35": "Použít tento zvuk",
+    "ecb30523a48a": "Hledat skladby a umělce",
+    "cbade2afaee2": "Tento týden populární na Audiu. Použití je zdarma, umělec bude uveden ve tvém příspěvku.",
+    "d2e45b7406fc": "Hudba z Wikimedia Commons, která je ve veřejné doméně a pod licencí Creative Commons. Umělec bude uveden ve tvém příspěvku.",
+    "d0c1a3684775": "Skladby se nenačetly. Zkus to za chvíli znovu.",
+    "d14064f80f52": "Přidat zvuk"
   },
   "dehubLinks": {
     "kind": {

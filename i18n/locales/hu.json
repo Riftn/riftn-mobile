@@ -2601,7 +2601,19 @@
     "f6f4688ff23d": "Küldés",
     "fc036ea0e9f0": "Hivatkozás egy adott oldalra",
     "fef6a1a97127": "Követve {{value1}}-t",
-    "ff701a069af2": "Igazolás és feloldás"
+    "ff701a069af2": "Igazolás és feloldás",
+    "c0963b7d9c5d": "Ingyenes könyvtár",
+    "55b1ec6f0360": "Válaszd ki a részt",
+    "284b838e96e5": "Ahol a rész kezdődik",
+    "46b0e30a32b0": "Teljes dal",
+    "3a84120779c5": "Csúsztasd a rész kiválasztásához",
+    "1cb1b494ee3b": "A rész egyezik a videóddal ({{value1}}).",
+    "0418db35eb35": "Használd ezt a hangot",
+    "ecb30523a48a": "Keresd a dalokat és előadókat",
+    "cbade2afaee2": "Trendben ez a hét az Audius-on. Ingyen használható, a művész megkapja a hitelt a bejegyzésedben.",
+    "d2e45b7406fc": "Közkinccsé vált és Creative Commons zenék a Wikimedia Commons-ról. A művész megkapja a hitelt a bejegyzésedben.",
+    "d0c1a3684775": "A dalok nem töltődtek be. Próbáld újra egy pillanat múlva.",
+    "d14064f80f52": "Hang hozzáadása"
   },
   "dehubLinks": {
     "kind": {
