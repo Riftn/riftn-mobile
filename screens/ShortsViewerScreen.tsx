@@ -441,6 +441,9 @@ const peekKeyOf = (item: UnifiedFeedItem) => String(item.tokenId ?? item.id ?? "
 /** Pager travel (points) before the short it is heading for starts playing. */
 const PEEK_START_PT = 8;
 
+/** How long the pager must be still, finger off, before it is put back on a short. */
+const PAGER_RESNAP_QUIET_MS = 220;
+
 interface ShortItemProps {
   item: UnifiedFeedItem;
   /** Lets the pager start this short silently while it is dragged in. */
@@ -3213,7 +3216,14 @@ const ShortsViewerScreen = () => {
    * as useHorizontalScrollGuard in context/PagerGestureContext.tsx, from the
    * other side of the relation.
    */
-  const pagerGesture = useMemo(() => Gesture.Native(), []);
+  const resnapRef = useRef<() => void>(() => {});
+  const pagerTouchedRef = useRef(false);
+  const pagerGesture = useMemo(() => Gesture.Native()
+    .runOnJS(true)
+    .onBegin(() => { pagerTouchedRef.current = true; })
+    // Also runs when another gesture (a hold, a swipe-back) takes the touch
+    // over mid-swipe: exactly the case that leaves the pager between shorts.
+    .onFinalize(() => { pagerTouchedRef.current = false; resnapRef.current(); }), []);
 
   const renderFooter = useCallback(() => {
     if (!noMoreShorts || items.length === 0) return null;
@@ -3284,6 +3294,43 @@ const ShortsViewerScreen = () => {
       });
     }, 1500);
   }, [noMoreShorts, items.length, containerHeight, t, settlePaging, cancelFooterReturn]);
+
+  /**
+   * Put the pager back on a whole short once it has come to rest between two.
+   *
+   * Android only snaps a paging list on a clean finger-up. A swipe that
+   * another gesture took over (holding for 2x, the swipe-back, the dismiss
+   * drag), or that froze when the hold turned scrolling off, gets a cancel
+   * instead, and the list stays wherever the finger was: half of one short,
+   * half of the next, with no momentum or end event to commit either.
+   */
+  const pagerOffsetRef = useRef(0);
+  const resnapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const commentsVisibleRef = useRef(commentsVisible);
+  commentsVisibleRef.current = commentsVisible;
+  const resnapPager = useCallback(() => {
+    if (resnapTimer.current) clearTimeout(resnapTimer.current);
+    resnapTimer.current = setTimeout(() => {
+      resnapTimer.current = null;
+      if (pagerTouchedRef.current || commentsVisibleRef.current) return;
+      const height = containerHeight;
+      const count = items.length;
+      if (!(height > 0) || count === 0) return;
+      const offset = pagerOffsetRef.current;
+      // Past the last short is the footer, which handleScrollEnd returns from.
+      if (offset > (count - 1) * height + 1) return;
+      const index = Math.max(0, Math.min(count - 1, Math.round(offset / height)));
+      if (Math.abs(offset - index * height) <= 1) return;
+      listRef.current?.scrollToOffset({ offset: index * height, animated: true });
+      settlePaging(index * height);
+    }, PAGER_RESNAP_QUIET_MS);
+  }, [containerHeight, items.length, settlePaging]);
+  resnapRef.current = resnapPager;
+  useEffect(() => () => { if (resnapTimer.current) clearTimeout(resnapTimer.current); }, []);
+  // A hold or the comments sheet turned scrolling off; the pager may be mid-way.
+  useEffect(() => {
+    if (!holdActive && !commentsVisible) resnapPager();
+  }, [holdActive, commentsVisible, resnapPager]);
 
   const activeVideoRef = useRef<VideoView>(null);
 
@@ -3391,7 +3438,13 @@ const ShortsViewerScreen = () => {
           onScrollBeginDrag={() => { cancelFooterReturn(); pagerPhase.current = "drag"; beginPaging(); }}
           onMomentumScrollBegin={() => { pagerPhase.current = "momentum"; momentumPaging(); }}
           onScrollEndDrag={(e) => endPagingDrag(e.nativeEvent.contentOffset.y)}
-          onScroll={(e) => { const y = e.nativeEvent.contentOffset.y; observePaging(y); updatePeek(y); }}
+          onScroll={(e) => {
+            const y = e.nativeEvent.contentOffset.y;
+            pagerOffsetRef.current = y;
+            observePaging(y);
+            updatePeek(y);
+            if (!pagerTouchedRef.current) resnapPager();
+          }}
           scrollEventThrottle={32}
           ListFooterComponent={renderFooter}
           ListEmptyComponent={renderEmpty}

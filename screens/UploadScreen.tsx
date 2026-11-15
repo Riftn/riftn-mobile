@@ -48,7 +48,7 @@ import { shareAudioWhenSilent } from "../libs/videoAudioMixing";
 import { FEED_BUFFER_OPTIONS } from "../libs/videoBuffering";
 import { useEvent } from "expo";
 import * as FileSystem from "expo-file-system/legacy";
-import * as VideoThumbnails from "expo-video-thumbnails";
+import { captureVideoCover } from "../libs/videoCover";
 import {
   runWithPermissions,
 } from "../libs/permissions.util";
@@ -1897,11 +1897,7 @@ export default function UploadScreen() {
 
   const generateThumbnail = useCallback(async (uri: string) => {
     try {
-      const res = await VideoThumbnails.getThumbnailAsync(uri, {
-        time: 0,
-        quality: 0.6,
-      });
-      setThumbnailUri(res.uri);
+      setThumbnailUri(await captureVideoCover(uri));
     } catch (err) {
       console.warn("[UploadScreen] thumbnail generation failed:", err);
       setThumbnailUri(null);
