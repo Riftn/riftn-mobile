@@ -17,6 +17,7 @@ import { navigationRef } from "../../App";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { closeProfileSheetForLink, emitProfileDeepLink } from "../../libs/deeplink.events";
 import { createVideoPlayer } from "expo-video";
+import { getUnifiedFeed } from "../../services/feed.unified.service";
 
 const FLAG_KEY = "dehub.perfTour";
 const RESULT_KEY = "dehub.perfTour.result";
@@ -386,7 +387,18 @@ async function runShorts(): Promise<void> {
       }
     }
   }, 16);
-  nav.navigate(ScreenNames.ShortsViewer, {});
+  // Opened the way a tap on a Shorts card opens it: with a list to page
+  // through. Clips behind a content warning are left out (they open on a
+  // still with a button instead).
+  let items: unknown[] = [];
+  try {
+    const feed = await getUnifiedFeed({ postType: "short", limit: 30, sortBy: "createdAt", sortOrder: "desc" });
+    items = (feed.result ?? []).filter((item) => !String((item as { spoilerText?: string }).spoilerText ?? "").trim());
+  } catch (error) {
+    extra.feedError = String(error);
+  }
+  extra.items = items.length;
+  nav.navigate(ScreenNames.ShortsViewer, { initialItems: items, initialIndex: 0, feedParams: { postType: "short" } });
   await sleep(8000);
   extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
   await shot("shorts-open");

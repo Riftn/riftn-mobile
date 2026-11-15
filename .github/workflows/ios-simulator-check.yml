@@ -23,6 +23,10 @@ on:
         description: 'nav only: reuse the simulator app an earlier run of this workflow built (its run id), when native code has not changed'
         required: false
         default: ''
+      before_ref:
+        description: "nav and shorts: what to compare this branch against (a branch or commit), when not main"
+        required: false
+        default: 'main'
       account:
         description: "nav and probe: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
         required: false
@@ -175,6 +179,7 @@ jobs:
         if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts'
         env:
           NAV_MODE: ${{ inputs.task }}
+          BEFORE_REF: ${{ inputs.before_ref || 'main' }}
           SIM_TEST_KEY: ${{ secrets.SIM_TEST_KEY }}
           # Read from App Store Connect inside the script; never printed.
           SIM_REVIEW_LOGIN: ${{ inputs.account == 'review' && '1' || '0' }}
