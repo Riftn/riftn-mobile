@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationRef } from "../../App";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { closeProfileSheetForLink, emitProfileDeepLink } from "../../libs/deeplink.events";
+import { createVideoPlayer } from "expo-video";
 
 const FLAG_KEY = "dehub.perfTour";
 const RESULT_KEY = "dehub.perfTour.result";
@@ -327,6 +328,80 @@ async function runTouch(): Promise<void> {
   extra.finishedAt = Date.now();
   await save(true);
   console.error("[perf-tour] done");
+}
+
+/**
+ * Shorts: how soon the next short is moving after a real finger swipe. The
+ * script makes the swipes with idb and notes when each began; this side
+ * watches every video player the app starts or loads and notes the moment
+ * each one's clock starts running. Players are found through expo-video's
+ * own prototype, so main's code and this checkout's are watched the same way.
+ */
+async function runShorts(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "shorts" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(14000);
+  type Watched = { id: number; lastT: number; lastChange: number; moving: boolean };
+  const players = new Map<object, Watched>();
+  const motions: { wall: number; player: number; at: number }[] = [];
+  extra.motions = motions;
+  let nextId = 1;
+  try {
+    const probe = createVideoPlayer(null);
+    const proto = Object.getPrototypeOf(probe) as Record<string, unknown>;
+    const patched: string[] = [];
+    for (const name of ["play", "replaceAsync", "replace"]) {
+      const original = proto[name];
+      if (typeof original !== "function") continue;
+      proto[name] = function (this: object, ...args: unknown[]) {
+        if (!players.has(this)) players.set(this, { id: nextId++, lastT: -1, lastChange: 0, moving: false });
+        return (original as (...a: unknown[]) => unknown).apply(this, args);
+      };
+      patched.push(name);
+    }
+    probe.release();
+    extra.patched = patched;
+  } catch (error) {
+    extra.patched = String(error);
+  }
+  const sampler = setInterval(() => {
+    const wall = Date.now();
+    for (const [player, watched] of players) {
+      let t: unknown;
+      try { t = (player as { currentTime: number }).currentTime; } catch { players.delete(player); continue; }
+      if (typeof t !== "number") continue;
+      if (t !== watched.lastT) {
+        if (t > watched.lastT && watched.lastT >= 0 && !watched.moving) {
+          watched.moving = true;
+          motions.push({ wall, player: watched.id, at: Math.round(t * 1000) });
+        }
+        watched.lastT = t;
+        watched.lastChange = wall;
+      } else if (watched.moving && wall - watched.lastChange > 150) {
+        watched.moving = false;
+      }
+    }
+  }, 16);
+  nav.navigate(ScreenNames.ShortsViewer, {});
+  await sleep(8000);
+  extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
+  await shot("shorts-open");
+  const count = Number(await AsyncStorage.getItem(`${FLAG_KEY}.swipes`)) || 12;
+  for (let i = 1; i <= count && extra.opened; i++) {
+    await AsyncStorage.setItem(SWIPE_KEY, `vswipe:shorts-${i}`);
+    await sleep(5000);
+    await save(false);
+  }
+  clearInterval(sampler);
+  await shot("shorts-end");
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] shorts done, ${motions.length} starts seen`);
 }
 
 type ElementType = string | { displayName?: string; name?: string; render?: ElementType; type?: ElementType } | null;
@@ -663,7 +738,7 @@ async function run(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -671,6 +746,7 @@ void (async () => {
     else if (mode === "pages") await runPages();
     else if (mode === "probe") await runProbe();
     else if (mode === "touch") await runTouch();
+    else if (mode === "shorts") await runShorts();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

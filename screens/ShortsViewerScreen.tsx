@@ -420,8 +420,30 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   );
 };
 
+/**
+ * What the pager can ask of a short while a drag is under way, without a
+ * re-render: start it silently as it slides in, stop it if the drag turns
+ * back, and move the sound across once the release is carrying the pager on.
+ */
+interface ShortPeek {
+  start: () => void;
+  stop: (rewind: boolean) => void;
+  /** The peeking short takes the viewer's sound setting. */
+  hear: () => void;
+  /** The short being left goes quiet (true) or gets its sound back (false). */
+  silence: (quiet: boolean) => void;
+}
+
+/** Same as the pager's keyExtractor, so both sides name a short the same way. */
+const peekKeyOf = (item: UnifiedFeedItem) => String(item.tokenId ?? item.id ?? "");
+
+/** Pager travel (points) before the short it is heading for starts playing. */
+const PEEK_START_PT = 8;
+
 interface ShortItemProps {
   item: UnifiedFeedItem;
+  /** Lets the pager start this short silently while it is dragged in. */
+  registerPeek?: (key: string, peek: ShortPeek | null) => void;
   thumbnailOverride?: string;
   isActive: boolean;
   isNearby: boolean;
@@ -472,7 +494,7 @@ interface ShortItemProps {
   reelBgId?: string | null;
 }
 
-const ShortItem = React.memo<ShortItemProps>(({ item, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId }) => {
+const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId }) => {
   const { t: _copy } = _useCopy();
   const feedPlaybackAllowed = useFeedPlaybackAllowed();
   const surfaceActive = useFeedSurfaceActive();
@@ -897,6 +919,10 @@ const ShortItem = React.memo<ShortItemProps>(({ item, thumbnailOverride, isActiv
   // back audio from the short that just left the screen.
   const isActiveRef = useRef(isActive);
   isActiveRef.current = isActive;
+  /** Playing ahead of becoming active because the pager is dragging it in. */
+  const peekingRef = useRef(false);
+  const isMutedRef = useRef(isMuted);
+  isMutedRef.current = isMuted;
 
   // FlatList also retains its initial cells after they leave the window.
   // Keep those players empty, and let neighbours buffer only after settling.
@@ -933,6 +959,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, thumbnailOverride, isActiv
       player.staysActiveInBackground = false;
       player.showNowPlayingNotification = false;
       player.pause();
+      // A short the pager silenced on its way out gets the viewer's setting back.
+      player.muted = isMutedRef.current;
     } catch {}
     setIsPlaying(false);
   }, [player, recovery, videoSession]);
@@ -968,6 +996,10 @@ const ShortItem = React.memo<ShortItemProps>(({ item, thumbnailOverride, isActiv
       return;
     }
     if (isActive) {
+      // Dragged in already playing (silently): carry on from where it is,
+      // with the viewer's sound setting.
+      peekingRef.current = false;
+      try { player.muted = isMutedRef.current; } catch {}
       // The same callback identity must be used for request and release. The
       // old anonymous callbacks could never release either global focus slot.
       requestFeedVideoFocus(stopPlayback);
@@ -980,15 +1012,65 @@ const ShortItem = React.memo<ShortItemProps>(({ item, thumbnailOverride, isActiv
         setIsPausedByUser(false);
       }
     } else {
-      stopPlayback();
+      if (!peekingRef.current) stopPlayback();
       setIsPausedByUser(false);
     }
     return () => {
+      // Becoming the active short is no reason to stop the peek it is playing.
+      if (!isActive && peekingRef.current) return;
       stopPlayback();
       releaseFeedVideoFocus(stopPlayback);
       releaseAudioFocus(stopPlayback);
     };
   }, [isActive, player, playIfActive, stopPlayback]);
+
+  // The pager's handle on this short while a drag is under way. Everything
+  // here acts on the player directly: a drag frame must not re-render.
+  const peekReadyRef = useRef(false);
+  peekReadyRef.current = viewMounted && warmView && !noVideo && !!videoUrl;
+  useEffect(() => {
+    if (!registerPeek || noVideo) return;
+    const key = peekKeyOf(item);
+    const quiet = (fn: () => void) => { try { fn(); } catch {} };
+    registerPeek(key, {
+      start: () => {
+        if (peekingRef.current || isActiveRef.current || !peekReadyRef.current) return;
+        if (!ownsPlayerRef.current() || !canStartVideo(player)) return;
+        quiet(() => {
+          // Only a loaded player: play() before its source lands would start
+          // it later, off screen.
+          if (player.status !== "readyToPlay" || player.playing) return;
+          peekingRef.current = true;
+          player.muted = true;
+          player.play();
+        });
+      },
+      stop: (rewind) => {
+        if (!peekingRef.current) return;
+        peekingRef.current = false;
+        if (isActiveRef.current) return;
+        quiet(() => {
+          player.pause();
+          // The next short starts from the top when it is reached for real;
+          // one swiped back to keeps its spot.
+          if (rewind) player.currentTime = 0;
+          player.muted = isMutedRef.current;
+        });
+      },
+      hear: () => {
+        if (peekingRef.current) quiet(() => { player.muted = isMutedRef.current; });
+      },
+      silence: (on) => {
+        if (isActiveRef.current) quiet(() => { player.muted = on || isMutedRef.current; });
+      },
+    });
+    return () => registerPeek(key, null);
+  }, [registerPeek, noVideo, item, player]);
+  useEffect(() => () => {
+    if (!peekingRef.current) return;
+    peekingRef.current = false;
+    try { player.pause(); } catch {}
+  }, [player]);
 
   // The system pauses every player when the app goes to the background (lock
   // screen, another app, a notification) and nothing started it again, so the
@@ -1088,7 +1170,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, thumbnailOverride, isActiv
       if (!ownsPlayerRef.current()) return;
       // iOS may finish an earlier native play request after the pager's pause.
       // Immediately reject that stale start instead of trusting event order.
-      if (playing && ((!isActiveRef.current && !isPictureInPicturePlayer(player)) || !canStartVideo(player))) {
+      if (playing && ((!isActiveRef.current && !peekingRef.current && !isPictureInPicturePlayer(player)) || !canStartVideo(player))) {
         stopPlayback();
         return;
       }
@@ -3041,7 +3123,71 @@ const ShortsViewerScreen = () => {
     setActiveIndex((i) => Math.min(i, next.length - 1));
   }, [blockedVersion, navigation]);
 
-  const { begin: beginPaging, momentum: momentumPaging, endDrag: endPagingDrag, settle: settlePaging, candidate: pagerCandidate, observe: observePaging } = useSettledPagerIndex(setActiveIndex, containerHeight, items.length);
+  /**
+   * The short a drag is heading for plays (silently) while it slides in, so
+   * it is already moving when it lands instead of starting from a still once
+   * the pager settles. The sound moves across as soon as the release is
+   * carrying the pager on to it. All of it goes through each short's handle,
+   * never through state: the pager's frames must not re-render the list.
+   */
+  const peekHandles = useRef(new Map<string, ShortPeek>()).current;
+  const registerPeek = useCallback((key: string, handle: ShortPeek | null) => {
+    if (handle) peekHandles.set(key, handle);
+    else peekHandles.delete(key);
+  }, [peekHandles]);
+  const activeIndexRef = useRef(activeIndex);
+  activeIndexRef.current = activeIndex;
+  const pagerPhase = useRef<"idle" | "drag" | "momentum">("idle");
+  const peekRef = useRef<{ index: number; key: string; heard: boolean; lastDelta: number } | null>(null);
+  const peekKeyAt = useCallback((index: number) => {
+    const item = itemsRef.current[index];
+    return item && !isLiveSlide(item) ? peekKeyOf(item) : null;
+  }, []);
+  const stopPeek = useCallback(() => {
+    const peek = peekRef.current;
+    peekRef.current = null;
+    if (!peek) return;
+    const active = activeIndexRef.current;
+    peekHandles.get(peek.key)?.stop(peek.index > active);
+    if (peek.heard) {
+      const current = peekKeyAt(active);
+      if (current) peekHandles.get(current)?.silence(false);
+    }
+  }, [peekHandles, peekKeyAt]);
+  const updatePeek = useCallback((offset: number) => {
+    const height = containerHeight;
+    if (!(height > 0) || pagerPhase.current === "idle") return;
+    const active = activeIndexRef.current;
+    const delta = offset - active * height;
+    const dir = delta > PEEK_START_PT ? 1 : delta < -PEEK_START_PT ? -1 : 0;
+    if (!dir) { stopPeek(); return; }
+    const index = active + dir;
+    if (peekRef.current && peekRef.current.index !== index) stopPeek();
+    const key = peekKeyAt(index);
+    if (!key) return;
+    if (!peekRef.current) peekRef.current = { index, key, heard: false, lastDelta: delta };
+    const peek = peekRef.current;
+    const handle = peekHandles.get(key);
+    // Idempotent; tried again on each frame in case its source lands mid-drag.
+    if (!peek.heard) handle?.start();
+    if (pagerPhase.current === "momentum" && !peek.heard && Math.abs(delta) > Math.abs(peek.lastDelta)) {
+      peek.heard = true;
+      handle?.hear();
+      const current = peekKeyAt(active);
+      if (current) peekHandles.get(current)?.silence(true);
+    }
+    peek.lastDelta = delta;
+  }, [containerHeight, peekHandles, peekKeyAt, stopPeek]);
+  const commitPage = useCallback((index: number) => {
+    pagerPhase.current = "idle";
+    // Landing on the peeking short: it becomes active and simply keeps going.
+    if (peekRef.current?.index === index) peekRef.current = null;
+    else stopPeek();
+    setActiveIndex(index);
+  }, [stopPeek]);
+  useEffect(() => stopPeek, [stopPeek]);
+
+  const { begin: beginPaging, momentum: momentumPaging, endDrag: endPagingDrag, settle: settlePaging, candidate: pagerCandidate, observe: observePaging } = useSettledPagerIndex(commitPage, containerHeight, items.length);
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: ViewToken[] }) => {
     if (viewableItems.length > 0 && viewableItems[0].index != null) {
       pagerCandidate(viewableItems[0].index);
@@ -3163,6 +3309,7 @@ const ShortsViewerScreen = () => {
       return (
       <ShortItem
         item={item}
+        registerPeek={registerPeek}
         thumbnailOverride={index === initialIndex ? initialThumbnail : undefined}
         isActive={index === activeIndex}
         isNearby={Math.abs(index - activeIndex) <= 1}
@@ -3190,7 +3337,7 @@ const ShortsViewerScreen = () => {
       />
       );
     },
-    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning],
+    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek],
   );
 
   const keyExtractor = useCallback(
@@ -3236,10 +3383,10 @@ const ShortsViewerScreen = () => {
           onEndReached={loadMore}
           onEndReachedThreshold={0.5}
           onMomentumScrollEnd={handleScrollEnd}
-          onScrollBeginDrag={() => { cancelFooterReturn(); beginPaging(); }}
-          onMomentumScrollBegin={momentumPaging}
+          onScrollBeginDrag={() => { cancelFooterReturn(); pagerPhase.current = "drag"; beginPaging(); }}
+          onMomentumScrollBegin={() => { pagerPhase.current = "momentum"; momentumPaging(); }}
           onScrollEndDrag={(e) => endPagingDrag(e.nativeEvent.contentOffset.y)}
-          onScroll={(e) => observePaging(e.nativeEvent.contentOffset.y)}
+          onScroll={(e) => { const y = e.nativeEvent.contentOffset.y; observePaging(y); updatePeek(y); }}
           scrollEventThrottle={32}
           ListFooterComponent={renderFooter}
           ListEmptyComponent={renderEmpty}
