@@ -392,6 +392,28 @@ export async function mergeTokensIntoStoredProfile(
 }
 
 /**
+ * The server refused this profile's stored session for good. Forget the stash
+ * but keep the row: a saved account whose tokens are dead restores nothing, and
+ * offering it under "Continue as" only bounces the person straight back to the
+ * sign-in sheet every time they pick it.
+ */
+export async function dropStoredProfileSession(
+  owner: { address: string; uid: string | null },
+): Promise<void> {
+  const address = owner.address.toLowerCase();
+  const id = owner.uid ?? `addr:${address}`;
+  const profiles = await readStore();
+  let changed = false;
+  for (const entry of profiles) {
+    if (!entry.session) continue;
+    if (entry.id !== id && entry.address?.toLowerCase() !== address) continue;
+    entry.session = null;
+    changed = true;
+  }
+  if (changed) await writeStore(profiles);
+}
+
+/**
  * A new login is about to overwrite the session keys with the incoming
  * account's identity. Give the outgoing account one final snapshot, then clear
  * every key it owned so the two identities can never blend — a stale

@@ -278,6 +278,15 @@ export const tokenRefreshManager = {
           // the incoming account's fresh keys down with it.
           const ownerNow = await readSessionOwner();
           if (sameSessionOwner(ownerAtStart, ownerNow)) {
+            // The saved copy of this account holds the same dead tokens. Left
+            // in place it stays on the sign-in sheet as a row that can only
+            // fail again.
+            try {
+              if (ownerAtStart) {
+                const { dropStoredProfileSession } = await import('./profiles');
+                await dropStoredProfileSession(ownerAtStart);
+              }
+            } catch {}
             try {
               await invalidateSession(accessTokenAtStart);
             } catch {}
