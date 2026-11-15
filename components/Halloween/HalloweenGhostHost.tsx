@@ -3,7 +3,7 @@ import { Animated, Easing, Modal, Pressable, ScrollView, Text, TouchableOpacity,
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Svg, { ClipPath, Defs, Ellipse, G, LinearGradient, Path, RadialGradient, Rect, Stop } from "react-native-svg";
 import { useTranslation } from "react-i18next";
-import { X } from "lucide-react-native";
+import X from "lucide-react-native/dist/esm/icons/x";
 import { useAppTheme } from "../../context/ThemeContext";
 import { HALLOWEEN_THEME, isHalloweenDay } from "../../libs/halloweenOverride";
 import { ThemeSample } from "../Settings/ThemePicker";
