@@ -859,7 +859,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
               onPress={() => setViewing([resolveMediaUrl(comment.imageUrl!)])}
               onLongPress={handleLongPress}
               accessibilityRole="imagebutton"
-              accessibilityLabel={t("comments.viewPhoto", { defaultValue: "View photo" })}
+              accessibilityLabel={t("dm.photo")}
               style={[{ marginTop: 6, borderRadius: 10, overflow: "hidden", maxWidth: 220, backgroundColor: "rgba(255,255,255,0.04)" }, isMinimal && MINIMAL_UNFILLED]}
             >
               <SmartImage
