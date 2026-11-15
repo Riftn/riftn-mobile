@@ -1,0 +1,45 @@
+name: iOS size report
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-size-report
+  cancel-in-progress: false
+
+jobs:
+  report:
+    name: Measure the iOS app
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --legacy-peer-deps --ignore-scripts
+      - uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Apple sizes and newest build
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: node scripts/ios-size-report.mjs
+      - name: Open the .ipa
+        run: |
+          curl --fail --location --retry 3 "$(cat ipa-url.txt)" --output app.ipa
+          python3 -I scripts/ios-ipa-breakdown.py app.ipa | tee -a size-report.md >> "$GITHUB_STEP_SUMMARY"
+          unzip -l app.ipa | sort -k1 -n -r | head -400 > ipa-files.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ios-size-report
+          path: |
+            size-report.md
+            ipa-files.txt
+          retention-days: 30
