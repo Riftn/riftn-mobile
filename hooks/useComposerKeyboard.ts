@@ -146,18 +146,24 @@ export function useComposerKeyboard(viewportHeight: number = 0, options: Compose
       measure();
       clearTimers();
       timers.current = SETTLE_MS.map((ms) => setTimeout(measure, ms));
-      if (Platform.OS === "android") {
-        // Samsung Keyboard changes height after it opens (its toolbar and
-        // suggestion strip come and go as you type) and Android sends no event
-        // for it, so the box sat half under the taller keys. Keep checking the
-        // keyboard's latest frame for as long as it is up.
-        const poll = setInterval(() => {
-          const latest = typeof Keyboard.metrics === "function" ? Keyboard.metrics() : undefined;
-          if (latest && keyboardTop.current != null) keyboardTop.current = readTop(latest);
-          measure();
-        }, KEEP_MEASURING_MS);
-        timers.current.push(poll as unknown as ReturnType<typeof setTimeout>);
-      }
+      // Samsung Keyboard changes height after it opens (its toolbar and
+      // suggestion strip come and go as you type) and Android sends no event
+      // for it, so the box sat half under the taller keys. The iPhone keyboard
+      // does the same when its suggestion strip arrives after the keys (the
+      // live chat box ended up behind it). Keep checking the keyboard's latest
+      // frame for as long as it is up.
+      const poll = setInterval(() => {
+        const latest = typeof Keyboard.metrics === "function" ? Keyboard.metrics() : undefined;
+        if (latest && latest.height > 0 && keyboardTop.current != null) keyboardTop.current = readTop(latest);
+        measure();
+      }, KEEP_MEASURING_MS);
+      timers.current.push(poll as unknown as ReturnType<typeof setTimeout>);
+    };
+    // The keys' final frame, once they have stopped moving.
+    const settled = (event: KeyboardEvent) => {
+      if (keyboardTop.current == null || !(event.endCoordinates?.height > 0)) return;
+      keyboardTop.current = readTop(event.endCoordinates);
+      measure();
     };
     const hide = () => {
       keyboardTop.current = null;
@@ -168,11 +174,15 @@ export function useComposerKeyboard(viewportHeight: number = 0, options: Compose
     };
     const shown = Keyboard.addListener(Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow", show);
     const hidden = Keyboard.addListener(Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide", hide);
+    const frames = Platform.OS === "ios"
+      ? [Keyboard.addListener("keyboardDidShow", settled), Keyboard.addListener("keyboardDidChangeFrame", settled)]
+      : [];
     return () => {
       measurement.current++;
       clearTimers();
       shown.remove();
       hidden.remove();
+      frames.forEach((sub) => sub.remove());
       keyboardTop.current = null;
       setState({ visible: false, lift: 0 });
     };

@@ -114,6 +114,9 @@ const LiveProducerScreen: React.FC = () => {
   const [micMuted, setMicMuted] = useState(false);
   const [cameraOff, setCameraOff] = useState(false);
   const [externalMode, setExternalMode] = useState(!!startExternal);
+  // The camera waits for this: a stream already on air from OBS is only being
+  // watched over here, and asking for the camera looked like a new broadcast.
+  const [streamChecked, setStreamChecked] = useState(false);
   /**
    * The mint hands the ingest URL down as a route param, but a producer screen
    * reached any other way (a resumed stream, a deep link) arrives without one,
@@ -867,12 +870,12 @@ const LiveProducerScreen: React.FC = () => {
 
   useEffect(() => {
     // An encoder stream never touches the camera, so it has nothing to ask for.
-    if (!permission || externalMode) return;
+    if (!permission || externalMode || !streamChecked) return;
     if (!permission.granted && permission.canAskAgain) requestPermission();
     // Keyed on the values, not the object: the re-read below hands back a new
     // object with the same answer, which must not raise a second prompt.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [permission?.status, permission?.canAskAgain, requestPermission, externalMode]);
+  }, [permission?.status, permission?.canAskAgain, requestPermission, externalMode, streamChecked]);
 
   // The hook only reads the permission on mount, so a grant made in system
   // settings would stay invisible until the screen was reopened.
@@ -1160,7 +1163,7 @@ const LiveProducerScreen: React.FC = () => {
         streamKey: streamKeyValue || streamKey,
         streamId: streamEntity?._id,
       });
-    } else if (status === "live") {
+    } else if (status === "live" || status === "paused") {
       // Stream is already LIVE on load and we didn't start it from this device
       // → must have been started externally (OBS/streaming software)
       if (!startedFromThisDeviceRef.current) {
@@ -1176,6 +1179,7 @@ const LiveProducerScreen: React.FC = () => {
         setPublisherConnected(true);
       }
     }
+    setStreamChecked(true);
   }, [
     streamLoading,
     streamEntity,
@@ -1260,7 +1264,7 @@ const LiveProducerScreen: React.FC = () => {
             <View className="flex-1 items-center justify-center">
               <Text className="text-white/70 text-xs">{t("goLive.openingViewer")}</Text>
             </View>
-          ) : mountPublisher ? (
+          ) : mountPublisher && streamChecked && !externalMode ? (
             <WebRTCPublisher
               streamKey={ingestOverride?.streamKey || streamKey || streamKeyValue || ""}
               playbackId={ingestOverride ? ingestOverride.playbackId : streamEntity?.playbackId}
@@ -1299,7 +1303,7 @@ const LiveProducerScreen: React.FC = () => {
         ) : null}
 
         {/* Permission overlay (not in encoder mode, which needs no camera) */}
-        {!externalMode && !permission?.granted ? (
+        {streamChecked && !externalMode && !permission?.granted ? (
           <View className="absolute inset-0 dark-surface bg-black/80 items-center justify-center z-20">
             <Text className="text-zinc-400 mb-3 text-sm">
               {t("goLive.cameraPermissionRequired")}

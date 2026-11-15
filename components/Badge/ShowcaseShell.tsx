@@ -664,7 +664,11 @@ export default function ShowcaseShell({
     pause,
     close: (then) => {
       finish();
-      then?.();
+      if (!then) return;
+      // iOS drops a screen or browser presented while this Modal is still
+      // leaving, and the app stops taking touches. Let it go first.
+      if (Platform.OS === "ios") setTimeout(then, 450);
+      else then();
     },
     dismiss: requestClose,
   };
