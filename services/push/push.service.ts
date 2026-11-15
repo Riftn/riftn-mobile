@@ -8,6 +8,7 @@ import { getDeviceId, getDeviceName } from '../../libs/device';
 import { createLogger } from '../../libs/logger';
 import { translateCopy as _translateCopy } from '../../i18n/copy';
 import { IS_APP_STORE_BUILD } from '../../config/storefront';
+import i18n from 'i18next';
 
 const logger = createLogger('PushService');
 
@@ -287,6 +288,8 @@ async function doRegisterForPushNotifications(): Promise<string | null> {
       androidChannelsConfigured = true;
     }
 
+    void registerHiddenPreviewLines();
+
     setRegistrationState('registered');
     return token;
   } catch (error) {
@@ -294,6 +297,48 @@ async function doRegisterForPushNotifications(): Promise<string | null> {
     setRegistrationState('unavailable');
     return null;
   }
+}
+
+/**
+ * iPhones set to hide previews show the app name and a bare "Notification"
+ * ("Bildirim" in Turkish) for every push. Each push carries a category (the
+ * same id as its Android channel), and a category can name its own line for
+ * that case, so a locked phone reads "Someone you follow is live on Riftn".
+ * No actions: nothing else about the push changes. Lines follow the app
+ * language, so they are set again when it changes.
+ */
+function hiddenPreviewLines(): Record<string, string> {
+  return {
+    default: _translateCopy("copy.e587a51bc3ce", { defaultValue: "New on Riftn" }),
+    engagement: _translateCopy("copy.d7396f3b8881", { defaultValue: "New like or comment on Riftn" }),
+    social: _translateCopy("copy.037a2ecd34b0", { defaultValue: "New follower on Riftn" }),
+    monetization: _translateCopy("copy.b63561f1b73a", { defaultValue: "New tip or earning on Riftn" }),
+    livestream: _translateCopy("copy.0ae84457a2df", { defaultValue: "Someone you follow is live on Riftn" }),
+    calls: _translateCopy("copy.a7bac8dca08b", { defaultValue: "Incoming call on Riftn" }),
+    content: _translateCopy("copy.9d309cb4a034", { defaultValue: "Update on your Riftn post" }),
+    system: _translateCopy("copy.914be7a9350a", { defaultValue: "Message from Riftn" }),
+  };
+}
+
+let hiddenPreviewLanguage: string | null = null;
+
+export async function registerHiddenPreviewLines(): Promise<void> {
+  if (Platform.OS !== 'ios') return;
+  const language = i18n.language || 'en';
+  if (hiddenPreviewLanguage === language) return;
+  hiddenPreviewLanguage = language;
+  try {
+    const lines = hiddenPreviewLines();
+    await Promise.all(Object.keys(lines).map(id =>
+      Notifications.setNotificationCategoryAsync(id, [], { previewPlaceholder: lines[id] })));
+  } catch (error) {
+    hiddenPreviewLanguage = null;
+    logger.warn('Failed to set hidden preview lines', error);
+  }
+}
+
+if (Platform.OS === 'ios') {
+  i18n.on?.('languageChanged', () => { void registerHiddenPreviewLines(); });
 }
 
 /**
