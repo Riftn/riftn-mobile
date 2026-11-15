@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import { FEATURES, PLATFORMS, SOURCES, filterFeatures, entryFor, comparisonCoverage, featureTotals, markFor } from '../../libs/platform-comparison';
 import { REVIEWED_FEATURE_IDS, researchedEntry } from '../../libs/platform-comparison-research';
 import { RIVAL_ROWS } from '../../libs/platform-comparison-rival-inventory';
+import { NEW_ROWS, PEER_UPDATES, RIFTN_UPDATES } from '../../libs/platform-comparison-updates';
 import { inComparisonView } from '../../libs/platform-comparison-views';
 
 describe('platform comparison catalogue', () => {
@@ -42,12 +43,13 @@ describe('platform comparison catalogue', () => {
   });
   it('retains every reviewed pair and leaves new unreviewed features outside the audit', () => {
     const rivalIds = new Set(RIVAL_ROWS.map(row => row.id));
-    const documented = FEATURES.filter(feature => !rivalIds.has(feature.id));
+    const added = new Set(NEW_ROWS.map(([id]) => id));
+    const documented = FEATURES.filter(feature => !rivalIds.has(feature.id) && !added.has(feature.id));
     expect([...REVIEWED_FEATURE_IDS].sort()).toEqual(documented.map(feature => feature.id).sort());
     for (const feature of documented) for (const platform of PLATFORMS) expect(feature.peers[platform.id]?.source).toBeTruthy();
     expect(comparisonCoverage('all').reviewed).toBe(531 * 11);
-    expect(FEATURES).toHaveLength(847);
-    expect(comparisonCoverage('all').total).toBe(847 * 11);
+    expect(FEATURES).toHaveLength(853);
+    expect(comparisonCoverage('all').total).toBe(853 * 11);
     expect(researchedEntry('future-capability', 'Future', 'Video editing', 'youtube')).toBeUndefined();
     expect(entryFor(FEATURES.find(feature => feature.id === 'encrypted-attachments')!, 'x').status).toBe('limited');
     expect(entryFor(FEATURES.find(feature => feature.id === 'stage-dub')!, 'youtube').status).toBe('announced');
@@ -58,9 +60,9 @@ describe('platform comparison catalogue', () => {
       const feature = FEATURES.find(item => item.id === row.id)!;
       expect(feature).toBeDefined();
       expect(PLATFORMS.some(platform => row.marks[platform.id])).toBe(true);
-      expect(feature.dehub.status).toBe(row.marks.dehub === 'yes' ? 'documented' : row.marks.dehub === 'partial' ? 'ecosystem' : 'not_offered');
+      if (!RIFTN_UPDATES[row.id]) expect(feature.dehub.status).toBe(row.marks.dehub === 'yes' ? 'documented' : row.marks.dehub === 'partial' ? 'ecosystem' : 'not_offered');
       for (const platform of PLATFORMS) {
-        if (!row.marks[platform.id]) expect(feature.peers[platform.id]).toBeUndefined();
+        if (!row.marks[platform.id]) { if (!PEER_UPDATES[row.id]?.[platform.id]) expect(feature.peers[platform.id]).toBeUndefined(); }
         else expect(SOURCES[feature.peers[platform.id]!.source!]?.url).toMatch(/^https:\/\//);
       }
     }
@@ -68,12 +70,12 @@ describe('platform comparison catalogue', () => {
   it('matches the public social and missing-feature views without claiming unknown means no', () => {
     const social = FEATURES.filter(feature => inComparisonView(feature, 'social'));
     const lacking = FEATURES.filter(feature => inComparisonView(feature, 'lacks'));
-    expect(social).toHaveLength(683);
-    expect(lacking).toHaveLength(257);
-    expect(featureTotals().dehub.yes).toBe(590);
-    expect(featureTotals().youtube.yes).toBe(291);
-    expect(featureTotals(social).dehub.yes).toBe(426);
-    expect(featureTotals(social).youtube.yes).toBe(279);
+    expect(social).toHaveLength(689);
+    expect(lacking).toHaveLength(250);
+    expect(featureTotals().dehub.yes).toBe(603);
+    expect(featureTotals().youtube.yes).toBe(294);
+    expect(featureTotals(social).dehub.yes).toBe(439);
+    expect(featureTotals(social).youtube.yes).toBe(282);
     expect(lacking.every(feature => markFor(feature.dehub) !== 'yes')).toBe(true);
     expect(markFor({ status: 'not_documented', note: 'Not established.' })).toBe('unknown');
     expect(markFor({ status: 'announced', note: 'Future pilot.' })).toBe('partial');
