@@ -1,0 +1,28 @@
+import { buildSoundtrackTag, parseSoundtrack } from "../../libs/parseSoundtrack";
+import { playableSoundUrl, soundCredit, soundWindow, soundWindowCorrection, soundWindowProgress, withSoundWindow } from "../../libs/soundWindow";
+
+const AUDIUS = "https://api.audius.co/v1/tracks/ZlwB7/stream?app_name=Riftn";
+
+describe("sound window", () => {
+  it("round-trips the part and credit through a soundtrack tag", () => {
+    const url = withSoundWindow(AUDIUS, { start: 42, end: 72 }, {
+      source: "audius", license: "Audius Open Music License", page: "https://audius.co/arly/chill",
+    });
+    const parsed = parseSoundtrack(`hi\n${buildSoundtrackTag({ tokenId: "0", title: "Chill: remix", creator: "Arly", url })}`)!;
+    expect(parsed.tokenId).toBe("0");
+    expect(parsed.title).toBe("Chill: remix");
+    expect(soundWindow(parsed.url)).toEqual({ start: 42, end: 72 });
+    expect(soundCredit(parsed.url)).toMatchObject({ source: "audius", page: "https://audius.co/arly/chill" });
+    expect(playableSoundUrl(parsed.url)).toBe(AUDIUS);
+  });
+
+  it("keeps a player inside the part", () => {
+    const url = withSoundWindow(AUDIUS, { start: 30, end: 45 }, null);
+    expect(soundWindowCorrection(url, 0)).toBe(30);
+    expect(soundWindowCorrection(url, 35)).toBeNull();
+    expect(soundWindowCorrection(url, 45.1)).toBe(30);
+    expect(soundWindowCorrection(AUDIUS, 0)).toBeNull();
+    expect(soundWindowProgress(url, 37.5, 200)).toBeCloseTo(0.5);
+    expect(soundWindowProgress(AUDIUS, 50, 200)).toBeCloseTo(0.25);
+  });
+});

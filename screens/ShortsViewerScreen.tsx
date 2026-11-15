@@ -3,6 +3,7 @@ import { useCommentCount } from '../libs/comment-count-store';
 import RemixCredits from "../components/Post/RemixCredits";
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useVideoDownload } from "../context/VideoDownloadContext";
+import { soundWindowCorrection } from "../libs/soundWindow";
 import { isHoldGated } from "../libs/content-gate";
 import { fetchVideoAccess, isVideoAccessExpiring, useVideoAccess, videoNeedsAccess } from "../libs/video-access";
 import { usePostVideoPlayer } from '../hooks/usePostVideoPlayer';
@@ -523,6 +524,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   // Otherwise the same string FeedCard plays, so a card opened into the
   // viewer keeps its player: the HLS ladder when the post has one, else the MP4.
   const playbackUrl = useHlsFallback(() => getPlaybackUrl({ tokenId, hlsUrl: item.hlsUrl }));
+  const photoSongUrl = photoMedia?.soundtrackUrl;
   const videoUrl = reelStill ? undefined : photoMedia ? photoMedia.soundtrackUrl : (signedShort ? shortAccess.data?.url : playbackUrl) || undefined;
   const miniEntry = React.useSyncExternalStore(subscribeInAppVideoMini, getInAppVideoMini, getInAppVideoMini);
   const { player, session: videoSession, ownsPlayer, active: ownsVideo } = usePostVideoPlayer(videoUrl, (p) => {
@@ -1106,13 +1108,16 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       // A drag owns the bar until the finger lifts; the clock would otherwise
       // yank it back to wherever playback still is.
       if (scrubbingRef.current || !(total > 0)) return;
+      // A photo short plays the part of the song its poster picked.
+      const jump = photoSongUrl ? soundWindowCorrection(photoSongUrl, currentTime ?? 0) : null;
+      if (jump != null) { try { player.currentTime = jump; } catch {} return; }
       progress.setValue(Math.max(0, Math.min(1, (currentTime ?? 0) / total)));
     });
     return () => {
       sub.remove();
       try { player.timeUpdateEventInterval = 0; } catch {}
     };
-  }, [isActive, player, progress]);
+  }, [isActive, player, progress, photoSongUrl]);
 
   const handleScrubStart = useCallback(() => {
     scrubbingRef.current = true;

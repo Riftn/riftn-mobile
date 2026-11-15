@@ -1,6 +1,7 @@
 import { usePerfProbe, perfMark } from "../libs/perfTrace";
 import ThemePanel from '../components/ui/ThemePanel';
 import { useTranslation as _useCopy } from 'react-i18next';
+import { clock, soundWindow } from "../libs/soundWindow";
 import { readDraft } from "../libs/draft-cache";
 import { accountDraftKey, useDraftState } from '../hooks/useDraftState';
 import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD, MATURE_CONTENT_ENABLED } from "../config/storefront";
@@ -247,6 +248,13 @@ const CATEGORIES_MIN = 0;
 const CATEGORIES_MAX = 5;
 /** Closing with more words than this saves the post to Drafts without asking. */
 const AUTO_DRAFT_MIN_WORDS = 3;
+/** " · 0:42–1:12" when the post plays one part of its song. */
+function soundPartLabel(url: string): string {
+  const part = soundWindow(url);
+  if (!part) return "";
+  return ` · ${clock(part.start)}${part.end != null ? `–${clock(part.end)}` : ""}`;
+}
+
 type PickedAsset = ImagePicker.ImagePickerAsset & {
   /** The original picture the studio draws its edits over, so edits never stack. */
   editBaseUri?: string;
@@ -2888,11 +2896,24 @@ export default function UploadScreen() {
               </View>
             )}
 
+            {!isLiveMode && !isQuoteMode && mediaMode === "images" && !attachedSound && pickedImages.length > 0 && (
+              <TouchableOpacity
+                onPress={() => setShowSoundPicker(true)}
+                activeOpacity={0.8}
+                className="mt-3 self-start bg-white/10 rounded-full px-3 h-8 flex-row items-center"
+                accessibilityRole="button"
+                testID="upload-add-sound"
+              >
+                <Icon name="Music" size={14} color="#fff" />
+                <Text className="text-white text-xs font-semibold ml-1.5">{t("copy.d14064f80f52", { defaultValue: "Add sound" })}</Text>
+              </TouchableOpacity>
+            )}
+
             {!isLiveMode && mediaMode === "images" && attachedSound && (
               <View className="mt-3 bg-white/5 rounded-lg px-3 py-2 flex-row items-center">
                 <Icon name="Music" size={14} color="#A1A1AA" />
-                <Text className="text-white text-xs ml-1.5 flex-1" numberOfLines={1}>
-                  {attachedSound.title} — {attachedSound.creator}
+                <Text className="text-white text-xs ml-1.5 flex-1" numberOfLines={1} onPress={() => setShowSoundPicker(true)}>
+                  {attachedSound.title} — {attachedSound.creator}{soundPartLabel(attachedSound.url)}
                 </Text>
                 <TouchableOpacity
                   onPress={clearSound}
@@ -3033,6 +3054,18 @@ export default function UploadScreen() {
                   contentFit={videoBox.video ? "cover" : "contain"}
                   nativeControls={false}
                 />
+                {!attachedSound && !isQuoteMode && (
+                  <TouchableOpacity
+                    onPress={() => setShowSoundPicker(true)}
+                    activeOpacity={0.8}
+                    className="absolute top-2 left-2 dark-surface bg-black/70 rounded-full px-3 h-8 flex-row items-center z-20"
+                    accessibilityRole="button"
+                    testID="upload-add-sound"
+                  >
+                    <Icon name="Music" size={14} color="#fff" />
+                    <Text className="text-white text-xs font-semibold ml-1.5">{t("copy.d14064f80f52", { defaultValue: "Add sound" })}</Text>
+                  </TouchableOpacity>
+                )}
                 {attachedSound && (
                   <View className="absolute top-2 left-2 dark-surface bg-black/70 rounded-lg px-3 py-1.5 flex-row items-center z-20">
                     <Icon name="Music" size={14} color="#A1A1AA" />
@@ -4154,6 +4187,9 @@ export default function UploadScreen() {
           setShowSoundPicker(false);
         }}
         currentSound={attachedSound}
+        clipSeconds={mediaMode === "video" && pickedVideo
+          ? (videoTrim ? videoTrim.end - videoTrim.start : (pickedVideo.duration ?? 0) / 1000) || undefined
+          : undefined}
       />
 
       {/* Live options sheet — camera, encoder or stage. Sized for three
