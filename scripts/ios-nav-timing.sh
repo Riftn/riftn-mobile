@@ -208,6 +208,11 @@ run() {
       touched="$touch"
       if command -v idb >/dev/null 2>&1; then
         case "$touch" in
+          vswipe:*)
+            # Shorts: a quick upward flick in the middle of the screen; the
+            # moment it was sent is what the next short's start is timed from.
+            python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.swipes"
+            idb ui swipe --udid "$UDID" --duration 0.25 196 640 196 260 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           tap:*)
             IFS=: read -r _ _ tap_x tap_y <<< "$touch"
             idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;
@@ -300,6 +305,20 @@ if [ "$MODE" = touch ]; then
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
   python3 -c 'import json,sys; [print(c) for c in json.load(open(sys.argv[1])).get("touch", [])]' "$OUT/nav/touch.json" 2>/dev/null || true
+  exit 0
+fi
+
+if [ "$MODE" = shorts ]; then
+  # Shorts swipes, main's code and this checkout's, alternating. The first
+  # round of each is filmed.
+  for round in $(seq 1 "$ROUNDS"); do
+    run before "shorts-before-$round" "$([ "$round" = 1 ] && echo record)" shorts
+    run after "shorts-after-$round" "$([ "$round" = 1 ] && echo record)" shorts
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  python3 scripts/ios-nav/shorts-summary.py "$OUT/nav" | tee "$OUT/nav/summary.md"
+  [ -n "${GITHUB_STEP_SUMMARY:-}" ] && cat "$OUT/nav/summary.md" >> "$GITHUB_STEP_SUMMARY"
   exit 0
 fi
 
