@@ -9,7 +9,7 @@ import ScreenHeader from '../components/ScreenHeader';
 import { PageEmpty, PageSection, PageTabs } from '../components/page/PageKit';
 import { useAppTheme } from '../context/ThemeContext';
 import { openExternalLink } from '../libs/links.utils';
-import { CATEGORIES, FEATURES, PLATFORMS, COMPETITOR_REVIEWED_ON, SOURCES, STATUS_LABELS, entryFor, featureTotals, filterFeatures, type PlatformId, type ComparisonEntry } from '../libs/platform-comparison';
+import { CATEGORIES, FEATURES, PLATFORMS, COMPETITOR_REVIEWED_ON, UPDATES_REVIEWED_ON, SOURCES, STATUS_LABELS, entryFor, featureTotals, filterFeatures, type PlatformId, type ComparisonEntry } from '../libs/platform-comparison';
 import { inComparisonView, type ComparisonView } from '../libs/platform-comparison-views';
 import { DIGITAL_PURCHASES_ENABLED } from '../config/storefront';
 
@@ -62,7 +62,7 @@ export default function CompareScreen() {
             <Text style={[styles.body, { color: colors.mutedForeground }]}>{copy('scope', 'This is a growing catalogue of Riftn capabilities, not a score or an exhaustive audit of every competitor. Platform documentation can lag product changes. Older sources establish a feature, not its current price or limits.')}</Text>
             <Text style={[styles.body, { color: colors.mutedForeground }]}>{copy('parity', 'Riftn web, Android and iOS capabilities differ. The iOS app does not offer crypto purchases or reward actions. Device-specific notes remain beside the relevant features. Documentation is not a guarantee of availability or earnings.')}</Text>
             <Text style={[styles.body, { color: colors.mutedForeground }]}>{copy('researchLimit', 'This is a documentation comparison, not an end-to-end test of every account, region or device. Riftn source references pin the reviewed code revisions. Independent editors and payment providers count only where explicitly identified as related products. Counts describe catalogue rows, not unique advantages or a feature score.')}</Text>
-            <Text style={[styles.body, { color: colors.mutedForeground }]}>{copy('peerReviewDate', 'Competitor documentation reviewed:')} {COMPETITOR_REVIEWED_ON}</Text>
+            <Text style={[styles.body, { color: colors.mutedForeground }]}>{copy('peerReviewDate', 'Competitor documentation reviewed:')} {COMPETITOR_REVIEWED_ON} · {copy('updatedOn', 'updated')} {UPDATES_REVIEWED_ON}</Text>
           </View>}
           <Text style={[styles.body, { color: colors.mutedForeground, marginTop: 12 }]}>{copy('nativeCountMethod', 'Counts below show documented or conditional support among the matching rows. Related products and announcements are counted separately; unknown entries are not treated as absence.')}</Text>
           {[{ id: 'dehub' as const, name: 'Riftn' }, ...peers].map(item => <Text key={item.id} style={[styles.body, { color: colors.mutedForeground }]}>{item.name}: {totals[item.id].yes} / {filtered.length} · {totals[item.id].partial} {copy('nativePartial', 'partial or related-product entries')}</Text>)}
