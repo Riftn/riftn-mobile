@@ -2593,7 +2593,19 @@
     "f6f4688ff23d": "Lähetä",
     "fc036ea0e9f0": "Link tietyn sivun kohdalle",
     "fef6a1a97127": "Seuraa {{value1}}",
-    "ff701a069af2": "Tarkista & Avaa"
+    "ff701a069af2": "Tarkista & Avaa",
+    "c0963b7d9c5d": "Ilmainen kirjasto",
+    "55b1ec6f0360": "Valitse osa",
+    "284b838e96e5": "Mistä kohta alkaa",
+    "46b0e30a32b0": "Koko kappale",
+    "3a84120779c5": "Valitse osa liu'uttamalla",
+    "1cb1b494ee3b": "Osa vastaa videotasi ({{value1}}).",
+    "0418db35eb35": "Käytä tätä ääntä",
+    "ecb30523a48a": "Hae kappaleita ja artisteja",
+    "cbade2afaee2": "Tämän viikon trendit Audiuksessa. Vapaasti käytettävissä, ja artisti mainitaan julkaisussasi.",
+    "d2e45b7406fc": "Public domain -musiikkia ja Creative Commons -lisensoitua musiikkia Wikimedia Commonsista. Artisti mainitaan julkaisussasi.",
+    "d0c1a3684775": "Kappaleita ei ladattu. Yritä hetken kuluttua uudelleen.",
+    "d14064f80f52": "Lisää ääni"
   },
   "dehubLinks": {
     "kind": {

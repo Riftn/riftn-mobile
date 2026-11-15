@@ -15522,7 +15522,19 @@
     "3d024b567634": "Courte raison visible par tous",
     "ad389aa4c08e": "Pourquoi :",
     "78b3ae9561ee": "Rien d'écarté",
-    "89b4d1850766": "Les demandes que nous ne pouvons pas réaliser pour l'instant s'affichent ici, avec la raison."
+    "89b4d1850766": "Les demandes que nous ne pouvons pas réaliser pour l'instant s'affichent ici, avec la raison.",
+    "c0963b7d9c5d": "Bibliothèque gratuite",
+    "55b1ec6f0360": "Choisir la partie",
+    "284b838e96e5": "Où commence la partie",
+    "46b0e30a32b0": "Chanson entière",
+    "3a84120779c5": "Faites glisser pour choisir la partie",
+    "1cb1b494ee3b": "Le morceau correspond à votre vidéo ({{value1}}).",
+    "0418db35eb35": "Utiliser ce son",
+    "ecb30523a48a": "Rechercher des chansons et des artistes",
+    "cbade2afaee2": "Tendance cette semaine sur Audius. Utilisation gratuite ; l'artiste est crédité sur votre publication.",
+    "d2e45b7406fc": "Musique du domaine public et sous licence Creative Commons provenant de Wikimedia Commons. L'artiste est crédité sur votre publication.",
+    "d0c1a3684775": "Les chansons n'ont pas été chargées. Réessayez dans un instant.",
+    "d14064f80f52": "Ajouter un son"
   },
   "liveOverlay": {
     "eyebrow": {

@@ -15518,7 +15518,19 @@
     "3d024b567634": "Motivo breve que verá la gente",
     "ad389aa4c08e": "Motivo:",
     "78b3ae9561ee": "Nada descartado",
-    "89b4d1850766": "Aquí aparecen las solicitudes que no podemos hacer ahora, con el motivo."
+    "89b4d1850766": "Aquí aparecen las solicitudes que no podemos hacer ahora, con el motivo.",
+    "c0963b7d9c5d": "Biblioteca gratuita",
+    "55b1ec6f0360": "Elige la parte",
+    "284b838e96e5": "Dónde empieza la parte",
+    "46b0e30a32b0": "Canción completa",
+    "3a84120779c5": "Desliza para elegir la parte",
+    "1cb1b494ee3b": "La parte coincide con tu vídeo ({{value1}}).",
+    "0418db35eb35": "Usar este sonido",
+    "ecb30523a48a": "Buscar canciones y artistas",
+    "cbade2afaee2": "Tendencias de esta semana en Audius. De uso gratuito. Se mencionará al artista en tu publicación.",
+    "d2e45b7406fc": "Música de dominio público y Creative Commons de Wikimedia Commons. Se mencionará al artista en tu publicación.",
+    "d0c1a3684775": "Las canciones no se han cargado. Inténtalo de nuevo en un momento.",
+    "d14064f80f52": "Añadir sonido"
   },
   "liveOverlay": {
     "eyebrow": {

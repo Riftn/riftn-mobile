@@ -2472,7 +2472,19 @@
     "fbd1210fffc5": "{{value1}} blockiert",
     "8912e65bf642": "Foto {{value1}} von {{value2}} mit Regler neu anordnen",
     "01acc2c0f94b": "Konto {{value1}}verwenden",
-    "8456b09b5e76": "Konto {{value1}}entfernen"
+    "8456b09b5e76": "Konto {{value1}}entfernen",
+    "c0963b7d9c5d": "Kostenlose Bibliothek",
+    "55b1ec6f0360": "Wählen Sie den Abschnitt aus",
+    "284b838e96e5": "Wo der Abschnitt beginnt",
+    "46b0e30a32b0": "Ganzes Lied",
+    "3a84120779c5": "Schieben, um den Abschnitt auszuwählen",
+    "1cb1b494ee3b": "Der Abschnitt passt zu Ihrem Video ({{value1}}).",
+    "0418db35eb35": "Diesen Sound verwenden",
+    "ecb30523a48a": "Songs und Künstler suchen",
+    "cbade2afaee2": "Diese Woche im Trend auf Audius. Kostenlos nutzbar, der Künstler wird in Ihrem Beitrag genannt.",
+    "d2e45b7406fc": "Musik aus der Public Domain und von Creative Commons von Wikimedia Commons. Der Künstler wird in deinem Beitrag genannt.",
+    "d0c1a3684775": "Die Songs wurden nicht geladen. Versuchen Sie es gleich noch einmal.",
+    "d14064f80f52": "Sound hinzufügen"
   },
   "dehubLinks": {
     "kind": {

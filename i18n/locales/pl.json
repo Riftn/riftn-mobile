@@ -2601,7 +2601,19 @@
     "f6f4688ff23d": "Wyślij",
     "fc036ea0e9f0": "Link do konkretnej strony",
     "fef6a1a97127": "Obserwowane przez {{value1}}",
-    "ff701a069af2": "Zweryfikuj & Odblokuj"
+    "ff701a069af2": "Zweryfikuj & Odblokuj",
+    "c0963b7d9c5d": "Darmowa biblioteka",
+    "55b1ec6f0360": "Wybierz fragment",
+    "284b838e96e5": "Gdzie zaczyna się fragment",
+    "46b0e30a32b0": "Cała piosenka",
+    "3a84120779c5": "Przesuń, aby wybrać fragment",
+    "1cb1b494ee3b": "Fragment pasuje do twojego wideo ({{value1}}).",
+    "0418db35eb35": "Użyj tego dźwięku",
+    "ecb30523a48a": "Wyszukaj piosenki i artystów",
+    "cbade2afaee2": "Trendy tego tygodnia na Audius. Darmowe do użycia, artysta zostaje wymieniony w twoim poście.",
+    "d2e45b7406fc": "Muzyka z domeny publicznej i na licencji Creative Commons z Wikimedia Commons. Artysta zostaje wymieniony w twoim poście.",
+    "d0c1a3684775": "Nie udało się załadować piosenek. Spróbuj ponownie za chwilę.",
+    "d14064f80f52": "Dodaj dźwięk"
   },
   "dehubLinks": {
     "kind": {
