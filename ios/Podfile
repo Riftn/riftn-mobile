@@ -72,4 +72,37 @@ target 'DeHub' do
       end
     end
   end
+
+  # Agora's "Special" iOS SDK embeds every optional extension framework. Drop
+  # the ones for features the app never turns on, the same list Android
+  # already leaves out (android/gradle.properties). They are weak-linked
+  # plugins that Agora only loads when a feature asks for them, so the app
+  # runs fine without them. Kept: audio beauty (stage voice effects), AI echo
+  # cancellation, SoundTouch, the video codec extensions and the core libs.
+  # Viewing a web host's shared screen is ordinary remote video, so the
+  # ReplayKit (local screen capture) extension is unused too.
+  unused_agora_extensions = %w[
+    AgoraAiNoiseSuppressionExtension
+    AgoraAiNoiseSuppressionLLExtension
+    AgoraVideoSegmentationExtension
+    AgoraFaceCaptureExtension
+    AgoraFaceDetectionExtension
+    AgoraSpatialAudioExtension
+    AgoraContentInspectExtension
+    AgoraClearVisionExtension
+    AgoraLipSyncExtension
+    AgoraVideoQualityAnalyzerExtension
+    AgoraVideoAv1EncoderExtension
+    AgoraReplayKitExtension
+  ]
+  post_integrate do |installer|
+    support = File.join(installer.sandbox.root.to_s, 'Target Support Files')
+    Dir.glob(File.join(support, 'Pods-*', 'Pods-*-frameworks*.{sh,xcfilelist}')).each do |path|
+      text = File.read(path)
+      kept = text.lines.reject { |line| unused_agora_extensions.any? { |name| line.include?("/#{name}.framework") } }.join
+      next if kept == text
+      File.write(path, kept)
+      Pod::UI.puts "Left #{text.lines.size - kept.lines.size} unused Agora extension lines out of #{File.basename(path)}"
+    end
+  end
 end
