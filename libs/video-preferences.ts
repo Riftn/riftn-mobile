@@ -32,11 +32,15 @@ export interface VideoPreferences {
   volume: number;
   /** Lowercased creator address → the rate chosen while watching them. */
   ratesByCreator: Record<string, number>;
-  /** 2 once speeds are kept per creator only; older blobs carried one speed everywhere. */
+  /**
+   * 3 once the stale per-creator speeds are cleared. Blobs before 2 carried
+   * one speed everywhere; blobs before 3 still hold creator speeds pinned by
+   * the old button, which pinned on every tap.
+   */
   rateScope?: number;
 }
 
-const RATE_SCOPE = 2;
+const RATE_SCOPE = 3;
 
 const DEFAULTS: VideoPreferences = {
   playbackRate: 1,
@@ -60,21 +64,24 @@ function normaliseCreator(creatorId?: string | null): string | null {
 
 function sanitise(stored: any): VideoPreferences {
   const base = stored && typeof stored === "object" ? stored : {};
+  const current = base.rateScope === RATE_SCOPE;
   return {
     ...DEFAULTS,
     ...base,
-    // One tap on a creator's speed button used to move every other video to
-    // that speed as well. Blobs written back then go back to normal speed
-    // once; the creators that were tuned keep their own.
-    playbackRate: base.rateScope === RATE_SCOPE && base.playbackRate > 0 ? base.playbackRate : DEFAULTS.playbackRate,
+    // The old speed button pinned every tap on the creator being watched and
+    // moved every other video too, so people found whole profiles (often their
+    // own) stuck at 2x. Blobs written before this go back to normal speed
+    // once, creator speeds included.
+    playbackRate: current && base.playbackRate > 0 ? base.playbackRate : DEFAULTS.playbackRate,
     rateScope: RATE_SCOPE,
     // Spreading alone would carry through a null or an array left by an older
     // blob, and every lookup after that would throw.
     ratesByCreator:
-      stored?.ratesByCreator &&
-      !Array.isArray(stored.ratesByCreator) &&
-      typeof stored.ratesByCreator === "object"
-        ? stored.ratesByCreator
+      current &&
+      base.ratesByCreator &&
+      !Array.isArray(base.ratesByCreator) &&
+      typeof base.ratesByCreator === "object"
+        ? base.ratesByCreator
         : {},
   };
 }

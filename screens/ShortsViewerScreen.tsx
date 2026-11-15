@@ -96,7 +96,7 @@ import { useScrubGesture } from "../hooks/useScrubGesture";
 import { useDataSaver } from "../hooks/useDataSaver";
 import { isLowEndDevice } from "../libs/deviceTier";
 import { feedVolumeResponder } from "../libs/feed-volume-responder";
-import { getVolume, setVolume as persistVolume, getIsLooping, useMediaLooping, getPlaybackRateFor } from "../libs/video-preferences";
+import { getVolume, setVolume as persistVolume, getIsLooping, useMediaLooping, getPlaybackRateFor, setPlaybackRate as persistPlaybackRate } from "../libs/video-preferences";
 import { getCachedMuted, setMutedState, useMediaMuted } from "../libs/videoMutedState";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "expo-image";
@@ -2957,12 +2957,20 @@ const ShortsViewerScreen = () => {
     navigation.goBack();
   }, [navigation]);
 
+  // The speed shown is the creator's own: swiping onto someone else picks up
+  // theirs, and a tap here is remembered for them, the same as the full
+  // player. Before, a tap only lasted until the viewer closed, so a creator
+  // pinned at 2x elsewhere came back at 2x every time.
+  useEffect(() => {
+    if (activeMinter) setPlaybackRate(getPlaybackRateFor(activeMinter));
+  }, [activeMinter]);
+
   const handleCycleSpeed = useCallback(() => {
-    setPlaybackRate((rate) => {
-      const idx = PLAYBACK_RATES.indexOf(rate as any);
-      return PLAYBACK_RATES[(idx + 1) % PLAYBACK_RATES.length];
-    });
-  }, []);
+    const idx = PLAYBACK_RATES.indexOf(playbackRate as any);
+    const next = PLAYBACK_RATES[(idx + 1) % PLAYBACK_RATES.length];
+    setPlaybackRate(next);
+    persistPlaybackRate(next, activeMinter || null);
+  }, [playbackRate, activeMinter]);
 
   /** Bookmark lives in the options menu here, as it does on web. */
   const handleToggleSave = useCallback(() => {
