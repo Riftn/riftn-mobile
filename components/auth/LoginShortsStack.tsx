@@ -31,27 +31,106 @@ const NEON_PAD = 20;
 /** Gap between the letters and the headline, as on web. */
 const NEON_GAP = 18;
 
-function NeonLogo({ tint, still }: { tint: keyof typeof NEON; still: boolean }) {
-  const { t } = useTranslation();
-  const pulse = useRef(new Animated.Value(1)).current;
+/** Faint red/blue TV edge, colour themes only (System and Light stay clean). */
+const TV_RED = "rgba(255,40,80,0.35)";
+const TV_BLUE = "rgba(40,220,255,0.35)";
+const TV_EDGE = 1;
+
+/** Soft scan line tile: one line every 2pt that fades in and out, no hard edge. */
+const TV_LINES = require("../../assets/login-stack/tv-lines.png");
+
+/**
+ * Old TV inside the letters only: soft scan lines plus a faint band rolling
+ * down, cut to the shape of whatever `mask` draws. Same as the web sheet.
+ */
+function TvLines({ mask, light, line, band, from, to, still }: {
+  mask: React.ReactElement; light: boolean; line: number; band: string; from: number; to: number; still: boolean;
+}) {
+  const roll = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     if (still) return;
-    const anim = Animated.loop(Animated.sequence([
-      Animated.timing(pulse, { toValue: 0.82, duration: 1600, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-      Animated.timing(pulse, { toValue: 1, duration: 1600, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-    ]));
+    const anim = Animated.loop(Animated.timing(roll, { toValue: 1, duration: 4500, easing: Easing.linear, useNativeDriver: true }));
     anim.start();
     return () => anim.stop();
-  }, [pulse, still]);
+  }, [roll, still]);
   return (
-    <Animated.Image
-      source={NEON[tint]}
-      accessibilityRole="image"
-      accessibilityLabel={t("maintenance.brand")}
-      style={[styles.neon, { opacity: pulse }]}
-      resizeMode="contain"
-    />
+    <MaskedView style={StyleSheet.absoluteFill} maskElement={mask} pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      {/* Colours as written: System Light's pass would turn the white lines on ink into ink. */}
+      <KeepDarkScope>
+        <Image source={TV_LINES} resizeMode="repeat" style={[styles.tvLines, { tintColor: light ? "#FFFFFF" : "#000000", opacity: line }]} />
+        {!still && (
+          <Animated.View style={[styles.tvBand, { transform: [{ translateY: roll.interpolate({ inputRange: [0, 1], outputRange: [from, to] }) }] }]}>
+            <LinearGradient colors={["transparent", band, "transparent"]} style={StyleSheet.absoluteFill} />
+          </Animated.View>
+        )}
+      </KeepDarkScope>
+    </MaskedView>
   );
+}
+
+function NeonLogo({ tint, edges, light, still }: { tint: keyof typeof NEON; edges: boolean; light: boolean; still: boolean }) {
+  const { t } = useTranslation();
+  return (
+    <View style={styles.neon} pointerEvents="none">
+      {edges && (
+        <>
+          <Image source={NEON[tint]} style={[styles.neonImg, { tintColor: TV_RED, transform: [{ translateX: -TV_EDGE }] }]} resizeMode="contain" accessibilityElementsHidden importantForAccessibility="no" />
+          <Image source={NEON[tint]} style={[styles.neonImg, { tintColor: TV_BLUE, transform: [{ translateX: TV_EDGE }] }]} resizeMode="contain" accessibilityElementsHidden importantForAccessibility="no" />
+        </>
+      )}
+      <Image
+        source={NEON[tint]}
+        accessibilityRole="image"
+        accessibilityLabel={t("maintenance.brand")}
+        style={styles.neonImg}
+        resizeMode="contain"
+      />
+      {/* The letters start NEON_PAD into the image, so the band starts and ends where web's does. */}
+      <TvLines
+        mask={<Image source={NEON[tint]} style={styles.neonImg} resizeMode="contain" />}
+        light={light}
+        line={light ? 0.16 : 0.15}
+        band={light ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.12)"}
+        from={NEON_PAD - 40}
+        to={NEON_PAD + 110}
+        still={still}
+      />
+    </View>
+  );
+}
+
+/**
+ * Old TV flicker on the logo and headline together: short, small dips and a
+ * tiny sideways twitch on a 3.6s loop; it never switches off. Each step is
+ * [percent of the loop, opacity, x], the same beats as web's ls-tv-flicker.
+ */
+const TV_LOOP_MS = 3600;
+const TV_STEPS: [number, number, number][] = [
+  [9, 0.93, 0], [10, 1, 0], [27, 0.965, 0], [28, 1, 0], [29, 0.91, 0], [30, 1, 0],
+  [52, 0.95, 0.75], [53, 1, 0], [71, 0.97, 0], [72, 1, 0], [86, 0.92, -0.5], [87, 1, 0],
+];
+function useTvFlicker(still: boolean) {
+  const opacity = useRef(new Animated.Value(1)).current;
+  const x = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    if (still) return;
+    let at = 0;
+    const beats: Animated.CompositeAnimation[] = [];
+    for (const [pct, o, dx] of TV_STEPS) {
+      const time = (pct / 100) * TV_LOOP_MS;
+      beats.push(Animated.delay(time - at));
+      beats.push(Animated.parallel([
+        Animated.timing(opacity, { toValue: o, duration: 0, useNativeDriver: true }),
+        Animated.timing(x, { toValue: dx, duration: 0, useNativeDriver: true }),
+      ]));
+      at = time;
+    }
+    beats.push(Animated.delay(TV_LOOP_MS - at));
+    const anim = Animated.loop(Animated.sequence(beats));
+    anim.start();
+    return () => anim.stop();
+  }, [opacity, x, still]);
+  return { opacity, transform: [{ translateX: x }] };
 }
 
 /**
@@ -215,6 +294,9 @@ export default function LoginShortsStack({ viewportHeight, reservedHeight = 360,
         textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 8,
       };
+  const edges = !isLight && theme !== "system";
+  const flicker = useTvFlicker(still);
+  const headlineText = `${headline?.top ?? t("loginStack.headlineTop", "You will own everything")}\n${headline?.accent ?? t("loginStack.headlineAccent", "and be happy.")}`;
   const line = isLight ? "rgba(11,11,13,0.08)" : theme === "osaka" ? "rgba(80,200,255,0.4)" : "rgba(255,255,255,0.10)";
 
   // The screen pads 24 each side; the lanes sit 10 from the edges.
@@ -247,18 +329,33 @@ export default function LoginShortsStack({ viewportHeight, reservedHeight = 360,
           </View>
         </MaskedView>
       </KeepDarkScope>
-      <View style={styles.headline}>
-        <NeonLogo tint={tint} still={still} />
+      <Animated.View style={[styles.headline, flicker]}>
+        <NeonLogo tint={tint} edges={edges} light={isLight} still={still} />
         {/* Both lines lit like the logo, so logo and headline read as one sign.
             One Text, padded: Android draws a text shadow only inside the Text's
             own box, so two Texts cut the glow flat under each line. The
             padding gives the glow room, the negative margin takes it back. */}
-        <Text style={[styles.headlineText, sign, styles.glowRoom]} accessibilityRole="header">
-          {headline?.top ?? t("loginStack.headlineTop", "You will own everything")}
-          {"\n"}
-          {headline?.accent ?? t("loginStack.headlineAccent", "and be happy.")}
-        </Text>
-      </View>
+        <View>
+          {edges && (
+            <>
+              <Text style={[styles.headlineText, styles.edge, { color: TV_RED, transform: [{ translateX: -TV_EDGE }] }]} accessibilityElementsHidden importantForAccessibility="no">{headlineText}</Text>
+              <Text style={[styles.headlineText, styles.edge, { color: TV_BLUE, transform: [{ translateX: TV_EDGE }] }]} accessibilityElementsHidden importantForAccessibility="no">{headlineText}</Text>
+            </>
+          )}
+          <Text style={[styles.headlineText, sign, styles.glowRoom]} accessibilityRole="header">
+            {headlineText}
+          </Text>
+          <TvLines
+            mask={<Text style={[styles.headlineText, styles.maskText]}>{headlineText}</Text>}
+            light={isLight}
+            line={isLight ? 0.21 : 0.2}
+            band={isLight ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.18)"}
+            from={-40}
+            to={110}
+            still={still}
+          />
+        </View>
+      </Animated.View>
     </View>
   );
 }
@@ -289,4 +386,9 @@ const styles = StyleSheet.create({
   neon: { position: "absolute", alignSelf: "center", bottom: "100%", marginBottom: NEON_GAP - NEON_PAD, width: NEON_W, height: NEON_H },
   headlineText: { color: "#FFFFFF", textAlign: "center", fontSize: 30, lineHeight: 32, fontWeight: "900", letterSpacing: -0.6 },
   glowRoom: { paddingVertical: 12, marginVertical: -12 },
+  neonImg: { position: "absolute", left: 0, top: 0, width: NEON_W, height: NEON_H },
+  edge: { position: "absolute", left: 0, right: 0, top: 0 },
+  maskText: { color: "#000000" },
+  tvLines: { position: "absolute", left: 0, top: 0, width: "100%", height: "100%" },
+  tvBand: { position: "absolute", left: 0, right: 0, top: 0, height: 26 },
 });
