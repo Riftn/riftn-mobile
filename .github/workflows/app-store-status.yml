@@ -7,6 +7,10 @@ on:
         description: Release the version if Apple approved it and it waits on us
         type: boolean
         default: false
+      promotional_text:
+        description: Set the App Store promotional text (no review needed, max 170 characters)
+        type: string
+        default: ''
       review_login_shape:
         description: Also say what kind of sign-in the review account is (never its values)
         type: boolean
@@ -33,6 +37,7 @@ jobs:
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           RELEASE_IF_APPROVED: ${{ inputs.release_if_approved }}
+          PROMOTIONAL_TEXT: ${{ inputs.promotional_text }}
         run: node scripts/app-store-status.mjs
       - name: Review sign-in shape
         if: ${{ inputs.review_login_shape }}

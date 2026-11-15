@@ -2,7 +2,8 @@
 // submissions and TestFlight beta review for the newest builds.
 // With RELEASE_IF_APPROVED=true it also releases a version that Apple has
 // approved and is waiting on us ("Pending Developer Release"); nothing else
-// is ever changed.
+// is ever changed, apart from the promotional text when PROMOTIONAL_TEXT is
+// given (Apple allows that line to change without a review).
 // Uses the App Store Connect team key stored with the Expo project; the key
 // never leaves this process and is never printed.
 import { createSign } from 'node:crypto';
@@ -97,6 +98,44 @@ for (const b of builds.data) {
   const review = inc('betaAppReviewSubmissions', b.relationships?.betaAppReviewSubmission);
   const detail = inc('buildBetaDetails', b.relationships?.buildBetaDetail);
   say(`- ${pre?.attributes?.version ?? '?'} (${b.attributes.version}): processing ${b.attributes.processingState}${b.attributes.expired ? ', EXPIRED' : ''}, beta review ${review?.attributes?.betaReviewState ?? 'not submitted'}, internal ${detail?.attributes?.internalBuildState ?? '?'}, external ${detail?.attributes?.externalBuildState ?? '?'}, uploaded ${b.attributes.uploadedDate?.slice(0, 16) ?? '?'}`);
+}
+
+say('');
+say('## Store listing text');
+const clip = (t, n = 140) => (t ?? '').replace(/\s+/g, ' ').trim().slice(0, n);
+const infos = await get(`/v1/apps/${APP_ID}/appInfos?include=appInfoLocalizations`);
+if (infos.error) say(`- could not read app info: ${infos.error}`);
+for (const info of infos.data) {
+  say(`- app info ${info.attributes.appStoreState ?? info.attributes.state ?? '?'}`);
+  for (const l of infos.included.filter(i => i.type === 'appInfoLocalizations' && info.relationships?.appInfoLocalizations?.data?.some(d => d.id === i.id))) {
+    say(`  - ${l.attributes.locale}: name "${l.attributes.name ?? ''}", subtitle "${l.attributes.subtitle ?? ''}"`);
+  }
+}
+const newest = versions.data[0];
+let versionLocales = [];
+if (newest) {
+  const locs = await get(`/v1/appStoreVersions/${newest.id}/appStoreVersionLocalizations?limit=50`);
+  if (locs.error) say(`- could not read ${newest.attributes.versionString} text: ${locs.error}`);
+  versionLocales = locs.data;
+  for (const l of versionLocales) {
+    say(`- ${newest.attributes.versionString} ${l.attributes.locale}: promo "${clip(l.attributes.promotionalText)}", description "${clip(l.attributes.description)}"`);
+  }
+}
+
+// Promotional text is the one listing line Apple lets us change at any time
+// without a review, so it never touches a version waiting to be released.
+const promo = (process.env.PROMOTIONAL_TEXT ?? '').trim();
+if (promo) {
+  say('');
+  say('## Promotional text');
+  if (promo.length > 170) throw new Error('Promotional text is limited to 170 characters');
+  for (const l of versionLocales) {
+    const done = await get(`/v1/appStoreVersionLocalizations/${l.id}`, 'PATCH', {
+      data: { type: 'appStoreVersionLocalizations', id: l.id, attributes: { promotionalText: promo } },
+    });
+    say(done.error ? `- ${l.attributes.locale} failed: ${done.error}` : `- ${l.attributes.locale} set to "${promo}"`);
+    if (done.error) process.exitCode = 1;
+  }
 }
 
 if (process.env.RELEASE_IF_APPROVED === 'true') {
