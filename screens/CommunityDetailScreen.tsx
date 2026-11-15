@@ -598,7 +598,13 @@ const CommunityDetailScreen: React.FC = () => {
       ) : tab === "chat" ? (
         <View className="flex-1">
           {TabBar}
-          <CommunityChatPanel community={community} membership={membership} isMember={isMember} />
+          <CommunityChatPanel
+            community={community}
+            membership={membership}
+            isMember={isMember}
+            onJoin={handleJoinLeave}
+            joining={actionLoading}
+          />
         </View>
       ) : tab === "events" ? (
         <CommunityEventsTab

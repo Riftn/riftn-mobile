@@ -304,9 +304,12 @@ interface CommunityChatPanelProps {
   community: Community;
   membership: CommunityMember | null | undefined;
   isMember: boolean;
+  /** Joins the community: makes the "join to chat" bar a button. */
+  onJoin?: () => void;
+  joining?: boolean;
 }
 
-export function CommunityChatPanel({ community, membership, isMember }: CommunityChatPanelProps) {
+export function CommunityChatPanel({ community, membership, isMember, onJoin, joining }: CommunityChatPanelProps) {
   const { t } = useTranslation();
   const user = useUser() as any;
   const { showUserProfile } = useUserProfileSheet();
@@ -847,10 +850,23 @@ export function CommunityChatPanel({ community, membership, isMember }: Communit
         style={[styles.composer, { paddingBottom: 8 }]}
       >
         {composerNotice ? (
-          <View style={styles.noticeRow}>
-            <Icon name={noticeIcon} size={14} color="#808089" />
-            <Text style={styles.noticeText}>{composerNotice}</Text>
-          </View>
+          !isMember && onJoin && membership?.status !== "pending" ? (
+            <Pressable
+              style={[styles.noticeRow, joining && { opacity: 0.5 }]}
+              onPress={onJoin}
+              disabled={joining}
+              accessibilityRole="button"
+              accessibilityLabel={composerNotice}
+            >
+              <Icon name={noticeIcon} size={14} color="#808089" />
+              <Text style={styles.noticeText}>{composerNotice}</Text>
+            </Pressable>
+          ) : (
+            <View style={styles.noticeRow}>
+              <Icon name={noticeIcon} size={14} color="#808089" />
+              <Text style={styles.noticeText}>{composerNotice}</Text>
+            </View>
+          )
         ) : recorder.isRecording || recorder.isStopping ? (
           <View style={{ flex: 1 }}>
             <VoiceNoteRecordingOverlay recorder={recorder} />

@@ -157,8 +157,10 @@ describe('Go Live without camera permission', () => {
   const overlay = between(source, '{/* Permission overlay', '{/* Overlay container */}');
 
   it('leaves encoder mode alone', () => {
-    expect(overlay).toContain('{!externalMode && !permission?.granted ? (');
-    expect(source).toContain('if (!permission || externalMode) return;');
+    expect(overlay).toContain('{streamChecked && !externalMode && !permission?.granted ? (');
+    expect(source).toContain('if (!permission || externalMode || !streamChecked) return;');
+    // A stream already on air from other software never mounts the camera.
+    expect(source).toContain('mountPublisher && streamChecked && !externalMode ? (');
   });
 
   it('gives the overlay its own way out that never ends a broadcast unconfirmed', () => {

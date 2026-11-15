@@ -47,6 +47,7 @@ import { useUser } from "../../context/AuthContext";
 import { LikeCommentResult, DislikeCommentResult, ReactCommentResult } from "../../services/nft.service";
 import type { Comment } from "../../services/nft.service";
 import FullScreenVideoPlayer from "../common/FullScreenVideoPlayer";
+import ImageViewerModal from "../common/ImageViewerModal";
 import ReactionPicker from "../Home/ReactionPicker";
 import {
   applyReactionDelta,
@@ -201,6 +202,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
   // Bumps each time this viewer tips this comment, replaying the gem swirl.
   const [tipBurst, setTipBurst] = useState(0);
   const [videoOpen, setVideoOpen] = useState(false);
+  const [viewing, setViewing] = useState<string[] | null>(null);
   useEffect(() => {
     const key = commentTipKey(comment.id);
     return subscribePostTipped((id) => { if (id === key) setTipBurst((n) => n + 1); });
@@ -853,26 +855,38 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
           )}
 
           {comment.imageUrl ? (
-            <View style={[{ marginTop: 6, borderRadius: 10, overflow: "hidden", maxWidth: 220, backgroundColor: "rgba(255,255,255,0.04)" }, isMinimal && MINIMAL_UNFILLED]}>
+            <Pressable
+              onPress={() => setViewing([resolveMediaUrl(comment.imageUrl!)])}
+              onLongPress={handleLongPress}
+              accessibilityRole="imagebutton"
+              accessibilityLabel={t("comments.viewPhoto", { defaultValue: "View photo" })}
+              style={[{ marginTop: 6, borderRadius: 10, overflow: "hidden", maxWidth: 220, backgroundColor: "rgba(255,255,255,0.04)" }, isMinimal && MINIMAL_UNFILLED]}
+            >
               <SmartImage
                 source={{ uri: resolveMediaUrl(comment.imageUrl) }}
                 recyclingKey={resolveMediaUrl(comment.imageUrl)}
                 style={{ width: 220, height: 165 }}
                 contentFit="cover"
               />
-            </View>
+            </Pressable>
           ) : null}
 
           {comment.gifUrl ? (
-            <View style={[{ marginTop: 6, borderRadius: 10, overflow: "hidden", maxWidth: 220, backgroundColor: "rgba(255,255,255,0.04)" }, isMinimal && MINIMAL_UNFILLED]}>
+            <Pressable
+              onPress={() => setViewing([outsideImage(comment.gifUrl!)])}
+              onLongPress={handleLongPress}
+              accessibilityRole="imagebutton"
+              style={[{ marginTop: 6, borderRadius: 10, overflow: "hidden", maxWidth: 220, backgroundColor: "rgba(255,255,255,0.04)" }, isMinimal && MINIMAL_UNFILLED]}
+            >
               <SmartImage
                 source={{ uri: outsideImage(comment.gifUrl) }}
                 recyclingKey={comment.gifUrl}
                 style={{ width: 220, height: 165 }}
                 contentFit="cover"
               />
-            </View>
+            </Pressable>
           ) : null}
+          <ImageViewerModal images={viewing} onClose={() => setViewing(null)} allowDownload />
 
           {comment.videoUrl ? (
             <>

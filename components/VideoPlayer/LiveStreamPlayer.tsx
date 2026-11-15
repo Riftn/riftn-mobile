@@ -13,6 +13,7 @@ import {
   AppState,
   StyleSheet,
   BackHandler,
+  Keyboard,
   StatusBar,
 } from "react-native";
 import * as ScreenOrientation from "expo-screen-orientation";
@@ -1436,6 +1437,12 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   }, [chromeHidden, chromeOpacity]);
   const chromeStyle = useAnimatedStyle(() => ({ opacity: chromeOpacity.value }));
   const hideStart = useSharedValue({ x: 0, y: 0 });
+  // A tap on the picture while typing only puts the keyboard away; clearing
+  // the screen as well took the message box with it.
+  const clearOrCloseKeys = useCallback(() => {
+    if (Keyboard.isVisible()) Keyboard.dismiss();
+    else setChromeHidden(true);
+  }, []);
   const hidePan = useMemo(
     () =>
       Gesture.Pan()
@@ -1461,10 +1468,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         .onEnd((e, success) => {
           "worklet";
           if (success && e.translationY > LIVE_HIDE_SWIPE && e.translationY > Math.abs(e.translationX)) {
-            runOnJS(setChromeHidden)(true);
+            runOnJS(clearOrCloseKeys)();
           }
         }),
-    [hideStart],
+    [hideStart, clearOrCloseKeys],
   );
   const hideTap = useMemo(
     () =>
@@ -1472,9 +1479,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         .maxDistance(10)
         .onEnd((_e, success) => {
           "worklet";
-          if (success) runOnJS(setChromeHidden)(true);
+          if (success) runOnJS(clearOrCloseKeys)();
         }),
-    [],
+    [clearOrCloseKeys],
   );
   const hideGesture = useMemo(() => Gesture.Race(hidePan, hideTap), [hidePan, hideTap]);
 
