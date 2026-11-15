@@ -9553,7 +9553,24 @@
     "paymentSentWith": "Inviato con {{amount}}",
     "planRestricted": "Questo utente richiede un abbonamento per ricevere messaggi.",
     "planTypeNotAllowed": "Il piano di questo creator non consente questo tipo di messaggio.",
-    "planMinTip": "La mancia deve essere di almeno {{amount}} token per questo creator."
+    "planMinTip": "La mancia deve essere di almeno {{amount}} token per questo creator.",
+    "searchDiscover": {
+      "noChats": "Ancora nessuna chat con \"{{q}}\". Ecco chi e cosa corrisponde.",
+      "nothing": "Ancora niente per \"{{q}}\". Inizia qualcosa di nuovo.",
+      "people": "Persone",
+      "communities": "Community",
+      "members": "{{n}} membri",
+      "start": "Oppure inizia qualcosa",
+      "newChat": "Nuova chat",
+      "newChatSub": "Scegli chi vuoi",
+      "newGroup": "Nuovo gruppo",
+      "newGroupSub": "Chattate insieme",
+      "invite": "Invita",
+      "inviteSub": "Condividi un link",
+      "inviteMessage": "Unisciti a me su Riftn: {{url}}",
+      "searchAll": "Cerca \"{{q}}\" in tutto Riftn",
+      "searchAllSub": "Post, video, dirette"
+    }
   },
   "editPost": {
     "mediaPermission": "È richiesta l'autorizzazione alla libreria multimediale",

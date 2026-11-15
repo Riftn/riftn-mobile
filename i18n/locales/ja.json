@@ -9425,7 +9425,24 @@
     "paymentSentWith": "{{amount}} で送信済み",
     "planRestricted": "このユーザーにメッセージを送るにはサブスクリプションが必要です。",
     "planTypeNotAllowed": "このクリエイターのプランでは、この種類のメッセージは送れません。",
-    "planMinTip": "このクリエイターへのチップは {{amount}} トークン 以上にしてください。"
+    "planMinTip": "このクリエイターへのチップは {{amount}} トークン 以上にしてください。",
+    "searchDiscover": {
+      "noChats": "「{{q}}」とのチャットはまだありません。一致するものはこちら。",
+      "nothing": "「{{q}}」に一致するものはまだありません。新しく始めましょう。",
+      "people": "ユーザー",
+      "communities": "コミュニティ",
+      "members": "メンバー {{n}} 人",
+      "start": "または新しく始める",
+      "newChat": "新しいチャット",
+      "newChatSub": "誰でも選べます",
+      "newGroup": "新しいグループ",
+      "newGroupSub": "みんなでチャット",
+      "invite": "招待",
+      "inviteSub": "リンクを共有",
+      "inviteMessage": "Riftnで会おう：{{url}}",
+      "searchAll": "Riftn全体で「{{q}}」を検索",
+      "searchAllSub": "投稿、動画、ライブ"
+    }
   },
   "editPost": {
     "mediaPermission": "メディアライブラリへのアクセス許可が必要です",

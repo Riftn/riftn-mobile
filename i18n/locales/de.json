@@ -9492,7 +9492,24 @@
     "paymentSentWith": "Gesendet mit {{amount}}",
     "planRestricted": "Dieser Nutzer setzt ein Abo voraus, um Nachrichten zu erhalten.",
     "planTypeNotAllowed": "Der Plan dieses Creators erlaubt diese Art von Nachricht nicht.",
-    "planMinTip": "Das Trinkgeld für diesen Creator muss mindestens {{amount}} Tokens betragen."
+    "planMinTip": "Das Trinkgeld für diesen Creator muss mindestens {{amount}} Tokens betragen.",
+    "searchDiscover": {
+      "noChats": "Noch keine Chats mit „{{q}}“. Das hier passt.",
+      "nothing": "Noch keine Treffer für „{{q}}“. Starte etwas Neues.",
+      "people": "Personen",
+      "communities": "Communities",
+      "members": "{{n}} Mitglieder",
+      "start": "Oder starte etwas",
+      "newChat": "Neuer Chat",
+      "newChatSub": "Wähle irgendwen",
+      "newGroup": "Neue Gruppe",
+      "newGroupSub": "Gemeinsam chatten",
+      "invite": "Einladen",
+      "inviteSub": "Link teilen",
+      "inviteMessage": "Komm zu mir auf Riftn: {{url}}",
+      "searchAll": "Ganz Riftn nach „{{q}}“ durchsuchen",
+      "searchAllSub": "Beiträge, Videos, Livestreams"
+    }
   },
   "editPost": {
     "mediaPermission": "Berechtigung für die Mediathek erforderlich",

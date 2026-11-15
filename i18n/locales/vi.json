@@ -9515,7 +9515,24 @@
     "paymentSentWith": "Đã gửi với {{amount}}",
     "planRestricted": "Người dùng này yêu cầu đăng ký để nhận tin nhắn.",
     "planTypeNotAllowed": "Gói của nhà sáng tạo này không cho phép loại tin nhắn này.",
-    "planMinTip": "Tiền tip cho nhà sáng tạo này phải ít nhất {{amount}} token."
+    "planMinTip": "Tiền tip cho nhà sáng tạo này phải ít nhất {{amount}} token.",
+    "searchDiscover": {
+      "noChats": "Chưa có cuộc trò chuyện nào với \"{{q}}\". Đây là kết quả phù hợp.",
+      "nothing": "Chưa có gì khớp với \"{{q}}\". Hãy bắt đầu điều mới.",
+      "people": "Mọi người",
+      "communities": "Cộng đồng",
+      "members": "{{n}} thành viên",
+      "start": "Hoặc bắt đầu điều gì đó",
+      "newChat": "Trò chuyện mới",
+      "newChatSub": "Chọn bất kỳ ai",
+      "newGroup": "Nhóm mới",
+      "newGroupSub": "Cùng trò chuyện",
+      "invite": "Mời",
+      "inviteSub": "Chia sẻ liên kết",
+      "inviteMessage": "Tham gia Riftn cùng mình: {{url}}",
+      "searchAll": "Tìm \"{{q}}\" trên toàn Riftn",
+      "searchAllSub": "Bài đăng, video, phát trực tiếp"
+    }
   },
   "editPost": {
     "mediaPermission": "Cần quyền truy cập thư viện phương tiện",

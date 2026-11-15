@@ -7619,7 +7619,24 @@
     "attachAnything": "Joindre une photo, une vidéo, un audio ou un fichier",
     "attachFileOrAudio": "Fichier ou audio",
     "attachPhotoOrVideo": "Photo ou vidéo",
-    "attachTooLarge": "Ce fichier dépasse la limite de {{size}} Mo."
+    "attachTooLarge": "Ce fichier dépasse la limite de {{size}} Mo.",
+    "searchDiscover": {
+      "noChats": "Aucune discussion avec « {{q}} » pour l'instant. Voici ce qui correspond.",
+      "nothing": "Rien ne correspond à « {{q}} » pour l'instant. Lancez quelque chose.",
+      "people": "Personnes",
+      "communities": "Communautés",
+      "members": "{{n}} membres",
+      "start": "Ou lancez quelque chose",
+      "newChat": "Nouvelle discussion",
+      "newChatSub": "Choisissez qui vous voulez",
+      "newGroup": "Nouveau groupe",
+      "newGroupSub": "Discutez ensemble",
+      "invite": "Inviter",
+      "inviteSub": "Partagez un lien",
+      "inviteMessage": "Rejoins-moi sur Riftn : {{url}}",
+      "searchAll": "Rechercher « {{q}} » dans tout Riftn",
+      "searchAllSub": "Posts, vidéos, lives"
+    }
   },
   "editPost": {
     "mediaPermission": "L'autorisation d'accès à la médiathèque est requise",

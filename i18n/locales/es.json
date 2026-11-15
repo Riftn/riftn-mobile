@@ -7615,7 +7615,24 @@
     "attachAnything": "Adjuntar foto, video, audio o archivo",
     "attachFileOrAudio": "Archivo o audio",
     "attachPhotoOrVideo": "Foto o video",
-    "attachTooLarge": "Ese archivo supera el límite de {{size}} MB."
+    "attachTooLarge": "Ese archivo supera el límite de {{size}} MB.",
+    "searchDiscover": {
+      "noChats": "Aún no hay chats con \"{{q}}\". Esto es lo que coincide.",
+      "nothing": "Nada coincide con \"{{q}}\" todavía. Empieza algo nuevo.",
+      "people": "Personas",
+      "communities": "Comunidades",
+      "members": "{{n}} miembros",
+      "start": "O empieza algo",
+      "newChat": "Nuevo chat",
+      "newChatSub": "Elige a quien quieras",
+      "newGroup": "Nuevo grupo",
+      "newGroupSub": "Chatead juntos",
+      "invite": "Invitar",
+      "inviteSub": "Comparte un enlace",
+      "inviteMessage": "Únete a mí en Riftn: {{url}}",
+      "searchAll": "Buscar \"{{q}}\" en todo Riftn",
+      "searchAllSub": "Publicaciones, vídeos, directos"
+    }
   },
   "editPost": {
     "mediaPermission": "Se necesita permiso para la biblioteca multimedia",
