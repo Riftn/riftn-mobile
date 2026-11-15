@@ -691,6 +691,8 @@ const UserProfileBottomContentTabs: React.FC<
               listHeader={isFullScreen ? fullScreenListHeader : undefined}
               onBeforeNavigate={onClose}
               postType={homePostType}
+              hasCustomOrder={customOrder}
+              onOrderSaved={handleOrderSaved}
               {...contentQuery}
             />
           </View>

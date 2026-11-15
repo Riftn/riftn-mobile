@@ -1,4 +1,4 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useCallback, useMemo, useRef } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import BlurSafeImage from "../common/BlurSafeImage";
@@ -18,6 +18,7 @@ import { ArticleTileFace, openArticleTilePicker, useProfileArticleTile } from ".
 import { articleReadMinutes } from "../../libs/articleTile";
 import { mediaCardOf, textCardOf, wordsWithoutLinks } from "../../libs/gridCard";
 import { GridCardFace, GridKindPill, GridPollProbe, type GridPalette } from "./GridCardFace";
+import { GRIP_ROOM, GridGrip, useGridDrag } from "./GridDrag";
 
 /**
  * One cell of the profile All grid: every post type side by side, each with
@@ -79,10 +80,21 @@ interface ProfileGridTileProps {
   onPress: (item: UnifiedFeedItem, kind: GridTileKind, images: string[]) => void;
   /** Your own profile: holding one of your text posts opens the background picker. */
   ownerHold?: boolean;
+  /**
+   * Its place in the grid. Inside a GridDragHost a tile with a place carries
+   * a grip in its bottom right corner: hold it to move the post.
+   */
+  index?: number;
 }
 
-const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress, ownerHold }) => {
+const noPress = () => {};
+
+const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress, ownerHold, index }) => {
   const { t } = useTranslation();
+  const drag = useGridDrag();
+  const hasGrip = !!drag && index != null && !pinned && !(item as any).isRepost;
+  const cellRef = useRef<View>(null);
+  const ghost = useCallback(() => <MemoTile item={item} onPress={noPress} />, [item]);
   // Written dark, like the rest of the app: System Light's tone pass turns
   // the poster tiles to ink on white, and media tiles stay dark-surface.
   const { theme, isLight } = useAppTheme();
@@ -222,7 +234,7 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
             <View key={i} style={[styles.waveBar, { height: `${Math.round(h * 100)}%`, opacity: i < 7 ? 0.92 : 0.35 }]} />
           ))}
         </View>
-        <Text numberOfLines={1} style={styles.audioTitle}>{label}</Text>
+        <Text numberOfLines={1} style={[styles.audioTitle, hasGrip && styles.audioTitleGrip]}>{label}</Text>
         <Badge icon="Music" />
         {pinChip}
       </View>
@@ -245,7 +257,7 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
         {kind === "video" && <Badge icon={resolveContentType(item) === "live" ? "Radio" : resolveContentType(item) === "short" ? ("Shorts" as IconName) : "Film"} />}
         {multi && <Badge icon="Images" />}
         {kind === "video" && !!duration && <View style={styles.dur}><Text style={styles.durText}>{duration}</Text></View>}
-        {(kind === "video" || isLive) && views > 0 && <Text style={styles.views}>{t("music.viewsCount", { count: views, views: formatCompactNumber(views) })}</Text>}
+        {(kind === "video" || isLive) && views > 0 && <Text style={[styles.views, hasGrip && styles.viewsGrip]}>{hasGrip ? formatCompactNumber(views) : t("music.viewsCount", { count: views, views: formatCompactNumber(views) })}</Text>}
         {isLive && <View style={[StyleSheet.absoluteFill, styles.liveRing]} pointerEvents="none" />}
       </View>
     );
@@ -257,7 +269,7 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
     // NativeWind drops a style function on a native Pressable, so the 3:4
     // size went with it: picture tiles (all absolute layers) came out 0 tall
     // and only text tiles showed on a light-theme profile.
-    <View style={styles.cell}>
+    <View ref={cellRef} collapsable={false} style={styles.cell}>
       <Pressable
         onPress={() => onPress(item, kind, images)}
         {...holdProps}
@@ -267,6 +279,15 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
       >
         {({ pressed }) => <View style={[styles.press, pressed && styles.pressed]}>{body}</View>}
       </Pressable>
+      {hasGrip && (
+        <GridGrip
+          index={index as number}
+          cellRef={cellRef}
+          ghost={ghost}
+          light={lightPoster && !postBg && (kind === "text" || kind === "article")}
+          label={t("profile.arrange.drag", "Drag to move")}
+        />
+      )}
     </View>
   );
 };
@@ -314,6 +335,8 @@ const styles = StyleSheet.create({
   dur: { position: "absolute", left: 6, bottom: 6, paddingHorizontal: 5, paddingVertical: 1, borderRadius: 5, backgroundColor: "rgba(0,0,0,0.5)" },
   durText: { color: "#FFFFFF", fontSize: 10, fontWeight: "700", fontVariant: ["tabular-nums"] },
   views: { position: "absolute", right: 7, bottom: 6, color: "#FFFFFF", fontSize: 10, fontWeight: "700", textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 2 },
+  viewsGrip: { right: GRIP_ROOM, bottom: 9 },
+  audioTitleGrip: { right: GRIP_ROOM },
   textInner: { flex: 1, paddingHorizontal: 8, paddingTop: 9, paddingBottom: 8, gap: 4 },
   quote: { fontSize: 26, lineHeight: 22, height: 14, fontWeight: "800", opacity: 0.3 },
   softGap: { height: 14 },
@@ -331,4 +354,6 @@ const styles = StyleSheet.create({
   audioTitle: { position: "absolute", left: 7, right: 7, bottom: 6, color: "#FFFFFF", fontSize: 10, fontWeight: "700" },
 });
 
-export default memo(ProfileGridTile);
+const MemoTile = memo(ProfileGridTile);
+
+export default MemoTile;

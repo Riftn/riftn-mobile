@@ -57,7 +57,7 @@ function rowOf(item: UnifiedFeedItem): ArrangeRow | null {
 }
 
 /** The creator's posts in the order the profile shows them now. */
-async function loadRows(address: string): Promise<ArrangeRow[]> {
+export async function loadArrangeRows(address: string): Promise<ArrangeRow[]> {
   const rows: ArrangeRow[] = [];
   const seen = new Set<number>();
   for (let page = 1; rows.length < LOAD_LIMIT; page += 1) {
@@ -100,7 +100,7 @@ const ProfileArrangeSheet: React.FC<ProfileArrangeSheetProps> = ({ visible, onCl
     if (!address) return;
     let live = true;
     setState("loading");
-    loadRows(address)
+    loadArrangeRows(address)
       .then((loaded) => { if (live) { setRows(loaded); setState("ready"); } })
       .catch(() => { if (live) setState("failed"); });
     return () => { live = false; };

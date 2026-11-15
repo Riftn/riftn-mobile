@@ -269,7 +269,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
   const renderScene = (key: string) => {
     switch (key) {
       case "home":
-        return <FeedRoute address={address} listHeader={listHeader} onScroll={workletScroll} postType={homePostType} {...contentQuery} />;
+        return <FeedRoute address={address} listHeader={listHeader} onScroll={workletScroll} postType={homePostType} hasCustomOrder={hasCustomOrder} onOrderSaved={handleOrderSaved} {...contentQuery} />;
       case "posts":
         return <PostsRoute address={address} listHeader={listHeader} onScroll={workletScroll} />;
       case "images":
