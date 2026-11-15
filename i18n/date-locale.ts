@@ -1,5 +1,12 @@
 import { formatDistance, setDefaultOptions } from 'date-fns';
-import { ar, es, fr, nl, tr, enUS } from 'date-fns/locale';
+// One file per language: the 'date-fns/locale' index pulls in all ~100
+// languages (about 1 MB of app code) and only these are used.
+import { ar } from 'date-fns/locale/ar';
+import { es } from 'date-fns/locale/es';
+import { fr } from 'date-fns/locale/fr';
+import { nl } from 'date-fns/locale/nl';
+import { tr } from 'date-fns/locale/tr';
+import { enUS } from 'date-fns/locale/en-US';
 
 const locales = { ar, es, fr, nl, tr };
 export function applyDateLocale(language: string): void {
