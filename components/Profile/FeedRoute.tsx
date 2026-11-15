@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { View, Text, type NativeSyntheticEvent, type NativeScrollEvent } from 'react-native';
 import { useProfilePins } from '../../hooks/usePinnedPosts';
@@ -20,6 +21,14 @@ import FeedCardSkeleton from '../Feed/FeedCardSkeleton';
 import Icon from '../ui/Icon';
 import { isReelSlide } from '../../libs/profileReel';
 import { useProfileViewMode } from '../../libs/profileViewMode';
+import { GridDragHost } from './GridDrag';
+import { loadArrangeRows } from './ProfileArrangeSheet';
+import { moveInOrder, postsBefore } from '../../libs/profileGridMove';
+import { saveProfileOrder } from '../../services/profile-order.service';
+import { toastError, toastSuccess } from '../../libs/toast';
+
+const PAGE_SIZE = 10;
+const tokenOf = (item: UnifiedFeedItem | undefined) => Number(item?.tokenId ?? item?.id);
 
 // One recycle pool per tile kind: photo, video, text and song tiles draw different trees.
 const gridItemTypeOf = (item: any) => gridTileKind(item as UnifiedFeedItem);
@@ -43,6 +52,10 @@ interface FeedRouteProps {
   /** Either a plain callback, or a Reanimated worklet scroll handler (InfiniteFeed accepts both). */
   onScroll?: ((event: NativeSyntheticEvent<NativeScrollEvent>) => void) | any;
   scrollEnabled?: boolean;
+  /** The creator has saved their own order of posts. */
+  hasCustomOrder?: boolean;
+  /** A drag on the grid saved a new order. */
+  onOrderSaved?: (custom: boolean) => void;
 }
 
 /**
@@ -80,8 +93,11 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   isPPV,
   hasBounty,
   isLocked,
+  hasCustomOrder = false,
+  onOrderSaved,
 }) => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
   const { isSignedIn } = useAuthState();
   const user = useUser() as any;
   const ownAddress = user?.walletAddress || user?.address;
@@ -132,6 +148,75 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
 
   const viewMode = useProfileViewMode();
   const isList = viewMode === 'list';
+
+  const cacheKey = useMemo(() => [
+    "profile-feed-all",
+    address ?? "",
+    sortBy ?? "createdAt",
+    sortOrder ?? "desc",
+    search ?? "",
+    category ?? "",
+    range ?? "",
+    postType ?? "all",
+    isPPV ? "ppv" : "",
+    hasBounty ? "bounty" : "",
+    isLocked ? "locked" : "",
+  ], [address, sortBy, sortOrder, search, category, range, postType, isPPV, hasBounty, isLocked]);
+
+  // Your own grid, showing the order a drag would change (your saved order, or
+  // newest first before one is saved): each tile carries a grip to move it by.
+  const plainView = !search && !category && !range && (!postType || postType === 'all') && !isPPV && !hasBounty && !isLocked;
+  const canArrange = isOwnProfile && !isList && !!address && plainView
+    && (sortBy === 'custom' || (isDefaultView && !hasCustomOrder));
+  const [holding, setHolding] = useState(false);
+  const [saving, setSaving] = useState(false);
+  // What each place in the grid holds, as the list last drew it.
+  const placed = useRef<(UnifiedFeedItem | undefined)[]>([]);
+  const getCount = useCallback(() => placed.current.length, []);
+  // A new sort or search is a new list: forget the old places.
+  useMemo(() => { placed.current = []; }, [cacheKey]);
+  const dropTile = useCallback(async (from: number, to: number) => {
+    const moved = tokenOf(placed.current[from]);
+    if (!address || !Number.isFinite(moved)) return;
+    const before = postsBefore(placed.current, from, to).map(tokenOf).filter(Number.isFinite);
+    const queryKey = ["infinite-feed", ...cacheKey, PAGE_SIZE];
+    const previous = queryClient.getQueryData(queryKey);
+    // Show it in its new place at once; the saved order follows.
+    queryClient.setQueryData(queryKey, (old: any) => {
+      if (!old?.pages) return old;
+      const flat: any[] = old.pages.flatMap((page: any) => page.result || []);
+      const at = flat.findIndex((row) => tokenOf(row) === moved);
+      if (at < 0) return old;
+      const [row] = flat.splice(at, 1);
+      const anchor = before.length ? flat.findIndex((other) => tokenOf(other) === before[0]) : -1;
+      flat.splice(anchor + 1, 0, row);
+      let cursor = 0;
+      return {
+        ...old,
+        pages: old.pages.map((page: any) => {
+          const size = (page.result || []).length;
+          const result = flat.slice(cursor, cursor + size);
+          cursor += size;
+          return { ...page, result };
+        }),
+      };
+    });
+    setSaving(true);
+    try {
+      const rows = await loadArrangeRows(address);
+      const next = moveInOrder(rows.map((row) => row.tokenId), moved, before);
+      if (!next) throw new Error("post not in the saved order");
+      await saveProfileOrder(next);
+      onOrderSaved?.(true);
+      void queryClient.invalidateQueries({ queryKey: ["infinite-feed"] });
+      toastSuccess(t("profile.arrange.saved", "Your order is saved"));
+    } catch {
+      queryClient.setQueryData(queryKey, previous);
+      toastError(t("profile.arrange.saveFailed", "Could not save your order. Please try again."));
+    } finally {
+      setSaving(false);
+    }
+  }, [address, cacheKey, queryClient, onOrderSaved, t]);
 
   // Pinned posts lead the grid as their own row of tiles, wearing a Pinned chip.
   // In the list they lead as full cards under a small Pinned line.
@@ -209,9 +294,10 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   // its deps, so a fresh arrow per render invalidated it and re-rendered every
   // cell in the window on any re-render of this route.
   const renderItem = useCallback(
-    ({ item }: InfiniteFeedRenderItemInfo) => (
-      <ProfileGridTile item={item as UnifiedFeedItem} onPress={openTile} ownerHold={isOwnProfile} />
-    ),
+    ({ item, index }: InfiniteFeedRenderItemInfo) => {
+      placed.current[index] = item as UnifiedFeedItem;
+      return <ProfileGridTile item={item as UnifiedFeedItem} onPress={openTile} ownerHold={isOwnProfile} index={index} />;
+    },
     [openTile, isOwnProfile],
   );
   // isVisible must be forwarded or FeedCard falls back to its own `true`
@@ -231,7 +317,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   );
 
   return (
-    <View className="flex-1">
+    <GridDragHost enabled={canArrange && !saving} getCount={getCount} onDrop={dropTile} onHoldChange={setHolding}>
       <InfiniteFeed
         // Grid and list lay rows out differently (3 columns vs 1): a fresh
         // list for each, reading the same cached pages.
@@ -242,23 +328,11 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
         // reads fetchPage through a ref, so a key that omits the toolbar state
         // keeps serving the first sort/search/filter the tab was ever opened
         // with.
-        cacheKey={[
-          "profile-feed-all",
-          address ?? "",
-          sortBy ?? "createdAt",
-          sortOrder ?? "desc",
-          search ?? "",
-          category ?? "",
-          range ?? "",
-          postType ?? "all",
-          isPPV ? "ppv" : "",
-          hasBounty ? "bounty" : "",
-          isLocked ? "locked" : "",
-        ]}
+        cacheKey={cacheKey}
         fetchPage={fetchPage}
         // 10 fill the first screen; the next page waits until the visitor
         // scrolls within about half a screen of the end.
-        pageSize={10}
+        pageSize={PAGE_SIZE}
         endReachedThreshold={0.6}
         isSignedIn={isSignedIn}
         contentContainerStyle={{ paddingBottom: 80, paddingTop: 0, paddingHorizontal: isList ? 0 : 1 }}
@@ -268,7 +342,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
         headerComponent={header}
         loadingComponent={isList ? <View className="px-2"><FeedCardSkeleton count={3} /></View> : <GridSkeleton />}
         onScroll={onScroll}
-        scrollEnabled={scrollEnabled}
+        scrollEnabled={scrollEnabled && !holding}
         emptyComponent={(
           <ProfileEmptyState
             kind="home"
@@ -278,7 +352,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
         )}
         renderItem={isList ? renderListItem : renderItem}
       />
-    </View>
+    </GridDragHost>
   );
 };
 
