@@ -171,9 +171,9 @@ function Clip({ name, playing }: { name: ClipName; playing: boolean }) {
     if (playing) player.play();
     else player.pause();
   }, [player, playing]);
+  // The tile's still sits underneath; the clip fades in over it once its first frame is drawn.
   return (
     <Animated.View style={[StyleSheet.absoluteFill, { opacity }]}>
-      <Image source={CLIPS[name].poster} style={StyleSheet.absoluteFill} resizeMode="cover" />
       <VideoView
         onFirstFrameRender={fadeIn}
         player={player}
@@ -254,6 +254,8 @@ function Lane({ clips, down, tileW, height, still, line, armed }: {
     <Animated.View style={{ width: tileW, gap: GAP, transform: [{ translateY }] }}>
       {tiles.map((name, i) => (
         <View key={i} style={[styles.tile, { width: tileW, height: tileH, borderColor: line }]}>
+          {/* The still is there from the first frame, before the clip is built. */}
+          <Image source={CLIPS[name].poster} style={StyleSheet.absoluteFill} resizeMode="cover" />
           {armed && seen[i] ? <Clip name={name} playing={visible[i]} /> : null}
         </View>
       ))}
