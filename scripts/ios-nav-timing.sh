@@ -220,6 +220,11 @@ run() {
             # "type:<label>:<text>": typed into whatever has the cursor.
             IFS=: read -r _ _ type_text <<< "$touch"
             idb ui text --udid "$UDID" "$type_text" >/dev/null 2>&1 || echo "$name: idb text failed" ;;
+          scrub:*)
+            # "scrub:<label>:<y>": a finger drawn slowly along the player's
+            # scrubber, slow enough for the tour to picture it half way.
+            IFS=: read -r _ _ scrub_y <<< "$touch"
+            idb ui swipe --udid "$UDID" --duration 6 70 "$scrub_y" 310 "$scrub_y" >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           drag:*)
             # A finger pulling the page down, above where a keyboard sits.
             idb ui swipe --udid "$UDID" --duration 0.5 200 250 200 400 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;

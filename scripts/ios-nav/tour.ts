@@ -692,7 +692,14 @@ async function runWide(): Promise<void> {
   await sleep(6500);
   extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
   await shot("wide-1-buttons");
-  await sleep(5000);
+  await sleep(700);
+  // A finger on the scrubber, pictured while it is still down: the row sits
+  // above the player's buttons, which close the screen.
+  const scrubY = Math.round(Dimensions.get("window").height - (initialWindowMetrics?.insets.bottom ?? 34) - 16 - 40 - 22);
+  await AsyncStorage.setItem(SWIPE_KEY, `scrub:wide-scrub:${scrubY}`);
+  await sleep(4200);
+  await shot("wide-1b-scrub");
+  await sleep(9000);
   await shot("wide-2-clear");
   await sleep(700);
   // On the plain stage: the + under the video opens Info Stage, and the
