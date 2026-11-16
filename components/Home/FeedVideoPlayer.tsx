@@ -585,13 +585,18 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   const measuredAspect = videoAspect ?? knownVideoAspect(tokenId) ?? posterAspect ?? storedAspect ?? null;
   const mediaAspect = useFeedFrameAspect(`video:${tokenId ?? thumbnail}`, videoAspect ? clampAspect(videoAspect, THIN_MIN_RATIO) : thumbAspect, isVisible, !postPage,
     measuredAspect == null ? undefined : clampAspect(measuredAspect, THIN_MIN_RATIO));
-  const { isMinimal: minimalTheme } = useAppTheme();
+  const { isMinimal: minimalTheme, isLight } = useAppTheme();
   // The cinematic system feed runs media edge to edge exactly like minimal,
   // with its own chrome over the top and bottom bands.
   const bleed = useFeedBleed();
   const isMinimal = minimalTheme || !!bleed;
   // Media that reaches the screen edges keeps its controls off them.
   const edgeToEdge = isMinimal || postPage;
+  // The post page sits its media in the post's own column, so outside the
+  // square themes it keeps the feed's corners. On System Light the transport
+  // strip is paper, so the picture carries all four corners itself.
+  const roundPage = postPage && !isMinimal;
+  const pictureRound = roundPage && isLight ? PAGE_PICTURE_ROUND : null;
   const windowSize = useWindowDimensions();
   // The frame takes the clip's own shape, so the whole picture fills it.
   const cropMedia = true;
@@ -1400,6 +1405,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
         },
         (isMinimal || postPage) && MINIMAL_MEDIA,
         (postPage || bleed) && POST_PAGE_MEDIA,
+        roundPage && PAGE_FRAME_ROUND,
         sharedPoster && styles.sharedPosterPlayer,
       ]}
     >
@@ -1413,7 +1419,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
         // showing the previous card's thumbnail.
         <SmartImage
           source={{ uri: thumbnail }}
-          style={[styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }]]}
+          style={[styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }], pictureRound]}
           contentFit={cropMedia ? "cover" : "contain"}
           recyclingKey={thumbnail}
           transition={0}
@@ -1425,7 +1431,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
       ))}
 
       {canPlay && isVisible && sourceRequested && ownsVideo && player && (
-        <View pointerEvents="none" style={coverBox ? [styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }], styles.videoClip] : StyleSheet.absoluteFill}>
+        <View pointerEvents="none" style={coverBox || pictureRound ? [styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }], styles.videoClip, pictureRound] : StyleSheet.absoluteFill}>
         <PersistentVideoView
           ref={videoViewRef}
           player={player}
@@ -1443,7 +1449,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
           // normal view hierarchy, so it respects z-order and clipping.
           surfaceType="textureView"
           onFirstFrameRender={() => { setFirstFrameRendered(true); recovery.progress(); }}
-          style={[coverBox ?? [styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }]], { opacity: firstFrameRendered && (hideControls
+          style={[coverBox ?? (pictureRound ? StyleSheet.absoluteFill : [styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }]]), { opacity: firstFrameRendered && (hideControls
             ? (hasStartedAutoplay && videoReady)
             : (isPlaying || hasStartedAutoplay)
           ) ? 1 : 0 }]}
@@ -1817,6 +1823,9 @@ const CONTROL_FILL = "#1D1F21";
 const MINIMAL_MEDIA = { borderRadius: 0, backgroundColor: "#000" } as const;
 // Post page: the media is the top of the screen, so no gap above it.
 const POST_PAGE_MEDIA = { marginTop: 0 } as const;
+// Post page outside the square themes: the feed's corners (FEED_BENTO_RADIUS).
+const PAGE_FRAME_ROUND = { borderRadius: 12 } as const;
+const PAGE_PICTURE_ROUND = { borderRadius: 12, overflow: "hidden" } as const;
 // Edge-to-edge media puts its controls on the screen edge, where Android's
 // back gesture lives. Web pushes them in the same way (index.css, minimal).
 const MINIMAL_EDGE = 16;
@@ -2201,7 +2210,7 @@ const FeedVideoPoster: React.FC<Pick<FeedVideoPlayerProps, "tokenId" | "storedAs
     const posterAspect = getMeasuredMediaAspect(thumbnail) ?? storedAspect ?? null;
     const mediaAspect = useFeedFrameAspect(`video:${tokenId ?? thumbnail}`, measuredAspect, isVisible, !postPage,
       posterAspect == null ? undefined : measuredAspect);
-    const { isMinimal: minimalTheme } = useAppTheme();
+    const { isMinimal: minimalTheme, isLight } = useAppTheme();
     const bleed = useFeedBleed();
     const isMinimal = minimalTheme || !!bleed;
     const edgeToEdge = isMinimal || postPage;
@@ -2222,12 +2231,13 @@ const FeedVideoPoster: React.FC<Pick<FeedVideoPlayerProps, "tokenId" | "storedAs
           },
           (isMinimal || postPage) && MINIMAL_MEDIA,
           (postPage || bleed) && POST_PAGE_MEDIA,
+          postPage && !isMinimal && PAGE_FRAME_ROUND,
         ]}
       >
         {thumbnail ? (
           <SmartImage
             source={{ uri: thumbnail }}
-            style={[styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }]]}
+            style={[styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }], postPage && !isMinimal && isLight && PAGE_PICTURE_ROUND]}
             contentFit={cropMedia ? "cover" : "contain"}
             recyclingKey={thumbnail}
             transition={0}
