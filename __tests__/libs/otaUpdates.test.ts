@@ -9,6 +9,7 @@ import * as Updates from "expo-updates";
 import {
   APPLY_AFTER_BACKGROUND_MS,
   __resetOtaStateForTests,
+  applyOtaUpdateDuringSetup,
   applyOtaUpdateIfReady,
   checkForOtaUpdate,
   isUpdateReady,
@@ -76,6 +77,29 @@ describe("over-the-air updates on foreground", () => {
     mocked.checkForUpdateAsync.mockRejectedValue(new Error("offline"));
     await expect(checkForOtaUpdate(1_000_000_000)).resolves.toBeUndefined();
     expect(isUpdateReady()).toBe(false);
+  });
+
+  it("restarts into a downloaded update during first-run setup", async () => {
+    await checkForOtaUpdate(1_000_000_000);
+    await expect(applyOtaUpdateDuringSetup()).resolves.toBe(true);
+    expect(mocked.reloadAsync).toHaveBeenCalledTimes(1);
+  });
+
+  it("carries on with setup when no update is ready", async () => {
+    mocked.checkForUpdateAsync.mockResolvedValue({ isAvailable: false });
+    await expect(applyOtaUpdateDuringSetup(50)).resolves.toBe(false);
+    expect(mocked.reloadAsync).not.toHaveBeenCalled();
+  });
+
+  it("waits for a download that is still running before sign-in", async () => {
+    let done: (value: { isNew: boolean }) => void = () => {};
+    mocked.fetchUpdateAsync.mockReturnValue(new Promise((resolve) => { done = resolve; }));
+    const applied = applyOtaUpdateDuringSetup(5_000);
+    await Promise.resolve();
+    await Promise.resolve();
+    done({ isNew: true });
+    await expect(applied).resolves.toBe(true);
+    expect(mocked.fetchUpdateAsync).toHaveBeenCalledTimes(1);
   });
 });
 

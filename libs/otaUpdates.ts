@@ -24,14 +24,21 @@ let nextCheckAt = 0;
 let failureCount = 0;
 let updateReady = false;
 let checking = false;
+let inFlight: Promise<void> | null = null;
 
 export function isUpdateReady(): boolean {
   return updateReady;
 }
 
-export async function checkForOtaUpdate(now = Date.now()): Promise<void> {
-  if (__DEV__ || !Updates.isEnabled || checking) return;
-  if (now < nextCheckAt) return;
+export function checkForOtaUpdate(now = Date.now()): Promise<void> {
+  if (__DEV__ || !Updates.isEnabled) return Promise.resolve();
+  if (checking) return inFlight ?? Promise.resolve();
+  if (now < nextCheckAt) return Promise.resolve();
+  inFlight = runCheck(now).finally(() => { inFlight = null; });
+  return inFlight;
+}
+
+async function runCheck(now: number): Promise<void> {
   checking = true;
   try {
     const check = await Updates.checkForUpdateAsync();
@@ -71,9 +78,37 @@ export async function applyOtaUpdateIfReady(backgroundMs: number, allowReload = 
   }
 }
 
+/**
+ * First-run setup only. A fresh install opens on the code its store build was
+ * made from, and the update it downloads waits for the next cold launch, so a
+ * new person met a sign-in screen weeks behind the current one. Setup already
+ * restarts the app for a right-to-left language, with its step saved; the same
+ * restart here puts the current code in place before sign-in is ever drawn.
+ *
+ * `waitMs`: how long to give a download that is still running. Returns false
+ * when there is nothing to apply, and the caller carries on as before.
+ */
+export async function applyOtaUpdateDuringSetup(waitMs = 0): Promise<boolean> {
+  if (__DEV__ || !Updates.isEnabled) return false;
+  if (!updateReady && waitMs > 0) {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    await Promise.race([checkForOtaUpdate(), new Promise<void>((resolve) => { timer = setTimeout(resolve, waitMs); })]);
+    clearTimeout(timer);
+  }
+  if (!updateReady) return false;
+  updateReady = false;
+  try {
+    await Updates.reloadAsync();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function __resetOtaStateForTests(): void {
   nextCheckAt = 0;
   failureCount = 0;
   updateReady = false;
   checking = false;
+  inFlight = null;
 }

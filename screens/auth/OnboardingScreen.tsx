@@ -51,6 +51,7 @@ import {
   setPendingMature,
 } from "../../libs/onboarding-choices";
 import { toastError } from "../../libs/toast";
+import { applyOtaUpdateDuringSetup, checkForOtaUpdate } from "../../libs/otaUpdates";
 
 type Nav = StackNavigationProp<AuthStackParamList, typeof ScreenNames.Onboarding>;
 
@@ -80,8 +81,23 @@ const OnboardingScreen: React.FC = () => {
     });
   }, []);
 
+  // A fresh install runs the code its store build was made from. Fetch the
+  // current code while the person picks a language and a theme, and restart
+  // into it between steps, so sign-in is never the old one.
+  useEffect(() => {
+    void checkForOtaUpdate();
+  }, []);
+
+  const goToStep = useCallback(async (to: number) => {
+    setStep(to);
+    await saveSetupStep(to);
+    void applyOtaUpdateDuringSetup();
+  }, []);
+
   const finish = useCallback(async () => {
     await Promise.all([setHasSeenOnboarding(), setHasSeenAuth(), saveSetupStep(null)]);
+    // Restarts straight into sign-in: setup is marked as seen above.
+    if (await applyOtaUpdateDuringSetup(2500)) return;
     navigation.replace(ScreenNames.SignIn);
   }, [navigation]);
 
@@ -102,8 +118,7 @@ const OnboardingScreen: React.FC = () => {
       return;
     }
     if (step < STEPS - 1) {
-      setStep(step + 1);
-      void saveSetupStep(step + 1);
+      void goToStep(step + 1);
       return;
     }
     if (audience === "kids") {
@@ -111,16 +126,15 @@ const OnboardingScreen: React.FC = () => {
       return;
     }
     await saveAudience(audience);
-  }, [step, needsReload, audience, saveAudience]);
+  }, [step, needsReload, audience, saveAudience, goToStep]);
 
   const skip = useCallback(async () => {
     if (step < STEPS - 1) {
-      setStep(step + 1);
-      void saveSetupStep(step + 1);
+      void goToStep(step + 1);
       return;
     }
     await saveAudience("everyone");
-  }, [step, saveAudience]);
+  }, [step, saveAudience, goToStep]);
 
   const back = useCallback(() => {
     if (step === 0) return;
