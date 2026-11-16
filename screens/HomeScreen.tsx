@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect, useDeferredValue } from "react";
-import { Platform, Pressable, View, StyleSheet, InteractionManager, useWindowDimensions, type LayoutChangeEvent } from "react-native";
+import { PixelRatio, Platform, Pressable, View, StyleSheet, InteractionManager, useWindowDimensions, type LayoutChangeEvent } from "react-native";
 import { useSwipeBackAction } from '../hooks/useSwipeBack';
 import { useBackPress } from "../hooks/useBackPress";
 import { useTranslation } from "react-i18next";
@@ -77,6 +77,7 @@ import {
 } from "../context/UserProfileSheetContext";
 import { FeedPlaybackActiveContext } from "../libs/visualActivity";
 import { usePerfProbe, usePerfWhy } from "../libs/perfTrace";
+import { recallLayout, recalledSize, rememberLayout } from "../libs/launchLayoutMemo";
 import UserProfileBottomSheet from "../components/UserProfile/UserProfileBottomSheet";
 import GettingStartedCard from "../components/Onboarding/GettingStartedCard";
 import { pagerPageIntersectsViewport } from "../libs/pagerVisibility";
@@ -364,7 +365,8 @@ export default function HomeScreen() {
     } catch {}
   }, []);
   const [categories, setCategories] = useState<string[]>(FALLBACK_CATEGORIES);
-  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  // True from the start: the list is asked for as Home mounts.
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   const { openDrawer } = useDrawerActions();
   // One handle per feed-list tab; stable ref objects so InfiniteVideoFeed's
   // feedRef effect never re-fires from a new ref identity.
@@ -400,9 +402,15 @@ export default function HomeScreen() {
   // Pages mount on first approach and stay mounted. Keep unvisited pages out
   // of startup work, matching web's navigation-intent loading. PagerPage
   // controls drawing while preserving each visited list's state.
-  const [mountedTabs, setMountedTabs] = useState<ReadonlySet<TabKey>>(
-    () => new Set<TabKey>(["all"]),
-  );
+  // Starts with the open tab and its neighbours, which is what the effect
+  // below asked for one render later on every launch.
+  const [mountedTabs, setMountedTabs] = useState<ReadonlySet<TabKey>>(() => {
+    const first = new Set<TabKey>(["all"]);
+    first.add(TAB_ORDER[activeIndex]);
+    if (activeIndex > 0) first.add(TAB_ORDER[activeIndex - 1]);
+    if (activeIndex < LAST_INDEX) first.add(TAB_ORDER[activeIndex + 1]);
+    return first;
+  });
 
   // Derived during render, not in an effect, so a tab tapped from across the bar
   // mounts in the same commit that moves the pager — an effect would paint one
@@ -419,6 +427,9 @@ export default function HomeScreen() {
     if (visibleTabs.size !== mountedTabs.size) setMountedTabs(visibleTabs);
   }, [visibleTabs, mountedTabs]);
 
+  // Last run's measurements for this theme and screen width (launchLayoutMemo).
+  const layoutKey = `home|${theme}|${skin ? "skin" : "plain"}|${Math.round(pageWidth)}|${Math.round(PixelRatio.getFontScale() * 100)}`;
+  const layoutMemo = useMemo(() => recallLayout(layoutKey), [layoutKey]);
   const {
     translateY: headerTranslateY,
     scrollOffset,
@@ -430,7 +441,7 @@ export default function HomeScreen() {
     showHeader,
     driveWorklet: driveHeader,
     rebaseWorklet: rebaseHeader,
-  } = useCollapsibleHeader();
+  } = useCollapsibleHeader({ initialHeight: recalledSize(layoutMemo, "headerHeight", 0) });
   // Every theme pulls the feed down itself (not the native spinner), so the
   // pill can glow with the pull as the immersive capsule does.
   // Any phone, any theme: useCinematicPhone is Immersive-only.
@@ -790,11 +801,16 @@ export default function HomeScreen() {
   // feed off at the top edge of the nav pill instead; this does the same. The
   // viewport slides down to the pill's top and its content slides back up by
   // the same amount: two transforms on the UI thread, no layout per frame.
-  const navPillTop = useSharedValue(0);
-  const navPillBottom = useSharedValue(0);
-  const [pillTopInHeader, setPillTopInHeader] = useState(0);
-  const [navOverlap, setNavOverlap] = useState(38);
-  const [pillBottom, setPillBottom] = useState(0);
+  const rememberedPillTop = recalledSize(layoutMemo, "pillTopInHeader", 0);
+  const navPillTop = useSharedValue(rememberedPillTop > 0 ? rememberedPillTop - 4 + NAV_PILL_RADIUS : 0);
+  const navPillBottom = useSharedValue(recalledSize(layoutMemo, "pillBottom", 0));
+  const [pillTopInHeader, setPillTopInHeader] = useState(() => recalledSize(layoutMemo, "pillTopInHeader", 0));
+  const [navOverlap, setNavOverlap] = useState(() => recalledSize(layoutMemo, "navOverlap", 38));
+  const [pillBottom, setPillBottom] = useState(() => recalledSize(layoutMemo, "pillBottom", 0));
+  useEffect(() => {
+    if (headerHeight <= 0) return;
+    rememberLayout(layoutKey, { headerHeight, pillTopInHeader, navOverlap, pillBottom });
+  }, [layoutKey, headerHeight, pillTopInHeader, navOverlap, pillBottom]);
   const onNavLayout = useCallback((e: LayoutChangeEvent) => {
     setNavOverlap(e.nativeEvent.layout.height - NAV_PILL_TOP_INSET);
     setPillTopInHeader(e.nativeEvent.layout.y + NAV_PILL_TOP_INSET + 4);
@@ -1271,7 +1287,6 @@ export default function HomeScreen() {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      setCategoriesLoading(true);
       const list = await getCategoriesCached();
       if (mounted && list?.length) {
         const cleaned = list.filter((c) => c && c.toLowerCase() !== "all");
