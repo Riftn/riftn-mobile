@@ -32,10 +32,10 @@ const COOLDOWN_MS = ANIM_DURATION;
  *   back for it. Clamped to the measured height, so an over-large value just
  *   gives the default behaviour back.
  */
-export const useCollapsibleHeader = ({ collapseHeight }: { collapseHeight?: number } = {}) => {
+export const useCollapsibleHeader = ({ collapseHeight, initialHeight = 0 }: { collapseHeight?: number; /** The height measured on an earlier run, so the first render already has it. */ initialHeight?: number } = {}) => {
   const translateY = useSharedValue(0);
   const scrollOffset = useSharedValue(0);
-  const headerHeightSV = useSharedValue(0);
+  const headerHeightSV = useSharedValue(initialHeight);
   const visibleSV = useSharedValue(1);
   // Mirrored into a shared value for the worklet path and a ref for the JS one,
   // the same split every other measurement in here already uses.
@@ -50,9 +50,9 @@ export const useCollapsibleHeader = ({ collapseHeight }: { collapseHeight?: numb
   const jsAccum = useRef(0);
   const jsVisible = useRef(true);
   const jsLastToggle = useRef(0);
-  const heightRef = useRef(0);
+  const heightRef = useRef(initialHeight);
 
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const [headerHeight, setHeaderHeight] = useState(initialHeight);
 
   useEffect(() => {
     const limit = collapseHeight && collapseHeight > 0 ? collapseHeight : 0;
