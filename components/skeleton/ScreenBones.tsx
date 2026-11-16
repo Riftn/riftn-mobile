@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppTheme } from '../../context/ThemeContext';
@@ -59,14 +59,25 @@ export default function ScreenBones({ entry }: { entry: ScreenBonesEntry }) {
   const { isMinimal, isLight, skin, accent } = useAppTheme();
   const [, , measuredTop, raw] = entry;
   const list = useMemo(() => shapes(raw), [raw]);
-  // Everything sits below the status bar, whose height differs by phone.
-  const shift = insets.top - measuredTop;
+  // The layout was measured from the top of the screen. Pages sit below the
+  // status bar, whose height differs by phone, and this view starts wherever
+  // its page does: usually right under the status bar, at the very top for a
+  // page drawn edge to edge. Where it starts is read once it is laid out.
+  const box = useRef<View>(null);
+  const [originY, setOriginY] = useState(insets.top);
+  useLayoutEffect(() => {
+    box.current?.measureInWindow((_x, y) => {
+      if (Number.isFinite(y) && Math.abs(y - originY) > 0.5 && y >= 0 && y <= insets.top + 1) setOriginY(y);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [insets.top]);
+  const shift = insets.top - measuredTop - originY;
   const ink = isLight ? '11,11,13' : skin && accent ? accent.join(',') : '255,255,255';
   const fill = `rgba(${ink},${isMinimal ? 0.05 : 0.09})`;
   const panel = `rgba(${ink},0.035)`;
   const square = !!skin?.square || isMinimal;
   return (
-    <View pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"
+    <View ref={box} pointerEvents="none" accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants"
       style={[StyleSheet.absoluteFill, { overflow: 'hidden' }]}>
       {list.map(([x, y, w, h, r, kind], i) => (
         <View key={i} style={{
