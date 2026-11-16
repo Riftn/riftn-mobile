@@ -2534,11 +2534,11 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
         style={[styles.scrubTrack, { opacity: videoUrl ? chromeOpacity : 0 }]}
         pointerEvents={videoUrl && chromeVisible && isActive ? "auto" : "none"}
       >
+        {/* Drawn over the picture or the always-dark stage, so it keeps its
+            white in System Light. */}
+        <KeepDarkScope>
         <GestureDetector gesture={scrubGesture}>
           <View
-            // Drawn over the picture or the always-dark stage, so it keeps
-            // its white in System Light.
-            className="dark-surface"
             style={styles.scrubHitArea}
             onLayout={onScrubTrackLayout}
             {...scrubTouchGuard}
@@ -2568,6 +2568,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
             </Animated.View>
           </View>
         </GestureDetector>
+        </KeepDarkScope>
       </Animated.View>
 
       {/* Faded, not unmounted: the swipe-down clear and the restore tap both
