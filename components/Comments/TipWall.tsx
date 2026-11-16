@@ -12,10 +12,8 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { LinearGradient } from "expo-linear-gradient";
-import Svg, { Circle, Defs, RadialGradient, Stop } from "react-native-svg";
 import { useTranslation } from "react-i18next";
 import i18n from "../../i18n";
-import { Coins as CutCoins } from "../ui/cut-icons";
 import { getAvatarUrl } from "../../libs";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -50,24 +48,7 @@ function wholeAmount(amount: number): string {
 
 /** The gold coin: Riftn's mark struck into a gold disc. */
 export const GoldCoin = memo(function GoldCoin({ size = 14 }: { size?: number }) {
-  return (
-    <View style={{ width: size, height: size }}>
-      <Svg width={size} height={size} viewBox="0 0 24 24" style={StyleSheet.absoluteFill}>
-        <Defs>
-          <RadialGradient id="gc" cx="35%" cy="30%" r="75%">
-            <Stop offset="0" stopColor="#fff6c8" />
-            <Stop offset="0.38" stopColor="#f7cf55" />
-            <Stop offset="0.7" stopColor="#d39a22" />
-            <Stop offset="1" stopColor="#9a600c" />
-          </RadialGradient>
-        </Defs>
-        <Circle cx="12" cy="12" r="11.5" fill="url(#gc)" stroke="#7a4c0a" strokeOpacity={0.55} strokeWidth={1} />
-      </Svg>
-      <View style={StyleSheet.absoluteFill}>
-        <CutCoins size={size} color="#8a560a" strokeWidth={1.6} />
-      </View>
-    </View>
-  );
+  return <Image source={require("../../assets/web-icons/dehub-coin.png")} style={{ width: size, height: size }} resizeMode="contain" />;
 });
 
 /** The amount next to a tipped comment's name: a small box, so a small corner. */
