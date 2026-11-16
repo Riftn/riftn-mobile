@@ -1,108 +1,200 @@
-import React from "react";
-import { View, Text, StyleSheet, Pressable, Modal, StatusBar } from "react-native";
+import React, { createContext, useContext, useEffect, useMemo, useRef } from "react";
+import { Animated, Easing, Modal, Pressable, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Avatar from "../common/Avatar";
 import Icon, { type IconName } from "../ui/Icon";
-import { colors } from "../../theme/colors";
 import { radius } from "../../theme/radius";
-import { useAppTheme } from '../../context/ThemeContext';
-import { useTranslation } from 'react-i18next';
+import { useAppTheme } from "../../context/ThemeContext";
+import { KeepDarkScope } from "../../libs/jsx/tone";
+import { useTranslation } from "react-i18next";
+import CallRings from "./CallRings";
+import { stagePalette, type StagePalette } from "./callStage";
+import type { PeerIdentity } from "./usePeerIdentity";
+import type { AppThemeName } from "../../theme/colors";
 
 /**
- * The shared chrome for every call surface — incoming, voice and video.
+ * The call stage: one full-screen surface for ringing, incoming, connecting,
+ * in-call and ended. The other person's picture, blurred and tinted by the
+ * theme, is the backdrop, so a call looks like it is with someone rather than
+ * like a settings page.
  *
  * A call takes the whole screen, the way the platform's own phone UI does: the
- * controls have to be hittable without looking, and a sheet that can be dragged
- * away is the wrong shape for that. What stays ours is the palette — no green
- * accept and no red hang-up anywhere, because the design system keeps both off
- * every surface. The single high-contrast control is the solid light one, and
- * which action gets it depends on the screen: accept while ringing, end once
- * the call is up.
+ * controls have to be hittable without looking. What stays ours is the
+ * palette: no green accept and no red hang-up anywhere. The single strong
+ * control is the solid one, and which action gets it depends on the step:
+ * accept while it rings, hang up once the call is up, call back once it is
+ * over.
  *
- * `radius.full` is deliberate here and only here among our buttons: theme/radius
- * carves out the in-call controls as the one place that follows the platform's
- * round-button convention. Avatars stay rounded squares.
+ * `radius.full` is deliberate here and only here among our buttons: the
+ * in-call controls follow the platform's round-button convention. Avatars stay
+ * rounded squares.
+ *
+ * The stage owns its colours (callStage.ts) and opts out of System Light's
+ * colour pass, which would otherwise turn its glass and scrims around. Its
+ * buttons paint their fill in a child (Fill) for the same reason: they sit
+ * over a picture and keep their own look instead of taking the theme's
+ * control material, which only restyles a button that carries a fill itself.
  */
 
-export const CONTROL_SIZE = 68;
-const SMALL_CONTROL_SIZE = 60;
+interface Stage { palette: StagePalette; theme: AppThemeName }
+const StageContext = createContext<Stage | null>(null);
 
-export const CallScreen: React.FC<{
+export function useStage(): Stage {
+  const { themeChoice, accent } = useAppTheme();
+  const inherited = useContext(StageContext);
+  const own = useMemo(() => ({ theme: themeChoice, palette: stagePalette(themeChoice, accent) }), [themeChoice, accent]);
+  return inherited ?? own;
+}
+
+/** A stage button's own fill, drawn inside it so the button itself stays unpainted. */
+const Fill: React.FC<{ color: string; line?: string }> = ({ color, line }) => (
+  <View
+    pointerEvents="none"
+    style={[StyleSheet.absoluteFill, { borderRadius: radius.full, backgroundColor: color }, line ? { borderWidth: 1, borderColor: line } : null]}
+  />
+);
+
+/** Controls drawn over live video are always light on dark, whatever the theme. */
+const OVER_VIDEO: Partial<StagePalette> = {
+  fg: "#FFFFFF",
+  onFg: "#0A0A0C",
+  muted: "rgba(255,255,255,0.82)",
+  glassStrong: "rgba(255,255,255,0.22)",
+  line: "rgba(255,255,255,0.2)",
+  dock: "rgba(18,18,22,0.55)",
+};
+
+export const CallStage: React.FC<{
+  peer: PeerIdentity;
   onRequestClose: () => void;
-  onMinimize?: () => void;
+  /** The round button in the top corner: minimise during a call, close after it. */
+  onCorner?: () => void;
+  cornerIcon?: IconName;
+  cornerLabel?: string;
+  /** Live video fills the stage, so the blurred picture steps aside. */
+  live?: boolean;
   children: React.ReactNode;
-}> = ({ onRequestClose, onMinimize, children }) => {
-  const { colors: palette } = useAppTheme();
+}> = ({ peer, onRequestClose, onCorner, cornerIcon = "ChevronDown", cornerLabel, live, children }) => {
+  const { themeChoice, accent } = useAppTheme();
+  const insets = useSafeAreaInsets();
+  const { t } = useTranslation();
+  const stage = useMemo<Stage>(() => {
+    const palette = stagePalette(themeChoice, accent);
+    return { theme: themeChoice, palette: live ? { ...palette, ...OVER_VIDEO, light: false } : palette };
+  }, [themeChoice, accent, live]);
+  const { palette } = stage;
+
   return (
-  <Modal
-    visible
-    onRequestClose={onRequestClose}
-    statusBarTranslucent
-    animationType="fade"
-    transparent={false}
-  >
-    <StatusBar barStyle="light-content" />
-    <View style={[styles.screen, { backgroundColor: palette.background }]}>
-      <CallBackground />
-      {children}
-      {onMinimize ? <CallMinimizeButton onPress={onMinimize} /> : null}
-    </View>
-  </Modal>
+    <Modal visible onRequestClose={onRequestClose} statusBarTranslucent animationType="fade" transparent={false}>
+      <StatusBar barStyle={palette.light ? "dark-content" : "light-content"} />
+      <KeepDarkScope>
+        <StageContext.Provider value={stage}>
+          <View style={[styles.stage, { backgroundColor: live ? "#000000" : palette.bg }]}>
+            {!live && (
+              <>
+                {peer.avatarUrl ? (
+                  <Image
+                    source={{ uri: peer.avatarUrl }}
+                    style={styles.backdrop}
+                    contentFit="cover"
+                    blurRadius={50}
+                    transition={0}
+                    pointerEvents="none"
+                  />
+                ) : null}
+                <LinearGradient
+                  colors={[palette.tintTop, palette.bg]}
+                  locations={[0, 0.92]}
+                  style={StyleSheet.absoluteFill}
+                  pointerEvents="none"
+                />
+              </>
+            )}
+            {children}
+            {onCorner ? (
+              <Pressable
+                onPress={onCorner}
+                accessibilityRole="button"
+                accessibilityLabel={cornerLabel ?? t("calls.minimize")}
+                hitSlop={8}
+                style={[styles.corner, { top: insets.top + 12 }]}
+              >
+                <Fill color={live ? palette.dock : palette.glass} line={palette.line} />
+                <View><Icon name={cornerIcon} size={20} color={palette.fg} /></View>
+              </Pressable>
+            ) : null}
+          </View>
+        </StageContext.Provider>
+      </KeepDarkScope>
+    </Modal>
   );
 };
 
-export function CallBackground() {
-  const { colors: palette, isMinimal } = useAppTheme();
-  return isMinimal ? <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: palette.background }]} /> : (
-    <LinearGradient colors={[palette.muted, palette.background, palette.background]} locations={[0, 0.55, 1]} style={StyleSheet.absoluteFill} pointerEvents="none" />
-  );
-}
+const AVATAR = 148;
 
-export function CallMinimizeButton({ onPress }: { onPress: () => void }) {
-  const insets = useSafeAreaInsets();
-  const { t } = useTranslation();
-  return <Pressable onPress={onPress} accessibilityRole="button" accessibilityLabel={t('calls.minimize')}
-    style={{ position: 'absolute', top: insets.top + 16, left: 16, width: 40, height: 40, borderRadius: 12, backgroundColor: 'rgba(255,255,255,0.05)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center' }}>
-    <Icon name="ChevronDown" size={20} color={colors.mutedForeground} />
-  </Pressable>;
-}
-
-/** Caller/callee block: what kind of call, who it is, and where it has got to. */
+/** Who the call is with, what kind it is and where it has got to. */
 export const CallIdentity: React.FC<{
   kindLabel: string;
   kindIcon: IconName;
-  name: string;
+  peer: PeerIdentity;
   status: React.ReactNode;
-  avatarUri?: string | null;
-  avatarSize?: number;
-  compact?: boolean;
-}> = ({ kindLabel, kindIcon, name, status, avatarUri, avatarSize = 112, compact }) => (
-  <View style={styles.identity}>
-    <View style={styles.kindRow}>
-      <Icon name={kindIcon} size={13} color={colors.mutedForeground} />
-      <Text style={styles.kindLabel} numberOfLines={1}>
-        {kindLabel}
-      </Text>
-    </View>
-    <Text style={[styles.name, compact && styles.nameCompact]} numberOfLines={1}>
-      {name}
-    </Text>
-    <Text style={styles.status} numberOfLines={1}>
-      {status}
-    </Text>
-    {!compact && (
-      <View style={styles.avatarWrap}>
-        <Avatar uri={avatarUri} size={avatarSize} name={name} />
+  /** Waiting on an answer, either way round: the theme's ringing effect plays. */
+  ringing?: boolean;
+  children?: React.ReactNode;
+}> = ({ kindLabel, kindIcon, peer, status, ringing, children }) => {
+  const { palette, theme } = useStage();
+  const insets = useSafeAreaInsets();
+  const corner = theme === "minimal" ? 0 : theme === "hacker" ? 4 : Math.round(AVATAR * 0.26);
+  return (
+    <View style={[styles.identity, { paddingTop: insets.top + 68 }]}>
+      <View style={styles.kindRow}>
+        <Icon name={kindIcon} size={13} color={palette.muted} />
+        <Text style={[styles.kindLabel, { color: palette.muted }]} numberOfLines={1}>{kindLabel}</Text>
       </View>
-    )}
-  </View>
-);
+      <Text style={[styles.name, { color: palette.fg }]} numberOfLines={1}>{peer.name}</Text>
+      <Text style={[styles.status, { color: palette.muted }]} numberOfLines={1}>{status}</Text>
+      <View style={styles.avatarBox}>
+        {ringing ? <CallRings theme={theme} size={AVATAR} radius={corner} palette={palette} /> : null}
+        <Avatar uri={peer.avatarUrl} size={AVATAR} radius={corner} name={peer.name} />
+      </View>
+      {children}
+    </View>
+  );
+};
+
+const WAVE = [0.45, 0.8, 1, 0.65, 0.9, 0.5, 0.75];
+
+/** A small voice wave: the call is live and sound is moving. Still when muted. */
+export const CallWave: React.FC<{ paused?: boolean; height?: number; color?: string }> = ({ paused, height = 22, color }) => {
+  const { palette } = useStage();
+  const bars = useRef(WAVE.map(() => new Animated.Value(0.3))).current;
+  useEffect(() => {
+    if (paused) return;
+    const loops = bars.map((bar, index) => Animated.loop(Animated.sequence([
+      Animated.timing(bar, { toValue: 1, duration: 420 + index * 70, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
+      Animated.timing(bar, { toValue: 0.3, duration: 420 + index * 70, easing: Easing.inOut(Easing.quad), useNativeDriver: true }),
+    ])));
+    loops.forEach((loop) => loop.start());
+    return () => loops.forEach((loop) => loop.stop());
+  }, [bars, paused]);
+  return (
+    <View style={[styles.wave, { height, opacity: paused ? 0.35 : 1 }]} pointerEvents="none">
+      {bars.map((bar, index) => (
+        <Animated.View
+          key={index}
+          style={{ width: 3, height: height * WAVE[index], borderRadius: 2, backgroundColor: color ?? palette.fg, transform: [{ scaleY: bar }] }}
+        />
+      ))}
+    </View>
+  );
+};
 
 /**
- * One round control with its label underneath. `active` inverts it to the solid
- * light fill — the same treatment the primary action gets — so a muted mic or a
- * live speaker reads at a glance without reaching for a colour we do not have.
+ * One round control with its label underneath. `active` and `primary` both
+ * take the solid fill, so a muted mic or a live loudspeaker reads at a glance
+ * without reaching for a colour we do not have.
  */
 export const CallControl: React.FC<{
   icon: IconName;
@@ -110,57 +202,109 @@ export const CallControl: React.FC<{
   onPress: () => void;
   active?: boolean;
   primary?: boolean;
-  small?: boolean;
-  accessibilityLabel?: string;
-}> = ({ icon, label, onPress, active, primary, small, accessibilityLabel }) => {
-  const size = small ? SMALL_CONTROL_SIZE : CONTROL_SIZE;
+  compact?: boolean;
+  disabled?: boolean;
+}> = ({ icon, label, onPress, active, primary, compact, disabled }) => {
+  const { palette } = useStage();
+  const size = compact ? 52 : 60;
   const solid = primary || active;
   return (
-    <View style={styles.controlSlot}>
+    <View style={[styles.controlSlot, { width: size + 8, opacity: disabled ? 0.4 : 1 }]}>
       <Pressable
         onPress={onPress}
+        disabled={disabled}
+        accessibilityRole="button"
+        accessibilityLabel={label}
+        accessibilityState={{ selected: !!active, disabled: !!disabled }}
         style={({ pressed }) => [
           styles.control,
           { width: size, height: size, borderRadius: radius.full },
-          { overflow: 'hidden' },
-          pressed && styles.controlPressed,
+          pressed && styles.pressed,
         ]}
-        accessibilityRole="button"
-        accessibilityLabel={accessibilityLabel ?? label}
-        accessibilityState={{ selected: !!active }}
       >
-        <View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: radius.full }, solid ? styles.controlSolid : styles.controlGlass]} />
-        <Icon
-          name={icon}
-          size={small ? 22 : 25}
-          color={solid ? colors.background : colors.foreground}
-        />
+        <Fill color={solid ? palette.fg : palette.glassStrong} />
+        <View><Icon name={icon} size={compact ? 21 : 24} color={solid ? palette.onFg : palette.fg} /></View>
       </Pressable>
-      <Text style={styles.controlLabel} numberOfLines={1}>
+      <Text style={[styles.controlLabel, { color: palette.muted }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
         {label}
       </Text>
     </View>
   );
 };
 
-/** The glass slab the controls sit in, welded to the bottom safe area. */
-export const CallControlPanel: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const insets = useSafeAreaInsets();
+/** The floating glass bar the in-call controls sit in. */
+export const CallDock: React.FC<{ children: React.ReactNode; compact?: boolean }> = ({ children, compact }) => {
+  const { palette } = useStage();
   return (
-    <View style={[styles.panelWrap, { paddingBottom: Math.max(20, insets.bottom + 8) }]}>
-      <View style={styles.panel}>{children}</View>
+    <View style={[styles.dock, { gap: compact ? 6 : 14, paddingHorizontal: compact ? 12 : 18, backgroundColor: palette.dock, borderColor: palette.line }]}>
+      {children}
     </View>
   );
 };
 
+/** A wide pill for the two-way choices: Decline or Accept, Close or Call back. */
+export const CallPill: React.FC<{
+  icon: IconName;
+  label: string;
+  onPress: () => void;
+  solid?: boolean;
+}> = ({ icon, label, onPress, solid }) => {
+  const { palette } = useStage();
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      style={({ pressed }) => [
+        styles.pill,
+        solid ? styles.pillSolid : null,
+        pressed && styles.pressed,
+      ]}
+    >
+      <Fill color={solid ? palette.fg : palette.glassStrong} />
+      <View><Icon name={icon} size={20} color={solid ? palette.onFg : palette.fg} /></View>
+      <Text style={[styles.pillLabel, { color: solid ? palette.onFg : palette.fg }]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>
+        {label}
+      </Text>
+    </Pressable>
+  );
+};
+
+/** The bottom of the stage: the dock or the pills, clear of the home bar. */
+export const CallFoot: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const insets = useSafeAreaInsets();
+  return <View style={[styles.foot, { paddingBottom: Math.max(22, insets.bottom + 10) }]}>{children}</View>;
+};
+
+export const CallRow: React.FC<{ children: React.ReactNode }> = ({ children }) => <View style={styles.row}>{children}</View>;
+
 const styles = StyleSheet.create({
-  screen: {
+  stage: {
     flex: 1,
-    backgroundColor: colors.background,
+    overflow: "hidden",
+  },
+  backdrop: {
+    position: "absolute",
+    top: -60,
+    left: -60,
+    right: -60,
+    bottom: -60,
+    opacity: 0.8,
+  },
+  corner: {
+    position: "absolute",
+    left: 16,
+    width: 40,
+    height: 40,
+    borderRadius: radius.full,
+    alignItems: "center",
+    justifyContent: "center",
   },
   identity: {
+    flex: 1,
     alignItems: "center",
-    gap: 6,
+    paddingHorizontal: 24,
+    gap: 4,
   },
   kindRow: {
     flexDirection: "row",
@@ -168,77 +312,89 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   kindLabel: {
-    color: colors.mutedForeground,
     fontSize: 13,
-    fontWeight: "500",
-    letterSpacing: 0.2,
-  },
-  name: {
-    color: colors.foreground,
-    fontSize: 30,
-    fontWeight: "700",
-    letterSpacing: -0.4,
-    marginTop: 2,
-    maxWidth: "90%",
-    textAlign: "center",
-  },
-  nameCompact: {
-    fontSize: 20,
     fontWeight: "600",
   },
+  name: {
+    fontSize: 32,
+    fontWeight: "800",
+    letterSpacing: -0.6,
+    maxWidth: "100%",
+    textAlign: "center",
+  },
   status: {
-    color: colors.mutedForeground,
     fontSize: 15,
     fontVariant: ["tabular-nums"],
   },
-  avatarWrap: {
-    marginTop: 28,
-    borderRadius: radius.xl + 4,
-    padding: 4,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.12)",
-    backgroundColor: "rgba(255,255,255,0.04)",
+  avatarBox: {
+    marginTop: 48,
+    width: AVATAR,
+    height: AVATAR,
   },
-  panelWrap: {
-    paddingHorizontal: 16,
-  },
-  panel: {
-    borderRadius: 32,
-    paddingVertical: 22,
-    paddingHorizontal: 12,
-    backgroundColor: "rgba(255,255,255,0.06)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.10)",
+  wave: {
     flexDirection: "row",
-    flexWrap: "wrap",
+    alignItems: "center",
+    gap: 3,
+    marginTop: 26,
+  },
+  foot: {
+    alignItems: "center",
+    gap: 14,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
     justifyContent: "center",
-    rowGap: 22,
+    gap: 12,
+    width: "100%",
+    maxWidth: 380,
+  },
+  dock: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    paddingVertical: 14,
+    borderRadius: 36,
+    borderWidth: 1,
   },
   controlSlot: {
-    width: "33.333%",
     alignItems: "center",
-    gap: 10,
+    gap: 7,
   },
   control: {
     alignItems: "center",
     justifyContent: "center",
   },
-  controlGlass: {
-    backgroundColor: "rgba(255,255,255,0.10)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.14)",
-  },
-  controlSolid: {
-    backgroundColor: colors.foreground,
-  },
-  controlPressed: {
-    opacity: 0.72,
-  },
   controlLabel: {
-    color: colors.mutedForeground,
-    fontSize: 13,
-    fontWeight: "500",
+    fontSize: 12,
+    fontWeight: "600",
+    textAlign: "center",
+  },
+  pill: {
+    flex: 1,
+    height: 56,
+    borderRadius: radius.full,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingHorizontal: 18,
+  },
+  pillSolid: {
+    flex: 1.35,
+    height: 62,
+  },
+  pillLabel: {
+    fontSize: 16,
+    fontWeight: "700",
+    flexShrink: 1,
+  },
+  pressed: {
+    opacity: 0.72,
+    transform: [{ scale: 0.96 }],
   },
 });
 
-export default CallScreen;
+export default CallStage;

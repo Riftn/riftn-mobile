@@ -9641,7 +9641,14 @@
     "callbackRequest": "കോൾബാക്ക് അഭ്യർത്ഥന",
     "tryAgain": "വീണ്ടും ശ്രമിക്കുക",
     "startVoice": "വോയ്‌സ് കോൾ ആരംഭിക്കുക",
-    "startVideo": "വീഡിയോ കോൾ ആരംഭിക്കുക"
+    "startVideo": "വീഡിയോ കോൾ ആരംഭിക്കുക",
+    "voiceCallShort": "വോയ്‌സ് കോൾ",
+    "videoCallShort": "വീഡിയോ കോൾ",
+    "ended": "കോൾ അവസാനിച്ചു",
+    "declined": "കോൾ നിരസിച്ചു",
+    "noAnswer": "ഉത്തരം ഇല്ല",
+    "missed": "വിട്ടുപോയ കോൾ",
+    "callBack": "തിരികെ വിളിക്കുക"
   },
   "badgeAscension": {
     "reached": "നിങ്ങൾ {{tier}} ൽ എത്തിച്ചേർന്നു",
@@ -14822,5 +14829,31 @@
     "newCodesTitle": "പുതിയ ബാക്കപ്പ് കോഡുകൾ നേടുക",
     "newCodesBody": "നിങ്ങളുടെ ആപ്പിൽ നിന്ന് ഒരു കോഡ് നൽകുക. നിങ്ങളുടെ പഴയ ബാക്കപ്പ് കോഡുകൾ പ്രവർത്തിക്കുന്നത് നിർത്തും.",
     "codeLabel": "ആറ് അക്ക കോഡ്"
+  },
+  "chatSearch": {
+    "placeholder": "തിരയുക സന്ദേശങ്ങളോ ആളുകളോ",
+    "placeholderPerson": "{{name}}ന്റെ സന്ദേശങ്ങൾ തിരയുക",
+    "close": "തിരയൽ അടയ്ക്കുക",
+    "removePerson": "എല്ലാവരെയും തിരയുക",
+    "clear": "ശൂന്യമാക്കുക",
+    "voice": "വോയ്സ് സന്ദേശം",
+    "photo": "ഫോട്ടോ",
+    "peopleHere": "ഈ ചാറ്റിലെ ആളുകൾ",
+    "recent": "സമീപകാല തിരയലുകൾ",
+    "hint": "ഒരു വാക്കോ പേരോ ടൈപ്പ് ചെയ്യുക.",
+    "failed": "തിരയൽ ലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല",
+    "people": "ആളുകൾ",
+    "messages": "സന്ദേശങ്ങൾ",
+    "seeCount_one": "അവരുടെ {{count}} സന്ദേശം കാണുക",
+    "seeCount_other": "അവരുടെ {{count}} സന്ദേശങ്ങൾ കാണുക",
+    "messagesCount_one": "{{count}} സന്ദേശം",
+    "messagesCount_other": "{{count}} സന്ദേശങ്ങൾ",
+    "results_one": "{{count}} ഫലം",
+    "results_other": "{{count}} ഫലങ്ങൾ",
+    "backToResults": "ഫലങ്ങളിലേക്ക് മടങ്ങുക",
+    "older": "പഴയ ഫലം",
+    "newer": "പുതിയ ഫലം",
+    "gone": "ആ സന്ദേശം ഇനി ഇവിടെ ഇല്ല",
+    "theirMessages": "അവരുടെ സന്ദേശങ്ങൾ"
   }
 }

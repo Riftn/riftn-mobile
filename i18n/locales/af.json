@@ -9749,7 +9749,14 @@
     "callbackRequest": "Terugbelversoek",
     "tryAgain": "Probeer weer",
     "startVoice": "Begin stemoproep",
-    "startVideo": "Begin video-oproep"
+    "startVideo": "Begin video-oproep",
+    "voiceCallShort": "Stemoproep",
+    "videoCallShort": "Videogesprek",
+    "ended": "Oproep beëindig",
+    "declined": "Oproep geweier",
+    "noAnswer": "Geen antwoord",
+    "missed": "Gemiste oproep",
+    "callBack": "Bel terug"
   },
   "badgeAscension": {
     "reached": "Jy bereik {{tier}}",
@@ -15016,5 +15023,32 @@
     "newCodesTitle": "Kry nuwe rugsteunkodes",
     "newCodesBody": "Voer 'n kode uit jou app. Jou ou rugsteunkodes sal ophou werk.",
     "codeLabel": "Ses-syfer kode"
+  },
+  "chatSearch": {
+    "placeholder": "Soek boodskappe of mense",
+    "placeholderPerson": "Soek {{name}} se boodskappe",
+    "close": "Maak soektog toe",
+    "removePerson": "Soek almal",
+    "clear": "Vee uit",
+    "voice": "Stem-boodskap",
+    "photo": "Foto",
+    "peopleHere": "Mense in hierdie gesels",
+    "recent": "Onlangse soektogte",
+    "hint": "Tik 'n woord of 'n naam in.",
+    "failed": "Soektog kon nie laai nie",
+    "people": "Mense",
+    "messages": "Boodskappe",
+    "seeCount_one": "Sien hul {{count}} boodskap",
+    "seeCount_other": "Sien hul {{count}} boodskappe",
+    "messagesCount_one": "{{count}} boodskap",
+    "messagesCount_other": "{{count}} boodskappe",
+    "results_one": "{{count}} resultaat",
+    "results_other": "{{count}} resultate",
+    "backToResults": "Terug na resultate",
+    "position": "{{current}} van {{total}}",
+    "older": "Ouer resultaat",
+    "newer": "Nuwer resultaat",
+    "gone": "Daardie boodskap is nie meer hier nie",
+    "theirMessages": "Hulle boodskappe"
   }
 }

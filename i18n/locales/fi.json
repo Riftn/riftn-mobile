@@ -9653,7 +9653,14 @@
     "callbackRequest": "Takaisinsoittopyyntö",
     "tryAgain": "Yritä uudelleen",
     "startVoice": "Aloita äänipuhelu",
-    "startVideo": "Aloita videopuhelu"
+    "startVideo": "Aloita videopuhelu",
+    "voiceCallShort": "Äänipuhelu",
+    "videoCallShort": "Videopuhelu",
+    "ended": "Puhelu päättyi",
+    "declined": "Puhelu hylätty",
+    "noAnswer": "Ei vastausta",
+    "missed": "Vastaamaton puhelu",
+    "callBack": "Soita takaisin"
   },
   "badgeAscension": {
     "reached": "Saavutit tason {{tier}}",
@@ -14843,5 +14850,32 @@
     "newCodesTitle": "Hae uudet varmistuskoodit",
     "newCodesBody": "Syötä sovelluksestasi koodi. Vanhat varmistuskoodisi lakkaavat toimimasta.",
     "codeLabel": "Kuuden numeron koodi"
+  },
+  "chatSearch": {
+    "placeholder": "Hae viestejä tai henkilöitä",
+    "placeholderPerson": "Hae käyttäjän {{name}} viestejä",
+    "close": "Sulje haku",
+    "removePerson": "Hae kaikki henkilöt",
+    "clear": "Tyhjennä",
+    "voice": "Ääniviesti",
+    "photo": "Kuva",
+    "peopleHere": "Tässä keskustelussa olevat henkilöt",
+    "recent": "Viimeaikaiset haut",
+    "hint": "Kirjoita sana tai nimi.",
+    "failed": "Hakua ei voitu ladata",
+    "people": "Henkilöt",
+    "messages": "Viestit",
+    "seeCount_one": "Katso hänen {{count}} viestiään",
+    "seeCount_other": "Katso hänen {{count}} viestiään",
+    "messagesCount_one": "{{count}} viesti",
+    "messagesCount_other": "{{count}} viestiä",
+    "results_one": "{{count}} tulos",
+    "results_other": "{{count}} tulosta",
+    "backToResults": "Takaisin tuloksiin",
+    "position": "{{current}}/{{total}}",
+    "older": "Vanhempi tulos",
+    "newer": "Uudempi tulos",
+    "gone": "Tätä viestiä ei ole enää täällä",
+    "theirMessages": "Hänen viestinsä"
   }
 }

@@ -60,6 +60,7 @@ import { WEBSITE_LINK } from "../../config";
 import LiveViewerHeader from "../LiveViewer/LiveViewerHeader";
 import type { TranslateToggle } from "../ui/TranslateButton";
 import LiveViewerChat, { type ChatActivity, type ChatHoldLayout } from "../LiveViewer/LiveViewerChat";
+import CommentLikersSheet from "../Comments/CommentLikersSheet";
 import HoldSheet, { HOLD_LIFT_TIMING, HOLD_SETTLE_TIMING, type HoldTile } from "../ui/HoldSheet";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import LiveViewerActionBar from "../LiveViewer/LiveViewerActionBar";
@@ -1706,6 +1707,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   }, [holdLift]);
   const me = String(user?.walletAddress || user?.address || "").toLowerCase();
   const heldId = held?.activity.id;
+  // The viewer's own line whose "who reacted" list is open.
+  const [reactorsFor, setReactorsFor] = useState<string | null>(null);
+  const closeReactors = useCallback(() => setReactorsFor(null), []);
   const heldMessage = heldId ? liveChat.messages.find((m) => m._id === heldId) : undefined;
   const heldAddress = String(held?.activity.user?.address || held?.activity.address || "").toLowerCase();
   const heldName = held?.activity.user?.displayName || held?.activity.user?.username || held?.activity.meta?.username || "";
@@ -1984,7 +1988,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   
                 {/* The room. Read-only now — saying something is the bar's job. */}
                 <Animated.View style={holdLiftStyle} pointerEvents="box-none">
-                  <LiveViewerChat activities={chatActivities} onHold={openLineMenu} holding={!!held} />
+                  <LiveViewerChat activities={chatActivities} onHold={openLineMenu} holding={!!held} myAddress={me} onShowReactors={setReactorsFor} />
                 </Animated.View>
                 <SettingsOptionModal
                   visible={!!lineMenu}
@@ -2004,6 +2008,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   ]}
                   onSelect={(choice) => void moderate(choice)}
                 />
+                <CommentLikersSheet visible={!!reactorsFor} onClose={closeReactors} commentId={null} chatMessageId={reactorsFor} />
                 <HoldSheet
                   visible={!!held}
                   layout={held?.layout ?? null}

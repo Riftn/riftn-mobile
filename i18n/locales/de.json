@@ -9816,7 +9816,14 @@
     "callbackRequest": "Rückrufanfrage",
     "tryAgain": "Erneut versuchen",
     "startVoice": "Sprachanruf starten",
-    "startVideo": "Videoanruf starten"
+    "startVideo": "Videoanruf starten",
+    "voiceCallShort": "Sprachanruf",
+    "videoCallShort": "Videoanruf",
+    "ended": "Anruf beendet",
+    "declined": "Anruf abgelehnt",
+    "noAnswer": "Keine Antwort",
+    "missed": "Verpasster Anruf",
+    "callBack": "Zurückrufen"
   },
   "badgeAscension": {
     "reached": "Du hast {{tier}} erreicht",
@@ -14998,5 +15005,32 @@
     "newCodesTitle": "Neue Backup‑Codes anfordern",
     "newCodesBody": "Gib einen Code aus deiner App ein. Deine alten Backup‑Codes werden nicht mehr funktionieren.",
     "codeLabel": "Sechsstelliger Code"
+  },
+  "chatSearch": {
+    "placeholder": "Nachrichten oder Personen suchen",
+    "placeholderPerson": "Nachrichten von {{name}} durchsuchen",
+    "close": "Suche schließen",
+    "removePerson": "Alle durchsuchen",
+    "clear": "Löschen",
+    "voice": "Sprachnachricht",
+    "photo": "Foto",
+    "peopleHere": "Personen in diesem Chat",
+    "recent": "Kürzliche Suchanfragen",
+    "hint": "Geben Sie ein Wort oder einen Namen ein.",
+    "failed": "Die Suche konnte nicht geladen werden",
+    "people": "Personen",
+    "messages": "Nachrichten",
+    "seeCount_one": "{{count}} Nachricht von ihm/ihr anzeigen",
+    "seeCount_other": "{{count}} Nachrichten von dieser Person anzeigen",
+    "messagesCount_one": "{{count}} Nachricht",
+    "messagesCount_other": "{{count}} Nachrichten",
+    "results_one": "{{count}} Ergebnis",
+    "results_other": "{{count}} Ergebnisse",
+    "backToResults": "Zurück zu den Ergebnissen",
+    "position": "{{current}} von {{total}}",
+    "older": "Älteres Ergebnis",
+    "newer": "Neueres Ergebnis",
+    "gone": "Diese Nachricht ist nicht mehr hier",
+    "theirMessages": "Ihre Nachrichten"
   }
 }

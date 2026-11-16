@@ -9635,7 +9635,14 @@
     "startVoice": "ናይ ድምጺ ጻውዒት ምጅማር",
     "startVideo": "ናይ ቪድዮ ጻውዒት ምጅማር",
     "mute": "ምስዕራፍ",
-    "speaker": "ድምጺ"
+    "speaker": "ድምጺ",
+    "voiceCallShort": "ናይ ድምጺ ጻውዒት",
+    "videoCallShort": "ናይ ቪድዮ ጻውዒት",
+    "ended": "ጻውዒት ተዛዚሙ",
+    "declined": "እቲ ጻውዒት ተነጺጉ",
+    "noAnswer": "መልሲ የለን",
+    "missed": "ዝተረፈ ጻውዒት",
+    "callBack": "ዳግማይ ደውል"
   },
   "badgeAscension": {
     "reached": "ናብ {{tier}}",
@@ -14807,5 +14814,29 @@
     "newCodesTitle": "ሓድሽ ናይ ምድጋፍ (backup) ኮዳት ረኽቡ",
     "newCodesBody": "ካብ መተግበሪኻ ኮድ ኣእቱ። እቶም ዝነበሩ ናይ ምድጋፍ (backup) ኮዳትካ ስራሕ የቋርጹ።",
     "codeLabel": "ሽዱሽተ-ዲጂት ኮድ"
+  },
+  "chatSearch": {
+    "placeholder": "ምስል ወይ ሰብ ፈልግ",
+    "placeholderPerson": "ኣብ {{name}} ዝሓለፈ መልዕኽቶችን ፈልግ",
+    "close": "ፍለጥ ዝጋ",
+    "removePerson": "ሰብ ሁሉን ፈልግ",
+    "clear": "ትንምህረት",
+    "photo": "ስእሊ",
+    "peopleHere": "ሰብዓት በዚህ ቻት",
+    "recent": "ዝተረጋገጸ ፈለገት",
+    "hint": "ንቃዕ ወይ ስም ይትዕትይ",
+    "failed": "መፈለጊያ ኣይተኣትረን",
+    "people": "ሰብት",
+    "messages": "መልዕኽቶች",
+    "seeCount_one": "ንዓት ዝተሰርየ ዕትወት ይመልከቱ {{count}}",
+    "seeCount_other": "ንዓቶም ዝተረጋገጸ {{count}} ሓበሬታዎች",
+    "messagesCount_one": "{{count}} መልዕክት",
+    "messagesCount_other": "{{count}} መልዕኽቶች",
+    "results_one": "{{count}} ውጤት",
+    "backToResults": "ደግሞ ወደ ውጤቶች",
+    "position": "{{current}} ናብ {{total}}",
+    "newer": "ነበረበረ",
+    "gone": "ዝተረጋገጸ መልዕክት ኣይተረጋገጠን እዩ",
+    "theirMessages": "ናብ ናይ ሓበሬታት"
   }
 }

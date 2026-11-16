@@ -9880,7 +9880,14 @@
     "callbackRequest": "Запрос обратного звонка",
     "tryAgain": "Повторить попытку",
     "startVoice": "Начать голосовой вызов",
-    "startVideo": "Начать видеовызов"
+    "startVideo": "Начать видеовызов",
+    "voiceCallShort": "Голосовой звонок",
+    "videoCallShort": "Видеозвонок",
+    "ended": "Звонок завершен",
+    "declined": "Звонок отклонен",
+    "noAnswer": "Нет ответа",
+    "missed": "Пропущенный вызов",
+    "callBack": "Перезвонить"
   },
   "badgeAscension": {
     "reached": "Вы достигли {{tier}}",
@@ -14979,5 +14986,32 @@
     "newCodesTitle": "Получить новые резервные коды",
     "newCodesBody": "Введите код из приложения. Ваши старые резервные коды перестанут работать.",
     "codeLabel": "Шестизначный код"
+  },
+  "chatSearch": {
+    "placeholder": "Поиск сообщений или людей",
+    "placeholderPerson": "Поиск сообщений {{name}}",
+    "close": "Закрыть поиск",
+    "removePerson": "Поиск всех",
+    "clear": "Очистить",
+    "voice": "Голосовое сообщение",
+    "photo": "Фото",
+    "peopleHere": "Люди в этом чате",
+    "recent": "Последние поиски",
+    "hint": "Введите слово или имя.",
+    "failed": "Не удалось загрузить поиск",
+    "people": "Люди",
+    "messages": "Сообщения",
+    "seeCount_one": "Посмотреть их сообщение {{count}}",
+    "seeCount_other": "Посмотреть их сообщения {{count}}",
+    "messagesCount_one": "Сообщение {{count}}",
+    "messagesCount_other": "Сообщения {{count}}",
+    "results_one": "Результат {{count}}",
+    "results_other": "Результаты {{count}}",
+    "backToResults": "Вернуться к результатам",
+    "position": "{{current}} из {{total}}",
+    "older": "Старый результат",
+    "newer": "Новый результат",
+    "gone": "Это сообщение больше не здесь",
+    "theirMessages": "Их сообщения"
   }
 }

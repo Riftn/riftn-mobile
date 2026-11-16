@@ -9616,7 +9616,14 @@
     "callbackRequest": "چاقىرىش ئىلتىماسى",
     "tryAgain": "قايتا سىناڭ",
     "startVoice": "ئاۋازلىق چاقىرىشنى باشلاش",
-    "startVideo": "سىن ئالماشتۇرۇشنى باشلاش"
+    "startVideo": "سىن ئالماشتۇرۇشنى باشلاش",
+    "voiceCallShort": "ئاۋازلىق تېلېفون قىلىش",
+    "videoCallShort": "ۋىدىئو كۆرۈشۈش",
+    "ended": "تېلېفون سۆھبىتى ئاخىرلاشتى",
+    "declined": "تېلېفون قوبۇل قىلىنمىدى",
+    "noAnswer": "جاۋاب بەرمىدى",
+    "missed": "كۆتۈرۈلمىگەن تېلېفون",
+    "callBack": "قايتا تېلېفون قىلىش"
   },
   "badgeAscension": {
     "reached": "سىز {{tier}}گە يېتىپ كەلدىڭىز",
@@ -14782,5 +14789,30 @@
     "newCodesTitle": "يېڭى زاپاس كودلارنى ئېلىش",
     "newCodesBody": "دېتالىڭىزدىكى كودنى كىرگۈزۈڭ. كونا زاپاس كودلىرىڭىز ئىشلىمەيدىغان بولىدۇ.",
     "codeLabel": "ئالتە خانىلىق كود"
+  },
+  "chatSearch": {
+    "placeholder": "ئۇچۇر ياكى كىشىلەرنى ئىزدە",
+    "placeholderPerson": "Search {{name}}'s messages",
+    "close": "ئىزدەشنى تاقاش",
+    "removePerson": "ھەممىنى ئىزدە",
+    "clear": "ئېنىقلاش",
+    "photo": "سۈرەت",
+    "recent": "ئاخىرلىق قارىشلار",
+    "hint": "ئىسم",
+    "failed": "ئىزدىشىپ كۆرۈش مۇمكىن بولمىدى",
+    "people": "كىشىلەر",
+    "messages": "ئۇچۇرلار",
+    "seeCount_one": "ئۇلارنىڭ {{count}} ئۇچۇرىنى كۆرۈڭ",
+    "seeCount_other": "ئۇلارنىڭ {{count}} ئۇچۇرلىرىنى كۆرۈڭ",
+    "messagesCount_one": "{{count}} message",
+    "messagesCount_other": "{{count}} ئۇچۇرلار",
+    "results_one": "{{count}} نەتىجە",
+    "results_other": "{{count}} results",
+    "backToResults": "نەتىجىگە قايتىش",
+    "position": "{{current}} of {{total}}",
+    "older": "ئۆتكەن نەتىجە",
+    "newer": "يېڭى نەتىجە",
+    "gone": "بۇ ئۇچۇر يەنە يوق",
+    "theirMessages": "ئۇلارنىڭ ئۇچۇرلىرى"
   }
 }

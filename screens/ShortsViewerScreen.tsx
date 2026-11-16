@@ -1003,7 +1003,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     if (!viewMounted) setFirstFrameRendered(false);
   }, [viewMounted]);
   const { recovery, phase: playbackPhase } = usePlaybackRecovery(player, videoUrl, {
-    component: 'ShortsViewer', postId: tokenId,
+    component: 'ShortsViewer', postId: tokenId, lateStallHandover: true,
     allowed: () => ownsPlayerRef.current() && (isActiveRef.current && itemNavigation.isFocused() || isPictureInPicturePlayer(player)) && canStartVideo(player),
   });
   // A lapsed signature fails like a broken file; fetch a fresh one.
@@ -1148,12 +1148,6 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     });
     return () => sub.remove();
   }, [isActive, player, playIfActive, itemNavigation]);
-
-  useEffect(() => {
-    if (!isActive) return;
-    configureForBackgroundPlayback().catch(() => {});
-    return () => { releaseBackgroundPlayback().catch(() => {}); };
-  }, [isActive]);
 
   /**
    * The timeline clock. Only the short being watched runs one: expo-video's
@@ -2918,6 +2912,15 @@ const ShortsViewerScreen = () => {
   const itemsRef = useRef(items);
   itemsRef.current = items;
   const [activeIndex, setActiveIndex] = useState(initialIndex);
+  // The sound session is set up once for the viewer, not once per short.
+  // Redoing it as each short landed re-routed the phone's audio under a clip
+  // that was already playing, which froze it for a beat on every swipe.
+  const viewerPlaybackAllowed = useFeedPlaybackAllowed();
+  useEffect(() => {
+    if (!viewerPlaybackAllowed) return;
+    configureForBackgroundPlayback().catch(() => {});
+    return () => { releaseBackgroundPlayback().catch(() => {}); };
+  }, [viewerPlaybackAllowed]);
   const [page, setPage] = useState(initialPage ?? (isFromFeed ? 0 : 1));
   const viewerRestore = useRef({ initialIndex: activeIndex, initialItems: items, initialPage: page, feedParams });
   viewerRestore.current = { initialIndex: activeIndex, initialItems: items, initialPage: page, feedParams };

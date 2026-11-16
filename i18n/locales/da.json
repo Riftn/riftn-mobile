@@ -9658,7 +9658,14 @@
     "callbackRequest": "Anmodning om tilbagekald",
     "tryAgain": "Prøv igen",
     "startVoice": "Start taleopkald",
-    "startVideo": "Start videoopkald"
+    "startVideo": "Start videoopkald",
+    "voiceCallShort": "Taleopkald",
+    "videoCallShort": "Videoopkald",
+    "ended": "Opkaldet er afsluttet",
+    "declined": "Opkaldet blev afvist",
+    "noAnswer": "Intet svar",
+    "missed": "Ubesvaret opkald",
+    "callBack": "Ring tilbage"
   },
   "badgeAscension": {
     "reached": "Du nåede {{tier}}",
@@ -14843,5 +14850,32 @@
     "newCodesTitle": "Få nye backup-koder",
     "newCodesBody": "Indtast en kode fra din app. Dine gamle backup-koder vil stoppe med at virke.",
     "codeLabel": "Sidedigitalkode"
+  },
+  "chatSearch": {
+    "placeholder": "Søg efter beskeder eller personer",
+    "placeholderPerson": "Søg i {{name}}s beskeder",
+    "close": "Luk søgning",
+    "removePerson": "Søg blandt alle",
+    "clear": "Ryd",
+    "voice": "Besked med stemme",
+    "photo": "Billede",
+    "peopleHere": "Personer i denne chat",
+    "recent": "Seneste søgninger",
+    "hint": "Indtast et ord eller et navn.",
+    "failed": "Søgningen kunne ikke indlæses",
+    "people": "Personer",
+    "messages": "Beskeder",
+    "seeCount_one": "Se vedkommendes {{count}} besked",
+    "seeCount_other": "Se vedkommendes {{count}} beskeder",
+    "messagesCount_one": "{{count}} besked",
+    "messagesCount_other": "{{count}} beskeder",
+    "results_one": "{{count}} resultat",
+    "results_other": "{{count}} resultater",
+    "backToResults": "Tilbage til resultaterne",
+    "position": "{{current}} af {{total}}",
+    "older": "Ældre resultat",
+    "newer": "Nyere resultat",
+    "gone": "Den meddelelse er her ikke længere",
+    "theirMessages": "Vedkommendes beskeder"
   }
 }

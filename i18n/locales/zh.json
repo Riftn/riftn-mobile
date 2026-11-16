@@ -9751,7 +9751,14 @@
     "callbackRequest": "回拨请求",
     "tryAgain": "重试",
     "startVoice": "开始语音通话",
-    "startVideo": "开始视频通话"
+    "startVideo": "开始视频通话",
+    "voiceCallShort": "语音通话",
+    "videoCallShort": "视频通话",
+    "ended": "通话已结束",
+    "declined": "通话被拒绝",
+    "noAnswer": "无人接听",
+    "missed": "未接来电",
+    "callBack": "回拨"
   },
   "badgeAscension": {
     "reached": "您已达到{{tier}}",
@@ -14977,5 +14984,32 @@
     "newCodesTitle": "获取新备份代码",
     "newCodesBody": "输入应用程序中的一个代码。你的旧备份代码将失效。",
     "codeLabel": "六位数字代码"
+  },
+  "chatSearch": {
+    "placeholder": "搜索消息或人",
+    "placeholderPerson": "搜索 {{name}} 的消息",
+    "close": "关闭搜索",
+    "removePerson": "搜索所有人",
+    "clear": "清除",
+    "voice": "语音消息",
+    "photo": "照片",
+    "peopleHere": "此聊天中的人",
+    "recent": "最近搜索",
+    "hint": "输入单词或姓名。",
+    "failed": "搜索无法加载",
+    "people": "人",
+    "messages": "消息",
+    "seeCount_one": "查看他们的 {{count}} 消息",
+    "seeCount_other": "查看他们的 {{count}} 消息",
+    "messagesCount_one": "{{count}} 消息",
+    "messagesCount_other": "{{count}} 消息",
+    "results_one": "{{count}} 结果",
+    "results_other": "{{count}} 结果",
+    "backToResults": "返回结果",
+    "position": "{{total}}的{{current}}",
+    "older": "旧结果",
+    "newer": "新结果",
+    "gone": "该消息已不在此处",
+    "theirMessages": "他们的消息"
   }
 }

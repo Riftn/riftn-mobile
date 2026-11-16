@@ -336,6 +336,14 @@ i18n.use(initReactI18next).init({
 applyDateLocale(i18n.language || 'en');
 i18n.on('languageChanged', applyDateLocale);
 
+// iPhone number pads have no return key, so every one of them gets a bar with
+// this word on it that closes the keyboard (patches/react-native, TextInput).
+const applyKeyboardDoneLabel = () => {
+  (globalThis as { __keyboardDoneLabel?: string }).__keyboardDoneLabel = i18n.t('common.done');
+};
+applyKeyboardDoneLabel();
+i18n.on('languageChanged', applyKeyboardDoneLabel);
+
 // English needs one pass too: governance.proposalCount and postInfo.owner ship
 // only an _other, so t(key, { count: 1 }) resolved to nothing.
 fillMissingPluralForms(i18n, 'en');

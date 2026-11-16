@@ -9584,7 +9584,14 @@
     "tryAgain": "Try again",
     "tapToEnableAudio": "Tap to on audio",
     "startVoice": "Start voice call now",
-    "startVideo": "Start video call now"
+    "startVideo": "Start video call now",
+    "voiceCallShort": "Voice call → Voice call",
+    "videoCallShort": "Video call → Video call",
+    "ended": "Call ended → Call don finish",
+    "declined": "Call declined → Call don reject",
+    "noAnswer": "No answer → No answer",
+    "missed": "Missed call → Missed call",
+    "callBack": "Call back → Call back"
   },
   "badgeAscension": {
     "holdNote": "Once badge don unlock, e be your own as long as you still hold your tokens. Di number of tokens wey you need to unlock new badge fit change as token price dey change.",
@@ -14738,5 +14745,30 @@
     "getNew": "Wey your new codes be?",
     "turnOff": "Turn off",
     "codeLabel": "Six-digit code"
+  },
+  "chatSearch": {
+    "placeholderPerson": "Search {{name}}'s messages",
+    "close": "Close search",
+    "removePerson": "Search everyone",
+    "clear": "Clear",
+    "voice": "Voice message",
+    "photo": "Photo",
+    "recent": "Recent searches",
+    "hint": "Na word or name.",
+    "failed": "Search no fit load.",
+    "people": "People",
+    "messages": "Messages",
+    "seeCount_one": "See their {{count}} message",
+    "seeCount_other": "See their {{count}} messages",
+    "messagesCount_one": "{{count}} message",
+    "messagesCount_other": "{{count}} messages",
+    "results_one": "{{count}} result",
+    "results_other": "{{count}} results",
+    "backToResults": "Back to results",
+    "position": "{{current}} of {{total}}",
+    "older": "Older result",
+    "newer": "Newer result",
+    "gone": "Message no dey again.",
+    "theirMessages": "Their messages"
   }
 }

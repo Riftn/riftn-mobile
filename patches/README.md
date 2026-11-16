@@ -41,3 +41,12 @@ once the first modal closed. `Libraries/Modal/Modal.js` now gives that host
 `pointerEvents="none"` on iOS, and a modal that has not reported `onShow`
 asks again: a few times on a timer, and whenever another modal has finished
 closing. JavaScript only, so it ships in an update.
+
+The same patch makes sure an iPhone keyboard can always be closed (an iPhone
+has no back button for it). `Libraries/Components/TextInput/TextInput.js`
+passes `inputAccessoryViewButtonLabel` on iOS, which makes iOS put a bar with
+one "Done" button over number pads, the keyboards with no return key; the word
+comes from `global.__keyboardDoneLabel`, set in `i18n/index.ts`. And
+`Libraries/Components/ScrollView/ScrollView.js` defaults `keyboardDismissMode`
+to `on-drag` for up-and-down lists on iOS, so dragging any page closes the
+keyboard; a list that sets its own mode keeps it. JavaScript only.

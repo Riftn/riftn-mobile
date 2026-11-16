@@ -29,6 +29,8 @@ interface LiveChatContextMenuProps {
   onEdit?: (msg: LiveChatMessageData) => void;
   onDelete?: (msg: LiveChatMessageData) => void;
   onPin?: (msg: LiveChatMessageData) => void;
+  /** Open the chat search on everything this message's author has said. */
+  onSeeMessages?: (msg: LiveChatMessageData) => void;
   /** Whether this message's author is on the room's ban list, so a moderator is offered Unban instead. */
   isSenderBanned?: boolean;
   onBan?: (msg: LiveChatMessageData) => void;
@@ -63,6 +65,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
   onEdit,
   onDelete,
   onPin,
+  onSeeMessages,
   isSenderBanned,
   onBan,
   onUnban,
@@ -138,6 +141,12 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
     icon: translate.isTranslated ? "RotateCcw" : "Languages",
     label: translate.isTranslated ? t("common.showOriginal") : t("common.translate"),
     onPress: () => { onClose(); translate.toggle(); },
+  });
+  if (onSeeMessages && message.senderAddress && message.messageType !== "system") tiles.push({
+    key: "their-messages",
+    icon: "Search",
+    label: t("chatSearch.theirMessages", { defaultValue: "Their messages" }),
+    onPress: () => run(() => onSeeMessages(message)),
   });
   if (canEdit && onEdit) tiles.push({ key: "edit", icon: "Pencil", label: t("common.edit"), onPress: () => run(() => onEdit(message)) });
   if (isModerator && onPin) tiles.push({

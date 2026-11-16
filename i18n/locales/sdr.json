@@ -9650,7 +9650,12 @@
     "callbackRequest": "कॉलबैक रिक्वेस्ट",
     "tryAgain": "फिर से कोशिश करऽ",
     "startVoice": "وائس کال شروع کریں",
-    "startVideo": "ویڈیو کال شروع کریں"
+    "startVideo": "ویڈیو کال شروع کریں",
+    "ended": "फोन कटला",
+    "declined": "Call ke kat dewar gelak",
+    "noAnswer": "कोनो जवाब",
+    "missed": "मिस्ड कॉल",
+    "callBack": "कॉल बैक"
   },
   "badgeAscension": {
     "reached": "आप {{tier}} पर पहुंच गए",
@@ -14870,5 +14875,31 @@
     "newCodesTitle": "नया बैकअप कोड ले",
     "newCodesBody": "आपन ऐप से एगो कोड डाल। तोर पुरान बैकअप कोड काम करे के बंद हो जाई।",
     "codeLabel": "छह अंक कर कोड"
+  },
+  "chatSearch": {
+    "placeholderPerson": "Search {{name}}'s messages",
+    "close": "Close search",
+    "removePerson": "Search everyone",
+    "clear": "Clear",
+    "voice": "Voice message",
+    "photo": "Photo",
+    "peopleHere": "ए चेट कर मनखे मन",
+    "recent": "Recent searches",
+    "hint": "Ekta sabad ya ekta naam.",
+    "failed": "Search load na ho paya",
+    "people": "People",
+    "messages": "Messages",
+    "seeCount_one": "See their {{count}} message",
+    "seeCount_other": "See their {{count}} messages",
+    "messagesCount_one": "{{count}} message",
+    "messagesCount_other": "{{count}} messages",
+    "results_one": "{{count}} result",
+    "results_other": "{{count}} results",
+    "backToResults": "Back to results",
+    "position": "{{current}} of {{total}}",
+    "older": "Older result",
+    "newer": "Newer result",
+    "gone": "उह संदेश अब इहाँ नइखे.",
+    "theirMessages": "Their messages"
   }
 }

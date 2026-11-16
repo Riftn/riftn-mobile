@@ -9654,7 +9654,14 @@
     "callbackRequest": "Sol·licitud de devolució de truc",
     "tryAgain": "Torna-ho a provar",
     "startVoice": "Inicia una trucada de veu",
-    "startVideo": "Inicia una videollamada"
+    "startVideo": "Inicia una videollamada",
+    "voiceCallShort": "Trucada de veu",
+    "videoCallShort": "Videotrucada",
+    "ended": "S'ha finalitzat la trucada",
+    "declined": "S'ha rebutjat la trucada",
+    "noAnswer": "Sense resposta",
+    "missed": "Trobada perduda",
+    "callBack": "Torna a trucar"
   },
   "badgeAscension": {
     "reached": "Has arribat a {{tier}}",
@@ -14837,5 +14844,32 @@
     "newCodesTitle": "Aconsegueix codis de còpia de",
     "newCodesBody": "Introdueix un codi des de l'aplicació. Els codis de còpia de seguretat antics deixaran de funcionar.",
     "codeLabel": "Codi de sis dígits"
+  },
+  "chatSearch": {
+    "placeholder": "Cerca missatges o persones",
+    "placeholderPerson": "Cerca als missatges d'{{name}}",
+    "close": "Tanca la cerca",
+    "removePerson": "Cerca a tothom",
+    "clear": "Esborra",
+    "voice": "Missatge de veu",
+    "photo": "Foto",
+    "peopleHere": "Persones en aquest xat",
+    "recent": "Cerques recents",
+    "hint": "Escriu una paraula o un nom.",
+    "failed": "No s'ha pogut carregar la cerca",
+    "people": "Persones",
+    "messages": "Missatges",
+    "seeCount_one": "Mostra el seu {{count}} missatge",
+    "seeCount_other": "Mostra els seus {{count}} missatges",
+    "messagesCount_one": "{{count}} missatge",
+    "messagesCount_other": "{{count}} missatges",
+    "results_one": "{{count}} resultat",
+    "results_other": "{{count}} resultats",
+    "backToResults": "Torna als resultats",
+    "position": "{{current}} de {{total}}",
+    "older": "Resultat més antic",
+    "newer": "Resultat més recent",
+    "gone": "Aquest missatge ja no hi és",
+    "theirMessages": "Els seus missatges"
   }
 }

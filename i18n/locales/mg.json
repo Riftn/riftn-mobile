@@ -9661,7 +9661,14 @@
     "callbackRequest": "Antso an-tariby",
     "tryAgain": "Andramo indray",
     "startVoice": "Atomboy ny antso an-tariby",
-    "startVideo": "Manomboka ny antso an-tariby"
+    "startVideo": "Manomboka ny antso an-tariby",
+    "voiceCallShort": "Antso an-peo",
+    "videoCallShort": "Antso an-tsary",
+    "ended": "Tapitra ny antso",
+    "declined": "Nolavina ny antso",
+    "noAnswer": "Tsy namaly",
+    "missed": "Antso tsy voaray",
+    "callBack": "Miantso indray"
   },
   "badgeAscension": {
     "reached": "Tonga {{tier}}",
@@ -14908,5 +14915,32 @@
     "newCodesTitle": "Mahazo kaody backup vaovao",
     "newCodesBody": "Ampidiro kaody avy amin’ny app. Hijanona tsy hiasa ireo kaody backup taloha.",
     "codeLabel": "Kaody enina isa"
+  },
+  "chatSearch": {
+    "placeholder": "Mitadiava hafatra na olona",
+    "placeholderPerson": "Mitadiava hafatra {{name}}",
+    "close": "Mikatona ny fikarohana",
+    "removePerson": "Mitadiava rehetra",
+    "clear": "Esory",
+    "voice": "Hafatra feo",
+    "photo": "Sary",
+    "peopleHere": "Olona ao amin'ity chat ity",
+    "recent": "Fikarohana vao haingana",
+    "hint": "Soraty teny na anarana.",
+    "failed": "Tsy afaka nampiditra ny fikarohana",
+    "people": "Olona",
+    "messages": "Hafatra",
+    "seeCount_one": "Jereo ny hafatra {{count}}",
+    "seeCount_other": "Jereo ny hafatra {{count}}",
+    "messagesCount_one": "Hafatra {{count}}",
+    "messagesCount_other": "Hafatra {{count}}",
+    "results_one": "Valiny {{count}}",
+    "results_other": "Valiny {{count}}",
+    "backToResults": "Miverina amin'ny valiny",
+    "position": "{{current}} amin'ny {{total}}",
+    "older": "Valiny taloha",
+    "newer": "Valiny vaovao",
+    "gone": "Tsy mbola misy io hafatra io eto",
+    "theirMessages": "Hafatra azy ireo"
   }
 }

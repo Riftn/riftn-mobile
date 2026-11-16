@@ -79,6 +79,9 @@ interface LiveViewerChatProps {
   activities: ChatActivity[];
   /** A line is held: the list must not scroll while it slides up under the finger. */
   holding?: boolean;
+  /** The reader's wallet, lower case. With `onShowReactors`, a reaction on their own line opens who left it. */
+  myAddress?: string;
+  onShowReactors?: (messageId: string) => void;
 }
 
 /** Deterministic color palette for usernames (monochrome neutrals ramp) */
@@ -137,9 +140,11 @@ interface ChatBubbleProps {
   a: ChatActivity;
   onUserPress: (identifier: string) => void;
   onHold?: (activity: ChatActivity, translate?: TranslateToggle, layout?: ChatHoldLayout) => void;
+  /** Set on the reader's own lines only. */
+  onShowReactors?: (messageId: string) => void;
 }
 
-const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold }) => {
+const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, onShowReactors }) => {
   const { t } = useI18n();
   const displayName = resolveDisplayName(a);
   const avatarUrl = resolveAvatarUrl(a);
@@ -231,10 +236,19 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold }) 
           {reactionEntries.length > 0 ? (
             <View className="mt-1 flex-row flex-wrap gap-1">
               {reactionEntries.map(([emoji, who]) => (
-                <View key={emoji} className="flex-row items-center rounded-full px-1.5 py-0.5" style={{ backgroundColor: "rgba(0,0,0,0.35)" }}>
+                <Pressable
+                  key={emoji}
+                  disabled={!onShowReactors || !a.id}
+                  onPress={() => { if (a.id) onShowReactors?.(a.id); }}
+                  onLongPress={onHold ? handleHold : undefined}
+                  delayLongPress={300}
+                  hitSlop={6}
+                  className="flex-row items-center rounded-full px-1.5 py-0.5"
+                  style={{ backgroundColor: "rgba(0,0,0,0.35)" }}
+                >
                   <Text style={{ fontSize: 12 }}>{emoji}</Text>
                   {who.length > 1 ? <Text style={{ ...TEXT_SHADOW, color: "#fff", fontSize: 11, marginLeft: 3 }}>{who.length}</Text> : null}
-                </View>
+                </Pressable>
               ))}
             </View>
           ) : null}
@@ -343,7 +357,7 @@ const LandIn = memo(function LandIn({ glow, children }: { glow: boolean; childre
   return <Animated.View style={style}>{children}</Animated.View>;
 });
 
-const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, holding = false }) => {
+const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, holding = false, myAddress, onShowReactors }) => {
   const listRef = useRef<FlatList<ChatActivity> | null>(null);
   const { showUserProfile } = useUserProfileSheet();
 
@@ -399,12 +413,13 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
 
   const renderItem = useCallback(
     ({ item, index }: { item: ChatActivity; index: number }) => {
-      const bubble = <ChatBubble a={item} onUserPress={handleUserPress} onHold={onHold} />;
+      const mine = !!myAddress && String(item.user?.address || item.address || "").toLowerCase() === myAddress;
+      const bubble = <ChatBubble a={item} onUserPress={handleUserPress} onHold={onHold} onShowReactors={mine ? onShowReactors : undefined} />;
       const key = keyExtractor(item, index);
       if (seen.current!.has(key)) return bubble;
       return <LandIn glow={item.status === StreamActivityType.TIP}>{bubble}</LandIn>;
     },
-    [handleUserPress, onHold, keyExtractor]
+    [handleUserPress, onHold, keyExtractor, myAddress, onShowReactors]
   );
 
   return (

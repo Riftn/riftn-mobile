@@ -9641,7 +9641,14 @@
     "callbackRequest": "ಕಾಲ್‌ಬ್ಯಾಕ್ ವಿನಂತಿ",
     "tryAgain": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
     "startVoice": "ಧ್ವನಿ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ",
-    "startVideo": "ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ"
+    "startVideo": "ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ",
+    "voiceCallShort": "ವಾಯ್ಸ್ ಕಾಲ್",
+    "videoCallShort": "ವೀಡಿಯೊ ಕರೆ",
+    "ended": "ಕರೆ ಕೊನೆಗೊಂಡಿದೆ",
+    "declined": "ಕಾಲನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ",
+    "noAnswer": "ಉತ್ತರವಿಲ್ಲ",
+    "missed": "ಕಳೆದುಹೋದ ಕರೆ",
+    "callBack": "ಮತ್ತೆ ಕರೆ ಮಾಡಿ"
   },
   "badgeAscension": {
     "reached": "ನೀವು {{tier}} ಅನ್ನು ತಲುಪಿದ್ದೀರಿ",
@@ -14814,5 +14821,32 @@
     "newCodesTitle": "ಹೊಸ ಬ್ಯಾಕಪ್ ಕೋಡ್ಗಳನ್ನು ಪಡೆಯಿರಿ",
     "newCodesBody": "ನಿಮ್ಮ ಆಪ್‌ನಿಂದ ಒಂದು ಕೋಡ್ ನಮೂದಿಸಿ. ನಿಮ್ಮ ಹಳೆಯ ಬ್ಯಾಕಪ್ ಕೋಡ್ಗಳು ಕೆಲಸ ನಿಲ್ಲಿಸುತ್ತವೆ.",
     "codeLabel": "ಆರು ಅಂಕಿಯ ಕೋಡ್"
+  },
+  "chatSearch": {
+    "placeholder": "ಸಂದೇಶಗಳು ಅಥವಾ ಜನರನ್ನು ಹುಡುಕಿ",
+    "placeholderPerson": "{{name}}'ರ ಸಂದೇಶಗಳನ್ನು ಹುಡುಕಿ",
+    "close": "ಹುಡುಕುವಿಕೆಯನ್ನು ಮುಚ್ಚಿ",
+    "removePerson": "ಎಲ್ಲರನ್ನು ಹುಡುಕಿ",
+    "clear": "ಅಳಿಸಿ",
+    "voice": "ಧ್ವನಿ ಸಂದೇಶ",
+    "photo": "ಫೋಟೋ",
+    "peopleHere": "ಈ ಚಾಟ್‌ನಲ್ಲಿನ ಜನರು",
+    "recent": "ಇತ್ತೀಚಿನ ಹುಡುಕಾಟಗಳು",
+    "hint": "ಒಂದು ಪದ ಅಥವಾ ಹೆಸರನ್ನು ಟೈಪ್ ಮಾಡಿ.",
+    "failed": "ಹುಡುಕುವಿಕೆಯನ್ನು ಲೋಡ್ ಮಾಡಲಾಗಲಿಲ್ಲ",
+    "people": "ಜನರು",
+    "messages": "ಸಂದೇಶಗಳು",
+    "seeCount_one": "ಅವರ {{count}} ಸಂದೇಶವನ್ನು ನೋಡಿ",
+    "seeCount_other": "ಅವರ {{count}} ಸಂದೇಶಗಳನ್ನು ನೋಡಿ",
+    "messagesCount_one": "{{count}} ಸಂದೇಶ",
+    "messagesCount_other": "{{count}} ಸಂದೇಶಗಳು",
+    "results_one": "{{count}} ಫಲಿತಾಂಶ",
+    "results_other": "{{count}} ಫಲಿತಾಂಶಗಳು",
+    "backToResults": "ಫಲಿತಾಂಶಗಳಿಗೆ ಹಿಂತಿರುಗಿ",
+    "position": "{{current}} ನ {{total}}",
+    "older": "ಹಳೆಯ ಫಲಿತಾಂಶ",
+    "newer": "ಹೊಸ ಫಲಿತಾಂಶ",
+    "gone": "ಆ ಸಂದೇಶ ಇಲ್ಲಿ ಇಲ್ಲ",
+    "theirMessages": "ಅವರ ಸಂದೇಶಗಳು"
   }
 }

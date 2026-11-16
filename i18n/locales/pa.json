@@ -9655,7 +9655,14 @@
     "callbackRequest": "ਕਾਲਬੈਕ ਬੇਨਤੀ",
     "tryAgain": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
     "startVoice": "ਵੌਇਸ ਕਾਲ ਸ਼ੁਰੂ ਕਰੋ",
-    "startVideo": "ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰੋ"
+    "startVideo": "ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰੋ",
+    "voiceCallShort": "ਵੌਇਸ ਕਾਲ",
+    "videoCallShort": "ਵੀਡੀਓ ਕਾਲ",
+    "ended": "ਕਾਲ ਖਤਮ ਹੋਈ",
+    "declined": "ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ ਗਿਆ",
+    "noAnswer": "ਕੋਈ ਜਵਾਬ ਨਹੀਂ",
+    "missed": "ਮਿਸ ਕੀਤੀ ਕਾਲ",
+    "callBack": "ਵਾਪਸ ਕਾਲ ਕਰੋ"
   },
   "badgeAscension": {
     "reached": "ਤੁਸੀਂ {{tier}} ਤੇ ਪਹੁੰਚ ਗਏ",
@@ -14826,5 +14833,32 @@
     "newCodesTitle": "ਨਵੇਂ ਬੈਕਅੱਪ ਕੋਡ ਪ੍ਰਾਪਤ ਕਰੋ",
     "newCodesBody": "ਆਪਣੇ ਐਪ ਤੋਂ ਇੱਕ ਕੋਡ ਦਾਖਲ ਕਰੋ। ਤੁਹਾਡੇ ਪੁਰਾਣੇ ਬੈਕਅੱਪ ਕੋਡ ਕੰਮ ਕਰਨਾ ਬੰਦ ਕਰ ਦੇਣਗੇ।",
     "codeLabel": "ਛੇ ਅੰਕਾਂ ਵਾਲਾ ਕੋਡ"
+  },
+  "chatSearch": {
+    "placeholder": "ਖੋਜ ਸੁਨੇਹੇ ਜਾਂ ਲੋਕ",
+    "placeholderPerson": "{{name}} ਦੇ ਸੁਨੇਹੇ ਖੋਜੋ",
+    "close": "ਖੋਜ ਬੰਦ ਕਰੋ",
+    "removePerson": "ਸਭ ਨੂੰ ਖੋਜੋ",
+    "clear": "ਸਾਫ਼ ਕਰੋ",
+    "voice": "ਵੌਇਸ ਸੁਨੇਹਾ",
+    "photo": "ਫੋਟੋ",
+    "peopleHere": "ਇਸ ਚੈਟ ਵਿੱਚ ਲੋਕ",
+    "recent": "ਹਾਲੀਆ ਖੋਜਾਂ",
+    "hint": "ਇੱਕ ਸ਼ਬਦ ਜਾਂ ਨਾਮ ਟਾਈਪ ਕਰੋ।",
+    "failed": "ਖੋਜ ਲੋਡ ਨਹੀਂ ਹੋ ਸਕੀ",
+    "people": "ਲੋਕ",
+    "messages": "ਸੁਨੇਹੇ",
+    "seeCount_one": "ਉਨ੍ਹਾਂ ਦਾ {{count}} ਸੁਨੇਹਾ ਵੇਖੋ",
+    "seeCount_other": "ਉਨ੍ਹਾਂ ਦੇ {{count}} ਸੁਨੇਹੇ ਵੇਖੋ",
+    "messagesCount_one": "{{count}} ਸੁਨੇਹਾ",
+    "messagesCount_other": "{{count}} ਸੁਨੇਹੇ",
+    "results_one": "{{count}} ਨਤੀਜਾ",
+    "results_other": "{{count}} ਨਤੀਜੇ",
+    "backToResults": "ਨਤੀਜਿਆਂ 'ਤੇ ਵਾਪਸ ਜਾਓ",
+    "position": "{{current}} ਵਿੱਚੋਂ {{total}}",
+    "older": "ਪੁਰਾਣਾ ਨਤੀਜਾ",
+    "newer": "ਨਵਾਂ ਨਤੀਜਾ",
+    "gone": "ਉਹ ਸੁਨੇਹਾ ਹੁਣ ਇੱਥੇ ਨਹੀਂ ਹੈ",
+    "theirMessages": "ਉਨ੍ਹਾਂ ਦੇ ਸੁਨੇਹੇ"
   }
 }

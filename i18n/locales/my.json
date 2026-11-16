@@ -9650,7 +9650,14 @@
     "callbackRequest": "ခေါ်ဆိုရန် တောင်းဆိုချက်",
     "tryAgain": "ထပ်ကြိုးစားပါ",
     "startVoice": "အသံခေါ်ဆိုမှုကို စတင်ပါ",
-    "startVideo": "ဗီဒီယိုခေါ်ဆိုမှုကို စတင်ပါ"
+    "startVideo": "ဗီဒီယိုခေါ်ဆိုမှုကို စတင်ပါ",
+    "voiceCallShort": "အသံခေါ်ဆိုမှု",
+    "videoCallShort": "ဗီဒီယိုခေါ်ဆိုမှု",
+    "ended": "ခေါ်ဆိုမှုကို ပြီးဆုံးသွားပါပြီ",
+    "declined": "ခေါ်ဆိုမှုကို ငြင်းပယ်ထားသည်",
+    "noAnswer": "မကိုင်ပါ",
+    "missed": "လက်လွတ်ဖုန်းခေါ်ဆိုမှု",
+    "callBack": "ပြန်ခေါ်ပါ"
   },
   "badgeAscension": {
     "reached": "{{tier}} သို့ ရောက်ရှိခဲ့ပါသည်",
@@ -14842,5 +14849,32 @@
     "newCodesTitle": "အသစ်သော backup codes များရယူပါ",
     "newCodesBody": "သင့်အက်ပ်ထဲကကုဒ်တစ်ခုထည့်ပါ။ သင့်ဟောင်းက backup code များသည် အလုပ်မလုပ်တော့ပါ။",
     "codeLabel": "၆-အရေအတွက်ကုဒ်"
+  },
+  "chatSearch": {
+    "placeholder": "ရှာမက်ဆေ့ခ်ျများ သို့မဟုတ် လူများ",
+    "placeholderPerson": "{{name}} ၏ မက်ဆေ့ခ်ျများကို ရှာ",
+    "close": "ရှာဖွေမှု ပိတ်",
+    "removePerson": "အားလုံးကို ရှာ",
+    "clear": "ရှင်းလင်း",
+    "voice": "အသံမက်ဆေ့ခ်ျ",
+    "photo": "ဓာတ်ပုံ",
+    "peopleHere": "ဤမက်ဆေ့ခ်ျတွင် လူများ",
+    "recent": "မကြာသေးမီ ရှာဖွေမှုများ",
+    "hint": "စကားလုံးတစ်ခု သို့မဟုတ် အမည်တစ်ခု ရိုက်ထည့်ပါ။",
+    "failed": "ရှာဖွေမှု မတင်နိုင်ပါ",
+    "people": "လူများ",
+    "messages": "မက်ဆေ့ခ်ျများ",
+    "seeCount_one": "{{count}} ၏ မက်ဆေ့ခ်ျကို ကြည့်ပါ",
+    "seeCount_other": "{{count}} ၏ မက်ဆေ့ခ်ျများကို ကြည့်ပါ",
+    "messagesCount_one": "{{count}} မက်ဆေ့ခ်ျ",
+    "messagesCount_other": "{{count}} မက်ဆေ့ခ်ျများ",
+    "results_one": "{{count}} ရလဒ်",
+    "results_other": "{{count}} ရလဒ်များ",
+    "backToResults": "ရလဒ်များသို့ ပြန်သွား",
+    "position": "{{current}} ၏ {{total}}",
+    "older": "အဟောင်းရလဒ်",
+    "newer": "သစ်ရလဒ်",
+    "gone": "အဲဒီ မက်ဆေ့ခ်ျ မရှိတော့ပါ",
+    "theirMessages": "သူတို့၏ မက်ဆေ့ခ်ျများ"
   }
 }

@@ -7944,7 +7944,14 @@
     "callbackRequest": "Demande de rappel",
     "tryAgain": "Réessayer",
     "startVoice": "Commencer l'appel vocal",
-    "startVideo": "Commencer l'appel vidéo"
+    "startVideo": "Commencer l'appel vidéo",
+    "voiceCallShort": "Appel vocal",
+    "videoCallShort": "Appel vidéo",
+    "ended": "Appel terminé",
+    "declined": "Appel refusé",
+    "noAnswer": "Pas de réponse",
+    "missed": "Appel manqué",
+    "callBack": "Rappeler"
   },
   "badgeAscension": {
     "reached": "Vous avez atteint {{tier}}",
@@ -16719,5 +16726,32 @@
     "newCodesTitle": "Obtenir de nouveaux codes de sauvegarde",
     "newCodesBody": "Entrez un code depuis votre application. Vos anciens codes de sauvegarde cesseront de fonctionner.",
     "codeLabel": "Code à six chiffres"
+  },
+  "chatSearch": {
+    "placeholder": "Rechercher des messages ou des personnes",
+    "placeholderPerson": "Rechercher dans les messages de {{name}}",
+    "close": "Fermer la recherche",
+    "removePerson": "Rechercher tout le monde",
+    "clear": "Effacer",
+    "voice": "Message vocal",
+    "photo": "Photo",
+    "peopleHere": "Personnes dans ce chat",
+    "recent": "Recherches récentes",
+    "hint": "Saisissez un mot ou un nom.",
+    "failed": "La recherche n'a pas pu être chargée",
+    "people": "Personnes",
+    "messages": "Messages",
+    "seeCount_one": "Voir son {{count}} message",
+    "seeCount_other": "Voir ses {{count}} messages",
+    "messagesCount_one": "{{count}} message",
+    "messagesCount_other": "{{count}} messages",
+    "results_one": "{{count}} résultat",
+    "results_other": "{{count}} résultats",
+    "backToResults": "Retour aux résultats",
+    "position": "{{current}} sur {{total}}",
+    "older": "Résultat plus ancien",
+    "newer": "Résultat plus récent",
+    "gone": "Ce message n'est plus là",
+    "theirMessages": "Leurs messages"
   }
 }

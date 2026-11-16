@@ -366,7 +366,8 @@ export default function UploadScreen() {
   }, []);
   // Keyboard height above the screen's bottom edge (see hooks/useKeyboardLayout.ts).
   // The toolbar's own lift rides with the keys on the UI thread (no re-render).
-  const kbLiftValue = useKeyboardLiftValue(useSafeAreaInsets().bottom);
+  const composerRootRef = useRef<View>(null);
+  const kbLiftValue = useKeyboardLiftValue(useSafeAreaInsets().bottom, composerRootRef);
   const toolbarLiftStyle = useAnimatedStyle(() => ({ marginBottom: kbLiftValue.value }));
   const { drafts, saveDraft, deleteDraft } = useDrafts(authUser?.address);
 
@@ -2578,7 +2579,7 @@ export default function UploadScreen() {
   }
 
   const composer = (
-    <View className="flex-1 bg-theme-background">{/* don't add top inset */}
+    <View ref={composerRootRef} collapsable={false} className="flex-1 bg-theme-background">{/* don't add top inset */}
       <GestureDetector gesture={dismissPan}>
         <View className="flex-row items-center justify-center pt-2 pb-1" collapsable={false}>
           <View className="w-10 h-1 rounded-full bg-white/30" />

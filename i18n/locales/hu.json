@@ -9662,7 +9662,14 @@
     "callbackRequest": "Visszahívási kérés",
     "tryAgain": "Próbálkozz újra",
     "startVoice": "Hanghívás indítása",
-    "startVideo": "Videohívás indítása"
+    "startVideo": "Videohívás indítása",
+    "voiceCallShort": "Hanghívás",
+    "videoCallShort": "Videóhívás",
+    "ended": "Hívás befejezve",
+    "declined": "Hívás elutasítva",
+    "noAnswer": "Nincs válasz",
+    "missed": "Nem fogadott hívás",
+    "callBack": "Visszahívás"
   },
   "badgeAscension": {
     "reached": "Elérted a következő számot:{{tier}}",
@@ -14821,5 +14828,32 @@
     "newCodesTitle": "Új mentési kódok beszerzése",
     "newCodesBody": "Adj meg egy kódot az alkalmazásodból. A régi mentési kódok már nem fognak működni.",
     "codeLabel": "Hatjegyű kód"
+  },
+  "chatSearch": {
+    "placeholder": "Keresés üzenetek vagy emberek",
+    "placeholderPerson": "Keresés {{name}} üzenetei",
+    "close": "Keresés bezárása",
+    "removePerson": "Keresés mindenki",
+    "clear": "Törlés",
+    "voice": "Hangüzenet",
+    "photo": "Fénykép",
+    "peopleHere": "Az ebben a csevegésben lévő emberek",
+    "recent": "Legutóbbi keresések",
+    "hint": "Írj egy szót vagy nevet.",
+    "failed": "A keresés nem tudta betölteni",
+    "people": "Emberek",
+    "messages": "Üzenetek",
+    "seeCount_one": "Lásd {{count}} üzenetét",
+    "seeCount_other": "Lásd {{count}} üzeneteit",
+    "messagesCount_one": "{{count}} üzenet",
+    "messagesCount_other": "{{count}} üzenetek",
+    "results_one": "{{count}} találat",
+    "results_other": "{{count}} találatok",
+    "backToResults": "Vissza a találatokhoz",
+    "position": "{{current}} / {{total}}",
+    "older": "Régebbi találat",
+    "newer": "Újabb találat",
+    "gone": "Ez az üzenet már nem itt van",
+    "theirMessages": "Az ő üzenetei"
   }
 }

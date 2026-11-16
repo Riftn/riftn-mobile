@@ -9910,7 +9910,14 @@
     "callbackRequest": "Permohonan panggilan balik",
     "tryAgain": "Cuba lagi",
     "startVoice": "Mulakan panggilan suara",
-    "startVideo": "Mulakan panggilan video"
+    "startVideo": "Mulakan panggilan video",
+    "voiceCallShort": "Panggilan suara",
+    "videoCallShort": "Panggilan video",
+    "ended": "Panggilan tamat",
+    "declined": "Panggilan ditolak",
+    "noAnswer": "Tiada jawapan",
+    "missed": "Panggilan tidak dijawab",
+    "callBack": "Hubungi semula"
   },
   "badgeAscension": {
     "reached": "Anda telah menghubungi {{tier}}",
@@ -15090,5 +15097,32 @@
     "newCodesTitle": "Dapatkan kod sandaran baru",
     "newCodesBody": "Masukkan kod dari aplikasi anda. Kod sandaran lama anda akan berhenti berfungsi.",
     "codeLabel": "Kod enam digit"
+  },
+  "chatSearch": {
+    "placeholder": "Cari mesej atau orang",
+    "placeholderPerson": "Cari mesej {{name}}",
+    "close": "Tutup carian",
+    "removePerson": "Cari semua orang",
+    "clear": "Kosongkan",
+    "voice": "Mesej suara",
+    "photo": "Foto",
+    "peopleHere": "Orang dalam sembang ini",
+    "recent": "Carian terkini",
+    "hint": "Taip perkataan atau nama.",
+    "failed": "Carian tidak dapat dimuatkan",
+    "people": "Orang",
+    "messages": "Mesej",
+    "seeCount_one": "Lihat mesej {{count}} mereka",
+    "seeCount_other": "Lihat mesej {{count}} mereka",
+    "messagesCount_one": "Mesej {{count}}",
+    "messagesCount_other": "Mesej-mesej {{count}}",
+    "results_one": "Keputusan {{count}}",
+    "results_other": "Keputusan-keputusan {{count}}",
+    "backToResults": "Kembali ke keputusan",
+    "position": "{{current}} daripada {{total}}",
+    "older": "Keputusan lama",
+    "newer": "Keputusan baru",
+    "gone": "Mesej itu tidak lagi di sini",
+    "theirMessages": "Mesej mereka"
   }
 }

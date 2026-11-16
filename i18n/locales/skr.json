@@ -9629,7 +9629,14 @@
     "callbackRequest": "کال بیک درخواست",
     "tryAgain": "دوبارہ کوشش کرو",
     "startVoice": "آواز واري ڪال شروع ڪريو",
-    "startVideo": "وڊيو ڪال شروع ڪريو"
+    "startVideo": "وڊيو ڪال شروع ڪريو",
+    "voiceCallShort": "ڈائیلنگ کال",
+    "videoCallShort": "ڈیجیٹل فون پر ویڈیو کال",
+    "ended": "کال ختم تھی گئی",
+    "declined": "کال رد ہو گئی",
+    "noAnswer": "کوئی جواب نہیں",
+    "missed": "مِسڈ کال",
+    "callBack": "کال واپس"
   },
   "badgeAscension": {
     "reached": "تسيں {{tier}} تک پہنچ گئے",
@@ -14782,5 +14789,25 @@
     "newCodesTitle": "نویں بیک اپ کوڈز گھنو",
     "newCodesBody": "اپݨی ایپ توں ہک کوڈ درج کرو۔ تہاڈے پرانے بیک اپ کوڈز کم کرݨ چھوڑ ݙیسن۔",
     "codeLabel": "چھ ہندسیں آلا کوڈ"
+  },
+  "chatSearch": {
+    "placeholder": "پیغام یا لوگاں دی تلاش",
+    "placeholderPerson": "تلاش کریں {{name}} کے پیغامات",
+    "close": "تلاش بند کرو",
+    "removePerson": "ہر کوئی تلاش کرو",
+    "clear": "صاف",
+    "peopleHere": "لوک این چٹ وچ",
+    "recent": "حالیہ تلاشیں",
+    "hint": "کچھ لفظ یا نام لکھو",
+    "failed": "سرچ لوڈ نہ تھی",
+    "people": "لوک",
+    "messages": "پیغام",
+    "seeCount_one": "انہاں دا {{count}} پیغام دیکھو",
+    "seeCount_other": "انہاں دے {{count}} پیغام دیکھو",
+    "messagesCount_one": "{{count}} پیغام",
+    "backToResults": "پہلے کے نتیجوں پر واپس چل جائیں",
+    "newer": "نئے نتیجہ",
+    "gone": "اس پیغام ابھی وہاں نہیں ہے",
+    "theirMessages": "انہاں دیاں پیغامات"
   }
 }

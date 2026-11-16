@@ -21,7 +21,17 @@ export interface CallSession {
   status: "ringing" | "connected" | "ended"; call_type: "audio" | "video";
   signaling_data?: any; created_at: string;
 }
+/** How a call finished, kept briefly so the stage can say so and offer a way back. */
+export type CallOutcome = "ended" | "declined" | "no_answer" | "missed";
+export interface CallSummary {
+  peerAddress: string; callType: "audio" | "video"; outcome: CallOutcome;
+  /** Formatted length of a call that connected; null for one that never did. */
+  duration: string | null;
+}
 export interface UseCallReturn {
+  /** The caller's side while the other phone is still ringing. */
+  isRinging: boolean;
+  callSummary: CallSummary | null; dismissCallSummary: () => void;
   isCallActive: boolean; isIncoming: boolean; currentCall: CallSession | null;
   isConnecting: boolean; isMuted: boolean; isSpeakerOn: boolean; isCameraOff: boolean;
   callStartedAt: number | null; remoteUid: number | null; peerAddress: string;
@@ -48,6 +58,13 @@ export function useCall(): UseCallReturn {
   const [callStartedAt, setCallStartedAt] = useState<number | null>(null);
   const [remoteUid, setRemoteUid] = useState<number | null>(null);
   const [isMinimized, setMinimized] = useState(false);
+  const [callSummary, setCallSummary] = useState<CallSummary | null>(null);
+  const summaryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dismissCallSummary = useCallback(() => {
+    if (summaryTimerRef.current) clearTimeout(summaryTimerRef.current);
+    summaryTimerRef.current = null;
+    setCallSummary(null);
+  }, []);
   const { user } = useAuth();
   const userAddress = (user?.walletAddress || user?.address || "").toLowerCase();
   const callClient = useMemo(() => userAddress ? walletScopedClient(userAddress) : supabase, [userAddress]);
@@ -92,7 +109,7 @@ export function useCall(): UseCallReturn {
     ];
     operations.forEach(operation => { try { operation(); } catch (error) { log.warn("Call teardown error", error); } });
   }, []);
-  const endCall = useCallback(async () => {
+  const finishCall = useCallback(async (reason?: Exclude<CallOutcome, "ended">) => {
     const call = currentCallRef.current;
     const startedAt = startedAtRef.current;
     generationRef.current += 1;
@@ -110,8 +127,31 @@ export function useCall(): UseCallReturn {
     if (call && startedAt != null) {
       callMessageHandlerRef.current?.(`📞 ${call.call_type === "video" ? "Video" : "Voice"} call ended · ${formatCallDuration(startedAt)}`);
     }
+    const outcome: CallOutcome | null = startedAt != null ? "ended" : reason ?? null;
+    if (call && outcome) {
+      if (summaryTimerRef.current) clearTimeout(summaryTimerRef.current);
+      setCallSummary({
+        peerAddress: call.caller_address === userAddress ? call.recipient_address : call.caller_address,
+        callType: call.call_type, outcome,
+        duration: startedAt != null ? formatCallDuration(startedAt) : null,
+      });
+      summaryTimerRef.current = setTimeout(() => { summaryTimerRef.current = null; setCallSummary(null); }, 6000);
+    }
     await markEnded(call);
-  }, [publishCall, clearTimeouts, disposeMedia, markEnded]);
+  }, [publishCall, clearTimeouts, disposeMedia, markEnded, userAddress]);
+  const endCall = useCallback(() => finishCall(), [finishCall]);
+  /** The far side closed the call. Before anyone answered, that is a decline (ours) or a missed call (theirs). */
+  const remoteClosed = useCallback(() => {
+    const call = currentCallRef.current;
+    if (!call) return;
+    if (startedAtRef.current != null || joiningRef.current || call.status !== "ringing") { void finishCall(); return; }
+    if (call.caller_address === userAddress) {
+      callMessageHandlerRef.current?.(call.call_type === "video" ? "📵 Video call declined" : "📵 Voice call declined");
+      void finishCall("declined");
+    } else void finishCall("missed");
+  }, [finishCall, userAddress]);
+  const remoteClosedRef = useRef(remoteClosed);
+  remoteClosedRef.current = remoteClosed;
 
   const joinChannel = useCallback(async (call: CallSession, generation: number): Promise<boolean> => {
     const current = () => generationRef.current === generation && currentCallRef.current?.id === call.id;
@@ -207,7 +247,7 @@ export function useCall(): UseCallReturn {
       visualActivity.setCall(true, true);
       revokeAllFeedVideo(); revokeAudioFocus();
       callTimeoutRef.current = setTimeout(() => {
-        if (generationRef.current === ringGeneration && !joiningRef.current) void endCall();
+        if (generationRef.current === ringGeneration && !joiningRef.current) void finishCall("missed");
       }, Math.max(0, 45_000 - age));
     } catch (error) {
       log.warn("Incoming call check failed", error);
@@ -217,7 +257,7 @@ export function useCall(): UseCallReturn {
         if (request.recover && generationRef.current === generation) void checkRef.current();
       }
     }
-  }, [userAddress, callClient, publishCall, endCall]);
+  }, [userAddress, callClient, publishCall, finishCall]);
   const checkRef = useRef(checkForRing);
   checkRef.current = checkForRing;
 
@@ -227,16 +267,17 @@ export function useCall(): UseCallReturn {
       .on("broadcast", { event: "call" }, message => {
         const ping = message.payload as Pick<CallSession, "id" | "status"> | undefined;
         if (ping?.status === "ringing") void checkForRing(true);
-        else if (ping?.status === "ended" && ping.id === currentCallRef.current?.id) void endCall();
+        else if (ping?.status === "ended" && ping.id === currentCallRef.current?.id) remoteClosedRef.current();
       }).subscribe(status => { if (status === "SUBSCRIBED") void checkForRing(); });
     const poll = () => { if (AppState.currentState === "active") void checkForRing(); };
     const interval = setInterval(poll, 60_000);
     const app = AppState.addEventListener("change", state => { if (state === "active") poll(); });
     poll();
     return () => { clearInterval(interval); app.remove(); void supabase.removeChannel(channel); };
-  }, [userAddress, checkForRing, endCall]);
+  }, [userAddress, checkForRing]);
   useEffect(() => {
     publishCall(null);
+    dismissCallSummary();
     joiningRef.current = false;
     startedAtRef.current = null;
     setCallStartedAt(null); setRemoteUid(null); setIsCallActive(false);
@@ -252,10 +293,11 @@ export function useCall(): UseCallReturn {
     visualActivity.setCall(false, false);
     void markEnded(call);
     };
-  }, [userAddress, clearTimeouts, disposeMedia, markEnded, publishCall]);
+  }, [userAddress, clearTimeouts, disposeMedia, markEnded, publishCall, dismissCallSummary]);
 
   const startCall = useCallback(async (recipientAddress: string, callType: "audio" | "video" = "audio") => {
     if (!userAddress || currentCallRef.current) return;
+    dismissCallSummary();
     const generation = ++generationRef.current;
     const pending: CallSession = {
       id: "pending", caller_address: userAddress, recipient_address: recipientAddress.toLowerCase(),
@@ -287,13 +329,13 @@ export function useCall(): UseCallReturn {
         callTimeoutRef.current = setTimeout(() => {
           if (generationRef.current !== generation || startedAtRef.current != null) return;
           callMessageHandlerRef.current?.(callType === "video" ? "📵 Missed video call" : "📵 Missed voice call");
-          void endCall();
+          void finishCall("no_answer");
         }, 30_000);
       }
     } catch (error) {
       if (generationRef.current === generation) { log.error("Call start failed", error); await endCall(); }
     }
-  }, [userAddress, callClient, publishCall, markEnded, joinChannel, endCall]);
+  }, [userAddress, callClient, publishCall, markEnded, joinChannel, endCall, finishCall, dismissCallSummary]);
 
   const acceptCall = useCallback(async () => {
     const call = currentCallRef.current;
@@ -337,12 +379,15 @@ export function useCall(): UseCallReturn {
   const remoteCanvas = useMemo<VideoCanvas>(() => ({
     uid: remoteUid ?? 0, sourceType: VideoSourceType.VideoSourceRemote, renderMode: RenderModeType.RenderModeFit,
   }), [remoteUid]);
+  const isRinging = !!currentCall && isConnecting && !isCallActive && currentCall.status === "ringing"
+    && currentCall.caller_address === userAddress;
   return useMemo(() => ({
+    isRinging, callSummary, dismissCallSummary,
     isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas,
     startCall, endCall, acceptCall, rejectCall: endCall, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
-  }), [isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
+  }), [isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, remoteCanvas, startCall, endCall, acceptCall,
     toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);
 }

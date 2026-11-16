@@ -9623,7 +9623,14 @@
     "callbackRequest": "फिर से आवेदन करें",
     "tryAgain": "कृपया उ के सक्षम करीं आ फिर से",
     "startVoice": "आवाज़ लगाने की खातिर",
-    "startVideo": "वीडियो कॉल शुरू करे"
+    "startVideo": "वीडियो कॉल शुरू करे",
+    "voiceCallShort": "आवाज़ लगाने की खातिर",
+    "videoCallShort": "वीडियो कॉल",
+    "ended": "कॉल खतम भइल",
+    "declined": "कॉल अस्वीकार कइल गइल",
+    "noAnswer": "कउनो जवाब नाहीं",
+    "missed": "फोन उठावल ना गइल",
+    "callBack": "फिर से कॉल करें"
   },
   "badgeAscension": {
     "lines": {
@@ -14795,5 +14802,32 @@
     "newCodesTitle": "नया बैकअप ले रहे हो",
     "newCodesBody": "अपने आवेदन में से कोई भी कोड लिखें । आपके डिवाइस काम करना बंद कर देगा, खासकर अगर ।",
     "codeLabel": "छह अंकों वाला कोड"
+  },
+  "chatSearch": {
+    "placeholder": "संदेश या लोगन के खोज करीं",
+    "placeholderPerson": "{{name}} के मैसेज खोजें",
+    "close": "सर्च बंद करीं",
+    "removePerson": "सब के खोजा जाय",
+    "clear": "साफ करें",
+    "voice": "आवाज वाला मैसेज",
+    "photo": "फोटो",
+    "peopleHere": "एह चैट में मौजूद लोग",
+    "recent": "हालिया खोजे",
+    "hint": "कोनो शब्द या नाँव टाइप करीं।",
+    "failed": "खोज लोड ना हो सकल",
+    "people": "लोग",
+    "messages": "संदेस सभ",
+    "seeCount_one": "उनकर {{count}} मैसेज देखल जाय",
+    "seeCount_other": "उनकर {{count}} मैसेज देखल जाय",
+    "messagesCount_one": "{{count}} मैसेज",
+    "messagesCount_other": "{{count}} मैसेज",
+    "results_one": "{{count}} परिणाम",
+    "results_other": "{{count}} परिणाम",
+    "backToResults": "नतीजे पर वापस जायँ",
+    "position": "{{total}} में से {{current}}",
+    "older": "पुरान परिणाम",
+    "newer": "नया परिणाम",
+    "gone": "उ मैसेज अब इहाँ नइखे।",
+    "theirMessages": "उनकर मैसेज"
   }
 }

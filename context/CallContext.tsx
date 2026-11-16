@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo, type PropsWithChi
 import { useCall as useCallImpl, type UseCallReturn } from "../hooks/useCall";
 import { trackVisualActivity, visualActivity } from "../libs/visualActivity";
 
-const CallContext = createContext<UseCallReturn | null>(null);
+export const CallContext = createContext<UseCallReturn | null>(null);
 type CallActions = Pick<UseCallReturn, "setCallMessageHandler">;
 const CallActionsContext = createContext<CallActions | null>(null);
 

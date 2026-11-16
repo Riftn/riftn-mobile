@@ -9651,7 +9651,14 @@
     "callbackRequest": "ඇමතුම් ආපසු ඉල්ලීම",
     "tryAgain": "නැවත උත්සාහ කරන්න",
     "startVoice": "හඬ ඇමතුම අරඹන්න",
-    "startVideo": "වීඩියෝ ඇමතුම අරඹන්න"
+    "startVideo": "වීඩියෝ ඇමතුම අරඹන්න",
+    "voiceCallShort": "හඬ ඇමතුම",
+    "videoCallShort": "වීඩියෝ ඇමතුම",
+    "ended": "ඇමතුම අවසන් විය",
+    "declined": "ඇමතුම ප්‍රතික්ෂේප කරන ලදී",
+    "noAnswer": "පිළිතුරක් නැත",
+    "missed": "නොගත් ඇමතුම",
+    "callBack": "නැවත අමතන්න"
   },
   "badgeAscension": {
     "reached": "ඔබ {{tier}} වෙත ළඟා විය",
@@ -14838,5 +14845,31 @@
     "newCodesTitle": "නව උපස්ථ කේත ලබා ගන්න",
     "newCodesBody": "ඔබේ යෙදුමෙන් කේතයක් ඇතුළත් කරන්න. ඔබේ පැරණි උපස්ථ කේත ක්‍රියා කිරීම නතර වනු ඇත.",
     "codeLabel": "ඉලක්කම් හයේ කේතය"
+  },
+  "chatSearch": {
+    "placeholder": "සෙවුම් පණිවිඩ හෝ පුද්ගලයින් සෙවීම",
+    "placeholderPerson": "{{name}}ගේ පණිවිඩ සෙවීම",
+    "close": "සෙවුම වසා දැමීම",
+    "removePerson": "සියලු දෙනා සෙවීම",
+    "clear": "පිරිසිදු කිරීම",
+    "voice": "අදහස් පණිවිඩ",
+    "photo": "ඡායාරූප",
+    "peopleHere": "මෙම සංවාදයේ පුද්ගලයින්",
+    "recent": "අලුත්ම සෙවුම්",
+    "hint": "පදයක් හෝ නාමයක් ඇතුළත් කරන්න.",
+    "failed": "සෙවීම පූරණය කළ නොහැක",
+    "people": "පුද්ගලයින්",
+    "messages": "පණිවිඩ",
+    "seeCount_one": "{{count}}ගේ පණිවිඩ බලන්න",
+    "seeCount_other": "{{count}}ගේ පණිවිඩ බලන්න",
+    "messagesCount_one": "{{count}} පණිවිඩය",
+    "messagesCount_other": "{{count}} පණිවිඩ",
+    "results_one": "{{count}} ප්‍රතිඵලය",
+    "results_other": "{{count}} ප්‍රතිඵල",
+    "backToResults": "ප්‍රතිඵල වෙත ආපසු",
+    "older": "පැරණි ප්‍රතිඵල",
+    "newer": "අලුත් ප්‍රතිඵල",
+    "gone": "මෙම පණිවිඩය මෙතැනින් ඉවත් කර ඇත",
+    "theirMessages": "ඔවුන්ගේ පණිවිඩ"
   }
 }

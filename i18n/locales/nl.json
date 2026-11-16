@@ -8078,7 +8078,14 @@
     "callbackRequest": "Terugbelverzoek",
     "tryAgain": "Opnieuw proberen",
     "startVoice": "Spraakoproep starten",
-    "startVideo": "Videogesprek starten"
+    "startVideo": "Videogesprek starten",
+    "voiceCallShort": "Spraakgesprek",
+    "videoCallShort": "Videogesprek",
+    "ended": "Gesprek beëindigd",
+    "declined": "Oproep geweigerd",
+    "noAnswer": "Geen antwoord",
+    "missed": "Gemist gesprek",
+    "callBack": "Terugbellen"
   },
   "badgeAscension": {
     "reached": "Je hebt {{tier}} bereikt",
@@ -16966,5 +16973,32 @@
     "newCodesTitle": "Nieuwe back-upcodes krijgen",
     "newCodesBody": "Voer een code uit je app in. Je oude back-upcodes zullen niet meer werken.",
     "codeLabel": "Zescijferige code"
+  },
+  "chatSearch": {
+    "placeholder": "Zoek berichten of mensen",
+    "placeholderPerson": "Zoek {{name}}'s berichten",
+    "close": "Sluit zoeken",
+    "removePerson": "Zoek iedereen",
+    "clear": "Wissen",
+    "voice": "Stembericht",
+    "photo": "Foto",
+    "peopleHere": "Mensen in deze chat",
+    "recent": "Recente zoekopdrachten",
+    "hint": "Typ een woord of een naam.",
+    "failed": "Zoeken kon niet laden",
+    "people": "Mensen",
+    "messages": "Berichten",
+    "seeCount_one": "Zie hun {{count}} bericht",
+    "seeCount_other": "Zie hun {{count}} berichten",
+    "messagesCount_one": "{{count}} bericht",
+    "messagesCount_other": "{{count}} berichten",
+    "results_one": "{{count}} resultaat",
+    "results_other": "{{count}} resultaten",
+    "backToResults": "Terug naar resultaten",
+    "position": "{{current}} van {{total}}",
+    "older": "Ouder resultaat",
+    "newer": "Nieuwer resultaat",
+    "gone": "Dat bericht is hier niet meer",
+    "theirMessages": "Hun berichten"
   }
 }

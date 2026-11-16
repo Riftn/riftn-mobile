@@ -9657,7 +9657,14 @@
     "callbackRequest": "Grįžtamojo skambučio prašymas",
     "tryAgain": "Bandyti dar kartą",
     "startVoice": "Pradėti balso skambutį",
-    "startVideo": "Pradėti vaizdo skambutį"
+    "startVideo": "Pradėti vaizdo skambutį",
+    "voiceCallShort": "Balso skambutis",
+    "videoCallShort": "Vaizdo skambutis",
+    "ended": "Skambutis baigtas",
+    "declined": "Skambutis atmestas",
+    "noAnswer": "Neatsiliepė",
+    "missed": "Praleistas skambutis",
+    "callBack": "Perskambinti"
   },
   "badgeAscension": {
     "reached": "Pasiekėte {{tier}}",
@@ -14811,5 +14818,32 @@
     "newCodesTitle": "Gauti naujus atsarginius kodus",
     "newCodesBody": "Įveskite kodą iš savo programėlės. Jūsų senieji atsarginiai kodai nebeveiks.",
     "codeLabel": "Šešių skaitmenų kodas"
+  },
+  "chatSearch": {
+    "placeholder": "Ieškoti pranešimų ar žmonių",
+    "placeholderPerson": "Ieškoti {{name}} pranešimų",
+    "close": "Uždaryti iešką",
+    "removePerson": "Ieškoti visų",
+    "clear": "Išvalyti",
+    "voice": "Balsinis pranešimas",
+    "photo": "Fotografija",
+    "peopleHere": "Žmonės šiame čate",
+    "recent": "Ankstesni ieškimai",
+    "hint": "Įrašykite žodį ar pavardę.",
+    "failed": "Ieškimas negalėjo užkrovti",
+    "people": "Žmonės",
+    "messages": "Pranešimai",
+    "seeCount_one": "Matyti jų {{count}} pranešimą",
+    "seeCount_other": "Matyti jų {{count}} pranešimus",
+    "messagesCount_one": "{{count}} pranešimas",
+    "messagesCount_other": "{{count}} pranešimai",
+    "results_one": "{{count}} rezultatas",
+    "results_other": "{{count}} rezultatai",
+    "backToResults": "Grįžti į rezultatus",
+    "position": "{{current}} iš {{total}}",
+    "older": "Seniau",
+    "newer": "Naujiau",
+    "gone": "Tas pranešimas jau nebegali",
+    "theirMessages": "Jų pranešimai"
   }
 }

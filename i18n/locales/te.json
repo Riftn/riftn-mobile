@@ -9654,7 +9654,14 @@
     "callbackRequest": "కాల్ ‌ బ్యాక్ అభ్యర్థన",
     "tryAgain": "మళ్లీ ప్రయత్నించండి",
     "startVoice": "వాయిస్ కాల్ ‌ ని ప్రారంభించండి",
-    "startVideo": "వీడియో కాల్ ‌ ను ప్రారంభించండి"
+    "startVideo": "వీడియో కాల్ ‌ ను ప్రారంభించండి",
+    "voiceCallShort": "వాయిస్ కాల్",
+    "videoCallShort": "వీడియో కాల్",
+    "ended": "కాల్ ముగిసింది",
+    "declined": "కాల్ తిరస్కరించబడింది",
+    "noAnswer": "సమాధానం లేదు",
+    "missed": "మిస్ అయిన కాల్",
+    "callBack": "తిరిగి కాల్ చేయండి"
   },
   "badgeAscension": {
     "reached": "మీరు {{tier}} కు చేరుకున్నారు",
@@ -14826,5 +14833,32 @@
     "newCodesTitle": "నూతన బ్యాకప్ కోడ్‌లు పొందండి",
     "newCodesBody": "మీ అప్‌లోని కోడ్‌ను ఇవ్వండి. మీ పాత బ్యాకప్ కోడ్‌లు పనిచేయకుండా పోతాయి.",
     "codeLabel": "ఆరు అంకెల కోడ్"
+  },
+  "chatSearch": {
+    "placeholder": "సందేశాలు లేదా వ్యక్తులను శోధించండి",
+    "placeholderPerson": "{{name}} యొక్క సందేశాలను శోధించండి",
+    "close": "శోధనను మూసివేయండి",
+    "removePerson": "అందరినీ శోధించండి",
+    "clear": "శోధనను క్లియర్ చేయండి",
+    "voice": "వాయిస్ సందేశం",
+    "photo": "ఫోటో",
+    "peopleHere": "ఈ చాట్‌లోని వ్యక్తులు",
+    "recent": "ఇటీవలి శోధనలు",
+    "hint": "ఒక పదం లేదా పేరు టైప్ చేయండి.",
+    "failed": "శోధన లోడ్ కాలేదు",
+    "people": "వ్యక్తులు",
+    "messages": "సందేశాలు",
+    "seeCount_one": "వారి {{count}} సందేశాన్ని చూడండి",
+    "seeCount_other": "వారి {{count}} సందేశాలను చూడండి",
+    "messagesCount_one": "{{count}} సందేశం",
+    "messagesCount_other": "{{count}} సందేశాలు",
+    "results_one": "{{count}} ఫలితం",
+    "results_other": "{{count}} ఫలితాలు",
+    "backToResults": "ఫలితాలకు తిరిగి వెళ్లండి",
+    "position": "{{current}} నుండి {{total}}",
+    "older": "పాత ఫలితం",
+    "newer": "కొత్త ఫలితం",
+    "gone": "ఆ సందేశం ఇక లేదు",
+    "theirMessages": "వారి సందేశాలు"
   }
 }

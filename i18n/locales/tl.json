@@ -9700,7 +9700,14 @@
     "tryAgain": "Subukan muli",
     "startVoice": "Simulan ang voice call",
     "startVideo": "Simulan ang video call",
-    "voiceCall": "Voice call sa Riftn"
+    "voiceCall": "Voice call sa Riftn",
+    "voiceCallShort": "Voice call",
+    "videoCallShort": "Video call",
+    "ended": "Natapos na ang tawag",
+    "declined": "Tinanggihan ang tawag",
+    "noAnswer": "Walang sumasagot",
+    "missed": "Hindi nasagot na tawag",
+    "callBack": "Tumawag ulit"
   },
   "badgeAscension": {
     "reached": "Naabot mo ang {{tier}}",
@@ -15017,5 +15024,32 @@
     "newCodesTitle": "Kumuha ng mga bagong backup code",
     "newCodesBody": "Maglagay ng code mula sa iyong app. Hindi na gagana ang iyong mga lumang backup code.",
     "codeLabel": "Anim na digit na code"
+  },
+  "chatSearch": {
+    "placeholder": "Maghanap ng mga mensahe o tao",
+    "placeholderPerson": "Maghanap ng mga mensahe ni {{name}}",
+    "close": "Isara ang paghahanap",
+    "removePerson": "Maghanap sa lahat",
+    "clear": "Burahin",
+    "voice": "Mensahe sa boses",
+    "photo": "Larawan",
+    "peopleHere": "Mga tao sa chat na ito",
+    "recent": "Mga kamakailang paghahanap",
+    "hint": "I-type ang isang salita o pangalan.",
+    "failed": "Hindi ma-load ang paghahanap",
+    "people": "Mga tao",
+    "messages": "Mga mensahe",
+    "seeCount_one": "Tingnan ang mensahe ni {{count}}",
+    "seeCount_other": "Tingnan ang mga mensahe ni {{count}}",
+    "messagesCount_one": "Mensahe ni {{count}}",
+    "messagesCount_other": "Mga mensahe ni {{count}}",
+    "results_one": "Resulta ng {{count}}",
+    "results_other": "Mga resulta ng {{count}}",
+    "backToResults": "Bumalik sa mga resulta",
+    "position": "{{current}} ng {{total}}",
+    "older": "Mas lumang resulta",
+    "newer": "Mas bagong resulta",
+    "gone": "Ang mensaheng iyon ay hindi na narito",
+    "theirMessages": "Ang kanilang mga mensahe"
   }
 }

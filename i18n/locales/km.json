@@ -9653,7 +9653,14 @@
     "callbackRequest": "សំណើរហៅត្រឡប់មកវិញ",
     "tryAgain": "ព្យាយាមម្តងទៀត",
     "startVoice": "ចាប់ផ្តើមការហៅជាសំឡេង",
-    "startVideo": "ចាប់ផ្តើមការហៅជាវីដេអូ"
+    "startVideo": "ចាប់ផ្តើមការហៅជាវីដេអូ",
+    "voiceCallShort": "ការហៅជាសំឡេង",
+    "videoCallShort": "ការហៅជាវីដេអូ",
+    "ended": "បានបញ្ចប់ការហៅទូរសព្ទ",
+    "declined": "បានបដិសេធការហៅ",
+    "noAnswer": "គ្មានចម្លើយ",
+    "missed": "ការហៅទូរសព្ទដែលមិនបានឆ្លើយ",
+    "callBack": "ហៅត្រឡប់មកវិញ"
   },
   "badgeAscension": {
     "reached": "អ្នកបានទៅដល់ {{tier}}",
@@ -14851,5 +14858,32 @@
     "codesFileTitle": "Riftn កូដបម្រុង",
     "backupCodes": "កូដបម្រុង",
     "tip": "ទូរស័ព្ទថ្មី? ផ្លាស់ទីកម្មវិធី authenticator របស់អ្នកជាមុន, ឬចូលដោយកូដបម្រុង និងដំឡើងវាឡើងវិញ។"
+  },
+  "chatSearch": {
+    "placeholder": "ស្វែងរកសារ ឬមនុស្ស",
+    "placeholderPerson": "ស្វែងរកសារ​របស់ {{name}}",
+    "close": "បិទការស្វែងរក",
+    "removePerson": "ស្វែងរកគ្រប់គ្នា",
+    "clear": "លុប",
+    "voice": "សារ​សំឡេង",
+    "photo": "រូបថត",
+    "peopleHere": "មនុស្សនៅក្នុងការជជែកនេះ",
+    "recent": "ការស្វែងរកថ្មីៗ",
+    "hint": "វាយពាក្យ ឬឈ្មោះ",
+    "failed": "មិនអាចផ្ទុកការស្វែងរកបាន",
+    "people": "មនុស្ស",
+    "messages": "សារ",
+    "seeCount_one": "មើលសាររបស់ {{count}}",
+    "seeCount_other": "មើលសាររបស់ {{count}}",
+    "messagesCount_one": "សារ {{count}}",
+    "messagesCount_other": "សារ {{count}}",
+    "results_one": "លទ្ធផល {{count}}",
+    "results_other": "លទ្ធផល {{count}}",
+    "backToResults": "ត្រឡប់ទៅលទ្ធផល",
+    "position": "{{current}} នៃ {{total}}",
+    "older": "លទ្ធផលចាស់",
+    "newer": "លទ្ធផលថ្មី",
+    "gone": "សារនោះមិនមាននៅទីនេះទៀតទេ",
+    "theirMessages": "សាររបស់ពួកគេ"
   }
 }

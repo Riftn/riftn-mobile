@@ -9637,7 +9637,14 @@
     "callbackRequest": "କଲବ୍ୟାକ ଅନୁରୋଧ",
     "tryAgain": "ପୁଣିଥରେ ଚେଷ୍ଟା କରନ୍ତୁ",
     "startVoice": "ଭଏସ କଲ ଆରମ୍ଭ କରନ୍ତୁ",
-    "startVideo": "ଭିଡିଓ କଲ ଆରମ୍ଭ କରନ୍ତୁ"
+    "startVideo": "ଭିଡିଓ କଲ ଆରମ୍ଭ କରନ୍ତୁ",
+    "voiceCallShort": "ଭଏସ୍ କଲ୍",
+    "videoCallShort": "ଭିଡିଓ କଲ୍",
+    "ended": "କଲ୍ ଶେଷ ହେଲା",
+    "declined": "କଲ୍ ପ୍ରତ୍ୟାଖ୍ୟାନ କରାଗଲା",
+    "noAnswer": "କୌଣସି ଉତ୍ତର ନାହିଁ",
+    "missed": "ମିସ୍ କଲ୍",
+    "callBack": "ଫେରି କଲ୍ କରନ୍ତୁ"
   },
   "badgeAscension": {
     "reached": "ଆପଣ {{tier}} ରେ ପହଁଚିଲେ",
@@ -14802,5 +14809,32 @@
     "newCodesTitle": "ନୂତନ ବ୍ୟାକଅପ୍ କୋଡ୍ ନିଅ",
     "newCodesBody": "ଆପଣଙ୍କ ଆପ୍ ଠାରୁ ଗୋଟିଏ କୋଡ୍ ଦିଅନ୍ତୁ। ଆପଣଙ୍କ ପୁରୁଣା ବ୍ୟାକଅପ୍ କୋଡ୍ ଗୁଡିକ ଚାଲିବ ନାହିଁ।",
     "codeLabel": "ଛଅ ଅଙ୍କର କୋଡ୍"
+  },
+  "chatSearch": {
+    "placeholder": "ଖୋଜ ମେସେଜ ଅଥବା ଲୋକମାନେ",
+    "placeholderPerson": "{{name}} ଙ୍କ ମେସେଜ ଖୋଜ",
+    "close": "ଖୋଜ ବନ୍ଦ କର",
+    "removePerson": "ସମସ୍ତଙ୍କୁ ଖୋଜ",
+    "clear": "ସଫା କର",
+    "voice": "ଭଏସ ମେସେଜ",
+    "photo": "ଫୋଟୋ",
+    "peopleHere": "ଏହି ଚାଟର ଲୋକମାନେ",
+    "recent": "ସମ୍ପ୍ରତି ଖୋଜ",
+    "hint": "ଏକ ଶବ୍ଦ ଅଥବା ନାମ ଲେଖ",
+    "failed": "ଖୋଜ ଲୋଡ୍ ହେଲା ନାହିଁ",
+    "people": "ଲୋକମାନେ",
+    "messages": "ମେସେଜ",
+    "seeCount_one": "{{count}} ଙ୍କ ମେସେଜ ଦେଖ",
+    "seeCount_other": "{{count}} ଙ୍କ ମେସେଜ ଦେଖ",
+    "messagesCount_one": "{{count}} ମେସେଜ",
+    "messagesCount_other": "{{count}} ମେସେଜଗୁଡ଼ିକ",
+    "results_one": "{{count}} ଫଳାଫଳ",
+    "results_other": "{{count}} ଫଳାଫଳଗୁଡ଼ିକ",
+    "backToResults": "ଫଳାଫଳକୁ ଫେର",
+    "position": "{{current}} ରୁ {{total}}",
+    "older": "ପୁରୁଣା ଫଳାଫଳ",
+    "newer": "ନୂତନ ଫଳାଫଳ",
+    "gone": "ଏହି ମେସେଜ ଏଠାରେ ଆଉ ନାହିଁ",
+    "theirMessages": "ତାଙ୍କର ମେସେଜଗୁଡ଼ିକ"
   }
 }

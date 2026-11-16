@@ -9633,7 +9633,14 @@
     "minimize": "Biçûk bike",
     "expand": "Mezin bike",
     "startVoice": "Banga dengî dest pê bike",
-    "startVideo": "Banga vîdyoyê dest pê bike"
+    "startVideo": "Banga vîdyoyê dest pê bike",
+    "voiceCallShort": "Bangê dengî",
+    "videoCallShort": "Bangê vîdyoyî",
+    "ended": "Bang hat qedandin",
+    "declined": "Bang hat redkirin",
+    "noAnswer": "Bersiv tune",
+    "missed": "Banga bêbersiv",
+    "callBack": "Paşve bang bike"
   },
   "passwordStrength": {
     "veryWeak": "Pir lawaz",
@@ -15116,5 +15123,32 @@
     "newCodesTitle": "Kodên backupê nû bistîne",
     "newCodesBody": "Kodê ji sepanê xwe binivîse. Kodên backupê kevnê te dê dest bi karê xwe bike.",
     "codeLabel": "Kodê şeş-çîhê"
+  },
+  "chatSearch": {
+    "placeholder": "Lêgerîn peyamên an jiyan",
+    "placeholderPerson": "Lêgerîn peyamên {{name}}",
+    "close": "Bigire lêgerîn",
+    "removePerson": "Lêgerîn hemû kes",
+    "clear": "Paşve",
+    "voice": "Peyama dengê",
+    "photo": "Wêne",
+    "peopleHere": "Kesên di vê sohbetê de",
+    "recent": "Lêgerînên dawî",
+    "hint": "Nivîse gotinek an navêk.",
+    "failed": "Lêgerîn nikaribû barkirin",
+    "people": "Kes",
+    "messages": "Peyam",
+    "seeCount_one": "Bibîne peyama {{count}}",
+    "seeCount_other": "Bibîne peyamên {{count}}",
+    "messagesCount_one": "Peyama {{count}}",
+    "messagesCount_other": "Peyamên {{count}}",
+    "results_one": "Encama {{count}}",
+    "results_other": "Encamên {{count}}",
+    "backToResults": "Vegere encam",
+    "position": "{{current}} ji {{total}}",
+    "older": "Encama kevn",
+    "newer": "Encama nû",
+    "gone": "Ev peyam nêzîkî tune ye",
+    "theirMessages": "Peyamên wan"
   }
 }

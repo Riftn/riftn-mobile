@@ -9633,7 +9633,14 @@
     "callbackRequest": "Codsiga dib u celinta",
     "tryAgain": "Isku day mar kale",
     "startVoice": "Bilow wicitaanka codka",
-    "startVideo": "Bilow wicitaanka fiidiyowga"
+    "startVideo": "Bilow wicitaanka fiidiyowga",
+    "voiceCallShort": "Wicitaanka codka",
+    "videoCallShort": "Wicitaanka fiidiyowga",
+    "ended": "Wiciddu way dhammaatay",
+    "declined": "Wicitaanka waa la diiday",
+    "noAnswer": "Lama jawaabin",
+    "missed": "Wicitaan la seegay",
+    "callBack": "Dib u soo wac"
   },
   "badgeAscension": {
     "reached": "Waxaad gaadhay {{tier}}",
@@ -14782,5 +14789,32 @@
     "newCodesTitle": "Hel koodhadh kaydka ah oo cusub",
     "newCodesBody": "Geli koodh ka yimid abkaaga. Koodhadhkaagii hore ee kaydka ahaa way joogsan doonaan inay shaqeeyaan.",
     "codeLabel": "Koodh lix-god ah"
+  },
+  "chatSearch": {
+    "placeholder": "Raadi farriimaha ama dadka",
+    "placeholderPerson": "Raadi farriimaha {{name}}",
+    "close": "Xiro raadinta",
+    "removePerson": "Raadi qof walba",
+    "clear": "Nadiifi",
+    "voice": "Farriin cod",
+    "photo": "Sawir",
+    "peopleHere": "Dadku ku jira sheekadan",
+    "recent": "Raadiyadii dhawaan",
+    "hint": "Qor erey ama magac.",
+    "failed": "Raadinta ma soo bixin karto",
+    "people": "Dad",
+    "messages": "Farriimo",
+    "seeCount_one": "Eeg farriinta {{count}}",
+    "seeCount_other": "Eeg farriimaha {{count}}",
+    "messagesCount_one": "Farriinta {{count}}",
+    "messagesCount_other": "Farriimaha {{count}}",
+    "results_one": "Natiijada {{count}}",
+    "results_other": "Natiijooyinka {{count}}",
+    "backToResults": "Ku soo laabo natiijooyinka",
+    "position": "{{current}} ee {{total}}",
+    "older": "Natiijada hore",
+    "newer": "Natiijada cusub",
+    "gone": "Farriintaas ma jirto",
+    "theirMessages": "Farriimahooda"
   }
 }

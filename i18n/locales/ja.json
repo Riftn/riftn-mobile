@@ -9749,7 +9749,14 @@
     "callbackRequest": "折り返しの電話リクエスト",
     "tryAgain": "もう一度お試しください",
     "startVoice": "音声通話を開始する",
-    "startVideo": "ビデオ通話を開始する"
+    "startVideo": "ビデオ通話を開始する",
+    "voiceCallShort": "音声通話",
+    "videoCallShort": "ビデオ通話",
+    "ended": "通話が終了しました",
+    "declined": "通話を拒否しました",
+    "noAnswer": "応答なし",
+    "missed": "不在着信",
+    "callBack": "折り返し電話"
   },
   "badgeAscension": {
     "reached": "{{tier}}に到達しました",
@@ -14984,5 +14991,32 @@
     "newCodesTitle": "新しいバックアップコードを取得",
     "newCodesBody": "アプリからコードを入力してください。古いバックアップコードは無効になります。",
     "codeLabel": "6桁のコード"
+  },
+  "chatSearch": {
+    "placeholder": "検索メッセージまたは人を検索",
+    "placeholderPerson": "{{name}}のメッセージを検索",
+    "close": "検索を閉じる",
+    "removePerson": "全員を検索",
+    "clear": "クリア",
+    "voice": "音声メッセージ",
+    "photo": "写真",
+    "peopleHere": "このチャットの人々",
+    "recent": "最近の検索",
+    "hint": "単語または名前を入力してください。",
+    "failed": "検索できませんでした",
+    "people": "人々",
+    "messages": "メッセージ",
+    "seeCount_one": "彼らの{{count}}メッセージを見る",
+    "seeCount_other": "彼らの{{count}}メッセージを見る",
+    "messagesCount_one": "{{count}}メッセージ",
+    "messagesCount_other": "{{count}}メッセージ",
+    "results_one": "{{count}}結果",
+    "results_other": "{{count}}結果",
+    "backToResults": "結果に戻る",
+    "position": "{{current}}件中{{total}}件",
+    "older": "古い結果",
+    "newer": "新しい結果",
+    "gone": "そのメッセージはもうありません",
+    "theirMessages": "彼らのメッセージ"
   }
 }

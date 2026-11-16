@@ -9757,7 +9757,14 @@
     "callbackRequest": "Žiadosť o spätné volanie",
     "tryAgain": "Skúsiť znova",
     "startVoice": "Začať hlasový hovor",
-    "startVideo": "Spustiť videohovor"
+    "startVideo": "Spustiť videohovor",
+    "voiceCallShort": "Hlasový hovor",
+    "videoCallShort": "Videohovor",
+    "ended": "Hovor ukončený",
+    "declined": "Hovor bol odmietnutý",
+    "noAnswer": "Žiadna odpoveď",
+    "missed": "Zmeškaný hovor",
+    "callBack": "Zavolať späť"
   },
   "badgeAscension": {
     "reached": "Dosiahli ste {{tier}}",
@@ -14989,5 +14996,32 @@
     "newCodesTitle": "Získať nové záložné kódy",
     "newCodesBody": "Zadajte kód zo svojej aplikácie. Vaše staré záložné kódy prestanú fungovať.",
     "codeLabel": "Šesťmiestny kód"
+  },
+  "chatSearch": {
+    "placeholder": "Vyhľadávanie správ alebo ľudí",
+    "placeholderPerson": "Vyhľadávanie správ {{name}}",
+    "close": "Zavrieť vyhľadávanie",
+    "removePerson": "Vyhľadávanie všetkých",
+    "clear": "Vyčistiť",
+    "voice": "Hlasová správa",
+    "photo": "Fotografia",
+    "peopleHere": "Ľudia v tomto chate",
+    "recent": "Nedávne vyhľadávania",
+    "hint": "Zadajte slovo alebo meno.",
+    "failed": "Vyhľadávanie sa nepodarilo načítať",
+    "people": "Ľudia",
+    "messages": "Správy",
+    "seeCount_one": "Pozri ich {{count}} správu",
+    "seeCount_other": "Pozri ich {{count}} správy",
+    "messagesCount_one": "{{count}} správa",
+    "messagesCount_other": "{{count}} správy",
+    "results_one": "{{count}} výsledok",
+    "results_other": "{{count}} výsledky",
+    "backToResults": "Späť na výsledky",
+    "position": "{{current}} z {{total}}",
+    "older": "Starší výsledok",
+    "newer": "Novší výsledok",
+    "gone": "Táto správa už tu nie je",
+    "theirMessages": "Ich správy"
   }
 }

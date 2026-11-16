@@ -9631,7 +9631,14 @@
     "callbackRequest": "Кайра чалуу өтүнүчү",
     "tryAgain": "Дагы бир жолу аракет кылып көрүңүз",
     "startVoice": "Үн чалууну баштоо",
-    "startVideo": "Видео чалууну баштоо"
+    "startVideo": "Видео чалууну баштоо",
+    "voiceCallShort": "Үн чалуу",
+    "videoCallShort": "Видео чалуу",
+    "ended": "Чакыруу аяктады",
+    "declined": "Чакыруу четке кагылды",
+    "noAnswer": "Жооп жок",
+    "missed": "Жооп берилбеген чалуу",
+    "callBack": "Кайра чалуу"
   },
   "badgeAscension": {
     "reached": "Сиз {{tier}} жеттиңиз",
@@ -14794,5 +14801,32 @@
     "newCodesTitle": "Сактоо коддорун кайра чакырыңыз.",
     "newCodesBody": "Тиркемеңизден кодду киргизиңиз. Сиздин эски резервдик коддоруңуз иштебей калат.",
     "codeLabel": "Алты цифрлы код"
+  },
+  "chatSearch": {
+    "placeholder": "Топтолгон билдирүүлөр же адамдарды издөө",
+    "placeholderPerson": "{{name}}'нун билдирүүлөрүн издөө",
+    "close": "Издөө жабуу",
+    "removePerson": "Бардыкды издөө",
+    "clear": "Тазалоо",
+    "voice": "Озундук билдирүүсү",
+    "photo": "Фотосурет",
+    "peopleHere": "Бул чаттыдагы адамдар",
+    "recent": "Жуктуулар",
+    "hint": "Сөз же ат жазуу.",
+    "failed": "Издөө жүктөлбөйт",
+    "people": "Адамдар",
+    "messages": "Билдирүүлөр",
+    "seeCount_one": "{{count}}'нун билдирүүсүн көрүү",
+    "seeCount_other": "{{count}}'нун билдирүүлөрүн көрүү",
+    "messagesCount_one": "{{count}} билдирүүсү",
+    "messagesCount_other": "{{count}} билдирүүлөрү",
+    "results_one": "{{count}} натыйжасы",
+    "results_other": "{{count}} натыйжалары",
+    "backToResults": "Натыйжаларга кайтуу",
+    "position": "{{current}} / {{total}}",
+    "older": "Эски натыйжа",
+    "newer": "Жаңы натыйжа",
+    "gone": "Бул билдирүү азыр жок",
+    "theirMessages": "Алардын билдирүүлөрү"
   }
 }

@@ -788,10 +788,157 @@ async function run(): Promise<void> {
   console.error("[perf-tour] done");
 }
 
+/**
+ * Every text box on screen, kept as boxes come and go, so the keyboard check
+ * can put the cursor in one without knowing where it is drawn.
+ */
+const liveInputs: unknown[] = [];
+const inputState = (require("react-native/Libraries/Components/TextInput/TextInputState").default ??
+  require("react-native/Libraries/Components/TextInput/TextInputState")) as {
+  registerInput(input: unknown): void;
+  unregisterInput(input: unknown): void;
+  focusTextInput(input: unknown): void;
+};
+{
+  const { registerInput, unregisterInput } = inputState;
+  inputState.registerInput = (input) => {
+    if (!liveInputs.includes(input)) liveInputs.push(input);
+    registerInput(input);
+  };
+  inputState.unregisterInput = (input) => {
+    const at = liveInputs.indexOf(input);
+    if (at >= 0) liveInputs.splice(at, 1);
+    unregisterInput(input);
+  };
+}
+
+/**
+ * Can the keyboard always be closed. Explore: cursor in the search pill, a
+ * real tap on its X. Then pages with number boxes: the cursor goes in each
+ * box and the keyboard is pictured (a number pad has a bar with Done), and a
+ * real drag of the page has to close it.
+ */
+async function runKeys(): Promise<void> {
+  const { Keyboard } = require("react-native") as typeof import("react-native");
+  extra = { startedAt: Date.now(), mode: "keys" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+  const checks: Record<string, unknown>[] = [];
+  extra.keys = checks;
+  let asks = 0;
+  const ask = async (request: string, waitMs: number) => {
+    asks += 1;
+    await AsyncStorage.setItem(SWIPE_KEY, request.replace("#", String(asks)));
+    await sleep(waitMs);
+  };
+  const up = () => Keyboard.isVisible();
+  const note = async (check: string, result: Record<string, unknown>) => {
+    checks.push({ check, ...result });
+    console.error(`[perf-tour] ${check}: ${JSON.stringify(result)}`);
+    await save(false);
+  };
+
+  if (signedIn) {
+    // A fresh sign-in is offered a profile photo, then notifications: "Not
+    // now" on each, where they are drawn on this simulator.
+    await sleep(14000);
+    await ask("tap:not-now-photo-#:201:802", 5000);
+    await ask("tap:not-now-notifications-#:201:649", 5000);
+    await shot("0-asks-answered");
+    await sleep(700);
+    // The post composer: its Post row has to sit on top of the keys.
+    nav.navigate(ScreenNames.Upload);
+    await sleep(6000);
+    const upOnOpen = up();
+    await shot("7-composer-keyboard-up");
+    await sleep(700);
+    Keyboard.dismiss();
+    await sleep(1500);
+    await shot("7-composer-keyboard-down");
+    await sleep(700);
+    await note("composer", { upOnOpen, height: Keyboard.metrics()?.height, route: nav.getCurrentRoute()?.name });
+    if (nav.getCurrentRoute()?.name === ScreenNames.Upload) nav.goBack();
+    await sleep(2500);
+  }
+
+  // Explore, by its tab in the bottom bar.
+  const hadBefore = new Set(liveInputs);
+  await ask("tap:search-tab-#:307:812", 4500);
+  const before = liveInputs.length;
+  await shot("1-explore");
+  await sleep(700);
+  // The pill's own box when it can be told apart, else a tap on the pill.
+  const pill = liveInputs.filter((input) => !hadBefore.has(input))[0];
+  if (pill) inputState.focusTextInput(pill);
+  else await ask("tap:explore-pill-#:150:87", 2000);
+  await sleep(2500);
+  const upAfterFocus = up();
+  await shot("2-explore-keyboard-up");
+  await sleep(700);
+  await ask("type:explore-#:rif", 4000);
+  await shot("3-explore-typed");
+  await sleep(700);
+  // The X sits before the sliders button at the end of the pill.
+  await ask("tap:explore-x-#:346:87", 4000);
+  const upAfterX = up();
+  await shot("4-explore-after-x");
+  await sleep(700);
+  await note("explore-x", { inputs: before, upAfterFocus, upAfterX, route: nav.getCurrentRoute()?.name });
+  // And a drag of the list under it closes it too.
+  if (pill) inputState.focusTextInput(pill);
+  else await ask("tap:explore-pill-#:150:87", 2000);
+  await sleep(2500);
+  const upAgain = up();
+  await ask("drag:explore-#", 4000);
+  await shot("5-explore-after-drag");
+  await sleep(700);
+  await note("explore-drag", { upAgain, upAfterDrag: up() });
+  Keyboard.dismiss();
+  nav.navigate(ScreenNames.Home);
+  await sleep(1500);
+
+  for (const page of ["Dao", "Bridge", "Launchpad", "Converter", "Usernames", "Accounts", "Dex"]) {
+    const had = new Set(liveInputs);
+    nav.navigate(page);
+    await sleep(4000);
+    const fresh = liveInputs.filter((input) => !had.has(input)).slice(0, 3);
+    let index = 0;
+    for (const input of fresh) {
+      index += 1;
+      inputState.focusTextInput(input);
+      await sleep(2500);
+      const shown = up();
+      const height = Keyboard.metrics()?.height;
+      await shot(`6-${page}-box-${index}`);
+      await sleep(700);
+      await ask(`drag:${page}-#`, 4000);
+      await shot(`6-${page}-box-${index}-after-drag`);
+      await sleep(700);
+      await note(`${page}-box-${index}`, { shown, height, upAfterDrag: up(), route: nav.getCurrentRoute()?.name });
+      Keyboard.dismiss();
+      await sleep(600);
+    }
+    if (!fresh.length) await note(`${page}`, { boxes: 0, route: nav.getCurrentRoute()?.name });
+    await backToTabs();
+    nav.navigate(ScreenNames.Home);
+    await sleep(1200);
+  }
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] done");
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -801,6 +948,7 @@ void (async () => {
     else if (mode === "touch") await runTouch();
     else if (mode === "shorts") await runShorts();
     else if (mode === "wide") await runWide();
+    else if (mode === "keys") await runKeys();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

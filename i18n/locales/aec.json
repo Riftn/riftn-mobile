@@ -9644,7 +9644,14 @@
     "callbackRequest": "طلب رد اتصال",
     "tryAgain": "حاول تاني",
     "startVoice": "ابدأ مكالمة صوتية",
-    "startVideo": "ابدأ مكالمة فيديو"
+    "startVideo": "ابدأ مكالمة فيديو",
+    "voiceCallShort": "مكالمة صوتية",
+    "videoCallShort": "مكالمة فيديو",
+    "ended": "المكالمة انتهت",
+    "declined": "تم رفض المكالمة",
+    "noAnswer": "ما جاوبش",
+    "missed": "مكالمة ضائعة",
+    "callBack": "ارجع للاتصال"
   },
   "badgeAscension": {
     "reached": "وصلت {{tier}}",
@@ -14854,5 +14861,32 @@
     "newCodesTitle": "احصل على كودات احتياطية جديدة",
     "newCodesBody": "اكتب كود من تطبيقك. الكودات الاحتياطية القديمة هتوقف شغلها.",
     "codeLabel": "كود مكون من ست أرقام"
+  },
+  "chatSearch": {
+    "placeholder": "ابحث عن رسائل أو أشخاص",
+    "placeholderPerson": "ابحث في رسائل {{name}}",
+    "close": "قفل البحث",
+    "removePerson": "ابحث عن الكل",
+    "clear": "امسح",
+    "voice": "رسالة صوتية",
+    "photo": "صورة",
+    "peopleHere": "الناس اللي في الشات ده",
+    "recent": "البحثات الأخيرة",
+    "hint": "اكتب كلمة أو اسم.",
+    "failed": "مفيش قدرة على تحميل البحث",
+    "people": "الناس",
+    "messages": "الرسائل",
+    "seeCount_one": "شوف رسالتهم {{count}}",
+    "seeCount_other": "شوف رسائلهم {{count}}",
+    "messagesCount_one": "رسالة {{count}}",
+    "messagesCount_other": "رسائل {{count}}",
+    "results_one": "نتيجة {{count}}",
+    "results_other": "نتايج {{count}}",
+    "backToResults": "الرجوع للنتايج",
+    "position": "{{current}} من {{total}}",
+    "older": "نتيجة أقدم",
+    "newer": "نتيجة أحدث",
+    "gone": "الرسالة دي مش موجودة دلوقتي",
+    "theirMessages": "رسائلهم"
   }
 }

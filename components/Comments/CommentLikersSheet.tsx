@@ -24,6 +24,7 @@ import {
   Modal,
   Pressable,
   FlatList,
+  ScrollView,
   ActivityIndicator,
   useWindowDimensions,
   StyleSheet,
@@ -43,6 +44,8 @@ import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { getCommentLikers, type CommentLiker } from "../../services/nft.service";
+import { getChatReactors } from "../../services/livechat.service";
+import { InlineEmoji } from "../common/EmojiText";
 import { getAvatarUrl, getBadgeUrlFor, getBadgeHoverOpticalStyle as getBadgeOpticalStyle } from "../../libs/misc";
 import { truncate } from "../../libs/strings.util";
 import { useTranslation } from "react-i18next";
@@ -59,9 +62,13 @@ interface CommentLikersSheetProps {
   commentId: number | string | null;
   /** Where the likers come from; post comments read the Riftn API. */
   loadPage?: typeof getCommentLikers;
+  /** Chat lines carry several reactions: swaps the heading and copy, and adds one filter per reaction. */
+  chatMessageId?: string | null;
 }
 
-const PersonRow: React.FC<{ item: CommentLiker; onPress: (address: string) => void }> = memo(
+type Person = CommentLiker & { emojis?: string[] };
+
+const PersonRow: React.FC<{ item: Person; onPress: (address: string) => void }> = memo(
   ({ item, onPress }) => {
     const displayName = item.displayName || item.username || truncate(item.address, 12, "..");
     const badgeImg = item.hideBadgeAndBalance ? undefined : getBadgeUrlFor(item);
@@ -92,7 +99,15 @@ const PersonRow: React.FC<{ item: CommentLiker; onPress: (address: string) => vo
             </Text>
           )}
         </View>
-        <Icon name="ChevronRight" size={16} color="#6F7174" />
+        {item.emojis?.length ? (
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 4, marginLeft: 8 }}>
+            {item.emojis.map((emoji) => (
+              <InlineEmoji key={emoji} value={emoji} size={18} />
+            ))}
+          </View>
+        ) : (
+          <Icon name="ChevronRight" size={16} color="#6F7174" />
+        )}
       </Pressable>
     );
   },
@@ -103,7 +118,9 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
   onClose,
   commentId,
   loadPage,
+  chatMessageId,
 }) => {
+  const forChat = chatMessageId != null;
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -118,7 +135,9 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
   const backdrop = useSheetBackdrop(Platform.OS !== "android");
   const [isFullyClosed, setIsFullyClosed] = useSheetClosed(visible);
 
-  const [people, setPeople] = useState<CommentLiker[]>([]);
+  const [people, setPeople] = useState<Person[]>([]);
+  const [emoji, setEmoji] = useState<string | null>(null);
+  const [reactionCounts, setReactionCounts] = useState<Record<string, number>>({});
   const [totalCount, setTotalCount] = useState(0);
   const [anonymousCount, setAnonymousCount] = useState(0);
   const [canView, setCanView] = useState(true);
@@ -129,13 +148,17 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
 
   const fetchPage = useCallback(
     async (pageNum: number) => {
-      if (commentId == null) return;
+      if (commentId == null && chatMessageId == null) return;
       if (pageNum === 0) setLoading(true);
       else setLoadingMore(true);
       try {
-        const res = await (loadPage ?? getCommentLikers)({ commentId, page: pageNum, limit: PAGE_LIMIT });
+        const chat = chatMessageId != null
+          ? await getChatReactors({ messageId: chatMessageId, emoji: emoji ?? undefined, page: pageNum, limit: PAGE_LIMIT })
+          : null;
+        const res = chat ?? await (loadPage ?? getCommentLikers)({ commentId: commentId!, page: pageNum, limit: PAGE_LIMIT });
+        if (chat && pageNum === 0) setReactionCounts(chat.reactionCounts ?? {});
         setCanView(res.canViewLikers !== false);
-        setTotalCount(res.pagination?.totalCount ?? res.data.length);
+        setTotalCount(chat?.peopleCount ?? res.pagination?.totalCount ?? res.data.length);
         if (pageNum === 0) setAnonymousCount(res.anonymousBadgeHolderCount ?? 0);
         setPeople((prev) => (pageNum === 0 ? res.data : [...prev, ...res.data]));
         setPage(pageNum);
@@ -149,8 +172,11 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
         setLoadingMore(false);
       }
     },
-    [commentId, loadPage],
+    [commentId, loadPage, chatMessageId, emoji],
   );
+
+  // A new line starts on "All"; a filter tap reloads the open sheet in place.
+  useEffect(() => { setEmoji(null); setReactionCounts({}); }, [chatMessageId]);
 
   useEffect(() => {
     if (visible) {
@@ -208,6 +234,8 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
     [closeSheet, showUserProfile],
   );
 
+  const filterKeys = Object.keys(reactionCounts).filter((key) => reactionCounts[key] > 0);
+
   if (!visible && isFullyClosed) return null;
 
   return (
@@ -226,10 +254,25 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
           <GestureDetector gesture={gesture}>
             <Animated.View className="items-center py-2.5">
               <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.2)" }} />
-              <Text style={{ color: "#F9FBFF", fontSize: 15, fontWeight: "600", marginTop: 8 }}>{_copy("copy.1aa9573705bf", { defaultValue: "Comment likes" })}{totalCount > 0 && <Text style={{ color: "#8B8D90", fontWeight: "400" }}> · {totalCount}</Text>}
+              <Text style={{ color: "#F9FBFF", fontSize: 15, fontWeight: "600", marginTop: 8 }}>{forChat ? t("reactionInfo.title") : _copy("copy.1aa9573705bf", { defaultValue: "Comment likes" })}{totalCount > 0 && <Text style={{ color: "#8B8D90", fontWeight: "400" }}> · {totalCount}</Text>}
               </Text>
             </Animated.View>
           </GestureDetector>
+
+          {forChat && canView && filterKeys.length > 1 ? (
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 8, gap: 8 }}>
+              <Pressable onPress={() => setEmoji(null)} style={[glassStyles.filter, emoji === null && glassStyles.filterOn]}>
+                <Text style={{ color: "#F9FBFF", fontSize: 13 }}>{t("filters.all")}</Text>
+                <Text style={glassStyles.filterCount}>{totalCount}</Text>
+              </Pressable>
+              {filterKeys.map((key) => (
+                <Pressable key={key} onPress={() => setEmoji(key)} style={[glassStyles.filter, emoji === key && glassStyles.filterOn]}>
+                  <InlineEmoji value={key} size={15} />
+                  <Text style={glassStyles.filterCount}>{reactionCounts[key]}</Text>
+                </Pressable>
+              ))}
+            </ScrollView>
+          ) : null}
 
           {loading ? (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -238,12 +281,12 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
           ) : !canView ? (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: 32 }}>
               <Text style={{ color: "#6F7174", fontSize: 14, textAlign: "center" }}>
-                {t("comments.likersAuthorOnly")}
+                {forChat ? t("reactionInfo.privateTitle") : t("comments.likersAuthorOnly")}
               </Text>
             </View>
           ) : people.length === 0 && anonymousCount === 0 ? (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-              <Text style={{ color: "#6F7174", fontSize: 14 }}>{t("comments.noLikesYet")}</Text>
+              <Text style={{ color: "#6F7174", fontSize: 14 }}>{forChat ? t("reactionInfo.empty") : t("comments.noLikesYet")}</Text>
             </View>
           ) : (
             <FlatList
@@ -293,6 +336,22 @@ const glassStyles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: SHEET_GLASS_BORDER,
   },
+  filter: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    height: 32,
+    paddingHorizontal: 12,
+    borderRadius: 16,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.10)",
+  },
+  filterOn: {
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderColor: "rgba(255,255,255,0.30)",
+  },
+  filterCount: { color: "#8B8D90", fontSize: 13, fontVariant: ["tabular-nums"] },
   anonymousRow: {
     flexDirection: "row",
     alignItems: "center",

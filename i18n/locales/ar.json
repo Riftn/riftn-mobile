@@ -7956,7 +7956,14 @@
     "callbackRequest": "طلب معاودة الاتصال",
     "tryAgain": "حاول مرة أخرى",
     "startVoice": "بدء مكالمة صوتية",
-    "startVideo": "بدء مكالمة فيديو"
+    "startVideo": "بدء مكالمة فيديو",
+    "voiceCallShort": "مكالمة صوتية",
+    "videoCallShort": "مكالمة فيديو",
+    "ended": "انتهت المكالمة",
+    "declined": "تم رفض المكالمة",
+    "noAnswer": "لا يوجد رد",
+    "missed": "مكالمة فائتة",
+    "callBack": "إعادة الاتصال"
   },
   "badgeAscension": {
     "reached": "لقد وصلت إلى {{tier}}",
@@ -16731,5 +16738,32 @@
     "newCodesTitle": "احصل على رموز احتياطية جديدة",
     "newCodesBody": "أدخِل رمزاً من التطبيق. ستتوقف رموزك الاحتياطية القديمة عن العمل.",
     "codeLabel": "رمز مكون من ستة أرقام"
+  },
+  "chatSearch": {
+    "placeholder": "البحث في الرسائل أو الأشخاص",
+    "placeholderPerson": "البحث في رسائل {{name}}",
+    "close": "إغلاق البحث",
+    "removePerson": "البحث في الجميع",
+    "clear": "مسح",
+    "voice": "رسالة صوتية",
+    "photo": "صورة",
+    "peopleHere": "الأشخاص في هذه الدردشة",
+    "recent": "عمليات البحث الأخيرة",
+    "hint": "اكتب كلمة أو اسمًا.",
+    "failed": "تعذّر تحميل البحث",
+    "people": "الأشخاص",
+    "messages": "الرسائل",
+    "seeCount_one": "عرض {{count}} رسالة له",
+    "seeCount_other": "عرض {{count}} من رسائله",
+    "messagesCount_one": "{{count}} رسالة",
+    "messagesCount_other": "{{count}} من الرسائل",
+    "results_one": "{{count}} نتيجة",
+    "results_other": "{{count}} من النتائج",
+    "backToResults": "العودة إلى النتائج",
+    "position": "{{current}} من {{total}}",
+    "older": "نتيجة أقدم",
+    "newer": "نتيجة أحدث",
+    "gone": "لم تعد هذه الرسالة موجودة هنا",
+    "theirMessages": "رسائلهم"
   }
 }

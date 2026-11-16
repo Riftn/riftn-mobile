@@ -43,6 +43,8 @@ interface LiveChatMessageProps {
   myAddress: string;
   isModerator: boolean;
   onSelectReaction?: (messageId: string, emoji: string) => void;
+  /** Your own line: a reaction opens the list of who left it. */
+  onShowReactors?: (messageId: string) => void;
   onAvatarPress?: (user: LiveChatUser) => void;
   onLongPress?: (msg: LiveChatMessageData, layout: MessageLayout, translate?: TranslateToggle) => void;
   onReplyPress?: (messageId: string) => void;
@@ -86,6 +88,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   myAddress,
   isModerator,
   onSelectReaction,
+  onShowReactors,
   onAvatarPress,
   onLongPress,
   onReplyPress,
@@ -388,7 +391,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
             {reactionEntries.map(([emoji, addrs]) => (
               <TouchableOpacity
                 key={emoji}
-                onPress={() => onSelectReaction?.(message._id, emoji)}
+                onPress={() => (isMe && onShowReactors ? onShowReactors(message._id) : onSelectReaction?.(message._id, emoji))}
                 className={`flex-row items-center rounded-full px-2 py-0.5 ${
                   addrs.includes(myAddress) ? "bg-blue-500/20 border border-blue-500/30" : "bg-white/5"
                 }`}

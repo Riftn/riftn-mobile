@@ -10104,7 +10104,14 @@
     "callbackRequest": "Запит на зворотній дз",
     "tryAgain": "Спробувати ще раз",
     "startVoice": "Почати голосовий дзвінок",
-    "startVideo": "Почати відеодзвінок"
+    "startVideo": "Почати відеодзвінок",
+    "voiceCallShort": "Голосовий дзвінок",
+    "videoCallShort": "Відеовиклик",
+    "ended": "Виклик завершено",
+    "declined": "Виклик відхилено",
+    "noAnswer": "Немає відповіді",
+    "missed": "Пропущений виклик",
+    "callBack": "Передзвонити"
   },
   "badgeAscension": {
     "reached": "Ви досягли {{tier}}",
@@ -15368,5 +15375,32 @@
     "newCodesTitle": "Отримати нові резервні коди",
     "newCodesBody": "Введіть код із вашого додатка. Ваші старі резервні коди перестануть працювати.",
     "codeLabel": "Шестизначний код"
+  },
+  "chatSearch": {
+    "placeholder": "Пошук повідомлень або людей",
+    "placeholderPerson": "Пошук повідомлень {{name}}",
+    "close": "Закрити пошук",
+    "removePerson": "Пошук усіх",
+    "clear": "Очистити",
+    "voice": "Голосове повідомлення",
+    "photo": "Фото",
+    "peopleHere": "Люди у цьому чаті",
+    "recent": "Нещодавні пошуки",
+    "hint": "Введіть слово або ім'я.",
+    "failed": "Пошук не вдалося завантажити",
+    "people": "Люди",
+    "messages": "Повідомлення",
+    "seeCount_one": "Подивитися їх повідомлення {{count}}",
+    "seeCount_other": "Подивитися їх повідомлення {{count}}",
+    "messagesCount_one": "Повідомлення {{count}}",
+    "messagesCount_other": "Повідомлення {{count}}",
+    "results_one": "Результат {{count}}",
+    "results_other": "Результати {{count}}",
+    "backToResults": "Повернутися до результатів",
+    "position": "{{current}} з {{total}}",
+    "older": "Старший результат",
+    "newer": "Новіший результат",
+    "gone": "Це повідомлення більше не тут",
+    "theirMessages": "Їх повідомлення"
   }
 }

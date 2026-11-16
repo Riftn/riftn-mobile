@@ -1834,6 +1834,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             highlighted={highlightedId === item._id}
             myAddress={address}
             onToggleReaction={toggleReaction}
+            callPeerAddress={peer.address || undefined}
           />
         </View>
       );

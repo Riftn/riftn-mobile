@@ -9635,7 +9635,14 @@
     "callbackRequest": "Дархости бозгашти занг",
     "tryAgain": "Бори дигар кӯшиш кунед",
     "startVoice": "Оғоз кардани занги овозӣ",
-    "startVideo": "Занги видеоиро оғоз кунед"
+    "startVideo": "Занги видеоиро оғоз кунед",
+    "voiceCallShort": "Занги овозиӣ",
+    "videoCallShort": "Занги видеоӣ",
+    "ended": "Занг хотима ёфт",
+    "declined": "Занг рад карда шуд",
+    "noAnswer": "Ҷавоб надод",
+    "missed": "Занги ҷавоб доданашуда",
+    "callBack": "Боз занг занед"
   },
   "badgeAscension": {
     "reached": "Шумо ба {{tier}} расидед",
@@ -14782,5 +14789,32 @@
     "newCodesTitle": "Гирифтани рамзҳои эҳтиётии нав",
     "newCodesBody": "Рамзро аз барномаи худ ворид кунед. Рамзҳои эҳтиётии кӯҳнаи шумо дигар кор намекунанд.",
     "codeLabel": "Рамзи шашрақама"
+  },
+  "chatSearch": {
+    "placeholder": "Моҳитабор кардан ё шахс",
+    "placeholderPerson": "Ҷустуҷӯи паёмҳои {{name}}",
+    "close": "Isara ang paghahanap",
+    "removePerson": "Ҷустуҷӯи ҳама",
+    "clear": "Тоза",
+    "voice": "Voice message",
+    "photo": "Фото",
+    "peopleHere": "Хобҳо дар ин чат",
+    "recent": "Ҷустуҷӯҳои охирин",
+    "hint": "Калима ё номро ворид кунед.",
+    "failed": "Ҷустуҷӯ нобудаст зарурӣ",
+    "people": "Мардумон",
+    "messages": "Паёмҳо",
+    "seeCount_one": "Паёми онҳо {{count}}-ро бинед",
+    "seeCount_other": "Паёмҳои онҳо {{count}}-ро бинед",
+    "messagesCount_one": "{{count}} message",
+    "messagesCount_other": "{{count}} messages",
+    "results_one": "{{count}} натиҷа",
+    "results_other": "{{count}} натиҷаҳо",
+    "backToResults": "Боз ба натиҷаҳо",
+    "position": "{{current}} of {{total}}",
+    "older": "Натиҷаи кӯҳна",
+    "newer": "Натиҷаи навтар",
+    "gone": "Ин паём дигар ин ҷо нест",
+    "theirMessages": "Паёмҳои онҳо"
   }
 }

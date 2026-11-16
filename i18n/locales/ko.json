@@ -9880,7 +9880,14 @@
     "callbackRequest": "전화 회신 요청",
     "tryAgain": "다시 시도하기",
     "startVoice": "음성 통화 시작",
-    "startVideo": "화상 통화 시작"
+    "startVideo": "화상 통화 시작",
+    "voiceCallShort": "음성 통화",
+    "videoCallShort": "화상 통화",
+    "ended": "통화 종료됨",
+    "declined": "통화 거절됨",
+    "noAnswer": "답변 없음",
+    "missed": "부재중 전화",
+    "callBack": "전화 다시 걸기"
   },
   "badgeAscension": {
     "reached": "{{tier}} 에 도달했습니다",
@@ -14974,5 +14981,31 @@
     "newCodesTitle": "새 백업 코드 받기",
     "newCodesBody": "앱에서 코드를 입력하세요. 기존 백업 코드는 더 이상 작동하지 않습니다.",
     "codeLabel": "6자리 코드"
+  },
+  "chatSearch": {
+    "placeholder": "검색 메시지 또는 사람",
+    "placeholderPerson": "{{name}}의 메시지 검색",
+    "close": "검색 닫기",
+    "removePerson": "모두 검색",
+    "clear": "지우기",
+    "voice": "음성 메시지",
+    "photo": "사진",
+    "peopleHere": "이 채팅의 사람들",
+    "recent": "최근 검색",
+    "hint": "단어나 이름을 입력하세요.",
+    "failed": "검색을 불러올 수 없습니다",
+    "people": "사람",
+    "messages": "메시지",
+    "seeCount_one": "{{count}}의 메시지 보기",
+    "seeCount_other": "{{count}}의 메시지 보기",
+    "messagesCount_one": "{{count}} 메시지",
+    "messagesCount_other": "{{count}} 메시지",
+    "results_one": "{{count}} 결과",
+    "results_other": "{{count}} 결과",
+    "backToResults": "결과로 돌아가기",
+    "older": "이전 결과",
+    "newer": "다음 결과",
+    "gone": "그 메시지는 더 이상 없습니다",
+    "theirMessages": "그들의 메시지"
   }
 }

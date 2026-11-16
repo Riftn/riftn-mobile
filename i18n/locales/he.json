@@ -9664,7 +9664,14 @@
     "callbackRequest": "בקשת התקשרות חוזרת",
     "tryAgain": "ניסיון חוזר",
     "startVoice": "התחל שיחה קולית",
-    "startVideo": "התחל שיחת וידאו"
+    "startVideo": "התחל שיחת וידאו",
+    "voiceCallShort": "שיחת קול",
+    "videoCallShort": "שיחת וידאו",
+    "ended": "השיחה הסתיימה",
+    "declined": "השיחה נדחתה",
+    "noAnswer": "אין מענה",
+    "missed": "שיחה שלא נענתה",
+    "callBack": "חיוג חוזר"
   },
   "badgeAscension": {
     "reached": "הגעת אל {{tier}}",
@@ -14822,5 +14829,32 @@
     "newCodesTitle": "קבל קודים חדשים לגיבוי",
     "newCodesBody": "הזן קוד מהאפליקציה שלך. קודי הגיבוי הישנים שלך יפסיקו לעבוד.",
     "codeLabel": "קוד בן שישה ספרות"
+  },
+  "chatSearch": {
+    "placeholder": "חפש הודעות או אנשים",
+    "placeholderPerson": "חפש הודעות של {{name}}",
+    "close": "סגור חיפוש",
+    "removePerson": "חפש את כולם",
+    "clear": "נקה",
+    "voice": "הודעת קול",
+    "photo": "תמונה",
+    "peopleHere": "אנשים בצ'אט זה",
+    "recent": "חיפושים אחרונים",
+    "hint": "הקלד מילה או שם.",
+    "failed": "החיפוש לא הצליח לטעון",
+    "people": "אנשים",
+    "messages": "הודעות",
+    "seeCount_one": "ראה את הודעת {{count}} שלהם",
+    "seeCount_other": "ראה את הודעות {{count}} שלהם",
+    "messagesCount_one": "הודעת {{count}}",
+    "messagesCount_other": "הודעות {{count}}",
+    "results_one": "תוצאה {{count}}",
+    "results_other": "תוצאות {{count}}",
+    "backToResults": "חזור לתוצאות",
+    "position": "{{current}} מתוך {{total}}",
+    "older": "תוצאה ישנה יותר",
+    "newer": "תוצאה חדשה יותר",
+    "gone": "ההודעה הזו כבר לא כאן",
+    "theirMessages": "הודעותיהם"
   }
 }

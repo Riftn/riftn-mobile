@@ -9667,7 +9667,14 @@
     "callbackRequest": "कलब्याक अनुरोध",
     "tryAgain": "फेरि प्रयास गर्नुहोस्",
     "startVoice": "भ्वाइस कल सुरु गर्नुहोस्",
-    "startVideo": "भिडियो कल सुरु गर्नुहोस्"
+    "startVideo": "भिडियो कल सुरु गर्नुहोस्",
+    "voiceCallShort": "भ्वाइस कल",
+    "videoCallShort": "भिडियो कल",
+    "ended": "कल समाप्त भयो",
+    "declined": "कल अस्वीकार गरियो",
+    "noAnswer": "कुनै जवाफ छैन",
+    "missed": "छुटेको कल",
+    "callBack": "फेरि फोन गर्नुहोस्"
   },
   "badgeAscension": {
     "reached": "तपाईं {{tier}} मा पुग्नुभयो",
@@ -14867,5 +14874,32 @@
     "newCodesTitle": "नयाँ बेकअप कोडहरू प्राप्त गर्नुहोस्",
     "newCodesBody": "तपाईंको एपबाट कोड प्रविष्ट गर्नुहोस्। तपाईंका पुराना बेकअप कोडहरू काम गर्न थाल्नेछन्।",
     "codeLabel": "छ-डिजिट कोड"
+  },
+  "chatSearch": {
+    "placeholder": "सन्देश वा मानिसहरू खोज्नुहोस्",
+    "placeholderPerson": "{{name}} को सन्देशहरू खोज्नुहोस्",
+    "close": "खोज बन्द गर्नुहोस्",
+    "removePerson": "सबैलाई खोज्नुहोस्",
+    "clear": "साफ गर्नुहोस्",
+    "voice": "भ्वाइस सन्देश",
+    "photo": "फोटो",
+    "peopleHere": "यस च्याटमा मानिसहरू",
+    "recent": "हालैका खोजहरू",
+    "hint": "शब्द वा नाम टाइप गर्नुहोस्।",
+    "failed": "खोज लोड हुन सकेन",
+    "people": "मानिसहरू",
+    "messages": "सन्देशहरू",
+    "seeCount_one": "उनीहरूको {{count}} सन्देश हेर्नुहोस्",
+    "seeCount_other": "उनीहरूको {{count}} सन्देशहरू हेर्नुहोस्",
+    "messagesCount_one": "{{count}} सन्देश",
+    "messagesCount_other": "{{count}} सन्देशहरू",
+    "results_one": "{{count}} नतिजा",
+    "results_other": "{{count}} नतिजाहरू",
+    "backToResults": "नतिजाहरूमा फर्कनुहोस्",
+    "position": "{{current}} को {{total}}",
+    "older": "पुरानो नतिजा",
+    "newer": "नयाँ नतिजा",
+    "gone": "त्यो सन्देश यहाँ अब छैन",
+    "theirMessages": "उनीहरूको सन्देशहरू"
   }
 }

@@ -34,7 +34,7 @@ jest.mock('../../components/auth/ImportWallet', () => 'ImportWallet');
 jest.mock('../../components/auth/SignInSavedProfiles', () => 'SavedProfiles');
 jest.mock('../../components/auth/LoginShortsStack', () => 'LoginShortsStack');
 jest.mock('../../components/auth/WalletSetupScreen', () => 'WalletSetup');
-jest.mock('../../components/FullScreenLoader', () => 'Loader');
+jest.mock('../../components/auth/SignInHandoff', () => ({ SignInWaitVeil: 'Loader' }));
 jest.mock('../../hooks/useWalletAuth', () => ({ useWalletAuth: () => ({ isWalletLoading: false, isWalletSheetOpen: false }) }));
 jest.mock('../../hooks/useScrollFieldIntoView', () => ({ useScrollFieldIntoView: () => ({ scrollViewProps: {} }) }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key }), Trans: 'Trans' }));

@@ -9638,7 +9638,14 @@
     "callbackRequest": "बुलावा लौटा दे, बुलावा लौ",
     "tryAgain": "फिर से कोशिश करे",
     "startVoice": "आवाज़ उठायें, आवाज़ उठायें",
-    "startVideo": "वीडियो कॉल करे शुरू करे"
+    "startVideo": "वीडियो कॉल करे शुरू करे",
+    "voiceCallShort": "वोइस कॉल",
+    "videoCallShort": "वीडियो प्रेषित करे के अनुमति प्रदान करव",
+    "ended": "फोन रखा गेलइ ।",
+    "declined": "कॉल अस्वीकार कर देल गेलइ ।",
+    "noAnswer": "कोई हल नहीं हो पाता",
+    "missed": "अनचाहे कॉल",
+    "callBack": "अहाँ फ़िर-फ़िर करऽ लगलहुँ"
   },
   "badgeAscension": {
     "lines": {
@@ -14792,5 +14799,27 @@
     "newCodesTitle": "नए बैकअप कोड्स प्राप्त करें",
     "newCodesBody": "अपने ऐप से एक कोड दर्ज करें। आपके पुराने बैकअप कोड्स काम करना बंद कर देंगे।",
     "codeLabel": "छह अंकों का कोड"
+  },
+  "chatSearch": {
+    "placeholder": "संदेश या लोग खोजें",
+    "placeholderPerson": "सर्च {{name}} के संदेश",
+    "close": "खोज बंद करीं",
+    "removePerson": "सबके खोज",
+    "clear": "साफ़",
+    "photo": "इमेज में देखावल फोटो",
+    "peopleHere": "ई चैट में लोग",
+    "recent": "Latest संग्राहलय",
+    "hint": "एक शब्द या नाम टाइप करें।",
+    "failed": "खोज लोड नहीं हो सकल",
+    "people": "मानवा जन्तवो जगति",
+    "messages": "संदेश",
+    "seeCount_one": "उनकर {{count}} संदेश देखीं",
+    "seeCount_other": "उन्हें {{count}} संदेश देखीं",
+    "messagesCount_one": "{{count}} संदेश",
+    "backToResults": "परिणाम पर वापस",
+    "older": "पुरान परिणाम",
+    "newer": "नवीन परिणाम",
+    "gone": "ई संदेश अब यहाँ नहीं बा",
+    "theirMessages": "उनकर संदेश"
   }
 }
