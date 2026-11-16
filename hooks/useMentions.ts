@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import type {
   NativeSyntheticEvent,
   TextInputSelectionChangeEventData,
@@ -11,6 +11,7 @@ import { caretFromEdit } from "../libs/caret-from-edit";
  *
  * Features:
  * - Detects `@query` at cursor → debounced API search
+ * - Stays shut inside an email address and while deleting
  * - Inserts `@username ` on selection
  * - Backspacing into a filled mention deletes the whole `@username `
  */
@@ -25,8 +26,10 @@ export function useMentions(text: string, setText: (t: string) => void) {
   const queryRef = useRef("");
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  // Keep ref synced with actual state (handles cases where setText is rejected)
-  useEffect(() => {
+  // Keep ref synced with actual state (handles cases where setText is rejected).
+  // In the same commit as the text, so a late run can never put an older text
+  // back over the one just typed and make a backspace look like typing.
+  useLayoutEffect(() => {
     prevTextRef.current = text;
   }, [text]);
 
@@ -42,7 +45,9 @@ export function useMentions(text: string, setText: (t: string) => void) {
       let i = cursor - 1;
       while (i >= 0) {
         if (t[i] === "@") {
-          if (i === 0 || t[i - 1] === " " || t[i - 1] === "\n") {
+          // The @ has to start a word. One in the middle of a word is an
+          // email address (name@example.com), not a tag.
+          if (i === 0 || /\s/.test(t[i - 1])) {
             const q = t.slice(i + 1, cursor);
             return /^[\w.]*$/.test(q) ? q : null;
           }
@@ -85,6 +90,19 @@ export function useMentions(text: string, setText: (t: string) => void) {
 
       prevTextRef.current = newText;
       setText(newText);
+
+      // ── Deleting ──
+      // Backspace never opens the list, and shuts it if it was open, so
+      // nothing appears or jumps under the thumb mid-delete. It comes back
+      // with the next character typed.
+      if (newText.length < oldText.length) {
+        queryRef.current = "";
+        setShowSuggestions(false);
+        setSuggestions([]);
+        setLoading(false);
+        if (timerRef.current) clearTimeout(timerRef.current);
+        return;
+      }
 
       // ── Mention query detection ──
       const cursor = caretFromEdit(oldText, newText, selectionRef.current);
