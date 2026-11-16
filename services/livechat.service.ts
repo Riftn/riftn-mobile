@@ -381,3 +381,45 @@ export async function removeStreamModerator(address: string): Promise<MyStreamMo
 export async function unbanFromStreams(address: string): Promise<MyStreamModeration> {
   return myModeration(await apiClient.delete<any>(`/livechat/moderation/mine/bans/${address.toLowerCase()}`, { isAuthRequired: true }));
 }
+
+export interface ChatReactor {
+  address: string;
+  username?: string | null;
+  displayName?: string | null;
+  avatarImageUrl?: string | null;
+  badgeBalance?: number;
+  badgeLock?: { tier: string; requirement: number } | null;
+  hideBadgeAndBalance?: boolean;
+  /** Every reaction this person left on the line. */
+  emojis: string[];
+}
+
+export interface ChatReactorsResponse {
+  result: boolean;
+  /** False for everyone but the person who wrote the line; `data` is then empty by design. */
+  canViewLikers: boolean;
+  data: ChatReactor[];
+  /** People per reaction, across the whole line. */
+  reactionCounts?: Record<string, number>;
+  /** Everyone who reacted, whatever the emoji filter. */
+  peopleCount?: number;
+  anonymousBadgeHolderCount?: number;
+  pagination?: { page: number; limit: number; totalCount: number; hasMore: boolean };
+}
+
+/** Who reacted to one of your own chat lines, newest first. */
+export function getChatReactors(params: {
+  messageId: string;
+  emoji?: string;
+  page?: number;
+  limit?: number;
+}): Promise<ChatReactorsResponse> {
+  const qs = new URLSearchParams();
+  if (params.emoji) qs.set("emoji", params.emoji);
+  qs.set("page", String(params.page ?? 0));
+  qs.set("limit", String(params.limit ?? 50));
+  return apiClient.get<ChatReactorsResponse>(
+    `/livechat/reactors/${encodeURIComponent(params.messageId)}?${qs.toString()}`,
+    { isAuthRequired: true },
+  );
+}

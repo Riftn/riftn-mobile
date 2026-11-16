@@ -29,6 +29,7 @@ import { LiveChatLens } from "../components/LiveChat/LiveChatLens";
 import ChatTextSizeButton from "../components/LiveChat/ChatTextSizeButton";
 import LiveChatInput from "../components/LiveChat/LiveChatInput";
 import LiveChatContextMenu from "../components/LiveChat/LiveChatContextMenu";
+import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
 import type { TranslateToggle } from "../components/ui/TranslateButton";
 import type { MessageLayout } from "../components/LiveChat/LiveChatContextMenu";
 import PinnedMessagesBar from "../components/LiveChat/PinnedMessagesBar";
@@ -513,6 +514,10 @@ const LiveChatScreen: React.FC = () => {
     setReplyingTo.complete(replyingTo, null);
   }, [replyingTo, setReplyingTo]);
 
+  // Your own line whose "who reacted" list is open.
+  const [reactorsFor, setReactorsFor] = useState<string | null>(null);
+  const closeReactors = useCallback(() => setReactorsFor(null), []);
+
   const handleSelectReaction = useCallback(
     (messageId: string, emoji: string) => {
       const msg = messagesRef.current.find((m) => m._id === messageId);
@@ -863,6 +868,7 @@ const LiveChatScreen: React.FC = () => {
           myAddress={myAddress}
           isModerator={isModerator}
           onSelectReaction={handleSelectReaction}
+          onShowReactors={setReactorsFor}
           onAvatarPress={handleAvatarPress}
           onLongPress={handleLongPress}
           onReplyPress={handleReplyPress}
@@ -1138,6 +1144,8 @@ const LiveChatScreen: React.FC = () => {
         onClose={() => setShowGifPicker(false)}
         onPick={handleGifPicked}
       />
+
+      <CommentLikersSheet visible={!!reactorsFor} onClose={closeReactors} commentId={null} chatMessageId={reactorsFor} />
 
       <LiveChatContextMenu
         visible={contextMenuVisible}
