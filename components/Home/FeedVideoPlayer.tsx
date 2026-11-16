@@ -1406,6 +1406,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
         (isMinimal || postPage) && MINIMAL_MEDIA,
         (postPage || bleed) && POST_PAGE_MEDIA,
         roundPage && PAGE_FRAME_ROUND,
+        pictureRound && PAGE_FRAME_CLEAR,
         sharedPoster && styles.sharedPosterPlayer,
       ]}
     >
@@ -1826,6 +1827,8 @@ const POST_PAGE_MEDIA = { marginTop: 0 } as const;
 // Post page outside the square themes: the feed's corners (FEED_BENTO_RADIUS).
 const PAGE_FRAME_ROUND = { borderRadius: 12 } as const;
 const PAGE_PICTURE_ROUND = { borderRadius: 12, overflow: "hidden" } as const;
+// System Light: the frame is clear, so the page shows around the rounded picture, not black.
+const PAGE_FRAME_CLEAR = { backgroundColor: "transparent" } as const;
 // Edge-to-edge media puts its controls on the screen edge, where Android's
 // back gesture lives. Web pushes them in the same way (index.css, minimal).
 const MINIMAL_EDGE = 16;
@@ -2232,6 +2235,7 @@ const FeedVideoPoster: React.FC<Pick<FeedVideoPlayerProps, "tokenId" | "storedAs
           (isMinimal || postPage) && MINIMAL_MEDIA,
           (postPage || bleed) && POST_PAGE_MEDIA,
           postPage && !isMinimal && PAGE_FRAME_ROUND,
+          postPage && !isMinimal && isLight && PAGE_FRAME_CLEAR,
         ]}
       >
         {thumbnail ? (
