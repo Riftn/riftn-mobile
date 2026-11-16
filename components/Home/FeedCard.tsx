@@ -1080,10 +1080,12 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     } as never);
   }, [isOwnerPost, stream, item, navigation, isCurrentlyLive, accessInfo, tokenId]);
 
-  const handleCardPress = useCallback(() => {
+  // `toViewer`: a tap on the picture of a video goes straight to the player;
+  // a tap on its caption opens the post page, like every other kind of post.
+  const openPost = useCallback((toViewer: boolean) => {
     if (scrubBoundary.claimed.value) return;
     if (disablePress) return;
-    if (isVideo && !isLive && videoViewerReady) {
+    if (toViewer && isVideo && !isLive && videoViewerReady) {
       handleVideoViewerPress();
       return;
     }
@@ -1109,6 +1111,15 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     disablePress, isLive, isVideo, videoViewerReady, handleVideoViewerPress, openLive, item, tokenId, postVideoUrl,
     navigation, hideUserProfile, onBeforeNavigate, soundtrack, scrubBoundary.claimed, profileFeed,
   ]);
+
+  const handleCardPress = useCallback(() => openPost(true), [openPost]);
+  // Filled by the caption: a cut-off caption spends the first tap opening the
+  // rest of its text, and only the next one leaves for the post.
+  const captionTapExpand = useRef<(() => boolean) | null>(null);
+  const handleCaptionPress = useCallback(() => {
+    if (captionTapExpand.current?.()) return;
+    openPost(false);
+  }, [openPost]);
 
   // The post page turns the card's tap off, since it would only open the page
   // it is on. The live viewer is another screen, so the live picture still
@@ -2557,8 +2568,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                 onBoostPress={DIGITAL_PURCHASES_ENABLED && isOwnerPost && isSignedIn && tokenId != null ? handleBoostPress : undefined}
                 isHidden={isHidden}
               />
-              <PostTapSurface resetKey={postKey} immediatePress onPressIntent={warmPost} onReaction={handleVideoTapReaction} onPress={disablePress ? undefined : handleCardPress} onHold={onHold}>
-                <FeedCaption resetKey={postKey} statsTokenId={tokenId} title={overlayTitle || undefined} description={displayCaption || undefined}
+              <PostTapSurface resetKey={postKey} immediatePress onPressIntent={warmPost} onReaction={handleVideoTapReaction} onPress={disablePress ? undefined : handleCaptionPress} onHold={onHold}>
+                <FeedCaption tapExpand={captionTapExpand} resetKey={postKey} statsTokenId={tokenId} title={overlayTitle || undefined} description={displayCaption || undefined}
                   variant="portrait" compactPortrait={SCREEN_WIDTH < 768} maxLines={4} showCategories={false} flagged={item.communityAlertStatus === "pending"}
                   onCategoryPress={onCategorySelect} onCashtagPress={setActiveCashtag} />
               </PostTapSurface>
@@ -2959,7 +2970,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   resetKey={postKey}
                   immediatePress
                   onReaction={handleVideoTapReaction}
-                  onPress={disablePress ? undefined : handleCardPress}
+                  onPress={disablePress ? undefined : handleCaptionPress}
                   onHold={onHold}
                 >
                   {!!localArticleBody && (
@@ -2973,7 +2984,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                     </View>
                   )}
                   <FeedCaption
-                    resetKey={postKey}
+                    tapExpand={captionTapExpand} resetKey={postKey}
                     statsTokenId={tokenId}
                     title={localArticleBody ? undefined : overlayTitle || undefined}
                     description={displayCaption || undefined}
@@ -3019,12 +3030,12 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                 resetKey={postKey}
                 immediatePress
                 onReaction={handleVideoTapReaction}
-                onPress={disablePress ? undefined : handleCardPress}
+                onPress={disablePress ? undefined : handleCaptionPress}
                 onHold={onHold}
               >
                 <View style={[{ paddingTop: 10 }, chipOverMedia && !firstVideoHeaderBelow && [styles.captionBesideOptions, (contentType === "video" || contentType === "short") && isOwnerPost && isSignedIn && tokenId != null && { paddingRight: 64 }]]}>
                   <FeedCaption
-                    resetKey={postKey}
+                    tapExpand={captionTapExpand} resetKey={postKey}
                     statsTokenId={tokenId}
                     title={overlayTitle || undefined}
                     description={displayCaption || undefined}
@@ -3217,7 +3228,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         immediatePress
         onPressIntent={warmPost}
         onReaction={handleVideoTapReaction}
-        onPress={disablePress ? undefined : handleCardPress}
+        onPress={disablePress ? undefined : handleCaptionPress}
         onHold={onHold}
       >
       {!!localArticleBody && (
@@ -3233,7 +3244,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         </View>
       )}
       <FeedCaption
-        resetKey={postKey}
+        tapExpand={captionTapExpand} resetKey={postKey}
         statsTokenId={tokenId}
         title={localArticleBody ? undefined : (isTranslated ? translatedTexts.title : localTitle) || undefined}
         // A chart card is captioned by its title alone, like web's music items.

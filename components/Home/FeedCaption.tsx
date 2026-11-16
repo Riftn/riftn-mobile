@@ -6,7 +6,7 @@ import { useTranslation as _useCopy } from 'react-i18next';
  * Shows title, description (max 2 lines with "see more"), and clickable category hashtags.
  * Detects URLs in text and renders them as blue, tappable links opened in-app.
  */
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo, useCallback, useEffect, useMemo } from "react";
 import { View, Text, TouchableOpacity, NativeSyntheticEvent, TextLayoutEventData, ScrollView, useWindowDimensions } from "react-native";
 import { openInApp } from "../../libs/links.utils";
 import { reportPostEvent } from "../../services/post-stats.service";
@@ -129,6 +129,12 @@ interface FeedCaptionProps {
   compactPortrait?: boolean;
   /** The post this caption belongs to; a link tap counts in its stats. */
   statsTokenId?: string | number | null;
+  /**
+   * Filled with "open the rest of this caption": returns true when the tap
+   * was spent expanding a cut-off caption, false when there was nothing left
+   * to open and the tap should go on to the post.
+   */
+  tapExpand?: React.MutableRefObject<(() => boolean) | null>;
 }
 
 // Measured "see more" verdicts, keyed on the caption content. The verdict
@@ -157,6 +163,7 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
   resetKey,
   variant = "default",
   compactPortrait = false,
+  tapExpand,
 }) => {
   usePerfProbe("CardCaption");
   const { t: _copy } = _useCopy();
@@ -191,6 +198,14 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
   const toggleExpanded = useCallback(() => {
     setExpanded((prev) => !prev);
   }, [setExpanded]);
+
+  // A tap on a cut-off caption opens the rest first; the next one opens the post.
+  const canExpand = showSeeMore && !expanded && !fullContent;
+  useEffect(() => {
+    if (!tapExpand) return;
+    tapExpand.current = canExpand ? () => { setExpanded(true); return true; } : null;
+    return () => { tapExpand.current = null; };
+  }, [tapExpand, canExpand, setExpanded]);
 
   const handleCategoryPress = useCallback((cat: string) => {
     onCategoryPress?.(cat);
@@ -310,13 +325,20 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
   if (variant === "media") {
     if (!hasTitle && !hasDescription) return null;
     return (
-      <Text style={[MEDIA_TEXT, mono]} numberOfLines={2} ellipsizeMode="tail">
-        {hasTitle && (
-          <Text style={{ fontWeight: "600" }}>{renderSegments(titleSegments, "t", 15)}</Text>
+      <>
+        <Text style={[MEDIA_TEXT, mono]} numberOfLines={expanded ? MEDIA_OPEN_LINES : 2} ellipsizeMode="tail" onTextLayout={handleTextLayout}>
+          {hasTitle && (
+            <Text style={{ fontWeight: "600" }}>{renderSegments(titleSegments, "t", 15)}</Text>
+          )}
+          {hasTitle && hasDescription ? " " : null}
+          {hasDescription && renderSegments(descSegments, "d", 15)}
+        </Text>
+        {canExpand && (
+          <Text style={MEDIA_MORE} onPress={toggleExpanded} suppressHighlighting>
+            {_copy("copy.b19a6f63eaf3", { defaultValue: "see more" })}
+          </Text>
         )}
-        {hasTitle && hasDescription ? " " : null}
-        {hasDescription && renderSegments(descSegments, "d", 15)}
-      </Text>
+      </>
     );
   }
 
@@ -403,6 +425,8 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
 };
 
 const MEDIA_TEXT = { color: "#FFFFFF", fontSize: 15, lineHeight: 21 } as const;
+const MEDIA_MORE = { color: "rgba(255,255,255,0.6)", fontSize: 14, lineHeight: 19, marginTop: 2 } as const;
+const MEDIA_OPEN_LINES = 14;
 const LIGHT_INK_TEXT = { color: LIGHT_INK } as const;
 const LARGE_TEXT = { fontSize: 19, lineHeight: 26, fontWeight: "500" } as const;
 
