@@ -104,6 +104,14 @@ interface ChatInputBarProps {
   onClearTip?: () => void;
   /** Current DHB balance of the user (for display & validation). */
   dhbBalance?: number | null;
+  /**
+   * The clock beside the tip gem: send this message later. Handed what is
+   * typed and a way to empty the box once it has been scheduled. Left out,
+   * there is no clock (paid chats, a chat that does not exist yet).
+   */
+  onSchedulePress?: (draft: { text: string; hasAttachment: boolean; clear: () => void }) => void;
+  /** Messages already waiting in this chat; puts a dot on the clock. */
+  scheduledCount?: number;
   /** Trigger poll creation sheet. */
   onPollPress?: () => void;
   /** Pre-fill the text input on mount (e.g. shared post URL). */
@@ -168,6 +176,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   onTipPress,
   onClearTip,
   dhbBalance,
+  onSchedulePress,
+  scheduledCount = 0,
   onPollPress,
   initialText,
   autoFocus = false,
@@ -650,6 +660,16 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     setAttachOpen(false);
     run();
   };
+  // Scheduling is for a new message, so the clock steps aside during an edit.
+  const canSchedule = !!onSchedulePress && !editingMessage;
+  const handleSchedule = () => {
+    haptic.tap();
+    onSchedulePress?.({
+      text: text.trim(),
+      hasAttachment: !!(media || studio.length || gifUrl),
+      clear: () => setText.complete(text, ""),
+    });
+  };
   const attachOptions: ChatAttachOption[] = [
     // Tipping is voluntary and never needed to send, and a tip already set is
     // shown (with its clear button) in the badge above the field — so the gem
@@ -660,6 +680,9 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     { key: "gif", icon: "Clapperboard", label: t("dm.chooseGif"), onPress: fromSheet(() => setGifPickerVisible(true)) },
     { key: "gallery", icon: "Image", label: t("dm.attachPhotoOrVideo", { defaultValue: "Photo or video" }), onPress: fromSheet(handlePickGallery) },
     { key: "any", icon: "Paperclip", label: t("dm.attachFileOrAudio", { defaultValue: "File or audio" }), onPress: fromSheet(handlePickAnyFile) },
+    ...(canSchedule
+      ? [{ key: "schedule", icon: "Clock" as const, label: t("dmSchedule.button", { defaultValue: "Schedule message" }), onPress: fromSheet(handleSchedule) }]
+      : []),
     ...(onPollPress
       ? [{ key: "poll", icon: "ChartColumn" as const, label: t("postOptions.createPoll"), onPress: fromSheet(onPollPress) }]
       : []),
@@ -935,6 +958,12 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
           </TouchableOpacity>
 
           {canAddTip && onTipPress ? <TouchableOpacity onPress={onTipPress} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.addTip")}><Icon name="Gem" size={20} color="#A1A1AA" /></TouchableOpacity> : null}
+          {canSchedule ? (
+            <TouchableOpacity onPress={handleSchedule} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dmSchedule.button", { defaultValue: "Schedule message" })}>
+              <Icon name="Clock" size={20} color="#A1A1AA" />
+              {scheduledCount > 0 ? <View pointerEvents="none" style={{ position: "absolute", top: 9, right: 3, width: 6, height: 6, borderRadius: 3, backgroundColor: "#F4F4F5" }} /> : null}
+            </TouchableOpacity>
+          ) : null}
           <TouchableOpacity {...gifPress} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.chooseGif")}><Icon name="Smile" size={20} color="#A1A1AA" /></TouchableOpacity>
           <TouchableOpacity onPress={() => { haptic.tap(); Keyboard.dismiss(); setClipOpen(true); }} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.attachAnything", { defaultValue: "Attach a photo, video, audio or file" })}><Icon name="Paperclip" size={20} color="#A1A1AA" /></TouchableOpacity>
           <TouchableOpacity onPress={onStartVoice} disabled={enhancing || sending} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("comments.recordVoice")}><Icon name="Mic" size={20} color="#A1A1AA" /></TouchableOpacity>
