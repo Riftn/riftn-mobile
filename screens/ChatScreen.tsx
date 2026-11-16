@@ -49,6 +49,10 @@ import NewChatIntro from "../components/DM/NewChatIntro";
 import TipAmountSheet from "../components/DM/TipAmountSheet";
 import PollCard from "../components/DM/PollCard";
 import CreatePollSheet from "../components/DM/CreatePollSheet";
+import { ScheduledMessagesSheet, ScheduledStrip, scheduledDmKey, useScheduledDms, useWhenLabel } from "../components/DM/ScheduledMessages";
+import ScheduleSheet from "../components/Upload/ScheduleSheet";
+import { scheduleDm } from "../services/dm/dm.scheduled";
+import { useQueryClient } from "@tanstack/react-query";
 import FullScreenVideoPlayer from "../components/common/FullScreenVideoPlayer";
 import type { DmVideoPlayExtra } from "../components/DM/MessageBubble";
 import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../components/Comments/VoiceNoteRecorder";
@@ -447,6 +451,42 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [user?.walletAddress, user?.address, peer.address],
   );
   const [replyTo, setReplyTo] = useDraftState<DmMessage | null>(draftKey ? `${draftKey}:reply` : null, null);
+
+  // ── Scheduled messages ────────────────────────────────────────────────
+  // Chats that already exist and are free to message. A paid chat needs its
+  // fee paid at the moment of sending, which a later send cannot do.
+  const scheduleQueryClient = useQueryClient();
+  const feeGated = !!dmFee?.required && !dmFee?.hasFreeAccess;
+  const canSchedule = !!currentConvId && !feeGated && !accountBanned && !dmDisabled;
+  const scheduled = useScheduledDms(canSchedule ? currentConvId : null, peer.address);
+  const whenLabel = useWhenLabel();
+  const [scheduledVisible, setScheduledVisible] = useState(false);
+  const [scheduleDraft, setScheduleDraft] = useState<{ text: string; clear: () => void } | null>(null);
+  const handleSchedulePress = useCallback(({ text, hasAttachment, clear }: { text: string; hasAttachment: boolean; clear: () => void }) => {
+    Keyboard.dismiss();
+    if (hasAttachment) {
+      toastInfo(t("dmSchedule.textOnly", { defaultValue: "Only text messages can be scheduled for now." }));
+      return;
+    }
+    // Nothing typed: the clock shows what is already waiting.
+    if (!text) { setScheduledVisible(true); return; }
+    setScheduleDraft({ text, clear });
+  }, [t]);
+  const confirmSchedule = async (date: Date | null) => {
+    const draft = scheduleDraft;
+    if (!date || !draft || !currentConvId) return;
+    try {
+      // Sealed for this chat now, the same as a message sent by hand.
+      const wire = await prepareOutgoing(peer.address, draft.text);
+      await scheduleDm({ dmId: currentConvId, content: wire.content, sendAt: date, replyTo: replyTo?._id });
+      draft.clear();
+      if (replyTo) setReplyTo.complete(replyTo, null);
+      void scheduleQueryClient.invalidateQueries({ queryKey: scheduledDmKey(currentConvId) });
+      toastSuccess(t("dmSchedule.scheduledToast", { defaultValue: "Scheduled for {{when}}", when: whenLabel(date) }));
+    } catch (e: any) {
+      toastError(e?.message || t("dmSchedule.error", { defaultValue: "That did not work. Try again." }));
+    }
+  };
 
   const iBlockedThem = useMemo(() => !!(target as any)?.youBlocked, [target]);
 
@@ -2092,7 +2132,11 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 )}
               </View>
             ) : (
+              <>
+              {canSchedule ? <ScheduledStrip items={scheduled.items} onOpen={() => setScheduledVisible(true)} /> : null}
               <ChatInputBar
+                onSchedulePress={canSchedule ? handleSchedulePress : undefined}
+                scheduledCount={scheduled.items.length}
                 onSendText={onSendText}
                 onSendMedia={onSendMedia}
                 allowLock={DIGITAL_PURCHASES_ENABLED}
@@ -2120,6 +2164,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 peerName={peerLabel}
                 draftKey={draftKey}
               />
+              </>
             )}
           </View>
         </View>
@@ -2197,6 +2242,29 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         />
 
         {/* Create poll sheet */}
+        {canSchedule && currentConvId ? (
+          <>
+            <ScheduleSheet
+              visible={!!scheduleDraft}
+              onClose={() => setScheduleDraft(null)}
+              scheduledDate={null}
+              onSchedule={(date) => { void confirmSchedule(date); }}
+              kind="message"
+              moving
+              title={t("dmSchedule.whenTitle", { defaultValue: "Send when?" })}
+            />
+            <ScheduledMessagesSheet
+              visible={scheduledVisible}
+              onClose={() => setScheduledVisible(false)}
+              dmId={currentConvId}
+              peerAddress={peer.address}
+              peerName={peerLabel}
+              items={scheduled.items}
+              isLoading={scheduled.isLoading}
+            />
+          </>
+        ) : null}
+
         <CreatePollSheet
           visible={pollSheetVisible}
           onClose={() => setPollSheetVisible(false)}

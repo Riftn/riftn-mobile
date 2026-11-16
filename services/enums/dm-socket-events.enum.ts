@@ -42,6 +42,8 @@ export enum DMSocketEvent {
   FeeConfirmed = "feeConfirmed",
   /** A locked (pay-to-unlock) photo or video in one of my chats was paid for. */
   DmMediaUnlocked = "dmMediaUnlocked",
+  /** One of my scheduled messages was just sent, or could not be. */
+  ScheduledMessageUpdate = "scheduledMessageUpdate",
 
   // Typing indicators
   Typing = "typing",

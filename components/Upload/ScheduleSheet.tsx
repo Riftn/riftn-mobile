@@ -14,7 +14,7 @@ import { UserContext } from "../../context/AuthContext";
 import { KitButton, useKitColors } from "../page/PageKit";
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from "../../hooks/useSearchFieldMaterial";
 
-export type ScheduleKind = "post" | "live" | "stage";
+export type ScheduleKind = "post" | "live" | "stage" | "message";
 
 interface ScheduleSheetProps {
   visible: boolean;
@@ -69,7 +69,8 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
   const fans = useQuery({
     queryKey: ["fans-online", wallet],
     queryFn: getFansOnline,
-    enabled: visible && !!wallet,
+    // A message goes to one person, so when the followers are online says nothing.
+    enabled: visible && !!wallet && kind !== "message",
     staleTime: 30 * 60_000,
     retry: false,
   });
@@ -118,11 +119,13 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
         : { id: "soon", label: t("whenSheet.inAnHour", { defaultValue: "In an hour" }), at: firstSlot(Math.max(minimumMinutes, 60)) },
       { id: "tomorrow", label: t("whenSheet.tomorrow", { defaultValue: "Tomorrow" }), at: atMinutes(addDays(today, 1), 9 * 60) },
       { id: "weekend", label: friday.toLocaleDateString(locale, { weekday: "long" }), at: friday },
-      best
+      kind === "message"
+        ? { id: "monday", label: nextWeekday(1).toLocaleDateString(locale, { weekday: "long" }), at: atMinutes(nextWeekday(1), 9 * 60), prime: false }
+        : best
         ? { id: "prime", label: t("whenSheet.bestTime", { defaultValue: "Best time" }), at: prime, prime: true }
         : { id: "prime", label: t("whenSheet.primeTime", { defaultValue: "Prime time" }), at: prime, prime: true },
     ];
-  }, [today.getTime(), earliest, locale, minimumMinutes, t, fansGrid]);
+  }, [today.getTime(), earliest, locale, minimumMinutes, t, fansGrid, kind]);
 
   const timeLabel = (d: Date) => d.toLocaleTimeString(locale, { hour: "numeric", minute: "2-digit" });
   const dayLabel = (d: Date) => (sameDay(d, today)
@@ -142,6 +145,7 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
     setTyped("");
   };
   const step = (delta: number) => choose(atMinutes(day, minutes + delta));
+  const stepBy = kind === "message" ? 5 : STEP;
 
   const handleConfirm = () => {
     if (!validTime) return;
@@ -199,7 +203,7 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
           {picks.map(pick => {
             const tooSoon = pick.at.getTime() <= earliest;
             const active = sameDay(pick.at, day) && pick.at.getHours() * 60 + pick.at.getMinutes() === minutes;
-            const sub = pick.id === "weekend"
+            const sub = pick.id === "weekend" || pick.id === "monday"
               ? `${pick.at.toLocaleDateString(locale, { day: "numeric", month: "short" })} · ${timeLabel(pick.at)}`
               : pick.id === "prime" ? `${dayLabel(pick.at)} · ${timeLabel(pick.at)}` : timeLabel(pick.at);
             return (
@@ -306,11 +310,11 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
         </ScrollView>
 
         <View style={styles.timeRow}>
-          <Pressable onPress={() => step(-STEP)} accessibilityRole="button" accessibilityLabel={t("whenSheet.earlier", { defaultValue: "15 minutes earlier" })} hitSlop={6}>
+          <Pressable onPress={() => step(-stepBy)} accessibilityRole="button" accessibilityLabel={kind === "message" ? t("whenSheet.earlierShort", { defaultValue: "Earlier" }) : t("whenSheet.earlier", { defaultValue: "15 minutes earlier" })} hitSlop={6}>
             <View style={[styles.stepper, { backgroundColor: c.chipBg, borderColor: c.hairline }]}><Icon name="Minus" size={16} color="#FFFFFF" /></View>
           </Pressable>
           <Text style={styles.time}>{timeLabel(selectedAt)}</Text>
-          <Pressable onPress={() => step(STEP)} accessibilityRole="button" accessibilityLabel={t("whenSheet.later", { defaultValue: "15 minutes later" })} hitSlop={6}>
+          <Pressable onPress={() => step(stepBy)} accessibilityRole="button" accessibilityLabel={kind === "message" ? t("whenSheet.laterShort", { defaultValue: "Later" }) : t("whenSheet.later", { defaultValue: "15 minutes later" })} hitSlop={6}>
             <View style={[styles.stepper, { backgroundColor: c.chipBg, borderColor: c.hairline }]}><Icon name="Plus" size={16} color="#FFFFFF" /></View>
           </Pressable>
         </View>
@@ -333,7 +337,7 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
             disabled={!validTime}
           />
           {scheduledDate && !moving ? <KitButton variant="quiet" label={t("whenSheet.remove", { defaultValue: "Remove schedule" })} onPress={handleClear} /> : null}
-          {!moving && navigation ? (
+          {!moving && navigation && kind !== "message" ? (
             <Pressable
               accessibilityRole="link"
               onPress={() => {
