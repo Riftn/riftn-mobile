@@ -18,8 +18,9 @@ import { BORDER_LOOKS, isComicBorder } from "../../libs/comic-borders";
  * The feed shows the top card with the next two fanned behind it: drag
  * sideways and the card leans and the holo shine moves; let go past the edge
  * and the next card is dealt; tap opens the post. The post page adds the hand
- * of every page under the card, a tap flips the card to its caption and alt
- * text, and "Read all pages" lists the pages in order.
+ * of every page under the card, a tap deals the next page, and "Read all
+ * pages" lists the pages in order. Only a caption cut off with … flips the
+ * card, to show it in full with the alt text; a tap on the back flips it back.
  */
 
 type Foil = [string, string, string, string];
@@ -61,7 +62,7 @@ function ComicDeck({ images, captions, descriptions, title, width, onOpen, full 
   title?: string;
   /** The space the deck has. */
   width: number;
-  /** Feed: a tap opens the post. Leave out on the post page, where a tap flips. */
+  /** Feed: a tap opens the post. Leave out on the post page, where a tap deals the next page. */
   onOpen?: () => void;
   full?: boolean;
   /** Border preset (libs/comic-borders); absent is the theme's foil. */
@@ -116,12 +117,17 @@ function ComicDeck({ images, captions, descriptions, title, width, onOpen, full 
     setFlipped(false);
     setIndex(i => Math.max(0, Math.min(total - 1, i + step)));
   }, [total]);
-  const tap = useCallback(() => {
-    if (onOpen) onOpen();
-    else setFlipped(f => !f);
-  }, [onOpen]);
-
+  // Is the caption longer than the three lines the card shows? Only then is
+  // there more to read on the back.
+  const [capLong, setCapLong] = useState(false);
   const cardH = artH + 92;
+  const tap = useCallback((y?: number) => {
+    if (onOpen) { onOpen(); return; }
+    if (flipped) { setFlipped(false); return; }
+    if (capLong && y !== undefined && y > artH + 38) { setFlipped(true); return; }
+    go(1);
+  }, [onOpen, flipped, capLong, artH, go]);
+
   const gesture = useMemo(() => {
     let pan = Gesture.Pan()
       .activeOffsetX([-10, 10])
@@ -140,7 +146,7 @@ function ComicDeck({ images, captions, descriptions, title, width, onOpen, full 
         ry.value = withSpring(0, SPRING);
       });
     if (pagerRef) pan = pan.blocksExternalGesture(pagerRef);
-    const press = Gesture.Tap().maxDuration(450).onEnd((_e, ok) => { if (ok) runOnJS(tap)(); });
+    const press = Gesture.Tap().maxDuration(450).onEnd((e, ok) => { if (ok) runOnJS(tap)(e.y); });
     return Gesture.Race(pan, press);
   }, [index, total, cardH, go, tap, pagerRef, dx, rx, ry]);
 
@@ -230,12 +236,13 @@ function ComicDeck({ images, captions, descriptions, title, width, onOpen, full 
             accessibilityRole="button"
             accessibilityLabel={onOpen
               ? t("comic.open", { defaultValue: "Open comic, page {{page}} of {{total}}", page: index + 1, total })
-              : t("comic.flip", { defaultValue: "Page {{page}} of {{total}}. Tap to flip", page: index + 1, total })}
+              : t("comic.goto", { defaultValue: "Page {{page}}", page: index + 1 })}
             accessibilityActions={[{ name: "increment" }, { name: "decrement" }, { name: "activate" }]}
             onAccessibilityAction={e => {
               if (e.nativeEvent.actionName === "increment") go(1);
               else if (e.nativeEvent.actionName === "decrement") go(-1);
-              else tap();
+              else if (onOpen) onOpen();
+              else setFlipped(f => (f ? false : capLong));
             }}
           >
             {/* Front */}
@@ -258,6 +265,15 @@ function ComicDeck({ images, captions, descriptions, title, width, onOpen, full 
                   {alt ? <View style={styles.altSpot} pointerEvents="box-none"><AltTextBadge text={alt} /></View> : null}
                 </View>
                 <Text style={styles.cap} numberOfLines={3}>{caption}</Text>
+                {/* The same caption with no line limit, unseen, to tell if it was cut. */}
+                <Text
+                  key={index}
+                  style={[styles.cap, styles.capProbe]}
+                  pointerEvents="none"
+                  accessibilityElementsHidden
+                  importantForAccessibility="no-hide-descendants"
+                  onLayout={e => setCapLong(e.nativeEvent.layout.height > 3 * 18 + 18 + 2)}
+                >{caption}</Text>
               </View>
               <Animated.View pointerEvents="none" style={[styles.holoWrap, holoStyle]}>
                 <LinearGradient colors={HOLO} start={{ x: 0, y: 0.2 }} end={{ x: 1, y: 0.8 }} style={StyleSheet.absoluteFill} />
@@ -356,6 +372,7 @@ const styles = StyleSheet.create({
   art: { marginHorizontal: 8, borderRadius: 4, overflow: "hidden", backgroundColor: "#0b0b0e", borderWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.18)" },
   altSpot: { position: "absolute", left: 0, top: 0, right: 0, bottom: 0 },
   cap: { color: INK, fontFamily: SERIF, fontStyle: "italic", fontSize: 13.5, lineHeight: 18, paddingHorizontal: 11, paddingTop: 8, paddingBottom: 10, minHeight: 50 },
+  capProbe: { position: "absolute", left: 0, right: 0, top: 0, opacity: 0, minHeight: 0 },
   holoWrap: { position: "absolute", top: 0, bottom: 0, left: "-100%", width: "300%" },
   floor: { position: "absolute", height: 26, borderRadius: 30, backgroundColor: "rgba(0,0,0,0.45)" },
   back: { borderWidth: 6, padding: 16, gap: 10 },
