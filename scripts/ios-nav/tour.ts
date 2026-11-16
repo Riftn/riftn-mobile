@@ -426,6 +426,19 @@ async function runWide(): Promise<void> {
   await sleep(9000);
   await shot("wide-2-clear");
   await sleep(700);
+  // On the plain stage: the + under the video opens Info Stage, and the
+  // button across from Back closes it.
+  const theme = await AsyncStorage.getItem("dehub.theme");
+  if (theme === "system" || theme === "system-light" || theme === "minimal") {
+    await AsyncStorage.setItem(SWIPE_KEY, "find:wide-info-open:Show more");
+    await sleep(8000);
+    await shot("wide-2b-info");
+    await sleep(700);
+    await AsyncStorage.setItem(SWIPE_KEY, "find:wide-info-close:Show less");
+    await sleep(6000);
+    await shot("wide-2c-stage-again");
+    await sleep(700);
+  }
   await AsyncStorage.setItem(SWIPE_KEY, "find:wide-fullscreen:Enter fullscreen");
   await sleep(8000);
   extra.fullscreen = nav.getCurrentRoute()?.name;

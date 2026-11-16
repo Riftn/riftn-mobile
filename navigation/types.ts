@@ -216,6 +216,8 @@ export type AppStackParamList = {
     isSignedIn?: boolean;
     /** Open turned sideways, filling the screen. */
     landscape?: boolean;
+    /** Opened by turning the phone: turning it upright again closes it. */
+    turned?: boolean;
   };
   [ScreenNames.ShortsViewer]: {
     initialIndex?: number;
