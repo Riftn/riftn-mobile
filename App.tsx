@@ -28,6 +28,7 @@ import {
 } from "./config/queryClient";
 import "./global.css";
 import MagneticDockCover from "./components/common/MagneticDockCover";
+import { planEarlyDock, rememberHomeReadyAfter, type EarlyDock } from "./libs/earlyDock";
 import NoInternetScreen from "./screens/NoInternetScreen";
 import { useNetworkStatus } from "./hooks/useNetworkStatus";
 import { PictureInPictureHost } from './components/common/PersistentVideoView';
@@ -38,6 +39,7 @@ import {
   Platform,
   StyleSheet,
   View,
+  useWindowDimensions,
 } from "react-native";
 import * as WebBrowser from "expo-web-browser";
 import * as ExpoSplashScreen from "expo-splash-screen";
@@ -498,11 +500,33 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
   const launchAuthenticated = useRef<boolean | null>(null);
   if (settled && launchAuthenticated.current === null) launchAuthenticated.current = isAuthenticated;
   const [dockLaunch, setDockLaunch] = useState(false);
+  // Early logo flight (libs/earlyDock): planned once, as the app is about to
+  // build Home. The navigator then mounts two frames later, so the flight is
+  // already running natively before JavaScript gets busy.
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+  const earlyPlan = useRef<EarlyDock | null | undefined>(undefined);
+  const settledAt = useRef(0);
+  if (settled && earlyPlan.current === undefined) {
+    settledAt.current = Date.now();
+    earlyPlan.current = Platform.OS === "android" && openingLaunch && isAuthenticated
+      ? planEarlyDock(windowWidth, windowHeight) : null;
+  }
+  const early = earlyPlan.current ?? null;
+  const [earlyGo, setEarlyGo] = useState(false);
+  useEffect(() => {
+    if (!settled || !early) return;
+    ExpoSplashScreen.hideAsync().catch(() => { });
+    let second = 0;
+    const first = requestAnimationFrame(() => { second = requestAnimationFrame(() => setEarlyGo(true)); });
+    return () => { cancelAnimationFrame(first); if (second) cancelAnimationFrame(second); };
+  }, [settled, early]);
+  const mountNav = settled && (!early || earlyGo);
 
   const beginReveal = useCallback(() => {
     if (revealingRef.current) return;
     revealingRef.current = true;
     markBootRevealed();
+    if (settledAt.current) rememberHomeReadyAfter(Date.now() - settledAt.current);
     reportLaunchRevealed({ signedIn: isSignedInRef.current, theme });
     // Native splash hands off underneath the opaque cover: by the time it is
     // gone, the RN view above it already paints the same black-and-mark.
@@ -573,7 +597,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
 
   return (
     <>
-      {settled ? (
+      {mountNav ? (
         <SafeAreaView className="flex-1" edges={edgeToEdgeMedia ? ["left", "right", "bottom"] : ["top", "left", "right", "bottom"]}>
           <StatusBar
             barStyle={isLight ? "dark-content" : "light-content"}
@@ -653,7 +677,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
           it until the fade starts, which is the point — there is nothing to
           interact with underneath until the reveal begins. */}
       {coverMounted && (
-        <MagneticDockCover reveal={revealStarted} enabled={dockLaunch} onComplete={() => { markLaunchMotionStarted(); setCoverMounted(false); }} />
+        <MagneticDockCover reveal={revealStarted} enabled={dockLaunch} early={early} onComplete={() => { markLaunchMotionStarted(); setCoverMounted(false); }} />
       )}
       {/* Once per install: the jump from DeHub to Riftn, after the preloader lifts. */}
       <RiftnMoveIntro />
