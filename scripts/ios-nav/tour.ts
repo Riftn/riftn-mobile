@@ -334,7 +334,9 @@ function measureScreen(routeKey: string | undefined): { w: number; h: number; to
       if (f.tag !== 5) { walk(f.child, clip); continue; }
       const type = String(f.type);
       const style = (StyleSheet.flatten(f.memoizedProps?.style) ?? {}) as Record<string, any>;
-      if (style.display === "none" || (typeof style.opacity === "number" && style.opacity < 0.05)) continue;
+      // Opacity is not read: a page that fades its content in keeps the
+      // starting 0 in its props while the native side has long reached 1.
+      if (style.display === "none") continue;
       let r = rectOf(f);
       if (!r) { walk(f.child, clip); continue; }
       if (r[1] > maxY || r[1] + r[3] < -4 || r[0] >= W || r[0] + r[2] <= 0) continue;
