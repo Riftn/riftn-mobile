@@ -19,7 +19,10 @@ type Sizes = Record<string, number | string>;
 let loaded: Record<string, Sizes> | null = null;
 let writeTimer: ReturnType<typeof setTimeout> | null = null;
 
+let testFile: MemoFile | null = null;
+
 function memoFile(): MemoFile | null {
+  if (testFile) return testFile;
   try {
     const { File, Paths } = require("expo-file-system");
     return new File(Paths.cache, FILE_NAME) as MemoFile;
@@ -61,6 +64,17 @@ export function recalledText(sizes: Sizes, name: string): string | null {
   return typeof value === "string" && value.length > 0 && value.length < 40 ? value : null;
 }
 
+function save(all: Record<string, Sizes>): void {
+  try {
+    const file = memoFile();
+    if (!file) return;
+    if (!file.exists) file.create({ overwrite: true });
+    file.write(JSON.stringify(all));
+  } catch {
+    /* next launch measures as it always did */
+  }
+}
+
 /** Remember sizes for next launch. Written a moment later, off the launch path. */
 export function rememberLayout(key: string, sizes: Sizes): void {
   const all = load();
@@ -74,16 +88,21 @@ export function rememberLayout(key: string, sizes: Sizes): void {
   if (writeTimer) clearTimeout(writeTimer);
   writeTimer = setTimeout(() => {
     writeTimer = null;
-    try {
-      const file = memoFile();
-      if (!file) return;
-      if (!file.exists) file.create({ overwrite: true });
-      file.write(JSON.stringify(all));
-    } catch {
-      /* next launch measures as it always did */
-    }
+    save(all);
   }, 3000);
   (writeTimer as { unref?: () => void }).unref?.();
+}
+
+/** Tests: use this file instead of the cache folder (null to go back). */
+export function __useLayoutMemoFileForTests(file: MemoFile | null): void {
+  testFile = file;
+}
+
+/** Tests: write now instead of waiting for the timer. */
+export function __saveLayoutMemoNowForTests(): void {
+  if (writeTimer) clearTimeout(writeTimer);
+  writeTimer = null;
+  if (loaded) save(loaded);
 }
 
 export function __resetLayoutMemoForTests(): void {
