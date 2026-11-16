@@ -15017,5 +15017,32 @@
     "newCodesTitle": "নতুন ব্যাকআপ কোড নিন",
     "newCodesBody": "আপনার অ্যাপ থেকে একটি কোড দিন। আপনার পুরনো ব্যাকআপ কোডগুলো কাজ করা বন্ধ করে দেবে।",
     "codeLabel": "ছয় সংখ্যার কোড"
+  },
+  "chatSearch": {
+    "placeholder": "মেসেজ বা মানুষ খুঁজো",
+    "placeholderPerson": "{{name}}-এর মেসেজ খুঁজো",
+    "close": "সার্চ বন্ধ করো",
+    "removePerson": "সবাইকে খুঁজো",
+    "clear": "পরিষ্কার করো",
+    "voice": "ভয়েস মেসেজ",
+    "photo": "ছবি",
+    "peopleHere": "এই চ্যাটের মানুষজন",
+    "recent": "সাম্প্রতিক সার্চ",
+    "hint": "একটি শব্দ বা নাম লেখো।",
+    "failed": "সার্চ লোড করা যায়নি",
+    "people": "মানুষজন",
+    "messages": "মেসেজ",
+    "seeCount_one": "তাদের {{count}} মেসেজ দেখো",
+    "seeCount_other": "তাদের {{count}} মেসেজগুলো দেখো",
+    "messagesCount_one": "{{count}} মেসেজ",
+    "messagesCount_other": "{{count}} মেসেজগুলো",
+    "results_one": "{{count}} ফলাফল",
+    "results_other": "{{count}} ফলাফল",
+    "backToResults": "ফলাফলে ফিরে যাও",
+    "position": "{{current}} এর {{total}}",
+    "older": "পুরানো ফলাফল",
+    "newer": "নতুন ফলাফল",
+    "gone": "সেই মেসেজটি আর এখানে নেই",
+    "theirMessages": "তাদের মেসেজগুলো"
   }
 }

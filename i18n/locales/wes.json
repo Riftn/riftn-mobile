@@ -14749,5 +14749,28 @@
     "offBody": "Put di code weh yi de for your app so you go fit confirm. For sign in, you go just need your normal login again.",
     "newCodesBody": "Put di code weh i de for your app. Your old backup code-dem go stop for work.",
     "codeLabel": "Six-digit code"
+  },
+  "chatSearch": {
+    "placeholderPerson": "Search {{name}}'s messages",
+    "close": "Close search",
+    "removePerson": "Search everyone",
+    "clear": "Clear",
+    "voice": "Voice message",
+    "photo": "Photo",
+    "recent": "Recent searches",
+    "failed": "Search no fit load",
+    "people": "People",
+    "messages": "Messages",
+    "seeCount_one": "See their {{count}} message",
+    "seeCount_other": "See their {{count}} messages",
+    "messagesCount_one": "{{count}} message",
+    "messagesCount_other": "{{count}} messages",
+    "results_one": "{{count}} result",
+    "results_other": "{{count}} results",
+    "backToResults": "Back to results",
+    "position": "{{current}} of {{total}}",
+    "older": "Older result",
+    "newer": "Newer result",
+    "theirMessages": "Their messages"
   }
 }

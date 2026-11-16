@@ -101,6 +101,22 @@ export interface LiveChatStatusResponse {
 export interface LiveChatMessagesResponse {
   messages: LiveChatMessageData[];
   hasMore: boolean;
+  /** Only on a page read around one message: newer lines exist past it. */
+  hasNewer?: boolean;
+}
+
+/** Someone who has written in the room, as the chat search lists them. */
+export interface LiveChatSearchPerson extends LiveChatUser {
+  messageCount: number;
+}
+
+export interface LiveChatSearchResponse {
+  messages: LiveChatMessageData[];
+  people: LiveChatSearchPerson[];
+  hasMore: boolean;
+  /** How many lines match; sent with the first page only. */
+  total: number | null;
+  signInRequired?: boolean;
 }
 
 export interface LiveChatRoomJoinedPayload {
@@ -153,8 +169,11 @@ export async function getLiveChatMessages(params?: {
    * as soon as anyone scrolled up.
    */
   roomId?: string;
+  /** A message id: the page comes back centred on that line. */
+  around?: string;
 }): Promise<LiveChatMessagesResponse> {
   const qs = new URLSearchParams();
+  if (params?.around) qs.set("around", params.around);
   if (params?.before) qs.set("before", params.before);
   if (params?.after) qs.set("after", params.after);
   if (params?.limit) qs.set("limit", String(params.limit));
@@ -163,6 +182,26 @@ export async function getLiveChatMessages(params?: {
   return apiClient.get<LiveChatMessagesResponse>(
     `/livechat/messages${query ? `?${query}` : ""}`
   );
+}
+
+/**
+ * Search a room's whole history on the server: by text, by the person who
+ * wrote it, or both. Newest first; `before` reads the next page.
+ */
+export async function searchLiveChat(params: {
+  q?: string;
+  from?: string;
+  before?: string;
+  limit?: number;
+  roomId?: string;
+}): Promise<LiveChatSearchResponse> {
+  const qs = new URLSearchParams();
+  if (params.q) qs.set("q", params.q);
+  if (params.from) qs.set("from", params.from);
+  if (params.before) qs.set("before", params.before);
+  if (params.limit) qs.set("limit", String(params.limit));
+  if (params.roomId) qs.set("roomId", params.roomId);
+  return apiClient.get<LiveChatSearchResponse>(`/livechat/search?${qs.toString()}`);
 }
 
 export async function getLiveChatStatus(): Promise<LiveChatStatusResponse> {
@@ -341,4 +380,46 @@ export async function removeStreamModerator(address: string): Promise<MyStreamMo
 
 export async function unbanFromStreams(address: string): Promise<MyStreamModeration> {
   return myModeration(await apiClient.delete<any>(`/livechat/moderation/mine/bans/${address.toLowerCase()}`, { isAuthRequired: true }));
+}
+
+export interface ChatReactor {
+  address: string;
+  username?: string | null;
+  displayName?: string | null;
+  avatarImageUrl?: string | null;
+  badgeBalance?: number;
+  badgeLock?: { tier: string; requirement: number } | null;
+  hideBadgeAndBalance?: boolean;
+  /** Every reaction this person left on the line. */
+  emojis: string[];
+}
+
+export interface ChatReactorsResponse {
+  result: boolean;
+  /** False for everyone but the person who wrote the line; `data` is then empty by design. */
+  canViewLikers: boolean;
+  data: ChatReactor[];
+  /** People per reaction, across the whole line. */
+  reactionCounts?: Record<string, number>;
+  /** Everyone who reacted, whatever the emoji filter. */
+  peopleCount?: number;
+  anonymousBadgeHolderCount?: number;
+  pagination?: { page: number; limit: number; totalCount: number; hasMore: boolean };
+}
+
+/** Who reacted to one of your own chat lines, newest first. */
+export function getChatReactors(params: {
+  messageId: string;
+  emoji?: string;
+  page?: number;
+  limit?: number;
+}): Promise<ChatReactorsResponse> {
+  const qs = new URLSearchParams();
+  if (params.emoji) qs.set("emoji", params.emoji);
+  qs.set("page", String(params.page ?? 0));
+  qs.set("limit", String(params.limit ?? 50));
+  return apiClient.get<ChatReactorsResponse>(
+    `/livechat/reactors/${encodeURIComponent(params.messageId)}?${qs.toString()}`,
+    { isAuthRequired: true },
+  );
 }

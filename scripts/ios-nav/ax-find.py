@@ -35,6 +35,6 @@ with open(log, "a") as out:
     if hit:
         out.write(f"{name}: \"{wanted}\" at {hit[0]},{hit[1]} ({len(seen)} labels on screen)\n")
     else:
-        out.write(f"{name}: \"{wanted}\" not on screen ({len(seen)} labels)\n")
+        out.write(f"{name}: \"{wanted}\" not on screen ({len(seen)} labels: {' | '.join(seen[:40])})\n")
 if hit:
     print(hit[0], hit[1])

@@ -72,7 +72,7 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
-elif [ "$MODE" = touch ] || [ "$MODE" = shells ] || [ "$MODE" = bones ]; then
+elif [ "$MODE" = touch ] || [ "$MODE" = keys ] || [ "$MODE" = shells ] || [ "$MODE" = bones ]; then
   bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
@@ -216,6 +216,13 @@ run() {
           tap:*)
             IFS=: read -r _ _ tap_x tap_y <<< "$touch"
             idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;
+          type:*)
+            # "type:<label>:<text>": typed into whatever has the cursor.
+            IFS=: read -r _ _ type_text <<< "$touch"
+            idb ui text --udid "$UDID" "$type_text" >/dev/null 2>&1 || echo "$name: idb text failed" ;;
+          drag:*)
+            # A finger pulling the page down, above where a keyboard sits.
+            idb ui swipe --udid "$UDID" --duration 0.5 200 250 200 400 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           find:*)
             # "find:<label>:<button text>": tap the button with that text,
             # wherever it is drawn; nothing is tapped when it is not up.
@@ -300,6 +307,18 @@ PY
 }
 trap scrub EXIT
 
+if [ "$MODE" = keys ]; then
+  # The on-screen keyboard has to stay up while idb types like a real one.
+  xcrun simctl spawn "$UDID" defaults write com.apple.Preferences AutomaticMinimizationEnabled -bool NO >/dev/null 2>&1 || true
+  for theme in ${KEYS_THEMES:-system hazy system-light osaka}; do
+    run after "keys-$theme" "" keys "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  cat "$OUT/logs/tour.txt"
+  exit 0
+fi
+
 if [ "$MODE" = touch ]; then
   run after touch "" touch
   kill "$LOG_PID" 2>/dev/null
@@ -323,6 +342,19 @@ if [ "$MODE" = shells ]; then
   # Every page's loading shell and the page itself, in each theme asked for.
   for theme in ${SHELL_THEMES:-system}; do
     run after "shells-$theme" "" shells "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = wide ]; then
+  # A wide clip in the swipe player, pictured once per theme.
+  # main's code first on System Light, to tell what was already there.
+  run before "wide-main-system-light" "" wide system-light
+  for theme in ${WIDE_THEMES:-hazy osaka glass system system-light}; do
+    run after "wide-$theme" "" wide "$theme"
+    python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(sys.argv[2], {k: d.get(k) for k in ("opened", "fullscreen", "back", "error")})' "$OUT/nav/wide-$theme.json" "$theme" 2>/dev/null || true
   done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true

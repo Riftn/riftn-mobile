@@ -53,4 +53,49 @@ describe('native playback recovery', () => {
       Platform.OS = os;
     }
   });
+  describe('late stall hand-over on iPhone', () => {
+    const { Platform } = require('react-native');
+    let os: string;
+    beforeEach(() => { os = Platform.OS; Platform.OS = 'ios'; });
+    afterEach(() => { Platform.OS = os; });
+    const start = () => {
+      const { player, events } = setup();
+      Object.assign(player, { bufferOptions: { preferredForwardBufferDuration: 10, waitsToMinimizeStalling: false }, bufferedPosition: 0.8 });
+      const hook = renderHook(() => usePlaybackRecovery(player as unknown as VideoPlayer, 'clip', { component: 'Test', allowed: () => true, lateStallHandover: true }));
+      return { player: player as typeof player & { bufferOptions: { waitsToMinimizeStalling: boolean }; bufferedPosition: number }, events, hook };
+    };
+    it('leaves a clip that has only just started alone, then hands over once a few seconds are banked', () => {
+      const { player, events } = start();
+      player.playing = true;
+      act(() => events.get('playingChange')?.({ isPlaying: true }));
+      act(() => { jest.advanceTimersByTime(1200); });
+      expect(player.bufferOptions.waitsToMinimizeStalling).toBe(false);
+      player.currentTime = 1.2;
+      player.bufferedPosition = 4.5;
+      act(() => { jest.advanceTimersByTime(400); });
+      expect(player.bufferOptions.waitsToMinimizeStalling).toBe(true);
+    });
+    it('hands over at once when the whole clip is already banked', () => {
+      const { player, events } = start();
+      player.duration = 2;
+      player.bufferedPosition = 2;
+      act(() => events.get('playingChange')?.({ isPlaying: true }));
+      expect(player.bufferOptions.waitsToMinimizeStalling).toBe(true);
+    });
+    it('carries on a clip that runs dry before the hand-over, and still respects a real pause', () => {
+      const { player, events, hook } = start();
+      act(() => { hook.result.current.recovery.start(); });
+      player.play.mockClear();
+      act(() => events.get('playingChange')?.({ isPlaying: true }));
+      player.currentTime = 0.7;
+      act(() => events.get('playingChange')?.({ isPlaying: false }));
+      expect(player.bufferOptions.waitsToMinimizeStalling).toBe(true);
+      expect(player.play).toHaveBeenCalledTimes(1);
+      expect(hook.result.current.recovery.wanted).toBe(true);
+      // A pause the screen asked for stops the recovery first; nothing restarts it.
+      act(() => { hook.result.current.recovery.stop(); });
+      act(() => events.get('playingChange')?.({ isPlaying: false }));
+      expect(player.play).toHaveBeenCalledTimes(1);
+    });
+  });
 });

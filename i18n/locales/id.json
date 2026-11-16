@@ -14980,5 +14980,32 @@
     "newCodesTitle": "Dapatkan kode cadangan baru",
     "newCodesBody": "Masukkan kode dari aplikasi Anda. Kode cadangan lama Anda akan berhenti berfungsi.",
     "codeLabel": "Kode enam digit"
+  },
+  "chatSearch": {
+    "placeholder": "Cari pesan atau orang",
+    "placeholderPerson": "Cari pesan {{name}}'s",
+    "close": "Tutup pencarian",
+    "removePerson": "Cari semua orang",
+    "clear": "Bersihkan",
+    "voice": "Pesan suara",
+    "photo": "Foto",
+    "peopleHere": "Orang di obrolan ini",
+    "recent": "Pencarian terakhir",
+    "hint": "Ketik kata atau nama.",
+    "failed": "Pencarian tidak dapat dimuat",
+    "people": "Orang",
+    "messages": "Pesan",
+    "seeCount_one": "Lihat pesan {{count}} mereka",
+    "seeCount_other": "Lihat pesan {{count}} mereka",
+    "messagesCount_one": "Pesan {{count}}",
+    "messagesCount_other": "Pesan {{count}}",
+    "results_one": "Hasil {{count}}",
+    "results_other": "Hasil {{count}}",
+    "backToResults": "Kembali ke hasil",
+    "position": "{{current}} dari {{total}}",
+    "older": "Hasil lebih lama",
+    "newer": "Hasil lebih baru",
+    "gone": "Pesan itu tidak lagi ada",
+    "theirMessages": "Pesan mereka"
   }
 }

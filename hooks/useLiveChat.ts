@@ -75,6 +75,8 @@ const EVENTS = {
  * the reader nears the top, until the start of the room.
  */
 const CHAT_PAGE_SIZE = 20;
+/** Lines read around a message opened from search. */
+const CHAT_AROUND_SIZE = 40;
 
 export interface UseLiveChatReturn {
   connected: boolean;
@@ -98,6 +100,15 @@ export interface UseLiveChatReturn {
   removeReaction: (messageId: string, emoji: string) => void;
   setTyping: (isTyping: boolean) => void;
   loadMoreMessages: () => Promise<void>;
+  /**
+   * True while the list shows an older stretch of the room, opened from
+   * search, with newer lines still unread below it.
+   */
+  hasNewer: boolean;
+  /** Show the room around one message. False when the message is gone. */
+  jumpToMessage: (messageId: string) => Promise<boolean>;
+  loadNewerMessages: () => Promise<void>;
+  backToLatest: () => Promise<void>;
   reconnect: () => void;
   updateBannedList: (address: string, banned: boolean) => void;
 }
@@ -143,6 +154,11 @@ export const useLiveChat = (
   const [onlineCount, setOnlineCount] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [hasNewer, setHasNewer] = useState(false);
+  /** Read inside socket handlers, which close over the first render. */
+  const hasNewerRef = useRef(false);
+  const loadingNewerRef = useRef(false);
+  const setReadingHistory = (value: boolean) => { hasNewerRef.current = value; setHasNewer(value); };
 
   const socketRef = useRef<Socket | null>(null);
   /** Older pages the reader scrolled back for in this room. */
@@ -174,6 +190,7 @@ export const useLiveChat = (
     setMessages(roomId ? [] : readRecentChat());
     setRoom(null);
     setHasMore(true);
+    setReadingHistory(false);
     olderPagesRef.current = 0;
     setJoining(true); // Show loading immediately
 
@@ -183,7 +200,7 @@ export const useLiveChat = (
     // paints, and the join always has the last word.
     getLiveChatMessages({ limit: CHAT_PAGE_SIZE, roomId })
       .then((res) => {
-        if (cancelled || joinedRef.current || !res?.messages?.length) return;
+        if (cancelled || joinedRef.current || hasNewerRef.current || !res?.messages?.length) return;
         setMessages(res.messages.map(normalizeMsg).reverse());
         setHasMore(res.hasMore);
       })
@@ -274,7 +291,9 @@ export const useLiveChat = (
         // newest page again; history the reader already scrolled back for
         // stays above it instead of being thrown away.
         const joined = (data.messages || []).map(normalizeMsg).reverse();
-        setMessages((prev) => {
+        // Reading an older stretch from search: a rejoin must not swap the
+        // newest page in under the reader.
+        if (!hasNewerRef.current) setMessages((prev) => {
           if (!olderPagesRef.current || !joined.length) return joined;
           const oldestJoined = Date.parse(joined[0].createdAt) || 0;
           const ids = new Set(joined.map((m) => m._id));
@@ -286,7 +305,10 @@ export const useLiveChat = (
         setCanSend(data.canSendMessages);
         setIsModerator(data.yourUser?.isModerator || false);
         setOnlineCount(data.onlineCount || data.room?.onlineCount || 0);
-        setHasMore((data.messages?.length || 0) >= 50);
+        // The join brings one page. A full page means older lines may exist;
+        // this used to wait for 50, which the 20-line join never reaches, so
+        // the chat stopped at its first page.
+        if (!olderPagesRef.current && !hasNewerRef.current) setHasMore((data.messages?.length || 0) >= CHAT_PAGE_SIZE);
         joinedRef.current = true;
         setJoining(false);
 
@@ -301,8 +323,13 @@ export const useLiveChat = (
       });
 
       socket.on(EVENTS.NEW_MESSAGE, (msg: LiveChatMessageData) => {
+        // Not while an older stretch is open: the line would land right under
+        // months-old ones. It is read when the reader comes back to the end.
+        if (hasNewerRef.current) return;
         setMessages((prev) => {
           const next = [...prev, normalizeMsg(msg)];
+          // History the reader scrolled back for is kept whole.
+          if (olderPagesRef.current) return next;
           return next.length > MAX_CHAT_MESSAGES ? next.slice(-MAX_CHAT_MESSAGES) : next;
         });
       });
@@ -467,7 +494,7 @@ export const useLiveChat = (
   // arrival; the room is read now, not when the timer fires, so a switch in
   // between cannot file one room's lines under another.
   useEffect(() => {
-    if (messages.length === 0 || roomIdRef.current) return;
+    if (messages.length === 0 || roomIdRef.current || hasNewerRef.current) return;
     const timer = setTimeout(() => writeRecentChat(undefined, messages), 2000);
     return () => clearTimeout(timer);
   }, [messages]);
@@ -603,6 +630,55 @@ export const useLiveChat = (
     }
   }, []);
 
+  const jumpToMessage = useCallback(async (messageId: string): Promise<boolean> => {
+    if (messagesRef.current.some((m) => m._id === messageId)) return true;
+    try {
+      const res = await getLiveChatMessages({ around: messageId, limit: CHAT_AROUND_SIZE, roomId: roomIdRef.current });
+      const rows = (res.messages || []).map(normalizeMsg).reverse();
+      if (!rows.some((m) => m._id === messageId)) return false;
+      olderPagesRef.current += 1;
+      setReadingHistory(res.hasNewer === true);
+      setMessages(rows);
+      setHasMore(res.hasMore);
+      return true;
+    } catch (e) {
+      log.debug("Failed to open a message:", e);
+      return false;
+    }
+  }, []);
+
+  const loadNewerMessages = useCallback(async () => {
+    if (!hasNewerRef.current || loadingNewerRef.current || messagesRef.current.length === 0) return;
+    loadingNewerRef.current = true;
+    try {
+      const newest = messagesRef.current[messagesRef.current.length - 1];
+      const res = await getLiveChatMessages({ after: newest._id, limit: CHAT_AROUND_SIZE, roomId: roomIdRef.current });
+      const rows = (res.messages || []).map(normalizeMsg).reverse();
+      setMessages((prev) => {
+        const have = new Set(prev.map((m) => m._id));
+        return [...prev, ...rows.filter((m) => !have.has(m._id))];
+      });
+      if (!res.hasMore) setReadingHistory(false);
+    } catch (e) {
+      log.debug("Failed to load newer messages:", e);
+    } finally {
+      loadingNewerRef.current = false;
+    }
+  }, []);
+
+  const backToLatest = useCallback(async () => {
+    if (!hasNewerRef.current) return;
+    try {
+      const res = await getLiveChatMessages({ limit: CHAT_PAGE_SIZE, roomId: roomIdRef.current });
+      olderPagesRef.current = 0;
+      setReadingHistory(false);
+      setMessages((res.messages || []).map(normalizeMsg).reverse());
+      setHasMore(res.hasMore);
+    } catch (e) {
+      log.debug("Failed to return to the latest messages:", e);
+    }
+  }, []);
+
   const reconnect = useCallback(() => {
     const socket = socketRef.current;
     if (socket) {
@@ -660,6 +736,10 @@ export const useLiveChat = (
     removeReaction,
     setTyping,
     loadMoreMessages,
+    hasNewer,
+    jumpToMessage,
+    loadNewerMessages,
+    backToLatest,
     reconnect,
     updateBannedList,
   };

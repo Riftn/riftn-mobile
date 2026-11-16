@@ -29,4 +29,11 @@ describe('Shorts audio ownership', () => {
     // A short being left gets the viewer's sound setting back when it stops.
     expect(source).toContain('player.muted = isMutedRef.current;');
   });
+
+  it('sets the sound session up once for the viewer, never as each short lands', () => {
+    expect(source.match(/configureForBackgroundPlayback\(\)/g)).toHaveLength(1);
+    const item = source.slice(source.indexOf('const ShortItem = React.memo'), source.indexOf('const ShortsViewerScreen = () =>'));
+    expect(item).not.toContain('configureForBackgroundPlayback');
+    expect(item).not.toContain('releaseBackgroundPlayback');
+  });
 });

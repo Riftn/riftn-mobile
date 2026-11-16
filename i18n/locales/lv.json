@@ -14835,5 +14835,32 @@
     "newCodesTitle": "Iegūt jaunos rezerves kodus",
     "newCodesBody": "Ievadiet kodu no jūsu lietotnes. Jūsu vecie rezerves kodi vairs nebūs derīgi.",
     "codeLabel": "Sešciparu kods"
+  },
+  "chatSearch": {
+    "placeholder": "Meklēt ziņojumus vai personas",
+    "placeholderPerson": "Meklēt {{name}} ziņojumus",
+    "close": "Aizvērt meklēšanu",
+    "removePerson": "Meklēt visus",
+    "clear": "Notīrīt",
+    "voice": "Balss ziņojums",
+    "photo": "Fotoattēls",
+    "peopleHere": "Personas šajā tērzēšanā",
+    "recent": "Nesenie meklējumi",
+    "hint": "Ierakstiet vārdu vai nosaukumu.",
+    "failed": "Meklēšanu neizdevās ielādēt",
+    "people": "Personas",
+    "messages": "Ziņojumi",
+    "seeCount_one": "Skatīt viņu {{count}} ziņojumu",
+    "seeCount_other": "Skatīt viņu {{count}} ziņojumus",
+    "messagesCount_one": "{{count}} ziņojums",
+    "messagesCount_other": "{{count}} ziņojumi",
+    "results_one": "{{count}} rezultāts",
+    "results_other": "{{count}} rezultāti",
+    "backToResults": "Atpakaļ uz rezultātiem",
+    "position": "{{current}} no {{total}}",
+    "older": "Vecāks rezultāts",
+    "newer": "Jaunāks rezultāts",
+    "gone": "Šis ziņojums vairs nav pieejams",
+    "theirMessages": "Viņu ziņojumi"
   }
 }

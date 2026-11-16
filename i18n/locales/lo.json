@@ -14809,5 +14809,32 @@
     "newCodesTitle": "ເປີດລະຫັດການສະເຫຼີມໃໝ່",
     "newCodesBody": "ໃສ່ລະຫັດຈາກແອັບຂອງທ່ານ. ລະຫັດການສະເຫຼີມເກົ່າຂອງທ່ານຈະຈະສິ້ນເສັ້ນ.",
     "codeLabel": "ລະຫັດ 6 ຕົວເລກ"
+  },
+  "chatSearch": {
+    "placeholder": "ຄົ້ນຫາຂໍ້ມູນ ຫຼື ຄົນ",
+    "placeholderPerson": "ຄົ້ນຫາຂໍ້ມູນຂອງ {{name}}",
+    "close": "ປິດການຄົ້ນຫາ",
+    "removePerson": "ຄົ້ນຫາທຸກຄົນ",
+    "clear": "ລຶບ",
+    "voice": "ຂໍ້ຄວາມສຽງ",
+    "photo": "ຮູບ",
+    "peopleHere": "ຄົນໃນການສົນທະນານີ້",
+    "recent": "ການຄົ້ນຫາທີ່ມາກ່ອນ",
+    "hint": "ປ້ອນຄໍາພິມ ຫຼື ຊື່",
+    "failed": "ການຄົ້ນຫາບໍ່ສາມາດໂຫຼດໄດ້",
+    "people": "ຄົນ",
+    "messages": "ຂໍ້ມູນ",
+    "seeCount_one": "ເບິ່ງຂໍ້ມູນຂອງ {{count}}",
+    "seeCount_other": "ເບິ່ງຂໍ້ມູນຂອງ {{count}}",
+    "messagesCount_one": "{{count}} ຂໍ້ມູນ",
+    "messagesCount_other": "{{count}} ຂໍ້ມູນ",
+    "results_one": "{{count}} ຜົນການຄົ້ນຫາ",
+    "results_other": "{{count}} ຜົນການຄົ້ນຫາ",
+    "backToResults": "ກັບກັບຜົນການຄົ້ນຫາ",
+    "position": "{{current}} ຂອງ {{total}}",
+    "older": "ຜົນການຄົ້ນຫາເກົ່າ",
+    "newer": "ຜົນການຄົ້ນຫາໃໝ່",
+    "gone": "ຂໍ້ມູນນີ້ບໍ່ມີໃນທີ່ນີ້ແມ່ນແລ້ວ",
+    "theirMessages": "ຂໍ້ມູນຂອງພວກເຂົາ"
   }
 }

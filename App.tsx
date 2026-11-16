@@ -56,6 +56,7 @@ import { AuthProvider, useAuthState, useUser } from "./context/AuthContext";
 import { recordScreenView, setScreenViewAddress } from "./services/pageView.service";
 import WalletUnlockHost from "./components/auth/WalletUnlockHost";
 import TwoFactorPromptHost from "./components/auth/TwoFactorPromptHost";
+import { SignInArrival } from "./components/auth/SignInHandoff";
 import BadgeShowcaseHost from "./components/Badge/BadgeShowcaseHost";
 import { WebSocketProvider } from "./context/WebSocketContext";
 import { DMProvider } from "./context/DMContext";
@@ -270,6 +271,9 @@ export default function App() {
               {/* The sign-in code step for accounts with two-step sign-in:
                   any login can pause for it, wherever it started. */}
               <TwoFactorPromptHost />
+              {/* The picture that lands after a sign-in: above every screen, and
+                  still there after the sign-in screen has gone. */}
+              <SignInArrival />
               {/* Saves the first-run Kids / Mature choice to the account once
                   one is signed in; the setup runs before there is one. */}
               <OnboardingChoicesApplier />
