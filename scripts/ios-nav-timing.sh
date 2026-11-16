@@ -72,7 +72,7 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
-elif [ "$MODE" = touch ]; then
+elif [ "$MODE" = touch ] || [ "$MODE" = wide ]; then
   bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
@@ -305,6 +305,17 @@ if [ "$MODE" = touch ]; then
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
   python3 -c 'import json,sys; [print(c) for c in json.load(open(sys.argv[1])).get("touch", [])]' "$OUT/nav/touch.json" 2>/dev/null || true
+  exit 0
+fi
+
+if [ "$MODE" = wide ]; then
+  # A wide clip in the swipe player, pictured once per theme.
+  for theme in ${WIDE_THEMES:-hazy osaka glass system system-light}; do
+    run after "wide-$theme" "" wide "$theme"
+    python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(sys.argv[2], {k: d.get(k) for k in ("opened", "fullscreen", "back", "error")})' "$OUT/nav/wide-$theme.json" "$theme" 2>/dev/null || true
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
   exit 0
 fi
 

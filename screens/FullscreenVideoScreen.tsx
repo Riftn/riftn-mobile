@@ -85,6 +85,7 @@ const FullscreenVideoScreen = () => {
     creatorUsername,
     downloadTitle,
     storyboard: rawStoryboard,
+    landscape: opensSideways = false,
   } = (route?.params as any) || {};
   const storyboard = useMemo(() => toStoryboard(rawStoryboard), [rawStoryboard]);
   /** The storyboard tile shows while a finger is dragging the timeline. */
@@ -102,7 +103,13 @@ const FullscreenVideoScreen = () => {
   const [videoDuration, setVideoDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [isBuffering, setIsBuffering] = useState(false);
-  const [isLandscape, setIsLandscape] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(!!opensSideways);
+  // Opened from a wide clip's full screen button: the picture turns to fill
+  // the screen straight away, either way up.
+  useEffect(() => {
+    if (!opensSideways) return;
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE).catch(() => {});
+  }, [opensSideways]);
 
   const isPlayingRef = useRef(true);
   const controlsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

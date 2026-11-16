@@ -214,6 +214,8 @@ export type AppStackParamList = {
     thumbnail?: string;
     tokenId?: string | number;
     isSignedIn?: boolean;
+    /** Open turned sideways, filling the screen. */
+    landscape?: boolean;
   };
   [ScreenNames.ShortsViewer]: {
     initialIndex?: number;

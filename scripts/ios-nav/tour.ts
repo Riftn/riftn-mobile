@@ -404,6 +404,46 @@ async function runShorts(): Promise<void> {
   console.error(`[perf-tour] shorts done, ${motions.length} starts seen`);
 }
 
+/**
+ * Wide clip in the swipe player: one wide video opened on its own, pictured
+ * with its buttons up and again once they have faded, then its full screen
+ * button pressed (found by its label) and Back from there. The script runs
+ * this once per theme.
+ */
+async function runWide(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "wide" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const tokenId = Number(await AsyncStorage.getItem(`${FLAG_KEY}.token`)) || 7444;
+  nav.navigate(ScreenNames.ShortsViewer, { initialItems: [{ tokenId, id: tokenId, postType: "video" }], initialIndex: 0 });
+  await sleep(9000);
+  extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
+  await shot("wide-1-buttons");
+  await sleep(9000);
+  await shot("wide-2-clear");
+  await sleep(700);
+  await AsyncStorage.setItem(SWIPE_KEY, "find:wide-fullscreen:Enter fullscreen");
+  await sleep(8000);
+  extra.fullscreen = nav.getCurrentRoute()?.name;
+  await shot("wide-3-fullscreen");
+  await sleep(700);
+  if (extra.fullscreen === ScreenNames.FullscreenVideo) {
+    nav.goBack();
+    await sleep(5000);
+  }
+  extra.back = nav.getCurrentRoute()?.name;
+  await shot("wide-4-back");
+  await sleep(700);
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] wide done: opened ${String(extra.opened)}, full screen ${String(extra.fullscreen)}, back on ${String(extra.back)}`);
+}
+
 type ElementType = string | { displayName?: string; name?: string; render?: ElementType; type?: ElementType } | null;
 
 function typeName(type: ElementType): string {
@@ -738,7 +778,7 @@ async function run(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -747,6 +787,7 @@ void (async () => {
     else if (mode === "probe") await runProbe();
     else if (mode === "touch") await runTouch();
     else if (mode === "shorts") await runShorts();
+    else if (mode === "wide") await runWide();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);
