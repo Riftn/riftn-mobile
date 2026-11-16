@@ -774,6 +774,8 @@ async function runKeys(): Promise<void> {
     await sleep(1500);
   }
   await sleep(12000);
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
   const checks: Record<string, unknown>[] = [];
   extra.keys = checks;
   let asks = 0;
@@ -788,6 +790,29 @@ async function runKeys(): Promise<void> {
     console.error(`[perf-tour] ${check}: ${JSON.stringify(result)}`);
     await save(false);
   };
+
+  if (signedIn) {
+    // A fresh sign-in is offered a profile photo, then notifications: "Not
+    // now" on each, where they are drawn on this simulator.
+    await sleep(14000);
+    await ask("tap:not-now-photo-#:201:802", 5000);
+    await ask("tap:not-now-notifications-#:201:649", 5000);
+    await shot("0-asks-answered");
+    await sleep(700);
+    // The post composer: its Post row has to sit on top of the keys.
+    nav.navigate(ScreenNames.Upload);
+    await sleep(6000);
+    const upOnOpen = up();
+    await shot("7-composer-keyboard-up");
+    await sleep(700);
+    Keyboard.dismiss();
+    await sleep(1500);
+    await shot("7-composer-keyboard-down");
+    await sleep(700);
+    await note("composer", { upOnOpen, height: Keyboard.metrics()?.height, route: nav.getCurrentRoute()?.name });
+    if (nav.getCurrentRoute()?.name === ScreenNames.Upload) nav.goBack();
+    await sleep(2500);
+  }
 
   // Explore, by its tab in the bottom bar.
   const hadBefore = new Set(liveInputs);
