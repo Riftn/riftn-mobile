@@ -3,7 +3,8 @@
 // With RELEASE_IF_APPROVED=true it also releases a version that Apple has
 // approved and is waiting on us ("Pending Developer Release"); nothing else
 // is ever changed, apart from the promotional text when PROMOTIONAL_TEXT is
-// given (Apple allows that line to change without a review).
+// given (Apple allows that line to change without a review), and with
+// SUBMIT_VERSION it sends that version's newest processed build to App Review.
 // Uses the App Store Connect team key stored with the Expo project; the key
 // never leaves this process and is never printed.
 import { createSign } from 'node:crypto';
@@ -62,7 +63,7 @@ async function get(path, method = 'GET', body) {
   });
   const text = await res.text();
   const json = text ? JSON.parse(text) : {};
-  if (res.status !== 200 && res.status !== 201) {
+  if (res.status !== 200 && res.status !== 201 && res.status !== 204) {
     const detail = (json.errors ?? []).map(e => `${e.code}: ${e.detail ?? e.title}`).join('; ');
     return { error: `HTTP ${res.status} ${detail}`, data: [], included: [] };
   }
@@ -153,6 +154,88 @@ if (process.env.RELEASE_IF_APPROVED === 'true') {
       : `- ${waiting.attributes.versionString} released to the App Store (it shows up within a few hours)`);
     if (released.error) process.exitCode = 1;
   }
+}
+
+// Sends a version to App Review: makes the version if it is not there yet,
+// attaches the newest processed build of it, sets the "What's New" line and
+// submits. Released by Apple as soon as it is approved.
+const submitVersion = (process.env.SUBMIT_VERSION ?? '').trim();
+if (submitVersion) {
+  say('');
+  say(`## Submit ${submitVersion} for review`);
+  const fail = (why) => { say(`- stopped: ${why}`); process.exitCode = 1; };
+  await (async () => {
+    const whatsNew = (process.env.WHATS_NEW ?? '').trim();
+    if (!whatsNew) return fail("the What's New text is empty");
+    const candidates = await get(`/v1/builds?filter[app]=${APP_ID}&filter[preReleaseVersion.version]=${encodeURIComponent(submitVersion)}&filter[processingState]=VALID&filter[expired]=false&sort=-uploadedDate&limit=1`);
+    if (candidates.error) return fail(candidates.error);
+    const build = candidates.data[0];
+    if (!build) return fail(`no processed build of ${submitVersion} yet (still uploading or processing)`);
+    say(`- build ${build.attributes.version}, uploaded ${build.attributes.uploadedDate?.slice(0, 16)}`);
+
+    let version = versions.data.find(v => v.attributes.versionString === submitVersion);
+    if (!version) {
+      const made = await get('/v1/appStoreVersions', 'POST', {
+        data: {
+          type: 'appStoreVersions',
+          attributes: { platform: 'IOS', versionString: submitVersion, releaseType: 'AFTER_APPROVAL' },
+          relationships: { app: { data: { type: 'apps', id: APP_ID } } },
+        },
+      });
+      if (made.error) return fail(`could not make the version: ${made.error}`);
+      version = made.data;
+      say('- version made');
+    }
+    const state = version.attributes.appStoreState;
+    if (!['PREPARE_FOR_SUBMISSION', 'DEVELOPER_REJECTED', 'REJECTED', 'METADATA_REJECTED', 'INVALID_BINARY'].includes(state)) {
+      return fail(`${submitVersion} is ${state}, nothing to submit`);
+    }
+
+    const attached = await get(`/v1/appStoreVersions/${version.id}/relationships/build`, 'PATCH', { data: { type: 'builds', id: build.id } });
+    if (attached.error) return fail(`could not attach the build: ${attached.error}`);
+    say('- build attached');
+
+    const locs = await get(`/v1/appStoreVersions/${version.id}/appStoreVersionLocalizations?limit=50`);
+    if (locs.error) return fail(locs.error);
+    for (const l of locs.data) {
+      const done = await get(`/v1/appStoreVersionLocalizations/${l.id}`, 'PATCH', {
+        data: { type: 'appStoreVersionLocalizations', id: l.id, attributes: { whatsNew } },
+      });
+      if (done.error) return fail(`What's New for ${l.attributes.locale}: ${done.error}`);
+    }
+    say(`- What's New set for ${locs.data.length} language(s)`);
+
+    // One open submission per platform: reuse it if an earlier try left one.
+    const open = await get(`/v1/apps/${APP_ID}/reviewSubmissions?filter[platform]=IOS&filter[state]=READY_FOR_REVIEW&limit=1`);
+    if (open.error) return fail(open.error);
+    let submission = open.data[0];
+    if (!submission) {
+      const made = await get('/v1/reviewSubmissions', 'POST', {
+        data: { type: 'reviewSubmissions', attributes: { platform: 'IOS' }, relationships: { app: { data: { type: 'apps', id: APP_ID } } } },
+      });
+      if (made.error) return fail(`could not open a submission: ${made.error}`);
+      submission = made.data;
+    }
+    const items = await get(`/v1/reviewSubmissions/${submission.id}/items?limit=10`);
+    if (items.error) return fail(items.error);
+    if (!items.data.length) {
+      const item = await get('/v1/reviewSubmissionItems', 'POST', {
+        data: {
+          type: 'reviewSubmissionItems',
+          relationships: {
+            reviewSubmission: { data: { type: 'reviewSubmissions', id: submission.id } },
+            appStoreVersion: { data: { type: 'appStoreVersions', id: version.id } },
+          },
+        },
+      });
+      if (item.error) return fail(`could not add the version to the submission: ${item.error}`);
+    }
+    const sent = await get(`/v1/reviewSubmissions/${submission.id}`, 'PATCH', {
+      data: { type: 'reviewSubmissions', id: submission.id, attributes: { submitted: true } },
+    });
+    if (sent.error) return fail(`submit failed: ${sent.error}`);
+    say(`- ${submitVersion} (build ${build.attributes.version}) submitted for review`);
+  })();
 }
 
 if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, `${lines.join('\n')}\n`);

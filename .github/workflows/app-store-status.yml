@@ -11,6 +11,14 @@ on:
         description: Set the App Store promotional text (no review needed, max 170 characters)
         type: string
         default: ''
+      submit_version:
+        description: Send this version's newest processed build to App Review (for example 1.19.1)
+        type: string
+        default: ''
+      whats_new:
+        description: The "What's New" text for that version
+        type: string
+        default: ''
       review_login_shape:
         description: Also say what kind of sign-in the review account is (never its values)
         type: boolean
@@ -38,6 +46,8 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           RELEASE_IF_APPROVED: ${{ inputs.release_if_approved }}
           PROMOTIONAL_TEXT: ${{ inputs.promotional_text }}
+          SUBMIT_VERSION: ${{ inputs.submit_version }}
+          WHATS_NEW: ${{ inputs.whats_new }}
         run: node scripts/app-store-status.mjs
       - name: Review sign-in shape
         if: ${{ inputs.review_login_shape }}
