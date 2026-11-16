@@ -19,7 +19,7 @@ import { supabase } from "../services/supabase";
 
 interface PlannedItem {
   key: string;
-  kind: ScheduleKind;
+  kind: PlannedKind;
   title: string;
   at: Date;
   image?: string | null;
@@ -28,9 +28,11 @@ interface PlannedItem {
   spaceId?: string;
 }
 
-type Filter = "all" | ScheduleKind;
+/** Messages have their own list inside the chat, so they are not planned items. */
+type PlannedKind = Exclude<ScheduleKind, "message">;
+type Filter = "all" | PlannedKind;
 
-const KIND_ICON: Record<ScheduleKind, string> = { post: "FileText", live: "Radio", stage: "Mic" };
+const KIND_ICON: Record<PlannedKind, string> = { post: "FileText", live: "Radio", stage: "Mic" };
 
 /**
  * Everything you have scheduled, in one list: posts, Lives and Stages, soonest
