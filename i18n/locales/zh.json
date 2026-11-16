@@ -4465,7 +4465,18 @@
       "bountyApplied": "{{name}} 申请了您的赏金",
       "bountySubmittedNamed": "{{name}} 在您的赏金“{{title}}”上提交了工作",
       "bountySubmitted": "{{name}} 在您的赏金上提交了工作",
-      "sentNotification": "{{name}} 向您发送了通知"
+      "sentNotification": "{{name}} 向您发送了通知",
+      "featureCommentLikeNamed": "{{name}} 赞了你在“{{title}}”上的评论。",
+      "featureCommentLike": "{{name}} 赞了你在请求下的评论",
+      "governanceCommentLikeNamed": "{{name}} 点赞了您在提案“{{title}}”下的评论",
+      "governanceCommentLike": "{{name}} 赞了你对提案的评论",
+      "featureShipped": "您的请求“{{title}}”已完成 🎉",
+      "featureShippedLiked": "您点赞的一个请求已完成：“{{title}}” 🎉",
+      "featureQueued": "您的请求“{{title}}”已加入构建队列",
+      "governanceVotedPassed": "您投票支持的一项提案已通过：“{{title}}”",
+      "governanceVotedRejected": "一个你投票的提案没有通过：“{{title}}”",
+      "governancePassed": "你的提议“{{title}}”通过了 🎉",
+      "governanceRejected": "你的提议“{{title}}”未通过"
     }
   },
   "leaderboard": {

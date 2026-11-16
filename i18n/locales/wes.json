@@ -4398,7 +4398,12 @@
       "stageReminder": "Stage yu set reminder for go start soon",
       "stageReminderNamed": "“{{title}}” go start soon",
       "storeOrder": "{{name}} buy yu listing",
-      "storeOrderNamed": "{{name}} buy yu listing “{{title}}”"
+      "storeOrderNamed": "{{name}} buy yu listing “{{title}}”",
+      "featureShippedLiked": "Request yam don complete: “{{title}}” 🎉",
+      "featureQueued": "Yout request “{{title}}” i dey wait to be build.",
+      "governanceVotedPassed": "Proposal yusay vote pass: “{{title}}”",
+      "governancePassed": "Yas! Proposal \"{{title}}\" pass wey 🎉",
+      "governanceRejected": "Proposal yu write, ‘{{title}}’, no pass wey."
     },
     "stores": "Store dem",
     "features": "Feature dem",

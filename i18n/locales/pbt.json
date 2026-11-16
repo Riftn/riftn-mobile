@@ -4409,7 +4409,16 @@
       "stageReminder": "یو سټېج چې تاسو ورته یادونه ټاکلې وه، ژر پیلېږي",
       "stageReminderNamed": "\"{{title}}\" ژر پیلېږي",
       "storeOrder": "{{name}} ستاسو لیست وپېره",
-      "storeOrderNamed": "{{name}} ستاسو لیست \"{{title}}\" وپېره"
+      "storeOrderNamed": "{{name}} ستاسو لیست \"{{title}}\" وپېره",
+      "governanceCommentLikeNamed": "د {{name}} ستاسو د تبصرې خوښ شو د وړاندیز “{{title}}”",
+      "governanceCommentLike": "{{name}} ستاسو د وړاندیز پر تبصره خوښ شو",
+      "featureShipped": "ستاسو غوښتنه “{{title}}” بشپړه شوې 🎉",
+      "featureShippedLiked": "ستاسو خوښ شوی غوښتنه بشپړه شوې ده: “{{title}}” 🎉",
+      "featureQueued": "ستاسو غوښتنه “{{title}}” د جوړولو لپاره قطار ته نښلول شوې",
+      "governanceVotedPassed": "هغه وړاندیز چې تاسو پرې رایه ورکړې وه، پوره شو: “{{title}}”",
+      "governanceVotedRejected": "هغه وړاندیز چې تاسو پرې رایه ورکړې وه، نه پوره شو: “{{title}}”",
+      "governancePassed": "ستاسو وړاندیز “{{title}}” پوره شو 🎉",
+      "governanceRejected": "ستاسو وړاندیز “{{title}}” نه شو تیر شوی"
     },
     "stores": "پلورنځي",
     "features": "ځانګړتیاوې",
