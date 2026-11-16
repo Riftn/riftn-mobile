@@ -7,7 +7,13 @@ import { soundWindowCorrection } from "../libs/soundWindow";
 import { isHoldGated } from "../libs/content-gate";
 import { fetchVideoAccess, isVideoAccessExpiring, useVideoAccess, videoNeedsAccess } from "../libs/video-access";
 import { usePostVideoPlayer } from '../hooks/usePostVideoPlayer';
-import { postMediaIsTransferring } from '../libs/post-media-session';
+import { postMediaIsTransferring, preparePostMediaNavigation } from '../libs/post-media-session';
+import { optionalSkia } from '../libs/skia';
+import { toStoryboard } from '../libs/storyboard';
+import { takeFullscreenClosedUpright } from '../libs/turned-fullscreen';
+import { CommentSection } from '../components/Comments';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { finishInAppMiniRestore, getInAppVideoMini, openInAppVideoMini, subscribeInAppVideoMini } from '../libs/in-app-video-mini';
 import { containedPicture } from '../libs/live-overlay/layout';
 import { videoQuarterTurn } from '../libs/video-display-aspect';
@@ -270,6 +276,16 @@ const EDGE_BACK_FAIL_Y = 12;
 const EDGE_BACK_ENABLED = true;
 /** Corner radius of the in-app mini player the drag-down lands in. */
 const MINI_RADIUS = 10;
+/** A clip at least this much wider than tall leaves the screen empty above and below it. */
+const WIDE_CLIP_ASPECT = 1.2;
+const CLEAN_STAGE_INSET = 12;
+const CLEAN_STAGE_RADIUS = 16;
+const PINCH_MAX_SCALE = 4;
+/** Whether a wide clip on the plain stage opens with its details and comments under it. */
+const INFO_STAGE_KEY = 'dehub.shorts.infoStage';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { KeepDarkScope } = require('../libs/jsx/tone') as { KeepDarkScope: React.FC<{ children: React.ReactNode }> };
+const WideVideoFill = optionalSkia(() => (require('../components/Home/WideVideoFill') as typeof import('../components/Home/WideVideoFill')).default);
 /** The settle after letting go of a drag down that did not leave. */
 const DISMISS_SPRING = { damping: 26, stiffness: 320, mass: 0.8 };
 const DISMISS_OUT_MS = 200;
@@ -488,6 +504,13 @@ interface ShortItemProps {
   onChromeLiveChange: (live: boolean) => void;
   /** Bumped when a screen-level button is pressed, to bring faded chrome back. */
   chromeRevealTick: number;
+  /** Bumped when the top bar's full screen button is pressed. */
+  fullscreenTick: number;
+  /** Whether the short being watched is a wide clip, and on the plain stage, for the top bar's buttons. */
+  onWideChange: (wide: boolean, clean: boolean) => void;
+  /** Info Stage: a wide clip on the plain stage sits at the top with its details and comments under it. */
+  infoStage: boolean;
+  onInfoStageChange: (on: boolean) => void;
   onCommentsVisibilityChange: (visible: boolean) => void;
   /**
    * The viewer's options menu is open over this short. Its native sheet takes
@@ -498,7 +521,7 @@ interface ShortItemProps {
   reelBgId?: string | null;
 }
 
-const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId }) => {
+const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, infoStage, onInfoStageChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId }) => {
   const { t: _copy } = _useCopy();
   const feedPlaybackAllowed = useFeedPlaybackAllowed();
   const surfaceActive = useFeedSurfaceActive();
@@ -518,7 +541,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   const photoMedia = useMemo(() => (reelStill ? undefined : shortsPhotoMedia(item, true)), [item, reelStill]);
   const noVideo = !!photoMedia || !!reelStill;
   // Photo slides sit on a plain theme backdrop: white in System Light, black otherwise.
-  const photoBackdrop = useAppTheme().isLight ? LIGHT_PAGE_FILL : "#000";
+  const appTheme = useAppTheme();
+  const photoBackdrop = appTheme.isLight ? LIGHT_PAGE_FILL : "#000";
   // A gated short's file is private: an entitled viewer plays a signed URL,
   // anyone else is refused one and keeps the poster.
   const viewer = useUser();
@@ -736,6 +760,32 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     const shown = Math.min(splitHeight, Math.max(0, splitHeight - commentsSlide.value));
     return { height: Math.max(0, itemHeight - (shown > 0 ? keyboardOffset : 0) - shown) };
   }, [itemHeight, splitHeight, keyboardOffset]);
+  // A wide clip leaves the screen above and below it empty. What goes there
+  // follows the theme: a plain stage with the video as a rounded card on
+  // System, the picture's reflection on Osaka and Glass, and the picture's
+  // own colours carried outward on every other theme.
+  const wideClip = !noVideo && intrinsicSize.height > 0 && intrinsicSize.width / intrinsicSize.height >= WIDE_CLIP_ASPECT;
+  const wideStage = !wideClip ? null
+    : appTheme.theme === 'system' || appTheme.theme === 'minimal' ? 'clean' as const
+    : appTheme.theme === 'osaka' || appTheme.theme === 'glass' ? 'floor' as const
+    : 'glow' as const;
+  const cleanStage = wideStage === 'clean';
+  const infoShown = cleanStage && infoStage && !showComments;
+  /** How far the video card rides up from the middle of the screen in Info Stage. */
+  const infoLift = useSharedValue(0);
+  const [stackHeight, setStackHeight] = useState(0);
+  const storyboard = useMemo(() => toStoryboard(item.storyboard), [item.storyboard]);
+  const restPicture = useMemo(
+    () => containedPicture(SCREEN_WIDTH, itemHeight, intrinsicSize.width, intrinsicSize.height),
+    [SCREEN_WIDTH, itemHeight, intrinsicSize],
+  );
+  // Two fingers zoom into the picture while they are down; it settles back
+  // when they lift.
+  const pinchScale = useSharedValue(1);
+  const pinchX = useSharedValue(0);
+  const pinchY = useSharedValue(0);
+  const pinching = useSharedValue(false);
+  const pinchFrom = useSharedValue({ x: 0, y: 0 });
   /**
    * At rest the picture box is the whole frame; the video view inside it is
    * boxed by videoBoxStyle from the rotation-corrected shape.
@@ -795,8 +845,17 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     const shown = Math.min(splitHeight, Math.max(0, splitHeight - commentsSlide.value));
     const frameHeight = Math.max(0, itemHeight - (shown > 0 ? keyboardOffset : 0) - shown);
     const picture = containedPicture(SCREEN_WIDTH, frameHeight, intrinsicSize.width, intrinsicSize.height);
-    return { position: 'absolute', left: picture.left, top: picture.top, width: picture.width, height: picture.height };
-  }, [SCREEN_WIDTH, itemHeight, splitHeight, keyboardOffset, intrinsicSize]);
+    // The rounded card is for the full frame at rest: it squares off for the
+    // comments split and for the drag into the mini player.
+    const card = cleanStage && shown <= 0 && miniDragY.value <= 0 && !miniHandingOff.value && picture.width > CLEAN_STAGE_INSET * 4;
+    const fit = card ? (picture.width - CLEAN_STAGE_INSET * 2) / picture.width : 1;
+    return {
+      position: 'absolute', left: picture.left, top: picture.top, width: picture.width, height: picture.height,
+      overflow: card ? 'hidden' : 'visible',
+      borderRadius: card ? CLEAN_STAGE_RADIUS / fit : 0,
+      transform: [{ translateX: pinchX.value }, { translateY: pinchY.value + infoLift.value }, { scale: fit * pinchScale.value }],
+    };
+  }, [SCREEN_WIDTH, itemHeight, splitHeight, keyboardOffset, intrinsicSize, cleanStage]);
   const pictureKnown = intrinsicSize.width > 0 && intrinsicSize.height > 0;
   // A tiny poster is enough to blur, and cheap to decode for every row.
   const backdropSource = item.postType === 'short' ? getShortsThumbnailUrl(tokenId, 120) : thumbnail;
@@ -1829,6 +1888,20 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
    */
   const insets = useSafeAreaInsets();
   const topChromeBand = insets.top + EDGE + CHROME_SIZE + CHROME_HIT_SLOP.bottom + 4;
+  // Where the rounded video card sits: in the middle on the plain stage, and
+  // just under the top bar in Info Stage, with everything else below it.
+  const cardHeight = restPicture.width > CLEAN_STAGE_INSET * 4
+    ? restPicture.height * (restPicture.width - CLEAN_STAGE_INSET * 2) / restPicture.width
+    : restPicture.height;
+  const cardRestTop = (itemHeight - cardHeight) / 2;
+  const infoCardTop = Math.min(cardRestTop, topChromeBand + 4);
+  const infoTop = infoCardTop + cardHeight + 12;
+  useEffect(() => {
+    infoLift.value = withTiming(infoShown ? infoCardTop - cardRestTop : 0, { duration: 260 });
+  }, [infoShown, infoCardTop, cardRestTop, infoLift]);
+  useEffect(() => {
+    if (infoShown) setAutoHidden(false);
+  }, [infoShown]);
 
   const leaveViewer = useCallback(() => {
     if (navigation.isFocused()) navigation.goBack();
@@ -2023,6 +2096,44 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   [isFirst, isActive, showComments, screenshotMode, captionExpanded, pipPlayer, topChromeBand, SCREEN_WIDTH, itemHeight,
     intrinsicSize, canMinimize, dismissStart, dismissY, leaveViewer, resetTapSequence, pagerGesture]);
 
+  // The pager stands still while two fingers are on the picture, and the tap
+  // that ends a pinch is not a tap on the video.
+  const pinchedAt = useRef(0);
+  const markPinch = useCallback((active: boolean) => {
+    pinchedAt.current = Date.now();
+    onHoldActiveChange(active);
+  }, [onHoldActiveChange]);
+  const pinch = useMemo(() => Gesture.Pinch()
+    .enabled(isActive && !noVideo && !showComments && !screenshotMode)
+    .simultaneousWithExternalGesture(pagerGesture)
+    .onStart((event) => {
+      'worklet';
+      pinching.value = true;
+      pinchFrom.value = { x: event.focalX, y: event.focalY };
+      runOnJS(markPinch)(true);
+    })
+    .onUpdate((event) => {
+      'worklet';
+      if (!pinching.value) return;
+      const scale = Math.min(PINCH_MAX_SCALE, Math.max(1, event.scale));
+      const from = pinchFrom.value;
+      // The point between the fingers stays under them, and the picture can
+      // be carried around while it is held.
+      pinchScale.value = scale;
+      pinchX.value = (from.x - SCREEN_WIDTH / 2) * (1 - scale) + (event.focalX - from.x);
+      pinchY.value = (from.y - itemHeight / 2) * (1 - scale) + (event.focalY - from.y);
+    })
+    .onFinalize(() => {
+      'worklet';
+      if (!pinching.value) return;
+      pinching.value = false;
+      pinchScale.value = withTiming(1, { duration: 220 });
+      pinchX.value = withTiming(0, { duration: 220 });
+      pinchY.value = withTiming(0, { duration: 220 });
+      runOnJS(markPinch)(false);
+    }),
+  [isActive, noVideo, showComments, screenshotMode, pagerGesture, SCREEN_WIDTH, itemHeight, markPinch, pinching, pinchFrom, pinchScale, pinchX, pinchY]);
+
   const screenGesture = useMemo(() => {
     const mediaHitSlop = { top: chromeLive ? -topChromeBand : 0 };
     const tap = Gesture.Tap()
@@ -2031,7 +2142,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       .simultaneousWithExternalGesture(pagerGesture)
       .runOnJS(true)
       .onEnd((event, success) => {
-        if (success) handleScreenTap(event.x, event.y);
+        if (success && Date.now() - pinchedAt.current > 350) handleScreenTap(event.x, event.y);
       });
     // A hold that keeps tracking the finger, so a drag down during it can lock
     // the speed. Moving before the hold lands fails it, leaving swipes alone.
@@ -2044,8 +2155,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       .onStart((event) => handleLongPressIn(event.x))
       .onUpdate((event) => handleHoldMove(event.translationY))
       .onFinalize(() => handleLongPressOut());
-    return Gesture.Race(makeEdgeBack(), minimizePan, dismissPan, restorePan, hold, tap);
-  }, [handleLongPressIn, handleHoldMove, handleLongPressOut, handleScreenTap, pagerGesture, minimizePan, dismissPan, restorePan, makeEdgeBack, chromeLive, topChromeBand]);
+    return Gesture.Simultaneous(pinch, Gesture.Race(makeEdgeBack(), minimizePan, dismissPan, restorePan, hold, tap));
+  }, [handleLongPressIn, handleHoldMove, handleLongPressOut, handleScreenTap, pagerGesture, minimizePan, dismissPan, restorePan, makeEdgeBack, chromeLive, topChromeBand, pinch]);
 
   const bottomStackGesture = useMemo(() => Gesture.Race(makeEdgeBack(), hidePan), [makeEdgeBack, hidePan]);
 
@@ -2091,6 +2202,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       screenshotMode ||
       captionExpanded ||
       showComments ||
+      infoShown ||
       showTipModal ||
       showShareSheet ||
       showShareToDm ||
@@ -2102,7 +2214,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     return () => clearTimeout(timer);
   }, [
     isActive, isPlaying, autoHidden, overlaysHidden, screenshotMode,
-    captionExpanded, showComments, showTipModal, showShareSheet, showShareToDm, pickerOpen,
+    captionExpanded, showComments, infoShown, showTipModal, showShareSheet, showShareToDm, pickerOpen,
   ]);
 
   // Pausing is a request to look at the frame, not to keep it clear — whatever
@@ -2139,18 +2251,106 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     if (isActive && chromeRevealTick > 0) setAutoHidden(false);
   }, [chromeRevealTick, isActive]);
 
+  useEffect(() => {
+    if (!activeItem) return;
+    onWideChange(wideClip, cleanStage);
+    return () => onWideChange(false, false);
+  }, [activeItem, wideClip, cleanStage, onWideChange]);
+
+  // Full screen is the wide player turned sideways, carrying on with the
+  // same player from the same moment.
+  const handingToFullscreen = useRef(false);
+  const openFullscreen = useCallback((turned = false) => {
+    if (!videoUrl || noVideo || !navigation.isFocused() || handingToFullscreen.current) return;
+    let startTime = 0;
+    try { startTime = player.currentTime ?? 0; } catch {}
+    handingToFullscreen.current = true;
+    preparePostMediaNavigation(videoUrl);
+    navigation.navigate(ScreenNames.FullscreenVideo, {
+      videoUrl,
+      downloadUrl: signedShort ? undefined : getVideoUrl(tokenId),
+      startTime,
+      isMuted,
+      thumbnail: typeof thumbnail === 'string' ? thumbnail : undefined,
+      tokenId,
+      isSignedIn: !!(viewer?.walletAddress || viewer?.address),
+      storyboard: item.storyboard,
+      landscape: true,
+      turned,
+    });
+  }, [videoUrl, noVideo, navigation, player, signedShort, tokenId, isMuted, thumbnail, viewer, item.storyboard]);
+
+  // Turning the phone sideways on a wide clip plays it full screen. The app
+  // is held upright everywhere else, so the turn is only followed while a
+  // wide clip is the one being watched.
+  const openFullscreenRef = useRef(openFullscreen);
+  openFullscreenRef.current = openFullscreen;
+  const turnArmed = useRef(true);
+  const [turnTick, setTurnTick] = useState(0);
+  useEffect(() => {
+    if (!activeItem) turnArmed.current = true;
+  }, [activeItem]);
+  useEffect(() => navigation.addListener('focus', () => {
+    if (!handingToFullscreen.current) return;
+    handingToFullscreen.current = false;
+    // Closed by Back with the phone still sideways: following the turn again
+    // now would reopen it, so this clip waits until it is swiped back to.
+    turnArmed.current = takeFullscreenClosedUpright();
+    setTurnTick((n) => n + 1);
+  }), [navigation]);
+  const followTurn = activeItem && isActive && wideClip && !showComments && !pipPlayer;
+  useEffect(() => {
+    if (!followTurn || !turnArmed.current) return;
+    let sub: { remove(): void } | null = null;
+    try {
+      ScreenOrientation.unlockAsync().catch(() => {});
+      sub = ScreenOrientation.addOrientationChangeListener((event) => {
+        const now = event.orientationInfo.orientation;
+        if (now === ScreenOrientation.Orientation.LANDSCAPE_LEFT || now === ScreenOrientation.Orientation.LANDSCAPE_RIGHT) {
+          openFullscreenRef.current(true);
+        }
+      });
+    } catch {}
+    return () => {
+      try { sub?.remove(); } catch {}
+      // Full screen takes the turn over from here; anything else goes back upright.
+      if (!handingToFullscreen.current) ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP).catch(() => {});
+    };
+  }, [followTurn, turnTick]);
+  const fullscreenSeen = useRef(fullscreenTick);
+  useEffect(() => {
+    if (fullscreenSeen.current === fullscreenTick) return;
+    fullscreenSeen.current = fullscreenTick;
+    if (activeItem) openFullscreen();
+  }, [fullscreenTick, activeItem, openFullscreen]);
+
   return (
     <View ref={frameRef} collapsable={false} style={{ width: SCREEN_WIDTH, height: itemHeight }}>
       <GestureDetector gesture={screenGesture}>
         <Reanimated.View
-          style={[styles.playerFrame, showComments && { backgroundColor: "#000" }, photoMedia && { backgroundColor: photoBackdrop }, playerStyle]}
+          style={[styles.playerFrame, showComments && { backgroundColor: "#000" }, cleanStage ? { backgroundColor: "#000" } : photoMedia && { backgroundColor: photoBackdrop }, playerStyle]}
         >
         <Reanimated.View style={pictureStyle}>
         <Reanimated.View style={pictureContentStyle}>
         {/* A clip that doesn't fill the screen sits on a blurred, dimmed copy
             of its own poster, so its edges blend out rather than cutting a
             hard line across the caption and action row. */}
-        {!noVideo && backdropSource ? (
+        {cleanStage ? (
+          <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none" />
+        ) : wideStage && WideVideoFill && !showComments ? (
+          <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none">
+            <WideVideoFill
+              look={wideStage}
+              width={SCREEN_WIDTH}
+              height={itemHeight}
+              picture={restPicture}
+              poster={typeof thumbnail === 'string' ? thumbnail : undefined}
+              storyboard={storyboard}
+              player={player}
+              live={isActive && isPlaying}
+            />
+          </View>
+        ) : !noVideo && backdropSource ? (
           <View style={StyleSheet.absoluteFill} pointerEvents="none">
             <BlurSafeImage source={backdropSource} style={StyleSheet.absoluteFill} contentFit="cover" blurRadius={30} transition={0} />
             <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(0,0,0,0.35)" }]} />
@@ -2373,11 +2573,43 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
         )}
 
         {/* Legibility gradient behind the bottom stack, as on web. */}
-        <LinearGradient
+        {infoShown ? null : <LinearGradient
           colors={["transparent", "rgba(0,0,0,0.45)", "rgba(0,0,0,0.85)"]}
           style={styles.bottomGradient}
           pointerEvents="none"
-        />
+        />}
+
+        {/* Plain stage: a + under the video opens Info Stage. */}
+        {cleanStage && !infoStage && !showComments && (
+          <Pressable
+            className="dark-surface"
+            onPress={() => onInfoStageChange(true)}
+            hitSlop={CHROME_HIT_SLOP}
+            accessibilityRole="button"
+            accessibilityLabel={_copy("copy.f5c9bd131486", { defaultValue: "Show more" })}
+            style={[styles.infoOpenButton, { top: cardRestTop + cardHeight + 12 }]}
+          >
+            <ChromeFill top />
+            <Icon name="Plus" size={20} color="#fff" />
+          </Pressable>
+        )}
+
+        {/* Info Stage: the comments fill the screen under the creator,
+            caption and action row. Only the short being watched loads them. */}
+        {infoShown && isActive && tokenId != null && stackHeight > 0 && (
+          <View className="dark-surface" style={[styles.infoComments, { top: infoTop + stackHeight + 8 }]}>
+            <KeepDarkScope>
+              <CommentSection
+                tokenId={tokenId}
+                contentType="video"
+                commentsDisabled={!!(item as any).commentsDisabled}
+                replyPolicy={(item as any).replyPolicy}
+                forKids={!!(item as any).forKids}
+                postCreator={{ address: minterAddress, displayName, username }}
+              />
+            </KeepDarkScope>
+          </View>
+        )}
 
         {/* Creator info + caption, with the action row as the bottommost
             element.
@@ -2395,7 +2627,14 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
             The trade is explicit: these pixels can start the swipe or fall
             through to the video, not both. Web makes the same one. */}
         <GestureDetector gesture={bottomStackGesture}>
-          <View onLayout={(e) => { overlayHeight.value = e.nativeEvent.layout.height; }} style={styles.bottomStack}>
+          <View
+            onLayout={(e) => {
+              const height = e.nativeEvent.layout.height;
+              overlayHeight.value = height;
+              setStackHeight((prev) => (Math.abs(prev - height) < 1 ? prev : height));
+            }}
+            style={[styles.bottomStack, infoShown && { top: infoTop, bottom: undefined }]}
+          >
             <View style={styles.captionBlock}>
               <GestureDetector gesture={creatorTap}>
               <View
@@ -2822,6 +3061,21 @@ const ShortsViewerScreen = () => {
   const [chromeLive, setChromeLive] = useState(true);
   const [chromeRevealTick, setChromeRevealTick] = useState(0);
   const revealChrome = useCallback(() => setChromeRevealTick((n) => n + 1), []);
+  const [fullscreenTick, setFullscreenTick] = useState(0);
+  const [activeWide, setActiveWide] = useState(false);
+  const [activeClean, setActiveClean] = useState(false);
+  const handleWideChange = useCallback((wide: boolean, clean: boolean) => {
+    setActiveWide(wide);
+    setActiveClean(clean);
+  }, []);
+  const [infoStage, setInfoStage] = useState(false);
+  useEffect(() => {
+    AsyncStorage.getItem(INFO_STAGE_KEY).then((saved) => { if (saved === "1") setInfoStage(true); }).catch(() => {});
+  }, []);
+  const chooseInfoStage = useCallback((on: boolean) => {
+    setInfoStage(on);
+    AsyncStorage.setItem(INFO_STAGE_KEY, on ? "1" : "0").catch(() => {});
+  }, []);
   const [commentsVisible, setCommentsVisible] = useState(false);
   const topChromeOpacity = useRef(new Animated.Value(1)).current;
 
@@ -2861,6 +3115,10 @@ const ShortsViewerScreen = () => {
   const handleContainerLayout = useCallback((e: LayoutChangeEvent) => {
     const h = e.nativeEvent.layout.height;
     if (h <= 0) return;
+    // Full screen turns the whole window sideways while this screen waits
+    // underneath it. Its pages keep their upright size, so the pager is on
+    // the same short when the viewer comes back.
+    if (e.nativeEvent.layout.width > h) return;
     setHasMeasuredViewport(true);
     setViewportHeight(h);
     // Keep pager offsets stable while Android resizes for the reply keyboard.
@@ -3386,13 +3644,17 @@ const ShortsViewerScreen = () => {
         onChromeVisibilityChange={setChromeVisible}
         onChromeLiveChange={setChromeLive}
         chromeRevealTick={index === activeIndex ? chromeRevealTick : 0}
+        fullscreenTick={fullscreenTick}
+        onWideChange={handleWideChange}
+        infoStage={infoStage}
+        onInfoStageChange={chooseInfoStage}
         onCommentsVisibilityChange={setCommentsVisible}
         optionsMenuOpen={index === activeIndex && showOptionsMenu}
         reelBgId={feedParams.reelBgId}
       />
       );
     },
-    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek],
+    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, infoStage, chooseInfoStage, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek],
   );
 
   const keyExtractor = useCallback(
@@ -3495,6 +3757,18 @@ const ShortsViewerScreen = () => {
           </ChromeTouchTarget>
 
           {!isLiveSlide(activeItem) && <View style={styles.topRight}>
+            {activeWide && <ChromeTouchTarget>
+              <Pressable
+                onPress={() => setFullscreenTick((n) => n + 1)}
+                className="dark-surface"
+                hitSlop={CHROME_HIT_SLOP}
+                style={styles.topButton}
+                accessibilityLabel={t("player.enterFullscreen")}
+              >
+                <ChromeFill top />
+                <Icon name="Maximize2" size={20} color="#fff" />
+              </Pressable>
+            </ChromeTouchTarget>}
             {items[activeIndex]?.postType !== "feed-images" && <ChromeTouchTarget><PictureInPictureButton videoRef={activeVideoRef} size={CHROME_SIZE} /></ChromeTouchTarget>}
             <ChromeTouchTarget>
               <Pressable
@@ -3548,6 +3822,20 @@ const ShortsViewerScreen = () => {
                 <Icon name="Ellipsis" size={20} color="#fff" />
               </Pressable>
             </ChromeTouchTarget>
+
+            {/* Info Stage: back to the plain stage, in the corner across from Back. */}
+            {activeClean && infoStage && !commentsVisible && <ChromeTouchTarget>
+              <Pressable
+                onPress={() => chooseInfoStage(false)}
+                className="dark-surface"
+                style={styles.topButton}
+                hitSlop={CHROME_HIT_SLOP}
+                accessibilityLabel={_copy("copy.94ea9b1d33a0", { defaultValue: "Show less" })}
+              >
+                <ChromeFill top />
+                <Icon name="Minus" size={20} color="#fff" />
+              </Pressable>
+            </ChromeTouchTarget>}
           </View>}
         </View>
       </Animated.View>
@@ -3658,6 +3946,23 @@ const styles = StyleSheet.create({
     height: CHROME_SIZE,
     alignItems: "center",
     justifyContent: "center",
+  },
+  infoOpenButton: {
+    position: "absolute",
+    right: EDGE,
+    width: CHROME_SIZE,
+    height: CHROME_SIZE,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+  },
+  infoComments: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    // Clear of the timeline along the floor of the screen.
+    bottom: 28,
+    zIndex: 9,
   },
   volumeTrack: {
     position: "absolute",

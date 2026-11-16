@@ -29,6 +29,7 @@ import {
   releaseBackgroundPlayback,
 } from "../libs/audioSession";
 import * as ScreenOrientation from "expo-screen-orientation";
+import { noteFullscreenClosedUpright } from "../libs/turned-fullscreen";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -85,6 +86,8 @@ const FullscreenVideoScreen = () => {
     creatorUsername,
     downloadTitle,
     storyboard: rawStoryboard,
+    landscape: opensSideways = false,
+    turned = false,
   } = (route?.params as any) || {};
   const storyboard = useMemo(() => toStoryboard(rawStoryboard), [rawStoryboard]);
   /** The storyboard tile shows while a finger is dragging the timeline. */
@@ -102,7 +105,30 @@ const FullscreenVideoScreen = () => {
   const [videoDuration, setVideoDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [isBuffering, setIsBuffering] = useState(false);
-  const [isLandscape, setIsLandscape] = useState(false);
+  const [isLandscape, setIsLandscape] = useState(!!opensSideways);
+  // Opened from a wide clip's full screen button: the picture turns to fill
+  // the screen straight away, either way up.
+  // Opened by turning the phone: it keeps following the phone, and turning it
+  // upright again closes full screen.
+  const closeScreenRef = useRef<() => void>(() => {});
+  const closing = useRef(false);
+  useEffect(() => {
+    if (!opensSideways) return;
+    if (!turned) {
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE).catch(() => {});
+      return;
+    }
+    let sub: { remove(): void } | null = null;
+    try {
+      ScreenOrientation.unlockAsync().catch(() => {});
+      sub = ScreenOrientation.addOrientationChangeListener((event) => {
+        if (closing.current || event.orientationInfo.orientation !== ScreenOrientation.Orientation.PORTRAIT_UP) return;
+        noteFullscreenClosedUpright();
+        closeScreenRef.current();
+      });
+    } catch {}
+    return () => { try { sub?.remove(); } catch {} };
+  }, [opensSideways, turned]);
 
   const isPlayingRef = useRef(true);
   const controlsTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -242,11 +268,13 @@ const FullscreenVideoScreen = () => {
   }, []);
 
   const closeScreen = useCallback(() => {
+    closing.current = true;
     ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP).catch(() => {});
     StatusBar.setHidden(false);
     if (navigation.canGoBack()) navigation.goBack();
   }, [navigation]);
 
+  closeScreenRef.current = closeScreen;
   useBackPress(closeScreen);
 
   const resetControlsTimer = useCallback(() => {
@@ -292,6 +320,9 @@ const FullscreenVideoScreen = () => {
 
   const handleToggleRotation = useCallback(async () => {
     try {
+      // Opened by a turn of the phone, there is no upright full screen to
+      // drop back to: the button closes it.
+      if (isLandscape && turned) { closeScreen(); return; }
       if (isLandscape) {
         await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
         setIsLandscape(false);
@@ -301,7 +332,7 @@ const FullscreenVideoScreen = () => {
       }
     } catch {}
     resetControlsTimer();
-  }, [isLandscape, resetControlsTimer]);
+  }, [isLandscape, resetControlsTimer, turned, closeScreen]);
 
   const handleSeek = useCallback(
     (locationX: number) => {
