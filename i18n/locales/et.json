@@ -14844,5 +14844,32 @@
     "newCodesTitle": "Hangi uued varukoopia koodid",
     "newCodesBody": "Sisesta oma rakendusest kood. Sinu vanad varukoopia koodid ei tööta enam.",
     "codeLabel": "Kuusnumbriline kood"
+  },
+  "chatSearch": {
+    "placeholder": "Otsi sõnumeid või inimesi",
+    "placeholderPerson": "Otsi kasutaja {{name}} sõnumeid",
+    "close": "Sulge otsing",
+    "removePerson": "Otsi kõiki",
+    "clear": "Tühjenda",
+    "voice": "Häälsõnum",
+    "photo": "Foto",
+    "peopleHere": "Inimesed selles vestluses",
+    "recent": "Viimased otsingud",
+    "hint": "Sisestage sõna või nimi.",
+    "failed": "Otsingut ei saanud laadida",
+    "people": "Inimesed",
+    "messages": "Sõnumid",
+    "seeCount_one": "Vaata tema {{count}} sõnumit",
+    "seeCount_other": "Vaata tema {{count}} sõnumit",
+    "messagesCount_one": "{{count}} sõnum",
+    "messagesCount_other": "{{count}} sõnumit",
+    "results_one": "{{count}} tulemus",
+    "results_other": "{{count}} tulemust",
+    "backToResults": "Tagasi tulemuste juurde",
+    "position": "{{current}}/{{total}}",
+    "older": "Vanem tulemus",
+    "newer": "Uuem tulemus",
+    "gone": "Seda sõnumit pole enam siin",
+    "theirMessages": "Tema sõnumid"
   }
 }

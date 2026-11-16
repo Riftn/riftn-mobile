@@ -14793,5 +14793,32 @@
     "confirmTitle": "Kɔdi in don i ka app kɔnɔ",
     "confirmBody": "Kɔdi 6-digit min bɛ Riftn kɔnɔ i ka app kɔnɔ, o don. A bɛ yɛlɛma sekɔndi 30 o 30.",
     "codesTitle": "I ka backup kɔdi in kɔnɔna"
+  },
+  "chatSearch": {
+    "placeholder": "A ɲini ka sɛbɛn wala mɔgɔw ɲini",
+    "placeholderPerson": "{{name}} ka sɛbɛnw ɲini",
+    "close": "Cɛɲɛnin ɲini ka ban",
+    "removePerson": "Mɔgɔ bɛɛ ɲini",
+    "clear": "A jòsi",
+    "voice": "Kuma ka masaj",
+    "photo": "Foto",
+    "peopleHere": "Mɔgɔ minw be nin ɲɔgɔn fɔko la",
+    "recent": "A ɲɛɛ be ɲini minw na kɔ fɛ",
+    "hint": "I ka kuma kelen wala tɔgɔ kelen sɛbɛ.",
+    "failed": "Cɛɛnɲini ma se ka don",
+    "people": "Mɔgɔw",
+    "messages": "Mɛsaziw",
+    "seeCount_one": "A ka {{count}} kuma filɛ",
+    "seeCount_other": "A ka {{count}} sɛbɛnniw filɛ",
+    "messagesCount_one": "{{count}} sɛbɛn",
+    "messagesCount_other": "{{count}} sɛbɛ",
+    "results_one": "{{count}} bɔra o la",
+    "results_other": "{{count}} bɔra ka na",
+    "backToResults": "Segi ka taga sɔrɔw ma",
+    "position": "{{current}} ni {{total}} cɛ",
+    "older": "Kɔnɔni kɔrɔ",
+    "newer": "Dɔɔni fɔlɔ",
+    "gone": "O sɛbɛn nin tɛ yan tugun",
+    "theirMessages": "U ka sɛbɛw"
   }
 }

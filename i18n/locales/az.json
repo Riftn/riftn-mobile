@@ -14827,5 +14827,32 @@
     "newCodesTitle": "Yeni ehtiyat kodları əldə edin",
     "newCodesBody": "Tətbiqinizdən kod daxil edin. Köhnə ehtiyat kodlarınız işini dayandıracaq.",
     "codeLabel": "Altırəqəmli kod"
+  },
+  "chatSearch": {
+    "placeholder": "Mesajlar və ya şəxslər axtarın",
+    "placeholderPerson": "{{name}} adlı şəxsin mesajlarını axtar",
+    "close": "Axtarışı bağla",
+    "removePerson": "Hamını axtar",
+    "clear": "Təmizlə",
+    "voice": "Səsli mesaj",
+    "photo": "Foto",
+    "peopleHere": "Bu söhbətdə olan şəxslər",
+    "recent": "Son axtarışlar",
+    "hint": "Söz və ya ad yazın.",
+    "failed": "Axtarış yüklənilə bilmədi",
+    "people": "Şəxslər",
+    "messages": "Mesajlar",
+    "seeCount_one": "Onun {{count}} mesajına baxın",
+    "seeCount_other": "Onun {{count}} mesajına baxın",
+    "messagesCount_one": "{{count}} mesaj",
+    "messagesCount_other": "{{count}} mesaj",
+    "results_one": "{{count}} nəticə",
+    "results_other": "{{count}} nəticə",
+    "backToResults": "Nəticələrə qayıt",
+    "position": "{{total}}-dən {{current}}",
+    "older": "Daha köhnə nəticə",
+    "newer": "Daha yeni nəticə",
+    "gone": "Həmin mesaj artıq burada deyil",
+    "theirMessages": "Onların mesajları"
   }
 }

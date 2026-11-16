@@ -14859,5 +14859,32 @@
     "newCodesTitle": "Obține coduri de rezervă noi",
     "newCodesBody": "Introdu un cod din aplicația ta. Vechile tale coduri de rezervă nu vor mai funcționa.",
     "codeLabel": "Cod din șase cifre"
+  },
+  "chatSearch": {
+    "placeholder": "Caută mesaje sau persoane",
+    "placeholderPerson": "Caută mesajele lui {{name}}",
+    "close": "Închide căutarea",
+    "removePerson": "Caută pe toată lumea",
+    "clear": "Șterge",
+    "voice": "Mesaj vocal",
+    "photo": "Fotografie",
+    "peopleHere": "Persoane în acest chat",
+    "recent": "Căutări recente",
+    "hint": "Tastează un cuvânt sau un nume.",
+    "failed": "Căutarea nu a putut fi încărcată",
+    "people": "Persoane",
+    "messages": "Mesaje",
+    "seeCount_one": "Vezi mesajul lui {{count}}",
+    "seeCount_other": "Vezi mesajele lui {{count}}",
+    "messagesCount_one": "Mesajul lui {{count}}",
+    "messagesCount_other": "Mesajele lui {{count}}",
+    "results_one": "Rezultatul lui {{count}}",
+    "results_other": "Rezultatele lui {{count}}",
+    "backToResults": "Înapoi la rezultate",
+    "position": "{{current}} din {{total}}",
+    "older": "Rezultat mai vechi",
+    "newer": "Rezultat mai nou",
+    "gone": "Acest mesaj nu mai există",
+    "theirMessages": "Mesajele lor"
   }
 }

@@ -1,4 +1,4 @@
-import MessageSearch from "../components/DM/MessageSearch";
+import LiveChatSearch, { LiveChatSearchPill, chatSearchPerson, rememberChatSearch, useChatSearch, type ChatSearchPerson } from "../components/LiveChat/LiveChatSearch";
 import { useDraftState } from "../hooks/useDraftState";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -13,6 +13,8 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   AppState,
+  BackHandler,
+  Keyboard,
   Platform,
 } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
@@ -158,6 +160,10 @@ const LiveChatScreen: React.FC = () => {
     removeReaction,
     setTyping,
     loadMoreMessages,
+    hasNewer,
+    jumpToMessage,
+    loadNewerMessages,
+    backToLatest,
     reconnect,
     updateBannedList,
   } = useLiveChat();
@@ -187,7 +193,17 @@ const LiveChatScreen: React.FC = () => {
   const [contextMenuTranslate, setContextMenuTranslate] = useState<TranslateToggle | undefined>(undefined);
   const [editingMessage, setEditingMessage] = useState<LiveChatMessageData | null>(null);
   const [highlightedId, setHighlightedId] = useState<string | null>(null);
-  const [searchVisible, setSearchVisible] = useState(false);
+  // Search: one box for people and text. "list" covers the chat with what it
+  // found; "chat" is the room opened on one result, with a pill to step on.
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchPerson, setSearchPerson] = useState<ChatSearchPerson | null>(null);
+  const [searchView, setSearchView] = useState<"list" | "chat">("list");
+  const [activeHit, setActiveHit] = useState(-1);
+  const [jumping, setJumping] = useState(false);
+  /** A line to scroll to and flash once the list holds it. */
+  const [pendingFocus, setPendingFocus] = useState<string | null>(null);
+  const search = useChatSearch(searchOpen, searchText, searchPerson?.address ?? null);
   const [confirmModal, setConfirmModal] = useState<{
     visible: boolean;
     title: string;
@@ -333,18 +349,29 @@ const LiveChatScreen: React.FC = () => {
       const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
       scrollOffsetRef.current = contentOffset.y;
       const distanceFromBottom = contentSize.height - layoutMeasurement.height - contentOffset.y;
-      const nextAtBottom = distanceFromBottom < 120;
+      // An older stretch opened from search has no "bottom" to follow: its
+      // end reads the next lines on, it does not pin the list there.
+      const nextAtBottom = distanceFromBottom < 120 && !hasNewer;
       // Same-value sets bail out in React, so this re-renders only on a flip.
       setAtBottom(nextAtBottom);
       isAtBottomRef.current = nextAtBottom;
+      if (hasNewer && distanceFromBottom < 300) loadNewerMessages();
 
       // Load more when scrolled near top (not during initial setup)
       if (hasInitialScrolledRef.current && contentOffset.y < 100 && hasMore && !loadingMore) {
         loadMoreMessages();
       }
     },
-    [hasMore, loadingMore, loadMoreMessages]
+    [hasMore, loadingMore, loadMoreMessages, hasNewer, loadNewerMessages]
   );
+
+  /** Leave an older stretch and show the newest lines again. */
+  const goToLatest = useCallback(async () => {
+    await backToLatest();
+    isAtBottomRef.current = true;
+    setAtBottom(true);
+    setTimeout(() => scrollToBottom(false), 150);
+  }, [backToLatest, scrollToBottom]);
 
   /**
    * Pick a picture. Cropped and re-encoded as JPEG on the way out, because the
@@ -419,6 +446,9 @@ const LiveChatScreen: React.FC = () => {
         setEditingMessage(null);
         return true;
       }
+      // Writing while reading an older stretch: the new line belongs at the
+      // end of the room, so go there first.
+      if (hasNewer) await goToLatest();
       // A picture that has finished uploading takes the send: it carries the
       // text as its caption, so the two must not go out as two messages. One
       // still uploading cannot be sent at all — the composer's send button is
@@ -450,7 +480,7 @@ const LiveChatScreen: React.FC = () => {
       setTimeout(() => scrollToBottom(true), 300);
       return true;
     },
-    [sendMessage, scrollToBottom, editingMessage, editMessage, attachment, replyingTo, setReplyingTo]
+    [sendMessage, scrollToBottom, editingMessage, editMessage, attachment, replyingTo, setReplyingTo, hasNewer, goToLatest]
   );
 
   const handleGifPicked = useCallback(
@@ -721,6 +751,84 @@ const LiveChatScreen: React.FC = () => {
     [listItems],
   );
 
+  useEffect(() => {
+    if (!pendingFocus) return;
+    if (!listItems.some((item) => item.type === "message" && item.data._id === pendingFocus)) return;
+    // A beat for the list to measure the page that was just swapped in.
+    const timer = setTimeout(() => {
+      highlightAndScroll(pendingFocus);
+      setPendingFocus(null);
+    }, 220);
+    return () => clearTimeout(timer);
+  }, [pendingFocus, listItems, highlightAndScroll]);
+
+  const openSearch = useCallback((person?: ChatSearchPerson) => {
+    setSearchPerson(person ?? null);
+    setSearchText("");
+    setActiveHit(-1);
+    setSearchView("list");
+    setSearchOpen(true);
+  }, []);
+
+  const closeSearch = useCallback(() => {
+    Keyboard.dismiss();
+    setSearchOpen(false);
+    setSearchText("");
+    setSearchPerson(null);
+    setSearchView("list");
+    setActiveHit(-1);
+    setPendingFocus(null);
+    if (hasNewer) void goToLatest();
+  }, [hasNewer, goToLatest]);
+
+  // Android back: out of the opened result to the list, then out of search.
+  useEffect(() => {
+    if (!searchOpen) return;
+    const sub = BackHandler.addEventListener("hardwareBackPress", () => {
+      if (searchView === "chat") setSearchView("list");
+      else closeSearch();
+      return true;
+    });
+    return () => sub.remove();
+  }, [searchOpen, searchView, closeSearch]);
+
+  /** Open the chat on one search result, reading that part of the room if needed. */
+  const openHit = useCallback(async (index: number, hit?: LiveChatMessageData) => {
+    const target = hit ?? search.results[index];
+    if (!target) return;
+    Keyboard.dismiss();
+    rememberChatSearch(searchText);
+    setActiveHit(index);
+    setSearchView("chat");
+    setJumping(true);
+    isAtBottomRef.current = false;
+    setAtBottom(false);
+    const found = await jumpToMessage(target._id);
+    setJumping(false);
+    if (!found) {
+      toastError(t("chatSearch.gone", { defaultValue: "That message is no longer here" }));
+      setSearchView("list");
+      return;
+    }
+    setPendingFocus(target._id);
+  }, [search.results, searchText, jumpToMessage, t]);
+
+  const openOlderHit = useCallback(async () => {
+    const next = activeHit + 1;
+    if (next < search.results.length) return openHit(next);
+    if (!search.hasMore) return;
+    setJumping(true);
+    const more = await search.loadMore();
+    setJumping(false);
+    if (more.length) await openHit(next, more[0]);
+  }, [activeHit, search, openHit]);
+
+  const handleContextSeeMessages = useCallback((msg: LiveChatMessageData) => {
+    const address = msg.sender?.address || msg.senderAddress;
+    if (!address) return;
+    openSearch(chatSearchPerson({ ...(msg.sender || {}), address }));
+  }, [openSearch]);
+
   const handlePinnedPress = useCallback(
     (msg: LiveChatMessageData) => {
       highlightAndScroll(msg._id);
@@ -825,13 +933,13 @@ const LiveChatScreen: React.FC = () => {
           <Text className="text-white/60 text-xs" style={{ fontVariant: ["tabular-nums"] }}>{t("publicChat.online", { count: onlineCount, defaultValue: "{{count}} online" })}</Text>
         </View>
         <ChatTextSizeButton />
-        <TouchableOpacity onPress={() => setSearchVisible(value => !value)} accessibilityRole="button" accessibilityLabel={t("publicChat.searchMessages")} style={{ width: 32, height: 36, alignItems: "center", justifyContent: "center" }}><Icon name="Search" size={20} color="#A1A1AA" /></TouchableOpacity>
+        <TouchableOpacity onPress={() => openSearch()} accessibilityRole="button" accessibilityLabel={t("publicChat.searchMessages")} style={{ width: 32, height: 36, alignItems: "center", justifyContent: "center" }}><Icon name="Search" size={20} color="#A1A1AA" /></TouchableOpacity>
         <TouchableOpacity onPress={handleInfoPress} activeOpacity={0.6} hitSlop={8}>
           <Icon name="Info" size={22} color="rgba(255,255,255,0.5)" />
         </TouchableOpacity>
       </View>
     ),
-    [onlineCount, handleInfoPress, t]
+    [onlineCount, handleInfoPress, t, openSearch]
   );
 
   // Header subtitle
@@ -890,8 +998,6 @@ const LiveChatScreen: React.FC = () => {
         subtitle={subtitle}
         rightContent={RightHeader}
       />
-
-      {searchVisible ? <MessageSearch messages={messages} onSelect={highlightAndScroll} onClose={() => setSearchVisible(false)} /> : null}
 
       {room?.pinnedMessages && room.pinnedMessages.length > 0 && (
         <PinnedMessagesBar
@@ -958,10 +1064,10 @@ const LiveChatScreen: React.FC = () => {
         />
         </Animated.View>
 
-        {!atBottom && messages.length > 10 && (
+        {(hasNewer || (!atBottom && messages.length > 10)) && (
           <Animated.View style={[{ position: "absolute", right: 16, bottom: composerHeight + 12 }, composerRideStyle]}>
             <TouchableOpacity
-              onPress={() => scrollToBottom()}
+              onPress={() => (hasNewer ? void goToLatest() : scrollToBottom())}
               accessibilityRole="button"
               accessibilityLabel={t("liveChat.jumpToLatest")}
               activeOpacity={0.7}
@@ -973,8 +1079,27 @@ const LiveChatScreen: React.FC = () => {
           </Animated.View>
         )}
 
+        {searchOpen && searchView === "chat" ? (
+          <View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: composerHeight, alignItems: "center", justifyContent: "center", zIndex: 5 }}>
+            <LiveChatSearchPill
+              position={activeHit + 1}
+              total={Math.max(search.total ?? 0, search.results.length)}
+              busy={jumping}
+              canOlder={activeHit < search.results.length - 1 || search.hasMore}
+              canNewer={activeHit > 0}
+              onList={() => setSearchView("list")}
+              onOlder={() => { void openOlderHit(); }}
+              onNewer={() => { void openHit(activeHit - 1); }}
+              onClose={closeSearch}
+            />
+          </View>
+        ) : null}
+
         <Animated.View
-          style={[{ position: "absolute", left: 0, right: 0, bottom: 0 }, composerRideStyle]}
+          // The composer steps aside while search results are being stepped
+          // through; it stays mounted so its draft and height are kept.
+          pointerEvents={searchOpen ? "none" : "auto"}
+          style={[{ position: "absolute", left: 0, right: 0, bottom: 0, opacity: searchOpen ? 0 : 1 }, composerRideStyle]}
           ref={keyboard.ref}
           collapsable={false}
           onLayout={(e) => setComposerHeight(e.nativeEvent.layout.height)}
@@ -1030,6 +1155,7 @@ const LiveChatScreen: React.FC = () => {
         onEdit={handleContextEdit}
         onDelete={handleContextDelete}
         onPin={handleContextPin}
+        onSeeMessages={handleContextSeeMessages}
         isSenderBanned={
           !!contextMenuMessage?.senderAddress &&
           (room?.bannedUsers || []).some(
@@ -1041,6 +1167,19 @@ const LiveChatScreen: React.FC = () => {
         translate={contextMenuTranslate}
         onLift={handleHoldLift}
       />
+
+      {searchOpen && searchView === "list" ? (
+        <LiveChatSearch
+          text={searchText}
+          person={searchPerson}
+          search={search}
+          activeId={search.results[activeHit]?._id ?? null}
+          onText={setSearchText}
+          onPickPerson={(person) => { setSearchPerson(person); setSearchText(""); setActiveHit(-1); }}
+          onOpenResult={(index) => { void openHit(index); }}
+          onClose={closeSearch}
+        />
+      ) : null}
 
       <ConfirmModal
         visible={confirmModal.visible}
