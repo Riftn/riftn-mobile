@@ -9639,7 +9639,14 @@
     "callbackRequest": "ການຮ້ອງຂໍການໂທຄືນ",
     "tryAgain": "ລອງໃໝ່ອີກຄັ້ງ",
     "startVoice": "ເລີ່ມການໂທດ້ວຍສຽງ",
-    "startVideo": "ເລີ່ມການໂທດ້ວຍວິດີໂອ"
+    "startVideo": "ເລີ່ມການໂທດ້ວຍວິດີໂອ",
+    "voiceCallShort": "ການໂທດ້ວຍສຽງ",
+    "videoCallShort": "ການໂທທາງວິດີໂອ",
+    "ended": "ສິ້ນສຸດການໂທແລ້ວ",
+    "declined": "ປະຕິເສດການໂທ",
+    "noAnswer": "ບໍ່ມີຄຳຕອບ",
+    "missed": "ການໂທທີ່ບໍ່ໄດ້ຮັບ",
+    "callBack": "ໂທກັບ"
   },
   "badgeAscension": {
     "reached": "ທ່ານໄດ້ເຂົ້າເຖິງ {{tier}}",

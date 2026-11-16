@@ -9637,7 +9637,14 @@
     "callbackRequest": "کال بیک کی درخواست",
     "tryAgain": "دوبارہ کوشش کریں",
     "startVoice": "وائس کال شروع کریں",
-    "startVideo": "ویڈیو کال شروع کریں"
+    "startVideo": "ویڈیو کال شروع کریں",
+    "voiceCallShort": "وائس کال",
+    "videoCallShort": "ویڈیو کال",
+    "ended": "کال ختم ہو گئی",
+    "declined": "کال مسترد کر دی گئی",
+    "noAnswer": "کوئی جواب نہیں",
+    "missed": "مسڈ کال",
+    "callBack": "واپس کال کریں"
   },
   "badgeAscension": {
     "reached": "آپ {{tier}} تک پہنچ گئے ہیں",

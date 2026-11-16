@@ -9627,7 +9627,14 @@
     "callbackRequest": "ڪال بيڪ درخواست",
     "tryAgain": "ٻيهر ڪوشش ڪريو",
     "startVoice": "وائس ڪال شروع ڪريو",
-    "startVideo": "وڊيو ڪال شروع ڪريو"
+    "startVideo": "وڊيو ڪال شروع ڪريو",
+    "voiceCallShort": "وائس ڪال",
+    "videoCallShort": "وڊيو ڪال",
+    "ended": "ڪيل ۾ ختم ٿيل",
+    "declined": "ڪال رد ڪئي وئي",
+    "noAnswer": "ڪوبه جواب",
+    "missed": "مِسڊ ڪال",
+    "callBack": "واپس فون ڪريو"
   },
   "badgeAscension": {
     "reached": "توهان {{tier}} تائين پهچي ويا",

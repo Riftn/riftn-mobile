@@ -9756,7 +9756,14 @@
     "callbackRequest": "Prośba o oddzwonienie",
     "tryAgain": "Spróbuj ponownie",
     "startVoice": "Rozpocznij rozmowę głosową",
-    "startVideo": "Rozpocznij rozmowę wideo"
+    "startVideo": "Rozpocznij rozmowę wideo",
+    "voiceCallShort": "Połączenie głosowe",
+    "videoCallShort": "Połączenie wideo",
+    "ended": "Rozmowa zakończona",
+    "declined": "Połączenie odrzucone",
+    "noAnswer": "Brak odpowiedzi",
+    "missed": "Nieodebrane połączenie",
+    "callBack": "Oddzwoń"
   },
   "badgeAscension": {
     "reached": "Osiągnięto {{tier}}",

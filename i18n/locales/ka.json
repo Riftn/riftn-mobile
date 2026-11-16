@@ -9672,7 +9672,14 @@
     "callbackRequest": "გამოძახების მოთხოვნა",
     "tryAgain": "ხელახლა ცდა",
     "startVoice": "ხმოვანი ზარის დაწყება",
-    "startVideo": "ვიდეო ზარის დაწყება"
+    "startVideo": "ვიდეო ზარის დაწყება",
+    "voiceCallShort": "ხმის გამოძახება",
+    "videoCallShort": "ვიდეო ზარი",
+    "ended": "ზარი დასრულდა",
+    "declined": "ზარი უარყოფილია",
+    "noAnswer": "პასუხი არ არის",
+    "missed": "გამოტოვებული ზარი",
+    "callBack": "უკან გამოძახება"
   },
   "badgeAscension": {
     "reached": "თქვენ დაგიკავშირდათ {{tier}}",

@@ -9654,7 +9654,14 @@
     "callbackRequest": "कॉलबॅक विनंती",
     "tryAgain": "पुन्हा प्रयत्न करा",
     "startVoice": "व्हॉइस कॉल सुरू करा",
-    "startVideo": "व्हिडिओ कॉल सुरू करा"
+    "startVideo": "व्हिडिओ कॉल सुरू करा",
+    "voiceCallShort": "व्हॉइस कॉल",
+    "videoCallShort": "व्हिडिओ कॉल",
+    "ended": "कॉल संपला",
+    "declined": "कॉल नाकारला गेला",
+    "noAnswer": "उत्तर नाही",
+    "missed": "मिस्ड कॉल",
+    "callBack": "कॉल बॅक करा"
   },
   "badgeAscension": {
     "reached": "तुम्ही {{tier}} वर पोहोचला आहात",

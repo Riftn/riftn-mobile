@@ -1,10 +1,8 @@
 import React from "react";
-import { CallDuration } from "./CallDuration";
-import { View, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useCall } from "../../context/CallContext";
-import { CallScreen, CallIdentity, CallControl, CallControlPanel } from "./CallChrome";
+import { CallDuration } from "./CallDuration";
+import { CallStage, CallIdentity, CallControl, CallDock, CallFoot, CallWave } from "./CallChrome";
 import { usePeerIdentity } from "./usePeerIdentity";
 
 const VoiceCallModal: React.FC = () => {
@@ -12,6 +10,7 @@ const VoiceCallModal: React.FC = () => {
     isCallActive,
     currentCall,
     isConnecting,
+    isRinging,
     isMuted,
     isSpeakerOn,
     endCall,
@@ -23,7 +22,6 @@ const VoiceCallModal: React.FC = () => {
   } = useCall();
 
   const { t } = useTranslation();
-  const insets = useSafeAreaInsets();
   const peer = usePeerIdentity(peerAddress);
 
   const isAudioCall = currentCall?.call_type === "audio";
@@ -31,46 +29,41 @@ const VoiceCallModal: React.FC = () => {
 
   if (!isVisible || isMinimized) return null;
 
-  const statusText = isConnecting
-    ? t("calls.connecting")
-    : <CallDuration fallback={t("calls.connected")} />;
+  const status = isRinging
+    ? t("calls.calling")
+    : isConnecting
+      ? t("calls.connecting")
+      : <CallDuration fallback={t("calls.connected")} />;
 
   return (
-    <CallScreen onRequestClose={() => setMinimized(true)} onMinimize={() => setMinimized(true)}>
-      <View style={[styles.body, { paddingTop: insets.top + 56 }]}>
-        <CallIdentity
-          kindIcon="Phone"
-          kindLabel={t("calls.voiceCall")}
-          name={peer.name}
-          status={statusText}
-          avatarUri={peer.avatarUrl}
-        />
-      </View>
-      <CallControlPanel>
-        <CallControl
-          icon={isSpeakerOn ? "Volume2" : "Volume1"}
-          label={t("calls.speaker")}
-          onPress={toggleSpeaker}
-          active={isSpeakerOn}
-        />
-        <CallControl
-          icon={isMuted ? "MicOff" : "Mic"}
-          label={isMuted ? t("calls.unmute") : t("calls.mute")}
-          onPress={toggleMute}
-          active={isMuted}
-        />
-        <CallControl icon="PhoneOff" label={t("calls.end")} onPress={endCall} primary />
-      </CallControlPanel>
-    </CallScreen>
+    <CallStage peer={peer} onRequestClose={() => setMinimized(true)} onCorner={() => setMinimized(true)}>
+      <CallIdentity kindIcon="Phone" kindLabel={t("calls.voiceCall")} peer={peer} status={status} ringing={isRinging}>
+        {isCallActive ? <CallWave paused={isMuted} /> : null}
+      </CallIdentity>
+      <CallFoot>
+        <CallDock>
+          <CallControl
+            icon={isSpeakerOn ? "Volume2" : "Volume1"}
+            label={t("calls.speaker")}
+            onPress={toggleSpeaker}
+            active={isSpeakerOn}
+          />
+          <CallControl
+            icon={isMuted ? "MicOff" : "Mic"}
+            label={isMuted ? t("calls.unmute") : t("calls.mute")}
+            onPress={toggleMute}
+            active={isMuted}
+          />
+          <CallControl
+            icon="PhoneOff"
+            label={isCallActive ? t("calls.end") : t("common.cancel")}
+            onPress={endCall}
+            primary
+          />
+        </CallDock>
+      </CallFoot>
+    </CallStage>
   );
 };
-
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    alignItems: "center",
-    paddingHorizontal: 24,
-  },
-});
 
 export default VoiceCallModal;

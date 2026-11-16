@@ -12791,7 +12791,14 @@
     "expand": "Прошири",
     "tapToEnableAudio": "Додирните да бисте омогућили звук",
     "startVoice": "Започните гласовни позив",
-    "startVideo": "Започните video позив"
+    "startVideo": "Започните video позив",
+    "voiceCallShort": "Гласовни позив",
+    "videoCallShort": "Видео-позив",
+    "ended": "Позив је завршен",
+    "declined": "Позив је одбијен",
+    "noAnswer": "Нема одговора",
+    "missed": "Пропуштен позив",
+    "callBack": "Позови поново"
   },
   "linkCard": {
     "inviteUnavailable": "Позив недоступан",

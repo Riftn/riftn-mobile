@@ -9633,7 +9633,14 @@
     "minimize": "Biçûk bike",
     "expand": "Mezin bike",
     "startVoice": "Banga dengî dest pê bike",
-    "startVideo": "Banga vîdyoyê dest pê bike"
+    "startVideo": "Banga vîdyoyê dest pê bike",
+    "voiceCallShort": "Bangê dengî",
+    "videoCallShort": "Bangê vîdyoyî",
+    "ended": "Bang hat qedandin",
+    "declined": "Bang hat redkirin",
+    "noAnswer": "Bersiv tune",
+    "missed": "Banga bêbersiv",
+    "callBack": "Paşve bang bike"
   },
   "passwordStrength": {
     "veryWeak": "Pir lawaz",

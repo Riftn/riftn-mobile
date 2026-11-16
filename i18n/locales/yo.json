@@ -9633,7 +9633,14 @@
     "callbackRequest": "Ibere ipe pada",
     "tryAgain": "Gbiyanju lẹẹkansi",
     "startVoice": "Bẹrẹ ìpè ohùn",
-    "startVideo": "Bẹrẹ ipe fidio"
+    "startVideo": "Bẹrẹ ipe fidio",
+    "voiceCallShort": "Ìpè ohùn",
+    "videoCallShort": "Ìpè fídíò",
+    "ended": "Ìpè náà ti parí",
+    "declined": "Wọ́n kọ ìpè náà",
+    "noAnswer": "Kò sí ìdáhùn",
+    "missed": "Ìpè tí a kò gba",
+    "callBack": "Pe pada"
   },
   "badgeAscension": {
     "reached": "O dé {{tier}}",

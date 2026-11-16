@@ -9629,7 +9629,14 @@
     "callbackRequest": "کال بیک درخواست",
     "tryAgain": "دوبارہ کوشش کرو",
     "startVoice": "آواز واري ڪال شروع ڪريو",
-    "startVideo": "وڊيو ڪال شروع ڪريو"
+    "startVideo": "وڊيو ڪال شروع ڪريو",
+    "voiceCallShort": "ڈائیلنگ کال",
+    "videoCallShort": "ڈیجیٹل فون پر ویڈیو کال",
+    "ended": "کال ختم تھی گئی",
+    "declined": "کال رد ہو گئی",
+    "noAnswer": "کوئی جواب نہیں",
+    "missed": "مِسڈ کال",
+    "callBack": "کال واپس"
   },
   "badgeAscension": {
     "reached": "تسيں {{tier}} تک پہنچ گئے",

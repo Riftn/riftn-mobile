@@ -1,6 +1,7 @@
 import { usePerfProbe } from "../../libs/perfTrace";
 import { outsideImage } from "../../libs/outside-image";
 import { ReactionChips } from "./MessageReactions";
+import CallNoteCard from "./CallNoteCard";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
@@ -305,6 +306,8 @@ interface MessageBubbleProps {
   myAddress?: string;
   /** Toggle the viewer's reaction from a chip under the bubble. */
   onToggleReaction?: (message: DmMessage, emoji: string) => void;
+  /** The other person in a one-to-one chat, so a call card can call them back. */
+  callPeerAddress?: string;
 }
 
 
@@ -323,6 +326,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   highlighted = false,
   myAddress = "",
   onToggleReaction,
+  callPeerAddress,
 }) => {
   usePerfProbe("MessageBubble");
   const { t: _copy } = _useCopy();
@@ -686,17 +690,12 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   // thread down with "rendered fewer hooks than expected". Keep them here.
   if (isCallMsg) {
     return (
-      <View className="items-center py-2 px-4">
-        <View className="flex-row items-center bg-theme-neutrals-800/60 rounded-full px-3 py-1.5 gap-1.5">
-          <Text className="text-[13px]">📞</Text>
-          <Text className="text-theme-neutrals-300 text-[12px] font-medium">
-            {message.content}
-          </Text>
-        </View>
-        <Text className="text-theme-neutrals-400 text-[11px] mt-1">
-          {formatTime(message.createdAt)}
-        </Text>
-      </View>
+      <CallNoteCard
+        content={message.content || ""}
+        time={formatTime(message.createdAt)}
+        isMine={isMine}
+        peerAddress={callPeerAddress}
+      />
     );
   }
 

@@ -9575,7 +9575,14 @@
     "tryAgain": "Try again",
     "tapToEnableAudio": "Tap for open sound",
     "startVoice": "Stat vois kol",
-    "startVideo": "Stat vidio kol"
+    "startVideo": "Stat vidio kol",
+    "voiceCallShort": "Voice call",
+    "videoCallShort": "Video call",
+    "ended": "Call ended",
+    "declined": "Call declined",
+    "noAnswer": "No answer",
+    "missed": "Missed call",
+    "callBack": "Call back"
   },
   "badgeAscension": {
     "lines": {

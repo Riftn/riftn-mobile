@@ -9637,7 +9637,14 @@
     "callbackRequest": "କଲବ୍ୟାକ ଅନୁରୋଧ",
     "tryAgain": "ପୁଣିଥରେ ଚେଷ୍ଟା କରନ୍ତୁ",
     "startVoice": "ଭଏସ କଲ ଆରମ୍ଭ କରନ୍ତୁ",
-    "startVideo": "ଭିଡିଓ କଲ ଆରମ୍ଭ କରନ୍ତୁ"
+    "startVideo": "ଭିଡିଓ କଲ ଆରମ୍ଭ କରନ୍ତୁ",
+    "voiceCallShort": "ଭଏସ୍ କଲ୍",
+    "videoCallShort": "ଭିଡିଓ କଲ୍",
+    "ended": "କଲ୍ ଶେଷ ହେଲା",
+    "declined": "କଲ୍ ପ୍ରତ୍ୟାଖ୍ୟାନ କରାଗଲା",
+    "noAnswer": "କୌଣସି ଉତ୍ତର ନାହିଁ",
+    "missed": "ମିସ୍ କଲ୍",
+    "callBack": "ଫେରି କଲ୍ କରନ୍ତୁ"
   },
   "badgeAscension": {
     "reached": "ଆପଣ {{tier}} ରେ ପହଁଚିଲେ",

@@ -9910,7 +9910,14 @@
     "callbackRequest": "Permohonan panggilan balik",
     "tryAgain": "Cuba lagi",
     "startVoice": "Mulakan panggilan suara",
-    "startVideo": "Mulakan panggilan video"
+    "startVideo": "Mulakan panggilan video",
+    "voiceCallShort": "Panggilan suara",
+    "videoCallShort": "Panggilan video",
+    "ended": "Panggilan tamat",
+    "declined": "Panggilan ditolak",
+    "noAnswer": "Tiada jawapan",
+    "missed": "Panggilan tidak dijawab",
+    "callBack": "Hubungi semula"
   },
   "badgeAscension": {
     "reached": "Anda telah menghubungi {{tier}}",

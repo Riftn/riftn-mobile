@@ -9661,7 +9661,14 @@
     "callbackRequest": "Antso an-tariby",
     "tryAgain": "Andramo indray",
     "startVoice": "Atomboy ny antso an-tariby",
-    "startVideo": "Manomboka ny antso an-tariby"
+    "startVideo": "Manomboka ny antso an-tariby",
+    "voiceCallShort": "Antso an-peo",
+    "videoCallShort": "Antso an-tsary",
+    "ended": "Tapitra ny antso",
+    "declined": "Nolavina ny antso",
+    "noAnswer": "Tsy namaly",
+    "missed": "Antso tsy voaray",
+    "callBack": "Miantso indray"
   },
   "badgeAscension": {
     "reached": "Tonga {{tier}}",

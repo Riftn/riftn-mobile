@@ -9671,7 +9671,14 @@
     "callbackRequest": "Llamada mañakuy",
     "tryAgain": "Hukmanta kallpachakuy",
     "startVoice": "Kunkawan waqyayta qallariy",
-    "startVideo": "Videollamada nisqa qallariy"
+    "startVideo": "Videollamada nisqa qallariy",
+    "voiceCallShort": "Kunkawan waqyay",
+    "videoCallShort": "Videollamada nisqa",
+    "ended": "Llamada tukusqa",
+    "declined": "Llamada mana chaskisqachu",
+    "noAnswer": "Mana kutichiyniyuq",
+    "missed": "Llamada faltada",
+    "callBack": "Wakmanta waqyay"
   },
   "badgeAscension": {
     "reached": "{{tier}} nisqaman chayarqanki.",

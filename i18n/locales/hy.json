@@ -9656,7 +9656,14 @@
     "callbackRequest": "Հետադարձ կապի հայտ",
     "tryAgain": "Նորից փորձել",
     "startVoice": "Սկսել ձայնային զանգը",
-    "startVideo": "Սկսել տեսազանգը"
+    "startVideo": "Սկսել տեսազանգը",
+    "voiceCallShort": "Ձայնային զանգ",
+    "videoCallShort": "Տեսազանգ",
+    "ended": "Զանգն ավարտվեց",
+    "declined": "Զանգը մերժվեց",
+    "noAnswer": "Պատասխան չկա",
+    "missed": "Բաց թողնված զանգ",
+    "callBack": "Հետ զանգել"
   },
   "badgeAscension": {
     "reached": "Դուք կապվել եք {{tier}}-ի հետ",

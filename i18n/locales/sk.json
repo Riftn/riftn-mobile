@@ -9757,7 +9757,14 @@
     "callbackRequest": "Žiadosť o spätné volanie",
     "tryAgain": "Skúsiť znova",
     "startVoice": "Začať hlasový hovor",
-    "startVideo": "Spustiť videohovor"
+    "startVideo": "Spustiť videohovor",
+    "voiceCallShort": "Hlasový hovor",
+    "videoCallShort": "Videohovor",
+    "ended": "Hovor ukončený",
+    "declined": "Hovor bol odmietnutý",
+    "noAnswer": "Žiadna odpoveď",
+    "missed": "Zmeškaný hovor",
+    "callBack": "Zavolať späť"
   },
   "badgeAscension": {
     "reached": "Dosiahli ste {{tier}}",

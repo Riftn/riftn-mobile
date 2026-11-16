@@ -9883,7 +9883,14 @@
     "callbackRequest": "कॉलबैक का अनुरोध",
     "tryAgain": "फिर से कोशिश करें",
     "startVoice": "वॉइस कॉल शुरू करें",
-    "startVideo": "वीडियो कॉल शुरू करें"
+    "startVideo": "वीडियो कॉल शुरू करें",
+    "voiceCallShort": "वॉइस कॉल",
+    "videoCallShort": "वीडियो कॉल",
+    "ended": "कॉल खत्म हुई",
+    "declined": "कॉल अस्वीकार की गई",
+    "noAnswer": "कोई जवाब नहीं",
+    "missed": "मिस्ड कॉल",
+    "callBack": "वापस कॉल करें"
   },
   "badgeAscension": {
     "reached": "आप {{tier}} तक पहुँच गए हैं",

@@ -9880,7 +9880,14 @@
     "callbackRequest": "전화 회신 요청",
     "tryAgain": "다시 시도하기",
     "startVoice": "음성 통화 시작",
-    "startVideo": "화상 통화 시작"
+    "startVideo": "화상 통화 시작",
+    "voiceCallShort": "음성 통화",
+    "videoCallShort": "화상 통화",
+    "ended": "통화 종료됨",
+    "declined": "통화 거절됨",
+    "noAnswer": "답변 없음",
+    "missed": "부재중 전화",
+    "callBack": "전화 다시 걸기"
   },
   "badgeAscension": {
     "reached": "{{tier}} 에 도달했습니다",

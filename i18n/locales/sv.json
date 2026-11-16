@@ -9657,7 +9657,14 @@
     "callbackRequest": "Begäran om återuppringning",
     "tryAgain": "Försök igen",
     "startVoice": "Starta röstsamtal",
-    "startVideo": "Starta videosamtal"
+    "startVideo": "Starta videosamtal",
+    "voiceCallShort": "Röstsamtal",
+    "videoCallShort": "Videosamtal",
+    "ended": "Samtalet avslutades",
+    "declined": "Samtalet avvisades",
+    "noAnswer": "Inget svar",
+    "missed": "Missat samtal",
+    "callBack": "Ring tillbaka"
   },
   "badgeAscension": {
     "reached": "Du har nått {{tier}}",

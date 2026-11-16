@@ -9651,7 +9651,14 @@
     "callbackRequest": "ඇමතුම් ආපසු ඉල්ලීම",
     "tryAgain": "නැවත උත්සාහ කරන්න",
     "startVoice": "හඬ ඇමතුම අරඹන්න",
-    "startVideo": "වීඩියෝ ඇමතුම අරඹන්න"
+    "startVideo": "වීඩියෝ ඇමතුම අරඹන්න",
+    "voiceCallShort": "හඬ ඇමතුම",
+    "videoCallShort": "වීඩියෝ ඇමතුම",
+    "ended": "ඇමතුම අවසන් විය",
+    "declined": "ඇමතුම ප්‍රතික්ෂේප කරන ලදී",
+    "noAnswer": "පිළිතුරක් නැත",
+    "missed": "නොගත් ඇමතුම",
+    "callBack": "නැවත අමතන්න"
   },
   "badgeAscension": {
     "reached": "ඔබ {{tier}} වෙත ළඟා විය",

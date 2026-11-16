@@ -9654,7 +9654,14 @@
     "callbackRequest": "Cerere de apel invers",
     "tryAgain": "Încearcă din nou",
     "startVoice": "Începeți apelul vocal",
-    "startVideo": "Începe apelul video"
+    "startVideo": "Începe apelul video",
+    "voiceCallShort": "Apel vocal",
+    "videoCallShort": "Apel video",
+    "ended": "Call ended",
+    "declined": "Apel respins",
+    "noAnswer": "Niciun răspuns",
+    "missed": "Apel ratat",
+    "callBack": "Sună înapoi"
   },
   "badgeAscension": {
     "reached": "Ai ajuns la {{tier}}",

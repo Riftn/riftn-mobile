@@ -9631,7 +9631,14 @@
     "tryAgain": "पुनः प्रयच्छतु",
     "startVoice": "ध्वनि दूरभाष प्रारंभ करें",
     "startVideo": "विडिओ आह्वानम् आरभ्यताम्",
-    "voiceCall": "Riftn वाणी कॉल"
+    "voiceCall": "Riftn वाणी कॉल",
+    "voiceCallShort": "आवाज़ आवाज़",
+    "videoCallShort": "विडियों आह्वानम्",
+    "ended": "कॉल समाप्त",
+    "declined": "अपहारित कार्य",
+    "noAnswer": "नो अँस्वर",
+    "missed": "अपह्वान न कृतः",
+    "callBack": "पुनः संवाद करो"
   },
   "badgeAscension": {
     "reached": "भवतः अभिप्रायः {{tier}}",

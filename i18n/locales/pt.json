@@ -9902,7 +9902,14 @@
     "callbackRequest": "Solicitação de retorno de chamada",
     "tryAgain": "Tentar novamente",
     "startVoice": "Iniciar chamada de voz",
-    "startVideo": "Iniciar chamada de vídeo"
+    "startVideo": "Iniciar chamada de vídeo",
+    "voiceCallShort": "Chamada de voz",
+    "videoCallShort": "Videochamada",
+    "ended": "Chamada encerrada",
+    "declined": "Chamada recusada",
+    "noAnswer": "Sem resposta",
+    "missed": "Chamada perdida",
+    "callBack": "Retornar a chamada"
   },
   "badgeAscension": {
     "reached": "Atingiu {{tier}}",

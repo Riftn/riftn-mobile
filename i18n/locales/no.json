@@ -9654,7 +9654,14 @@
     "callbackRequest": "Tilbakeringingsforespørsel",
     "tryAgain": "Prøv igjen",
     "startVoice": "Taleanrop",
-    "startVideo": "Start en videosamtale"
+    "startVideo": "Start en videosamtale",
+    "voiceCallShort": "Taleanrop",
+    "videoCallShort": "Videosamtale",
+    "ended": "Samtalen avsluttet",
+    "declined": "Anrop avvist",
+    "noAnswer": "Ikke noe svar",
+    "missed": "Tapt anrop",
+    "callBack": "Ring tilbake"
   },
   "badgeAscension": {
     "reached": "Du nådde {{tier}}",

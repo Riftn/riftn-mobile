@@ -9658,7 +9658,14 @@
     "callbackRequest": "Anmodning om tilbagekald",
     "tryAgain": "Prøv igen",
     "startVoice": "Start taleopkald",
-    "startVideo": "Start videoopkald"
+    "startVideo": "Start videoopkald",
+    "voiceCallShort": "Taleopkald",
+    "videoCallShort": "Videoopkald",
+    "ended": "Opkaldet er afsluttet",
+    "declined": "Opkaldet blev afvist",
+    "noAnswer": "Intet svar",
+    "missed": "Ubesvaret opkald",
+    "callBack": "Ring tilbage"
   },
   "badgeAscension": {
     "reached": "Du nåede {{tier}}",

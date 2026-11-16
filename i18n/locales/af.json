@@ -9749,7 +9749,14 @@
     "callbackRequest": "Terugbelversoek",
     "tryAgain": "Probeer weer",
     "startVoice": "Begin stemoproep",
-    "startVideo": "Begin video-oproep"
+    "startVideo": "Begin video-oproep",
+    "voiceCallShort": "Stemoproep",
+    "videoCallShort": "Videogesprek",
+    "ended": "Oproep beëindig",
+    "declined": "Oproep geweier",
+    "noAnswer": "Geen antwoord",
+    "missed": "Gemiste oproep",
+    "callBack": "Bel terug"
   },
   "badgeAscension": {
     "reached": "Jy bereik {{tier}}",

@@ -9682,7 +9682,14 @@
     "callbackRequest": "Αίτημα επανάκλησης",
     "tryAgain": "Δοκιμάστε ξανά",
     "startVoice": "Έναρξη φωνητικής κλήσης",
-    "startVideo": "Έναρξη βιντεοκλήσης"
+    "startVideo": "Έναρξη βιντεοκλήσης",
+    "voiceCallShort": "Φωνητική κλήση",
+    "videoCallShort": "Βιντεοκλήση",
+    "ended": "Η κλήση τερματίστηκε",
+    "declined": "Η κλήση απορρίφθηκε",
+    "noAnswer": "Καμία απάντηση",
+    "missed": "Αναπάντητη κλήση",
+    "callBack": "Επανάκληση"
   },
   "badgeAscension": {
     "reached": "Φτάσατε στο {{tier}}",

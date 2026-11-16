@@ -9666,7 +9666,14 @@
     "callbackRequest": "Запыт зваротнага выкліку",
     "tryAgain": "Паспрабуйце яшчэ раз",
     "startVoice": "Запусціць галасавы выклік",
-    "startVideo": "Запусціць відэазванок"
+    "startVideo": "Запусціць відэазванок",
+    "voiceCallShort": "Галасавы выклік",
+    "videoCallShort": "Відэазванок",
+    "ended": "Званок завяршыўся",
+    "declined": "Звонак адхілены",
+    "noAnswer": "Няма адказу",
+    "missed": "Пропушчаны выклік",
+    "callBack": "Перазваніць"
   },
   "badgeAscension": {
     "reached": "Вы дасягнулі {{tier}}",

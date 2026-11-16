@@ -9657,7 +9657,14 @@
     "callbackRequest": "Grįžtamojo skambučio prašymas",
     "tryAgain": "Bandyti dar kartą",
     "startVoice": "Pradėti balso skambutį",
-    "startVideo": "Pradėti vaizdo skambutį"
+    "startVideo": "Pradėti vaizdo skambutį",
+    "voiceCallShort": "Balso skambutis",
+    "videoCallShort": "Vaizdo skambutis",
+    "ended": "Skambutis baigtas",
+    "declined": "Skambutis atmestas",
+    "noAnswer": "Neatsiliepė",
+    "missed": "Praleistas skambutis",
+    "callBack": "Perskambinti"
   },
   "badgeAscension": {
     "reached": "Pasiekėte {{tier}}",

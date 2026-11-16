@@ -9633,7 +9633,14 @@
     "callbackRequest": "Codsiga dib u celinta",
     "tryAgain": "Isku day mar kale",
     "startVoice": "Bilow wicitaanka codka",
-    "startVideo": "Bilow wicitaanka fiidiyowga"
+    "startVideo": "Bilow wicitaanka fiidiyowga",
+    "voiceCallShort": "Wicitaanka codka",
+    "videoCallShort": "Wicitaanka fiidiyowga",
+    "ended": "Wiciddu way dhammaatay",
+    "declined": "Wicitaanka waa la diiday",
+    "noAnswer": "Lama jawaabin",
+    "missed": "Wicitaan la seegay",
+    "callBack": "Dib u soo wac"
   },
   "badgeAscension": {
     "reached": "Waxaad gaadhay {{tier}}",

@@ -9636,7 +9636,14 @@
     "callbackRequest": "कालबैक निवेदन",
     "tryAgain": "फिर से कोसिस करव",
     "startVoice": "अवाज काल चालू करव",
-    "startVideo": "वीडियो काल चालू करव"
+    "startVideo": "वीडियो काल चालू करव",
+    "voiceCallShort": "वॉइस कॉल",
+    "videoCallShort": "वीडियो कॉल",
+    "ended": "कॉल खतम हो गिस",
+    "declined": "कॉल मना कर दिस",
+    "noAnswer": "कोनो जवाब नई हे",
+    "missed": "चूक गेस कॉल",
+    "callBack": "वापिस बोलावव"
   },
   "badgeAscension": {
     "reached": "आप पहुंचे {{tier}}",

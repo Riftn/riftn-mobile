@@ -9648,7 +9648,14 @@
     "callbackRequest": "طلب رد اتصال",
     "tryAgain": "حاول تاني",
     "startVoice": "ابدأ مكالمة صوتية",
-    "startVideo": "ابدأ مكالمة فيديو"
+    "startVideo": "ابدأ مكالمة فيديو",
+    "voiceCallShort": "مكالمة صوتية",
+    "videoCallShort": "مكالمة فيديو",
+    "ended": "المكالمة انتهت",
+    "declined": "تم رفض المكالمة",
+    "noAnswer": "لا يوجد جواب",
+    "missed": "مكالمة فائتة",
+    "callBack": "إعادة الاتصال"
   },
   "badgeAscension": {
     "reached": "وصلت {{tier}}",

@@ -9633,7 +9633,14 @@
     "callbackRequest": "طلب استدعاء",
     "tryAgain": "حاول مرة ثانية",
     "startVoice": "ابدأ مكالمة صوتية",
-    "startVideo": "ابدأ مكالمة فيديو"
+    "startVideo": "ابدأ مكالمة فيديو",
+    "voiceCallShort": "مكالمة صوتية",
+    "videoCallShort": "مكالمة فيديو",
+    "ended": "انتهت المكالمة",
+    "declined": "تم رفض المكالمة",
+    "noAnswer": "لا يوجد جواب",
+    "missed": "مكالمة فائتة",
+    "callBack": "إعادة الاتصال"
   },
   "badgeAscension": {
     "reached": "وصلت {{tier}}",

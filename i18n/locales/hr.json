@@ -9657,7 +9657,14 @@
     "callbackRequest": "Zahtjev za povratni poziv",
     "tryAgain": "Pokušajte ponovno",
     "startVoice": "Pokreni glasovni poziv",
-    "startVideo": "Pokreni videopoziv"
+    "startVideo": "Pokreni videopoziv",
+    "voiceCallShort": "Glasovni poziv",
+    "videoCallShort": "Videopoziv",
+    "ended": "Poziv je završen",
+    "declined": "Poziv je odbijen",
+    "noAnswer": "Nema odgovora",
+    "missed": "Propušteni poziv",
+    "callBack": "Nazovi natrag"
   },
   "badgeAscension": {
     "reached": "Dosegli ste {{tier}}",
