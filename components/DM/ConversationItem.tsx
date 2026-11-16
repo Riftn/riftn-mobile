@@ -1,4 +1,5 @@
 import { usePerfProbe } from "../../libs/perfTrace";
+import UnreadCountChip from "./UnreadCountChip";
 import BadgeArtwork from "../common/BadgeArtwork";
 import { getBadgeHoverOpticalStyle } from "../../libs/misc";
 import React, { memo, useCallback, useMemo } from "react";
@@ -266,13 +267,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
               )}
             </View>
             <Text className="text-[14px] text-theme-neutrals-500">{timeStr}</Text>
-            {unreadCount > 0 && (
-              <View className="bg-white rounded-full min-w-[18px] h-[18px] items-center justify-center px-1">
-                <Text className="text-[10px] text-black font-bold">
-                  {unreadCount > 99 ? "99+" : unreadCount}
-                </Text>
-              </View>
-            )}
+            <UnreadCountChip count={unreadCount} />
           </View>
           <View className="flex-row items-center gap-1 mt-0.5">
             {!draft && (previewIcon === "gif" ? (
