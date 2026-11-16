@@ -24,7 +24,7 @@ async function edit(result: Hook, next: string) {
   await act(async () => {
     result.current.handleChangeText(next);
     jest.advanceTimersByTime(300);
-    await Promise.resolve();
+    for (let i = 0; i < 5; i++) await Promise.resolve();
   });
 }
 
