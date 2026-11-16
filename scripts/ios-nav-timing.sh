@@ -72,7 +72,7 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
-elif [ "$MODE" = touch ] || [ "$MODE" = shells ]; then
+elif [ "$MODE" = touch ] || [ "$MODE" = shells ] || [ "$MODE" = bones ]; then
   bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
@@ -305,6 +305,17 @@ if [ "$MODE" = touch ]; then
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
   python3 -c 'import json,sys; [print(c) for c in json.load(open(sys.argv[1])).get("touch", [])]' "$OUT/nav/touch.json" 2>/dev/null || true
+  exit 0
+fi
+
+if [ "$MODE" = bones ]; then
+  # Every page's measured layout (what its loading placeholder is drawn from).
+  storage drop dehub.perfTour.bones
+  run after bones "" bones
+  storage get dehub.perfTour.bones > "$OUT/nav/screen-bones.json"
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  echo "Measured $(python3 -c 'import json,sys; print(len(json.load(open(sys.argv[1]))))' "$OUT/nav/screen-bones.json" 2>/dev/null || echo 0) pages"
   exit 0
 fi
 
