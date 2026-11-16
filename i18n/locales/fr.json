@@ -2421,7 +2421,18 @@
       "bountyApplied": "{{name}} appliqué à votre prime",
       "bountySubmittedNamed": "{{name}} a soumis des travaux sur votre prime « {{title}} »",
       "bountySubmitted": "{{name}} a soumis des travaux sur votre prime",
-      "sentNotification": "{{name}} vous a envoyé une notification"
+      "sentNotification": "{{name}} vous a envoyé une notification",
+      "featureCommentLikeNamed": "{{name}} a aimé votre commentaire sur « {{title}} »",
+      "featureCommentLike": "{{name}} a aimé votre commentaire sur une demande",
+      "governanceCommentLikeNamed": "{{name}} a aimé votre commentaire sur la proposition « {{title}} »",
+      "governanceCommentLike": "{{name}} a aimé votre commentaire sur une proposition",
+      "featureShipped": "Votre demande « {{title}} » a été complétée 🎉",
+      "featureShippedLiked": "Une demande que vous avez aimée a été complétée : « {{title}} » 🎉",
+      "featureQueued": "Votre demande « {{title}} » est en file d’attente pour être construite",
+      "governanceVotedPassed": "Une proposition sur laquelle vous avez voté a été adoptée : « {{title}} »",
+      "governanceVotedRejected": "Une proposition sur laquelle vous avez voté n’a pas été adoptée : « {{title}} »",
+      "governancePassed": "Votre proposition « {{title}} » a été adoptée 🎉",
+      "governanceRejected": "Votre proposition « {{title}} » n’a pas été adoptée"
     }
   },
   "leaderboard": {

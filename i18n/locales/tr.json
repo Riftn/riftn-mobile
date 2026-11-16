@@ -2421,7 +2421,18 @@
       "bountyApplied": "Ödülünüze {{name}} uygulandı",
       "bountySubmittedNamed": "{{name}}, “{{title}}” ödülünüz için çalışma gönderdi",
       "bountySubmitted": "{{name}} ödülünüz için çalışma gönderdi",
-      "sentNotification": "{{name}} size bir bildirim gönderdi"
+      "sentNotification": "{{name}} size bir bildirim gönderdi",
+      "featureCommentLikeNamed": "{{name}}, “{{title}}” üzerindeki yorumunuzu beğendi",
+      "featureCommentLike": "{{name}}, bir istek üzerindeki yorumunuzu beğendi",
+      "governanceCommentLikeNamed": "{{name}}, “{{title}}” teklifi üzerindeki yorumunuzu beğendi",
+      "governanceCommentLike": "{{name}}, bir teklif üzerindeki yorumunuzu beğendi",
+      "featureShipped": "“{{title}}” isteğiniz tamamlandı 🎉",
+      "featureShippedLiked": "Beğendiğiniz bir istek tamamlandı: “{{title}}” 🎉",
+      "featureQueued": "“{{title}}” isteğiniz oluşturulmak üzere sıraya alındı",
+      "governanceVotedPassed": "Oyladığınız bir teklif kabul edildi: “{{title}}”",
+      "governanceVotedRejected": "Oyladığınız bir teklif kabul edilmedi: “{{title}}”",
+      "governancePassed": "“{{title}}” teklifiniz kabul edildi 🎉",
+      "governanceRejected": "“{{title}}” teklifiniz kabul edilmedi"
     }
   },
   "leaderboard": {

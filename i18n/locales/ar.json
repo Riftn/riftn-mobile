@@ -2421,7 +2421,18 @@
       "bountyApplied": "تم تطبيق {{name}} على مكافأتك",
       "bountySubmittedNamed": "قدم {{name}} عملًا على مكافأتك \\\"{{title}}\\\"",
       "bountySubmitted": "قدم {{name}} عملًا على مكافأتك",
-      "sentNotification": "أرسل لك {{name}} إشعارًا"
+      "sentNotification": "أرسل لك {{name}} إشعارًا",
+      "featureCommentLikeNamed": "أعجب {{name}} بتعليقك على \"{{title}}\"",
+      "featureCommentLike": "أعجب {{name}} بتعليقك على طلب",
+      "governanceCommentLikeNamed": "أعجب {{name}} بتعليقك على الاقتراح \"{{title}}\"",
+      "governanceCommentLike": "أعجب {{name}} بتعليقك على اقتراح",
+      "featureShipped": "تم إكمال طلبك \"{{title}}\" 🎉",
+      "featureShippedLiked": "تم إكمال طلب أعجبك: \"{{title}}\" 🎉",
+      "featureQueued": "تم وضع طلبك \"{{title}}\" في قائمة الانتظار ليتم إنشاؤه",
+      "governanceVotedPassed": "تمت الموافقة على اقتراح صوتّ عليه: \"{{title}}\"",
+      "governanceVotedRejected": "لم يتم تمرير الاقتراح الذي صوتّ عليه: \"{{title}}\"",
+      "governancePassed": "تمت الموافقة على اقتراحك \"{{title}}\" 🎉",
+      "governanceRejected": "لم يتم قبول اقتراحك \"{{title}}\""
     }
   },
   "leaderboard": {

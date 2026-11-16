@@ -4418,7 +4418,15 @@
       "stageReminder": "Yuyarichinayki kuyuypa qallarinanqa pisi tiempollamantañam",
       "stageReminderNamed": "“{{title}}” pisi tiempollamanta qallarinqa",
       "storeOrder": "{{name}} rantaykusunki nisqaykita",
-      "storeOrderNamed": "{{name}} rantaykusunki “{{title}}” nisqaykita"
+      "storeOrderNamed": "{{name}} rantaykusunki “{{title}}” nisqaykita",
+      "featureCommentLikeNamed": "{{name}} nisqayki comment nisqaykuta “{{title}}” nisqaykuta kuyaykuy.",
+      "governanceCommentLikeNamed": "{{name}} nisqayki chaymi proposal “{{title}}” nisqayki chaymi.",
+      "governanceCommentLike": "{{name}} munarqanmi yuyaychasqayki qillqasqaykita",
+      "featureQueued": "K'ancha p'unchayninpi, \"{{title}}\" k'ancha k'aynin.",
+      "governanceVotedPassed": "Sumaq rikhuykuna qhawaykuykita chinkaykuykita: “{{title}}”",
+      "governanceVotedRejected": "Sumaq k'uchuqa chaymi rikhuykuykita qhawaykuykita mana chinkaykuy: “{{title}}”",
+      "governancePassed": "Sumaq proposal “{{title}}” chaymi chinkaykuchkan 🎉",
+      "governanceRejected": "Sumaq proposal “{{title}}” mana chinkaykuchkanki"
     },
     "stores": "Qatu wasikuna",
     "features": "Ruraykuna",

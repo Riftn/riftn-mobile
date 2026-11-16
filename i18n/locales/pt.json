@@ -4518,7 +4518,18 @@
       "bountyApplied": "{{name}} se candidatou ao seu bounty",
       "bountySubmittedNamed": "{{name}} submeteu trabalho no seu bounty “{{title}}”",
       "bountySubmitted": "{{name}} submeteu trabalho no seu bounty",
-      "sentNotification": "{{name}} enviou uma notificação para você"
+      "sentNotification": "{{name}} enviou uma notificação para você",
+      "featureCommentLikeNamed": "{{name}} curtiu seu comentário em “{{title}}”",
+      "featureCommentLike": "{{name}} curtiu seu comentário em um pedido",
+      "governanceCommentLikeNamed": "{{name}} curtiu seu comentário em proposta “{{title}}”",
+      "governanceCommentLike": "{{name}} curtiu seu comentário em uma proposta",
+      "featureShipped": "Seu pedido “{{title}}” foi concluído 🎉",
+      "featureShippedLiked": "Um pedido que você curtiu foi concluído: “{{title}}” 🎉",
+      "featureQueued": "Seu pedido “{{title}}” está na fila para ser construído",
+      "governanceVotedPassed": "Uma proposta em que você votou foi aprovada: “{{title}}”",
+      "governanceVotedRejected": "Uma proposta em que você votou não foi aprovada: “{{title}}”",
+      "governancePassed": "Sua proposta “{{title}}” foi aprovada 🎉",
+      "governanceRejected": "Sua proposta “{{title}}” não foi aprovada"
     }
   },
   "leaderboard": {

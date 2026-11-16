@@ -4411,7 +4411,12 @@
       "stageReminder": "እቲ ዘዘኻኸርካዮ መድረኽ ቀልጢፉ ይጅምር",
       "stageReminderNamed": "“{{title}}” ቀልጢፉ ክጅምር እዩ",
       "storeOrder": "{{name}} ዝርዝርካ ዓዲጉ",
-      "storeOrderNamed": "{{name}} ዝርዝርካ “{{title}}” ዓዲጉ"
+      "storeOrderNamed": "{{name}} ዝርዝርካ “{{title}}” ዓዲጉ",
+      "governanceCommentLike": "{{name}} ዝወደደ ኣብ ሓተታ ሓብርካ",
+      "featureShippedLiked": "ንተደርስ ዝተወደደ ተመልከት ተጠናቀተ: “{{title}}” 🎉",
+      "featureQueued": "የእርስዎ ጥያቄ “{{title}}” በማስተካከያ ላይ ነው",
+      "governancePassed": "ንብረትካ “{{title}}” ይብል ይደርስ 🎉",
+      "governanceRejected": "ኣብ ዕቅድካ “{{title}}” ኣይተረኽበን"
     },
     "stores": "ድኳናት",
     "features": "ባህርያት",

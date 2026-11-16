@@ -2421,7 +2421,18 @@
       "bountyApplied": "{{name}} aplicado a tu recompensa",
       "bountySubmittedNamed": "{{name}} envió trabajo sobre tu recompensa “{{title}}”",
       "bountySubmitted": "{{name}} ha enviado trabajo sobre tu recompensa",
-      "sentNotification": "{{name}} te ha enviado una notificación"
+      "sentNotification": "{{name}} te ha enviado una notificación",
+      "featureCommentLikeNamed": "A {{name}} le ha gustado su comentario sobre «{{title}}»",
+      "featureCommentLike": "A {{name}} le ha gustado su comentario sobre una solicitud",
+      "governanceCommentLikeNamed": "A {{name}} le ha gustado su comentario sobre la propuesta «{{title}}»",
+      "governanceCommentLike": "A {{name}} le ha gustado su comentario sobre una propuesta",
+      "featureShipped": "Su solicitud «{{title}}» se ha completado 🎉",
+      "featureShippedLiked": "Se ha completado una solicitud que le gustó: «{{title}}» 🎉",
+      "featureQueued": "Su solicitud «{{title}}» está en cola para su creación",
+      "governanceVotedPassed": "Se ha aprobado una propuesta en la que votó: «{{title}}»",
+      "governanceVotedRejected": "Una propuesta por la que votó no ha sido aprobada: «{{title}}»",
+      "governancePassed": "Su propuesta «{{title}}» se ha aprobado 🎉",
+      "governanceRejected": "Tu propuesta «{{title}}» no se ha aprobado"
     }
   },
   "leaderboard": {

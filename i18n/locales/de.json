@@ -4510,7 +4510,18 @@
       "bountyApplied": "{{name}} auf dein Kopfgeld angewendet",
       "bountySubmittedNamed": "{{name}} eingereichte Arbeit an deiner Prämie „{{title}}“",
       "bountySubmitted": "{{name}} eingereichte Arbeit an deinem Kopfgeld",
-      "sentNotification": "{{name}} hat Ihnen eine Benachrichtigung gesendet"
+      "sentNotification": "{{name}} hat Ihnen eine Benachrichtigung gesendet",
+      "featureCommentLikeNamed": "{{name}} hat Ihren Kommentar zu „{{title}}“ geliked",
+      "featureCommentLike": "{{name}} hat Ihren Kommentar zu einer Anfrage geliked",
+      "governanceCommentLikeNamed": "{{name}} hat Ihren Kommentar zum Vorschlag „{{title}}“ geliked",
+      "governanceCommentLike": "{{name}} hat Ihren Kommentar zu einem Vorschlag geliked",
+      "featureShipped": "Ihre Anfrage „{{title}}“ wurde abgeschlossen 🎉",
+      "featureShippedLiked": "Eine Anfrage, die Ihnen gefallen hat, wurde abgeschlossen: „{{title}}“ 🎉",
+      "featureQueued": "Ihre Anfrage „{{title}}“ befindet sich in der Warteschlange für die Erstellung",
+      "governanceVotedPassed": "Ein Vorschlag, über den Sie abgestimmt haben, wurde angenommen: „{{title}}“",
+      "governanceVotedRejected": "Ein Vorschlag, über den Sie abgestimmt haben, wurde nicht angenommen: „{{title}}“",
+      "governancePassed": "Ihr Vorschlag „{{title}}“ wurde angenommen 🎉",
+      "governanceRejected": "Ihr Vorschlag „{{title}}“ wurde nicht angenommen"
     }
   },
   "leaderboard": {

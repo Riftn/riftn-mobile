@@ -4398,7 +4398,11 @@
       "stageLive": "{{name}} dey live for stage.",
       "stageReminderNamed": "\"{{title}}\" go start soon",
       "storeOrder": "{{name}} don purchase your listing",
-      "storeOrderNamed": "{{name}} don purchase your listing “{{title}}”"
+      "storeOrderNamed": "{{name}} don purchase your listing “{{title}}”",
+      "featureShipped": "Your request “{{title}}” don complete 🎉",
+      "featureShippedLiked": "One request wey you like don complete: “{{title}}” 🎉",
+      "governanceVotedPassed": "One proposal wey you vote on pass: “{{title}}”",
+      "governanceVotedRejected": "One proposal you vote on no pass: “{{title}}”"
     },
     "stores": "Stores",
     "features": "Features",

@@ -4424,7 +4424,14 @@
       "stageReminder": "Ìgbésẹ̀ kan tí o gbé ìránnilétí kalẹ̀ ń bẹ̀rẹ̀ láìpẹ́.",
       "stageReminderNamed": "\"{{title}}\" ń bẹ̀rẹ̀ láìpẹ́",
       "storeOrder": "{{name}} ra àtòjọ rẹ",
-      "storeOrderNamed": "{{name}} ra àkójọpọ̀ rẹ \"{{title}}\""
+      "storeOrderNamed": "{{name}} ra àkójọpọ̀ rẹ \"{{title}}\"",
+      "featureShipped": "{{title}} ti ṣe ẹni to gbọ ni ẹka",
+      "featureShippedLiked": "Ọrọ ẹni to ti ṣe ẹni to ṣe ẹka “{{title}}” ti ṣe",
+      "featureQueued": "Àwọn ìdánilọrùn \"{{title}}\" jẹ́ àgbéjáde láti ṣe àgbéjáde.",
+      "governanceVotedPassed": "Ọrọ ẹni to ti ṣe ẹni to ṣe ẹka “{{title}}” ti ṣe",
+      "governanceVotedRejected": "Ọrọ ẹni to ti ṣe ẹni to gbọ ṣe ẹni to ṣe ẹka: “{{title}}”",
+      "governancePassed": "Ọrọ ẹni to ti ṣe ẹni to ṣe ẹka “{{title}}” ti ṣe ẹni to ṣe ẹka 🎉",
+      "governanceRejected": "Ọrọ ẹni to ti ṣe ẹni to gbọ ni ẹni to ṣe ẹka “{{title}}”"
     },
     "stores": "Àwọn ilé ìtajà",
     "features": "Àwọn ẹ̀ya ara",

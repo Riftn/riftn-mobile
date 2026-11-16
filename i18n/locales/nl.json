@@ -2609,7 +2609,18 @@
       "bountyApplied": "{{name}} toegepast op uw premie",
       "bountySubmittedNamed": "{{name}} heeft werk ingediend voor uw bounty \"{{title}}\"",
       "bountySubmitted": "{{name}} heeft werk ingediend voor je bounty",
-      "sentNotification": "{{name}} heeft je een melding gestuurd"
+      "sentNotification": "{{name}} heeft je een melding gestuurd",
+      "featureCommentLikeNamed": "{{name}} vond je reactie op “{{title}}”",
+      "featureCommentLike": "{{name}} vond je reactie op een verzoek",
+      "governanceCommentLikeNamed": "{{name}} vond je reactie op voorstel “{{title}}”",
+      "governanceCommentLike": "{{name}} vond je reactie op een voorstel",
+      "featureShipped": "Je verzoek “{{title}}” is voltooid 🎉",
+      "featureShippedLiked": "Een verzoek dat je leuk vond is voltooid: “{{title}}” 🎉",
+      "featureQueued": "Je verzoek “{{title}}” staat in de wachtrij om gebouwd te worden",
+      "governanceVotedPassed": "Een voorstel waarop je hebt gestemd is aangenomen: “{{title}}”",
+      "governanceVotedRejected": "Een voorstel waarop je hebt gestemd is niet aangenomen: “{{title}}”",
+      "governancePassed": "Je voorstel “{{title}}” is aangenomen 🎉",
+      "governanceRejected": "Je voorstel “{{title}}” is niet aangenomen"
     }
   },
   "leaderboard": {
