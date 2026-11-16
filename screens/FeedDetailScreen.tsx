@@ -7,6 +7,7 @@ import { useKeyboardSwap } from "../hooks/useKeyboardSwap";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { View, Text, FlatList, Pressable, TextInput, TouchableOpacity, ActivityIndicator, Keyboard, Platform, StyleSheet, Alert, Animated, useWindowDimensions, type LayoutChangeEvent, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import PostFeedNav from "../components/Home/PostFeedNav";
@@ -197,6 +198,13 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   // The opener (a notification) may already know the post's kind, so the
   // skeleton can leave out the picture block a text post will never have.
   const postTypeHint: string | undefined = embedded ? undefined : route?.params?.postType;
+  // Opened over the notifications drawer, iOS presents this page as a modal of
+  // its own, outside the app's safe area frame: the top pill then sat under
+  // the status bar, where a tap on Back never lands, and with no swipe back on
+  // a modal a post that was gone left no way out. The page keeps clear of the
+  // status bar and the home bar itself there.
+  const safeInsets = useSafeAreaInsets();
+  const ownSafeArea = !embedded && Platform.OS === "ios" && !!route?.params?.overDrawer;
 
   const user = useUser();
   const viewerWallet = (user?.address || user?.walletAddress || "").toLowerCase();
@@ -1695,7 +1703,10 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   }).split("\u0000");
 
   return (
-    <View className="flex-1 bg-theme-neutrals-900">
+    <View
+      className="flex-1 bg-theme-neutrals-900"
+      style={ownSafeArea ? { paddingTop: safeInsets.top, paddingBottom: safeInsets.bottom } : undefined}
+    >
       {/* Phones: every post page keeps the logo bar and the pill where they
           are on the feed, Back in the pill's filter slot, whatever opened it
           (a notification, a profile, a link). Inside Home those are Home's
