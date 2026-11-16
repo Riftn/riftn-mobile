@@ -11,6 +11,7 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
@@ -231,7 +232,7 @@ function LiveWhileFocused({ content, trending, hasSearched, inputFocused }: {
 const SearchScreen: React.FC = () => {
   usePerfProbe("SearchScreen");
   const { t } = useTranslation();
-  const { isMinimal } = useAppTheme();
+  const { isMinimal, isLight } = useAppTheme();
   const insets = useSafeAreaInsets();
   // The header floats over the KeyboardAvoidingView rather than sitting above
   // it, so the view starts at the top of the screen and the only chrome above
@@ -629,6 +630,12 @@ const SearchScreen: React.FC = () => {
   }, [routeParams, setSearchQuery]);
 
 
+  const closeKeyboard = useCallback(() => {
+    inputRef.current?.blur();
+    Keyboard.dismiss();
+    setInputFocused(false);
+  }, []);
+
   const handleSearch = useCallback(() => {
     if (!searchQuery.trim()) return;
     showHeader();
@@ -965,7 +972,14 @@ const SearchScreen: React.FC = () => {
       return (
         // Minimal: no grouped box — the rows run the full width, each with
         // its own hairline, and only the text keeps the 16pt inset.
-        <View className={isMinimal ? undefined : "px-4"} style={{ paddingTop: headerHeight + 12 }}>
+        <ScrollView
+          className={isMinimal ? undefined : "px-4"}
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingTop: headerHeight + 12, paddingBottom: 24 }}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
           <View className={`flex-row items-center justify-between mb-2 ${isMinimal ? "px-4" : "px-1"}`}>
             <Text className="text-theme-neutrals-400 text-xs font-semibold">
               {t("search.recentSearches")}
@@ -1022,7 +1036,7 @@ const SearchScreen: React.FC = () => {
               </SwipeableRow>
             ))}
           </ThemePanel>
-        </View>
+        </ScrollView>
       );
     }
 
@@ -1030,7 +1044,14 @@ const SearchScreen: React.FC = () => {
     if (isTyping && suggestions.length > 0) {
       return (
         // Minimal: same flat, full-width hairline rows as recent searches.
-        <View className={isMinimal ? undefined : "px-4"} style={{ paddingTop: headerHeight + 12 }}>
+        <ScrollView
+          className={isMinimal ? undefined : "px-4"}
+          style={{ flex: 1 }}
+          contentContainerStyle={{ paddingTop: headerHeight + 12, paddingBottom: 24 }}
+          keyboardDismissMode="on-drag"
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
           <ThemePanel className={isMinimal ? undefined : "rounded-xl overflow-hidden bg-theme-neutrals-800"}>
             {suggestions.map((item, index) => (
               <TouchableOpacity
@@ -1059,7 +1080,7 @@ const SearchScreen: React.FC = () => {
               </TouchableOpacity>
             ))}
           </ThemePanel>
-        </View>
+        </ScrollView>
       );
     }
 
@@ -1067,6 +1088,8 @@ const SearchScreen: React.FC = () => {
     return (
       <Animated.FlatList
         ref={idleListRef}
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
         data={trendingLoading ? [] : trendingVideos}
         renderItem={renderTrendingItem}
         keyExtractor={trendingKeyExtractor}
@@ -1187,6 +1210,22 @@ const SearchScreen: React.FC = () => {
               {loading ? (
                 <ActivityIndicator size="small" color="#9CA3AF" style={styles.fieldAction} />
               ) : null}
+              {/* Keyboard up: an X closes it, so the tab bar and the page are
+                  never stuck under the keyboard. What was typed stays. */}
+              {inputFocused ? (
+                <TouchableOpacity
+                  testID="explore-close-keyboard"
+                  accessibilityRole="button"
+                  accessibilityLabel={t("common.close")}
+                  onPress={closeKeyboard}
+                  hitSlop={6}
+                  style={styles.fieldAction}
+                >
+                  <View style={[styles.closeKeyboard, isLight && styles.closeKeyboardLight]}>
+                    <Icon name="X" size={13} color={isLight ? "#3F3F46" : "#E4E4E7"} strokeWidth={2.6} />
+                  </View>
+                </TouchableOpacity>
+              ) : null}
               <TouchableOpacity
                 testID="explore-options-toggle"
                 accessibilityRole="button"
@@ -1298,6 +1337,15 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   fieldAction: { width: 32, height: 32, alignItems: "center", justifyContent: "center" },
+  closeKeyboard: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.16)",
+  },
+  closeKeyboardLight: { backgroundColor: "rgba(0,0,0,0.10)" },
   pillInput: { height: 38, paddingHorizontal: 6, fontSize: 15, backgroundColor: "transparent" },
   minimalInput: {
     backgroundColor: "transparent",

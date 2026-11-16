@@ -1,3 +1,40 @@
+diff --git a/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js b/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
+index fdb830d..e293631 100644
+--- a/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
++++ b/node_modules/react-native/Libraries/Components/ScrollView/ScrollView.js
+@@ -1763,6 +1763,11 @@ class ScrollView extends React.Component<ScrollViewProps, ScrollViewState> {
+       ...otherProps,
+       alwaysBounceHorizontal,
+       alwaysBounceVertical,
++      // iPhone has no back button to close the keyboard with, so dragging an
++      // up-and-down list closes it unless the list says otherwise.
++      keyboardDismissMode:
++        this.props.keyboardDismissMode ??
++        (Platform.OS === 'ios' && !horizontal ? 'on-drag' : undefined),
+       style: StyleSheet.compose(baseStyle, this.props.style),
+       // Override the onContentSizeChange from props, since this event can
+       // bubble up from TextInputs
+diff --git a/node_modules/react-native/Libraries/Components/TextInput/TextInput.js b/node_modules/react-native/Libraries/Components/TextInput/TextInput.js
+index 5cebe10..06107fe 100644
+--- a/node_modules/react-native/Libraries/Components/TextInput/TextInput.js
++++ b/node_modules/react-native/Libraries/Components/TextInput/TextInput.js
+@@ -950,6 +950,16 @@ const TextInput: component(
+             : textContentType
+       }
+       {...restProps}
++      // iPhone number pads have no return key, so nothing on them closes the
++      // keyboard. With a label, iOS puts a bar with that one button over a
++      // number pad (and over no other keyboard).
++      inputAccessoryViewButtonLabel={
++        Platform.OS === 'ios' &&
++        restProps.inputAccessoryViewButtonLabel == null &&
++        restProps.inputAccessoryViewID == null
++          ? global.__keyboardDoneLabel || 'Done'
++          : restProps.inputAccessoryViewButtonLabel
++      }
+       forwardedRef={forwardedRef}
+     />
+   );
 diff --git a/node_modules/react-native/Libraries/Modal/Modal.js b/node_modules/react-native/Libraries/Modal/Modal.js
 index eb0e1a9..9bfebc9 100644
 --- a/node_modules/react-native/Libraries/Modal/Modal.js
@@ -237,7 +274,7 @@ diff --git a/node_modules/react-native/Libraries/Renderer/implementations/ReactF
 index 98a91dc..8b6c3d7 100644
 --- a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js
 +++ b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js
-@@ -15950,6 +15950,16 @@
+@@ -15950,6 +15950,16 @@ __DEV__ &&
        return DefaultEventPriority;
      }
      function cloneHiddenInstance(instance) {
@@ -258,7 +295,7 @@ diff --git a/node_modules/react-native/Libraries/Renderer/implementations/ReactF
 index a5abb00..00e204a 100644
 --- a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-prod.js
 +++ b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-prod.js
-@@ -10400,6 +10400,16 @@
+@@ -10400,6 +10400,16 @@ function resolveUpdatePriority() {
  var scheduleTimeout = setTimeout,
    cancelTimeout = clearTimeout;
  function cloneHiddenInstance(instance) {
@@ -279,7 +316,7 @@ diff --git a/node_modules/react-native/Libraries/Renderer/implementations/ReactF
 index 9d49450..9355c0b 100644
 --- a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-profiling.js
 +++ b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-profiling.js
-@@ -12203,6 +12203,16 @@
+@@ -12203,6 +12203,16 @@ function resolveUpdatePriority() {
  var scheduleTimeout = setTimeout,
    cancelTimeout = clearTimeout;
  function cloneHiddenInstance(instance) {
