@@ -923,6 +923,8 @@ async function runKeys(): Promise<void> {
     // The post composer: its Post row has to sit on top of the keys.
     nav.navigate(ScreenNames.Upload);
     await sleep(6000);
+    // The text box does not take the cursor by itself, so touch it.
+    if (!up()) await ask("tap:composer-text-#:150:197", 9000);
     const upOnOpen = up();
     await shot("7-composer-keyboard-up");
     await sleep(700);
