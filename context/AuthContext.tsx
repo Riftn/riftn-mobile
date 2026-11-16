@@ -768,13 +768,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     async (id: string): Promise<boolean> => {
       if (!id) return false;
       const prevId = await currentProfileId();
-      if (!prevId || id === prevId) return true;
+      // No live account is the signed-out sheet's "Continue as": there is nothing
+      // to switch away from, but the saved session still has to be restored.
+      if (id === prevId) return true;
       // Freshen the outgoing account's stash first: refresh tokens rotate on
       // use, and the snapshot must hold the one still live server-side.
       try {
         await tokenRefreshManager.ensureFreshToken();
       } catch {}
-      log.info('switchToProfile:start', { from: `${prevId.slice(0, 12)}...`, to: `${id.slice(0, 12)}...` });
+      log.info('switchToProfile:start', { from: prevId ? `${prevId.slice(0, 12)}...` : null, to: `${id.slice(0, 12)}...` });
       const plan = await beginProfileSwitch(id);
       if (!plan) {
         openAddProfile();
@@ -798,6 +800,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
         await rehydrateFromStorage();
         await completeProfileSwitch(id);
+        if (!prevId) setShowSignInModal(false);
         toastSuccess(_copy("copy.d6dad8f19561", { defaultValue: "Switched account" }));
         return true;
       } catch (e) {
