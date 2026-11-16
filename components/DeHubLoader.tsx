@@ -17,6 +17,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated } from 'react-native';
 import { Image } from 'expo-image';
+import { useRouteBusy } from '../context/RouteBusyContext';
 
 const SOURCE = require('../assets/dehub-loader.gif');
 
@@ -52,6 +53,8 @@ const Mark = ({ size, style }: { size: number; style?: any }) => (
  * just seen shows at once.
  */
 function PageLoader({ size, style }: { size: number; style?: any }) {
+  // A page still on its loader keeps its opening shell over it (capped).
+  useRouteBusy();
   const [immediate] = useState(() => Date.now() - lastPageLoaderGoneAt < HANDOFF_WINDOW_MS);
   const opacity = useRef(new Animated.Value(immediate ? 1 : 0)).current;
   const shownAt = useRef<number | null>(immediate ? Date.now() : null);

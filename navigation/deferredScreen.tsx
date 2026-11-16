@@ -1,9 +1,16 @@
-import React, { startTransition, useEffect, useState, type ComponentType } from 'react';
+import React, { startTransition, useEffect, useMemo, useRef, useState, type ComponentType } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { useReducedMotion } from 'react-native-reanimated';
 import { RouteTransitionReadyContext } from '../context/RouteTransitionReadyContext';
 import { useTransitionSettled } from '../hooks/useTransitionSettled';
+import { RouteBusyContext, type RouteBusy } from '../context/RouteBusyContext';
 import RouteLoadingShell from './RouteLoadingShell';
+import ShellCover from './ShellCover';
+
+/** The dissolve from a page's shell into the page. */
+export const SHELL_REVEAL_MS = 220;
+/** Longest the shell stays over a page that is still showing its own loader. */
+export const SHELL_HOLD_CAP_MS = 900;
 
 const screens = new Map<string, ComponentType<any>>();
 const readyRoutes = new Map<string, ComponentType<any>>();
@@ -73,9 +80,56 @@ export function deferredScreen(
         startTransition(() => setContent(() => component));
       }
     }, [Content, focused, settled, routeKey]);
+    // The shell that was on screen stays over the page it hands to: while the
+    // page still shows its own loader (capped), then it dissolves away.
+    const [cover, setCover] = useState<'none' | 'hold' | 'fade'>('none');
+    const shellShown = useRef(!Content);
+    const holds = useRef(0);
+    const release = useRef<() => void>(() => undefined);
+    const busy = useMemo<RouteBusy>(() => ({
+      hold() {
+        holds.current += 1;
+        let held = true;
+        return () => {
+          if (!held) return;
+          held = false;
+          holds.current -= 1;
+          if (holds.current === 0) release.current();
+        };
+      },
+    }), []);
+    useEffect(() => {
+      if (!Content || !shellShown.current) return;
+      shellShown.current = false;
+      // A shell-first page (a chat) draws its own header as its shell and
+      // swaps on the next frame: nothing to dissolve.
+      if (reducedMotion || options.shellFirst) return;
+      setCover('hold');
+      let done = false;
+      let frame = 0;
+      let timer: ReturnType<typeof setTimeout>;
+      const start = () => {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        cancelAnimationFrame(frame);
+        setCover('fade');
+        timer = setTimeout(() => setCover('none'), SHELL_REVEAL_MS + 30);
+      };
+      release.current = start;
+      // The page's first frame shows whether it has anything to wait for.
+      frame = requestAnimationFrame(() => { if (holds.current === 0) start(); });
+      timer = setTimeout(start, SHELL_HOLD_CAP_MS);
+      return () => { done = true; clearTimeout(timer); cancelAnimationFrame(frame); release.current = () => undefined; };
+    }, [Content, reducedMotion]);
     // Once mounted, retain the real page and its scroll/draft state on blur.
     return Content ? <RouteTransitionReadyContext.Provider value={settled || readyRoutes.has(routeKey) ? props.route.key : null}>
-      <Content {...props} />
+      <RouteBusyContext.Provider value={busy}>
+        <Content {...props} />
+      </RouteBusyContext.Provider>
+      {cover !== 'none' ? <ShellCover fading={cover === 'fade'} duration={SHELL_REVEAL_MS}>
+        <LoadingShell {...props} />
+      </ShellCover> : null}
     </RouteTransitionReadyContext.Provider> : <LoadingShell {...props} />;
   }
   screens.set(key, DeferredScreen);

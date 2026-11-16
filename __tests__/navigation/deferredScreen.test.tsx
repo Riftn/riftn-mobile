@@ -21,6 +21,7 @@ jest.mock('@react-navigation/native', () => ({
 }));
 jest.mock('react-native-reanimated', () => ({ useReducedMotion: () => mockReducedMotion }));
 jest.mock('../../navigation/RouteLoadingShell', () => 'LoadingShell');
+jest.mock('../../navigation/ShellCover', () => 'ShellCover');
 
 let key = 0;
 beforeEach(() => {
@@ -90,6 +91,9 @@ it('does not wait out an animation when reduced motion is enabled', () => {
 it('retains already-mounted content on blur instead of replacing it with a shell', () => {
   const { load, Screen, tree } = page();
   act(() => jest.advanceTimersByTime(600));
+  // The shell dissolves over the page it hands to, then is gone.
+  expect(tree.root.findAllByType('ShellCover' as any)).toHaveLength(1);
+  act(() => jest.advanceTimersByTime(300));
   act(() => { mockFocused = false; tree.update(<Screen route={mockRoute} />); });
   expect(tree.root.findAllByType('LoadingShell' as any)).toHaveLength(0);
   expect(tree.root.findAllByType('Page' as any)).toHaveLength(1);
@@ -118,6 +122,23 @@ it('opens a new instance of a warm screen without waiting for another transition
   expect(next.root.findAllByType('LoadingShell' as any)).toHaveLength(0);
   expect(load).toHaveBeenCalledTimes(1);
   act(() => next.unmount());
+});
+
+it('keeps the shell over a page that is still on its own loader, up to the cap', () => {
+  const { useRouteBusy } = require('../../context/RouteBusyContext');
+  function Loader() { useRouteBusy(); return null; }
+  function Content() { return require('react').createElement(Loader); }
+  const Screen = deferredScreen(`busy-${key++}`, () => Content);
+  let tree!: ReturnType<typeof create>;
+  act(() => { tree = create(<Screen route={mockRoute} />); });
+  act(() => jest.advanceTimersByTime(600));
+  act(() => jest.advanceTimersByTime(500));
+  expect(tree.root.findByType('ShellCover' as any).props.fading).toBe(false);
+  act(() => jest.advanceTimersByTime(400));
+  expect(tree.root.findByType('ShellCover' as any).props.fading).toBe(true);
+  act(() => jest.advanceTimersByTime(300));
+  expect(tree.root.findAllByType('ShellCover' as any)).toHaveLength(0);
+  act(() => tree.unmount());
 });
 
 it('draws a loaded page on its first frame unless it asks for its shell first', () => {
