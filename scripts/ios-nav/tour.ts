@@ -431,7 +431,7 @@ async function runBones(): Promise<void> {
       }
       await AsyncStorage.setItem(BONES_KEY, JSON.stringify(all)).catch(() => undefined);
       if (!unpictured.has(page)) await shot(`${String(index).padStart(2, "0")}-${page}`);
-      await sleep(500);
+      await sleep(1700);
     }
     back()();
     await sleep(700);
@@ -480,7 +480,7 @@ async function runShells(): Promise<void> {
     await sleep(1100);
     const reached = nav.getCurrentRoute()?.name === name;
     if (reached) await shot(`${label}-1shell`);
-    await sleep(600);
+    await sleep(1700);
     hold.__holdRouteShell = false;
     back()();
     await sleep(700);
@@ -490,7 +490,7 @@ async function runShells(): Promise<void> {
     nav.navigate(name);
     await sleep(3200);
     if (!unpictured.has(page)) await shot(`${label}-2page`);
-    await sleep(600);
+    await sleep(1700);
     back()();
     await sleep(700);
     await backToTabs();
