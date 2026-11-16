@@ -70,6 +70,15 @@ const WEB_PARITY_WALLET_IDS = [
   "18388be9ac2d02726dbac9777c96efaac06d744b2f6d580fccdd4127a6d01fd1", // Rabby
 ];
 
+// Wallets offered on top of the web list. The picker only shows ids named
+// here, and on a phone the QR fallback is no use (the wallet is on the same
+// device), so a wallet missing from this list cannot connect at all.
+const EXTRA_WALLET_IDS = [
+  "0b415a746fb9ee99cce155c2ceca0c6f6061b1dbca2d722b3ba16381d0562150", // SafePal
+];
+
+const PICKER_WALLET_IDS = [...WEB_PARITY_WALLET_IDS, ...EXTRA_WALLET_IDS];
+
 // The chains AppKit offers to connect on — must match this app's own
 // supportedNetworks (config/web3.constants.ts), the same list every other
 // signed-in flow (chain switcher, balances, contracts) uses. An earlier
@@ -124,8 +133,8 @@ if (!projectId || !chains) {
       defaultChain: chains.find((c) => c.chainId === 56),
       config,
       enableAnalytics: false,
-      includeWalletIds: WEB_PARITY_WALLET_IDS,
-      featuredWalletIds: WEB_PARITY_WALLET_IDS,
+      includeWalletIds: PICKER_WALLET_IDS,
+      featuredWalletIds: PICKER_WALLET_IDS,
     });
     (globalThis as any)[APPKIT_GLOBAL_KEY] = true;
     (globalThis as any)[APPKIT_INSTANCE_KEY] = instance;

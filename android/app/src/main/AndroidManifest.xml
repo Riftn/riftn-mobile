@@ -24,6 +24,7 @@
     <package android:name="io.zerion.android"/>
     <package android:name="io.gnosis.safe"/>
     <package android:name="com.uniswap.mobile"/>
+    <package android:name="io.safepal.wallet"/>
   </queries>
   <!-- usesCleartextTraffic is for the radio directory only: radio-browser lists
        ~50,000 third-party stations and 60% of the top-voted ones still stream
