@@ -1,11 +1,21 @@
-import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, useWindowDimensions } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { AccessibilityInfo, Animated, Easing, StyleSheet, useWindowDimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useReducedMotion } from 'react-native-reanimated';
 import { useAppTheme } from '../../context/ThemeContext';
 
 /** One pass of the light band across the page. */
 export const SHINE_MS = 1300;
+
+function useReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    void AccessibilityInfo.isReduceMotionEnabled?.().then((on) => { if (alive) setReduced(on); }).catch(() => undefined);
+    const sub = AccessibilityInfo.addEventListener?.('reduceMotionChanged', setReduced);
+    return () => { alive = false; sub?.remove?.(); };
+  }, []);
+  return reduced;
+}
 
 /**
  * A soft band of light that crosses a page of placeholder shapes. One view
