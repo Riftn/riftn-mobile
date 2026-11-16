@@ -11,12 +11,43 @@ import { rewindFinishedVideo } from '../libs/video-start';
  * stall behaviour is the legacy one: when the buffer runs dry it drops the
  * rate to 0 and never resumes on its own. JS then sees a pause while the item
  * is still readyToPlay, takes it for a deliberate one, and the clip stays
- * frozen. Once playback has started, hand stalls back to AVPlayer, which waits
- * for data and carries on.
+ * frozen. So stalls are handed back to AVPlayer, which waits for data and
+ * carries on.
+ *
+ * Not at the first frame, though. Turning the wait on while a clip that has
+ * only just started is playing makes AVPlayer stop it there and then until it
+ * judges the buffer safe: the clip played, froze, and played again on every
+ * start. The hand-over waits until there is a few seconds banked (or the whole
+ * clip), when it changes nothing on screen. A clip that runs dry before that
+ * is handed over on the spot and asked to carry on.
  */
+const HANDOVER_RUNWAY_SECONDS = 3;
+const HANDOVER_CHECK_MS = 400;
+/** Under this much banked, a pause nobody asked for is the buffer running dry. */
+const DRY_BUFFER_SECONDS = 0.3;
 const waitingThroughStalls = new WeakSet<VideoPlayer>();
-function waitThroughStallsOnceStarted(player: VideoPlayer) {
-  if (Platform.OS !== 'ios' || waitingThroughStalls.has(player)) return;
+const needsStallHandover = (player: VideoPlayer) => Platform.OS === 'ios' && !waitingThroughStalls.has(player);
+function bankedSeconds(player: VideoPlayer): { ahead: number; whole: boolean } {
+  const at = player.currentTime;
+  const banked = player.bufferedPosition;
+  const total = player.duration;
+  return { ahead: banked - at, whole: Number.isFinite(total) && total > 0 && banked >= total - 0.25 };
+}
+function hasRunway(player: VideoPlayer): boolean {
+  try {
+    const { ahead, whole } = bankedSeconds(player);
+    // A player that cannot say how much it holds is handed over as before.
+    return !Number.isFinite(ahead) || whole || ahead >= HANDOVER_RUNWAY_SECONDS;
+  } catch { return true; }
+}
+function ranDry(player: VideoPlayer): boolean {
+  try {
+    const { ahead, whole } = bankedSeconds(player);
+    return Number.isFinite(ahead) && !whole && ahead < DRY_BUFFER_SECONDS;
+  } catch { return false; }
+}
+function waitThroughStalls(player: VideoPlayer) {
+  if (!needsStallHandover(player)) return;
   waitingThroughStalls.add(player);
   try {
     const current = player.bufferOptions;
@@ -28,6 +59,12 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
   component: string;
   postId?: string | number | null;
   allowed: () => boolean;
+  /**
+   * Hand stalls to AVPlayer only once a few seconds are banked, instead of at
+   * the first frame. For players whose every pause goes through
+   * `recovery.stop()` first, so a pause that arrives unasked is a stall.
+   */
+  lateStallHandover?: boolean;
 }) {
   const latest = useRef(options);
   latest.current = options;
@@ -43,7 +80,9 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
       }
       if (allowed()) {
         rewindFinishedVideo(player);
-        player.play();
+        // Already running (a short started while it was dragged in): asking
+        // again makes AVPlayer reset its rate under a playing clip.
+        if (reload || !player.playing) player.play();
       }
     },
     pause: () => { try { player.pause(); } catch {} },
@@ -61,6 +100,7 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
     // treat it as a player that is not playing.
     const read = <T,>(get: () => T, fallback: T): T => { try { return get(); } catch { return fallback; } };
     let previousTime = read(() => player.currentTime, 0);
+    let handover: ReturnType<typeof setInterval> | undefined;
     const subs = [
       player.addListener('statusChange', ({ status, error }) => {
         if (status === 'error') {
@@ -70,8 +110,30 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
         if (status === 'loading') recovery.waiting();
       }),
       player.addListener('playingChange', ({ isPlaying }) => {
-        if (isPlaying) { waitThroughStallsOnceStarted(player); recovery.watch(); }
-        else if (read(() => player.status, 'idle') === 'readyToPlay' && !recovery.replacing && recovery.wanted) recovery.stop();
+        clearInterval(handover);
+        handover = undefined;
+        if (isPlaying) {
+          if (!latest.current.lateStallHandover) waitThroughStalls(player);
+          else if (needsStallHandover(player)) {
+            const check = () => {
+              if (!hasRunway(player)) return;
+              clearInterval(handover);
+              handover = undefined;
+              waitThroughStalls(player);
+            };
+            handover = setInterval(check, HANDOVER_CHECK_MS);
+            check();
+          }
+          recovery.watch();
+        } else if (read(() => player.status, 'idle') === 'readyToPlay' && !recovery.replacing && recovery.wanted) {
+          // Ran dry before the hand-over: let AVPlayer wait for data and go on.
+          if (latest.current.lateStallHandover && needsStallHandover(player) && ranDry(player)) {
+            waitThroughStalls(player);
+            try { player.play(); } catch {}
+            return;
+          }
+          recovery.stop();
+        }
       }),
       player.addListener('timeUpdate', ({ currentTime }) => {
         if (read(() => player.playing, false) && currentTime !== previousTime) recovery.progress();
@@ -79,7 +141,7 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
       }),
     ];
     if (read(() => player.playing, false)) { recovery.watch(); recovery.progress(); }
-    return () => { subs.forEach(sub => sub.remove()); recovery.stop(); };
+    return () => { clearInterval(handover); subs.forEach(sub => sub.remove()); recovery.stop(); };
   }, [player, recovery]);
   return { recovery, phase };
 }
