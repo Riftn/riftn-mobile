@@ -72,7 +72,7 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
-elif [ "$MODE" = touch ]; then
+elif [ "$MODE" = touch ] || [ "$MODE" = keys ]; then
   bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
@@ -216,6 +216,13 @@ run() {
           tap:*)
             IFS=: read -r _ _ tap_x tap_y <<< "$touch"
             idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;
+          type:*)
+            # "type:<label>:<text>": typed into whatever has the cursor.
+            IFS=: read -r _ _ type_text <<< "$touch"
+            idb ui text --udid "$UDID" "$type_text" >/dev/null 2>&1 || echo "$name: idb text failed" ;;
+          drag:*)
+            # A finger pulling the page down, above where a keyboard sits.
+            idb ui swipe --udid "$UDID" --duration 0.5 200 250 200 400 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           find:*)
             # "find:<label>:<button text>": tap the button with that text,
             # wherever it is drawn; nothing is tapped when it is not up.
@@ -299,6 +306,18 @@ for folder, _, files in os.walk(sys.argv[1]):
 PY
 }
 trap scrub EXIT
+
+if [ "$MODE" = keys ]; then
+  # The on-screen keyboard has to stay up while idb types like a real one.
+  xcrun simctl spawn "$UDID" defaults write com.apple.Preferences AutomaticMinimizationEnabled -bool NO >/dev/null 2>&1 || true
+  for theme in ${KEYS_THEMES:-system hazy system-light osaka}; do
+    run after "keys-$theme" "" keys "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  cat "$OUT/logs/tour.txt"
+  exit 0
+fi
 
 if [ "$MODE" = touch ]; then
   run after touch "" touch
