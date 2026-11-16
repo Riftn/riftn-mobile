@@ -420,10 +420,10 @@ async function runWide(): Promise<void> {
   await sleep(12000);
   const tokenId = Number(await AsyncStorage.getItem(`${FLAG_KEY}.token`)) || 7444;
   nav.navigate(ScreenNames.ShortsViewer, { initialItems: [{ tokenId, id: tokenId, postType: "video" }], initialIndex: 0 });
-  await sleep(9000);
+  await sleep(6500);
   extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
   await shot("wide-1-buttons");
-  await sleep(9000);
+  await sleep(5000);
   await shot("wide-2-clear");
   await sleep(700);
   // On the plain stage: the + under the video opens Info Stage, and the
