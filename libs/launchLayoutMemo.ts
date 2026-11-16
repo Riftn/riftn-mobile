@@ -14,7 +14,7 @@
 const FILE_NAME = "launch-layout-v1.json";
 
 type MemoFile = { exists: boolean; textSync(): string; create(options?: { overwrite?: boolean }): void; write(text: string): void };
-type Sizes = Record<string, number>;
+type Sizes = Record<string, number | string>;
 
 let loaded: Record<string, Sizes> | null = null;
 let writeTimer: ReturnType<typeof setTimeout> | null = null;
@@ -53,6 +53,12 @@ export function recallLayout(key: string): Sizes {
 export function recalledSize(sizes: Sizes, name: string, fallback: number): number {
   const value = sizes[name];
   return typeof value === "number" && Number.isFinite(value) && value >= 0 && value < 2000 ? value : fallback;
+}
+
+/** A remembered word (a colour), only when it is one. */
+export function recalledText(sizes: Sizes, name: string): string | null {
+  const value = sizes[name];
+  return typeof value === "string" && value.length > 0 && value.length < 40 ? value : null;
 }
 
 /** Remember sizes for next launch. Written a moment later, off the launch path. */

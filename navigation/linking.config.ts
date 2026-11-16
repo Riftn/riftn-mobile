@@ -10,6 +10,7 @@ import { hasHeldCallback, holdLaunchCallback, withoutFragment } from '../libs/oa
 import { Linking as RNLinking } from 'react-native';
 import { DIGITAL_PURCHASES_ENABLED, iosWebPurchaseLinkAllowed } from '../config/storefront';
 import { handlePerfTraceLink } from '../libs/perfTrace';
+import { handleEarlyDockLink } from '../libs/earlyDock';
 
 const logger = createLogger('DeepLink');
 
@@ -825,7 +826,7 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
     const subscription = Linking.addEventListener('url', ({ url }) => {
       // The profiling switch (libs/perfTrace) is not a page: it must not close
       // an open profile or move the app.
-      if (handlePerfTraceLink(url)) return;
+      if (handlePerfTraceLink(url) || handleEarlyDockLink(url)) return;
       logger.info('Received deep link while app open', { url: withoutFragment(url) });
       closeProfileSheetForLink();
       // Rewrite username.dehub.io → dehub.io/:username so getStateFromPath handles it
@@ -847,7 +848,7 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
   getInitialURL: async () => {
     const url = await Linking.getInitialURL();
     if (!url) return url;
-    if (handlePerfTraceLink(url)) return null;
+    if (handlePerfTraceLink(url) || handleEarlyDockLink(url)) return null;
 
     logger.info('App launched with deep link', { url: withoutFragment(url) });
     await holdLaunchCallback(url);

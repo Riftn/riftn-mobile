@@ -92,3 +92,52 @@ it('releases the cover when rotation changes the landing coordinates', async () 
   expect(hide).toHaveBeenLastCalledWith(false);
   expect(done).toHaveBeenCalledTimes(1);
 });
+
+describe('early flight', () => {
+  const early = { x: 174, y: 24, tint: '#111', delayMs: 300 };
+  const mock = { createNodeMock: () => ({ measureInWindow: (callback: (x: number, y: number) => void) => callback(0, 24) }) };
+  async function startEarly() {
+    await act(async () => { tree = create(<MagneticDockCover enabled={false} reveal={false} onComplete={done} />, mock); });
+    await act(async () => { tree.update(<MagneticDockCover enabled={false} reveal={false} early={early} onComplete={done} />); });
+  }
+
+  it('starts the flight before the page is ready, wait included, and leaves the header alone', async () => {
+    register();
+    await startEarly();
+    expect(mockMotions).toHaveLength(1);
+    expect(mockMotions[0].duration).toBe(1250);
+    expect(hide).not.toHaveBeenCalled();
+    expect(done).not.toHaveBeenCalled();
+  });
+
+  it('hands over to the header logo once the page is ready and the flight has landed', async () => {
+    register();
+    await startEarly();
+    await act(async () => { tree.update(<MagneticDockCover enabled reveal early={early} onComplete={done} />); });
+    expect(hide).toHaveBeenCalledWith(true);
+    act(() => mockMotions[1].complete({ finished: true }));
+    expect(done).not.toHaveBeenCalled();
+    act(() => mockMotions[0].complete({ finished: true }));
+    expect(hide).toHaveBeenLastCalledWith(false);
+    expect(done).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the cover until the page is ready when the flight lands first', async () => {
+    register();
+    await startEarly();
+    act(() => mockMotions[0].complete({ finished: true }));
+    expect(done).not.toHaveBeenCalled();
+    await act(async () => { tree.update(<MagneticDockCover enabled reveal early={early} onComplete={done} />); });
+    act(() => mockMotions[1].complete({ finished: true }));
+    expect(done).toHaveBeenCalledTimes(1);
+  });
+
+  it('fades the logo out over the page when the header logo is not where it was', async () => {
+    unregister = registerDockTarget(callback => callback({ x: 60, y: 48, width: 42, height: 36, tint: '#111', hide }));
+    await startEarly();
+    await act(async () => { tree.update(<MagneticDockCover enabled reveal early={early} onComplete={done} />); });
+    expect(hide).not.toHaveBeenCalledWith(true);
+    act(() => mockMotions.slice(1).forEach(motion => motion.complete?.({ finished: true })));
+    expect(done).toHaveBeenCalledTimes(1);
+  });
+});
