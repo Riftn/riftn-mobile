@@ -2536,6 +2536,9 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       >
         <GestureDetector gesture={scrubGesture}>
           <View
+            // Drawn over the picture or the always-dark stage, so it keeps
+            // its white in System Light.
+            className="dark-surface"
             style={styles.scrubHitArea}
             onLayout={onScrubTrackLayout}
             {...scrubTouchGuard}
