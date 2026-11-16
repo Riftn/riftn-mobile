@@ -12,6 +12,9 @@
  * thread is busy, so the gaps between callbacks are the time the screen could
  * not update: building a page, or rebuilding one that had been torn down.
  */
+import React from "react";
+import { AppRegistry, Dimensions, StyleSheet, View } from "react-native";
+import { initialWindowMetrics } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { navigationRef } from "../../App";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -235,6 +238,272 @@ async function runPages(): Promise<void> {
     await measure(`${page} back again`, back(), { watchMs: 900, restMs: 300 });
     await backToTabs();
   }
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] done");
+}
+
+// --- measured page layouts ("bones") ------------------------------------------
+
+/** The app's root view, kept so the layout tree under it can be read. */
+let tourRoot: any = null;
+AppRegistry.setWrapperComponentProvider(() => function TourRoot({ children }: { children?: React.ReactNode }) {
+  return React.createElement(View, { style: { flex: 1 }, collapsable: false, ref: (r: unknown) => { if (r) tourRoot = r; } }, children);
+});
+
+type Fiber = { tag: number; type: unknown; child: Fiber | null; sibling: Fiber | null; return: Fiber | null; stateNode: any; memoizedProps: any };
+type Bone = [x: number, y: number, w: number, h: number, r: number, kind: string];
+const BONES_KEY = "dehub.perfTour.bones";
+
+const rgbaAlpha = (color: unknown): number => {
+  if (typeof color !== "string") return 0;
+  if (color === "transparent") return 0;
+  const m = /rgba?\(([^)]+)\)/.exec(color);
+  if (m) { const p = m[1].split(/[ ,/]+/).filter(Boolean); return p.length > 3 ? parseFloat(p[3]) : 1; }
+  if (/^#[0-9a-f]{8}$/i.test(color)) return parseInt(color.slice(7), 16) / 255;
+  if (/^#[0-9a-f]{4}$/i.test(color)) return parseInt(color[4] + color[4], 16) / 255;
+  return 1;
+};
+const brightness = (color: unknown): number => {
+  if (typeof color !== "string") return 0;
+  const m = /rgba?\(([^)]+)\)/.exec(color);
+  let p: number[] | null = null;
+  if (m) p = m[1].split(/[ ,/]+/).map(parseFloat);
+  else if (/^#[0-9a-f]{6,8}$/i.test(color)) p = [1, 3, 5].map((i) => parseInt(color.slice(i, i + 2), 16));
+  else if (/^#[0-9a-f]{3,4}$/i.test(color)) p = [1, 2, 3].map((i) => parseInt(color[i] + color[i], 16));
+  else if (color === "white") p = [255, 255, 255];
+  return p ? (p[0] * 299 + p[1] * 587 + p[2] * 114) / 1000 : 0;
+};
+
+function rectOf(fiber: Fiber): [number, number, number, number] | null {
+  try {
+    const ui = (globalThis as any).nativeFabricUIManager;
+    const node = fiber.stateNode?.node;
+    if (ui?.getBoundingClientRect && node) {
+      const r = ui.getBoundingClientRect(node, true);
+      if (r) return [r[0], r[1], r[2], r[3]];
+    }
+    const inst = fiber.stateNode?.canonical?.publicInstance ?? fiber.stateNode?.publicInstance;
+    const r = inst?.getBoundingClientRect?.();
+    if (r) return [r.x, r.y, r.width, r.height];
+  } catch {
+    // Not a measurable node.
+  }
+  return null;
+}
+
+const textOf = (fiber: Fiber): string => {
+  let out = "";
+  const visit = (f: Fiber | null) => {
+    for (let c = f; c; c = c.sibling) {
+      if (c.tag === 6) out += String(c.memoizedProps ?? "");
+      else visit(c.child);
+    }
+  };
+  visit(fiber.child);
+  return out;
+};
+
+/** The layout of the page on top: a bar per line of text, a block per picture and control, a panel per card. */
+function measureScreen(routeKey: string | undefined): { w: number; h: number; top: number; bones: string; note?: string } | null {
+  const handle: Fiber | undefined = tourRoot?.__internalInstanceHandle ?? tourRoot?._internalFiberInstanceHandleDEV;
+  if (!handle) return { w: 0, h: 0, top: 0, bones: "", note: "no root fiber" };
+  // The handle may be either copy of its fiber. Climb to the root and come
+  // back down the committed tree, or a page that rendered once measures empty.
+  let top: Fiber = handle;
+  while (top.return) top = top.return;
+  const committed: Fiber = top.stateNode?.current ?? top;
+  const { width: W, height: H } = Dimensions.get("window");
+  // The page on top: the shallowest component handed this route.
+  let screen: Fiber | null = null;
+  const queue: Fiber[] = [committed];
+  for (let i = 0; i < queue.length && i < 200000 && !screen; i++) {
+    const f = queue[i];
+    if (routeKey && f.memoizedProps && typeof f.memoizedProps === "object" && f.memoizedProps.route?.key === routeKey && f.memoizedProps.navigation) { screen = f; break; }
+    if (f.child) queue.push(f.child);
+    if (f.sibling) queue.push(f.sibling);
+  }
+  if (!screen) return { w: W, h: H, top: 0, bones: "", note: "route not found" };
+  const bones: Bone[] = [];
+  const maxY = H * 1.25;
+  const push = (r: number[], radius: number, kind: string) => {
+    const x = Math.max(0, r[0]);
+    const right = Math.min(W, r[0] + r[2]);
+    const w = right - x;
+    if (w < 3 || r[3] < 3 || r[1] > maxY || r[1] + r[3] < 0) return;
+    const h = Math.min(r[3], maxY - r[1]);
+    bones.push([Math.round((x / W) * 1000), Math.round(r[1]), Math.round((w / W) * 1000), Math.round(h), Math.round(Math.min(radius || 0, h / 2, w / 2)), kind]);
+  };
+  const walk = (fiber: Fiber | null, clip: number[] | null) => {
+    for (let f = fiber; f; f = f.sibling) {
+      if (f.tag !== 5) { walk(f.child, clip); continue; }
+      const type = String(f.type);
+      const style = (StyleSheet.flatten(f.memoizedProps?.style) ?? {}) as Record<string, any>;
+      // Opacity is not read: a page that fades its content in keeps the
+      // starting 0 in its props while the native side has long reached 1.
+      if (style.display === "none") continue;
+      let r = rectOf(f);
+      if (!r) { walk(f.child, clip); continue; }
+      if (r[1] > maxY || r[1] + r[3] < -4 || r[0] >= W || r[0] + r[2] <= 0) continue;
+      if (clip) {
+        const left = Math.max(r[0], clip[0]), top = Math.max(r[1], clip[1]);
+        const right = Math.min(r[0] + r[2], clip[0] + clip[2]), bottom = Math.min(r[1] + r[3], clip[1] + clip[3]);
+        if (right - left <= 0 || bottom - top <= 0) continue;
+        r = [left, top, right - left, bottom - top];
+      }
+      const radius = Number(style.borderRadius ?? style.borderTopLeftRadius ?? 0) || 0;
+      if (/Text$/.test(type) && !/Input/.test(type)) {
+        const text = textOf(f).trim();
+        if (!text) continue;
+        const fs = Number(style.fontSize) || 14;
+        const family = String(style.fontFamily ?? "").toLowerCase();
+        const glyph = text.length <= 2 && /[\ue000-\uf8ff]|[\u{f0000}-\u{10ffff}]/u.test(text);
+        if (glyph || /ionicons|material|feather|fontawesome|entypo|antdesign|octicons|simplelineicons|evilicons|foundation|zocial/.test(family)) {
+          push([r[0] + (r[2] - Math.min(r[2], fs)) / 2, r[1] + (r[3] - Math.min(r[3], fs)) / 2, Math.min(r[2], fs), Math.min(r[3], fs)], Math.min(6, fs / 3), "i");
+          continue;
+        }
+        const lh = Number(style.lineHeight) || fs * 1.3;
+        const lines = Math.max(1, Math.round(r[3] / lh));
+        const barH = Math.max(6, Math.min(22, Math.round(fs * 0.66)));
+        const rowH = r[3] / lines;
+        const guess = text.length * fs * 0.54;
+        for (let i = 0; i < lines; i++) {
+          let w = lines === 1 ? Math.min(r[2], guess) : i === lines - 1 ? Math.min(r[2], Math.max(r[2] * 0.3, guess - r[2] * (lines - 1))) : r[2];
+          w = Math.max(w, Math.min(r[2], 18));
+          const align = style.textAlign;
+          const x = align === "center" ? r[0] + (r[2] - w) / 2 : align === "right" ? r[0] + r[2] - w : r[0];
+          push([x, r[1] + i * rowH + (rowH - barH) / 2, w, barH], Math.min(barH / 2, 5), "t");
+        }
+        continue;
+      }
+      if (/Image|Video|Svg|SVG|Lottie|Canvas|WebView|Gradient|Blur|Skia|Camera|Map/.test(type) && !/BlurView|Gradient/.test(type)) {
+        const small = r[2] <= 28 && r[3] <= 28;
+        push(r, small ? Math.min(6, r[2] / 3) : radius, small ? "i" : "b");
+        continue;
+      }
+      if (/TextInput|Switch|Slider/.test(type)) { push(r, radius || 8, "s"); continue; }
+      let nextClip = clip;
+      const bgA = rgbaAlpha(style.backgroundColor);
+      const borderA = Number(style.borderWidth ?? style.borderTopWidth ?? style.borderBottomWidth ?? 0) > 0 ? rgbaAlpha(style.borderColor ?? style.borderTopColor ?? style.borderBottomColor ?? "#000") : 0;
+      if ((bgA > 0.02 || borderA > 0.04) && r[3] >= 16 && r[2] >= 16 && !(r[2] >= W - 1 && r[3] >= H * 0.6)) {
+        const solid = bgA > 0.6 && r[3] <= 64 && r[2] <= W * 0.7 && brightness(style.backgroundColor) > 150;
+        push(r, radius, solid ? "b" : "s");
+        if (solid) continue;
+      }
+      if (style.overflow === "hidden" || /ScrollView|ScrollContent/.test(type)) {
+        nextClip = clip ? [Math.max(r[0], clip[0]), Math.max(r[1], clip[1]), Math.min(r[0] + r[2], clip[0] + clip[2]) - Math.max(r[0], clip[0]), Math.min(r[1] + r[3], clip[1] + clip[3]) - Math.max(r[1], clip[1])] : /ScrollContent/.test(type) ? clip : r;
+      }
+      walk(f.child, nextClip);
+    }
+  };
+  walk(screen.child, null);
+  const order = (k: string) => (k === "s" ? 0 : 1);
+  bones.sort((a, b) => order(a[5]) - order(b[5]) || a[1] - b[1] || a[0] - b[0]);
+  const kept: Bone[] = [];
+  for (const b of bones) {
+    if (b[5] === "s" && kept.some((m) => m[5] === "s" && Math.abs(m[0] - b[0]) <= 3 && Math.abs(m[1] - b[1]) <= 2 && Math.abs(m[2] - b[2]) <= 6 && Math.abs(m[3] - b[3]) <= 4)) continue;
+    kept.push(b);
+  }
+  return { w: Math.round(W), h: Math.round(H), top: Math.round(initialWindowMetrics?.insets.top ?? 0), bones: kept.map((b) => b.join(",")).join(";") };
+}
+
+/** Opens every page, waits for it to settle, and saves its measured layout and a picture. */
+async function runBones(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "bones" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(14000);
+  const names = ScreenNames as unknown as Record<string, string>;
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+  const unpictured = (await AsyncStorage.getItem(`${FLAG_KEY}.private`)) === "1" ? PERSONAL_PAGES : new Set<string>();
+  const all: Record<string, unknown> = {};
+  let index = 0;
+  for (const page of [...PAGES, ...SHELL_EXTRA_PAGES]) {
+    const name = names[page];
+    index += 1;
+    if (!name || (!signedIn && ACCOUNT_PAGES.has(page))) continue;
+    nav.navigate(name);
+    await sleep(4200);
+    const current = nav.getCurrentRoute() as { name: string; key?: string } | undefined;
+    if (current?.name === name) {
+      try {
+        const measured = measureScreen(current.key);
+        if (measured) all[name] = measured.note ? measured : [measured.w, measured.h, measured.top, measured.bones];
+      } catch (error) {
+        all[name] = { note: String(error) };
+      }
+      await AsyncStorage.setItem(BONES_KEY, JSON.stringify(all)).catch(() => undefined);
+      if (!unpictured.has(page)) await shot(`${String(index).padStart(2, "0")}-${page}`);
+      await sleep(1700);
+    }
+    back()();
+    await sleep(700);
+    await backToTabs();
+    await save(false);
+  }
+  extra.measured = Object.keys(all).length;
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] done");
+}
+
+/** Pages the shell tour opens on top of the page tour's list. */
+const SHELL_EXTRA_PAGES = [
+  "CreatorFlow", "LaunchpadCreate", "WorkPost", "WorkHistory", "WorkDisputes", "LiveStudio", "TvRequests",
+  "SignInTv", "Prompt", "ConnectGuide", "FollowList", "PostInfo", "Feed",
+] as const;
+
+/**
+ * Every page's loading shell next to the page itself: the page is first held
+ * on its shell (deferredScreen's hold flag) and pictured, then opened for real
+ * and pictured again once it has settled.
+ */
+async function runShells(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "shells" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(14000);
+  const names = ScreenNames as unknown as Record<string, string>;
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+  const unpictured = (await AsyncStorage.getItem(`${FLAG_KEY}.private`)) === "1" ? PERSONAL_PAGES : new Set<string>();
+  const hold = globalThis as { __holdRouteShell?: boolean };
+  const opened: string[] = [];
+  let index = 0;
+  for (const page of [...PAGES, ...SHELL_EXTRA_PAGES]) {
+    const name = names[page];
+    index += 1;
+    if (!name || (!signedIn && ACCOUNT_PAGES.has(page))) continue;
+    const label = `${String(index).padStart(2, "0")}-${page}`;
+    hold.__holdRouteShell = true;
+    nav.navigate(name);
+    await sleep(1100);
+    const reached = nav.getCurrentRoute()?.name === name;
+    if (reached) await shot(`${label}-1shell`);
+    await sleep(1700);
+    hold.__holdRouteShell = false;
+    back()();
+    await sleep(700);
+    await backToTabs();
+    if (!reached) continue;
+    opened.push(page);
+    nav.navigate(name);
+    await sleep(3200);
+    if (!unpictured.has(page)) await shot(`${label}-2page`);
+    await sleep(1700);
+    back()();
+    await sleep(700);
+    await backToTabs();
+    await save(false);
+  }
+  extra.opened = opened;
   extra.finishedAt = Date.now();
   await save(true);
   console.error("[perf-tour] done");
@@ -943,7 +1212,7 @@ async function runKeys(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -952,6 +1221,8 @@ void (async () => {
     else if (mode === "probe") await runProbe();
     else if (mode === "touch") await runTouch();
     else if (mode === "shorts") await runShorts();
+    else if (mode === "shells") await runShells();
+    else if (mode === "bones") await runBones();
     else if (mode === "wide") await runWide();
     else if (mode === "keys") await runKeys();
     else await run();
