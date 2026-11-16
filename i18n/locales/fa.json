@@ -9377,7 +9377,24 @@
     "paymentSentWith": "با {{amount}} ارسال شد",
     "planRestricted": "این کاربر برای دریافت پیام به اشتراک نیاز دارد.",
     "planTypeNotAllowed": "طرح این سازنده این نوع پیام را مجاز نمی‌داند.",
-    "planMinTip": "انعام برای این سازنده باید حداقل {{amount}} توکن باشد."
+    "planMinTip": "انعام برای این سازنده باید حداقل {{amount}} توکن باشد.",
+    "searchDiscover": {
+      "noChats": "هنوز گفتگویی با «{{q}}» ندارید. موارد مطابق اینجاست.",
+      "nothing": "هنوز چیزی با «{{q}}» مطابقت ندارد. چیز تازه‌ای شروع کنید.",
+      "people": "افراد",
+      "communities": "انجمن‌ها",
+      "members": "{{n}} عضو",
+      "start": "یا چیزی شروع کنید",
+      "newChat": "گفتگوی جدید",
+      "newChatSub": "هر کسی را انتخاب کنید",
+      "newGroup": "گروه جدید",
+      "newGroupSub": "با هم گفتگو کنید",
+      "invite": "دعوت",
+      "inviteSub": "اشتراک‌گذاری لینک",
+      "inviteMessage": "در Riftn به من بپیوند: {{url}}",
+      "searchAll": "جستجوی «{{q}}» در کل Riftn",
+      "searchAllSub": "پست‌ها، ویدیوها، پخش زنده"
+    }
   },
   "editPost": {
     "mediaPermission": "دسترسی به کتابخانه رسانه لازم است",

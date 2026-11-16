@@ -9577,7 +9577,24 @@
     "paymentSentWith": "Enviado com {{amount}}",
     "planRestricted": "Este usuário exige uma assinatura para receber mensagens.",
     "planTypeNotAllowed": "O plano deste criador não permite este tipo de mensagem.",
-    "planMinTip": "A gorjeta deve ser de pelo menos {{amount}} tokens para este criador."
+    "planMinTip": "A gorjeta deve ser de pelo menos {{amount}} tokens para este criador.",
+    "searchDiscover": {
+      "noChats": "Ainda não há conversas com \"{{q}}\". Veja quem e o que corresponde.",
+      "nothing": "Nada corresponde a \"{{q}}\" ainda. Comece algo novo.",
+      "people": "Pessoas",
+      "communities": "Comunidades",
+      "members": "{{n}} membros",
+      "start": "Ou comece algo",
+      "newChat": "Nova conversa",
+      "newChatSub": "Escolha qualquer pessoa",
+      "newGroup": "Novo grupo",
+      "newGroupSub": "Conversem juntos",
+      "invite": "Convidar",
+      "inviteSub": "Compartilhe um link",
+      "inviteMessage": "Entre comigo no Riftn: {{url}}",
+      "searchAll": "Pesquisar \"{{q}}\" em todo o Riftn",
+      "searchAllSub": "Posts, vídeos, lives"
+    }
   },
   "editPost": {
     "mediaPermission": "É necessária permissão para a biblioteca multimédia",

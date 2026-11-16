@@ -7753,7 +7753,24 @@
     "attachAnything": "Foto, video, audio of bestand toevoegen",
     "attachFileOrAudio": "Bestand of audio",
     "attachPhotoOrVideo": "Foto of video",
-    "attachTooLarge": "Dat bestand is groter dan de limiet van {{size}} MB."
+    "attachTooLarge": "Dat bestand is groter dan de limiet van {{size}} MB.",
+    "searchDiscover": {
+      "noChats": "Nog geen chats met \"{{q}}\". Dit komt overeen.",
+      "nothing": "Nog niets gevonden voor \"{{q}}\". Begin iets nieuws.",
+      "people": "Mensen",
+      "communities": "Community's",
+      "members": "{{n}} leden",
+      "start": "Of begin iets",
+      "newChat": "Nieuwe chat",
+      "newChatSub": "Kies wie je wilt",
+      "newGroup": "Nieuwe groep",
+      "newGroupSub": "Samen chatten",
+      "invite": "Uitnodigen",
+      "inviteSub": "Deel een link",
+      "inviteMessage": "Kom bij mij op Riftn: {{url}}",
+      "searchAll": "Heel Riftn doorzoeken op \"{{q}}\"",
+      "searchAllSub": "Posts, video's, livestreams"
+    }
   },
   "editPost": {
     "mediaPermission": "Toestemming voor de mediabibliotheek is vereist",

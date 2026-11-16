@@ -9432,7 +9432,24 @@
     "paymentSentWith": "Wysłano z {{amount}}",
     "planRestricted": "Ten użytkownik wymaga subskrypcji, aby otrzymywać wiadomości.",
     "planTypeNotAllowed": "Plan tego twórcy nie pozwala na ten rodzaj wiadomości.",
-    "planMinTip": "Napiwek dla tego twórcy musi wynosić co najmniej {{amount}} tokeny."
+    "planMinTip": "Napiwek dla tego twórcy musi wynosić co najmniej {{amount}} tokeny.",
+    "searchDiscover": {
+      "noChats": "Brak czatów z „{{q}}”. Oto pasujące wyniki.",
+      "nothing": "Nic jeszcze nie pasuje do „{{q}}”. Zacznij coś nowego.",
+      "people": "Osoby",
+      "communities": "Społeczności",
+      "members": "{{n}} członków",
+      "start": "Albo zacznij coś",
+      "newChat": "Nowy czat",
+      "newChatSub": "Wybierz kogokolwiek",
+      "newGroup": "Nowa grupa",
+      "newGroupSub": "Czatujcie razem",
+      "invite": "Zaproś",
+      "inviteSub": "Udostępnij link",
+      "inviteMessage": "Dołącz do mnie na Riftn: {{url}}",
+      "searchAll": "Szukaj „{{q}}” w całym Riftn",
+      "searchAllSub": "Posty, filmy, transmisje"
+    }
   },
   "editPost": {
     "mediaPermission": "Wymagane jest uprawnienie do biblioteki multimediów",

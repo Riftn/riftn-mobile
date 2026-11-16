@@ -9553,7 +9553,24 @@
     "paymentSentWith": "Dikirim dengan {{amount}}",
     "planRestricted": "Pengguna ini memerlukan langganan untuk menerima pesan.",
     "planTypeNotAllowed": "Paket kreator ini tidak mengizinkan jenis pesan ini.",
-    "planMinTip": "Tip untuk kreator ini minimal {{amount}} token."
+    "planMinTip": "Tip untuk kreator ini minimal {{amount}} token.",
+    "searchDiscover": {
+      "noChats": "Belum ada chat dengan \"{{q}}\". Ini yang cocok.",
+      "nothing": "Belum ada yang cocok dengan \"{{q}}\". Mulai sesuatu yang baru.",
+      "people": "Orang",
+      "communities": "Komunitas",
+      "members": "{{n}} anggota",
+      "start": "Atau mulai sesuatu",
+      "newChat": "Chat baru",
+      "newChatSub": "Pilih siapa saja",
+      "newGroup": "Grup baru",
+      "newGroupSub": "Chat bersama",
+      "invite": "Undang",
+      "inviteSub": "Bagikan tautan",
+      "inviteMessage": "Gabung denganku di Riftn: {{url}}",
+      "searchAll": "Cari \"{{q}}\" di seluruh Riftn",
+      "searchAllSub": "Postingan, video, siaran langsung"
+    }
   },
   "editPost": {
     "mediaPermission": "Izin pustaka media diperlukan",

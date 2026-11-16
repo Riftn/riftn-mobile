@@ -7640,7 +7640,24 @@
     "paymentSentWith": "Sent with {{amount}}",
     "planRestricted": "This user requires a subscription to receive messages.",
     "planTypeNotAllowed": "This creator's plan doesn't allow this kind of message.",
-    "planMinTip": "Tip must be at least {{amount}} tokens for this creator."
+    "planMinTip": "Tip must be at least {{amount}} tokens for this creator.",
+    "searchDiscover": {
+      "noChats": "No chats with \"{{q}}\" yet. Here's who and what matches.",
+      "nothing": "Nothing matches \"{{q}}\" yet. Start something new.",
+      "people": "People",
+      "communities": "Communities",
+      "members": "{{n}} members",
+      "start": "Or start something",
+      "newChat": "New chat",
+      "newChatSub": "Pick anyone",
+      "newGroup": "New group",
+      "newGroupSub": "Chat together",
+      "invite": "Invite",
+      "inviteSub": "Share a link",
+      "inviteMessage": "Join me on Riftn: {{url}}",
+      "searchAll": "Search all of Riftn for \"{{q}}\"",
+      "searchAllSub": "Posts, videos, live streams"
+    }
   },
   "editPost": {
     "mediaPermission": "Media library permission is required",

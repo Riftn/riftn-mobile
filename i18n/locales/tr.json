@@ -7614,7 +7614,24 @@
     "attachAnything": "Fotoğraf, video, ses veya dosya ekle",
     "attachFileOrAudio": "Dosya veya ses",
     "attachPhotoOrVideo": "Fotoğraf veya video",
-    "attachTooLarge": "Bu dosya {{size}} MB sınırını aşıyor."
+    "attachTooLarge": "Bu dosya {{size}} MB sınırını aşıyor.",
+    "searchDiscover": {
+      "noChats": "Henüz \"{{q}}\" ile sohbet yok. Eşleşenler burada.",
+      "nothing": "Henüz \"{{q}}\" ile eşleşen bir şey yok. Yeni bir şey başlat.",
+      "people": "Kişiler",
+      "communities": "Topluluklar",
+      "members": "{{n}} üye",
+      "start": "Ya da bir şey başlat",
+      "newChat": "Yeni sohbet",
+      "newChatSub": "Herkesi seçebilirsin",
+      "newGroup": "Yeni grup",
+      "newGroupSub": "Birlikte sohbet edin",
+      "invite": "Davet et",
+      "inviteSub": "Bağlantı paylaş",
+      "inviteMessage": "Riftn'de bana katıl: {{url}}",
+      "searchAll": "Tüm Riftn'de \"{{q}}\" ara",
+      "searchAllSub": "Gönderiler, videolar, canlı yayınlar"
+    }
   },
   "editPost": {
     "mediaPermission": "Medya kitaplığı izni gerekiyor",

@@ -22,6 +22,7 @@ import LoadErrorState from "../components/ui/LoadErrorState";
 import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../navigation/ScreenNames";
 import NewDMModal from "../components/DM/NewDMModal";
+import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
@@ -159,6 +160,11 @@ const DirectMessagesInner: React.FC = () => {
   // Rows waiting out their undo window count as gone, so swiping away the last
   // one lands on the real empty state rather than "no matches".
   const hasConversations = (conversations || []).some((c) => !pendingDeletes.has(c._id));
+  // People you already have a chat with; a chat search that misses suggests others.
+  const knownAddresses = useMemo(
+    () => new Set((conversations || []).map((c) => (getOtherParticipant(c, myUserId, myAddress)?.address || "").toLowerCase()).filter(Boolean)),
+    [conversations, myUserId, myAddress],
+  );
 
 
   const openMenu = useCallback(() => setMenuVisible(true), []);
@@ -500,6 +506,7 @@ const DirectMessagesInner: React.FC = () => {
           data={filtered}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
+          keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ paddingBottom: 80 }}
           className="flex-1"
           ListHeaderComponent={publicChatItem}
@@ -511,7 +518,16 @@ const DirectMessagesInner: React.FC = () => {
             />
           }
           ListEmptyComponent={
-            hasConversations ? (
+            query.trim().length >= 2 && groupChats.length === 0 ? (
+              <ChatSearchDiscover
+                query={query}
+                myAddress={myAddress}
+                knownAddresses={knownAddresses}
+                onMessageUser={startDMWith}
+                onNewChat={openNewDM}
+                onNewGroup={() => setNewChatKind("group")}
+              />
+            ) : hasConversations ? (
               <View className="items-center mt-10">
                 <Text className="text-theme-neutrals-400">{t("dm.noConversationsFound")}</Text>
               </View>

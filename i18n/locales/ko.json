@@ -9556,7 +9556,24 @@
     "paymentSentWith": "{{amount}}개로 전송 완료",
     "planRestricted": "이 사용자에게 메시지를 보내려면 구독이 필요합니다.",
     "planTypeNotAllowed": "이 크리에이터의 플랜은 이 유형의 메시지를 허용하지 않습니다.",
-    "planMinTip": "이 크리에이터에게 보내는 팁은 최소 {{amount}} DHB여야 합니다."
+    "planMinTip": "이 크리에이터에게 보내는 팁은 최소 {{amount}} DHB여야 합니다.",
+    "searchDiscover": {
+      "noChats": "아직 \"{{q}}\"와의 채팅이 없어요. 일치하는 항목이에요.",
+      "nothing": "아직 \"{{q}}\"와 일치하는 항목이 없어요. 새로 시작해 보세요.",
+      "people": "사람",
+      "communities": "커뮤니티",
+      "members": "멤버 {{n}}명",
+      "start": "또는 새로 시작하기",
+      "newChat": "새 채팅",
+      "newChatSub": "누구든 선택",
+      "newGroup": "새 그룹",
+      "newGroupSub": "함께 채팅",
+      "invite": "초대",
+      "inviteSub": "링크 공유",
+      "inviteMessage": "Riftn에서 만나요: {{url}}",
+      "searchAll": "Riftn 전체에서 \"{{q}}\" 검색",
+      "searchAllSub": "게시물, 동영상, 라이브"
+    }
   },
   "editPost": {
     "mediaPermission": "미디어 라이브러리 권한이 필요합니다",

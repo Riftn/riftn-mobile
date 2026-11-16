@@ -7631,7 +7631,24 @@
     "attachAnything": "إرفاق صورة أو فيديو أو صوت أو ملف",
     "attachFileOrAudio": "ملف أو صوت",
     "attachPhotoOrVideo": "صورة أو فيديو",
-    "attachTooLarge": "هذا الملف أكبر من حد {{size}} ميغابايت."
+    "attachTooLarge": "هذا الملف أكبر من حد {{size}} ميغابايت.",
+    "searchDiscover": {
+      "noChats": "لا توجد دردشات مع \"{{q}}\" بعد. إليك ما يطابق.",
+      "nothing": "لا شيء يطابق \"{{q}}\" بعد. ابدأ شيئًا جديدًا.",
+      "people": "أشخاص",
+      "communities": "مجتمعات",
+      "members": "{{n}} عضو",
+      "start": "أو ابدأ شيئًا",
+      "newChat": "دردشة جديدة",
+      "newChatSub": "اختر أي شخص",
+      "newGroup": "مجموعة جديدة",
+      "newGroupSub": "تحدثوا معًا",
+      "invite": "دعوة",
+      "inviteSub": "شارك رابطًا",
+      "inviteMessage": "انضم إليّ على Riftn: {{url}}",
+      "searchAll": "ابحث عن \"{{q}}\" في كل Riftn",
+      "searchAllSub": "منشورات، فيديوهات، بث مباشر"
+    }
   },
   "editPost": {
     "mediaPermission": "يلزم إذن الوصول إلى مكتبة الوسائط",

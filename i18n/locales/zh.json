@@ -9427,7 +9427,24 @@
     "paymentSentWith": "已发送 {{amount}}",
     "planRestricted": "该用户需要订阅才能接收消息。",
     "planTypeNotAllowed": "该创作者的方案不允许发送此类消息。",
-    "planMinTip": "给该创作者的打赏至少为 {{amount}} 代币。"
+    "planMinTip": "给该创作者的打赏至少为 {{amount}} 代币。",
+    "searchDiscover": {
+      "noChats": "还没有与“{{q}}”的聊天。以下是匹配的内容。",
+      "nothing": "还没有与“{{q}}”匹配的内容。开始新的吧。",
+      "people": "用户",
+      "communities": "社区",
+      "members": "{{n}} 位成员",
+      "start": "或者开始新的",
+      "newChat": "新聊天",
+      "newChatSub": "选择任何人",
+      "newGroup": "新群组",
+      "newGroupSub": "一起聊",
+      "invite": "邀请",
+      "inviteSub": "分享链接",
+      "inviteMessage": "来 Riftn 找我：{{url}}",
+      "searchAll": "在整个 Riftn 搜索“{{q}}”",
+      "searchAllSub": "帖子、视频、直播"
+    }
   },
   "editPost": {
     "mediaPermission": "需要媒体库权限",
