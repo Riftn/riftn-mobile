@@ -2589,8 +2589,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
             accessibilityLabel={_copy("copy.f5c9bd131486", { defaultValue: "Show more" })}
             style={[styles.infoOpenButton, { top: cardRestTop + cardHeight + 12 }]}
           >
-            <ChromeFill top />
-            <Icon name="Plus" size={20} color="#fff" />
+            <Icon name="Plus" size={24} color="#fff" />
           </Pressable>
         )}
 
