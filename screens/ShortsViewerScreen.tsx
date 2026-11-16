@@ -2334,7 +2334,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     <View ref={frameRef} collapsable={false} style={{ width: SCREEN_WIDTH, height: itemHeight }}>
       <GestureDetector gesture={screenGesture}>
         <Reanimated.View
-          style={[styles.playerFrame, showComments && { backgroundColor: "#000" }, (photoMedia || cleanStage) && { backgroundColor: infoShown ? "#000" : photoBackdrop }, playerStyle]}
+          style={[styles.playerFrame, showComments && { backgroundColor: "#000" }, cleanStage ? { backgroundColor: "#000" } : photoMedia && { backgroundColor: photoBackdrop }, playerStyle]}
         >
         <Reanimated.View style={pictureStyle}>
         <Reanimated.View style={pictureContentStyle}>
@@ -2342,7 +2342,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
             of its own poster, so its edges blend out rather than cutting a
             hard line across the caption and action row. */}
         {cleanStage ? (
-          <View style={[StyleSheet.absoluteFill, { backgroundColor: infoShown ? "#000" : photoBackdrop }]} pointerEvents="none" />
+          <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none" />
         ) : wideStage && WideVideoFill && !showComments ? (
           <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none">
             <WideVideoFill
