@@ -72,7 +72,7 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
-elif [ "$MODE" = touch ] || [ "$MODE" = wide ]; then
+elif [ "$MODE" = touch ]; then
   bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
@@ -310,6 +310,8 @@ fi
 
 if [ "$MODE" = wide ]; then
   # A wide clip in the swipe player, pictured once per theme.
+  # main's code first on System Light, to tell what was already there.
+  run before "wide-main-system-light" "" wide system-light
   for theme in ${WIDE_THEMES:-hazy osaka glass system system-light}; do
     run after "wide-$theme" "" wide "$theme"
     python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(sys.argv[2], {k: d.get(k) for k in ("opened", "fullscreen", "back", "error")})' "$OUT/nav/wide-$theme.json" "$theme" 2>/dev/null || true

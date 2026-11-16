@@ -45,12 +45,13 @@ function cropTo(image: SkImage, x: number, y: number, w: number, h: number, aspe
 function Tile({ frame, box, flipped }: { frame: Frame; box: Box; flipped: boolean }) {
   const sx = box.width / frame.w;
   const sy = box.height / frame.h;
+  // The clip is in screen points, so it sits outside the group that scales
+  // the sheet: a group's own clip is applied after its transform.
   const picture = (
-    <Group
-      clip={rect(box.left, box.top, box.width, box.height)}
-      transform={[{ translateX: box.left - frame.x * sx }, { translateY: box.top - frame.y * sy }, { scaleX: sx }, { scaleY: sy }]}
-    >
-      <Image image={frame.image} x={0} y={0} width={frame.image.width()} height={frame.image.height()} fit="fill" />
+    <Group clip={rect(box.left, box.top, box.width, box.height)}>
+      <Group transform={[{ translateX: box.left - frame.x * sx }, { translateY: box.top - frame.y * sy }, { scaleX: sx }, { scaleY: sy }]}>
+        <Image image={frame.image} x={0} y={0} width={frame.image.width()} height={frame.image.height()} fit="fill" />
+      </Group>
     </Group>
   );
   if (!flipped) return picture;
