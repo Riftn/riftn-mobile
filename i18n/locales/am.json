@@ -14860,5 +14860,32 @@
     "newCodesTitle": "አዲስ የመጠባበቂያ ኮዶችን ያግኙ",
     "newCodesBody": "ከመተግበሪያዎ አንድ ኮድ ያስገቡ. የድሮ የመጠባበቂያ ኮዶችዎ መሥራት ያቆማሉ ።",
     "codeLabel": "ስድስት አሃዝ ኮድ"
+  },
+  "chatSearch": {
+    "placeholder": "መልዕክቶችን ወይም ሰዎችን ይፈልጉ",
+    "placeholderPerson": "የ{{name}}ን መልዕክቶች ይፈልጉ",
+    "close": "ፍለጋን ይዝጉ",
+    "removePerson": "ሁሉንም ሰው ይፈልጉ",
+    "clear": "አጽዳ",
+    "voice": "የድምጽ መልእክት",
+    "photo": "ፎቶ",
+    "peopleHere": "በዚህ ውይይት ውስጥ ያሉ ሰዎች",
+    "recent": "የቅርብ ጊዜ ፍለጋዎች",
+    "hint": "ቃል ወይም ስም ይጻፉ።",
+    "failed": "ፍለጋው መጫን አልቻለም",
+    "people": "ሰዎች",
+    "messages": "መልዕክቶች",
+    "seeCount_one": "የእነሱን {{count}} መልእክት ይመልከቱ",
+    "seeCount_other": "የእነሱን {{count}} መልዕክቶች ይመልከቱ",
+    "messagesCount_one": "{{count}} መልእክት",
+    "messagesCount_other": "{{count}} መልዕክቶች",
+    "results_one": "{{count}} ውጤት",
+    "results_other": "{{count}} ውጤቶች",
+    "backToResults": "ወደ ውጤቶች ተመለስ",
+    "position": "{{current}} ከ {{total}}",
+    "older": "የቆየ ውጤት",
+    "newer": "አዲስ ውጤት",
+    "gone": "ያ መልእክት ከአሁን በኋላ እዚህ የለም",
+    "theirMessages": "የእነሱ መልዕክቶች"
   }
 }

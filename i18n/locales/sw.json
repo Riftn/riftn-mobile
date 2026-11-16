@@ -14828,5 +14828,32 @@
     "newCodesTitle": "Pata misimbo mipya ya chelezo",
     "newCodesBody": "Ingiza msimbo kutoka kwa programu yako. Misimbo yako ya zamani ya chelezo itaacha kufanya kazi.",
     "codeLabel": "Msimbo wa tarakimu sita"
+  },
+  "chatSearch": {
+    "placeholder": "Tafuta ujumbe au watu",
+    "placeholderPerson": "Tafuta ujumbe wa {{name}}",
+    "close": "Funga utafutaji",
+    "removePerson": "Tafuta kila mtu",
+    "clear": "Futa",
+    "voice": "Ujumbe wa sauti",
+    "photo": "Picha",
+    "peopleHere": "Watu katika mazungumzo haya",
+    "recent": "Utafutaji wa hivi karibuni",
+    "hint": "Andika neno au jina.",
+    "failed": "Utafutaji hauwezi kupakia",
+    "people": "Watu",
+    "messages": "Ujumbe",
+    "seeCount_one": "Tazama ujumbe wa {{count}}",
+    "seeCount_other": "Tazama ujumbe za {{count}}",
+    "messagesCount_one": "Ujumbe wa {{count}}",
+    "messagesCount_other": "Ujumbe za {{count}}",
+    "results_one": "Matokeo ya {{count}}",
+    "results_other": "Matokeo ya {{count}}",
+    "backToResults": "Rudi kwenye matokeo",
+    "position": "{{current}} kati ya {{total}}",
+    "older": "Matokeo ya zamani",
+    "newer": "Matokeo ya hivi karibuni",
+    "gone": "Ujumbe huo hauko tena hapa",
+    "theirMessages": "Ujumbe wao"
   }
 }

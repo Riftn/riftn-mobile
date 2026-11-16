@@ -14863,5 +14863,32 @@
     "newCodesTitle": "Koodii eeggannoo haaraa argadhu",
     "newCodesBody": "Koodii app kee irraa galchi. Koodii backup duraanii hojii dhaabuu.",
     "codeLabel": "Six-digit code"
+  },
+  "chatSearch": {
+    "placeholder": "Barreessuu ergaa ykn namoota",
+    "placeholderPerson": "Barreessuu ergaa {{name}}",
+    "close": "Cufuu barbaacha",
+    "removePerson": "Barreessuu namoota hundaa",
+    "clear": "Haquu",
+    "voice": "Ergaa sagalee",
+    "photo": "Suuraa",
+    "peopleHere": "Namoota kana keessatti",
+    "recent": "Barbaachisummaa dhiyoo",
+    "hint": "Jecha ykn maqaa barreessi.",
+    "failed": "Barbaachisummaa hin galchuu",
+    "people": "Namoota",
+    "messages": "Ergaa",
+    "seeCount_one": "Ergaa {{count}} ilaali",
+    "seeCount_other": "Ergaa {{count}} ilaali",
+    "messagesCount_one": "Ergaa {{count}}",
+    "messagesCount_other": "Ergaa {{count}}",
+    "results_one": "Bu'aa {{count}}",
+    "results_other": "Bu'aa {{count}}",
+    "backToResults": "Deebi'uu bu'aa",
+    "position": "{{current}} keessaa {{total}}",
+    "older": "Bu'aa duraa",
+    "newer": "Bu'aa haaraa",
+    "gone": "Ergaan kun hin jiru",
+    "theirMessages": "Ergaa isaanii"
   }
 }

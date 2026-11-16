@@ -14843,5 +14843,32 @@
     "newCodesTitle": "Få nye sikkerhetskoder",
     "newCodesBody": "Skriv inn en kode fra appen din. Dine gamle sikkerhetskoder vil slutte å fungere.",
     "codeLabel": "Seks‑sifret kode"
+  },
+  "chatSearch": {
+    "placeholder": "Søk etter meldinger eller personer",
+    "placeholderPerson": "Søk etter {{name}}s meldinger",
+    "close": "Lukk søk",
+    "removePerson": "Søk alle",
+    "clear": "Tøm",
+    "voice": "Stemmingsmelding",
+    "photo": "Bilde",
+    "peopleHere": "Personer i denne chatten",
+    "recent": "Nylige søk",
+    "hint": "Skriv et ord eller et navn.",
+    "failed": "Søk kunne ikke lastes",
+    "people": "Personer",
+    "messages": "Meldinger",
+    "seeCount_one": "Se deres {{count}} melding",
+    "seeCount_other": "Se deres {{count}} meldinger",
+    "messagesCount_one": "{{count}} melding",
+    "messagesCount_other": "{{count}} meldinger",
+    "results_one": "{{count}} resultat",
+    "results_other": "{{count}} resultater",
+    "backToResults": "Tilbake til resultater",
+    "position": "{{current}} av {{total}}",
+    "older": "Eldre resultat",
+    "newer": "Nyere resultat",
+    "gone": "Den meldingen er ikke lenger her",
+    "theirMessages": "Deres meldinger"
   }
 }

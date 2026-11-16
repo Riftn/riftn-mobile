@@ -15067,5 +15067,32 @@
     "newCodesTitle": "Nhận mã dự phòng mới",
     "newCodesBody": "Nhập mã từ ứng dụng của bạn. Các mã dự phòng cũ của bạn sẽ ngừng hoạt động.",
     "codeLabel": "Mã gồm sáu chữ số"
+  },
+  "chatSearch": {
+    "placeholder": "Tìm kiếm tin nhắn hoặc người",
+    "placeholderPerson": "Tìm kiếm tin nhắn của {{name}}",
+    "close": "Đóng tìm kiếm",
+    "removePerson": "Tìm kiếm mọi người",
+    "clear": "Xóa",
+    "voice": "Tin nhắn giọng nói",
+    "photo": "Ảnh",
+    "peopleHere": "Người trong cuộc trò chuyện này",
+    "recent": "Tìm kiếm gần đây",
+    "hint": "Nhập một từ hoặc tên.",
+    "failed": "Không thể tải tìm kiếm",
+    "people": "Người",
+    "messages": "Tin nhắn",
+    "seeCount_one": "Xem tin nhắn của {{count}}",
+    "seeCount_other": "Xem tin nhắn của {{count}}",
+    "messagesCount_one": "Tin nhắn của {{count}}",
+    "messagesCount_other": "Tin nhắn của {{count}}",
+    "results_one": "Kết quả {{count}}",
+    "results_other": "Kết quả {{count}}",
+    "backToResults": "Trở lại kết quả",
+    "position": "{{current}} trong {{total}}",
+    "older": "Kết quả cũ hơn",
+    "newer": "Kết quả mới hơn",
+    "gone": "Tin nhắn đó không còn ở đây nữa",
+    "theirMessages": "Tin nhắn của họ"
   }
 }

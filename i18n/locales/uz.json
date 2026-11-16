@@ -14867,5 +14867,32 @@
     "newCodesTitle": "Yangi zaxira kodlarini olish",
     "newCodesBody": "Ilovangizdan kodni kiriting. Eski zaxira kodlaringiz o‘z kuchini yo‘qotadi.",
     "codeLabel": "Olti xonali kod"
+  },
+  "chatSearch": {
+    "placeholder": "Qidiruv qilish",
+    "placeholderPerson": "{{name}}ning xabarlarini qidirish",
+    "close": "Qidiruvni yopish",
+    "removePerson": "Hamma kishi",
+    "clear": "Tozalash",
+    "voice": "Ses xabari",
+    "photo": "Surat",
+    "peopleHere": "Chatdagi odamlar",
+    "recent": "Soʻnggi qidiruvlar",
+    "hint": "Kalit soʻz yoki ism kiriting.",
+    "failed": "Qidiruv yuklashda muammoqalik",
+    "people": "Odamlar",
+    "messages": "Xabalar",
+    "seeCount_one": "{{count}} xabari koʻring",
+    "seeCount_other": "{{count}} xabarlarini koʻring",
+    "messagesCount_one": "{{count}} xabari",
+    "messagesCount_other": "{{count}} xabarlar",
+    "results_one": "{{count}} natijasi",
+    "results_other": "{{count}} natijalari",
+    "backToResults": "Qaytish",
+    "position": "{{current}}dan {{total}}",
+    "older": "Qadimgi natija",
+    "newer": "Yangi natija",
+    "gone": "Ushbu xabar hali ham mavjud emas",
+    "theirMessages": "Ular xabarlarini koʻring"
   }
 }

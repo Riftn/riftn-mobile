@@ -14849,5 +14849,32 @@
     "newCodesTitle": "Hämta nya reservkoder",
     "newCodesBody": "Ange en kod från din app. Dina gamla reservkoder kommer att sluta fungera.",
     "codeLabel": "Sexsiffrig kod"
+  },
+  "chatSearch": {
+    "placeholder": "Sök meddelanden eller personer",
+    "placeholderPerson": "Sök {{name}}s meddelanden",
+    "close": "Stäng sökning",
+    "removePerson": "Sök alla",
+    "clear": "Rensa",
+    "voice": "Röstmeddelande",
+    "photo": "Foto",
+    "peopleHere": "Personer i den här chatten",
+    "recent": "Senaste sökningar",
+    "hint": "Skriv ett ord eller ett namn.",
+    "failed": "Sökning kunde inte laddas",
+    "people": "Personer",
+    "messages": "Meddelanden",
+    "seeCount_one": "Se deras {{count}} meddelande",
+    "seeCount_other": "Se deras {{count}} meddelanden",
+    "messagesCount_one": "{{count}} meddelande",
+    "messagesCount_other": "{{count}} meddelanden",
+    "results_one": "{{count}} resultat",
+    "results_other": "{{count}} resultat",
+    "backToResults": "Tillbaka till resultat",
+    "position": "{{current}} av {{total}}",
+    "older": "Äldre resultat",
+    "newer": "Nyare resultat",
+    "gone": "Det meddelandet finns inte längre här",
+    "theirMessages": "Deras meddelanden"
   }
 }

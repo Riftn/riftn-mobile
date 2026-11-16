@@ -14795,5 +14795,32 @@
     "newCodesTitle": "نوي بیک اپ کوډونه ترلاسه کړئ",
     "newCodesBody": "د خپل اپلیکیشن څخه یو کوډ دننه کړئ. ستاسو زاړه بیک اپ کوډونه به کار نه کوي.",
     "codeLabel": "د شپږو ارقامو کوډ"
+  },
+  "chatSearch": {
+    "placeholder": "د پیغامونو یا خلکو لټون",
+    "placeholderPerson": "د {{name}} پیغامونه لټون کړئ",
+    "close": "د لټون بندول",
+    "removePerson": "د ټولو خلکو لټون",
+    "clear": "پاکول",
+    "voice": "د غږ پیغام",
+    "photo": "عکس",
+    "peopleHere": "د دې چت خلک",
+    "recent": "وروستي لټونونه",
+    "hint": "کلمه یا نوم ولیکئ.",
+    "failed": "د لټون بار نشو بارول",
+    "people": "خلک",
+    "messages": "پیغامونه",
+    "seeCount_one": "د دوی {{count}} پیغام وګورئ",
+    "seeCount_other": "د دوی {{count}} پیغامونه وګورئ",
+    "messagesCount_one": "{{count}} پیغام",
+    "messagesCount_other": "{{count}} پیغامونه",
+    "results_one": "{{count}} نتیجه",
+    "results_other": "{{count}} پایلې",
+    "backToResults": "د پایلو ته راستون شئ",
+    "position": "د {{current}} له {{total}}",
+    "older": "زوړ نتیجه",
+    "newer": "نوی نتیجه",
+    "gone": "دا پیغام نور دلته نشته",
+    "theirMessages": "د دوی پیغامونه"
   }
 }

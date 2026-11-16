@@ -14745,5 +14745,30 @@
     "getNew": "Wey your new codes be?",
     "turnOff": "Turn off",
     "codeLabel": "Six-digit code"
+  },
+  "chatSearch": {
+    "placeholderPerson": "Search {{name}}'s messages",
+    "close": "Close search",
+    "removePerson": "Search everyone",
+    "clear": "Clear",
+    "voice": "Voice message",
+    "photo": "Photo",
+    "recent": "Recent searches",
+    "hint": "Na word or name.",
+    "failed": "Search no fit load.",
+    "people": "People",
+    "messages": "Messages",
+    "seeCount_one": "See their {{count}} message",
+    "seeCount_other": "See their {{count}} messages",
+    "messagesCount_one": "{{count}} message",
+    "messagesCount_other": "{{count}} messages",
+    "results_one": "{{count}} result",
+    "results_other": "{{count}} results",
+    "backToResults": "Back to results",
+    "position": "{{current}} of {{total}}",
+    "older": "Older result",
+    "newer": "Newer result",
+    "gone": "Message no dey again.",
+    "theirMessages": "Their messages"
   }
 }

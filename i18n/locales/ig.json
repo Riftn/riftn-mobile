@@ -14808,5 +14808,32 @@
     "newCodesTitle": "Nweta koodu nchekwa ọhụrụ",
     "newCodesBody": "Tinye koodu site na ngwa gị. Koodu nchekwa ochie gị ga-akwụsị ịrụ ọrụ.",
     "codeLabel": "Six-digit code"
+  },
+  "chatSearch": {
+    "placeholder": "Chọwa ozi ma ọ bụ mmadụ",
+    "placeholderPerson": "Chọwa ozi nke {{name}}",
+    "close": "Mechie nchọwa",
+    "removePerson": "Chọwa onye ọ bụla",
+    "clear": "Hichapụ",
+    "voice": "Ozi olu",
+    "photo": "Foto",
+    "peopleHere": "Mmadụ nọ na mkparịta ụka a",
+    "recent": "Nchọwa gara aga",
+    "hint": "Tinye okwu ma ọ bụ aha.",
+    "failed": "Enweghị ike ibudata nchọwa",
+    "people": "Mmadụ",
+    "messages": "Ozi",
+    "seeCount_one": "Lee ozi nke {{count}}",
+    "seeCount_other": "Lee ozi nke {{count}}",
+    "messagesCount_one": "Ozi nke {{count}}",
+    "messagesCount_other": "Ozi nke {{count}}",
+    "results_one": "Nsonaazụ nke {{count}}",
+    "results_other": "Nsonaazụ nke {{count}}",
+    "backToResults": "Weghachite nsonaazụ",
+    "position": "{{current}} nke {{total}}",
+    "older": "Nsonaazụ ochie",
+    "newer": "Nsonaazụ ọhụrụ",
+    "gone": "Ozi ahụ adịghị ebe a ọzọ",
+    "theirMessages": "Ozi ha"
   }
 }

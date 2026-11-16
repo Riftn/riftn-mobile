@@ -14850,5 +14850,32 @@
     "newCodesTitle": "Získat nové záložní kódy",
     "newCodesBody": "Zadejte kód z vaší aplikace. Vaše staré záložní kódy přestanou fungovat.",
     "codeLabel": "Šestimístný kód"
+  },
+  "chatSearch": {
+    "placeholder": "Hledat zprávy nebo lidi",
+    "placeholderPerson": "Hledat zprávy uživatele {{name}}",
+    "close": "Zavřít vyhledávání",
+    "removePerson": "Hledat všechny",
+    "clear": "Vymazat",
+    "voice": "Hlasová zpráva",
+    "photo": "Fotka",
+    "peopleHere": "Lidé v tomto chatu",
+    "recent": "Nedávná vyhledávání",
+    "hint": "Zadejte slovo nebo jméno.",
+    "failed": "Vyhledávání se nepodařilo načíst",
+    "people": "Lidé",
+    "messages": "Zprávy",
+    "seeCount_one": "Zobrazit {{count}} zprávu",
+    "seeCount_other": "Zobrazit jejich {{count}} zprávy",
+    "messagesCount_one": "{{count}} zpráva",
+    "messagesCount_other": "{{count}} zprávy/zpráv",
+    "results_one": "{{count}} výsledek",
+    "results_other": "{{count}} výsledky/výsledků",
+    "backToResults": "Zpět na výsledky",
+    "position": "{{current}} z {{total}}",
+    "older": "Starší výsledek",
+    "newer": "Novější výsledek",
+    "gone": "Tato zpráva už tady není",
+    "theirMessages": "Jejich zprávy"
   }
 }
