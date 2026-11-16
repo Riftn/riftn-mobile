@@ -15,7 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthState, useAuthActions } from "../../context/AuthContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { ChainId } from "../../config/constants";
-import FullScreenLoader from "../../components/FullScreenLoader";
+import { SignInWaitVeil } from "../../components/auth/SignInHandoff";
 import SocialLoginIcons from "../../components/auth/SocialLoginIcons";
 import EmailCodeEntry from "../../components/auth/EmailCodeEntry";
 import LoginShortsStack from "../../components/auth/LoginShortsStack";
@@ -759,7 +759,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const content = (
     <SafeAreaView className="flex-1 bg-theme-background">
       {showLoader && (
-        <FullScreenLoader message={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
+        <SignInWaitVeil label={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
       )}
 
       {/* "padding" on BOTH platforms, deliberately. The manifest still says

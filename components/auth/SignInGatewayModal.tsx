@@ -4,7 +4,7 @@ import GlassModal from "../ui/GlassModal";
 import { AuthButton, AuthErrorNotice, authColors, authText } from "./AuthControls";
 import { ChainId } from "../../config/constants";
 import { useAuthActions, useAuthState } from "../../context/AuthContext";
-import FullScreenLoader from "../FullScreenLoader";
+import { SignInWaitVeil } from "./SignInHandoff";
 import SocialLoginIcons from "./SocialLoginIcons";
 import EmailCodeEntry from "./EmailCodeEntry";
 import ImportWallet from "./ImportWallet";
@@ -606,7 +606,7 @@ const SignInGatewayModal: React.FC<SignInGatewayModalProps> = ({
       ) : (
       <View style={{ flexShrink: 1 }}>
         {isBusy && (
-          <FullScreenLoader message={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
+          <SignInWaitVeil label={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
         )}
         <ScrollView
           {...scrollViewProps}
