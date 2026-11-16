@@ -85,7 +85,7 @@ import {
 } from "react-native";
 import useKeyboard from "../hooks/useKeyboard";
 import { knownVideoAspect, rememberVideoAspect } from "../hooks/useMediaAspect";
-import Reanimated, { cancelAnimation, FadeIn, FadeOut, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming, type SharedValue } from "react-native-reanimated";
+import Reanimated, { cancelAnimation, FadeIn, FadeOut, ZoomIn, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming, type SharedValue } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import type { NativeGesture } from "react-native-gesture-handler";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -270,6 +270,9 @@ const PAUSE_ZONE_END = 2 / 3;
 // The back drag starts anywhere on the clip, like the page-wide back drag on
 // every other screen. It claims after 20pt sideways, so the photo pager
 // (15pt) still turns photos and a vertical flick (12pt) still pages.
+/** The player's button row along the bottom, and the scrubber row above it. */
+const TOOLS_HEIGHT = CHROME_SIZE;
+const SCRUB_HEIGHT = 44;
 const EDGE_BACK_CLAIM = 20;
 const EDGE_BACK_FAIL_Y = 12;
 // iPhone too: the viewer is a transparent modal, which has no sideways pop
@@ -2523,14 +2526,17 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
         </View>
       )}
 
-      {/* The timeline. Rendered before the chrome so that where its hit area
-          runs under the action row, the action row wins — the bar is a thin
-          strip on the floor of the screen and the buttons are the reason
-          anyone is pointing there. */}
+      {/* The timeline, in its own row between the action row and the player's
+          buttons. Along the floor of the screen it sat inside the strip iOS
+          keeps for its home gesture, so a drag there switched apps instead of
+          seeking. Up here it is a finger tall, and grows a glass lens. */}
       <Animated.View
         style={[styles.scrubTrack, { opacity: videoUrl ? chromeOpacity : 0 }]}
         pointerEvents={videoUrl && chromeVisible && isActive ? "auto" : "none"}
       >
+        {/* Drawn over the picture or the always-dark stage, so it keeps its
+            white in System Light. */}
+        <KeepDarkScope>
         <GestureDetector gesture={scrubGesture}>
           <View
             style={styles.scrubHitArea}
@@ -2543,11 +2549,26 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                 style={[styles.scrubFill, scrubbing && styles.scrubFillActive, scrubFillStyle]}
               />
             </View>
-            {scrubbing && (
-              <Animated.View style={[styles.scrubThumb, scrubThumbStyle]} pointerEvents="none" />
-            )}
+            <Animated.View style={[styles.scrubThumbSlot, scrubThumbStyle]} pointerEvents="none">
+              {scrubbing ? (
+                // The lens: the line under the finger, drawn larger inside glass.
+                <Reanimated.View entering={ZoomIn.duration(160)} style={styles.scrubLens}>
+                  <View style={styles.scrubLensLine}>
+                    <View style={styles.scrubLensPlayed} />
+                  </View>
+                  <LinearGradient
+                    colors={["rgba(255,255,255,0.5)", "rgba(255,255,255,0)", "rgba(255,255,255,0.14)"]}
+                    locations={[0, 0.45, 1]}
+                    style={StyleSheet.absoluteFill}
+                  />
+                </Reanimated.View>
+              ) : (
+                <View style={styles.scrubThumb} />
+              )}
+            </Animated.View>
           </View>
         </GestureDetector>
+        </KeepDarkScope>
       </Animated.View>
 
       {/* Faded, not unmounted: the swipe-down clear and the restore tap both
@@ -2638,7 +2659,12 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
               overlayHeight.value = height;
               setStackHeight((prev) => (Math.abs(prev - height) < 1 ? prev : height));
             }}
-            style={[styles.bottomStack, infoShown && { top: infoTop, bottom: undefined }]}
+            style={[
+              styles.bottomStack,
+              // A slide with nothing to play has no scrubber row to clear.
+              !videoUrl && { bottom: EDGE + TOOLS_HEIGHT + 12 },
+              infoShown && { top: infoTop, bottom: undefined },
+            ]}
           >
             <View style={styles.captionBlock}>
               <GestureDetector gesture={creatorTap}>
@@ -3762,74 +3788,6 @@ const ShortsViewerScreen = () => {
           </ChromeTouchTarget>
 
           {!isLiveSlide(activeItem) && <View style={styles.topRight}>
-            {/* These two stay on every post so the row never reshuffles
-                between slides; where one cannot work it says so. */}
-            <ChromeTouchTarget>
-              <Pressable
-                onPress={() => { if (activeWide) setFullscreenTick((n) => n + 1); else toastInfo(t("player.notAvailableForPost")); }}
-                className="dark-surface"
-                hitSlop={CHROME_HIT_SLOP}
-                style={styles.topButton}
-                accessibilityLabel={t("player.enterFullscreen")}
-              >
-                <ChromeFill top />
-                <Icon name="Maximize2" size={20} color="#fff" />
-              </Pressable>
-            </ChromeTouchTarget>
-            <ChromeTouchTarget><PictureInPictureButton videoRef={activeVideoRef} size={CHROME_SIZE} unavailable={items[activeIndex]?.postType === "feed-images"} /></ChromeTouchTarget>
-            <ChromeTouchTarget>
-              <Pressable
-                onPress={handleCycleSpeed}
-                className="dark-surface"
-                hitSlop={CHROME_HIT_SLOP}
-                style={[styles.topButton, styles.speedButton]}
-                accessibilityLabel={t("player.playbackSpeed")}
-              >
-                <ChromeFill top />
-                <Text style={styles.speedButtonText}>{formatRate(playbackRate)}</Text>
-              </Pressable>
-            </ChromeTouchTarget>
-
-            <View>
-              <ChromeTouchTarget>
-                <View
-                  style={styles.topButton}
-                  hitSlop={CHROME_HIT_SLOP}
-                  accessibilityLabel={isMuted ? _copy("copy.ce4ee4efc5e3", { defaultValue: "Unmute" }) : _copy("copy.8dd6857baf02", { defaultValue: "Mute" })}
-                  {...volumePanResponder.panHandlers}
-                >
-                  <ChromeFill top />
-                  <Icon name={isMuted ? "VolumeX" : "Volume2"} size={20} color="#fff" />
-                </View>
-              </ChromeTouchTarget>
-              {volumeAdjusting && (
-                <View style={styles.volumeTrack} pointerEvents="none">
-                  <ChromeFill top />
-                  <View style={styles.volumeTrackInner}>
-                    <View
-                      style={[
-                        styles.volumeFill,
-                        { height: `${Math.round((isMuted ? 0 : volume) * 100)}%` },
-                      ]}
-                    />
-                  </View>
-                </View>
-              )}
-            </View>
-
-            <ChromeTouchTarget>
-              <Pressable
-                onPress={() => setShowOptionsMenu(true)}
-                className="dark-surface"
-                style={styles.topButton}
-                hitSlop={CHROME_HIT_SLOP}
-                accessibilityLabel={t("player.moreOptions")}
-              >
-                <ChromeFill top />
-                <Icon name="Ellipsis" size={20} color="#fff" />
-              </Pressable>
-            </ChromeTouchTarget>
-
             {/* Info Stage: back to the plain stage, in the corner across from Back. */}
             {activeClean && infoStage && !commentsVisible && <ChromeTouchTarget>
               <Pressable
@@ -3845,6 +3803,77 @@ const ShortsViewerScreen = () => {
             </ChromeTouchTarget>}
           </View>}
         </View>
+
+        {/* The player's buttons, on the bottom row under the scrubber. */}
+        {!isLiveSlide(activeItem) && <View className="dark-surface" style={styles.toolsBar} pointerEvents="box-none">
+          {/* These two stay on every post so the row never reshuffles
+              between slides; where one cannot work it says so. */}
+          <ChromeTouchTarget><PictureInPictureButton videoRef={activeVideoRef} size={CHROME_SIZE} unavailable={items[activeIndex]?.postType === "feed-images"} /></ChromeTouchTarget>
+          <ChromeTouchTarget>
+            <Pressable
+              onPress={handleCycleSpeed}
+              className="dark-surface"
+              hitSlop={CHROME_HIT_SLOP}
+              style={[styles.topButton, styles.speedButton]}
+              accessibilityLabel={t("player.playbackSpeed")}
+            >
+              <ChromeFill top />
+              <Text style={styles.speedButtonText}>{formatRate(playbackRate)}</Text>
+            </Pressable>
+          </ChromeTouchTarget>
+          <ChromeTouchTarget>
+            <Pressable
+              onPress={() => { if (activeWide) setFullscreenTick((n) => n + 1); else toastInfo(t("player.notAvailableForPost")); }}
+              className="dark-surface"
+              hitSlop={CHROME_HIT_SLOP}
+              style={styles.topButton}
+              accessibilityLabel={t("player.enterFullscreen")}
+            >
+              <ChromeFill top />
+              <Icon name="Maximize2" size={20} color="#fff" />
+            </Pressable>
+          </ChromeTouchTarget>
+
+          <View>
+            <ChromeTouchTarget>
+              <View
+                style={styles.topButton}
+                hitSlop={CHROME_HIT_SLOP}
+                accessibilityLabel={isMuted ? _copy("copy.ce4ee4efc5e3", { defaultValue: "Unmute" }) : _copy("copy.8dd6857baf02", { defaultValue: "Mute" })}
+                {...volumePanResponder.panHandlers}
+              >
+                <ChromeFill top />
+                <Icon name={isMuted ? "VolumeX" : "Volume2"} size={20} color="#fff" />
+              </View>
+            </ChromeTouchTarget>
+            {volumeAdjusting && (
+              <View style={styles.volumeTrack} pointerEvents="none">
+                <ChromeFill top />
+                <View style={styles.volumeTrackInner}>
+                  <View
+                    style={[
+                      styles.volumeFill,
+                      { height: `${Math.round((isMuted ? 0 : volume) * 100)}%` },
+                    ]}
+                  />
+                </View>
+              </View>
+            )}
+          </View>
+
+          <ChromeTouchTarget>
+            <Pressable
+              onPress={() => setShowOptionsMenu(true)}
+              className="dark-surface"
+              style={styles.topButton}
+              hitSlop={CHROME_HIT_SLOP}
+              accessibilityLabel={t("player.moreOptions")}
+            >
+              <ChromeFill top />
+              <Icon name="Ellipsis" size={20} color="#fff" />
+            </Pressable>
+          </ChromeTouchTarget>
+        </View>}
       </Animated.View>
 
       {/* Initial-load spinner — the first page is still in flight. */}
@@ -3967,13 +3996,14 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    // Clear of the timeline along the floor of the screen.
-    bottom: 28,
+    // Clear of the scrubber row and the player's buttons.
+    bottom: EDGE + TOOLS_HEIGHT + SCRUB_HEIGHT,
     zIndex: 9,
   },
   volumeTrack: {
     position: "absolute",
-    top: CHROME_SIZE + 4,
+    // Rises from the button now that it sits on the bottom row.
+    bottom: CHROME_SIZE + 4,
     left: 0,
     width: CHROME_SIZE,
     height: 120,
@@ -4028,49 +4058,90 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    bottom: 0,
-    // Above the gradient, below the action row it tucks under.
-    zIndex: 8,
+    // Its own row, above the player's buttons and clear of the home gesture.
+    bottom: EDGE + TOOLS_HEIGHT,
+    zIndex: 11,
   },
   scrubHitArea: {
-    // The line is 2pt; the finger gets 28. The bottom stack starts 16 up, so
-    // the top 12 overlap the action cells — exactly the empty padding under
-    // their 20pt icons in a 44pt cell. Any taller and it eats the buttons.
-    height: 28,
-    justifyContent: "flex-end",
+    height: SCRUB_HEIGHT,
+    justifyContent: "center",
     paddingHorizontal: EDGE,
-    paddingBottom: 6,
   },
   scrubLine: {
-    height: 2,
+    height: 6,
     overflow: "hidden",
-    borderRadius: 1,
-    backgroundColor: "rgba(255,255,255,0.25)",
+    borderRadius: 3,
+    backgroundColor: "rgba(255,255,255,0.3)",
     justifyContent: "center",
   },
   scrubLineActive: {
-    height: 4,
-    borderRadius: 2,
+    height: 10,
+    borderRadius: 5,
     backgroundColor: "rgba(255,255,255,0.35)",
   },
   scrubFill: {
     width: "100%",
     height: "100%",
-    borderRadius: 2,
-    backgroundColor: "rgba(255,255,255,0.85)",
+    borderRadius: 5,
+    backgroundColor: "rgba(255,255,255,0.9)",
   },
   scrubFillActive: {
     backgroundColor: "#fff",
   },
-  scrubThumb: {
+  // A zero-width post that rides the line; the dot and the lens centre on it.
+  scrubThumbSlot: {
     position: "absolute",
     left: EDGE,
-    bottom: 1,
+    top: 0,
+    width: 0,
+    height: SCRUB_HEIGHT,
+    alignItems: "center",
+    justifyContent: "center",
+    overflow: "visible",
+  },
+  scrubThumb: {
     width: 14,
     height: 14,
-    marginLeft: -7,
     borderRadius: 7,
     backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.5,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 1 },
+    elevation: 2,
+  },
+  scrubLens: {
+    width: 62,
+    height: 36,
+    borderRadius: 18,
+    overflow: "hidden",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.6)",
+    backgroundColor: "rgba(255,255,255,0.18)",
+  },
+  scrubLensLine: {
+    width: 50,
+    height: 15,
+    borderRadius: 8,
+    overflow: "hidden",
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  scrubLensPlayed: {
+    width: "50%",
+    height: "100%",
+    backgroundColor: "#fff",
+  },
+  toolsBar: {
+    position: "absolute",
+    left: EDGE,
+    right: EDGE,
+    bottom: EDGE,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    zIndex: 20,
   },
   bottomStack: {
     position: "absolute",
@@ -4078,8 +4149,9 @@ const styles = StyleSheet.create({
     right: EDGE,
     // Web closes the frame with `pb-[max(1rem,env(safe-area-inset-bottom))]`.
     // Inside the root SafeAreaView that resolves to a flat 16 — the old
-    // `insets.bottom + 10` was the notch charged twice.
-    bottom: EDGE,
+    // `insets.bottom + 10` was the notch charged twice. The scrubber row and
+    // the player's buttons sit under it.
+    bottom: EDGE + TOOLS_HEIGHT + SCRUB_HEIGHT,
     zIndex: 10,
   },
   captionBlock: {
