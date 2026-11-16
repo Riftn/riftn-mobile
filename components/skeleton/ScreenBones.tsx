@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { StyleSheet, View, useWindowDimensions } from 'react-native';
+import { Platform, StyleSheet, View, useWindowDimensions } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAppTheme } from '../../context/ThemeContext';
 import Shine from './Shine';
@@ -15,9 +15,28 @@ export type ScreenBonesEntry = [number, number, number, string];
 
 const BONES = require('../../navigation/screenBones.json') as Record<string, ScreenBonesEntry | undefined>;
 
+/**
+ * The layouts were measured on an iPhone, where some pages are a short
+ * "continue on the website" notice. Those pages are full pages on Android, so
+ * the notice's layout (the one many pages share) is not drawn for them there.
+ */
+let iosNotice: string | null | undefined;
+function iosOnlyNotice(): string | null {
+  if (iosNotice !== undefined) return iosNotice;
+  const seen = new Map<string, number>();
+  for (const entry of Object.values(BONES)) {
+    if (Array.isArray(entry) && entry[3]) seen.set(entry[3], (seen.get(entry[3]) ?? 0) + 1);
+  }
+  iosNotice = null;
+  for (const [raw, count] of seen) if (count >= 5) iosNotice = raw;
+  return iosNotice;
+}
+
 export function screenBonesFor(routeName: string | undefined): ScreenBonesEntry | undefined {
   const entry = routeName ? BONES[routeName] : undefined;
-  return Array.isArray(entry) && entry[3] ? entry : undefined;
+  if (!Array.isArray(entry) || !entry[3]) return undefined;
+  if (Platform.OS !== 'ios' && entry[3] === iosOnlyNotice()) return undefined;
+  return entry;
 }
 
 const parsed = new Map<string, [number, number, number, number, number, string][]>();

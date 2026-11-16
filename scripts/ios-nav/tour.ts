@@ -308,10 +308,15 @@ const textOf = (fiber: Fiber): string => {
 function measureScreen(routeKey: string | undefined): { w: number; h: number; top: number; bones: string; note?: string } | null {
   const handle: Fiber | undefined = tourRoot?.__internalInstanceHandle ?? tourRoot?._internalFiberInstanceHandleDEV;
   if (!handle) return { w: 0, h: 0, top: 0, bones: "", note: "no root fiber" };
+  // The handle may be either copy of its fiber. Climb to the root and come
+  // back down the committed tree, or a page that rendered once measures empty.
+  let top: Fiber = handle;
+  while (top.return) top = top.return;
+  const committed: Fiber = top.stateNode?.current ?? top;
   const { width: W, height: H } = Dimensions.get("window");
   // The page on top: the shallowest component handed this route.
   let screen: Fiber | null = null;
-  const queue: Fiber[] = [handle];
+  const queue: Fiber[] = [committed];
   for (let i = 0; i < queue.length && i < 200000 && !screen; i++) {
     const f = queue[i];
     if (routeKey && f.memoizedProps && typeof f.memoizedProps === "object" && f.memoizedProps.route?.key === routeKey && f.memoizedProps.navigation) { screen = f; break; }
