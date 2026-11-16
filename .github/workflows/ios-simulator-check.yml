@@ -16,7 +16,7 @@ on:
         required: false
         default: 'dark light syslight'
       task:
-        description: 'walk = open every page and screenshot it. nav = time page switches, main against this branch. probe = look for where a switch spends its time. touch = real finger swipes back and a tap, with a picture of each. shorts = how soon the next short plays after a real swipe, main against this branch'
+        description: 'walk = open every page and screenshot it. nav = time page switches, main against this branch. probe = look for where a switch spends its time. touch = real finger swipes back and a tap, with a picture of each. shorts = how soon the next short plays after a real swipe, main against this branch. shells = a picture of every page held on its loading shell, then of the page (themes = app themes, e.g. system hazy)'
         required: false
         default: 'walk'
       app_run_id:
@@ -165,16 +165,17 @@ jobs:
           grep -cE "warning:" xcodebuild.log > sim-check/warning-count.txt || true
           gzip -c xcodebuild.log > sim-check/xcodebuild.log.gz
       - name: Walk every page in dark, light and System Light
-        if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts'
+        if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'shells'
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-simulator-walk.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
         env:
           THEMES: ${{ inputs.themes || 'dark light syslight' }}
       - name: Time page switches, main against this branch
-        if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts'
+        if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'shells'
         env:
           NAV_MODE: ${{ inputs.task }}
+          SHELL_THEMES: ${{ inputs.task == 'shells' && inputs.themes || '' }}
           SIM_TEST_KEY: ${{ secrets.SIM_TEST_KEY }}
           # Read from App Store Connect inside the script; never printed.
           SIM_REVIEW_LOGIN: ${{ inputs.account == 'review' && '1' || '0' }}

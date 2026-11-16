@@ -65,7 +65,8 @@ export function deferredScreen(
         return () => cancelAnimationFrame(frame);
       }
       // Back before the entrance ends must not evaluate a page being left.
-      if (focused && settled) {
+      // The simulator check holds a page on its shell to picture it.
+      if (focused && settled && !(globalThis as { __holdRouteShell?: boolean }).__holdRouteShell) {
         const component = load();
         loadedScreens.set(key, component);
         remember(routeKey, component);

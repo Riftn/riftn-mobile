@@ -240,6 +240,64 @@ async function runPages(): Promise<void> {
   console.error("[perf-tour] done");
 }
 
+/** Pages the shell tour opens on top of the page tour's list. */
+const SHELL_EXTRA_PAGES = [
+  "CreatorFlow", "LaunchpadCreate", "WorkPost", "WorkHistory", "WorkDisputes", "LiveStudio", "TvRequests",
+  "SignInTv", "Prompt", "ConnectGuide", "FollowList", "PostInfo", "Feed",
+] as const;
+
+/**
+ * Every page's loading shell next to the page itself: the page is first held
+ * on its shell (deferredScreen's hold flag) and pictured, then opened for real
+ * and pictured again once it has settled.
+ */
+async function runShells(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "shells" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(14000);
+  const names = ScreenNames as unknown as Record<string, string>;
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+  const unpictured = (await AsyncStorage.getItem(`${FLAG_KEY}.private`)) === "1" ? PERSONAL_PAGES : new Set<string>();
+  const hold = globalThis as { __holdRouteShell?: boolean };
+  const opened: string[] = [];
+  let index = 0;
+  for (const page of [...PAGES, ...SHELL_EXTRA_PAGES]) {
+    const name = names[page];
+    index += 1;
+    if (!name || (!signedIn && ACCOUNT_PAGES.has(page))) continue;
+    const label = `${String(index).padStart(2, "0")}-${page}`;
+    hold.__holdRouteShell = true;
+    nav.navigate(name);
+    await sleep(1100);
+    const reached = nav.getCurrentRoute()?.name === name;
+    if (reached) await shot(`${label}-1shell`);
+    await sleep(600);
+    hold.__holdRouteShell = false;
+    back()();
+    await sleep(700);
+    await backToTabs();
+    if (!reached) continue;
+    opened.push(page);
+    nav.navigate(name);
+    await sleep(3200);
+    if (!unpictured.has(page)) await shot(`${label}-2page`);
+    await sleep(600);
+    back()();
+    await sleep(700);
+    await backToTabs();
+    await save(false);
+  }
+  extra.opened = opened;
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] done");
+}
+
 /**
  * Real touches, made by the script: does a slow swipe in from the left edge
  * leave the page, and does a tap on Back land. A picture is taken before and
@@ -738,7 +796,7 @@ async function run(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "shells") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -747,6 +805,7 @@ void (async () => {
     else if (mode === "probe") await runProbe();
     else if (mode === "touch") await runTouch();
     else if (mode === "shorts") await runShorts();
+    else if (mode === "shells") await runShells();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);
