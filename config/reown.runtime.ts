@@ -52,22 +52,29 @@ export const metadata = {
 
 export const config = defaultConfig({ metadata });
 
-// The web app's 4-wallet list (src/lib/wagmi.ts's RainbowKit connectors) is
-// MetaMask, Phantom, Trust, Rabby — but Phantom is deliberately excluded
-// here. On web, RainbowKit connects to Phantom via its INJECTED browser
-// extension (window.phantom.ethereum), bypassing WalletConnect entirely —
-// see wagmi.ts's lazyPhantomWallet(). Phantom's own WalletConnect Explorer
-// listing only declares "sign_v1" support (verified against
-// https://explorer-api.walletconnect.com/v3/wallets) — WalletConnect v1's
-// relay network was shut down in 2023, and every modern client including
-// this one (via @walletconnect/ethereum-provider v2) speaks v2 only. There
-// is no browser-extension equivalent on native mobile, so Phantom has no
-// working connection path here — including it would just be a button that
-// always fails to connect.
-const WEB_PARITY_WALLET_IDS = [
+// Wallets pinned to the top of the picker, in this order. The first four show
+// on the opening screen; the rest lead the "All wallets" list, which also
+// carries every other WalletConnect wallet and a search box.
+//
+// The picker used to be limited to these few with includeWalletIds, to mirror
+// the web sign-in list. On a phone that left any other wallet with no way in:
+// the only fallback is a QR code, which cannot be scanned when the wallet is
+// on the same device.
+//
+// Left out on purpose: Phantom and Coinbase/Base Wallet. Neither is offered
+// over WalletConnect on mobile (no deep link in the wallet directory), so a
+// row for them could only fail.
+const FEATURED_WALLET_IDS = [
   "c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96", // MetaMask
   "4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0", // Trust Wallet
+  "0b415a746fb9ee99cce155c2ceca0c6f6061b1dbca2d722b3ba16381d0562150", // SafePal
+  "8a0ee50d1f22f6651afcae7eb4253e52a3310b90af5daef78a8c4929a9bb99d4", // Binance Wallet
+  "971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709", // OKX Wallet
+  "38f5d18bd8522c244bdd70cb4a68e0e718865155811c043f052fb9f1c51de662", // Bitget Wallet
+  "20459438007b75f4f4acb98bf29aa3b800550309646d375da5fd4aac6c2a2c66", // TokenPocket
   "18388be9ac2d02726dbac9777c96efaac06d744b2f6d580fccdd4127a6d01fd1", // Rabby
+  "ecc4036f814562b41a5268adc86270fba1365471402006302e70169465b7ac18", // Zerion
+  "1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369", // Rainbow
 ];
 
 // The chains AppKit offers to connect on — must match this app's own
@@ -124,8 +131,7 @@ if (!projectId || !chains) {
       defaultChain: chains.find((c) => c.chainId === 56),
       config,
       enableAnalytics: false,
-      includeWalletIds: WEB_PARITY_WALLET_IDS,
-      featuredWalletIds: WEB_PARITY_WALLET_IDS,
+      featuredWalletIds: FEATURED_WALLET_IDS,
     });
     (globalThis as any)[APPKIT_GLOBAL_KEY] = true;
     (globalThis as any)[APPKIT_INSTANCE_KEY] = instance;

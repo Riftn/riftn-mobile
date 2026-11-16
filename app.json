@@ -42,7 +42,8 @@
           "trust",
           "safe",
           "rainbow",
-          "uniswap"
+          "uniswap",
+          "safepalwallet"
         ],
         "NSCameraUsageDescription": "Riftn uses your camera when you choose to take a profile photo, record a video for a post, start a live stream, or scan a wallet QR code.",
         "NSMicrophoneUsageDescription": "Riftn uses your microphone when you record a voice message or video, or speak in a live stream or audio stage.",
