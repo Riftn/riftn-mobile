@@ -36,12 +36,16 @@ const TV_RED = "rgba(255,40,80,0.35)";
 const TV_BLUE = "rgba(40,220,255,0.35)";
 const TV_EDGE = 1;
 
-/** Soft scan line tile: one line every 2pt that fades in and out, no hard edge. */
+/** Soft scan line tile: one line every 3pt that fades in and out, no hard edge. */
+const TV_PITCH = 3;
+/** How far the lines climb in one loop: a whole number of lines, so the loop never jumps. */
+const TV_CLIMB = TV_PITCH * 18;
 const TV_LINES = require("../../assets/login-stack/tv-lines.png");
 
 /**
- * Old TV inside the letters only: soft scan lines plus a faint band rolling
- * down, cut to the shape of whatever `mask` draws. Same as the web sheet.
+ * Old TV inside the letters only: soft scan lines rolling upward non-stop plus
+ * a faint band rolling down, cut to the shape of whatever `mask` draws. Same
+ * as the web sheet.
  */
 function TvLines({ mask, light, line, band, from, to, still }: {
   mask: React.ReactElement; light: boolean; line: number; band: string; from: number; to: number; still: boolean;
@@ -57,7 +61,9 @@ function TvLines({ mask, light, line, band, from, to, still }: {
     <MaskedView style={StyleSheet.absoluteFill} maskElement={mask} pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
       {/* Colours as written: System Light's pass would turn the white lines on ink into ink. */}
       <KeepDarkScope>
-        <Image source={TV_LINES} resizeMode="repeat" style={[styles.tvLines, { tintColor: light ? "#FFFFFF" : "#000000", opacity: line }]} />
+        <Animated.View style={[styles.tvLines, { transform: [{ translateY: roll.interpolate({ inputRange: [0, 1], outputRange: [0, -TV_CLIMB] }) }] }]}>
+          <Image source={TV_LINES} resizeMode="repeat" style={[styles.tvTile, { tintColor: light ? "#FFFFFF" : "#000000", opacity: line }]} />
+        </Animated.View>
         {!still && (
           <Animated.View style={[styles.tvBand, { transform: [{ translateY: roll.interpolate({ inputRange: [0, 1], outputRange: [from, to] }) }] }]}>
             <LinearGradient colors={["transparent", band, "transparent"]} style={StyleSheet.absoluteFill} />
@@ -89,7 +95,7 @@ function NeonLogo({ tint, edges, light, still }: { tint: keyof typeof NEON; edge
       <TvLines
         mask={<Image source={NEON[tint]} style={styles.neonImg} resizeMode="contain" />}
         light={light}
-        line={light ? 0.16 : 0.15}
+        line={0.26}
         band={light ? "rgba(255,255,255,0.1)" : "rgba(255,255,255,0.12)"}
         from={NEON_PAD - 40}
         to={NEON_PAD + 110}
@@ -350,7 +356,7 @@ export default function LoginShortsStack({ viewportHeight, reservedHeight = 360,
           <TvLines
             mask={<Text style={[styles.headlineText, styles.maskText]}>{headlineText}</Text>}
             light={isLight}
-            line={isLight ? 0.21 : 0.2}
+            line={0.3}
             band={isLight ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.18)"}
             from={-40}
             to={110}
@@ -391,6 +397,7 @@ const styles = StyleSheet.create({
   neonImg: { position: "absolute", left: 0, top: 0, width: NEON_W, height: NEON_H },
   edge: { position: "absolute", left: 0, right: 0, top: 0 },
   maskText: { color: "#000000" },
-  tvLines: { position: "absolute", left: 0, top: 0, width: "100%", height: "100%" },
+  tvLines: { position: "absolute", left: 0, right: 0, top: 0, bottom: -TV_CLIMB },
+  tvTile: { width: "100%", height: "100%" },
   tvBand: { position: "absolute", left: 0, right: 0, top: 0, height: 26 },
 });
