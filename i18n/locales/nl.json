@@ -7890,6 +7890,7 @@
     "doubleTapRewind": "Dubbeltik om terug te spoelen",
     "doubleTapForward": "Dubbeltik om vooruit te spoelen",
     "pipUnavailable": "Beeld in beeld is niet beschikbaar. Controleer of het is toegestaan voor Riftn in uw apparaatinstellingen.",
+    "notAvailableForPost": "Niet beschikbaar voor dit bericht",
     "noVideo": "Geen video",
     "rotate": "Roteren",
     "yourDhbBalance": "Je tokengoed: {{amount}}",

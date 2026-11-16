@@ -9564,6 +9564,7 @@
     "doubleTapRewind": "双击快退",
     "doubleTapForward": "双击快进",
     "pipUnavailable": "画中画不可用。请检查设备设置中是否允许 Riftn 使用画中画。",
+    "notAvailableForPost": "此帖子不支持该功能",
     "noVideo": "无视频",
     "rotate": "旋转",
     "yourDhbBalance": "您的代币余额：{{amount}}"

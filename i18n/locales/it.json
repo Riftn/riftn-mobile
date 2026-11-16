@@ -9690,6 +9690,7 @@
     "doubleTapRewind": "Doppio tocco per riavvolgere",
     "doubleTapForward": "Doppio tocco per avanzare",
     "pipUnavailable": "Picture in picture non disponibile. Verifica che sia consentito per Riftn nelle impostazioni del tuo dispositivo.",
+    "notAvailableForPost": "Non disponibile per questo post",
     "noVideo": "Nessun video",
     "rotate": "Ruota",
     "yourDhbBalance": "Il tuo saldo token: {{amount}}"

@@ -9562,6 +9562,7 @@
     "doubleTapRewind": "2回タップして巻き戻す",
     "doubleTapForward": "2回タップしてスキップ",
     "pipUnavailable": "ピクチャーインピクチャーは利用できません。デバイスの設定でRiftnが許可されているか確認してください。",
+    "notAvailableForPost": "この投稿では利用できません",
     "noVideo": "動画がありません",
     "rotate": "回転",
     "yourDhbBalance": "トークン残高: {{amount}}"

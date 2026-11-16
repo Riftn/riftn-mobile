@@ -9714,6 +9714,7 @@
     "doubleTapRewind": "Toque duas vezes para retroceder",
     "doubleTapForward": "Toque duas vezes para avançar",
     "pipUnavailable": "Picture-in-picture não está disponível. Verifique se é permitido para Riftn nas configurações do seu dispositivo.",
+    "notAvailableForPost": "Não disponível para esta publicação",
     "noVideo": "Sem vídeo",
     "rotate": "Rotacionar",
     "yourDhbBalance": "Seu saldo de tokens: {{amount}}",

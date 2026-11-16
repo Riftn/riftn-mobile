@@ -9693,6 +9693,7 @@
     "doubleTapRewind": "더블 탭하여 되감기",
     "doubleTapForward": "더블 탭하여 앞으로 건너뛰기",
     "pipUnavailable": "PIP 모드를 사용할 수 없습니다. 기기 설정에서 Riftn에 허용되었는지 확인하세요.",
+    "notAvailableForPost": "이 게시물에서는 사용할 수 없습니다",
     "noVideo": "동영상 없음",
     "rotate": "회전",
     "yourDhbBalance": "토큰 잔액: {{amount}}개"
