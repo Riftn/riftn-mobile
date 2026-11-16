@@ -25,6 +25,7 @@ import {
   type SkParagraph,
 } from "@shopify/react-native-skia";
 import * as FileSystem from "expo-file-system/legacy";
+import { Asset } from "expo-asset";
 import { placeWidget } from "../live-overlay/layout";
 import { layoutCard, pixelRect, type CardSpec, type FrameRect } from "./scenes";
 import type { PlacedDrawing, WidgetDrawing } from "./widgets";
@@ -162,6 +163,16 @@ export async function renderCard(card: CardSpec, size: Size, now: number): Promi
 // ─── Overlay ──────────────────────────────────────────────────────────────────
 
 const imageCache = new Map<string, Promise<SkImage | null>>();
+let coinArt: SkImage | null = null;
+let coinArtPromise: Promise<SkImage | null> | null = null;
+
+function loadCoinArt(): Promise<SkImage | null> {
+  coinArtPromise ??= Asset.fromModule(require("../../assets/web-icons/dehub-coin.png"))
+    .downloadAsync()
+    .then((asset) => asset.localUri ? loadImage(asset.localUri) : null)
+    .catch(() => null);
+  return coinArtPromise;
+}
 
 /** Decode an image once per uri. */
 export function loadImage(uri: string): Promise<SkImage | null> {
@@ -184,6 +195,7 @@ export interface OverlayContent {
 /** The overlay at `size` as a PNG file, or null when there is nothing on it. */
 export async function renderOverlay(content: OverlayContent, size: Size): Promise<string | null> {
   if (!content.image && content.drawings.length === 0) return null;
+  coinArt = await loadCoinArt();
   const { s, w, h } = surface(size);
   const canvas = s.getCanvas();
   canvas.clear(Skia.Color("transparent"));
@@ -239,8 +251,14 @@ function circle(canvas: SkCanvas, cx: number, cy: number, r: number, color: stri
   canvas.drawCircle(cx, cy, r, p);
 }
 
-/** The DHB coin, as a small gold disc with a darker rim. */
+/** Draw the same gold coin used throughout the app in rendered overlays. */
 function coin(canvas: SkCanvas, x: number, cy: number, size: number) {
+  if (coinArt) {
+    const paint = Skia.Paint();
+    paint.setAntiAlias(true);
+    canvas.drawImageRect(coinArt, Skia.XYWHRect(0, 0, coinArt.width(), coinArt.height()), Skia.XYWHRect(x, cy - size / 2, size, size), paint);
+    return;
+  }
   const r = size / 2;
   circle(canvas, x + r, cy, r, "#f5b301");
   circle(canvas, x + r, cy, r * 0.62, "#ffd54a");
