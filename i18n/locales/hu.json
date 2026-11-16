@@ -9662,7 +9662,14 @@
     "callbackRequest": "Visszahívási kérés",
     "tryAgain": "Próbálkozz újra",
     "startVoice": "Hanghívás indítása",
-    "startVideo": "Videohívás indítása"
+    "startVideo": "Videohívás indítása",
+    "voiceCallShort": "Hanghívás",
+    "videoCallShort": "Videóhívás",
+    "ended": "Hívás befejezve",
+    "declined": "Hívás elutasítva",
+    "noAnswer": "Nincs válasz",
+    "missed": "Nem fogadott hívás",
+    "callBack": "Visszahívás"
   },
   "badgeAscension": {
     "reached": "Elérted a következő számot:{{tier}}",

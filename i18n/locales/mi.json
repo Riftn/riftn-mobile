@@ -9641,7 +9641,14 @@
     "callbackRequest": "Whakapā mai",
     "tryAgain": "Whakamātauria ano",
     "startVoice": "Tīmata karanga reo",
-    "startVideo": "Tīmata karanga ataata"
+    "startVideo": "Tīmata karanga ataata",
+    "voiceCallShort": "Waea reo",
+    "videoCallShort": "Waea ataata",
+    "ended": "Kua mutu te waea",
+    "declined": "Kua whakakāhoretia te waea",
+    "noAnswer": "Kāore he whakautu",
+    "missed": "Waea kua ngaro",
+    "callBack": "Whakahoki waea"
   },
   "badgeAscension": {
     "reached": "Kua tae mai koe {{tier}}",

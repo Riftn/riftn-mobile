@@ -8078,7 +8078,14 @@
     "callbackRequest": "Terugbelverzoek",
     "tryAgain": "Opnieuw proberen",
     "startVoice": "Spraakoproep starten",
-    "startVideo": "Videogesprek starten"
+    "startVideo": "Videogesprek starten",
+    "voiceCallShort": "Spraakgesprek",
+    "videoCallShort": "Videogesprek",
+    "ended": "Gesprek beëindigd",
+    "declined": "Oproep geweigerd",
+    "noAnswer": "Geen antwoord",
+    "missed": "Gemist gesprek",
+    "callBack": "Terugbellen"
   },
   "badgeAscension": {
     "reached": "Je hebt {{tier}} bereikt",

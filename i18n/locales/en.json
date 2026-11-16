@@ -7958,7 +7958,14 @@
     "expand": "Expand",
     "tapToEnableAudio": "Tap to enable audio",
     "startVoice": "Start voice call",
-    "startVideo": "Start video call"
+    "startVideo": "Start video call",
+    "voiceCallShort": "Voice call",
+    "videoCallShort": "Video call",
+    "ended": "Call ended",
+    "declined": "Call declined",
+    "noAnswer": "No answer",
+    "missed": "Missed call",
+    "callBack": "Call back"
   },
   "badgeAscension": {
     "reached": "You reached {{tier}}",

@@ -9839,7 +9839,14 @@
     "callbackRequest": "Yêu cầu gọi lại",
     "tryAgain": "Thử lại",
     "startVoice": "Bắt đầu cuộc gọi thoại",
-    "startVideo": "Bắt đầu cuộc gọi video"
+    "startVideo": "Bắt đầu cuộc gọi video",
+    "voiceCallShort": "Cuộc gọi thoại",
+    "videoCallShort": "Cuộc gọi video",
+    "ended": "Cuộc gọi đã kết thúc",
+    "declined": "Đã từ chối cuộc gọi",
+    "noAnswer": "Không trả lời",
+    "missed": "Cuộc gọi nhỡ",
+    "callBack": "Gọi lại"
   },
   "badgeAscension": {
     "reached": "Bạn đã đến {{tier}}",

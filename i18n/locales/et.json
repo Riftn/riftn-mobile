@@ -9654,7 +9654,14 @@
     "callbackRequest": "Tagasihelistamise taotlus",
     "tryAgain": "Proovi uuesti",
     "startVoice": "Alusta tavakõnet",
-    "startVideo": "Alusta videokõnet"
+    "startVideo": "Alusta videokõnet",
+    "voiceCallShort": "Tavakõne",
+    "videoCallShort": "Videokõne",
+    "ended": "Kõne lõpetatud",
+    "declined": "Kõnest keelduti",
+    "noAnswer": "Vastamata",
+    "missed": "Vastamata kõne",
+    "callBack": "Helista tagasi"
   },
   "badgeAscension": {
     "reached": "Saavutasid taseme {{tier}}",

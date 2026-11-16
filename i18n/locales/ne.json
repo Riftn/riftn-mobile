@@ -9667,7 +9667,14 @@
     "callbackRequest": "कलब्याक अनुरोध",
     "tryAgain": "फेरि प्रयास गर्नुहोस्",
     "startVoice": "भ्वाइस कल सुरु गर्नुहोस्",
-    "startVideo": "भिडियो कल सुरु गर्नुहोस्"
+    "startVideo": "भिडियो कल सुरु गर्नुहोस्",
+    "voiceCallShort": "भ्वाइस कल",
+    "videoCallShort": "भिडियो कल",
+    "ended": "कल समाप्त भयो",
+    "declined": "कल अस्वीकार गरियो",
+    "noAnswer": "कुनै जवाफ छैन",
+    "missed": "छुटेको कल",
+    "callBack": "फेरि फोन गर्नुहोस्"
   },
   "badgeAscension": {
     "reached": "तपाईं {{tier}} मा पुग्नुभयो",

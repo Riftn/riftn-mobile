@@ -9877,7 +9877,14 @@
     "callbackRequest": "Permintaan panggilan balik",
     "tryAgain": "Coba lagi",
     "startVoice": "Mulai panggilan suara",
-    "startVideo": "Mulai panggilan video"
+    "startVideo": "Mulai panggilan video",
+    "voiceCallShort": "Panggilan suara",
+    "videoCallShort": "Panggilan video",
+    "ended": "Panggilan berakhir",
+    "declined": "Panggilan ditolak",
+    "noAnswer": "Tidak ada jawaban",
+    "missed": "Panggilan tidak terjawab",
+    "callBack": "Hubungi kembali"
   },
   "badgeAscension": {
     "reached": "Anda menghubungi {{tier}}",

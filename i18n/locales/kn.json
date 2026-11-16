@@ -9641,7 +9641,14 @@
     "callbackRequest": "ಕಾಲ್‌ಬ್ಯಾಕ್ ವಿನಂತಿ",
     "tryAgain": "ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",
     "startVoice": "ಧ್ವನಿ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ",
-    "startVideo": "ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ"
+    "startVideo": "ವೀಡಿಯೊ ಕರೆಯನ್ನು ಪ್ರಾರಂಭಿಸಿ",
+    "voiceCallShort": "ವಾಯ್ಸ್ ಕಾಲ್",
+    "videoCallShort": "ವೀಡಿಯೊ ಕರೆ",
+    "ended": "ಕರೆ ಕೊನೆಗೊಂಡಿದೆ",
+    "declined": "ಕಾಲನ್ನು ನಿರಾಕರಿಸಲಾಗಿದೆ",
+    "noAnswer": "ಉತ್ತರವಿಲ್ಲ",
+    "missed": "ಕಳೆದುಹೋದ ಕರೆ",
+    "callBack": "ಮತ್ತೆ ಕರೆ ಮಾಡಿ"
   },
   "badgeAscension": {
     "reached": "ನೀವು {{tier}} ಅನ್ನು ತಲುಪಿದ್ದೀರಿ",

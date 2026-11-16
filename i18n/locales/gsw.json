@@ -9672,7 +9672,14 @@
     "callbackRequest": "Rückrüef-Aaforderig",
     "tryAgain": "Versuchs nomol",
     "startVoice": "Stimm-Uusruuf starte",
-    "startVideo": "Video-Uusruuf starte"
+    "startVideo": "Video-Uusruuf starte",
+    "voiceCallShort": "Voice call → Sprachgschpräch",
+    "videoCallShort": "Video call → Video-Gschpräch",
+    "ended": "Call ended → Gschpräch beendet",
+    "declined": "Call declined → Gschpräch abgelehnt",
+    "noAnswer": "No answer → Kein Antwort",
+    "missed": "Missed call → Verpasstes Gschpräch",
+    "callBack": "Call back → Zurückruefe"
   },
   "badgeAscension": {
     "reached": "Du hesch {{tier}} erreicht",

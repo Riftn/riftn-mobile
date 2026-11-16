@@ -7939,7 +7939,14 @@
     "callbackRequest": "Geri arama isteği",
     "tryAgain": "Tekrar deneyin",
     "startVoice": "Sesli aramayı başlat",
-    "startVideo": "Görüntülü aramayı başlat"
+    "startVideo": "Görüntülü aramayı başlat",
+    "voiceCallShort": "Sesli arama",
+    "videoCallShort": "Görüntülü arama",
+    "ended": "Arama sona erdi",
+    "declined": "Çağrı reddedildi",
+    "noAnswer": "Cevap yok",
+    "missed": "Cevapsız arama",
+    "callBack": "Geri ara"
   },
   "badgeAscension": {
     "reached": "{{tier}} seviyesine ulaştınız",

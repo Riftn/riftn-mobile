@@ -7956,7 +7956,14 @@
     "callbackRequest": "طلب معاودة الاتصال",
     "tryAgain": "حاول مرة أخرى",
     "startVoice": "بدء مكالمة صوتية",
-    "startVideo": "بدء مكالمة فيديو"
+    "startVideo": "بدء مكالمة فيديو",
+    "voiceCallShort": "مكالمة صوتية",
+    "videoCallShort": "مكالمة فيديو",
+    "ended": "انتهت المكالمة",
+    "declined": "تم رفض المكالمة",
+    "noAnswer": "لا يوجد رد",
+    "missed": "مكالمة فائتة",
+    "callBack": "إعادة الاتصال"
   },
   "badgeAscension": {
     "reached": "لقد وصلت إلى {{tier}}",

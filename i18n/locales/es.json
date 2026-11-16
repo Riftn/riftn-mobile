@@ -7940,7 +7940,14 @@
     "callbackRequest": "Solicitud de devolución de llamada",
     "tryAgain": "Inténtalo de nuevo",
     "startVoice": "Iniciar llamada de voz",
-    "startVideo": "Iniciar videollamada"
+    "startVideo": "Iniciar videollamada",
+    "voiceCallShort": "Llamada de voz",
+    "videoCallShort": "Videollamada",
+    "ended": "Llamada terminada",
+    "declined": "Llamada rechazada",
+    "noAnswer": "Sin respuesta",
+    "missed": "Llamada perdida",
+    "callBack": "Devolver la llamada"
   },
   "badgeAscension": {
     "reached": "Has llegado a {{tier}}",

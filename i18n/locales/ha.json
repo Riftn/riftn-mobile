@@ -9652,7 +9652,14 @@
     "callbackRequest": "Callback bukatar",
     "tryAgain": "Gwada kuma",
     "startVoice": "Fara kiran murya",
-    "startVideo": "Fara kiran bidiyo"
+    "startVideo": "Fara kiran bidiyo",
+    "voiceCallShort": "Kiran murya",
+    "videoCallShort": "Kiran bidiyo",
+    "ended": "An ƙare kira",
+    "declined": "An ƙi karɓar kira",
+    "noAnswer": "Babu amsa",
+    "missed": "Kiran da ba a amsa ba",
+    "callBack": "A sake kira"
   },
   "badgeAscension": {
     "reached": "Kun isa {{tier}}",

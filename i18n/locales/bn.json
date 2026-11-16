@@ -9653,7 +9653,14 @@
     "callbackRequest": "কলব্যাকের অনুরোধ",
     "tryAgain": "আবার চেষ্টা করুন",
     "startVoice": "ভয়েস কল শুরু করুন",
-    "startVideo": "ভিডিও কল শুরু করুন"
+    "startVideo": "ভিডিও কল শুরু করুন",
+    "voiceCallShort": "ভয়েস কল",
+    "videoCallShort": "ভিডিও কল",
+    "ended": "কল শেষ হয়েছে",
+    "declined": "কল প্রত্যাখ্যান করা হয়েছে",
+    "noAnswer": "কোনও উত্তর নেই",
+    "missed": "মিস করা কল",
+    "callBack": "আবার কল করুন"
   },
   "badgeAscension": {
     "reached": "আপনি {{tier}} -এ পৌঁছেছেন",

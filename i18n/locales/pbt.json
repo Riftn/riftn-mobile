@@ -9625,7 +9625,14 @@
     "callbackRequest": "د بیرته ستنیدو غوښتنه",
     "tryAgain": "یو ځل بیا هڅه وکړئ",
     "startVoice": "غږیز زنګ پیل کړئ",
-    "startVideo": "ویډیو زنګ پیل کړئ"
+    "startVideo": "ویډیو زنګ پیل کړئ",
+    "voiceCallShort": "غږیز زنګ",
+    "videoCallShort": "ویډیويي زنګ",
+    "ended": "زنګ پای ته ورسېد",
+    "declined": "زنګ رد شو",
+    "noAnswer": "ځواب نشته",
+    "missed": "له لاسه وتلی زنګ",
+    "callBack": "بېرته زنګ ووهئ"
   },
   "badgeAscension": {
     "lines": {

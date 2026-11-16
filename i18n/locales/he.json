@@ -9664,7 +9664,14 @@
     "callbackRequest": "בקשת התקשרות חוזרת",
     "tryAgain": "ניסיון חוזר",
     "startVoice": "התחל שיחה קולית",
-    "startVideo": "התחל שיחת וידאו"
+    "startVideo": "התחל שיחת וידאו",
+    "voiceCallShort": "שיחת קול",
+    "videoCallShort": "שיחת וידאו",
+    "ended": "השיחה הסתיימה",
+    "declined": "השיחה נדחתה",
+    "noAnswer": "אין מענה",
+    "missed": "שיחה שלא נענתה",
+    "callBack": "חיוג חוזר"
   },
   "badgeAscension": {
     "reached": "הגעת אל {{tier}}",

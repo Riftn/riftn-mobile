@@ -9631,7 +9631,14 @@
     "callbackRequest": "Кайра чалуу өтүнүчү",
     "tryAgain": "Дагы бир жолу аракет кылып көрүңүз",
     "startVoice": "Үн чалууну баштоо",
-    "startVideo": "Видео чалууну баштоо"
+    "startVideo": "Видео чалууну баштоо",
+    "voiceCallShort": "Үн чалуу",
+    "videoCallShort": "Видео чалуу",
+    "ended": "Чакыруу аяктады",
+    "declined": "Чакыруу четке кагылды",
+    "noAnswer": "Жооп жок",
+    "missed": "Жооп берилбеген чалуу",
+    "callBack": "Кайра чалуу"
   },
   "badgeAscension": {
     "reached": "Сиз {{tier}} жеттиңиз",

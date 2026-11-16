@@ -9880,7 +9880,14 @@
     "callbackRequest": "Запрос обратного звонка",
     "tryAgain": "Повторить попытку",
     "startVoice": "Начать голосовой вызов",
-    "startVideo": "Начать видеовызов"
+    "startVideo": "Начать видеовызов",
+    "voiceCallShort": "Голосовой звонок",
+    "videoCallShort": "Видеозвонок",
+    "ended": "Звонок завершен",
+    "declined": "Звонок отклонен",
+    "noAnswer": "Нет ответа",
+    "missed": "Пропущенный вызов",
+    "callBack": "Перезвонить"
   },
   "badgeAscension": {
     "reached": "Вы достигли {{tier}}",

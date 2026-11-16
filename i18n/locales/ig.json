@@ -9629,7 +9629,14 @@
     "callbackRequest": "Kpọtụrụ arịrịọ",
     "tryAgain": "Gbalịa ọzọ",
     "startVoice": "Malite oku olu",
-    "startVideo": "Malite video oku"
+    "startVideo": "Malite video oku",
+    "voiceCallShort": "Oku olu",
+    "videoCallShort": "Oku vidiyo",
+    "ended": "Ọchụgwụ gasịrị",
+    "declined": "Ọchịchịrịrị",
+    "noAnswer": "Igbo: No answer",
+    "missed": "Ozi a na-egbu ozi",
+    "callBack": "Otu n'ụzọ"
   },
   "badgeAscension": {
     "reached": "Ị ruru {{tier}}",

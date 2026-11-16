@@ -9651,7 +9651,14 @@
     "tryAgain": "Qayta urinish",
     "startVoice": "Ovozli qo'ng'iroqni boshlang",
     "startVideo": "Видео қўнғироқни бошлаш",
-    "end": "Qo'ng'iroqni tugatish"
+    "end": "Qo'ng'iroqni tugatish",
+    "voiceCallShort": "Ovozli qo'ng'iroq",
+    "videoCallShort": "Video qo'ng'iroq",
+    "ended": "Qo'ng'iroq tugadi",
+    "declined": "Qo'ng'iroq rad etildi",
+    "noAnswer": "Javob yo'q",
+    "missed": "Qo'ng'iroq o'tkazib yuborildi",
+    "callBack": "Qayta qo'ng'iroq qiling"
   },
   "badgeAscension": {
     "reached": "Siz {{tier}} ga yetdingiz",

@@ -9877,7 +9877,14 @@
     "callbackRequest": "Richiesta di richiamata",
     "tryAgain": "Riprova",
     "startVoice": "Avvia chiamata vocale",
-    "startVideo": "Avvia videochiamata"
+    "startVideo": "Avvia videochiamata",
+    "voiceCallShort": "Chiamata vocale",
+    "videoCallShort": "Videochiamata",
+    "ended": "Chiamata terminata",
+    "declined": "Chiamata rifiutata",
+    "noAnswer": "Nessuna risposta",
+    "missed": "Chiamata persa",
+    "callBack": "Richiama"
   },
   "badgeAscension": {
     "reached": "Hai raggiunto {{tier}}",

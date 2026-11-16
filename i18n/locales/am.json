@@ -9681,7 +9681,14 @@
     "muted": "ተደፍኗል",
     "speaker": "ድምጽ ማጉያ",
     "startVoice": "የድምጽ ጥሪ ይጀምሩ",
-    "startVideo": "የቪዲዮ ጥሪ ይጀምሩ"
+    "startVideo": "የቪዲዮ ጥሪ ይጀምሩ",
+    "voiceCallShort": "የድምጽ ጥሪ",
+    "videoCallShort": "የቪዲዮ ጥሪ",
+    "ended": "ጥሪው ተቋርጧል",
+    "declined": "ጥሪው ተቀባይነት አላገኘም",
+    "noAnswer": "ምላሽ የለም",
+    "missed": "ያልተመለሰ ጥሪ",
+    "callBack": "ተመልሰው ይደውሉ"
   },
   "badgeAscension": {
     "reached": "እርስዎ ደርሰዋል {{tier}}",

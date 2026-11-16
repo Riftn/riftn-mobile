@@ -9653,7 +9653,14 @@
     "callbackRequest": "Geri zəng sorğusu",
     "tryAgain": "Yenidən cəhd et",
     "startVoice": "Səsli zəngə başla",
-    "startVideo": "Video zəngə başla"
+    "startVideo": "Video zəngə başla",
+    "voiceCallShort": "Səsli zəng",
+    "videoCallShort": "Video zəng",
+    "ended": "Zəng başa çatdı",
+    "declined": "Zəngdən imtina edildi",
+    "noAnswer": "Cavab yoxdur",
+    "missed": "Cavabsız zəng",
+    "callBack": "Geri zəng et"
   },
   "badgeAscension": {
     "lines": {

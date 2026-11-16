@@ -9624,7 +9624,14 @@
     "callbackRequest": "Çakylyk gaýtargy soragy",
     "tryAgain": "Gaýtalaň",
     "startVoice": "Sesli çakylygy başla",
-    "startVideo": "Video çakylygy başla"
+    "startVideo": "Video çakylygy başla",
+    "voiceCallShort": "Sesli söhbet",
+    "videoCallShort": "Wideo jaňy",
+    "ended": "Aňlaşyk tamamlanyldy",
+    "declined": "Jaň ret edildi",
+    "noAnswer": "Jogap ýok",
+    "missed": "Gözden ýitirilen jaň",
+    "callBack": "Gaýtadan jaň et"
   },
   "badgeAscension": {
     "reached": "{{tier}}",

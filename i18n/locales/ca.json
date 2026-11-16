@@ -9654,7 +9654,14 @@
     "callbackRequest": "Sol·licitud de devolució de truc",
     "tryAgain": "Torna-ho a provar",
     "startVoice": "Inicia una trucada de veu",
-    "startVideo": "Inicia una videollamada"
+    "startVideo": "Inicia una videollamada",
+    "voiceCallShort": "Trucada de veu",
+    "videoCallShort": "Videotrucada",
+    "ended": "S'ha finalitzat la trucada",
+    "declined": "S'ha rebutjat la trucada",
+    "noAnswer": "Sense resposta",
+    "missed": "Trobada perduda",
+    "callBack": "Torna a trucar"
   },
   "badgeAscension": {
     "reached": "Has arribat a {{tier}}",

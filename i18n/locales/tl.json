@@ -9700,7 +9700,14 @@
     "tryAgain": "Subukan muli",
     "startVoice": "Simulan ang voice call",
     "startVideo": "Simulan ang video call",
-    "voiceCall": "Voice call sa Riftn"
+    "voiceCall": "Voice call sa Riftn",
+    "voiceCallShort": "Voice call",
+    "videoCallShort": "Video call",
+    "ended": "Natapos na ang tawag",
+    "declined": "Tinanggihan ang tawag",
+    "noAnswer": "Walang sumasagot",
+    "missed": "Hindi nasagot na tawag",
+    "callBack": "Tumawag ulit"
   },
   "badgeAscension": {
     "reached": "Naabot mo ang {{tier}}",

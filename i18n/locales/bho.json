@@ -9623,7 +9623,14 @@
     "callbackRequest": "फिर से आवेदन करें",
     "tryAgain": "कृपया उ के सक्षम करीं आ फिर से",
     "startVoice": "आवाज़ लगाने की खातिर",
-    "startVideo": "वीडियो कॉल शुरू करे"
+    "startVideo": "वीडियो कॉल शुरू करे",
+    "voiceCallShort": "आवाज़ लगाने की खातिर",
+    "videoCallShort": "वीडियो कॉल",
+    "ended": "कॉल खतम भइल",
+    "declined": "कॉल अस्वीकार कइल गइल",
+    "noAnswer": "कउनो जवाब नाहीं",
+    "missed": "फोन उठावल ना गइल",
+    "callBack": "फिर से कॉल करें"
   },
   "badgeAscension": {
     "lines": {

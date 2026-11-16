@@ -9663,7 +9663,14 @@
     "callbackRequest": "Isicelo sokubuyiselwa ucingo",
     "tryAgain": "Zama futhi",
     "startVoice": "Qala ucingo lwezwi",
-    "startVideo": "Qala ucingo lwevidiyo"
+    "startVideo": "Qala ucingo lwevidiyo",
+    "voiceCallShort": "Ucingo lwezwi",
+    "videoCallShort": "Ucingo lwevidiyo",
+    "ended": "Ucingo luphelile",
+    "declined": "Ucingo lwenqatshiwe",
+    "noAnswer": "Akuphendulwanga",
+    "missed": "Ucingo olungaphendwanga",
+    "callBack": "Fonela emuva"
   },
   "badgeAscension": {
     "reached": "Ufinyelele ku- {{tier}}",

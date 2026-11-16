@@ -9701,7 +9701,14 @@
     "callbackRequest": "درخواست تماس برگشتی",
     "tryAgain": "دوباره تلاش کنید",
     "startVoice": "شروع تماس صوتی",
-    "startVideo": "شروع یک تماس ویدئویی"
+    "startVideo": "شروع یک تماس ویدئویی",
+    "voiceCallShort": "تماس صوتی",
+    "videoCallShort": "تماس تصویری",
+    "ended": "تماس پایان یافت",
+    "declined": "تماس رد شد",
+    "noAnswer": "بدون پاسخ",
+    "missed": "تماس از دست رفته",
+    "callBack": "تماس مجدد"
   },
   "badgeAscension": {
     "reached": "شما به {{tier}} رسیدید",

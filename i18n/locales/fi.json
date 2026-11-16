@@ -9653,7 +9653,14 @@
     "callbackRequest": "Takaisinsoittopyyntö",
     "tryAgain": "Yritä uudelleen",
     "startVoice": "Aloita äänipuhelu",
-    "startVideo": "Aloita videopuhelu"
+    "startVideo": "Aloita videopuhelu",
+    "voiceCallShort": "Äänipuhelu",
+    "videoCallShort": "Videopuhelu",
+    "ended": "Puhelu päättyi",
+    "declined": "Puhelu hylätty",
+    "noAnswer": "Ei vastausta",
+    "missed": "Vastaamaton puhelu",
+    "callBack": "Soita takaisin"
   },
   "badgeAscension": {
     "reached": "Saavutit tason {{tier}}",

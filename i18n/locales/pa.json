@@ -9655,7 +9655,14 @@
     "callbackRequest": "ਕਾਲਬੈਕ ਬੇਨਤੀ",
     "tryAgain": "ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ",
     "startVoice": "ਵੌਇਸ ਕਾਲ ਸ਼ੁਰੂ ਕਰੋ",
-    "startVideo": "ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰੋ"
+    "startVideo": "ਵੀਡੀਓ ਕਾਲ ਸ਼ੁਰੂ ਕਰੋ",
+    "voiceCallShort": "ਵੌਇਸ ਕਾਲ",
+    "videoCallShort": "ਵੀਡੀਓ ਕਾਲ",
+    "ended": "ਕਾਲ ਖਤਮ ਹੋਈ",
+    "declined": "ਕਾਲ ਨੂੰ ਅਸਵੀਕਾਰ ਕੀਤਾ ਗਿਆ",
+    "noAnswer": "ਕੋਈ ਜਵਾਬ ਨਹੀਂ",
+    "missed": "ਮਿਸ ਕੀਤੀ ਕਾਲ",
+    "callBack": "ਵਾਪਸ ਕਾਲ ਕਰੋ"
   },
   "badgeAscension": {
     "reached": "ਤੁਸੀਂ {{tier}} ਤੇ ਪਹੁੰਚ ਗਏ",

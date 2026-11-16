@@ -9657,7 +9657,14 @@
     "callbackRequest": "Kërkesë për kthimin e thirrjes",
     "tryAgain": "Provo përsëri",
     "startVoice": "Fillo telefonatën me zë",
-    "startVideo": "Fillo thirrjen me video"
+    "startVideo": "Fillo thirrjen me video",
+    "voiceCallShort": "Telefonatë zanore",
+    "videoCallShort": "Video thirrje",
+    "ended": "Telefonata përfundoi",
+    "declined": "Telefonata u refuzua",
+    "noAnswer": "Nuk u përgjigj",
+    "missed": "Telefonatë e humbur",
+    "callBack": "Telefono përsëri"
   },
   "badgeAscension": {
     "reached": "Arrite në {{tier}}",

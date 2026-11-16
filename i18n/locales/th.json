@@ -9724,7 +9724,14 @@
     "callbackRequest": "คำขอให้โทรกลับ",
     "tryAgain": "ลองอีกครั้ง",
     "startVoice": "เริ่มการโทรด้วยเสียง",
-    "startVideo": "เริ่มวิดีโอคอล"
+    "startVideo": "เริ่มวิดีโอคอล",
+    "voiceCallShort": "การโทรด้วยเสียง",
+    "videoCallShort": "วิดีโอคอล",
+    "ended": "สิ้นสุดการโทรแล้ว",
+    "declined": "ปฏิเสธการโทรแล้ว",
+    "noAnswer": "ไม่มีคำตอบ",
+    "missed": "สายที่ไม่ได้รับ",
+    "callBack": "โทรกลับ"
   },
   "badgeAscension": {
     "reached": "คุณมาถึง {{tier}} แล้ว",

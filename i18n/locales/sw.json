@@ -9663,7 +9663,14 @@
     "callbackRequest": "Ombi la kupigiwa simu",
     "tryAgain": "Jaribu tena",
     "startVoice": "Anza kupiga simu kwa sauti",
-    "startVideo": "Anza kupiga simu ya video"
+    "startVideo": "Anza kupiga simu ya video",
+    "voiceCallShort": "Simu ya sauti",
+    "videoCallShort": "Simu ya video",
+    "ended": "Simu imekatishwa",
+    "declined": "Simu imekataliwa",
+    "noAnswer": "Hakuna jibu",
+    "missed": "Simu uliyokosa",
+    "callBack": "Piga simu tena"
   },
   "badgeAscension": {
     "reached": "Umefikia {{tier}}",

@@ -9632,7 +9632,14 @@
     "callbackRequest": "回調要求",
     "tryAgain": "再試多次",
     "startVoice": "開始語音通話",
-    "startVideo": "開始視像通話"
+    "startVideo": "開始視像通話",
+    "voiceCallShort": "語音通話",
+    "videoCallShort": "視像通話",
+    "ended": "通話結束咗",
+    "declined": "來電被拒絕",
+    "noAnswer": "冇答案",
+    "missed": "錯過咗嘅電話",
+    "callBack": "打返去"
   },
   "badgeAscension": {
     "reached": "你去到 {{tier}}",

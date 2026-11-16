@@ -10104,7 +10104,14 @@
     "callbackRequest": "Запит на зворотній дз",
     "tryAgain": "Спробувати ще раз",
     "startVoice": "Почати голосовий дзвінок",
-    "startVideo": "Почати відеодзвінок"
+    "startVideo": "Почати відеодзвінок",
+    "voiceCallShort": "Голосовий дзвінок",
+    "videoCallShort": "Відеовиклик",
+    "ended": "Виклик завершено",
+    "declined": "Виклик відхилено",
+    "noAnswer": "Немає відповіді",
+    "missed": "Пропущений виклик",
+    "callBack": "Передзвонити"
   },
   "badgeAscension": {
     "reached": "Ви досягли {{tier}}",

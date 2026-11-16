@@ -9635,7 +9635,14 @@
     "callbackRequest": "Дархости бозгашти занг",
     "tryAgain": "Бори дигар кӯшиш кунед",
     "startVoice": "Оғоз кардани занги овозӣ",
-    "startVideo": "Занги видеоиро оғоз кунед"
+    "startVideo": "Занги видеоиро оғоз кунед",
+    "voiceCallShort": "Занги овозиӣ",
+    "videoCallShort": "Занги видеоӣ",
+    "ended": "Занг хотима ёфт",
+    "declined": "Занг рад карда шуд",
+    "noAnswer": "Ҷавоб надод",
+    "missed": "Занги ҷавоб доданашуда",
+    "callBack": "Боз занг занед"
   },
   "badgeAscension": {
     "reached": "Шумо ба {{tier}} расидед",

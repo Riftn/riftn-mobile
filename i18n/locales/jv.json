@@ -9640,7 +9640,14 @@
     "callbackRequest": "Panjalukan callback",
     "tryAgain": "Coba maneh",
     "startVoice": "Miwiti telpon swara",
-    "startVideo": "Miwiti telpon video"
+    "startVideo": "Miwiti telpon video",
+    "voiceCallShort": "Panggilan suara",
+    "videoCallShort": "Panggilan video",
+    "ended": "Panggilan wis rampung",
+    "declined": "Panggilan ditolak",
+    "noAnswer": "Ora ana jawaban",
+    "missed": "Kasus panggilan telpon ora diresponsi",
+    "callBack": "Ngono ngono"
   },
   "badgeAscension": {
     "reached": "Sampeyan tekan {{tier}}",

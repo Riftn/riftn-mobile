@@ -9638,7 +9638,14 @@
     "callbackRequest": "طلب استدعاء",
     "tryAgain": "حاول مرة تانية",
     "startVoice": "ابدأ مكالمة صوتية",
-    "startVideo": "ابدأ مكالمة فيديو"
+    "startVideo": "ابدأ مكالمة فيديو",
+    "voiceCallShort": "مكالمة صوتية",
+    "videoCallShort": "مكالمة فيديو",
+    "ended": "المكالمة انتهت",
+    "declined": "تم رفض المكالمة",
+    "noAnswer": "لا يوجد رد",
+    "missed": "مكالمة فائتة",
+    "callBack": "إعادة الاتصال"
   },
   "badgeAscension": {
     "reached": "وصلت {{tier}}",

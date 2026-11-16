@@ -9751,7 +9751,14 @@
     "callbackRequest": "回拨请求",
     "tryAgain": "重试",
     "startVoice": "开始语音通话",
-    "startVideo": "开始视频通话"
+    "startVideo": "开始视频通话",
+    "voiceCallShort": "语音通话",
+    "videoCallShort": "视频通话",
+    "ended": "通话已结束",
+    "declined": "通话被拒绝",
+    "noAnswer": "无人接听",
+    "missed": "未接来电",
+    "callBack": "回拨"
   },
   "badgeAscension": {
     "reached": "您已达到{{tier}}",

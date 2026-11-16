@@ -12716,7 +12716,12 @@
     "expand": "پھیلائیں",
     "tapToEnableAudio": "آڈیو فعال کرنے کے لیے ٹیپ کریں",
     "startVoice": "وائس کال شروع کریں",
-    "startVideo": "ویڈیو کال شروع کریں"
+    "startVideo": "ویڈیو کال شروع کریں",
+    "voiceCallShort": "فون کال",
+    "declined": "کال رد ہو گئی",
+    "noAnswer": "کوئی جواب نہیں",
+    "missed": "مِسڈ کال",
+    "callBack": "کال بیک"
   },
   "conversation": {
     "commonGround": {

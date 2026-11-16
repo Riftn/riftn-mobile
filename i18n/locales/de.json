@@ -9816,7 +9816,14 @@
     "callbackRequest": "Rückrufanfrage",
     "tryAgain": "Erneut versuchen",
     "startVoice": "Sprachanruf starten",
-    "startVideo": "Videoanruf starten"
+    "startVideo": "Videoanruf starten",
+    "voiceCallShort": "Sprachanruf",
+    "videoCallShort": "Videoanruf",
+    "ended": "Anruf beendet",
+    "declined": "Anruf abgelehnt",
+    "noAnswer": "Keine Antwort",
+    "missed": "Verpasster Anruf",
+    "callBack": "Zurückrufen"
   },
   "badgeAscension": {
     "reached": "Du hast {{tier}} erreicht",

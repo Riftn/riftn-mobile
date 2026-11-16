@@ -9653,7 +9653,14 @@
     "callbackRequest": "Gaaffii deebi'ee bilbiluu",
     "tryAgain": "Ammas yaalaa",
     "startVoice": "Bilbila sagalee jalqabi",
-    "startVideo": "Bilbila viidiyoo jalqabaa"
+    "startVideo": "Bilbila viidiyoo jalqabaa",
+    "voiceCallShort": "Bilbila sagalee",
+    "videoCallShort": "Bilbila viidiyoo",
+    "ended": "Bilbilli xumurame",
+    "declined": "Bilbilli ni dide",
+    "noAnswer": "Deebii hin qabu",
+    "missed": "Bilbila darbe",
+    "callBack": "Bilbila deebi'aa"
   },
   "badgeAscension": {
     "reached": "{{tier}} bira geesse.",

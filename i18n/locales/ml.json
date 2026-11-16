@@ -9641,7 +9641,14 @@
     "callbackRequest": "കോൾബാക്ക് അഭ്യർത്ഥന",
     "tryAgain": "വീണ്ടും ശ്രമിക്കുക",
     "startVoice": "വോയ്‌സ് കോൾ ആരംഭിക്കുക",
-    "startVideo": "വീഡിയോ കോൾ ആരംഭിക്കുക"
+    "startVideo": "വീഡിയോ കോൾ ആരംഭിക്കുക",
+    "voiceCallShort": "വോയ്‌സ് കോൾ",
+    "videoCallShort": "വീഡിയോ കോൾ",
+    "ended": "കോൾ അവസാനിച്ചു",
+    "declined": "കോൾ നിരസിച്ചു",
+    "noAnswer": "ഉത്തരം ഇല്ല",
+    "missed": "വിട്ടുപോയ കോൾ",
+    "callBack": "തിരികെ വിളിക്കുക"
   },
   "badgeAscension": {
     "reached": "നിങ്ങൾ {{tier}} ൽ എത്തിച്ചേർന്നു",

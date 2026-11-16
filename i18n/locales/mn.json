@@ -9648,7 +9648,14 @@
     "callbackRequest": "Дуудлага хийх хүсэлт",
     "tryAgain": "Дахин оролд",
     "startVoice": "Дуут дуудлага эхлэх",
-    "startVideo": "Видео дуудлага эхлэх"
+    "startVideo": "Видео дуудлага эхлэх",
+    "voiceCallShort": "Дуут дуудлага",
+    "videoCallShort": "Бичлэгээр ярих",
+    "ended": "Дуудлага дууслаа",
+    "declined": "Дуудлага татгалзсан",
+    "noAnswer": "Хариу өгөөгүй",
+    "missed": "Хариулаагүй дуудлага",
+    "callBack": "Дахин залгах"
   },
   "badgeAscension": {
     "reached": "Та {{tier}} хүрлээ",

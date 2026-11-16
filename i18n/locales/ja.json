@@ -9749,7 +9749,14 @@
     "callbackRequest": "折り返しの電話リクエスト",
     "tryAgain": "もう一度お試しください",
     "startVoice": "音声通話を開始する",
-    "startVideo": "ビデオ通話を開始する"
+    "startVideo": "ビデオ通話を開始する",
+    "voiceCallShort": "音声通話",
+    "videoCallShort": "ビデオ通話",
+    "ended": "通話が終了しました",
+    "declined": "通話を拒否しました",
+    "noAnswer": "応答なし",
+    "missed": "不在着信",
+    "callBack": "折り返し電話"
   },
   "badgeAscension": {
     "reached": "{{tier}}に到達しました",

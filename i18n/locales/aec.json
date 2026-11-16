@@ -9644,7 +9644,14 @@
     "callbackRequest": "طلب رد اتصال",
     "tryAgain": "حاول تاني",
     "startVoice": "ابدأ مكالمة صوتية",
-    "startVideo": "ابدأ مكالمة فيديو"
+    "startVideo": "ابدأ مكالمة فيديو",
+    "voiceCallShort": "مكالمة صوتية",
+    "videoCallShort": "مكالمة فيديو",
+    "ended": "المكالمة انتهت",
+    "declined": "تم رفض المكالمة",
+    "noAnswer": "ما جاوبش",
+    "missed": "مكالمة ضائعة",
+    "callBack": "ارجع للاتصال"
   },
   "badgeAscension": {
     "reached": "وصلت {{tier}}",

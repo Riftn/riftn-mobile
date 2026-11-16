@@ -9632,7 +9632,14 @@
     "callbackRequest": "K'i ka juru sara",
     "tryAgain": "Try tun tun tun",
     "startVoice": "Kumakan daminɛ",
-    "startVideo": "Videow ka baara daminɛ"
+    "startVideo": "Videow ka baara daminɛ",
+    "voiceCallShort": "Kuma kan tilefonu fɔlɔ",
+    "videoCallShort": "A fɔ faniw kan",
+    "ended": "Ɛrɛzɛkalo banman",
+    "declined": "A ma sɔn ka weleli nin mina",
+    "noAnswer": "Mɔgɔ si ma jaabi di",
+    "missed": "Fɔni min ma minɛ",
+    "callBack": "A wele tugun"
   },
   "badgeAscension": {
     "toNextTier": "{{amount}} tokens ka taa {{tier}} ma",

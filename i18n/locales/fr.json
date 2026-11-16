@@ -7944,7 +7944,14 @@
     "callbackRequest": "Demande de rappel",
     "tryAgain": "Réessayer",
     "startVoice": "Commencer l'appel vocal",
-    "startVideo": "Commencer l'appel vidéo"
+    "startVideo": "Commencer l'appel vidéo",
+    "voiceCallShort": "Appel vocal",
+    "videoCallShort": "Appel vidéo",
+    "ended": "Appel terminé",
+    "declined": "Appel refusé",
+    "noAnswer": "Pas de réponse",
+    "missed": "Appel manqué",
+    "callBack": "Rappeler"
   },
   "badgeAscension": {
     "reached": "Vous avez atteint {{tier}}",

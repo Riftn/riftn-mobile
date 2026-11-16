@@ -1,15 +1,12 @@
 import React from "react";
-import { CallDuration } from "./CallDuration";
-import { View, Text, StyleSheet, Modal, StatusBar } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { RtcSurfaceView } from "react-native-agora";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
-import { colors } from "../../theme/colors";
-import { radius } from "../../theme/radius";
 import { useCall } from "../../context/CallContext";
-import { CallIdentity, CallControl, CallControlPanel, CallBackground, CallMinimizeButton } from "./CallChrome";
+import { CallDuration } from "./CallDuration";
+import { CallStage, CallIdentity, CallControl, CallDock, CallFoot } from "./CallChrome";
 import { usePeerIdentity } from "./usePeerIdentity";
 
 const VideoCallModal: React.FC = () => {
@@ -17,6 +14,7 @@ const VideoCallModal: React.FC = () => {
     isCallActive,
     currentCall,
     isConnecting,
+    isRinging,
     isMuted,
     isSpeakerOn,
     isCameraOff,
@@ -42,187 +40,136 @@ const VideoCallModal: React.FC = () => {
 
   if (!isVisible || isMinimized) return null;
 
-  const statusText = isConnecting
-    ? t("calls.connecting")
-    : <CallDuration fallback={t("calls.connected")} />;
+  const live = !!remoteUid;
+  const status = isRinging
+    ? t("calls.calling")
+    : isConnecting
+      ? t("calls.connecting")
+      : <CallDuration fallback={t("calls.connected")} />;
+  const footClearance = Math.max(22, insets.bottom + 10) + 132;
 
   return (
-    <Modal
-      visible
-      onRequestClose={() => setMinimized(true)}
-      statusBarTranslucent
-      animationType="fade"
-      transparent={false}
-    >
-      <StatusBar barStyle="light-content" />
-      <View style={styles.container}>
-        {/* Remote video (full-screen) */}
-        {remoteUid ? (
-          <RtcSurfaceView
-            style={StyleSheet.absoluteFill}
-            canvas={remoteCanvas}
-          />
-        ) : (
-          // Nobody on the far side yet, so this is the ringing screen: show who
-          // is being called rather than an anonymous camera glyph.
-          <View style={[styles.waiting, { paddingTop: insets.top + 56 }]}>
-            <CallBackground />
-            <CallIdentity
-              kindIcon="Video"
-              kindLabel={t("calls.videoCall")}
-              name={peer.name}
-              status={statusText}
-              avatarUri={peer.avatarUrl}
-            />
+    <CallStage peer={peer} live={live} onRequestClose={() => setMinimized(true)} onCorner={() => setMinimized(true)}>
+      {live ? (
+        <>
+          <RtcSurfaceView style={StyleSheet.absoluteFill} canvas={remoteCanvas} />
+          {/* Name and timer ride over the other person's video once it is up. */}
+          <View style={[styles.top, { paddingTop: insets.top + 14 }]} pointerEvents="none">
+            <View style={styles.chip}>
+              <Text style={styles.chipName} numberOfLines={1}>{peer.name}</Text>
+              <Text style={styles.chipTime}>{status}</Text>
+            </View>
           </View>
-        )}
+          <View style={styles.fill} />
+        </>
+      ) : (
+        // Nobody on the far side yet: show who is being called, not an empty camera.
+        <CallIdentity kindIcon="Video" kindLabel={t("calls.videoCall")} peer={peer} status={status} ringing={isRinging} />
+      )}
 
-        {/* Local video (PiP) — always mounted so startPreview can attach before state update */}
-        <View
-          style={[
-            styles.localVideo,
-            { top: Math.max(60, insets.top + 80), opacity: isCameraOff ? 0 : 1 },
-          ]}
-          pointerEvents={isCameraOff ? "none" : "box-none"}
-        >
-          <RtcSurfaceView
-            style={StyleSheet.absoluteFill}
-            zOrderMediaOverlay={true}
-            canvas={localCanvas}
-          />
-        </View>
-
-        {/* Name + duration ride over the remote video once it is up */}
-        {!!remoteUid && (
-          <View style={[styles.topBar, { paddingTop: insets.top > 0 ? insets.top + 10 : 18 }]}>
-            <LinearGradient
-              colors={["rgba(1,3,5,0.85)", "rgba(1,3,5,0)"]}
-              style={StyleSheet.absoluteFill}
-              pointerEvents="none"
-            />
-            <Text style={styles.name} numberOfLines={1}>
-              {peer.name}
-            </Text>
-            <Text style={styles.status}>{statusText}</Text>
+      {/* Own camera. Always mounted so the preview can attach before the call state settles. */}
+      <View
+        style={[styles.self, live ? { bottom: footClearance, width: 104, height: 148 } : { top: insets.top + 68, width: 84, height: 120 }]}
+        pointerEvents="none"
+      >
+        <RtcSurfaceView
+          style={[StyleSheet.absoluteFill, { opacity: isCameraOff ? 0 : 1 }]}
+          zOrderMediaOverlay={true}
+          canvas={localCanvas}
+        />
+        {isCameraOff ? (
+          <View style={styles.selfOff} accessibilityLabel={t("calls.cameraOff")}>
+            <Icon name="VideoOff" size={20} color="rgba(255,255,255,0.62)" />
           </View>
-        )}
-
-        {isCameraOff && (
-          <View style={[styles.cameraOffPill, { top: Math.max(60, insets.top + 80) }]}>
-            <Icon name="VideoOff" size={13} color={colors.mutedForeground} />
-            <Text style={styles.cameraOffText}>{t("calls.cameraOff")}</Text>
-          </View>
-        )}
-
-        <View style={styles.controlsDock}>
-          <CallControlPanel>
-            <CallControl
-              icon={isSpeakerOn ? "Volume2" : "Volume1"}
-              label={t("calls.speaker")}
-              onPress={toggleSpeaker}
-              active={isSpeakerOn}
-              small
-            />
-            <CallControl
-              icon={isMuted ? "MicOff" : "Mic"}
-              label={isMuted ? t("calls.unmute") : t("calls.mute")}
-              onPress={toggleMute}
-              active={isMuted}
-              small
-            />
-            <CallControl
-              icon={isCameraOff ? "VideoOff" : "Video"}
-              label={t("calls.camera")}
-              onPress={toggleCamera}
-              active={isCameraOff}
-              small
-            />
-            <CallControl
-              icon="RefreshCw"
-              label={t("calls.flip")}
-              onPress={switchCamera}
-              small
-            />
-            <CallControl
-              icon="PhoneOff"
-              label={t("calls.end")}
-              onPress={endCall}
-              primary
-              small
-            />
-          </CallControlPanel>
-        </View>
-        <CallMinimizeButton onPress={() => setMinimized(true)} />
+        ) : null}
       </View>
-    </Modal>
+
+      <CallFoot>
+        <CallDock compact>
+          <CallControl
+            icon={isSpeakerOn ? "Volume2" : "Volume1"}
+            label={t("calls.speaker")}
+            onPress={toggleSpeaker}
+            active={isSpeakerOn}
+            compact
+          />
+          <CallControl
+            icon={isMuted ? "MicOff" : "Mic"}
+            label={isMuted ? t("calls.unmute") : t("calls.mute")}
+            onPress={toggleMute}
+            active={isMuted}
+            compact
+          />
+          <CallControl
+            icon={isCameraOff ? "VideoOff" : "Video"}
+            label={t("calls.camera")}
+            onPress={toggleCamera}
+            active={isCameraOff}
+            compact
+          />
+          <CallControl icon="RefreshCw" label={t("calls.flip")} onPress={switchCamera} compact />
+          <CallControl
+            icon="PhoneOff"
+            label={isCallActive ? t("calls.end") : t("common.cancel")}
+            onPress={endCall}
+            primary
+            compact
+          />
+        </CallDock>
+      </CallFoot>
+    </CallStage>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  fill: {
     flex: 1,
-    backgroundColor: colors.background,
   },
-  waiting: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: "center",
-    paddingHorizontal: 24,
-  },
-  localVideo: {
-    position: "absolute",
-    top: 60,
-    left: 16,
-    width: 104,
-    height: 156,
-    borderRadius: radius.xl,
-    overflow: "hidden",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.16)",
-    backgroundColor: colors.neutrals[800],
-  },
-  topBar: {
+  top: {
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
-    paddingBottom: 26,
-    paddingHorizontal: 20,
     alignItems: "center",
+    paddingHorizontal: 70,
   },
-  name: {
-    color: colors.foreground,
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  status: {
-    color: colors.mutedForeground,
-    fontSize: 13,
-    marginTop: 2,
-    fontVariant: ["tabular-nums"],
-  },
-  cameraOffPill: {
-    position: "absolute",
-    left: 16,
+  chip: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: radius.full,
-    backgroundColor: "rgba(255,255,255,0.10)",
+    gap: 8,
+    maxWidth: "100%",
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.14)",
+    borderColor: "rgba(255,255,255,0.2)",
+    backgroundColor: "rgba(18,18,22,0.55)",
   },
-  cameraOffText: {
-    color: colors.mutedForeground,
-    fontSize: 12,
+  chipName: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "700",
+    flexShrink: 1,
+  },
+  chipTime: {
+    color: "rgba(255,255,255,0.82)",
+    fontSize: 14,
     fontWeight: "500",
+    fontVariant: ["tabular-nums"],
   },
-  controlsDock: {
+  self: {
     position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
+    right: 16,
+    borderRadius: 18,
+    overflow: "hidden",
+    borderWidth: 1.5,
+    borderColor: "rgba(255,255,255,0.7)",
+    backgroundColor: "#17171B",
+  },
+  selfOff: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 

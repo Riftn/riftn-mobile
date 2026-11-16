@@ -9609,7 +9609,14 @@
     "callbackRequest": "คำขอเรียกกลับ",
     "tryAgain": "ลองอีกครั้ง",
     "startVoice": "เริ่มโทรด้วยเสียง",
-    "startVideo": "เริ่มวิดีโอคอล"
+    "startVideo": "เริ่มวิดีโอคอล",
+    "voiceCallShort": "เสียงโทร",
+    "videoCallShort": "วีดีโอโทร",
+    "ended": "โทรจบ",
+    "declined": "โทรปฏิเสธ",
+    "noAnswer": "ไม่ตอบ",
+    "missed": "โทรหาย",
+    "callBack": "โทรกลับ"
   },
   "badgeAscension": {
     "lines": {

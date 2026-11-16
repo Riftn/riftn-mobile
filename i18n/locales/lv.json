@@ -9654,7 +9654,14 @@
     "callbackRequest": "Atzvanīšanas pieprasījums",
     "tryAgain": "Mēģināt vēlreiz",
     "startVoice": "Sākt balss zvanu",
-    "startVideo": "Sākt videozvanu"
+    "startVideo": "Sākt videozvanu",
+    "voiceCallShort": "Balss zvans",
+    "videoCallShort": "Videozvans",
+    "ended": "Zvans beidzies",
+    "declined": "Zvans noraidīts",
+    "noAnswer": "Bez atbildes",
+    "missed": "Neatbildēts zvans",
+    "callBack": "Pārzvanīt"
   },
   "badgeAscension": {
     "reached": "Jūs sasniedzāt {{tier}}",
