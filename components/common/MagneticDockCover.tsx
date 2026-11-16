@@ -3,6 +3,7 @@ import { AccessibilityInfo, Animated, Easing, Image, StyleSheet, View, useWindow
 import SplashScreen from '../../screens/SplashScreen';
 import { measureDockTarget, type DockTarget } from '../../libs/magneticDock';
 import { markLaunchMotionStarted } from '../../libs/bootReveal';
+import { perfNote } from '../../libs/perfTrace';
 
 // One frame after start(), so the native side has the animation before
 // JavaScript gets busy with the rows that were waiting on it.
@@ -61,6 +62,7 @@ export default function MagneticDockCover({ reveal, enabled, onComplete }: {
     };
     void (async () => {
       target = enabled && !reduced.current ? await measureDockTarget() : null;
+      perfNote(`cover enabled ${enabled} reduced ${reduced.current} target ${target ? `${Math.round(target.x)},${Math.round(target.y)} ${Math.round(target.width)}x${Math.round(target.height)}` : "none"} window ${Math.round(width)}x${Math.round(height)} cancelled ${cancelled} finished ${finished}`);
       if (cancelled || finished) return;
       if (!target || target.y < 0 || target.y + target.height > height) { crossfade(); return; }
       const dock = target;

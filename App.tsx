@@ -77,7 +77,7 @@ import i18n from "./i18n";
 import { useAppLifecycle } from "./hooks/useAppLifecycle";
 import { checkForOtaUpdate } from "./libs/otaUpdates";
 import { createLogger } from "./libs/logger";
-import { armPerfTraceForLaunch } from "./libs/perfTrace";
+import { armPerfTraceForLaunch, perfNote } from "./libs/perfTrace";
 import { flushNavigationTiming, markLaunchPhase, markNavigationSettled, reportLaunchRevealed, trackNavigationTiming } from "./libs/launchTiming";
 import { installJsStallMonitor } from "./libs/jsStallMonitor";
 import { forceFlushBatchViews } from "./services/view.service";
@@ -507,6 +507,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
     // Native splash hands off underneath the opaque cover: by the time it is
     // gone, the RN view above it already paints the same black-and-mark.
     ExpoSplashScreen.hideAsync().catch(() => { });
+    perfNote(`dock launch: opening ${openingLaunch} signedIn ${launchAuthenticated.current} sinceBoot ${Date.now() - bootStartedAt}ms`);
     setDockLaunch(shouldDockLaunch(Platform.OS, openingLaunch, launchAuthenticated.current === true, Date.now() - bootStartedAt));
     setRevealStarted(true);
   }, [theme, bootStartedAt, openingLaunch]);

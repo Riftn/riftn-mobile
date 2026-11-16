@@ -1,4 +1,4 @@
-import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
+import { usePerfProbe, perfPropsEqual, isPerfTraceOn } from "../../libs/perfTrace";
 import { useLaunchMotionStarted } from "../../libs/bootReveal";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, {
@@ -1044,7 +1044,11 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
   // rows ahead used to render behind the logo and held it for half a second.
   // They fill in as the cover lifts, before anything can be scrolled.
   const launchMotionStarted = useLaunchMotionStarted();
-  const drawDistance = launchMotionStarted ? Math.round((screenHeight * (renderBudget.windowSize - 1)) / 4) : 0;
+  // Held to traced launches for now: lifting the cover sooner made the logo
+  // fade in place instead of flying to the header, and that has to be
+  // understood before everyone gets the faster open.
+  const holdRowsForLaunch = !launchMotionStarted && isPerfTraceOn();
+  const drawDistance = holdRowsForLaunch ? 0 : Math.round((screenHeight * (renderBudget.windowSize - 1)) / 4);
 
   const endReached = hasNextPage === false;
   const error = queryError ? (queryError as Error).message || t("copy.3d2301d732a7", { defaultValue: "Failed to load" }) : null;
