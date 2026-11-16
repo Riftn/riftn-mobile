@@ -166,8 +166,10 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   // Your own grid, showing the order a drag would change (your saved order, or
   // newest first before one is saved): each tile carries a grip to move it by.
   const plainView = !search && !category && !range && (!postType || postType === 'all') && !isPPV && !hasBounty && !isLocked;
+  // The All tab passes postType "all", which is no filter at all.
+  const newestFirst = (sortBy ?? 'createdAt') === 'createdAt' && (sortOrder ?? 'desc') === 'desc';
   const canArrange = isOwnProfile && !isList && !!address && plainView
-    && (sortBy === 'custom' || (isDefaultView && !hasCustomOrder));
+    && (sortBy === 'custom' || (newestFirst && !hasCustomOrder));
   const [holding, setHolding] = useState(false);
   const [saving, setSaving] = useState(false);
   // What each place in the grid holds, as the list last drew it.
