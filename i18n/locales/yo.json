@@ -14810,5 +14810,32 @@
     "newCodesTitle": "Rí àwọn koodu àfẹ́yìn tuntun",
     "newCodesBody": "Tẹ koodu kan láti inú ìṣe rẹ. Àwọn koodu àfẹ́yìn rẹ àtijọ́ yóò dáwọ́ iṣẹ́ dúró.",
     "codeLabel": "Koodu onínọ́mbà mẹ́fà"
+  },
+  "chatSearch": {
+    "placeholder": "Wa awọn ifiranṣẹ tabi eniyan",
+    "placeholderPerson": "Wa awọn ifiranṣẹ {{name}}",
+    "close": "Pa wiwa",
+    "removePerson": "Wa gbogbo eniyan",
+    "clear": "Pa",
+    "voice": "Ifiranṣẹ ohun",
+    "photo": "Foto",
+    "peopleHere": "Awọn eniyan ninu ijiroro yii",
+    "recent": "Awọn wiwa to ṣẹṣẹ",
+    "hint": "Tẹ ọrọ kan tabi orukọ kan.",
+    "failed": "Wiwa ko le gbe",
+    "people": "Awọn eniyan",
+    "messages": "Awọn ifiranṣẹ",
+    "seeCount_one": "Wo ifiranṣẹ {{count}} wọn",
+    "seeCount_other": "Wo awọn ifiranṣẹ {{count}} wọn",
+    "messagesCount_one": "Ifiranṣẹ {{count}}",
+    "messagesCount_other": "Awọn ifiranṣẹ {{count}}",
+    "results_one": "Abajade {{count}}",
+    "results_other": "Awọn abajade {{count}}",
+    "backToResults": "Pada si awọn abajade",
+    "position": "{{current}} ti {{total}}",
+    "older": "Abajade atijọ",
+    "newer": "Abajade tuntun",
+    "gone": "Ifiranṣẹ yẹn ko si mọ",
+    "theirMessages": "Awọn ifiranṣẹ wọn"
   }
 }

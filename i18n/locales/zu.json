@@ -14843,5 +14843,32 @@
     "newCodesTitle": "Thola amakhodi amasha okusekela",
     "newCodesBody": "Faka ikhodi evela kuhlelo lwakho. Amakhodi akho amadala okusekela ayoyeka ukusebenza.",
     "codeLabel": "Ikhodi enamadijithi ayisithupha"
+  },
+  "chatSearch": {
+    "placeholder": "Sesha imilayezo noma abantu",
+    "placeholderPerson": "Sesha imilayezo ka{{name}}",
+    "close": "Vala isesha",
+    "removePerson": "Sesha wonke umuntu",
+    "clear": "Sula",
+    "voice": "Umlayezo womlomo",
+    "photo": "Isithombe",
+    "peopleHere": "Abantu kule ngxoxo",
+    "recent": "Izimpendulo zakamuva",
+    "hint": "Bhala igama noma igama.",
+    "failed": "Isesha asikwazanga ukulayisha",
+    "people": "Abantu",
+    "messages": "Imilayezo",
+    "seeCount_one": "Bheka umlayezo ka{{count}}",
+    "seeCount_other": "Bheka imilayezo ka{{count}}",
+    "messagesCount_one": "Umlayezo ka{{count}}",
+    "messagesCount_other": "Imilayezo ka{{count}}",
+    "results_one": "Umphumela ka{{count}}",
+    "results_other": "Imiphumela ka{{count}}",
+    "backToResults": "Buyela emiphumeleni",
+    "position": "{{current}} ka{{total}}",
+    "older": "Umphumela odlule",
+    "newer": "Umphumela omusha",
+    "gone": "Lomlayezo awusekhona",
+    "theirMessages": "Imilayezo yabo"
   }
 }

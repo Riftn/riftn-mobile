@@ -101,6 +101,22 @@ export interface LiveChatStatusResponse {
 export interface LiveChatMessagesResponse {
   messages: LiveChatMessageData[];
   hasMore: boolean;
+  /** Only on a page read around one message: newer lines exist past it. */
+  hasNewer?: boolean;
+}
+
+/** Someone who has written in the room, as the chat search lists them. */
+export interface LiveChatSearchPerson extends LiveChatUser {
+  messageCount: number;
+}
+
+export interface LiveChatSearchResponse {
+  messages: LiveChatMessageData[];
+  people: LiveChatSearchPerson[];
+  hasMore: boolean;
+  /** How many lines match; sent with the first page only. */
+  total: number | null;
+  signInRequired?: boolean;
 }
 
 export interface LiveChatRoomJoinedPayload {
@@ -153,8 +169,11 @@ export async function getLiveChatMessages(params?: {
    * as soon as anyone scrolled up.
    */
   roomId?: string;
+  /** A message id: the page comes back centred on that line. */
+  around?: string;
 }): Promise<LiveChatMessagesResponse> {
   const qs = new URLSearchParams();
+  if (params?.around) qs.set("around", params.around);
   if (params?.before) qs.set("before", params.before);
   if (params?.after) qs.set("after", params.after);
   if (params?.limit) qs.set("limit", String(params.limit));
@@ -163,6 +182,26 @@ export async function getLiveChatMessages(params?: {
   return apiClient.get<LiveChatMessagesResponse>(
     `/livechat/messages${query ? `?${query}` : ""}`
   );
+}
+
+/**
+ * Search a room's whole history on the server: by text, by the person who
+ * wrote it, or both. Newest first; `before` reads the next page.
+ */
+export async function searchLiveChat(params: {
+  q?: string;
+  from?: string;
+  before?: string;
+  limit?: number;
+  roomId?: string;
+}): Promise<LiveChatSearchResponse> {
+  const qs = new URLSearchParams();
+  if (params.q) qs.set("q", params.q);
+  if (params.from) qs.set("from", params.from);
+  if (params.before) qs.set("before", params.before);
+  if (params.limit) qs.set("limit", String(params.limit));
+  if (params.roomId) qs.set("roomId", params.roomId);
+  return apiClient.get<LiveChatSearchResponse>(`/livechat/search?${qs.toString()}`);
 }
 
 export async function getLiveChatStatus(): Promise<LiveChatStatusResponse> {

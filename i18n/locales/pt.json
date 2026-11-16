@@ -16088,5 +16088,32 @@
     "newCodesTitle": "Obter novos códigos de backup",
     "newCodesBody": "Insira um código do seu aplicativo. Seus códigos de backup antigos deixarão de funcionar.",
     "codeLabel": "Código de seis dígitos"
+  },
+  "chatSearch": {
+    "placeholder": "Pesquisar mensagens ou pessoas",
+    "placeholderPerson": "Pesquisar mensagens do {{name}}",
+    "close": "Fechar pesquisa",
+    "removePerson": "Pesquisar todos",
+    "clear": "Limpar",
+    "voice": "Mensagem de voz",
+    "photo": "Foto",
+    "peopleHere": "Pessoas neste chat",
+    "recent": "Pesquisas recentes",
+    "hint": "Digite uma palavra ou um nome.",
+    "failed": "Não foi possível carregar a pesquisa",
+    "people": "Pessoas",
+    "messages": "Mensagens",
+    "seeCount_one": "Ver a mensagem do {{count}}",
+    "seeCount_other": "Ver as mensagens do {{count}}",
+    "messagesCount_one": "Mensagem do {{count}}",
+    "messagesCount_other": "Mensagens do {{count}}",
+    "results_one": "Resultado do {{count}}",
+    "results_other": "Resultados do {{count}}",
+    "backToResults": "Voltar aos resultados",
+    "position": "{{current}} de {{total}}",
+    "older": "Resultado mais antigo",
+    "newer": "Resultado mais recente",
+    "gone": "Essa mensagem não está mais aqui",
+    "theirMessages": "Seus mensagens"
   }
 }

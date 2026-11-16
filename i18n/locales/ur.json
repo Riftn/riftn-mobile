@@ -14811,5 +14811,32 @@
     "newCodesTitle": "نئے بیک اپ کوڈز حاصل کریں",
     "newCodesBody": "اپنی ایپ سے ایک کوڈ درج کریں۔ آپ کے پرانے بیک اپ کوڈز کام کرنا بند کر دیں گے۔",
     "codeLabel": "چھ ہندسوں کا کوڈ"
+  },
+  "chatSearch": {
+    "placeholder": "سرچ پیغامات یا لوگوں کو تلاش کریں",
+    "placeholderPerson": "{{name}} کے پیغامات تلاش کریں",
+    "close": "تلاش بند کریں",
+    "removePerson": "سب کو تلاش کریں",
+    "clear": "صاف کریں",
+    "voice": "آواز کا پیغام",
+    "photo": "تصویر",
+    "peopleHere": "اس چیٹ میں لوگ",
+    "recent": "حالیہ تلاشیں",
+    "hint": "ایک لفظ یا نام ٹائپ کریں۔",
+    "failed": "تلاش لوڈ نہیں ہو سکی",
+    "people": "لوگ",
+    "messages": "پیغامات",
+    "seeCount_one": "ان کا {{count}} پیغام دیکھیں",
+    "seeCount_other": "ان کے {{count}} پیغامات دیکھیں",
+    "messagesCount_one": "{{count}} پیغام",
+    "messagesCount_other": "{{count}} پیغامات",
+    "results_one": "{{count}} نتیجہ",
+    "results_other": "{{count}} نتائج",
+    "backToResults": "نتائج پر واپس جائیں",
+    "position": "{{current}} میں سے {{total}}",
+    "older": "پرانا نتیجہ",
+    "newer": "نیا نتیجہ",
+    "gone": "یہ پیغام اب یہاں نہیں ہے",
+    "theirMessages": "ان کے پیغامات"
   }
 }

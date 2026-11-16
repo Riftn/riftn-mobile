@@ -14827,5 +14827,32 @@
     "newCodesTitle": "Samun sabbin lambobin ajiyar",
     "newCodesBody": "Shigar da lamba daga aikace-aikacenka. Lambobin ajiyar da suka wuce za su daina aiki.",
     "codeLabel": "Lambar da ke da lambobi shida"
+  },
+  "chatSearch": {
+    "placeholder": "Bincika saƙonni ko mutane",
+    "placeholderPerson": "Bincika saƙonnin {{name}}",
+    "close": "Rufe bincike",
+    "removePerson": "Bincika kowa",
+    "clear": "Share",
+    "voice": "Sako na murya",
+    "photo": "Hoto",
+    "peopleHere": "Mutane a cikin wannan tattaunawa",
+    "recent": "Binciken baya",
+    "hint": "Rubuta kalma ko suna.",
+    "failed": "Binciken bai iya lodawa ba",
+    "people": "Mutane",
+    "messages": "Sako",
+    "seeCount_one": "Duba sakon {{count}}",
+    "seeCount_other": "Duba sakonnin {{count}}",
+    "messagesCount_one": "Sakon {{count}}",
+    "messagesCount_other": "Sakon {{count}}",
+    "results_one": "Sakamakon {{count}}",
+    "results_other": "Sakamakon {{count}}",
+    "backToResults": "Komawa zuwa sakamako",
+    "position": "{{current}} na {{total}}",
+    "older": "Sakamako na baya",
+    "newer": "Sakamako na gaba",
+    "gone": "Wannan sako bai wanzu ba yanzu",
+    "theirMessages": "Sakon su"
   }
 }
