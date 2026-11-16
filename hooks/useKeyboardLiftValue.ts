@@ -1,5 +1,5 @@
-import { useEffect, type RefObject } from "react";
-import { Keyboard, Platform, type KeyboardEvent, type View } from "react-native";
+import { useEffect } from "react";
+import { Keyboard, Platform, type KeyboardEvent } from "react-native";
 import { Easing, useAnimatedKeyboard, useDerivedValue, useSharedValue, withTiming, type SharedValue } from "react-native-reanimated";
 
 /**
@@ -20,22 +20,14 @@ import { Easing, useAnimatedKeyboard, useDerivedValue, useSharedValue, withTimin
  */
 const ANDROID_KEYS = { duration: 220, easing: Easing.bezier(0.2, 0, 0, 1) };
 
-function useAndroidLift(bottomInset: number, _anchor?: RefObject<View | null>): SharedValue<number> {
+function useAndroidLift(bottomInset: number): SharedValue<number> {
   const keyboard = useAnimatedKeyboard();
   return useDerivedValue(() => Math.max(0, keyboard.height.value - bottomInset), [bottomInset]);
 }
 
 export const useKeyboardLiftValue = Platform.OS === "android" ? useAndroidLift : useEventLift;
 
-/**
- * `anchor` (iPhone): the view whose bottom edge the bar sits on. With it the
- * lift is measured, the anchor's real bottom against the top of the keys,
- * instead of worked out from the safe area. The post composer needs that: it
- * is a native modal sheet that runs to the very bottom of the screen, below
- * where the safe area ends, so "keyboard minus the home-indicator band" left
- * the Post row that far under the keys.
- */
-function useEventLift(bottomInset: number, anchor?: RefObject<View | null>): SharedValue<number> {
+function useEventLift(bottomInset: number): SharedValue<number> {
   const lift = useSharedValue(0);
   useEffect(() => {
     const ios = Platform.OS === "ios";
@@ -46,17 +38,7 @@ function useEventLift(bottomInset: number, anchor?: RefObject<View | null>): Sha
     };
     const onShow = (e: KeyboardEvent) => {
       const h = e.endCoordinates?.height ?? 0;
-      const fallback = ios ? Math.max(h - bottomInset, 0) : h;
-      const keysTop = e.endCoordinates?.screenY;
-      const view = ios ? anchor?.current : null;
-      if (!view || typeof keysTop !== "number") {
-        rise(fallback, e.duration);
-        return;
-      }
-      view.measureInWindow((_x, y, _w, height) => {
-        const measured = Number.isFinite(y) && height > 0 ? Math.max(y + height - keysTop, 0) : fallback;
-        rise(measured, e.duration);
-      });
+      rise(ios ? Math.max(h - bottomInset, 0) : h, e.duration);
     };
     const onHide = (e?: KeyboardEvent) => rise(0, e?.duration);
     const show = Keyboard.addListener(ios ? "keyboardWillShow" : "keyboardDidShow", onShow);
@@ -70,6 +52,6 @@ function useEventLift(bottomInset: number, anchor?: RefObject<View | null>): Sha
       if (m) lift.value = ios ? Math.max(m.height - bottomInset, 0) : m.height;
     }
     return () => { show.remove(); settled?.remove(); hide.remove(); };
-  }, [bottomInset, lift, anchor]);
+  }, [bottomInset, lift]);
   return lift;
 }

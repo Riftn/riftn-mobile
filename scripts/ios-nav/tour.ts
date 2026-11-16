@@ -848,54 +848,44 @@ async function runKeys(): Promise<void> {
     // A fresh sign-in is offered a profile photo, then notifications: "Not
     // now" on each, where they are drawn on this simulator.
     await sleep(14000);
-    await ask("tap:not-now-photo-#:201:802", 5000);
-    await ask("tap:not-now-notifications-#:201:649", 5000);
+    await ask("tap:not-now-photo-#:201:802", 9000);
+    await ask("tap:not-now-notifications-#:201:649", 9000);
     await shot("0-asks-answered");
     await sleep(700);
-    // The post composer: its Post row has to sit on top of the keys.
-    nav.navigate(ScreenNames.Upload);
-    await sleep(6000);
-    const upOnOpen = up();
-    await shot("7-composer-keyboard-up");
-    await sleep(700);
-    Keyboard.dismiss();
-    await sleep(1500);
-    await shot("7-composer-keyboard-down");
-    await sleep(700);
-    await note("composer", { upOnOpen, height: Keyboard.metrics()?.height, route: nav.getCurrentRoute()?.name });
-    if (nav.getCurrentRoute()?.name === ScreenNames.Upload) nav.goBack();
-    await sleep(2500);
   }
 
   // Explore, by its tab in the bottom bar.
+  // The script acts on a request a few seconds after it is made (it looks
+  // every two seconds, and idb takes a few more), so each one is given time.
   const hadBefore = new Set(liveInputs);
-  await ask("tap:search-tab-#:307:812", 4500);
+  nav.navigate(ScreenNames.Explore);
+  await sleep(4000);
   const before = liveInputs.length;
   await shot("1-explore");
   await sleep(700);
   // The pill's own box when it can be told apart, else a tap on the pill.
   const pill = liveInputs.filter((input) => !hadBefore.has(input))[0];
   if (pill) inputState.focusTextInput(pill);
-  else await ask("tap:explore-pill-#:150:87", 2000);
+  else await ask("tap:explore-pill-#:150:87", 9000);
   await sleep(2500);
   const upAfterFocus = up();
   await shot("2-explore-keyboard-up");
   await sleep(700);
-  await ask("type:explore-#:rif", 4000);
+  await ask("type:explore-#:rif", 9000);
   await shot("3-explore-typed");
   await sleep(700);
   // The X sits before the sliders button at the end of the pill.
-  await ask("tap:explore-x-#:346:87", 4000);
+  await ask("tap:explore-x-#:346:87", 9000);
   const upAfterX = up();
   await shot("4-explore-after-x");
   await sleep(700);
   await note("explore-x", { inputs: before, upAfterFocus, upAfterX, route: nav.getCurrentRoute()?.name });
   // And a drag of the list under it closes it too.
   if (pill) inputState.focusTextInput(pill);
-  else await ask("tap:explore-pill-#:150:87", 2000);
+  else await ask("tap:explore-pill-#:150:87", 9000);
   await sleep(2500);
   const upAgain = up();
-  await ask("drag:explore-#", 4000);
+  await ask("drag:explore-#", 9000);
   await shot("5-explore-after-drag");
   await sleep(700);
   await note("explore-drag", { upAgain, upAfterDrag: up() });
@@ -917,7 +907,7 @@ async function runKeys(): Promise<void> {
       const height = Keyboard.metrics()?.height;
       await shot(`6-${page}-box-${index}`);
       await sleep(700);
-      await ask(`drag:${page}-#`, 4000);
+      await ask(`drag:${page}-#`, 9000);
       await shot(`6-${page}-box-${index}-after-drag`);
       await sleep(700);
       await note(`${page}-box-${index}`, { shown, height, upAfterDrag: up(), route: nav.getCurrentRoute()?.name });
@@ -928,6 +918,21 @@ async function runKeys(): Promise<void> {
     await backToTabs();
     nav.navigate(ScreenNames.Home);
     await sleep(1200);
+  }
+  if (signedIn) {
+    // The post composer: its Post row has to sit on top of the keys.
+    nav.navigate(ScreenNames.Upload);
+    await sleep(6000);
+    const upOnOpen = up();
+    await shot("7-composer-keyboard-up");
+    await sleep(700);
+    Keyboard.dismiss();
+    await sleep(1500);
+    await shot("7-composer-keyboard-down");
+    await sleep(700);
+    await note("composer", { upOnOpen, height: Keyboard.metrics()?.height, route: nav.getCurrentRoute()?.name });
+    if (nav.getCurrentRoute()?.name === ScreenNames.Upload) nav.goBack();
+    await sleep(2500);
   }
   await AsyncStorage.removeItem(SWIPE_KEY);
   extra.finishedAt = Date.now();
