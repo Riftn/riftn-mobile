@@ -366,8 +366,12 @@ export default function UploadScreen() {
   }, []);
   // Keyboard height above the screen's bottom edge (see hooks/useKeyboardLayout.ts).
   // The toolbar's own lift rides with the keys on the UI thread (no re-render).
-  const composerRootRef = useRef<View>(null);
-  const kbLiftValue = useKeyboardLiftValue(useSafeAreaInsets().bottom, composerRootRef);
+  // iPhone: the composer is a native modal sheet, and a sheet runs to the very
+  // bottom of the screen, below where the safe area ends. The keyboard is
+  // measured from that same edge, so the bar rises by all of it; taking the
+  // home-indicator band off left the Post row that far under the keys.
+  const safeBottom = useSafeAreaInsets().bottom;
+  const kbLiftValue = useKeyboardLiftValue(Platform.OS === "ios" ? 0 : safeBottom);
   const toolbarLiftStyle = useAnimatedStyle(() => ({ marginBottom: kbLiftValue.value }));
   const { drafts, saveDraft, deleteDraft } = useDrafts(authUser?.address);
 
@@ -2579,7 +2583,7 @@ export default function UploadScreen() {
   }
 
   const composer = (
-    <View ref={composerRootRef} collapsable={false} className="flex-1 bg-theme-background">{/* don't add top inset */}
+    <View className="flex-1 bg-theme-background">{/* don't add top inset */}
       <GestureDetector gesture={dismissPan}>
         <View className="flex-row items-center justify-center pt-2 pb-1" collapsable={false}>
           <View className="w-10 h-1 rounded-full bg-white/30" />
