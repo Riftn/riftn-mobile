@@ -7751,6 +7751,7 @@
     "doubleTapRewind": "Geri sarmak için çift dokunun",
     "doubleTapForward": "İleri atlamak için çift dokunun",
     "pipUnavailable": "Resim içinde resim kullanılamıyor. Cihaz ayarlarınızda Riftn için izin verildiğini kontrol edin.",
+    "notAvailableForPost": "Bu gönderi için kullanılamıyor",
     "noVideo": "Video yok",
     "rotate": "Döndür",
     "yourDhbBalance": "Jeton bakiyeniz: {{amount}}",

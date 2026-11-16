@@ -7768,6 +7768,7 @@
     "doubleTapRewind": "اضغط مرتين للإرجاع",
     "doubleTapForward": "اضغط مرتين للتخطي للأمام",
     "pipUnavailable": "صورة داخل صورة غير متاحة. تحقق من أنها مسموح بها لـ Riftn في إعدادات جهازك.",
+    "notAvailableForPost": "غير متاح لهذا المنشور",
     "noVideo": "لا يوجد فيديو",
     "rotate": "تدوير",
     "yourDhbBalance": "رصيد رموزك: {{amount}}",

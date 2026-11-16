@@ -9629,6 +9629,7 @@
     "doubleTapRewind": "Doppeltippen zum Zurückspulen",
     "doubleTapForward": "Doppeltippen zum Vorwärtsspringen",
     "pipUnavailable": "Bild-im-Bild ist nicht verfügbar. Stellen Sie sicher, dass es für Riftn in Ihren Geräteeinstellungen erlaubt ist.",
+    "notAvailableForPost": "Für diesen Beitrag nicht verfügbar",
     "noVideo": "Kein Video",
     "rotate": "Drehen",
     "yourDhbBalance": "Dein Token-Guthaben: {{amount}}"

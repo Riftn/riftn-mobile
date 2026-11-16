@@ -7778,6 +7778,7 @@
     "doubleTapRewind": "Double tap to rewind",
     "doubleTapForward": "Double tap to skip forward",
     "pipUnavailable": "Picture in picture is unavailable. Check that it is allowed for Riftn in your device settings.",
+    "notAvailableForPost": "Not available for this post",
     "noVideo": "No video",
     "rotate": "Rotate",
     "volume": "Volume level"

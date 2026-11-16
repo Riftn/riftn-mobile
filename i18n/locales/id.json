@@ -9690,6 +9690,7 @@
     "doubleTapRewind": "Ketuk dua kali untuk mundur",
     "doubleTapForward": "Ketuk dua kali untuk maju",
     "pipUnavailable": "Gambar dalam gambar tidak tersedia. Periksa apakah diizinkan untuk Riftn di pengaturan perangkat Anda.",
+    "notAvailableForPost": "Tidak tersedia untuk postingan ini",
     "noVideo": "Tidak ada video",
     "rotate": "Putar",
     "yourDhbBalance": "Saldo token Anda: {{amount}}"

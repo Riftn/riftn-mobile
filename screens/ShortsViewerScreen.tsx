@@ -138,6 +138,7 @@ import {
   formatCompactNumber,
   toastError,
   toastSuccess,
+  toastInfo,
   copyToClipboard,
 } from "../libs";
 import { voteOnNFT, reactToNFT, getNFT } from "../services/nft.service";
@@ -2361,7 +2362,10 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
             first frame (or forever on a load failure). Draw the thumbnail under
             the VideoView and drop it once a frame has painted. */}
         {noVideo ? null : thumbnail && !firstFrameRendered ? (
-          directSurface ? null : <Image source={thumbnail} style={StyleSheet.absoluteFill} contentFit="contain" pointerEvents="none" />
+          directSurface ? null : pictureKnown
+            // Sits where the video will, so it does not jump when the first frame lands.
+            ? <Reanimated.View style={videoBoxStyle} pointerEvents="none"><Image source={thumbnail} style={StyleSheet.absoluteFill} contentFit="cover" pointerEvents="none" /></Reanimated.View>
+            : <Image source={thumbnail} style={StyleSheet.absoluteFill} contentFit="contain" pointerEvents="none" />
         ) : pictureKnown && backdropSource ? null : (
           <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none" />
         )}
@@ -2386,7 +2390,9 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
         {/* A SurfaceView shows through everything drawn under it, so its
             poster has to sit on top until the first frame is up. */}
         {directSurface && !noVideo && thumbnail && !firstFrameRendered ? (
-          <Image source={thumbnail} style={StyleSheet.absoluteFill} contentFit="contain" pointerEvents="none" />
+          pictureKnown
+            ? <Reanimated.View style={videoBoxStyle} pointerEvents="none"><Image source={thumbnail} style={StyleSheet.absoluteFill} contentFit="cover" pointerEvents="none" /></Reanimated.View>
+            : <Image source={thumbnail} style={StyleSheet.absoluteFill} contentFit="contain" pointerEvents="none" />
         ) : null}
         </Reanimated.View>
         </Reanimated.View>
@@ -3756,9 +3762,11 @@ const ShortsViewerScreen = () => {
           </ChromeTouchTarget>
 
           {!isLiveSlide(activeItem) && <View style={styles.topRight}>
-            {activeWide && <ChromeTouchTarget>
+            {/* These two stay on every post so the row never reshuffles
+                between slides; where one cannot work it says so. */}
+            <ChromeTouchTarget>
               <Pressable
-                onPress={() => setFullscreenTick((n) => n + 1)}
+                onPress={() => { if (activeWide) setFullscreenTick((n) => n + 1); else toastInfo(t("player.notAvailableForPost")); }}
                 className="dark-surface"
                 hitSlop={CHROME_HIT_SLOP}
                 style={styles.topButton}
@@ -3767,8 +3775,8 @@ const ShortsViewerScreen = () => {
                 <ChromeFill top />
                 <Icon name="Maximize2" size={20} color="#fff" />
               </Pressable>
-            </ChromeTouchTarget>}
-            {items[activeIndex]?.postType !== "feed-images" && <ChromeTouchTarget><PictureInPictureButton videoRef={activeVideoRef} size={CHROME_SIZE} /></ChromeTouchTarget>}
+            </ChromeTouchTarget>
+            <ChromeTouchTarget><PictureInPictureButton videoRef={activeVideoRef} size={CHROME_SIZE} unavailable={items[activeIndex]?.postType === "feed-images"} /></ChromeTouchTarget>
             <ChromeTouchTarget>
               <Pressable
                 onPress={handleCycleSpeed}

@@ -7752,6 +7752,7 @@
     "doubleTapRewind": "Doble toque para retroceder",
     "doubleTapForward": "Doble toque para avanzar",
     "pipUnavailable": "Imagen en imagen no disponible. Comprueba que esté permitido para Riftn en la configuración de tu dispositivo.",
+    "notAvailableForPost": "No disponible para esta publicación",
     "noVideo": "Sin video",
     "rotate": "Rotar",
     "yourDhbBalance": "Tu saldo de tokens: {{amount}}",

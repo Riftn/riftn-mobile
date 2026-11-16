@@ -7,11 +7,13 @@ import { toastInfo } from '../../libs';
 import { useTranslation } from 'react-i18next';
 import { ChromeFill } from './ViewerChrome';
 
-export default function PictureInPictureButton({ videoRef, plain = false, size = 36 }: {
+export default function PictureInPictureButton({ videoRef, plain = false, size = 36, unavailable = false }: {
   videoRef: React.RefObject<VideoView | null>;
   plain?: boolean;
   /** Square edge; the shorts top row passes its own button size. */
   size?: number;
+  /** The post has no video: the button stays and says so when pressed. */
+  unavailable?: boolean;
 }) {
   const { t } = useTranslation();
   if (!isPictureInPictureSupported()) return null;
@@ -25,6 +27,7 @@ export default function PictureInPictureButton({ videoRef, plain = false, size =
       style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center', borderRadius: plain ? 0 : 12 }}
       onPress={(event) => {
         event.stopPropagation();
+        if (unavailable) { toastInfo(t('player.notAvailableForPost')); return; }
         videoRef.current?.startPictureInPicture().catch(() => {
           toastInfo(t('player.pipUnavailable'));
         });

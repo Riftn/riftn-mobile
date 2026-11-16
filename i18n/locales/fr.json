@@ -7756,6 +7756,7 @@
     "doubleTapRewind": "Double-cliquez pour revenir en arrière",
     "doubleTapForward": "Double-cliquez pour avancer",
     "pipUnavailable": "L'image dans l'image n'est pas disponible. Vérifiez qu'elle est autorisée pour Riftn dans les paramètres de votre appareil.",
+    "notAvailableForPost": "Non disponible pour cette publication",
     "noVideo": "Aucune vidéo",
     "rotate": "Rotation",
     "yourDhbBalance": "Votre solde de tokens : {{amount}}",
