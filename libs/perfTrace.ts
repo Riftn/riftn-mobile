@@ -205,3 +205,8 @@ export function usePerfWhy(label: string, values: Record<string, unknown>): void
   const changed = changedKeys(prev, values);
   log(`why ${label}: ${changed.length ? changed.join(", ") : "none of the watched values"}`);
 }
+
+/** A one-off fact for the trace, e.g. why the launch cover chose its animation. */
+export function perfNote(line: string): void {
+  if (on) log(line);
+}

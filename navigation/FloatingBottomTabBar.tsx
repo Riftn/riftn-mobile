@@ -47,6 +47,7 @@ import { useAuthActions, useAuthState, useUser } from "../context/AuthContext";
 import { useTotalUnreadMessagesCount } from "../store/dm.store";
 import { usePublicChatUnreadCount } from "../hooks/usePublicChatUnread";
 import { storage } from "../libs/storage";
+import { mirrorDurable, restoreDurable } from "../libs/durable-setting";
 import { bootRevealed } from "../libs/bootReveal";
 import { TAB_BAR_PILL_HEIGHT } from "./tabBarLayout";
 import type { TabPressIntent } from "./tabPressIntent";
@@ -675,19 +676,26 @@ const FloatingBottomTabBar: React.FC<BottomTabBarProps & { noEntrance?: boolean 
     if (storage.getBoolean(SCROLL_HINT_SEEN_KEY)) return;
     let cancelled = false;
     const timers: ReturnType<typeof setTimeout>[] = [];
-    const task = InteractionManager.runAfterInteractions(() => {
-      if (cancelled) return;
-      storage.set(SCROLL_HINT_SEEN_KEY, true);
-      scrollRef.current?.scrollTo({ x: 60, animated: true });
-      timers.push(
-        setTimeout(() => {
-          if (!cancelled) scrollRef.current?.scrollTo({ x: 0, animated: true });
-        }, 600),
-      );
+    let task: { cancel: () => void } | null = null;
+    // The seen flag did not survive a restart in the main store on some phones,
+    // so the nudge played on every launch. The durable copy is asked first.
+    void restoreDurable(SCROLL_HINT_SEEN_KEY, "boolean", () => {}).then(() => {
+      if (cancelled || storage.getBoolean(SCROLL_HINT_SEEN_KEY)) return;
+      task = InteractionManager.runAfterInteractions(() => {
+        if (cancelled) return;
+        storage.set(SCROLL_HINT_SEEN_KEY, true);
+        mirrorDurable(SCROLL_HINT_SEEN_KEY, true);
+        scrollRef.current?.scrollTo({ x: 60, animated: true });
+        timers.push(
+          setTimeout(() => {
+            if (!cancelled) scrollRef.current?.scrollTo({ x: 0, animated: true });
+          }, 600),
+        );
+      });
     });
     return () => {
       cancelled = true;
-      task.cancel();
+      task?.cancel();
       timers.forEach(clearTimeout);
     };
   }, []);
