@@ -286,7 +286,10 @@ export const useLiveChat = (
         setCanSend(data.canSendMessages);
         setIsModerator(data.yourUser?.isModerator || false);
         setOnlineCount(data.onlineCount || data.room?.onlineCount || 0);
-        setHasMore((data.messages?.length || 0) >= 50);
+        // The join brings one page. A full page means older lines may exist;
+        // this used to wait for 50, which the 20-line join never reaches, so
+        // the chat stopped at its first page.
+        if (!olderPagesRef.current) setHasMore((data.messages?.length || 0) >= CHAT_PAGE_SIZE);
         joinedRef.current = true;
         setJoining(false);
 
@@ -303,6 +306,8 @@ export const useLiveChat = (
       socket.on(EVENTS.NEW_MESSAGE, (msg: LiveChatMessageData) => {
         setMessages((prev) => {
           const next = [...prev, normalizeMsg(msg)];
+          // History the reader scrolled back for is kept whole.
+          if (olderPagesRef.current) return next;
           return next.length > MAX_CHAT_MESSAGES ? next.slice(-MAX_CHAT_MESSAGES) : next;
         });
       });
