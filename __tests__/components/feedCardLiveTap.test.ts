@@ -27,6 +27,6 @@ describe("tapping the live picture in a post card", () => {
   });
 
   it("keeps the card's own tap off on the post page", () => {
-    expect(body("handleCardPress")).toContain("if (disablePress) return;");
+    expect(body("openPost")).toContain("if (disablePress) return;");
   });
 });
