@@ -290,26 +290,47 @@ export default function HoldSheet(props: HoldSheetProps) {
               <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -4, paddingTop: reactions && onReaction ? 10 : 0 }}>
                 {mainTiles.map((tile) => {
                   const fg = tile.prime ? primeInk : tile.destructive ? "#f87171" : inkColor;
+                  const face = {
+                    borderRadius: 16, paddingTop: 12, paddingBottom: 10, paddingHorizontal: 4,
+                    alignItems: "center" as const, gap: 6,
+                  };
+                  const label = (
+                    <>
+                      <Icon name={tile.icon} size={20} color={fg} />
+                      <Text numberOfLines={1} style={{ color: fg, fontSize: 12, fontWeight: "700" }}>{tile.label}</Text>
+                    </>
+                  );
                   return (
                     <View key={tile.key} style={{ width: `${100 / cols}%`, padding: 4 }}>
-                      <TouchableOpacity
-                        // The filled Reply tile keeps its own fill and label
-                        // (the theme pass would repaint a white fill as a
-                        // neutral control).
-                        className={tile.prime ? "dark-surface" : undefined}
-                        onPress={tile.onPress}
-                        activeOpacity={0.7}
-                        accessibilityRole="button"
-                        accessibilityLabel={tile.label}
-                        style={{
-                          borderRadius: 16, paddingTop: 12, paddingBottom: 10, paddingHorizontal: 4,
-                          alignItems: "center", gap: 6,
-                          backgroundColor: tile.prime ? primeFill : chipFill,
-                        }}
-                      >
-                        <Icon name={tile.icon} size={20} color={fg} />
-                        <Text numberOfLines={1} style={{ color: fg, fontSize: 12, fontWeight: "700" }}>{tile.label}</Text>
-                      </TouchableOpacity>
+                      {tile.prime ? (
+                        // The filled Reply tile keeps its own fill and label.
+                        // The fill sits on a plain view inside the button, not
+                        // on the button: the button's own view is drawn
+                        // without the class, so the control pass repainted a
+                        // neutral fill there as the theme's glass and left a
+                        // white label on a white sheet under System Light.
+                        <TouchableOpacity
+                          onPress={tile.onPress}
+                          activeOpacity={0.7}
+                          accessibilityRole="button"
+                          accessibilityLabel={tile.label}
+                          style={{ borderRadius: 16 }}
+                        >
+                          <View className="dark-surface" style={{ ...face, backgroundColor: primeFill }}>
+                            {label}
+                          </View>
+                        </TouchableOpacity>
+                      ) : (
+                        <TouchableOpacity
+                          onPress={tile.onPress}
+                          activeOpacity={0.7}
+                          accessibilityRole="button"
+                          accessibilityLabel={tile.label}
+                          style={{ ...face, backgroundColor: chipFill }}
+                        >
+                          {label}
+                        </TouchableOpacity>
+                      )}
                     </View>
                   );
                 })}

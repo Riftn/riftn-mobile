@@ -130,3 +130,17 @@ it('still paints every label in a row of children', () => {
   expect(result.children).toHaveLength(2);
   for (const label of result.children) expect(flatten(label.props.style).color).toBe(skin.centreIcon);
 });
+
+it('leaves a button alone when its fill sits on an inner view (hold sheet Reply tile)', () => {
+  // System Light material: written dark, so on a kept-dark tile it is a faint
+  // white wash under a white label.
+  setControlMaterial({ surface: { backgroundColor: 'rgba(255,255,255,0.06)', borderRadius: 12 }, foreground: '#FFFFFF' });
+  const label = createElement('Text', { style: { color: '#ffffff' } }, 'Reply');
+  // What a touchable hands its own view: the role and the fill, no class.
+  const inner = { accessibilityRole: 'button', style: { backgroundColor: '#0b0b0d' }, children: label };
+  expect(flatten(controlProps(inner).style).backgroundColor).toBe('rgba(255,255,255,0.06)');
+  // The tile as drawn now: no fill on the button, the fill on a marked view.
+  const face = createElement('View', { className: 'dark-surface', style: { backgroundColor: '#0b0b0d' } }, label);
+  const button = { accessibilityRole: 'button', onPress: jest.fn(), style: { borderRadius: 16 }, children: face };
+  expect(controlProps(button)).toBe(button);
+});
