@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useUser } from "../context/AuthContext";
 import { getAvatarUrl } from "../libs/misc";
 import { warmFeedImage } from "../components/common/SmartImage";
+import { warmPinnedCommunities } from "../components/Communities/PinnedCommunities";
 import { InteractionManager, Platform, View } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -166,20 +167,24 @@ const loadSignIn = () => require("../screens/auth/SignInScreen").default;
 const SignInShell = () => <View className="flex-1 bg-theme-background" />;
 
 /**
- * Your own photo at the size your profile draws it, fetched once the app has
- * settled: after a fresh start the profile then opens with the photo in place
- * instead of a grey box while it loads. Its own component, so a change to the
- * account re-renders only this, not the navigator.
+ * Your own photo and pinned communities, fetched once the app has settled:
+ * after a fresh start your profile then opens with both in place instead of
+ * a grey photo box, and a "Pin community" row that pushed the page down when
+ * it arrived. Its own component, so a change to the account re-renders only
+ * this, not the navigator.
  */
-function WarmOwnAvatar() {
-  const avatar = useUser()?.avatarImageUrl;
+function WarmOwnProfile() {
+  const user = useUser() as any;
+  const avatar = user?.avatarImageUrl;
+  const wallet = user?.walletAddress || user?.address || "";
   useEffect(() => {
-    if (!avatar) return;
-    const uri = getAvatarUrl(avatar, 96);
-    if (!uri || uri === "default-avatar") return;
-    const timer = setTimeout(() => warmFeedImage(uri), 3000);
+    const uri = avatar ? getAvatarUrl(avatar, 96) : "";
+    const timer = setTimeout(() => {
+      if (uri && uri !== "default-avatar") warmFeedImage(uri);
+      warmPinnedCommunities(wallet);
+    }, 3000);
     return () => clearTimeout(timer);
-  }, [avatar]);
+  }, [avatar, wallet]);
   return null;
 }
 
@@ -204,7 +209,7 @@ function AppNavigatorContent() {
 
   return (
     <TabBarHideProvider>
-      {isAuthed ? <WarmOwnAvatar /> : null}
+      {isAuthed ? <WarmOwnProfile /> : null}
       <Stack.Navigator
         initialRouteName={ScreenNames.Root}
         screenLayout={withScreenBoundary}
