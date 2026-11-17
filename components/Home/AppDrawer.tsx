@@ -215,8 +215,54 @@ const ICON_KEYS: Record<string, string> = {
 /** What the themes layer hands us; null for system/minimal (dark glass). */
 type SheetSkin = ThemeSkin;
 
+/**
+ * One label size for the whole grid. Each tile used to shrink its own long
+ * word to fit, so "Notifications" and "Communities" sat smaller than "Home"
+ * beside them. The widest single word is measured once (hidden, off screen),
+ * every label takes the size that word needs, and the result is kept for the
+ * session per font scale, tile width and language.
+ */
+const TILE_LABEL_SIZE = 11.5;
+const TILE_LABEL_MIN_SCALE = 0.87;
+// Tile paddingHorizontal (4) each side, plus its 1px border each side.
+const TILE_LABEL_INSET = 10;
+const labelScaleCache = new Map<string, number>();
+
+function useTileLabelSize(labels: string[], tileWidth: number) {
+  const avail = tileWidth - TILE_LABEL_INSET;
+  const words = useMemo(() => Array.from(new Set(labels.filter((label) => !label.includes(" ")))), [labels]);
+  const { fontScale = 1 } = useWindowDimensions();
+  const key = `${fontScale}|${avail}|${words.join("\u0001")}`;
+  const [scale, setScale] = useState<number | undefined>(() => labelScaleCache.get(key));
+  const widths = useRef<Map<string, number>>(new Map());
+  useEffect(() => {
+    widths.current = new Map();
+    setScale(labelScaleCache.get(key));
+  }, [key]);
+  const report = useCallback((word: string, width: number) => {
+    widths.current.set(word, width);
+    if (widths.current.size < words.length) return;
+    const widest = Math.max(...widths.current.values());
+    const next = Math.max(TILE_LABEL_MIN_SCALE, Math.min(1, avail / Math.max(widest, 1)));
+    labelScaleCache.set(key, next);
+    setScale(next);
+  }, [avail, key, words.length]);
+  const measurer = scale === undefined && words.length > 0 ? (
+    <View pointerEvents="none" style={styles.labelMeasure} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      {words.map((word) => (
+        <Text key={word} style={[styles.tileLabel, styles.labelMeasureText]} onLayout={(e) => report(word, e.nativeEvent.layout.width)}>
+          {word}
+        </Text>
+      ))}
+    </View>
+  ) : null;
+  return { size: TILE_LABEL_SIZE * (scale ?? 1), measurer };
+}
+
 interface TileProps {
   label: string;
+  /** The grid's shared label size (useTileLabelSize). */
+  labelSize?: number;
   icon: IconName;
   iconUrl?: string;
   iconColor?: string;
@@ -234,7 +280,7 @@ interface TileProps {
   onPress: () => void;
 }
 
-const Tile = memo<TileProps>(({ label, icon, iconUrl, iconColor, width, active, badgeCount = 0, disabled, soonLabel, skin, hud, square, lifted, onPress }) => {
+const Tile = memo<TileProps>(({ label, labelSize, icon, iconUrl, iconColor, width, active, badgeCount = 0, disabled, soonLabel, skin, hud, square, lifted, onPress }) => {
   const glyphColor = iconColor ?? (hud
     ? skin?.glow ?? "#22D3EE"
     : active ? skin?.tabIconActive ?? "#FFFFFF" : skin?.tabIcon ?? "rgba(255,255,255,0.9)");
@@ -294,9 +340,10 @@ const Tile = memo<TileProps>(({ label, icon, iconUrl, iconColor, width, active, 
         )}
       </View>
       <Text
-        style={[styles.tileLabel, active && styles.tileLabelActive, skin?.tabIcon ? { color: active ? skin.tabIconActive ?? skin.tabIcon : skin.tabIcon } : null]}
-        // Two-word names wrap onto two lines; a single long word shrinks a
-        // little instead (two lines would break it mid-word on Android).
+        style={[styles.tileLabel, labelSize ? { fontSize: labelSize } : null, active && styles.tileLabelActive, skin?.tabIcon ? { color: active ? skin.tabIconActive ?? skin.tabIcon : skin.tabIcon } : null]}
+        // Two-word names wrap onto two lines; single words share the grid's
+        // size (useTileLabelSize). Fit-to-width stays as a backstop for the
+        // bolder active label.
         numberOfLines={label.includes(" ") ? 2 : 1}
         adjustsFontSizeToFit
         minimumFontScale={0.87}
@@ -497,6 +544,9 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   }, [isSignedIn, menuQuery, t, user?.walletAddress, user?.address]);
 
   const searching = menuQuery.trim().length > 0;
+  // Sized from the resting grid's names, so a search does not resize the tiles.
+  const gridLabels = useMemo(() => NAV_ITEMS.filter((item) => !item.searchOnly).map((item) => t(item.labelKey)), [t]);
+  const tileLabel = useTileLabelSize(gridLabels, tileWidth);
 
   // Hold a tile and drag it to rearrange; saved per account (this device when
   // signed out) and shared with the web menu. Off while searching: results are
@@ -606,6 +656,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
         item={item}
         onItemPress={handleItemPress}
         label={t(item.labelKey)}
+        labelSize={tileLabel.size}
         icon={item.icon}
         iconUrl={key ? themeIconUrl(themeName, key) : undefined}
         iconColor={['hacker', 'island', 'horror'].includes(themeName) ? appTheme.colors.accent : undefined}
@@ -776,6 +827,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
           contentContainerStyle={{ paddingHorizontal: GRID_PADDING, paddingBottom: 16 }}
         >
           {/* Same order as the web menu, one continuous grid. */}
+          {tileLabel.measurer}
           {orderedItems.length > 0 && (
             <View style={styles.grid}>
               {menuReorder.order.map((id) => itemsById.get(id)).filter((item): item is DrawerItem => !!item).map(renderItem)}
@@ -1026,6 +1078,17 @@ const styles = StyleSheet.create({
   tileImage: {
     width: ICON_SIZE,
     height: ICON_SIZE,
+  },
+  labelMeasure: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 10000,
+    alignItems: "flex-start",
+    opacity: 0,
+  },
+  labelMeasureText: {
+    alignSelf: "flex-start",
   },
   tileLabel: {
     color: "rgba(255, 255, 255, 0.9)",

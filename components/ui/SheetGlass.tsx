@@ -68,7 +68,11 @@ function LightGlassLayers({ blur = true, backdropBlurred = false }: LayerProps) 
   const own = blur && !backdropBlurred;
   const android = own && !ios && !!source;
   const ownBlur = (ios && own) || android;
-  const blurred = ownBlur || backdropBlurred;
+  // On Android the backdrop's blur cannot sample a playing video (the Shorts
+  // viewer, a post's player), so a sheet leaning on it showed the caption
+  // under it through the 90% wash. Only a blur this panel draws, or iOS's
+  // backdrop blur, earns the lighter wash.
+  const blurred = ownBlur || (ios && backdropBlurred);
   return (
     <KeepDarkScope>
       {android ? <View style={[StyleSheet.absoluteFill, { backgroundColor: "#F4F4F7" }]} /> : null}
