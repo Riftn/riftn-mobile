@@ -9178,6 +9178,7 @@
     "subscribersOnly": "Ainult tellijatele",
     "subscribeTo": "Telli {{name}}",
     "subscribeToCreator": "Telli sellelt loojalt",
+    "subscribeFrom": "Abi saada",
     "holdingsRequired": "Nõutavad hoiused",
     "mustHold": "Peab hoidma {{amount}} {{symbol}}",
     "reposted": "Postitatud uuesti",

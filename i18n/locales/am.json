@@ -9206,6 +9206,7 @@
     "subscribersOnly": "ለደንበኝነት ተመዝጋቢዎች ብቻ",
     "subscribeTo": "ለ {{name}} ይመዝገቡ",
     "subscribeToCreator": "ለዚህ ፈጣሪ ይመዝገቡ",
+    "subscribeFrom": "ከ ይመዝገቡ",
     "holdingsRequired": "የሚፈለጉ ይዞታዎች",
     "mustHold": "{{amount}} {{symbol}} መያዝ አለበት",
     "reposted": "እንደገና ተለጠፈ",

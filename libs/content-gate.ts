@@ -26,6 +26,8 @@ export interface SubscriberPlanChain {
   chainId?: number;
   token?: string;
   price?: number;
+  /** "USDT" on plans priced in dollars; absent or "DHB" on token-priced ones. */
+  currency?: string;
   isPublished?: boolean;
   status?: boolean;
 }
@@ -80,19 +82,68 @@ export function subscriberPlanPrice(
 }
 
 /**
+ * What a plan costs, in both units the gate shows: tokens on the first line and
+ * dollars under it. Plans priced in USDT are paid in DHB at the fixed
+ * pre-listing rate, so $0.01 is 10 tokens; older plans are priced in DHB.
+ */
+export interface SubscriberPlanQuote {
+  tokens: number;
+  usd: number;
+}
+
+/** Mirrors DHB_PRELISTING_USD in libs/subscription-pricing (kept local so this file stays import-free). */
+const DHB_USD = 0.001;
+const USD_CURRENCIES = new Set(["USD", "USDT", "USDC"]);
+
+export function subscriberPlanQuote(
+  plan: SubscriberPlan | undefined | null,
+): SubscriberPlanQuote | undefined {
+  const price = subscriberPlanPrice(plan);
+  if (!plan || price === undefined || !Number.isFinite(price) || price <= 0) return undefined;
+  const currency = (primarySubscriberPlanChain(plan)?.currency || "DHB").toUpperCase();
+  if (USD_CURRENCIES.has(currency)) return { tokens: price / DHB_USD, usd: price };
+  return { tokens: price, usd: price * DHB_USD };
+}
+
+/** Token count for the gate: "10", "1.5K", "<1". */
+export function formatSubscriberTokens(tokens: number | undefined): string {
+  const n = Number(tokens);
+  if (!Number.isFinite(n) || n <= 0) return "0";
+  if (n < 1) return "<1";
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
+  return String(Math.round(n * 100) / 100);
+}
+
+/** Dollar line under the token price. Anything under a cent reads "<$0.01". */
+export function formatSubscriberUsd(usd: number | undefined): string {
+  const n = Number(usd);
+  if (!Number.isFinite(n) || n <= 0) return "";
+  if (n < 0.01) return "<$0.01";
+  return `$${n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+}
+
+/**
  * The cheapest plan a reader could actually buy to get in. Unbuyable plans are
  * skipped because naming their price is an invitation to a disabled button.
+ * Compared in dollars, so a USDT plan and a DHB plan rank correctly.
  */
 export function cheapestSubscriberPlan(
   plans: SubscriberPlan[] | undefined | null,
 ): SubscriberPlan | undefined {
   const priced = (plans || [])
     .filter(isSubscriberPlanBuyable)
-    .filter((p) => subscriberPlanPrice(p) !== undefined);
+    .filter((p) => subscriberPlanQuote(p) !== undefined);
   if (!priced.length) return undefined;
   return priced.reduce((a, b) =>
-    (subscriberPlanPrice(b) as number) < (subscriberPlanPrice(a) as number) ? b : a,
+    (subscriberPlanQuote(b) as SubscriberPlanQuote).usd < (subscriberPlanQuote(a) as SubscriberPlanQuote).usd ? b : a,
   );
+}
+
+export function cheapestSubscriberQuote(
+  plans: SubscriberPlan[] | undefined | null,
+): SubscriberPlanQuote | undefined {
+  return subscriberPlanQuote(cheapestSubscriberPlan(plans));
 }
 
 /**

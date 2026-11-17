@@ -9273,6 +9273,7 @@
     "subscribersOnly": "Slegs intekenare",
     "subscribeTo": "Teken in op {{name}}",
     "subscribeToCreator": "Teken in op hierdie skepper",
+    "subscribeFrom": "Teken in vanaf",
     "holdingsRequired": "Houers Vereis",
     "mustHold": "Moet {{amount}} {{symbol}} hou",
     "reposted": "Herpos",

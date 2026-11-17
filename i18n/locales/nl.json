@@ -7573,6 +7573,7 @@
     "subscribersOnly": "Alleen voor abonnees",
     "subscribeTo": "Abonneren op {{name}}",
     "subscribeToCreator": "Abonneren op deze maker",
+    "subscribeFrom": "Abonneren op",
     "holdingsRequired": "Vereiste bezittingen",
     "mustHold": "Moet {{amount}} {{symbol}} bezitten",
     "reposted": "Opgestuurd",

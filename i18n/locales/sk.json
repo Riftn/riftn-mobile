@@ -9281,6 +9281,7 @@
     "subscribersOnly": "Len pre odberateľov",
     "subscribeTo": "Prihlásiť sa na odber {{name}}",
     "subscribeToCreator": "Prihlásiť sa na odber tohto tvorcu",
+    "subscribeFrom": "Odoberať odporúčanie",
     "holdingsRequired": "Požadované držby",
     "mustHold": "Musíte držať {{amount}} {{symbol}}",
     "reposted": "Preposlané",

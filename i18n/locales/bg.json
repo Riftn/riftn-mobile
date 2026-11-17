@@ -9180,6 +9180,7 @@
     "subscribersOnly": "Само за абонати",
     "subscribeTo": "Абонирай се за {{name}}",
     "subscribeToCreator": "Абонирай се за този създател",
+    "subscribeFrom": "Абонирайте се от",
     "holdingsRequired": "Необходими притежания",
     "mustHold": "Трябва да притежаваш {{amount}} {{symbol}}",
     "reposted": "Репостнато",

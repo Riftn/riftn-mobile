@@ -9346,6 +9346,7 @@
     "subscribersOnly": "Chỉ dành cho người đăng ký",
     "subscribeTo": "Đăng ký {{name}}",
     "subscribeToCreator": "Đăng ký người sáng tạo này",
+    "subscribeFrom": "Đăng ký từ",
     "holdingsRequired": "Yêu cầu nắm giữ",
     "mustHold": "Phải giữ {{amount}} {{symbol}}",
     "reposted": "Đã đăng lại",

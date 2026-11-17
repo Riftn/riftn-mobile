@@ -9119,6 +9119,7 @@
     "unlockForAndHold": "Open am for {{price}} {{symbol}} + hold {{hold}} {{holdSymbol}}",
     "unlockFor": "Open am for {{price}} {{symbol}}",
     "subscribeToCreator": "Subscribe to dis creator",
+    "subscribeFrom": "Subscribe from",
     "mustHold": "You must dey hold {{amount}} {{symbol}}",
     "matureDescription": "The creator mark this post as adult or graphic.",
     "imageTranslating": "We dey comot the text and translate am...",

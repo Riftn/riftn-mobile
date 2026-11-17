@@ -9261,6 +9261,7 @@
     "subscribersOnly": "仅限订阅者",
     "subscribeTo": "订阅 {{name}}",
     "subscribeToCreator": "订阅此创作者",
+    "subscribeFrom": "订阅",
     "holdingsRequired": "所需持有量",
     "mustHold": "必须持有 {{amount}} {{symbol}}",
     "reposted": "已转发",

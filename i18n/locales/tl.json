@@ -9224,6 +9224,7 @@
     "subscribersOnly": "Para lang sa mga subscriber",
     "subscribeTo": "Mag-subscribe sa {{name}}",
     "subscribeToCreator": "Mag-subscribe sa creator na ito",
+    "subscribeFrom": "Mag - subscribe mula sa",
     "holdingsRequired": "Mga Kinakailangang Hawak",
     "mustHold": "Dapat may hawak na {{amount}} {{symbol}}",
     "reposted": "Ni-repost",

@@ -9321,6 +9321,7 @@
     "subscribersOnly": "শুধুমাত্র সাবস্ক্রাইবারদের জন্য",
     "subscribeTo": "{{name}} কে সাবস্ক্রাইব করুন",
     "subscribeToCreator": "এই ক্রিয়েটরকে সাবস্ক্রাইব করুন",
+    "subscribeFrom": "Subscribe from",
     "holdingsRequired": "হোল্ডিং প্রয়োজন",
     "mustHold": "অবশ্যই {{amount}} {{symbol}} ধরে রাখতে হবে",
     "reposted": "রিপোস্ট করা হয়েছে",

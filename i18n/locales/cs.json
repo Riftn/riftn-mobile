@@ -9182,6 +9182,7 @@
     "subscribersOnly": "Pouze pro předplatitele",
     "subscribeTo": "Přihlásit se k odběru {{name}}",
     "subscribeToCreator": "Přihlásit se k odběru tohoto tvůrce",
+    "subscribeFrom": "Odebírat od",
     "holdingsRequired": "Požadovaná držba",
     "mustHold": "Musíte držet {{amount}} {{symbol}}",
     "reposted": "Přeposláno",

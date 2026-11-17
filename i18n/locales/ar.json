@@ -7455,6 +7455,7 @@
     "subscribersOnly": "للمشتركين فقط",
     "subscribeTo": "اشترك في {{name}}",
     "subscribeToCreator": "اشترك في هذا المنشئ",
+    "subscribeFrom": "الاشتراك من",
     "holdingsRequired": "المقتنيات المطلوبة",
     "mustHold": "يجب الاحتفاظ بـ {{amount}} {{symbol}}",
     "reposted": "تمت إعادة النشر",

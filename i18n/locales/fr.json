@@ -7439,6 +7439,7 @@
     "subscribersOnly": "Réservé aux abonnés",
     "subscribeTo": "S'abonner à {{name}}",
     "subscribeToCreator": "S'abonner à ce créateur",
+    "subscribeFrom": "Abonnez-vous à partir de",
     "holdingsRequired": "Détention requise",
     "mustHold": "Doit détenir {{amount}} {{symbol}}",
     "reposted": "Republié",

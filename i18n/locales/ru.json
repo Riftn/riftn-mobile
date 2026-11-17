@@ -9390,6 +9390,7 @@
     "subscribersOnly": "Только для подписчиков",
     "subscribeTo": "Подписаться на {{name}}",
     "subscribeToCreator": "Подписаться на этого автора",
+    "subscribeFrom": "Подписаться от",
     "holdingsRequired": "Требуется владение",
     "mustHold": "Должен владеть {{amount}} {{symbol}}",
     "reposted": "Репостнут",

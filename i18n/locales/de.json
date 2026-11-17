@@ -9323,6 +9323,7 @@
     "subscribersOnly": "Nur für Abonnenten",
     "subscribeTo": "Abonnieren Sie {{name}}",
     "subscribeToCreator": "Abonnieren Sie diesen Ersteller",
+    "subscribeFrom": "Abonnieren von",
     "holdingsRequired": "Erforderliche Bestände",
     "mustHold": "Muss {{amount}} {{symbol}} halten",
     "reposted": "Neu gepostet",

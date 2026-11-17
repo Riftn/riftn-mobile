@@ -9225,6 +9225,7 @@
     "subscribersOnly": "للمشتركين فقط",
     "subscribeTo": "اشترك في {{name}}",
     "subscribeToCreator": "اشترك بهذا المبدع",
+    "subscribeFrom": "اشترك",
     "holdingsRequired": "المطلوب الاحتفاظ به",
     "mustHold": "يجب الاحتفاظ بـ {{amount}} {{symbol}}",
     "reposted": "تم إعادة النشر",

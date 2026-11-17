@@ -9150,6 +9150,7 @@
     "subscribersOnly": "یوازې ګډون کونکو لپاره",
     "subscribeTo": "د {{name}} ګډون وکړئ",
     "subscribeToCreator": "د دې جوړونکي ګډون وکړئ",
+    "subscribeFrom": "له دې ځایه ګډون وکړئ",
     "holdingsRequired": "د لاسرسي لپاره اړین",
     "mustHold": "باید {{amount}} {{symbol}} ولرئ",
     "reposted": "بیا خپرونه شوې",

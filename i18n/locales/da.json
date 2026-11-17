@@ -9182,6 +9182,7 @@
     "subscribersOnly": "Kun for abonnenter",
     "subscribeTo": "Abonner på {{name}}",
     "subscribeToCreator": "Abonner på denne skaber",
+    "subscribeFrom": "Abonner fra",
     "holdingsRequired": "Krævede beholdninger",
     "mustHold": "Skal holde {{amount}} {{symbol}}",
     "reposted": "Genudgivet",

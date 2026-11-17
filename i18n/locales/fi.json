@@ -9177,6 +9177,7 @@
     "subscribersOnly": "Vain tilaajille",
     "subscribeTo": "Tilaa {{name}}",
     "subscribeToCreator": "Tilaa tämä sisällöntuottaja",
+    "subscribeFrom": "Tilaa kohteesta",
     "holdingsRequired": "Vaaditut omistukset",
     "mustHold": "On pidettävä {{amount}} {{symbol}}",
     "reposted": "Jaettu uudelleen",

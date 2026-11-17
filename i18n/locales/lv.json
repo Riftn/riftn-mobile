@@ -9178,6 +9178,7 @@
     "subscribersOnly": "Tikai abonentiem",
     "subscribeTo": "Abonēt {{name}}",
     "subscribeToCreator": "Abonēt šo veidotāju",
+    "subscribeFrom": "Abonēt no",
     "holdingsRequired": "Nepieciešamās turētās vērtības",
     "mustHold": "Jābūt turēt {{amount}} {{symbol}}",
     "reposted": "Pārpublicēts",

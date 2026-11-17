@@ -9263,6 +9263,7 @@
     "subscribersOnly": "সাবস্ক্রাইবারদের লাগি",
     "subscribeTo": "{{name}} কে সাবস্ক্রাইব করুন",
     "subscribeToCreator": "এই ক্রিয়েটর কে সাবস্ক্রাইব করুন",
+    "subscribeFrom": "সাবস্ক্রাইব করুন থেকে",
     "holdingsRequired": "হোল্ডিং দরকার",
     "mustHold": "অবশ্যই {{amount}} {{symbol}} হোল্ড করা লাগিব",
     "reposted": "রিপোস্ট করা অইছে",

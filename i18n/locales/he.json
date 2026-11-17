@@ -9188,6 +9188,7 @@
     "subscribersOnly": "למנויים בלבד",
     "subscribeTo": "הירשם ל-{{name}}",
     "subscribeToCreator": "הירשם ליוצר זה",
+    "subscribeFrom": "הירשם מ -",
     "holdingsRequired": "נדרשות החזקות",
     "mustHold": "חובה להחזיק {{amount}} {{symbol}}",
     "reposted": "פורסם מחדש",

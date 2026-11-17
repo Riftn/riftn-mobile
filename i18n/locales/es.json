@@ -7435,6 +7435,7 @@
     "subscribersOnly": "Solo suscriptores",
     "subscribeTo": "Suscribirse a {{name}}",
     "subscribeToCreator": "Suscribirse a este creador",
+    "subscribeFrom": "Suscribirse desde",
     "holdingsRequired": "Posesiones requeridas",
     "mustHold": "Debe tener {{amount}} {{symbol}}",
     "reposted": "Republicado",

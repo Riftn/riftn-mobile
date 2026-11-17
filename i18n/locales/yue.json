@@ -9156,6 +9156,7 @@
     "subscribersOnly": "僅限訂閱者",
     "subscribeTo": "訂閱 {{name}}",
     "subscribeToCreator": "訂閱此創作者",
+    "subscribeFrom": "訂閱從",
     "holdingsRequired": "需要持有",
     "mustHold": "必須持有 {{amount}} {{symbol}}",
     "reposted": "已轉發",

@@ -9186,6 +9186,7 @@
     "subscribersOnly": "Csak előfizetőknek",
     "subscribeTo": "Feliratkozás ehhez: {{name}}",
     "subscribeToCreator": "Feliratkozás ehhez a készítőhöz",
+    "subscribeFrom": "Feliratkozás innen:",
     "holdingsRequired": "Szükséges birtoklás",
     "mustHold": "Birtokolnod kell: {{amount}} {{symbol}}",
     "reposted": "Újraküldve",
