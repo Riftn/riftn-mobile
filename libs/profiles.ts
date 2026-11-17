@@ -132,20 +132,104 @@ export function subscribeProfilesChanged(fn: ProfilesListener): () => void {
   };
 }
 
-async function readStore(): Promise<StoredProfile[]> {
+/**
+ * Saved sessions hold the same tokens the live session keeps in SecureStore,
+ * so they are kept there too. The registry in AsyncStorage only lists which
+ * fields a profile has sealed; each value is its own SecureStore item.
+ */
+interface SealedSession {
+  sealed: string[];
+  supabaseKey?: string;
+}
+
+const sealedKey = (id: string, field: string) =>
+  `ps_${id.replace(/[^A-Za-z0-9._-]/g, '_')}_${field.replace(/[^A-Za-z0-9._-]/g, '_')}`;
+
+function isSealed(session: unknown): session is SealedSession {
+  return !!session && Array.isArray((session as SealedSession).sealed);
+}
+
+async function sealedFields(profile: { id: string; session: unknown }): Promise<string[]> {
+  if (!isSealed(profile.session)) return [];
+  const fields = [...profile.session.sealed];
+  if (profile.session.supabaseKey) fields.push('sb_access', 'sb_refresh');
+  return fields.map((f) => sealedKey(profile.id, f));
+}
+
+async function unseal(raw: any): Promise<StoredProfile> {
+  if (!isSealed(raw?.session)) return raw as StoredProfile;
+  const sealed = raw.session as SealedSession;
+  const tokens: Record<string, string> = {};
+  for (const field of sealed.sealed) {
+    const value = await SecureStore.getItemAsync(sealedKey(raw.id, field)).catch(() => null);
+    if (value !== null) tokens[field] = value;
+  }
+  let supabase: StoredProfileSession['supabase'];
+  if (sealed.supabaseKey) {
+    const access = await SecureStore.getItemAsync(sealedKey(raw.id, 'sb_access')).catch(() => null);
+    const refresh = await SecureStore.getItemAsync(sealedKey(raw.id, 'sb_refresh')).catch(() => null);
+    if (access && refresh) supabase = { storageKey: sealed.supabaseKey, access_token: access, refresh_token: refresh };
+  }
+  const session = Object.keys(tokens).length || supabase ? { tokens, ...(supabase ? { supabase } : {}) } : null;
+  return { ...raw, session } as StoredProfile;
+}
+
+async function readRaw(): Promise<any[]> {
   try {
     const raw = await AsyncStorage.getItem(PROFILES_STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? (parsed as StoredProfile[]) : [];
+    return Array.isArray(parsed) ? parsed : [];
   } catch {
     return [];
   }
 }
 
+async function readStore(): Promise<StoredProfile[]> {
+  const raw = await readRaw();
+  const profiles = await Promise.all(raw.map(unseal));
+  // A registry written before sessions were sealed still carries them inline.
+  if (raw.some((p) => p?.session && !isSealed(p.session))) await persist(profiles);
+  return profiles;
+}
+
+/** Writes the registry, sealing every session into SecureStore. */
+async function persist(profiles: StoredProfile[]): Promise<void> {
+  const before = await readRaw();
+  const registry: any[] = [];
+  const keep = new Set<string>();
+  for (const profile of profiles) {
+    const session = profile.session;
+    if (!session) {
+      registry.push({ ...profile, session: null });
+      continue;
+    }
+    const sealed: SealedSession = { sealed: Object.keys(session.tokens || {}) };
+    for (const [field, value] of Object.entries(session.tokens || {})) {
+      const key = sealedKey(profile.id, field);
+      await SecureStore.setItemAsync(key, value);
+      keep.add(key);
+    }
+    if (session.supabase) {
+      sealed.supabaseKey = session.supabase.storageKey;
+      await SecureStore.setItemAsync(sealedKey(profile.id, 'sb_access'), session.supabase.access_token);
+      await SecureStore.setItemAsync(sealedKey(profile.id, 'sb_refresh'), session.supabase.refresh_token);
+      keep.add(sealedKey(profile.id, 'sb_access'));
+      keep.add(sealedKey(profile.id, 'sb_refresh'));
+    }
+    registry.push({ ...profile, session: sealed });
+  }
+  await AsyncStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(registry));
+  for (const old of before) {
+    for (const key of await sealedFields(old)) {
+      if (!keep.has(key)) await SecureStore.deleteItemAsync(key).catch(() => undefined);
+    }
+  }
+}
+
 async function writeStore(profiles: StoredProfile[]): Promise<void> {
   try {
-    await AsyncStorage.setItem(PROFILES_STORAGE_KEY, JSON.stringify(profiles));
+    await persist(profiles);
   } catch {}
   emitChanged();
 }

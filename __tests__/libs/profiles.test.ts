@@ -6,6 +6,13 @@ const mockStore = SecureStore as jest.Mocked<typeof SecureStore> & {
   __clear: () => void;
 };
 
+/** Signing out wipes the live session keys; saved profiles (ps_*) stay. */
+function clearLiveSession(): void {
+  for (const key of Object.keys(mockStore.__store)) {
+    if (!key.startsWith('ps_')) delete mockStore.__store[key];
+  }
+}
+
 jest.mock('../../config/queryClient', () => ({
   queryClient: { clear: jest.fn() },
 }));
@@ -57,7 +64,7 @@ async function seedAccountB(): Promise<void> {
   const keys = await AsyncStorage.getAllKeys();
   const doomed = keys.filter((k) => k !== PROFILES_STORAGE_KEY && !k.startsWith('@local_wallet'));
   if (doomed.length) await AsyncStorage.multiRemove(doomed);
-  mockStore.__clear();
+  clearLiveSession();
   await setAuthToken('tok-b');
   await setRefreshToken('rtok-b');
   await setTokenExpiresAt(Date.now() + 900_000);
@@ -127,7 +134,7 @@ describe('libs/profiles', () => {
       const keys = await AsyncStorage.getAllKeys();
       const doomed = keys.filter((k) => k !== PROFILES_STORAGE_KEY && !k.startsWith('@local_wallet'));
       if (doomed.length) await AsyncStorage.multiRemove(doomed);
-      mockStore.__clear();
+      clearLiveSession();
       await setAuthToken('tok-c');
       await setAuthMethod('local', '0xcccccccccccccccccccccccccccccccccccccccc');
 
@@ -150,6 +157,10 @@ describe('libs/profiles', () => {
       expect(profiles[0].name).toBe('Alice');
       expect(profiles[0].username).toBe('alice');
       expect(profiles[0].session?.tokens['auth_token']).toBe('tok-a');
+      // The saved copy lives in SecureStore, never in the AsyncStorage registry.
+      const registry = (await AsyncStorage.getItem(PROFILES_STORAGE_KEY)) ?? '';
+      expect(registry).not.toContain('tok-a');
+      expect(registry).not.toContain('rtok-a');
     });
 
     it('never adds an uninvited account — tracking refreshes, adoption creates', async () => {
