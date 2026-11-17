@@ -6528,7 +6528,6 @@
       "approve": "تایید کړئ",
       "reject": "رد کړئ",
       "members": "غړي",
-      "searchMembers": "د والټ پته لخوا لټون وکړئ",
       "noMembersMatch": "هیڅ غړی ورسره سمون نه خوري.",
       "noMembers": "تر اوسه هیڅ غړی نشته.",
       "muted": "چوپ شوي",
@@ -6592,7 +6591,6 @@
       "adminBadge": "ادمین",
       "rightsSummary": "د {{granted}} حقوقو {{total}}",
       "addAdministrator": "ادمین اضافه کړئ",
-      "noMemberMatches": "د دې پته سره هیڅ غړی سمون نه لري.",
       "noPlainMembers": "دلته ټول دمخه ادمین دي.",
       "searchTruncated": "لومړی {{limit}} ښیې - د محدودولو لپاره ټایپ کولو ته دوام ورکړئ.",
       "danger": {
@@ -6662,7 +6660,9 @@
         "empty": "دلته لا تر اوسه هیڅ نشته. د مدیریت کړنې به هغه وخت ښکاره شي کله چې دوی پیښیږي.",
         "showMore": "نور وښایاست ({{value}})"
       },
-      "reasonCounter": "{{len}}/۲۰۰"
+      "reasonCounter": "{{len}}/۲۰۰",
+      "searchMembers": "د نوم، @کارونکي نوم یا بټوې په واسطه لټون وکړئ",
+      "noMemberMatches": "هیڅ غړی د دې لټون سره سمون نه خوري."
     },
     "chooseAvatar": "اوتار غوره کړئ",
     "loadFailed": "نه شو کولای چې ټولنې جوړې کړو",

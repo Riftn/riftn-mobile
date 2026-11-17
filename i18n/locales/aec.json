@@ -6545,7 +6545,6 @@
       "approve": "موافقة",
       "reject": "رفض",
       "members": "الأعضاء",
-      "searchMembers": "البحث عن طريق عنوان المحفظة",
       "noMembersMatch": "لا يوجد عضو مطابق.",
       "noMembers": "لا يوجد أعضاء بعد.",
       "muted": "مكتوم الصوت",
@@ -6609,7 +6608,6 @@
       "adminBadge": "المدير",
       "rightsSummary": "{{granted}} من {{total}} الحقوق",
       "addAdministrator": "اضافة مشرف",
-      "noMemberMatches": "لا يوجد عضو يطابق العنوان.",
       "noPlainMembers": "كل الناس هنا هما مسؤولين.",
       "searchTruncated": "اظهار الاول {{limit}} — استمر في الكتابة لتحديد النطاق.",
       "danger": {
@@ -6678,7 +6676,9 @@
         "forWeeks": "للمدة {{value}} ساعة"
       },
       "createInviteLink": "اعمل رابط دعوة",
-      "createLink": "اعمل رابط"
+      "createLink": "اعمل رابط",
+      "searchMembers": "دوّر بالاسم، @username أو المحفظة",
+      "noMemberMatches": "مفيش عضو يطابق البحث ده."
     },
     "chooseAvatar": "اختار صورة شخصية",
     "loadFailed": "مَش عارِف أحَمِّل الكُوميونِتيز",

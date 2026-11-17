@@ -94,6 +94,14 @@ export function useMemberIdentities(addresses: string[]) {
   return { byAddress, isLoading: isLoading && key.length > 0 };
 }
 
+/** How a member is named in prompts and toasts: display name, @handle, or short wallet. */
+export function memberLabel(address: string, identity: AccountSummary | undefined): string {
+  const display = identity?.displayName?.trim();
+  if (display) return display;
+  const handle = identity?.username?.trim();
+  return handle ? `@${handle}` : shortWallet(address);
+}
+
 /** True when the member's wallet, name or @handle contains the search text. */
 export function memberMatches(
   address: string,

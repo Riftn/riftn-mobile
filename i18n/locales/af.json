@@ -6648,7 +6648,6 @@
       "approve": "Goedkeur",
       "reject": "Verwerp",
       "members": "Lede",
-      "searchMembers": "Soek volgens beursie-adres",
       "noMembersMatch": "Geen lid stem ooreen daarmee nie.",
       "noMembers": "Nog geen lede nie.",
       "muted": "Gedemp",
@@ -6714,7 +6713,6 @@
       "adminBadge": "Administrateur",
       "rightsSummary": "{{granted}} van {{total}} regte",
       "addAdministrator": "Voeg beheerder by",
-      "noMemberMatches": "Geen lid met dié adres pas by.",
       "noPlainMembers": "Almal hier is reeds 'n admin.",
       "searchTruncated": "Toon die eerste {{limit}} — skryf voort om dit te verwyder.",
       "danger": {
@@ -6783,7 +6781,9 @@
         "restricted": "Net moderators kan die moderasie-lys sien.",
         "empty": "Niks hier nog nie. Moderasie-aksies sal as hulle gebeur, verskyn.",
         "showMore": "Meer wys ({{value}})"
-      }
+      },
+      "searchMembers": "Soek volgens naam, @gebruikersnaam of beursie",
+      "noMemberMatches": "Geen lid stem ooreen met daardie soektog nie."
     },
     "chooseAvatar": "Kies avatar",
     "loadFailed": "Kon nie gemeenskappe laai nie",

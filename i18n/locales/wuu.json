@@ -6536,7 +6536,6 @@
       "approve": "批准",
       "reject": "拒绝",
       "members": "成员",
-      "searchMembers": "按钱包地址搜索",
       "noMembersMatch": "没有成员匹配。",
       "noMembers": "尚无成员。",
       "muted": "禁言中",
@@ -6598,7 +6597,6 @@
       "administratorsSection": "管治者",
       "noAdmins": "無管理员。提升一名成员来协助你管理。",
       "rightsSummary": "{{granted}}個{{total}}權",
-      "noMemberMatches": "無法找到該地址的會員。",
       "noPlainMembers": "每個人都已經是管理員了。",
       "danger": {
         "transferTitle": "轉移所有權？",
@@ -6669,7 +6667,9 @@
       },
       "adminBadge": "管理員",
       "addAdministrator": "添加管理员",
-      "searchTruncated": "顯示第一個{{limit}} — 繼續輸入以縮小查詢範圍"
+      "searchTruncated": "顯示第一個{{limit}} — 繼續輸入以縮小查詢範圍",
+      "searchMembers": "按名字、@用户名或钱包搜索",
+      "noMemberMatches": "无个会员匹配到个搜索。"
     },
     "chooseAvatar": "选择头像",
     "loadFailed": "社区加载失败",

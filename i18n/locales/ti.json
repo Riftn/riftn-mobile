@@ -6533,7 +6533,6 @@
       "approve": "ኣጽዳቕ",
       "reject": "ኣብጽር",
       "members": "ኣባላት",
-      "searchMembers": "ብኣድራሻ ዊለት ድለይ",
       "noMembersMatch": "ኣይተረኽበን ኣባል።",
       "noMembers": "ኣባላት የለን።",
       "muted": "ዝተዘምዘሙ",
@@ -6597,7 +6596,6 @@
       "adminBadge": "ኣብዚ ኣለዉ",
       "rightsSummary": "{{granted}} ካብ {{total}} መሰላት",
       "addAdministrator": "ኣብዚ ኣለዉ ሸሞም።",
-      "noMemberMatches": "ኣብዚ ኣድራሻ ዝሰማማዕ ኣባል የለን።",
       "noPlainMembers": "ኩሎም ኣብዚ ዝርከቡ ኣባላት ኣለዉ።",
       "searchTruncated": "መጀመርታ {{limit}} ይርአ። ንምጥባብ እናጸሓፍካ ቀጽል።",
       "danger": {
@@ -6666,7 +6664,9 @@
         "restricted": "እቶም ኣማሓደርቲ ጥራይ እዮም ነቲ ናይ ሚዛናዊነት መዝገብ ክርእይዎ ዝኽእሉ ።",
         "empty": "ኣብዚ ዋላ ሓንቲ ነገር የለን ። ሚዛናዊ ተግባራት ከም ዝፍጸም ክግለጽ እዩ ።",
         "showMore": "ዝያዳ ኣርኢ ({{value}})"
-      }
+      },
+      "searchMembers": "ብስም፡ @username ወይ ብዋለታ ኣናዲ",
+      "noMemberMatches": "ምስቲ ምድላይ እቲ ዝሰማማዕ ኣባል የልቦን።"
     },
     "chooseAvatar": "ኣቫታር ምረጽ",
     "loadFailed": "ማሕበረሰባት ክጭፍኑ ኣይከኣሉን ።",

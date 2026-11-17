@@ -6532,7 +6532,6 @@
       "approve": "Kwado",
       "reject": "Jụ",
       "members": "Ndị otu",
-      "searchMembers": "Chọọ site na adreesị akpa",
       "noMembersMatch": "Ọ dịghị onye otu dabara na nke ahụ.",
       "noMembers": "Ndị otu adịghị",
       "muted": "Ndị gbachiri nkịtị",
@@ -6598,7 +6597,6 @@
       "adminBadge": "Onye nchịkwa",
       "rightsSummary": "{{granted}} nke {{total}} ikike",
       "addAdministrator": "Tinye onye nchịkwa",
-      "noMemberMatches": "Enweghị onye otu na-ezute adreesị ahụ.",
       "noPlainMembers": "Onye niile ebe a bụ admin.",
       "searchTruncated": "Na-egosi nke mbụ {{limit}} — gaa dee ka ị belata ya.",
       "danger": {
@@ -6665,7 +6663,9 @@
         "restricted": "Ndị nlekọta naanị nwere ike ịhụ ndekọ nlekọta.",
         "empty": "Ọ dịghị ihe ọ bụla ebe a. Omume nlekọta ga-apụta ka ha na-eme.",
         "showMore": "Gosi ihe ọzọ ({{value}})"
-      }
+      },
+      "searchMembers": "Chọọ site na aha, @aha njirimara ma ọ bụ akpa ego",
+      "noMemberMatches": "Ọ dịghị onye otu kwekọrọ na nchọta ahụ."
     },
     "chooseAvatar": "Họrọ avatar",
     "loadFailed": "Agaghị ebubata ógbè",

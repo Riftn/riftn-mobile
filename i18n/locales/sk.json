@@ -6656,7 +6656,6 @@
       "approve": "Schváliť",
       "reject": "Odmietnuť",
       "members": "Členovia",
-      "searchMembers": "Hľadať podľa adresy peňaženky",
       "noMembersMatch": "Žiadny člen sa nezhoduje.",
       "noMembers": "Zatiaľ žiadni členovia.",
       "muted": "Zrušení",
@@ -6722,7 +6721,6 @@
       "adminBadge": "Správca",
       "rightsSummary": "{{granted}} z {{total}} práv",
       "addAdministrator": "Pridať správca",
-      "noMemberMatches": "Žiadny člen nebol nájdený.",
       "noPlainMembers": "Všetci tu sú už správci.",
       "searchTruncated": "Zobrazujú sa prvých {{limit}} — pokračujte v písať, aby ste sa zúžili.",
       "danger": {
@@ -6791,7 +6789,9 @@
         "restricted": "Len moderátori môžu vidieť záznam o moderácii.",
         "empty": "Nič tu nie je. Akcie moderácie sa zobrazia, keď sa stane.",
         "showMore": "Zobraziť viac ({{value}})"
-      }
+      },
+      "searchMembers": "Hľadať podľa mena, používateľského mena @username alebo peňaženky",
+      "noMemberMatches": "Žiadny člen nezodpovedá tomuto vyhľadávaniu."
     },
     "chooseAvatar": "Vybrať avatara",
     "loadFailed": "Komunity sa nepodarilo načítať",

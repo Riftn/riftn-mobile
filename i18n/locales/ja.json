@@ -6514,7 +6514,6 @@
       "approve": "承認",
       "reject": "拒否",
       "members": "メンバー",
-      "searchMembers": "ウォレットアドレスで検索",
       "noMembersMatch": "一致するメンバーがいません。",
       "noMembers": "まだメンバーがいません。",
       "muted": "ミュート中",
@@ -6578,7 +6577,6 @@
       "adminBadge": "管理者",
       "rightsSummary": "{{granted}}の権限を持つ{{total}}",
       "addAdministrator": "管理者を追加",
-      "noMemberMatches": "指定されたアドレスのメンバーが見つかりませんでした。",
       "noPlainMembers": "全員がすでに管理者です。",
       "searchTruncated": "最初の{{limit}}を表示します。さらに入力して絞り込んでください。",
       "danger": {
@@ -6646,7 +6644,9 @@
         "restricted": "管理者だけが見ることができるモデレーションログです。",
         "empty": "まだ何もありません。モデレーションアクションは発生するまで表示されません。",
         "showMore": "さらに表示 ({{value}})"
-      }
+      },
+      "searchMembers": "名前、@ユーザー名、またはウォレットで検索",
+      "noMemberMatches": "その検索に一致するメンバーはいません。"
     },
     "chooseAvatar": "アバターを選択",
     "loadFailed": "コミュニティを読み込めませんでした",

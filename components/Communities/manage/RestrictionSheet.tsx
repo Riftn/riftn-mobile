@@ -11,7 +11,7 @@ import { useSurfaceDraft, draftIdentity } from '../../../hooks/useSurfaceDraft';
  * ban right alone, and for them the purge RPC would raise on its own — so the
  * toggle only renders when the purge would actually be allowed.
  */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -29,7 +29,7 @@ import {
   durationToTimestamp,
   getCommunityAbilities,
 } from "../../../libs/community-permissions";
-import { shortWallet, useCommunityModeration } from "../../../hooks/useCommunityAdmin";
+import { memberLabel, useCommunityModeration, useMemberIdentities } from "../../../hooks/useCommunityAdmin";
 import type { Community, CommunityMember } from "../../../types/community";
 
 const MAX_REASON = 200;
@@ -71,6 +71,8 @@ export function RestrictionSheet({
   const [submitting, setSubmitting] = useState(false);
 
   const targetWallet = target?.wallet_address ?? "";
+  const identityLookup = useMemo(() => (targetWallet ? [targetWallet] : []), [targetWallet]);
+  const { byAddress: targetIdentities } = useMemberIdentities(identityLookup);
 
   useEffect(() => {
     if (!visible) return;
@@ -83,7 +85,7 @@ export function RestrictionSheet({
   if (!target) return null;
 
   const member = target;
-  const name = shortWallet(member.wallet_address);
+  const name = memberLabel(member.wallet_address, targetIdentities.get(member.wallet_address.toLowerCase()));
   const isMute = mode === "mute";
 
   const title = isMute

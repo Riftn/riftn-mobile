@@ -6553,7 +6553,6 @@
       "approve": "Aprobă",
       "reject": "Respinge",
       "members": "Membri",
-      "searchMembers": "Caută după adresa portofelului",
       "noMembersMatch": "Nu există membri care să corespundă.",
       "noMembers": "Încă nu există membri.",
       "muted": "Mutați",
@@ -6619,7 +6618,6 @@
       "adminBadge": "Administrator",
       "rightsSummary": "{{granted}} de drepturi pe {{total}}",
       "addAdministrator": "Adăugați administrator",
-      "noMemberMatches": "Niciun membru nu corespunde acestei adrese.",
       "noPlainMembers": "Toată lumea aici este deja administrator.",
       "searchTruncated": "Se arată primii {{limit}} — continuați să tipăriți pentru a-l limita.",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Doar moderatorii pot vedea jurnalul de moderare.",
         "empty": "Nimic aici încă. Acțiunile de moderare vor apărea atunci când vor avea loc.",
         "showMore": "Arată mai mult ({{value}})"
-      }
+      },
+      "searchMembers": "Căutați după nume, @nume_utilizator sau portofel",
+      "noMemberMatches": "Niciun membru nu corespunde acestei căutări."
     },
     "chooseAvatar": "Alege avatar",
     "loadFailed": "Nu s-au putut încărca comunitățile",

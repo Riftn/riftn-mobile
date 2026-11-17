@@ -6571,7 +6571,6 @@
       "approve": "Allinyachiy",
       "reject": "Hark’ay",
       "members": "Runa masikuna",
-      "searchMembers": "Maskay qhapaq qhilla wasiwan",
       "noMembersMatch": "Manam tarikunñachu chayna runa.",
       "noMembers": "Manam runakunañachu.",
       "muted": "Hark’asqa",
@@ -6637,7 +6636,6 @@
       "adminBadge": "Kamayuq",
       "rightsSummary": "{{granted}} de {{total}} derechos nisqamanta",
       "addAdministrator": "Kamachiqta yapay",
-      "noMemberMatches": "Mana mayqin miembropas chay direccionwan tupanchu.",
       "noPlainMembers": "Tukuy kaypi runakunaqa adminñam kanku.",
       "searchTruncated": "Ñawpaq kaq {{limit}} rikuchispa — qillqaspallapuni pisiyachinaykipaq.",
       "danger": {
@@ -6706,7 +6704,9 @@
         "restricted": "Moderadores nisqakunallam moderación registro nisqataqa qawayta atinku.",
         "empty": "Manaraqmi kaypi imapas. Moderación ruwaykunan rikukunqa imaynachus pasasqanman hina.",
         "showMore": "Astawan rikuchiy ({{value}})"
-      }
+      },
+      "searchMembers": "Sutiwan, @username utaq billeterawan maskay",
+      "noMemberMatches": "Mana mayqin miembropas chay maskaywan tupanchu."
     },
     "chooseAvatar": "Awicha akllay",
     "loadFailed": "Mana ayllukunata cargayta atirqanchu",

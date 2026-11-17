@@ -6562,7 +6562,6 @@
       "approve": "Ekeo",
       "reject": "Atsipazo",
       "members": "Membres",
-      "searchMembers": "Karohy amin'ny adiresin'ny poketra",
       "noMembersMatch": "Tsy misy mpikambana mifanaraka amin'izany.",
       "noMembers": "Mbola tsy misy mpikambana.",
       "muted": "Voarohana",
@@ -6628,7 +6627,6 @@
       "adminBadge": "Mpitantana",
       "rightsSummary": "{{granted}} amin'ny {{total}} zo",
       "addAdministrator": "Ampio mpitantana",
-      "noMemberMatches": "Tsy misy mpikambana mifanaraka amin'io adiresy io.",
       "noPlainMembers": "Efa mpitantana avokoa ny rehetra eto.",
       "searchTruncated": "Aseho ny {{limit}} voalohany — tohizo ny fanoratana mba hampihenana izany.",
       "danger": {
@@ -6697,7 +6695,9 @@
         "restricted": "Ireo moderator ihany no afaka mahita ny rakitsoratra fanaraha-maso.",
         "empty": "Tsy mbola misy na inona na inona eto. Hiseho ny hetsika fanaraha-maso rehefa mitranga.",
         "showMore": "Asehoy bebe kokoa ({{value}})"
-      }
+      },
+      "searchMembers": "Mitadiava amin'ny alalan'ny anarana, @anaranafampiasa na poketra",
+      "noMemberMatches": "Tsy misy mpikambana mifanaraka amin'io fikarohana io."
     },
     "chooseAvatar": "Mifidiana avatar",
     "loadFailed": "Tsy afaka nampakatra ireo vondrom-piarahamonina",

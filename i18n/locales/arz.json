@@ -6553,7 +6553,6 @@
       "approve": "موافقة",
       "reject": "رفض",
       "members": "الأعضاء",
-      "searchMembers": "البحث عن طريق عنوان المحفظة",
       "noMembersMatch": "لا يوجد عضو مطابق.",
       "noMembers": "لا يوجد أعضاء بعد.",
       "muted": "تم كتم الصوت",
@@ -6617,7 +6616,6 @@
       "adminBadge": "المشرف",
       "rightsSummary": "{{granted}} من {{total}} الحقوق",
       "addAdministrator": "إضافة مسؤول",
-      "noMemberMatches": "لا يوجد عضو يطابق هذا العنوان.",
       "noPlainMembers": "الجميع هنا مسؤول بالفعل.",
       "searchTruncated": "عرض أول {{limit}} — استمر في الكتابة لتضييق نطاقه.",
       "danger": {
@@ -6686,7 +6684,9 @@
         "restricted": "يمكن للمشرفين فقط رؤية سجل الإشراف.",
         "empty": "لا شيء هنا حتى الآن. ستظهر إجراءات الاعتدال عند حدوثها.",
         "showMore": "عرض المزيد ({{value}})"
-      }
+      },
+      "searchMembers": "البحث حسب الاسم أو اسم المستخدم (@username) أو المحفظة",
+      "noMemberMatches": "لا يوجد عضو يتطابق مع هذا البحث."
     },
     "chooseAvatar": "اختر صورة رمزية",
     "loadFailed": "تعذّر تحميل المجتمعات",

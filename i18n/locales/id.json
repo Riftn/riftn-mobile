@@ -6666,7 +6666,6 @@
       "approve": "Setujui",
       "reject": "Tolak",
       "members": "Anggota",
-      "searchMembers": "Cari berdasarkan alamat dompet",
       "noMembersMatch": "Tidak ada anggota yang cocok.",
       "noMembers": "Belum ada anggota.",
       "muted": "Dibisukan",
@@ -6732,7 +6731,6 @@
       "adminBadge": "Admin",
       "rightsSummary": "{{granted}} dari {{total}} hak",
       "addAdministrator": "Tambahkan administrator",
-      "noMemberMatches": "Tidak ada anggota yang cocok dengan alamat itu.",
       "noPlainMembers": "Semua orang di sini sudah menjadi admin.",
       "searchTruncated": "Menampilkan {{limit}} pertama — terus ketik untuk mempersempitnya.",
       "danger": {
@@ -6801,7 +6799,9 @@
         "restricted": "Hanya moderator yang dapat melihat log moderasi.",
         "empty": "Belum ada apa - apa di sini. Tindakan moderasi akan muncul saat itu terjadi.",
         "showMore": "Tampilkan lebih banyak ({{value}})"
-      }
+      },
+      "searchMembers": "Cari berdasarkan nama, @nama pengguna, atau dompet",
+      "noMemberMatches": "Tidak ada anggota yang cocok dengan pencarian tersebut."
     },
     "chooseAvatar": "Pilih avatar",
     "loadFailed": "Tidak dapat memuat komunitas",

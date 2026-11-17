@@ -23,8 +23,8 @@ import { MemberIdentity } from "./MemberIdentity";
 import { getCommunityAbilities, isForever } from "../../../libs/community-permissions";
 import {
   isMuted,
+  memberLabel,
   memberMatches,
-  shortWallet,
   useBannedMembersQuery,
   useCommunityMembersQuery,
   useCommunityModeration,
@@ -91,7 +91,11 @@ export function MembersTab({ community, membership }: MembersTabProps) {
   );
   // Names, @handles, pictures and badges for the roster, so rows read like
   // the feed and the search finds people by name, not only by wallet.
-  const lookup = useMemo(() => ordered.map((m) => m.wallet_address), [ordered]);
+  // Join requests and bans first: they are short lists and always get names.
+  const lookup = useMemo(
+    () => [...pending, ...banned, ...ordered].map((m) => m.wallet_address),
+    [pending, banned, ordered],
+  );
   const { byAddress: identities } = useMemberIdentities(lookup);
 
   const sorted = useMemo(() => {
@@ -151,40 +155,45 @@ export function MembersTab({ community, membership }: MembersTabProps) {
             {t("communities.manage.joinRequests", { defaultValue: "Join requests" })}
           </Text>
           {pending.slice(0, pendingCount).map((member) => {
-            const name = shortWallet(member.wallet_address);
+            const identity = identities.get(member.wallet_address.toLowerCase());
+            const name = memberLabel(member.wallet_address, identity);
             const busy = moderation.busy === member.wallet_address;
             return (
-              <View
-                key={member.id}
-                className="flex-row items-center gap-3 py-3 border-b border-white/5"
-              >
-                <Text className="text-white text-sm font-mono flex-1">{name}</Text>
-                <TouchableOpacity
-                  style={[styles.approveBtn, busy && { opacity: 0.6 }]}
-                  disabled={busy}
-                  onPress={() => run(`${member.id}:approve`, () => moderation.approve(member.wallet_address, name))}
-                >
-                  {actingKey === `${member.id}:approve` ? (
-                    <ActivityIndicator size="small" color="#000" />
-                  ) : (
-                    <Text style={styles.approveText}>
-                      {t("communities.manage.approve", { defaultValue: "Approve" })}
-                    </Text>
-                  )}
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[styles.secondaryBtn, busy && { opacity: 0.6 }]}
-                  disabled={busy}
-                  onPress={() => run(`${member.id}:reject`, () => moderation.reject(member.wallet_address, name))}
-                >
-                  {actingKey === `${member.id}:reject` ? (
-                    <ActivityIndicator size="small" color="#fff" />
-                  ) : (
-                    <Text style={styles.secondaryText}>
-                      {t("communities.manage.reject", { defaultValue: "Reject" })}
-                    </Text>
-                  )}
-                </TouchableOpacity>
+              <View key={member.id} className="border-b border-white/5">
+                <MemberIdentity
+                  address={member.wallet_address}
+                  identity={identity}
+                  trailing={
+                    <View style={styles.trailing}>
+                      <TouchableOpacity
+                        style={[styles.approveBtn, busy && { opacity: 0.6 }]}
+                        disabled={busy}
+                        onPress={() => run(`${member.id}:approve`, () => moderation.approve(member.wallet_address, name))}
+                      >
+                        {actingKey === `${member.id}:approve` ? (
+                          <ActivityIndicator size="small" color="#000" />
+                        ) : (
+                          <Text style={styles.approveText}>
+                            {t("communities.manage.approve", { defaultValue: "Approve" })}
+                          </Text>
+                        )}
+                      </TouchableOpacity>
+                      <TouchableOpacity
+                        style={[styles.secondaryBtn, busy && { opacity: 0.6 }]}
+                        disabled={busy}
+                        onPress={() => run(`${member.id}:reject`, () => moderation.reject(member.wallet_address, name))}
+                      >
+                        {actingKey === `${member.id}:reject` ? (
+                          <ActivityIndicator size="small" color="#fff" />
+                        ) : (
+                          <Text style={styles.secondaryText}>
+                            {t("communities.manage.reject", { defaultValue: "Reject" })}
+                          </Text>
+                        )}
+                      </TouchableOpacity>
+                    </View>
+                  }
+                />
               </View>
             );
           })}
@@ -288,7 +297,8 @@ export function MembersTab({ community, membership }: MembersTabProps) {
             {t("communities.manage.banned", { defaultValue: "Banned" })}
           </Text>
           {banned.slice(0, bannedCount).map((member) => {
-            const name = shortWallet(member.wallet_address);
+            const identity = identities.get(member.wallet_address.toLowerCase());
+            const name = memberLabel(member.wallet_address, identity);
             const busy = moderation.busy === member.wallet_address;
             const until = member.banned_until ? new Date(member.banned_until) : null;
             const untilText =
@@ -299,33 +309,39 @@ export function MembersTab({ community, membership }: MembersTabProps) {
                   })
                 : null;
             return (
-              <View key={member.id} className="py-3 border-b border-white/5">
-                <View className="flex-row items-center gap-3">
-                  <Text className="text-white text-sm font-mono flex-1">{name}</Text>
-                  <TouchableOpacity
-                    style={[styles.secondaryBtn, busy && { opacity: 0.6 }]}
-                    disabled={busy}
-                    onPress={() => run(`${member.id}:unban`, () => moderation.unban(member.wallet_address, name))}
-                  >
-                    {actingKey === `${member.id}:unban` ? (
-                      <ActivityIndicator size="small" color="#fff" />
-                    ) : (
-                      <Text style={styles.secondaryText}>
-                        {t("communities.manage.unban", { defaultValue: "Unban" })}
-                      </Text>
-                    )}
-                  </TouchableOpacity>
-                  {/*
-                    No "Remove" here on purpose. Kicking a banned member deletes
-                    the row that IS the ban, so the weaker action would quietly
-                    undo the stronger one and let them rejoin. Unban is the only
-                    way out of this list.
-                  */}
-                </View>
-                {!!member.ban_reason && (
-                  <Text className="text-zinc-400 text-xs mt-1">{member.ban_reason}</Text>
-                )}
-                {!!untilText && <Text className="text-zinc-400 text-xs mt-0.5">{untilText}</Text>}
+              <View key={member.id} className="border-b border-white/5">
+                {/*
+                  No "Remove" here on purpose. Kicking a banned member deletes
+                  the row that IS the ban, so the weaker action would quietly
+                  undo the stronger one and let them rejoin. Unban is the only
+                  way out of this list.
+                */}
+                <MemberIdentity
+                  address={member.wallet_address}
+                  identity={identity}
+                  trailing={
+                    <TouchableOpacity
+                      style={[styles.secondaryBtn, busy && { opacity: 0.6 }]}
+                      disabled={busy}
+                      onPress={() => run(`${member.id}:unban`, () => moderation.unban(member.wallet_address, name))}
+                    >
+                      {actingKey === `${member.id}:unban` ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                      ) : (
+                        <Text style={styles.secondaryText}>
+                          {t("communities.manage.unban", { defaultValue: "Unban" })}
+                        </Text>
+                      )}
+                    </TouchableOpacity>
+                  }
+                >
+                  {!!member.ban_reason && (
+                    <Text className="text-zinc-400 text-xs" style={styles.underName}>{member.ban_reason}</Text>
+                  )}
+                  {!!untilText && (
+                    <Text className="text-zinc-400 text-xs" style={styles.underName}>{untilText}</Text>
+                  )}
+                </MemberIdentity>
               </View>
             );
           })}

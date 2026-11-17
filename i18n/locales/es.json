@@ -4631,7 +4631,6 @@
       "approve": "Aprobar",
       "reject": "Rechazar",
       "members": "Miembros",
-      "searchMembers": "Buscar por dirección de billetera",
       "noMembersMatch": "Ningún miembro coincide.",
       "noMembers": "Aún no hay miembros.",
       "muted": "Muteados",
@@ -4697,7 +4696,6 @@
       "adminBadge": "Administrador",
       "rightsSummary": "{{granted}} de {{total}} derechos",
       "addAdministrator": "Añadir administrador",
-      "noMemberMatches": "Ningún miembro coincide con esa dirección.",
       "noPlainMembers": "Todos aquí ya son administradores.",
       "searchTruncated": "Mostrando el primer {{limit}}: sigue escribiendo para reducirlo.",
       "danger": {
@@ -4766,7 +4764,9 @@
         "restricted": "Solo los moderadores pueden ver el registro de moderación.",
         "empty": "Nada aquí aún. Las acciones de moderación se mostrarán a medida que ocurran.",
         "showMore": "Mostrar más ({{value}})"
-      }
+      },
+      "searchMembers": "Buscar por nombre, @nombredeusuario o cartera",
+      "noMemberMatches": "Ningún miembro coincide con esa búsqueda."
     },
     "chooseAvatar": "Elegir avatar",
     "loadFailed": "No se han podido cargar las comunidades",

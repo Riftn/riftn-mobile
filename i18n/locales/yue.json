@@ -6551,7 +6551,6 @@
       "approve": "批准",
       "reject": "拒絕",
       "members": "成員",
-      "searchMembers": "按錢包地址搜尋",
       "noMembersMatch": "沒有成員符合。",
       "noMembers": "尚無成員。",
       "muted": "已禁言",
@@ -6615,7 +6614,6 @@
       "adminBadge": "管理員",
       "rightsSummary": "{{granted}} {{total}} 權限",
       "addAdministrator": "加設管理員",
-      "noMemberMatches": "查無該地址的成員。",
       "noPlainMembers": "每個成員都係管理員。",
       "searchTruncated": "顯示 {{limit}} — 仲有更多結果，請繼續輸入。",
       "danger": {
@@ -6684,7 +6682,9 @@
         "restricted": "只有版主可以睇到管理記錄。",
         "empty": "仲冇嘢。管理行動會喺呢度顯示。",
         "showMore": "睇更多 ({{value}})"
-      }
+      },
+      "searchMembers": "按名、 @ 用戶名或者錢包搜尋",
+      "noMemberMatches": "冇成員同嗰個搜尋相符。"
     },
     "chooseAvatar": "選擇頭像",
     "loadFailed": "載入唔到社群",

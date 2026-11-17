@@ -6556,7 +6556,6 @@
       "approve": "Patvirtinti",
       "reject": "Atmesti",
       "members": "Nariai",
-      "searchMembers": "Ieškoti pagal piniginės adresą",
       "noMembersMatch": "Nėra atitinkančių narių.",
       "noMembers": "Dar nėra narių.",
       "muted": "Nutildyti",
@@ -6622,7 +6621,6 @@
       "adminBadge": "Administratorius",
       "rightsSummary": "{{granted}} iš {{total}} teisių",
       "addAdministrator": "Pridėti administratorių",
-      "noMemberMatches": "Nė vienas narys neatitinka šio adreso.",
       "noPlainMembers": "Visi čia jau yra administratoriai.",
       "searchTruncated": "Rodomas pirmasis {{limit}} — toliau rinkite tekstą, kad jį susiaurintumėte.",
       "danger": {
@@ -6691,7 +6689,9 @@
         "restricted": "Tik moderatoriai gali matyti moderavimo žurnalą.",
         "empty": "Čia dar nieko nėra. Moderavimo veiksmai bus rodomi, kai tik jie įvyks.",
         "showMore": "Rodyti daugiau ({{value}})"
-      }
+      },
+      "searchMembers": "Ieškoti pagal vardą, @naudotojo vardą arba piniginę",
+      "noMemberMatches": "Nėra narių, atitinkančių šią paiešką."
     },
     "chooseAvatar": "Pasirinkti avatarą",
     "loadFailed": "Nepavyko įkelti bendruomenių",

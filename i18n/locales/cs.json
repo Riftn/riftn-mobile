@@ -6558,7 +6558,6 @@
       "approve": "Schválit",
       "reject": "Zamítnout",
       "members": "Členové",
-      "searchMembers": "Hledat podle adresy peněženky",
       "noMembersMatch": "Žádný člen neodpovídá.",
       "noMembers": "Zatím žádní členové.",
       "muted": "Ztišeno",
@@ -6624,7 +6623,6 @@
       "adminBadge": "Správce",
       "rightsSummary": "{{granted}} z {{total}} práv",
       "addAdministrator": "Přidat správce",
-      "noMemberMatches": "Žádný člen neodpovídá této adrese.",
       "noPlainMembers": "Všichni zde jsou již správci.",
       "searchTruncated": "Zobrazují se první {{limit}} — pokračujte v psaní, abyste je zúžili.",
       "danger": {
@@ -6692,7 +6690,9 @@
         "restricted": "Pouze moderátoři mohou vidět záznam moderování.",
         "empty": "Zatím nic. Akce moderování se zobrazí, jak se budou dělat.",
         "showMore": "Zobrazit více ({{value}})"
-      }
+      },
+      "searchMembers": "Hledat podle jména, @uživatelského jména nebo peněženky",
+      "noMemberMatches": "Žádný člen neodpovídá tomuto vyhledávání."
     },
     "chooseAvatar": "Vybrat avatara",
     "loadFailed": "Nelze načíst komunity",

@@ -6591,7 +6591,6 @@
       "approve": "Zatwierdź",
       "reject": "Odrzuć",
       "members": "Członkowie",
-      "searchMembers": "Szukaj po adresie portfela",
       "noMembersMatch": "Nie znaleziono pasującego członka.",
       "noMembers": "Brak członków.",
       "muted": "Wyciszeni",
@@ -6657,7 +6656,6 @@
       "adminBadge": "Administrator",
       "rightsSummary": "{{granted}} z {{total}} praw",
       "addAdministrator": "Dodaj administratora",
-      "noMemberMatches": "Żaden członek nie pasuje do tego adresu.",
       "noPlainMembers": "Wszyscy tutaj są już administratorami.",
       "searchTruncated": "Pokazuje pierwsze {{limit}} — wpisuj dalej, aby zawęzić.",
       "danger": {
@@ -6726,7 +6724,9 @@
         "restricted": "Tylko moderatorzy mogą zobaczyć dziennik moderacji.",
         "empty": "Nic tutaj jeszcze nie ma. Działania moderacyjne pojawią się, gdy się zdarzą.",
         "showMore": "Pokaż więcej ({{value}})"
-      }
+      },
+      "searchMembers": "Wyszukaj według nazwy, nazwy użytkownika (@username) lub portfela",
+      "noMemberMatches": "Żaden członek nie pasuje do tego wyszukiwania."
     },
     "chooseAvatar": "Wybierz awatar",
     "loadFailed": "Nie można załadować społeczności",

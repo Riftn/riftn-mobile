@@ -6543,7 +6543,6 @@
       "approve": "Tassykla",
       "reject": "Ýalňyzla",
       "members": "Agzalar",
-      "searchMembers": "Walet salgysy boýunça gözlemek",
       "noMembersMatch": "Şeýle agza tapylmady.",
       "noMembers": "Heniz agza ýok.",
       "muted": "Sessizlige salnan",
@@ -6609,7 +6608,6 @@
       "adminBadge": "Admin",
       "rightsSummary": "{{granted}}-dan {{total}} hukuklary",
       "addAdministrator": "Administrator goş",
-      "noMemberMatches": "Bu salgylanma laýyk gelýän agza ýok.",
       "noPlainMembers": "Bu ýerdäki her kim eýýäm admin.",
       "searchTruncated": "Ilkinji {{limit}} görkezilýär — daraltmak üçin ýazmagy dowam ediň.",
       "danger": {
@@ -6678,7 +6676,9 @@
         "restricted": "Diňe moderatorlar moderasiýa logyny görüp biler.",
         "empty": "Heniz hiç zat ýok. Moderasiýa hereketleri bolup geçýän wagty görrener.",
         "showMore": "Köprägini görkez ({{value}})"
-      }
+      },
+      "searchMembers": "Ady, @ulanyjy ady ýa-da pulhultasy boýunça gözläň",
+      "noMemberMatches": "Bu gözlege laýyk gelýän agza ýok."
     },
     "chooseAvatar": "Awatary saýlaň",
     "loadFailed": "Jemagatlary ýükläp bilmeýär",

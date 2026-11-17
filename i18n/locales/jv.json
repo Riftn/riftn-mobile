@@ -6541,7 +6541,6 @@
       "approve": "Setujoni",
       "reject": "Tolak",
       "members": "Anggota",
-      "searchMembers": "Golèki miturut alamat dompèt",
       "noMembersMatch": "Ora ana anggota sing cocog.",
       "noMembers": "Durung ana anggota.",
       "muted": "Dibisu",
@@ -6607,7 +6606,6 @@
       "adminBadge": "Admin",
       "rightsSummary": "{{granted}} saka {{total}}",
       "addAdministrator": "Pangkat Administrator",
-      "noMemberMatches": "Ora ana anggota sing wis ana ing alamat iku.",
       "noPlainMembers": "Saré wong wong wis dadi admin.",
       "danger": {
         "transferTitle": "Pindahaké wewenang?",
@@ -6676,7 +6674,9 @@
       },
       "searchTruncated": "Nuduhake {{limit}} pisanan — terus ngetik kanggo nyaring.",
       "slowModeOnHint": "Anggota bisa ngirim siji pesen saben {{label}}. Admin dibebasake.",
-      "defaultPermissions": "Izin anggota standar"
+      "defaultPermissions": "Izin anggota standar",
+      "searchMembers": "Golek miturut jeneng, @username utawa dompet",
+      "noMemberMatches": "Ora ana anggota sing cocog karo telusuran kasebut."
     },
     "chooseAvatar": "Pilih avatar",
     "loadFailed": "Ora bisa mbukak komunitas",

@@ -6534,7 +6534,6 @@
       "approve": "موافقة",
       "reject": "رفض",
       "members": "الأعضاء",
-      "searchMembers": "البحث عن طريق عنوان المحفظة",
       "noMembersMatch": "لا يوجد عضو مطابق.",
       "noMembers": "لا يوجد أعضاء بعد.",
       "muted": "تم كتم الصوت",
@@ -6598,7 +6597,6 @@
       "adminBadge": "المدير",
       "rightsSummary": "{{granted}} من {{total}} الحقوق",
       "addAdministrator": "اضافة مدير",
-      "noMemberMatches": "لا يوجد عضو يطابق العنوان.",
       "noPlainMembers": "كل من هنا هو مدير بالفعل.",
       "searchTruncated": "عرض {{limit}} أول — استمر في الكتابة لضيق النطاق.",
       "danger": {
@@ -6667,7 +6665,9 @@
         "forWeeks": "لـ {{value}}w"
       },
       "inviteExpired": "منتهي الصلاحية",
-      "createInviteLink": "إنشاء رابط دعوة"
+      "createInviteLink": "إنشاء رابط دعوة",
+      "searchMembers": "ابحث بالاسم، @username أو المحفظة",
+      "noMemberMatches": "ما فيه عضو يطابق البحث هذا."
     },
     "chooseAvatar": "اختر صورة رمزية",
     "loadFailed": "ما قدرنا نحمل المجتمعات",

@@ -4631,7 +4631,6 @@
       "approve": "Onayla",
       "reject": "Reddet",
       "members": "Üyeler",
-      "searchMembers": "Cüzdan adresine göre ara",
       "noMembersMatch": "Eşleşen üye yok.",
       "noMembers": "Henüz üye yok.",
       "muted": "Sessize alınmış",
@@ -4697,7 +4696,6 @@
       "adminBadge": "Yönetici",
       "rightsSummary": "{{granted}}/{{total}} hak",
       "addAdministrator": "Yönetici ekle",
-      "noMemberMatches": "Bu adresle eşleşen üye yok.",
       "noPlainMembers": "Buradaki herkes zaten bir yönetici.",
       "searchTruncated": "İlk {{limit}} gösteriliyor — daraltmak için yazmaya devam edin.",
       "danger": {
@@ -4766,7 +4764,9 @@
         "restricted": "Yalnızca moderatörler moderasyon günlüğünü görebilir.",
         "empty": "Hiçbir şey yok. Moderasyon eylemleri gerçekleştiğinde görünecektir.",
         "showMore": "Daha fazla göster ({{value}})"
-      }
+      },
+      "searchMembers": "Ada, @kullanıcı adına veya cüzdana göre arama yapın",
+      "noMemberMatches": "Bu aramayla eşleşen hiçbir üye yok."
     },
     "chooseAvatar": "Avatar seçin",
     "loadFailed": "Topluluklar yüklenemedi",

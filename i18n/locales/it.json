@@ -6666,7 +6666,6 @@
       "approve": "Approva",
       "reject": "Rifiuta",
       "members": "Membri",
-      "searchMembers": "Cerca per indirizzo del wallet",
       "noMembersMatch": "Nessun membro corrisponde.",
       "noMembers": "Nessun membro ancora.",
       "muted": "Disattivati",
@@ -6732,7 +6731,6 @@
       "adminBadge": "Amministratore",
       "rightsSummary": "{{granted}} di {{total}} diritti",
       "addAdministrator": "Aggiungi amministratore",
-      "noMemberMatches": "Nessun membro corrisponde a quell' indirizzo.",
       "noPlainMembers": "Tutti qui sono già amministratori.",
       "searchTruncated": "Mostra il primo {{limit}} — continua a digitare per restringere il campo.",
       "danger": {
@@ -6801,7 +6799,9 @@
         "restricted": "Solo i moderatori possono vedere il registro di moderazione.",
         "empty": "Ancora nulla. Le azioni di moderazione verranno visualizzate nel momento in cui si verificano.",
         "showMore": "Mostra altro ({{value}})"
-      }
+      },
+      "searchMembers": "Cerca per nome, @nomeutente o portafoglio",
+      "noMemberMatches": "Nessun membro corrisponde a questa ricerca."
     },
     "chooseAvatar": "Scegli avatar",
     "loadFailed": "Impossibile caricare le comunità",

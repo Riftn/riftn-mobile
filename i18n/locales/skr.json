@@ -6533,7 +6533,6 @@
       "approve": "منظور کریں",
       "reject": "مسترد کریں",
       "members": "اراکین",
-      "searchMembers": "والیٹ ایڈریس کے ذریعے تلاش کریں",
       "noMembersMatch": "کوئی رکن اس سے مماثل نہیں ہے۔",
       "noMembers": "ابھی تک کوئی رکن نہیں ہے۔",
       "muted": "خاموش",
@@ -6597,7 +6596,6 @@
       "adminBadge": "ادمن",
       "rightsSummary": "{{granted}} دا حق {{total}}",
       "addAdministrator": "ادمن",
-      "noMemberMatches": "کوئی ممبر اس ڈریس کے مطابق نہیں ملتا",
       "noPlainMembers": "ہر کوئی یہاں ایڈمن ہی ہے۔",
       "danger": {
         "deleteConfirm": "مٹاؤ",
@@ -6665,7 +6663,9 @@
       "inviteExpiresDays": "{{n}} دن وچ ختم تھی ویسی",
       "noInvites": "ہن تک کوئی دعوتی لنک نئیں۔ سیدھا لوگوں نوں دعوت دین لئی ہک بناؤ۔",
       "slowModeOnHint": "ممبرز ہر {{label}} تے ہک میسج بھیج سکدے نیں۔ ایڈمنز نوں ایہہ پابندی نئیں۔",
-      "defaultPermissions": "ڈیفالٹ ممبر پرمیشنز"
+      "defaultPermissions": "ڈیفالٹ ممبر پرمیشنز",
+      "searchMembers": "نالو، @username یا والٹ دے ذریعے تلاش کرو",
+      "noMemberMatches": "کوئی رکن اس تلاش نال میل نہیں کھاندے."
     },
     "chooseAvatar": "اوتار منتخب کریں",
     "loadFailed": "کمیونٹیاں لوڈ نہیں تھی سگیاں",

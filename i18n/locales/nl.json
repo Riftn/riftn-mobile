@@ -4819,7 +4819,6 @@
       "approve": "Goedkeuren",
       "reject": "Afwijzen",
       "members": "Leden",
-      "searchMembers": "Zoeken op portemonnee-adres",
       "noMembersMatch": "Geen lid komt overeen.",
       "noMembers": "Nog geen leden.",
       "muted": "Gedempt",
@@ -4885,7 +4884,6 @@
       "adminBadge": "Beheerder",
       "rightsSummary": "{{granted}} van {{total}} rechten",
       "addAdministrator": "Beheerder toevoegen",
-      "noMemberMatches": "Geen enkel lid komt overeen met dat adres.",
       "noPlainMembers": "Iedereen hier is al een beheerder.",
       "searchTruncated": "Toont de eerste {{limit}} — blijf typen om het te verfijnen.",
       "danger": {
@@ -4954,7 +4952,9 @@
         "restricted": "Alleen moderators kunnen het moderatielogboek zien.",
         "empty": "Nog niets hier. Moderatieacties verschijnen zodra ze plaatsvinden.",
         "showMore": "Meer tonen ({{value}})"
-      }
+      },
+      "searchMembers": "Zoeken op naam, @gebruikersnaam of wallet",
+      "noMemberMatches": "Er zijn geen leden die overeenkomen met die zoekopdracht."
     },
     "chooseAvatar": "Avatar kiezen",
     "loadFailed": "Kan community's niet laden",

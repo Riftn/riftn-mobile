@@ -6568,7 +6568,6 @@
       "approve": "Tasdiqlash",
       "reject": "Rad etish",
       "members": "A'zolar",
-      "searchMembers": "Hamyon manzili bo'yicha qidirish",
       "noMembersMatch": "Bu nomga mos keladigan a'zo yo'q.",
       "noMembers": "Hali a'zolar yo'q.",
       "muted": "Ovozini o'chirilganlar",
@@ -6634,7 +6633,6 @@
       "adminBadge": "Administrator",
       "rightsSummary": "{{granted}} ning {{total}} huquqlari",
       "addAdministrator": "Administrator qo'shish",
-      "noMemberMatches": "Bu manzilga mos keladigan a'zo yo'q.",
       "noPlainMembers": "Bu yerdagi hamma allaqachon administrator.",
       "searchTruncated": "Birinchi {{limit}} ko'rsatilmoqda — uni toraytirish uchun yozishda davom eting.",
       "danger": {
@@ -6703,7 +6701,9 @@
         "restricted": "Moderatsiya jurnalini faqat moderatorlar ko'rishi mumkin.",
         "empty": "Bu yerda hali hech narsa yo'q. Moderatsiya amallari sodir bo'lganda ko'rsatiladi.",
         "showMore": "Batafsil ma'lumot ({{value}})"
-      }
+      },
+      "searchMembers": "Ism, @foydalanuvchi nomi yoki hamyon bo'yicha qidiruv",
+      "noMemberMatches": "Bu qidiruvga hech bir a'zo mos kelmadi."
     },
     "chooseAvatar": "Rasmni tanlang",
     "loadFailed": "Hamjamiyatlarni yuklab bo'lmadi",

@@ -6528,7 +6528,6 @@
       "approve": "อนุมัติ",
       "reject": "ปฏิเสธ",
       "members": "สมาชิก",
-      "searchMembers": "ค้นหาตามที่อยู่กระเป๋าเงิน",
       "noMembersMatch": "ไม่พบสมาชิกที่ตรงกัน",
       "noMembers": "ยังไม่มีสมาชิก",
       "muted": "ปิดเสียง",
@@ -6593,7 +6592,6 @@
       "noAdmins": "ยังไม่มีผู้ดูแล",
       "rightsSummary": "{{granted}} ของ {{total}} สิทธิ",
       "addAdministrator": "assistant",
-      "noMemberMatches": "เพิ่มผู้ดูแล",
       "noPlainMembers": "ไม่มีสมาชิกที่ตรงกับข้อมูลนี้",
       "searchTruncated": "{{limit}}",
       "danger": {
@@ -6663,7 +6661,9 @@
       "inviteLimit": "จำกัด {{n}}",
       "inviteLink": "ลิงค์เชิญชวน",
       "copy": "คัดลอก",
-      "createInviteLink": "สร้างลิงค์เชิญชวน"
+      "createInviteLink": "สร้างลิงค์เชิญชวน",
+      "searchMembers": "ค้นหาโดยชื่อ, @username หรือกระเป๋า",
+      "noMemberMatches": "บ่มีสมาชิกใด๋ตรงกับการค้นหา"
     },
     "chooseAvatar": "เลือกอวาตาร์",
     "loadFailed": "โหลดชุมชนบ่ได้",

@@ -6543,7 +6543,6 @@
       "approve": "Āwhina",
       "reject": "Whakakahore",
       "members": "Ngā mema",
-      "searchMembers": "Rapua mā te wāhitau putea",
       "noMembersMatch": "Kāore he mema e rite ana ki tērā.",
       "noMembers": "Kāore anō kia whai mema.",
       "muted": "Kua whakarongohia",
@@ -6609,7 +6608,6 @@
       "adminBadge": "Kaiwhakahaere",
       "rightsSummary": "{{granted}} o {{total}} ngā tika",
       "addAdministrator": "Tāpiri kaiwhakahaere",
-      "noMemberMatches": "Kāore he mema e ōrite ana ki tērā wāhitau.",
       "noPlainMembers": "Kua noho kē katoa te katoa ki konei hei kaiwhakahaere.",
       "searchTruncated": "E whakaatu ana i te {{limit}} tuatahi — haere tonu te patopato kia whāiti ai.",
       "danger": {
@@ -6677,7 +6675,9 @@
         "empty": "Kāore he kōrero i tēnei rēhita. Ka kitea ngā kōrero whakahaere hei tāpae.",
         "showMore": "Koia te kōrero ({{value}})"
       },
-      "slowModeTitle": "Aratau puhoi"
+      "slowModeTitle": "Aratau puhoi",
+      "searchMembers": "Rapua mā te ingoa, mā te @ingoa kaiwhakamahi, mā te putea rānei",
+      "noMemberMatches": "Kāore he mema e ōrite ana ki taua rapu."
     },
     "chooseAvatar": "Tīpakohia te avatar",
     "loadFailed": "Kaore e taea te whakauru i nga hapori",

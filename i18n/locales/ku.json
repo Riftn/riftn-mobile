@@ -6553,7 +6553,6 @@
       "approve": "Bipejirîne",
       "reject": "Red bike",
       "members": "Endam",
-      "searchMembers": "Li gorî navnîşana berîkê bigere",
       "noMembersMatch": "Ti endamek bi vê yekê re nagunce.",
       "noMembers": "Hêj endam tune ne.",
       "muted": "Bêdeng",
@@ -6619,7 +6618,6 @@
       "adminBadge": "Rêveber",
       "rightsSummary": "{{granted}} ji {{total}} mafan",
       "addAdministrator": "Rêveber lê zêde bike",
-      "noMemberMatches": "Ti endamek li gorî wê navnîşanê nîne.",
       "noPlainMembers": "Her kes li vir jixwe rêveber e.",
       "searchTruncated": "{{limit}} encamên yekem tên nîşandan — ji bo kêmkirina encaman berdewam binivîse.",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Tenê moderator dikarin qeyda moderasyonê bibînin.",
         "empty": "Hîn tiştek li vir tune. Çalakiyên moderasyonê dê dema ku ew çêdibin xuya bibin.",
         "showMore": "Zêdetir nîşan bide ({{value}})"
-      }
+      },
+      "searchMembers": "Lêgerîn bi navê, @username an jî cîhê pereyê",
+      "noMemberMatches": "Nehêk endamê ku bi vê lêgerînê re têk çêdibe."
     },
     "chooseAvatar": "Avatar hilbijêre",
     "loadFailed": "Civak nehatin barkirin",
