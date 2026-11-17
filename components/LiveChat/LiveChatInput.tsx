@@ -15,7 +15,6 @@ import Animated, { FadeIn } from "react-native-reanimated";
 import SmartImage from "../common/SmartImage";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
-import { useAppTheme } from "../../context/ThemeContext";
 import LiveChatAttachSheet from "./LiveChatAttachSheet";
 import EmojiSheet from "../Upload/EmojiSheet";
 import MentionSuggestions from "../common/MentionSuggestions";
@@ -94,9 +93,10 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
-  const { isLight } = useAppTheme();
-  const composerIconColor = isLight ? '#3f3f46' : '#A1A1AA';
-  const composerActiveColor = isLight ? '#242428' : '#F4F4F5';
+  // Dark values in every theme: System Light turns greys around as they
+  // render (libs/jsx/tone.js), so a light-only ink here came out near-white.
+  const composerIconColor = '#A1A1AA';
+  const composerActiveColor = '#F4F4F5';
   const [text, setText] = useDraftState(editingMessage ? `public:edit:${editingMessage._id}` : "public:composer", editingMessage?.content ?? "");
   const [attachOpen, setAttachOpen] = useState(false);
   const [emojiSheetOpen, setEmojiSheetOpen] = useState(false);

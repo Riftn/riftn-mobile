@@ -11,7 +11,7 @@ jest.mock('react-native', () => ({
   ActivityIndicator: 'ActivityIndicator', Platform: { OS: 'android' }, StyleSheet: { flatten: (style: unknown) => style },
 }));
 jest.mock('@react-navigation/native', () => ({ useRoute: () => ({ params: mockParams }) }));
-jest.mock('../../context/ThemeContext', () => ({ useDarkSurface: () => true }));
+jest.mock('../../hooks/useFocusedDarkSurface', () => ({ useFocusedDarkSurface: () => true }));
 jest.mock('../../components/VideoPlayer/LiveStreamPlayer', () => {
   const React = require('react');
   const { Pressable, Text } = require('react-native');
