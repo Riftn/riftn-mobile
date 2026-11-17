@@ -19,13 +19,16 @@ import { useTranslation } from "react-i18next";
 import Icon from "../../ui/Icon";
 import { MemberActionsSheet, canTargetMember, formatRestrictionDate } from "./MemberActionsSheet";
 import { AdminRightsSheet } from "./AdminRightsSheet";
+import { MemberIdentity } from "./MemberIdentity";
 import { getCommunityAbilities, isForever } from "../../../libs/community-permissions";
 import {
   isMuted,
+  memberMatches,
   shortWallet,
   useBannedMembersQuery,
   useCommunityMembersQuery,
   useCommunityModeration,
+  useMemberIdentities,
   usePendingMembersQuery,
   useWalletAddress,
 } from "../../../hooks/useCommunityAdmin";
@@ -77,16 +80,26 @@ export function MembersTab({ community, membership }: MembersTabProps) {
   const pending = pendingQuery.data ?? [];
   const banned = bannedQuery.data ?? [];
 
-  const sorted = useMemo(() => {
-    const query = search.trim().toLowerCase();
-    return members
-      .filter((m) => !query || m.wallet_address.toLowerCase().includes(query))
-      .sort((a, b) => {
+  const ordered = useMemo(
+    () =>
+      [...members].sort((a, b) => {
         const rank = roleRank(a.role) - roleRank(b.role);
         if (rank !== 0) return rank;
         return new Date(a.joined_at).getTime() - new Date(b.joined_at).getTime();
-      });
-  }, [members, search]);
+      }),
+    [members],
+  );
+  // Names, @handles, pictures and badges for the roster, so rows read like
+  // the feed and the search finds people by name, not only by wallet.
+  const lookup = useMemo(() => ordered.map((m) => m.wallet_address), [ordered]);
+  const { byAddress: identities } = useMemberIdentities(lookup);
+
+  const sorted = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return ordered.filter((m) =>
+      memberMatches(m.wallet_address, identities.get(m.wallet_address.toLowerCase()), query),
+    );
+  }, [ordered, search, identities]);
 
   const shown = sorted.slice(0, visibleCount);
 
@@ -193,7 +206,7 @@ export function MembersTab({ community, membership }: MembersTabProps) {
             onFocus={searchMaterial.onFocus}
             onBlur={searchMaterial.onBlur}
             placeholder={t("communities.manage.searchMembers", {
-              defaultValue: "Search by wallet address",
+              defaultValue: "Search by name, @username or wallet",
             })}
             placeholderTextColor="#8B8D90"
             value={search}
@@ -230,28 +243,34 @@ export function MembersTab({ community, membership }: MembersTabProps) {
               return (
                 <TouchableOpacity
                   key={member.id}
-                  className="flex-row items-center gap-3 py-3 border-b border-white/5"
+                  className="border-b border-white/5"
                   disabled={!tappable}
                   onPress={() => openActions(member)}
                 >
-                  <View className="flex-1">
-                    <Text className="text-white text-sm font-mono">
-                      {shortWallet(member.wallet_address)}
-                    </Text>
+                  <MemberIdentity
+                    address={member.wallet_address}
+                    identity={identities.get(member.wallet_address.toLowerCase())}
+                    trailing={
+                      <View style={styles.trailing}>
+                        {isMuted(member) && (
+                          <View style={[styles.chip, styles.chipWarning]}>
+                            <Icon name="VolumeX" size={11} color="#D4D4D8" />
+                            <Text style={[styles.chipText, { color: "#D4D4D8" }]}>
+                              {t("communities.manage.muted", { defaultValue: "Muted" })}
+                            </Text>
+                          </View>
+                        )}
+                        {renderRoleChip(member)}
+                        {tappable && <Icon name="ChevronRight" size={16} color="#52525b" />}
+                      </View>
+                    }
+                  >
                     {!!member.custom_title && (
-                      <Text className="text-zinc-400 text-xs mt-0.5">{member.custom_title}</Text>
-                    )}
-                  </View>
-                  {isMuted(member) && (
-                    <View style={[styles.chip, styles.chipWarning]}>
-                      <Icon name="VolumeX" size={11} color="#D4D4D8" />
-                      <Text style={[styles.chipText, { color: "#D4D4D8" }]}>
-                        {t("communities.manage.muted", { defaultValue: "Muted" })}
+                      <Text className="text-zinc-400 text-xs" style={styles.underName}>
+                        {member.custom_title}
                       </Text>
-                    </View>
-                  )}
-                  {renderRoleChip(member)}
-                  {tappable && <Icon name="ChevronRight" size={16} color="#52525b" />}
+                    )}
+                  </MemberIdentity>
                 </TouchableOpacity>
               );
             })}
@@ -368,6 +387,9 @@ const styles = StyleSheet.create({
   chipNeutral: { backgroundColor: "rgba(255,255,255,0.06)", borderColor: "rgba(255,255,255,0.1)" },
   chipWarning: { backgroundColor: "rgba(255,255,255,0.12)", borderColor: "rgba(255,255,255,0.3)" },
   chipText: { fontSize: 11, fontWeight: "600" },
+  trailing: { flexDirection: "row", alignItems: "center", gap: 8, flexShrink: 0 },
+  // Lines under the name start where the name does, past the 32px avatar.
+  underName: { marginLeft: 40, marginTop: -4, marginBottom: 8 },
   approveBtn: {
     backgroundColor: "#fff",
     paddingHorizontal: 14,

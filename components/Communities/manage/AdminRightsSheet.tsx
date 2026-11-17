@@ -30,7 +30,8 @@ import {
   DEFAULT_ADMIN_PERMISSIONS,
   getCommunityAbilities,
 } from "../../../libs/community-permissions";
-import { shortWallet, useCommunityModeration } from "../../../hooks/useCommunityAdmin";
+import { shortWallet, useCommunityModeration, useMemberIdentities } from "../../../hooks/useCommunityAdmin";
+import { MemberIdentity } from "./MemberIdentity";
 import type { AdminRight, Community, CommunityMember } from "../../../types/community";
 
 const MAX_TITLE_LENGTH = 16;
@@ -93,6 +94,9 @@ export function AdminRightsSheet({ community, membership, target, visible, onClo
   const [customTitle, setCustomTitle] = useSurfaceDraft("components/Communities/manage/AdminRightsSheet.tsx:customTitle", "", draftIdentity([community, target]));
 
   const targetWallet = target?.wallet_address ?? null;
+  const identityLookup = useMemo(() => (targetWallet ? [targetWallet] : []), [targetWallet]);
+  const { byAddress: targetIdentities } = useMemberIdentities(identityLookup);
+  const targetIdentity = targetWallet ? targetIdentities.get(targetWallet.toLowerCase()) : undefined;
   const isExistingAdmin = target?.role === "admin";
 
   /**
@@ -175,16 +179,21 @@ export function AdminRightsSheet({ community, membership, target, visible, onClo
     <GlassModal visible={visible} onClose={onClose} presentation="bottom" maxHeight="88%" scrollable>
         <View style={styles.sheet}>
           <View style={styles.header}>
-            <Icon name="Shield" size={20} color="#fff" />
-            <View style={{ flex: 1 }}>
-              <Text className="text-white text-sm font-mono" numberOfLines={1}>
-                {shortWallet(target.wallet_address)}
-              </Text>
-              <Text className="text-zinc-400 text-xs mt-0.5">
-                {isExistingAdmin
-                  ? t("communities.manage.roleAdmin", { defaultValue: "Administrator" })
-                  : t("communities.manage.roleMember", { defaultValue: "Member" })}
-              </Text>
+            <View style={{ flex: 1, minWidth: 0 }}>
+              <MemberIdentity
+                address={target.wallet_address}
+                identity={targetIdentity}
+                trailing={
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 6 }}>
+                    <Icon name="Shield" size={14} color="#A1A1AA" />
+                    <Text className="text-zinc-400 text-xs">
+                      {isExistingAdmin
+                        ? t("communities.manage.roleAdmin", { defaultValue: "Administrator" })
+                        : t("communities.manage.roleMember", { defaultValue: "Member" })}
+                    </Text>
+                  </View>
+                }
+              />
             </View>
             <TouchableOpacity
               onPress={onClose}
