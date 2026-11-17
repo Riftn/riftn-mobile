@@ -9177,6 +9177,7 @@
     "subscribersOnly": "শুধুমাত্র গ্রাহকদের জন্য",
     "subscribeTo": "{{name}} সাবস্ক্রাইব করুন",
     "subscribeToCreator": "এই নির্মাতাকে সাবস্ক্রাইব করুন",
+    "subscribeFrom": "থেকে সাবস্ক্রাইব করুন",
     "holdingsRequired": "হোল্ডিং প্রয়োজন",
     "mustHold": "{{amount}} {{symbol}} ধরে রাখতে হবে",
     "reposted": "পুনরায় পোস্ট করা হয়েছে",

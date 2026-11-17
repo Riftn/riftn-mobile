@@ -9390,6 +9390,7 @@
     "subscribersOnly": "구독자 전용",
     "subscribeTo": "{{name}} 구독하기",
     "subscribeToCreator": "이 제작자 구독하기",
+    "subscribeFrom": "구독하기",
     "holdingsRequired": "보유 필요",
     "mustHold": "{{amount}} {{symbol}}를 보유해야 합니다.",
     "reposted": "리포스트됨",

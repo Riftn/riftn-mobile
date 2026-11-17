@@ -9167,6 +9167,7 @@
     "subscribersOnly": "للمشتركين فقط",
     "subscribeTo": "اشترك في {{name}}",
     "subscribeToCreator": "اشترك في هذا المنشئ",
+    "subscribeFrom": "اشترك",
     "holdingsRequired": "الممتلكات المطلوبة",
     "mustHold": "يجب أن تحتفظ بـ {{amount}} {{symbol}}",
     "reposted": "تم إعادة نشره",

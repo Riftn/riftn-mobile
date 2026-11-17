@@ -9231,6 +9231,7 @@
     "subscribersOnly": "สำหรับสมาชิกเท่านั้น",
     "subscribeTo": "สมัครสมาชิก {{name}}",
     "subscribeToCreator": "สมัครสมาชิกผู้สร้างนี้",
+    "subscribeFrom": "สมัครสมาชิกจาก",
     "holdingsRequired": "ต้องถือครอง",
     "mustHold": "ต้องถือครอง {{amount}} {{symbol}}",
     "reposted": "รีโพสต์แล้ว",

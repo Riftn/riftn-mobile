@@ -9196,6 +9196,7 @@
     "subscribersOnly": "მხოლოდ აბონენტებისთვის",
     "subscribeTo": "გამოიწერეთ {{name}}",
     "subscribeToCreator": "გამოიწერეთ ეს შემქმნელი",
+    "subscribeFrom": "გაწევრება",
     "holdingsRequired": "საჭიროა ფლობა",
     "mustHold": "უნდა ფლობდეთ {{amount}} {{symbol}}",
     "reposted": "გადაპოსტილი",

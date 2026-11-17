@@ -7434,6 +7434,7 @@
     "subscribersOnly": "Yalnızca aboneler",
     "subscribeTo": "{{name}}'a abone ol",
     "subscribeToCreator": "Bu içerik oluşturucuya abone ol",
+    "subscribeFrom": "Abonelikten",
     "holdingsRequired": "Gerekli Tutulanlar",
     "mustHold": "{{amount}} {{symbol}} tutuyor olmalı",
     "reposted": "Yeniden yayınlandı",

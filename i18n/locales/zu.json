@@ -9187,6 +9187,7 @@
     "subscribersOnly": "Ababhalisile kuphela",
     "subscribeTo": "Bhalisa ku-{{name}}",
     "subscribeToCreator": "Bhalisa kulo mdali",
+    "subscribeFrom": "Bhalisa kusuka ku-",
     "holdingsRequired": "Okubalulekile okubanjwayo",
     "mustHold": "Kumele ubambe i-{{amount}} {{symbol}}",
     "reposted": "Kuthunyelwe kabusha",

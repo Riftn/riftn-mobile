@@ -9611,6 +9611,7 @@
     "subscribersOnly": "Тільки для підписників",
     "subscribeTo": "Підписатися на {{name}}",
     "subscribeToCreator": "Підписатися на цього творця",
+    "subscribeFrom": "Підписатися на",
     "holdingsRequired": "Необхідно мати",
     "mustHold": "Потрібно мати {{amount}} {{symbol}}",
     "reposted": "Репостнуто",

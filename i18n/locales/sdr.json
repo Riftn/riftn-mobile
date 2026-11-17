@@ -9174,6 +9174,7 @@
     "subscribersOnly": "یوازې ګډون کونکي",
     "subscribeTo": "د {{name}} ګډون وکړئ",
     "subscribeToCreator": "د دې خالق ګډون وکړئ",
+    "subscribeFrom": "Subscribe from",
     "holdingsRequired": "لازمي هولډینګز",
     "mustHold": "باید {{amount}} {{symbol}} ولرئ",
     "reposted": "بیا خپور شو",

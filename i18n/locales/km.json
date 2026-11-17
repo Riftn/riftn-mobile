@@ -9177,6 +9177,7 @@
     "subscribersOnly": "សម្រាប់តែអ្នកជាវប៉ុណ្ណោះ",
     "subscribeTo": "ជាវ {{name}}",
     "subscribeToCreator": "ជាវអ្នកបង្កើតនេះ",
+    "subscribeFrom": "ជាវប្រចាំពី",
     "holdingsRequired": "ការកាន់កាប់ដែលទាមទារ",
     "mustHold": "ត្រូវតែរក្សាទុក {{amount}} {{symbol}}",
     "reposted": "បានបង្ហោះឡើងវិញ",

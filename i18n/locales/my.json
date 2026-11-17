@@ -9174,6 +9174,7 @@
     "subscribersOnly": "စာရင်းသွင်းသူများသာ",
     "subscribeTo": "{{name}} ကို စာရင်းသွင်းပါ။",
     "subscribeToCreator": "ဤဖန်တီးသူကို စာရင်းသွင်းပါ။",
+    "subscribeFrom": "မှ စတင်စာရင်းသွင်းပါ",
     "holdingsRequired": "ကိုင်ဆောင်ထားရန် လိုအပ်သည်။",
     "mustHold": "{{amount}} {{symbol}} ကို ကိုင်ဆောင်ထားရမည်။",
     "reposted": "ပြန်တင်ခဲ့သည်။",

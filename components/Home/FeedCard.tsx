@@ -7,7 +7,8 @@ import { SessionExpiredError } from "../../libs/api.client";
 import { createLogger } from "../../libs/logger";
 import { useIsWatchedVideo } from "../../hooks/useWatchedVideos";
 import { isStreamLive } from '../../libs/live-status';
-import { isHoldGated } from "../../libs/content-gate";
+import { isHoldGated, cheapestSubscriberQuote, formatSubscriberTokens, formatSubscriberUsd } from "../../libs/content-gate";
+import { DhbCoin } from "../common/DhbCoin";
 import { isVideoAccessExpiring, useVideoAccess, videoNeedsAccess } from "../../libs/video-access";
 import React, { memo, useCallback, useRef, useState, useMemo, useEffect, useLayoutEffect } from "react";
 import {
@@ -822,6 +823,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   const isActuallyLockedHoldings = !!streamStatus?.isLockedWithLockContent;
   // Same server verdict, different question: subscribe to this creator.
   const isActuallySubGated = !!streamStatus?.isLockedWithSubscription;
+  // Price for the subscriber wall: tokens with the dollar value under it. The
+  // App Store build names no prices for digital goods, so it keeps "Subscribe to".
+  const subQuote = isActuallySubGated && DIGITAL_PURCHASES_ENABLED
+    ? cheapestSubscriberQuote((item as any).plansDetails)
+    : undefined;
 
   // --- Interactive state ---
   const engagementKey = engagementKeyOf(item);
@@ -1860,7 +1866,19 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               <Icon name="Star" size={24} color="#fff" />
             </View>
             <Text className="text-white text-sm font-semibold">{t("feedCard.subscribersOnly")}</Text>
-            <Text className="text-white/70 text-xs mt-0.5">{username ? t("feedCard.subscribeTo", { name: username }) : t("feedCard.subscribeToCreator")}</Text>
+            {subQuote ? (
+              <>
+                <View className="flex-row items-center mt-0.5" style={{ gap: 4 }}>
+                  <Text className="text-white/70 text-xs">{t("feedCard.subscribeFrom")} {formatSubscriberTokens(subQuote.tokens)}</Text>
+                  <DhbCoin size={13} />
+                </View>
+                {!!formatSubscriberUsd(subQuote.usd) && (
+                  <Text className="text-white/60 text-[11px] mt-0.5">{formatSubscriberUsd(subQuote.usd)}</Text>
+                )}
+              </>
+            ) : (
+              <Text className="text-white/70 text-xs mt-0.5">{username ? t("feedCard.subscribeTo", { name: username }) : t("feedCard.subscribeToCreator")}</Text>
+            )}
           </View>
         </Pressable>
       );

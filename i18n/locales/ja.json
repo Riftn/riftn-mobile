@@ -9259,6 +9259,7 @@
     "subscribersOnly": "購読者のみ",
     "subscribeTo": "{{name}} を購読する",
     "subscribeToCreator": "このクリエイターを購読する",
+    "subscribeFrom": "サブスクリプション登録",
     "holdingsRequired": "保有必須",
     "mustHold": "{{amount}} {{symbol}} を保有している必要があります",
     "reposted": "再投稿済み",

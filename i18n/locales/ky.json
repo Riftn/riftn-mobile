@@ -9155,6 +9155,7 @@
     "subscribersOnly": "Жазылуучулар үчүн гана",
     "subscribeTo": "{{name}} жазылуу",
     "subscribeToCreator": "Бул жаратуучуга жазылуу",
+    "subscribeFrom": "Жазылуу",
     "holdingsRequired": "Кармоо талап кылынат",
     "mustHold": "{{amount}} {{symbol}} кармап туруу керек",
     "reposted": "Репост кылынды",

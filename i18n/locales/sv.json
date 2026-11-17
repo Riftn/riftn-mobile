@@ -9181,6 +9181,7 @@
     "subscribersOnly": "Endast prenumeranter",
     "subscribeTo": "Prenumerera på {{name}}",
     "subscribeToCreator": "Prenumerera på denna skapare",
+    "subscribeFrom": "Prenumerera från",
     "holdingsRequired": "Krav på innehav",
     "mustHold": "Måste inneha {{amount}} {{symbol}}",
     "reposted": "Återpublicerad",

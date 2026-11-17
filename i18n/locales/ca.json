@@ -9178,6 +9178,7 @@
     "subscribersOnly": "Només subscriptors",
     "subscribeTo": "Subscriu-te a {{name}}",
     "subscribeToCreator": "Subscriu-te a aquest creador",
+    "subscribeFrom": "Subscriu-te des de",
     "holdingsRequired": "Possessions requerides",
     "mustHold": "Cal tenir {{amount}} {{symbol}}",
     "reposted": "Reenviat",

@@ -9139,6 +9139,7 @@
     "subscribersOnly": "仅限订阅者",
     "subscribeTo": "订阅 {{name}}",
     "subscribeToCreator": "订阅迭个博主",
+    "subscribeFrom": "訂閱從",
     "holdingsRequired": "持有要求",
     "mustHold": "必须持有 {{amount}} 个 {{symbol}}",
     "reposted": "转发过",

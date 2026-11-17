@@ -9150,6 +9150,7 @@
     "subscribersOnly": "Само за претплатнике",
     "subscribeTo": "Претплати се на {{name}}",
     "subscribeToCreator": "Претплати се на овог креатора",
+    "subscribeFrom": "Пријавите се",
     "holdingsRequired": "Потребна држања",
     "mustHold": "Мора се држати {{amount}} {{symbol}}",
     "reposted": "Репостовано",

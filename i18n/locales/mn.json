@@ -9172,6 +9172,7 @@
     "subscribersOnly": "Зөвхөн захиалгат хэрэглэгчдэд",
     "subscribeTo": "{{name}} -д захиалах",
     "subscribeToCreator": "Энэ бүтээгчд захиалах",
+    "subscribeFrom": "Үүнээс захиалах",
     "holdingsRequired": "Эзэмших шаардлагатай",
     "mustHold": "{{amount}} {{symbol}} -г эзэмшсэн байх ёстой",
     "reposted": "Дахин нийтэлсэн",

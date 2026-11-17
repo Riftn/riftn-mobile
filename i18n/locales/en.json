@@ -7479,6 +7479,7 @@
     "subscribersOnly": "Subscribers only",
     "subscribeTo": "Subscribe to {{name}}",
     "subscribeToCreator": "Subscribe to this creator",
+    "subscribeFrom": "Subscribe from",
     "holdingsRequired": "Holdings Required",
     "mustHold": "Must be holding {{amount}} {{symbol}}",
     "reposted": "Reposted",

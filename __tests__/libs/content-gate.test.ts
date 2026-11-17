@@ -26,6 +26,10 @@ import {
   isSubscriberPlanBuyable,
   subscriberPlanPrice,
   cheapestSubscriberPlan,
+  cheapestSubscriberQuote,
+  subscriberPlanQuote,
+  formatSubscriberTokens,
+  formatSubscriberUsd,
   type SubscriberPlan,
 } from "../../libs/content-gate";
 
@@ -134,5 +138,33 @@ describe("isHoldGated", () => {
     expect(isHoldGated(true, 0)).toBe(false);
     expect(isHoldGated(true, "250")).toBe(true);
     expect(isHoldGated(false, 250)).toBe(false);
+  });
+});
+
+describe("subscriberPlanQuote", () => {
+  const usdPlan = { isPublished: true, chains: [{ chainId: 8453, price: 0.01, currency: "USDT", isPublished: true }] };
+  const dhbPlan = { isPublished: true, chains: [{ chainId: 8453, price: 25, isPublished: true }] };
+
+  it("reads a $0.01 USDT plan as 10 tokens, not 0", () => {
+    expect(subscriberPlanQuote(usdPlan)).toEqual({ tokens: 10, usd: 0.01 });
+    expect(formatSubscriberTokens(subscriberPlanQuote(usdPlan)!.tokens)).toBe("10");
+  });
+
+  it("values a DHB plan in dollars at the pre-listing rate", () => {
+    expect(subscriberPlanQuote(dhbPlan)).toEqual({ tokens: 25, usd: 0.025 });
+  });
+
+  it("picks the cheapest plan in dollars across currencies", () => {
+    const pricier = { ...usdPlan, chains: [{ ...usdPlan.chains[0], price: 0.05 }] };
+    expect(cheapestSubscriberQuote([pricier, dhbPlan])).toEqual({ tokens: 25, usd: 0.025 });
+  });
+});
+
+describe("formatSubscriberUsd", () => {
+  it("shows cents and floors tiny values at <$0.01", () => {
+    expect(formatSubscriberUsd(0.01)).toBe("$0.01");
+    expect(formatSubscriberUsd(1234.5)).toBe("$1,234.50");
+    expect(formatSubscriberUsd(0.004)).toBe("<$0.01");
+    expect(formatSubscriberUsd(0)).toBe("");
   });
 });
