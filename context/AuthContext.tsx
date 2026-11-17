@@ -798,6 +798,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             ),
           ]);
         }
+        // Prove the restored session before showing it. A saved login the server
+        // has since refused would otherwise flash in as "Switched account", run
+        // whatever tap opened the sheet against a dead token, then sign out.
+        try {
+          await tokenRefreshManager.ensureFreshToken();
+        } catch {}
+        if (!(await getAuthToken())) throw new Error('Saved session was refused');
         await rehydrateFromStorage();
         await completeProfileSwitch(id);
         if (!prevId) setShowSignInModal(false);
@@ -807,6 +814,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         log.warn('switchToProfile:failed', e as any);
         await abortProfileSwitch(prevId);
         await rehydrateFromStorage();
+        // A refused session also asks for sign-in; someone who was signed in
+        // before the switch is still signed in as that account.
+        if (prevId) setShowSignInModal(false);
         toastError?.(_copy("copy.9e046e5e5d10", { defaultValue: "Could not switch account" }));
         return false;
       }
