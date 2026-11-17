@@ -1467,7 +1467,7 @@ const LiveProducerScreen: React.FC = () => {
               {/* Bottom section: Chat + Controls */}
               <View
                 pointerEvents="box-none"
-                style={{ paddingBottom: 8 }}
+                style={{ paddingBottom: 8, flexShrink: 1, minHeight: 0 }}
               >
                 {/* TikTok-style join/gift banners */}
                 <LiveEventBanner joinEvent={joinEvent} giftEvent={giftEvent} />

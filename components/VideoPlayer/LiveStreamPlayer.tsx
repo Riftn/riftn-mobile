@@ -1963,7 +1963,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
               <View className="flex-1" pointerEvents="box-none" />
   
               {/* Bottom section: shop + chat + reactions + input */}
-              <View pointerEvents="box-none" style={{ paddingBottom: EDGE + 10 }}>
+              <View pointerEvents="box-none" style={{ paddingBottom: EDGE + 10, flexShrink: 1, minHeight: 0 }}>
                 {/* Whatever the host has put "on air", above the chat so a busy
                     room cannot scroll it away. Renders nothing when the stream
                     has no products attached. */}

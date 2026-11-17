@@ -18,7 +18,7 @@ import { StreamActivityType } from "../../services/enums/livestream.enum";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl } from "../../libs/misc";
-import { useKeyboard } from "../../hooks/useKeyboard";
+import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
 import type { UserReference } from "../LiveViewer/LiveViewerChat";
 
 export interface ProducerChatActivity {
@@ -126,8 +126,10 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
   const sending = useRef(false);
   const listRef = useRef<FlatList<ProducerChatActivity> | null>(null);
   const { showUserProfile } = useUserProfileSheet();
-  const { height: kbHeight, isVisible: kbVisible } = useKeyboard();
-  const inputLift = kbVisible ? kbHeight : 0;
+  // Measured against the keys, like every other composer. Lifting by the raw
+  // keyboard height ignored where the box sat and, on iPhone, ran alongside
+  // the screen's own keyboard pan, which left the box under the keys.
+  const composerKeyboard = useComposerKeyboard(0);
 
   const handleUserPress = useCallback(
     (identifier: string) => {
@@ -174,7 +176,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
   );
 
   return (
-    <View className="px-3" pointerEvents="box-none">
+    <View className="px-3" pointerEvents="box-none" style={{ flexShrink: 1, minHeight: 0 }}>
       {isLive && onToggleChatEnabled ? (
         <View className="flex-row items-center mb-2" pointerEvents="box-none">
           <TouchableOpacity
@@ -200,7 +202,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
           list is inverted, so "top" is the far end of the data — the mask is
           still just a gradient over the viewport, opaque at the bottom. */}
       <MaskedView
-        style={{ maxHeight: 200 }}
+        style={{ maxHeight: 200, flexShrink: 1, minHeight: 0 }}
         // box-none, not none: the mask must stay inert but the list underneath
         // has to receive taps and scrolls, or names, avatars and history are dead.
         pointerEvents="box-none"
@@ -228,8 +230,11 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
       </MaskedView>
 
       <View
+        ref={composerKeyboard.ref}
+        collapsable={false}
+        onLayout={composerKeyboard.onLayout}
         className="flex-row items-center mt-2 rounded-lg px-3 py-1.5 bg-zinc-900/60"
-        style={{ marginBottom: inputLift }}
+        style={{ marginBottom: composerKeyboard.lift }}
       >
         <TextInput
           value={message}
