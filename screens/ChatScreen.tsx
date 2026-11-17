@@ -44,6 +44,7 @@ import ForwardPickerModal from "../components/DM/ForwardPickerModal";
 import DmFeeBanner from "../components/DM/DmFeeBanner";
 import DmEncryptionBanner from "../components/DM/DmEncryptionBanner";
 import DmSafetyBanner from "../components/DM/DmSafetyBanner";
+import MessageRequestBar from "../components/DM/MessageRequestBar";
 import DmLockedState, { DmUndecryptableRun } from "../components/DM/DmLockedState";
 import NewChatIntro from "../components/DM/NewChatIntro";
 import TipAmountSheet from "../components/DM/TipAmountSheet";
@@ -106,6 +107,8 @@ import {
   removeFreeAccess,
   bulkDeleteMessages,
   markDmMessageViewed,
+  acceptMessageRequest,
+  deleteConversation,
   type DmUserStatus,
   type DmPlanSettings,
   type DmPlanMessageType,
@@ -1679,6 +1682,34 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     setConfirmVisible(true);
   }, [closeMenu]);
 
+  // A first message from someone you don't follow: the thread carries
+  // Accept / Delete / Block until you accept, reply or follow them.
+  const isRequestChat = !!currentConvId && !!conversations.find((x) => x._id === currentConvId)?.isRequest;
+  const [requestBusy, setRequestBusy] = useState(false);
+  const onAcceptRequest = useCallback(async () => {
+    if (!currentConvId) return;
+    setRequestBusy(true);
+    try {
+      await acceptMessageRequest(currentConvId);
+      dmActions.acceptRequest(currentConvId);
+    } catch (e) {
+      toastError(e, t("dmRequests.acceptFailed", { defaultValue: "Couldn't accept, try again" }));
+    } finally {
+      setRequestBusy(false);
+    }
+  }, [currentConvId, t]);
+  const onDeleteRequest = useCallback(async () => {
+    if (!currentConvId) return;
+    try {
+      await deleteConversation(currentConvId, address);
+      dmActions.removeConversation(currentConvId);
+      toastSuccess(t("toasts.conversation_deleted"));
+      navigation.goBack();
+    } catch (e) {
+      toastError(e, t("dm.failedToDeleteConversation"));
+    }
+  }, [currentConvId, address, navigation, t]);
+
   const onUnblockUser = useCallback(() => {
     closeMenu();
     setConfirmMode("unblock");
@@ -1991,6 +2022,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         )}
 
         <DmSafetyBanner peer={peer} />
+
+        {isRequestChat && !dmDisabled && (
+          <MessageRequestBar
+            name={peerLabel}
+            busy={requestBusy}
+            onAccept={onAcceptRequest}
+            onDelete={onDeleteRequest}
+            onBlock={onBlockUser}
+          />
+        )}
 
         {/* Pinned message banner */}
         {pinnedMessage && (

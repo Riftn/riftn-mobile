@@ -202,6 +202,8 @@ export const dmActions = {
         ...contact,
         messages: newest,
         updatedAt: lastCreatedAt || contact.updatedAt,
+        // Writing back takes a chat out of Requests.
+        ...(contact.isRequest && msgs.some((m) => m.author === "me") ? { isRequest: false } : {}),
       };
     }
   },
@@ -321,6 +323,12 @@ export const dmActions = {
           : {}),
       };
     }
+  },
+
+  /** A message request was accepted (or answered): it belongs to the inbox now. */
+  acceptRequest(conversationId: ID): void {
+    const contact = dmState.contactsById[conversationId];
+    if (contact?.isRequest) dmState.contactsById[conversationId] = { ...contact, isRequest: false };
   },
 
   /**
@@ -565,6 +573,7 @@ export const useUnreadConversationsCount = (currentUserId?: ID): number => {
   let total = 0;
   for (const convId of Object.keys(snap.contactsById)) {
     const contact = snap.contactsById[convId] as DmConversation | undefined;
+    if (contact?.isRequest) continue;
     if (contact?.unreadCount !== undefined) {
       if (contact.unreadCount > 0) total++;
       continue;
@@ -596,6 +605,8 @@ export const useTotalUnreadMessagesCount = (currentUserId?: ID): number => {
   let total = 0;
   for (const convId of Object.keys(snap.contactsById)) {
     const contact = snap.contactsById[convId] as DmConversation | undefined;
+    // Message requests wait in their own list and never light the nav badge.
+    if (contact?.isRequest) continue;
     if (contact?.unreadCount !== undefined) {
       total += contact.unreadCount;
       continue;
