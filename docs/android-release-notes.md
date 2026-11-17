@@ -1,3 +1,11 @@
-Android 1.18.7 scrolls lighter on older and low-memory phones: the app now frees picture memory when Android runs low, instead of being closed by the system.
+Riftn 1.19.1 for Android.
 
-Drawers and sheets no longer turn the navigation bar grey, pressed buttons no longer show a focus box, and pictures can now be decoded straight to the graphics chip for smoother scrolling as it rolls out.
+- Message requests: chats from people you don't follow wait under Requests.
+- Posts show their edit history, and you can schedule a direct message.
+- New call screen with ringing, ended and declined steps.
+- Video uploads: one Edit button, with sound, replace and remove inside the edit screen.
+- Swipe player: better wide videos, full screen and pinch to zoom.
+- Public chat: search by person or text, and older messages keep loading as you scroll up.
+- Faster start-up and many smaller fixes.
+
+Install: download `dehub.apk` below and open it on your Android phone. Updates also install automatically through the app, or through Obtainium if you track this page.
