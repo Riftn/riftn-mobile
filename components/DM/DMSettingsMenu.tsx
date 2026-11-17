@@ -32,7 +32,10 @@ const DMSettingsMenu: React.FC<DMSettingsMenuProps> = ({
       <TouchableOpacity
         activeOpacity={1}
         onPress={onClose}
-        className={Platform.OS === 'android' ? 'flex-1' : 'flex-1 dark-surface bg-black/40'}
+        // A plain scrim, not `dark-surface`: that kept the white labels white
+        // inside the pale System Light panel, so the menu read as blank.
+        className="flex-1"
+        style={Platform.OS === 'android' ? undefined : { backgroundColor: 'rgba(0,0,0,0.4)' }}
       >
         <View
           style={[{ top: insets.top + 56 }, Platform.OS === 'android' && skin && { ...skin.card, backgroundColor: skin.page }]}
