@@ -1,4 +1,7 @@
 import React, { useEffect } from "react";
+import { useUser } from "../context/AuthContext";
+import { getAvatarUrl } from "../libs/misc";
+import { warmFeedImage } from "../components/common/SmartImage";
 import { InteractionManager, Platform, View } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -162,6 +165,24 @@ const loadSignIn = () => require("../screens/auth/SignInScreen").default;
 // of a page, which read as an old login screen flashing first.
 const SignInShell = () => <View className="flex-1 bg-theme-background" />;
 
+/**
+ * Your own photo at the size your profile draws it, fetched once the app has
+ * settled: after a fresh start the profile then opens with the photo in place
+ * instead of a grey box while it loads. Its own component, so a change to the
+ * account re-renders only this, not the navigator.
+ */
+function WarmOwnAvatar() {
+  const avatar = useUser()?.avatarImageUrl;
+  useEffect(() => {
+    if (!avatar) return;
+    const uri = getAvatarUrl(avatar, 96);
+    if (!uri || uri === "default-avatar") return;
+    const timer = setTimeout(() => warmFeedImage(uri), 3000);
+    return () => clearTimeout(timer);
+  }, [avatar]);
+  return null;
+}
+
 function AppNavigatorContent() {
   const reducedMotion = useReducedMotion();
   const { isSignedIn, needsUsername } = useAuthState();
@@ -183,6 +204,7 @@ function AppNavigatorContent() {
 
   return (
     <TabBarHideProvider>
+      {isAuthed ? <WarmOwnAvatar /> : null}
       <Stack.Navigator
         initialRouteName={ScreenNames.Root}
         screenLayout={withScreenBoundary}

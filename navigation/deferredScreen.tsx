@@ -9,8 +9,13 @@ import ShellCover from './ShellCover';
 
 /** The dissolve from a page's shell into the page. */
 export const SHELL_REVEAL_MS = 220;
-/** Longest the shell stays over a page that is still showing its own loader. */
-export const SHELL_HOLD_CAP_MS = 900;
+/**
+ * Longest the shell stays over a page that is still showing its own main
+ * placeholder. Swapping one grey page for another reads as a second load, so
+ * the shell stays until the page has its content; only a page stuck loading
+ * this long is shown anyway.
+ */
+export const SHELL_HOLD_CAP_MS = 2500;
 
 const screens = new Map<string, ComponentType<any>>();
 const readyRoutes = new Map<string, ComponentType<any>>();
@@ -103,7 +108,7 @@ export function deferredScreen(
       shellShown.current = false;
       // A shell-first page (a chat) draws its own header as its shell and
       // swaps on the next frame: nothing to dissolve.
-      if (reducedMotion || options.shellFirst) return;
+      if (options.shellFirst) return;
       setCover('hold');
       let done = false;
       let frame = 0;
@@ -113,6 +118,8 @@ export function deferredScreen(
         done = true;
         clearTimeout(timer);
         cancelAnimationFrame(frame);
+        // Reduced motion: still one placeholder, cut to the page, no dissolve.
+        if (reducedMotion) { setCover('none'); return; }
         setCover('fade');
         timer = setTimeout(() => setCover('none'), SHELL_REVEAL_MS + 30);
       };
