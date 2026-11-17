@@ -940,7 +940,8 @@ const LiveChatScreen: React.FC = () => {
         </View>
         <ChatTextSizeButton />
         <TouchableOpacity onPress={() => openSearch()} accessibilityRole="button" accessibilityLabel={t("publicChat.searchMessages")} style={{ width: 32, height: 36, alignItems: "center", justifyContent: "center" }}><Icon name="Search" size={20} color="#A1A1AA" /></TouchableOpacity>
-        <TouchableOpacity onPress={handleInfoPress} activeOpacity={0.6} hitSlop={8}>
+        {/* A full square like Search beside it, so the (i) sits in from the edge. */}
+        <TouchableOpacity onPress={handleInfoPress} activeOpacity={0.6} hitSlop={8} accessibilityRole="button" accessibilityLabel={t("screens.chatInfo", { defaultValue: "Chat info" })} style={{ width: 36, height: 36, alignItems: "center", justifyContent: "center" }}>
           <Icon name="Info" size={22} color="rgba(255,255,255,0.5)" />
         </TouchableOpacity>
       </View>

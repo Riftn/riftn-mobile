@@ -65,7 +65,7 @@ import { roomChatId } from "../services/dm/dm.api";
 import CommunityDescription from "../components/Communities/CommunityDescription";
 import { TopHolders } from "../components/Communities/TopHolders";
 import { formatHolderAmount, holderGateMessage, holderGateOf, isDehubToken, runHolderCheck } from "../libs/holder-gate";
-import { communityKindOf, confirmEntry, entryPriceOf, entryStatus } from "../libs/community-kinds";
+import { communityKindOf, confirmEntry, entryPriceOf, entryStatus, isPublicChatCommunity } from "../libs/community-kinds";
 import { useWeb3Provider, useERC20Contract } from "../hooks/use-web3";
 import { writeContractAA } from "../libs/aa.write";
 import { supportedTokens } from "../config/constants";
@@ -108,6 +108,15 @@ const CommunityDetailScreen: React.FC = () => {
   useEffect(() => {
     if (route.params?.tab === "chat") setTab("chat");
   }, [route.params?.tab]);
+  // The official Riftn community's chat is Public Chat: its Chat tab (or a
+  // link to it) opens the public room instead of a second, separate chat.
+  const isPublicChat = isPublicChatCommunity(community?.id);
+  useEffect(() => {
+    if (isPublicChat && tab === "chat") {
+      setTab("posts");
+      navigation.navigate(ScreenNames.LiveChat as any);
+    }
+  }, [isPublicChat, tab, navigation]);
   const [manageOpen, setManageOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(!!route.params?.invite);
   const [loadError, setLoadError] = useState(false);
@@ -543,7 +552,7 @@ const CommunityDetailScreen: React.FC = () => {
               </Text>
             </TouchableOpacity>
           )}
-          {isMember && !!walletAddress && communityKindOf(community) === "community" && (() => {
+          {isMember && !!walletAddress && communityKindOf(community) === "community" && !isPublicChat && (() => {
             const listed = !!chatPrefs.get(roomChatId(community.id))?.listedAt;
             return (
               <TouchableOpacity
