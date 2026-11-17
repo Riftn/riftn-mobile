@@ -21,12 +21,15 @@ let modal;
 let android;
 
 function modalProps(type, props) {
+  // Only a Modal asking for a translucent bar is ever touched, so check that
+  // before loading anything (tests mock react-native without Platform).
+  if (!props || !props.navigationBarTranslucent) return props;
   if (android === undefined) {
     const RN = require("react-native");
-    android = RN.Platform.OS === "android";
-    modal = RN.Modal;
+    android = !!RN && !!RN.Platform && RN.Platform.OS === "android";
+    modal = RN && RN.Modal;
   }
-  if (!android || type !== modal || !props || !props.navigationBarTranslucent || isLightToneOn()) return props;
+  if (!android || !modal || type !== modal || isLightToneOn()) return props;
   return { ...props, navigationBarTranslucent: false };
 }
 
