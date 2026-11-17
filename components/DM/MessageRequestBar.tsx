@@ -7,7 +7,6 @@
 import React, { memo } from "react";
 import { View, Text, Pressable } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useAppTheme } from "../../context/ThemeContext";
 
 interface Props {
   name: string;
@@ -19,10 +18,8 @@ interface Props {
 
 const MessageRequestBarComponent: React.FC<Props> = ({ name, busy, onAccept, onDelete, onBlock }) => {
   const { t } = useTranslation();
-  const { isLight } = useAppTheme();
-  const tone = isLight
-    ? { bg: "rgba(0,0,0,0.04)", border: "rgba(0,0,0,0.12)", text: "#3F3F46", solid: "#0B0B0C", solidInk: "#FFFFFF", ink: "#0B0B0C" }
-    : { bg: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.12)", text: "#D4D4D8", solid: "#FFFFFF", solidInk: "#0B0B0C", ink: "#FFFFFF" };
+  // Written for the dark look; the light theme's tone layer flips neutrals itself.
+  const tone = { bg: "rgba(255,255,255,0.06)", border: "rgba(255,255,255,0.12)", text: "#D4D4D8", solid: "#FFFFFF", solidInk: "#0B0B0C", ink: "#FFFFFF" };
 
   const button = (label: string, onPress: () => void, solid: boolean, testID: string, disabled?: boolean) => (
     <Pressable
