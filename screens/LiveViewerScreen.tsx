@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, StatusBar, Platform, ActivityIndicator } from "react-native";
 import { useRoute } from "@react-navigation/native";
 import LiveStreamPlayer from "../components/VideoPlayer/LiveStreamPlayer";
-import { useDarkSurface } from "../context/ThemeContext";
+import { useFocusedDarkSurface } from "../hooks/useFocusedDarkSurface";
 
 type RouteParams = {
   tokenId?: string | number;
@@ -29,8 +29,13 @@ const LiveViewerScreen: React.FC = () => {
   const params = (route.params || {}) as RouteParams;
   // Live is a dark room in every theme. Until System Light has handed over to
   // System, paint only the black well: a player drawn under the light tone
-  // would keep those colours.
-  const dark = useDarkSurface();
+  // would keep those colours. The hold ends as soon as the screen loses focus,
+  // so Back lands on the device's theme at once; the player stays mounted
+  // (dark-surface keeps it dark) instead of dropping the stream mid-exit.
+  const darkNow = useFocusedDarkSurface();
+  const landed = useRef(false);
+  if (darkNow) landed.current = true;
+  const dark = landed.current;
 
   // Resolve the real stream ID from multiple possible sources
   const known = [
