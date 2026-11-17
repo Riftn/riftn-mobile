@@ -24,6 +24,7 @@ import { useLiveTarget } from "../../hooks/useIsUserLive";
 import { openLiveTarget } from "../../libs/openLiveTarget";
 import SwipeableRow, { type SwipeAction } from "../common/SwipeableRow";
 import { useAppTheme } from "../../context/ThemeContext";
+import { BulkTick, CHECKED_FILL, MarkedUnreadDot } from "./BulkChatBar";
 
 interface ConversationItemProps {
   conversation: DmConversation;
@@ -37,6 +38,11 @@ interface ConversationItemProps {
   onBlock?: (conversation: DmConversation, otherUser: DmUser | undefined) => void;
   /** Fade in on mount: for a conversation that arrives while the list is up. */
   animateIn?: boolean;
+  /** Picking several chats: the row shows a tick, a tap toggles it, swipes are off. */
+  selecting?: boolean;
+  checked?: boolean;
+  /** You marked this chat unread yourself. */
+  markedUnread?: boolean;
 }
 
 const ConversationItemComponent: React.FC<ConversationItemProps> = ({
@@ -49,6 +55,9 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
   onDelete,
   onBlock,
   animateIn = false,
+  selecting = false,
+  checked = false,
+  markedUnread = false,
 }) => {
   usePerfProbe("ConversationRow");
   const { t } = useTranslation();
@@ -188,6 +197,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
 
   const swipeActions = useMemo<SwipeAction[]>(() => {
     const list: SwipeAction[] = [];
+    if (selecting) return list;
     if (onBlock) {
       list.push({
         key: "block",
@@ -208,7 +218,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
       });
     }
     return list;
-  }, [onBlock, onDelete, conversation, other, t]);
+  }, [onBlock, onDelete, conversation, other, t, selecting]);
 
   return (
     <Animated.View entering={animateIn ? FadeIn.duration(250) : undefined}>
@@ -218,9 +228,14 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         onLongPress={handleLongPress}
         delayLongPress={400}
         activeOpacity={0.7}
+        accessibilityState={selecting ? { selected: checked } : undefined}
+        testID={selecting ? (checked ? "chat-row-checked" : "chat-row-unchecked") : undefined}
         className="flex-row items-center px-4 py-4 gap-3"
       >
+        {selecting && checked && <View pointerEvents="none" style={CHECKED_FILL} />}
+        {selecting && <BulkTick checked={checked} />}
         <TouchableOpacity
+          disabled={selecting}
           onPress={liveTarget ? () => openLiveTarget(liveTarget) : handleAvatarPress}
           activeOpacity={0.8}
           className="relative"
@@ -267,6 +282,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
               )}
             </View>
             <Text className="text-[14px] text-theme-neutrals-500">{timeStr}</Text>
+            {markedUnread && !(unreadCount > 0) && <MarkedUnreadDot />}
             <UnreadCountChip count={unreadCount} />
           </View>
           <View className="flex-row items-center gap-1 mt-0.5">

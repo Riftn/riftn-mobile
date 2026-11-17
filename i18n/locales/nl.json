@@ -17063,5 +17063,27 @@
     "scheduledToast": "Gepland voor {{when}}",
     "failedToast": "Een gepland bericht kon niet worden verstuurd",
     "error": "Dat is niet gelukt. Probeer het opnieuw."
+  },
+  "chatBulk": {
+    "select": "Selecteren",
+    "toolbar": "Geselecteerde chats",
+    "pick": "Tik op chats om ze te selecteren",
+    "selected": "{{count}} geselecteerd",
+    "cancel": "Annuleren",
+    "read": "Markeren als gelezen",
+    "unread": "Markeren als ongelezen",
+    "reply": "Beantwoorden",
+    "delete": "Verwijderen",
+    "replyTitle_one": "{{count}} chat beantwoorden",
+    "replyTitle_other": "{{count}} chats beantwoorden",
+    "replyHint": "Iedereen krijgt dit als een gewoon bericht in de eigen chat.",
+    "replyPlaceholder": "Schrijf een bericht…",
+    "sendAll": "Versturen naar {{count}}",
+    "deleted_one": "{{count}} chat verwijderd",
+    "deleted_other": "{{count}} chats verwijderd",
+    "sent_one": "Verstuurd naar {{count}} chat",
+    "sent_other": "Verstuurd naar {{count}} chats",
+    "partSent": "Verstuurd naar {{ok}} van {{total}} chats",
+    "notSent": "Versturen mislukt. Probeer het opnieuw."
   }
 }

@@ -16816,5 +16816,27 @@
     "scheduledToast": "Programmé pour {{when}}",
     "failedToast": "Un message programmé n'a pas pu être envoyé",
     "error": "Ça n'a pas marché. Réessayez."
+  },
+  "chatBulk": {
+    "select": "Sélectionner",
+    "toolbar": "Discussions sélectionnées",
+    "pick": "Touchez des discussions pour les sélectionner",
+    "selected": "{{count}} sélectionnées",
+    "cancel": "Annuler",
+    "read": "Marquer comme lu",
+    "unread": "Marquer comme non lu",
+    "reply": "Répondre",
+    "delete": "Supprimer",
+    "replyTitle_one": "Répondre à {{count}} discussion",
+    "replyTitle_other": "Répondre à {{count}} discussions",
+    "replyHint": "Chaque personne le reçoit comme un message normal dans sa propre discussion.",
+    "replyPlaceholder": "Écrivez un message…",
+    "sendAll": "Envoyer à {{count}}",
+    "deleted_one": "{{count}} discussion supprimée",
+    "deleted_other": "{{count}} discussions supprimées",
+    "sent_one": "Envoyé à {{count}} discussion",
+    "sent_other": "Envoyé à {{count}} discussions",
+    "partSent": "Envoyé à {{ok}} sur {{total}} discussions",
+    "notSent": "Envoi impossible. Réessayez."
   }
 }
