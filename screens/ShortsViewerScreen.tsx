@@ -10,6 +10,7 @@ import { usePostVideoPlayer } from '../hooks/usePostVideoPlayer';
 import { postMediaIsTransferring, preparePostMediaNavigation } from '../libs/post-media-session';
 import { optionalSkia } from '../libs/skia';
 import { toStoryboard } from '../libs/storyboard';
+import StoryboardPreview from '../components/VideoPlayerCore/StoryboardPreview';
 import { takeFullscreenClosedUpright } from '../libs/turned-fullscreen';
 import { CommentSection } from '../components/Comments';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -931,6 +932,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   }, [progress]);
   const durationRef = useRef(0);
   const [scrubbing, setScrubbing] = useState(false);
+  /** Where the finger is while scrubbing, for the frame preview above it. */
+  const [scrubRatio, setScrubRatio] = useState(0);
   /** Read by the time listener, which is subscribed once per player. */
   const scrubbingRef = useRef(false);
 
@@ -1197,6 +1200,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
 
   const handleScrub = useCallback((ratio: number) => {
     progress.setValue(ratio);
+    setScrubRatio(ratio);
   }, [progress]);
 
   const handleScrubCommit = useCallback((ratio: number) => {
@@ -2581,6 +2585,19 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
           </View>
         </GestureDetector>
         </KeepDarkScope>
+        {/* The frame under the finger, with its time, floated over the lens.
+            Without a storyboard it is just the time. */}
+        <View style={styles.scrubPreviewLayer} pointerEvents="none">
+          <StoryboardPreview
+            storyboard={storyboard}
+            fraction={scrubRatio}
+            duration={durationRef.current || player.duration || 0}
+            trackWidth={trackWidth}
+            visible={scrubbing}
+            bottom={SCRUB_HEIGHT / 2 + 24}
+            timeOnly
+          />
+        </View>
       </Animated.View>
 
       {/* Faded, not unmounted: the swipe-down clear and the restore tap both
@@ -2781,7 +2798,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                 The first and last cell align to their outer edges, so the row
                 still starts and ends flush with the caption above it exactly as
                 web's does. */}
-            <View testID="shorts-actions" className="dark-surface" style={styles.actionBar}>
+            {/* The frame preview floats over this row while scrubbing, as on web. */}
+            <View testID="shorts-actions" className="dark-surface" style={[styles.actionBar, scrubbing && { opacity: 0 }]}>
               {/* Views — a readout, not a button, as on web. */}
               <View style={[styles.actionCell, styles.actionCellFirst]}>
                 <Icon name="Eye" size={20} color={ICON_COLOR} strokeWidth={1.8} />
@@ -4073,6 +4091,13 @@ const styles = StyleSheet.create({
     // Its own row, above the player's buttons and clear of the home gesture.
     bottom: EDGE + TOOLS_HEIGHT,
     zIndex: 11,
+  },
+  scrubPreviewLayer: {
+    position: "absolute",
+    left: EDGE,
+    right: EDGE,
+    top: 0,
+    bottom: 0,
   },
   scrubHitArea: {
     height: SCRUB_HEIGHT,

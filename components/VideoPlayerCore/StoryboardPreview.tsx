@@ -14,6 +14,8 @@ interface StoryboardPreviewProps {
   visible: boolean;
   /** Distance from the bottom of the parent to float above, in points. */
   bottom: number;
+  /** With no storyboard to show, float just the time instead of nothing. */
+  timeOnly?: boolean;
 }
 
 const formatTime = (seconds: number) => {
@@ -24,12 +26,24 @@ const formatTime = (seconds: number) => {
   return h > 0 ? `${h}:${m.toString().padStart(2, "0")}:${sec}` : `${m}:${sec}`;
 };
 
+const timeStyle = {
+  paddingHorizontal: 6,
+  paddingVertical: 2,
+  borderRadius: 4,
+  overflow: "hidden",
+  backgroundColor: "rgba(0,0,0,0.6)",
+  color: "#fff",
+  fontSize: 12,
+  fontWeight: "500",
+  fontVariant: ["tabular-nums"],
+} as const;
+
 /**
  * The frame under the finger while scrubbing, floated above the timeline.
  * The sheet is prefetched as soon as the player has one, so the first scrub
  * shows a frame at once. Renders nothing without a public storyboard.
  */
-function StoryboardPreview({ storyboard, fraction, duration, trackWidth, visible, bottom }: StoryboardPreviewProps) {
+function StoryboardPreview({ storyboard, fraction, duration, trackWidth, visible, bottom, timeOnly = false }: StoryboardPreviewProps) {
   const [failed, setFailed] = useState(false);
   const url = storyboard?.url;
 
@@ -38,10 +52,24 @@ function StoryboardPreview({ storyboard, fraction, duration, trackWidth, visible
     if (url) void Image.prefetch(url, { cachePolicy: "memory-disk" }).then(ok => { if (!ok) setFailed(true); });
   }, [url]);
 
-  if (!storyboard || !visible || failed || !(duration > 0) || !(trackWidth > 0)) return null;
+  if (!visible || !(duration > 0) || !(trackWidth > 0)) return null;
 
   const clamped = Math.max(0, Math.min(1, Number.isFinite(fraction) ? fraction : 0));
   const seconds = clamped * duration;
+  if (!storyboard || failed) {
+    if (!timeOnly) return null;
+    const pill = 64;
+    return (
+      <View
+        pointerEvents="none"
+        accessibilityElementsHidden
+        importantForAccessibility="no-hide-descendants"
+        style={{ position: "absolute", left: Math.max(0, Math.min(trackWidth - pill, clamped * trackWidth - pill / 2)), bottom, width: pill, alignItems: "center" }}
+      >
+        <Text style={timeStyle}>{formatTime(seconds)}</Text>
+      </View>
+    );
+  }
   const { x, y } = storyboardOffset(storyboard, seconds);
   const sheet = storyboardSheetSize(storyboard);
   const { spriteWidth: width, spriteHeight: height } = storyboard;
@@ -74,20 +102,7 @@ function StoryboardPreview({ storyboard, fraction, duration, trackWidth, visible
           style={{ position: "absolute", width: sheet.width, height: sheet.height, left: -x, top: -y }}
         />
       </View>
-      <Text
-        style={{
-          marginTop: 4,
-          paddingHorizontal: 6,
-          paddingVertical: 2,
-          borderRadius: 4,
-          overflow: "hidden",
-          backgroundColor: "rgba(0,0,0,0.6)",
-          color: "#fff",
-          fontSize: 12,
-          fontWeight: "500",
-          fontVariant: ["tabular-nums"],
-        }}
-      >
+      <Text style={[timeStyle, { marginTop: 4 }]}>
         {formatTime(seconds)}
       </Text>
     </View>
