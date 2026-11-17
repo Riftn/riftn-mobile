@@ -10,7 +10,7 @@ describe('video gesture wiring', () => {
 
     expect(viewer).toContain('Gesture.Tap()');
     expect(viewer).toContain('.maxDistance(MEDIA_TAP_SLOP_PX)');
-    expect(viewer).toContain('Gesture.Race(makeEdgeBack(), minimizePan, dismissPan, restorePan, hold, tap)');
+    expect(viewer).toContain('Gesture.Race(makeEdgeBack(edgeBackMediaRef), minimizePan, dismissPan, restorePan, hold, tap)');
     expect(viewer).not.toContain('onPress={handleScreenPress}');
   });
 
@@ -49,7 +49,14 @@ describe('video gesture wiring', () => {
     expect(viewer).not.toContain('EDGE_BACK_ZONE');
     expect(viewer).toContain('.activeOffsetX(EDGE_BACK_CLAIM)');
     expect(viewer).toContain('.failOffsetY([-EDGE_BACK_FAIL_Y, EDGE_BACK_FAIL_Y])');
-    expect(viewer).toContain('Gesture.Race(makeEdgeBack(), hidePan)');
+    expect(viewer).toContain('Gesture.Race(makeEdgeBack(edgeBackStackRef), hidePan)');
+  });
+
+  it('lets a drag that starts on the scrubber seek instead of going back', () => {
+    const viewer = readSource('screens', 'ShortsViewerScreen.tsx');
+
+    expect(viewer).toContain('.withRef(ref)');
+    expect(viewer).toContain('const scrubBlocks = useMemo(() => [pagerGesture, edgeBackMediaRef, edgeBackStackRef], [pagerGesture]);');
   });
 
   it('keeps the feed timeline outside the play-pause press target', () => {
