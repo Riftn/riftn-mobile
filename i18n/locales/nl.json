@@ -4170,6 +4170,16 @@
       "label": "Thread · {{count}} delen"
     }
   },
+  "postEditHistory": {
+    "title": "Bewerkingsgeschiedenis",
+    "edited_one": "Eén keer bewerkt",
+    "edited_other": "{{count}} keer bewerkt",
+    "lastEdit": "Laatst bewerkt {{time}}",
+    "original": "Origineel",
+    "editN": "Bewerking {{n}}",
+    "now": "Nu",
+    "showChanges": "Laat zien wat er is veranderd"
+  },
   "postInfo": {
     "ownersUnavailable": "De huidige eigenaren kunnen nu niet worden gelezen.",
     "unavailable": "Niet beschikbaar",

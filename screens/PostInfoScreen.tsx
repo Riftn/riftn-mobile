@@ -46,6 +46,7 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import { DhbCoin } from "../components/common/DhbCoin";
 import TranscriptSection from "../components/Post/TranscriptSection";
 import PostReactorsSection from "../components/Post/PostReactorsSection";
+import PostEditHistoryLine from "../components/Post/PostEditHistory";
 import PostStatsSection from "../components/Post/stats/PostStatsSection";
 import { setPostStartTime } from "../libs/post-start-time";
 import { Image } from "expo-image";
@@ -535,6 +536,7 @@ export default function PostInfoScreen() {
           <Section title={t("postInfo.content")}>
             {!!post.name && <Text style={styles.value}>{post.name}</Text>}
             {!!post.description && <Text style={styles.muted}>{post.description}</Text>}
+            {!!tokenId && <PostEditHistoryLine tokenId={tokenId} />}
           </Section>
         )}
 
@@ -578,6 +580,7 @@ export default function PostInfoScreen() {
           alwaysShowTitle={post.postType === "feed-audio"}
           onSuccess={(edited) => {
             queryClient.setQueryData(["post-info", tokenId], (old: any) => (old ? { ...old, ...edited } : old));
+            queryClient.invalidateQueries({ queryKey: ["post-edit-history", tokenId] });
           }}
         />
       )}

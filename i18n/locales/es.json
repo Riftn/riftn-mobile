@@ -3982,6 +3982,16 @@
       "label": "Hilo · {{count}} partes"
     }
   },
+  "postEditHistory": {
+    "title": "Historial de ediciones",
+    "edited_one": "Editado una vez",
+    "edited_other": "Editado {{count}} veces",
+    "lastEdit": "Última edición {{time}}",
+    "original": "Original",
+    "editN": "Edición {{n}}",
+    "now": "Ahora",
+    "showChanges": "Mostrar qué cambió"
+  },
   "postInfo": {
     "ownersUnavailable": "Los propietarios actuales no se pueden leer en este momento.",
     "unavailable": "No disponible",

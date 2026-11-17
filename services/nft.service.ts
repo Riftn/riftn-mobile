@@ -1800,3 +1800,25 @@ export async function getCommentReportStatus(commentId: number | string): Promis
     throw e;
   }
 }
+
+// ─── Post edit history ───────────────────────────────────────────────────────
+
+export interface PostVersion {
+  name: string;
+  description: string;
+  /** When this version went up. */
+  at: string | null;
+  current: boolean;
+}
+
+export interface PostEditHistory {
+  editCount: number;
+  /** Oldest first, ending with the post as it reads now. Empty when never edited. */
+  versions: PostVersion[];
+}
+
+/** Earlier versions of a post's title and text. Visible to whoever can see the post. */
+export async function getPostEditHistory(tokenId: number | string): Promise<PostEditHistory> {
+  const res = await apiClient.get<{ data?: Partial<PostEditHistory> }>(`/nft/${tokenId}/edit-history`);
+  return { editCount: res?.data?.editCount ?? 0, versions: res?.data?.versions ?? [] };
+}
