@@ -2,10 +2,17 @@ import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { hasAiConsent } from '../libs/ai-consent';
 import { supabase } from '../services/supabase';
+import { getAuthToken } from '../libs/auth.utils';
 import { dubLanguage, hasCachedDubLanguage } from '../libs/cached-dub-languages';
 
 type CachedDub = { status: string; audioUrl?: string };
 const PROVIDER = 'chatterbox-multilingual-v3';
+
+/** A new dub render is only started for a signed-in viewer; a made one plays for everyone. */
+async function dubHeaders(): Promise<Record<string, string>> {
+  const token = await getAuthToken().catch(() => null);
+  return token ? { 'x-dehub-token': token } : {};
+}
 
 /** One shared render per video/language. Realtime supplies completion, with no polling. */
 export function useCachedVideoDub(transcriptId: string | null, language: string | null, enabled: boolean): CachedDub | undefined {
@@ -32,7 +39,7 @@ export function useCachedVideoDub(transcriptId: string | null, language: string 
       const cached = await read();
       if (cached?.status === 'ready') return settle(cached);
       if (!hasAiConsent()) return settle({ status: 'unavailable' });
-      const { data, error } = await supabase.functions.invoke('auto-dub', { body: { action: 'request', transcriptId, lang } });
+      const { data, error } = await supabase.functions.invoke('auto-dub', { headers: await dubHeaders(), body: { action: 'request', transcriptId, lang } });
       if (error) return settle({ status: 'unavailable' });
       return settle({ status: data?.status ?? 'unavailable', audioUrl: data?.status === 'ready' ? data.audioUrl : undefined });
     },
