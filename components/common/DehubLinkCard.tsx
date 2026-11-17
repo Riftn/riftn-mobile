@@ -220,7 +220,7 @@ const SkillCardEmbed: React.FC<{ slug: string; onOpen: () => void; fallback: Rea
     onPress={onOpen}
     footer={<TouchableOpacity
       accessibilityRole="button"
-      accessibilityLabel={t('common.share')}
+      accessibilityLabel={t('postOptions.share')}
       onPress={() => {
         if (!isSignedIn || needsUsername) { navigation.navigate(ScreenNames.SignIn); return; }
         navigation.navigate(ScreenNames.Upload, { initialText: `https://riftn.com/app/assistant?skill=${encodeURIComponent(slug)}` });
@@ -228,7 +228,7 @@ const SkillCardEmbed: React.FC<{ slug: string; onOpen: () => void; fallback: Rea
       style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 8 }}
     >
       <Icon name="Share" size={16} color="#a1a1aa" />
-      <Text style={styles.subtitle}>{t('common.share')}</Text>
+      <Text style={styles.subtitle}>{t('postOptions.share')}</Text>
     </TouchableOpacity>}
   />;
 };
