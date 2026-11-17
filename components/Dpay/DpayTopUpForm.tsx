@@ -17,7 +17,7 @@ import { useDebounceCallback } from "../../hooks/useDebounceCallback";
 import { dpayCreateOrder, getDpayPrice } from "../../services";
 import { DHB_SALES_PAUSED } from "../../libs/dhb-sales";
 import { toastError, toastSuccess } from "../../libs/toast";
-import { WEBSITE_LINK, TERMS_OF_SERVICE_LINK, LEGACY_WEBSITE_LINK } from "../../config/links";
+import { WEBSITE_LINK, TERMS_OF_SERVICE_LINK } from "../../config/links";
 import { openInApp } from "../../libs/links.utils";
 import { theme } from "../../theme";
 import { appScheme } from "../../config/web3.constants";
@@ -380,13 +380,6 @@ const DpayTopUpForm: React.FC<DpayTopUpFormProps> = ({
       } else if (redirectUrl) {
         await openInApp(redirectUrl);
         toastSuccess(t("dpay.redirecting"));
-      } else if (sessionId) {
-        // Fallback: use website to handle Stripe redirect by sessionId
-        const url = `${LEGACY_WEBSITE_LINK}/dpay/checkout?sessionId=${encodeURIComponent(
-          sessionId
-        )}`;
-        await openInApp(url);
-        toastSuccess(t("dpay.openingCheckout"));
       } else {
         toastError(t("dpay.checkoutUnavailable"));
       }

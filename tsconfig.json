@@ -10,9 +10,6 @@
     "target": "esnext"
   },
   "exclude": [
-    "components/messages/**",
-    "dehub-stream-backend",
-    "cosmic-echo-hero",
     // Built against a dehubweb checkout, not this app — see their build.js.
     "scripts/theme-backdrop/**",
     "scripts/badge-sticker/**"

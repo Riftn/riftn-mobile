@@ -276,8 +276,7 @@ export function useStreamProductActions(tokenId: string | number | null | undefi
  *
  * The transfer is the step that cannot be repeated safely, so the hash has to
  * survive the failure: the sheet keeps it and a retry re-confirms that payment
- * rather than sending a second one. Same shape as PaidButUnrecordedError in
- * libs/payout-record.ts, and for the same reason.
+ * rather than sending a second one.
  */
 export class PaidButUnconfirmedError extends Error {
   readonly txHash: string;

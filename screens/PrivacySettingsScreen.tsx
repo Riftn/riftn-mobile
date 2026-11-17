@@ -752,38 +752,17 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
 
         {/* Profile discoverability — both switches are `comingSoon` on web too
             (`PrivacySettings` → Profile Visibility). */}
-        {(!IS_APP_STORE_BUILD || isNewMember) && (
+        {isNewMember && (
         <SettingsSection
           label={t('settings.profileVisibility')}
           icon="Globe"
           anchor="profile-visibility"
         >
-          {/* Placeholder switches stay off the App Store build (2.1). */}
-          {!IS_APP_STORE_BUILD && (
-            <>
-              <SettingsToggleRow
-                icon="Globe"
-                label={t('settings.publicProfile')}
-                description={t('settings.publicProfileDesc')}
-                value
-                comingSoon
-              />
-              <Divider />
-              <SettingsToggleRow
-                icon="Search"
-                label={t('settings.searchEngineIndexing')}
-                description={t('settings.searchEngineIndexingDesc')}
-                value
-                comingSoon
-              />
-            </>
-          )}
           {/* Only rendered while it still does something: outside the 30-day
               window there is no row to update and no chip to hide, and a
               toggle that silently changes nothing is worse than no toggle. */}
           {isNewMember && (
             <>
-              {!IS_APP_STORE_BUILD && <Divider />}
               <SettingsToggleRow
                 icon="Sparkles"
                 label={t('settings.showAsNewMember', 'Show me as a new member')}
