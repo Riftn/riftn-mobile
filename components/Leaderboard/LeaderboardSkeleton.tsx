@@ -1,11 +1,13 @@
 import SkeletonBlock from '../Feed/SkeletonBlock';
 import React from 'react';
 import { View } from 'react-native';
+import { RouteBusyMark } from '../../context/RouteBusyContext';
 
 const ROWS = 10;
 
 const LeaderboardSkeleton: React.FC = () => (
   <View className="mt-1">
+    <RouteBusyMark />
     {Array.from({ length: ROWS }).map((_, i) => (
       <View key={i} className="flex-row items-center px-4 py-3.5">
         {/* Rank */}
