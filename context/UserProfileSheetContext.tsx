@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useContext, useDeferredValue, useRef, useState, useMemo, useEffect } from 'react';
 import { Platform, View } from 'react-native';
+import { NavigationContainerRefContext } from '@react-navigation/core';
 import { FeedPlaybackActiveContext } from '../libs/visualActivity';
 import UserProfileBottomSheet from '../components/UserProfile/UserProfileBottomSheet';
 import { PROFILE_CLOSE_MS } from '../components/UserProfile/ProfileSurface';
@@ -45,6 +46,10 @@ const FeedProfileContext = createContext<FeedProfileCtxValue>(NO_FEED_PROFILE);
 
 /** How long a closed profile stays built for an instant return. */
 const KEEP_PROFILE_MS = 45_000;
+/** A page opened this soon after the profile closed was opened from it. */
+const OPENED_FROM_PROFILE_MS = 1500;
+
+type ProfileReturn = { id: string; opts: { initialHeightPct?: number; source?: string } | null; routeKey: string | undefined; at: number };
 
 export const UserProfileSheetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { theme } = useAppTheme();
@@ -65,6 +70,16 @@ export const UserProfileSheetProvider: React.FC<{ children: React.ReactNode }> =
   identifierRef.current = identifier;
   const presentationRef = useRef(presentation);
   presentationRef.current = presentation;
+  const optionsRef = useRef(options);
+  optionsRef.current = options;
+  // Back from a post, video or list opened out of a profile lands on that
+  // profile again, not on the page the profile was opened over (Requests
+  // board). The profile is a sheet over the page, not a route, so it closes
+  // when something is opened from it; it is reopened when that page comes
+  // back into focus.
+  const nav = useContext(NavigationContainerRefContext);
+  const closingProfileRef = useRef<ProfileReturn | null>(null);
+  const returnToProfileRef = useRef<ProfileReturn | null>(null);
   const dropKept = useCallback(() => {
     if (keptTimerRef.current) clearTimeout(keptTimerRef.current);
     keptTimerRef.current = null;
@@ -102,6 +117,8 @@ export const UserProfileSheetProvider: React.FC<{ children: React.ReactNode }> =
       clearTimeout(clearTimerRef.current);
       clearTimerRef.current = null;
     }
+    closingProfileRef.current = null;
+    returnToProfileRef.current = null;
     // Set all state together to prevent flicker
     dropKept();
     setIdentifier(id);
@@ -118,6 +135,12 @@ export const UserProfileSheetProvider: React.FC<{ children: React.ReactNode }> =
   }, []);
   
   const hideUserProfile = useCallback(() => {
+    const open = visibleRef.current ? identifierRef.current : null;
+    let routeKey: string | undefined;
+    try { routeKey = nav?.isReady() ? nav.getCurrentRoute()?.key : undefined; } catch {}
+    closingProfileRef.current = open && routeKey
+      ? { id: open, opts: optionsRef.current, routeKey, at: Date.now() }
+      : null;
     setOpenComplete(false);
     setVisible(false);
     // Delay clearing identifier/options until the close animation finishes to prevent flicker
@@ -129,10 +152,32 @@ export const UserProfileSheetProvider: React.FC<{ children: React.ReactNode }> =
       clearProfile();
       clearTimerRef.current = null;
     }, CLOSE_CLEAR_DELAY_MS);
-  }, [clearProfile]);
+  }, [clearProfile, nav]);
 
   const visibleRef = useRef(visible);
   visibleRef.current = visible;
+
+  useEffect(() => {
+    if (!nav) return;
+    return nav.addListener('state', () => {
+      let key: string | undefined;
+      try { key = nav.getCurrentRoute()?.key; } catch { return; }
+      const closing = closingProfileRef.current;
+      if (closing) {
+        closingProfileRef.current = null;
+        // Something was opened from the profile: come back to it.
+        if (key && key !== closing.routeKey && Date.now() - closing.at < OPENED_FROM_PROFILE_MS) {
+          returnToProfileRef.current = closing;
+          return;
+        }
+      }
+      const back = returnToProfileRef.current;
+      if (back && key === back.routeKey && !visibleRef.current) {
+        returnToProfileRef.current = null;
+        showUserProfile(back.id, back.opts ?? undefined);
+      }
+    });
+  }, [nav, showUserProfile]);
   const handleCloseComplete = useCallback(() => {
     // Reopened before the fade ended: that profile keeps its identifier.
     if (visibleRef.current) return;

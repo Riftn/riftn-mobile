@@ -219,6 +219,11 @@ interface FeedVideoPlayerProps {
 // point where a settled card reads as broken rather than loading. The shorts
 // grid has always used 250ms for the same job.
 const AUTOPLAY_DELAY = 400;
+/** A playing feed clip pauses once less than this share of its picture is on screen... */
+const OFFSCREEN_PAUSE_SHARE = 0.2;
+/** ...and one it paused that way carries on once this much is back. */
+const OFFSCREEN_RESUME_SHARE = 0.6;
+const OFFSCREEN_CHECK_MS = 400;
 const STALL_SPINNER_DELAY = 300;
 
 const formatTime = (seconds: number) => {
@@ -372,6 +377,9 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   const { autoplay: autoplayEnabled, skipSegments: skipSegmentsPref } = useAppPrefs();
   const playerRef = useRef<VideoPlayer | null>(null);
   const videoViewRef = useRef<VideoView>(null);
+  // The box the picture is drawn in, measured to tell when it has left the screen.
+  const videoFrameRef = useRef<View>(null);
+  const offscreenPausedRef = useRef(false);
   const lastSurfaceTapRef = useRef(0);
   const surfaceTapCountRef = useRef(0);
   const surfaceTapTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -999,6 +1007,35 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
     return () => { if (autoplayTimerRef.current) clearTimeout(autoplayTimerRef.current); stopPlayback(); };
   }, [stopPlayback]);
 
+  // A playing clip scrolled off the screen pauses, and carries on when it
+  // scrolls back (Requests board: an unmuted Home video kept playing, sound
+  // and all, after it had left the screen). The list's own visibility is
+  // counted per row, and a tall row can still count as on screen when its
+  // picture is not; this looks at the picture itself.
+  const screenHeight = windowSize.height;
+  useEffect(() => {
+    if (postPage || !isVisible) { offscreenPausedRef.current = false; return; }
+    const watchingForReturn = !isPlaying && offscreenPausedRef.current;
+    if (!isPlaying && !watchingForReturn) return;
+    const timer = setInterval(() => {
+      const frame = videoFrameRef.current;
+      if (!frame) return;
+      frame.measureInWindow((_x, y, _w, h) => {
+        if (!(h > 0)) return;
+        const shown = Math.max(0, Math.min(y + h, screenHeight) - Math.max(y, 0)) / h;
+        if (isPlayingRef.current && shown < OFFSCREEN_PAUSE_SHARE) {
+          if (isPictureInPicturePlayer(playerRef.current)) return;
+          offscreenPausedRef.current = true;
+          stopPlayback();
+        } else if (!isPlayingRef.current && offscreenPausedRef.current && shown >= OFFSCREEN_RESUME_SHARE) {
+          offscreenPausedRef.current = false;
+          startPlayback();
+        }
+      });
+    }, OFFSCREEN_CHECK_MS);
+    return () => clearInterval(timer);
+  }, [postPage, isVisible, isPlaying, screenHeight, stopPlayback, startPlayback]);
+
   const handleVideoPress = useCallback((preserveAutoplay = false) => {
     if (!canPlay) { onPress(); return; }
 
@@ -1432,7 +1469,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
       ))}
 
       {canPlay && isVisible && sourceRequested && ownsVideo && player && (
-        <View pointerEvents="none" style={coverBox || pictureRound ? [styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }], styles.videoClip, pictureRound] : StyleSheet.absoluteFill}>
+        <View ref={videoFrameRef} collapsable={false} pointerEvents="none" style={coverBox || pictureRound ? [styles.thumbnail, splitControls && [styles.stripPicture, { bottom: stripHeight }], styles.videoClip, pictureRound] : StyleSheet.absoluteFill}>
         <PersistentVideoView
           ref={videoViewRef}
           player={player}

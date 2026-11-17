@@ -14,7 +14,7 @@ import { takeFullscreenClosedUpright } from '../libs/turned-fullscreen';
 import { CommentSection } from '../components/Comments';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import { finishInAppMiniRestore, getInAppVideoMini, openInAppVideoMini, subscribeInAppVideoMini } from '../libs/in-app-video-mini';
+import { closeInAppVideoMini, finishInAppMiniRestore, getInAppVideoMini, openInAppVideoMini, subscribeInAppVideoMini } from '../libs/in-app-video-mini';
 import { containedPicture } from '../libs/live-overlay/layout';
 import { videoQuarterTurn } from '../libs/video-display-aspect';
 import { startsOnVideoPicture, commitsVideoMinimize, minimizeDrag, draggedPictureRect, pictureBoxTranslate } from '../libs/video-minimize-gesture';
@@ -1076,6 +1076,14 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
         setIsPlaying(false);
         setIsPausedByUser(true);
       } else {
+        // A short opened while another video floats in the mini player is a
+        // new choice of what to watch: the mini player gives way. It used to
+        // keep the only right to play, so the new short opened on a still
+        // frame until a second tap (Requests board). Its own hand-off (this
+        // player) and a mini player being restored are left alone.
+        const floating = getInAppVideoMini();
+        if (floating && floating.player !== player && !floating.restoring && !floating.onReady
+          && itemNavigation.isFocused()) closeInAppVideoMini();
         playIfActive();
         setIsPausedByUser(false);
       }
@@ -1090,7 +1098,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       releaseFeedVideoFocus(stopPlayback);
       releaseAudioFocus(stopPlayback);
     };
-  }, [isActive, player, playIfActive, stopPlayback]);
+  }, [isActive, player, playIfActive, stopPlayback, itemNavigation]);
 
   // The pager's handle on this short while a drag is under way. Everything
   // here acts on the player directly: a drag frame must not re-render.
@@ -2006,7 +2014,11 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     return () => clearTimeout(timer);
   }, [isActive, myReaction]);
 
-  const canMinimize = isActive && ownsVideo && !pipPlayer && !noVideo && !showComments && !screenshotMode && !captionExpanded
+  // Only the first short: on any other, a drag down is the swipe back to the
+  // short before it, and taking it for a minimize dropped the viewer into the
+  // mini player mid-swipe (Requests board). Picture in picture stays on its
+  // button for those.
+  const canMinimize = isFirst && isActive && ownsVideo && !pipPlayer && !noVideo && !showComments && !screenshotMode && !captionExpanded
     && !directSurface && intrinsicSize.width > 0 && intrinsicSize.height > 0 && intrinsicSize.width >= intrinsicSize.height;
   const minimizePan = useMemo(() => Gesture.Pan()
     .enabled(canMinimize)

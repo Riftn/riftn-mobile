@@ -65,7 +65,7 @@ import QuickSettingsSheet from "../components/Notifications/QuickSettingsSheet";
 import NotificationSearchLine, { notificationMatches } from "../components/Notifications/NotificationSearchLine";
 import PageDrawer, { PageDrawerScrollView } from "../components/common/PageDrawer";
 
-// The drawer's scroll view, so a pull down from the top of the list closes it.
+// The drawer's scroll view, so the drawer can share the finger with the list.
 const renderDrawerScroll = (props: React.ComponentProps<typeof PageDrawerScrollView>) => <PageDrawerScrollView {...props} />;
 import { postWarmKey, warmRequest } from "../libs/navPrefetch";
 import { getNFT } from "../services/nft.service";
@@ -2156,10 +2156,14 @@ const NotificationScreen = () => {
   const showLoading = loading;
 
   // A drawer over the screen it was opened from, as phone web's bell drawer:
-  // no handle, pull down anywhere to close, no back or close button.
+  // no handle, no back or close button. It opens full; a pull on the list
+  // refreshes it and a pull on the header closes it (Requests board: pulling
+  // to refresh used to close the drawer instead).
+  const drawerRefresh = useMemo(() => ({ refreshing, onRefresh }), [refreshing, onRefresh]);
   return (
     <PageDrawer
       onClose={closeDrawer}
+      refresh={drawerRefresh}
       grab={
         <ScreenHeader
           icon="notifications"
@@ -2252,8 +2256,7 @@ const NotificationScreen = () => {
           // Rows with a day heading above them are taller; keep them in their own pool.
           getItemType={rowTypeOf}
           contentContainerStyle={{ paddingBottom: insets.bottom + 16 }}
-          // No pull to refresh: a pull down from the top closes the drawer,
-          // and the list loads fresh each time the drawer opens.
+          // Pull to refresh comes from the drawer (see PageDrawer `refresh`).
           renderScrollComponent={PageDrawerScrollView}
           onEndReached={onLoadMore}
           // A screen and a half ahead, so the next page is in before the
