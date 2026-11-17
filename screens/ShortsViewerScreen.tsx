@@ -88,7 +88,7 @@ import useKeyboard from "../hooks/useKeyboard";
 import { knownVideoAspect, rememberVideoAspect } from "../hooks/useMediaAspect";
 import Reanimated, { cancelAnimation, FadeIn, FadeOut, ZoomIn, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming, type SharedValue } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import type { NativeGesture } from "react-native-gesture-handler";
+import type { GestureType, NativeGesture } from "react-native-gesture-handler";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { VideoView, useVideoPlayer } from "expo-video";
 import { shortsPhotoMedia } from "../libs/shortsPhotos";
@@ -1221,7 +1221,12 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   // The pager is a vertical list and the scrub is sideways, but a drag that
   // starts with any downward slant would otherwise turn into a page flick
   // half way along the bar.
-  const scrubBlocks = useMemo(() => [pagerGesture], [pagerGesture]);
+  // The swipe back takes any rightward drag, and the scrubber's left end sits
+  // where that drag starts, so a seek begun there turned into leaving. The
+  // scrub outranks both copies of it.
+  const edgeBackMediaRef = useRef<GestureType | undefined>(undefined);
+  const edgeBackStackRef = useRef<GestureType | undefined>(undefined);
+  const scrubBlocks = useMemo(() => [pagerGesture, edgeBackMediaRef, edgeBackStackRef], [pagerGesture]);
 
   const { onLayout: onScrubTrackLayout, gesture: scrubGesture, touchGuard: scrubTouchGuard } = useScrubGesture({
     onScrubStart: handleScrubStart,
@@ -1937,7 +1942,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
    * back mid-drag ends unsuccessful and springs home rather than stranding
    * the page part-way.
    */
-  const makeEdgeBack = useCallback(() => Gesture.Pan()
+  const makeEdgeBack = useCallback((ref: React.MutableRefObject<GestureType | undefined>) => Gesture.Pan()
+    .withRef(ref)
     .enabled(EDGE_BACK_ENABLED && isActive && !showComments && !screenshotMode)
     .activeOffsetX(EDGE_BACK_CLAIM)
     .failOffsetX(-EDGE_BACK_FAIL_Y)
@@ -2175,10 +2181,10 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       .onStart((event) => handleLongPressIn(event.x))
       .onUpdate((event) => handleHoldMove(event.translationY))
       .onFinalize(() => handleLongPressOut());
-    return Gesture.Simultaneous(pinch, Gesture.Race(makeEdgeBack(), minimizePan, dismissPan, restorePan, hold, tap));
+    return Gesture.Simultaneous(pinch, Gesture.Race(makeEdgeBack(edgeBackMediaRef), minimizePan, dismissPan, restorePan, hold, tap));
   }, [handleLongPressIn, handleHoldMove, handleLongPressOut, handleScreenTap, pagerGesture, minimizePan, dismissPan, restorePan, makeEdgeBack, chromeLive, topChromeBand, pinch]);
 
-  const bottomStackGesture = useMemo(() => Gesture.Race(makeEdgeBack(), hidePan), [makeEdgeBack, hidePan]);
+  const bottomStackGesture = useMemo(() => Gesture.Race(makeEdgeBack(edgeBackStackRef), hidePan), [makeEdgeBack, hidePan]);
 
   // The avatar and name open the creator's profile through gesture-handler
   // rather than a Pressable. On Android the stack above (and the video's own
