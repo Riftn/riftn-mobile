@@ -10,6 +10,7 @@ import { usePostVideoPlayer } from '../hooks/usePostVideoPlayer';
 import { postMediaIsTransferring, preparePostMediaNavigation } from '../libs/post-media-session';
 import { optionalSkia } from '../libs/skia';
 import { toStoryboard } from '../libs/storyboard';
+import StoryboardPreview from '../components/VideoPlayerCore/StoryboardPreview';
 import { takeFullscreenClosedUpright } from '../libs/turned-fullscreen';
 import { CommentSection } from '../components/Comments';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -87,7 +88,7 @@ import useKeyboard from "../hooks/useKeyboard";
 import { knownVideoAspect, rememberVideoAspect } from "../hooks/useMediaAspect";
 import Reanimated, { cancelAnimation, FadeIn, FadeOut, ZoomIn, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming, type SharedValue } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
-import type { NativeGesture } from "react-native-gesture-handler";
+import type { GestureType, NativeGesture } from "react-native-gesture-handler";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { VideoView, useVideoPlayer } from "expo-video";
 import { shortsPhotoMedia } from "../libs/shortsPhotos";
@@ -931,6 +932,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   }, [progress]);
   const durationRef = useRef(0);
   const [scrubbing, setScrubbing] = useState(false);
+  /** Where the finger is while scrubbing, for the frame preview above it. */
+  const [scrubRatio, setScrubRatio] = useState(0);
   /** Read by the time listener, which is subscribed once per player. */
   const scrubbingRef = useRef(false);
 
@@ -1197,6 +1200,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
 
   const handleScrub = useCallback((ratio: number) => {
     progress.setValue(ratio);
+    setScrubRatio(ratio);
   }, [progress]);
 
   const handleScrubCommit = useCallback((ratio: number) => {
@@ -1217,7 +1221,12 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   // The pager is a vertical list and the scrub is sideways, but a drag that
   // starts with any downward slant would otherwise turn into a page flick
   // half way along the bar.
-  const scrubBlocks = useMemo(() => [pagerGesture], [pagerGesture]);
+  // The swipe back takes any rightward drag, and the scrubber's left end sits
+  // where that drag starts, so a seek begun there turned into leaving. The
+  // scrub outranks both copies of it.
+  const edgeBackMediaRef = useRef<GestureType | undefined>(undefined);
+  const edgeBackStackRef = useRef<GestureType | undefined>(undefined);
+  const scrubBlocks = useMemo(() => [pagerGesture, edgeBackMediaRef, edgeBackStackRef], [pagerGesture]);
 
   const { onLayout: onScrubTrackLayout, gesture: scrubGesture, touchGuard: scrubTouchGuard } = useScrubGesture({
     onScrubStart: handleScrubStart,
@@ -1933,7 +1942,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
    * back mid-drag ends unsuccessful and springs home rather than stranding
    * the page part-way.
    */
-  const makeEdgeBack = useCallback(() => Gesture.Pan()
+  const makeEdgeBack = useCallback((ref: React.MutableRefObject<GestureType | undefined>) => Gesture.Pan()
+    .withRef(ref)
     .enabled(EDGE_BACK_ENABLED && isActive && !showComments && !screenshotMode)
     .activeOffsetX(EDGE_BACK_CLAIM)
     .failOffsetX(-EDGE_BACK_FAIL_Y)
@@ -2171,10 +2181,10 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       .onStart((event) => handleLongPressIn(event.x))
       .onUpdate((event) => handleHoldMove(event.translationY))
       .onFinalize(() => handleLongPressOut());
-    return Gesture.Simultaneous(pinch, Gesture.Race(makeEdgeBack(), minimizePan, dismissPan, restorePan, hold, tap));
+    return Gesture.Simultaneous(pinch, Gesture.Race(makeEdgeBack(edgeBackMediaRef), minimizePan, dismissPan, restorePan, hold, tap));
   }, [handleLongPressIn, handleHoldMove, handleLongPressOut, handleScreenTap, pagerGesture, minimizePan, dismissPan, restorePan, makeEdgeBack, chromeLive, topChromeBand, pinch]);
 
-  const bottomStackGesture = useMemo(() => Gesture.Race(makeEdgeBack(), hidePan), [makeEdgeBack, hidePan]);
+  const bottomStackGesture = useMemo(() => Gesture.Race(makeEdgeBack(edgeBackStackRef), hidePan), [makeEdgeBack, hidePan]);
 
   // The avatar and name open the creator's profile through gesture-handler
   // rather than a Pressable. On Android the stack above (and the video's own
@@ -2581,6 +2591,19 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
           </View>
         </GestureDetector>
         </KeepDarkScope>
+        {/* The frame under the finger, with its time, floated over the lens.
+            Without a storyboard it is just the time. */}
+        <View style={styles.scrubPreviewLayer} pointerEvents="none">
+          <StoryboardPreview
+            storyboard={storyboard}
+            fraction={scrubRatio}
+            duration={durationRef.current || player.duration || 0}
+            trackWidth={trackWidth}
+            visible={scrubbing}
+            bottom={SCRUB_HEIGHT / 2 + 24}
+            timeOnly
+          />
+        </View>
       </Animated.View>
 
       {/* Faded, not unmounted: the swipe-down clear and the restore tap both
@@ -2781,7 +2804,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                 The first and last cell align to their outer edges, so the row
                 still starts and ends flush with the caption above it exactly as
                 web's does. */}
-            <View testID="shorts-actions" className="dark-surface" style={styles.actionBar}>
+            {/* The frame preview floats over this row while scrubbing, as on web. */}
+            <View testID="shorts-actions" className="dark-surface" style={[styles.actionBar, scrubbing && { opacity: 0 }]}>
               {/* Views — a readout, not a button, as on web. */}
               <View style={[styles.actionCell, styles.actionCellFirst]}>
                 <Icon name="Eye" size={20} color={ICON_COLOR} strokeWidth={1.8} />
@@ -4073,6 +4097,13 @@ const styles = StyleSheet.create({
     // Its own row, above the player's buttons and clear of the home gesture.
     bottom: EDGE + TOOLS_HEIGHT,
     zIndex: 11,
+  },
+  scrubPreviewLayer: {
+    position: "absolute",
+    left: EDGE,
+    right: EDGE,
+    top: 0,
+    bottom: 0,
   },
   scrubHitArea: {
     height: SCRUB_HEIGHT,
