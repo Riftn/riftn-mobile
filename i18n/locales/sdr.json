@@ -6553,7 +6553,6 @@
       "approve": "منظور کریں",
       "reject": "مسترد کریں",
       "members": "اراکین",
-      "searchMembers": "والٹ ایڈریس کے ذریعے تلاش کریں",
       "noMembersMatch": "هیچ ئەندامێک ناگونجێت.",
       "noMembers": "ابھی تک کوئی رکن نہیں ہے۔",
       "muted": "میوٹ شدہ",
@@ -6619,7 +6618,6 @@
       "adminBadge": "Yönetici",
       "rightsSummary": "{{granted}}a {{total}} hakları ver",
       "addAdministrator": "Yönetici ekle",
-      "noMemberMatches": "O adresli üye bulunamadı.",
       "noPlainMembers": "Tüm üyeler zaten yönetici.",
       "searchTruncated": "İlk {{limit}} gösteriliyor - devam edin arama sonuçlarını daraltmak için",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Sirf moderators moderation log dekh sakte hain.",
         "empty": "Abhi kuch nahi hai. Jab moderation actions honge to yahan dikhenge.",
         "showMore": "Aur dikhayein ({{value}})"
-      }
+      },
+      "searchMembers": "नाम, @उपयोगकर्ता नाम या वॉलेट से खोजें",
+      "noMemberMatches": "कोनो सदस्य ओइ खोज से मेल नहीं खाइत."
     },
     "chooseAvatar": "اوتار منتخب کریں",
     "loadFailed": "समुदाय लोड नहिं कर सकलें",

@@ -6537,7 +6537,6 @@
       "approve": "منظور کریں",
       "reject": "مسترد کریں",
       "members": "اراکین",
-      "searchMembers": "والٹ ایڈریس کے ذریعے تلاش کریں",
       "noMembersMatch": "کوئی رکن اس سے میل نہیں کھاتا۔",
       "noMembers": "ابھی تک کوئی رکن نہیں ہے۔",
       "muted": "میوٹ شدہ",
@@ -6638,7 +6637,6 @@
       "adminBadge": "ادمن",
       "rightsSummary": "{{granted}} کے {{total}} حقوق",
       "addAdministrator": "ادمینسٹریٹر",
-      "noMemberMatches": "کوئی ممبر اس پتے کے مطابق نہیں ہے۔",
       "noPlainMembers": "ہر کوئی یہاں ہی ایڈمن ہے",
       "searchTruncated": "ہم پہلے {{limit}} کو دکھا رہے ہیں",
       "inviteRevoked": "منسوخ",
@@ -6670,7 +6668,9 @@
       "slowModeOffHint": "عضوین کو پیغام بھیجنا بے وقت ہے۔",
       "slowModeOnHint": "عضوین کو {{label}} پیغام بھیجنا ہوتا ہے۔ ایڈمنس سے مستثنیٰ ہیں۔",
       "defaultPermissionsHint": "ہر کوئی یہاں یہاں کیا کر سکتا ہے جب تک کہ ایڈمن کوئی حق نہ دے دے۔",
-      "defaultPermissions": "ڈیفالٹ ممبر پرمیشنز"
+      "defaultPermissions": "ڈیفالٹ ممبر پرمیشنز",
+      "searchMembers": "نام سے تلاش کریں، @username یا والٹ",
+      "noMemberMatches": "کوئی ممبر اس تلاش سے میل نہیں کھاتا۔"
     },
     "chooseAvatar": "اوتار منتخب کریں",
     "loadFailed": "کمیونٹیز لوڈ نہیں ہو سکیں",

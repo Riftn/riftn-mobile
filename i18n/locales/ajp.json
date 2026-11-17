@@ -6539,7 +6539,6 @@
       "approve": "موافقة",
       "reject": "رفض",
       "members": "الأعضاء",
-      "searchMembers": "البحث عن طريق عنوان المحفظة",
       "noMembersMatch": "لا يوجد عضو مطابق.",
       "noMembers": "لا يوجد أعضاء بعد.",
       "muted": "تم كتم الصوت",
@@ -6603,7 +6602,6 @@
       "adminBadge": "أدمن",
       "rightsSummary": "{{granted}} من {{total}} حقوق",
       "addAdministrator": "ضيف مسؤول",
-      "noMemberMatches": "ما في عضو يطابق هالعنوان.",
       "noPlainMembers": "الجميع هون مسؤولين بالفعل.",
       "searchTruncated": "عم نوري أول {{limit}} — استمر بالكتابة لتضيق البحث.",
       "danger": {
@@ -6672,7 +6670,9 @@
         "forHours": "لمدة {{value}} ساعة",
         "forWeeks": "لمدة {{value}} يوم"
       },
-      "createInviteLink": "إنشاء رابط دعوة"
+      "createInviteLink": "إنشاء رابط دعوة",
+      "searchMembers": "ابحث بالاسم، @username أو المحفظة",
+      "noMemberMatches": "ما في عضو بيطابق هالبحث."
     },
     "chooseAvatar": "اختر صورة رمزية",
     "loadFailed": "ما قدرنا نحمّل المجتمعات",

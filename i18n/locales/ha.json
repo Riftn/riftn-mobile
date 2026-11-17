@@ -6551,7 +6551,6 @@
       "approve": "Amincewa",
       "reject": "Karyatawa",
       "members": "Membobi",
-      "searchMembers": "Bincika ta adireshin walat",
       "noMembersMatch": "Babu memba da ya dace da hakan.",
       "noMembers": "Babu membobi tukuna.",
       "muted": "An saka kunne",
@@ -6617,7 +6616,6 @@
       "adminBadge": "Mai gudanarwa",
       "rightsSummary": "{{granted}} na {{total}} hakki",
       "addAdministrator": "Kara mai gudanarwa",
-      "noMemberMatches": "Babu memba da ya dace da wannan adireshin.",
       "noPlainMembers": "Kowa a nan ya riga ya zama mai gudanarwa.",
       "searchTruncated": "Ana nuna {{limit}} na farko — ci gaba da rubutawa don rage shi.",
       "danger": {
@@ -6686,7 +6684,9 @@
         "restricted": "Masu gudanarwa kawai za su iya ganin bayanan kula.",
         "empty": "Babu komai a nan tukuna. Ayyukan kula za su bayyana kamar yadda suka faru.",
         "showMore": "Nuna ƙari ({{value}})"
-      }
+      },
+      "searchMembers": "Bincika ta suna, @sunanmai amfani ko walat",
+      "noMemberMatches": "Babu wani memba da ya dace da wannan binciken."
     },
     "chooseAvatar": "Zaɓi hoto",
     "loadFailed": "Ba za a iya ɗora al'ummomi ba",

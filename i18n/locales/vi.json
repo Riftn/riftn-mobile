@@ -6674,7 +6674,6 @@
       "approve": "Chấp thuận",
       "reject": "Từ chối",
       "members": "Thành viên",
-      "searchMembers": "Tìm kiếm theo địa chỉ ví",
       "noMembersMatch": "Không có thành viên nào khớp.",
       "noMembers": "Chưa có thành viên nào.",
       "muted": "Đã tắt tiếng",
@@ -6740,7 +6739,6 @@
       "adminBadge": "Quản trị viên",
       "rightsSummary": "{{granted}} trong số {{total}} quyền",
       "addAdministrator": "Thêm quản trị viên",
-      "noMemberMatches": "Không có thành viên nào khớp với địa chỉ đó.",
       "noPlainMembers": "Mọi người ở đây đã là quản trị viên.",
       "searchTruncated": "Đang hiển thị {{limit}} đầu tiên — hãy tiếp tục nhập để thu hẹp phạm vi.",
       "danger": {
@@ -6809,7 +6807,9 @@
         "restricted": "Chỉ các người kiểm duyệt mới có thể xem nhật ký kiểm duyệt.",
         "empty": "Chưa có gì ở đây. Các hành động kiểm duyệt sẽ hiển thị khi chúng xảy ra.",
         "showMore": "Hiển thị thêm ({{value}})"
-      }
+      },
+      "searchMembers": "Tìm kiếm theo tên, @tên người dùng hoặc ví",
+      "noMemberMatches": "Không có thành viên nào khớp với nội dung tìm kiếm đó."
     },
     "chooseAvatar": "Chọn ảnh đại diện",
     "loadFailed": "Không thể tải cộng đồng",

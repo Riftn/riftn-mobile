@@ -6549,7 +6549,6 @@
       "approve": "موافقة",
       "reject": "رفض",
       "members": "الأعضاء",
-      "searchMembers": "البحث بعنوان المحفظة",
       "noMembersMatch": "لا يوجد عضو مطابق.",
       "noMembers": "لا يوجد أعضاء بعد.",
       "muted": "تم كتمهم",
@@ -6613,7 +6612,6 @@
       "adminBadge": "المدير",
       "rightsSummary": "{{granted}} من {{total}} الحقوق",
       "addAdministrator": "تضيف المسؤول",
-      "noMemberMatches": "لا يوجد عضو يتوافق مع هذا العنوان.",
       "noPlainMembers": "كل واحد هنا مسجل مسؤول.",
       "danger": {
         "transferTitle": "تنتقل الملكية؟",
@@ -6682,7 +6680,9 @@
         "showMore": "عرض المزيد ({{value}})"
       },
       "searchTruncated": "عرض {{limit}} — استمر في الكتابة لضيق النطاق.",
-      "createInviteLink": "إنشاء رابط دعوة"
+      "createInviteLink": "إنشاء رابط دعوة",
+      "searchMembers": "بحث بالاسم، @username أو المحفظة",
+      "noMemberMatches": "ما في عضو بيلبق للبحث ده."
     },
     "chooseAvatar": "اختر صورة رمزية",
     "loadFailed": "ما قدرنا نحمل المجتمعات",

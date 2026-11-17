@@ -6553,7 +6553,6 @@
       "approve": "Kinnita",
       "reject": "Lükka tagasi",
       "members": "Liikmed",
-      "searchMembers": "Otsi rahakoti aadressi järgi",
       "noMembersMatch": "Ühtegi liiget ei leitud.",
       "noMembers": "Liikmeid pole veel.",
       "muted": "Vaigistatud",
@@ -6619,7 +6618,6 @@
       "adminBadge": "Administraator",
       "rightsSummary": "{{granted}} õigusi {{total}}",
       "addAdministrator": "Lisa administraator",
-      "noMemberMatches": "Ei leidnud ühtegi liiget, mis vastaks sellele aadressile.",
       "noPlainMembers": "Kõik on juba adminid.",
       "searchTruncated": "Näitab esimest {{limit}} – jutustage edasi, et piirata tulemust.",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Ainult moderaatorid saavad näha modereerimislogi.",
         "empty": "Siin pole veel midagi. Modereerimistoimingud kuvatakse, kui need toimuvad.",
         "showMore": "Kuva rohkem ({{value}})"
-      }
+      },
+      "searchMembers": "Otsi nime, kasutajanime (@username) või rahakoti järgi",
+      "noMemberMatches": "Ükski liige ei vasta sellele otsingule."
     },
     "chooseAvatar": "Vali avatar",
     "loadFailed": "Kogukondi ei saanud laadida",

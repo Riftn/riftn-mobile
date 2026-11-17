@@ -17,7 +17,8 @@ import { View, Text, TouchableOpacity, ScrollView, ActivityIndicator, StyleSheet
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import Icon from "../../ui/Icon";
-import { shortWallet, useCommunityAdminLogQuery } from "../../../hooks/useCommunityAdmin";
+import { memberLabel, useCommunityAdminLogQuery, useMemberIdentities } from "../../../hooks/useCommunityAdmin";
+import type { AccountSummary } from "../../../services/user.service";
 import { ADMIN_LOG_VERBS, getCommunityAbilities, isForever } from "../../../libs/community-permissions";
 import type { Community, CommunityAdminLogEntry, CommunityMember } from "../../../types/community";
 
@@ -170,16 +171,24 @@ function settingChips(detail: unknown): { key: string; label: string }[] {
   return chips;
 }
 
-const LogRow = memo(function LogRow({ entry }: { entry: CommunityAdminLogEntry }) {
+const LogRow = memo(function LogRow({
+  entry,
+  identities,
+}: {
+  entry: CommunityAdminLogEntry;
+  identities: Map<string, AccountSummary>;
+}) {
   const { t } = useTranslation();
 
   const verb = t(`communities.manage.log.verbs.${entry.action}`, {
     defaultValue: ADMIN_LOG_VERBS[entry.action] ?? entry.action.replace(/_/g, " "),
   });
   const actor = entry.actor_wallet_address
-    ? shortWallet(entry.actor_wallet_address)
+    ? memberLabel(entry.actor_wallet_address, identities.get(entry.actor_wallet_address.toLowerCase()))
     : t("communities.manage.log.unknownActor", { defaultValue: "Someone" });
-  const target = entry.target_wallet_address ? shortWallet(entry.target_wallet_address) : null;
+  const target = entry.target_wallet_address
+    ? memberLabel(entry.target_wallet_address, identities.get(entry.target_wallet_address.toLowerCase()))
+    : null;
 
   const detail = asRecord(entry.detail);
   const chips: { key: string; label: string }[] =
@@ -195,9 +204,9 @@ const LogRow = memo(function LogRow({ entry }: { entry: CommunityAdminLogEntry }
   return (
     <View className="py-3 border-b border-white/5">
       <Text className="text-zinc-300 text-sm leading-5">
-        <Text className="text-white text-sm font-mono">{actor}</Text>
+        <Text className="text-white text-sm font-semibold">{actor}</Text>
         <Text>{` ${verb}`}</Text>
-        {!!target && <Text className="text-white text-sm font-mono">{` ${target}`}</Text>}
+        {!!target && <Text className="text-white text-sm font-semibold">{` ${target}`}</Text>}
         {!!restriction && <Text className="text-zinc-400">{` ${restriction}`}</Text>}
       </Text>
 
@@ -259,6 +268,11 @@ export function RecentActionsTab({ community, membership }: RecentActionsTabProp
 
   const visible = entries.slice(0, limit);
   const remaining = entries.length - visible.length;
+  const people = useMemo(
+    () => visible.flatMap((e) => [e.actor_wallet_address, e.target_wallet_address]).filter((w): w is string => !!w),
+    [visible],
+  );
+  const { byAddress: identities } = useMemberIdentities(people);
 
   const selectFilter = (key: FilterKey) => {
     setFilter(key);
@@ -316,7 +330,7 @@ export function RecentActionsTab({ community, membership }: RecentActionsTabProp
       ) : (
         <View className="mt-1">
           {visible.map((entry) => (
-            <LogRow key={entry.id} entry={entry} />
+            <LogRow key={entry.id} entry={entry} identities={identities} />
           ))}
           {remaining > 0 && (
             <TouchableOpacity style={styles.showMore} onPress={() => setLimit((n) => n + STEP)}>

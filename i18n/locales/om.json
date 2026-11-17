@@ -6554,7 +6554,6 @@
       "approve": "Eyyamuuf",
       "reject": "Akkasuuf",
       "members": "Membaraawwan",
-      "searchMembers": "Qorannoo iddoo qusannoo qunnamtii addaan",
       "noMembersMatch": "Membara hin argamu.",
       "noMembers": "Membara hin qabnu.",
       "muted": "Dubbachuu dhoorkame",
@@ -6620,7 +6619,6 @@
       "adminBadge": "Abbaa",
       "rightsSummary": "{{granted}} irraa {{total}} mirga",
       "addAdministrator": "Abbaa dabalu",
-      "noMemberMatches": "Miseensi sun teessoo sana hin argattu.",
       "noPlainMembers": "Namni hundi abbaa dha.",
       "searchTruncated": "Isaan duraa {{limit}} argisiisu — barreessuun itti fufi.",
       "danger": {
@@ -6689,7 +6687,9 @@
         "restricted": "Mootonni qofa gochaalee tola'insaa argan.",
         "empty": "Akkamii as hin jiru. Gochaaleen tola'insaa yeroo ta'anitti mul'atu.",
         "showMore": "Akkamii argisiisu ({{value}})"
-      }
+      },
+      "searchMembers": "Maqaa, @maqaa fayyadamaa ykn boorsaa barbaadi",
+      "noMemberMatches": "Miseensi kamiyyuu barbaacha sanaan wal hin simne."
     },
     "chooseAvatar": "Sa'aaba filadhu",
     "loadFailed": "Hawaasa fe'uu hin dandeenye",

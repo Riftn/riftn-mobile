@@ -6546,7 +6546,6 @@
       "approve": "Fọwọsi",
       "reject": "Kọ",
       "members": "Awọn ọmọ ẹgbẹ",
-      "searchMembers": "Wa nipasẹ adirẹsi apamọwọ",
       "noMembersMatch": "Ko si ọmọ ẹgbẹ ti o baamu iyẹn.",
       "noMembers": "Ko si ọmọ ẹgbẹ sibẹsibẹ.",
       "muted": "Dabaru",
@@ -6612,7 +6611,6 @@
       "adminBadge": "Aláṣẹ́",
       "rightsSummary": "{{granted}} nínú {{total}} àwọn ẹ̀tọ́",
       "addAdministrator": "Fi aláṣẹ́ kún",
-      "noMemberMatches": "Kò sí ẹni tí ó bá ìránṣẹ́ yìí mu.",
       "noPlainMembers": "Gbogbo ẹni tí ó wà níbí ti jẹ́ aláṣẹ́ tẹ́lẹ̀.",
       "searchTruncated": "A ń fi {{limit}} àkọ́kọ́ hàn — tẹsiwaju láti dín iye rẹ̀ kù.",
       "danger": {
@@ -6681,7 +6679,9 @@
         "restricted": "Kì í ṣe àkóónú àtúnṣe fún àwọn olùṣàkóso.",
         "empty": "Kò sí ohun tó wà nibi. Àwọn ìṣe àtúnṣe yóò hàn bí wọ́n ṣe ń ṣẹlẹ̀.",
         "showMore": "Fihan míì ({{value}})"
-      }
+      },
+      "searchMembers": "Ṣe àwárí nípa orúkọ, @orúkọ olùmúlò tàbí wálẹ́ẹ̀tì",
+      "noMemberMatches": "Kò sí ọmọ ẹgbẹ́ kankan tí ó bá àwárí yẹn mu."
     },
     "chooseAvatar": "Yan avatar",
     "loadFailed": "Kò lè gba àwọn àwùjọ lọ́wọ́.",

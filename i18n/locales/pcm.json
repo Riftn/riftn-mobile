@@ -6520,7 +6520,6 @@
       "approve": "Gree for am",
       "reject": "No gree",
       "members": "Di members",
-      "searchMembers": "Search with wallet address",
       "noMembersMatch": "No member match dat one.",
       "noMembers": "No member dey yet.",
       "muted": "Dem don mute am",
@@ -6584,7 +6583,6 @@
       "administratorsSection": "Oga wey dey manage am",
       "adminBadge": "Oga wey dey manage am",
       "addAdministrator": "Administra na ofe.",
-      "noMemberMatches": "No member dey match dat address.",
       "noPlainMembers": "Every body don dey be admin for here.",
       "danger": {
         "deleteBody": "{{name}} and everything wey dey inside go comot forever: every member, every message, every event and every invite link. You no fit undo am.",

@@ -6562,7 +6562,6 @@
       "approve": "Idhinisha",
       "reject": "Kataa",
       "members": "Wanachama",
-      "searchMembers": "Tafuta kwa anwani ya pochi",
       "noMembersMatch": "Hakuna mwanachama anayelingana na hicho.",
       "noMembers": "Hakuna wanachama bado.",
       "muted": "Nyamazishwa",
@@ -6628,7 +6627,6 @@
       "adminBadge": "Msimamizi",
       "rightsSummary": "{{granted}} ya {{total}} haki",
       "addAdministrator": "Ongeza msimamizi",
-      "noMemberMatches": "Hakuna mwanachama anayelingana na anwani hiyo.",
       "noPlainMembers": "Kila mtu hapa tayari ni msimamizi.",
       "searchTruncated": "Inaonyesha {{limit}} ya kwanza — endelea kuandika ili kuipunguza.",
       "danger": {
@@ -6697,7 +6695,9 @@
         "restricted": "Wasimamizi pekee ndio wanaweza kuona logi ya upimaji.",
         "empty": "Hakuna kitu hapa bado. Hatua za kiasi zitaonekana zinapotokea.",
         "showMore": "Onyesha zaidi ({{value}})"
-      }
+      },
+      "searchMembers": "Tafuta kulingana na jina, @jina la mtumiaji au pochi",
+      "noMemberMatches": "Hakuna mwanachama anayelingana na utafutaji huo."
     },
     "chooseAvatar": "Chagua avatar",
     "loadFailed": "Imeshindwa kupakia jumuiya",

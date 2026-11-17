@@ -6575,7 +6575,6 @@
       "approve": "Genehmigen",
       "reject": "Ablehnen",
       "members": "Mitglieder",
-      "searchMembers": "Suche nach Wallet-Adresse",
       "noMembersMatch": "Kein Mitglied passt dazu.",
       "noMembers": "Noch keine Mitglieder.",
       "muted": "Stummgeschaltet",
@@ -6641,7 +6640,6 @@
       "adminBadge": "Verwaltung",
       "rightsSummary": "{{granted}} von {{total}} Rechten",
       "addAdministrator": "Administrator hinzufügen",
-      "noMemberMatches": "Kein Mitglied stimmt mit dieser Adresse überein.",
       "noPlainMembers": "Jeder hier ist bereits Administrator.",
       "searchTruncated": "Zeige das erste {{limit}} — schreibe weiter, um es einzugrenzen.",
       "danger": {
@@ -6710,7 +6708,9 @@
         "restricted": "Nur Moderatoren können den Moderationslog sehen.",
         "empty": "Hier ist noch nichts. Moderationsaktionen werden aufgeführt, sobald sie passieren.",
         "showMore": "Zeige mehr ({{value}})"
-      }
+      },
+      "searchMembers": "Suche nach Name, @Benutzername oder Wallet",
+      "noMemberMatches": "Kein Mitglied entspricht dieser Suche."
     },
     "chooseAvatar": "Avatar auswählen",
     "loadFailed": "Communitys konnten nicht geladen werden",

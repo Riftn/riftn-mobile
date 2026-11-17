@@ -6561,7 +6561,6 @@
       "approve": "Jóváhagyás",
       "reject": "Elutasítás",
       "members": "Tagok",
-      "searchMembers": "Keresés pénztárca cím alapján",
       "noMembersMatch": "Nincs találat.",
       "noMembers": "Még nincsenek tagok.",
       "muted": "Némítva",
@@ -6627,7 +6626,6 @@
       "adminBadge": "Rendszergazda",
       "rightsSummary": "{{granted}} jogosultságokat adott a {{total}}-nek",
       "addAdministrator": "Admin hozzáadása",
-      "noMemberMatches": "Nincs olyan tag, aki megfelel a címnek.",
       "noPlainMembers": "Mindenki itt már admin.",
       "searchTruncated": "Mutatja a legelső {{limit}} — folytassa a bevitelt, hogy szűkítse a keresést.",
       "danger": {
@@ -6696,7 +6694,9 @@
         "empty": "Még nincs itt semmi. A moderálási műveletek akkor jelennek meg, amikor megtörténnek.",
         "showMore": "Továbbiak megjelenítése ({{value}})"
       },
-      "inviteLimit": "limit {{n}}"
+      "inviteLimit": "limit {{n}}",
+      "searchMembers": "Keresés név, @felhasználónév vagy pénztárca alapján",
+      "noMemberMatches": "Egyetlen tag sem felel meg a keresésnek."
     },
     "chooseAvatar": "Válassz avatart",
     "loadFailed": "Nem sikerült betölteni a közösségeket",

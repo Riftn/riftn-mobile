@@ -6557,7 +6557,6 @@
       "approve": "Godkend",
       "reject": "Afvis",
       "members": "Medlemmer",
-      "searchMembers": "Søg efter wallet-adresse",
       "noMembersMatch": "Intet medlem matcher det.",
       "noMembers": "Ingen medlemmer endnu.",
       "muted": "Lydløs",
@@ -6623,7 +6622,6 @@
       "adminBadge": "Administrator",
       "rightsSummary": "{{granted}} af {{total}} rettigheder",
       "addAdministrator": "Tilføj administrator",
-      "noMemberMatches": "Intet medlem matcher den adresse.",
       "noPlainMembers": "Alle her er allerede administrator.",
       "searchTruncated": "Viser den første {{limit}} — fortsæt med at skrive for at indsnævre den.",
       "danger": {
@@ -6692,7 +6690,9 @@
         "restricted": "Kun moderatorer kan se modereringsloggen.",
         "empty": "Der er ikke noget her endnu. Modereringshandlinge vil vise sig, når de sker.",
         "showMore": "Vis mere ({{value}})"
-      }
+      },
+      "searchMembers": "Søg efter navn, @brugernavn eller wallet",
+      "noMemberMatches": "Ingen medlemmer matcher den søgning."
     },
     "chooseAvatar": "Vælg avatar",
     "loadFailed": "Kunne ikke indlæse fællesskaber",

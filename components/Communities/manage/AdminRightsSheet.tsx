@@ -30,7 +30,7 @@ import {
   DEFAULT_ADMIN_PERMISSIONS,
   getCommunityAbilities,
 } from "../../../libs/community-permissions";
-import { shortWallet, useCommunityModeration, useMemberIdentities } from "../../../hooks/useCommunityAdmin";
+import { memberLabel, useCommunityModeration, useMemberIdentities } from "../../../hooks/useCommunityAdmin";
 import { MemberIdentity } from "./MemberIdentity";
 import type { AdminRight, Community, CommunityMember } from "../../../types/community";
 
@@ -139,7 +139,7 @@ export function AdminRightsSheet({ community, membership, target, visible, onClo
       target.wallet_address,
       payload,
       title || null,
-      shortWallet(target.wallet_address),
+      memberLabel(target.wallet_address, targetIdentity),
     );
     onClose();
   };
@@ -151,7 +151,7 @@ export function AdminRightsSheet({ community, membership, target, visible, onClo
       t("communities.manage.dismissAdminTitle", { defaultValue: "Dismiss admin" }),
       t("communities.manage.dismissAdminBody", {
         defaultValue: "{{wallet}} will go back to being an ordinary member.",
-        wallet: shortWallet(wallet),
+        wallet: memberLabel(wallet, targetIdentity),
       }),
       [
         { text: t("communities.manage.cancel", { defaultValue: "Cancel" }), style: "cancel" },
@@ -160,7 +160,7 @@ export function AdminRightsSheet({ community, membership, target, visible, onClo
           style: "destructive",
           onPress: () => {
             void (async () => {
-              await moderation.demote(wallet, shortWallet(wallet));
+              await moderation.demote(wallet, memberLabel(wallet, targetIdentity));
               onClose();
             })();
           },

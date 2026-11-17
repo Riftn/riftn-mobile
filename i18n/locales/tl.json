@@ -6599,7 +6599,6 @@
       "approve": "Aprubahan",
       "reject": "Tanggihan",
       "members": "Mga Miyembro",
-      "searchMembers": "Maghanap ayon sa wallet address",
       "noMembersMatch": "Walang miyembrong tumutugma dito.",
       "noMembers": "Wala pang miyembro.",
       "muted": "Naka-mute",
@@ -6665,7 +6664,6 @@
       "adminBadge": "Admin",
       "rightsSummary": "{{granted}} ng {{total}} na mga karapatan",
       "addAdministrator": "Magdagdag ng administrator",
-      "noMemberMatches": "Walang miyembrong tumutugma sa address na iyon.",
       "noPlainMembers": "Lahat dito ay admin na.",
       "searchTruncated": "Ipinapakita ang unang {{limit}} — magpatuloy sa pag-type upang paliitin ito.",
       "danger": {
@@ -6734,7 +6732,9 @@
         "empty": "Walang anuman pa dito. Ang mga aksyon ng pagpapanumbalik ay magpapakita sa pagkakataon na ito.",
         "showMore": "Tumalakay pa ({{value}})"
       },
-      "inviteLimit": "limit {{n}}"
+      "inviteLimit": "limit {{n}}",
+      "searchMembers": "Maghanap ayon sa pangalan, @username o wallet",
+      "noMemberMatches": "Walang miyembro ang tumutugma sa paghahanap na iyon."
     },
     "chooseAvatar": "Pumili ng avatar",
     "loadFailed": "Hindi ma - load ang mga komunidad",

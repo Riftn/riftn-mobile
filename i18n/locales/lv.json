@@ -6553,7 +6553,6 @@
       "approve": "Apstiprināt",
       "reject": "Noraidīt",
       "members": "Dalībnieki",
-      "searchMembers": "Meklēt pēc maka adreses",
       "noMembersMatch": "Nav dalībnieku, kas atbilstu.",
       "noMembers": "Vēl nav dalībnieku.",
       "muted": "Izslēgti",
@@ -6619,7 +6618,6 @@
       "adminBadge": "Administrators",
       "rightsSummary": "{{granted}} no {{total}} tiesībām",
       "addAdministrator": "Pievienot administratoru",
-      "noMemberMatches": "Nav dalībnieka, kas atbilstu šai adresei.",
       "noPlainMembers": "Visi šeit jau ir administratori.",
       "searchTruncated": "Tiek rādīts pirmais {{limit}} — turpiniet rakstīt, lai sašaurinātu rezultātus.",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Moderācijas žurnālu var redzēt tikai moderatori.",
         "empty": "Šeit vēl nekas nav. Moderācijas darbības parādīsies, tiklīdz tās notiks.",
         "showMore": "Rādīt vairāk ({{value}})"
-      }
+      },
+      "searchMembers": "Meklēt pēc vārda, @lietotājvārda vai maka",
+      "noMemberMatches": "Neviens dalībnieks neatbilst šim meklējumam."
     },
     "chooseAvatar": "Izvēlēties iemiesojumu",
     "loadFailed": "Nevarēja ielādēt kopienas",

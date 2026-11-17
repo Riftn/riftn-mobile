@@ -6537,7 +6537,6 @@
       "approve": "स्वीकार करें",
       "reject": "अस्वीकार करें",
       "members": "सदस्य",
-      "searchMembers": "वॉलेट पते से खोजें",
       "noMembersMatch": "कोई सदस्य मेल नहीं खाता।",
       "noMembers": "अभी कोई सदस्य नहीं है।",
       "muted": "म्यूट किए गए",
@@ -6601,7 +6600,6 @@
       "adminBadge": "प्रशासक",
       "rightsSummary": "{{granted}} में {{total}} अधिकार",
       "addAdministrator": "प्रशासक बनाएँ",
-      "noMemberMatches": "कोई भी सदस्य नहीं मिला।",
       "noPlainMembers": "सब लोग यहाँ प्रशासक ही हैं।",
       "searchTruncated": "पहला {{limit}} दिखाएँ - और ज्यादा लिखते जाएँ ताकि आप चुनाव कर सकें।",
       "danger": {
@@ -6671,7 +6669,9 @@
       },
       "customTitleHint": "डिफॉल्ट एडमिन बैज के जगह देखावल गइल.",
       "inviteUses": "{{n}} जुड़ल",
-      "slowModeOnHint": "मेंबर हर {{label}} पर एक संदेश भेज सकेला. एडमिन लोग के छूट बा."
+      "slowModeOnHint": "मेंबर हर {{label}} पर एक संदेश भेज सकेला. एडमिन लोग के छूट बा.",
+      "searchMembers": "नाम, @यूज़रनेम या वॉलेट से खोजें",
+      "noMemberMatches": "कउनो सदस्य एह खोज से मेल ना खात बा।"
     },
     "chooseAvatar": "अवतार चुनें",
     "loadFailed": "भीड़ भड़के ना जा सके",

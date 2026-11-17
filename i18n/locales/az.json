@@ -6553,7 +6553,6 @@
       "approve": "Təsdiqlə",
       "reject": "Rədd et",
       "members": "Üzvlər",
-      "searchMembers": "Cüzdan ünvanına görə axtar",
       "noMembersMatch": "Heç bir üzv uyğun gəlmir.",
       "noMembers": "Hələ üzv yoxdur.",
       "muted": "Səs kəsildi",
@@ -6619,7 +6618,6 @@
       "adminBadge": "İdarəçi",
       "rightsSummary": "{{granted}}-dan {{total}} imtiyazları",
       "addAdministrator": "İdarəçi əlavə et",
-      "noMemberMatches": "Hesabda bu ünvanla heç bir üzv yoxdur.",
       "noPlainMembers": "Hər kəs artıq admindir.",
       "searchTruncated": "{{limit}} göstərilən ilk — daha çox yazaraq məhdudlaşdırın.",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Yalnız moderatorlar moderasiya jurnalını görə bilərlər.",
         "empty": "Burada hələ heç nə yoxdur. Moderasiya tədbirləri baş verdikcə görünəcək.",
         "showMore": "Daha çox göstər ({{value}})"
-      }
+      },
+      "searchMembers": "Ad, @istifadəçi adı və ya cüzdan üzrə axtarın",
+      "noMemberMatches": "Bu axtarışa uyğun heç bir üzv yoxdur."
     },
     "chooseAvatar": "Avatar seçin",
     "loadFailed": "İcmaları yükləmək mümkün olmadı",

@@ -6580,7 +6580,6 @@
       "approve": "Vumela",
       "reject": "Yenqaba",
       "members": "Amalungu",
-      "searchMembers": "Sesha ngekheli le-wallet",
       "noMembersMatch": "Awekho amalungu afanayo.",
       "noMembers": "Awekho amalungu okwamanje.",
       "muted": "Kuthulisiwe",
@@ -6646,7 +6645,6 @@
       "adminBadge": "Umlawuli",
       "rightsSummary": "{{granted}} yamalungelo {{total}}",
       "addAdministrator": "Engeza umlawuli",
-      "noMemberMatches": "Akekho ilungu elihambisana naleli kheli.",
       "noPlainMembers": "Wonke umuntu lapha useyisikhulu esivele sikhona.",
       "searchTruncated": "Kuboniswa {{limit}} yokuqala — qhubeka uthayipha ukuze unciphise.",
       "danger": {
@@ -6715,7 +6713,9 @@
         "restricted": "Abaphathi kuphela abangabona ilogi yokuphatha.",
         "empty": "Awekho lutho lapha okwamanje. Izenzo zokuphatha zizobonakala njengoba zenzeka.",
         "showMore": "Bonisa okwengeziwe ({{value}})"
-      }
+      },
+      "searchMembers": "Sesha ngegama, nge-@username noma nge-wallet",
+      "noMemberMatches": "Alikho ilungu elifana nalokho okuseshwayo."
     },
     "chooseAvatar": "Khetha i-avatar",
     "loadFailed": "Ayikwazanga ukufaka imiphakathi",

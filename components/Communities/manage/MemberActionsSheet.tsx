@@ -12,7 +12,7 @@
  * modal is dismissed first and the restriction modal opened a beat later:
  * presenting a modal while another is still dismissing drops it on iOS.
  */
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -31,7 +31,8 @@ import {
   isForever,
   type CommunityAbilities,
 } from "../../../libs/community-permissions";
-import { isMuted, shortWallet, useCommunityModeration, useWalletAddress } from "../../../hooks/useCommunityAdmin";
+import { isMuted, memberLabel, useCommunityModeration, useMemberIdentities, useWalletAddress } from "../../../hooks/useCommunityAdmin";
+import { MemberIdentity } from "./MemberIdentity";
 import type { Community, CommunityMember } from "../../../types/community";
 import { translateCopy as _translateCopy } from "../../../i18n/copy";
 
@@ -134,11 +135,15 @@ export function MemberActionsSheet({
   const [acting, setActing] = useState<string | null>(null);
   const [restrictMode, setRestrictMode] = useState<"mute" | "ban">("mute");
   const [restrictVisible, setRestrictVisible] = useState(false);
+  const targetWallet = target?.wallet_address ?? null;
+  const identityLookup = useMemo(() => (targetWallet ? [targetWallet] : []), [targetWallet]);
+  const { byAddress: targetIdentities } = useMemberIdentities(identityLookup);
 
   if (!target) return null;
 
   const member = target;
-  const name = shortWallet(member.wallet_address);
+  const identity = targetIdentities.get(member.wallet_address.toLowerCase());
+  const name = memberLabel(member.wallet_address, identity);
   const allowed = canTargetMember(abilities, myWallet, member);
   const canRestrict = allowed && abilities.can("restrict_members");
   const canDelete = allowed && abilities.can("delete_messages");
@@ -243,12 +248,13 @@ export function MemberActionsSheet({
           <View style={styles.sheet}>
             <View style={styles.header}>
               <View className="flex-1">
-                <Text className="text-white text-sm font-mono">{name}</Text>
-                <Text className="text-zinc-400 text-xs mt-0.5">
-                  {t(`communities.roles.${member.role}`, {
-                    defaultValue: ROLE_LABELS[member.role] ?? member.role,
-                  })}
-                </Text>
+                <MemberIdentity address={member.wallet_address} identity={identity}>
+                  <Text className="text-zinc-400 text-xs" style={{ marginLeft: 40, marginTop: -4 }}>
+                    {t(`communities.roles.${member.role}`, {
+                      defaultValue: ROLE_LABELS[member.role] ?? member.role,
+                    })}
+                  </Text>
+                </MemberIdentity>
                 {!!member.custom_title && (
                   <Text className="text-zinc-300 text-sm mt-1">{member.custom_title}</Text>
                 )}

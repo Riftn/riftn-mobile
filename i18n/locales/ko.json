@@ -6669,7 +6669,6 @@
       "approve": "승인",
       "reject": "거부",
       "members": "멤버",
-      "searchMembers": "지갑 주소로 검색",
       "noMembersMatch": "일치하는 멤버가 없습니다.",
       "noMembers": "아직 멤버가 없습니다.",
       "muted": "음소거됨",
@@ -6735,7 +6734,6 @@
       "adminBadge": "관리자",
       "rightsSummary": "{{granted}}/{{total}} 권리",
       "addAdministrator": "관리자 추가",
-      "noMemberMatches": "해당 주소와 일치하는 회원이 없습니다.",
       "noPlainMembers": "여기 있는 모든 사람은 이미 관리자입니다.",
       "searchTruncated": "첫 번째 {{limit}} 표시 — 계속 입력하여 범위를 좁힙니다.",
       "danger": {
@@ -6804,7 +6802,9 @@
         "restricted": "관리자만 모드 로그를 볼 수 있습니다.",
         "empty": "여기에는 아직 아무것도 없습니다. 모드 액션은 발생할 때 표시됩니다.",
         "showMore": "더보기 ({{value}})"
-      }
+      },
+      "searchMembers": "이름, @사용자 이름 또는 지갑으로 검색",
+      "noMemberMatches": "검색 결과와 일치하는 회원이 없습니다."
     },
     "chooseAvatar": "아바타 선택",
     "loadFailed": "커뮤니티를 로드할 수 없습니다",

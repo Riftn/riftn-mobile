@@ -4635,7 +4635,6 @@
       "approve": "Approuver",
       "reject": "Rejeter",
       "members": "Membres",
-      "searchMembers": "Rechercher par adresse de portefeuille",
       "noMembersMatch": "Aucun membre ne correspond.",
       "noMembers": "Aucun membre pour l'instant.",
       "muted": "En sourdine",
@@ -4701,7 +4700,6 @@
       "adminBadge": "Administrateur",
       "rightsSummary": "{{granted}} sur {{total}} droits",
       "addAdministrator": "Ajouter un administrateur",
-      "noMemberMatches": "Aucun membre ne correspond à cette adresse.",
       "noPlainMembers": "Tout le monde ici est déjà administrateur.",
       "searchTruncated": "Affichage du premier {{limit}} — continuez à taper pour le réduire.",
       "danger": {
@@ -4770,7 +4768,9 @@
         "restricted": "Seuls les modérateurs peuvent voir le journal de modération.",
         "empty": "Rien ici pour l'instant. Les actions de modération apparaîtront une fois qu'elles se produiront.",
         "showMore": "Afficher plus ({{value}})"
-      }
+      },
+      "searchMembers": "Rechercher par nom, @nomd’utilisateur ou portefeuille",
+      "noMemberMatches": "Aucun membre ne correspond à cette recherche."
     },
     "chooseAvatar": "Choisir un avatar",
     "loadFailed": "Impossible de charger les communautés",

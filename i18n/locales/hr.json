@@ -6556,7 +6556,6 @@
       "approve": "Odobri",
       "reject": "Odbij",
       "members": "Članovi",
-      "searchMembers": "Pretraži po adresi novčanika",
       "noMembersMatch": "Nijedan član ne odgovara.",
       "noMembers": "Još nema članova.",
       "muted": "Utišani",
@@ -6622,7 +6621,6 @@
       "adminBadge": "Administrator",
       "rightsSummary": "{{granted}} prava na {{total}}",
       "addAdministrator": "Dodaj administratora",
-      "noMemberMatches": "Nema člana koji odgovara tom adresi.",
       "noPlainMembers": "Svi ovdje su već admini.",
       "searchTruncated": "Prikaz prvi {{limit}} — nastavite tipkati da bi ste uskorošli.",
       "danger": {
@@ -6691,7 +6689,9 @@
         "restricted": "Moderatori mogu vidjeti samo moderatorni log.",
         "empty": "Još nema ništa. Moderacijske akcije će se prikazati kad će se dogoditi.",
         "showMore": "Prikaži više ({{value}})"
-      }
+      },
+      "searchMembers": "Pretraživanje po imenu, korisničkom imenu (@username) ili novčaniku",
+      "noMemberMatches": "Nijedan član ne odgovara tom pretraživanju."
     },
     "chooseAvatar": "Odaberi avatar",
     "loadFailed": "Učitavanje zajednica nije uspjelo",

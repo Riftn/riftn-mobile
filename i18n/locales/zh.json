@@ -6515,7 +6515,6 @@
       "approve": "批准",
       "reject": "拒绝",
       "members": "成员",
-      "searchMembers": "按钱包地址搜索",
       "noMembersMatch": "没有成员匹配。",
       "noMembers": "尚无成员。",
       "muted": "已禁言",
@@ -6578,7 +6577,6 @@
       "noAdmins": "还没有管理员。推广成员以帮助您管理。",
       "adminBadge": "管理员",
       "rightsSummary": "{{total}}权限中的{{granted}}",
-      "noMemberMatches": "没有与该地址匹配的成员。",
       "noPlainMembers": "每个人都已经是管理员了。",
       "searchTruncated": "显示第一个{{limit}} —继续输入以缩小范围。",
       "danger": {
@@ -6648,7 +6646,9 @@
         "showMore": "显示更多（{{value}}）"
       },
       "addAdministrator": "添加管理员",
-      "inviteLimit": "限制 {{n}}"
+      "inviteLimit": "限制 {{n}}",
+      "searchMembers": "按姓名、@用户名或钱包搜索",
+      "noMemberMatches": "没有与该搜索条件匹配的会员。"
     },
     "chooseAvatar": "选择头像",
     "loadFailed": "无法加载社区",

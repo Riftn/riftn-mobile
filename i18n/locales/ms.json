@@ -6809,7 +6809,6 @@
       "approve": "Luluskan",
       "reject": "Tolak",
       "members": "Ahli",
-      "searchMembers": "Cari mengikut alamat dompet",
       "noMembersMatch": "Tiada ahli yang sepadan.",
       "noMembers": "Tiada ahli lagi.",
       "muted": "Disenyapkan",
@@ -6875,7 +6874,6 @@
       "adminBadge": "Pentadbir",
       "rightsSummary": "{{granted}} daripada {{total}} hak",
       "addAdministrator": "Tambah pentadbir",
-      "noMemberMatches": "Tiada ahli yang sepadan dengan alamat tersebut.",
       "noPlainMembers": "Semua orang di sini sudah menjadi pentadbir.",
       "searchTruncated": "Menunjukkan {{limit}} pertama — terus menaip untuk mengecilkannya.",
       "danger": {
@@ -6944,7 +6942,9 @@
         "restricted": "Hanya moderator yang boleh melihat log penyelenggaraan.",
         "empty": "Tiada apa di sini lagi. Tindakan penyelenggaraan akan muncul sebaik sahaja ia berlaku.",
         "showMore": "Tunjukkan lebih banyak ({{value}})"
-      }
+      },
+      "searchMembers": "Cari mengikut nama, @nama pengguna atau dompet",
+      "noMemberMatches": "Tiada ahli sepadan dengan carian tersebut."
     },
     "chooseAvatar": "Pilih avatar",
     "loadFailed": "Tidak dapat memuatkan komuniti",

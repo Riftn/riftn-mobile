@@ -6556,7 +6556,6 @@
       "approve": "Godkänn",
       "reject": "Avvisa",
       "members": "Medlemmar",
-      "searchMembers": "Sök efter plånboksadress",
       "noMembersMatch": "Ingen medlem matchar det.",
       "noMembers": "Inga medlemmar ännu.",
       "muted": "Tystade",
@@ -6622,7 +6621,6 @@
       "adminBadge": "Administratör",
       "rightsSummary": "{{granted}} av {{total}} rättigheter",
       "addAdministrator": "Lägg till administratör",
-      "noMemberMatches": "Ingen medlem matchar den adressen.",
       "noPlainMembers": "Alla här är redan administratörer.",
       "searchTruncated": "Visar den första {{limit}} — fortsätt att skriva för att begränsa det.",
       "danger": {
@@ -6691,7 +6689,9 @@
         "restricted": "Endast moderatorer kan se modereringsloggen.",
         "empty": "Inga loggposter här än. Modereringsåtgärder kommer att visas upp som de sker.",
         "showMore": "Visa mer ({{value}})"
-      }
+      },
+      "searchMembers": "Sök efter namn, @användarnamn eller plånbok",
+      "noMemberMatches": "Ingen medlem matchar den sökningen."
     },
     "chooseAvatar": "Välj avatar",
     "loadFailed": "Det gick inte att läsa in grupper",

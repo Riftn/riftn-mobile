@@ -6518,7 +6518,6 @@
       "approve": "Gree for am",
       "reject": "No gree",
       "members": "Di members",
-      "searchMembers": "Search with wallet address",
       "noMembersMatch": "No member match dat one.",
       "noMembers": "No member dey yet.",
       "muted": "Dem don mute am",
@@ -6584,7 +6583,6 @@
       "adminBadge": "Oga admin",
       "rightsSummary": "{{granted}} of {{total}} rait",
       "addAdministrator": "Add administrator",
-      "noMemberMatches": "No member match dat adres.",
       "noPlainMembers": "Everybodi dey here already be admin.",
       "searchTruncated": "Show first {{limit}} — keep typin to narrow down.",
       "danger": {

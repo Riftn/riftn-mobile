@@ -6556,7 +6556,6 @@
       "approve": "Mirato",
       "reject": "Refuzo",
       "members": "Anëtarët",
-      "searchMembers": "Kërko sipas adresës së portofolit",
       "noMembersMatch": "Asnjë anëtar nuk përputhet me këtë.",
       "noMembers": "Asnjë anëtar akoma.",
       "muted": "Heshtur",
@@ -6622,7 +6621,6 @@
       "adminBadge": "Administratori",
       "rightsSummary": "{{granted}} e {{total}} të drejtave",
       "addAdministrator": "Shto administratorin",
-      "noMemberMatches": "Asnjë anëtar nuk përputhet me atë adresë.",
       "noPlainMembers": "Të gjithë këtu janë tashmë administratorë.",
       "searchTruncated": "Shfaq {{limit}} — vazhdo të shtypësh për ta ngushtuar.",
       "danger": {
@@ -6691,7 +6689,9 @@
         "empty": "Asgjë këtu ende. Veprimet e moderimit do të shfaqen ashtu siç ndodhin.",
         "showMore": "Shfaq më shumë ({{value}})",
         "daysAgo": "{{value}}d më parë"
-      }
+      },
+      "searchMembers": "Kërko sipas emrit, @emrit të përdoruesit ose portofolit",
+      "noMemberMatches": "Asnjë anëtar nuk përputhet me këtë kërkim."
     },
     "chooseAvatar": "Zgjidh avatar",
     "loadFailed": "Komunitetet nuk mund të ngarkoheshin",

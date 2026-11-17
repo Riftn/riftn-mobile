@@ -6573,7 +6573,6 @@
       "approve": "Bewillige",
       "reject": "Ablehne",
       "members": "Mitglieder",
-      "searchMembers": "Suche nach Wallet-Adress",
       "noMembersMatch": "Kein Mitglied passt dazu.",
       "noMembers": "Noch kei Mitglieder.",
       "muted": "Stummgschaltet",
@@ -6639,7 +6638,6 @@
       "adminBadge": "Verwaltiger",
       "rightsSummary": "{{granted}} vo de {{total}} Rächt",
       "addAdministrator": "Verwaltungsbüro",
-      "noMemberMatches": "Kein Mitglied entspricht dieser Adresse.",
       "noPlainMembers": "Alli si si Admin.",
       "danger": {
         "deleteConfirm": "Löschen",
@@ -6708,7 +6706,9 @@
         "empty": "Nüt isch noo. Moderationshandlige wärde wie si passiert, aagfüehrt.",
         "showMore": "Mehr aaluee ({{value}})"
       },
-      "searchTruncated": "D'erscht {{limit}} — bleib dran tippe, um e chlii uszwiite."
+      "searchTruncated": "D'erscht {{limit}} — bleib dran tippe, um e chlii uszwiite.",
+      "searchMembers": "Sueche nach Name, @username oder Wallet",
+      "noMemberMatches": "Kei Mitglied passt zu dere Suechi."
     },
     "chooseAvatar": "Avatar wähle",
     "loadFailed": "Communities hend nöd chönne glade werde",

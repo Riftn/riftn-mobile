@@ -6553,7 +6553,6 @@
       "approve": "Hyväksy",
       "reject": "Hylkää",
       "members": "Jäsenet",
-      "searchMembers": "Hae lompakkosoitteen perusteella",
       "noMembersMatch": "Yhtään jäsentä ei löytynyt.",
       "noMembers": "Ei jäseniä vielä.",
       "muted": "Mykistetyt",
@@ -6619,7 +6618,6 @@
       "adminBadge": "Hallinnon",
       "rightsSummary": "{{granted}}:n {{total}} oikeudet",
       "addAdministrator": "Lisää hallinnollinen",
-      "noMemberMatches": "Ei ole jäsentä, joka vastaisi osoitetta.",
       "noPlainMembers": "Kaikki ovat jo adminit.",
       "searchTruncated": "Näytä ensimmäiset {{limit}} — jatka kirjoittamista, jotta rajoitetaan hakua.",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Vain valvojat voivat nähdä moderointilokin.",
         "empty": "Ei vielä mitään täällä. Moderointitoiminnot näkyvät, kun ne tapahtuvat.",
         "showMore": "Näytä lisää ({{value}})"
-      }
+      },
+      "searchMembers": "Hae nimellä, käyttäjätunnuksella @username tai lompakolla",
+      "noMemberMatches": "Yksikään jäsen ei vastaa tätä hakua."
     },
     "chooseAvatar": "Valitse avatar",
     "loadFailed": "Yhteisöjä ei voitu ladata",

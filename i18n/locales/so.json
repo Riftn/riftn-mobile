@@ -6534,7 +6534,6 @@
       "approve": "Oggolow",
       "reject": "Diido",
       "members": "Xubnaha",
-      "searchMembers": "Ku raadi cinwaanka jeebka",
       "noMembersMatch": "Ma jirto xubin u dhiganta taas.",
       "noMembers": "Ma jiraan xubno weli.",
       "muted": "Amuus",
@@ -6600,7 +6599,6 @@
       "adminBadge": "Maamule",
       "rightsSummary": "{{granted}} oo ah {{total}} xuquuq",
       "addAdministrator": "Ku dar maamule",
-      "noMemberMatches": "Ma jirto xubin u dhiganta cinwaankaas.",
       "noPlainMembers": "Qof kasta oo halkan jooga waa maamule mar hore.",
       "searchTruncated": "Muujinaya {{limit}}-ka ugu horreeya — sii wad qorista si aad u cidhiidho.",
       "danger": {
@@ -6669,7 +6667,9 @@
         "restricted": "Kaliya maamulayaasha ayaa arki kara diiwaanka maamulka.",
         "empty": "Waxba halkan weli ma jiraan. Ficilada maamulka ayaa soo muuqan doona sida ay u dhacaan.",
         "showMore": "Muuji wax badan ({{value}})"
-      }
+      },
+      "searchMembers": "Ku raadi magaca, @magaca isticmaalaha ama kaydka",
+      "noMemberMatches": "Ma jiro xubin u dhigma raadintaas."
     },
     "chooseAvatar": "Dooro avatar",
     "loadFailed": "Uma dulqaadan karo bulshooyinka",

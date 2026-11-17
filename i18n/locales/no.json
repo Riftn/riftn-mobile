@@ -6553,7 +6553,6 @@
       "approve": "Godkjenn",
       "reject": "Avvis",
       "members": "Medlemmer",
-      "searchMembers": "Søk etter lommebokadresse",
       "noMembersMatch": "Ingen medlemmer samsvarer med dette.",
       "noMembers": "Ingen medlemmer ennå.",
       "muted": "Dempet",
@@ -6619,7 +6618,6 @@
       "adminBadge": "Admin",
       "rightsSummary": "{{granted}} av {{total}} rettigheter",
       "addAdministrator": "Legg til administrator",
-      "noMemberMatches": "Ingen medlemmer samsvarer med den adressen.",
       "noPlainMembers": "Alle her er allerede administratorer.",
       "searchTruncated": "Viser den første {{limit}} – fortsett å skrive for å begrense det.",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Kun moderatorer kan se modereringslogg.",
         "empty": "Ingenting her ennå. Modereringsaksjoner vil vises opp som de skjer.",
         "showMore": "Vis mer ({{value}})"
-      }
+      },
+      "searchMembers": "Søk etter navn, @brukernavn eller lommebok",
+      "noMemberMatches": "Ingen medlemmer samsvarer med det søket."
     },
     "chooseAvatar": "Velg avatar",
     "loadFailed": "Kunne ikke laste inn fellesskapene",

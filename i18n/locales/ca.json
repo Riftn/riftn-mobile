@@ -6553,7 +6553,6 @@
       "approve": "Aprova",
       "reject": "Rebutja",
       "members": "Membres",
-      "searchMembers": "Cerca per adreça de cartera",
       "noMembersMatch": "No hi ha cap membre que coincideixi.",
       "noMembers": "Encara no hi ha membres.",
       "muted": "Emmudits",
@@ -6619,7 +6618,6 @@
       "adminBadge": "Administrador",
       "rightsSummary": "{{granted}} de {{total}} drets",
       "addAdministrator": "Afegeix un administrador",
-      "noMemberMatches": "Cap membre coincideix amb aquesta adreça.",
       "noPlainMembers": "Tothom aquí ja és administrador.",
       "searchTruncated": "Mostra el primer {{limit}}: continua escrivint per reduir-lo.",
       "danger": {
@@ -6688,7 +6686,9 @@
         "restricted": "Només els moderadors poden veure el registre de moderació.",
         "empty": "No hi ha res aquí encara. Les accions de moderació apareixeran quan passin.",
         "showMore": "Mostra més ({{value}})"
-      }
+      },
+      "searchMembers": "Cerca per nom, @nomdusuari o cartera",
+      "noMemberMatches": "Cap membre coincideix amb aquesta cerca."
     },
     "chooseAvatar": "Tria un avatar",
     "loadFailed": "No s'han pogut carregar les comunitats",

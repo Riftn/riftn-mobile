@@ -24,10 +24,13 @@ import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import Icon from "../../ui/Icon";
 import {
+  memberLabel,
+  memberMatches,
   useCommunityMembersQuery,
   useCommunityModeration,
-  shortWallet,
+  useMemberIdentities,
 } from "../../../hooks/useCommunityAdmin";
+import { MemberIdentity } from "./MemberIdentity";
 import { getCommunityAbilities } from "../../../libs/community-permissions";
 import { ScreenNames } from "../../../navigation/ScreenNames";
 import type { Community, CommunityMember } from "../../../types/community";
@@ -59,26 +62,33 @@ export function DangerZone({ community, membership, onClose }: DangerZoneProps) 
 
   const owner = (community.creator_wallet_address || "").toLowerCase();
 
+  const eligible = useMemo(
+    () =>
+      (members ?? []).filter(
+        (member) =>
+          member.status === "active" && member.role !== "owner" && member.wallet_address.toLowerCase() !== owner,
+      ),
+    [members, owner],
+  );
+  const lookup = useMemo(() => eligible.map((m) => m.wallet_address), [eligible]);
+  const { byAddress: identities } = useMemberIdentities(lookup);
+
   const candidates = useMemo(() => {
     const query = search.trim().toLowerCase();
-    return (members ?? []).filter((member) => {
-      if (member.status !== "active") return false;
-      if (member.role === "owner") return false;
-      if (member.wallet_address.toLowerCase() === owner) return false;
-      if (!query) return true;
-      return (
-        member.wallet_address.toLowerCase().includes(query) ||
-        (member.custom_title || "").toLowerCase().includes(query)
-      );
-    });
-  }, [members, owner, search]);
+    if (!query) return eligible;
+    return eligible.filter(
+      (member) =>
+        memberMatches(member.wallet_address, identities.get(member.wallet_address.toLowerCase()), query) ||
+        (member.custom_title || "").toLowerCase().includes(query),
+    );
+  }, [eligible, identities, search]);
 
   const shown = candidates.slice(0, limit);
   const deleting = moderation.busy === "__community__";
 
   const confirmTransfer = useCallback(
     (member: CommunityMember) => {
-      const label = member.custom_title || shortWallet(member.wallet_address);
+      const label = memberLabel(member.wallet_address, identities.get(member.wallet_address.toLowerCase()));
       Alert.alert(
         t("communities.manage.danger.transferTitle", { defaultValue: "Transfer ownership?" }),
         t("communities.manage.danger.transferBody", {
@@ -101,7 +111,7 @@ export function DangerZone({ community, membership, onClose }: DangerZoneProps) 
         ],
       );
     },
-    [t, moderation, onClose],
+    [t, moderation, onClose, identities],
   );
 
   const confirmDelete = useCallback(() => {
@@ -188,38 +198,34 @@ export function DangerZone({ community, membership, onClose }: DangerZoneProps) 
         ) : (
           <View className="mt-1">
             {shown.map((member) => {
-              const label = member.custom_title || shortWallet(member.wallet_address);
               const busy = moderation.busy === member.wallet_address;
               return (
-                <View
-                  key={member.id}
-                  className="flex-row items-center gap-3 py-3 border-b border-white/5"
-                >
-                  <View className="flex-1">
-                    <Text className="text-white text-sm font-mono" numberOfLines={1}>
-                      {shortWallet(member.wallet_address)}
-                    </Text>
-                    <Text className="text-zinc-400 text-xs mt-0.5">
-                      {member.custom_title
-                        ? label
-                        : t(`communities.roles.${member.role}`, { defaultValue: member.role })}
-                    </Text>
-                  </View>
-                  <TouchableOpacity
-                    style={[styles.transferBtn, (busy || deleting) && { opacity: 0.5 }]}
-                    onPress={() => confirmTransfer(member)}
-                    disabled={busy || deleting}
+                <View key={member.id} className="border-b border-white/5">
+                  <MemberIdentity
+                    address={member.wallet_address}
+                    identity={identities.get(member.wallet_address.toLowerCase())}
+                    trailing={
+                      <TouchableOpacity
+                        style={[styles.transferBtn, (busy || deleting) && { opacity: 0.5 }]}
+                        onPress={() => confirmTransfer(member)}
+                        disabled={busy || deleting}
+                      >
+                        {busy ? (
+                          <ActivityIndicator size="small" color="#F4F4F5" />
+                        ) : (
+                          <Text style={styles.transferBtnText}>
+                            {t("communities.manage.danger.transferAction", {
+                              defaultValue: "Make owner",
+                            })}
+                          </Text>
+                        )}
+                      </TouchableOpacity>
+                    }
                   >
-                    {busy ? (
-                      <ActivityIndicator size="small" color="#F4F4F5" />
-                    ) : (
-                      <Text style={styles.transferBtnText}>
-                        {t("communities.manage.danger.transferAction", {
-                          defaultValue: "Make owner",
-                        })}
-                      </Text>
-                    )}
-                  </TouchableOpacity>
+                    <Text className="text-zinc-400 text-xs" style={{ marginLeft: 40, marginTop: -4, marginBottom: 8 }}>
+                      {member.custom_title || t(`communities.roles.${member.role}`, { defaultValue: member.role })}
+                    </Text>
+                  </MemberIdentity>
                 </View>
               );
             })}

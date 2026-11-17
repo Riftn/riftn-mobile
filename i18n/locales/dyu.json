@@ -6539,7 +6539,6 @@
       "approve": "Approuver",
       "reject": "Rejeter",
       "members": "Membres",
-      "searchMembers": "Rechercher par adresse de portefeuille",
       "noMembersMatch": "O kama, u tun tɛ se k'u yɛrɛ tanga o ma.",
       "noMembers": "Jɛkulu mɔgɔ si tɛ fɔlɔ.",
       "muted": "En sourdine",
@@ -6604,7 +6603,6 @@
       "adminBadge": "K'a to a ka baara la",
       "rightsSummary": "{{granted}} ka {{total}} ka",
       "addAdministrator": "Mɔgɔ min be baara kɛ",
-      "noMemberMatches": "O la, a tun tɛ se ka kɛ ko a tun ye mɔgɔ dɔ ye min tun",
       "noPlainMembers": "Mɔgɔ bɛɛ be yan ka ban.",
       "searchTruncated": "A yira fɔlɔ {{limit}} — to ka sɛbɛri kɛ ka tɛmɛ a kan.",
       "danger": {
@@ -6673,7 +6671,9 @@
       "inviteExpiresMinutes": "expires in {{n}} min",
       "inviteExpiresHours": "expires in {{n}}h",
       "inviteExpiresDays": "expires in {{n}}d",
-      "inviteLimit": "limit {{n}}"
+      "inviteLimit": "limit {{n}}",
+      "searchMembers": "A ɲini tɔgɔ, @kafo tɔgɔ wala fura fɛɛrɛ fɛ",
+      "noMemberMatches": "Mɔgɔ si tɛ yen min bɛ se ka o ɲiningali jaabi."
     },
     "chooseAvatar": "Choisir un avatar",
     "loadFailed": "U tun tɛ se ka jɛnkuluw sigi",
