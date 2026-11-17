@@ -48,7 +48,7 @@ import { VIDEO_CROP_RATIOS, cropRatioValue, dragCropRect, fitCropRect, isFullCro
 // The player cannot be colour filtered, so Looks and Adjust paint a still with Skia.
 const VideoLookFrame = optionalSkia(() => require("./VideoLookFrame").default as typeof import("./VideoLookFrame").default);
 
-export type Tab = "cover" | "trim" | "crop" | "mirror" | "rotate" | "looks" | "adjust" | "hide" | "timer" | "expire" | "alt";
+export type Tab = "cover" | "trim" | "crop" | "mirror" | "rotate" | "looks" | "adjust" | "hide" | "timer" | "expire" | "alt" | "sound";
 const ADJUST_ORDER: StudioAdjustKey[] = ["light", "contrast", "warmth", "tint", "colour", "fade", "vignette"];
 
 /** Post videos: look, strength and adjust dials. */
@@ -124,6 +124,12 @@ interface Props {
   /** Posts: the crop box (part of the turned, mirrored frame) and its shape. */
   crop?: VideoCrop;
   onCropChange?: (c: VideoCrop) => void;
+  /** Posts: swap the video for another one from the device. */
+  onReplace?: () => void;
+  /** Posts: the song laid over the video. */
+  sound?: { title?: string; creator?: string; onPick: () => void; onClear: () => void };
+  /** Sheets that open over this screen (an iPhone modal can only stack on the one it is inside). */
+  children?: React.ReactNode;
 }
 
 export interface VideoCrop {
@@ -166,7 +172,7 @@ export default function DmVideoStudio({
   lockPrice = null, onLockPriceChange,
   kind = "video", strip, active = 0, onSelect, onAddMore, onRemove, allowTimer = true,
   colour, onColourChange, postTimer, alt, onUploadCover, coverPictureUri,
-  crop, onCropChange,
+  crop, onCropChange, onReplace, sound, children,
 }: Props) {
   const isVideo = kind === "video";
   const { t: _copy } = _useCopy();
@@ -354,12 +360,13 @@ export default function DmVideoStudio({
     { key: "timer", label: _copy("dmVideo.timer", { defaultValue: "Timer" }), icon: "Timer" },
     { key: "expire", label: _copy("dmVideo.timer", { defaultValue: "Timer" }), icon: "Timer" },
     { key: "alt", label: _copy("upload.altTab", { defaultValue: "Alt text" }), icon: "Captions" },
+    { key: "sound", label: _copy("editor.video.sound", { defaultValue: "Sound" }), icon: "Music" },
   ];
   // Photos keep Hide (price) and Timer; the rest only means something for a video.
   const tabs = allTabs.filter((t) => (!onlyTabs || onlyTabs.includes(t.key)) &&
     (t.key !== "timer" || allowTimer) && (t.key !== "crop" || !!onCropChange)
     && ((t.key !== "looks" && t.key !== "adjust") || (!!onColourChange && !!VideoLookFrame))
-    && (t.key !== "expire" || !!postTimer) && (t.key !== "alt" || !!alt)
+    && (t.key !== "expire" || !!postTimer) && (t.key !== "alt" || !!alt) && (t.key !== "sound" || !!sound)
     && (isVideo || (t.key === "hide" && !!onLockPriceChange) || t.key === "timer"));
 
   const pill = (active: boolean) => ({
@@ -396,12 +403,23 @@ export default function DmVideoStudio({
                 {isVideo ? (kept != null ? formatClock(kept) : "0:00") : ""}{isVideo && size ? " · " : ""}{size ? formatAttachmentSize(size) : (isVideo ? "" : _copy("dmVideo.photo", { defaultValue: "Photo" }))}
               </Text>
             </View>
+<View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            {onReplace ? (
+              <Pressable onPress={onReplace} hitSlop={6} accessibilityRole="button" accessibilityLabel={_copy("upload.changeVideo", { defaultValue: "Change video" })}
+                testID="studio-replace"
+                style={{ height: 36, borderRadius: 18, borderWidth: 1, borderColor: LINE, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", gap: 6 }}>
+                <Icon name="Upload" size={15} color={WHITE} />
+                <Text style={{ color: WHITE, fontSize: 12, fontWeight: "600" }}>{_copy("editPost.replace", { defaultValue: "Replace" })}</Text>
+              </Pressable>
+            ) : null}
 {onRemove ? (
             <Pressable onPress={onRemove} hitSlop={8} accessibilityRole="button" accessibilityLabel={_copy("dmVideo.remove", { defaultValue: "Remove" })}
+              testID="studio-remove"
               style={{ width: 36, height: 36, borderRadius: 18, borderWidth: 1, borderColor: LINE, alignItems: "center", justifyContent: "center" }}>
               <Icon name="Trash2" size={17} color={WHITE} />
             </Pressable>
             ) : <View style={{ width: 36 }} />}
+            </View>
           </View>
 
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
@@ -709,6 +727,32 @@ export default function DmVideoStudio({
                 </Text>
               </View>
             )}
+            {tab === "sound" && sound && (
+              <View style={{ gap: 8 }}>
+                {sound.title ? (
+                  <View style={{ flexDirection: "row", alignItems: "center", gap: 10, borderRadius: 12, borderWidth: 1, borderColor: LINE, paddingHorizontal: 12, paddingVertical: 10 }}>
+                    <Icon name="Music" size={16} color={WHITE} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={{ color: WHITE, fontSize: 13, fontWeight: "600" }} numberOfLines={1}>{sound.title}</Text>
+                      {sound.creator ? <Text style={{ color: MUTED, fontSize: 11 }} numberOfLines={1}>{sound.creator}</Text> : null}
+                    </View>
+                    <Pressable onPress={sound.onPick} hitSlop={6} accessibilityRole="button" style={pill(false)}>
+                      <Text style={pillText(false)}>{_copy("editPost.replace", { defaultValue: "Replace" })}</Text>
+                    </Pressable>
+                    <Pressable onPress={sound.onClear} hitSlop={6} accessibilityRole="button" accessibilityLabel={_copy("upload.removeSound", { defaultValue: "Remove sound" })}
+                      style={{ width: 32, height: 32, borderRadius: 16, borderWidth: 1, borderColor: LINE, alignItems: "center", justifyContent: "center" }}>
+                      <Icon name="X" size={14} color={WHITE} />
+                    </Pressable>
+                  </View>
+                ) : (
+                  <Pressable onPress={sound.onPick} accessibilityRole="button" testID="studio-add-sound"
+                    style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, height: 44, borderRadius: 12, borderWidth: 1, borderColor: LINE }}>
+                    <Icon name="Music" size={16} color={WHITE} />
+                    <Text style={{ color: WHITE, fontSize: 13, fontWeight: "600" }}>{_copy("copy.d14064f80f52", { defaultValue: "Add sound" })}</Text>
+                  </Pressable>
+                )}
+              </View>
+            )}
             {tab === "alt" && alt && (
               <View style={{ gap: 6 }}>
                 <TextInput value={alt.value} onChangeText={alt.onChange} maxLength={1000} multiline
@@ -793,6 +837,7 @@ export default function DmVideoStudio({
           </Pressable>
         </View>
       </KeyboardAvoidingView>
+      {children}
     </Modal>
   );
 }

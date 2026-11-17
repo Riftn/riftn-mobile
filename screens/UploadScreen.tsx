@@ -46,7 +46,6 @@ import { configureForRecording, releaseRecording, configureForDuckedPlayback } f
 import { useVideoPlayer, VideoView } from "expo-video";
 import { shareAudioWhenSilent } from "../libs/videoAudioMixing";
 import { FEED_BUFFER_OPTIONS } from "../libs/videoBuffering";
-import { useEvent } from "expo";
 import * as FileSystem from "expo-file-system/legacy";
 import { captureVideoCover } from "../libs/videoCover";
 import {
@@ -117,6 +116,7 @@ import DmVideoStudio, { type StudioColour, type VideoCrop } from "../components/
 import { videoEditsPayload, postDestructShort, type PostVideoEdits } from "../libs/post-video-edits";
 import type { DmVideoOptions } from "../libs/dm-video-options";
 import { useVideoPreviewBox } from "../components/Upload/VideoCoverBox";
+import VideoEditButton from "../components/Upload/VideoEditButton";
 import DraftVideoProgress from "../components/Upload/DraftVideoProgress";
 import { startDraftVideo, cancelDraftVideo } from "../services/draftVideo";
 import { startDraftImage } from "../services/draftImage";
@@ -926,10 +926,6 @@ export default function UploadScreen() {
     p.loop = true;
     p.muted = true;
     p.bufferOptions = FEED_BUFFER_OPTIONS;
-  });
-
-  const { isPlaying } = useEvent(player, "playingChange", {
-    isPlaying: player.playing,
   });
 
   useEffect(() => {
@@ -2551,17 +2547,33 @@ export default function UploadScreen() {
     }, [isAudioPreviewPlaying, isAudioRecording, handleCancelAudioRecording])
   );
 
-  const handleTogglePlay = useCallback(() => {
-    if (isPlaying) {
-      player.pause();
-    } else {
-      player.play();
-    }
-  }, [isPlaying, player]);
+  /** Opens the video edit screen on what the post already has. */
+  const openVideoEditor = useCallback(() => {
+    if (!pickedVideo) return;
+    player.pause();
+    setVideoEditOpts({ trimStart: videoTrim?.start, trimEnd: videoTrim?.end, coverAt: videoCoverAt, mirror: videoEdits?.mirror, rotate: videoEdits?.rotate || undefined });
+    setVideoColourDraft({ look: videoEdits?.look, strength: videoEdits?.strength, adjust: videoEdits?.adjust });
+    setVideoCropDraft({ rect: videoEdits?.crop, ratio: videoEdits?.cropRatio });
+    setVideoDestructDraft(videoDestruct);
+    setVideoAltDraft(pickedVideo.description ?? "");
+    setCoverPictureDraft(null);
+    setShowVideoTrim(true);
+  }, [pickedVideo, player, videoTrim, videoCoverAt, videoEdits, videoDestruct]);
 
-  const handleToggleMute = useCallback(() => {
-    setIsMuted((prev) => !prev);
-  }, []);
+  const soundPickerSheet = (
+      <SoundPickerSheet
+        visible={showSoundPicker}
+        onClose={() => setShowSoundPicker(false)}
+        onSelect={(sound) => {
+          selectSound(sound);
+          setShowSoundPicker(false);
+        }}
+        currentSound={attachedSound}
+        clipSeconds={mediaMode === "video" && pickedVideo
+          ? (videoTrim ? videoTrim.end - videoTrim.start : (pickedVideo.duration ?? 0) / 1000) || undefined
+          : undefined}
+      />
+  );
 
   const handleToggleTitle = useCallback((value: boolean) => {
     setShowTitle(value);
@@ -3063,108 +3075,19 @@ export default function UploadScreen() {
                   contentFit={videoBox.video ? "cover" : "contain"}
                   nativeControls={false}
                 />
-                {!attachedSound && !isQuoteMode && (
-                  <TouchableOpacity
-                    onPress={() => setShowSoundPicker(true)}
-                    activeOpacity={0.8}
-                    className="absolute top-2 left-2 dark-surface bg-black/70 rounded-full px-3 h-8 flex-row items-center z-20"
-                    accessibilityRole="button"
-                    testID="upload-add-sound"
-                  >
-                    <Icon name="Music" size={14} color="#fff" />
-                    <Text className="text-white text-xs font-semibold ml-1.5">{t("copy.d14064f80f52", { defaultValue: "Add sound" })}</Text>
-                  </TouchableOpacity>
-                )}
-                {attachedSound && (
-                  <View className="absolute top-2 left-2 dark-surface bg-black/70 rounded-lg px-3 py-1.5 flex-row items-center z-20">
-                    <Icon name="Music" size={14} color="#A1A1AA" />
-                    <Text className="text-white text-xs ml-1.5" numberOfLines={1} style={{ maxWidth: 160 }}>
-                      {attachedSound.title}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={clearSound}
-                      className="ml-2"
-                      hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-                      accessibilityRole="button"
-                      accessibilityLabel={t("upload.removeSound")}
-                    >
-                      <Icon name="X" size={12} color="#A1A1AA" />
-                    </TouchableOpacity>
-                  </View>
-                )}
-                <View className="absolute inset-0 items-center justify-center">
-                  <TouchableOpacity
-                    onPress={handleTogglePlay}
-                    className="w-12 h-12 rounded-xl dark-surface bg-black/50 items-center justify-center"
-                    accessibilityRole="button"
-                    accessibilityLabel={isPlaying ? t("upload.pauseVideo") : t("upload.playVideo")}
-                  >
-                    <Icon
-                      name={isPlaying ? "Pause" : "Play"}
-                      size={24}
-                      color="#fff"
-                    />
-                  </TouchableOpacity>
-                </View>
-                <TouchableOpacity
-                  onPress={handleToggleMute}
-                  className="absolute bottom-2 left-2 w-8 h-8 rounded-xl dark-surface bg-black/60 items-center justify-center"
-                  hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
-                  accessibilityRole="button"
-                  accessibilityLabel={isMuted ? t("upload.unmuteVideo") : t("upload.muteVideo")}
-                >
-                  <Icon
-                    name={isMuted ? "VolumeX" : "Volume2"}
-                    size={16}
-                    color="#fff"
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={handleRemoveVideo}
-                  className="absolute top-2 right-2 w-8 h-8 rounded-xl dark-surface bg-black/70 items-center justify-center"
-                  hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("upload.removeVideo")}
-                >
-                  <Icon name="X" size={18} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={handleChangeVideo}
-                  className="absolute top-2 right-12 w-8 h-8 rounded-xl dark-surface bg-black/70 items-center justify-center"
-                  hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
-                  accessibilityRole="button"
-                  accessibilityLabel={t("upload.changeVideo")}
-                >
-                  <Icon name="Upload" size={16} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    player.pause();
-                    setVideoEditOpts({ trimStart: videoTrim?.start, trimEnd: videoTrim?.end, coverAt: videoCoverAt, mirror: videoEdits?.mirror, rotate: videoEdits?.rotate || undefined });
-                    setVideoColourDraft({ look: videoEdits?.look, strength: videoEdits?.strength, adjust: videoEdits?.adjust });
-                    setVideoCropDraft({ rect: videoEdits?.crop, ratio: videoEdits?.cropRatio });
-                    setVideoDestructDraft(videoDestruct);
-                    setVideoAltDraft(pickedVideo.description ?? "");
-                    setCoverPictureDraft(null);
-                    setShowVideoTrim(true);
-                  }}
-                  className={`absolute bottom-2 right-2 h-8 px-2.5 rounded-xl dark-surface flex-row items-center z-20 ${videoTrim || videoEdits ? "bg-white" : "bg-black/70"}`}
-                  hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
-                  accessibilityRole="button"
+                {/* One button. The whole preview opens the edit screen people see
+                    when they first add a video: cover, trim, crop, looks, timer, alt
+                    text, sound, replace and remove all live there. */}
+                <VideoEditButton
+                  onPress={openVideoEditor}
+                  hasSound={!!attachedSound}
                   accessibilityLabel={t("upload.editVideo", { defaultValue: "Edit video" })}
-                >
-                  <Icon name="SlidersHorizontal" size={14} color={videoTrim || videoEdits ? "#000" : "#fff"} />
-                  <Text className="text-xs font-medium ml-1.5" style={{ color: videoTrim || videoEdits ? "#000" : "#fff" }}>
-                    {videoTrim ? fmtTrim(videoTrim.end - videoTrim.start) : videoEdits ? t("upload.edited", { defaultValue: "Edited" }) : t("upload.edit", { defaultValue: "Edit" })}
-                  </Text>
-                </TouchableOpacity>
-                {/* What the editor set, at a glance. */}
-                {(videoDestruct || pickedVideo.description) ? (
-                  <View pointerEvents="none" className="absolute bottom-12 right-2 flex-row z-20" style={{ gap: 4 }}>
-                    {pickedVideo.description ? <View className="dark-surface bg-black/70 rounded-md px-1.5 py-0.5"><Text style={{ color: "#fff", fontSize: 9, fontWeight: "700" }}>ALT</Text></View> : null}
-                    {videoDestruct ? <View className="dark-surface bg-black/70 rounded-md px-1.5 py-0.5 flex-row items-center"><Icon name="Timer" size={10} color="#fff" /><Text style={{ color: "#fff", fontSize: 10, fontWeight: "600", marginLeft: 3 }}>{postDestructShort(videoDestruct)}</Text></View> : null}
-                  </View>
-                ) : null}
+                  label={videoTrim
+                    ? fmtTrim(videoTrim.end - videoTrim.start)
+                    : (videoEdits || videoDestruct || pickedVideo.description || attachedSound)
+                      ? t("upload.edited", { defaultValue: "Edited" })
+                      : t("upload.edit", { defaultValue: "Edit" })}
+                />
               </View>
               </View>
             )}
@@ -4190,18 +4113,8 @@ export default function UploadScreen() {
         onSelect={handleInsertEmoji}
       />
 
-      <SoundPickerSheet
-        visible={showSoundPicker}
-        onClose={() => setShowSoundPicker(false)}
-        onSelect={(sound) => {
-          selectSound(sound);
-          setShowSoundPicker(false);
-        }}
-        currentSound={attachedSound}
-        clipSeconds={mediaMode === "video" && pickedVideo
-          ? (videoTrim ? videoTrim.end - videoTrim.start : (pickedVideo.duration ?? 0) / 1000) || undefined
-          : undefined}
-      />
+      {/* Inside the video edit screen while it is open (its Sound tab), else here. */}
+      {!(showVideoTrim && pickedVideo) && soundPickerSheet}
 
       {/* Live options sheet — camera, encoder or stage. Sized for three
           rows: at 35% the third sat below the fold, so adding the encoder
@@ -4398,7 +4311,19 @@ export default function UploadScreen() {
             destruct={null}
             onDestructChange={() => undefined}
             allowTimer={false}
-            onlyTabs={["cover", "trim", "crop", "looks", "adjust", "expire", "alt"]}
+            onlyTabs={["cover", "trim", "crop", "looks", "adjust", "expire", "alt", "sound"]}
+            onRemove={() => { setShowVideoTrim(false); handleRemoveVideo(); }}
+            onReplace={() => {
+              setShowVideoTrim(false);
+              // Let the edit screen finish closing before the picker opens over it.
+              setTimeout(() => { void handleChangeVideo(); }, Platform.OS === "ios" ? 450 : 0);
+            }}
+            sound={isQuoteMode ? undefined : {
+              title: attachedSound?.title,
+              creator: attachedSound?.creator,
+              onPick: () => setShowSoundPicker(true),
+              onClear: clearSound,
+            }}
             crop={videoCropDraft}
             onCropChange={setVideoCropDraft}
             initialTab="cover"
@@ -4460,7 +4385,9 @@ export default function UploadScreen() {
                 }, "image/jpeg").then((r) => { bakedThumbs.current.add(r.uri); setThumbnailUri(r.uri); }).catch(() => undefined);
               }
             }}
-          />
+          >
+            {soundPickerSheet}
+          </DmVideoStudio>
         );
       })()}
       {PhotoStudio && imageEdit && pickedImages[imageEdit.index] && (() => {
