@@ -6615,6 +6615,8 @@
       "years": "{{count}} năm"
     },
     "chatPanel": {
+      "joined": "{{name}} đã tham gia",
+      "reactions": "Cảm xúc",
       "jumpToLatest": "Nhảy đến bài mới nhất",
       "anon": "Ẩn danh",
       "edited": "đã chỉnh sửa",
@@ -6815,6 +6817,11 @@
     "loadFailed": "Không thể tải cộng đồng",
     "noPostsYet": "Chưa có bài đăng nào trong cộng đồng này.",
     "infoUpdated": "Cộng đồng đã được cập nhật",
+    "avatarUpdated": "Đã cập nhật ảnh",
+    "bannerUpdated": "Đã cập nhật banner",
+    "imageUploadFailed": "Không tải được ảnh đó. Hãy thử lại.",
+    "changeBanner": "Đổi banner",
+    "changeAvatar": "Đổi ảnh",
     "editInfo": "Chỉnh sửa tên và mô tả",
     "saveChanges": "Lưu",
     "nowPrivate": "Cộng đồng hiện là riêng tư",

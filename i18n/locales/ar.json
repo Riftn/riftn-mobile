@@ -4589,6 +4589,8 @@
       "years": "{{count}} سنة"
     },
     "chatPanel": {
+      "joined": "انضم {{name}}",
+      "reactions": "التفاعلات",
       "addToMessages": "إضافة إلى الرسائل",
       "photoTooLarge": "يجب أن يكون حجم الصورة أقل من 10 ميغابايت",
       "inMessages": "في الرسائل",
@@ -4792,6 +4794,11 @@
     "loadFailed": "تعذّر تحميل المجتمعات",
     "noPostsYet": "لا يوجد أي منشورات في هذه المجموعة بعد.",
     "infoUpdated": "تم تحديث المجموعة",
+    "avatarUpdated": "تم تحديث الصورة",
+    "bannerUpdated": "تم تحديث البانر",
+    "imageUploadFailed": "تعذّر رفع هذه الصورة. حاول مرة أخرى.",
+    "changeBanner": "تغيير البانر",
+    "changeAvatar": "تغيير الصورة",
     "editInfo": "تعديل الاسم ووصف المجموعة",
     "saveChanges": "حفظ",
     "nowPrivate": "حسناً",

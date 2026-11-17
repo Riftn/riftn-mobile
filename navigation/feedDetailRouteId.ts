@@ -24,3 +24,23 @@ export function feedDetailRouteId(params: unknown): string | undefined {
   const id = p?.tokenId ?? p?.id ?? p?.postId ?? p?.videoId ?? p?.nft?.tokenId ?? p?.nft?.id;
   return id != null && id !== "" ? String(id) : undefined;
 }
+
+/**
+ * The shorts viewer's route id: the clip it opens on. Without one, tapping a
+ * second tile while the last viewer was still closing re-focused that viewer
+ * with new params it never reads (it seeds its list once), so the tile you
+ * tapped opened the clip you had just closed.
+ */
+export function shortsViewerRouteId(params: unknown): string | undefined {
+  const p = params as
+    | {
+        initialIndex?: unknown;
+        initialItems?: Array<{ tokenId?: unknown; id?: unknown }>;
+        feedParams?: { fromId?: unknown };
+      }
+    | undefined;
+  const index = typeof p?.initialIndex === "number" ? p.initialIndex : 0;
+  const item = Array.isArray(p?.initialItems) ? p.initialItems[index] : undefined;
+  const id = item?.tokenId ?? item?.id ?? p?.feedParams?.fromId;
+  return id != null && id !== "" ? `shorts:${String(id)}` : undefined;
+}

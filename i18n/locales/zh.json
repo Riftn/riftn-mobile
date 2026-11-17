@@ -6451,6 +6451,8 @@
       "years": "{{count}} 年"
     },
     "chatPanel": {
+      "joined": "{{name}} 加入了",
+      "reactions": "回应",
       "addToMessages": "添加到消息",
       "photoTooLarge": "图片必须小于 10MB",
       "inMessages": "已在消息中",
@@ -6654,6 +6656,11 @@
     "loadFailed": "无法加载社区",
     "noPostsYet": "这个社区里还没有帖子。",
     "infoUpdated": "社区更新",
+    "avatarUpdated": "图片已更新",
+    "bannerUpdated": "横幅已更新",
+    "imageUploadFailed": "无法上传该图片，请重试。",
+    "changeBanner": "更换横幅",
+    "changeAvatar": "更换图片",
     "editInfo": "编辑名称和描述",
     "saveChanges": "保存",
     "nowPrivate": "社区现在是私有的",

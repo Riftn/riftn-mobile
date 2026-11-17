@@ -4569,6 +4569,8 @@
       "years": "{{count}} a"
     },
     "chatPanel": {
+      "joined": "{{name}} se unió",
+      "reactions": "Reacciones",
       "addToMessages": "Añadir a Mensajes",
       "photoTooLarge": "La imagen debe pesar menos de 10 MB",
       "inMessages": "En Mensajes",
@@ -4772,6 +4774,11 @@
     "loadFailed": "No se han podido cargar las comunidades",
     "noPostsYet": "No hay publicaciones en esta comunidad aún.",
     "infoUpdated": "Comunidad actualizada",
+    "avatarUpdated": "Imagen actualizada",
+    "bannerUpdated": "Banner actualizado",
+    "imageUploadFailed": "No se pudo subir esa imagen. Inténtalo de nuevo.",
+    "changeBanner": "Cambiar banner",
+    "changeAvatar": "Cambiar imagen",
     "editInfo": "Editar nombre y descripción",
     "saveChanges": "Guardar",
     "nowPrivate": "La comunidad ahora es privada",

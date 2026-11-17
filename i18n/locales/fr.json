@@ -4573,6 +4573,8 @@
       "years": "{{count}} an"
     },
     "chatPanel": {
+      "joined": "{{name}} a rejoint",
+      "reactions": "Réactions",
       "addToMessages": "Ajouter aux Messages",
       "photoTooLarge": "L’image doit faire moins de 10 Mo",
       "inMessages": "Dans Messages",
@@ -4776,6 +4778,11 @@
     "loadFailed": "Impossible de charger les communautés",
     "noPostsYet": "Pas de posts dans cette communauté pour l'instant.",
     "infoUpdated": "Mise à jour de la communauté",
+    "avatarUpdated": "Image mise à jour",
+    "bannerUpdated": "Bannière mise à jour",
+    "imageUploadFailed": "Impossible d'envoyer cette image. Réessaie.",
+    "changeBanner": "Changer la bannière",
+    "changeAvatar": "Changer l'image",
     "editInfo": "Modifier le nom et la description",
     "saveChanges": "Enregistrer",
     "nowPrivate": "La communauté est désormais privée",

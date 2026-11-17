@@ -6604,6 +6604,8 @@
       "years": "{{count}} thn"
     },
     "chatPanel": {
+      "joined": "{{name}} bergabung",
+      "reactions": "Reaksi",
       "addToMessages": "Tambahkan ke Pesan",
       "photoTooLarge": "Gambar harus kurang dari 10MB",
       "inMessages": "Di Pesan",
@@ -6807,6 +6809,11 @@
     "loadFailed": "Tidak dapat memuat komunitas",
     "noPostsYet": "Belum ada postingan di komunitas ini.",
     "infoUpdated": "Komunitas diperbarui",
+    "avatarUpdated": "Gambar diperbarui",
+    "bannerUpdated": "Banner diperbarui",
+    "imageUploadFailed": "Gagal mengunggah gambar itu. Coba lagi.",
+    "changeBanner": "Ganti banner",
+    "changeAvatar": "Ganti gambar",
     "editInfo": "Edit nama dan deskripsi",
     "saveChanges": "Simpan",
     "nowPrivate": "Komunitas kini bersifat pribadi",

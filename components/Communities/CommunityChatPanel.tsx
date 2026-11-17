@@ -76,6 +76,11 @@ import MentionSuggestions from "../common/MentionSuggestions";
 import EmojiSheet from "../Upload/EmojiSheet";
 import { InlineEmoji, expandEmojiTokens } from "../common/EmojiText";
 import { useMentions } from "../../hooks/useMentions";
+import { useCommunityJoinLines } from "../../hooks/useCommunityJoinLines";
+import type { MentionUser } from "../../services/mention.service";
+import { ChatReactorsSheet } from "./ChatReactorsSheet";
+import TranslateButton from "../ui/TranslateButton";
+import { canTranslateDm, getDmTranslation, toggleDmTranslation, useDmTranslation } from "../../libs/dm-translation-store";
 import GifPicker from "../DM/GifPicker";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
 import ImageViewerModal from "../common/ImageViewerModal";
@@ -126,6 +131,9 @@ const humaniseInterval = (seconds: number): string => {
   return `${Math.round(seconds / 3600)} h`;
 };
 
+/** Client-only list rows for "Name joined"; never sent or stored. */
+const JOIN_LINE_TYPE = "member_join";
+
 const mmss = (seconds: number): string =>
   `${Math.floor(seconds / 60)}:${(seconds % 60).toString().padStart(2, "0")}`;
 
@@ -138,9 +146,10 @@ const ChatRow: React.FC<{
   canReact: boolean;
   onLongPress: (message: CommunityChatMessage) => void;
   onToggleReaction: (id: string, emoji: string) => void;
+  onShowReactors: (message: CommunityChatMessage, emoji: string) => void;
   onOpenProfile: (identifier: string) => void;
   onJumpToMessage: (id: string) => Promise<void>;
-}> = ({ message, myAddress, flashing, canReact, onLongPress, onToggleReaction, onOpenProfile, onJumpToMessage }) => {
+}> = ({ message, myAddress, flashing, canReact, onLongPress, onToggleReaction, onShowReactors, onOpenProfile, onJumpToMessage }) => {
   const { t } = useTranslation();
 
   const isMe = !!myAddress && message.wallet_address?.toLowerCase() === myAddress;
@@ -186,6 +195,10 @@ const ChatRow: React.FC<{
     () => stripAssetRefs(linkFreeContent, assetRefs),
     [linkFreeContent, assetRefs],
   );
+  // Translate from the hold menu swaps the words for the translation, with
+  // "Show original" under them, the same as DMs.
+  const translation = useDmTranslation(message.id);
+  const translatedText = translation?.status === "shown" ? translation.text : null;
 
   return (
     <Pressable
@@ -265,7 +278,19 @@ const ChatRow: React.FC<{
         )}
 
         {!!displayContent && (
-          <Text className="text-white/80" style={{ fontSize: 15 * textScale, lineHeight: Math.round(21 * textScale) }}>{expandEmojiTokens(displayContent, { fontSize: 15 * textScale })}</Text>
+          <Text className="text-white/80" style={{ fontSize: 15 * textScale, lineHeight: Math.round(21 * textScale) }}>{expandEmojiTokens(translatedText ?? displayContent, { fontSize: 15 * textScale })}</Text>
+        )}
+        {!!translation && (
+          <View className="pt-1">
+            <TranslateButton
+              inline
+              statusOnly
+              isTranslated={translation.status === "shown"}
+              isLoading={translation.status === "loading"}
+              onTranslate={() => void toggleDmTranslation(message.id, bodyText)}
+              onShowOriginal={() => void toggleDmTranslation(message.id, bodyText)}
+            />
+          </View>
         )}
 
         <LinkPreviewCard text={bodyText} />
@@ -284,8 +309,12 @@ const ChatRow: React.FC<{
               return (
                 <Pressable
                   key={emoji}
-                  disabled={!canReact}
-                  onPress={() => onToggleReaction(message.id, emoji)}
+                  onPress={() => {
+                    if (canReact) onToggleReaction(message.id, emoji);
+                  }}
+                  // Press and hold shows who reacted, even for people who can't react.
+                  onLongPress={() => onShowReactors(message, emoji)}
+                  delayLongPress={300}
                   style={[styles.reactionPill, mine && styles.reactionPillMine]}
                 >
                   <InlineEmoji value={emoji} size={11} />
@@ -371,10 +400,32 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   // @mention typeahead. Handles were already parsed out of sent text for
   // notifications, but nothing suggested anyone while typing, so a mention
   // only landed if you already knew the handle exactly.
-  const mentions = useMentions(text, setText);
+  // The people talking here come first, so tagging someone in the group is
+  // one "@" and a tap rather than a search across everyone on Riftn.
+  const mentionPool = useMemo(() => {
+    const seen = new Set<string>();
+    const pool: MentionUser[] = [];
+    for (let i = messages.length - 1; i >= 0 && pool.length < 50; i--) {
+      const m = messages[i];
+      const handle = m.username?.trim();
+      if (!handle || seen.has(handle.toLowerCase())) continue;
+      if (myAddress && m.wallet_address?.toLowerCase() === myAddress) continue;
+      seen.add(handle.toLowerCase());
+      pool.push({
+        username: handle,
+        displayName: m.display_name || handle,
+        avatarImageUrl: m.avatar_url || "",
+        address: m.wallet_address,
+        isFollowing: false,
+      });
+    }
+    return pool;
+  }, [messages, myAddress]);
+  const mentions = useMentions(text, setText, mentionPool);
   const [replyTo, setReplyTo] = useDraftState<CommunityChatMessage | null>(`community:${community.id}:reply`, null);
   const [sending, setSending] = useState(false);
   const [sheetFor, setSheetFor] = useState<CommunityChatMessage | null>(null);
+  const [reactorsFor, setReactorsFor] = useState<{ id: string; emoji: string } | null>(null);
   // Message whose full emoji picker is open. The action sheet closes first:
   // iOS will not stack a second modal on one that is still presenting.
   const [moreFor, setMoreFor] = useState<CommunityChatMessage | null>(null);
@@ -421,10 +472,46 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     [messages, visibleCount],
   );
 
+  // "Name joined" lines, slotted in by time. Only joins inside the loaded
+  // window show, so scrolling back doesn't stack a wall of old joins on top.
+  const joinLines = useCommunityJoinLines(community.id, myAddress, isMember);
+  const listItems = useMemo(() => {
+    if (!joinLines.length) return visibleMessages;
+    const oldest = visibleMessages[0]?.created_at;
+    // Reading an older stretch: nothing past its last message either.
+    const newest = isHistoryWindow ? visibleMessages[visibleMessages.length - 1]?.created_at : undefined;
+    const joins = joinLines
+      .filter((j) => (!oldest || j.joinedAt >= oldest) && (!newest || j.joinedAt <= newest))
+      .slice(0, oldest ? undefined : 10)
+      .map(
+        (j) =>
+          ({
+            id: `join:${j.wallet}`,
+            community_id: community.id,
+            wallet_address: j.wallet,
+            username: null,
+            display_name: j.name,
+            avatar_url: null,
+            badge_balance: null,
+            content: "",
+            message_type: JOIN_LINE_TYPE,
+            image_url: null,
+            reply_to_id: null,
+            reactions: {},
+            created_at: j.joinedAt,
+            pinned_at: null,
+            pinned_by: null,
+            edited_at: null,
+          }) as CommunityChatMessage,
+      );
+    if (!joins.length) return visibleMessages;
+    return [...visibleMessages, ...joins].sort((a, b) => a.created_at.localeCompare(b.created_at));
+  }, [visibleMessages, joinLines, community.id, isHistoryWindow]);
+
   // Runs after the window has grown, so the index is always in range.
   useEffect(() => {
     if (!pendingJump) return;
-    const index = visibleMessages.findIndex((m) => m.id === pendingJump);
+    const index = listItems.findIndex((m) => m.id === pendingJump);
     if (index >= 0) {
       try {
         listRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.4 });
@@ -433,7 +520,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
       }
     }
     if (index >= 0) setPendingJump(null);
-  }, [pendingJump, visibleMessages]);
+  }, [pendingJump, listItems]);
 
   const jumpToMessage = useCallback(
     async (id: string) => {
@@ -602,6 +689,13 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     [messages, myAddress, addReaction, removeReaction],
   );
 
+  const handleShowReactors = useCallback(
+    (message: CommunityChatMessage, emoji: string) => setReactorsFor({ id: message.id, emoji }),
+    [],
+  );
+  // Read live from messages so the sheet follows realtime reaction changes.
+  const reactorsMessage = reactorsFor ? messages.find((m) => m.id === reactorsFor.id) : undefined;
+
   const handleOpenProfile = useCallback(
     (identifier: string) => showUserProfile(identifier, { source: "community-chat" }),
     [showUserProfile],
@@ -637,6 +731,13 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     ({ item }: { item: CommunityChatMessage }) => {
       // Buy bot posts carry the trade as JSON: draw the card web draws. The
       // iPhone app shows no token trades (App Store 3.1.1).
+      if (item.message_type === JOIN_LINE_TYPE) {
+        return (
+          <Text style={styles.joinLine} numberOfLines={1}>
+            {t("communities.chatPanel.joined", { defaultValue: "{{name}} joined", name: item.display_name })}
+          </Text>
+        );
+      }
       if (item.message_type === "buy_alert" && IS_APP_STORE_BUILD) return null;
       const buy = item.message_type === "buy_alert" ? parseBuyAlert(item.content) : null;
       if (buy) return <BuyAlertCard data={buy} time={formatClock(new Date(item.created_at))} />;
@@ -648,12 +749,13 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
         canReact={canSend}
         onLongPress={setSheetFor}
         onToggleReaction={handleToggleReaction}
+        onShowReactors={handleShowReactors}
         onOpenProfile={handleOpenProfile}
         onJumpToMessage={jumpToMessage}
       />
       );
     },
-    [myAddress, flashId, canSend, handleToggleReaction, handleOpenProfile, jumpToMessage],
+    [t, myAddress, flashId, canSend, handleToggleReaction, handleShowReactors, handleOpenProfile, jumpToMessage],
   );
 
   // ── composer state, in the order the server checks them ──
@@ -739,11 +841,11 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           // "Show earlier messages" prepends a page; without this the list jumped
           // to the top of the new page instead of holding the reader in place.
           maintainVisibleContentPosition={{ minIndexForVisible: 0 }}
-          data={visibleMessages}
+          data={listItems}
           keyExtractor={(m) => m.id}
           renderItem={renderItem}
           contentContainerStyle={
-            visibleMessages.length === 0 ? { flex: 1 } : { paddingVertical: 6 }
+            listItems.length === 0 ? { flex: 1 } : { paddingVertical: 6 }
           }
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
@@ -992,6 +1094,18 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
         />
       )}
 
+      {!!reactorsMessage && !!reactorsFor && (
+        <ChatReactorsSheet
+          reactions={reactorsMessage.reactions ?? {}}
+          focusEmoji={reactorsFor.emoji}
+          onClose={() => setReactorsFor(null)}
+          onOpenProfile={(id) => {
+            setReactorsFor(null);
+            handleOpenProfile(id);
+          }}
+        />
+      )}
+
       <Modal
         visible={!!sheetFor}
         transparent
@@ -1051,6 +1165,29 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
                     <Icon name="Reply" size={16} color="#FFFFFF" />
                     <Text style={styles.sheetRowText}>
                       {t("communities.reply", { defaultValue: "Reply" })}
+                    </Text>
+                  </Pressable>
+                )}
+
+                {!sheetIsMine && canTranslateDm(chatBodyText(sheetFor)) && (
+                  <Pressable
+                    style={styles.sheetRow}
+                    onPress={() => {
+                      const id = sheetFor.id;
+                      const text = chatBodyText(sheetFor);
+                      setSheetFor(null);
+                      void toggleDmTranslation(id, text);
+                    }}
+                  >
+                    <Icon
+                      name={getDmTranslation(sheetFor.id)?.status === "shown" ? "RotateCcw" : "Languages"}
+                      size={16}
+                      color="#FFFFFF"
+                    />
+                    <Text style={styles.sheetRowText}>
+                      {getDmTranslation(sheetFor.id)?.status === "shown"
+                        ? t("common.showOriginal", { defaultValue: "Show original" })
+                        : t("common.translate", { defaultValue: "Translate" })}
                     </Text>
                   </Pressable>
                 )}
@@ -1170,6 +1307,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
 
 const styles = StyleSheet.create({
   root: { flex: 1 },
+  joinLine: { alignSelf: "center", color: "#A1A1AA", fontSize: 12, paddingVertical: 6, paddingHorizontal: 16 },
 
   center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 8, padding: 24 },
   dim: { color: "#A1A1AA", fontSize: 12, textAlign: "center" },

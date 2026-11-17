@@ -6449,6 +6449,8 @@
       "years": "{{count}}年"
     },
     "chatPanel": {
+      "joined": "{{name}} が参加しました",
+      "reactions": "リアクション",
       "addToMessages": "メッセージに追加",
       "photoTooLarge": "画像は10MB未満にしてください",
       "inMessages": "メッセージに追加済み",
@@ -6652,6 +6654,11 @@
     "loadFailed": "コミュニティを読み込めませんでした",
     "noPostsYet": "このコミュニティにはまだ投稿がありません。",
     "infoUpdated": "コミュニティが更新されました",
+    "avatarUpdated": "画像を更新しました",
+    "bannerUpdated": "バナーを更新しました",
+    "imageUploadFailed": "画像をアップロードできませんでした。もう一度お試しください。",
+    "changeBanner": "バナーを変更",
+    "changeAvatar": "画像を変更",
     "editInfo": "名前と説明を編集",
     "saveChanges": "保存",
     "nowPrivate": "コミュニティはプライベートになりました",

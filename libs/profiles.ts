@@ -362,6 +362,14 @@ async function snapshotSession(adopt: boolean): Promise<void> {
     }
   } catch {}
 
+  // A switch can start while this was reading (a token refresh fires a
+  // snapshot, then the switch writes the next account's keys). Filing what was
+  // read here under the outgoing account would hand it the incoming one's
+  // tokens, so drop the snapshot if a switch began or the live account moved.
+  if (switchGuarded) return;
+  const stillLive = await currentIdentity();
+  if (!stillLive || stillLive.id !== identity.id) return;
+
   const now = Date.now();
   const existing = existingIndex >= 0 ? profiles[existingIndex] : null;
 
@@ -765,6 +773,11 @@ export async function abortProfileSwitch(prevId: string | null): Promise<void> {
  */
 export async function completeProfileSwitch(id: string): Promise<void> {
   switchGuarded = false;
+  // Picking a saved account settles any Add profile attempt still open: the
+  // account it would restore is the one just switched away from on purpose.
+  // Left open, the next dismissal of the sign-in sheet put that account's keys
+  // back on disk under the one on screen, and the app reopened as it.
+  consumeAddProfileAttempt();
   const profiles = await readStore();
   const entry = profiles.find((p) => p.id === id);
   if (entry) {

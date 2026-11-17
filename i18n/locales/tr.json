@@ -4569,6 +4569,8 @@
       "years": "{{count}} yıl"
     },
     "chatPanel": {
+      "joined": "{{name}} katıldı",
+      "reactions": "Tepkiler",
       "addToMessages": "Mesajlara ekle",
       "photoTooLarge": "Görsel 10 MB'tan küçük olmalı",
       "inMessages": "Mesajlarda",
@@ -4772,6 +4774,11 @@
     "loadFailed": "Topluluklar yüklenemedi",
     "noPostsYet": "Burada henüz hiç post yok.",
     "infoUpdated": "Topluluk güncellendi",
+    "avatarUpdated": "Resim güncellendi",
+    "bannerUpdated": "Banner güncellendi",
+    "imageUploadFailed": "Bu görsel yüklenemedi. Tekrar dene.",
+    "changeBanner": "Banner'ı değiştir",
+    "changeAvatar": "Resmi değiştir",
     "editInfo": "İsim ve açıklama düzenle",
     "saveChanges": "Kaydet",
     "nowPrivate": "Topluluk artık özel",
