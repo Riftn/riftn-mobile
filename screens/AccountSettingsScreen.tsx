@@ -15,7 +15,7 @@ import { useTranslation as _useCopy } from 'react-i18next';
  * Web additionally has `skills` and `characters`; neither library exists in
  * this app, so those tabs are not rendered rather than rendered empty.
  */
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import MultiPostPanel from "../components/Settings/MultiPostPanel";
 import { useTranslation } from "react-i18next";
 import {
@@ -106,12 +106,25 @@ type TabKey =
   | "multipost"
   | "support";
 
+/**
+ * Picking a theme remounts the screen tree, which dropped you on Profile. The
+ * tab open when the screen went away comes back if it returns within moments;
+ * opening Settings later still starts on Profile.
+ */
+let leftTab: { tab: TabKey; at: number } | null = null;
+const REMOUNT_WINDOW_MS = 3000;
+
 const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
   const { t: _copy } = _useCopy();
   const user = useUser();
   const { isSignedIn, needsUsername } = useAuthState();
   const { signOut } = useAuthActions();
-  const [activeTab, setActiveTab] = useState<TabKey>((route?.params?.initialTab as TabKey) ?? "profile");
+  const [activeTab, setActiveTab] = useState<TabKey>(() =>
+    (route?.params?.initialTab as TabKey)
+    ?? (leftTab && Date.now() - leftTab.at < REMOUNT_WINDOW_MS ? leftTab.tab : "profile"));
+  const activeTabRef = useRef(activeTab);
+  activeTabRef.current = activeTab;
+  useEffect(() => () => { leftTab = { tab: activeTabRef.current, at: Date.now() }; }, []);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [deactivatingAccount, setDeactivatingAccount] = useState(false);
   const [bugModalVisible, setBugModalVisible] = useState(false);
