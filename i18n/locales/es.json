@@ -7664,7 +7664,11 @@
       "inviteMessage": "Únete a mí en Riftn: {{url}}",
       "searchAll": "Buscar \"{{q}}\" en todo Riftn",
       "searchAllSub": "Publicaciones, vídeos, directos"
-    }
+    },
+    "shareGroups": "Grupos",
+    "shareKindGroup": "Grupo",
+    "shareKindChannel": "Canal",
+    "shareKindCommunity": "Comunidad"
   },
   "editPost": {
     "mediaPermission": "Se necesita permiso para la biblioteca multimedia",

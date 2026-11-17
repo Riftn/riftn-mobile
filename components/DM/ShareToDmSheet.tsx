@@ -23,7 +23,7 @@ import Avatar from "../common/Avatar";
 import GlassModal from "../ui/GlassModal";
 import { getAvatarUrl, toastError, toastSuccess } from "../../libs";
 import { useWebSocketApi } from "../../context/WebSocketContext";
-import { getDmUserStatus } from "../../services/dm/dm.api";
+import { getDmUserStatus, roomChatId } from "../../services/dm/dm.api";
 import { dmSendQueue } from "../../services/dm/dm.send";
 import { getBadgeUrlFor } from "../../libs/misc";
 import { useDmContacts } from "../../store/dm.store";
@@ -32,6 +32,12 @@ import { ScreenNames } from "../../navigation/ScreenNames";
 import { WEBSITE_LINK } from "../../config";
 import { useUser } from "../../context/AuthContext";
 import type { DmConversation } from "../../services/dm/dm.types";
+import { useQuery } from "@tanstack/react-query";
+import { getUserCommunities } from "../../services/communities.service";
+import { sendCommunityLine } from "../../services/dm/bulk-reply";
+import { useChatPrefs } from "../../hooks/useChatPrefs";
+import { chatsFromMemberships, communityKindOf } from "../../libs/community-kinds";
+import type { Community } from "../../types/community";
 
 /** Someone found by name who may not be in the inbox yet. */
 type Person = {
@@ -43,7 +49,12 @@ type Person = {
   dmSettings?: unknown;
   dmSetting?: unknown;
 };
-type Row = { kind: "conv"; conv: DmConversation } | { kind: "header" } | { kind: "person"; person: Person };
+type Row =
+  | { kind: "conv"; conv: DmConversation }
+  | { kind: "header" }
+  | { kind: "groupsHeader" }
+  | { kind: "group"; group: Community }
+  | { kind: "person"; person: Person };
 
 const addrOf = (u: Person | undefined | null) => String(u?.walletAddress || u?.address || "").toLowerCase();
 
@@ -84,6 +95,26 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
   const myUserId = (user as any)?._id || (user as any)?.id;
   const myAddress = (user as any)?.walletAddress || (user as any)?.address;
 
+  // Groups, channels the viewer runs, and communities shown in Chats: the
+  // post goes in as a line in the room, which shows the link's card.
+  const { data: memberships } = useQuery({
+    queryKey: ["communities", "user", String(myAddress || "").toLowerCase()],
+    queryFn: () => getUserCommunities(myAddress),
+    enabled: visible && !!myAddress,
+    staleTime: 30_000,
+  });
+  const { byId: chatPrefs } = useChatPrefs(visible && !!myAddress);
+  const groups = useMemo(() => {
+    const canPost = new Set(
+      (memberships ?? [])
+        .filter((m: any) => communityKindOf(m.communities) !== "channel" || m.role === "owner" || m.role === "admin")
+        .map((m: any) => m.community_id),
+    );
+    const q = search.trim().toLowerCase();
+    return chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt)
+      .filter((c) => canPost.has(c.id) && (!q || c.name.toLowerCase().includes(q)));
+  }, [memberships, chatPrefs, search]);
+
   const filtered = useMemo(() => {
     if (!search.trim()) return conversations;
     const q = search.toLowerCase();
@@ -121,7 +152,13 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
   useEffect(() => { if (visible) debouncedSearch(search); }, [search, visible, debouncedSearch]);
 
   const rows = useMemo<Row[]>(() => {
-    const out: Row[] = filtered.map((conv) => ({ kind: "conv", conv }));
+    const out: Row[] = [];
+    if (groups.length) {
+      out.push({ kind: "groupsHeader" });
+      for (const group of groups) out.push({ kind: "group", group });
+      if (filtered.length) out.push({ kind: "header" });
+    }
+    for (const conv of filtered) out.push({ kind: "conv", conv });
     if (!search.trim()) return out;
     const me = String(myAddress || "").toLowerCase();
     const shown = new Set(
@@ -134,11 +171,11 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
       return true;
     });
     if (extra.length) {
-      out.push({ kind: "header" });
+      if (!out.some((r) => r.kind === "header")) out.push({ kind: "header" });
       for (const person of extra.slice(0, 20)) out.push({ kind: "person", person });
     }
     return out;
-  }, [filtered, people, search, myUserId, myAddress]);
+  }, [groups, filtered, people, search, myUserId, myAddress]);
 
   const handleSelect = useCallback(
     async (conv: DmConversation) => {
@@ -184,6 +221,71 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
       }
     },
     [navigation, tokenId, url, postTitle, caption, onClose, t, sentIds, myUserId, myAddress, ws],
+  );
+
+  const handleGroup = useCallback(
+    async (group: Community) => {
+      const key = `g:${group.id}`;
+      if (sendingRef.current || sentIds.has(key) || !myAddress) return;
+      sendingRef.current = true;
+      setSendingId(key);
+      const postUrl = url ?? `${WEBSITE_LINK || ""}/app/post/${tokenId}`;
+      const message = caption.trim() || postTitle;
+      const u = user as any;
+      try {
+        await sendCommunityLine(
+          group.id,
+          {
+            userId: myUserId,
+            address: myAddress,
+            username: u?.username,
+            displayName: u?.displayName,
+            avatarUrl: u?.avatarImageUrl || u?.avatarUrl,
+            badgeBalance: u?.badgeBalance,
+          },
+          message ? `${message}\n${postUrl}` : postUrl,
+        );
+        setSentIds((previous) => new Set(previous).add(key));
+        toastSuccess(t("toasts.message_sent"));
+      } catch {
+        toastError(t("dm.failedToSend"));
+      } finally {
+        sendingRef.current = false;
+        setSendingId(null);
+      }
+    },
+    [sentIds, myAddress, myUserId, url, tokenId, caption, postTitle, user, t],
+  );
+
+  const renderGroup = useCallback(
+    (group: Community) => {
+      const key = `g:${group.id}`;
+      const kind = communityKindOf(group);
+      return (
+        <TouchableOpacity
+          onPress={() => void handleGroup(group)}
+          disabled={sendingId !== null || sentIds.has(key)}
+          activeOpacity={0.7}
+          className="flex-row items-center px-4 py-3 gap-3"
+          accessibilityRole="button"
+          accessibilityLabel={group.name}
+        >
+          <Avatar uri={group.avatar_url || undefined} size={40} name={group.name} />
+          <View className="flex-1" style={{ minWidth: 0 }}>
+            <Text className="text-[15px] text-white font-medium" numberOfLines={1}>{group.name}</Text>
+            <Text className="text-[12px] text-theme-neutrals-400" numberOfLines={1}>
+              {t(kind === "channel" ? "dm.shareKindChannel" : kind === "group" ? "dm.shareKindGroup" : "dm.shareKindCommunity")}
+            </Text>
+          </View>
+          {sendingId === key ? (
+            <ActivityIndicator size="small" color="#D4D4D8" />
+          ) : (
+            <Ionicons name={sentIds.has(key) ? "checkmark" : "send-outline"} size={18} color="#D4D4D8" />
+          )}
+        </TouchableOpacity>
+      );
+    },
+    [handleGroup, sendingId, sentIds, t],
   );
 
   const handlePerson = useCallback(
@@ -301,10 +403,18 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
           </Text>
         );
       }
+      if (item.kind === "groupsHeader") {
+        return (
+          <Text className="text-theme-neutrals-500 text-[12px] font-semibold uppercase px-4 pt-1 pb-1">
+            {t("dm.shareGroups")}
+          </Text>
+        );
+      }
+      if (item.kind === "group") return renderGroup(item.group);
       if (item.kind === "person") return renderPerson(item.person);
       return renderConversation(item.conv);
     },
-    [renderPerson, renderConversation, t],
+    [renderPerson, renderConversation, renderGroup, t],
   );
 
   return (
@@ -348,7 +458,7 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
           />
         </View>
 
-        {conversations.length === 0 && !search.trim() ? (
+        {conversations.length === 0 && groups.length === 0 && !search.trim() ? (
           <View className="items-center py-10 px-6">
             <Icon name="MessageEnvelope" size={40} color="#4B5563" />
             <Text className="text-theme-neutrals-500 text-sm text-center mt-3">
@@ -359,7 +469,13 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
           <FlatList
             data={rows}
             keyExtractor={(row) =>
-              row.kind === "conv" ? row.conv._id : row.kind === "person" ? `p:${addrOf(row.person)}` : "people-header"
+              row.kind === "conv"
+                ? row.conv._id
+                : row.kind === "group"
+                ? `g:${row.group.id}`
+                : row.kind === "person"
+                ? `p:${addrOf(row.person)}`
+                : row.kind
             }
             renderItem={renderRow}
             style={{ maxHeight: 400 }}

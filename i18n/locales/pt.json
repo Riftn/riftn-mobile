@@ -9616,7 +9616,11 @@
       "inviteMessage": "Entre comigo no Riftn: {{url}}",
       "searchAll": "Pesquisar \"{{q}}\" em todo o Riftn",
       "searchAllSub": "Posts, vídeos, lives"
-    }
+    },
+    "shareGroups": "Grupos",
+    "shareKindGroup": "Grupo",
+    "shareKindChannel": "Canal",
+    "shareKindCommunity": "Comunidade"
   },
   "editPost": {
     "mediaPermission": "É necessária permissão para a biblioteca multimédia",

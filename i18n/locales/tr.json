@@ -7663,7 +7663,11 @@
       "inviteMessage": "Riftn'de bana katıl: {{url}}",
       "searchAll": "Tüm Riftn'de \"{{q}}\" ara",
       "searchAllSub": "Gönderiler, videolar, canlı yayınlar"
-    }
+    },
+    "shareGroups": "Gruplar",
+    "shareKindGroup": "Grup",
+    "shareKindChannel": "Kanal",
+    "shareKindCommunity": "Topluluk"
   },
   "editPost": {
     "mediaPermission": "Medya kitaplığı izni gerekiyor",

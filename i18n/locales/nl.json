@@ -7802,7 +7802,11 @@
       "inviteMessage": "Kom bij mij op Riftn: {{url}}",
       "searchAll": "Heel Riftn doorzoeken op \"{{q}}\"",
       "searchAllSub": "Posts, video's, livestreams"
-    }
+    },
+    "shareGroups": "Groepen",
+    "shareKindGroup": "Groep",
+    "shareKindChannel": "Kanaal",
+    "shareKindCommunity": "Community"
   },
   "editPost": {
     "mediaPermission": "Toestemming voor de mediabibliotheek is vereist",
