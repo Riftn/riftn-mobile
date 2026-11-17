@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { ActivityIndicator, FlatList, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, FlatList, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "../ui/Icon";
@@ -212,21 +212,6 @@ export default function LiveChatSearch({ text, person, search, activeId, onText,
 
   const header = idle ? (
     <>
-      {search.people.length ? (
-        <>
-          <SectionLabel>{t("chatSearch.peopleHere", { defaultValue: "People in this chat" })}</SectionLabel>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={{ paddingHorizontal: 12, paddingBottom: 4 }}>
-            {search.people.map((p) => (
-              <TouchableOpacity key={p.address} onPress={() => onPickPerson(p)} activeOpacity={0.7} accessibilityRole="button" accessibilityLabel={p.name} style={{ width: 64, alignItems: "center", paddingVertical: 8 }}>
-                <Face person={p} size={44} />
-                <Text numberOfLines={1} className="text-white/70 text-[11px] mt-1.5" style={{ maxWidth: 60 }}>{p.name.split(" ")[0]}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </>
-      ) : waiting ? (
-        <View className="py-8 items-center"><ActivityIndicator size="small" color="rgba(255,255,255,0.4)" /></View>
-      ) : null}
       {recent.length ? (
         <>
           <SectionLabel>{t("chatSearch.recent", { defaultValue: "Recent searches" })}</SectionLabel>
@@ -237,6 +222,11 @@ export default function LiveChatSearch({ text, person, search, activeId, onText,
             </TouchableOpacity>
           ))}
         </>
+      ) : null}
+      {search.people.length ? (
+        <SectionLabel count={search.people.length}>{t("chatSearch.peopleHere", { defaultValue: "People in this chat" })}</SectionLabel>
+      ) : waiting ? (
+        <View className="py-8 items-center"><ActivityIndicator size="small" color="rgba(255,255,255,0.4)" /></View>
       ) : null}
       {!search.people.length && !recent.length && !waiting ? (
         <Text className="text-white/50 text-sm text-center px-6 pt-10">{t("chatSearch.hint", { defaultValue: "Type a word or a name." })}</Text>
@@ -332,6 +322,26 @@ export default function LiveChatSearch({ text, person, search, activeId, onText,
         </View>
       </View>
 
+      {idle ? (
+        <FlatList
+          data={search.people}
+          keyExtractor={(p) => p.address}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          ListHeaderComponent={header}
+          initialNumToRender={20}
+          contentContainerStyle={{ paddingBottom: insets.bottom + 24 }}
+          renderItem={({ item: p }) => (
+            <TouchableOpacity onPress={() => onPickPerson(p)} activeOpacity={0.7} accessibilityRole="button" accessibilityLabel={p.name} className="flex-row items-center px-4 py-2" style={{ gap: 12 }}>
+              <Face person={p} />
+              <View className="flex-1">
+                <Text numberOfLines={1} className="text-white text-sm font-semibold">{p.name}</Text>
+                <Text numberOfLines={1} className="text-white/60 text-xs">{t("chatSearch.messagesCount", { defaultValue: "{{count}} messages", count: p.messageCount ?? 0 })}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+      ) : (
       <FlatList
         data={showRows ? search.results : []}
         keyExtractor={(m) => m._id}
@@ -364,6 +374,7 @@ export default function LiveChatSearch({ text, person, search, activeId, onText,
           );
         }}
       />
+      )}
     </View>
   );
 }
