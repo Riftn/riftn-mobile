@@ -6607,8 +6607,8 @@
       "years": "{{count}} г."
     },
     "chatPanel": {
-      "showInChats": "Показать в чатах",
-      "inChats": "В чатах",
+      "addToMessages": "Добавить в сообщения",
+      "inMessages": "В сообщениях",
       "jumpToLatest": "Перейти к последнему",
       "anon": "Анон",
       "edited": "отредактировано",

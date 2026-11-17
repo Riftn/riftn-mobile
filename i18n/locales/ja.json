@@ -6449,8 +6449,8 @@
       "years": "{{count}}年"
     },
     "chatPanel": {
-      "showInChats": "チャットに表示",
-      "inChats": "チャットに表示中",
+      "addToMessages": "メッセージに追加",
+      "inMessages": "メッセージに追加済み",
       "jumpToLatest": "最新情報にジャンプ",
       "anon": "匿名",
       "edited": "編集済み",

@@ -60,6 +60,8 @@ import { getAccountSummaries, type AccountSummary } from "../services/user.servi
 import { useUserProfileSheet } from "../context/UserProfileSheetContext";
 import LoadErrorState from "../components/ui/LoadErrorState";
 import { useKeyboardOffset } from "../hooks/useKeyboardLayout";
+import { useChatPrefs } from "../hooks/useChatPrefs";
+import { roomChatId } from "../services/dm/dm.api";
 import CommunityDescription from "../components/Communities/CommunityDescription";
 import { TopHolders } from "../components/Communities/TopHolders";
 import { formatHolderAmount, holderGateMessage, holderGateOf, isDehubToken, runHolderCheck } from "../libs/holder-gate";
@@ -88,6 +90,8 @@ const CommunityDetailScreen: React.FC = () => {
   const walletRef = useRef(walletAddress);
   walletRef.current = walletAddress;
   const { requireAuth } = useAuthActions();
+  // A community's chat joins the Messages list only when the member adds it.
+  const { byId: chatPrefs, update: updateChatPref } = useChatPrefs(!!walletAddress);
 
   const [community, setCommunity] = useState<Community | null>(null);
   const [members, setMembers] = useState<CommunityMember[]>([]);
@@ -539,6 +543,24 @@ const CommunityDetailScreen: React.FC = () => {
               </Text>
             </TouchableOpacity>
           )}
+          {isMember && !!walletAddress && communityKindOf(community) === "community" && (() => {
+            const listed = !!chatPrefs.get(roomChatId(community.id))?.listedAt;
+            return (
+              <TouchableOpacity
+                style={styles.secondaryBtn}
+                testID="community-add-to-messages"
+                accessibilityState={{ checked: listed }}
+                onPress={() => void updateChatPref(roomChatId(community.id), listed ? { listed: false, pinned: false } : { listed: true })}
+              >
+                <Icon name={listed ? "MessageCircle" : "Plus"} size={16} color="#fff" />
+                <Text style={styles.secondaryBtnText}>
+                  {listed
+                    ? t("communities.chatPanel.inMessages", { defaultValue: "In Messages" })
+                    : t("communities.chatPanel.addToMessages", { defaultValue: "Add to Messages" })}
+                </Text>
+              </TouchableOpacity>
+            );
+          })()}
           <TouchableOpacity style={styles.secondaryBtn} onPress={() => setShareOpen(true)}>
             <Icon name="Share2" size={16} color="#fff" />
             <Text style={styles.secondaryBtnText}>{t("communities.share")}</Text>
