@@ -6451,8 +6451,8 @@
       "years": "{{count}} 年"
     },
     "chatPanel": {
-      "showInChats": "在聊天中显示",
-      "inChats": "已在聊天中",
+      "addToMessages": "添加到消息",
+      "inMessages": "已在消息中",
       "jumpToLatest": "跳到最新",
       "anon": "匿名",
       "edited": "已编辑",

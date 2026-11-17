@@ -6513,8 +6513,8 @@
       "years": "{{count}} J."
     },
     "chatPanel": {
-      "showInChats": "In Chats anzeigen",
-      "inChats": "In Chats",
+      "addToMessages": "Zu Nachrichten hinzufügen",
+      "inMessages": "In Nachrichten",
       "jumpToLatest": "Zu den neuesten",
       "anon": "Anon",
       "edited": "bearbeitet",

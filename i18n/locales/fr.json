@@ -4573,8 +4573,8 @@
       "years": "{{count}} an"
     },
     "chatPanel": {
-      "showInChats": "Afficher dans Chats",
-      "inChats": "Dans Chats",
+      "addToMessages": "Ajouter aux Messages",
+      "inMessages": "Dans Messages",
       "jumpToLatest": "Aller aux derniers messages",
       "anon": "Anonyme",
       "edited": "modifié",

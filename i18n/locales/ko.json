@@ -6607,8 +6607,8 @@
       "years": "{{count}}년"
     },
     "chatPanel": {
-      "showInChats": "채팅에 표시",
-      "inChats": "채팅에 있음",
+      "addToMessages": "메시지에 추가",
+      "inMessages": "메시지에 있음",
       "jumpToLatest": "최근 페이지로 이동",
       "anon": "익명",
       "edited": "수정됨",
