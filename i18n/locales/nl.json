@@ -4757,6 +4757,8 @@
       "years": "{{count}} j"
     },
     "chatPanel": {
+      "joined": "{{name}} is lid geworden",
+      "reactions": "Reacties",
       "addToMessages": "Toevoegen aan Berichten",
       "photoTooLarge": "Afbeelding moet kleiner zijn dan 10 MB",
       "inMessages": "In Berichten",
@@ -4960,6 +4962,11 @@
     "loadFailed": "Kan community's niet laden",
     "noPostsYet": "Nog geen berichten in deze community.",
     "infoUpdated": "Community bijgewerkt",
+    "avatarUpdated": "Afbeelding bijgewerkt",
+    "bannerUpdated": "Banner bijgewerkt",
+    "imageUploadFailed": "Die afbeelding kon niet worden geüpload. Probeer het opnieuw.",
+    "changeBanner": "Banner wijzigen",
+    "changeAvatar": "Afbeelding wijzigen",
     "editInfo": "Naam en beschrijving bewerken",
     "saveChanges": "Opslaan",
     "nowPrivate": "Community is nu privé",
