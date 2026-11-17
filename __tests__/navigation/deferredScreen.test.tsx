@@ -132,11 +132,32 @@ it('keeps the shell over a page that is still on its own loader, up to the cap',
   let tree!: ReturnType<typeof create>;
   act(() => { tree = create(<Screen route={mockRoute} />); });
   act(() => jest.advanceTimersByTime(600));
-  act(() => jest.advanceTimersByTime(500));
+  act(() => jest.advanceTimersByTime(2400));
   expect(tree.root.findByType('ShellCover' as any).props.fading).toBe(false);
-  act(() => jest.advanceTimersByTime(400));
+  act(() => jest.advanceTimersByTime(100));
   expect(tree.root.findByType('ShellCover' as any).props.fading).toBe(true);
   act(() => jest.advanceTimersByTime(300));
+  expect(tree.root.findAllByType('ShellCover' as any)).toHaveLength(0);
+  act(() => tree.unmount());
+});
+
+it('with reduced motion keeps the one shell over a loading page, then cuts to it', () => {
+  mockReducedMotion = true;
+  const { useRouteBusy } = require('../../context/RouteBusyContext');
+  let done!: () => void;
+  function Loader() {
+    const [busy, setBusy] = require('react').useState(true);
+    done = () => setBusy(false);
+    useRouteBusy(busy);
+    return null;
+  }
+  function Content() { return require('react').createElement(Loader); }
+  const Screen = deferredScreen(`busy-rm-${key++}`, () => Content);
+  let tree!: ReturnType<typeof create>;
+  act(() => { tree = create(<Screen route={mockRoute} />); });
+  act(() => jest.advanceTimersByTime(100));
+  expect(tree.root.findByType('ShellCover' as any).props.fading).toBe(false);
+  act(() => done());
   expect(tree.root.findAllByType('ShellCover' as any)).toHaveLength(0);
   act(() => tree.unmount());
 });
