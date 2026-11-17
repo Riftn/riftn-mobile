@@ -409,7 +409,7 @@ export default function DmVideoStudio({
                 testID="studio-replace"
                 style={{ height: 36, borderRadius: 18, borderWidth: 1, borderColor: LINE, paddingHorizontal: 12, flexDirection: "row", alignItems: "center", gap: 6 }}>
                 <Icon name="Upload" size={15} color={WHITE} />
-                <Text style={{ color: WHITE, fontSize: 12, fontWeight: "600" }}>{_copy("editPost.replace", { defaultValue: "Replace" })}</Text>
+                <Text style={{ color: WHITE, fontSize: 12, fontWeight: "600" }}>{_copy("editPost.replace")}</Text>
               </Pressable>
             ) : null}
 {onRemove ? (
@@ -737,7 +737,7 @@ export default function DmVideoStudio({
                       {sound.creator ? <Text style={{ color: MUTED, fontSize: 11 }} numberOfLines={1}>{sound.creator}</Text> : null}
                     </View>
                     <Pressable onPress={sound.onPick} hitSlop={6} accessibilityRole="button" style={pill(false)}>
-                      <Text style={pillText(false)}>{_copy("editPost.replace", { defaultValue: "Replace" })}</Text>
+                      <Text style={pillText(false)}>{_copy("editPost.replace")}</Text>
                     </Pressable>
                     <Pressable onPress={sound.onClear} hitSlop={6} accessibilityRole="button" accessibilityLabel={_copy("upload.removeSound", { defaultValue: "Remove sound" })}
                       style={{ width: 32, height: 32, borderRadius: 16, borderWidth: 1, borderColor: LINE, alignItems: "center", justifyContent: "center" }}>
