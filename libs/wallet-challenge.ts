@@ -2,7 +2,7 @@ import { apiClient } from './api.client';
 
 export async function fetchWalletChallenge(address: string, chainId: number, purpose: WalletProofPurpose): Promise<WalletChallenge> {
   const value = await apiClient.post<WalletChallenge>('/auth/wallet-challenge',
-    { address: address.toLowerCase(), chainId, purpose }, { isAuthRequired: false, retrySession: true });
+    { address: address.toLowerCase(), chainId, purpose, brand: 'riftn' }, { isAuthRequired: false, retrySession: true });
   return validateWalletChallenge(value, address, chainId, purpose);
 }
 export type WalletProofPurpose = 'login-web' | 'login-mobile' | 'rotate-wallet';
@@ -21,10 +21,13 @@ export function validateWalletChallenge(value: WalletChallenge, address: string,
     || !Number.isSafeInteger(value.timestamp) || value.timestamp <= 0 || value.timestamp > 8_640_000_000_000 - 600) {
     throw new Error('Invalid wallet verification request');
   }
-  const expected = [
-    'dehub.io requests wallet verification.',
+  // The API answers in Riftn's name when asked (brand: 'riftn'); a server that
+  // predates the rename still answers in DeHub's. Either text is accepted,
+  // nothing else.
+  const expected = (host: string) => [
+    host + ' requests wallet verification.',
     '',
-    'URI: https://dehub.io',
+    'URI: https://' + host,
     'Version: 2',
     'Address: ' + value.address,
     'Chain ID: ' + chainId,
@@ -35,7 +38,7 @@ export function validateWalletChallenge(value: WalletChallenge, address: string,
     '',
     'This request is single-use. It does not authorize a blockchain transaction.',
   ].join('\n');
-  if (value.message !== expected) throw new Error('Invalid wallet verification message');
+  if (value.message !== expected('riftn.com') && value.message !== expected('dehub.io')) throw new Error('Invalid wallet verification message');
   return value;
 }
 

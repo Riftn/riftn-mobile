@@ -2,6 +2,7 @@ import React, { createContext, forwardRef, useCallback, useContext, useEffect, u
 import {
   BackHandler,
   Pressable,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   View,
@@ -32,7 +33,14 @@ const FLICK_SPEED = 300;
 const SCROLL_SETTLE_MS = 140;
 const SETTLE = { duration: 420, easing: Easing.bezier(0.32, 0.72, 0, 1) };
 
-type DrawerList = { gesture: NativeGesture; onScrollY: (y: number) => void; scrollEnabled: boolean };
+type DrawerRefresh = { refreshing: boolean; onRefresh: () => void };
+type DrawerList = {
+  gesture: NativeGesture;
+  onScrollY: (y: number) => void;
+  scrollEnabled: boolean;
+  /** Full and refreshable: a pull at the top of the list refreshes it. */
+  refresh: DrawerRefresh | null;
+};
 const DrawerListContext = createContext<DrawerList | null>(null);
 /** Fills the screen, from inside the drawer (the search field on focus). */
 const DrawerExpandContext = createContext<(() => void) | null>(null);
@@ -46,6 +54,10 @@ export const usePageDrawerExpand = () => useContext(DrawerExpandContext);
  * full, only once its list is at the top), as do a tap on the page above and
  * the system back. Host it in a route presented as a transparentModal with no
  * animation; the sheet does all the moving.
+ *
+ * With `refresh`, the drawer opens full and a pull at the top of the list
+ * refreshes it instead of moving the sheet; the header still pulls the sheet
+ * down to close it.
  *
  * The page's list must scroll in a `PageDrawerScrollView` (FlashList and
  * FlatList: `renderScrollComponent={PageDrawerScrollView}`), so the sheet
@@ -64,6 +76,8 @@ type PageDrawerProps = {
   onClose: () => void;
   /** The top of the page (its header). */
   grab?: React.ReactNode;
+  /** Opens full; a pull at the top of the list runs this instead of closing. */
+  refresh?: DrawerRefresh;
   children: React.ReactNode;
 };
 
@@ -79,6 +93,7 @@ export const PageDrawerScrollView = forwardRef<ScrollView, ScrollViewProps>(func
     onScroll?.(e);
   }, [list, onScroll]);
   if (!list) return <ScrollView ref={ref} {...props} />;
+  const refresh = list.scrollEnabled ? list.refresh : null;
   return (
     <GestureDetector gesture={list.gesture}>
       <ScrollView
@@ -87,14 +102,19 @@ export const PageDrawerScrollView = forwardRef<ScrollView, ScrollViewProps>(func
         scrollEnabled={list.scrollEnabled && props.scrollEnabled !== false}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        bounces={false}
+        // iOS only shows the pull-to-refresh spinner on a list that bounces.
+        bounces={!!refresh}
+        alwaysBounceVertical={!!refresh}
         overScrollMode="never"
+        refreshControl={refresh ? (
+          <RefreshControl refreshing={refresh.refreshing} onRefresh={refresh.onRefresh} tintColor="#A1A1AA" colors={["#A1A1AA"]} />
+        ) : props.refreshControl}
       />
     </GestureDetector>
   );
 });
 
-function Sheet({ onClose, grab, children }: PageDrawerProps) {
+function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const mid = Math.round(height * PART_OPEN_DROP);
@@ -110,15 +130,21 @@ function Sheet({ onClose, grab, children }: PageDrawerProps) {
   const scrollY = useSharedValue(0);
   const lastScrollAt = useSharedValue(0);
   const startedAtTop = useSharedValue(false);
-  const expanded = useSharedValue(false);
+  const openFull = !!refresh;
+  const refreshable = useSharedValue(openFull);
+  const expanded = useSharedValue(openFull);
   const base = useSharedValue(mid);
   const moving = useSharedValue(false);
   const closing = useSharedValue(false);
+  // Height of the header, so a refreshable drawer can tell a pull on the
+  // header (moves the sheet) from a pull on the list (refreshes it).
+  const grabHeight = useSharedValue(0);
+  const fromList = useSharedValue(false);
   // The list scrolls only once the sheet fills the screen.
-  const [full, setFull] = useState(false);
+  const [full, setFull] = useState(openFull);
 
   useEffect(() => {
-    translateY.value = withTiming(mid, { duration: MOTION.open, easing: Easing.out(Easing.cubic) });
+    translateY.value = withTiming(openFull ? 0 : mid, { duration: MOTION.open, easing: Easing.out(Easing.cubic) });
     backdrop.value = withTiming(1, { duration: MOTION.backdropIn });
     // Mount-only: the sheet slides up once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -153,7 +179,10 @@ function Sheet({ onClose, grab, children }: PageDrawerProps) {
     lastScrollAt.value = Date.now();
   }, [scrollY, lastScrollAt]);
   const listGesture = useMemo(() => Gesture.Native(), []);
-  const list = useMemo(() => ({ gesture: listGesture, onScrollY, scrollEnabled: full }), [listGesture, onScrollY, full]);
+  const refreshing = refresh?.refreshing ?? false;
+  const onRefresh = refresh?.onRefresh;
+  const listRefresh = useMemo(() => (onRefresh ? { refreshing, onRefresh } : null), [refreshing, onRefresh]);
+  const list = useMemo(() => ({ gesture: listGesture, onScrollY, scrollEnabled: full, refresh: listRefresh }), [listGesture, onScrollY, full, listRefresh]);
 
   // One pan over the whole sheet, sharing the finger with the list.
   // Part open, any vertical drag moves the sheet: up to fill the screen, down
@@ -168,14 +197,21 @@ function Sheet({ onClose, grab, children }: PageDrawerProps) {
     .activeOffsetY([-8, 8])
     .failOffsetX([-16, 16])
     .simultaneousWithExternalGesture(listGesture)
-    .onBegin(() => {
+    .onBegin((e) => {
       startedAtTop.value = scrollY.value <= 1 && Date.now() - lastScrollAt.value > SCROLL_SETTLE_MS;
+      // Refreshable and full: the list owns pulls that start on it (they
+      // refresh), the header owns the rest (they move the sheet).
+      fromList.value = refreshable.value && expanded.value && e.y > insets.top + grabHeight.value;
       base.value = expanded.value ? 0 : mid;
       moving.value = false;
     })
     .onUpdate((e) => {
-      if (closing.value) return;
-      if (expanded.value) {
+      if (closing.value || fromList.value) return;
+      if (expanded.value && refreshable.value) {
+        // Full and refreshable, pulled by the header: down only.
+        moving.value = true;
+        translateY.value = Math.max(0, e.translationY);
+      } else if (expanded.value) {
         // Full: only a pull down from the top of the list moves the sheet.
         if (!startedAtTop.value) return;
         if (!moving.value && (e.translationY <= 0 || scrollY.value > 1)) {
@@ -232,7 +268,7 @@ function Sheet({ onClose, grab, children }: PageDrawerProps) {
         backdrop.value = withTiming(1, { duration: MOTION.backdropIn });
       }
       moving.value = false;
-    }), [listGesture, startedAtTop, scrollY, lastScrollAt, base, expanded, moving, closing, translateY, backdrop, mid, height, onClose]);
+    }), [listGesture, startedAtTop, scrollY, lastScrollAt, base, expanded, moving, closing, translateY, backdrop, mid, height, onClose, refreshable, fromList, grabHeight, insets.top]);
 
   const sheetStyle = useAnimatedStyle(() => {
     // How far toward full (0 part open, 1 full): the header clears the status
@@ -257,7 +293,7 @@ function Sheet({ onClose, grab, children }: PageDrawerProps) {
               theme's wash, as phone web's bell drawer. */}
           <SheetGlassFill allThemes style={[StyleSheet.absoluteFill, styles.surface]} />
           <DrawerExpandContext.Provider value={expand}>
-            <View style={styles.top}>{grab}</View>
+            <View style={styles.top} onLayout={(e) => { grabHeight.value = e.nativeEvent.layout.height; }}>{grab}</View>
             <DrawerListContext.Provider value={list}>
               {/* Part open, the bottom fifth of the sheet sits below the
                   screen; keep the list's end above it. */}

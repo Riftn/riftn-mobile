@@ -81,12 +81,16 @@ const GridCell = memo(function GridCell({ store, item, index, onPress, onUnavail
   store: PlayStore;
   item: UnifiedFeedItem;
   index: number;
-  onPress: (index: number) => void;
+  onPress: (key: string) => void;
   onUnavailable: (key: string) => void;
   frame: Frame;
 }) {
   const playing = useSyncExternalStore(store.subscribe, () => store.get() === index);
-  return <ShortsGridCard item={item} index={index} isVisible={playing} onPress={onPress} onUnavailable={onUnavailable} frame={frame} />;
+  // The tile says which post it is, not where it sat: an index can be a row
+  // or two out of date (a broken tile above it dropped, a page landing), and
+  // the viewer then opened on another post (Requests board).
+  const press = useCallback(() => onPress(itemKey(item)), [onPress, item]);
+  return <ShortsGridCard item={item} index={index} isVisible={playing} onPress={press} onUnavailable={onUnavailable} frame={frame} />;
 });
 
 const itemKey = (item: UnifiedFeedItem) => String(item.tokenId ?? item.id);
@@ -294,8 +298,10 @@ const ShortsGrid: React.FC<ShortsGridProps> = ({
 
   const viewerData = useRef({ shapeItems, mergedParams, shuffleSeed });
   viewerData.current = { shapeItems, mergedParams, shuffleSeed };
-  const handleItemPress = useCallback((index: number) => {
+  const handleItemPress = useCallback((key: string) => {
     const current = viewerData.current;
+    const index = current.shapeItems.findIndex((it) => itemKey(it) === key);
+    if (index < 0) return;
     navigation.navigate(ScreenNames.ShortsViewer, {
       initialIndex: index,
       initialItems: current.shapeItems,

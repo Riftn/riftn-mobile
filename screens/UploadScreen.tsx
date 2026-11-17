@@ -1485,8 +1485,11 @@ export default function UploadScreen() {
     monetization, effectiveShouldMint, isMature, shopLinks, shopListingIds, effectivePostChainId,
   ]);
 
+  // Runs on every tap: the checks below say what is missing (a title, a
+  // cover picture). The button used to grey out without a word, which read
+  // as Go Live not working at all (Requests board).
   const handleGoLive = useCallback(() => {
-    if (!canGoLive || activeIsUploading) return;
+    if (!isLiveMode || activeIsUploading) return;
     const payload = getLivePayload();
 
     const validation = validateLive(payload);
@@ -1498,7 +1501,7 @@ export default function UploadScreen() {
     const text = buildLiveConfirmText(payload);
     setConfirmText(text);
     setShowConfirm(true);
-  }, [canGoLive, activeIsUploading, getLivePayload, validateLive, buildLiveConfirmText]);
+  }, [isLiveMode, activeIsUploading, getLivePayload, validateLive, buildLiveConfirmText]);
 
   const handleConfirmGoLive = useCallback(async () => {
     const payload = getLivePayload();
@@ -1713,7 +1716,12 @@ export default function UploadScreen() {
   const handlePost = useCallback(async () => {
     // `submittingRef`, not `isSubmitting`: a second tap in the same frame reads
     // the state this one has not caused a render for yet. See the ref's doc.
-    if (activeIsUploading || submittingRef.current || (!isStageMode && !postingChainReady)) return;
+    if (activeIsUploading || submittingRef.current) return;
+    if (!isStageMode && !postingChainReady) {
+      // Go Live is always tappable now; say why it is waiting.
+      if (isLiveMode) toastInfo(_copy("copy.72381872350b", { defaultValue: "Switching network…" }));
+      return;
+    }
     haptic.press();
     // Close the keyboard now, while the text field still holds focus. On
     // Android the field can lose focus during the post before navigateHome
@@ -1721,7 +1729,7 @@ export default function UploadScreen() {
     // nothing to act on, so the keys stayed up over Home.
     closeKeyboard();
     if (isStageMode) {
-      if (!titleText.trim()) return;
+      if (!titleText.trim()) { toastError(t("governance.titleRequired")); return; }
       if (scheduledDate && (!Number.isFinite(scheduledDate.getTime()) || scheduledDate.getTime() <= Date.now())) {
         toastError(t("stages.pickFutureTime"));
         return;
@@ -1812,7 +1820,7 @@ export default function UploadScreen() {
     } finally {
       if (!queued) releaseSubmit();
     }
-  }, [canPost, activeIsUploading, postingChainReady, isLiveMode, isQuoteMode, bodyText, pickedVideo,
+  }, [canPost, activeIsUploading, postingChainReady, isLiveMode, isQuoteMode, bodyText, pickedVideo, _copy,
     pickedAudio, pickedImages, getPayload, validate, preUploadCheck, handleGoLive,
     submitPost, submitQuotePost, releaseSubmit, closeKeyboard,
     isStageMode, titleText, scheduledDate, liveThumbnailUri, thumbnailUri, scheduleSpace, createSpace, openStages, nav, consumeRestoredDraft, setBodyText, setTitleText]);
@@ -3904,7 +3912,9 @@ export default function UploadScreen() {
 
           <TouchableOpacity
             onPress={handlePost}
-            disabled={(!isStageMode && !postingChainReady) || (isLiveMode ? (!canGoLive || postInFlight) : (!canPost || postInFlight))}
+            // Live and Stage stay tappable while missing something, so the tap
+            // can say what (handleGoLive); it still looks dimmed until ready.
+            disabled={(isLiveMode || isStageMode) ? postInFlight : (!postingChainReady || !canPost || postInFlight)}
             activeOpacity={0.8}
             className="h-8 px-4 rounded-xl items-center justify-center"
             // The pill stays 32pt to match web; the slop carries it to a
