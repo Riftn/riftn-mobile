@@ -12,7 +12,12 @@ const mockStatus = jest.fn(async () => ({ perMessageFee: 0, freeAccessUsers: [] 
 const mockToastSuccess = jest.fn();
 const mockToastError = jest.fn();
 jest.mock('../../context/WebSocketContext', () => ({ useWebSocketApi: () => ({}) }));
-jest.mock('../../services/dm/dm.api', () => ({ getDmUserStatus: (...args: unknown[]) => (mockStatus as any)(...args) }));
+jest.mock('../../services/dm/dm.api', () => ({ getDmUserStatus: (...args: unknown[]) => (mockStatus as any)(...args) , roomChatId: (id: string) => `room:${id}` }));
+jest.mock('@tanstack/react-query', () => ({ useQuery: () => ({ data: [] }) }));
+jest.mock('../../services/communities.service', () => ({ getUserCommunities: jest.fn() }));
+jest.mock('../../services/dm/bulk-reply', () => ({ sendCommunityLine: jest.fn() }));
+jest.mock('../../hooks/useChatPrefs', () => ({ useChatPrefs: () => ({ byId: new Map() }) }));
+jest.mock('../../libs/community-kinds', () => ({ chatsFromMemberships: () => [], communityKindOf: () => 'group' }));
 jest.mock('../../services/dm/dm.send', () => ({ dmSendQueue: { init: jest.fn(), sendText: (...args: unknown[]) => (mockSendText as any)(...args), waitForDelivery: (...args: unknown[]) => (mockDelivery as any)(...args) } }));
 function mockFlatList({ data, renderItem }: { data: unknown[]; renderItem: (info: { item: unknown; index: number }) => React.ReactNode }) {
   return <>{data.map((item, index) => <React.Fragment key={index}>{renderItem({ item, index })}</React.Fragment>)}</>;
