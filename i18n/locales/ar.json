@@ -7684,7 +7684,11 @@
       "inviteMessage": "انضم إليّ على Riftn: {{url}}",
       "searchAll": "ابحث عن \"{{q}}\" في كل Riftn",
       "searchAllSub": "منشورات، فيديوهات، بث مباشر"
-    }
+    },
+    "shareGroups": "المجموعات",
+    "shareKindGroup": "مجموعة",
+    "shareKindChannel": "قناة",
+    "shareKindCommunity": "مجتمع"
   },
   "editPost": {
     "mediaPermission": "يلزم إذن الوصول إلى مكتبة الوسائط",

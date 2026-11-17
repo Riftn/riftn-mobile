@@ -7668,7 +7668,11 @@
       "inviteMessage": "Rejoins-moi sur Riftn : {{url}}",
       "searchAll": "Rechercher « {{q}} » dans tout Riftn",
       "searchAllSub": "Posts, vidéos, lives"
-    }
+    },
+    "shareGroups": "Groupes",
+    "shareKindGroup": "Groupe",
+    "shareKindChannel": "Canal",
+    "shareKindCommunity": "Communauté"
   },
   "editPost": {
     "mediaPermission": "L'autorisation d'accès à la médiathèque est requise",

@@ -9531,7 +9531,11 @@
       "inviteMessage": "Komm zu mir auf Riftn: {{url}}",
       "searchAll": "Ganz Riftn nach „{{q}}“ durchsuchen",
       "searchAllSub": "Beiträge, Videos, Livestreams"
-    }
+    },
+    "shareGroups": "Gruppen",
+    "shareKindGroup": "Gruppe",
+    "shareKindChannel": "Kanal",
+    "shareKindCommunity": "Community"
   },
   "editPost": {
     "mediaPermission": "Berechtigung für die Mediathek erforderlich",

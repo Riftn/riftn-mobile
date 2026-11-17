@@ -9551,7 +9551,11 @@
       "inviteMessage": "Tham gia Riftn cùng mình: {{url}}",
       "searchAll": "Tìm \"{{q}}\" trên toàn Riftn",
       "searchAllSub": "Bài đăng, video, phát trực tiếp"
-    }
+    },
+    "shareGroups": "Nhóm",
+    "shareKindGroup": "Nhóm",
+    "shareKindChannel": "Kênh",
+    "shareKindCommunity": "Cộng đồng"
   },
   "editPost": {
     "mediaPermission": "Cần quyền truy cập thư viện phương tiện",

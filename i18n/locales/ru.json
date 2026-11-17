@@ -9595,7 +9595,11 @@
       "inviteMessage": "Присоединяйся ко мне в Riftn: {{url}}",
       "searchAll": "Искать «{{q}}» по всему Riftn",
       "searchAllSub": "Посты, видео, трансляции"
-    }
+    },
+    "shareGroups": "Группы",
+    "shareKindGroup": "Группа",
+    "shareKindChannel": "Канал",
+    "shareKindCommunity": "Сообщество"
   },
   "editPost": {
     "mediaPermission": "Требуется доступ к медиатеке",

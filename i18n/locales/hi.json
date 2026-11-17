@@ -9598,7 +9598,11 @@
       "inviteMessage": "Riftn पर मुझसे जुड़ें: {{url}}",
       "searchAll": "पूरे Riftn में \"{{q}}\" खोजें",
       "searchAllSub": "पोस्ट, वीडियो, लाइव स्ट्रीम"
-    }
+    },
+    "shareGroups": "ग्रुप",
+    "shareKindGroup": "ग्रुप",
+    "shareKindChannel": "चैनल",
+    "shareKindCommunity": "कम्युनिटी"
   },
   "editPost": {
     "mediaPermission": "मीडिया लाइब्रेरी की अनुमति आवश्यक है",

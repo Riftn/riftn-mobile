@@ -9592,7 +9592,11 @@
       "inviteMessage": "Unisciti a me su Riftn: {{url}}",
       "searchAll": "Cerca \"{{q}}\" in tutto Riftn",
       "searchAllSub": "Post, video, dirette"
-    }
+    },
+    "shareGroups": "Gruppi",
+    "shareKindGroup": "Gruppo",
+    "shareKindChannel": "Canale",
+    "shareKindCommunity": "Community"
   },
   "editPost": {
     "mediaPermission": "È richiesta l'autorizzazione alla libreria multimediale",

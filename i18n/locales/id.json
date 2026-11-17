@@ -9592,7 +9592,11 @@
       "inviteMessage": "Gabung denganku di Riftn: {{url}}",
       "searchAll": "Cari \"{{q}}\" di seluruh Riftn",
       "searchAllSub": "Postingan, video, siaran langsung"
-    }
+    },
+    "shareGroups": "Grup",
+    "shareKindGroup": "Grup",
+    "shareKindChannel": "Kanal",
+    "shareKindCommunity": "Komunitas"
   },
   "editPost": {
     "mediaPermission": "Izin pustaka media diperlukan",
