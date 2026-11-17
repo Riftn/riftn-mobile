@@ -4682,7 +4682,7 @@
       "approve": "Approve",
       "reject": "Reject",
       "members": "Members",
-      "searchMembers": "Search by wallet address",
+      "searchMembers": "Search by name, @username or wallet",
       "noMembersMatch": "No member matches that.",
       "noMembers": "No members yet.",
       "muted": "Muted",
@@ -4748,7 +4748,7 @@
       "adminBadge": "Admin",
       "rightsSummary": "{{granted}} of {{total}} rights",
       "addAdministrator": "Add administrator",
-      "noMemberMatches": "No member matches that address.",
+      "noMemberMatches": "No member matches that search.",
       "noPlainMembers": "Everyone here is already an admin.",
       "searchTruncated": "Showing the first {{limit}} — keep typing to narrow it down.",
       "danger": {
