@@ -7,6 +7,7 @@ import { supabase } from '../../services/supabase';
 jest.mock('../../services/supabase', () => ({ supabase: {
   from: jest.fn(), channel: jest.fn(), removeChannel: jest.fn(), functions: { invoke: jest.fn() },
 } }));
+jest.mock('../../libs/auth.utils', () => ({ getAuthToken: jest.fn(async () => 'token') }));
 jest.mock('react-native-css-interop', () => ({ createInteropElement: jest.requireActual('react').createElement }));
 afterEach(cleanup);
 it('keeps newer realtime completion when a request finishes late, and isolates languages', async () => {
