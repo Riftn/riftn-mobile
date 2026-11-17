@@ -134,6 +134,8 @@ const SEARCH_LOG_TYPE: Record<TabKey, SearchLogType> = {
 };
 
 const PAGE_SIZE = 20;
+/** Last trending list per Explore tab + category, so a tab seen before opens without a placeholder. */
+const trendingCache = new Map<string, UnifiedFeedItem[]>();
 
 /** Tabs shown on the default explore screen (no accounts) */
 const EXPLORE_TABS = TABS.filter((t) => t.key !== "accounts");
@@ -419,11 +421,19 @@ const SearchScreen: React.FC = () => {
     setSelectedCategory("All");
   }, []);
 
-  // Fetch trending content based on active tab
+  // Fetch trending content based on active tab. A tab or category seen before
+  // shows its last list at once (no placeholder) and refreshes quietly.
   useEffect(() => {
     if (hasSearched) return; // don't refetch while viewing search results
     let cancelled = false;
-    setTrendingLoading(true);
+    const cacheKey = `${activeTab}|${browseCategory ?? ""}`;
+    const seen = trendingCache.get(cacheKey);
+    if (seen) {
+      setTrendingVideos(seen);
+      setTrendingLoading(false);
+    } else {
+      setTrendingLoading(true);
+    }
     const tabConfig = TABS.find((t) => t.key === activeTab);
     const feedPostType: FeedPostType =
       activeTab === "all" ? "all" : (tabConfig?.postType as FeedPostType) ?? "all";
@@ -444,6 +454,7 @@ const SearchScreen: React.FC = () => {
           limit: 10,
           page: 1,
         });
+        trendingCache.set(cacheKey, res.result || []);
         if (!cancelled) setTrendingVideos(res.result || []);
       } catch {
         // silently fail
