@@ -89,6 +89,8 @@ export interface SerializedUploadPayload {
   spoilerText?: string;
   /** The poster closed the price card for the $TICKER / address in the text. */
   hideAssetCards?: boolean;
+  /** Links whose preview card the poster closed in the composer. */
+  hiddenLinkPreviews?: string[];
   /** Who may quote it. Absent means anyone. */
   quotePolicy?: "followers" | "nobody";
   /** Who may reply. Absent means anyone. */

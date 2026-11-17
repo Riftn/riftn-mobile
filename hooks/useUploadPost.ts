@@ -114,6 +114,7 @@ export type UploadPayload = {
   spoilerText?: string;
   /** The poster closed the price card for the $TICKER / address in the text. */
   hideAssetCards?: boolean;
+  hiddenLinkPreviews?: string[];
   /** Who may quote it. Absent means anyone. */
   quotePolicy?: "followers" | "nobody";
   /** Who may reply. Absent means anyone. */
@@ -348,6 +349,7 @@ export function useUploadPost() {
         comicBorder: p.comicBorder,
         spoilerText: p.spoilerText,
         hideAssetCards: p.hideAssetCards,
+        hiddenLinkPreviews: p.hiddenLinkPreviews,
         quotePolicy: p.quotePolicy,
         replyPolicy: p.replyPolicy,
         visibility: p.visibility,
@@ -431,6 +433,7 @@ export function useUploadPost() {
       mediaDescriptions?: string[];
       spoilerText?: string;
       hideAssetCards?: boolean;
+      hiddenLinkPreviews?: string[];
       quotePolicy?: "followers" | "nobody";
       replyPolicy?: "followers" | "following" | "mentioned";
     }): boolean => {
@@ -481,6 +484,7 @@ export function useUploadPost() {
           mediaDescriptions: p.mediaDescriptions,
           spoilerText: p.spoilerText,
           hideAssetCards: p.hideAssetCards,
+          hiddenLinkPreviews: p.hiddenLinkPreviews,
           quotePolicy: p.quotePolicy,
           replyPolicy: p.replyPolicy,
         },

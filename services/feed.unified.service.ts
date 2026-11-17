@@ -103,6 +103,8 @@ export interface UnifiedFeedItem {
   spoilerText?: string;
   /** The poster closed the price card for the $TICKER / address in the caption. */
   hideAssetCards?: boolean;
+  /** Links whose preview card the poster closed, so no surface draws one. */
+  hiddenLinkPreviews?: string[];
   /** Who may quote it; absent means anyone. */
   quotePolicy?: "public" | "followers" | "nobody";
   /** A quote whose quoted author took their post back out of it. */
