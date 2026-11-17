@@ -3,13 +3,16 @@ import i18n from 'i18next';
 import { translateText, getUserLanguage } from '../services/translation.service';
 import { toastError, toastSuccess } from './toast';
 import { ensureAiConsent, hasAiConsent } from './ai-consent';
+import { chatLineIsForeign } from './chat-language-hint';
 
 /**
  * Translate for direct messages. The menu (held message) starts it and the
  * bubble shows the result, so the state lives here, keyed by message id.
  *
- * Only on request, never automatic: a DM is private and translating sends it
- * to a third party, so it goes out as private text (isPublic false).
+ * Messages you receive also translate themselves (autoTranslateDm), on the
+ * same rules as live chat, once the Auto-translate setting and AI permission
+ * allow it. Either way the text goes out as private (isPublic false), so it
+ * never reaches a provider that trains on its input.
  */
 export type DmTranslation =
   | { status: 'loading' }
@@ -17,6 +20,8 @@ export type DmTranslation =
   | { status: 'hidden'; text: string };
 
 const entries = new Map<string, DmTranslation>();
+// Messages auto-translate has already looked at, so it asks once per message.
+const autoTried = new Set<string>();
 const listeners = new Map<string, Set<() => void>>();
 
 function set(id: string, next: DmTranslation | undefined) {
@@ -75,8 +80,48 @@ export async function toggleDmTranslation(id: string, content?: string | null): 
   }
 }
 
+const MIN_AUTO_LETTERS = 4;
+
+/**
+ * Whether a received message should translate itself. The live chat rule:
+ * a script that names itself (Arabic, Cyrillic, kana...) once it has a few
+ * letters, and a Latin line only when its own words say it is in another
+ * language ("bom dia galera"). Slang and names stay as typed.
+ */
+export function shouldAutoTranslateDm(content: string | null | undefined, readerLang: string): boolean {
+  const text = dmTranslatableText(content).replace(/[@#$][\p{L}\p{N}_.-]+/gu, ' ');
+  const letters = text.replace(/[^\p{L}]/gu, '');
+  if (letters.length < MIN_AUTO_LETTERS) return false;
+  if (/^[\p{Script=Latin}]*$/u.test(letters)) return chatLineIsForeign(text, readerLang);
+  return true;
+}
+
+/**
+ * Translate a received message without being asked: no toasts, nothing shown
+ * unless the text actually changed, and never again for the same message (so
+ * "Show original" sticks).
+ */
+export async function autoTranslateDm(id: string, content?: string | null): Promise<void> {
+  if (autoTried.has(id) || entries.has(id)) return;
+  autoTried.add(id);
+  if (!hasAiConsent()) return;
+  const text = dmTranslatableText(content);
+  if (!text) return;
+  // No 'loading' state: an unasked-for translation shows nothing until it lands.
+  try {
+    const result = await translateText(text, getUserLanguage(), 'auto', { isPublic: false });
+    if (result.sameLanguage || !result.translatedText?.trim() || result.translatedText.trim() === text) return;
+    // The reader may have pressed Translate meanwhile; their answer stands.
+    if (entries.has(id)) return;
+    set(id, { status: 'shown', text: result.translatedText });
+  } catch {
+    // Quiet: the Translate option in the hold menu is still there.
+  }
+}
+
 /** Tests only. */
 export function __resetDmTranslations() {
+  autoTried.clear();
   entries.clear();
   listeners.clear();
 }
