@@ -14,7 +14,6 @@ import {
   BackHandler,
   Keyboard,
   Platform,
-  PixelRatio,
   Image as RNImage,
 } from "react-native";
 import { GRAIN, glassTint, type ThemeSkin } from "../../theme/skins";
@@ -232,7 +231,8 @@ const labelScaleCache = new Map<string, number>();
 function useTileLabelSize(labels: string[], tileWidth: number) {
   const avail = tileWidth - TILE_LABEL_INSET;
   const words = useMemo(() => Array.from(new Set(labels.filter((label) => !label.includes(" ")))), [labels]);
-  const key = `${PixelRatio.getFontScale()}|${avail}|${words.join("\u0001")}`;
+  const { fontScale = 1 } = useWindowDimensions();
+  const key = `${fontScale}|${avail}|${words.join("\u0001")}`;
   const [scale, setScale] = useState<number | undefined>(() => labelScaleCache.get(key));
   const widths = useRef<Map<string, number>>(new Map());
   useEffect(() => {
