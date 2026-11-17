@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  BackHandler,
   type TextInput,
 } from "react-native";
 import { DeHubRefreshControl, DeHubRefreshMark } from "../components/Feed/DeHubRefreshControl";
@@ -59,6 +60,11 @@ import { useAppTheme } from "../context/ThemeContext";
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from '../hooks/useSearchFieldMaterial';
 import { usePublicChatUnreadCount } from "../hooks/usePublicChatUnread";
 import { themeIconUrl } from '../theme/icons';
+import BulkChatBar from "../components/DM/BulkChatBar";
+import { sendToMany } from "../services/dm/bulk-reply";
+import { useWebSocketApi } from "../context/WebSocketContext";
+import { DMSocketEvent } from "../services/enums/dm-socket-events.enum";
+import { useTabBarHide } from "../context/TabBarHideContext";
 
 const SEPARATOR = { height: 1, backgroundColor: "rgba(255,255,255,0.07)" } as const;
 const SEARCH_ACTION = { width: 28, height: 28, borderRadius: 6, alignItems: "center", justifyContent: "center" } as const;
@@ -105,15 +111,16 @@ const DirectMessagesInner: React.FC = () => {
   });
   // Communities join the list when the member chose Show in Chats (the same
   // setting the website reads).
-  const { byId: chatPrefs } = useChatPrefs(!!myAddress);
+  const { byId: chatPrefs, update: updateChatPref } = useChatPrefs(!!myAddress);
   const groupChats = useMemo(() => {
     const q = query.trim().toLowerCase();
     return chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt)
       .filter((c) => !q || c.name.toLowerCase().includes(q));
   }, [memberships, query, chatPrefs]);
   const openGroupChat = useCallback((c: Community, invite = false) => {
+    if (chatPrefs.get(roomChatId(c.id))?.markedUnread) void updateChatPref(roomChatId(c.id), { unread: false });
     navigation.navigate(ScreenNames.CommunityDetail as any, { slug: c.slug, tab: "chat", ...(invite ? { invite: true } : {}) });
-  }, [navigation]);
+  }, [navigation, chatPrefs, updateChatPref]);
   const [dnd, setDnd] = useState(false);
   const [newDmVisible, setNewDmVisible] = useState(false);
   const [dmSettingsVisible, setDmSettingsVisible] = useState(false);
@@ -203,12 +210,45 @@ const DirectMessagesInner: React.FC = () => {
   }, [closeMenu]);
 
 
+  /*
+   * Picking several chats at once: hold a chat, choose Select, then tap
+   * others. The bar at the foot marks them read or unread, sends one reply to
+   * all of them, or deletes them. null = not picking. Group and community
+   * chats are keyed by their settings id (roomChatId), DMs by their own id.
+   */
+  const [bulkIds, setBulkIds] = useState<Set<string> | null>(null);
+  const picking = bulkIds !== null;
+  const pickingRef = useRef(false);
+  pickingRef.current = picking;
+  const toggleBulk = useCallback((id: string) => setBulkIds((prev) => {
+    const next = new Set(prev ?? []);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    return next;
+  }), []);
+  const endPicking = useCallback(() => setBulkIds(null), []);
+  // Switching between the inbox and Requests, or searching, starts fresh.
+  useEffect(() => { setBulkIds(null); }, [showRequests]);
+  // Android back leaves picking before it leaves the screen.
+  useEffect(() => {
+    if (!picking) return;
+    const sub = BackHandler.addEventListener("hardwareBackPress", () => { setBulkIds(null); return true; });
+    return () => sub.remove();
+  }, [picking]);
+  // The bar takes the bottom nav's place while picking, as in Photos and Mail.
+  const tabBarHide = useTabBarHide();
+  useEffect(() => {
+    if (!tabBarHide) return;
+    tabBarHide.value = picking ? -100 : 0;
+  }, [picking, tabBarHide]);
+  useEffect(() => () => { if (tabBarHide) tabBarHide.value = 0; }, [tabBarHide]);
+
   const handleConvLongPress = useCallback(
     (conv: DmConversation, otherUser: DmUser | undefined) => {
+      if (pickingRef.current) { toggleBulk(conv._id); return; }
       setCtxConv(conv);
       setCtxUser(otherUser);
     },
-    [],
+    [toggleBulk],
   );
 
   const handleAvatarPress = useCallback(
@@ -301,6 +341,96 @@ const DirectMessagesInner: React.FC = () => {
     [deleteConv, ctxConv],
   );
 
+  const handleCtxSelectMany = useCallback(() => {
+    if (ctxConv) setBulkIds(new Set([ctxConv._id]));
+  }, [ctxConv]);
+
+  const ws = useWebSocketApi();
+  // Only chats still on screen count (one may have been deleted meanwhile).
+  const bulkChats = useMemo(
+    () => (bulkIds ? filtered.filter((c) => bulkIds.has(c._id)) : []),
+    [bulkIds, filtered],
+  );
+  const bulkRooms = useMemo(
+    () => (bulkIds && !inRequests ? groupChats.filter((c) => bulkIds.has(roomChatId(c.id))) : []),
+    [bulkIds, groupChats, inRequests],
+  );
+  const bulkCount = bulkChats.length + bulkRooms.length;
+  const bulkAllUnread = bulkCount > 0
+    && bulkChats.every((c) => (c.unreadCount || 0) > 0 || !!chatPrefs.get(c._id)?.markedUnread)
+    && bulkRooms.every((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread);
+
+  const bulkToggleUnread = useCallback(() => {
+    const unread = !bulkAllUnread;
+    for (const c of bulkChats) {
+      if (!unread && (c.unreadCount || 0) > 0) {
+        // Mark read clears the server's count too, the same way opening the chat does.
+        ws.emitAuthed(DMSocketEvent.markAsRead, { dmId: c._id });
+        dmActions.markAllRead(c._id, myUserId);
+      }
+      if (unread || chatPrefs.get(c._id)?.markedUnread) void updateChatPref(c._id, { unread });
+    }
+    for (const c of bulkRooms) void updateChatPref(roomChatId(c.id), { unread });
+    setBulkIds(null);
+  }, [bulkAllUnread, bulkChats, bulkRooms, chatPrefs, updateChatPref, ws, myUserId]);
+
+  const bulkDelete = useCallback(() => {
+    const ids = bulkChats.map((c) => c._id);
+    if (!ids.length) return;
+    for (const id of ids) {
+      scheduleDelete(id, async () => {
+        try {
+          await deleteConversation(id, myAddress);
+          dmActions.removeConversation(id);
+        } catch (e) {
+          toastError(e, t("dm.failedToDeleteConversation"));
+        }
+      });
+    }
+    const toastId = toastSuccess(
+      ids.length === 1
+        ? t("toasts.conversation_deleted")
+        : t("chatBulk.deleted", { defaultValue: "{{count}} chats deleted", count: ids.length }),
+      {
+        duration: UNDO_WINDOW_MS,
+        actionLabel: t("common.undo"),
+        onActionPress: () => {
+          ids.forEach((id) => undoDelete(id));
+          toast.dismiss(toastId);
+        },
+      },
+    );
+    setBulkIds(null);
+  }, [bulkChats, myAddress, t]);
+
+  const bulkReply = useCallback(async (text: string): Promise<number> => {
+    if (!myAddress || !myUserId) return 0;
+    const u = user as any;
+    const { ok, total } = await sendToMany(
+      bulkChats.map((c) => c._id),
+      bulkRooms.map((c) => c.id),
+      {
+        userId: myUserId,
+        address: myAddress,
+        username: u?.username,
+        displayName: u?.displayName,
+        avatarUrl: u?.avatarImageUrl || u?.avatarUrl,
+        badgeBalance: u?.badgeBalance,
+      },
+      text,
+    );
+    if (ok === total && ok > 0) {
+      toastSuccess(t("chatBulk.sent", { defaultValue: "Sent to {{count}} chats", count: ok }));
+      setBulkIds(null);
+    } else if (ok > 0) {
+      toastError(t("chatBulk.partSent", { defaultValue: "Sent to {{ok}} of {{total}} chats", ok, total }));
+      setBulkIds(null);
+    } else {
+      toastError(t("chatBulk.notSent", { defaultValue: "Could not send. Try again." }));
+    }
+    return ok;
+  }, [bulkChats, bulkRooms, myAddress, myUserId, user, t]);
+
   const handleSwipeBlock = useCallback(
     (_conv: DmConversation, user: DmUser | undefined) => blockConvUser(user),
     [blockConvUser],
@@ -338,7 +468,9 @@ const DirectMessagesInner: React.FC = () => {
 
   const handleOpenConversation = useCallback(
     (conv: DmConversation, otherUser: DmUser | undefined) => {
+      if (pickingRef.current) { toggleBulk(conv._id); return; }
       perfMark("chat:open");
+      if (chatPrefs.get(conv._id)?.markedUnread) void updateChatPref(conv._id, { unread: false });
       const title =
         otherUser?.displayName ||
         otherUser?.username ||
@@ -348,7 +480,7 @@ const DirectMessagesInner: React.FC = () => {
         title,
       });
     },
-    [navigation],
+    [navigation, chatPrefs, updateChatPref, toggleBulk],
   );
 
   const startDMWith = useCallback(
@@ -409,9 +541,15 @@ const DirectMessagesInner: React.FC = () => {
         onDelete={handleSwipeDelete}
         onBlock={handleSwipeBlock}
         animateIn={!!firstIdsRef.current && !firstIdsRef.current.has(item._id)}
+        selecting={picking}
+        checked={!!bulkIds?.has(item._id)}
+        markedUnread={!!chatPrefs.get(item._id)?.markedUnread}
       />
     ),
     [
+      picking,
+      bulkIds,
+      chatPrefs,
       myUserId,
       myAddress,
       handleOpenConversation,
@@ -491,7 +629,14 @@ const DirectMessagesInner: React.FC = () => {
       <View style={SEPARATOR} />
       {groupChats.map((c) => (
         <React.Fragment key={c.id}>
-          <GroupChatRow community={c} onPress={() => openGroupChat(c)} />
+          <GroupChatRow
+            community={c}
+            onPress={() => (picking ? toggleBulk(roomChatId(c.id)) : openGroupChat(c))}
+            onLongPress={() => (picking ? toggleBulk(roomChatId(c.id)) : setBulkIds(new Set([roomChatId(c.id)])))}
+            selecting={picking}
+            checked={!!bulkIds?.has(roomChatId(c.id))}
+            markedUnread={!!chatPrefs.get(roomChatId(c.id))?.markedUnread}
+          />
           <View style={SEPARATOR} />
         </React.Fragment>
       ))}
@@ -525,7 +670,7 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, t, groupChats, openGroupChat, inRequests, requestChats.length, requestUnread, query],
+    [handleOpenLiveChat, publicUnread, t, groupChats, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, []);
@@ -578,7 +723,8 @@ const DirectMessagesInner: React.FC = () => {
           keyExtractor={keyExtractor}
           renderItem={renderItem}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ paddingBottom: 80 }}
+          contentContainerStyle={{ paddingBottom: picking ? 150 : 80 }}
+          extraData={bulkIds}
           className="flex-1"
           ListHeaderComponent={publicChatItem}
           refreshControl={
@@ -661,6 +807,7 @@ const DirectMessagesInner: React.FC = () => {
           onOpenChat={handleCtxOpenChat}
           onBlock={handleCtxBlock}
           onDelete={handleCtxDelete}
+          onSelectMany={handleCtxSelectMany}
           onToggleFreeAccess={handleCtxToggleFreeAccess}
           peerHasFreeAccess={
             !!(myDmStatus?.freeAccessUsers?.some(
@@ -670,6 +817,17 @@ const DirectMessagesInner: React.FC = () => {
           isCreator={!!(myDmStatus?.perMessageFee && myDmStatus.perMessageFee > 0)}
         />
       </View>
+      {picking && (
+        <BulkChatBar
+          count={bulkCount}
+          deletableCount={bulkChats.length}
+          allUnread={bulkAllUnread}
+          onToggleUnread={bulkToggleUnread}
+          onDelete={bulkDelete}
+          onReply={bulkReply}
+          onCancel={endPicking}
+        />
+      )}
       <DeHubRefreshMark refreshing={!!contactsLoading} />
     </KeyboardAvoidingView>
   );

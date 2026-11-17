@@ -16811,5 +16811,27 @@
     "scheduledToast": "{{when}} için zamanlandı",
     "failedToast": "Zamanlanmış bir mesaj gönderilemedi",
     "error": "Olmadı. Tekrar dene."
+  },
+  "chatBulk": {
+    "select": "Seç",
+    "toolbar": "Seçili sohbetler",
+    "pick": "Seçmek için sohbetlere dokunun",
+    "selected": "{{count}} seçildi",
+    "cancel": "İptal",
+    "read": "Okundu işaretle",
+    "unread": "Okunmadı işaretle",
+    "reply": "Yanıtla",
+    "delete": "Sil",
+    "replyTitle_one": "{{count}} sohbete yanıt ver",
+    "replyTitle_other": "{{count}} sohbete yanıt ver",
+    "replyHint": "Herkes bunu kendi sohbetinde normal bir mesaj olarak alır.",
+    "replyPlaceholder": "Bir mesaj yazın…",
+    "sendAll": "{{count}} kişiye gönder",
+    "deleted_one": "{{count}} sohbet silindi",
+    "deleted_other": "{{count}} sohbet silindi",
+    "sent_one": "{{count}} sohbete gönderildi",
+    "sent_other": "{{count}} sohbete gönderildi",
+    "partSent": "{{total}} sohbetten {{ok}} tanesine gönderildi",
+    "notSent": "Gönderilemedi. Tekrar deneyin."
   }
 }

@@ -16812,5 +16812,27 @@
     "scheduledToast": "Programado para {{when}}",
     "failedToast": "No se pudo enviar un mensaje programado",
     "error": "No ha funcionado. Inténtalo de nuevo."
+  },
+  "chatBulk": {
+    "select": "Seleccionar",
+    "toolbar": "Chats seleccionados",
+    "pick": "Toca chats para seleccionarlos",
+    "selected": "{{count}} seleccionados",
+    "cancel": "Cancelar",
+    "read": "Marcar como leído",
+    "unread": "Marcar como no leído",
+    "reply": "Responder",
+    "delete": "Eliminar",
+    "replyTitle_one": "Responder a {{count}} chat",
+    "replyTitle_other": "Responder a {{count}} chats",
+    "replyHint": "Cada persona lo recibe como un mensaje normal en su propio chat.",
+    "replyPlaceholder": "Escribe un mensaje…",
+    "sendAll": "Enviar a {{count}}",
+    "deleted_one": "{{count}} chat eliminado",
+    "deleted_other": "{{count}} chats eliminados",
+    "sent_one": "Enviado a {{count}} chat",
+    "sent_other": "Enviado a {{count}} chats",
+    "partSent": "Enviado a {{ok}} de {{total}} chats",
+    "notSent": "No se pudo enviar. Inténtalo de nuevo."
   }
 }

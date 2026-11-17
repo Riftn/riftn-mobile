@@ -16832,5 +16832,27 @@
     "scheduledToast": "تمت الجدولة في {{when}}",
     "failedToast": "تعذر إرسال رسالة مجدولة",
     "error": "لم ينجح ذلك. حاول مرة أخرى."
+  },
+  "chatBulk": {
+    "select": "تحديد",
+    "toolbar": "المحادثات المحددة",
+    "pick": "اضغط على المحادثات لتحديدها",
+    "selected": "تم تحديد {{count}}",
+    "cancel": "إلغاء",
+    "read": "تعليم كمقروءة",
+    "unread": "تعليم كغير مقروءة",
+    "reply": "رد",
+    "delete": "حذف",
+    "replyTitle_one": "الرد على {{count}} محادثة",
+    "replyTitle_other": "الرد على {{count}} محادثات",
+    "replyHint": "يتلقاها كل شخص كرسالة عادية في محادثته الخاصة.",
+    "replyPlaceholder": "اكتب رسالة…",
+    "sendAll": "إرسال إلى {{count}}",
+    "deleted_one": "تم حذف {{count}} محادثة",
+    "deleted_other": "تم حذف {{count}} محادثات",
+    "sent_one": "تم الإرسال إلى {{count}} محادثة",
+    "sent_other": "تم الإرسال إلى {{count}} محادثات",
+    "partSent": "تم الإرسال إلى {{ok}} من {{total}} محادثات",
+    "notSent": "تعذر الإرسال. حاول مرة أخرى."
   }
 }

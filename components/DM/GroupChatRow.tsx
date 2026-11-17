@@ -9,10 +9,21 @@ import Icon from "../ui/Icon";
 import { storageImageSource } from "../../libs/cdnImage";
 import { communityKindOf, entryPriceOf } from "../../libs/community-kinds";
 import type { Community } from "../../types/community";
+import { BulkTick, CHECKED_FILL, MarkedUnreadDot } from "./BulkChatBar";
 
 const DEHUB_COIN = require("../../assets/web-icons/dehub-coin.png");
 
-export default function GroupChatRow({ community, onPress }: { community: Community; onPress: () => void }) {
+export default function GroupChatRow({ community, onPress, onLongPress, selecting = false, checked = false, markedUnread = false }: {
+  community: Community;
+  onPress: () => void;
+  /** Hold the row to start picking several chats. */
+  onLongPress?: () => void;
+  /** Picking several chats: the row shows a tick and a tap toggles it. */
+  selecting?: boolean;
+  checked?: boolean;
+  /** You marked this chat unread yourself. */
+  markedUnread?: boolean;
+}) {
   const { t } = useTranslation();
   const kind = communityKindOf(community);
   const kindIcon = kind === "channel" ? "Megaphone" : "Users";
@@ -22,7 +33,17 @@ export default function GroupChatRow({ community, onPress }: { community: Commun
     ? t("communities.newChat.channelRow", { defaultValue: "Channel · {{formattedCount}} members", count: community.member_count ?? 0, formattedCount })
     : t("communities.newChat.groupRow", { defaultValue: "Group · {{formattedCount}} members", count: community.member_count ?? 0, formattedCount });
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.7} className="flex-row items-center px-4 py-4 gap-3" testID={`group-chat-row-${kind}`}>
+    <TouchableOpacity
+      onPress={onPress}
+      onLongPress={onLongPress}
+      delayLongPress={400}
+      activeOpacity={0.7}
+      accessibilityState={selecting ? { selected: checked } : undefined}
+      className="flex-row items-center px-4 py-4 gap-3"
+      testID={`group-chat-row-${kind}`}
+    >
+      {selecting && checked && <View pointerEvents="none" style={CHECKED_FILL} />}
+      {selecting && <BulkTick checked={checked} />}
       <View
         style={{ width: 48, height: 48, borderRadius: Math.round(48 * 0.16) }}
         className="bg-theme-neutrals-800 items-center justify-center overflow-hidden"
@@ -36,6 +57,7 @@ export default function GroupChatRow({ community, onPress }: { community: Commun
           <Icon name={kindIcon as any} size={13} color="#a1a1aa" />
           <Text className="text-theme-neutrals-100 text-[15px] font-semibold flex-shrink" numberOfLines={1}>{community.name}</Text>
           {community.is_private && <Icon name="Lock" size={12} color="#808089" />}
+          {markedUnread && <View style={{ marginLeft: "auto" }}><MarkedUnreadDot /></View>}
         </View>
         <View className="flex-row items-center gap-1 mt-0.5">
           <Text className="text-theme-neutrals-400 text-[14px]" numberOfLines={1}>{subtitle}</Text>

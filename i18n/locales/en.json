@@ -16653,5 +16653,27 @@
     "scheduledToast": "Scheduled for {{when}}",
     "failedToast": "A scheduled message could not be sent",
     "error": "That did not work. Try again."
+  },
+  "chatBulk": {
+    "select": "Select",
+    "toolbar": "Selected chats",
+    "pick": "Tap chats to select them",
+    "selected": "{{count}} selected",
+    "cancel": "Cancel",
+    "read": "Mark read",
+    "unread": "Mark unread",
+    "reply": "Reply",
+    "delete": "Delete",
+    "replyTitle_one": "Reply to {{count}} chat",
+    "replyTitle_other": "Reply to {{count}} chats",
+    "replyHint": "Each person gets this as a normal message in their own chat.",
+    "replyPlaceholder": "Write a message…",
+    "sendAll": "Send to {{count}}",
+    "deleted_one": "{{count}} chat deleted",
+    "deleted_other": "{{count}} chats deleted",
+    "sent_one": "Sent to {{count}} chat",
+    "sent_other": "Sent to {{count}} chats",
+    "partSent": "Sent to {{ok}} of {{total}} chats",
+    "notSent": "Could not send. Try again."
   }
 }
