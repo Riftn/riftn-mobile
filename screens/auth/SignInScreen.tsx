@@ -17,6 +17,7 @@ import { ScreenNames } from "../../navigation/ScreenNames";
 import { ChainId } from "../../config/constants";
 import { SignInWaitVeil } from "../../components/auth/SignInHandoff";
 import SocialLoginIcons from "../../components/auth/SocialLoginIcons";
+import SignInSavedProfiles from "../../components/auth/SignInSavedProfiles";
 import EmailCodeEntry from "../../components/auth/EmailCodeEntry";
 import LoginShortsStack from "../../components/auth/LoginShortsStack";
 import WalletSetupScreen, {
@@ -807,6 +808,9 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
               are all live. */}
           {authStep === "main" ? (
             <View onLayout={(event) => setLoginFormHeight(event.nativeEvent.layout.height)}>
+            {/* Accounts still saved on this phone (logging out of one keeps
+                the others), same rows as the sign-in sheet. */}
+            {built ? <SignInSavedProfiles disabled={isLoading} /> : null}
             {!built ? <View style={{ height: loginFormHeight }} /> : <SocialLoginIcons
               onGoogle={handleGoogleLogin}
               onApple={handleAppleLogin}
