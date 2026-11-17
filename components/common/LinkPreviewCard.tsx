@@ -143,7 +143,7 @@ const LinkPreviewCardComponent: React.FC<LinkPreviewCardProps> = ({ text, style,
           style={styles.close}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
           accessibilityRole="button"
-          accessibilityLabel={t('copy.removeLinkPreview', { defaultValue: 'Remove link preview' })}
+          accessibilityLabel={t('common.remove', 'Remove')}
         >
           <Icon name="X" size={14} color="rgba(255,255,255,0.85)" />
         </TouchableOpacity>
