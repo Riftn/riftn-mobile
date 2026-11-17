@@ -359,6 +359,11 @@ export async function deleteConversation(
   } as any);
 }
 
+/** Accept a message request: the chat moves from Requests to the inbox. */
+export async function acceptMessageRequest(dmId: string): Promise<void> {
+  await apiClient.post(`/dm/chat-prefs/${dmId}`, { accepted: true }, { isAuthRequired: true });
+}
+
 export async function bulkDeleteMessages(
   dmId: string,
   messageIds: string[],

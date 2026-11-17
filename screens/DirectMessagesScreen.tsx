@@ -24,6 +24,7 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import NewDMModal from "../components/DM/NewDMModal";
 import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
+import UnreadCountChip from "../components/DM/UnreadCountChip";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
 import { chatsFromMemberships } from "../libs/community-kinds";
@@ -129,6 +130,19 @@ const DirectMessagesInner: React.FC = () => {
   // A conversation with someone the viewer blocked leaves the list at once.
   const blockedVersion = useBlockedAuthorsVersion();
 
+  const [showRequests, setShowRequests] = useState(false);
+  const requestChats = useMemo(
+    () => conversations.filter((c) => c.isRequest && !pendingDeletes.has(c._id)
+      && !isAuthorBlocked(getOtherParticipant(c, myUserId, myAddress)?.address)),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [conversations, pendingDeletes, myUserId, myAddress, blockedVersion],
+  );
+  const requestUnread = requestChats.reduce((n, c) => n + (c.unreadCount || 0), 0);
+  // The last request was accepted or deleted: nothing left to show here.
+  const noRequestsLeft = requestChats.length === 0;
+  useEffect(() => { if (noRequestsLeft) setShowRequests(false); }, [noRequestsLeft]);
+  const inRequests = showRequests && !query.trim();
+
   // Filtered & sorted conversations
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -146,7 +160,10 @@ const DirectMessagesInner: React.FC = () => {
           return title.includes(q) || preview.includes(q);
         })
       : conversations;
-    return list
+    // First messages from people you don't follow wait under Requests. A
+    // search looks through both, so a request is never unfindable.
+    const scoped = q ? list : list.filter((c) => !!c.isRequest === showRequests);
+    return scoped
       .filter((c) => !pendingDeletes.has(c._id))
       .filter((c) => !isAuthorBlocked(getOtherParticipant(c, myUserId, myAddress)?.address))
       .sort(
@@ -155,7 +172,7 @@ const DirectMessagesInner: React.FC = () => {
           +new Date(a.updatedAt || a.lastMessageAt || 0),
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion]);
+  }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, showRequests]);
 
   // Rows waiting out their undo window count as gone, so swiping away the last
   // one lands on the real empty state rather than "no matches".
@@ -405,7 +422,27 @@ const DirectMessagesInner: React.FC = () => {
   );
 
   const publicChatItem = useMemo(
-    () => (
+    () => inRequests ? (
+      <>
+        <TouchableOpacity
+          onPress={() => setShowRequests(false)}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={t("common.goBack")}
+          testID="requests-back"
+          className="flex-row items-center px-4 pt-4 pb-2 gap-2"
+        >
+          <Icon name="ChevronLeft" size={18} color="#A1A1AA" />
+          <Text className="text-theme-neutrals-100 text-[15px] font-semibold">
+            {t("dmRequests.title", { defaultValue: "Requests" })}
+          </Text>
+        </TouchableOpacity>
+        <Text className="text-theme-neutrals-400 text-[13px] px-4 pb-3" style={{ lineHeight: 18 }}>
+          {t("dmRequests.hint", { defaultValue: "Messages from people you don't follow. Accept one, reply or follow them and the chat moves to your inbox." })}
+        </Text>
+        <View style={SEPARATOR} />
+      </>
+    ) : (
       <>
       <TouchableOpacity
         onPress={handleOpenLiveChat}
@@ -452,9 +489,37 @@ const DirectMessagesInner: React.FC = () => {
           <View style={SEPARATOR} />
         </React.Fragment>
       ))}
+      {requestChats.length > 0 && !query.trim() && (
+        <>
+          <TouchableOpacity
+            onPress={() => setShowRequests(true)}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            testID="requests-open"
+            className="flex-row items-center px-4 py-4 gap-3"
+          >
+            <View
+              style={{ width: 48, height: 48, borderRadius: Math.round(48 * 0.16), backgroundColor: "rgba(127,127,127,0.16)" }}
+              className="items-center justify-center"
+            >
+              <Icon name="Mail" size={22} color="#A1A1AA" />
+            </View>
+            <View className="flex-1 justify-center">
+              <Text className="text-theme-neutrals-100 text-[15px] font-semibold" numberOfLines={1}>
+                {t("dmRequests.title", { defaultValue: "Requests" })}
+              </Text>
+              <Text className="text-theme-neutrals-400 text-[14px] mt-0.5" numberOfLines={1}>
+                {t("dmRequests.rowHint", { defaultValue: "{{n}} from people you don't follow", n: requestChats.length })}
+              </Text>
+            </View>
+            {requestUnread > 0 && <UnreadCountChip count={requestUnread} />}
+          </TouchableOpacity>
+          <View style={SEPARATOR} />
+        </>
+      )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, t, groupChats, openGroupChat],
+    [handleOpenLiveChat, publicUnread, t, groupChats, openGroupChat, inRequests, requestChats.length, requestUnread, query],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, []);

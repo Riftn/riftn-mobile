@@ -49,6 +49,8 @@ export interface DmConversation {
   unreadCount?: number;
   deletedForUsers?: { userId: ID; deletedAt: string }[];
   pinnedMessages?: string[]; // server-persisted pinned message IDs
+  /** A first message from someone you don't follow: listed under Requests, not the inbox. */
+  isRequest?: boolean;
 }
 
 
