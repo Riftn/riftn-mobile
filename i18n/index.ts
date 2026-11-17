@@ -283,6 +283,16 @@ i18n.use({
     return value;
   },
 });
+// The app boots in English and switches once the saved or device language has
+// loaded. Until then i18n.language is that placeholder, not the reader's
+// choice, so anything that reports the language (AccountLanguageSync) waits.
+let languageSettled = false;
+let settle: () => void = () => {};
+export const languageReady = new Promise<void>(resolve => {
+  settle = () => { languageSettled = true; resolve(); };
+});
+export const isLanguageReady = () => languageSettled;
+
 export async function loadLanguage(lang: string): Promise<boolean> {
   const groups = ['ar', 'es', 'fr', 'nl', 'tr'].includes(lang)
     ? [...new Set(Object.values(manifest.groups))]
@@ -305,6 +315,7 @@ export async function chooseLanguage(code: string): Promise<{ ok: boolean; needs
     if (!loaded) return { ok: false, needsReload: false };
     await AsyncStorage.setItem(STORAGE_KEY, code);
     await i18n.changeLanguage(code);
+    settle();
     return { ok: true, needsReload: applyLayoutDirection(code) };
   } catch {
     return { ok: false, needsReload: false };
@@ -354,13 +365,18 @@ fillMissingPluralForms(i18n, 'en');
     const saved = await AsyncStorage.getItem(STORAGE_KEY);
     const target = saved || detectLanguage();
     let active = i18n.language || 'en';
+    // English that only stands in for a pack that failed to load is not the
+    // reader's language: stay unsettled so it is never reported as theirs.
+    let settled = !target || target === 'en';
     if (target && target !== 'en') {
       const ok = await loadLanguage(target);
       if (ok && i18n.language === 'en') {
         await i18n.changeLanguage(target);
         active = target;
       }
+      settled = ok || i18n.language !== 'en';
     }
+    if (settled) settle();
     // No reload here: at boot that could loop. The next launch picks it up,
     // and the language picker reloads straight away.
     applyLayoutDirection(active);
