@@ -13,7 +13,6 @@ import type { UserProfileBottomSheetProps } from './UserProfileBottomSheet';
 import UnfollowSheet from "./UnfollowSheet";
 import { useUserProfileData } from "../../hooks/useUserProfileData";
 import { ScreenNames } from "../../navigation/ScreenNames";
-import { TAB_BAR_CONTENT_INSET } from "../../navigation/tabBarLayout";
 import { TabBarHideProvider } from "../../context/TabBarHideContext";
 import StandaloneTabBar from "../../navigation/StandaloneTabBar";
 import SwipeBackBoundary from '../common/SwipeBackBoundary';
@@ -152,7 +151,6 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
           error={error}
           onRetry={retry}
           lookupName={usernameOrAddress}
-          backToTopBottom={TAB_BAR_CONTENT_INSET}
           profileData={profileData}
           isFollowing={isFollowing}
           isFollowRequestPending={isFollowRequestPending}
@@ -224,7 +222,6 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
             error={error}
             onRetry={retry}
             lookupName={usernameOrAddress}
-            backToTopBottom={TAB_BAR_CONTENT_INSET}
             profileData={profileData}
             isFollowing={isFollowing}
             isFollowRequestPending={isFollowRequestPending}

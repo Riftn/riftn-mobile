@@ -37,12 +37,11 @@ describe("profile sheet follow list", () => {
 });
 
 describe("profile sheet clears the nav pill", () => {
-  it("lifts back-to-top above the pill on Home and in the modal, which has its own", () => {
-    expect(sheet.match(/backToTopBottom=\{TAB_BAR_CONTENT_INSET\}/g)).toHaveLength(2);
-    expect(sheet).not.toContain("backToTopBottom={insets.bottom + 24}");
-    expect(content).toContain("backToTopBottom={backToTopBottom}");
-    expect(tabs).not.toContain("bottom-6");
-    expect(tabs).toContain("bottom: backToTopBottom ?? 24");
+  it("has no floating back-to-top button to collide with the pinned Follow button", () => {
+    expect(tabs).not.toContain("profile.backToTop");
+    expect(tabs).not.toContain("backToTopBottom");
+    expect(content).not.toContain("backToTopBottom");
+    expect(sheet).not.toContain("backToTopBottom");
   });
 
   it("pads the end of both image grid lists past the pill", () => {

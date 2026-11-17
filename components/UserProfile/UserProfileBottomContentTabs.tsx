@@ -15,7 +15,6 @@ import {
   Text,
   View,
   FlatList,
-  Pressable,
   TouchableOpacity,
   type NativeSyntheticEvent,
   type NativeScrollEvent,
@@ -103,8 +102,6 @@ interface UserProfileBottomContentTabsProps {
   showLikesTab?: boolean;
   /** The creator arranged their posts in their own order; the profile opens in it. */
   hasCustomOrder?: boolean;
-  /** Back-to-top button's distance from the bottom; the host knows what sits there. */
-  backToTopBottom?: number;
 }
 
 /** Horizontal padding for post cards. Kept tight so content isn't crowded by
@@ -176,7 +173,6 @@ const UserProfileBottomContentTabs: React.FC<
   pendingTab = null,
   onPendingTabConsumed,
   defaultTab = DEFAULT_PROFILE_TAB,
-  backToTopBottom,
   showDislikesTab = false,
   showLikesTab = false,
   hasCustomOrder = false,
@@ -302,9 +298,7 @@ const UserProfileBottomContentTabs: React.FC<
     return () => clearTimeout(timer);
   }, [address, isFullScreen, canViewContent, tabItems, activeTab]);
 
-  // Track scroll offset for sticky bar + back-to-top
-  const [showBackToTop, setShowBackToTop] = useState(false);
-
+  // Track scroll offset for the sticky bar
   const [stickyVisible, setStickyVisible] = useState(false);
 
   // Mirrors of the state above, read and written from the UI thread inside the
@@ -315,7 +309,6 @@ const UserProfileBottomContentTabs: React.FC<
   const stickyStyle = useAnimatedStyle(() => ({ opacity: stickyVisibleShared.value ? 1 : 0 }));
   // Preserve header geometry while removing its offscreen masks from drawing.
   const expandedHeaderStyle = useAnimatedStyle(() => ({ opacity: stickyVisibleShared.value ? 0 : 1 }));
-  const showBackToTopShared = useSharedValue(false);
   const isFullScreenShared = useSharedValue(isFullScreen);
   // Where each kept tab was left, written by the scroll worklet. A tab opened
   // for the first time starts at the top; one kept from earlier comes back at
@@ -336,11 +329,8 @@ const UserProfileBottomContentTabs: React.FC<
       if (profileTabsPinned) profileTabsPinned.value = stuck;
       stickyVisibleShared.value = stuck;
       runOnJS(setStickyVisible)(stuck);
-      const backToTop = y > 600;
-      showBackToTopShared.value = backToTop;
-      runOnJS(setShowBackToTop)(backToTop);
     })(activeTab);
-  }, [activeTab, address, activeTabShared, tabOffsets, profileScrollY, profileTabsPinned, headerHeightShared, stickyVisibleShared, showBackToTopShared]);
+  }, [activeTab, address, activeTabShared, tabOffsets, profileScrollY, profileTabsPinned, headerHeightShared, stickyVisibleShared]);
   useEffect(() => {
     isFullScreenShared.value = isFullScreen;
   }, [isFullScreen, isFullScreenShared]);
@@ -422,11 +412,9 @@ const UserProfileBottomContentTabs: React.FC<
   useEffect(() => {
     if (!isFullScreen) {
       stickyVisibleShared.value = false;
-      showBackToTopShared.value = false;
       setStickyVisible(false);
-      setShowBackToTop(false);
     }
-  }, [isFullScreen, stickyVisibleShared, showBackToTopShared]);
+  }, [isFullScreen, stickyVisibleShared]);
 
   // When collapsed, constrain height; fullscreen fills available space
   const listHeight = useMemo(() => {
@@ -509,12 +497,6 @@ const UserProfileBottomContentTabs: React.FC<
           stickyVisibleShared.value = shouldStick;
           runOnJS(setStickyVisible)(shouldStick);
         }
-      }
-
-      const shouldShowBackToTop = y > 600;
-      if (shouldShowBackToTop !== showBackToTopShared.value) {
-        showBackToTopShared.value = shouldShowBackToTop;
-        runOnJS(setShowBackToTop)(shouldShowBackToTop);
       }
     },
   });
@@ -880,33 +862,6 @@ const UserProfileBottomContentTabs: React.FC<
             <ProfileTabBar items={tabItems} activeKey={activeTab} onChange={handleTabChange} pinned embedded />
           </ProfilePinnedBar>
         </Animated.View>
-      )}
-
-      {isFullScreen && showBackToTop && (
-        <Pressable
-          onPress={scrollToTop}
-          accessibilityRole="button"
-          accessibilityLabel={t("profile.backToTop")}
-          className="absolute right-5 bg-theme-neutrals-800/90 rounded-xl p-3 active:opacity-80"
-          style={{
-            bottom: backToTopBottom ?? 24,
-            zIndex: 20,
-            elevation: 20,
-            shadowColor: "#000",
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.3,
-            shadowRadius: 4,
-            // Minimal carries no shadows. Elevation stays: on Android it is
-            // what keeps this button stacked above the list.
-            ...(isMinimal ? { shadowOpacity: 0 } : null),
-          }}
-        >
-          <Icon
-            name="ChevronUp"
-            size={22}
-            color={theme.colors.accent}
-          />
-        </Pressable>
       )}
     </View>
   );
