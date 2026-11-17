@@ -428,7 +428,7 @@ const DirectMessagesInner: React.FC = () => {
           onPress={() => setShowRequests(false)}
           activeOpacity={0.7}
           accessibilityRole="button"
-          accessibilityLabel={t("common.back")}
+          accessibilityLabel={t("common.goBack")}
           testID="requests-back"
           className="flex-row items-center px-4 pt-4 pb-2 gap-2"
         >
