@@ -235,6 +235,8 @@ type PostEdits = {
   spoilerText?: string;
   /** The poster closed the price card for the $TICKER / address in the caption. */
   hideAssetCards?: boolean;
+  /** Links whose preview card the poster closed. */
+  hiddenLinkPreviews?: string[];
   quotePolicy?: "public" | "followers" | "nobody";
   replyPolicy?: "public" | "followers" | "following" | "mentioned";
   /** Opened up to everyone from the edit sheet. */
@@ -2578,7 +2580,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               {(item as any).isQuotePost && <QuotedPostEmbed key={postKey} quotedPost={(item as any).quotedPost} quotedTokenId={(item as any).quotedTokenId} revoked={(item as any).quoteRevoked} quoteTokenId={tokenId ?? undefined} />}
               <DehubLinkCards links={dehubLinks} />
               {remixCredits}
-              <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} />
+              <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} hidden={item?.hiddenLinkPreviews} />
               <AssetRefCards refs={assetRefs} />
               {tokenId != null && !(item as any).isQuotePost && <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />}
               <ShopBoard key={postKey} tokenId={tokenId} links={localShopLinks ?? (item as any).shopLinks} listingCount={localShopListingCount ?? (item as any).shopListingCount} />
@@ -2695,7 +2697,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             )}
             <DehubLinkCards links={dehubLinks} />
             {remixCredits}
-            <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} />
+            <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} hidden={item?.hiddenLinkPreviews} />
             <AssetRefCards refs={assetRefs} />
           </>
         )}
@@ -2794,7 +2796,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         )}
         <DehubLinkCards links={dehubLinks} />
         {remixCredits}
-        <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} />
+        <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} hidden={item?.hiddenLinkPreviews} />
         <AssetRefCards refs={assetRefs} />
       </>
     );
@@ -3287,7 +3289,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
 
       {/* OG-style preview for the first outside link, when the caption didn't
           already earn one of the entity cards above. */}
-      <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} />
+      <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} hidden={item?.hiddenLinkPreviews} />
 
       {/* Market cards — a contract address somebody pasted, or a $TICKER */}
       <AssetRefCards refs={assetRefs} />

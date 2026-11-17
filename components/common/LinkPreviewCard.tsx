@@ -39,10 +39,11 @@ import { parseSpotifyLink } from '../../libs/spotify';
 
 /** The first URL in the text that isn't one of our own entity links. */
 /** The link whose card a post shows, if it shows one. */
-export function firstExternalUrl(text?: string | null): string | null {
+export function firstExternalUrl(text?: string | null, hidden?: string[] | null): string | null {
   if (!text) return null;
   for (const url of extractUrlsFromText(text)) {
-    if (!parseDehubLink(url)) return url;
+    // A link whose preview the poster closed gets no card.
+    if (!parseDehubLink(url) && !hidden?.includes(url)) return url;
   }
   return null;
 }
@@ -65,11 +66,15 @@ interface LinkPreviewCardProps {
   style?: StyleProp<ViewStyle>;
   /** The post this card sits in; a tap counts as a link click in its stats. */
   statsTokenId?: string | number | null;
+  /** The post's `hiddenLinkPreviews`: links whose card the poster closed. */
+  hidden?: string[] | null;
+  /** Composer only: draws an X that closes this link's card. */
+  onRemove?: (url: string) => void;
 }
 
-const LinkPreviewCardComponent: React.FC<LinkPreviewCardProps> = ({ text, style, statsTokenId }) => {
+const LinkPreviewCardComponent: React.FC<LinkPreviewCardProps> = ({ text, style, statsTokenId, hidden, onRemove }) => {
   // The URL regex is a wide unicode pattern; run it per caption, not per render.
-  const url = useMemo(() => firstExternalUrl(text), [text]);
+  const url = useMemo(() => firstExternalUrl(text, hidden), [text, hidden]);
   // A link this session has already read draws at its final size on the first
   // frame. Feed cards remount every time they scroll back into the render
   // window, and starting each one as a short skeleton that grew into the real
@@ -127,12 +132,30 @@ const LinkPreviewCardComponent: React.FC<LinkPreviewCardProps> = ({ text, style,
   }, [url, refreshes]);
 
   if (!url) return null;
+  // The composer's X: closes this link's card, and the post goes out without it.
+  const withClose = (node: React.ReactElement) => {
+    if (!onRemove) return node;
+    return (
+      <View style={styles.closeWrap}>
+        {node}
+        <TouchableOpacity
+          onPress={() => onRemove(url)}
+          style={styles.close}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          accessibilityRole="button"
+          accessibilityLabel={t('common.remove', 'Remove')}
+        >
+          <Icon name="X" size={14} color="rgba(255,255,255,0.85)" />
+        </TouchableOpacity>
+      </View>
+    );
+  };
   // Shaped like the card most links turn into (a share image over two lines
   // of copy, or a square beside them on glass), so the swap is close to the
   // same height when a preview does have to be read.
   if (loading) {
-    if (style) return <SkeletonBlock style={[styles.skeleton, isMinimal && styles.minimalSkeleton, style]} />;
-    if (skin?.material === 'glass') return <SkeletonBlock style={[styles.skeleton, styles.glassSkeleton, isMinimal && styles.minimalSkeleton]} />;
+    if (style) return withClose(<SkeletonBlock style={[styles.skeleton, isMinimal && styles.minimalSkeleton, style]} />);
+    if (skin?.material === 'glass') return withClose(<SkeletonBlock style={[styles.skeleton, styles.glassSkeleton, isMinimal && styles.minimalSkeleton]} />);
     return (
       <View style={styles.skeletonCard}>
         <SkeletonBlock style={[styles.skeletonImage, isMinimal && styles.minimalSkeleton]} />
@@ -141,9 +164,9 @@ const LinkPreviewCardComponent: React.FC<LinkPreviewCardProps> = ({ text, style,
     );
   }
   if (!preview) return null;
-  if (preview.rich) return <RichLinkCard preview={{ ...preview, rich: preview.rich }} style={style} />;
+  if (preview.rich) return withClose(<RichLinkCard preview={{ ...preview, rich: preview.rich }} style={style} />);
   const spotify = parseSpotifyLink(preview.url);
-  if (spotify) return <SpotifyCard preview={preview} link={spotify} style={style} statsTokenId={statsTokenId} />;
+  if (spotify) return withClose(<SpotifyCard preview={preview} link={spotify} style={style} statsTokenId={statsTokenId} />);
 
   const showImage = !!preview.image && preview.image !== failedImage;
   const favicon = getLinkPreviewFavicon(preview.url);
@@ -153,7 +176,7 @@ const LinkPreviewCardComponent: React.FC<LinkPreviewCardProps> = ({ text, style,
 
   // Minimal: no card. The image spans the text column and the site, title and
   // description sit under it flush with the post text, so nothing is boxed.
-  return (
+  return withClose(
     <TouchableOpacity
       activeOpacity={0.85}
       accessibilityRole={app ? 'button' : 'link'}
@@ -207,6 +230,21 @@ const LinkPreviewCardComponent: React.FC<LinkPreviewCardProps> = ({ text, style,
 };
 
 const styles = StyleSheet.create({
+  closeWrap: { position: 'relative' },
+  close: {
+    position: 'absolute',
+    top: 16,
+    right: 8,
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.72)',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: 'rgba(255,255,255,0.25)',
+    zIndex: 2,
+  },
   card: {
     marginTop: 8,
     borderRadius: 14,

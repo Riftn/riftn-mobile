@@ -147,6 +147,7 @@ import { BASE_POST_TEXT_CHARS, formatCharCount, postTextLimit } from "../libs/po
 import { haptic } from "../libs/haptics";
 import { useAppTheme, useThemeRootStyle } from "../context/ThemeContext";
 import LinkPreviewCard from "../components/common/LinkPreviewCard";
+import { extractUrlsFromText } from "../libs/link-preview";
 import ComposerBodyInput from "../components/Upload/ComposerBodyInput";
 import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
@@ -269,6 +270,14 @@ type PickedAsset = ImagePicker.ImagePickerAsset & {
 };
 
 /** Alt text in upload order: the video, or each photo by position. */
+/** The closed link previews still in the text: a link deleted since needs no flag. */
+function closedLinksIn(closed: string[], text: string): string[] | undefined {
+  if (!closed.length) return undefined;
+  const inText = new Set(extractUrlsFromText(text));
+  const kept = closed.filter((url) => inText.has(url));
+  return kept.length ? kept : undefined;
+}
+
 function mediaDescriptionsOf(video: PickedAsset | null, images: PickedAsset[]): string[] | undefined {
   if (video) return video.description ? [video.description] : undefined;
   return images.some(img => img.description) ? images.map(img => img.description || "") : undefined;
@@ -474,6 +483,12 @@ export default function UploadScreen() {
   const [contentWarning, setContentWarning] = useState<string | null>(null);
   // The poster closed the $TICKER / address card, so the post goes out without one.
   const [hideAssetCards, setHideAssetCards] = useState(false);
+  // Links whose preview card the poster closed with its X. Goes out with the
+  // post, so the feed draws no card for them either.
+  const [hiddenLinkPreviews, setHiddenLinkPreviews] = useState<string[]>([]);
+  const closeLinkPreview = useCallback((url: string) => {
+    setHiddenLinkPreviews((prev) => (prev.includes(url) ? prev : [...prev, url]));
+  }, []);
   // Who may quote the post. Anyone, unless the creator narrows it.
   const [quotePolicy, setQuotePolicy] = useState<"public" | "followers" | "nobody">("public");
   // Who may reply. Anyone, unless the creator narrows it.
@@ -1398,12 +1413,13 @@ export default function UploadScreen() {
       comicBorder: comicLayout ? comicBorder ?? undefined : undefined,
       spoilerText: contentWarning?.trim() || undefined,
       hideAssetCards: hideAssetCards || undefined,
+      hiddenLinkPreviews: closedLinksIn(hiddenLinkPreviews, bodyText),
       quotePolicy: quotePolicy !== "public" ? quotePolicy : undefined,
       replyPolicy: replyPolicy !== "public" ? replyPolicy : undefined,
       // A livestream is always public.
       visibility: visibility !== "public" && !isLiveMode ? visibility : undefined,
     };
-  }, [bodyText, titleText, showTitle, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, videoTrim, videoEdits, videoDestruct, pickedAudio, thumbnailUri, coverUri, monetization, attachedSound, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, effectivePostChainId, solanaAddress, shouldMint, isMature, isForKids, shopLinks, shopListingIds, contentWarning, hideAssetCards, quotePolicy, replyPolicy, visibility, isLiveMode, comicLayout, comicBorder]);
+  }, [bodyText, titleText, showTitle, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, videoTrim, videoEdits, videoDestruct, pickedAudio, thumbnailUri, coverUri, monetization, attachedSound, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, effectivePostChainId, solanaAddress, shouldMint, isMature, isForKids, shopLinks, shopListingIds, contentWarning, hideAssetCards, hiddenLinkPreviews, quotePolicy, replyPolicy, visibility, isLiveMode, comicLayout, comicBorder]);
 
   const handleTogglePoll = useCallback(() => {
     if (pollEnabled) {
@@ -1685,6 +1701,7 @@ export default function UploadScreen() {
       mediaDescriptions: mediaDescriptionsOf(pickedVideo, pickedImages),
       spoilerText: contentWarning?.trim() || undefined,
       hideAssetCards: hideAssetCards || undefined,
+      hiddenLinkPreviews: closedLinksIn(hiddenLinkPreviews, bodyText),
       quotePolicy: quotePolicy !== "public" ? quotePolicy : undefined,
       replyPolicy: replyPolicy !== "public" ? replyPolicy : undefined,
     });
@@ -1697,7 +1714,7 @@ export default function UploadScreen() {
     return true;
   }, [
     quotedTokenId, categories, pickedVideo, bodyText, titleText,
-    captureActiveDraft, coverUri, thumbnailUri, pickedImages, pickedAudio, enqueueQuoteJob, navigateHome, contentWarning, hideAssetCards, quotePolicy, replyPolicy,
+    captureActiveDraft, coverUri, thumbnailUri, pickedImages, pickedAudio, enqueueQuoteJob, navigateHome, contentWarning, hideAssetCards, hiddenLinkPreviews, quotePolicy, replyPolicy,
     consumeRestoredDraft, releaseSubmit,
   ]);
 
@@ -2827,7 +2844,7 @@ export default function UploadScreen() {
             )}
 
             {!articleMode && <DraftAssetCards text={previewText} hidden={hideAssetCards} onHiddenChange={setHideAssetCards} />}
-            {!articleMode && <LinkPreviewCard text={previewText} />}
+            {!articleMode && <LinkPreviewCard text={previewText} hidden={hiddenLinkPreviews} onRemove={closeLinkPreview} />}
 
             <MentionSuggestions
               visible={bodyMentions.showSuggestions}

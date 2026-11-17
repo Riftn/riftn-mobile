@@ -687,7 +687,7 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
       const key = String(item?.tokenId ?? item?.id ?? item?.__listKey ?? "");
       if (!key || seen.has(key)) continue;
       seen.add(key);
-      const url = firstExternalUrl(item?.description || item?.stream?.description);
+      const url = firstExternalUrl(item?.description || item?.stream?.description, item?.hiddenLinkPreviews);
       if (url) urls.push(url);
     }
     if (urls.length) prefetchLinkPreviews(urls);

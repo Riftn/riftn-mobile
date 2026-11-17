@@ -39,14 +39,15 @@ export interface TextCard {
 }
 
 /** The card a text post's words point at: a quote, the first Riftn link, else the first outside link. */
-export function textCardOf(item: { description?: string; name?: string; isQuotePost?: boolean; quotedPost?: unknown; quotedTokenId?: unknown }): TextCard | null {
+export function textCardOf(item: { description?: string; name?: string; isQuotePost?: boolean; quotedPost?: unknown; quotedTokenId?: unknown; hiddenLinkPreviews?: string[] }): TextCard | null {
   if (item.isQuotePost && (item.quotedPost || item.quotedTokenId)) return { kind: "quote" };
   const text = item.description || item.name || "";
   for (const link of findDehubLinks(text)) {
     const kind = LINK_KIND[link.kind];
     if (kind) return { kind, link };
   }
-  const urls = extractUrlsFromText(text).filter((u) => !parseDehubLink(u));
+  // Not a link whose preview the poster closed: that post shows no card.
+  const urls = extractUrlsFromText(text).filter((u) => !parseDehubLink(u) && !item.hiddenLinkPreviews?.includes(u));
   // A song plays right in the tile, so it wins over any other outside link.
   const song = urls.find((u) => parseSpotifyLink(u));
   if (song) return { kind: "spotify", url: song };

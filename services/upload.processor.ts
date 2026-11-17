@@ -280,6 +280,11 @@ function rebuildFormData(
     fd.append("hideAssetCards", "true");
   }
 
+  // Closed link previews, so no surface draws a card for those links.
+  if (payload.hiddenLinkPreviews?.length) {
+    fd.append("hiddenLinkPreviews", JSON.stringify(payload.hiddenLinkPreviews));
+  }
+
   // Who may quote it. Only sent when it is narrower than anyone.
   if (payload.quotePolicy) {
     fd.append("quotePolicy", payload.quotePolicy);
