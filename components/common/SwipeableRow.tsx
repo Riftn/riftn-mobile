@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Pressable, Text, type LayoutChangeEvent } from "react-native";
+import { Pressable, Text, View, type LayoutChangeEvent } from "react-native";
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -37,6 +37,9 @@ interface SwipeableRowProps {
 }
 
 const ACTION_WIDTH = 78;
+/** Each action's key sits this far inside its slot, so rounded corners read as keys. */
+const ACTION_INSET = 4;
+const ACTION_RADIUS = 12;
 /** Past this share of the row's width, letting go runs the destructive action. */
 const FULL_SWIPE_RATIO = 0.55;
 /** Finger speed (pt/s) that decides open or closed regardless of distance. */
@@ -265,19 +268,33 @@ const SwipeableRow: React.FC<SwipeableRowProps> = ({
                   style={({ pressed }) => ({
                     width: isLast && stretches ? undefined : ACTION_WIDTH,
                     flex: isLast && stretches ? 1 : undefined,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: action.color,
+                    padding: ACTION_INSET,
                     opacity: pressed ? 0.75 : 1,
                   })}
                 >
-                  <Ionicons name={action.icon} size={21} color="#FFFFFF" />
-                  <Text
-                    numberOfLines={1}
-                    style={{ color: "#FFFFFF", fontSize: 11, fontWeight: "600", marginTop: 4, paddingHorizontal: 4 }}
+                  {/* Every action is the same shape: a rounded key inset in its
+                      slot, squared off by the shape pass in Minimal and the
+                      square themes. `dark-surface` keeps the control material
+                      (libs/jsx/controls.js) off a grey key; it used to turn
+                      Block into rounded glass beside a square red Delete. */}
+                  <View
+                    className="dark-surface"
+                    style={{
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: action.color,
+                      borderRadius: ACTION_RADIUS,
+                    }}
                   >
-                    {action.label}
-                  </Text>
+                    <Ionicons name={action.icon} size={21} color="#FFFFFF" />
+                    <Text
+                      numberOfLines={1}
+                      style={{ color: "#FFFFFF", fontSize: 11, fontWeight: "600", marginTop: 4, paddingHorizontal: 4 }}
+                    >
+                      {action.label}
+                    </Text>
+                  </View>
                 </Pressable>
               );
             })}
