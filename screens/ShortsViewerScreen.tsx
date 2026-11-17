@@ -15,8 +15,6 @@ import { optionalSkia } from '../libs/skia';
 import { toStoryboard } from '../libs/storyboard';
 import StoryboardPreview from '../components/VideoPlayerCore/StoryboardPreview';
 import { takeFullscreenClosedUpright } from '../libs/turned-fullscreen';
-import { CommentSection } from '../components/Comments';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { closeInAppVideoMini, finishInAppMiniRestore, getInAppVideoMini, openInAppVideoMini, subscribeInAppVideoMini } from '../libs/in-app-video-mini';
 import { containedPicture } from '../libs/live-overlay/layout';
@@ -117,7 +115,6 @@ import type { IconName } from "../components/ui/Icon";
 import {
   ChromeFill,
   ChromeTouchTarget,
-  CHROME_GAP,
   CHROME_HIT_SLOP,
   CHROME_SIZE,
   COUNT_COLOR,
@@ -289,8 +286,6 @@ const WIDE_CLIP_ASPECT = 1.2;
 const CLEAN_STAGE_INSET = 12;
 const CLEAN_STAGE_RADIUS = 16;
 const PINCH_MAX_SCALE = 4;
-/** Whether a wide clip on the plain stage opens with its details and comments under it. */
-const INFO_STAGE_KEY = 'dehub.shorts.infoStage';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { KeepDarkScope } = require('../libs/jsx/tone') as { KeepDarkScope: React.FC<{ children: React.ReactNode }> };
 const WideVideoFill = optionalSkia(() => (require('../components/Home/WideVideoFill') as typeof import('../components/Home/WideVideoFill')).default);
@@ -516,9 +511,6 @@ interface ShortItemProps {
   fullscreenTick: number;
   /** Whether the short being watched is a wide clip, and on the plain stage, for the top bar's buttons. */
   onWideChange: (wide: boolean, clean: boolean) => void;
-  /** Info Stage: a wide clip on the plain stage sits at the top with its details and comments under it. */
-  infoStage: boolean;
-  onInfoStageChange: (on: boolean) => void;
   onCommentsVisibilityChange: (visible: boolean) => void;
   /**
    * The viewer's options menu is open over this short. Its native sheet takes
@@ -529,7 +521,7 @@ interface ShortItemProps {
   reelBgId?: string | null;
 }
 
-const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, infoStage, onInfoStageChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId }) => {
+const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId }) => {
   const { t: _copy } = _useCopy();
   const feedPlaybackAllowed = useFeedPlaybackAllowed();
   const surfaceActive = useFeedSurfaceActive();
@@ -785,10 +777,6 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     : appTheme.theme === 'osaka' || appTheme.theme === 'glass' ? 'floor' as const
     : 'glow' as const;
   const cleanStage = wideStage === 'clean';
-  const infoShown = cleanStage && infoStage && !showComments;
-  /** How far the video card rides up from the middle of the screen in Info Stage. */
-  const infoLift = useSharedValue(0);
-  const [stackHeight, setStackHeight] = useState(0);
   const storyboard = useMemo(() => toStoryboard(item.storyboard), [item.storyboard]);
   const restPicture = useMemo(
     () => containedPicture(SCREEN_WIDTH, itemHeight, intrinsicSize.width, intrinsicSize.height),
@@ -868,7 +856,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       position: 'absolute', left: picture.left, top: picture.top, width: picture.width, height: picture.height,
       overflow: card ? 'hidden' : 'visible',
       borderRadius: card ? CLEAN_STAGE_RADIUS / fit : 0,
-      transform: [{ translateX: pinchX.value }, { translateY: pinchY.value + infoLift.value }, { scale: fit * pinchScale.value }],
+      transform: [{ translateX: pinchX.value }, { translateY: pinchY.value }, { scale: fit * pinchScale.value }],
     };
   }, [SCREEN_WIDTH, itemHeight, splitHeight, keyboardOffset, intrinsicSize, cleanStage]);
   const pictureKnown = intrinsicSize.width > 0 && intrinsicSize.height > 0;
@@ -1919,20 +1907,6 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
    */
   const insets = useSafeAreaInsets();
   const topChromeBand = insets.top + EDGE + CHROME_SIZE + CHROME_HIT_SLOP.bottom + 4;
-  // Where the rounded video card sits: in the middle on the plain stage, and
-  // just under the top bar in Info Stage, with everything else below it.
-  const cardHeight = restPicture.width > CLEAN_STAGE_INSET * 4
-    ? restPicture.height * (restPicture.width - CLEAN_STAGE_INSET * 2) / restPicture.width
-    : restPicture.height;
-  const cardRestTop = (itemHeight - cardHeight) / 2;
-  const infoCardTop = Math.min(cardRestTop, topChromeBand + 4);
-  const infoTop = infoCardTop + cardHeight + 12;
-  useEffect(() => {
-    infoLift.value = withTiming(infoShown ? infoCardTop - cardRestTop : 0, { duration: 260 });
-  }, [infoShown, infoCardTop, cardRestTop, infoLift]);
-  useEffect(() => {
-    if (infoShown) setAutoHidden(false);
-  }, [infoShown]);
 
   const leaveViewer = useCallback(() => {
     if (navigation.isFocused()) navigation.goBack();
@@ -2238,7 +2212,6 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       screenshotMode ||
       captionExpanded ||
       showComments ||
-      infoShown ||
       showTipModal ||
       showShareSheet ||
       showShareToDm ||
@@ -2250,7 +2223,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     return () => clearTimeout(timer);
   }, [
     isActive, isPlaying, autoHidden, overlaysHidden, screenshotMode,
-    captionExpanded, showComments, infoShown, showTipModal, showShareSheet, showShareToDm, pickerOpen,
+    captionExpanded, showComments, showTipModal, showShareSheet, showShareToDm, pickerOpen,
   ]);
 
   // Pausing is a request to look at the frame, not to keep it clear — whatever
@@ -2656,42 +2629,11 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
         )}
 
         {/* Legibility gradient behind the bottom stack, as on web. */}
-        {infoShown ? null : <LinearGradient
+        <LinearGradient
           colors={["transparent", "rgba(0,0,0,0.45)", "rgba(0,0,0,0.85)"]}
           style={styles.bottomGradient}
           pointerEvents="none"
-        />}
-
-        {/* Plain stage: a + under the video opens Info Stage. */}
-        {cleanStage && !infoStage && !showComments && (
-          <Pressable
-            className="dark-surface"
-            onPress={() => onInfoStageChange(true)}
-            hitSlop={CHROME_HIT_SLOP}
-            accessibilityRole="button"
-            accessibilityLabel={_copy("copy.f5c9bd131486", { defaultValue: "Show more" })}
-            style={[styles.infoOpenButton, { top: cardRestTop + cardHeight + 12 }]}
-          >
-            <Icon name="Plus" size={24} color="#fff" />
-          </Pressable>
-        )}
-
-        {/* Info Stage: the comments fill the screen under the creator,
-            caption and action row. Only the short being watched loads them. */}
-        {infoShown && isActive && tokenId != null && stackHeight > 0 && (
-          <View className="dark-surface" style={[styles.infoComments, { top: infoTop + stackHeight + 8 }]}>
-            <KeepDarkScope>
-              <CommentSection
-                tokenId={tokenId}
-                contentType="video"
-                commentsDisabled={!!(item as any).commentsDisabled}
-                replyPolicy={(item as any).replyPolicy}
-                forKids={!!(item as any).forKids}
-                postCreator={{ address: minterAddress, displayName, username }}
-              />
-            </KeepDarkScope>
-          </View>
-        )}
+        />
 
         {/* Creator info + caption, with the action row as the bottommost
             element.
@@ -2713,13 +2655,11 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
             onLayout={(e) => {
               const height = e.nativeEvent.layout.height;
               overlayHeight.value = height;
-              setStackHeight((prev) => (Math.abs(prev - height) < 1 ? prev : height));
             }}
             style={[
               styles.bottomStack,
               // A slide with nothing to play has no scrubber row to clear.
               !videoUrl && { bottom: EDGE + TOOLS_HEIGHT + 12 },
-              infoShown && { top: infoTop, bottom: undefined },
             ]}
           >
             <View style={styles.captionBlock}>
@@ -3155,14 +3095,6 @@ const ShortsViewerScreen = () => {
   const handleWideChange = useCallback((wide: boolean, clean: boolean) => {
     setActiveWide(wide);
     setActiveClean(clean);
-  }, []);
-  const [infoStage, setInfoStage] = useState(false);
-  useEffect(() => {
-    AsyncStorage.getItem(INFO_STAGE_KEY).then((saved) => { if (saved === "1") setInfoStage(true); }).catch(() => {});
-  }, []);
-  const chooseInfoStage = useCallback((on: boolean) => {
-    setInfoStage(on);
-    AsyncStorage.setItem(INFO_STAGE_KEY, on ? "1" : "0").catch(() => {});
   }, []);
   const [commentsVisible, setCommentsVisible] = useState(false);
   const topChromeOpacity = useRef(new Animated.Value(1)).current;
@@ -3742,15 +3674,13 @@ const ShortsViewerScreen = () => {
         chromeRevealTick={index === activeIndex ? chromeRevealTick : 0}
         fullscreenTick={fullscreenTick}
         onWideChange={handleWideChange}
-        infoStage={infoStage}
-        onInfoStageChange={chooseInfoStage}
         onCommentsVisibilityChange={setCommentsVisible}
         optionsMenuOpen={index === activeIndex && showOptionsMenu}
         reelBgId={feedParams.reelBgId}
       />
       );
     },
-    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, infoStage, chooseInfoStage, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek],
+    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek],
   );
 
   const keyExtractor = useCallback(
@@ -3852,21 +3782,6 @@ const ShortsViewerScreen = () => {
             </Pressable>
           </ChromeTouchTarget>
 
-          {!isLiveSlide(activeItem) && <View style={styles.topRight}>
-            {/* Info Stage: back to the plain stage, in the corner across from Back. */}
-            {activeClean && infoStage && !commentsVisible && <ChromeTouchTarget>
-              <Pressable
-                onPress={() => chooseInfoStage(false)}
-                className="dark-surface"
-                style={styles.topButton}
-                hitSlop={CHROME_HIT_SLOP}
-                accessibilityLabel={_copy("copy.94ea9b1d33a0", { defaultValue: "Show less" })}
-              >
-                <ChromeFill top />
-                <Icon name="Minus" size={20} color="#fff" />
-              </Pressable>
-            </ChromeTouchTarget>}
-          </View>}
         </View>
 
         {/* The player's buttons, on the bottom row under the scrubber. */}
@@ -4037,33 +3952,11 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     zIndex: 20,
   },
-  topRight: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: CHROME_GAP,
-  },
   topButton: {
     width: CHROME_SIZE,
     height: CHROME_SIZE,
     alignItems: "center",
     justifyContent: "center",
-  },
-  infoOpenButton: {
-    position: "absolute",
-    right: EDGE,
-    width: CHROME_SIZE,
-    height: CHROME_SIZE,
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 10,
-  },
-  infoComments: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    // Clear of the scrubber row and the player's buttons.
-    bottom: EDGE + TOOLS_HEIGHT + SCRUB_HEIGHT,
-    zIndex: 9,
   },
   volumeTrack: {
     position: "absolute",

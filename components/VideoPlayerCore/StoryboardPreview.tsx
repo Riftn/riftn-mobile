@@ -49,7 +49,10 @@ function StoryboardPreview({ storyboard, fraction, duration, trackWidth, visible
 
   useEffect(() => {
     setFailed(false);
-    if (url) void Image.prefetch(url, { cachePolicy: "memory-disk" }).then(ok => { if (!ok) setFailed(true); });
+    // A failed prefetch is not a broken sheet: on a phone it is usually a
+    // dropped or slow connection. Treating it as one hid the preview for the
+    // rest of the video. Only the tile's own load error (below) gives up.
+    if (url) void Image.prefetch(url, { cachePolicy: "memory-disk" }).catch(() => {});
   }, [url]);
 
   if (!visible || !(duration > 0) || !(trackWidth > 0)) return null;

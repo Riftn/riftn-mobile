@@ -37,6 +37,8 @@ import { feedVolumeResponder } from "../../libs/feed-volume-responder";
 import { GestureDetector } from "react-native-gesture-handler";
 import { useScrubGesture } from "../../hooks/useScrubGesture";
 import { VideoScrubZone, VideoScrubButton, VIDEO_CONTROL_STRIP_HEIGHT } from "./VideoScrubZone";
+import StoryboardPreview from "../VideoPlayerCore/StoryboardPreview";
+import { toStoryboard } from "../../libs/storyboard";
 import { ACTIVE_FEED_BUFFER_OPTIONS } from "../../libs/videoBuffering";
 import { flushVideoPlayIntent } from "../../libs/video-start";
 import { usePlaybackRecovery } from "../../hooks/usePlaybackRecovery";
@@ -346,6 +348,8 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   // seek/fullscreen; state is only committed while something is watching it.
   const currentTimeRef = useRef(0);
   const scrubbingRef = useRef(false);
+  /** Mirrors scrubbingRef for render: the seek-preview tile shows while it is true. */
+  const [scrubbing, setScrubbing] = useState(false);
   const showControlsRef = useRef(false);
   // Caption playhead. Same rule as `currentTime`: only committed while
   // subtitles are switched on, so a card with CC off never re-renders on tick.
@@ -624,6 +628,12 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   const splitControls = !hideControls && !isContentGated && !feedPreview;
   const frameWidth = inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls);
   const stripHeight = controlStripHeight(frameWidth);
+  // The seek-preview sheet, fetched once this card has played: prefetching it
+  // for every card the feed mounts would download sheets nobody scrubs.
+  const [previewArmed, setPreviewArmed] = useState(false);
+  if (isPlaying && !previewArmed) setPreviewArmed(true);
+  const parsedStoryboard = useMemo(() => toStoryboard(storyboard), [storyboard]);
+  const seekStoryboard = previewArmed || scrubbing ? parsedStoryboard : undefined;
   const compactStrip = splitControls && frameWidth < 320;
   const frameHeight = inlineWidth ? inlineWidth / mediaAspect : mediaBoxHeight(windowSize, frameWidth, mediaAspect, postPage, splitControls);
   // The video view is boxed to the clip's upright shape and told to fill.
@@ -1346,6 +1356,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
     (ratio: number) => {
       handleSeek(ratio);
       scrubbingRef.current = false;
+      setScrubbing(false);
       startHideTimer();
     },
     [handleSeek, startHideTimer],
@@ -1353,6 +1364,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
 
   const handleScrubStart = useCallback(() => {
     scrubbingRef.current = true;
+    setScrubbing(true);
     setShowControls(true);
     clearHideTimer();
   }, [clearHideTimer]);
@@ -1365,6 +1377,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
 
   const handleScrubCancel = useCallback(() => {
     scrubbingRef.current = false;
+    setScrubbing(false);
     setCurrentTime(currentTimeRef.current);
     startHideTimer();
   }, [startHideTimer]);
@@ -1715,6 +1728,20 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
                   </VideoScrubButton>
                 </View>
             </VideoScrubZone>
+          )}
+          {/* The frame under the finger while scrubbing. The feed and post-page
+              player never had it, only fullscreen and Shorts did, so a scrub
+              here showed a preview or not depending on which player it was. */}
+          {bareControls && (
+            <StoryboardPreview
+              storyboard={seekStoryboard}
+              fraction={videoDuration > 0 ? currentTime / videoDuration : 0}
+              duration={videoDuration}
+              trackWidth={frameWidth}
+              visible={scrubbing}
+              bottom={stripHeight + 8}
+              timeOnly
+            />
           )}
         </>
       )}
