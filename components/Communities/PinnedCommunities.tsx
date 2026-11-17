@@ -55,6 +55,30 @@ interface Props {
 /** Last pins seen per wallet, so reopening a profile does not wait on them. */
 const pinsCache = new Map<string, (Community & { pinId: string })[]>();
 
+async function fetchPins(walletAddress: string) {
+  const rows = await getPinnedCommunities(walletAddress);
+  const next = rows
+    .map((p) => {
+      const c = p.communities;
+      if (!c?.id) return null;
+      return { ...c, pinId: p.id };
+    })
+    .filter(Boolean) as (Community & { pinId: string })[];
+  pinsCache.set(walletAddress, next);
+  if (pinsCache.size > 50) pinsCache.delete(pinsCache.keys().next().value!);
+  return next;
+}
+
+/**
+ * Your own pins, fetched once the app has settled, so your profile opens with
+ * them in place. Otherwise the "Pin community" row arrived after the page
+ * and pushed everything under it down.
+ */
+export function warmPinnedCommunities(walletAddress: string) {
+  if (!walletAddress || pinsCache.has(walletAddress)) return;
+  fetchPins(walletAddress).catch(() => {});
+}
+
 const PinnedCommunities: React.FC<Props> = ({ walletAddress, isOwnProfile, onNavigate, renderHeader }) => {
   const { t } = useTranslation();
   const { isMinimal } = useAppTheme();
@@ -77,17 +101,7 @@ const PinnedCommunities: React.FC<Props> = ({ walletAddress, isOwnProfile, onNav
       return;
     }
     try {
-      const rows = await getPinnedCommunities(walletAddress);
-      const next = rows
-        .map((p) => {
-          const c = p.communities;
-          if (!c?.id) return null;
-          return { ...c, pinId: p.id };
-        })
-        .filter(Boolean) as (Community & { pinId: string })[];
-      pinsCache.set(walletAddress, next);
-      if (pinsCache.size > 50) pinsCache.delete(pinsCache.keys().next().value!);
-      setPinned(next);
+      setPinned(await fetchPins(walletAddress));
     } catch {
       if (!pinsCache.has(walletAddress)) setPinned([]);
     } finally {
@@ -114,10 +128,24 @@ const PinnedCommunities: React.FC<Props> = ({ walletAddress, isOwnProfile, onNav
   // One pin shows; the rest wait behind More instead of stacking.
   const shown = featured ? null : remaining[0] ?? null;
   const more = shown ? remaining.slice(1) : remaining;
-  // Same outer shape as the loaded return below, so the header (avatar,
-  // name, cover) is kept when the pins arrive instead of being torn down and
-  // built again (the avatar flashed its initial for ~0.6s on every open).
-  if (loading || (pinned.length === 0 && !isOwnProfile)) return <><View>{renderHeader?.(null)}</View></>;
+  // The header (avatar, name, cover) sits in the same slot whether or not the
+  // pins have arrived, so it is kept instead of being torn down and built
+  // again (avatar and cover went blank for ~0.9s after the page showed).
+  const head = (
+    <View className={featured && !isMinimal && !cinematicPhone ? "rounded-b-xl overflow-hidden" : undefined}>
+      {featured ? <PinnedCommunityDissolve community={featured} /> : null}
+      {renderHeader?.(featured)}
+      {featured ? (
+        <PinnedCommunityStrip
+          community={featured}
+          onOpen={() => openCommunity(featured.slug)}
+          onManagePins={isOwnProfile ? () => setPickerOpen(true) : undefined}
+          onMore={more.length > 0 ? () => setMoreOpen(true) : undefined}
+        />
+      ) : null}
+    </View>
+  );
+  if (loading || (pinned.length === 0 && !isOwnProfile)) return <>{head}</>;
 
   const moveFirst = async (community: Community) => {
     setMoreOpen(false);
@@ -187,18 +215,7 @@ const PinnedCommunities: React.FC<Props> = ({ walletAddress, isOwnProfile, onNav
   return (
     <>
       {/* The art at the foot of the header ends on the same corners as the cover. */}
-      <View className={featured && !isMinimal && !cinematicPhone ? "rounded-b-xl overflow-hidden" : undefined}>
-      {featured && <PinnedCommunityDissolve community={featured} />}
-      {renderHeader?.(featured)}
-      {featured && (
-        <PinnedCommunityStrip
-          community={featured}
-          onOpen={() => openCommunity(featured.slug)}
-          onManagePins={isOwnProfile ? () => setPickerOpen(true) : undefined}
-          onMore={more.length > 0 ? () => setMoreOpen(true) : undefined}
-        />
-      )}
-      </View>
+      {head}
     <View style={[styles.wrap, isMinimal && styles.minimalWrap, renderHeader && styles.inset, featured && styles.emptyWrap]}>
       {shown && pinCard(shown, more.length > 0 ? { label: t("communities.pinnedMore"), onPress: () => setMoreOpen(true) } : undefined)}
       <PinnedMoreSheet visible={moreOpen} onClose={() => setMoreOpen(false)}>
