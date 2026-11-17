@@ -80,8 +80,6 @@ interface UserProfileSheetContentProps {
   onRetry?: () => void;
   /** The handle that was looked up, so a free name can be offered. */
   lookupName?: string | null;
-  /** Distance of the back-to-top button from the bottom, clear of the host's chrome. */
-  backToTopBottom?: number;
 }
 
 const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
@@ -123,7 +121,6 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
   error = null,
   onRetry,
   lookupName,
-  backToTopBottom,
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
@@ -491,7 +488,6 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
         showLikesTab={likesArePublic((data as any)?.customs)}
         hasCustomOrder={!!(data as any)?.profileOrderAt}
         onPendingTabConsumed={handlePendingTabConsumed}
-        backToTopBottom={backToTopBottom}
       />
       {!isFullScreen && <View style={{ height: 40 }} />}
 
