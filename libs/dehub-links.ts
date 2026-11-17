@@ -33,7 +33,8 @@ export type DehubLinkKind =
   | 'bounty'
   | 'film'
   | 'app'
-  | 'proposal';
+  | 'proposal'
+  | 'skill';
 
 export interface DehubLinkMatch {
   kind: DehubLinkKind;
@@ -58,6 +59,7 @@ export interface DehubLinkMatch {
   appSlug?: string;
   /** `/app/governance/<uuid>` — a governance proposal. */
   proposalId?: string;
+  skillSlug?: string;
   /** `/cinema/film/<id>` or `/cinema/series/<id>`: a JustWatch title id. */
   filmId?: string;
   /** The API's name for the URL's `film` / `series` segment. */
@@ -130,13 +132,11 @@ function queryParam(search: string, key: string): string | null {
   for (const pair of search.split('&')) {
     const eq = pair.indexOf('=');
     if (eq < 0) continue;
-    if (decodeURIComponent(pair.slice(0, eq)) === key) {
-      try {
+    try {
+      if (decodeURIComponent(pair.slice(0, eq)) === key) {
         return decodeURIComponent(pair.slice(eq + 1));
-      } catch {
-        return pair.slice(eq + 1);
       }
-    }
+    } catch { continue; }
   }
   return null;
 }
@@ -160,6 +160,13 @@ export function parseDehubLink(input: string): DehubLinkMatch | null {
   // Both /app/communities/… and /communities/… are live web routes.
   const isAppScoped = segments[0] === 'app';
   const scoped = isAppScoped ? segments.slice(1) : segments;
+
+  if (isAppScoped && scoped.length === 1 && scoped[0] === 'assistant') {
+    const skillSlug = queryParam(parts.search, 'skill');
+    return skillSlug && /^[a-z0-9-]{1,80}$/.test(skillSlug)
+      ? { ...base, kind: 'skill', skillSlug }
+      : null;
+  }
 
   // ── post ──
   if (isAppScoped && (scoped[0] === 'post' || scoped[0] === 'video') && scoped[1]) {
@@ -349,6 +356,7 @@ export function stripDehubLinks(text?: string | null): string {
 
 /** Human label for a link kind — used by share sheets and fallback chips. */
 export function dehubLinkLabel(kind: DehubLinkKind): string {
+  if (kind === 'skill') return i18n.t('copy.b3b61e24c8f8', { defaultValue: 'User Skills' });
   return i18n.t(`dehubLinks.kind.${kind}`, { defaultValue: i18n.t('dehubLinks.kind.link') });
 }
 
