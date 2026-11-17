@@ -22,7 +22,7 @@ import StreamerLevelCard from "../Live/StreamerLevelCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import BadgePatronChip from "../common/BadgePatronChip";
 import { useTranslation as useI18n } from "react-i18next";
-import { formatCompactNumber } from "../../libs/numbers.util";
+import { formatNumber } from "../../libs/numbers.util";
 import type { FollowListItem } from "../../services/user.service";
 import TotalReachPill from "../Profile/TotalReachPill";
 import ProfileLinksPill from "../Profile/ProfileLinksPill";
@@ -445,7 +445,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
                   activeOpacity={onStatPress ? 0.7 : 1}
                 >
                   <Text style={{ fontSize: 16, lineHeight: 22 }}>
-                    <Text className="text-white font-bold">{formatCompactNumber(followingItem.value)}</Text>
+                    <Text className="text-white font-bold">{formatNumber(followingItem.value, 0)}</Text>
                     <Text className="text-zinc-400"> {t("profile.following")}</Text>
                   </Text>
                 </TouchableOpacity>
@@ -456,7 +456,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
                   activeOpacity={onStatPress ? 0.7 : 1}
                 >
                   <Text style={{ fontSize: 16, lineHeight: 22 }}>
-                    <Text className="text-white font-bold">{formatCompactNumber(followersItem.value)}</Text>
+                    <Text className="text-white font-bold">{formatNumber(followersItem.value, 0)}</Text>
                     <Text className="text-zinc-400"> {t("profile.followers")}</Text>
                   </Text>
                 </TouchableOpacity>

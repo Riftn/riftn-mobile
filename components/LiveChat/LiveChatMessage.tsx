@@ -170,7 +170,8 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   const { isTranslated, translatedTexts, isLoading: translating, handleTranslate, handleShowOriginal, shouldShow: showTranslate, sourceLang: translationSourceLang } =
     useTranslation(translationTexts, (message as any).detectedLanguage, 'chat', true);
 
-  // Translate lives in the long-press menu, not on the line.
+  // Translate is in the long-press menu and, for lines in another language,
+  // a small button under the line as on web.
   const handleLongPress = useCallback(() => {
     // A light tick the moment the hold lands, so it reads as caught before the sheet arrives.
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
@@ -338,7 +339,6 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
                 detectedLanguage={translationSourceLang}
                 onTranslate={handleTranslate}
                 onShowOriginal={handleShowOriginal}
-                statusOnly
               />
             )}
 

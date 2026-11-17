@@ -80,7 +80,8 @@ import { useCommunityJoinLines } from "../../hooks/useCommunityJoinLines";
 import type { MentionUser } from "../../services/mention.service";
 import { ChatReactorsSheet } from "./ChatReactorsSheet";
 import TranslateButton from "../ui/TranslateButton";
-import { canTranslateDm, getDmTranslation, toggleDmTranslation, useDmTranslation } from "../../libs/dm-translation-store";
+import { canTranslateDm, getDmTranslation, shouldAutoTranslateDm, toggleDmTranslation, useDmTranslation } from "../../libs/dm-translation-store";
+import { getUserLanguage } from "../../services/translation.service";
 import GifPicker from "../DM/GifPicker";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
 import ImageViewerModal from "../common/ImageViewerModal";
@@ -199,6 +200,12 @@ const ChatRow: React.FC<{
   // "Show original" under them, the same as DMs.
   const translation = useDmTranslation(message.id);
   const translatedText = translation?.status === "shown" ? translation.text : null;
+  // A small Translate under lines in another language, as on web: holding
+  // the message to find it was a step too many.
+  const offerTranslate = useMemo(
+    () => !isMe && !!bodyText && shouldAutoTranslateDm(bodyText, getUserLanguage()),
+    [isMe, bodyText],
+  );
 
   return (
     <Pressable
@@ -279,6 +286,17 @@ const ChatRow: React.FC<{
 
         {!!displayContent && (
           <Text className="text-white/80" style={{ fontSize: 15 * textScale, lineHeight: Math.round(21 * textScale) }}>{expandEmojiTokens(translatedText ?? displayContent, { fontSize: 15 * textScale })}</Text>
+        )}
+        {!translation && offerTranslate && (
+          <View className="pt-1 self-start">
+            <TranslateButton
+              inline
+              isTranslated={false}
+              isLoading={false}
+              onTranslate={() => void toggleDmTranslation(message.id, bodyText)}
+              onShowOriginal={() => void toggleDmTranslation(message.id, bodyText)}
+            />
+          </View>
         )}
         {!!translation && (
           <View className="pt-1">
