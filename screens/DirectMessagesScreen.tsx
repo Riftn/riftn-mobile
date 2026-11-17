@@ -28,6 +28,8 @@ import UnreadCountChip from "../components/DM/UnreadCountChip";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
 import { chatsFromMemberships } from "../libs/community-kinds";
+import { useChatPrefs } from "../hooks/useChatPrefs";
+import { roomChatId } from "../services/dm/dm.api";
 import { useQuery } from "@tanstack/react-query";
 import type { Community } from "../types/community";
 import DMSettingsModal from "../components/DM/DMSettingsModal";
@@ -101,10 +103,14 @@ const DirectMessagesInner: React.FC = () => {
     enabled: !!myAddress,
     staleTime: 30_000,
   });
+  // Communities join the list when the member chose Show in Chats (the same
+  // setting the website reads).
+  const { byId: chatPrefs } = useChatPrefs(!!myAddress);
   const groupChats = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return chatsFromMemberships(memberships).filter((c) => !q || c.name.toLowerCase().includes(q));
-  }, [memberships, query]);
+    return chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt)
+      .filter((c) => !q || c.name.toLowerCase().includes(q));
+  }, [memberships, query, chatPrefs]);
   const openGroupChat = useCallback((c: Community, invite = false) => {
     navigation.navigate(ScreenNames.CommunityDetail as any, { slug: c.slug, tab: "chat", ...(invite ? { invite: true } : {}) });
   }, [navigation]);

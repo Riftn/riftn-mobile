@@ -359,6 +359,38 @@ export async function deleteConversation(
   } as any);
 }
 
+/** One person's own settings for one chat (only they see them). */
+export interface ChatPref {
+  conversationId: string;
+  pinnedAt: string | null;
+  archivedAt: string | null;
+  mutedUntil: string | null;
+  markedUnread: boolean;
+  /** Group/community chats: shown in the Chat list since then. */
+  listedAt?: string | null;
+}
+
+/**
+ * Group, channel and community chats are communities underneath. Their
+ * settings live beside the DM ones under this id. Mirrors web chat-prefs.ts.
+ */
+export function roomChatId(communityId: string): string {
+  return `community:${communityId.toLowerCase()}`;
+}
+
+export async function getChatPrefs(): Promise<ChatPref[]> {
+  const res: any = await apiClient.get(`/dm/chat-prefs`, { isAuthRequired: true } as any);
+  const rows = res?.result ?? res?.data?.result;
+  return Array.isArray(rows) ? rows : [];
+}
+
+export async function setChatPref(
+  conversationId: string,
+  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean },
+): Promise<void> {
+  await apiClient.post(`/dm/chat-prefs/${encodeURIComponent(conversationId)}`, patch, { isAuthRequired: true });
+}
+
 /** Accept a message request: the chat moves from Requests to the inbox. */
 export async function acceptMessageRequest(dmId: string): Promise<void> {
   await apiClient.post(`/dm/chat-prefs/${dmId}`, { accepted: true }, { isAuthRequired: true });

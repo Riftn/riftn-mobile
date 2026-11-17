@@ -62,6 +62,8 @@ import { useCommunityChat } from "../../hooks/useCommunityChat";
 import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
 import { getCommunityAbilities, isForever } from "../../libs/community-permissions";
 import { communityKindOf } from "../../libs/community-kinds";
+import { useChatPrefs } from "../../hooks/useChatPrefs";
+import { roomChatId } from "../../services/dm/dm.api";
 import type { Community, CommunityChatMessage, CommunityMember } from "../../types/community";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
 import LinkPreviewCard from "../common/LinkPreviewCard";
@@ -336,6 +338,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   const alertTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const myAddress = ((user?.walletAddress || user?.address || "") as string).toLowerCase();
+  const { byId: chatPrefs, update: updateChatPref } = useChatPrefs(!!myAddress);
   // Holder groups: re-read this member's balance when the chat opens, so a
   // top-up lets them talk again and a sale is caught before they type.
   useEffect(() => {
@@ -647,6 +650,11 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
 
   const sendDisabled = !text.trim() || sending || cooldown > 0;
 
+  // Groups and channels are always in the Chat list; a community's chat joins
+  // it when the member asks. Same setting as the website.
+  const canListInChats = isMember && !!myAddress && communityKindOf(community) === "community";
+  const listedInChats = !!chatPrefs.get(roomChatId(community.id))?.listedAt;
+
   const sheetIsMine = !!sheetFor && !!myAddress && sheetFor.wallet_address?.toLowerCase() === myAddress;
   const sheetCanEdit = sheetIsMine && sheetFor?.message_type === "text" && !!sheetFor?.content;
   const sheetCanDelete = sheetIsMine || canDeleteAny;
@@ -664,6 +672,22 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
 
   return (
     <View style={[styles.root, { paddingBottom: keyboardLift }]}>
+      {canListInChats && (
+        <Pressable
+          onPress={() => void updateChatPref(roomChatId(community.id), listedInChats ? { listed: false, pinned: false } : { listed: true })}
+          style={[styles.showInChats, listedInChats && styles.showInChatsOn]}
+          accessibilityRole="switch"
+          accessibilityState={{ checked: listedInChats }}
+          testID="community-show-in-chats"
+        >
+          <Icon name="MessageCircle" size={13} color={listedInChats ? "#FFFFFF" : "#808089"} />
+          <Text style={[styles.showInChatsText, listedInChats && { color: "#FFFFFF" }]}>
+            {listedInChats
+              ? t("communities.chat.inChats", { defaultValue: "In Chats" })
+              : t("communities.chat.showInChats", { defaultValue: "Show in Chats" })}
+          </Text>
+        </Pressable>
+      )}
       {!!pinnedMessage && (
         <Pressable style={styles.pinnedBar} onPress={() => jumpToMessage(pinnedMessage.id)}>
           <Icon name="Pin" size={13} color="#FFFFFF" />
@@ -1161,6 +1185,20 @@ const styles = StyleSheet.create({
   },
   reactionCount: { color: "#A1A1AA", fontSize: 10 },
 
+  showInChats: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    gap: 5,
+    marginHorizontal: 10,
+    marginVertical: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.04)",
+  },
+  showInChatsOn: { backgroundColor: "rgba(255,255,255,0.10)" },
+  showInChatsText: { color: "#808089", fontSize: 12, fontWeight: "600" },
   pinnedBar: {
     flexDirection: "row",
     alignItems: "center",

@@ -24,11 +24,17 @@ export function entryPriceOf(community: Partial<Community> | null | undefined): 
   return Number.isFinite(price) && price > 0 ? Math.ceil(price) : 0;
 }
 
-/** Groups and channels the wallet is in, newest first, for the Messages list. */
-export function chatsFromMemberships(rows: UserCommunityRow[] | undefined): Community[] {
+/**
+ * Groups and channels the wallet is in, plus communities the person chose to
+ * show in Chats, newest first, for the Messages list.
+ */
+export function chatsFromMemberships(
+  rows: UserCommunityRow[] | undefined,
+  isListed: (communityId: string) => boolean = () => false,
+): Community[] {
   return (rows ?? [])
     .map((row: any) => row.communities as Community | null)
-    .filter((c): c is Community => !!c && communityKindOf(c) !== "community")
+    .filter((c): c is Community => !!c && (communityKindOf(c) !== "community" || isListed(c.id)))
     .sort((a, b) => String(b.created_at ?? "").localeCompare(String(a.created_at ?? "")));
 }
 
