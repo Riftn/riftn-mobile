@@ -60,7 +60,10 @@ import type { DmVideoOptions } from "../../libs/dm-video-options";
 import type { DmDestruct } from "../../libs/dm-destruct";
 import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
 import { dmSendQueue } from "../../services/dm/dm.send";
-import { useDmTranslation, toggleDmTranslation } from "../../libs/dm-translation-store";
+import { useDmTranslation, toggleDmTranslation, autoTranslateDm, shouldAutoTranslateDm } from "../../libs/dm-translation-store";
+import { autoTranslateEnabled, subscribeAutoTranslate } from "../../libs/auto-translate-setting";
+import { queueAutoTranslate } from "../../libs/auto-translate-queue";
+import { getUserLanguage } from "../../services/translation.service";
 import TranslateButton from "../ui/TranslateButton";
 
 /**
@@ -526,6 +529,19 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   // shows "Show original" under it.
   const translation = useDmTranslation(message._id);
   const translated = translation?.status === "shown" ? translation.text : null;
+
+  // Messages you receive translate themselves when they plainly read as another
+  // language (live chat rules). Queued behind the screen's own work, a few at a
+  // time. Your own messages stay as you wrote them.
+  const autoEnabled = React.useSyncExternalStore(subscribeAutoTranslate, autoTranslateEnabled);
+  const { i18n: autoI18n } = useTranslation();
+  useEffect(() => {
+    if (isMine || isCallMsg || !autoEnabled || !message._id) return;
+    if (msgType !== "msg" && !(msgType === "media" && message.content)) return;
+    const readerLang = getUserLanguage();
+    if (!shouldAutoTranslateDm(message.content, readerLang)) return;
+    return queueAutoTranslate(() => autoTranslateDm(message._id, message.content));
+  }, [isMine, isCallMsg, autoEnabled, message._id, message.content, msgType, autoI18n.language]);
   const translationStatus = translation ? (
     <View className="px-3 pt-1">
       <TranslateButton

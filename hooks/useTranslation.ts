@@ -5,6 +5,7 @@ import { translateText, getUserLanguage } from '../services/translation.service'
 import { autoTranslateEnabled, subscribeAutoTranslate } from '../libs/auto-translate-setting';
 import { ensureAiConsent, hasAiConsent } from '../libs/ai-consent';
 import { queueAutoTranslate } from '../libs/auto-translate-queue';
+import { takeAutoTranslateSlot } from '../libs/auto-translate-budget';
 import { chatLineIsForeign } from '../libs/chat-language-hint';
 import { toastLoading, toastSuccess, toastError, dismissToast } from '../libs';
 import { useRecyclingState } from './useCellState';
@@ -295,6 +296,8 @@ export function useTranslation(
 
     return queueAutoTranslate(() => {
       if (autoDoneRef.current === key || !autoTranslateEnabled()) return Promise.resolve();
+      // Hourly per-device cap on unasked-for translations (libs/auto-translate-budget).
+      if (!takeAutoTranslateSlot()) return Promise.resolve();
       autoDoneRef.current = key;
       return runRef.current(true);
     });
