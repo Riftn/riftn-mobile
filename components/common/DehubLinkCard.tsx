@@ -46,6 +46,8 @@ import { fetchTitleOffers } from '../../services/justwatch.service';
 import { detectLocale } from '../../libs/cinema-locales';
 import { minimalFlat } from '../../theme/minimal';
 import { useGovernanceProposal } from '../../hooks/useGovernanceDiscussion';
+import { useAuthState } from '../../context/AuthContext';
+import * as WebBrowser from 'expo-web-browser';
 
 /** How many cards one message or caption may draw before the rest stay as text. */
 export const MAX_CARDS_PER_MESSAGE = 2;
@@ -190,6 +192,45 @@ const SkeletonCard = () => {
   const { isMinimal } = useAppTheme();
   const { inBubble } = useContext(CardHostContext);
   return <SkeletonBlock style={[styles.skeleton, isMinimal && styles.minimalSkeleton, inBubble && styles.skeletonInBubble]} />;
+};
+
+const SkillCardEmbed: React.FC<{ slug: string; onOpen: () => void; fallback: React.ReactElement }> = ({ slug, onOpen, fallback }) => {
+  const { t } = useTranslation();
+  const navigation = useNavigation<any>();
+  const { isSignedIn, needsUsername } = useAuthState();
+  const { data, isLoading } = useQuery({
+    queryKey: ['skill-preview', slug],
+    queryFn: async () => {
+      const { data, error } = await supabase.from('user_skills')
+        .select('name,slug,description,creator_username').eq('slug', slug).maybeSingle();
+      if (error) throw error;
+      return data;
+    },
+    staleTime: 30_000,
+  });
+  if (isLoading) return <SkeletonCard />;
+  if (!data) return fallback;
+  return <RowCard
+    eyebrow={dehubLinkLabel('skill')}
+    title={data.name}
+    subtitle={data.creator_username ? `@${data.creator_username}` : undefined}
+    description={data.description}
+    fallbackIcon="Sparkles"
+    cta={t('wallet.view')}
+    onPress={onOpen}
+    footer={<TouchableOpacity
+      accessibilityRole="button"
+      accessibilityLabel={t('common.share')}
+      onPress={() => {
+        if (!isSignedIn || needsUsername) { navigation.navigate(ScreenNames.SignIn); return; }
+        navigation.navigate(ScreenNames.Upload, { initialText: `https://riftn.com/app/assistant?skill=${encodeURIComponent(slug)}` });
+      }}
+      style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 8 }}
+    >
+      <Icon name="Share" size={16} color="#a1a1aa" />
+      <Text style={styles.subtitle}>{t('common.share')}</Text>
+    </TouchableOpacity>}
+  />;
 };
 
 // ── Per-kind cards ──────────────────────────────────────────────────────────
@@ -631,6 +672,10 @@ export function useOpenDehubLink() {
   return useCallback(
     (link: DehubLinkMatch) => {
       switch (link.kind) {
+        case 'skill':
+          // The web skill runner retains its prompt, model and reference assets.
+          void WebBrowser.openBrowserAsync(`https://riftn.com${link.path}`);
+          return;
         case 'post':
           navigation.navigate(ScreenNames.FeedDetail, { tokenId: link.tokenId });
           return;
@@ -763,6 +808,9 @@ const DehubLinkCardComponent: React.FC<DehubLinkCardProps> = ({
 
   let card: React.ReactElement;
   switch (link.kind) {
+    case 'skill':
+      card = <SkillCardEmbed slug={link.skillSlug!} onOpen={open} fallback={fallback} />;
+      break;
     case 'profile':
       card = <ProfileCardEmbed username={link.username!} onOpen={open} fallback={fallback} />;
       break;
