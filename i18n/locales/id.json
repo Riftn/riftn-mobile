@@ -6605,6 +6605,7 @@
     },
     "chatPanel": {
       "addToMessages": "Tambahkan ke Pesan",
+      "photoTooLarge": "Gambar harus kurang dari 10MB",
       "inMessages": "Di Pesan",
       "jumpToLatest": "Lompat ke terbaru",
       "anon": "Anon",

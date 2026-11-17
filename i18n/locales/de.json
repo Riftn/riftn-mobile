@@ -6514,6 +6514,7 @@
     },
     "chatPanel": {
       "addToMessages": "Zu Nachrichten hinzufügen",
+      "photoTooLarge": "Das Bild muss kleiner als 10 MB sein",
       "inMessages": "In Nachrichten",
       "jumpToLatest": "Zu den neuesten",
       "anon": "Anon",

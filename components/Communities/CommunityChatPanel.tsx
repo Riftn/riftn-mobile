@@ -26,12 +26,15 @@ import BadgeArtwork from "../common/BadgeArtwork";
  *
  * GIFs and voice notes, as on web, sit behind abilities.can("send_media"):
  * a GIF posts its GIPHY URL, a voice note is uploaded through the same
- * dm-upload-media function web uses and posts the stored URL. Plain photos
- * are not offered because web does not send them here either.
+ * dm-upload-media function web uses and posts the stored URL. Photos follow
+ * Public Chat's rules (JPG, PNG, GIF, WebP up to 10MB), with the typed line
+ * as the caption.
  *
  * Sizing is the caller's job: this fills whatever box it is given (flex: 1).
  */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import * as ImagePicker from "expo-image-picker";
+import { runWithPermissions } from "../../libs/permissions.util";
 import { holderGateOf, runHolderCheck } from "../../libs/holder-gate";
 import {
   View,
@@ -83,6 +86,7 @@ import { toastError } from "../../libs/toast";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
+const PHOTO_MAX_BYTES = 10 * 1024 * 1024;
 const MAX_LEN = 500;
 /** Rendered window, oldest end trimmed. Grown by the "show earlier" header. */
 const PAGE = 30;
@@ -526,10 +530,10 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
 
   // A GIF or voice note goes out at once, like web, then the same after-send
   // steps as text: reply cleared, scrolled to the bottom, slow mode shown.
-  const sendMedia = useCallback(async (type: "gif" | "voice", url: string) => {
+  const sendMedia = useCallback(async (type: "gif" | "voice" | "image", url: string, caption = "") => {
     setSending(true);
     try {
-      await sendMessage(type === "voice" ? url : "", replyTo?.id, { type, url });
+      await sendMessage(type === "voice" ? url : caption, replyTo?.id, { type, url });
       setReplyTo.complete(replyTo, null);
       atBottomRef.current = true;
       scrollToBottom();
@@ -555,6 +559,36 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
       setSending(false);
     }
   }, [myAddress, sendMedia, t]);
+
+  const handlePickPhoto = useCallback(async () => {
+    if (!myAddress) return;
+    await runWithPermissions(["photos"], async () => {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 0.85,
+        // iPhone photos come back as JPEG rather than HEIC.
+        preferredAssetRepresentationMode: ImagePicker.UIImagePickerPreferredAssetRepresentationMode.Compatible,
+      });
+      const asset = result.canceled ? null : result.assets?.[0];
+      if (!asset) return;
+      if (asset.fileSize && asset.fileSize > PHOTO_MAX_BYTES) {
+        toastError(t("communities.chatPanel.photoTooLarge", { defaultValue: "Image must be less than 10MB" }));
+        return;
+      }
+      const mime = asset.mimeType && /^image\/(jpeg|png|gif|webp)$/i.test(asset.mimeType) ? asset.mimeType : "image/jpeg";
+      const name = asset.fileName || asset.uri.split("/").pop() || `photo-${Date.now()}.jpg`;
+      const caption = text.trim();
+      setSending(true);
+      try {
+        const { url } = await uploadLiveChatImage(asset.uri, mime, name, myAddress);
+        await sendMedia("image", url, caption);
+        if (caption) setText.complete(text, "");
+      } catch (e: any) {
+        toastError(e?.message || t("liveChat.attachFailed"));
+        setSending(false);
+      }
+    });
+  }, [myAddress, sendMedia, t, text, setText]);
 
   const recorder = useVoiceRecorder({ onRecordingComplete: handleVoiceDone, onCancel: () => {} });
 
@@ -884,6 +918,17 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
                   accessibilityLabel={t("comments.addGif")}
                 >
                   <Text style={styles.gifText}>{t("liveChat.attachGif")}</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => void handlePickPhoto()}
+                  disabled={sending || cooldown > 0}
+                  style={styles.mediaBtn}
+                  hitSlop={4}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("liveChat.attachPhoto")}
+                  testID="community-chat-photo"
+                >
+                  <Icon name="Image" size={17} color="#A1A1AA" />
                 </Pressable>
                 {!text.trim() && (
                   <Pressable

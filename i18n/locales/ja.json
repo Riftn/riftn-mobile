@@ -6450,6 +6450,7 @@
     },
     "chatPanel": {
       "addToMessages": "メッセージに追加",
+      "photoTooLarge": "画像は10MB未満にしてください",
       "inMessages": "メッセージに追加済み",
       "jumpToLatest": "最新情報にジャンプ",
       "anon": "匿名",

@@ -6452,6 +6452,7 @@
     },
     "chatPanel": {
       "addToMessages": "添加到消息",
+      "photoTooLarge": "图片必须小于 10MB",
       "inMessages": "已在消息中",
       "jumpToLatest": "跳到最新",
       "anon": "匿名",

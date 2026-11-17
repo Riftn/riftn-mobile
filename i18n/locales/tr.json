@@ -4570,6 +4570,7 @@
     },
     "chatPanel": {
       "addToMessages": "Mesajlara ekle",
+      "photoTooLarge": "Görsel 10 MB'tan küçük olmalı",
       "inMessages": "Mesajlarda",
       "jumpToLatest": "En yeniye git",
       "anon": "Anonim",

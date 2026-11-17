@@ -6608,6 +6608,7 @@
     },
     "chatPanel": {
       "addToMessages": "메시지에 추가",
+      "photoTooLarge": "이미지는 10MB 미만이어야 합니다",
       "inMessages": "메시지에 있음",
       "jumpToLatest": "최근 페이지로 이동",
       "anon": "익명",

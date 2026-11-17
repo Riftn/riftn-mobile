@@ -157,7 +157,7 @@ export function useCommunityChat(
   }, [active, isPrivate, history.isHistoryWindow, communityId, queryClient, key]);
 
   const sendMessage = useCallback(
-    async (content: string, replyToId?: string, media?: { type: "gif" | "voice"; url: string }) => {
+    async (content: string, replyToId?: string, media?: { type: "gif" | "voice" | "image"; url: string }) => {
       if (!communityId || !walletAddress) throw new Error(_copy("copy.bc30560b2f21", { defaultValue: "Sign in to send a message" }));
       const msg = {
         community_id: communityId,

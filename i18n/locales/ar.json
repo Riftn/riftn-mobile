@@ -4590,6 +4590,7 @@
     },
     "chatPanel": {
       "addToMessages": "إضافة إلى الرسائل",
+      "photoTooLarge": "يجب أن يكون حجم الصورة أقل من 10 ميغابايت",
       "inMessages": "في الرسائل",
       "jumpToLatest": "الانتقال إلى الأحدث",
       "anon": "مجهول",
