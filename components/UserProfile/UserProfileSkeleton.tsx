@@ -1,4 +1,5 @@
 import SkeletonBlock from '../Feed/SkeletonBlock';
+import { useRouteBusy } from '../../context/RouteBusyContext';
 import React, { useRef } from 'react';
 import { Pressable, Text, View } from 'react-native';
 import Avatar from '../common/Avatar';
@@ -14,6 +15,8 @@ import { MINIMAL_HAIRLINE } from '../../theme/minimal';
 // seed from the tapped card it draws the real avatar, name and badge in their
 // final places, and the badge opens its showcase straight away.
 const UserProfileSkeleton: React.FC<{ seed?: ProfileIdentitySeed | null }> = ({ seed }) => {
+  // A page's main placeholder: its route keeps the opening shell over it.
+  useRouteBusy();
   const { isMinimal, colors } = useAppTheme();
   const cinematicPhone = useCinematicPhone();
   const badgeRef = useRef<View>(null);

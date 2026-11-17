@@ -1,4 +1,5 @@
 import SkeletonBlock from "../Feed/SkeletonBlock";
+import { useRouteBusy } from '../../context/RouteBusyContext';
 import React from "react";
 import { View } from "react-native";
 import { useShortsCardSize, GRID_GAP } from "./ShortsGridCard";
@@ -15,6 +16,8 @@ interface ShortsGridSkeletonProps {
  * grid says "this is what is arriving", and the tab stops reading as empty.
  */
 const ShortsGridSkeleton: React.FC<ShortsGridSkeletonProps> = ({ rows = 3 }) => {
+  // A page's main placeholder: its route keeps the opening shell over it.
+  useRouteBusy();
   const { isMinimal } = useAppTheme();
   const { width: CARD_WIDTH, height: CARD_HEIGHT } = useShortsCardSize();
   return (

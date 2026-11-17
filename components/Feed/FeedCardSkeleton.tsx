@@ -4,6 +4,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_HAIRLINE, MINIMAL_INSET } from "../../theme/minimal";
 import { FEED_BENTO_RADIUS } from "../../libs/feed-image-layout";
 import SkeletonBlock from "./SkeletonBlock";
+import { useRouteBusy } from '../../context/RouteBusyContext';
 
 interface FeedCardSkeletonProps {
   count?: number;
@@ -13,6 +14,8 @@ interface FeedCardSkeletonProps {
 }
 
 const FeedCardSkeleton: React.FC<FeedCardSkeletonProps> = ({ count = 3, cinematic = false, topChromeInset = 0, edgeInset = 0 }) => {
+  // A page's main placeholder: its route keeps the opening shell over it.
+  useRouteBusy();
   const { theme, isLight, isMinimal, skin } = useAppTheme();
   const edge = cinematic && (theme === "immersive" || isLight) && !skin;
   const inset = edge || isMinimal ? MINIMAL_INSET : 12;

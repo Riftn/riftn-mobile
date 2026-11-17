@@ -1,4 +1,5 @@
 import SkeletonBlock from '../components/Feed/SkeletonBlock';
+import { RouteBusyMark } from '../context/RouteBusyContext';
 import { openChatMention } from "../libs/openChatMention";
 import React, { useState, useCallback, useMemo, useEffect, useLayoutEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -2061,6 +2062,7 @@ const NotificationScreen = () => {
     () => (
       // Same clean feed spacing as the real rows.
       <View className="flex-row items-start" style={{ paddingVertical: 12, paddingLeft: 18, paddingRight: 12 }}>
+        <RouteBusyMark />
         {/* Avatar with badge overlay */}
         <View className="relative">
           <SkeletonBlock className="w-11 h-11 rounded-md " />

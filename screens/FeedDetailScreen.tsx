@@ -1,4 +1,5 @@
 import SkeletonBlock from '../components/Feed/SkeletonBlock';
+import { RouteBusyMark } from '../context/RouteBusyContext';
 import { useCommentCount, updateCommentCount } from '../libs/comment-count-store';
 import { deliverReply, replyIdOf } from '../libs/reply-delivery';
 import ThemePanel from '../components/ui/ThemePanel';
@@ -1596,6 +1597,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         />
       ) : loading ? (
         <View className="px-4 pt-4">
+          <RouteBusyMark />
           {/* Minimal inline skeleton — just header + content placeholder */}
           <View className="flex-row items-center">
             <SkeletonBlock className="w-9 h-9 rounded-md " />
