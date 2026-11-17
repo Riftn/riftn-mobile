@@ -3986,6 +3986,16 @@
       "label": "Fil · {{count}} parties"
     }
   },
+  "postEditHistory": {
+    "title": "Historique des modifications",
+    "edited_one": "Modifié une fois",
+    "edited_other": "Modifié {{count}} fois",
+    "lastEdit": "Dernière modification {{time}}",
+    "original": "Original",
+    "editN": "Modification {{n}}",
+    "now": "Maintenant",
+    "showChanges": "Afficher les changements"
+  },
   "postInfo": {
     "ownersUnavailable": "Les propriétaires actuels ne peuvent pas être lus pour le moment.",
     "unavailable": "Non disponible",
