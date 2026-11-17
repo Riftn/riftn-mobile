@@ -13,6 +13,7 @@ import { useTranslation as _useCopy } from 'react-i18next';
 import { useCallback, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useUser } from "../context/AuthContext";
+import { getAccountSummaries, type AccountSummary } from "../services/user.service";
 import {
   approveMember,
   banMember,
@@ -60,6 +61,51 @@ export function useCommunityMembersQuery(communityId: string | undefined) {
     enabled: !!communityId,
     staleTime: 15_000,
   });
+}
+
+/** How many people one roster list will look up names for (one batch call per 100). */
+export const IDENTITY_POOL = 200;
+
+/**
+ * Name, @handle, picture and badge for a list of member wallets, from the
+ * batch account lookup, keyed by lower-case address. Member rows come back
+ * from the community tables as bare wallets; this is what lets the Manage
+ * sheet draw them the way the feed draws people, and search by name.
+ */
+export function useMemberIdentities(addresses: string[]) {
+  const key = useMemo(
+    () => [...new Set(addresses.filter(Boolean).map((a) => a.toLowerCase()))].slice(0, IDENTITY_POOL).sort(),
+    [addresses],
+  );
+  const { data, isLoading } = useQuery({
+    queryKey: ["community-member-identities", key.join(",")],
+    queryFn: () => getAccountSummaries(key),
+    enabled: key.length > 0,
+    staleTime: 5 * 60_000,
+    retry: 1,
+  });
+  const byAddress = useMemo(() => {
+    const map = new Map<string, AccountSummary>();
+    for (const summary of data ?? []) {
+      if (summary?.address) map.set(summary.address.toLowerCase(), summary);
+    }
+    return map;
+  }, [data]);
+  return { byAddress, isLoading: isLoading && key.length > 0 };
+}
+
+/** True when the member's wallet, name or @handle contains the search text. */
+export function memberMatches(
+  address: string,
+  identity: AccountSummary | undefined,
+  needle: string,
+): boolean {
+  if (!needle) return true;
+  const handle = identity?.username ?? "";
+  return [address, identity?.displayName ?? "", handle, handle ? `@${handle}` : ""]
+    .join(" ")
+    .toLowerCase()
+    .includes(needle);
 }
 
 export function useCommunityMembershipQuery(communityId: string | undefined) {

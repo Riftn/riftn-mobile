@@ -16,9 +16,10 @@ import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, TextInput, 
 import { useTranslation } from "react-i18next";
 import Icon from "../../ui/Icon";
 import { ADMIN_RIGHTS, getCommunityAbilities } from "../../../libs/community-permissions";
-import { shortWallet, useCommunityMembersQuery } from "../../../hooks/useCommunityAdmin";
+import { memberMatches, useCommunityMembersQuery, useMemberIdentities } from "../../../hooks/useCommunityAdmin";
 import type { Community, CommunityMember } from "../../../types/community";
 import { AdminRightsSheet } from "./AdminRightsSheet";
+import { MemberIdentity } from "./MemberIdentity";
 
 /** Rows are plain views in a sheet with no virtualisation — keep them bounded. */
 const PAGE_SIZE = 30;
@@ -55,13 +56,27 @@ export function AdministratorsTab({ community, membership }: Props) {
     };
   }, [members]);
 
+  // Everyone this tab draws, owner and admins first so they always get a name.
+  const lookup = useMemo(
+    () => [
+      ...(roster.owner ? [roster.owner.wallet_address] : []),
+      ...roster.admins.map((m) => m.wallet_address),
+      ...(abilities.can("add_admins") ? roster.plain.map((m) => m.wallet_address) : []),
+    ],
+    [roster, abilities],
+  );
+  const { byAddress: identities } = useMemberIdentities(lookup);
+  const identityOf = (m: CommunityMember) => identities.get(m.wallet_address.toLowerCase());
+
   const matches = useMemo(() => {
     const needle = search.trim().toLowerCase();
     const filtered = needle
-      ? roster.plain.filter((m) => m.wallet_address.toLowerCase().includes(needle))
+      ? roster.plain.filter((m) =>
+          memberMatches(m.wallet_address, identities.get(m.wallet_address.toLowerCase()), needle),
+        )
       : roster.plain;
     return { rows: filtered.slice(0, SEARCH_LIMIT), truncated: filtered.length > SEARCH_LIMIT };
-  }, [roster.plain, search]);
+  }, [roster.plain, search, identities]);
 
   if (isLoading) {
     return (
@@ -80,14 +95,19 @@ export function AdministratorsTab({ community, membership }: Props) {
         {t("communities.manage.ownerSection", { defaultValue: "Owner" })}
       </Text>
       {owner ? (
-        <View className="flex-row items-center gap-3 py-3 border-b border-white/5">
-          <Icon name="Crown" size={16} color="#fff" />
-          <Text className="text-white text-sm font-mono flex-1" numberOfLines={1}>
-            {shortWallet(owner.wallet_address)}
-          </Text>
-          <Text className="text-zinc-400 text-xs">
-            {t("communities.manage.ownerLabel", { defaultValue: "Owner" })}
-          </Text>
+        <View className="border-b border-white/5">
+          <MemberIdentity
+            address={owner.wallet_address}
+            identity={identityOf(owner)}
+            trailing={
+              <View style={styles.roleTag}>
+                <Icon name="Crown" size={14} color="#fff" />
+                <Text className="text-zinc-400 text-xs">
+                  {t("communities.manage.ownerLabel", { defaultValue: "Owner" })}
+                </Text>
+              </View>
+            }
+          />
         </View>
       ) : (
         <Text className="text-zinc-400 text-xs text-center py-4">
@@ -111,30 +131,32 @@ export function AdministratorsTab({ community, membership }: Props) {
               key={admin.id}
               disabled={!abilities.isOwner}
               onPress={() => setEditing(admin)}
-              className="flex-row items-center gap-3 py-3 border-b border-white/5"
+              className="border-b border-white/5"
             >
-              <Icon name="Shield" size={16} color="#A1A1AA" />
-              <View className="flex-1">
-                <View className="flex-row items-center gap-2">
-                  <Text className="text-white text-sm font-mono" numberOfLines={1}>
-                    {shortWallet(admin.wallet_address)}
-                  </Text>
-                  <View style={styles.chip}>
-                    <Text style={styles.chipText} numberOfLines={1}>
-                      {admin.custom_title ||
-                        t("communities.manage.adminBadge", { defaultValue: "Admin" })}
-                    </Text>
+              <MemberIdentity
+                address={admin.wallet_address}
+                identity={identityOf(admin)}
+                trailing={
+                  <View style={styles.roleTag}>
+                    <Icon name="Shield" size={14} color="#A1A1AA" />
+                    <View style={styles.chip}>
+                      <Text style={styles.chipText} numberOfLines={1}>
+                        {admin.custom_title ||
+                          t("communities.manage.adminBadge", { defaultValue: "Admin" })}
+                      </Text>
+                    </View>
+                    {abilities.isOwner && <Icon name="ChevronRight" size={16} color="#52525b" />}
                   </View>
-                </View>
-                <Text className="text-zinc-400 text-xs mt-0.5">
+                }
+              >
+                <Text className="text-zinc-400 text-xs" style={styles.underName}>
                   {t("communities.manage.rightsSummary", {
                     defaultValue: "{{granted}} of {{total}} rights",
                     granted: countRights(admin),
                     total: ADMIN_RIGHTS.length,
                   })}
                 </Text>
-              </View>
-              {abilities.isOwner && <Icon name="ChevronRight" size={16} color="#52525b" />}
+              </MemberIdentity>
             </Pressable>
           ))}
           {roster.admins.length > shownAdmins.length && (
@@ -164,7 +186,7 @@ export function AdministratorsTab({ community, membership }: Props) {
               value={search}
               onChangeText={setSearch}
               placeholder={t("communities.manage.searchMembers", {
-                defaultValue: "Search members by wallet",
+                defaultValue: "Search by name, @username or wallet",
               })}
               placeholderTextColor="#8B8D90"
               autoCapitalize="none"
@@ -176,7 +198,7 @@ export function AdministratorsTab({ community, membership }: Props) {
             <Text className="text-zinc-400 text-xs text-center py-6">
               {search.trim()
                 ? t("communities.manage.noMemberMatches", {
-                    defaultValue: "No member matches that address.",
+                    defaultValue: "No member matches that search.",
                   })
                 : t("communities.manage.noPlainMembers", {
                     defaultValue: "Everyone here is already an admin.",
@@ -185,19 +207,19 @@ export function AdministratorsTab({ community, membership }: Props) {
           ) : (
             <>
               {matches.rows.map((member) => (
-                <View
-                  key={member.id}
-                  className="flex-row items-center gap-3 py-3 border-b border-white/5"
-                >
-                  <Text className="text-white text-sm font-mono flex-1" numberOfLines={1}>
-                    {shortWallet(member.wallet_address)}
-                  </Text>
-                  <Pressable onPress={() => setEditing(member)} style={styles.promoteBtn}>
-                    <Icon name="UserPlus" size={14} color="#fff" />
-                    <Text style={styles.promoteBtnText}>
-                      {t("communities.manage.promote", { defaultValue: "Promote" })}
-                    </Text>
-                  </Pressable>
+                <View key={member.id} className="border-b border-white/5">
+                  <MemberIdentity
+                    address={member.wallet_address}
+                    identity={identityOf(member)}
+                    trailing={
+                      <Pressable onPress={() => setEditing(member)} style={styles.promoteBtn}>
+                        <Icon name="UserPlus" size={14} color="#fff" />
+                        <Text style={styles.promoteBtnText}>
+                          {t("communities.manage.promote", { defaultValue: "Promote" })}
+                        </Text>
+                      </Pressable>
+                    }
+                  />
                 </View>
               ))}
               {matches.truncated && (
@@ -233,6 +255,9 @@ const styles = StyleSheet.create({
     maxWidth: 120,
   },
   chipText: { color: "#a1a1aa", fontSize: 12, fontWeight: "600" },
+  roleTag: { flexDirection: "row", alignItems: "center", gap: 6, flexShrink: 0 },
+  // Lines under the name start where the name does, past the 32px avatar.
+  underName: { marginLeft: 40, marginTop: -4, marginBottom: 8 },
   showMoreBtn: {
     alignSelf: "center",
     marginTop: 12,
