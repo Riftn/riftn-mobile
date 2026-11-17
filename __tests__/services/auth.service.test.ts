@@ -150,17 +150,6 @@ describe('services/auth.service', () => {
     });
   });
 
-  describe('getCurrentUser', () => {
-    it('fetches current user from API', async () => {
-      const mockUser = { _id: '1', address: '0xabc', username: 'alice' };
-      mockApiGet.mockResolvedValueOnce(mockUser);
-
-      const user = await AuthService.getCurrentUser();
-      expect(user).toEqual(mockUser);
-      expect(mockApiGet).toHaveBeenCalledWith('/auth/me');
-    });
-  });
-
   describe('logoutAllDevices', () => {
     it('calls logout-all and clears auth', async () => {
       mockStore.__store['auth_token'] = 'tok';

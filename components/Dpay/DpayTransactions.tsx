@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { PageSection } from "../page/PageKit";
 import { miniAddress } from "../../libs/strings.util";
-import { DPAY_TX_LINK, LEGACY_WEBSITE_LINK } from "../../config/links";
 import { openInApp, getTransactionLink } from "../../libs/links.utils";
 import { getDpayTnx } from "../../services";
 import { formatRelativeFromNow } from "../../libs/date.util";
@@ -45,16 +44,18 @@ const DpayTransactions: React.FC = () => {
   const { t } = useTranslation();
   const [loading, setLoading] = React.useState<boolean>(true);
   const [items, setItems] = React.useState<Tx[]>([]);
+  // "Show all" expands the list here instead of sending people to another site.
+  const [limit, setLimit] = React.useState<number>(10);
 
   React.useEffect(() => {
     let cancelled = false;
     async function load() {
       setLoading(true);
       try {
-        const res: any = await getDpayTnx({ page: 1, limit: 10 });
+        const res: any = await getDpayTnx({ page: 1, limit });
         const list: any[] = res?.data?.tnxs || res?.tnxs || res?.result || res?.data || [];
         const mapped: Tx[] = Array.isArray(list)
-          ? list.slice(0, 10).map((tx: any, idx: number) => ({
+          ? list.slice(0, limit).map((tx: any, idx: number) => ({
               id: String(tx?.sessionId || tx?.id || idx),
               chainId: Number(tx?.chainId ?? 8453),
               tokenSymbol: String(tx?.tokenSymbol || 'DHB'),
@@ -77,10 +78,10 @@ const DpayTransactions: React.FC = () => {
     }
     load();
     return () => { cancelled = true; };
-  }, []);
+  }, [limit]);
+  const showingAll = limit > 10;
   const onShowAll = React.useCallback(() => {
-    // openInApp(DPAY_TX_LINK);
-    openInApp(`${LEGACY_WEBSITE_LINK}/dpay/tnx`);
+    setLimit(100);
   }, []);
 
   const renderItem = React.useCallback((tx: Tx) => {
@@ -146,14 +147,16 @@ const DpayTransactions: React.FC = () => {
     <PageSection
       title={t("dpay.latestTransactions")}
       action={
+        showingAll || items.length < 10 ? undefined : (
         <TouchableOpacity
           onPress={onShowAll}
           hitSlop={{ top: 10, bottom: 10, left: 8, right: 8 }}
           className="px-3 py-1 rounded-lg bg-theme-neutrals-800 border border-theme-neutrals-700 flex-row items-center"
         >
           <Text className="text-white text-xs mr-1">{t("dpay.showAll")}</Text>
-          <Ionicons name="open-outline" size={14} color="#FFFFFF" />
+          <Ionicons name="chevron-down" size={14} color="#FFFFFF" />
         </TouchableOpacity>
+        )
       }
     >
       {loading ? (

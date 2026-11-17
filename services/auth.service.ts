@@ -364,31 +364,6 @@ export const AuthService = {
   },
 
   /**
-   * Request a password reset
-   * @param email User's email
-   */
-  async resetPassword(email: string): Promise<void> {
-    try {
-      await apiClient.post(
-        "/auth/reset-password",
-        { email },
-        { isAuthRequired: false }
-      );
-    } catch (error) {
-      console.error("Password reset error:", error);
-      throw error;
-    }
-  },
-
-  /**
-   * Get the current user profile
-   * @returns Promise with user data
-   */
-  async getCurrentUser(): Promise<User> {
-    return await apiClient.get<User>("/auth/me");
-  },
-
-  /**
    * Update the user's profile
    * @param userData Partial user data to update
    * @returns Promise with updated user data

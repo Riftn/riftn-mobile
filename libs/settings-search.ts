@@ -86,7 +86,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
   { tab: 'privacy', anchor: 'show-dislikes', label: 'Show my dislikes to everyone', labelKey: 'settings.showDislikes', keywords: 'dislikes thumbs down disliked posts profile tab public private' },
   { tab: 'privacy', anchor: 'ai-scraping', label: 'Allow AI training', labelKey: 'settings.aiScraping.label', keywords: 'ai scraping training llm crawler bot noai' },
   { tab: 'privacy', anchor: 'follower-visibility', label: 'Follower Visibility', labelKey: 'settings.followerVisibilitySection', keywords: 'followers following hide counts list who follows me who i follow private' },
-  { tab: 'privacy', anchor: 'profile-visibility', label: 'Profile Visibility', labelKey: 'settings.profileVisibility', keywords: 'public profile search engine indexing google new member' },
+  { tab: 'privacy', anchor: 'profile-visibility', label: 'Profile Visibility', labelKey: 'settings.profileVisibility', keywords: 'new member welcome' },
   { tab: 'privacy', anchor: 'account-security', label: 'Account Security', labelKey: 'settings.accountSecurity', keywords: 'two-factor 2fa mfa security tv sign in biometric fingerprint face id wallet unlock android passkey' },
   { tab: 'privacy', anchor: 'account-security', label: 'Active sessions', labelKey: 'settings.activeSessions', keywords: 'devices logged in revoke' },
   { tab: 'privacy', anchor: 'account-security', label: 'Blocked accounts', labelKey: 'settings.blockedAccounts', keywords: 'block unblock mute' },
