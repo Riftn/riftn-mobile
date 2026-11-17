@@ -4621,6 +4621,8 @@
       "years": "{{count}}y"
     },
     "chatPanel": {
+      "joined": "{{name}} joined",
+      "reactions": "Reactions",
       "addToMessages": "Add to Messages",
       "photoTooLarge": "Image must be less than 10MB",
       "inMessages": "In Messages",
@@ -4824,6 +4826,11 @@
     "loadFailed": "Couldn't load communities",
     "noPostsYet": "No posts in this community yet.",
     "infoUpdated": "Community updated",
+    "avatarUpdated": "Picture updated",
+    "bannerUpdated": "Banner updated",
+    "imageUploadFailed": "Couldn't upload that image. Try again.",
+    "changeBanner": "Change banner",
+    "changeAvatar": "Change picture",
     "editInfo": "Edit name and description",
     "saveChanges": "Save",
     "nowPrivate": "Community is now private",

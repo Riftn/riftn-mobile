@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { CommonActions, StackRouter, type StackNavigationState, type ParamListBase } from "@react-navigation/native";
-import { feedDetailRouteId } from "../../navigation/feedDetailRouteId";
+import { feedDetailRouteId, shortsViewerRouteId } from "../../navigation/feedDetailRouteId";
 
 const readSource = (path: string) =>
   readFileSync(resolve(__dirname, "../..", path), "utf8");
@@ -81,5 +81,19 @@ describe("opening a post from a post", () => {
     expect(backToA.routes).toHaveLength(3);
     expect(backToA.routes[2].key).toBe(a.routes[1].key);
     expect(backToA.routes[1].key).toBe(b.routes[2].key);
+  });
+});
+
+describe("shortsViewerRouteId", () => {
+  it("keys the viewer on the clip that was tapped", () => {
+    const a = shortsViewerRouteId({ initialIndex: 1, initialItems: [{ tokenId: 7 }, { tokenId: 9 }] });
+    const b = shortsViewerRouteId({ initialIndex: 0, initialItems: [{ tokenId: 7 }, { tokenId: 9 }] });
+    expect(a).toBe("shorts:9");
+    expect(b).toBe("shorts:7");
+  });
+
+  it("falls back to the feed anchor, then to no id", () => {
+    expect(shortsViewerRouteId({ feedParams: { fromId: "abc" } })).toBe("shorts:abc");
+    expect(shortsViewerRouteId(undefined)).toBeUndefined();
   });
 });

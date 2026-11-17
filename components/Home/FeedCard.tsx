@@ -2005,6 +2005,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       isPPVLocked={isActuallyLockedPPV}
       isHoldingsLocked={isActuallyLockedHoldings}
       isBountyLocked={false}
+      isSubLocked={isActuallySubGated}
+      subLine={subQuote
+        ? `${t("feedCard.subscribeFrom")} ${formatSubscriberTokens(subQuote.tokens)} DHB`
+        : username ? t("feedCard.subscribeTo", { name: username }) : t("feedCard.subscribeToCreator")}
+      onSubscribePress={handleSubscribePress}
       isComboLocked={isActuallyComboLocked}
       isBounty={isBounty}
       ppvAmount={payPerViewAmount}

@@ -8,7 +8,7 @@ import { useReducedMotion } from "react-native-reanimated";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ScreenNames } from "./ScreenNames";
 import type { AppStackParamList } from "./types";
-import { feedDetailRouteId } from "./feedDetailRouteId";
+import { feedDetailRouteId, shortsViewerRouteId } from "./feedDetailRouteId";
 import BottomTabNavigator from "./BottomTabNavigator";
 import { withScreenBoundary, withSolidScreenBoundary } from "../components/common/ScreenErrorFallback";
 import { useAuthState } from "../context/AuthContext";
@@ -587,6 +587,9 @@ function AppNavigatorContent() {
         <Stack.Screen
           name={ScreenNames.ShortsViewer}
           layout={withSolidScreenBoundary}
+          // One route per clip opened, so a tile tapped while the last viewer
+          // is still leaving opens that tile, not the viewer being closed.
+          getId={({ params }) => shortsViewerRouteId(params)}
           options={{ presentation: 'transparentModal', contentStyle: { backgroundColor: 'transparent' } }}
           // The viewer already has the tapped clip and poster. Paint that seed
           // during entry instead of replacing loaded media with a route shell.

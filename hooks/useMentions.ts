@@ -15,7 +15,17 @@ import { caretFromEdit } from "../libs/caret-from-edit";
  * - Inserts `@username ` on selection
  * - Backspacing into a filled mention deletes the whole `@username `
  */
-export function useMentions(text: string, setText: (t: string) => void) {
+export function useMentions(
+  text: string,
+  setText: (t: string) => void,
+  /**
+   * People to offer first, before anyone the search finds: in a group chat,
+   * the people talking in it. With a pool, a bare "@" already opens the list.
+   */
+  pool?: MentionUser[],
+) {
+  const poolRef = useRef<MentionUser[] | undefined>(pool);
+  poolRef.current = pool;
   const [suggestions, setSuggestions] = useState<MentionUser[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -108,19 +118,28 @@ export function useMentions(text: string, setText: (t: string) => void) {
       const cursor = caretFromEdit(oldText, newText, selectionRef.current);
       const q = extractQuery(newText, cursor);
 
-      if (q != null && q.length >= 1) {
+      const local = q != null ? poolMatches(poolRef.current, q) : [];
+      if (q != null && (q.length >= 1 || local.length > 0)) {
         queryRef.current = q;
         setShowSuggestions(true);
-        setLoading(true);
+        // The group's own people show at once; the search fills in after.
+        setSuggestions(local);
         if (timerRef.current) clearTimeout(timerRef.current);
+        if (q.length === 0) {
+          setLoading(false);
+          return;
+        }
+        setLoading(true);
 
         timerRef.current = setTimeout(async () => {
           if (queryRef.current !== q) return;
           try {
             const res = await mentionSearch(q);
             if (queryRef.current === q) {
-              setSuggestions(res);
-              setShowSuggestions(res.length > 0 || false);
+              const seen = new Set(local.map((u) => u.username.toLowerCase()));
+              const merged = [...local, ...res.filter((u) => !seen.has(u.username.toLowerCase()))];
+              setSuggestions(merged);
+              setShowSuggestions(merged.length > 0);
             }
           } finally {
             setLoading(false);
@@ -183,4 +202,18 @@ export function useMentions(text: string, setText: (t: string) => void) {
     loading,
     reset,
   };
+}
+
+/** Pool entries whose username or name starts with the query (a word of it). */
+function poolMatches(pool: MentionUser[] | undefined, q: string): MentionUser[] {
+  if (!pool?.length) return [];
+  const needle = q.toLowerCase();
+  return pool
+    .filter((u) => {
+      if (!u.username) return false;
+      if (!needle) return true;
+      if (u.username.toLowerCase().startsWith(needle)) return true;
+      return (u.displayName || "").toLowerCase().split(/\s+/).some((w) => w.startsWith(needle));
+    })
+    .slice(0, 8);
 }

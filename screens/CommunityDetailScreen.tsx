@@ -36,12 +36,15 @@ import {
   pinCommunity,
   unpinCommunity,
   getPinnedCommunities,
+  uploadCommunityMedia,
 } from "../services/communities.service";
 import type { Community, CommunityMember } from "../types/community";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { ShareLinks } from "../navigation/linking.config";
 import { formatCompactNumber } from "../libs/numbers.util";
 import { toastError, toastInfo, toastSuccess } from "../libs/toast";
+import * as ImagePicker from "expo-image-picker";
+import { runWithPermissions } from "../libs/permissions.util";
 import {
   getCommunityAbilities,
   communityErrorMessage,
@@ -215,6 +218,43 @@ const CommunityDetailScreen: React.FC = () => {
       setLoading(false);
     }
   }, [slug, walletAddress]);
+
+  // Picture and banner. Web edits them by clicking the header; here the same
+  // taps open the photo library for anyone holding change_info.
+  const canEditBranding = abilities.can("change_info");
+  const [brandingBusy, setBrandingBusy] = useState<"avatar" | "banner" | null>(null);
+  const changeBranding = async (type: "avatar" | "banner") => {
+    if (!community || brandingBusy) return;
+    await runWithPermissions(["photos"], async () => {
+      const mediaTypesCompat: any = (ImagePicker as any).MediaType
+        ? [(ImagePicker as any).MediaType.image]
+        : ImagePicker.MediaTypeOptions.Images;
+      const pick = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: mediaTypesCompat,
+        allowsEditing: true,
+        aspect: type === "avatar" ? [1, 1] : [3, 1],
+        quality: 0.85,
+      });
+      const uri = pick.canceled ? null : pick.assets?.[0]?.uri;
+      if (!uri) return;
+      setBrandingBusy(type);
+      try {
+        const url = await uploadCommunityMedia(uri, community.slug, type);
+        const ok = await moderation.updateSettings(
+          type === "avatar" ? { avatar_url: url } : { banner_url: url },
+          type === "avatar"
+            ? t("communities.avatarUpdated", { defaultValue: "Picture updated" })
+            : t("communities.bannerUpdated", { defaultValue: "Banner updated" }),
+        );
+        if (ok) await load();
+      } catch {
+        toastError(t("communities.imageUploadFailed", { defaultValue: "Couldn't upload that image. Try again." }));
+      } finally {
+        setBrandingBusy(null);
+      }
+    });
+  };
+
 
   useEffect(() => {
     setLoading(true);
@@ -462,19 +502,45 @@ const CommunityDetailScreen: React.FC = () => {
   const HeaderBlock = (
     <View>
       <View style={styles.bannerWrap}>
-        {community.banner_url ? (
-          <Image source={storageImageSource(community.banner_url, windowWidth)} style={styles.banner} contentFit="cover" />
-        ) : (
-          <View style={[styles.banner, styles.bannerPlaceholder]} />
-        )}
+        <TouchableOpacity
+          activeOpacity={canEditBranding ? 0.8 : 1}
+          disabled={!canEditBranding || !!brandingBusy}
+          onPress={() => void changeBranding("banner")}
+          accessibilityRole={canEditBranding ? "button" : undefined}
+          accessibilityLabel={canEditBranding ? t("communities.changeBanner", { defaultValue: "Change banner" }) : undefined}
+          style={styles.banner}
+        >
+          {community.banner_url ? (
+            <Image source={storageImageSource(community.banner_url, windowWidth)} style={styles.banner} contentFit="cover" />
+          ) : (
+            <View style={[styles.banner, styles.bannerPlaceholder]} />
+          )}
+          {canEditBranding && (
+            <View style={styles.bannerEditBadge} pointerEvents="none">
+              {brandingBusy === "banner" ? <ActivityIndicator size="small" color="#fff" /> : <Icon name="Camera" size={14} color="#fff" />}
+            </View>
+          )}
+        </TouchableOpacity>
         <View style={styles.avatarOverlay}>
-          <View style={styles.avatarBox}>
+          <TouchableOpacity
+            activeOpacity={canEditBranding ? 0.8 : 1}
+            disabled={!canEditBranding || !!brandingBusy}
+            onPress={() => void changeBranding("avatar")}
+            accessibilityRole={canEditBranding ? "button" : undefined}
+            accessibilityLabel={canEditBranding ? t("communities.changeAvatar", { defaultValue: "Change picture" }) : undefined}
+            style={styles.avatarBox}
+          >
             {community.avatar_url ? (
               <Image source={storageImageSource(community.avatar_url, 72)} style={styles.avatar} contentFit="cover" />
             ) : (
               <Icon name="Users" size={28} color="#808089" />
             )}
-          </View>
+            {canEditBranding && (
+              <View style={styles.avatarEditBadge} pointerEvents="none">
+                {brandingBusy === "avatar" ? <ActivityIndicator size="small" color="#fff" /> : <Icon name="Camera" size={12} color="#fff" />}
+              </View>
+            )}
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -819,6 +885,8 @@ const styles = StyleSheet.create({
   bannerWrap: { height: 140, position: "relative" },
   banner: { width: "100%", height: "100%" },
   bannerPlaceholder: { backgroundColor: theme.colors.neutrals[800] },
+  bannerEditBadge: { position: "absolute", right: 12, bottom: 12, width: 30, height: 30, borderRadius: 15, backgroundColor: "rgba(0,0,0,0.55)", alignItems: "center", justifyContent: "center" },
+  avatarEditBadge: { position: "absolute", left: 0, right: 0, top: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.35)", alignItems: "center", justifyContent: "center" },
   avatarOverlay: { position: "absolute", left: 16, bottom: -32 },
   avatarBox: {
     width: 72,

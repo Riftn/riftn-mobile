@@ -172,6 +172,11 @@ interface FeedVideoPlayerProps {
   isPPVLocked: boolean;
   isHoldingsLocked: boolean;
   isBountyLocked: boolean;
+  /** Subscribers-only post: the viewer has no plan with this creator. */
+  isSubLocked?: boolean;
+  /** Under "Subscribers only": the plan's price, or who to subscribe to. */
+  subLine?: string;
+  onSubscribePress?: () => void;
   isComboLocked: boolean;
   isBounty: boolean;
   ppvAmount: number;
@@ -294,6 +299,9 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   isPPVLocked,
   isHoldingsLocked,
   isBountyLocked,
+  isSubLocked,
+  subLine,
+  onSubscribePress,
   isComboLocked,
   isBounty,
   ppvAmount,
@@ -1377,7 +1385,8 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
     if (isPPVLocked) onPPVPress?.();
     else if (isHoldingsLocked) onLockPress?.();
     else if (isBountyLocked) onBountyPress?.();
-  }, [isPPVLocked, isHoldingsLocked, isBountyLocked, onPPVPress, onLockPress, onBountyPress]);
+    else if (isSubLocked) onSubscribePress?.();
+  }, [isPPVLocked, isHoldingsLocked, isBountyLocked, isSubLocked, onPPVPress, onLockPress, onBountyPress, onSubscribePress]);
 
   const progressPercent = videoDuration > 0 ? (currentTime / videoDuration) * 100 : 0;
 
@@ -1400,6 +1409,14 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
           ? t("copy.217ab5b17ca4", { defaultValue: "{{value1}} {{value2}} bounty", value1: formatCompactNumber(bountyAmount), value2: bountyCurrency })
           : t("copy.a3f2c40a6812", { defaultValue: "Earn rewards by engaging" }),
       );
+    }
+
+    // Subscribers only: the photo card already says so; a video said nothing
+    // and sat there as a blurred still with no way in.
+    if (isSubLocked && icons.length === 0) {
+      icons.push({ name: "Star", size: 24 });
+      lines.push(t("feedCard.subscribersOnly", { defaultValue: "Subscribers only" }));
+      if (subLine) lines.push(subLine);
     }
 
     if (icons.length === 0) return null;
