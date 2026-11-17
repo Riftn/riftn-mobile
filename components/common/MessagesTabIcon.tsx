@@ -8,11 +8,11 @@ import Animated, {
 import Svg, { Path } from 'react-native-svg';
 import Icon from '../ui/Icon';
 import {
-  ENVELOPE_BODY_PATH, ENVELOPE_SIDE_RIPPLE_PATHS, MESSAGE_SLIP_TAIL, messagesEnvelopeMotion, type MessageSlip, type WormFrame,
+  ENVELOPE_BODY_PATH, ENVELOPE_SIDE_RIPPLE_PATHS, messagesEnvelopeMotion, type MessageSlip, type WormFrame,
 } from '../../libs/messages-envelope-motion';
 
 // Phase of the cycle by which the swing, the glow, the side lines and the last
-// wriggling slip (and its tail) are all back at rest.
+// wriggling slip are all back at rest.
 const RING_END = 0.92;
 // Rings per wake-up (first show, app back in front, a new message), then it
 // rests with one slip peeking out so the tab still says something is unread.
@@ -53,12 +53,10 @@ function slipTrack(frames: WormFrame[], u: number): SlipTrack {
   };
 }
 
-// One slip popping out of the envelope's top edge like a little worm, or one
-// dot of its body when `dot` is set. Units are the icon's 32-unit viewBox,
+// One slip popping out of the envelope's top edge. Units are the icon's 32-unit viewBox,
 // measured from the envelope's centre.
-function Slip({ phase, slip, track, u, cycleMs, color, dot }: {
+function Slip({ phase, slip, track, u, cycleMs, color }: {
   phase: SharedValue<number>; slip: MessageSlip; track: SlipTrack; u: number; cycleMs: number; color: string;
-  dot?: { radius: number; opacity: number };
 }) {
   const style = useAnimatedStyle(() => {
     const t = (phase.value * cycleMs - slip.delayMs) / slip.lifeMs;
@@ -67,13 +65,13 @@ function Slip({ phase, slip, track, u, cycleMs, color, dot }: {
     // it shows as it pops out of the top edge, and again beside or below it.
     const x = 16 + interpolate(t, track.ts, track.xs, Extrapolation.CLAMP) / u;
     const y = 16 + interpolate(t, track.ts, track.ys, Extrapolation.CLAMP) / u;
-    const half = dot ? dot.radius : 2.8;
+    const half = 2.8;
     let out = 1;
     if (x > 4 - half && x < 28 + half && y + half > 5.2 && y - half < 27) {
       out = Math.min(1, Math.max(0, (5.2 - (y - half)) / (2 * half)));
     }
     return {
-      opacity: interpolate(t, track.ts, track.ops, Extrapolation.CLAMP) * (dot?.opacity ?? 1) * out,
+      opacity: interpolate(t, track.ts, track.ops, Extrapolation.CLAMP) * out,
       transform: [
         { translateX: interpolate(t, track.ts, track.xs, Extrapolation.CLAMP) },
         { translateY: interpolate(t, track.ts, track.ys, Extrapolation.CLAMP) },
@@ -83,14 +81,6 @@ function Slip({ phase, slip, track, u, cycleMs, color, dot }: {
       ],
     };
   });
-  if (dot) {
-    return (
-      <Animated.View style={[{
-        position: 'absolute', left: (16 - dot.radius) * u, top: (16 - dot.radius) * u,
-        width: 2 * dot.radius * u, height: 2 * dot.radius * u, borderRadius: dot.radius * u, backgroundColor: color, opacity: 0,
-      }, style]} />
-    );
-  }
   return (
     <Animated.View style={[{
       position: 'absolute', left: 12.2 * u, top: 13.2 * u,
@@ -108,7 +98,7 @@ function Slip({ phase, slip, track, u, cycleMs, color, dot }: {
  * Bottom bar Messages icon. Unread messages ring it on the same beat as the
  * notification bell: it swings, glows red, sends lines off both sides and
  * one red slip per unread message (up to 20) pops out of its top edge like a
- * little worm, flies up and out to its own side, then tumbles back down. More
+ * little worm, flies up and out to its own side and fades as it falls. More
  * unread means a harder, faster ring.
  */
 export default memo(function MessagesTabIcon({ unread, size, color, letterColor, strokeWidth }: {
@@ -120,10 +110,7 @@ export default memo(function MessagesTabIcon({ unread, size, color, letterColor,
 }) {
   const u = size / 32;
   const profile = useMemo(() => messagesEnvelopeMotion(unread), [unread]);
-  const tracks = useMemo(() => profile.slips.map(slip => ({
-    head: slipTrack(slip.frames, u),
-    body: slip.tail.map(frames => slipTrack(frames, u)),
-  })), [profile, u]);
+  const tracks = useMemo(() => profile.slips.map(slip => slipTrack(slip.frames, u)), [profile, u]);
   const reduced = useReducedMotion();
   const phase = useSharedValue(0);
   const [foreground, setForeground] = useState(AppState.currentState === 'active');
@@ -184,13 +171,8 @@ export default memo(function MessagesTabIcon({ unread, size, color, letterColor,
         {ringing && !rested && (
           <View pointerEvents="none" style={{ position: 'absolute', left: 0, top: 0, width: size, height: size, overflow: 'visible' }}>
             {profile.slips.map((slip, index) => (
-              <React.Fragment key={`${profile.slips.length}-${index}`}>
-                {tracks[index].body.map((track, k) => (
-                  <Slip key={k} phase={phase} slip={slip} track={track} u={u} cycleMs={profile.cycleMs}
-                    color={letterColor} dot={MESSAGE_SLIP_TAIL[k]} />
-                ))}
-                <Slip phase={phase} slip={slip} track={tracks[index].head} u={u} cycleMs={profile.cycleMs} color={letterColor} />
-              </React.Fragment>
+              <Slip key={`${profile.slips.length}-${index}`} phase={phase} slip={slip} track={tracks[index]}
+                u={u} cycleMs={profile.cycleMs} color={letterColor} />
             ))}
           </View>
         )}
