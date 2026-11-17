@@ -33,7 +33,7 @@ import { useBadgeCeremony } from "../../hooks/useBadgeCeremony";
 import { ensProfileUrl } from "../../libs/ens-handle";
 import { truncateAddress } from "../../libs/strings.util";
 import { formatJoinedDate } from "../../libs/date.util";
-import { formatCompactNumber, resolveCount } from "../../libs/numbers.util";
+import { formatNumber, resolveCount } from "../../libs/numbers.util";
 import { shareProfile } from "../../libs/misc";
 import CopyAddressSheet from "../Wallet/CopyAddressSheet";
 import * as ImagePicker from "expo-image-picker";
@@ -498,12 +498,13 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             <Text className="text-zinc-400 text-sm mt-3">{t("profile.joined")} {createdAtFormatted}</Text>
           )}
 
-          {/* Following / Followers */}
+          {/* Following / Followers: exact, with separators. "4.1K" left people
+              guessing their own count. */}
           <View className="flex-row flex-wrap items-center gap-4 mt-3">
             <TouchableOpacity onPress={() => goToFollowList("following")} activeOpacity={0.7}>
               <Text style={{ fontSize: 16, lineHeight: 22 }}>
                 <Text className="text-white font-bold">
-                  {formatCompactNumber(followingCount)}
+                  {formatNumber(followingCount, 0)}
                 </Text>
                 <Text className="text-zinc-400"> {t("profile.following")}</Text>
               </Text>
@@ -511,7 +512,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             <TouchableOpacity onPress={() => goToFollowList("followers")} activeOpacity={0.7}>
               <Text style={{ fontSize: 16, lineHeight: 22 }}>
                 <Text className="text-white font-bold">
-                  {formatCompactNumber(followersCount)}
+                  {formatNumber(followersCount, 0)}
                 </Text>
                 <Text className="text-zinc-400"> {t("profile.followers")}</Text>
               </Text>
