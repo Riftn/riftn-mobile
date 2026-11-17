@@ -6610,6 +6610,8 @@
       "years": "{{count}} वर्ष"
     },
     "chatPanel": {
+      "joined": "{{name}} जुड़े",
+      "reactions": "प्रतिक्रियाएँ",
       "addToMessages": "संदेशों में जोड़ें",
       "photoTooLarge": "छवि 10MB से कम होनी चाहिए",
       "inMessages": "संदेशों में",
@@ -6813,6 +6815,11 @@
     "loadFailed": "कम्यूनिटी लोड नहीं की जा सकी",
     "noPostsYet": "अब तक इस समुदाय में कोई पोस्ट नहीं है।",
     "infoUpdated": "समुदाय अपडेट किया गया",
+    "avatarUpdated": "तस्वीर अपडेट हुई",
+    "bannerUpdated": "बैनर अपडेट हुआ",
+    "imageUploadFailed": "यह तस्वीर अपलोड नहीं हो सकी। फिर से कोशिश करें।",
+    "changeBanner": "बैनर बदलें",
+    "changeAvatar": "तस्वीर बदलें",
     "editInfo": "नाम और विवरण संपादित करें",
     "saveChanges": "सेव करें",
     "nowPrivate": "समुदाय अब गोपनीय है",

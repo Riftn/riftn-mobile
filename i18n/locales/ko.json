@@ -6607,6 +6607,8 @@
       "years": "{{count}}년"
     },
     "chatPanel": {
+      "joined": "{{name}}님이 참여했어요",
+      "reactions": "반응",
       "addToMessages": "메시지에 추가",
       "photoTooLarge": "이미지는 10MB 미만이어야 합니다",
       "inMessages": "메시지에 있음",
@@ -6810,6 +6812,11 @@
     "loadFailed": "커뮤니티를 로드할 수 없습니다",
     "noPostsYet": "이 커뮤니티에는 아직 게시물이 없습니다.",
     "infoUpdated": "커뮤니티가 업데이트되었습니다.",
+    "avatarUpdated": "사진이 업데이트됨",
+    "bannerUpdated": "배너가 업데이트됨",
+    "imageUploadFailed": "이미지를 업로드하지 못했어요. 다시 시도하세요.",
+    "changeBanner": "배너 변경",
+    "changeAvatar": "사진 변경",
     "editInfo": "이름과 설명 편집",
     "saveChanges": "저장",
     "nowPrivate": "커뮤니티가 비공개로 설정되었습니다.",
