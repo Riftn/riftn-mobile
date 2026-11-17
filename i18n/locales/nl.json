@@ -4758,6 +4758,7 @@
     },
     "chatPanel": {
       "addToMessages": "Toevoegen aan Berichten",
+      "photoTooLarge": "Afbeelding moet kleiner zijn dan 10 MB",
       "inMessages": "In Berichten",
       "jumpToLatest": "Naar nieuwste",
       "anon": "Anonymous",

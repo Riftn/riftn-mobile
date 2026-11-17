@@ -6600,6 +6600,7 @@
     },
     "chatPanel": {
       "addToMessages": "Adicionar às Mensagens",
+      "photoTooLarge": "A imagem deve ter menos de 10 MB",
       "inMessages": "Em Mensagens",
       "jumpToLatest": "Ir para as mais recentes",
       "anon": "Anônimo",

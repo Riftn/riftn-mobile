@@ -6608,6 +6608,7 @@
     },
     "chatPanel": {
       "addToMessages": "Добавить в сообщения",
+      "photoTooLarge": "Изображение должно быть меньше 10 МБ",
       "inMessages": "В сообщениях",
       "jumpToLatest": "Перейти к последнему",
       "anon": "Анон",
