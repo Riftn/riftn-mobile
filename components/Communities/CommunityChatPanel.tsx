@@ -683,8 +683,8 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           <Icon name="MessageCircle" size={13} color={listedInChats ? "#FFFFFF" : "#808089"} />
           <Text style={[styles.showInChatsText, listedInChats && { color: "#FFFFFF" }]}>
             {listedInChats
-              ? t("communities.chat.inChats", { defaultValue: "In Chats" })
-              : t("communities.chat.showInChats", { defaultValue: "Show in Chats" })}
+              ? t("communities.chatPanel.inChats", { defaultValue: "In Chats" })
+              : t("communities.chatPanel.showInChats", { defaultValue: "Show in Chats" })}
           </Text>
         </Pressable>
       )}

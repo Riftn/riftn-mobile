@@ -4569,6 +4569,8 @@
       "years": "{{count}} yıl"
     },
     "chatPanel": {
+      "showInChats": "Sohbetlerde göster",
+      "inChats": "Sohbetlerde",
       "jumpToLatest": "En yeniye git",
       "anon": "Anonim",
       "edited": "düzenlendi",

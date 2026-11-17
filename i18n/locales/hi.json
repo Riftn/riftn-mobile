@@ -6610,6 +6610,8 @@
       "years": "{{count}} वर्ष"
     },
     "chatPanel": {
+      "showInChats": "चैट में दिखाएं",
+      "inChats": "चैट में",
       "jumpToLatest": "लेटेस्ट पर जाएँ",
       "anon": "अनाम",
       "edited": "संपादित",

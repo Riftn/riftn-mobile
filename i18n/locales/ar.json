@@ -4589,6 +4589,8 @@
       "years": "{{count}} سنة"
     },
     "chatPanel": {
+      "showInChats": "إظهار في الدردشات",
+      "inChats": "في الدردشات",
       "jumpToLatest": "الانتقال إلى الأحدث",
       "anon": "مجهول",
       "edited": "تم التعديل",

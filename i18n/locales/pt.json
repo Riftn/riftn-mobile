@@ -6599,6 +6599,8 @@
       "years": "{{count}} a"
     },
     "chatPanel": {
+      "showInChats": "Mostrar em Chats",
+      "inChats": "Em Chats",
       "jumpToLatest": "Ir para as mais recentes",
       "anon": "Anônimo",
       "edited": "editado",
