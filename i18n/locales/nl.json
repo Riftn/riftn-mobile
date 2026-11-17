@@ -4757,6 +4757,8 @@
       "years": "{{count}} j"
     },
     "chatPanel": {
+      "showInChats": "Tonen in Chats",
+      "inChats": "In Chats",
       "jumpToLatest": "Naar nieuwste",
       "anon": "Anonymous",
       "edited": "bewerkt",

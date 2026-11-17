@@ -4569,6 +4569,8 @@
       "years": "{{count}} a"
     },
     "chatPanel": {
+      "showInChats": "Mostrar en Chats",
+      "inChats": "En Chats",
       "jumpToLatest": "Ir a lo más reciente",
       "anon": "Anónimo",
       "edited": "editado",

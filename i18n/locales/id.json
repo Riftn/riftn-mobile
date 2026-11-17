@@ -6604,6 +6604,8 @@
       "years": "{{count}} thn"
     },
     "chatPanel": {
+      "showInChats": "Tampilkan di Chat",
+      "inChats": "Di Chat",
       "jumpToLatest": "Lompat ke terbaru",
       "anon": "Anon",
       "edited": "diedit",
