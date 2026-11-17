@@ -15,7 +15,7 @@ import { useTranslation as _useCopy } from 'react-i18next';
  * Web additionally has `skills` and `characters`; neither library exists in
  * this app, so those tabs are not rendered rather than rendered empty.
  */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import MultiPostPanel from "../components/Settings/MultiPostPanel";
 import { useTranslation } from "react-i18next";
 import {
@@ -108,11 +108,17 @@ type TabKey =
 
 /**
  * Picking a theme remounts the screen tree, which dropped you on Profile. The
- * tab open when the screen went away comes back if it returns within moments;
- * opening Settings later still starts on Profile.
+ * open tab is kept here while the screen is mounted. React builds the new
+ * screen before the old one's cleanup runs, so a remount finds `live` still
+ * set and restores the tab. Opening Settings later (more than a few seconds
+ * after it closed) still starts on Profile.
  */
-let leftTab: { tab: TabKey; at: number } | null = null;
+let lastTab: { tab: TabKey; live: boolean; closedAt: number } | null = null;
 const REMOUNT_WINDOW_MS = 3000;
+function restoredTab(): TabKey | null {
+  if (!lastTab) return null;
+  return lastTab.live || Date.now() - lastTab.closedAt < REMOUNT_WINDOW_MS ? lastTab.tab : null;
+}
 
 const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
   const { t: _copy } = _useCopy();
@@ -120,11 +126,11 @@ const AccountSettingsScreen: React.FC<any> = ({ navigation, route }) => {
   const { isSignedIn, needsUsername } = useAuthState();
   const { signOut } = useAuthActions();
   const [activeTab, setActiveTab] = useState<TabKey>(() =>
-    (route?.params?.initialTab as TabKey)
-    ?? (leftTab && Date.now() - leftTab.at < REMOUNT_WINDOW_MS ? leftTab.tab : "profile"));
-  const activeTabRef = useRef(activeTab);
-  activeTabRef.current = activeTab;
-  useEffect(() => () => { leftTab = { tab: activeTabRef.current, at: Date.now() }; }, []);
+    (route?.params?.initialTab as TabKey) ?? restoredTab() ?? "profile");
+  useEffect(() => { lastTab = { tab: activeTab, live: true, closedAt: 0 }; }, [activeTab]);
+  useEffect(() => () => {
+    if (lastTab) lastTab = { ...lastTab, live: false, closedAt: Date.now() };
+  }, []);
   const [deletingAccount, setDeletingAccount] = useState(false);
   const [deactivatingAccount, setDeactivatingAccount] = useState(false);
   const [bugModalVisible, setBugModalVisible] = useState(false);
