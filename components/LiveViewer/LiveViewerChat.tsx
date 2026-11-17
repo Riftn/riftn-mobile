@@ -426,7 +426,9 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
     /* The room, floating over the picture. 220 rather than 260: the bar
        under it is one row now instead of two, and the extra height was
        only ever covering more of the stream with nothing in it. */
-    <View style={{ height: 220 }} pointerEvents="box-none">
+    /* Shrinks rather than pushing the reply box off the bottom when the
+       keyboard lifts the bar and the screen runs out of room. */
+    <View style={{ height: 220, flexShrink: 1, minHeight: 0 }} pointerEvents="box-none">
       <FlatList
         ref={listRef}
         data={reversed}

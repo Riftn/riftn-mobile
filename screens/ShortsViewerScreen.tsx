@@ -4,7 +4,10 @@ import RemixCredits from "../components/Post/RemixCredits";
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useVideoDownload } from "../context/VideoDownloadContext";
 import { soundWindowCorrection } from "../libs/soundWindow";
-import { isHoldGated } from "../libs/content-gate";
+import { isHoldGated, cheapestSubscriberQuote, formatSubscriberTokens } from "../libs/content-gate";
+import { useStreamAccessInfo } from "../libs/validators.util";
+import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
+import { useBackPress } from "../hooks/useBackPress";
 import { fetchVideoAccess, isVideoAccessExpiring, useVideoAccess, videoNeedsAccess } from "../libs/video-access";
 import { usePostVideoPlayer } from '../hooks/usePostVideoPlayer';
 import { postMediaIsTransferring, preparePostMediaNavigation } from '../libs/post-media-session';
@@ -553,6 +556,12 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   const viewer = useUser();
   const signedShort = !noVideo && videoNeedsAccess(item);
   const shortAccess = useVideoAccess(tokenId, signedShort, viewer?.walletAddress || viewer?.address);
+  // A locked clip the viewer cannot play said nothing: just its poster, and a
+  // tap did nothing. Name the lock and open the way in, as the feed card does.
+  const gate = useStreamAccessInfo(signedShort ? (item as any) : null)?.streamStatus;
+  const subLocked = signedShort && !!gate?.isLockedWithSubscription;
+  const otherLocked = signedShort && !subLocked && (!!gate?.isLockedWithPPV || !!gate?.isLockedWithLockContent);
+  const showLockCard = (subLocked || otherLocked) && !shortAccess.data?.url;
   // Otherwise the same string FeedCard plays, so a card opened into the
   // viewer keeps its player: the HLS ladder when the post has one, else the MP4.
   const playbackUrl = useHlsFallback(() => getPlaybackUrl({ tokenId, hlsUrl: item.hlsUrl }));
@@ -656,6 +665,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     return resolved && resolved !== "default-avatar" ? resolved : undefined;
   })();
   const username = item.minterUser?.username || item.minterUsername || "";
+  const subQuote = subLocked && DIGITAL_PURCHASES_ENABLED ? cheapestSubscriberQuote((item as any).plansDetails) : undefined;
   // The creator's badge after their name, the same lookup FeedCard uses.
   const badgeImg = item.minterUser?.hideBadgeAndBalance ? undefined : getBadgeUrlFor(item.minterUser || item);
   // Five deep and ending somewhere visible, matching FeedCard — the chain
@@ -2432,6 +2442,17 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
           />
         )}
         {photoMedia && <ShortsPhotoPager images={photoMedia.imageUrls} galleryKey={String(tokenId)} width={SCREEN_WIDTH} pagerGesture={pagerGesture} />}
+        {showLockCard && (
+          <ReelLockCard
+            subscribers={subLocked}
+            line={subLocked
+              ? (subQuote ? `${t("feedCard.subscribeFrom")} ${formatSubscriberTokens(subQuote.tokens)} DHB` : username ? t("feedCard.subscribeTo", { name: username }) : t("feedCard.subscribeToCreator"))
+              : undefined}
+            onPress={subLocked
+              ? () => { const id = username || minterAddress; if (id) showUserProfile(id); }
+              : () => navigation.navigate(ScreenNames.FeedDetail, { postId: String(tokenId) })}
+          />
+        )}
         {playbackPhase === 'failed' && isActive && <Pressable accessibilityRole="button"
           accessibilityLabel={t('common.retry')} style={{ position: 'absolute', top: 140, alignSelf: 'center', minHeight: 44, justifyContent: 'center', borderRadius: 22, paddingHorizontal: 16, backgroundColor: 'rgba(0,0,0,0.7)' }}
           onPress={() => {
@@ -3374,6 +3395,14 @@ const ShortsViewerScreen = () => {
   const handleBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
+  // Android Back closes the viewer. Left to the navigator, a press it could
+  // not act on fell through to the system and closed the whole app (reported
+  // on a locked clip opened from a profile).
+  const handleHardwareBack = useCallback(() => {
+    if (navigation.canGoBack()) navigation.goBack();
+    else navigation.navigate(ScreenNames.Root as never);
+  }, [navigation]);
+  useBackPress(handleHardwareBack);
 
   // The speed shown is the creator's own: swiping onto someone else picks up
   // theirs, and a tap here is remembered for them, the same as the full
@@ -4363,3 +4392,28 @@ const styles = StyleSheet.create({
     textShadowRadius: 6,
   },
 });
+
+/** Over a locked clip the viewer cannot play: what unlocks it, and a way in. */
+function ReelLockCard({ subscribers, line, onPress }: { subscribers: boolean; line?: string; onPress: () => void }) {
+  const { t } = useCopy();
+  return (
+    <View pointerEvents="box-none" style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}>
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="button"
+        style={{ alignItems: "center", paddingHorizontal: 22, paddingVertical: 18, borderRadius: 18, backgroundColor: "rgba(0,0,0,0.65)", maxWidth: 280 }}
+      >
+        <Icon name={subscribers ? "Star" : "Lock"} size={26} color="#fff" />
+        <Text style={{ color: "#fff", fontSize: 16, fontWeight: "700", marginTop: 8, textAlign: "center" }}>
+          {subscribers ? t("feedCard.subscribersOnly") : t("superpowers.locked")}
+        </Text>
+        {!!line && <Text style={{ color: "rgba(255,255,255,0.75)", fontSize: 13, marginTop: 4, textAlign: "center" }}>{line}</Text>}
+        <View style={{ marginTop: 12, paddingHorizontal: 18, paddingVertical: 9, borderRadius: 999, backgroundColor: "#fff" }}>
+          <Text style={{ color: "#000", fontSize: 14, fontWeight: "700" }}>
+            {subscribers ? t("subscriptions.subscribe") : t("walletSetup.unlock")}
+          </Text>
+        </View>
+      </Pressable>
+    </View>
+  );
+}
