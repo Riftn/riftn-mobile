@@ -10,6 +10,7 @@ import {
   FlatList,
   KeyboardAvoidingView,
   useWindowDimensions,
+  Alert,
 } from "react-native";
 import { Linking } from "react-native";
 
@@ -223,8 +224,50 @@ const CommunityDetailScreen: React.FC = () => {
   // taps open the photo library for anyone holding change_info.
   const canEditBranding = abilities.can("change_info");
   const [brandingBusy, setBrandingBusy] = useState<"avatar" | "banner" | null>(null);
-  const changeBranding = async (type: "avatar" | "banner") => {
+  // With a picture already set, ask first: replace it or remove it.
+  const changeBranding = (type: "avatar" | "banner") => {
     if (!community || brandingBusy) return;
+    const current = type === "avatar" ? community.avatar_url : community.banner_url;
+    if (!current) {
+      void pickBranding(type);
+      return;
+    }
+    Alert.alert(
+      type === "avatar"
+        ? t("communities.changeAvatar", { defaultValue: "Change picture" })
+        : t("communities.changeBanner", { defaultValue: "Change banner" }),
+      undefined,
+      [
+        {
+          text: type === "avatar"
+            ? t("communities.changeAvatar", { defaultValue: "Change picture" })
+            : t("communities.changeBanner", { defaultValue: "Change banner" }),
+          onPress: () => void pickBranding(type),
+        },
+        { text: t("common.remove", { defaultValue: "Remove" }), style: "destructive", onPress: () => void removeBranding(type) },
+        { text: t("common.cancel", { defaultValue: "Cancel" }), style: "cancel" },
+      ],
+    );
+  };
+
+  const removeBranding = async (type: "avatar" | "banner") => {
+    if (!community) return;
+    setBrandingBusy(type);
+    try {
+      const ok = await moderation.updateSettings(
+        type === "avatar" ? { avatar_url: null } : { banner_url: null },
+        type === "avatar"
+          ? t("communities.avatarUpdated", { defaultValue: "Picture updated" })
+          : t("communities.bannerUpdated", { defaultValue: "Banner updated" }),
+      );
+      if (ok) await load();
+    } finally {
+      setBrandingBusy(null);
+    }
+  };
+
+  const pickBranding = async (type: "avatar" | "banner") => {
+    if (!community) return;
     await runWithPermissions(["photos"], async () => {
       const mediaTypesCompat: any = (ImagePicker as any).MediaType
         ? [(ImagePicker as any).MediaType.image]
@@ -505,7 +548,7 @@ const CommunityDetailScreen: React.FC = () => {
         <TouchableOpacity
           activeOpacity={canEditBranding ? 0.8 : 1}
           disabled={!canEditBranding || !!brandingBusy}
-          onPress={() => void changeBranding("banner")}
+          onPress={() => changeBranding("banner")}
           accessibilityRole={canEditBranding ? "button" : undefined}
           accessibilityLabel={canEditBranding ? t("communities.changeBanner", { defaultValue: "Change banner" }) : undefined}
           style={styles.banner}
@@ -525,7 +568,7 @@ const CommunityDetailScreen: React.FC = () => {
           <TouchableOpacity
             activeOpacity={canEditBranding ? 0.8 : 1}
             disabled={!canEditBranding || !!brandingBusy}
-            onPress={() => void changeBranding("avatar")}
+            onPress={() => changeBranding("avatar")}
             accessibilityRole={canEditBranding ? "button" : undefined}
             accessibilityLabel={canEditBranding ? t("communities.changeAvatar", { defaultValue: "Change picture" }) : undefined}
             style={styles.avatarBox}
