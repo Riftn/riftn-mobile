@@ -7,6 +7,7 @@ jest.mock('../../services/translation.service', () => ({
 jest.mock('../../libs/toast', () => ({ toastError: jest.fn(), toastSuccess: jest.fn() }));
 
 import { translateText } from '../../services/translation.service';
+import { __resetAutoTranslateBudget } from '../../libs/auto-translate-budget';
 import {
   __resetDmTranslations,
   canTranslateDm,
@@ -16,7 +17,7 @@ import {
 } from '../../libs/dm-translation-store';
 
 const mockTranslate = translateText as jest.Mock;
-beforeEach(() => { __resetDmTranslations(); mockTranslate.mockReset(); });
+beforeEach(() => { __resetDmTranslations(); __resetAutoTranslateBudget(); mockTranslate.mockReset(); });
 
 it('offers Translate only for messages with words', () => {
   expect(canTranslateDm('Selam reis')).toBe(true);

@@ -4,6 +4,7 @@ import { translateText, getUserLanguage } from '../services/translation.service'
 import { toastError, toastSuccess } from './toast';
 import { ensureAiConsent, hasAiConsent } from './ai-consent';
 import { chatLineIsForeign } from './chat-language-hint';
+import { takeAutoTranslateSlot } from './auto-translate-budget';
 
 /**
  * Translate for direct messages. The menu (held message) starts it and the
@@ -103,10 +104,12 @@ export function shouldAutoTranslateDm(content: string | null | undefined, reader
  */
 export async function autoTranslateDm(id: string, content?: string | null): Promise<void> {
   if (autoTried.has(id) || entries.has(id)) return;
-  autoTried.add(id);
   if (!hasAiConsent()) return;
   const text = dmTranslatableText(content);
   if (!text) return;
+  // Over this hour's budget: leave it untried so it can translate later.
+  if (!takeAutoTranslateSlot()) return;
+  autoTried.add(id);
   // No 'loading' state: an unasked-for translation shows nothing until it lands.
   try {
     const result = await translateText(text, getUserLanguage(), 'auto', { isPublic: false });
