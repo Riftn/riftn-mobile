@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, type TextStyle } from "react-native";
 import { Image } from "expo-image";
 import { storyboardOffset, storyboardSheetSize, type Storyboard } from "../../libs/storyboard";
 
@@ -26,7 +26,7 @@ const formatTime = (seconds: number) => {
   return h > 0 ? `${h}:${m.toString().padStart(2, "0")}:${sec}` : `${m}:${sec}`;
 };
 
-const timeStyle = {
+const timeStyle: TextStyle = {
   paddingHorizontal: 6,
   paddingVertical: 2,
   borderRadius: 4,
@@ -36,7 +36,7 @@ const timeStyle = {
   fontSize: 12,
   fontWeight: "500",
   fontVariant: ["tabular-nums"],
-} as const;
+};
 
 /**
  * The frame under the finger while scrubbing, floated above the timeline.
