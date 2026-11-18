@@ -1216,10 +1216,57 @@ async function runKeys(): Promise<void> {
   console.error("[perf-tour] done");
 }
 
+/**
+ * Connect Wallet on the sign-in page opened from "Log in" (a native modal on
+ * iPhone): a real tap on the button, then a picture. The wallet list has to
+ * be on top of the page, not behind it.
+ */
+async function runWallet(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "wallet" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  // The app stack's sign-in page (the one "Log in" opens), not the first-run
+  // stack's: on iPhone it is a native modal.
+  (nav as any).navigate(ScreenNames.App, { screen: ScreenNames.SignIn });
+  await sleep(6000);
+  extra.route = nav.getCurrentRoute()?.name;
+  const state = nav.getRootState();
+  extra.stack = state?.routes[state.index]?.name;
+  await shot("wallet-1-sign-in");
+  await sleep(700);
+  const reown = require("../../config/reown.config") as typeof import("../../config/reown.config");
+  await AsyncStorage.setItem(SWIPE_KEY, "find:wallet-button:Wallet");
+  await sleep(9000);
+  extra.openByTap = !!reown.getAppKitInstance()?.getState().open;
+  if (!extra.openByTap) {
+    // The same call the button makes, when the tap could not find it.
+    const kit = await reown.ensureAppKit();
+    await kit?.open();
+    await sleep(5000);
+  }
+  extra.pickerOpen = !!reown.getAppKitInstance()?.getState().open;
+  // Held open for a while: the pictures are taken by the script outside the
+  // app, a little after they are asked for.
+  await shot("wallet-2-picker");
+  await sleep(8000);
+  await shot("wallet-3-picker-settled");
+  await sleep(8000);
+  // Left open: the script pictures the screen the moment this run reports
+  // done (nav/wallet-<theme>-end.png), which is the dependable picture.
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] wallet ${JSON.stringify(extra)}`);
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1232,6 +1279,7 @@ void (async () => {
     else if (mode === "bones") await runBones();
     else if (mode === "wide") await runWide();
     else if (mode === "keys") await runKeys();
+    else if (mode === "wallet") await runWallet();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

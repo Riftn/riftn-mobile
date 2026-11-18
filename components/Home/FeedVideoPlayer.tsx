@@ -8,6 +8,7 @@ import { useFeedPlaybackAllowed, useFeedSurfaceActive, useCallInProgress, visual
 import { MediaControlIcon as BareIcon, MediaControlLabel, MediaControlText } from "../common/MediaControlGlyph";
 import { usePostVideoPlayer } from "../../hooks/usePostVideoPlayer";
 import { useVideoSoundtrack } from "../../hooks/useVideoSoundtrack";
+import { SoundtrackChip } from "../Post/SoundtrackBadge";
 import { markVideoProcessing, useVideoProcessingStatus } from "../../hooks/useVideoProcessingStatus";
 import { useQueryClient } from "@tanstack/react-query";
 import { peekFeedVideoPlace, rememberFeedVideoPlace, usedFeedVideoPlace } from "../../libs/feedVideoResume";
@@ -211,6 +212,10 @@ interface FeedVideoPlayerProps {
   storyboard?: unknown;
   /** The song picked for this video; it plays with the picture. */
   soundtrackUrl?: string;
+  /** Its chip in the corner of the video, as on web; tapping it starts a post with the song. */
+  soundtrackTitle?: string;
+  soundtrackCreator?: string;
+  onSoundtrackPress?: () => void;
   hideControls?: boolean;
   /** Mounted by a tap on the poster that stood in for this card: start at once. */
   startOnMount?: boolean;
@@ -329,6 +334,9 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   downloadTitle,
   storyboard,
   soundtrackUrl,
+  soundtrackTitle,
+  soundtrackCreator,
+  onSoundtrackPress,
   hideControls = false,
   startOnMount = false,
   autoplaySettled = false,
@@ -1749,6 +1757,15 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
             />
           )}
         </>
+      )}
+
+      {!!soundtrackUrl && !!soundtrackTitle && !isContentGated && (
+        <SoundtrackChip
+          title={soundtrackTitle}
+          creator={soundtrackCreator}
+          onPress={onSoundtrackPress}
+          style={{ position: "absolute", left: 8, bottom: (splitControls ? stripHeight + 8 : 8) + (bleed?.bottomInset ?? 0), zIndex: 10 }}
+        />
       )}
 
       {/* Subtitles with a language picker. Outside the controls block so the
