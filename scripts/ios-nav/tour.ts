@@ -1130,6 +1130,29 @@ async function runKeys(): Promise<void> {
     await sleep(700);
   }
 
+  // Live stream chat box (a native iPhone sheet): focus it, picture it.
+  {
+    const had = new Set(liveInputs);
+    nav.navigate(ScreenNames.LiveViewer as any, { streamId: "6afdc1434c1f7a06d225859c", tokenId: 7982 } as any);
+    await sleep(15000);
+    await shot("L0-live-open");
+    await sleep(700);
+    const fresh = liveInputs.filter((input) => !had.has(input));
+    for (const input of fresh) inputState.focusTextInput(input);
+    await sleep(3000);
+    const metrics = Keyboard.metrics?.();
+    await shot("L1-live-keyboard-up");
+    await sleep(700);
+    await ask("type:live-#:hey", 9000);
+    await shot("L2-live-typed");
+    await sleep(700);
+    await note("live-chat-box", { inputs: fresh.length, up: up(), metrics });
+    Keyboard.dismiss();
+    await sleep(1000);
+    nav.goBack();
+    await sleep(2000);
+  }
+
   // Explore, by its tab in the bottom bar.
   // The script acts on a request a few seconds after it is made (it looks
   // every two seconds, and idb takes a few more), so each one is given time.
