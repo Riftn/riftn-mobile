@@ -89,6 +89,7 @@ import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../Comments/VoiceNo
 import type { VoiceNoteResult } from "../Comments/VoiceNoteRecorder";
 import { uploadLiveChatImage } from "../../services/livechat.service";
 import { toastError } from "../../libs/toast";
+import { askAiAdmin } from "../../services/communities.service";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
@@ -616,6 +617,17 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
         scrollToBottom();
         // Feedback only — the server enforces slow mode on its own.
         if (slowModeApplies) setCooldown(slowSeconds);
+        // "/admin <question>" asks the group's AI Admin, same as web. The line
+        // is stored first; the function checks it is there before answering.
+        const asked = /^\/admin\b\s*([\s\S]*)$/i.exec(body);
+        if (asked) {
+          const prompt = asked[1].trim();
+          if (prompt) {
+            void askAiAdmin(community.id, prompt).catch(() =>
+              toastError(t("communities.chatPanel.aiAdminFailed", { defaultValue: "AI Admin failed to respond" })),
+            );
+          }
+        }
       }
     } catch {
       // the hook already toasted
@@ -631,7 +643,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     replyTo,
     scrollToBottom,
     slowModeApplies,
-    slowSeconds, setText, setReplyTo]);
+    slowSeconds, setText, setReplyTo, community.id, t]);
 
   // A GIF or voice note goes out at once, like web, then the same after-send
   // steps as text: reply cleared, scrolled to the bottom, slow mode shown.

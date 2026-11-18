@@ -25,12 +25,14 @@ import { RulesTab } from "./RulesTab";
 import { RecentActionsTab } from "./RecentActionsTab";
 import { DangerZone } from "./DangerZone";
 import { HoldersTab } from "./HoldersTab";
+import { AutoModTab } from "./AutoModTab";
 import { IS_APP_STORE_BUILD } from "../../../config/storefront";
 
 type ManageTabKey =
   | "members"
   | "admins"
   | "permissions"
+  | "automod"
   | "invites"
   | "rules"
   | "log"
@@ -84,6 +86,13 @@ export function CommunityManageSheet({
         key: "permissions",
         label: t("communities.manage.tabs.permissions", { defaultValue: "Permissions" }),
         icon: "Settings",
+      });
+    }
+    if (abilities.isOwner || abilities.isAdmin) {
+      list.push({
+        key: "automod",
+        label: t("communities.manage.tabs.automod", { defaultValue: "Auto-mod & bots" }),
+        icon: "ShieldAlert",
       });
     }
     if (abilities.can("invite_users")) {
@@ -147,6 +156,8 @@ export function CommunityManageSheet({
         return <AdministratorsTab community={community} membership={member} />;
       case "permissions":
         return <PermissionsTab community={community} membership={member} />;
+      case "automod":
+        return <AutoModTab community={community} />;
       case "invites":
         return <InviteLinksTab community={community} membership={member} />;
       case "rules":

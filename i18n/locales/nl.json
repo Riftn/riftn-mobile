@@ -4780,7 +4780,8 @@
       "copied": "Bericht gekopieerd",
       "copyText": "Tekst kopiëren",
       "mutedUntil": "U bent gedempt tot {{date}}",
-      "slowMode": "Langzame modus: één bericht elke {{interval}}"
+      "slowMode": "Langzame modus: één bericht elke {{interval}}",
+      "aiAdminFailed": "AI Admin reageerde niet"
     },
     "manage": {
       "dismissAdminTitle": "Admin negeren",
@@ -4802,7 +4803,8 @@
         "invites": "Uitnodigingen",
         "rules": "Regels",
         "recentActions": "Recente acties",
-        "danger": "Gevarenzone"
+        "danger": "Gevarenzone",
+        "automod": "Moderatie en bots"
       },
       "title": "Beheren",
       "purgeTitle": "Alle berichten verwijderen?",
@@ -4996,7 +4998,42 @@
       "txn": "Tx",
       "balance": "Saldo:",
       "price": "Prijs:",
-      "marketCap": "Marktkapitalisatie:"
+      "marketCap": "Marktkapitalisatie:",
+      "titleToken": "{{amount}} ${{symbol}} AANKOOP"
+    },
+    "automod": {
+      "title": "Automatische moderatie",
+      "hint": "Blokkeert een bericht voordat iemand het ziet en vertelt de afzender waarom. Eigenaren en beheerders worden nooit geblokkeerd.",
+      "enabled": "Automatische moderatie aan",
+      "bannedWords": "Verboden woorden",
+      "bannedWordsHint": "Eén per regel of komma. Alleen hele woorden; uit elkaar geschreven varianten zoals s.c.a.m worden ook herkend.",
+      "bannedWordsPlaceholder": "scam\nrug pull",
+      "blockLinks": "Links blokkeren",
+      "blockLinksHint": "Externe links en Telegram/Discord-uitnodigingen. Riftn-links werken nog steeds.",
+      "repeats": "Herhalingen blokkeren",
+      "repeatsHint": "Voorkomt dat iemand dezelfde regel binnen 10 minuten opnieuw stuurt.",
+      "flood": "Anti-flood",
+      "floodHint": "Maximaal {{max}} berichten per {{seconds}} s per persoon.",
+      "floodMax": "{{count}} berichten",
+      "noAccess": "Alleen de eigenaar en beheerders kunnen deze instellingen wijzigen.",
+      "saveFailed": "Opslaan mislukt. Probeer het opnieuw.",
+      "saveWords": "Woorden opslaan",
+      "saved": "Opgeslagen",
+      "wordCount": "{{count}} woorden",
+      "bannedWord": "Dat bericht bevat een woord dat deze groep niet toestaat.",
+      "links": "Links zijn niet toegestaan in deze groep.",
+      "repeat": "Dat heb je net gestuurd. Zeg eens iets nieuws.",
+      "reserved": "Dat soort bericht kan alleen van de bots van de groep komen.",
+      "floodError": "Je stuurt te snel. Wacht {{value1}} s en probeer het opnieuw."
+    },
+    "buyBot": {
+      "title": "Koopbot",
+      "any": "Elke grootte",
+      "enabled": "Koopmeldingen plaatsen",
+      "hint": "Plaatst elke ${{symbol}}-aankoop in deze chat, ongeveer een minuut nadat die gebeurt.",
+      "minUsd": "Kleinste aankoop om te plaatsen",
+      "noToken": "Koppel een token via de groepskop (bewerken, dan Ticker) en elke aankoop verschijnt in deze chat.",
+      "unsupported": "${{symbol}} staat op een chain of pooltype dat de koopbot nog niet volgt. Ondersteund: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism en Avalanche (Uniswap v2/v3-achtige pools)."
     }
   },
   "work": {
