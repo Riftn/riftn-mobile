@@ -4787,6 +4787,8 @@
     "turnOffSmartReplies": "Bersivên pêşniyarkirî bigire",
     "encrypted": "Ji serî heta dawî şîfrekirî",
     "encryptionOff": "Şîfrekirin li ser vê cîhazê girtî ye",
+    "encryptChat": "Sohbetê şîfre bike",
+    "encryptChatOff": "Şîfrekirinê vemrîne",
     "encryptionTurnOn": "Çalak bike",
     "cannotDecrypt": "Peyama şîfrekirî — li ser vê cîhazê nayê vekirin",
     "title": "Peyam",

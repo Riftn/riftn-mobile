@@ -2735,6 +2735,8 @@
     "turnOffSmartReplies": "Önerilen yanıtları kapat",
     "encrypted": "Uçtan uca şifreli",
     "encryptionOff": "Bu cihazda şifreleme kapalı",
+    "encryptChat": "Sohbeti şifrele",
+    "encryptChatOff": "Şifrelemeyi kapat",
     "encryptionTurnOn": "Aç",
     "cannotDecrypt": "Şifreli mesaj — bu cihazda açılamıyor",
     "lockedTitle": "Mesajlarını okumak için kilidi aç",

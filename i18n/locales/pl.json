@@ -4816,6 +4816,8 @@
     "turnOffSmartReplies": "Wyłącz sugerowane odpowiedzi",
     "encrypted": "Szyfrowane end-to-end",
     "encryptionOff": "Szyfrowanie na tym urządzeniu jest wyłączone",
+    "encryptChat": "Szyfruj czat",
+    "encryptChatOff": "Wyłącz szyfrowanie",
     "encryptionTurnOn": "Włącz",
     "cannotDecrypt": "Zaszyfrowana wiadomość — nie można jej otworzyć na tym urządzeniu",
     "title": "Wiadomości",

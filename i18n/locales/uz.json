@@ -4803,6 +4803,8 @@
     "turnOffSmartReplies": "Tavsiya etilgan javoblarni o'chirish",
     "encrypted": "Uchdan-uchga shifrlangan",
     "encryptionOff": "Bu qurilmada shifrlash oʻchirilgan",
+    "encryptChat": "Chatni shifrlash",
+    "encryptChatOff": "Shifrlashni o‘chirish",
     "encryptionTurnOn": "Yoqish",
     "cannotDecrypt": "Shifrlangan xabar — bu qurilmada ochib bo‘lmaydi",
     "title": "Xabarlar",

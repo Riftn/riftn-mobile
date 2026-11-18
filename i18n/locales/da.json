@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Slå foreslåede svar fra",
     "encrypted": "End-to-end-krypteret",
     "encryptionOff": "Kryptering er slået fra på denne enhed",
+    "encryptChat": "Kryptér chat",
+    "encryptChatOff": "Slå kryptering fra",
     "encryptionTurnOn": "Slå til",
     "cannotDecrypt": "Krypteret besked — kan ikke åbnes på denne enhed",
     "title": "Beskeder",

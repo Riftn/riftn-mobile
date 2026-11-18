@@ -96,8 +96,8 @@ const ChatMenu: React.FC<ChatMenuProps> = ({
                 <MenuRow
                   icon={encrypted ? "LockOpen" : "Lock"}
                   label={encrypted
-                    ? t('chatMenu.encryptOff', { defaultValue: 'Turn off encryption' })
-                    : t('chatMenu.encrypt', { defaultValue: 'Encrypt chat' })}
+                    ? t('messages.encryptChatOff', { defaultValue: 'Turn off encryption' })
+                    : t('messages.encryptChat', { defaultValue: 'Encrypt chat' })}
                   onPress={() => { onClose(); onToggleEncryption(); }}
                 />
                 <View className="h-[1px] bg-theme-neutrals-700/60" />

@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Poista ehdotetut vastaukset käytöstä",
     "encrypted": "Päästä päähän salattu",
     "encryptionOff": "Salaus ei ole käytössä tässä laitteessa",
+    "encryptChat": "Salaa keskustelu",
+    "encryptChatOff": "Poista salaus käytöstä",
     "encryptionTurnOn": "Ota käyttöön",
     "cannotDecrypt": "Salattu viesti — ei voida avata tällä laitteella",
     "title": "Viestit",

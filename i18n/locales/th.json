@@ -4835,6 +4835,8 @@
     "turnOffSmartReplies": "ปิดคำตอบแนะนำ",
     "encrypted": "เข้ารหัสแบบต้นทางถึงปลายทาง",
     "encryptionOff": "การเข้ารหัสปิดอยู่บนอุปกรณ์นี้",
+    "encryptChat": "เข้ารหัสแชท",
+    "encryptChatOff": "ปิดการเข้ารหัส",
     "encryptionTurnOn": "เปิดใช้งาน",
     "cannotDecrypt": "ข้อความที่เข้ารหัส — ไม่สามารถเปิดบนอุปกรณ์นี้ได้",
     "title": "ข้อความ",

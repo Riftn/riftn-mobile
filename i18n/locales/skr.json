@@ -4765,6 +4765,8 @@
     "turnOffSmartReplies": "تجویز کیتے ڳئے جواب بند کرو",
     "encrypted": "اینڈ ٹو اینڈ انکرپٹڈ",
     "encryptionOff": "ایں ڈیوائس تے انکرپشن بند ہے",
+    "encryptChat": "چیٹ انکرپٹ کرو",
+    "encryptChatOff": "انکرپشن بند کرو",
     "encryptionTurnOn": "چالو کرو",
     "cannotDecrypt": "انکرپٹڈ پیغام — ایں ڈیوائس تے کھل نی سڳدا",
     "title": "پیغام",

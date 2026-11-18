@@ -4807,6 +4807,8 @@
     "turnOffSmartReplies": "Desativar respostas sugeridas",
     "encrypted": "Criptografado de ponta a ponta",
     "encryptionOff": "Encriptação desativada neste dispositivo",
+    "encryptChat": "Criptografar conversa",
+    "encryptChatOff": "Desativar criptografia",
     "encryptionTurnOn": "Ativar",
     "cannotDecrypt": "Mensagem criptografada — não pode ser aberta neste dispositivo",
     "title": "Mensagens",

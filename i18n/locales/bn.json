@@ -4787,6 +4787,8 @@
     "turnOffSmartReplies": "প্রস্তাবিত উত্তর বন্ধ করুন",
     "encrypted": "এন্ড-টু-এন্ড এনক্রিপ্টেড",
     "encryptionOff": "এই ডিভাইসে এনক্রিপশন বন্ধ আছে",
+    "encryptChat": "চ্যাট এনক্রিপ্ট করুন",
+    "encryptChatOff": "এনক্রিপশন বন্ধ করুন",
     "encryptionTurnOn": "চালু করুন",
     "cannotDecrypt": "এনক্রিপ্ট করা বার্তা — এই ডিভাইসে খোলা যাবে না",
     "title": "বার্তা",

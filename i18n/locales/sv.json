@@ -4787,6 +4787,8 @@
     "turnOffSmartReplies": "Stäng av föreslagna svar",
     "encrypted": "Totalsträckskrypterad",
     "encryptionOff": "Kryptering är avstängd på den här enheten",
+    "encryptChat": "Kryptera chatt",
+    "encryptChatOff": "Stäng av kryptering",
     "encryptionTurnOn": "Slå på",
     "cannotDecrypt": "Krypterat meddelande — kan inte öppnas på den här enheten",
     "title": "Meddelanden",

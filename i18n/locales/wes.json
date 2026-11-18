@@ -4753,6 +4753,8 @@
     "turnOffSmartReplies": "Of di ansa dem weh wi propose",
     "encrypted": "Encrypted from end to end",
     "encryptionOff": "Encryption no dey on for dis device",
+    "encryptChat": "Lock dis chat",
+    "encryptChatOff": "Off di lock",
     "encryptionTurnOn": "Put am on",
     "cannotDecrypt": "Encrypted message — e no fit open for dis device",
     "title": "Message dem",

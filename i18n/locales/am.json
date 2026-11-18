@@ -4787,6 +4787,8 @@
     "turnOffSmartReplies": "የተጠቆሙ ምላሾችን አጥፋ",
     "encrypted": "ከጫፍ እስከ ጫፍ የተመሰጠረ",
     "encryptionOff": "በዚህ መሣሪያ ላይ ምስጠራ ጠፍቷል",
+    "encryptChat": "ውይይቱን አመስጥር",
+    "encryptChatOff": "ምስጠራን አጥፋ",
     "encryptionTurnOn": "አብራ",
     "cannotDecrypt": "የተመሰጠረ መልእክት — በዚህ መሣሪያ ላይ ሊከፈት አይችልም",
     "title": "መልዕክቶች",

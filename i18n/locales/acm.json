@@ -4837,6 +4837,8 @@
     "turnOffSmartReplies": "طفّي الردود المقترحة",
     "encrypted": "مشفّر من طرف إلى طرف",
     "encryptionOff": "التشفير مو مفعّل بهالجهاز",
+    "encryptChat": "شفّر المحادثة",
+    "encryptChatOff": "طفّي التشفير",
     "encryptionTurnOn": "فعّله",
     "cannotDecrypt": "رسالة مشفّرة — ما تنفتح على هذا الجهاز",
     "title": "الرسائل",
