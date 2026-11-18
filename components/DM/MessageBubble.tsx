@@ -275,6 +275,8 @@ const PlainDmVideo: React.FC<{
       failed={failed}
       onOpen={onPress}
       onLongPress={onLongPress}
+      // A view-once video opens full screen, where watching it counts.
+      inlineUri={destruct?.mode === "view" ? null : uri}
     />
   );
 });
