@@ -220,7 +220,6 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
         onLongPress={(target, layout, extra) => setContext({ comment: target, layout, extra })}
         tokenId={`request:${featureId}`}
         contentType="feed"
-        highlighted={highlightNumber === comment.id}
         repliesExpanded={opts.toggleRoot != null && expanded.has(opts.toggleRoot)}
         onToggleReplies={opts.toggleRoot != null ? () => {
           const root = opts.toggleRoot!;
