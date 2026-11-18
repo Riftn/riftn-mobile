@@ -7370,7 +7370,6 @@
     "noResultsFor": "Foyi ma sɔrɔ \"{{query}}\" kama",
     "glossaryTipDesc": "Riftn ye tagamasiɲɛ dɔ ci a danbaga ma min b'a yira ko a be bonya la a kan. O la, a ka ɲi ka kɛ ni miiriya ɲuman ye.",
     "glossaryPpvDesc": "O kama, a ka ɲi ka wari caaman sɔrɔ walisa k'a yira ko a ka ɲi ka wari caaman sɔrɔ. Danbaga be wari di ani a be wari sɔrɔ a ka miiriya bɛɛ la.",
-    "glossaryDhbTokenDesc": "o ye koo ɲuman ye. ye tagamasiɲɛ ye Riftn ka tagamasiɲɛw fɛ, min ye Riftn ka tagamasiɲɛ ye. O ye ka baara kɛ ni kunnafoniw ye, ka baara kɛ ni kunnafoniw ye ani ka baara kɛ ni kunnafoniw ye.",
     "glossaryStakingDesc": "I ka Riftn ka tagamasiɲɛw datugu walisa ka sara sɔrɔ wagati tɛmɛnin na. O b'a to i be se ka fanga sɔrɔ ka tɛmɛ fɔlɔ kan.",
     "glossaryGovernanceDesc": "O kama, a ka ɲi ka kuma ni mɔgɔ wɛrɛw ye. I be se ka min kɛ, o b'a to i be se ka dɔ fara i ka fanga kan.",
     "glossaryStakingBadgesDesc": "I ka batɛmu minw be yira i ka tɔgɔ gɛrɛfɛ, u basiginin be i ka Riftn ka siginidenw bɛɛ kan (wallet + staked). I be se ka batɛmu ta cogo min na, o be se ka kɛ i ka batɛmu ta cogo min na, o be se ka kɛ i ta ye. O kama, a ka ɲi ka kɛ ni fanga ye ka tɛmɛ sanga ni wagati bɛɛ kan.",
@@ -14864,9 +14863,9 @@
     "orContinueWith": "o kɔ, an ka taga ɲɛ",
     "phone": "Foun foun fé",
     "email": "Email",
-    "fingerprint": "Fanga be mɔgɔ minw na, olu ka kan ka kɛ",
     "exploreFirst": "Kɔrɔbɔli fɔlɔ",
-    "codeNote": "An b'i weele ka na an ka site web kan, an mako t'a la i ka kumaɲɔgɔnya kɛ n'i ye."
+    "codeNote": "An b'i weele ka na an ka site web kan, an mako t'a la i ka kumaɲɔgɔnya kɛ n'i ye.",
+    "fingerprint": "I yɛrɛ ɲɛfɔli"
   },
   "mintChain": {
     "title": "O kɔ, a ye sɛbɛ dɔ ci",
