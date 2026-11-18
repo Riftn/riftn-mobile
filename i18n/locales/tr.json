@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Sohbette alım botu işlem uyarılarını göster",
     "notificationShowCount": "Zilde sayıyı göster",
     "notificationShowCountDesc": "Yalnızca parıltı yerine kaç okunmamış bildirim olduğunu gör",
+    "messagesShowCount": "Mesajlar'da sayıyı göster",
+    "messagesShowCountDesc": "Yalnızca parıltı yerine kaç okunmamış mesaj olduğunu gör",
     "chatSection": "Sohbet",
     "doNotDisturb": "Rahatsız Etme",
     "doNotDisturbDesc": "Tüm mesaj bildirimlerini sessize al",

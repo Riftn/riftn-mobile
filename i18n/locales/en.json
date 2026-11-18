@@ -1085,6 +1085,8 @@
     "buyBotAlertsDesc": "Show buy bot transaction alerts in chat",
     "notificationShowCount": "Show the number on the bell",
     "notificationShowCountDesc": "See how many notifications are unread instead of just the glow",
+    "messagesShowCount": "Show the number on Messages",
+    "messagesShowCountDesc": "See how many messages are unread instead of just the glow",
     "chatSection": "Chat",
     "doNotDisturb": "Do Not Disturb",
     "doNotDisturbDesc": "Mute all message notifications",
