@@ -7564,6 +7564,8 @@
     "allDisabled": "Tous les messages sont actuellement désactivés. Les nouveaux sont bloqués par défaut.",
     "failedToEdit": "La configuration utilisateur a échoué.",
     "messageDeleted": "Message supprimé.",
+    "deleteOneTitle": "Supprimer ce message ?",
+    "deleteForBothBody": "Il sera supprimé pour vous deux.",
     "cantForwardFromDevice": "Ce message ne peut pas être transféré depuis cet appareil",
     "messageForwarded": "Message envoyé",
     "clearMessages": "Effacer les messages",
@@ -16898,6 +16900,7 @@
     "notSent": "Envoi impossible. Réessayez."
   },
   "msgSelect": {
+    "deleteForBothBody": "Ils seront supprimés pour vous deux.",
     "toolbar": "Messages sélectionnés",
     "pick": "Touchez des messages pour les sélectionner",
     "selected": "{{count}} sélectionné(s)",

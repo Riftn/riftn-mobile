@@ -7559,6 +7559,8 @@
     "allDisabled": "Şu anda tüm DM'ler kapalı. Yeni DM'ler varsayılan olarak engellenir.",
     "failedToEdit": "Düzenlenemedi",
     "messageDeleted": "Mesaj silindi",
+    "deleteOneTitle": "Bu mesaj silinsin mi?",
+    "deleteForBothBody": "İkiniz için de silinecek.",
     "cantForwardFromDevice": "Bu mesaj bu cihazdan iletilemiyor",
     "messageForwarded": "Mesaj iletildi",
     "clearMessages": "Mesajları Temizle",
@@ -16893,6 +16895,7 @@
     "notSent": "Gönderilemedi. Tekrar deneyin."
   },
   "msgSelect": {
+    "deleteForBothBody": "İkiniz için de silinecekler.",
     "toolbar": "Seçili mesajlar",
     "pick": "Seçmek için mesajlara dokunun",
     "selected": "{{count}} seçildi",
