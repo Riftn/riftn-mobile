@@ -2747,7 +2747,7 @@
     "signInToContinue": "Sign in to continue",
     "signInToContinueBody": "You need to sign in to perform this action.",
     "closeAuthModal": "Close authentication modal",
-    "legalLine": "By continuing, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
+    "legalLine": "By continuing, you agree to our <terms>TOS</terms> and <privacy>Privacy Policy</privacy>.",
     "chooseUsernameBody": "Choose a username and display name to continue. You can change them later.",
     "checkingAvailability": "Checking availability…",
     "usernameTakenHint": "Username taken — try adding numbers or an underscore",
