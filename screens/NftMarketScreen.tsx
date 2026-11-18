@@ -36,6 +36,7 @@ import { theme } from "../theme";
 import { useWeb3Provider } from "../hooks/use-web3";
 import { DIGITAL_PURCHASES_ENABLED, iosWebPurchaseLinkAllowed } from "../config/storefront";
 import { CHAIN_LABEL, MARKET_CHAINS, OPENSEA_CHAINS, WrongChainError, buyOpenSea, fillListings, formatVolume, nftMarket, type MarketCollection, type OpenSeaListing, type MarketOrder, type ShowcaseNft, type NftTarget, type Signer } from "../services/nft-market.service";
+import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 type Tab = "browse" | "mine" | "activity";
 type ActivityKind = "all" | "sale" | "listing" | "offer";
@@ -98,6 +99,7 @@ export default function NftMarketScreen() {
 export function NftMarketView({ embedded = false }: { embedded?: boolean }) {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const route = useRoute<any>();
   const insets = useSafeAreaInsets();
   const { width: screenW } = useWindowDimensions();
@@ -383,7 +385,7 @@ export function NftMarketView({ embedded = false }: { embedded?: boolean }) {
   };
   const signIn = () => {
     setOpen(null);
-    navigation.navigate(ScreenNames.SignIn);
+    openSignIn();
   };
 
   const chips = (

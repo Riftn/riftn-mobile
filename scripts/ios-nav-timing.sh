@@ -367,6 +367,18 @@ if [ "$MODE" = wallet ]; then
   exit 0
 fi
 
+if [ "$MODE" = loginsheet ]; then
+  # The sign-in pop-ups (like, +, Log in page): main's code first, then this
+  # checkout's in several themes.
+  run before "loginsheet-main-system" "" loginsheet system
+  for theme in ${WALLET_THEMES:-system osaka hazy}; do
+    run after "loginsheet-$theme" "" loginsheet "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
 if [ "$MODE" = wide ]; then
   # A wide clip in the swipe player, pictured once per theme.
   # main's code first on System Light, to tell what was already there.

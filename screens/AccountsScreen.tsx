@@ -45,6 +45,7 @@ import { useBrowseAccounts, ACCOUNT_SORTS } from "../hooks/useAccountMarket";
 import type { AccountListing, AccountSort } from "../services/account-market.service";
 import { DhbCoin } from "../components/common/DhbCoin";
 import { KitButton, PageEmpty, PageSection, PageTabs } from "../components/page/PageKit";
+import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 const H_PADDING = 16;
 
@@ -154,6 +155,7 @@ export default function AccountsScreen() {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const route = useRoute<RouteProp<AppStackParamList, ScreenNames.Accounts>>();
   const { isSignedIn, needsUsername } = useAuthState();
   const isAuthed = isSignedIn && !needsUsername;
@@ -312,7 +314,7 @@ export default function AccountsScreen() {
       ) : (
         <SellAccountPanel
           isAuthed={isAuthed}
-          onSignIn={() => navigation.navigate(ScreenNames.SignIn)}
+          onSignIn={() => openSignIn()}
         />
       )}
 
@@ -323,7 +325,7 @@ export default function AccountsScreen() {
         isAuthed={isAuthed}
         onSignIn={() => {
           setSelected(null);
-          navigation.navigate(ScreenNames.SignIn);
+          openSignIn();
         }}
       />
       <DeHubRefreshMark refreshing={isRefetching} />

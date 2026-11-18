@@ -391,7 +391,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   usePerfProbe("SideMenu");
   const navigation = useNavigation<any>();
   const { isSignedIn } = useAuthState();
-  const { signOut } = useAuthActions();
+  const { signOut, requireAuth } = useAuthActions();
   const user = useUser();
   const myUserId = user?.id;
   const messagesUnread = useTotalUnreadMessagesCount(myUserId) + usePublicChatUnreadCount();
@@ -634,8 +634,10 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   }, [activeRouteName, navigate]);
 
   const handleSignIn = useCallback(() => {
-    navigate(ScreenNames.SignIn);
-  }, [navigate]);
+    // The same sign-in sheet as a signed-out like or follow.
+    onClose();
+    requireAuth(() => {});
+  }, [onClose, requireAuth]);
 
   const displayName = user?.displayName || user?.username || t("common.anonymous");
   const handle = user?.username ? `@${user.username}` : "";

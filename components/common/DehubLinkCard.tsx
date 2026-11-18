@@ -49,6 +49,7 @@ import { minimalFlat } from '../../theme/minimal';
 import { useGovernanceProposal } from '../../hooks/useGovernanceDiscussion';
 import { useAuthState } from '../../context/AuthContext';
 import * as WebBrowser from 'expo-web-browser';
+import { useOpenSignIn } from "../../hooks/useOpenSignIn";
 
 /** How many cards one message or caption may draw before the rest stay as text. */
 export const MAX_CARDS_PER_MESSAGE = 2;
@@ -198,6 +199,7 @@ const SkeletonCard = () => {
 const SkillCardEmbed: React.FC<{ slug: string; onOpen: () => void; fallback: React.ReactElement }> = ({ slug, onOpen, fallback }) => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const { isSignedIn, needsUsername } = useAuthState();
   const { data, isLoading } = useQuery({
     queryKey: ['skill-preview', slug],
@@ -223,7 +225,7 @@ const SkillCardEmbed: React.FC<{ slug: string; onOpen: () => void; fallback: Rea
       accessibilityRole="button"
       accessibilityLabel={t('postOptions.share')}
       onPress={() => {
-        if (!isSignedIn || needsUsername) { navigation.navigate(ScreenNames.SignIn); return; }
+        if (!isSignedIn || needsUsername) { openSignIn(); return; }
         navigation.navigate(ScreenNames.Upload, { initialText: `https://riftn.com/app/assistant?skill=${encodeURIComponent(slug)}` });
       }}
       style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 8 }}
