@@ -2003,6 +2003,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       onPlaybackFailed={requiresVideoAccess ? onVideoPlaybackFailed : undefined}
       transcodingStatus={item.transcodingStatus}
       storyboard={isActuallyGated ? undefined : item.storyboard}
+      soundtrackUrl={isActuallyGated || matureGate.isGated ? undefined : soundtrack?.url}
       isOwner={!!isOwnerPost}
       duration={duration}
       tokenId={tokenId}
@@ -2583,7 +2584,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   variant="portrait" compactPortrait={SCREEN_WIDTH < 768} maxLines={4} showCategories={false} flagged={item.communityAlertStatus === "pending"}
                   onCategoryPress={onCategorySelect} onCashtagPress={setActiveCashtag} />
               </PostTapSurface>
-              {hasSoundtrack && !soundtrackOnMedia && <View className="mt-2"><SoundtrackBadge key={postKey} title={soundtrack.title} creator={soundtrack.creator} url={soundtrack.url} isVisible={isVisible} /></View>}
+              {hasSoundtrack && !soundtrackOnMedia && <View className="mt-2"><SoundtrackBadge key={postKey} title={soundtrack.title} creator={soundtrack.creator} url={soundtrack.url} isVisible={isVisible} withVideo={isVideo} /></View>}
               {(item as any).isQuotePost && <QuotedPostEmbed key={postKey} quotedPost={(item as any).quotedPost} quotedTokenId={(item as any).quotedTokenId} revoked={(item as any).quoteRevoked} quoteTokenId={tokenId ?? undefined} />}
               <DehubLinkCards links={dehubLinks} />
               {remixCredits}
@@ -2655,6 +2656,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   title={soundtrack.title}
                   creator={soundtrack.creator}
                   url={soundtrack.url}
+                  withVideo={isVideo}
                   isVisible={isVisible}
                 />
               </View>
@@ -2824,6 +2826,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           title={soundtrack.title}
           creator={soundtrack.creator}
           url={soundtrack.url}
+          withVideo={isVideo}
           isVisible={isVisible}
         />
       </View>
@@ -3225,6 +3228,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             title={soundtrack.title}
             creator={soundtrack.creator}
             url={soundtrack.url}
+            withVideo={isVideo}
             isVisible={isVisible}
           />
         </View>

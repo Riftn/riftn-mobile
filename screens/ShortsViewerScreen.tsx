@@ -213,6 +213,9 @@ import { resolveViewCount } from "../libs/numbers.util";
 import { useTranslation as useCopy } from "react-i18next";
 import { hideDislikedPost, restoreDislikedPost } from "../libs/disliked-posts-store";
 import { trackPlayerWatchTime } from "../libs/watch-time";
+import { useVideoSoundtrack } from "../hooks/useVideoSoundtrack";
+import { parseSoundtrack } from "../libs/parseSoundtrack";
+import { applyVideoVolume } from "../libs/dub-mix";
 
 
 
@@ -572,6 +575,9 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   }, true, !!miniEntry?.restoring && miniEntry.url === videoUrl);
   const ownsPlayerRef = useRef(ownsPlayer);
   ownsPlayerRef.current = ownsPlayer;
+  // A video short's song plays with it (a photo short plays its song as the "video").
+  const videoSongUrl = useMemo(() => (noVideo ? undefined : parseSoundtrack((item as any).description)?.url), [noVideo, item]);
+  useVideoSoundtrack(videoUrl ? player : null, videoSongUrl);
   const isActive = (activeItem && playbackAllowed) || pipPlayer === player;
   // Live window size, not a module-level snapshot: on iPad the pager cells
   // and tap zones were sized for the launch orientation.
@@ -1292,7 +1298,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
 
   useEffect(() => {
     if (!player) return;
-    try { player.volume = volume; } catch {}
+    try { applyVideoVolume(player, volume); } catch {}
   }, [player, volume]);
 
   // Hold-on-the-right temporarily overrides the chosen rate; releasing drops

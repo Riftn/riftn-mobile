@@ -96,6 +96,42 @@ export function soundTimeFor(url: string | null | undefined, mediaTime: number):
   return window.start + (length > 0 ? mediaTime % length : mediaTime);
 }
 
+/**
+ * How loud the song and the video's own sound play under a video post, each
+ * 0-1. Old posts carry neither key: the song replaces the video's sound.
+ * Stored as whole percents (`sv=80&vv=40`) in the same #fragment.
+ */
+export interface SoundMix {
+  song: number;
+  video: number;
+}
+
+export const DEFAULT_SOUND_MIX: SoundMix = { song: 1, video: 0 };
+
+const percent = (raw: string | null, fallback: number): number => {
+  if (raw == null || raw === "") return fallback;
+  const n = Number(raw);
+  return Number.isFinite(n) ? Math.max(0, Math.min(100, n)) / 100 : fallback;
+};
+
+export function soundMix(url?: string | null): SoundMix {
+  const params = fragment(url);
+  if (!params) return { ...DEFAULT_SOUND_MIX };
+  return { song: percent(params.get("sv"), DEFAULT_SOUND_MIX.song), video: percent(params.get("vv"), DEFAULT_SOUND_MIX.video) };
+}
+
+/** A level slider is linear to the finger; loudness is not. */
+export const mixGain = (level: number): number => Math.max(0, Math.min(1, level)) ** 2;
+
+/**
+ * Where the song should be when the video is at `mediaTime`, looping the
+ * picked part, or the whole song once `duration` is known.
+ */
+export function songTimeFor(url: string | null | undefined, mediaTime: number, duration?: number): number {
+  if (soundWindow(url)) return soundTimeFor(url, mediaTime);
+  return duration && duration > 1 ? mediaTime % duration : mediaTime;
+}
+
 /** The link a player should load: the part and credit are ours, not the server"s. */
 export function playableSoundUrl(url: string): string {
   return url.split("#")[0];
