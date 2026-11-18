@@ -51,6 +51,7 @@ import {
   openCroppedImagePicker,
   resizeAndCompress,
   createRNImageFile,
+  AVATAR_UPLOAD_SIDE,
 } from "../../libs/assets.util";
 import { runWithPermissions } from "../../libs/permissions.util";
 import { markAvatarPromptSignupSession } from "../../libs/avatar-prompt";
@@ -250,17 +251,17 @@ const SetProfileScreen: React.FC<SetProfileScreenProps> = ({ navigation }) => {
       setProcessingAvatar(true);
       await runWithPermissions(["photos"], async () => {
         const picked = await openCroppedImagePicker({
-          width: 800,
-          height: 800,
+          width: AVATAR_UPLOAD_SIDE,
+          height: AVATAR_UPLOAD_SIDE,
           circle: true,
           quality: 0.9,
           forceJpg: true,
         });
         if (!picked) return;
         const manip = await resizeAndCompress(picked, {
-          width: 512,
-          height: 512,
-          compress: 0.85,
+          width: AVATAR_UPLOAD_SIDE,
+          height: AVATAR_UPLOAD_SIDE,
+          compress: 0.9,
           format: "jpeg",
         });
         if (isMountedRef.current) setLocalAvatar(manip);

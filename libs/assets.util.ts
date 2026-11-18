@@ -70,6 +70,13 @@ export const openCroppedImagePicker = async (opts: CropOptions): Promise<string 
   return pickedUri ?? null;
 };
 
+/**
+ * Side a profile picture is cropped and uploaded at. Big enough that opening
+ * it full screen on a phone stays sharp; rows and headers load a small
+ * resized copy from the CDN, so this costs nothing there.
+ */
+export const AVATAR_UPLOAD_SIDE = 1080;
+
 export type ResizeOptions = {
   width: number;
   height: number;
