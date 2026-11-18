@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { View, Text, StyleSheet, type TextStyle } from "react-native";
+import { View, Text, StyleSheet, Platform, type TextStyle } from "react-native";
 import { GestureDetector, ScrollView } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import { useComposerSheet } from "../../hooks/useComposerSheet";
@@ -17,6 +17,7 @@ import { ScreenNames } from "../../navigation/ScreenNames";
 import { ChainId } from "../../config/constants";
 import { SignInWaitVeil } from "../../components/auth/SignInHandoff";
 import SocialLoginIcons from "../../components/auth/SocialLoginIcons";
+import { ScreenWalletPicker } from "../../components/auth/WalletRuntimeHost";
 import SignInSavedProfiles from "../../components/auth/SignInSavedProfiles";
 import EmailCodeEntry from "../../components/auth/EmailCodeEntry";
 import LoginShortsStack from "../../components/auth/LoginShortsStack";
@@ -124,7 +125,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
 
   const { provisionalUser, isLoading: authLoading, needsUsername, isSignedIn } = useAuthState();
   const { signInWithWallet, signInWithSupabaseSession } = useAuthActions();
-  const { isWalletLoading, isSignupBlocked, handleWalletConnect } = useWalletAuth();
+  const { isWalletLoading, isWalletSheetOpen, isSignupBlocked, handleWalletConnect } = useWalletAuth();
   // Android, opened over the app from "Log in": a sheet that follows a pull
   // down, closes past half way (or on a flick) and springs back otherwise.
   // As the first screen of the signed-out flow there is nothing under it, so
@@ -134,6 +135,16 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     const names: string[] = navigation.getState?.()?.routeNames ?? [];
     return !names.includes(ScreenNames.SetProfile) && !!navigation.canGoBack?.();
   });
+  // iPhone opens this page from "Log in" as a native modal, which UIKit puts
+  // above the app's root view, where the wallet picker normally lives. The
+  // picker is drawn inside this page instead (ScreenWalletPicker below), or
+  // Connect Wallet opens it out of sight. While it is up, a pull on its list
+  // must not close the page underneath.
+  const ownsWalletPicker = Platform.OS === "ios" && asSheet;
+  useEffect(() => {
+    if (!ownsWalletPicker) return;
+    navigation.setOptions?.({ gestureEnabled: !isWalletSheetOpen });
+  }, [ownsWalletPicker, isWalletSheetOpen, navigation]);
   const sheet = useComposerSheet({
     navigation,
     active: asSheet,
@@ -904,6 +915,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
       <GestureDetector gesture={sheet.sheetPan}>
         <Animated.View style={[{ flex: 1, borderTopLeftRadius: 16, borderTopRightRadius: 16, overflow: "hidden" }, sheet.sheetStyle]}>{content}</Animated.View>
       </GestureDetector>
+      {ownsWalletPicker ? <ScreenWalletPicker /> : null}
     </View>
   );
 };
