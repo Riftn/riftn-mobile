@@ -30,7 +30,7 @@ import { openInApp } from "../../libs/links.utils";
 import { TERMS_OF_SERVICE_LINK, PRIVACY_POLICY_LINK } from "../../config/links";
 import { getPreferredChainId } from "../../libs/auth.utils";
 import { KeyboardAvoidingView, Keyboard } from "react-native";
-import { CommonActions } from "@react-navigation/native";
+import { CommonActions, useIsFocused } from "@react-navigation/native";
 import { useKeyboardOffset } from "../../hooks/useKeyboardLayout";
 import { AuthService } from "../../services";
 import { createLogger } from "../../libs/logger";
@@ -140,7 +140,9 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   // picker is drawn inside this page instead (ScreenWalletPicker below), or
   // Connect Wallet opens it out of sight. While it is up, a pull on its list
   // must not close the page underneath.
-  const ownsWalletPicker = Platform.OS === "ios" && asSheet;
+  // Only while on top: a page left mounted under another must not hold it.
+  const isFocused = useIsFocused();
+  const ownsWalletPicker = Platform.OS === "ios" && asSheet && isFocused;
   useEffect(() => {
     if (!ownsWalletPicker) return;
     navigation.setOptions?.({ gestureEnabled: !isWalletSheetOpen });
