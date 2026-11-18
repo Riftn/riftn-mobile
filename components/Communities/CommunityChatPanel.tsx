@@ -89,7 +89,8 @@ import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../Comments/VoiceNo
 import type { VoiceNoteResult } from "../Comments/VoiceNoteRecorder";
 import { uploadLiveChatImage } from "../../services/livechat.service";
 import { toastError } from "../../libs/toast";
-import { askAiAdmin } from "../../services/communities.service";
+import { askAiAdmin, getCommunityMemberRow } from "../../services/communities.service";
+import { MemberActionsSheet, canTargetMember } from "./manage/MemberActionsSheet";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
@@ -149,7 +150,7 @@ const ChatRow: React.FC<{
   onLongPress: (message: CommunityChatMessage) => void;
   onToggleReaction: (id: string, emoji: string) => void;
   onShowReactors: (message: CommunityChatMessage, emoji: string) => void;
-  onOpenProfile: (identifier: string) => void;
+  onOpenProfile: (identifier: string, wallet?: string) => void;
   onJumpToMessage: (id: string) => Promise<void>;
 }> = ({ message, myAddress, flashing, canReact, onLongPress, onToggleReaction, onShowReactors, onOpenProfile, onJumpToMessage }) => {
   const { t } = useTranslation();
@@ -215,7 +216,7 @@ const ChatRow: React.FC<{
       className="flex-row px-3 py-1.5"
       style={flashing ? styles.flash : undefined}
     >
-      <Pressable onPress={() => profileId && onOpenProfile(profileId)}>
+      <Pressable onPress={() => profileId && onOpenProfile(profileId, message.wallet_address)}>
         <Avatar uri={avatarUrl} size={32} name={displayName} />
       </Pressable>
 
@@ -225,7 +226,7 @@ const ChatRow: React.FC<{
             className="font-bold text-white"
             style={{ fontSize: 13.5 * textScale }}
             numberOfLines={1}
-            onPress={() => profileId && onOpenProfile(profileId)}
+            onPress={() => profileId && onOpenProfile(profileId, message.wallet_address)}
           >
             {displayName}
           </Text>
@@ -726,9 +727,28 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   // Read live from messages so the sheet follows realtime reaction changes.
   const reactorsMessage = reactorsFor ? messages.find((m) => m.id === reactorsFor.id) : undefined;
 
-  const handleOpenProfile = useCallback(
+  const showProfile = useCallback(
     (identifier: string) => showUserProfile(identifier, { source: "community-chat" }),
     [showUserProfile],
+  );
+  // An owner or an admin who may restrict members gets that member's actions
+  // (mute, ban, remove…) from a tap on their name; everyone else, the profile.
+  const [memberActions, setMemberActions] = useState<CommunityMember | null>(null);
+  const canRestrictMembers = abilities.isOwner || abilities.can("restrict_members");
+  const handleOpenProfile = useCallback(
+    (identifier: string, wallet?: string) => {
+      if (!canRestrictMembers || !wallet || !myAddress || wallet.toLowerCase() === myAddress) {
+        showProfile(identifier);
+        return;
+      }
+      getCommunityMemberRow(community.id, wallet, myAddress)
+        .then((row) => {
+          if (row && canTargetMember(abilities, myAddress, row)) setMemberActions(row);
+          else showProfile(identifier);
+        })
+        .catch(() => showProfile(identifier));
+    },
+    [canRestrictMembers, myAddress, community.id, abilities, showProfile],
   );
 
   const confirmDelete = useCallback(
@@ -1129,6 +1149,16 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           }}
         />
       )}
+
+      <MemberActionsSheet
+        community={community}
+        membership={membership}
+        target={memberActions}
+        visible={!!memberActions}
+        onClose={() => setMemberActions(null)}
+        onEditRights={() => setMemberActions(null)}
+        onViewProfile={(m) => setTimeout(() => showProfile(m.wallet_address), 250)}
+      />
 
       {!!reactorsMessage && !!reactorsFor && (
         <ChatReactorsSheet

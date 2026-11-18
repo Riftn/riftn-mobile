@@ -117,6 +117,8 @@ interface MemberActionsSheetProps {
   visible: boolean;
   onClose: () => void;
   onEditRights: (member: CommunityMember) => void;
+  /** Opened from a name in the chat: first row opens their profile. */
+  onViewProfile?: (member: CommunityMember) => void;
 }
 
 export function MemberActionsSheet({
@@ -126,6 +128,7 @@ export function MemberActionsSheet({
   visible,
   onClose,
   onEditRights,
+  onViewProfile,
 }: MemberActionsSheetProps) {
   const { t } = useTranslation();
   const myWallet = useWalletAddress();
@@ -270,7 +273,19 @@ export function MemberActionsSheet({
               </TouchableOpacity>
             </View>
 
-            {canPromote && (
+            {onViewProfile && (
+              <ActionRow
+                icon="User"
+                label={t("features.topBuilders.viewProfile", { defaultValue: "View profile" })}
+                disabled={rowBusy}
+                onPress={() => {
+                  onClose();
+                  onViewProfile(member);
+                }}
+              />
+            )}
+
+            {canPromote && !onViewProfile && (
               <ActionRow
                 icon={member.role === "admin" ? "ShieldCheck" : "Shield"}
                 label={
