@@ -3789,6 +3789,12 @@
     "pooledTotal": "{{amount}} token havuzlandı"
   },
   "governance": {
+    "optionVoters_one": "{{count}} oy veren",
+    "optionVoters_other": "{{count}} oy veren",
+    "optionWinner": "Kazanan: {{option}}",
+    "optionNoWinner": "Net bir kazanan yok",
+    "optionTapToUndo": "Oyunu geri almak için cevabına tekrar dokun",
+    "optionPickOne": "Bir cevap seç",
     "badgeHoldersOnly": "Sadece rozet tutucular",
     "title": "Yönetişim",
     "proposalCount": "{{count}} öneri gönderildi",

@@ -3977,6 +3977,12 @@
     "pooledTotal": "{{amount}} tokens gepoold"
   },
   "governance": {
+    "optionVoters_one": "{{count}} stemmer",
+    "optionVoters_other": "{{count}} stemmers",
+    "optionWinner": "Winnaar: {{option}}",
+    "optionNoWinner": "Geen duidelijke winnaar",
+    "optionTapToUndo": "Tik nogmaals op je antwoord om je stem in te trekken",
+    "optionPickOne": "Kies één antwoord",
     "badgeHoldersOnly": "Alleen badgehouders",
     "title": "Bestuur",
     "proposalCount": "{{count}} voorstel ingediend",

@@ -3793,6 +3793,12 @@
     "pooledTotal": "{{amount}} jetons mis en commun"
   },
   "governance": {
+    "optionVoters_one": "{{count}} votant",
+    "optionVoters_other": "{{count}} votants",
+    "optionWinner": "Gagnant : {{option}}",
+    "optionNoWinner": "Pas de gagnant clair",
+    "optionTapToUndo": "Touchez à nouveau votre réponse pour retirer votre vote",
+    "optionPickOne": "Choisissez une réponse",
     "badgeHoldersOnly": "Porte-badges uniquement",
     "title": "Gouvernance",
     "proposalCount": "{{count}} proposition soumise",
