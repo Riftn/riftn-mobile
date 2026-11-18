@@ -4598,7 +4598,8 @@
       "copied": "Mesaj kopyalandı",
       "copyText": "Metni kopyala",
       "mutedUntil": "{{date}} tarihine kadar sessize alındınız",
-      "slowMode": "Yavaş mod: her {{interval}} bir mesaj"
+      "slowMode": "Yavaş mod: her {{interval}} bir mesaj",
+      "aiAdminFailed": "AI Admin yanıt veremedi"
     },
     "manage": {
       "dismissAdminTitle": "Yöneticiyi kapat",
@@ -4620,7 +4621,8 @@
         "invites": "Davetler",
         "rules": "Kurallar",
         "recentActions": "Son işlemler",
-        "danger": "Tehlike alanı"
+        "danger": "Tehlike alanı",
+        "automod": "Moderasyon ve botlar"
       },
       "title": "Yönet",
       "purgeTitle": "Tüm mesajlar silinsin mi?",
@@ -4814,7 +4816,42 @@
       "txn": "İşlem",
       "balance": "Bakiye:",
       "price": "Fiyat:",
-      "marketCap": "Piyasa değeri:"
+      "marketCap": "Piyasa değeri:",
+      "titleToken": "{{amount}} ${{symbol}} ALIM"
+    },
+    "automod": {
+      "title": "Otomatik moderasyon",
+      "hint": "Bir mesajı kimse görmeden engeller ve gönderene nedenini söyler. Sahipler ve yöneticiler asla engellenmez.",
+      "enabled": "Otomatik moderasyon açık",
+      "bannedWords": "Yasaklı kelimeler",
+      "bannedWordsHint": "Her satıra bir tane veya virgülle. Yalnızca tam kelimeler; s.c.a.m gibi aralıklı yazımlar da yakalanır.",
+      "bannedWordsPlaceholder": "scam\nrug pull",
+      "blockLinks": "Bağlantıları engelle",
+      "blockLinksHint": "Site dışı bağlantılar ve Telegram/Discord davetleri. Riftn bağlantıları çalışmaya devam eder.",
+      "repeats": "Tekrarları engelle",
+      "repeatsHint": "Birinin aynı satırı 10 dakika içinde tekrar göndermesini engeller.",
+      "flood": "Flood koruması",
+      "floodHint": "Kişi başına her {{seconds}} sn’de en fazla {{max}} mesaj.",
+      "floodMax": "{{count}} mesaj",
+      "noAccess": "Bu ayarları yalnızca sahip ve yöneticiler değiştirebilir.",
+      "saveFailed": "Kaydedilemedi. Tekrar dene.",
+      "saveWords": "Kelimeleri kaydet",
+      "saved": "Kaydedildi",
+      "wordCount": "{{count}} kelime",
+      "bannedWord": "Bu mesajda bu grubun izin vermediği bir kelime var.",
+      "links": "Bu grupta bağlantılara izin verilmiyor.",
+      "repeat": "Bunu az önce gönderdin. Yeni bir şey söylemeyi dene.",
+      "reserved": "Bu tür mesajlar yalnızca grubun botlarından gelebilir.",
+      "floodError": "Çok hızlı gönderiyorsun. {{value1}} sn bekle ve tekrar dene."
+    },
+    "buyBot": {
+      "title": "Alım botu",
+      "any": "Her boyut",
+      "enabled": "Alım bildirimlerini paylaş",
+      "hint": "Her ${{symbol}} alımını, gerçekleştikten yaklaşık bir dakika sonra bu sohbete gönderir.",
+      "minUsd": "Paylaşılacak en küçük alım",
+      "noToken": "Grup başlığından bir token bağla (düzenle, sonra Ticker) ve her alım bu sohbette görünsün.",
+      "unsupported": "${{symbol}}, alım botunun henüz izlemediği bir zincirde veya havuz türünde. Desteklenenler: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism ve Avalanche (Uniswap v2/v3 tarzı havuzlar)."
     }
   },
   "work": {

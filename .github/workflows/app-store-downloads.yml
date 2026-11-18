@@ -1,0 +1,37 @@
+name: App Store downloads
+
+on:
+  workflow_dispatch:
+    inputs:
+      days:
+        description: How many past days of Sales and Trends to add up
+        type: string
+        default: '30'
+      vendor_number:
+        description: Sales and Trends vendor number (leave empty to use the repo variable ASC_VENDOR_NUMBER)
+        type: string
+        default: ''
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-store-downloads
+  cancel-in-progress: false
+
+jobs:
+  downloads:
+    name: Read iOS downloads
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Print download numbers
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          DAYS: ${{ inputs.days }}
+          ASC_VENDOR_NUMBER: ${{ inputs.vendor_number || vars.ASC_VENDOR_NUMBER }}
+        run: node scripts/app-store-downloads.mjs

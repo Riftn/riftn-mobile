@@ -4444,7 +4444,8 @@
       "txn": "Txn",
       "balance": "Balance:",
       "price": "Price:",
-      "marketCap": "Market cap:"
+      "marketCap": "Market cap:",
+      "titleToken": "{{amount}} ${{symbol}} BUY"
     },
     "newChat": {
       "description": "What is it about? (optional)",
@@ -4650,7 +4651,8 @@
       "copied": "Message copied",
       "copyText": "Copy text",
       "mutedUntil": "You are muted until {{date}}",
-      "slowMode": "Slow mode: one message every {{interval}}"
+      "slowMode": "Slow mode: one message every {{interval}}",
+      "aiAdminFailed": "AI Admin failed to respond"
     },
     "manage": {
       "dismissAdminTitle": "Dismiss admin",
@@ -4672,7 +4674,8 @@
         "invites": "Invites",
         "rules": "Rules",
         "recentActions": "Recent actions",
-        "danger": "Danger zone"
+        "danger": "Danger zone",
+        "automod": "Auto-mod & bots"
       },
       "title": "Manage",
       "purgeTitle": "Delete all messages?",
@@ -4858,6 +4861,40 @@
       "notFound": "This invite link is not valid.",
       "requestToJoin": "Request to join",
       "approvalNote": "An admin has to approve your request before you can join."
+    },
+    "automod": {
+      "title": "Auto-mod",
+      "hint": "Blocks a message before anyone sees it and tells the sender why. Owners and admins are never blocked.",
+      "enabled": "Auto-mod on",
+      "bannedWords": "Banned words",
+      "bannedWordsHint": "One per line or comma. Whole words only, and spaced-out spellings like s.c.a.m are caught too.",
+      "bannedWordsPlaceholder": "scam\nrug pull",
+      "blockLinks": "Block links",
+      "blockLinksHint": "Off-site links and Telegram/Discord invites. Riftn links still work.",
+      "repeats": "Block repeats",
+      "repeatsHint": "Stops someone sending the same line again within 10 minutes.",
+      "flood": "Anti-flood",
+      "floodHint": "At most {{max}} messages every {{seconds}}s per person.",
+      "floodMax": "{{count}} messages",
+      "noAccess": "Only the owner and admins can change these settings.",
+      "saveFailed": "Couldn't save. Try again.",
+      "saveWords": "Save words",
+      "saved": "Saved",
+      "wordCount": "{{count}} words",
+      "bannedWord": "That message has a word this group doesn't allow.",
+      "links": "Links aren't allowed in this group.",
+      "repeat": "You just sent that. Try saying something new.",
+      "reserved": "That kind of message can only come from the group's bots.",
+      "floodError": "You're sending too fast. Wait {{value1}}s and try again."
+    },
+    "buyBot": {
+      "title": "Buy bot",
+      "any": "Any size",
+      "enabled": "Post buy alerts",
+      "hint": "Posts every ${{symbol}} buy into this chat, about a minute after it happens.",
+      "minUsd": "Smallest buy to post",
+      "noToken": "Link a token from the group header (edit, then Ticker) and every buy shows up in this chat.",
+      "unsupported": "${{symbol}} is on a chain or pool type the buy bot does not watch yet. Supported: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism and Avalanche (Uniswap v2/v3-style pools)."
     }
   },
   "work": {

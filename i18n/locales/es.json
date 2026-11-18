@@ -4598,7 +4598,8 @@
       "copied": "Mensaje copiado",
       "copyText": "Copiar texto",
       "mutedUntil": "Estás silenciado hasta {{date}}",
-      "slowMode": "Modo lento: un mensaje cada {{interval}}"
+      "slowMode": "Modo lento: un mensaje cada {{interval}}",
+      "aiAdminFailed": "AI Admin no respondió"
     },
     "manage": {
       "dismissAdminTitle": "Descartar administrador",
@@ -4620,7 +4621,8 @@
         "invites": "Invitaciones",
         "rules": "Normas",
         "recentActions": "Acciones recientes",
-        "danger": "Zona de peligro"
+        "danger": "Zona de peligro",
+        "automod": "Moderación y bots"
       },
       "title": "Gestionar",
       "purgeTitle": "¿Eliminar todos los mensajes?",
@@ -4814,7 +4816,42 @@
       "txn": "Tx",
       "balance": "Saldo:",
       "price": "Precio:",
-      "marketCap": "Cap. de mercado:"
+      "marketCap": "Cap. de mercado:",
+      "titleToken": "{{amount}} ${{symbol}} COMPRA"
+    },
+    "automod": {
+      "title": "Moderación automática",
+      "hint": "Bloquea un mensaje antes de que nadie lo vea y le dice al remitente por qué. Los dueños y admins nunca se bloquean.",
+      "enabled": "Moderación automática activa",
+      "bannedWords": "Palabras prohibidas",
+      "bannedWordsHint": "Una por línea o separadas por comas. Solo palabras completas; también detecta escrituras separadas como s.c.a.m.",
+      "bannedWordsPlaceholder": "scam\nrug pull",
+      "blockLinks": "Bloquear enlaces",
+      "blockLinksHint": "Enlaces externos e invitaciones de Telegram/Discord. Los enlaces de Riftn siguen funcionando.",
+      "repeats": "Bloquear repeticiones",
+      "repeatsHint": "Impide enviar la misma línea otra vez en 10 minutos.",
+      "flood": "Anti-flood",
+      "floodHint": "Máximo {{max}} mensajes cada {{seconds}} s por persona.",
+      "floodMax": "{{count}} mensajes",
+      "noAccess": "Solo el dueño y los admins pueden cambiar estos ajustes.",
+      "saveFailed": "No se pudo guardar. Inténtalo de nuevo.",
+      "saveWords": "Guardar palabras",
+      "saved": "Guardado",
+      "wordCount": "{{count}} palabras",
+      "bannedWord": "Ese mensaje tiene una palabra que este grupo no permite.",
+      "links": "No se permiten enlaces en este grupo.",
+      "repeat": "Acabas de enviar eso. Prueba a decir algo nuevo.",
+      "reserved": "Ese tipo de mensaje solo puede venir de los bots del grupo.",
+      "floodError": "Estás enviando demasiado rápido. Espera {{value1}} s y vuelve a intentarlo."
+    },
+    "buyBot": {
+      "title": "Bot de compras",
+      "any": "Cualquier tamaño",
+      "enabled": "Publicar alertas de compra",
+      "hint": "Publica cada compra de ${{symbol}} en este chat, aproximadamente un minuto después.",
+      "minUsd": "Compra mínima a publicar",
+      "noToken": "Vincula un token desde la cabecera del grupo (editar y luego Ticker) y cada compra aparecerá en este chat.",
+      "unsupported": "${{symbol}} está en una cadena o tipo de pool que el bot aún no vigila. Compatibles: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism y Avalanche (pools tipo Uniswap v2/v3)."
     }
   },
   "work": {

@@ -271,6 +271,24 @@ export function communityErrorMessage(error: unknown, fallback: string): string 
     return _translateCopy("communities.holderGate.required", { defaultValue: "Holders only: your wallet doesn't hold enough of this community's token to chat." });
   }
 
+  // Group auto-mod (community_chat_automod trigger).
+  if (raw.includes("automod_banned_word")) {
+    return _translateCopy("communities.automod.bannedWord", { defaultValue: "That message has a word this group doesn't allow." });
+  }
+  if (raw.includes("automod_links")) {
+    return _translateCopy("communities.automod.links", { defaultValue: "Links aren't allowed in this group." });
+  }
+  if (raw.includes("automod_repeat")) {
+    return _translateCopy("communities.automod.repeat", { defaultValue: "You just sent that. Try saying something new." });
+  }
+  const flood = raw.match(/automod_flood:(\d+)/);
+  if (flood) {
+    return _translateCopy("communities.automod.floodError", { defaultValue: "You're sending too fast. Wait {{value1}}s and try again.", value1: flood[1] });
+  }
+  if (raw.includes("message_type_reserved")) {
+    return _translateCopy("communities.automod.reserved", { defaultValue: "That kind of message can only come from the group's bots." });
+  }
+
   const slow = raw.match(/slow_mode_active:(\d+)/);
   if (slow) {
     const seconds = Number(slow[1]);

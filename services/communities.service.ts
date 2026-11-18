@@ -445,6 +445,45 @@ export function updateCommunitySettings(
   );
 }
 
+// ─── Auto-mod and buy bot (owners and admins) ────────────────────────────────
+
+export interface GroupAutoModSettings {
+  enabled: boolean;
+  banned_words: string[];
+  block_links: boolean;
+  flood_enabled: boolean;
+  flood_max: number;
+  flood_seconds: number;
+  block_repeats: boolean;
+}
+
+export interface GroupBotSettings {
+  automod: GroupAutoModSettings;
+  buy_bot: { enabled: boolean; min_usd: number };
+  token: { symbol: string | null; chain_id: string | null; address: string | null; pair: string | null; supported: boolean };
+}
+
+export interface GroupBotSettingsPatch {
+  automod?: Partial<GroupAutoModSettings>;
+  buy_bot?: Partial<GroupBotSettings["buy_bot"]>;
+}
+
+export function getGroupBotSettings(w: string, communityId: string) {
+  return rpc<GroupBotSettings>("community_get_bot_settings", { _community_id: communityId }, w);
+}
+
+export function updateGroupBotSettings(w: string, communityId: string, patch: GroupBotSettingsPatch) {
+  return rpc<GroupBotSettings>("community_update_bot_settings", { _community_id: communityId, _patch: patch }, w);
+}
+
+/** Ask the AI Admin; it answers in the chat itself. */
+export async function askAiAdmin(communityId: string, prompt: string, askerName?: string) {
+  const { error } = await supabase.functions.invoke("community-admin-chat", {
+    body: { communityId, prompt: prompt.slice(0, 2000), askerName },
+  });
+  if (error) throw error;
+}
+
 export function deleteCommunity(w: string, communityId: string) {
   return rpc("community_delete", { _community_id: communityId }, w);
 }
