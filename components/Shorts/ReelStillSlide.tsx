@@ -16,7 +16,7 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
 import type { ReelStill } from "../../libs/profileReel";
-import { postBgById } from "../../libs/postBackgrounds";
+import { postBgFromToken } from "../../libs/postBackgrounds";
 import { POST_BG_INK, PostBgLayer } from "../Profile/PostBackground";
 import ComicDeck from "../Home/ComicDeck";
 import { Ionicons } from "@expo/vector-icons";
@@ -87,7 +87,7 @@ function TextPoster({ still, height, isActive, bgId }: Props) {
   const segments = useMemo(() => parseTextToSegments(words), [words]);
   const { showUserProfile } = useUserProfileSheet();
   const [cashtag, setCashtag] = useState<string | null>(null);
-  const bg = postBgById(bgId);
+  const bg = postBgFromToken(bgId);
   const ink = bg ? POST_BG_INK[bg.tone] : POST_BG_INK.dark;
   const size = posterSize(words.length);
   // The words get the middle of the screen; the chrome owns the edges.
