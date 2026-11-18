@@ -194,7 +194,9 @@
       "profile": "profil",
       "proposal": "proposition",
       "stage": "étape",
-      "store": "magasin"
+      "store": "magasin",
+      "featureRequest": "demande",
+      "page": "page"
     }
   },
   "stageCover": {
@@ -11681,7 +11683,11 @@
     "ended": "Terminé",
     "stage": "Scène",
     "upcomingStage": "Scène à venir",
-    "members": "Membres {{compact}}"
+    "members": "Membres {{compact}}",
+    "requestComments_one": "{{compact}} commentaire",
+    "requestComments_other": "{{compact}} commentaires",
+    "requestVotes_one": "{{compact}} vote",
+    "requestVotes_other": "{{compact}} votes"
   },
   "report": {
     "whyVideo": "Pourquoi signalez-vous cette vidéo ?",
@@ -16966,5 +16972,11 @@
     "submit": "Réinitialiser le portefeuille",
     "cancel": "Annuler",
     "rowDesc": "Portefeuille perdu, ou quelqu'un d'autre a sa clé ? Déplacez votre compte vers un nouveau portefeuille. Votre nom d'utilisateur, vos publications et vos abonnés vous suivent."
+  },
+  "mentionLinks": {
+    "communities": "Communautés",
+    "pages": "Pages",
+    "people": "Personnes",
+    "linkTo": "Lier {{name}}"
   }
 }

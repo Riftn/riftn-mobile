@@ -194,7 +194,9 @@
       "profile": "الملف الشخصي",
       "proposal": "اقتراح",
       "stage": "المرحلة",
-      "store": "المتجر"
+      "store": "المتجر",
+      "featureRequest": "طلب",
+      "page": "صفحة"
     }
   },
   "stageCover": {
@@ -11697,7 +11699,11 @@
     "ended": "انتهى",
     "stage": "مسرح",
     "upcomingStage": "مسرح قادم",
-    "members": "{{compact}} أعضاء"
+    "members": "{{compact}} أعضاء",
+    "requestComments_one": "{{compact}} تعليق",
+    "requestComments_other": "{{compact}} تعليقات",
+    "requestVotes_one": "{{compact}} صوت",
+    "requestVotes_other": "{{compact}} أصوات"
   },
   "report": {
     "whyVideo": "لماذا تبلغ عن هذا الفيديو؟",
@@ -16982,5 +16988,11 @@
     "submit": "إعادة تعيين المحفظة",
     "cancel": "إلغاء",
     "rowDesc": "فقدت محفظتك أو أصبح مفتاحها مع شخص آخر؟ انقل حسابك إلى محفظة جديدة. يبقى معك اسم المستخدم والمنشورات والمتابعون."
+  },
+  "mentionLinks": {
+    "communities": "المجتمعات",
+    "pages": "الصفحات",
+    "people": "الأشخاص",
+    "linkTo": "ربط {{name}}"
   }
 }

@@ -2641,7 +2641,9 @@
       "profile": "Профиль",
       "proposal": "предложение",
       "stage": "этап",
-      "store": "Магазин"
+      "store": "Магазин",
+      "featureRequest": "запрос",
+      "page": "страница"
     }
   },
   "postGate": {
@@ -13213,7 +13215,11 @@
     "ended": "Завершено",
     "stage": "Сцена",
     "upcomingStage": "Предстоящая сцена",
-    "members": "{{compact}} участников"
+    "members": "{{compact}} участников",
+    "requestComments_one": "{{compact}} комментарий",
+    "requestComments_other": "{{compact}} комментариев",
+    "requestVotes_one": "{{compact}} голос",
+    "requestVotes_other": "{{compact}} голосов"
   },
   "report": {
     "whyVideo": "Почему вы сообщаете об этом видео?",
@@ -15544,5 +15550,11 @@
     "forward": "Переслать",
     "deleted_one": "Удалено {{count}} сообщение",
     "deleted_other": "Удалено {{count}} сообщения"
+  },
+  "mentionLinks": {
+    "communities": "Сообщества",
+    "pages": "Страницы",
+    "people": "Люди",
+    "linkTo": "Ссылка на {{name}}"
   }
 }

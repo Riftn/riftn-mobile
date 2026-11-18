@@ -6,9 +6,13 @@ import { mentionSearch } from '../../services/mention.service';
 
 jest.mock('../../services/mention.service', () => ({
   mentionSearch: jest.fn(),
+  communityMentionSearch: jest.fn(async () => []),
+  pageMentionSearch: jest.fn(() => []),
 }));
 
 const search = mentionSearch as jest.Mock;
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const links = require('../../services/mention.service') as { communityMentionSearch: jest.Mock; pageMentionSearch: jest.Mock };
 
 function setup() {
   return renderHook(() => {
@@ -82,5 +86,22 @@ describe('hooks/useMentions', () => {
     expect(search).not.toHaveBeenCalled();
     expect(result.current.showSuggestions).toBe(false);
     expect(result.current.loading).toBe(false);
+  });
+
+  it('lists communities and pages after people, and types their link', async () => {
+    links.communityMentionSearch.mockResolvedValueOnce([
+      { kind: 'community', username: 'builders', displayName: 'Builders', avatarImageUrl: '', address: 'community:1', isFollowing: false, insertText: 'https://riftn.com/app/communities/builders' },
+    ]);
+    links.pageMentionSearch.mockReturnValueOnce([
+      { kind: 'page', username: '/app/leaderboard', displayName: 'Leaderboard', avatarImageUrl: '', address: 'page:/app/leaderboard', isFollowing: false, insertText: 'https://riftn.com/app/leaderboard' },
+    ]);
+    const { result } = setup();
+    await edit(result, 'see @b');
+    expect(result.current.suggestions.map((u) => u.kind ?? 'user')).toEqual(['user', 'community', 'page']);
+    act(() => {
+      result.current.handleSelectionChange({ nativeEvent: { selection: { start: 6, end: 6 } } } as any);
+      result.current.selectMention(result.current.suggestions[1]);
+    });
+    expect(result.current.text).toBe('see https://riftn.com/app/communities/builders ');
   });
 });

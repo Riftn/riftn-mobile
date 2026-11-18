@@ -16,6 +16,7 @@ it('starts all sources together, paints the API page first, folds in custom rows
     .mockImplementationOnce(() => new Promise(resolve => { finishCounts = resolve; }));
   const custom = jest.fn().mockResolvedValue([{ id: 'custom', createdAt: '2026-01-02' }]);
   const scope: any = {
+    PAGE_SIZE: 15,
     useCallback: (fn: unknown) => fn, fetchGenRef: { current: 0 }, pageRef: { current: 1 },
     selectedFilterRef: { current: 'likes' }, walletAddressRef: { current: 'viewer' },
     apiTypesForFilter: () => ['like'], getNotifications: api, fetchCustomNotifications: custom,
@@ -47,6 +48,7 @@ it('an unfiltered refresh reuses the warm-up fetch instead of asking again', asy
   const api = jest.fn();
   const custom = jest.fn();
   const scope: any = {
+    PAGE_SIZE: 15,
     useCallback: (fn: unknown) => fn, fetchGenRef: { current: 0 }, pageRef: { current: 1 },
     selectedFilterRef: { current: 'all' }, walletAddressRef: { current: 'viewer' },
     apiTypesForFilter: () => undefined, getNotifications: api, fetchCustomNotifications: custom,

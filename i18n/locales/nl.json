@@ -194,7 +194,9 @@
       "profile": "profiel",
       "proposal": "voorstel",
       "stage": "fase",
-      "store": "winkel"
+      "store": "winkel",
+      "featureRequest": "verzoek",
+      "page": "pagina"
     }
   },
   "stageCover": {
@@ -11928,7 +11930,11 @@
     "ended": "Afgelopen",
     "stage": "Podium",
     "upcomingStage": "Aankomend podium",
-    "members": "{{compact}} leden"
+    "members": "{{compact}} leden",
+    "requestComments_one": "{{compact}} reactie",
+    "requestComments_other": "{{compact}} reacties",
+    "requestVotes_one": "{{compact}} stem",
+    "requestVotes_other": "{{compact}} stemmen"
   },
   "report": {
     "whyVideo": "Waarom meld je deze video aan?",
@@ -17213,5 +17219,11 @@
     "submit": "Wallet resetten",
     "cancel": "Annuleren",
     "rowDesc": "Wallet kwijt, of heeft iemand anders de sleutel? Verplaats je account naar een nieuwe wallet. Je gebruikersnaam, posts en volgers gaan mee."
+  },
+  "mentionLinks": {
+    "communities": "Community’s",
+    "pages": "Pagina’s",
+    "people": "Mensen",
+    "linkTo": "{{name}} linken"
   }
 }

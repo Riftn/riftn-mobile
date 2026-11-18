@@ -194,7 +194,9 @@
       "profile": "perfil",
       "proposal": "propuesta",
       "stage": "etapa",
-      "store": "tienda"
+      "store": "tienda",
+      "featureRequest": "solicitud",
+      "page": "página"
     }
   },
   "stageCover": {
@@ -11677,7 +11679,11 @@
     "ended": "Finalizado",
     "stage": "Escenario",
     "upcomingStage": "Próximo escenario",
-    "members": "{{compact}} miembros"
+    "members": "{{compact}} miembros",
+    "requestComments_one": "{{compact}} comentario",
+    "requestComments_other": "{{compact}} comentarios",
+    "requestVotes_one": "{{compact}} voto",
+    "requestVotes_other": "{{compact}} votos"
   },
   "report": {
     "whyVideo": "¿Por qué estás reportando este video?",
@@ -16962,5 +16968,11 @@
     "submit": "Restablecer billetera",
     "cancel": "Cancelar",
     "rowDesc": "¿Perdiste tu billetera o alguien más tiene su clave? Mueve tu cuenta a una nueva billetera. Tu nombre de usuario, publicaciones y seguidores vienen contigo."
+  },
+  "mentionLinks": {
+    "communities": "Comunidades",
+    "pages": "Páginas",
+    "people": "Personas",
+    "linkTo": "Enlazar {{name}}"
   }
 }
