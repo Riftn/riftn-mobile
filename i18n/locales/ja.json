@@ -2512,7 +2512,9 @@
       "profile": "プロフィール",
       "proposal": "提案",
       "stage": "ステージ",
-      "store": "店舗"
+      "store": "店舗",
+      "featureRequest": "リクエスト",
+      "page": "ページ"
     }
   },
   "postGate": {
@@ -13082,7 +13084,11 @@
     "ended": "終了しました",
     "stage": "ステージ",
     "upcomingStage": "今後のステージ",
-    "members": "{{compact}}人のメンバー"
+    "members": "{{compact}}人のメンバー",
+    "requestComments_one": "{{compact}} 件のコメント",
+    "requestComments_other": "{{compact}} 件のコメント",
+    "requestVotes_one": "{{compact}} 票",
+    "requestVotes_other": "{{compact}} 票"
   },
   "report": {
     "whyVideo": "この動画を報告する理由",
@@ -15546,5 +15552,11 @@
     "forward": "転送",
     "deleted_one": "{{count}}のメッセージを削除しました",
     "deleted_other": "{{count}}のメッセージを削除しました"
+  },
+  "mentionLinks": {
+    "communities": "コミュニティ",
+    "pages": "ページ",
+    "people": "ユーザー",
+    "linkTo": "{{name}} をリンク"
   }
 }

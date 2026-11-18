@@ -584,13 +584,11 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
       ]));
       if (!isRefresh || reset) setNextPage(hasMore ? 1 : null);
 
-      // Set highlight on initial load if commentId matches
+      // The reply a notification opened stays in the list for good (it is
+      // the destination, not a four-second flash), and is never lit up.
       if (!isRefresh && highlightCommentId != null) {
         const hlId = Number(highlightCommentId);
-        if (items.some((c) => Number(c.id) === hlId)) {
-          setHighlightedId(hlId);
-          setTimeout(() => setHighlightedId(null), 4000);
-        }
+        if (items.some((c) => Number(c.id) === hlId)) setHighlightedId(hlId);
       }
     } catch (e) {
       console.error("Failed to load comments:", e);
@@ -1654,7 +1652,6 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
   }, [openTipId]);
 
   const renderComment = useCallback(({ item }: { item: FlatComment }) => {
-    const isHighlighted = highlightedId != null && Number(item.id) === highlightedId;
     const itemNumId = Number(item.id);
     const meta = threadMeta.get(itemNumId);
     return (
@@ -1700,7 +1697,6 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
           onLongPress={handleCommentLongPress}
           tokenId={tokenId}
           contentType={contentType}
-          highlighted={isHighlighted}
           repliesExpanded={!!meta?.toggleExpanded}
           onToggleReplies={
             meta?.toggleRootId != null ? () => handleToggleReplies(meta.toggleRootId!) : undefined
@@ -1729,7 +1725,6 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
     handleCommentLongPress,
     tokenId,
     contentType,
-    highlightedId,
     expandedCommentIds,
     handleToggleReplies,
     loadingRepliesMap,

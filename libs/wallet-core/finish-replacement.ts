@@ -15,6 +15,8 @@ export async function finishWalletReplacement(
   ownerAddress: string,
   privateKey: string,
   signInWithWallet: (address: string, chainId: number, privateKey: string, meta?: Record<string, any>) => Promise<unknown>,
+  /** Replaces the lenient move with a strict one (Settings → Reset wallet). */
+  rotate: (address: string, chainId: number) => Promise<void> = AuthService.rotateWalletForReplacement,
 ): Promise<void> {
   const chainId = (await getPreferredChainId()) ?? ChainId.BASE_MAINNET;
   const provider = await setupAAProvider(ownerAddress, privateKey, chainId);
@@ -25,7 +27,7 @@ export async function finishWalletReplacement(
   // The address being rotated away from, read before sign-in replaces it.
   const previous = await currentIdentity();
   try {
-    await AuthService.rotateWalletForReplacement(accounts[0], chainId);
+    await rotate(accounts[0], chainId);
     const meta = await getSupabaseAuthMeta();
     await provisionSolanaAddressForWallet(ownerAddress, privateKey);
     await signInWithWallet(accounts[0], chainId, privateKey, meta);

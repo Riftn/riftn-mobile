@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next';
 import Icon from '../ui/Icon';
 import ChainSwitchModal from './ChainSwitchModal';
 import BackupWalletModal from './BackupWalletModal';
+import ResetWalletModal from './ResetWalletModal';
 import SwitchAccountModal from './SwitchAccountModal';
 import CopyAddressSheet from '../Wallet/CopyAddressSheet';
 import BadgeDelegationSection from './BadgeDelegationSection';
@@ -108,6 +109,7 @@ const AssetsPanel: React.FC<{ navigation: any }> = ({ navigation }) => {
    * an `0x…` address is unrecoverable.
    */
   const [copyAddressVisible, setCopyAddressVisible] = useState(false);
+  const [resetWalletVisible, setResetWalletVisible] = useState(false);
 
   /**
    * Fixes the case where THIS PHONE resolves Google/email sign-in to the
@@ -229,6 +231,13 @@ const AssetsPanel: React.FC<{ navigation: any }> = ({ navigation }) => {
           dot={!!backup.status && !backup.status.backedUpAt}
           onPress={() => setExportPkVisible(true)}
         />
+        <Divider />
+        <SettingsLinkRow
+          icon="RefreshCw"
+          label={t('resetWallet.title', { defaultValue: 'Reset wallet' })}
+          description={t('resetWallet.rowDesc', { defaultValue: 'Lost your wallet, or someone else has its key? Move your account to a new wallet. Your username, posts and followers come with you.' })}
+          onPress={() => setResetWalletVisible(true)}
+        />
         {isImported && (
           <>
             <Divider />
@@ -293,6 +302,12 @@ const AssetsPanel: React.FC<{ navigation: any }> = ({ navigation }) => {
         visible={exportPkVisible}
         onClose={() => setExportPkVisible(false)}
         onBackedUp={backup.markLocal}
+      />
+      <ResetWalletModal
+        visible={resetWalletVisible}
+        onClose={() => setResetWalletVisible(false)}
+        // The account's own address: the API refuses to move any other one.
+        currentAddress={(user?.address || address) as string}
       />
       <SwitchAccountModal
         visible={switchAccountVisible}

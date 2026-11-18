@@ -62,6 +62,7 @@ import Avatar from "../components/common/Avatar";
 import SmartImage from "../components/common/SmartImage";
 import { reactionMeta } from "../libs/reactions";
 import AppealSheet from "../components/Notifications/AppealSheet";
+import NotificationCommentCard, { notificationHasComment } from "../components/Notifications/NotificationCommentCard";
 import QuickSettingsSheet from "../components/Notifications/QuickSettingsSheet";
 import NotificationSearchLine, { notificationMatches } from "../components/Notifications/NotificationSearchLine";
 import PageDrawer, { PageDrawerScrollView } from "../components/common/PageDrawer";
@@ -808,6 +809,15 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
             </Text>
           </Text>
 
+          {/* The comment itself, whole, with Reply / Like / Tip right here. */}
+          {notificationHasComment(item) && (
+            <NotificationCommentCard
+              item={item}
+              onOpen={onPress}
+              onEngaged={item.read ? undefined : onMarkRead}
+            />
+          )}
+
           {/* Aggregation indicator */}
           {item.aggregatedCount && item.aggregatedCount > 1 && item.latestActorNames && (item.type as string) !== 'community_chat' && (
             <Text className="text-theme-neutrals-500" style={{ fontSize: 13, marginTop: 2 }}>
@@ -954,6 +964,12 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
 });
 
 const log = createLogger("NotificationScreen");
+
+/**
+ * Rows per page. 15 paints the first screen with half the work it used to,
+ * and the next 15 load as the reader nears the end (onEndReachedThreshold).
+ */
+const PAGE_SIZE = 15;
 
 type TabCacheEntry = { rows: NotificationItem[]; page: number; hasMore: boolean };
 /** A tab fetched this recently is shown as it is; older, it is shown and refreshed behind. */
@@ -1608,7 +1624,7 @@ const NotificationScreen = () => {
               unreadOnly: false,
               types,
               page: targetPage,
-              limit: 30,
+              limit: PAGE_SIZE,
             });
         // Start independent sources together. Counts never hold the list's
         // loading state open, and neither do the custom rows: the API page
@@ -1631,7 +1647,7 @@ const NotificationScreen = () => {
         const res: any = await listRequest.catch((e) => {
           // A failed shared warm-up falls back to the screen's own request.
           if (shared) {
-            return getNotifications({ unreadOnly: false, types, page: targetPage, limit: 30 });
+            return getNotifications({ unreadOnly: false, types, page: targetPage, limit: PAGE_SIZE });
           }
           throw e;
         });
@@ -1655,12 +1671,17 @@ const NotificationScreen = () => {
           setNotifications(payload);
           setPage(1);
         } else {
-          setNotifications((prev) => [...prev, ...payload]);
+          // A row can shift onto the next page while the reader scrolls (a new
+          // notification pushes everything down one), so skip ones already shown.
+          setNotifications((prev) => {
+            const seen = new Set(prev.map((n) => n._id));
+            return [...prev, ...payload.filter((n: NotificationItem) => !seen.has(n._id))];
+          });
         }
 
         // Measured on the API page alone. The merged Supabase rows are not
         // paginated, so counting them here would claim another page exists.
-        setHasMore(apiPayload.length >= 30);
+        setHasMore(apiPayload.length >= PAGE_SIZE);
         setRefreshing(false);
         setLoading(false);
         setLoadingMore(false);
@@ -1839,7 +1860,7 @@ const NotificationScreen = () => {
         const types = apiTypesForFilter(key);
         if (!types) continue;
         tabFetchedAtRef.current.set(key, Date.now());
-        getNotifications({ unreadOnly: false, types, page: 1, limit: 30 })
+        getNotifications({ unreadOnly: false, types, page: 1, limit: PAGE_SIZE })
           .then((res: any) => {
             // Opened meanwhile: its own fetch owns the rows now.
             if (rowsFilterRef.current === key) return;
@@ -1848,7 +1869,7 @@ const NotificationScreen = () => {
             for (const n of rows) {
               if (!listedUnreadRef.current.has(n._id)) listedUnreadRef.current.set(n._id, !n.read);
             }
-            tabCacheRef.current.set(key, { rows, page: 1, hasMore: api.length >= 30 });
+            tabCacheRef.current.set(key, { rows, page: 1, hasMore: api.length >= PAGE_SIZE });
           })
           .catch(() => tabFetchedAtRef.current.delete(key));
       }

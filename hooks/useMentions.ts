@@ -3,7 +3,12 @@ import type {
   NativeSyntheticEvent,
   TextInputSelectionChangeEventData,
 } from "react-native";
-import { mentionSearch, type MentionUser } from "../services/mention.service";
+import {
+  mentionSearch,
+  communityMentionSearch,
+  pageMentionSearch,
+  type MentionUser,
+} from "../services/mention.service";
 import { caretFromEdit } from "../libs/caret-from-edit";
 
 /**
@@ -12,6 +17,8 @@ import { caretFromEdit } from "../libs/caret-from-edit";
  * Features:
  * - Detects `@query` at cursor → debounced API search
  * - Stays shut inside an email address and while deleting
+ * - Also finds public communities and our pages, which insert their
+ *   riftn.com link (a card once sent) instead of `@username `
  * - Inserts `@username ` on selection
  * - Backspacing into a filled mention deletes the whole `@username `
  */
@@ -23,6 +30,8 @@ export function useMentions(
    * the people talking in it. With a pool, a bare "@" already opens the list.
    */
   pool?: MentionUser[],
+  /** Also offer communities and pages. On unless a surface only wants people. */
+  withLinks = true,
 ) {
   const poolRef = useRef<MentionUser[] | undefined>(pool);
   poolRef.current = pool;
@@ -134,10 +143,21 @@ export function useMentions(
         timerRef.current = setTimeout(async () => {
           if (queryRef.current !== q) return;
           try {
-            const res = await mentionSearch(q);
+            // People first, then communities and our pages, which type their
+            // riftn.com link instead of an @.
+            const [res, communities] = await Promise.all([
+              mentionSearch(q),
+              withLinks ? communityMentionSearch(q) : Promise.resolve([] as MentionUser[]),
+            ]);
             if (queryRef.current === q) {
               const seen = new Set(local.map((u) => u.username.toLowerCase()));
-              const merged = [...local, ...res.filter((u) => !seen.has(u.username.toLowerCase()))];
+              const pages = withLinks ? pageMentionSearch(q) : [];
+              const merged = [
+                ...local,
+                ...res.filter((u) => !seen.has(u.username.toLowerCase())),
+                ...communities,
+                ...pages,
+              ];
               setSuggestions(merged);
               setShowSuggestions(merged.length > 0);
             }
@@ -152,7 +172,7 @@ export function useMentions(
         if (timerRef.current) clearTimeout(timerRef.current);
       }
     },
-    [setText, extractQuery],
+    [setText, extractQuery, withLinks],
   );
 
   const handleSelectionChange = useCallback(
@@ -171,11 +191,13 @@ export function useMentions(
       const start = cur.lastIndexOf(`@${q}`, cursor);
       if (start === -1) return;
 
-      const replacement = `@${user.username} `;
+      // A community or a page types its link; only people are tracked for
+      // the whole-mention backspace.
+      const replacement = `${user.insertText ?? `@${user.username}`} `;
       const result =
         cur.slice(0, start) + replacement + cur.slice(start + 1 + q.length);
 
-      trackedRef.current.add(user.username);
+      if (!user.insertText) trackedRef.current.add(user.username);
       prevTextRef.current = result;
       setText(result);
       setShowSuggestions(false);

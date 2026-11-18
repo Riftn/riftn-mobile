@@ -9,7 +9,8 @@ import Icon from "../ui/Icon";
 import { storageImageSource } from "../../libs/cdnImage";
 import { communityKindOf, entryPriceOf } from "../../libs/community-kinds";
 import type { Community } from "../../types/community";
-import { BulkTick, CHECKED_FILL, MarkedUnreadDot } from "./BulkChatBar";
+import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
+import { ChatCard } from "./ChatCard";
 
 const DEHUB_COIN = require("../../assets/web-icons/dehub-coin.png");
 
@@ -33,23 +34,24 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
     ? t("communities.newChat.channelRow", { defaultValue: "Channel · {{formattedCount}} members", count: community.member_count ?? 0, formattedCount })
     : t("communities.newChat.groupRow", { defaultValue: "Group · {{formattedCount}} members", count: community.member_count ?? 0, formattedCount });
   return (
+    <ChatCard unread={markedUnread} checked={selecting && checked}>
     <TouchableOpacity
       onPress={onPress}
       onLongPress={onLongPress}
       delayLongPress={400}
       activeOpacity={0.7}
       accessibilityState={selecting ? { selected: checked } : undefined}
-      className="flex-row items-center px-4 py-4 gap-3"
+      className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
+      style={{ minHeight: 72 }}
       testID={`group-chat-row-${kind}`}
     >
-      {selecting && checked && <View pointerEvents="none" style={CHECKED_FILL} />}
       {selecting && <BulkTick checked={checked} />}
       <View
-        style={{ width: 48, height: 48, borderRadius: Math.round(48 * 0.16) }}
+        style={{ width: 44, height: 44, borderRadius: 12 }}
         className="bg-theme-neutrals-800 items-center justify-center overflow-hidden"
       >
         {community.avatar_url
-          ? <Image source={storageImageSource(community.avatar_url, 48)} style={{ width: 48, height: 48 }} contentFit="cover" />
+          ? <Image source={storageImageSource(community.avatar_url, 48)} style={{ width: 44, height: 44 }} contentFit="cover" />
           : <Icon name={kindIcon as any} size={22} color="#d4d4d8" />}
       </View>
       <View className="flex-1 justify-center">
@@ -71,5 +73,6 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
         </View>
       </View>
     </TouchableOpacity>
+    </ChatCard>
   );
 }

@@ -2544,7 +2544,9 @@
       "profile": "perfil",
       "proposal": "proposta",
       "stage": "etapa",
-      "store": "loja"
+      "store": "loja",
+      "featureRequest": "pedido",
+      "page": "página"
     }
   },
   "stageCover": {
@@ -13652,7 +13654,11 @@
     "ended": "Terminado",
     "stage": "Palco",
     "upcomingStage": "Próximo palco",
-    "members": "{{compact}} membros"
+    "members": "{{compact}} membros",
+    "requestComments_one": "{{compact}} comentário",
+    "requestComments_other": "{{compact}} comentários",
+    "requestVotes_one": "{{compact}} voto",
+    "requestVotes_other": "{{compact}} votos"
   },
   "report": {
     "whyVideo": "Por que você está denunciando este vídeo?",
@@ -16437,5 +16443,11 @@
     "forward": "Encaminhar",
     "deleted_one": "Mensagem deletada {{count}}",
     "deleted_other": "Mensagens deletadas {{count}}"
+  },
+  "mentionLinks": {
+    "communities": "Comunidades",
+    "pages": "Páginas",
+    "people": "Pessoas",
+    "linkTo": "Vincular {{name}}"
   }
 }

@@ -22,6 +22,7 @@ import i18n from 'i18next';
 import { isEnsHandle } from './ens-handle';
 import { RESERVED_LINK_SEGMENTS } from './reserved-usernames';
 import { cutFromText } from './cut-from-text';
+import { appPageFor } from './app-page-paths';
 
 export type DehubLinkKind =
   | 'post'
@@ -34,7 +35,9 @@ export type DehubLinkKind =
   | 'film'
   | 'app'
   | 'proposal'
-  | 'skill';
+  | 'skill'
+  | 'featureRequest'
+  | 'page';
 
 export interface DehubLinkMatch {
   kind: DehubLinkKind;
@@ -57,6 +60,10 @@ export interface DehubLinkMatch {
    * either shape, so the raw key is carried through rather than split in two.
    */
   bountyJobKey?: string;
+  /** `/features?feature=<uuid>` — one card on the Requests board. */
+  featureRequestId?: string;
+  /** Any other page of ours (Leaderboard, Shorts, an arcade game...). */
+  pagePath?: string;
   /** `/apps/<slug>` — a mini app in the store. */
   appSlug?: string;
   /** `/app/governance/<uuid>` — a governance proposal. */
@@ -165,9 +172,10 @@ export function parseDehubLink(input: string): DehubLinkMatch | null {
 
   if (isAppScoped && scoped.length === 1 && scoped[0] === 'assistant') {
     const skillSlug = queryParam(parts.search, 'skill');
-    return skillSlug && /^[a-z0-9-]{1,80}$/.test(skillSlug)
-      ? { ...base, kind: 'skill', skillSlug }
-      : null;
+    // A skill link cards as the skill; the bare page falls through and
+    // cards as the Assistant page below.
+    if (skillSlug && /^[a-z0-9-]{1,80}$/.test(skillSlug)) return { ...base, kind: 'skill', skillSlug };
+    if (skillSlug) return null;
   }
 
   // ── post ──
@@ -267,6 +275,24 @@ export function parseDehubLink(input: string): DehubLinkMatch | null {
   if (scoped[0] === 'work' && scoped[1] && scoped[1] !== 'post' && scoped[1] !== 'history' && scoped[1] !== 'disputes') {
     if (!/^[a-fA-F0-9-]{8,}$/.test(scoped[1])) return null;
     return { ...base, kind: 'bounty', bountyJobKey: scoped[1] };
+  }
+
+  // ── /features?feature=<uuid> — one request on the Requests board ──
+  if (scoped[0] === 'features' && !scoped[1]) {
+    const id = queryParam(parts.search, 'feature') || queryParam(parts.search, 'request');
+    if (id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
+      return { ...base, kind: 'featureRequest', featureRequestId: id.toLowerCase() };
+    }
+  }
+
+  // ── Any other page of ours ──
+  //
+  // Host-qualified only, like profiles: riftn.com/app/leaderboard cards as the
+  // Leaderboard and opens its screen. Only real pages (libs/app-page-paths)
+  // card, so a typo never turns into a card that goes nowhere.
+  if (parts.host) {
+    const page = appPageFor(parts.pathname);
+    if (page) return { ...base, kind: 'page', pagePath: page };
   }
 
   // ── profile ──

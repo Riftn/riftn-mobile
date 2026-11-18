@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "Tous",
+    "unread": "Non lus",
+    "groups": "Groupes"
+  },
   "comicBorder": {
     "title": "Bordure",
     "theme": "Thème",
@@ -189,7 +194,9 @@
       "profile": "profil",
       "proposal": "proposition",
       "stage": "étape",
-      "store": "magasin"
+      "store": "magasin",
+      "featureRequest": "demande",
+      "page": "page"
     }
   },
   "stageCover": {
@@ -11676,7 +11683,11 @@
     "ended": "Terminé",
     "stage": "Scène",
     "upcomingStage": "Scène à venir",
-    "members": "Membres {{compact}}"
+    "members": "Membres {{compact}}",
+    "requestComments_one": "{{compact}} commentaire",
+    "requestComments_other": "{{compact}} commentaires",
+    "requestVotes_one": "{{compact}} vote",
+    "requestVotes_other": "{{compact}} votes"
   },
   "report": {
     "whyVideo": "Pourquoi signalez-vous cette vidéo ?",
@@ -16940,5 +16951,32 @@
   },
   "profileImage": {
     "change": "Changer"
+  },
+  "resetWallet": {
+    "mismatch": "Les mots de passe ne correspondent pas",
+    "tooShort": "Le mot de passe doit contenir au moins {{count}} caractères",
+    "breached": "Ce mot de passe est apparu dans une fuite de données. Choisissez-en un autre",
+    "weak": "Choisissez un mot de passe plus fort (mélangez lettres, chiffres et symboles)",
+    "doneTitle": "Votre compte est sur son nouveau portefeuille",
+    "twoFactor": "Saisissez le code de votre application d'authentification pour déplacer votre compte.",
+    "failed": "Impossible de réinitialiser votre portefeuille. Rien n'a été déplacé. Réessayez.",
+    "title": "Réinitialiser le portefeuille",
+    "reloginApp": "Une réinitialisation se prouve avec l'e-mail, le téléphone ou la connexion Google de votre compte, pas avec l'ancien portefeuille, car toute personne qui détient l'ancienne clé pourrait aussi signer. Déconnectez-vous, reconnectez-vous avec cette connexion, puis revenez ici. Pas encore d'e-mail de connexion ? Ajoutez-en un d'abord sur riftn.com dans Paramètres → Connexion.",
+    "logOut": "Se déconnecter",
+    "intro": "Crée un nouveau portefeuille Riftn et y déplace votre nom d'utilisateur, vos publications, vos abonnés et vos messages. Utilisez-le si votre portefeuille est perdu ou si quelqu'un d'autre a sa clé. L'ancien portefeuille ne permet plus de se connecter.",
+    "funds": "Les jetons, NFT et autres soldes ne sont pas déplacés. Ils restent à l'ancienne adresse. Si vous pouvez encore ouvrir l'ancien portefeuille, transférez-les d'abord.",
+    "password": "Nouveau mot de passe du portefeuille ({{count}} caractères min.)",
+    "confirm": "Confirmer le mot de passe",
+    "twoFactorPlaceholder": "Code d'authentification",
+    "ack": "Je comprends que mes anciens fonds restent dans l'ancien portefeuille.",
+    "submit": "Réinitialiser le portefeuille",
+    "cancel": "Annuler",
+    "rowDesc": "Portefeuille perdu, ou quelqu'un d'autre a sa clé ? Déplacez votre compte vers un nouveau portefeuille. Votre nom d'utilisateur, vos publications et vos abonnés vous suivent."
+  },
+  "mentionLinks": {
+    "communities": "Communautés",
+    "pages": "Pages",
+    "people": "Personnes",
+    "linkTo": "Lier {{name}}"
   }
 }

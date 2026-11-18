@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "All",
+    "unread": "Unread",
+    "groups": "Groups"
+  },
   "twoFactor": {
     "wrongCode": "That code didn’t match. Try the newest one in your app.",
     "stackTop": "One more step",
@@ -271,8 +276,16 @@
       "profile": "profile",
       "proposal": "proposal",
       "stage": "stage",
-      "store": "store"
+      "store": "store",
+      "featureRequest": "request",
+      "page": "page"
     }
+  },
+  "mentionLinks": {
+    "communities": "Communities",
+    "linkTo": "Link {{name}}",
+    "pages": "Pages",
+    "people": "People"
   },
   "stageCover": {
     "admitOne": "ADMIT ONE",
@@ -12035,6 +12048,10 @@
     "listingJoined": "You're on the list. We'll email {{email}} when token trading opens."
   },
   "linkCard": {
+    "requestComments_one": "{{compact}} comment",
+    "requestComments_other": "{{compact}} comments",
+    "requestVotes_one": "{{compact}} vote",
+    "requestVotes_other": "{{compact}} votes",
     "inviteRevoked": "Invite revoked",
     "inviteExpired": "Invite expired",
     "inviteExhausted": "Invite fully used",
@@ -16777,5 +16794,26 @@
   },
   "profileImage": {
     "change": "Change"
+  },
+  "resetWallet": {
+    "mismatch": "Passwords don't match",
+    "tooShort": "Password must be at least {{count}} characters",
+    "breached": "This password has appeared in a data breach. Choose a different one",
+    "weak": "Choose a stronger password (mix letters, numbers and symbols)",
+    "doneTitle": "Your account is on its new wallet",
+    "twoFactor": "Enter the code from your authenticator app to move your account.",
+    "failed": "Could not reset your wallet. Nothing was moved. Try again.",
+    "title": "Reset wallet",
+    "reloginApp": "A reset is proved with your account's email, phone or Google sign-in, not the old wallet, because anyone holding the old key could sign too. Log out, log back in with that sign-in, then come back here. No sign-in email yet? Add one on riftn.com under Settings → Sign-in first.",
+    "logOut": "Log out",
+    "intro": "Makes a new Riftn wallet and moves your username, posts, followers and messages onto it. Use this if your wallet is lost or someone else has its key. The old wallet stops working for sign-in.",
+    "funds": "Tokens, NFTs and other balances do not move. They stay at the old address. If you can still open the old wallet, send them out first.",
+    "password": "New wallet password (min {{count}} chars)",
+    "confirm": "Confirm password",
+    "twoFactorPlaceholder": "Authenticator code",
+    "ack": "I understand my old funds stay in the old wallet.",
+    "submit": "Reset wallet",
+    "cancel": "Cancel",
+    "rowDesc": "Lost your wallet, or someone else has its key? Move your account to a new wallet. Your username, posts and followers come with you."
   }
 }

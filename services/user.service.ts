@@ -98,6 +98,27 @@ export type NotificationType =
 /** Notification category for filtering */
 export type NotificationCategory = 'engagement' | 'social' | 'monetization' | 'content' | 'messages' | 'system';
 
+/** The comment a notification row is about, as the list endpoint attaches it. */
+export interface NotificationComment {
+  id: number | string;
+  tokenId?: number;
+  address?: string;
+  parentId?: number | null;
+  content?: string;
+  imageUrl?: string;
+  gifUrl?: string;
+  videoUrl?: string;
+  audioUrl?: string;
+  audioDuration?: number;
+  likeCount?: number;
+  dislikeCount?: number;
+  replyCount?: number;
+  isLiked?: boolean;
+  isDisliked?: boolean;
+  myReaction?: string | null;
+  createdAt?: string;
+}
+
 /** Full notification item from backend */
 export interface NotificationItem {
   _id: string;
@@ -136,6 +157,12 @@ export interface NotificationItem {
   // Comment info
   commentId?: string;
   parentCommentId?: string;
+  /**
+   * The comment this row is about, whole (comment, reply, mention and
+   * comment-like rows, while the comment stands). Notifications shows it in
+   * full with Reply / Like / Tip.
+   */
+  comment?: NotificationComment;
   // Aggregation
   aggregatedCount?: number;
   latestActorNames?: string[];
