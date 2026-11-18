@@ -22,6 +22,7 @@ import {
   Image,
   StyleSheet,
   LayoutAnimation,
+  AppState,
   type LayoutChangeEvent,
 } from "react-native";
 import { FlashList, type FlashListRef, type ListRenderItem, type ViewToken } from "@shopify/flash-list";
@@ -159,6 +160,8 @@ const FOOTER_SLOT = { height: 84 } as const;
 // up to the threshold, so past it the post under the reader is held by hand
 // (see heldOffset).
 const MAINTAIN_POSITION = { autoscrollToTopThreshold: 100 } as const;
+/** Time away from the app after which the feed at the top is fetched again on return. */
+const FEED_RESUME_REFRESH_MS = 5 * 60_000;
 
 // Rows the capped list needs before it can scroll at all. Below this the feed
 // pulls another page rather than sitting on a screenful of nothing.
@@ -1180,6 +1183,41 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
       void refetch();
     });
   }, [onRefresh, readOffset, queryClient, queryKey, refetch]);
+
+  // Back after a while away: the list still held what it fetched before the
+  // phone was put down, and nothing asked again (refetchOnWindowFocus is off),
+  // so a phone that kept the app open overnight came back to last night's feed
+  // at the top. A reader at the top gets the current feed, quietly, the way
+  // X does; one who had scrolled down keeps their place and gets the
+  // "new posts" pill from the head poll.
+  const resumeRef = useRef({ active, isFocused, onTop: () => readOffset() <= MAINTAIN_POSITION.autoscrollToTopThreshold });
+  resumeRef.current.active = active;
+  resumeRef.current.isFocused = isFocused;
+  useEffect(() => {
+    let leftAt = AppState.currentState === "background" ? Date.now() : 0;
+    const sub = AppState.addEventListener("change", (status) => {
+      if (status === "background") {
+        if (!leftAt) leftAt = Date.now();
+        return;
+      }
+      if (status !== "active" || !leftAt) return;
+      const away = Date.now() - leftAt;
+      leftAt = 0;
+      if (away < FEED_RESUME_REFRESH_MS) return;
+      const { active: shown, isFocused: focused, onTop } = resumeRef.current;
+      if (!shown || !focused || !onTop()) {
+        void queryClient.invalidateQueries({ queryKey, refetchType: "none" });
+        return;
+      }
+      queryClient.setQueryData(queryKey, (old: any) =>
+        old?.pages?.length > 1
+          ? { ...old, pages: old.pages.slice(0, 1), pageParams: old.pageParams.slice(0, 1) }
+          : old,
+      );
+      void refetch();
+    });
+    return () => sub.remove();
+  }, [queryClient, queryKey, refetch]);
 
   const handleRetry = useCallback(() => {
     try { onRetry && onRetry(); } catch {}
