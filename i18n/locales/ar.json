@@ -7580,6 +7580,8 @@
     "allDisabled": "جميع الرسائل الخاصة معطّلة حاليًا، والرسائل الجديدة محظورة افتراضيًا.",
     "failedToEdit": "فشل تحرير المستخدم:",
     "messageDeleted": "تم حذف الرسالة",
+    "deleteOneTitle": "حذف هذه الرسالة؟",
+    "deleteForBothBody": "سيتم حذفها لكليكما.",
     "cantForwardFromDevice": "لا يمكن إعادة توجيه هذه الرسالة من هذا الجهاز",
     "messageForwarded": "تم إعادة توجيه الرسالة",
     "clearMessages": "مسح  الرسائل",
@@ -16914,6 +16916,7 @@
     "notSent": "تعذر الإرسال. حاول مرة أخرى."
   },
   "msgSelect": {
+    "deleteForBothBody": "سيتم حذفها لكليكما.",
     "toolbar": "الرسائل المحددة",
     "pick": "اضغط على الرسائل لتحديدها",
     "selected": "تم تحديد {{count}}",

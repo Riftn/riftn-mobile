@@ -7560,6 +7560,8 @@
     "allDisabled": "Ahora mismo todos los mensajes están desactivados. Los nuevos se bloquean por defecto.",
     "failedToEdit": "No se pudo editar la regla.",
     "messageDeleted": "Mensaje eliminado",
+    "deleteOneTitle": "¿Eliminar este mensaje?",
+    "deleteForBothBody": "Se eliminará para los dos.",
     "cantForwardFromDevice": "Este mensaje no se puede reenviar desde este dispositivo",
     "messageForwarded": "Mensaje reenviado –",
     "clearMessages": "MENSAJES CLAROS",
@@ -16894,6 +16896,7 @@
     "notSent": "No se pudo enviar. Inténtalo de nuevo."
   },
   "msgSelect": {
+    "deleteForBothBody": "Se eliminarán para los dos.",
     "toolbar": "Mensajes seleccionados",
     "pick": "Toca mensajes para seleccionarlos",
     "selected": "{{count}} seleccionados",

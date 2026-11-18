@@ -7590,6 +7590,8 @@
     "allDisabled": "All DMs are currently disabled. New DMs are blocked by default.",
     "failedToEdit": "Failed to edit",
     "messageDeleted": "Message deleted",
+    "deleteOneTitle": "Delete this message?",
+    "deleteForBothBody": "It will be removed for both of you.",
     "cantForwardFromDevice": "This message can't be forwarded from this device",
     "messageForwarded": "Message forwarded",
     "clearMessages": "Clear messages",
@@ -16750,6 +16752,7 @@
     "deleteTitle_one": "Delete {{count}} message?",
     "deleteTitle_other": "Delete {{count}} messages?",
     "deleteBody": "They will be removed for everyone in this chat.",
+    "deleteForBothBody": "They will be removed for both of you.",
     "deleted_one": "Deleted {{count}} message",
     "deleted_other": "Deleted {{count}} messages"
   }
