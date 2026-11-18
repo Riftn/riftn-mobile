@@ -379,14 +379,17 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
   const panGesture = useMemo(
     () =>
+      // Either way works: right like Android chats, left like iPhone
+      // chats. A short horizontal start (14pt) lets the swipe claim the
+      // touch before the list's own scroll does in a long chat.
       Gesture.Pan()
-        .activeOffsetX(20)
+        .activeOffsetX([-14, 14])
         .failOffsetY([-15, 15])
         .onUpdate((e) => {
-          translateX.value = Math.min(Math.max(e.translationX, 0), 80);
+          translateX.value = Math.min(Math.max(e.translationX, -80), 80);
         })
         .onEnd(() => {
-          if (translateX.value >= REPLY_THRESHOLD) {
+          if (Math.abs(translateX.value) >= REPLY_THRESHOLD) {
             runOnJS(fireSwipeReply)();
           }
           translateX.value = withSpring(0, { damping: 20, stiffness: 200 });
@@ -409,6 +412,25 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
       {
         scale: interpolate(
           translateX.value,
+          [0, REPLY_THRESHOLD],
+          [0.5, 1],
+          Extrapolation.CLAMP,
+        ),
+      },
+    ],
+  }));
+
+  const replyIconLeftSwipeStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(
+      -translateX.value,
+      [0, REPLY_THRESHOLD],
+      [0, 1],
+      Extrapolation.CLAMP,
+    ),
+    transform: [
+      {
+        scale: interpolate(
+          -translateX.value,
           [0, REPLY_THRESHOLD],
           [0.5, 1],
           Extrapolation.CLAMP,
@@ -756,6 +778,23 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
           {
             position: "absolute",
             left: 8,
+            top: 0,
+            bottom: 0,
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        ]}
+      >
+        <View className="w-8 h-8 rounded-xl bg-theme-neutrals-800 items-center justify-center">
+          <Icon name="Undo2" size={18} color="#F4F4F5" />
+        </View>
+      </Animated.View>
+      <Animated.View
+        style={[
+          replyIconLeftSwipeStyle,
+          {
+            position: "absolute",
+            right: 8,
             top: 0,
             bottom: 0,
             justifyContent: "center",
