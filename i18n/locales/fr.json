@@ -16700,8 +16700,27 @@
       "spin": "Prisme tournant",
       "tide": "Marée",
       "ember": "Braises",
-      "holo": "Holographique"
-    }
+      "holo": "Holographique",
+      "rift": "Faille",
+      "chrome": "Chrome liquide",
+      "mesh": "Maillage",
+      "grain": "Grain de film",
+      "orbit": "Orbite",
+      "ripple": "Ondulation",
+      "dotwave": "Vague de points",
+      "scan": "CRT",
+      "silk": "Soie",
+      "bokeh": "Bokeh",
+      "snow": "Chute de neige",
+      "photo": "Votre image"
+    },
+    "yours": "Les vôtres",
+    "base": "Base",
+    "accent": "Accent",
+    "accent2": "Accent 2",
+    "ownColours": "Vos propres couleurs",
+    "addPhoto": "Ajouter une image ou un GIF",
+    "changePhoto": "Changer l'image ou le GIF"
   },
   "riftnMove": {
     "title": "DeHub devient Riftn",

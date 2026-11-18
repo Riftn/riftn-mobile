@@ -16608,6 +16608,13 @@
     "position": "{{n}} of {{total}}",
     "sample": "This is how your text posts look on your profile.",
     "saveFailed": "Couldn't save your background. Try again.",
+    "yours": "Yours",
+    "base": "Base",
+    "accent": "Accent",
+    "accent2": "Accent 2",
+    "ownColours": "Your own colours",
+    "addPhoto": "Add a picture or GIF",
+    "changePhoto": "Change picture or GIF",
     "names": {
       "ink": "Ink Wash",
       "news": "Newsprint",
@@ -16631,7 +16638,19 @@
       "spin": "Prism Spin",
       "tide": "Tide",
       "ember": "Embers",
-      "holo": "Holo Foil"
+      "holo": "Holo Foil",
+      "rift": "Rift",
+      "chrome": "Liquid Chrome",
+      "mesh": "Mesh",
+      "grain": "Film Grain",
+      "orbit": "Orbit",
+      "ripple": "Ripple",
+      "dotwave": "Dot Wave",
+      "scan": "CRT",
+      "silk": "Silk",
+      "bokeh": "Bokeh",
+      "snow": "Snowfall",
+      "photo": "Your picture"
     }
   },
   "riftnMove": {

@@ -209,6 +209,7 @@ import NavigationIcon from "lucide-react-native/dist/esm/icons/navigation";
 import NetworkIcon from "lucide-react-native/dist/esm/icons/network";
 import NewspaperIcon from "lucide-react-native/dist/esm/icons/newspaper";
 import OctagonIcon from "lucide-react-native/dist/esm/icons/octagon";
+import OrbitIcon from "lucide-react-native/dist/esm/icons/orbit";
 import PackageIcon from "lucide-react-native/dist/esm/icons/package";
 import PaintBucketIcon from "lucide-react-native/dist/esm/icons/paint-bucket";
 import PaletteIcon from "lucide-react-native/dist/esm/icons/palette";
@@ -540,6 +541,7 @@ export const iconRegistry = {
   Network: NetworkIcon,
   Newspaper: NewspaperIcon,
   Octagon: OctagonIcon,
+  Orbit: OrbitIcon,
   Package: PackageIcon,
   PaintBucket: PaintBucketIcon,
   Palette: PaletteIcon,

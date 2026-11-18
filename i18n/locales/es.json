@@ -16696,8 +16696,27 @@
       "spin": "Prisma giratorio",
       "tide": "Marea",
       "ember": "Brasas",
-      "holo": "Holográfico"
-    }
+      "holo": "Holográfico",
+      "rift": "Grieta",
+      "chrome": "Cromo líquido",
+      "mesh": "Malla",
+      "grain": "Grano de película",
+      "orbit": "Órbita",
+      "ripple": "Onda",
+      "dotwave": "Ola de puntos",
+      "scan": "CRT",
+      "silk": "Seda",
+      "bokeh": "Bokeh",
+      "snow": "Nevada",
+      "photo": "Tu imagen"
+    },
+    "yours": "Tuyos",
+    "base": "Base",
+    "accent": "Acento",
+    "accent2": "Acento 2",
+    "ownColours": "Tus propios colores",
+    "addPhoto": "Añadir una imagen o GIF",
+    "changePhoto": "Cambiar imagen o GIF"
   },
   "riftnMove": {
     "title": "DeHub ahora es Riftn",
