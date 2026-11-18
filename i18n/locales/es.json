@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Mostrar alertas de transacciones del bot de compra en el chat",
     "notificationShowCount": "Mostrar el número en la campana",
     "notificationShowCountDesc": "Ver cuántas notificaciones no has leído en lugar de solo el brillo",
+    "messagesShowCount": "Mostrar el número en Mensajes",
+    "messagesShowCountDesc": "Ver cuántos mensajes no has leído en lugar de solo el brillo",
     "chatSection": "Chat",
     "doNotDisturb": "No molestar",
     "doNotDisturbDesc": "Silenciar todas las notificaciones de mensajes",

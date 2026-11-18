@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Afficher les alertes de transactions du bot d’achat dans le chat",
     "notificationShowCount": "Afficher le nombre sur la cloche",
     "notificationShowCountDesc": "Voir combien de notifications sont non lues au lieu du simple halo",
+    "messagesShowCount": "Afficher le nombre sur Messages",
+    "messagesShowCountDesc": "Voir combien de messages sont non lus au lieu du simple halo",
     "chatSection": "Discussion",
     "doNotDisturb": "Ne pas déranger",
     "doNotDisturbDesc": "Couper toutes les notifications de messages",

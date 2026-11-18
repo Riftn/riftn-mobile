@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Transactiemeldingen van de buy bot in de chat tonen",
     "notificationShowCount": "Toon het aantal op de bel",
     "notificationShowCountDesc": "Zie hoeveel meldingen ongelezen zijn in plaats van alleen de gloed",
+    "messagesShowCount": "Toon het aantal bij Berichten",
+    "messagesShowCountDesc": "Zie hoeveel berichten ongelezen zijn in plaats van alleen de gloed",
     "chatSection": "Chat",
     "doNotDisturb": "Niet storen",
     "doNotDisturbDesc": "Alle berichtmeldingen dempen",
