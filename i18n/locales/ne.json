@@ -11444,7 +11444,6 @@
     "dataVisual": {
       "removeRow": "पंक्ति {{row}} हटाउनुहोस्",
       "resetDraft": "ड्राफ्ट रिसेट गर्नुहोस्",
-      "accent": "उच्चारण",
       "addColumn": "स्तम्भ थप्नुहोस्",
       "addRow": "जोडी पंक्ति",
       "captionControls": "शीर्षक, क्याप्सन र SVG विवरण",
@@ -12267,7 +12266,6 @@
     "presetExtraIridescentGlassName": "आभासी ग्लास",
     "presetExtraIsometricMapHint": "एक पढ्न सकिने मिनी नेबरहुड",
     "presetExtraIsometricMapName": "आइसोमेट्रिक म्याप",
-    "presetExtraJewelleryVelvetHint": "गहरे वेल्वेट पर सटीक धातु उच्चारण",
     "presetExtraJewelleryVelvetName": "वेल्वेट पर जेवेलरी",
     "presetExtraLandscapeBreezeHint": "आपूर्ति गरिएको फोटोमा कोमल पातहरूको चाल",
     "presetExtraLandscapeBreezeName": "ल्याण्डस्केप हावा",
