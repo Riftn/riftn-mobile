@@ -346,15 +346,17 @@ class DmSendQueue {
       paymentStatus: paymentAmount ? "pending" : undefined,
       voiceDuration: params.voiceDuration,
     });
-    const lockPrice = params.lockPrice && params.lockPrice > 0 && (mediaType === "image" || mediaType === "video") && effectiveMsgType === "media"
+    const lockPrice = params.lockPrice && params.lockPrice > 0 && (mediaType === "image" || mediaType === "video" || mediaType === "file") && effectiveMsgType === "media"
       ? params.lockPrice
       : undefined;
     if (lockPrice) {
-      // The sender sees their own photo tagged with its price while it uploads.
+      // The sender sees their own photo (or file card) tagged with its price while it uploads.
       optimistic.lock = {
-        price: lockDhbForUsd(lockPrice), priceUsd: lockPrice, symbol: "DHB", kind: mediaType as "image" | "video",
+        price: lockDhbForUsd(lockPrice), priceUsd: lockPrice, symbol: "DHB", kind: mediaType as "image" | "video" | "file",
         previewUrl: null, unlocked: true, mine: true, ready: false,
-        mediaUrl: mediaType === "video" ? (thumbnailUri || uri) : uri,
+        ...(mediaType === "file"
+          ? { fileName: params.fileName || null, fileSize: params.fileSize || null }
+          : { mediaUrl: mediaType === "video" ? (thumbnailUri || uri) : uri }),
       };
     }
     if (params.mediaOptions) optimistic.mediaOptions = params.mediaOptions;

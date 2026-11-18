@@ -40,6 +40,7 @@ import { runWithPermissions } from "../../libs/permissions.util";
 import { cleanVideoOptions, type DmVideoOptions } from "../../libs/dm-video-options";
 import { type DmDestructChoice } from "../../libs/dm-destruct";
 import DmVideoStudio from "./DmVideoStudio";
+import LockPriceRow from "./LockPriceRow";
 
 
 /** Per-kind caps, matching the backend's DM limits. */
@@ -978,6 +979,16 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
                 <Icon name="X" size={12} color="#09090B" />
               </TouchableOpacity>
             </View>
+            {/* A document can go out locked too: they pay to download it. */}
+            {allowLock && media?.type === "file" && (
+              <View className="mt-2">
+                <LockPriceRow
+                  kind="file"
+                  value={media.lockPrice ?? null}
+                  onChange={(price) => setMedia((m) => (m ? { ...m, lockPrice: price } : m))}
+                />
+              </View>
+            )}
           </Animated.View>
         )}
 

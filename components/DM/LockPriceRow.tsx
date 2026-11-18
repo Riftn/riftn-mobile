@@ -26,7 +26,7 @@ const MAX = LOCK_MAX_USD;
 interface Props {
   value?: number | null;
   onChange: (price: number | null) => void;
-  kind: "image" | "video";
+  kind: "image" | "video" | "file";
 }
 
 function LockPriceRowInner({ value, onChange, kind }: Props) {
@@ -60,7 +60,9 @@ function LockPriceRowInner({ value, onChange, kind }: Props) {
                 ? t("dmPaidLock.lockOnUsd", { defaultValue: "Locked · {{price}}", price: formatLockUsd(value!) })
                 : kind === "video"
                   ? t("dmPaidLock.lockVideo", "Lock video")
-                  : t("dmPaidLock.lockPhoto", "Lock photo")}
+                  : kind === "file"
+                    ? t("editor.layers.lock", "Lock")
+                    : t("dmPaidLock.lockPhoto", "Lock photo")}
             </Text>
           </View>
         </Pressable>
