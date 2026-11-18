@@ -374,6 +374,11 @@ export const useUserProfileData = (
     () => getCoverUrl(data?.coverImageUrl),
     [data?.coverImageUrl]
   );
+  // Untouched original, for Copy on the picture's hold menu.
+  const avatarFullUrl = useMemo(
+    () => getAvatarUrl(data?.avatarImageUrl, 0),
+    [data?.avatarImageUrl]
+  );
   
   const defaultBanner = useMemo(
     () => getDefaultBanner(data?.address),
@@ -779,6 +784,7 @@ export const useUserProfileData = (
     isBlocked,
     blockLoading,
     avatarUrl,
+    avatarFullUrl,
     coverUrl,
     defaultBanner,
     stats,

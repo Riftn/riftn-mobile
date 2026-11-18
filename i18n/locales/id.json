@@ -15036,5 +15036,8 @@
     "newer": "Hasil lebih baru",
     "gone": "Pesan itu tidak lagi ada",
     "theirMessages": "Pesan mereka"
+  },
+  "profileImage": {
+    "change": "Ubah"
   }
 }

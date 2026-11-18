@@ -16774,5 +16774,8 @@
     "deleteForBothBody": "They will be removed for both of you.",
     "deleted_one": "Deleted {{count}} message",
     "deleted_other": "Deleted {{count}} messages"
+  },
+  "profileImage": {
+    "change": "Change"
   }
 }

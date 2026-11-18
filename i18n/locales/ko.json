@@ -15036,5 +15036,8 @@
     "newer": "다음 결과",
     "gone": "그 메시지는 더 이상 없습니다",
     "theirMessages": "그들의 메시지"
+  },
+  "profileImage": {
+    "change": "변경"
   }
 }

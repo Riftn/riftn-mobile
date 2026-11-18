@@ -17184,5 +17184,8 @@
     "deleteBody": "Ze worden voor iedereen in deze chat verwijderd.",
     "deleted_one": "{{count}} bericht verwijderd",
     "deleted_other": "{{count}} berichten verwijderd"
+  },
+  "profileImage": {
+    "change": "Wijzigen"
   }
 }

@@ -16933,5 +16933,8 @@
     "deleteBody": "Se eliminarán para todos en este chat.",
     "deleted_one": "{{count}} mensaje eliminado",
     "deleted_other": "{{count}} mensajes eliminados"
+  },
+  "profileImage": {
+    "change": "Cambiar"
   }
 }
