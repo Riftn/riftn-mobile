@@ -450,3 +450,26 @@ export async function unlockLockedMedia(messageId: ID, txHash: string): Promise<
 export async function markDmMessageViewed(messageId: string): Promise<void> {
   await apiClient.post(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
 }
+
+/**
+ * Where you stopped reading one chat, kept on the server so the app and the
+ * website open it on the same line. Chat ids: a DM id, `community:<uuid>`,
+ * or `live:<room>` for the public chat. Mirrors web read-position.ts.
+ */
+export interface ChatReadPosition {
+  chatId: string;
+  messageId: string;
+  /** The line's own time (ISO). Lines after it are unread. */
+  at: string;
+  savedAt: string | null;
+}
+
+export async function getChatReadPosition(chatId: string): Promise<ChatReadPosition | null> {
+  const res: any = await apiClient.get(`/dm/read-position/${encodeURIComponent(chatId)}`, { isAuthRequired: true } as any);
+  const row = res?.result ?? res?.data?.result ?? null;
+  return row && row.messageId && row.at ? row : null;
+}
+
+export async function saveChatReadPosition(chatId: string, messageId: string, at: string): Promise<void> {
+  await apiClient.post(`/dm/read-position/${encodeURIComponent(chatId)}`, { messageId, at }, { isAuthRequired: true });
+}
