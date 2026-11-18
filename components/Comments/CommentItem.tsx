@@ -145,7 +145,6 @@ interface CommentItemProps {
   onLongPress?: (comment: Comment, layout: CommentLayout, extra: CommentHoldExtra) => void;
   tokenId?: number | string;
   contentType?: "video" | "feed";
-  highlighted?: boolean;
   /** Plays the send landing (spring up + glow) when the row mounts. */
   landing?: boolean;
   /** Tighter rows, for the Shorts split sheet. */
@@ -184,7 +183,6 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
   onLongPress,
   tokenId,
   contentType = "video",
-  highlighted = false,
   landing = false,
   dense = false,
   repliesExpanded = false,
@@ -249,7 +247,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
   // Your own new comment springs up into its slot with its text softly
   // glowing. Rows already there never move.
   const landsNow = useRef(comment.id < 0 || landing).current;
-  const highlightOpacity = useSharedValue(highlighted || landsNow ? 1 : 0);
+  const highlightOpacity = useSharedValue(landsNow ? 1 : 0);
   const landProgress = useSharedValue(landsNow ? 0 : 1);
   useEffect(() => {
     if (!landsNow) return;
@@ -271,11 +269,11 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
   // Alphas go through toFixed: near the end of the fade the value gets tiny
   // enough for JS to print it as "3e-9", Reanimated's colour parser rejects
   // that on the UI thread, and iOS aborts the app.
-  // A just-sent comment glows on its text only, softer than a link highlight,
-  // and never paints the row box (that box was cut off at the sheet's sides).
-  const glowAlpha = landsNow ? 0.5 : 0.6;
+  // A just-sent comment glows on its text only and never paints the row box
+  // (that box was cut off at the sheet's sides). A comment opened from a
+  // notification shows nothing extra: the list lands on it, and that is enough.
   const highlightAnimStyle = useAnimatedStyle(() => ({
-    textShadowColor: `rgba(194,196,199,${(Math.max(0, highlightOpacity.value) * glowAlpha).toFixed(3)})`,
+    textShadowColor: `rgba(194,196,199,${(Math.max(0, highlightOpacity.value) * 0.5).toFixed(3)})`,
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 6 * highlightOpacity.value,
   }));
@@ -293,22 +291,6 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
     const v = landsNow ? Math.max(0, highlightOpacity.value) : 0;
     return { opacity: Number((v * 0.9).toFixed(3)), transform: [{ scale: 0.9 + v * 0.15 }] };
   });
-  const highlightSurfaceStyle = useAnimatedStyle(() => ({
-    backgroundColor: `rgba(148,163,184,${(landsNow ? 0 : Math.max(0, highlightOpacity.value) * 0.12).toFixed(3)})`,
-    borderRadius: 10,
-  }));
-
-  React.useEffect(() => {
-    // Only a comment opened from a link glows. Your own comment, sending or
-    // just sent, looks exactly like every other one.
-    if (landsNow) return;
-    if (highlighted) {
-      highlightOpacity.value = 1;
-      highlightOpacity.value = withTiming(0, { duration: 1600 });
-    } else {
-      highlightOpacity.value = withTiming(0, { duration: 200 });
-    }
-  }, [highlighted, highlightOpacity]);
 
   const user = comment.user;
   const displayName = user?.displayName || user?.username || t("settings.unknown");
@@ -666,7 +648,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
       accessibilityActions={isPending ? [] : a11yActions}
       onAccessibilityAction={handleAccessibilityAction}
     >
-      <Animated.View ref={containerRef} style={[{ flexDirection: "row", paddingVertical: dense ? 6 : 10 }, highlightSurfaceStyle, landStyle]}>
+      <Animated.View ref={containerRef} style={[{ flexDirection: "row", paddingVertical: dense ? 6 : 10 }, landStyle]}>
         <Pressable onPress={handleUserPress}>
           {landsNow && (
             <Animated.View
