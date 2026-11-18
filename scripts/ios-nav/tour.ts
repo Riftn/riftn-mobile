@@ -1255,10 +1255,8 @@ async function runWallet(): Promise<void> {
   await sleep(8000);
   await shot("wallet-3-picker-settled");
   await sleep(8000);
-  reown.getAppKitInstance()?.close();
-  await sleep(1500);
-  await shot("wallet-4-closed");
-  await sleep(700);
+  // Left open: the script pictures the screen the moment this run reports
+  // done (nav/wallet-<theme>-end.png), which is the dependable picture.
   await AsyncStorage.removeItem(SWIPE_KEY);
   extra.finishedAt = Date.now();
   await save(true);
