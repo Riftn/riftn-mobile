@@ -817,7 +817,6 @@
     "6963efd33489": "I ka kan ka sɛbɛri kɛ ka sɔrɔ ka sɛbɛri kɛ. I ka yɔrɔ latigɛnin be to yen.",
     "69752f2313b2": "Nwis",
     "699ca0ab8a90": "ZOOM ka gwɛlɛyaw",
-    "69ee84e7ca69": "I ka kan ka i ka deHub ka wari sɔrɔ",
     "69f509bb1116": "O wari ma bɔ fɔlɔ",
     "6a097773ac13": "Sisan sɛbɛn fɔlɔ ci kɛsu man ɲi walima a tɛ bɛn",
     "6a1dc61b311d": "I ka kuma dɔ fɔ ne ye...",
@@ -1679,7 +1678,6 @@
     "fb7ee12d0840": "Ka fara o kan, a ye mɔgɔ dɔ weele ka na a ka soo.",
     "fb948766d6ed": "Aw ye don walasa ka cikan latiɲɛ",
     "fc971a2ae350": "Tokɛn datugulan: tokɛn bɛnkansɛbɛn adirɛsi bɛnnen sɛbɛn.",
-    "fcb915eabe62": "Mun lo be yen kura ye deHub koo la?",
     "fcf6c0caef78": "I ka kan ka sɛbɛri kɛ ka sɔrɔ ka sɛbɛri kɛ i ka site web kan.",
     "fd3b0226be07": "Ka baro kɛ ni mɔgɔ dɔ ye",
     "fdb7cf100e3b": "o kɔ, u ye yiriw don jii la.",
@@ -6252,7 +6250,6 @@
     "failedToUnfollowUser": "Mɔgɔ min ma sɔn ka baara kɛ n'a ye, a ka kan ka baara kɛ n'o ye",
     "no_dhb_balance": "No token balance",
     "staking_dhb": "Staking tokens...",
-    "no_dhb_tokens_either_chain": "I tɛ ni dehub tagamasiyɛnw ye jɔrɔkɔ fila kan",
     "dhb_found_on_both_chains": "O kɔ, a ye n' ka soow bɛɛ datugu."
   },
   "staking": {
@@ -13285,7 +13282,6 @@
       },
       "posting-allowance": {
         "title": "I ka loon o loon wari hakɛ",
-        "intro": "I ka batɛmu fɛ, i be se ka wari caaman sɔrɔ loon o loon. U bɛɛ be daminɛ ni lɛtɛrɛ 10 ye ani videwo, fotow ani kumakanw be se ka kɛ gigabyte kelen ye tile kɔnɔ. ka tɛmɛ kelen kan ani o loon tɔɔ bɛɛ sara dehub tagamasiyɛnw dɔrɔn lo kan min be tɛmɛ",
         "steps": {
           "1": "O kama, a tun man nɔgɔ ka wari caaman sɔrɔ.",
           "2": "O kama, n'i ye tile kelen kɛ ka videwo bila, i be se ka sɛbɛ tan bɛɛ bila a la.",
@@ -13963,20 +13959,15 @@
     "diveAdFreeTitle": "Ukukhangisa kwamahhala, okungenaziphazamiso",
     "diveAdFreeBody": "Susa okuthunyelwe okukhuthaziwe, zonke izibhengezo zokuthuthukisa, zonke izikhala ezixhasiwe ku-Explore. Abantu nabadali obafuna ngempela.",
     "diveBackgroundTitle": "Ukudlala ngemuva, ekugcineni",
-    "diveBackgroundBody": "Vala ifoni yakho, shintsha izinhlelo zokusebenza, gxuma amathebhu - ividiyo nomculo wakho kuyaqhubeka nokudlala. Phatha iDeHub njengohlelo lokusebenza lwemidiya oluyilo.",
     "diveAiTitle": "I-AI ongayithembela ngempela",
     "diveAiBody": "Imilayezo engu-500 yabasizi, izithombe ezingama-50 ze-AI, nevidiyo eyenziwe ngama-20 amasekhondi njalo ngenyanga. Kwanele ukwakha, ukuthumela, nokuthumela - akuyona i-teaser.",
-    "faqWhatIsAnAdQ": "Yini ebalwa njengesikhangiso kuDeHub?",
     "faqWhatIsAnAdA": "Okuthunyelwe okukhuthaziwe okuphakelayo kwakho, izibhengezo zokuthuthukisa, nokubekwa okuxhasiwe ku-Explore. I-Premium isusa konke lokho.",
     "faqSwitchPlansQ": "Ngingashintsha phakathi kwe-Extra ne-Family?",
     "faqSwitchPlansA": "Yebo. Thuthukisa noma wehlise isikhathi esingakanani - ukubhadalwa kuyalingana ngokuzenzakalelayo.",
     "faqFamilySeatsQ": "Izihlalo zomndeni zisebenza kanjani?",
-    "faqFamilySeatsA": "Umnikazi umema amagama abasebenzisi beDeHub afinyelela ku-5. Ilungu ngalinye ligcina i-akhawunti yalo, amabheji, namakhota - akukho okuhlanganiswa noma okwabiwe.",
     "faqTopTierStakerQ": "Ngingumuntu ophakeme kakhulu. Ngisakhokha?",
-    "faqTopTierStakerA": "Cha. Izinga eliphezulu le-7 lokubeka izintingo lithola iDeHub Extra mahhala. Izinga eliphezulu le-4 lithola iDeHub Family mahhala. Khipha futhi izinzuzo ziyanyamalala - phinda ubeke futhi zibuyela.",
     "faqPayInDhbQ": "Yala n be se ka wari di a ma wa?",
     "faqPayInDhbA": "O kama, a tun ka kan ka wari di a ma. Riftn ka wari sara be na yanni dɔɔni ani a be na ni bonyali ye.",
-    "checkoutNotice": "I-Checkout ivula i-dehub.io esipheqululini sakho. Inkokhelo iphethwe yiDeHub, hhayi iGoogle Play.",
     "notAvailableHere": "Izinhlelo azikwazi ukuthengwa kulolu hlelo lokusebenza esifundeni sakho.",
     "checkoutUnavailable": "I-Checkout ayitholakali njengamanje. Sicela uzame futhi kamuva."
   },
@@ -14724,7 +14715,6 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
     "statMinted": "kɔ̀",
     "sellYoursHint": "Wallet ni ka jɔ",
     "latestMints": "Minti koraw",
