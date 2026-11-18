@@ -2665,6 +2665,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   title={soundtrack.title}
                   creator={soundtrack.creator}
                   url={soundtrack.url}
+                  withVideo={isVideo}
                   isVisible={isVisible}
                 />
               </View>
@@ -2834,6 +2835,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           title={soundtrack.title}
           creator={soundtrack.creator}
           url={soundtrack.url}
+          withVideo={isVideo}
           isVisible={isVisible}
         />
       </View>
