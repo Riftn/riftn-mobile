@@ -10,7 +10,8 @@ import {
   ScrollView,
   TouchableOpacity,
   ActivityIndicator,
-} from "react-native";
+} from "react-native";
+
 import { DeHubRefreshControl, DeHubRefreshMark } from "../components/Feed/DeHubRefreshControl";
 import { DeHubLoader } from "../components/DeHubLoader";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -88,8 +89,8 @@ const UserRow: React.FC<{
             <BadgeArtwork source={badgeImg} style={getBadgeHoverOpticalStyle(badgeImg, 14, 0, 20)} contentFit="contain" />
           )}
           {user.isModerator && (
-            <View className="bg-amber-500/20 rounded px-1 py-0.5">
-              <Text className="text-amber-400 text-[9px] font-bold">{t("liveChat.modBadge")}</Text>
+            <View className="bg-white/10 rounded px-1.5 py-0.5">
+              <Text className="text-theme-neutrals-200 text-[10px] font-bold">{t("liveChat.modBadge")}</Text>
             </View>
           )}
         </View>
