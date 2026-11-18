@@ -170,7 +170,12 @@ const CommentBottomSheetComponent: React.FC<CommentBottomSheetProps> = ({
         easing: Easing.out(Easing.cubic),
       });
       backdropOpacity.value = withTiming(1, { duration: 250 });
+    } else if (translateY.value >= SHEET_HEIGHT - 1) {
+      // Its own swipe or close button already slid it off: drop the window now.
+      backdropOpacity.value = 0;
+      setIsFullyClosed(true);
     } else {
+      // Closed from outside (posting, opening a profile): slide it away before the window goes.
       translateY.value = withTiming(SHEET_HEIGHT, {
         duration: 220,
         easing: Easing.in(Easing.cubic),
@@ -427,7 +432,7 @@ const CommentBottomSheetComponent: React.FC<CommentBottomSheetProps> = ({
   // full screen, so for two frames on Android the sheet showed a bar's height
   // higher with a white strip under it, then dropped back before sliding up.
   return (
-    <Modal visible={visible} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={requestClose}>
+    <Modal visible={visible || (Platform.OS === "android" && !isFullyClosed)} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={requestClose}>
       <ScreenSpaceWindowContext.Provider value>
         {Platform.OS === "ios"
           ? <ProfileOpenOverride showUserProfile={openProfileAfterClose}>{content}</ProfileOpenOverride>

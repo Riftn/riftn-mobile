@@ -3,6 +3,7 @@ import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import GlassModal from "./GlassModal";
+import { useLingering } from "../../hooks/useLingering";
 import AccentButtonGradient from "./AccentButtonGradient";
 
 
@@ -99,14 +100,16 @@ const PermissionModalProvider: React.FC = memo(() => {
   }, [state]);
 
 
-  if (state.mode === "hidden") return null;
+  // Kept a moment after it hides, so the card fades out with its words.
+  const shown = useLingering(state.mode === "hidden" ? null : state);
+  if (!shown) return null;
 
-  const { config } = state;
-  const isSettings = state.mode === "settings";
+  const { config } = shown;
+  const isSettings = shown.mode === "settings";
 
   return (
     <GlassModal
-      visible
+      visible={state.mode !== "hidden"}
       onClose={dismiss}
       presentation="center"
       blurIntensity={80}

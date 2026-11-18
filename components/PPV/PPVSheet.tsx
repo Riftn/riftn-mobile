@@ -153,7 +153,12 @@ const PPVSheetComponent: React.FC<PPVSheetProps> = ({
         easing: Easing.out(Easing.cubic),
       });
       backdropOpacity.value = withTiming(1, { duration: 250 });
+    } else if (translateY.value >= SHEET_HIDE_OFFSET - 1) {
+      // Its own swipe or close button already slid it off: drop the window now.
+      backdropOpacity.value = 0;
+      setIsFullyClosed(true);
     } else {
+      // Closed from outside (a pick, a send): slide it away before the window goes.
       translateY.value = withTiming(
         SHEET_HIDE_OFFSET,
         { duration: 220, easing: Easing.in(Easing.cubic) },
@@ -361,7 +366,7 @@ const PPVSheetComponent: React.FC<PPVSheetProps> = ({
 
   return (
     <Modal
-      visible={visible && !yielded}
+      visible={(visible || (Platform.OS === "android" && !isFullyClosed)) && !yielded}
       transparent
       animationType="none"
       statusBarTranslucent

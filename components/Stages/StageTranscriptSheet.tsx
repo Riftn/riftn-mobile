@@ -564,7 +564,7 @@ export const StageTranscriptSheet: React.FC<Props> = ({ space, visible, onClose 
     setRenameText(overrides[speakerId]?.username || "");
   };
 
-  if (!visible) return null;
+  // No early return: GlassModal stays mounted so the sheet slides away on close.
 
   return (
     // A fixed height, not just a ceiling: everything inside is flex-1, and a

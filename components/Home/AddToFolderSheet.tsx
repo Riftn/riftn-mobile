@@ -140,7 +140,12 @@ const AddToFolderSheetComponent: React.FC<AddToFolderSheetProps> = ({
         easing: Easing.out(Easing.cubic),
       });
       backdropOpacity.value = withTiming(1, { duration: 250 });
+    } else if (translateY.value >= hiddenOffset - 1) {
+      // Its own swipe or close button already slid it off: drop the window now.
+      backdropOpacity.value = 0;
+      setIsFullyClosed(true);
     } else {
+      // Closed from outside (a pick, a send): slide it away before the window goes.
       translateY.value = withTiming(
         hiddenOffset,
         { duration: 220, easing: Easing.in(Easing.cubic) },
@@ -309,7 +314,7 @@ const AddToFolderSheetComponent: React.FC<AddToFolderSheetProps> = ({
 
   return (
     <Modal
-      visible={visible}
+      visible={visible || (Platform.OS === "android" && !isFullyClosed)}
       transparent
       animationType="none"
       statusBarTranslucent

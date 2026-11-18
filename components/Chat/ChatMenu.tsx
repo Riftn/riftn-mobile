@@ -65,9 +65,9 @@ const ChatMenu: React.FC<ChatMenuProps> = ({
 }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  if (!visible) return null;
+  // Stays mounted so closing fades the menu out instead of dropping it.
   return (
-    <Modal visible transparent animationType="fade" onRequestClose={onClose}>
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <Pressable
         onPress={onClose}
         style={{ flex: 1 }}
