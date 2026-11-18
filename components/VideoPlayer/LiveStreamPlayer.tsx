@@ -1767,6 +1767,16 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         selected: !!me && (heldMessage?.reactions?.[emoji] ?? []).some((a) => a?.toLowerCase() === me),
       }))
     : null;
+  // Who reacted: one row above the tiles, opening the people list.
+  const heldReacted = Object.entries(heldMessage?.reactions ?? {}).filter(([, who]) => (who?.length ?? 0) > 0).sort((a, b) => b[1].length - a[1].length);
+  const heldPeople = new Set(heldReacted.flatMap(([, who]) => who.map((a) => a?.toLowerCase()))).size;
+  const heldSummary = heldId && heldPeople > 0
+    ? {
+        emojis: heldReacted.map(([emoji]) => emoji),
+        label: t("reactions.count", { count: heldPeople }),
+        onPress: () => { const id = heldId; setHeld(null); setTimeout(() => setReactorsFor(id), 300); },
+      }
+    : null;
   const handleHeldReaction = useCallback((emoji: string) => {
     if (!heldId) return;
     const mine = !!me && (heldMessage?.reactions?.[emoji] ?? []).some((a) => a?.toLowerCase() === me);
@@ -2016,6 +2026,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   reactions={heldReactions}
                   onReaction={handleHeldReaction}
                   tiles={holdTiles}
+                  summary={heldSummary}
                   onLift={handleHoldLift}
                 />
 

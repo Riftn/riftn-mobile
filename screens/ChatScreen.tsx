@@ -143,6 +143,8 @@ import { createLogger } from "../libs/logger";
 import { useDmPin } from "../hooks/useDmPin";
 import { useCallActions } from "../context/CallContext";
 import { useDmHeadRecovery } from "../hooks/useDmHeadRecovery";
+import EmojiSheet from "../components/Upload/EmojiSheet";
+import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
 
 /** Safely extract a plain string ID from either a raw string or a populated Mongoose document. */
 function resolveConvId(...vals: unknown[]): string {
@@ -1576,6 +1578,17 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [address, currentConvId, ws],
   );
 
+  // From the message menu: who reacted (a frozen copy of the line's reactions),
+  // and the full emoji picker for one message.
+  const [reactorsOf, setReactorsOf] = useState<Record<string, string[]> | null>(null);
+  const [emojiFor, setEmojiFor] = useState<DmMessage | null>(null);
+  const handleShowReactors = useCallback(() => {
+    if (contextMessage?.reactions) setReactorsOf({ ...contextMessage.reactions });
+  }, [contextMessage]);
+  const handleMoreEmoji = useCallback(() => {
+    if (contextMessage) setEmojiFor(contextMessage);
+  }, [contextMessage]);
+
   const handleContextReact = useCallback(
     (emoji: string) => {
       if (contextMessage) toggleReaction(contextMessage, emoji);
@@ -2395,6 +2408,20 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           isPinned={contextMessage ? pinnedMessageId === contextMessage._id : false}
           onReact={handleContextReact}
           myAddress={address}
+          onShowReactors={handleShowReactors}
+          onMoreEmoji={handleMoreEmoji}
+        />
+        <CommentLikersSheet
+          visible={!!reactorsOf}
+          onClose={() => setReactorsOf(null)}
+          commentId={null}
+          localReactions={reactorsOf}
+        />
+        <EmojiSheet
+          visible={!!emojiFor}
+          onClose={() => setEmojiFor(null)}
+          selected={emojiFor ? Object.entries(emojiFor.reactions ?? {}).filter(([, who]) => who?.some((a) => a.toLowerCase() === (address || "").toLowerCase())).map(([e]) => e) : []}
+          onSelect={(emoji) => { if (emojiFor) toggleReaction(emojiFor, emoji); setEmojiFor(null); }}
         />
 
         {/* Forward picker */}

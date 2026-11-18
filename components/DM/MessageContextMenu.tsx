@@ -60,6 +60,10 @@ interface MessageContextMenuProps {
   onReact?: (emoji: string) => void;
   /** Lowercase wallet address, to light the reactions that are already yours. */
   myAddress?: string;
+  /** Who reacted: opens the people list for this message. */
+  onShowReactors?: () => void;
+  /** The arrow after the quick reactions: every emoji. */
+  onMoreEmoji?: () => void;
 }
 
 
@@ -416,6 +420,8 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
   isPinned,
   onReact,
   myAddress = "",
+  onShowReactors,
+  onMoreEmoji,
 }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -527,6 +533,12 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
 
     if (onReply && !unsent)
       rows.push({ icon: "MessageCircle", label: t("dm.reply"), onPress: handleReply });
+    if (isMine && isTextOnly && !unsent && onEdit)
+      rows.push({ icon: "Pencil", label: t("common.edit"), onPress: handleEdit });
+    if (onPin && !isPinned && !unsent)
+      rows.push({ icon: "Pin", label: t("dm.pinMessage"), onPress: handlePin });
+    if (onUnpin && isPinned && !unsent)
+      rows.push({ icon: "Pin", label: t("dm.unpinMessage"), onPress: handleUnpin });
     if (hasContent) rows.push({ icon: "Copy", label: t("common.copy"), onPress: handleCopy });
     // Translate the other person's words, the same as web. Shows the
     // translation in the bubble; held again it offers the original back.
@@ -545,22 +557,16 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     }
     if (onForward && !unsent)
       rows.push({ icon: "Forward", label: t("dm.forwardMessage"), onPress: handleForward });
+    if (downloadable && !unsent)
+      rows.push({ icon: "Download", label: t("dm.download", { defaultValue: "Download" }), onPress: handleDownload });
+    if (isMine && onDelete && !unsent)
+      rows.push({ icon: "Trash2", label: t("common.delete"), onPress: handleDelete, destructive: true });
     if (onSelect && !unsent && message._id)
       rows.push({
         icon: "CircleCheck",
         label: t("chatBulk.select", { defaultValue: "Select" }),
         onPress: () => { onClose(); setTimeout(() => onSelect(), 150); },
       });
-    if (downloadable && !unsent)
-      rows.push({ icon: "Download", label: t("dm.download", { defaultValue: "Download" }), onPress: handleDownload });
-    if (isMine && isTextOnly && !unsent && onEdit)
-      rows.push({ icon: "Pencil", label: t("common.edit"), onPress: handleEdit });
-    if (onPin && !isPinned && !unsent)
-      rows.push({ icon: "Pin", label: t("dm.pinMessage"), onPress: handlePin });
-    if (onUnpin && isPinned && !unsent)
-      rows.push({ icon: "Pin", label: t("dm.unpinMessage"), onPress: handleUnpin });
-    if (isMine && onDelete && !unsent)
-      rows.push({ icon: "Trash2", label: t("common.delete"), onPress: handleDelete, destructive: true });
     // Anyone can report a message they were sent (App Review 1.2).
     if (!isMine && !unsent && message._id) {
       const sender = message.sender as unknown;
@@ -633,9 +639,17 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     [onClose, onReact],
   );
 
+  // Who reacted, Telegram style: the reactions and how many people, one tap from the list.
+  const reacted = useMemo(
+    () => Object.entries(message?.reactions ?? {}).filter(([, who]) => (who?.length ?? 0) > 0).sort((a, b) => b[1].length - a[1].length),
+    [message?.reactions],
+  );
+  const reactorPeople = useMemo(() => new Set(reacted.flatMap(([, who]) => who.map((a) => a.toLowerCase()))).size, [reacted]);
+  const showReactors = !!onShowReactors && reactorPeople > 0;
+
   const actionsCardHeight =
     actions.length * ACTION_ROW_HEIGHT + ACTIONS_CARD_PADDING +
-    (canReact ? REACTION_STRIP_HEIGHT : 0);
+    (canReact ? REACTION_STRIP_HEIGHT : 0) + (showReactors ? ACTION_ROW_HEIGHT + 1 : 0);
 
   const { messageTop, actionsTop, actionsBelow } = useMemo(() => {
     if (!layout)
@@ -753,8 +767,27 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
                   reactions={message.reactions}
                   myAddress={myAddress}
                   onPick={handleReact}
+                  onMore={onMoreEmoji ? () => { onClose(); setTimeout(() => onMoreEmoji(), 300); } : undefined}
                 />
               </View>
+            )}
+            {showReactors && (
+              <TouchableOpacity
+                onPress={() => { onClose(); setTimeout(() => onShowReactors?.(), 300); }}
+                activeOpacity={0.6}
+                accessibilityRole="button"
+                className="flex-row items-center px-4 py-3 border-b border-theme-neutrals-800"
+              >
+                <View className="flex-row items-center" style={{ gap: 1 }}>
+                  {reacted.slice(0, 3).map(([emoji]) => (
+                    <Text key={emoji} style={{ fontSize: 15 }}>{emoji}</Text>
+                  ))}
+                </View>
+                <Text className="ml-2.5 flex-1 text-[15px] text-theme-neutrals-100" numberOfLines={1}>
+                  {t("reactions.count", { count: reactorPeople })}
+                </Text>
+                <Icon name="ChevronRight" size={16} color="#8B8D90" />
+              </TouchableOpacity>
             )}
             {actions.map((action) => (
               <ActionRow key={action.label} {...action} />
