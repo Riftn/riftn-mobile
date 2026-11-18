@@ -119,6 +119,11 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const mid = Math.round(height * PART_OPEN_DROP);
+  // Full, the sheet stops just under the status bar instead of running up
+  // behind it: its rounded top and handle are in view, and the header's own
+  // 8pt top inset is then the whole gap above the pill, matching its sides.
+  const top = insets.top;
+  const sheetHeight = height - top;
   const translateY = useSharedValue(height);
   const backdrop = useSharedValue(0);
   // The page above stays sharp under a plain dim, not a live blur. On Android
@@ -145,7 +150,7 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
   const [full, setFull] = useState(openFull);
 
   useEffect(() => {
-    translateY.value = withTiming(openFull ? 0 : mid, { duration: MOTION.open, easing: Easing.out(Easing.cubic) });
+    translateY.value = withTiming(openFull ? top : mid, { duration: MOTION.open, easing: Easing.out(Easing.cubic) });
     backdrop.value = withTiming(1, { duration: MOTION.backdropIn });
     // Mount-only: the sheet slides up once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -163,7 +168,7 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
   const expand = useCallback(() => {
     if (closing.value || expanded.value) return;
     expanded.value = true;
-    translateY.value = withTiming(0, SETTLE);
+    translateY.value = withTiming(top, SETTLE);
     setFull(true);
   }, [closing, expanded, translateY]);
 
@@ -235,10 +240,10 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
       startedAtTop.value = scrollY.value <= 1 && Date.now() - lastScrollAt.value > SCROLL_SETTLE_MS;
       // Refreshable and full: the list owns pulls that start on it (they
       // refresh), the header owns the rest (they move the sheet).
-      fromList.value = refreshable.value && expanded.value && e.y > insets.top + grabHeight.value;
+      fromList.value = refreshable.value && expanded.value && e.y > grabHeight.value;
       pullArmed.value = fromList.value && startedAtTop.value && !busy.value && !holding.value;
       pulling.value = false;
-      base.value = expanded.value ? 0 : mid;
+      base.value = expanded.value ? top : mid;
       moving.value = false;
     })
     .onUpdate((e) => {
@@ -258,7 +263,7 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
       if (expanded.value && refreshable.value) {
         // Full and refreshable, pulled by the header: down only.
         moving.value = true;
-        translateY.value = Math.max(0, e.translationY);
+        translateY.value = top + Math.max(0, e.translationY);
       } else if (expanded.value) {
         // Full: only a pull down from the top of the list moves the sheet.
         if (!startedAtTop.value) return;
@@ -267,12 +272,12 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
           return;
         }
         moving.value = true;
-        translateY.value = Math.max(0, e.translationY);
+        translateY.value = top + Math.max(0, e.translationY);
       } else {
         moving.value = true;
         let y = base.value + e.translationY;
         // Past full, it gives a little and stops.
-        if (y < 0) y = y / 4;
+        if (y < top) y = top + (y - top) / 4;
         translateY.value = y;
       }
       const below = translateY.value - mid;
@@ -313,11 +318,12 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
         goFull = rose >= 48 || (rose >= 16 && speed <= -FLICK_SPEED);
       } else {
         // From full: a clear pull or flick down steps back to part open.
-        goFull = !(offset >= mid / 2 || (offset >= FLICK_MIN_PULL && speed >= FLICK_SPEED));
+        const dropped = offset - top;
+        goFull = !(dropped >= (mid - top) / 2 || (dropped >= FLICK_MIN_PULL && speed >= FLICK_SPEED));
       }
       expanded.value = goFull;
       moving.value = false;
-      translateY.value = withSpring(goFull ? 0 : mid, SNAP_SPRING);
+      translateY.value = withSpring(goFull ? top : mid, SNAP_SPRING);
       backdrop.value = withTiming(1, { duration: MOTION.backdropIn });
       runOnJS(setFull)(goFull);
     })
@@ -329,21 +335,15 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
       pullArmed.value = false;
       // Cancelled mid-drag (onEnd never ran): back to where it rested.
       if (!closing.value && moving.value) {
-        translateY.value = withSpring(expanded.value ? 0 : mid, SNAP_SPRING);
+        translateY.value = withSpring(expanded.value ? top : mid, SNAP_SPRING);
         backdrop.value = withTiming(1, { duration: MOTION.backdropIn });
       }
       moving.value = false;
     }), [listGesture, startedAtTop, scrollY, lastScrollAt, base, expanded, moving, closing, translateY, backdrop, mid, height, onClose, refreshable, fromList, grabHeight, insets.top, pull, pullArmed, pulling, holding, busy, runRefresh]);
 
-  const sheetStyle = useAnimatedStyle(() => {
-    // How far toward full (0 part open, 1 full): the header clears the status
-    // bar as it gets there. The rounded top stays, so it still reads as a drawer.
-    const p = mid > 0 ? Math.max(0, Math.min(1, 1 - translateY.value / mid)) : 1;
-    return {
-      transform: [{ translateY: translateY.value }],
-      paddingTop: insets.top * p,
-    };
-  });
+  const sheetStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+  }));
   const backdropStyle = useAnimatedStyle(() => ({ opacity: backdrop.value }));
   const listPullStyle = useAnimatedStyle(() => ({ transform: [{ translateY: pull.value }] }));
   return (
@@ -353,21 +353,22 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
         <Pressable style={{ flex: 1 }} onPress={close} accessibilityRole="button" />
       </Animated.View>
       <GestureDetector gesture={pan}>
-        <Animated.View style={[styles.sheet, { height }, sheetStyle]}>
+        <Animated.View style={[styles.sheet, { height: sheetHeight }, sheetStyle]}>
           {/* Liquid glass on every theme: the page behind blurred under the
               theme's wash, as phone web's bell drawer. */}
           <SheetGlassFill allThemes style={[StyleSheet.absoluteFill, styles.surface]} />
           <DrawerExpandContext.Provider value={expand}>
             <View style={styles.top} onLayout={(e) => { grabHeight.value = e.nativeEvent.layout.height; }}>
               {grab}
-              {/* Shows the sheet can be dragged down. It sits in the header's
-                  own top inset, so it adds no height. */}
+              {/* Shows the sheet can be dragged down. It sits at the very top
+                  of the sheet, in the header's own top inset, so it adds no
+                  height and stays clear of the pill. */}
               <View pointerEvents="none" style={styles.handle} accessible={false} />
             </View>
             <DrawerListContext.Provider value={list}>
               {/* Part open, the bottom fifth of the sheet sits below the
                   screen; keep the list's end above it. */}
-              <View style={{ flex: 1, marginBottom: full ? 0 : mid, overflow: "hidden" }}>
+              <View style={{ flex: 1, marginBottom: full ? 0 : Math.max(0, mid - top), overflow: "hidden" }}>
                 {refresh ? <PullRefreshMark pull={pull} holding={holding} spinning={spinning} /> : null}
                 <Animated.View style={[{ flex: 1 }, refresh ? listPullStyle : null]}>{children}</Animated.View>
               </View>
@@ -400,12 +401,12 @@ const styles = StyleSheet.create({
   top: { paddingTop: 0 },
   handle: {
     position: "absolute",
-    top: 3,
+    top: 2,
     left: "50%",
     marginLeft: -18,
     width: 36,
-    height: 4,
-    borderRadius: 2,
+    height: 3,
+    borderRadius: 1.5,
     backgroundColor: "rgba(161,161,170,0.45)",
   },
 });

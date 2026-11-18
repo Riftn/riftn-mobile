@@ -120,7 +120,8 @@ export function prefetchNotifications(
   const promise: Promise<NotificationFirstPage | null> = (async () => {
     try {
       const [res, custom]: any = await Promise.all([
-        getNotifications({ unreadOnly: false, page: 1, limit: 30 }),
+        // Same page size as the screen (15), so its page 2 starts where this ends.
+        getNotifications({ unreadOnly: false, page: 1, limit: 15 }),
         fetchCustomNotifications(wallet).catch(() => []),
       ]);
       const api: NotificationItem[] = res?.data?.result || res?.result || [];
