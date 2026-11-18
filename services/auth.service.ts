@@ -211,7 +211,16 @@ export const AuthService = {
    *                smart account where there is one, matching what
    *                completeLocalSignIn authenticates with.
    */
-  async rotateWallet(address: string, chainId: number): Promise<void> {
+  async rotateWallet(
+    address: string,
+    chainId: number,
+    /**
+     * Settings → Reset wallet only: the account on screen (the API refuses to
+     * move any other), the authenticator code for two-step accounts, and
+     * strict, which turns a refused move into an error instead of carrying on.
+     */
+    options?: { expectedFromAddress?: string; twoFactorCode?: string; strict?: boolean },
+  ): Promise<void> {
     // `require`, not `await import`: still lazy — which keeps the Supabase
     // client off this module's eval path, the reason signInWithWallet defers
     // it too — but jest cannot run a dynamic import callback without
@@ -231,7 +240,11 @@ export const AuthService = {
     try {
       await submitWalletProof(sigMeta, sign, proof => apiClient.post(
         "/auth/rotate-wallet",
-        { chainId, ...buildAuthRequestPayload(address, proof), supabaseAccessToken },
+        {
+          chainId, ...buildAuthRequestPayload(address, proof), supabaseAccessToken,
+          ...(options?.expectedFromAddress ? { expectedFromAddress: options.expectedFromAddress.toLowerCase() } : {}),
+          ...(options?.twoFactorCode ? { twoFactorCode: options.twoFactorCode } : {}),
+        },
         { isAuthRequired: false },
       ),
       );
@@ -245,7 +258,7 @@ export const AuthService = {
       // The move is done; the API only held back the session it would have
       // handed out because the account uses two-step sign-in. The sign-in
       // that follows asks for the code.
-      if (error?.code === TWO_FACTOR_REQUIRED_CODE) return;
+      if (error?.code === TWO_FACTOR_REQUIRED_CODE && !options?.strict) return;
       throw error;
     }
   },

@@ -16947,6 +16947,27 @@
   "profileImage": {
     "change": "Değiştir"
   },
+  "resetWallet": {
+    "mismatch": "Şifreler eşleşmiyor",
+    "tooShort": "Şifre en az {{count}} karakter olmalı",
+    "breached": "Bu şifre bir veri sızıntısında görüldü. Başka bir şifre seç",
+    "weak": "Daha güçlü bir şifre seç (harf, rakam ve sembolleri karıştır)",
+    "doneTitle": "Hesabın artık yeni cüzdanında",
+    "twoFactor": "Hesabını taşımak için doğrulama uygulamandaki kodu gir.",
+    "failed": "Cüzdanın sıfırlanamadı. Hiçbir şey taşınmadı. Tekrar dene.",
+    "title": "Cüzdanı sıfırla",
+    "reloginApp": "Sıfırlama, eski cüzdanla değil hesabının e-posta, telefon veya Google girişiyle kanıtlanır; çünkü eski anahtara sahip olan herkes de imzalayabilir. Çıkış yap, o girişle tekrar giriş yap ve buraya geri dön. Henüz giriş e-postan yok mu? Önce riftn.com'da Ayarlar → Giriş bölümünden bir tane ekle.",
+    "logOut": "Çıkış yap",
+    "intro": "Yeni bir Riftn cüzdanı oluşturur ve kullanıcı adını, gönderilerini, takipçilerini ve mesajlarını ona taşır. Cüzdanını kaybettiysen veya anahtarı başka birindeyse bunu kullan. Eski cüzdan artık giriş için çalışmaz.",
+    "funds": "Tokenlar, NFT'ler ve diğer bakiyeler taşınmaz. Eski adreste kalırlar. Eski cüzdanı hâlâ açabiliyorsan önce onları gönder.",
+    "password": "Yeni cüzdan şifresi (en az {{count}} karakter)",
+    "confirm": "Şifreyi onayla",
+    "twoFactorPlaceholder": "Doğrulama kodu",
+    "ack": "Eski fonlarımın eski cüzdanda kaldığını anlıyorum.",
+    "submit": "Cüzdanı sıfırla",
+    "cancel": "İptal",
+    "rowDesc": "Cüzdanını mı kaybettin, yoksa anahtarı başkasında mı? Hesabını yeni bir cüzdana taşı. Kullanıcı adın, gönderilerin ve takipçilerin seninle gelir."
+  },
   "mentionLinks": {
     "communities": "Topluluklar",
     "pages": "Sayfalar",

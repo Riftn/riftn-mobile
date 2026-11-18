@@ -17199,6 +17199,27 @@
   "profileImage": {
     "change": "Wijzigen"
   },
+  "resetWallet": {
+    "mismatch": "Wachtwoorden komen niet overeen",
+    "tooShort": "Wachtwoord moet minstens {{count}} tekens hebben",
+    "breached": "Dit wachtwoord is in een datalek verschenen. Kies een ander",
+    "weak": "Kies een sterker wachtwoord (combineer letters, cijfers en symbolen)",
+    "doneTitle": "Je account staat op je nieuwe wallet",
+    "twoFactor": "Voer de code uit je authenticator-app in om je account te verplaatsen.",
+    "failed": "Je wallet kon niet worden gereset. Er is niets verplaatst. Probeer het opnieuw.",
+    "title": "Wallet resetten",
+    "reloginApp": "Een reset wordt bewezen met het e-mailadres, telefoonnummer of de Google-login van je account, niet met de oude wallet, omdat iedereen met de oude sleutel ook kan ondertekenen. Log uit, log weer in met die login en kom dan hier terug. Nog geen inlog-e-mail? Voeg er eerst een toe op riftn.com onder Instellingen → Inloggen.",
+    "logOut": "Uitloggen",
+    "intro": "Maakt een nieuwe Riftn-wallet en zet je gebruikersnaam, posts, volgers en berichten daarop over. Gebruik dit als je wallet kwijt is of iemand anders de sleutel heeft. De oude wallet werkt niet meer om in te loggen.",
+    "funds": "Tokens, NFT's en andere saldi worden niet verplaatst. Ze blijven op het oude adres. Kun je de oude wallet nog openen, stuur ze dan eerst weg.",
+    "password": "Nieuw walletwachtwoord (min. {{count}} tekens)",
+    "confirm": "Bevestig wachtwoord",
+    "twoFactorPlaceholder": "Authenticatorcode",
+    "ack": "Ik begrijp dat mijn oude tegoeden in de oude wallet blijven.",
+    "submit": "Wallet resetten",
+    "cancel": "Annuleren",
+    "rowDesc": "Wallet kwijt, of heeft iemand anders de sleutel? Verplaats je account naar een nieuwe wallet. Je gebruikersnaam, posts en volgers gaan mee."
+  },
   "mentionLinks": {
     "communities": "Community’s",
     "pages": "Pagina’s",
