@@ -4776,6 +4776,8 @@
     "turnOffSmartReplies": "Ñisqa kutichiykunata wañuchiy",
     "encrypted": "Puntamanta puntakama pakasqa",
     "encryptionOff": "Kay aparatupi manam pakachiy kanchu",
+    "encryptChat": "Rimanakuyta pakay",
+    "encryptChatOff": "Pakachiyta wañuchiy",
     "encryptionTurnOn": "Hap'ichiy",
     "cannotDecrypt": "Pakasqa willay — kay aparichapi mana kichay atikunchu",
     "title": "Willakuy",

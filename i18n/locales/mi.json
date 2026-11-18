@@ -4777,6 +4777,8 @@
     "turnOffSmartReplies": "Whakawetohia ngā whakautu tūtohu",
     "encrypted": "Whakamunatia mai i tētahi pito ki tētahi",
     "encryptionOff": "Kua weto te whakamunatanga i tēnei pūrere",
+    "encryptChat": "Whakamuna i te kōrerorero",
+    "encryptChatOff": "Wetohia te whakamunatanga",
     "encryptionTurnOn": "Whakahohea",
     "cannotDecrypt": "Karere whakamuna — kāore e taea te whakatuwhera i runga i tēnei pūrere",
     "title": "Karere",

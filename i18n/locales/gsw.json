@@ -4778,6 +4778,8 @@
     "turnOffSmartReplies": "Antwortvorschläg abschalte",
     "encrypted": "End-zu-End-verschlüsslet",
     "encryptionOff": "D Verschlüsselig isch uf däm Grät us",
+    "encryptChat": "Chat verschlüssle",
+    "encryptChatOff": "Verschlüsselig abschalte",
     "encryptionTurnOn": "Aaschalte",
     "cannotDecrypt": "Verschlüssleti Nachricht — cha uf dem Grät nid gööffnet wärde",
     "title": "Nochrichtä",

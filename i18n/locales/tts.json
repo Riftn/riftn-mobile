@@ -4768,6 +4768,8 @@
     "turnOffSmartReplies": "ปิดคำตอบแนะนำ",
     "encrypted": "เข้ารหัสแบบต้นทางถึงปลายทาง",
     "encryptionOff": "การเข้ารหัสบ่ได้เปิดในเครื่องนี้",
+    "encryptChat": "เข้ารหัสแชท",
+    "encryptChatOff": "ปิดการเข้ารหัส",
     "encryptionTurnOn": "เปิดใซ้งาน",
     "cannotDecrypt": "ข้อความที่เข้ารหัส — เปิดบนอุปกรณ์นี้บ่ได้",
     "title": "ข้อความ",

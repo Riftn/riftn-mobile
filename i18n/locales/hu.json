@@ -4795,6 +4795,8 @@
     "turnOffSmartReplies": "Javasolt válaszok kikapcsolása",
     "encrypted": "Végpontok között titkosítva",
     "encryptionOff": "A titkosítás ezen az eszközön ki van kapcsolva",
+    "encryptChat": "Csevegés titkosítása",
+    "encryptChatOff": "Titkosítás kikapcsolása",
     "encryptionTurnOn": "Bekapcsolás",
     "cannotDecrypt": "Titkosított üzenet — ezen az eszközön nem nyitható meg",
     "title": "Üzenetek",

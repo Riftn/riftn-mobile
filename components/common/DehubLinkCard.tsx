@@ -43,6 +43,7 @@ import { useWorkJob } from '../../hooks/useWork';
 import { appLocale } from "../../libs/date.util";
 import { useAppTheme } from '../../context/ThemeContext';
 import { fetchTitleOffers } from '../../services/justwatch.service';
+import { resolveArticleSlug } from '../../services/nft.service';
 import { detectLocale } from '../../libs/cinema-locales';
 import { minimalFlat } from '../../theme/minimal';
 import { useGovernanceProposal } from '../../hooks/useGovernanceDiscussion';
@@ -677,6 +678,11 @@ export function useOpenDehubLink() {
           void WebBrowser.openBrowserAsync(`https://riftn.com${link.path}`);
           return;
         case 'post':
+          // A readable slug link goes through the resolver, which finds its tokenId.
+          if (!link.tokenId && link.articleSlug) {
+            navigation.navigate(ScreenNames.PostResolver, { tokenId: link.articleSlug });
+            return;
+          }
           navigation.navigate(ScreenNames.FeedDetail, { tokenId: link.tokenId });
           return;
         case 'profile':
@@ -769,6 +775,32 @@ export function useOpenDehubLink() {
   );
 }
 
+/**
+ * A post shared by its readable address (/app/post/iron-man-7932). The card
+ * keys on a tokenId, so look it up first; until then, and if the slug is
+ * unknown, the plain "View post" row stands in.
+ */
+function SlugSharedPostPreview({
+  slug,
+  fallback,
+  ...rest
+}: {
+  slug: string;
+  fallback: React.ReactElement;
+  isMine: boolean;
+  fallbackTitle?: string;
+  onPress: () => void;
+  onLongPress?: () => void;
+}) {
+  const { data } = useQuery({
+    queryKey: ['article-slug', slug],
+    queryFn: () => resolveArticleSlug(slug),
+    staleTime: 60 * 60 * 1000,
+  });
+  if (!data?.tokenId) return fallback;
+  return <SharedPostPreview tokenId={String(data.tokenId)} {...rest} />;
+}
+
 const DehubLinkCardComponent: React.FC<DehubLinkCardProps> = ({
   link,
   isMine = false,
@@ -785,7 +817,7 @@ const DehubLinkCardComponent: React.FC<DehubLinkCardProps> = ({
     <RowCard
       eyebrow="Riftn"
       title={_copy("copy.9f68c44b21cf", { defaultValue: "View {{value1}}", value1: dehubLinkLabel(link.kind) })}
-      subtitle={`dehub.io${link.path}`}
+      subtitle={`riftn.com${link.path}`}
       fallbackIcon="Link"
       onPress={open}
       onLongPress={onLongPress}
@@ -794,6 +826,19 @@ const DehubLinkCardComponent: React.FC<DehubLinkCardProps> = ({
 
   // The post card owns its own box (width, padding) so it can match the bubble
   // exactly; the rest share one shell and get sized here.
+  if (link.kind === 'post' && !link.tokenId && link.articleSlug) {
+    return (
+      <SlugSharedPostPreview
+        slug={link.articleSlug}
+        isMine={isMine}
+        fallbackTitle={fallbackTitle}
+        onPress={open}
+        onLongPress={onLongPress}
+        fallback={fallback}
+      />
+    );
+  }
+
   if (link.kind === 'post') {
     return (
       <SharedPostPreview

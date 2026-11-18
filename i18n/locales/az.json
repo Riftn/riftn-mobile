@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Təklif olunan cavabları söndür",
     "encrypted": "Uçdan-uca şifrələnib",
     "encryptionOff": "Bu cihazda şifrələmə söndürülüb",
+    "encryptChat": "Söhbəti şifrələ",
+    "encryptChatOff": "Şifrələməni söndür",
     "encryptionTurnOn": "Aktivləşdir",
     "cannotDecrypt": "Şifrələnmiş mesaj — bu cihazda açıla bilmir",
     "title": "Mesajlar",

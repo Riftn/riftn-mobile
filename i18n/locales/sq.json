@@ -4791,6 +4791,8 @@
     "turnOffSmartReplies": "Çaktivizo përgjigjet e sugjeruara",
     "encrypted": "I enkriptuar nga skaji në skaj",
     "encryptionOff": "Enkriptimi është i çaktivizuar në këtë pajisje",
+    "encryptChat": "Enkripto bisedën",
+    "encryptChatOff": "Çaktivizo enkriptimin",
     "encryptionTurnOn": "Aktivizo",
     "cannotDecrypt": "Mesazh i enkriptuar — nuk mund të hapet në këtë pajisje",
     "title": "Mesazhet",

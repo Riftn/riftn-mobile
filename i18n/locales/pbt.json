@@ -4768,6 +4768,8 @@
     "turnOffSmartReplies": "وړاندیز شوي ځوابونه بند کړئ",
     "encrypted": "له سره تر سره کوډ شوی",
     "encryptionOff": "په دې وسیله کې کوډبندي فعاله نه ده",
+    "encryptChat": "چټ کوډبند کړئ",
+    "encryptChatOff": "کوډبندي بنده کړئ",
     "encryptionTurnOn": "فعال کړئ",
     "cannotDecrypt": "کوډ شوی پیغام — په دې وسیله کې نه شي پرانیستل کېدای",
     "title": "پیغامونه",

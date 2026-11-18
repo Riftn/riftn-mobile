@@ -1,12 +1,13 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getChatPrefs, setChatPref, type ChatPref } from "../services/dm/dm.api";
 import { toastError } from "../libs/toast";
 import { translateCopy as _translateCopy } from "../i18n/copy";
+import { setEncryptedChats } from "../libs/dm-e2ee/encrypt-choice";
 
 const KEY = ["dm-chat-prefs"] as const;
 
-type Patch = { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean };
+type Patch = { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean };
 
 /**
  * Your own chat settings, saved on the server so they follow you between
@@ -16,6 +17,9 @@ type Patch = { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: 
 export function useChatPrefs(enabled = true) {
   const queryClient = useQueryClient();
   const { data } = useQuery({ queryKey: KEY, queryFn: getChatPrefs, enabled, staleTime: 60_000 });
+
+  // Sending reads "Encrypt chat" from here (see encrypt-choice).
+  useEffect(() => { if (data) setEncryptedChats(data); }, [data]);
 
   const byId = useMemo(() => {
     const map = new Map<string, ChatPref>();
@@ -33,12 +37,16 @@ export function useChatPrefs(enabled = true) {
       ...(patch.archived !== undefined ? { archivedAt: patch.archived ? now : null } : {}),
       ...(patch.unread !== undefined ? { markedUnread: patch.unread } : {}),
       ...(patch.listed !== undefined ? { listedAt: patch.listed ? now : null } : {}),
+      ...(patch.encrypted !== undefined ? { encryptedAt: patch.encrypted ? now : null } : {}),
     };
-    queryClient.setQueryData<ChatPref[]>(KEY, [...before.filter((p) => p.conversationId !== id), next]);
+    const after = [...before.filter((p) => p.conversationId !== id), next];
+    queryClient.setQueryData<ChatPref[]>(KEY, after);
+    if (patch.encrypted !== undefined) setEncryptedChats(after);
     try {
       await setChatPref(id, patch);
     } catch {
       queryClient.setQueryData<ChatPref[]>(KEY, before);
+      setEncryptedChats(before);
       toastError(_translateCopy("chatMenu.saveFailed", { defaultValue: "Couldn't save that, try again" }));
     }
   }, [queryClient]);

@@ -4768,6 +4768,8 @@
     "turnOffSmartReplies": "Сунушталган жоопторду өчүрүү",
     "encrypted": "Толук шифрленген",
     "encryptionOff": "Бул түзмөктө шифрлөө өчүрүлгөн",
+    "encryptChat": "Чатты шифрлөө",
+    "encryptChatOff": "Шифрлөөнү өчүрүү",
     "encryptionTurnOn": "Иштетүү",
     "cannotDecrypt": "Шифрленген билдирүү — бул түзмөктө ачылбайт",
     "title": "Кабарлар",

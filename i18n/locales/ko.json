@@ -4877,6 +4877,8 @@
     "turnOffSmartReplies": "추천 답장 끄기",
     "encrypted": "종단 간 암호화됨",
     "encryptionOff": "이 기기에서는 암호화가 꺼져 있습니다",
+    "encryptChat": "채팅 암호화",
+    "encryptChatOff": "암호화 끄기",
     "encryptionTurnOn": "켜기",
     "cannotDecrypt": "암호화된 메시지 — 이 기기에서는 열 수 없습니다",
     "title": "메시지",

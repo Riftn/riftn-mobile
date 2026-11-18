@@ -4795,6 +4795,8 @@
     "turnOffSmartReplies": "כיבוי התשובות המוצעות",
     "encrypted": "מוצפן מקצה לקצה",
     "encryptionOff": "ההצפנה כבויה במכשיר הזה",
+    "encryptChat": "הצפן צ'אט",
+    "encryptChatOff": "כבה הצפנה",
     "encryptionTurnOn": "הפעלה",
     "cannotDecrypt": "הודעה מוצפנת — לא ניתן לפתוח במכשיר זה",
     "title": "הודעות",

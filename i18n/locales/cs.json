@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Vypnout navrhované odpovědi",
     "encrypted": "Šifrováno end-to-end",
     "encryptionOff": "Šifrování je na tomto zařízení vypnuté",
+    "encryptChat": "Šifrovat chat",
+    "encryptChatOff": "Vypnout šifrování",
     "encryptionTurnOn": "Zapnout",
     "cannotDecrypt": "Šifrovaná zpráva — na tomto zařízení ji nelze otevřít",
     "title": "Zprávy",

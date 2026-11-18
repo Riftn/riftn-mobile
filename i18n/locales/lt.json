@@ -4791,6 +4791,8 @@
     "turnOffSmartReplies": "Išjungti siūlomus atsakymus",
     "encrypted": "Užšifruota ištisai",
     "encryptionOff": "Šiame įrenginyje šifravimas išjungtas",
+    "encryptChat": "Šifruoti pokalbį",
+    "encryptChatOff": "Išjungti šifravimą",
     "encryptionTurnOn": "Įjungti",
     "cannotDecrypt": "Užšifruota žinutė — šiame įrenginyje jos atidaryti negalima",
     "title": "Žinutės",

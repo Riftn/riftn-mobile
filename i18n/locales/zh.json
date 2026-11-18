@@ -4748,6 +4748,8 @@
     "turnOffSmartReplies": "关闭建议回复",
     "encrypted": "端到端加密",
     "encryptionOff": "此设备未开启加密",
+    "encryptChat": "加密聊天",
+    "encryptChatOff": "关闭加密",
     "encryptionTurnOn": "开启",
     "cannotDecrypt": "加密消息 — 无法在此设备上打开",
     "title": "消息",

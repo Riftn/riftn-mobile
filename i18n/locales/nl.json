@@ -2925,6 +2925,8 @@
     "turnOffSmartReplies": "Voorgestelde antwoorden uitzetten",
     "encrypted": "End-to-end versleuteld",
     "encryptionOff": "Versleuteling staat uit op dit apparaat",
+    "encryptChat": "Chat versleutelen",
+    "encryptChatOff": "Versleuteling uitzetten",
     "encryptionTurnOn": "Inschakelen",
     "cannotDecrypt": "Versleuteld bericht — kan niet worden geopend op dit apparaat",
     "lockedTitle": "Ontgrendel om je berichten te lezen",

@@ -50,7 +50,8 @@ import DmFeeBanner from "../components/DM/DmFeeBanner";
 import DmEncryptionBanner from "../components/DM/DmEncryptionBanner";
 import DmSafetyBanner from "../components/DM/DmSafetyBanner";
 import MessageRequestBar from "../components/DM/MessageRequestBar";
-import DmLockedState, { DmUndecryptableRun } from "../components/DM/DmLockedState";
+import { DmUndecryptableRun } from "../components/DM/DmLockedState";
+import { useChatPrefs } from "../hooks/useChatPrefs";
 import NewChatIntro from "../components/DM/NewChatIntro";
 import TipAmountSheet from "../components/DM/TipAmountSheet";
 import PollCard from "../components/DM/PollCard";
@@ -802,9 +803,21 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     }
   }, [address, sessionProvider, e2eeRetrying]);
 
-  // No key yet and the thread holds lines only a key can open: one unlock
-  // screen instead of the same "can't be opened" row on every line.
-  const showLockedState = e2eeStatus !== "ready" && messageList.some((m) => m.undecryptable);
+  // Encryption is per chat and off unless "Encrypt chat" is on. Nothing asks
+  // for the wallet on its own: older encrypted lines collapse into one row
+  // per run, and the banner offers Unlock for anyone who wants to read them.
+  const hasUndecryptable = e2eeStatus !== "ready" && messageList.some((m) => m.undecryptable);
+  const { byId: chatPrefsById, update: updateChatPref } = useChatPrefs(!!address);
+  const canToggleEncryption = !!currentConvId && /^[0-9a-f]{24}$/i.test(String(currentConvId));
+  const chatEncrypted = canToggleEncryption && !!chatPrefsById.get(String(currentConvId))?.encryptedAt;
+  const onToggleEncryption = useCallback(() => {
+    if (!currentConvId) return;
+    const on = !chatEncrypted;
+    void updateChatPref(String(currentConvId), { encrypted: on });
+    if (on) toastSuccess(t("messages.encrypted", { defaultValue: "End-to-end encrypted" }));
+    // Turning it on is the deliberate moment to set up this device's key.
+    if (on && e2eeStatus !== "ready") void retryEncryption();
+  }, [currentConvId, chatEncrypted, updateChatPref, t, e2eeStatus, retryEncryption]);
 
   // Lines encrypted for another device collapse into one row per run. Keyed by
   // the run's first id in list order; 0 hides the rest of the run.
@@ -2132,6 +2145,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           onBlockUser={onBlockUser}
           onUnblockUser={onUnblockUser}
           onClearChat={currentConvId ? onClearChat : undefined}
+          onToggleEncryption={canToggleEncryption ? onToggleEncryption : undefined}
+          encrypted={chatEncrypted}
           onSearchChat={onSearchChat}
           onToggleFreeAccess={myDmStatus?.perMessageFee && myDmStatus.perMessageFee > 0 ? onToggleFreeAccess : undefined}
           peerHasFreeAccess={
@@ -2153,11 +2168,12 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
         {/* Says so when this device has no key, instead of silently sending
             in the clear and showing the peer's lines as unopenable. */}
-        {!showLockedState && (
+        {(chatEncrypted || hasUndecryptable) && (
           <DmEncryptionBanner
             status={e2eeStatus}
             busy={e2eeRetrying}
             onRetry={retryEncryption}
+            olderOnly={!chatEncrypted}
           />
         )}
 
@@ -2203,13 +2219,6 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 />
               </View>
             </TouchableWithoutFeedback>
-          ) : showLockedState ? (
-            <DmLockedState
-              status={e2eeStatus}
-              busy={e2eeRetrying}
-              peerName={peerLabel}
-              onUnlock={retryEncryption}
-            />
           ) : initialLoading && messageList.length === 0 ? (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
               <View className="flex-1 items-center justify-center">
@@ -2291,7 +2300,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 page with a hairline on top. Still opaque, since the list
                 scrolls under this bar. */}
             <MessageSurface material={false} />
-            {showLockedState ? null : picking ? (
+            {picking ? (
               <MessageSelectBar
                 count={pickedList.length}
                 ownCount={pickedOwn.length}
