@@ -1,5 +1,5 @@
 import { buildSoundtrackTag, parseSoundtrack } from "../../libs/parseSoundtrack";
-import { playableSoundUrl, soundCredit, soundWindow, soundWindowCorrection, soundWindowProgress, withSoundWindow } from "../../libs/soundWindow";
+import { playableSoundUrl, soundCredit, soundMix, soundWindow, soundWindowCorrection, soundWindowProgress, withSoundMix, withSoundWindow } from "../../libs/soundWindow";
 
 const AUDIUS = "https://api.audius.co/v1/tracks/ZlwB7/stream?app_name=Riftn";
 
@@ -24,5 +24,17 @@ describe("sound window", () => {
     expect(soundWindowCorrection(AUDIUS, 0)).toBeNull();
     expect(soundWindowProgress(url, 37.5, 200)).toBeCloseTo(0.5);
     expect(soundWindowProgress(AUDIUS, 50, 200)).toBeCloseTo(0.25);
+  });
+});
+
+describe("sound mix links", () => {
+  it("writes levels, drops them for the default, keeps the rest", () => {
+    const url = withSoundMix("https://x/a.mp3#t=4&src=audius", { song: 0.8, video: 0.4 });
+    expect(url).toBe("https://x/a.mp3#t=4&src=audius&sv=80&vv=40");
+    expect(soundMix(url)).toEqual({ song: 0.8, video: 0.4 });
+    expect(withSoundMix(url, { song: 1, video: 0 })).toBe("https://x/a.mp3#t=4&src=audius");
+  });
+  it("a new part keeps the levels", () => {
+    expect(soundMix(withSoundWindow("https://x/a.mp3#sv=50&vv=50", { start: 10, end: 20 }))).toEqual({ song: 0.5, video: 0.5 });
   });
 });

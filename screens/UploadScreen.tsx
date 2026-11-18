@@ -1,7 +1,7 @@
 import { usePerfProbe, perfMark } from "../libs/perfTrace";
 import ThemePanel from '../components/ui/ThemePanel';
 import { useTranslation as _useCopy } from 'react-i18next';
-import { clock, soundWindow } from "../libs/soundWindow";
+import { clock, soundMix, soundWindow, withSoundMix } from "../libs/soundWindow";
 import { readDraft } from "../libs/draft-cache";
 import { accountDraftKey, useDraftState } from '../hooks/useDraftState';
 import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD, MATURE_CONTENT_ENABLED } from "../config/storefront";
@@ -2590,7 +2590,8 @@ export default function UploadScreen() {
         visible={showSoundPicker}
         onClose={() => setShowSoundPicker(false)}
         onSelect={(sound) => {
-          selectSound(sound);
+          // A new song keeps the levels the poster already set.
+          selectSound(attachedSound ? { ...sound, url: withSoundMix(sound.url, soundMix(attachedSound.url)) } : sound);
           setShowSoundPicker(false);
         }}
         currentSound={attachedSound}
@@ -4348,6 +4349,8 @@ export default function UploadScreen() {
               creator: attachedSound?.creator,
               onPick: () => setShowSoundPicker(true),
               onClear: clearSound,
+              mix: attachedSound ? soundMix(attachedSound.url) : undefined,
+              onMixChange: (mix) => { if (attachedSound) selectSound({ ...attachedSound, url: withSoundMix(attachedSound.url, mix) }); },
             }}
             crop={videoCropDraft}
             onCropChange={setVideoCropDraft}
