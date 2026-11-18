@@ -8,7 +8,7 @@ import { restartApp } from "../../libs/crashRecovery";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { useAppTheme, useThemeRootStyle } from "../../context/ThemeContext";
 import SwipeBackBoundary from './SwipeBackBoundary';
-import { SheetTopContext } from "../../hooks/useComposerKeyboard";
+import { SheetTopContext } from "../../libs/sheet-top";
 
 /**
  * What a screen shows when it throws, instead of taking the navigator with it.
