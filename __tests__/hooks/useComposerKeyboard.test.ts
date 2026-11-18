@@ -1,6 +1,7 @@
 import { act, renderHook } from '@testing-library/react-native';
 import { Keyboard, Platform } from 'react-native';
-import { useComposerKeyboard } from '../../hooks/useComposerKeyboard';
+import React from 'react';
+import { SheetTopContext, useComposerKeyboard } from '../../hooks/useComposerKeyboard';
 
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaInsetsContext: require('react').createContext(null),
@@ -99,6 +100,18 @@ describe('docked composer keyboard geometry', () => {
     const { result } = renderHook(() => useComposerKeyboard(0, { gap: 0 }));
     act(() => listeners.keyboardDidShow({ endCoordinates: { screenY: 480, height: 300 } }));
     expect(result.current.lift).toBe(300);
+  });
+
+  it('iPhone modal sheet: measures from the sheet top, so the box clears the keys', () => {
+    jest.replaceProperty(Platform, 'OS', 'ios');
+    // Sheet starts 55pt down the screen; the box sits at the sheet's bottom
+    // (sheet-relative 690..738 = screen 745..793), keys start at screen 500.
+    const wrapper = ({ children }: { children: React.ReactNode }) =>
+      (React as any)['createElement'](SheetTopContext.Provider, { value: 55 }, children);
+    const { result } = renderHook(() => useComposerKeyboard(0, { gap: 0 }), { wrapper });
+    (result.current.ref as any).current = { measureInWindow: (done: any) => done(0, 690, 360, 48) };
+    act(() => listeners.keyboardWillShow({ endCoordinates: { screenY: 500, height: 300 } }));
+    expect(result.current.lift).toBe(293);
   });
 
   it('stays down when disabled', () => {
