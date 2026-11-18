@@ -1,4 +1,5 @@
-import type { BufferOptions } from "expo-video";
+import { Platform } from "react-native";
+import type { BufferOptions, VideoPlayer } from "expo-video";
 
 /**
  * How much a player is allowed to buffer.
@@ -135,3 +136,25 @@ export const EVENT_LIVE_BUFFER_OPTIONS: BufferOptions = {
  * takes a target offset; ExoPlayer follows the playlist's own hold-back.
  */
 export const EVENT_TARGET_OFFSET_FROM_LIVE_SEC = 20;
+
+/**
+ * How far behind live a stream settles once it has stalled, in seconds (see
+ * libs/sharedLivePlayer). With LIVE_BUFFER_OPTIONS' three seconds of forward
+ * buffer, the next thing the player fetches from six seconds back is always a
+ * finished two-second segment, never the newest 0.2s part.
+ */
+export const SETTLED_LIVE_OFFSET_SEC = 6;
+
+/**
+ * A live the playback recovery has just reloaded: on an iPhone, start it a few
+ * seconds behind the edge instead of on the newest parts that just failed it.
+ * The new item exists once the reload has resolved, which is when this runs.
+ */
+export function startReloadedLiveBehindEdge(player: VideoPlayer): void {
+  if (Platform.OS !== "ios") return;
+  try {
+    player.targetOffsetFromLive = SETTLED_LIVE_OFFSET_SEC;
+  } catch {
+    /* Older native module without the property. */
+  }
+}

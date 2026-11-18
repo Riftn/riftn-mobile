@@ -34,6 +34,12 @@ export interface WhepSubscription {
   /** Render with <RTCView streamURL={stream.toURL()} />. */
   stream: MediaStream;
   stop: () => Promise<void>;
+  /**
+   * Video frames decoded so far, or null when the stats cannot be read. A
+   * count that stops moving while the session claims to be connected is a
+   * frozen picture, which no connection state ever reports.
+   */
+  framesDecoded: () => Promise<number | null>;
 }
 
 export interface SubscribeOptions {
@@ -180,7 +186,24 @@ export async function subscribeToWhep({
     resourceUrl = resolveSessionResource(response, endpoint);
     await pc.setRemoteDescription({ type: 'answer', sdp: answer });
 
-    return { stream, stop };
+    const framesDecoded = async (): Promise<number | null> => {
+      if (stopped) return null;
+      try {
+        const report: any = await pc.getStats();
+        let frames: number | null = null;
+        report?.forEach?.((entry: any) => {
+          const video = entry?.kind === 'video' || entry?.mediaType === 'video';
+          if (entry?.type === 'inbound-rtp' && video && typeof entry.framesDecoded === 'number') {
+            frames = Math.max(frames ?? 0, entry.framesDecoded);
+          }
+        });
+        return frames;
+      } catch {
+        return null;
+      }
+    };
+
+    return { stream, stop, framesDecoded };
   } catch (error) {
     await stop();
     throw error;

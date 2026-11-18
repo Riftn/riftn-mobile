@@ -4,6 +4,7 @@ import type { VideoPlayer } from 'expo-video';
 import { createPlaybackRecovery, playbackSourceIdentity, type PlaybackPhase } from '../libs/playback-recovery';
 import { replaceVideoSource } from '../libs/video-source';
 import { rewindFinishedVideo } from '../libs/video-start';
+import { startReloadedLiveBehindEdge } from '../libs/videoBuffering';
 
 /**
  * Feed and Shorts players start with `waitsToMinimizeStalling: false` so the
@@ -25,6 +26,18 @@ const HANDOVER_RUNWAY_SECONDS = 3;
 const HANDOVER_CHECK_MS = 400;
 /** Under this much banked, a pause nobody asked for is the buffer running dry. */
 const DRY_BUFFER_SECONDS = 0.3;
+/**
+ * A live keeps about three seconds ahead (LIVE_BUFFER_OPTIONS), so it runs
+ * dry from higher up than a clip does: under a second left when AVPlayer drops
+ * its rate is a stall, not someone pausing.
+ */
+const LIVE_DRY_BUFFER_SECONDS = 1;
+/**
+ * Reloads a live may spend in a row before it shows "Playback unavailable".
+ * The budget comes back once the picture has run again for a while, so a
+ * long watch is not one hiccup away from a frozen screen.
+ */
+const LIVE_MAX_RETRIES = 4;
 const waitingThroughStalls = new WeakSet<VideoPlayer>();
 const needsStallHandover = (player: VideoPlayer) => Platform.OS === 'ios' && !waitingThroughStalls.has(player);
 function bankedSeconds(player: VideoPlayer): { ahead: number; whole: boolean } {
@@ -40,10 +53,10 @@ function hasRunway(player: VideoPlayer): boolean {
     return !Number.isFinite(ahead) || whole || ahead >= HANDOVER_RUNWAY_SECONDS;
   } catch { return true; }
 }
-function ranDry(player: VideoPlayer): boolean {
+function ranDry(player: VideoPlayer, under = DRY_BUFFER_SECONDS): boolean {
   try {
     const { ahead, whole } = bankedSeconds(player);
-    return Number.isFinite(ahead) && !whole && ahead < DRY_BUFFER_SECONDS;
+    return Number.isFinite(ahead) && !whole && ahead < under;
   } catch { return false; }
 }
 function waitThroughStalls(player: VideoPlayer) {
@@ -65,18 +78,31 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
    * `recovery.stop()` first, so a pause that arrives unasked is a stall.
    */
   lateStallHandover?: boolean;
+  /**
+   * A live stream: several reloads that come back once it plays again, a
+   * reload that starts behind the edge instead of at the old position, and a
+   * stall that AVPlayer gave up on is picked up again instead of being taken
+   * for a pause. Read once, when the player and source are set up.
+   */
+  live?: boolean;
 }) {
   const latest = useRef(options);
   latest.current = options;
   const [phase, setPhase] = useState<PlaybackPhase>('idle');
+  const live = !!options.live;
   const recovery = useMemo(() => createPlaybackRecovery({
     allowed: () => !!source && latest.current.allowed(),
+    maxRetries: live ? LIVE_MAX_RETRIES : 1,
+    resetRetriesOnProgress: live,
     play: async (reload, allowed) => {
       const position = player.currentTime;
       if (reload || player.status === 'error') {
         await replaceVideoSource(player, source!);
         if (!allowed()) return;
-        if (position > 0 && Number.isFinite(player.duration) && position < player.duration) player.currentTime = position;
+        // A live has moved on while it was stuck: the old position is not
+        // in the new window, and the edge (a little behind it) is the point.
+        if (live) startReloadedLiveBehindEdge(player);
+        else if (position > 0 && Number.isFinite(player.duration) && position < player.duration) player.currentTime = position;
       }
       if (allowed()) {
         rewindFinishedVideo(player);
@@ -93,7 +119,7 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
         metadata: { ...detail, postId: latest.current.postId, source: playbackSourceIdentity(source ?? ''), status: player.status },
       });
     },
-  }), [player, source]);
+  }), [player, source, live]);
   useEffect(() => {
     setPhase('idle');
     // Reads on a player released between closing and reopening a viewer throw;
@@ -132,6 +158,17 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
             try { player.play(); } catch {}
             return;
           }
+          // A live that ran dry: AVPlayer dropped its rate and will not pick
+          // up again by itself. Ask it to carry on, and give it the usual
+          // window to move before the recovery reloads it. Every pause the
+          // viewer makes goes through recovery.stop() first, so it never
+          // gets here.
+          if (live && ranDry(player, LIVE_DRY_BUFFER_SECONDS)) {
+            waitThroughStalls(player);
+            try { player.play(); } catch {}
+            recovery.waiting();
+            return;
+          }
           recovery.stop();
         }
       }),
@@ -142,6 +179,6 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
     ];
     if (read(() => player.playing, false)) { recovery.watch(); recovery.progress(); }
     return () => { clearInterval(handover); subs.forEach(sub => sub.remove()); recovery.stop(); };
-  }, [player, recovery]);
+  }, [player, recovery, live]);
   return { recovery, phase };
 }
