@@ -1210,6 +1210,23 @@ async function runKeys(): Promise<void> {
     if (nav.getCurrentRoute()?.name === ScreenNames.Upload) nav.goBack();
     await sleep(2500);
   }
+  // Last, so the end picture (nav/keys-<theme>-end.png) shows it: the live
+  // stream chat box (an iPhone sheet) with the keyboard up.
+  {
+    const had = new Set(liveInputs);
+    nav.navigate(ScreenNames.LiveViewer as any, { streamId: "6afdc1434c1f7a06d225859c", tokenId: 7982 } as any);
+    await sleep(15000);
+    const fresh = liveInputs.filter((input) => !had.has(input));
+    for (const input of fresh) inputState.focusTextInput(input);
+    await sleep(4000);
+    const focused: any = inputState.currentlyFocusedInput?.();
+    const box = await new Promise<number[] | null>((done) => {
+      if (!focused?.measureInWindow) return done(null);
+      focused.measureInWindow((x: number, y: number, w: number, h: number) => done([x, y, w, h]));
+      setTimeout(() => done(null), 1500);
+    });
+    await note("live-chat-box", { inputs: fresh.length, up: up(), keys: Keyboard.metrics?.(), box });
+  }
   await AsyncStorage.removeItem(SWIPE_KEY);
   extra.finishedAt = Date.now();
   await save(true);
