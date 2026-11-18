@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Bu həftə Audius-da trend olanlar. İstifadəsi pulsuzdur, sənətçi postunuzda qeyd olunur.",
     "d2e45b7406fc": "Wikimedia Commons-dan ictimai istifadədə olan və Creative Commons lisenziyalı musiqi. Sənətçi postunuzda qeyd olunur.",
     "d0c1a3684775": "Mahnılar yüklənmədi. Bir az sonra yenidən cəhd edin.",
-    "d14064f80f52": "Səs əlavə et"
+    "d14064f80f52": "Səs əlavə et",
+    "71988c4d8e08": "Mətn",
+    "147170e793c6": "Geniş",
+    "481859b689b0": "Əlaqənizi yoxlayıb yenidən cəhd edin.",
+    "57e2faa5ec63": "Riftn-da axtar",
+    "7db20897053b": "İnsanlar",
+    "96d7bff86b44": "Axtarış yüklənilə bilmədi",
+    "d8b8392e2c54": "Yenidən cəhd et"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Qiymət təklifi",
       "bullets": "Güllə siyahısı",
       "numbers": "Nömrələnmiş siyahı",
-      "link": "Keçid"
+      "link": "Keçid",
+      "image": "Təsvirlər əlavə edin"
     }
   },
   "storefront": {
@@ -3793,7 +3801,11 @@
     "payViaDpay": "Riftn Pay-ə ödənildi, tokenlər təxminən 30 saniyəyə gəlir",
     "payViaBridgeDpay": "Base-ə köçürüldü və Riftn Pay-ə ödənildi, tokenlər təxminən bir dəqiqəyə gəlir",
     "tokensUnit": "token",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "addMessage": "Mesaj əlavə edin (qeyri-məcburi)",
+    "messagePublic": "Açıq",
+    "railTitle": "İpuçları",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "skippableSections": "Skippable bölmələr",
@@ -4521,7 +4533,11 @@
       "hereNamed": "{{name}} “{{community}}” -da hər kəs mesajlaşdı"
     },
     "badgeLent": "{{name}} sizə {{tier}} nişanını verdi",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "groupNew": "Yeni",
+    "groupToday": "Bu gün",
+    "groupThisWeek": "Bu həftə",
+    "searchClose": "Axtarışı bağla"
   },
   "leaderboard": {
     "title": "Lider Lövhəsi",
@@ -4713,7 +4729,18 @@
     "attachmentTooLarge": "Hər fayl 50 MB-dan kiçik olmalıdır",
     "deleteCommentA11y": "Şərhinizi silin",
     "sendCommentA11y": "Göndər",
-    "requestOptions": "Seçimlər üçün sorğu göndər"
+    "requestOptions": "Seçimlər üçün sorğu göndər",
+    "deviceInfoNoErrors": "Heç biri",
+    "topBuilders": {
+      "month": "Bu ay",
+      "allTime": "Hər zaman",
+      "shipped": "Göndərildi",
+      "votes": "Səsvermə",
+      "comments": "Şərhlər",
+      "showLess": "Daha az göstər",
+      "viewProfile": "Profilini görüntülə",
+      "you": "Siz"
+    }
   },
   "auth": {
     "loginRequired": "Daxil olmaq lazımdır",
@@ -4974,7 +5001,20 @@
       "votes_other": "{{value}} səs",
       "members_one": "{{value}} üzv",
       "members_other": "{{value}} üzvlər"
-    }
+    },
+    "articleShort": "Məqalə",
+    "articleMinRead": "{{count}} min oxumaq",
+    "pinnedShort": "Sabitlənmiş",
+    "post": "Paylaş",
+    "arrange": {
+      "saving": "Yadda saxlanılır..."
+    },
+    "reserve": {
+      "signIn": "Giriş edin"
+    },
+    "tabLikes": "Bəyənmələr",
+    "likesEmptyTitle": "Hələ bəyənmə yoxdur",
+    "likesPrivateTitle": "Bəyənmələr gizlidir"
   },
   "tv": {
     "title": "TV",
@@ -5490,6 +5530,9 @@
       "schedule": "Cədvəl",
       "filter": "Fəaliyyəti filtrlə",
       "library": "Şablonlar və tapşırıq qurucusu"
+    },
+    "welcome": {
+      "text": "Xoş gəldin mesajı"
     }
   },
   "hero": {
@@ -5571,7 +5614,15 @@
     "nowPublic": "Axın indi hər kəsə açıqdır",
     "openCanvas": "Kətanı açın",
     "playVideo": "Videonu oxut",
-    "signInToSee": "Hesabınızdakı axınları görmək üçün daxil olun."
+    "signInToSee": "Hesabınızdakı axınları görmək üçün daxil olun.",
+    "newNativeFlow": "Yeni Axış",
+    "aspectRatio": "Aspekt nisbəti",
+    "duration": "Saniyədə müddət",
+    "resolution": "Rezolyusiya",
+    "disconnect": "Əlaqəni kəs",
+    "payAndRun": "Ödə və işlət",
+    "run": "Işlət",
+    "handlePrompt": "Tənzimlə"
   },
   "loginModal": {
     "title": "Daxil ol",
@@ -5891,7 +5942,8 @@
     "searchMenu": "Menyuda axtar",
     "clearSearch": "Axtarışı təmizlə",
     "noMenuMatches": "Menyuda uyğun heç nə yoxdur",
-    "searchDehubFor": "Riftn-da «{{query}}» axtar"
+    "searchDehubFor": "Riftn-da «{{query}}» axtar",
+    "requestSend": "Müraciət göndər"
   },
   "comments": {
     "reportComment": "Şərh bildir",
@@ -6510,7 +6562,11 @@
       "copied": "Mesaj kopyalandı",
       "copyText": "Mətni kopy",
       "mutedUntil": "{{date}} tarixinə qədər dəyişmisiniz",
-      "slowMode": "Yavaş rejim: hər {{interval}} üçün bir mesaj"
+      "slowMode": "Yavaş rejim: hər {{interval}} üçün bir mesaj",
+      "joined": "{{name}} qoşuldu",
+      "reactions": "Reaksiyalar",
+      "photoTooLarge": "Şəkil 10MB-dan kiçik olmalıdır",
+      "aiAdminFailed": "AI Admin cavab vermədi"
     },
     "manage": {
       "dismissAdminTitle": "Admindən imtina et",
@@ -6713,6 +6769,30 @@
       "notFound": "Bu dəvət linki etibarlı deyil.",
       "requestToJoin": "Qoşulmaq üçün sorğu göndər",
       "approvalNote": "Admin qoşulmazdan əvvəl sorğunuzu təsdiqləməlidir."
+    },
+    "buyAlert": {
+      "spent": "Xərclədi:",
+      "buyer": "Alıcı:",
+      "balance": "Balans:",
+      "price": "Qiymət:",
+      "marketCap": "Bazar qapağı:"
+    },
+    "newChat": {
+      "public": "Açıq",
+      "private": "Gizli",
+      "free": "Pulsuz",
+      "paid": "Ödənilib",
+      "group": "Qruplaşdır"
+    },
+    "holderGate": {
+      "chain": "Zəncir",
+      "tab": "Sahiblər"
+    },
+    "automod": {
+      "bannedWords": "Məhkum edilən sözlər",
+      "floodMax": "{{count}} mesaj",
+      "saved": "Saxlanıldı",
+      "wordCount": "{{count}} sözləri"
     }
   },
   "work": {
@@ -7833,7 +7913,10 @@
       "doneAll": "Geri izləmədiyiniz {{done}} hesabları ləğv edildi.",
       "doneSome": "Doldurulmamış {{done}} hesabları. {{failed}} deaktiv edilə bilmədi.",
       "doneToast": "Geri izləmədiyiniz{{done}} hesabları ləğv edildi"
-    }
+    },
+    "followBackConfirm": "Geri təqib et",
+    "followBackNotNow": "İndi yox",
+    "followBackDone": "Hazırdl"
   },
   "reactionInfo": {
     "title": "Reaksiyalar",
@@ -8753,7 +8836,37 @@
     "coverFrames": "Mətn çərçivəsi seçin",
     "coverFrame": "Çərçivəni {{index}} kimi üz qabığı kimi istifadə edin",
     "uploadCover": "Üz qabığıni yüklə",
-    "editFailed": "Bu redaktəni tətbiq etmək mümkünsüz oldu. Yenidən cəhd edin."
+    "editFailed": "Bu redaktəni tətbiq etmək mümkünsüz oldu. Yenidən cəhd edin.",
+    "altPlaceholderVideo": "Bu videonu təsvir edin",
+    "preview": {
+      "title": "Önizləmə"
+    },
+    "recent": {
+      "all": "Hamısı"
+    },
+    "studio": {
+      "crop": "Kəsmə",
+      "draw": "Çək",
+      "light": "İşıqlı",
+      "contrast": "Kontrast",
+      "warmth": "İstilik",
+      "colour": "Rəng",
+      "fade": "Solğun",
+      "original": "Orijinal",
+      "ratioOriginal": "Orijinal",
+      "ratioFree": "Pulsuz",
+      "rotate": "Fırlat",
+      "strength": "Güc",
+      "stickers": "Stikerlər",
+      "ticker": "Tiker",
+      "textBg": "Fon",
+      "font": {
+        "bold": "Qalın",
+        "mono": "Monolog"
+      }
+    },
+    "edited": "Redaktə edilib",
+    "edit": "Redaktə et"
   },
   "bounty": {
     "claimed": "Alınıb",
@@ -9047,7 +9160,8 @@
     "justChatting": "Sadəcə söhbət",
     "noLiveStreams": "Canlı yayım yoxdur",
     "noOneStreaming": "Hazırda heç kim yayım etmir. Sonra yenidən baxın!",
-    "loadStreamsFailed": "Yayımlar yüklənmədi. Yenidən cəhd edin."
+    "loadStreamsFailed": "Yayımlar yüklənmədi. Yenidən cəhd edin.",
+    "liveBadge": "CANLI"
   },
   "liveShop": {
     "title": "Bu yayımdan alış-veriş edin",
@@ -9360,7 +9474,23 @@
     "paymentSentWith": "{{amount}} ilə göndərildi",
     "planRestricted": "Bu istifadəçi mesaj almaq üçün abunəlik tələb edir.",
     "planTypeNotAllowed": "Bu yaradıcının planı bu növ mesaja icazə vermir.",
-    "planMinTip": "Bu yaradıcı üçün bəxşiş ən azı {{amount}} token olmalıdır."
+    "planMinTip": "Bu yaradıcı üçün bəxşiş ən azı {{amount}} token olmalıdır.",
+    "newDrawer": {
+      "to": "Kimə"
+    },
+    "download": "Endir",
+    "deleteOneTitle": "Bu mesaj silinsin?",
+    "retrySend": "Yenidən cəhd et",
+    "discardSend": "Sil",
+    "shareKindGroup": "Qruplaşdır",
+    "shareKindCommunity": "İcma",
+    "searchDiscover": {
+      "people": "İnsanlar",
+      "communities": "İcmalar",
+      "members": "{{n}} üzvlər",
+      "newChat": "Yeni söhbət",
+      "invite": "Davet et"
+    }
   },
   "editPost": {
     "mediaPermission": "Media kitabxanasına icazə tələb olunur",
@@ -10578,7 +10708,10 @@
       "hint": "Nitqi yenidən üslublaya biləcəyiniz zamanlanmış altyazılara çevirir. Cihazınızda işləyir: pulsuz və məxfi. İlk istifadədə model endirilir.",
       "done": "{{count}} altyazı əlavə edildi.",
       "noSpeech": "Bu klipdə nitq tapılmadı.",
-      "failed": "Bu klip üçün altyazı yaratmaq mümkün olmadı."
+      "failed": "Bu klip üçün altyazı yaratmaq mümkün olmadı.",
+      "styles": {
+        "bold": "Qalın"
+      }
     },
     "app": {
       "newDesign": "Yeni dizayn",
@@ -10828,7 +10961,9 @@
       "suggestTitle": "Yuxarıya böyük qalın başlıq, altına isə kiçik alt başlıq əlavə et",
       "undo": "Geri qaytar",
       "openGenerator": "Bax və yarat",
-      "working": "Üzərində işləyirəm…"
+      "working": "Üzərində işləyirəm…",
+      "stop": "Dayandır",
+      "queue": "Sıraya əlavə et"
     },
     "brand": {
       "addColor": "Brend rəngi əlavə et",
@@ -10965,7 +11100,9 @@
       "rendering": "Video hazırlanır… {{percent}}%",
       "mp4": "MP4 video",
       "exportHint": "Video hazırlanarkən redaktoru açıq saxlayın.",
-      "tooLarge": "Bu fayl redaktor üçün çox böyükdür. Limit 400 MB-dır."
+      "tooLarge": "Bu fayl redaktor üçün çox böyükdür. Limit 400 MB-dır.",
+      "tZoomIn": "Yaxınlaşdırın",
+      "tZoomOut": "Miqyası kiçilt"
     },
     "motion": {
       "title": "Hərəkət",
@@ -12144,6 +12281,28 @@
       "selection": "/Seç/İttifaq",
       "zoomIn": "Yaxınlaşdırıcı kətan",
       "zoomOut": "Kətanı yaxınlaşdırın"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Fırlanma",
+      "add": "Əlavə et",
+      "scale": "Ölçü",
+      "color": "Rəng",
+      "light": "İşıqlı"
+    },
+    "clipFix": {
+      "listening": "Dinləyirəm…"
+    },
+    "voiceClone": {
+      "stop": "Yazmağı dayandır",
+      "failed": "Səs klonu uğursuz oldu."
+    },
+    "linkImport": {
+      "go": "İdxal Et",
+      "downloading": "{{percent}}% yüklənir"
+    },
+    "reverse": {
+      "action": "Tərs"
     }
   },
   "creator": {
@@ -12605,7 +12764,32 @@
     "referenceProductName": "Məhsulunuzu klipə yerləşdirin",
     "referenceProductHint": "Əsas məhsulu əvəz edin və orijinal səhnəni qoruyun.",
     "referenceComposeName": "Referans şəkilləri birləşdirin",
-    "referenceComposeHint": "Bir neçə şəkildən karakterləri, obyektləri və sahələri bir kompozisiyaya gətirin."
+    "referenceComposeHint": "Bir neçə şəkildən karakterləri, obyektləri və sahələri bir kompozisiyaya gətirin.",
+    "marketing": {
+      "import": {
+        "use": "Bu təfərrüatlardan istifadə et"
+      }
+    },
+    "batchCount": "Şəkillər",
+    "endFrame": "Son çərçivə",
+    "cinema": {
+      "close": "Bağla",
+      "performance": {
+        "label": "Performans"
+      }
+    },
+    "audioNoSpeech": "Həmin səs yazısında heç bir nitq tapılmadı.",
+    "audioTaskSpeechLabel": "Nitq",
+    "audioTaskDialogueLabel": "Dialoq",
+    "audioTaskSfxLabel": "Səs effekti",
+    "audioTaskVoiceChangerLabel": "Səs dəyişdirici",
+    "audioTaskTranscribeLabel": "Transkripsiya",
+    "audioTaskIsolateLabel": "Təmizləyin",
+    "priceFreeRateLimited": "Pulsuz · qiymət limitləri tətbiq olunur",
+    "loop": "Döngə",
+    "dialogueFormat": "Səhnəni \"Ad: sətir\" kimi yazın, hər sətirdə bir spikerdir.",
+    "fileTooLarge": "Bu fayl 100 MB-dan çoxdur. Daha qısa və ya kiçik olanı istifadə edin.",
+    "signInToGenerate": "Yaratmaq üçün daxil olun."
   },
   "fractions": {
     "title": "Fraksiyalar",
@@ -14674,6 +14858,19 @@
       "intro": "İzləyicilər sizi izlədikləri hər dəqiqə və hədiyyə etdikləri hər 100 token üçün bir xal qazanır. Söhbət və reaksiyalar heç bir şey qazanmır, buna görə də xallar fermada saxlanıla bilməz.",
       "empty": "Hələ xal yoxdur. Onlar insanların izlədiyi və hədiyyə etdiyi kimi yaranır.",
       "widgetHint": "Bu siyahını yayımda göstərmək üçün Sadiq izləyicilər vidcetini əlavə edin."
+    },
+    "destinations": {
+      "platform": "Platforma",
+      "label": "Ad (qeyri-məcburi)",
+      "key": "Yayım açarı",
+      "save": "Əlavə et",
+      "cancel": "Ləğv et",
+      "states": {
+        "off": "Söndür",
+        "idle": "Hazırdır",
+        "live": "Canlı",
+        "error": "Xəta"
+      }
     }
   },
   "liveChatModeration": {
@@ -14754,7 +14951,8 @@
     "editor": {
       "count": "{{count}} of {{limit}} səhifə",
       "coverHint": "Səhifə 1 — qapagıdır.",
-      "empty": "Səhifələrinizi şəkil düyməsi ilə əlavə edin. Her bir səhifəyə başlıq və alt mətn yazın."
+      "empty": "Səhifələrinizi şəkil düyməsi ilə əlavə edin. Her bir səhifəyə başlıq və alt mətn yazın.",
+      "cover": "Üz qabığı"
     }
   },
   "nftMarket": {
@@ -14769,7 +14967,66 @@
     "days": "{{count}} gün",
     "spotlightForSale": "Satqılı halda",
     "spotlightNew": "Sonuncu məhsul",
-    "buyFor": "{{price}}-qədər üçün al"
+    "buyFor": "{{price}}-qədər üçün al",
+    "actAll": "Hamısı",
+    "actListings": "Elanlar",
+    "actOffers": "Təkliflər",
+    "actSales": "Satışlar",
+    "tabActivity": "Fəaliyyət",
+    "allChains": "Bütün zəncirlər",
+    "newest": "Ən Yeni",
+    "cheapest": "Ən aşağı qiymət",
+    "soldFor": "Satıldı",
+    "signIn": "Giriş edin",
+    "title": "NFT-lər",
+    "share": "Paylaş",
+    "noneForSale": "Hələ satışda heç nə yoxdur",
+    "tabBrowse": "Gəzinti",
+    "tabMine": "Sizin",
+    "tabSales": "Satışlar",
+    "cancelled": "Ləğv edildi",
+    "sold": "Satıldı",
+    "listed": "Satış üçün siyahıya alınmış",
+    "feeRow": "Riftn haqqı ({{pct}}%)",
+    "royaltyRow": "Yaradıcı roiyalti",
+    "youGet": "Siz əldə edirsiniz",
+    "holderGets": "Hədd edən əldə edir",
+    "loading": "Yüklənir…",
+    "price": "Qiymət",
+    "seller": "Satıcı",
+    "tabRecent": "Son",
+    "buyNow": "İndi satın al",
+    "offers": "Təkliflər",
+    "cancel": "İmtina",
+    "accept": "Qəbul et",
+    "signInToTrade": "Təhlükəsiz ticarət üçün daxil olun",
+    "listForSale": "Satış üçün siyahı",
+    "makeOffer": "Təklif irəli sürün",
+    "sendOffer": "Təklif göndər",
+    "back": "Geri",
+    "dropsTo": "Qiymət {{price}}-ə qədər düşür {{date}}",
+    "trending": "Populyar kolleksiyalar",
+    "floor": "Mərtəbə",
+    "listedCount": "{{n}} satılır",
+    "thisCollection": "Bu kolleksiya",
+    "collectionOffer": "İstənilən təklif",
+    "showAll": "Hamısını göstər",
+    "shortTitle": "NFT-lər",
+    "filters": "Filtrlər",
+    "forSale": "Satılır",
+    "openToOffers": "Təkliflərə açıqdır",
+    "freshMints": "Riftn yaradıcılarından təzədir",
+    "offersOpen": "Təkliflərə açıqdır",
+    "thisNft": "Bu NFT",
+    "alertUnder": "Mənə bildirin, siyahıya alınanda və ya aşağıda ({{symbol}}, isteğe bağlı)",
+    "turnOnAlert": "Xəbərdarlığı aktivləşdir",
+    "alertSaved": "Xəbərdarlıq aktivdir. Birinin siyahıya alındığını bildirecəyik.",
+    "priceDrop": "Qiymət zamanla düşür",
+    "endPrice": "Ən aşağı qiymət, sonunda əldə edilir ({{symbol}})",
+    "bundleBadge": "Paket ×{{n}}",
+    "dropBadge": "Qiymət düşməsi",
+    "days_one": "{{count}} gün",
+    "days_other": "{{count}} gün"
   },
   "reel": {
     "readAll": "Hamısını oxu",
@@ -14791,7 +15048,11 @@
       "episode": "Podkast epizodu",
       "show": "Podkast",
       "artist": "Rəssam"
-    }
+    },
+    "loading": "Yüklənir…",
+    "paused": "Dayandırıldı",
+    "preview": "Önizləmə",
+    "seek": "Axtarın"
   },
   "twoFactor": {
     "wrongCode": "O kod uyğun gəlmədi. Ən yeni kodu tətbiqinizdə sınayın.",
@@ -14868,5 +15129,249 @@
     "newer": "Daha yeni nəticə",
     "gone": "Həmin mesaj artıq burada deyil",
     "theirMessages": "Onların mesajları"
+  },
+  "chatTextSize": {
+    "title": "Mətn ölçüsü",
+    "default": "Standart",
+    "larger": "Daha böyük"
+  },
+  "remix": {
+    "cut": "Kəs"
+  },
+  "signedFollows": {
+    "setUp": "Aktivləşdir",
+    "turnOff": "söndürmək",
+    "efpTurnOff": "Dayandır"
+  },
+  "postEditHistory": {
+    "original": "Orijinal"
+  },
+  "studioDeck": {
+    "remove": "Sil",
+    "background": {
+      "title": "Fon",
+      "modes": {
+        "none": "Söndür",
+        "blur": "Bulanıqlıq",
+        "color": "Rəng"
+      }
+    },
+    "scenes": {
+      "countdown": "Geri sayım",
+      "minutes": "{{count}} dəq",
+      "names": {
+        "starting": "Tezliklə başlayacaq"
+      }
+    },
+    "widgets": {
+      "tab": "Vidjetlər"
+    },
+    "sources": {
+      "image": "Şəkil",
+      "show": "Yayımda göstər",
+      "positions": {
+        "center": "Mərkəzləşdir"
+      },
+      "sizes": {
+        "medium": "Orta"
+      }
+    },
+    "phone": {
+      "title": "Studiya"
+    }
+  },
+  "whenSheet": {
+    "today": "Bu gün",
+    "tooSoon": "Gələcəkdə bir vaxt seçin.",
+    "show": "Göstər",
+    "hide": "Gizlə"
+  },
+  "planned": {
+    "title": "Planlaşdırılıb",
+    "all": "Hamısı",
+    "posts": "Paylaşımlar",
+    "stages": "Səsli otaqlar",
+    "post": "Paylaş",
+    "live": "Canlı",
+    "stage": "Mərhələ",
+    "untitledPost": "Paylaş",
+    "untitledLive": "Canlı",
+    "loading": "Yüklənir…",
+    "startNow": "İndi başla",
+    "cancel": "Ləğv et",
+    "cancelled": "Ləğv edildi"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn-a xoş gəlmisiniz",
+      "day": "Gün",
+      "month": "Ay",
+      "year": "İl"
+    },
+    "name": {
+      "title": "Adınız",
+      "placeholder": "Adınız"
+    },
+    "card": {
+      "name": "Adınız",
+      "followers": "izləyicilər"
+    },
+    "topic": {
+      "music": "Musiqi",
+      "art": "İncəsənət",
+      "gaming": "Oyun",
+      "crypto": "Kripto",
+      "sports": "Sportlar",
+      "comedy": "Komediya",
+      "podcast": "Podkast",
+      "food": "Yemək",
+      "news": "Xəbərlər",
+      "science": "Elm"
+    },
+    "back": "Geri",
+    "skipPhoto": "İndi keç",
+    "preview": "Önbaxış"
+  },
+  "appTokens": {
+    "title": "Sizin tokenləriniz",
+    "history": "Tarixçə",
+    "noHistory": "Hələ heç bir fəaliyyət yoxdur",
+    "kindDeposit": "Depozit",
+    "to": "Kimə",
+    "amount": "Məbləğ",
+    "notePlaceholder": "Qeyd əlavə et (istəyə bağlı)",
+    "sendButton": "Göndər",
+    "errorInsufficient": "Kifayət qədər token yoxdur"
+  },
+  "avatarPrompt": {
+    "notNow": "İndi yox"
+  },
+  "postStats": {
+    "audience": "Auditoriya",
+    "engagement": "İştirak",
+    "finished": "Bitdi",
+    "members": "Üzvlər",
+    "membersLower": "üzvlər",
+    "newFollowers": "Yeni izləyicilər",
+    "noBadge": "Nişan yoxdur",
+    "people": "İnsanlar",
+    "plays": "Pyeslər",
+    "quotes": "sitat",
+    "reposts": "Yenidən Paylaşımlar",
+    "saved": "Saxlanıldı",
+    "shares": "Paylaşımlar",
+    "signedOutViewers": "Çıxış edildi",
+    "topSupporters": "Ən yaxşı dəstəkçilər",
+    "visitors": "Çıxış edildi"
+  },
+  "duet": {
+    "policyEveryone": "Hamı",
+    "policyFollowers": "İzləyicilər",
+    "policyNobody": "Heç kim",
+    "loadMore": "Daha çox yüklə",
+    "video": "Videolar"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Hamı",
+      "followers": "İzləyicilər",
+      "nobody": "Heç kim"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Hamı",
+      "followers": "İzləyicilər",
+      "nobody": "Heç kim"
+    },
+    "heading": "Reaksiyalar",
+    "more": "Daha çox göstər",
+    "liveNow": "Canlı",
+    "untitled": "Reaksiya"
+  },
+  "liveClips": {
+    "copyLink": "Linkini kopyala",
+    "linkCopied": "Link koplandı"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Planlaşdırın",
+      "howMany": "Neçə",
+      "who": "İstifadəçi adı və ya pulqabı ünvanı",
+      "whoPlaceholder": "@istifadəçi_adı",
+      "cancel": "Ləğv et",
+      "stage": {
+        "preparing": "Hazırlanır…",
+        "confirming": "Əməliyyat gözlənilir…",
+        "recording": "Tamamlanır…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Digər",
+    "confirming": "Ödənişi təsdiq edir..."
+  },
+  "liveShorts": {
+    "live": "CANLI"
+  },
+  "feedFilters": {
+    "clearAllShort": "Hamısını təmizlə",
+    "done": "Götürüldü",
+    "edit": "Redaktə et",
+    "groupDate": "Tarix",
+    "groupSort": "Sırala",
+    "groupType": "Növ",
+    "save": "Yadda saxla"
+  },
+  "ownKeys": {
+    "working": "İşləyir",
+    "failed": "Xəta baş verdi. Yenidən cəhd edin.",
+    "check": "Yoxla",
+    "remove": "Sil",
+    "save": "Yadda saxla",
+    "cancel": "Ləğv et"
+  },
+  "postBg": {
+    "none": "Heç biri",
+    "yours": "Sizin",
+    "accent": "Vententent",
+    "names": {
+      "aurora": "Avrora",
+      "lava": "Lava lampası",
+      "drive": "Gecə sürmə məsafəsi",
+      "chrome": "Maye Xrom",
+      "snow": "Qar yağışı"
+    }
+  },
+  "articleTile": {
+    "cover": "Üz qabığı"
+  },
+  "aiConsent": {
+    "allow": "İcazə ver"
+  },
+  "dmRequests": {
+    "title": "Sorğular",
+    "accept": "Qəbul et",
+    "delete": "Sil",
+    "block": "Blok"
+  },
+  "dmSchedule": {
+    "view": "Bax",
+    "edit": "Redaktə et",
+    "editLabel": "Mesajı redaktə et",
+    "error": "Bu alınmadı. Yenidən cəhd edin."
+  },
+  "chatBulk": {
+    "selected": "{{count}} seçilib",
+    "cancel": "Ləğv et",
+    "reply": "Cavab",
+    "delete": "Sil"
+  },
+  "msgSelect": {
+    "selected": "{{count}} seçilib",
+    "copy": "Kopyala",
+    "forward": "Yönləndir",
+    "deleted_one": "{{count}} mesaj silindi",
+    "deleted_other": "{{count}} mesaj silindi"
   }
 }

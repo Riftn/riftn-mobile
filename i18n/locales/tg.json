@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Дар ин ҳафта дар Audius. Бепул истифода, мусиқони дар пайванд дар пайшиши шумо номбар мешаванд.",
     "d2e45b7406fc": "Музыкаи домени ҷамъиятӣ ва Creative Commons аз Wikimedia Commons. Музыкан дар пайшиши шумо номбар мешаванд.",
     "d0c1a3684775": "Музыкаҳо бор намешаванд. Дар якчанд соат дубора кӯшиш кунед.",
-    "d14064f80f52": "Садо илова кунед"
+    "d14064f80f52": "Садо илова кунед",
+    "71988c4d8e08": "Матн",
+    "147170e793c6": "Васеъ",
+    "481859b689b0": "Пайвастро тафтиш кунед ва аз нав кӯшиш кунед.",
+    "57e2faa5ec63": "Дар Riftn ҷустуҷӯ кунед",
+    "7db20897053b": "Одамон",
+    "96d7bff86b44": "Ҷустуҷӯ нобудаст зарурӣ",
+    "d8b8392e2c54": "Аз нав кӯшиш кунед"
   },
   "dehubLinks": {
     "kind": {
@@ -2682,7 +2689,9 @@
       "location": "Ҷойгиршавӣ",
       "custom": "Фармоишӣ",
       "customOption": "Ярлиқи фармоишӣ"
-    }
+    },
+    "placeholderLink": "yourite.com",
+    "placeholderPronouns": "онҳо/онҳо"
   },
   "notificationFilters": {
     "title": "Филтри огоҳиномаҳо аз",
@@ -2853,7 +2862,8 @@
       "quote": "Цитат",
       "bullets": "Рӯйхати нуқта",
       "numbers": "Рӯйхати рақамӣ",
-      "link": "Пайванд"
+      "link": "Пайванд",
+      "image": "Тасвирҳо илова кунед"
     }
   },
   "storefront": {
@@ -3781,7 +3791,11 @@
     "payViaDpay": "Ба Riftn Pay пардохт карда шуд, токенҳо тақрибан дар 30 сония меоянд",
     "payViaBridgeDpay": "Ба Base интиқол дода шуд ва ба Riftn Pay пардохт карда шуд, токенҳо тақрибан дар як дақиқа меоянд",
     "tokensUnit": "токенҳо",
-    "tokenAmount": "{{amount}} токенӣ"
+    "tokenAmount": "{{amount}} токенӣ",
+    "addMessage": "Соҳиби хабар (вақтӣ)",
+    "messagePublic": "Оммавӣ",
+    "railTitle": "Маслиҳатҳо",
+    "railTotal": "{{amount}} токенӣ"
   },
   "postOptions": {
     "aiOverview": "Pangkalahatang-ideya",
@@ -4507,7 +4521,11 @@
     "badgeHandedBack": "{{name}} тамғаи {{tier}}-и шуморо, ки шумо ба онҳо қарз дода будед, баргардонид",
     "badgeLoanLapsed": "{{name}} дигар наметавонад ба шумо тамғаи {{tier}}-и худро қарз диҳад",
     "badgeLoanRetiered": "{{name}} ҳоло ба шумо тамғаи {{tier}}-ро қарз медиҳад",
-    "tokenAmount": "{{amount}} токен"
+    "tokenAmount": "{{amount}} токен",
+    "groupNew": "Нав",
+    "groupToday": "Имрӯз",
+    "groupThisWeek": "Ин ҳафта",
+    "searchClose": "Пӯшидани ҷустуҷӯ"
   },
   "leaderboard": {
     "title": "Рейтинг",
@@ -4699,7 +4717,18 @@
     "attachmentTooLarge": "Ҳар як файл бояд аз 50MB камтар бошад",
     "deleteCommentA11y": "Нест кардани шарҳ",
     "sendCommentA11y": "Фиристодани шарҳ",
-    "requestOptions": "Имконоти дархост"
+    "requestOptions": "Имконоти дархост",
+    "deviceInfoNoErrors": "Ҳеҷ",
+    "topBuilders": {
+      "month": "Ин моҳ",
+      "allTime": "Ҳама вақт",
+      "shipped": "Фиристодашуда",
+      "votes": "Овозҳо",
+      "comments": "Шарҳҳо",
+      "showLess": "Камтар нишон додан",
+      "viewProfile": "Дидани профил",
+      "you": "Шумо"
+    }
   },
   "auth": {
     "invalidImportSecret": "Ин ибораи дурусти 12/24-калимагӣ ё калиди хусусӣ нест",
@@ -4960,7 +4989,20 @@
       "votes_other": "{{value}} info: whatsthis",
       "members_one": "{{value}} узв",
       "members_other": "{{value}} info: whatsthis"
-    }
+    },
+    "articleShort": "Мақола",
+    "articleMinRead": "{{count}} дақиқа хондан",
+    "pinnedShort": "Мустаҳкамшуда",
+    "post": "Нашр",
+    "arrange": {
+      "saving": "Дар ҳоли захира..."
+    },
+    "reserve": {
+      "signIn": "Ворид шудан"
+    },
+    "tabLikes": "Писандҳо",
+    "likesEmptyTitle": "Ҳанӯз писанд нест",
+    "likesPrivateTitle": "Писандҳо махфӣ ҳастанд"
   },
   "tv": {
     "anon": "Номаълум",
@@ -5476,6 +5518,9 @@
       "action": "Амал",
       "schedule": "Ҷадвал",
       "filter": "Филтри фаъолият"
+    },
+    "welcome": {
+      "text": "Паёми хушомад"
     }
   },
   "hero": {
@@ -5557,7 +5602,16 @@
     "nowPrivate": "Ҷараён ҳоло хусусӣ аст",
     "nowPublic": "Ҷараён ҳоло оммавӣ аст",
     "openCanvas": "Кушодани канвас",
-    "playVideo": "Пахш кардани видео"
+    "playVideo": "Пахш кардани видео",
+    "newNativeFlow": "Потоки нав",
+    "model": "Модел",
+    "aspectRatio": "Таносуби ҷанбаҳо",
+    "duration": "Давомнокӣ бо сония",
+    "resolution": "Қарор",
+    "disconnect": "Ҷудо кардан",
+    "payAndRun": "Пардохт кунед ва иҷро кунед",
+    "run": "Иҷро кунед",
+    "handlePrompt": "Вуруд"
   },
   "loginModal": {
     "title": "Ворид шудан",
@@ -5877,7 +5931,8 @@
     "searchMenu": "Ҷустуҷӯи меню",
     "clearSearch": "Пок кардани ҷустуҷӯ",
     "noMenuMatches": "Ҳеҷ чиз дар меню мувофиқ нест",
-    "searchDehubFor": "Дар Riftn \"{{query}}\"-ро ҷустуҷӯ кунед"
+    "searchDehubFor": "Дар Riftn \"{{query}}\"-ро ҷустуҷӯ кунед",
+    "requestSend": "Дархостро фиристед"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6497,7 +6552,11 @@
       "copied": "Иттилоот нусхабардорӣ шудааст",
       "copyText": "Нусха бардоштани матн",
       "mutedUntil": "Шумо хомӯш карда шудаед то {{date}}",
-      "slowMode": "Ҳолати суст: як паём ҳар {{interval}}"
+      "slowMode": "Ҳолати суст: як паём ҳар {{interval}}",
+      "joined": "{{name}} info: whatsthis",
+      "reactions": "Вокунишҳо",
+      "photoTooLarge": "Тасвир бояд аз 10MB хурдтар бошад",
+      "aiAdminFailed": "Агентии барои иродаи техникӣ (AI Admin) натичаи ҷавоб надод."
     },
     "manage": {
       "rightsSummary": "{{granted}} аз {{total}} ҳуқуқ",
@@ -6699,6 +6758,31 @@
       "revoked": "Ин пайванди даъват бекор карда шуд.",
       "requestToJoin": "Дархости ҳамроҳ шудан",
       "joinFailed": "Пайвастшавӣ қатъ шуд"
+    },
+    "buyAlert": {
+      "spent": "Хароҷот:",
+      "buyer": "Харидор:",
+      "txn": "Транзаксия",
+      "balance": "Тавозун:",
+      "price": "Нарх:",
+      "marketCap": "Сарпӯши бозор:"
+    },
+    "newChat": {
+      "public": "Оммавӣ",
+      "private": "Шахсӣ",
+      "free": "Озод",
+      "paid": "Пардохтшуда",
+      "group": "Гуруҳбандӣ кардан"
+    },
+    "holderGate": {
+      "chain": "Занҷир",
+      "which": "Токен",
+      "tab": "Соҳибон"
+    },
+    "automod": {
+      "bannedWords": "Калимаҳои манъшуда",
+      "saved": "Захирашуда",
+      "wordCount": "{{count}} калимаҳо"
     }
   },
   "work": {
@@ -7818,7 +7902,10 @@
       "doneAll": "{{done}} ҳисобҳо нест карда шуданд, ки ба шумо баргардонанд.",
       "doneSome": "{{done}} ҳисобҳо нест карда шуданд. {{failed}} нест карда нашуд.",
       "doneToast": "{{done}} ҳисобҳо нест карда шуданд, ки ба шумо баргардонанд."
-    }
+    },
+    "followBackConfirm": "Ҷавобан пайравӣ кунед",
+    "followBackNotNow": "Ҳоло нест",
+    "followBackDone": "Иҷро шуд"
   },
   "reactionInfo": {
     "title": "Вокунишҳо",
@@ -8736,7 +8823,38 @@
     "coverFrames": "Корбарии рамка",
     "coverFrame": "Истеъмол барои рамка {{index}}",
     "uploadCover": "Файлҳои корбарро наворгирон",
-    "editFailed": "Мумкин нест, кори навиштанро барҷой кардааст. Барҷой карда меравед."
+    "editFailed": "Мумкин нест, кори навиштанро барҷой кардааст. Барҷой карда меравед.",
+    "altPlaceholderVideo": "Ин видеоро тавсиф кунед",
+    "landingLive": "Зинда",
+    "preview": {
+      "title": "Пешнамоиш"
+    },
+    "recent": {
+      "all": "Ҳама"
+    },
+    "studio": {
+      "crop": "Буридан",
+      "draw": "Кашидан",
+      "light": "Равшан",
+      "contrast": "Контраст",
+      "warmth": "Гармӣ",
+      "colour": "Ранг",
+      "fade": "Хирашавӣ",
+      "original": "Аслӣ",
+      "ratioOriginal": "Аслӣ",
+      "ratioFree": "Озод",
+      "rotate": "Гардиш",
+      "strength": "Қувват",
+      "stickers": "Стикерҳо",
+      "ticker": "Тикер",
+      "textBg": "Пасзамина",
+      "font": {
+        "bold": "Пурранг",
+        "mono": "Моно"
+      }
+    },
+    "edited": "Таҳриршуда",
+    "edit": "Таҳрир"
   },
   "bounty": {
     "claimed": "Гирифта шуд",
@@ -9030,7 +9148,8 @@
     "reconnecting": "Дубора пайвастшавӣ…",
     "connecting": "Пайвастшавӣ…",
     "shopPutOnAir": "Пӯшидани ҳаво",
-    "tippedAmount": "хонда шуд {{amount}}"
+    "tippedAmount": "хонда шуд {{amount}}",
+    "liveBadge": "Зиндагӣ"
   },
   "liveShop": {
     "title": "Аз ин пахш харид кунед",
@@ -9343,7 +9462,23 @@
     "paymentSentWith": "Бо {{amount}} фиристода шуд",
     "planRestricted": "Ин корбар барои гирифтани паёмҳо обуна талаб мекунад.",
     "planTypeNotAllowed": "Нақшаи ин эҷодкор ин навъи паёмро иҷозат намедиҳад.",
-    "planMinTip": "Чойпулӣ барои ин эҷодкор бояд на камтар аз {{amount}} токенҳо бошад."
+    "planMinTip": "Чойпулӣ барои ин эҷодкор бояд на камтар аз {{amount}} токенҳо бошад.",
+    "newDrawer": {
+      "to": "Ба"
+    },
+    "download": "Боргирӣ",
+    "deleteOneTitle": "Tanggalin ang mensahe na ito?",
+    "retrySend": "Бори дигар кӯшиш кунед",
+    "discardSend": "Хориҷ кардан",
+    "shareKindGroup": "Гуруҳбандӣ кардан",
+    "shareKindCommunity": "Ҷомеа",
+    "searchDiscover": {
+      "people": "Одамон",
+      "communities": "Ҷамоатҳо",
+      "members": "{{n}} info: whatsthis",
+      "newChat": "Чати нав",
+      "invite": "Даъват кардан"
+    }
   },
   "editPost": {
     "mediaPermission": "Иҷозати китобхонаи медиа лозим аст",
@@ -9519,7 +9654,8 @@
     "clearHistoryTitle": "Таърихи ҷустуҷӯ тоза шавад?",
     "clearHistoryBody": "Ин ҳамаи ҷустуҷӯҳои охирини шуморо нест мекунад.",
     "removeFromHistory": "«{{query}}»-ро аз таърих нест кардан",
-    "open": "Ҳуҷҷат"
+    "open": "Ҳуҷҷат",
+    "close": "Пӯшидани ҷустуҷӯ"
   },
   "notifPrompt": {
     "stayInLoop": "Огоҳ бошед",
@@ -10565,7 +10701,10 @@
       "hint": "Нутқро ба субтитрҳои вақтбанд табдил медиҳад, ки услубашонро иваз карда метавонед. Дар дастгоҳи шумо кор мекунад: ройгон ва махфӣ. Бори аввал модел зеркашӣ мешавад.",
       "done": "{{count}} субтитр илова шуд.",
       "noSpeech": "Дар ин клип нутқ ёфт нашуд.",
-      "failed": "Барои ин клип субтитр сохта нашуд."
+      "failed": "Барои ин клип субтитр сохта нашуд.",
+      "styles": {
+        "bold": "Чуқур"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10635,7 +10774,8 @@
       "vibrant": "Дурахшон",
       "cyber": "Кибер",
       "invert": "Баръакс",
-      "strength": "Қувваи филтр: {{value}}%"
+      "strength": "Қувваи филтр: {{value}}%",
+      "vhs": "ВХС"
     },
     "layer": {
       "crop": "Буридан",
@@ -10815,7 +10955,9 @@
       "suggestTitle": "Дар боло сарлавҳаи калони ғафс ва дар зераш зерсарлавҳаи хурдтар илова кун",
       "undo": "Бекор кардан",
       "openGenerator": "Баррасӣ ва эҷод",
-      "working": "Дар болояш кор мекунам…"
+      "working": "Дар болояш кор мекунам…",
+      "stop": "Қатъ кунед",
+      "queue": "Ба қуе илова кунед"
     },
     "brand": {
       "addColor": "Илова кардани ранги бренд",
@@ -10952,7 +11094,9 @@
       "rendering": "Видео тайёр мешавад… {{percent}}%",
       "mp4": "Видеои MP4",
       "exportHint": "То тайёр шудани видео муҳаррирро пӯшида накунед.",
-      "tooLarge": "Ин файл барои муҳаррир хеле калон аст. Ҳадди аксар 400 MB."
+      "tooLarge": "Ин файл барои муҳаррир хеле калон аст. Ҳадди аксар 400 MB.",
+      "tZoomIn": "Калоншавӣ",
+      "tZoomOut": "Хурдшавӣ"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12126,6 +12270,28 @@
       "zoomOut": "Хурд кардани канвас",
       "fit": "Ғунҷоиш",
       "selection": "Интихоб"
+    },
+    "stage": {
+      "camera": "Камера",
+      "yaw": "Чархзанӣ",
+      "add": "Илова кунед",
+      "scale": "Андоза",
+      "color": "Ранг",
+      "light": "Равшан"
+    },
+    "clipFix": {
+      "listening": "Гӯш кардан..."
+    },
+    "voiceClone": {
+      "stop": "Боздоштани сабт",
+      "failed": "Клонизатсияи овоз ноком шуд."
+    },
+    "linkImport": {
+      "go": "Воридот",
+      "downloading": "Боргирӣ {{percent}}%"
+    },
+    "reverse": {
+      "action": "Баръакс"
     }
   },
   "creator": {
@@ -12587,7 +12753,32 @@
     "referenceProductName": "Mahsulot ro dar klip ta’kid konid",
     "referenceProductHint": "Mahsulot asli ro badal konid va manzarai asli saql konid",
     "referenceComposeName": "Resurslar referensi baravard konid",
-    "referenceComposeHint": "Karakterlar, ob’ektlar va manzaralar bar resurslar kamida kamida yek ta kompozitsiya ro ta’kid konid"
+    "referenceComposeHint": "Karakterlar, ob’ektlar va manzaralar bar resurslar kamida kamida yek ta kompozitsiya ro ta’kid konid",
+    "marketing": {
+      "import": {
+        "use": "Gamitin ang mga detalye na it"
+      }
+    },
+    "batchCount": "Тасвирҳо",
+    "endFrame": "Фрейми анҷом",
+    "cinema": {
+      "close": "Бастан",
+      "performance": {
+        "label": "Самаранокӣ"
+      }
+    },
+    "audioNoSpeech": "Дар он сабт ягон сухан ёфт нашуд.",
+    "audioTaskSpeechLabel": "Нутқ",
+    "audioTaskDialogueLabel": "Диалог",
+    "audioTaskSfxLabel": "Таъсири садо",
+    "audioTaskVoiceChangerLabel": "Тағйирдиҳандаи овоз",
+    "audioTaskTranscribeLabel": "Аз нав навиштан",
+    "audioTaskIsolateLabel": "Тоза кардан",
+    "priceFreeRateLimited": "Озод · маҳдудиятҳои меъёри татбиқ",
+    "loop": "Ҳалқа",
+    "dialogueFormat": "Навиштани саҳна ҳамчун \"Ном: сатр\", як баландгӯяк дар як сатр.",
+    "fileTooLarge": "Ang file na ito ay higit sa 100 MB. Gamitin ng mas maliit o mas maliit na isa.",
+    "signInToGenerate": "Mag-sign in upang lumikha."
   },
   "fractions": {
     "title": "Ҳиссаҳо",
@@ -13695,7 +13886,13 @@
       "unpublished": "Тоза карда шуд аз мағозаи барнома",
       "versions": "Версияҳо",
       "restore": "Барқарор кардан",
-      "restored": "Версияи барқароршуда {{version}}"
+      "restored": "Версияи барқароршуда {{version}}",
+      "public": "Pampubliko",
+      "publish": "I-publish sa App store",
+      "publishedToast": "I-publish sa app store",
+      "inStoreUnreviewed": "Sa isang app store, na nakalipat na hindi tinukoy hanggang sinusuri ang koponan ito.",
+      "noVersions": "Walang naka-save na mga bersyon.",
+      "current": "Kasalukuyang"
     }
   },
   "depin": {
@@ -14650,6 +14847,19 @@
       "intro": "Бинишандагон барои ҳар як дақиқаи тамошо як нуқта ва барои ҳар як 100 токенҳо соҳибкор як нуқта ба даст меоранд. Гуфтугӯ ва реаксияҳо ҳеҷ нуқтае ба даст намеоранд, бинобар ин нуқтаҳо наметавонанд кишт шаванд.",
       "empty": "Ҳанӯз нуқтае нест. Онҳо ҳангоми тамошо ва соҳибкорӣ ҷамъ мешаванд.",
       "widgetHint": "Виджети Бинишандагони вафодор илова кунед, то ин рӯйхатро дар ҷараёни трансляция нишон диҳед."
+    },
+    "destinations": {
+      "platform": "Платформа",
+      "label": "Ном (ихтиёрӣ)",
+      "key": "Калиди ҷараён",
+      "save": "Илова кунед",
+      "cancel": "Бекор кардан",
+      "states": {
+        "off": "Хомӯш",
+        "idle": "Омода",
+        "live": "Зинда",
+        "error": "Хатогӣ"
+      }
     }
   },
   "liveChatModeration": {
@@ -14685,7 +14895,10 @@
     "gasIncluded": "Газ дохил карда шудааст",
     "paidFromWalletPlain": "Пардохтшуда аз ҳамёни шумо",
     "priceUnavailable": "Нарх дастнорас аст",
-    "notAvailable": "Ин занҷир ҳоло дастрас нест."
+    "notAvailable": "Ин занҷир ҳоло дастрас нест.",
+    "feeIncludesGas": "{{usd}}, gas include",
+    "gasOnly": "{{usd}} gas",
+    "paidFromWallet": "{{amount}} mula sa iyong wallet"
   },
   "tokenLaunch": {
     "eyebrow": "Ба зудӣ",
@@ -14703,7 +14916,12 @@
     "privacy": "Танҳо барои огоҳ кардани шумо дар бораи оғоз истифода мешавад."
   },
   "githubLink": {
-    "disconnect": "Парокандашавондан."
+    "disconnect": "Парокандашавондан.",
+    "hint": "Roʻyxatdan oʻtish uchun GitHubga kirishingiz kerak, shuning uchun hisobingiz siznikiga aylandi. Riftn faqat sizning umumiy GitHub profilingizni koʻrishadi.",
+    "verified": "Tasdiq etilgan",
+    "connected": "GitHub roʻyxatdan etilgan",
+    "taken": "Inshakhs, hesob GitHubi dar profili Riftni baʼziy roʻy berde ast.",
+    "failed": "Qayd rosh qilib boʿd GitHub. Yana urinish konid."
   },
   "comic": {
     "showAll": "Нишон додани ҳамаи {{count}} саҳифа",
@@ -14732,7 +14950,72 @@
     "sellYoursHint": "Рӯйхати аз ҳамёни шумо",
     "latestMints": "Охири мунтҳо",
     "tapToOffer": "Барои пешниҳод кардан як ҷо зер кунед",
-    "collections": "Ҷамъоварӣ"
+    "collections": "Ҷамъоварӣ",
+    "actAll": "Ҳама",
+    "actListings": "Эълонҳо",
+    "actOffer": "Пешниҳод",
+    "actOffers": "Пешниҳодҳо",
+    "actSales": "Фурӯшҳо",
+    "tabActivity": "Фаъолият",
+    "allChains": "Ҳама занҷирҳо",
+    "newest": "Навтарин",
+    "cheapest": "Қимати пасттарин",
+    "soldFor": "Фурӯхта шудааст",
+    "signIn": "Ворид шудан",
+    "share": "Ibahagi",
+    "noneForSale": "Hozir hech nima sarf bozór",
+    "noSales": "Ҳеҷ фурӯш ҳанӯз нест",
+    "tabBrowse": "Мурури ҷумла",
+    "tabMine": "Аз они шумо",
+    "tabSales": "Фурӯшҳо",
+    "cancelled": "Бекор шуд",
+    "sold": "Фурӯхта шудааст",
+    "listed": "Феҳрист барои фурӯш",
+    "feeRow": "Feyi dar ro ({{pct}}%)",
+    "royaltyRow": "Hozirgaroyi bar namoyandah",
+    "youGet": "Siz oladiz",
+    "holderGets": "Darozi oladiz",
+    "loading": "Боркунӣ рафта истодааст...",
+    "price": "Нарх",
+    "seller": "Фурӯшанда",
+    "tabRecent": "Охирин",
+    "buyNow": "Ҳозир харед",
+    "offers": "Пешаварҳо",
+    "cancel": "Бекор кунед",
+    "accept": "Қабул кунед.",
+    "signInToTrade": "Ворид шавед барои муомила",
+    "listForSale": "Ба фурӯш гузоштан",
+    "makeOffer": "Пешниҳод кунед",
+    "sendOffer": "Taklif berid",
+    "back": "Бек",
+    "trending": "Коллексияҳои маъмул",
+    "floor": "Қимати асосӣ",
+    "listedCount": "{{n}} барои фурӯш",
+    "thisCollection": "Ин коллексия",
+    "collectionOffer": "Пешниҳод дар ҳама",
+    "showAll": "Ҳама нишон диҳед",
+    "filters": "Филтрҳо",
+    "forSale": "Барои фурӯш",
+    "openToOffers": "Қабули пешниҳодҳо",
+    "freshMints": "Тозаи аз сохтгарони Riftn",
+    "offersOpen": "Қабули пешниҳодҳо",
+    "mintedCount": "{{n}} зарб шудаанд",
+    "anyInCollection": "Навъҳои дар коллексия",
+    "thisNft": "Ин NFT",
+    "alertUnder": "Ба ман бигӯед, вақте ки дар рӯйхат қарор гирифта аст ё камтар аз ({{symbol}}, ихтиёрӣ)",
+    "turnOnAlert": "Огзори фаъол кун",
+    "alertSaved": "Огоҳӣ фаъол аст. Мо ба шумо мегӯем, вақте ки яке рӯй шавад.",
+    "priceDrop": "Qimmat ro bar qadar kam shavad.",
+    "bundleBadge": "Бастаи ×{{n}}",
+    "dropBadge": "Қатъи нарх",
+    "days_one": "{{count}} рӯз",
+    "days_other": "{{count}} рӯз",
+    "dehubPostsName": "Пасти Riftn",
+    "statMinted": "Сохта шуда",
+    "days": "{{count}} рӯз",
+    "spotlightForSale": "Forsatda",
+    "spotlightNew": "Tadqiq qilingan",
+    "buyFor": "{{price}}-da sotib olid"
   },
   "reel": {
     "readAll": "Хондани ҳама",
@@ -14752,7 +15035,11 @@
       "episode": "Эпизоди пакаст",
       "show": "Покаст",
       "artist": "Ҳунарманд"
-    }
+    },
+    "loading": "Боркунӣ рафта истодааст...",
+    "paused": "Таркиб",
+    "preview": "Пешнамоиш",
+    "seek": "Ҷустуҷӯ"
   },
   "twoFactor": {
     "wrongCode": "Он код мувофиқат накард. Коди навро дар барномаатон санҷед.",
@@ -14830,5 +15117,250 @@
     "newer": "Натиҷаи навтар",
     "gone": "Ин паём дигар ин ҷо нест",
     "theirMessages": "Паёмҳои онҳо"
+  },
+  "chatTextSize": {
+    "title": "Андозаи матн",
+    "default": "Пешфарз",
+    "larger": "Калонтар"
+  },
+  "remix": {
+    "cut": "Буридан"
+  },
+  "signedFollows": {
+    "setUp": "Фаъол кардан",
+    "turnOff": "Хомӯш кардан",
+    "efpTurnOff": "Қатъ кунед"
+  },
+  "postEditHistory": {
+    "original": "Аслӣ"
+  },
+  "studioDeck": {
+    "remove": "Хориҷ кардан",
+    "background": {
+      "title": "Пасзамина",
+      "modes": {
+        "none": "Хомӯш",
+        "blur": "Хирагӣ",
+        "color": "Ранг"
+      }
+    },
+    "scenes": {
+      "countdown": "Ҳисоби баръакс",
+      "minutes": "{{count}} дақиқа",
+      "names": {
+        "starting": "Ба зудӣ оғоз мешавад"
+      }
+    },
+    "widgets": {
+      "tab": "Виджетҳо"
+    },
+    "sources": {
+      "image": "Тасвир",
+      "show": "Дар ҷараён нишон диҳед",
+      "positions": {
+        "center": "Марказ"
+      },
+      "sizes": {
+        "medium": "Миёна"
+      }
+    },
+    "phone": {
+      "title": "Студия"
+    }
+  },
+  "whenSheet": {
+    "today": "Имрӯз",
+    "tooSoon": "Дар оянда вақтро интихоб кунед.",
+    "show": "Нишон додан",
+    "hide": "Пинҳон кардан"
+  },
+  "planned": {
+    "title": "Банақшагирифташуда",
+    "all": "Ҳама",
+    "posts": "Нашрҳо",
+    "stages": "Утоқҳои аудиоӣ",
+    "post": "Нашр",
+    "live": "Зинда",
+    "stage": "Саҳна",
+    "untitledPost": "Нашр",
+    "untitledLive": "Зинда",
+    "loading": "Боркунӣ…",
+    "startNow": "Ҳозир оғоз кардан",
+    "cancel": "Бекор кардан",
+    "cancelled": "Бекор карда шуд"
+  },
+  "welcome": {
+    "about": {
+      "title": "Хуш омадед ба Riftn",
+      "day": "Рӯз",
+      "month": "Моҳ",
+      "year": "Сол"
+    },
+    "name": {
+      "title": "Номи шумо",
+      "placeholder": "Номи шумо"
+    },
+    "card": {
+      "name": "Номи шумо",
+      "followers": "пайравони"
+    },
+    "topic": {
+      "music": "Мусиқӣ",
+      "art": "Санъат",
+      "gaming": "Бозиҳо",
+      "crypto": "Крипто",
+      "sports": "Варзишҳо",
+      "comedy": "Комедия",
+      "film": "Филм",
+      "podcast": "Покаст",
+      "food": "Ғизо",
+      "news": "Хабарҳо",
+      "science": "Илм"
+    },
+    "back": "Бозгашт",
+    "skipPhoto": "Ҳоло гузаред",
+    "preview": "Пешнамоиш"
+  },
+  "appTokens": {
+    "title": "Токенҳои шумо",
+    "history": "Таърих",
+    "noHistory": "Walang kasalukuyang aktib",
+    "kindDeposit": "Илова кардани маблағ",
+    "to": "Ба",
+    "amount": "Маблағ",
+    "notePlaceholder": "Эзоҳ илова кун (ихтиёрӣ)",
+    "sendButton": "Фиристодан",
+    "errorInsufficient": "Токенҳо кофӣ нестанд"
+  },
+  "avatarPrompt": {
+    "notNow": "Ҳоло нест"
+  },
+  "postStats": {
+    "audience": "Аудитория",
+    "engagement": "Ҷалбкунӣ",
+    "finished": "Анҷом ёфт",
+    "members": "Аъзоён",
+    "membersLower": "аъзоён",
+    "newFollowers": "Пайравони нав",
+    "noBadge": "Нишона нест",
+    "people": "Одамон",
+    "plays": "Бозиҳо",
+    "quotes": "Иқтибос",
+    "reposts": "Бознашрҳо",
+    "saved": "Захирашуда",
+    "shares": "Мубодилаҳо",
+    "signedOutViewers": "Баромадед",
+    "topSupporters": "Пуштибони боло",
+    "visitors": "Баромадед"
+  },
+  "duet": {
+    "policyEveryone": "Ҳама",
+    "policyFollowers": "Обуначиён",
+    "policyNobody": "Ҳеҷ кас",
+    "loadMore": "Бештар бор кардан",
+    "video": "Видео"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Ҳама",
+      "followers": "Обуначиён",
+      "nobody": "Ҳеҷ кас"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Ҳама",
+      "followers": "Обуначиён",
+      "nobody": "Ҳеҷ кас"
+    },
+    "heading": "Вокунишҳо",
+    "more": "Бештар нишон диҳед",
+    "liveNow": "Зинда",
+    "untitled": "Вокуниш"
+  },
+  "liveClips": {
+    "copyLink": "Истинодро нусхабардорӣ кунед",
+    "linkCopied": "Истинод нусхабардорӣ шуд"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Нақша",
+      "howMany": "Чанд адад",
+      "who": "Номи корбар ё суроғаи ҳамён",
+      "whoPlaceholder": "@номикорбар",
+      "cancel": "Бекор кардан",
+      "stage": {
+        "preparing": "Омодасозӣ…",
+        "confirming": "Интизори муомилот…",
+        "recording": "Ба итмом мерасад…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Дигар",
+    "confirming": "Тасдиқкунии пардохт..."
+  },
+  "liveShorts": {
+    "live": "Зиндагӣ"
+  },
+  "feedFilters": {
+    "clearAllShort": "Ҳамаро тоза кардан",
+    "done": "Анҷом шуд",
+    "edit": "Таҳрир",
+    "groupDate": "Сана",
+    "groupSort": "Мураттаб",
+    "groupType": "Навъ",
+    "save": "Захира"
+  },
+  "ownKeys": {
+    "working": "Кор",
+    "failed": "Nagkaroon ng isang problema. Subukan muli.",
+    "check": "Санҷиш",
+    "remove": "Хориҷ кардан",
+    "save": "Захира",
+    "cancel": "Бекор кардан"
+  },
+  "postBg": {
+    "none": "Ҳеҷ",
+    "yours": "Аз они шумо",
+    "accent": "Акцент",
+    "names": {
+      "lava": "Таърих Бознигарии Давомнокии",
+      "drive": "Драйвери шабона",
+      "chrome": "Хром моеъ",
+      "orbit": "Мадор",
+      "snow": "Барфрезӣ"
+    }
+  },
+  "articleTile": {
+    "cover": "Муқова"
+  },
+  "aiConsent": {
+    "allow": "Иҷозат додан"
+  },
+  "dmRequests": {
+    "title": "Дархостҳо",
+    "accept": "Қабул кардан",
+    "delete": "Нест кардан",
+    "block": "Блок кардан"
+  },
+  "dmSchedule": {
+    "view": "Тамошо",
+    "edit": "Таҳрир",
+    "editLabel": "Муҳаррири иттилоот",
+    "error": "Ин кор накард. Бори дигар кӯшиш кунед."
+  },
+  "chatBulk": {
+    "selected": "{{count}} tanlangan",
+    "cancel": "Бекор кардан",
+    "reply": "Ҷавоб",
+    "delete": "Нест кардан"
+  },
+  "msgSelect": {
+    "selected": "{{count}} tanlangan",
+    "copy": "Нусха бардоштан",
+    "forward": "Фиристодан",
+    "deleted_one": "Маҳрум шудан аз {{count}} хабар",
+    "deleted_other": "Маҳрум шудан аз {{count}} хабарҳо"
   }
 }

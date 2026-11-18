@@ -2596,7 +2596,11 @@
     "0418db35eb35": "I no understand wetin you mean.",
     "cbade2afaee2": "Trending dis week for Audius. Free to use, di artist go get credit for your post.",
     "d0c1a3684775": "Songs no load. Try am again for small time.",
-    "d14064f80f52": "Add sound"
+    "d14064f80f52": "Add sound",
+    "481859b689b0": "Check your wi-fi or network and try again.",
+    "7db20897053b": "Pipo",
+    "96d7bff86b44": "Search no fit load.",
+    "d8b8392e2c54": "Try am again"
   },
   "dehubLinks": {
     "kind": {
@@ -3767,7 +3771,9 @@
     "insufficientDhb": "Na token dey low.",
     "attachDescription": "Wetin you wan me translate?",
     "payViaBridge": "Swap to Riftn tokens for Uniswap, arrive for ~{{seconds}}s",
-    "payFailed": "Wey no dey convert {{symbol}} to Riftn tokens."
+    "payFailed": "Wey no dey convert {{symbol}} to Riftn tokens.",
+    "addMessage": "Wen yu wan add message, yu go do am.",
+    "messagePublic": "Everybody"
   },
   "postOptions": {
     "skippableSections": "Skippable sections",
@@ -4485,7 +4491,9 @@
     "badgeLoanLapsed": "{{name}} no fit borrow you their {{tier}} badge again",
     "badgeLoanDropped": "You no fit borrow {{name}} your {{tier}} badge again",
     "badgeLoanRetiered": "{{name}} dey borrow you {{tier}} badge now",
-    "tokenAmount": "{{amount}} tokens"
+    "tokenAmount": "{{amount}} tokens",
+    "groupToday": "Dis day",
+    "groupThisWeek": "Dis week"
   },
   "leaderboard": {
     "addedToLeaderboard": "We don add you! Balance: {{balance}} tokens",
@@ -4677,7 +4685,13 @@
     "attachmentTooLarge": "Every file must dey under 50MB",
     "deleteCommentA11y": "Delete comment",
     "sendCommentA11y": "Send comment",
-    "requestOptions": "Request options"
+    "requestOptions": "Request options",
+    "deviceInfoNoErrors": "Nothing",
+    "topBuilders": {
+      "month": "Dis month",
+      "shipped": "Don land",
+      "comments": "Comment Dem"
+    }
   },
   "auth": {
     "importSecretPlaceholder": "12 or 24 words, or di private key",
@@ -4934,7 +4948,15 @@
       "listens_one": "{{value}} hear word",
       "votes_other": "{{value}} votes",
       "members_other": "{{value}} members"
-    }
+    },
+    "pinnedShort": "E Don Pin",
+    "post": "Post Am",
+    "arrange": {
+      "saving": "E dey save..."
+    },
+    "tabLikes": "Like Dem",
+    "likesEmptyTitle": "Nobody never like am yet",
+    "likesPrivateTitle": "Likes na private"
   },
   "tv": {
     "title": "TV",
@@ -5531,7 +5553,8 @@
     "nowPublic": "The flow don turn public",
     "openCanvas": "Open canvas",
     "playVideo": "Play video",
-    "signInToSee": "Sign in make you see the flows wey dey your account."
+    "signInToSee": "Sign in make you see the flows wey dey your account.",
+    "duration": "How long e go last (seconds)"
   },
   "loginModal": {
     "continueGoogle": "Use Google continue",
@@ -6470,7 +6493,9 @@
       "copied": "Message don copy",
       "copyText": "Copy di text",
       "mutedUntil": "Dem don mute you until {{date}}",
-      "slowMode": "Slow mode: one message for every {{interval}}"
+      "slowMode": "Slow mode: one message for every {{interval}}",
+      "reactions": "Likes",
+      "photoTooLarge": "Image must dey less than 10MB"
     },
     "manage": {
       "inviteShareMessage": "Join dis community for Riftn",
@@ -6670,6 +6695,13 @@
       "notFound": "Dis invite link no dey valid.",
       "requestToJoin": "Join me.",
       "approvalNote": "Admin go confirm your request before you fit join."
+    },
+    "newChat": {
+      "public": "Everybody",
+      "paid": "Dem don pay"
+    },
+    "automod": {
+      "saved": "E don save"
     }
   },
   "work": {
@@ -7782,7 +7814,9 @@
       "doneTitle": "All cleared",
       "doneAll": "Unfollowed {{done}} accounts wey no dey follow you back.",
       "doneToast": "Unfollowed {{done}} accounts wey no dey follow you back"
-    }
+    },
+    "followBackNotNow": "No be now",
+    "followBackDone": "Don finish"
   },
   "reactionInfo": {
     "mentionedYouLiveChat": "{{name}} mention you for live chat",
@@ -8677,7 +8711,17 @@
     "coverFrames": "Wepa cover frame!",
     "uploadCover": "Uploading cover image",
     "editFailed": "I no fit apply edit.",
-    "coverFrame": "Use frame {{index}} as di cover"
+    "coverFrame": "Use frame {{index}} as di cover",
+    "altPlaceholderVideo": "Describe dis video",
+    "landingLive": "Dei",
+    "studio": {
+      "draw": "Draw.",
+      "font": {
+        "bold": "Make am bold"
+      }
+    },
+    "edited": "E don change",
+    "edit": "Edit Am"
   },
   "bounty": {
     "claimed": "Don claim",
@@ -9284,7 +9328,14 @@
     "planMinTip": "Tip for dis creator must reach at least {{amount}} tokens.",
     "eachMessagePaid": "Wen yu wan send message, yu go pay token.",
     "insufficientTokenBalance": "Tokenu no dey enough · {{amount}} held",
-    "paymentSentWith": "Wen yu send am {{amount}}"
+    "paymentSentWith": "Wen yu send am {{amount}}",
+    "download": "Download Am",
+    "retrySend": "Try again",
+    "discardSend": "Comot am",
+    "shareKindCommunity": "Gburugburu",
+    "searchDiscover": {
+      "people": "Pipo"
+    }
   },
   "editPost": {
     "mediaPermission": "You need media library permission",
@@ -10499,7 +10550,10 @@
       "hint": "E go turn talk to captions wey follow time, and you fit change how dem look. E dey run for your device: free and private. Di first time go download di model.",
       "done": "We don add {{count}} captions.",
       "noSpeech": "We no hear any talk for dis clip.",
-      "failed": "We no fit make captions for dis clip."
+      "failed": "We no fit make captions for dis clip.",
+      "styles": {
+        "bold": "Make am bold"
+      }
     },
     "app": {
       "newDesign": "New design",
@@ -10749,7 +10803,8 @@
       "suggestTitle": "Put big bold title for top and small subtitle under am",
       "undo": "Undo am",
       "openGenerator": "Check am and generate",
-      "working": "E dey work on am…"
+      "working": "E dey work on am…",
+      "queue": "Put am for queue"
     },
     "brand": {
       "addColor": "Add brand colour",
@@ -10886,7 +10941,9 @@
       "rendering": "Video dey render… {{percent}}%",
       "mp4": "MP4 video",
       "exportHint": "Leave di editor open while your video dey render.",
-      "tooLarge": "Dat file too big for di editor. Di limit na 400 MB."
+      "tooLarge": "Dat file too big for di editor. Di limit na 400 MB.",
+      "tZoomIn": "Zoom enter",
+      "tZoomOut": "Zoom comot"
     },
     "motion": {
       "title": "Movement",
@@ -12065,6 +12122,16 @@
     "stroke": {
       "ends": "Line end dem",
       "joins": "Corner dem for outline"
+    },
+    "voiceClone": {
+      "stop": "Stop di recording"
+    },
+    "linkImport": {
+      "go": "Bring am",
+      "downloading": "Dey download {{percent}}%"
+    },
+    "reverse": {
+      "action": "Reverse am"
     }
   },
   "creator": {
@@ -12526,7 +12593,18 @@
     "referenceProductName": "Plas your pordot for inside clip.",
     "referenceProductHint": "Wen you click on the \"Replace\" button, the featured product go change to the one wey you select.",
     "referenceComposeName": "Combine reference images",
-    "referenceComposeHint": "Bring characters, objects and settings from multiple images into one composition."
+    "referenceComposeHint": "Bring characters, objects and settings from multiple images into one composition.",
+    "marketing": {
+      "import": {
+        "use": "Use dis details"
+      }
+    },
+    "batchCount": "Foto Dem",
+    "cinema": {
+      "close": "Close Am"
+    },
+    "audioNoSpeech": "We no see any speech for dat recording.",
+    "fileTooLarge": "Na dem file dey pass 100 MB. Use one dat short or small for you."
   },
   "fractions": {
     "buyForTotal": "Buy {{quantity}}, e go cost {{total}}",
@@ -13652,7 +13730,8 @@
       "versions": "Versions",
       "current": "Current",
       "restore": "Restore",
-      "restored": "Restored version {{version}}"
+      "restored": "Restored version {{version}}",
+      "publishHint": "List am for Riftn app store, make people fit download am."
     }
   },
   "depin": {
@@ -14614,6 +14693,15 @@
       "title": "Loyal viewers",
       "intro": "Viewers get one point for every minute dey watch you, and one point for every 100 tokens dey gift you. Chat and reactions no give point, so you can't just farm points.",
       "empty": "No point yet. Dem dey increase when people watch and give gift."
+    },
+    "destinations": {
+      "cancel": "Cancel am",
+      "states": {
+        "off": "Nothing",
+        "idle": "E don ready",
+        "live": "Dei",
+        "error": "Wahala"
+      }
     }
   },
   "liveChatModeration": {
@@ -14695,7 +14783,23 @@
     "latestMints": "Latest mints",
     "collections": "Collections",
     "days": "{{count}} days",
-    "spotlightNew": "Just minted"
+    "spotlightNew": "Just minted",
+    "tabActivity": "Wetin dey happen",
+    "newest": "Di newest",
+    "soldFor": "Dem don sell am",
+    "tabBrowse": "Look around",
+    "tabMine": "Your own",
+    "cancelled": "Dem cancel am",
+    "sold": "Dem don sell am",
+    "listed": "E dey for sale",
+    "loading": "E dey load…",
+    "tabRecent": "New",
+    "cancel": "Cancel am",
+    "accept": "Accept am",
+    "listForSale": "Put for sale",
+    "makeOffer": "Make offer",
+    "back": "Go back",
+    "showAll": "Show all of dem"
   },
   "reel": {
     "readAll": "Read all",
@@ -14717,7 +14821,8 @@
       "episode": "Podcast episode",
       "show": "Podcast",
       "artist": "Artist"
-    }
+    },
+    "loading": "E dey load…"
   },
   "twoFactor": {
     "wrongCode": "Na dem code no dey fit. Try wey new one be in your app.",
@@ -14774,5 +14879,161 @@
     "newer": "Newer result",
     "gone": "Message no dey again.",
     "theirMessages": "Their messages"
+  },
+  "chatTextSize": {
+    "title": "Size for text",
+    "default": "Normal"
+  },
+  "signedFollows": {
+    "setUp": "Turn am on"
+  },
+  "studioDeck": {
+    "remove": "Comot am",
+    "background": {
+      "modes": {
+        "none": "Nothing"
+      }
+    },
+    "scenes": {
+      "names": {
+        "starting": "E go soon start"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Dis day",
+    "tooSoon": "Pick time wey never reach."
+  },
+  "planned": {
+    "title": "Dem don plan am",
+    "posts": "Post Dem",
+    "stages": "Audio room dem",
+    "post": "Post Am",
+    "live": "Dei",
+    "stage": "Stadi",
+    "untitledPost": "Post Am",
+    "untitledLive": "Dei",
+    "loading": "E dey load…",
+    "cancel": "Cancel am",
+    "cancelled": "Dem cancel am"
+  },
+  "welcome": {
+    "about": {
+      "title": "You don land Riftn, welcome",
+      "day": "Afternoon"
+    },
+    "name": {
+      "title": "Mkpuru mma",
+      "placeholder": "Mkpuru mma"
+    },
+    "card": {
+      "name": "Mkpuru mma"
+    },
+    "topic": {
+      "film": "Fim"
+    },
+    "back": "Go back",
+    "skipPhoto": "Leave am for now"
+  },
+  "appTokens": {
+    "kindDeposit": "Put Money",
+    "notePlaceholder": "Add small note (if you want)",
+    "sendButton": "Send am",
+    "errorInsufficient": "Na token dey low."
+  },
+  "avatarPrompt": {
+    "notNow": "No be now"
+  },
+  "postStats": {
+    "finished": "Don finish",
+    "members": "Di members",
+    "people": "Pipo",
+    "saved": "E don save",
+    "signedOutViewers": "You don sign out",
+    "visitors": "You don sign out"
+  },
+  "duet": {
+    "policyEveryone": "Everybody",
+    "policyFollowers": "Follower Dem",
+    "policyNobody": "Nobody",
+    "loadMore": "Bring more"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Everybody",
+      "followers": "Follower Dem",
+      "nobody": "Nobody"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Everybody",
+      "followers": "Follower Dem",
+      "nobody": "Nobody"
+    },
+    "heading": "Likes",
+    "more": "Show more tins",
+    "liveNow": "Dei"
+  },
+  "liveClips": {
+    "copyLink": "Copy Link",
+    "linkCopied": "Link don copy"
+  },
+  "liveHype": {
+    "gift": {
+      "who": "Username abi wallet address",
+      "cancel": "Cancel am",
+      "stage": {
+        "preparing": "E dey prepare…",
+        "confirming": "Dey wait for di transaction…",
+        "recording": "Dey finish am…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Oda",
+    "confirming": "Dey confirm payment…"
+  },
+  "feedFilters": {
+    "clearAllShort": "Clear everything",
+    "done": "Don finish",
+    "edit": "Edit Am",
+    "groupSort": "Arrange Am",
+    "save": "Save Am"
+  },
+  "ownKeys": {
+    "remove": "Comot am",
+    "save": "Save Am",
+    "cancel": "Cancel am"
+  },
+  "postBg": {
+    "none": "Nothing",
+    "yours": "Your own",
+    "names": {
+      "aurora": "Aurora (same)",
+      "lava": "Lava Lamp (same)",
+      "chrome": "Liquid Chrome (like \"shiny liquid\")",
+      "snow": "Snowfall (same)"
+    }
+  },
+  "dmRequests": {
+    "title": "Request Dem",
+    "accept": "Pick",
+    "delete": "Delete Am"
+  },
+  "dmSchedule": {
+    "view": "View Am",
+    "edit": "Edit am",
+    "error": "E no work. Try again."
+  },
+  "chatBulk": {
+    "selected": "You don select {{count}}",
+    "cancel": "Cancel am",
+    "reply": "Reply am",
+    "delete": "Delete Am"
+  },
+  "msgSelect": {
+    "selected": "You don select {{count}}",
+    "forward": "Forward am"
   }
 }

@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "ኣብዚ ሰሙን ኣብ Audius ዝተፈትዉ። ንጥቀመሉ ናጻ እዮም፣ ስነ-ጥበባዊ ኣብ መለጠፊኻ ክምስገን እዩ።",
     "d2e45b7406fc": "ካብ Wikimedia Commons ዝተረኽቡ ናይ ህዝቢ ንብረት ዝኾኑን Creative Commons ዘለዎምን ሙዚቃታት። ስነ-ጥበባዊ ኣብ መለጠፊኻ ክምስገን እዩ።",
     "d0c1a3684775": "ደርፍታት ኣይተጻዕኑን። ደጊምካ ፈትን።",
-    "d14064f80f52": "ድምጺ ወስኽ"
+    "d14064f80f52": "ድምጺ ወስኽ",
+    "71988c4d8e08": "ጽሑፍ",
+    "147170e793c6": "ሰፊሕ",
+    "481859b689b0": "ርክብካ ፈትሽ እሞ ደጊምካ ፈትን።",
+    "57e2faa5ec63": "ኣብ Riftn ድለ",
+    "7db20897053b": "ሰዎች",
+    "96d7bff86b44": "መፈለጊያ ኣይተኣትረን",
+    "d8b8392e2c54": "እንደገና ፈትን"
   },
   "dehubLinks": {
     "kind": {
@@ -2682,7 +2689,8 @@
       "location": "ቦታ",
       "custom": "ሙላዊ",
       "customOption": "ሙላዊ ምልክት"
-    }
+    },
+    "placeholderPronouns": "ንሳቶም/ንሳቶም"
   },
   "notificationFilters": {
     "title": "ምልክታት ካብዚኦም ኣጻሪ",
@@ -2853,7 +2861,8 @@
       "quote": "ጥቕሲ",
       "bullets": "ዝርዝር ወረቐት",
       "numbers": "ዝርዝር",
-      "link": "ሊንክ"
+      "link": "ሊንክ",
+      "image": "ምስሊታት ኣክሊል"
     }
   },
   "storefront": {
@@ -3781,7 +3790,11 @@
     "payViaDpay": "ናብ Riftn Pay ተኸፈሎ፣ ቶክንስ ኣብ 30 ሰከንድታት ይመጽእ",
     "payViaBridgeDpay": "ናብ ቤዝ ተመዛገበን ናብ Riftn Pay ተኸፈሎ፣ ቶክንስ ኣብ ሓደ ደቒቕ ይመጽእ",
     "tokensUnit": "ቶክንስ",
-    "tokenAmount": "{{amount}} ቶክንስ"
+    "tokenAmount": "{{amount}} ቶክንስ",
+    "addMessage": "መልእክት ያክሉ (ምርጫ)",
+    "messagePublic": "ህዝባዊ",
+    "railTitle": "ምኽሪ",
+    "railTotal": "{{amount}} ቶክንስ"
   },
   "postOptions": {
     "skippableSections": "ክላቐቑ ዝኽእሉ ክፋላት",
@@ -4499,7 +4512,11 @@
     "badgeHandedBack": "{{name}} ዘለቃሕኩምዎም ናይ {{tier}} ባጅ ኣምሊሶም",
     "badgeLoanLapsed": "{{name}} ድሕሪ ሕጂ ናይ {{tier}} ባጅኦም ከለቅሑኹም ኣይክእሉን",
     "badgeLoanRetiered": "{{name}} ሕጂ ናይ {{tier}} ባጅ የለቅሑኹም ኣለዉ",
-    "tokenAmount": "{{amount}} ቶክን"
+    "tokenAmount": "{{amount}} ቶክን",
+    "groupNew": "ሓድሽ",
+    "groupToday": "ሎሚ",
+    "groupThisWeek": "ኣብዚ ሰሙን",
+    "searchClose": "ፍለጥ ዝጋ"
   },
   "leaderboard": {
     "title": "ሰሌዳ ደረጃ",
@@ -4691,7 +4708,18 @@
     "attachmentTooLarge": "ነፍሲ ወከፍ ፋይል ትሕቲ 50MB ክኸውን ኣለዎ",
     "deleteCommentA11y": "ርእይቶ ሰርዝ",
     "sendCommentA11y": "ርእይቶ ልኣኽ",
-    "requestOptions": "ኣማራጺታት ሕተታ"
+    "requestOptions": "ኣማራጺታት ሕተታ",
+    "deviceInfoNoErrors": "ወላሓደ",
+    "topBuilders": {
+      "month": "ኣብዚ ወርሒ",
+      "allTime": "ኩሉ ግዜ",
+      "shipped": "ተዛዚሙ",
+      "votes": "ድምጽታት",
+      "comments": "ርእይቶታት",
+      "showLess": "ውሕድ ኣርኢ",
+      "viewProfile": "ገጽ ርኢ",
+      "you": "ንስኻ/ኺ"
+    }
   },
   "auth": {
     "loginRequired": "ብዓል ዝድሊ",
@@ -4952,7 +4980,20 @@
       "votes_other": "{{value}} ድምጽታት",
       "members_one": "{{value}} ኣባል",
       "members_other": "{{value}} ኣባላት"
-    }
+    },
+    "articleShort": "ጽሑፍ",
+    "articleMinRead": "{{count}} ደቒቕ ንባብ",
+    "pinnedShort": "ተጸርቡ",
+    "post": "ጽሑፍ",
+    "arrange": {
+      "saving": "ይዕቀብ ኣሎ..."
+    },
+    "reserve": {
+      "signIn": "እቶ"
+    },
+    "tabLikes": "ምቕባል",
+    "likesEmptyTitle": "ገና ምፍታው የለን",
+    "likesPrivateTitle": "ምፍታዋት ብሕታዊ እዮም"
   },
   "tv": {
     "title": "ቲቪ",
@@ -5468,6 +5509,9 @@
       "action": "ተግባር",
       "schedule": "መደብ",
       "filter": "ንጥፈት ኣጣራሒ"
+    },
+    "welcome": {
+      "text": "መልእኽቲ እንቋዕ ብደሓን መጻእኩም"
     }
   },
   "hero": {
@@ -5549,7 +5593,16 @@
     "nowPublic": "ፍሎው ሕጂ ህዝባዊ እዩ",
     "openCanvas": "ከነቫስ ክፈት",
     "playVideo": "ቪድዮ ተጻወት",
-    "signInToSee": "ንፍሎውታት ኣብ ሂሳብካ ንምርኣይ ተመዝገብ።"
+    "signInToSee": "ንፍሎውታት ኣብ ሂሳብካ ንምርኣይ ተመዝገብ።",
+    "newNativeFlow": "ሓድሽ ፍሰት",
+    "model": "ሞደል",
+    "aspectRatio": "ናይ ፊልም ኣመራርሓ",
+    "duration": "ንውሓት ብሰከንድታት",
+    "resolution": "ናይ ቪድዮ ምፍታሕ",
+    "disconnect": "ምጥፋእ",
+    "payAndRun": "ከፍሊትካ ሩን ግበራ",
+    "run": "ሩን ግበራ",
+    "handlePrompt": "ሃናጺ"
   },
   "loginModal": {
     "title": "ብዓል",
@@ -5869,7 +5922,8 @@
     "searchMenu": "ሜኑ ድለ",
     "clearSearch": "ድሌት ኣጽሪ",
     "noMenuMatches": "ኣብ ሜኑ ዝሰማማዕ የለን",
-    "searchDehubFor": "ኣብ Riftn \"{{query}}\" ድለ"
+    "searchDehubFor": "ኣብ Riftn \"{{query}}\" ድለ",
+    "requestSend": "ሕቶ ልኣኽ"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6488,7 +6542,11 @@
       "copied": "እተቐዳደም መልእኽቲ",
       "copyText": "ጽሑፍ ቅዳሕ",
       "mutedUntil": "ክሳብ {{date}}",
-      "slowMode": "ቀስ ብቐስ ኣገባብ: ሓደ መልእኽቲ ኣብ ነፍሲ ወከፍ {{interval}}"
+      "slowMode": "ቀስ ብቐስ ኣገባብ: ሓደ መልእኽቲ ኣብ ነፍሲ ወከፍ {{interval}}",
+      "joined": "{{name}} ተጸምቢሩ",
+      "reactions": "ግብረ መልሲ",
+      "photoTooLarge": "ስእሊ ካብ 10MB ክትንእስ ኣለዋ",
+      "aiAdminFailed": "AI ኣድሚን መልሲ ምሃብ ኣይከኣለን"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6691,6 +6749,32 @@
       "notFound": "እዚ ናይ ዕድመ ሊንክ እዚ ኣይቅጽልን እዩ ።",
       "requestToJoin": "ክትቀላቀሉ ትሓትት",
       "approvalNote": "ሓደ ኣማሓዳሪ ነቲ ሕቶኻ ቅድሚ ምእታዉ ክጽድቕ ኣለዎ ።"
+    },
+    "buyAlert": {
+      "spent": "ስፔንት ፦",
+      "buyer": "ገዲፍካ ፦",
+      "txn": "ትንክን",
+      "balance": "ሚዛን ፦",
+      "price": "ዋጋ ፦",
+      "marketCap": "ናይ ዕዳጋ ካፕ:"
+    },
+    "newChat": {
+      "public": "ህዝባዊ",
+      "private": "ውልቃዊ",
+      "free": "ነጻ",
+      "paid": "እተኸፍለ",
+      "group": "ኣዋህህ"
+    },
+    "holderGate": {
+      "chain": "ሰንሰለት",
+      "which": "ቶከን",
+      "tab": "ባለቤቶች"
+    },
+    "automod": {
+      "bannedWords": "እተኸልከለ ቓላት",
+      "floodMax": "{{count}} መልዕኽቶች",
+      "saved": "ተቐሚጡ",
+      "wordCount": "{{count}} ቃላት"
     }
   },
   "work": {
@@ -7811,7 +7895,10 @@
       "doneAll": "{{done}} ሳባብ ምን ትከተሉ ኣብ ምልዋጅ ተሓዋወሱ።",
       "doneSome": "{{done}} ሳባብ ምልዋጅ ተሓዋወሱ። {{failed}} ምልዋጅ ኣይከኣለን።",
       "doneToast": "{{done}} ሳባብ ምን ትከተሉ ኣብ ምልዋጅ ተሓዋወሱ"
-    }
+    },
+    "followBackConfirm": "ንድሕሪት ተመሊስካ",
+    "followBackNotNow": "ሕጂ ኣይኮነን",
+    "followBackDone": "ተወዲኡ"
   },
   "reactionInfo": {
     "mentionedYouPost": "{{name}} ኣብ ጽሑፍ ጠቒሱካ",
@@ -8729,7 +8816,39 @@
     "coverFrames": "ኣብ ፎቶ ምረጽ",
     "coverFrame": "ፎቶ {{index}} ከም ኣባይቲ ፎቶ ተጠቐም",
     "uploadCover": "ፎቶ ኣባይቲ ፎቶ ኣስዕብ",
-    "editFailed": "እዚ ኣስተካክሊ ኣይተተግብረን። ደጊም ፈትን።"
+    "editFailed": "እዚ ኣስተካክሊ ኣይተተግብረን። ደጊም ፈትን።",
+    "altPlaceholderVideo": "ነዚ ቪድዮ ግለጾ",
+    "landingLive": "ቀጥታ",
+    "preview": {
+      "title": "ቅድመ-እይታ"
+    },
+    "recent": {
+      "all": "ኩሉ"
+    },
+    "studio": {
+      "crop": "ምቑራጽ",
+      "draw": "ሳእል",
+      "light": "ብሩህ",
+      "contrast": "ተጻብኦ",
+      "warmth": "ሞቅታ",
+      "colour": "ቀለም",
+      "fade": "ምህሳስ",
+      "original": "ኦሪጅናል",
+      "ratioOriginal": "ኦሪጅናል",
+      "ratioFree": "ነጻ",
+      "rotate": "ኣዙር",
+      "strength": "ሓይሊ",
+      "stickers": "ተለጣፊታት",
+      "ticker": "ቲከር",
+      "textBg": "ድሕረ ባይታ",
+      "font": {
+        "bold": "ረጒድ",
+        "serif": "ሰርፊፍ",
+        "mono": "ሞኖ"
+      }
+    },
+    "edited": "እተዳለወ",
+    "edit": "ኣርም"
   },
   "bounty": {
     "claimed": "ተወሲዱ",
@@ -9023,7 +9142,8 @@
     "detailsKey": "ቁልፍ ፦",
     "detailsLivepeerId": "ናይ ህያው መንነት ፦",
     "shopPutOnAir": "ንፋስ ኣልዒልካ",
-    "tippedAmount": "{{amount}} ሂቡ"
+    "tippedAmount": "{{amount}} ሂቡ",
+    "liveBadge": "ህያው"
   },
   "liveShop": {
     "title": "ካብዚ ስርጭት ግዛእ",
@@ -9336,7 +9456,23 @@
     "paymentSentWith": "ብ {{amount}} ተሰኣለ",
     "planRestricted": "እዚ ተጠቃሚ መልእኽትታት ንምቕባል ምዝገባ የድልዮ።",
     "planTypeNotAllowed": "ውጥን እዚ ፈጣሪ ከምዚ ዓይነት መልእኽቲ ኣይፈቅድን።",
-    "planMinTip": "ን'ዚ ፈጣሪ ቲፕ እንተነኣሰ {{amount}} ቶክንስ ክኸውን ኣለዎ።"
+    "planMinTip": "ን'ዚ ፈጣሪ ቲፕ እንተነኣሰ {{amount}} ቶክንስ ክኸውን ኣለዎ።",
+    "newDrawer": {
+      "to": "ናብ"
+    },
+    "download": "ኣውርድ",
+    "deleteOneTitle": "ነዚ መልእኽቲ እዚ ክትሰርሖ ትኽእልዶ ፧",
+    "retrySend": "እንደገና ፈትን",
+    "discardSend": "ኣልግስ",
+    "shareKindGroup": "ኣዋህህ",
+    "shareKindCommunity": "ማሕበረሰብ",
+    "searchDiscover": {
+      "people": "ሰባት",
+      "communities": "ማሕበረሰባት",
+      "members": "{{n}} ሰባት",
+      "newChat": "ሓድሽ ቻት",
+      "invite": "ዕድመ"
+    }
   },
   "editPost": {
     "mediaPermission": "ናይ ሚድያ ቤተ-መጻሕፍቲ ፍቓድ የድሊ",
@@ -10554,7 +10690,11 @@
       "hint": "ዘረባ ናብ ምስ ግዜ ዝሰማማዕ ንኡስ ጽሑፋት ይቕይሮ፡ ቅዲኡ ክትቕይሮ ትኽእል። ኣብ መሳርሒኻ ይሰርሕ፦ ብናጻን ብሕታውን። ናይ መጀመርታ ኣጠቓቕማ ነቲ ሞዴል የውርዶ።",
       "done": "{{count}} ንኡስ ጽሑፋት ተወሲኾም።",
       "noSpeech": "ኣብዚ ክሊፕ ዘረባ ኣይተረኽበን።",
-      "failed": "ነዚ ክሊፕ ንኡስ ጽሑፋት ክፍጠር ኣይተኻእለን።"
+      "failed": "ነዚ ክሊፕ ንኡስ ጽሑፋት ክፍጠር ኣይተኻእለን።",
+      "styles": {
+        "bold": "ቦልድ",
+        "serif": "ሰርፊፍ"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10624,7 +10764,8 @@
       "vibrant": "ደማቕ",
       "cyber": "ሳይበር",
       "invert": "ግልባጥ",
-      "strength": "ሓይሊ ፍሊተር ፦ {{value}}%"
+      "strength": "ሓይሊ ፍሊተር ፦ {{value}}%",
+      "vhs": "ቪኤችኤስ"
     },
     "layer": {
       "crop": "ምቑራጽ",
@@ -10804,7 +10945,9 @@
       "suggestTitle": "ኣብ ላዕሊ ዓቢ ደማቕ ኣርእስቲ ኣብ ትሕቲኡ ድማ ንእሽቶ ንኡስ ኣርእስቲ ወስኽ",
       "undo": "ምምላስ",
       "openGenerator": "ርኣይን ፍጠርን",
-      "working": "ይሰርሕ ኣሎ…"
+      "working": "ይሰርሕ ኣሎ…",
+      "stop": "ደው ኣይትበሎ",
+      "queue": "ናብ ጽርግያ ኣክሊልካ"
     },
     "brand": {
       "addColor": "ሕብሪ ብራንድ ወስኽ",
@@ -10941,7 +11084,9 @@
       "rendering": "ቪድዮ ይዳሎ ኣሎ… {{percent}}%",
       "mp4": "MP4 ቪድዮ",
       "exportHint": "ቪድዮኻ ክሳብ ዝዳሎ ኣርታዒ ክፉት ግደፎ።",
-      "tooLarge": "እዚ ፋይል ንኣርታዒ ኣዝዩ ዓቢ እዩ። ደረቱ 400 MB እዩ።"
+      "tooLarge": "እዚ ፋይል ንኣርታዒ ኣዝዩ ዓቢ እዩ። ደረቱ 400 MB እዩ።",
+      "tZoomIn": "ምግፋሕ",
+      "tZoomOut": "ምንኣስ"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12120,6 +12265,28 @@
       "selection": "ምርጫ",
       "zoomIn": "ኣብ ውሽጢ",
       "zoomOut": "አስተናገልናለሁ"
+    },
+    "stage": {
+      "camera": "ካሜራ",
+      "yaw": "ምዝዋር",
+      "add": "ኣስዕብ",
+      "scale": "መጠን",
+      "color": "ሕብሪ",
+      "light": "ብሩህ"
+    },
+    "clipFix": {
+      "listening": "ስማዕን ኣጽኒዕካን..."
+    },
+    "voiceClone": {
+      "stop": "ምቕዳሕ ኣቋርጽ",
+      "failed": "ናይ ድምጺ ምቕዳሕ (Voice cloning) ተሳኒዩ።"
+    },
+    "linkImport": {
+      "go": "ኣእቱ",
+      "downloading": "ኣብ ምውራድ {{percent}}%"
+    },
+    "reverse": {
+      "action": "ግልብጥ"
     }
   },
   "creator": {
@@ -12581,7 +12748,32 @@
     "referenceProductName": "ምርትዎን በክሊፕ ይተክት።",
     "referenceProductHint": "የተለዋዋጭ ምርት ይተክት እና የተወሰነ ተወላጅ ይተክት።",
     "referenceComposeName": "ምርጫ ምስል ይተክት።",
-    "referenceComposeHint": "ተለዋዋጭ ስም፣ ንግድ እና ተቀማጭ አብ ብዙ ምስል ይተክት።"
+    "referenceComposeHint": "ተለዋዋጭ ስም፣ ንግድ እና ተቀማጭ አብ ብዙ ምስል ይተክት።",
+    "marketing": {
+      "import": {
+        "use": "ነዚ ዝርዝር ሓበሬታ እዚ ተጠቐም"
+      }
+    },
+    "batchCount": "ስእልታት",
+    "endFrame": "ኣብዚ ዝውድኣሉ ፍሬም",
+    "cinema": {
+      "close": "ዕጸው",
+      "performance": {
+        "label": "ፍጥነት"
+      }
+    },
+    "audioNoSpeech": "ኣብቲ ቅዳሕ ድምጺ ዝኾነ ዘረባ ኣይተረኽበን።",
+    "audioTaskSpeechLabel": "ዘረባ",
+    "audioTaskDialogueLabel": "ዘተ",
+    "audioTaskSfxLabel": "ድምጺ ዘለዎ ጽልዋ",
+    "audioTaskVoiceChangerLabel": "ናይ ድምጺ ለውጢ",
+    "audioTaskTranscribeLabel": "ተርጓሚ",
+    "audioTaskIsolateLabel": "ጽሩይ",
+    "priceFreeRateLimited": "Free · ተመኖች ገደብ ይምልከቶም",
+    "loop": "ሉፕ",
+    "dialogueFormat": "ነቲ ትዕይንት ከም \"ስም: መስመር\" ጌርካ ጽሓፍ ፣ ሓደ ተዛረብቲ ኣብ ሓደ መስመር ።",
+    "fileTooLarge": "እቲ ፋይል ልዕሊ 100 ሜባ እዩ ። ሓጺር ወይ ንእሽቶ ተጠቐም ።",
+    "signInToGenerate": "ክትፈጥሩ ትኣትዉ ኣለኹም ።"
   },
   "fractions": {
     "title": "ክፍልታት",
@@ -14650,6 +14842,19 @@
       "intro": "ተዓዋቲ ብ ኩሉ ደቒቕ ዝተዓዋቱ ነጥቢ ሓደ ምስ ሓደ ብ 100 ቶክንስ ዝወሃቡ ስጦታ ምስ ሓደ ይረክቡ። ዝርዝር ምስ ምላሽ ነገ ኣይረክቡን፣ ስለዚ ነጥቢ ኣይተሰርሕን።",
       "empty": "ነጥቢ ገና ኣይነበረን። ሰባት ክዓዋቱ ምስ ወሃቡ ይሓዝ።",
       "widgetHint": "Loyal viewers ዊጅት ወስኽ ዚ ዝርዝር ኣብ ስትሪም ኣሳይ።"
+    },
+    "destinations": {
+      "platform": "መድረኽ",
+      "label": "ስም (ኣማራጺ)",
+      "key": "መሰረታዊ መርከብ",
+      "save": "ኣስዕብ",
+      "cancel": "ሰርዝ",
+      "states": {
+        "off": "ኣጥፍእ",
+        "idle": "ድሉው",
+        "live": "ቀጥታ",
+        "error": "ጸገም"
+      }
     }
   },
   "liveChatModeration": {
@@ -14749,7 +14954,64 @@
     "collections": "አስተዳደር",
     "spotlightForSale": "በዚህ ወቅት ለማስተዋል",
     "spotlightNew": "ሕጂ ወሊደ",
-    "buyFor": "ብ {{price}} ግዛ"
+    "buyFor": "ብ {{price}} ግዛ",
+    "actAll": "ኩሉ",
+    "actListings": "ዝርዝራት",
+    "actOffer": "ሀሳብ",
+    "actOffers": "ቅርቡታት",
+    "actSales": "ሽያጭ",
+    "tabActivity": "ንጥፈት",
+    "newest": "ሓድሽ",
+    "cheapest": "ዝተወነ ዋጋ",
+    "soldFor": "ተሸይጥ",
+    "signIn": "እቶ",
+    "title": "ንፍቲ አርቲፍሊክስ",
+    "share": "ምዝርጋሕ",
+    "noneForSale": "ክሳብ ሕጂ ዝሸጣ ነገር የለን ።",
+    "noSales": "ምንም ሽያጥ ገና",
+    "tabBrowse": "ርአ",
+    "tabMine": "ናትካ",
+    "tabSales": "ሽያጭ",
+    "cancelled": "ተሰርዘ",
+    "sold": "ተሸይጥ",
+    "listed": "ዝርዝር ንሽያጭ",
+    "feeRow": "ክፍሊት Riftn ({{pct}}%)",
+    "royaltyRow": "ፈጣሪ ንጉሳዊነት",
+    "youGet": "ንስኻ ኢኻ እትረኽቦ",
+    "holderGets": "ተቖጻጻጻሪ",
+    "loading": "ይጽናል…",
+    "price": "ዋጋ",
+    "seller": "ሸያጭ",
+    "tabRecent": "ቀረባ",
+    "buyNow": "ሕጂ ግዛ",
+    "offers": "አደረግ",
+    "cancel": "ሰርዝ",
+    "accept": "አንድን",
+    "signInToTrade": "ንግዳዊ ንግዳዊ ምእታው",
+    "listForSale": "ምርጫ ለሽያጭ",
+    "makeOffer": "እንግዳን እንገልጹ",
+    "sendOffer": "ቅብሊት ልኣኽ",
+    "back": "እንቅስቃስ",
+    "dropsTo": "ዋጋ ናብ {{price}} ብ {{date}} ወርደ",
+    "trending": "ትርንዶን ኮሌክሽንስ",
+    "floor": "ኣብራት",
+    "collectionOffer": "አስተዋል",
+    "showAll": "ኩሉ ኣርኢ",
+    "shortTitle": "ንፍቲ አርቲፍሊክስ",
+    "filters": "ስርዓት",
+    "forSale": "ኣብል ኣስተዋል።",
+    "openToOffers": "በስጋት አስገብተን",
+    "freshMints": "አስራር ከሪፍትን ማንኪስ",
+    "offersOpen": "በስጋት አስገብተን",
+    "anyInCollection": "አንድ በተኮለት",
+    "priceAlert": "ቅዱስ ስለማይ",
+    "alertSaved": "ማንቂያ ላይ። ሲዝርዝር ሲሆን ይነግርዎታል።",
+    "priceDrop": "ብልግል በጊዜ የተለየበት",
+    "endPrice": "እቲ ዝነኣሰ ዋጋ ፡ ኣብ መወዳእታ ({{symbol}})",
+    "bundleBadge": "ጥቅል ×{{n}}",
+    "dropBadge": "ዋጋ ወረደ",
+    "days_one": "{{count}} መዓልቲ",
+    "statMinted": "ሚንተድ"
   },
   "reel": {
     "readAll": "ንዅሉ ኣንብብ",
@@ -14771,7 +15033,11 @@
       "episode": "ፖድካስት",
       "show": "ፖድካስት",
       "artist": "ስነጥበባዊ"
-    }
+    },
+    "loading": "ይጽናል…",
+    "paused": "ደው ኢሉ",
+    "preview": "ቅድመ-እይታ",
+    "seek": "ድሕሪ"
   },
   "twoFactor": {
     "wrongCode": "እቲ ኮድ ኣይሰመረን። ኣብ መተግበሪያኻ ዘሎ ሓድሽ ኮድ ፈትን።",
@@ -14845,6 +15111,254 @@
     "position": "{{current}} ናብ {{total}}",
     "newer": "ነበረበረ",
     "gone": "ዝተረጋገጸ መልዕክት ኣይተረጋገጠን እዩ",
-    "theirMessages": "ናብ ናይ ሓበሬታት"
+    "theirMessages": "ናብ ናይ ሓበሬታት",
+    "voice": "መልእኽቲ ድምጺ",
+    "results_other": "{{count}} ውጽኢታት"
+  },
+  "chatTextSize": {
+    "title": "ዓቐን ጽሑፍ",
+    "default": "ነቐፌታ",
+    "larger": "ዝዓበየ"
+  },
+  "remix": {
+    "cut": "ቑረጽ"
+  },
+  "signedFollows": {
+    "setUp": "ኣብርህ",
+    "turnOff": "ኣጥፍእ",
+    "efpTurnOff": "ደው ኣይትበሎ"
+  },
+  "postEditHistory": {
+    "original": "መበቆላዊ"
+  },
+  "studioDeck": {
+    "remove": "ኣልግስ",
+    "background": {
+      "title": "ድሕረ ባይታ",
+      "modes": {
+        "none": "ኣጥፍእ",
+        "blur": "ምድብዛዝ",
+        "color": "ቀለም"
+      }
+    },
+    "scenes": {
+      "countdown": "ቆጸራ",
+      "minutes": "{{count}} ደቒቕ",
+      "names": {
+        "starting": "ሕጂ ንሕጂ ይጅምር"
+      }
+    },
+    "widgets": {
+      "tab": "ዊጅት"
+    },
+    "sources": {
+      "image": "ስእሊ",
+      "show": "ኣብ ስትሪም ኣርኢ",
+      "positions": {
+        "center": "ማእከል"
+      },
+      "sizes": {
+        "medium": "ማእከላይ"
+      }
+    },
+    "phone": {
+      "title": "ስቱዲዮ"
+    }
+  },
+  "whenSheet": {
+    "today": "ሎሚ",
+    "tooSoon": "ኣብ ዝመጽእ ግዜ ሓንቲ መዓልቲ ጹረ።",
+    "show": "ኣርእዮ",
+    "hide": "ደብቕ"
+  },
+  "planned": {
+    "title": "ተተሊሙ",
+    "all": "ኩሉ",
+    "posts": "ጽሑፋት",
+    "stages": "ናይ ድምጺ ክፍልታት",
+    "post": "ጽሑፍ",
+    "live": "ቀጥታ",
+    "stage": "መድረኽ",
+    "untitledPost": "ጽሑፍ",
+    "untitledLive": "ቀጥታ",
+    "loading": "ምትዕልቕላቕ…",
+    "startNow": "ሕጂ ጀምር",
+    "cancel": "ሰርዝ",
+    "cancelled": "ተሰሪዙ"
+  },
+  "welcome": {
+    "about": {
+      "title": "ናብ ደሆብ እንበጽሓኩም",
+      "day": "መዓልቲ",
+      "month": "ወርሒ",
+      "year": "ዓመት"
+    },
+    "name": {
+      "title": "ስምካ",
+      "placeholder": "ስምካ"
+    },
+    "card": {
+      "name": "ስምካ",
+      "followers": "ተኸታተልቲ"
+    },
+    "topic": {
+      "music": "ሙዚቃ",
+      "art": "ስነ-ጥበብ",
+      "gaming": "ጸወታ",
+      "crypto": "ክሪፕቶ",
+      "sports": "ስፖርት",
+      "comedy": "ኮሜዲ",
+      "film": "ፊልም",
+      "podcast": "ፖድካስት",
+      "food": "መግቢ",
+      "news": "ዜና",
+      "science": "ስነ ፍልጠት"
+    },
+    "back": "ተመለስ",
+    "skipPhoto": "ንግዚኡ ስጕምቲ ውሰድ",
+    "preview": "ቅድመ-እይታ"
+  },
+  "appTokens": {
+    "title": "ቶክንኩም",
+    "history": "ታሪኽ",
+    "noHistory": "ክሳብ ሕጂ ዝኾነ ንጥፈት የለን ።",
+    "kindDeposit": "ኣቐምጥ",
+    "to": "ናብ",
+    "amount": "መጠን",
+    "notePlaceholder": "መዘኻኸሪ ወስኽ (ኣማራጺ)",
+    "sendButton": "ላኽ",
+    "errorInsufficient": "ቶክንስ ኣይኣክልን"
+  },
+  "avatarPrompt": {
+    "notNow": "ሕጂ ኣይኮነን"
+  },
+  "postStats": {
+    "audience": "ተዓዘብቲ",
+    "engagement": "ተሳትፎ",
+    "finished": "ተወዲኡ",
+    "members": "ኣባላት",
+    "membersLower": "ኣባላት",
+    "newFollowers": "ሓድሽ ተኸታተልቲ",
+    "noBadge": "መዐቀኒ የለን",
+    "people": "ሰባት",
+    "plays": "ዕግርግር",
+    "quotes": "ጥቕስታት",
+    "reposts": "ዳግማይ ጽሑፋት",
+    "saved": "ተቐሚጡ",
+    "shares": "ምክፋል",
+    "signedOutViewers": "ወጺእካ",
+    "topSupporters": "ላዕለዎት ደገፍቲ",
+    "visitors": "ወጺእካ"
+  },
+  "duet": {
+    "policyEveryone": "ኩሉ ሰብ",
+    "policyFollowers": "ተኸተልቲ",
+    "policyNobody": "ሓደ'ውን",
+    "loadMore": "ዝያዳ ጽዓን",
+    "video": "ቪድዮ"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "ኩሉ ሰብ",
+      "followers": "ተኸተልቲ",
+      "nobody": "ሓደ'ውን"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "ኩሉ ሰብ",
+      "followers": "ተኸተልቲ",
+      "nobody": "ሓደ'ውን"
+    },
+    "heading": "ግብረ መልሲ",
+    "more": "እንደ አስተዳደር ማለዳት እንደሚቀርብለት የሚለው የስራ ጥያቄ ነው።",
+    "liveNow": "ቀጥታ",
+    "untitled": "ግብረ መልሲ"
+  },
+  "liveClips": {
+    "copyLink": "መራኸቢ ቅዳሕ",
+    "linkCopied": "መላግቦ ተቐዲሑ"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "ፕላን",
+      "howMany": "ክንደይ",
+      "who": "ስም ተጠቃሚ ወይ ኣድራሻ ቦርሳ",
+      "whoPlaceholder": "@ስምተጠቃሚ",
+      "cancel": "ሰርዝ",
+      "stage": {
+        "preparing": "ይዳሎ ኣሎ…",
+        "confirming": "ግብይት ይጽበ ኣሎ…",
+        "recording": "ይዛዘም ኣሎ…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "ካልእ",
+    "confirming": "ክፍሊት ከም ዝረጋገጽ..."
+  },
+  "liveShorts": {
+    "live": "ህያው"
+  },
+  "feedFilters": {
+    "clearAllShort": "ኩሉ ኣጽሪ",
+    "done": "ተወዲኡ",
+    "edit": "ኣርም",
+    "groupDate": "ዕለት",
+    "groupSort": "ደርድር",
+    "groupType": "ዓይነት",
+    "save": "ዓቅብ"
+  },
+  "ownKeys": {
+    "working": "ስራሕ",
+    "failed": "ገለ ነገር ጌጋ እዩ ነይሩ ፡ ደጊምካ ፈትኖ ።",
+    "check": "ፈትሽ",
+    "remove": "ኣልግስ",
+    "save": "ዓቅብ",
+    "cancel": "ሰርዝ"
+  },
+  "postBg": {
+    "none": "ወላሓደ",
+    "yours": "ናትካ",
+    "accent": "አካሰንት",
+    "names": {
+      "aurora": "ኣውሮራ",
+      "lava": "ናይ ላቫ መብራህቲ",
+      "drive": "ናይ ምሸት ድራይቭ",
+      "chrome": "ፈሳሽ ክሮም",
+      "orbit": "ምድሪቤት",
+      "snow": "በረዶ ምውራድ"
+    }
+  },
+  "articleTile": {
+    "cover": "ሽፋን"
+  },
+  "aiConsent": {
+    "allow": "ፍቐድ"
+  },
+  "dmRequests": {
+    "title": "ጠለባት",
+    "accept": "ተቐበል",
+    "delete": "ደምስስ",
+    "block": "ኣግልል"
+  },
+  "dmSchedule": {
+    "view": "ርአ",
+    "edit": "ኣዐሪ",
+    "editLabel": "መልእኽቲ ኣዐሪ",
+    "error": "በጃኻ ኣይትጨነቕ ፡ ከም'ዚ... እንደገና ይዞር ኣሎ ።"
+  },
+  "chatBulk": {
+    "selected": "{{count}} ተመሪጹ",
+    "cancel": "ሰርዝ",
+    "reply": "መልሲ",
+    "delete": "ደምስስ"
+  },
+  "msgSelect": {
+    "selected": "{{count}} ተመሪጹ",
+    "copy": "ቅዳሕ",
+    "forward": "ኣመሓላልፍ",
+    "deleted_one": "{{count}} መልእክት ተሰርዟል",
+    "deleted_other": "{{count}} መልእክቶች ተሰርዘዋል"
   }
 }

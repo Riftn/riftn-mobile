@@ -1,6 +1,11 @@
 {
   "comic": {
-    "showAll": "Ցույց տալ բոլոր {{count}} էջերը"
+    "showAll": "Ցույց տալ բոլոր {{count}} էջերը",
+    "tab": "Կոմիքս",
+    "title": "Կոմիքս",
+    "editor": {
+      "cover": "Շապիկ"
+    }
   },
   "comicBorder": {
     "title": "Եզրագիծ",
@@ -2608,7 +2613,14 @@
     "cbade2afaee2": "Այս շաբաթ Audius-ում թրենդինգ. Անվճար օգտագործման համար, արվեստագետը պետք է նշվի ձեր գրառումում.",
     "d2e45b7406fc": "Հանրային տիրույթում և Creative Commons լիցենզավորված երաժշտություն Wikimedia Commons-ից. Արվեստագետը պետք է նշվի ձեր գրառումում.",
     "d0c1a3684775": "Երգերը չբեռնվեցին: Փորձեք մի փոքր ուշ.",
-    "d14064f80f52": "Ավելացնել ձայնը"
+    "d14064f80f52": "Ավելացնել ձայնը",
+    "71988c4d8e08": "Տեքստ",
+    "147170e793c6": "Լայն",
+    "481859b689b0": "Հաստատիր Ձեր կապը և փորձեք նորիս.",
+    "57e2faa5ec63": "Որոնել Riftn-ում",
+    "7db20897053b": "Մարդիկ",
+    "96d7bff86b44": "Որոնումը չի կարող բեռվել",
+    "d8b8392e2c54": "Կրկին փորձել"
   },
   "dehubLinks": {
     "kind": {
@@ -2858,7 +2870,8 @@
       "quote": "Գնառաջարկ",
       "bullets": "Փամփուշտների ցանկ",
       "numbers": "Համարակալված ցուցակ",
-      "link": "Հղում"
+      "link": "Հղում",
+      "image": "Պատկերներ ավելացնել"
     }
   },
   "storefront": {
@@ -3796,7 +3809,11 @@
     "payViaDpay": "Վճարվել է Riftn Pay-ին, տոկենները ժամանում են մոտավորապես 30 վայրկյանում",
     "payViaBridgeDpay": "Տեղափոխվել է Base և վճարվել Riftn Pay-ին, տոկենները ժամանում են մոտավորապես մեկ րոպեում",
     "tokensUnit": "տոկեններ",
-    "tokenAmount": "{{amount}} տոկեններ"
+    "tokenAmount": "{{amount}} տոկեններ",
+    "addMessage": "Ավելացնել հաղորդագրություն (ըստ ցանկության)",
+    "messagePublic": "Հանրային",
+    "railTitle": "Խորհուրդներ",
+    "railTotal": "{{amount}} տոկեններ"
   },
   "postOptions": {
     "skippableSections": "Բաց թողնվող բաժիններ",
@@ -4524,7 +4541,11 @@
       "here": "{{name}}@ հաղորդագրություն ուղարկեց համայնքի բոլոր անդամներին",
       "hereNamed": "{{name}}@-ը բոլորին հաղորդագրություն է ուղարկել «@{{community}}»- ում"
     },
-    "tokenAmount": "{{amount}} թոքեններ"
+    "tokenAmount": "{{amount}} թոքեններ",
+    "groupNew": "Նոր",
+    "groupToday": "Այսօր",
+    "groupThisWeek": "Այս շաբաթ",
+    "searchClose": "Փակել որոնումը"
   },
   "leaderboard": {
     "title": "Առաջնորդական վահանակներ",
@@ -4716,7 +4737,18 @@
     "attachmentTooLarge": "Յուրաքանչյուր ֆայլ պետք է լինի 50ՄԲ-ից փոքր",
     "deleteCommentA11y": "Ջնջել մեկնաբանությունը",
     "sendCommentA11y": "Ուղարկել Մեկնաբանություն",
-    "requestOptions": "Հայտի տարբերակներ"
+    "requestOptions": "Հայտի տարբերակներ",
+    "deviceInfoNoErrors": "Ոչինչ",
+    "topBuilders": {
+      "month": "Ays amsoom",
+      "allTime": "Բոլոր ժամանակները",
+      "shipped": "Ougharkvaats",
+      "votes": "Քվեարկություններ",
+      "comments": "Meknabanoutyunner",
+      "showLess": "Ցույց տալ ավելի քիչ",
+      "viewProfile": "Դիտել պրոֆիլը",
+      "you": "Դուք"
+    }
   },
   "auth": {
     "loginRequired": "Պահանջվում է մուտք գործել",
@@ -4977,7 +5009,20 @@
       "votes_other": "{{value}} votes",
       "members_one": "{{value}} անդամ",
       "members_other": "{{value}} անդամ"
-    }
+    },
+    "articleShort": "Հոդված",
+    "articleMinRead": "{{count}} րոպե կարդալ",
+    "pinnedShort": "Kptsevaats",
+    "post": "Grouem",
+    "arrange": {
+      "saving": "Պահպանվում է..."
+    },
+    "reserve": {
+      "signIn": "Մուտք"
+    },
+    "tabLikes": "Havanutyunner",
+    "likesEmptyTitle": "Դեռ հավանումներ չկան",
+    "likesPrivateTitle": "Հավանումները գաղտնի են"
   },
   "tv": {
     "title": "TV",
@@ -5493,6 +5538,9 @@
       "action": "Գործողություն",
       "schedule": "Ժամանակացույց",
       "filter": "Զտել գործունեությունը"
+    },
+    "welcome": {
+      "text": "Ողջույնի հաղորդագրություն"
     }
   },
   "hero": {
@@ -5574,7 +5622,15 @@
     "nowPublic": "Հոսքն այժմ հրապարակային է",
     "openCanvas": "Բացեք կտավը",
     "playVideo": "Դիտել տեսանյութը",
-    "signInToSee": "Մուտք գործեք ձեր հաշվի հոսքերը տեսնելու համար ։"
+    "signInToSee": "Մուտք գործեք ձեր հաշվի հոսքերը տեսնելու համար ։",
+    "model": "Մոդել",
+    "aspectRatio": "Հարաբերակցություն",
+    "duration": "Երկարությունը վայրկյաններով",
+    "resolution": "Բանաձև",
+    "disconnect": "Անջատել կապը",
+    "payAndRun": "Վճարել և գործարկել",
+    "run": "Գործարկել",
+    "handlePrompt": "Հրահանգ"
   },
   "loginModal": {
     "title": "Մուտք գործել",
@@ -5894,7 +5950,8 @@
     "searchMenu": "Որոնել ընտրացանկում",
     "clearSearch": "Մաքրել որոնումը",
     "noMenuMatches": "Ընտրացանկում ոչինչ չի համապատասխանում",
-    "searchDehubFor": "Որոնել «{{query}}» Riftn-ում"
+    "searchDehubFor": "Որոնել «{{query}}» Riftn-ում",
+    "requestSend": "Ուղարկել խնդրանք"
   },
   "comments": {
     "reportComment": "Հաղորդել մեկնաբանության մասին",
@@ -6513,7 +6570,11 @@
       "copied": "Հաղորդագրությունը պատճենվել է",
       "copyText": "Պատճենել տեքստը",
       "mutedUntil": "Դուք լռում եք մինչև {{date}}",
-      "slowMode": "Դանդաղ ռեժիմ. մեկ հաղորդագրություն յուրաքանչյուր {{interval}}"
+      "slowMode": "Դանդաղ ռեժիմ. մեկ հաղորդագրություն յուրաքանչյուր {{interval}}",
+      "joined": "{{name}} միացել է",
+      "reactions": "Արձագանքներ",
+      "photoTooLarge": "Nkare petq e lini 10MB-its phoqr",
+      "aiAdminFailed": "AI Admin չկարողացավ պատասխանել"
     },
     "manage": {
       "dismissAdminTitle": "Փակել ադմինիստրատորին",
@@ -6716,6 +6777,31 @@
       "notFound": "Այս հրավերի հղումը վավեր չէ։",
       "requestToJoin": "Միանալու խնդրանք",
       "approvalNote": "Վարչական մարմինը պետք է հաստատի ձեր խնդրանքը, նախքան դուք կկարողանաք միանալ։"
+    },
+    "buyAlert": {
+      "spent": "Ծախսված ՝",
+      "buyer": "Գնորդ ՝",
+      "balance": "Մնացորդը ՝",
+      "price": "Գինը ՝",
+      "marketCap": "Շուկայական կապիտալ ՝"
+    },
+    "newChat": {
+      "public": "Hanrayin",
+      "private": "Maspnakan",
+      "free": "Անվճար",
+      "paid": "Վճարված",
+      "group": "Խմբավորել"
+    },
+    "holderGate": {
+      "chain": "Ցանց",
+      "which": "Taouts",
+      "tab": "Սեփականատերեր"
+    },
+    "automod": {
+      "bannedWords": "Արգելված բառեր",
+      "floodMax": "{{count}} հաղորդագրություններ",
+      "saved": "Պահված",
+      "wordCount": "{{count}} բառեր"
     }
   },
   "work": {
@@ -7837,7 +7923,10 @@
       "doneAll": "Ապեֆելված են {{done}} հաշիվները, որոնք ձեզ հետ չեն հետևում.",
       "doneSome": "Ապեֆելված են {{done}} հաշիվները։ {{failed}}-ը հնարավոր չէ ապեֆելել.",
       "doneToast": "Ապեֆելված են {{done}} հաշիվները, որոնք ձեզ հետ չեն հետևում"
-    }
+    },
+    "followBackConfirm": "Հետադարձ բաժանորդագրություն",
+    "followBackNotNow": "Ոչ հիմա",
+    "followBackDone": "Ավարտված"
   },
   "reactionInfo": {
     "title": "Արձագանքներ",
@@ -8757,7 +8846,38 @@
     "coverFrames": "Նշանակել ծածկագրի շրջանակ",
     "coverFrame": "Օգտագործել ծածկագրի շրջանակ {{index}} որպես ծածկագիր",
     "uploadCover": "Պատկեր ներբեռնել",
-    "editFailed": "Չկարողացա կիրառել այդ մշակումը։ Ստուգեք նորից։"
+    "editFailed": "Չկարողացա կիրառել այդ մշակումը։ Ստուգեք նորից։",
+    "altPlaceholderVideo": "Նկարագրեք այս տեսանյութը",
+    "preview": {
+      "title": "Նախադիտում"
+    },
+    "recent": {
+      "all": "Բոլորը"
+    },
+    "studio": {
+      "crop": "Կտրել",
+      "draw": "Նկարել",
+      "light": "Louys",
+      "contrast": "Հակադրություն",
+      "warmth": "Ջերմություն",
+      "colour": "Ռանգ",
+      "fade": "Մարել",
+      "original": "Բնօրինակ",
+      "ratioOriginal": "Բնօրինակ",
+      "ratioFree": "Անվճար",
+      "rotate": "Պտտել",
+      "strength": "Ուժ",
+      "stickers": "Կպչուն պիտակներ",
+      "ticker": "Թիքեր",
+      "textBg": "Ֆոն",
+      "font": {
+        "bold": "Թավ",
+        "serif": "Սերիֆ",
+        "mono": "Մոնո"
+      }
+    },
+    "edited": "Խմբագրել է",
+    "edit": "Khmbagrrel"
   },
   "bounty": {
     "claimed": "Ստացված",
@@ -9051,7 +9171,8 @@
     "justChatting": "Պարզապես զրույց",
     "noLiveStreams": "Ուղիղ հեռարձակումներ չկան",
     "noOneStreaming": "Հիմա ոչ ոք չի հեռարձակում։ Այցելեք ավելի ուշ։",
-    "loadStreamsFailed": "Չհաջողվեց բեռնել հեռարձակումները։ Կրկին փորձեք։"
+    "loadStreamsFailed": "Չհաջողվեց բեռնել հեռարձակումները։ Կրկին փորձեք։",
+    "liveBadge": "ՈՒՂԻՂ"
   },
   "liveShop": {
     "title": "Գնումներ կատարեք այս հեռարձակումից",
@@ -9364,7 +9485,23 @@
     "paymentSentWith": "Ուղարկվել է {{amount}} -ով",
     "planRestricted": "Այս օգտատերը հաղորդագրություններ ստանալու համար բաժանորդագրություն է պահանջում։",
     "planTypeNotAllowed": "Այս ստեղծողի պլանը թույլ չի տալիս այս տեսակի հաղորդագրություն։",
-    "planMinTip": "Այս ստեղծողի համար թեյավճարը պետք է լինի առնվազն {{amount}} տոկեններ։"
+    "planMinTip": "Այս ստեղծողի համար թեյավճարը պետք է լինի առնվազն {{amount}} տոկեններ։",
+    "newDrawer": {
+      "to": "Դեպի"
+    },
+    "download": "Bernel",
+    "deleteOneTitle": "Ջնջե ՞ լ այս հաղորդագրությունը",
+    "retrySend": "Կրկին փորձել",
+    "discardSend": "Հեռացնել",
+    "shareKindGroup": "Խմբավորել",
+    "shareKindCommunity": "Համայնք",
+    "searchDiscover": {
+      "people": "Mardik",
+      "communities": "Համայնքներ",
+      "members": "{{n}} հանդիսական",
+      "newChat": "Նոր զրույց",
+      "invite": "Հրավիրել"
+    }
   },
   "editPost": {
     "mediaPermission": "Պահանջվում է մեդիագրադարանի թույլտվություն",
@@ -9540,7 +9677,8 @@
     "clearHistoryTitle": "Մաքրե՞լ որոնման պատմությունը",
     "clearHistoryBody": "Սա կհեռացնի ձեր բոլոր վերջին որոնումները։",
     "removeFromHistory": "Հեռացնել «{{query}}»-ը պատմությունից",
-    "close": "Փակել որոնումը"
+    "close": "Փակել որոնումը",
+    "open": "Voronel"
   },
   "notifPrompt": {
     "stayInLoop": "Մնացեք տեղեկացված",
@@ -10581,7 +10719,11 @@
       "hint": "Խոսքը վերածում է ժամանակավորված ենթագրերի, որոնց ոճը կարող եք փոխել։ Աշխատում է ձեր սարքում՝ անվճար և գաղտնի։ Առաջին օգտագործման ժամանակ մոդելը ներբեռնվում է։",
       "done": "Ավելացվեց {{count}} ենթագիր։",
       "noSpeech": "Այս հատվածում խոսք չի գտնվել։",
-      "failed": "Չհաջողվեց ստեղծել ենթագրեր այս հատվածի համար։"
+      "failed": "Չհաջողվեց ստեղծել ենթագրեր այս հատվածի համար։",
+      "styles": {
+        "bold": "Խիզախ",
+        "serif": "Սերիֆ"
+      }
     },
     "app": {
       "newDesign": "Նոր դիզայն",
@@ -10831,7 +10973,9 @@
       "suggestTitle": "Ավելացրու մեծ թավ վերնագիր վերևում և ավելի փոքր ենթավերնագիր դրա տակ",
       "undo": "Հետարկել",
       "openGenerator": "Դիտել և ստեղծել",
-      "working": "Աշխատում եմ…"
+      "working": "Աշխատում եմ…",
+      "stop": "Դադարեցնել",
+      "queue": "Հերթում ավելացնել"
     },
     "brand": {
       "addColor": "Ավելացնել բրենդի գույն",
@@ -10968,7 +11112,9 @@
       "rendering": "Տեսանյութը ստեղծվում է… {{percent}}%",
       "mp4": "MP4 տեսանյութ",
       "exportHint": "Պահեք խմբագրիչը բաց, մինչ տեսանյութը ստեղծվում է։",
-      "tooLarge": "Այս ֆայլը չափազանց մեծ է խմբագրիչի համար։ Սահմանաչափը 400 MB է։"
+      "tooLarge": "Այս ֆայլը չափազանց մեծ է խմբագրիչի համար։ Սահմանաչափը 400 MB է։",
+      "tZoomIn": "Մեծացնել",
+      "tZoomOut": "Փոքրացնել"
     },
     "motion": {
       "title": "Շարժում",
@@ -12147,6 +12293,28 @@
       "selection": "Ընտրված",
       "zoomIn": "Մեծացնել կտավը",
       "zoomOut": "Մեծացնել կտավը"
+    },
+    "stage": {
+      "camera": "Տեսախցիկ",
+      "yaw": "Պտույտ",
+      "add": "Ավելացնել",
+      "scale": "Մեծություն",
+      "color": "Գույն",
+      "light": "Թեթև"
+    },
+    "clipFix": {
+      "listening": "Լսում եմ…"
+    },
+    "voiceClone": {
+      "stop": "Դադարեցնել ձայնագրությունը",
+      "failed": "Ֆոնային ձայնի կլոնավորումն անհաջող էր։"
+    },
+    "linkImport": {
+      "go": "Ներմուծել",
+      "downloading": "Ներբեռնում {{percent}}%"
+    },
+    "reverse": {
+      "action": "Հակառակ"
     }
   },
   "creator": {
@@ -12608,7 +12776,32 @@
     "referenceProductName": "Տեղադրիր իրեն տեսահոլովակում:",
     "referenceProductHint": "Փոխարինիր հիմնական իրերը՝ պահպանելով սկզբնական տեսարանը:",
     "referenceComposeName": "Միացրու հղումային պատկերները:",
-    "referenceComposeHint": "Բերու բազմաթիվ պատկերներից կերպարներ, օբյեկտներ և սցենարներ մեկ կոմպոզիցիայում:"
+    "referenceComposeHint": "Բերու բազմաթիվ պատկերներից կերպարներ, օբյեկտներ և սցենարներ մեկ կոմպոզիցիայում:",
+    "marketing": {
+      "import": {
+        "use": "Օգտագործել այս մանրամասները"
+      }
+    },
+    "batchCount": "Nkarer",
+    "endFrame": "Վերջնական կադր",
+    "cinema": {
+      "close": "Փակել",
+      "performance": {
+        "label": "Արդյունավետություն"
+      }
+    },
+    "audioNoSpeech": "Այդ ձայնագրության մեջ խոսք չգտնվեց:",
+    "audioTaskSpeechLabel": "Խոսք",
+    "audioTaskDialogueLabel": "Երկխոսություն",
+    "audioTaskSfxLabel": "Ձայնային էֆեկտ",
+    "audioTaskVoiceChangerLabel": "Ձայնի փոխարկիչ",
+    "audioTaskTranscribeLabel": "Տրանսկրիբացիա",
+    "audioTaskIsolateLabel": "Մաքրում",
+    "priceFreeRateLimited": "Գործում են անվճար · սակագնային սահմանափակումներ",
+    "loop": "Հանգույց",
+    "dialogueFormat": "Գրեք տեսարանը որպես «Անուն՝ տող», մեկ խոսնակ մեկ տողում:",
+    "fileTooLarge": "Այդ ֆայլը գերազանցում է 100 ՄԲ-ը: Օգտագործեք ավելի կարճ կամ փոքր ֆայլ:",
+    "signInToGenerate": "Մուտք գործեք ստեղծելու համար:"
   },
   "fractions": {
     "title": "Կոտորակներ",
@@ -14677,6 +14870,19 @@
       "intro": "Դիտողները վաստակում են մի կետ յուրաքանչյուր դիտված րոպեի համար և մեկ կետ յուրաքանչյուր 100 տոկեններ նվերի համար։ Չատը և ռեակցիաները ոչինչ չեն վաստակում, հետևաբար կետերը չեն կարող ֆերմավորվել։",
       "empty": "Հեռու են կետերը։ Նրանք կուտակվում են, երբ մարդիկ դիտում են և նվերներ են տալիս։",
       "widgetHint": "Ավելացրեք Թագավորական դիտողների վիդջետը, որպեսզի ցուցադրեք այս ցանկը շոուի ժամանակ։"
+    },
+    "destinations": {
+      "platform": "Հարթակ",
+      "label": "Անուն (ըստ ցանկության)",
+      "key": "Հոսքի բանալի",
+      "save": "Ավելացնել",
+      "cancel": "Չեղարկել",
+      "states": {
+        "off": "Անջատված",
+        "idle": "Պատրաստ է",
+        "live": "Ուղիղ միացում",
+        "error": "Սխալ"
+      }
     }
   },
   "liveChatModeration": {
@@ -14758,7 +14964,71 @@
     "days": "{{count}} օր",
     "spotlightForSale": "Վաճառքի հիմա",
     "spotlightNew": "Միայն նորած",
-    "buyFor": "Գնա {{price}}"
+    "buyFor": "Գնա {{price}}",
+    "actAll": "Բոլորը",
+    "actListings": "Հայտարարություններ",
+    "actOffer": "Թողարկել",
+    "actOffers": "Առաջարկներ",
+    "actSales": "Վաճառք",
+    "tabActivity": "Գործունեություն",
+    "allChains": "Բոլոր շղթաները",
+    "newest": "Amenayin noragouyner",
+    "cheapest": "Թանկագույնը",
+    "soldFor": "Վաճառված",
+    "signIn": "Մուտք",
+    "title": "NFT - ներ",
+    "share": "Կիսվել",
+    "noneForSale": "Դեռ ոչինչ վաճառքի համար",
+    "noSales": "Ոչ մի վաճառք դեռևս։",
+    "tabBrowse": "Բրաուզինգ",
+    "tabMine": "Ձերը",
+    "tabSales": "Վաճառք",
+    "cancelled": "Չեղարկված",
+    "sold": "Վաճառված",
+    "listed": "Վաճառքի համար հայտարարված",
+    "feeRow": "Riftn հարկ ({{pct}}%)",
+    "royaltyRow": "Ստեղծողի թագավորական հարկ",
+    "youGet": "Դու ստանում ես",
+    "holderGets": "ՀOLDER-ը ստանում է",
+    "loading": "Բեռնվում է…",
+    "price": "Գին",
+    "seller": "Վաճառորդ",
+    "tabRecent": "Վերջին",
+    "buyNow": "Ցանկացեք գնել",
+    "offers": "Շահագործումներ",
+    "cancel": "Չեղարկել",
+    "accept": "Ընդունել",
+    "signInToTrade": "Մուտքագրեք, որպեսզի վաճառեք և հետևեք ձեր ցուցադրումներին և առաջարկություններին։",
+    "listForSale": "Գնում է",
+    "makeOffer": "Օգտվեք առաջարկից",
+    "sendOffer": "Շահագործման առաջարկել",
+    "back": "Հետ",
+    "dropsTo": "Գինը նվազում է մինչև {{price}}, մինչև {{date}}",
+    "inBundle": "Վաճառվում է մի խմբով {{n}}",
+    "trending": "Թրենդային հավաքածուներ",
+    "floor": "Հարկ",
+    "listedCount": "{{n}} վաճառքի համար",
+    "thisCollection": "Այս հավաքածուն",
+    "collectionOffer": "Առաջարկ ցանկացած դեպքում",
+    "showAll": "Ցույց տալ բոլորը",
+    "shortTitle": "NFT - ներ",
+    "filters": "Զտիչներ",
+    "forSale": "Վաճառվում է",
+    "openToOffers": "Բաց է առաջարկների համար",
+    "freshMints": "Թարմ է Riftn - ի ստեղծողներից",
+    "offersOpen": "Բաց է առաջարկների համար",
+    "anyInCollection": "Անկում կա հավաքածուում։",
+    "thisNft": "Այս NFT-ը",
+    "priceAlert": "Տողման նախազգուշացում",
+    "alertUnder": "Ընթերցիր, երբ ցուցադրված է կամ ցածր է ({{symbol}}, օպցիոնալ)",
+    "turnOnAlert": "Ակտիվացիր հուշում",
+    "alertSaved": "Ալերտը ներառված է։ Երբ մեկը կհամարվի, մենք կտեղեկացնենք։",
+    "priceDrop": "Գինը նվազում է ժամանակի ընթացքում",
+    "endPrice": "Անցյալ ամենացածր գինը, հասանելի վերջում ({{symbol}})",
+    "bundleBadge": "Բանդլ ×{{n}}",
+    "dropBadge": "Գնացող գինը",
+    "days_one": "{{count}} օր",
+    "days_other": "{{count}} օր"
   },
   "reel": {
     "readAll": "Կարդալ բոլորը",
@@ -14780,7 +15050,11 @@
       "episode": "Փոդքասթի դրվագ",
       "show": "Փոդքասթ",
       "artist": "Նկարիչ"
-    }
+    },
+    "loading": "Բեռնվում է…",
+    "paused": "Փակված",
+    "preview": "Նախադիտում",
+    "seek": "Փնտրել"
   },
   "twoFactor": {
     "wrongCode": "Այդ կոդը չի համընկնում։ Փորձեք ամենավերջինը ձեր հավելվածում։",
@@ -14857,5 +15131,250 @@
     "newer": "Նոր արդյունք",
     "gone": "Այդ հաղորդագրությունը այլևս այստեղ չէ",
     "theirMessages": "Նրանց հաղորդագրությունները"
+  },
+  "chatTextSize": {
+    "title": "Շարքի չափը",
+    "default": "Կանխադրված",
+    "larger": "Ավելի մեծ"
+  },
+  "remix": {
+    "cut": "Կտրել"
+  },
+  "signedFollows": {
+    "setUp": "Միացնել",
+    "turnOff": "Անջատել",
+    "efpTurnOff": "Դադարեցնել"
+  },
+  "postEditHistory": {
+    "original": "Բնօրինակ"
+  },
+  "studioDeck": {
+    "remove": "Հեռացնել",
+    "background": {
+      "title": "Ֆոն",
+      "modes": {
+        "none": "Անջատված",
+        "blur": "Լղոզում",
+        "color": "Ռանգ"
+      }
+    },
+    "scenes": {
+      "countdown": "Հետհաշվարկ",
+      "minutes": "{{count}} րոպե",
+      "names": {
+        "starting": "Շուտով կսկսվի"
+      }
+    },
+    "widgets": {
+      "tab": "Վիջեթներ"
+    },
+    "sources": {
+      "image": "Պատկեր",
+      "show": "Ցույց տալ հոսքով",
+      "positions": {
+        "center": "Կենտրոն"
+      },
+      "sizes": {
+        "medium": "Միջին"
+      }
+    },
+    "phone": {
+      "title": "Ստուդիա"
+    }
+  },
+  "whenSheet": {
+    "today": "Այսօր",
+    "tooSoon": "Ընտրեք ժամանակ ապագայում ։",
+    "show": "Ցույց տալ",
+    "hide": "Թաքցնել"
+  },
+  "planned": {
+    "title": "Նախատեսված է",
+    "all": "Բոլորը",
+    "posts": "Գրառումներ",
+    "stages": "Ձայնային սենյակներ",
+    "post": "Հրապարակել",
+    "live": "Ուղիղ միացում",
+    "stage": "Բեմ",
+    "untitledPost": "Հրապարակել",
+    "untitledLive": "Ուղիղ միացում",
+    "loading": "Բեռնվում է…",
+    "startNow": "Սկսել հիմա",
+    "cancel": "Չեղարկել",
+    "cancelled": "Չեղարկված է"
+  },
+  "welcome": {
+    "about": {
+      "title": "Բարի գալուստ Riftn",
+      "day": "Օր",
+      "month": "Ամիս",
+      "year": "Տարի"
+    },
+    "name": {
+      "title": "Ձեր անունը",
+      "placeholder": "Ձեր անունը"
+    },
+    "card": {
+      "name": "Ձեր անունը",
+      "followers": "հետևորդներ"
+    },
+    "topic": {
+      "music": "Երաժշտություն",
+      "art": "Արվեստ",
+      "gaming": "Խաղեր",
+      "crypto": "Կրիպտոարժույթ",
+      "sports": "Սպորտ",
+      "comedy": "Կոմեդիա",
+      "film": "Ֆիլմ",
+      "podcast": "Փոդքասթ",
+      "food": "Սնունդ",
+      "news": "Նորություններ",
+      "science": "Գիտություն"
+    },
+    "back": "Հետ",
+    "skipPhoto": "Բաց թողնել հիմա",
+    "preview": "Նախադիտում"
+  },
+  "appTokens": {
+    "title": "Ձեր թոքենները",
+    "history": "Պատմություն",
+    "noHistory": "Գործունեություն դեռ չկա",
+    "kindDeposit": "Ավանդ",
+    "to": "Դեպի",
+    "amount": "Չափ",
+    "notePlaceholder": "Ավելացրու նշում (ըստ ցանկության)",
+    "sendButton": "Ուղարկել",
+    "errorInsufficient": "Տոկեններ չկան"
+  },
+  "avatarPrompt": {
+    "notNow": "Ոչ հիմա"
+  },
+  "postStats": {
+    "audience": "Լսարան",
+    "engagement": "Ներգրավվածություն",
+    "finished": "Ավարտված",
+    "members": "Անդամներ",
+    "membersLower": "անդամներ",
+    "newFollowers": "Նոր հետևորդներ",
+    "noBadge": "Առանց նշանի",
+    "people": "Մարդիկ",
+    "plays": "Խաղում է",
+    "quotes": "մեջբերում",
+    "reposts": "Վերաբաշխումներ",
+    "saved": "Պահված",
+    "shares": "Կիսումներ",
+    "signedOutViewers": "Դudelays",
+    "topSupporters": "Լավագույն աջակիցներ",
+    "visitors": "Դudelays"
+  },
+  "duet": {
+    "policyEveryone": "Բոլորը",
+    "policyFollowers": "Հետևորդներ",
+    "policyNobody": "Ոչ ոք",
+    "loadMore": "Բեռնել ավելին",
+    "video": "Վիդեո"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Բոլորը",
+      "followers": "Հետևորդներ",
+      "nobody": "Ոչ ոք"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Բոլորը",
+      "followers": "Հետևորդներ",
+      "nobody": "Ոչ ոք"
+    },
+    "heading": "Արձագանքներ",
+    "more": "Ցույց տալ ավելին",
+    "liveNow": "Ուղիղ միացում",
+    "untitled": "Արձագանք"
+  },
+  "liveClips": {
+    "copyLink": "Պատճենել հղումը",
+    "linkCopied": "Հղումը պատճենված է"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Պլան",
+      "howMany": "Քանի",
+      "who": "Օգտանուն կամ դրամապանակի հասցե",
+      "whoPlaceholder": "@օգտանուն",
+      "cancel": "Չեղարկել",
+      "stage": {
+        "preparing": "Պատրաստվում է…",
+        "confirming": "Գործարքի սպասում…",
+        "recording": "Ավարտվում է…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Aylu",
+    "confirming": "Վճարման հաստատում…"
+  },
+  "liveShorts": {
+    "live": "ՈՒՂԻՂ"
+  },
+  "feedFilters": {
+    "clearAllShort": "Maqrel bolaore",
+    "done": "Կատարված",
+    "edit": "Khmbagrrel",
+    "groupDate": "Amsathiv",
+    "groupSort": "Dasavorel",
+    "groupType": "Tesak",
+    "save": "Պահպանել"
+  },
+  "ownKeys": {
+    "working": "Աշխատում",
+    "failed": "Սխալ առաջացավ ։ Նորից փորձեք ։",
+    "check": "Ստուգել",
+    "remove": "Հեռացնել",
+    "save": "Պահպանել",
+    "cancel": "Չեղարկել"
+  },
+  "postBg": {
+    "none": "Ոչինչ",
+    "yours": "Ձերը",
+    "accent": "Ակցենտ",
+    "names": {
+      "aurora": "Ավրորա",
+      "lava": "Լավայի լամպ",
+      "drive": "Գիշերային ավտոբուս",
+      "chrome": "Հեղուկ քրոմ",
+      "snow": "Ձյունաճերմակ"
+    }
+  },
+  "articleTile": {
+    "cover": "Շապիկ"
+  },
+  "aiConsent": {
+    "allow": "Թույլատրել"
+  },
+  "dmRequests": {
+    "title": "Հայցեր",
+    "accept": "Ընդունել",
+    "delete": "Ջնջել",
+    "block": "Արգելափակել"
+  },
+  "dmSchedule": {
+    "view": "Դիտել",
+    "edit": "Փոփոխել",
+    "editLabel": "Փոփոխել հաղորդագրությունը",
+    "error": "Դա չստացվեց ։ Նորից փորձեք ։"
+  },
+  "chatBulk": {
+    "selected": "{{count}} ընտրանուած",
+    "cancel": "Չեղարկել",
+    "reply": "Պատասխան",
+    "delete": "Jnchel"
+  },
+  "msgSelect": {
+    "selected": "{{count}} ընտրանուած",
+    "copy": "Պատճենել",
+    "forward": "Փոխանցել",
+    "deleted_one": "Մաքսվել է {{count}} հաղորդագրություն",
+    "deleted_other": "Մաքսվել են {{count}} հաղորդագրություններ"
   }
 }

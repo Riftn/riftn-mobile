@@ -1,6 +1,11 @@
 {
   "comic": {
-    "showAll": "Prikaži svih {{count}} stranica"
+    "showAll": "Prikaži svih {{count}} stranica",
+    "tab": "Komičar",
+    "title": "Komičar",
+    "editor": {
+      "cover": "Naslovnica"
+    }
   },
   "comicBorder": {
     "title": "Obrub",
@@ -2608,7 +2613,14 @@
     "cbade2afaee2": "U trendu ovaj tjedan na Audiusu. Besplatno za korištenje, izvođač je naveden u tvojoj objavi.",
     "d2e45b7406fc": "Javno domena i Creative Commons glazba s Wikimedia Commons. Izvođač je naveden u tvojoj objavi.",
     "d0c1a3684775": "Pjesme se nisu učitale. Pokušaj ponovno za trenutak.",
-    "d14064f80f52": "Dodaj zvuk"
+    "d14064f80f52": "Dodaj zvuk",
+    "71988c4d8e08": "Tekst",
+    "147170e793c6": "Široko",
+    "481859b689b0": "Provjerite vašu vezu i pokušajte ponovno.",
+    "57e2faa5ec63": "Pretraži Riftn",
+    "7db20897053b": "Ljudi",
+    "96d7bff86b44": "Pretraga nije mogla učitati",
+    "d8b8392e2c54": "Pokušaj ponovno"
   },
   "dehubLinks": {
     "kind": {
@@ -2858,7 +2870,8 @@
       "quote": "Citat",
       "bullets": "Bulbasta lista",
       "numbers": "Brojčana lista",
-      "link": "Poveznica"
+      "link": "Poveznica",
+      "image": "Dodaj slike"
     }
   },
   "storefront": {
@@ -3796,7 +3809,11 @@
     "payViaDpay": "Plaćeno Riftn Payu, tokeni stižu za otprilike 30s",
     "payViaBridgeDpay": "Premješteno na Base i plaćeno Riftn Payu, tokeni stižu za otprilike minutu",
     "tokensUnit": "tokena",
-    "tokenAmount": "{{amount}} tokena"
+    "tokenAmount": "{{amount}} tokena",
+    "addMessage": "Dodaj poruku (opcionalno)",
+    "messagePublic": "Javno",
+    "railTitle": "Napojnice",
+    "railTotal": "{{amount}} tokena"
   },
   "postOptions": {
     "skippableSections": "Dijelovi koji se mogu preskočiti",
@@ -4524,7 +4541,11 @@
       "here": "{{name}} šalje poruke svima u zajednici",
       "hereNamed": "{{name}} šalje poruke svima u “{{community}}”"
     },
-    "tokenAmount": "{{amount}} tokena"
+    "tokenAmount": "{{amount}} tokena",
+    "groupNew": "Novo",
+    "groupToday": "Danas",
+    "groupThisWeek": "Ovaj tjedan",
+    "searchClose": "Zatvori pretraživanje"
   },
   "leaderboard": {
     "title": "Ljestvice",
@@ -4716,7 +4737,18 @@
     "attachmentTooLarge": "Svaka datoteka mora biti manja od 50 MB",
     "deleteCommentA11y": "Izbriši komentar",
     "sendCommentA11y": "Pošalji komentar",
-    "requestOptions": "Zatraži nove mogućnosti"
+    "requestOptions": "Zatraži nove mogućnosti",
+    "deviceInfoNoErrors": "Nijedno",
+    "topBuilders": {
+      "month": "Ovaj mjesec",
+      "allTime": "Sve vrijeme",
+      "shipped": "Isporučeno",
+      "votes": "Glasovi",
+      "comments": "Komentari",
+      "showLess": "Prikaži manje",
+      "viewProfile": "Prikaži profil",
+      "you": "Vi"
+    }
   },
   "auth": {
     "loginRequired": "Potrebna prijava",
@@ -4977,7 +5009,20 @@
       "votes_other": "{{value}} glasova",
       "members_one": "{{value}} član",
       "members_other": "{{value}} članovi"
-    }
+    },
+    "articleShort": "Članak",
+    "articleMinRead": "{{count}} min čitanja",
+    "pinnedShort": "Prikvačeno",
+    "post": "Objavi",
+    "arrange": {
+      "saving": "Spremanje..."
+    },
+    "reserve": {
+      "signIn": "Prijavi se"
+    },
+    "tabLikes": "Sviđanja",
+    "likesEmptyTitle": "Još nema sviđanja",
+    "likesPrivateTitle": "Sviđanja su privatna"
   },
   "tv": {
     "title": "TV",
@@ -5493,6 +5538,9 @@
       "action": "Radnja",
       "schedule": "Raspored",
       "filter": "Filtriraj aktivnost"
+    },
+    "welcome": {
+      "text": "Poruka dobrodošlice"
     }
   },
   "hero": {
@@ -5574,7 +5622,15 @@
     "nowPublic": "Tok je sada javan",
     "openCanvas": "Otvorite platno",
     "playVideo": "Reproduciraj video",
-    "signInToSee": "Prijavi se i pogledaj tijekove na svom računu."
+    "signInToSee": "Prijavi se i pogledaj tijekove na svom računu.",
+    "newNativeFlow": "Novi tok",
+    "aspectRatio": "Omjer slike",
+    "duration": "Trajanje u sekundama",
+    "resolution": "Rezolucija",
+    "disconnect": "Razveži",
+    "payAndRun": "Plati i pokreni",
+    "run": "Pokreni",
+    "handlePrompt": "Potakni"
   },
   "loginModal": {
     "title": "Prijava",
@@ -5894,7 +5950,8 @@
     "searchMenu": "Pretraži izbornik",
     "clearSearch": "Očisti pretragu",
     "noMenuMatches": "Ništa u izborniku ne odgovara",
-    "searchDehubFor": "Pretraži „{{query}}” na Riftnu"
+    "searchDehubFor": "Pretraži „{{query}}” na Riftnu",
+    "requestSend": "Pošalji zahtjev"
   },
   "comments": {
     "reportComment": "Prijavi komentar",
@@ -6513,7 +6570,11 @@
       "copied": "Poruka je kopirana",
       "copyText": "Kopiraj tekst",
       "mutedUntil": "Isključen vam je zvuk do {{date}}",
-      "slowMode": "Usporeni način rada: jedna poruka svakih {{interval}}"
+      "slowMode": "Usporeni način rada: jedna poruka svakih {{interval}}",
+      "joined": "{{name}} se pridružio/la",
+      "reactions": "Reakcije",
+      "photoTooLarge": "Slika mora biti manja od 10MB",
+      "aiAdminFailed": "AI Admin nije odgovorio"
     },
     "manage": {
       "dismissAdminTitle": "Odbaci administratora",
@@ -6716,6 +6777,30 @@
       "notFound": "Ova poveznica s pozivom nije valjana.",
       "requestToJoin": "Pošaljite zahtjev za pridruživanje",
       "approvalNote": "Administrator mora odobriti vaš zahtjev prije nego što se možete pridružiti."
+    },
+    "buyAlert": {
+      "spent": "Potrošeno:",
+      "buyer": "Kupac:",
+      "balance": "Stanje:",
+      "price": "Cijena:",
+      "marketCap": "Tržišna kapacitet:"
+    },
+    "newChat": {
+      "public": "Javno",
+      "private": "Privatno",
+      "free": "Besplatno",
+      "paid": "Plaćeno",
+      "group": "Grupiraj"
+    },
+    "holderGate": {
+      "chain": "Lanac",
+      "tab": "Držači"
+    },
+    "automod": {
+      "bannedWords": "Zabranjene riječi",
+      "floodMax": "{{count}} poruke",
+      "saved": "Spremljeno",
+      "wordCount": "{{count}} riječi"
     }
   },
   "work": {
@@ -7837,7 +7922,10 @@
       "doneAll": "Prestao/la pratiti {{done}} računa koji te nisu pratili nazad.",
       "doneSome": "Prestao/la pratiti {{done}} računa. {{failed}} nije se mogao/la prestati pratiti.",
       "doneToast": "Prestao/la pratiti {{done}} računa koji te ne prate nazad"
-    }
+    },
+    "followBackConfirm": "Prati natrag",
+    "followBackNotNow": "Ne sada",
+    "followBackDone": "Gotovo"
   },
   "reactionInfo": {
     "title": "Reakcije",
@@ -8757,7 +8845,35 @@
     "coverFrames": "Odaberi okvir za naslovnicu",
     "coverFrame": "Upotrijebi okvir {{index}} kao naslovnici",
     "uploadCover": "Preuzmi sliku za naslovnici",
-    "editFailed": "Nije moguće primijeniti taj uređivač. Pokušaj ponovno."
+    "editFailed": "Nije moguće primijeniti taj uređivač. Pokušaj ponovno.",
+    "altPlaceholderVideo": "Opišite ovaj videozapis",
+    "preview": {
+      "title": "Pregled"
+    },
+    "recent": {
+      "all": "Sve"
+    },
+    "studio": {
+      "crop": "Obreži",
+      "draw": "Crtanje",
+      "light": "Svijetlo",
+      "contrast": "Kontrast",
+      "warmth": "Toplina",
+      "colour": "Boja",
+      "fade": "Blijedi",
+      "original": "Originalno",
+      "ratioOriginal": "Originalno",
+      "ratioFree": "Besplatno",
+      "rotate": "Rotiraj",
+      "strength": "Jačina",
+      "stickers": "Naljepnice",
+      "textBg": "Pozadina",
+      "font": {
+        "bold": "Podebljano"
+      }
+    },
+    "edited": "Uređeno",
+    "edit": "Uredi"
   },
   "bounty": {
     "claimed": "Preuzeto",
@@ -9051,7 +9167,8 @@
     "justChatting": "Samo čavrljanje",
     "noLiveStreams": "Nema prijenosa uživo",
     "noOneStreaming": "Trenutačno nitko ne prenosi. Svratite kasnije!",
-    "loadStreamsFailed": "Prijenosi se nisu mogli učitati. Pokušajte ponovno."
+    "loadStreamsFailed": "Prijenosi se nisu mogli učitati. Pokušajte ponovno.",
+    "liveBadge": "UŽIVO"
   },
   "liveShop": {
     "title": "Kupujte iz ovog prijenosa",
@@ -9364,7 +9481,23 @@
     "paymentSentWith": "Poslano s {{amount}}",
     "planRestricted": "Ovaj korisnik zahtijeva pretplatu za primanje poruka.",
     "planTypeNotAllowed": "Plan ovog kreatora ne dopušta ovu vrstu poruke.",
-    "planMinTip": "Napojnica za ovog kreatora mora biti najmanje {{amount}} tokena."
+    "planMinTip": "Napojnica za ovog kreatora mora biti najmanje {{amount}} tokena.",
+    "newDrawer": {
+      "to": "Do"
+    },
+    "download": "Preuzmi",
+    "deleteOneTitle": "Želite li izbrisati ovu poruku?",
+    "retrySend": "Pokušaj ponovno",
+    "discardSend": "Ukloni",
+    "shareKindGroup": "Grupiraj",
+    "shareKindCommunity": "Zajednica",
+    "searchDiscover": {
+      "people": "Ljudi",
+      "communities": "Zajednice",
+      "members": "{{n}} članova",
+      "newChat": "Novi chat",
+      "invite": "Pozovi"
+    }
   },
   "editPost": {
     "mediaPermission": "Potrebno je dopuštenje za medijsku knjižnicu",
@@ -10582,7 +10715,10 @@
       "hint": "Pretvara govor u vremenski usklađene titlove kojima možete promijeniti stil. Radi na vašem uređaju: besplatno i privatno. Pri prvoj upotrebi preuzima se model.",
       "done": "Dodano titlova: {{count}}.",
       "noSpeech": "U ovom isječku nije pronađen govor.",
-      "failed": "Nije moguće izraditi titlove za ovaj isječak."
+      "failed": "Nije moguće izraditi titlove za ovaj isječak.",
+      "styles": {
+        "bold": "Podebljano"
+      }
     },
     "app": {
       "newDesign": "Novi dizajn",
@@ -10832,7 +10968,9 @@
       "suggestTitle": "Dodaj veliki podebljani naslov na vrh i manji podnaslov ispod njega",
       "undo": "Poništi",
       "openGenerator": "Pregledaj i generiraj",
-      "working": "Radim na tome…"
+      "working": "Radim na tome…",
+      "stop": "Zaustavi",
+      "queue": "Dodaj u red čekanja"
     },
     "brand": {
       "addColor": "Dodaj boju brenda",
@@ -10969,7 +11107,9 @@
       "rendering": "Renderiranje videa… {{percent}} %",
       "mp4": "MP4 video",
       "exportHint": "Držite uređivač otvorenim dok se vaš video renderira.",
-      "tooLarge": "Ta je datoteka prevelika za uređivač. Ograničenje je 400 MB."
+      "tooLarge": "Ta je datoteka prevelika za uređivač. Ograničenje je 400 MB.",
+      "tZoomIn": "Uvećaj",
+      "tZoomOut": "Smanji"
     },
     "motion": {
       "title": "Pokret",
@@ -12148,6 +12288,28 @@
       "selection": "Odabir",
       "zoomIn": "Platno za zumiranje",
       "zoomOut": "Umanjite podlogu za zumiranje"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Rotacija",
+      "add": "Dodaj",
+      "scale": "Velicina",
+      "color": "Boja",
+      "light": "Svijetlo"
+    },
+    "clipFix": {
+      "listening": "Slušam…"
+    },
+    "voiceClone": {
+      "stop": "Zaustavi snimanje",
+      "failed": "Kloning glasa nije uspio."
+    },
+    "linkImport": {
+      "go": "Uvezi",
+      "downloading": "Preuzimanje {{percent}}%"
+    },
+    "reverse": {
+      "action": "Natrag"
     }
   },
   "creator": {
@@ -12609,7 +12771,32 @@
     "referenceProductName": "Postavi svoj proizvod u klip",
     "referenceProductHint": "Zamijeni istaknuti proizvod i očuvaj originalnu scenu",
     "referenceComposeName": "Kombiniraj referentne slike",
-    "referenceComposeHint": "Uspostavi likove, predmete i postavke iz više slika u jednu kompoziciju"
+    "referenceComposeHint": "Uspostavi likove, predmete i postavke iz više slika u jednu kompoziciju",
+    "marketing": {
+      "import": {
+        "use": "Upotrijebite ove podatke"
+      }
+    },
+    "batchCount": "Slike",
+    "endFrame": "Završni kadar",
+    "cinema": {
+      "close": "Zatvori",
+      "performance": {
+        "label": "Performanse"
+      }
+    },
+    "audioNoSpeech": "Na toj snimci nije pronađen govor.",
+    "audioTaskSpeechLabel": "Govor",
+    "audioTaskDialogueLabel": "Dijalog",
+    "audioTaskSfxLabel": "Zvučni efekt",
+    "audioTaskVoiceChangerLabel": "Promjena glasa",
+    "audioTaskTranscribeLabel": "Transkripcija",
+    "audioTaskIsolateLabel": "Čišćenje",
+    "priceFreeRateLimited": "Besplatno · primjenjuju se ograničenja cijena",
+    "loop": "Petlja",
+    "dialogueFormat": "Napiši scenu kao \"Ime: replika\", jedan govornik po liniji.",
+    "fileTooLarge": "Ta datoteka je veća od 100 MB. Koristi kraću ili manju.",
+    "signInToGenerate": "Prijavi se za generiranje."
   },
   "fractions": {
     "title": "Frakcije",
@@ -14678,6 +14865,19 @@
       "intro": "Gledatelji dobivaju poen za svaku minutu gledanja te poen za svaka 100 tokena koja im se daruje. Čat i reakcije ne donose ništa, pa poeni ne mogu se farmati.",
       "empty": "Još nema bodova. Oni se gomilaju dok ljudi gledaju i poklanjaju.",
       "widgetHint": "Dodajte widget Loyal viewers za prikaz ovog popisa u streamu."
+    },
+    "destinations": {
+      "platform": "Platforma",
+      "label": "Ime (nije obavezno)",
+      "key": "Ključ za prijenos uživo",
+      "save": "Dodaj",
+      "cancel": "Odustani",
+      "states": {
+        "off": "Isključeno",
+        "idle": "Spremno",
+        "live": "Uživo",
+        "error": "Greška"
+      }
     }
   },
   "liveChatModeration": {
@@ -14759,7 +14959,71 @@
     "days": "{{count}} dana",
     "spotlightForSale": "Trenutno za prodaju",
     "spotlightNew": "Samo mintirano",
-    "buyFor": "Kupi za {{price}}"
+    "buyFor": "Kupi za {{price}}",
+    "actAll": "Sve",
+    "actListings": "Oglasi",
+    "actOffer": "Nudimo",
+    "actOffers": "Ponude",
+    "actSales": "Prodaje",
+    "tabActivity": "Aktivnost",
+    "allChains": "Sve lančeve",
+    "newest": "Najnovije",
+    "cheapest": "Najniža cijena",
+    "soldFor": "Prodano",
+    "signIn": "Prijavi se",
+    "title": "NFT-ovi",
+    "share": "Podijeli",
+    "noneForSale": "Ništa za prodaju još",
+    "noSales": "Još nema prodaje",
+    "tabBrowse": "Pretresi",
+    "tabMine": "Vaši",
+    "tabSales": "Prodaje",
+    "cancelled": "Otkazano",
+    "sold": "Prodano",
+    "listed": "Navedeno na prodaju",
+    "feeRow": "Riftn naknada ({{pct}}%)",
+    "royaltyRow": "Autorski honorar",
+    "youGet": "Dobivate",
+    "holderGets": "Vlasnik dobiva",
+    "loading": "Učitavanje…",
+    "price": "Cijena",
+    "seller": "Prodavač",
+    "tabRecent": "Nedavno",
+    "buyNow": "Kupi sada",
+    "offers": "Ponude",
+    "cancel": "Otkaži",
+    "accept": "Prihvati",
+    "signInToTrade": "Prijavi se za trgovinu",
+    "listForSale": "Popis za prodaju",
+    "makeOffer": "Napravite ponudu",
+    "sendOffer": "Pošalji ponudu",
+    "back": "Natrag",
+    "dropsTo": "Cijene padaju do {{price}} do {{date}}.",
+    "inBundle": "Prodano kao paket od {{n}}",
+    "trending": "Popularne kolekcije",
+    "floor": "Pod",
+    "listedCount": "{{n}} na prodaju",
+    "thisCollection": "Ova kolekcija",
+    "collectionOffer": "Ponuda za bilo koju",
+    "showAll": "Prikaži sve",
+    "shortTitle": "NFT-ovi",
+    "filters": "Filtri",
+    "forSale": "NA prodaju",
+    "openToOffers": "Otvoreno za ponude",
+    "freshMints": "Novosti od kreatora iz RIFTN-a",
+    "offersOpen": "Otvoreno za ponude",
+    "mintedCount": "{{n}} kovan",
+    "thisNft": "Ovaj NFT",
+    "priceAlert": "Upozorenje o cijeni",
+    "alertUnder": "Obavijesti me kada je naveden na ili ispod ({{symbol}}, opcionalno)",
+    "turnOnAlert": "Uključi obavijest",
+    "alertSaved": "Upozorenje uključeno. Upozorenje će vam dati znak kada bude dostupno.",
+    "priceDrop": "Cijena pada tijekom vremena",
+    "endPrice": "Najniža cijena, dostignuta na kraju ({{symbol}})",
+    "bundleBadge": "Snop ×{{n}}",
+    "dropBadge": "Cijena je smanjena.",
+    "days_one": "{{count}} dan",
+    "days_other": "{{count}} dana"
   },
   "reel": {
     "readAll": "Pročitaj sve",
@@ -14781,7 +15045,11 @@
       "episode": "Epizoda podcasta",
       "show": "Podcast",
       "artist": "Umjetnik"
-    }
+    },
+    "loading": "Učitavanje…",
+    "paused": "Pauzirano",
+    "preview": "Pregled",
+    "seek": "Traži"
   },
   "twoFactor": {
     "wrongCode": "Ta kod se nije podudara. Pokušajte najnoviji u svojoj aplikaciji.",
@@ -14859,5 +15127,241 @@
     "newer": "Noviji rezultat",
     "gone": "Ta poruka više nije ovdje",
     "theirMessages": "Njihove poruke"
+  },
+  "chatTextSize": {
+    "title": "Velicina teksta",
+    "default": "Zadano",
+    "larger": "Veće"
+  },
+  "remix": {
+    "cut": "Izreži"
+  },
+  "signedFollows": {
+    "setUp": "Uključi",
+    "turnOff": "Isključi",
+    "efpTurnOff": "Zaustavi"
+  },
+  "postEditHistory": {
+    "original": "Originalno"
+  },
+  "studioDeck": {
+    "remove": "Ukloni",
+    "background": {
+      "title": "Pozadina",
+      "modes": {
+        "none": "Isključeno",
+        "blur": "Zamućenje",
+        "color": "Boja"
+      }
+    },
+    "scenes": {
+      "countdown": "Odbrojavanje",
+      "names": {
+        "starting": "Uskoro počinje"
+      }
+    },
+    "widgets": {
+      "tab": "Widgetovi"
+    },
+    "sources": {
+      "image": "Slika",
+      "show": "Prikaži na streamu",
+      "positions": {
+        "center": "Centriraj"
+      },
+      "sizes": {
+        "medium": "Srednja"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Danas",
+    "tooSoon": "Odaberite vrijeme u budućnosti.",
+    "show": "Prikaži",
+    "hide": "Sakrij"
+  },
+  "planned": {
+    "title": "Planirano",
+    "all": "Sve",
+    "posts": "Objave",
+    "stages": "Audio sobe",
+    "post": "Objavi",
+    "live": "Uživo",
+    "stage": "Pozornica",
+    "untitledPost": "Objavi",
+    "untitledLive": "Uživo",
+    "loading": "Učitavanje…",
+    "startNow": "Pokreni sada",
+    "cancel": "Odustani",
+    "cancelled": "Otkazano"
+  },
+  "welcome": {
+    "about": {
+      "title": "Dobrodošli u Riftn",
+      "day": "Dan",
+      "month": "Mjesec",
+      "year": "Godina"
+    },
+    "name": {
+      "title": "Vaše ime",
+      "placeholder": "Vaše ime"
+    },
+    "card": {
+      "name": "Vaše ime",
+      "followers": "pratitelji"
+    },
+    "topic": {
+      "music": "Glazba",
+      "art": "Umjetnost",
+      "gaming": "Igre",
+      "crypto": "Kripto",
+      "sports": "Sport",
+      "comedy": "Komeda",
+      "food": "Hrana",
+      "news": "Vijesti",
+      "science": "Znanost"
+    },
+    "back": "Natrag",
+    "skipPhoto": "Preskoči za sada",
+    "preview": "Pregled"
+  },
+  "appTokens": {
+    "title": "Vaši tokeni",
+    "history": "Povijest",
+    "noHistory": "Još nema aktivnosti",
+    "kindDeposit": "Uplati",
+    "to": "Do",
+    "amount": "Iznos",
+    "notePlaceholder": "Dodaj poruku (neobavezno)",
+    "sendButton": "Pošalji",
+    "errorInsufficient": "Nema dovoljno tokena"
+  },
+  "avatarPrompt": {
+    "notNow": "Ne sada"
+  },
+  "postStats": {
+    "audience": "Publika",
+    "engagement": "Angažman",
+    "finished": "Završeno",
+    "members": "Članovi",
+    "membersLower": "članovi",
+    "newFollowers": "Novi pratitelji",
+    "noBadge": "Nema odličja",
+    "people": "Ljudi",
+    "plays": "Reproducira",
+    "quotes": "citata",
+    "reposts": "Dijeljenja",
+    "saved": "Spremljeno",
+    "shares": "Dijeljenja",
+    "signedOutViewers": "Odjavljeni",
+    "topSupporters": "Najpopularniji podržavatelji",
+    "visitors": "Odjavljeni"
+  },
+  "duet": {
+    "policyEveryone": "Svi",
+    "policyFollowers": "Pratitelji",
+    "policyNobody": "Nitko",
+    "loadMore": "Učitaj više"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Svi",
+      "followers": "Pratitelji",
+      "nobody": "Nitko"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Svi",
+      "followers": "Pratitelji",
+      "nobody": "Nitko"
+    },
+    "heading": "Reakcija",
+    "more": "Prikaži više",
+    "liveNow": "Uživo",
+    "untitled": "Reakcija"
+  },
+  "liveClips": {
+    "copyLink": "Kopiraj poveznicu",
+    "linkCopied": "Link kopiran"
+  },
+  "liveHype": {
+    "gift": {
+      "howMany": "Koliko",
+      "who": "Korisničko ime ili adresa novčanika",
+      "whoPlaceholder": "@korisničko_ime",
+      "cancel": "Odustani",
+      "stage": {
+        "preparing": "Priprema…",
+        "confirming": "Čekanje transakcije…",
+        "recording": "Dovršavanje…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Ostalo",
+    "confirming": "Potvrđivanje plaćanja…"
+  },
+  "liveShorts": {
+    "live": "UŽIVO"
+  },
+  "feedFilters": {
+    "clearAllShort": "Obriši sve",
+    "done": "Gotovo",
+    "edit": "Uredi",
+    "groupDate": "Datum",
+    "groupSort": "Sortiraj",
+    "groupType": "Vrsta",
+    "save": "Spremi"
+  },
+  "ownKeys": {
+    "working": "U tijeku",
+    "failed": "Došlo je do pogreške. Pokušajte ponovno.",
+    "check": "Provjera",
+    "remove": "Ukloni",
+    "save": "Spremi",
+    "cancel": "Odustani"
+  },
+  "postBg": {
+    "none": "Nijedno",
+    "yours": "Vaši",
+    "accent": "Naglasak",
+    "names": {
+      "lava": "Lava lampa",
+      "drive": "Noćna vožnja",
+      "chrome": "Tekući krom",
+      "snow": "Snježne padaline"
+    }
+  },
+  "articleTile": {
+    "cover": "Naslovnica"
+  },
+  "aiConsent": {
+    "allow": "Dopusti"
+  },
+  "dmRequests": {
+    "title": "Zahtjevi",
+    "accept": "Prihvati",
+    "delete": "Obriši",
+    "block": "Blokiraj"
+  },
+  "dmSchedule": {
+    "view": "Pogledaj",
+    "edit": "Uredi",
+    "editLabel": "Uredi poruku",
+    "error": "To nije uspjelo. Pokušajte ponovno."
+  },
+  "chatBulk": {
+    "selected": "{{count}} odabrano",
+    "cancel": "Odustani",
+    "reply": "Odgovori",
+    "delete": "Obriši"
+  },
+  "msgSelect": {
+    "selected": "{{count}} odabrano",
+    "copy": "Kopiraj",
+    "forward": "Proslijedi",
+    "deleted_one": "Izbrisano {{count}} poruka",
+    "deleted_other": "Izbrisano {{count}} poruke"
   }
 }

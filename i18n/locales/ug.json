@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "بۇ ھەپتە Audius دا مودا بولۇۋاتقانلار. ھەقسىز ئىشلىتىشكە بولىدۇ، سەنئەتكارنىڭ ئىسمى يوللانمىڭىزدا كۆرسىتىلىدۇ.",
     "d2e45b7406fc": "Wikimedia Commons دىكى ئاممىۋى ساھە ۋە Creative Commons مۇزىكىلىرى. سەنئەتكارنىڭ ئىسمى يوللانمىڭىزدا كۆرسىتىلىدۇ.",
     "d0c1a3684775": "ناخشىلار يۈكلەنمىدى. ئازراق ۋاقىتتىن كېيىن قايتا سىناڭ.",
-    "d14064f80f52": "ئاۋاز قوشۇش"
+    "d14064f80f52": "ئاۋاز قوشۇش",
+    "71988c4d8e08": "تېكىست",
+    "147170e793c6": "كەڭ",
+    "481859b689b0": "ئۇلىنىشنى تەكشۈرۈپ قايتا سىناپ بېقىڭ.",
+    "57e2faa5ec63": "Riftn تىن ئىزدەش",
+    "7db20897053b": "كىشىلەر",
+    "96d7bff86b44": "ئىزدىشىپ كۆرۈش مۇمكىن بولمىدى",
+    "d8b8392e2c54": "قايتا سىناڭ"
   },
   "dehubLinks": {
     "kind": {
@@ -2851,7 +2858,8 @@
       "quote": "Qoyil",
       "bullets": "توپ تىزىملىكى",
       "numbers": "سانلىق تىزىملىك",
-      "link": "ئۇلانما"
+      "link": "ئۇلانما",
+      "image": "سۈرەتلەرنى قوشۇش پروگراممىسى"
     }
   },
   "storefront": {
@@ -3779,7 +3787,11 @@
     "payViaDpay": "Riftn Pay غا پۇل تۆلەنگەن، توكنلار تەخمىنەن 30 سىقىلىقتا كېلىدۇ",
     "payViaBridgeDpay": "Base غا يۆتكىلىپ Riftn Pay غا پۇل تۆلەنگەن، توكنلار تەخمىنەن بىر مىنۇتتا كېلىدۇ",
     "tokensUnit": "توكنلار",
-    "tokenAmount": "{{amount}} توكن"
+    "tokenAmount": "{{amount}} توكن",
+    "addMessage": "Qo'shish (ariza)",
+    "messagePublic": "ئوممىۋى",
+    "railTitle": "تىپ",
+    "railTotal": "{{amount}} توكن"
   },
   "postOptions": {
     "skippableSections": "ئاتلاپ ئۆتكىلى بولىدىغان بۆلەكلەر",
@@ -4503,7 +4515,11 @@
     },
     "badgeLent": "{{name}} سىزگە {{tier}} نىشانىنى قەرز بەردى",
     "badgeHandedBack": "{{name}} سىزگە قەرز بەرگەن {{tier}} نىشانىنى قايتۇردى",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "groupNew": "يېڭى",
+    "groupToday": "بۈگۈن",
+    "groupThisWeek": "بۇ ھەپتە",
+    "searchClose": "ئىزدەشنى تاقاش"
   },
   "leaderboard": {
     "title": "تەرتىپنامە",
@@ -4695,7 +4711,18 @@
     "attachmentTooLarge": "ھەر بىر ھۆججەت 50MB دىن كىچىك بولۇشى كېرەك",
     "deleteCommentA11y": "ئىنكاسنى ئۆچۈرۈش",
     "sendCommentA11y": "ئىنكاس يوللاش",
-    "requestOptions": "تاللانمىلارنى سوراش"
+    "requestOptions": "تاللانمىلارنى سوراش",
+    "deviceInfoNoErrors": "يوق",
+    "topBuilders": {
+      "month": "بۇ ئاي",
+      "allTime": "Barcha vaqt",
+      "shipped": "ئەۋەتىلگەن",
+      "votes": "بېلەتلەر",
+      "comments": "ئىنكاسلار",
+      "showLess": "Ko'proq ko'rsatish",
+      "viewProfile": "پروفىلنى كۆرۈش",
+      "you": "سىز"
+    }
   },
   "auth": {
     "loginRequired": "كىرىش تەلەپ قىلىنىدۇ",
@@ -4956,7 +4983,20 @@
       "votes_other": "{{value}} ئاۋاز",
       "members_one": "{{value}} ئەزا",
       "members_other": "{{value}} ئەزا"
-    }
+    },
+    "articleShort": "Mawzuw",
+    "articleMinRead": "{{count}} مىنۇتلۇق ئوقۇش",
+    "pinnedShort": "مۇقىملانغان",
+    "post": "يوللاش",
+    "arrange": {
+      "saving": "ساقلىنىۋاتىدۇ..."
+    },
+    "reserve": {
+      "signIn": "كىرىش"
+    },
+    "tabLikes": "ياقتۇرۇشلار",
+    "likesEmptyTitle": "تېخى ياقتۇرۇش يوق",
+    "likesPrivateTitle": "ياقتۇرۇشلار مەخپىي"
   },
   "tv": {
     "title": "تېلېۋىزور",
@@ -5472,6 +5512,9 @@
       "action": "مەشغۇلات",
       "schedule": "ۋاقىت جەدۋىلى",
       "filter": "پائالىيەتنى سۈزۈش"
+    },
+    "welcome": {
+      "text": "قارشى ئېلىش ئۇچۇرى"
     }
   },
   "hero": {
@@ -5553,7 +5596,16 @@
     "nowPublic": "ئېقىش ئەمدى ئاشكارا بولدى",
     "openCanvas": "كەنتلەرنى ئېچىش پروگراممىسى",
     "playVideo": "سىن قويۇش پروگراممىسى",
-    "signInToSee": "ھېساباتىڭىزدىكى ئېقىمنى كۆرۈش ئۈچۈن تىزىملىتىڭ."
+    "signInToSee": "ھېساباتىڭىزدىكى ئېقىمنى كۆرۈش ئۈچۈن تىزىملىتىڭ.",
+    "newNativeFlow": "يېڭى ئېقىم",
+    "model": "مودېل",
+    "aspectRatio": "كۆرۈنۈش نىسبىتى",
+    "duration": "سېكۇنت بىلەن داۋاملىشىش ۋاقتى",
+    "resolution": "Çözünürlük",
+    "disconnect": "قۇرالۇش",
+    "payAndRun": "چىقىم قىلىپ خىزمەتنى باشلاڭ",
+    "run": "ئىجرا قىلىش",
+    "handlePrompt": "تەكلىپ"
   },
   "loginModal": {
     "title": "كىرىش",
@@ -5873,7 +5925,8 @@
     "searchMenu": "تىزىملىك ئىزدەش",
     "clearSearch": "ئىزدەشنى تازىلاش",
     "noMenuMatches": "تىزىملىكتە ماس كېلىدىغان نەرسە يوق",
-    "searchDehubFor": "Riftn دا \"{{query}}\" ئىزدەش"
+    "searchDehubFor": "Riftn دا \"{{query}}\" ئىزدەش",
+    "requestSend": "ئىلتىماس ئەۋەتىش"
   },
   "comments": {
     "reportComment": "دوكلاتنى تەھلىل قىلىش",
@@ -6492,7 +6545,11 @@
       "copied": "خېتى كۆچۈرۈلگەن",
       "copyText": "تېكىستنى كۆچۈرۈش پروگراممىسى",
       "mutedUntil": "سىز تاكى {{date}}غىچە ئۆزگەرتىلدىڭىز",
-      "slowMode": "ئاستالىق ھالىتى: ھەربىر بىر ئۇچۇر {{interval}}"
+      "slowMode": "ئاستالىق ھالىتى: ھەربىر بىر ئۇچۇر {{interval}}",
+      "joined": "{{name}} join",
+      "reactions": "ئىنكاسلار",
+      "photoTooLarge": "رەسىم 10MB دىن كىچىك بولۇشى كېرەك",
+      "aiAdminFailed": "AI باشقۇرغۇچىسى جاۋاب بېرەلمىدى"
     },
     "manage": {
       "dismissAdminTitle": "Dismiss باشقۇرغۇ",
@@ -6695,6 +6752,23 @@
       "notFound": "بۇ چاقىرىق ئۇلانمىسى ھەقسىز.",
       "requestToJoin": "قوشۇلۇش ئىلتىماسى",
       "approvalNote": "بىر باشقۇرغۇچى قوشۇلۇشتىن بۇرۇن سىزنىڭ ئىلتىماسىڭىزنى تەستىقلىشى كېرەك."
+    },
+    "newChat": {
+      "public": "ئوممىۋى",
+      "private": "شەخسىي",
+      "free": "ھەقسىز",
+      "paid": "تۆلەنگەن",
+      "group": "گۇرۇپپا"
+    },
+    "holderGate": {
+      "chain": "زەنجىر",
+      "which": "توكېن",
+      "tab": "ئىگىلىگۈچىلەر"
+    },
+    "automod": {
+      "bannedWords": "چەكلەنگەن سۆزلەر",
+      "floodMax": "{{count}} ئۇچۇرلار",
+      "saved": "ساقلاندى"
     }
   },
   "work": {
@@ -7798,7 +7872,15 @@
     "requestPendingBody": "سىزنىڭ ئەگەشكەنلىكىڭىزنى سورايدىغان خېتىڭىز ئەۋەتىلدى. ئۇلار سىزنىڭ سوراغلىرىڭىزنى قوبۇل قىلغاندىن كېيىن ئۇلارنىڭ خەۋەرلىرىنى كۆرەلەيسىز.",
     "followToSeePosts": "ئۇلارنىڭ خەۋەرلىرىنى كۆرۈش ئۈچۈن بۇ ھېسابنى ئەگەشكەن.",
     "loadFailed": "بۇ تىزىملىكنى يۈكلىيەلمىدى",
-    "new": "يېڭى"
+    "new": "يېڭى",
+    "followBackConfirm": "ئىزدىگىن",
+    "followBackNotNow": "ھازىر ئەمەس",
+    "followBackDone": "تامام",
+    "nonFollowers": {
+      "notNow": "ھازىر ئەمەس",
+      "cancel": "ئەمەلدىن قالدۇرۇش",
+      "close": "تاقاش"
+    }
   },
   "reactionInfo": {
     "title": "ھەرىكەتلەر",
@@ -8716,7 +8798,36 @@
     "editFailed": "ئۇ تەھرىرلەشنى قوللىنىپ بولمايدۇ. قايتا سىناڭ.",
     "fade": "سۇسلىشىش {{value}}%",
     "textSize": "خەت چوڭلۇقى {{value}}",
-    "coverFrames": "مۇقاۋا كادىرى تاللاڭ"
+    "coverFrames": "مۇقاۋا كادىرى تاللاڭ",
+    "altPlaceholderVideo": "بۇ سىنئالغۇنى تەسۋىرلەڭ",
+    "landingLive": "جانلىق",
+    "preview": {
+      "title": "ئالدىن كۆرۈش"
+    },
+    "recent": {
+      "all": "ھەممىسى"
+    },
+    "studio": {
+      "crop": "قىرقىش",
+      "draw": "سىزىش",
+      "light": "يورۇق",
+      "colour": "رەڭ",
+      "fade": "سۇسلىشىش",
+      "original": "ئەسلى",
+      "ratioOriginal": "ئەسلى",
+      "ratioFree": "ھەقسىز",
+      "rotate": "ئايلاندۇرۇش",
+      "strength": "Kuch",
+      "stickers": "چاپلاق",
+      "ticker": "بەلگە",
+      "textBg": "تەگلىك",
+      "font": {
+        "bold": "توم",
+        "mono": "مونو"
+      }
+    },
+    "edited": "تەھرىرلەندى",
+    "edit": "تەھرىرلەش"
   },
   "bounty": {
     "claimed": "تاپشۇرۇۋېلىندى",
@@ -9010,7 +9121,8 @@
     "preparingCamera": "كامېرا تەييارلىنىۋاتىدۇ…",
     "reconnecting": "قايتا ئۇلىنىۋاتىدۇ…",
     "connecting": "ئۇلىنىۋاتىدۇ…",
-    "shopPutOnAir": "ھاۋاغا قويۇش"
+    "shopPutOnAir": "ھاۋاغا قويۇش",
+    "liveBadge": "جانلىق"
   },
   "liveShop": {
     "title": "بۇ تارقىتىشتىن سېتىۋېلىش",
@@ -9323,7 +9435,23 @@
     "paymentSentWith": "{{amount}} ئارقىلىق ئەۋەتىلدى",
     "planRestricted": "بۇ ئىشلەتكۈچى ئۇچۇر تاپشۇرۇۋېلىش ئۈچۈن مۇشتەرىلىك تەلەپ قىلىدۇ.",
     "planTypeNotAllowed": "بۇ ئىجادكارنىڭ پىلانى بۇ خىل ئۇچۇرغا يول قويمايدۇ.",
-    "planMinTip": "بۇ ئىجادكارغا بېرىلىدىغان تىپ كەم دېگەندە {{amount}} توكنلار بولۇشى كېرەك."
+    "planMinTip": "بۇ ئىجادكارغا بېرىلىدىغان تىپ كەم دېگەندە {{amount}} توكنلار بولۇشى كېرەك.",
+    "newDrawer": {
+      "to": "ئاخىرلىشىش"
+    },
+    "download": "چۈشۈرۈش",
+    "deleteOneTitle": "بۇ ئۇچۇرنى ئۆچۈرگىلى بولامدۇ ؟",
+    "retrySend": "قايتا سىناش",
+    "discardSend": "چىقىرىۋېتىش",
+    "shareKindGroup": "گۇرۇپپا",
+    "shareKindCommunity": "جەمئىيەت",
+    "searchDiscover": {
+      "people": "كىشىلەر",
+      "communities": "مەھەللىلەر",
+      "members": "{{n}} ئەزالار",
+      "newChat": "يېڭى پاراڭ",
+      "invite": "تەكلىپ قىلىش"
+    }
   },
   "editPost": {
     "mediaPermission": "مېدىيا ئامبىرى ئىجازىتى كېرەك",
@@ -10541,7 +10669,10 @@
       "hint": "سۆزنى ۋاقىتقا ماس خەتكە ئايلاندۇرىدۇ، ئۇسلۇبىنى ئۆزگەرتەلەيسىز. ئۈسكۈنىڭىزدە ئىشلەيدۇ: ھەقسىز ۋە شەخسىي. تۇنجى ئىشلەتكەندە مودېل چۈشۈرۈلىدۇ.",
       "done": "{{count}} خەت قوشۇلدى.",
       "noSpeech": "بۇ كلىپتا سۆز تېپىلمىدى.",
-      "failed": "بۇ كلىپ ئۈچۈن خەت قۇرۇلمىدى."
+      "failed": "بۇ كلىپ ئۈچۈن خەت قۇرۇلمىدى.",
+      "styles": {
+        "bold": "قورالما"
+      }
     },
     "app": {
       "newDesign": "يېڭى لايىھە",
@@ -10791,7 +10922,9 @@
       "suggestTitle": "ئۈستىگە چوڭ توم ماۋزۇ، ئۇنىڭ ئاستىغا كىچىكرەك تارماق ماۋزۇ قوش",
       "undo": "ئەمەلدىن قالدۇرۇش",
       "openGenerator": "كۆزدىن كەچۈرۈپ ھاسىل قىلىش",
-      "working": "ئىشلەۋاتىدۇ…"
+      "working": "ئىشلەۋاتىدۇ…",
+      "stop": "توختىتىڭ",
+      "queue": "قۇيۇپ قويۇش"
     },
     "brand": {
       "addColor": "ماركا رەڭگى قوشۇش",
@@ -10928,7 +11061,9 @@
       "rendering": "ۋىدىئو ياسىلىۋاتىدۇ… {{percent}}%",
       "mp4": "MP4 ۋىدىئو",
       "exportHint": "ۋىدىئويىڭىز ياسىلىۋاتقاندا تەھرىرلىگۈچنى ئوچۇق قويۇڭ.",
-      "tooLarge": "بۇ ھۆججەت تەھرىرلىگۈچ ئۈچۈن بەك چوڭ. چېكى 400 MB."
+      "tooLarge": "بۇ ھۆججەت تەھرىرلىگۈچ ئۈچۈن بەك چوڭ. چېكى 400 MB.",
+      "tZoomIn": "چوڭايتىش",
+      "tZoomOut": "كىچىكلىتىش"
     },
     "motion": {
       "title": "ھەرىكەت",
@@ -12107,6 +12242,28 @@
       "selection": "تاللاش",
       "zoomIn": "كانۋانى چوڭايتىش",
       "zoomOut": "كانۋانى كىچىكلىتىش"
+    },
+    "stage": {
+      "camera": "كامېرا",
+      "yaw": "ئايلىنىش",
+      "add": "قوشۇش",
+      "scale": "چوڭلۇقى",
+      "color": "رەڭ",
+      "light": "يورۇق"
+    },
+    "clipFix": {
+      "listening": "Teshiklash..."
+    },
+    "voiceClone": {
+      "stop": "خاتىرىلەشنى توختىتىش",
+      "failed": "Ses klonlash muvaffaqiyatsizlik bilan tugadi."
+    },
+    "linkImport": {
+      "go": "ئەكىرىش",
+      "downloading": "چۈشۈرۈلىۋاتىدۇ {{percent}}%"
+    },
+    "reverse": {
+      "action": "ئەسەس"
     }
   },
   "creator": {
@@ -12568,7 +12725,31 @@
     "referenceProductName": "Mahsulotni video ichiga joylashtirish",
     "referenceProductHint": "Sahnani va fonni saqlab qolgan holda mahsulotni almashtirish",
     "referenceComposeName": "Eslatma rasimlarini birlashtirish",
-    "referenceComposeHint": "Bir nechta rasimdan xarakterlar, narsalar va joylarni birga birlashtirish"
+    "referenceComposeHint": "Bir nechta rasimdan xarakterlar, narsalar va joylarni birga birlashtirish",
+    "marketing": {
+      "import": {
+        "use": "بۇ تەپسىلاتلارنى ئىشلىتىش"
+      }
+    },
+    "batchCount": "رەسىملەر",
+    "endFrame": "ئاخىرلاشقان كادر",
+    "cinema": {
+      "close": "تاقاش",
+      "performance": {
+        "label": "ئۈنۈم"
+      }
+    },
+    "audioNoSpeech": "بۇ خاتىرىدىن ھېچقانداق سۆز تېپىلمىدى.",
+    "audioTaskSpeechLabel": "نۇتۇق",
+    "audioTaskDialogueLabel": "Dialog",
+    "audioTaskSfxLabel": "ئاۋاز ئۈنۈمى",
+    "audioTaskVoiceChangerLabel": "ئاۋاز ئالماشتۇرغۇچ",
+    "audioTaskTranscribeLabel": "تەرجىمە قىلىش",
+    "audioTaskIsolateLabel": "تازىلاش",
+    "priceFreeRateLimited": "ھەقسىز · نىسبەت چەكلىمىسى قوللىنىلىدۇ",
+    "dialogueFormat": "Sahna yazaying: \"Ism: satyr\", har bir sozchi bir satyrda.",
+    "fileTooLarge": "بۇ ھۆججەت 100 MB دىن ئېشىپ كەتكەن. قىسقارتىلغان ياكى كىچىكلىتىلگەننى ئىشلىتىڭ.",
+    "signInToGenerate": "ئىشلەپچىقىرىش ئۈچۈن ئىمزا قويۇڭ"
   },
   "fractions": {
     "title": "ئۈلۈشلەر",
@@ -14637,6 +14818,19 @@
       "intro": "تاماشىبىنلار سىزنى كۆرگەن ھەر مىنۇتقا بىر نومۇر، بەرگەن ھەر 100 توكنلار غا بىر نومۇر تاپىدۇ. پاراڭ ۋە ئىنكاسلارنىڭ پايدىسى يوق، شۇڭا نوقتىلارنى دېھقانچىلىققا ئىشلەتكىلى بولمايدۇ.",
       "empty": "ئۇلار (يەنى بۇتلار) نىڭ يىلتىزى قۇرۇتۇلدى (يەنى ئۇلار پۈتۈنلەي ھالاك قىلىندى)، ئۇلارنىڭ يىلتىزى قۇرۇتۇلدى (يەنى ئۇلار پۈتۈنلەي ھالا",
       "widgetHint": "بۇ تىزىملىكنى ئېقىمغا كۆرسىتىش ئۈچۈن، سادىق كۆرگۈچلەر ۋىجدانىنى قوشۇڭ."
+    },
+    "destinations": {
+      "platform": "سۇپا",
+      "label": "ئىسىم (ئىختىيارىي)",
+      "key": "ئېقىم ئاچقۇچى",
+      "save": "قوشۇش",
+      "cancel": "ئەمەلدىن قالدۇرۇش",
+      "states": {
+        "off": "ئۆچۈرۈلگەن",
+        "idle": "تەييار",
+        "live": "جانلىق",
+        "error": "خاتا"
+      }
     }
   },
   "liveChatModeration": {
@@ -14717,7 +14911,9 @@
       "empty": "Men sahifalarimni qo'shing. Har bir sahifaga caption va alt text qo'shiladi.",
       "cover": "Kapas",
       "caption": "Bətələr"
-    }
+    },
+    "tab": "كومىكس",
+    "title": "كومىكس"
   },
   "nftMarket": {
     "dehubPostsName": "Riftn Posts",
@@ -14730,7 +14926,71 @@
     "days": "{{count}} days",
     "spotlightForSale": "ئۇيۇنلاردا ساتقۇچى",
     "spotlightNew": "Just minted",
-    "buyFor": "{{price}} satın al"
+    "buyFor": "{{price}} satın al",
+    "actAll": "ھەممىسى",
+    "actListings": "تىزىملىكلەر",
+    "actOffer": "Taklif",
+    "actOffers": "تەكلىپلەر",
+    "actSales": "سەپەتەلەر",
+    "tabActivity": "پائالىيەت",
+    "allChains": "ھەممەرە زينەت",
+    "newest": "ئەڭ يېڭى",
+    "cheapest": "ئەنەمە قىمەت",
+    "soldFor": "Satilgan",
+    "signIn": "كىرىش",
+    "title": "NFTلار",
+    "share": "ھەمبەھىرلەش",
+    "noneForSale": "سېتىلىدىغان ھېچنېمە يوق",
+    "noSales": "Hozircha sotish yo'q",
+    "tabBrowse": "كۆرسەت",
+    "tabMine": "Sizning qismingiz",
+    "tabSales": "سەپەتەلەر",
+    "cancelled": "Bekor qilingan",
+    "sold": "Satilgan",
+    "listed": "سېتىلىشقا تىزىملىتىلغان",
+    "feeRow": "Riftn ھەققى ({{pct}}%)",
+    "royaltyRow": "قۇرغۇچى royalty",
+    "youGet": "تاپشۇرۇۋالىسىز",
+    "holderGets": "Holder ئالىدۇ",
+    "loading": "يۈكلىمەكتە...",
+    "price": "باھا",
+    "seller": "ساتقۇچى",
+    "tabRecent": "يېقىنقى",
+    "buyNow": "ھازىر سېتىۋېلىڭ",
+    "offers": "تەكلىپلەر",
+    "cancel": "Bekor qiling",
+    "accept": "قوبۇل قىلىش",
+    "signInToTrade": "سەپەت قىلغۇچۇنە يەڭىلەن",
+    "listForSale": "سېتىش تىزىملىكى",
+    "makeOffer": "تەعۇدۇل قىل",
+    "sendOffer": "تەكلىپ ئەۋەتىش",
+    "back": "Artyq.",
+    "dropsTo": "باھاسى {{price}} by {{date}}",
+    "inBundle": "{{n}} نىڭ توپلىمى سۈپىتىدە سېتىلدى",
+    "trending": "تەندەر بۇلۇغۇلار",
+    "floor": "ئەنەمە",
+    "listedCount": "{{n}} سەپەتە",
+    "thisCollection": "بۇ بۇلۇغۇ",
+    "collectionOffer": "ھەممەرە تەعۇدۇل قىل",
+    "showAll": "ھەممەرە كۆرسەت",
+    "shortTitle": "NFTلار",
+    "filters": "فیلترلار",
+    "forSale": "سەپەتە",
+    "openToOffers": "تەعۇدۇل قىلغۇچ",
+    "freshMints": "يەڭىچەرلەردەن يەڭى",
+    "offersOpen": "تەعۇدۇل قىلغۇچ",
+    "mintedCount": "{{n}} چەپەتەلەن",
+    "anyInCollection": "توپلىمىدىكى ھەرقانداق",
+    "thisNft": "بۇ NFT",
+    "priceAlert": "باھاسى ئاگاھلاندۇرۇش",
+    "alertUnder": "قاچان تىزىملىتىپ بولغانلىقىنى ئېيتىپ بېرىڭ ({{symbol}}, ئىختىيارسىز)",
+    "turnOnAlert": "ئاگاھلاندۇرۇشنى ئايلاندۇرۇش",
+    "alertSaved": "Xabar berish yoq. Biz sizga bundl ro'yhatga olinganida xabar beramiz.",
+    "priceDrop": "ۋاقىتنىڭ ئۆتىشى بىلەن باھا چۈشۈپ كېتىدۇ",
+    "endPrice": "ئەڭ تۆۋەن باھا، ئاخىرىغا يەتكەن ({{symbol}})",
+    "bundleBadge": "Bundl ×{{n}}",
+    "dropBadge": "Nisbat kamaydi",
+    "sellYoursHint": "Jibekingizdan ro'yhatga oling"
   },
   "reel": {
     "readAll": "ھەممىنى ئوقۇش",
@@ -14752,7 +15012,11 @@
       "episode": "Podcast ئېكرانى",
       "show": "Podcast",
       "artist": "ئارتىس"
-    }
+    },
+    "loading": "يۈكلىمەكتە...",
+    "paused": "توختىتىلدى",
+    "preview": "ئالدىن كۆرۈش",
+    "seek": "Search"
   },
   "twoFactor": {
     "wrongCode": "بۇ كود ماس كەلمىدى. ئەپىڭىزدىكى ئەڭ يېڭى كودنى سىناپ كۆرۈڭ.",
@@ -14827,6 +15091,248 @@
     "older": "ئۆتكەن نەتىجە",
     "newer": "يېڭى نەتىجە",
     "gone": "بۇ ئۇچۇر يەنە يوق",
-    "theirMessages": "ئۇلارنىڭ ئۇچۇرلىرى"
+    "theirMessages": "ئۇلارنىڭ ئۇچۇرلىرى",
+    "voice": "ئاۋازلىق ئۇچۇر"
+  },
+  "chatTextSize": {
+    "title": "تېكىست چوڭلۇقى",
+    "default": "ئۆچۈرۈلگەن",
+    "larger": "تېخىمۇ چوڭ"
+  },
+  "remix": {
+    "cut": "كېسىش"
+  },
+  "signedFollows": {
+    "setUp": "قوزغىتىش",
+    "turnOff": "تاقاش",
+    "efpTurnOff": "توختىتىڭ"
+  },
+  "postEditHistory": {
+    "original": "ئەسلى"
+  },
+  "studioDeck": {
+    "remove": "چىقىرىۋېتىش",
+    "background": {
+      "title": "تەگلىك",
+      "modes": {
+        "none": "ئۆچۈرۈلگەن",
+        "blur": "غۇۋالىق",
+        "color": "رەڭ"
+      }
+    },
+    "scenes": {
+      "countdown": "ھېسابلاش",
+      "minutes": "{{count}} مىن",
+      "names": {
+        "starting": "پات يېقىندا باشلىنىدۇ"
+      }
+    },
+    "widgets": {
+      "tab": "كىچىك قوراللار"
+    },
+    "sources": {
+      "image": "سۈرەت",
+      "show": "ئېقىمنى كۆرسىتىش پروگراممىسى",
+      "positions": {
+        "center": "Markazlashtir"
+      },
+      "sizes": {
+        "medium": "ئوتتۇرا"
+      }
+    },
+    "phone": {
+      "title": "ستۇدىيە"
+    }
+  },
+  "whenSheet": {
+    "today": "بۈگۈن",
+    "tooSoon": "كەلگۈسىدىكى ۋاقىتنى تاللاڭ.",
+    "show": "كۆرسىتىش",
+    "hide": "يوشۇرۇش"
+  },
+  "planned": {
+    "title": "پىلانلانغان",
+    "all": "ھەممىسى",
+    "posts": "يوللانمىلار",
+    "stages": "ئاۋازلىق ئۆيلەر",
+    "post": "يوللاش",
+    "live": "جانلىق",
+    "stage": "سەھنە",
+    "untitledPost": "يوللاش",
+    "untitledLive": "جانلىق",
+    "loading": "قويۇلماقتا…",
+    "startNow": "ھازىر باشلاش",
+    "cancel": "ئەمەلدىن قالدۇرۇش",
+    "cancelled": "بىكار قىلىندى"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn غا خۇش كېلىپسىز",
+      "day": "كۈن",
+      "month": "ئاي",
+      "year": "يىل"
+    },
+    "name": {
+      "title": "ئىسمىڭىز",
+      "placeholder": "ئىسمىڭىز"
+    },
+    "card": {
+      "name": "ئىسمىڭىز",
+      "followers": "ئەگەشكۈچىلەر"
+    },
+    "topic": {
+      "music": "مۇزىكا",
+      "art": "سەنئەت",
+      "gaming": "ئويۇن",
+      "crypto": "كرىپتو",
+      "sports": "تەنتەربىيە",
+      "film": "فىلىم",
+      "food": "يېمەكلىك",
+      "news": "Habarlash",
+      "science": "ئىلىم-پەن"
+    },
+    "back": "قايتىش",
+    "skipPhoto": "ھازىرغىچە ئۆتۈپ كېتىش",
+    "preview": "ئالدىن كۆرۈش"
+  },
+  "appTokens": {
+    "title": "سىزنىڭ تاۋار-مېلىڭىز",
+    "history": "تارىخ",
+    "noHistory": "تېخىچە ھەرىكەت يوق",
+    "kindDeposit": "پۇل قوشۇش",
+    "to": "ئاخىرلىشىش",
+    "amount": "سوممىسى",
+    "notePlaceholder": "ئىزاھات قوشۇڭ (ئىختىيارى)",
+    "sendButton": "يوللا",
+    "errorInsufficient": "توكن يېتەرسىز"
+  },
+  "avatarPrompt": {
+    "notNow": "ھازىر ئەمەس"
+  },
+  "postStats": {
+    "audience": "Toshliqlar",
+    "engagement": "جەلپ قىلىش",
+    "finished": "ئاياغلاشتى",
+    "members": "ئەزالار",
+    "membersLower": "ئەزالار",
+    "newFollowers": "يېڭى ئەگەشكۈچىلەر",
+    "noBadge": "بەلگىسى يوق",
+    "people": "كىشىلەر",
+    "plays": "قويغۇلار",
+    "quotes": "نەقىل",
+    "reposts": "قايتا يوللانمىلار",
+    "saved": "ساقلاندى",
+    "shares": "ئورتاقلاشتۇرۇشلار",
+    "signedOutViewers": "چىقتىڭىز",
+    "topSupporters": "ئەڭ يۇقىرى مەدەتكارلار",
+    "visitors": "چىقتىڭىز"
+  },
+  "duet": {
+    "policyEveryone": "ھەممەيلەن",
+    "policyFollowers": "ئەگەشكۈچىلەر",
+    "policyNobody": "ھېچكىم",
+    "loadMore": "تېخىمۇ كۆپ يۈكلەش",
+    "video": "ۋىدېو"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "ھەممەيلەن",
+      "followers": "ئەگەشكۈچىلەر",
+      "nobody": "ھېچكىم"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "ھەممەيلەن",
+      "followers": "ئەگەشكۈچىلەر",
+      "nobody": "ھېچكىم"
+    },
+    "heading": "ئىنكاسلار",
+    "more": "تېخىمۇ كۆپ كۆرسىتىش",
+    "liveNow": "جانلىق",
+    "untitled": "ئىنكاس"
+  },
+  "liveClips": {
+    "copyLink": "ئۇلىنىشنى كۆچۈرۈڭ",
+    "linkCopied": "ئۇلىنىش كۆچۈرۈلدى"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "پىلان",
+      "howMany": "قانچە",
+      "who": "ئىشلەتكۈچى نامى ياكى ھەميان ئادرېسى",
+      "whoPlaceholder": "@ئىشلەتكۈچىنامى",
+      "cancel": "ئەمەلدىن قالدۇرۇش",
+      "stage": {
+        "preparing": "تەييارلىنىۋاتىدۇ…",
+        "confirming": "سودا كۈتۈلۈۋاتىدۇ…",
+        "recording": "ئاخىرلىشىۋاتىدۇ…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "باشقا",
+    "confirming": "ھەق تاپشۇرۇشنى تەستىقلاش..."
+  },
+  "liveShorts": {
+    "live": "جانلىق"
+  },
+  "feedFilters": {
+    "clearAllShort": "ھەممىنى تازىلاش",
+    "done": "تاماملاندى",
+    "edit": "تەھرىرلەش",
+    "groupDate": "چېسلا",
+    "groupSort": "تەرتىپلەش",
+    "groupType": "تىپ",
+    "save": "ساقلاش"
+  },
+  "ownKeys": {
+    "working": "Ishlamoqda",
+    "failed": "بىر ئىش خاتا بولۇپ قالدى، قايتا سىناپ بېقىڭ.",
+    "check": "Chék qilib turghunmi?",
+    "remove": "چىقىرىۋېتىش",
+    "save": "ساقلاش",
+    "cancel": "بىكار قىلىش"
+  },
+  "postBg": {
+    "none": "يوق",
+    "yours": "Sizning qismingiz",
+    "accent": "Tayyorlash",
+    "names": {
+      "lava": "لاۋا چىرىغى",
+      "chrome": "سۇيۇق Chrome",
+      "orbit": "ئوربىتا"
+    }
+  },
+  "articleTile": {
+    "cover": "مۇقاۋا"
+  },
+  "aiConsent": {
+    "allow": "رۇخسەت"
+  },
+  "dmRequests": {
+    "title": "ئىلتىماسلار",
+    "accept": "قوبۇل قىلىش",
+    "delete": "ئۆچۈرۈش",
+    "block": "بىكار قىل"
+  },
+  "dmSchedule": {
+    "view": "كۆرۈش",
+    "edit": "تەھرىرلەش",
+    "editLabel": "ئۇچۇرنى تەھرىرلەش",
+    "error": "بۇ ئۈنۈم بەرمىدى، قايتا سىناپ بېقىڭ."
+  },
+  "chatBulk": {
+    "selected": "{{count}} tanlaw bo'lgan",
+    "cancel": "بىكار قىلىش",
+    "reply": "جاۋاب قايتۇرۇش",
+    "delete": "ئۆچۈرۈش"
+  },
+  "msgSelect": {
+    "selected": "{{count}} tanlaw bo'lgan",
+    "copy": "كۆچۈرۈش",
+    "forward": "يوللاش",
+    "deleted_one": "O'chirilgan {{count}} xabar",
+    "deleted_other": "O'chirilgan {{count}} xabarlari"
   }
 }

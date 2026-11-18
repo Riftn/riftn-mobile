@@ -2604,7 +2604,14 @@
     "cbade2afaee2": "Torban kana Audius irratti trending. Bilisaan fayyadamuun, artistiin postii kee irratti galateeffama.",
     "d2e45b7406fc": "Maqaa ummata fi Creative Commons muuziqaa Wikimedia Commons irraa. Artistiin postii kee irratti galateeffama.",
     "d0c1a3684775": "Sirboonni hin fe'amne. Yeroo muraasa booda yaali.",
-    "d14064f80f52": "Sagalee dabaluu"
+    "d14064f80f52": "Sagalee dabaluu",
+    "71988c4d8e08": "Jechoota",
+    "147170e793c6": "Bal'aa",
+    "481859b689b0": "Walqunnamtii kee mirkaneessi, irra deebi'ii yaali.",
+    "57e2faa5ec63": "Riftn keessaa barbaadi",
+    "7db20897053b": "Namoota",
+    "96d7bff86b44": "Barbaachisummaa hin galchuu",
+    "d8b8392e2c54": "Irra deebi'ii yaali"
   },
   "dehubLinks": {
     "kind": {
@@ -2854,7 +2861,8 @@
       "quote": "Jechama",
       "bullets": "Tarree rasaasaa",
       "numbers": "Tarree lakkoofsa qabu",
-      "link": "Hidhata"
+      "link": "Hidhata",
+      "image": "Fakkilee dabali"
     }
   },
   "storefront": {
@@ -3782,7 +3790,11 @@
     "payViaDpay": "Riftn Pay irratti kaffalame, tokkenootni gara sa'a 30 keessatti dhufu",
     "payViaBridgeDpay": "Base irratti dabalamuun Riftn Pay irratti kaffalame, tokkenootni gara sa'a tokko keessatti dhufu",
     "tokensUnit": "tokkenoota",
-    "tokenAmount": "{{amount}} tokkenoota"
+    "tokenAmount": "{{amount}} tokkenoota",
+    "addMessage": "Ergaa dabalataa (dirqama)",
+    "messagePublic": "Ummataa",
+    "railTitle": "Kennaawwan",
+    "railTotal": "{{amount}} tokkenoota"
   },
   "postOptions": {
     "skippableSections": "Kutaa darbuu danda'an",
@@ -4522,7 +4534,11 @@
       "here": "{{name}} hawaasa keessa jiru hundaaf ergaa dabarseera",
       "hereNamed": "{{name}} “{{community}}” jechuun hundaaf ergaa dabarseera."
     },
-    "tokenAmount": "{{amount}} ispoonsii"
+    "tokenAmount": "{{amount}} ispoonsii",
+    "groupNew": "Haaraa",
+    "groupToday": "Har'a",
+    "groupThisWeek": "Torban kana",
+    "searchClose": "Barbaadi cufi"
   },
   "leaderboard": {
     "title": "Sadarkaa",
@@ -4714,7 +4730,18 @@
     "attachmentTooLarge": "Faayiliin tokkoon tokkoon isaa 50MB gadi ta'uu qaba",
     "deleteCommentA11y": "Yaada haquu",
     "sendCommentA11y": "Yaada ergaa",
-    "requestOptions": "Filannoowwan gaafachuu"
+    "requestOptions": "Filannoowwan gaafachuu",
+    "deviceInfoNoErrors": "Homaa",
+    "topBuilders": {
+      "month": "Ji'a kana keessa",
+      "allTime": "Yeroo hunda",
+      "shipped": "Ergame",
+      "votes": "Sagalee",
+      "comments": "Yaada",
+      "showLess": "Xiqqeessi",
+      "viewProfile": "Porofiila ilaaluu",
+      "you": "Ati"
+    }
   },
   "auth": {
     "loginRequired": "Seeninuun barbaachisa",
@@ -4975,7 +5002,20 @@
       "votes_other": "{{value}} sagalee kenne",
       "members_one": "{{value}} miseensa",
       "members_other": "{{value}} miseensota"
-    }
+    },
+    "articleShort": "Barruu",
+    "articleMinRead": "{{count}} min dubbisaa",
+    "pinnedShort": "Maxanfame",
+    "post": "Barreeffama",
+    "arrange": {
+      "saving": "Olkaa'aa jira..."
+    },
+    "reserve": {
+      "signIn": "Seenuu"
+    },
+    "tabLikes": "Jaalala",
+    "likesEmptyTitle": "Ammaaf jaalalli hin jiru",
+    "likesPrivateTitle": "Jaalalli dhuunfaa dha"
   },
   "tv": {
     "title": "TV",
@@ -5491,6 +5531,9 @@
       "action": "Gocha",
       "schedule": "Sagantaa",
       "filter": "Sochii calali"
+    },
+    "welcome": {
+      "text": "Ergaa baga nagaan dhuftan"
     }
   },
   "hero": {
@@ -5572,7 +5615,16 @@
     "nowPublic": "Flow amma ummataaf ifa ta'eera",
     "openCanvas": "Kanfaasicha banaa",
     "playVideo": "Viidiyoo taphachiisi",
-    "signInToSee": "Dhangala'aa akkaawuntii keessan irratti mul'atu ilaaluuf galmaa'aa."
+    "signInToSee": "Dhangala'aa akkaawuntii keessan irratti mul'atu ilaaluuf galmaa'aa.",
+    "newNativeFlow": "Maalallii haaraa",
+    "model": "Adda duree",
+    "aspectRatio": "Reeshiyoo aspeektii",
+    "duration": "Yeroo sekondiiwwaniin",
+    "resolution": "Xumura",
+    "disconnect": "Addaan kuti",
+    "payAndRun": "Kaffaltii fiigi",
+    "run": "Fiiguu",
+    "handlePrompt": "Kakaasi"
   },
   "loginModal": {
     "title": "Seeni",
@@ -5892,7 +5944,8 @@
     "searchMenu": "Menuu barbaadi",
     "clearSearch": "Barbaacha haqi",
     "noMenuMatches": "Menuu keessatti kan walsimu hin jiru",
-    "searchDehubFor": "Riftn irratti \"{{query}}\" barbaadi"
+    "searchDehubFor": "Riftn irratti \"{{query}}\" barbaadi",
+    "requestSend": "Kaffaltii ergi"
   },
   "comments": {
     "reportComment": "Yaada gabaasaa",
@@ -6511,7 +6564,10 @@
       "copied": "Ergaan waraabame",
       "copyText": "Barreeffama waraabi",
       "mutedUntil": "Hanga {{date}} tti afaan qabattee jirta.",
-      "slowMode": "Haala suuta jedhu: ergaa tokko {{interval}} hunda."
+      "slowMode": "Haala suuta jedhu: ergaa tokko {{interval}} hunda.",
+      "joined": "{{name}} itti makame",
+      "reactions": "Deebiin kennamu",
+      "photoTooLarge": "Suuraan 10MB gadi ta'uu qaba"
     },
     "manage": {
       "dismissAdminTitle": "Admin hojii irraa ari'aa",
@@ -6714,6 +6770,31 @@
       "notFound": "Hidhiin afeerraa kun sirrii miti.",
       "requestToJoin": "Akka itti makamtan gaafadhaa",
       "approvalNote": "Admin tokko osoo join gochuu hin dandeenye gaaffii kee raggaasisuu qaba."
+    },
+    "buyAlert": {
+      "spent": "Baase:",
+      "buyer": "Bituu: 1.1.",
+      "balance": "Madaallii:",
+      "price": "Gammachuu:",
+      "marketCap": "Kaappitaala gabaa: 1.1."
+    },
+    "newChat": {
+      "public": "Ummataa",
+      "private": "Dhuunfaa",
+      "free": "Bilisa",
+      "paid": "Kaffalame",
+      "group": "Walitti qabi"
+    },
+    "holderGate": {
+      "chain": "Cheenii",
+      "which": "Magaala",
+      "tab": "Dhuunfaa"
+    },
+    "automod": {
+      "bannedWords": "Jechoota dhorkaman",
+      "floodMax": "Ergaa {{count}}",
+      "saved": "Eegame",
+      "wordCount": "{{count}} jechoota"
     }
   },
   "work": {
@@ -7835,7 +7916,10 @@
       "doneAll": "Hordofaa {{done}} maqaaleen si hordofuu hin dandeenye dhiisuu.",
       "doneSome": "Hordofaa {{done}} maqaaleen dhiisuu. {{failed}} hin dhiisamne.",
       "doneToast": "Hordofaa {{done}} maqaaleen si hordofuu hin dandeenye dhiisuu"
-    }
+    },
+    "followBackConfirm": "Galchii",
+    "followBackNotNow": "Amma hin ta'in",
+    "followBackDone": "Raawwatame"
   },
   "reactionInfo": {
     "title": "deebii kennuu",
@@ -8753,7 +8837,36 @@
     "coverFrames": "Sa’a qabachuuf filadhu",
     "coverFrame": "Sa’a {{index}} sa’a ol’aanaa fakkeenya godhi",
     "uploadCover": "Sa’a ol’aanaa suuraa olkaa’i",
-    "editFailed": "Sirreessichi hin hojjetamne. Prubaadhu."
+    "editFailed": "Sirreessichi hin hojjetamne. Prubaadhu.",
+    "altPlaceholderVideo": "Viidiyoo kana ibsi",
+    "landingLive": "Kallattii",
+    "preview": {
+      "title": "Dursee ilaaluu"
+    },
+    "recent": {
+      "all": "Hunda"
+    },
+    "studio": {
+      "crop": "Muri",
+      "draw": "Kaasi",
+      "light": "Ifaa",
+      "contrast": "Waliin madaaluu",
+      "warmth": "Waraa'aa",
+      "colour": "Halluu",
+      "fade": "Dhadhabsuu",
+      "original": "Kan jalqabaa",
+      "ratioOriginal": "Kan jalqabaa",
+      "ratioFree": "Bilisa",
+      "rotate": "Naannessi",
+      "strength": "Cimina",
+      "ticker": "Tikarii",
+      "textBg": "Duubee",
+      "font": {
+        "bold": "Ija jabeessa"
+      }
+    },
+    "edited": "Gulaalame",
+    "edit": "Gulaali"
   },
   "bounty": {
     "claimed": "Fudhatame",
@@ -9047,7 +9160,8 @@
     "preparingCamera": "Kaameeraa qopheessuu…",
     "reconnecting": "Walitti deebi’uu…",
     "connecting": "Walitti makamuu…",
-    "shopPutOnAir": "Qilleensarra kaa'i"
+    "shopPutOnAir": "Qilleensarra kaa'i",
+    "liveBadge": "KALLATTII"
   },
   "liveShop": {
     "title": "Tamsaasa kana irraa bitadhu",
@@ -9360,7 +9474,23 @@
     "paymentSentWith": "{{amount}} waliin ergame.",
     "planRestricted": "Fayyadamaan kun ergaa fudhachuuf maallaqa galmee barbaada.",
     "planTypeNotAllowed": "Karoorri uumaa kanaa gosa ergaa kanaa hin hayyamu.",
-    "planMinTip": "Tip uumaa kanaaf yoo xiqqaate {{amount}} tokkenoota ta'uu qaba."
+    "planMinTip": "Tip uumaa kanaaf yoo xiqqaate {{amount}} tokkenoota ta'uu qaba.",
+    "newDrawer": {
+      "to": "Hanga"
+    },
+    "download": "Buufi",
+    "deleteOneTitle": "Ergaa kana haquu?",
+    "retrySend": "Irra deebi'ii yaali",
+    "discardSend": "Balleessi",
+    "shareKindGroup": "Walitti qabi",
+    "shareKindCommunity": "Hawaasa",
+    "searchDiscover": {
+      "people": "Namoota",
+      "communities": "Hawaasota",
+      "members": "{{n}} miseensa",
+      "newChat": "Chaat haaraa",
+      "invite": "Waamuu"
+    }
   },
   "editPost": {
     "mediaPermission": "Hayyamni mana kitaabaa miidiyaa barbaachisa",
@@ -9536,7 +9666,8 @@
     "clearHistoryTitle": "Seenaa barbaachaa haquu?",
     "clearHistoryBody": "Kun barbaachawwan kee dhiheenyaa hunda ni haqa.",
     "removeFromHistory": "\"{{query}}\" seenaa irraa haqi",
-    "close": "Barbaadi cufi"
+    "close": "Barbaadi cufi",
+    "open": "Barbaadi"
   },
   "notifPrompt": {
     "stayInLoop": "Odeeffannoo argadhu",
@@ -10614,7 +10745,10 @@
       "hint": "Haasaa gara barreeffama yeroo waliin simu kan bifa isaa jijjiiruu dandeessutti jijjiira. Meeshaa kee irratti hojjeta: bilisaa fi dhuunfaa. Yeroo jalqabaaf moodeelli buufama.",
       "done": "Barreeffamni {{count}} dabalame.",
       "noSpeech": "Kiliippii kana keessatti haasaan hin argamne.",
-      "failed": "Kiliippii kanaaf barreeffama uumuun hin danda'amne."
+      "failed": "Kiliippii kanaaf barreeffama uumuun hin danda'amne.",
+      "styles": {
+        "bold": "Ija jabeessa"
+      }
     },
     "app": {
       "newDesign": "Dizaayinii haaraa",
@@ -10864,7 +10998,9 @@
       "suggestTitle": "Gubbaatti mata duree guddaa cimaa, jalatti immoo mata duree xiqqaa dabali",
       "undo": "Deebisi",
       "openGenerator": "Ilaaliitii uumi",
-      "working": "Irratti hojjechaa jira…"
+      "working": "Irratti hojjechaa jira…",
+      "stop": "Dhiisi",
+      "queue": "Tarree irratti dabali"
     },
     "brand": {
       "fileDownloaded": "Faayila bifa buraandii buufameera",
@@ -11001,7 +11137,9 @@
       "rendering": "Viidiyoon qophaa'aa jira… {{percent}}%",
       "mp4": "Viidiyoo MP4",
       "exportHint": "Yeroo viidiyoon kee qophaa'u gulaalaa banaa dhiisi.",
-      "tooLarge": "Faayiliin sun gulaalaaf baay'ee guddaa dha. Daangaan 400 MB."
+      "tooLarge": "Faayiliin sun gulaalaaf baay'ee guddaa dha. Daangaan 400 MB.",
+      "tZoomIn": "Guddisi",
+      "tZoomOut": "Xiqqeessi"
     },
     "motion": {
       "title": "Sochii",
@@ -12180,6 +12318,28 @@
       "fit": "Itti ta'uu",
       "selection": "Waxabajjii",
       "zoomOut": "Kanfaasiin guddisuu"
+    },
+    "stage": {
+      "camera": "Kaameeraa",
+      "yaw": "Naanna'uu",
+      "add": "Dabalii",
+      "scale": "Hamma ga'u",
+      "color": "Halluu",
+      "light": "Ifaa"
+    },
+    "clipFix": {
+      "listening": "Dhaggeeffachuu…"
+    },
+    "voiceClone": {
+      "stop": "Waraabbii Dhaabi",
+      "failed": "Sagalee fakkeessuun (Voice cloning) hin milkoofne."
+    },
+    "linkImport": {
+      "go": "Galchi",
+      "downloading": "Buufachuuf {{percent}}%"
+    },
+    "reverse": {
+      "action": "Gadi garagalchi"
     }
   },
   "creator": {
@@ -12641,7 +12801,32 @@
     "referenceProductName": "Meeshaa kee klipii keessatti galchi",
     "referenceProductHint": "Meeshaa mul’atu bakka buusi fi duubbee duraa eegi.",
     "referenceComposeName": "Suuraawwan waamicha walitti maki",
-    "referenceComposeHint": "Gochawwan, wantoota fi bakka suuraawwan hedduu irraa gara walitti makaa tokkootti fidu."
+    "referenceComposeHint": "Gochawwan, wantoota fi bakka suuraawwan hedduu irraa gara walitti makaa tokkootti fidu.",
+    "marketing": {
+      "import": {
+        "use": "Bal'ina kana fayyadamaa"
+      }
+    },
+    "batchCount": "Suuraalee",
+    "endFrame": "Iyyuu",
+    "cinema": {
+      "close": "Cufi",
+      "performance": {
+        "label": "Ga'umsa"
+      }
+    },
+    "audioNoSpeech": "Waraabicha keessatti sagaleen tokkollee hin argamne.",
+    "audioTaskSpeechLabel": "Dubbii",
+    "audioTaskDialogueLabel": "Marii",
+    "audioTaskSfxLabel": "Bu'aa sagalee",
+    "audioTaskVoiceChangerLabel": "Sagalee jijjiiru",
+    "audioTaskTranscribeLabel": "Barreessuu",
+    "audioTaskIsolateLabel": "Qulqulleessi",
+    "priceFreeRateLimited": "Daangaan gatii bilisaa · ni raawwatama",
+    "loop": "Furgaasuu",
+    "dialogueFormat": "Mul'ata akka \"Maqaa: sararaatti\" barreessi, sarara tokkoof dubbataa tokko.",
+    "fileTooLarge": "Faayilli sun MB 100 ol ta'a. Kan gabaabaa ykn xiqqaa ta’e fayyadami.",
+    "signInToGenerate": "Maddisiisuuf galmaa'i."
   },
   "fractions": {
     "title": "Qooda",
@@ -14710,6 +14895,19 @@
       "intro": "Daawwattoonni daqiiqaa si ilaalan hundaaf qabxii tokko 100 kennaa kennaniif tokko argatu. Chaat fi reactions homaa waan hin arganneef qabxiin qotamuu hin danda'u.",
       "empty": "Qabxiin hanga ammaatti hin jiru. Namoonni akkuma ilaalanii fi kennanitti ijaaramu.",
       "widgetHint": "Tarree kana yaa'a irratti agarsiisuuf wiijetii daawwattoota amanamoo dabali."
+    },
+    "destinations": {
+      "platform": "Pilaatifoormii",
+      "label": "Maqaa (filatama)",
+      "key": "Guddata yaa dhangalaasaa",
+      "save": "Dabalii",
+      "cancel": "Haqi",
+      "states": {
+        "off": "Dhaamsuu",
+        "idle": "Qophaa'eera",
+        "live": "Kallattii",
+        "error": "Dogoggora"
+      }
     }
   },
   "liveChatModeration": {
@@ -14770,7 +14968,9 @@
   "githubLink": {
     "hint": "Guddisaa fi GitHub-ii isaa dhufeera. Riftn ammoo hubatii fi GitHub-ii isaa keessa jira.",
     "connected": "GitHub garee garee.",
-    "taken": "Waa GitHub accounttiin isaa Riftn profilettiin walitti bu'ura."
+    "taken": "Waa GitHub accounttiin isaa Riftn profilettiin walitti bu'ura.",
+    "verified": "Mirkaneeffame",
+    "disconnect": "Addaan kuti"
   },
   "comic": {
     "showAll": "Fuula {{count}} hunda agarsiisi",
@@ -14805,7 +15005,60 @@
     "days": "{{count}} guyyaa",
     "spotlightForSale": "Amma gurgurtaa jira",
     "spotlightNew": "Amma mint godhame",
-    "buyFor": "{{price}} bitaadhaaf kadi"
+    "buyFor": "{{price}} bitaadhaaf kadi",
+    "actAll": "Hunda",
+    "actListings": "Tarreeffamoota",
+    "actOffers": "Dhiheessiiwwan",
+    "actSales": "Gurgurtaa",
+    "tabActivity": "Sochii",
+    "allChains": "Hunda caasaa",
+    "newest": "Haaraa",
+    "cheapest": "Gatii gadi aanaa",
+    "soldFor": "Gurgure",
+    "signIn": "Seenuu",
+    "share": "Qooduu",
+    "noneForSale": "Ammatti wanti gurgurtaaf dhiyaate hin jiru",
+    "tabBrowse": "Ilaali",
+    "tabMine": "Kan keessan",
+    "tabSales": "Gurgurtaa",
+    "cancelled": "Haqameera",
+    "sold": "Gurgure",
+    "listed": "Gurgurtaaf tarreeffameera",
+    "feeRow": "Riftn gatii ({{pct}}%)",
+    "royaltyRow": "Manni qabeenya uuma",
+    "youGet": "Ati argatta",
+    "holderGets": "Qabduu argata",
+    "loading": "Fe'aa jira…",
+    "price": "Gatii",
+    "seller": "Gurguraa",
+    "tabRecent": "Dhihoo",
+    "buyNow": "Amma bitadhaa",
+    "offers": "Dhiyeessii",
+    "cancel": "Haqi",
+    "accept": "Fudhadhu",
+    "signInToTrade": "Seeniiti daldaluuf",
+    "listForSale": "Liistii gurguruu",
+    "makeOffer": "Dhiheessi",
+    "sendOffer": "Ergaa dhiyeessi",
+    "back": "Garuu",
+    "dropsTo": "Gatiin gadi bu'aa gara {{price}}tti deema {{date}}tti",
+    "trending": "Walitti qabaa gurguddoo",
+    "floor": "Bu'uura",
+    "listedCount": "{{n}} gurgurtaa",
+    "thisCollection": "Walitti qabaa kana",
+    "collectionOffer": "Dhiheessi kamiyyuu irratti",
+    "showAll": "Hundaa agarsiisi",
+    "filters": "Filannoo",
+    "forSale": "Gurgurtaa",
+    "openToOffers": "Dhiheessaaf bana",
+    "freshMints": "Haaraa kan uumtoota Riftn irraa",
+    "offersOpen": "Dhiheessaaf bana",
+    "mintedCount": "{{n}} maxxanfame",
+    "alertUnder": "Yoo tarreeffame ykn gadi ({{symbol}}, filatamaa) na garsiisi",
+    "alertSaved": "Dhiyeessi jalqabaa. Yeroo tokko tokko galmeessan siif himna.",
+    "endPrice": "Gatii xiqqaa, dhuma irratti argame ({{symbol}})",
+    "days_one": "Guyyaa {{count}}",
+    "days_other": "Guyyoota {{count}}"
   },
   "reel": {
     "readAll": "Hundaa dubbisi",
@@ -14825,8 +15078,13 @@
       "album": "Albamii",
       "playlist": "Tarree taphachuu",
       "episode": "Kutaa podcast",
-      "artist": "Aartistii"
-    }
+      "artist": "Aartistii",
+      "show": "Poodkaastii"
+    },
+    "loading": "Fe'aa jira…",
+    "paused": "Yeroo muraasaaf dhaabbate",
+    "preview": "Dursee ilaaluu",
+    "seek": "Waliinnaa"
   },
   "twoFactor": {
     "wrongCode": "Koodiin kun hin walfakkaanne. Koodii haaraa app keessan keessatti yaali.",
@@ -14903,5 +15161,250 @@
     "newer": "Bu'aa haaraa",
     "gone": "Ergaan kun hin jiru",
     "theirMessages": "Ergaa isaanii"
+  },
+  "chatTextSize": {
+    "title": "Guddina barruu",
+    "default": "Durtii",
+    "larger": "Guddaa"
+  },
+  "remix": {
+    "cut": "Kutuu"
+  },
+  "signedFollows": {
+    "setUp": "Bani",
+    "efpTurnOff": "Dhiisi"
+  },
+  "postEditHistory": {
+    "original": "Kan jalqabaa"
+  },
+  "studioDeck": {
+    "remove": "Balleessi",
+    "background": {
+      "title": "Duubee",
+      "modes": {
+        "none": "Dhaamsuu",
+        "blur": "Bilurii",
+        "color": "Halluu"
+      }
+    },
+    "scenes": {
+      "countdown": "Lakkoofsa duubatti deebi'uu",
+      "minutes": "{{count}} daqiiqaa",
+      "names": {
+        "starting": "Dhiyootti ni jalqaba"
+      }
+    },
+    "widgets": {
+      "tab": "Widijetii"
+    },
+    "sources": {
+      "image": "Bifa",
+      "show": "Akka video irra mul'atu",
+      "positions": {
+        "center": "Giddugaleessi"
+      },
+      "sizes": {
+        "medium": "Giddu galeessa"
+      }
+    },
+    "phone": {
+      "title": "Istuudiyoo"
+    }
+  },
+  "whenSheet": {
+    "today": "Har'a",
+    "tooSoon": "Fuulduratti yeroo filadhu.",
+    "show": "Agarsiisi",
+    "hide": "Dhoksi"
+  },
+  "planned": {
+    "title": "Qophaa’e",
+    "all": "Hunda",
+    "posts": "Barreeffamoota",
+    "stages": "Kutaalee sagalee",
+    "post": "Barreeffama",
+    "live": "Kallattii",
+    "stage": "Sadarkaa",
+    "untitledPost": "Barreeffama",
+    "untitledLive": "Kallattii",
+    "loading": "Gudachaa jira",
+    "startNow": "Amma jalqabi",
+    "cancel": "Haqi",
+    "cancelled": "Haqameera"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn irratti nagaan dhufe",
+      "day": "Guyyaa",
+      "month": "Ji'a",
+      "year": "Waggaa"
+    },
+    "name": {
+      "title": "Maqaa kee",
+      "placeholder": "Maqaa kee"
+    },
+    "card": {
+      "name": "Maqaa kee",
+      "followers": "hordoftoota"
+    },
+    "topic": {
+      "music": "Muuziqaa",
+      "art": "Aartii",
+      "gaming": "Tapha taphachuu",
+      "crypto": "Kiriiptoo",
+      "sports": "Ispoortii",
+      "comedy": "Komeedii",
+      "film": "Fiilmii",
+      "podcast": "Poodkaastii",
+      "food": "Nyaata",
+      "news": "Oduu",
+      "science": "Saayinsii"
+    },
+    "back": "Duuba",
+    "skipPhoto": "Ammaaf darbi",
+    "preview": "Dursee ilaaluu"
+  },
+  "appTokens": {
+    "title": "Tookiin keessan",
+    "history": "Seenaa",
+    "noHistory": "Ammatti sochiin hin jiru",
+    "kindDeposit": "Maallaqaa Ida'i",
+    "to": "Hanga",
+    "amount": "Qabxii",
+    "notePlaceholder": "Yaadannoo dabali (filannoo)",
+    "sendButton": "Ergaa",
+    "errorInsufficient": "Tokkenootni hin jiran"
+  },
+  "avatarPrompt": {
+    "notNow": "Amma hin ta'in"
+  },
+  "postStats": {
+    "audience": "Dhaggeeffattoota",
+    "engagement": "Walitti makamuu",
+    "finished": "Xumure",
+    "members": "Miseensota",
+    "membersLower": "miseensota",
+    "newFollowers": "Hordoftoota haaraa",
+    "noBadge": "Baajii hin qabu",
+    "people": "Namoota",
+    "plays": "Taphata",
+    "quotes": "Caqasa",
+    "reposts": "Irra-deebii",
+    "saved": "Eegame",
+    "shares": "Aksiyoona",
+    "signedOutViewers": "Ba'ame",
+    "topSupporters": "Deeggartoota olaanoo",
+    "visitors": "Ba'ame"
+  },
+  "duet": {
+    "policyEveryone": "Hunda",
+    "policyFollowers": "Hordoftoota",
+    "policyNobody": "Eenyullee",
+    "loadMore": "Dabalataa fe'i",
+    "video": "Viidiyoo"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Hunda",
+      "followers": "Hordoftoota",
+      "nobody": "Eenyullee"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Hunda",
+      "followers": "Hordoftoota",
+      "nobody": "Eenyullee"
+    },
+    "heading": "Deebiin kennamu",
+    "more": "Dabalata agarsiisi",
+    "liveNow": "Kallattii",
+    "untitled": "Deebii (Reaction)"
+  },
+  "liveClips": {
+    "copyLink": "Link kopii godhi",
+    "linkCopied": "Link waraabame"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Qabiyyeen",
+      "howMany": "Meeqa",
+      "who": "Maqaa fayyadamaa ykn teessoo boorsaa",
+      "whoPlaceholder": "@maqaafayyadamaa",
+      "cancel": "Haqi",
+      "stage": {
+        "preparing": "Qophii...",
+        "confirming": "Daldala eegaa jira…",
+        "recording": "Xumuramaa jira…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Kan biraa",
+    "confirming": "Kaffaltii mirkaneessuu..."
+  },
+  "liveShorts": {
+    "live": "KALLATTII"
+  },
+  "feedFilters": {
+    "clearAllShort": "Hundaa haqi",
+    "done": "Raawwatame",
+    "edit": "Gulaali",
+    "groupDate": "Guyyaa",
+    "groupSort": "Tartiibsi",
+    "groupType": "Aduu",
+    "save": "Olkaa'i"
+  },
+  "ownKeys": {
+    "working": "Hojjechuu",
+    "failed": "Waan tokkotu dogoggora ta'e. Ammas yaalaa.",
+    "check": "Qori",
+    "remove": "Balleessi",
+    "save": "Olkaa'i",
+    "cancel": "Haqi"
+  },
+  "postBg": {
+    "none": "Homaa",
+    "yours": "Kan keessan",
+    "accent": "Loqoda",
+    "names": {
+      "aurora": "Aurora jedhamuun beekama",
+      "lava": "Ibsaa lava",
+      "drive": "Konkolaachisaa Halkanii",
+      "chrome": "Dhangala'aa Kiroomii",
+      "orbit": "Orbiiti",
+      "snow": "Qorqorroon roobu"
+    }
+  },
+  "articleTile": {
+    "cover": "Haguuggii"
+  },
+  "aiConsent": {
+    "allow": "Hayyami"
+  },
+  "dmRequests": {
+    "title": "Gaaffii Amaloota",
+    "accept": "Kaca'u",
+    "delete": "Haqi",
+    "block": "Dhowwuu"
+  },
+  "dmSchedule": {
+    "view": "Ilaali",
+    "edit": "Gulaaluu",
+    "editLabel": "Odeeffannoo jijjiire",
+    "error": "Sun hin hojjenne. Ammas yaalaa."
+  },
+  "chatBulk": {
+    "selected": "{{count}} filatame",
+    "cancel": "Haqi",
+    "reply": "Deebii",
+    "delete": "Haqi"
+  },
+  "msgSelect": {
+    "selected": "{{count}} filatame",
+    "copy": "Garagalchi",
+    "forward": "Dabarsi",
+    "deleted_one": "Ergaan {{count}} haqame",
+    "deleted_other": "Ergaawwan {{count}} haqaman"
   }
 }

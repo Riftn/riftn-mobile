@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Энэ долоо хоногийн Audius дэх хандалт. Үнэгүй ашиглах боломжтой, уран бүтээлч таны пост дээр нэр дэвшигдэнэ.",
     "d2e45b7406fc": "Wikimedia Commons-ээс нийтлэг хэрэглээний болон Creative Commons дуу. Уран бүтээлч таны пост дээр нэр дэвшигдэнэ.",
     "d0c1a3684775": "Дуунууд ачаалагдаагүй. Хэсэг хугацааны дараа дахин оролдоно уу.",
-    "d14064f80f52": "Дуу нэмэх"
+    "d14064f80f52": "Дуу нэмэх",
+    "71988c4d8e08": "Текст",
+    "147170e793c6": "Өргөн",
+    "481859b689b0": "Таны холболтыг шалгаж, дахин оролдоно уу.",
+    "57e2faa5ec63": "Riftn-с хайх",
+    "7db20897053b": "Хүмүүс",
+    "96d7bff86b44": "Хайлт ачаалж чадсангүй",
+    "d8b8392e2c54": "Дахин оролдоно уу"
   },
   "dehubLinks": {
     "kind": {
@@ -2678,8 +2685,10 @@
       "pronouns": "Хэлцээ",
       "location": "Байршил",
       "custom": "Хэрэглэгчийн хувьд хөтөлбөр хийсэн",
-      "customOption": "Хэвлэх хуудас"
-    }
+      "customOption": "Хэвлэх хуудас",
+      "portfolio": "Зургийн сан"
+    },
+    "descriptionPresets": "Вэбсайт, төлөөний сан эсвэл бусад зүйлсийг нэмнэ үү. Нийгмийн холболтуудтайгаа харуулна."
   },
   "notificationFilters": {
     "title": "Мэдэгдлийг шүүх",
@@ -2850,7 +2859,8 @@
       "quote": "Үнийн санал",
       "bullets": "БОРЛУУЛАЛТЫН ЖАГСА",
       "numbers": "Тоон жагсаалт",
-      "link": "Холбоос"
+      "link": "Холбоос",
+      "image": "Зургуудыг нэмэх"
     }
   },
   "storefront": {
@@ -3788,7 +3798,11 @@
     "payViaDpay": "Riftn Pay руу төлсөн, токенууд ойролцоогоор 30 секундын дараа ирнэ",
     "payViaBridgeDpay": "Base руу шилжиж, Riftn Pay руу төлсөн, токенууд ойролцоогоор нэг минутын дараа ирнэ",
     "tokensUnit": "токен",
-    "tokenAmount": "{{amount}} токен"
+    "tokenAmount": "{{amount}} токен",
+    "addMessage": "Мессеж нэмэх (сонголтоор)",
+    "messagePublic": "Нийтийн",
+    "railTitle": "Зөвлөмжүүд",
+    "railTotal": "{{amount}} токен"
   },
   "postOptions": {
     "skippableSections": "Алгасах боломжтой хэсгүүд",
@@ -4516,7 +4530,11 @@
       "hereNamed": "{{name}} messaged хүн бүрийг “{{community}}”",
       "joinedNamed": "{{name}} нь “{{community}}” -д элссэн"
     },
-    "tokenAmount": "{{amount}} токен"
+    "tokenAmount": "{{amount}} токен",
+    "groupNew": "Шинэ",
+    "groupToday": "Өнөөдөр",
+    "groupThisWeek": "Энэ 7 хоног",
+    "searchClose": "Хаалт хийх"
   },
   "leaderboard": {
     "title": "Тэргүүлэгчид",
@@ -4708,7 +4726,18 @@
     "attachmentTooLarge": "Файл бүр 50MB-аас бага байх ёстой",
     "sendCommentA11y": "Сэтгэгдэл илгээх",
     "requestOptions": "Хүсэлтийн сонголтууд",
-    "deleteCommentA11y": "Сэтгэгдэл устгах"
+    "deleteCommentA11y": "Сэтгэгдэл устгах",
+    "deviceInfoNoErrors": "Одоогоор байхгүй",
+    "topBuilders": {
+      "month": "Энэ сар",
+      "allTime": "Бүх цаг",
+      "shipped": "Хэрэгжүүлсэн",
+      "votes": "Санал өгөх",
+      "comments": "Сэтгэгдэл",
+      "showLess": "Цөөн харуулах",
+      "viewProfile": "Профайл харах",
+      "you": "Та"
+    }
   },
   "auth": {
     "loginRequired": "Нэвтрэх шаардлагатай",
@@ -4969,7 +4998,20 @@
       "votes_other": "{{value}} санал",
       "members_one": "{{value}} гишүүн",
       "members_other": "{{value}} гишүүн"
-    }
+    },
+    "articleShort": "Нийтлэл",
+    "articleMinRead": "{{count}} мин унших",
+    "pinnedShort": "Бэхэлсэн",
+    "post": "Нийтлэх",
+    "arrange": {
+      "saving": "Хадгалж байна..."
+    },
+    "reserve": {
+      "signIn": "Нэвтрэх"
+    },
+    "tabLikes": "Таалагдсан",
+    "likesEmptyTitle": "Одоогоор лайк алга",
+    "likesPrivateTitle": "Лайкууд нууцлагдсан"
   },
   "tv": {
     "title": "ТВ",
@@ -5485,6 +5527,9 @@
       "action": "Үйлдэл",
       "schedule": "Хуваарь",
       "filter": "Үйл ажиллагааг шүүх"
+    },
+    "welcome": {
+      "text": "Мэндчилгээний зурвас"
     }
   },
   "hero": {
@@ -5566,7 +5611,16 @@
     "nowPublic": "Зарцуулалт одоо олон нийтэд нээлттэй байна",
     "openCanvas": "Зотон даавууг нээх",
     "playVideo": "видеог тоглуулах",
-    "signInToSee": "Таны дансны урсгалыг харахын тулд нэвтэрнэ үү."
+    "signInToSee": "Таны дансны урсгалыг харахын тулд нэвтэрнэ үү.",
+    "newNativeFlow": "Шинэ урсгал",
+    "model": "Загвар",
+    "aspectRatio": "Харагдах байдал",
+    "duration": "Үргэлжлэх хугацаа (секундээр)",
+    "resolution": "Нягтрал",
+    "disconnect": "Салгах",
+    "payAndRun": "Төлөөд ажиллуул",
+    "run": "Ажиллуулах",
+    "handlePrompt": "Мэдээллийн сувгийг тохируулах"
   },
   "loginModal": {
     "title": "Нэвтрэх",
@@ -5886,7 +5940,8 @@
     "searchMenu": "Цэсэнд хайх",
     "clearSearch": "Хайлтыг арилгах",
     "noMenuMatches": "Цэсэнд тохирох зүйл алга",
-    "searchDehubFor": "Riftn дээр \"{{query}}\"-г хай"
+    "searchDehubFor": "Riftn дээр \"{{query}}\"-г хай",
+    "requestSend": "Хүсэлт илгээх"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6505,7 +6560,11 @@
       "copied": "Мессеж хуулсан",
       "copyText": "Текстийг хуулах",
       "mutedUntil": "Та {{date}} хүртэл анир чимээгүй байна",
-      "slowMode": "Удаан горим: {{interval}}1 тутамд нэг мессеж"
+      "slowMode": "Удаан горим: {{interval}}1 тутамд нэг мессеж",
+      "joined": "{{name}} нэгдсэн",
+      "reactions": "Хариу урвалууд",
+      "photoTooLarge": "Зураг 10МБ-аас бага байх ёстой",
+      "aiAdminFailed": "AI Admin үйлдлийг хариулахдаа амжилтгүй боллоо"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6708,6 +6767,31 @@
       "notFound": "Энэ урилгын холбоос хүчин төгөлдөр бус байна.",
       "requestToJoin": "Нэгдэх хүсэлт",
       "approvalNote": "Админ таны хүсэлтийг тантай нэгдэхээс өмнө хүлээн зөвшөөрөх шаардлагатай."
+    },
+    "buyAlert": {
+      "spent": "Зарцуулсан:",
+      "buyer": "Худалдан авагч:",
+      "txn": "Тэрхэм",
+      "balance": "Үлдэгдэл:",
+      "price": "Үнэ:",
+      "marketCap": "Зах зээлийн багтаамж:"
+    },
+    "newChat": {
+      "public": "Нийтийн",
+      "private": "Хувийн",
+      "free": "ҮНЭГҮЙ",
+      "paid": "Төлөгдсөн",
+      "group": "Бүлэглэх"
+    },
+    "holderGate": {
+      "chain": "Гинж",
+      "which": "Токен",
+      "tab": "Эзэмшигчид"
+    },
+    "automod": {
+      "bannedWords": "Хориотой үгс",
+      "saved": "Хадгалагдсан",
+      "wordCount": "{{count}} үг"
     }
   },
   "work": {
@@ -7828,7 +7912,10 @@
       "doneAll": "Хариулахгүй байсан {{done}} хаягуудыг хассан.",
       "doneSome": "{{done}} хаягуудыг хассан. {{failed}} хасах боломжгүй болсон.",
       "doneToast": "Хариулахгүй байсан {{done}} хаягуудыг хассан."
-    }
+    },
+    "followBackConfirm": "Буцаад дагах",
+    "followBackNotNow": "Одоо биш",
+    "followBackDone": "Бэлэн"
   },
   "reactionInfo": {
     "title": "Хариу урвалууд",
@@ -8748,7 +8835,38 @@
     "coverFrames": "Нүүр хуудсыг сонгох",
     "coverFrame": "{{index}} рамкийг нүүр хуудас болгон ашиглах",
     "uploadCover": "Нүүр хуудсын зураг байршуулах",
-    "editFailed": "Энэ засварыг хийж чадсангүй. Дахин оролдоно уу."
+    "editFailed": "Энэ засварыг хийж чадсангүй. Дахин оролдоно уу.",
+    "altPlaceholderVideo": "Энэ видеог тайлбарлана уу",
+    "preview": {
+      "title": "Урьдчилан харах"
+    },
+    "recent": {
+      "all": "Бүгд"
+    },
+    "studio": {
+      "crop": "Тайрах",
+      "draw": "Зурах",
+      "light": "Гэрэлтэй",
+      "contrast": "Ялгаа",
+      "warmth": "Дулаан",
+      "colour": "Өнгө",
+      "fade": "Хатах",
+      "original": "Оригинал",
+      "ratioOriginal": "Оригинал",
+      "ratioFree": "ҮНЭГҮЙ",
+      "rotate": "Эргүүлэх",
+      "strength": "ХҮЧ",
+      "stickers": "Наалт",
+      "ticker": "Тикер",
+      "textBg": "Дэвсгэр",
+      "font": {
+        "bold": "Тод",
+        "serif": "Сериф",
+        "mono": "Моно"
+      }
+    },
+    "edited": "Зассан",
+    "edit": "Засах"
   },
   "bounty": {
     "claimed": "Авсан",
@@ -9042,7 +9160,8 @@
     "shopEmpty": "Дэлгүүрээс ямар нэг юм нэмэх ба үзэгчид урсгалыг орхихгүйгээр худалдан авах боломжтой.",
     "livePrice": "амьдарч үнэ",
     "soldOut": "зарагдсан",
-    "detailsStatus": "Төлөв:"
+    "detailsStatus": "Төлөв:",
+    "liveBadge": "Шууд"
   },
   "liveShop": {
     "title": "Энэ дамжуулалтаас худалдан авах",
@@ -9355,7 +9474,23 @@
     "paymentSentWith": "{{amount}} -аар илгээсэн",
     "planRestricted": "Энэ хэрэглэгч мессеж хүлээн авахын тулд захиалга шаардана.",
     "planTypeNotAllowed": "Энэ бүтээгчийн төлөвлөгөө ийм төрлийн мессежийг зөвшөөрдөггүй.",
-    "planMinTip": "Энэ бүтээгчид өгөх цай хамгийн багадаа {{amount}} токен байх ёстой."
+    "planMinTip": "Энэ бүтээгчид өгөх цай хамгийн багадаа {{amount}} токен байх ёстой.",
+    "newDrawer": {
+      "to": "Дуусах"
+    },
+    "download": "Татах",
+    "deleteOneTitle": "Энэ зурвасыг устгах уу?",
+    "retrySend": "Дахин оролдох",
+    "discardSend": "Хасах",
+    "shareKindGroup": "Бүлэглэх",
+    "shareKindCommunity": "Олон нийт",
+    "searchDiscover": {
+      "people": "Хүмүүс",
+      "communities": "Нийгэмлэгүүд",
+      "members": "{{n}} гишүүн",
+      "newChat": "Шинэ чат",
+      "invite": "Урих"
+    }
   },
   "editPost": {
     "mediaPermission": "Медиа сангийн зөвшөөрөл шаардлагатай",
@@ -10573,7 +10708,11 @@
       "hint": "Яриаг цаг хугацаатай хадмал болгож, загварыг нь өөрчлөх боломжтой. Таны төхөөрөмж дээр ажиллана: үнэгүй, хувийн. Эхний удаа загварыг татаж авна.",
       "done": "{{count}} хадмал нэмэгдлээ.",
       "noSpeech": "Энэ клипээс яриа олдсонгүй.",
-      "failed": "Энэ клипэд хадмал үүсгэж чадсангүй."
+      "failed": "Энэ клипэд хадмал үүсгэж чадсангүй.",
+      "styles": {
+        "bold": "Тод",
+        "serif": "Сериф"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10643,7 +10782,8 @@
       "vibrant": "Эрч хүчтэй",
       "cyber": "Кибер",
       "invert": "Урвуу",
-      "strength": "Шүүлтүүр хүч чадал: {{value}}%"
+      "strength": "Шүүлтүүр хүч чадал: {{value}}%",
+      "vhs": "ВХС"
     },
     "layer": {
       "crop": "Тайрах",
@@ -10823,7 +10963,9 @@
       "suggestTitle": "Дээр нь том тод гарчиг, доор нь жижиг дэд гарчиг нэм",
       "undo": "Буцаах",
       "openGenerator": "Хянаад үүсгэх",
-      "working": "Хийж байна…"
+      "working": "Хийж байна…",
+      "stop": "Зогсоох",
+      "queue": "Дараалалд нэмэх"
     },
     "brand": {
       "addColor": "Брэндийн өнгө нэмэх",
@@ -10960,7 +11102,9 @@
       "rendering": "Видео боловсруулж байна… {{percent}}%",
       "mp4": "MP4 видео",
       "exportHint": "Видео боловсруулагдаж байх үед засварлагчийг нээлттэй байлгана уу.",
-      "tooLarge": "Энэ файл засварлагчид хэт том байна. Хязгаар нь 400 MB."
+      "tooLarge": "Энэ файл засварлагчид хэт том байна. Хязгаар нь 400 MB.",
+      "tZoomIn": "Томруулах",
+      "tZoomOut": "Томруулах"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12139,6 +12283,28 @@
       "selection": "Сонголт",
       "zoomIn": "Томруулах зураг",
       "zoomOut": "Зотон даавууг гаргах"
+    },
+    "stage": {
+      "camera": "Камер",
+      "yaw": "Эргэлт",
+      "add": "Нэмэх",
+      "scale": "Хэмжээ",
+      "color": "Өнгө",
+      "light": "Гэрэлтэй"
+    },
+    "clipFix": {
+      "listening": "Сонсож байна..."
+    },
+    "voiceClone": {
+      "stop": "Бичлэг зогсоох",
+      "failed": "Дуу хоолой хувилах ажиллагаа амжилтгүй боллоо."
+    },
+    "linkImport": {
+      "go": "Импорт",
+      "downloading": "Татаж авч байна {{percent}}%"
+    },
+    "reverse": {
+      "action": "Урвуу"
     }
   },
   "creator": {
@@ -12600,7 +12766,32 @@
     "referenceProductName": "Таны бүтээгдэхүүнийг клип руу байршуулна",
     "referenceProductHint": "Танд харуулсан бүтээгдэхүүнийг солих ба анхны сэдэвийг хадгалах",
     "referenceComposeName": "Лавлагаа зургуудыг нэгтгэх",
-    "referenceComposeHint": "Олон зурагт байгаа дүрүүд, объектууд, орчинд нэг композицийг оруулна"
+    "referenceComposeHint": "Олон зурагт байгаа дүрүүд, объектууд, орчинд нэг композицийг оруулна",
+    "marketing": {
+      "import": {
+        "use": "Эдгээр мэдээллийг ашиглана уу"
+      }
+    },
+    "batchCount": "Зураг",
+    "endFrame": "Дуусах кадр",
+    "cinema": {
+      "close": "Хаах",
+      "performance": {
+        "label": "Гүйцэтгэл"
+      }
+    },
+    "audioNoSpeech": "Энэ бичлэгт илтгэл олдсонгүй.",
+    "audioTaskSpeechLabel": "Яриа",
+    "audioTaskDialogueLabel": "Хэлэлцүүлэг",
+    "audioTaskSfxLabel": "Дуу чимээний эффект",
+    "audioTaskVoiceChangerLabel": "Дуу солигч",
+    "audioTaskTranscribeLabel": "Оруулах",
+    "audioTaskIsolateLabel": "Цэвэрлэх",
+    "priceFreeRateLimited": "ҮНЭГҮЙ · Ханшийн хязгаар тогтоох",
+    "loop": "Давталт",
+    "dialogueFormat": "Нэг мөрөнд нэг илтгэгч зургийг \"Нэр: мөр\" гэж бич.",
+    "fileTooLarge": "Энэ файл 100 МБ-ээс дээш байна. Богино эсвэл жижиг биеийг хэрэглэнэ үү.",
+    "signInToGenerate": "Үүсгэхийн тулд нэвтэрнэ үү."
   },
   "fractions": {
     "title": "Хувьцаа",
@@ -14669,6 +14860,19 @@
       "intro": "Үзэгчид таныг үзэх минут бүрт нэг оноо, 100 токен бэлэг өгөх бүрт нэг оноо авна. Чат болон урвалууд ямар ч оноо авахгүй тул оноог ургуулж болохгүй.",
       "empty": "Одоогоор оноо байхгүй. Хүмүүс үзэх, бэлэг өгөхөд нэмэгдэнэ.",
       "widgetHint": "Энэ жагсаалтыг урсгал дээр харуулахын тулд Үнэнч үзэгчид виджет нэмнэ үү."
+    },
+    "destinations": {
+      "platform": "Платформ",
+      "label": "Нэр (заавал биш)",
+      "key": "Нэвтрүүлгийн түлхүүр",
+      "save": "Нэмэх",
+      "cancel": "Цуцлах",
+      "states": {
+        "off": "Унтраалттай",
+        "idle": "Бэлэн",
+        "live": "Шууд",
+        "error": "Алдаа"
+      }
     }
   },
   "liveChatModeration": {
@@ -14731,7 +14935,11 @@
     "disconnected": "GitHub холбоо шалтгаандаа холбоогүй байна.",
     "taken": "Энэ GitHub акаунт нь бусад Riftn профайлд байгаа байна.",
     "failed": "GitHub-той холбоо барихдаа амжилтгүй боллоо. Дахин оролдоно уу.",
-    "unavailable": "GitHub баталгаажуулалт удахгүй ирэх гэж байна."
+    "unavailable": "GitHub баталгаажуулалт удахгүй ирэх гэж байна.",
+    "hint": "Та энэ хаягийг батлахын тулд GitHub-д нэвтэрнэ үү. Дебх нь таны олон нийтийн GitHub профайлыг л харна.",
+    "verifiedAria": "Баталгаажсан GitHub данс",
+    "disconnect": "Салгах",
+    "connected": "GitHub холбогдсон"
   },
   "comic": {
     "showAll": "Бүх {{count}} хуудсыг харуулах",
@@ -14764,7 +14972,70 @@
     "days": "{{count}} өдөр",
     "spotlightForSale": "Хүүхэд",
     "spotlightNew": "Өөрчлөгдсөн байна.",
-    "buyFor": "Бэхэлэхдээ {{price}}-г худалдаж авна уу."
+    "buyFor": "Бэхэлэхдээ {{price}}-г худалдаж авна уу.",
+    "actAll": "Бүгд",
+    "actListings": "Зарууд",
+    "actOffer": "Санал болгох",
+    "actOffers": "Санал",
+    "actSales": "Борлуулалт",
+    "tabActivity": "Үйл ажиллагаа",
+    "allChains": "Бүх тізээ",
+    "newest": "Хамгийн шинэ",
+    "cheapest": "Хямд",
+    "soldFor": "Худалдааг авсан",
+    "signIn": "Нэвтрэх",
+    "title": "NFT-үүд",
+    "share": "Хуваалцах",
+    "noneForSale": "Борлуулах зүйл одоогоор байхгүй",
+    "noSales": "Одоогоор борлуулагдаагүй байна",
+    "tabBrowse": "Хайх",
+    "tabMine": "Таны дасгалууд",
+    "tabSales": "Борлуулалт",
+    "cancelled": "Цуцлагдсан",
+    "sold": "Худалдааг авсан",
+    "listed": "Хямдарсан",
+    "royaltyRow": "Үүсгэгч роиаль",
+    "youGet": "Та авах",
+    "holderGets": "Өмчлөгч нь",
+    "loading": "Ачаалж байна…",
+    "price": "Үнэ",
+    "seller": "Худалдагч",
+    "tabRecent": "Сүүлийн",
+    "buyNow": "Одоо худалдан авах",
+    "offers": "Санал",
+    "cancel": "Батлаагүй байна.",
+    "accept": "Хүлээн авах",
+    "signInToTrade": "Худалдахын тулд нэвтрэх",
+    "listForSale": "Борлуулж жагсаах",
+    "makeOffer": "санал гаргах",
+    "sendOffer": "Санал илгээх",
+    "back": "Буцах",
+    "dropsTo": "Үнэ {{price}}-аас {{date}}-д хүрнэ",
+    "inBundle": "{{n}}-ын багц болгон борлуулсан",
+    "trending": "Шинэ сэдвүүд",
+    "floor": "Өрөө",
+    "listedCount": "{{n}} борлуулж байна",
+    "thisCollection": "Энэ цуглуулга",
+    "collectionOffer": "Ямар ч санал",
+    "showAll": "Бүгдийг үзэх",
+    "shortTitle": "NFT-үүд",
+    "filters": "Шүүлтүүрүүд",
+    "forSale": "Борлуулж байна",
+    "openToOffers": "санал хүлээн авах",
+    "freshMints": "Riftn бүтээлчдийн шинэ",
+    "offersOpen": "санал хүлээн авах",
+    "mintedCount": "{{n}} нэвтрүүлсэн",
+    "anyInCollection": "Бүх цуглуулга",
+    "thisNft": "Энэ NFT",
+    "priceAlert": "Үнэ сэрэмжлүүлэг",
+    "alertUnder": "Нийтлэгдсэн эсвэл доорх ({{symbol}}, сонголттой) үед хэлнэ үү",
+    "turnOnAlert": "Сэрэмжлүүлгийг асаах",
+    "alertSaved": "Анхааруулга асаалттай. Нэг нь жагсаагдсаныг бид танд хэлэх болно.",
+    "priceDrop": "Урт хугацаанд үнэ буурах",
+    "endPrice": "Хамгийн бага үнэ, төгсгөлд хүрсэн ({{symbol}})",
+    "bundleBadge": "Багц ×{{n}}",
+    "days_one": "{{count}} өдөр",
+    "days_other": "{{count}} өдөр"
   },
   "reel": {
     "readAll": "Бүгдийг нь унших",
@@ -14865,6 +15136,253 @@
     "older": "Олон нөхцөл",
     "newer": "Нүүдэртэй үр дүн",
     "gone": "Тухайн мэдээлэл байхгүй байна",
-    "theirMessages": "Тэдний мессежүүд"
+    "theirMessages": "Тэдний мессежүүд",
+    "voice": "Дуут мессеж"
+  },
+  "chatTextSize": {
+    "title": "Усны хэмжээ",
+    "default": "Анхны төлөв",
+    "larger": "Илүү том"
+  },
+  "remix": {
+    "cut": "Таслах"
+  },
+  "signedFollows": {
+    "setUp": "Идэвхжүүлэх",
+    "turnOff": "Хаах",
+    "efpTurnOff": "Зогсоох"
+  },
+  "postEditHistory": {
+    "original": "Эх"
+  },
+  "studioDeck": {
+    "remove": "Хасах",
+    "background": {
+      "title": "Дэвсгэр",
+      "modes": {
+        "none": "Унтраалттай",
+        "blur": "Бүдгэрүүлэлт",
+        "color": "Өнгө"
+      }
+    },
+    "scenes": {
+      "countdown": "Тоолол",
+      "minutes": "{{count}} мин",
+      "names": {
+        "starting": "Тун удахгүй эхэлнэ"
+      }
+    },
+    "widgets": {
+      "tab": "Виджетүүд"
+    },
+    "sources": {
+      "image": "Зураг",
+      "show": "Урсгал дээр харуулах",
+      "positions": {
+        "center": "Төвлөрүүлэх"
+      },
+      "sizes": {
+        "medium": "Дунд"
+      }
+    },
+    "phone": {
+      "title": "Студи"
+    }
+  },
+  "whenSheet": {
+    "today": "Өнөөдөр",
+    "tooSoon": "Ирээдүй хоногийг сонгоно уу.",
+    "show": "Харуулах",
+    "hide": "Нуух"
+  },
+  "planned": {
+    "title": "Төлөвлөсөн",
+    "all": "Бүгд",
+    "posts": "Нийтлэлүүд",
+    "stages": "Аудио өрөөнүүд",
+    "post": "Нийтлэх",
+    "live": "Шууд",
+    "stage": "Тайз",
+    "untitledPost": "Нийтлэх",
+    "untitledLive": "Шууд",
+    "loading": "Ачаалж байна…",
+    "startNow": "Одоо эхлүүлэх",
+    "cancel": "Цуцлах",
+    "cancelled": "Цуцлагдсан"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn-т тавтай морил",
+      "day": "Өдөр",
+      "month": "Сар",
+      "year": "Жил"
+    },
+    "name": {
+      "title": "Таны нэр",
+      "placeholder": "Таны нэр"
+    },
+    "card": {
+      "name": "Таны нэр",
+      "followers": "дагагчид"
+    },
+    "topic": {
+      "music": "Хөгжим",
+      "art": "Урлаг",
+      "gaming": "Тоглоом",
+      "crypto": "Крипто",
+      "sports": "Спортын төрлүүд",
+      "comedy": "Инээдмийн",
+      "film": "Кино",
+      "podcast": "Подкаст",
+      "food": "Хүнс",
+      "news": "Мэдээ",
+      "science": "Шинжлэх ухаан"
+    },
+    "back": "Буцах",
+    "skipPhoto": "Өнөөдрийг алгасах",
+    "preview": "Урьдчилан харах"
+  },
+  "appTokens": {
+    "title": "Таны токенууд",
+    "history": "Түүх",
+    "noHistory": "Одоогоор үйл ажиллагаа хараахан байхгүй байна",
+    "kindDeposit": "Хөрөнгө нэмэх",
+    "to": "Дуусах",
+    "amount": "Дүн",
+    "notePlaceholder": "Тэмдэглэл нэмэх (заавал биш)",
+    "sendButton": "Илгээх",
+    "errorInsufficient": "Хангалттай токен байхгүй байна"
+  },
+  "avatarPrompt": {
+    "notNow": "Одоо биш"
+  },
+  "postStats": {
+    "audience": "Үзэгчид",
+    "engagement": "Оролцоо",
+    "finished": "Дууссан",
+    "members": "Гишүүд",
+    "membersLower": "гишүүд",
+    "newFollowers": "Шинэ дагалдагчид",
+    "noBadge": "Тэмдэггүй",
+    "people": "Хүмүүс",
+    "plays": "Тоглуулах",
+    "quotes": "Эшлэл",
+    "reposts": "Дахин нийтлэл",
+    "saved": "Хадгалагдсан",
+    "shares": "Хуваалцсан",
+    "signedOutViewers": "Гарлаа",
+    "topSupporters": "Шилдэг дэмжигчид",
+    "visitors": "Гарлаа"
+  },
+  "duet": {
+    "policyEveryone": "Бүгд",
+    "policyFollowers": "Дагагчид",
+    "policyNobody": "Хэн ч үгүй",
+    "loadMore": "Илүү ихийг ачаалах",
+    "video": "Видео"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Бүгд",
+      "followers": "Дагагчид",
+      "nobody": "Хэн ч үгүй"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Бүгд",
+      "followers": "Дагагчид",
+      "nobody": "Хэн ч үгүй"
+    },
+    "heading": "Хариу урвалууд",
+    "more": "Дэлгэрэнгүй харах",
+    "liveNow": "Шууд",
+    "untitled": "Реакц"
+  },
+  "liveClips": {
+    "copyLink": "Холбоосыг хуулах",
+    "linkCopied": "Холбоосыг хуулсан"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Төлөвлөгөө",
+      "howMany": "Хэдийг",
+      "who": "Хэрэглэгчийн нэр эсвэл хэтэвчний хаяг",
+      "whoPlaceholder": "@хэрэглэгчийн_нэр",
+      "cancel": "Цуцлах",
+      "stage": {
+        "preparing": "Бэлтгэж байна…",
+        "confirming": "Гүйлгээг хүлээж байна…",
+        "recording": "Дуусгаж байна…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Бусад",
+    "confirming": "Төлбөрийг баталгаажуулж байна..."
+  },
+  "liveShorts": {
+    "live": "Шууд"
+  },
+  "feedFilters": {
+    "clearAllShort": "Бүгдийг арилгах",
+    "done": "Болсон",
+    "edit": "Засах",
+    "groupDate": "Огноо",
+    "groupSort": "Эрэмбэлэх",
+    "groupType": "Төрөл",
+    "save": "Хадгалах"
+  },
+  "ownKeys": {
+    "working": "Ажиллаж байгаа",
+    "failed": "Алдаа гарлаа. Дахин оролдоно уу.",
+    "check": "Шалгах",
+    "remove": "Хасах",
+    "save": "Хадгалах",
+    "cancel": "Цуцлах"
+  },
+  "postBg": {
+    "none": "Одоогоор байхгүй",
+    "yours": "Таны дасгалууд",
+    "accent": "Төвөгтэй үсэг",
+    "names": {
+      "aurora": "Аврора",
+      "lava": "Лаав чийдэн",
+      "drive": "Шөнийн жолоодлого",
+      "chrome": "Шингэн Chrome",
+      "orbit": "Тойрог зам",
+      "snow": "Цасан намар"
+    }
+  },
+  "articleTile": {
+    "cover": "Нүүр зураг"
+  },
+  "aiConsent": {
+    "allow": "Зөвшөөрөх"
+  },
+  "dmRequests": {
+    "title": "Хүсэлтүүд",
+    "accept": "Зөвшөөрөх",
+    "delete": "Устгах",
+    "block": "Блок"
+  },
+  "dmSchedule": {
+    "view": "Үзэх",
+    "edit": "Засах",
+    "editLabel": "Зурвас Засах",
+    "error": "Дахин оролдоорой."
+  },
+  "chatBulk": {
+    "selected": "{{count}} сонгогдсон",
+    "cancel": "Цуцлах",
+    "reply": "Хариу",
+    "delete": "Устгах"
+  },
+  "msgSelect": {
+    "selected": "{{count}} сонгогдсон",
+    "copy": "Хуулах",
+    "forward": "Дамжуулах",
+    "deleted_one": "{{count}} мэдээг устгасан",
+    "deleted_other": "{{count}} мэдээг устгасан"
   }
 }

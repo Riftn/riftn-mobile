@@ -5,7 +5,12 @@
     "converted": "コミックとして表示中",
     "unconverted": "カルーセルとして表示中",
     "convertFailed": "レイアウトを変更できませんでした",
-    "showAll": "全{{count}}ページを表示"
+    "showAll": "全{{count}}ページを表示",
+    "tab": "コミック",
+    "title": "コミック",
+    "editor": {
+      "cover": "カバー"
+    }
   },
   "comicBorder": {
     "title": "フチ",
@@ -2484,7 +2489,14 @@
     "cbade2afaee2": "今週のAudiusトレンド。無料で使用でき、アーティストはあなたの投稿でクレジットされます。",
     "d2e45b7406fc": "Wikimedia Commonsからのパブリックドメインおよびクリエイティブ・コモンズ音楽。アーティストはあなたの投稿でクレジットされます。",
     "d0c1a3684775": "曲が読み込めませんでした。しばらくしてから再試行してください。",
-    "d14064f80f52": "サウンドを追加"
+    "d14064f80f52": "サウンドを追加",
+    "71988c4d8e08": "テキスト",
+    "147170e793c6": "ワイド",
+    "481859b689b0": "インターネット接続を確認して再度試してください。",
+    "57e2faa5ec63": "Riftn を検索",
+    "7db20897053b": "人々",
+    "96d7bff86b44": "検索できませんでした",
+    "d8b8392e2c54": "もう一度お試しください"
   },
   "dehubLinks": {
     "kind": {
@@ -2733,7 +2745,8 @@
       "quote": "引用",
       "bullets": "箇条書き",
       "numbers": "番号付きリスト",
-      "link": "リンク"
+      "link": "リンク",
+      "image": "画像を追加してください"
     }
   },
   "storefront": {
@@ -3743,7 +3756,11 @@
     "payDirectNoName": "{{chain}}上の{{symbol}}でクリエイターに直接送られます。スワップなし。",
     "payViaBridgeDpay": "Base に移動し、Riftn Pay に支払い済み、トークンは約 1 分で到着します",
     "tokensUnit": "トークン",
-    "tokenAmount": "{{amount}} トークン"
+    "tokenAmount": "{{amount}} トークン",
+    "addMessage": "メッセージを追加（任意）",
+    "messagePublic": "公開",
+    "railTitle": "チップ",
+    "railTotal": "{{amount}} トークン"
   },
   "postOptions": {
     "skippableSections": "スキップ可能なセクション",
@@ -4477,7 +4494,8 @@
       "governanceVotedRejected": "あなたが投票した提案が不可決でした：「{{title}}」",
       "governancePassed": "あなたの提案「{{title}}」は可決しました 🎉",
       "governanceRejected": "あなたの提案「{{title}}」は不可決でした"
-    }
+    },
+    "searchClose": "検索を閉じる"
   },
   "leaderboard": {
     "title": "ランキング",
@@ -4669,7 +4687,18 @@
     "promptMediaError": "各20MB以下の画像または動画を選択してください。",
     "promptMediaLimit": "最大{{max}}個の添付ファイル。",
     "removePromptAttachment": "{{name}}を削除",
-    "promptAttachment": "添付ファイル {{number}}"
+    "promptAttachment": "添付ファイル {{number}}",
+    "deviceInfoNoErrors": "なし",
+    "topBuilders": {
+      "month": "今月",
+      "allTime": "すべての時間",
+      "shipped": "リリース済み",
+      "votes": "投票",
+      "comments": "コメント",
+      "showLess": "表示を少なく",
+      "viewProfile": "プロフィールを表示",
+      "you": "あなた"
+    }
   },
   "auth": {
     "loginRequired": "ログインが必要です",
@@ -4944,7 +4973,17 @@
     "likesEmptyOwn": "いいねした投稿はここに表示されます。設定で「いいねを全員に表示」をオンにしない限り、自分だけが見られます。",
     "likesEmptyOther": "まだいいねはありません。",
     "likesPrivateTitle": "いいねは非公開です",
-    "likesPrivateDesc": "このアカウントはいいねを公開していません。"
+    "likesPrivateDesc": "このアカウントはいいねを公開していません。",
+    "articleShort": "記事",
+    "articleMinRead": "{{count}}分で読めます",
+    "pinnedShort": "ピン留め",
+    "post": "投稿",
+    "arrange": {
+      "saving": "保存中..."
+    },
+    "reserve": {
+      "signIn": "サインイン"
+    }
   },
   "tv": {
     "title": "テレビ",
@@ -5460,7 +5499,10 @@
     "agentDisplayName": "ディスプレイネーム",
     "agentDisplayNamePlaceholder": "このエージェントがRiftnで表示される方法",
     "capacity": "{{used}}の{{limit}}エージェントの中の{{badge}}",
-    "noBadge": "バッジなし"
+    "noBadge": "バッジなし",
+    "welcome": {
+      "text": "ウェルカムメッセージ"
+    }
   },
   "hero": {
     "title": "私たちの世界へ",
@@ -5543,7 +5585,16 @@
     "nowPublic": "フローが公開されました",
     "openCanvas": "キャンバスを開く",
     "playVideo": "動画を再生",
-    "signInToSee": "サインインして、アカウントのフローを確認してください。"
+    "signInToSee": "サインインして、アカウントのフローを確認してください。",
+    "newNativeFlow": "新しいフロー",
+    "model": "モデル",
+    "aspectRatio": "アスペクト比",
+    "duration": "秒数",
+    "resolution": "解像度",
+    "disconnect": "切断",
+    "payAndRun": "支払いと実行",
+    "run": "実行",
+    "handlePrompt": "プロンプト"
   },
   "loginModal": {
     "title": "ログイン",
@@ -6470,7 +6521,8 @@
       "copied": "メッセージをコピーしました",
       "copyText": "テキストをコピー",
       "mutedUntil": "{{date}}までミュートされています",
-      "slowMode": "スローモード：{{interval}}ごとに1件のメッセージ"
+      "slowMode": "スローモード：{{interval}}ごとに1件のメッセージ",
+      "aiAdminFailed": "AI アドミンが応答しませんでした"
     },
     "manage": {
       "inviteLimit": "上限 {{n}}",
@@ -6705,6 +6757,32 @@
       "invalidLink": "Riftn投稿のリンクまたは投稿IDを貼り付けます。",
       "unavailable": "この投稿は利用できません。",
       "signIn": "サインインしてコミュニティ投稿を管理してください。"
+    },
+    "buyAlert": {
+      "spent": "使用済み：",
+      "buyer": "購入者：",
+      "txn": "取引",
+      "balance": "残高：",
+      "price": "価格：",
+      "marketCap": "時価総額："
+    },
+    "newChat": {
+      "public": "公開",
+      "private": "非公開",
+      "free": "無料",
+      "paid": "支払い済み",
+      "group": "グループ化"
+    },
+    "holderGate": {
+      "chain": "チェーン",
+      "which": "トークン",
+      "tab": "所有者リスト"
+    },
+    "automod": {
+      "bannedWords": "禁止された言葉",
+      "floodMax": "{{count}}メッセージ",
+      "saved": "保存済み",
+      "wordCount": "{{count}} 単語"
     }
   },
   "work": {
@@ -8842,7 +8920,38 @@
     "coverFrames": "カバーにするフレームを選択",
     "coverFrame": "フレーム {{index}} をカバーにする",
     "uploadCover": "カバー画像をアップロード",
-    "editFailed": "編集を適用できませんでした。もう一度お試しください。"
+    "editFailed": "編集を適用できませんでした。もう一度お試しください。",
+    "altPlaceholderVideo": "この動画を説明",
+    "preview": {
+      "title": "プレビュー"
+    },
+    "recent": {
+      "all": "すべて"
+    },
+    "studio": {
+      "crop": "切り抜き",
+      "draw": "描画",
+      "light": "ライト",
+      "contrast": "コントラスト",
+      "warmth": "暖かさ",
+      "colour": "色",
+      "fade": "フェード",
+      "original": "オリジナル",
+      "ratioOriginal": "オリジナル",
+      "ratioFree": "無料",
+      "rotate": "回転",
+      "strength": "強さ",
+      "stickers": "ステッカー",
+      "ticker": "ティッカー",
+      "textBg": "背景",
+      "font": {
+        "bold": "太字",
+        "serif": "セリフ",
+        "mono": "モノクロ"
+      }
+    },
+    "edited": "編集済み",
+    "edit": "編集"
   },
   "bounty": {
     "claimed": "受け取り済み",
@@ -9136,7 +9245,8 @@
     "justChatting": "雑談",
     "noLiveStreams": "ライブ配信はありません",
     "noOneStreaming": "今は誰も配信していません。また後で見てください！",
-    "loadStreamsFailed": "配信を読み込めませんでした。もう一度お試しください。"
+    "loadStreamsFailed": "配信を読み込めませんでした。もう一度お試しください。",
+    "liveBadge": "ライブ"
   },
   "liveShop": {
     "title": "この配信でショッピング",
@@ -9470,7 +9580,14 @@
     "shareGroups": "グループ",
     "shareKindGroup": "グループ",
     "shareKindChannel": "チャンネル",
-    "shareKindCommunity": "コミュニティ"
+    "shareKindCommunity": "コミュニティ",
+    "newDrawer": {
+      "to": "終了"
+    },
+    "download": "ダウンロード",
+    "deleteOneTitle": "このメッセージを削除しますか？",
+    "retrySend": "再試行",
+    "discardSend": "削除"
   },
   "editPost": {
     "mediaPermission": "メディアライブラリへのアクセス許可が必要です",
@@ -10595,7 +10712,11 @@
       "translateCount": "{{count}} 件の字幕を翻訳",
       "translationDone": "{{count}} 件の字幕を翻訳しました",
       "translationFailed": "字幕の翻訳に失敗しました。字幕は変更されていません。",
-      "lockedTranslation": "ロックされた字幕を含めるには、ロックを解除してください。"
+      "lockedTranslation": "ロックされた字幕を含めるには、ロックを解除してください。",
+      "styles": {
+        "bold": "太字",
+        "serif": "セリフ"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10665,7 +10786,8 @@
       "vibrant": "ビビッド",
       "cyber": "サイバー",
       "invert": "反転",
-      "strength": "フィルタースタイル: {{value}}%"
+      "strength": "フィルタースタイル: {{value}}%",
+      "vhs": "ビデオテープレコーダー"
     },
     "layer": {
       "crop": "切り抜き",
@@ -10845,7 +10967,9 @@
       "suggestTitle": "上部に大きな太字のタイトル、その下に小さめのサブタイトルを追加して",
       "undo": "元に戻す",
       "openGenerator": "確認して生成",
-      "working": "作業中…"
+      "working": "作業中…",
+      "stop": "停止",
+      "queue": "キューに追加"
     },
     "brand": {
       "addColor": "ブランドカラーを追加",
@@ -10982,7 +11106,9 @@
       "rendering": "動画をレンダリング中… {{percent}}%",
       "mp4": "MP4動画",
       "exportHint": "動画のレンダリング中はエディターを開いたままにしてください。",
-      "tooLarge": "このファイルはエディターで扱うには大きすぎます。上限は400 MBです。"
+      "tooLarge": "このファイルはエディターで扱うには大きすぎます。上限は400 MBです。",
+      "tZoomIn": "ズームイン",
+      "tZoomOut": "ズームアウト"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12255,6 +12381,28 @@
       "matchDuration": "マッチング映像の長さが要求された動画の長さより短い場合、長さを短縮するか、より多くのメディアを選択してください。",
       "matchFailed": "シーンマッチングが利用できません。選択したクリップとタイミングは変更されません。手動で確認してください。",
       "reviewManually": "手動でクリップを確認する"
+    },
+    "stage": {
+      "camera": "カメラ",
+      "yaw": "回転",
+      "add": "追加",
+      "scale": "サイズ",
+      "color": "カラー",
+      "light": "ライト"
+    },
+    "clipFix": {
+      "listening": "聞き取り中…"
+    },
+    "voiceClone": {
+      "stop": "録音を停止",
+      "failed": "ボイスクローニングに失敗しました。"
+    },
+    "linkImport": {
+      "go": "インポート",
+      "downloading": "ダウンロード中 {{percent}}%"
+    },
+    "reverse": {
+      "action": "リバース"
     }
   },
   "creator": {
@@ -12716,7 +12864,32 @@
     "presetOpenTowerTiltHint": "曇天の都市に下向きにゆっくりティルト",
     "presetCraneRevealHint": "広角ショットに開くリズム",
     "presetOrbitHint": "円形の動きで深さを明らかにする",
-    "presetProductTurnHint": "製品のループターンテーブル"
+    "presetProductTurnHint": "製品のループターンテーブル",
+    "marketing": {
+      "import": {
+        "use": "これらの詳細を使用する"
+      }
+    },
+    "batchCount": "画像",
+    "endFrame": "終了フレーム",
+    "cinema": {
+      "close": "閉じる",
+      "performance": {
+        "label": "パフォーマンス"
+      }
+    },
+    "audioNoSpeech": "その録音にはスピーチは見つかりませんでした。",
+    "audioTaskSpeechLabel": "スピーチ",
+    "audioTaskDialogueLabel": "対話",
+    "audioTaskSfxLabel": "効果音",
+    "audioTaskVoiceChangerLabel": "ボイスチェンジャー",
+    "audioTaskTranscribeLabel": "転写",
+    "audioTaskIsolateLabel": "クリーンアップ",
+    "priceFreeRateLimited": "無料・料金制限が適用されます",
+    "loop": "ループ",
+    "dialogueFormat": "シーンを「名前：台詞」として書いてください。1行に1人のスピーカーです。",
+    "fileTooLarge": "そのファイルは100 MBを超えています。より短いまたはより小さいファイルを使用してください。",
+    "signInToGenerate": "サインインして生成してください。"
   },
   "fractions": {
     "title": "フラクション",
@@ -14712,6 +14885,19 @@
       "intro": "視聴者は、あなたを見るたびにポイントを獲得し、プレゼントするDHB 100枚ごとにポイントを獲得します。チャットやリアクションでは何も得られないため、ポイントを貯めることはできません。",
       "empty": "ポイントはまだありません。人々が見て贈り物をするにつれて蓄積されます。",
       "widgetHint": "このリストをストリームに表示するには、ロイヤルビューアウィジェットを追加します。"
+    },
+    "destinations": {
+      "platform": "プラットフォーム",
+      "label": "名前（任意）",
+      "key": "ストリームキー",
+      "save": "追加",
+      "cancel": "キャンセル",
+      "states": {
+        "off": "オフ",
+        "idle": "準備完了",
+        "live": "ライブ",
+        "error": "エラー"
+      }
     }
   },
   "liveChatModeration": {
@@ -14912,7 +15098,8 @@
     "disconnected": "GitHub切断済み",
     "taken": "そのGitHubアカウントは既に別のRiftnプロフィールに登録されています。",
     "failed": "GitHubの接続に失敗しました。もう一度お試しください。",
-    "unavailable": "GitHubの認証機能は近日公開予定です。"
+    "unavailable": "GitHubの認証機能は近日公開予定です。",
+    "verified": "認証済み"
   },
   "nftMarket": {
     "dehubPostsName": "Deハブ ポスト",
@@ -14926,7 +15113,72 @@
     "days": "{{count}} 日",
     "spotlightForSale": "販売中",
     "spotlightNew": "直近ミント",
-    "buyFor": "{{price}}で購入"
+    "buyFor": "{{price}}で購入",
+    "actAll": "すべて",
+    "actListings": "出品",
+    "actOffer": "オファー",
+    "actOffers": "オファー",
+    "actSales": "セールス",
+    "tabActivity": "アクティビティ",
+    "allChains": "全てのチェーン",
+    "newest": "最新",
+    "cheapest": "最安値",
+    "soldFor": "売却済み",
+    "signIn": "サインイン",
+    "title": "NFT",
+    "share": "共有",
+    "noneForSale": "まだ販売品がありません",
+    "noSales": "まだ販売がありません",
+    "tabBrowse": "ブラウズ",
+    "tabMine": "あなたのもの",
+    "tabSales": "セールス",
+    "cancelled": "キャンセル",
+    "sold": "売却済み",
+    "listed": "販売用にリスト",
+    "feeRow": "Riftnフィー（{{pct}}%）",
+    "royaltyRow": "クリエイターロイヤリティ",
+    "youGet": "あなたが獲得",
+    "holderGets": "ホルダーが獲得",
+    "loading": "ロード中…",
+    "price": "価格",
+    "seller": "セラー",
+    "tabRecent": "最近",
+    "buyNow": "今すぐ購入",
+    "offers": "オファー",
+    "cancel": "キャンセル",
+    "accept": "受け入れる",
+    "signInToTrade": "ログインして取引を行う",
+    "listForSale": "販売用にリスティング",
+    "makeOffer": "オファーを行う",
+    "sendOffer": "オファーを送信",
+    "back": "戻る",
+    "dropsTo": "価格は{{date}}までに{{price}}に下がります",
+    "inBundle": "{{n}}のバンドルとして販売されました",
+    "trending": "人気上昇中のコレクション",
+    "floor": "フロア",
+    "listedCount": "{{n}}販売中",
+    "thisCollection": "このコレクション",
+    "collectionOffer": "いずれかのオファー",
+    "showAll": "すべて表示",
+    "shortTitle": "NFT",
+    "filters": "フィルター",
+    "forSale": "販売中",
+    "openToOffers": "オファーを受け付けています",
+    "freshMints": "Riftnのクリエイターからの最新情報",
+    "offersOpen": "オファーを受け付けています",
+    "mintedCount": "{{n}}鋳造",
+    "anyInCollection": "コレクション内のいずれか",
+    "thisNft": "このNFT",
+    "priceAlert": "価格アラート",
+    "alertUnder": "リスト登録時期を指定（{{symbol}}、オプション）",
+    "turnOnAlert": "アラートをオンにする",
+    "alertSaved": "アラートがオンです。リスティングされたときにお知らせします。",
+    "priceDrop": "時間とともに価格が下がる",
+    "endPrice": "最低価格、終了時に到達（{{symbol}}）",
+    "bundleBadge": "バンドル ×{{n}}",
+    "dropBadge": "値下げ",
+    "days_one": "{{count}} 日",
+    "days_other": "{{count}} 日"
   },
   "riftnMove": {
     "title": "DeHubはRiftnになりました",
@@ -15050,5 +15302,249 @@
   },
   "profileImage": {
     "change": "変更"
+  },
+  "remix": {
+    "cut": "カット"
+  },
+  "signedFollows": {
+    "setUp": "オンにする",
+    "turnOff": "無効にする",
+    "efpTurnOff": "停止"
+  },
+  "postEditHistory": {
+    "original": "オリジナル"
+  },
+  "studioDeck": {
+    "remove": "削除",
+    "background": {
+      "title": "背景",
+      "modes": {
+        "none": "オフ",
+        "blur": "ぼかし",
+        "color": "色"
+      }
+    },
+    "scenes": {
+      "countdown": "カウントダウン",
+      "minutes": "{{count}}分",
+      "names": {
+        "starting": "まもなく開始"
+      }
+    },
+    "widgets": {
+      "tab": "ウィジェット"
+    },
+    "sources": {
+      "image": "画像",
+      "show": "ストリームで表示",
+      "positions": {
+        "center": "中央"
+      },
+      "sizes": {
+        "small": "小",
+        "medium": "中",
+        "large": "大"
+      }
+    },
+    "phone": {
+      "title": "スタジオ"
+    }
+  },
+  "whenSheet": {
+    "today": "今日",
+    "earlierShort": "それ以前",
+    "tooSoon": "将来の日時を選択してください。",
+    "show": "表示",
+    "hide": "非表示"
+  },
+  "planned": {
+    "title": "計画中",
+    "all": "すべて",
+    "posts": "投稿",
+    "stages": "音声ルーム",
+    "post": "投稿",
+    "live": "ライブ",
+    "stage": "ステージ",
+    "untitledPost": "投稿",
+    "untitledLive": "ライブ",
+    "loading": "読み込み中…",
+    "startNow": "今すぐ開始",
+    "cancel": "キャンセル",
+    "cancelled": "キャンセル済み"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftnへようこそ",
+      "day": "日",
+      "month": "月",
+      "year": "年"
+    },
+    "name": {
+      "title": "あなたの名前",
+      "placeholder": "あなたの名前"
+    },
+    "card": {
+      "name": "あなたの名前",
+      "followers": "フォロワー"
+    },
+    "topic": {
+      "music": "音楽",
+      "art": "アート",
+      "gaming": "ゲーム",
+      "crypto": "暗号通貨",
+      "sports": "スポーツ",
+      "comedy": "コメディ",
+      "film": "フィルム",
+      "podcast": "ポッドキャスト",
+      "food": "食べ物",
+      "news": "ニュース",
+      "science": "科学"
+    },
+    "back": "戻る",
+    "skipPhoto": "今はスキップ",
+    "preview": "プレビュー"
+  },
+  "appTokens": {
+    "title": "あなたのトークン",
+    "history": "履歴",
+    "noHistory": "アクティビティはまだありません",
+    "kindDeposit": "入金",
+    "to": "終了",
+    "amount": "金額",
+    "notePlaceholder": "メモを追加（任意）",
+    "sendButton": "送信",
+    "errorInsufficient": "トークンが不足しています"
+  },
+  "avatarPrompt": {
+    "notNow": "あとで"
+  },
+  "postStats": {
+    "audience": "オーディエンス",
+    "engagement": "エンゲージメント",
+    "finished": "終了",
+    "members": "メンバー",
+    "membersLower": "メンバー",
+    "newFollowers": "新しいフォロワー",
+    "noBadge": "バッジなし",
+    "people": "ユーザー",
+    "plays": "プレイ",
+    "quotes": "引用",
+    "reposts": "リポスト",
+    "saved": "保存済み",
+    "shares": "シェア",
+    "signedOutViewers": "ログアウトしました",
+    "topSupporters": "トップサポーター",
+    "visitors": "ログアウトしました"
+  },
+  "duet": {
+    "policyEveryone": "全員",
+    "policyFollowers": "フォロワー",
+    "policyNobody": "誰も",
+    "loadMore": "もっと読み込む",
+    "video": "ビデオ"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "全員",
+      "followers": "フォロワー",
+      "nobody": "誰も"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "全員",
+      "followers": "フォロワー",
+      "nobody": "誰も"
+    },
+    "heading": "リアクション",
+    "more": "さらに表示",
+    "liveNow": "ライブ",
+    "untitled": "反応"
+  },
+  "liveClips": {
+    "copyLink": "リンクをコピー",
+    "linkCopied": "リンクをコピーしました"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "プラン",
+      "howMany": "いくつ",
+      "who": "ユーザー名またはウォレットアドレス",
+      "whoPlaceholder": "@ユーザー名",
+      "cancel": "キャンセル",
+      "stage": {
+        "preparing": "準備中…",
+        "confirming": "取引を待っています…",
+        "recording": "仕上げ中…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "その他",
+    "confirming": "支払いを確認しています…"
+  },
+  "liveShorts": {
+    "live": "ライブ"
+  },
+  "feedFilters": {
+    "clearAllShort": "すべてクリア",
+    "done": "完了",
+    "edit": "編集",
+    "groupDate": "日付",
+    "groupSort": "並べ替え",
+    "groupType": "タイプ",
+    "save": "保存"
+  },
+  "ownKeys": {
+    "working": "処理中",
+    "failed": "エラーが発生しました。もう一度お試しください。",
+    "check": "チェック",
+    "remove": "削除",
+    "save": "保存",
+    "cancel": "キャンセル"
+  },
+  "postBg": {
+    "none": "なし",
+    "yours": "あなたのもの",
+    "accent": "アクセント",
+    "names": {
+      "aurora": "オーロラ",
+      "lava": "ラバランプ",
+      "drive": "ナイトドライブ",
+      "chrome": "リキッドクローム",
+      "orbit": "オービット",
+      "snow": "降雪"
+    }
+  },
+  "articleTile": {
+    "cover": "カバー"
+  },
+  "aiConsent": {
+    "allow": "許可"
+  },
+  "dmRequests": {
+    "title": "リクエスト",
+    "accept": "承認",
+    "delete": "削除",
+    "block": "ブロック"
+  },
+  "dmSchedule": {
+    "view": "見る",
+    "edit": "編集",
+    "editLabel": "メッセージを編集",
+    "error": "うまくいきませんでした。もう一度やり直してください。"
+  },
+  "chatBulk": {
+    "selected": "{{count}}が選択されました",
+    "cancel": "キャンセル",
+    "reply": "返信",
+    "delete": "削除"
+  },
+  "msgSelect": {
+    "selected": "{{count}}が選択されました",
+    "copy": "コピー",
+    "forward": "転送",
+    "deleted_one": "{{count}}のメッセージを削除しました",
+    "deleted_other": "{{count}}のメッセージを削除しました"
   }
 }
