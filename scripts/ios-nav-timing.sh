@@ -357,7 +357,7 @@ if [ "$MODE" = wallet ]; then
   # Connect Wallet on the sign-in page opened from "Log in": main's code
   # first, then this checkout's in several themes.
   run before "wallet-main-system" "" wallet system
-  for theme in ${WALLET_THEMES:-system hazy system-light osaka}; do
+  for theme in ${WALLET_THEMES:-system osaka}; do
     run after "wallet-$theme" "" wallet "$theme"
     python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(sys.argv[2], {k: d.get(k) for k in ("route", "openByTap", "pickerOpen", "error")})' "$OUT/nav/wallet-$theme.json" "$theme" 2>/dev/null || true
   done
