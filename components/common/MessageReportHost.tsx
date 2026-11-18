@@ -9,6 +9,7 @@
  */
 import React, { useEffect, useState } from "react";
 import ReportModal from "./ReportModal";
+import { useLingering } from "../../hooks/useLingering";
 
 export interface MessageReport {
   /** Sender's wallet address or username. */
@@ -42,15 +43,17 @@ function contextFor(report: MessageReport): string {
  * Modal, so those surfaces mount this one inside theirs.
  */
 export function MessageReportModal({ report, onClose }: { report: MessageReport | null; onClose: () => void }) {
-  if (!report) return null;
+  // Kept a moment after it clears, so the sheet slides away with its content.
+  const shown = useLingering(report);
+  if (!shown) return null;
   return (
     <ReportModal
-      visible
+      visible={!!report}
       onClose={onClose}
       type="user"
-      userId={report.userId}
-      userName={report.userName}
-      context={contextFor(report)}
+      userId={shown.userId}
+      userName={shown.userName}
+      context={contextFor(shown)}
     />
   );
 }

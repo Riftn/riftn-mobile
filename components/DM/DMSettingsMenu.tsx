@@ -26,9 +26,9 @@ const DMSettingsMenu: React.FC<DMSettingsMenuProps> = ({
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { skin } = useAppTheme();
-  if (!visible) return null;
+  // Stays mounted so closing fades the menu out instead of dropping it.
   return (
-    <Modal visible transparent animationType="fade" onRequestClose={onClose} statusBarTranslucent navigationBarTranslucent>
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose} statusBarTranslucent navigationBarTranslucent>
       <TouchableOpacity
         activeOpacity={1}
         onPress={onClose}
