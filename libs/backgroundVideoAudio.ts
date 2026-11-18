@@ -60,7 +60,8 @@ export function followSoundInBackground(player: VideoPlayer | null | undefined):
       player.addListener("playingChange", () => update(player)),
       player.addListener("mutedChange", () => update(player)),
       player.addListener("volumeChange", () => update(player)),
-      player.addListener("statusChange", ({ status }) => {
+      player.addListener("statusChange", (e) => {
+        const status = e?.status;
         if (status === "error" || status === "idle") update(player);
       }),
     ];
@@ -79,7 +80,11 @@ export function videoSoundPlaying(): boolean {
 
 // A player released mid-play never reports that it stopped; prune on every
 // app state change so the session is handed back.
-AppState.addEventListener("change", () => {
-  videoSoundPlaying();
-  syncSession();
-});
+try {
+  AppState?.addEventListener?.("change", () => {
+    videoSoundPlaying();
+    syncSession();
+  });
+} catch {
+  // No AppState (tests that mock react-native partly).
+}
