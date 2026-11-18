@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Na-efegharị n'izu a na Audius. N'efu iji, a na-enye onye na-eme ihe n'ọrụ n'elu post gị.",
     "d2e45b7406fc": "Ụwa ọha na Creative Commons egwu site na Wikimedia Commons. Onye na-eme ihe n'ọrụ na-enweta nkwanye ùgwù n'elu post gị.",
     "d0c1a3684775": "Abụ adịghị ebuli. Gbalịa ọzọ n’oge dị mkpirikpi.",
-    "d14064f80f52": "Tinye ụda"
+    "d14064f80f52": "Tinye ụda",
+    "71988c4d8e08": "Ederede",
+    "147170e793c6": "Obosara",
+    "481859b689b0": "Lelee njikọ gị ma nwaa ọzọ.",
+    "57e2faa5ec63": "Chọọ na Riftn",
+    "7db20897053b": "Ndị mmadụ",
+    "96d7bff86b44": "Enweghị ike ibudata nchọwa",
+    "d8b8392e2c54": "Gbalịa ọzọ"
   },
   "dehubLinks": {
     "kind": {
@@ -2674,8 +2681,16 @@
     "presets": {
       "blog": "Blaọgụ",
       "location": "Ebe",
-      "custom": "Omenala"
-    }
+      "custom": "Omenala",
+      "website": "Weebụsaịtị",
+      "portfolio": "Pọtụfoliyo",
+      "shop": "Ụlọ ahịa",
+      "newsletter": "Akwụkwọ akụkọ",
+      "pronouns": "Kpọtụrụ anyị",
+      "customOption": "Akara emeredịkachọrọ"
+    },
+    "placeholderPronouns": "ha/ha",
+    "placeholderLocation": "Obodo, obodo"
   },
   "notificationFilters": {
     "title": "Zachaa ọkwa sitere n'aka",
@@ -2846,7 +2861,8 @@
       "quote": "nhota",
       "bullets": "Ndepụta nke mkpụrụ",
       "numbers": "Ndepụta nke ọnụ ọgụgụ",
-      "link": "Njikọ"
+      "link": "Njikọ",
+      "image": "Tinye ihe foto"
     }
   },
   "storefront": {
@@ -3774,7 +3790,11 @@
     "payViaDpay": "Akwụgoro Riftn Pay, tokens na-abịa na ihe dị ka 30s",
     "payViaBridgeDpay": "Ebugharị na Base ma kwụọ Riftn Pay, tokens na-abịa na ihe dị ka otu nkeji",
     "tokensUnit": "akara",
-    "tokenAmount": "{{amount}} tokenịị"
+    "tokenAmount": "{{amount}} tokenịị",
+    "addMessage": "Tinye ozi (nhọpụta)",
+    "messagePublic": "Ọha",
+    "railTitle": "Ndụmọdụ",
+    "railTotal": "{{amount}} tokenịị"
   },
   "postOptions": {
     "skippableSections": "Ngalaba ndị nwere ike ịsụ ngọngọ",
@@ -4501,7 +4521,11 @@
     "badgeLent": "{{name}} nyere gị {{tier}} badge ha",
     "badgeHandedBack": "{{name}} weghachiri {{tier}} badge ị nyere ha",
     "badgeLoanLapsed": "{{name}} enweghị ike inye gị {{tier}} badge ha ọzọ",
-    "tokenAmount": "{{amount}} tokenịị"
+    "tokenAmount": "{{amount}} tokenịị",
+    "groupNew": "Ọhụrụ",
+    "groupToday": "Taa",
+    "groupThisWeek": "Izu a",
+    "searchClose": "Mechie nchọcha"
   },
   "leaderboard": {
     "title": "Ndepụta Ọkwa",
@@ -4693,7 +4717,18 @@
     "attachmentTooLarge": "Faịlụ ọ bụla ga-abụ ihe na-erughị 50MB",
     "deleteCommentA11y": "Hichaa nkọwa",
     "sendCommentA11y": "Ziga nkọwa",
-    "requestOptions": "Arịrịọ nhọrọ"
+    "requestOptions": "Arịrịọ nhọrọ",
+    "deviceInfoNoErrors": "Ọ dịghị ihe",
+    "topBuilders": {
+      "month": "Ọnwa a",
+      "allTime": "Oge niile",
+      "shipped": "Ezipụla",
+      "votes": "Ntuli aka",
+      "comments": "Okwu",
+      "showLess": "Gosi obere",
+      "viewProfile": "Lelee profaịlụ",
+      "you": "Gị"
+    }
   },
   "auth": {
     "loginRequired": "Achọrọ ịbanye",
@@ -4950,8 +4985,23 @@
       "votes_one": "{{value}} votu",
       "votes_other": "{{value}} votu",
       "members_one": "{{value}} onye otu",
-      "members_other": "{{value}} ndị otu"
-    }
+      "members_other": "{{value}} ndị otu",
+      "quote": "nhota",
+      "shop": "Ụlọ ahịa"
+    },
+    "articleShort": "Edemede",
+    "articleMinRead": "{{count}} min agụ",
+    "pinnedShort": "Akwụdoro",
+    "post": "Zipu",
+    "arrange": {
+      "saving": "Na-echekwa..."
+    },
+    "reserve": {
+      "signIn": "Banye"
+    },
+    "tabLikes": "Ịhụnanya",
+    "likesEmptyTitle": "Enweghị mmasị ugbu a",
+    "likesPrivateTitle": "Mmasị bụ nzuzo"
   },
   "tv": {
     "title": "Igwe onyonyo",
@@ -5467,6 +5517,9 @@
       "action": "Omume",
       "schedule": "Usoroiheomume",
       "filter": "Họcha omume"
+    },
+    "welcome": {
+      "text": "Ozi nnabata"
     }
   },
   "hero": {
@@ -5548,7 +5601,16 @@
     "nowPublic": "Mgbasa ozi ahụ bụ nke ọha ugbu a",
     "openCanvas": "Mepee eserese ahụ",
     "playVideo": "Kpọọ vidiyo",
-    "signInToSee": "Banye iji hụ mgbasa ozi dị na akaụntụ gị."
+    "signInToSee": "Banye iji hụ mgbasa ozi dị na akaụntụ gị.",
+    "newNativeFlow": "Flow ọhụrụ",
+    "model": "Ụdị",
+    "aspectRatio": "Nha",
+    "duration": "Oge n 'ime sekọnd",
+    "resolution": "Mkpebi",
+    "disconnect": "Ọghọghọ",
+    "payAndRun": "Ịkwụ ụgwọ na-agba ọsọ",
+    "run": "Bido",
+    "handlePrompt": "Nye ndụmọdụ"
   },
   "loginModal": {
     "title": "Banye",
@@ -5868,7 +5930,8 @@
     "searchMenu": "Chọọ menu",
     "clearSearch": "Hichapụ nchọta",
     "noMenuMatches": "Ọ dịghị ihe dabara na menu",
-    "searchDehubFor": "Chọọ \"{{query}}\" na Riftn"
+    "searchDehubFor": "Chọọ \"{{query}}\" na Riftn",
+    "requestSend": "Zipụ arịrịọ"
   },
   "comments": {
     "reportComment": "Report okwu",
@@ -6487,7 +6550,11 @@
       "copied": "Ozi e depụtaghachiri",
       "copyText": "Debata ngwe",
       "mutedUntil": "Ị na-muted ruo mgbe {{date}}",
-      "slowMode": "Ọnọdụ nwayọ: otu ozi ọ bụla {{interval}}"
+      "slowMode": "Ọnọdụ nwayọ: otu ozi ọ bụla {{interval}}",
+      "joined": "{{name}} sonyere",
+      "reactions": "Mmetụta",
+      "photoTooLarge": "Onyonyo ga-adị obere karịa 10MB",
+      "aiAdminFailed": "AI Admin azaghị"
     },
     "manage": {
       "inviteExpiresDays": "na-agwụ n'ime ụbọchị {{n}}",
@@ -6690,6 +6757,31 @@
       "notFound": "Njikọ nkwado a adịghị irè.",
       "requestToJoin": "Rịọ ka ejikọta",
       "approvalNote": "Onye nchịkwa ga-akwado arịrịọ gị tupu i nwee ike ijikọ."
+    },
+    "buyAlert": {
+      "spent": "Efu:",
+      "buyer": "Onye na-azụ ahịa:",
+      "balance": "Ụkpụrụ:",
+      "price": "Ahịa:",
+      "marketCap": "Ahịa okpu:"
+    },
+    "newChat": {
+      "public": "Ọha",
+      "private": "Nzuzo",
+      "free": "N’efu",
+      "paid": "Akwụ ụgwọ",
+      "group": "Ìgwè"
+    },
+    "holderGate": {
+      "chain": "Agbụ",
+      "which": "Akara",
+      "tab": "Ndị nwe ya"
+    },
+    "automod": {
+      "bannedWords": "Okwu a machibidoro iwu",
+      "floodMax": "Ozi nke {{count}}",
+      "saved": "Echekwara",
+      "wordCount": "{{count}} okwu"
     }
   },
   "work": {
@@ -7811,7 +7903,10 @@
       "doneAll": "Wepụ ịgbaso akaụntụ {{done}} ndị na-alaghachi gị.",
       "doneSome": "Wepụ ịgbaso akaụntụ {{done}}. Enweghị ike wepụ ịgbaso {{failed}}.",
       "doneToast": "Wepụ ịgbaso akaụntụ {{done}} ndị na-alaghachi gị."
-    }
+    },
+    "followBackConfirm": "Soo azụ",
+    "followBackNotNow": "Ọ bụghị ugbu a",
+    "followBackDone": "Emela"
   },
   "reactionInfo": {
     "mentionedYouPost": "{{name}} kwuru gị n'otu post",
@@ -8729,7 +8824,36 @@
     "coverFrames": "Nkọwa ihe n'okpuru ọrụ",
     "coverFrame": "Jiri etiti {{index}} ka mkpuchi",
     "uploadCover": "Nkọwa akwa akwa n'ime ihe n'ime",
-    "editFailed": "Igbo:"
+    "editFailed": "Igbo:",
+    "altPlaceholderVideo": "Kọwaa vidiyo a",
+    "landingLive": "Na ndụ",
+    "preview": {
+      "title": "Ịhụchalụ"
+    },
+    "recent": {
+      "all": "Ha niile"
+    },
+    "studio": {
+      "crop": "Bee",
+      "draw": "See ihe",
+      "light": "Ìhè",
+      "warmth": "Okpomọkụ",
+      "colour": "Ụcha",
+      "fade": "（ ）",
+      "original": "Nke mbụ",
+      "ratioOriginal": "Nke mbụ",
+      "ratioFree": "N’efu",
+      "rotate": "Tụgharịa",
+      "strength": "Ike",
+      "stickers": "Akwụkwọ mmado",
+      "ticker": "Aha ederede",
+      "textBg": "Ndabere",
+      "font": {
+        "bold": "Gbaa ọkpụrụkpụ"
+      }
+    },
+    "edited": "Edeziri",
+    "edit": "Dezie"
   },
   "bounty": {
     "claimed": "Anatala",
@@ -9023,7 +9147,8 @@
     "preparingCamera": "Na-akwado igwefoto…",
     "reconnecting": "Na-ejikọgharị…",
     "connecting": "Na-ejikọ…",
-    "shopPutOnAir": "Tinye na ikuku"
+    "shopPutOnAir": "Tinye na ikuku",
+    "liveBadge": "NA-EBI EBI"
   },
   "liveShop": {
     "title": "Zụọ ihe site na ngosi a",
@@ -9336,7 +9461,23 @@
     "insufficientTokenBalance": "Ọ bụghị zuru ezu tokens · {{amount}} ẹkenịmde",
     "planRestricted": "Onye ọrụ a chọrọ ndenye aha iji nata ozi.",
     "planTypeNotAllowed": "Atụmatụ onye okike a anaghị ekwe ụdị ozi a.",
-    "planMinTip": "Tip ga-abụrịrị opekata mpe {{amount}} tokens maka onye okike a."
+    "planMinTip": "Tip ga-abụrịrị opekata mpe {{amount}} tokens maka onye okike a.",
+    "newDrawer": {
+      "to": "Ka ọ bụ"
+    },
+    "download": "Budata",
+    "deleteOneTitle": "Hichaa ozi a?",
+    "retrySend": "Nwaa ọzọ",
+    "discardSend": "Wepụ",
+    "shareKindGroup": "Ìgwè",
+    "shareKindCommunity": "Ụmụmụba",
+    "searchDiscover": {
+      "people": "Ndị mmadụ",
+      "communities": "Obodo",
+      "members": "{{n}} ndị otu",
+      "newChat": "Mkparịta ụka ọhụrụ",
+      "invite": "Kpọrọ oku"
+    }
   },
   "editPost": {
     "mediaPermission": "Achọrọ ikike ọbá ihe ọkiri",
@@ -10554,7 +10695,10 @@
       "hint": "Na-atụgharị okwu ka ọ bụrụ ndepụta nwere oge ị nwere ike ịgbanwe ụdị ya. Ọ na-arụ ọrụ na ngwaọrụ gị: n'efu na nzuzo. Ojiji mbụ na-ebudata ụdị ahụ.",
       "done": "Etinyere ndepụta {{count}}.",
       "noSpeech": "Ahụghị okwu ọ bụla na klip a.",
-      "failed": "Enweghị ike ịmepụta ndepụta maka klip a."
+      "failed": "Enweghị ike ịmepụta ndepụta maka klip a.",
+      "styles": {
+        "bold": "Gbaa ọkpụrụkpụ"
+      }
     },
     "app": {
       "newDesign": "Nhazi ọhụrụ",
@@ -10804,7 +10948,9 @@
       "suggestTitle": "Tinye aha buru ibu n'elu na obere aha n'okpuru ya",
       "undo": "Kagharịa",
       "openGenerator": "Lelee ma mepụta",
-      "working": "Ọ na-arụ ọrụ…"
+      "working": "Ọ na-arụ ọrụ…",
+      "stop": "Kwụsị",
+      "queue": "Tinye na ndepụta"
     },
     "brand": {
       "stylesSaved": "Ụdị ika echekwara na nhazi a",
@@ -10941,7 +11087,9 @@
       "rendering": "Na-emepụta vidio… {{percent}}%",
       "mp4": "Vidio MP4",
       "exportHint": "Hapụ ihe ndezi ahụ ka ọ ghere oghe mgbe a na-emepụta vidio gị.",
-      "tooLarge": "Faịlụ ahụ buru ibu nke ukwuu maka ihe ndezi. Oke ya bụ 400 MB."
+      "tooLarge": "Faịlụ ahụ buru ibu nke ukwuu maka ihe ndezi. Oke ya bụ 400 MB.",
+      "tZoomIn": "Zúùmù n 'ime",
+      "tZoomOut": "Zúùmù pụta"
     },
     "motion": {
       "title": "Mmegharị",
@@ -12120,6 +12268,28 @@
       "pan": "Pan ákwà",
       "selection": "Nhọrọ",
       "zoomOut": "Zúùmù ákàrà pụọ"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Ntughari",
+      "add": "Tinye",
+      "scale": "Ụhara",
+      "color": "Agba",
+      "light": "Ìhè"
+    },
+    "clipFix": {
+      "listening": "Na-ege ntị..."
+    },
+    "voiceClone": {
+      "stop": "Kwụsị ndekọ",
+      "failed": "The cloning usoro bụ kụrụ afọ n 'ala."
+    },
+    "linkImport": {
+      "go": "Bubata",
+      "downloading": "Na-edownload {{percent}}%"
+    },
+    "reverse": {
+      "action": "Ntugharị"
     }
   },
   "creator": {
@@ -12581,7 +12751,29 @@
     "referenceProductName": "Tinye ngwaahịa gị n 'ime mkpachị",
     "referenceProductHint": "Nkọrọ ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ",
     "referenceComposeName": "Combine reference images",
-    "referenceComposeHint": "Nkọrọ ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ"
+    "referenceComposeHint": "Nkọrọ ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ nke ụlọ ụlọ",
+    "marketing": {
+      "import": {
+        "use": "Jiri nkọwa ndị a"
+      }
+    },
+    "batchCount": "Onyonyo",
+    "endFrame": "Mechie etiti",
+    "cinema": {
+      "close": "Mechie",
+      "performance": {
+        "label": "Arụmọrụ"
+      }
+    },
+    "audioNoSpeech": "Ahụghị okwu ọ bụla na ndekọ ahụ.",
+    "audioTaskSpeechLabel": "Okwu",
+    "audioTaskDialogueLabel": "Dialọ́ọ̀gụ̀",
+    "audioTaskSfxLabel": "Sound mmetụta",
+    "audioTaskIsolateLabel": "Hichaa",
+    "priceFreeRateLimited": "Free · ọnụego ịgba emetụta",
+    "dialogueFormat": "Dee ebe ahụ dịka \"Aha: akara\", otu onye na-ekwu okwu n 'ahịrị ọ bụla.",
+    "fileTooLarge": "Faịlụ ahụ karịrị 100 MB. Jiri nke dị mkpụmkpụ ma ọ bụ nke pere mpe.",
+    "signInToGenerate": "Banye n 'ime ka n' ịwa."
   },
   "fractions": {
     "title": "Òkè",
@@ -14650,6 +14842,19 @@
       "intro": "Ndị na-ekiri na-enweta isi ihe maka ọ bụla nkeji ha na-ekiri gị na otu maka ọ bụla 100 akara ha na-enye. Okwu na mmeghachi ụka adịghị enweta ihe ọ bụla, ya mere isi ihe enweghị ike ịkụ.",
       "empty": "Enweghị isi ihe ka ugbu a. Ha na-akupụta ka ndị na-ekiri na-enye.",
       "widgetHint": "Tinye Ndị na-akwadebe widget iji gosipụta ndepụta a na ọkwa."
+    },
+    "destinations": {
+      "platform": "Ikpo okwu",
+      "label": "Aha (nhọrọ)",
+      "key": "Igodo ntinye",
+      "save": "Tinye",
+      "cancel": "Kagbuo",
+      "states": {
+        "off": "Gbanyụọ",
+        "idle": "Ọ dị njikere",
+        "live": "Na ndụ",
+        "error": "Mmehi"
+      }
     }
   },
   "liveChatModeration": {
@@ -14742,7 +14947,70 @@
     "days": "{{count}} days",
     "spotlightForSale": "Ọ dị ka ụgbọrọ n'ụzọ a",
     "spotlightNew": "Just minted",
-    "buyFor": "Nweta n'anya n'{{price}}"
+    "buyFor": "Nweta n'anya n'{{price}}",
+    "actAll": "Ha niile",
+    "actListings": "Ndepụta",
+    "actOffer": "Nnukwu ọnụ ahịa",
+    "actOffers": "Onyinye ọnụahịa",
+    "actSales": "Ahịa",
+    "tabActivity": "Mmemme",
+    "allChains": "Ihe niile",
+    "newest": "Ọhụrụ",
+    "cheapest": "Ọnụahịa kacha ala",
+    "soldFor": "Erere",
+    "signIn": "Banye",
+    "share": "Ekekọrịta",
+    "noneForSale": "Ọ dịghị ihe maka ire ma",
+    "noSales": "Enweghị ere na mbụ",
+    "tabBrowse": "Chọgharịa",
+    "tabMine": "Gị",
+    "tabSales": "Ahịa",
+    "cancelled": "Kagbuo",
+    "sold": "Erere",
+    "listed": "E depụtara maka ire ere",
+    "feeRow": "Riftn ego ({{pct}}%)",
+    "royaltyRow": "Okike eze",
+    "youGet": "Ndè ọ dị ọzọ.",
+    "holderGets": "Catalog +2 werwwerwwerw",
+    "loading": "Na-ebunye…",
+    "price": "Ọnụ ahịa",
+    "seller": "Onye na-ere",
+    "tabRecent": "Ọhụrụ",
+    "buyNow": "Zụọ ugbu a",
+    "offers": "Nnukwu ọnụ ahịa",
+    "cancel": "Oge Ọchụkwụ",
+    "accept": "Tanụ",
+    "signInToTrade": "Banye iji azụ ahịa",
+    "listForSale": "Depụta maka ere",
+    "makeOffer": "Mee onyinye",
+    "sendOffer": "Izu aka na mma",
+    "back": "Azụ",
+    "dropsTo": "Ọnụ ahịa na-ebelata na {{price}} site na {{date}}",
+    "inBundle": "Ere dị ka ngwugwu nke {{n}}",
+    "trending": "Nzukọ ndị na-efe efe",
+    "floor": "Ala",
+    "listedCount": "{{n}} maka ire",
+    "thisCollection": "Nzukọ a",
+    "collectionOffer": "Onyinye na ọbụla",
+    "showAll": "Gosi niile",
+    "filters": "Nchọgharị",
+    "forSale": "Maka ire",
+    "openToOffers": "Mepee maka onyinye",
+    "freshMints": "Ọhụrụ site n'aka ndị okike Riftn",
+    "offersOpen": "Mepee maka onyinye",
+    "mintedCount": "{{n}} emere",
+    "anyInCollection": "Ọ bụla na nchịkọta",
+    "thisNft": "Eze NFT",
+    "priceAlert": "Ịdọ aka n'ụkwụ ọnụ ahịa",
+    "alertUnder": "Gwa m mgbe edepụtara na ma ọ bụ n 'okpuru ({{symbol}}, nhọrọ)",
+    "turnOnAlert": "Wepụ Alert",
+    "alertSaved": "Ịdọ aka n'ụkwụ. Aga m agwa gị mgbe otu a bụ ndị na-ere.",
+    "priceDrop": "Price tụlee karịrị oge",
+    "endPrice": "Ọnụahịa kachasị ala, ruru na njedebe ({{symbol}})",
+    "dropBadge": "Mbibi ọnụahịa",
+    "days_one": "{{count}} ụbọchị",
+    "days_other": "{{count}} ụbọchị",
+    "sellYoursHint": "Depụta site n'aka akpa gị"
   },
   "reel": {
     "readAll": "Gụọ ihe niile",
@@ -14849,5 +15117,244 @@
     "newer": "Nsonaazụ ọhụrụ",
     "gone": "Ozi ahụ adịghị ebe a ọzọ",
     "theirMessages": "Ozi ha"
+  },
+  "chatTextSize": {
+    "title": "Ogo ederede",
+    "default": "Dìfọ́ọ̀ltụ",
+    "larger": "Ka ibu"
+  },
+  "remix": {
+    "cut": "Bee"
+  },
+  "signedFollows": {
+    "setUp": "Gbanwuo",
+    "efpTurnOff": "Kwụsị"
+  },
+  "postEditHistory": {
+    "original": "Nke mbụ"
+  },
+  "studioDeck": {
+    "remove": "Wepụ",
+    "background": {
+      "title": "Ndabere",
+      "modes": {
+        "none": "Gbanyụọ",
+        "blur": "Enweghị nkọ",
+        "color": "Ụcha"
+      }
+    },
+    "scenes": {
+      "countdown": "Ịgụ ọnụ ala",
+      "minutes": "{{count}} nkeji",
+      "names": {
+        "starting": "Ọ ga-amalite n'oge na-adịghị anya"
+      }
+    },
+    "widgets": {
+      "tab": "Ihe ngosi"
+    },
+    "sources": {
+      "image": "Inyogo",
+      "show": "Igosi na ọsọ",
+      "positions": {
+        "center": "Center"
+      },
+      "sizes": {
+        "medium": "Ọkara"
+      }
+    },
+    "phone": {
+      "title": "Stụdiyo"
+    }
+  },
+  "whenSheet": {
+    "today": "Taa",
+    "tooSoon": "Họrọ oge n'ọdịnihu.",
+    "show": "Gosi",
+    "hide": "Zobe"
+  },
+  "planned": {
+    "title": "Atụmatụrụ",
+    "all": "Ha niile",
+    "posts": "Ozi",
+    "stages": "Ọnụ ụlọ olu",
+    "post": "Zipu",
+    "live": "Na ndụ",
+    "stage": "Ọkwa",
+    "untitledPost": "Zipu",
+    "untitledLive": "Na ndụ",
+    "loading": "Na-edebata...",
+    "startNow": "Malite ugbu a",
+    "cancel": "Kagbuo",
+    "cancelled": "Akagbuola"
+  },
+  "welcome": {
+    "about": {
+      "title": "Nnọọ na Riftn",
+      "day": "Ụbọchị",
+      "month": "Ọnwa",
+      "year": "Afọ"
+    },
+    "name": {
+      "title": "Aha gị",
+      "placeholder": "Aha gị"
+    },
+    "card": {
+      "name": "Aha gị",
+      "followers": "na-eso ụzọ"
+    },
+    "topic": {
+      "music": "Egwu",
+      "art": "Nka",
+      "gaming": "Egwuregwu",
+      "sports": "Egwuregwu",
+      "comedy": "Ihe ọchị",
+      "film": "Igwe onye na ihe nkiri",
+      "food": "Nri",
+      "news": "Akụkọ",
+      "science": "Sayensị"
+    },
+    "back": "Laghachi",
+    "skipPhoto": "Kwụpụ maka UGBU A",
+    "preview": "Ịhụchalụ"
+  },
+  "appTokens": {
+    "title": "Tokens gị",
+    "history": "Akụkọ",
+    "noHistory": "Enweghị ọrụ ma",
+    "kindDeposit": "Tụnye ego",
+    "to": "Ka ọ bụ",
+    "amount": "Ego",
+    "notePlaceholder": "Tinye ozi (nhọrọ)",
+    "sendButton": "Ziga",
+    "errorInsufficient": "Tokens ezughị"
+  },
+  "avatarPrompt": {
+    "notNow": "Ọ bụghị ugbu a"
+  },
+  "postStats": {
+    "audience": "Ndị na-ege ntị",
+    "engagement": "Ntinye aka",
+    "finished": "Emechaala",
+    "members": "Ndị otu",
+    "membersLower": "ndị otu",
+    "newFollowers": "New na-eso ụzọ",
+    "noBadge": "Enweghị baajị",
+    "people": "Ndị mmadụ",
+    "plays": "Egwuruegwu",
+    "quotes": "nhota",
+    "reposts": "Ozi ebiputara ọzọ",
+    "saved": "Echekwara",
+    "shares": "Kesaa",
+    "signedOutViewers": "Ịpụọ",
+    "topSupporters": "Top akwado",
+    "visitors": "Ịpụọ"
+  },
+  "duet": {
+    "policyEveryone": "Onye ọ bụla",
+    "policyFollowers": "Ndị na-eso",
+    "policyNobody": "Ọ dịghị onye",
+    "loadMore": "Bughachite ọzọ",
+    "video": "Vidio"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Onye ọ bụla",
+      "followers": "Ndị na-eso",
+      "nobody": "Ọ dịghị onye"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Onye ọ bụla",
+      "followers": "Ndị na-eso",
+      "nobody": "Ọ dịghị onye"
+    },
+    "heading": "Mmetụta",
+    "more": "Igbo:",
+    "liveNow": "Na ndụ",
+    "untitled": "Mmeghachi omume"
+  },
+  "liveClips": {
+    "copyLink": "Detuo njikọ",
+    "linkCopied": "Edebata ụzọ njikọ"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Atụmatụ",
+      "howMany": "Ole",
+      "who": "Aha njirimara ma ọ bụ adreesị obere akpa",
+      "whoPlaceholder": "@ahanjirimara",
+      "cancel": "Kagbuo",
+      "stage": {
+        "preparing": "Na-akwado…",
+        "confirming": "Na-eche azụmahịa…",
+        "recording": "Na-emecha…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Ndị ọzọ",
+    "confirming": "Na-akwado ịkwụ ụgwọ..."
+  },
+  "liveShorts": {
+    "live": "NA-EBI EBI"
+  },
+  "feedFilters": {
+    "clearAllShort": "Hichapụ ihe niile",
+    "done": "Emela",
+    "edit": "Dezie",
+    "groupDate": "Ụbọchị",
+    "groupSort": "Hazie",
+    "groupType": "Ụdị",
+    "save": "Chekwaa"
+  },
+  "ownKeys": {
+    "working": "Na-arụ ọrụ",
+    "failed": "O nwere ihe mebiri. Gbalịa ọzọ.",
+    "check": "Lelee",
+    "remove": "Wepụ",
+    "save": "Chekwaa",
+    "cancel": "Kagbuo"
+  },
+  "postBg": {
+    "none": "Ọ dịghị ihe",
+    "yours": "Gị",
+    "accent": "Akara ụda",
+    "names": {
+      "lava": "Lava Oriọna",
+      "snow": "Nkpọrụ ụlọ mma"
+    }
+  },
+  "articleTile": {
+    "cover": "Mkpuchi"
+  },
+  "aiConsent": {
+    "allow": "Kwe"
+  },
+  "dmRequests": {
+    "title": "Arịrịọ",
+    "accept": "Nabata",
+    "delete": "Hichapụ",
+    "block": "Gbochi"
+  },
+  "dmSchedule": {
+    "view": "Hụ",
+    "edit": "Gbanwee",
+    "editLabel": "Dezie ozi",
+    "error": "Nke ahụ arụghị ọrụ. Gbalịa ọzọ."
+  },
+  "chatBulk": {
+    "selected": "{{count}} ahọpụtara",
+    "cancel": "Kagbuo",
+    "reply": "Zaghachi",
+    "delete": "Hichapụ"
+  },
+  "msgSelect": {
+    "selected": "{{count}} ahọpụtara",
+    "copy": "Detuo",
+    "forward": "Zigaa",
+    "deleted_one": "Ehichapụrụ {{count}} ozi",
+    "deleted_other": "Ehichapụrụ {{count}} ozi"
   }
 }

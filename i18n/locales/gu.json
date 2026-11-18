@@ -1,6 +1,11 @@
 {
   "comic": {
-    "showAll": "બધા {{count}} પાનાં બતાવો"
+    "showAll": "બધા {{count}} પાનાં બતાવો",
+    "tab": "કોમિક",
+    "title": "કોમિક",
+    "editor": {
+      "cover": "કવર"
+    }
   },
   "comicBorder": {
     "title": "બોર્ડર",
@@ -2608,7 +2613,14 @@
     "cbade2afaee2": "આ અઠવાડિયે ઓડિયસ પર ટ્રેન્ડિંગ. ઉપયોગ કરવા માટે મફત, કલાકારને તમારી પોસ્ટ પર શ્રેય આપવામાં આવે છે.",
     "d2e45b7406fc": "વિકિમીડિયા કોમન્સમાંથી પબ્લિક ડોમેન અને ક્રિએટિવ કોમન્સ સંગીત. તમારી પોસ્ટ પર કલાકારને શ્રેય આપવામાં આવે છે.",
     "d0c1a3684775": "ગીતો લોડ થયાં નથી. થોડી વારમાં ફરી પ્રયાસ કરો.",
-    "d14064f80f52": "સાઉન્ડ ઉમેરો"
+    "d14064f80f52": "સાઉન્ડ ઉમેરો",
+    "71988c4d8e08": "ટેક્સ્ટ",
+    "147170e793c6": "વિશાળ",
+    "481859b689b0": "તમારું કનેક્શન તપાસો અને ફરીથી પ્રયાસ કરો.",
+    "57e2faa5ec63": "Riftn માં શોધો",
+    "7db20897053b": "લોકો",
+    "96d7bff86b44": "શોધ લોડ થઈ શકી નથી",
+    "d8b8392e2c54": "ફરીથી પ્રયાસ કરો"
   },
   "dehubLinks": {
     "kind": {
@@ -2685,7 +2697,8 @@
       "location": "સ્થાન",
       "custom": "કસ્ટમ",
       "customOption": "કસ્ટમ લેબલ"
-    }
+    },
+    "placeholderPronouns": "તેઓ/તેમને"
   },
   "notificationFilters": {
     "title": "આમની સૂચનાઓ ફિલ્ટર કરો",
@@ -2856,7 +2869,8 @@
       "quote": "કોટ",
       "bullets": "બુલેટ યાદી",
       "numbers": "નંબરવાળી યાદી",
-      "link": "લિંક"
+      "link": "લિંક",
+      "image": "ઇમેજ જોડો"
     }
   },
   "storefront": {
@@ -3794,7 +3808,11 @@
     "payViaDpay": "Riftn Pay ને ચૂકવેલ, ટોકન્સ લગભગ 30 સેકન્ડમાં આવે છે",
     "payViaBridgeDpay": "Base પર ખસેડવામાં આવ્યું અને Riftn Pay ને ચૂકવેલ, ટોકન્સ લગભગ એક મિનિટમાં આવે છે",
     "tokensUnit": "ટોકન્સ",
-    "tokenAmount": "{{amount}} ટોકન્સ"
+    "tokenAmount": "{{amount}} ટોકન્સ",
+    "addMessage": "સંદેશ ઉમેરો (વૈકલ્પિક)",
+    "messagePublic": "જાહેર",
+    "railTitle": "ટિપ્સ",
+    "railTotal": "{{amount}} ટોકન્સ"
   },
   "postOptions": {
     "skippableSections": "અવગણી શકાય તેવા વિભાગો",
@@ -4522,7 +4540,11 @@
       "hereNamed": "{{name}} એ \"{{community}}\" માં દરેકને મેસેજ કર્યો"
     },
     "badgeLoanDropped": "તમે હવે તમારો {{tier}} બેજ {{name}} ને ઉધાર આપી શકશો નહીં",
-    "tokenAmount": "{{amount}} ટોકન્સ"
+    "tokenAmount": "{{amount}} ટોકન્સ",
+    "groupNew": "નવું",
+    "groupToday": "આજે",
+    "groupThisWeek": "આ અઠવાડિયું",
+    "searchClose": "શોધ બંધ કરો"
   },
   "leaderboard": {
     "title": "લીડરબોર્ડ",
@@ -4714,7 +4736,18 @@
     "attachmentTooLarge": "દરેક ફાઇલ 50MB થી ઓછી હોવી જોઈએ",
     "deleteCommentA11y": "ટિપ્પણી કાઢી નાખો",
     "sendCommentA11y": "ટિપ્પણી મોકલો",
-    "requestOptions": "વિનંતી વિકલ્પો"
+    "requestOptions": "વિનંતી વિકલ્પો",
+    "deviceInfoNoErrors": "કંઈ નહીં",
+    "topBuilders": {
+      "month": "આ મહિનો",
+      "allTime": "બધા સમયે",
+      "shipped": "શિપ થયેલ",
+      "votes": "મત",
+      "comments": "ટિપ્પણીઓ",
+      "showLess": "ઓછું બતાવો",
+      "viewProfile": "પ્રોફાઇલ જુઓ",
+      "you": "તમે"
+    }
   },
   "auth": {
     "loginRequired": "લૉગ ઇન જરૂરી",
@@ -4975,7 +5008,20 @@
       "votes_other": "{{value}} વોટ્સ",
       "members_one": "{{value}} મેમ્બર",
       "members_other": "{{value}} મેમ્બર્સ"
-    }
+    },
+    "articleShort": "લેખ",
+    "articleMinRead": "{{count}} min વાંચ્યું",
+    "pinnedShort": "પિન કરેલું",
+    "post": "પોસ્ટ",
+    "arrange": {
+      "saving": "સાચવી રહ્યું છે..."
+    },
+    "reserve": {
+      "signIn": "સાઇન ઇન"
+    },
+    "tabLikes": "લાઇક્સ",
+    "likesEmptyTitle": "હજુ સુધી કોઈ લાઇક નથી",
+    "likesPrivateTitle": "લાઇક્સ ખાનગી છે"
   },
   "tv": {
     "title": "TV",
@@ -5491,6 +5537,9 @@
       "action": "ક્રિયા",
       "schedule": "શેડ્યૂલ",
       "filter": "પ્રવૃત્તિ ફિલ્ટર કરો"
+    },
+    "welcome": {
+      "text": "સ્વાગત સંદેશ"
     }
   },
   "hero": {
@@ -5572,7 +5621,16 @@
     "nowPublic": "પ્રવાહ હવે સાર્વજનિક છે",
     "openCanvas": "કેનવાસ ખોલો",
     "playVideo": "વિડિઓ ચલાવો",
-    "signInToSee": "તમારા એકાઉન્ટ પર પ્રવાહ જોવા માટે સાઇન ઇન કરો."
+    "signInToSee": "તમારા એકાઉન્ટ પર પ્રવાહ જોવા માટે સાઇન ઇન કરો.",
+    "newNativeFlow": "નવો પ્રવાહ",
+    "model": "મોડેલ",
+    "aspectRatio": "આસ્પેક્ટ રેશિયો",
+    "duration": "સેકન્ડમાં સમય",
+    "resolution": "રિઝોલ્યુશન",
+    "disconnect": "ડિસ્કનેક્ટ કરો",
+    "payAndRun": "ચૂકવણી કરો અને ચલાવો",
+    "run": "ચલાવો",
+    "handlePrompt": "પ્રોમ્પ્ટ"
   },
   "loginModal": {
     "title": "લૉગ ઇન",
@@ -5892,7 +5950,8 @@
     "searchMenu": "મેનૂ શોધો",
     "clearSearch": "શોધ સાફ કરો",
     "noMenuMatches": "મેનૂમાં કંઈ મેળ ખાતું નથી",
-    "searchDehubFor": "Riftn પર \"{{query}}\" શોધો"
+    "searchDehubFor": "Riftn પર \"{{query}}\" શોધો",
+    "requestSend": "વિનંતી મોકલો"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6511,7 +6570,11 @@
       "copied": "સંદેશની નકલ કરવામાં આવી",
       "copyText": "ટેક્સ્ટની નકલ કરો",
       "mutedUntil": "તમે {{date}} સુધી મૌન છો",
-      "slowMode": "ધીમો મોડ: દરેક {{interval}} પર એક સંદેશ"
+      "slowMode": "ધીમો મોડ: દરેક {{interval}} પર એક સંદેશ",
+      "joined": "{{name}} જોડાયા",
+      "reactions": "પ્રતિક્રિયાઓ",
+      "photoTooLarge": "છબી 10MB કરતાં ઓછી હોવી જોઈએ",
+      "aiAdminFailed": "એઆઈ એડમિન પ્રત્યાક્ષ કર્યું"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6714,6 +6777,32 @@
       "notFound": "આ ઇન્વાઇટ લિંક ખરેખર નથી.",
       "requestToJoin": "જોડાવાની માંગ",
       "approvalNote": "એક એડમિનને તમારી જોડાણની માંગણી પર મંજૂરી આપવી જરૂરી છે."
+    },
+    "buyAlert": {
+      "spent": "ખર્ચ:",
+      "buyer": "ખરીદનાર:",
+      "txn": "ટેક્સ્ન",
+      "balance": "સંતુલન:",
+      "price": "કિંમત:",
+      "marketCap": "માર્કેટ કેપ:"
+    },
+    "newChat": {
+      "public": "જાહેર",
+      "private": "ખાનગી",
+      "free": "મફત",
+      "paid": "ચૂકવેલ",
+      "group": "જૂથ"
+    },
+    "holderGate": {
+      "chain": "ચેઇન",
+      "which": "ટોકન",
+      "tab": "ધારકો"
+    },
+    "automod": {
+      "bannedWords": "બનાવેલા શબ્દો",
+      "floodMax": "{{count}} સંદેશાઓ",
+      "saved": "સેવ કરેલ",
+      "wordCount": "{{count}} શબ્દો"
     }
   },
   "work": {
@@ -7835,7 +7924,10 @@
       "doneAll": "{{done}} એકાઉન્ટ્સને અનુસર્યા ન હતા જે તમને પાછા ફોલો કરતા ન હતા.",
       "doneSome": "અનફોલો કરેલ {{done}} એકાઉન્ટ્સ. {{failed}} ને અનફોલો કરી શકાયું નહીં.",
       "doneToast": "અનફોલો કરેલ {{done}} એકાઉન્ટ્સ તમને પાછા ફોલો કરતા નથી"
-    }
+    },
+    "followBackConfirm": "પાછા અનુસરો",
+    "followBackNotNow": "હમણાં નહીં",
+    "followBackDone": "પૂર્ણ"
   },
   "reactionInfo": {
     "title": "પ્રતિક્રિયાઓ",
@@ -8755,7 +8847,38 @@
     "coverFrames": "કવર ફ્રેમ પસંદ કરો",
     "coverFrame": "ફ્રેમ {{index}} ને કવર તરીકે વપરાવો",
     "uploadCover": "કવર ચિત્ર ઉપલોડ કરો",
-    "editFailed": "એડિટ કરવામાં આવ્યું ન શક્યું. ફરીથી પ્રયાસ કરો."
+    "editFailed": "એડિટ કરવામાં આવ્યું ન શક્યું. ફરીથી પ્રયાસ કરો.",
+    "altPlaceholderVideo": "આ વિડિઓનું વર્ણન કરો",
+    "preview": {
+      "title": "પ્રિવ્યુ"
+    },
+    "recent": {
+      "all": "બધા"
+    },
+    "studio": {
+      "crop": "ક્રોપ કરો",
+      "draw": "દોરો",
+      "light": "લાઇટ",
+      "contrast": "વિરોધાભાસ",
+      "warmth": "હૂંફ",
+      "colour": "રંગ",
+      "fade": "ફેડ",
+      "original": "ઓરિજિનલ",
+      "ratioOriginal": "ઓરિજિનલ",
+      "ratioFree": "મફત",
+      "rotate": "ફેરવો",
+      "strength": "તકત",
+      "stickers": "સ્ટીકરો",
+      "ticker": "ટિકર",
+      "textBg": "પૃષ્ઠભૂમિ",
+      "font": {
+        "bold": "ઘાટા",
+        "serif": "સેરીફ",
+        "mono": "મોનો"
+      }
+    },
+    "edited": "સંપાદિત",
+    "edit": "સંપાદિત કરો"
   },
   "bounty": {
     "claimed": "મેળવ્યું",
@@ -9049,7 +9172,8 @@
     "justChatting": "ફક્ત વાતચીત",
     "noLiveStreams": "કોઈ લાઇવ સ્ટ્રીમ નથી",
     "noOneStreaming": "હમણાં કોઈ સ્ટ્રીમ કરી રહ્યું નથી. પછી ફરી જુઓ!",
-    "loadStreamsFailed": "સ્ટ્રીમ લોડ થઈ શકી નહીં. ફરી પ્રયાસ કરો."
+    "loadStreamsFailed": "સ્ટ્રીમ લોડ થઈ શકી નહીં. ફરી પ્રયાસ કરો.",
+    "liveBadge": "લાઇવ"
   },
   "liveShop": {
     "title": "આ સ્ટ્રીમમાંથી ખરીદો",
@@ -9362,7 +9486,23 @@
     "paymentSentWith": "{{amount}} સાથે મોકલાયું",
     "planRestricted": "આ વપરાશકર્તાને સંદેશા મેળવવા માટે સબ્સ્ક્રિપ્શન જરૂરી છે.",
     "planTypeNotAllowed": "આ ક્રિએટરનો પ્લાન આ પ્રકારના સંદેશાની મંજૂરી આપતો નથી.",
-    "planMinTip": "આ ક્રિએટર માટે ટિપ ઓછામાં ઓછી {{amount}} ટોકન્સ હોવી જોઈએ."
+    "planMinTip": "આ ક્રિએટર માટે ટિપ ઓછામાં ઓછી {{amount}} ટોકન્સ હોવી જોઈએ.",
+    "newDrawer": {
+      "to": "સુધારો"
+    },
+    "download": "ડાઉનલોડ",
+    "deleteOneTitle": "આ સંદેશ કાઢી નાખો?",
+    "retrySend": "ફરી પ્રયાસ કરો",
+    "discardSend": "દૂર કરો",
+    "shareKindGroup": "જૂથ",
+    "shareKindCommunity": "કોમ્યુનિટી",
+    "searchDiscover": {
+      "people": "લોકો",
+      "communities": "સમુદાયો",
+      "members": "{{n}} સભ્યો",
+      "newChat": "નવી ચેટ",
+      "invite": "આમંત્રિત કરો"
+    }
   },
   "editPost": {
     "mediaPermission": "મીડિયા લાઇબ્રેરીની પરવાનગી જરૂરી છે",
@@ -10580,7 +10720,11 @@
       "hint": "બોલાયેલા શબ્દોને સમયબદ્ધ કૅપ્શનમાં ફેરવે છે, જેની સ્ટાઇલ તમે બદલી શકો છો. તમારા ડિવાઇસ પર ચાલે છે: મફત અને ખાનગી. પહેલી વાર ઉપયોગ કરતાં મૉડલ ડાઉનલોડ થાય છે.",
       "done": "{{count}} કૅપ્શન ઉમેર્યાં.",
       "noSpeech": "આ ક્લિપમાં કોઈ બોલી મળી નથી.",
-      "failed": "આ ક્લિપ માટે કૅપ્શન બનાવી શકાયાં નથી."
+      "failed": "આ ક્લિપ માટે કૅપ્શન બનાવી શકાયાં નથી.",
+      "styles": {
+        "bold": "બોલ્ડ",
+        "serif": "સેરીફ"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10650,7 +10794,8 @@
       "vibrant": "જીવંત",
       "cyber": "સાયબર",
       "invert": "ઊલટું",
-      "strength": "ફિલ્ટર સ્ટ્રેન્થ: {{value}}%"
+      "strength": "ફિલ્ટર સ્ટ્રેન્થ: {{value}}%",
+      "vhs": "વીએચએસ"
     },
     "layer": {
       "crop": "ક્રોપ કરો",
@@ -10830,7 +10975,9 @@
       "suggestTitle": "ઉપર મોટું બોલ્ડ ટાઇટલ અને તેની નીચે નાનું સબટાઇટલ ઉમેરો",
       "undo": "અનડૂ",
       "openGenerator": "સમીક્ષા કરો અને જનરેટ કરો",
-      "working": "કામ ચાલુ છે…"
+      "working": "કામ ચાલુ છે…",
+      "stop": "બંધ કરો",
+      "queue": "કતારમાં ઉમેરો"
     },
     "brand": {
       "addColor": "બ્રાન્ડ રંગ ઉમેરો",
@@ -10967,7 +11114,9 @@
       "rendering": "વીડિયો રેન્ડર થઈ રહ્યો છે… {{percent}}%",
       "mp4": "MP4 વીડિયો",
       "exportHint": "તમારો વીડિયો રેન્ડર થાય ત્યાં સુધી એડિટર ખુલ્લું રાખો.",
-      "tooLarge": "આ ફાઇલ એડિટર માટે ખૂબ મોટી છે. મર્યાદા 400 MB છે."
+      "tooLarge": "આ ફાઇલ એડિટર માટે ખૂબ મોટી છે. મર્યાદા 400 MB છે.",
+      "tZoomIn": "અંદર આવો",
+      "tZoomOut": "બહાર નીકળો"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12146,6 +12295,28 @@
       "selection": "અગ્રણી ખેડૂતની",
       "zoomIn": "ઝૂમ કેનવાસ ઇન કરો",
       "zoomOut": "કેનવાસને ઝૂમ આઉટ કરો"
+    },
+    "stage": {
+      "camera": "કેમેરા",
+      "yaw": "રોટેશન",
+      "add": "ઉમેરો",
+      "scale": "કદ",
+      "color": "રંગ",
+      "light": "લાઇટ"
+    },
+    "clipFix": {
+      "listening": "શ્રવણ કરવામાં છે…"
+    },
+    "voiceClone": {
+      "stop": "રેકોર્ડિંગ બંધ કરો",
+      "failed": "વોઇસ ક્લોનિંગ નિષ્ફળ રહ્યું."
+    },
+    "linkImport": {
+      "go": "ઇમ્પોર્ટ",
+      "downloading": "{{percent}}% ડાઉનલોડ કરી રહ્યું છે"
+    },
+    "reverse": {
+      "action": "ઉલટું"
     }
   },
   "creator": {
@@ -12607,7 +12778,32 @@
     "referenceProductName": "તમારું પ્રોડક્ટ ક્લિપમાં રાખો",
     "referenceProductHint": "મુખ્ય પ્રોડક્ટ બદલો અને મૂળ સ્થળ સંરક્ષિત રાખો.",
     "referenceComposeName": "સંદર્ભ છબીઓ જોડો",
-    "referenceComposeHint": "એક સંરચનામાં બહુતકલાકીય છબીઓમાંથી પાત્રો, વસ્તુઓ અને સ્થળાંતર લાવો."
+    "referenceComposeHint": "એક સંરચનામાં બહુતકલાકીય છબીઓમાંથી પાત્રો, વસ્તુઓ અને સ્થળાંતર લાવો.",
+    "marketing": {
+      "import": {
+        "use": "આ વિગતોનો ઉપયોગ કરો"
+      }
+    },
+    "batchCount": "છબીઓ",
+    "endFrame": "અંતિમ ફ્રેમ",
+    "cinema": {
+      "close": "બંધ કરો",
+      "performance": {
+        "label": "પ્રદર્શન"
+      }
+    },
+    "audioNoSpeech": "તે રેકોર્ડિંગમાં કોઈ અવાજ મળ્યો નથી.",
+    "audioTaskSpeechLabel": "ભાષણ",
+    "audioTaskDialogueLabel": "સંવાદ",
+    "audioTaskSfxLabel": "ધ્વનિ અસર",
+    "audioTaskVoiceChangerLabel": "વૉઇસ ચેન્જર",
+    "audioTaskTranscribeLabel": "લખાણ લખો",
+    "audioTaskIsolateLabel": "સાફ કરો",
+    "priceFreeRateLimited": "મફત · દર મર્યાદા લાગુ પડે છે",
+    "loop": "લૂપ",
+    "dialogueFormat": "સીનને \"Name: line\" ના રૂપમાં લખો, એક વક્તા પ્રતિ પંક્તિ.",
+    "fileTooLarge": "આ ફાઇલ 100 MB કરતા મોટી છે. એક નાનો અથવા ટૂંકો ફાઇલ વાપરો.",
+    "signInToGenerate": "જનરેટ કરવા માટે સાઇન ઇન કરો."
   },
   "fractions": {
     "title": "હિસ્સા",
@@ -14676,6 +14872,19 @@
       "intro": "દર્શકો તમને જુએ છે તે દરેક મિનિટ માટે પોઇન્ટ મેળવે છે અને તેઓ ભેટ આપે છે તે દરેક 100 ટોકન્સ માટે એક પોઇન્ટ મેળવે છે. ચેટ અને પ્રતિક્રિયાઓ કંઈ કમાતી નથી, તેથી પોઇન્ટ્સ ખેતી કરી શકાતા નથી.",
       "empty": "હજી સુધી કોઈ મુદ્દો નથી. લોકો જુએ છે અને ભેટ આપે છે તેમ તેઓ આગળ વધે છે.",
       "widgetHint": "સ્ટ્રીમ પર આ સૂચિ બતાવવા માટે વફાદાર દર્શકો વિજેટ ઉમેરો."
+    },
+    "destinations": {
+      "platform": "પ્લેટફોર્મ",
+      "label": "નામ (વૈકલ્પિક)",
+      "key": "સ્ટ્રીમ કી",
+      "save": "ઉમેરો",
+      "cancel": "રદ કરો",
+      "states": {
+        "off": "બંધ",
+        "idle": "તૈયાર",
+        "live": "લાઇવ",
+        "error": "ભૂલ"
+      }
     }
   },
   "liveChatModeration": {
@@ -14757,7 +14966,72 @@
     "days": "{{count}} દિવસો",
     "spotlightForSale": "હવે વેચાણ માટે",
     "spotlightNew": "હમણાં જ મિંટેડ",
-    "buyFor": "{{price}} માટે ખરીદો"
+    "buyFor": "{{price}} માટે ખરીદો",
+    "actAll": "બધા",
+    "actListings": "યાદીઓ",
+    "actOffer": "ઓફર",
+    "actOffers": "ઑફર",
+    "actSales": "વેચાણ",
+    "tabActivity": "પ્રવૃત્તિ",
+    "allChains": "બધી ચેઇનો",
+    "newest": "નવીનતમ",
+    "cheapest": "સૌથી ઓછી કિંમત",
+    "soldFor": "વેચાયેલ",
+    "signIn": "સાઇન ઇન",
+    "title": "NFT",
+    "share": "શેર કરો",
+    "noneForSale": "નાથિંગ ફોર સેલ યેટ",
+    "noSales": "હજુ સુધી કોઈ વેચાણ નથી",
+    "tabBrowse": "બ્રાઉઝ કરો",
+    "tabMine": "તમારા",
+    "tabSales": "વેચાણ",
+    "cancelled": "રદ કરવામાં આવ્યું",
+    "sold": "વેચાયેલ",
+    "listed": "વેચાણમાં લિસ્ટેડ",
+    "feeRow": "ડીહબ ફી ({{pct}}%)",
+    "royaltyRow": "ક્રિએટર રોયલ્ટી",
+    "youGet": "તમે મેળવો",
+    "holderGets": "ધારક મેળવે",
+    "loading": "લોડ થઈ રહ્યું છે...",
+    "price": "કિંમત",
+    "seller": "વેચાણકાર",
+    "tabRecent": "તાજેતરના",
+    "buyNow": "હવે ખરીદો",
+    "offers": "ઓફર્સ",
+    "cancel": "રદ કરો",
+    "accept": "સ્વીકાર કરો",
+    "signInToTrade": "સાઇન ઇન કરો વેપાર કરવા માટે",
+    "listForSale": "વેચાણ માટે સૂચિબદ્ધ કરો",
+    "makeOffer": "ઓફર કરો",
+    "sendOffer": "ઓફર પેદા કરો",
+    "back": "પાછો",
+    "dropsTo": "કિંમત {{date}} સુધીમાં {{price}} પર ઘટે છે",
+    "inBundle": "{{n}} નું બંડલ તરીકે વેચાયું",
+    "trending": "ટ્રેન્ડિંગ કલેક્શન",
+    "floor": "ફ્લોર",
+    "listedCount": "વેચાણ માટે {{n}}",
+    "thisCollection": "આ સંગ્રહ",
+    "collectionOffer": "કોઈપણ પર ઓફર કરો",
+    "showAll": "બધા બતાવો",
+    "shortTitle": "NFT",
+    "filters": "ફિલ્ટર્સ",
+    "forSale": "વેચાણ માટે",
+    "openToOffers": "ઓફર માટે ખુલ્લું છે",
+    "freshMints": "Riftn ક્રિએટર્સ તરફથી તાજું",
+    "offersOpen": "ઓફર માટે ખુલ્લું છે",
+    "mintedCount": "{{n}} ટંકશાળવાળી",
+    "anyInCollection": "સંગ્રહમાં કોઈ પણ",
+    "thisNft": "આઈએનએફટી",
+    "priceAlert": "કિંમત સતર્કતા",
+    "alertUnder": "તમે તેને લિસ્ટ કરાયેલા હોવાનું ક્યારે જણાવો ({{symbol}}, વૈકલ્પિક)",
+    "turnOnAlert": "અલર્ટ ચાલુ કરો",
+    "alertSaved": "સતર્કતા ચાલુ છે. જ્યારે કોઈ સૂચિબદ્ધ હોય તો અમે તમને જણાવીશું.",
+    "priceDrop": "કાળક્રમે કિંમત ઘટે છે",
+    "endPrice": "ઘટતી કિંમત, અંતે પહોંચેલી નીચલી કિંમત ({{symbol}})",
+    "bundleBadge": "બંડલ ×{{n}}",
+    "dropBadge": "કિંમતમાં ઘટાડો",
+    "days_one": "{{count}} દિવસ",
+    "days_other": "{{count}} દિવસો"
   },
   "reel": {
     "readAll": "બધું વાંચો",
@@ -14779,7 +15053,11 @@
       "episode": "પોડકાસ્ટ એપિસોડ",
       "show": "પોડકાસ્ટ",
       "artist": "કલાકાર"
-    }
+    },
+    "loading": "લોડ થઈ રહ્યું છે...",
+    "paused": "અટકી ગયેલ",
+    "preview": "પ્રિવ્યુ",
+    "seek": "શોધ"
   },
   "twoFactor": {
     "wrongCode": "તે કોડ મેળ ખાતો નહોતો. તમારા એપમાં નવીનતમ પ્રયાસ કરો.",
@@ -14857,5 +15135,251 @@
     "newer": "નવું પરિણામ",
     "gone": "તે સંદેશ હવે અહીં નથી",
     "theirMessages": "તેમના સંદેશાઓ"
+  },
+  "chatTextSize": {
+    "title": "ટેક્સ્ટનું કદ",
+    "default": "મૂળભૂત",
+    "larger": "મોટું"
+  },
+  "remix": {
+    "cut": "કાપો"
+  },
+  "signedFollows": {
+    "setUp": "ચાલુ કરો",
+    "turnOff": "બંધ કરો",
+    "efpTurnOff": "બંધ કરો"
+  },
+  "postEditHistory": {
+    "original": "મૂળ"
+  },
+  "studioDeck": {
+    "remove": "દૂર કરો",
+    "background": {
+      "title": "પૃષ્ઠભૂમિ",
+      "modes": {
+        "none": "બંધ",
+        "blur": "ઝાંખું",
+        "color": "રંગ"
+      }
+    },
+    "scenes": {
+      "countdown": "કાઉન્ટડાઉન",
+      "minutes": "{{count}} મિન",
+      "names": {
+        "starting": "ટૂંક સમયમાં શરૂ થશે"
+      }
+    },
+    "widgets": {
+      "tab": "વિજેટ્સ"
+    },
+    "sources": {
+      "image": "છબી",
+      "show": "સ્ટ્રીમ પર બતાવો",
+      "positions": {
+        "center": "કેન્દ્ર"
+      },
+      "sizes": {
+        "medium": "મધ્યમ"
+      }
+    },
+    "phone": {
+      "title": "સ્ટુડિયો"
+    }
+  },
+  "whenSheet": {
+    "today": "આજે",
+    "tooSoon": "ભવિષ્યમાં સમય પસંદ કરો.",
+    "show": "બતાવો",
+    "hide": "છુપાવો"
+  },
+  "planned": {
+    "title": "આયોજિત",
+    "all": "બધા",
+    "posts": "પોસ્ટ્સ",
+    "stages": "ઑડિયો રૂમ",
+    "post": "પોસ્ટ",
+    "live": "લાઇવ",
+    "stage": "સ્ટેજ",
+    "untitledPost": "પોસ્ટ",
+    "untitledLive": "લાઇવ",
+    "loading": "લોડ થઈ રહ્યું છે…",
+    "startNow": "હમણાં શરૂ કરો",
+    "cancel": "રદ કરો",
+    "cancelled": "રદ કરાયેલ"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn માં આપનું સ્વાગત છે",
+      "day": "દિવસ",
+      "month": "મહિનો",
+      "year": "વર્ષ"
+    },
+    "name": {
+      "title": "તમારું નામ",
+      "placeholder": "તમારું નામ"
+    },
+    "card": {
+      "name": "તમારું નામ",
+      "followers": "અનુયાયીઓ"
+    },
+    "topic": {
+      "music": "સંગીત",
+      "art": "કલા",
+      "gaming": "ગેમિંગ",
+      "crypto": "ક્રિપ્ટો",
+      "sports": "સ્પોર્ટ્સ",
+      "comedy": "કોમેડી",
+      "film": "ફિલ્મ",
+      "podcast": "પોડકાસ્ટ",
+      "food": "ખોરાક",
+      "news": "સમાચાર",
+      "science": "વિજ્ઞાન"
+    },
+    "back": "પાછા",
+    "skipPhoto": "હમણાં જ છોડી દો",
+    "preview": "પૂર્વાવલોકન"
+  },
+  "appTokens": {
+    "title": "તમારા ટોકન્સ",
+    "history": "ઇતિહાસ",
+    "noHistory": "હજી સુધી કોઈ પ્રવૃત્તિ નથી",
+    "kindDeposit": "ફંડ ઉમેરો",
+    "to": "સુધારો",
+    "amount": "રકમ",
+    "notePlaceholder": "નોંધ ઉમેરો (વૈકલ્પિક)",
+    "sendButton": "મોકલો",
+    "errorInsufficient": "પૂરતા ટોકન્સ નથી"
+  },
+  "avatarPrompt": {
+    "notNow": "હમણાં નહીં"
+  },
+  "postStats": {
+    "audience": "પ્રેક્ષક",
+    "engagement": "સગાઈ",
+    "finished": "પૂર્ણ",
+    "members": "સભ્યો",
+    "membersLower": "સભ્યો",
+    "newFollowers": "નવા અનુયાયીઓ",
+    "noBadge": "બેડ્જ નથી",
+    "people": "લોકો",
+    "plays": "નાટકો",
+    "quotes": "ક્વોટ્સ",
+    "reposts": "રિપોસ્ટ્સ",
+    "saved": "સેવ કરેલ",
+    "shares": "શેર્સ",
+    "signedOutViewers": "લૉગ આઉટ થયા",
+    "topSupporters": "ટોચના સમર્થકો",
+    "visitors": "લૉગ આઉટ થયા"
+  },
+  "duet": {
+    "policyEveryone": "બધા",
+    "policyFollowers": "ફોલોઅર્સ",
+    "policyNobody": "કોઈ નહીં",
+    "loadMore": "વધુ લોડ કરો",
+    "video": "વીડિયો"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "બધા",
+      "followers": "ફોલોઅર્સ",
+      "nobody": "કોઈ નહીં"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "બધા",
+      "followers": "ફોલોઅર્સ",
+      "nobody": "કોઈ નહીં"
+    },
+    "heading": "પ્રતિક્રિયાઓ",
+    "more": "અધિક દેખાવો",
+    "liveNow": "લાઇવ",
+    "untitled": "પ્રતિક્રિયા"
+  },
+  "liveClips": {
+    "copyLink": "લિંક કોપી કરો",
+    "linkCopied": "લિંક કૉપિ કરી"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "યોજના",
+      "howMany": "કેટલા",
+      "who": "વપરાશકર્તા નામ અથવા વૉલેટ સરનામું",
+      "whoPlaceholder": "@વપરાશકર્તાનામ",
+      "cancel": "રદ કરો",
+      "stage": {
+        "preparing": "તૈયારી થઈ રહી છે…",
+        "confirming": "વ્યવહારની રાહ જોવાઈ રહી છે…",
+        "recording": "પૂર્ણ થઈ રહ્યું છે…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "અન્ય",
+    "confirming": "ચુકવણીની પુષ્ટિ થઈ રહી છે..."
+  },
+  "liveShorts": {
+    "live": "લાઇવ"
+  },
+  "feedFilters": {
+    "clearAllShort": "બધા સાફ કરો",
+    "done": "પૂર્ણ",
+    "edit": "સંપાદિત કરો",
+    "groupDate": "તારીખ",
+    "groupSort": "ક્રમ",
+    "groupType": "પ્રકાર",
+    "save": "સાચવો"
+  },
+  "ownKeys": {
+    "working": "કાર્યરત",
+    "failed": "કંઈક ખોટું થયું. ફરીથી પ્રયાસ કરો.",
+    "check": "તપાસો",
+    "remove": "દૂર કરો",
+    "save": "સાચવો",
+    "cancel": "રદ કરો"
+  },
+  "postBg": {
+    "none": "કંઈ નહીં",
+    "yours": "તમારા",
+    "accent": "ઉચ્ચારણ",
+    "names": {
+      "aurora": "ઓરોરા",
+      "lava": "લાવા લેમ્પ",
+      "drive": "નાઇટ ડ્રાઇવ",
+      "chrome": "લિક્વિડ ક્રોમ",
+      "orbit": "ભ્રમણકક્ષા",
+      "snow": "બરફવર્ષા"
+    }
+  },
+  "articleTile": {
+    "cover": "કવર"
+  },
+  "aiConsent": {
+    "allow": "મંજૂરી આપો"
+  },
+  "dmRequests": {
+    "title": "ફીચર વિનંતીઓ",
+    "accept": "સ્વીકારો",
+    "delete": "કાઢી નાખો",
+    "block": "બ્લોક કરો"
+  },
+  "dmSchedule": {
+    "view": "જુઓ",
+    "edit": "સંપાદિત કરો",
+    "editLabel": "સંદેશમાં ફેરફાર કરો",
+    "error": "તે કામ કરતું નથી. ફરીથી પ્રયાસ કરો."
+  },
+  "chatBulk": {
+    "selected": "{{count}} પસંદ કરેલ",
+    "cancel": "રદ કરો",
+    "reply": "જવાબ",
+    "delete": "કાઢી નાખો"
+  },
+  "msgSelect": {
+    "selected": "{{count}} પસંદ કરેલ",
+    "copy": "કૉપિ કરો",
+    "forward": "ફોરવર્ડ કરો",
+    "deleted_one": "ડીલેટ કરેલા {{count}} મેસેજ",
+    "deleted_other": "ડીલેટ કરેલા {{count}} મેસેજ"
   }
 }

@@ -1,6 +1,11 @@
 {
   "comic": {
-    "showAll": "Shfaq të gjitha {{count}} faqet"
+    "showAll": "Shfaq të gjitha {{count}} faqet",
+    "tab": "Strip",
+    "title": "Strip",
+    "editor": {
+      "cover": "Kopertina"
+    }
   },
   "comicBorder": {
     "title": "Kornizë",
@@ -2608,7 +2613,14 @@
     "cbade2afaee2": "Trendimi këtë javë në Audius. E lirë për përdorim, artisti merr kredinë në postimin tuaj.",
     "d2e45b7406fc": "Muzika në domen publik dhe Creative Commons nga Wikimedia Commons. Artisti merr kredinë në postimin tuaj.",
     "d0c1a3684775": "Këngët nuk u ngarkuan. Provoni përsëri në një moment.",
-    "d14064f80f52": "Shto zërin"
+    "d14064f80f52": "Shto zërin",
+    "71988c4d8e08": "Teksti",
+    "147170e793c6": "E gjerë",
+    "481859b689b0": "Mirreni lidhjen dhe përsëritni.",
+    "57e2faa5ec63": "Kërko në Riftn",
+    "7db20897053b": "Njerëzit",
+    "96d7bff86b44": "Kërkimi nuk u arrit të ngarkohej",
+    "d8b8392e2c54": "Provo përsëri"
   },
   "dehubLinks": {
     "kind": {
@@ -2858,7 +2870,8 @@
       "quote": "Citim",
       "bullets": "Lista e plumbave",
       "numbers": "Lista E numrave",
-      "link": "Linku"
+      "link": "Linku",
+      "image": "Shtoni imazhe"
     }
   },
   "storefront": {
@@ -3796,7 +3809,11 @@
     "payViaDpay": "Paguar në Riftn Pay, tokenat mbërrijnë në rreth 30s",
     "payViaBridgeDpay": "Lëvizur në Base dhe paguar në Riftn Pay, tokenat mbërrijnë në rreth një minutë",
     "tokensUnit": "tokena",
-    "tokenAmount": "{{amount}} tokena"
+    "tokenAmount": "{{amount}} tokena",
+    "addMessage": "Shto një mesazh (me zgjedhje)",
+    "messagePublic": "Publik",
+    "railTitle": "Këshilla",
+    "railTotal": "{{amount}} tokena"
   },
   "postOptions": {
     "skippableSections": "Seksionet e kapërcyeshme",
@@ -4524,7 +4541,11 @@
       "here": "{{name}} u dërgoi mesazhe të gjithëve në komunitet",
       "hereNamed": "{{name}} u dërgoi mesazhe të gjithëve në “{{community}}”"
     },
-    "tokenAmount": "{{amount}} tokena"
+    "tokenAmount": "{{amount}} tokena",
+    "groupNew": "Të reja",
+    "groupToday": "Sot",
+    "groupThisWeek": "Këtë javë",
+    "searchClose": "Mbyll kërkimin"
   },
   "leaderboard": {
     "title": "Tabela e Liderëve",
@@ -4716,7 +4737,18 @@
     "attachmentTooLarge": "Çdo skedar duhet të jetë nën 50 MB",
     "deleteCommentA11y": "Fshi komentin",
     "sendCommentA11y": "Dergo",
-    "requestOptions": "Alternativat e kërkesës"
+    "requestOptions": "Alternativat e kërkesës",
+    "deviceInfoNoErrors": "Asnjë",
+    "topBuilders": {
+      "month": "Këtë muaj",
+      "allTime": "Gjatë gjithë kohës",
+      "shipped": "Realizuara",
+      "votes": "Votat",
+      "comments": "Komente",
+      "showLess": "Shfaq më pak",
+      "viewProfile": "Shfaq profilin",
+      "you": "Ju"
+    }
   },
   "auth": {
     "loginRequired": "Kërkohet hyrja",
@@ -4977,7 +5009,20 @@
       "votes_other": "{{value}} vota",
       "members_one": "{{value}} anëtar",
       "members_other": "{{value}} anëtarë"
-    }
+    },
+    "articleShort": "Artikull",
+    "articleMinRead": "{{count}} minuta leximi",
+    "pinnedShort": "E Fiksuar",
+    "post": "Posto",
+    "arrange": {
+      "saving": "Duke ruajtur..."
+    },
+    "reserve": {
+      "signIn": "Hyni"
+    },
+    "tabLikes": "Pëlqime",
+    "likesEmptyTitle": "Ende pa pëlqime",
+    "likesPrivateTitle": "Pëlqimet janë private"
   },
   "tv": {
     "title": "Televizor",
@@ -5493,6 +5538,9 @@
       "filter": "Filtroni aktivitetin",
       "liveNews": "Reago ndaj lajmeve aktuale gjatë jetës autonome",
       "useBuilder": "Përdor këto udhëzime"
+    },
+    "welcome": {
+      "text": "Mesazhi i mirëseardhjes"
     }
   },
   "hero": {
@@ -5574,7 +5622,16 @@
     "nowPublic": "Fluksi tani është publik",
     "openCanvas": "Hapni kanavacën",
     "playVideo": "Luaj videon",
-    "signInToSee": "Hyr për të parë rrjedhat në llogarinë tënde."
+    "signInToSee": "Hyr për të parë rrjedhat në llogarinë tënde.",
+    "newNativeFlow": "Rrjedhë e re",
+    "model": "Modeli",
+    "aspectRatio": "Raporti i pamjes",
+    "duration": "Kohëzimi në sekonda",
+    "resolution": "Rezolucioni",
+    "disconnect": "Shkëputu",
+    "payAndRun": "Paguaj dhe ekzekuto",
+    "run": "Ekzekuto",
+    "handlePrompt": "Kërkesa"
   },
   "loginModal": {
     "title": "Hyr",
@@ -5894,7 +5951,8 @@
     "searchMenu": "Kërko në meny",
     "clearSearch": "Pastro kërkimin",
     "noMenuMatches": "Asgjë në meny nuk përputhet",
-    "searchDehubFor": "Kërko „{{query}}” në Riftn"
+    "searchDehubFor": "Kërko „{{query}}” në Riftn",
+    "requestSend": "Dërgo kërkesë"
   },
   "comments": {
     "reportComment": "Raporto komentin",
@@ -6513,7 +6571,11 @@
       "copied": "Mesazhi u kopjua",
       "copyText": "Kopjo tekstin",
       "mutedUntil": "Je i heshtur deri në {{date}}",
-      "slowMode": "Modaliteti i ngadaltë: një mesazh çdo {{interval}}"
+      "slowMode": "Modaliteti i ngadaltë: një mesazh çdo {{interval}}",
+      "joined": "{{name}} u bashkua",
+      "reactions": "Reagimet",
+      "photoTooLarge": "Imazhi duhet të jetë më i vogël se 10MB",
+      "aiAdminFailed": "Admini i AI-ut nuk u përgjigj"
     },
     "manage": {
       "dismissAdminTitle": "Largo administratorin",
@@ -6716,6 +6778,31 @@
       "notFound": "Ky link i ftesës nuk është i vlefshëm.",
       "requestToJoin": "Kërko të bashkohesh",
       "approvalNote": "Një admin duhet ta miratojë kërkesën tënde para se të mund të regjistrohesh."
+    },
+    "buyAlert": {
+      "spent": "Shpenzimet:",
+      "buyer": "Blerësi:",
+      "balance": "Gjendja:",
+      "price": "Çmimi:",
+      "marketCap": "Kufiri i tregut:"
+    },
+    "newChat": {
+      "public": "Publik",
+      "private": "Privat",
+      "free": "Falas",
+      "paid": "Paguar",
+      "group": "GRUPI"
+    },
+    "holderGate": {
+      "chain": "Zinxhiri",
+      "which": "Shenjë",
+      "tab": "Mbajtëset"
+    },
+    "automod": {
+      "bannedWords": "Fjalë të banuara",
+      "floodMax": "Mesazhet e {{count}}-it",
+      "saved": "Ruajtur",
+      "wordCount": "{{count}} fjalët"
     }
   },
   "work": {
@@ -7837,7 +7924,10 @@
       "doneAll": "Ndërprerëra {{done}} llogaritë që nuk të ndjekin në kthim.",
       "doneSome": "Ndërprerëra {{done}} llogaritë. {{failed}} nuk u arrit të ndërprerë.",
       "doneToast": "Ndërprerëra {{done}} llogaritë që nuk të ndjekin në kthim"
-    }
+    },
+    "followBackConfirm": "Të ndjekë mbrapsht",
+    "followBackNotNow": "Jo tani",
+    "followBackDone": "U krye"
   },
   "reactionInfo": {
     "title": "Reagimet",
@@ -8757,7 +8847,37 @@
     "coverFrames": "Zgjidh një çadrë për mbulojë",
     "coverFrame": "Përdor çadrën {{index}} si mbulojë",
     "uploadCover": "Shto një imazh për mbulojë",
-    "editFailed": "Nuk mund të aplikojmë këtë redaktim. Pritni një herë."
+    "editFailed": "Nuk mund të aplikojmë këtë redaktim. Pritni një herë.",
+    "altPlaceholderVideo": "Përshkruaj këtë video",
+    "preview": {
+      "title": "Përshkrim"
+    },
+    "recent": {
+      "all": "Të gjitha"
+    },
+    "studio": {
+      "crop": "Prerja",
+      "draw": "Vizato",
+      "light": "E ndritshme",
+      "contrast": "Kontrasti",
+      "warmth": "Nxehtësia",
+      "colour": "Ngjyra",
+      "fade": "Faza",
+      "original": "Origjinal",
+      "ratioOriginal": "Origjinal",
+      "ratioFree": "Falas",
+      "rotate": "Rrotullo",
+      "strength": "Strengë",
+      "stickers": "Stickerë",
+      "ticker": "Tiker",
+      "textBg": "Sfondi",
+      "font": {
+        "bold": "I trashë",
+        "mono": "Një"
+      }
+    },
+    "edited": "E modifikuar",
+    "edit": "Redakto"
   },
   "bounty": {
     "claimed": "E marrë",
@@ -9051,7 +9171,8 @@
     "justChatting": "Thjesht bisedë",
     "noLiveStreams": "Nuk ka transmetime live",
     "noOneStreaming": "Askush nuk po transmeton tani. Kthehu më vonë!",
-    "loadStreamsFailed": "Transmetimet nuk u ngarkuan. Provo përsëri."
+    "loadStreamsFailed": "Transmetimet nuk u ngarkuan. Provo përsëri.",
+    "liveBadge": "DREJTPËRDREJT"
   },
   "liveShop": {
     "title": "Bli nga ky transmetim",
@@ -9364,7 +9485,23 @@
     "paymentSentWith": "Dërguar me {{amount}}",
     "planRestricted": "Ky përdorues kërkon abonim për të marrë mesazhe.",
     "planTypeNotAllowed": "Plani i këtij krijuesi nuk e lejon këtë lloj mesazhi.",
-    "planMinTip": "Bakshishi për këtë krijues duhet të jetë të paktën {{amount}} tokena."
+    "planMinTip": "Bakshishi për këtë krijues duhet të jetë të paktën {{amount}} tokena.",
+    "newDrawer": {
+      "to": "Deri"
+    },
+    "download": "Shkarko",
+    "deleteOneTitle": "Dëshiron ta fshish këtë mesazh?",
+    "retrySend": "Provo sërish",
+    "discardSend": "Hiq",
+    "shareKindGroup": "GRUPI",
+    "shareKindCommunity": "Komunitet",
+    "searchDiscover": {
+      "people": "Njerëz",
+      "communities": "Komunitetet",
+      "members": "{{n}} anëtarë",
+      "newChat": "Bisedë e re",
+      "invite": "Fto"
+    }
   },
   "editPost": {
     "mediaPermission": "Kërkohet leja për bibliotekën e medias",
@@ -10582,7 +10719,10 @@
       "hint": "E kthen të folurin në titra të sinkronizuara që mund t'i ristilosh. Punon në pajisjen tënde: falas dhe privat. Përdorimi i parë shkarkon modelin.",
       "done": "U shtuan {{count}} titra.",
       "noSpeech": "Nuk u gjet e folur në këtë klip.",
-      "failed": "Nuk u krijuan dot titra për këtë klip."
+      "failed": "Nuk u krijuan dot titra për këtë klip.",
+      "styles": {
+        "bold": "I guximshëm"
+      }
     },
     "app": {
       "newDesign": "Dizajn i ri",
@@ -10652,7 +10792,8 @@
       "vibrant": "I gjallë",
       "cyber": "Cyber",
       "invert": "Përmbys",
-      "strength": "Forca e filtrit: {{value}}%"
+      "strength": "Forca e filtrit: {{value}}%",
+      "vhs": "SHV"
     },
     "layer": {
       "crop": "Prerja",
@@ -10832,7 +10973,9 @@
       "suggestTitle": "Shto një titull të madh e të trashë lart dhe një nëntitull më të vogël poshtë tij",
       "undo": "Zhbëj",
       "openGenerator": "Rishiko dhe gjenero",
-      "working": "Po punoj…"
+      "working": "Po punoj…",
+      "stop": "Ndaloni",
+      "queue": "Shto në radhë"
     },
     "brand": {
       "addColor": "Shto një ngjyrë marke",
@@ -10969,7 +11112,9 @@
       "rendering": "Po përpunohet videoja… {{percent}}%",
       "mp4": "Video MP4",
       "exportHint": "Mbajeni redaktorin të hapur ndërsa videoja përpunohet.",
-      "tooLarge": "Ky skedar është shumë i madh për redaktorin. Kufiri është 400 MB."
+      "tooLarge": "Ky skedar është shumë i madh për redaktorin. Kufiri është 400 MB.",
+      "tZoomIn": "Zmadho",
+      "tZoomOut": "Zvogëlo"
     },
     "motion": {
       "title": "Lëvizje",
@@ -12148,6 +12293,28 @@
       "selection": "Zgjedhje",
       "zoomIn": "Zmadho kanavacën në",
       "zoomOut": "Zmadho kanavacën"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Rrotullimi",
+      "add": "Shto",
+      "scale": "Madhësia",
+      "color": "Ngjyrë",
+      "light": "E ndritshme"
+    },
+    "clipFix": {
+      "listening": "Ndërlind."
+    },
+    "voiceClone": {
+      "stop": "Ndalo regjistrimin",
+      "failed": "Klonimi i zërit dështoi."
+    },
+    "linkImport": {
+      "go": "Importo",
+      "downloading": "Po shkarkohet {{percent}}%"
+    },
+    "reverse": {
+      "action": "Rretho"
     }
   },
   "creator": {
@@ -12609,7 +12776,32 @@
     "referenceProductName": "Vendosni produktin tuaj në një klip",
     "referenceProductHint": "Zëvendësoni produktin e përshkruar dhe ruajeni skenën origjinale.",
     "referenceComposeName": "Kombinoni imazhe referencë",
-    "referenceComposeHint": "Merrni karaktere, objekte dhe rregullime nga shumë imazhe në një kompozicion të vetëm."
+    "referenceComposeHint": "Merrni karaktere, objekte dhe rregullime nga shumë imazhe në një kompozicion të vetëm.",
+    "marketing": {
+      "import": {
+        "use": "Përdor këto detaje"
+      }
+    },
+    "batchCount": "Imazhe",
+    "endFrame": "Kornizë përfundimtare",
+    "cinema": {
+      "close": "Mbyll",
+      "performance": {
+        "label": "Performanca"
+      }
+    },
+    "audioNoSpeech": "Nuk u gjet asnjë fjalim në atë regjistrim.",
+    "audioTaskSpeechLabel": "Fjalimi",
+    "audioTaskDialogueLabel": "Dialog",
+    "audioTaskSfxLabel": "Efekt zanor",
+    "audioTaskVoiceChangerLabel": "Ndërruesi i zërit",
+    "audioTaskTranscribeLabel": "Transkripto",
+    "audioTaskIsolateLabel": "Përpunim",
+    "priceFreeRateLimited": "Zbatohen kufijtë e tarifave falas ·",
+    "loop": "Cikël",
+    "dialogueFormat": "Shkruani skenën si \"Emri: rresht\", një altoparlant për rresht.",
+    "fileTooLarge": "Kjo dosje është mbi 100 MB. Përdorni një më të shkurtër ose më të vogël.",
+    "signInToGenerate": "Hyr për të gjeneruar."
   },
   "fractions": {
     "title": "Pjesë",
@@ -14678,6 +14870,19 @@
       "intro": "Shikuesit fitojnë një pikë për çdo minutë që të shikojnë dhe një për çdo 100 tokena që dhurojnë. Biseda dhe reagimet nuk fitojnë asgjë, kështu që pikët nuk mund të kultivohen.",
       "empty": "Ende nuk ka pikë. Ata ndërtohen ndërsa njerëzit shikojnë dhe dhurojnë.",
       "widgetHint": "Shto widget-in e shikuesve besnikë për ta shfaqur këtë listë në transmetim."
+    },
+    "destinations": {
+      "platform": "Platforma",
+      "label": "Emri (optional)",
+      "key": "Çelësi i transmetimit",
+      "save": "Shto",
+      "cancel": "Anulo",
+      "states": {
+        "off": "Fikur",
+        "idle": "Gati",
+        "live": "Drejtpërdrejt",
+        "error": "Gabim"
+      }
     }
   },
   "liveChatModeration": {
@@ -14758,7 +14963,70 @@
     "collections": "Kollekime",
     "days": "{{count}} ditë",
     "spotlightForSale": "Në shitje tani",
-    "buyFor": "Blëni për {{price}}"
+    "buyFor": "Blëni për {{price}}",
+    "actAll": "Të gjitha",
+    "actListings": "Njoftimet",
+    "actOffer": "Ofertë",
+    "actOffers": "Oferta",
+    "actSales": "Shitjet",
+    "tabActivity": "Aktiviteti",
+    "allChains": "Të gjitha zinxhiret",
+    "newest": "Më të Reja",
+    "cheapest": "Çmimi më i ulët",
+    "soldFor": "Shitur",
+    "signIn": "Hyni",
+    "share": "Shpërndaje",
+    "noneForSale": "Asnjë gjë në shitje ende",
+    "noSales": "Asnjë shitje ende",
+    "tabBrowse": "Shfletim",
+    "tabMine": "Yjet",
+    "tabSales": "Shitjet",
+    "cancelled": "Anuluar",
+    "sold": "Shitur",
+    "listed": "Listuar për shitje",
+    "feeRow": "Tarifa Riftn ({{pct}}%)",
+    "royaltyRow": "Mbretëria e krijuesit",
+    "youGet": "Ti merr",
+    "holderGets": "Mbajtësi merr",
+    "loading": "Po ngarkohet...",
+    "price": "Çmimi",
+    "seller": "Shitës",
+    "tabRecent": "Të fundit",
+    "buyNow": "Bli tani",
+    "offers": "Ofertat",
+    "cancel": "Anulo",
+    "accept": "Pranu",
+    "signInToTrade": "Hyr për të tregtuar",
+    "listForSale": "Listoje për shitje",
+    "makeOffer": "Bëj një ofertë",
+    "sendOffer": "Dërgo ofertë",
+    "back": "Prapa",
+    "dropsTo": "Çmimi bie në {{price}} deri më {{date}}",
+    "inBundle": "Shitje si paket {{n}}",
+    "trending": "Koleksionet në trend",
+    "floor": "Dyshemeja",
+    "listedCount": "{{n}} për shitje",
+    "thisCollection": "Ky koleksion",
+    "collectionOffer": "Ofertë në çdo",
+    "showAll": "Shfaq të gjitha",
+    "filters": "Filtrat",
+    "forSale": "Për shitje",
+    "openToOffers": "Hapur për oferta",
+    "freshMints": "I freskët nga krijuesit e Riftn",
+    "offersOpen": "Hapur për oferta",
+    "mintedCount": "{{n}} i mitur",
+    "anyInCollection": "Ndonjë në koleksion",
+    "thisNft": "Ky NFT",
+    "priceAlert": "Paralajmërim çmimi",
+    "alertUnder": "Më tëhu kur të listohet në ose nën ({{symbol}}, opsional)",
+    "turnOnAlert": "Aktivizo paralajmërimin",
+    "alertSaved": "Paralajmërimi është aktiv. Ne do t'ju tregojmë kur të liston njëra.",
+    "priceDrop": "Çmimi bie me kalimin e kohës",
+    "endPrice": "Çmimi më i ulët, arritur në fund ({{symbol}})",
+    "bundleBadge": "Paketa ×{{n}}",
+    "dropBadge": "Rënie çmimi",
+    "days_other": "{{count}} ditë",
+    "spotlightNew": "Sapo u krijua"
   },
   "reel": {
     "readAll": "Lexo të gjitha",
@@ -14780,7 +15048,11 @@
       "episode": "Episodi i podkastit",
       "show": "Podcast",
       "artist": "Artist"
-    }
+    },
+    "loading": "Po ngarkohet...",
+    "paused": "Pauzuar",
+    "preview": "Përshkrim",
+    "seek": "Kërkoj"
   },
   "twoFactor": {
     "wrongCode": "Ai kod nuk përputhej. Provo më të riun në aplikacionin tënd.",
@@ -14858,5 +15130,244 @@
     "newer": "Rezultat më i ri",
     "gone": "Ky mesazh nuk është më këtu",
     "theirMessages": "Mesazhet e tyre"
+  },
+  "chatTextSize": {
+    "title": "Madhësia e tekstit",
+    "default": "E paracaktuar",
+    "larger": "Megjithmonë më i madh"
+  },
+  "remix": {
+    "cut": "Prit"
+  },
+  "signedFollows": {
+    "setUp": "Aktivizo",
+    "turnOff": "Çaktivizo",
+    "efpTurnOff": "Ndaloni"
+  },
+  "postEditHistory": {
+    "original": "Origjinal"
+  },
+  "studioDeck": {
+    "remove": "Hiq",
+    "background": {
+      "title": "Sfondi",
+      "modes": {
+        "none": "Fikur",
+        "blur": "Turbullim",
+        "color": "Ngjyra"
+      }
+    },
+    "scenes": {
+      "countdown": "Numërimi mbrapsht",
+      "names": {
+        "starting": "Fillon së shpejti"
+      }
+    },
+    "widgets": {
+      "tab": "Widgetë"
+    },
+    "sources": {
+      "image": "Imazhi",
+      "show": "Shfaq në stream",
+      "positions": {
+        "center": "Qëndro"
+      },
+      "sizes": {
+        "medium": "Mesatare"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Sot",
+    "tooSoon": "Zgjidhni një kohë në të ardhmen.",
+    "show": "Shfaq",
+    "hide": "Fshih"
+  },
+  "planned": {
+    "title": "Planifikuar",
+    "all": "Të gjitha",
+    "posts": "Postime",
+    "stages": "Dhoma audio",
+    "post": "Posto",
+    "live": "Drejtpërdrejt",
+    "stage": "Skenë",
+    "untitledPost": "Posto",
+    "untitledLive": "Drejtpërdrejt",
+    "loading": "Duke u ngarkuar…",
+    "startNow": "Nis tani",
+    "cancel": "Anulo",
+    "cancelled": "Anuluar"
+  },
+  "welcome": {
+    "about": {
+      "title": "Mirë se erdhët në Riftn",
+      "day": "Ditë",
+      "month": "Muaj",
+      "year": "Vit"
+    },
+    "name": {
+      "title": "Emri yt",
+      "placeholder": "Emri yt"
+    },
+    "card": {
+      "name": "Emri yt",
+      "followers": "ndjekësit"
+    },
+    "topic": {
+      "music": "Muzikë",
+      "gaming": "Lojëra",
+      "crypto": "Kripto",
+      "sports": "Sporteve",
+      "comedy": "Komedi",
+      "film": "Filmi",
+      "podcast": "Podkasti",
+      "food": "Buzëqeshje",
+      "news": "Lajme",
+      "science": "Shkencë"
+    },
+    "back": "Kthehu",
+    "skipPhoto": "Anashkalo për tani",
+    "preview": "Shfaq paraprakisht"
+  },
+  "appTokens": {
+    "title": "Tokenet tuaja",
+    "history": "Historia",
+    "noHistory": "Nuk ka aktivitet ende",
+    "kindDeposit": "Depozito",
+    "to": "Deri",
+    "amount": "Shuma",
+    "notePlaceholder": "Shto një shënim (opsionale)",
+    "sendButton": "Dërgoni",
+    "errorInsufficient": "Nuk ka tokena të mjaftueshëm"
+  },
+  "avatarPrompt": {
+    "notNow": "Jo tani"
+  },
+  "postStats": {
+    "audience": "Publik",
+    "engagement": "Angazhim",
+    "finished": "Përfunduar",
+    "members": "Anëtarët",
+    "membersLower": "anëtarë",
+    "newFollowers": "Ndjekës të rinj",
+    "noBadge": "Nuk ka distinktiv",
+    "people": "Njerëz",
+    "plays": "Shfaqje",
+    "quotes": "Citime",
+    "reposts": "Ripostime",
+    "saved": "Ruajtur",
+    "shares": "Ndarje",
+    "signedOutViewers": "U çkyçët",
+    "topSupporters": "Mbështetësit më të mirë",
+    "visitors": "U çkyçët"
+  },
+  "duet": {
+    "policyEveryone": "Të gjithë",
+    "policyFollowers": "Ndjekësit",
+    "policyNobody": "Askush",
+    "loadMore": "Ngarko më shumë"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Të gjithë",
+      "followers": "Ndjekësit",
+      "nobody": "Askush"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Të gjithë",
+      "followers": "Ndjekësit",
+      "nobody": "Askush"
+    },
+    "heading": "Reagimet",
+    "more": "Shfaq më shumë",
+    "liveNow": "Drejtpërdrejt",
+    "untitled": "Reagimi"
+  },
+  "liveClips": {
+    "copyLink": "Kopjo lidhjen",
+    "linkCopied": "Linku u kopjua"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Plani",
+      "howMany": "Sa",
+      "who": "Emri i përdoruesit ose adresa e portofolit",
+      "whoPlaceholder": "@emripërdoruesit",
+      "cancel": "Anulo",
+      "stage": {
+        "preparing": "Duke u përgatitur…",
+        "confirming": "Në pritje të transaksionit…",
+        "recording": "Po përfundohet…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Tjetër",
+    "confirming": "Konfirmimi i pagesës..."
+  },
+  "liveShorts": {
+    "live": "DREJTPËRDREJT"
+  },
+  "feedFilters": {
+    "clearAllShort": "Pastro të gjitha",
+    "done": "Përfundoi",
+    "edit": "Redakto",
+    "groupDate": "Data",
+    "groupSort": "Rendit",
+    "groupType": "Lloji",
+    "save": "Ruaj"
+  },
+  "ownKeys": {
+    "working": "Në punë",
+    "failed": "Pati një problem. Provo përsëri.",
+    "check": "Kontrollo",
+    "remove": "Hiq",
+    "save": "Ruaj",
+    "cancel": "Anulo"
+  },
+  "postBg": {
+    "none": "Asnjë",
+    "yours": "Yjet",
+    "accent": "Akcent",
+    "names": {
+      "lava": "Llambë llave",
+      "drive": "Natë me makinë",
+      "chrome": "Krom i lëngshëm",
+      "orbit": "Orbitë",
+      "snow": "Reshje dëbore"
+    }
+  },
+  "articleTile": {
+    "cover": "Kopertina"
+  },
+  "aiConsent": {
+    "allow": "Lejo"
+  },
+  "dmRequests": {
+    "title": "Kërkesat",
+    "accept": "Prano",
+    "delete": "Fshi",
+    "block": "Blloko"
+  },
+  "dmSchedule": {
+    "view": "Shiko",
+    "edit": "Modifiko",
+    "editLabel": "Modifiko mesazhin",
+    "error": "Kjo nuk funksionoi. Provo përsëri."
+  },
+  "chatBulk": {
+    "selected": "{{count}} zgjedhur",
+    "cancel": "Anulo",
+    "reply": "Përgjigju",
+    "delete": "Fshi"
+  },
+  "msgSelect": {
+    "selected": "{{count}} zgjedhur",
+    "copy": "Kopjo",
+    "forward": "Përcill",
+    "deleted_one": "Fshiu {{count}} mesazhin",
+    "deleted_other": "Fshiu {{count}} mesazhe"
   }
 }

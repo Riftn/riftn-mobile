@@ -5,7 +5,12 @@
     "converted": "Đang hiển thị dạng truyện tranh",
     "unconverted": "Đang hiển thị dạng băng chuyền",
     "convertFailed": "Không thể đổi bố cục",
-    "showAll": "Hiện tất cả {{count}} trang"
+    "showAll": "Hiện tất cả {{count}} trang",
+    "tab": "Truyện tranh",
+    "title": "Truyện tranh",
+    "editor": {
+      "cover": "Ảnh bìa"
+    }
   },
   "comicBorder": {
     "title": "Viền",
@@ -2613,7 +2618,14 @@
     "cbade2afaee2": "Xu hướng tuần này trên Audius. Miễn phí sử dụng, nghệ sĩ được ghi nhận trong bài đăng của bạn.",
     "d2e45b7406fc": "Âm nhạc công cộng và Creative Commons từ Wikimedia Commons. Nghệ sĩ được ghi nhận trong bài đăng của bạn.",
     "d0c1a3684775": "Bài hát không tải. Hãy thử lại trong giây lát.",
-    "d14064f80f52": "Thêm âm thanh"
+    "d14064f80f52": "Thêm âm thanh",
+    "71988c4d8e08": "Văn bản",
+    "147170e793c6": "Rộng",
+    "481859b689b0": "Kiểm tra kết nối và thử lại.",
+    "57e2faa5ec63": "Tìm trên Riftn",
+    "7db20897053b": "Người",
+    "96d7bff86b44": "Không thể tải tìm kiếm",
+    "d8b8392e2c54": "Thử lại"
   },
   "dehubLinks": {
     "kind": {
@@ -2863,7 +2875,8 @@
       "quote": "Trích dẫn",
       "bullets": "Danh sách dấu đầu dòng",
       "numbers": "Danh sách được đánh số",
-      "link": "Liên kết"
+      "link": "Liên kết",
+      "image": "Thêm hình ảnh"
     }
   },
   "storefront": {
@@ -3884,7 +3897,11 @@
     "payDirectNoName": "Gửi thẳng cho nhà sáng tạo bằng {{symbol}} trên {{chain}}. Không swap.",
     "payViaBridgeDpay": "Đã chuyển sang Base và thanh toán cho Riftn Pay, token sẽ nhận được trong khoảng một phút",
     "tokensUnit": "token",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "addMessage": "Thêm tin nhắn (không bắt buộc)",
+    "messagePublic": "Công khai",
+    "railTitle": "Tiền thưởng",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "skippableSections": "Các mục có thể bỏ qua",
@@ -4618,7 +4635,8 @@
       "here": "{{name}} đã nhắn tin cho mọi người trong cộng đồng",
       "hereNamed": "{{name}} đã nhắn tin cho mọi người trong “{{community}}”"
     },
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "searchClose": "Đóng tìm kiếm"
   },
   "leaderboard": {
     "title": "Bảng xếp hạng",
@@ -4810,7 +4828,18 @@
     "attachmentTooLarge": "Mỗi tệp phải nhỏ hơn 50MB",
     "deleteCommentA11y": "Xóa nhận xét",
     "sendCommentA11y": "Gửi bình luận",
-    "requestOptions": "Tùy chọn yêu cầu"
+    "requestOptions": "Tùy chọn yêu cầu",
+    "deviceInfoNoErrors": "Không có",
+    "topBuilders": {
+      "month": "Tháng này",
+      "allTime": "Tất cả thời gian",
+      "shipped": "Đã ra mắt",
+      "votes": "Phiếu bầu",
+      "comments": "Bình luận",
+      "showLess": "Hiển thị ít hơn",
+      "viewProfile": "Xem hồ sơ",
+      "you": "Bạn"
+    }
   },
   "auth": {
     "loginRequired": "Yêu cầu đăng nhập",
@@ -5085,7 +5114,17 @@
     "likesEmptyOwn": "Các bài bạn thích sẽ hiện ở đây. Chỉ bạn xem được, trừ khi bạn bật Hiển thị lượt thích của tôi trong Cài đặt.",
     "likesEmptyOther": "Chưa thích gì cả.",
     "likesPrivateTitle": "Lượt thích là riêng tư",
-    "likesPrivateDesc": "Tài khoản này giữ lượt thích cho riêng mình."
+    "likesPrivateDesc": "Tài khoản này giữ lượt thích cho riêng mình.",
+    "articleShort": "Bài viết",
+    "articleMinRead": "Đọc {{count}} phút",
+    "pinnedShort": "Đã ghim",
+    "post": "Đăng",
+    "arrange": {
+      "saving": "Đang lưu..."
+    },
+    "reserve": {
+      "signIn": "Đăng nhập"
+    }
   },
   "tv": {
     "title": "TV",
@@ -5601,6 +5640,9 @@
       "filter": "Lọc hoạt động",
       "templateName": "Tên mẫu",
       "history": "Hộp thư bản nháp và nhật ký kiểm toán"
+    },
+    "welcome": {
+      "text": "Lời chào mừng"
     }
   },
   "hero": {
@@ -5682,7 +5724,16 @@
     "nowPublic": "Quy trình hiện đang công khai",
     "openCanvas": "Mở canvas",
     "playVideo": "Chạy video",
-    "signInToSee": "Đăng nhập để xem các luồng trên tài khoản của bạn."
+    "signInToSee": "Đăng nhập để xem các luồng trên tài khoản của bạn.",
+    "newNativeFlow": "Flow mới",
+    "model": "Mô hình",
+    "aspectRatio": "Tỷ lệ khung hình",
+    "duration": "Thời gian (giây)",
+    "resolution": "Độ phân giải",
+    "disconnect": "Ngắt kết nối",
+    "payAndRun": "Thanh toán và chạy",
+    "run": "Chạy",
+    "handlePrompt": "Lời nhắc"
   },
   "loginModal": {
     "title": "Đăng nhập",
@@ -6633,7 +6684,9 @@
       "copied": "Đã sao chép tin nhắn",
       "copyText": "Sao chép văn bản",
       "mutedUntil": "Bạn sẽ bị tắt tiếng cho đến {{date}}",
-      "slowMode": "Chế độ chậm: một tin nhắn mỗi {{interval}}"
+      "slowMode": "Chế độ chậm: một tin nhắn mỗi {{interval}}",
+      "photoTooLarge": "Hình ảnh phải nhỏ hơn 10MB",
+      "aiAdminFailed": "Quản trị viên AI không trả lời được"
     },
     "manage": {
       "dismissAdminTitle": "Bỏ qua quản trị viên",
@@ -6841,6 +6894,30 @@
       "notFound": "Liên kết mời này không hợp lệ.",
       "requestToJoin": "Yêu cầu tham gia",
       "approvalNote": "Quản trị viên phải chấp thuận yêu cầu của bạn trước khi bạn có thể tham gia."
+    },
+    "buyAlert": {
+      "spent": "Đã chi:",
+      "buyer": "Người mua:",
+      "balance": "Số dư:",
+      "price": "Giá:",
+      "marketCap": "Tổng vốn hóa thị trường:"
+    },
+    "newChat": {
+      "public": "Công khai",
+      "private": "Riêng tư",
+      "free": "Miễn phí",
+      "paid": "Đã thanh toán",
+      "group": "Nhóm"
+    },
+    "holderGate": {
+      "chain": "Chuỗi",
+      "tab": "Chủ sở hữu"
+    },
+    "automod": {
+      "bannedWords": "Từ khóa bị cấm",
+      "floodMax": "Tin nhắn của {{count}}",
+      "saved": "Đã lưu",
+      "wordCount": "{{count}} từ"
     }
   },
   "work": {
@@ -8929,7 +9006,37 @@
     "coverFrames": "Chọn khung hình làm ảnh bìa",
     "coverFrame": "Dùng khung hình {{index}} làm ảnh bìa",
     "uploadCover": "Tải ảnh bìa lên",
-    "editFailed": "Không thể áp dụng chỉnh sửa. Hãy thử lại."
+    "editFailed": "Không thể áp dụng chỉnh sửa. Hãy thử lại.",
+    "altPlaceholderVideo": "Mô tả video này",
+    "preview": {
+      "title": "Xem trước"
+    },
+    "recent": {
+      "all": "Tất cả"
+    },
+    "studio": {
+      "crop": "Cắt",
+      "draw": "Vẽ",
+      "light": "Sáng",
+      "contrast": "Độ tương phản",
+      "warmth": "Ấm áp",
+      "colour": "Màu sắc",
+      "fade": "Mờ dần",
+      "original": "Bản gốc",
+      "ratioOriginal": "Bản gốc",
+      "ratioFree": "Miễn phí",
+      "rotate": "Xoay",
+      "strength": "Tính năng",
+      "stickers": "Nhãn dán",
+      "ticker": "Mã tiền",
+      "textBg": "Nền",
+      "font": {
+        "bold": "Đậm",
+        "mono": "Đơn sắc"
+      }
+    },
+    "edited": "Đã chỉnh sửa",
+    "edit": "Chỉnh sửa"
   },
   "bounty": {
     "claimed": "Đã nhận",
@@ -9223,7 +9330,8 @@
     "justChatting": "Trò chuyện",
     "noLiveStreams": "Không có buổi phát trực tiếp",
     "noOneStreaming": "Hiện không ai phát trực tiếp. Hãy quay lại sau!",
-    "loadStreamsFailed": "Không thể tải buổi phát. Vui lòng thử lại."
+    "loadStreamsFailed": "Không thể tải buổi phát. Vui lòng thử lại.",
+    "liveBadge": "TRỰC TIẾP"
   },
   "liveShop": {
     "title": "Mua sắm từ buổi phát này",
@@ -9557,7 +9665,14 @@
     "shareGroups": "Nhóm",
     "shareKindGroup": "Nhóm",
     "shareKindChannel": "Kênh",
-    "shareKindCommunity": "Cộng đồng"
+    "shareKindCommunity": "Cộng đồng",
+    "newDrawer": {
+      "to": "Đến"
+    },
+    "download": "Tải xuống",
+    "deleteOneTitle": "Xóa tin nhắn này?",
+    "retrySend": "Thử lại",
+    "discardSend": "Gỡ"
   },
   "editPost": {
     "mediaPermission": "Cần quyền truy cập thư viện phương tiện",
@@ -10850,7 +10965,10 @@
       "hint": "Chuyển lời nói thành phụ đề có mốc thời gian mà bạn có thể đổi kiểu. Chạy trên thiết bị của bạn: miễn phí và riêng tư. Lần dùng đầu tiên sẽ tải mô hình xuống.",
       "done": "Đã thêm {{count}} phụ đề.",
       "noSpeech": "Không tìm thấy lời nói trong đoạn này.",
-      "failed": "Không thể tạo phụ đề cho đoạn này."
+      "failed": "Không thể tạo phụ đề cho đoạn này.",
+      "styles": {
+        "bold": "Đậm"
+      }
     },
     "app": {
       "newDesign": "Thiết kế mới",
@@ -11100,7 +11218,9 @@
       "suggestTitle": "Thêm một tiêu đề to đậm ở trên cùng và một phụ đề nhỏ hơn bên dưới",
       "undo": "Hoàn tác",
       "openGenerator": "Xem lại và tạo",
-      "working": "Đang xử lý…"
+      "working": "Đang xử lý…",
+      "stop": "Dừng",
+      "queue": "Thêm vào hàng chờ"
     },
     "brand": {
       "addColor": "Thêm màu thương hiệu",
@@ -11237,7 +11357,9 @@
       "rendering": "Đang kết xuất video… {{percent}}%",
       "mp4": "Video MP4",
       "exportHint": "Hãy giữ trình chỉnh sửa mở trong khi video đang kết xuất.",
-      "tooLarge": "Tệp này quá lớn đối với trình chỉnh sửa. Giới hạn là 400 MB."
+      "tooLarge": "Tệp này quá lớn đối với trình chỉnh sửa. Giới hạn là 400 MB.",
+      "tZoomIn": "Zoom vào",
+      "tZoomOut": "Zoom ra"
     },
     "motion": {
       "title": "Chuyển động",
@@ -12416,6 +12538,28 @@
       "selection": "Lựa chọn",
       "zoomIn": "Thu Phóng Khung Vẽ",
       "zoomOut": "Thu Phóng Khung Vẽ"
+    },
+    "stage": {
+      "camera": "Máy ảnh",
+      "yaw": "Xoay",
+      "add": "Thêm",
+      "scale": "Kích thước",
+      "color": "Màu",
+      "light": "Sáng"
+    },
+    "clipFix": {
+      "listening": "Đang nghe…"
+    },
+    "voiceClone": {
+      "stop": "Dừng ghi âm",
+      "failed": "Đồng giọng nói thất bại."
+    },
+    "linkImport": {
+      "go": "Nhập",
+      "downloading": "Đang tải xuống {{percent}}%"
+    },
+    "reverse": {
+      "action": "Đảo ngược"
     }
   },
   "creator": {
@@ -12877,7 +13021,32 @@
     "referenceProductName": "Đặt sản phẩm của bạn vào một clip",
     "referenceProductHint": "Thay thế sản phẩm nổi bật và giữ nguyên cảnh ban đầu.",
     "referenceComposeName": "Kết hợp các hình ảnh tham chiếu",
-    "referenceComposeHint": "Gộp các nhân vật, đối tượng và cảnh từ nhiều hình ảnh thành một tác phẩm."
+    "referenceComposeHint": "Gộp các nhân vật, đối tượng và cảnh từ nhiều hình ảnh thành một tác phẩm.",
+    "marketing": {
+      "import": {
+        "use": "Sử dụng các chi tiết này"
+      }
+    },
+    "batchCount": "Hình ảnh",
+    "endFrame": "Khung kết thúc",
+    "cinema": {
+      "close": "Đóng",
+      "performance": {
+        "label": "Hiệu năng"
+      }
+    },
+    "audioNoSpeech": "Không tìm thấy lời nói trong bản ghi đó.",
+    "audioTaskSpeechLabel": "Bài phát biểu",
+    "audioTaskDialogueLabel": "Lời thoại",
+    "audioTaskSfxLabel": "Ảnh",
+    "audioTaskVoiceChangerLabel": "Trình thay đổi giọng nói",
+    "audioTaskTranscribeLabel": "Ghi chép",
+    "audioTaskIsolateLabel": "Dọn dẹp",
+    "priceFreeRateLimited": "Miễn phí · áp dụng giới hạn mức giá",
+    "loop": "Vòng lặp",
+    "dialogueFormat": "Viết cảnh dưới dạng \"Tên: dòng thoại\", một diễn viên trên mỗi dòng.",
+    "fileTooLarge": "Tệp đó vượt quá 100 MB. Sử dụng một tệp ngắn hơn hoặc nhỏ hơn.",
+    "signInToGenerate": "Đăng nhập để tạo."
   },
   "fractions": {
     "title": "Phần sở hữu",
@@ -14922,6 +15091,19 @@
       "intro": "Người xem kiếm được một điểm cho mỗi phút họ xem bạn và một điểm cho mỗi 100 token họ tặng. Chat và phản ứng không kiếm được điểm, vì vậy điểm không thể được \"nông\" (làm giả).",
       "empty": "Chưa có điểm nào. Chúng tích lũy khi người xem và tặng quà.",
       "widgetHint": "Thêm tiện ích Người xem trung thành để hiển thị danh sách này trên luồng."
+    },
+    "destinations": {
+      "platform": "Nền tảng",
+      "label": "Tên (không bắt buộc)",
+      "key": "Khóa luồng",
+      "save": "Thêm",
+      "cancel": "Hủy",
+      "states": {
+        "off": "Tắt",
+        "idle": "Sẵn sàng",
+        "live": "Trực tiếp",
+        "error": "Lỗi"
+      }
     }
   },
   "liveChatModeration": {
@@ -15006,7 +15188,72 @@
     "collections": "Sưu tập",
     "days": "{{count}} ngày",
     "spotlightForSale": "Đang bán hiện nay",
-    "buyFor": "Mua cho {{price}}"
+    "buyFor": "Mua cho {{price}}",
+    "actAll": "Tất cả",
+    "actListings": "Tin đăng",
+    "actOffer": "Đề nghị",
+    "actOffers": "Đề nghị",
+    "actSales": "Bán hàng",
+    "tabActivity": "Hoạt động",
+    "allChains": "Tất cả các chuỗi (chain)",
+    "newest": "Mới nhất",
+    "cheapest": "Giá thấp nhất",
+    "soldFor": "Đã bán",
+    "signIn": "Đăng nhập",
+    "title": "NFT",
+    "share": "Chia sẻ",
+    "noneForSale": "Chưa có gì để bán",
+    "noSales": "Chưa có giao dịch nào",
+    "tabBrowse": "Duyệt",
+    "tabMine": "Của bạn",
+    "tabSales": "Bán hàng",
+    "cancelled": "Hủy bỏ",
+    "sold": "Đã bán",
+    "listed": "Được liệt kê để bán",
+    "feeRow": "Phí giao dịch ({{pct}}%)",
+    "royaltyRow": "Tiền thưởng cho người tạo",
+    "youGet": "Bạn nhận được",
+    "holderGets": "Người sở hữu nhận được",
+    "loading": "Đang tải...",
+    "price": "Giá",
+    "seller": "Người bán",
+    "tabRecent": "Gần đây",
+    "buyNow": "Mua ngay",
+    "offers": "Đề nghị",
+    "cancel": "Hủy",
+    "accept": "Chấp nhận",
+    "signInToTrade": "Đăng nhập để giao dịch",
+    "listForSale": "Đăng bán",
+    "makeOffer": "Xin chào! Tôi sẵn sàng làm việc với bạn.",
+    "sendOffer": "Gửi đề nghị",
+    "back": "Quay lại",
+    "dropsTo": "Giá giảm xuống {{price}} vào lúc {{date}}",
+    "inBundle": "Được bán theo bộ {{n}}",
+    "trending": "Sưu tầm đang thịnh hành",
+    "floor": "Sàn nhà",
+    "listedCount": "{{n}} bán",
+    "thisCollection": "Tập hợp này",
+    "collectionOffer": "Đề nghị giá cả trên bất kỳ sản phẩm nào",
+    "showAll": "Hiển thị tất cả",
+    "shortTitle": "NFT",
+    "filters": "Bộ lọc",
+    "forSale": "Đang bán",
+    "openToOffers": "Mở cửa cho các đề nghị",
+    "freshMints": "Mới đây từ các nhà sáng tạo Riftn",
+    "offersOpen": "Mở cửa cho các đề nghị",
+    "anyInCollection": "Tất cả trong bộ sưu tập",
+    "thisNft": "NFT này",
+    "priceAlert": "Cảnh báo giá",
+    "alertUnder": "Gửi thông báo khi được liệt kê ở mức {{symbol}} hoặc thấp hơn (tùy chọn)",
+    "turnOnAlert": "Bật cảnh báo",
+    "alertSaved": "Cảnh báo đang bật. Chúng tôi sẽ thông báo khi có một cái được đăng ký.",
+    "priceDrop": "Giá giảm dần theo thời gian",
+    "endPrice": "Giá thấp nhất, đạt được vào cuối ({{symbol}})",
+    "dropBadge": "Giá giảm",
+    "days_one": "{{count}} ngày",
+    "days_other": "{{count}} ngày",
+    "latestMints": "Mint mới nhất",
+    "spotlightNew": "Vừa được tạo"
   },
   "riftnMove": {
     "title": "DeHub giờ là Riftn",
@@ -15041,7 +15288,11 @@
       "episode": "Tập podcast",
       "show": "Podcast",
       "artist": "Nghệ sĩ"
-    }
+    },
+    "loading": "Đang tải...",
+    "paused": "Dừng lại",
+    "preview": "Xem trước",
+    "seek": "Tìm kiếm"
   },
   "twoFactor": {
     "wrongCode": "Mã đó không khớp. Hãy thử mã mới nhất trong ứng dụng của bạn.",
@@ -15122,5 +15373,241 @@
   },
   "profileImage": {
     "change": "Thay đổi"
+  },
+  "remix": {
+    "cut": "Cắt"
+  },
+  "signedFollows": {
+    "setUp": "Bật",
+    "turnOff": "Tắt",
+    "efpTurnOff": "Dừng"
+  },
+  "postEditHistory": {
+    "original": "Gốc"
+  },
+  "studioDeck": {
+    "remove": "Gỡ",
+    "background": {
+      "title": "Nền",
+      "modes": {
+        "none": "Tắt",
+        "blur": "Làm mờ",
+        "color": "Màu sắc"
+      }
+    },
+    "scenes": {
+      "countdown": "Đếm ngược",
+      "minutes": "{{count}} phút",
+      "names": {
+        "starting": "Sắp bắt đầu"
+      }
+    },
+    "widgets": {
+      "tab": "Tiện ích"
+    },
+    "sources": {
+      "image": "Hình ảnh",
+      "show": "Hiển thị trên phát trực tuyến",
+      "positions": {
+        "center": "Trung tâm"
+      },
+      "sizes": {
+        "small": "Nhỏ",
+        "medium": "Trung bình",
+        "large": "Lớn"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Hôm nay",
+    "earlierShort": "Trước đó",
+    "tooSoon": "Chọn một thời điểm trong tương lai.",
+    "show": "Hiện",
+    "hide": "Ẩn"
+  },
+  "planned": {
+    "title": "Đã lên kế hoạch",
+    "all": "Tất cả",
+    "posts": "Bài đăng",
+    "stages": "Phòng âm thanh",
+    "post": "Bài viết",
+    "live": "Trực tiếp",
+    "stage": "Sân khấu",
+    "untitledPost": "Bài viết",
+    "untitledLive": "Trực tiếp",
+    "loading": "Đang tải…",
+    "startNow": "Bắt đầu ngay",
+    "cancel": "Hủy",
+    "cancelled": "Đã hủy"
+  },
+  "welcome": {
+    "about": {
+      "title": "Chào mừng bạn đến với Riftn",
+      "day": "Ngày",
+      "month": "Tháng",
+      "year": "Năm"
+    },
+    "name": {
+      "title": "Tên của bạn",
+      "placeholder": "Tên của bạn"
+    },
+    "card": {
+      "name": "Tên của bạn",
+      "followers": "người theo dõi"
+    },
+    "topic": {
+      "music": "Âm nhạc",
+      "art": "Nghệ thuật",
+      "gaming": "Game",
+      "crypto": "Tiền mã hoá",
+      "sports": "Thể thao",
+      "comedy": "Phim hài",
+      "film": "Phim",
+      "food": "Thực phẩm",
+      "news": "Tin tức",
+      "science": "Khoa học"
+    },
+    "back": "Quay lại",
+    "skipPhoto": "Bỏ qua lúc này",
+    "preview": "Xem trước"
+  },
+  "appTokens": {
+    "title": "Token của bạn",
+    "history": "Lịch sử",
+    "noHistory": "Chưa có hoạt động nào",
+    "kindDeposit": "Nạp tiền",
+    "to": "Đến",
+    "amount": "Số tiền",
+    "notePlaceholder": "Thêm ghi chú (không bắt buộc)",
+    "sendButton": "Gửi",
+    "errorInsufficient": "Không đủ token"
+  },
+  "avatarPrompt": {
+    "notNow": "Để sau"
+  },
+  "postStats": {
+    "audience": "Đối tượng",
+    "engagement": "Tương tác",
+    "finished": "Đã kết thúc",
+    "members": "Thành viên",
+    "membersLower": "thành viên",
+    "newFollowers": "người theo dõi mới",
+    "noBadge": "Không có huy hiệu",
+    "people": "Mọi người",
+    "plays": "Phát",
+    "quotes": "Lượt trích dẫn",
+    "reposts": "Đăng lại",
+    "saved": "Đã lưu",
+    "shares": "Lượt chia sẻ",
+    "signedOutViewers": "Đã đăng xuất",
+    "topSupporters": "Người ủng hộ chính",
+    "visitors": "Đã đăng xuất"
+  },
+  "duet": {
+    "policyEveryone": "Mọi người",
+    "policyFollowers": "Người theo dõi",
+    "policyNobody": "Không ai",
+    "loadMore": "Tải thêm"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Mọi người",
+      "followers": "Người theo dõi",
+      "nobody": "Không ai"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Mọi người",
+      "followers": "Người theo dõi",
+      "nobody": "Không ai"
+    },
+    "heading": "Cảm xúc",
+    "more": "Hiển thị thêm",
+    "liveNow": "Trực tiếp",
+    "untitled": "Phản ứng"
+  },
+  "liveClips": {
+    "copyLink": "Sao chép liên kết",
+    "linkCopied": "Link đã sao chép"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Gói",
+      "howMany": "Bao nhiêu",
+      "who": "Tên người dùng hoặc địa chỉ ví",
+      "whoPlaceholder": "@tennguoidung",
+      "cancel": "Hủy",
+      "stage": {
+        "preparing": "Đang chuẩn bị…",
+        "confirming": "Đang chờ giao dịch…",
+        "recording": "Đang hoàn tất…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Khác",
+    "confirming": "Đang xác nhận thanh toán..."
+  },
+  "liveShorts": {
+    "live": "TRỰC TIẾP"
+  },
+  "feedFilters": {
+    "clearAllShort": "Xoá tất cả",
+    "done": "Hoàn thành",
+    "edit": "Chỉnh sửa",
+    "groupDate": "Ngày",
+    "groupSort": "Sắp xếp",
+    "groupType": "Loại",
+    "save": "Lưu"
+  },
+  "ownKeys": {
+    "working": "Đang xử lý",
+    "failed": "Đã xảy ra lỗi. Hãy thử lại.",
+    "check": "Kiểm tra",
+    "remove": "Gỡ",
+    "save": "Lưu",
+    "cancel": "Hủy"
+  },
+  "postBg": {
+    "none": "Không có",
+    "yours": "Của bạn",
+    "accent": "Nhâ ́ n ma ̣ nh",
+    "names": {
+      "lava": "Đèn dung nham",
+      "chrome": "Chrome lỏng",
+      "snow": "Tuyết rơi"
+    }
+  },
+  "articleTile": {
+    "cover": "Ảnh bìa"
+  },
+  "aiConsent": {
+    "allow": "Cho phép"
+  },
+  "dmRequests": {
+    "title": "Yêu cầu",
+    "accept": "Chấp nhận",
+    "delete": "Xóa",
+    "block": "Chặn"
+  },
+  "dmSchedule": {
+    "view": "Xem",
+    "edit": "Chỉnh sửa",
+    "editLabel": "Chỉnh sửa tin nhắn",
+    "error": "Điều đó không hiệu quả. Hãy thử lại."
+  },
+  "chatBulk": {
+    "selected": "{{count}} đã chọn",
+    "cancel": "Hủy",
+    "reply": "Phản hồi",
+    "delete": "Xóa"
+  },
+  "msgSelect": {
+    "selected": "{{count}} đã chọn",
+    "copy": "Sao chép",
+    "forward": "Chuyển tiếp",
+    "deleted_one": "Xóa {{count}} tin nhắn",
+    "deleted_other": "Xóa {{count}} tin nhắn"
   }
 }

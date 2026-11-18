@@ -5,7 +5,12 @@
     "converted": "अब कॉमिक के रूप में दिख रहा है",
     "unconverted": "अब कैरसेल के रूप में दिख रहा है",
     "convertFailed": "लेआउट नहीं बदल सका",
-    "showAll": "सभी {{count}} पेज दिखाएं"
+    "showAll": "सभी {{count}} पेज दिखाएं",
+    "tab": "कॉमिक",
+    "title": "कॉमिक",
+    "editor": {
+      "cover": "कवर"
+    }
   },
   "comicBorder": {
     "title": "बॉर्डर",
@@ -2613,7 +2618,14 @@
     "cbade2afaee2": "इस हफ़्ते Audius पर ट्रेंड कर रहा है। इस्तेमाल करने के लिए मुफ़्त, आपकी पोस्ट पर कलाकार का नाम दिया जाएगा।",
     "d2e45b7406fc": "Wikimedia Commons से पब्लिक डोमेन और क्रिएटिव कॉमन्स का म्यूज़िक। आपके पोस्ट पर कलाकार का नाम दिया जाएगा।",
     "d0c1a3684775": "गीत लोड नहीं हुए। कुछ देर बाद फिर से कोशिश करें।",
-    "d14064f80f52": "साउंड जोड़ें"
+    "d14064f80f52": "साउंड जोड़ें",
+    "71988c4d8e08": "पाठ",
+    "147170e793c6": "वाइड",
+    "481859b689b0": "अपना कनेक्शन जाँचें और फिर से कोशिश करें।",
+    "57e2faa5ec63": "Riftn में खोजें",
+    "7db20897053b": "लोग",
+    "96d7bff86b44": "खोज लोड नहीं हो सकी",
+    "d8b8392e2c54": "फिर से कोशिश करें"
   },
   "dehubLinks": {
     "kind": {
@@ -2863,7 +2875,8 @@
       "quote": "उद्धरण",
       "bullets": "बुलेट लिस्ट",
       "numbers": "संख्या सूची",
-      "link": "लिंक"
+      "link": "लिंक",
+      "image": "इमेज जोड़ें"
     }
   },
   "storefront": {
@@ -3873,7 +3886,11 @@
     "payDirectNoName": "{{chain}} पर {{symbol}} में सीधे क्रिएटर को भेजा गया। कोई स्वैप नहीं।",
     "payViaBridgeDpay": "बेस पर ले जाया गया और Riftn Pay को भुगतान किया गया, टोकन लगभग एक मिनट में आते हैं",
     "tokensUnit": "टोकन",
-    "tokenAmount": "{{amount}} टोकन"
+    "tokenAmount": "{{amount}} टोकन",
+    "addMessage": "मैसेज जोड़ें (ज़रूरी नहीं)",
+    "messagePublic": "सार्वजनिक",
+    "railTitle": "टिप",
+    "railTotal": "{{amount}} टोकन"
   },
   "postOptions": {
     "skippableSections": "स्किप्पेबल सेक्शन",
@@ -4613,7 +4630,8 @@
       "here": "{{name}} ने समुदाय के सभी लोगों को मैसेज भेजा",
       "hereNamed": "{{name}} ने \"{{community}}\" में सभी को मैसेज भेजा"
     },
-    "tokenAmount": "{{amount}} टोकन"
+    "tokenAmount": "{{amount}} टोकन",
+    "searchClose": "बंद करें खोज"
   },
   "leaderboard": {
     "title": "लीडरबोर्ड",
@@ -4805,7 +4823,18 @@
     "attachmentTooLarge": "हर फ़ाइल 50MB से कम होनी चाहिए",
     "deleteCommentA11y": "इस टिप्पणी को हटाना",
     "sendCommentA11y": "टिप्पणी भेजें",
-    "requestOptions": "अनुरोध के विकल्प"
+    "requestOptions": "अनुरोध के विकल्प",
+    "deviceInfoNoErrors": "कोई नहीं",
+    "topBuilders": {
+      "month": "इस महीने",
+      "allTime": "सभी समय",
+      "shipped": "शिप किया",
+      "votes": "वोट",
+      "comments": "टिप्पणियाँ",
+      "showLess": "कम दिखाएँ",
+      "viewProfile": "प्रोफ़ाइल देखें",
+      "you": "आप"
+    }
   },
   "auth": {
     "loginRequired": "लॉगिन आवश्यक है",
@@ -5080,7 +5109,17 @@
     "likesEmptyOwn": "आपकी लाइक की गई पोस्ट यहां दिखती हैं। जब तक आप सेटिंग्स में मेरी लाइक्स सबको दिखाएं चालू नहीं करते, सिर्फ़ आप इन्हें देख सकते हैं।",
     "likesEmptyOther": "अभी तक कुछ लाइक नहीं किया।",
     "likesPrivateTitle": "लाइक्स निजी हैं",
-    "likesPrivateDesc": "यह अकाउंट अपनी लाइक्स निजी रखता है।"
+    "likesPrivateDesc": "यह अकाउंट अपनी लाइक्स निजी रखता है।",
+    "articleShort": "लेख",
+    "articleMinRead": "{{count}} मिनट पढ़ें",
+    "pinnedShort": "पिन किया गया",
+    "post": "पोस्ट",
+    "arrange": {
+      "saving": "सहेजा जा रहा है..."
+    },
+    "reserve": {
+      "signIn": "साइन इन"
+    }
   },
   "tv": {
     "title": "टीवी",
@@ -5596,6 +5635,9 @@
       "action": "एक्शन",
       "schedule": "शेड्यूल",
       "filter": "गतिविधि फ़िल्टर करें"
+    },
+    "welcome": {
+      "text": "स्वागत संदेश"
     }
   },
   "hero": {
@@ -5677,7 +5719,16 @@
     "nowPublic": "फ़्लो अब सार्वजनिक है",
     "openCanvas": "कैनवास खोलें",
     "playVideo": "वीडियो चलाएं",
-    "signInToSee": "अपने अकाउंट में फ़्लो देखने के लिए साइन इन करें।"
+    "signInToSee": "अपने अकाउंट में फ़्लो देखने के लिए साइन इन करें।",
+    "newNativeFlow": "नया फ्लो",
+    "model": "मॉडल",
+    "aspectRatio": "पहलू अनुपात",
+    "duration": "सेकंड में अवधि",
+    "resolution": "रिज़ॉल्यूशन",
+    "disconnect": "बंद करें",
+    "payAndRun": "भुगतान करें और चलाएं",
+    "run": "चलाएं",
+    "handlePrompt": "प्रॉम्प्ट"
   },
   "loginModal": {
     "title": "लॉग इन",
@@ -6631,7 +6682,8 @@
       "copied": "मैसेज कॉपी किया गया",
       "copyText": "टेक्स्ट कॉपी करें",
       "mutedUntil": "आप {{date}} तक म्यूट हैं",
-      "slowMode": "स्लो मोड: हर {{interval}} पर एक मैसेज"
+      "slowMode": "स्लो मोड: हर {{interval}} पर एक मैसेज",
+      "aiAdminFailed": "AI एडमिन जवाब नहीं दे सका"
     },
     "manage": {
       "dismissAdminTitle": "एडमिन को बर्खास्त करें",
@@ -6839,6 +6891,32 @@
       "notFound": "यह आमंत्रण लिंक वैध नहीं है।",
       "requestToJoin": "शामिल होने का अनुरोध",
       "approvalNote": "एक प्रशासक को आपके अनुरोध को मंजूर करने से पहले आप शामिल नहीं हो सकते।"
+    },
+    "buyAlert": {
+      "spent": "खर्च किया गया:",
+      "buyer": "खरीदार:",
+      "txn": "ट्रांजेक्शन",
+      "balance": "बैलेंस :-",
+      "price": "किराया :-",
+      "marketCap": "मार्केट कैप:"
+    },
+    "newChat": {
+      "public": "सार्वजनिक",
+      "private": "निजी",
+      "free": "मुफ़्त",
+      "paid": "भुगतान हुआ",
+      "group": "समूह"
+    },
+    "holderGate": {
+      "chain": "चेन",
+      "which": "टोकन",
+      "tab": "मालिक"
+    },
+    "automod": {
+      "bannedWords": "बान शब्द",
+      "floodMax": "{{count}} संदेश",
+      "saved": "सहेजा गया",
+      "wordCount": "{{count}} शब्द"
     }
   },
   "work": {
@@ -8976,7 +9054,38 @@
     "coverFrames": "कवर फ़्रेम चुनें",
     "uploadCover": "कवर इमेज अपलोड करें",
     "editFailed": "यह बदलाव लागू नहीं हो सका। फिर से कोशिश करें।",
-    "coverFrame": "फ़्रेम {{index}} को कवर बनाएँ"
+    "coverFrame": "फ़्रेम {{index}} को कवर बनाएँ",
+    "altPlaceholderVideo": "इस वीडियो का वर्णन करें",
+    "preview": {
+      "title": "प्रीव्यू"
+    },
+    "recent": {
+      "all": "सभी"
+    },
+    "studio": {
+      "crop": "क्रॉप करें",
+      "draw": "ड्रॉ करें",
+      "light": "लाइट",
+      "contrast": "कंट्रास्ट",
+      "warmth": "गर्मजोशी",
+      "colour": "रंग",
+      "fade": "फीका पड़ना",
+      "original": "मूल",
+      "ratioOriginal": "मूल",
+      "ratioFree": "मुफ़्त",
+      "rotate": "घुमाएँ",
+      "strength": "ताकत",
+      "stickers": "स्टिकर",
+      "ticker": "टिकर",
+      "textBg": "बैकग्राउंड",
+      "font": {
+        "bold": "बोल्ड",
+        "serif": "सरिफ़",
+        "mono": "मोनो"
+      }
+    },
+    "edited": "एडिट किया गया",
+    "edit": "संपादित करें"
   },
   "bounty": {
     "claimed": "प्राप्त किया",
@@ -9270,7 +9379,8 @@
     "justChatting": "बस बातचीत",
     "noLiveStreams": "कोई लाइव स्ट्रीम नहीं",
     "noOneStreaming": "अभी कोई स्ट्रीम नहीं कर रहा है। बाद में फिर देखें!",
-    "loadStreamsFailed": "स्ट्रीम लोड नहीं हो सकीं। फिर से कोशिश करें।"
+    "loadStreamsFailed": "स्ट्रीम लोड नहीं हो सकीं। फिर से कोशिश करें।",
+    "liveBadge": "लाइव"
   },
   "liveShop": {
     "title": "इस स्ट्रीम से खरीदें",
@@ -9604,7 +9714,14 @@
     "shareGroups": "ग्रुप",
     "shareKindGroup": "ग्रुप",
     "shareKindChannel": "चैनल",
-    "shareKindCommunity": "कम्युनिटी"
+    "shareKindCommunity": "कम्युनिटी",
+    "newDrawer": {
+      "to": "तक"
+    },
+    "download": "डाउनलोड",
+    "deleteOneTitle": "इस मैसेज को मिटाएँ?",
+    "retrySend": "फिर कोशिश करें",
+    "discardSend": "हटाएँ"
   },
   "editPost": {
     "mediaPermission": "मीडिया लाइब्रेरी की अनुमति आवश्यक है",
@@ -10823,7 +10940,11 @@
       "translateCount": "{{count}} उपशीर्षकों का अनुवाद करें",
       "translationDone": "{{count}} उपशीर्षकों का अनुवाद हो गया",
       "translationFailed": "उपशीर्षकों का अनुवाद विफल रहा। आपके उपशीर्षक नहीं बदले हैं।",
-      "lockedTranslation": "लॉक किए गए उपशीर्षकों को शामिल करने के लिए उनका लॉक खोलें।"
+      "lockedTranslation": "लॉक किए गए उपशीर्षकों को शामिल करने के लिए उनका लॉक खोलें।",
+      "styles": {
+        "bold": "बोल्ड",
+        "serif": "सरिफ़"
+      }
     },
     "app": {
       "newDesign": "नया डिज़ाइन",
@@ -10893,7 +11014,8 @@
       "vibrant": "चटकीला",
       "cyber": "साइबर",
       "invert": "उल्टा",
-      "strength": "फ़िल्टर की मज़बूती: {{value}}%"
+      "strength": "फ़िल्टर की मज़बूती: {{value}}%",
+      "vhs": "वीएचएस"
     },
     "layer": {
       "crop": "क्रॉप करें",
@@ -11073,7 +11195,9 @@
       "suggestTitle": "ऊपर एक बड़ा बोल्ड टाइटल और उसके नीचे छोटा सबटाइटल जोड़ो",
       "undo": "पूर्ववत करें",
       "openGenerator": "देखें और जनरेट करें",
-      "working": "काम चल रहा है…"
+      "working": "काम चल रहा है…",
+      "stop": "रोकें",
+      "queue": "कतार में जोड़ें"
     },
     "brand": {
       "addColor": "ब्रांड रंग जोड़ें",
@@ -11210,7 +11334,9 @@
       "rendering": "वीडियो रेंडर हो रहा है… {{percent}}%",
       "mp4": "MP4 वीडियो",
       "exportHint": "वीडियो रेंडर होने तक एडिटर खुला रखें।",
-      "tooLarge": "यह फ़ाइल एडिटर के लिए बहुत बड़ी है। सीमा 400 MB है।"
+      "tooLarge": "यह फ़ाइल एडिटर के लिए बहुत बड़ी है। सीमा 400 MB है।",
+      "tZoomIn": "ज़ूम इन करें",
+      "tZoomOut": "ज़ूम आउट करें"
     },
     "motion": {
       "title": "गति",
@@ -12389,6 +12515,28 @@
       "selection": "चयन",
       "zoomIn": "ज़ूम कैनवास इन करें",
       "zoomOut": "कैनवास ज़ूम आउट करें"
+    },
+    "stage": {
+      "camera": "कैमरा",
+      "yaw": "घुमाव",
+      "add": "जोड़ें",
+      "scale": "आकार",
+      "color": "रंग",
+      "light": "लाइट"
+    },
+    "clipFix": {
+      "listening": "सुन रहे हैं…"
+    },
+    "voiceClone": {
+      "stop": "रिकॉर्डिंग रोकें",
+      "failed": "आवाज क्लोनिंग विफल"
+    },
+    "linkImport": {
+      "go": "आयात करें",
+      "downloading": "{{percent}}% डाउनलोड हो रहा है"
+    },
+    "reverse": {
+      "action": "पीछे की ओर"
     }
   },
   "creator": {
@@ -12850,7 +12998,32 @@
     "referenceProductName": "एक क्लिप में अपनी प्रोडक्ट को प्लेस करें",
     "referenceProductHint": "मूल दृश्य को बनाए रखते हुए फीचर्ड प्रोडक्ट को बदलें।",
     "referenceComposeName": "संदर्भ इमेजों को संयुक्त करें",
-    "referenceComposeHint": "कई इमेजों से चरित्र, वस्तुएं और सेटिंग्स को एक ही संरचना में लाएं।"
+    "referenceComposeHint": "कई इमेजों से चरित्र, वस्तुएं और सेटिंग्स को एक ही संरचना में लाएं।",
+    "marketing": {
+      "import": {
+        "use": "इन विवरणों का इस्तेमाल करें"
+      }
+    },
+    "batchCount": "छवियाँ",
+    "endFrame": "अंतिम फ्रेम",
+    "cinema": {
+      "close": "बंद करें",
+      "performance": {
+        "label": "प्रदर्शन"
+      }
+    },
+    "audioNoSpeech": "उस रिकॉर्डिंग में कोई भाषण नहीं मिला।",
+    "audioTaskSpeechLabel": "वाणी",
+    "audioTaskDialogueLabel": "संवाद",
+    "audioTaskSfxLabel": "साउंड इफ़ेक्ट",
+    "audioTaskVoiceChangerLabel": "वॉइस चेंजर",
+    "audioTaskTranscribeLabel": "ट्रांसक्राइब",
+    "audioTaskIsolateLabel": "साफ़ करें",
+    "priceFreeRateLimited": "मुफ़्त · दर की सीमाएँ लागू",
+    "loop": "लूप",
+    "dialogueFormat": "सीन को “नाम: पंक्ति” के रूप में लिखिए, हर पंक्ति में एक वक्ता।",
+    "fileTooLarge": "यह फ़ाइल 100 MB से बड़ी है। कोई छोटी या कम अवधि वाली फ़ाइल लीजिए।",
+    "signInToGenerate": "जनरेट करने के लिए साइन इन कीजिए।"
   },
   "fractions": {
     "title": "फ़्रैक्शन",
@@ -14846,6 +15019,19 @@
       "intro": "दर्शक हर उस मिनट के लिए एक पॉइंट कमाते हैं जो वे आपको देखते हैं और हर 100 टोकन के लिए एक पॉइंट गिफ़्ट करते हैं। चैट और प्रतिक्रियाओं से कोई फ़ायदा नहीं होता, इसलिए पॉइंट को फ़ार्मेड नहीं किया जा सकता।",
       "empty": "अभी तक कोई मुद्दा नहीं है। वे लोगों के देखने और उपहार देने के रूप में निर्माण करते हैं।",
       "widgetHint": "इस लिस्ट को स्ट्रीम पर दिखाने के लिए लॉयल व्यूअर विजेट जोड़ें।"
+    },
+    "destinations": {
+      "platform": "प्लेटफ़ॉर्म",
+      "label": "नाम (वैकल्पिक)",
+      "key": "स्ट्रीम कुंजी",
+      "save": "जोड़ें",
+      "cancel": "कैंसिल करें",
+      "states": {
+        "off": "बंद",
+        "idle": "तैयार",
+        "live": "लाइव",
+        "error": "त्रुटि"
+      }
     }
   },
   "liveChatModeration": {
@@ -14930,7 +15116,72 @@
     "days": "{{count}} दिन",
     "spotlightForSale": "अभी बिक्री पर",
     "spotlightNew": "अभी मिंटेड",
-    "buyFor": "{{price}} के लिए खरीदें"
+    "buyFor": "{{price}} के लिए खरीदें",
+    "actAll": "सभी",
+    "actListings": "लिस्टिंग",
+    "actOffer": "प्रस्ताव",
+    "actOffers": "ऑफ़र",
+    "actSales": "बिक्री",
+    "tabActivity": "गतिविधि",
+    "allChains": "सभी चेन",
+    "newest": "सबसे नया",
+    "cheapest": "सबसे कम कीमत",
+    "soldFor": "बिक गया",
+    "signIn": "साइन इन",
+    "title": "एनएफटीज़",
+    "share": "साझा करें",
+    "noneForSale": "अभी कुछ बिक्री पर नहीं है",
+    "noSales": "अभी तक कोई बिक्री नहीं",
+    "tabBrowse": "ब्राउज़ करें",
+    "tabMine": "आपके",
+    "tabSales": "बिक्री",
+    "cancelled": "रद्द किया गया",
+    "sold": "बिक गया",
+    "listed": "बिक्री के लिए सूचीबद्ध",
+    "feeRow": "Riftn शुल्क ({{pct}}%)",
+    "royaltyRow": "निर्माता रॉयल्टी",
+    "youGet": "आप प्राप्त करते हैं",
+    "holderGets": "धारक को मिलता है",
+    "loading": "लोडिंग…",
+    "price": "कीमत",
+    "seller": "विक्रेता",
+    "tabRecent": "हाल का",
+    "buyNow": "अभी खरीदें",
+    "offers": "प्रस्ताव",
+    "cancel": "रद्द करें",
+    "accept": "स्वीकार करें",
+    "signInToTrade": "साइन इन करें ट्रेड करने के लिए",
+    "listForSale": "बिक्री के लिए सूचीबद्ध करें",
+    "makeOffer": "ऑफ़र दें",
+    "sendOffer": "पेशकश भेजें",
+    "back": "वापस",
+    "dropsTo": "कीमत {{date}} तक {{price}} तक गिरती है",
+    "inBundle": "{{n}} के बंडल के रूप में बेचा गया",
+    "trending": "ट्रेंडिंग कलेक्शन",
+    "floor": "फ़र्श",
+    "listedCount": "{{n}} बिक्री के लिए",
+    "thisCollection": "यह कलेक्शन",
+    "collectionOffer": "किसी भी पर ऑफ़र करें",
+    "showAll": "सभी दिखाएँ",
+    "shortTitle": "एनएफटीज़",
+    "filters": "फ़िल्टर",
+    "forSale": "बिक्री के लिए",
+    "openToOffers": "ऑफ़र के लिए खुला है",
+    "freshMints": "Riftn क्रिएटर्स की तरफ़ से ताज़ा",
+    "offersOpen": "ऑफ़र के लिए खुला है",
+    "mintedCount": "{{n}} टकसाल",
+    "anyInCollection": "संग्रह में कोई भी",
+    "thisNft": "यह NFT",
+    "priceAlert": "कीमत सतर्कता",
+    "alertUnder": "बताएं कि कब सूचीबद्ध हो ({{symbol}}, वैकल्पिक)",
+    "turnOnAlert": "सतर्कता चालू करें",
+    "alertSaved": "सतर्कता चालू है। हम आपको बताएंगे जब एक सूचीबद्ध हो।",
+    "priceDrop": "कीमत समय के साथ गिरती है",
+    "endPrice": "सबसे कम कीमत, अंत में पहुंची ({{symbol}})",
+    "bundleBadge": "बंडल ×{{n}}",
+    "dropBadge": "कीमत में गिरावट",
+    "days_one": "{{count}} दिन",
+    "days_other": "{{count}} दिन"
   },
   "riftnMove": {
     "title": "DeHub अब Riftn है",
@@ -14965,7 +15216,11 @@
       "episode": "पॉडकास्ट एपिसोड",
       "show": "पॉडकास्ट",
       "artist": "कलाकार"
-    }
+    },
+    "loading": "लोडिंग…",
+    "paused": "रोक दिया गया",
+    "preview": "प्रीव्यू",
+    "seek": "ढूँढें"
   },
   "twoFactor": {
     "wrongCode": "वह कोड मेल नहीं खाता था। अपने ऐप में नवीनतम को आज़माएँ।",
@@ -15046,5 +15301,249 @@
   },
   "profileImage": {
     "change": "बदलें"
+  },
+  "remix": {
+    "cut": "काटें"
+  },
+  "signedFollows": {
+    "setUp": "चालू करें",
+    "turnOff": "बंद करें",
+    "efpTurnOff": "रोकें"
+  },
+  "postEditHistory": {
+    "original": "ओरिजिनल"
+  },
+  "studioDeck": {
+    "remove": "हटाएँ",
+    "background": {
+      "title": "बैकग्राउंड",
+      "modes": {
+        "none": "बंद",
+        "blur": "धुंधला",
+        "color": "रंग"
+      }
+    },
+    "scenes": {
+      "countdown": "गिनती का गणित",
+      "minutes": "{{count}} मिनट",
+      "names": {
+        "starting": "जल्द शुरू"
+      }
+    },
+    "widgets": {
+      "tab": "विजेट"
+    },
+    "sources": {
+      "image": "इमेज",
+      "show": "स्ट्रीम पर दिखाएँ",
+      "positions": {
+        "center": "केंद्रित करें"
+      },
+      "sizes": {
+        "small": "छोटा",
+        "medium": "मध्यम",
+        "large": "बड़ा"
+      }
+    },
+    "phone": {
+      "title": "स्टूडियो"
+    }
+  },
+  "whenSheet": {
+    "today": "आज",
+    "earlierShort": "पहले",
+    "tooSoon": "भविष्य में एक समय चुनें।",
+    "show": "दिखाएँ",
+    "hide": "छिपाएँ"
+  },
+  "planned": {
+    "title": "योजनाबद्ध",
+    "all": "सभी",
+    "posts": "पोस्ट",
+    "stages": "ऑडियो रूम",
+    "post": "पोस्ट",
+    "live": "लाइव",
+    "stage": "स्टेज",
+    "untitledPost": "पोस्ट",
+    "untitledLive": "लाइव",
+    "loading": "लोड हो रहा है…",
+    "startNow": "अभी शुरू करें",
+    "cancel": "कैंसिल करें",
+    "cancelled": "कैंसिल किया गया"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn में आपका स्वागत है",
+      "day": "दिन",
+      "month": "महीना",
+      "year": "साल"
+    },
+    "name": {
+      "title": "आपका नाम",
+      "placeholder": "आपका नाम"
+    },
+    "card": {
+      "name": "आपका नाम",
+      "followers": "फ़ॉलोअर"
+    },
+    "topic": {
+      "music": "संगीत",
+      "art": "कला",
+      "gaming": "गेमिंग",
+      "crypto": "क्रिप्टो",
+      "sports": "खेल",
+      "comedy": "कॉमेडी",
+      "film": "फ़िल्म",
+      "podcast": "पॉडकास्ट",
+      "food": "खाना",
+      "news": "न्यूज़",
+      "science": "विज्ञान"
+    },
+    "back": "वापस",
+    "skipPhoto": "अभी छोड़ें",
+    "preview": "प्रीव्यू"
+  },
+  "appTokens": {
+    "title": "आपके टोकन",
+    "history": "इतिहास",
+    "noHistory": "अभी तक कोई गतिविधि नहीं है",
+    "kindDeposit": "जमा करें",
+    "to": "तक",
+    "amount": "राशि",
+    "notePlaceholder": "नोट जोड़ें (वैकल्पिक)",
+    "sendButton": "भेजें",
+    "errorInsufficient": "पर्याप्त टोकन नहीं हैं"
+  },
+  "avatarPrompt": {
+    "notNow": "अभी नहीं"
+  },
+  "postStats": {
+    "audience": "ऑडियंस",
+    "engagement": "सहभागिता",
+    "finished": "समाप्त",
+    "members": "सदस्य",
+    "membersLower": "सदस्य",
+    "newFollowers": "नए फ़ॉलोअर",
+    "noBadge": "कोई बैज",
+    "people": "लोग",
+    "plays": "नाटक",
+    "quotes": "उद्धरण",
+    "reposts": "रीपोस्ट",
+    "saved": "सहेजा गया",
+    "shares": "शेयर",
+    "signedOutViewers": "लॉग आउट हो गया",
+    "topSupporters": "शीर्ष समर्थक",
+    "visitors": "लॉग आउट हो गया"
+  },
+  "duet": {
+    "policyEveryone": "सभी",
+    "policyFollowers": "फ़ॉलोअर्स",
+    "policyNobody": "कोई नहीं",
+    "loadMore": "और लोड करें",
+    "video": "वीडियो"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "सभी",
+      "followers": "फ़ॉलोअर्स",
+      "nobody": "कोई नहीं"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "सभी",
+      "followers": "फ़ॉलोअर्स",
+      "nobody": "कोई नहीं"
+    },
+    "heading": "प्रतिक्रियाएं",
+    "more": "और दिखाएं",
+    "liveNow": "लाइव",
+    "untitled": "प्रतिक्रिया"
+  },
+  "liveClips": {
+    "copyLink": "लिंक कॉपी करें",
+    "linkCopied": "लिंक कॉपी किया गया"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "प्लान",
+      "howMany": "कितने",
+      "who": "यूज़रनेम या वॉलेट पता",
+      "whoPlaceholder": "@यूज़रनेम",
+      "cancel": "कैंसिल करें",
+      "stage": {
+        "preparing": "तैयार हो रहा है…",
+        "confirming": "लेनदेन की प्रतीक्षा…",
+        "recording": "पूरा हो रहा है…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "अन्य",
+    "confirming": "भुगतान की पुष्टि हो रही है…"
+  },
+  "liveShorts": {
+    "live": "लाइव"
+  },
+  "feedFilters": {
+    "clearAllShort": "सब साफ़ करें",
+    "done": "हो गया",
+    "edit": "संपादित करें",
+    "groupDate": "तारीख",
+    "groupSort": "क्रम में लगाएँ",
+    "groupType": "प्रकार",
+    "save": "सहेजें"
+  },
+  "ownKeys": {
+    "working": "काम चल रहा है",
+    "failed": "कुछ गड़बड़ हुई। फिर से कोशिश करें।",
+    "check": "जाँच करें",
+    "remove": "हटाएँ",
+    "save": "सहेजें",
+    "cancel": "रद्द करें"
+  },
+  "postBg": {
+    "none": "कोई नहीं",
+    "yours": "आपके",
+    "accent": "एक्सेंट",
+    "names": {
+      "aurora": "अरोड़ा",
+      "lava": "लावा लैंप",
+      "drive": "नाइट ड्राइव",
+      "chrome": "लिक्विड क्रोम",
+      "orbit": "ऑर्बिट",
+      "snow": "बर्फ़बारी"
+    }
+  },
+  "articleTile": {
+    "cover": "कवर"
+  },
+  "aiConsent": {
+    "allow": "अनुमति दें"
+  },
+  "dmRequests": {
+    "title": "अनुरोध",
+    "accept": "स्वीकार करें",
+    "delete": "हटाएँ",
+    "block": "ब्लॉक"
+  },
+  "dmSchedule": {
+    "view": "देखें",
+    "edit": "संपादित करें",
+    "editLabel": "मैसेज में बदलाव करें",
+    "error": "यह काम नहीं आया। फिर से कोशिश करें।"
+  },
+  "chatBulk": {
+    "selected": "{{count}} चुने गए",
+    "cancel": "रद्द करें",
+    "reply": "जवाब",
+    "delete": "हटाएँ"
+  },
+  "msgSelect": {
+    "selected": "{{count}} चुने गए",
+    "copy": "कॉपी करें",
+    "forward": "फ़ॉरवर्ड करें",
+    "deleted_one": "मिटाया गया {{count}} मैसेज",
+    "deleted_other": "मिटाये गए {{count}} मैसेज"
   }
 }

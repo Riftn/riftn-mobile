@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Audius'та бул аптада популярдуу. Эркин колдонуу, аткаруучу сиздин постуңузда таанылат.",
     "d2e45b7406fc": "Wikimedia Commons'тан коомдук домен жана Creative Commons музыкасы. Аткаруучу сиздин постуңузда таанылат.",
     "d0c1a3684775": "Ырлар жүктөлбөй калды. Бир аздан кийин кайра аракет кылыңыз.",
-    "d14064f80f52": "Үндү кошуу"
+    "d14064f80f52": "Үндү кошуу",
+    "71988c4d8e08": "Текст",
+    "147170e793c6": "Кең",
+    "481859b689b0": "Байланышыңызды текшерип, кайра аракет кылып көрүңүз.",
+    "57e2faa5ec63": "Riftn'дан издөө",
+    "7db20897053b": "Адамдар",
+    "96d7bff86b44": "Издөө жүктөлбөйт",
+    "d8b8392e2c54": "Кайра аракет кылуу"
   },
   "dehubLinks": {
     "kind": {
@@ -2673,8 +2680,17 @@
     "presets": {
       "blog": "Блог",
       "shop": "Дүкөн",
-      "custom": "Көнүмүш"
-    }
+      "custom": "Көнүмүш",
+      "website": "Вебсайт",
+      "portfolio": "Портфолио",
+      "podcast": "Подкаст",
+      "newsletter": "Маалымат бюллетени",
+      "pronouns": "Сүйлөмдөр",
+      "location": "Жайгашкан жери",
+      "customOption": "Көнүмүш этикеткасы"
+    },
+    "descriptionPresets": "Вебсайтты, презентацияларды же башка нерселерди кошуңуз. Шилтемелер социалдык тармактарыңыз менен көрсөтүлөт.",
+    "placeholderLink": "өзгөчөлүктөрү"
   },
   "notificationFilters": {
     "title": "Билдирмелерди чыпкалоо",
@@ -2845,7 +2861,8 @@
       "quote": "Цитата",
       "bullets": "Ок тизмеси",
       "numbers": "Номерленген тизме",
-      "link": "Шилтеме"
+      "link": "Шилтеме",
+      "image": "Сүрөттөрдү кошуу"
     }
   },
   "storefront": {
@@ -3773,7 +3790,11 @@
     "payViaDpay": "Riftn Pay'ге төлөндү, токендер болжол менен 30 сек. ичинде келет",
     "payViaBridgeDpay": "Base'ка которулду жана Riftn Pay'ге төлөндү, токендер болжол менен бир мүнөттө келет",
     "tokensUnit": "токендер",
-    "tokenAmount": "{{amount}} токен"
+    "tokenAmount": "{{amount}} токен",
+    "addMessage": "Билдирүү кошуу (милдеттүү эмес)",
+    "messagePublic": "Ачык",
+    "railTitle": "Кеңештер",
+    "railTotal": "{{amount}} токен"
   },
   "postOptions": {
     "skippableSections": "Skippable бөлүмдөрү",
@@ -4501,7 +4522,11 @@
       "hereNamed": "{{name}} \"{{community}}\" ичиндеги баарына билдирүү жөнөттү"
     },
     "badgeHandedBack": "{{name}} сизге берген {{tier}} төш белгисин кайтарып берди",
-    "tokenAmount": "{{amount}} токен"
+    "tokenAmount": "{{amount}} токен",
+    "groupNew": "Жаңы",
+    "groupToday": "Бүгүн",
+    "groupThisWeek": "Бул жума",
+    "searchClose": "Тоскоолу шилтеме"
   },
   "leaderboard": {
     "title": "Рейтинг",
@@ -4693,7 +4718,18 @@
     "attachmentTooLarge": "Ар бир файл 50 МБ'дан кичине болушу керек",
     "deleteCommentA11y": "Комментарийди өчүрүү",
     "sendCommentA11y": "Комментарий жөнөтүү",
-    "requestOptions": "Параметрлерди суроо"
+    "requestOptions": "Параметрлерди суроо",
+    "deviceInfoNoErrors": "Эч бири",
+    "topBuilders": {
+      "month": "Бул ай",
+      "allTime": "Бардык убакыт",
+      "shipped": "Жеткирилди",
+      "votes": "Шайлоо",
+      "comments": "Комментарийлер",
+      "showLess": "Азайтуу",
+      "viewProfile": "Профилди көрүү",
+      "you": "Сиз"
+    }
   },
   "auth": {
     "loginRequired": "Кирүү талап кылынат",
@@ -4953,7 +4989,20 @@
       "votes_one": "{{value}} добуш берүү",
       "members_one": "{{value}} мүчөсү",
       "members_other": "{{value}} мүчө"
-    }
+    },
+    "articleShort": "Макала",
+    "articleMinRead": "{{count}} min окуган",
+    "pinnedShort": "Бекитилген",
+    "post": "Жарыялоо",
+    "arrange": {
+      "saving": "Сакталууда..."
+    },
+    "reserve": {
+      "signIn": "Кирүү"
+    },
+    "tabLikes": "Жактыруулар",
+    "likesEmptyTitle": "Азырынча жактыруулар жок",
+    "likesPrivateTitle": "Жактыруулар жабык"
   },
   "tv": {
     "title": "ТВ",
@@ -5469,6 +5518,9 @@
       "action": "Иш-аракет",
       "schedule": "График",
       "filter": "Активдүүлүктү чыпкалоо"
+    },
+    "welcome": {
+      "text": "Куттуктоо билдирүүсү"
     }
   },
   "hero": {
@@ -5550,7 +5602,16 @@
     "nowPublic": "Агым азыр жалпыга ачык",
     "openCanvas": "Полотнону ачуу",
     "playVideo": "Видео ойнотуу",
-    "signInToSee": "Аккаунтуңуздагы агымдарды көрүү үчүн кириңиз."
+    "signInToSee": "Аккаунтуңуздагы агымдарды көрүү үчүн кириңиз.",
+    "newNativeFlow": "Жаңы flow",
+    "model": "Модель",
+    "aspectRatio": "Аспект катышы",
+    "duration": "Сандый секундда",
+    "resolution": "Чечүүлүк",
+    "disconnect": "Өчүрүү",
+    "payAndRun": "Төлөө жана иштетүү",
+    "run": "Иштетүү",
+    "handlePrompt": "Суроо"
   },
   "loginModal": {
     "title": "Кирүү",
@@ -5870,7 +5931,8 @@
     "searchMenu": "Менюдан издөө",
     "clearSearch": "Издөөнү тазалоо",
     "noMenuMatches": "Менюда эч нерсе дал келбеди",
-    "searchDehubFor": "Riftn'тан «{{query}}» издөө"
+    "searchDehubFor": "Riftn'тан «{{query}}» издөө",
+    "requestSend": "Суроо жөнөтүү"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6489,7 +6551,11 @@
       "copied": "Билдирүү көчүрмөлөндү",
       "copyText": "Текстти көчүрүү",
       "mutedUntil": "Сиз {{date}} чейин өчүрүлдүңүз",
-      "slowMode": "Жай режими: ар бир билдирүү {{interval}}"
+      "slowMode": "Жай режими: ар бир билдирүү {{interval}}",
+      "joined": "{{name}} кошулду",
+      "reactions": "Реакциялар",
+      "photoTooLarge": "Сүрөт 10MB ашпашы керек",
+      "aiAdminFailed": "AI администратору жооп бере алган жок"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6692,6 +6758,32 @@
       "notFound": "Бул чакыруу шилтемеси жараксыз.",
       "requestToJoin": "Кошулуу өтүнүчү",
       "approvalNote": "Администратор кошулуудан мурун сурамыңызды жактырышы керек."
+    },
+    "buyAlert": {
+      "spent": "Өткөрүлгөн:",
+      "buyer": "Сатып алуучу:",
+      "txn": "Транзакция",
+      "balance": "Баланс:",
+      "price": "Баасы:",
+      "marketCap": "Рыноктун капкагы:"
+    },
+    "newChat": {
+      "public": "Ачык",
+      "private": "Жеке",
+      "free": "Бекер",
+      "paid": "Төлөнгөн",
+      "group": "Топ"
+    },
+    "holderGate": {
+      "chain": "Тармак",
+      "which": "Токен",
+      "tab": "Ээлеген Адамдар"
+    },
+    "automod": {
+      "bannedWords": "Бандалган сөздөр.",
+      "floodMax": "{{count}} билдирүүлөрү",
+      "saved": "Сакталды",
+      "wordCount": "{{count}} Words"
     }
   },
   "work": {
@@ -7813,7 +7905,10 @@
       "doneAll": "{{done}} колдоого алынып салынган аккаунттар сизди колдоого албайт.",
       "doneSome": "{{done}} колдоого алынып салынган аккаунттар. {{failed}} колдоого алынбады.",
       "doneToast": "{{done}} колдоого алынып салынган аккаунттар сизди колдоого албайт."
-    }
+    },
+    "followBackConfirm": "Жазылуу",
+    "followBackNotNow": "Эми эмес",
+    "followBackDone": "Бүттү"
   },
   "reactionInfo": {
     "title": "Реакциялар",
@@ -8731,7 +8826,38 @@
     "coverFrames": "Көрүүнүн көчүрүү түрүн танда",
     "coverFrame": "Көрүүнүн көчүрүү түрү {{index}} көрүүнүн көчүрүү түрү",
     "uploadCover": "Көрүүнүн көчүрүү түрүн жүктө",
-    "editFailed": "Көрүүнүн көчүрүү түрүн жүктөп көрүүгө болбой калды. Көрүүнүн көчүрүү түрүн кайра көрүңүз."
+    "editFailed": "Көрүүнүн көчүрүү түрүн жүктөп көрүүгө болбой калды. Көрүүнүн көчүрүү түрүн кайра көрүңүз.",
+    "altPlaceholderVideo": "Бул видеону сүрөттөп бериңиз",
+    "landingLive": "Түз эфир",
+    "preview": {
+      "title": "Алдын ала кароо"
+    },
+    "recent": {
+      "all": "Баарын"
+    },
+    "studio": {
+      "crop": "Кыркуу",
+      "draw": "Тартуу",
+      "light": "Жарык",
+      "contrast": "Карама-каршылык",
+      "warmth": "Жылуулук",
+      "colour": "Түс",
+      "fade": "Өчүрүү",
+      "original": "Оригинал",
+      "ratioOriginal": "Оригинал",
+      "ratioFree": "Бекер",
+      "rotate": "Айлантуу",
+      "strength": "Күч",
+      "stickers": "Стикерлер",
+      "ticker": "Тикер",
+      "textBg": "Фон",
+      "font": {
+        "bold": "Калың",
+        "mono": "Моно"
+      }
+    },
+    "edited": "ӨЗГӨРТҮЛ",
+    "edit": "Түзөтүү"
   },
   "bounty": {
     "claimed": "Алынды",
@@ -9025,7 +9151,8 @@
     "reconnecting": "Кайра туташууда…",
     "connecting": "Туташууда…",
     "shopPutOnAir": "Абага коюу",
-    "streamFromEncoder": "OBS же башка кодерден түз обого чыгаргыла"
+    "streamFromEncoder": "OBS же башка кодерден түз обого чыгаргыла",
+    "liveBadge": "ЖАНДУУ"
   },
   "liveShop": {
     "title": "Бул эфирден сатып алыңыз",
@@ -9338,7 +9465,23 @@
     "paymentSentWith": "{{amount}} менен жөнөтүлдү",
     "planRestricted": "Бул колдонуучу билдирүү алуу үчүн жазылууну талап кылат.",
     "planTypeNotAllowed": "Бул автордун планы мындай билдирүүгө уруксат бербейт.",
-    "planMinTip": "Бул автор үчүн чайпул кеминде {{amount}} токендер болушу керек."
+    "planMinTip": "Бул автор үчүн чайпул кеминде {{amount}} токендер болушу керек.",
+    "newDrawer": {
+      "to": "Чечүү"
+    },
+    "download": "Жүктөп алуу",
+    "deleteOneTitle": "Бул билдирүүнү өчүрүү керекпи?",
+    "retrySend": "Кайра аракет кылуу",
+    "discardSend": "Алып салуу",
+    "shareKindGroup": "Топ",
+    "shareKindCommunity": "Коомчулук",
+    "searchDiscover": {
+      "people": "Адамдар",
+      "communities": "Коомчулуктар",
+      "members": "{{n}} мүчөлөр",
+      "newChat": "Жаңы чат",
+      "invite": "Чакыруу"
+    }
   },
   "editPost": {
     "mediaPermission": "Медиа китепканага уруксат керек",
@@ -10556,7 +10699,10 @@
       "hint": "Сүйлөгөндү убакытка ылайыкталган субтитрлерге айлантат, стилин өзгөртө аласыз. Түзмөгүңүздө иштейт: акысыз жана купуя. Биринчи колдонууда модель жүктөлөт.",
       "done": "{{count}} субтитр кошулду.",
       "noSpeech": "Бул клипте сүйлөө табылган жок.",
-      "failed": "Бул клип үчүн субтитр түзүлгөн жок."
+      "failed": "Бул клип үчүн субтитр түзүлгөн жок.",
+      "styles": {
+        "bold": "Калың"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10626,7 +10772,8 @@
       "vibrant": "Жандуу",
       "cyber": "Кибер",
       "invert": "Инверсия",
-      "strength": "Фильтр күчү: {{value}}%"
+      "strength": "Фильтр күчү: {{value}}%",
+      "vhs": "ВХС"
     },
     "layer": {
       "crop": "Кыркуу",
@@ -10806,7 +10953,9 @@
       "suggestTitle": "Үстүнө чоң жоон аталыш, анын астына кичирээк подзаголовок кош",
       "undo": "Жокко чыгаруу",
       "openGenerator": "Карап чыгып түзүү",
-      "working": "Иштеп жатам…"
+      "working": "Иштеп жатам…",
+      "stop": "Токтотуу",
+      "queue": "Кезегине кошуу"
     },
     "brand": {
       "addColor": "Бренд түсүн кошуу",
@@ -10943,7 +11092,9 @@
       "rendering": "Видео иштелүүдө… {{percent}}%",
       "mp4": "MP4 видео",
       "exportHint": "Видеоңуз иштелип жатканда редакторду жаппаңыз.",
-      "tooLarge": "Бул файл редактор үчүн өтө чоң. Чеги — 400 MB."
+      "tooLarge": "Бул файл редактор үчүн өтө чоң. Чеги — 400 MB.",
+      "tZoomIn": "Чоңойтуу",
+      "tZoomOut": "Масштабды кичирейтүү"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12122,6 +12273,28 @@
       "fit": "Ылайыктуу",
       "pan": "Пан карандаш",
       "selection": "Тандооtransform-type"
+    },
+    "stage": {
+      "camera": "Камера",
+      "yaw": "Айлануу",
+      "add": "Кошуу",
+      "scale": "Өлчөм",
+      "color": "Түс",
+      "light": "Жарык"
+    },
+    "clipFix": {
+      "listening": "Угулуп жатат..."
+    },
+    "voiceClone": {
+      "stop": "Жаздырууну токтотуу",
+      "failed": "Клонирование голоса не удалось."
+    },
+    "linkImport": {
+      "go": "Импорттоо",
+      "downloading": "{{percent}}% жүктөп жатат"
+    },
+    "reverse": {
+      "action": "Карама-каршы"
     }
   },
   "creator": {
@@ -12583,7 +12756,32 @@
     "referenceProductName": "Продуктуңузду клипке жайгаштырыңыз",
     "referenceProductHint": "Тандалган продуктту алмаштырып, оригиналдык сахнаны сактоо.",
     "referenceComposeName": "Референс сүрөттөрдү бириктирүү",
-    "referenceComposeHint": "Көп сүрөттүн карактери, объекттери жана орнотуулары бир композицияга кошуу."
+    "referenceComposeHint": "Көп сүрөттүн карактери, объекттери жана орнотуулары бир композицияга кошуу.",
+    "marketing": {
+      "import": {
+        "use": "Бул деталдарды колдонуу"
+      }
+    },
+    "batchCount": "Сүрөттөр",
+    "endFrame": "Аяктоо кадры",
+    "cinema": {
+      "close": "Жабуу",
+      "performance": {
+        "label": "Өндүрүмдүүлүк"
+      }
+    },
+    "audioNoSpeech": "Ал жазууда эч кандай сөз табылган жок.",
+    "audioTaskSpeechLabel": "Сүйлөм",
+    "audioTaskDialogueLabel": "Диалог",
+    "audioTaskSfxLabel": "Үн эффекти",
+    "audioTaskVoiceChangerLabel": "Үн өзгөрткүч",
+    "audioTaskTranscribeLabel": "Транскрипциялоо",
+    "audioTaskIsolateLabel": "Тазалоо",
+    "priceFreeRateLimited": "Free · чен чектери колдонулат",
+    "loop": "Кирүү",
+    "dialogueFormat": "Сахнаны \"Аты-жөнү: сап\" деп жазыңыз, бир сапка бир спикер.",
+    "fileTooLarge": "Бул файл 100 МБ ашык. Кыска же кичирээк колдонуңуз.",
+    "signInToGenerate": "Түзүү үчүн кирүү."
   },
   "fractions": {
     "title": "Бөлүктөр",
@@ -14652,6 +14850,19 @@
       "intro": "Көрүүчүлөр сени көргөн ар бир мүнөт үчүн балл табышат жана белек кылган ар бир 100 токендер үчүн бир балл табышат. Чат жана реакциялар эч нерсеге арзыбайт, ошондуктан упайларды өстүрүүгө болбойт.",
       "empty": "Азырынча эч кандай упайлар жок. Алар карап жана белек катары куруп жатышат.",
       "widgetHint": "Бул тизмени агымга көрсөтүү үчүн берилген көрүүчүлөрдүн виджетин кошуу."
+    },
+    "destinations": {
+      "platform": "Платформа",
+      "label": "Аты (милдеттүү эмес)",
+      "key": "Агым ачкычы",
+      "save": "Кошуу",
+      "cancel": "Жокко чыгаруу",
+      "states": {
+        "off": "Өчүрүү",
+        "idle": "Даяр",
+        "live": "Түз эфир",
+        "error": "Ката"
+      }
     }
   },
   "liveChatModeration": {
@@ -14690,7 +14901,9 @@
     "paidFromWalletPlain": "Сиздин капчыгыңыздан төлөнгөн",
     "priceUnavailable": "Баасы жеткиликтүү эмес",
     "confirm": "Жалюзи {{chain}}",
-    "notAvailable": "Бул чынжырдагы жалюзи азырынча жеткиликтүү эмес."
+    "notAvailable": "Бул чынжырдагы жалюзи азырынча жеткиликтүү эмес.",
+    "gasOnly": "≈ {{usd}} gaz",
+    "confirmWithCost": "{{chain}} {{cost}}"
   },
   "tokenLaunch": {
     "eyebrow": "Жаңы токен чыгуу жакын",
@@ -14712,7 +14925,11 @@
     "connected": "GitHub байланыштырылды",
     "disconnected": "GitHub бекте калды",
     "failed": "GitHubга байланыш жабуу. Төртөкө кайра чалгындоо.",
-    "unavailable": "GitHub verification ачылууда."
+    "unavailable": "GitHub verification ачылууда.",
+    "hint": "Каттоо эсеби сиздики экендигин тастыктоо үчүн GitHubга кириңиз. Riftn коомдук GitHub профилин гана көрөт.",
+    "verified": "Текшерилген",
+    "verifiedAria": "Текшерилген GitHub каттоо эсеби",
+    "taken": "Бул GitHub каттоо эсеби буга чейин башка Riftn профилинде."
   },
   "comic": {
     "showAll": "Бардык {{count}} баракты көрсөтүү",
@@ -14747,7 +14964,72 @@
     "days": "{{count}} күндү",
     "spotlightForSale": "Азыр сатылууда",
     "spotlightNew": "Жеңилдик менен калтырдым.",
-    "buyFor": "Сатып алуу үчүн {{price}}га баруу"
+    "buyFor": "Сатып алуу үчүн {{price}}га баруу",
+    "actAll": "Баарын",
+    "actListings": "Жарыялар",
+    "actOffer": "Төлөпөлөгө оферта",
+    "actOffers": "Сунуштар",
+    "actSales": "Сатылымдар",
+    "tabActivity": "Аракеттер",
+    "allChains": "Бардык ченемдер",
+    "newest": "Эң жаңы",
+    "cheapest": "Азыркы баасы",
+    "soldFor": "Сатылды",
+    "signIn": "Кирүү",
+    "title": "NFT-лер",
+    "share": "Бөлүшүү",
+    "noneForSale": "Азырынча эч нерсе сатыла элек",
+    "noSales": "Элдик сатуу жок.",
+    "tabBrowse": "Браузер",
+    "tabMine": "Сиздики",
+    "tabSales": "Сатылымдар",
+    "cancelled": "Жокко чыгарылды",
+    "sold": "Сатылды",
+    "listed": "Сатыкта турат",
+    "feeRow": "Riftn комиссиясы ({{pct}}%)",
+    "royaltyRow": "Автордун роялти",
+    "youGet": "Сиз аласыз",
+    "holderGets": "Ээси алат",
+    "loading": "Жүктөлүүдө…",
+    "price": "Баа",
+    "seller": "Сатуучу",
+    "tabRecent": "Акыркы",
+    "buyNow": "Азыкты азыкты",
+    "offers": "Кепилдиктер",
+    "cancel": "Жок кылуу",
+    "accept": "Кабыл алуу",
+    "signInToTrade": "Сатып алуу үчүн кириңиз",
+    "listForSale": "Сатылышка чыккандардын тизмеси",
+    "makeOffer": "Талап коюу",
+    "sendOffer": "Сунуш жөнөтүү",
+    "back": "Артка",
+    "dropsTo": "Кызыктырган баасы {{price}}га чейилди, {{date}}га чейилди.",
+    "inBundle": "{{n}} багыт катары сатылды",
+    "trending": "Тренд коллекциялары",
+    "floor": "Төмөнкү чек",
+    "listedCount": "{{n}} сатуу үчүн",
+    "thisCollection": "Бул коллекция",
+    "collectionOffer": "Кайсы да бирге сунуш",
+    "showAll": "Бардыгы көрсөт",
+    "shortTitle": "NFT-лер",
+    "filters": "Фильтрлер",
+    "forSale": "Сатуу үчүн",
+    "openToOffers": "Талаптарга ачылган",
+    "freshMints": "Riftn түзүчөлөрүнөн жаңы",
+    "offersOpen": "Талаптарга ачылган",
+    "mintedCount": "{{n}} чекиттелген",
+    "anyInCollection": "Бул топтумдагы бир нәрсеси болбойт.",
+    "thisNft": "Бул NFT",
+    "priceAlert": "Баа эскерту",
+    "alertUnder": "Тизмеге коюлганда же андан төмөн ({{symbol}}, опционалдуу)",
+    "turnOnAlert": "Эскертүүнү күйгүзүү",
+    "alertSaved": "Алерт жүктөлүп жатат. Биз сизге аларды аныкташканда алардын жөнүндө билдиришим беребиз.",
+    "priceDrop": "Баа убакыт өтүүнүн сайын төмөндөйт",
+    "endPrice": "Эң төмөнкү баа, аягында жетишилген ({{symbol}})",
+    "bundleBadge": "Бүндөлүк ×{{n}}",
+    "dropBadge": "Баасы төмөндөшү",
+    "days_one": "{{count}} күн",
+    "days_other": "{{count}} күндү"
   },
   "reel": {
     "readAll": "Баарын окуу",
@@ -14769,7 +15051,11 @@
       "episode": "Подкасттын эпизоду",
       "show": "Подкаст",
       "artist": "Артист"
-    }
+    },
+    "loading": "Жүктөлүүдө…",
+    "paused": "Пауза",
+    "preview": "Алдын ала кароо",
+    "seek": "Издөө"
   },
   "twoFactor": {
     "wrongCode": "Бул код туура келбеди. Тиркемеңизде эң жаңысын колдонуп көрүңүз.",
@@ -14814,7 +15100,9 @@
     "offBody": "Кодунuzду аппдан киргизиңиз. Киришиңиз үчүн гана азыркы кириш кодун керектүү.",
     "newCodesTitle": "Сактоо коддорун кайра чакырыңыз.",
     "newCodesBody": "Тиркемеңизден кодду киргизиңиз. Сиздин эски резервдик коддоруңуз иштебей калат.",
-    "codeLabel": "Алты цифрлы код"
+    "codeLabel": "Алты цифрлы код",
+    "done": "Бүттү",
+    "codesLeft": "{{count}} калды"
   },
   "chatSearch": {
     "placeholder": "Топтолгон билдирүүлөр же адамдарды издөө",
@@ -14842,5 +15130,251 @@
     "newer": "Жаңы натыйжа",
     "gone": "Бул билдирүү азыр жок",
     "theirMessages": "Алардын билдирүүлөрү"
+  },
+  "chatTextSize": {
+    "title": "Тексттин өлчөмү",
+    "default": "Баштапкы",
+    "larger": "Чоңураак"
+  },
+  "remix": {
+    "cut": "Кесүү"
+  },
+  "signedFollows": {
+    "setUp": "Ач",
+    "turnOff": "Жаб",
+    "efpTurnOff": "Токтотуу"
+  },
+  "postEditHistory": {
+    "original": "Түпнуска"
+  },
+  "studioDeck": {
+    "remove": "Алып салуу",
+    "background": {
+      "title": "Фон",
+      "modes": {
+        "none": "Өчүрүү",
+        "blur": "Бүдөмүктөө",
+        "color": "Түс"
+      }
+    },
+    "scenes": {
+      "countdown": "Эсептөө",
+      "minutes": "{{count}} мин",
+      "names": {
+        "starting": "Жакында башталат"
+      }
+    },
+    "widgets": {
+      "tab": "виджеттер"
+    },
+    "sources": {
+      "image": "Сүрөт",
+      "show": "Стремде көрсөтүү",
+      "positions": {
+        "center": "Борборлоштуруу"
+      },
+      "sizes": {
+        "medium": "Орто"
+      }
+    },
+    "phone": {
+      "title": "Студия"
+    }
+  },
+  "whenSheet": {
+    "today": "Бүгүн",
+    "tooSoon": "Келечектеги убакытты тандаңыз.",
+    "show": "Көрсөтүү",
+    "hide": "Жашыруу"
+  },
+  "planned": {
+    "title": "Пландалган",
+    "all": "Баарын",
+    "posts": "Жазуулар",
+    "stages": "Аудио бөлмөлөр",
+    "post": "Жарыялоо",
+    "live": "Түз эфир",
+    "stage": "Этап",
+    "untitledPost": "Жарыялоо",
+    "untitledLive": "Түз эфир",
+    "loading": "Жүктөлүп жатат…",
+    "startNow": "Азыр баштоо",
+    "cancel": "Жокко чыгаруу",
+    "cancelled": "Жокко чыгарылды"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn'ка кош келиңиз",
+      "day": "Күн",
+      "month": "Ай",
+      "year": "Жыл"
+    },
+    "name": {
+      "title": "Аты-жөнүңүз",
+      "placeholder": "Аты-жөнүңүз"
+    },
+    "card": {
+      "name": "Аты-жөнүңүз",
+      "followers": "жолдоочулар"
+    },
+    "topic": {
+      "music": "Музыка",
+      "art": "Өнөр",
+      "gaming": "Оюндар",
+      "crypto": "Крипто",
+      "sports": "Спорт",
+      "comedy": "Комедия",
+      "film": "Фильм",
+      "podcast": "Подкаст",
+      "food": "Тамак-аш",
+      "news": "Жаңылыктар",
+      "science": "Илим"
+    },
+    "back": "Артка",
+    "skipPhoto": "Азырдан өткөрүңүз",
+    "preview": "Алдын ала көрүү"
+  },
+  "appTokens": {
+    "title": "Сиздин токендериңиз",
+    "history": "Тарых",
+    "noHistory": "Активдүүлүк азырынча жок",
+    "kindDeposit": "Каражат кошуу",
+    "to": "Чечүү",
+    "amount": "Сумма",
+    "notePlaceholder": "Эскертме кош (милдеттүү эмес)",
+    "sendButton": "Жибирүү",
+    "errorInsufficient": "Токендер жетишсиз"
+  },
+  "avatarPrompt": {
+    "notNow": "Эми эмес"
+  },
+  "postStats": {
+    "audience": "Аудитория",
+    "engagement": "Катышуу",
+    "finished": "Аяктады",
+    "members": "Мүчөлөрү",
+    "membersLower": "мүчөлөрү",
+    "newFollowers": "Жаңы жолдоочулар",
+    "noBadge": "Белги жок",
+    "people": "Адамдар",
+    "plays": "Ойнотуу",
+    "quotes": "Цитата",
+    "reposts": "Кайра жарыялоо",
+    "saved": "Сакталды",
+    "shares": "Бөлүшүүлөр",
+    "signedOutViewers": "Чыктыңыз",
+    "topSupporters": "Top жактоочулары",
+    "visitors": "Чыктыңыз"
+  },
+  "duet": {
+    "policyEveryone": "Баары",
+    "policyFollowers": "Жазылуучулар",
+    "policyNobody": "Эч ким",
+    "loadMore": "Дагы жүктөө",
+    "video": "Видео"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Баары",
+      "followers": "Жазылуучулар",
+      "nobody": "Эч ким"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Баары",
+      "followers": "Жазылуучулар",
+      "nobody": "Эч ким"
+    },
+    "heading": "Реакциялар",
+    "more": "Көбүрөөк көрсөтүү",
+    "liveNow": "Түз эфир",
+    "untitled": "Реакция"
+  },
+  "liveClips": {
+    "copyLink": "Шилтемени көчүрүү",
+    "linkCopied": "Шилтеме көчүрүлгөн"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "План",
+      "howMany": "Канча",
+      "who": "Колдонуучу аты же капчык дареги",
+      "whoPlaceholder": "@колдонуучу_аты",
+      "cancel": "Жокко чыгаруу",
+      "stage": {
+        "preparing": "Даярдалууда…",
+        "confirming": "Транзакция күтүлүүдө…",
+        "recording": "Аяктоодо…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Башка",
+    "confirming": "Төлөм ырасталууда…"
+  },
+  "liveShorts": {
+    "live": "ЖАНДУУ"
+  },
+  "feedFilters": {
+    "clearAllShort": "Баарын тазалоо",
+    "done": "Бүттү",
+    "edit": "Түзөтүү",
+    "groupDate": "Күн",
+    "groupSort": "Иреттөө",
+    "groupType": "Түрү",
+    "save": "Сактоо"
+  },
+  "ownKeys": {
+    "working": "Иштеп жатат",
+    "failed": "Бир нерсе туура эмес болуп калды. Дагы бир жолу аракет кылып көрүңүз.",
+    "check": "Текшерүү",
+    "remove": "Алып салуу",
+    "save": "Сактоо",
+    "cancel": "Жокко чыгаруу"
+  },
+  "postBg": {
+    "none": "Эч бири",
+    "yours": "Сиздики",
+    "accent": "Акцент.",
+    "names": {
+      "aurora": "Аурора",
+      "lava": "Лава чырагы",
+      "drive": "Айкөлёө",
+      "chrome": "Суюк Chrome",
+      "orbit": "Айлануу",
+      "snow": "Кар жаашы"
+    }
+  },
+  "articleTile": {
+    "cover": "Мукаба"
+  },
+  "aiConsent": {
+    "allow": "Уруксат берүү"
+  },
+  "dmRequests": {
+    "title": "Өтүнүчтөр",
+    "accept": "Кабыл алуу",
+    "delete": "Жок кылуу",
+    "block": "Бөгөттөө"
+  },
+  "dmSchedule": {
+    "view": "Көрүү",
+    "edit": "Оңдоо",
+    "editLabel": "Кабарды өзгөртүү",
+    "error": "Бул иштебей калды. Кайра аракет кылып көрүңүз."
+  },
+  "chatBulk": {
+    "selected": "{{count}} Тандалган",
+    "cancel": "Жокко чыгаруу",
+    "reply": "Жооп",
+    "delete": "Жок кылуу"
+  },
+  "msgSelect": {
+    "selected": "{{count}} Тандалган",
+    "copy": "Көчүрүү",
+    "forward": "Башкага жөнөтүү",
+    "deleted_one": "Удалено {{count}} сообщение",
+    "deleted_other": "Удалены {{count}} сообщения"
   }
 }

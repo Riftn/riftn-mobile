@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "මෙම සතියේ Audius හි ප්‍රවණතා. නිදහස්ව භාවිතා කරන්න, කලාකරුවා ඔබේ පෝස්ටුවට ගැන්වෙනු ඇත.",
     "d2e45b7406fc": "පොදු වශයෙන් සහ Creative Commons සංගීතය Wikimedia Commons වෙතින්. කලාකරුවා ඔබේ පෝස්ටුවට ගැන්වෙනු ඇත.",
     "d0c1a3684775": "ගීත පූරණය විය නොහැක. මොහොතකට පසුව නැවත උත්සාහ කරන්න.",
-    "d14064f80f52": "ශබ්දය එකතු කරන්න"
+    "d14064f80f52": "ශබ්දය එකතු කරන්න",
+    "71988c4d8e08": "පෙළ",
+    "147170e793c6": "පුළුල්",
+    "481859b689b0": "ඔබේ සම්බන්ධතාවය පරීක්‍ෂා කර නැවත උත්සාහ කරන්න.",
+    "57e2faa5ec63": "Riftn හි සොයන්න",
+    "7db20897053b": "මිනිසුන්",
+    "96d7bff86b44": "සෙවීම පූරණය කළ නොහැක",
+    "d8b8392e2c54": "නැවත උත්සාහ කරන්න"
   },
   "dehubLinks": {
     "kind": {
@@ -2682,7 +2689,8 @@
       "location": "ස්ථානය",
       "custom": "අභිරුචි",
       "customOption": "අභිරුචි ලේබල්"
-    }
+    },
+    "placeholderPronouns": "ඔවුන්/ඔවුන්"
   },
   "notificationFilters": {
     "title": "මොවුන්ගෙන් දැනුම්දීම් පෙරන්න",
@@ -2853,7 +2861,8 @@
       "quote": "උපුටා දැක්වීම",
       "bullets": "උණ්ඩ ලැයිස්තුව",
       "numbers": "අංකිත ලැයිස්තුව",
-      "link": "සබැඳිය"
+      "link": "සබැඳිය",
+      "image": "රූප එකතු කරන්න"
     }
   },
   "storefront": {
@@ -3781,7 +3790,11 @@
     "payViaDpay": "Riftn Pay වෙත ගෙවන ලදි, ටෝකන විනාඩි 30ක පමණ කාලයකින් පැමිණේ",
     "payViaBridgeDpay": "Base වෙත ගෙන ගොස් Riftn Pay වෙත ගෙවන ලදි, ටෝකන විනාඩියක පමණ කාලයකින් පැමිණේ",
     "tokensUnit": "ටෝකන",
-    "tokenAmount": "{{amount}} ටෝකන"
+    "tokenAmount": "{{amount}} ටෝකන",
+    "addMessage": "පණිවිඩයක් එක් කරන්න (විකල්ප)",
+    "messagePublic": "පොදු",
+    "railTitle": "ඉඟි",
+    "railTotal": "{{amount}} ටෝකන"
   },
   "postOptions": {
     "skippableSections": "Skippable කොටස්",
@@ -4521,7 +4534,11 @@
       "hereNamed": "{{name}} “{{community}}” හි සියලු දෙනාට පණිවිඩයක් යැවීය"
     },
     "badgeLent": "{{name}} ඔබට {{tier}} බැජ් එකක් ලබා දුන්නේය",
-    "tokenAmount": "{{amount}} ටෝකන"
+    "tokenAmount": "{{amount}} ටෝකන",
+    "groupNew": "අලුත්",
+    "groupToday": "අද",
+    "groupThisWeek": "මෙම සතිය",
+    "searchClose": "වසර පසු සොයන ප්‍රයෝජන"
   },
   "leaderboard": {
     "title": "ශ්‍රේණිගත කිරීම",
@@ -4713,7 +4730,18 @@
     "attachmentTooLarge": "එක් ගොනුවක් 50MB ට අඩු විය යුතුය",
     "deleteCommentA11y": "අදහස මකන්න",
     "sendCommentA11y": "පණිවිඩයක් යවන්න",
-    "requestOptions": "විකල්ප ඉල්ලන්න"
+    "requestOptions": "විකල්ප ඉල්ලන්න",
+    "deviceInfoNoErrors": "කිසිවක් නැත",
+    "topBuilders": {
+      "month": "මෙම මාසය",
+      "allTime": "සම්පූර්ණ කාලය",
+      "shipped": "යවන ලදී",
+      "votes": "ඡන්ද",
+      "comments": "අදහස්",
+      "showLess": "අඩුවෙන් පෙන්වන්න",
+      "viewProfile": "පැතිකඩ බලන්න",
+      "you": "ඔබ"
+    }
   },
   "auth": {
     "loginRequired": "පිවිසීම අවශ්‍යයි",
@@ -4974,7 +5002,20 @@
       "votes_other": "{{value}} ක් ඡන්දය දෙයි",
       "members_one": "{{value}} ක් සාමාජිකයෙකි",
       "members_other": "{{value}} ක් සාමාජිකයෝ"
-    }
+    },
+    "articleShort": "ලිපිය",
+    "articleMinRead": "කියවීමට මිනිත්තු {{count}}",
+    "pinnedShort": "අමුණා ඇත",
+    "post": "පළකිරීම",
+    "arrange": {
+      "saving": "සුරකිමින්..."
+    },
+    "reserve": {
+      "signIn": "ලොග් වන්න"
+    },
+    "tabLikes": "කැමැත්ත",
+    "likesEmptyTitle": "තවම කැමැත්තන් නැත",
+    "likesPrivateTitle": "කැමැත්තන් පෞද්ගලිකයි"
   },
   "tv": {
     "title": "රූපවාහිනී",
@@ -5490,6 +5531,9 @@
       "action": "ක්‍රියාව",
       "schedule": "කාලසටහන",
       "filter": "ක්‍රියාකාරකම් පෙරහන් කරන්න"
+    },
+    "welcome": {
+      "text": "සාදර පණිවිඩය"
     }
   },
   "hero": {
@@ -5571,7 +5615,16 @@
     "nowPublic": "ප්‍රවාහය දැන් පොදුයි",
     "openCanvas": "කැන්වසය විවෘත කරන්න",
     "playVideo": "වීඩියෝ ධාවනය කරන්න",
-    "signInToSee": "ඔබගේ ගිණුමේ ඇති ප්‍රවාහයන් බැලීමට පිවිසෙන්න."
+    "signInToSee": "ඔබගේ ගිණුමේ ඇති ප්‍රවාහයන් බැලීමට පිවිසෙන්න.",
+    "newNativeFlow": "නව ප්‍රවාහය",
+    "model": "මාදිලිය",
+    "aspectRatio": "දර්ශන අනුපාතය",
+    "duration": "කාලසීමාව තත්පර කින්",
+    "resolution": "විභේදනය",
+    "disconnect": "විසන්ධි කරන්න",
+    "payAndRun": "ගෙවා ධාවනය කරන්න",
+    "run": "ධාවනය කරන්න",
+    "handlePrompt": "ප්‍රොම්ප්ට්"
   },
   "loginModal": {
     "title": "පිවිසුම",
@@ -5891,7 +5944,8 @@
     "searchMenu": "මෙනුව සොයන්න",
     "clearSearch": "සෙවීම ඉවත් කරන්න",
     "noMenuMatches": "මෙනුවේ කිසිවක් ගැළපෙන්නේ නැත",
-    "searchDehubFor": "Riftn හි \"{{query}}\" සොයන්න"
+    "searchDehubFor": "Riftn හි \"{{query}}\" සොයන්න",
+    "requestSend": "ඉල්ලීම යවන්න"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6510,7 +6564,11 @@
       "copied": "පණිවිඩය පිටපත් කරන ලදි",
       "copyText": "පෙළ පිටපත් කරන්න",
       "mutedUntil": "ඔබ {{date}} තෙක් නිශ්ශබ්ද වේ",
-      "slowMode": "හෙමින් මාදිලිය: එක් පණිවුඩයක් සෑම {{interval}}"
+      "slowMode": "හෙමින් මාදිලිය: එක් පණිවුඩයක් සෑම {{interval}}",
+      "joined": "{{name}} එකතු විය",
+      "reactions": "ප්‍රතික්‍රියා",
+      "photoTooLarge": "පින්තූරය 10MB ට අඩු විය යුතුයි",
+      "aiAdminFailed": "AI පරිපාලක ප්‍රතිචාර දැක්වීමට අසමත් විය"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6713,6 +6771,31 @@
       "notFound": "මෙම ආරාධනා සබැඳිය වලංගු නොවේ.",
       "requestToJoin": "එකතු වීමට ඉල්ලීම",
       "approvalNote": "ඔබට සම්බන්ධ වීමට පෙර පරිපාලකයෙකුට ඔබේ ඉල්ලීම අනුමත කළ යුතුය."
+    },
+    "buyAlert": {
+      "spent": "වියදම් කළ මුදල:",
+      "buyer": "ගැනුම්කරු:",
+      "balance": "ශේෂය:",
+      "price": "මිල:",
+      "marketCap": "වෙළෙඳපොළ තොප්පිය:"
+    },
+    "newChat": {
+      "public": "පොදු",
+      "private": "පෞද්ගලික",
+      "free": "නොමිලේ",
+      "paid": "ගෙවන ලදී",
+      "group": "කණ්ඩායම් කරන්න"
+    },
+    "holderGate": {
+      "chain": "චේනය",
+      "which": "ටෝකනය",
+      "tab": "හිමිකරුවන්"
+    },
+    "automod": {
+      "bannedWords": "තහනම් වචන",
+      "floodMax": "{{count}} පණිවිඩ",
+      "saved": "සුරැකිණි",
+      "wordCount": "{{count}} වචන"
     }
   },
   "work": {
@@ -7834,7 +7917,10 @@
       "doneAll": "{{done}} ගිණුම් අනුගමනය කිරීම ඉවත් කරන ලදී එම ගිණුම් ඔබ ආපසු අනුගමනය නොකරයි.",
       "doneSome": "{{done}} ගිණුම් අනුගමනය කිරීම ඉවත් කරන ලදී. {{failed}} අනුගමනය කිරීම ඉවත් කළ නොහැක.",
       "doneToast": "{{done}} ගිණුම් ඔබ ආපසු අනුගමනය නොකරන අනුගමනය කිරීම ඉවත් කරන ලදී"
-    }
+    },
+    "followBackConfirm": "පසුපසින් අනුගමනය කරන්න",
+    "followBackNotNow": "දැන් නොවේ",
+    "followBackDone": "අවසන්"
   },
   "reactionInfo": {
     "title": "ප්‍රතික්‍රියා",
@@ -8752,7 +8838,39 @@
     "fade": "මැකීම {{value}}%",
     "grayscale": "අළු පැහැය {{value}}%",
     "coverFrame": "රාමුව {{index}} කවරය ලෙස භාවිත කරන්න",
-    "coverFrames": "ආවරණ රාමුව තෝරන්න"
+    "coverFrames": "ආවරණ රාමුව තෝරන්න",
+    "altPlaceholderVideo": "මෙම වීඩියෝව විස්තර කරන්න",
+    "landingLive": "සජීවී",
+    "preview": {
+      "title": "පෙරදසුන"
+    },
+    "recent": {
+      "all": "සියල්ල"
+    },
+    "studio": {
+      "crop": "කප්පාදු කරන්න",
+      "draw": "අඳින්න",
+      "light": "ආලෝකමය",
+      "contrast": "ප්‍රතිවිරුද්ධය",
+      "warmth": "උණුසුම",
+      "colour": "වර්‍ණය",
+      "fade": "ෆේඩ්",
+      "original": "මුල්",
+      "ratioOriginal": "මුල්",
+      "ratioFree": "නොමිලේ",
+      "rotate": "කරකවන්න",
+      "strength": "ශක්තිය",
+      "stickers": "ස්ටිකර්",
+      "ticker": "ටිකර්",
+      "textBg": "පසුබිම",
+      "font": {
+        "bold": "තද අකුරු",
+        "serif": "සෙරීෆ්",
+        "mono": "මොනෝ"
+      }
+    },
+    "edited": "සංස්කරණය කරන ලදි",
+    "edit": "සංස්කරණය"
   },
   "bounty": {
     "claimed": "ලබාගෙන ඇත",
@@ -9046,7 +9164,8 @@
     "detailsKey": "යතුර",
     "detailsLoading": "පුරණය වෙමින්...",
     "detailsLivepeerId": "Livepeer හැඳුනුම්පත:",
-    "shopPutOnAir": "වාතාශ්‍රය ලබා දෙන්න"
+    "shopPutOnAir": "වාතාශ්‍රය ලබා දෙන්න",
+    "liveBadge": "සජීවී"
   },
   "liveShop": {
     "title": "මෙම විකාශයෙන් මිලදී ගන්න",
@@ -9359,7 +9478,23 @@
     "paymentSentWith": "{{amount}} සමඟ යවන ලදි",
     "planRestricted": "මෙම පරිශීලකයාට පණිවිඩ ලැබීමට දායකත්වයක් අවශ්‍යයි.",
     "planTypeNotAllowed": "මෙම නිර්මාණකරුගේ සැලැස්ම මෙවැනි පණිවිඩයකට ඉඩ නොදේ.",
-    "planMinTip": "මෙම නිර්මාණකරුට ටිප් එක අවම වශයෙන් {{amount}} ටෝකන විය යුතුයි."
+    "planMinTip": "මෙම නිර්මාණකරුට ටිප් එක අවම වශයෙන් {{amount}} ටෝකන විය යුතුයි.",
+    "newDrawer": {
+      "to": "වෙත"
+    },
+    "download": "බාගන්න",
+    "deleteOneTitle": "මෙම පණිවිඩය මකන්නද?",
+    "retrySend": "නැවත උත්සාහ කරන්න",
+    "discardSend": "ඉවත් කරන්න",
+    "shareKindGroup": "කණ්ඩායම් කරන්න",
+    "shareKindCommunity": "ප්‍රජාව",
+    "searchDiscover": {
+      "people": "පුද්ගලයන්",
+      "communities": "ප්‍රජාවන්",
+      "members": "{{n}} සාමාජිකයින්",
+      "newChat": "නව සංවාදය",
+      "invite": "ආරාධනා කරන්න"
+    }
   },
   "editPost": {
     "mediaPermission": "මාධ්‍ය පුස්තකාල අවසරය අවශ්‍යයි",
@@ -10603,7 +10738,11 @@
       "hint": "කථනය ඔබට විලාසය වෙනස් කළ හැකි කාලගත උපසිරැසි බවට පත් කරයි. ඔබේ උපාංගයේ ක්‍රියා කරයි: නොමිලේ සහ පෞද්ගලිකයි. පළමු භාවිතයේදී මාදිලිය බාගත වේ.",
       "done": "උපසිරැසි {{count}}ක් එක් කළා.",
       "noSpeech": "මෙම ක්ලිපයේ කථනයක් හමු නොවීය.",
-      "failed": "මෙම ක්ලිපය සඳහා උපසිරැසි සෑදිය නොහැකි විය."
+      "failed": "මෙම ක්ලිපය සඳහා උපසිරැසි සෑදිය නොහැකි විය.",
+      "styles": {
+        "bold": "නිර්භීත",
+        "serif": "සෙරීෆ්"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10853,7 +10992,9 @@
       "suggestTitle": "ඉහළින් විශාල තද මාතෘකාවක් සහ ඊට යටින් කුඩා උපමාතෘකාවක් එක් කරන්න",
       "undo": "අහෝසි කරන්න",
       "openGenerator": "සමාලෝචනය කර ජනනය කරන්න",
-      "working": "වැඩ කරමින්…"
+      "working": "වැඩ කරමින්…",
+      "stop": "නවත්වන්න",
+      "queue": "පෙළට එකතු කරන්න"
     },
     "brand": {
       "addColor": "සන්නාම වර්ණයක් එක් කරන්න",
@@ -10990,7 +11131,9 @@
       "rendering": "වීඩියෝව සකසමින්… {{percent}}%",
       "mp4": "MP4 වීඩියෝව",
       "exportHint": "ඔබේ වීඩියෝව සැකසෙන තෙක් සංස්කාරකය විවෘතව තබන්න.",
-      "tooLarge": "එම ගොනුව සංස්කාරකයට ඉතා විශාලයි. සීමාව 400 MB වේ."
+      "tooLarge": "එම ගොනුව සංස්කාරකයට ඉතා විශාලයි. සීමාව 400 MB වේ.",
+      "tZoomIn": "විශාල කරන්න",
+      "tZoomOut": "විශාල කරන්න"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12169,6 +12312,28 @@
       "selection": "තේරීම",
       "zoomIn": "කැන්වසය විශාලනය කරන්න",
       "zoomOut": "කැන්වසය කුඩා කරන්න"
+    },
+    "stage": {
+      "camera": "කැමරාව",
+      "yaw": "භ්‍රමණය",
+      "add": "එකතු කරන්න",
+      "scale": "ප්‍රමාණය",
+      "color": "වර්ණය",
+      "light": "ආලෝකමය"
+    },
+    "clipFix": {
+      "listening": "සවන් දෙමින්…"
+    },
+    "voiceClone": {
+      "stop": "පටිගත කිරීම නවත්වන්න",
+      "failed": "කටහඬ ක්ලෝන කිරීම අසාර්ථක විය."
+    },
+    "linkImport": {
+      "go": "ආයාත කරන්න",
+      "downloading": "බාගත කිරීම {{percent}}%"
+    },
+    "reverse": {
+      "action": "ආපසු"
     }
   },
   "creator": {
@@ -12630,7 +12795,32 @@
     "referenceProductHint": "විශේෂිත නිෂ්පාදිතය ප්‍රතිස්ථාපනය කර මුල් දර්ශනය ආරක්ෂා කරන්න.",
     "referenceComposeName": "ආධාරක රූප එකතු කරන්න",
     "referenceComposeHint": "බහුවිධ රූපවල අක්ෂර, වස්තූන් සහ සැකසුම් එක් සංයුතියකට ගෙන එන්න.",
-    "referenceInsert": "විමසුමට {{tag}} ඇතුළත් කරන්න"
+    "referenceInsert": "විමසුමට {{tag}} ඇතුළත් කරන්න",
+    "marketing": {
+      "import": {
+        "use": "මෙම විස්තර භාවිතා කරන්න"
+      }
+    },
+    "batchCount": "පින්තූර",
+    "endFrame": "අවසන් රාමුව",
+    "cinema": {
+      "close": "වසන්න",
+      "performance": {
+        "label": "කාර්ය සාධනය"
+      }
+    },
+    "audioNoSpeech": "කිසිවක් නොමැත",
+    "audioTaskSpeechLabel": "කථාව (e)",
+    "audioTaskDialogueLabel": "සංවාදය",
+    "audioTaskSfxLabel": "ශබ්ද ආචරණය",
+    "audioTaskVoiceChangerLabel": "හඬ වෙනස් කරන්නා",
+    "audioTaskTranscribeLabel": "පරිවර්තනය කරන්න",
+    "audioTaskIsolateLabel": "පිරිසිදු කරන්න",
+    "priceFreeRateLimited": "නිදහස් අනුපාත සීමාවන් අදාළ වේ",
+    "loop": "ලූප්",
+    "dialogueFormat": "දර්ශනය \"නම: පේළිය\" ලෙස ලිවන්න, එක් කතා කරන්නා එක් පේළියට.",
+    "fileTooLarge": "එම ගොනුව 100 MB ඉක්මවා ඇත. කෙටි හෝ කුඩා එකක් භාවිතා කරන්න.",
+    "signInToGenerate": "ජනිත කිරීමට ඉතින් ඇතුළු වන්න."
   },
   "fractions": {
     "title": "කොටස්",
@@ -14698,6 +14888,19 @@
       "intro": "දර්ශකයින් ඔබ නරඹන සෑම මිනිත්තුවකට එක් ලක්ෂ්‍යක් සහ සෑම 100 ටෝකන ඉවුරු කිරීමට එකක් උපයා ගනී. චැට් සහ ප්‍රතිකර්ම කිසිවක් උපයා නොගනී, එබැවින් ලක්ෂ්‍ය ගොවිතැන් කළ නොහැක.",
       "empty": "තවම ලක්ෂ්‍ය නැත. ඔවුන් මිනිසුන් නරඹන විට සහ ඉවුරු කරන විට ගොඩනැගී ඇත.",
       "widgetHint": "ඔබේ ස්ට්‍රීමයේ මෙම ලැයිස්තුව පෙන්වීමට පිළිපැදි දර්ශකයින් විජට් එකතු කරන්න."
+    },
+    "destinations": {
+      "platform": "වේදිකාව",
+      "label": "නම (විකල්ප)",
+      "key": "සජීවී යතුර",
+      "save": "එකතු කරන්න",
+      "cancel": "අවලංගු කරන්න",
+      "states": {
+        "off": "ක්‍රියාවිරහිතයි",
+        "idle": "සූදානම්",
+        "live": "සජීවී",
+        "error": "දෝෂයකි"
+      }
     }
   },
   "liveChatModeration": {
@@ -14746,7 +14949,9 @@
     "emailPlaceholder": "ඔබේ යාන්ත්‍රික",
     "invalidEmail": "වලංගු ඊමේල් ඇතුළත් කරන්න",
     "joinedTitle": "ඔබ ලැයිස්ව ඇත.",
-    "joinedBodyNoEmail": "ඔබ ටොකන් නිවේදනය වීම සඳහා පණන් යම් තැන් මඟ පෙන්වමු."
+    "joinedBodyNoEmail": "ඔබ ටොකන් නිවේදනය වීම සඳහා පණන් යම් තැන් මඟ පෙන්වමු.",
+    "notifyMe": "මට දන්වන්න",
+    "failed": "එය සුරැකීමට නොහැකි විය. නැවත උත්සාහ කරන්න."
   },
   "githubLink": {
     "hint": "GitHub වලට ඉතින් ගිය ගිණුම ඔබේ බව ඔප්පු කරන්න. Riftn ඔබේ ජනතා GitHub පැතිකඩ පමණක් දකිනවා.",
@@ -14786,7 +14991,74 @@
     "tapToOffer": "එක් ටැප් කරන්න ඉදිරිපත් කිරීමක් සඳහා",
     "collections": "එකතු කිරීම්",
     "days": "{{count}} දිනයේ",
-    "buyFor": "මෙමින්දෙන් කියාගන්න {{price}}"
+    "buyFor": "මෙමින්දෙන් කියාගන්න {{price}}",
+    "actAll": "සියල්ල",
+    "actListings": "ලැයිස්තුගත කිරීම්",
+    "actOffer": "ඉදිරිපත් කිරීම",
+    "actOffers": "ඉදිරිපත් කිරීම්",
+    "actSales": "විකුණුම්",
+    "tabActivity": "ක්‍රියාකාරකම්",
+    "allChains": "සියලු දාමයන්",
+    "newest": "නවතම",
+    "cheapest": "අඩු මිල",
+    "soldFor": "විකිණුණ",
+    "signIn": "ලොග් වන්න",
+    "title": "NFT",
+    "share": "බෙදාගන්න",
+    "noneForSale": "තවම විකිණීමට නැත",
+    "noSales": "තවම විකිණීම් නැත",
+    "tabBrowse": "බ් ‍ රවුස් කරන්න",
+    "tabMine": "ඔබේ",
+    "tabSales": "විකුණුම්",
+    "cancelled": "අවලංගු කරන ලදි",
+    "sold": "විකිණුණ",
+    "listed": "විකිණීම සඳහා ලැයිස්තුගත",
+    "feeRow": "Riftn ගාස්තුව ({{pct}}%)",
+    "royaltyRow": "නිර්මාතෘ රාජකරණ",
+    "youGet": "ඔබ ලබා ගනී",
+    "holderGets": "Holder ප්‍රතිපක්ෂය",
+    "loading": "පූරණය වෙමින් පවතී...",
+    "price": "මිල",
+    "seller": "විකුණුම්කරු",
+    "tabRecent": "මෑත",
+    "buyNow": "දැන් මිලදී ගන්න",
+    "offers": "දීමනා",
+    "cancel": "අවලංගු කරන්න",
+    "accept": "පිළිගන්න",
+    "signInToTrade": "වෙළඳාම් කිරීමට ඉතුරු වන්න",
+    "listForSale": "විකිණීම සඳහා ලැයිස්තුගත කරන්න",
+    "makeOffer": "ඉල්ලීමක් කරන්න",
+    "sendOffer": "ඉදිරිපත් කරන්න",
+    "back": "ආපසු",
+    "dropsTo": "මිල {{date}} වන විට {{price}} දක්වා පහත වැටේ",
+    "inBundle": "{{n}} කට්ටලයක් ලෙස විකුණනු ලැබේ",
+    "trending": "ප්‍රචලිත එකතුව",
+    "floor": "පාදම",
+    "listedCount": "{{n}} විකුණය",
+    "thisCollection": "මෙම ප්‍රදානය",
+    "collectionOffer": "ප්‍රතිපත්ති",
+    "showAll": "සියල්ල පෙන්වන්න",
+    "shortTitle": "NFT",
+    "filters": "විල්ටර්",
+    "forSale": "පවුම් අයදී",
+    "openToOffers": "ප්‍රයෝජන අයදුම් පිටපත",
+    "freshMints": "Riftn නව ම ත ර ග ත න",
+    "offersOpen": "ප්‍රයෝජන අයදුම් පිටපත",
+    "anyInCollection": "එකතුවේ ඇති ඕනෑම දෙයක්",
+    "thisNft": "මෙම NFT",
+    "priceAlert": "මිල ඇඟවීම",
+    "alertUnder": "{{symbol}} (විකල්ප) හෝ ඊට අඩු මිලකට ලැයිස්තුගත කළ විට මට දන්වන්න",
+    "turnOnAlert": "ඇඟවීම ක්‍රියාත්මක කරන්න",
+    "alertSaved": "ඇඟවීම සක්‍රිය ය. එකක් ලැයිස්ට් කරන විට අපි ඔබට කියන්නෙමු.",
+    "priceDrop": "කාලයත් සමඟ මිල පහත වැටේ",
+    "endPrice": "අවම මිල, අවසානයේදී ළඟා වේ ({{symbol}})",
+    "dropBadge": "මිල පහත වැටුණි",
+    "days_one": "{{count}} දින",
+    "days_other": "{{count}} දින",
+    "dehubPostsName": "Riftn පෝස්ට්",
+    "sellYours": "ඔබේ විකිණන්න",
+    "spotlightForSale": "දැන් විකිණීමට",
+    "spotlightNew": "ඉතින් මිතුරු කරන ලද"
   },
   "reel": {
     "readAll": "සියල්ල කියවන්න",
@@ -14808,7 +15080,11 @@
       "episode": "පොඩ්කාස්ට් කථාංගය",
       "show": "පොඩ්කාස්ට්",
       "artist": "කලාකරුවා"
-    }
+    },
+    "loading": "පූරණය වෙමින් පවතී...",
+    "paused": "නැවැත්වීය",
+    "preview": "පෙරදසුන",
+    "seek": "සොයන්න"
   },
   "twoFactor": {
     "wrongCode": "එම කේතය නොගැලපේ. ඔබේ යෙදුමේ ඇති නවතම කේතය උත්සාහ කරන්න.",
@@ -14885,5 +15161,251 @@
     "newer": "අලුත් ප්‍රතිඵල",
     "gone": "මෙම පණිවිඩය මෙතැනින් ඉවත් කර ඇත",
     "theirMessages": "ඔවුන්ගේ පණිවිඩ"
+  },
+  "chatTextSize": {
+    "title": "පෙළ ප්‍රමාණය",
+    "default": "පෙරනිමි",
+    "larger": "විශාල"
+  },
+  "remix": {
+    "cut": "කපා දමන්න"
+  },
+  "signedFollows": {
+    "setUp": "සක්‍රිය කරන්න",
+    "turnOff": "අක්‍රිය කරන්න",
+    "efpTurnOff": "නවත්වන්න"
+  },
+  "postEditHistory": {
+    "original": "මුල්"
+  },
+  "studioDeck": {
+    "remove": "ඉවත් කරන්න",
+    "background": {
+      "title": "පසුබිම",
+      "modes": {
+        "none": "ක්‍රියාවිරහිතයි",
+        "blur": "බොඳ කිරීම",
+        "color": "වර්‍ණය"
+      }
+    },
+    "scenes": {
+      "countdown": "ගණනය කිරීම",
+      "minutes": "මිනි. {{count}}",
+      "names": {
+        "starting": "ඉක්මනින් ආරම්භ වේ"
+      }
+    },
+    "widgets": {
+      "tab": "විජට්"
+    },
+    "sources": {
+      "image": "රූපය",
+      "show": "ප්‍රවාහයේ පෙන්වන්න",
+      "positions": {
+        "center": "මධ්‍යගත කරන්න"
+      },
+      "sizes": {
+        "medium": "මධ්‍යම"
+      }
+    },
+    "phone": {
+      "title": "චිත්‍රාගාරය"
+    }
+  },
+  "whenSheet": {
+    "today": "අද",
+    "tooSoon": "අනාගතයේදී වේලාවක් තෝරන්න.",
+    "show": "පෙන්වන්න",
+    "hide": "සඟවන්න"
+  },
+  "planned": {
+    "title": "සැලසුම් කර ඇත",
+    "all": "සියල්ල",
+    "posts": "පළකිරීම්",
+    "stages": "ශ්‍රව්‍ය කාමර",
+    "post": "පළකිරීම",
+    "live": "සජීවී",
+    "stage": "වේදිකාව",
+    "untitledPost": "පළකිරීම",
+    "untitledLive": "සජීවී",
+    "loading": "පුරණය වෙමින්...",
+    "startNow": "දැන් ආරම්භ කරන්න",
+    "cancel": "අවලංගු කරන්න",
+    "cancelled": "අවලංගු කරන ලදි"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn වෙත සාදරයෙන් පිළිගනිමු",
+      "day": "දිනය",
+      "month": "මාසය",
+      "year": "වසර"
+    },
+    "name": {
+      "title": "ඔබේ නම",
+      "placeholder": "ඔබේ නම"
+    },
+    "card": {
+      "name": "ඔබේ නම",
+      "followers": "අනුගාමිකයන්"
+    },
+    "topic": {
+      "music": "සංගීතය",
+      "art": "කලාව",
+      "gaming": "සූදු",
+      "crypto": "ක්‍රිප්ටෝ",
+      "sports": "ක්‍රීඩා",
+      "comedy": "ප්‍රහසන",
+      "film": "චිත්‍රපටය",
+      "podcast": "පොඩ්කාස්ට්",
+      "food": "ආහාර",
+      "news": "පුවත්",
+      "science": "විද්‍යාව"
+    },
+    "back": "ආපසු",
+    "skipPhoto": "දැනට මඟ හරින්න",
+    "preview": "පෙරදසුන"
+  },
+  "appTokens": {
+    "title": "ඔබේ ටෝකන",
+    "history": "ඉතිහාසය",
+    "noHistory": "තවම ක්‍රියාකාරකමක් නැත",
+    "kindDeposit": "තැන්පතු",
+    "to": "වෙත",
+    "amount": "ප්‍රමාණය",
+    "notePlaceholder": "සටහනක් එක් කරන්න (විකල්ප)",
+    "sendButton": "යවන්න",
+    "errorInsufficient": "ටෝකන ප්‍රමාණවත් නැත"
+  },
+  "avatarPrompt": {
+    "notNow": "දැන් නොවේ"
+  },
+  "postStats": {
+    "audience": "ප්‍රේක්ෂකයින්",
+    "engagement": "යෙදවුම",
+    "finished": "අවසන්",
+    "members": "සාමාජිකයින්",
+    "membersLower": "සාමාජිකයින්",
+    "newFollowers": "නව අනුගාමිකයන්",
+    "noBadge": "ලාංඡනයක් නැත",
+    "people": "පුද්ගලයන්",
+    "plays": "නාට්‍ය",
+    "quotes": "උපුටා ගැනීම්",
+    "reposts": "නැවත පළ කිරීම්",
+    "saved": "සුරැකිණි",
+    "shares": "කොටස්",
+    "signedOutViewers": "වරනය විය",
+    "topSupporters": "ඉහළම අනුග්‍රාහකයින්",
+    "visitors": "වරනය විය"
+  },
+  "duet": {
+    "policyEveryone": "සැමට",
+    "policyFollowers": "අනුගාමිකයින්ට",
+    "policyNobody": "කිසිවෙක් නැත",
+    "loadMore": "තවත් පූරණය",
+    "video": "වීඩියෝ"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "සැමට",
+      "followers": "අනුගාමිකයින්ට",
+      "nobody": "කිසිවෙක් නැත"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "සැමට",
+      "followers": "අනුගාමිකයින්ට",
+      "nobody": "කිසිවෙක් නැත"
+    },
+    "heading": "ප්‍රතික්‍රියා",
+    "more": "තව පෙන්වන්න",
+    "liveNow": "සජීවී",
+    "untitled": "ප්‍රතික්‍රියාව"
+  },
+  "liveClips": {
+    "copyLink": "සබැඳිය පිටපත් කරන්න",
+    "linkCopied": "සබැඳිය පිටපත් කරන ලදී"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "සැලසුම",
+      "howMany": "කොපමණ",
+      "who": "පරිශීලක නාමය හෝ පසුම්බි ලිපිනය",
+      "whoPlaceholder": "@පරිශීලකනාමය",
+      "cancel": "අවලංගු කරන්න",
+      "stage": {
+        "preparing": "සූදානම් වෙමින්…",
+        "confirming": "ගනුදෙනුව එනතුරු…",
+        "recording": "අවසන් වෙමින්…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "වෙනත්",
+    "confirming": "ගෙවීම තහවුරු කරමින්..."
+  },
+  "liveShorts": {
+    "live": "සජීවී"
+  },
+  "feedFilters": {
+    "clearAllShort": "සියල්ල හිස් කරන්න",
+    "done": "අවසන්",
+    "edit": "සංස්කරණය",
+    "groupDate": "දිනය",
+    "groupSort": "වර්ග කරන්න",
+    "groupType": "වර්ගය",
+    "save": "සුරකින්න"
+  },
+  "ownKeys": {
+    "working": "ක්‍රියාත්මක වේ",
+    "failed": "යම් වැරදීමක් සිදු වී ඇත. නැවත උත්සාහ කරන්න.",
+    "check": "පරීක්‍ෂා කරන්න",
+    "remove": "ඉවත් කරන්න",
+    "save": "සුරකින්න",
+    "cancel": "අවලංගු කරන්න"
+  },
+  "postBg": {
+    "none": "කිසිවක් නැත",
+    "yours": "ඔබේ",
+    "accent": "උච්චාරණය",
+    "names": {
+      "aurora": "ධ්‍රැවාලෝකය",
+      "lava": "ලාවා ලාම්පුව",
+      "drive": "රාත්‍රී ඩ්‍රයිව්",
+      "chrome": "දියර ක්රෝම්",
+      "orbit": "කක්ෂය",
+      "snow": "හිම වැටීම"
+    }
+  },
+  "articleTile": {
+    "cover": "කවරය"
+  },
+  "aiConsent": {
+    "allow": "ඉඩ දෙන්න"
+  },
+  "dmRequests": {
+    "title": "විශේෂාංග ඉල්ලීම්",
+    "accept": "පිළිගන්න",
+    "delete": "මකන්න",
+    "block": "වළක්වන්න"
+  },
+  "dmSchedule": {
+    "view": "බලන්න",
+    "edit": "සංස්කරණය කරන්න",
+    "editLabel": "පණිවිඩය සංස්කරණය කරන්න",
+    "error": "එය ක්‍රියා කළේ නැත. නැවත උත්සාහ කරන්න."
+  },
+  "chatBulk": {
+    "selected": "{{count}} තෝරාගෙන ඇත",
+    "cancel": "අවලංගු කරන්න",
+    "reply": "පිළිතුරු",
+    "delete": "මකන්න"
+  },
+  "msgSelect": {
+    "selected": "{{count}} තෝරාගෙන ඇත",
+    "copy": "පිටපත් කරන්න",
+    "forward": "යොමු කරන්න",
+    "deleted_one": "{{count}} පණිවිඩය මකා දමන ලදී",
+    "deleted_other": "{{count}} පණිවිඩ මකා දමන ලදී"
   }
 }

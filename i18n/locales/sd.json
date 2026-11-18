@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "اڊيئس تي هن هفتي جي ٽرينڊنگ. مفت استعمال لاءِ، فنڪار کي توهان جي پوسٽ تي ذڪر ڪيو ويندو.",
     "d2e45b7406fc": "وڪي ميڊيا ڪامنس مان پبلڪ ڊومين ۽ ڪريئيٽو ڪامنز ميوزڪ. فنڪار کي توهان جي پوسٽ تي ذڪر ڪيو ويندو.",
     "d0c1a3684775": "گيتن لوڊ نه ٿيا. ٿوري دير ۾ ٻيهر ڪوشش ڪريو.",
-    "d14064f80f52": "آواز شامل ڪريو"
+    "d14064f80f52": "آواز شامل ڪريو",
+    "71988c4d8e08": "ٽيڪسٽ",
+    "147170e793c6": "ويڪرو",
+    "481859b689b0": "پنهنجو ڪنيڪشن چيڪ ڪريو ۽ ٻيهر ڪوشش ڪريو.",
+    "57e2faa5ec63": "Riftn ۾ ڳوليو",
+    "7db20897053b": "لوڪ",
+    "96d7bff86b44": "سرچ لوڊ نه ٿي سگهي",
+    "d8b8392e2c54": "ٻيهر ڪوشش ڪريو"
   },
   "dehubLinks": {
     "kind": {
@@ -2671,8 +2678,19 @@
     "placeholderLocation": "شہر، ملک",
     "presets": {
       "podcast": "پوڈکاسٹ",
-      "custom": "حسب ضرورت"
-    }
+      "custom": "حسب ضرورت",
+      "website": "ويب سائيٽ",
+      "blog": "بلاگ",
+      "portfolio": "پورٽ فوليو",
+      "shop": "دڪان",
+      "newsletter": "نيوز ليٽر",
+      "pronouns": "ڪائنات",
+      "location": "جڳھ",
+      "customOption": "ڪسٽم ليبل"
+    },
+    "type": "فيلڊ جو قسم",
+    "needsLabel": "هر ڪسٽم فيلڊ کي هڪ ليبل ڏيو",
+    "placeholderPronouns": "انهن/انهن"
   },
   "notificationFilters": {
     "title": "انهن کان اطلاعون فلٽر ڪريو",
@@ -2843,7 +2861,8 @@
       "quote": "اقتباس",
       "bullets": "بلٽ جي فهرست",
       "numbers": "عدد جي فهرست",
-      "link": "ڳنڍڻو"
+      "link": "ڳنڍڻو",
+      "image": "تصويرون شامل ڪريو"
     }
   },
   "storefront": {
@@ -3771,7 +3790,11 @@
     "payViaDpay": "Riftn پي ڏانهن ادا ڪيو ويو، ٽوڪن تقريبن 30s ۾ اچن ٿا",
     "payViaBridgeDpay": "Base ڏانهن منتقل ڪيو ويو ۽ Riftn پي ڏانهن ادا ڪيو ويو، ٽوڪن تقريبن هڪ منٽ ۾ اچن ٿا",
     "tokensUnit": "ٽوڪن",
-    "tokenAmount": "{{amount}} ٽوڪن"
+    "tokenAmount": "{{amount}} ٽوڪن",
+    "addMessage": "پيغام شامل ڪريو (اختياري)",
+    "messagePublic": "عوامي",
+    "railTitle": "ٽوٽڪا",
+    "railTotal": "{{amount}} ٽوڪن"
   },
   "postOptions": {
     "skippableSections": "اسڪپ ڪرڻ جوڳا حصا",
@@ -4499,7 +4522,11 @@
       "here": "{{name}} برادري ۾ سڀني کي پيغام موڪليو",
       "hereNamed": "{{name}} \"{{community}}\" ۾ سڀني کي پيغام موڪليو"
     },
-    "tokenAmount": "{{amount}} ٽوڪن"
+    "tokenAmount": "{{amount}} ٽوڪن",
+    "groupNew": "نئون",
+    "groupToday": "اڄ",
+    "groupThisWeek": "هن هفتي",
+    "searchClose": "ڪڙڪو ڪريو"
   },
   "leaderboard": {
     "title": "ليڊربورڊ",
@@ -4691,7 +4718,18 @@
     "attachmentTooLarge": "هر فائل 50MB کان گهٽ هجڻ گهرجي",
     "deleteCommentA11y": "تبصرو ختم ڪريو",
     "sendCommentA11y": "تبصرو موڪليو",
-    "requestOptions": "درخواست جا اختيار"
+    "requestOptions": "درخواست جا اختيار",
+    "deviceInfoNoErrors": "ڪو به نه",
+    "topBuilders": {
+      "month": "هن مهيني",
+      "allTime": "سڀ ڪجهه وقت",
+      "shipped": "موڪليل",
+      "votes": "ووٽ",
+      "comments": "رايا",
+      "showLess": "گھٽ ڏيکاريو",
+      "viewProfile": "پروفائل ڏسو",
+      "you": "توهان"
+    }
   },
   "auth": {
     "loginRequired": "لاگ ان ضروري",
@@ -4948,8 +4986,22 @@
       "votes_one": "{{value}} ووٽ",
       "votes_other": "{{value}} ووٽن",
       "members_one": "{{value}} رڪن",
-      "members_other": "{{value}} رڪن"
-    }
+      "members_other": "{{value}} رڪن",
+      "shop": "دڪان"
+    },
+    "articleShort": "آرٽيڪل",
+    "articleMinRead": "{{count}} منٽ پڙهو",
+    "pinnedShort": "پن ٿيل",
+    "post": "پوسٽ",
+    "arrange": {
+      "saving": "محفوظ ٿي رهيو آهي..."
+    },
+    "reserve": {
+      "signIn": "سائن ان"
+    },
+    "tabLikes": "لائيڪ",
+    "likesEmptyTitle": "اڃا ڪا پسند ناهي",
+    "likesPrivateTitle": "پسنديون نجي آهن"
   },
   "tv": {
     "title": "ٽي وي",
@@ -5465,6 +5517,9 @@
       "saveTemplate": "ٽيمپليٽ محفوظ ڪريو",
       "templateSaved": "ٽيمپليٽ محفوظ ٿي ويو.",
       "draft": "رڳو مسودو"
+    },
+    "welcome": {
+      "text": "ڀليڪار پيغام"
     }
   },
   "hero": {
@@ -5546,7 +5601,16 @@
     "nowPublic": "فلو هاڻي عوامي آهي",
     "openCanvas": "ڪئنوس کوليو",
     "playVideo": "وڊيو هلايو",
-    "signInToSee": "توهان جي اڪائونٽ تي وهڪري کي ڏسڻ لاء سائن ان ڪريو."
+    "signInToSee": "توهان جي اڪائونٽ تي وهڪري کي ڏسڻ لاء سائن ان ڪريو.",
+    "newNativeFlow": "نئون فلو",
+    "model": "ماڊل",
+    "aspectRatio": "پکڙجڻ جو تناسب",
+    "duration": "مدو سيڪنڊن ۾",
+    "resolution": "ريزوليوشن",
+    "disconnect": "ڌار ڪريو",
+    "payAndRun": "ادا ڪريو ۽ هلائي رهيو آهي",
+    "run": "هلائي رهيو آهي",
+    "handlePrompt": "پرمٽ"
   },
   "loginModal": {
     "title": "لاگ ان",
@@ -5866,7 +5930,8 @@
     "searchMenu": "مينيو ڳوليو",
     "clearSearch": "ڳولا صاف ڪريو",
     "noMenuMatches": "مينيو ۾ ڪجهه به نٿو ملي",
-    "searchDehubFor": "Riftn تي \"{{query}}\" ڳوليو"
+    "searchDehubFor": "Riftn تي \"{{query}}\" ڳوليو",
+    "requestSend": "درخواست موڪليو"
   },
   "comments": {
     "rowA11yLabel": "{{name}}، {{time}}: {{text}}",
@@ -6485,7 +6550,11 @@
       "copied": "پيغام نقل ڪيو ويو",
       "copyText": "متن نقل ڪريو",
       "mutedUntil": "توهان {{date}} تائين خاموش ٿي ويا آهيو",
-      "slowMode": "سست موڊ: هڪ پيغام هر {{interval}}"
+      "slowMode": "سست موڊ: هڪ پيغام هر {{interval}}",
+      "joined": "{{name}} شامل ٿيو",
+      "reactions": "رد عمل",
+      "photoTooLarge": "تصوير 10MB کان گهٽ هجڻ گهرجي",
+      "aiAdminFailed": "AI ايڊمن جواب ڏيڻ ۾ ناڪام ٿيو"
     },
     "manage": {
       "restrictionWithReason": "{{state}} — {{reason}}",
@@ -6688,6 +6757,32 @@
       "notFound": "هي دعوت لنڪ صحيح نه آهي.",
       "requestToJoin": "شامل ٿيڻ جي درخواست",
       "approvalNote": "هڪ ايڊمن کي توهان جي شامل ٿيڻ کان اڳ توهان جي درخواست کي منظور ڪرڻو پوندو."
+    },
+    "buyAlert": {
+      "spent": "خرچ ڪيو:",
+      "buyer": "خريد ڪندڙ:",
+      "txn": "ٽئڪسي ڊرائيور",
+      "balance": "توازن:",
+      "price": "قیمت آهن:",
+      "marketCap": "مارڪيٽ ڪيپ:"
+    },
+    "newChat": {
+      "public": "عوامي",
+      "private": "خانگي",
+      "free": "مفت",
+      "paid": "ادا ڪيل",
+      "group": "گروپ"
+    },
+    "holderGate": {
+      "chain": "چين",
+      "which": "ٽوڪن",
+      "tab": "داروغا"
+    },
+    "automod": {
+      "bannedWords": "منع ٿيل لفظ",
+      "floodMax": "{{count}} پيغام",
+      "saved": "محفوظ ڪيل",
+      "wordCount": "{{count}} لفظي لفظ"
     }
   },
   "work": {
@@ -7809,7 +7904,10 @@
       "doneAll": "{{done}} اڪائونٽس جيڪي توهان کي واپس پيروي نه ڪندا هئا، اڻ پيروي ڪيا ويا.",
       "doneSome": "{{done}} اڪائونٽس اڻ پيروي ڪيا ويا. {{failed}} کي اڻ پيروي نه ڪري سگهيو.",
       "doneToast": "{{done}} اڪائونٽس جيڪي توهان کي واپس پيروي نه ڪندا هئا، اڻ پيروي ڪيا ويا."
-    }
+    },
+    "followBackConfirm": "فالو بئڪ",
+    "followBackNotNow": "هاڻي نه",
+    "followBackDone": "مڪمل ٿيو"
   },
   "reactionInfo": {
     "title": "رد عمل",
@@ -8727,7 +8825,39 @@
     "uploadCover": "ڪورٽ ڪيڪ",
     "editFailed": "ڪتابڪارن کي ڪتابن جو پيش ڪرڻ جو حق حاصل آهي، پر ڪتابن جو پيش ڪرڻ جو حق ڪتابڪارن کي ۾ ڪنهن به صورت ۾ حاصل ناهي.",
     "fade": "هلڪو {{value}}%",
-    "typeText": "قسم..."
+    "typeText": "قسم...",
+    "altPlaceholderVideo": "هن وڊيو کي بيان ڪريو",
+    "landingLive": "لائيو",
+    "preview": {
+      "title": "ڏيک"
+    },
+    "recent": {
+      "all": "سڀ"
+    },
+    "studio": {
+      "crop": "ڪروپ",
+      "draw": "ڊرا ڪريو",
+      "light": "لائيٽ",
+      "contrast": "برعڪس",
+      "warmth": "حرڪت",
+      "colour": "رنگ",
+      "fade": "ڦڪو ٿيڻ",
+      "original": "اصل",
+      "ratioOriginal": "اصل",
+      "ratioFree": "مفت",
+      "rotate": "ڦيرايو",
+      "strength": "طاقت",
+      "stickers": "اسٽيڪرز",
+      "ticker": "ٽڪر",
+      "textBg": "پس منظر",
+      "font": {
+        "bold": "ٿلهو",
+        "serif": "ميرپورخاص",
+        "mono": "مونو"
+      }
+    },
+    "edited": "ترميم ٿيل",
+    "edit": "تدوين"
   },
   "bounty": {
     "claimed": "حاصل ٿيو",
@@ -9021,7 +9151,8 @@
     "preparingCamera": "ڪيمرا تيار ڪجي پيو…",
     "reconnecting": "ٻيهر ڳنڍجي رهيو آهي…",
     "connecting": "ڳنڍجي رهيو آهي…",
-    "shopPutOnAir": "هوا تي رک"
+    "shopPutOnAir": "هوا تي رک",
+    "liveBadge": "لائيو"
   },
   "liveShop": {
     "title": "هن اسٽريم مان خريداري ڪريو",
@@ -9334,7 +9465,23 @@
     "paymentSentWith": "{{amount}} سان موڪليو ويو",
     "planRestricted": "هن استعمال ڪندڙ کي پيغام وصول ڪرڻ لاءِ سبسڪرپشن گهرجي.",
     "planTypeNotAllowed": "هن تخليقڪار جو پلان هن قسم جي پيغام جي اجازت نٿو ڏئي.",
-    "planMinTip": "هن تخليقڪار لاءِ ٽپ گهٽ ۾ گهٽ {{amount}} ٽوڪن هجڻ گهرجي."
+    "planMinTip": "هن تخليقڪار لاءِ ٽپ گهٽ ۾ گهٽ {{amount}} ٽوڪن هجڻ گهرجي.",
+    "newDrawer": {
+      "to": "ڏانهن"
+    },
+    "download": "ڊائونلوڊ",
+    "deleteOneTitle": "ھي پيغام ختم ڪريو ؟",
+    "retrySend": "ٻيهر ڪوشش ڪريو",
+    "discardSend": "هٽايو",
+    "shareKindGroup": "گروپ",
+    "shareKindCommunity": "ڪميونٽي",
+    "searchDiscover": {
+      "people": "ماڻهو",
+      "communities": "ڪميونٽيون",
+      "members": "{{n}} ميمبر",
+      "newChat": "نئين چيٽ",
+      "invite": "دعوت ڏيو"
+    }
   },
   "editPost": {
     "mediaPermission": "ميڊيا لائبريري جي اجازت گھربل آهي",
@@ -10552,7 +10699,11 @@
       "hint": "ڳالهائڻ کي وقت سان ٺهڪندڙ ڪيپشن ۾ بدلائي ٿو، جن جو انداز توهان بدلائي سگهو ٿا. توهان جي ڊوائيس تي هلي ٿو: مفت ۽ ذاتي. پهريون ڀيرو ماڊل ڊائونلوڊ ٿيندو.",
       "done": "{{count}} ڪيپشن شامل ڪيا ويا.",
       "noSpeech": "هن ڪلپ ۾ ڪا ڳالهه نه ملي.",
-      "failed": "هن ڪلپ لاءِ ڪيپشن نه ٺهي سگهيا."
+      "failed": "هن ڪلپ لاءِ ڪيپشن نه ٺهي سگهيا.",
+      "styles": {
+        "bold": "زبردست",
+        "serif": "ميرپورخاص"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10622,7 +10773,8 @@
       "vibrant": "چمڪدار",
       "cyber": "سائبر",
       "invert": "اُبتو",
-      "strength": "فلٽر جي طاقت: {{value}}٪"
+      "strength": "فلٽر جي طاقت: {{value}}٪",
+      "vhs": "وي ايڇ ايس"
     },
     "layer": {
       "crop": "ڪروپ",
@@ -10802,7 +10954,9 @@
       "suggestTitle": "مٿي هڪ وڏو ڳاڙهو عنوان ۽ ان جي هيٺان ننڍو ذيلي عنوان شامل ڪريو",
       "undo": "واپس ڪريو",
       "openGenerator": "ڏسو ۽ ٺاهيو",
-      "working": "ڪم ٿي رهيو آهي…"
+      "working": "ڪم ٿي رهيو آهي…",
+      "stop": "بند ڪريو",
+      "queue": "قطار ۾ شامل ڪريو"
     },
     "brand": {
       "addColor": "برانڊ رنگ شامل ڪريو",
@@ -10939,7 +11093,9 @@
       "rendering": "وڊيو رينڊر ٿي رهي آهي… {{percent}}%",
       "mp4": "MP4 وڊيو",
       "exportHint": "جيستائين توهان جي وڊيو رينڊر ٿئي، ايڊيٽر کليل رکو.",
-      "tooLarge": "اها فائل ايڊيٽر لاءِ تمام وڏي آهي. حد 400 MB آهي."
+      "tooLarge": "اها فائل ايڊيٽر لاءِ تمام وڏي آهي. حد 400 MB آهي.",
+      "tZoomIn": "زوم ان",
+      "tZoomOut": "زوم آئوٽ"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12118,6 +12274,28 @@
       "selection": "چونڊ",
       "zoomIn": "ڪينواس کي زوم ان ڪريو",
       "zoomOut": "ڪينواس کي زوم آئوٽ ڪريو"
+    },
+    "stage": {
+      "camera": "ڪيمرا",
+      "yaw": "روٽيشن",
+      "add": "شامل ڪريو",
+      "scale": "ماپ",
+      "color": "رنگ",
+      "light": "لائيٽ"
+    },
+    "clipFix": {
+      "listening": "ٻڌي رهيو آهي..."
+    },
+    "voiceClone": {
+      "stop": "رڪارڊنگ بند ڪريو",
+      "failed": "وائس ڪلوننگ ناڪام ٿي وئي."
+    },
+    "linkImport": {
+      "go": "درآمد",
+      "downloading": "{{percent}}% ڊائون لوڊ ڪري رهيو"
+    },
+    "reverse": {
+      "action": "ريورس (اُبتو)"
     }
   },
   "creator": {
@@ -12579,7 +12757,32 @@
     "referenceProductName": "پنهنجي پراڊڪٽ کي ڪلپ ۾ رکو",
     "referenceProductHint": "نمايان پراڊڪٽ بدلائي اصل منظر برقرار رکو.",
     "referenceComposeName": "حواله تصويرون گڏ ڪريو",
-    "referenceComposeHint": "ڪيترن ئي تصويرن مان ڪردار، شيون ۽ سيٽنگون هڪ گڏيل ترتيب ۾ آڻيو."
+    "referenceComposeHint": "ڪيترن ئي تصويرن مان ڪردار، شيون ۽ سيٽنگون هڪ گڏيل ترتيب ۾ آڻيو.",
+    "marketing": {
+      "import": {
+        "use": "اهي تفصيل استعمال ڪريو"
+      }
+    },
+    "batchCount": "تصويرون",
+    "endFrame": "آخر فريم",
+    "cinema": {
+      "close": "بند ڪريو",
+      "performance": {
+        "label": "ڪارڪردگي"
+      }
+    },
+    "audioNoSpeech": "ان رڪارڊنگ ۾ ڪا به تقرير نه ملي.",
+    "audioTaskSpeechLabel": "تقرير",
+    "audioTaskDialogueLabel": "ڊائلاگ",
+    "audioTaskSfxLabel": "آواز جو اثر",
+    "audioTaskVoiceChangerLabel": "آواز بدلائيندڙ",
+    "audioTaskTranscribeLabel": "ترجمو ڪريو",
+    "audioTaskIsolateLabel": "صاف ڪريو",
+    "priceFreeRateLimited": "مفت · شرح جون حدون لاڳو آهن",
+    "loop": "لوپ",
+    "dialogueFormat": "منظر لکو جيئن \"نالو: لائن\"، هڪ اسپيڪر في لائن.",
+    "fileTooLarge": "اها فائل 100 ايم بي کان وڌيڪ آهي. هڪ نن shortڙو يا نن oneڙو استعمال ڪريو.",
+    "signInToGenerate": "پيدا ڪرڻ لاء سائن ان ڪريو."
   },
   "fractions": {
     "title": "حصا",
@@ -14648,6 +14851,19 @@
       "intro": "ناظرین هر منٽ لاءِ هڪ پوائنٽ ڪمائيندا آهن اهي توهان کي ڏسندا آهن ۽ هر 100 ڊي ايڇ بي لاءِ هڪ اهي تحفا ڏيندا آهن. چيٽ ۽ رد عمل ڪجھ به ڪمائي نٿا سگھن، تنھنڪري پوائنٽس فارم نٿا ڪري سگھجن.",
       "empty": "اڃا تائين ڪوبه پوائنٽ ناهي.. اهي اڏاوت ڪندا آهن جئين ماڻهو ڏسندا ۽ تحفا ڏيندا آهن.",
       "widgetHint": "هن لسٽ کي وهڪرو تي ڏيکارڻ لاءِ وفادار ناظرین وجيٽ شامل ڪريو."
+    },
+    "destinations": {
+      "platform": "پليٽ فارم",
+      "label": "نالو (اختياري)",
+      "key": "اسٽريم ڪي",
+      "save": "شامل ڪريو",
+      "cancel": "منسوخ ڪريو",
+      "states": {
+        "off": "بند",
+        "idle": "تيار",
+        "live": "لائيو",
+        "error": "غلطي"
+      }
     }
   },
   "liveChatModeration": {
@@ -14696,12 +14912,21 @@
     "joinedBody": "اسان {{email}} کي اي ميل ڪندا سين جڏهن ٽوڪن لانچ ٿيندو.",
     "joinedBodyNoEmail": "اسان توهان کي اي ميل ڪندس جڏهن ٽوڪن لانچ ٿيندو.",
     "failed": "اھو محفوظ نه ٿي سگھيو. ٻيهر ڪوشش ڪريو.",
-    "privacy": "صرف توهان کي لانچ جي باري ۾ ٻڌائڻ لاء استعمال ڪيو ويو."
+    "privacy": "صرف توهان کي لانچ جي باري ۾ ٻڌائڻ لاء استعمال ڪيو ويو.",
+    "eyebrow": "جلدي اچي رهيو آهي",
+    "notifyMe": "مون کي ٻڌايو"
   },
   "githubLink": {
     "connect": "GitHub سان ڳنڍو",
     "disconnect": "ڌار ڪريو",
-    "unavailable": "گيت هاب ورفيڪيشن ٿيڻ جو وقت نڪري ٿو."
+    "unavailable": "گيت هاب ورفيڪيشن ٿيڻ جو وقت نڪري ٿو.",
+    "hint": "ڪمپيوٽر ۾ GitHub تي لاگ ان ڪري ڏسو تہ ڪنٽاڪٽ ڪيل اڪائونٽ آپ جي ۾ ۾ آهي.",
+    "verified": "ورفيڊ",
+    "verifiedAria": "ورفيڊ GitHub اڪائونٽ",
+    "connected": "GitHub جوڙيل",
+    "disconnected": "GitHub جوڙيل",
+    "taken": "ڪنهن بہ اڪائونٽ تي GitHub جوڙيل آهي.",
+    "failed": "GitHub جوڙڻ ۾ ناکام. ٻيو ڪوشش ڪريو."
   },
   "comic": {
     "showAll": "سڀ {{count}} صفحا ڏيکاريو",
@@ -14732,7 +14957,51 @@
     "collections": "ڪٽڪر",
     "spotlightForSale": "ابھي ڪري واپس ڪرڻ لاءِ",
     "spotlightNew": "جڏھن",
-    "buyFor": "ڪرائے لاءِ {{price}}"
+    "buyFor": "ڪرائے لاءِ {{price}}",
+    "actAll": "سڀ",
+    "actListings": "لسٽنگون",
+    "actOffer": "پیشنہہ",
+    "actOffers": "آڇون",
+    "actSales": "ڪاروباري",
+    "tabActivity": "سرگرمي",
+    "newest": "تازو",
+    "soldFor": "وڪامجي ويو",
+    "signIn": "سائن ان",
+    "title": "NFT",
+    "share": "حصيداري ڪريو",
+    "noneForSale": "اڃان تائين وڪري لاءِ ڪجھ به ناهي",
+    "noSales": "ابھی تک کوئی فروخت نہیں",
+    "tabBrowse": "ڀليو ڏسڻ",
+    "tabMine": "تنھنجو",
+    "tabSales": "ڪاروباري",
+    "cancelled": "رڈ کر دیا گیا۔",
+    "sold": "وڪامجي ويو",
+    "listed": "فروخت جي فهرست",
+    "loading": "لوڊ ٿي رهيو آهي...",
+    "price": "قيمت",
+    "seller": "وڪڻندڙ",
+    "tabRecent": "تازيون",
+    "buyNow": "هينئر خريد ڪريو",
+    "offers": "عرضات",
+    "cancel": "رڈ کر دیں",
+    "accept": "قبول ڪريو",
+    "signInToTrade": "ڪمپني ۾ لاگ ان ڪرڻ",
+    "listForSale": "وڪري لاءِ رکو",
+    "makeOffer": "آفر ڪريو",
+    "back": "واپس",
+    "showAll": "سڀ ڏيکاريو",
+    "shortTitle": "NFT",
+    "filters": "فلٽر",
+    "forSale": "وڪري لاءِ",
+    "anyInCollection": "ڪنهن به ڪليڪشن ۾",
+    "alertSaved": "آلرت آن ہے۔ جب کوئی لسٹ ہوگا تو ہم آپ کو بتائیں گے۔",
+    "bundleBadge": "بندل ×{{n}}",
+    "dropBadge": "قیمت میں کمی",
+    "days_one": "{{count}} ڏينهن",
+    "days_other": "{{count}} ڏينهن",
+    "statForSale": "وڪري لاءِ",
+    "sellYours": "اپنا فروخت کریں",
+    "days": "{{count}} ڏينهن"
   },
   "reel": {
     "readAll": "سڀ پڙهو",
@@ -14754,7 +15023,11 @@
       "episode": "پوڊ ڪاسٽ قسط",
       "show": "پوڊ ڪاسٽ",
       "artist": "فنڪار"
-    }
+    },
+    "loading": "لوڊ ٿي رهيو آهي...",
+    "paused": "روڪيو ويو",
+    "preview": "ڏيک",
+    "seek": "تلاش ڪريو"
   },
   "twoFactor": {
     "wrongCode": "اهو ڪوڊ نه مليو. پنهنجي ايپ ۾ نئون ڪوڊ آزمايو.",
@@ -14831,5 +15104,251 @@
     "newer": "نئون نتيجو",
     "gone": "هو پيغام هاڻي هتي ناهي",
     "theirMessages": "انهن جا پيغام"
+  },
+  "chatTextSize": {
+    "title": "ٽيڪسٽ جي سائيز",
+    "default": "ڊفالٽ",
+    "larger": "وڏو"
+  },
+  "remix": {
+    "cut": "ڪٽيو"
+  },
+  "signedFollows": {
+    "setUp": "آن ڪريو",
+    "turnOff": "بند ڪريو",
+    "efpTurnOff": "بند ڪريو"
+  },
+  "postEditHistory": {
+    "original": "اصل"
+  },
+  "studioDeck": {
+    "remove": "هٽايو",
+    "background": {
+      "title": "پس منظر",
+      "modes": {
+        "none": "بند",
+        "blur": "ڌنڌلاپڻ",
+        "color": "رنگ"
+      }
+    },
+    "scenes": {
+      "countdown": "ڪائونٽ ڊائون",
+      "minutes": "{{count}} منٽ",
+      "names": {
+        "starting": "جلد شروع ٿيندو"
+      }
+    },
+    "widgets": {
+      "tab": "ویجٹس"
+    },
+    "sources": {
+      "image": "تصوير",
+      "show": "وهڪرو تي ڏيکاريو",
+      "positions": {
+        "center": "مرڪز"
+      },
+      "sizes": {
+        "medium": "وچولي"
+      }
+    },
+    "phone": {
+      "title": "اسٽوڊيو"
+    }
+  },
+  "whenSheet": {
+    "today": "اڄ",
+    "tooSoon": "مستقبل ۾ هڪ وقت چونڊيو.",
+    "show": "ڏيکاريو",
+    "hide": "لڪايو"
+  },
+  "planned": {
+    "title": "منصوبابند",
+    "all": "سڀ",
+    "posts": "پوسٽون",
+    "stages": "آڊيو روم",
+    "post": "پوسٽ",
+    "live": "لائيو",
+    "stage": "اسٽيج",
+    "untitledPost": "پوسٽ",
+    "untitledLive": "لائيو",
+    "loading": "لوڊ ٿي رهيو آهي…",
+    "startNow": "هينئر شروع ڪريو",
+    "cancel": "منسوخ ڪريو",
+    "cancelled": "رد ٿيل"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn ۾ ڀليڪار",
+      "day": "ڏينهن",
+      "month": "مهينو",
+      "year": "سال"
+    },
+    "name": {
+      "title": "توهان جو نالو",
+      "placeholder": "توهان جو نالو"
+    },
+    "card": {
+      "name": "توهان جو نالو",
+      "followers": "پوئلڳ"
+    },
+    "topic": {
+      "music": "موسيقي",
+      "art": "آرٽ",
+      "gaming": "گيمنگ",
+      "crypto": "ڪرپٽو",
+      "sports": "رياضتون پائين",
+      "comedy": "مزاحيه",
+      "film": "فلم",
+      "podcast": "پوڊ ڪاسٽ",
+      "food": "کھانا",
+      "news": "خبرون",
+      "science": "سائنس"
+    },
+    "back": "واپس",
+    "skipPhoto": "اب کے لیے چھوڑ دیں",
+    "preview": "ڏيک"
+  },
+  "appTokens": {
+    "title": "توهان جا ٽوڪن",
+    "history": "تاريخ",
+    "noHistory": "اڃان تائين ڪابه سرگرمي ناهي",
+    "kindDeposit": "فنڊ شامل ڪريو",
+    "to": "ڏانهن",
+    "amount": "رقم",
+    "notePlaceholder": "نوٽ شامل ڪريو (اختياري)",
+    "sendButton": "موڪليو",
+    "errorInsufficient": "ڪافي ٽوڪن ناهن"
+  },
+  "avatarPrompt": {
+    "notNow": "هاڻي نه"
+  },
+  "postStats": {
+    "audience": "سامعين",
+    "engagement": "مصروفيات",
+    "finished": "پورو ٿيو",
+    "members": "ميمبر",
+    "membersLower": "ميمبر",
+    "newFollowers": "نوان پيروڪار",
+    "noBadge": "ڪو به بيج ناهي",
+    "people": "ماڻهو",
+    "plays": "ناٽڪ",
+    "quotes": "اقتباس",
+    "reposts": "ريپوسٽ",
+    "saved": "محفوظ ڪيل",
+    "shares": "شيئر",
+    "signedOutViewers": "سائن آئوٽ ٿيو",
+    "topSupporters": "مٿيون حامي",
+    "visitors": "سائن آئوٽ ٿيو"
+  },
+  "duet": {
+    "policyEveryone": "سڀ",
+    "policyFollowers": "فالوورز",
+    "policyNobody": "ڪو نه",
+    "loadMore": "وڌيڪ لوڊ ڪريو",
+    "video": "ويڊيو"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "سڀ",
+      "followers": "فالوورز",
+      "nobody": "ڪو نه"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "سڀ",
+      "followers": "فالوورز",
+      "nobody": "ڪو نه"
+    },
+    "heading": "رد عمل",
+    "more": "وڌيڪ ڏيکاريو",
+    "liveNow": "لائيو",
+    "untitled": "رد عمل"
+  },
+  "liveClips": {
+    "copyLink": "لنڪ ڪاپي ڪريو",
+    "linkCopied": "لنڪ ڪاپي ڪئي وئي"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "منصوبابندي",
+      "howMany": "ڪيترا",
+      "who": "يوزرنيم يا والٽ ايڊريس",
+      "whoPlaceholder": "@يوزرنيم",
+      "cancel": "منسوخ ڪريو",
+      "stage": {
+        "preparing": "تياري ٿي رهي آهي…",
+        "confirming": "ٽرانزيڪشن جو انتظار…",
+        "recording": "مڪمل ٿي رهيو آهي…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "ٻيو",
+    "confirming": "ادائيگي جي تصديق ڪندي..."
+  },
+  "liveShorts": {
+    "live": "لائيو"
+  },
+  "feedFilters": {
+    "clearAllShort": "سڀ صاف ڪريو",
+    "done": "ٿي ويو",
+    "edit": "تدوين",
+    "groupDate": "تاريخ",
+    "groupSort": "ترتيب",
+    "groupType": "قسم",
+    "save": "محفوظ ڪريو"
+  },
+  "ownKeys": {
+    "working": "ڪم ڪندڙ",
+    "failed": "ڪجھ غلط ٿي ويو آهي ٻيهر ڪوشش ڪريو.",
+    "check": "چيڪ ڪريو",
+    "remove": "هٽايو",
+    "save": "محفوظ ڪريو",
+    "cancel": "رد ڪريو"
+  },
+  "postBg": {
+    "none": "ڪو به نه",
+    "yours": "تنھنجو",
+    "accent": "تلفظ",
+    "names": {
+      "aurora": "اورورا (Aurora)",
+      "lava": "ليوا لامپ",
+      "drive": "نیٹ ڈرائیو (Night Drive)",
+      "chrome": "لیکویڈ کروم (Liquid Chrome)",
+      "orbit": "اوربٽ",
+      "snow": "برفباري"
+    }
+  },
+  "articleTile": {
+    "cover": "ڪور"
+  },
+  "aiConsent": {
+    "allow": "اجازت ڏيو"
+  },
+  "dmRequests": {
+    "title": "فيچر درخواستون",
+    "accept": "قبول ڪريو",
+    "delete": "ختم ڪريو",
+    "block": "بلاڪ ڪريو"
+  },
+  "dmSchedule": {
+    "view": "ڏسو",
+    "edit": "ترميم ڪريو",
+    "editLabel": "پيغام تبديل ڪريو",
+    "error": "اهو ڪم نه ڪيو، ٻيهر ڪوشش ڪريو."
+  },
+  "chatBulk": {
+    "selected": "{{count}} منتخب ٿيل",
+    "cancel": "رد ڪريو",
+    "reply": "جواب",
+    "delete": "ختم ڪريو"
+  },
+  "msgSelect": {
+    "selected": "{{count}} منتخب ٿيل",
+    "copy": "ڪاپي",
+    "forward": "اڳتي موڪليو",
+    "deleted_one": "{{count}} پيغام حذف ڪيو ويو",
+    "deleted_other": "{{count}} پيغام حذف ڪيا ويا"
   }
 }

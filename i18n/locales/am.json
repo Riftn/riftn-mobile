@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "በዚህ ሳምንት በAudius ላይ ተወዳጅ እየሆነ ነው። ለመጠቀም ነፃ ነው፣ አርቲስቱ በልጥፍዎ ላይ ክሬዲት ያገኛል።",
     "d2e45b7406fc": "ከWikimedia Commons የህዝብ ጎራ እና የCreative Commons ሙዚቃ። በልጥፍዎ ላይ ለአርቲስቱ ክሬዲት ይሰጣል።",
     "d0c1a3684775": "መዝሙሮች አልተጫኑም። ከጥቂት ጊዜ በኋላ እንደገና ይሞክሩ።",
-    "d14064f80f52": "ድምጽ ያክሉ"
+    "d14064f80f52": "ድምጽ ያክሉ",
+    "71988c4d8e08": "ጽሑፍ",
+    "147170e793c6": "ሰፊ",
+    "481859b689b0": "ግንኙነትዎን ያረጋግጡና እንደገና ይሞክሩ።",
+    "57e2faa5ec63": "Riftn ይፈልጉ",
+    "7db20897053b": "ሰዎች",
+    "96d7bff86b44": "ፍለጋው መጫን አልቻለም",
+    "d8b8392e2c54": "እንደገና ሞክር"
   },
   "dehubLinks": {
     "kind": {
@@ -2854,7 +2861,8 @@
       "quote": "ጥቅሶች",
       "bullets": "ቡሌት ዝርዝር",
       "numbers": "Numbered ዝርዝር",
-      "link": "አገናኝ"
+      "link": "አገናኝ",
+      "image": "ምስሎችን ጨምር"
     }
   },
   "storefront": {
@@ -3792,7 +3800,11 @@
     "payViaDpay": "ለ Riftn Pay ተከፍሏል፣ ቶከኖች በ30s ውስጥ ይደርሳሉ",
     "payViaBridgeDpay": "ወደ Base ተወስዷል እና ለ Riftn Pay ተከፍሏል፣ ቶከኖች በደቂቃ ውስጥ ይደርሳሉ",
     "tokensUnit": "ቶከኖች",
-    "tokenAmount": "{{amount}} ቶከኖች"
+    "tokenAmount": "{{amount}} ቶከኖች",
+    "addMessage": "መልእክት ያክሉ (ተራ)",
+    "messagePublic": "ይፋ",
+    "railTitle": "ጠቃሚ ምክሮች",
+    "railTotal": "{{amount}} ቶከኖች"
   },
   "postOptions": {
     "skippableSections": "አስተዋጽን አስተምህራት ክልል።",
@@ -4520,7 +4532,11 @@
       "here": "{{name}} በማህበረሰቡ ውስጥ ላሉት ሁሉ መልእክት አስተላልፈዋል",
       "hereNamed": "{{name}}@ በ \"{{community}}@\" ውስጥ ለሁሉም ሰው መልእክት አስተላልፏል"
     },
-    "tokenAmount": "{{amount}} ቶከኖች"
+    "tokenAmount": "{{amount}} ቶከኖች",
+    "groupNew": "አዲስ",
+    "groupToday": "ዛሬ",
+    "groupThisWeek": "በዚህ ሳምንት",
+    "searchClose": "በይበል"
   },
   "leaderboard": {
     "title": "ደረጃ ሰሌዳዎች",
@@ -4712,7 +4728,18 @@
     "attachmentTooLarge": "እያንዳንዱ ፋይል ከ50MB በታች መሆን አለበት",
     "deleteCommentA11y": "አስተያየት ሰርዝ",
     "sendCommentA11y": "አስተያየት ይላኩ",
-    "requestOptions": "የጥያቄ አማራጮች"
+    "requestOptions": "የጥያቄ አማራጮች",
+    "deviceInfoNoErrors": "ምንም",
+    "topBuilders": {
+      "month": "በዚህ ወር",
+      "allTime": "ሁልጊዜ",
+      "shipped": "የተጠናቀቁ",
+      "votes": "ድምጾች",
+      "comments": "አስተያየቶች",
+      "showLess": "ያነሰ አሳይ",
+      "viewProfile": "መገለጫ ይመልከቱ",
+      "you": "እርስዎ"
+    }
   },
   "auth": {
     "loginRequired": "መግባት ያስፈልጋል",
@@ -4973,7 +5000,20 @@
       "votes_other": "{{value}} ድምጾች",
       "members_one": "{{value}} አባል",
       "members_other": "{{value}} አባላት"
-    }
+    },
+    "articleShort": "ጽሑፍ",
+    "articleMinRead": "{{count}} min አንብብ",
+    "pinnedShort": "ተሰክቷል",
+    "post": "ልጥፍ",
+    "arrange": {
+      "saving": "በማስቀመጥ ላይ..."
+    },
+    "reserve": {
+      "signIn": "ግባ"
+    },
+    "tabLikes": "ወደዶች",
+    "likesEmptyTitle": "እስካሁን መውደድ የለም",
+    "likesPrivateTitle": "መውደዶች የግል ናቸው"
   },
   "tv": {
     "title": "ቴሌቪዥን",
@@ -5489,6 +5529,9 @@
       "action": "እርምጃ",
       "schedule": "የጊዜ ሰሌዳ",
       "filter": "እንቅስቃሴን ያጣሩ"
+    },
+    "welcome": {
+      "text": "የእንኳን ደህና መጡ መልዕክት"
     }
   },
   "hero": {
@@ -5570,7 +5613,16 @@
     "nowPublic": "ፍሰት አሁን በይፋ ነው",
     "openCanvas": "ቀኖቹን ይክፈቱ",
     "playVideo": "ቪዲዮ አጫውት",
-    "signInToSee": "በመለያዎ ላይ ያሉትን ፍሰቶች ለማየት ይግቡ ።"
+    "signInToSee": "በመለያዎ ላይ ያሉትን ፍሰቶች ለማየት ይግቡ ።",
+    "newNativeFlow": "አዲስ ፍሰት",
+    "model": "ሞዴል",
+    "aspectRatio": "ምርጫዎች፦",
+    "duration": "የቆይታ ጊዜ በሰከንዶች",
+    "resolution": "ውሳኔ",
+    "disconnect": "አይኮንድክትል።",
+    "payAndRun": "ይክፈሉ እና ያስኬዱ",
+    "run": "ያስኬዱ",
+    "handlePrompt": "ጥያቄ"
   },
   "loginModal": {
     "title": "ግባ",
@@ -5920,7 +5972,8 @@
     "searchMenu": "ምናሌ ፈልግ",
     "clearSearch": "ፍለጋ አጽዳ",
     "noMenuMatches": "በምናሌው ውስጥ ምንም አይዛመድም",
-    "searchDehubFor": "በRiftn ላይ \"{{query}}\" ፈልግ"
+    "searchDehubFor": "በRiftn ላይ \"{{query}}\" ፈልግ",
+    "requestSend": "ጥያቄ ላክ"
   },
   "comments": {
     "reportComment": "አስተያየት ሪፖርት ያድርጉ",
@@ -6539,7 +6592,11 @@
       "copied": "መልዕክት ተገለበጠ",
       "copyText": "ጽሑፍ ቅጂ",
       "mutedUntil": "እስከ {{date}} ድረስ ተለውጠዋል",
-      "slowMode": "ቀርፋፋ ሁነታ: አንድ መልዕክት እያንዳንዱ {{interval}}"
+      "slowMode": "ቀርፋፋ ሁነታ: አንድ መልዕክት እያንዳንዱ {{interval}}",
+      "joined": "{{name}} ተቀላቀለ",
+      "reactions": "ምላሾች",
+      "photoTooLarge": "ምስል ከ10MB ያነሰ መሆን አለበት",
+      "aiAdminFailed": "የ AI አስተዳዳሪ ምላሽ መስጠት አልቻለም"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6742,6 +6799,32 @@
       "notFound": "ይህ የመጋበዣ አገናኝ ትክክል አይደለም።",
       "requestToJoin": "ለመቀላቀል ጥያቄ",
       "approvalNote": "ከመቀላቀልዎ በፊት አስተዳዳሪ ጥያቄዎን ማጽደቅ አለበት።"
+    },
+    "buyAlert": {
+      "spent": "ስፔንት ፦",
+      "buyer": "ገዢ:",
+      "txn": "ትንክን",
+      "balance": "ሚዛን ፦",
+      "price": "ዋጋ:",
+      "marketCap": "የገበያ ካፕ:"
+    },
+    "newChat": {
+      "public": "ይፋ",
+      "private": "የግል",
+      "free": "ነጻ",
+      "paid": "የተከፈለ",
+      "group": "ቡድን"
+    },
+    "holderGate": {
+      "chain": "ሰንሰለት",
+      "which": "ቶከን",
+      "tab": "ባለቤቶች"
+    },
+    "automod": {
+      "bannedWords": "የተከለከሉ ቃላት",
+      "floodMax": "{{count}} መልዕክቶች",
+      "saved": "ተቀምጧል",
+      "wordCount": "{{count}} ቃላት"
     }
   },
   "work": {
@@ -7862,7 +7945,10 @@
       "doneAll": "ያልተከተለ {{done}} ወደኋላ የማይከተሉ መለያዎች ።",
       "doneSome": "ያልተከተለ {{done}} መለያዎች {{failed}} መከተል አልተቻለም ።",
       "doneToast": "ያልተከተለ {{done}} መለያዎች ወደኋላ አይከተሉዎትም"
-    }
+    },
+    "followBackConfirm": "ተመልሶ መከተል",
+    "followBackNotNow": "አሁን አይደለም",
+    "followBackDone": "ተከናውኗል"
   },
   "reactionInfo": {
     "title": "ምላሾች",
@@ -8782,7 +8868,38 @@
     "coverFrames": "የሽፋን ፍሬም ምረጥ",
     "coverFrame": "ፍሬም {{index}}ን እንደ ሽፋን ተጠቀም",
     "uploadCover": "የሽፋን ምስል ስቀል",
-    "editFailed": "ያንን ማረም አልተቻለም። እንደገና ሞክር።"
+    "editFailed": "ያንን ማረም አልተቻለም። እንደገና ሞክር።",
+    "altPlaceholderVideo": "ይህን ቪዲዮ ይግለጹ",
+    "preview": {
+      "title": "ቅድመ እይታ"
+    },
+    "recent": {
+      "all": "ሁሉም"
+    },
+    "studio": {
+      "crop": "ከርክም",
+      "draw": "ሳል",
+      "light": "ብርሃን",
+      "contrast": "ተቃራኒዎች",
+      "warmth": "ሞቃታማነት",
+      "colour": "ቀለም",
+      "fade": "መደብዘዝ",
+      "original": "ኦሪጅናል",
+      "ratioOriginal": "ኦሪጅናል",
+      "ratioFree": "ነጻ",
+      "rotate": "አሽከርክር",
+      "strength": "ጥንካሬ",
+      "stickers": "ተለጣፊዎች",
+      "ticker": "ቲከር",
+      "textBg": "ዳራ",
+      "font": {
+        "bold": "ቦልድ",
+        "serif": "ሴሪፍ",
+        "mono": "ሞኖ"
+      }
+    },
+    "edited": "አርትዖት",
+    "edit": "አርትዕ"
   },
   "bounty": {
     "claimed": "ተወስዷል",
@@ -9076,7 +9193,8 @@
     "preparingCamera": "ካሜራ በማዘጋጀት ላይ…",
     "reconnecting": "እንደገና በመገናኘት ላይ…",
     "connecting": "በመገናኘት ላይ…",
-    "shopPutOnAir": "በአየር ላይ ያስቀምጡ"
+    "shopPutOnAir": "በአየር ላይ ያስቀምጡ",
+    "liveBadge": "በቀጥታ"
   },
   "liveShop": {
     "title": "ከዚህ ስርጭት ይግዙ",
@@ -9389,7 +9507,23 @@
     "paymentSentWith": "በ {{amount}} ተልኳል",
     "planRestricted": "ይህ ተጠቃሚ መልዕክቶችን ለመቀበል ምዝገባ ይፈልጋል።",
     "planTypeNotAllowed": "የዚህ ፈጣሪ እቅድ ይህን አይነት መልዕክት አይፈቅድም።",
-    "planMinTip": "ለዚህ ፈጣሪ ቲፕ ቢያንስ {{amount}} ቶከኖች መሆን አለበት።"
+    "planMinTip": "ለዚህ ፈጣሪ ቲፕ ቢያንስ {{amount}} ቶከኖች መሆን አለበት።",
+    "newDrawer": {
+      "to": "ወደ"
+    },
+    "download": "አውርድ",
+    "deleteOneTitle": "ይህን መልዕክት ሰርዝ?",
+    "retrySend": "እንደገና ሞክር",
+    "discardSend": "አስወግድ",
+    "shareKindGroup": "ቡድን",
+    "shareKindCommunity": "ማህበረሰብ",
+    "searchDiscover": {
+      "people": "ሰዎች",
+      "communities": "ማህበረሰቦች",
+      "members": "{{n}} አባላት",
+      "newChat": "አዲስ ውይይት",
+      "invite": "ግብዣ"
+    }
   },
   "editPost": {
     "mediaPermission": "የሚዲያ ቤተ-መጻሕፍት ፈቃድ ያስፈልጋል",
@@ -10606,7 +10740,11 @@
       "hint": "ንግግርን በጊዜ የተቀናጁ እና ቅጥ ሊቀየርላቸው የሚችሉ የግርጌ ጽሑፎች ያደርጋል። በመሣሪያዎ ላይ ይሰራል፦ ነጻ እና ግላዊ። የመጀመሪያው አጠቃቀም ሞዴሉን ያወርዳል።",
       "done": "{{count}} የግርጌ ጽሑፎች ታክለዋል።",
       "noSpeech": "በዚህ ክሊፕ ውስጥ ንግግር አልተገኘም።",
-      "failed": "ለዚህ ክሊፕ የግርጌ ጽሑፎችን መፍጠር አልተቻለም።"
+      "failed": "ለዚህ ክሊፕ የግርጌ ጽሑፎችን መፍጠር አልተቻለም።",
+      "styles": {
+        "bold": "ቦልድ",
+        "serif": "ሴሪፍ"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10676,7 +10814,8 @@
       "vibrant": "ሕያው",
       "cyber": "ሳይበር",
       "invert": "ገልብጥ",
-      "strength": "የማጣሪያ ጥንካሬ: {{value}}%"
+      "strength": "የማጣሪያ ጥንካሬ: {{value}}%",
+      "vhs": "ቪኤችኤስ"
     },
     "layer": {
       "crop": "ከርክም",
@@ -10856,7 +10995,9 @@
       "suggestTitle": "ከላይ ትልቅ ደማቅ ርዕስ እና ከሥሩ ትንሽ ንዑስ ርዕስ ጨምር",
       "undo": "ቀልብስ",
       "openGenerator": "ገምግም እና ፍጠር",
-      "working": "በመስራት ላይ…"
+      "working": "በመስራት ላይ…",
+      "stop": "አቁም",
+      "queue": "ወደ ወረፋ ያክሉ"
     },
     "brand": {
       "addColor": "የብራንድ ቀለም ያክሉ",
@@ -10993,7 +11134,9 @@
       "rendering": "ቪዲዮ በማዘጋጀት ላይ… {{percent}}%",
       "mp4": "MP4 ቪዲዮ",
       "exportHint": "ቪዲዮዎ እስኪዘጋጅ ድረስ አርታኢውን ክፍት ያድርጉት።",
-      "tooLarge": "ይህ ፋይል ለአርታኢው በጣም ትልቅ ነው። ገደቡ 400 MB ነው።"
+      "tooLarge": "ይህ ፋይል ለአርታኢው በጣም ትልቅ ነው። ገደቡ 400 MB ነው።",
+      "tZoomIn": "ማጉላት",
+      "tZoomOut": "ማሳነስ"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12172,6 +12315,28 @@
       "selection": "ምርጫ",
       "zoomIn": "Zoom canvas ውስጥ",
       "zoomOut": "የዙም ካንቫሱን ያሳንሱ"
+    },
+    "stage": {
+      "camera": "ካሜራ",
+      "yaw": "ማሽከርከር",
+      "add": "አክል",
+      "scale": "መጠን",
+      "color": "ቀለም",
+      "light": "ብርሃን"
+    },
+    "clipFix": {
+      "listening": "ማዳመጥ…"
+    },
+    "voiceClone": {
+      "stop": "ቅጂ አቁም",
+      "failed": "የድምፅ ክሎኒንግ አልተሳካም።"
+    },
+    "linkImport": {
+      "go": "አስገባ",
+      "downloading": "ማውረድ {{percent}}%"
+    },
+    "reverse": {
+      "action": "ዳግም አስጀምር"
     }
   },
   "creator": {
@@ -12633,7 +12798,32 @@
     "referenceProductName": "ምርትዎን በክሊፕ ውስጥ ያቀርቡ",
     "referenceProductHint": "የተቀረበውን ምርት ይቀይሩ እና የመጀመሪያውን ማዕከል ይጠብቁ።",
     "referenceComposeName": "የማመሳሰል ምስሎችን ያዋህዱ",
-    "referenceComposeHint": "ባለሞያዎች፣ ነገሮች እና ቅንብሮችን ከተለያዩ ምስሎች ወደ አንድ አቀማመጥ ይውሰዱ።"
+    "referenceComposeHint": "ባለሞያዎች፣ ነገሮች እና ቅንብሮችን ከተለያዩ ምስሎች ወደ አንድ አቀማመጥ ይውሰዱ።",
+    "marketing": {
+      "import": {
+        "use": "እነዚህን ዝርዝሮች ይጠቀሙ"
+      }
+    },
+    "batchCount": "ምስሎች",
+    "endFrame": "የመጨረሻ ፍሬም",
+    "cinema": {
+      "close": "ዝጋ",
+      "performance": {
+        "label": "አፈጻጸም"
+      }
+    },
+    "audioNoSpeech": "በዚያ ቅጂ ውስጥ ምንም ንግግር አልተገኘም።",
+    "audioTaskSpeechLabel": "ንግግር",
+    "audioTaskDialogueLabel": "ውይይት",
+    "audioTaskSfxLabel": "የድምፅ ውጤት",
+    "audioTaskVoiceChangerLabel": "የድምፅ መቀየሪያ",
+    "audioTaskTranscribeLabel": "ይተረጉሙ",
+    "audioTaskIsolateLabel": "አጽዳ",
+    "priceFreeRateLimited": "ነፃ · ተመን ገደቦች ይተገበራሉ",
+    "loop": "ሉፕ",
+    "dialogueFormat": "ትዕይንቱን እንደ \"ስም: መስመር,\" በአንድ መስመር አንድ ተናጋሪ ይጻፉ.",
+    "fileTooLarge": "ያ ፋይል ከ 100 ሜባ በላይ ነው ። አጭር ወይም ትንሽ ይጠቀሙ.",
+    "signInToGenerate": "ለማመንጨት ይግቡ ።"
   },
   "fractions": {
     "title": "ክፍልፋዮች",
@@ -14702,6 +14892,19 @@
       "intro": "ተመልካቾች በእያንዳንዱ ደቂቃ ሲመለከቱዎት ነጥብ ይገኛሉ እና በ100 ቶከኖች ሲስጡ አንድ ነጥብ ይገኛሉ። ውይይት እና ምላሾች ምንም ነገር አያገኙም፣ ስለዚህ ነጥቦች ሊመረጡ አይችሉም።",
       "empty": "ገና ነጥቦች የሉም። ሰዎች ሲመለከቱ እና ሲስጡ ይገነባሉ።",
       "widgetHint": "ታማኝ ተመልካቾች ዊጀት ይህንን ዝርዝር በስትሪም ላይ ለማሳየት ይጨምሩ።"
+    },
+    "destinations": {
+      "platform": "መድረክ",
+      "label": "ስም (አማራጭ)",
+      "key": "የዥረት ቁልፍ",
+      "save": "አክል",
+      "cancel": "ሰርዝ",
+      "states": {
+        "off": "አጥፋ",
+        "idle": "ዝግጁ",
+        "live": "ቀጥታ",
+        "error": "ስህተት"
+      }
     }
   },
   "liveChatModeration": {
@@ -14801,7 +15004,72 @@
     "collections": "ከአንድ አስተዋል",
     "spotlightForSale": "በማስተዋም ይገኛል",
     "spotlightNew": "በአሁን ለማስተዋል",
-    "buyFor": "ከ{{price}}"
+    "buyFor": "ከ{{price}}",
+    "actAll": "ሁሉም",
+    "actListings": "ዝርዝሮች",
+    "actOffer": "እቃ ይስጡ",
+    "actOffers": "ቅናሾች",
+    "actSales": "ሽያጮች",
+    "tabActivity": "እንቅስቃሴ",
+    "allChains": "ሁሉም ሰንሰለቶች",
+    "newest": "አዳዲስ",
+    "cheapest": "ትንሽ ዋጋ",
+    "soldFor": "ሰላም",
+    "signIn": "ግባ",
+    "title": "ኤንኤፍቲዎች",
+    "share": "አጋራ",
+    "noneForSale": "እስካሁን ምንም የሚሸጥ ነገር የለም",
+    "noSales": "እስካሁን ሽያጭ የለም",
+    "tabBrowse": "አሰስ",
+    "tabMine": "የእናንተ",
+    "tabSales": "ሽያጮች",
+    "cancelled": "ተሰርዟል",
+    "sold": "ሰላም",
+    "listed": "ለሽያጭ ተዘርዝሯል",
+    "feeRow": "Riftn ክፍያ ({{pct}}%)",
+    "royaltyRow": "ፈጣሪ ልዩ ክፍያ",
+    "youGet": "እርስዎ ያገኛሉ",
+    "holderGets": "ተያይዞ የሚያገኝ",
+    "loading": "በመጫን ላይ...",
+    "price": "ዋጋ",
+    "seller": "ሻጭ",
+    "tabRecent": "የቅርብ",
+    "buyNow": "አሁን ይግዙ",
+    "offers": "እቃዎች",
+    "cancel": "ሰርዝ",
+    "accept": "ተቀበል",
+    "signInToTrade": "ለንግድ ይግቡ",
+    "listForSale": "ለሽያጭ ዝርዝር ያድርጉ",
+    "makeOffer": "ቅናሽ ያድርጉ",
+    "sendOffer": "ቅድሚያ ላክ",
+    "back": "ወደኋላ",
+    "dropsTo": "ዋጋው ወደ {{price}} በ{{date}} ይቀንሳል",
+    "inBundle": "እንደ {{n}} ጥቅል ተሽጧል",
+    "trending": "የመሰብሰብ አዝማሚያዎች",
+    "floor": "ወለል",
+    "listedCount": "{{n}} ለሽያጭ",
+    "thisCollection": "ይህ ስብስብ",
+    "collectionOffer": "በማንኛውም ላይ ያቅርቡ",
+    "showAll": "ሁሉንም አሳይ",
+    "shortTitle": "ኤንኤፍቲዎች",
+    "filters": "ማጣሪያዎች",
+    "forSale": "ለሽያጭ",
+    "openToOffers": "ለአቅራቢዎች ክፍት",
+    "freshMints": "ከ Riftn ፈጣሪዎች ትኩስ",
+    "offersOpen": "ለአቅራቢዎች ክፍት",
+    "anyInCollection": "በስብስብ ውስጥ ያለው ማንኛውም",
+    "thisNft": "ይህ NFT",
+    "priceAlert": "የዋጋ ማስጠንቀቂያ",
+    "alertUnder": "ዝርዝር ሲደረግ ወይም በታች በ({{symbol}}, አማራጭ) እንደሚሆን ንገረኝ",
+    "turnOnAlert": "ማስጠንቀቂያን አብራ",
+    "alertSaved": "ማስጠንቀቂያ ተቀይሯል። አንዱ ሲወጣ እናሳውቅዎታለን።",
+    "priceDrop": "ዋጋዎች በጊዜ ሲወርዱ",
+    "endPrice": "በመጨረሻ የተደረሰው ዝቅተኛ ዋጋ ({{symbol}})",
+    "bundleBadge": "ቦታ ×{{n}}",
+    "dropBadge": "ዋጋ ተቀንሷል",
+    "days_one": "{{count}} ቀን",
+    "days_other": "{{count}} ቀናት",
+    "days": "{{count}} ቀናት"
   },
   "reel": {
     "readAll": "ሁሉንም ያንብቡ",
@@ -14823,7 +15091,11 @@
       "episode": "ፖድካስት ክፍል",
       "show": "ፖድካስት",
       "artist": "አርቲስት"
-    }
+    },
+    "loading": "በመጫን ላይ...",
+    "paused": "ለአፍታ ቆሟል",
+    "preview": "ቅድመ እይታ",
+    "seek": "ፈልግ"
   },
   "twoFactor": {
     "wrongCode": "ያን ኮድ አልተዛለቀም። በመተግበሪያዎ ውስጥ አዲሱን ይሞክሩ።",
@@ -14901,5 +15173,250 @@
     "newer": "አዲስ ውጤት",
     "gone": "ያ መልእክት ከአሁን በኋላ እዚህ የለም",
     "theirMessages": "የእነሱ መልዕክቶች"
+  },
+  "chatTextSize": {
+    "title": "የጽሑፍ መጠን",
+    "default": "ነባሪ",
+    "larger": "ትልቅ"
+  },
+  "remix": {
+    "cut": "ቁረጥ"
+  },
+  "signedFollows": {
+    "setUp": "አብራሪ",
+    "turnOff": "አጥፋ",
+    "efpTurnOff": "አቁም"
+  },
+  "postEditHistory": {
+    "original": "የመጀመሪያው"
+  },
+  "studioDeck": {
+    "remove": "አስወግድ",
+    "background": {
+      "title": "ዳራ",
+      "modes": {
+        "none": "አጥፋ",
+        "blur": "ብዥታ",
+        "color": "ቀለም"
+      }
+    },
+    "scenes": {
+      "countdown": "ቆጠራ",
+      "minutes": "{{count}} ደቂቃ",
+      "names": {
+        "starting": "በቅርቡ ይጀምራል"
+      }
+    },
+    "widgets": {
+      "tab": "መግብሮች"
+    },
+    "sources": {
+      "image": "ምስል",
+      "show": "በዥረት ላይ አሳይ",
+      "positions": {
+        "center": "ማዕከል"
+      },
+      "sizes": {
+        "medium": "መካከለኛ"
+      }
+    },
+    "phone": {
+      "title": "ስቱዲዮ"
+    }
+  },
+  "whenSheet": {
+    "today": "ዛሬ",
+    "tooSoon": "ለወደፊቱ ጊዜ ይምረጡ።",
+    "show": "አሳይ",
+    "hide": "ደብቅ"
+  },
+  "planned": {
+    "title": "የታቀደ",
+    "all": "ሁሉም",
+    "posts": "ልጥፎች",
+    "stages": "የድምፅ ክፍሎች",
+    "post": "ልጥፍ",
+    "live": "ቀጥታ",
+    "stage": "መድረክ",
+    "untitledPost": "ልጥፍ",
+    "untitledLive": "ቀጥታ",
+    "loading": "በመጫን ላይ…",
+    "startNow": "አሁን ጀምር",
+    "cancel": "ሰርዝ",
+    "cancelled": "ተሰርዟል"
+  },
+  "welcome": {
+    "about": {
+      "title": "ወደ Riftn እንኳን በደህና መጡ",
+      "day": "ቀን",
+      "month": "ወር",
+      "year": "ዓመት"
+    },
+    "name": {
+      "title": "ስምዎ",
+      "placeholder": "ስምዎ"
+    },
+    "card": {
+      "name": "ስምዎ",
+      "followers": "ተከታዮች"
+    },
+    "topic": {
+      "music": "ሙዚቃ",
+      "art": "ጥበብ",
+      "gaming": "ጨዋታ",
+      "crypto": "ክሪፕቶ",
+      "sports": "ስፖርት",
+      "comedy": "ኮሜዲ",
+      "film": "ፊልም",
+      "podcast": "ፖድካስት",
+      "news": "ዜና",
+      "science": "ሳይንስ"
+    },
+    "back": "ተመለስ",
+    "skipPhoto": "ለአሁኑ ይዝለሉ",
+    "preview": "ቅድመ እይታ"
+  },
+  "appTokens": {
+    "title": "የእርስዎ ቶከኖች",
+    "history": "ታሪክ",
+    "noHistory": "እስካሁን ምንም እንቅስቃሴ የለም",
+    "kindDeposit": "አስቀምጥ",
+    "to": "ወደ",
+    "amount": "መጠን",
+    "notePlaceholder": "ማስታወሻ ጨምር (አማራጭ)",
+    "sendButton": "ላክ",
+    "errorInsufficient": "በቂ ቶከኖች የሉም"
+  },
+  "avatarPrompt": {
+    "notNow": "አሁን አይደለም"
+  },
+  "postStats": {
+    "audience": "ታዳሚዎች",
+    "engagement": "ተሳትፎ",
+    "finished": "ተጠናቋል",
+    "members": "አባላት",
+    "membersLower": "አባላት",
+    "newFollowers": "አዲስ ተከታዮች",
+    "noBadge": "ባጅ የለም",
+    "people": "ሰዎች",
+    "plays": "ፕሌይስ",
+    "quotes": "ጥቅሶች",
+    "reposts": "ድጋሚ ልጥፎች",
+    "saved": "ተቀምጧል",
+    "shares": "ሼር",
+    "signedOutViewers": "ወጥተዋል",
+    "topSupporters": "ከፍተኛ ደጋፊዎች",
+    "visitors": "ወጥተዋል"
+  },
+  "duet": {
+    "policyEveryone": "ሁሉም",
+    "policyFollowers": "ተከታዮች",
+    "policyNobody": "ማንም",
+    "loadMore": "ተጨማሪ ጫን",
+    "video": "ቪዲዮ"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "ሁሉም",
+      "followers": "ተከታዮች",
+      "nobody": "ማንም"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "ሁሉም",
+      "followers": "ተከታዮች",
+      "nobody": "ማንም"
+    },
+    "heading": "ምላሾች",
+    "more": "ተጨማሪ አሳይ",
+    "liveNow": "ቀጥታ",
+    "untitled": "ምላሽ"
+  },
+  "liveClips": {
+    "copyLink": "አገናኝ ቅዳ",
+    "linkCopied": "አገናኝ ተገለበጠ"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "ዕቅድ",
+      "howMany": "ስንት",
+      "who": "የተጠቃሚ ስም ወይም የቦርሳ አድራሻ",
+      "whoPlaceholder": "@የተጠቃሚ_ስም",
+      "cancel": "ሰርዝ",
+      "stage": {
+        "preparing": "በዝግጅት ላይ…",
+        "confirming": "ግብይቱን በመጠበቅ ላይ…",
+        "recording": "በማጠናቀቅ ላይ…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "ሌላ",
+    "confirming": "የክፍያ ማረጋገጫ…"
+  },
+  "liveShorts": {
+    "live": "በቀጥታ"
+  },
+  "feedFilters": {
+    "clearAllShort": "ሁሉንም አጽዳ",
+    "done": "ተከናውኗል",
+    "edit": "አርትዕ",
+    "groupDate": "ቀን",
+    "groupSort": "ደርድር",
+    "groupType": "ዓይነት",
+    "save": "አስቀምጥ"
+  },
+  "ownKeys": {
+    "working": "መስራት",
+    "failed": "የሆነ ነገር ተሳስቷል እንደገና ሞክር ።",
+    "check": "አረጋግጥ",
+    "remove": "አስወግድ",
+    "save": "አስቀምጥ",
+    "cancel": "ሰርዝ"
+  },
+  "postBg": {
+    "none": "ምንም",
+    "yours": "የእናንተ",
+    "accent": "ትክክለኛ",
+    "names": {
+      "aurora": "አውሮራ",
+      "lava": "ላቫ መብራት",
+      "drive": "የምሽት ድራይቭ",
+      "chrome": "ፈሳሽ ክሮም",
+      "orbit": "ምህዋር",
+      "snow": "የበረዶ ዝናብ"
+    }
+  },
+  "articleTile": {
+    "cover": "ሽፋን"
+  },
+  "aiConsent": {
+    "allow": "ፍቀድ"
+  },
+  "dmRequests": {
+    "title": "ጥያቄዎች",
+    "accept": "ተቀበል",
+    "delete": "ሰርዝ",
+    "block": "አግድ"
+  },
+  "dmSchedule": {
+    "view": "ተመልከት",
+    "edit": "አርትዕ",
+    "editLabel": "መልዕክት አርትዕ",
+    "error": "ያ አልሰራም እንደገና ሞክር ።"
+  },
+  "chatBulk": {
+    "selected": "{{count}} ተመርጧል",
+    "cancel": "ሰርዝ",
+    "reply": "መልስ",
+    "delete": "ሰርዝ"
+  },
+  "msgSelect": {
+    "selected": "{{count}} ተመርጧል",
+    "copy": "ቅዳ",
+    "forward": "አስተላልፍ",
+    "deleted_one": "ተሰርዟል {{count}} መልዕክት",
+    "deleted_other": "ተሰርዟል {{count}} መልዕክቶች"
   }
 }

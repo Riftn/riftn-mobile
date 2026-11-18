@@ -2604,7 +2604,14 @@
     "cbade2afaee2": "এই সপ্তাহের ট্রেন্ডিং Audius-এ। ফ্রি ব্যবহারযোগ্য, পোস্টে শিল্পীকে ক্রেডিট দেওয়া হবে।",
     "d2e45b7406fc": "Wikimedia Commons থেকে পাবলিক ডোমেইন ও ক্রিয়েটিভ কমন্স সঙ্গীত। পোস্টে শিল্পীকে ক্রেডিট দেওয়া হবে।",
     "d0c1a3684775": "গান লোড হয়নি। একটু পরে আবার চেষ্টা করো।",
-    "d14064f80f52": "সাউন্ড যোগ করো"
+    "d14064f80f52": "সাউন্ড যোগ করো",
+    "71988c4d8e08": "টেক্সট",
+    "147170e793c6": "বিস্তৃত",
+    "481859b689b0": "আঁনর সংযোগ চেক গরি আবার চেষ্টা গরন।",
+    "57e2faa5ec63": "Riftn ত খুঁজন",
+    "7db20897053b": "মানুষ",
+    "96d7bff86b44": "সার্চ লোড করতে পারেনি",
+    "d8b8392e2c54": "আবার চেষ্টা গর"
   },
   "dehubLinks": {
     "kind": {
@@ -2676,7 +2683,8 @@
       "newsletter": "নিউজলেটার",
       "pronouns": "সর্বনাম",
       "location": "অবস্থান",
-      "custom": "কাস্টম"
+      "custom": "কাস্টম",
+      "shop": "শপ"
     }
   },
   "notificationFilters": {
@@ -2848,7 +2856,8 @@
       "quote": "উদ্ধৃতি",
       "bullets": "বুলেট তালিকা",
       "numbers": "সংখ্যাযুক্ত তালিকা",
-      "link": "লিংক"
+      "link": "লিংক",
+      "image": "ছবি যোগ কর"
     }
   },
   "storefront": {
@@ -3810,7 +3819,11 @@
     "payViaDpay": "Riftn Pay-কে পরিশোধ করা হয়েছে, টোকেন প্রায় ৩০ সেকেন্ডে আসবে",
     "payViaBridgeDpay": "Base-এ সরানো হয়েছে এবং Riftn Pay-কে পরিশোধ করা হয়েছে, টোকেন প্রায় এক মিনিটে আসবে",
     "tokensUnit": "টোকেন",
-    "tokenAmount": "{{amount}} টোকেন"
+    "tokenAmount": "{{amount}} টোকেন",
+    "addMessage": "একটি মেসেজ যোগ করুন (বিকল্প)",
+    "messagePublic": "পাবলিক",
+    "railTitle": "টিপস",
+    "railTotal": "{{amount}} টোকেন"
   },
   "postOptions": {
     "aiOverview": "AI ওভারভিউ",
@@ -4561,7 +4574,11 @@
     "repostedPost": "{{name}} তোঁয়ার পোস্ট রিপোস্ট গরছে",
     "quotedPost": "{{name}} তোঁয়ার পোস্ট উদ্ধৃত গরছে",
     "videoMilestone": "তোঁয়ার ভিডিও মাইলস্টোনত পৌঁছছে!",
-    "tokenAmount": "{{amount}} টোকেন"
+    "tokenAmount": "{{amount}} টোকেন",
+    "groupNew": "নয়া",
+    "groupToday": "আজ",
+    "groupThisWeek": "এই সপ্তাহ",
+    "searchClose": "সার্চ বন্ধ করুন"
   },
   "leaderboard": {
     "title": "লীডারবোর্ড",
@@ -4762,7 +4779,18 @@
     "attachmentTooLarge": "হর ফাইল ৫০MB-র কম অইত অইবো",
     "deleteCommentA11y": "কমেন্ট ডিলিট কর",
     "sendCommentA11y": "একটি মন্তব্য করুন",
-    "requestOptions": "বিকল্পগুলি অনুরোধ করুন"
+    "requestOptions": "বিকল্পগুলি অনুরোধ করুন",
+    "deviceInfoNoErrors": "কোনটিই নয়",
+    "topBuilders": {
+      "month": "এই মাস",
+      "allTime": "অল টাইম",
+      "shipped": "পাঠানো অইছে",
+      "votes": "ভোটস",
+      "comments": "মন্তব্য",
+      "showLess": "কম দেখান",
+      "viewProfile": "প্রোফাইল দেখুন",
+      "you": "আঁই"
+    }
   },
   "auth": {
     "loginRequired": "লগইন দরকার",
@@ -5045,7 +5073,20 @@
       "votes_other": "{{value}} ভোট দিচ্ছে",
       "members_one": "{{value}} সদস্য",
       "members_other": "{{value}} সদস্য"
-    }
+    },
+    "articleShort": "নিবন্ধ",
+    "articleMinRead": "{{count}} মিনিট পড়া",
+    "pinnedShort": "পিন গরা",
+    "post": "পোস্ট",
+    "arrange": {
+      "saving": "সংরক্ষণ অর…"
+    },
+    "reserve": {
+      "signIn": "সাইন ইন"
+    },
+    "tabLikes": "পছন্দ",
+    "likesEmptyTitle": "এহনো কোনো লাইক নাই",
+    "likesPrivateTitle": "লাইক প্রাইভেট"
   },
   "tv": {
     "title": "টিভি",
@@ -5564,6 +5605,9 @@
       "baseline": "পয়লা স্ন্যাপশট; মিলাইবার লাই পরে আরেকখান লন।",
       "library": "টেমপ্লেট আর টাস্ক বানানো",
       "subject": "বিষয় বা রিপ্লাইর ঢং"
+    },
+    "welcome": {
+      "text": "স্বাগত বার্তা"
     }
   },
   "hero": {
@@ -5645,7 +5689,16 @@
     "nowPublic": "ফ্লো এখন সর্বজনীন",
     "openCanvas": "ক্যানভাস খুলুন",
     "playVideo": "ভিডিও প্লে করুন",
-    "signInToSee": "আপনার অ্যাকাউন্টে প্রবাহ দেখতে সাইন ইন করুন ।"
+    "signInToSee": "আপনার অ্যাকাউন্টে প্রবাহ দেখতে সাইন ইন করুন ।",
+    "newNativeFlow": "নতুন flow",
+    "model": "মডেল",
+    "aspectRatio": "দিক অনুপাত",
+    "duration": "সেকেন্ডে সময়কাল",
+    "resolution": "রেজোলিউশন",
+    "disconnect": "ডিসকানেক্ট করুন",
+    "payAndRun": "পেমেন্ট করুন এবং চালান",
+    "run": "চালান",
+    "handlePrompt": "কও"
   },
   "loginModal": {
     "title": "লগইন গরো",
@@ -5978,7 +6031,8 @@
     "searchMenu": "মেনু হইজন",
     "clearSearch": "হইজন মুছন",
     "noMenuMatches": "মেনুত কিছু মিলের ন",
-    "searchDehubFor": "Riftn-অত \"{{query}}\" হইজন"
+    "searchDehubFor": "Riftn-অত \"{{query}}\" হইজন",
+    "requestSend": "অনুরোধ পাঠান"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6597,7 +6651,11 @@
       "copied": "মেসেজ কপি করা হয়েছে",
       "copyText": "টেক্সট কপি করুন",
       "mutedUntil": "{{date}} পর্যন্ত আপনাকে নিঃশব্দ করা হয়েছে",
-      "slowMode": "ধীর মোড: প্রতিটি {{interval}} একটি বার্তা"
+      "slowMode": "ধীর মোড: প্রতিটি {{interval}} একটি বার্তা",
+      "joined": "{{name}} যোগ দিয়েছে",
+      "reactions": "বিক্রিয়া",
+      "photoTooLarge": "ছবি ১০MB-র কম অঅন লাগিবো",
+      "aiAdminFailed": "এআই প্রশাসক উত্তর দিতে ব্যর্থ হয়েছে"
     },
     "manage": {
       "restrictionWithReason": "{{state}} — {{reason}}",
@@ -6800,6 +6858,30 @@
       "notFound": "এই আমন্ত্রণ লিঙ্কটি বৈধ নয়।",
       "requestToJoin": "যোগদানের জন্য আবেদন করুন",
       "approvalNote": "একজন অ্যাডমিন আপনার আবেদন অনুমোদন করার পর আপনি যোগদান করতে পারবেন।"
+    },
+    "buyAlert": {
+      "spent": "ব্যয় করা হয়েছে:",
+      "balance": "ভারসাম্য",
+      "price": "মূল্য:",
+      "marketCap": "মার্কেট ক্যাপ"
+    },
+    "newChat": {
+      "public": "পাবলিক",
+      "private": "প্রাইভেট",
+      "free": "ফ্রি",
+      "paid": "পেমেন্ট করা",
+      "group": "গ্রুপ করুন"
+    },
+    "holderGate": {
+      "chain": "চেইন",
+      "which": "টোকেন",
+      "tab": "হোল্ডারস"
+    },
+    "automod": {
+      "bannedWords": "ব্যান করা শব্দ",
+      "floodMax": "{{count}} মেসেজগুলো",
+      "saved": "সংরক্ষিত",
+      "wordCount": "{{count}} শব্দ"
     }
   },
   "work": {
@@ -7921,7 +8003,10 @@
       "doneAll": "যে {{done}} একাউন্ট ফলো করছিল, তাগো ফলো না করতাছে, তাগো আনফলো করা হইল।",
       "doneSome": "{{done}} একাউন্ট আনফলো করা হইল। {{failed}} আনফলো করা যাইতে পারল না।",
       "doneToast": "ফলো না করতাছে এমন {{done}} একাউন্ট আনফলো করা হইল।"
-    }
+    },
+    "followBackConfirm": "ফলো ব্যাক",
+    "followBackNotNow": "এখন না।",
+    "followBackDone": "সম্পন্ন"
   },
   "reactionInfo": {
     "title": "রিঅ্যাকশন",
@@ -8839,7 +8924,39 @@
     "coverFrames": "একটি কভার ফ্রেম বেছে নিন",
     "coverFrame": "ফ্রেম {{index}} কে কভার হিসেবে ব্যবহার করুন",
     "uploadCover": "একটি কভার ছবি আপলোড করুন",
-    "editFailed": "এই সম্পাদনা প্রয়োগ করা যায়নি। আবার চেষ্টা করুন।"
+    "editFailed": "এই সম্পাদনা প্রয়োগ করা যায়নি। আবার চেষ্টা করুন।",
+    "altPlaceholderVideo": "এই ভিডিওখান বর্ণনা গরো",
+    "landingLive": "লাইভ",
+    "preview": {
+      "title": "প্রিভিউ"
+    },
+    "recent": {
+      "all": "সব"
+    },
+    "studio": {
+      "crop": "ক্রপ",
+      "draw": "আঁকো",
+      "light": "আলো",
+      "contrast": "কনট্রাস্ট",
+      "warmth": "ওয়ার্মথ",
+      "colour": "কলার",
+      "fade": "ফেড",
+      "original": "আসল",
+      "ratioOriginal": "আসল",
+      "ratioFree": "ফ্রি",
+      "rotate": "ঘোরান",
+      "strength": "শক্তি",
+      "stickers": "স্টিকার",
+      "ticker": "টিকার",
+      "textBg": "ব্যাকগ্রাউন্ড",
+      "font": {
+        "bold": "বোল্ড",
+        "serif": "সেরিফ",
+        "mono": "মোনো"
+      }
+    },
+    "edited": "সম্পাদিত",
+    "edit": "সম্পাদনা"
   },
   "bounty": {
     "claimed": "লই ফেলাইয়্যি",
@@ -9133,7 +9250,8 @@
     "justChatting": "শুধু আড্ডা",
     "noLiveStreams": "কোনো লাইভ স্ট্রিম নেই",
     "noOneStreaming": "এখন কেউ স্ট্রিম করছে না। পরে আবার দেখুন!",
-    "loadStreamsFailed": "স্ট্রিম লোড করা যায়নি। আবার চেষ্টা করুন।"
+    "loadStreamsFailed": "স্ট্রিম লোড করা যায়নি। আবার চেষ্টা করুন।",
+    "liveBadge": "লাইভ"
   },
   "liveShop": {
     "title": "এই স্ট্রিমত্তুন কিনন",
@@ -9446,7 +9564,21 @@
     "tippedYouAmount": "তোমার টিপ দিয়েছেন {{amount}}",
     "paymentFailedAmount": "ব্যর্থ হয়েছে · {{amount}}",
     "paymentSendingAmount": "পাঠানো · {{amount}}",
-    "paymentSentWith": "পাঠানো হয়েছে {{amount}}"
+    "paymentSentWith": "পাঠানো হয়েছে {{amount}}",
+    "newDrawer": {
+      "to": "তো"
+    },
+    "download": "ডাউনলোড",
+    "deleteOneTitle": "এই মেসেজডা ডিলিট করমু?",
+    "retrySend": "আবার চেষ্টা গরো",
+    "discardSend": "সরান",
+    "shareKindGroup": "গ্রুপ করুন",
+    "shareKindCommunity": "কমিউনিটি",
+    "searchDiscover": {
+      "people": "মানুষ",
+      "communities": "সম্প্রদায়",
+      "newChat": "নতুন চ্যাট"
+    }
   },
   "editPost": {
     "mediaPermission": "মিডিয়া লাইব্রেরির অনুমতি লাগিব",
@@ -10753,7 +10885,11 @@
       "hint": "কথাকে সময় মেলানো ক্যাপশনে রূপান্তর করে, যার স্টাইল আপনি বদলাতে পারবেন। আপনার ডিভাইসেই চলে: বিনামূল্যে ও ব্যক্তিগত। প্রথমবার ব্যবহারে মডেলটি ডাউনলোড হয়।",
       "done": "{{count}}টি ক্যাপশন যোগ করা হয়েছে।",
       "noSpeech": "এই ক্লিপে কোনো কথা পাওয়া যায়নি।",
-      "failed": "এই ক্লিপের জন্য ক্যাপশন তৈরি করা যায়নি।"
+      "failed": "এই ক্লিপের জন্য ক্যাপশন তৈরি করা যায়নি।",
+      "styles": {
+        "bold": "বোল্ড",
+        "serif": "সেরিফ"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10823,7 +10959,8 @@
       "moody": "মনমরা",
       "vibrant": "ঝলমলা",
       "cyber": "সাইবার",
-      "invert": "উল্টা"
+      "invert": "উল্টা",
+      "vhs": "ভিএইচএস"
     },
     "layer": {
       "crop": "ক্রপ",
@@ -11003,7 +11140,9 @@
       "suggestTitle": "উপরে এক্কান বড় মোটা টাইটেল আর তার তলে ছোড সাবটাইটেল দও",
       "undo": "আনডু",
       "openGenerator": "দেখি লও আর বানাও",
-      "working": "কাম চলের…"
+      "working": "কাম চলের…",
+      "stop": "বন্ধ করুন",
+      "queue": "কিউতে যোগ করুন"
     },
     "brand": {
       "addColor": "ব্র্যান্ডর রং যোগ গরো",
@@ -11140,7 +11279,9 @@
       "rendering": "ভিডিও রেন্ডার অর… {{percent}}%",
       "mp4": "MP4 ভিডিও",
       "exportHint": "ভিডিও রেন্ডার অইবার সময় এডিটর খোলা রাখো।",
-      "tooLarge": "এই ফাইলগান এডিটরর লাই বেশি ডাঙর। সীমা 400 MB।"
+      "tooLarge": "এই ফাইলগান এডিটরর লাই বেশি ডাঙর। সীমা 400 MB।",
+      "tZoomIn": "জুম ইন",
+      "tZoomOut": "জুম আউট"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12287,6 +12428,31 @@
       "zoomOut": "জুম ক্যানভাস আউট",
       "selection": "বাছাই",
       "fit": "ফিট"
+    },
+    "stage": {
+      "camera": "ক্যামেরা",
+      "yaw": "ঘুরানি",
+      "add": "যোগ করুন",
+      "scale": "সাইজ",
+      "color": "রঙ",
+      "light": "আলো"
+    },
+    "clipFix": {
+      "listening": "শুনছি…"
+    },
+    "generate3d": {
+      "label": "৩ডি"
+    },
+    "voiceClone": {
+      "stop": "রেকর্ডিং বন্ধ করুন",
+      "failed": "ভয়েস ক্লোনিং ব্যর্থ"
+    },
+    "linkImport": {
+      "go": "আমদানি",
+      "downloading": "{{percent}}% ডাউনলোড করা হচ্ছে"
+    },
+    "reverse": {
+      "action": "বিপরীত করুন"
     }
   },
   "creator": {
@@ -12748,7 +12914,28 @@
     "referenceProductName": "একটা ক্লিপে তোমার প্রোডাক্ট রাখো",
     "referenceProductHint": "মূল দৃশ্য বজায় রাখতে ফিচার্ড প্রোডাক্ট প্রতিস্থাপন করো",
     "referenceComposeName": "রেফারেন্স ছবিগুলো একত্রিত করো",
-    "referenceComposeHint": "একাধিক ছবির চরিত্র, বস্তু ও সেটিংগুলো একটা কম্পোজিশনে নিয়ে আসো"
+    "referenceComposeHint": "একাধিক ছবির চরিত্র, বস্তু ও সেটিংগুলো একটা কম্পোজিশনে নিয়ে আসো",
+    "marketing": {
+      "import": {
+        "use": "এই বিবরণগুলি ব্যবহার করুন"
+      }
+    },
+    "batchCount": "ছবি",
+    "endFrame": "শেষ ফ্রেম",
+    "cinema": {
+      "close": "বন্ধ গরো",
+      "performance": {
+        "label": "পারফরম্যান্স"
+      }
+    },
+    "audioNoSpeech": "কোনো কথা না পাওয়া গেল।",
+    "audioTaskSpeechLabel": "বাক্য",
+    "audioTaskDialogueLabel": "ডায়ালগ",
+    "priceFreeRateLimited": "ফ্রি · রেট লিমিট প্রযোজ্য",
+    "loop": "চক্র",
+    "dialogueFormat": "সিনের লেখা লিখুন \"নাম: লাইন\" হিসেবে, প্রত্যেক লাইন একটা স্পিকার।",
+    "fileTooLarge": "ফাইলটি ১০০ এমবি এর বেশি। ছোট বা সংক্ষিপ্ত ফাইল ব্যবহার করুন।",
+    "signInToGenerate": "লগইন করুন রেফারেন্স তৈরি করতে।"
   },
   "fractions": {
     "title": "ফ্র্যাকশন",
@@ -13858,7 +14045,11 @@
       "noVersions": "কোনো সেভ করা সংস্করণ এখনও নেই।",
       "current": "বর্তমান",
       "restore": "পুনরুদ্ধার",
-      "restored": "পুনরুদ্ধারিত সংস্করণ {{version}}"
+      "restored": "পুনরুদ্ধারিত সংস্করণ {{version}}",
+      "copy": "কপি",
+      "copied": "লিংক কপি করা হয়েছে",
+      "save": "সেভ গরো",
+      "public": "পাবলিক"
     }
   },
   "depin": {
@@ -14813,6 +15004,19 @@
       "empty": "এখনও কোনও পয়েন্ট নেই । লোকেরা দেখার এবং উপহার দেওয়ার সাথে সাথে এগুলি তৈরি হয় ।",
       "widgetHint": "স্ট্রিমে এই তালিকাটি দেখানোর জন্য অনুগত দর্শকদের উইজেট যোগ করুন ।",
       "intro": "ভিউয়াররা তোমা দেখে প্রতি মিনিটে এক পয়েন্ট পায় আর প্রতি ১০০ টাকা টোকেন দিলে এক পয়েন্ট পায়। চ্যাট বা রিয়াকশন থেকে পয়েন্ট আসে না, তাই পয়েন্ট কৃষি করা যায় না।"
+    },
+    "destinations": {
+      "platform": "প্ল্যাটফর্ম",
+      "label": "নাম (বিকল্প)",
+      "key": "স্ট্রীম কী",
+      "save": "যোগ করুন",
+      "cancel": "বাতিল করুন",
+      "states": {
+        "off": "অফ",
+        "idle": "তৈয়ার",
+        "live": "লাইভ",
+        "error": "ত্রুটি"
+      }
     }
   },
   "liveChatModeration": {
@@ -14865,10 +15069,15 @@
     "joinedTitle": "আপনি তালিকায় আছেন",
     "joinedBodyNoEmail": "টোকেন লঞ্চ হলে আমরা আপনাকে ইমেইল করবো।",
     "failed": "সংরক্ষণ করা সম্ভব হয়নি। আবার চেষ্টা করুন।",
-    "privacy": "এই জন্য শুধু আপনাকে লঞ্চের খবর দেবো।"
+    "privacy": "এই জন্য শুধু আপনাকে লঞ্চের খবর দেবো।",
+    "eyebrow": "শীঘ্রই আসছে",
+    "notifyMe": "আঁরে জানাও",
+    "emailLabel": "ইমেইল"
   },
   "githubLink": {
-    "unavailable": "GitHub verification আশা করি নিকটেই আসিবে।"
+    "unavailable": "GitHub verification আশা করি নিকটেই আসিবে।",
+    "verified": "যাচাইকৃত",
+    "disconnect": "ডিসকানেক্ট করুন"
   },
   "comic": {
     "showAll": "সব {{count}}টা পেজ দেহাও",
@@ -14903,7 +15112,72 @@
     "days": "{{count}} দিন",
     "spotlightForSale": "এখন বিক্রির জন্য",
     "spotlightNew": "শুধু মুদ্রিত",
-    "buyFor": "কিন জন্য {{price}}"
+    "buyFor": "কিন জন্য {{price}}",
+    "actAll": "সব",
+    "actListings": "তালিকা",
+    "actOffer": "অফার",
+    "actOffers": "অফার",
+    "actSales": "বিক্রয়",
+    "tabActivity": "কার্যকলাপ",
+    "allChains": "সব চেইন",
+    "newest": "নতুন",
+    "cheapest": "সবচেয়ে কম দাম",
+    "soldFor": "বেচা হয়েছে",
+    "signIn": "সাইন ইন",
+    "title": "NFT",
+    "share": "শেয়ার করুন",
+    "noneForSale": "এখনো বিক্রি নেই",
+    "noSales": "এখনো বিক্রয় হয়নি",
+    "tabBrowse": "ব্রাউজ করুন",
+    "tabMine": "তোমার",
+    "tabSales": "বিক্রয়",
+    "cancelled": "বাতিল",
+    "sold": "বেচা হয়েছে",
+    "listed": "বিক্রির তালিকাভুক্ত",
+    "feeRow": "Riftn ফি ({{pct}}%)",
+    "royaltyRow": "স্রষ্টা রয়্যালটি",
+    "youGet": "তুমি পাবে",
+    "holderGets": "ধারক পাবে",
+    "loading": "লোডিং...",
+    "price": "দাম",
+    "seller": "সেলার",
+    "tabRecent": "সাম্প্রতিক",
+    "buyNow": "এখন কিনুন",
+    "offers": "অফারস",
+    "cancel": "বাতিল করুন",
+    "accept": "গ্রহণ করুন",
+    "signInToTrade": "সাইন ইন করুন ট্রেড করতে",
+    "listForSale": "বিক্রয়ের জন্য তালিকাভুক্ত করুন",
+    "makeOffer": "একটি অফার দিন",
+    "sendOffer": "অফার পাঠাও",
+    "back": "পিছনে",
+    "dropsTo": "মূল্য নেমে আসে {{price}} দ্বারা {{date}}",
+    "inBundle": "{{n}} এর বান্ডল হিসেবে বিক্রি হয়েছে",
+    "trending": "ট্রেন্ডিং সংগ্রহ",
+    "floor": "ফ্লোর",
+    "listedCount": "{{n}} বিক্রয়ের জন্য",
+    "thisCollection": "এই সংগ্রহ",
+    "collectionOffer": "যেকোনোতে অফার দিন",
+    "showAll": "সব দেখান",
+    "shortTitle": "NFT",
+    "filters": "ফিল্টার",
+    "forSale": "বিক্রয়ের জন্য",
+    "openToOffers": "অফার গ্রহণযোগ্য",
+    "freshMints": "Riftn স্রষ্টাদের তাজা",
+    "offersOpen": "অফার গ্রহণযোগ্য",
+    "mintedCount": "{{n}} মিণ্টেড",
+    "anyInCollection": "কোনো সংগ্রহে",
+    "thisNft": "এই NFT",
+    "priceAlert": "মূল্য সতর্কতা",
+    "alertUnder": "লিস্ট হইলে বা নিচে ({{symbol}}, ঐচ্ছিক) আমাকে জানাও",
+    "turnOnAlert": "অ্যালার্ট চালু করো",
+    "alertSaved": "অ্যালার্ট চালু আছে। একটিকে তালিকাভুক্ত হলে আমরা আপনাকে জানাব।",
+    "priceDrop": "সময়ের সাথে দাম কমে",
+    "endPrice": "সর্বনিম্ন দাম, শেষে পৌঁছায় ({{symbol}})",
+    "bundleBadge": "বান্ডেল ×{{n}}",
+    "dropBadge": "দাম হ্রাস",
+    "days_one": "{{count}} দিন",
+    "days_other": "{{count}} দিন"
   },
   "reel": {
     "readAll": "সব পড়ো",
@@ -14925,7 +15199,11 @@
       "episode": "পডকাস্ট এপিসোড",
       "show": "পডকাস্ট",
       "artist": "শিল্পী"
-    }
+    },
+    "loading": "লোডিং...",
+    "paused": "বন্ধ",
+    "preview": "প্রিভিউ",
+    "seek": "সিক"
   },
   "twoFactor": {
     "wrongCode": "সেই কোডটা মিলেনি। আপনার অ্যাপে সর্বশেষটি চেষ্টা করুন।",
@@ -15003,5 +15281,251 @@
     "newer": "নতুন ফলাফল",
     "gone": "সেই মেসেজ আর এখানে নেই",
     "theirMessages": "তাদের মেসেজ"
+  },
+  "chatTextSize": {
+    "title": "টেক্সট সাইজ",
+    "default": "ডিফল্ট",
+    "larger": "লার্জার"
+  },
+  "remix": {
+    "cut": "কাডো"
+  },
+  "signedFollows": {
+    "setUp": "চালু করুন",
+    "turnOff": "বন্ধ করুন",
+    "efpTurnOff": "বন্ধ করুন"
+  },
+  "postEditHistory": {
+    "original": "আসল"
+  },
+  "studioDeck": {
+    "remove": "সরান",
+    "background": {
+      "title": "ব্যাকগ্রাউন্ড",
+      "modes": {
+        "none": "অফ",
+        "blur": "ঝাপসা",
+        "color": "কলার"
+      }
+    },
+    "scenes": {
+      "countdown": "কাউন্টডাউন",
+      "minutes": "{{count}} মিনিট",
+      "names": {
+        "starting": "তাড়াতাড়ি শুরু অইবো"
+      }
+    },
+    "widgets": {
+      "tab": "উইজেটস"
+    },
+    "sources": {
+      "image": "ইমেজ",
+      "show": "স্ট্রিমে দেখান",
+      "positions": {
+        "center": "সেন্টার"
+      },
+      "sizes": {
+        "medium": "মাঝারি"
+      }
+    },
+    "phone": {
+      "title": "স্টুডিও"
+    }
+  },
+  "whenSheet": {
+    "today": "আজ",
+    "tooSoon": "ভবিষ্যতে একটি সময় বেছে নিন।",
+    "show": "দেখান",
+    "hide": "লুকান"
+  },
+  "planned": {
+    "title": "পরিকল্পিত",
+    "all": "সব",
+    "posts": "পোস্ট",
+    "stages": "অডিও রুম",
+    "post": "পোস্ট",
+    "live": "লাইভ",
+    "stage": "স্টেজ",
+    "untitledPost": "পোস্ট",
+    "untitledLive": "লাইভ",
+    "loading": "লোড হচ্ছে…",
+    "startNow": "এহনই শুরু গরো",
+    "cancel": "বাতিল করুন",
+    "cancelled": "বাতিল করা"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn-এ স্বাগতম",
+      "day": "দিন",
+      "month": "মাস",
+      "year": "বছর"
+    },
+    "name": {
+      "title": "আপনার নাম",
+      "placeholder": "আপনার নাম"
+    },
+    "card": {
+      "name": "আপনার নাম",
+      "followers": "অনুসারী"
+    },
+    "topic": {
+      "music": "গান",
+      "art": "আর্ট",
+      "gaming": "গেমিং",
+      "crypto": "ক্রিপ্টো",
+      "sports": "খেলা",
+      "comedy": "কমেডি",
+      "film": "চলচ্চিত্র",
+      "podcast": "পডকাস্ট",
+      "food": "খাদ্য",
+      "news": "নিউজ",
+      "science": "বিজ্ঞান"
+    },
+    "back": "ফিরুন",
+    "skipPhoto": "এখন স্কিপ করুন",
+    "preview": "পূর্বদর্শন"
+  },
+  "appTokens": {
+    "title": "আপনার টোকেন",
+    "history": "ইতিহাস",
+    "noHistory": "এখনো কোন কামকাজ নাই",
+    "kindDeposit": "জমা করো",
+    "to": "তো",
+    "amount": "পরিমাণ",
+    "notePlaceholder": "এক্কান নোট যোগ গর (ইচ্ছা অইলে)",
+    "sendButton": "পাঠান",
+    "errorInsufficient": "পর্যাপ্ত টোকেন নেই"
+  },
+  "avatarPrompt": {
+    "notNow": "এখন না।"
+  },
+  "postStats": {
+    "audience": "অডিয়েন্স",
+    "engagement": "এনগেজমেন্ট",
+    "finished": "শেষ",
+    "members": "সদস্যরা",
+    "membersLower": "সদস্য",
+    "newFollowers": "নতুন ফলোয়ার",
+    "noBadge": "ব্যাজ ছাড়া",
+    "people": "মানুষ",
+    "plays": "প্লেজ",
+    "quotes": "উদ্ধৃতি",
+    "reposts": "রিপোস্ট",
+    "saved": "সংরক্ষিত",
+    "shares": "শেয়ার",
+    "signedOutViewers": "লগ আউট অইছে",
+    "topSupporters": "শীর্ষ সমর্থক",
+    "visitors": "লগ আউট অইছে"
+  },
+  "duet": {
+    "policyEveryone": "বেয়াগ্গুন",
+    "policyFollowers": "ফলোয়ার",
+    "policyNobody": "কুনুও নাই",
+    "loadMore": "আরো লোড কর",
+    "video": "ভিডিও"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "বেয়াগ্গুন",
+      "followers": "ফলোয়ার",
+      "nobody": "কুনুও নাই"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "বেয়াগ্গুন",
+      "followers": "ফলোয়ার",
+      "nobody": "কুনুও নাই"
+    },
+    "heading": "প্রতিক্রিয়া",
+    "more": "আরো দেখুন",
+    "liveNow": "লাইভ",
+    "untitled": "রিঅ্যাকশন"
+  },
+  "liveClips": {
+    "copyLink": "Link কপি কর",
+    "linkCopied": "লিংক কপি করা"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "প্ল্যান",
+      "howMany": "কতগুন",
+      "who": "ইউজারনেম বা ওয়ালেট ঠিকানা",
+      "whoPlaceholder": "@ইউজারনেম",
+      "cancel": "বাতিল করুন",
+      "stage": {
+        "preparing": "প্রস্তুত হচ্ছে…",
+        "confirming": "লেনদেনর অপেক্ষাত…",
+        "recording": "শেষ অর…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "অন্যান্য",
+    "confirming": "পেমেন্ট নিশ্চিত করছি…"
+  },
+  "liveShorts": {
+    "live": "লাইভ"
+  },
+  "feedFilters": {
+    "clearAllShort": "সব সাফ গরো",
+    "done": "অই গেয়ি",
+    "edit": "সম্পাদনা",
+    "groupDate": "তারিখ",
+    "groupSort": "সাজাও",
+    "groupType": "ধরন",
+    "save": "সেভ গরো"
+  },
+  "ownKeys": {
+    "working": "কাজ চলছে",
+    "failed": "কিছু একটা ভুল অইছে। আবার চেষ্টা করো।",
+    "check": "চেক গরন",
+    "remove": "সরান",
+    "save": "সেভ গরো",
+    "cancel": "বাতিল"
+  },
+  "postBg": {
+    "none": "কোনটিই নয়",
+    "yours": "তোমার",
+    "accent": "অ্যাক্সেন্ট",
+    "names": {
+      "aurora": "অরোরা",
+      "lava": "লাভা ল্যাম্প",
+      "drive": "নাইট ড্রাইভ",
+      "chrome": "লিকুইড ক্রোম",
+      "orbit": "অরবিট",
+      "snow": "স্নোফল"
+    }
+  },
+  "articleTile": {
+    "cover": "কভার"
+  },
+  "aiConsent": {
+    "allow": "অনুমতি দন"
+  },
+  "dmRequests": {
+    "title": "ফিচার অনুরোধ",
+    "accept": "একসেপ্ট",
+    "delete": "মিটাও",
+    "block": "আটক কর"
+  },
+  "dmSchedule": {
+    "view": "দেখুন",
+    "edit": "সম্পাদনা",
+    "editLabel": "সংশোধন করুন",
+    "error": "এটি কাজ করেনি। আবার চেষ্টা করুন।"
+  },
+  "chatBulk": {
+    "selected": "{{count}} সিলেক্টেড",
+    "cancel": "বাতিল",
+    "reply": "রিপ্লাই",
+    "delete": "মিটাও"
+  },
+  "msgSelect": {
+    "selected": "{{count}} সিলেক্টেড",
+    "copy": "কপি",
+    "forward": "ফরোয়ার্ড গরন",
+    "deleted_one": "ডিলেট করা হয়েছে {{count}} মেসেজ",
+    "deleted_other": "ডিলেট করা হয়েছে {{count}} মেসেজ"
   }
 }

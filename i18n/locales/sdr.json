@@ -2603,7 +2603,15 @@
     "cbade2afaee2": "एह हफ्ता ऑडियस में ट्रेंडिंग। फ्री उपयोग करे बर, कलाकार के नाम तोहर पोस्ट में देल जाई।",
     "d2e45b7406fc": "विकिमीडिया कॉमन्स से पब्लिक डोमेन आ क्रिएटिव कॉमन्स संगीत। कलाकार के नाम तोहर पोस्ट में देल जाई।",
     "d0c1a3684775": "गाना लोड नहीं हो पायल। थोड़िक देर में फेर कोशिश करू।",
-    "d14064f80f52": "साउंड जोड़ू"
+    "d14064f80f52": "साउंड जोड़ू",
+    "71988c4d8e08": "متن",
+    "147170e793c6": "چوڑا",
+    "481859b689b0": "अपना कनेक्शन चेक करो और फिर से कोशिश करो।",
+    "57e2faa5ec63": "لە Riftn بگەڕێ",
+    "7db20897053b": "Man-man",
+    "96d7bff86b44": "Search load na ho paya",
+    "d8b8392e2c54": "دوباره امتحان کنید",
+    "ccb684944295": "প্রতিলিপি ব্যর্থ হইল"
   },
   "dehubLinks": {
     "kind": {
@@ -2853,7 +2861,8 @@
       "quote": "Alıntı",
       "bullets": "Dolgu liste",
       "numbers": "Numaralı liste",
-      "link": "Bağlantı"
+      "link": "Bağlantı",
+      "image": "تصاویر شامل کریں"
     }
   },
   "storefront": {
@@ -3781,7 +3790,11 @@
     "payViaDpay": "پرداخت به Riftn Pay، در حدود 30 ثانیه دریافت می شود",
     "payViaBridgeDpay": "Base-लें चल गेलय आर Riftn Pay-लें पैंसा देल गेलय, टोकन एक मिनट मे आबैत छथि",
     "payViaSwap": "به توکن‌های Riftn در Uniswap تغییر داده شد",
-    "stageSwap": "در حال خرید توکن‌های Riftn در Uniswap…"
+    "stageSwap": "در حال خرید توکن‌های Riftn در Uniswap…",
+    "addMessage": "एक संदेश जोड़ें (वैकल्पिक)",
+    "messagePublic": "عام",
+    "railTitle": "ٹپس",
+    "railTotal": "{{amount}} دراو"
   },
   "postOptions": {
     "aiOverview": "AI ओवरव्यू",
@@ -4507,7 +4520,11 @@
       "here": "{{name}} به همه در انجمن پیام داد",
       "hereNamed": "{{name}} به همه در “{{community}}” پیام داد"
     },
-    "tokenAmount": "{{amount}} دراو"
+    "tokenAmount": "{{amount}} دراو",
+    "groupNew": "نیا",
+    "groupToday": "آج",
+    "groupThisWeek": "اس ہفتے",
+    "searchClose": "खोज बंद करें"
   },
   "leaderboard": {
     "title": "لیڈر بورڈ",
@@ -4699,7 +4716,18 @@
     "attachmentTooLarge": "ہر ٹھو فائل 50MB سے کم رہے کے چاہی",
     "deleteCommentA11y": "تبصرہ حذف کریں",
     "sendCommentA11y": "تبصرہ بھیجیں",
-    "requestOptions": "د سرچينو انتخابونه"
+    "requestOptions": "د سرچينو انتخابونه",
+    "deviceInfoNoErrors": "कोई नहीं",
+    "topBuilders": {
+      "month": "اس مہینے",
+      "allTime": "پورا وقت",
+      "shipped": "بھیجا گیا",
+      "votes": "Oylar",
+      "comments": "تبصرے",
+      "showLess": "اہل سنت کے مبلغین کا کہنا ہے کہ یہ عمل ہرگز نہیں ہے۔",
+      "viewProfile": "प्रोफाइल देखें",
+      "you": "تو"
+    }
   },
   "auth": {
     "loginRequired": "لاگ ان ضروری ہے",
@@ -4974,7 +5002,20 @@
       "votes_other": "{{value}} वोट",
       "members_one": "{{value}} सदस्य",
       "members_other": "{{value}} सदस्य"
-    }
+    },
+    "articleShort": "آرٹیکل",
+    "articleMinRead": "{{count}} min okur",
+    "pinnedShort": "پِن کیا",
+    "post": "پوسٹ",
+    "arrange": {
+      "saving": "بچل جا رہل ہے..."
+    },
+    "reserve": {
+      "signIn": "साइन इन"
+    },
+    "tabLikes": "پسند",
+    "likesEmptyTitle": "ابھی کوئی پسند نہیں",
+    "likesPrivateTitle": "پسند پرائیویٹ ہے"
   },
   "tv": {
     "title": "ٹی وی",
@@ -5490,6 +5531,9 @@
       "dehub_stream_timeout": "اسٹریم چیٹ کی ماڈریشن کرو",
       "schedule": "شیڈول",
       "filter": "سرگرمی فلٹر کرو"
+    },
+    "welcome": {
+      "text": "स्वागत संदेश"
     }
   },
   "hero": {
@@ -5571,7 +5615,14 @@
     "nowPublic": "جریان اکنون عمومی است",
     "openCanvas": "بوم را باز کنید",
     "playVideo": "پخش ویدئو",
-    "signInToSee": "برای مشاهده جریان های حساب خود وارد شوید."
+    "signInToSee": "برای مشاهده جریان های حساب خود وارد شوید.",
+    "model": "مدل",
+    "aspectRatio": "نسبت ابعاد",
+    "duration": "Saniye cinsinden süre",
+    "resolution": "ریزولیوشن",
+    "disconnect": "ہٹاوا",
+    "payAndRun": "دفع و تشغيل",
+    "handlePrompt": "ପ୍ରମ୍ପ୍ଟ"
   },
   "loginModal": {
     "title": "لاگ ان کرو",
@@ -5891,7 +5942,8 @@
     "searchMenu": "مینو کھوجو",
     "clearSearch": "کھوج مٹاؤ",
     "noMenuMatches": "مینو میں کچھ نہیں مل رہل",
-    "searchDehubFor": "Riftn پر \"{{query}}\" کھوجو"
+    "searchDehubFor": "Riftn پر \"{{query}}\" کھوجو",
+    "requestSend": "ارسال درخواست"
   },
   "comments": {
     "reportComment": "دې تبصرې ته راپور ورکړئ",
@@ -6510,7 +6562,11 @@
       "copied": "پیغام کاپی ہو گیا",
       "copyText": "متن کاپی کریں",
       "mutedUntil": "تۆ بێدەنگ کراویت تا {{date}}",
-      "slowMode": "سست موڈ: ہر {{interval}} پر ایک پیغام"
+      "slowMode": "سست موڈ: ہر {{interval}} پر ایک پیغام",
+      "joined": "{{name}} जुड़ गया",
+      "reactions": "प्रतिक्रियाएँ",
+      "photoTooLarge": "تصویر 10MB سے کم ہونی چاہیے",
+      "aiAdminFailed": "assistant"
     },
     "manage": {
       "dismissAdminTitle": "ایڈمن کو برخاست کریں",
@@ -6713,6 +6769,22 @@
       "notFound": "اہلہٖدعوت کا لینک درست نہیں ہے۔",
       "requestToJoin": "درخواست پیوستن",
       "approvalNote": "سازماندها درخواست شما را باید تایید کند تا بتوانید عضو شوید."
+    },
+    "newChat": {
+      "public": "عام",
+      "private": "نجی",
+      "free": "رایگان",
+      "paid": "پرداخت شده",
+      "group": "گروه"
+    },
+    "holderGate": {
+      "chain": "زنجیر",
+      "which": "ٹوکن"
+    },
+    "automod": {
+      "bannedWords": "बान शब्द",
+      "saved": "محفوظ",
+      "wordCount": "{{count}} kelime"
     }
   },
   "work": {
@@ -7832,7 +7904,10 @@
       "doneTitle": "All cleared",
       "doneSome": "अनफ़ॉलो कइले {{done}} खाता. {{failed}} अनफ़ॉलो नहीं हो सकल.",
       "doneToast": "आपके द्वारा अनफ़ॉलो किए गए {{done}} खाते आपको वापस फॉलो नहीं कर रहे हैं"
-    }
+    },
+    "followBackConfirm": "فۆڵۆ بکە",
+    "followBackNotNow": "এখন নোয়ায়",
+    "followBackDone": "हो गेल"
   },
   "reactionInfo": {
     "mentionedYouLiveChat": "{{name}} लाइव चैट में तोर जिकर करलक",
@@ -8750,7 +8825,37 @@
     "clearDrawing": "साफ करू",
     "textSize": "लिखा कर साइज {{value}}",
     "coverFrames": "कवर फ्रेम चुनू",
-    "uploadCover": "कवर फोटो अपलोड करू"
+    "uploadCover": "कवर फोटो अपलोड करू",
+    "altPlaceholderVideo": "ای ویڈیو کر بیان کرو",
+    "landingLive": "لائیو",
+    "preview": {
+      "title": "پیش‌نما"
+    },
+    "recent": {
+      "all": "سب"
+    },
+    "studio": {
+      "crop": "کراپ کرو",
+      "draw": "بناؤ",
+      "light": "اُجالا",
+      "contrast": "بەرھەمھەڵدەھێنانی",
+      "colour": "رنگ",
+      "fade": "پھیکا",
+      "original": "اصلی",
+      "ratioOriginal": "اصلی",
+      "ratioFree": "رایگان",
+      "rotate": "گھماؤ",
+      "strength": "طاقت",
+      "ticker": "ٹکر",
+      "textBg": "بیک گراؤنڈ",
+      "font": {
+        "bold": "موٹا",
+        "serif": "سریف",
+        "mono": "مۆنۆ"
+      }
+    },
+    "edited": "संपादित",
+    "edit": "ایڈٹ"
   },
   "bounty": {
     "claimed": "নেওয়া হইছে",
@@ -9044,7 +9149,8 @@
     "justChatting": "बस बातचीत",
     "noLiveStreams": "कोई लाइव स्ट्रीम नहीं",
     "noOneStreaming": "अभी कोई स्ट्रीम नहीं कर रहा है। बाद में फिर देखें!",
-    "loadStreamsFailed": "स्ट्रीम लोड नहीं हो सकीं। फिर से कोशिश करें।"
+    "loadStreamsFailed": "स्ट्रीम लोड नहीं हो सकीं। फिर से कोशिश करें।",
+    "liveBadge": "لائیو"
   },
   "liveShop": {
     "title": "এই স্ট্রিম থাকি কিনেন",
@@ -9357,7 +9463,23 @@
     "planRestricted": "ई यूजर के मैसेज पाएक ले सब्सक्रिप्शन लागी।",
     "planTypeNotAllowed": "ई क्रिएटर कर प्लान में अइसन मैसेज कर अनुमति नखे।",
     "planMinTip": "ई क्रिएटर ले टिप कम से कम {{amount}} tokens होवेक चाही।",
-    "doNotDisturb": "परेशान न करें"
+    "doNotDisturb": "परेशान न करें",
+    "newDrawer": {
+      "to": "تا"
+    },
+    "download": "ڈاؤن لوڈ",
+    "deleteOneTitle": "ई संदेश हटाव?",
+    "retrySend": "پھر کوشش کرو",
+    "discardSend": "ہٹاو",
+    "shareKindGroup": "گروه",
+    "shareKindCommunity": "समुदाय",
+    "searchDiscover": {
+      "people": "لوگ",
+      "communities": "سماج",
+      "members": "{{n}} ãrâdâ",
+      "newChat": "چاتی نوێ",
+      "invite": "دعوت"
+    }
   },
   "editPost": {
     "mediaPermission": "مۆڵەتی کتێبخانەی مێدیا پێویستە",
@@ -10654,7 +10776,11 @@
       "hint": "بولی کے ٹائم والا کیپشن میں بدلے ہے، جیکر اسٹائل تو بدل سکے ہے۔ تہار ڈیوائس میں چلے ہے: مفت اور پرائیویٹ۔ پہلا بار میں ماڈل ڈاؤن لوڈ ہوئے ہے۔",
       "done": "{{count}} کیپشن جوڑا گیلک۔",
       "noSpeech": "ای کلپ میں کوئی بولی نہیں ملل۔",
-      "failed": "ای کلپ کے واسطے کیپشن نہیں بن سکل۔"
+      "failed": "ای کلپ کے واسطے کیپشن نہیں بن سکل۔",
+      "styles": {
+        "bold": "Kalın",
+        "serif": "سریف"
+      }
     },
     "app": {
       "newDesign": "نوا ڈیزائن",
@@ -10904,7 +11030,9 @@
       "suggestTitle": "اوپر ایک بڑا موٹا ٹائٹل اور اوکر نیچے چھوٹا سب ٹائٹل جوڑو",
       "undo": "انڈو",
       "openGenerator": "دیکھو اور بناؤ",
-      "working": "کام چلت ہے…"
+      "working": "کام چلت ہے…",
+      "stop": "توقف",
+      "queue": "कतार में जोड़ो"
     },
     "brand": {
       "addColor": "برانڈ رنگ جوڑو",
@@ -11041,7 +11169,9 @@
       "rendering": "ویڈیو رینڈر ہوئت ہے… {{percent}}%",
       "mp4": "MP4 ویڈیو",
       "exportHint": "جب تک تہار ویڈیو رینڈر ہوئت ہے، ایڈیٹر کے کھولل رکھو۔",
-      "tooLarge": "ای فائل ایڈیٹر لے بہت بڑا ہے۔ حد 400 MB ہے۔"
+      "tooLarge": "ای فائل ایڈیٹر لے بہت بڑا ہے۔ حد 400 MB ہے۔",
+      "tZoomIn": "زوم اِن",
+      "tZoomOut": "زوم آؤٹ"
     },
     "motion": {
       "title": "حرکت",
@@ -12196,6 +12326,31 @@
       "selection": "چناؤ",
       "fit": "Fít",
       "pan": "پان کینوس"
+    },
+    "stage": {
+      "camera": "कैमरा",
+      "yaw": "گھماؤ",
+      "add": "شامل کریں",
+      "scale": "اندازه",
+      "color": "رنگ",
+      "light": "اُجالا"
+    },
+    "clipFix": {
+      "listening": "در حال گوش دادن…"
+    },
+    "generate3d": {
+      "label": "۳دی"
+    },
+    "voiceClone": {
+      "stop": "ریکارڈنگ بند کرو",
+      "failed": "Voice cloning fail ho gelak."
+    },
+    "linkImport": {
+      "go": "درآمد",
+      "downloading": "{{percent}}% डाउनलोड हो रहा है"
+    },
+    "reverse": {
+      "action": "रिवर्स"
     }
   },
   "creator": {
@@ -12657,7 +12812,29 @@
     "referenceProductName": "محصول خود را در یک کلیپ قرار دهید",
     "referenceProductHint": "محصول برجسته را جایگزین کنید و صحنه اصلی را حفظ کنید",
     "referenceComposeName": "تصاویر مرجع را ترکیب کنید",
-    "referenceComposeHint": "شخصیت‌ها، اشیاء و محیط‌های موجود در چند تصویر را در یک ترکیب قرار دهید"
+    "referenceComposeHint": "شخصیت‌ها، اشیاء و محیط‌های موجود در چند تصویر را در یک ترکیب قرار دهید",
+    "marketing": {
+      "import": {
+        "use": "Ye details ke istemal kare"
+      }
+    },
+    "batchCount": "تصویر",
+    "endFrame": "پایانه",
+    "cinema": {
+      "close": "بند کرو",
+      "performance": {
+        "label": "کارکردگی"
+      }
+    },
+    "audioNoSpeech": "Kəndə səslənən söhbət tapılmadı.",
+    "audioTaskSpeechLabel": "گفتار",
+    "audioTaskDialogueLabel": "دیالوگ",
+    "audioTaskSfxLabel": "ध्वनि प्रभाव",
+    "audioTaskVoiceChangerLabel": "تغییر صدا",
+    "audioTaskIsolateLabel": "پاکسازی",
+    "dialogueFormat": "موضوع را به صورت «نام: خط» بنویسید، هر سخنران در یک خط.",
+    "fileTooLarge": "این فایل بیش از 100 مگابایت است. از یک فایل کوتاه‌تر یا کوچکتر استفاده کنید.",
+    "signInToGenerate": "برای تولید، وارد حساب شوید."
   },
   "fractions": {
     "title": "फ़्रैक्शन",
@@ -14726,6 +14903,18 @@
       "intro": "दर्शक हर उस मिनट के लिए एक पॉइंट कमाते हैं जो वे आपको देखते हैं और हर 100 دراو के लिए एक पॉइंट गिफ़्ट करते हैं। चैट और प्रतिक्रियाओं से कोई फ़ायदा नहीं होता, इसलिए पॉइंट को फ़ार्मेड नहीं किया जा सकता।",
       "widgetHint": "इस लिस्ट को स्ट्रीम पर दिखाने के लिए लॉयल व्यूअर विजेट जोड़ें।",
       "empty": "نقطه‌ای ندارم. این‌ها با دیدن و دادن هدیه توسط مردم افزایش می‌یابند."
+    },
+    "destinations": {
+      "platform": "پلیٹ فارم",
+      "key": "اسٹریمنگ کلید",
+      "save": "شامل کریں",
+      "cancel": "منسوخ",
+      "states": {
+        "off": "بند",
+        "idle": "تیار",
+        "live": "لائیو",
+        "error": "غلطی"
+      }
     }
   },
   "liveChatModeration": {
@@ -14775,7 +14964,9 @@
     "joinedTitle": "سۆزی لێکەرەوەیەکەیە",
     "joinedBody": "{{email}}-i qeyd qeyd etibarlı olduğu zaman email göndəriləcək.",
     "failed": "نمی‌تونم این رو ذخیره کنم. دوباره امتحان کن.",
-    "privacy": "فقط برای تو خبر دادن از راه اندازی استفاده می شود."
+    "privacy": "فقط برای تو خبر دادن از راه اندازی استفاده می شود.",
+    "eyebrow": "به زودی",
+    "notifyMe": "ہمکے بتاؤ"
   },
   "githubLink": {
     "hint": "GitHub-ya hesabını doğrulayın. Riftn sadece sizin GitHub profilinizi görür.",
@@ -14816,7 +15007,61 @@
     "days": "{{count}} rōz",
     "spotlightForSale": "فروشگاه",
     "spotlightNew": "अभी मिंट किया गया",
-    "buyFor": "{{price}} के लिए खरीदें"
+    "buyFor": "{{price}} के लिए खरीदें",
+    "actAll": "سب",
+    "actListings": "اشتہار",
+    "actOffer": "ऑफर",
+    "actOffers": "پێشنیارەکان",
+    "actSales": "فروش",
+    "tabActivity": "سرگرمی",
+    "allChains": "Ḥalqāt",
+    "newest": "نئی",
+    "soldFor": "بک گیل",
+    "signIn": "साइन इन",
+    "share": "साझा करें",
+    "noneForSale": "نیکچیز برای فروش نیست.",
+    "noSales": "अभी कोई बिक्री नइ भेल अछि",
+    "tabBrowse": "بررسی",
+    "tabMine": "خودتان",
+    "tabSales": "فروش",
+    "cancelled": "रद्द कएलक",
+    "sold": "بک گیل",
+    "listed": "فروش در دست است",
+    "feeRow": "هزینه شکاف ({{pct}}%)",
+    "royaltyRow": "حقوق خالق",
+    "youGet": "دست شما",
+    "holderGets": "مالک می‌گیرد",
+    "loading": "لودینگ…",
+    "price": "قیمت",
+    "seller": "فروشنده",
+    "tabRecent": "حالیہ",
+    "buyNow": "एखन किन ले",
+    "offers": "پیشنهادها",
+    "cancel": "रद्द करव",
+    "accept": "پەسەندکردن",
+    "signInToTrade": "व्यापार करने के लिए साइन इन करें",
+    "listForSale": "بیچے کے واسطے دیو",
+    "makeOffer": "پیشنهاد کن",
+    "sendOffer": "پیشنهاد ارسال",
+    "back": "شاته",
+    "dropsTo": "قیمت به {{price}} در {{date}} کاهش یافت",
+    "showAll": "सभी दिखाएं",
+    "filters": "فیلترها",
+    "forSale": "Bikri ke liye",
+    "openToOffers": "پاسخ‌های پیشنهادی را در نظر می‌گیریم",
+    "offersOpen": "پاسخ‌های پیشنهادی را در نظر می‌گیریم",
+    "mintedCount": "{{n}}",
+    "alertSaved": "सूचना चालू अछि। हम अहाँ केँ बताबि देब जखन एक सूचीबद्ध होयत।",
+    "endPrice": "ڕێژەی کەمترین, لە کۆتایی ({{symbol}})",
+    "bundleBadge": "बंडल ×{{n}}",
+    "dropBadge": "कीमत गिरव",
+    "days_one": "{{count}} दिन",
+    "days_other": "{{count}} दिन",
+    "statForSale": "बिक्रीक लेल",
+    "sellYours": "अपन बेचव",
+    "sellYoursHint": "अपन वॉलेट सँ सूची बनाव",
+    "latestMints": "नवका मिंट",
+    "collections": "संग्रह"
   },
   "reel": {
     "readAll": "सब पढ़ू",
@@ -14838,7 +15083,10 @@
       "episode": "Podcast episode",
       "show": "Podcast",
       "artist": "Artist"
-    }
+    },
+    "loading": "لودینگ…",
+    "paused": "موقوف",
+    "preview": "پیش‌نما"
   },
   "twoFactor": {
     "wrongCode": "ओ कोड नई मिललक। आपन ऐप में नया वाला के कोशिश कर।",
@@ -14915,5 +15163,248 @@
     "newer": "Newer result",
     "gone": "उह संदेश अब इहाँ नइखे.",
     "theirMessages": "Their messages"
+  },
+  "chatTextSize": {
+    "title": "Mətn ölçüsü",
+    "default": "پیش‌فرض",
+    "larger": "بزرگ‌تر"
+  },
+  "remix": {
+    "cut": "کاٹو"
+  },
+  "signedFollows": {
+    "setUp": "चालू कर",
+    "turnOff": "बंद कर",
+    "efpTurnOff": "توقف"
+  },
+  "postEditHistory": {
+    "original": "اصلی"
+  },
+  "studioDeck": {
+    "remove": "ہٹاو",
+    "background": {
+      "title": "بیک گراؤنڈ",
+      "modes": {
+        "none": "بند",
+        "blur": "دھندلاپن",
+        "color": "رنگ"
+      }
+    },
+    "scenes": {
+      "countdown": "उलटा गिनती",
+      "minutes": "{{count}} मिनट",
+      "names": {
+        "starting": "جلد شروع ہوگا"
+      }
+    },
+    "widgets": {
+      "tab": "ویجت‌ها"
+    },
+    "sources": {
+      "image": "تصویر",
+      "show": "स्ट्रीम पर दिखाओ",
+      "positions": {
+        "center": "مرکز"
+      },
+      "sizes": {
+        "medium": "درمیانہ"
+      }
+    },
+    "phone": {
+      "title": "استودیو"
+    }
+  },
+  "whenSheet": {
+    "today": "آج",
+    "tooSoon": "اختر وقتًا في المستقبل.",
+    "show": "دکھاؤ",
+    "hide": "چھپاؤ"
+  },
+  "planned": {
+    "title": "منصوبہ بند",
+    "all": "سب",
+    "posts": "پوسٹ",
+    "stages": "آڈیو روم",
+    "post": "پوسٹ",
+    "live": "لائیو",
+    "stage": "मंच",
+    "untitledPost": "پوسٹ",
+    "untitledLive": "لائیو",
+    "loading": "لوڈ ہو رہا ہے…",
+    "startNow": "ابھی شروع کرو",
+    "cancel": "منسوخ",
+    "cancelled": "رد"
+  },
+  "welcome": {
+    "about": {
+      "title": "به Riftn خوش آمدید",
+      "day": "دن",
+      "month": "مہینہ",
+      "year": "سال"
+    },
+    "name": {
+      "title": "Tor naam",
+      "placeholder": "Tor naam"
+    },
+    "card": {
+      "name": "Tor naam",
+      "followers": "अनुयायी"
+    },
+    "topic": {
+      "music": "گانا",
+      "art": "آرٹ",
+      "gaming": "گیمنگ",
+      "crypto": "کرپٹو",
+      "sports": "खेल-कूद",
+      "film": "फिल्म",
+      "podcast": "پدکاست",
+      "food": "غذا",
+      "news": "اخبار",
+      "science": "سائنس"
+    },
+    "back": "واپس",
+    "skipPhoto": "بعداًSkip برای حالا",
+    "preview": "Önizle"
+  },
+  "appTokens": {
+    "title": "توکن‌های شما",
+    "history": "تاریخ",
+    "noHistory": "hich faaliat nadarad",
+    "kindDeposit": "جمع کراؤ",
+    "to": "تا",
+    "amount": "رقم",
+    "notePlaceholder": "تێبینی زیاد بکە (ئارەزوومەندانە)",
+    "sendButton": "भेजें",
+    "errorInsufficient": "ڕۆڵەکان"
+  },
+  "avatarPrompt": {
+    "notNow": "এখন নোয়ায়"
+  },
+  "postStats": {
+    "audience": "दर्शक",
+    "engagement": "مصروفیات",
+    "finished": "تەواو بوو",
+    "members": "اراکین",
+    "membersLower": "اراکین",
+    "newFollowers": "नए फ़ॉलोअर",
+    "noBadge": "بدنه‌ای ندارد",
+    "people": "لوگ",
+    "plays": "Oynatışlar",
+    "quotes": "اقتباسات",
+    "reposts": "ری پوسٹ",
+    "saved": "محفوظ",
+    "shares": "شیئر",
+    "signedOutViewers": "سائن آئوٽ ٿيو",
+    "topSupporters": "शीर्ष समर्थक",
+    "visitors": "سائن آئوٽ ٿيو"
+  },
+  "duet": {
+    "policyEveryone": "سب کوئی",
+    "policyFollowers": "فالوور",
+    "policyNobody": "کوئی نہیں",
+    "loadMore": "اور لوڈ کرو",
+    "video": "वीडियो"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "سب کوئی",
+      "followers": "فالوور",
+      "nobody": "کوئی نہیں"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "سب کوئی",
+      "followers": "فالوور",
+      "nobody": "کوئی نہیں"
+    },
+    "heading": "प्रतिक्रियाएं",
+    "more": "مزید دکھائیں",
+    "liveNow": "لائیو",
+    "untitled": "ری ایکشن"
+  },
+  "liveClips": {
+    "copyLink": "نَسْخ الرَّابِط",
+    "linkCopied": "الرَّابِط انْسَخ"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "پلان",
+      "howMany": "केतना",
+      "who": "یوزرنیم یا والٹ ایڈریس",
+      "whoPlaceholder": "@یوزرنیم",
+      "cancel": "منسوخ",
+      "stage": {
+        "preparing": "تیاری ہو رہی ہے…",
+        "confirming": "লেনদেনের অপেক্ষাত…",
+        "recording": "শেষ হইতেছে…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "دوسرا",
+    "confirming": "تایید پرداخت…"
+  },
+  "liveShorts": {
+    "live": "لائیو"
+  },
+  "feedFilters": {
+    "clearAllShort": "سب صاف کرو",
+    "done": "ہو گیا",
+    "edit": "ایڈٹ",
+    "groupDate": "تاریخ",
+    "groupSort": "ترتیب",
+    "groupType": "قسم",
+    "save": "بچاؤ"
+  },
+  "ownKeys": {
+    "working": "در حال کار",
+    "failed": "مشکلی پیش آمد. دوباره امتحان کنید.",
+    "check": "جانچو",
+    "remove": "ہٹاو",
+    "save": "بچاؤ",
+    "cancel": "رد کر"
+  },
+  "postBg": {
+    "none": "कोई नहीं",
+    "yours": "خودتان",
+    "accent": "لہجہ",
+    "names": {
+      "lava": "لامپ لاوا",
+      "chrome": "کریستال مایع",
+      "orbit": "اربیت",
+      "snow": "برف‌باران"
+    }
+  },
+  "articleTile": {
+    "cover": "कवर"
+  },
+  "aiConsent": {
+    "allow": "اجازت دے"
+  },
+  "dmRequests": {
+    "title": "فیچر درخواست",
+    "accept": "قبول کریں",
+    "delete": "مٹاؤ",
+    "block": "بلاک کریں"
+  },
+  "dmSchedule": {
+    "view": "دیکھو",
+    "edit": "Düzenle",
+    "editLabel": "mesaj ra edit kon",
+    "error": "او کام نہیں کرلک۔ پھر کوشش کرو۔"
+  },
+  "chatBulk": {
+    "selected": "{{count}} seçildi",
+    "cancel": "رد کر",
+    "reply": "جواب",
+    "delete": "مٹاؤ"
+  },
+  "msgSelect": {
+    "selected": "{{count}} seçildi",
+    "copy": "کاپی کر",
+    "forward": "आगे भेजा",
+    "deleted_one": "{{count}} message delete hoye gelak",
+    "deleted_other": "{{count}} messages delete hoye gelak"
   }
 }

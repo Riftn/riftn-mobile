@@ -5,7 +5,12 @@
     "converted": "Teraz widoczne jako komiks",
     "unconverted": "Teraz widoczne jako karuzela",
     "convertFailed": "Nie udało się zmienić układu",
-    "showAll": "Pokaż wszystkie strony ({{count}})"
+    "showAll": "Pokaż wszystkie strony ({{count}})",
+    "tab": "Komiks",
+    "title": "Komiks",
+    "editor": {
+      "cover": "Okładka"
+    }
   },
   "comicBorder": {
     "title": "Ramka",
@@ -2613,7 +2618,14 @@
     "cbade2afaee2": "Trendy tego tygodnia na Audius. Darmowe do użycia, artysta zostaje wymieniony w twoim poście.",
     "d2e45b7406fc": "Muzyka z domeny publicznej i na licencji Creative Commons z Wikimedia Commons. Artysta zostaje wymieniony w twoim poście.",
     "d0c1a3684775": "Nie udało się załadować piosenek. Spróbuj ponownie za chwilę.",
-    "d14064f80f52": "Dodaj dźwięk"
+    "d14064f80f52": "Dodaj dźwięk",
+    "71988c4d8e08": "Tekst",
+    "147170e793c6": "Szeroki",
+    "481859b689b0": "Sprawdź swoją połączenie i spróbuj ponownie.",
+    "57e2faa5ec63": "Szukaj w Riftn",
+    "7db20897053b": "Ludzie",
+    "96d7bff86b44": "Nie udało się załadować wyników",
+    "d8b8392e2c54": "Spróbuj ponownie"
   },
   "dehubLinks": {
     "kind": {
@@ -2863,7 +2875,8 @@
       "quote": "Cytat",
       "bullets": "Lista punktowana",
       "numbers": "Lista numerowana",
-      "link": "Powiąż"
+      "link": "Powiąż",
+      "image": "Dodaj obrazy"
     }
   },
   "storefront": {
@@ -3811,7 +3824,10 @@
     "payDirectNoName": "Wysłane bezpośrednio do twórcy w {{symbol}} w sieci {{chain}}. Bez wymiany.",
     "payViaBridgeDpay": "Przeniesiono do Base i zapłacono do Riftn Pay, tokeny dotrą za około minutę",
     "tokensUnit": "tokeny",
-    "tokenAmount": "{{amount}} tokenów"
+    "tokenAmount": "{{amount}} tokenów",
+    "messagePublic": "Publiczny",
+    "railTitle": "Napiwki",
+    "railTotal": "{{amount}} tokenów"
   },
   "postOptions": {
     "skippableSections": "Ominięte sekcje",
@@ -4545,7 +4561,8 @@
       "here": "{{name}} wysłał (a) wiadomość do wszystkich członków społeczności",
       "hereNamed": "{{name}} wysłał (a) wiadomość do wszystkich w „{{community}}”"
     },
-    "tokenAmount": "{{amount}} tokenów"
+    "tokenAmount": "{{amount}} tokenów",
+    "searchClose": "Zamknij wyszukiwanie"
   },
   "leaderboard": {
     "title": "Rankingi",
@@ -4737,7 +4754,18 @@
     "attachmentTooLarge": "Każdy plik musi mieć poniżej 50 MB",
     "deleteCommentA11y": "Usuń komentarz",
     "sendCommentA11y": "Wyślij komentarz",
-    "requestOptions": "Opcje żądania"
+    "requestOptions": "Opcje żądania",
+    "deviceInfoNoErrors": "Brak",
+    "topBuilders": {
+      "month": "Ten miesiąc",
+      "allTime": "Cały czas",
+      "shipped": "Wdrożone",
+      "votes": "Głosy",
+      "comments": "Komentarze",
+      "showLess": "Pokaż mniej",
+      "viewProfile": "Zobacz profil",
+      "you": "Ty"
+    }
   },
   "auth": {
     "loginRequired": "Wymagane logowanie",
@@ -5012,7 +5040,17 @@
     "likesEmptyOwn": "Posty, które polubisz, pojawią się tutaj. Widzisz je tylko ty, chyba że włączysz Pokazuj moje polubienia wszystkim w Ustawieniach.",
     "likesEmptyOther": "Jeszcze nic nie polubiono.",
     "likesPrivateTitle": "Polubienia są prywatne",
-    "likesPrivateDesc": "To konto zachowuje swoje polubienia dla siebie."
+    "likesPrivateDesc": "To konto zachowuje swoje polubienia dla siebie.",
+    "articleShort": "Art.",
+    "articleMinRead": "{{count}} min czytania",
+    "pinnedShort": "Przypięta",
+    "post": "Opublikuj",
+    "arrange": {
+      "saving": "Zapisywanie..."
+    },
+    "reserve": {
+      "signIn": "Zaloguj się"
+    }
   },
   "tv": {
     "title": "TV",
@@ -5528,6 +5566,9 @@
       "action": "Działanie",
       "schedule": "Harmonogram",
       "filter": "Filtruj aktywność"
+    },
+    "welcome": {
+      "text": "Wiadomość powitalna"
     }
   },
   "hero": {
@@ -5609,7 +5650,15 @@
     "nowPublic": "Przepływ jest teraz publiczny",
     "openCanvas": "Płótno",
     "playVideo": "Odtwórz film",
-    "signInToSee": "Zaloguj się, aby zobaczyć przepływy na swoim koncie."
+    "signInToSee": "Zaloguj się, aby zobaczyć przepływy na swoim koncie.",
+    "newNativeFlow": "Nowy przepływ",
+    "aspectRatio": "Proporcje",
+    "duration": "Czas trwania w sekundach",
+    "resolution": "Rozdzielczość",
+    "disconnect": "Rozłącz",
+    "payAndRun": "Zapłać i uruchom",
+    "run": "Uruchom",
+    "handlePrompt": "Wybierz tematy"
   },
   "loginModal": {
     "title": "Zaloguj się",
@@ -5929,7 +5978,8 @@
     "searchMenu": "Szukaj w menu",
     "clearSearch": "Wyczyść wyszukiwanie",
     "noMenuMatches": "Nic w menu nie pasuje",
-    "searchDehubFor": "Szukaj „{{query}}\" w Riftn"
+    "searchDehubFor": "Szukaj „{{query}}\" w Riftn",
+    "requestSend": "Wyślij prośbę"
   },
   "comments": {
     "reportComment": "Zgłoś komentarz",
@@ -6548,7 +6598,11 @@
       "copied": "Skopiowano wiadomość",
       "copyText": "Kopiuj tekst",
       "mutedUntil": "Jesteś wyciszony do {{date}}",
-      "slowMode": "Tryb wolny: jedna wiadomość co {{interval}}"
+      "slowMode": "Tryb wolny: jedna wiadomość co {{interval}}",
+      "joined": "{{name}} dołączył",
+      "reactions": "Reakcje",
+      "photoTooLarge": "Obraz musi być mniejszy niż 10MB",
+      "aiAdminFailed": "AI Admin nie odpowiedział"
     },
     "manage": {
       "dismissAdminTitle": "Odrzuć administratora",
@@ -6751,6 +6805,30 @@
       "notFound": "Ten link z zaproszeniem jest nieprawidłowy.",
       "requestToJoin": "Poproś o dołączenie",
       "approvalNote": "Zanim dołączysz, administrator musi zatwierdzić Twoją prośbę."
+    },
+    "buyAlert": {
+      "spent": "Wydano:",
+      "buyer": "Nabywca:",
+      "balance": "Saldo:",
+      "price": "Cena:",
+      "marketCap": "Kapitalizacja rynkowa:"
+    },
+    "newChat": {
+      "public": "Publiczny",
+      "private": "Prywatny",
+      "free": "Darmowe",
+      "paid": "Zapłacono",
+      "group": "Grupuj"
+    },
+    "holderGate": {
+      "chain": "Łańcuch",
+      "tab": "Właściciele"
+    },
+    "automod": {
+      "bannedWords": "Zakazane słowa",
+      "floodMax": "Wiadomości {{count}}",
+      "saved": "Zapisano",
+      "wordCount": "{{count}} słów"
     }
   },
   "work": {
@@ -8839,7 +8917,36 @@
     "coverFrames": "Wybierz klatkę na okładkę",
     "coverFrame": "Użyj klatki {{index}} jako okładki",
     "uploadCover": "Prześlij obraz okładki",
-    "editFailed": "Nie udało się zastosować zmiany. Spróbuj ponownie."
+    "editFailed": "Nie udało się zastosować zmiany. Spróbuj ponownie.",
+    "altPlaceholderVideo": "Opisz ten film",
+    "preview": {
+      "title": "Podgląd"
+    },
+    "recent": {
+      "all": "Wszystkie"
+    },
+    "studio": {
+      "crop": "Przytnij",
+      "draw": "Rysuj",
+      "light": "Jasny",
+      "contrast": "Kontrast",
+      "warmth": "Ciepło",
+      "colour": "Kolor",
+      "fade": "Zanikanie",
+      "original": "Oryginalny",
+      "ratioOriginal": "Oryginalny",
+      "ratioFree": "Darmowe",
+      "rotate": "Obróć",
+      "strength": "Siła",
+      "stickers": "Naklejki",
+      "ticker": "Pasek informacyjny",
+      "textBg": "Tło",
+      "font": {
+        "bold": "Pogrubienie"
+      }
+    },
+    "edited": "Edytowane",
+    "edit": "Edytuj"
   },
   "bounty": {
     "claimed": "Odebrano",
@@ -9133,7 +9240,8 @@
     "justChatting": "Tylko rozmowy",
     "noLiveStreams": "Brak transmisji na żywo",
     "noOneStreaming": "Nikt teraz nie nadaje. Zajrzyj później!",
-    "loadStreamsFailed": "Nie udało się wczytać transmisji. Spróbuj ponownie."
+    "loadStreamsFailed": "Nie udało się wczytać transmisji. Spróbuj ponownie.",
+    "liveBadge": "NA ŻYWO"
   },
   "liveShop": {
     "title": "Kupuj w tej transmisji",
@@ -9463,7 +9571,16 @@
       "inviteMessage": "Dołącz do mnie na Riftn: {{url}}",
       "searchAll": "Szukaj „{{q}}” w całym Riftn",
       "searchAllSub": "Posty, filmy, transmisje"
-    }
+    },
+    "newDrawer": {
+      "to": "Do"
+    },
+    "download": "Pobierz",
+    "deleteOneTitle": "Usunąć tę wiadomość?",
+    "retrySend": "Ponów",
+    "discardSend": "Usuń",
+    "shareKindGroup": "Grupuj",
+    "shareKindCommunity": "Społeczność"
   },
   "editPost": {
     "mediaPermission": "Wymagane jest uprawnienie do biblioteki multimediów",
@@ -10749,7 +10866,10 @@
       "hint": "Zamienia mowę na zsynchronizowane napisy, których styl możesz zmienić. Działa na Twoim urządzeniu: za darmo i prywatnie. Przy pierwszym użyciu model zostanie pobrany.",
       "done": "Dodano napisy: {{count}}.",
       "noSpeech": "Nie wykryto mowy w tym klipie.",
-      "failed": "Nie udało się utworzyć napisów dla tego klipu."
+      "failed": "Nie udało się utworzyć napisów dla tego klipu.",
+      "styles": {
+        "bold": "Pogrubienie"
+      }
     },
     "app": {
       "newDesign": "Nowy projekt",
@@ -10999,7 +11119,9 @@
       "suggestTitle": "Dodaj duży pogrubiony tytuł na górze i mniejszy podtytuł pod nim",
       "undo": "Cofnij",
       "openGenerator": "Przejrzyj i generuj",
-      "working": "Pracuję nad tym…"
+      "working": "Pracuję nad tym…",
+      "stop": "Zatrzymaj",
+      "queue": "Dodaj do kolejki"
     },
     "brand": {
       "addColor": "Dodaj kolor marki",
@@ -11136,7 +11258,9 @@
       "rendering": "Renderowanie wideo… {{percent}}%",
       "mp4": "Wideo MP4",
       "exportHint": "Nie zamykaj edytora podczas renderowania wideo.",
-      "tooLarge": "Ten plik jest za duży dla edytora. Limit to 400 MB."
+      "tooLarge": "Ten plik jest za duży dla edytora. Limit to 400 MB.",
+      "tZoomIn": "Powiększ",
+      "tZoomOut": "Wycofaj się"
     },
     "motion": {
       "title": "Ruch",
@@ -12315,6 +12439,28 @@
       "selection": "Wybór",
       "zoomIn": "Powiększ płótno",
       "zoomOut": "Pomniejsz płótno"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Obrót",
+      "add": "Dodaj",
+      "scale": "Rozmiar",
+      "color": "Kolor",
+      "light": "Jasny"
+    },
+    "clipFix": {
+      "listening": "Słuchanie…"
+    },
+    "voiceClone": {
+      "stop": "Zatrzymaj nagrywanie",
+      "failed": "Klonowanie głosu nie powiodło się."
+    },
+    "linkImport": {
+      "go": "Importuj",
+      "downloading": "Pobieranie {{percent}}%"
+    },
+    "reverse": {
+      "action": "Wsteczny"
     }
   },
   "creator": {
@@ -12776,7 +12922,32 @@
     "referenceProductName": "Umieść swój produkt w klipie",
     "referenceProductHint": "Zastąp wyróżniony produkt i zachowaj oryginalną scenę",
     "referenceComposeName": "Połącz obrazki odniesienia",
-    "referenceComposeHint": "Przenieś postacie, przedmioty i ustawienia z wielu obrazków do jednej kompozycji"
+    "referenceComposeHint": "Przenieś postacie, przedmioty i ustawienia z wielu obrazków do jednej kompozycji",
+    "marketing": {
+      "import": {
+        "use": "Skorzystaj z tych danych"
+      }
+    },
+    "batchCount": "Zdjęcia",
+    "endFrame": "Klatka końcowa",
+    "cinema": {
+      "close": "Zamknij",
+      "performance": {
+        "label": "Wydajność"
+      }
+    },
+    "audioNoSpeech": "W tym nagraniu nie znaleziono mowy.",
+    "audioTaskSpeechLabel": "Mowa",
+    "audioTaskDialogueLabel": "Dialog",
+    "audioTaskSfxLabel": "Efekty dźwiękowe",
+    "audioTaskVoiceChangerLabel": "Zmiana głosu",
+    "audioTaskTranscribeLabel": "Transkrypcja",
+    "audioTaskIsolateLabel": "Czyszczenie",
+    "priceFreeRateLimited": "Obowiązują bezpłatne · limity stawek",
+    "loop": "Pętla",
+    "dialogueFormat": "Napisz scenę jako \"Nazwa: linia\", jeden mówca na linię.",
+    "fileTooLarge": "Ten plik jest większy niż 100 MB. Użyj krótszego lub mniejszego.",
+    "signInToGenerate": "Zaloguj się, aby generować."
   },
   "fractions": {
     "title": "Frakcje",
@@ -14821,6 +14992,19 @@
       "intro": "Widzowie zdobywają punkt za każdą minutę oglądania i jeden za każde 100 tokeny, które podarują. Czat i reakcje nic nie zarabiają, więc punktów nie można zdobyć.",
       "empty": "Nie ma jeszcze punktów. Narastają, gdy ludzie patrzą i dają prezenty.",
       "widgetHint": "Dodaj widżet Lojalni widzowie, aby wyświetlić tę listę w strumieniu."
+    },
+    "destinations": {
+      "platform": "Platforma",
+      "label": "Nazwa (opcjonalnie)",
+      "key": "Klucz strumienia",
+      "save": "Dodaj",
+      "cancel": "Anuluj",
+      "states": {
+        "off": "Wyłączone",
+        "idle": "Gotowe",
+        "live": "Na żywo",
+        "error": "Błąd"
+      }
     }
   },
   "liveChatModeration": {
@@ -14907,7 +15091,72 @@
     "days": "{{count}} dni",
     "spotlightForSale": "Do sprzedaży teraz",
     "spotlightNew": "Tutaj właśnie mintowano",
-    "buyFor": "Kup za {{price}}"
+    "buyFor": "Kup za {{price}}",
+    "actAll": "Wszystkie",
+    "actListings": "Ogłoszenia",
+    "actOffer": "Oferta",
+    "actOffers": "Oferty",
+    "actSales": "Sprzedaż",
+    "tabActivity": "Aktywność",
+    "allChains": "Wszystkie łańcuchy",
+    "newest": "Najnowsze",
+    "cheapest": "Najniższa cena",
+    "soldFor": "Sprzedane",
+    "signIn": "Zaloguj się",
+    "title": "NFT",
+    "share": "Udostępnij",
+    "noneForSale": "Nic do sprzedania",
+    "noSales": "Brak sprzedaży jeszcze",
+    "tabBrowse": "Przeglądaj",
+    "tabMine": "Twoje",
+    "tabSales": "Sprzedaż",
+    "cancelled": "Anulowano",
+    "sold": "Sprzedane",
+    "listed": "Wystawione na sprzedaż",
+    "feeRow": "Opłata za rift ({{pct}}%)",
+    "royaltyRow": "Prowizja twórcy",
+    "youGet": "Ty dostajesz",
+    "holderGets": "Posiadacz dostaje",
+    "loading": "Ładowanie…",
+    "price": "Cena",
+    "seller": "Sprzedawca",
+    "tabRecent": "Ostatnie",
+    "buyNow": "Kup teraz",
+    "offers": "Oferty",
+    "cancel": "Anuluj",
+    "accept": "Zaakceptuj",
+    "signInToTrade": "Zaloguj się, aby handlować",
+    "listForSale": "Wystaw na sprzedaż",
+    "makeOffer": "Złóż ofertę",
+    "sendOffer": "Wyślij ofertę",
+    "back": "Wróć",
+    "dropsTo": "Cena spada do {{price}} do {{date}}",
+    "inBundle": "Sprzedawane jako zestaw {{n}}",
+    "trending": "Popularne kolekcje",
+    "floor": "Cena minimalna",
+    "listedCount": "{{n}} na sprzedaż",
+    "thisCollection": "Ta kolekcja",
+    "collectionOffer": "Złóż ofertę na dowolny",
+    "showAll": "Pokaż wszystko",
+    "shortTitle": "NFT",
+    "filters": "Filtry",
+    "forSale": "Na sprzedaż",
+    "openToOffers": "Otwarte na oferty",
+    "freshMints": "Świeżo od twórców Riftn",
+    "offersOpen": "Otwarte na oferty",
+    "mintedCount": "{{n}} wybite",
+    "anyInCollection": "Wszystkie w kolekcji",
+    "thisNft": "Ten NFT",
+    "priceAlert": "Alerty cenowe",
+    "alertUnder": "Powiadom mnie, gdy zostanie wystawiony za lub poniżej ({{symbol}}, opcjonalnie)",
+    "turnOnAlert": "Włącz alert",
+    "alertSaved": "Powiadomienia włączone. Poinformujemy Cię, gdy zostanie dodana.",
+    "priceDrop": "Cena spada z czasem",
+    "endPrice": "Najniższa cena, osiągnięta na końcu ({{symbol}})",
+    "bundleBadge": "Paczka ×{{n}}",
+    "dropBadge": "Obniżka ceny",
+    "days_one": "{{count}} dzień",
+    "days_other": "{{count}} dni"
   },
   "riftnMove": {
     "title": "DeHub to teraz Riftn",
@@ -14942,7 +15191,11 @@
       "episode": "Odcinek podcastu",
       "show": "Podcast",
       "artist": "Artysta"
-    }
+    },
+    "loading": "Ładowanie…",
+    "paused": "Pauza",
+    "preview": "Podgląd",
+    "seek": "Poszukaj"
   },
   "twoFactor": {
     "wrongCode": "Ten kod nie pasował. Spróbuj najnowszego w swojej aplikacji.",
@@ -15023,5 +15276,240 @@
   },
   "profileImage": {
     "change": "Zmień"
+  },
+  "remix": {
+    "cut": "Wytnij"
+  },
+  "signedFollows": {
+    "setUp": "Włącz",
+    "turnOff": "Wyłącz",
+    "efpTurnOff": "Zatrzymaj"
+  },
+  "postEditHistory": {
+    "original": "Oryginał"
+  },
+  "studioDeck": {
+    "remove": "Usuń",
+    "background": {
+      "title": "Tło",
+      "modes": {
+        "none": "Wyłączone",
+        "blur": "Rozmycie",
+        "color": "Kolor"
+      }
+    },
+    "scenes": {
+      "countdown": "Odliczanie do startu",
+      "names": {
+        "starting": "Już wkrótce"
+      }
+    },
+    "widgets": {
+      "tab": "Widżety"
+    },
+    "sources": {
+      "image": "Obraz",
+      "show": "Pokaż w strumieniu",
+      "positions": {
+        "center": "Środek"
+      },
+      "sizes": {
+        "small": "Mały",
+        "medium": "Średnia",
+        "large": "Duży"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Dzisiaj",
+    "earlierShort": "Wcześniej",
+    "tooSoon": "Wybierz przyszłą datę.",
+    "show": "Pokaż",
+    "hide": "Ukryj"
+  },
+  "planned": {
+    "title": "Zaplanowana",
+    "all": "Wszystkie",
+    "posts": "Posty",
+    "stages": "Pokoje audio",
+    "post": "Opublikuj",
+    "live": "Na żywo",
+    "stage": "Scena",
+    "untitledPost": "Opublikuj",
+    "untitledLive": "Na żywo",
+    "loading": "Ładowanie…",
+    "startNow": "Rozpocznij teraz",
+    "cancel": "Anuluj",
+    "cancelled": "Anulowano"
+  },
+  "welcome": {
+    "about": {
+      "title": "Witamy w Riftn",
+      "day": "Dzień",
+      "month": "Miesiąc",
+      "year": "Rok"
+    },
+    "name": {
+      "title": "Twój imię",
+      "placeholder": "Twój imię"
+    },
+    "card": {
+      "name": "Twój imię",
+      "followers": "obserwujący"
+    },
+    "topic": {
+      "music": "Muzyka",
+      "art": "Sztuka",
+      "gaming": "Gry",
+      "crypto": "Krypto",
+      "sports": "Sport",
+      "comedy": "Komedia",
+      "food": "Jedzenie",
+      "news": "Wiadomości",
+      "science": "Nauka"
+    },
+    "back": "Wróć",
+    "skipPhoto": "Na razie pomiń",
+    "preview": "Podgląd"
+  },
+  "appTokens": {
+    "title": "Twoje tokeny",
+    "history": "Historia",
+    "noHistory": "Nie ma jeszcze aktywności",
+    "kindDeposit": "Wpłać",
+    "to": "Do",
+    "amount": "Kwota",
+    "notePlaceholder": "Dodaj notatkę (opcjonalnie)",
+    "sendButton": "Wyślij",
+    "errorInsufficient": "Za mało tokenów"
+  },
+  "avatarPrompt": {
+    "notNow": "Nie teraz"
+  },
+  "postStats": {
+    "audience": "Odbiorcy",
+    "engagement": "Zaangażowanie",
+    "finished": "Zakończone",
+    "members": "Członkowie",
+    "membersLower": "członków",
+    "newFollowers": "Nowi obserwujący",
+    "noBadge": "Brak odznaki",
+    "people": "Ludzie",
+    "plays": "Sztuki",
+    "quotes": "Cytaty",
+    "reposts": "Udostępnienia",
+    "saved": "Zapisano",
+    "shares": "Udostępnienia",
+    "signedOutViewers": "Wylogowano",
+    "topSupporters": "Najlepsi kibice",
+    "visitors": "Wylogowano"
+  },
+  "duet": {
+    "policyEveryone": "Wszyscy",
+    "policyFollowers": "Obserwujący",
+    "policyNobody": "Nikt",
+    "loadMore": "Załaduj więcej",
+    "video": "Wideo"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Wszyscy",
+      "followers": "Obserwujący",
+      "nobody": "Nikt"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Wszyscy",
+      "followers": "Obserwujący",
+      "nobody": "Nikt"
+    },
+    "heading": "Reakcje alergiczne",
+    "more": "Pokaż więcej",
+    "liveNow": "Na żywo",
+    "untitled": "Reakcja"
+  },
+  "liveClips": {
+    "copyLink": "Kopiuj link",
+    "linkCopied": "Skopiowano link"
+  },
+  "liveHype": {
+    "gift": {
+      "howMany": "Ile",
+      "who": "Nazwa użytkownika lub adres portfela",
+      "whoPlaceholder": "@nazwaużytkownika",
+      "cancel": "Anuluj",
+      "stage": {
+        "preparing": "Przygotowywanie…",
+        "confirming": "Oczekiwanie na transakcję…",
+        "recording": "Kończenie…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Inne",
+    "confirming": "Potwierdzam płatność…"
+  },
+  "liveShorts": {
+    "live": "NA ŻYWO"
+  },
+  "feedFilters": {
+    "clearAllShort": "Wyczyść wszystko",
+    "done": "Zrobione",
+    "edit": "Edytuj",
+    "groupDate": "Data",
+    "groupSort": "Sortuj",
+    "groupType": "Typ",
+    "save": "Zapisz"
+  },
+  "ownKeys": {
+    "working": "W trakcie",
+    "failed": "Coś poszło nie tak. Spróbuj ponownie.",
+    "check": "Sprawdź",
+    "remove": "Usuń",
+    "save": "Zapisz",
+    "cancel": "Anuluj"
+  },
+  "postBg": {
+    "none": "Brak",
+    "yours": "Twoje",
+    "accent": "Akcent",
+    "names": {
+      "lava": "Lampa lawowa",
+      "drive": "Jazda nocą",
+      "chrome": "Chrom w płynie",
+      "snow": "Opady śniegu"
+    }
+  },
+  "articleTile": {
+    "cover": "Okładka"
+  },
+  "aiConsent": {
+    "allow": "Zezwól"
+  },
+  "dmRequests": {
+    "title": "Zgłoszenia",
+    "accept": "Akceptuj",
+    "delete": "Usuń",
+    "block": "Blok"
+  },
+  "dmSchedule": {
+    "view": "Zobacz",
+    "edit": "Edytuj",
+    "editLabel": "Edytuj wiadomość",
+    "error": "To nie zadziałało. Spróbuj ponownie."
+  },
+  "chatBulk": {
+    "selected": "{{count}} wybrano",
+    "cancel": "Anuluj",
+    "reply": "Odpowiedz",
+    "delete": "Usuń"
+  },
+  "msgSelect": {
+    "selected": "{{count}} wybrano",
+    "copy": "Kopiuj",
+    "forward": "Przekaż dalej",
+    "deleted_one": "Usunięto {{count}} wiadomość",
+    "deleted_other": "Usunięto {{count}} wiadomości"
   }
 }

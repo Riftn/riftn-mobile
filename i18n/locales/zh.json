@@ -5,7 +5,12 @@
     "converted": "现在以漫画显示",
     "unconverted": "现在以轮播显示",
     "convertFailed": "无法更改布局",
-    "showAll": "显示全部 {{count}} 页"
+    "showAll": "显示全部 {{count}} 页",
+    "tab": "漫画",
+    "title": "漫画",
+    "editor": {
+      "cover": "封面"
+    }
   },
   "comicBorder": {
     "title": "边框",
@@ -2484,7 +2489,14 @@
     "cbade2afaee2": "本周在 Audius 上的热门。免费使用，艺术家会在您的帖子中获得署名。",
     "d2e45b7406fc": "来自维基共享资源的公共领域和创作共用音乐。艺术家会在您的帖子中获得署名。",
     "d0c1a3684775": "歌曲未加载。稍后再试。",
-    "d14064f80f52": "添加音效"
+    "d14064f80f52": "添加音效",
+    "71988c4d8e08": "文本",
+    "147170e793c6": "宽",
+    "481859b689b0": "请检查您的网络连接，然后重试。",
+    "57e2faa5ec63": "搜索 Riftn",
+    "7db20897053b": "人员",
+    "96d7bff86b44": "搜索无法加载",
+    "d8b8392e2c54": "再试一次"
   },
   "dehubLinks": {
     "kind": {
@@ -2733,7 +2745,8 @@
       "quote": "报价",
       "bullets": "项目符号列表",
       "numbers": "编号列表",
-      "link": "链接"
+      "link": "链接",
+      "image": "添加图片"
     }
   },
   "storefront": {
@@ -3743,7 +3756,11 @@
     "payDirectNoName": "以 {{chain}} 上的 {{symbol}} 直接发送给创作者，无需兑换。",
     "payViaBridgeDpay": "已移至 Base 并支付给 Riftn Pay，代币约一分钟后到账",
     "tokensUnit": "代币",
-    "tokenAmount": "{{amount}} 代币"
+    "tokenAmount": "{{amount}} 代币",
+    "addMessage": "添加消息（可选）",
+    "messagePublic": "公开",
+    "railTitle": "打赏",
+    "railTotal": "{{amount}} 代币"
   },
   "postOptions": {
     "skippableSections": "可跳过的部分",
@@ -4477,7 +4494,8 @@
       "governanceVotedRejected": "一个你投票的提案没有通过：“{{title}}”",
       "governancePassed": "你的提议“{{title}}”通过了 🎉",
       "governanceRejected": "你的提议“{{title}}”未通过"
-    }
+    },
+    "searchClose": "關閉搜索"
   },
   "leaderboard": {
     "title": "排行榜",
@@ -4669,7 +4687,18 @@
     "promptMediaError": "选择每张小于20MB的图片或视频。",
     "promptMediaLimit": "最多{{max}}个附件。",
     "removePromptAttachment": "移除{{name}}",
-    "promptAttachment": "附件{{number}}"
+    "promptAttachment": "附件{{number}}",
+    "deviceInfoNoErrors": "无",
+    "topBuilders": {
+      "month": "本月",
+      "allTime": "全部时间",
+      "shipped": "已发布",
+      "votes": "投票",
+      "comments": "评论",
+      "showLess": "显示更多",
+      "viewProfile": "查看资料",
+      "you": "您"
+    }
   },
   "auth": {
     "loginRequired": "需要登录",
@@ -4944,7 +4973,17 @@
     "likesEmptyOwn": "你点赞的帖子会显示在这里。除非在设置中打开“向所有人显示我的点赞”，否则只有你能看到。",
     "likesEmptyOther": "还没有点赞任何内容。",
     "likesPrivateTitle": "点赞是私密的",
-    "likesPrivateDesc": "此账号不公开其点赞。"
+    "likesPrivateDesc": "此账号不公开其点赞。",
+    "articleShort": "文章",
+    "articleMinRead": "{{count}} 分钟阅读",
+    "pinnedShort": "已置顶",
+    "post": "帖子",
+    "arrange": {
+      "saving": "保存中..."
+    },
+    "reserve": {
+      "signIn": "登录"
+    }
   },
   "tv": {
     "title": "电视",
@@ -5460,7 +5499,10 @@
     "agentDisplayName": "显示名称",
     "agentDisplayNamePlaceholder": "在 Riftn 上的代理如何显示",
     "capacity": "{{used}}中的{{limit}}个代理 · {{badge}}",
-    "noBadge": "无徽章"
+    "noBadge": "无徽章",
+    "welcome": {
+      "text": "欢迎语"
+    }
   },
   "hero": {
     "title": "欢迎来到",
@@ -5545,7 +5587,16 @@
     "nowPublic": "Flow现已公开",
     "openCanvas": "打开画布",
     "playVideo": "播放视频",
-    "signInToSee": "登录以查看您账号中的流程。"
+    "signInToSee": "登录以查看您账号中的流程。",
+    "newNativeFlow": "新建流程",
+    "model": "模型",
+    "aspectRatio": "宽高比",
+    "duration": "持续时间（秒）",
+    "resolution": "分辨率",
+    "disconnect": "断开连接",
+    "payAndRun": "支付并运行",
+    "run": "运行",
+    "handlePrompt": "提示"
   },
   "loginModal": {
     "title": "登录",
@@ -6472,7 +6523,8 @@
       "copied": "消息已复制",
       "copyText": "复制文本",
       "mutedUntil": "您已静音，直到{{date}}",
-      "slowMode": "慢速模式：每{{interval}}一条消息"
+      "slowMode": "慢速模式：每{{interval}}一条消息",
+      "aiAdminFailed": "AI管理员未响应"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6707,6 +6759,32 @@
       "invalidLink": "粘贴 Riftn 帖子链接或帖子 ID。",
       "unavailable": "此帖子不可用。",
       "signIn": "重新登录以管理社区帖子。"
+    },
+    "buyAlert": {
+      "spent": "已花费：",
+      "buyer": "买方：",
+      "txn": "交易",
+      "balance": "余额：",
+      "price": "价格：",
+      "marketCap": "市值："
+    },
+    "newChat": {
+      "public": "公开",
+      "private": "私密",
+      "free": "免费",
+      "paid": "已付款",
+      "group": "分组"
+    },
+    "holderGate": {
+      "chain": "链",
+      "which": "代币",
+      "tab": "持有者"
+    },
+    "automod": {
+      "bannedWords": "禁止使用的词语",
+      "floodMax": "{{count}} 消息",
+      "saved": "已保存",
+      "wordCount": "{{count}}字"
     }
   },
   "work": {
@@ -8844,7 +8922,38 @@
     "coverFrames": "选择封面帧",
     "coverFrame": "使用第 {{index}} 帧作为封面",
     "uploadCover": "上传封面图片",
-    "editFailed": "无法应用此编辑，请重试。"
+    "editFailed": "无法应用此编辑，请重试。",
+    "altPlaceholderVideo": "描述这个视频",
+    "preview": {
+      "title": "预览"
+    },
+    "recent": {
+      "all": "全部"
+    },
+    "studio": {
+      "crop": "裁剪",
+      "draw": "绘图",
+      "light": "浅色",
+      "contrast": "对比度",
+      "warmth": "温暖",
+      "colour": "颜色",
+      "fade": "淡入淡出",
+      "original": "原始",
+      "ratioOriginal": "原始",
+      "ratioFree": "免费",
+      "rotate": "旋转",
+      "strength": "强度",
+      "stickers": "贴纸",
+      "ticker": "行情",
+      "textBg": "背景",
+      "font": {
+        "bold": "粗体",
+        "serif": "书体",
+        "mono": "黑白"
+      }
+    },
+    "edited": "已编辑",
+    "edit": "编辑"
   },
   "bounty": {
     "claimed": "已领取",
@@ -9138,7 +9247,8 @@
     "justChatting": "闲聊",
     "noLiveStreams": "没有直播",
     "noOneStreaming": "现在没有人在直播，请稍后再来！",
-    "loadStreamsFailed": "无法加载直播，请重试。"
+    "loadStreamsFailed": "无法加载直播，请重试。",
+    "liveBadge": "直播中"
   },
   "liveShop": {
     "title": "在本场直播购物",
@@ -9472,7 +9582,14 @@
     "shareGroups": "群组",
     "shareKindGroup": "群组",
     "shareKindChannel": "频道",
-    "shareKindCommunity": "社区"
+    "shareKindCommunity": "社区",
+    "newDrawer": {
+      "to": "到"
+    },
+    "download": "下载",
+    "deleteOneTitle": "删除此消息？",
+    "retrySend": "重试",
+    "discardSend": "移除"
   },
   "editPost": {
     "mediaPermission": "需要媒体库权限",
@@ -10597,7 +10714,11 @@
       "translateCount": "翻译 {{count}} 条字幕",
       "translationDone": "已翻译 {{count}} 条字幕",
       "translationFailed": "字幕翻译失败。字幕未更改。",
-      "lockedTranslation": "解锁已锁定的字幕以将其包含在内。"
+      "lockedTranslation": "解锁已锁定的字幕以将其包含在内。",
+      "styles": {
+        "bold": "粗体",
+        "serif": "书体"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10847,7 +10968,9 @@
       "suggestTitle": "在顶部添加一个大号粗体标题，并在下方添加一个较小的副标题",
       "undo": "撤销",
       "openGenerator": "查看并生成",
-      "working": "正在处理…"
+      "working": "正在处理…",
+      "stop": "停止",
+      "queue": "添加到队列"
     },
     "brand": {
       "addColor": "添加品牌颜色",
@@ -10984,7 +11107,9 @@
       "rendering": "正在渲染视频… {{percent}}%",
       "mp4": "MP4 视频",
       "exportHint": "视频渲染期间请保持编辑器打开。",
-      "tooLarge": "该文件太大，编辑器无法处理。上限为 400 MB。"
+      "tooLarge": "该文件太大，编辑器无法处理。上限为 400 MB。",
+      "tZoomIn": "放大",
+      "tZoomOut": "缩小"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12257,6 +12382,28 @@
       "matchDuration": "匹配的片段比请求的视频短。缩短时长或选择更多媒体。",
       "matchFailed": "场景匹配不可用。你的选定的剪辑和时长保持不变。你可以手动查看它们。",
       "reviewManually": "手动查看剪辑"
+    },
+    "stage": {
+      "camera": "相机",
+      "yaw": "旋转",
+      "add": "添加",
+      "scale": "大小",
+      "color": "颜色",
+      "light": "浅色"
+    },
+    "clipFix": {
+      "listening": "正在聆听…"
+    },
+    "voiceClone": {
+      "stop": "停止录音",
+      "failed": "语音克隆失败。"
+    },
+    "linkImport": {
+      "go": "导入",
+      "downloading": "下载中 {{percent}}%"
+    },
+    "reverse": {
+      "action": "反向"
     }
   },
   "creator": {
@@ -12718,7 +12865,32 @@
     "presetOpenViaductTrainName": "高架桥列车",
     "presetOpenViaductTrainHint": "静止的广角，亮着的窗户和长焦距深度",
     "presetOpenTowerTiltName": "塔楼倾斜",
-    "presetOpenTowerTiltHint": "慢慢向下倾斜，落入阴天的城市"
+    "presetOpenTowerTiltHint": "慢慢向下倾斜，落入阴天的城市",
+    "marketing": {
+      "import": {
+        "use": "使用这些详细信息"
+      }
+    },
+    "batchCount": "图片",
+    "endFrame": "结束帧",
+    "cinema": {
+      "close": "关闭",
+      "performance": {
+        "label": "性能"
+      }
+    },
+    "audioNoSpeech": "在该录音中未检测到语音。",
+    "audioTaskSpeechLabel": "语音",
+    "audioTaskDialogueLabel": "对白",
+    "audioTaskSfxLabel": "音效",
+    "audioTaskVoiceChangerLabel": "变声",
+    "audioTaskTranscribeLabel": "转写",
+    "audioTaskIsolateLabel": "降噪",
+    "priceFreeRateLimited": "免费·适用速率限制",
+    "loop": "循环",
+    "dialogueFormat": "请按「姓名：台词」的格式书写，每行一位说话人。",
+    "fileTooLarge": "该文件超过 100 MB。请用更短或更小的文件。",
+    "signInToGenerate": "登录后才能生成。"
   },
   "fractions": {
     "title": "碎片",
@@ -14714,6 +14886,19 @@
       "intro": "观众每观看一分钟即可获得积分，每送出100 DHB即可获得积分。聊天和反应赚不到钱，因此积分无法累积。",
       "empty": "还没有积分。它们随着人们的观看和赠送而积累。",
       "widgetHint": "添加忠实观众小部件以在视频流中显示此列表。"
+    },
+    "destinations": {
+      "platform": "平台",
+      "label": "姓名（选填）",
+      "key": "推流密钥",
+      "save": "添加",
+      "cancel": "取消",
+      "states": {
+        "off": "关闭",
+        "idle": "已就绪",
+        "live": "直播",
+        "error": "错误"
+      }
     }
   },
   "liveChatModeration": {
@@ -14927,7 +15112,73 @@
     "days": "{{count}}天",
     "spotlightForSale": "现出售",
     "spotlightNew": "刚铸造的",
-    "buyFor": "为 {{price}} 购买"
+    "buyFor": "为 {{price}} 购买",
+    "actAll": "全部",
+    "actListings": "商品",
+    "actOffer": "报价",
+    "actOffers": "出价",
+    "actSales": "销售",
+    "tabActivity": "活动",
+    "allChains": "所有链",
+    "newest": "最新",
+    "cheapest": "最低价格",
+    "soldFor": "已售出",
+    "signIn": "登录",
+    "title": "NFT",
+    "share": "分享",
+    "noneForSale": "还没有在售的碎片",
+    "noSales": "没有销售",
+    "tabBrowse": "浏览",
+    "tabMine": "你的",
+    "tabSales": "销售",
+    "cancelled": "已取消",
+    "sold": "已售出",
+    "listed": "已挂出",
+    "feeRow": "交易费 ({{pct}}%)",
+    "royaltyRow": "创作者版税",
+    "youGet": "你得到",
+    "holderGets": "持有人得到",
+    "loading": "载入中…",
+    "price": "价格",
+    "seller": "卖家",
+    "tabRecent": "最近",
+    "buyNow": "立即购买",
+    "offers": "报价",
+    "cancel": "取消",
+    "accept": "接受",
+    "signInToTrade": "登录交易",
+    "listForSale": "列为出售",
+    "makeOffer": "报价",
+    "sendOffer": "发送报价",
+    "back": "返回",
+    "dropsTo": "价格将于 {{date}} 下降至 {{price}}",
+    "inBundle": "以 {{n}} 的捆绑包形式出售",
+    "trending": "流行的收藏",
+    "floor": "地板价",
+    "listedCount": "{{n}} 出售",
+    "thisCollection": "这个收藏",
+    "collectionOffer": "在任何地方报价",
+    "showAll": "显示所有",
+    "shortTitle": "NFT",
+    "filters": "过滤器",
+    "forSale": "出售",
+    "openToOffers": "接受报价",
+    "freshMints": "来自 Riftn 创作者的新鲜 NFT",
+    "offersOpen": "接受报价",
+    "mintedCount": "{{n}} 已铸造",
+    "anyInCollection": "收藏中的任何一项",
+    "thisNft": "此NFT",
+    "priceAlert": "价格警报",
+    "alertUnder": "当价格达到或低于 ({{symbol}}，可选) 时通知我",
+    "turnOnAlert": "开启警报",
+    "alertSaved": "提醒开启。我们会告诉你当有人列出时。",
+    "priceDrop": "价格随时间下降",
+    "endPrice": "最低价格，在结束时达到 ({{symbol}})",
+    "bundleBadge": "套装 ×{{n}}",
+    "dropBadge": "价格下降",
+    "days_one": "{{count}} 天",
+    "days_other": "{{count}} 天",
+    "dehubPostsName": "Riftn 文章"
   },
   "riftnMove": {
     "title": "DeHub 现已更名为 Riftn",
@@ -14962,7 +15213,11 @@
       "episode": "播客节目",
       "show": "播客",
       "artist": "艺术家"
-    }
+    },
+    "loading": "载入中…",
+    "paused": "暂停",
+    "preview": "预览",
+    "seek": "尋找"
   },
   "twoFactor": {
     "wrongCode": "该代码不匹配。请尝试应用中的最新代码。",
@@ -15043,5 +15298,249 @@
   },
   "profileImage": {
     "change": "更改"
+  },
+  "remix": {
+    "cut": "剪切"
+  },
+  "signedFollows": {
+    "setUp": "开启",
+    "turnOff": "关闭",
+    "efpTurnOff": "停止"
+  },
+  "postEditHistory": {
+    "original": "原图"
+  },
+  "studioDeck": {
+    "remove": "移除",
+    "background": {
+      "title": "背景",
+      "modes": {
+        "none": "关闭",
+        "blur": "模糊",
+        "color": "颜色"
+      }
+    },
+    "scenes": {
+      "countdown": "倒数排行",
+      "minutes": "{{count}} 分钟",
+      "names": {
+        "starting": "即将开始"
+      }
+    },
+    "widgets": {
+      "tab": "小工具"
+    },
+    "sources": {
+      "image": "图像",
+      "show": "直播中展示",
+      "positions": {
+        "center": "居中"
+      },
+      "sizes": {
+        "small": "小",
+        "medium": "中",
+        "large": "大"
+      }
+    },
+    "phone": {
+      "title": "工作室"
+    }
+  },
+  "whenSheet": {
+    "today": "今天",
+    "earlierShort": "更早",
+    "tooSoon": "选择一个未来的时间。",
+    "show": "显示",
+    "hide": "隐藏"
+  },
+  "planned": {
+    "title": "已计划",
+    "all": "全部",
+    "posts": "帖子",
+    "stages": "语音房",
+    "post": "帖子",
+    "live": "直播",
+    "stage": "舞台",
+    "untitledPost": "帖子",
+    "untitledLive": "直播",
+    "loading": "正在加载…",
+    "startNow": "立即开始",
+    "cancel": "取消",
+    "cancelled": "已取消"
+  },
+  "welcome": {
+    "about": {
+      "title": "欢迎来到 Riftn",
+      "day": "日",
+      "month": "月",
+      "year": "年"
+    },
+    "name": {
+      "title": "你的名字",
+      "placeholder": "你的名字"
+    },
+    "card": {
+      "name": "你的名字",
+      "followers": "关注者"
+    },
+    "topic": {
+      "music": "音乐",
+      "art": "艺术",
+      "gaming": "游戏",
+      "crypto": "加密货币",
+      "sports": "体育",
+      "comedy": "喜剧",
+      "film": "电影",
+      "podcast": "播客",
+      "food": "食物",
+      "news": "新闻",
+      "science": "科学"
+    },
+    "back": "返回",
+    "skipPhoto": "暂时跳过",
+    "preview": "预览"
+  },
+  "appTokens": {
+    "title": "您的代币",
+    "history": "历史",
+    "noHistory": "尚无活动",
+    "kindDeposit": "存入",
+    "to": "到",
+    "amount": "金额",
+    "notePlaceholder": "添加备注（可选）",
+    "sendButton": "发送",
+    "errorInsufficient": "代币不足"
+  },
+  "avatarPrompt": {
+    "notNow": "以后再说"
+  },
+  "postStats": {
+    "audience": "受众",
+    "engagement": "互动",
+    "finished": "已结束",
+    "members": "成员",
+    "membersLower": "成员",
+    "newFollowers": "新粉丝",
+    "noBadge": "无徽章",
+    "people": "用户",
+    "plays": "播放次数",
+    "quotes": "引用",
+    "reposts": "转发",
+    "saved": "已保存",
+    "shares": "分享",
+    "signedOutViewers": "已退出登录",
+    "topSupporters": "顶级支持者",
+    "visitors": "已退出登录"
+  },
+  "duet": {
+    "policyEveryone": "所有人",
+    "policyFollowers": "粉丝",
+    "policyNobody": "无人",
+    "loadMore": "加载更多",
+    "video": "视频"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "所有人",
+      "followers": "粉丝",
+      "nobody": "无人"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "所有人",
+      "followers": "粉丝",
+      "nobody": "无人"
+    },
+    "heading": "反应",
+    "more": "显示更多",
+    "liveNow": "直播",
+    "untitled": "反应"
+  },
+  "liveClips": {
+    "copyLink": "复制链接",
+    "linkCopied": "链接已复制"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "方案",
+      "howMany": "数量",
+      "who": "用户名或钱包地址",
+      "whoPlaceholder": "@用户名",
+      "cancel": "取消",
+      "stage": {
+        "preparing": "准备中…",
+        "confirming": "正在等待交易…",
+        "recording": "正在收尾…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "其他",
+    "confirming": "正在确认付款…"
+  },
+  "liveShorts": {
+    "live": "直播中"
+  },
+  "feedFilters": {
+    "clearAllShort": "清除全部",
+    "done": "完成",
+    "edit": "编辑",
+    "groupDate": "日期",
+    "groupSort": "排序",
+    "groupType": "类型",
+    "save": "保存"
+  },
+  "ownKeys": {
+    "working": "处理中",
+    "failed": "出错了。请重试。",
+    "check": "检查",
+    "remove": "移除",
+    "save": "保存",
+    "cancel": "取消"
+  },
+  "postBg": {
+    "none": "无",
+    "yours": "你的",
+    "accent": "音调",
+    "names": {
+      "aurora": "奥罗拉",
+      "lava": "熔岩灯",
+      "drive": "夜间驾驶",
+      "chrome": "液态铬",
+      "orbit": "环绕",
+      "snow": "降雪"
+    }
+  },
+  "articleTile": {
+    "cover": "封面"
+  },
+  "aiConsent": {
+    "allow": "允许"
+  },
+  "dmRequests": {
+    "title": "需求",
+    "accept": "接受",
+    "delete": "删除",
+    "block": "屏蔽"
+  },
+  "dmSchedule": {
+    "view": "查看",
+    "edit": "编辑",
+    "editLabel": "编辑消息",
+    "error": "无效。请重试。"
+  },
+  "chatBulk": {
+    "selected": "{{count}} 已选择",
+    "cancel": "取消",
+    "reply": "回复",
+    "delete": "删除"
+  },
+  "msgSelect": {
+    "selected": "{{count}} 已选择",
+    "copy": "复制",
+    "forward": "转发",
+    "deleted_one": "删除 {{count}} 消息",
+    "deleted_other": "删除 {{count}} 条消息"
   }
 }
