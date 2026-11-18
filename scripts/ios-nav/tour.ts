@@ -1229,13 +1229,17 @@ async function runWallet(): Promise<void> {
     await sleep(1500);
   }
   await sleep(12000);
-  nav.navigate(ScreenNames.SignIn);
+  // The app stack's sign-in page (the one "Log in" opens), not the first-run
+  // stack's: on iPhone it is a native modal.
+  (nav as any).navigate(ScreenNames.App, { screen: ScreenNames.SignIn });
   await sleep(6000);
   extra.route = nav.getCurrentRoute()?.name;
+  const state = nav.getRootState();
+  extra.stack = state?.routes[state.index]?.name;
   await shot("wallet-1-sign-in");
   await sleep(700);
   const reown = require("../../config/reown.config") as typeof import("../../config/reown.config");
-  await AsyncStorage.setItem(SWIPE_KEY, "find:wallet-button:Connect Wallet");
+  await AsyncStorage.setItem(SWIPE_KEY, "find:wallet-button:Wallet");
   await sleep(9000);
   extra.openByTap = !!reown.getAppKitInstance()?.getState().open;
   if (!extra.openByTap) {
@@ -1245,10 +1249,12 @@ async function runWallet(): Promise<void> {
     await sleep(5000);
   }
   extra.pickerOpen = !!reown.getAppKitInstance()?.getState().open;
+  // Held open for a while: the pictures are taken by the script outside the
+  // app, a little after they are asked for.
   await shot("wallet-2-picker");
-  await sleep(4000);
+  await sleep(8000);
   await shot("wallet-3-picker-settled");
-  await sleep(700);
+  await sleep(8000);
   reown.getAppKitInstance()?.close();
   await sleep(1500);
   await shot("wallet-4-closed");
