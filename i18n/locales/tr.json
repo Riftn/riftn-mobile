@@ -16693,8 +16693,27 @@
       "spin": "Dönen prizma",
       "tide": "Gelgit",
       "ember": "Közler",
-      "holo": "Holo folyo"
-    }
+      "holo": "Holo folyo",
+      "rift": "Yarık",
+      "chrome": "Sıvı Krom",
+      "mesh": "Ağ",
+      "grain": "Film Greni",
+      "orbit": "Yörünge",
+      "ripple": "Dalgacık",
+      "dotwave": "Nokta Dalgası",
+      "scan": "CRT",
+      "silk": "İpek",
+      "bokeh": "Bokeh",
+      "snow": "Kar Yağışı",
+      "photo": "Senin resmin"
+    },
+    "yours": "Seninkiler",
+    "base": "Taban",
+    "accent": "Vurgu",
+    "accent2": "Vurgu 2",
+    "ownColours": "Kendi renklerin",
+    "addPhoto": "Resim veya GIF ekle",
+    "changePhoto": "Resmi veya GIF'i değiştir"
   },
   "riftnMove": {
     "title": "DeHub artık Riftn",
