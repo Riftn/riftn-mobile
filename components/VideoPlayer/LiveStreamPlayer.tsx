@@ -1389,6 +1389,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     enabled: Platform.OS !== "android" && isPlayable && isLiveEffective && !isPlayingReplay && !bigEvent,
     stream: { playbackId, provider: streamEntity?.provider },
     muted: isMuted,
+    paused: isPausedEffective,
   });
 
   /**

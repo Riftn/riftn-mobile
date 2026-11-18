@@ -7580,6 +7580,8 @@
     "allDisabled": "جميع الرسائل الخاصة معطّلة حاليًا، والرسائل الجديدة محظورة افتراضيًا.",
     "failedToEdit": "فشل تحرير المستخدم:",
     "messageDeleted": "تم حذف الرسالة",
+    "deleteOneTitle": "حذف هذه الرسالة؟",
+    "deleteForBothBody": "سيتم حذفها لكليكما.",
     "cantForwardFromDevice": "لا يمكن إعادة توجيه هذه الرسالة من هذا الجهاز",
     "messageForwarded": "تم إعادة توجيه الرسالة",
     "clearMessages": "مسح  الرسائل",
@@ -9099,9 +9101,9 @@
       "pptxHint": "تصبح كل صفحة صورة شريحة واحدة، مع ملاحظات مقدم العرض والروابط. تحرير النص والعناصر الفردية في التصميم الأصلي.",
       "section": "القسم المسمى",
       "transparent": "خلفية شفافة",
-      "filenameHint": "اتركه فارغًا لاستخدام الأسماء الافتراضية. استخدم {title} أو {name} أو {section} أو {page} أو {page:3}. أضف بادئة كنص عادي. تحصل الأسماء المكررة على لاحقة برقم الصفحة.",
       "nle": "Premiere / Final Cut / Resolve (XML)",
-      "nleHint": "ينزّل ملف ZIP يضم المخطط الزمني بصيغتي FCPXML وPremiere XML مع كل ملفات الوسائط، لتكمل التعديل في Premiere Pro أو Final Cut Pro أو DaVinci Resolve. يتحول النص إلى علامات وتبقى المؤثرات في Riftn."
+      "nleHint": "ينزّل ملف ZIP يضم المخطط الزمني بصيغتي FCPXML وPremiere XML مع كل ملفات الوسائط، لتكمل التعديل في Premiere Pro أو Final Cut Pro أو DaVinci Resolve. يتحول النص إلى علامات وتبقى المؤثرات في Riftn.",
+      "filenameHint": "اتركه فارغًا لاستخدام الأسماء الافتراضية. استخدم {title} أو {name} أو {section} أو {page} أو {page:3}. أضف بادئة كنص عادي. تحصل الأسماء المكررة على لاحقة برقم الصفحة."
     },
     "adjust": {
       "auto": "تحسين تلقائي",
@@ -16714,8 +16716,27 @@
       "spin": "منشور دوّار",
       "tide": "مدّ وجزر",
       "ember": "جمر",
-      "holo": "رقاقة هولوغرامية"
-    }
+      "holo": "رقاقة هولوغرامية",
+      "rift": "الصدع",
+      "chrome": "كروم سائل",
+      "mesh": "شبكة",
+      "grain": "حبيبات الفيلم",
+      "orbit": "مدار",
+      "ripple": "تموج",
+      "dotwave": "موجة النقاط",
+      "scan": "CRT",
+      "silk": "حرير",
+      "bokeh": "بوكيه",
+      "snow": "تساقط الثلج",
+      "photo": "صورتك"
+    },
+    "yours": "خلفياتك",
+    "base": "الأساس",
+    "accent": "لون مميز",
+    "accent2": "لون مميز 2",
+    "ownColours": "ألوانك الخاصة",
+    "addPhoto": "أضف صورة أو GIF",
+    "changePhoto": "غيّر الصورة أو GIF"
   },
   "riftnMove": {
     "title": "أصبح DeHub الآن Riftn",
@@ -16914,6 +16935,7 @@
     "notSent": "تعذر الإرسال. حاول مرة أخرى."
   },
   "msgSelect": {
+    "deleteForBothBody": "سيتم حذفها لكليكما.",
     "toolbar": "الرسائل المحددة",
     "pick": "اضغط على الرسائل لتحديدها",
     "selected": "تم تحديد {{count}}",
@@ -16931,5 +16953,8 @@
     "deleteBody": "ستُحذف للجميع في هذه المحادثة.",
     "deleted_one": "تم حذف {{count}} رسالة",
     "deleted_other": "تم حذف {{count}} رسائل"
+  },
+  "profileImage": {
+    "change": "تغيير"
   }
 }

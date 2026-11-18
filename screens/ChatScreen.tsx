@@ -1596,15 +1596,28 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [contextMessage, toggleReaction],
   );
 
+  // One-to-one chat: like Telegram, either person can delete any message, for both of them.
   const handleDelete = useCallback(() => {
     if (!contextMessage || !currentConvId) return;
-    ws.emitAuthed(DMSocketEvent.DeleteMessage, {
-      dmId: currentConvId,
-      messageId: contextMessage._id,
-    });
-    dmActions.removeMessage({ dmId: currentConvId, messageId: contextMessage._id });
-    toastSuccess(t("dm.messageDeleted"));
+    const target = contextMessage;
+    const convId = currentConvId;
     closeContextMenu();
+    Alert.alert(
+      t("dm.deleteOneTitle", { defaultValue: "Delete this message?" }),
+      t("dm.deleteForBothBody", { defaultValue: "It will be removed for both of you." }),
+      [
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("common.delete"),
+          style: "destructive",
+          onPress: () => {
+            ws.emitAuthed(DMSocketEvent.DeleteMessage, { dmId: convId, messageId: target._id });
+            dmActions.removeMessage({ dmId: convId, messageId: target._id });
+            toastSuccess(t("dm.messageDeleted"));
+          },
+        },
+      ],
+    );
   }, [contextMessage, currentConvId, ws, closeContextMenu]);
 
   const handleForward = useCallback(() => {
@@ -1698,7 +1711,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     () => (pickedMsgs ? messageList.filter((m) => pickedMsgs.has(m._id)).reverse() : []),
     [pickedMsgs, messageList],
   );
-  const pickedOwn = useMemo(() => pickedList.filter((m) => isMine(m)), [pickedList, isMine]);
+  // One-to-one chat: every picked message can be deleted for both of you.
+  const pickedOwn = pickedList;
   const togglePick = useCallback((m: DmMessage) => {
     setPickedMsgs((prev) => {
       const next = new Set(prev ?? []);
@@ -1742,7 +1756,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     const list = pickedOwn;
     Alert.alert(
       t("msgSelect.deleteTitle", { defaultValue: "Delete {{count}} messages?", count: list.length }),
-      t("msgSelect.deleteBody", { defaultValue: "They will be removed for everyone in this chat." }),
+      t("msgSelect.deleteForBothBody", { defaultValue: "They will be removed for both of you." }),
       [
         { text: t("common.cancel"), style: "cancel" },
         {
@@ -2403,6 +2417,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           onForward={handleForward}
           onSelect={handleSelect}
           onDelete={handleDelete}
+          canDeleteAny
           onPin={handlePinMessage}
           onUnpin={handleUnpinMessage}
           isPinned={contextMessage ? pinnedMessageId === contextMessage._id : false}

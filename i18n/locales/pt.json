@@ -5,7 +5,12 @@
     "converted": "Agora aparece como quadrinho",
     "unconverted": "Agora aparece como carrossel",
     "convertFailed": "Não foi possível mudar o layout",
-    "showAll": "Ver todas as {{count}} páginas"
+    "showAll": "Ver todas as {{count}} páginas",
+    "tab": "Quadrinho",
+    "title": "Quadrinho",
+    "editor": {
+      "cover": "Capa"
+    }
   },
   "comicBorder": {
     "title": "Borda",
@@ -2521,7 +2526,9 @@
     "cbade2afaee2": "Em alta esta semana no Audius. Gratuito para uso, o artista recebe crédito na sua publicação.",
     "d2e45b7406fc": "Domínio público e música Creative Commons da Wikimedia Commons. O artista recebe crédito na sua publicação.",
     "d0c1a3684775": "As músicas não carregaram. Tente novamente em um momento.",
-    "d14064f80f52": "Adicionar som"
+    "d14064f80f52": "Adicionar som",
+    "71988c4d8e08": "Texto",
+    "147170e793c6": "Largo"
   },
   "dehubLinks": {
     "kind": {
@@ -2771,7 +2778,8 @@
       "quote": "Citação",
       "bullets": "Lista de itens marcados com um círculo",
       "numbers": "Lista numerada",
-      "link": "Associar"
+      "link": "Associar",
+      "image": "Adicionar imagens"
     }
   },
   "storefront": {
@@ -4530,7 +4538,8 @@
       "governanceVotedRejected": "Uma proposta em que você votou não foi aprovada: “{{title}}”",
       "governancePassed": "Sua proposta “{{title}}” foi aprovada 🎉",
       "governanceRejected": "Sua proposta “{{title}}” não foi aprovada"
-    }
+    },
+    "searchClose": "Fechar pesquisa"
   },
   "leaderboard": {
     "title": "Classificação",
@@ -4722,7 +4731,18 @@
     "promptMediaError": "Escolha imagens ou vídeos com até 20MB cada.",
     "promptMediaLimit": "Até {{max}} anexos.",
     "removePromptAttachment": "Remover {{name}}",
-    "promptAttachment": "Anexo {{number}}"
+    "promptAttachment": "Anexo {{number}}",
+    "deviceInfoNoErrors": "Nenhum",
+    "topBuilders": {
+      "month": "Este mês",
+      "allTime": "Todo o tempo",
+      "shipped": "Entregues",
+      "votes": "Votos",
+      "comments": "Comentários",
+      "showLess": "Mostrar menos",
+      "viewProfile": "Ver perfil",
+      "you": "Você"
+    }
   },
   "auth": {
     "loginRequired": "Login necessário",
@@ -5025,7 +5045,11 @@
     "likesEmptyOwn": "Os posts que você curte aparecem aqui. Só você pode vê-los, a menos que ative Mostrar minhas curtidas nas Configurações.",
     "likesEmptyOther": "Nada curtido ainda.",
     "likesPrivateTitle": "Curtidas são privadas",
-    "likesPrivateDesc": "Esta conta mantém as curtidas só para si."
+    "likesPrivateDesc": "Esta conta mantém as curtidas só para si.",
+    "articleMinRead": "{{count}} min de leitura",
+    "reserve": {
+      "signIn": "Entrar"
+    }
   },
   "tv": {
     "title": "TV",
@@ -6112,7 +6136,10 @@
     "tabReplies": "Respostas",
     "tabQuotes": "Citações",
     "tabReposts": "Repostagens",
-    "tabSearch": "Buscar"
+    "tabSearch": "Buscar",
+    "threadParts": {
+      "save": "Salvar ordem"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "Os proprietários atuais não podem ser lidos no momento.",
@@ -6620,7 +6647,8 @@
       "copied": "Mensagem copiada",
       "copyText": "Copiar texto",
       "mutedUntil": "Você está mudo até {{date}}",
-      "slowMode": "Modo lento: uma mensagem a cada {{interval}}"
+      "slowMode": "Modo lento: uma mensagem a cada {{interval}}",
+      "aiAdminFailed": "O AI Admin falhou em responder"
     },
     "manage": {
       "dismissAdminTitle": "Dispensar administrador",
@@ -6856,7 +6884,31 @@
       "unavailable": "Este post não está disponível.",
       "signIn": "Faça o login novamente para gerenciar posts da comunidade."
     },
-    "jumpToReply": "Ir para mensagem respondida"
+    "jumpToReply": "Ir para mensagem respondida",
+    "buyAlert": {
+      "spent": "Gasto:",
+      "buyer": "Comprador:",
+      "balance": "Saldo:",
+      "price": "Preço:",
+      "marketCap": "Valor de mercado:"
+    },
+    "newChat": {
+      "public": "Público",
+      "private": "Privado",
+      "free": "Grátis",
+      "paid": "Pago",
+      "group": "Agrupar"
+    },
+    "holderGate": {
+      "chain": "Corrente",
+      "tab": "Titulares"
+    },
+    "automod": {
+      "bannedWords": "Palavras banidas",
+      "floodMax": "Mensagens do {{count}}",
+      "saved": "Guardado",
+      "wordCount": "{{count}} palavras"
+    }
   },
   "work": {
     "integrity": {
@@ -8993,7 +9045,35 @@
     "coverFrames": "Escolha um quadro de capa",
     "coverFrame": "Usar o quadro {{index}} como capa",
     "uploadCover": "Enviar uma imagem de capa",
-    "editFailed": "Não foi possível aplicar a edição. Tente novamente."
+    "editFailed": "Não foi possível aplicar a edição. Tente novamente.",
+    "altPlaceholderVideo": "Descreva este vídeo",
+    "preview": {
+      "title": "Visualização"
+    },
+    "recent": {
+      "all": "Todos"
+    },
+    "studio": {
+      "crop": "Recortar",
+      "draw": "Desenhar",
+      "light": "Claro",
+      "contrast": "Contraste",
+      "warmth": "Calor",
+      "colour": "Cor",
+      "fade": "Esmaecer",
+      "ratioFree": "Grátis",
+      "rotate": "Girar",
+      "strength": "Força",
+      "ticker": "Faixa de texto",
+      "textBg": "Fundamentos DA invenção",
+      "font": {
+        "bold": "Negrito"
+      }
+    },
+    "edited": "Editado",
+    "edit": "Editar",
+    "moveEarlier": "Mover para trás",
+    "moveLater": "Mover para frente"
   },
   "bounty": {
     "claimed": "Resgatado",
@@ -9622,7 +9702,14 @@
     "shareGroups": "Grupos",
     "shareKindGroup": "Grupo",
     "shareKindChannel": "Canal",
-    "shareKindCommunity": "Comunidade"
+    "shareKindCommunity": "Comunidade",
+    "newDrawer": {
+      "to": "Até"
+    },
+    "download": "Baixar",
+    "deleteOneTitle": "Excluir esta mensagem?",
+    "retrySend": "Tentar novamente",
+    "discardSend": "Remover"
   },
   "editPost": {
     "mediaPermission": "É necessária permissão para a biblioteca multimédia",
@@ -12603,7 +12690,8 @@
       "ready": "“{{name}}” está pronto para legendas de áudio.",
       "failed": "O clonamento de voz falhou.",
       "paidFailed": "Seu pagamento foi salvo. Abra novamente e a próxima tentativa é gratuita.",
-      "consent": "Só clone sua própria voz, ou uma que você tem permissão para usar."
+      "consent": "Só clone sua própria voz, ou uma que você tem permissão para usar.",
+      "pay": "Clonar para {{amount}} tokens"
     },
     "linkImport": {
       "open": "Importar de um link",
@@ -12615,7 +12703,8 @@
       "waiting": "Aguardando no site, tentando novamente em breve…",
       "adding": "Adicionando ao Meios",
       "added": "Adicionado ao cronograma.",
-      "failed": "Não consegui importar esse link."
+      "failed": "Não consegui importar esse link.",
+      "downloading": "Baixando {{percent}}%"
     },
     "reverse": {
       "action": "Reverter",
@@ -13167,7 +13256,8 @@
         "question": "O que garante a continuidade entre os planos?",
         "answer1": "Referências aprovadas e notas de cena revisadas",
         "answer2": "Assumindo que a identidade do personagem é garantida",
-        "exercise": "Plano geral de um viajante solitário chegando a uma costa tranquila ao amanhecer. Movimento de câmera lento para frente, atmosfera calma. Um único plano contínuo."
+        "exercise": "Plano geral de um viajante solitário chegando a uma costa tranquila ao amanhecer. Movimento de câmera lento para frente, atmosfera calma. Um único plano contínuo.",
+        "answer0": "Mais prompts não relacionados"
       },
       "campaign": {
         "title": "Use approved product facts",
@@ -13177,7 +13267,8 @@
         "question": "Quando uma alegação de produto deve ser incluída?",
         "answer0": "Sempre que soar convincente",
         "answer1": "Depois de inventar uma avaliação de cinco estrelas",
-        "answer2": "Quando se trata de fatos de produtos aprovados"
+        "answer2": "Quando se trata de fatos de produtos aprovados",
+        "exercise": "Crie um anúncio de produto de retrato para chá de folha inteira vendido em uma lata reutilizável. Título aprovado: Tire um tempo para o chá. CTA aprovado: Explore a coleção. Use apenas esses fatos; não invente descontos, avaliações ou alegações de saúde."
       }
     },
     "marketing": {
@@ -13194,7 +13285,8 @@
           "empty": "Nenhum detalhe de produto utilizável foi encontrado. Adicione-os manualmente.",
           "busy": "Muitas importações estão em execução. Tente novamente em breve.",
           "unavailable": "Esta página não pôde ser importada. Adicione os detalhes do produto manualmente.",
-          "failed": "Falha na importação. O seu brief foi salvo; tente novamente ou insira os detalhes manualmente."
+          "failed": "Falha na importação. O seu brief foi salvo; tente novamente ou insira os detalhes manualmente.",
+          "url": "Use uma URL de produto HTTPS pública."
         }
       },
       "title": "Breve do campanha",
@@ -15675,7 +15767,8 @@
     "show": "Mostrar",
     "hide": "Esconder",
     "fansBasis": "Mais claro significa que mais de seus seguidores estavam assistindo, nos últimos {{count}} dias.",
-    "everyoneBasis": "Não há atividade suficiente de seguidores ainda, então é todos em Riftn."
+    "everyoneBasis": "Não há atividade suficiente de seguidores ainda, então é todos em Riftn.",
+    "earlierShort": "Anteriores"
   },
   "planned": {
     "title": "Planejado",
@@ -16031,7 +16124,67 @@
     "days": "{{count}} dias",
     "spotlightForSale": "Vendido agora",
     "spotlightNew": "Acabou de ser mintado",
-    "buyFor": "Compre por {{price}}"
+    "buyFor": "Compre por {{price}}",
+    "actAll": "Todos",
+    "actListings": "Anúncios",
+    "actOffer": "Oferta",
+    "actOffers": "Ofertas",
+    "actSales": "Vendas",
+    "tabActivity": "Atividade",
+    "newest": "Mais recentes",
+    "cheapest": "Preço mais baixo",
+    "soldFor": "Vendido",
+    "signIn": "Entrar",
+    "share": "Partilhar",
+    "noneForSale": "Nada à venda ainda",
+    "noSales": "Nenhum negócio ainda",
+    "tabBrowse": "Explorar",
+    "tabMine": "Suas",
+    "tabSales": "Vendas",
+    "cancelled": "Cancelado",
+    "sold": "Vendido",
+    "listed": "Listado à venda",
+    "feeRow": "Taxa Riftn ({{pct}}%)",
+    "royaltyRow": "Royalty do criador",
+    "youGet": "Você recebe",
+    "holderGets": "O detentor recebe",
+    "loading": "Carregando…",
+    "price": "Preço",
+    "seller": "Vendedor",
+    "tabRecent": "Recentes",
+    "buyNow": "Comprar agora",
+    "offers": "Ofertas",
+    "cancel": "Cancelar",
+    "accept": "Aceitar",
+    "signInToTrade": "Faça login para negociar",
+    "listForSale": "Listar à venda",
+    "makeOffer": "Faça uma oferta.",
+    "sendOffer": "Enviar oferta",
+    "back": "Voltar",
+    "dropsTo": "Preço cai para {{price}} em {{date}}",
+    "inBundle": "Vendido como um pacote de {{n}}",
+    "trending": "Coleções em destaque",
+    "floor": "Chão",
+    "thisCollection": "Esta coleção",
+    "collectionOffer": "Oferta em qualquer",
+    "showAll": "Não posso cumprir esse pedido.",
+    "filters": "Filtros",
+    "forSale": "À venda",
+    "openToOffers": "Aberto a propostas",
+    "freshMints": "Recém-saído dos criadores do Riftn",
+    "offersOpen": "Aberto a propostas",
+    "mintedCount": "{{n}} cunhado",
+    "anyInCollection": "Qualquer um na coleção",
+    "thisNft": "Este NFT",
+    "priceAlert": "Alerta de preço",
+    "alertUnder": "Avise-me quando listado em ou abaixo de ({{symbol}}, opcional)",
+    "turnOnAlert": "Ativar alerta",
+    "alertSaved": "Alerta ativado. Vamos te informar quando alguém listá-lo.",
+    "priceDrop": "Preço cai ao longo do tempo",
+    "endPrice": "Preço mais baixo, atingido no final ({{symbol}})",
+    "dropBadge": "Redução de preço",
+    "days_one": "{{count}} dia",
+    "days_other": "{{count}} dias"
   },
   "riftnMove": {
     "title": "DeHub agora é Riftn",
@@ -16066,7 +16219,11 @@
       "episode": "Episódio de podcast",
       "show": "Podcast",
       "artist": "Artista"
-    }
+    },
+    "loading": "Carregando…",
+    "paused": "Pausado",
+    "preview": "Visualização",
+    "seek": "Procurar"
   },
   "twoFactor": {
     "wrongCode": "Esse código não combinou. Tente o mais recente no seu aplicativo.",
@@ -16144,5 +16301,141 @@
     "newer": "Resultado mais recente",
     "gone": "Essa mensagem não está mais aqui",
     "theirMessages": "Seus mensagens"
+  },
+  "profileImage": {
+    "change": "Alterar"
+  },
+  "signedFollows": {
+    "setUp": "Ativar",
+    "turnOff": "Desligar",
+    "efpTurnOff": "Parar"
+  },
+  "postStats": {
+    "aboutUsual": "sobre seu usual",
+    "afterWatching": "seguido após vê-lo",
+    "audience": "Público",
+    "avg": "média",
+    "avgWatch": "Média de visualização",
+    "bestTime": "Quando seu povo assiste",
+    "bigDrop": "Grande queda",
+    "byBadge": "por badge",
+    "devices": "Dispositivo (membros)",
+    "engagement": "Engajamento",
+    "finished": "Concluído",
+    "finishedLower": "concluído",
+    "finishedPct": "{{pct}}% assistiram até o final",
+    "inOut": "{{in}} membros · {{out}} desconectados",
+    "leave": "{{pct}}% saem",
+    "linkClicks": "Cliques em links",
+    "members": "Membros",
+    "membersLower": "membros",
+    "newFollowers": "Novos seguidores",
+    "newToYou": "novo para você",
+    "noAccount": "sem conta",
+    "noBadge": "Sem badge",
+    "noViewersYet": "Ninguém viu este post ainda.",
+    "noWatchYet": "O tempo de visualização aparece aqui quando as pessoas o reproduzem. Começou a contar em 31 de outubro de 2026.",
+    "open": "Veja como está o seu post",
+    "otherBadges": "Outros emblemas",
+    "peak": "Pico {{time}} · {{n}}",
+    "people": "Pessoas",
+    "peopleReached": "Pessoas alcançadas",
+    "plays": "Peças",
+    "playsLower": "desempenha",
+    "playsMembers": "Reproduções por membros",
+    "playsVisitors": "Reproduções encerradas",
+    "profileTaps": "Toques no seu perfil",
+    "quotes": "Orçamentos",
+    "reach": "Alcance",
+    "reposts": "Repostagens",
+    "saved": "Guardado",
+    "saves": "Poupa",
+    "seeAll": "Ver todas as estatísticas",
+    "shares": "Quotas",
+    "signedIn": "entrado",
+    "signedOutLower": "encerrou sessão",
+    "signedOutViewers": "Terminou sessão",
+    "stillWatching": "Ainda a ver",
+    "topSupporters": "Principais apoiadores",
+    "unavailableBody": "Apenas o criador pode ver as estatísticas deste post.",
+    "unavailableTitle": "Estatísticas indisponíveis",
+    "visitors": "Terminou sessão",
+    "vsUsual": "vs o seu post habitual",
+    "watching": "Observar",
+    "whoSawIt": "Quem viu",
+    "withRepeats": "{{n}} repetições",
+    "yourFollowers": "os seus seguidores",
+    "first48": "Primeiras 48 horas",
+    "howItsDoing": "Como está a correr",
+    "bestTip": "A maioria dos seus espectadores aparece {{day}} por volta de {{hour}}:00. Publicar um pouco antes disso dá a um post o melhor começo.",
+    "last30": "últimos 30 dias",
+    "day": {
+      "sun": "Dom",
+      "mon": "Seg",
+      "tue": "Ter",
+      "wed": "Qua",
+      "thu": "Qui",
+      "fri": "Sex",
+      "sat": "Sáb"
+    }
+  },
+  "feedFilters": {
+    "clearAllShort": "Limpar tudo",
+    "done": "Feito",
+    "edit": "Editar",
+    "groupDate": "Data",
+    "groupSort": "Ordenar",
+    "groupType": "Tipo",
+    "save": "Salvar"
+  },
+  "ownKeys": {
+    "working": "Processando",
+    "failed": "Ocorreu um erro. Tente novamente.",
+    "check": "Verificar",
+    "remove": "Remover",
+    "save": "Salvar",
+    "cancel": "Cancelar"
+  },
+  "postBg": {
+    "none": "Nenhum",
+    "yours": "Suas",
+    "accent": "Acordo (acento)",
+    "names": {
+      "lava": "Lâmpada de lava",
+      "chrome": "Cromo Líquido",
+      "orbit": "Órbita",
+      "snow": "Queda de neve"
+    }
+  },
+  "articleTile": {
+    "cover": "Capa"
+  },
+  "aiConsent": {
+    "allow": "Permitir"
+  },
+  "dmRequests": {
+    "title": "Solicitações",
+    "accept": "Aceitar",
+    "delete": "Excluir",
+    "block": "Bloquear"
+  },
+  "dmSchedule": {
+    "view": "Ver",
+    "edit": "Editar",
+    "editLabel": "Editar mensagem",
+    "error": "Isso não funcionou. Tente novamente."
+  },
+  "chatBulk": {
+    "selected": "{{count}} selecionado",
+    "cancel": "Cancelar",
+    "reply": "Responder",
+    "delete": "Excluir"
+  },
+  "msgSelect": {
+    "selected": "{{count}} selecionado",
+    "copy": "Copiar",
+    "forward": "Encaminhar",
+    "deleted_one": "Mensagem deletada {{count}}",
+    "deleted_other": "Mensagens deletadas {{count}}"
   }
 }

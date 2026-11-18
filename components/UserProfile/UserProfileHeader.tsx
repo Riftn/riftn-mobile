@@ -10,7 +10,7 @@ import { storageImage } from "../../libs/cdnImage";
 import { ProfilePullRing, useProfileAvatarPop, useProfileCoverHidden } from "../Profile/ProfilePullRefresh";
 import { LinearGradient } from "expo-linear-gradient";
 import Avatar from "../common/Avatar";
-import { openPostBgPicker } from "../Profile/PostBgPicker";
+import ProfileImageMenu, { useProfileImageMenu } from "../Profile/ProfileImageMenu";
 import Icon from "../ui/Icon";
 import { copyToClipboard, getBadgeHoverOpticalStyle as getBadgeOpticalStyle } from "../../libs";
 import { toastSuccess } from "../../libs/toast";
@@ -48,6 +48,8 @@ export interface UserProfileHeaderProps {
   onActionsBottom?: (bottom: number) => void;
   featuredCommunity?: Community | null;
   avatarUrl?: string | null;
+  /** Untouched original avatar, for Copy on the hold menu. */
+  avatarFullUrl?: string | null;
   coverUrl?: string | null;
   displayName: string;
   badge?: string | null;
@@ -102,6 +104,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
   onIdentityBottom,
   onActionsBottom,
   avatarUrl,
+  avatarFullUrl,
   coverUrl,
   displayName,
   badge,
@@ -281,16 +284,23 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
     );
   };
 
+  // Hold the picture or banner to copy it.
+  const imageMenu = useProfileImageMenu();
+
   return (
     <View ref={profileRef} collapsable={false} onLayout={measureIdentity}>
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => onOpenImage("cover")}
+        onLongPress={() => imageMenu.open("cover")}
+        delayLongPress={450}
         accessibilityRole="button"
         accessibilityLabel={t("profile.viewCoverImage")}
       >
         {/* Align the cover with the full-width details and pinned community. */}
         <View
+          ref={imageMenu.coverRef}
+          collapsable={false}
           className={isMinimal || cinematicPhone ? "overflow-hidden" : "rounded-t-xl overflow-hidden"}
           style={{ height: PROFILE_COVER_HEIGHT }}
         >
@@ -315,7 +325,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
       <View className={featuredCommunity?.banner_url ? 'dark-surface' : undefined} style={{ paddingHorizontal: cinematicPhone ? 16 : 20, paddingBottom: featuredCommunity ? 16 : undefined }}>
         <PinnedCommunityWash community={featuredCommunity} />
         <View className="flex-row items-start justify-between" style={{ marginTop: -48 }}>
-          <Animated.View style={avatarPop}>
+          <Animated.View ref={imageMenu.avatarRef as any} collapsable={false} style={avatarPop}>
           <Avatar
             uri={avatarUrl || undefined}
             name={displayName}
@@ -324,7 +334,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             live={live}
             liveQuiet
             onPress={liveTarget ? () => openLiveTarget(liveTarget) : () => onOpenImage("avatar")}
-            onLongPress={isOwnProfile ? () => openPostBgPicker() : undefined}
+            onLongPress={() => imageMenu.open("avatar")}
           />
           <ProfilePullRing size={96} radius={Math.round(96 * 0.16)} color={colors.accent} />
           </Animated.View>
@@ -522,6 +532,16 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
           </View>
         )}
       </View>
+      <ProfileImageMenu
+        target={imageMenu.target}
+        onClose={imageMenu.close}
+        canEdit={false}
+        imageUrl={(kind) => {
+          const url = kind === "avatar" ? (avatarFullUrl || avatarUrl) : coverUrl;
+          return url && !url.startsWith("default") ? url : undefined;
+        }}
+        hasImage={() => false}
+      />
     </View>
   );
 };

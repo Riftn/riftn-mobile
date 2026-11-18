@@ -2597,7 +2597,14 @@
     "284b838e96e5": "Where di part start",
     "46b0e30a32b0": "Whole song",
     "0418db35eb35": "Mi no go understand wetin you mean.",
-    "d14064f80f52": "Add sound"
+    "d14064f80f52": "Add sound",
+    "71988c4d8e08": "Rait",
+    "147170e793c6": "Wid",
+    "481859b689b0": "Kam si kip connection yu?",
+    "57e2faa5ec63": "Fain fo Riftn",
+    "7db20897053b": "Pipo",
+    "96d7bff86b44": "Search no fit load",
+    "d8b8392e2c54": "Tray agen"
   },
   "dehubLinks": {
     "kind": {
@@ -2668,7 +2675,8 @@
       "blog": "Blaag",
       "pronouns": "Pronouns",
       "location": "Di location.",
-      "customOption": "Na custom label."
+      "customOption": "Na custom label.",
+      "custom": "Your own"
     }
   },
   "notificationFilters": {
@@ -2840,7 +2848,8 @@
       "quote": "Quote am",
       "bullets": "Bullet list",
       "numbers": "Numbered list",
-      "link": "Link-am"
+      "link": "Link-am",
+      "image": "Ad foto dem"
     }
   },
   "storefront": {
@@ -3768,7 +3777,11 @@
     "payViaBridge": "Riftn token na Uniswap, come wey go be like ~{{seconds}}s",
     "payFailed": "Wetin no dey convert {{symbol}} go Riftn token?",
     "payViaDpay": "Peyi Riftn pay, token dey come a bout 30 seconds.",
-    "payViaBridgeDpay": "Move wey go Base, pay wey go Riftn Pay, token dey come afo about one minute"
+    "payViaBridgeDpay": "Move wey go Base, pay wey go Riftn Pay, token dey come afo about one minute",
+    "addMessage": "I no understand wetin you mean.",
+    "messagePublic": "Fo ol pipo",
+    "railTitle": "Tip dem",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "skippableSections": "Skippable section",
@@ -4486,7 +4499,10 @@
       "here": "{{name}} send message to everybody for community",
       "hereNamed": "{{name}} send message to everybody for “{{community}}”"
     },
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "groupNew": "Nyu",
+    "groupThisWeek": "Dis week",
+    "searchClose": "Kap Ya Search"
   },
   "leaderboard": {
     "title": "Leaderboard dem",
@@ -4678,7 +4694,16 @@
     "attachmentTooLarge": "Eni file mos dei anda 50MB",
     "deleteCommentA11y": "Delete comment",
     "sendCommentA11y": "Send comment",
-    "requestOptions": "Request options"
+    "requestOptions": "Request options",
+    "deviceInfoNoErrors": "Nothing",
+    "topBuilders": {
+      "month": "Dis month",
+      "allTime": "Taim yu dey",
+      "shipped": "E don ship",
+      "votes": "Vot",
+      "comments": "Comment dem",
+      "you": "Yu"
+    }
   },
   "auth": {
     "importSecretPlaceholder": "12 or 24 word, or private key",
@@ -4939,7 +4964,19 @@
       "votes_other": "{{value}} votes",
       "members_one": "{{value}} member",
       "members_other": "{{value}} members"
-    }
+    },
+    "articleShort": "Atikul",
+    "pinnedShort": "E dey pinned",
+    "post": "Post am",
+    "arrange": {
+      "saving": "I di save..."
+    },
+    "reserve": {
+      "signIn": "Enta"
+    },
+    "tabLikes": "Like dem",
+    "likesEmptyTitle": "No like dey yet",
+    "likesPrivateTitle": "Like dem na private"
   },
   "tv": {
     "title": "TV",
@@ -5536,7 +5573,11 @@
     "nowPrivate": "The flow don turn private",
     "nowPublic": "Flow don show",
     "playVideo": "Play video",
-    "signInToSee": "Sign in fo see the flow dem weh dey your account."
+    "signInToSee": "Sign in fo see the flow dem weh dey your account.",
+    "aspectRatio": "Ratio",
+    "duration": "Durashun in sekond",
+    "disconnect": "Diskonnekt",
+    "run": "Ron"
   },
   "loginModal": {
     "title": "Log In",
@@ -5856,7 +5897,8 @@
     "searchMenu": "Menu fo fain",
     "clearSearch": "Klin di search",
     "noMenuMatches": "Notin fo di menu match",
-    "searchDehubFor": "Search \"{{query}}\" fo Riftn"
+    "searchDehubFor": "Search \"{{query}}\" fo Riftn",
+    "requestSend": "Send di request"
   },
   "comments": {
     "reportComment": "Report di comment",
@@ -6474,7 +6516,10 @@
       "copied": "Message don copy",
       "copyText": "Copy di text",
       "mutedUntil": "Dem don mute you until {{date}}",
-      "slowMode": "Slow mode: one message for every {{interval}}"
+      "slowMode": "Slow mode: one message for every {{interval}}",
+      "joined": "{{name}} join",
+      "reactions": "Reaction dem",
+      "photoTooLarge": "Image no fit pass 10MB"
     },
     "manage": {
       "dismissAdminTitle": "Comot am as admin",
@@ -6675,6 +6720,16 @@
       "notFound": "Link no valid.",
       "requestToJoin": "M chuo, na me dey request join.",
       "approvalNote": "Admin go approve request yu before yu join."
+    },
+    "newChat": {
+      "public": "Fo ol pipo",
+      "private": "I hide",
+      "free": "Fri",
+      "paid": "Don pay",
+      "group": "Gruup"
+    },
+    "automod": {
+      "saved": "Don sev"
     }
   },
   "work": {
@@ -7774,7 +7829,15 @@
     "removeFollowerBody": "We no go tell {{name}} sey you don remove dem from your followers.",
     "removeFollowerHint": "Press and hold follower to remove am.",
     "loadFailed": "No fit load dis list",
-    "new": "Nyu"
+    "new": "Nyu",
+    "followBackConfirm": "Follow am bak",
+    "followBackNotNow": "No be now",
+    "followBackDone": "Don finish",
+    "nonFollowers": {
+      "notNow": "No be now",
+      "cancel": "Kansel",
+      "close": "Klos"
+    }
   },
   "reactionInfo": {
     "mentionedYouPublicChat": "{{name}} mention yu long public chat",
@@ -8669,7 +8732,20 @@
     "coverFrames": "Pik a kovr fram",
     "coverFrame": "Usi fram {{index}} as kovr",
     "uploadCover": "Uploa kovr piksai",
-    "editFailed": "Kan no apli dat edit. Try anoda."
+    "editFailed": "Kan no apli dat edit. Try anoda.",
+    "recent": {
+      "all": "Ol"
+    },
+    "studio": {
+      "light": "Lait",
+      "warmth": "Wamwam",
+      "fade": "Fad.",
+      "ratioFree": "Fri",
+      "rotate": "Tong am",
+      "strength": "Strong"
+    },
+    "edited": "Edit",
+    "edit": "Chenj"
   },
   "bounty": {
     "claimed": "Don claim",
@@ -9276,7 +9352,16 @@
     "eachMessagePaid": "Tokken payament fo each mesaji.",
     "insufficientTokenBalance": "Tokken no dey enough · {{amount}} hold.",
     "tippedYouAmount": "Tipped yu {{amount}}",
-    "paymentSentWith": "Wen yu send wia {{amount}}."
+    "paymentSentWith": "Wen yu send wia {{amount}}.",
+    "download": "Dawnlod",
+    "retrySend": "Try again",
+    "discardSend": "Comot am",
+    "shareKindGroup": "Gruup",
+    "searchDiscover": {
+      "people": "Pipo",
+      "communities": "Community dem",
+      "newChat": "Nai chat."
+    }
   },
   "editPost": {
     "mediaPermission": "You need media library permission",
@@ -10741,7 +10826,9 @@
       "suggestTitle": "Put big bold title for top and small subtitle for under-am",
       "undo": "Undu-am",
       "openGenerator": "Check am and generate",
-      "working": "I di work for am…"
+      "working": "I di work for am…",
+      "stop": "Stopam",
+      "queue": "Put am fo line"
     },
     "brand": {
       "addColor": "Add one brand colour",
@@ -10878,7 +10965,9 @@
       "rendering": "Video dey render… {{percent}}%",
       "mp4": "MP4 video",
       "exportHint": "Leave di editor open as yua video dey render.",
-      "tooLarge": "Dat file too big for di editor. Di limit na 400 MB."
+      "tooLarge": "Dat file too big for di editor. Di limit na 400 MB.",
+      "tZoomIn": "Zoom enter",
+      "tZoomOut": "Zoom comot"
     },
     "motion": {
       "scrub": "Drag am go left or right make e change.",
@@ -12057,6 +12146,21 @@
       "selection": "Wetin you choose",
       "zoomIn": "Zoom canvas in.",
       "zoomOut": "Zoom kanvas out"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Turn",
+      "add": "Add am",
+      "color": "Kolo",
+      "light": "Lait"
+    },
+    "voiceClone": {
+      "stop": "Stop rekod",
+      "failed": "Voice cloning fail."
+    },
+    "linkImport": {
+      "go": "Bring am enter",
+      "downloading": "E dey download {{percent}}%"
     }
   },
   "creator": {
@@ -12518,7 +12622,19 @@
     "referenceProductName": "Plas ya product for inside clip.",
     "referenceProductHint": "Na featured product go change, but di scene go remain same.",
     "referenceComposeName": "Combine reference images",
-    "referenceComposeHint": "Bring characters, objek, objek wey dey for multiple piksins come one for one komposishon."
+    "referenceComposeHint": "Bring characters, objek, objek wey dey for multiple piksins come one for one komposishon.",
+    "marketing": {
+      "import": {
+        "use": "Use dis detail dem"
+      }
+    },
+    "batchCount": "Pikcha dem",
+    "cinema": {
+      "close": "Klos"
+    },
+    "audioNoSpeech": "Nemesis no dey find word for dat recording.",
+    "dialogueFormat": "Write scene wey \"Name: line\", one speaker per line.",
+    "fileTooLarge": "Dat file big wey over 100MB. Use one wey short or small."
   },
   "fractions": {
     "title": "Fraction dem",
@@ -14610,6 +14726,15 @@
       "title": "Loyal viewers",
       "intro": "Wot watcha see, dem get one point fo every minute dem watch you, an one point fo every 100 tokens dem give you as gift. Chat an reaction no get point, so point no be fo farming.",
       "empty": "Na dey no point yet. Dem go add up when people watch and give gift."
+    },
+    "destinations": {
+      "save": "Add am",
+      "cancel": "Kansel",
+      "states": {
+        "off": "I of",
+        "idle": "E don redi",
+        "error": "Wahala"
+      }
     }
   },
   "liveChatModeration": {
@@ -14697,7 +14822,34 @@
     "collections": "Collections",
     "days": "{{count}} days",
     "spotlightNew": "Just minted",
-    "buyFor": "Bai for {{price}}"
+    "buyFor": "Bai for {{price}}",
+    "actAll": "Ol",
+    "actListings": "Listing dem",
+    "actOffers": "Offa dem",
+    "tabActivity": "Wetin di hapen",
+    "newest": "Nyuest",
+    "soldFor": "Dem don sell-am",
+    "signIn": "Enta",
+    "share": "Share-am",
+    "noneForSale": "Den no sell yet.",
+    "tabBrowse": "Luk",
+    "tabMine": "Your own",
+    "cancelled": "Cancel",
+    "sold": "Dem don sell-am",
+    "listed": "Listed fo sale",
+    "loading": "E di load…",
+    "price": "Prais",
+    "tabRecent": "New",
+    "buyNow": "Bai naw",
+    "offers": "Offa dem",
+    "cancel": "Kansel",
+    "accept": "Aksept",
+    "listForSale": "Put fo sell",
+    "makeOffer": "Make offer",
+    "back": "Go back",
+    "dropsTo": "Pais drop dee {{price}} by {{date}}",
+    "showAll": "Show all of dem",
+    "endPrice": "Lowest price, reach at last time ({{symbol}})"
   },
   "reel": {
     "readAll": "Read all",
@@ -14718,7 +14870,9 @@
       "episode": "Podcast episode",
       "show": "Podcast",
       "artist": "Artist"
-    }
+    },
+    "loading": "E di load…",
+    "paused": "Pause"
   },
   "twoFactor": {
     "wrongCode": "Dat code no match. Try di new one wey de for your app.",
@@ -14777,5 +14931,176 @@
     "older": "Older result",
     "newer": "Newer result",
     "theirMessages": "Their messages"
+  },
+  "chatTextSize": {
+    "title": "Teksi saiz",
+    "larger": "Larjer"
+  },
+  "signedFollows": {
+    "setUp": "Put am on",
+    "efpTurnOff": "Stopam"
+  },
+  "studioDeck": {
+    "remove": "Comot am",
+    "background": {
+      "modes": {
+        "none": "I of"
+      }
+    },
+    "scenes": {
+      "names": {
+        "starting": "E go start soon"
+      }
+    }
+  },
+  "whenSheet": {
+    "tooSoon": "Pick time weh never reach."
+  },
+  "planned": {
+    "title": "Dem don plan am",
+    "all": "Ol",
+    "posts": "Post dem",
+    "stages": "Audio room dem",
+    "post": "Post am",
+    "untitledPost": "Post am",
+    "loading": "E di load…",
+    "startNow": "Start nao",
+    "cancel": "Kansel",
+    "cancelled": "Cancel"
+  },
+  "welcome": {
+    "about": {
+      "title": "You don land Riftn, welcome"
+    },
+    "name": {
+      "title": "Yor name",
+      "placeholder": "Yor name"
+    },
+    "card": {
+      "name": "Yor name",
+      "followers": "fɔlɔwɔs"
+    },
+    "topic": {
+      "music": "Myuzik",
+      "crypto": "Kripto",
+      "sports": "Sporz",
+      "news": "Njuz"
+    },
+    "back": "Go back",
+    "skipPhoto": "Leave am fo now"
+  },
+  "appTokens": {
+    "kindDeposit": "Put money",
+    "amount": "How much",
+    "notePlaceholder": "Add smɔl not (if yu want)",
+    "sendButton": "Sen",
+    "errorInsufficient": "Na dey no go fit yu token, yu must go buy more."
+  },
+  "avatarPrompt": {
+    "notNow": "No be now"
+  },
+  "postStats": {
+    "audience": "Audienshun",
+    "engagement": "Engajment",
+    "finished": "Don finish",
+    "members": "Member dem",
+    "membersLower": "member dem",
+    "newFollowers": "Nyu follower dem",
+    "people": "Pipo",
+    "plays": "Plai",
+    "quotes": "Quote dem",
+    "reposts": "Repost dem",
+    "saved": "Don sev",
+    "shares": "Share dem",
+    "signedOutViewers": "You don sign out",
+    "visitors": "You don sign out"
+  },
+  "duet": {
+    "policyEveryone": "Everybody",
+    "policyFollowers": "Follower dem",
+    "policyNobody": "Nobody",
+    "loadMore": "Bring more",
+    "video": "Vidio"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Everybody",
+      "followers": "Follower dem",
+      "nobody": "Nobody"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Everybody",
+      "followers": "Follower dem",
+      "nobody": "Nobody"
+    },
+    "heading": "Reaction dem",
+    "more": "Shaw mo"
+  },
+  "liveClips": {
+    "copyLink": "Kopi link",
+    "linkCopied": "Link kopi"
+  },
+  "liveHype": {
+    "gift": {
+      "howMany": "Hau moch",
+      "who": "Username or wallet adres",
+      "cancel": "Kansel",
+      "stage": {
+        "preparing": "E dey redi…",
+        "confirming": "Dey wait for di transaction…",
+        "recording": "Dey finish am…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Oda one",
+    "confirming": "Korofim paymant…"
+  },
+  "feedFilters": {
+    "clearAllShort": "Clean ol",
+    "done": "Don finish",
+    "edit": "Chenj",
+    "groupDate": "Dey dey",
+    "groupSort": "Arenj",
+    "groupType": "Tipe",
+    "save": "Sev"
+  },
+  "ownKeys": {
+    "working": "Wokking",
+    "check": "Chek",
+    "remove": "Comot am",
+    "save": "Sev",
+    "cancel": "Kansel"
+  },
+  "postBg": {
+    "none": "Nothing",
+    "yours": "Your own",
+    "names": {
+      "drive": "Nait Nai"
+    }
+  },
+  "dmRequests": {
+    "title": "Request dem",
+    "accept": "Gri",
+    "delete": "Dilit",
+    "block": "Blok"
+  },
+  "dmSchedule": {
+    "view": "Luk",
+    "edit": "Edit am",
+    "error": "Dat nɔ́ wɔ́k. Tri agɛ́n."
+  },
+  "chatBulk": {
+    "selected": "{{count}} don select",
+    "cancel": "Kansel",
+    "reply": "Ansa",
+    "delete": "Dilit"
+  },
+  "msgSelect": {
+    "selected": "{{count}} don select",
+    "copy": "Kopi",
+    "forward": "Forward am"
   }
 }

@@ -16,7 +16,7 @@ on:
         required: false
         default: 'dark light syslight'
       task:
-        description: 'walk = open every page and screenshot it. nav = time page switches, main against this branch. probe = look for where a switch spends its time. touch = real finger swipes back and a tap, with a picture of each. shorts = how soon the next short plays after a real swipe, main against this branch. keys = can the keyboard always be closed (the X in the Explore pill, Done on number pads, a drag of the page). wide = a wide video in the swipe player, pictured on five themes. shells = a picture of every page held on its loading shell, then of the page (themes = app themes, e.g. system hazy). bones = measure every page layout for its loading placeholder'
+        description: 'walk = open every page and screenshot it. nav = time page switches, main against this branch. probe = look for where a switch spends its time. touch = real finger swipes back and a tap, with a picture of each. shorts = how soon the next short plays after a real swipe, main against this branch. keys = can the keyboard always be closed (the X in the Explore pill, Done on number pads, a drag of the page). wide = a wide video in the swipe player, pictured on five themes. shells = a picture of every page held on its loading shell, then of the page (themes = app themes, e.g. system hazy). bones = measure every page layout for its loading placeholder. wallet = Connect Wallet on the sign-in page, main against this branch. loginsheet = the sign-in pop-ups from a like, from + and the Log in page, main against this branch'
         required: false
         default: 'walk'
       app_run_id:
@@ -165,14 +165,14 @@ jobs:
           grep -cE "warning:" xcodebuild.log > sim-check/warning-count.txt || true
           gzip -c xcodebuild.log > sim-check/xcodebuild.log.gz
       - name: Walk every page in dark, light and System Light
-        if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'keys' && inputs.task != 'wide' && inputs.task != 'shells' && inputs.task != 'bones'
+        if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'keys' && inputs.task != 'wide' && inputs.task != 'shells' && inputs.task != 'bones' && inputs.task != 'wallet' && inputs.task != 'loginsheet'
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-simulator-walk.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
         env:
           THEMES: ${{ inputs.themes || 'dark light syslight' }}
       - name: Time page switches, main against this branch
-        if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'keys' || inputs.task == 'wide' || inputs.task == 'shells' || inputs.task == 'bones'
+        if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'keys' || inputs.task == 'wide' || inputs.task == 'shells' || inputs.task == 'bones' || inputs.task == 'wallet' || inputs.task == 'loginsheet'
         env:
           NAV_MODE: ${{ inputs.task }}
           SHELL_THEMES: ${{ inputs.task == 'shells' && inputs.themes || '' }}

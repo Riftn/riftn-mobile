@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "ກຳລັງເປັນທັນສະໄໝອາທິດນີ້ຢູ່ Audius. ຟຣີໃຊ້, ນັກສິລະປະຈະໄດ້ຮັບການອ້າງອີງໃນການໂພສຂອງທ່ານ.",
     "d2e45b7406fc": "ສິດທິສາທາລະນະແລະສິດທິ Creative Commons ຈາກ Wikimedia Commons. ນັກສິລະປະຈະໄດ້ຮັບການອ້າງອີງໃນການໂພສຂອງທ່ານ.",
     "d0c1a3684775": "ບໍ່ສາມາດໂຫລດເພງໄດ້. ລອງໃໝ່ອີກຄັ້ງໃນບາງວິນາທີ.",
-    "d14064f80f52": "ເພີ່ມສຽງ"
+    "d14064f80f52": "ເພີ່ມສຽງ",
+    "71988c4d8e08": "ຂໍ້ຄວາມ",
+    "147170e793c6": "ກວ້າງ",
+    "481859b689b0": "ກວດສອບການເຊື່ອມຕໍ່ຂອງທ່ານ ແລ້ວລອງໃໝ່ອີກຄັ້ງ.",
+    "57e2faa5ec63": "ຄົ້ນຫາໃນ Riftn",
+    "7db20897053b": "ປະຊາຊົນ",
+    "96d7bff86b44": "ການຄົ້ນຫາບໍ່ສາມາດໂຫຼດໄດ້",
+    "d8b8392e2c54": "ລອງອີກຄັ້ງ"
   },
   "dehubLinks": {
     "kind": {
@@ -2682,7 +2689,8 @@
       "location": "ສະຖານທີ່",
       "custom": "ກຳນົດເອງ",
       "customOption": "ປ້າຍກຳກັບທີ່ກຳນົດເອງ"
-    }
+    },
+    "placeholderPronouns": "ພວກເຂົາ"
   },
   "notificationFilters": {
     "title": "ກັ່ນຕອງການແຈ້ງເຕືອນຈາກ",
@@ -2853,7 +2861,8 @@
       "quote": "ປະໂຫຍກ",
       "bullets": "ລາຍການລູກປືນ",
       "numbers": "ລາຍຊື່ເລກ",
-      "link": "ລິ້ງ"
+      "link": "ລິ້ງ",
+      "image": "ເພີ່ມຮູບພາບ"
     }
   },
   "storefront": {
@@ -3781,7 +3790,11 @@
     "insufficientDhb": "ເຄື່ອງໝາຍບໍ່ພຽງພໍ",
     "attachAmount": "ຕິດ ຕໍ່ ພວກ ເຮົາ {{amount}} tokens",
     "tokensUnit": "ສະບັບດີ",
-    "tokenAmount": "{{amount}} ໂຕເຄັນ"
+    "tokenAmount": "{{amount}} ໂຕເຄັນ",
+    "addMessage": "ເພີ່ມຂໍ້ຄວາມ (ບໍ່ຈໍາເປັນ)",
+    "messagePublic": "ສາທາລະນະ",
+    "railTitle": "ຄໍາແນະນໍາ",
+    "railTotal": "{{amount}} ໂຕເຄັນ"
   },
   "postOptions": {
     "skippableSections": "ພາກສ່ວນ skippable",
@@ -4508,7 +4521,11 @@
       "here": "{{name}} ສົ່ງຂໍ້ຄວາມໃຫ້ທຸກຄົນໃນຊຸມຊົນ",
       "hereNamed": "{{name}} ສົ່ງຂໍ້ຄວາມໃຫ້ທຸກຄົນໃນ \"{{community}}\""
     },
-    "tokenAmount": "{{amount}} ໂຕເຄັນ"
+    "tokenAmount": "{{amount}} ໂຕເຄັນ",
+    "groupNew": "ໃໝ່",
+    "groupToday": "ມື້ນີ້",
+    "groupThisWeek": "ອາທິດນີ້",
+    "searchClose": "ສະຫຼາດການຄົ້ນຄົ້ນ"
   },
   "leaderboard": {
     "title": "ກະດານຄະແນນ",
@@ -4700,7 +4717,18 @@
     "attachmentTooLarge": "ແຕ່ລະໄຟລ໌ຕ້ອງນ້ອຍກວ່າ 50MB",
     "deleteCommentA11y": "ລົບຄຳຄິດເຫັນ",
     "sendCommentA11y": "ສົ່ງຄຳຄິດເຫັນ",
-    "requestOptions": "ທາງເລືອກການຮ້ອງຂໍ"
+    "requestOptions": "ທາງເລືອກການຮ້ອງຂໍ",
+    "deviceInfoNoErrors": "ບໍ່​ມີ",
+    "topBuilders": {
+      "month": "ເດືອນນີ້",
+      "allTime": "ຕະຫຼອດເວລາ",
+      "shipped": "ສົ່ງແລ້ວ",
+      "votes": "ຄະແນນສຽງ",
+      "comments": "ຄຳເຫັນ",
+      "showLess": "ສະແດງ ຫນ້ອຍ",
+      "viewProfile": "ເບິ່ງໂປຣຟາຍ",
+      "you": "ທ່ານ"
+    }
   },
   "auth": {
     "loginRequired": "ຕ້ອງເຂົ້າສູ່ລະບົບ",
@@ -4961,7 +4989,20 @@
       "votes_other": "{{value}} ຄະແນນສຽງ",
       "members_one": "{{value}} ສະມາຊິກ",
       "members_other": "{{value}} ສະມາຊິກ"
-    }
+    },
+    "articleShort": "ບົດຄວາມ",
+    "articleMinRead": "{{count}} min ອ່ານ",
+    "pinnedShort": "ປັກໝຸດ",
+    "post": "ໂພສ",
+    "arrange": {
+      "saving": "ກຳລັງບັນທຶກ..."
+    },
+    "reserve": {
+      "signIn": "ເຂົ້າສູ່"
+    },
+    "tabLikes": "ມັກ",
+    "likesEmptyTitle": "ຍັງບໍ່ມີຄົນຖືກໃຈ",
+    "likesPrivateTitle": "ການຖືກໃຈເປັນສ່ວນຕົວ"
   },
   "tv": {
     "title": "ໂທລະພາບ",
@@ -5477,6 +5518,9 @@
       "title": "ພື້ນທີ່ເຮັດວຽກຂອງຕົວແທນ",
       "planValidated": "ແຜນຜ່ານການກວດສອບແລ້ວ",
       "reject": "ປະຕິເສດ"
+    },
+    "welcome": {
+      "text": "ຂໍ້ຄວາມຕ້ອນຮັບ"
     }
   },
   "hero": {
@@ -5558,7 +5602,16 @@
     "nowPublic": "Flow ດຽວນີ້ເປັນສາທາລະນະ",
     "openCanvas": "ເປີດ canvas",
     "playVideo": "ຫຼິ້ນວິດີໂອ",
-    "signInToSee": "ລົງຊື່ເຂົ້າໃຊ້ເພື່ອເບິ່ງ flows ໃນບັນຊີຂອງທ່ານ."
+    "signInToSee": "ລົງຊື່ເຂົ້າໃຊ້ເພື່ອເບິ່ງ flows ໃນບັນຊີຂອງທ່ານ.",
+    "newNativeFlow": "ສ້າງ flow ໃໝ່",
+    "model": "ຮູບແບບ",
+    "aspectRatio": "ອັດຕາສ່ວນ",
+    "duration": "ໄລຍະເວລາເປັນວິນາທີ",
+    "resolution": "ຄວາມລະອຽດ",
+    "disconnect": "ການອະທິບານ",
+    "payAndRun": "ຈ່າຍເງິນ ແລະແລ່ນ",
+    "run": "ແລ່ນ",
+    "handlePrompt": "ປ້ອນຂໍ້ມູນ"
   },
   "loginModal": {
     "title": "ເຂົ້າສູ່ລະບົບ",
@@ -5878,7 +5931,8 @@
     "searchMenu": "ຄົ້ນຫາເມນູ",
     "clearSearch": "ລ້າງການຄົ້ນຫາ",
     "noMenuMatches": "ບໍ່ມີຫຍັງໃນເມນູທີ່ກົງກັນ",
-    "searchDehubFor": "ຄົ້ນຫາ \"{{query}}\" ໃນ Riftn"
+    "searchDehubFor": "ຄົ້ນຫາ \"{{query}}\" ໃນ Riftn",
+    "requestSend": "ສົ່ງຄຳຮ້ອງຂໍ"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6497,7 +6551,11 @@
       "copied": "ຂໍ້ຄວາມສຳເນົາແລ້ວ",
       "copyText": "ສຳເນົາຂໍ້ຄວາມ",
       "mutedUntil": "ທ່ານໄດ້ຖືກ muted ຈົນກ່ວາ {{date}}",
-      "slowMode": "ໂຫມດ ຊ້າ: ຂໍ້ຄວາມ ຫນຶ່ງ ທຸກໆ {{interval}}"
+      "slowMode": "ໂຫມດ ຊ້າ: ຂໍ້ຄວາມ ຫນຶ່ງ ທຸກໆ {{interval}}",
+      "joined": "{{name}} ເຂົ້າຮ່ວມ",
+      "reactions": "ປະຕິກິລິຍາ",
+      "photoTooLarge": "ຮູບຕ້ອງນ້ອຍກວ່າ 10MB",
+      "aiAdminFailed": "ຜູ້ບໍລິຫານ AI ລົ້ມເຫລວໃນການຕອບໂຕ້"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6700,6 +6758,31 @@
       "notFound": "ລິ້ງເຊີນນີ້ບໍ່ຖືກຕ້ອງ.",
       "requestToJoin": "ຂໍເຂົ້າຮ່ວມ",
       "approvalNote": "ຜູ້ເບິ່ງແຍງລະບົບຕ້ອງອະນຸມັດຄຳຮ້ອງຂໍຂອງທ່ານກ່ອນທ່ານຈຶ່ງຈະເຂົ້າຮ່ວມໄດ້."
+    },
+    "buyAlert": {
+      "spent": "ໃຊ້ໄປ:",
+      "buyer": "ຜູ້ຊື້:",
+      "balance": "ຍອດຄົງທີ່:",
+      "price": "ລາຄາ:",
+      "marketCap": "ມູນຄ່າຕະຫຼາດ:"
+    },
+    "newChat": {
+      "public": "ສາທາລະນະ",
+      "private": "ສ່ວນຕົວ",
+      "free": "ຟຣີ",
+      "paid": "ຈ່າຍແລ້ວ",
+      "group": "ຈັດ​ກຸ່ມ"
+    },
+    "holderGate": {
+      "chain": "ເຊນ",
+      "which": "ໂທເຄັນ",
+      "tab": "ຜູ້ຖືກຸນແຈ"
+    },
+    "automod": {
+      "bannedWords": "ຄໍາ ເວົ້າທີ່ຖືກຫ້າມ",
+      "floodMax": "{{count}} ຂໍ້ມູນ",
+      "saved": "ບັນທຶກແລ້ວ",
+      "wordCount": "{{count}} ຄໍາ ເວົ້າ"
     }
   },
   "work": {
@@ -7821,7 +7904,10 @@
       "doneAll": "ຍົກເລີກການຕິດຕາມ {{done}} ບັນຊີທີ່ບໍ່ຕິດຕາມກັບທ່ານ.",
       "doneSome": "ຍົກເລີກການຕິດຕາມ {{done}} ບັນຊີ. {{failed}} ບໍ່ສາມາດຍົກເລີກການຕິດຕາມໄດ້.",
       "doneToast": "ຍົກເລີກການຕິດຕາມ {{done}} ບັນຊີທີ່ບໍ່ຕິດຕາມກັບທ່ານ."
-    }
+    },
+    "followBackConfirm": "ຕິດຕາມກັບ",
+    "followBackNotNow": "ບໍ່ແມ່ນຕອນນີ້",
+    "followBackDone": "ໝໍ່"
   },
   "reactionInfo": {
     "title": "ປະຕິກິລິຍາ",
@@ -8739,7 +8825,39 @@
     "coverFrames": "ເລືອກກອບໜ້າປົກ",
     "coverFrame": "ໃຊ້ກອບ {{index}} ເປັນໜ້າປົກ",
     "uploadCover": "ອັບໂຫຼດຮູບໜ້າປົກ",
-    "editFailed": "ບໍ່ສາມາດໃຊ້ການແກ້ໄຂນັ້ນໄດ້. ລອງອີກຄັ້ງ."
+    "editFailed": "ບໍ່ສາມາດໃຊ້ການແກ້ໄຂນັ້ນໄດ້. ລອງອີກຄັ້ງ.",
+    "altPlaceholderVideo": "ອະທິບາຍວິດີໂອນີ້",
+    "landingLive": "ສົດ",
+    "preview": {
+      "title": "ສະແດງຕົວຢ່າງ"
+    },
+    "recent": {
+      "all": "ທັງໝົດ"
+    },
+    "studio": {
+      "crop": "ຕັດ",
+      "draw": "ແຕ້ມ",
+      "light": "ສະຫວ່າງ",
+      "contrast": "ຄວາມແຕກຕ່າງ",
+      "warmth": "ຄວາມອົບອຸ່ນ",
+      "colour": "ສີ",
+      "fade": "ຈາງ",
+      "original": "ຕົ້ນສະບັບ",
+      "ratioOriginal": "ຕົ້ນສະບັບ",
+      "ratioFree": "ຟຣີ",
+      "rotate": "ໝູນ",
+      "strength": "ຄວາມແຮງ",
+      "stickers": "ສະຕິກເກີ",
+      "ticker": "ຕິກເກີ",
+      "textBg": "ພື້ນຫຼັງ",
+      "font": {
+        "bold": "ຕົວໜາ",
+        "serif": "ສະຖານ",
+        "mono": "ໂມໂນ"
+      }
+    },
+    "edited": "ແກ້ໄຂ",
+    "edit": "ແກ້ໄຂ"
   },
   "bounty": {
     "claimed": "ຮັບແລ້ວ",
@@ -9033,7 +9151,8 @@
     "connecting": "ກຳລັງເຊື່ອມຕໍ່…",
     "detailsLivepeerId": "ລະຫັດ Livepeer:",
     "shopPutOnAir": "ເອົາອາກາດ",
-    "tippedAmount": "ເສຍຊີວິດໃນປີ {{amount}}"
+    "tippedAmount": "ເສຍຊີວິດໃນປີ {{amount}}",
+    "liveBadge": "ສົດ"
   },
   "liveShop": {
     "title": "ຊື້ຈາກການຖ່າຍທອດນີ້",
@@ -9346,7 +9465,23 @@
     "paymentSentWith": "ສົ່ງດ້ວຍ {{amount}}",
     "planRestricted": "ຜູ້ໃຊ້ນີ້ຕ້ອງການການສະໝັກສະມາຊິກເພື່ອຮັບຂໍ້ຄວາມ.",
     "planTypeNotAllowed": "ແຜນຂອງຜູ້ສ້າງນີ້ບໍ່ອະນຸຍາດຂໍ້ຄວາມປະເພດນີ້.",
-    "planMinTip": "ທິບສຳລັບຜູ້ສ້າງນີ້ຕ້ອງຢ່າງໜ້ອຍ {{amount}} ສະບັບດີ."
+    "planMinTip": "ທິບສຳລັບຜູ້ສ້າງນີ້ຕ້ອງຢ່າງໜ້ອຍ {{amount}} ສະບັບດີ.",
+    "newDrawer": {
+      "to": "ໄປ"
+    },
+    "download": "ດາວໂຫຼດ",
+    "deleteOneTitle": "ລຶບຂໍ້ຄວາມນີ້ບໍ?",
+    "retrySend": "ລອງໃໝ່",
+    "discardSend": "ລຶບອອກ",
+    "shareKindGroup": "ຈັດ​ກຸ່ມ",
+    "shareKindCommunity": "ຊຸມຊົນ",
+    "searchDiscover": {
+      "people": "ຄົນ",
+      "communities": "ຊຸມຊົນ",
+      "members": "{{n}} ສະມາຊິກ",
+      "newChat": "ການສົນທະນາໃໝ່",
+      "invite": "ເຊື້ອເຊີນ"
+    }
   },
   "editPost": {
     "mediaPermission": "ຕ້ອງການສິດເຂົ້າເຖິງຄັງສື່",
@@ -10564,7 +10699,11 @@
       "hint": "ປ່ຽນສຽງເວົ້າເປັນຄຳບັນຍາຍຕາມເວລາ ທີ່ທ່ານປັບແຕ່ງຮູບແບບໄດ້. ເຮັດວຽກໃນອຸປະກອນຂອງທ່ານ: ຟຣີ ແລະ ເປັນສ່ວນຕົວ. ການໃຊ້ຄັ້ງທຳອິດຈະດາວໂຫຼດໂມເດລ.",
       "done": "ເພີ່ມ {{count}} ຄຳບັນຍາຍແລ້ວ.",
       "noSpeech": "ບໍ່ພົບສຽງເວົ້າໃນຄລິບນີ້.",
-      "failed": "ບໍ່ສາມາດສ້າງຄຳບັນຍາຍສຳລັບຄລິບນີ້ໄດ້."
+      "failed": "ບໍ່ສາມາດສ້າງຄຳບັນຍາຍສຳລັບຄລິບນີ້ໄດ້.",
+      "styles": {
+        "bold": "ກ້າຫານ",
+        "serif": "ສະຖານ"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10814,7 +10953,9 @@
       "suggestTitle": "ເພີ່ມຫົວຂໍ້ໃຫຍ່ຕົວໜາຢູ່ເທິງ ແລະ ຫົວຂໍ້ຍ່ອຍນ້ອຍກວ່າຢູ່ລຸ່ມ",
       "undo": "ຍ້ອນກັບ",
       "openGenerator": "ກວດເບິ່ງ ແລະ ສ້າງ",
-      "working": "ກຳລັງດຳເນີນການ…"
+      "working": "ກຳລັງດຳເນີນການ…",
+      "stop": "ຢຸດ",
+      "queue": "ເພີ່ມເຂົ້າຄິວ"
     },
     "brand": {
       "addColor": "ເພີ່ມສີແບຣນ",
@@ -10951,7 +11092,9 @@
       "rendering": "ກຳລັງສ້າງວິດີໂອ… {{percent}}%",
       "mp4": "ວິດີໂອ MP4",
       "exportHint": "ເປີດຕົວແກ້ໄຂໄວ້ໃນຂະນະທີ່ວິດີໂອກຳລັງສ້າງ.",
-      "tooLarge": "ໄຟລ໌ນັ້ນໃຫຍ່ເກີນໄປສຳລັບຕົວແກ້ໄຂ. ຂີດຈຳກັດແມ່ນ 400 MB."
+      "tooLarge": "ໄຟລ໌ນັ້ນໃຫຍ່ເກີນໄປສຳລັບຕົວແກ້ໄຂ. ຂີດຈຳກັດແມ່ນ 400 MB.",
+      "tZoomIn": "ຊູມເຂົ້າ",
+      "tZoomOut": "ຊູມອອກ"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12130,6 +12273,28 @@
       "selection": "ການເລືອກເຟັ້ນ",
       "zoomIn": "ກະດານຊູມໃນ",
       "zoomOut": "ແຜງຊູມອອກ"
+    },
+    "stage": {
+      "camera": "ກ້ອງຖ່າຍຮູບ",
+      "yaw": "ໝູນ",
+      "add": "ເພີ່ມ",
+      "scale": "ຂະໜາດ",
+      "color": "ສີ",
+      "light": "ສະຫວ່າງ"
+    },
+    "clipFix": {
+      "listening": "ກຳລັງຟັງ..."
+    },
+    "voiceClone": {
+      "stop": "ຢຸດການບັນທຶກ",
+      "failed": "ການກັ່ນຕອງສຽງບໍ່ສຳເລັດ."
+    },
+    "linkImport": {
+      "go": "ນຳເຂົ້າ",
+      "downloading": "ກຳລັງດາວໂຫລດ {{percent}}%"
+    },
+    "reverse": {
+      "action": "ກົງກັນຂ້າມ"
     }
   },
   "creator": {
@@ -12591,7 +12756,32 @@
     "referenceProductName": "ວາງຜະລິດຕະພັນຂອງທ່ານໃນ clip",
     "referenceProductHint": "ແທນທີ່ຜະລິດຕະພັນທີ່ສະແດງ ແລະ ຮັກສາສະຖານທີ່ຕົ້ນສະບັບ.",
     "referenceComposeName": "ລວມຮູບພາບອ້າງອີງ",
-    "referenceComposeHint": "ນໍາເອົາລັກສະນະ, ວັດຖຸ ແລະ ການຕັ້ງຄ່າຈາກຮູບພາບຫຼາຍຮູບເຂົ້າໄປໃນອົງປະກອບດຽວ."
+    "referenceComposeHint": "ນໍາເອົາລັກສະນະ, ວັດຖຸ ແລະ ການຕັ້ງຄ່າຈາກຮູບພາບຫຼາຍຮູບເຂົ້າໄປໃນອົງປະກອບດຽວ.",
+    "marketing": {
+      "import": {
+        "use": "ໃຊ້ລາຍລະອຽດເຫຼົ່ານີ້"
+      }
+    },
+    "batchCount": "ຮູບພາບ",
+    "endFrame": "ເຟຣມສຸດທ້າຍ",
+    "cinema": {
+      "close": "ປິດ",
+      "performance": {
+        "label": "ປະສິດທິພາບ"
+      }
+    },
+    "audioNoSpeech": "No tags ສໍາລັບການຕອບນີ້.",
+    "audioTaskSpeechLabel": "ການປາກເວົ້າ",
+    "audioTaskDialogueLabel": "ການສົນທະນາ",
+    "audioTaskSfxLabel": "ຜົນກະທົບສຽງ",
+    "audioTaskVoiceChangerLabel": "ຕົວປ່ຽນສຽງ",
+    "audioTaskTranscribeLabel": "ແປ",
+    "audioTaskIsolateLabel": "ທໍາຄວາມສະອາດ",
+    "priceFreeRateLimited": "FREE · ຂໍ້ ຈໍາ ກັດອັດຕາການ ນໍາ ໃຊ້",
+    "loop": "ລວດ",
+    "dialogueFormat": "ຂຽນ scene ວ່າ \"Name: line\", ຜູ້ເວົ້າໜຶ່ງຄົນຕໍ່ແຖວ.",
+    "fileTooLarge": "ໄຟລ໌ນັ້ນມີຂະໜາດເກີນ 100 MB. ໃຊ້ໄຟລ໌ທີ່ສັ້ນກວ່າ ຫຼື ນ້ອຍກວ່າ.",
+    "signInToGenerate": "ເຂົ້າສູ່ລະບົບເພື່ອສ້າງ."
   },
   "fractions": {
     "title": "ສ່ວນ",
@@ -14660,6 +14850,19 @@
       "intro": "ຜູ້ຊົມມີຈຸດ ສໍາ ລັບທຸກໆນາທີທີ່ພວກເຂົາເບິ່ງທ່ານແລະ ຫນຶ່ງ ສໍາ ລັບທຸກໆ 100 ສະບັບດີ ທີ່ພວກເຂົາໃຫ້. ການສົນທະນາ ແລະ ການຕອບໂຕ້ ບໍ່ໄດ້ຮັບຫຍັງເລີຍ, ສະນັ້ນຈຸດບໍ່ສາມາດປູກໄດ້.",
       "empty": "ຍັງບໍ່ມີຈຸດໃດເທື່ອ. ພວກເຂົາກໍ່ສ້າງຂຶ້ນໃນຂະນະທີ່ຄົນເບິ່ງ ແລະ ມອບຂອງຂວັນ.",
       "widgetHint": "ເພີ່ມ widget ຜູ້ເບິ່ງທີ່ຊື່ສັດເພື່ອສະແດງລາຍຊື່ນີ້ໃນສະຕີມ."
+    },
+    "destinations": {
+      "platform": "ແພລດຟອມ",
+      "label": "ຊື່ (ທາງເລືອກ)",
+      "key": "ກະແຈສາຍ",
+      "save": "ເພີ່ມ",
+      "cancel": "ຍົກເລີກ",
+      "states": {
+        "off": "ປິດ",
+        "idle": "ພ້ອມແລ້ວ",
+        "live": "ສົດ",
+        "error": "ຂໍ້ຜິດພາດ"
+      }
     }
   },
   "liveChatModeration": {
@@ -14725,7 +14928,8 @@
     "disconnected": "GitHub ຕັດການເຊື່ອມຕໍ່ແລ້ວ",
     "taken": "ບັນຊີ GitHub ນັ້ນມີຢູ່ໃນໂປຣໄຟລ໌ Riftn ອື່ນແລ້ວ.",
     "failed": "ບໍ່ສາມາດເຊື່ອມຕໍ່ GitHub ໄດ້. ລອງໃໝ່ອີກຄັ້ງ.",
-    "unavailable": "ການຢືນຢັນ GitHub ຈະມາເຮັດວຽກໃນໄວໆນີ້."
+    "unavailable": "ການຢືນຢັນ GitHub ຈະມາເຮັດວຽກໃນໄວໆນີ້.",
+    "hint": "ເຂົ້າສູ່ລະບົບ GitHub ເພື່ອພິສູດບັນຊີແມ່ນຂອງທ່ານ. Riftn ເຫັນພຽງແຕ່ໂປຣໄຟລ໌ GitHub ສາທາລະນະຂອງທ່ານເທົ່ານັ້ນ."
   },
   "comic": {
     "showAll": "ສະແດງທັງໝົດ {{count}} ໜ້າ",
@@ -14744,7 +14948,9 @@
       "cover": "ຫົວຂໍ້",
       "caption": "ຄໍາບັນຍາຍສໍາລັບໜ້ານີ້",
       "alt": "ຂໍ້ຄວາມທົດແທນ: ສິ່ງທີ່ໜ້າສະແດງ"
-    }
+    },
+    "tab": "ກາຕູນ",
+    "title": "ກາຕູນ"
   },
   "nftMarket": {
     "dehubPostsName": "ການສະແດງຂ່າວຂອງ Riftn",
@@ -14754,7 +14960,71 @@
     "latestMints": "ລາຍການ mint ຫລ້າສຸດ",
     "tapToOffer": "ແຕະອັນໜຶ່ງເພື່ອສະເໜີລາຄາ",
     "collections": "ສຳລັບສະກຸນສະກຸນສະກຸນ",
-    "spotlightNew": "ການກະທົບ"
+    "spotlightNew": "ການກະທົບ",
+    "actAll": "ທັງໝົດ",
+    "actListings": "ລາຍການ",
+    "actOffer": "ຂໍ້ສະເໜີ",
+    "actOffers": "ຂໍ້ສະເໜີ",
+    "actSales": "ການຂາຍ",
+    "tabActivity": "ກິດຈະກຳ",
+    "newest": "ໃໝ່ສຸດ",
+    "soldFor": "ຂາຍແລ້ວ",
+    "signIn": "ເຂົ້າສູ່",
+    "title": "NFT",
+    "share": "ແບ່ງປັນ",
+    "noneForSale": "ຍັງບໍ່ມີຫຍັງຂາຍ",
+    "noSales": "ຍັງບໍ່ມີການຂາຍ",
+    "tabBrowse": "ເຂົ້ນ",
+    "tabMine": "ຂອງທ່ານ",
+    "tabSales": "ການຂາຍ",
+    "cancelled": "ຍົກເລີກແລ້ວ",
+    "sold": "ຂາຍແລ້ວ",
+    "listed": "ລາຍການຂາຍ",
+    "feeRow": "ຄ່າທຳນຽມ Riftn ({{pct}}%)",
+    "royaltyRow": "ຄ່າລິຂະສິດຜູ້ສ້າງ",
+    "youGet": "ທ່ານຈະໄດ້ຮັບ",
+    "holderGets": "ຜູ້ຖືຈະໄດ້ຮັບ",
+    "loading": "ກຳລັງໂຫຼດ…",
+    "price": "ລາຄາ",
+    "seller": "ຜູ້ຂາຍ",
+    "tabRecent": "ຫຼ້າສຸດ",
+    "buyNow": "ຊື້ເລີຍ",
+    "offers": "ຂໍ້ສະເໜີ",
+    "cancel": "ຍົກເລີກ",
+    "accept": "ຍອມຮັບ",
+    "signInToTrade": "ສົນການສະຫຼາບ",
+    "listForSale": "ປະກາດຂາຍ",
+    "makeOffer": "ເຮັດຂໍ້ສະ ເຫນີ",
+    "sendOffer": "ສົ່ງຂໍ້ສະເໜີ",
+    "back": "ກັບຄືນ",
+    "dropsTo": "ລາຄາຈະຫຼຸດລົງເຫຼືອ {{price}} ພາຍໃນ {{date}}",
+    "inBundle": "ຂາຍເປັນຊຸດຂອງ {{n}}",
+    "trending": "ການລວບລວມແນວໂນ້ມ",
+    "floor": "ຊັ້ນ",
+    "listedCount": "{{n}} ສໍາ ລັບຂາຍ",
+    "thisCollection": "ການເກັບກໍານີ້",
+    "collectionOffer": "ສະ ເຫນີ ໃນອັນໃດອັນ ຫນຶ່ງ",
+    "showAll": "ສະແດງທັງໝົດ",
+    "shortTitle": "NFT",
+    "filters": "ກັ່ນຕອງ",
+    "forSale": "ສະຖານສະຫຼາດ",
+    "openToOffers": "ເປີດໃຫ້ຂໍ້ສະ ເຫນີ",
+    "freshMints": "ສົດຈາກຜູ້ສ້າງ Riftn",
+    "offersOpen": "ເປີດໃຫ້ຂໍ້ສະ ເຫນີ",
+    "anyInCollection": "ອັນໃດກໍໄດ້ໃນຄໍເລັກຊັນ",
+    "thisNft": "NFT ນີ້",
+    "priceAlert": "ແຈ້ງເຕືອນລາຄາ",
+    "alertUnder": "ບອກຂ້ອຍເມື່ອມີການລົງຂາຍໃນລາຄາ ຫຼື ຕ່ຳກວ່າ ({{symbol}}, ທາງເລືອກ)",
+    "turnOnAlert": "ເປີດການແຈ້ງເຕືອນ",
+    "alertSaved": "ເປີດການແຈ້ງເຕືອນ. ພວກເຮົາຈະບອກເຈົ້າເມື່ອມີລາຍການໃດໜຶ່ງຖືກປະກາດຂາຍ.",
+    "priceDrop": "ລາຄາຫຼຸດລົງຕາມເວລາ",
+    "endPrice": "ລາຄາຕ່ຳສຸດ, ຈະຮອດໃນຕອນທ້າຍ ({{symbol}})",
+    "dropBadge": "ລາຄາລົດ",
+    "days_one": "{{count}} ມື້",
+    "days_other": "{{count}} ມື້",
+    "days": "{{count}} ມື້",
+    "spotlightForSale": "ຂາຍດຽວນີ້",
+    "buyFor": "ຊື້ໃນລາຄາ {{price}}"
   },
   "reel": {
     "readAll": "ອ່ານທັງ ຫມົດ",
@@ -14776,7 +15046,11 @@
       "episode": "Podcast ຕອນທີ",
       "show": "ປະເທດປະໂດກສາດ",
       "artist": "ສິລະປິນ"
-    }
+    },
+    "loading": "ກຳລັງໂຫຼດ…",
+    "paused": "ຢຸດຊົ່ວຄາວ",
+    "preview": "ສະແດງຕົວຢ່າງ",
+    "seek": "ຊອກຫາ"
   },
   "twoFactor": {
     "wrongCode": "ຂອງລະບົບນີ້ບໍ່ກົງກັນ. ພະຍາຍາມໃຊ້ລະບົບໃໝ່ທີ່ຢູ່ໃນແອັບຂອງທ່ານ.",
@@ -14850,5 +15124,251 @@
     "newer": "ຜົນການຄົ້ນຫາໃໝ່",
     "gone": "ຂໍ້ມູນນີ້ບໍ່ມີໃນທີ່ນີ້ແມ່ນແລ້ວ",
     "theirMessages": "ຂໍ້ມູນຂອງພວກເຂົາ"
+  },
+  "chatTextSize": {
+    "title": "ຂະໜາດຂໍ້ຄວາມ",
+    "default": "ຄ່າເລີ່ມຕົ້ນ",
+    "larger": "ໃຫຍ່ກວ່າ"
+  },
+  "remix": {
+    "cut": "ຕັດ"
+  },
+  "signedFollows": {
+    "setUp": "ເປີດ",
+    "turnOff": "ປິດ",
+    "efpTurnOff": "ຢຸດ"
+  },
+  "postEditHistory": {
+    "original": "ຕົ້ນສະບັບ"
+  },
+  "studioDeck": {
+    "remove": "ລຶບອອກ",
+    "background": {
+      "title": "ພື້ນຫຼັງ",
+      "modes": {
+        "none": "ປິດ",
+        "blur": "ມົວ",
+        "color": "ສີ"
+      }
+    },
+    "scenes": {
+      "countdown": "ນັບຖອຍຫຼັງ",
+      "minutes": "{{count}} ນາທີ",
+      "names": {
+        "starting": "ໃກ້ຈະເລີ່ມ"
+      }
+    },
+    "widgets": {
+      "tab": "ວິດຈັນຕາມ"
+    },
+    "sources": {
+      "image": "ຮູບພາບ",
+      "show": "ສະແດງໃນສະຕຣີມ",
+      "positions": {
+        "center": "ສູນ"
+      },
+      "sizes": {
+        "medium": "ປານກາງ"
+      }
+    },
+    "phone": {
+      "title": "ສະຕູດິໂອ"
+    }
+  },
+  "whenSheet": {
+    "today": "ມື້ນີ້",
+    "tooSoon": "ເລືອກເວລາໃນອະນາຄົດ.",
+    "show": "ສະແດງ",
+    "hide": "ເຊື່ອງ"
+  },
+  "planned": {
+    "title": "ວາງແຜນແລ້ວ",
+    "all": "ທັງໝົດ",
+    "posts": "ໂພສ",
+    "stages": "ຫ້ອງສຽງ",
+    "post": "ໂພສ",
+    "live": "ສົດ",
+    "stage": "ເວທີ",
+    "untitledPost": "ໂພສ",
+    "untitledLive": "ສົດ",
+    "loading": "ກຳລັງໂຫຼດ…",
+    "startNow": "ເລີ່ມດຽວນີ້",
+    "cancel": "ຍົກເລີກ",
+    "cancelled": "ຍົກເລີກ"
+  },
+  "welcome": {
+    "about": {
+      "title": "ຍິນດີຕ້ອນຮັບສູ່ Riftn",
+      "day": "ວັນ",
+      "month": "ເດືອນ",
+      "year": "ປີ"
+    },
+    "name": {
+      "title": "ຊື່ຂອງທ່ານ",
+      "placeholder": "ຊື່ຂອງທ່ານ"
+    },
+    "card": {
+      "name": "ຊື່ຂອງທ່ານ",
+      "followers": "ຜູ້ຕິດຕາມ"
+    },
+    "topic": {
+      "music": "ເພງ",
+      "art": "ສິລະປະ",
+      "gaming": "ເກມ",
+      "crypto": "ຄຣິບໂຕ",
+      "sports": "ກິລາ",
+      "comedy": "ເລື່ອງຕະຫລົກ",
+      "film": "ຮູບເງົາ",
+      "podcast": "ປະເທດປະໂດກສາດ",
+      "food": "ອາຫານ",
+      "news": "ຂ່າວ",
+      "science": "ວິທະຍາສາດ"
+    },
+    "back": "ກັບຄືນ",
+    "skipPhoto": "ຂ້າມ ສໍາ ລັບດຽວນີ້",
+    "preview": "ເບິ່ງລ່ວງໜ້າ"
+  },
+  "appTokens": {
+    "title": "tokens ຂອງທ່ານ",
+    "history": "ປະຫວັດ",
+    "noHistory": "ຍັງບໍ່ມີກິດຈະກຳເທື່ອ",
+    "kindDeposit": "ຝາກ",
+    "to": "ໄປ",
+    "amount": "ຈຳນວນ",
+    "notePlaceholder": "ເພີ່ມບັນທຶກ (ບໍ່ບັງຄັບ)",
+    "sendButton": "ສົ່ງ",
+    "errorInsufficient": "ເຄື່ອງໝາຍບໍ່ພຽງພໍ"
+  },
+  "avatarPrompt": {
+    "notNow": "ບໍ່ແມ່ນຕອນນີ້"
+  },
+  "postStats": {
+    "audience": "ຜູ້ຊົມ",
+    "engagement": "ການມີສ່ວນຮ່ວມ",
+    "finished": "ສິ້ນສຸດ",
+    "members": "ສະມາຊິກ",
+    "membersLower": "ສະມາຊິກ",
+    "newFollowers": "ຜູ້ຕິດຕາມ ໃຫມ່",
+    "noBadge": "ບໍ່ມີເຄື່ອງໝາຍ",
+    "people": "ຄົນ",
+    "plays": "ຫຼີ້ນ",
+    "quotes": "ຄຳເວົ້າ",
+    "reposts": "ແບ່ງປັນ",
+    "saved": "ບັນທຶກແລ້ວ",
+    "shares": "ແບ່ງປັນ",
+    "signedOutViewers": "ອອກຈາກລະບົບແລ້ວ",
+    "topSupporters": "ຕົວສຸດສະດຸການສຸດສະດຸ",
+    "visitors": "ອອກຈາກລະບົບແລ້ວ"
+  },
+  "duet": {
+    "policyEveryone": "ທຸກຄົນ",
+    "policyFollowers": "ຜູ້ຕິດຕາມ",
+    "policyNobody": "ບໍ່ມີໃຜ",
+    "loadMore": "ໂຫຼດເພີ່ມ",
+    "video": "ວິດີໂອ"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "ທຸກຄົນ",
+      "followers": "ຜູ້ຕິດຕາມ",
+      "nobody": "ບໍ່ມີໃຜ"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "ທຸກຄົນ",
+      "followers": "ຜູ້ຕິດຕາມ",
+      "nobody": "ບໍ່ມີໃຜ"
+    },
+    "heading": "ປະຕິກິລິຍາ",
+    "more": "ສະແດງເພີ່ມເຕີມ",
+    "liveNow": "ສົດ",
+    "untitled": "ປະຕິກິລິຍາ"
+  },
+  "liveClips": {
+    "copyLink": "ສຳເນົາລິ້ງ",
+    "linkCopied": "ລິ້ງສຳເນົາແລ້ວ"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "ແຜນ",
+      "howMany": "ຈຳນວນເທົ່າໃດ",
+      "who": "ຊື່ຜູ້ໃຊ້ ຫຼື ທີ່ຢູ່ກະເປົາ",
+      "whoPlaceholder": "@ຊື່ຜູ້ໃຊ້",
+      "cancel": "ຍົກເລີກ",
+      "stage": {
+        "preparing": "ກຳລັງກະກຽມ…",
+        "confirming": "ກຳລັງລໍຖ້າທຸລະກຳ…",
+        "recording": "ກຳລັງສຳເລັດ…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "ອື່ນໆ",
+    "confirming": "ຢືນຢັນການຈ່າຍເງິນ..."
+  },
+  "liveShorts": {
+    "live": "ສົດ"
+  },
+  "feedFilters": {
+    "clearAllShort": "ລ້າງທັງໝົດ",
+    "done": "ສຳເລັດແລ້ວ",
+    "edit": "ແກ້ໄຂ",
+    "groupDate": "ວັນທີ",
+    "groupSort": "ຈັດລຽງ",
+    "groupType": "ປະເພດ",
+    "save": "ບັນທຶກ"
+  },
+  "ownKeys": {
+    "working": "ເຮັດວຽກ",
+    "failed": "ບາງສິ່ງບາງຢ່າງຜິດພາດ. ລອງໃໝ່ອີກຄັ້ງ.",
+    "check": "ກວດສອບ",
+    "remove": "ລຶບອອກ",
+    "save": "ບັນທຶກ",
+    "cancel": "ຍົກເລີກ"
+  },
+  "postBg": {
+    "none": "ບໍ່​ມີ",
+    "yours": "ຂອງທ່ານ",
+    "accent": "ສຽງຕົບມືຊ້າໆ, ຈາກ",
+    "names": {
+      "aurora": "ແສງອໍໂຣຣາ",
+      "lava": "ໂຄມລາວາ",
+      "drive": "ຂັບເຄື່ອນໃນຕອນກາງຄືນ",
+      "chrome": "ທາດແຫຼວ Chrome",
+      "orbit": "ວົງໂຄຈອນ",
+      "snow": "ຫິມະຕົກ"
+    }
+  },
+  "articleTile": {
+    "cover": "ໜ້າປົກ"
+  },
+  "aiConsent": {
+    "allow": "ອະນຸຍາດ"
+  },
+  "dmRequests": {
+    "title": "ຄຳຮ້ອງຂໍ",
+    "accept": "ຍອມຮັບ",
+    "delete": "ລຶບ",
+    "block": "ບລັອກ"
+  },
+  "dmSchedule": {
+    "view": "ເບິ່ງ",
+    "edit": "ແກ້ໄຂ",
+    "editLabel": "ແກ້ໄຂຂໍ້ຄວາມ",
+    "error": "ນັ້ນບໍ່ໄດ້ຜົນ. ລອງໃໝ່ອີກຄັ້ງ."
+  },
+  "chatBulk": {
+    "selected": "{{count}} ທີ່ຖືກເລືອກ",
+    "cancel": "ຍົກເລີກ",
+    "reply": "ຕອບ",
+    "delete": "ລຶບ"
+  },
+  "msgSelect": {
+    "selected": "{{count}} ທີ່ຖືກເລືອກ",
+    "copy": "ສຳເນົາ",
+    "forward": "ສົ່ງຕໍ່",
+    "deleted_one": "ຖືກລຶບ {{count}} ຂໍ້ຄວາມ",
+    "deleted_other": "ລຶບ {{count}} ຂໍ້ຄວາມ"
   }
 }

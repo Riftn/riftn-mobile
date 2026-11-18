@@ -6,6 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system/legacy';
 import { getNFT, replacePostImage, addPostImages, getPostImageAllowance, editPost } from '../../services/nft.service';
 import AltTextSheet, { AltTextPill } from '../Upload/AltTextSheet';
+import { useLingering } from '../../hooks/useLingering';
 import { ensureMediaLibraryPermission } from '../../libs/permissions.util';
 import { buildFeedImageUrls, toastError, toastSuccess } from '../../libs';
 import { MAX_IMAGE_UPLOAD_BYTES, MAX_REQUEST_IMAGE_BYTES } from '../../libs/post-image-allowance';
@@ -28,6 +29,7 @@ export default function EditPostImages({ tokenId, disabled, onBusyChange }: {
   const [busyIndex, setBusyIndex] = useState<number | null>(null);
   const [descriptions, setDescriptions] = useState<string[]>([]);
   const [altIndex, setAltIndex] = useState<number | null>(null);
+  const altShown = useLingering(altIndex);
   useEffect(() => {
     let active = true;
     setLoading(true);
@@ -164,14 +166,14 @@ export default function EditPostImages({ tokenId, disabled, onBusyChange }: {
         <AltTextPill hasText={!!descriptions[index]} onPress={() => setAltIndex(index)} className="absolute top-2 right-2" />
       </View>)}
     </View>
-    {altIndex !== null && (
+    {altShown !== null && (
       <AltTextSheet
-        visible
+        visible={altIndex !== null}
         onClose={() => setAltIndex(null)}
         kind="image"
-        previewUri={previews[altIndex]}
-        initial={descriptions[altIndex]}
-        onSave={(text) => { void saveDescription(altIndex, text); }}
+        previewUri={previews[altShown]}
+        initial={descriptions[altShown]}
+        onSave={(text) => { void saveDescription(altShown, text); }}
       />
     )}
   </View>;

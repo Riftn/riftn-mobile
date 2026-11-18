@@ -90,7 +90,12 @@ const TipAmountSheetComponent: React.FC<TipAmountSheetProps> = ({
         easing: Easing.out(Easing.cubic),
       });
       backdropOpacity.value = withTiming(1, { duration: 250 });
+    } else if (translateY.value >= SHEET_HEIGHT - 1) {
+      // Its own swipe or close button already slid it off: drop the window now.
+      backdropOpacity.value = 0;
+      setIsFullyClosed(true);
     } else {
+      // Closed from outside (a pick, a send): slide it away before the window goes.
       translateY.value = withTiming(
         SHEET_HEIGHT,
         { duration: 220, easing: Easing.in(Easing.cubic) },
@@ -164,7 +169,9 @@ const TipAmountSheetComponent: React.FC<TipAmountSheetProps> = ({
 
   return (
     <Modal
-      visible={visible}
+      // Android keeps the window up while the sheet slides out; iOS dismisses
+      // stacked windows together if one lingers.
+      visible={visible || (Platform.OS === "android" && !isFullyClosed)}
       transparent
       animationType="none"
       statusBarTranslucent

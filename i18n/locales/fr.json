@@ -3604,7 +3604,6 @@
     "flexibleHoursTag": "Horaires Flexibles",
     "fullyRemoteTag": "Entièrement à Distance",
     "aboutTheRole": "À propos du poste",
-    "bdmAbout": "En tant que l'un de nos responsables du développement commercial chez Riftn, vous ferez partie de la force motrice de notre stratégie de partenariat. Votre mission est d'identifier, d'engager et de conclure des accords avec des entreprises à la fois sur Web2 et Web3 — des studios de jeux et des plateformes de contenu aux projets blockchain et aux protocoles DeFi. Il s'agit d'un poste basé sur des commissions OTE (On-Target Earnings) : plus vous vous démenez, plus vous gagnez.Le rôle est simple, amenez des entreprises, des projets, des communautés ou des comptes de profil importants sur Riftn et soyez payé.",
     "keyResponsibilities": "Responsabilités clés",
     "bdmResp1": "Identifier et sécuriser des partenariats stratégiques avec des entreprises Web2 et Web3",
     "bdmResp2": "Construire et gérer un pipeline de partenaires, sponsors et opportunités d'intégration",
@@ -3659,7 +3658,8 @@
     "nameEmailRequired": "Le nom et l'e-mail sont requis",
     "applicationSuccess": "Candidature soumise avec succès ! Nous vous recontacterons.",
     "applicationFailed": "Échec de la soumission. Veuillez réessayer.",
-    "namePlaceholder": "Marie Dupont"
+    "namePlaceholder": "Marie Dupont",
+    "bdmAbout": "En tant que l'un de nos responsables du développement commercial chez Riftn, vous ferez partie de la force motrice de notre stratégie de partenariat. Votre mission est d'identifier, d'engager et de conclure des accords avec des entreprises à la fois sur Web2 et Web3 — des studios de jeux et des plateformes de contenu aux projets blockchain et aux protocoles DeFi. Il s'agit d'un poste basé sur des commissions OTE (On-Target Earnings) : plus vous vous démenez, plus vous gagnez. Le rôle est simple, amenez des entreprises, des projets, des communautés ou des comptes de profil importants sur Riftn et soyez payé."
   },
   "raffle": {
     "title": "Tirages au sort",
@@ -7564,6 +7564,8 @@
     "allDisabled": "Tous les messages sont actuellement désactivés. Les nouveaux sont bloqués par défaut.",
     "failedToEdit": "La configuration utilisateur a échoué.",
     "messageDeleted": "Message supprimé.",
+    "deleteOneTitle": "Supprimer ce message ?",
+    "deleteForBothBody": "Il sera supprimé pour vous deux.",
     "cantForwardFromDevice": "Ce message ne peut pas être transféré depuis cet appareil",
     "messageForwarded": "Message envoyé",
     "clearMessages": "Effacer les messages",
@@ -16698,8 +16700,27 @@
       "spin": "Prisme tournant",
       "tide": "Marée",
       "ember": "Braises",
-      "holo": "Holographique"
-    }
+      "holo": "Holographique",
+      "rift": "Faille",
+      "chrome": "Chrome liquide",
+      "mesh": "Maillage",
+      "grain": "Grain de film",
+      "orbit": "Orbite",
+      "ripple": "Ondulation",
+      "dotwave": "Vague de points",
+      "scan": "CRT",
+      "silk": "Soie",
+      "bokeh": "Bokeh",
+      "snow": "Chute de neige",
+      "photo": "Votre image"
+    },
+    "yours": "Les vôtres",
+    "base": "Base",
+    "accent": "Accent",
+    "accent2": "Accent 2",
+    "ownColours": "Vos propres couleurs",
+    "addPhoto": "Ajouter une image ou un GIF",
+    "changePhoto": "Changer l'image ou le GIF"
   },
   "riftnMove": {
     "title": "DeHub devient Riftn",
@@ -16898,6 +16919,7 @@
     "notSent": "Envoi impossible. Réessayez."
   },
   "msgSelect": {
+    "deleteForBothBody": "Ils seront supprimés pour vous deux.",
     "toolbar": "Messages sélectionnés",
     "pick": "Touchez des messages pour les sélectionner",
     "selected": "{{count}} sélectionné(s)",
@@ -16915,5 +16937,8 @@
     "deleteBody": "Ils seront supprimés pour tout le monde dans ce chat.",
     "deleted_one": "{{count}} message supprimé",
     "deleted_other": "{{count}} messages supprimés"
+  },
+  "profileImage": {
+    "change": "Changer"
   }
 }

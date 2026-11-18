@@ -9,7 +9,7 @@ import { ScreenNames } from "./ScreenNames";
 import type { BottomTabParamList, AppStackNavigationProp } from "./types";
 import { useNavigation, type ScreenLayoutArgs } from "@react-navigation/native";
 import AndroidTabScene from "../components/navigation/AndroidTabScene";
-import { useAuthState } from "../context/AuthContext";
+import { useAuthActions, useAuthState } from "../context/AuthContext";
 import { TabBarHideProvider } from "../context/TabBarHideContext";
 import { homeTabEvents } from "../libs/eventBus";
 import { useEdgeToEdgeMedia } from "../libs/edgeToEdgeMedia";
@@ -25,6 +25,7 @@ function withTabScreenBoundary(args: ScreenLayoutArgs<any, any, any, any>) {
 function BottomTabNavigator() {
   const navigation = useNavigation<AppStackNavigationProp<typeof ScreenNames.Root>>();
   const { isSignedIn, needsUsername } = useAuthState();
+  const { requireAuth } = useAuthActions();
   const isAuthed = isSignedIn && !needsUsername;
 
   const renderTabBar = useCallback(
@@ -66,15 +67,18 @@ function BottomTabNavigator() {
             tabPress: (e) => {
               perfMark("composer:open");
               e.preventDefault();
-              if (!isAuthed) {
-                navigation.navigate(ScreenNames.SignIn);
-                return;
-              }
               // From the Live feed, + opens the composer ready to go live.
               const tabs = tabNav.getState();
               const onLiveFeed =
                 tabs.routes[tabs.index]?.name === ScreenNames.Home && homeTabEvents.visibleTab() === "live";
-              navigation.navigate(ScreenNames.Upload, onLiveFeed ? { live: true } : undefined);
+              const openComposer = () => navigation.navigate(ScreenNames.Upload, onLiveFeed ? { live: true } : undefined);
+              // Signed out: the same sign-in sheet a like or a follow opens,
+              // and the composer opens once signed in.
+              if (!isAuthed) {
+                requireAuth(openComposer);
+                return;
+              }
+              openComposer();
             },
           })}
         />

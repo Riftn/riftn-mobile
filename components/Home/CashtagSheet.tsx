@@ -178,7 +178,12 @@ const CashtagSheetComponent: React.FC<CashtagSheetProps> = ({ visible, symbol, o
       load();
       translateY.value = withTiming(0, { duration: 300, easing: Easing.out(Easing.cubic) });
       backdropOpacity.value = withTiming(1, { duration: 250 });
+    } else if (translateY.value >= SHEET_HEIGHT - 1) {
+      // Its own swipe or close button already slid it off: drop the window now.
+      backdropOpacity.value = 0;
+      setIsClosed(true);
     } else {
+      // Closed from outside (a pick, a send): slide it away before the window goes.
       translateY.value = withTiming(
         SHEET_HEIGHT,
         { duration: 220, easing: Easing.in(Easing.cubic) },
@@ -214,7 +219,7 @@ const CashtagSheetComponent: React.FC<CashtagSheetProps> = ({ visible, symbol, o
   const changeColor = change24h == null ? "#6F7174" : isPositive ? "#F4F4F5" : "#8B8D90";
 
   return (
-    <Modal visible={visible} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={closeSheet}>
+    <Modal visible={visible || (Platform.OS === "android" && !isClosed)} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={closeSheet}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(0,0,0,0.55)" }, bdStyle]}>
           <Pressable style={{ flex: 1 }} onPress={closeSheet} />

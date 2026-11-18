@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import FloatingBottomTabBar from "./FloatingBottomTabBar";
 import { ScreenNames } from "./ScreenNames";
 import { navigationRef } from "../App";
-import { useAuthState } from "../context/AuthContext";
+import { useAuthActions, useAuthState } from "../context/AuthContext";
 import { useRegisterOwnTabBar } from "../libs/tab-bar-presence";
 
 const TAB_ROUTES = [
@@ -29,6 +29,7 @@ const TAB_ROUTES = [
  */
 const StandaloneTabBar: React.FC<{ onBeforeNavigate?: () => void; appWide?: boolean }> = ({ onBeforeNavigate, appWide = false }) => {
   const { isSignedIn, needsUsername } = useAuthState();
+  const { requireAuth } = useAuthActions();
   useRegisterOwnTabBar(!appWide);
   const isAuthed = isSignedIn && !needsUsername;
 
@@ -38,7 +39,10 @@ const StandaloneTabBar: React.FC<{ onBeforeNavigate?: () => void; appWide?: bool
       onBeforeNavigate?.();
       if (name === ScreenNames.UploadTab) {
         const creatingBounty = navigationRef.getCurrentRoute()?.name.startsWith('Work');
-        navigationRef.navigate((creatingBounty ? ScreenNames.WorkPost : isAuthed ? ScreenNames.Upload : ScreenNames.SignIn) as never);
+        const target = (creatingBounty ? ScreenNames.WorkPost : ScreenNames.Upload) as never;
+        // Signed out: the same sign-in sheet as everywhere else, then on.
+        if (!creatingBounty && !isAuthed) requireAuth(() => navigationRef.navigate(target));
+        else navigationRef.navigate(target);
       } else if (name === ScreenNames.Profile && isAuthed) {
         // Your profile is a kept-loaded tab; pop back to it rather than
         // pushing a fresh copy that loads from scratch.
@@ -53,7 +57,7 @@ const StandaloneTabBar: React.FC<{ onBeforeNavigate?: () => void; appWide?: bool
       state: { index: -1, routes: TAB_ROUTES },
       navigation: { emit: () => ({ defaultPrevented: false }), navigate: go },
     };
-  }, [isAuthed, onBeforeNavigate]);
+  }, [isAuthed, onBeforeNavigate, requireAuth]);
 
   // The bar is already on screen when this copy takes over: no entrance.
   return <FloatingBottomTabBar {...(props as any)} noEntrance />;

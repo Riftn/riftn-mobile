@@ -5,7 +5,10 @@
     "converted": "Wird jetzt als Comic gezeigt",
     "unconverted": "Wird jetzt als Karussell gezeigt",
     "convertFailed": "Layout konnte nicht geändert werden",
-    "showAll": "Alle {{count}} Seiten anzeigen"
+    "showAll": "Alle {{count}} Seiten anzeigen",
+    "editor": {
+      "cover": "Abdeckung"
+    }
   },
   "comicBorder": {
     "title": "Rahmen",
@@ -2484,7 +2487,13 @@
     "cbade2afaee2": "Diese Woche im Trend auf Audius. Kostenlos nutzbar, der Künstler wird in Ihrem Beitrag genannt.",
     "d2e45b7406fc": "Musik aus der Public Domain und von Creative Commons von Wikimedia Commons. Der Künstler wird in deinem Beitrag genannt.",
     "d0c1a3684775": "Die Songs wurden nicht geladen. Versuchen Sie es gleich noch einmal.",
-    "d14064f80f52": "Sound hinzufügen"
+    "d14064f80f52": "Sound hinzufügen",
+    "147170e793c6": "Breit",
+    "481859b689b0": "Überprüfen Sie Ihre Verbindung und versuchen Sie es erneut.",
+    "57e2faa5ec63": "Riftn durchsuchen",
+    "7db20897053b": "Personen",
+    "96d7bff86b44": "Die Suche konnte nicht geladen werden",
+    "d8b8392e2c54": "Versuchen Sie es erneut"
   },
   "dehubLinks": {
     "kind": {
@@ -2778,7 +2787,8 @@
       "quote": "Zitat",
       "bullets": "Listenpunkt",
       "numbers": "Nummerierte Liste",
-      "link": "Verknüpfen"
+      "link": "Verknüpfen",
+      "image": "Bilder hinzufügen"
     }
   },
   "storefront": {
@@ -3788,7 +3798,11 @@
     "payDirectNoName": "Direkt an den Creator in {{symbol}} auf {{chain}} gesendet. Kein Swap.",
     "payViaBridgeDpay": "Auf Base verschoben und an Riftn Pay bezahlt, Tokens kommen in ca. einer Minute an",
     "tokensUnit": "Tokens",
-    "tokenAmount": "{{amount}} Tokens"
+    "tokenAmount": "{{amount}} Tokens",
+    "addMessage": "Hinzufügen einer Nachricht (optional)",
+    "messagePublic": "Öffentlich",
+    "railTitle": "Trinkgelder",
+    "railTotal": "{{amount}} Tokens"
   },
   "postOptions": {
     "embed": "Einbetten",
@@ -4522,7 +4536,8 @@
       "governanceVotedRejected": "Ein Vorschlag, über den Sie abgestimmt haben, wurde nicht angenommen: „{{title}}“",
       "governancePassed": "Ihr Vorschlag „{{title}}“ wurde angenommen 🎉",
       "governanceRejected": "Ihr Vorschlag „{{title}}“ wurde nicht angenommen"
-    }
+    },
+    "searchClose": "Suche schließen"
   },
   "leaderboard": {
     "title": "Rangliste",
@@ -4714,7 +4729,18 @@
     "promptMediaError": "Wählen Sie Bilder oder Videos mit jeweils weniger als 20 MB.",
     "promptMediaLimit": "Bis zu {{max}} Anhänge.",
     "removePromptAttachment": "{{name}}entfernen",
-    "promptAttachment": "Anhang {{number}}"
+    "promptAttachment": "Anhang {{number}}",
+    "deviceInfoNoErrors": "Keine",
+    "topBuilders": {
+      "month": "Dieser Monat",
+      "allTime": "Gesamte Zeit",
+      "shipped": "Ausgeliefert",
+      "votes": "Stimmen",
+      "comments": "Kommentare",
+      "showLess": "Weniger anzeigen",
+      "viewProfile": "Profil ansehen",
+      "you": "Du"
+    }
   },
   "auth": {
     "loginRequired": "Anmeldung erforderlich",
@@ -5010,7 +5036,14 @@
     "likesEmptyOwn": "Beiträge, die dir gefallen, erscheinen hier. Nur du siehst sie, außer du schaltest in den Einstellungen Meine Likes allen zeigen ein.",
     "likesEmptyOther": "Noch nichts geliked.",
     "likesPrivateTitle": "Likes sind privat",
-    "likesPrivateDesc": "Dieses Konto behält seine Likes für sich."
+    "likesPrivateDesc": "Dieses Konto behält seine Likes für sich.",
+    "articleShort": "Artikel",
+    "articleMinRead": "{{count}} min lesen",
+    "pinnedShort": "Angepinnt",
+    "post": "Posten",
+    "reserve": {
+      "signIn": "Anmelden"
+    }
   },
   "tv": {
     "title": "TV",
@@ -5526,7 +5559,10 @@
     "agentDisplayName": "Anzeigename",
     "agentDisplayNamePlaceholder": "Wie dieser Agent auf Riftn erscheint",
     "capacity": "{{used}} von {{limit}} Agenten · {{badge}}",
-    "noBadge": "Kein Abzeichen"
+    "noBadge": "Kein Abzeichen",
+    "welcome": {
+      "text": "Willkommensnachricht"
+    }
   },
   "hero": {
     "title": "Willkommen In",
@@ -5607,7 +5643,16 @@
     "nowPublic": "Flow ist jetzt öffentlich",
     "openCanvas": "Leinwand öffnen",
     "playVideo": "Video abspielen",
-    "signInToSee": "Melde dich an, um die Flows in deinem Konto zu sehen."
+    "signInToSee": "Melde dich an, um die Flows in deinem Konto zu sehen.",
+    "newNativeFlow": "Neuer Flow",
+    "model": "Modell",
+    "aspectRatio": "Seitenverhältnis",
+    "duration": "Dauer in Sekunden",
+    "resolution": "Auflösung",
+    "disconnect": "Trennen",
+    "payAndRun": "Bezahlen und ausführen",
+    "run": "Ausführen",
+    "handlePrompt": "Eingabeaufforderung"
   },
   "loginModal": {
     "title": "Anmelden",
@@ -6026,7 +6071,10 @@
     "tabReplies": "Antworten",
     "tabQuotes": "Zitate",
     "tabReposts": "Reposts",
-    "tabSearch": "Suchen"
+    "tabSearch": "Suchen",
+    "threadParts": {
+      "save": "Reihenfolge speichern"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "Die aktuellen Eigentümer können im Moment nicht gelesen werden.",
@@ -6534,7 +6582,8 @@
       "copied": "Nachricht kopiert",
       "copyText": "Text kopieren",
       "mutedUntil": "Sie sind stummgeschaltet bis {{date}}",
-      "slowMode": "Langsamer Modus: eine Nachricht alle {{interval}}"
+      "slowMode": "Langsamer Modus: eine Nachricht alle {{interval}}",
+      "aiAdminFailed": "AI Admin hat nicht geantwortet"
     },
     "manage": {
       "dismissAdminTitle": "Admin verwerfen",
@@ -6769,6 +6818,30 @@
       "invalidLink": "Füge einen Riftn-Beitrag-Link oder eine Beitrags-ID ein.",
       "unavailable": "Dieser Beitrag ist nicht verfügbar.",
       "signIn": "Melde dich erneut an, um Community-Beiträge zu verwalten."
+    },
+    "buyAlert": {
+      "spent": "Ausgegeben:",
+      "buyer": "Käufer:",
+      "balance": "Saldo:",
+      "price": "Preis:",
+      "marketCap": "Marktkapitalisierung:"
+    },
+    "newChat": {
+      "public": "Öffentlich",
+      "private": "Privat",
+      "free": "Kostenlos",
+      "paid": "Bezahlt",
+      "group": "Gruppieren"
+    },
+    "holderGate": {
+      "chain": "Kette",
+      "tab": "Halter"
+    },
+    "automod": {
+      "bannedWords": "Gesperrte Wörter",
+      "floodMax": "{{count}} Nachrichten",
+      "saved": "Gespeichert",
+      "wordCount": "{{count}} Wörter"
     }
   },
   "work": {
@@ -8906,7 +8979,34 @@
     "coverFrames": "Cover-Bild aus dem Video wählen",
     "coverFrame": "Bild {{index}} als Cover verwenden",
     "uploadCover": "Cover-Bild hochladen",
-    "editFailed": "Die Bearbeitung konnte nicht übernommen werden. Versuche es erneut."
+    "editFailed": "Die Bearbeitung konnte nicht übernommen werden. Versuche es erneut.",
+    "altPlaceholderVideo": "Beschreibe dieses Video",
+    "preview": {
+      "title": "Vorschau"
+    },
+    "recent": {
+      "all": "Alle"
+    },
+    "studio": {
+      "crop": "Zuschneiden",
+      "draw": "Zeichnen",
+      "light": "Hell",
+      "contrast": "Kontrast",
+      "warmth": "Wärme",
+      "colour": "Farbe",
+      "fade": "Ausblenden",
+      "ratioFree": "Kostenlos",
+      "rotate": "Drehen",
+      "strength": "Stärke",
+      "stickers": "Sticker",
+      "ticker": "Laufschrift",
+      "textBg": "Hintergrund",
+      "font": {
+        "bold": "Fett"
+      }
+    },
+    "edited": "Bearbeitet",
+    "edit": "Bearbeiten"
   },
   "bounty": {
     "claimed": "Eingelöst",
@@ -9537,7 +9637,12 @@
     "shareGroups": "Gruppen",
     "shareKindGroup": "Gruppe",
     "shareKindChannel": "Kanal",
-    "shareKindCommunity": "Community"
+    "shareKindCommunity": "Community",
+    "newDrawer": {
+      "to": "Bis"
+    },
+    "download": "Herunterladen",
+    "deleteOneTitle": "Diese Nachricht löschen?"
   },
   "editPost": {
     "mediaPermission": "Berechtigung für die Mediathek erforderlich",
@@ -10662,7 +10767,10 @@
       "translateCount": "{{count}} Untertitel übersetzen",
       "translationDone": "{{count}} Untertitel übersetzt",
       "translationFailed": "Die Übersetzung ist fehlgeschlagen. Deine Untertitel bleiben unverändert.",
-      "lockedTranslation": "Entsperre gesperrte Untertitel, um sie einzubeziehen."
+      "lockedTranslation": "Entsperre gesperrte Untertitel, um sie einzubeziehen.",
+      "styles": {
+        "bold": "Fett"
+      }
     },
     "app": {
       "newDesign": "Neues Design",
@@ -10912,7 +11020,9 @@
       "suggestTitle": "Füge oben einen großen, fetten Titel und darunter einen kleineren Untertitel hinzu",
       "undo": "Rückgängig",
       "openGenerator": "Prüfen und generieren",
-      "working": "Wird bearbeitet…"
+      "working": "Wird bearbeitet…",
+      "stop": "Stopp",
+      "queue": "Zur Warteschlange hinzufügen"
     },
     "brand": {
       "addColor": "Markenfarbe hinzufügen",
@@ -11049,7 +11159,9 @@
       "rendering": "Video wird gerendert… {{percent}}%",
       "mp4": "MP4-Video",
       "exportHint": "Lass den Editor geöffnet, während dein Video gerendert wird.",
-      "tooLarge": "Diese Datei ist zu groß für den Editor. Das Limit liegt bei 400 MB."
+      "tooLarge": "Diese Datei ist zu groß für den Editor. Das Limit liegt bei 400 MB.",
+      "tZoomIn": "Vergrößern",
+      "tZoomOut": "Verkleinern"
     },
     "motion": {
       "title": "Bewegung",
@@ -12322,6 +12434,28 @@
       "hint": "Läuft auf diesem Gerät. Trimmen Sie die Quellzeit auf {{seconds}} Sekunden oder weniger, bevor Sie den ersten Lauf starten; der erste Lauf lädt das Modell herunter.",
       "restore": "Hintergrund wiederherstellen",
       "cancel": "Abbrechen"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Drehung",
+      "add": "Hinzufügen",
+      "scale": "Größe",
+      "color": "Farbe",
+      "light": "Hell"
+    },
+    "clipFix": {
+      "listening": "Hört zu…"
+    },
+    "voiceClone": {
+      "stop": "Aufnahme stoppen",
+      "failed": "Stimmklonung fehlgeschlagen."
+    },
+    "linkImport": {
+      "go": "Importieren",
+      "downloading": "Wird heruntergeladen {{percent}}%"
+    },
+    "reverse": {
+      "action": "Rückwärts"
     }
   },
   "creator": {
@@ -12783,7 +12917,32 @@
     "presetOpenTowerTiltHint": "Langsamer Abwärtsneigung in eine bewölkte Stadt",
     "presetAdHeadlineName": "Überschriften-Anzeige",
     "presetAnimeStillName": "Anime-Still",
-    "presetMeltName": "Schmelze"
+    "presetMeltName": "Schmelze",
+    "marketing": {
+      "import": {
+        "use": "Verwenden Sie diese Angaben"
+      }
+    },
+    "batchCount": "Bilder",
+    "endFrame": "Endframe",
+    "cinema": {
+      "close": "Schließen",
+      "performance": {
+        "label": "Leistung"
+      }
+    },
+    "audioNoSpeech": "In dieser Aufnahme wurde keine Rede gefunden.",
+    "audioTaskSpeechLabel": "Sprache",
+    "audioTaskDialogueLabel": "Dialog",
+    "audioTaskSfxLabel": "Soundeffekt",
+    "audioTaskVoiceChangerLabel": "Stimmenmodulator",
+    "audioTaskTranscribeLabel": "Transkribieren",
+    "audioTaskIsolateLabel": "Bereinigung",
+    "priceFreeRateLimited": "Es gelten kostenlose Tariflimits",
+    "loop": "Schleife",
+    "dialogueFormat": "Schreiben Sie die Szene als \"Name: Zeile\", ein Sprecher pro Zeile.",
+    "fileTooLarge": "Diese Datei ist größer als 100 MB. Verwende eine kürzere oder kleinere Datei.",
+    "signInToGenerate": "Melde dich an, um zu generieren."
   },
   "fractions": {
     "title": "Anteile",
@@ -14794,7 +14953,19 @@
       "empty": "Noch keine Punkte. Sie bauen sich auf, während die Leute zusehen und schenken.",
       "widgetHint": "Fügen Sie das Widget Loyale Zuschauer hinzu, um diese Liste im Stream anzuzeigen."
     },
-    "widgets": "Widgets"
+    "widgets": "Widgets",
+    "destinations": {
+      "platform": "Plattform",
+      "key": "Stream-Schlüssel",
+      "save": "Hinzufügen",
+      "cancel": "Abbrechen",
+      "states": {
+        "off": "Aus",
+        "idle": "Bereit",
+        "live": "Leben",
+        "error": "Fehler"
+      }
+    }
   },
   "liveChatModeration": {
     "timeout1m": "1-Minuten-Time-out",
@@ -14948,7 +15119,68 @@
     "days": "{{count}} Tage",
     "spotlightForSale": "Jetzt zum Verkauf",
     "spotlightNew": "Sekunden zuvor geprägt",
-    "buyFor": "Für {{price}} kaufen"
+    "buyFor": "Für {{price}} kaufen",
+    "actAll": "Alle",
+    "actListings": "Angebote",
+    "actOffer": "Angebot",
+    "actOffers": "Angebote",
+    "actSales": "Verkäufe",
+    "tabActivity": "Aktivität",
+    "allChains": "Alle Ketten",
+    "newest": "Neueste",
+    "cheapest": "Niedrigster Preis",
+    "soldFor": "Verkauft",
+    "signIn": "Anmelden",
+    "share": "Teilen",
+    "noneForSale": "Noch nichts zum Verkauf",
+    "noSales": "Noch keine Verkäufe",
+    "tabBrowse": "Durchsuchen",
+    "tabMine": "Deine",
+    "tabSales": "Verkäufe",
+    "cancelled": "Abgesagt",
+    "sold": "Verkauft",
+    "listed": "Zum Verkauf angeboten",
+    "feeRow": "Riftn-Gebühr ({{pct}}%)",
+    "royaltyRow": "Creator-Royalty",
+    "youGet": "Du bekommst",
+    "holderGets": "Der Inhaber bekommt",
+    "loading": "Lädt...",
+    "price": "Preis",
+    "seller": "Verkäufer",
+    "tabRecent": "Neueste",
+    "buyNow": "Jetzt kaufen",
+    "offers": "Angebote",
+    "cancel": "Abbrechen",
+    "accept": "Annehmen",
+    "signInToTrade": "Einloggen zum Handel",
+    "listForSale": "Zum Verkauf anbieten",
+    "makeOffer": "Machen Sie ein Angebot",
+    "sendOffer": "Angebot senden",
+    "back": "Zurück",
+    "dropsTo": "Preis fällt auf {{price}} bis {{date}}",
+    "inBundle": "Verkauft als Paket von {{n}}",
+    "trending": "Trendige Kollektionen",
+    "floor": "Boden",
+    "listedCount": "{{n}} zum Verkauf",
+    "thisCollection": "Diese Kollektion",
+    "collectionOffer": "Angebot für alle",
+    "showAll": "Alle anzeigen",
+    "filters": "Filter",
+    "forSale": "Zu verkaufen",
+    "openToOffers": "Offen für Angebote",
+    "freshMints": "Frisch von Riftn-Erstellern",
+    "offersOpen": "Offen für Angebote",
+    "anyInCollection": "Alle in der Sammlung",
+    "thisNft": "Dieses NFT",
+    "priceAlert": "Preisalarm",
+    "alertUnder": "Sag mir Bescheid, wenn es gelistet ist oder darunter ({{symbol}}, optional)",
+    "turnOnAlert": "Alarm aktivieren",
+    "alertSaved": "Alarm an. Wir informieren Sie, sobald eines gelistet wird.",
+    "priceDrop": "Preis sinkt im Laufe der Zeit",
+    "endPrice": "Niedrigster Preis, erreicht am Ende ({{symbol}})",
+    "dropBadge": "Preisreduktion",
+    "days_one": "{{count}} Tag",
+    "days_other": "{{count}} Tage"
   },
   "riftnMove": {
     "title": "DeHub heißt jetzt Riftn",
@@ -14983,7 +15215,11 @@
       "episode": "Podcast-Episode",
       "show": "Podcast",
       "artist": "Künstler"
-    }
+    },
+    "loading": "Lädt...",
+    "paused": "Angenhalten",
+    "preview": "Vorschau",
+    "seek": "Suche"
   },
   "twoFactor": {
     "wrongCode": "Dieser Code passte nicht. Versuche den neuesten in deiner App.",
@@ -15061,5 +15297,231 @@
     "newer": "Neueres Ergebnis",
     "gone": "Diese Nachricht ist nicht mehr hier",
     "theirMessages": "Ihre Nachrichten"
+  },
+  "profileImage": {
+    "change": "Ändern"
+  },
+  "remix": {
+    "cut": "Schneiden"
+  },
+  "signedFollows": {
+    "setUp": "Aktivieren",
+    "turnOff": "Deaktivieren",
+    "efpTurnOff": "Stopp"
+  },
+  "studioDeck": {
+    "remove": "Entfernen",
+    "background": {
+      "title": "Hintergrund",
+      "modes": {
+        "none": "Aus",
+        "blur": "Unschärfe",
+        "color": "Farbe"
+      }
+    },
+    "scenes": {
+      "minutes": "{{count}} Min",
+      "names": {
+        "starting": "Startet bald"
+      }
+    },
+    "sources": {
+      "image": "Bild",
+      "show": "Im Stream anzeigen",
+      "positions": {
+        "center": "Zentrieren"
+      },
+      "sizes": {
+        "small": "Klein",
+        "medium": "Mittel",
+        "large": "Groß"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Heute",
+    "earlierShort": "Früher",
+    "tooSoon": "Wähle eine Zeit in der Zukunft.",
+    "show": "Einblenden",
+    "hide": "Ausblenden"
+  },
+  "planned": {
+    "title": "Geplant",
+    "all": "Alle",
+    "posts": "Beiträge",
+    "stages": "Audioräume",
+    "post": "Posten",
+    "live": "Leben",
+    "stage": "Bühne",
+    "untitledPost": "Posten",
+    "untitledLive": "Leben",
+    "loading": "Lädt…",
+    "startNow": "Jetzt starten",
+    "cancel": "Abbrechen",
+    "cancelled": "Abgebrochen"
+  },
+  "welcome": {
+    "about": {
+      "title": "Willkommen bei Riftn",
+      "day": "Tag",
+      "month": "Monat",
+      "year": "Jahr"
+    },
+    "name": {
+      "title": "Dein Name",
+      "placeholder": "Dein Name"
+    },
+    "card": {
+      "name": "Dein Name",
+      "followers": "follower"
+    },
+    "topic": {
+      "music": "Musik",
+      "art": "Kunst",
+      "crypto": "Krypto",
+      "sports": "Sport",
+      "food": "Lebensmittel",
+      "news": "Nachrichten",
+      "science": "Wissenschaft"
+    },
+    "back": "Zurück",
+    "skipPhoto": "Vorerst überspringen",
+    "preview": "Vorschau"
+  },
+  "appTokens": {
+    "title": "Ihre Token",
+    "history": "Verlauf",
+    "noHistory": "Noch keine Aktivität",
+    "kindDeposit": "Einzahlen",
+    "to": "Bis",
+    "amount": "Betrag",
+    "notePlaceholder": "Notiz hinzufügen (optional)",
+    "sendButton": "Senden",
+    "errorInsufficient": "Nicht genügend Tokens"
+  },
+  "avatarPrompt": {
+    "notNow": "Nicht jetzt"
+  },
+  "postStats": {
+    "audience": "Branche",
+    "engagement": "Interaktion",
+    "finished": "Beendet",
+    "members": "Mitglieder",
+    "membersLower": "Mitglieder",
+    "newFollowers": "Jemand folgt mir",
+    "noBadge": "Kein Abzeichen",
+    "people": "Personen",
+    "plays": "Abspielen",
+    "quotes": "Zitate",
+    "saved": "Gespeichert",
+    "shares": "Geteilt",
+    "signedOutViewers": "Abgemeldet",
+    "topSupporters": "Top-Unterstützer",
+    "visitors": "Abgemeldet"
+  },
+  "duet": {
+    "policyEveryone": "Alle",
+    "policyFollowers": "Follower",
+    "policyNobody": "Niemand",
+    "loadMore": "Mehr laden"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Alle",
+      "followers": "Follower",
+      "nobody": "Niemand"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Alle",
+      "followers": "Follower",
+      "nobody": "Niemand"
+    },
+    "heading": "Reaktionen",
+    "more": "Mehr anzeigen",
+    "liveNow": "Leben",
+    "untitled": "Reaktion"
+  },
+  "liveClips": {
+    "copyLink": "Link kopieren",
+    "linkCopied": "Link kopiert"
+  },
+  "liveHype": {
+    "gift": {
+      "howMany": "Wie viele",
+      "who": "Nutzername oder Wallet-Adresse",
+      "whoPlaceholder": "@nutzername",
+      "cancel": "Abbrechen",
+      "stage": {
+        "preparing": "Wird vorbereitet…",
+        "confirming": "Warten auf die Transaktion…",
+        "recording": "Wird abgeschlossen…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Sonstiges",
+    "confirming": "Zahlung wird bestätigt..."
+  },
+  "feedFilters": {
+    "clearAllShort": "Alle löschen",
+    "done": "Fertig",
+    "edit": "Bearbeiten",
+    "groupDate": "Datum",
+    "groupSort": "Sortieren",
+    "groupType": "Typ",
+    "save": "Speichern"
+  },
+  "ownKeys": {
+    "working": "Wird verarbeitet",
+    "failed": "Etwas ist schiefgelaufen. Versuchen Sie es erneut.",
+    "check": "Überprüfen",
+    "remove": "Entfernen",
+    "save": "Speichern",
+    "cancel": "Abbrechen"
+  },
+  "postBg": {
+    "none": "Keine",
+    "yours": "Deine",
+    "accent": "Umlaute",
+    "names": {
+      "lava": "Lavalampe",
+      "drive": "Nachtfahrt",
+      "chrome": "Flüssigchrom",
+      "snow": "Schneefall"
+    }
+  },
+  "articleTile": {
+    "cover": "Abdeckung"
+  },
+  "aiConsent": {
+    "allow": "Erlauben"
+  },
+  "dmRequests": {
+    "title": "Anfragen",
+    "accept": "Annehmen",
+    "delete": "Löschen",
+    "block": "Blockieren"
+  },
+  "dmSchedule": {
+    "view": "Ansehen",
+    "notSent": "Nicht gesendet",
+    "edit": "Bearbeiten",
+    "editLabel": "Nachricht bearbeiten",
+    "error": "Das hat nicht funktioniert. Versuchen Sie es erneut."
+  },
+  "chatBulk": {
+    "selected": "{{count}} ausgewählt",
+    "cancel": "Abbrechen",
+    "reply": "Antworten",
+    "delete": "Löschen"
+  },
+  "msgSelect": {
+    "selected": "{{count}} ausgewählt",
+    "copy": "Kopieren",
+    "forward": "Weiterleiten",
+    "deleted_one": "{{count}} Nachricht gelöscht",
+    "deleted_other": "{{count}} -Nachrichten gelöscht"
   }
 }

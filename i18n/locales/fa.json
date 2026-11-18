@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "ترند این هفته در Audius. استفاده از آن رایگان است، نام هنرمند در پست شما ذکر می‌شود.",
     "d2e45b7406fc": "موسیقی‌های مالکیت عمومی و Creative Commons از Wikimedia Commons. نام هنرمند در پست شما ذکر می‌شود.",
     "d0c1a3684775": "آهنگ‌ها بارگیری نشدند. چند لحظه دیگر دوباره امتحان کنید.",
-    "d14064f80f52": "افزودن صدا"
+    "d14064f80f52": "افزودن صدا",
+    "71988c4d8e08": "متن",
+    "147170e793c6": "عریض",
+    "481859b689b0": "بررسی ارتباط خود را و دوباره تلاش کنید.",
+    "57e2faa5ec63": "جستجو در Riftn",
+    "7db20897053b": "مردم",
+    "96d7bff86b44": "جستجو بارگیری نشد",
+    "d8b8392e2c54": "دوباره امتحان کنید"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "نقل قول",
       "bullets": "لیست بولت",
       "numbers": "لیست شماره گذاری",
-      "link": "لینک"
+      "link": "لینک",
+      "image": "اضافه کردن تصاویر"
     }
   },
   "storefront": {
@@ -3793,7 +3801,11 @@
     "payViaDpay": "به Riftn Pay پرداخت شد، توکن‌ها در حدود ۳۰ ثانیه می‌رسند",
     "payViaBridgeDpay": "به Base منتقل شد و به Riftn Pay پرداخت شد، توکن‌ها در حدود یک دقیقه می‌رسند",
     "tokensUnit": "توکن",
-    "tokenAmount": "{{amount}} توکن"
+    "tokenAmount": "{{amount}} توکن",
+    "addMessage": "اضافه کردن پیام (اختیاری)",
+    "messagePublic": "عمومی",
+    "railTitle": "نکات",
+    "railTotal": "{{amount}} توکن"
   },
   "postOptions": {
     "skippableSections": "بخش‌های قابل رد شدن",
@@ -4521,7 +4533,11 @@
       "here": "{{name}} به همه افراد جامعه پیام داد",
       "hereNamed": "{{name}} به همه افراد با شناسه «{{community}}» پیام داد"
     },
-    "tokenAmount": "{{amount}} توکن"
+    "tokenAmount": "{{amount}} توکن",
+    "groupNew": "جدید",
+    "groupToday": "امروز",
+    "groupThisWeek": "این هفته",
+    "searchClose": "بستن جستجو"
   },
   "leaderboard": {
     "title": "جدول امتیازات",
@@ -4713,7 +4729,18 @@
     "attachmentTooLarge": "هر فایل باید کمتر از ۵۰ مگابایت باشد",
     "deleteCommentA11y": "حذف نظر",
     "sendCommentA11y": "ارسال نظر",
-    "requestOptions": "گزینه‌های درخواست"
+    "requestOptions": "گزینه‌های درخواست",
+    "deviceInfoNoErrors": "هیچکدام",
+    "topBuilders": {
+      "month": "این ماه",
+      "allTime": "تمام وقت",
+      "shipped": "ارسال شده",
+      "votes": "آرا",
+      "comments": "نظرات",
+      "showLess": "بیشتر نشان دادن",
+      "viewProfile": "نمایش پروفایل",
+      "you": "شما"
+    }
   },
   "auth": {
     "loginRequired": "ورود لازم است",
@@ -4974,7 +5001,20 @@
       "votes_other": "{{value}} رأی",
       "members_one": "{{value}} عضو",
       "members_other": "{{value}} عضو"
-    }
+    },
+    "articleShort": "مقاله",
+    "articleMinRead": "{{count}} دقیقه مطالعه",
+    "pinnedShort": "سنجاق شده",
+    "post": "پست",
+    "arrange": {
+      "saving": "در حال ذخیره..."
+    },
+    "reserve": {
+      "signIn": "ورود"
+    },
+    "tabLikes": "لایک‌ها",
+    "likesEmptyTitle": "هنوز لایکی نیست",
+    "likesPrivateTitle": "لایک‌ها خصوصی هستند"
   },
   "tv": {
     "title": "تلویزیون",
@@ -5490,6 +5530,9 @@
       "action": "اقدام",
       "schedule": "برنامه",
       "filter": "فیلتر کردن فعالیت"
+    },
+    "welcome": {
+      "text": "پیام خوشامد"
     }
   },
   "hero": {
@@ -5571,7 +5614,16 @@
     "nowPublic": "جریان اکنون عمومی است",
     "openCanvas": "بوم نقاشی را باز کنید",
     "playVideo": "پخش ویدیو",
-    "signInToSee": "برای مشاهده جریان‌های حساب خود، وارد سیستم شوید."
+    "signInToSee": "برای مشاهده جریان‌های حساب خود، وارد سیستم شوید.",
+    "newNativeFlow": "جریان جدید",
+    "model": "مدل",
+    "aspectRatio": "نسبت تصویر",
+    "duration": "مدت زمان در ثانیه",
+    "resolution": "رزولوشن",
+    "disconnect": "قطع ارتباط",
+    "payAndRun": "پرداخت و اجرا",
+    "run": "اجرا",
+    "handlePrompt": "درخواست"
   },
   "loginModal": {
     "title": "ورود",
@@ -5921,7 +5973,8 @@
     "searchMenu": "جست‌وجو در منو",
     "clearSearch": "پاک کردن جست‌وجو",
     "noMenuMatches": "چیزی در منو مطابقت ندارد",
-    "searchDehubFor": "جست‌وجوی «{{query}}» در Riftn"
+    "searchDehubFor": "جست‌وجوی «{{query}}» در Riftn",
+    "requestSend": "ارسال درخواست"
   },
   "comments": {
     "reportComment": "گزارش دیدگاه",
@@ -6540,7 +6593,11 @@
       "copied": "پیام کپی شد",
       "copyText": "متن جایگزین کپی",
       "mutedUntil": "شما تا زمان {{date}} بی‌صدا هستید",
-      "slowMode": "حالت آهسته: یک پیام در هر {{interval}}"
+      "slowMode": "حالت آهسته: یک پیام در هر {{interval}}",
+      "joined": "{{name}} عضو شد",
+      "reactions": "واکنش‌ها",
+      "photoTooLarge": "تصویر باید کمتر از ۱۰ مگابایت باشد",
+      "aiAdminFailed": "مدیر AI نتوانست پاسخ دهد"
     },
     "manage": {
       "restrictionWithReason": "{{state}} — {{reason}}",
@@ -6743,6 +6800,32 @@
       "notFound": "این لینک دعوت معتبر نیست.",
       "requestToJoin": "درخواست عضویت",
       "approvalNote": "قبل از اینکه بتوانید عضو شوید، مدیر باید درخواست شما را تأیید کند."
+    },
+    "buyAlert": {
+      "spent": "خرج شده:",
+      "buyer": "خریدار:",
+      "txn": "تگزاس",
+      "balance": "تعادل:",
+      "price": "قیمت:",
+      "marketCap": "ارزش بازار:"
+    },
+    "newChat": {
+      "public": "عمومی",
+      "private": "خصوصی",
+      "free": "رایگان",
+      "paid": "هزینه",
+      "group": "گروه بندی"
+    },
+    "holderGate": {
+      "chain": "زنجیره",
+      "which": "توکن",
+      "tab": "دارندگان"
+    },
+    "automod": {
+      "bannedWords": "کلمات ممنوعه",
+      "floodMax": "{{count}} پیام",
+      "saved": "ذخیره شد",
+      "wordCount": "{{count}} کلمات"
     }
   },
   "work": {
@@ -7864,7 +7947,10 @@
       "doneAll": "حساب‌های کاربری {{done}} که شما را فالو نکرده بودند و آنفالو شده‌اند.",
       "doneSome": "حساب‌های کاربری {{done}} که آنفالو شدند. {{failed}} قابل آنفالو شدن نبود.",
       "doneToast": "حساب‌های کاربری آنفالو شده {{done}} که شما را فالو نمی‌کنند"
-    }
+    },
+    "followBackConfirm": "دنبال کردن متقابل",
+    "followBackNotNow": "الان نه",
+    "followBackDone": "انجام شد"
   },
   "reactionInfo": {
     "title": "واکنش ها",
@@ -8784,7 +8870,38 @@
     "coverFrames": "یک فریم برای کاور انتخاب کنید",
     "coverFrame": "استفاده از فریم {{index}} به‌عنوان کاور",
     "uploadCover": "بارگذاری تصویر کاور",
-    "editFailed": "اعمال ویرایش ممکن نشد. دوباره تلاش کنید."
+    "editFailed": "اعمال ویرایش ممکن نشد. دوباره تلاش کنید.",
+    "altPlaceholderVideo": "این ویدیو را توصیف کنید",
+    "preview": {
+      "title": "پیش‌نمایش"
+    },
+    "recent": {
+      "all": "همه"
+    },
+    "studio": {
+      "crop": "برش",
+      "draw": "کشیدن",
+      "light": "روشن",
+      "contrast": "کنتراست",
+      "warmth": "گرما",
+      "colour": "رنگ",
+      "fade": "محو شدن",
+      "original": "اصلی",
+      "ratioOriginal": "اصلی",
+      "ratioFree": "رایگان",
+      "rotate": "چرخش",
+      "strength": "قوت",
+      "stickers": "استیکرها",
+      "ticker": "تیکر",
+      "textBg": "پس‌زمینه",
+      "font": {
+        "bold": "ضخیم",
+        "serif": "سریف",
+        "mono": "تک‌رنگ"
+      }
+    },
+    "edited": "ویرایش شده",
+    "edit": "ویرایش"
   },
   "bounty": {
     "claimed": "دریافت‌شده",
@@ -9078,7 +9195,8 @@
     "justChatting": "فقط گفتگو",
     "noLiveStreams": "پخش زنده‌ای نیست",
     "noOneStreaming": "الان کسی پخش زنده ندارد. بعداً سر بزنید!",
-    "loadStreamsFailed": "بارگیری پخش‌ها ممکن نشد. دوباره تلاش کنید."
+    "loadStreamsFailed": "بارگیری پخش‌ها ممکن نشد. دوباره تلاش کنید.",
+    "liveBadge": "زنده"
   },
   "liveShop": {
     "title": "از این پخش خرید کنید",
@@ -9408,7 +9526,16 @@
       "inviteMessage": "در Riftn به من بپیوند: {{url}}",
       "searchAll": "جستجوی «{{q}}» در کل Riftn",
       "searchAllSub": "پست‌ها، ویدیوها، پخش زنده"
-    }
+    },
+    "newDrawer": {
+      "to": "به"
+    },
+    "download": "دانلود",
+    "deleteOneTitle": "این پیام حذف شود؟",
+    "retrySend": "تلاش دوباره",
+    "discardSend": "حذف",
+    "shareKindGroup": "گروه بندی",
+    "shareKindCommunity": "انجمن"
   },
   "editPost": {
     "mediaPermission": "دسترسی به کتابخانه رسانه لازم است",
@@ -10626,7 +10753,11 @@
       "hint": "گفتار را به زیرنویس زمان‌بندی‌شده تبدیل می‌کند که می‌توانید سبکش را تغییر دهید. روی دستگاه شما اجرا می‌شود: رایگان و خصوصی. در اولین استفاده، مدل دانلود می‌شود.",
       "done": "{{count}} زیرنویس اضافه شد.",
       "noSpeech": "در این کلیپ گفتاری پیدا نشد.",
-      "failed": "ساخت زیرنویس برای این کلیپ ممکن نشد."
+      "failed": "ساخت زیرنویس برای این کلیپ ممکن نشد.",
+      "styles": {
+        "bold": "فونت ضخیم",
+        "serif": "سریف"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10696,7 +10827,8 @@
       "moody": "دلگیر",
       "vibrant": "پرجلوه",
       "cyber": "سایبر",
-      "invert": "معکوس"
+      "invert": "معکوس",
+      "vhs": "وی اچ اس"
     },
     "layer": {
       "crop": "برش",
@@ -10876,7 +11008,9 @@
       "suggestTitle": "یک عنوان بزرگ و درشت بالا و یک زیرعنوان کوچک‌تر زیرش اضافه کن",
       "undo": "واگرد",
       "openGenerator": "بررسی و تولید",
-      "working": "در حال انجام…"
+      "working": "در حال انجام…",
+      "stop": "توقف",
+      "queue": "افزودن به صف"
     },
     "brand": {
       "addColor": "افزودن رنگ برند",
@@ -11013,7 +11147,9 @@
       "rendering": "در حال ساخت ویدیو… {{percent}}%",
       "mp4": "ویدیوی MP4",
       "exportHint": "تا ساخته شدن ویدیو، ویرایشگر را باز نگه دارید.",
-      "tooLarge": "این فایل برای ویرایشگر خیلی بزرگ است. حداکثر 400 MB است."
+      "tooLarge": "این فایل برای ویرایشگر خیلی بزرگ است. حداکثر 400 MB است.",
+      "tZoomIn": "زوم در",
+      "tZoomOut": "کوچک‌نمایی"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12192,6 +12328,31 @@
       "selection": "انتخاب",
       "zoomIn": "بزرگنمایی بوم نقاشی",
       "zoomOut": "کوچک‌نمایی بوم نقاشی"
+    },
+    "stage": {
+      "camera": "دوربین",
+      "yaw": "چرخش",
+      "add": "اضافه کردن",
+      "scale": "اندازه",
+      "color": "رنگ",
+      "light": "روشن"
+    },
+    "clipFix": {
+      "listening": "در حال شنیدن…"
+    },
+    "generate3d": {
+      "label": "سه بعدی"
+    },
+    "voiceClone": {
+      "stop": "توقف ضبط",
+      "failed": "کلون کردن صدا شکست خورد."
+    },
+    "linkImport": {
+      "go": "وارد کردن",
+      "downloading": "در حال دانلود {{percent}}%"
+    },
+    "reverse": {
+      "action": "عکس‌العمل"
     }
   },
   "creator": {
@@ -12653,7 +12814,32 @@
     "referenceProductName": "محصول خود را در یک کلیپ قرار دهید",
     "referenceProductHint": "محصول برجسته شده را جایگزین کنید و صحنه اصلی را حفظ کنید",
     "referenceComposeName": "تصاویر مرجع را ترکیب کنید",
-    "referenceComposeHint": "شخصیت‌ها، اشیاء و محیط‌های مختلف از چند تصویر را در یک ترکیب قرار دهید"
+    "referenceComposeHint": "شخصیت‌ها، اشیاء و محیط‌های مختلف از چند تصویر را در یک ترکیب قرار دهید",
+    "marketing": {
+      "import": {
+        "use": "از این جزئیات استفاده کنید"
+      }
+    },
+    "batchCount": "تصاویر",
+    "endFrame": "فریم پایان",
+    "cinema": {
+      "close": "بستن",
+      "performance": {
+        "label": "عملکرد"
+      }
+    },
+    "audioNoSpeech": "در ضبطی که انجام شد، هیچ سخنی یافت نشد.",
+    "audioTaskSpeechLabel": "بیان",
+    "audioTaskDialogueLabel": "گفتگو",
+    "audioTaskSfxLabel": "اثر صدا",
+    "audioTaskVoiceChangerLabel": "تغییردهنده صدا",
+    "audioTaskTranscribeLabel": "رونویسی",
+    "audioTaskIsolateLabel": "پاکسازی",
+    "priceFreeRateLimited": "رایگان · محدودیت‌های نرخ اعمال می‌شود",
+    "loop": "حلقه",
+    "dialogueFormat": "صحنه را به صورت \"نام: متن\" بنویسید، یک گوینده در هر خط.",
+    "fileTooLarge": "آن فایل بیش از 100 مگابایت است. از یک فایل کوتاه‌تر یا کوچک‌تر استفاده کنید.",
+    "signInToGenerate": "برای تولید وارد شوید."
   },
   "fractions": {
     "title": "کسری‌ها",
@@ -14722,6 +14908,19 @@
       "intro": "بینندگان به ازای هر دقیقه‌ای که شما را تماشا می‌کنند، یک امتیاز و به ازای هر ۱۰۰ توکن که هدیه می‌دهند، یک امتیاز کسب می‌کنند. چت و واکنش‌ها هیچ امتیازی ندارند، بنابراین نمی‌توان امتیاز کسب کرد.",
       "empty": "هنوز امتیازی ثبت نشده. با تماشای مردم و دادن هدیه، امتیازها بیشتر می‌شوند.",
       "widgetHint": "ویجت بینندگان وفادار را اضافه کنید تا این لیست در پخش زنده نمایش داده شود."
+    },
+    "destinations": {
+      "platform": "پلتفرم",
+      "label": "نام (اختیاری)",
+      "key": "کلید استریم",
+      "save": "اضافه کردن",
+      "cancel": "لغو",
+      "states": {
+        "off": "خاموش",
+        "idle": "آماده",
+        "live": "زنده",
+        "error": "خطا"
+      }
     }
   },
   "liveChatModeration": {
@@ -14829,7 +15028,72 @@
     "days": "{{count}} روز",
     "spotlightForSale": "هم‌اکنون به فروش",
     "spotlightNew": "فقط دست‌نویس شد",
-    "buyFor": "خرید به قیمت {{price}}"
+    "buyFor": "خرید به قیمت {{price}}",
+    "actAll": "همه",
+    "actListings": "آگهی‌ها",
+    "actOffer": "پیشنهاد",
+    "actOffers": "پیشنهادها",
+    "actSales": "فروش‌ها",
+    "tabActivity": "فعالیت",
+    "allChains": "همه زنجیره‌ها",
+    "newest": "جدیدترین",
+    "cheapest": "قیمت پایین‌ترین",
+    "soldFor": "فروخته شده",
+    "signIn": "ورود",
+    "title": "NFT ها",
+    "share": "اشتراک گذاری",
+    "noneForSale": "هنوز چیزی برای فروش نیست",
+    "noSales": "هنوز فروش انجام نشده",
+    "tabBrowse": "بررسی",
+    "tabMine": "شما",
+    "tabSales": "فروش‌ها",
+    "cancelled": "لغو شد",
+    "sold": "فروخته شده",
+    "listed": "برای فروش درج شده",
+    "feeRow": "هزینه Riftn ({{pct}}٪)",
+    "royaltyRow": "حق امتیاز خالق",
+    "youGet": "شما دریافت می‌کنید",
+    "holderGets": "دارنده دریافت می‌کند",
+    "loading": "در حال بارگذاری...",
+    "price": "قیمت",
+    "seller": "فروشنده",
+    "tabRecent": "اخیر",
+    "buyNow": "همین حالا بخرید",
+    "offers": "پیشنهادها",
+    "cancel": "لغو",
+    "accept": "پذیرش",
+    "signInToTrade": "ورود برای تجارت",
+    "listForSale": "فهرست برای فروش",
+    "makeOffer": "پیشنهاد بدهید",
+    "sendOffer": "ارسال پیشنهاد",
+    "back": "برگرد",
+    "dropsTo": "قیمت تا {{price}} توسط {{date}} کاهش می‌یابد",
+    "inBundle": "به عنوان بسته‌ای از {{n}} فروخته شد",
+    "trending": "مجموعه‌های پرطرفدار",
+    "floor": "طبقه",
+    "listedCount": "{{n}} برای فروش",
+    "thisCollection": "این مجموعه",
+    "collectionOffer": "پیشنهاد روی هر کدام",
+    "showAll": "نمایش همه",
+    "shortTitle": "NFT ها",
+    "filters": "فیلترها",
+    "forSale": "برای فروش",
+    "openToOffers": "پذیرای پیشنهادات باشید",
+    "freshMints": "تازه از سازندگان Riftn",
+    "offersOpen": "پذیرای پیشنهادات باشید",
+    "mintedCount": "{{n}} ضرب شده",
+    "anyInCollection": "هرکدام در مجموعه",
+    "thisNft": "این NFT",
+    "priceAlert": "هشدار قیمت",
+    "alertUnder": "به من بگو وقتی در لیست یا کمتر است ({{symbol}}، اختیاری)",
+    "turnOnAlert": "هشدار را روشن کن",
+    "alertSaved": "هشدار فعال است. وقتی یکی فهرست شد به شما اطلاع می‌دهیم.",
+    "priceDrop": "قیمت در طول زمان کاهش می‌یابد",
+    "endPrice": "کمترین قیمت، در پایان رسید ({{symbol}})",
+    "bundleBadge": "بندل ×{{n}}",
+    "dropBadge": "کاهش قیمت",
+    "days_one": "{{count}} روز",
+    "days_other": "{{count}} روز"
   },
   "riftnMove": {
     "title": "DeHub حالا Riftn است",
@@ -14942,5 +15206,251 @@
     "newer": "نتیجه جدیدتر",
     "gone": "آن پیام دیگر اینجا نیست",
     "theirMessages": "پیام‌های آنها"
+  },
+  "chatTextSize": {
+    "title": "اندازه متن",
+    "default": "پیش فرض",
+    "larger": "بزرگتر"
+  },
+  "remix": {
+    "cut": "برش"
+  },
+  "signedFollows": {
+    "setUp": "روشن کردن",
+    "turnOff": "خاموش کردن",
+    "efpTurnOff": "توقف"
+  },
+  "postEditHistory": {
+    "original": "اصلی"
+  },
+  "studioDeck": {
+    "remove": "حذف",
+    "background": {
+      "title": "پس‌زمینه",
+      "modes": {
+        "none": "خاموش",
+        "blur": "تاری",
+        "color": "رنگ"
+      }
+    },
+    "scenes": {
+      "countdown": "شمارش معکوس",
+      "minutes": "{{count}} دقیقه",
+      "names": {
+        "starting": "به زودی شروع می‌شود"
+      }
+    },
+    "widgets": {
+      "tab": "ویجت‌ها"
+    },
+    "sources": {
+      "image": "تصویر",
+      "show": "نمایش در پخش زنده",
+      "positions": {
+        "center": "مراکز"
+      },
+      "sizes": {
+        "medium": "متوسط"
+      }
+    },
+    "phone": {
+      "title": "استودیو"
+    }
+  },
+  "whenSheet": {
+    "today": "امروز",
+    "tooSoon": "زمانی را در آینده انتخاب کنید.",
+    "show": "نمایش",
+    "hide": "پنهان کردن"
+  },
+  "planned": {
+    "title": "برنامه‌ریزی شده",
+    "all": "همه",
+    "posts": "پست‌ها",
+    "stages": "اتاق‌های صوتی",
+    "post": "پست",
+    "live": "زنده",
+    "stage": "صحنه",
+    "untitledPost": "پست",
+    "untitledLive": "زنده",
+    "loading": "در حال بارگذاری…",
+    "startNow": "شروع الان",
+    "cancel": "لغو",
+    "cancelled": "لغو شد"
+  },
+  "welcome": {
+    "about": {
+      "title": "به Riftn خوش آمدید",
+      "day": "روز",
+      "month": "ماه",
+      "year": "سال"
+    },
+    "name": {
+      "title": "نام شما",
+      "placeholder": "نام شما"
+    },
+    "card": {
+      "name": "نام شما",
+      "followers": "پیروان"
+    },
+    "topic": {
+      "music": "موسیقی",
+      "art": "هنر",
+      "gaming": "بازی",
+      "crypto": "رمزارز",
+      "sports": "ورزش",
+      "comedy": "کمدی",
+      "film": "فیلم",
+      "podcast": "پادکست",
+      "food": "غذا",
+      "news": "اخبار",
+      "science": "علم"
+    },
+    "back": "بازگشت",
+    "skipPhoto": "بعداًSkip",
+    "preview": "پیش‌نمایش"
+  },
+  "appTokens": {
+    "title": "توکن‌های شما",
+    "history": "تاریخچه",
+    "noHistory": "هیچ فعالیتی انجام نشده است.",
+    "kindDeposit": "واریز",
+    "to": "به",
+    "amount": "مبلغ",
+    "notePlaceholder": "یادداشت اضافه کن (اختیاری)",
+    "sendButton": "ارسال",
+    "errorInsufficient": "توکن کافی نیست"
+  },
+  "avatarPrompt": {
+    "notNow": "الان نه"
+  },
+  "postStats": {
+    "audience": "مخاطبین",
+    "engagement": "تعامل",
+    "finished": "پایان یافت",
+    "members": "اعضا",
+    "membersLower": "عضو",
+    "newFollowers": "دنبال‌کنندگان جدید",
+    "noBadge": "بدنه بدون نشان",
+    "people": "افراد",
+    "plays": "نمایشنامه‌ها",
+    "quotes": "نقل‌قول",
+    "reposts": "بازنشرها",
+    "saved": "ذخیره شد",
+    "shares": "اشتراک‌ها",
+    "signedOutViewers": "خارج شدید",
+    "topSupporters": "برترین حامیان",
+    "visitors": "خارج شدید"
+  },
+  "duet": {
+    "policyEveryone": "همه",
+    "policyFollowers": "دنبال‌کنندگان",
+    "policyNobody": "هیچ‌کس",
+    "loadMore": "بارگذاری بیشتر",
+    "video": "ویدیو"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "همه",
+      "followers": "دنبال‌کنندگان",
+      "nobody": "هیچ‌کس"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "همه",
+      "followers": "دنبال‌کنندگان",
+      "nobody": "هیچ‌کس"
+    },
+    "heading": "واکنش ها",
+    "more": "بیشتر نشان بده",
+    "liveNow": "زنده",
+    "untitled": "واکنش"
+  },
+  "liveClips": {
+    "copyLink": "کپی لینک",
+    "linkCopied": "لینک کپی شد"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "پلن",
+      "howMany": "چند تا",
+      "who": "نام کاربری یا آدرس کیف پول",
+      "whoPlaceholder": "@نام‌کاربری",
+      "cancel": "لغو",
+      "stage": {
+        "preparing": "در حال آماده‌سازی…",
+        "confirming": "در انتظار تراکنش…",
+        "recording": "در حال اتمام…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "سایر",
+    "confirming": "در حال تایید پرداخت…"
+  },
+  "liveShorts": {
+    "live": "زنده"
+  },
+  "feedFilters": {
+    "clearAllShort": "پاک کردن همه",
+    "done": "انجام شده",
+    "edit": "ویرایش",
+    "groupDate": "تاریخ",
+    "groupSort": "مرتب‌سازی",
+    "groupType": "نوع",
+    "save": "ذخیره"
+  },
+  "ownKeys": {
+    "working": "در حال کار",
+    "failed": "مشکلی پیش آمده است. دوباره امتحان کنید.",
+    "check": "بررسی",
+    "remove": "حذف",
+    "save": "ذخیره",
+    "cancel": "لغو"
+  },
+  "postBg": {
+    "none": "هیچکدام",
+    "yours": "شما",
+    "accent": "تنظیمات حروف",
+    "names": {
+      "aurora": "شفق قطبی",
+      "lava": "لامپ گدازه",
+      "drive": "رانندگی شبانه",
+      "chrome": "کروم مایع",
+      "orbit": "مدار",
+      "snow": "بارش برف"
+    }
+  },
+  "articleTile": {
+    "cover": "کاور"
+  },
+  "aiConsent": {
+    "allow": "اجازه دادن"
+  },
+  "dmRequests": {
+    "title": "درخواست‌ها",
+    "accept": "پذیرفتن",
+    "delete": "حذف",
+    "block": "مسدود کردن"
+  },
+  "dmSchedule": {
+    "view": "مشاهده",
+    "edit": "ویرایش",
+    "editLabel": "ویرایش پیام",
+    "error": "این کار نکرد. دوباره امتحان کنید."
+  },
+  "chatBulk": {
+    "selected": "{{count}} انتخاب شده",
+    "cancel": "لغو",
+    "reply": "پاسخ",
+    "delete": "حذف"
+  },
+  "msgSelect": {
+    "selected": "{{count}} انتخاب شده",
+    "copy": "کپی",
+    "forward": "بازارسال",
+    "deleted_one": "پیام {{count}} حذف شد",
+    "deleted_other": "پیام‌های {{count}} حذف شدند"
   }
 }

@@ -894,6 +894,12 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           onContentSizeChange={() => {
             if (atBottomRef.current) listRef.current?.scrollToEnd({ animated: false });
           }}
+          // The keyboard shrinks the list from below. A list that is not
+          // inverted keeps its top in place, so the newest messages slid
+          // under the reply box; hold the reader on the latest one instead.
+          onLayout={() => {
+            if (atBottomRef.current) listRef.current?.scrollToEnd({ animated: false });
+          }}
           onScrollToIndexFailed={(info) => {
             listRef.current?.scrollToOffset({
               offset: Math.max(0, info.averageItemLength * info.index),

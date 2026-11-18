@@ -98,4 +98,31 @@ describe('native playback recovery', () => {
       expect(player.play).toHaveBeenCalledTimes(1);
     });
   });
+  it('picks a live back up when AVPlayer drops it on an empty buffer, and lets a real pause stand', async () => {
+    const { player, events } = setup();
+    Object.assign(player, { duration: 0, currentTime: 40, bufferedPosition: 40.4 });
+    const { result } = renderHook(() => usePlaybackRecovery(player as unknown as VideoPlayer, 'live', { component: 'Test', allowed: () => true, live: true }));
+    await act(async () => result.current.recovery.start());
+    player.playing = true;
+    act(() => events.get('playingChange')?.({ isPlaying: true }));
+    act(() => events.get('timeUpdate')?.({ currentTime: 40.25 }));
+    expect(result.current.phase).toBe('playing');
+    const plays = player.play.mock.calls.length;
+    player.playing = false;
+    act(() => events.get('playingChange')?.({ isPlaying: false }));
+    expect(player.play).toHaveBeenCalledTimes(plays + 1);
+    expect(result.current.phase).toBe('loading');
+    expect(result.current.recovery.wanted).toBe(true);
+    // Still stuck ten seconds on: reloaded, not left frozen.
+    await act(async () => { jest.advanceTimersByTime(10_000); });
+    expect(player.replaceAsync).toHaveBeenCalledWith('live');
+    // A pause with seconds banked is someone pausing.
+    player.playing = true;
+    act(() => events.get('playingChange')?.({ isPlaying: true }));
+    act(() => events.get('timeUpdate')?.({ currentTime: 41 }));
+    Object.assign(player, { currentTime: 41, bufferedPosition: 44 });
+    player.playing = false;
+    act(() => events.get('playingChange')?.({ isPlaying: false }));
+    expect(result.current.recovery.wanted).toBe(false);
+  });
 });

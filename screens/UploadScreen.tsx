@@ -8,6 +8,7 @@ import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD, MATURE_CONTENT_ENABLED }
 import { normalizeCategoryName } from "../libs/strings.util";
 import { t } from "i18next";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLingering } from "../hooks/useLingering";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
@@ -99,7 +100,7 @@ import { INITIAL_LIVE_SETTINGS } from "../components/Upload/LiveSettingsPanel";
 import ConfirmUploadModal from "../components/Upload/ConfirmUploadModal";
 import { useUploadPost } from "../hooks/useUploadPost";
 import { useUploadLive } from "../hooks/useUploadLive";
-import { usePostSound } from "../hooks/usePostSound";
+import { usePostSound, type AttachedSound } from "../hooks/usePostSound";
 import { buildSoundtrackTag } from "../libs/parseSoundtrack";
 import SoundPickerSheet from "../components/Post/SoundPickerSheet";
 import ScheduleSheet from "../components/Upload/ScheduleSheet";
@@ -479,6 +480,8 @@ export default function UploadScreen() {
   const skipPhotoAutoEdit = useRef(false);
   const seenPhotos = useRef<Set<string>>(new Set());
   const [altEditor, setAltEditor] = useState<{ kind: "image" | "video"; index: number } | null>(null);
+  // The alt sheet slides away with its content instead of vanishing.
+  const altShown = useLingering(altEditor);
   // The content warning being written: null is "none", "" is "toggled on, still empty".
   const [contentWarning, setContentWarning] = useState<string | null>(null);
   // The poster closed the $TICKER / address card, so the post goes out without one.
@@ -1232,6 +1235,11 @@ export default function UploadScreen() {
   } = useUploadLive();
 
   const { attachedSound, selectSound, clearSound } = usePostSound();
+  // Opened from a post's song chip: start with that song attached.
+  const incomingSound = route.params?.sound as AttachedSound | undefined;
+  useEffect(() => {
+    if (incomingSound?.url) selectSound(incomingSound);
+  }, [incomingSound, selectSound]);
   const { openModal: openStages, createSpace, scheduleSpace } = useStages();
   const [showSoundPicker, setShowSoundPicker] = useState(false);
   const [scheduledDate, setScheduledDate] = useState<Date | null>(null);
@@ -4427,19 +4435,19 @@ export default function UploadScreen() {
         );
       })()}
 
-      {altEditor && (
+      {altShown && (
         <AltTextSheet
-          visible
+          visible={!!altEditor}
           onClose={() => setAltEditor(null)}
-          kind={altEditor.kind}
-          previewUri={altEditor.kind === "image" ? pickedImages[altEditor.index]?.uri : undefined}
-          initial={altEditor.kind === "image" ? pickedImages[altEditor.index]?.description : pickedVideo?.description}
+          kind={altShown.kind}
+          previewUri={altShown.kind === "image" ? pickedImages[altShown.index]?.uri : undefined}
+          initial={altShown.kind === "image" ? pickedImages[altShown.index]?.description : pickedVideo?.description}
           onSave={(text) => {
             const description = text || undefined;
-            if (altEditor.kind === "video") {
+            if (altShown.kind === "video") {
               setPickedVideo(prev => (prev ? { ...prev, description } : prev));
             } else {
-              const index = altEditor.index;
+              const index = altShown.index;
               setPickedImages(prev => prev.map((img, i) => (i === index ? { ...img, description } : img)));
             }
           }}

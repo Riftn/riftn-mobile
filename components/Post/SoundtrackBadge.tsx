@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, AppState, Animated, Easing, Platform, Linking } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, AppState, Animated, Easing, Platform, Linking, type StyleProp, type ViewStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import IosGlassPill from "../ui/IosGlassPill";
 import { useIsFocused } from "@react-navigation/native";
@@ -10,7 +10,7 @@ import { postMediaIsTransferring } from "../../libs/post-media-session";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { requestAudioFocus, releaseAudioFocus } from "../../libs/audioFocus";
 import { configureForDuckedPlayback } from "../../libs/audioSession";
-import { playableSoundUrl, soundCredit, soundWindowCorrection, soundWindowProgress, SOUND_SOURCE_NAMES } from "../../libs/soundWindow";
+import { playableSoundUrl, soundCredit, soundWindowCorrection, soundWindowProgress } from "../../libs/soundWindow";
 
 interface Props {
   title: string;
@@ -169,8 +169,9 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
   const open = playing || loading;
   // Songs from outside libraries credit the artist, the licence and the song's page.
   const credit = soundCredit(url);
-  const library = credit && credit.source !== "riftn" ? SOUND_SOURCE_NAMES[credit.source] : null;
-  const creditLine = library ? [creator ? `© ${creator}` : "", credit?.license, library].filter(Boolean).join(" · ") : "";
+  // The artist and licence are credited; the library the song came from is not named on posts.
+  const outside = !!credit && credit.source !== "riftn";
+  const creditLine = outside ? [creator ? `© ${creator}` : "", credit?.license].filter(Boolean).join(" · ") : "";
   const openCredit = () => { if (credit?.page) void Linking.openURL(credit.page).catch(() => {}); };
 
   if (withVideo) {
@@ -187,7 +188,6 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
         <GlassFill radius={18} />
         <Ionicons name="musical-note" size={14} color="#fff" />
         <Text style={styles.capsuleTitle} numberOfLines={1}>{name}{creator ? ` · ${creator}` : ""}</Text>
-        {!!library && <Text style={styles.capsuleLibrary} numberOfLines={1}>{library}</Text>}
       </TouchableOpacity>
     );
   }
@@ -235,16 +235,75 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
         : loading ? <ActivityIndicator size="small" color="#fff" />
         : <Ionicons name="musical-note" size={14} color="#fff" />}
       <Text style={styles.capsuleTitle} numberOfLines={1}>{name}</Text>
-      {!!library && <Text style={styles.capsuleLibrary} numberOfLines={1}>{library}</Text>}
       {playing ? <Ionicons name="pause" size={13} color="#fff" /> : !error && !loading ? <Ionicons name="play" size={13} color="#fff" /> : null}
     </TouchableOpacity>
   );
 };
 
-/** Liquid glass on iPhone; Android has no safe backdrop blur, so a dark wash. */
+/**
+ * Liquid glass on iPhone. Android cannot blur a playing video behind a view,
+ * so it builds web's glass (`.dh-sound-glass`) from its parts: a smoked
+ * tint, a light sheen across the top, and a rim that is brighter on top.
+ */
 function GlassFill({ radius }: { radius: number }) {
   if (Platform.OS === "ios") return <IosGlassPill tint="rgba(0,0,0,0.18)" borderRadius={radius} />;
-  return <View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: radius, backgroundColor: "rgba(0,0,0,0.5)", borderWidth: 1, borderColor: "rgba(255,255,255,0.22)" }]} />;
+  return (
+    <View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: radius, overflow: "hidden" }]}>
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(14,14,18,0.46)" }]} />
+      <LinearGradient
+        colors={["rgba(255,255,255,0.24)", "rgba(255,255,255,0.07)", "rgba(255,255,255,0)"]}
+        locations={[0, 0.48, 1]}
+        style={StyleSheet.absoluteFill}
+      />
+      <View style={[StyleSheet.absoluteFill, { borderRadius: radius, borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", borderTopColor: "rgba(255,255,255,0.45)" }]} />
+    </View>
+  );
+}
+
+/**
+ * The song chip in the corner of a video, as on web: a small smoked glass
+ * tile with 8pt corners, "♪ Song — Artist". Tapping it starts a new post
+ * with the same song.
+ */
+export function SoundtrackChip({ title, creator, onPress, style }: {
+  title: string;
+  creator?: string;
+  onPress?: () => void;
+  style?: StyleProp<ViewStyle>;
+}) {
+  const { t } = useTranslation();
+  const name = title || t("feed.music");
+  return (
+    <TouchableOpacity
+      onPress={onPress ? (event) => { event.stopPropagation?.(); onPress(); } : undefined}
+      disabled={!onPress}
+      activeOpacity={0.75}
+      hitSlop={6}
+      accessibilityRole="button"
+      accessibilityLabel={`${t("copy.0418db35eb35", { defaultValue: "Use this sound" })}: ${name}`}
+      style={[styles.chip, style]}
+    >
+      <ChipGlass />
+      <Ionicons name="musical-note" size={12} color="#fff" />
+      <Text style={styles.chipText} numberOfLines={1}>{name}{creator ? ` — ${creator}` : ""}</Text>
+    </TouchableOpacity>
+  );
+}
+
+/** Web's `bg-black/40 backdrop-blur border-white/10`. Android draws the frost without a blur. */
+function ChipGlass() {
+  if (Platform.OS === "ios") return <IosGlassPill tint="rgba(0,0,0,0.28)" borderRadius={8} />;
+  return (
+    <View pointerEvents="none" style={[StyleSheet.absoluteFill, { borderRadius: 8, overflow: "hidden" }]}>
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(10,10,14,0.5)" }]} />
+      <LinearGradient
+        colors={["rgba(255,255,255,0.16)", "rgba(255,255,255,0.04)", "rgba(255,255,255,0)"]}
+        locations={[0, 0.5, 1]}
+        style={StyleSheet.absoluteFill}
+      />
+      <View style={[StyleSheet.absoluteFill, { borderRadius: 8, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)", borderTopColor: "rgba(255,255,255,0.28)" }]} />
+    </View>
+  );
 }
 
 const BAR_COUNT = 40;
@@ -332,10 +391,11 @@ export function SoundDrift({ playing, children }: { playing: boolean; children: 
 }
 
 const styles = StyleSheet.create({
-  capsule: { flexDirection: "row", alignItems: "center", gap: 8, height: 36, paddingHorizontal: 12, borderRadius: 18, alignSelf: "flex-start", maxWidth: 240, overflow: "hidden" },
+  capsule: { flexDirection: "row", alignItems: "center", gap: 8, height: 36, paddingHorizontal: 12, borderRadius: 18, alignSelf: "flex-start", maxWidth: 240, ...(Platform.OS === "ios" ? { overflow: "hidden" as const } : { boxShadow: "0px 6px 18px rgba(0,0,0,0.22)" }) },
   capsuleOverlay: { position: "absolute", left: 10, bottom: 10 },
-  capsuleTitle: { color: "#fff", fontSize: 12, fontWeight: "600", flexShrink: 1 },
-  capsuleLibrary: { color: "rgba(255,255,255,0.7)", fontSize: 11, fontWeight: "500" },
+  chip: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8, maxWidth: "60%", alignSelf: "flex-start" },
+  chipText: { color: "#fff", fontSize: 10, flexShrink: 1 },
+  capsuleTitle: { color: "#fff", fontSize: 12, fontWeight: "600", flexShrink: 1, textShadowColor: "rgba(0,0,0,0.35)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   edgeCredit: { color: "rgba(255,255,255,0.7)", fontSize: 10, marginTop: 2 },
   edge: { position: "absolute", left: 0, right: 0, bottom: 0, paddingTop: 40, paddingBottom: 8 },
   edgeRow: { flexDirection: "row", alignItems: "flex-end", gap: 12, paddingHorizontal: 12 },

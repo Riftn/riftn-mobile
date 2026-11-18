@@ -46,6 +46,7 @@ import {
 import type { ProfileField } from "../components/Profile/ProfileFieldsList";
 import { saveProfileFields } from "../services/profile-fields.service";
 import { openPostBgPicker } from "../components/Profile/PostBgPicker";
+import ProfileImageMenu, { useProfileImageMenu, type ProfileImageKind } from "../components/Profile/ProfileImageMenu";
 import ProfileFieldsEditor, { fieldsKey, hasUnverifiedLink, rowToField, rowsOf, type FieldRow } from "../components/Profile/ProfileFieldsEditor";
 import GithubLinkRow from "../components/Profile/GithubLinkRow";
 import {
@@ -113,6 +114,10 @@ const EditProfileScreen = () => {
 
   const [localAvatar, setLocalAvatar] = useState<string | null>(null);
   const [localCover, setLocalCover] = useState<string | null>(null);
+  // Delete on the picture / banner hold menu: cleared on screen now, saved with Save.
+  const [removeAvatar, setRemoveAvatar] = useState(false);
+  const [removeCover, setRemoveCover] = useState(false);
+  const imageMenu = useProfileImageMenu();
   const [saving, setSaving] = useState(false);
   const [processingAvatar, setProcessingAvatar] = useState(false);
   const [processingCover, setProcessingCover] = useState(false);
@@ -171,12 +176,14 @@ const EditProfileScreen = () => {
       facebookLink.trim() !== initial.facebookLink.trim() ||
       !sameSocialFollowerInputs(socialFollowers, initial.socialFollowers) ||
       !!localAvatar ||
-      !!localCover
+      !!localCover ||
+      removeAvatar ||
+      removeCover
     );
   }, [
     displayName, username, aboutMe,
     twitterLink, instagramLink, tiktokLink, youtubeLink, discordLink, telegramLink, facebookLink,
-    socialFollowers, localAvatar, localCover, initial, fieldsChanged,
+    socialFollowers, localAvatar, localCover, removeAvatar, removeCover, initial, fieldsChanged,
   ]);
 
   const runUsernameCheck = useDebounceCallback(async (name: string) => {
@@ -221,6 +228,7 @@ const EditProfileScreen = () => {
           keepGif: true,
         });
         if (!picked) return;
+        setRemoveAvatar(false);
         setLocalAvatar(picked);
         const manip = await resizeAndCompress(picked, {
           width: AVATAR_UPLOAD_SIDE,
@@ -238,6 +246,27 @@ const EditProfileScreen = () => {
     }
   }, []);
 
+  // A pasted image comes in already cropped (ProfileImageMenu); size it like a picked one.
+  const handlePasted = useCallback(async (kind: ProfileImageKind, uri: string) => {
+    const isAvatar = kind === "avatar";
+    const setLocal = isAvatar ? setLocalAvatar : setLocalCover;
+    const setProcessing = isAvatar ? setProcessingAvatar : setProcessingCover;
+    try {
+      setProcessing(true);
+      (isAvatar ? setRemoveAvatar : setRemoveCover)(false);
+      setLocal(uri);
+      const manip = await resizeAndCompress(uri, isAvatar
+        ? { width: AVATAR_UPLOAD_SIDE, height: AVATAR_UPLOAD_SIDE, compress: 0.9, format: "jpeg" }
+        : { width: 1500, height: 500, compress: 0.85, format: "jpeg" });
+      setLocal(manip);
+    } catch (e) {
+      toastError(e, t(isAvatar ? "settings.avatarUpdateFailed" : "settings.coverUpdateFailed"));
+      setLocal(null);
+    } finally {
+      setProcessing(false);
+    }
+  }, [t]);
+
   const handlePickCover = useCallback(async () => {
     try {
       setProcessingCover(true);
@@ -251,6 +280,7 @@ const EditProfileScreen = () => {
           keepGif: true,
         });
         if (!picked) return;
+        setRemoveCover(false);
         setLocalCover(picked);
         const manip = await resizeAndCompress(picked, {
           width: 1500,
@@ -344,9 +374,11 @@ const EditProfileScreen = () => {
         discordLink: payload.discordLink,
         telegramLink: payload.telegramLink,
         facebookLink: payload.facebookLink,
-        ...(localAvatar ? { avatarImageUrl: localAvatar } : {}),
-        ...(localCover ? { coverImageUrl: localCover } : {}),
+        ...(localAvatar ? { avatarImageUrl: localAvatar } : removeAvatar ? { avatarImageUrl: "" } : {}),
+        ...(localCover ? { coverImageUrl: localCover } : removeCover ? { coverImageUrl: "" } : {}),
       });
+      if (removeAvatar && !localAvatar) payload.removeAvatar = true;
+      if (removeCover && !localCover) payload.removeCover = true;
       if (localAvatar) {
         const avatarFile = createRNImageFile(localAvatar, "avatar");
         payload.avatar = avatarFile;
@@ -394,7 +426,7 @@ const EditProfileScreen = () => {
     }
   }, [displayName, username, aboutMe,
     twitterLink, instagramLink, tiktokLink, youtubeLink, discordLink, telegramLink, facebookLink,
-    socialFollowers, localAvatar, localCover, user, patchUser, refreshUser, navigation, initial, fieldsChanged, fieldRows, setAboutMe, setDiscordLink, setDisplayName, setFacebookLink, setInstagramLink, setSocialFollowers, setTelegramLink, setTiktokLink, setTwitterLink, setUsername, setYoutubeLink]);
+    socialFollowers, localAvatar, localCover, removeAvatar, removeCover, user, patchUser, refreshUser, navigation, initial, fieldsChanged, fieldRows, setAboutMe, setDiscordLink, setDisplayName, setFacebookLink, setInstagramLink, setSocialFollowers, setTelegramLink, setTiktokLink, setTwitterLink, setUsername, setYoutubeLink]);
 
   const socialFields: SocialField[] = useMemo(
     () => [
@@ -451,12 +483,15 @@ const EditProfileScreen = () => {
         >
           <View className="px-4">
             <TouchableOpacity
+              ref={imageMenu.coverRef as any}
               onPress={handlePickCover}
+              onLongPress={() => imageMenu.open("cover")}
+              delayLongPress={450}
               activeOpacity={0.85}
               className="w-full rounded-xl overflow-hidden bg-theme-neutrals-900 mt-2"
               style={{ aspectRatio: 3 }}
             >
-              {(localCover || (coverUrl && coverUrl !== "default-banner")) && (
+              {(localCover || (!removeCover && coverUrl && coverUrl !== "default-banner")) && (
                 <SmartImage
                   source={{ uri: localCover || coverUrl }}
                   recyclingKey={localCover || coverUrl}
@@ -477,10 +512,10 @@ const EditProfileScreen = () => {
           </View>
 
           <View className="items-center -mt-11 mb-4">
-            <TouchableOpacity onPress={handlePickAvatar} activeOpacity={0.85}>
-              <View>
+            <TouchableOpacity onPress={handlePickAvatar} onLongPress={() => imageMenu.open("avatar")} delayLongPress={450} activeOpacity={0.85}>
+              <View ref={imageMenu.avatarRef} collapsable={false}>
                 <Avatar
-                  uri={localAvatar ? localAvatar : avatarUrl === "default-avatar" ? undefined : avatarUrl}
+                  uri={localAvatar ? localAvatar : removeAvatar || avatarUrl === "default-avatar" ? undefined : avatarUrl}
                   size={88}
                   borderWidth={4}
                   borderColor="#010305"
@@ -675,6 +710,32 @@ const EditProfileScreen = () => {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      <ProfileImageMenu
+        target={imageMenu.target}
+        onClose={imageMenu.close}
+        canEdit
+        imageUrl={(kind) => {
+          if (kind === "avatar") {
+            if (localAvatar) return localAvatar;
+            const full = getAvatarUrl(user?.avatarImageUrl, 0);
+            return removeAvatar || full === "default-avatar" ? undefined : full;
+          }
+          if (localCover) return localCover;
+          const full = getCoverUrl(user?.coverImageUrl);
+          return removeCover || full === "default-banner" ? undefined : full;
+        }}
+        hasImage={(kind) =>
+          kind === "avatar"
+            ? !!localAvatar || (!removeAvatar && avatarUrl !== "default-avatar")
+            : !!localCover || (!removeCover && !!coverUrl && coverUrl !== "default-banner")
+        }
+        onChange={(kind) => { void (kind === "avatar" ? handlePickAvatar() : handlePickCover()); }}
+        onPasted={(kind, uri) => { void handlePasted(kind, uri); }}
+        onRemove={(kind) => {
+          if (kind === "avatar") { setLocalAvatar(null); setRemoveAvatar(true); }
+          else { setLocalCover(null); setRemoveCover(true); }
+        }}
+      />
     </View>
   );
 };

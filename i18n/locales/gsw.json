@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Trendig die Wuche uf Audius. Gratis zum bruuche, de Künstler wird i dim Post erwähnt.",
     "d2e45b7406fc": "Public Domain und Creative Commons Musig vo Wikimedia Commons. De Künstler wird i dim Post erwähnt.",
     "d0c1a3684775": "Lied sind nöd glade. Versuechs nach e Momänt nomal.",
-    "d14064f80f52": "Sound hinzuefüege"
+    "d14064f80f52": "Sound hinzuefüege",
+    "71988c4d8e08": "Tekscht",
+    "147170e793c6": "Brett",
+    "481859b689b0": "Prüfi dini Verbindig und probiere wider.",
+    "57e2faa5ec63": "Riftn durchsueche",
+    "7db20897053b": "Menschle",
+    "96d7bff86b44": "Suäch het nöd chli Lade",
+    "d8b8392e2c54": "Versuch’s no"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Zitat",
       "bullets": "Punktedruck-Liste",
       "numbers": "Nummerierti Liste",
-      "link": "Verchnüpfe"
+      "link": "Verchnüpfe",
+      "image": "Bild ufghange"
     }
   },
   "storefront": {
@@ -3783,7 +3791,11 @@
     "payViaDpay": "An Riftn Pay bezahlt, Tokens chömed i circa 30s",
     "payViaBridgeDpay": "Uf Base verschobe und a Riftn Pay bezahlt, Tokens chömed i circa en Minute",
     "tokensUnit": "Tokens",
-    "tokenAmount": "{{amount}} Tokens"
+    "tokenAmount": "{{amount}} Tokens",
+    "addMessage": "Bis bald!",
+    "messagePublic": "Öffentlech",
+    "railTitle": "Trinkgelder",
+    "railTotal": "{{amount}} Tokens"
   },
   "postOptions": {
     "skippableSections": "Skippbare Abschnitte",
@@ -4511,7 +4523,11 @@
       "here": "{{name}} het a alli i dimere Community gschriebe",
       "hereNamed": "{{name}} het a alli i “{{community}}” gschriebe"
     },
-    "tokenAmount": "{{amount}} Tokens"
+    "tokenAmount": "{{amount}} Tokens",
+    "groupNew": "Neu",
+    "groupToday": "Hüt",
+    "groupThisWeek": "Die Wuche",
+    "searchClose": "Suechi schliesse"
   },
   "leaderboard": {
     "title": "Rangllischte",
@@ -4703,7 +4719,18 @@
     "attachmentTooLarge": "Jedi Datei mues under 50MB sy",
     "deleteCommentA11y": "Kommentar lösche",
     "sendCommentA11y": "Sänd Kommentär",
-    "requestOptions": "Uuswahl vo de Optione"
+    "requestOptions": "Uuswahl vo de Optione",
+    "deviceInfoNoErrors": "Keini",
+    "topBuilders": {
+      "month": "Dä Monet",
+      "allTime": "Gesamte Zeit",
+      "shipped": "Useglieferet",
+      "votes": "Stimmen",
+      "comments": "Kommentär",
+      "showLess": "Zeig weniger",
+      "viewProfile": "Profil aalue",
+      "you": "Du"
+    }
   },
   "auth": {
     "loginRequired": "Aamäldig erforderlich",
@@ -4964,7 +4991,20 @@
       "votes_other": "{{value}} Stimme",
       "members_one": "{{value}} Mitglied",
       "members_other": "{{value}} Mitglieder"
-    }
+    },
+    "articleShort": "Artikkel",
+    "articleMinRead": "{{count}} Minutäu",
+    "pinnedShort": "Aaghefte",
+    "post": "Poste",
+    "arrange": {
+      "saving": "Spycheret..."
+    },
+    "reserve": {
+      "signIn": "Zuechmäldig"
+    },
+    "tabLikes": "Gfäut-mir",
+    "likesEmptyTitle": "No kei Likes",
+    "likesPrivateTitle": "Likes sind privat"
   },
   "tv": {
     "title": "TV",
@@ -5480,6 +5520,9 @@
       "autonomous": "Autonom",
       "approval": "Zersch gnehmige",
       "draft": "Nume Entwürf"
+    },
+    "welcome": {
+      "text": "Willkommensnachricht"
     }
   },
   "hero": {
@@ -5561,7 +5604,16 @@
     "nowPublic": "Flow isch jetzt öffentlich",
     "openCanvas": "Canvas ufemache",
     "playVideo": "Video abspiele",
-    "signInToSee": "Aamälde zum din Flow gseh."
+    "signInToSee": "Aamälde zum din Flow gseh.",
+    "newNativeFlow": "Neuer Flow",
+    "model": "Modell",
+    "aspectRatio": "Aspekt-Verhältnis",
+    "duration": "Dauer in Sekunden",
+    "resolution": "Uflösig",
+    "disconnect": "Trenne ab",
+    "payAndRun": "Bezahle und starte",
+    "run": "Starte",
+    "handlePrompt": "Aazäig"
   },
   "loginModal": {
     "title": "Aamälde",
@@ -5911,7 +5963,8 @@
     "searchMenu": "Menü duresueche",
     "clearSearch": "Sueche lösche",
     "noMenuMatches": "Nüt im Menü passt",
-    "searchDehubFor": "Uf Riftn noch \"{{query}}\" sueche"
+    "searchDehubFor": "Uf Riftn noch \"{{query}}\" sueche",
+    "requestSend": "Bitä schicke"
   },
   "comments": {
     "reportComment": "Kommentar melde",
@@ -6530,7 +6583,11 @@
       "copied": "Bote kopiert",
       "copyText": "Text kopiere",
       "mutedUntil": "Du bisch bis {{date}} stumm gschaltet",
-      "slowMode": "Langsammodus: öppis jede {{interval}}"
+      "slowMode": "Langsammodus: öppis jede {{interval}}",
+      "joined": "{{name}} isch drange",
+      "reactions": "Reaktionen",
+      "photoTooLarge": "Bild muess chleiner als 10MB sii",
+      "aiAdminFailed": "AI Admin hat nicht geantwortet"
     },
     "manage": {
       "dismissAdminTitle": "Admin entlasse",
@@ -6733,6 +6790,30 @@
       "notFound": "Däi Einladigslink isch nüt gültig.",
       "requestToJoin": "Bittet um Mitgliedchaft",
       "approvalNote": "Een Admin müesset eure Forderig vorerstelle, bevor si chäi dere drin chöne."
+    },
+    "buyAlert": {
+      "spent": "Gschwänd",
+      "buyer": "Käufer:",
+      "balance": "Gwäärigkait",
+      "price": "Preis:",
+      "marketCap": "Marktkapitalisierung:"
+    },
+    "newChat": {
+      "public": "Öffentlech",
+      "private": "Privat",
+      "free": "Gratis",
+      "paid": "Bezahlt",
+      "group": "Gruppä"
+    },
+    "holderGate": {
+      "chain": "Chetti",
+      "tab": "Halter"
+    },
+    "automod": {
+      "bannedWords": "Gesperrte Wörter",
+      "floodMax": "{{count}} Nachrichtä",
+      "saved": "Gspeicheret",
+      "wordCount": "{{count}} Wörter"
     }
   },
   "work": {
@@ -7854,7 +7935,10 @@
       "doneAll": "{{done}} Accounts, wo nöd zrugg gfolgt händ, sind entfolgt.",
       "doneSome": "{{done}} Accounts entfolgt. {{failed}} chond nöd entfolgt werde.",
       "doneToast": "{{done}} Accounts, wo nöd zrugg gfolgt händ, sind entfolgt."
-    }
+    },
+    "followBackConfirm": "Folge zrugg",
+    "followBackNotNow": "Jetzt nöd",
+    "followBackDone": "Fertig"
   },
   "reactionInfo": {
     "title": "Reaktione",
@@ -8772,7 +8856,35 @@
     "coverFrames": "Wähle ein Bildrahmen",
     "coverFrame": "Benutze Bildrahmen {{index}} als Titelbild",
     "uploadCover": "Lade ein Titelbild hoch",
-    "editFailed": "Konnte diese Änderung nicht anwenden. Versuche es noch einmal."
+    "editFailed": "Konnte diese Änderung nicht anwenden. Versuche es noch einmal.",
+    "altPlaceholderVideo": "Beschriib das Video",
+    "landingLive": "Lebe",
+    "preview": {
+      "title": "Vorschau"
+    },
+    "recent": {
+      "all": "Alli"
+    },
+    "studio": {
+      "crop": "Zuschneide",
+      "draw": "Zeichne",
+      "light": "Hell",
+      "contrast": "Gegensatz",
+      "warmth": "Wärme",
+      "colour": "Farbe",
+      "fade": "Verschwinden",
+      "ratioFree": "Gratis",
+      "rotate": "Dreie",
+      "strength": "Stärke",
+      "stickers": "Sticker",
+      "textBg": "Hintergrund",
+      "font": {
+        "bold": "Fett",
+        "serif": "Schriften"
+      }
+    },
+    "edited": "Bearbeitet",
+    "edit": "Bearbeite"
   },
   "bounty": {
     "claimed": "Iiglöst",
@@ -9379,7 +9491,22 @@
     "paymentSentWith": "Gsendet mit {{amount}}",
     "planRestricted": "Dä Benutzer bruucht es Abo, zum Nachrichte übercho.",
     "planTypeNotAllowed": "Dä Plan vo dem Creator erlaubt die Art vo Nachricht nöd.",
-    "planMinTip": "S Trinkgäld für dä Creator mues mindestens {{amount}} Tokens sii."
+    "planMinTip": "S Trinkgäld für dä Creator mues mindestens {{amount}} Tokens sii.",
+    "newDrawer": {
+      "to": "Bis"
+    },
+    "download": "Abelade",
+    "deleteOneTitle": "Diees Message lösche?",
+    "retrySend": "Nomol probiere",
+    "discardSend": "Entferne",
+    "shareKindGroup": "Gruppä",
+    "shareKindCommunity": "Gmeinschaft",
+    "searchDiscover": {
+      "people": "Lüt",
+      "communities": "Communitys",
+      "newChat": "Neui Chat",
+      "invite": "Einlade"
+    }
   },
   "editPost": {
     "mediaPermission": "Berächtigung für d Mediathek nötig",
@@ -10600,7 +10727,11 @@
       "hint": "Macht us Sprooch zytlich abgstimmti Untertitel, wo du chasch gstalte. Lauft uf dim Grät: gratis und privat. S erschte Mal wird s Modell abeglade.",
       "done": "{{count}} Untertitel dezue tue.",
       "noSpeech": "I dem Clip isch kei Sprooch gfunde worde.",
-      "failed": "Für dä Clip hät mer kei Untertitel chöne mache."
+      "failed": "Für dä Clip hät mer kei Untertitel chöne mache.",
+      "styles": {
+        "bold": "Fett",
+        "serif": "Schriften"
+      }
     },
     "app": {
       "newDesign": "Neus Design",
@@ -10850,7 +10981,9 @@
       "suggestTitle": "Tue obe en grosse, fette Titel dezue und drunder en chliinere Untertitel",
       "undo": "Rückgängig",
       "openGenerator": "Aaluege und generiere",
-      "working": "Bi draa…"
+      "working": "Bi draa…",
+      "stop": "Stoppe",
+      "queue": "Zur Warteschlange hinzufüge"
     },
     "brand": {
       "addColor": "Markefarb derzuefüege",
@@ -10987,7 +11120,9 @@
       "rendering": "Video wird grenderet… {{percent}}%",
       "mp4": "MP4-Video",
       "exportHint": "Lass de Editor offe, bis dis Video fertig grenderet isch.",
-      "tooLarge": "Die Datei isch z gross für de Editor. D Limite isch 400 MB."
+      "tooLarge": "Die Datei isch z gross für de Editor. D Limite isch 400 MB.",
+      "tZoomIn": "Inezoome",
+      "tZoomOut": "Zoome ussere"
     },
     "motion": {
       "title": "Bewegig",
@@ -12163,6 +12298,28 @@
       "zoomIn": "Canvas zoome rein",
       "zoomOut": "Canvas zoome raus",
       "pan": "Panorama"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Umdreie",
+      "add": "Dazue",
+      "scale": "Grösse",
+      "color": "Farb",
+      "light": "Hell"
+    },
+    "clipFix": {
+      "listening": "Abspielen…"
+    },
+    "voiceClone": {
+      "stop": "Ufnahm stoppe",
+      "failed": "Stimme-Cloning isch nid gschlunge."
+    },
+    "linkImport": {
+      "go": "Importiere",
+      "downloading": "Wird abelade {{percent}}%"
+    },
+    "reverse": {
+      "action": "Umkehren"
     }
   },
   "creator": {
@@ -12624,7 +12781,30 @@
     "referenceProductName": "Platziere dein Produkt in einem Clip",
     "referenceProductHint": "Ersetze das hervorgehobene Produkt und behalte die ursprüngliche Szene bei",
     "referenceComposeName": "Kombiniere Referenzbilder",
-    "referenceComposeHint": "Bringe Charaktere, Objekte und Settings aus mehreren Bildern in eine Komposition zusammen"
+    "referenceComposeHint": "Bringe Charaktere, Objekte und Settings aus mehreren Bildern in eine Komposition zusammen",
+    "marketing": {
+      "import": {
+        "use": "Nutze diese Details"
+      }
+    },
+    "batchCount": "Bilder",
+    "endFrame": "End-Frame",
+    "cinema": {
+      "close": "Schliesse",
+      "performance": {
+        "label": "Leischtig"
+      }
+    },
+    "audioNoSpeech": "Keini Sprächi war in der Aufzeichnung gfunde gsi.",
+    "audioTaskSpeechLabel": "Stimme",
+    "audioTaskVoiceChangerLabel": "Stimmveränderer",
+    "audioTaskTranscribeLabel": "Transkription",
+    "audioTaskIsolateLabel": "Aufräumen",
+    "priceFreeRateLimited": "Gratis · Rate Limits gilt",
+    "loop": "Wiederholung",
+    "dialogueFormat": "Schreib die Szene als \"Name: Zeile\", pro Sprecher eine Zeile.",
+    "fileTooLarge": "Die Datei ist über 100 MB gross. Verwende eine kürzere oder kleinere.",
+    "signInToGenerate": "Anmelden, um zu generieren."
   },
   "fractions": {
     "title": "Aateil",
@@ -14693,6 +14873,18 @@
       "title": "Loyale Zuschauer",
       "intro": "Zuschauende verdiene a Pukt für jede Minute, wo se di schaue, und a Pukt für je 100 Tokens, wo se dir schenke. Chat und Reaktione bringe nix ein – Pukt kenne mer folglich net «farmen».",
       "empty": "Kei Punkte no. Die bauen sich auf, wenn Leute zuschauen und schenken."
+    },
+    "destinations": {
+      "platform": "Plattform",
+      "key": "Stream-Schlüssel",
+      "save": "Dazue",
+      "cancel": "Abbrechen",
+      "states": {
+        "off": "Aus",
+        "idle": "Parat",
+        "live": "Lebe",
+        "error": "Fehler"
+      }
     }
   },
   "liveChatModeration": {
@@ -14795,7 +14987,68 @@
     "days": "{{count}} Tage",
     "spotlightForSale": "Jetzt z’verkufe",
     "spotlightNew": "Gössi just gemacht",
-    "buyFor": "Kauf für {{price}}"
+    "buyFor": "Kauf für {{price}}",
+    "actAll": "Alli",
+    "actListings": "Aagebot",
+    "actOffer": "Angebot",
+    "actOffers": "Aagebot",
+    "actSales": "Verkäufe",
+    "tabActivity": "Aktivität",
+    "allChains": "Alli Chains",
+    "newest": "Neuschti",
+    "cheapest": "Gschwindschte Preis",
+    "soldFor": "Verkauft",
+    "signIn": "Zuechmäldig",
+    "share": "Teilen",
+    "noneForSale": "Noch nichts zum Verkauf",
+    "noSales": "Kei Verkäuf bis jetz",
+    "tabBrowse": "Durchsuche",
+    "tabMine": "Deine",
+    "tabSales": "Verkäufe",
+    "cancelled": "Abbroche",
+    "sold": "Verkauft",
+    "listed": "Zum Verkauf aufgelistet",
+    "feeRow": "Riftn Gebühr ({{pct}}%)",
+    "royaltyRow": "Creator Royalty",
+    "youGet": "Du bechunsch",
+    "holderGets": "Holder bechunnt",
+    "loading": "Lade…",
+    "price": "Priis",
+    "seller": "Verkäufer:in",
+    "tabRecent": "Neuschti",
+    "buyNow": "Jetz chaufe",
+    "offers": "Angebote",
+    "cancel": "Abgesagt",
+    "accept": "Akzeptiere",
+    "signInToTrade": "Melde dich a zum Handla",
+    "listForSale": "Zum Verchauf liste",
+    "makeOffer": "Mach e Offerte",
+    "sendOffer": "Abot schicke",
+    "back": "Zrugg",
+    "dropsTo": "Prys fällt uf {{price}} bis {{date}}",
+    "inBundle": "Verchauft as Bündel vo {{n}}",
+    "trending": "Trending Kollektione",
+    "listedCount": "{{n}} zum Verkauf",
+    "thisCollection": "Die Kollektion",
+    "collectionOffer": "Offerte uf jedi",
+    "showAll": "Alli azeige",
+    "filters": "Filter",
+    "forSale": "Zum Verkauf",
+    "openToOffers": "Offe für Offerte",
+    "freshMints": "Frisch vo Riftn-Creators",
+    "offersOpen": "Offe für Offerte",
+    "mintedCount": "{{n}} gmintet",
+    "anyInCollection": "Öpis in de Sammlig",
+    "thisNft": "Dieses NFT",
+    "priceAlert": "Prys-Alert",
+    "alertUnder": "Mir säge, wänn es ufglischtet isch bi oder under ({{symbol}}, optional)",
+    "turnOnAlert": "Alarm iiischalte",
+    "alertSaved": "Alert a. Mir säge dir Bescheid wenn eis listed wird.",
+    "priceDrop": "Priis fallt über d'Ziit",
+    "endPrice": "Tiefschte Priis, erreicht am Änd ({{symbol}})",
+    "dropBadge": "Priisfall",
+    "days_one": "{{count}} Tag",
+    "days_other": "{{count}} Tage"
   },
   "reel": {
     "readAll": "Alles läse",
@@ -14817,7 +15070,11 @@
       "episode": "Podcast episode",
       "show": "Podcast",
       "artist": "Artist"
-    }
+    },
+    "loading": "Lade…",
+    "paused": "Pausiert",
+    "preview": "Vorschau",
+    "seek": "Sueche"
   },
   "twoFactor": {
     "wrongCode": "Das Code hät nöd zuegmache. Probier dä neuste i dinere App.",
@@ -14866,7 +15123,8 @@
     "offBody": "Gib e Code vo dinere App aa zum bestätige. Zuegriff muesch nume dini gewöhni Login nomol bruche.",
     "newCodesTitle": "Händ neu Backup-Codes",
     "newCodesBody": "Gib e Code vo dinere App ii. Dini alte Backup-Codes hend nümme z'funke.",
-    "codeLabel": "Sechsstelliger Code"
+    "codeLabel": "Sechsstelliger Code",
+    "codesLeft": "{{count}} übrig"
   },
   "chatSearch": {
     "placeholder": "Suäch Nachrichtä oder Lüüt",
@@ -14894,5 +15152,230 @@
     "newer": "Nei Resultat",
     "gone": "Die Nachricht isch nümme da",
     "theirMessages": "Ihri Nachrichtä"
+  },
+  "chatTextSize": {
+    "title": "Textgrösse",
+    "default": "Standard",
+    "larger": "Grosser"
+  },
+  "remix": {
+    "cut": "Schneide"
+  },
+  "signedFollows": {
+    "setUp": "Aktiviere",
+    "turnOff": "Ausschalten",
+    "efpTurnOff": "Stoppe"
+  },
+  "studioDeck": {
+    "remove": "Entferne",
+    "background": {
+      "title": "Hintergrund",
+      "modes": {
+        "none": "Aus",
+        "blur": "Unschärfi",
+        "color": "Farbe"
+      }
+    },
+    "scenes": {
+      "countdown": "Zähle runter",
+      "names": {
+        "starting": "Fangt gly a"
+      }
+    },
+    "sources": {
+      "image": "Bild",
+      "show": "Show on Stream",
+      "positions": {
+        "center": "Zentrum"
+      },
+      "sizes": {
+        "medium": "Mittel"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Hüt",
+    "tooSoon": "Wähl en Zytpunkt i de Zuekunft.",
+    "show": "Zeige",
+    "hide": "Verstecke"
+  },
+  "planned": {
+    "title": "Geplant",
+    "all": "Alli",
+    "posts": "Biträg",
+    "stages": "Audio-Rüüm",
+    "post": "Poste",
+    "live": "Lebe",
+    "stage": "Bühni",
+    "untitledPost": "Poste",
+    "untitledLive": "Lebe",
+    "loading": "Lade…",
+    "startNow": "Jetz starte",
+    "cancel": "Abbrechen",
+    "cancelled": "Storniert"
+  },
+  "welcome": {
+    "about": {
+      "title": "Willkomme bi Riftn",
+      "day": "Tag",
+      "month": "Monet",
+      "year": "Jahr"
+    },
+    "name": {
+      "title": "Deini Name",
+      "placeholder": "Deini Name"
+    },
+    "card": {
+      "name": "Deini Name",
+      "followers": "Follower"
+    },
+    "topic": {
+      "music": "Musig",
+      "art": "Kunscht",
+      "crypto": "Krypto",
+      "sports": "Sport",
+      "comedy": "Komödie",
+      "food": "Essen",
+      "news": "Nachrichten",
+      "science": "Wissenschaft"
+    },
+    "back": "Zrugg",
+    "skipPhoto": "Skip fürs Moment.",
+    "preview": "Vorschau"
+  },
+  "appTokens": {
+    "title": "Dini Tokens",
+    "history": "Verlauf",
+    "noHistory": "Noch kei Aktivität",
+    "kindDeposit": "Iizahle",
+    "to": "Bis",
+    "amount": "Betrag",
+    "notePlaceholder": "Notiz dezuetue (optional)",
+    "sendButton": "Schicke",
+    "errorInsufficient": "Nöd gnueg Tokens"
+  },
+  "avatarPrompt": {
+    "notNow": "Jetzt nöd"
+  },
+  "postStats": {
+    "audience": "Zuegl",
+    "engagement": "Interaktion",
+    "finished": "Fertig",
+    "members": "Mitglieder",
+    "membersLower": "Mitglieder",
+    "newFollowers": "Jemand folgt mir",
+    "noBadge": "Kein Badge",
+    "people": "Lüt",
+    "plays": "Wiedergaben",
+    "quotes": "Zitat",
+    "saved": "Gspeicheret",
+    "shares": "Teile",
+    "signedOutViewers": "Abgmeldet",
+    "topSupporters": "Top-Unterstützer",
+    "visitors": "Abgmeldet"
+  },
+  "duet": {
+    "policyEveryone": "Alli",
+    "policyFollowers": "Follower",
+    "policyNobody": "Niemer",
+    "loadMore": "Meh lade"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Alli",
+      "followers": "Follower",
+      "nobody": "Niemer"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Alli",
+      "followers": "Follower",
+      "nobody": "Niemer"
+    },
+    "heading": "Reaktionen",
+    "more": "Mehr zeigen",
+    "liveNow": "Lebe",
+    "untitled": "Reaktion"
+  },
+  "liveClips": {
+    "copyLink": "Link kopiere",
+    "linkCopied": "Link kopiert"
+  },
+  "liveHype": {
+    "gift": {
+      "howMany": "Wie vill",
+      "who": "Benutzername oder Wallet-Adrässe",
+      "whoPlaceholder": "@benutzername",
+      "cancel": "Abbrechen",
+      "stage": {
+        "preparing": "Wird vorbereitet…",
+        "confirming": "Warte uf d Transaktion…",
+        "recording": "Wird abgschlosse…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Anders",
+    "confirming": "Zahlung bestätige…"
+  },
+  "feedFilters": {
+    "clearAllShort": "Alli lösche",
+    "done": "Fertig",
+    "edit": "Bearbeite",
+    "groupDate": "Datum",
+    "groupSort": "Sortiere",
+    "groupType": "Art",
+    "save": "Spychere"
+  },
+  "ownKeys": {
+    "working": "Funktioniert",
+    "failed": "Es isch öppis schief gange. Probier's no mal.",
+    "check": "Kontrolliere",
+    "remove": "Entferne",
+    "save": "Spychere",
+    "cancel": "Abbräche"
+  },
+  "postBg": {
+    "none": "Keini",
+    "yours": "Deine",
+    "accent": "Umlaute",
+    "names": {
+      "lava": "Lava-Lampe",
+      "drive": "Nachtfahrt",
+      "chrome": "Flüssig-Chrom",
+      "snow": "Schneefall"
+    }
+  },
+  "articleTile": {
+    "cover": "Deckel"
+  },
+  "aiConsent": {
+    "allow": "Erlaube"
+  },
+  "dmRequests": {
+    "title": "Aafrage",
+    "accept": "Annehmen",
+    "delete": "Lösche",
+    "block": "Blockiere"
+  },
+  "dmSchedule": {
+    "view": "Aaluege",
+    "edit": "Ändere",
+    "editLabel": "Nachricht bearbeite",
+    "error": "Das het nid funktioniert. Versuchs nomol."
+  },
+  "chatBulk": {
+    "selected": "{{count}} ausgewählt",
+    "cancel": "Abbräche",
+    "reply": "Antwort",
+    "delete": "Lösche"
+  },
+  "msgSelect": {
+    "selected": "{{count}} ausgewählt",
+    "copy": "Kopiere",
+    "forward": "Wiiterleite",
+    "deleted_one": "Nachricht gelöscht: {{count}}",
+    "deleted_other": "Nachrichten gelöscht: {{count}}"
   }
 }

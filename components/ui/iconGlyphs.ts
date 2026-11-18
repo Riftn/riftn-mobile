@@ -209,6 +209,7 @@ export const iconGlyphs: Partial<Record<string, string>> = {
   Network: "\ue129",
   Newspaper: "\ue34c",
   Octagon: "\ue12a",
+  Orbit: "\ue3eb",
   Package: "\ue12d",
   PaintBucket: "\ue2e6",
   Palette: "\ue1dd",

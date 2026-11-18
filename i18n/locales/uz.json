@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Audiusda bu hafta trendda. Bepul foydalanish, san’atkor sizning postingizda ko‘rsatiladi.",
     "d2e45b7406fc": "Wikimedia Commons dan umumiy domen va Creative Commons musiqasi. San’atkor sizning postingizda ko‘rsatiladi.",
     "d0c1a3684775": "Qo‘shiqlar yuklanmadi. Bir daqiqa ichida qayta urinib ko‘ring.",
-    "d14064f80f52": "Tovushni qo‘shing"
+    "d14064f80f52": "Tovushni qo‘shing",
+    "71988c4d8e08": "Matn",
+    "147170e793c6": "Keng",
+    "481859b689b0": "Ulanishingizni tekshiring va qayta urinib ko'ring.",
+    "57e2faa5ec63": "Riftn dan qidirish",
+    "7db20897053b": "Odamlar",
+    "96d7bff86b44": "Qidiruv yuklashda muammoqalik",
+    "d8b8392e2c54": "Qayta urinib ko&#39;ring"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Ishora",
       "bullets": "Toʻplam roʻyxati",
       "numbers": "Sonli roʻyxat",
-      "link": "Havola"
+      "link": "Havola",
+      "image": "Rasmlar qo&#39;shish"
     }
   },
   "storefront": {
@@ -3793,7 +3801,11 @@
     "payViaDpay": "Riftn Pay ga to'landi, tokenlar taxminan 30 soniyada keladi",
     "payViaBridgeDpay": "Base ga o'tkazildi va Riftn Pay ga to'landi, tokenlar taxminan bir daqiqada keladi",
     "tokensUnit": "tokenlar",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "addMessage": "Xabar yozing (va shart emas).",
+    "messagePublic": "Ommaviy",
+    "railTitle": "Maslahatlar",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "skippableSections": "O'tkazib yuboriladigan bo'limlar",
@@ -4536,7 +4548,11 @@
       "here": "{{name}} hamjamiyatdagi barchaga xabar yubordi",
       "hereNamed": "{{name}} hammaga “{{community}}” xatida xabar yubordi"
     },
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "groupNew": "Yangi",
+    "groupToday": "Bugun",
+    "groupThisWeek": "Bu hafta",
+    "searchClose": "Yopish"
   },
   "leaderboard": {
     "title": "Reyting",
@@ -4728,7 +4744,18 @@
     "attachmentTooLarge": "Har bir fayl 50 MB dan kichik bo'lishi kerak",
     "deleteCommentA11y": "Sharhingizni o'chirish",
     "sendCommentA11y": "Izoh jo'natish",
-    "requestOptions": "So'rov variantlari"
+    "requestOptions": "So'rov variantlari",
+    "deviceInfoNoErrors": "Yo'q",
+    "topBuilders": {
+      "month": "Bu oy",
+      "allTime": "Hamma vaqt",
+      "shipped": "Chiqarilgan",
+      "votes": "Ovozlar",
+      "comments": "Izohlar",
+      "showLess": "Kamroq ko&#39;rsatish",
+      "viewProfile": "Profilni ko&#39;rish",
+      "you": "Siz"
+    }
   },
   "auth": {
     "loginRequired": "Avtorizatsiya kerak",
@@ -4989,7 +5016,20 @@
       "votes_other": "{{value}} ovoz",
       "members_one": "{{value}} a’zo",
       "members_other": "{{value}} a’zo"
-    }
+    },
+    "articleShort": "Maqola",
+    "articleMinRead": "{{count}} min o'qish",
+    "pinnedShort": "Qadoqlangan",
+    "post": "Joylash",
+    "arrange": {
+      "saving": "Saqlanmoqda..."
+    },
+    "reserve": {
+      "signIn": "Kirish"
+    },
+    "tabLikes": "Yoqtirishlar",
+    "likesEmptyTitle": "Hozircha layklar yoʻq",
+    "likesPrivateTitle": "Layklar yopiq"
   },
   "tv": {
     "title": "Televizor",
@@ -5505,6 +5545,9 @@
       "action": "Harakat",
       "schedule": "Jadval",
       "filter": "Faoliyatni filtrlash"
+    },
+    "welcome": {
+      "text": "Xush kelibsiz xabari"
     }
   },
   "hero": {
@@ -5586,7 +5629,15 @@
     "nowPublic": "Oqim endi ommaviy",
     "openCanvas": "Tuvalni oching",
     "playVideo": "videoni o'ynatish",
-    "signInToSee": "Hisobingizdagi oqimlarni ko'rish uchun tizimga kiring."
+    "signInToSee": "Hisobingizdagi oqimlarni ko'rish uchun tizimga kiring.",
+    "newNativeFlow": "Yangi oqim",
+    "aspectRatio": "Aspect nisbati",
+    "duration": "Saniyalarda davom etish muddati",
+    "resolution": "Rezolyutsiya",
+    "disconnect": "Uzish",
+    "payAndRun": "To'lov qiling va ishga tushiring",
+    "run": "Ishga tushiring",
+    "handlePrompt": "Sozlash"
   },
   "loginModal": {
     "title": "Kirish",
@@ -5906,7 +5957,8 @@
     "searchMenu": "Menyudan qidirish",
     "clearSearch": "Qidiruvni tozalash",
     "noMenuMatches": "Menyuda hech nima mos kelmadi",
-    "searchDehubFor": "Riftn'da «{{query}}» ni qidirish"
+    "searchDehubFor": "Riftn'da «{{query}}» ni qidirish",
+    "requestSend": "So'rov yuborish"
   },
   "comments": {
     "reportComment": "Fikr haqida xabar berish",
@@ -6525,7 +6577,11 @@
       "copied": "Xabar nusxalandi",
       "copyText": "Matnni nusxalash",
       "mutedUntil": "Siz {{date}} gacha ovozsiz holatdasiz",
-      "slowMode": "Sekin rejim: har {{interval}} da bitta xabar"
+      "slowMode": "Sekin rejim: har {{interval}} da bitta xabar",
+      "joined": "{{name}} qo'shildi",
+      "reactions": "Reaksiyalar",
+      "photoTooLarge": "Rasm 10MB dan kichik boʻlishi kerak",
+      "aiAdminFailed": "AI Admin javob bera olmadi"
     },
     "manage": {
       "dismissAdminTitle": "Administratorni yopish",
@@ -6728,6 +6784,30 @@
       "notFound": "Bu taklifnoma havolasi yaroqsiz.",
       "requestToJoin": "Qo'shilish uchun so'rov",
       "approvalNote": "Qo'shilishdan oldin administrator sizning so'rovingizni tasdiqlashi kerak."
+    },
+    "buyAlert": {
+      "spent": "Xarajat:",
+      "buyer": "Xaridor:",
+      "balance": "Balans:",
+      "price": "Narxi:",
+      "marketCap": "Bozor kapitallashuvi:"
+    },
+    "newChat": {
+      "public": "Ommaviy",
+      "private": "Shaxsiy",
+      "free": "Bepul",
+      "paid": "Pullik",
+      "group": "Guruhlash"
+    },
+    "holderGate": {
+      "chain": "Zanjir",
+      "tab": "Egalari"
+    },
+    "automod": {
+      "bannedWords": "Cheklangan so‘zlar",
+      "floodMax": "{{count}} xabarlar",
+      "saved": "Saqlandi",
+      "wordCount": "{{count}} so&#39;zlari"
     }
   },
   "work": {
@@ -7831,7 +7911,15 @@
     "requestPendingBody": "Sizning kuzatuv soʻrovingiz yuborildi. Ular soʻrovingizni tasdiqlagandan soʻng siz ularning postlarini koʻra olasiz.",
     "followToSeePosts": "Uning postlarini koʻrish uchun ushbu akkauntga obuna boʻling.",
     "loadFailed": "Bu ro'yxatni yuklab bo'lmadi",
-    "new": "Yangi"
+    "new": "Yangi",
+    "followBackConfirm": "Obunani qaytarish",
+    "followBackNotNow": "Hozir emas",
+    "followBackDone": "Bajarildi",
+    "nonFollowers": {
+      "notNow": "Hozir emas",
+      "cancel": "Bekor qilish",
+      "close": "Yopish"
+    }
   },
   "reactionInfo": {
     "title": "Reaksiyalar",
@@ -8751,7 +8839,36 @@
     "coverFrames": "Kabrani tanlang",
     "coverFrame": "Kabrani {{index}} ni kabr sifatida qo'llang",
     "uploadCover": "Kabr sifatida rasim yuklang",
-    "editFailed": "Buning amalga oshirishga urinib ko'rish mumkin emas. Qayta urinib ko'ring."
+    "editFailed": "Buning amalga oshirishga urinib ko'rish mumkin emas. Qayta urinib ko'ring.",
+    "altPlaceholderVideo": "Bu videoni tavsiflang",
+    "preview": {
+      "title": "Kuzatish"
+    },
+    "recent": {
+      "all": "Hammasi"
+    },
+    "studio": {
+      "crop": "Qirqish",
+      "draw": "Chizish",
+      "light": "Yorugʻ",
+      "contrast": "Kontrast",
+      "warmth": "Issiqlik",
+      "colour": "Rang",
+      "fade": "Solma",
+      "original": "Asl nusxasi",
+      "ratioOriginal": "Asl nusxasi",
+      "ratioFree": "Bepul",
+      "rotate": "Aylantirish",
+      "strength": "Kuch",
+      "stickers": "Stikerlar",
+      "ticker": "Tiker",
+      "textBg": "Fon",
+      "font": {
+        "bold": "Qalin"
+      }
+    },
+    "edited": "Oʻzgartirilgan",
+    "edit": "Tahrirlash"
   },
   "bounty": {
     "claimed": "Olindi",
@@ -9045,7 +9162,8 @@
     "justChatting": "Shunchaki suhbat",
     "noLiveStreams": "Jonli efirlar yo‘q",
     "noOneStreaming": "Hozir hech kim efirda emas. Keyinroq qayting!",
-    "loadStreamsFailed": "Efirlarni yuklab bo‘lmadi. Qayta urinib ko‘ring."
+    "loadStreamsFailed": "Efirlarni yuklab bo‘lmadi. Qayta urinib ko‘ring.",
+    "liveBadge": "ONALINE"
   },
   "liveShop": {
     "title": "Ushbu efirdan xarid qiling",
@@ -9358,7 +9476,23 @@
     "paymentSentWith": "{{amount}} ta token bilan yuborildi",
     "planRestricted": "Bu foydalanuvchi xabar olish uchun obuna talab qiladi.",
     "planTypeNotAllowed": "Bu ijodkorning rejasi bunday turdagi xabarga ruxsat bermaydi.",
-    "planMinTip": "Bu ijodkor uchun choychaqa kamida {{amount}} tokenlar bo‘lishi kerak."
+    "planMinTip": "Bu ijodkor uchun choychaqa kamida {{amount}} tokenlar bo‘lishi kerak.",
+    "newDrawer": {
+      "to": "Gacha"
+    },
+    "download": "Yuklab olish",
+    "deleteOneTitle": "Bu xabar oʻchirilsinmi?",
+    "retrySend": "Qayta urinish",
+    "discardSend": "Olib tashlash",
+    "shareKindGroup": "Guruhlash",
+    "shareKindCommunity": "Hamjamiyat",
+    "searchDiscover": {
+      "people": "Odamlar",
+      "communities": "Jamoalar",
+      "members": "{{n}} a&#39;zolar",
+      "newChat": "Yangi chat",
+      "invite": "Taklif qiling"
+    }
   },
   "editPost": {
     "mediaPermission": "Media kutubxonasiga ruxsat kerak",
@@ -10613,7 +10747,10 @@
       "hint": "Nutqni vaqtga moslangan, uslubini o‘zgartirish mumkin bo‘lgan subtitrlarga aylantiradi. Qurilmangizda ishlaydi: bepul va maxfiy. Birinchi foydalanishda model yuklab olinadi.",
       "done": "{{count}} ta subtitr qo‘shildi.",
       "noSpeech": "Bu klipda nutq topilmadi.",
-      "failed": "Bu klip uchun subtitr yaratib bo‘lmadi."
+      "failed": "Bu klip uchun subtitr yaratib bo‘lmadi.",
+      "styles": {
+        "bold": "Qalin"
+      }
     },
     "app": {
       "newDesign": "Yangi dizayn",
@@ -10863,7 +11000,9 @@
       "suggestTitle": "Tepaga katta qalin sarlavha va uning ostiga kichikroq kichik sarlavha qo'sh",
       "undo": "Bekor qilish",
       "openGenerator": "Ko'rib chiqish va yaratish",
-      "working": "Ustida ishlayapman…"
+      "working": "Ustida ishlayapman…",
+      "stop": "To'xtatish",
+      "queue": "Navbatga qo'shish"
     },
     "brand": {
       "replacePreset": "Hozirgi bilan almashtirish",
@@ -11000,7 +11139,9 @@
       "rendering": "Video tayyorlanmoqda… {{percent}}%",
       "mp4": "MP4 video",
       "exportHint": "Video tayyor bo‘lguncha muharrirni ochiq qoldiring.",
-      "tooLarge": "Bu fayl muharrir uchun juda katta. Chegara 400 MB."
+      "tooLarge": "Bu fayl muharrir uchun juda katta. Chegara 400 MB.",
+      "tZoomIn": "Yaqinlashtirish",
+      "tZoomOut": "Kattalashtirish"
     },
     "motion": {
       "title": "Harakat",
@@ -12179,6 +12320,28 @@
       "selection": "Tanlov",
       "zoomIn": "Tuvalni kattalashtirish",
       "zoomOut": "Kanvasni kattalashtirish"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Aylanish",
+      "add": "Qo'shish",
+      "scale": "Hajmi",
+      "color": "Rang",
+      "light": "Yorugʻ"
+    },
+    "clipFix": {
+      "listening": "Teshiklash…"
+    },
+    "voiceClone": {
+      "stop": "Yozishni toʻxtatish",
+      "failed": "Ses klonlash muvaffaqiyatsizlik."
+    },
+    "linkImport": {
+      "go": "Import qilish",
+      "downloading": "Yuklab olinmoqda {{percent}}%"
+    },
+    "reverse": {
+      "action": "Teskari"
     }
   },
   "creator": {
@@ -12640,7 +12803,32 @@
     "referenceProductName": "Mahsulingizni klipga qo'ying",
     "referenceProductHint": "Tanlangan mahsulotni almashtiring va asl sahnani saqlang.",
     "referenceComposeName": "Malumot rasmlarini birlashtirish",
-    "referenceComposeHint": "Bir nechta tasvirlardan belgilar, obyektlar va muhitni bitta kompozitsiyaga olib keling."
+    "referenceComposeHint": "Bir nechta tasvirlardan belgilar, obyektlar va muhitni bitta kompozitsiyaga olib keling.",
+    "marketing": {
+      "import": {
+        "use": "Ushbu tafsilotlardan foydalaning"
+      }
+    },
+    "batchCount": "Rasmlar",
+    "endFrame": "Oxirgi kadr",
+    "cinema": {
+      "close": "Yopish",
+      "performance": {
+        "label": "Samaradorlik"
+      }
+    },
+    "audioNoSpeech": "Qayta ko'rib chiqish uchun shu yozuvda gap bo'lmadi.",
+    "audioTaskSpeechLabel": "Nutq",
+    "audioTaskDialogueLabel": "Muloqot",
+    "audioTaskSfxLabel": "Ovoz effekti",
+    "audioTaskVoiceChangerLabel": "Ovoz o'zgartirgich",
+    "audioTaskTranscribeLabel": "Transkripsiya qilish",
+    "audioTaskIsolateLabel": "Tozalash",
+    "priceFreeRateLimited": "Bepul · narx cheklovlari qo'llaniladi",
+    "loop": "Davr",
+    "dialogueFormat": "Sahnani \"Ism: satr\" shaklida yozing, har bir gapiruvchi uchun bir satr.",
+    "fileTooLarge": "Bu fayl 100 MB dan katta. Qisqaroq yoki kichikroq birini foydalaning.",
+    "signInToGenerate": "Roʻyxatdan oʻtish uchun tarjima qiling."
   },
   "fractions": {
     "title": "Ulushlar",
@@ -14709,6 +14897,19 @@
       "intro": "Tomoshabinlar sizni tomosha qilgan har bir daqiqasi uchun ball va sovg'a qilgan har 100 tokenlar uchun bitta ball olishadi. Chat va reaksiyalar hech narsa bermaydi, shuning uchun ballarni qayta ishlash mumkin emas.",
       "empty": "Hali ochko yo'q. Odamlar tomosha qilib, sovg'a qilishgan sari ular ko'payib boradi.",
       "widgetHint": "Ushbu ro'yxatni jonli efirda ko'rsatish uchun sodiq tomoshabinlar vidjetini qo'shing."
+    },
+    "destinations": {
+      "platform": "Platforma",
+      "label": "Nom (ariza)",
+      "key": "Oqim kaliti",
+      "save": "Qo'shish",
+      "cancel": "Bekor qilish",
+      "states": {
+        "off": "Oʻchiq",
+        "idle": "Tayyor",
+        "live": "Jonli",
+        "error": "Xatolik"
+      }
     }
   },
   "liveChatModeration": {
@@ -14761,7 +14962,8 @@
     "joinedBody": "Biz token chiqqanda {{email}} ga elektron pochta orqali murojaat qilamiz.",
     "joinedBodyNoEmail": "Biz sizga tokenning chiqishi haqida ma'lumot berish uchun xabarnoma jo'natamiz.",
     "failed": "Saqlab bo'lmadi. Qaytadan urinib ko'ring.",
-    "privacy": "Faoliyatga faqat chiqarilish haqida xabar berish uchun ishlatiladi."
+    "privacy": "Faoliyatga faqat chiqarilish haqida xabar berish uchun ishlatiladi.",
+    "emailLabel": "Elektron pochta"
   },
   "githubLink": {
     "hint": "Xotira kirishingiz uchun GitHubga kirishingiz kerak, shuning uchun hisobingiz siznikiga tegishli ekanligini isbotlash kerak. Riftn faqat sizning GitHubdagi umumiy profilingizni koʻrishadi.",
@@ -14808,7 +15010,72 @@
     "days": "{{count}} kun",
     "spotlightForSale": "Sotilmoqda",
     "spotlightNew": "Faqat mint qilingan",
-    "buyFor": "{{price}} uchun sotib oling"
+    "buyFor": "{{price}} uchun sotib oling",
+    "actAll": "Hammasi",
+    "actListings": "E'lonlar",
+    "actOffer": "Taklif qilish",
+    "actOffers": "Takliflar",
+    "actSales": "Savdo",
+    "tabActivity": "Faoliyat",
+    "allChains": "Barcha zanjirlar",
+    "newest": "Eng yangi",
+    "cheapest": "Eng past narx",
+    "soldFor": "Sotilgan",
+    "signIn": "Kirish",
+    "title": "NFTlar",
+    "share": "Ulashish",
+    "noneForSale": "Hali hech narsa sotuvda emas",
+    "noSales": "Hozircha sotuvlar yo'q.",
+    "tabBrowse": "Ko'rib chiqish",
+    "tabMine": "Sizniki",
+    "tabSales": "Savdo",
+    "cancelled": "Bekor qilingan",
+    "sold": "Sotilgan",
+    "listed": "Sotilayotgan roʻyxatda",
+    "feeRow": "Oʻzgartirish toʻlovi ({{pct}}%)",
+    "royaltyRow": "Yaratuvchi royalti",
+    "youGet": "Siz olasiz",
+    "holderGets": "Egasi oladi",
+    "loading": "Yuklab olinmoqda...",
+    "price": "Narx",
+    "seller": "Sotuvchi",
+    "tabRecent": "So'nggi",
+    "buyNow": "Hozir sotib oling",
+    "offers": "Takliflar",
+    "cancel": "Bekor qilish",
+    "accept": "Qabul qiling",
+    "signInToTrade": "Savdo qilish uchun tizimga kiring",
+    "listForSale": "Sotish uchun roʻyxatga oling",
+    "makeOffer": "Taklif bering",
+    "sendOffer": "Taklif yuborish",
+    "back": "Ortga",
+    "dropsTo": "Narxi {{price}} gacha tushadi {{date}}da",
+    "inBundle": "{{n}} ta toʻplam sifatida sotilgan",
+    "trending": "Trenddagi kolleksiyalar",
+    "floor": "Qavat",
+    "listedCount": "{{n}} sotiladi",
+    "thisCollection": "Ushbu to'plam",
+    "collectionOffer": "Istalgan taklif",
+    "showAll": "Hammasini ko'rsatish",
+    "shortTitle": "NFTlar",
+    "filters": "Filtrlar",
+    "forSale": "Sotuvda",
+    "openToOffers": "Takliflar uchun ochiq",
+    "freshMints": "Riftn yaratuvchilaridan yangi",
+    "offersOpen": "Takliflar uchun ochiq",
+    "mintedCount": "{{n}} zarb qilingan",
+    "anyInCollection": "Kollektsiyaning har qanday narsasi",
+    "thisNft": "Bu NFT",
+    "priceAlert": "Narxi xabarini yuboring",
+    "alertUnder": "Roʻyxatga olinganida yoki {{symbol}} gacha (optsional) boʻlganida xabar bering",
+    "turnOnAlert": "Xabarni oching",
+    "alertSaved": "Bekoratga oʻrnatildi. Biz sizga birorta ham boʻlsa, sizga xabar beramiz.",
+    "priceDrop": "Vaqtdan-vaqtga narx kamayadi",
+    "endPrice": "Eng past narx, oxirida yetkaziladi ({{symbol}})",
+    "bundleBadge": "To'plam ×{{n}}",
+    "dropBadge": "Narxlarning pasayishi",
+    "days_one": "{{count}} kun",
+    "days_other": "{{count}} kunlar"
   },
   "reel": {
     "readAll": "Hammasini o'qing",
@@ -14830,7 +15097,11 @@
       "episode": "Podkast epizodi",
       "show": "Podkast",
       "artist": "Rassom"
-    }
+    },
+    "loading": "Yuklab olinmoqda...",
+    "paused": "To&#39;xtatildi",
+    "preview": "Kuzatish",
+    "seek": "Izlash"
   },
   "twoFactor": {
     "wrongCode": "Bu kod mos kelmadi. Ilovangizdagi eng yangisini sinab ko‘ring.",
@@ -14908,5 +15179,248 @@
     "newer": "Yangi natija",
     "gone": "Ushbu xabar hali ham mavjud emas",
     "theirMessages": "Ular xabarlarini koʻring"
+  },
+  "chatTextSize": {
+    "title": "Matn hajmi",
+    "default": "Standart",
+    "larger": "Kattaroq"
+  },
+  "remix": {
+    "cut": "Kesish"
+  },
+  "signedFollows": {
+    "setUp": "Yoqish",
+    "turnOff": "O‘chirish",
+    "efpTurnOff": "To'xtatish"
+  },
+  "postEditHistory": {
+    "original": "Asl"
+  },
+  "studioDeck": {
+    "remove": "Olib tashlash",
+    "background": {
+      "title": "Fon",
+      "modes": {
+        "none": "Oʻchiq",
+        "blur": "Xiralik",
+        "color": "Rang"
+      }
+    },
+    "scenes": {
+      "countdown": "Ortga hisoblash",
+      "minutes": "{{count}} daqika",
+      "names": {
+        "starting": "Tez orada boshlanadi"
+      }
+    },
+    "widgets": {
+      "tab": "Vidjetlar"
+    },
+    "sources": {
+      "image": "Rasm",
+      "show": "Strimda ko'rsatish",
+      "positions": {
+        "center": "Markazlashtir"
+      },
+      "sizes": {
+        "medium": "O'rtacha"
+      }
+    },
+    "phone": {
+      "title": "Studiya"
+    }
+  },
+  "whenSheet": {
+    "today": "Bugun",
+    "tooSoon": "Kelajakdan vaqtni tanlang.",
+    "show": "Ko'rsatish",
+    "hide": "Yashirish"
+  },
+  "planned": {
+    "title": "Rejalashtirilgan",
+    "all": "Hammasi",
+    "posts": "Postlar",
+    "stages": "Audio xonalar",
+    "post": "Joylash",
+    "live": "Jonli",
+    "stage": "Sahna",
+    "untitledPost": "Joylash",
+    "untitledLive": "Jonli",
+    "loading": "Yuklanyapti…",
+    "startNow": "Hozir boshlash",
+    "cancel": "Bekor qilish",
+    "cancelled": "Bekor qilindi"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn'ga xush kelibsiz",
+      "day": "Kun",
+      "month": "Oy",
+      "year": "Yil"
+    },
+    "name": {
+      "title": "Ismingiz",
+      "placeholder": "Ismingiz"
+    },
+    "card": {
+      "name": "Ismingiz",
+      "followers": "izdoshlar"
+    },
+    "topic": {
+      "music": "Musiqa",
+      "art": "Sanʼat",
+      "gaming": "Oʻyinlar",
+      "crypto": "Kripto",
+      "sports": "Sport",
+      "comedy": "Komediya",
+      "podcast": "Podkast",
+      "food": "Oziq-ovqat",
+      "news": "Yangiliklar",
+      "science": "Fan"
+    },
+    "back": "Orqaga",
+    "skipPhoto": "Hozirda o'tkazib yuborish",
+    "preview": "Koʻrinish"
+  },
+  "appTokens": {
+    "title": "Sizning tokenlaringiz",
+    "history": "Tarix",
+    "noHistory": "Topshiriqlar mavjud emas!",
+    "kindDeposit": "Mablagʻ qoʻshish",
+    "to": "Gacha",
+    "amount": "Miqdori",
+    "notePlaceholder": "Izoh qo‘sh (ixtiyoriy)",
+    "sendButton": "Yuborish",
+    "errorInsufficient": "Tokenlar yetarli emas"
+  },
+  "avatarPrompt": {
+    "notNow": "Hozir emas"
+  },
+  "postStats": {
+    "audience": "Tomoshabin",
+    "engagement": "Qiziqish",
+    "finished": "Tugadi",
+    "members": "A'zolar",
+    "membersLower": "a'zolar",
+    "newFollowers": "Yangi izdoshlar",
+    "noBadge": "Nishon yo'q",
+    "people": "Odamlar",
+    "plays": "Spektakllar",
+    "quotes": "Iqtibos",
+    "reposts": "Repostlar",
+    "saved": "Saqlandi",
+    "shares": "Ulashishlar",
+    "signedOutViewers": "Chiqdingiz",
+    "topSupporters": "Eng yaxshi tarafdorlar",
+    "visitors": "Chiqdingiz"
+  },
+  "duet": {
+    "policyEveryone": "Hamma",
+    "policyFollowers": "Obunachilar",
+    "policyNobody": "Hech kim",
+    "loadMore": "Koʻproq yuklash"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Hamma",
+      "followers": "Obunachilar",
+      "nobody": "Hech kim"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Hamma",
+      "followers": "Obunachilar",
+      "nobody": "Hech kim"
+    },
+    "heading": "Reaksiyalar",
+    "more": "Batafsil ma'lumot",
+    "liveNow": "Jonli",
+    "untitled": "Reaksiya"
+  },
+  "liveClips": {
+    "copyLink": "Havolani nusxalash",
+    "linkCopied": "Havola nusxalandi"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Reja",
+      "howMany": "Nechta",
+      "who": "Foydalanuvchi nomi yoki hamyon manzili",
+      "whoPlaceholder": "@foydalanuvchinomi",
+      "cancel": "Bekor qilish",
+      "stage": {
+        "preparing": "Tayyorlanmoqda…",
+        "confirming": "Tranzaksiya kutilmoqda…",
+        "recording": "Yakunlanmoqda…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Boshqa",
+    "confirming": "Toʻlov tasdiqlanmoqda…"
+  },
+  "liveShorts": {
+    "live": "ONALINE"
+  },
+  "feedFilters": {
+    "clearAllShort": "Hammasini tozalash",
+    "done": "Bajarildi",
+    "edit": "Tahrirlash",
+    "groupDate": "Sana",
+    "groupSort": "Saralash",
+    "groupType": "Turi",
+    "save": "Saqlash"
+  },
+  "ownKeys": {
+    "working": "Ishlamoqda",
+    "failed": "Nimadir noto'g'ri ketdi. Qaytadan urinib ko'ring.",
+    "check": "Tekshirish",
+    "remove": "Olib tashlash",
+    "save": "Saqlash",
+    "cancel": "Bekor qilish"
+  },
+  "postBg": {
+    "none": "Yo'q",
+    "yours": "Sizniki",
+    "accent": "Aktsent",
+    "names": {
+      "lava": "Lava chirog'i",
+      "drive": "Kechlik Yurishi",
+      "chrome": "Suyuq xrom",
+      "orbit": "Orbita",
+      "snow": "Qor yog&#39;ishi"
+    }
+  },
+  "articleTile": {
+    "cover": "Muqova"
+  },
+  "aiConsent": {
+    "allow": "Ruxsat berish"
+  },
+  "dmRequests": {
+    "title": "Soʻrovlar",
+    "accept": "Qabul qilish",
+    "delete": "Oʻchirish",
+    "block": "Bloklash"
+  },
+  "dmSchedule": {
+    "view": "Koʻrish",
+    "edit": "Tahrirlash",
+    "editLabel": "Xabarni tahrirlash",
+    "error": "Bu ish bermadi. Qaytadan urinib ko'ring."
+  },
+  "chatBulk": {
+    "selected": "{{count}} tanlangan",
+    "cancel": "Bekor qilish",
+    "reply": "Javob",
+    "delete": "Oʻchirish"
+  },
+  "msgSelect": {
+    "selected": "{{count}} tanlangan",
+    "copy": "Nusxalash",
+    "forward": "Uzatish",
+    "deleted_one": "O'chirilgan {{count}} xabarnoma",
+    "deleted_other": "O'chirilgan {{count}} xabarlar"
   }
 }

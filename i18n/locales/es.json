@@ -7560,6 +7560,8 @@
     "allDisabled": "Ahora mismo todos los mensajes están desactivados. Los nuevos se bloquean por defecto.",
     "failedToEdit": "No se pudo editar la regla.",
     "messageDeleted": "Mensaje eliminado",
+    "deleteOneTitle": "¿Eliminar este mensaje?",
+    "deleteForBothBody": "Se eliminará para los dos.",
     "cantForwardFromDevice": "Este mensaje no se puede reenviar desde este dispositivo",
     "messageForwarded": "Mensaje reenviado –",
     "clearMessages": "MENSAJES CLAROS",
@@ -16694,8 +16696,27 @@
       "spin": "Prisma giratorio",
       "tide": "Marea",
       "ember": "Brasas",
-      "holo": "Holográfico"
-    }
+      "holo": "Holográfico",
+      "rift": "Grieta",
+      "chrome": "Cromo líquido",
+      "mesh": "Malla",
+      "grain": "Grano de película",
+      "orbit": "Órbita",
+      "ripple": "Onda",
+      "dotwave": "Ola de puntos",
+      "scan": "CRT",
+      "silk": "Seda",
+      "bokeh": "Bokeh",
+      "snow": "Nevada",
+      "photo": "Tu imagen"
+    },
+    "yours": "Tuyos",
+    "base": "Base",
+    "accent": "Acento",
+    "accent2": "Acento 2",
+    "ownColours": "Tus propios colores",
+    "addPhoto": "Añadir una imagen o GIF",
+    "changePhoto": "Cambiar imagen o GIF"
   },
   "riftnMove": {
     "title": "DeHub ahora es Riftn",
@@ -16894,6 +16915,7 @@
     "notSent": "No se pudo enviar. Inténtalo de nuevo."
   },
   "msgSelect": {
+    "deleteForBothBody": "Se eliminarán para los dos.",
     "toolbar": "Mensajes seleccionados",
     "pick": "Toca mensajes para seleccionarlos",
     "selected": "{{count}} seleccionados",
@@ -16911,5 +16933,8 @@
     "deleteBody": "Se eliminarán para todos en este chat.",
     "deleted_one": "{{count}} mensaje eliminado",
     "deleted_other": "{{count}} mensajes eliminados"
+  },
+  "profileImage": {
+    "change": "Cambiar"
   }
 }

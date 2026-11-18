@@ -275,6 +275,7 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
   useEffect(() => trackPlayerWatchTime(player, liveMode ? null : tokenId), [player, liveMode, tokenId]);
   const { recovery, phase: playbackPhase } = usePlaybackRecovery(player, sourceUrl, {
     component: 'VideoPlayerCore', postId: tokenId,
+    live: liveMode,
     allowed: () => (navigation.isFocused() || isPictureInPicturePlayer(player)) && !visualActivity.isCallBusy() && canStartVideo(player),
   });
   const hasError = playbackPhase === 'failed';

@@ -14,6 +14,7 @@ let mockWallet = '0xmember';
 let mockDigitalPurchasesEnabled = true;
 let mockActiveScreen = 'DM';
 const mockOpenLink = jest.fn();
+const mockRequireAuth = jest.fn();
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 // The system theme, without the native modules the real provider loads.
 jest.mock('../../context/ThemeContext', () => ({
@@ -71,7 +72,7 @@ jest.mock('../../components/ui/SheetBackdrop', () => ({
 jest.mock('../../config/storefront', () => ({ get DIGITAL_PURCHASES_ENABLED() { return mockDigitalPurchasesEnabled; } }));
 jest.mock('../../context/AuthContext', () => ({
   useAuthState: () => ({ isSignedIn: mockSignedIn }),
-  useAuthActions: () => ({ signOut: jest.fn() }),
+  useAuthActions: () => ({ signOut: jest.fn(), requireAuth: mockRequireAuth }),
   useUser: () => mockSignedIn ? { username: 'member', address: mockWallet, followers: 3, followings: 2, ownBadgeBalance: mockBalance } : null,
 }));
 jest.mock('../../libs/misc', () => ({ getAvatarUrl: () => '', getBadgeUrlFor: () => undefined, getBadgeHoverOpticalStyle: () => ({}) }));
@@ -165,13 +166,14 @@ it('hides the balance chip when the wallet holds no DHB', () => {
   expect(view.queryByLabelText('nav.wallet 0')).toBeNull();
 });
 
-it('routes sign-in through App and hides protected entries when signed out', () => {
+it('opens the sign-in sheet and hides protected entries when signed out', () => {
   mockSignedIn = false;
   const view = render(<AppDrawer visible onClose={jest.fn()} />);
   expect(view.queryByLabelText('nav.profile')).toBeNull();
   expect(view.queryByLabelText('nav.messages')).toBeNull();
   fireEvent.press(view.getByText('screens.signIn'));
-  expect(mockDispatch).toHaveBeenCalledWith({ type: 'NAVIGATE', payload: { name: 'App', params: { screen: 'SignIn', params: undefined } } });
+  expect(mockRequireAuth).toHaveBeenCalledTimes(1);
+  expect(mockDispatch).not.toHaveBeenCalledWith(expect.objectContaining({ payload: expect.objectContaining({ params: expect.objectContaining({ screen: 'SignIn' }) }) }));
 });
 
 it('searches Explore with the menu query and opens documentation links', () => {

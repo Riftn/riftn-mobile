@@ -2604,7 +2604,14 @@
     "cbade2afaee2": "الموضوع الرائج هذا الأسبوع على أودياس. مجاني للاستخدام، الفنان ينذكر في منشورك.",
     "d2e45b7406fc": "موسيقى من المجال العام وكرييتف كومونز من ويكيميديا كومنز. الفنان ينذكر في منشورك.",
     "d0c1a3684775": "ما تم تحميل الأغاني. جرّب مرة ثانية بعد شوية.",
-    "d14064f80f52": "أضف صوت"
+    "d14064f80f52": "أضف صوت",
+    "71988c4d8e08": "نص",
+    "147170e793c6": "عريض",
+    "481859b689b0": "شوف وصلتك و حاول تاني",
+    "57e2faa5ec63": "دوّر بـ Riftn",
+    "7db20897053b": "ناس",
+    "96d7bff86b44": "ما قدرنا نحمل البحث",
+    "d8b8392e2c54": "جرب مرة ثانية"
   },
   "dehubLinks": {
     "kind": {
@@ -2673,7 +2680,13 @@
       "website": "الموقع",
       "portfolio": "المجموعة الشخصية",
       "pronouns": "الضمائر",
-      "custom": "لا يوجد نص لترجمته"
+      "custom": "لا يوجد نص لترجمته",
+      "blog": "المدونة",
+      "shop": "المتجر",
+      "podcast": "البودكاست",
+      "newsletter": "النشرة الإخبارية",
+      "location": "الموقع",
+      "customOption": "تسمية مخصصة"
     }
   },
   "notificationFilters": {
@@ -2845,7 +2858,8 @@
       "quote": "اقتباس",
       "bullets": "قائمة نقطية",
       "numbers": "قائمة مرقمة",
-      "link": "رابط"
+      "link": "رابط",
+      "image": "حسناً"
     }
   },
   "storefront": {
@@ -3844,7 +3858,11 @@
     "payViaDpay": "تم الدفع لدي هب باي، التوكنز توصل بـ 30 ثانية تقريباً",
     "payViaBridgeDpay": "تم النقل إلى بيس وتم الدفع لدي هب باي، التوكنز توصل بـ دقيقة تقريباً",
     "tokensUnit": "توكنز",
-    "tokenAmount": "{{amount}} توكنز"
+    "tokenAmount": "{{amount}} توكنز",
+    "addMessage": "إرسال...",
+    "messagePublic": "عام",
+    "railTitle": "الإكراميات",
+    "railTotal": "{{amount}} توكنز"
   },
   "postOptions": {
     "aiOverview": "نظرة عامة على الذكاء الاصطناعي",
@@ -4569,7 +4587,11 @@
       "here": "{{name}} دز رسالة للكل بالمجتمع",
       "hereNamed": "{{name}} دز رسالة للكل بـ “{{community}}”"
     },
-    "tokenAmount": "{{amount}} توكنز"
+    "tokenAmount": "{{amount}} توكنز",
+    "groupNew": "جديد",
+    "groupToday": "اليوم",
+    "groupThisWeek": "هالأسبوع",
+    "searchClose": "أغلق البحث"
   },
   "leaderboard": {
     "title": "لوحة المتصدرين",
@@ -4761,7 +4783,18 @@
     "attachmentTooLarge": "كل ملف لازم يكون أقل من 50MB",
     "deleteCommentA11y": "احذف التعليق",
     "sendCommentA11y": "دز تعليق",
-    "requestOptions": "خيارات الطلب"
+    "requestOptions": "خيارات الطلب",
+    "deviceInfoNoErrors": "لا شيء",
+    "topBuilders": {
+      "month": "هالشهر",
+      "allTime": "كل الأوقات",
+      "shipped": "منفّذة",
+      "votes": "التصويتات",
+      "comments": "تعليقات",
+      "showLess": "عرض أقل",
+      "viewProfile": "رؤية الملف الشخصي",
+      "you": "أنت"
+    }
   },
   "auth": {
     "loginRequired": "مطلوب تسجيل دخول",
@@ -5022,7 +5055,20 @@
       "votes_other": "{{value}} يصوتون",
       "members_one": "{{value}} عضو",
       "members_other": "{{value}} أعضاء"
-    }
+    },
+    "articleShort": "المقالة",
+    "articleMinRead": "{{count}} دقيقه",
+    "pinnedShort": "مثبت",
+    "post": "انشر",
+    "arrange": {
+      "saving": "دا نحفظ..."
+    },
+    "reserve": {
+      "signIn": "تسجيل الدخول"
+    },
+    "tabLikes": "إعجابات",
+    "likesEmptyTitle": "ماكو إعجابات بعد",
+    "likesPrivateTitle": "الإعجابات خاصة"
   },
   "tv": {
     "title": "تلفزيون",
@@ -5538,6 +5584,9 @@
       "reject": "ارفض",
       "approval": "وافق أول شي",
       "draft": "مسودات بس"
+    },
+    "welcome": {
+      "text": "رسالة الترحيب"
     }
   },
   "hero": {
@@ -5619,7 +5668,16 @@
     "nowPublic": "التدفق أصبح عامًا الآن",
     "openCanvas": "افتح اللوحة",
     "playVideo": "تشغيل الفيديو",
-    "signInToSee": "سجّل الدخول لرؤية التدفقات في حسابك."
+    "signInToSee": "سجّل الدخول لرؤية التدفقات في حسابك.",
+    "newNativeFlow": "تدفق جديد",
+    "model": "الموديل",
+    "aspectRatio": "نسبة العرض",
+    "duration": "المدة بالثواني",
+    "resolution": "الدقة",
+    "disconnect": "تقطع",
+    "payAndRun": "ادفع وشغّل",
+    "run": "شغّل",
+    "handlePrompt": "اطلب"
   },
   "loginModal": {
     "title": "تسجيل دخول",
@@ -5939,7 +5997,8 @@
     "searchMenu": "دوّر بالقائمة",
     "clearSearch": "امحي البحث",
     "noMenuMatches": "ماكو شي بالقائمة يطابق",
-    "searchDehubFor": "دوّر على \"{{query}}\" بـRiftn"
+    "searchDehubFor": "دوّر على \"{{query}}\" بـRiftn",
+    "requestSend": "دز طلب"
   },
   "comments": {
     "reportComment": "بلاغ تعليق",
@@ -6558,7 +6617,11 @@
       "copied": "تم نسخ الرسالة",
       "copyText": "انسخ النص",
       "mutedUntil": "أنت مكتوم حتى {{date}}",
-      "slowMode": "الوضع البطيء: رسالة كل {{interval}}"
+      "slowMode": "الوضع البطيء: رسالة كل {{interval}}",
+      "joined": "{{name}} انضم",
+      "reactions": "تفاعلات",
+      "photoTooLarge": "الصورة لازم تكون أقل من ١٠ ميغابايت",
+      "aiAdminFailed": "لا استجابة من إدارة AI"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6761,6 +6824,31 @@
       "notFound": "ليس رابط الدعوة صحيحًا.",
       "requestToJoin": "طلب الانضمام",
       "approvalNote": "يجب على أحد المسؤولين الموافقة على طلبك قبل أن تتمكن من الانضمام."
+    },
+    "buyAlert": {
+      "spent": "استخدم",
+      "buyer": "المشتري",
+      "txn": "لا توجد ترجمة",
+      "price": "سعر:",
+      "marketCap": "مُقَدَّرَةُ السُّلُوكِ:"
+    },
+    "newChat": {
+      "public": "عام",
+      "private": "خاص",
+      "free": "مجاني",
+      "paid": "مدفوع",
+      "group": "تجميع"
+    },
+    "holderGate": {
+      "chain": "السلسلة",
+      "which": "التوكن",
+      "tab": "المحتفظون"
+    },
+    "automod": {
+      "bannedWords": "كلمات محظورة",
+      "floodMax": "رسائل {{count}}",
+      "saved": "تم الحفظ",
+      "wordCount": "{{count}} كلمات"
     }
   },
   "work": {
@@ -7880,7 +7968,10 @@
       "doneAll": "ألغيت متابعة {{done}} حساب ما كانوا يردون عليك.",
       "doneSome": "ألغيت متابعة {{done}} حساب. ما قدرنا نلغي متابعة {{failed}}.",
       "doneToast": "ألغيت متابعة {{done}} حساب ما يردون عليك"
-    }
+    },
+    "followBackConfirm": "متابعة رد",
+    "followBackNotNow": "مو هسه",
+    "followBackDone": "تم"
   },
   "reactionInfo": {
     "title": "ردود الفعل",
@@ -8800,7 +8891,38 @@
     "coverFrames": "اختر إطار الغلاف",
     "coverFrame": "استخدم إطار {{index}} كغلاف",
     "uploadCover": "تحميل صورة الغلاف",
-    "editFailed": "لم يتم تطبيق التعديل. حاول مرة أخرى."
+    "editFailed": "لم يتم تطبيق التعديل. حاول مرة أخرى.",
+    "altPlaceholderVideo": "وصّف هذا الفيديو",
+    "preview": {
+      "title": "مسبار"
+    },
+    "recent": {
+      "all": "الكل"
+    },
+    "studio": {
+      "crop": "اقتصاص",
+      "draw": "رسم",
+      "light": "فاتح",
+      "contrast": "التباين",
+      "warmth": "الحرارة",
+      "colour": "لون",
+      "fade": "التبديد",
+      "original": "الأصلي",
+      "ratioOriginal": "الأصلي",
+      "ratioFree": "مجاني",
+      "rotate": "تدوير",
+      "strength": "قُوَّة",
+      "stickers": "ستيكرات",
+      "ticker": "الرمز",
+      "textBg": "الخلفية",
+      "font": {
+        "bold": "عريض",
+        "serif": "الخط السيريفر",
+        "mono": "أحادي"
+      }
+    },
+    "edited": "تم التعديل",
+    "edit": "تعديل"
   },
   "bounty": {
     "claimed": "متسلّم",
@@ -9094,7 +9216,8 @@
     "justChatting": "دردشة فقط",
     "noLiveStreams": "لا توجد بثوث مباشرة",
     "noOneStreaming": "لا أحد يبث الآن. عد لاحقًا!",
-    "loadStreamsFailed": "تعذر تحميل البثوث. حاول مرة أخرى."
+    "loadStreamsFailed": "تعذر تحميل البثوث. حاول مرة أخرى.",
+    "liveBadge": "الحية"
   },
   "liveShop": {
     "title": "تسوّق من هذا البث",
@@ -9407,7 +9530,23 @@
     "paymentSentWith": "تم الإرسال بـ {{amount}}",
     "planRestricted": "هذا المستخدم يحتاج اشتراك حتى يستلم رسائل.",
     "planTypeNotAllowed": "خطة هذا المنشئ ما تسمح بهذا النوع من الرسائل.",
-    "planMinTip": "لازم تكون الإكرامية على الأقل {{amount}} توكنز لهذا المنشئ."
+    "planMinTip": "لازم تكون الإكرامية على الأقل {{amount}} توكنز لهذا المنشئ.",
+    "newDrawer": {
+      "to": "إلى"
+    },
+    "download": "تحميل",
+    "deleteOneTitle": "تحذف الرسالة؟",
+    "retrySend": "جرّب مرة ثانية",
+    "discardSend": "حذف",
+    "shareKindGroup": "تجميع",
+    "shareKindCommunity": "مجتمع",
+    "searchDiscover": {
+      "people": "ناس",
+      "communities": "المجتمعات",
+      "members": "عضو {{n}}",
+      "newChat": "محادثة جديدة",
+      "invite": "دعوة"
+    }
   },
   "editPost": {
     "mediaPermission": "لازم إذن مكتبة الوسائط",
@@ -10643,7 +10782,11 @@
       "hint": "يحوّل الكلام لترجمة موقّتة تكدر تغيّر شكلها. يشتغل على جهازك: مجاني وخاص. أول استخدام ينزّل النموذج.",
       "done": "انضافت {{count}} ترجمة.",
       "noSpeech": "ما لكينا كلام بهالمقطع.",
-      "failed": "ما كدرنا نسوي ترجمة لهالمقطع."
+      "failed": "ما كدرنا نسوي ترجمة لهالمقطع.",
+      "styles": {
+        "bold": "غامق",
+        "serif": "الخط السيريفر"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10893,7 +11036,9 @@
       "suggestTitle": "ضيف عنوان كبير وعريض بالأعلى وعنوان فرعي أصغر جوّاه",
       "undo": "تراجع",
       "openGenerator": "راجع وولّد",
-      "working": "دا أشتغل عليه…"
+      "working": "دا أشتغل عليه…",
+      "stop": "وقف",
+      "queue": "أضف إلى الطابور"
     },
     "brand": {
       "addColor": "ضيف لون للعلامة",
@@ -11030,7 +11175,9 @@
       "rendering": "دا نجهّز الفيديو… {{percent}}%",
       "mp4": "فيديو MP4",
       "exportHint": "خلّي المحرّر مفتوح لحد ما يخلص الفيديو.",
-      "tooLarge": "هالملف كلش كبير على المحرّر. الحد 400 MB."
+      "tooLarge": "هالملف كلش كبير على المحرّر. الحد 400 MB.",
+      "tZoomIn": "تكبير",
+      "tZoomOut": "تصغير"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12191,6 +12338,28 @@
       "selection": "الاختيار",
       "zoomIn": "زيادة الحجم في القماش",
       "zoomOut": "زيادة الحجم في القماش"
+    },
+    "stage": {
+      "camera": "الكاميرا",
+      "yaw": "الدوران",
+      "add": "إضافة",
+      "scale": "حجم",
+      "color": "اللون",
+      "light": "فاتح"
+    },
+    "clipFix": {
+      "listening": "بالتسميع…"
+    },
+    "voiceClone": {
+      "stop": "وقّف التسجيل",
+      "failed": "فشل في التقليد الصوتي."
+    },
+    "linkImport": {
+      "go": "استورد",
+      "downloading": "تحميل {{percent}}%"
+    },
+    "reverse": {
+      "action": "الرأس"
     }
   },
   "creator": {
@@ -12652,7 +12821,29 @@
     "referenceProductName": "حط منتجك بالمقطع",
     "referenceProductHint": "استبدل المنتج المعروض وحافظ على المشهد الأصلي.",
     "referenceComposeName": "دمج صور مرجعية",
-    "referenceComposeHint": "اجمع شخصيات، أشياء وإعدادات من صور متعددة بصيغة تركيبة وحدة."
+    "referenceComposeHint": "اجمع شخصيات، أشياء وإعدادات من صور متعددة بصيغة تركيبة وحدة.",
+    "marketing": {
+      "import": {
+        "use": "استخدم هذه التفاصيل"
+      }
+    },
+    "batchCount": "صور",
+    "endFrame": "الإطار الأخير",
+    "cinema": {
+      "close": "إغلاق",
+      "performance": {
+        "label": "الأداء"
+      }
+    },
+    "audioNoSpeech": "لم يتم العثور على أي كلام في التسجيل.",
+    "audioTaskSpeechLabel": "كلام",
+    "audioTaskDialogueLabel": "حوار",
+    "audioTaskVoiceChangerLabel": "مغير الصوت",
+    "audioTaskTranscribeLabel": "تسجيل نصي",
+    "audioTaskIsolateLabel": "تنقية",
+    "priceFreeRateLimited": "مجاني · تطبق حدود المعدل",
+    "loop": "دَائِرَة",
+    "fileTooLarge": "لِفْتِيكِ هِيَ زِيادَ عَشْرَةَ مِيَابَاتِ مِيلِيَونَ بايت. اِسْتَعْمِلْ فَيْلًا أَصْغَرَ أَوْ أَصْغَرَ حَجْمًا."
   },
   "fractions": {
     "title": "الأجزاء",
@@ -14721,6 +14912,19 @@
       "widgetHint": "أضف أداة المشاهدين المخلصين لعرض هذه القائمة على البث.",
       "intro": "شوفاتك بتحصل نقطة واحدة لكل دقيقة بتشوفك، ونقطة واحدة لكل مئة دينار هبتها من خلال الدوناشون (توكنز). ردود الفعل والاتصالات (chat) ما بتحصلش منها نقاط، يعني ما بتستغلش نقاط من غير مشاهدة أو هبات.",
       "empty": "لَشْ هَشْوَى يَعْنِي، بِنْشَرُوْشْ عِنْدَمَا يَنْظُرُوْنَ وَ يْعْطُوْنَ هَدِيَّةً."
+    },
+    "destinations": {
+      "platform": "المنصة",
+      "label": "الإسم (اختياري)",
+      "key": "مفتاح البث",
+      "save": "إضافة",
+      "cancel": "إلغاء",
+      "states": {
+        "off": "معطّل",
+        "idle": "جاهز",
+        "live": "بث مباشر",
+        "error": "خطأ"
+      }
     }
   },
   "liveChatModeration": {
@@ -14823,7 +15027,72 @@
     "days": "{{count}} أيام",
     "spotlightForSale": "لِسّيل الآن",
     "spotlightNew": "مِنتد للتو",
-    "buyFor": "اشتري بـ {{price}}"
+    "buyFor": "اشتري بـ {{price}}",
+    "actAll": "الكل",
+    "actListings": "الإعلانات",
+    "actOffer": "عرض",
+    "actOffers": "العروض",
+    "actSales": "المبيعات",
+    "tabActivity": "النشاط",
+    "allChains": "كل السلاسل",
+    "newest": "الأحدث",
+    "cheapest": "أقل سعر",
+    "soldFor": "باعت",
+    "signIn": "تسجيل الدخول",
+    "title": "NFT",
+    "share": "شارك",
+    "noneForSale": "لا شيء للبيع بعد",
+    "noSales": "ماكو مبيعات بعد",
+    "tabBrowse": "تصفح",
+    "tabMine": "لك",
+    "tabSales": "المبيعات",
+    "cancelled": "ملغى",
+    "sold": "باعت",
+    "listed": "قائمة بيع",
+    "feeRow": "رسوم الـRiftn ({{pct}}%)",
+    "royaltyRow": "حقوق المبدع",
+    "youGet": "إنت تحصل",
+    "holderGets": "الحامل يحصل",
+    "loading": "جاري التحميل...",
+    "price": "السعر",
+    "seller": "بَائِع",
+    "tabRecent": "الأخيرة",
+    "buyNow": "اشترِ الآن",
+    "offers": "عروض",
+    "cancel": "إلغاء",
+    "accept": "قبول",
+    "signInToTrade": "سجل الدخول للتجارة",
+    "listForSale": "سجل للبيع",
+    "makeOffer": "اعرض عرض",
+    "sendOffer": "أرسل عرض",
+    "back": "رجوع",
+    "dropsTo": "السعر ينزل إلى {{price}} بـ {{date}}",
+    "inBundle": "تم البيع كحزمة من {{n}}",
+    "trending": "المجموعات الرائجة",
+    "floor": "الأرضية",
+    "listedCount": "{{n}} للبيع",
+    "thisCollection": "هذه المجموعة",
+    "collectionOffer": "عرض على أي شيء",
+    "showAll": "عرض الكل",
+    "shortTitle": "NFT",
+    "filters": "فلاتر",
+    "forSale": "للبيع",
+    "openToOffers": "مفتوح للعروض",
+    "freshMints": "جديد من صانعي Riftn",
+    "offersOpen": "مفتوح للعروض",
+    "mintedCount": "{{n}} صُكّ",
+    "anyInCollection": "أي شيء بالمجموعة",
+    "thisNft": "هذا الـNFT",
+    "priceAlert": "تنبيه سعر",
+    "alertUnder": "قوليلي لمن ينضاف بسعر أو أقل ({{symbol}}، اختياري)",
+    "turnOnAlert": "فعّل التنبيه",
+    "alertSaved": "التنبيه شغّال. رح نخبرك إذا انضاف واحد.",
+    "priceDrop": "السعر ينزل مع الوقت",
+    "endPrice": "أقل سعر، يوصّل للآخر ({{symbol}})",
+    "bundleBadge": "حزمة ×{{n}}",
+    "dropBadge": "انخفاض السعر",
+    "days_one": "{{count}} يوم",
+    "days_other": "{{count}} أيام"
   },
   "reel": {
     "readAll": "قرا كلشي",
@@ -14845,7 +15114,11 @@
       "episode": "حلقة بودكاست",
       "show": "بودكاست",
       "artist": "فنان"
-    }
+    },
+    "loading": "جاري التحميل...",
+    "paused": "موقوف",
+    "preview": "مسبار",
+    "seek": "بحث"
   },
   "twoFactor": {
     "wrongCode": "الكود هذا ما يطابق. جرّب الأحدث في تطبيقك.",
@@ -14923,5 +15196,251 @@
     "newer": "نتيجة أحدث",
     "gone": "هذي الرسالة ما بقت هنا",
     "theirMessages": "رسائلهم"
+  },
+  "chatTextSize": {
+    "title": "حجم النص",
+    "default": "الافتراضي",
+    "larger": "أكبر"
+  },
+  "remix": {
+    "cut": "قص"
+  },
+  "signedFollows": {
+    "setUp": "شغّله",
+    "turnOff": "طفي",
+    "efpTurnOff": "وقف"
+  },
+  "postEditHistory": {
+    "original": "الأصلي"
+  },
+  "studioDeck": {
+    "remove": "حذف",
+    "background": {
+      "title": "الخلفية",
+      "modes": {
+        "none": "معطّل",
+        "blur": "تمويه",
+        "color": "لون"
+      }
+    },
+    "scenes": {
+      "countdown": "تعداد",
+      "minutes": "{{count}} دقيقة",
+      "names": {
+        "starting": "راح يبدي قريب"
+      }
+    },
+    "widgets": {
+      "tab": "ودجات"
+    },
+    "sources": {
+      "image": "الصُوَر",
+      "show": "عرض على تيكستك",
+      "positions": {
+        "center": "مركز"
+      },
+      "sizes": {
+        "medium": "متوسط"
+      }
+    },
+    "phone": {
+      "title": "ستوديو"
+    }
+  },
+  "whenSheet": {
+    "today": "اليوم",
+    "tooSoon": "اختار وقت بالمستقبل.",
+    "show": "إظهار",
+    "hide": "إخفاء"
+  },
+  "planned": {
+    "title": "مخطط",
+    "all": "الكل",
+    "posts": "منشورات",
+    "stages": "الغرف الصوتية",
+    "post": "انشر",
+    "live": "بث مباشر",
+    "stage": "ستيد",
+    "untitledPost": "انشر",
+    "untitledLive": "بث مباشر",
+    "loading": "جار التحميل…",
+    "startNow": "ابدأ هسه",
+    "cancel": "إلغاء",
+    "cancelled": "مرفوض"
+  },
+  "welcome": {
+    "about": {
+      "title": "مرحباً بك في Riftn",
+      "day": "يوم",
+      "month": "شهر",
+      "year": "سنة"
+    },
+    "name": {
+      "title": "اسمي",
+      "placeholder": "اسمي"
+    },
+    "card": {
+      "name": "اسمي",
+      "followers": "المتابعين"
+    },
+    "topic": {
+      "music": "موسيقى",
+      "art": "فن",
+      "gaming": "ألعاب",
+      "crypto": "كريبتو",
+      "sports": "رياضة",
+      "comedy": "الكوميديا",
+      "film": "فيلم",
+      "podcast": "بودكاست",
+      "food": "طعام",
+      "news": "أخبار",
+      "science": "العلوم"
+    },
+    "back": "رجوع",
+    "skipPhoto": "تخطى الآن",
+    "preview": "معاينة"
+  },
+  "appTokens": {
+    "title": "توكناتك",
+    "history": "السجل",
+    "noHistory": "لا يوجد نشاط بعد",
+    "kindDeposit": "إيداع",
+    "to": "إلى",
+    "amount": "المبلغ",
+    "notePlaceholder": "زيد ملاحظة (اختياري)",
+    "sendButton": "أرسل",
+    "errorInsufficient": "ماكو توكنز كافي"
+  },
+  "avatarPrompt": {
+    "notNow": "مو هسه"
+  },
+  "postStats": {
+    "audience": "الجمهور",
+    "engagement": "التفاعل",
+    "finished": "انتهى",
+    "members": "الأعضاء",
+    "membersLower": "عضو",
+    "newFollowers": "متابعون جدد",
+    "noBadge": "لا يوجد وسام",
+    "people": "ناس",
+    "plays": "التشغيل",
+    "quotes": "اقتباسات",
+    "reposts": "إعادة نشر",
+    "saved": "تم الحفظ",
+    "shares": "مشاركات",
+    "signedOutViewers": "تم تسجيل الخروج",
+    "topSupporters": "أعلى الداعمين",
+    "visitors": "تم تسجيل الخروج"
+  },
+  "duet": {
+    "policyEveryone": "الكل",
+    "policyFollowers": "المتابعين",
+    "policyNobody": "ولا أحد",
+    "loadMore": "حمّل أكثر",
+    "video": "فيديو"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "الكل",
+      "followers": "المتابعين",
+      "nobody": "ولا أحد"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "الكل",
+      "followers": "المتابعين",
+      "nobody": "ولا أحد"
+    },
+    "heading": "التفاعلات",
+    "more": "لقد قمت بزيارة 5 دول في السنة الماضية.",
+    "liveNow": "بث مباشر",
+    "untitled": "التفاعل"
+  },
+  "liveClips": {
+    "copyLink": "نسخ الرابط",
+    "linkCopied": "تم نسخ الرابط"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "الخطة",
+      "howMany": "شكد",
+      "who": "اسم المستخدم أو عنوان المحفظة",
+      "whoPlaceholder": "@اسم_المستخدم",
+      "cancel": "إلغاء",
+      "stage": {
+        "preparing": "جارٍ التحضير…",
+        "confirming": "ينتظر المعاملة…",
+        "recording": "يخلّص…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "ثاني",
+    "confirming": "تأكيد الدفع…"
+  },
+  "liveShorts": {
+    "live": "الحية"
+  },
+  "feedFilters": {
+    "clearAllShort": "امسح الكل",
+    "done": "مكتمل",
+    "edit": "تعديل",
+    "groupDate": "التاريخ",
+    "groupSort": "ترتيب",
+    "groupType": "النوع",
+    "save": "احفظ"
+  },
+  "ownKeys": {
+    "working": "في العمل",
+    "failed": "حدث خطأ ما. حاول مرة أخرى.",
+    "check": "حسناً",
+    "remove": "حذف",
+    "save": "احفظ",
+    "cancel": "إلغاء"
+  },
+  "postBg": {
+    "none": "لا شيء",
+    "yours": "لك",
+    "accent": "التأكيد",
+    "names": {
+      "aurora": "شفق",
+      "lava": "لمبة الحمم",
+      "drive": "سفر ليلا",
+      "chrome": "كروم سائل",
+      "orbit": "دوران",
+      "snow": "ثلوج"
+    }
+  },
+  "articleTile": {
+    "cover": "الغلاف"
+  },
+  "aiConsent": {
+    "allow": "اسمح"
+  },
+  "dmRequests": {
+    "title": "طلبات الميزات",
+    "accept": "قبول",
+    "delete": "حذف",
+    "block": "حظر"
+  },
+  "dmSchedule": {
+    "view": "عرض",
+    "edit": "تعديل",
+    "editLabel": "تعديل الرسالة",
+    "error": "هذا لم ينجح. حاول مرة أخرى."
+  },
+  "chatBulk": {
+    "selected": "{{count}} مختار",
+    "cancel": "إلغاء",
+    "reply": "رد",
+    "delete": "حذف"
+  },
+  "msgSelect": {
+    "selected": "{{count}} مختار",
+    "copy": "نسخ",
+    "forward": "إعادة توجيه",
+    "deleted_one": "حذفت الرسالة {{count}}",
+    "deleted_other": "حذف {{count}} رسائل"
   }
 }

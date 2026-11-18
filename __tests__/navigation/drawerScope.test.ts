@@ -24,11 +24,12 @@ describe("app drawer scope", () => {
     expect(drawer).toContain('justifyContent: "space-between"');
   });
 
-  it("uses the shared nested navigation path for sign-in too", () => {
+  it("opens the shared sign-in sheet for Log in", () => {
     const drawer = readSource("components/Home/AppDrawer.tsx");
 
     expect(drawer).toContain("const handleSignIn = useCallback");
-    expect(drawer).toContain("navigate(ScreenNames.SignIn)");
+    expect(drawer).toContain("requireAuth(() => {})");
+    expect(drawer).not.toContain("navigate(ScreenNames.SignIn)");
     expect(drawer).not.toContain('from "../../App"');
     expect(drawer).toContain("onPress={handleSignIn}");
   });

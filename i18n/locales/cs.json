@@ -2605,7 +2605,13 @@
     "cbade2afaee2": "Tento týden populární na Audiu. Použití je zdarma, umělec bude uveden ve tvém příspěvku.",
     "d2e45b7406fc": "Hudba z Wikimedia Commons, která je ve veřejné doméně a pod licencí Creative Commons. Umělec bude uveden ve tvém příspěvku.",
     "d0c1a3684775": "Skladby se nenačetly. Zkus to za chvíli znovu.",
-    "d14064f80f52": "Přidat zvuk"
+    "d14064f80f52": "Přidat zvuk",
+    "147170e793c6": "Široký",
+    "481859b689b0": "Zkontrolujte svou připojení a zkuste to znovu.",
+    "57e2faa5ec63": "Hledat v Riftn",
+    "7db20897053b": "Lidé",
+    "96d7bff86b44": "Vyhledávání se nepodařilo načíst",
+    "d8b8392e2c54": "Zkuste to znovu"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2861,8 @@
       "quote": "Citace",
       "bullets": "Seznam bodů",
       "numbers": "Seznam číslovacích bodů",
-      "link": "Odkaz"
+      "link": "Odkaz",
+      "image": "Přidat obrázky"
     }
   },
   "storefront": {
@@ -3793,7 +3800,11 @@
     "payViaDpay": "Zaplaceno do Riftn Pay, tokeny dorazí přibližně za 30 sekund",
     "payViaBridgeDpay": "Přesunuto na Base a zaplaceno do Riftn Pay, tokeny dorazí přibližně za minutu",
     "tokensUnit": "tokeny",
-    "tokenAmount": "{{amount}} tokenů"
+    "tokenAmount": "{{amount}} tokenů",
+    "addMessage": "Přidat zprávu (volitelné)",
+    "messagePublic": "Veřejné",
+    "railTitle": "Tipy",
+    "railTotal": "{{amount}} tokenů"
   },
   "postOptions": {
     "skippableSections": "Přeskočitelné sekce",
@@ -4521,7 +4532,11 @@
       "here": "{{name}} poslal/a zprávu všem členům komunity",
       "hereNamed": "{{name}} všem v „{{community}}“ poslal/a zprávu"
     },
-    "tokenAmount": "{{amount}} tokenů"
+    "tokenAmount": "{{amount}} tokenů",
+    "groupNew": "Nové",
+    "groupToday": "Dnes",
+    "groupThisWeek": "Tento týden",
+    "searchClose": "Zavřít vyhledávání"
   },
   "leaderboard": {
     "title": "Žebříček",
@@ -4713,7 +4728,18 @@
     "attachmentTooLarge": "Každý soubor musí mít méně než 50 MB",
     "deleteCommentA11y": "Odstranit komentář",
     "sendCommentA11y": "Odeslat komentář",
-    "requestOptions": "Možnosti žádosti"
+    "requestOptions": "Možnosti žádosti",
+    "deviceInfoNoErrors": "Žádný",
+    "topBuilders": {
+      "month": "Tento měsíc",
+      "allTime": "Všechny časy",
+      "shipped": "Dodáno",
+      "votes": "Hlasy",
+      "comments": "Komentáře",
+      "showLess": "Zobrazit méně",
+      "viewProfile": "Zobrazit profil",
+      "you": "Vy"
+    }
   },
   "auth": {
     "loginRequired": "Vyžadováno přihlášení",
@@ -4974,7 +5000,20 @@
       "votes_other": "{{value}} hlasů",
       "members_one": "člen {{value}}",
       "members_other": "členové {{value}}"
-    }
+    },
+    "articleShort": "Článek",
+    "articleMinRead": "{{count}} min čtení",
+    "pinnedShort": "Připnuto",
+    "post": "Příspěvek",
+    "arrange": {
+      "saving": "Ukládá se..."
+    },
+    "reserve": {
+      "signIn": "Přihlásit se"
+    },
+    "tabLikes": "Líbí se",
+    "likesEmptyTitle": "Zatím žádné lajky",
+    "likesPrivateTitle": "Lajky jsou soukromé"
   },
   "tv": {
     "title": "TV",
@@ -5490,6 +5529,9 @@
       "action": "Akce",
       "schedule": "Naplánovat",
       "filter": "Filtrovat aktivitu"
+    },
+    "welcome": {
+      "text": "Uvítací zpráva"
     }
   },
   "hero": {
@@ -5575,7 +5617,15 @@
     "nowPublic": "Tok je nyní veřejný",
     "openCanvas": "Otevřít plátno",
     "playVideo": "Přehrát video",
-    "signInToSee": "Přihlaste se, abyste viděli toky ve svém účtu."
+    "signInToSee": "Přihlaste se, abyste viděli toky ve svém účtu.",
+    "newNativeFlow": "Nový tok",
+    "aspectRatio": "Poměr stran",
+    "duration": "Doba trvání v sekundách",
+    "resolution": "Rozlišení",
+    "disconnect": "Odpojit",
+    "payAndRun": "Zaplatit a spustit",
+    "run": "Spustit",
+    "handlePrompt": "Dotaz"
   },
   "loginModal": {
     "title": "Přihlásit se",
@@ -5895,7 +5945,8 @@
     "searchMenu": "Hledat v nabídce",
     "clearSearch": "Vymazat hledání",
     "noMenuMatches": "Nic v nabídce neodpovídá",
-    "searchDehubFor": "Hledat „{{query}}“ na Riftnu"
+    "searchDehubFor": "Hledat „{{query}}“ na Riftnu",
+    "requestSend": "Odeslat žádost"
   },
   "comments": {
     "reportComment": "Nahlásit komentář",
@@ -6514,7 +6565,11 @@
       "copied": "Zpráva zkopírována",
       "copyText": "Kopírovat text",
       "mutedUntil": "Jste ztlumeni do {{date}}",
-      "slowMode": "Pomalý režim: jedna zpráva každých {{interval}}"
+      "slowMode": "Pomalý režim: jedna zpráva každých {{interval}}",
+      "joined": "Připojil se uživatel {{name}}",
+      "reactions": "Reakce",
+      "photoTooLarge": "Obrázek musí být menší než 10MB",
+      "aiAdminFailed": "Správce AI neodpověděl"
     },
     "manage": {
       "inviteLimit": "limit {{n}}",
@@ -6717,6 +6772,30 @@
       "notFound": "Tento odkaz na pozvánku není platný.",
       "requestToJoin": "Žádost o připojení",
       "approvalNote": "Předtím, než se budete moci připojit, musí vaši žádost schválit správce."
+    },
+    "buyAlert": {
+      "spent": "Utraceno:",
+      "buyer": "Kupující:",
+      "balance": "Zůstatek:",
+      "price": "Cena:",
+      "marketCap": "Tržní kapitalizace:"
+    },
+    "newChat": {
+      "public": "Veřejné",
+      "private": "Soukromé",
+      "free": "Zdarma",
+      "paid": "Zaplaceno",
+      "group": "Seskupit"
+    },
+    "holderGate": {
+      "chain": "Řetězec",
+      "tab": "Držáky"
+    },
+    "automod": {
+      "bannedWords": "Zakázaná slova",
+      "floodMax": "{{count}} zprávy/zpráv",
+      "saved": "Uloženo",
+      "wordCount": "{{count}} slov"
     }
   },
   "work": {
@@ -7838,7 +7917,10 @@
       "doneAll": "Nesledované účty uživatele {{done}}, které vás nesledovaly.",
       "doneSome": "Nesledované účty {{done}}. {{failed}} nelze zrušit.",
       "doneToast": "Nesledované {{done}} účty, které vás nesledují zpět"
-    }
+    },
+    "followBackConfirm": "Oplatit sledování",
+    "followBackNotNow": "Teď ne",
+    "followBackDone": "Hotovo"
   },
   "reactionInfo": {
     "title": "Reakce",
@@ -8758,7 +8840,36 @@
     "coverFrames": "Vyberte rámeček",
     "coverFrame": "Použít rámeček {{index}} jako obálku",
     "uploadCover": "Nahrát obrázek obálky",
-    "editFailed": "Nelze aplikovat editaci. Zkuste to znovu."
+    "editFailed": "Nelze aplikovat editaci. Zkuste to znovu.",
+    "altPlaceholderVideo": "Popište toto video",
+    "preview": {
+      "title": "Náhled"
+    },
+    "recent": {
+      "all": "Vše"
+    },
+    "studio": {
+      "crop": "Oříznout",
+      "draw": "Kreslit",
+      "light": "Světlý",
+      "contrast": "Kontrast",
+      "warmth": "Teplo",
+      "colour": "Barva",
+      "fade": "Vyblednutí",
+      "original": "Originál",
+      "ratioOriginal": "Originál",
+      "ratioFree": "Zdarma",
+      "rotate": "Otočit",
+      "strength": "Silnost",
+      "stickers": "Samolepky",
+      "textBg": "Pozadí",
+      "font": {
+        "bold": "Tučné",
+        "mono": "Černobílý"
+      }
+    },
+    "edited": "Upraveno",
+    "edit": "Upravit"
   },
   "bounty": {
     "claimed": "Vyzvednuto",
@@ -9052,7 +9163,8 @@
     "justChatting": "Jen povídání",
     "noLiveStreams": "Žádné živé streamy",
     "noOneStreaming": "Nikdo teď nestreamuje. Zkuste to později!",
-    "loadStreamsFailed": "Streamy se nepodařilo načíst. Zkuste to znovu."
+    "loadStreamsFailed": "Streamy se nepodařilo načíst. Zkuste to znovu.",
+    "liveBadge": "ŽIVĚ"
   },
   "liveShop": {
     "title": "Nakupujte z tohoto vysílání",
@@ -9365,7 +9477,23 @@
     "paymentSentWith": "Odesláno s {{amount}}",
     "planRestricted": "Tento uživatel vyžaduje předplatné pro příjem zpráv.",
     "planTypeNotAllowed": "Plán tohoto tvůrce tento typ zprávy nepovoluje.",
-    "planMinTip": "Spropitné pro tohoto tvůrce musí být alespoň {{amount}} tokeny."
+    "planMinTip": "Spropitné pro tohoto tvůrce musí být alespoň {{amount}} tokeny.",
+    "newDrawer": {
+      "to": "Do"
+    },
+    "download": "Stáhnout",
+    "deleteOneTitle": "Smazat tuto zprávu?",
+    "retrySend": "Zkusit znovu",
+    "discardSend": "Odebrat",
+    "shareKindGroup": "Seskupit",
+    "shareKindCommunity": "Komunita",
+    "searchDiscover": {
+      "people": "Lidé",
+      "communities": "Komunity",
+      "members": "{{n}} členů",
+      "newChat": "Nový chat",
+      "invite": "Pozvat"
+    }
   },
   "editPost": {
     "mediaPermission": "Je vyžadováno oprávnění k mediální knihovně",
@@ -10583,7 +10711,10 @@
       "hint": "Převede řeč na časované titulky, které můžete upravit. Běží ve vašem zařízení: zdarma a soukromě. Při prvním použití se stáhne model.",
       "done": "Přidáno titulků: {{count}}.",
       "noSpeech": "V tomto klipu nebyla nalezena žádná řeč.",
-      "failed": "Pro tento klip se nepodařilo vytvořit titulky."
+      "failed": "Pro tento klip se nepodařilo vytvořit titulky.",
+      "styles": {
+        "bold": "Tučné"
+      }
     },
     "app": {
       "newDesign": "Nový návrh",
@@ -10833,7 +10964,9 @@
       "suggestTitle": "Přidej nahoru velký tučný nadpis a pod něj menší podnadpis",
       "undo": "Zpět",
       "openGenerator": "Zkontrolovat a vygenerovat",
-      "working": "Pracuji na tom…"
+      "working": "Pracuji na tom…",
+      "stop": "Zastavit",
+      "queue": "Přidat do fronty"
     },
     "brand": {
       "addColor": "Přidat barvu značky",
@@ -10970,7 +11103,9 @@
       "rendering": "Vykreslování videa… {{percent}}%",
       "mp4": "Video MP4",
       "exportHint": "Během vykreslování videa nechte editor otevřený.",
-      "tooLarge": "Tento soubor je pro editor příliš velký. Limit je 400 MB."
+      "tooLarge": "Tento soubor je pro editor příliš velký. Limit je 400 MB.",
+      "tZoomIn": "Přiblížit",
+      "tZoomOut": "Oddálit"
     },
     "motion": {
       "title": "Pohyb",
@@ -12149,6 +12284,28 @@
       "selection": "Výběr",
       "zoomIn": "Přiblížit plátno",
       "zoomOut": "Oddálit plátno"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Rotace",
+      "add": "Přidat",
+      "scale": "Velikost",
+      "color": "Barva",
+      "light": "Světlý"
+    },
+    "clipFix": {
+      "listening": "Poslouchám…"
+    },
+    "voiceClone": {
+      "stop": "Zastavit nahrávání",
+      "failed": "Klónování hlasu selhalo."
+    },
+    "linkImport": {
+      "go": "Importovat",
+      "downloading": "Stahování {{percent}}%"
+    },
+    "reverse": {
+      "action": "Zpětný chod"
     }
   },
   "creator": {
@@ -12610,7 +12767,32 @@
     "referenceProductName": "Umístěte svůj produkt do klipu",
     "referenceProductHint": "Nahraďte vyobrazený produkt a zachovejte původní scénu",
     "referenceComposeName": "Kombinujte odkazové obrázky",
-    "referenceComposeHint": "Přiveďte postavy, předměty a prostředí z více obrázků do jedné kompozice"
+    "referenceComposeHint": "Přiveďte postavy, předměty a prostředí z více obrázků do jedné kompozice",
+    "marketing": {
+      "import": {
+        "use": "Použít tyto údaje"
+      }
+    },
+    "batchCount": "Obrázky",
+    "endFrame": "Koncový snímek",
+    "cinema": {
+      "close": "Zavřít",
+      "performance": {
+        "label": "Výkon"
+      }
+    },
+    "audioNoSpeech": "V této nahrávce nebyla nalezena žádná řeč.",
+    "audioTaskSpeechLabel": "Řeč",
+    "audioTaskDialogueLabel": "Dialog",
+    "audioTaskSfxLabel": "Zvukový efekt",
+    "audioTaskVoiceChangerLabel": "Měnič hlasu",
+    "audioTaskTranscribeLabel": "Transkripce",
+    "audioTaskIsolateLabel": "Vyčistit",
+    "priceFreeRateLimited": "Zdarma · platí limity sazeb",
+    "loop": "Smyčka",
+    "dialogueFormat": "Napište scénu jako \"Jméno: řádek\", jeden mluvčí na řádek.",
+    "fileTooLarge": "Tento soubor je větší než 100 MB. Použijte kratší nebo menší soubor.",
+    "signInToGenerate": "Přihlaste se pro generování."
   },
   "fractions": {
     "title": "Frakce",
@@ -14679,6 +14861,19 @@
       "intro": "Diváci získávají bod za každou minutu, kterou vás sledují, a jeden bod za každých 100 tokeny, které darují. Čat a reakce nic nezaslouží, takže body nelze farmovat.",
       "empty": "Zatím žádné body. Body se hromadí, jak lidé sledují a darují.",
       "widgetHint": "Přidejte widget Věrní diváci, abyste tuto seznam zobrazili na streamu."
+    },
+    "destinations": {
+      "platform": "Platforma",
+      "label": "Jméno (nepovinné)",
+      "key": "Streamovací klíč",
+      "save": "Přidat",
+      "cancel": "Zrušit",
+      "states": {
+        "off": "Vypnuto",
+        "idle": "Připraveno",
+        "live": "Živě",
+        "error": "Chyba"
+      }
     }
   },
   "liveChatModeration": {
@@ -14786,7 +14981,72 @@
     "days": "{{count}} dní",
     "spotlightForSale": "Nyní na prodej",
     "spotlightNew": "Právě vytvořeno",
-    "buyFor": "Koupit za {{price}}"
+    "buyFor": "Koupit za {{price}}",
+    "actAll": "Vše",
+    "actListings": "Inzeráty",
+    "actOffer": "Nabídka",
+    "actOffers": "Nabídky",
+    "actSales": "Prodeje",
+    "tabActivity": "Aktivita",
+    "allChains": "Všechny řetězce",
+    "newest": "Nejnovější",
+    "cheapest": "Nejnižší cena",
+    "soldFor": "Prodáno",
+    "signIn": "Přihlásit se",
+    "title": "NFTS",
+    "share": "Sdílet",
+    "noneForSale": "Zatím nic k prodeji",
+    "noSales": "Zatím žádné prodeje",
+    "tabBrowse": "Procházet",
+    "tabMine": "Vaše",
+    "tabSales": "Prodeje",
+    "cancelled": "Zrušeno",
+    "sold": "Prodáno",
+    "listed": "Vystaveno na prodej",
+    "feeRow": "Poplatek Riftn ({{pct}}%)",
+    "royaltyRow": "Autorský poplatek",
+    "youGet": "Získáte",
+    "holderGets": "Vlastník získá",
+    "loading": "Načítání…",
+    "price": "Cena",
+    "seller": "Prodejce",
+    "tabRecent": "Nedávné",
+    "buyNow": "Koupit nyní",
+    "offers": "Nabídky",
+    "cancel": "Zrušit",
+    "accept": "Přijmout",
+    "signInToTrade": "Přihlásit se k obchodování",
+    "listForSale": "Zapsat k prodeji",
+    "makeOffer": "Vytvořit nabídku",
+    "sendOffer": "Poslat nabídku",
+    "back": "Zpět",
+    "dropsTo": "Cena klesne na {{price}} do {{date}}",
+    "inBundle": "Prodáno jako balíček {{n}}",
+    "trending": "Trendy kolekce",
+    "floor": "Podlaha",
+    "listedCount": "{{n}} na prodej",
+    "thisCollection": "Tato sbírka",
+    "collectionOffer": "Nabídka na jakoukoliv",
+    "showAll": "Zobrazit vše",
+    "shortTitle": "NFTS",
+    "filters": "Filtry",
+    "forSale": "Na prodej",
+    "openToOffers": "Otevřeno nabídkám",
+    "freshMints": "Čerstvé od tvůrců Riftn",
+    "offersOpen": "Otevřeno nabídkám",
+    "mintedCount": "{{n}} vyraženo",
+    "anyInCollection": "Jakákoliv v kolekci",
+    "thisNft": "Tento NFT",
+    "priceAlert": "Upozornění na cenu",
+    "alertUnder": "Oznam mi, když bude zapsán za nebo pod ({{symbol}}, volitelné)",
+    "turnOnAlert": "Zapněte upozornění",
+    "alertSaved": "Upozornění zapnuto. Řekneme vám, když bude jeden zapsán.",
+    "priceDrop": "Cena klesá s časem",
+    "endPrice": "Nejnižší cena, dosažená na konci ({{symbol}})",
+    "bundleBadge": "Balíček ×{{n}}",
+    "dropBadge": "Snížení ceny",
+    "days_one": "{{count}} den",
+    "days_other": "{{count}} dní"
   },
   "riftnMove": {
     "title": "Z DeHub je teď Riftn",
@@ -14813,7 +15073,11 @@
       "episode": "Epizoda podcastu",
       "show": "Podcast",
       "artist": "Umělec"
-    }
+    },
+    "loading": "Načítání…",
+    "paused": "Pozastaveno",
+    "preview": "Náhled",
+    "seek": "Hledat"
   },
   "twoFactor": {
     "wrongCode": "Ten kód se nevyhovoval. Zkuste nejnovější ve vaší aplikaci.",
@@ -14891,5 +15155,244 @@
     "newer": "Novější výsledek",
     "gone": "Tato zpráva už tady není",
     "theirMessages": "Jejich zprávy"
+  },
+  "chatTextSize": {
+    "title": "Velikost textu",
+    "default": "Výchozí",
+    "larger": "Větší"
+  },
+  "remix": {
+    "cut": "Střihnout"
+  },
+  "signedFollows": {
+    "setUp": "Zapnout",
+    "turnOff": "Vypnout",
+    "efpTurnOff": "Zastavit"
+  },
+  "postEditHistory": {
+    "original": "Originál"
+  },
+  "studioDeck": {
+    "remove": "Odebrat",
+    "background": {
+      "title": "Pozadí",
+      "modes": {
+        "none": "Vypnuto",
+        "blur": "Rozostření",
+        "color": "Barva"
+      }
+    },
+    "scenes": {
+      "countdown": "Odpočítávání",
+      "names": {
+        "starting": "Spuštění brzy"
+      }
+    },
+    "widgets": {
+      "tab": "Widgety"
+    },
+    "sources": {
+      "image": "Obrázek",
+      "show": "Zobrazit na přenosu",
+      "positions": {
+        "center": "Střed"
+      },
+      "sizes": {
+        "medium": "Střední"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Dnes",
+    "tooSoon": "Vyberte čas v budoucnosti.",
+    "show": "Zobrazit",
+    "hide": "Skrýt"
+  },
+  "planned": {
+    "title": "Plánováno",
+    "all": "Vše",
+    "posts": "Příspěvky",
+    "stages": "Audio místnosti",
+    "post": "Příspěvek",
+    "live": "Živě",
+    "stage": "Stádia",
+    "untitledPost": "Příspěvek",
+    "untitledLive": "Živě",
+    "loading": "Načítání…",
+    "startNow": "Spustit nyní",
+    "cancel": "Zrušit",
+    "cancelled": "Zrušeno"
+  },
+  "welcome": {
+    "about": {
+      "title": "Vítejte v Riftn",
+      "day": "Den",
+      "month": "Měsíc",
+      "year": "Rok"
+    },
+    "name": {
+      "title": "Vaše jméno",
+      "placeholder": "Vaše jméno"
+    },
+    "card": {
+      "name": "Vaše jméno",
+      "followers": "následovníci"
+    },
+    "topic": {
+      "music": "Hudba",
+      "art": "Umění",
+      "gaming": "Počítačové hry",
+      "crypto": "Krypto",
+      "sports": "Sport",
+      "comedy": "Komédie",
+      "food": "Jídlo",
+      "news": "Novinky",
+      "science": "Věda"
+    },
+    "back": "Zpět",
+    "skipPhoto": "Prozatím přeskočit",
+    "preview": "Nahlédnout"
+  },
+  "appTokens": {
+    "title": "Vaše tokeny",
+    "history": "Historie",
+    "noHistory": "Zatím žádná aktivita",
+    "kindDeposit": "Přidat prostředky",
+    "to": "Do",
+    "amount": "Částka",
+    "notePlaceholder": "Přidej poznámku (nepovinné)",
+    "sendButton": "Odeslat",
+    "errorInsufficient": "Nedostatek tokenů"
+  },
+  "avatarPrompt": {
+    "notNow": "Teď ne"
+  },
+  "postStats": {
+    "audience": "Publikum",
+    "engagement": "Zapojení",
+    "finished": "Dokončeno",
+    "members": "Členové",
+    "membersLower": "členů",
+    "newFollowers": "Noví sledující",
+    "noBadge": "Žádná odznaka",
+    "people": "Lidé",
+    "plays": "Hraje",
+    "quotes": "citací",
+    "reposts": "Sdílení",
+    "saved": "Uloženo",
+    "shares": "Sdílení",
+    "signedOutViewers": "Odhlášeno",
+    "topSupporters": "Nejlepší podporovatelé",
+    "visitors": "Odhlášeno"
+  },
+  "duet": {
+    "policyEveryone": "Všichni",
+    "policyFollowers": "Sledující",
+    "policyNobody": "Nikdo",
+    "loadMore": "Načíst více",
+    "video": "Videozáznam"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Všichni",
+      "followers": "Sledující",
+      "nobody": "Nikdo"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Všichni",
+      "followers": "Sledující",
+      "nobody": "Nikdo"
+    },
+    "heading": "Reakce",
+    "more": "Zobrazit více",
+    "liveNow": "Živě",
+    "untitled": "Reakce"
+  },
+  "liveClips": {
+    "copyLink": "Zkopírovat odkaz",
+    "linkCopied": "Odkaz zkopírován"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Plán",
+      "howMany": "Kolik",
+      "who": "Uživatelské jméno nebo adresa peněženky",
+      "whoPlaceholder": "@uživatelské_jméno",
+      "cancel": "Zrušit",
+      "stage": {
+        "preparing": "Připravuje se…",
+        "confirming": "Čeká se na transakci…",
+        "recording": "Dokončuje se…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Ostatní",
+    "confirming": "Potvrzuji platbu..."
+  },
+  "liveShorts": {
+    "live": "ŽIVĚ"
+  },
+  "feedFilters": {
+    "clearAllShort": "Vymazat vše",
+    "done": "Hotovo",
+    "edit": "Upravit",
+    "groupDate": "Datum",
+    "groupSort": "Řadit",
+    "groupType": "Typ",
+    "save": "Uložit"
+  },
+  "ownKeys": {
+    "working": "Probíhá",
+    "failed": "Něco se pokazilo. Zkus to znovu.",
+    "check": "Ověřit",
+    "remove": "Odebrat",
+    "save": "Uložit",
+    "cancel": "Zrušit"
+  },
+  "postBg": {
+    "none": "Žádný",
+    "yours": "Vaše",
+    "accent": "Znaková úprava",
+    "names": {
+      "lava": "Lávová lampa",
+      "drive": "Noční jízda",
+      "chrome": "Tekutý chrom",
+      "orbit": "Orbita",
+      "snow": "Sněžení"
+    }
+  },
+  "articleTile": {
+    "cover": "Obálka"
+  },
+  "aiConsent": {
+    "allow": "Povolit"
+  },
+  "dmRequests": {
+    "title": "Požadavky na funkce",
+    "accept": "Přijmout",
+    "delete": "Smazat",
+    "block": "Blokovat"
+  },
+  "dmSchedule": {
+    "view": "Zobrazit",
+    "edit": "Upravit",
+    "editLabel": "Upravit zprávu",
+    "error": "To nefungovalo. Zkuste to znovu."
+  },
+  "chatBulk": {
+    "selected": "{{count}} vybráno",
+    "cancel": "Zrušit",
+    "reply": "Odpovědět",
+    "delete": "Smazat"
+  },
+  "msgSelect": {
+    "selected": "{{count}} vybráno",
+    "copy": "Kopírovat",
+    "forward": "Přeposlat",
+    "deleted_one": "Smazáno {{count}} zpráva",
+    "deleted_other": "Smazány {{count}} zprávy"
   }
 }

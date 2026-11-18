@@ -7698,6 +7698,8 @@
     "allDisabled": "Alle DM's staan momenteel uit. Nieuwe DM's worden standaard geblokkeerd.",
     "failedToEdit": "Bewerken mislukt",
     "messageDeleted": "Bericht verwijderd",
+    "deleteOneTitle": "Dit bericht verwijderen?",
+    "deleteForBothBody": "Het wordt voor jullie allebei verwijderd.",
     "cantForwardFromDevice": "Dit bericht kan niet worden doorgestuurd vanaf dit apparaat",
     "messageForwarded": "Bericht doorgestuurd",
     "clearMessages": "Berichten wissen",
@@ -16945,8 +16947,27 @@
       "spin": "Draaiend prisma",
       "tide": "Getij",
       "ember": "Gloeiende kooltjes",
-      "holo": "Holofolie"
-    }
+      "holo": "Holofolie",
+      "rift": "Kloof",
+      "chrome": "Vloeibaar chroom",
+      "mesh": "Gaas",
+      "grain": "Filmkorrel",
+      "orbit": "Baan",
+      "ripple": "Rimpeling",
+      "dotwave": "Stippengolf",
+      "scan": "CRT",
+      "silk": "Zijde",
+      "bokeh": "Bokeh",
+      "snow": "Sneeuwval",
+      "photo": "Jouw afbeelding"
+    },
+    "yours": "Jouw",
+    "base": "Basis",
+    "accent": "Accent",
+    "accent2": "Accent 2",
+    "ownColours": "Je eigen kleuren",
+    "addPhoto": "Voeg een afbeelding of GIF toe",
+    "changePhoto": "Wijzig afbeelding of GIF"
   },
   "riftnMove": {
     "title": "DeHub heet nu Riftn",
@@ -17145,6 +17166,7 @@
     "notSent": "Versturen mislukt. Probeer het opnieuw."
   },
   "msgSelect": {
+    "deleteForBothBody": "Ze worden voor jullie allebei verwijderd.",
     "toolbar": "Geselecteerde berichten",
     "pick": "Tik op berichten om ze te selecteren",
     "selected": "{{count}} geselecteerd",
@@ -17162,5 +17184,8 @@
     "deleteBody": "Ze worden voor iedereen in deze chat verwijderd.",
     "deleted_one": "{{count}} bericht verwijderd",
     "deleted_other": "{{count}} berichten verwijderd"
+  },
+  "profileImage": {
+    "change": "Wijzigen"
   }
 }

@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "اس ہفتے آڈیوئس پر ٹرینڈنگ۔ مفت استعمال، فنکار کو آپ کی پوسٹ پر کریڈٹ ملے گا۔",
     "d2e45b7406fc": "پبلک ڈومین اور کریئیٹو کامنز موسیقی ویکی میڈیا کامنز سے۔ فنکار کو آپ کی پوسٹ پر کریڈٹ ملے گا۔",
     "d0c1a3684775": "گانے لوڈ نہیں ہوئے۔ چند لمحے بعد دوبارہ کوشش کریں۔",
-    "d14064f80f52": "آواز شامل کریں"
+    "d14064f80f52": "آواز شامل کریں",
+    "71988c4d8e08": "متن",
+    "147170e793c6": "وسیع",
+    "481859b689b0": "پلیز اپنی کنیکشن چیک کریں اور دوبارہ کوشش کریں۔",
+    "57e2faa5ec63": "Riftn میں تلاش کریں",
+    "7db20897053b": "لوگ",
+    "96d7bff86b44": "تلاش لوڈ نہیں ہو سکی",
+    "d8b8392e2c54": "دوبارہ کوشش کریں"
   },
   "dehubLinks": {
     "kind": {
@@ -2854,7 +2861,8 @@
       "quote": "اقتباس",
       "bullets": "گولیوں کی فہرست",
       "numbers": "نمبر والی فہرست",
-      "link": "لنک"
+      "link": "لنک",
+      "image": "تصاویر شامل کریں"
     }
   },
   "storefront": {
@@ -3792,7 +3800,11 @@
     "payViaDpay": "Riftn Pay کو ادا کیا گیا، ٹکٹس تقریباً 30s میں پہنچ جائیں گے",
     "payViaBridgeDpay": "Base پر منتقل کیا گیا اور Riftn Pay کو ادا کیا گیا، ٹکٹس تقریباً ایک منٹ میں پہنچ جائیں گے",
     "tokensUnit": "ٹکٹس",
-    "tokenAmount": "{{amount}} ٹکٹس"
+    "tokenAmount": "{{amount}} ٹکٹس",
+    "addMessage": "پیغام شامل کریں (آپشنل)",
+    "messagePublic": "عوامی",
+    "railTitle": "ٹپس",
+    "railTotal": "{{amount}} ٹکٹس"
   },
   "postOptions": {
     "skippableSections": "قابلِ اسکیپ سیکشنز",
@@ -4518,7 +4530,11 @@
       "here": "{{name}} نے کمیونٹی میں ہر ایک کو پیغام بھیجا",
       "hereNamed": "{{name}} نے \"{{community}}\" میں سب کو میسج کیا"
     },
-    "tokenAmount": "{{amount}} ٹوکن"
+    "tokenAmount": "{{amount}} ٹوکن",
+    "groupNew": "نیا",
+    "groupToday": "آج",
+    "groupThisWeek": "اس ہفتے",
+    "searchClose": "بند کر دیں"
   },
   "leaderboard": {
     "title": "لیڈر بورڈ",
@@ -4710,7 +4726,18 @@
     "attachmentTooLarge": "ہر فائل 50MB سے کم ہونی چاہیے",
     "deleteCommentA11y": "تبصرہ حذف کریں",
     "sendCommentA11y": "تبصرہ بھیجیں",
-    "requestOptions": "آپشنز کی درخواست کریں"
+    "requestOptions": "آپشنز کی درخواست کریں",
+    "deviceInfoNoErrors": "کوئی نہیں",
+    "topBuilders": {
+      "month": "اس ماہ",
+      "allTime": "ہر وقت",
+      "shipped": "بھیج دیا گیا",
+      "votes": "ووٹ",
+      "comments": "تبصرے",
+      "showLess": "کم دکھائیں",
+      "viewProfile": "پروفائل دیکھیں",
+      "you": "آپ"
+    }
   },
   "auth": {
     "loginRequired": "لاگ ان ضروری ہے",
@@ -4971,7 +4998,20 @@
       "votes_other": "{{value}} ووٹ دیتے ہیں",
       "members_one": "{{value}} رکن",
       "members_other": "{{value}} رکنیں"
-    }
+    },
+    "articleShort": "آرٹیکل",
+    "articleMinRead": "{{count}} منٹ پڑھا گیا",
+    "pinnedShort": "پن شدہ",
+    "post": "پوسٹ",
+    "arrange": {
+      "saving": "محفوظ ہو رہا ہے..."
+    },
+    "reserve": {
+      "signIn": "سائن ان کریں"
+    },
+    "tabLikes": "پسندیدگیاں",
+    "likesEmptyTitle": "ابھی تک کوئی لائیک نہیں",
+    "likesPrivateTitle": "لائیکس نجی ہیں"
   },
   "tv": {
     "title": "ٹی وی",
@@ -5487,6 +5527,9 @@
       "action": "کارروائی",
       "schedule": "شیڈول",
       "filter": "سرگرمی فلٹر کریں"
+    },
+    "welcome": {
+      "text": "خوش آمدید پیغام"
     }
   },
   "hero": {
@@ -5572,7 +5615,16 @@
     "nowPublic": "فلو اب عوامی ہے",
     "openCanvas": "کینوس کھولیں",
     "playVideo": "ویڈیو چلائیں",
-    "signInToSee": "اپنے اکاؤنٹ پر بہاؤ دیکھنے کے لیے سائن ان کریں ۔"
+    "signInToSee": "اپنے اکاؤنٹ پر بہاؤ دیکھنے کے لیے سائن ان کریں ۔",
+    "newNativeFlow": "نیا flow",
+    "model": "ماڈل",
+    "aspectRatio": "پہلو کا تناسب",
+    "duration": "دورانیہ سیکنڈز میں",
+    "resolution": "ریزولوشن",
+    "disconnect": "منسلک ہونے سے منع کریں",
+    "payAndRun": "ادائیگی کریں اور چلائیں",
+    "run": "چلائیں",
+    "handlePrompt": "پرامپٹ"
   },
   "loginModal": {
     "title": "لاگ ان",
@@ -5892,7 +5944,8 @@
     "searchMenu": "مینو میں تلاش کریں",
     "clearSearch": "تلاش صاف کریں",
     "noMenuMatches": "مینو میں کچھ بھی مماثل نہیں",
-    "searchDehubFor": "Riftn پر \"{{query}}\" تلاش کریں"
+    "searchDehubFor": "Riftn پر \"{{query}}\" تلاش کریں",
+    "requestSend": "درخواست بھیجیں"
   },
   "comments": {
     "reportComment": "تبصرہ رپورٹ کریں",
@@ -6511,7 +6564,11 @@
       "copied": "پیغام کاپی ہو گیا",
       "copyText": "متن کاپی کریں",
       "mutedUntil": "آپ {{date}} تک خاموش ہیں",
-      "slowMode": "سست موڈ: ہر {{interval}} پر ایک پیغام"
+      "slowMode": "سست موڈ: ہر {{interval}} پر ایک پیغام",
+      "joined": "{{name}} شامل ہوئے",
+      "reactions": "رد عمل",
+      "photoTooLarge": "تصویر 10MB سے کم ہونی چاہیے",
+      "aiAdminFailed": "ای آئی ایڈمن نے جواب دینے میں ناکامی"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6714,7 +6771,33 @@
       "approvalNote": "ایک ایڈمن کو آپ کی درخواست کو منظوری دینے کے بعد آپ شامل ہو سکتے ہیں۔"
     },
     "saveChanges": "محفوظ کریں",
-    "muted": "خاموش"
+    "muted": "خاموش",
+    "buyAlert": {
+      "spent": "خرچ:",
+      "buyer": "خریدار:",
+      "txn": "ٹیکسٹ",
+      "balance": "بیلنس:",
+      "price": "قیمت:",
+      "marketCap": "مارکیٹ کیپ:"
+    },
+    "newChat": {
+      "public": "عوامی",
+      "private": "نجی",
+      "free": "مفت",
+      "paid": "ادا شدہ",
+      "group": "گروپ"
+    },
+    "holderGate": {
+      "chain": "چین",
+      "which": "ٹوکن",
+      "tab": "ہولڈرز"
+    },
+    "automod": {
+      "bannedWords": "ممنوعہ الفاظ",
+      "floodMax": "{{count}} پیغامات",
+      "saved": "محفوظ",
+      "wordCount": "{{count}} الفاظ"
+    }
   },
   "work": {
     "integrity": {
@@ -7817,7 +7900,15 @@
     "requestPendingBody": "آپ کی فالو ریکویسٹ بھیج دی گئی ہے۔ ان کی منظوری کے بعد آپ ان کی پوسٹس دیکھ سکیں گے۔",
     "followToSeePosts": "ان کی پوسٹس دیکھنے کے لیے اس اکاؤنٹ کو فالو کریں۔",
     "loadFailed": "یہ فہرست لوڈ نہیں ہو سکی",
-    "new": "نیا"
+    "new": "نیا",
+    "followBackConfirm": "فالو بیک",
+    "followBackNotNow": "ابھی نہیں",
+    "followBackDone": "ہو گیا",
+    "nonFollowers": {
+      "notNow": "ابھی نہیں",
+      "cancel": "منسلک ہونے سے منع کریں",
+      "close": "بند کریں"
+    }
   },
   "reactionInfo": {
     "title": "رد عمل",
@@ -8737,7 +8828,38 @@
     "coverFrames": "ایک کور فرینمی چنیں",
     "coverFrame": "کور فرینمی {{index}} کو کور کے طور پر استعمال کریں",
     "uploadCover": "کور ایموجی اپ لوڈ کریں",
-    "editFailed": "اس ایڈٹ کو لاگو نہیں کیا جا سکا۔ دوبارہ کوشش کریں۔"
+    "editFailed": "اس ایڈٹ کو لاگو نہیں کیا جا سکا۔ دوبارہ کوشش کریں۔",
+    "altPlaceholderVideo": "اس ویڈیو کو بیان کریں",
+    "preview": {
+      "title": "پیش نمائش"
+    },
+    "recent": {
+      "all": "تمام"
+    },
+    "studio": {
+      "crop": "کراپ",
+      "draw": "ڈرا کریں",
+      "light": "ہلکا",
+      "contrast": "کنٹراسٹ",
+      "warmth": "گرمجوشی",
+      "colour": "رنگ",
+      "fade": "دھندلا پن",
+      "original": "اصل",
+      "ratioOriginal": "اصل",
+      "ratioFree": "مفت",
+      "rotate": "گھمائیں",
+      "strength": "قوت",
+      "stickers": "اسٹیکرز",
+      "ticker": "ٹکر",
+      "textBg": "پس منظر",
+      "font": {
+        "bold": "بولڈ",
+        "serif": "سریف",
+        "mono": "مونو"
+      }
+    },
+    "edited": "ترمیم شدہ",
+    "edit": "ترمیم کریں"
   },
   "bounty": {
     "claimed": "وصول ہو گیا",
@@ -9031,7 +9153,8 @@
     "justChatting": "بس گپ شپ",
     "noLiveStreams": "کوئی لائیو اسٹریم نہیں",
     "noOneStreaming": "ابھی کوئی اسٹریم نہیں کر رہا۔ بعد میں دوبارہ دیکھیں!",
-    "loadStreamsFailed": "اسٹریمز لوڈ نہیں ہو سکیں۔ دوبارہ کوشش کریں۔"
+    "loadStreamsFailed": "اسٹریمز لوڈ نہیں ہو سکیں۔ دوبارہ کوشش کریں۔",
+    "liveBadge": "لائیو"
   },
   "liveShop": {
     "title": "اس اسٹریم سے خریداری کریں",
@@ -9344,7 +9467,23 @@
     "paymentSentWith": "{{amount}} کے ساتھ بھیجا گیا",
     "planRestricted": "اس صارف کو پیغامات وصول کرنے کے لیے سبسکرپشن درکار ہے۔",
     "planTypeNotAllowed": "اس تخلیق کار کا پلان اس قسم کے پیغام کی اجازت نہیں دیتا۔",
-    "planMinTip": "اس تخلیق کار کے لیے ٹپ کم از کم {{amount}} ٹکٹس ہونی چاہیے۔"
+    "planMinTip": "اس تخلیق کار کے لیے ٹپ کم از کم {{amount}} ٹکٹس ہونی چاہیے۔",
+    "newDrawer": {
+      "to": "تو"
+    },
+    "download": "ڈاؤن لوڈ",
+    "deleteOneTitle": "یہ پیغام حذف کریں ؟",
+    "retrySend": "دوبارہ کوشش کریں",
+    "discardSend": "ہٹائیں",
+    "shareKindGroup": "گروپ",
+    "shareKindCommunity": "مُجتمِعہ",
+    "searchDiscover": {
+      "people": "لوگ",
+      "communities": "کمیونٹیز",
+      "members": "{{n}} ممبرز",
+      "newChat": "نئی چیٹ",
+      "invite": "مدعو کریں"
+    }
   },
   "editPost": {
     "mediaPermission": "میڈیا لائبریری کی اجازت درکار ہے",
@@ -10562,7 +10701,11 @@
       "hint": "بولی کو وقت کے مطابق کیپشنز میں بدلتا ہے جن کا انداز آپ بدل سکتے ہیں۔ آپ کے آلے پر چلتا ہے: مفت اور نجی۔ پہلی بار استعمال پر ماڈل ڈاؤن لوڈ ہوتا ہے۔",
       "done": "{{count}} کیپشنز شامل کیے گئے۔",
       "noSpeech": "اس کلپ میں کوئی بولی نہیں ملی۔",
-      "failed": "اس کلپ کے لیے کیپشنز نہیں بن سکے۔"
+      "failed": "اس کلپ کے لیے کیپشنز نہیں بن سکے۔",
+      "styles": {
+        "bold": "جرات مندانہ",
+        "serif": "سریف"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10632,7 +10775,8 @@
       "vibrant": "شوخ",
       "cyber": "سائبر",
       "invert": "الٹ",
-      "strength": "فلٹر کی طاقت: {{value}}%"
+      "strength": "فلٹر کی طاقت: {{value}}%",
+      "vhs": "وی ایچ ایس"
     },
     "layer": {
       "crop": "کراپ",
@@ -10812,7 +10956,9 @@
       "suggestTitle": "اوپر ایک بڑا بولڈ عنوان اور اس کے نیچے ایک چھوٹا ذیلی عنوان شامل کریں",
       "undo": "واپس کریں",
       "openGenerator": "جائزہ لیں اور بنائیں",
-      "working": "کام جاری ہے…"
+      "working": "کام جاری ہے…",
+      "stop": "بند کریں",
+      "queue": "قطار میں شامل کریں"
     },
     "brand": {
       "fileDownloaded": "اسٹائلز فائل ڈاؤن لوڈ ہوگئی",
@@ -10949,7 +11095,9 @@
       "rendering": "ویڈیو رینڈر ہو رہی ہے… {{percent}}%",
       "mp4": "MP4 ویڈیو",
       "exportHint": "ویڈیو رینڈر ہونے تک ایڈیٹر کھلا رکھیں۔",
-      "tooLarge": "یہ فائل ایڈیٹر کے لیے بہت بڑی ہے۔ حد 400 MB ہے۔"
+      "tooLarge": "یہ فائل ایڈیٹر کے لیے بہت بڑی ہے۔ حد 400 MB ہے۔",
+      "tZoomIn": "زوم ان کریں",
+      "tZoomOut": "زوم آؤٹ کریں"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12128,6 +12276,28 @@
       "selection": "انتخاب",
       "zoomIn": "ٹیبلٹ یا لپٹاپ کے اسکرین کو بڑھائیں",
       "zoomOut": "ٹیکنیکل ڈیٹا کا پینورما بڑھائیں"
+    },
+    "stage": {
+      "camera": "کیمرہ",
+      "yaw": "گردش",
+      "add": "شامل کریں",
+      "scale": "سائز",
+      "color": "رنگ",
+      "light": "ہلکا"
+    },
+    "clipFix": {
+      "listening": "سن رہے ہیں…"
+    },
+    "voiceClone": {
+      "stop": "ریکارڈنگ روکیں",
+      "failed": "صوتی کلوننگ ناکام ہوگئی ۔"
+    },
+    "linkImport": {
+      "go": "درآمد کریں",
+      "downloading": "{{percent}}% ڈاؤن لوڈ ہو رہا ہے"
+    },
+    "reverse": {
+      "action": "الٹا"
     }
   },
   "creator": {
@@ -12589,7 +12759,32 @@
     "referenceProductName": "اپنے پروڈکٹ کو کلپ میں رکھیں",
     "referenceProductHint": "نمایاں پروڈکٹ کو بدلیں اور اصل منظر کو محفوظ رکھیں۔",
     "referenceComposeName": "حوالہ تصاویر کو ملائیں",
-    "referenceComposeHint": "متعدد تصاویر سے کردار، اشیاء اور سیٹنگز کو ایک ترکیب میں لائیں۔"
+    "referenceComposeHint": "متعدد تصاویر سے کردار، اشیاء اور سیٹنگز کو ایک ترکیب میں لائیں۔",
+    "marketing": {
+      "import": {
+        "use": "یہ تفصیلات استعمال کریں"
+      }
+    },
+    "batchCount": "تصاویر",
+    "endFrame": "اختتام کا فریم",
+    "cinema": {
+      "close": "بند کریں",
+      "performance": {
+        "label": "کارکردگی"
+      }
+    },
+    "audioNoSpeech": "اس ریکارڈنگ میں کوئی تقریر نہیں ملی ۔",
+    "audioTaskSpeechLabel": "تقریر",
+    "audioTaskDialogueLabel": "مکالمہ",
+    "audioTaskSfxLabel": "صوتی اثر",
+    "audioTaskVoiceChangerLabel": "آواز میں تبدیلی",
+    "audioTaskTranscribeLabel": "ٹرانسکرائب کریں",
+    "audioTaskIsolateLabel": "صاف کریں",
+    "priceFreeRateLimited": "مفت · شرح کی حدود لاگو ہوتی ہیں",
+    "loop": "لوپ",
+    "dialogueFormat": "منظر کو \"نام: لائن\" کے طور پر لکھیں، ایک لائن میں ایک بولنے والا۔",
+    "fileTooLarge": "یہ فائل 100 MB سے زیادہ ہے۔ کوئی مختصر یا چھوٹی فائل استعمال کریں۔",
+    "signInToGenerate": "سائن ان کریں تاکہ تیار کریں۔"
   },
   "fractions": {
     "title": "حصے",
@@ -14658,6 +14853,19 @@
       "intro": "ناظرین ہر اس منٹ کے لیے ایک پوائنٹ کماتے ہیں جو وہ آپ کو دیکھتے ہیں اور ہر اس 100 ٹکٹس کے لیے جو وہ گفٹ کرتے ہیں ۔ چیٹ اور رد عمل سے کچھ حاصل نہیں ہوتا، لہذا پوائنٹس کاشت نہیں کیے جا سکتے ۔",
       "empty": "ابھی تک کوئی نکات نہیں ہیں ۔ وہ ایسے بنتے ہیں جیسے لوگ دیکھتے ہیں اور تحفہ دیتے ہیں ۔",
       "widgetHint": "اس فہرست کو اسٹریم پر دکھانے کے لیے وفادار ناظرین کا ویجیٹ شامل کریں ۔"
+    },
+    "destinations": {
+      "platform": "پلیٹ فارم",
+      "label": "نام (اختیاری)",
+      "key": "اسٹریمنگ کلید",
+      "save": "شامل کریں",
+      "cancel": "منسلک ہونے سے منع کریں",
+      "states": {
+        "off": "بند",
+        "idle": "تیار",
+        "live": "لائیو",
+        "error": "غلطی"
+      }
     }
   },
   "liveChatModeration": {
@@ -14736,7 +14944,9 @@
       "count": "{{count}} پر {{limit}} صفحات میں سے",
       "empty": "اپنی صفحات کو فوٹو بٹن کے ساتھ شامل کریں۔ ہر صفحے کو ایک کیپشن اور متبادل متن ملے گا۔",
       "cover": "کور"
-    }
+    },
+    "tab": "کامک",
+    "title": "کامک"
   },
   "nftMarket": {
     "sellYours": "اپنا فروختے ہیں",
@@ -14747,7 +14957,73 @@
     "days": "{{count}} دن",
     "spotlightForSale": "آج کے لیے فروخت",
     "spotlightNew": "اب تک",
-    "buyFor": "خرید کے لیے {{price}}"
+    "buyFor": "خرید کے لیے {{price}}",
+    "actAll": "تمام",
+    "actListings": "اشتہارات",
+    "actOffer": "پیشکش",
+    "actOffers": "پیشکشیں",
+    "actSales": "فروخت",
+    "tabActivity": "سرگرمی",
+    "allChains": "تمام چین",
+    "newest": "تازہ ترین",
+    "cheapest": "سب سے کم قیمت",
+    "soldFor": "فروخت شدہ",
+    "signIn": "سائن ان کریں",
+    "title": "NFT",
+    "share": "اشتراک کریں",
+    "noneForSale": "ابھی تک فروخت کے لیے کچھ نہیں",
+    "noSales": "کسی بھی بیچنے کا عمل اب تک نہیں ہوا۔",
+    "tabBrowse": "براؤز کریں",
+    "tabMine": "آپ کے",
+    "tabSales": "فروخت",
+    "cancelled": "منسوخ شدہ",
+    "sold": "فروخت شدہ",
+    "listed": "فروخت کے لیے درج ہے",
+    "feeRow": "ریفٹ فیس ({{pct}}%)",
+    "royaltyRow": "ایکریٹر کا رائلٹی",
+    "youGet": "آپ کو دے دیا گیا ہے۔",
+    "holderGets": "ہولڈر پے کرے",
+    "loading": "لوڈ ہو رہا ہے…",
+    "price": "قیمت",
+    "seller": "فروخت کنندہ",
+    "tabRecent": "حالیہ",
+    "buyNow": "اب خریدیں",
+    "offers": "پروپوزل",
+    "cancel": "منسوخ کریں",
+    "accept": "قبول کریں",
+    "signInToTrade": "تجارت کے لیے سائن ان کریں",
+    "listForSale": "فروخت کے لیے لیسٹ کریں",
+    "makeOffer": "پیشکش کریں",
+    "sendOffer": "پیشکش کریں",
+    "back": "پچھلا جائیں",
+    "dropsTo": "قیمت {{price}} تک گرتے گی {{date}} تک",
+    "inBundle": "{{n}} کا باندل کے طور پر فروخت ہوا",
+    "trending": "ٹریندنگ کلیکشنز",
+    "floor": "فرش",
+    "listedCount": "{{n}} فروخت کے لیے",
+    "thisCollection": "یہ کلیکشن",
+    "collectionOffer": "کسی بھی پر پیشکش کریں",
+    "showAll": "تمام دکھائیں",
+    "shortTitle": "NFT",
+    "filters": "فلٹرز",
+    "forSale": "فروخت کے لیے",
+    "openToOffers": "پیشکش کے لیے کھلا",
+    "freshMints": "Riftn تخلیق کاروں سے تازہ ترین",
+    "offersOpen": "پیشکش کے لیے کھلا",
+    "mintedCount": "{{n}} منٹ کیا گیا",
+    "anyInCollection": "کلیکشن میں کوئی بھی",
+    "thisNft": "یہ NFT",
+    "priceAlert": "قیمت کی ایلارٹ",
+    "alertUnder": "مجھے بتائیں جب فہرست میں شامل ہو یا اس کے نیچے ({{symbol}}, اختیاری)",
+    "turnOnAlert": "ایلارٹ چلا دیں",
+    "priceDrop": "قیمت وقت کے ساتھ گرتے رہتی ہے",
+    "endPrice": "نچلی قیمت، آخر میں پہنچتی ہے ({{symbol}})",
+    "bundleBadge": "بنڈل ×{{n}}",
+    "dropBadge": "قیمت میں کمی",
+    "days_one": "{{count}} دن",
+    "days_other": "{{count}} دن",
+    "dehubPostsName": "Riftn پوسٹس",
+    "statForSale": "فروخت کے لیے"
   },
   "riftnMove": {
     "title": "DeHub اب Riftn ہے",
@@ -14774,7 +15050,11 @@
       "episode": "پوڈ کاسٹ کی قسط",
       "show": "پوڈ کاسٹ",
       "artist": "فنکار"
-    }
+    },
+    "loading": "لوڈ ہو رہا ہے…",
+    "paused": "رک گیا",
+    "preview": "پیش نمائش",
+    "seek": "تلاش کریں"
   },
   "twoFactor": {
     "wrongCode": "وہ کوڈ میچ نہیں ہوا۔ اپنی ایپ میں نیا ترین کوڈ آزمائیں۔",
@@ -14852,5 +15132,251 @@
     "newer": "نیا نتیجہ",
     "gone": "یہ پیغام اب یہاں نہیں ہے",
     "theirMessages": "ان کے پیغامات"
+  },
+  "chatTextSize": {
+    "title": "متن کا سائز",
+    "default": "ڈیفالٹ",
+    "larger": "بڑا"
+  },
+  "remix": {
+    "cut": "کاٹیں"
+  },
+  "signedFollows": {
+    "setUp": "آن کریں",
+    "turnOff": "آف کریں",
+    "efpTurnOff": "بند کریں"
+  },
+  "postEditHistory": {
+    "original": "اصل"
+  },
+  "studioDeck": {
+    "remove": "ہٹائیں",
+    "background": {
+      "title": "پس منظر",
+      "modes": {
+        "none": "بند",
+        "blur": "دھندلاپن",
+        "color": "رنگ"
+      }
+    },
+    "scenes": {
+      "countdown": "ڈاؤن کاؤنٹ",
+      "minutes": "{{count}} منٹ",
+      "names": {
+        "starting": "جلد شروع ہو رہا ہے"
+      }
+    },
+    "widgets": {
+      "tab": "وجٹس"
+    },
+    "sources": {
+      "image": "تصویر",
+      "show": "اسٹریم پر دکھائیں",
+      "positions": {
+        "center": "مرکز"
+      },
+      "sizes": {
+        "medium": "درمیانہ"
+      }
+    },
+    "phone": {
+      "title": "اسٹوڈیو"
+    }
+  },
+  "whenSheet": {
+    "today": "آج",
+    "tooSoon": "مستقبل میں ایک وقت منتخب کریں۔",
+    "show": "دکھائیں",
+    "hide": "چھپائیں"
+  },
+  "planned": {
+    "title": "منصوبہ بند",
+    "all": "تمام",
+    "posts": "پوسٹس",
+    "stages": "آڈیو رومز",
+    "post": "پوسٹ",
+    "live": "لائیو",
+    "stage": "مُحِطہ",
+    "untitledPost": "پوسٹ",
+    "untitledLive": "لائیو",
+    "loading": "لوڈ ہو رہا ہے…",
+    "startNow": "ابھی شروع کریں",
+    "cancel": "منسلک ہونے سے منع کریں",
+    "cancelled": "منسوخ شدہ"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn میں خوش آمدید",
+      "day": "دن",
+      "month": "ماہ",
+      "year": "سال"
+    },
+    "name": {
+      "title": "آپ کا نام",
+      "placeholder": "آپ کا نام"
+    },
+    "card": {
+      "name": "آپ کا نام",
+      "followers": "فالوورز"
+    },
+    "topic": {
+      "music": "موسیقی",
+      "art": "آرٹ",
+      "gaming": "گیمنگ",
+      "crypto": "کرپٹو",
+      "sports": "کھیل",
+      "comedy": "کامڈی",
+      "film": "فلم",
+      "podcast": "پوڈ کاسٹ",
+      "food": "کھانا",
+      "news": "خبریں",
+      "science": "سائنس"
+    },
+    "back": "واپس",
+    "skipPhoto": "ابھی نہیں",
+    "preview": "پیش منظر"
+  },
+  "appTokens": {
+    "title": "آپ کے ٹوکنز",
+    "history": "تاریخ",
+    "noHistory": "ابھی تک کوئی سرگرمی نہیں ہے",
+    "kindDeposit": "رقم جمع کریں",
+    "to": "تو",
+    "amount": "رقم",
+    "notePlaceholder": "نوٹ شامل کریں (اختیاری)",
+    "sendButton": "بھیجیں",
+    "errorInsufficient": "کافی ٹکٹس نہیں ہیں"
+  },
+  "avatarPrompt": {
+    "notNow": "ابھی نہیں"
+  },
+  "postStats": {
+    "audience": "سامعین",
+    "engagement": "مصروفیات",
+    "finished": "ختم",
+    "members": "اراکین",
+    "membersLower": "اراکین",
+    "newFollowers": "نئے فالورز",
+    "noBadge": "کوئی ٹیگ نہیں",
+    "people": "لوگ",
+    "plays": "ڈرامے",
+    "quotes": "اقتباسات",
+    "reposts": "دوبارہ پوسٹس",
+    "saved": "محفوظ",
+    "shares": "شیئرز",
+    "signedOutViewers": "سائن آؤٹ ہو گیا",
+    "topSupporters": "سرکردہ حامی",
+    "visitors": "سائن آؤٹ ہو گیا"
+  },
+  "duet": {
+    "policyEveryone": "سب",
+    "policyFollowers": "فالوورز",
+    "policyNobody": "کوئی نہیں",
+    "loadMore": "مزید لوڈ کریں",
+    "video": "ویڈیو"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "سب",
+      "followers": "فالوورز",
+      "nobody": "کوئی نہیں"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "سب",
+      "followers": "فالوورز",
+      "nobody": "کوئی نہیں"
+    },
+    "heading": "ردعمل",
+    "more": "مزید دکھائیں",
+    "liveNow": "لائیو",
+    "untitled": "ری ایکشن"
+  },
+  "liveClips": {
+    "copyLink": "لنک کاپی کریں",
+    "linkCopied": "لنک کاپی ہو گیا"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "پلان",
+      "howMany": "کتنے",
+      "who": "یوزرنیم یا والٹ ایڈریس",
+      "whoPlaceholder": "@یوزرنیم",
+      "cancel": "منسلک ہونے سے منع کریں",
+      "stage": {
+        "preparing": "تیاری ہو رہی ہے…",
+        "confirming": "لین دین کا انتظار…",
+        "recording": "مکمل ہو رہا ہے…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "دیگر",
+    "confirming": "ادائیگی کی توثیق ہو رہی ہے…"
+  },
+  "liveShorts": {
+    "live": "لائیو"
+  },
+  "feedFilters": {
+    "clearAllShort": "سب صاف کریں",
+    "done": "کام پورا",
+    "edit": "ترمیم کریں",
+    "groupDate": "تاریخ",
+    "groupSort": "ترتیب",
+    "groupType": "قسم",
+    "save": "محفوظ کریں"
+  },
+  "ownKeys": {
+    "working": "کام جاری ہے",
+    "failed": "کچھ غلط ہو گیا ۔ دوبارہ کوشش کریں ۔",
+    "check": "چیک کریں",
+    "remove": "ہٹائیں",
+    "save": "محفوظ کریں",
+    "cancel": "منسوخ کریں"
+  },
+  "postBg": {
+    "none": "کوئی نہیں",
+    "yours": "آپ کے",
+    "accent": "لہجہ",
+    "names": {
+      "aurora": "اورورا",
+      "lava": "لاوا لیمپ",
+      "drive": "نائٹ ڈرائیو",
+      "chrome": "لیکوئڈ کروم",
+      "orbit": "آربٹ",
+      "snow": "سنی فال"
+    }
+  },
+  "articleTile": {
+    "cover": "کور"
+  },
+  "aiConsent": {
+    "allow": "اجازت دیں"
+  },
+  "dmRequests": {
+    "title": "درخواستیں",
+    "accept": "قبول کریں",
+    "delete": "حذف کریں",
+    "block": "بلاک کریں"
+  },
+  "dmSchedule": {
+    "view": "دیکھیں",
+    "edit": "ترمیم کریں",
+    "editLabel": "پیغام میں ترمیم کریں",
+    "error": "یہ کام نہیں آیا۔ دوبارہ کوشش کریں۔"
+  },
+  "chatBulk": {
+    "selected": "{{count}} منتخب ہو گئے",
+    "cancel": "منسوخ کریں",
+    "reply": "جواب",
+    "delete": "حذف کریں"
+  },
+  "msgSelect": {
+    "selected": "{{count}} منتخب ہو گئے",
+    "copy": "کاپی کریں",
+    "forward": "آگے بھیجیں",
+    "deleted_one": "{{count}} مسیج ڈیلیٹ کر دیا گیا",
+    "deleted_other": "{{count}} مسیجز ڈیلیٹ کر دیے گئے"
   }
 }
