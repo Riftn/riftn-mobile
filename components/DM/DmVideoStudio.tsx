@@ -24,6 +24,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useVideoPlayer, VideoView } from "expo-video";
+import { VIDEO_SPEEDS } from "../../libs/post-video-edits";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useTranslation as _useCopy } from "react-i18next";
 import SmartImage from "../common/SmartImage";
@@ -48,7 +49,7 @@ import { VIDEO_CROP_RATIOS, cropRatioValue, dragCropRect, fitCropRect, isFullCro
 // The player cannot be colour filtered, so Looks and Adjust paint a still with Skia.
 const VideoLookFrame = optionalSkia(() => require("./VideoLookFrame").default as typeof import("./VideoLookFrame").default);
 
-export type Tab = "cover" | "trim" | "crop" | "mirror" | "rotate" | "looks" | "adjust" | "hide" | "timer" | "expire" | "alt" | "sound";
+export type Tab = "cover" | "trim" | "crop" | "speed" | "mirror" | "rotate" | "looks" | "adjust" | "hide" | "timer" | "expire" | "alt" | "sound";
 const ADJUST_ORDER: StudioAdjustKey[] = ["light", "contrast", "warmth", "tint", "colour", "fade", "vignette"];
 
 /** Post videos: look, strength and adjust dials. */
@@ -216,6 +217,10 @@ export default function DmVideoStudio({
     p.muted = true;
     p.timeUpdateEventInterval = 0.1;
   });
+  // Preview the picked speed (posts only; DMs never set it).
+  useEffect(() => {
+    try { if (player) player.playbackRate = options.speed ?? 1; } catch {}
+  }, [player, options.speed]);
   useEffect(() => {
     if (!visible || !isVideo) return;
     try { player.currentTime = range.current.start; player.play(); } catch { /* not loaded yet */ }
@@ -352,6 +357,7 @@ export default function DmVideoStudio({
     { key: "cover", label: _copy("dmVideo.cover", { defaultValue: "Cover" }), icon: "Image" },
     { key: "trim", label: _copy("dmVideo.trim", { defaultValue: "Trim" }), icon: "Scissors" },
     { key: "crop", label: _copy("upload.studio.crop", { defaultValue: "Crop" }), icon: "Crop" },
+    { key: "speed", label: _copy("editor.video.speed", { defaultValue: "Speed" }), icon: "Gauge" },
     { key: "mirror", label: _copy("dmVideo.mirror", { defaultValue: "Mirror" }), icon: "FlipHorizontal2" },
     { key: "rotate", label: _copy("dmVideo.rotate", { defaultValue: "Rotate" }), icon: "RotateCw" },
     { key: "looks", label: _copy("upload.studio.looks", { defaultValue: "Looks" }), icon: "Palette" },
@@ -640,6 +646,19 @@ export default function DmVideoStudio({
                       <Text style={{ color: on ? "#000" : MUTED, fontSize: 12, fontWeight: "600" }}>
                         {m ? _copy("dmVideo.mirrored", { defaultValue: "Mirrored" }) : _copy("dmVideo.original", { defaultValue: "Original" })}
                       </Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            )}
+            {tab === "speed" && (
+              <View style={{ flexDirection: "row", borderRadius: 999, borderWidth: 1, borderColor: LINE, overflow: "hidden" }}>
+                {VIDEO_SPEEDS.map((sp) => {
+                  const on = (options.speed ?? 1) === sp;
+                  return (
+                    <Pressable key={sp} onPress={() => set({ speed: sp === 1 ? undefined : sp })} accessibilityRole="button" accessibilityState={{ selected: on }}
+                      style={{ flex: 1, paddingVertical: 9, alignItems: "center", backgroundColor: on ? WHITE : "transparent" }}>
+                      <Text style={{ color: on ? "#000" : MUTED, fontSize: 12, fontWeight: "600", fontVariant: ["tabular-nums"] }}>{sp}×</Text>
                     </Pressable>
                   );
                 })}
