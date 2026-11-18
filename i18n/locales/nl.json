@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "Alle",
+    "unread": "Ongelezen",
+    "groups": "Groepen"
+  },
   "comicBorder": {
     "title": "Rand",
     "theme": "Thema",
