@@ -3817,6 +3817,12 @@
     "power": "power"
   },
   "governance": {
+    "optionVoters_one": "{{count}} voter",
+    "optionVoters_other": "{{count}} voters",
+    "optionWinner": "Winner: {{option}}",
+    "optionNoWinner": "No clear winner",
+    "optionTapToUndo": "Tap your answer again to take your vote back",
+    "optionPickOne": "Pick one answer",
     "badgeHoldersOnly": "Badge holders only",
     "title": "Governance",
     "proposalCount": "{{count}} proposal submitted",

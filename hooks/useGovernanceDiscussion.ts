@@ -20,7 +20,7 @@ import { useUser } from "../context/AuthContext";
 import { withWalletHeader } from "../libs/supabase-wallet-client";
 import { toastError, toastSuccess } from "../libs/toast";
 import { createLogger } from "../libs/logger";
-import { castVote, getMyVote, getProposal, isProposalNumber, needsOwnBadge } from "../services/governance.service";
+import { castVote, getMyOption, getMyVote, getProposal, isProposalNumber, needsOwnBadge } from "../services/governance.service";
 
 const log = createLogger("useGovernanceDiscussion");
 
@@ -231,8 +231,21 @@ export function useMyProposalVote(proposalId: string | null | undefined) {
   });
 }
 
+/** The answer the viewer picked on a multiple choice proposal, or null. */
+export function useMyProposalOption(proposalId: string | null | undefined, enabled: boolean) {
+  const wallet = useWallet();
+  return useQuery({
+    queryKey: ["governance-my-option", proposalId, wallet?.toLowerCase()],
+    queryFn: () => getMyOption(proposalId!, wallet!),
+    enabled: enabled && !!proposalId && !!wallet,
+    staleTime: 60_000,
+  });
+}
+
 /**
  * Vote for (1) or against (-1); pressing the side already chosen withdraws it.
+ * On a multiple choice proposal, `optionIndex` is the answer picked instead,
+ * and picking the same answer again withdraws it.
  * The tallies are re-summed by a trigger on the votes table, so the proposal
  * is re-read afterwards rather than patched here.
  */
@@ -242,15 +255,21 @@ export function useVoteOnProposal() {
   const wallet = useWallet();
 
   return useMutation({
-    mutationFn: async ({ proposalId, voteType }: { proposalId: string; voteType: 1 | -1 }) => {
+    mutationFn: async ({ proposalId, voteType, optionIndex }: { proposalId: string; voteType: 1 | -1; optionIndex?: number }) => {
       if (!wallet) throw new Error(t("governance.discussion.signInToComment"));
-      return castVote(proposalId, voteType, wallet);
+      return castVote(proposalId, voteType, wallet, optionIndex);
     },
-    onSuccess: (result, { proposalId, voteType }) => {
+    onSuccess: (result, { proposalId, voteType, optionIndex }) => {
       queryClient.setQueryData(
         ["governance-my-vote", proposalId, wallet?.toLowerCase()],
         result.action === "removed" ? 0 : voteType,
       );
+      if (optionIndex !== undefined) {
+        queryClient.setQueryData(
+          ["governance-my-option", proposalId, wallet?.toLowerCase()],
+          result.action === "removed" ? null : optionIndex,
+        );
+      }
     },
     onError: (error) => {
       // A missing or lent badge is explained by the screen, with a way to buy.
@@ -262,6 +281,7 @@ export function useVoteOnProposal() {
       queryClient.invalidateQueries({ queryKey: ["governance-proposal", proposalId] });
       queryClient.invalidateQueries({ queryKey: ["governance-proposals"] });
       queryClient.invalidateQueries({ queryKey: ["governance-my-vote", proposalId] });
+      queryClient.invalidateQueries({ queryKey: ["governance-my-option", proposalId] });
     },
   });
 }

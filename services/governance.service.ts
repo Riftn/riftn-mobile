@@ -32,6 +32,44 @@ export interface GovernanceProposal {
   voting_ends_at?: string | null;
   /** The short public number web shares links with: dehub.io/app/governance/<n>. */
   proposal_number?: number | null;
+  /** The answers of a multiple choice proposal (2 to 6). Null on a yes/no one. */
+  options?: string[] | null;
+  /** Weighted result per answer, same order as `options`. Kept by a trigger. */
+  option_tallies?: { weight: number; voters: number }[] | null;
+}
+
+export interface OptionTally {
+  weight: number;
+  voters: number;
+}
+
+/** True when a proposal is a multiple choice vote rather than yes/no. */
+export function isMultipleChoice(proposal: Pick<GovernanceProposal, "options"> | null | undefined): boolean {
+  return Array.isArray(proposal?.options) && proposal!.options!.length >= 2;
+}
+
+/** Per-answer weight and voters, padded to the answer list. */
+export function optionTallies(proposal: Pick<GovernanceProposal, "options" | "option_tallies">): OptionTally[] {
+  const raw = Array.isArray(proposal.option_tallies) ? proposal.option_tallies : [];
+  return (proposal.options ?? []).map((_, i) => ({
+    weight: Number(raw[i]?.weight) || 0,
+    voters: Number(raw[i]?.voters) || 0,
+  }));
+}
+
+/**
+ * The leading answer, or null on a tie at the top or no votes. The same rule
+ * the server applies when the vote closes, so "Winner" here is the verdict.
+ */
+export function leadingOption(tallies: OptionTally[]): number | null {
+  let best = -1;
+  let tie = false;
+  tallies.forEach((tally, i) => {
+    if (best === -1 || tally.weight > tallies[best].weight) { best = i; tie = false; }
+    else if (tally.weight === tallies[best].weight) tie = true;
+  });
+  if (best === -1 || tie || tallies[best].weight <= 0) return null;
+  return best;
 }
 
 /** Whether a link's proposal key is the public number rather than the uuid. */
@@ -115,6 +153,19 @@ export async function getMyVote(proposalId: string, wallet: string): Promise<1 |
   return type === 1 || type === -1 ? type : 0;
 }
 
+/** The answer the signed-in wallet picked on a multiple choice proposal, or null. */
+export async function getMyOption(proposalId: string, wallet: string): Promise<number | null> {
+  const { data, error } = await supabase
+    .from("governance_votes")
+    .select("*")
+    .eq("proposal_id", proposalId)
+    .eq("wallet_address", wallet.toLowerCase())
+    .maybeSingle();
+  if (error) throw error;
+  const index = (data as { option_index?: number | null } | null)?.option_index;
+  return typeof index === "number" ? index : null;
+}
+
 /**
  * A refused vote. `code` is LENT_BADGE (the badge they wear was lent to them,
  * and lent badges don't vote) or NO_BADGE when holding is the fix.
@@ -144,10 +195,16 @@ export interface VoteResult {
  * On a refusal supabase-js only says "non-2xx status code"; the reason a voter
  * needs ("you need a staking badge", "voting has closed") is in the body.
  */
-export async function castVote(proposalId: string, voteType: 1 | -1, wallet: string): Promise<VoteResult> {
+export async function castVote(
+  proposalId: string,
+  voteType: 1 | -1,
+  wallet: string,
+  /** The answer picked on a multiple choice proposal; picking it again withdraws. */
+  optionIndex?: number,
+): Promise<VoteResult> {
   const headers = await dehubAuthHeaders(wallet);
   const { data, error } = await supabase.functions.invoke("governance-vote", {
-    body: { proposalId, voteType },
+    body: optionIndex === undefined ? { proposalId, voteType } : { proposalId, voteType: 1, optionIndex },
     headers,
   });
   if (error) {
