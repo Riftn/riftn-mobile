@@ -59,3 +59,9 @@ export function buildSoundtrackTag(sound: {
     : sound.url;
   return `[soundtrack:${sound.tokenId}:${encodeURIComponent(sound.title)}:${encodeURIComponent(sound.creator)}${relPath ? `:${relPath.replace(/\]/g, "%5D")}` : ""}]`;
 }
+
+/** A post's song as the composer attaches it, for "use this sound". */
+export function attachedSoundFrom(song: ParsedSoundtrack): { url: string; title: string; creator: string; tokenId: string; source: "audius" | "commons" | "riftn" } {
+  const src = /#.*\bsrc=(audius|commons)\b/.exec(song.url)?.[1] as "audius" | "commons" | undefined;
+  return { url: song.url, title: song.title, creator: song.creator, tokenId: src ? "0" : song.tokenId, source: src ?? "riftn" };
+}
