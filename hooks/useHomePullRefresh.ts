@@ -5,7 +5,7 @@ import {
   useSharedValue, withRepeat, withTiming, type SharedValue,
 } from 'react-native-reanimated';
 import { useFeedPillRefreshing } from '../libs/feed-pill-refresh';
-import { PULL_CANCEL_MS, PULL_ECHO_CYCLE_MS, PULL_REFRESH_THRESHOLD, PULL_RETURN_MS, pullForDrag, pullSpringProgress } from '../libs/pill-pull-motion';
+import { PULL_CANCEL_MS, PULL_ECHO_CYCLE_MS, PULL_RETURN_MS, dragForPull, pullForDrag, pullShouldRefresh, pullSpringProgress } from '../libs/pill-pull-motion';
 
 export function useHomePullRefresh(enabled: boolean, scrollOffset: SharedValue<number>, tab: number) {
   const distance = useSharedValue(0);
@@ -14,6 +14,9 @@ export function useHomePullRefresh(enabled: boolean, scrollOffset: SharedValue<n
   const flow = useSharedValue(0);
   const busy = useSharedValue(false);
   const x = useSharedValue(0), y = useSharedValue(0);
+  // Finger travel already "in" the pill when a pull starts: a pull that grabs
+  // the feed while it is still springing back carries on from where it is.
+  const carried = useSharedValue(0);
   const activeTab = useSharedValue(tab);
   const offsets = useSharedValue([0, 0, 0, 0, 0, 0]);
   const refreshing = useFeedPillRefreshing();
@@ -43,9 +46,13 @@ export function useHomePullRefresh(enabled: boolean, scrollOffset: SharedValue<n
     return () => { cancelAnimation(distance); cancelAnimation(flow); };
   }, [enabled, distance, flow, pulling, returning]);
 
+  // A pull is never refused for being "busy": one that lands while the feed is
+  // still springing back from the last pull, or while a refresh runs, is
+  // drawn like any other (the second only skips starting another refresh).
+  // Refusing those was why a pull sometimes did nothing at all.
   const gesture = useMemo(() => Gesture.Pan().enabled(enabled).maxPointers(1).manualActivation(true)
     .onTouchesDown((event, manager) => {
-      if (busy.value || returning.value || scrollOffset.value > 1 || event.numberOfTouches !== 1) { manager.fail(); return; }
+      if (scrollOffset.value > 1 || event.numberOfTouches !== 1) { manager.fail(); return; }
       x.value = event.allTouches[0]?.absoluteX ?? 0; y.value = event.allTouches[0]?.absoluteY ?? 0;
     })
     .onTouchesMove((event, manager) => {
@@ -56,13 +63,18 @@ export function useHomePullRefresh(enabled: boolean, scrollOffset: SharedValue<n
       if (dy > 8 && dy > dx * 1.25) manager.activate();
     })
     .onStart(() => {
-      cancelAnimation(distance); cancelAnimation(flow);
-      pulling.value = true; flow.value = 0;
-      flow.value = withRepeat(withTiming(1, { duration: PULL_ECHO_CYCLE_MS, easing: Easing.linear }), -1, false, undefined, ReduceMotion.System);
+      cancelAnimation(distance);
+      carried.value = returning.value ? dragForPull(distance.value) : 0;
+      returning.value = false;
+      pulling.value = true;
+      if (carried.value === 0) {
+        cancelAnimation(flow); flow.value = 0;
+        flow.value = withRepeat(withTiming(1, { duration: PULL_ECHO_CYCLE_MS, easing: Easing.linear }), -1, false, undefined, ReduceMotion.System);
+      }
     })
-    .onUpdate(event => { distance.value = pullForDrag(event.translationY); })
-    .onEnd((_event, success) => {
-      const shouldRefresh = success && distance.value >= PULL_REFRESH_THRESHOLD && !busy.value;
+    .onUpdate(event => { distance.value = pullForDrag(carried.value + event.translationY); })
+    .onEnd((event, success) => {
+      const shouldRefresh = success && pullShouldRefresh(distance.value, event.velocityY) && !busy.value;
       pulling.value = false; returning.value = true;
       distance.value = withTiming(0, { duration: shouldRefresh ? PULL_RETURN_MS : PULL_CANCEL_MS, easing: pullSpringProgress, reduceMotion: ReduceMotion.System }, finished => {
         if (finished) { returning.value = false; cancelAnimation(flow); flow.value = 0; }
@@ -75,7 +87,7 @@ export function useHomePullRefresh(enabled: boolean, scrollOffset: SharedValue<n
       distance.value = withTiming(0, { duration: PULL_CANCEL_MS, easing: pullSpringProgress, reduceMotion: ReduceMotion.System }, finished => {
         if (finished) { returning.value = false; cancelAnimation(flow); flow.value = 0; }
       });
-    }), [enabled, busy, returning, scrollOffset, x, y, distance, pulling, flow, refresh]);
+    }), [enabled, busy, returning, scrollOffset, x, y, distance, pulling, flow, carried, refresh]);
 
   return { gesture, motion: { distance, pulling, flow }, provider: useMemo(() => ({ enabled, register }), [enabled, register]) };
 }

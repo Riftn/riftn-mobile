@@ -13,7 +13,9 @@ import {
   BackHandler,
   type TextInput,
 } from "react-native";
-import { DeHubRefreshControl, DeHubRefreshMark } from "../components/Feed/DeHubRefreshControl";
+import { DeHubRefreshMark } from "../components/Feed/DeHubRefreshControl";
+import PullRefreshArea, { PullRefreshScrollView } from "../components/Feed/PullRefreshArea";
+
 import { Image } from "expo-image";
 import { PillDrawerAutoFocus } from "../components/page/PillHeader";
 import ScreenHeader from "../components/ScreenHeader";
@@ -65,6 +67,7 @@ import { sendToMany } from "../services/dm/bulk-reply";
 import { useWebSocketApi } from "../context/WebSocketContext";
 import { DMSocketEvent } from "../services/enums/dm-socket-events.enum";
 import { useTabBarHide } from "../context/TabBarHideContext";
+const renderPullScroll = (props: React.ComponentProps<typeof PullRefreshScrollView>) => <PullRefreshScrollView {...props} />;
 
 const SEPARATOR = { height: 1, backgroundColor: "rgba(255,255,255,0.07)" } as const;
 const SEARCH_ACTION = { width: 28, height: 28, borderRadius: 6, alignItems: "center", justifyContent: "center" } as const;
@@ -718,6 +721,9 @@ const DirectMessagesInner: React.FC = () => {
           </View>
         </ScreenHeader>
 
+        {/* A pull at the top of the list lowers it and refreshes (PullRefreshArea):
+            the hidden native spinner showed nothing and needed a very long pull. */}
+        <PullRefreshArea refreshing={!!contactsLoading} onRefresh={refreshContacts}>
         <FlatList
           data={filtered}
           keyExtractor={keyExtractor}
@@ -727,13 +733,7 @@ const DirectMessagesInner: React.FC = () => {
           extraData={bulkIds}
           className="flex-1"
           ListHeaderComponent={publicChatItem}
-          refreshControl={
-            <DeHubRefreshControl
-              refreshing={!!contactsLoading}
-              onRefresh={refreshContacts}
-              tintColor="#F4F4F5"
-            />
-          }
+          renderScrollComponent={renderPullScroll}
           ListEmptyComponent={
             query.trim().length >= 2 && groupChats.length === 0 ? (
               <ChatSearchDiscover
@@ -767,6 +767,7 @@ const DirectMessagesInner: React.FC = () => {
           ItemSeparatorComponent={itemSeparator}
           showsVerticalScrollIndicator={false}
         />
+        </PullRefreshArea>
 
         <DMSettingsMenu
           visible={menuVisible}
