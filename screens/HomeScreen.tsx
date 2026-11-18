@@ -1173,9 +1173,22 @@ export default function HomeScreen() {
   // second press, refreshes.
   const activeIndexRef = useRef(activeIndex);
   activeIndexRef.current = activeIndex;
+  // A post, profile or photo sheet opened in place over the feed. Home on the
+  // Home feed used to stop at "already on Home" and leave it covering the feed.
+  const coverRef = useRef({ feedPost, feedProfileVisible, imageFeed });
+  coverRef.current = { feedPost, feedProfileVisible, imageFeed };
   useEffect(() => {
     return tabNavigation.addListener("tabPress", (event) => {
       if (tabPressIntentOf(event) === "navigate") return;
+      const cover = coverRef.current;
+      if (cover.feedPost || cover.feedProfileVisible || cover.imageFeed) {
+        setIslandMenuOpen(false);
+        showHeader();
+        if (cover.feedProfileVisible) hideUserProfile();
+        if (cover.imageFeed) handleImageFeedBack();
+        setFeedPost(null);
+        if (activeIndexRef.current === 0) return;
+      }
       // A feed search is up: Home puts it away and shows the Home feed. The
       // words are kept, so tapping the lit tab again brings the same search
       // (and its cached results) straight back.
@@ -1190,7 +1203,7 @@ export default function HomeScreen() {
       handleNavPostTypeChange("all");
       feedRefs.current.all?.current?.scrollToTop();
     });
-  }, [tabNavigation, showHeader, handleNavPostTypeChange]);
+  }, [tabNavigation, showHeader, handleNavPostTypeChange, hideUserProfile, handleImageFeedBack]);
 
   const handleRetry = useCallback(async () => {
     setCategoriesLoading(true);
