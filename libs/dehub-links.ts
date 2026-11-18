@@ -43,6 +43,8 @@ export interface DehubLinkMatch {
   /** Path + query exactly as the link pointed. */
   path: string;
   tokenId?: string;
+  /** `/app/post/<title-slug>`: a post's readable address, resolved to a tokenId on use. */
+  articleSlug?: string;
   username?: string;
   slug?: string;
   code?: string;
@@ -170,8 +172,13 @@ export function parseDehubLink(input: string): DehubLinkMatch | null {
 
   // ── post ──
   if (isAppScoped && (scoped[0] === 'post' || scoped[0] === 'video') && scoped[1]) {
-    if (!/^\d+$/.test(scoped[1])) return null;
-    return { ...base, kind: 'post', tokenId: scoped[1] };
+    if (/^\d+$/.test(scoped[1])) return { ...base, kind: 'post', tokenId: scoped[1] };
+    // The readable address every share button now copies (iron-man-7932):
+    // letters, digits and dashes with at least one letter. Same rule as web.
+    if (scoped[0] === 'post' && /^[a-z0-9][a-z0-9-]*$/i.test(scoped[1]) && /[a-z]/i.test(scoped[1]) && !/^[a-f\d]{24}$/i.test(scoped[1])) {
+      return { ...base, kind: 'post', articleSlug: scoped[1].toLowerCase() };
+    }
+    return null;
   }
 
   // ── community invite (before the slug form, or ':slug' swallows 'join') ──
