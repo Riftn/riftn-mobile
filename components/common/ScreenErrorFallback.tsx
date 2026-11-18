@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useCallback, useMemo, useState } from "react";
-import { View, Text, Pressable, Platform } from "react-native";
+import { Dimensions, View, Text, Pressable, Platform, type LayoutChangeEvent } from "react-native";
 import { useNavigation, type ScreenLayoutArgs } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -8,6 +8,7 @@ import { restartApp } from "../../libs/crashRecovery";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { useAppTheme, useThemeRootStyle } from "../../context/ThemeContext";
 import SwipeBackBoundary from './SwipeBackBoundary';
+import { SheetTopContext } from "../../hooks/useComposerKeyboard";
 
 /**
  * What a screen shows when it throws, instead of taking the navigator with it.
@@ -134,7 +135,29 @@ export const ScreenErrorBoundary: FC<ScreenErrorBoundaryProps> = ({ name, childr
  * boundary. Module-level so its identity never changes between renders — a
  * fresh function per render would remount every screen.
  */
-export function withScreenBoundary({ route, navigation, children }: ScreenLayoutArgs<any, any, any, any>) {
+const IOS_SHEETS = new Set(["modal", "formSheet", "pageSheet"]);
+
+/**
+ * An iPhone native modal sheet runs from a little under the status bar to the
+ * bottom of the screen, so its top is the screen's height less its own.
+ * Composers inside it read this to put themselves in the keyboard's
+ * coordinates (hooks/useComposerKeyboard).
+ */
+function SheetFrame({ children }: { children: ReactNode }) {
+  const [top, setTop] = useState(0);
+  const onLayout = useCallback((event: LayoutChangeEvent) => {
+    const screen = Dimensions.get("screen")?.height ?? 0;
+    const next = Math.max(0, Math.round(screen - event.nativeEvent.layout.height));
+    setTop((prev) => (prev === next ? prev : next));
+  }, []);
+  return (
+    <SheetTopContext.Provider value={top}>
+      <View style={{ flex: 1 }} collapsable={false} onLayout={onLayout}>{children}</View>
+    </SheetTopContext.Provider>
+  );
+}
+
+export function withScreenBoundary({ route, navigation, options, children }: ScreenLayoutArgs<any, any, any, any>) {
   // These screens register their own guarded close (save/discard/end broadcast).
   const guarded = [ScreenNames.MediaEditor, ScreenNames.VideoRemix, ScreenNames.Upload, ScreenNames.UploadTab, ScreenNames.LiveProducer].includes(route.name);
   const state = navigation.getState();
@@ -142,7 +165,9 @@ export function withScreenBoundary({ route, navigation, children }: ScreenLayout
   return <SwipeBackBoundary
     isFocused={() => navigation.isFocused()}
     onBack={!guarded && canPop ? () => navigation.goBack() : undefined}
-  ><ScreenErrorBoundary name={String(route.name)}>{children}</ScreenErrorBoundary></SwipeBackBoundary>;
+  >{Platform.OS === "ios" && !Platform.isPad && IOS_SHEETS.has((options as any)?.presentation)
+    ? <SheetFrame><ScreenErrorBoundary name={String(route.name)}>{children}</ScreenErrorBoundary></SheetFrame>
+    : <ScreenErrorBoundary name={String(route.name)}>{children}</ScreenErrorBoundary>}</SwipeBackBoundary>;
 }
 
 // Plain JS shared with the JSX runtime (libs/jsx/surface.js).
