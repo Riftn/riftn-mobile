@@ -930,6 +930,17 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   );
 
   if (!asSheet) return content;
+  // iPhone: a native modal, which draws its own card, corners and dim. A
+  // second, smaller rounding and dim inside it showed as a lumpy double
+  // corner at the top of the page.
+  if (Platform.OS === "ios") {
+    return (
+      <View style={{ flex: 1 }}>
+        {content}
+        {ownsWalletPicker ? <ScreenWalletPicker /> : null}
+      </View>
+    );
+  }
   return (
     <View style={{ flex: 1 }}>
       <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }, sheet.dimStyle]} />

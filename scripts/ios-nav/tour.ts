@@ -1263,10 +1263,51 @@ async function runWallet(): Promise<void> {
   console.error(`[perf-tour] wallet ${JSON.stringify(extra)}`);
 }
 
+/**
+ * The sign-in pop-ups a signed-out person meets: the sheet a like or follow
+ * opens (raised here the way the feed's sign-in wall raises it), a real tap
+ * on + in the tab bar, and the "Log in" page itself (a native modal on
+ * iPhone). A picture of each.
+ */
+async function runLoginSheet(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "loginsheet" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const wall = require("../../libs/sign-in-wall") as typeof import("../../libs/sign-in-wall");
+  wall.noteSignInWall({ signInRequired: true });
+  await sleep(6000);
+  await shot("login-1-like-sheet");
+  await sleep(4000);
+  // Closed by the Cancel button, the way a person would.
+  await AsyncStorage.setItem(SWIPE_KEY, "find:cancel:Cancel");
+  await sleep(8000);
+  await AsyncStorage.setItem(SWIPE_KEY, "find:plus:Create");
+  await sleep(8000);
+  extra.plusRoute = nav.getCurrentRoute()?.name;
+  await shot("login-2-plus");
+  await sleep(4000);
+  await AsyncStorage.setItem(SWIPE_KEY, "find:cancel2:Cancel");
+  await sleep(6000);
+  if (nav.getCurrentRoute()?.name === ScreenNames.SignIn) nav.goBack();
+  await sleep(3000);
+  (nav as any).navigate(ScreenNames.App, { screen: ScreenNames.SignIn });
+  await sleep(7000);
+  await shot("login-3-page");
+  await sleep(6000);
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] loginsheet ${JSON.stringify(extra)}`);
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1280,6 +1321,7 @@ void (async () => {
     else if (mode === "wide") await runWide();
     else if (mode === "keys") await runKeys();
     else if (mode === "wallet") await runWallet();
+    else if (mode === "loginsheet") await runLoginSheet();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

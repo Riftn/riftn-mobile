@@ -12,6 +12,7 @@ import { toastSuccess } from '../../libs/toast';
 import { ScreenNames } from '../../navigation/ScreenNames';
 import { ShareLinks } from '../../navigation/linking.config';
 import type { Community } from '../../types/community';
+import { useOpenSignIn } from "../../hooks/useOpenSignIn";
 
 /**
  * The community Share drawer, matching web's Share menu: invite followers,
@@ -28,6 +29,7 @@ export default function CommunityShareMenu({ open, onClose, community, wallet, c
 }) {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const [dmOpen, setDmOpen] = useState(false);
   const [followersOpen, setFollowersOpen] = useState(false);
   const url = ShareLinks.community(community.slug);
@@ -38,7 +40,7 @@ export default function CommunityShareMenu({ open, onClose, community, wallet, c
     setTimeout(action, 300);
   };
   const signedIn = (action: () => void) => later(() => {
-    if (!wallet) navigation.navigate(ScreenNames.SignIn);
+    if (!wallet) openSignIn();
     else action();
   });
   const row = (icon: IconName, label: string, onPress: () => void) => (

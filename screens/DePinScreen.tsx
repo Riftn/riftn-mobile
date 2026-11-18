@@ -37,6 +37,7 @@ import {
   type DepinMeResponse,
   type DepinStatsResponse,
 } from "../services/depin.service";
+import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 const EDGE_NETWORK_IMAGE = require("../assets/depin/edge-network.webp");
 const TRANSCODE_IMAGE = require("../assets/depin/transcode-workstation.webp");
@@ -125,6 +126,7 @@ function StatsStrip({ data, loading }: { data?: DepinStatsResponse; loading: boo
 function NodePanel({ me }: { me?: DepinMeResponse }) {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const { isSignedIn } = useAuthState();
 
   if (!isSignedIn) {
@@ -134,7 +136,7 @@ function NodePanel({ me }: { me?: DepinMeResponse }) {
         <Text style={styles.panelBody}>{t("depin.appSignInBlurb")}</Text>
         <Pressable
           style={styles.primaryBtn}
-          onPress={() => navigation.navigate(ScreenNames.SignIn)}
+          onPress={() => openSignIn()}
           accessibilityRole="button"
         >
           <Text style={styles.primaryBtnText}>{t("depin.signIn")}</Text>

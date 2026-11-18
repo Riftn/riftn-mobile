@@ -12,10 +12,12 @@ import { ScreenNames } from '../../navigation/ScreenNames';
 import { WEBSITE_LINK } from '../../config';
 import { toastSuccess } from '../../libs/toast';
 import type { WorkJob } from '../../hooks/useWork';
+import { useOpenSignIn } from "../../hooks/useOpenSignIn";
 
 export default function BountyShareButton({ job }: { job: WorkJob }) {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const user = useUser();
   const [open, setOpen] = useState(false);
   const [dmOpen, setDmOpen] = useState(false);
@@ -27,7 +29,7 @@ export default function BountyShareButton({ job }: { job: WorkJob }) {
   };
   const authenticated = (action: () => void) => {
     later(() => {
-      if (!user) navigation.navigate(ScreenNames.SignIn);
+      if (!user) openSignIn();
       else action();
     });
   };
