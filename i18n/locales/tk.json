@@ -4778,6 +4778,8 @@
     "turnOffSmartReplies": "Teklip edilýän jogaplary öçür",
     "encrypted": "Uçdan-uca şifrlenen",
     "encryptionOff": "Bu enjamda şifrleme öçürilen",
+    "encryptChat": "Söhbeti şifrle",
+    "encryptChatOff": "Şifrlemäni öçür",
     "encryptionTurnOn": "Açmak",
     "cannotDecrypt": "Şifrlenen habar — bu enjamda açyp bolmaýar",
     "title": "Habarlar",

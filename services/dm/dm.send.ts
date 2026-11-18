@@ -17,6 +17,7 @@ import type {
 import { DM_VIDEO_MAX_SIZE } from "./dm.types";
 import * as FileSystem from "expo-file-system/legacy";
 import { prepareOutgoing, prepareSession } from "../../libs/dm-e2ee/keys";
+import { wantsEncryptionTo } from "../../libs/dm-e2ee/encrypt-choice";
 import { encodeMediaDescriptor, type MediaDescriptor, type MediaKind } from "../../libs/dm-e2ee/media";
 import { prepareMediaDescriptor } from "../../libs/dm-e2ee/media-send";
 import type { DmVideoOptions } from "../../libs/dm-video-options";
@@ -806,6 +807,7 @@ class DmSendQueue {
     const peer = peerAddressForConversation(convId, job.address);
     if (!peer) return false;
     try {
+      if (!(await wantsEncryptionTo(peer))) return false;
       if (!(await prepareSession(peer))) return false;
     } catch {
       return false;

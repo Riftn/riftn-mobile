@@ -4785,6 +4785,8 @@
     "turnOffSmartReplies": "Vala izimpendulo eziphakanyisiwe",
     "encrypted": "Kubethelwe kusukela ekuqaleni kuya ekugcineni",
     "encryptionOff": "Ukubethela kuvaliwe kule divayisi",
+    "encryptChat": "Bethela ingxoxo",
+    "encryptChatOff": "Vala ukubethela",
     "encryptionTurnOn": "Vula",
     "cannotDecrypt": "Umlayezo obethelwe — awukwazi ukuvulwa kule divayisi",
     "title": "Layezo",

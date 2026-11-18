@@ -2783,6 +2783,8 @@
     "turnOffSmartReplies": "Turn off suggested replies",
     "encrypted": "End-to-end encrypted",
     "encryptionOff": "Encryption is off on this device",
+    "encryptChat": "Encrypt chat",
+    "encryptChatOff": "Turn off encryption",
     "encryptionTurningOn": "Waiting for your wallet to turn on encryption…",
     "encryptionSetupFailed": "Encryption setup failed. Please try again.",
     "encryptionTurnOn": "Turn on",

@@ -368,6 +368,8 @@ export interface ChatPref {
   markedUnread: boolean;
   /** Group/community chats: shown in the Chat list since then. */
   listedAt?: string | null;
+  /** DMs: your messages in this chat are end-to-end encrypted since then. */
+  encryptedAt?: string | null;
 }
 
 /**
@@ -386,7 +388,7 @@ export async function getChatPrefs(): Promise<ChatPref[]> {
 
 export async function setChatPref(
   conversationId: string,
-  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean },
+  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean },
 ): Promise<void> {
   await apiClient.post(`/dm/chat-prefs/${encodeURIComponent(conversationId)}`, patch, { isAuthRequired: true });
 }

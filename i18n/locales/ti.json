@@ -4766,6 +4766,8 @@
     "turnOffSmartReplies": "ዝተጠቕሱ መልስታት ኣጥፍእ",
     "encrypted": "ካብ ጫፍ ናብ ጫፍ ዝተመስጠረ",
     "encryptionOff": "ኣብዚ መሳርሒ እዚ ምስጠራ ጠፊኡ ኣሎ",
+    "encryptChat": "ዕላል ኣመስጥር",
+    "encryptChatOff": "ምስጠራ ኣጥፍእ",
     "encryptionTurnOn": "ኣብርሆ",
     "cannotDecrypt": "ዝተመስጠረ መልእኽቲ — ኣብዚ መሳርሒ ክኽፈት ኣይክእልን",
     "title": "መልእኽትታት",

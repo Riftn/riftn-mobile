@@ -4877,6 +4877,8 @@
     "turnOffSmartReplies": "প্রস্তাবিত উত্তর বন্ধ করুন",
     "encrypted": "এন্ড-টু-এন্ড এনক্রিপ্টেড",
     "encryptionOff": "এই ডিভাইসো এনক্রিপশন বন্ধ আসে",
+    "encryptChat": "চ্যাট এনক্রিপ্ট করউক্কা",
+    "encryptChatOff": "এনক্রিপশন বন্ধ করউক্কা",
     "encryptionTurnOn": "চালু করউ",
     "cannotDecrypt": "এনক্রিপ্ট করা বার্তা — এই ডিভাইসে খোলা যাবে না",
     "title": "মেসেজ",

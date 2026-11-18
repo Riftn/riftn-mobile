@@ -4766,6 +4766,8 @@
     "turnOffSmartReplies": "تجويز ڪيل جواب بند ڪريو",
     "encrypted": "آخر کان آخر تائين انڪرپٽ ٿيل",
     "encryptionOff": "هن ڊوائيس تي انڪرپشن بند آهي",
+    "encryptChat": "چيٽ انڪرپٽ ڪريو",
+    "encryptChatOff": "انڪرپشن بند ڪريو",
     "encryptionTurnOn": "چالو ڪريو",
     "cannotDecrypt": "انڪرپٽ ٿيل پيغام — هن ڊوائيس تي نه ٿو کلي سگهي",
     "title": "پيغام",

@@ -4878,6 +4878,8 @@
     "turnOffSmartReplies": "Matikan balasan yang disarankan",
     "encrypted": "Terenkripsi end-to-end",
     "encryptionOff": "Enkripsi tidak aktif di perangkat ini",
+    "encryptChat": "Enkripsi obrolan",
+    "encryptChatOff": "Matikan enkripsi",
     "encryptionTurnOn": "Aktifkan",
     "cannotDecrypt": "Pesan terenkripsi — tidak dapat dibuka di perangkat ini",
     "title": "Pesan",

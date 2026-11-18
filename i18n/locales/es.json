@@ -2737,6 +2737,8 @@
     "turnOffSmartReplies": "Desactivar las respuestas sugeridas",
     "encrypted": "Cifrado de extremo a extremo",
     "encryptionOff": "Cifrado desactivado en este dispositivo",
+    "encryptChat": "Cifrar chat",
+    "encryptChatOff": "Desactivar cifrado",
     "encryptionTurningOn": "Esperando a tu monedero para activar el cifrado…",
     "encryptionSetupFailed": "La configuración del cifrado ha fallado. Inténtalo de nuevo.",
     "encryptionTurnOn": "Activar",

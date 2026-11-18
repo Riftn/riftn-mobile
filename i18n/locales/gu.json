@@ -4789,6 +4789,8 @@
     "turnOffSmartReplies": "સૂચવેલા જવાબો બંધ કરો",
     "encrypted": "એન્ડ-ટુ-એન્ડ એન્ક્રિપ્ટેડ",
     "encryptionOff": "આ ડિવાઇસ પર એન્ક્રિપ્શન બંધ છે",
+    "encryptChat": "ચેટ એન્ક્રિપ્ટ કરો",
+    "encryptChatOff": "એન્ક્રિપ્શન બંધ કરો",
     "encryptionTurnOn": "ચાલુ કરો",
     "cannotDecrypt": "એન્ક્રિપ્ટેડ સંદેશ — આ ઉપકરણ પર ખોલી શકાતો નથી",
     "title": "સંદેશાઓ",

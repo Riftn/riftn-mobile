@@ -4775,6 +4775,8 @@
     "turnOffSmartReplies": "关脱建议回复",
     "encrypted": "端到端加密",
     "encryptionOff": "搿部机子上加密呒没开",
+    "encryptChat": "拿聊天加密",
+    "encryptChatOff": "拿加密关脱",
     "encryptionTurnOn": "开起来",
     "cannotDecrypt": "加密消息 — 无法在此设备上打开",
     "title": "消息",

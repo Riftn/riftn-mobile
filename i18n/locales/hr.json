@@ -4791,6 +4791,8 @@
     "turnOffSmartReplies": "Isključi predložene odgovore",
     "encrypted": "Šifrirano s kraja na kraj",
     "encryptionOff": "Šifriranje je isključeno na ovom uređaju",
+    "encryptChat": "Šifriraj razgovor",
+    "encryptChatOff": "Isključi šifriranje",
     "encryptionTurnOn": "Uključi",
     "cannotDecrypt": "Šifrirana poruka — ne može se otvoriti na ovom uređaju",
     "title": "Poruke",

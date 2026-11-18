@@ -4873,6 +4873,8 @@
     "turnOffSmartReplies": "Skakel voorgestelde antwoorde af",
     "encrypted": "End-tot-end geënkripteer",
     "encryptionOff": "Enkripsie is af op hierdie toestel",
+    "encryptChat": "Enkripteer klets",
+    "encryptChatOff": "Skakel enkripsie af",
     "encryptionTurnOn": "Skakel aan",
     "cannotDecrypt": "Geënkripteerde boodskap — kan nie op hierdie toestel oopgemaak word nie",
     "title": "Boodskappe",

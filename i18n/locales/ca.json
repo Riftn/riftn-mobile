@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Desactiva les respostes suggerides",
     "encrypted": "Xifrat d'extrem a extrem",
     "encryptionOff": "Xifratge desactivat en aquest dispositiu",
+    "encryptChat": "Xifra el xat",
+    "encryptChatOff": "Desactiva el xifratge",
     "encryptionTurnOn": "Activa",
     "cannotDecrypt": "Missatge xifrat — no es pot obrir en aquest dispositiu",
     "title": "Missatges",

@@ -4804,6 +4804,8 @@
     "turnOffSmartReplies": "Ұсынылған жауаптарды өшіру",
     "encrypted": "Толық шифрланған",
     "encryptionOff": "Бұл құрылғыда шифрлау өшірулі",
+    "encryptChat": "Чатты шифрлау",
+    "encryptChatOff": "Шифрлауды өшіру",
     "encryptionTurnOn": "Қосу",
     "cannotDecrypt": "Шифрланған хабарлама — бұл құрылғыда ашылмайды",
     "title": "Хабарлар",

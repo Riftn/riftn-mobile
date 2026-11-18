@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "خاموش کردن پاسخ‌های پیشنهادی",
     "encrypted": "رمزگذاری سرتاسری",
     "encryptionOff": "رمزگذاری روی این دستگاه فعال نیست",
+    "encryptChat": "رمزگذاری گفتگو",
+    "encryptChatOff": "خاموش کردن رمزگذاری",
     "encryptionTurnOn": "فعال کردن",
     "cannotDecrypt": "پیام رمزگذاری‌شده — در این دستگاه قابل باز کردن نیست",
     "title": "پیام‌ها",

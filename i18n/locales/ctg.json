@@ -4837,6 +4837,8 @@
     "turnOffSmartReplies": "পরামর্শ দেওয়া জবাব বন্ধ গরন",
     "encrypted": "এন্ড-টু-এন্ড এনক্রিপ্টেড",
     "encryptionOff": "এই ডিভাইসত এনক্রিপশন বন্ধ আছে",
+    "encryptChat": "চ্যাট এনক্রিপ্ট গরন",
+    "encryptChatOff": "এনক্রিপশন বন্ধ গরন",
     "encryptionTurnOn": "চালু গরন",
     "cannotDecrypt": "এনক্রিপ্ট করা বার্তা — এই ডিভাইসে খোলা যাবে না",
     "title": "বার্তা",

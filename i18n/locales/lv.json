@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Izslēgt ieteiktās atbildes",
     "encrypted": "Pilnībā šifrēts",
     "encryptionOff": "Šifrēšana šajā ierīcē ir izslēgta",
+    "encryptChat": "Šifrēt tērzēšanu",
+    "encryptChatOff": "Izslēgt šifrēšanu",
     "encryptionTurnOn": "Ieslēgt",
     "cannotDecrypt": "Šifrēta ziņa — šajā ierīcē to nevar atvērt",
     "title": "Ziņojumi",
