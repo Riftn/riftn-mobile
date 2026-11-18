@@ -15,6 +15,10 @@ export type ChatMenuProps = {
   onSearchChat?: () => void;
   onManageDmFee?: () => void;
   onClearChat?: () => void;
+  /** Turn end-to-end encryption on or off for this chat. */
+  onToggleEncryption?: () => void;
+  /** Whether "Encrypt chat" is on for this chat. */
+  encrypted?: boolean;
   /** Toggle free access for the peer (creator only). */
   onToggleFreeAccess?: () => void;
   /** Report the person in this chat (App Review 1.2). */
@@ -52,6 +56,8 @@ const ChatMenu: React.FC<ChatMenuProps> = ({
   onSearchChat,
   onManageDmFee,
   onClearChat,
+  onToggleEncryption,
+  encrypted,
   onToggleFreeAccess,
   peerHasFreeAccess,
   isCreator,
@@ -80,6 +86,19 @@ const ChatMenu: React.FC<ChatMenuProps> = ({
                   icon="Search"
                   label={t('dm.searchInChat')}
                   onPress={() => { onClose(); onSearchChat(); }}
+                />
+                <View className="h-[1px] bg-theme-neutrals-700/60" />
+              </>
+            )}
+
+            {onToggleEncryption && (
+              <>
+                <MenuRow
+                  icon={encrypted ? "LockOpen" : "Lock"}
+                  label={encrypted
+                    ? t('chatMenu.encryptOff', { defaultValue: 'Turn off encryption' })
+                    : t('chatMenu.encrypt', { defaultValue: 'Encrypt chat' })}
+                  onPress={() => { onClose(); onToggleEncryption(); }}
                 />
                 <View className="h-[1px] bg-theme-neutrals-700/60" />
               </>

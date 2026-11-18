@@ -20,12 +20,15 @@ interface DmEncryptionBannerProps {
   status: DmEncryptionStatus | null;
   busy?: boolean;
   onRetry: () => void;
+  /** The chat isn't encrypted; only some older lines are. */
+  olderOnly?: boolean;
 }
 
 const DmEncryptionBannerComponent: React.FC<DmEncryptionBannerProps> = ({
   status,
   busy,
   onRetry,
+  olderOnly,
 }) => {
   const { t } = useTranslation();
   if (!status || status === "ready") return null;
@@ -42,14 +45,18 @@ const DmEncryptionBannerComponent: React.FC<DmEncryptionBannerProps> = ({
           ? t("messages.encryptionTurningOn", { defaultValue: "Waiting for your wallet to turn on encryption…" })
           : status === "error"
             ? t("messages.encryptionSetupFailed", { defaultValue: "Encryption setup failed. Please try again." })
-            : t("messages.encryptionOff")}
+            : olderOnly
+              ? t("messages.olderEncrypted", { defaultValue: "Some older messages here are encrypted." })
+              : t("messages.encryptionOff")}
       </Text>
       <TouchableOpacity onPress={onRetry} disabled={busy} className="pl-3 py-1">
         {busy ? (
           <ActivityIndicator size="small" color="#F4F4F5" />
         ) : (
           <Text className="text-[12px] text-white font-semibold">
-            {t("messages.encryptionTurnOn")}
+            {olderOnly
+              ? t("messages.unlockToRead", { defaultValue: "Unlock to read" })
+              : t("messages.encryptionTurnOn")}
           </Text>
         )}
       </TouchableOpacity>
