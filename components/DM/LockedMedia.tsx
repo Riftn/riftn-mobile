@@ -36,6 +36,7 @@ import UnlockConfirmSheet, { type UnlockPhase } from "./UnlockConfirmSheet";
 import UnlockReveal from "../common/UnlockReveal";
 import { nextUnlockRevealKind, type UnlockRevealKind } from "../../libs/unlockReveal";
 import { Image as ExpoImage } from "expo-image";
+import { formatAttachmentSize } from "../../libs/attachments";
 
 const wait = (ms: number) => new Promise(r => setTimeout(r, ms));
 
@@ -86,7 +87,7 @@ function LockedMediaInner({ message, isMine, width, onImagePress, onVideoPress, 
       if (isMine) {
         toastSuccess(t("dmPaidLock.unlockedByThem", {
           defaultValue: "Your locked {{kind}} was unlocked: +{{amount}} DHB",
-          kind: lock.kind === "video" ? "video" : "photo",
+          kind: lock.kind === "video" ? "video" : lock.kind === "file" ? "file" : "photo",
           amount: fmt(Number(data.amount || lock.price)),
         }));
       }
@@ -131,7 +132,7 @@ function LockedMediaInner({ message, isMine, width, onImagePress, onVideoPress, 
         const real = res.lock?.mediaUrl ? lockedMediaUri(res.lock.mediaUrl) : undefined;
         await Promise.all([
           wait(800),
-          real && lock.kind !== "video" ? Promise.race([ExpoImage.prefetch(real).catch(() => false), wait(2500)]) : null,
+          real && lock.kind === "image" ? Promise.race([ExpoImage.prefetch(real).catch(() => false), wait(2500)]) : null,
         ]);
         setSheetOpen(false);
         await wait(250);
@@ -148,6 +149,82 @@ function LockedMediaInner({ message, isMine, width, onImagePress, onVideoPress, 
       setPaying(false);
     }
   };
+
+  // ── A locked document: a file card, never a picture ──
+  if (lock.kind === "file") {
+    const name = view.fileName || lock.fileName || "";
+    const bytes = view.fileSize ?? lock.fileSize ?? 0;
+    const sold = (view.unlockCount ?? 0) > 0;
+    const open = realUrl ? () => { void Linking.openURL(realUrl).catch(() => {}); } : undefined;
+    return (
+      <View style={{ width }} className="p-1.5">
+        <Pressable
+          onPress={open}
+          onLongPress={onLongPress}
+          delayLongPress={350}
+          accessibilityRole="button"
+          testID="dm-locked-file"
+          className="flex-row items-center rounded-xl px-3 py-2.5 bg-theme-neutrals-800 border border-theme-neutrals-700"
+        >
+          <View className="w-10 h-10 rounded-lg bg-theme-neutrals-700 items-center justify-center mr-2.5">
+            <Icon name={realUrl ? "FileText" : "Lock"} size={18} color="#fff" />
+          </View>
+          <View className="flex-1">
+            <Text className="text-white text-[13px] font-medium" numberOfLines={1}>{name || t("superpowers.locked", "Locked")}</Text>
+            <Text className="text-theme-neutrals-400 text-[11px] mt-0.5" numberOfLines={1}>
+              {[bytes ? formatAttachmentSize(bytes) : "", priceLabel, isMine && sold ? "✓ " + t("dmPaidLock.unlockedTag", "Unlocked") : ""].filter(Boolean).join(" · ")}
+            </Text>
+          </View>
+          {realUrl ? <Icon name="Download" size={18} color="#fff" /> : null}
+        </Pressable>
+        {realUrl ? null : isMine ? (
+          <View className="flex-row items-center gap-1.5 px-1 pt-1.5">
+            <ActivityIndicator color="#fff" size="small" />
+            <Text className="text-[11px] text-white/70">{t("dmPaidLock.uploading", "Locking…")}</Text>
+          </View>
+        ) : !isIos || iosCanLinkOut ? (
+          <View className="items-start px-1 pt-2">
+            <Pressable
+              onPress={handleUnlock}
+              disabled={pending || (!isIos && !status)}
+              accessibilityRole="button"
+              style={ROUND}
+              className="flex-row items-center gap-1.5 rounded-full px-4 py-2 dark-surface bg-black/60 border border-white/30"
+            >
+              {pending ? <ActivityIndicator color="#fff" size="small" /> : <Icon name="LockOpen" size={15} color="#fff" />}
+              <Text className="text-[14px] font-semibold text-white">
+                {pending
+                  ? t("dmPaidLock.confirming", "Confirming payment…")
+                  : isIos
+                    ? t("dmPaidLock.unlockOnWeb", { defaultValue: "Unlock on dehub.io · {{price}}", price: priceLabel })
+                    : t("dmPaidLock.unlockFor", { defaultValue: "Unlock for {{price}}", price: priceLabel })}
+              </Text>
+            </Pressable>
+            {!pending ? (
+              <Text className="text-[11px] font-medium text-white/60 mt-1">
+                {t("dmPaidLock.dhbNow", { defaultValue: "{{dhb}} at today’s price", dhb: formatLockDhb(dhbNow) })}
+              </Text>
+            ) : null}
+          </View>
+        ) : null}
+        {!isIos && !isMine && !realUrl ? (
+          <UnlockConfirmSheet
+            visible={sheetOpen}
+            onClose={() => setSheetOpen(false)}
+            title={name || t("superpowers.locked", "Locked")}
+            who={senderName ? t("appTokens.kindReceived", { defaultValue: "From {{name}}", name: senderName }) : ""}
+            sub=""
+            previewUri={undefined}
+            priceLabel={priceLabel}
+            dhbLabel={"≈ " + formatLockDhb(dhbNow)}
+            phase={phase}
+            doneLabel={t("dm.download", "Download")}
+            onPay={handlePay}
+          />
+        ) : null}
+      </View>
+    );
+  }
 
   // ── Sender, or someone who has paid: the real thing ──
   if (realUrl) {

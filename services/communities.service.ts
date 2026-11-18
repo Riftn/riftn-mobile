@@ -184,6 +184,25 @@ export async function getCommunityMembership(
   return (data as unknown as CommunityMember) ?? null;
 }
 
+/** One member's row, read as `viewer` (an admin opening their actions from the chat). */
+export async function getCommunityMemberRow(
+  communityId: string,
+  targetWallet: string,
+  viewer: string,
+): Promise<CommunityMember | null> {
+  const { data, error } = await withWalletHeader(
+    supabase
+      .from("community_members")
+      .select("*")
+      .eq("community_id", communityId)
+      .eq("wallet_address", targetWallet.toLowerCase())
+      .maybeSingle(),
+    viewer,
+  );
+  if (error) throw error;
+  return (data as unknown as CommunityMember) ?? null;
+}
+
 export async function getPinnedCommunities(walletAddress: string): Promise<PinnedCommunity[]> {
   // Pins are public. The profile owner is a filter, not the authenticated viewer.
   const { data, error } = await supabase

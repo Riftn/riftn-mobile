@@ -1,8 +1,9 @@
 /**
  * A DM video at its real shape, before it plays: the sender's cover frame with
  * their mirror and rotation, the kept length, the self-destruct chip and — when
- * the sender hid it — a frosted blind that lifts on tap. Tapping it again opens
- * the full-screen player, which applies the trim.
+ * the sender hid it — a frosted blind that lifts on tap. Tapping it again plays
+ * it right in the chat (inlineUri), with a corner button to the full-screen
+ * player; without inlineUri the tap opens the full-screen player.
  *
  * Shared by the composer card, plain video bubbles and encrypted ones.
  */
@@ -10,6 +11,8 @@ import React, { memo, useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import * as VideoThumbnails from "expo-video-thumbnails";
+import { useVideoPlayer, VideoView } from "expo-video";
+import { shareAudioWhenSilent } from "../../libs/videoAudioMixing";
 import { useTranslation as _useCopy } from "react-i18next";
 import SmartImage from "../common/SmartImage";
 import Icon from "../ui/Icon";
@@ -69,12 +72,90 @@ export interface DmVideoTileProps {
   onLongPress?: () => void;
   /** Composer card: no play button, the sheet opens instead. */
   hidePlay?: boolean;
+  /**
+   * The playable file. When set, a tap plays the video right in the chat
+   * (with sound, the sender's trim and turn); the corner button opens the
+   * full-screen player. Left out (view-once, still decrypting), a tap opens
+   * the full-screen player as before.
+   */
+  inlineUri?: string | null;
+  /** Encrypted video: fetch and unseal the file on tap, then play it in the chat. */
+  resolveInline?: () => Promise<string | null | undefined>;
   children?: React.ReactNode;
 }
 
+/** The video playing inside the bubble. Mounted only while it plays, so a long chat holds no players. */
+const InlineDmVideo: React.FC<{
+  uri: string;
+  options?: DmVideoOptions | null;
+  boxW: number;
+  boxH: number;
+  innerW: number;
+  innerH: number;
+  onEnd: () => void;
+  onExpand?: () => void;
+}> = ({ uri, options, boxW, boxH, innerW, innerH, onEnd, onExpand }) => {
+  const { t: _copy } = _useCopy();
+  const start = options?.trimStart ?? 0;
+  const end = options?.trimEnd;
+  const [paused, setPaused] = useState(false);
+  const player = useVideoPlayer(uri, (p) => {
+    shareAudioWhenSilent(p);
+    p.loop = false;
+    p.timeUpdateEventInterval = 0.25;
+    try { if (start > 0) p.currentTime = start; } catch {}
+    p.play();
+  });
+  useEffect(() => {
+    const subs = [
+      player.addListener("playToEnd", () => onEnd()),
+      player.addListener("timeUpdate", ({ currentTime }: { currentTime: number }) => {
+        if (end != null && currentTime >= end) { try { player.pause(); } catch {} onEnd(); }
+      }),
+      player.addListener("playingChange", ({ isPlaying }: { isPlaying: boolean }) => setPaused(!isPlaying)),
+    ];
+    return () => subs.forEach((s) => s.remove());
+  }, [player, end, onEnd]);
+  return (
+    <View style={{ position: "absolute", left: 0, top: 0, width: boxW, height: boxH }}>
+      <Pressable
+        onPress={() => { try { if (player.playing) player.pause(); else player.play(); } catch {} }}
+        accessibilityRole="button"
+        accessibilityLabel={_copy("dmVideo.play", { defaultValue: "Play video" })}
+        style={{ position: "absolute", left: 0, top: 0, width: boxW, height: boxH }}
+      >
+        <VideoView
+          player={player}
+          nativeControls={false}
+          contentFit="cover"
+          style={{ position: "absolute", width: innerW, height: innerH, left: (boxW - innerW) / 2, top: (boxH - innerH) / 2, transform: videoTransform(options) }}
+        />
+        {paused && (
+          <View pointerEvents="none" style={{ position: "absolute", inset: 0, alignItems: "center", justifyContent: "center" }}>
+            <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: "rgba(0,0,0,0.45)", borderWidth: 1, borderColor: "rgba(255,255,255,0.35)", alignItems: "center", justifyContent: "center" }}>
+              <Icon name="Play" size={20} color="#fff" fill="#fff" />
+            </View>
+          </View>
+        )}
+      </Pressable>
+      {onExpand && (
+        <Pressable
+          onPress={() => { try { player.pause(); } catch {} onExpand(); }}
+          hitSlop={8}
+          accessibilityRole="button"
+          accessibilityLabel={_copy("dmVideo.play", { defaultValue: "Play video" })}
+          style={[CHIP, { position: "absolute", right: 6, bottom: 6, paddingHorizontal: 6, paddingVertical: 6 }]}
+        >
+          <Icon name="Maximize2" size={13} color="#fff" />
+        </Pressable>
+      )}
+    </View>
+  );
+};
+
 export const DmVideoTile: React.FC<DmVideoTileProps> = memo(({
   posterUri, width, height, duration, options, destruct, destructLabel, mine, messageId,
-  maxW, maxH, softPoster, loading, failed, onOpen, onLongPress, hidePlay, children,
+  maxW, maxH, softPoster, loading, failed, onOpen, onLongPress, hidePlay, inlineUri, resolveInline, children,
 }) => {
   const { t: _copy } = _useCopy();
   const { boxW, boxH, innerW, innerH } = fitVideoBox(width, height, options, maxW, maxH);
@@ -93,6 +174,8 @@ export const DmVideoTile: React.FC<DmVideoTileProps> = memo(({
     return () => clearInterval(id);
   }, [destruct?.mode]);
 
+  const [inlineSrc, setInlineSrc] = useState<string | null>(null);
+  const stopInline = React.useCallback(() => setInlineSrc(null), []);
   const finishReveal = () => setCovered(false);
   const reveal = () => {
     if (messageId) markRevealed(messageId);
@@ -131,7 +214,12 @@ export const DmVideoTile: React.FC<DmVideoTileProps> = memo(({
 
   return (
     <Pressable
-      onPress={() => { if (covered) reveal(); else onOpen?.(); }}
+      onPress={() => {
+        if (covered) reveal();
+        else if (inlineUri && !hidePlay) setInlineSrc(inlineUri);
+        else if (resolveInline && !hidePlay) void resolveInline().then((u) => { if (u) setInlineSrc(u); }).catch(() => undefined);
+        else onOpen?.();
+      }}
       onLongPress={onLongPress}
       delayLongPress={350}
       accessibilityRole="button"
@@ -152,7 +240,19 @@ export const DmVideoTile: React.FC<DmVideoTileProps> = memo(({
           </View>
         )}
 
-        {!covered && !hidePlay && (
+        {inlineSrc && (
+          <InlineDmVideo
+            uri={inlineSrc}
+            options={options}
+            boxW={boxW}
+            boxH={boxH}
+            innerW={innerW}
+            innerH={innerH}
+            onEnd={stopInline}
+            onExpand={onOpen ? () => { setInlineSrc(null); onOpen(); } : undefined}
+          />
+        )}
+        {!covered && !hidePlay && !inlineSrc && (
           <View pointerEvents="none" style={{ position: "absolute", inset: 0, alignItems: "center", justifyContent: "center" }}>
             <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: "rgba(0,0,0,0.45)", borderWidth: 1, borderColor: "rgba(255,255,255,0.35)", alignItems: "center", justifyContent: "center" }}>
               {loading ? <ActivityIndicator size="small" color="#fff" /> : <Icon name="Play" size={20} color="#fff" fill="#fff" />}

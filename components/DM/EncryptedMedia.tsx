@@ -233,6 +233,8 @@ const EncryptedMediaComponent: React.FC<Props> = ({
         loading={status === "loading"}
         onOpen={openVideo}
         onLongPress={onLongPress}
+        // View-once opens full screen, where watching it counts.
+        resolveInline={destruct?.mode === "view" ? undefined : async () => uri || (await start())}
       />
     );
   }

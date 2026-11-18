@@ -11,8 +11,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { FlatList } from "react-native-gesture-handler";
 import {
-  FlatList,
   Text,
   View,
   TouchableOpacity,

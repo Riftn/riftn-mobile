@@ -11,15 +11,28 @@ import { toastError } from "../../libs/toast";
 export type LanguageSelectModalProps = {
   visible: boolean;
   onClose: () => void;
+  /**
+   * Pick a language for something else (e.g. the chat Translate button)
+   * instead of switching the app's language. `selected` is ticked, and
+   * title/subtitle replace the settings wording.
+   */
+  onSelect?: (code: string) => void;
+  selected?: string;
+  title?: string;
+  subtitle?: string;
 };
 
 const LanguageSelectModal: React.FC<LanguageSelectModalProps> = ({
   visible,
   onClose,
+  onSelect,
+  selected,
+  title,
+  subtitle,
 }) => {
   const [search, setSearch] = useSurfaceDraft("components/Settings/LanguageSelectModal.tsx:search", "");
   const { i18n: i18nHook, t } = useTranslation();
-  const currentLang = i18nHook.language;
+  const currentLang = selected ?? i18nHook.language;
   const currentLangInfo = SUPPORTED_LANGUAGES.find(
     (l) => l.code === currentLang
   );
@@ -37,6 +50,11 @@ const LanguageSelectModal: React.FC<LanguageSelectModalProps> = ({
 
   const handleSelect = useCallback(
     async (code: string) => {
+      if (onSelect) {
+        onSelect(code);
+        onClose();
+        return;
+      }
       if (code === currentLang) {
         onClose();
         return;
@@ -51,7 +69,7 @@ const LanguageSelectModal: React.FC<LanguageSelectModalProps> = ({
         Updates.reloadAsync().catch(() => DevSettings.reload());
       }
     },
-    [currentLang, onClose, t]
+    [currentLang, onClose, onSelect, t]
   );
 
   return (
@@ -64,7 +82,7 @@ const LanguageSelectModal: React.FC<LanguageSelectModalProps> = ({
     >
       <View className="px-5 pt-4 pb-3 border-b border-white/10">
         <View className="flex-row items-center justify-between">
-          <Text className="text-white font-bold text-base">{t("settings.language")}</Text>
+          <Text className="text-white font-bold text-base">{title ?? t("settings.language")}</Text>
           {currentLangInfo && (
             <View className="bg-theme-neutrals-700/60 rounded-full px-3 py-1 flex-row items-center">
               <Icon name="Globe" size={11} color="#9ca3af" />
@@ -74,9 +92,11 @@ const LanguageSelectModal: React.FC<LanguageSelectModalProps> = ({
             </View>
           )}
         </View>
-        <Text className="text-theme-neutrals-500 text-xs mt-1">
-          {t("settings.languageDesc")}
-        </Text>
+        {subtitle !== "" ? (
+          <Text className="text-theme-neutrals-500 text-xs mt-1">
+            {subtitle ?? t("settings.languageDesc")}
+          </Text>
+        ) : null}
       </View>
 
       {/* Shrinkable, so GlassModal's 82% cap bounds the list instead of a fixed

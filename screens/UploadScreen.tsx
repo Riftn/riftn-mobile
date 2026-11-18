@@ -2576,7 +2576,7 @@ export default function UploadScreen() {
   const openVideoEditor = useCallback(() => {
     if (!pickedVideo) return;
     player.pause();
-    setVideoEditOpts({ trimStart: videoTrim?.start, trimEnd: videoTrim?.end, coverAt: videoCoverAt, mirror: videoEdits?.mirror, rotate: videoEdits?.rotate || undefined });
+    setVideoEditOpts({ trimStart: videoTrim?.start, trimEnd: videoTrim?.end, coverAt: videoCoverAt, mirror: videoEdits?.mirror, rotate: videoEdits?.rotate || undefined, speed: videoEdits?.speed });
     setVideoColourDraft({ look: videoEdits?.look, strength: videoEdits?.strength, adjust: videoEdits?.adjust });
     setVideoCropDraft({ rect: videoEdits?.crop, ratio: videoEdits?.cropRatio });
     setVideoDestructDraft(videoDestruct);
@@ -4337,7 +4337,7 @@ export default function UploadScreen() {
             destruct={null}
             onDestructChange={() => undefined}
             allowTimer={false}
-            onlyTabs={["cover", "trim", "crop", "looks", "adjust", "expire", "alt", "sound"]}
+            onlyTabs={["cover", "trim", "crop", "speed", "looks", "adjust", "expire", "alt", "sound"]}
             onRemove={() => { setShowVideoTrim(false); handleRemoveVideo(); }}
             onReplace={() => {
               setShowVideoTrim(false);
@@ -4390,6 +4390,7 @@ export default function UploadScreen() {
                 adjust: videoColourDraft.adjust,
                 crop: videoCropDraft.rect,
                 cropRatio: videoCropDraft.rect ? videoCropDraft.ratio : undefined,
+                speed: videoEditOpts.speed && videoEditOpts.speed !== 1 ? videoEditOpts.speed : undefined,
               };
               const keep = videoEditsPayload(edits) ? edits : null;
               setVideoEdits(keep);
