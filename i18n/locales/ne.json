@@ -11587,7 +11587,6 @@
     "dataVisual": {
       "removeRow": "पंक्ति {{row}} हटाउनुहोस्",
       "resetDraft": "ड्राफ्ट रिसेट गर्नुहोस्",
-      "accent": "उच्चारण",
       "addColumn": "स्तम्भ थप्नुहोस्",
       "addRow": "जोडी पंक्ति",
       "captionControls": "शीर्षक, क्याप्सन र SVG विवरण",
@@ -11629,7 +11628,8 @@
       "textColour": "पाठ",
       "title": "चार्ट र तालिकाहरू",
       "values": "मानहरू देखाउनुहोस्",
-      "vectorHint": "यो ग्राफिकलाई पारदर्शी पृष्ठभूमिमा निर्यात गर्दछ । पाठ सम्पादन योग्य रहन्छ र उपलब्ध भएमा चयन गरिएको फन्ट प्रयोग गर्दछ ।"
+      "vectorHint": "यो ग्राफिकलाई पारदर्शी पृष्ठभूमिमा निर्यात गर्दछ । पाठ सम्पादन योग्य रहन्छ र उपलब्ध भएमा चयन गरिएको फन्ट प्रयोग गर्दछ ।",
+      "accent": "उच्चारण"
     },
     "designTools": {
       "changeAll": "सबै परिवर्तन गर्नुहोस्",
@@ -12432,7 +12432,6 @@
     "presetExtraIridescentGlassName": "आभासी ग्लास",
     "presetExtraIsometricMapHint": "एक पढ्न सकिने मिनी नेबरहुड",
     "presetExtraIsometricMapName": "आइसोमेट्रिक म्याप",
-    "presetExtraJewelleryVelvetHint": "गहरे वेल्वेट पर सटीक धातु उच्चारण",
     "presetExtraJewelleryVelvetName": "वेल्वेट पर जेवेलरी",
     "presetExtraLandscapeBreezeHint": "आपूर्ति गरिएको फोटोमा कोमल पातहरूको चाल",
     "presetExtraLandscapeBreezeName": "ल्याण्डस्केप हावा",
@@ -12836,7 +12835,8 @@
     "loop": "लूप",
     "dialogueFormat": "दृश्य \"नाम: लाइन\" को रूपमा लेख्नुहोस्, एक वक्ता प्रति लाइन।",
     "fileTooLarge": "त्यो फाइल १०० एमबी भन्दा बढी छ। छोटो वा सानो प्रयोग गर्नुहोस्।",
-    "signInToGenerate": "उत्पन्न गर्न साइन इन गर्नुहोस्।"
+    "signInToGenerate": "उत्पन्न गर्न साइन इन गर्नुहोस्।",
+    "presetExtraJewelleryVelvetHint": "गहिरो मखमलमा सटीक धातु हाइलाइटहरू"
   },
   "fractions": {
     "title": "हिस्सा",

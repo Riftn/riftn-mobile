@@ -117,7 +117,7 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'rkt', name: 'Rangpuri', nativeName: 'রংপুরী' },
   { code: 'ro', name: 'Romanian', nativeName: 'Română' },
   { code: 'ru', name: 'Russian', nativeName: 'Русский' },
-  { code: 'sdr', name: 'Sadri', nativeName: 'سدری' },
+  { code: 'sdr', name: 'Sadri', nativeName: 'सादरी' },
   { code: 'skr', name: 'Saraiki', nativeName: 'سرائیکی' },
   { code: 'es', name: 'Spanish', nativeName: 'Español' },
   { code: 'sr', name: 'Serbian', nativeName: 'Српски' },
