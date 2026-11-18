@@ -54,6 +54,8 @@ import type { SmartReplyTurn } from "../../services/ai.service";
 import type { DmMessage, DmFee } from "../../services/dm/dm.types";
 import { DM_TEXT_MAX_LENGTH } from "../../services/dm/dm.types";
 import { haptic } from "../../libs/haptics";
+import MentionSuggestions from "../common/MentionSuggestions";
+import { useMentions } from "../../hooks/useMentions";
 
 
 export type ChatMediaAttachment = {
@@ -347,6 +349,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     },
     [emitTyping, setText],
   );
+
+  const mentions = useMentions(text, handleTextChange);
 
   // Cleanup typing timer on unmount
   useEffect(
@@ -920,11 +924,25 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
           </Animated.View>
         )}
 
+          {/* @ in a message: people, communities and pages, like web's
+              composer. A community or page types its link, which the
+              message shows as a card. */}
+          {mentions.showSuggestions && (
+            <View className="mx-3 mt-2">
+              <MentionSuggestions
+                visible={mentions.showSuggestions}
+                suggestions={mentions.suggestions}
+                onSelect={mentions.selectMention}
+                loading={mentions.loading}
+              />
+            </View>
+          )}
           <View className="mx-3 mt-3" style={INPUT_BOX}>
             <TextInput
               ref={inputRef}
               value={text}
-              onChangeText={handleTextChange}
+              onChangeText={mentions.handleChangeText}
+              onSelectionChange={mentions.handleSelectionChange}
               onFocus={() => setComposerFocused(true)}
               onBlur={() => setComposerFocused(false)}
               placeholder={placeholder}

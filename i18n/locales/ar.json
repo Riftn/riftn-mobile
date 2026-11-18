@@ -194,7 +194,9 @@
       "profile": "الملف الشخصي",
       "proposal": "اقتراح",
       "stage": "المرحلة",
-      "store": "المتجر"
+      "store": "المتجر",
+      "featureRequest": "طلب",
+      "page": "صفحة"
     }
   },
   "stageCover": {
@@ -11697,7 +11699,11 @@
     "ended": "انتهى",
     "stage": "مسرح",
     "upcomingStage": "مسرح قادم",
-    "members": "{{compact}} أعضاء"
+    "members": "{{compact}} أعضاء",
+    "requestComments_one": "{{compact}} تعليق",
+    "requestComments_other": "{{compact}} تعليقات",
+    "requestVotes_one": "{{compact}} صوت",
+    "requestVotes_other": "{{compact}} أصوات"
   },
   "report": {
     "whyVideo": "لماذا تبلغ عن هذا الفيديو؟",
@@ -16961,5 +16967,11 @@
   },
   "profileImage": {
     "change": "تغيير"
+  },
+  "mentionLinks": {
+    "communities": "المجتمعات",
+    "pages": "الصفحات",
+    "people": "الأشخاص",
+    "linkTo": "ربط {{name}}"
   }
 }

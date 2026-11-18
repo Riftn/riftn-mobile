@@ -2641,7 +2641,9 @@
       "profile": "profil",
       "proposal": "Proposal",
       "stage": "tahap",
-      "store": "toko"
+      "store": "toko",
+      "featureRequest": "permintaan",
+      "page": "halaman"
     }
   },
   "postGate": {
@@ -13200,7 +13202,11 @@
     "ended": "Selesai",
     "stage": "Panggung",
     "upcomingStage": "Panggung mendatang",
-    "members": "{{compact}} anggota"
+    "members": "{{compact}} anggota",
+    "requestComments_one": "{{compact}} komentar",
+    "requestComments_other": "{{compact}} komentar",
+    "requestVotes_one": "{{compact}} suara",
+    "requestVotes_other": "{{compact}} suara"
   },
   "report": {
     "whyVideo": "Mengapa Anda melaporkan video ini?",
@@ -15519,5 +15525,11 @@
     "forward": "Teruskan",
     "deleted_one": "Menghapus pesan {{count}}",
     "deleted_other": "Menghapus pesan {{count}}"
+  },
+  "mentionLinks": {
+    "communities": "Komunitas",
+    "pages": "Halaman",
+    "people": "Orang",
+    "linkTo": "Tautkan {{name}}"
   }
 }

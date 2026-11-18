@@ -109,7 +109,7 @@ describe('parseDehubLink', () => {
   it('leaves the stages hub and its non-numeric children alone', () => {
     // Bare /stages is the list page, not a stage; anything else under it has
     // no route on either client.
-    expect(parseDehubLink('https://dehub.io/stages')).toBeNull();
+    expect(parseDehubLink('https://dehub.io/stages')).toMatchObject({ kind: 'page', pagePath: '/stages' });
     expect(parseDehubLink('https://dehub.io/stages/upcoming')).toBeNull();
   });
 
@@ -127,7 +127,7 @@ describe('parseDehubLink', () => {
   });
 
   it('leaves the cinema search page and malformed titles alone', () => {
-    expect(parseDehubLink('https://dehub.io/cinema')).toBeNull();
+    expect(parseDehubLink('https://dehub.io/cinema')).toMatchObject({ kind: 'page', pagePath: '/cinema' });
     expect(parseDehubLink('https://dehub.io/cinema/film/abc')).toBeNull();
     expect(parseDehubLink('https://dehub.io/cinema/podcast/1')).toBeNull();
   });
@@ -172,9 +172,11 @@ describe('parseDehubLink', () => {
   it('does not mistake a route for a person', () => {
     // /:username is the catch-all on web, so every product page would otherwise
     // parse as a profile that resolves to nothing.
+    // Our pages card as the page instead (kind 'page'), never as a person.
     for (const route of ['pricing', 'premium', 'explore', 'docs', 'app']) {
-      expect(parseDehubLink(`https://dehub.io/${route}`)).toBeNull();
+      expect(parseDehubLink(`https://dehub.io/${route}`)?.kind).toBe('page');
     }
+    expect(parseDehubLink('https://dehub.io/settings')?.kind).not.toBe('profile');
   });
 
   it('refuses to card somebody else\'s host', () => {
@@ -347,15 +349,15 @@ describe('findDehubLinks /bounty and legacy /work', () => {
   });
 
   it('does not card the board or its app pages as entities', () => {
-    expect(parseDehubLink('https://dehub.io/work')).toBeNull();
+    expect(parseDehubLink('https://dehub.io/work')?.kind).toBe('page');
     expect(parseDehubLink('https://dehub.io/work/post')).toBeNull();
-    expect(parseDehubLink('https://dehub.io/work/history')).toBeNull();
+    expect(parseDehubLink('https://dehub.io/work/history')?.kind).toBe('page');
     expect(parseDehubLink('https://dehub.io/work/disputes')).toBeNull();
   });
 
   it('does not read the bare board as a profile called "bounty"/"work"', () => {
     expect(parseDehubLink('https://dehub.io/bounty')).toBeNull();
-    expect(parseDehubLink('https://dehub.io/work')).toBeNull();
+    expect(parseDehubLink('https://dehub.io/work')?.kind).toBe('page');
   });
 
   it('rejects a non-numeric bounty id and a too-short work key', () => {
@@ -407,5 +409,27 @@ describe('reserved segments are one list', () => {
 
   it('leaves an ordinary name claimable', () => {
     expect(RESERVED_LINK_SEGMENTS.has('maldoteth')).toBe(false);
+  });
+});
+
+describe('feature request and page links', () => {
+  const id = '9cea24f0-1234-4abc-8def-0123456789ab';
+
+  it('cards a Requests share link as that request', () => {
+    expect(parseDehubLink(`https://riftn.com/features?feature=${id}`)).toMatchObject({ kind: 'featureRequest', featureRequestId: id });
+    expect(parseDehubLink(`https://riftn.com/app/features?request=${id}`)).toMatchObject({ kind: 'featureRequest', featureRequestId: id });
+  });
+
+  it('cards our pages as pages', () => {
+    expect(parseDehubLink('https://riftn.com/features')).toMatchObject({ kind: 'page', pagePath: '/features' });
+    expect(parseDehubLink('https://riftn.com/app/leaderboard')).toMatchObject({ kind: 'page', pagePath: '/app/leaderboard' });
+    expect(parseDehubLink('https://riftn.com/shorts')).toMatchObject({ kind: 'page', pagePath: '/shorts' });
+    expect(parseDehubLink('https://riftn.com/arcade/kings-gambit')).toMatchObject({ kind: 'page', pagePath: '/arcade/kings-gambit' });
+  });
+
+  it('leaves unknown paths, bare paths and other hosts alone', () => {
+    expect(parseDehubLink('https://riftn.com/app/not-a-page')).toBeNull();
+    expect(parseDehubLink('/app/leaderboard')).toBeNull();
+    expect(parseDehubLink('https://evil.example/app/leaderboard')).toBeNull();
   });
 });

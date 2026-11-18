@@ -2641,7 +2641,9 @@
       "profile": "hồ sơ",
       "proposal": "đề xuất",
       "stage": "giai đoạn",
-      "store": "cửa hàng"
+      "store": "cửa hàng",
+      "featureRequest": "yêu cầu",
+      "page": "trang"
     }
   },
   "postGate": {
@@ -13288,7 +13290,11 @@
     "upcomingStage": "Giai đoạn sắp tới",
     "listening_one": "{{count}} đang nghe",
     "listening_other": "{{count}} đang nghe",
-    "members": "{{compact}} thành viên"
+    "members": "{{compact}} thành viên",
+    "requestComments_one": "{{compact}} bình luận",
+    "requestComments_other": "{{compact}} bình luận",
+    "requestVotes_one": "{{compact}} phiếu",
+    "requestVotes_other": "{{compact}} phiếu"
   },
   "report": {
     "whyVideo": "Tại sao bạn báo cáo video này?",
@@ -15609,5 +15615,11 @@
     "forward": "Chuyển tiếp",
     "deleted_one": "Xóa {{count}} tin nhắn",
     "deleted_other": "Xóa {{count}} tin nhắn"
+  },
+  "mentionLinks": {
+    "communities": "Cộng đồng",
+    "pages": "Trang",
+    "people": "Mọi người",
+    "linkTo": "Liên kết {{name}}"
   }
 }

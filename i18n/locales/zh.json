@@ -2512,7 +2512,9 @@
       "profile": "个人资料",
       "proposal": "提案",
       "stage": "阶段",
-      "store": "商店"
+      "store": "商店",
+      "featureRequest": "请求",
+      "page": "页面"
     }
   },
   "postGate": {
@@ -13083,7 +13085,11 @@
     "ended": "已结束",
     "stage": "舞台",
     "upcomingStage": "即将开始的舞台",
-    "members": "{{compact}} 位成员"
+    "members": "{{compact}} 位成员",
+    "requestComments_one": "{{compact}} 条评论",
+    "requestComments_other": "{{compact}} 条评论",
+    "requestVotes_one": "{{compact}} 票",
+    "requestVotes_other": "{{compact}} 票"
   },
   "report": {
     "whyVideo": "你为什么要举报此视频？",
@@ -15542,5 +15548,11 @@
     "forward": "转发",
     "deleted_one": "删除 {{count}} 消息",
     "deleted_other": "删除 {{count}} 条消息"
+  },
+  "mentionLinks": {
+    "communities": "社区",
+    "pages": "页面",
+    "people": "用户",
+    "linkTo": "链接 {{name}}"
   }
 }
