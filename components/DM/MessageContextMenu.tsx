@@ -52,6 +52,8 @@ interface MessageContextMenuProps {
   /** Start picking several messages, this one first. */
   onSelect?: () => void;
   onDelete?: () => void;
+  /** One-to-one chat: delete the other person's messages too, for both of you. */
+  canDeleteAny?: boolean;
   onCopy?: () => void;
   onPin?: () => void;
   onUnpin?: () => void;
@@ -414,6 +416,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
   onForward,
   onSelect,
   onDelete,
+  canDeleteAny = false,
   onCopy,
   onPin,
   onUnpin,
@@ -559,7 +562,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
       rows.push({ icon: "Forward", label: t("dm.forwardMessage"), onPress: handleForward });
     if (downloadable && !unsent)
       rows.push({ icon: "Download", label: t("dm.download", { defaultValue: "Download" }), onPress: handleDownload });
-    if (isMine && onDelete && !unsent)
+    if ((isMine || canDeleteAny) && onDelete && !unsent)
       rows.push({ icon: "Trash2", label: t("common.delete"), onPress: handleDelete, destructive: true });
     if (onSelect && !unsent && message._id)
       rows.push({
@@ -604,6 +607,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     onPin,
     onUnpin,
     onDelete,
+    canDeleteAny,
     handleReply,
     handleCopy,
     handleForward,
