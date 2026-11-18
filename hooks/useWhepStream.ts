@@ -11,6 +11,7 @@
  */
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { AppState } from 'react-native';
 import type { MediaStream } from 'react-native-webrtc';
 import { whepEndpointFor, type LiveStreamRef } from '../libs/live-ingest';
 import type { WhepSubscription } from '../libs/whep';
@@ -25,6 +26,16 @@ import { forgetWhepSilent, isRealPicture, rememberWhepSilent, whepRecentlySilent
  */
 const START_TIMEOUT_MS = 3500;
 
+/**
+ * Once the picture is up, how long it may stand still, or the connection sit
+ * in "reconnecting", before the viewer moves to HLS. WebRTC has no buffer to
+ * fall back on: when the media stops, the last frame just stays on screen,
+ * and the only state the connection reports is "connected". Without this a
+ * dropped session froze the live until it was closed and opened again.
+ */
+export const WHEP_FROZEN_MS = 5000;
+const WHEP_FROZEN_CHECK_MS = 1000;
+
 interface Options {
   /** False while the stream is not live, is gated, or is playing a replay. */
   enabled: boolean;
@@ -32,6 +43,11 @@ interface Options {
   stream: LiveStreamRef | null | undefined;
   /** The viewer's sound switch, applied to the remote audio track. */
   muted?: boolean;
+  /**
+   * The broadcaster paused: no frames is expected, not a frozen session, so
+   * the freeze watch holds off until they are back.
+   */
+  paused?: boolean;
 }
 
 interface Result {
@@ -54,7 +70,9 @@ interface Result {
   onPicture: (size: { width: number; height: number }) => void;
 }
 
-export function useWhepStream({ enabled, stream, muted = false }: Options): Result {
+export function useWhepStream({ enabled, stream, muted = false, paused = false }: Options): Result {
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
   const [media, setMedia] = useState<MediaStream | null>(null);
   const [failed, setFailed] = useState(false);
   const sessionRef = useRef<WhepSubscription | null>(null);
@@ -81,7 +99,11 @@ export function useWhepStream({ enabled, stream, muted = false }: Options): Resu
       forgetWhepSilent(playbackId);
     };
 
+    let watchdog: ReturnType<typeof setInterval> | undefined;
+    let reconnectingSince = 0;
+
     const giveUp = () => {
+      clearInterval(watchdog);
       if (cancelled) return;
       setMedia(null);
       // Latched: one attempt per stream. Without it a flapping connection
@@ -98,6 +120,9 @@ export function useWhepStream({ enabled, stream, muted = false }: Options): Resu
           onStateChange: (state) => {
             if (cancelled) return;
             if (state === 'failed') giveUp();
+            // ICE can sit in "disconnected" for half a minute before it calls
+            // it failed; the watchdog below moves on well before that.
+            reconnectingSince = state === 'reconnecting' ? reconnectingSince || Date.now() : 0;
           },
         });
         if (cancelled) {
@@ -106,9 +131,41 @@ export function useWhepStream({ enabled, stream, muted = false }: Options): Resu
         }
         sessionRef.current = session;
         setMedia(session.stream);
+        watchForFreeze(session);
       } catch {
         giveUp();
       }
+    };
+
+    const watchForFreeze = (session: WhepSubscription) => {
+      let lastFrames = -1;
+      let lastMovedAt = Date.now();
+      let checking = false;
+      watchdog = setInterval(() => {
+        if (cancelled || checking) return;
+        // A phone in the background stops drawing, and the count with it.
+        if (AppState.currentState !== 'active' || pausedRef.current) {
+          lastMovedAt = Date.now();
+          return;
+        }
+        const now = Date.now();
+        if (reconnectingSince && now - reconnectingSince >= WHEP_FROZEN_MS && lastMovedAt <= reconnectingSince) {
+          giveUp();
+          return;
+        }
+        if (!pictured) return;
+        checking = true;
+        void session.framesDecoded().then((frames) => {
+          checking = false;
+          if (cancelled || frames == null) return;
+          if (frames !== lastFrames) {
+            lastFrames = frames;
+            lastMovedAt = Date.now();
+          } else if (Date.now() - lastMovedAt >= WHEP_FROZEN_MS) {
+            giveUp();
+          }
+        });
+      }, WHEP_FROZEN_CHECK_MS);
     };
 
     timer = setTimeout(() => {
@@ -124,6 +181,7 @@ export function useWhepStream({ enabled, stream, muted = false }: Options): Resu
     return () => {
       cancelled = true;
       clearTimeout(timer);
+      clearInterval(watchdog);
       pictureRef.current = () => undefined;
       const session = sessionRef.current;
       sessionRef.current = null;

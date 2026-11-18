@@ -81,3 +81,52 @@ describe('bounded playback recovery', () => {
     expect(playbackSourceIdentity('https://name:secret@cdn.test/42.mp4?token=secret#x')).toBe('https://cdn.test/42.mp4');
   });
 });
+
+describe('live playback recovery', () => {
+  beforeEach(() => jest.useFakeTimers());
+  afterEach(() => { jest.clearAllTimers(); jest.useRealTimers(); });
+  const setup = () => {
+    const options = {
+      allowed: jest.fn(() => true),
+      play: jest.fn((_reload: boolean, _allowed: () => boolean) => Promise.resolve()),
+      pause: jest.fn(), changed: jest.fn(), report: jest.fn(),
+      maxRetries: 4, resetRetriesOnProgress: true,
+    };
+    return { options, recovery: createPlaybackRecovery(options) };
+  };
+
+  it('keeps reloading a long live through stall after stall', async () => {
+    const { options, recovery } = setup();
+    recovery.start();
+    recovery.progress();
+    // Six separate stalls, each well after the picture came back.
+    for (let i = 0; i < 6; i++) {
+      jest.advanceTimersByTime(60_000);
+      recovery.waiting();
+      jest.advanceTimersByTime(10_000);
+      expect(recovery.phase).toBe('retrying');
+      await Promise.resolve();
+      recovery.progress();
+      jest.advanceTimersByTime(15_000);
+      recovery.progress();
+    }
+    expect(recovery.phase).toBe('playing');
+    expect(options.play.mock.calls.filter(call => call[0])).toHaveLength(6);
+    expect(options.pause).not.toHaveBeenCalled();
+  });
+
+  it('gives up on a live that never plays for long after a reload', async () => {
+    const { options, recovery } = setup();
+    recovery.start();
+    for (let i = 0; i < 5; i++) {
+      jest.advanceTimersByTime(10_000);
+      await Promise.resolve();
+      // A moment of picture, then stuck again: not enough to earn the budget back.
+      recovery.progress();
+      recovery.waiting();
+    }
+    expect(recovery.phase).toBe('failed');
+    expect(options.play.mock.calls.filter(call => call[0])).toHaveLength(4);
+    expect(options.pause).toHaveBeenCalledTimes(1);
+  });
+});

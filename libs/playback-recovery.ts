@@ -6,7 +6,18 @@ type Options = {
   changed: (phase: PlaybackPhase) => void;
   report: (event: string, detail: Record<string, unknown>) => void;
   timeoutMs?: number;
+  /**
+   * Reloads allowed before giving up. One is right for a clip: a second
+   * failure means the file is not coming. A live runs for hours, so it gets a
+   * few, and `resetRetriesOnProgress` hands it a fresh budget once the picture
+   * moves again, so a hiccup at minute forty is treated like one at minute one.
+   */
+  maxRetries?: number;
+  resetRetriesOnProgress?: boolean;
 };
+
+/** Playing this long after a reload counts as healthy again (see resetRetriesOnProgress). */
+const HEALTHY_AFTER_RELOAD_MS = 15_000;
 
 /** One reload per play intent. Leaving, pausing or changing source invalidates it. */
 export function createPlaybackRecovery(options: Options) {
@@ -17,6 +28,7 @@ export function createPlaybackRecovery(options: Options) {
   let startedAt = 0;
   let replacing = false;
   let recoveryReported = false;
+  let lastReloadAt = 0;
   let timer: ReturnType<typeof setTimeout> | undefined;
   const clear = () => { clearTimeout(timer); timer = undefined; };
   const allowed = () => wanted && options.allowed();
@@ -72,8 +84,9 @@ export function createPlaybackRecovery(options: Options) {
     // replace/load can emit the old item's error again while detaching it.
     if (replacing && reason !== 'timeout') return;
     clear();
-    if (retries === 0) {
+    if (retries < (options.maxRetries ?? 1)) {
       retries++;
+      lastReloadAt = Date.now();
       report('retry', reason);
       change('retrying');
       attempt(true);
@@ -117,6 +130,12 @@ export function createPlaybackRecovery(options: Options) {
       if (!allowed()) return;
       clear();
       if (retries && !recoveryReported) { recoveryReported = true; report('recovered'); }
+      // Only once it has run a while: a source that plays a moment and stops
+      // again should run out of reloads, not loop through them forever.
+      if (retries && options.resetRetriesOnProgress && Date.now() - lastReloadAt >= HEALTHY_AFTER_RELOAD_MS) {
+        retries = 0;
+        recoveryReported = false;
+      }
       change('playing');
     },
     get phase() { return phase; },

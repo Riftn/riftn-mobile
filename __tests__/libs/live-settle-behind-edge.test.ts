@@ -11,7 +11,9 @@ import { Platform } from 'react-native';
 import {
   PLACEHOLDER_WINDOW_SEC,
   SETTLED_LIVE_OFFSET_SEC,
+  iosSettleBack,
   markBigEventLive,
+  startReloadedLiveBehindEdge,
   settleBehindLiveOnStall,
   settleTarget,
 } from '../../libs/sharedLivePlayer';
@@ -22,6 +24,10 @@ type Listener = (event: any) => void;
 class FakeLivePlayer {
   duration = 0;
   seeks: number[] = [];
+  /** iOS: how far behind the server's clock, and how far back it was told to sit. */
+  currentOffsetFromLive: number | null = null;
+  targetOffsetFromLive = 0;
+  seekBys: number[] = [];
   released = false;
   private position = 0;
   private listeners = new Map<string, Set<Listener>>();
@@ -34,6 +40,11 @@ class FakeLivePlayer {
   set currentTime(value: number) {
     this.seeks.push(value);
     this.position = value;
+  }
+
+  seekBy(seconds: number) {
+    this.seekBys.push(seconds);
+    this.position += seconds;
   }
 
   addListener(name: string, listener: Listener) {
@@ -168,9 +179,71 @@ describe('settling a stalled live on Android', () => {
     expect(player.listenerCount()).toBe(0);
   });
 
-  it('leaves iOS alone', () => {
+});
+
+describe('iosSettleBack', () => {
+  it('goes back to six seconds behind from the newest parts', () => {
+    expect(iosSettleBack(1.5, 40, SETTLED_LIVE_OFFSET_SEC)).toBe(4.5);
+  });
+
+  it('leaves a stall that is already well behind live to the player', () => {
+    expect(iosSettleBack(5.5, 40, SETTLED_LIVE_OFFSET_SEC)).toBeNull();
+  });
+
+  it('never lands in the placeholders of a muxer the iPhone just started', () => {
+    expect(iosSettleBack(1.5, 17, SETTLED_LIVE_OFFSET_SEC)).toBeNull();
+  });
+
+  it('needs the playlist clock to know where live is', () => {
+    expect(iosSettleBack(null, 40, SETTLED_LIVE_OFFSET_SEC)).toBeNull();
+    expect(iosSettleBack(Number.NaN, 40, SETTLED_LIVE_OFFSET_SEC)).toBeNull();
+    expect(iosSettleBack(-3, 40, SETTLED_LIVE_OFFSET_SEC)).toBeNull();
+  });
+});
+
+describe('settling a stalled live on iOS', () => {
+  beforeEach(() => {
     (Platform as { OS: string }).OS = 'ios';
+  });
+  afterEach(() => {
+    (Platform as { OS: string }).OS = 'android';
+  });
+
+  it('goes back once at the first stall near the edge and stays there', () => {
     const { player } = watch();
-    expect(player.listenerCount()).toBe(0);
+    player.currentOffsetFromLive = 1.2;
+    player.at(40, 0).plays().stalls();
+    expect(player.seekBys).toEqual([-4.8]);
+    expect(player.targetOffsetFromLive).toBe(SETTLED_LIVE_OFFSET_SEC);
+    player.stalls();
+    expect(player.seekBys).toEqual([-4.8]);
+  });
+
+  it('does not treat buffering before the first frame as a stall', () => {
+    const { player } = watch();
+    player.currentOffsetFromLive = 1.2;
+    player.at(40, 0).stalls();
+    expect(player.seekBys).toEqual([]);
+  });
+
+  it('settles again after the stream is reloaded', () => {
+    const { player } = watch();
+    player.currentOffsetFromLive = 1.2;
+    player.at(40, 0).plays().stalls();
+    player.reloads().at(40, 0).plays().stalls();
+    expect(player.seekBys).toEqual([-4.8, -4.8]);
+  });
+
+  it('starts a reloaded live behind the edge', () => {
+    const player = new FakeLivePlayer();
+    startReloadedLiveBehindEdge(player as any);
+    expect(player.targetOffsetFromLive).toBe(SETTLED_LIVE_OFFSET_SEC);
+  });
+
+  it('leaves the Android player to its own settling', () => {
+    (Platform as { OS: string }).OS = 'android';
+    const player = new FakeLivePlayer();
+    startReloadedLiveBehindEdge(player as any);
+    expect(player.targetOffsetFromLive).toBe(0);
   });
 });
