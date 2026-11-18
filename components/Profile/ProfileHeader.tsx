@@ -6,7 +6,7 @@ import Animated from "react-native-reanimated";
 import { ProfilePullRing, useProfileAvatarPop, useProfileCoverHidden } from "./ProfilePullRefresh";
 import SmartImage from "../common/SmartImage";
 import Avatar from "../common/Avatar";
-import { openPostBgPicker } from "./PostBgPicker";
+import ProfileImageMenu, { useProfileImageMenu, type ProfileImageKind } from "./ProfileImageMenu";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import LiquidGlass from "../ui/LiquidGlass";
 import { useNavigation } from "@react-navigation/native";
@@ -267,12 +267,36 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
     }
   }, [processAndUpload, t]);
 
+  // Hold the picture or banner: Change, Paste, Copy, Delete.
+  const imageMenu = useProfileImageMenu();
+  const removeImage = useCallback(
+    async (kind: ProfileImageKind) => {
+      const isAvatar = kind === "avatar";
+      try {
+        isAvatar ? setUploadingAvatar(true) : setUploadingCover(true);
+        await AuthService.updateProfile(isAvatar ? { removeAvatar: true } : { removeCover: true });
+        if (isAvatar) setLocalAvatarUri(null);
+        else setLocalCoverUri(null);
+        await patchUser?.(isAvatar ? { avatarImageUrl: "" } : { coverImageUrl: "" });
+        await refreshUser?.();
+        toastSuccess(t("copy.4118fb4fed0e"));
+      } catch (e) {
+        toastError(e, t("settings.failedUpdateProfile"));
+      } finally {
+        isAvatar ? setUploadingAvatar(false) : setUploadingCover(false);
+      }
+    },
+    [patchUser, refreshUser, t]
+  );
+  const hasAvatar = !!localAvatarUri || avatarFullUrl !== "default-avatar";
+  const hasCover = !!localCoverUri || coverFullUrl !== "default-banner";
+
   return (
     <View ref={profileRef} collapsable={false} onLayout={measureIdentity} className="w-full">
       {/* Cover */}
       <TouchableOpacity
         activeOpacity={0.9}
-        onLongPress={() => openPostBgPicker()}
+        onLongPress={() => imageMenu.open("cover")}
         delayLongPress={450}
         onPress={() =>
           openViewer(
@@ -283,6 +307,8 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
       >
         {/* Align the cover with the full-width details and pinned community. */}
         <View
+          ref={imageMenu.coverRef}
+          collapsable={false}
           className={isMinimal || cinematicPhone ? "overflow-hidden" : "rounded-t-xl overflow-hidden"}
             style={{ height: PROFILE_COVER_HEIGHT }}
         >
@@ -322,7 +348,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
         <PinnedCommunityWash community={featuredCommunity} />
         {/* Avatar overlapping cover + actions on the right */}
         <View className="flex-row items-start justify-between" style={{ marginTop: -48 }}>
-          <Animated.View style={avatarPop}>
+          <Animated.View ref={imageMenu.avatarRef as any} collapsable={false} style={avatarPop}>
             <ProfilePullRing size={96} radius={Math.round(96 * 0.16)} color={colors.accent} />
             <Avatar
               uri={avatarUrl === "default-avatar" ? undefined : avatarUrl}
@@ -331,10 +357,10 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               style={{ borderWidth: 1.5, borderColor: "#18181b", backgroundColor: "#18181b" }}
               live={live}
               liveQuiet
-              onLongPress={() => openPostBgPicker()}
+              onLongPress={() => imageMenu.open("avatar")}
               onPress={() =>
                 openViewer(
-                  avatarFullUrl === "default-avatar" ? undefined : avatarFullUrl
+                  localAvatarUri || (avatarFullUrl === "default-avatar" ? undefined : avatarFullUrl)
                 )
               }
             />
@@ -541,6 +567,24 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
         evmAddress={address}
       />
       <ImageViewerModal images={viewerImages} onClose={() => setViewerImages(null)} />
+      <ProfileImageMenu
+        target={imageMenu.target}
+        onClose={imageMenu.close}
+        canEdit
+        imageUrl={(kind) =>
+          kind === "avatar"
+            ? localAvatarUri || (avatarFullUrl !== "default-avatar" ? avatarFullUrl : undefined)
+            : localCoverUri || (coverFullUrl !== "default-banner" ? coverFullUrl : undefined)
+        }
+        hasImage={(kind) => (kind === "avatar" ? hasAvatar : hasCover)}
+        onChange={(kind) => (kind === "avatar" ? startChangeAvatar() : startChangeCover())}
+        onPasted={(kind, uri) => {
+          if (kind === "avatar") setLocalAvatarUri(uri);
+          else setLocalCoverUri(uri);
+          void processAndUpload(kind, uri);
+        }}
+        onRemove={(kind) => { void removeImage(kind); }}
+      />
     </View>
   );
 };

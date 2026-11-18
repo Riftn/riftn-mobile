@@ -53,6 +53,8 @@ interface UserProfileSheetContentProps {
   canViewContent?: boolean;
   isOwnProfile?: boolean;
   avatarUrl: string;
+  /** Untouched original avatar, for Copy on the hold menu. */
+  avatarFullUrl?: string;
   coverUrl: string;
   defaultBanner: any;
   stats: any[];
@@ -96,6 +98,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
   canViewContent,
   isOwnProfile = false,
   avatarUrl,
+  avatarFullUrl,
   coverUrl,
   defaultBanner,
   stats,
@@ -265,6 +268,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           onIdentityBottom={collapse?.onIdentityBottom}
           onActionsBottom={collapse?.onActionsBottom}
           avatarUrl={avatarUrl}
+          avatarFullUrl={avatarFullUrl}
           coverUrl={coverUrl}
           displayName={profileData.displayName}
           badge={profileData.badge}

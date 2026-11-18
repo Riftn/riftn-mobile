@@ -16752,5 +16752,8 @@
     "deleteBody": "They will be removed for everyone in this chat.",
     "deleted_one": "Deleted {{count}} message",
     "deleted_other": "Deleted {{count}} messages"
+  },
+  "profileImage": {
+    "change": "Change"
   }
 }

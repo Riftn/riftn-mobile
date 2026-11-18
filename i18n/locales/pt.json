@@ -16144,5 +16144,8 @@
     "newer": "Resultado mais recente",
     "gone": "Essa mensagem não está mais aqui",
     "theirMessages": "Seus mensagens"
+  },
+  "profileImage": {
+    "change": "Alterar"
   }
 }

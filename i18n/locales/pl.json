@@ -15020,5 +15020,8 @@
     "newer": "Nowsze wyniki",
     "gone": "Ta wiadomość nie istnieje już",
     "theirMessages": "Ich wiadomości"
+  },
+  "profileImage": {
+    "change": "Zmień"
   }
 }

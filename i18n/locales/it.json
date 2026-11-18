@@ -15047,5 +15047,8 @@
     "newer": "Risultato più recente",
     "gone": "Questo messaggio non è più qui",
     "theirMessages": "I loro messaggi"
+  },
+  "profileImage": {
+    "change": "Cambia"
   }
 }

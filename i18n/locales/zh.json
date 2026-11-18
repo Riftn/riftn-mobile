@@ -15040,5 +15040,8 @@
     "newer": "新结果",
     "gone": "该消息已不在此处",
     "theirMessages": "他们的消息"
+  },
+  "profileImage": {
+    "change": "更改"
   }
 }

@@ -16910,5 +16910,8 @@
     "deleteBody": "Bu sohbetteki herkes için kaldırılacak.",
     "deleted_one": "{{count}} mesaj silindi",
     "deleted_other": "{{count}} mesaj silindi"
+  },
+  "profileImage": {
+    "change": "Değiştir"
   }
 }

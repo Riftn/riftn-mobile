@@ -16915,5 +16915,8 @@
     "deleteBody": "Ils seront supprimés pour tout le monde dans ce chat.",
     "deleted_one": "{{count}} message supprimé",
     "deleted_other": "{{count}} messages supprimés"
+  },
+  "profileImage": {
+    "change": "Changer"
   }
 }

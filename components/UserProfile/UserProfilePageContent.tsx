@@ -55,6 +55,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
     canViewContent,
     isOwnProfile,
     avatarUrl,
+    avatarFullUrl,
     coverUrl,
     defaultBanner,
     stats,
@@ -160,6 +161,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
           canViewContent={canViewContent}
           isOwnProfile={isOwnProfile}
           avatarUrl={avatarUrl}
+          avatarFullUrl={avatarFullUrl}
           coverUrl={coverUrl}
           defaultBanner={defaultBanner}
           stats={stats}
@@ -231,6 +233,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
             canViewContent={canViewContent}
             isOwnProfile={isOwnProfile}
             avatarUrl={avatarUrl}
+            avatarFullUrl={avatarFullUrl}
             coverUrl={coverUrl}
             defaultBanner={defaultBanner}
             stats={stats}

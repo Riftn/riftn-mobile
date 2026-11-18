@@ -15047,5 +15047,8 @@
     "newer": "新しい結果",
     "gone": "そのメッセージはもうありません",
     "theirMessages": "彼らのメッセージ"
+  },
+  "profileImage": {
+    "change": "変更"
   }
 }

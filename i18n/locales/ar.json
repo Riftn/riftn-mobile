@@ -16931,5 +16931,8 @@
     "deleteBody": "ستُحذف للجميع في هذه المحادثة.",
     "deleted_one": "تم حذف {{count}} رسالة",
     "deleted_other": "تم حذف {{count}} رسائل"
+  },
+  "profileImage": {
+    "change": "تغيير"
   }
 }

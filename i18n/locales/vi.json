@@ -15119,5 +15119,8 @@
     "newer": "Kết quả mới hơn",
     "gone": "Tin nhắn đó không còn ở đây nữa",
     "theirMessages": "Tin nhắn của họ"
+  },
+  "profileImage": {
+    "change": "Thay đổi"
   }
 }

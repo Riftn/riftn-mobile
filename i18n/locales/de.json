@@ -15061,5 +15061,8 @@
     "newer": "Neueres Ergebnis",
     "gone": "Diese Nachricht ist nicht mehr hier",
     "theirMessages": "Ihre Nachrichten"
+  },
+  "profileImage": {
+    "change": "Ändern"
   }
 }
