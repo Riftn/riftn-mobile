@@ -814,9 +814,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     if (!currentConvId) return;
     const on = !chatEncrypted;
     void updateChatPref(String(currentConvId), { encrypted: on });
-    toastSuccess(on
-      ? t("messages.encryptOnToast", { defaultValue: "Messages you send here are now end-to-end encrypted" })
-      : t("messages.encryptOffToast", { defaultValue: "Encryption is off for this chat" }));
+    if (on) toastSuccess(t("messages.encrypted", { defaultValue: "End-to-end encrypted" }));
     // Turning it on is the deliberate moment to set up this device's key.
     if (on && e2eeStatus !== "ready") void retryEncryption();
   }, [currentConvId, chatEncrypted, updateChatPref, t, e2eeStatus, retryEncryption]);

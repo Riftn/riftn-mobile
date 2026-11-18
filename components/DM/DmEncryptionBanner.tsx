@@ -46,7 +46,7 @@ const DmEncryptionBannerComponent: React.FC<DmEncryptionBannerProps> = ({
           : status === "error"
             ? t("messages.encryptionSetupFailed", { defaultValue: "Encryption setup failed. Please try again." })
             : olderOnly
-              ? t("messages.olderEncrypted", { defaultValue: "Some older messages here are encrypted." })
+              ? t("messages.lockedTitle", { defaultValue: "Unlock to read your messages" })
               : t("messages.encryptionOff")}
       </Text>
       <TouchableOpacity onPress={onRetry} disabled={busy} className="pl-3 py-1">
@@ -55,7 +55,7 @@ const DmEncryptionBannerComponent: React.FC<DmEncryptionBannerProps> = ({
         ) : (
           <Text className="text-[12px] text-white font-semibold">
             {olderOnly
-              ? t("messages.unlockToRead", { defaultValue: "Unlock to read" })
+              ? t("messages.lockedUnlock", { defaultValue: "Unlock wallet" })
               : t("messages.encryptionTurnOn")}
           </Text>
         )}
