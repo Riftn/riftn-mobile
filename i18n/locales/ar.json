@@ -16865,5 +16865,24 @@
     "sent_other": "تم الإرسال إلى {{count}} محادثات",
     "partSent": "تم الإرسال إلى {{ok}} من {{total}} محادثات",
     "notSent": "تعذر الإرسال. حاول مرة أخرى."
+  },
+  "msgSelect": {
+    "toolbar": "الرسائل المحددة",
+    "pick": "اضغط على الرسائل لتحديدها",
+    "selected": "تم تحديد {{count}}",
+    "copy": "نسخ",
+    "forward": "إعادة توجيه",
+    "deleteSome": "حذف {{count}}",
+    "forwarded_one": "تمت إعادة توجيه {{count}} رسالة",
+    "forwarded_other": "تمت إعادة توجيه {{count}} رسائل",
+    "partForwarded": "تمت إعادة توجيه {{ok}} من {{total}}",
+    "nothingToCopy": "لا يوجد ما يُنسخ في الرسائل المختارة",
+    "copied_one": "تم نسخ {{count}} رسالة",
+    "copied_other": "تم نسخ {{count}} رسائل",
+    "deleteTitle_one": "حذف {{count}} رسالة؟",
+    "deleteTitle_other": "حذف {{count}} رسائل؟",
+    "deleteBody": "ستُحذف للجميع في هذه المحادثة.",
+    "deleted_one": "تم حذف {{count}} رسالة",
+    "deleted_other": "تم حذف {{count}} رسائل"
   }
 }

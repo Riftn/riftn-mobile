@@ -49,6 +49,8 @@ interface MessageContextMenuProps {
   onReply?: () => void;
   onEdit?: () => void;
   onForward?: () => void;
+  /** Start picking several messages, this one first. */
+  onSelect?: () => void;
   onDelete?: () => void;
   onCopy?: () => void;
   onPin?: () => void;
@@ -406,6 +408,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
   onReply,
   onEdit,
   onForward,
+  onSelect,
   onDelete,
   onCopy,
   onPin,
@@ -542,6 +545,12 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     }
     if (onForward && !unsent)
       rows.push({ icon: "Forward", label: t("dm.forwardMessage"), onPress: handleForward });
+    if (onSelect && !unsent && message._id)
+      rows.push({
+        icon: "CircleCheck",
+        label: t("chatBulk.select", { defaultValue: "Select" }),
+        onPress: () => { onClose(); setTimeout(() => onSelect(), 150); },
+      });
     if (downloadable && !unsent)
       rows.push({ icon: "Download", label: t("dm.download", { defaultValue: "Download" }), onPress: handleDownload });
     if (isMine && isTextOnly && !unsent && onEdit)
@@ -584,6 +593,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     isPinned,
     onReply,
     onForward,
+    onSelect,
     onEdit,
     onPin,
     onUnpin,

@@ -21,6 +21,8 @@ import {
   ActivityIndicator,
   Alert,
   TouchableWithoutFeedback,
+  BackHandler,
+  Pressable,
 } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -41,6 +43,9 @@ import MessageContextMenu, {
   type MessageLayout,
 } from "../components/DM/MessageContextMenu";
 import ForwardPickerModal from "../components/DM/ForwardPickerModal";
+import MessageSelectBar from "../components/DM/MessageSelectBar";
+import { BulkTick, CHECKED_FILL } from "../components/DM/BulkChatBar";
+import { copyToClipboard } from "../libs/clipboard.utils";
 import DmFeeBanner from "../components/DM/DmFeeBanner";
 import DmEncryptionBanner from "../components/DM/DmEncryptionBanner";
 import DmSafetyBanner from "../components/DM/DmSafetyBanner";
@@ -285,6 +290,11 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const [initialLoading, setInitialLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [remoteTyping, setRemoteTyping] = useState(false);
+
+  // Picking several messages: hold one, Select, then tap others. null = not picking.
+  const [pickedMsgs, setPickedMsgs] = useState<Set<string> | null>(null);
+  // Several messages forwarded at once from the Select bar.
+  const [bulkForward, setBulkForward] = useState<DmMessage[] | null>(null);
 
   // Context menu
   const [contextMessage, setContextMessage] = useState<DmMessage | null>(null);
@@ -1577,51 +1587,153 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     closeContextMenu();
   }, [contextMessage, closeContextMenu]);
 
+  /** Sends one message on to another chat. Resolves false when it could not go from this phone. */
+  const forwardOne = useCallback(
+    async (msg: DmMessage, targetConvId: ID): Promise<boolean> => {
+      if (msg.encMedia) {
+        try {
+          await dmSendQueue.forwardEncryptedMedia({
+            message: msg,
+            targetConversationId: targetConvId,
+            userId: userId || "me",
+            address,
+          });
+          return true;
+        } catch {
+          return false;
+        }
+      }
+      if (msg.encrypted) {
+        // The server cannot re-encrypt for another conversation, so an
+        // encrypted line is re-sent from here: plaintext from the store,
+        // encrypted again for the target's peer, citing the original.
+        if (msg.undecryptable) return false;
+        dmSendQueue.sendText({
+          conversationId: targetConvId,
+          userId: userId || "me",
+          address,
+          content: msg.content || "",
+          forwardedFrom: { messageId: msg._id },
+        });
+        return true;
+      }
+      ws.emitAuthed(DMSocketEvent.ForwardMessage, {
+        messageId: msg._id,
+        targetDmId: targetConvId,
+      });
+      return true;
+    },
+    [ws, userId, address],
+  );
+
   const onForwardSelect = useCallback(
     (targetConvId: ID) => {
+      if (bulkForward) {
+        const list = bulkForward;
+        setForwardVisible(false);
+        setBulkForward(null);
+        setPickedMsgs(null);
+        void (async () => {
+          let ok = 0;
+          // One after another, so they land in the same order as here.
+          for (const m of list) if (await forwardOne(m, targetConvId)) ok++;
+          if (ok === list.length) toastSuccess(t("msgSelect.forwarded", { defaultValue: "{{count}} messages forwarded", count: ok }));
+          else if (ok > 0) toastWarning(t("msgSelect.partForwarded", { defaultValue: "Forwarded {{ok}} of {{total}}", ok, total: list.length }));
+          else toastWarning(t("dm.cantForwardFromDevice"));
+        })();
+        return;
+      }
       if (!forwardMessage) return;
       if (forwardMessage.encMedia) {
         const original = forwardMessage;
         setForwardVisible(false);
         setForwardMessage(null);
-        dmSendQueue
-          .forwardEncryptedMedia({
-            message: original,
-            targetConversationId: targetConvId,
-            userId: userId || "me",
-            address,
-          })
-          .then(() => toastSuccess(t("dm.messageForwarded")))
-          .catch(() => toastWarning(t("dm.cantForwardFromDevice")));
+        forwardOne(original, targetConvId).then((sent) =>
+          sent ? toastSuccess(t("dm.messageForwarded")) : toastWarning(t("dm.cantForwardFromDevice")),
+        );
         return;
       }
-      if (forwardMessage.encrypted) {
-        // The server cannot re-encrypt for another conversation, so an
-        // encrypted line is re-sent from here: plaintext from the store,
-        // encrypted again for the target's peer, citing the original.
-        if (forwardMessage.undecryptable) {
-          toastWarning(t("dm.cantForwardFromDevice"));
-          return;
-        }
-        dmSendQueue.sendText({
-          conversationId: targetConvId,
-          userId: userId || "me",
-          address,
-          content: forwardMessage.content || "",
-          forwardedFrom: { messageId: forwardMessage._id },
-        });
-      } else {
-        ws.emitAuthed(DMSocketEvent.ForwardMessage, {
-          messageId: forwardMessage._id,
-          targetDmId: targetConvId,
-        });
+      if (forwardMessage.encrypted && forwardMessage.undecryptable) {
+        toastWarning(t("dm.cantForwardFromDevice"));
+        return;
       }
+      void forwardOne(forwardMessage, targetConvId);
       toastSuccess(t("dm.messageForwarded"));
       setForwardVisible(false);
       setForwardMessage(null);
     },
-    [forwardMessage, ws, userId, address],
+    [forwardMessage, bulkForward, forwardOne],
   );
+
+  // ─── Picking several messages (Select) ────────────────────────────────────
+  const picking = pickedMsgs !== null;
+  /** Picked messages in thread order, oldest first (the list is newest first). */
+  const pickedList = useMemo(
+    () => (pickedMsgs ? messageList.filter((m) => pickedMsgs.has(m._id) && !m.isDeleted).reverse() : []),
+    [pickedMsgs, messageList],
+  );
+  const pickedOwn = useMemo(() => pickedList.filter((m) => isMine(m)), [pickedList, isMine]);
+  const togglePick = useCallback((m: DmMessage) => {
+    setPickedMsgs((prev) => {
+      const next = new Set(prev ?? []);
+      if (next.has(m._id)) next.delete(m._id);
+      else next.add(m._id);
+      return next;
+    });
+  }, []);
+  const handleSelect = useCallback(() => {
+    if (contextMessage?._id) setPickedMsgs(new Set([contextMessage._id]));
+    closeContextMenu();
+  }, [contextMessage, closeContextMenu]);
+  // A different chat starts with nothing picked.
+  useEffect(() => { setPickedMsgs(null); }, [currentConvId]);
+  // Android back leaves picking before it leaves the chat.
+  useEffect(() => {
+    if (!picking) return;
+    const sub = BackHandler.addEventListener("hardwareBackPress", () => { setPickedMsgs(null); return true; });
+    return () => sub.remove();
+  }, [picking]);
+  const copyPicked = useCallback(() => {
+    const text = pickedList
+      .map((m) => (m.undecryptable ? "" : (m.content || "").trim()))
+      .filter(Boolean)
+      .join("\n");
+    if (!text) {
+      toastWarning(t("msgSelect.nothingToCopy", { defaultValue: "Nothing to copy in the picked messages" }));
+      return;
+    }
+    copyToClipboard(text);
+    toastSuccess(t("msgSelect.copied", { defaultValue: "Copied {{count}} messages", count: pickedList.length }));
+    setPickedMsgs(null);
+  }, [pickedList]);
+  const forwardPicked = useCallback(() => {
+    if (!pickedList.length) return;
+    setBulkForward(pickedList);
+    setForwardVisible(true);
+  }, [pickedList]);
+  const deletePicked = useCallback(() => {
+    if (!currentConvId || !pickedOwn.length) return;
+    const list = pickedOwn;
+    Alert.alert(
+      t("msgSelect.deleteTitle", { defaultValue: "Delete {{count}} messages?", count: list.length }),
+      t("msgSelect.deleteBody", { defaultValue: "They will be removed for everyone in this chat." }),
+      [
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("common.delete"),
+          style: "destructive",
+          onPress: () => {
+            for (const m of list) {
+              ws.emitAuthed(DMSocketEvent.DeleteMessage, { dmId: currentConvId, messageId: m._id });
+              dmActions.removeMessage({ dmId: currentConvId, messageId: m._id });
+            }
+            toastSuccess(t("msgSelect.deleted", { defaultValue: "Deleted {{count}} messages", count: list.length }));
+            setPickedMsgs(null);
+          },
+        },
+      ],
+    );
+  }, [currentConvId, pickedOwn, ws]);
 
 
   const onTypingChange = useCallback(
@@ -1888,10 +2000,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       // The long-press menu floats its own copy of this bubble over the list.
       // The copy is see-through, so the original underneath showed its text
       // and time a second time; hide it while the menu is open.
-      return (
-        <View style={liftedId === item._id ? { opacity: 0 } : undefined}>
-          {dayPill}
-          {unreadMarker}
+      const bubble = (
           <MessageBubble
             message={item}
             isMine={mine}
@@ -1907,10 +2016,41 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             onToggleReaction={toggleReaction}
             callPeerAddress={peer.address || undefined}
           />
+      );
+      // Picking: the whole line is one tap target with a tick on the left;
+      // the bubble's own taps, holds and swipes wait until picking ends.
+      const pickable = !item.isDeleted && !(item as OptimisticMessage)?._tempId;
+      if (picking) {
+        const checked = !!pickedMsgs?.has(item._id);
+        return (
+          <View>
+            {dayPill}
+            {unreadMarker}
+            <Pressable
+              testID="msg-pick-row"
+              disabled={!pickable}
+              onPress={() => togglePick(item)}
+              onLongPress={() => togglePick(item)}
+              accessibilityRole="checkbox"
+              accessibilityState={{ checked }}
+              style={{ flexDirection: "row", alignItems: "center", paddingLeft: 10 }}
+            >
+              {checked && <View pointerEvents="none" style={CHECKED_FILL} />}
+              <View style={{ opacity: pickable ? 1 : 0 }}><BulkTick checked={checked} /></View>
+              <View style={{ flex: 1 }} pointerEvents="none">{bubble}</View>
+            </Pressable>
+          </View>
+        );
+      }
+      return (
+        <View style={liftedId === item._id ? { opacity: 0 } : undefined}>
+          {dayPill}
+          {unreadMarker}
+          {bubble}
         </View>
       );
     },
-    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, address, toggleReaction, liftedId, unreadAnchor],
+    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, address, toggleReaction, liftedId, unreadAnchor, picking, pickedMsgs, togglePick],
   );
 
   // The temp id a line was drawn under stays its key after the send lands.
@@ -2151,7 +2291,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 page with a hairline on top. Still opaque, since the list
                 scrolls under this bar. */}
             <MessageSurface material={false} />
-            {showLockedState ? null : voiceRecorder.isRecording ? (
+            {showLockedState ? null : picking ? (
+              <MessageSelectBar
+                count={pickedList.length}
+                ownCount={pickedOwn.length}
+                onCopy={copyPicked}
+                onForward={forwardPicked}
+                onDelete={deletePicked}
+                onCancel={() => setPickedMsgs(null)}
+              />
+            ) : voiceRecorder.isRecording ? (
               <VoiceNoteRecordingOverlay recorder={voiceRecorder} />
             ) : dmDisabled ? (
               <View className="px-4 py-3 bg-theme-neutrals-800 border-t border-theme-neutrals-700/50">
@@ -2230,6 +2379,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           onReply={handleReply}
           onEdit={handleEdit}
           onForward={handleForward}
+          onSelect={handleSelect}
           onDelete={handleDelete}
           onPin={handlePinMessage}
           onUnpin={handleUnpinMessage}
@@ -2244,6 +2394,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           onClose={() => {
             setForwardVisible(false);
             setForwardMessage(null);
+            setBulkForward(null);
           }}
           onSelect={onForwardSelect}
           conversations={conversations}

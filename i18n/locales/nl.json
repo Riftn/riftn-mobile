@@ -17096,5 +17096,24 @@
     "sent_other": "Verstuurd naar {{count}} chats",
     "partSent": "Verstuurd naar {{ok}} van {{total}} chats",
     "notSent": "Versturen mislukt. Probeer het opnieuw."
+  },
+  "msgSelect": {
+    "toolbar": "Geselecteerde berichten",
+    "pick": "Tik op berichten om ze te selecteren",
+    "selected": "{{count}} geselecteerd",
+    "copy": "Kopiëren",
+    "forward": "Doorsturen",
+    "deleteSome": "{{count}} verwijderen",
+    "forwarded_one": "{{count}} bericht doorgestuurd",
+    "forwarded_other": "{{count}} berichten doorgestuurd",
+    "partForwarded": "{{ok}} van {{total}} doorgestuurd",
+    "nothingToCopy": "Niets te kopiëren in de gekozen berichten",
+    "copied_one": "{{count}} bericht gekopieerd",
+    "copied_other": "{{count}} berichten gekopieerd",
+    "deleteTitle_one": "{{count}} bericht verwijderen?",
+    "deleteTitle_other": "{{count}} berichten verwijderen?",
+    "deleteBody": "Ze worden voor iedereen in deze chat verwijderd.",
+    "deleted_one": "{{count}} bericht verwijderd",
+    "deleted_other": "{{count}} berichten verwijderd"
   }
 }
