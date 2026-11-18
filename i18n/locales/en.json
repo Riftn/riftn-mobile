@@ -16686,5 +16686,24 @@
     "sent_other": "Sent to {{count}} chats",
     "partSent": "Sent to {{ok}} of {{total}} chats",
     "notSent": "Could not send. Try again."
+  },
+  "msgSelect": {
+    "toolbar": "Selected messages",
+    "pick": "Tap messages to select them",
+    "selected": "{{count}} selected",
+    "copy": "Copy",
+    "forward": "Forward",
+    "deleteSome": "Delete {{count}}",
+    "forwarded_one": "{{count}} message forwarded",
+    "forwarded_other": "{{count}} messages forwarded",
+    "partForwarded": "Forwarded {{ok}} of {{total}}",
+    "nothingToCopy": "Nothing to copy in the picked messages",
+    "copied_one": "Copied {{count}} message",
+    "copied_other": "Copied {{count}} messages",
+    "deleteTitle_one": "Delete {{count}} message?",
+    "deleteTitle_other": "Delete {{count}} messages?",
+    "deleteBody": "They will be removed for everyone in this chat.",
+    "deleted_one": "Deleted {{count}} message",
+    "deleted_other": "Deleted {{count}} messages"
   }
 }

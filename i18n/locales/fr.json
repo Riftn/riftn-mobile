@@ -16849,5 +16849,24 @@
     "sent_other": "Envoyé à {{count}} discussions",
     "partSent": "Envoyé à {{ok}} sur {{total}} discussions",
     "notSent": "Envoi impossible. Réessayez."
+  },
+  "msgSelect": {
+    "toolbar": "Messages sélectionnés",
+    "pick": "Touchez des messages pour les sélectionner",
+    "selected": "{{count}} sélectionné(s)",
+    "copy": "Copier",
+    "forward": "Transférer",
+    "deleteSome": "Supprimer {{count}}",
+    "forwarded_one": "{{count}} message transféré",
+    "forwarded_other": "{{count}} messages transférés",
+    "partForwarded": "{{ok}} sur {{total}} transférés",
+    "nothingToCopy": "Rien à copier dans les messages choisis",
+    "copied_one": "{{count}} message copié",
+    "copied_other": "{{count}} messages copiés",
+    "deleteTitle_one": "Supprimer {{count}} message ?",
+    "deleteTitle_other": "Supprimer {{count}} messages ?",
+    "deleteBody": "Ils seront supprimés pour tout le monde dans ce chat.",
+    "deleted_one": "{{count}} message supprimé",
+    "deleted_other": "{{count}} messages supprimés"
   }
 }
