@@ -115,6 +115,13 @@ describe('/app routes', () => {
     expect(target(resolve('/app/features')).name).toBe('FeatureRequests');
   });
 
+  it('opens a request shared from web as /app/post/<request id> on the board', () => {
+    const shared = target(resolve('/app/post/9cea24f0-db7e-498f-ad41-829bff08840e?ref=TJT66CWG'));
+    expect(shared.name).toBe('FeatureRequests');
+    expect(shared.params).toMatchObject({ requestId: '9cea24f0-db7e-498f-ad41-829bff08840e' });
+    expect(target(resolve('/app/post/42')).name).not.toBe('FeatureRequests');
+  });
+
   it('opens governance, one proposal at its comment, and SuperPowers', () => {
     expect(target(resolve('/app/governance')).name).toBe('Governance');
     const proposal = target(resolve('/app/governance/p1?comment=c2'));
