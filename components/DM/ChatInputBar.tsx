@@ -54,6 +54,8 @@ import type { SmartReplyTurn } from "../../services/ai.service";
 import type { DmMessage, DmFee } from "../../services/dm/dm.types";
 import { DM_TEXT_MAX_LENGTH } from "../../services/dm/dm.types";
 import { haptic } from "../../libs/haptics";
+import { useComposeTranslate } from "../../hooks/useComposeTranslate";
+import LanguageSelectModal from "../Settings/LanguageSelectModal";
 
 
 export type ChatMediaAttachment = {
@@ -594,6 +596,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   }, [onCancelEdit, setEditText]);
 
 
+  const translator = useComposeTranslate(text, setText);
+
   const handleEnhance = useCallback(async () => {
     const trimmed = text.trim();
     if (!trimmed || enhancing) return;
@@ -692,6 +696,13 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       icon: "Sparkles",
       label: t("dm.enhanceWithAi"),
       onPress: fromSheet(handleEnhance),
+      disabled: !text.trim(),
+    },
+    {
+      key: "translate",
+      icon: "Languages",
+      label: t("common.translate"),
+      onPress: fromSheet(translator.openPicker),
       disabled: !text.trim(),
     },
   ];
@@ -967,6 +978,17 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
           <TouchableOpacity {...gifPress} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.chooseGif")}><Icon name="Smile" size={20} color="#A1A1AA" /></TouchableOpacity>
           <TouchableOpacity onPress={() => { haptic.tap(); Keyboard.dismiss(); setClipOpen(true); }} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.attachAnything", { defaultValue: "Attach a photo, video, audio or file" })}><Icon name="Paperclip" size={20} color="#A1A1AA" /></TouchableOpacity>
           <TouchableOpacity onPress={onStartVoice} disabled={enhancing || sending} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("comments.recordVoice")}><Icon name="Mic" size={20} color="#A1A1AA" /></TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => void translator.translate()}
+            onLongPress={translator.openPicker}
+            disabled={enhancing || translator.busy || !text.trim()}
+            style={CONTROL_BOX}
+            className="items-center justify-center"
+            accessibilityRole="button"
+            accessibilityLabel={t("common.translate")}
+          >
+            {translator.busy ? <ActivityIndicator size={16} color="#F4F4F5" /> : <Icon name="Languages" size={20} color={text.trim() ? "#A1A1AA" : "#52525B"} />}
+          </TouchableOpacity>
           <TouchableOpacity onPress={handleEnhance} disabled={enhancing || !text.trim()} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.enhanceWithAi")}><Icon name="Sparkles" size={20} color={text.trim() ? "#A1A1AA" : "#52525B"} /></TouchableOpacity>
           {/* Send stays in its own slot, including fee and tip-only sends. */}
           {(
@@ -1063,6 +1085,14 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
         visible={attachOpen}
         onClose={() => setAttachOpen(false)}
         options={attachOptions}
+      />
+      <LanguageSelectModal
+        visible={translator.pickerOpen}
+        onClose={translator.closePicker}
+        onSelect={translator.choose}
+        selected={translator.lang}
+        title={t("common.translate")}
+        subtitle=""
       />
     </>
   );

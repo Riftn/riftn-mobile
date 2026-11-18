@@ -28,6 +28,8 @@ import { toastError, toastInfo } from "../../libs/toast";
 import { aiConsentDeclinedMessage, ensureAiConsent, hasAiConsent } from "../../libs/ai-consent";
 import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../Comments/VoiceNoteRecorder";
 import type { VoiceNoteResult } from "../Comments/VoiceNoteRecorder";
+import { useComposeTranslate } from "../../hooks/useComposeTranslate";
+import LanguageSelectModal from "../Settings/LanguageSelectModal";
 
 const MAX_LENGTH = 500;
 const WARN_THRESHOLD = 50;
@@ -101,6 +103,7 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
   const [attachOpen, setAttachOpen] = useState(false);
   const [emojiSheetOpen, setEmojiSheetOpen] = useState(false);
   const mentions = useMentions(text, setText);
+  const translator = useComposeTranslate(text, setText);
   const [cooldown, setCooldown] = useState(false);
   const [enhancing, setEnhancing] = useState(false);
   const [uploadingVoice, setUploadingVoice] = useState(false);
@@ -420,6 +423,17 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
           <TouchableOpacity onPress={handlePickImage} disabled={disabled || attachmentBusy} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("liveChat.attachPhoto")}><Icon name="Image" size={20} color={composerIconColor} /></TouchableOpacity>
           <TouchableOpacity onPress={handleStartRecording} disabled={disabled} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("liveChat.recordVoice")}><Icon name="Mic" size={20} color={composerIconColor} /></TouchableOpacity>
           <TouchableOpacity
+            onPress={() => void translator.translate()}
+            onLongPress={translator.openPicker}
+            disabled={disabled || translator.busy || !text.trim()}
+            style={CONTROL_BOX}
+            className="items-center justify-center"
+            accessibilityRole="button"
+            accessibilityLabel={t("common.translate")}
+          >
+            {translator.busy ? <ActivityIndicator size={18} color={composerActiveColor} /> : <Icon name="Languages" size={20} color={text.trim() ? composerIconColor : "#52525B"} />}
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={handleEnhance}
             className="items-center justify-center"
             hitSlop={4}
@@ -482,6 +496,14 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
           setAttachOpen(false);
           setTimeout(() => setEmojiSheetOpen(true), 250);
         }}
+      />
+      <LanguageSelectModal
+        visible={translator.pickerOpen}
+        onClose={translator.closePicker}
+        onSelect={translator.choose}
+        selected={translator.lang}
+        title={t("common.translate")}
+        subtitle=""
       />
       <EmojiSheet
         visible={emojiSheetOpen}
