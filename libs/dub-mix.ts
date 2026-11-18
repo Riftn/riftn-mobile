@@ -34,9 +34,16 @@ export function setDubMixActive(player: VolumePlayer, active: boolean): void {
   if (active) mixedPlayers.add(player);
   else mixedPlayers.delete(player);
 }
-/** Every player control uses the same output path while a dub owns the mix. */
+const songMixedPlayers = new WeakMap<VolumePlayer, number>();
+/** A song playing with the video keeps this much of the video's own sound; null hands it back. */
+export function setSongMixGain(player: VolumePlayer, gain: number | null): void {
+  if (gain == null) songMixedPlayers.delete(player);
+  else songMixedPlayers.set(player, level(gain, 1));
+}
+/** Every player control uses the same output path while a dub or a song owns the mix. */
 export function applyVideoVolume(player: VolumePlayer, master: number): void {
-  const target = level(master, 0) * (mixedPlayers.has(player) ? dubLevelGain(current.original) : 1);
+  const dub = mixedPlayers.has(player) ? dubLevelGain(current.original) : 1;
+  const target = level(master, 0) * dub * (songMixedPlayers.get(player) ?? 1);
   if (target === 0 ? player.volume !== 0 : Math.abs(player.volume - target) > 0.000001) player.volume = target;
 }
 
