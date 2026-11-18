@@ -13,6 +13,9 @@ let mockCaller = "";
 // Reproduces the server fault: its auth guard overwrote the address in the
 // path with the caller's own, so every key lookup answered about the caller.
 let mockGuardBug = false;
+// Chats with "Encrypt chat" on, keyed by the peer's address, which stands in
+// for the conversation id.
+let mockEncryptedChats: string[] = [];
 
 jest.mock("../../libs/api.client", () => ({
   apiClient: {
@@ -22,6 +25,9 @@ jest.mock("../../libs/api.client", () => ({
       return { address: mockCaller, publicKey: body.publicKey };
     }),
     get: jest.fn(async (endpoint: string) => {
+      if (endpoint === "/dm/chat-prefs") {
+        return { result: mockEncryptedChats.map((conversationId) => ({ conversationId, encryptedAt: "2026-11-18T00:00:00.000Z" })) };
+      }
       const m = endpoint.match(/^\/dm\/e2ee-key\/(0x[0-9a-f]+)$/);
       if (!m) throw new Error(`unexpected get ${endpoint}`);
       const answered = mockGuardBug ? mockCaller : m[1];
@@ -108,8 +114,19 @@ async function become(address: string) {
 describe("dm-e2ee client flow", () => {
   beforeEach(async () => {
     mockRegistry.clear();
+    mockEncryptedChats = [A, B, C];
     unloadIdentity();
     await wipeKeychain();
+  });
+
+  it("sends plaintext unless Encrypt chat is on for that chat", async () => {
+    mockEncryptedChats = [];
+    await become(A);
+    await become(B);
+    expect(await prepareOutgoing(A, "hi from B")).toEqual({ content: "hi from B", encrypted: false });
+    mockEncryptedChats = [A];
+    await become(B);
+    expect((await prepareOutgoing(A, "hi from B")).encrypted).toBe(true);
   });
 
   it("two users exchange messages that only they can open", async () => {

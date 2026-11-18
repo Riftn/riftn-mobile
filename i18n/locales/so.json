@@ -4769,6 +4769,8 @@
     "turnOffSmartReplies": "Dami jawaabaha la soo jeediyay",
     "encrypted": "Si dhammaystiran loo sireeyay",
     "encryptionOff": "Sirayntu kuma shidna qalabkan",
+    "encryptChat": "Qari sheekada",
+    "encryptChatOff": "Dami qarinta",
     "encryptionTurnOn": "Shid",
     "cannotDecrypt": "Fariin sir ah — laguma furi karo qalabkan",
     "title": "Fariimaha",
@@ -6363,7 +6365,6 @@
       "adding": "Ku darista…",
       "failed": "Ma cusbooneysiin karo qoraallada bulshada. isku day mar kale.",
       "hint": "Ku hay boostada asalka ah, jecel iyo aragtida.",
-      "invalidLink": "https://dehub.net/123456",
       "more": "Ku rar qoraallo dheeraad ah",
       "placeholder": "Riftn xiriiriyaha boostada ama aqoonsiga boostada",
       "remove": "Ka saar bulshada",
@@ -8522,7 +8523,7 @@
     "addPasswordOnWeb": "Haddii aad hore u isticashay riftn.com, fur kombiyuutarkaaga, gal isla dariiqa iyo isla koontada, oo <em>ku dar password wallet-ka</em> — taasi waxay kaydinaysaa kayd la siraystay oo daruuraha ah. Kadibna soo noqo oo isku day mar kale.",
     "walletAddress": "Boorsada: {{address}}",
     "biometricKeepsFailing": "{{error}} Haddii ay sii fashilanto, isticmaal furaha kaydkaaga hoose ama \"Import external wallet\".",
-    "deviceBoundKey": "Kaydkan waxa lagu furaa <em>biometrics-ka lagu hayo hal qalab oo gaar ah</em> — telefoonka ama browserka lagu sameeyay. Telefoonkanu ma hayo furahaas, dehub.io-na ma hayo: furaha marnaba kama baxo qalabkii sameeyay.",
+    "deviceBoundKey": "Kaydkan waxa lagu furaa <em>biometrics-ka lagu hayo hal qalab oo gaar ah</em> — telefoonka ama browserka lagu sameeyay. Telefoonkanu ma hayo furahaas, riftn.com-na ma hayo: furaha marnaba kama baxo qalabkii sameeyay.",
     "unlockPasskeyOnly": "Kaydkan waxa lagu xaqiijiyay passkey webka waxana uusan weli lahayn kayd furaha ah oo daruuraha ku jira. Haddii aad dejiso furaha kaydka riftn.com, halkan geli — haddii kale isticmaal Import external wallet hoose.",
     "unlockWithPasswordExplainer": "Koontadan horeyba waxay leedahay kayd, oo lagu ilaaliyo furaha. Geli si aad u soo ceshato kaydkaaga qalabkan.",
     "deviceTab": "Qalabkan",
@@ -13089,7 +13090,7 @@
           "8": "Riix boost kasta si aad ugu furto shaashad buuxda oo hal boost ah."
         },
         "tips": {
-          "1": "Talooyinka si toos ah ayay ugu dhacaan jeebka abuuraha ee deHub tokens.",
+          "1": "Talooyinka si toos ah ayay ugu dhacaan jeebka abuuraha ee Riftn tokens.",
           "2": "Waxaad dejin kartaa qaddarka talada iyada oo loo marayo badhamada xulashada degdega ah ama waxaad geli kartaa qaddar gaar ah.",
           "3": "Boostada la keydiyay waxa laga heli karaa bogga Kaydka ee dhinaca."
         }
@@ -14436,7 +14437,7 @@
       "connected": "OBS isku xira",
       "notConnected": "OBS kuma xirna",
       "showIn": "Muuji widgets-kaaga",
-      "inApp": "Badiyadka to deHub app",
+      "inApp": "Badiyadka to Riftn app",
       "inAppHint": "Codsi kasta oo daawadayaal ah wuxuu ku jiidaa durdurkaaga. Waxay ka shaqeysaa taleefankaaga, biraawsarka, kaarka qabashada ama OBS, mana kugu kacayso wax.",
       "inVideoHint": "OBS waxay ku gubtaa sawirkaaga, sidaa darteed waxay ku jiraan dib-u-celintaada iyo meel kasta oo durdurkaaga laga daawado.",
       "warnDoubles": "OBS overlay-kaaga ayaa ku xiran, laakiin widgets-kaaga ayaa sidoo kale loo dejiyay inay muujiyaan barnaamijka Riftn, sidaa darteed daawadayaashu waxay arkaan feejignaan kasta laba jeer.",
@@ -14718,7 +14719,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "Waxaa la sheegay in la xiray",
     "sellYours": "Mabda'kaaga aad ku doorto.",

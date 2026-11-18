@@ -4776,6 +4776,8 @@
     "turnOffSmartReplies": "ಸೂಚಿಸಿದ ಪ್ರತ್ಯುತ್ತರಗಳನ್ನು ಆಫ್ ಮಾಡಿ",
     "encrypted": "ಎಂಡ್-ಟು-ಎಂಡ್ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಆಗಿದೆ",
     "encryptionOff": "ಈ ಸಾಧನದಲ್ಲಿ ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಆಫ್ ಆಗಿದೆ",
+    "encryptChat": "ಚಾಟ್ ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಿ",
+    "encryptChatOff": "ಎನ್‌ಕ್ರಿಪ್ಶನ್ ಆಫ್ ಮಾಡಿ",
     "encryptionTurnOn": "ಆನ್ ಮಾಡಿ",
     "cannotDecrypt": "ಎನ್‌ಕ್ರಿಪ್ಟ್ ಮಾಡಿದ ಸಂದೇಶ — ಈ ಸಾಧನದಲ್ಲಿ ತೆರೆಯಲು ಸಾಧ್ಯವಿಲ್ಲ",
     "title": "ಸಂದೇಶಗಳು",
@@ -14748,7 +14750,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub ಪೋಸ್ಟ್‌ಗಳು",
+    "dehubPostsName": "Riftn ಪೋಸ್ಟ್‌ಗಳು",
     "statMinted": "ಮಿಂಟ್ ಮಾಡಲಾಗಿದೆ",
     "statForSale": "ಮಾರಾಟಕ್ಕೆ",
     "sellYours": "ನಿಮ್ಮದನ್ನು ಮಾರಿ",

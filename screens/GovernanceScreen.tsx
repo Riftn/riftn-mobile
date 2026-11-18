@@ -25,7 +25,8 @@ import { theme } from "../theme";
 import { getAvatarUrl } from "../libs/misc";
 import AccountBadge from "../components/common/AccountBadge";
 import { formatCompactNumber } from "../libs";
-import { getProposals, type GovernanceProposal, type GovernanceTab } from "../services/governance.service";
+import { getProposals, isMultipleChoice, type GovernanceProposal, type GovernanceTab } from "../services/governance.service";
+import ProposalOptionsList from "../components/Governance/ProposalOptionsList";
 
 const TABS: { key: GovernanceTab; labelKey: string }[] = [
   { key: "active", labelKey: "governance.active" },
@@ -63,6 +64,10 @@ const ProposalCard: React.FC<{ proposal: GovernanceProposal; onPress: () => void
         <Text style={styles.cardDesc} numberOfLines={4}>{proposal.description}</Text>
       )}
 
+      {isMultipleChoice(proposal) ? (
+        <ProposalOptionsList proposal={proposal} myOption={null} compact />
+      ) : (
+      <>
       {/* For / against bar */}
       <View style={styles.barTrack}>
         <View style={[styles.barFor, { flex: total > 0 ? forW : 1 }]} />
@@ -72,8 +77,12 @@ const ProposalCard: React.FC<{ proposal: GovernanceProposal; onPress: () => void
         <Text style={styles.forText}>{forPct}% {t("governance.forLabel")}</Text>
         <Text style={styles.againstText}>{againstPct}% {t("governance.againstLabel")}</Text>
       </View>
+      </>
+      )}
 
       <View style={styles.metaRow}>
+        {!isMultipleChoice(proposal) && (
+          <>
         <View style={styles.metaItem}>
           <Icon name="ThumbsUp" size={13} color="#F4F4F5" />
           <Text style={styles.metaText}>{formatCompactNumber(forW)}</Text>
@@ -82,6 +91,8 @@ const ProposalCard: React.FC<{ proposal: GovernanceProposal; onPress: () => void
           <Icon name="ThumbsDown" size={13} color="#F4F4F5" />
           <Text style={styles.metaText}>{formatCompactNumber(againstW)}</Text>
         </View>
+          </>
+        )}
         <View style={styles.metaItem}>
           <Icon name="MessageCircle" size={13} color="#808089" />
           <Text style={styles.metaText}>{formatCompactNumber(proposal.comment_count || 0)}</Text>

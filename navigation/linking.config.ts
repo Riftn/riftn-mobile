@@ -654,6 +654,20 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
       });
       return orOpenOnWeb(getStateFromPath(`/app/features${query ? `?${query}` : ''}`, options));
     }
+    // Web's Requests board shared its cards as /app/post/<request id> for a
+    // while. Posts are numbers or slugs, never UUIDs, so a UUID there is
+    // always a request: open it on the board instead of a missing post.
+    if (
+      (appSegs[0] === 'post' || appSegs[0] === 'posts') &&
+      appSegs.length === 2 &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(appSegs[1])
+    ) {
+      const query = renameQueryParams(
+        `feature=${encodeURIComponent(appSegs[1])}${queryString ? `&${queryString}` : ''}`,
+        { feature: 'requestId', comment: 'commentId' },
+      );
+      return orOpenOnWeb(getStateFromPath(`/app/features?${query}`, options));
+    }
 
     // Web's proposal notifications carry ?comment=<id>; the screen reads
     // commentId.

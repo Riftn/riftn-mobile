@@ -4789,6 +4789,8 @@
     "turnOffSmartReplies": "បិទចម្លើយដែលបានស្នើ",
     "encrypted": "អ៊ិនគ្រីបពីចុងដល់ចុង",
     "encryptionOff": "ការអ៊ិនគ្រីបត្រូវបានបិទនៅលើឧបករណ៍នេះ",
+    "encryptChat": "អ៊ិនគ្រីបការជជែក",
+    "encryptChatOff": "បិទការអ៊ិនគ្រីប",
     "encryptionTurnOn": "បើក",
     "cannotDecrypt": "សារដែលបានអ៊ិនគ្រីប — មិនអាចបើកនៅលើឧបករណ៍នេះបានទេ",
     "title": "សារ",
@@ -14789,7 +14791,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "ប្រកាសរបស់ DeHub",
+    "dehubPostsName": "ប្រកាសរបស់ Riftn",
     "statForSale": "លក់",
     "sellYours": "លក់របស់អ្នក",
     "tapToOffer": "ចុចលេខមួយដើម្បីធ្វើការផ្តល់ជូន",

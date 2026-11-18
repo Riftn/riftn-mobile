@@ -4834,6 +4834,8 @@
     "turnOffSmartReplies": "I-off ang mga iminungkahing sagot",
     "encrypted": "Naka-encrypt end-to-end",
     "encryptionOff": "Naka-off ang encryption sa device na ito",
+    "encryptChat": "I-encrypt ang chat",
+    "encryptChatOff": "I-off ang encryption",
     "encryptionTurnOn": "I-on",
     "cannotDecrypt": "Naka-encrypt na mensahe — hindi mabubuksan sa device na ito",
     "title": "Mga Mensahe",
@@ -14948,7 +14950,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "Mga Post ng DeHub",
+    "dehubPostsName": "Mga Post ng Riftn",
     "statMinted": "Minted",
     "statForSale": "Ikinakalakal",
     "sellYours": "Mamahalin mo",

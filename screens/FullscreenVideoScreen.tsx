@@ -21,6 +21,7 @@ import { useRoute, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { VideoView } from "expo-video";
 import { usePostVideoPlayer } from "../hooks/usePostVideoPlayer";
+import { useVideoSoundtrack } from "../hooks/useVideoSoundtrack";
 import { hasHlsFailed, markHlsFailed, useHlsFallback } from "../libs/hls-fallback";
 import PictureInPictureButton from "../components/common/PictureInPictureButton";
 import { FULLSCREEN_BUFFER_OPTIONS } from "../libs/videoBuffering";
@@ -86,6 +87,7 @@ const FullscreenVideoScreen = () => {
     creatorUsername,
     downloadTitle,
     storyboard: rawStoryboard,
+    soundtrackUrl,
     landscape: opensSideways = false,
     turned = false,
   } = (route?.params as any) || {};
@@ -183,6 +185,7 @@ const FullscreenVideoScreen = () => {
     p.showNowPlayingNotification = true;
     p.bufferOptions = FULLSCREEN_BUFFER_OPTIONS;
   });
+  useVideoSoundtrack(videoUrl ? player : null, soundtrackUrl);
 
   // The player may come from a feed card that pauses in the background.
   useEffect(() => {

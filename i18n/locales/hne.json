@@ -4775,6 +4775,8 @@
     "turnOffSmartReplies": "सुझाए गे जवाब बंद करव",
     "encrypted": "एंड-टू-एंड एन्क्रिप्टेड",
     "encryptionOff": "ए डिवाइस म एन्क्रिप्शन बंद हे",
+    "encryptChat": "चैट एन्क्रिप्ट करव",
+    "encryptChatOff": "एन्क्रिप्शन बंद करव",
     "encryptionTurnOn": "चालू करव",
     "cannotDecrypt": "एन्क्रिप्टेड संदेस — ए डिवाइस म नइ खुल सकय",
     "title": "संदेश",

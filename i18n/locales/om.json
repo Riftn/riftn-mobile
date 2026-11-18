@@ -4789,6 +4789,8 @@
     "turnOffSmartReplies": "Deebiiwwan yaadaman dhaamsi",
     "encrypted": "Fiixee hanga fiixeetti icciteeffame",
     "encryptionOff": "Iccitiin meeshaa kana irratti hin banamne",
+    "encryptChat": "Haasawaa iccitii godhi",
+    "encryptChatOff": "Iccitii cufi",
     "encryptionTurnOn": "Bani",
     "cannotDecrypt": "Ergaa icciteeffame — meeshaa kana irratti banamuu hin danda'u",
     "title": "Ergaawwan",
@@ -14792,7 +14794,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Mint godhame",
     "statForSale": "Gurgurtaa jira",
     "sellYours": "Kee gurguri",

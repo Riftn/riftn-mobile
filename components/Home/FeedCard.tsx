@@ -1,4 +1,5 @@
 import { usePerfProbe, perfMark, perfPropsEqual } from "../../libs/perfTrace";
+import { useClockLabel } from "../../libs/minuteClock";
 import { useCommentCount } from '../../libs/comment-count-store';
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useVideoDownload } from "../../context/VideoDownloadContext";
@@ -265,10 +266,10 @@ export function resolveContentType(item: UnifiedFeedItem): PostContentType {
   return "image";
 }
 
-function formatShortTimeAgo(dateStr?: string): string {
+function formatShortTimeAgo(dateStr?: string, nowMs = Date.now()): string {
   if (!dateStr) return "";
   const d = new Date(dateStr);
-  const diffMs = Date.now() - d.getTime();
+  const diffMs = nowMs - d.getTime();
   const mins = Math.floor(diffMs / 60000);
   if (mins < 60) return `${mins || 1}m`;
   const hrs = Math.floor(mins / 60);
@@ -349,12 +350,18 @@ const META_PILL = {
   flexDirection: "row", alignItems: "center", gap: 4, paddingHorizontal: 8, paddingVertical: 2,
   borderRadius: 999, backgroundColor: "rgba(255,255,255,0.08)",
 } as const;
+/** The "5m" label, kept moving by the shared clock (see libs/minuteClock). */
+function TimeAgoText({ createdAt, style }: { createdAt: string; style: any }) {
+  const label = useClockLabel((nowMs) => formatShortTimeAgo(createdAt, nowMs));
+  return <Text style={style}>{label}</Text>;
+}
+
 /**
  * Clock + time, then the post kind's icon + count, then who may see it when
  * that is narrower than everyone. A fragment, so the row adds no wrapper views.
  */
-function PostMetaItems({ timeAgo, icon, count, visibility, boosted, onStatsPress }: {
-  timeAgo?: string;
+function PostMetaItems({ createdAt, icon, count, visibility, boosted, onStatsPress }: {
+  createdAt?: string;
   /** Your own post: the count becomes a pill that opens its stats. */
   onStatsPress?: () => void;
   /** Paid boost slot: says so in words, right after the time. */
@@ -370,10 +377,10 @@ function PostMetaItems({ timeAgo, icon, count, visibility, boosted, onStatsPress
   const label = [META_LABEL, { color: iconColor }];
   return (
     <>
-      {timeAgo ? (
+      {createdAt ? (
         <>
           <Icon name="TimeAgo" size={13} color={iconColor} />
-          <Text style={label}>{timeAgo}</Text>
+          <TimeAgoText createdAt={createdAt} style={label} />
         </>
       ) : null}
       {boosted ? (
@@ -1996,6 +2003,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       onPlaybackFailed={requiresVideoAccess ? onVideoPlaybackFailed : undefined}
       transcodingStatus={item.transcodingStatus}
       storyboard={isActuallyGated ? undefined : item.storyboard}
+      soundtrackUrl={isActuallyGated || matureGate.isGated ? undefined : soundtrack?.url}
       isOwner={!!isOwnerPost}
       duration={duration}
       tokenId={tokenId}
@@ -2576,7 +2584,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   variant="portrait" compactPortrait={SCREEN_WIDTH < 768} maxLines={4} showCategories={false} flagged={item.communityAlertStatus === "pending"}
                   onCategoryPress={onCategorySelect} onCashtagPress={setActiveCashtag} />
               </PostTapSurface>
-              {hasSoundtrack && !soundtrackOnMedia && <View className="mt-2"><SoundtrackBadge key={postKey} title={soundtrack.title} creator={soundtrack.creator} url={soundtrack.url} isVisible={isVisible} /></View>}
+              {hasSoundtrack && !soundtrackOnMedia && <View className="mt-2"><SoundtrackBadge key={postKey} title={soundtrack.title} creator={soundtrack.creator} url={soundtrack.url} isVisible={isVisible} withVideo={isVideo} /></View>}
               {(item as any).isQuotePost && <QuotedPostEmbed key={postKey} quotedPost={(item as any).quotedPost} quotedTokenId={(item as any).quotedTokenId} revoked={(item as any).quoteRevoked} quoteTokenId={tokenId ?? undefined} />}
               <DehubLinkCards links={dehubLinks} />
               {remixCredits}
@@ -2586,7 +2594,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               <ShopBoard key={postKey} tokenId={tokenId} links={localShopLinks ?? (item as any).shopLinks} listingCount={localShopListingCount ?? (item as any).shopListingCount} />
               <View style={{ marginTop: 'auto', paddingTop: 16 }}>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
-                  <PostMetaItems timeAgo={timeAgo} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility ?? item.visibility} />
+                  <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility ?? item.visibility} />
                   {showTranslate && <TranslateButton isTranslated={isTranslated} isLoading={translating} detectedLanguage={translationSourceLang} onTranslate={handleTranslate} onShowOriginal={handleShowOriginal} inline />}
                 </View>
                 {actionBar}
@@ -2648,6 +2656,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   title={soundtrack.title}
                   creator={soundtrack.creator}
                   url={soundtrack.url}
+                  withVideo={isVideo}
                   isVisible={isVisible}
                 />
               </View>
@@ -2713,7 +2722,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           />
         )}
         <View className="flex-row flex-wrap items-center gap-3 pt-2" testID="post-stage-meta">
-          <PostMetaItems timeAgo={timeAgo} boosted={isBoosted} onStatsPress={openStats} icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"} count={formatCompactNumber(views)} visibility={edits.visibility ?? item.visibility} />
+          <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"} count={formatCompactNumber(views)} visibility={edits.visibility ?? item.visibility} />
           {showTranslate && (
             <TranslateButton
               isTranslated={isTranslated}
@@ -2817,6 +2826,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           title={soundtrack.title}
           creator={soundtrack.creator}
           url={soundtrack.url}
+          withVideo={isVideo}
           isVisible={isVisible}
         />
       </View>
@@ -3065,7 +3075,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         </View>
         {(
           <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: 8, flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
-            <PostMetaItems timeAgo={timeAgo} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility ?? item.visibility} />
+            <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility ?? item.visibility} />
             {translateButton}
           </View>
         )}
@@ -3218,6 +3228,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             title={soundtrack.title}
             creator={soundtrack.creator}
             url={soundtrack.url}
+            withVideo={isVideo}
             isVisible={isVisible}
           />
         </View>
@@ -3324,7 +3335,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             labelled; printed here it read as the view count and undercounted
             by an order of magnitude. */}
         <PostMetaItems
-          timeAgo={timeAgo} boosted={isBoosted} onStatsPress={openStats}
+          createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats}
           visibility={edits.visibility ?? item.visibility}
           icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"}
           count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`}

@@ -4784,6 +4784,8 @@
     "turnOffSmartReplies": "సూచించిన సమాధానాలను ఆఫ్ చేయి",
     "encrypted": "ఎండ్-టు-ఎండ్ ఎన్‌క్రిప్టెడ్",
     "encryptionOff": "ఈ పరికరంలో ఎన్‌క్రిప్షన్ ఆన్‌లో లేదు",
+    "encryptChat": "చాట్‌ను ఎన్‌క్రిప్ట్ చేయండి",
+    "encryptChatOff": "ఎన్‌క్రిప్షన్ ఆఫ్ చేయండి",
     "encryptionTurnOn": "ఆన్ చేయండి",
     "cannotDecrypt": "ఎన్‌క్రిప్ట్ చేసిన సందేశం — ఈ పరికరంలో తెరవడం సాధ్యం కాదు",
     "title": "సందేశాలు",
@@ -14761,7 +14763,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub పోస్ట్‌లు",
+    "dehubPostsName": "Riftn పోస్ట్‌లు",
     "statMinted": "మింట్ చేయబడినవి",
     "statForSale": "విక్రయానికి",
     "sellYours": "మీది విక్రయించండి",

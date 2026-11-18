@@ -18,6 +18,7 @@ import { apiClient } from "../api.client";
 import { prepareWalletRelay, waitForWalletSignature } from "../wallet-relay";
 import { getEoaSigningProvider, getSigningProvider, OPEN_WALLET_METHOD } from "../provider.registry";
 import { WalletLockedError } from "../wallet-lock";
+import { clearEncryptedChats, wantsEncryptionTo } from "./encrypt-choice";
 import {
   decryptText,
   deriveIdentityFromSignature,
@@ -162,6 +163,7 @@ export async function loadIdentity(address: string): Promise<boolean> {
 
 /** Forget the in-memory identity (sign-out). The stored copy stays for the next sign-in. */
 export function unloadIdentity(): void {
+  clearEncryptedChats();
   current = null;
   previousIdentities = [];
   historicalPublicKeys.clear();
@@ -417,6 +419,8 @@ export async function prepareOutgoing(
   plaintext: string,
 ): Promise<{ content: string; encrypted: boolean }> {
   if (!plaintext || !peerAddress) return { content: plaintext, encrypted: false };
+  // Encryption is per chat and off unless turned on (see encrypt-choice).
+  if (!(await wantsEncryptionTo(peerAddress))) return { content: plaintext, encrypted: false };
   const ct = await encryptForPeer(peerAddress, plaintext);
   return ct ? { content: ct, encrypted: true } : { content: plaintext, encrypted: false };
 }

@@ -4878,6 +4878,8 @@
     "turnOffSmartReplies": "Matikan balasan yang disarankan",
     "encrypted": "Terenkripsi end-to-end",
     "encryptionOff": "Enkripsi tidak aktif di perangkat ini",
+    "encryptChat": "Enkripsi obrolan",
+    "encryptChatOff": "Matikan enkripsi",
     "encryptionTurnOn": "Aktifkan",
     "cannotDecrypt": "Pesan terenkripsi — tidak dapat dibuka di perangkat ini",
     "title": "Pesan",
@@ -14910,7 +14912,7 @@
     "unavailable": "Verifikasi GitHub akan segera tersedia."
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",

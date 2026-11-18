@@ -4800,6 +4800,8 @@
     "turnOffSmartReplies": "Vonoy ny valiny atolotra",
     "encrypted": "Voasafidy hatrany am-piandohana ka hatrany am-piafarana",
     "encryptionOff": "Maty ny fanafenana amin'ity fitaovana ity",
+    "encryptChat": "Ahodina ny resaka",
+    "encryptChatOff": "Vonoy ny fanafenana",
     "encryptionTurnOn": "Alefaso",
     "cannotDecrypt": "Hafatra voasafidy — tsy azo sokafana amin'ity fitaovana ity",
     "title": "Hafatra",
@@ -13193,7 +13195,7 @@
           "8": "Tsindrio ny lahatsoratra rehetra mba hanokafana azy amin'ny fomba fijery tokana amin'ny efijery feno."
         },
         "tips": {
-          "1": "Ny toro-hevitra dia mandeha mivantana any amin'ny pokon'ny mpamorona amin'ny dehub tokens.",
+          "1": "Ny toro-hevitra dia mandeha mivantana any amin'ny pokon'ny mpamorona amin'ny Riftn tokens.",
           "2": "Azonao atao ny mametraka vola toro-hevitra amin'ny alalan'ny bokotra safidy haingana na mampiditra vola manokana.",
           "3": "Ny lahatsoratra voatahiry dia azo jerena ao amin'ny pejy Bookmarks ao amin'ny sidebar."
         }
@@ -14837,7 +14839,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",

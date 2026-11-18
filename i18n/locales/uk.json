@@ -5170,6 +5170,8 @@
     "tryAgain": "Повторити спробу",
     "encrypted": "Наскрізне шифрування",
     "encryptionOff": "Шифрування на цьому пристрої вимкнено",
+    "encryptChat": "Зашифрувати чат",
+    "encryptChatOff": "Вимкнути шифрування",
     "encryptionTurnOn": "Увімкнути",
     "cannotDecrypt": "Зашифроване повідомлення — не можна відкрити на цьому пристрої"
   },
@@ -15299,7 +15301,7 @@
     "unavailable": "GitHub-верифікація скоро буде доступна."
   },
   "nftMarket": {
-    "dehubPostsName": "Посты DeHub",
+    "dehubPostsName": "Посты Riftn",
     "statMinted": "Мінтед",
     "statForSale": "Для продажу",
     "sellYours": "Продайте своє",

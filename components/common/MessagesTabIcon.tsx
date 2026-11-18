@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { AppState, View } from 'react-native';
+import { AppState, Text, View } from 'react-native';
 import Animated, {
   cancelAnimation, Easing, Extrapolation, interpolate, ReduceMotion,
   useAnimatedStyle, useReducedMotion, useSharedValue, withTiming,
@@ -7,6 +7,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Path } from 'react-native-svg';
 import Icon from '../ui/Icon';
+import { formatNotificationCount, useShowMessagesCount } from '../../libs/notification-count-setting';
 import {
   ENVELOPE_BODY_PATH, ENVELOPE_SIDE_RIPPLE_PATHS, messagesEnvelopeMotion, type MessageSlip, type WormFrame,
 } from '../../libs/messages-envelope-motion';
@@ -112,6 +113,7 @@ export default memo(function MessagesTabIcon({ unread, size, color, letterColor,
   const profile = useMemo(() => messagesEnvelopeMotion(unread), [unread]);
   const tracks = useMemo(() => profile.slips.map(slip => slipTrack(slip.frames, u)), [profile, u]);
   const reduced = useReducedMotion();
+  const showCount = useShowMessagesCount();
   const phase = useSharedValue(0);
   const [foreground, setForeground] = useState(AppState.currentState === 'active');
   const [rested, setRested] = useState(false);
@@ -201,6 +203,18 @@ export default memo(function MessagesTabIcon({ unread, size, color, letterColor,
           <SideRipple key={`${side}-${echo}`} phase={phase} side={side} echo={echo} size={size} profile={profile} color={letterColor} />
         )))}
       </Animated.View>
+      {/* Opt-in: Notification settings → "Show the number on Messages". */}
+      {showCount && profile.unread > 0 && (
+        <View testID="messages-tab-count" pointerEvents="none" style={{
+          position: 'absolute', top: -size * 0.22, right: -size * 0.38,
+          minWidth: 16, height: 16, paddingHorizontal: 4, borderRadius: 8,
+          backgroundColor: letterColor, alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Text allowFontScaling={false} style={{ color: '#FFFFFF', fontSize: 10, fontWeight: '700', lineHeight: 14, fontVariant: ['tabular-nums'] }}>
+            {formatNotificationCount(unread)}
+          </Text>
+        </View>
+      )}
     </View>
   );
 });

@@ -4791,6 +4791,8 @@
     "turnOffSmartReplies": "Искључи предложене одговоре",
     "encrypted": "Шифровано с краја на крај",
     "encryptionOff": "Шифровање је искључено на овом уређају",
+    "encryptChat": "Шифруј ћаскање",
+    "encryptChatOff": "Искључи шифровање",
     "encryptionTurnOn": "Укључи",
     "cannotDecrypt": "Шифрована порука — не може да се отвори на овом уређају",
     "title": "Поруке",
@@ -14743,7 +14745,7 @@
     "unavailable": "Верификација ГитХуб рачуна долази ускоро."
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Постови",
+    "dehubPostsName": "Riftn Постови",
     "statMinted": "Кован",
     "statForSale": "На продају",
     "sellYours": "Продај свој",

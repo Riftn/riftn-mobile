@@ -4776,6 +4776,8 @@
     "turnOffSmartReplies": "Pateni wangsulan sing disaranake",
     "encrypted": "Dienkripsi end-to-end",
     "encryptionOff": "Enkripsi ora aktif ing piranti iki",
+    "encryptChat": "Enkripsi obrolan",
+    "encryptChatOff": "Pateni enkripsi",
     "encryptionTurnOn": "Aktifake",
     "cannotDecrypt": "Pesen sing dienkripsi — ora bisa dibukak ing piranti iki",
     "title": "Pesen",
@@ -14747,7 +14749,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",

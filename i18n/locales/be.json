@@ -4800,6 +4800,8 @@
     "turnOffSmartReplies": "Выключыць прапанаваныя адказы",
     "encrypted": "Скразное шыфраванне",
     "encryptionOff": "Шыфраванне на гэтай прыладзе выключана",
+    "encryptChat": "Зашыфраваць чат",
+    "encryptChatOff": "Выключыць шыфраванне",
     "encryptionTurnOn": "Уключыць",
     "cannotDecrypt": "Зашыфраванае паведамленне — нельга адкрыць на гэтай прыладзе",
     "title": "Паведамленні",
@@ -14803,7 +14805,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Публікацыі",
+    "dehubPostsName": "Riftn Публікацыі",
     "statMinted": "Прамінуты",
     "statForSale": "На продаж",
     "sellYours": "Прадавай свой",

@@ -4842,6 +4842,8 @@
     "turnOffSmartReplies": "Vypnúť navrhované odpovede",
     "encrypted": "Šifrované end-to-end",
     "encryptionOff": "Šifrovanie je na tomto zariadení vypnuté",
+    "encryptChat": "Šifrovať chat",
+    "encryptChatOff": "Vypnúť šifrovanie",
     "encryptionTurnOn": "Zapnúť",
     "cannotDecrypt": "Šifrovaná správa — na tomto zariadení sa nedá otvoriť",
     "title": "Správy",
@@ -14924,7 +14926,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Mintované",
     "statForSale": "Na predaj",
     "sellYours": "Predaj svoje",

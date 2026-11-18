@@ -4768,6 +4768,8 @@
     "turnOffSmartReplies": "Gbanyụọ nzaghachi atụrụ aro",
     "encrypted": "Ezoro ezo site na njedebe ruo njedebe",
     "encryptionOff": "Agbanyeghị nzuzo na ngwaọrụ a",
+    "encryptChat": "Zoo nkata",
+    "encryptChatOff": "Gbanyụọ nzuzo",
     "encryptionTurnOn": "Gbanye",
     "cannotDecrypt": "Ozi ezoro ezo — enweghị ike imeghe ya na ngwaọrụ a",
     "title": "Ozi",
@@ -14730,7 +14732,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",

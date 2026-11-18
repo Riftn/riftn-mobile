@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Sohbette alım botu işlem uyarılarını göster",
     "notificationShowCount": "Zilde sayıyı göster",
     "notificationShowCountDesc": "Yalnızca parıltı yerine kaç okunmamış bildirim olduğunu gör",
+    "messagesShowCount": "Mesajlar'da sayıyı göster",
+    "messagesShowCountDesc": "Yalnızca parıltı yerine kaç okunmamış mesaj olduğunu gör",
     "chatSection": "Sohbet",
     "doNotDisturb": "Rahatsız Etme",
     "doNotDisturbDesc": "Tüm mesaj bildirimlerini sessize al",
@@ -2735,6 +2737,8 @@
     "turnOffSmartReplies": "Önerilen yanıtları kapat",
     "encrypted": "Uçtan uca şifreli",
     "encryptionOff": "Bu cihazda şifreleme kapalı",
+    "encryptChat": "Sohbeti şifrele",
+    "encryptChatOff": "Şifrelemeyi kapat",
     "encryptionTurnOn": "Aç",
     "cannotDecrypt": "Şifreli mesaj — bu cihazda açılamıyor",
     "lockedTitle": "Mesajlarını okumak için kilidi aç",
@@ -3785,6 +3789,12 @@
     "pooledTotal": "{{amount}} token havuzlandı"
   },
   "governance": {
+    "optionVoters_one": "{{count}} oy veren",
+    "optionVoters_other": "{{count}} oy veren",
+    "optionWinner": "Kazanan: {{option}}",
+    "optionNoWinner": "Net bir kazanan yok",
+    "optionTapToUndo": "Oyunu geri almak için cevabına tekrar dokun",
+    "optionPickOne": "Bir cevap seç",
     "badgeHoldersOnly": "Sadece rozet tutucular",
     "title": "Yönetişim",
     "proposalCount": "{{count}} öneri gönderildi",
@@ -4588,7 +4598,8 @@
       "copied": "Mesaj kopyalandı",
       "copyText": "Metni kopyala",
       "mutedUntil": "{{date}} tarihine kadar sessize alındınız",
-      "slowMode": "Yavaş mod: her {{interval}} bir mesaj"
+      "slowMode": "Yavaş mod: her {{interval}} bir mesaj",
+      "aiAdminFailed": "AI Admin yanıt veremedi"
     },
     "manage": {
       "dismissAdminTitle": "Yöneticiyi kapat",
@@ -4610,7 +4621,8 @@
         "invites": "Davetler",
         "rules": "Kurallar",
         "recentActions": "Son işlemler",
-        "danger": "Tehlike alanı"
+        "danger": "Tehlike alanı",
+        "automod": "Moderasyon ve botlar"
       },
       "title": "Yönet",
       "purgeTitle": "Tüm mesajlar silinsin mi?",
@@ -4804,7 +4816,42 @@
       "txn": "İşlem",
       "balance": "Bakiye:",
       "price": "Fiyat:",
-      "marketCap": "Piyasa değeri:"
+      "marketCap": "Piyasa değeri:",
+      "titleToken": "{{amount}} ${{symbol}} ALIM"
+    },
+    "automod": {
+      "title": "Otomatik moderasyon",
+      "hint": "Bir mesajı kimse görmeden engeller ve gönderene nedenini söyler. Sahipler ve yöneticiler asla engellenmez.",
+      "enabled": "Otomatik moderasyon açık",
+      "bannedWords": "Yasaklı kelimeler",
+      "bannedWordsHint": "Her satıra bir tane veya virgülle. Yalnızca tam kelimeler; s.c.a.m gibi aralıklı yazımlar da yakalanır.",
+      "bannedWordsPlaceholder": "scam\nrug pull",
+      "blockLinks": "Bağlantıları engelle",
+      "blockLinksHint": "Site dışı bağlantılar ve Telegram/Discord davetleri. Riftn bağlantıları çalışmaya devam eder.",
+      "repeats": "Tekrarları engelle",
+      "repeatsHint": "Birinin aynı satırı 10 dakika içinde tekrar göndermesini engeller.",
+      "flood": "Flood koruması",
+      "floodHint": "Kişi başına her {{seconds}} sn’de en fazla {{max}} mesaj.",
+      "floodMax": "{{count}} mesaj",
+      "noAccess": "Bu ayarları yalnızca sahip ve yöneticiler değiştirebilir.",
+      "saveFailed": "Kaydedilemedi. Tekrar dene.",
+      "saveWords": "Kelimeleri kaydet",
+      "saved": "Kaydedildi",
+      "wordCount": "{{count}} kelime",
+      "bannedWord": "Bu mesajda bu grubun izin vermediği bir kelime var.",
+      "links": "Bu grupta bağlantılara izin verilmiyor.",
+      "repeat": "Bunu az önce gönderdin. Yeni bir şey söylemeyi dene.",
+      "reserved": "Bu tür mesajlar yalnızca grubun botlarından gelebilir.",
+      "floodError": "Çok hızlı gönderiyorsun. {{value1}} sn bekle ve tekrar dene."
+    },
+    "buyBot": {
+      "title": "Alım botu",
+      "any": "Her boyut",
+      "enabled": "Alım bildirimlerini paylaş",
+      "hint": "Her ${{symbol}} alımını, gerçekleştikten yaklaşık bir dakika sonra bu sohbete gönderir.",
+      "minUsd": "Paylaşılacak en küçük alım",
+      "noToken": "Grup başlığından bir token bağla (düzenle, sonra Ticker) ve her alım bu sohbette görünsün.",
+      "unsupported": "${{symbol}}, alım botunun henüz izlemediği bir zincirde veya havuz türünde. Desteklenenler: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism ve Avalanche (Uniswap v2/v3 tarzı havuzlar)."
     }
   },
   "work": {
@@ -7512,6 +7559,8 @@
     "allDisabled": "Şu anda tüm DM'ler kapalı. Yeni DM'ler varsayılan olarak engellenir.",
     "failedToEdit": "Düzenlenemedi",
     "messageDeleted": "Mesaj silindi",
+    "deleteOneTitle": "Bu mesaj silinsin mi?",
+    "deleteForBothBody": "İkiniz için de silinecek.",
     "cantForwardFromDevice": "Bu mesaj bu cihazdan iletilemiyor",
     "messageForwarded": "Mesaj iletildi",
     "clearMessages": "Mesajları Temizle",
@@ -16844,5 +16893,25 @@
     "sent_other": "{{count}} sohbete gönderildi",
     "partSent": "{{total}} sohbetten {{ok}} tanesine gönderildi",
     "notSent": "Gönderilemedi. Tekrar deneyin."
+  },
+  "msgSelect": {
+    "deleteForBothBody": "İkiniz için de silinecekler.",
+    "toolbar": "Seçili mesajlar",
+    "pick": "Seçmek için mesajlara dokunun",
+    "selected": "{{count}} seçildi",
+    "copy": "Kopyala",
+    "forward": "İlet",
+    "deleteSome": "{{count}} sil",
+    "forwarded_one": "{{count}} mesaj iletildi",
+    "forwarded_other": "{{count}} mesaj iletildi",
+    "partForwarded": "{{total}} mesajdan {{ok}} iletildi",
+    "nothingToCopy": "Seçilen mesajlarda kopyalanacak bir şey yok",
+    "copied_one": "{{count}} mesaj kopyalandı",
+    "copied_other": "{{count}} mesaj kopyalandı",
+    "deleteTitle_one": "{{count}} mesaj silinsin mi?",
+    "deleteTitle_other": "{{count}} mesaj silinsin mi?",
+    "deleteBody": "Bu sohbetteki herkes için kaldırılacak.",
+    "deleted_one": "{{count}} mesaj silindi",
+    "deleted_other": "{{count}} mesaj silindi"
   }
 }

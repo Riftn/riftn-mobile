@@ -4786,6 +4786,8 @@
     "turnOffSmartReplies": "Kashe amsoshin da aka ba da shawara",
     "encrypted": "An ɓoye daga ƙarshe zuwa ƙarshe",
     "encryptionOff": "An kashe ɓoye bayanai a wannan na'urar",
+    "encryptChat": "Ɓoye hira",
+    "encryptChatOff": "Kashe ɓoyewa",
     "encryptionTurnOn": "Kunna",
     "cannotDecrypt": "Saƙon da aka ɓoye — ba za a iya buɗewa a wannan na'urar ba",
     "title": "Saƙonni",
@@ -14755,7 +14757,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",

@@ -4801,6 +4801,8 @@
     "turnOffSmartReplies": "सुझाइएका जवाफ बन्द गर्नुहोस्",
     "encrypted": "एन्ड-टु-एन्ड इन्क्रिप्टेड",
     "encryptionOff": "यस उपकरणमा इन्क्रिप्सन बन्द छ",
+    "encryptChat": "च्याट इन्क्रिप्ट गर्नुहोस्",
+    "encryptChatOff": "इन्क्रिप्सन बन्द गर्नुहोस्",
     "encryptionTurnOn": "चालु गर्नुहोस्",
     "cannotDecrypt": "इन्क्रिप्ट गरिएको सन्देश — यो यन्त्रमा खोल्न सकिँदैन",
     "title": "सन्देशहरू",
@@ -14802,7 +14804,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub पोस्टहरू",
+    "dehubPostsName": "Riftn पोस्टहरू",
     "statMinted": "मिन्ट गरिएको",
     "statForSale": "बिक्रीमा",
     "sellYours": "अप्नो बिक्री गर्नुहोस्",

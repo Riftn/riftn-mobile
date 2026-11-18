@@ -2561,7 +2561,7 @@
     "b8e082c979d9": "Luo kysely",
     "ba3bbbe10d8b": "Ladataan…",
     "bdd4f5015e96": "Sulje lähetettyä pyyntöä koskeva ilmoitus",
-    "c184b8c9592f": "Sen on oltava sivu dehub.io-sivustolla.",
+    "c184b8c9592f": "Sen on oltava sivu riftn.com-sivustolla.",
     "c26c60eb4a6c": "Ole ensimmäinen, joka keskustelee.",
     "c4c2179c3053": "Koska sinun painosi on",
     "c772e8fc6314": "Tunnuksen vaihto",
@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Poista ehdotetut vastaukset käytöstä",
     "encrypted": "Päästä päähän salattu",
     "encryptionOff": "Salaus ei ole käytössä tässä laitteessa",
+    "encryptChat": "Salaa keskustelu",
+    "encryptChatOff": "Poista salaus käytöstä",
     "encryptionTurnOn": "Ota käyttöön",
     "cannotDecrypt": "Salattu viesti — ei voida avata tällä laitteella",
     "title": "Viestit",
@@ -14766,7 +14768,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Julkaisut",
+    "dehubPostsName": "Riftn Julkaisut",
     "statMinted": "luotu",
     "statForSale": "Myytävänä",
     "sellYours": "Myy omaasi",

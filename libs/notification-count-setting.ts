@@ -45,6 +45,39 @@ export function useShowNotificationCount(): boolean {
   return useSyncExternalStore(subscribe, showNotificationCount, () => false);
 }
 
+/**
+ * "Show the number on Messages" — the same choice for the Messages envelope,
+ * kept separately so a reader can have one without the other. Same switch as
+ * web's `riftn.messages.showCount`.
+ */
+const MESSAGES_KEY = 'riftn.messages.showCount';
+
+export function showMessagesCount(): boolean {
+  try {
+    return storage.getBoolean(MESSAGES_KEY) === true;
+  } catch {
+    return false;
+  }
+}
+
+export function setShowMessagesCount(on: boolean): void {
+  try {
+    storage.set(MESSAGES_KEY, on);
+  } catch {
+    // Storage unavailable; the switch just won't stick.
+  }
+  mirrorDurable(MESSAGES_KEY, on);
+  listeners.forEach((listener) => listener());
+}
+
+export const messagesCountRestored = restoreDurable(MESSAGES_KEY, 'boolean', () =>
+  listeners.forEach((listener) => listener()),
+);
+
+export function useShowMessagesCount(): boolean {
+  return useSyncExternalStore(subscribe, showMessagesCount, () => false);
+}
+
 /** "7", "99+" */
 export function formatNotificationCount(count: number): string {
   return count > 99 ? '99+' : String(Math.max(0, Math.floor(count)));

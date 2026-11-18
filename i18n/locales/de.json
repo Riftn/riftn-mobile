@@ -4789,6 +4789,8 @@
     "turnOffSmartReplies": "Antwortvorschläge ausschalten",
     "encrypted": "Ende-zu-Ende-verschlüsselt",
     "encryptionOff": "Verschlüsselung ist auf diesem Gerät aus",
+    "encryptChat": "Chat verschlüsseln",
+    "encryptChatOff": "Verschlüsselung ausschalten",
     "encryptionTurningOn": "Warte auf dein Wallet, um die Verschlüsselung zu aktivieren…",
     "encryptionSetupFailed": "Die Einrichtung der Verschlüsselung ist fehlgeschlagen. Bitte versuche es erneut.",
     "encryptionTurnOn": "Aktivieren",
@@ -14935,7 +14937,7 @@
     "unavailable": "Die GitHub-Verifizierung kommt bald."
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Prägungen",
     "statForSale": "Zum Verkauf",
     "sellYours": "Verkaufe deine",

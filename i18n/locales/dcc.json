@@ -4770,6 +4770,8 @@
     "turnOffSmartReplies": "تجویز کیے گئے جواب بند کرو",
     "encrypted": "اینڈ ٹو اینڈ انکرپٹڈ",
     "encryptionOff": "اِس ڈیوائس پہ انکرپشن بند ہے",
+    "encryptChat": "چیٹ انکرپٹ کرو",
+    "encryptChatOff": "انکرپشن بند کرو",
     "encryptionTurnOn": "چالو کرو",
     "cannotDecrypt": "انکرپٹڈ پیغام — اس ڈیوائس پر نہیں کھل سکتا",
     "title": "پیغام",

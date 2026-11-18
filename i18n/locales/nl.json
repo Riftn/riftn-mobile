@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Transactiemeldingen van de buy bot in de chat tonen",
     "notificationShowCount": "Toon het aantal op de bel",
     "notificationShowCountDesc": "Zie hoeveel meldingen ongelezen zijn in plaats van alleen de gloed",
+    "messagesShowCount": "Toon het aantal bij Berichten",
+    "messagesShowCountDesc": "Zie hoeveel berichten ongelezen zijn in plaats van alleen de gloed",
     "chatSection": "Chat",
     "doNotDisturb": "Niet storen",
     "doNotDisturbDesc": "Alle berichtmeldingen dempen",
@@ -2923,6 +2925,8 @@
     "turnOffSmartReplies": "Voorgestelde antwoorden uitzetten",
     "encrypted": "End-to-end versleuteld",
     "encryptionOff": "Versleuteling staat uit op dit apparaat",
+    "encryptChat": "Chat versleutelen",
+    "encryptChatOff": "Versleuteling uitzetten",
     "encryptionTurnOn": "Inschakelen",
     "cannotDecrypt": "Versleuteld bericht — kan niet worden geopend op dit apparaat",
     "lockedTitle": "Ontgrendel om je berichten te lezen",
@@ -3973,6 +3977,12 @@
     "pooledTotal": "{{amount}} tokens gepoold"
   },
   "governance": {
+    "optionVoters_one": "{{count}} stemmer",
+    "optionVoters_other": "{{count}} stemmers",
+    "optionWinner": "Winnaar: {{option}}",
+    "optionNoWinner": "Geen duidelijke winnaar",
+    "optionTapToUndo": "Tik nogmaals op je antwoord om je stem in te trekken",
+    "optionPickOne": "Kies één antwoord",
     "badgeHoldersOnly": "Alleen badgehouders",
     "title": "Bestuur",
     "proposalCount": "{{count}} voorstel ingediend",
@@ -4776,7 +4786,8 @@
       "copied": "Bericht gekopieerd",
       "copyText": "Tekst kopiëren",
       "mutedUntil": "U bent gedempt tot {{date}}",
-      "slowMode": "Langzame modus: één bericht elke {{interval}}"
+      "slowMode": "Langzame modus: één bericht elke {{interval}}",
+      "aiAdminFailed": "AI Admin reageerde niet"
     },
     "manage": {
       "dismissAdminTitle": "Admin negeren",
@@ -4798,7 +4809,8 @@
         "invites": "Uitnodigingen",
         "rules": "Regels",
         "recentActions": "Recente acties",
-        "danger": "Gevarenzone"
+        "danger": "Gevarenzone",
+        "automod": "Moderatie en bots"
       },
       "title": "Beheren",
       "purgeTitle": "Alle berichten verwijderen?",
@@ -4992,7 +5004,42 @@
       "txn": "Tx",
       "balance": "Saldo:",
       "price": "Prijs:",
-      "marketCap": "Marktkapitalisatie:"
+      "marketCap": "Marktkapitalisatie:",
+      "titleToken": "{{amount}} ${{symbol}} AANKOOP"
+    },
+    "automod": {
+      "title": "Automatische moderatie",
+      "hint": "Blokkeert een bericht voordat iemand het ziet en vertelt de afzender waarom. Eigenaren en beheerders worden nooit geblokkeerd.",
+      "enabled": "Automatische moderatie aan",
+      "bannedWords": "Verboden woorden",
+      "bannedWordsHint": "Eén per regel of komma. Alleen hele woorden; uit elkaar geschreven varianten zoals s.c.a.m worden ook herkend.",
+      "bannedWordsPlaceholder": "scam\nrug pull",
+      "blockLinks": "Links blokkeren",
+      "blockLinksHint": "Externe links en Telegram/Discord-uitnodigingen. Riftn-links werken nog steeds.",
+      "repeats": "Herhalingen blokkeren",
+      "repeatsHint": "Voorkomt dat iemand dezelfde regel binnen 10 minuten opnieuw stuurt.",
+      "flood": "Anti-flood",
+      "floodHint": "Maximaal {{max}} berichten per {{seconds}} s per persoon.",
+      "floodMax": "{{count}} berichten",
+      "noAccess": "Alleen de eigenaar en beheerders kunnen deze instellingen wijzigen.",
+      "saveFailed": "Opslaan mislukt. Probeer het opnieuw.",
+      "saveWords": "Woorden opslaan",
+      "saved": "Opgeslagen",
+      "wordCount": "{{count}} woorden",
+      "bannedWord": "Dat bericht bevat een woord dat deze groep niet toestaat.",
+      "links": "Links zijn niet toegestaan in deze groep.",
+      "repeat": "Dat heb je net gestuurd. Zeg eens iets nieuws.",
+      "reserved": "Dat soort bericht kan alleen van de bots van de groep komen.",
+      "floodError": "Je stuurt te snel. Wacht {{value1}} s en probeer het opnieuw."
+    },
+    "buyBot": {
+      "title": "Koopbot",
+      "any": "Elke grootte",
+      "enabled": "Koopmeldingen plaatsen",
+      "hint": "Plaatst elke ${{symbol}}-aankoop in deze chat, ongeveer een minuut nadat die gebeurt.",
+      "minUsd": "Kleinste aankoop om te plaatsen",
+      "noToken": "Koppel een token via de groepskop (bewerken, dan Ticker) en elke aankoop verschijnt in deze chat.",
+      "unsupported": "${{symbol}} staat op een chain of pooltype dat de koopbot nog niet volgt. Ondersteund: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism en Avalanche (Uniswap v2/v3-achtige pools)."
     }
   },
   "work": {
@@ -7651,6 +7698,8 @@
     "allDisabled": "Alle DM's staan momenteel uit. Nieuwe DM's worden standaard geblokkeerd.",
     "failedToEdit": "Bewerken mislukt",
     "messageDeleted": "Bericht verwijderd",
+    "deleteOneTitle": "Dit bericht verwijderen?",
+    "deleteForBothBody": "Het wordt voor jullie allebei verwijderd.",
     "cantForwardFromDevice": "Dit bericht kan niet worden doorgestuurd vanaf dit apparaat",
     "messageForwarded": "Bericht doorgestuurd",
     "clearMessages": "Berichten wissen",
@@ -17096,5 +17145,25 @@
     "sent_other": "Verstuurd naar {{count}} chats",
     "partSent": "Verstuurd naar {{ok}} van {{total}} chats",
     "notSent": "Versturen mislukt. Probeer het opnieuw."
+  },
+  "msgSelect": {
+    "deleteForBothBody": "Ze worden voor jullie allebei verwijderd.",
+    "toolbar": "Geselecteerde berichten",
+    "pick": "Tik op berichten om ze te selecteren",
+    "selected": "{{count}} geselecteerd",
+    "copy": "Kopiëren",
+    "forward": "Doorsturen",
+    "deleteSome": "{{count}} verwijderen",
+    "forwarded_one": "{{count}} bericht doorgestuurd",
+    "forwarded_other": "{{count}} berichten doorgestuurd",
+    "partForwarded": "{{ok}} van {{total}} doorgestuurd",
+    "nothingToCopy": "Niets te kopiëren in de gekozen berichten",
+    "copied_one": "{{count}} bericht gekopieerd",
+    "copied_other": "{{count}} berichten gekopieerd",
+    "deleteTitle_one": "{{count}} bericht verwijderen?",
+    "deleteTitle_other": "{{count}} berichten verwijderen?",
+    "deleteBody": "Ze worden voor iedereen in deze chat verwijderd.",
+    "deleted_one": "{{count}} bericht verwijderd",
+    "deleted_other": "{{count}} berichten verwijderd"
   }
 }

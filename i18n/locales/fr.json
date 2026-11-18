@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Afficher les alertes de transactions du bot d’achat dans le chat",
     "notificationShowCount": "Afficher le nombre sur la cloche",
     "notificationShowCountDesc": "Voir combien de notifications sont non lues au lieu du simple halo",
+    "messagesShowCount": "Afficher le nombre sur Messages",
+    "messagesShowCountDesc": "Voir combien de messages sont non lus au lieu du simple halo",
     "chatSection": "Discussion",
     "doNotDisturb": "Ne pas déranger",
     "doNotDisturbDesc": "Couper toutes les notifications de messages",
@@ -2735,6 +2737,8 @@
     "turnOffSmartReplies": "Désactiver les réponses suggérées",
     "encrypted": "Chiffré de bout en bout",
     "encryptionOff": "Chiffrement désactivé sur cet appareil",
+    "encryptChat": "Chiffrer la discussion",
+    "encryptChatOff": "Désactiver le chiffrement",
     "encryptionTurningOn": "En attente de votre portefeuille pour activer le chiffrement…",
     "encryptionSetupFailed": "La configuration du chiffrement a échoué. Veuillez réessayer.",
     "encryptionTurnOn": "Activer",
@@ -3789,6 +3793,12 @@
     "pooledTotal": "{{amount}} jetons mis en commun"
   },
   "governance": {
+    "optionVoters_one": "{{count}} votant",
+    "optionVoters_other": "{{count}} votants",
+    "optionWinner": "Gagnant : {{option}}",
+    "optionNoWinner": "Pas de gagnant clair",
+    "optionTapToUndo": "Touchez à nouveau votre réponse pour retirer votre vote",
+    "optionPickOne": "Choisissez une réponse",
     "badgeHoldersOnly": "Porte-badges uniquement",
     "title": "Gouvernance",
     "proposalCount": "{{count}} proposition soumise",
@@ -4592,7 +4602,8 @@
       "copied": "Message copié",
       "copyText": "Copier le texte",
       "mutedUntil": "Vous êtes en sourdine jusqu'à {{date}}",
-      "slowMode": "Mode lent : un message tous les {{interval}}"
+      "slowMode": "Mode lent : un message tous les {{interval}}",
+      "aiAdminFailed": "AI Admin n'a pas répondu"
     },
     "manage": {
       "dismissAdminTitle": "Ignorer l'administrateur",
@@ -4614,7 +4625,8 @@
         "invites": "Invitations",
         "rules": "Règles",
         "recentActions": "Actions récentes",
-        "danger": "Zone de danger"
+        "danger": "Zone de danger",
+        "automod": "Modération auto et bots"
       },
       "title": "Gérer",
       "purgeTitle": "Supprimer tous les messages ?",
@@ -4808,7 +4820,42 @@
       "txn": "Tx",
       "balance": "Solde :",
       "price": "Prix :",
-      "marketCap": "Capitalisation :"
+      "marketCap": "Capitalisation :",
+      "titleToken": "{{amount}} ${{symbol}} ACHAT"
+    },
+    "automod": {
+      "title": "Modération auto",
+      "hint": "Bloque un message avant que quiconque le voie et explique pourquoi à l'expéditeur. Les propriétaires et admins ne sont jamais bloqués.",
+      "enabled": "Modération auto activée",
+      "bannedWords": "Mots interdits",
+      "bannedWordsHint": "Un par ligne ou séparés par des virgules. Mots entiers uniquement ; les écritures espacées comme s.c.a.m sont aussi détectées.",
+      "bannedWordsPlaceholder": "scam\nrug pull",
+      "blockLinks": "Bloquer les liens",
+      "blockLinksHint": "Liens externes et invitations Telegram/Discord. Les liens Riftn fonctionnent toujours.",
+      "repeats": "Bloquer les répétitions",
+      "repeatsHint": "Empêche d'envoyer la même ligne à nouveau dans les 10 minutes.",
+      "flood": "Anti-flood",
+      "floodHint": "Au plus {{max}} messages toutes les {{seconds}} s par personne.",
+      "floodMax": "{{count}} messages",
+      "noAccess": "Seuls le propriétaire et les admins peuvent modifier ces réglages.",
+      "saveFailed": "Impossible d'enregistrer. Réessayez.",
+      "saveWords": "Enregistrer les mots",
+      "saved": "Enregistré",
+      "wordCount": "{{count}} mots",
+      "bannedWord": "Ce message contient un mot que ce groupe n'autorise pas.",
+      "links": "Les liens ne sont pas autorisés dans ce groupe.",
+      "repeat": "Vous venez de l'envoyer. Essayez de dire autre chose.",
+      "reserved": "Ce type de message ne peut venir que des bots du groupe.",
+      "floodError": "Vous envoyez trop vite. Attendez {{value1}} s et réessayez."
+    },
+    "buyBot": {
+      "title": "Bot d'achats",
+      "any": "Toute taille",
+      "enabled": "Publier les alertes d'achat",
+      "hint": "Publie chaque achat de ${{symbol}} dans ce chat, environ une minute après.",
+      "minUsd": "Plus petit achat à publier",
+      "noToken": "Liez un token depuis l'en-tête du groupe (modifier, puis Ticker) et chaque achat apparaîtra dans ce chat.",
+      "unsupported": "${{symbol}} est sur une chaîne ou un type de pool que le bot ne surveille pas encore. Pris en charge : Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism et Avalanche (pools type Uniswap v2/v3)."
     }
   },
   "work": {
@@ -7517,6 +7564,8 @@
     "allDisabled": "Tous les messages sont actuellement désactivés. Les nouveaux sont bloqués par défaut.",
     "failedToEdit": "La configuration utilisateur a échoué.",
     "messageDeleted": "Message supprimé.",
+    "deleteOneTitle": "Supprimer ce message ?",
+    "deleteForBothBody": "Il sera supprimé pour vous deux.",
     "cantForwardFromDevice": "Ce message ne peut pas être transféré depuis cet appareil",
     "messageForwarded": "Message envoyé",
     "clearMessages": "Effacer les messages",
@@ -16849,5 +16898,25 @@
     "sent_other": "Envoyé à {{count}} discussions",
     "partSent": "Envoyé à {{ok}} sur {{total}} discussions",
     "notSent": "Envoi impossible. Réessayez."
+  },
+  "msgSelect": {
+    "deleteForBothBody": "Ils seront supprimés pour vous deux.",
+    "toolbar": "Messages sélectionnés",
+    "pick": "Touchez des messages pour les sélectionner",
+    "selected": "{{count}} sélectionné(s)",
+    "copy": "Copier",
+    "forward": "Transférer",
+    "deleteSome": "Supprimer {{count}}",
+    "forwarded_one": "{{count}} message transféré",
+    "forwarded_other": "{{count}} messages transférés",
+    "partForwarded": "{{ok}} sur {{total}} transférés",
+    "nothingToCopy": "Rien à copier dans les messages choisis",
+    "copied_one": "{{count}} message copié",
+    "copied_other": "{{count}} messages copiés",
+    "deleteTitle_one": "Supprimer {{count}} message ?",
+    "deleteTitle_other": "Supprimer {{count}} messages ?",
+    "deleteBody": "Ils seront supprimés pour tout le monde dans ce chat.",
+    "deleted_one": "{{count}} message supprimé",
+    "deleted_other": "{{count}} messages supprimés"
   }
 }

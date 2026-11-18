@@ -98,6 +98,11 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   const [loginViewportHeight, setLoginViewportHeight] = useState<number>();
   const [loginFormHeight, setLoginFormHeight] = useState(244);
   const [loginLegalHeight, setLoginLegalHeight] = useState(84);
+  // The heights above are estimates; whatever the page still has spare (or is
+  // over by) once it is drawn goes to the clips, so there is no empty band
+  // above or below the form on tall phones.
+  const [loginContentHeight, setLoginContentHeight] = useState<number>();
+  const [lanesSlack, setLanesSlack] = useState(0);
   // Email/Phone expand a field mid-stack and autoFocus it; without this the
   // keyboard opens over the field that was just revealed.
   const { scrollViewProps, scrollIntoView } = useScrollFieldIntoView();
@@ -768,6 +773,15 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     handlePhoneSubmit(pendingPhone);
   }, [pendingPhone, handlePhoneSubmit]);
 
+  useEffect(() => {
+    if (authStep !== "main" || !loginViewportHeight || !loginContentHeight) return;
+    // With the keyboard up the page is meant to scroll, not squeeze the clips.
+    if (Keyboard.isVisible()) return;
+    const spare = loginViewportHeight - loginContentHeight;
+    if (Math.abs(spare) < 2) return;
+    setLanesSlack((s) => Math.max(-600, Math.min(600, s + spare)));
+  }, [authStep, loginViewportHeight, loginContentHeight]);
+
   const isLoading = authLoading || isLocalLoading || isWalletLoading;
   const showLoader = isLoading && !needsUsername;
   const content = (
@@ -809,7 +823,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         >
           {authStep === "main" ? (
             <View style={{ marginBottom: 24 }}>
-              <LoginShortsStack viewportHeight={loginViewportHeight} reservedHeight={loginFormHeight + loginLegalHeight + 24} />
+              <LoginShortsStack viewportHeight={loginViewportHeight} reservedHeight={loginFormHeight + loginLegalHeight + 24 - lanesSlack} />
             </View>
           ) : null}
 
@@ -878,7 +892,12 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
 
           {/* Terms and Privacy: snug at the bottom on the main step so the
               clips above take the spare height. */}
-          <View style={authStep === "main" ? { paddingTop: 12, paddingBottom: 12 } : { paddingVertical: 24 }} onLayout={(event) => setLoginLegalHeight(event.nativeEvent.layout.height)}>
+          <View style={authStep === "main" ? { paddingTop: 12, paddingBottom: 12 } : { paddingVertical: 24 }} onLayout={(event) => {
+            const { y, height } = event.nativeEvent.layout;
+            setLoginLegalHeight(height);
+            // The legal line is the last thing on the page: its bottom is how tall the content really is.
+            setLoginContentHeight(y + height);
+          }}>
             <Text style={[authText.caption, { textAlign: "center" }]}>
               {/* The links travel with the sentence so languages that reorder
                   the terms and the policy still read correctly. */}

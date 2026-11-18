@@ -4748,6 +4748,8 @@
     "turnOffSmartReplies": "返信の候補をオフにする",
     "encrypted": "エンドツーエンド暗号化",
     "encryptionOff": "このデバイスでは暗号化がオフです",
+    "encryptChat": "チャットを暗号化",
+    "encryptChatOff": "暗号化をオフにする",
     "encryptionTurnOn": "オンにする",
     "cannotDecrypt": "暗号化されたメッセージ — このデバイスでは開けません",
     "title": "メッセージ",

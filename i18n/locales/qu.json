@@ -4776,6 +4776,8 @@
     "turnOffSmartReplies": "Ñisqa kutichiykunata wañuchiy",
     "encrypted": "Puntamanta puntakama pakasqa",
     "encryptionOff": "Kay aparatupi manam pakachiy kanchu",
+    "encryptChat": "Rimanakuyta pakay",
+    "encryptChatOff": "Pakachiyta wañuchiy",
     "encryptionTurnOn": "Hap'ichiy",
     "cannotDecrypt": "Pakasqa willay — kay aparichapi mana kichay atikunchu",
     "title": "Willakuy",
@@ -9804,13 +9806,13 @@
     "thisEmailRecovers": "Kay imilqa {{target}}-ta kutichin",
     "matchedProfile": "tupaq perfilta",
     "providerNotWorking": "¿Prubidurqa mana llamk'anchu, utaq Twitter/Discord/imil hanaqpi mana rikurinchu? Chayqa web sitiopi kutichiy.",
-    "recoverOnWebsite": "dehub.io-pi kutichiy",
+    "recoverOnWebsite": "riftn.com-pi kutichiy",
     "createNewAnyway": "Mana chay kuentata munanichu — musuqta kamay",
     "couldNotRead": "Mana atirqaykuchu chay kutichisqa kuchu wayaqata ñawinchayta. Mana imapas tikrarqanchu.",
     "noOldAccountFound": "Kay yaykuypi mana ñawpaq Riftn yupay kanchu, chayrayku mana imapas apamunapaq kanchu. Chaypa rantinpi musuq yupayta churay.",
     "didNotRecoverEither": "Chay yaykuyqa manam kaypi rikuchisqa ima perfiltapas kutichirqanchu. Manam imapas tikrarqanchu. Munasqayki perfilpa ñawpaq yaykuyninta yanapay.",
     "didNotRecoverThis": "Chay yaykuyqa kay perfilpa mana kaq huk kuchu wayaqatam kutichirqan. Manam imapas tikrarqanchu. Ñawpaqta kamaq yaykuyta yanapay.",
-    "couldNotRetrieve": "Kay dispusitiwupi mana atirqaykuchu chay mawk'a kuchu wayaqata apamuyta. Uraypi kaq dehub.io-pi kutichiwaqraqmi.",
+    "couldNotRetrieve": "Kay dispusitiwupi mana atirqaykuchu chay mawk'a kuchu wayaqata apamuyta. Uraypi kaq riftn.com-pi kutichiwaqraqmi.",
     "matchedWithBalance": "Tinkuchisqa, {{balance}} tokens"
   },
   "liveGift": {
@@ -14770,7 +14772,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",

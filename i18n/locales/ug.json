@@ -4770,6 +4770,8 @@
     "turnOffSmartReplies": "تەۋسىيە جاۋابلارنى ئېتىش",
     "encrypted": "ئۇچتىن ئۇچقىچە شىفىرلانغان",
     "encryptionOff": "بۇ ئۈسكۈنىدە شىفىرلاش ئېتىۋېتىلگەن",
+    "encryptChat": "پاراڭنى شىفىرلاش",
+    "encryptChatOff": "شىفىرلاشنى تاقاش",
     "encryptionTurnOn": "قوزغىتىش",
     "cannotDecrypt": "شىفىرلانغان ئۇچۇر — بۇ ئۈسكۈنىدە ئېچىلمايدۇ",
     "title": "ئۇچۇرلار",
@@ -14718,7 +14720,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",

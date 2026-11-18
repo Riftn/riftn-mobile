@@ -5044,6 +5044,8 @@
     "turnOffSmartReplies": "Matikan balasan yang dicadangkan",
     "encrypted": "Disulitkan hujung ke hujung",
     "encryptionOff": "Penyulitan tidak aktif pada peranti ini",
+    "encryptChat": "Sulitkan sembang",
+    "encryptChatOff": "Matikan penyulitan",
     "encryptionTurnOn": "Hidupkan",
     "cannotDecrypt": "Mesej disulitkan — tidak boleh dibuka pada peranti ini",
     "title": "Mesej",
@@ -15020,7 +15022,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "Dijual",
     "sellYours": "Jual milik anda",

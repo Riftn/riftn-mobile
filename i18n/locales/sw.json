@@ -4797,6 +4797,8 @@
     "turnOffSmartReplies": "Zima majibu yanayopendekezwa",
     "encrypted": "Imesimbwa kutoka mwanzo hadi mwisho",
     "encryptionOff": "Usimbaji fiche umezimwa kwenye kifaa hiki",
+    "encryptChat": "Simba mazungumzo",
+    "encryptChatOff": "Zima usimbaji",
     "encryptionTurnOn": "Washa",
     "cannotDecrypt": "Ujumbe uliosimbwa — hauwezi kufunguliwa kwenye kifaa hiki",
     "title": "Ujumbe",
@@ -14752,7 +14754,7 @@
     "unavailable": "GitHub verification itatokea baadaye."
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "Kwa uuzaji",
     "sellYours": "Unapata kuuza",

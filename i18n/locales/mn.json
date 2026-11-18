@@ -4783,6 +4783,8 @@
     "turnOffSmartReplies": "Санал болгосон хариултуудыг унтраах",
     "encrypted": "Төгсгөл хоорондын шифрлэлттэй",
     "encryptionOff": "Энэ төхөөрөмжид шифрлэлт унтраалттай",
+    "encryptChat": "Чатыг шифрлэх",
+    "encryptChatOff": "Шифрлэлтийг унтраах",
     "encryptionTurnOn": "Асаах",
     "cannotDecrypt": "Шифрлэгдсэн мессеж — энэ төхөөрөмж дээр нээх боломжгүй",
     "title": "Зурвасууд",
@@ -8479,7 +8481,7 @@
     "finishSettingUp": "Энэ бүртгэлийн тохиргоог дуусгах",
     "addedPasswordRetry": "Би нууц үг нэмсэн — дахин оролдоно уу",
     "lostPhraseToo": "Би хэллэгээ ч алдсан — дахин эхлэх",
-    "neverUsedDehub": "dehub.io-г хэзээ ч ашиглаж байгаагүй — дахин эхлэх",
+    "neverUsedDehub": "riftn.com-г хэзээ ч ашиглаж байгаагүй — дахин эхлэх",
     "openDehub": "riftn.com нээх",
     "recoveryPhraseLabel": "Сэргээх хэллэг эсвэл хувийн түлхүүр",
     "orRestoreIt": "эсвэл түүнийг сэргээнэ үү",
@@ -14751,7 +14753,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Постууд",
+    "dehubPostsName": "Riftn Постууд",
     "statMinted": "Мүнтэд",
     "statForSale": "Борлуулахаар",
     "sellYours": "Өөрийнхөө зүйлээ зар",

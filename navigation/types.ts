@@ -218,6 +218,8 @@ export type AppStackParamList = {
     landscape?: boolean;
     /** Opened by turning the phone: turning it upright again closes it. */
     turned?: boolean;
+    /** The song picked for the video; it plays with the picture. */
+    soundtrackUrl?: string;
   };
   [ScreenNames.ShortsViewer]: {
     initialIndex?: number;

@@ -31,8 +31,18 @@ describe('parseDehubLink', () => {
     expect(link?.path).toBe('/app/post/12345?comment=abc');
   });
 
-  it('rejects a non-numeric post id', () => {
-    expect(parseDehubLink('https://dehub.io/app/post/not-a-number')).toBeNull();
+  it('reads a post shared by its readable address', () => {
+    expect(parseDehubLink('https://riftn.com/app/post/iron-man-7932')).toMatchObject({
+      kind: 'post',
+      articleSlug: 'iron-man-7932',
+    });
+    expect(parseDehubLink('https://riftn.com/app/post/iron-man-7932')?.tokenId).toBeUndefined();
+  });
+
+  it('rejects a post id that is neither a number nor a readable address', () => {
+    expect(parseDehubLink('https://dehub.io/app/post/not_a_slug!')).toBeNull();
+    expect(parseDehubLink('https://dehub.io/app/post/66c0a1b2c3d4e5f6a7b8c9d0')).toBeNull();
+    expect(parseDehubLink('https://dehub.io/app/video/not-a-number')).toBeNull();
   });
 
   it('reads a community link with and without the /app prefix', () => {

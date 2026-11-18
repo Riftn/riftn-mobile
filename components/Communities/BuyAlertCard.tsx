@@ -2,6 +2,7 @@ import React from "react";
 import { Linking, Pressable, Text, View } from "react-native";
 import { Image } from "expo-image";
 import { useTranslation } from "react-i18next";
+import { buyAlertExplorer, fmtPrice } from "../../libs/group-bots";
 
 /**
  * A buy bot post in a community chat. Its body is the trade as JSON; web has
@@ -20,6 +21,11 @@ interface BuyAlertData {
   balanceChangePct: number;
   priceUsd: number;
   marketCapUsd: number | null;
+  /** Set by the per-group bot; older DHB-only alerts leave these out. */
+  symbol?: string;
+  chainId?: string;
+  amount?: number;
+  usd?: number;
 }
 
 const COIN = require("../../assets/web-icons/dehub-coin.png");
@@ -58,28 +64,40 @@ function Row({ icon, label, children }: { icon: string; label: string; children:
 export function BuyAlertCard({ data, time }: { data: BuyAlertData; time: string }) {
   const { t } = useTranslation();
   const open = (url: string) => { void Linking.openURL(url); };
+  const explorer = buyAlertExplorer(data.chainId);
+  const isDhb = !data.symbol || data.symbol.toUpperCase() === "DHB";
+  const amount = data.amount ?? data.dhbAmount ?? 0;
+  const spentUsd = data.usd ?? data.dhbUsd ?? 0;
   return (
     <View className="mx-3 my-1.5 rounded-xl bg-white/5 border border-white/10 px-3 py-2.5">
       <View className="flex-row items-center gap-1.5 mb-2">
-        <Image source={COIN} style={{ width: 20, height: 20 }} />
+        {isDhb ? (
+          <Image source={COIN} style={{ width: 20, height: 20 }} />
+        ) : (
+          <View className="w-5 h-5 rounded-full bg-white/15 items-center justify-center">
+            <Text className="text-white text-[10px] font-bold">{(data.symbol ?? "?").slice(0, 1)}</Text>
+          </View>
+        )}
         <Text className="text-white font-bold text-sm">
-          {t("communities.buyAlert.title", { defaultValue: "{{amount}} BUY", amount: tokens(data.dhbAmount) })}
+          {isDhb
+            ? t("communities.buyAlert.title", { defaultValue: "{{amount}} BUY", amount: tokens(amount) })
+            : t("communities.buyAlert.titleToken", { defaultValue: "{{amount}} ${{symbol}} BUY", amount: tokens(amount), symbol: data.symbol })}
         </Text>
         <Text className="text-zinc-500 text-[10px] ml-auto">{time}</Text>
       </View>
       <View className="gap-1.5">
         <Row icon="💸" label={t("communities.buyAlert.spent", { defaultValue: "Spent:" })}>
           <Text className="text-white font-semibold text-xs">
-            {data.ethSpent > 0 ? `${data.ethSpent.toFixed(4)} ETH` : usd(data.dhbUsd)}
+            {data.ethSpent > 0 ? `${data.ethSpent.toFixed(4)} ETH` : usd(spentUsd)}
             {data.ethSpent > 0 && data.ethUsd > 0 ? <Text className="text-zinc-400 font-normal">{` (${usd(data.ethUsd)})`}</Text> : null}
           </Text>
         </Row>
         <Row icon="🟢" label={t("communities.buyAlert.buyer", { defaultValue: "Buyer:" })}>
-          <Text className="text-blue-400 text-xs" onPress={() => { if (data.buyerAddress) open(`https://basescan.org/address/${data.buyerAddress}`); }}>
+          <Text className="text-blue-400 text-xs" onPress={() => { if (data.buyerAddress) open(`${explorer}/address/${data.buyerAddress}`); }}>
             {data.shortBuyer}
           </Text>
           {!!data.txHash && (
-            <Pressable accessibilityRole="link" hitSlop={8} onPress={() => open(`https://basescan.org/tx/${data.txHash}`)}>
+            <Pressable accessibilityRole="link" hitSlop={8} onPress={() => open(`${explorer}/tx/${data.txHash}`)}>
               <Text className="text-zinc-400 text-xs underline">{t("communities.buyAlert.txn", { defaultValue: "Txn" })}</Text>
             </Pressable>
           )}
@@ -93,7 +111,7 @@ export function BuyAlertCard({ data, time }: { data: BuyAlertData; time: string 
           </Row>
         )}
         <Row icon="💲" label={t("communities.buyAlert.price", { defaultValue: "Price:" })}>
-          <Text className="text-white font-semibold text-xs">${data.priceUsd.toFixed(7)}</Text>
+          <Text className="text-white font-semibold text-xs">{fmtPrice(data.priceUsd)}</Text>
         </Row>
         {data.marketCapUsd != null && (
           <Row icon="📊" label={t("communities.buyAlert.marketCap", { defaultValue: "Market cap:" })}>

@@ -45,6 +45,7 @@ import Avatar from "../common/Avatar";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { getCommentLikers, type CommentLiker } from "../../services/nft.service";
 import { getChatReactors } from "../../services/livechat.service";
+import { getAccountSummaries } from "../../services/user.service";
 import { InlineEmoji } from "../common/EmojiText";
 import { getAvatarUrl, getBadgeUrlFor, getBadgeHoverOpticalStyle as getBadgeOpticalStyle } from "../../libs/misc";
 import { truncate } from "../../libs/strings.util";
@@ -64,6 +65,11 @@ interface CommentLikersSheetProps {
   loadPage?: typeof getCommentLikers;
   /** Chat lines carry several reactions: swaps the heading and copy, and adds one filter per reaction. */
   chatMessageId?: string | null;
+  /**
+   * DMs: the line already carries every address per emoji, so the names come
+   * from one batch account lookup instead of a server list.
+   */
+  localReactions?: Record<string, string[]> | null;
 }
 
 type Person = CommentLiker & { emojis?: string[] };
@@ -119,8 +125,9 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
   commentId,
   loadPage,
   chatMessageId,
+  localReactions,
 }) => {
-  const forChat = chatMessageId != null;
+  const forChat = chatMessageId != null || !!localReactions;
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -148,10 +155,46 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
 
   const fetchPage = useCallback(
     async (pageNum: number) => {
-      if (commentId == null && chatMessageId == null) return;
+      if (commentId == null && chatMessageId == null && !localReactions) return;
       if (pageNum === 0) setLoading(true);
       else setLoadingMore(true);
       try {
+        if (localReactions) {
+          const entries = Object.entries(localReactions).filter(([, who]) => (who?.length ?? 0) > 0);
+          const byAddress = new Map<string, string[]>();
+          for (const [key, who] of entries) {
+            for (let i = who.length - 1; i >= 0; i--) {
+              const a = who[i].toLowerCase();
+              const list = byAddress.get(a) ?? [];
+              if (!list.includes(key)) list.push(key);
+              byAddress.set(a, list);
+            }
+          }
+          const counts: Record<string, number> = {};
+          entries.forEach(([key, who]) => { counts[key] = who.length; });
+          const names = new Map((await getAccountSummaries([...byAddress.keys()])).map((a) => [a.address.toLowerCase(), a]));
+          const rows = [...byAddress.entries()]
+            .filter(([, emojis]) => !emoji || emojis.includes(emoji))
+            .map(([address, emojis]) => {
+              const info = names.get(address);
+              return {
+                address,
+                username: info?.username ?? undefined,
+                displayName: info?.displayName ?? undefined,
+                avatarImageUrl: info?.avatarImageUrl ?? undefined,
+                badgeBalance: info?.badgeBalance ?? undefined,
+                emojis,
+              } as Person;
+            });
+          setReactionCounts(counts);
+          setCanView(true);
+          setTotalCount(byAddress.size);
+          setAnonymousCount(0);
+          setPeople(rows);
+          setPage(0);
+          setHasMore(false);
+          return;
+        }
         const chat = chatMessageId != null
           ? await getChatReactors({ messageId: chatMessageId, emoji: emoji ?? undefined, page: pageNum, limit: PAGE_LIMIT })
           : null;
@@ -172,11 +215,11 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
         setLoadingMore(false);
       }
     },
-    [commentId, loadPage, chatMessageId, emoji],
+    [commentId, loadPage, chatMessageId, emoji, localReactions],
   );
 
   // A new line starts on "All"; a filter tap reloads the open sheet in place.
-  useEffect(() => { setEmoji(null); setReactionCounts({}); }, [chatMessageId]);
+  useEffect(() => { setEmoji(null); setReactionCounts({}); }, [chatMessageId, localReactions]);
 
   useEffect(() => {
     if (visible) {

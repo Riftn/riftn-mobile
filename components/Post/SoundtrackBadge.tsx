@@ -21,9 +21,11 @@ interface Props {
    *  bottom edge while the song plays. inline: the capsule alone. */
   variant?: "overlay" | "inline";
   onPlayingChange?: (playing: boolean) => void;
+  /** A video's song plays with the video itself: the badge only credits it. */
+  withVideo?: boolean;
 }
 
-const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = true, variant = "inline", onPlayingChange }) => {
+const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = true, variant = "inline", onPlayingChange, withVideo = false }) => {
   const { t } = useTranslation();
   const focused = useIsFocused();
   const { session, ownsPlayer, active: ownsAudio } = usePostAudioSession(url);
@@ -170,6 +172,25 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
   const library = credit && credit.source !== "riftn" ? SOUND_SOURCE_NAMES[credit.source] : null;
   const creditLine = library ? [creator ? `© ${creator}` : "", credit?.license, library].filter(Boolean).join(" · ") : "";
   const openCredit = () => { if (credit?.page) void Linking.openURL(credit.page).catch(() => {}); };
+
+  if (withVideo) {
+    // A second player here would fight the video for the speaker.
+    return (
+      <TouchableOpacity
+        onPress={credit?.page ? (event) => { event.stopPropagation?.(); openCredit(); } : undefined}
+        disabled={!credit?.page}
+        activeOpacity={0.75}
+        accessibilityRole={credit?.page ? "link" : "text"}
+        accessibilityLabel={`${name}${creator ? ` — ${creator}` : ""}`}
+        style={styles.capsule}
+      >
+        <GlassFill radius={18} />
+        <Ionicons name="musical-note" size={14} color="#fff" />
+        <Text style={styles.capsuleTitle} numberOfLines={1}>{name}{creator ? ` · ${creator}` : ""}</Text>
+        {!!library && <Text style={styles.capsuleLibrary} numberOfLines={1}>{library}</Text>}
+      </TouchableOpacity>
+    );
+  }
 
   if (variant === "overlay" && open) {
     return (

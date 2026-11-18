@@ -4775,6 +4775,8 @@
     "turnOffSmartReplies": "ପ୍ରସ୍ତାବିତ ଉତ୍ତର ବନ୍ଦ କରନ୍ତୁ",
     "encrypted": "ଏଣ୍ଡ-ଟୁ-ଏଣ୍ଡ ଏନକ୍ରିପ୍ଟେଡ୍",
     "encryptionOff": "ଏହି ଡିଭାଇସରେ ଏନକ୍ରିପସନ ବନ୍ଦ ଅଛି",
+    "encryptChat": "ଚାଟ୍ ଏନକ୍ରିପ୍ଟ କରନ୍ତୁ",
+    "encryptChatOff": "ଏନକ୍ରିପସନ୍ ବନ୍ଦ କରନ୍ତୁ",
     "encryptionTurnOn": "ଚାଲୁ କରନ୍ତୁ",
     "cannotDecrypt": "ଏନକ୍ରିପ୍ଟ ହୋଇଥିବା ବାର୍ତ୍ତା — ଏହି ଡିଭାଇସରେ ଖୋଲାଯାଇପାରିବ ନାହିଁ",
     "title": "ବାର୍ତ୍ତା",
@@ -14746,7 +14748,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "spotlightNew": "ମିନ୍ତ କରିଛି",
     "buyFor": "ଖରିଦ୍ବାକୁ କରନ୍ତୁ {{price}}"
   },

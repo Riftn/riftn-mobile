@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Slå av foreslåtte svar",
     "encrypted": "Ende-til-ende-kryptert",
     "encryptionOff": "Kryptering er av på denne enheten",
+    "encryptChat": "Krypter chat",
+    "encryptChatOff": "Slå av kryptering",
     "encryptionTurnOn": "Slå på",
     "cannotDecrypt": "Kryptert melding — kan ikke åpnes på denne enheten",
     "title": "Meldinger",
@@ -14766,7 +14768,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Innlegg",
+    "dehubPostsName": "Riftn Innlegg",
     "statMinted": "Slått ut",
     "statForSale": "Til salgs",
     "sellYours": "Selg ditt",

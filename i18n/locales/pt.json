@@ -4807,6 +4807,8 @@
     "turnOffSmartReplies": "Desativar respostas sugeridas",
     "encrypted": "Criptografado de ponta a ponta",
     "encryptionOff": "Encriptação desativada neste dispositivo",
+    "encryptChat": "Criptografar conversa",
+    "encryptChatOff": "Desativar criptografia",
     "encryptionTurnOn": "Ativar",
     "cannotDecrypt": "Mensagem criptografada — não pode ser aberta neste dispositivo",
     "title": "Mensagens",
@@ -16018,7 +16020,7 @@
     "join": "Entrar na live"
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "Vendido",
     "sellYours": "Venda o seu",

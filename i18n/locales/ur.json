@@ -4785,6 +4785,8 @@
     "turnOffSmartReplies": "تجویز کردہ جوابات بند کریں",
     "encrypted": "اینڈ ٹو اینڈ انکرپٹڈ",
     "encryptionOff": "اس ڈیوائس پر خفیہ کاری بند ہے",
+    "encryptChat": "چیٹ انکرپٹ کریں",
+    "encryptChatOff": "انکرپشن بند کریں",
     "encryptionTurnOn": "آن کریں",
     "cannotDecrypt": "انکرپٹڈ پیغام — اس ڈیوائس پر نہیں کھولا جا سکتا",
     "title": "پیغامات",

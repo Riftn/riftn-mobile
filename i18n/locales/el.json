@@ -4786,6 +4786,8 @@
     "turnOffSmartReplies": "Απενεργοποίηση προτεινόμενων απαντήσεων",
     "encrypted": "Κρυπτογράφηση από άκρο σε άκρο",
     "encryptionOff": "Κρυπτογράφηση ανενεργή σε αυτή τη συσκευή",
+    "encryptChat": "Κρυπτογράφηση συνομιλίας",
+    "encryptChatOff": "Απενεργοποίηση κρυπτογράφησης",
     "encryptionTurnOn": "Ενεργοποίηση",
     "cannotDecrypt": "Κρυπτογραφημένο μήνυμα — δεν μπορεί να ανοίξει σε αυτή τη συσκευή",
     "title": "Μηνύματα",
@@ -14795,7 +14797,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "Δημοσιεύσεις DeHub",
+    "dehubPostsName": "Δημοσιεύσεις Riftn",
     "statMinted": "Εκτυπωμένα",
     "statForSale": "Για πώληση",
     "sellYours": "Πώλησε το δικό σου",

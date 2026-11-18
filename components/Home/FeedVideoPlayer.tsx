@@ -7,6 +7,7 @@ import { useMediaVolume, getIsLooping, setIsLooping as persistLooping, useMediaL
 import { useFeedPlaybackAllowed, useFeedSurfaceActive, useCallInProgress, visualActivity } from "../../libs/visualActivity";
 import { MediaControlIcon as BareIcon, MediaControlLabel, MediaControlText } from "../common/MediaControlGlyph";
 import { usePostVideoPlayer } from "../../hooks/usePostVideoPlayer";
+import { useVideoSoundtrack } from "../../hooks/useVideoSoundtrack";
 import { markVideoProcessing, useVideoProcessingStatus } from "../../hooks/useVideoProcessingStatus";
 import { useQueryClient } from "@tanstack/react-query";
 import { peekFeedVideoPlace, rememberFeedVideoPlace, usedFeedVideoPlace } from "../../libs/feedVideoResume";
@@ -208,6 +209,8 @@ interface FeedVideoPlayerProps {
   downloadTitle?: string;
   /** The post's seek-preview sheet as the API sends it; the fullscreen player shows it while scrubbing. */
   storyboard?: unknown;
+  /** The song picked for this video; it plays with the picture. */
+  soundtrackUrl?: string;
   hideControls?: boolean;
   /** Mounted by a tap on the poster that stood in for this card: start at once. */
   startOnMount?: boolean;
@@ -325,6 +328,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   creatorUsername,
   downloadTitle,
   storyboard,
+  soundtrackUrl,
   hideControls = false,
   startOnMount = false,
   autoplaySettled = false,
@@ -518,6 +522,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   });
   const ownsPlayerRef = useRef(ownsPlayer);
   ownsPlayerRef.current = ownsPlayer;
+  useVideoSoundtrack(canPlay && videoUrl ? player : null, soundtrackUrl);
 
   useEffect(() => {
     playerRef.current = player;
@@ -1315,9 +1320,9 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
     preparePostMediaNavigation(videoUrl);
     navigation.navigate(ScreenNames.FullscreenVideo as never, {
       videoUrl, downloadUrl: mp4Url, startTime: time, isMuted: muted, thumbnail,
-      tokenId, isSignedIn, creatorUsername, downloadTitle, storyboard,
+      tokenId, isSignedIn, creatorUsername, downloadTitle, storyboard, soundtrackUrl,
     } as never);
-  }, [isMuted, videoUrl, mp4Url, thumbnail, tokenId, isSignedIn, stopPlayback, navigation, creatorUsername, downloadTitle, storyboard]);
+  }, [isMuted, videoUrl, mp4Url, thumbnail, tokenId, isSignedIn, stopPlayback, navigation, creatorUsername, downloadTitle, storyboard, soundtrackUrl]);
 
   // Video posts: the player's buttons are bare icons with a soft shadow,
   // mute in the top corner, with subtitles, speed, loop and picture in picture

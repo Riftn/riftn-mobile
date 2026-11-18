@@ -148,6 +148,8 @@ import ReactionInfoSheet from "../components/Home/ReactionInfoSheet";
 import ShareSheet from "../components/Home/ShareSheet";
 import ShareToDmSheet from "../components/DM/ShareToDmSheet";
 import PostOptionsMenu from "../components/common/PostOptionsMenu";
+import BoostSheet from "../components/common/BoostSheet";
+import { useSuperpowers } from "../hooks/useSuperpowers";
 import Avatar from "../components/common/Avatar";
 import BadgeArtwork from "../components/common/BadgeArtwork";
 import TranslateButton from "../components/ui/TranslateButton";
@@ -211,6 +213,9 @@ import { resolveViewCount } from "../libs/numbers.util";
 import { useTranslation as useCopy } from "react-i18next";
 import { hideDislikedPost, restoreDislikedPost } from "../libs/disliked-posts-store";
 import { trackPlayerWatchTime } from "../libs/watch-time";
+import { useVideoSoundtrack } from "../hooks/useVideoSoundtrack";
+import { parseSoundtrack } from "../libs/parseSoundtrack";
+import { applyVideoVolume } from "../libs/dub-mix";
 
 
 
@@ -570,6 +575,9 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   }, true, !!miniEntry?.restoring && miniEntry.url === videoUrl);
   const ownsPlayerRef = useRef(ownsPlayer);
   ownsPlayerRef.current = ownsPlayer;
+  // A video short's song plays with it (a photo short plays its song as the "video").
+  const videoSongUrl = useMemo(() => (noVideo ? undefined : parseSoundtrack((item as any).description)?.url), [noVideo, item]);
+  useVideoSoundtrack(videoUrl ? player : null, videoSongUrl);
   const isActive = (activeItem && playbackAllowed) || pipPlayer === player;
   // Live window size, not a module-level snapshot: on iPad the pager cells
   // and tap zones were sized for the launch orientation.
@@ -1290,7 +1298,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
 
   useEffect(() => {
     if (!player) return;
-    try { player.volume = volume; } catch {}
+    try { applyVideoVolume(player, volume); } catch {}
   }, [player, volume]);
 
   // Hold-on-the-right temporarily overrides the chosen rate; releasing drops
@@ -3083,6 +3091,7 @@ const ShortsViewerScreen = () => {
   );
   const [playbackRate, setPlaybackRate] = useState<number>(() => getPlaybackRateFor(initialItems[initialIndex]?.minter || initialItems[initialIndex]?.minterUser?.address));
   const [showOptionsMenu, setShowOptionsMenu] = useState(false);
+  const [showBoost, setShowBoost] = useState(false);
   // Clearing a short's chrome — by holding the middle of it, or by the
   // swipe-down — is reported up so the top bar goes with it.
   const [chromeVisible, setChromeVisible] = useState(true);
@@ -3127,6 +3136,13 @@ const ShortsViewerScreen = () => {
     (activeItem as any)?.isOwner ||
     (userAddress && activeMinter && userAddress.toLowerCase() === activeMinter.toLowerCase())
   );
+  // Boost, as on the feed card: the owner boosts their own post, and anyone
+  // holding Deep Current can gift one to somebody else's.
+  const { data: superpowerStatus } = useSuperpowers();
+  const canGiftBoost = !!superpowerStatus?.powers.some(
+    p => p.key === 'deep_current' && p.unlocked && p.available,
+  );
+  const canBoostActive = DIGITAL_PURCHASES_ENABLED && isSignedIn && activeTokenId != null && !!activeItem && !isLiveSlide(activeItem);
   const activeIsFollowing =
     followOverrides[activeMinter.toLowerCase()] ?? !!(activeItem as any)?.isFollowing;
   const activeIsHidden =
@@ -3841,6 +3857,22 @@ const ShortsViewerScreen = () => {
             )}
           </View>
 
+          {/* The owner's Boost bolt, beside options as on the feed card. */}
+          {canBoostActive && isOwnerOfActive && (
+            <ChromeTouchTarget>
+              <Pressable
+                onPress={() => setShowBoost(true)}
+                className="dark-surface"
+                style={styles.topButton}
+                hitSlop={CHROME_HIT_SLOP}
+                accessibilityLabel={t("feedCard.boostPost")}
+                testID="viewer-boost"
+              >
+                <ChromeFill top />
+                <Icon name="Zap" size={20} color="#fff" />
+              </Pressable>
+            </ChromeTouchTarget>
+          )}
           <ChromeTouchTarget>
             <Pressable
               onPress={() => setShowOptionsMenu(true)}
@@ -3900,6 +3932,8 @@ const ShortsViewerScreen = () => {
               })(); }
             : undefined}
           onToggleSave={handleToggleSave}
+          onBoostPress={canBoostActive && isOwnerOfActive ? () => setShowBoost(true) : undefined}
+          onGiftBoostPress={canBoostActive && !isOwnerOfActive && canGiftBoost ? () => setShowBoost(true) : undefined}
           onRemix={activeItem.postType === "short" && !activeItem.imageUrls?.length && !videoNeedsAccess(activeItem) && !activeIsHidden && activeTokenId != null &&
             (!(activeItem as any).visibility || (activeItem as any).visibility === "public") && !(activeItem as any).spoilerText &&
             !(activeItem as { contentRating?: string }).contentRating?.includes("mature") && (!(activeItem as any).quotePolicy || (activeItem as any).quotePolicy === "public" || isOwnerOfActive)
@@ -3914,6 +3948,16 @@ const ShortsViewerScreen = () => {
           onVisibilityChange={handleVisibilityChange}
           onEditSuccess={handleEditSuccess}
           onDeleteSuccess={handleDeleteSuccess}
+        />
+      )}
+
+      {showBoost && activeTokenId != null && (
+        <BoostSheet
+          visible={showBoost}
+          onClose={() => setShowBoost(false)}
+          tokenId={activeTokenId}
+          postTitle={activeItem?.name || activeItem?.title || undefined}
+          isOwnPost={isOwnerOfActive}
         />
       )}
       </Reanimated.View>

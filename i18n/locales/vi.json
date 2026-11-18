@@ -4889,6 +4889,8 @@
     "turnOffSmartReplies": "Tắt câu trả lời gợi ý",
     "encrypted": "Mã hóa đầu cuối",
     "encryptionOff": "Mã hóa chưa bật trên thiết bị này",
+    "encryptChat": "Mã hóa cuộc trò chuyện",
+    "encryptChatOff": "Tắt mã hóa",
     "encryptionTurnOn": "Bật",
     "cannotDecrypt": "Tin nhắn đã mã hóa — không thể mở trên thiết bị này",
     "title": "Thông báo",
@@ -14995,7 +14997,7 @@
     "unavailable": "Xác minh GitHub đang được chuẩn bị."
   },
   "nftMarket": {
-    "dehubPostsName": "Đăng bài trên DeHub",
+    "dehubPostsName": "Đăng bài trên Riftn",
     "statMinted": "Minted",
     "statForSale": "Đang bán",
     "sellYours": "Bán của bạn",

@@ -4788,6 +4788,8 @@
     "turnOffSmartReplies": "Dezactivează răspunsurile sugerate",
     "encrypted": "Criptat end-to-end",
     "encryptionOff": "Criptarea este dezactivată pe acest dispozitiv",
+    "encryptChat": "Criptează conversația",
+    "encryptChatOff": "Dezactivează criptarea",
     "encryptionTurnOn": "Activează",
     "cannotDecrypt": "Mesaj criptat — nu poate fi deschis pe acest dispozitiv",
     "title": "Mesaje",
@@ -14782,7 +14784,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Mintite",
     "statForSale": "La vânzare",
     "sellYours": "Vinde-ți propriul",

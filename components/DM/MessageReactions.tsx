@@ -1,5 +1,7 @@
 import React, { memo } from "react";
 import { View, Text, Pressable, ScrollView } from "react-native";
+import Icon from "../ui/Icon";
+import { useTranslation } from "react-i18next";
 
 /** Same quick row the web DM, public and community chats use. */
 export const DM_QUICK_REACTIONS = ["👍", "❤️", "😂", "🔥", "🚀", "👀", "💯", "🙏", "🫡"] as const;
@@ -20,12 +22,17 @@ export const ReactionStrip: React.FC<{
   reactions?: Record<string, string[]>;
   myAddress: string;
   onPick: (emoji: string) => void;
-}> = memo(({ reactions, myAddress, onPick }) => (
+  /** The arrow at the end: every emoji. */
+  onMore?: () => void;
+}> = memo(({ reactions, myAddress, onPick, onMore }) => {
+  const { t } = useTranslation();
+  return (
+  <View style={{ flexDirection: "row", alignItems: "center", height: REACTION_STRIP_HEIGHT }}>
   <ScrollView
     horizontal
     showsHorizontalScrollIndicator={false}
     keyboardShouldPersistTaps="handled"
-    style={{ height: REACTION_STRIP_HEIGHT }}
+    style={{ flex: 1, height: REACTION_STRIP_HEIGHT }}
     contentContainerStyle={{ alignItems: "center", paddingHorizontal: 6 }}
   >
     {DM_QUICK_REACTIONS.map((emoji) => {
@@ -45,7 +52,20 @@ export const ReactionStrip: React.FC<{
       );
     })}
   </ScrollView>
-));
+    {onMore && (
+      <Pressable
+        onPress={onMore}
+        accessibilityRole="button"
+        accessibilityLabel={t("emojiPicker.moreReactions")}
+        hitSlop={4}
+        className="w-9 h-9 mr-1.5 rounded-full items-center justify-center bg-theme-neutrals-800"
+      >
+        <Icon name="ChevronDown" size={18} color="#F9FBFF" />
+      </Pressable>
+    )}
+  </View>
+  );
+});
 
 /** Reaction chips under a bubble. Tapping one toggles your own. */
 export const ReactionChips: React.FC<{

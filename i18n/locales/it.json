@@ -4878,6 +4878,8 @@
     "turnOffSmartReplies": "Disattiva le risposte suggerite",
     "encrypted": "Crittografato end-to-end",
     "encryptionOff": "Crittografia disattivata su questo dispositivo",
+    "encryptChat": "Crittografa chat",
+    "encryptChatOff": "Disattiva crittografia",
     "encryptionTurnOn": "Attiva",
     "cannotDecrypt": "Messaggio crittografato — non può essere aperto su questo dispositivo",
     "title": "Messaggi",
@@ -14913,7 +14915,7 @@
     "unavailable": "La verifica di GitHub è in arrivo."
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Fuso",
     "statForSale": "In vendita",
     "sellYours": "Vendi il tuo",

@@ -4787,6 +4787,8 @@
     "turnOffSmartReplies": "طفي الردود المقترحة",
     "encrypted": "مشفّر من طرف إلى طرف",
     "encryptionOff": "التشفير ماشي مفعّل ف هاد الجهاز",
+    "encryptChat": "شفّر الدردشة",
+    "encryptChatOff": "طفي التشفير",
     "encryptionTurnOn": "فعّلو",
     "cannotDecrypt": "رسالة مشفّرة — ما كتحلّش فهاد الجهاز",
     "title": "الرسائل",
@@ -14792,7 +14794,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "منشورات DeHub",
+    "dehubPostsName": "منشورات Riftn",
     "sellYours": "بِعْه",
     "sellYoursHint": "قائمة من المحفظة ديالك",
     "tapToOffer": "ضغط على واحد ليقدم عرضك",

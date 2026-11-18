@@ -4791,6 +4791,8 @@
     "turnOffSmartReplies": "Isključi predložene odgovore",
     "encrypted": "Šifrirano s kraja na kraj",
     "encryptionOff": "Šifriranje je isključeno na ovom uređaju",
+    "encryptChat": "Šifriraj razgovor",
+    "encryptChatOff": "Isključi šifriranje",
     "encryptionTurnOn": "Uključi",
     "cannotDecrypt": "Šifrirana poruka — ne može se otvoriti na ovom uređaju",
     "title": "Poruke",
@@ -14746,7 +14748,7 @@
     "unavailable": "Uskoro stiže GitHub potvrda."
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Postovi",
+    "dehubPostsName": "Riftn Postovi",
     "statMinted": "Mintirano",
     "statForSale": "Za prodaju",
     "sellYours": "Prodaj svoje",
