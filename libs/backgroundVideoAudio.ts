@@ -16,9 +16,16 @@ import type { VideoPlayer } from "expo-video";
 const followed = new WeakSet<VideoPlayer>();
 const audible = new Set<VideoPlayer>();
 let sessionHeld = false;
+let releaseTimer: ReturnType<typeof setTimeout> | null = null;
+/**
+ * Swiping shorts pauses one player and starts the next a moment later. The
+ * session is only handed back once nothing has been audible for this long, so
+ * it is not switched off and on again on every swipe (a reconfigure mid-play
+ * can click or dull the sound).
+ */
+const RELEASE_AFTER_MS = 4000;
 
-function syncSession() {
-  const want = audible.size > 0;
+function applySession(want: boolean) {
   if (want === sessionHeld) return;
   sessionHeld = want;
   // Loaded on first use so this module stays light (and loads without the
@@ -26,6 +33,20 @@ function syncSession() {
   import("./audioSession")
     .then((m) => (want ? m.configureForBackgroundPlayback() : m.releaseBackgroundPlayback()))
     .catch(() => {});
+}
+
+function syncSession() {
+  const want = audible.size > 0;
+  if (want) {
+    if (releaseTimer) { clearTimeout(releaseTimer); releaseTimer = null; }
+    applySession(true);
+    return;
+  }
+  if (!sessionHeld || releaseTimer) return;
+  releaseTimer = setTimeout(() => {
+    releaseTimer = null;
+    if (audible.size === 0) applySession(false);
+  }, RELEASE_AFTER_MS);
 }
 
 function isAudible(player: VideoPlayer): boolean {
