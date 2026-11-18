@@ -3805,6 +3805,12 @@
     "pooledTotal": "{{amount}} رمز مجمعة"
   },
   "governance": {
+    "optionVoters_one": "{{count}} مصوّت",
+    "optionVoters_other": "{{count}} مصوّتين",
+    "optionWinner": "الفائز: {{option}}",
+    "optionNoWinner": "لا يوجد فائز واضح",
+    "optionTapToUndo": "اضغط على إجابتك مرة أخرى لسحب صوتك",
+    "optionPickOne": "اختر إجابة واحدة",
     "badgeHoldersOnly": "حاملي الشارات فقط",
     "title": "الحوكمة",
     "proposalCount": "{{count}} مقترح مقدم",

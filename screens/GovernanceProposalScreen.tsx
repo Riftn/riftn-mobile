@@ -51,11 +51,13 @@ import {
   useSubmitProposalComment,
   useDeleteProposalComment,
   useMyProposalVote,
+  useMyProposalOption,
   useVoteOnProposal,
   type ProposalComment,
   type ProposalThread,
 } from "../hooks/useGovernanceDiscussion";
-import { isProposalNumber, isVotingOpen, needsOwnBadge } from "../services/governance.service";
+import { isMultipleChoice, isProposalNumber, isVotingOpen, needsOwnBadge } from "../services/governance.service";
+import ProposalOptionsList from "../components/Governance/ProposalOptionsList";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import RepostShareSheet from "../components/Home/RepostShareSheet";
 import { getProposalRepostState, toggleProposalRepost } from "../services/repost.service";
@@ -218,6 +220,8 @@ export default function GovernanceProposalScreen() {
   const submitComment = useSubmitProposalComment();
   const deleteComment = useDeleteProposalComment();
   const { data: myVote = 0 } = useMyProposalVote(isAuthed ? proposalId : null);
+  const multiple = isMultipleChoice(proposal);
+  const { data: myOption = null } = useMyProposalOption(isAuthed ? proposalId : null, multiple);
   const vote = useVoteOnProposal();
 
   const [draft, setDraft] = useSurfaceDraft("screens/GovernanceProposalScreen.tsx:draft", "");
@@ -409,14 +413,14 @@ export default function GovernanceProposalScreen() {
   const forPct = total > 0 ? Math.round((forW / total) * 100) : 0;
   const againstPct = total > 0 ? 100 - forPct : 0;
   const votingOpen = !!proposal && isVotingOpen(proposal);
-  const onVote = (voteType: 1 | -1) => {
+  const onVote = (voteType: 1 | -1, optionIndex?: number) => {
     if (!proposalId || vote.isPending) return;
     if (!isAuthed) {
       navigation.navigate(ScreenNames.SignIn);
       return;
     }
     vote.mutate(
-      { proposalId, voteType },
+      { proposalId, voteType, optionIndex },
       {
         onError: (error) => {
           if (!needsOwnBadge(error)) return;
@@ -478,6 +482,18 @@ export default function GovernanceProposalScreen() {
               <Text style={styles.cardTitle}>{proposal.title}</Text>
               {!!proposal.description && <Text style={styles.cardDesc}>{proposal.description}</Text>}
 
+              {multiple ? (
+                <View style={{ marginTop: 4 }}>
+                  <ProposalOptionsList
+                    proposal={proposal}
+                    myOption={myOption}
+                    onVote={(i) => onVote(1, i)}
+                    disabled={!votingOpen || vote.isPending}
+                    pendingOption={vote.isPending ? vote.variables?.optionIndex ?? null : null}
+                  />
+                </View>
+              ) : (
+              <>
               <View style={styles.barTrack}>
                 <View style={[styles.barFor, { flex: total > 0 ? forW : 1 }]} />
                 <View style={[styles.barAgainst, { flex: total > 0 ? againstW : 1 }]} />
@@ -486,8 +502,10 @@ export default function GovernanceProposalScreen() {
                 <Text style={styles.forText}>{forPct}% {t("governance.forLabel")}</Text>
                 <Text style={styles.againstText}>{againstPct}% {t("governance.againstLabel")}</Text>
               </View>
+              </>
+              )}
 
-              {votingOpen && (
+              {votingOpen && !multiple && (
                 <View style={styles.voteRow}>
                   {([1, -1] as const).map((side) => {
                     const chosen = myVote === side;
@@ -520,6 +538,8 @@ export default function GovernanceProposalScreen() {
               )}
 
               <View style={styles.metaRow}>
+                {!multiple && (
+                  <>
                 <View style={styles.metaItem}>
                   <Icon name="ThumbsUp" size={13} color="#F4F4F5" />
                   <Text style={styles.metaText}>{formatCompactNumber(forW)}</Text>
@@ -528,6 +548,8 @@ export default function GovernanceProposalScreen() {
                   <Icon name="ThumbsDown" size={13} color="#F4F4F5" />
                   <Text style={styles.metaText}>{formatCompactNumber(againstW)}</Text>
                 </View>
+                  </>
+                )}
                 <View style={styles.metaItem}>
                   <Icon name="MessageCircle" size={13} color="#808089" />
                   <Text style={styles.metaText}>{formatCompactNumber(proposal.comment_count || 0)}</Text>

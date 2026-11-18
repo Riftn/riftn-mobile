@@ -3789,6 +3789,12 @@
     "pooledTotal": "{{amount}} tokens en pool"
   },
   "governance": {
+    "optionVoters_one": "{{count}} votante",
+    "optionVoters_other": "{{count}} votantes",
+    "optionWinner": "Ganador: {{option}}",
+    "optionNoWinner": "Sin un ganador claro",
+    "optionTapToUndo": "Toca tu respuesta de nuevo para retirar tu voto",
+    "optionPickOne": "Elige una respuesta",
     "badgeHoldersOnly": "Solo portadores de insignias",
     "title": "Gobernanza",
     "proposalCount": "{{count}} propuesta enviada",
