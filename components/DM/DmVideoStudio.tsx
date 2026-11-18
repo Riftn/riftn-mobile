@@ -113,6 +113,8 @@ interface Props {
   /** Pay-to-unlock price in DHB; null = not locked. No handler = locking is not offered in this chat. */
   lockPrice?: number | null;
   onLockPriceChange?: (p: number | null) => void;
+  /** Photos: opens the full photo editor (crop, looks, draw, text). */
+  onEditPhoto?: () => void;
   /** Posts: look + adjust dials (the server bakes them in). */
   colour?: StudioColour;
   onColourChange?: (c: StudioColour) => void;
@@ -180,7 +182,7 @@ function useFilmstrip(uri: string, duration: number, enabled: boolean) {
 export default function DmVideoStudio({
   visible, onClose, uri, duration = 0, width, height, size, options, onOptionsChange,
   destruct, onDestructChange, onCoverFrame, onConfirm, confirmLabel, initialTab = "trim", onlyTabs,
-  lockPrice = null, onLockPriceChange,
+  lockPrice = null, onLockPriceChange, onEditPhoto,
   kind = "video", strip, active = 0, onSelect, onAddMore, onRemove, allowTimer = true,
   colour, onColourChange, postTimer, alt, onUploadCover, coverPictureUri,
   crop, onCropChange, onReplace, sound, children,
@@ -548,6 +550,14 @@ export default function DmVideoStudio({
           {tabs.length > 0 && <>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0, borderBottomWidth: 1, borderBottomColor: "rgba(255,255,255,0.1)", marginTop: 8 }}
             contentContainerStyle={{ flexGrow: 1, justifyContent: "space-around", gap: tabs.length > 6 ? 4 : 0, paddingHorizontal: tabs.length > 6 ? 6 : 0 }}>
+            {!isVideo && onEditPhoto && (
+              <Pressable onPress={onEditPhoto} accessibilityRole="button" accessibilityLabel={_copy("upload.studio.title", { defaultValue: "Edit photo" })}
+                testID="dm-photo-edit"
+                style={{ alignItems: "center", gap: 3, paddingHorizontal: 6, paddingTop: 4, paddingBottom: 8, borderBottomWidth: 2, borderBottomColor: "transparent" }}>
+                <Icon name="Pencil" size={18} color={MUTED} />
+                <Text style={{ color: MUTED, fontSize: 11 }}>{_copy("common.edit", { defaultValue: "Edit" })}</Text>
+              </Pressable>
+            )}
             {tabs.map(({ key, label, icon }) => {
               const on = tab === key;
               return (

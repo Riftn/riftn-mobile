@@ -58,6 +58,15 @@ import { useComposeTranslate } from "../../hooks/useComposeTranslate";
 import LanguageSelectModal from "../Settings/LanguageSelectModal";
 import MentionSuggestions from "../common/MentionSuggestions";
 import { useMentions } from "../../hooks/useMentions";
+import { optionalSkia } from "../../libs/skia";
+import type { StudioResult } from "../Upload/PhotoStudio";
+import type { StudioEdits } from "../Upload/studioPaint";
+
+// The post composer's photo editor (crop, looks, adjust, draw, text). Skia,
+// so only on builds that carry it.
+const PhotoStudio = optionalSkia(
+  () => require("../Upload/PhotoStudio").default as typeof import("../Upload/PhotoStudio").default,
+);
 
 
 export type ChatMediaAttachment = {
@@ -80,6 +89,9 @@ export type ChatMediaAttachment = {
   options?: DmVideoOptions;
   /** Self-destruct: gone after one view or a set time. */
   destruct?: DmDestructChoice | null;
+  /** Photo editor: the untouched original and the edits over it. */
+  editBaseUri?: string;
+  studioEdits?: StudioEdits;
 };
 
 interface ChatInputBarProps {
@@ -213,6 +225,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   // The edit screen opens on a pick; Confirm brings the picks back here as a
   // row above the box. X drops only what was picked since it opened.
   const [studioOpen, setStudioOpen] = useState(false);
+  const [photoEditing, setPhotoEditing] = useState(false);
   const studioOpenRef = useRef(false);
   studioOpenRef.current = studioOpen;
   const studioBase = useRef(0);
@@ -847,6 +860,39 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
               onCoverFrame={(uri) => patchStudio({ thumbnailUri: uri })}
               lockPrice={allowLock ? cur.lockPrice ?? null : null}
               onLockPriceChange={allowLock ? (price) => patchStudio({ lockPrice: price }) : undefined}
+              onEditPhoto={PhotoStudio && cur.type === "image" && !/gif/i.test(cur.mimeType || "") ? () => {
+                setStudioOpen(false);
+                setTimeout(() => setPhotoEditing(true), 300);
+              } : undefined}
+            />
+          );
+        })()}
+        {PhotoStudio && photoEditing && studio.length > 0 && (() => {
+          const cur = studio[Math.min(studioActive, studio.length - 1)];
+          const back = () => { setPhotoEditing(false); setTimeout(() => setStudioOpen(true), 300); };
+          return (
+            <PhotoStudio
+              photos={[{ baseUri: cur.editBaseUri ?? cur.uri, mimeType: cur.mimeType, edits: cur.studioEdits }]}
+              startIndex={0}
+              startTab="crop"
+              onClose={back}
+              onDone={(results: StudioResult[]) => {
+                const r = results[0];
+                if (r) {
+                  patchStudio({
+                    editBaseUri: cur.editBaseUri ?? cur.uri,
+                    studioEdits: r.edits,
+                    uri: r.uri,
+                    thumbnailUri: undefined,
+                    width: r.width,
+                    height: r.height,
+                    mimeType: r.mimeType,
+                    name: r.fileName,
+                    size: undefined,
+                  });
+                }
+                back();
+              }}
             />
           );
         })()}
