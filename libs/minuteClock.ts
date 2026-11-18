@@ -31,6 +31,8 @@ function stopTimer(): void {
 }
 
 function start(): void {
+  // Nobody was listening, so `now` may be from long ago.
+  now = Date.now();
   if (AppState.currentState !== "background") startTimer();
   if (appSub) return;
   appSub = AppState.addEventListener("change", (status: AppStateStatus) => {
