@@ -2641,7 +2641,9 @@
       "profile": "프로필",
       "proposal": "제안서",
       "stage": "스테이지",
-      "store": "스토어"
+      "store": "스토어",
+      "featureRequest": "요청",
+      "page": "페이지"
     }
   },
   "postGate": {
@@ -13212,7 +13214,11 @@
     "ended": "종료됨",
     "stage": "스테이지",
     "upcomingStage": "예정된 스테이지",
-    "members": "{{compact}}명 회원"
+    "members": "{{compact}}명 회원",
+    "requestComments_one": "댓글 {{compact}}개",
+    "requestComments_other": "댓글 {{compact}}개",
+    "requestVotes_one": "{{compact}}표",
+    "requestVotes_other": "{{compact}}표"
   },
   "report": {
     "whyVideo": "이 동영상을 신고하는 이유가 무엇인가요?",
@@ -15540,5 +15546,11 @@
     "forward": "전달",
     "deleted_one": "{{count}}개의 메시지 삭제",
     "deleted_other": "{{count}}개의 메시지 삭제"
+  },
+  "mentionLinks": {
+    "communities": "커뮤니티",
+    "pages": "페이지",
+    "people": "사람",
+    "linkTo": "{{name}} 링크"
   }
 }

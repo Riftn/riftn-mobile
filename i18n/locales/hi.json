@@ -2641,7 +2641,9 @@
       "profile": "प्रोफ़ाइल",
       "proposal": "प्रस्ताव",
       "stage": "मंच",
-      "store": "स्टोर"
+      "store": "स्टोर",
+      "featureRequest": "अनुरोध",
+      "page": "पेज"
     }
   },
   "postGate": {
@@ -13216,7 +13218,11 @@
     "ended": "समाप्त",
     "stage": "मंच",
     "upcomingStage": "आगामी मंच",
-    "members": "{{compact}} सदस्य"
+    "members": "{{compact}} सदस्य",
+    "requestComments_one": "{{compact}} टिप्पणी",
+    "requestComments_other": "{{compact}} टिप्पणियाँ",
+    "requestVotes_one": "{{compact}} वोट",
+    "requestVotes_other": "{{compact}} वोट"
   },
   "report": {
     "whyVideo": "आप इस वीडियो की रिपोर्ट क्यों कर रहे हैं?",
@@ -15545,5 +15551,11 @@
     "forward": "फ़ॉरवर्ड करें",
     "deleted_one": "मिटाया गया {{count}} मैसेज",
     "deleted_other": "मिटाये गए {{count}} मैसेज"
+  },
+  "mentionLinks": {
+    "communities": "कम्युनिटी",
+    "pages": "पेज",
+    "people": "लोग",
+    "linkTo": "{{name}} लिंक करें"
   }
 }

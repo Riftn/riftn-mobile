@@ -276,8 +276,16 @@
       "profile": "profile",
       "proposal": "proposal",
       "stage": "stage",
-      "store": "store"
+      "store": "store",
+      "featureRequest": "request",
+      "page": "page"
     }
+  },
+  "mentionLinks": {
+    "communities": "Communities",
+    "linkTo": "Link {{name}}",
+    "pages": "Pages",
+    "people": "People"
   },
   "stageCover": {
     "admitOne": "ADMIT ONE",
@@ -12040,6 +12048,10 @@
     "listingJoined": "You're on the list. We'll email {{email}} when token trading opens."
   },
   "linkCard": {
+    "requestComments_one": "{{compact}} comment",
+    "requestComments_other": "{{compact}} comments",
+    "requestVotes_one": "{{compact}} vote",
+    "requestVotes_other": "{{compact}} votes",
     "inviteRevoked": "Invite revoked",
     "inviteExpired": "Invite expired",
     "inviteExhausted": "Invite fully used",

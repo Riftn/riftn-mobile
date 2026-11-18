@@ -29,6 +29,8 @@ import { FRAME_INSET } from "../ui/HoldSheet";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
 import ImageViewerModal from "../common/ImageViewerModal";
 import { InlineEmoji, expandEmojiTokens } from "../common/EmojiText";
+import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
+import { findDehubLinks, stripDehubLinkMatches } from "../../libs/dehub-links";
 
 const formatTime = (iso: string): string => {
   const d = new Date(iso);
@@ -165,6 +167,11 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
 
   // A tapped photo opens full screen, with Download, over the live player.
   const [viewing, setViewing] = useState<string[] | null>(null);
+
+  // Links to our own things (a community, a request, a page, a post) show as
+  // cards under the line, and the text drops the URL the card stands for.
+  const dehubLinks = useMemo(() => findDehubLinks(bodyText).slice(0, MAX_CARDS_PER_MESSAGE), [bodyText]);
+  const shownBody = useMemo(() => stripDehubLinkMatches(bodyText, dehubLinks).trim(), [bodyText, dehubLinks]);
 
   const translationTexts = useMemo(() => ({ content: bodyText }), [bodyText]);
   const { isTranslated, translatedTexts, isLoading: translating, handleTranslate, handleShowOriginal, shouldShow: showTranslate, sourceLang: translationSourceLang } =
@@ -326,10 +333,22 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
           <Text className="text-white/30 text-sm italic">{t("liveChat.messageDeleted")}</Text>
         ) : (
           <>
-            {!!bodyText && (
+            {!!shownBody && (
               <Text className="text-white/80" style={{ fontSize: bodySize, lineHeight: Math.round(bodySize * 1.42) }}>
-                {renderLinkedText(isTranslated ? (translatedTexts.content || bodyText) : bodyText, handleLongPress, bodySize)}
+                {renderLinkedText(
+                  isTranslated
+                    ? stripDehubLinkMatches(translatedTexts.content || bodyText, dehubLinks).trim()
+                    : shownBody,
+                  handleLongPress,
+                  bodySize,
+                )}
               </Text>
+            )}
+
+            {dehubLinks.length > 0 && (
+              <View style={{ maxWidth: 320 }}>
+                <DehubLinkCards links={dehubLinks} onLongPress={handleLongPress} />
+              </View>
             )}
 
             {showTranslate && !!bodyText && (

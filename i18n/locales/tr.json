@@ -194,7 +194,9 @@
       "profile": "profil",
       "proposal": "teklif",
       "stage": "aşama",
-      "store": "mağaza"
+      "store": "mağaza",
+      "featureRequest": "istek",
+      "page": "sayfa"
     }
   },
   "stageCover": {
@@ -11676,7 +11678,11 @@
     "ended": "Bitti",
     "stage": "Sahne",
     "upcomingStage": "Yaklaşan sahne",
-    "members": "{{compact}} üye"
+    "members": "{{compact}} üye",
+    "requestComments_one": "{{compact}} yorum",
+    "requestComments_other": "{{compact}} yorum",
+    "requestVotes_one": "{{compact}} oy",
+    "requestVotes_other": "{{compact}} oy"
   },
   "report": {
     "whyVideo": "Bu videoyu neden bildiriyorsunuz?",
@@ -16940,5 +16946,11 @@
   },
   "profileImage": {
     "change": "Değiştir"
+  },
+  "mentionLinks": {
+    "communities": "Topluluklar",
+    "pages": "Sayfalar",
+    "people": "Kişiler",
+    "linkTo": "{{name}} bağlantısı ekle"
   }
 }
