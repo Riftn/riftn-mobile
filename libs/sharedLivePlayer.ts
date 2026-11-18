@@ -192,11 +192,11 @@ function settleBehindLiveOnStallIOS(player: VideoPlayer, url: string): () => voi
   let played = false;
   let settled = false;
   const subs = [
-    player.addListener("playingChange", ({ isPlaying }) => {
-      if (isPlaying) played = true;
+    player.addListener("playingChange", (event) => {
+      if (event?.isPlaying) played = true;
     }),
-    player.addListener("statusChange", ({ status }) => {
-      if (status !== "loading" || !played || settled) return;
+    player.addListener("statusChange", (event) => {
+      if (event?.status !== "loading" || !played || settled) return;
       try {
         const want = bigEventUrls.has(url) ? EVENT_TARGET_OFFSET_FROM_LIVE_SEC : SETTLED_LIVE_OFFSET_SEC;
         const back = iosSettleBack(player.currentOffsetFromLive, player.currentTime, want);
