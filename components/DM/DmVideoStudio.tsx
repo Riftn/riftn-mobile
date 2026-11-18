@@ -42,6 +42,8 @@ import { LOCK_QUICK_PRICES } from "./LockPriceRow";
 import { LOCK_DEFAULT_USD, formatLockUsd } from "../../libs/dmLocked";
 import { ADJUST_RANGES, DEFAULT_ADJUST, STUDIO_LOOKS, studioColorMatrix, type StudioAdjust, type StudioAdjustKey } from "../../libs/imageFilters";
 import { POST_DESTRUCT_CHOICES, postDestructLabel } from "../../libs/post-video-edits";
+import { SOUND_MIX_PRESETS, type SoundMix } from "../../libs/soundWindow";
+import { useAppTheme } from "../../context/ThemeContext";
 import { optionalSkia } from "../../libs/skia";
 import { VIDEO_CROP_RATIOS, cropRatioValue, dragCropRect, fitCropRect, isFullCrop, type CropHandle, type CropRatioId, type VideoCropRect } from "../../libs/video-crop";
 
@@ -127,7 +129,15 @@ interface Props {
   /** Posts: swap the video for another one from the device. */
   onReplace?: () => void;
   /** Posts: the song laid over the video. */
-  sound?: { title?: string; creator?: string; onPick: () => void; onClear: () => void };
+  sound?: {
+    title?: string;
+    creator?: string;
+    onPick: () => void;
+    onClear: () => void;
+    /** How loud the song and the video's own sound play on the post. */
+    mix?: SoundMix;
+    onMixChange?: (mix: SoundMix) => void;
+  };
   /** Sheets that open over this screen (an iPhone modal can only stack on the one it is inside). */
   children?: React.ReactNode;
 }
@@ -744,7 +754,11 @@ export default function DmVideoStudio({
                       <Icon name="X" size={14} color={WHITE} />
                     </Pressable>
                   </View>
-                ) : (
+                ) : null}
+                {sound.title && sound.mix && sound.onMixChange ? (
+                  <SoundMixRows mix={sound.mix} onChange={sound.onMixChange} />
+                ) : null}
+                {sound.title ? null : (
                   <Pressable onPress={sound.onPick} accessibilityRole="button" testID="studio-add-sound"
                     style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, height: 44, borderRadius: 12, borderWidth: 1, borderColor: LINE }}>
                     <Icon name="Music" size={16} color={WHITE} />
@@ -894,6 +908,60 @@ function VideoCropOverlay({ width, height, rect, ratio, frameAspect, onChange }:
         <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: "33.33%", height: 1, backgroundColor: "rgba(255,255,255,0.35)" }} />
         <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: "66.66%", height: 1, backgroundColor: "rgba(255,255,255,0.35)" }} />
         {(["tl", "tr", "bl", "br"] as const).map(corner)}
+      </View>
+    </View>
+  );
+}
+
+const sameMix = (a: SoundMix, b: SoundMix) =>
+  Math.round(a.song * 100) === Math.round(b.song * 100) && Math.round(a.video * 100) === Math.round(b.video * 100);
+
+/** Two sliders (song, video sound) and three quick picks. Same as the web composer. */
+function SoundMixRows({ mix, onChange }: { mix: SoundMix; onChange: (mix: SoundMix) => void }) {
+  const { t: _copy } = _useCopy();
+  // Slider tints and the quick picks skip the light theme's colour turn, so
+  // they pick their ink here.
+  const { isLight } = useAppTheme();
+  const ink = isLight ? "#111114" : WHITE;
+  const rest = isLight ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.25)";
+  const rows = [
+    { key: "song" as const, icon: "Music" as IconName, label: _copy("copy.fea4b5ceffa8", { defaultValue: "Song" }) },
+    { key: "video" as const, icon: "Video" as IconName, label: _copy("copy.4bf9a522a0de", { defaultValue: "Video sound" }) },
+  ];
+  const picks = [
+    { mix: SOUND_MIX_PRESETS.songOnly, label: _copy("copy.5405fb40dded", { defaultValue: "Song only" }) },
+    { mix: SOUND_MIX_PRESETS.mix, label: _copy("copy.dce6eb4447ef", { defaultValue: "Mix" }) },
+    { mix: SOUND_MIX_PRESETS.videoOnly, label: _copy("copy.0f8fed0dc99b", { defaultValue: "Video only" }) },
+  ];
+  return (
+    <View testID="studio-sound-mix" style={{ gap: 4, borderRadius: 12, borderWidth: 1, borderColor: LINE, backgroundColor: "rgba(255,255,255,0.04)", paddingHorizontal: 12, paddingVertical: 8 }}>
+      {rows.map(({ key, icon, label }) => {
+        const value = Math.round(mix[key] * 100);
+        return (
+          <View key={key} style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <Icon name={icon} size={14} color={MUTED} />
+            <Text style={{ color: WHITE, fontSize: 12, width: 76 }} numberOfLines={1}>{label}</Text>
+            <Slider style={{ flex: 1, height: 28 }} value={value} minimumValue={0} maximumValue={100} step={1}
+              onValueChange={(v) => onChange({ ...mix, [key]: Math.round(v) / 100 })}
+              minimumTrackTintColor={ink} maximumTrackTintColor={rest} thumbTintColor={ink}
+              accessibilityLabel={label} />
+            <Text style={{ color: WHITE, fontSize: 11, width: 36, textAlign: "right", fontVariant: ["tabular-nums"] }}>{value}%</Text>
+          </View>
+        );
+      })}
+      <View style={{ flexDirection: "row", gap: 6, paddingTop: 2 }}>
+        {picks.map((pick) => {
+          const on = sameMix(mix, pick.mix);
+          return (
+            // Own colours (not the theme's control glass), so the picked one reads as picked on every theme.
+            <Pressable key={pick.label} onPress={() => onChange({ ...pick.mix })} accessibilityRole="button" accessibilityState={{ selected: on }} className="dark-surface"
+              style={{ flex: 1, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center", borderWidth: 1,
+                borderColor: on ? ink : (isLight ? "rgba(0,0,0,0.12)" : LINE),
+                backgroundColor: on ? ink : (isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)") }}>
+              <Text style={{ color: on ? (isLight ? WHITE : "#000") : (isLight ? "#3F3F46" : "#D4D4D8"), fontSize: 11, fontWeight: "600" }}>{pick.label}</Text>
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );

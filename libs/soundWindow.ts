@@ -84,6 +84,12 @@ export function withSoundWindow(
     if (credit.licenseUrl) params.set("licUrl", credit.licenseUrl);
     if (credit.page) params.set("page", credit.page);
   }
+  // The poster's song / video sound levels outlive a new part or credit.
+  const old = fragment(url);
+  for (const key of ["sv", "vv"]) {
+    const value = old?.get(key);
+    if (value) params.set(key, value);
+  }
   const hash = params.toString();
   return hash ? `${base}#${hash}` : base;
 }
@@ -118,6 +124,29 @@ export function soundMix(url?: string | null): SoundMix {
   const params = fragment(url);
   if (!params) return { ...DEFAULT_SOUND_MIX };
   return { song: percent(params.get("sv"), DEFAULT_SOUND_MIX.song), video: percent(params.get("vv"), DEFAULT_SOUND_MIX.video) };
+}
+
+/** The quick picks under the two sliders. */
+export const SOUND_MIX_PRESETS = {
+  songOnly: { song: 1, video: 0 },
+  mix: { song: 0.8, video: 0.4 },
+  videoOnly: { song: 0, video: 1 },
+} as const satisfies Record<string, SoundMix>;
+
+/** `url` carrying `mix`; the default mix leaves the link as old posts had it. */
+export function withSoundMix(url: string, mix: SoundMix): string {
+  const hash = url.indexOf("#");
+  const base = hash < 0 ? url : url.slice(0, hash);
+  const params = new URLSearchParams(hash < 0 ? "" : url.slice(hash + 1));
+  const whole = (n: number) => String(Math.round(Math.max(0, Math.min(1, n)) * 100));
+  params.delete("sv");
+  params.delete("vv");
+  if (whole(mix.song) !== whole(DEFAULT_SOUND_MIX.song) || whole(mix.video) !== whole(DEFAULT_SOUND_MIX.video)) {
+    params.set("sv", whole(mix.song));
+    params.set("vv", whole(mix.video));
+  }
+  const next = params.toString();
+  return next ? `${base}#${next}` : base;
 }
 
 /** A level slider is linear to the finger; loudness is not. */
