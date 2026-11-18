@@ -16941,5 +16941,26 @@
   },
   "profileImage": {
     "change": "Cambiar"
+  },
+  "resetWallet": {
+    "mismatch": "Las contraseñas no coinciden",
+    "tooShort": "La contraseña debe tener al menos {{count}} caracteres",
+    "breached": "Esta contraseña ha aparecido en una filtración de datos. Elige otra",
+    "weak": "Elige una contraseña más segura (mezcla letras, números y símbolos)",
+    "doneTitle": "Tu cuenta ya está en su nueva billetera",
+    "twoFactor": "Introduce el código de tu app de autenticación para mover tu cuenta.",
+    "failed": "No se pudo restablecer tu billetera. No se movió nada. Inténtalo de nuevo.",
+    "title": "Restablecer billetera",
+    "reloginApp": "El restablecimiento se confirma con el correo, teléfono o inicio de sesión de Google de tu cuenta, no con la billetera antigua, porque cualquiera que tenga la clave antigua también podría firmar. Cierra sesión, vuelve a entrar con ese inicio de sesión y regresa aquí. ¿Aún no tienes correo de inicio de sesión? Primero añade uno en riftn.com en Ajustes → Inicio de sesión.",
+    "logOut": "Cerrar sesión",
+    "intro": "Crea una nueva billetera de Riftn y mueve a ella tu nombre de usuario, publicaciones, seguidores y mensajes. Úsalo si perdiste tu billetera o si otra persona tiene su clave. La billetera antigua deja de servir para iniciar sesión.",
+    "funds": "Los tokens, NFT y otros saldos no se mueven. Se quedan en la dirección antigua. Si aún puedes abrir la billetera antigua, envíalos antes.",
+    "password": "Nueva contraseña de la billetera (mín. {{count}} caracteres)",
+    "confirm": "Confirmar contraseña",
+    "twoFactorPlaceholder": "Código de autenticación",
+    "ack": "Entiendo que mis fondos antiguos se quedan en la billetera antigua.",
+    "submit": "Restablecer billetera",
+    "cancel": "Cancelar",
+    "rowDesc": "¿Perdiste tu billetera o alguien más tiene su clave? Mueve tu cuenta a una nueva billetera. Tu nombre de usuario, publicaciones y seguidores vienen contigo."
   }
 }
