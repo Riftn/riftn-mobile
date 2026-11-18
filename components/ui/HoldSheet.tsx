@@ -57,6 +57,8 @@ interface HoldSheetProps {
   /** The "+" at the end of the row, for a full picker. Omit to hide it. */
   onMore?: () => void;
   tiles: HoldTile[];
+  /** Who reacted: a row between the emoji and the tiles ("👍🔥 3 reactions  >"). */
+  summary?: { emojis: string[]; label: string; onPress: () => void } | null;
   /** How far the host should slide its list up so the row clears the sheet (0 to settle back). */
   onLift?: (px: number) => void;
   /** Window y the lifted row must stay below (top of a half-height sheet). Defaults to under the top bar. */
@@ -116,7 +118,7 @@ export default function HoldSheet(props: HoldSheetProps) {
   const snap = useRef(props);
   if (visible) snap.current = props;
   const shown = visible ? props : snap.current;
-  const { onReaction, onMore, tiles, reactions } = shown;
+  const { onReaction, onMore, tiles, reactions, summary } = shown;
   let layout = shown.layout;
   // A row that could not be measured comes in as an empty box: treat it as unknown.
   if (layout && !(layout.height > 0)) layout = null;
@@ -286,8 +288,27 @@ export default function HoldSheet(props: HoldSheetProps) {
               </View>
             )}
 
+            {summary && (
+              <TouchableOpacity
+                onPress={summary.onPress}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={summary.label}
+                style={{
+                  flexDirection: "row", alignItems: "center", gap: 10, marginTop: reactions && onReaction ? 12 : 0,
+                  borderRadius: 16, paddingHorizontal: 14, paddingVertical: 11, backgroundColor: chipFill,
+                }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
+                  {summary.emojis.slice(0, 3).map((e) => <Text key={e} style={{ fontSize: 17 }}>{e}</Text>)}
+                </View>
+                <Text numberOfLines={1} style={{ flex: 1, color: inkColor, fontSize: 14, fontWeight: "600" }}>{summary.label}</Text>
+                <View style={{ opacity: 0.55 }}><Icon name="ChevronRight" size={16} color={inkColor} /></View>
+              </TouchableOpacity>
+            )}
+
             {mainTiles.length > 0 && (
-              <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -4, paddingTop: reactions && onReaction ? 10 : 0 }}>
+              <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -4, paddingTop: summary ? 6 : reactions && onReaction ? 10 : 0 }}>
                 {mainTiles.map((tile) => {
                   const fg = tile.prime ? primeInk : tile.destructive ? "#f87171" : inkColor;
                   const face = {

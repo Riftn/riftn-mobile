@@ -1174,6 +1174,7 @@ const LiveChatScreen: React.FC = () => {
         onBan={handleContextBan}
         onUnban={handleContextUnban}
         translate={contextMenuTranslate}
+        onShowReactors={setReactorsFor}
         onLift={handleHoldLift}
       />
 

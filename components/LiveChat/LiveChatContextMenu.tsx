@@ -39,6 +39,8 @@ interface LiveChatContextMenuProps {
   translate?: TranslateToggle;
   /** How far the screen should slide its list up so the held line clears the sheet (0 to settle back). */
   onLift?: (px: number) => void;
+  /** Open the list of who reacted to this line. */
+  onShowReactors?: (messageId: string) => void;
 }
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
@@ -71,6 +73,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
   onUnban,
   translate,
   onLift,
+  onShowReactors,
 }) => {
   const { t } = useTranslation();
   // Message whose full emoji picker is open. The menu closes first: iOS will
@@ -192,6 +195,21 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
       }))
     : null;
 
+  // Who reacted, Telegram style: the reactions and how many people, a tap away from the list.
+  const reacted = Object.entries(message.reactions ?? {}).filter(([, who]) => (who?.length ?? 0) > 0).sort((a, b) => b[1].length - a[1].length);
+  const people = new Set(reacted.flatMap(([, who]) => who.map((a) => a?.toLowerCase()))).size;
+  const summary = onShowReactors && people > 0
+    ? {
+        emojis: reacted.map(([emoji]) => emoji),
+        label: t("reactions.count", { count: people }),
+        onPress: () => {
+          const id = message._id;
+          onClose();
+          setTimeout(() => onShowReactors(id), 300);
+        },
+      }
+    : null;
+
   return (
     <>
       <HoldSheet
@@ -207,6 +225,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
           moreTimer.current = setTimeout(() => setMoreFor(msg), 350);
         }}
         tiles={tiles}
+        summary={summary}
         onLift={onLift}
         frame
         inline
