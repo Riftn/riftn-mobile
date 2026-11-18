@@ -211,7 +211,7 @@ function NotificationCommentCardBase({ item, viewerAddress, onOpen, onEngaged }:
             onPress={() => { engaged(); onOpen(item); }}
             hitSlop={{ top: 8, bottom: 8 }}
             accessibilityRole="button"
-            accessibilityLabel={t("agents.life.viewPost")}
+            accessibilityLabel={t("converter.viewPost")}
             style={{ height: 32, paddingHorizontal: 8, justifyContent: "center" }}
           >
             <Icon name="ArrowUpRight" size={17} color={MUTED} strokeWidth={1.8} />
