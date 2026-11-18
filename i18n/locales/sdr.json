@@ -1277,7 +1277,10 @@
     "payments": "পেমেন্ট",
     "claimBounty": "তোমার পুরস্কার নাও",
     "noneForFilter": "এখনো {{filter}} নোটিফিকেশন নাই।",
-    "andNOthers": "আর {{count}} জন"
+    "andNOthers": "আর {{count}} জন",
+    "badgeTierUp": "बधाई हो! अब आप {{tier}} हैं 🎉",
+    "badgeTierDown": "ध्यान दें: अब आपका बैज {{tier}} है",
+    "badgeTierLost": "ध्यान दें: अब आपके पास बैज नहीं है"
   },
   "leaderboard": {
     "assets": "সম্পদ",
