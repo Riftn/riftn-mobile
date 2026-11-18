@@ -5,7 +5,7 @@ import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import PrimaryButton from "../ui/PrimaryButton";
-import { openCroppedImagePicker, resizeAndCompress } from "../../libs/assets.util";
+import { openCroppedImagePicker, resizeAndCompress, AVATAR_UPLOAD_SIDE } from "../../libs/assets.util";
 import { runWithPermissions } from "../../libs/permissions.util";
 import { toastError } from "../../libs/toast";
 import { createLogger } from "../../libs/logger";
@@ -35,9 +35,9 @@ export function AvatarPromptSheet({ visible, onClose, name, onSave }: AvatarProm
     try {
       setBusy(true);
       await runWithPermissions(["photos"], async () => {
-        const raw = await openCroppedImagePicker({ width: 800, height: 800, circle: true, quality: 0.9, forceJpg: true, keepGif: true });
+        const raw = await openCroppedImagePicker({ width: AVATAR_UPLOAD_SIDE, height: AVATAR_UPLOAD_SIDE, circle: true, quality: 0.9, forceJpg: true, keepGif: true });
         if (!raw) return;
-        setPicked(await resizeAndCompress(raw, { width: 512, height: 512, compress: 0.85, format: "jpeg" }));
+        setPicked(await resizeAndCompress(raw, { width: AVATAR_UPLOAD_SIDE, height: AVATAR_UPLOAD_SIDE, compress: 0.9, format: "jpeg" }));
       });
     } catch (e) {
       log.warn("pick failed", e);

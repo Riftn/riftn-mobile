@@ -25,7 +25,7 @@ const EDIT_AVATAR_PT = 88;
 
 import Avatar from "../components/common/Avatar";
 import Icon from "../components/ui/Icon";
-import { openCroppedImagePicker, resizeAndCompress, createRNImageFile } from "../libs/assets.util";
+import { openCroppedImagePicker, resizeAndCompress, createRNImageFile, AVATAR_UPLOAD_SIDE } from "../libs/assets.util";
 import { runWithPermissions } from "../libs/permissions.util";
 import { AuthService } from "../services/auth.service";
 import { toastError, toastSuccess } from "../libs/toast";
@@ -213,8 +213,8 @@ const EditProfileScreen = () => {
       setProcessingAvatar(true);
       await runWithPermissions(["photos"], async () => {
         const picked = await openCroppedImagePicker({
-          width: 800,
-          height: 800,
+          width: AVATAR_UPLOAD_SIDE,
+          height: AVATAR_UPLOAD_SIDE,
           circle: false,
           quality: 0.9,
           forceJpg: true,
@@ -223,9 +223,9 @@ const EditProfileScreen = () => {
         if (!picked) return;
         setLocalAvatar(picked);
         const manip = await resizeAndCompress(picked, {
-          width: 512,
-          height: 512,
-          compress: 0.85,
+          width: AVATAR_UPLOAD_SIDE,
+          height: AVATAR_UPLOAD_SIDE,
+          compress: 0.9,
           format: "jpeg",
         });
         setLocalAvatar(manip);
