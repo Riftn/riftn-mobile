@@ -3767,7 +3767,7 @@
     "insufficientDhb": "Na dey no go fit yu token, yu must go buy more.",
     "payViaBridge": "Riftn token na Uniswap, come wey go be like ~{{seconds}}s",
     "payFailed": "Wetin no dey convert {{symbol}} go Riftn token?",
-    "payViaDpay": "Peyi deHub pay, token dey come a bout 30 seconds.",
+    "payViaDpay": "Peyi Riftn pay, token dey come a bout 30 seconds.",
     "payViaBridgeDpay": "Move wey go Base, pay wey go Riftn Pay, token dey come afo about one minute"
   },
   "postOptions": {
@@ -3929,7 +3929,7 @@
     "rewardPerPerson": "Reward per person (tokens)",
     "minimumDhb": "Minimum tokens required",
     "ppvDhbInfo": "Peyiment go dey for Riftn token on Base chain.",
-    "requiresDhb": "Waise deHub token a Base chain no dey require"
+    "requiresDhb": "Waise Riftn token a Base chain no dey require"
   },
   "assistant": {
     "title": "Helpa",
@@ -6351,7 +6351,6 @@
       "adding": "Adding…",
       "failed": "No update community post. Try again.",
       "hint": "I no understand wetin you dey talk.",
-      "invalidLink": "https://dehub.com/post/123456",
       "more": "Loda mor post.",
       "remove": "Mun ya dey remove from community.",
       "unavailable": "Dis post no dey available."
@@ -14690,7 +14689,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",

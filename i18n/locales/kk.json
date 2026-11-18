@@ -8503,7 +8503,7 @@
     "finishSettingUp": "Осы тіркелгіні баптауды аяқтаңыз",
     "addedPasswordRetry": "Мен құпия сөз қостым — қайталап көріңіз",
     "lostPhraseToo": "Тіркесті де жоғалттым — қайта бастау",
-    "neverUsedDehub": "dehub.io-ны еш пайдаланбадым — қайта бастау",
+    "neverUsedDehub": "riftn.com-ны еш пайдаланбадым — қайта бастау",
     "openDehub": "riftn.com ашу",
     "recoveryPhraseLabel": "Қалпына келтіру тіркесі немесе жеке кілт",
     "orRestoreIt": "немесе оны қалпына келтіріңіз",
@@ -14816,7 +14816,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Посттары",
+    "dehubPostsName": "Riftn Посттары",
     "statForSale": "Салтанат үшін",
     "sellYours": "Сәтін сатыңыз!",
     "sellYoursHint": "Жаттығыңыздан тізім жасаңыз",
