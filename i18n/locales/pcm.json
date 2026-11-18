@@ -6349,7 +6349,6 @@
       "add": "Add existing post",
       "adding": "Adding…",
       "failed": "No fit update community post. Try again.",
-      "invalidLink": "https://dehub.com/post/123456",
       "unavailable": "Dis post no dey available."
     },
     "followerInvites": {
@@ -14689,7 +14688,7 @@
     }
   },
   "nftMarket": {
-    "dehubPostsName": "DeHub Posts",
+    "dehubPostsName": "Riftn Posts",
     "statMinted": "Minted",
     "statForSale": "For sale",
     "sellYours": "Sell yours",
