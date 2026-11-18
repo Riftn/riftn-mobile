@@ -65,6 +65,10 @@ import { sendToMany } from "../services/dm/bulk-reply";
 import { useWebSocketApi } from "../context/WebSocketContext";
 import { DMSocketEvent } from "../services/enums/dm-socket-events.enum";
 import { useTabBarHide } from "../context/TabBarHideContext";
+import { useChatTabs } from "../hooks/useChatTabs";
+import { ChatTabActions, ChatTabBar, ChatTabEditor, ChatTabsManager, confirmDeleteTab, type TabCandidate } from "../components/DM/ChatTabs";
+import { PUBLIC_CHAT_TAB_ID } from "../services/dm/dm.api";
+import { getAvatarUrl } from "../libs/misc";
 
 const SEPARATOR = { height: 1, backgroundColor: "rgba(255,255,255,0.07)" } as const;
 const SEARCH_ACTION = { width: 28, height: 28, borderRadius: 6, alignItems: "center", justifyContent: "center" } as const;
@@ -154,7 +158,32 @@ const DirectMessagesInner: React.FC = () => {
   // The last request was accepted or deleted: nothing left to show here.
   const noRequestsLeft = requestChats.length === 0;
   useEffect(() => { if (noRequestsLeft) setShowRequests(false); }, [noRequestsLeft]);
-  const inRequests = showRequests && !query.trim();
+
+  /*
+   * Tabs above the list: All, Direct, Communities, Requests and the person's
+   * own tabs, the same ones riftn.com/chat shows. A search looks through
+   * everything, so the tabs step aside while one is typed.
+   */
+  const chatTabs = useChatTabs(!!myAddress);
+  const [activeTabRaw, setActiveTab] = useState("all");
+  const tabsOn = !!myAddress && !query.trim();
+  const activeTabView = chatTabs.tabs.find((x) => x.id === activeTabRaw && !x.hidden);
+  const activeTab = tabsOn && activeTabView ? activeTabView.id : "all";
+  const customTab = tabsOn && activeTabView && !activeTabView.builtin ? activeTabView : null;
+  const requestsTabShown = !chatTabs.tabs.find((x) => x.id === "requests")?.hidden;
+  useEffect(() => {
+    if (noRequestsLeft && !contactsLoading && activeTabRaw === "requests") setActiveTab("all");
+  }, [noRequestsLeft, contactsLoading, activeTabRaw]);
+  const [tabEditor, setTabEditor] = useState<{ id?: string; preset?: string[] } | null>(null);
+  const [tabManager, setTabManager] = useState(false);
+  const [tabActions, setTabActions] = useState<{ kind: "tab"; id: string } | { kind: "chat"; id: string } | null>(null);
+  const requestsMode = showRequests || activeTab === "requests";
+  const inRequests = requestsMode && !query.trim();
+  const convInTab = useCallback((c: DmConversation) =>
+    activeTab === "communities" ? false : customTab ? customTab.chats.includes(c._id) : true, [activeTab, customTab]);
+  const roomInTab = useCallback((c: { id: string }) =>
+    activeTab === "direct" ? false : customTab ? customTab.chats.includes(roomChatId(c.id)) : true, [activeTab, customTab]);
+  const publicInTab = activeTab === "direct" ? false : customTab ? customTab.chats.includes(PUBLIC_CHAT_TAB_ID) : true;
 
   // Filtered & sorted conversations
   const filtered = useMemo(() => {
@@ -175,7 +204,7 @@ const DirectMessagesInner: React.FC = () => {
       : conversations;
     // First messages from people you don't follow wait under Requests. A
     // search looks through both, so a request is never unfindable.
-    const scoped = q ? list : list.filter((c) => !!c.isRequest === showRequests);
+    const scoped = q ? list : list.filter((c) => !!c.isRequest === requestsMode && (requestsMode || convInTab(c)));
     return scoped
       .filter((c) => !pendingDeletes.has(c._id))
       .filter((c) => !isAuthorBlocked(getOtherParticipant(c, myUserId, myAddress)?.address))
@@ -185,7 +214,7 @@ const DirectMessagesInner: React.FC = () => {
           +new Date(a.updatedAt || a.lastMessageAt || 0),
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, showRequests]);
+  }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, requestsMode, convInTab]);
 
   // Rows waiting out their undo window count as gone, so swiping away the last
   // one lands on the real empty state rather than "no matches".
@@ -569,7 +598,7 @@ const DirectMessagesInner: React.FC = () => {
     () => inRequests ? (
       <>
         <TouchableOpacity
-          onPress={() => setShowRequests(false)}
+          onPress={() => { setShowRequests(false); if (activeTab === "requests") setActiveTab("all"); }}
           activeOpacity={0.7}
           accessibilityRole="button"
           accessibilityLabel={t("common.goBack")}
@@ -588,6 +617,7 @@ const DirectMessagesInner: React.FC = () => {
       </>
     ) : (
       <>
+      {publicInTab && (<>
       <TouchableOpacity
         onPress={handleOpenLiveChat}
         activeOpacity={0.7}
@@ -627,7 +657,8 @@ const DirectMessagesInner: React.FC = () => {
         )}
       </TouchableOpacity>
       <View style={SEPARATOR} />
-      {groupChats.map((c) => (
+      </>)}
+      {groupChats.filter(roomInTab).map((c) => (
         <React.Fragment key={c.id}>
           <GroupChatRow
             community={c}
@@ -640,7 +671,7 @@ const DirectMessagesInner: React.FC = () => {
           <View style={SEPARATOR} />
         </React.Fragment>
       ))}
-      {requestChats.length > 0 && !query.trim() && (
+      {requestChats.length > 0 && !query.trim() && (!tabsOn || !requestsTabShown) && (
         <>
           <TouchableOpacity
             onPress={() => setShowRequests(true)}
@@ -670,10 +701,110 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, t, groupChats, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk],
+    [handleOpenLiveChat, publicUnread, t, groupChats, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, publicInTab, roomInTab, tabsOn, requestsTabShown, activeTab],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, []);
+
+  // Unread chats per tab, for the counts on the tab row.
+  const inbox = useMemo(
+    () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id)),
+    [conversations, pendingDeletes],
+  );
+  const tabUnread = useMemo(() => {
+    const sum = (list: DmConversation[]) => list.reduce((n, c) => n + (c.unreadCount || 0), 0);
+    const out: Record<string, number> = {
+      all: sum(inbox) + publicUnread,
+      direct: sum(inbox),
+      communities: publicUnread,
+      requests: requestUnread,
+    };
+    for (const tab of chatTabs.tabs) {
+      if (tab.builtin) continue;
+      out[tab.id] = sum(inbox.filter((c) => tab.chats.includes(c._id))) + (tab.chats.includes(PUBLIC_CHAT_TAB_ID) ? publicUnread : 0);
+    }
+    return out;
+  }, [inbox, publicUnread, requestUnread, chatTabs.tabs]);
+  // An empty Requests tab stays out of the row.
+  const tabRowTabs = requestChats.length
+    ? chatTabs.tabs
+    : chatTabs.tabs.map((x) => (x.id === "requests" && activeTab !== "requests" ? { ...x, hidden: true } : x));
+  const tabCandidates = useMemo<TabCandidate[]>(() => [
+    { id: PUBLIC_CHAT_TAB_ID, name: t("publicChat.title"), source: require("../assets/web-icons/dehub-logo-compact.png"), kind: t("chatTabs.kindPublic", { defaultValue: "Public" }) },
+    ...chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt).map((c) => ({
+      id: roomChatId(c.id),
+      name: c.name,
+      avatar: (c as any).avatar_url || undefined,
+      kind: (c as any).kind === "channel" ? t("chatTabs.kindChannel", { defaultValue: "Channel" })
+        : (c as any).kind === "group" ? t("chatTabs.kindGroup", { defaultValue: "Group" })
+        : t("chatTabs.kindCommunity", { defaultValue: "Community" }),
+    })),
+    ...inbox.map((c) => {
+      const other = getOtherParticipant(c, myUserId, myAddress);
+      const avatar = getAvatarUrl(other?.avatarImageUrl);
+      return {
+        id: c._id,
+        name: other?.displayName || other?.username || truncateAddress(other?.address || "") || t("settings.unknown"),
+        avatar: avatar && avatar !== "default-avatar" ? avatar : undefined,
+        kind: t("chatTabs.kindDirect", { defaultValue: "Direct" }),
+        round: true,
+      };
+    }),
+  ], [t, memberships, chatPrefs, inbox, myUserId, myAddress]);
+  const tabBeingEdited = tabEditor?.id ? chatTabs.tabs.find((x) => x.id === tabEditor.id) : undefined;
+  const tabEditorInitial = useMemo(() => (tabEditor
+    ? tabBeingEdited
+      ? { id: tabBeingEdited.id, name: tabBeingEdited.name, emoji: tabBeingEdited.emoji, chats: tabBeingEdited.chats }
+      : { name: "", emoji: "", chats: tabEditor.preset ?? [] }
+    : null), [tabEditor, tabBeingEdited]);
+  const askDeleteTab = useCallback((id: string) => {
+    const tab = chatTabs.tabs.find((x) => x.id === id);
+    if (!tab) return;
+    confirmDeleteTab(t, tab, () => {
+      void chatTabs.remove(id);
+      if (activeTabRaw === id) setActiveTab("all");
+      toastSuccess(t("chatTabs.deleted", { defaultValue: "Deleted {{name}}", name: tab.name }));
+    });
+  }, [chatTabs, t, activeTabRaw]);
+  const moveCustomTab = (id: string, by: -1 | 1) => {
+    const ids = chatTabs.tabs.map((x) => x.id);
+    const customIds = chatTabs.tabs.filter((x) => !x.builtin).map((x) => x.id);
+    const other = customIds[customIds.indexOf(id) + by];
+    if (!other) return;
+    const a = ids.indexOf(id), b = ids.indexOf(other);
+    [ids[a], ids[b]] = [ids[b], ids[a]];
+    void chatTabs.reorder(ids);
+  };
+  const heldTab = tabActions?.kind === "tab" ? chatTabs.tabs.find((x) => x.id === tabActions.id) : undefined;
+  const customTabs = chatTabs.tabs.filter((x) => !x.builtin);
+  const tabActionsTitle = heldTab
+    ? (heldTab.emoji ? `${heldTab.emoji} ${heldTab.name}` : heldTab.name)
+    : t("chatTabs.addToTab", { defaultValue: "Add to tab" });
+  const tabActionRows = !tabActions ? [] : heldTab ? (heldTab.builtin ? [
+    ...(heldTab.id !== "all" ? [{ key: "hide", icon: "EyeOff", label: t("chatTabs.hide", { defaultValue: "Hide tab" }), onPress: () => { void chatTabs.setHidden(heldTab.id, true); if (activeTabRaw === heldTab.id) setActiveTab("all"); } }] : []),
+    { key: "manage", icon: "SlidersHorizontal", label: t("chatTabs.edit", { defaultValue: "Edit tabs" }), onPress: () => setTabManager(true) },
+  ] : [
+    { key: "edit", icon: "Pencil", label: t("chatTabs.renameEdit", { defaultValue: "Rename and edit" }), onPress: () => setTabEditor({ id: heldTab.id }) },
+    { key: "add", icon: "Plus", label: t("chatTabs.addChats", { defaultValue: "Add chats" }), onPress: () => setTabEditor({ id: heldTab.id }) },
+    { key: "left", icon: "ChevronLeft", label: t("chatTabs.moveLeft", { defaultValue: "Move left" }), disabled: customTabs[0]?.id === heldTab.id, onPress: () => moveCustomTab(heldTab.id, -1) },
+    { key: "right", icon: "ChevronRight", label: t("chatTabs.moveRight", { defaultValue: "Move right" }), disabled: customTabs[customTabs.length - 1]?.id === heldTab.id, onPress: () => moveCustomTab(heldTab.id, 1) },
+    { key: "delete", icon: "Trash2", destructive: true, label: t("chatTabs.delete", { defaultValue: "Delete tab" }), onPress: () => askDeleteTab(heldTab.id) },
+  ]) : [
+    ...customTabs.map((tab) => ({
+      key: tab.id,
+      emoji: tab.emoji || "•",
+      label: tab.name,
+      checked: tab.chats.includes(tabActions.id),
+      onPress: () => {
+        const had = tab.chats.includes(tabActions.id);
+        void chatTabs.toggleChat(tab.id, tabActions.id);
+        toastSuccess(had
+          ? t("chatTabs.removedFrom", { defaultValue: "Removed from {{name}}", name: tab.name })
+          : t("chatTabs.addedTo", { defaultValue: "Added to {{name}}", name: tab.name }));
+      },
+    })),
+    { key: "new", icon: "Plus", label: t("chatTabs.newWith", { defaultValue: "New tab…" }), onPress: () => setTabEditor({ preset: [tabActions.id] }) },
+  ];
 
   return (
     <KeyboardAvoidingView
@@ -718,6 +849,18 @@ const DirectMessagesInner: React.FC = () => {
           </View>
         </ScreenHeader>
 
+        {tabsOn && (
+          <ChatTabBar
+            tabs={tabRowTabs}
+            active={activeTab}
+            unread={tabUnread}
+            onSelect={(id) => { setShowRequests(false); setActiveTab(id); }}
+            onNew={() => setTabEditor({})}
+            onManage={() => setTabManager(true)}
+            onHold={(tab) => setTabActions({ kind: "tab", id: tab.id })}
+          />
+        )}
+
         <FlatList
           data={filtered}
           keyExtractor={keyExtractor}
@@ -735,7 +878,23 @@ const DirectMessagesInner: React.FC = () => {
             />
           }
           ListEmptyComponent={
-            query.trim().length >= 2 && groupChats.length === 0 ? (
+            customTab ? (
+              !publicInTab && !groupChats.some(roomInTab) ? (
+                <View className="items-center mt-12 px-8" testID="chat-tab-empty">
+                  <Text style={{ fontSize: 26, marginBottom: 10 }}>{customTab.emoji || "🗂️"}</Text>
+                  <Text className="text-theme-neutrals-100 text-base font-semibold">
+                    {t("chatTabs.emptyTitle", { defaultValue: "{{name}} is empty", name: customTab.name })}
+                  </Text>
+                  <Text className="text-theme-neutrals-400 text-sm mt-1 text-center">
+                    {t("chatTabs.emptyBody", { defaultValue: "Add chats here and they stay in All too." })}
+                  </Text>
+                  <TouchableOpacity onPress={() => setTabEditor({ id: customTab.id })} accessibilityRole="button" className="mt-4 px-5 py-2.5 rounded-xl bg-white">
+                    <Text className="text-black text-sm font-bold">{t("chatTabs.addChats", { defaultValue: "Add chats" })}</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null
+            ) : activeTab === "communities" ? null
+            : query.trim().length >= 2 && groupChats.length === 0 ? (
               <ChatSearchDiscover
                 query={query}
                 myAddress={myAddress}
@@ -799,6 +958,39 @@ const DirectMessagesInner: React.FC = () => {
           onOpenChange={setDmSettingsVisible}
         />
 
+        <ChatTabEditor
+          visible={!!tabEditor}
+          initial={tabEditorInitial}
+          candidates={tabCandidates}
+          onClose={() => setTabEditor(null)}
+          onDelete={tabBeingEdited ? () => { const tab = tabBeingEdited; setTabEditor(null); setTimeout(() => askDeleteTab(tab.id), 300); } : undefined}
+          onSave={(tab) => {
+            if (tabBeingEdited) void chatTabs.update(tabBeingEdited.id, tab);
+            else {
+              if (!chatTabs.canAdd) { toastError(t("chatTabs.tooMany", { defaultValue: "You can have up to 10 tabs" })); return; }
+              setActiveTab(chatTabs.create(tab));
+            }
+            setTabEditor(null);
+          }}
+        />
+        <ChatTabsManager
+          visible={tabManager && !tabEditor}
+          tabs={chatTabs.tabs}
+          canAdd={chatTabs.canAdd}
+          onReorder={(ids) => void chatTabs.reorder(ids)}
+          onHide={(id, hidden) => { void chatTabs.setHidden(id, hidden); if (hidden && activeTabRaw === id) setActiveTab("all"); }}
+          onEdit={(id) => setTabEditor({ id })}
+          onDelete={askDeleteTab}
+          onNew={() => setTabEditor({})}
+          onClose={() => setTabManager(false)}
+        />
+        <ChatTabActions
+          visible={!!tabActions}
+          title={tabActionsTitle}
+          rows={tabActionRows}
+          onClose={() => setTabActions(null)}
+        />
+
         <ConversationContextMenu
           visible={!!ctxConv}
           conversation={ctxConv}
@@ -808,6 +1000,7 @@ const DirectMessagesInner: React.FC = () => {
           onBlock={handleCtxBlock}
           onDelete={handleCtxDelete}
           onSelectMany={handleCtxSelectMany}
+          onAddToTab={ctxConv && !ctxConv.isRequest ? () => setTabActions({ kind: "chat", id: ctxConv._id }) : undefined}
           onToggleFreeAccess={handleCtxToggleFreeAccess}
           peerHasFreeAccess={
             !!(myDmStatus?.freeAccessUsers?.some(
