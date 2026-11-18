@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Sohbette alım botu işlem uyarılarını göster",
     "notificationShowCount": "Zilde sayıyı göster",
     "notificationShowCountDesc": "Yalnızca parıltı yerine kaç okunmamış bildirim olduğunu gör",
+    "messagesShowCount": "Mesajlar'da sayıyı göster",
+    "messagesShowCountDesc": "Yalnızca parıltı yerine kaç okunmamış mesaj olduğunu gör",
     "chatSection": "Sohbet",
     "doNotDisturb": "Rahatsız Etme",
     "doNotDisturbDesc": "Tüm mesaj bildirimlerini sessize al",
@@ -7700,7 +7702,11 @@
       "inviteMessage": "Riftn'de bana katıl: {{url}}",
       "searchAll": "Tüm Riftn'de \"{{q}}\" ara",
       "searchAllSub": "Gönderiler, videolar, canlı yayınlar"
-    }
+    },
+    "shareGroups": "Gruplar",
+    "shareKindGroup": "Grup",
+    "shareKindChannel": "Kanal",
+    "shareKindCommunity": "Topluluk"
   },
   "editPost": {
     "mediaPermission": "Medya kitaplığı izni gerekiyor",
@@ -16877,5 +16883,24 @@
     "sent_other": "{{count}} sohbete gönderildi",
     "partSent": "{{total}} sohbetten {{ok}} tanesine gönderildi",
     "notSent": "Gönderilemedi. Tekrar deneyin."
+  },
+  "msgSelect": {
+    "toolbar": "Seçili mesajlar",
+    "pick": "Seçmek için mesajlara dokunun",
+    "selected": "{{count}} seçildi",
+    "copy": "Kopyala",
+    "forward": "İlet",
+    "deleteSome": "{{count}} sil",
+    "forwarded_one": "{{count}} mesaj iletildi",
+    "forwarded_other": "{{count}} mesaj iletildi",
+    "partForwarded": "{{total}} mesajdan {{ok}} iletildi",
+    "nothingToCopy": "Seçilen mesajlarda kopyalanacak bir şey yok",
+    "copied_one": "{{count}} mesaj kopyalandı",
+    "copied_other": "{{count}} mesaj kopyalandı",
+    "deleteTitle_one": "{{count}} mesaj silinsin mi?",
+    "deleteTitle_other": "{{count}} mesaj silinsin mi?",
+    "deleteBody": "Bu sohbetteki herkes için kaldırılacak.",
+    "deleted_one": "{{count}} mesaj silindi",
+    "deleted_other": "{{count}} mesaj silindi"
   }
 }

@@ -9466,7 +9466,11 @@
       "inviteMessage": "来 Riftn 找我：{{url}}",
       "searchAll": "在整个 Riftn 搜索“{{q}}”",
       "searchAllSub": "帖子、视频、直播"
-    }
+    },
+    "shareGroups": "群组",
+    "shareKindGroup": "群组",
+    "shareKindChannel": "频道",
+    "shareKindCommunity": "社区"
   },
   "editPost": {
     "mediaPermission": "需要媒体库权限",

@@ -9464,7 +9464,11 @@
       "inviteMessage": "Riftnで会おう：{{url}}",
       "searchAll": "Riftn全体で「{{q}}」を検索",
       "searchAllSub": "投稿、動画、ライブ"
-    }
+    },
+    "shareGroups": "グループ",
+    "shareKindGroup": "グループ",
+    "shareKindChannel": "チャンネル",
+    "shareKindCommunity": "コミュニティ"
   },
   "editPost": {
     "mediaPermission": "メディアライブラリへのアクセス許可が必要です",

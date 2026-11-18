@@ -9,8 +9,8 @@
  * the 48dp minimum. Same shape as the public chat's LiveChatAttachSheet.
  */
 
-import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useCallback, useEffect, useRef } from "react";
+import { View, Text, TouchableOpacity, Platform } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import GlassModal from "../ui/GlassModal";
@@ -33,10 +33,35 @@ interface ChatAttachSheetProps {
 const ChatAttachSheet: React.FC<ChatAttachSheetProps> = ({ visible, onClose, options }) => {
   const { t } = useTranslation();
 
+  // An option usually opens something of its own: the document picker, the
+  // photo library, the GIF or tip sheet. iOS will not present a new screen
+  // while this sheet is still sliding away, so the file picker silently never
+  // appeared. Close first, and run the option once the sheet is gone.
+  const pending = useRef<(() => void) | null>(null);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const runPending = useCallback(() => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = null;
+    const run = pending.current;
+    pending.current = null;
+    run?.();
+  }, []);
+  useEffect(() => () => {
+    if (timer.current) clearTimeout(timer.current);
+    pending.current = null;
+  }, []);
+  const choose = useCallback((run: () => void) => {
+    pending.current = run;
+    onClose();
+    // iOS runs it from onDismiss; this is the fallback there, and the path on Android.
+    timer.current = setTimeout(runPending, Platform.OS === "ios" ? 800 : 250);
+  }, [onClose, runPending]);
+
   return (
     <GlassModal surface="theme"
       visible={visible}
       onClose={onClose}
+      onDismiss={runPending}
       presentation="bottom"
       scrollable
       maxHeight="70%"
@@ -50,7 +75,7 @@ const ChatAttachSheet: React.FC<ChatAttachSheetProps> = ({ visible, onClose, opt
         {options.map((option) => (
           <TouchableOpacity
             key={option.key}
-            onPress={option.onPress}
+            onPress={() => choose(option.onPress)}
             disabled={option.disabled}
             activeOpacity={0.7}
             className="flex-row items-center px-5"

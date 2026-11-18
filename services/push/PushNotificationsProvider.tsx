@@ -26,6 +26,7 @@ import { prefetchNotifications } from '../../libs/notifications-cache';
 import { countUnreadNotifications, incrementUnreadCount } from '../../libs/notifications.unread';
 import { emitProfileDeepLink } from '../../libs/deeplink.events';
 import { openCustomPush } from '../../libs/custom-notification-route';
+import { readNotificationData as readTapData } from '../../libs/push-tap-data';
 import { noteNotificationMoment } from '../../libs/review-prompt';
 import { useOnboarding } from '../../context/OnboardingChecklistContext';
 
@@ -188,6 +189,42 @@ function conversationIdFromDeepLink(deepLink: unknown): string | undefined {
   return deepLink.match(/\/dm\/([^/?#]+)/)?.[1];
 }
 
+type NavigateArgs = unknown[];
+
+/** The App's navigation container, read late: App imports this file. */
+function appNavigationRef(): any {
+  try {
+    return require('../../App').navigationRef;
+  } catch {
+    return null;
+  }
+}
+
+/** The screen a navigate() call is meant to end on (the tab, for Root). */
+function expectedScreen(args: NavigateArgs | null): string | undefined {
+  if (!args?.length) return undefined;
+  const [first, params] = args as [any, any];
+  const name = typeof first === 'string' ? first : first?.name;
+  const inner = typeof first === 'string' ? params : first?.params;
+  if (name === ScreenNames.Root && typeof inner?.screen === 'string') return inner.screen;
+  return typeof name === 'string' ? name : undefined;
+}
+
+/**
+ * Runs `run` once the navigator has a screen on it. A tap that wakes the app
+ * arrives while it is still starting, and a navigate() sent before the stack
+ * exists is dropped without a word, which left people on Home.
+ */
+function whenNavigatorReady(run: () => void, waitedMs = 0): void {
+  const ref = appNavigationRef();
+  const ready = !!ref?.isReady?.() && !!ref.getCurrentRoute?.();
+  if (ready || waitedMs >= 8000) {
+    run();
+    return;
+  }
+  setTimeout(() => whenNavigatorReady(run, waitedMs + 150), 150);
+}
+
 interface PushNotificationsProviderProps {
   children: React.ReactNode;
 }
@@ -278,7 +315,16 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     }
   }, [isFullySignedIn, warmNotificationList]);
 
-  const handleNotificationNavigation = useCallback((data: NotificationData, responseId?: string) => {
+  // Read through refs so the handler keeps one identity for the whole run. It
+  // used to be rebuilt whenever auth or the user changed, and a rebuild in the
+  // first moments after launch cancelled the cold-start check below for good:
+  // the tap that opened the app was thrown away and the app sat on Home.
+  const navigationLatestRef = useRef(navigation);
+  navigationLatestRef.current = navigation;
+  const routeNotificationTapRef = useRef<((data: NotificationData, coldStart: boolean) => void) | null>(null);
+
+  const handleNotificationNavigation = useCallback((data: NotificationData, responseId?: string, opts?: { coldStart?: boolean }) => {
+    const isFullySignedIn = isFullySignedInRef.current;
     // Guard: Don't navigate if no valid notification type
     if (!data?.type) {
       logger.debug('Skipping navigation - no notification type', { data });
@@ -302,9 +348,25 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       return;
     }
 
+    whenNavigatorReady(() => routeNotificationTapRef.current?.(data, !!opts?.coldStart));
+  }, []);
+
+  const routeNotificationTap = (data: NotificationData, coldStart: boolean) => {
+    const userAddress = userAddressRef.current;
     const { type, tokenId, postType, commentId, actorAddress, actorUsername, streamId, conversationId } = data;
 
     logger.info('Handling notification tap', { type, tokenId, commentId });
+
+    // Every navigate below goes through this, so the tap knows where it was
+    // meant to land and can check it got there.
+    let sentTo: NavigateArgs | null = null;
+    const rootNavigation = navigationLatestRef.current;
+    const navigation = {
+      navigate: (...args: NavigateArgs) => {
+        sentTo = args;
+        return (rootNavigation.navigate as any)(...args);
+      },
+    } as unknown as NavigationProp<any>;
 
     try {
       // An announcement carrying a link goes to the link. Notifications first,
@@ -349,8 +411,11 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
 
       switch (type) {
         case NotificationType.FOLLOWING:
-          // New follower → open FollowList on followers tab
-          if (userAddress) {
+          // One new follower opens that person, the same as their row in the
+          // list does; a grouped "N people followed you" opens the list.
+          if (!(Number(data.aggregatedCount) > 1) && (actorUsername || actorAddress)) {
+            emitProfileDeepLink((actorUsername || actorAddress) as string);
+          } else if (userAddress) {
             navigation.navigate(ScreenNames.FollowList, {
               address: userAddress,
               initialTab: 'followers',
@@ -368,8 +433,10 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           break;
 
         case NotificationType.FOLLOW_REQUEST_ACCEPTED:
-          // Accepted → open FollowList on following tab
-          if (userAddress) {
+          // "X accepted your request" opens X, as the row does.
+          if (actorUsername || actorAddress) {
+            emitProfileDeepLink((actorUsername || actorAddress) as string);
+          } else if (userAddress) {
             navigation.navigate(ScreenNames.FollowList, {
               address: userAddress,
               initialTab: 'following',
@@ -481,8 +548,12 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           break;
 
         case NotificationType.SUBSCRIPTION:
-          // New subscriber → open notifications (no SubscribersScreen yet)
-          navigation.navigate(ScreenNames.Notifications);
+          // New subscriber opens the subscriber, as the row does.
+          if (actorUsername || actorAddress) {
+            emitProfileDeepLink((actorUsername || actorAddress) as string);
+          } else {
+            navigation.navigate(ScreenNames.Notifications);
+          }
           break;
 
         case NotificationType.VIDEO_MILESTONE:
@@ -552,7 +623,38 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         // Ignore - navigation not ready
       }
     }
-  }, [navigation, isFullySignedIn, userAddress]);
+    confirmLanding(String(type), sentTo, coldStart);
+  };
+  routeNotificationTapRef.current = routeNotificationTap;
+
+  /**
+   * Checks the tap really ended where it was sent. A launch from a closed app
+   * still has its first screen settling underneath the logo, and anything that
+   * puts Home back on top in that window undoes the tap; one more navigate puts
+   * it right. One log row per tap says where it landed, so a wrong landing
+   * shows up in the logs instead of only in a report.
+   */
+  const confirmLanding = (type: string, sentTo: NavigateArgs | null, coldStart: boolean) => {
+    const expected = expectedScreen(sentTo);
+    let retried = false;
+    const landed = () => appNavigationRef()?.getCurrentRoute?.()?.name as string | undefined;
+    setTimeout(() => {
+      if (coldStart && expected && sentTo && landed() !== expected) {
+        retried = true;
+        try {
+          (navigationLatestRef.current.navigate as any)(...sentTo);
+        } catch {}
+      }
+      setTimeout(() => {
+        try {
+          require('../../libs/errorReporter').reportError('PushTap', ['notification tap landed'], {
+            level: 'info',
+            metadata: { type, expected: expected ?? null, landed: landed() ?? null, coldStart, retried },
+          });
+        } catch {}
+      }, 1500);
+    }, 1500);
+  };
 
   const registerPushToken = useCallback(async () => {
     // Guard: Already registered or registration in progress
@@ -691,16 +793,22 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   // mounts or the event can be lost entirely. We use
   // getLastNotificationResponseAsync() to retrieve it on mount.
 
+  const handleNotificationNavigationRef = useRef(handleNotificationNavigation);
+  handleNotificationNavigationRef.current = handleNotificationNavigation;
+
   useEffect(() => {
     if (coldStartCheckedRef.current) return;
-    coldStartCheckedRef.current = true;
 
     const checkColdStartNotification = async () => {
+      // Marked here, not when the timer is set: an effect re-run that clears
+      // the timer must not also stop the check from ever happening.
+      if (coldStartCheckedRef.current) return;
+      coldStartCheckedRef.current = true;
       try {
         const lastResponse = await Notifications.getLastNotificationResponseAsync();
         if (!lastResponse) return;
 
-        const data = lastResponse.notification.request.content.data as unknown as NotificationData;
+        const data = readTapData(lastResponse.notification) as unknown as NotificationData | null;
         if (!data?.type) return;
 
         // notification.date is the DELIVERY time, not the tap time — an age
@@ -722,7 +830,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
             metadata: { type: data.type, signedIn: isFullySignedInRef.current },
           });
         } catch {}
-        handleNotificationNavigation(data, responseId);
+        handleNotificationNavigationRef.current(data, responseId, { coldStart: true });
       } catch (error) {
         logger.error('Failed to check cold-start notification', error);
       }
@@ -731,7 +839,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     // Small delay to ensure navigation container is fully mounted and ready
     const timer = setTimeout(checkColdStartNotification, 750);
     return () => clearTimeout(timer);
-  }, [handleNotificationNavigation]);
+  }, []);
 
   useEffect(() => {
     // Handle foreground notifications
@@ -757,8 +865,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     // Handle notification tap (foreground and background — but NOT cold-start)
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
-        const rawData = response.notification.request.content.data;
-        const data = rawData as unknown as NotificationData;
+        const data = readTapData(response.notification) as unknown as NotificationData;
         const responseId = response.notification.request.identifier;
         
         // Only process if we have valid notification data with a type

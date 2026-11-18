@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "إظهار تنبيهات معاملات بوت الشراء في الدردشة",
     "notificationShowCount": "إظهار العدد على الجرس",
     "notificationShowCountDesc": "اعرض عدد الإشعارات غير المقروءة بدلاً من التوهج فقط",
+    "messagesShowCount": "اعرض العدد على الرسائل",
+    "messagesShowCountDesc": "اعرض عدد الرسائل غير المقروءة بدلاً من التوهج فقط",
     "chatSection": "الدردشة",
     "doNotDisturb": "عدم الإزعاج",
     "doNotDisturbDesc": "كتم جميع إشعارات الرسائل",
@@ -7721,7 +7723,11 @@
       "inviteMessage": "انضم إليّ على Riftn: {{url}}",
       "searchAll": "ابحث عن \"{{q}}\" في كل Riftn",
       "searchAllSub": "منشورات، فيديوهات، بث مباشر"
-    }
+    },
+    "shareGroups": "المجموعات",
+    "shareKindGroup": "مجموعة",
+    "shareKindChannel": "قناة",
+    "shareKindCommunity": "مجتمع"
   },
   "editPost": {
     "mediaPermission": "يلزم إذن الوصول إلى مكتبة الوسائط",
@@ -16898,5 +16904,24 @@
     "sent_other": "تم الإرسال إلى {{count}} محادثات",
     "partSent": "تم الإرسال إلى {{ok}} من {{total}} محادثات",
     "notSent": "تعذر الإرسال. حاول مرة أخرى."
+  },
+  "msgSelect": {
+    "toolbar": "الرسائل المحددة",
+    "pick": "اضغط على الرسائل لتحديدها",
+    "selected": "تم تحديد {{count}}",
+    "copy": "نسخ",
+    "forward": "إعادة توجيه",
+    "deleteSome": "حذف {{count}}",
+    "forwarded_one": "تمت إعادة توجيه {{count}} رسالة",
+    "forwarded_other": "تمت إعادة توجيه {{count}} رسائل",
+    "partForwarded": "تمت إعادة توجيه {{ok}} من {{total}}",
+    "nothingToCopy": "لا يوجد ما يُنسخ في الرسائل المختارة",
+    "copied_one": "تم نسخ {{count}} رسالة",
+    "copied_other": "تم نسخ {{count}} رسائل",
+    "deleteTitle_one": "حذف {{count}} رسالة؟",
+    "deleteTitle_other": "حذف {{count}} رسائل؟",
+    "deleteBody": "ستُحذف للجميع في هذه المحادثة.",
+    "deleted_one": "تم حذف {{count}} رسالة",
+    "deleted_other": "تم حذف {{count}} رسائل"
   }
 }

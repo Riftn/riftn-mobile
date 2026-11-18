@@ -9595,7 +9595,11 @@
       "inviteMessage": "Riftn에서 만나요: {{url}}",
       "searchAll": "Riftn 전체에서 \"{{q}}\" 검색",
       "searchAllSub": "게시물, 동영상, 라이브"
-    }
+    },
+    "shareGroups": "그룹",
+    "shareKindGroup": "그룹",
+    "shareKindChannel": "채널",
+    "shareKindCommunity": "커뮤니티"
   },
   "editPost": {
     "mediaPermission": "미디어 라이브러리 권한이 필요합니다",

@@ -44,6 +44,7 @@ import {
   openCroppedImagePicker,
   resizeAndCompress,
   createRNImageFile,
+  AVATAR_UPLOAD_SIDE,
 } from "../../libs/assets.util";
 import { runWithPermissions } from "../../libs/permissions.util";
 import { AuthService } from "../../services/auth.service";
@@ -193,7 +194,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
       try {
         isAvatar ? setUploadingAvatar(true) : setUploadingCover(true);
         const target = isAvatar
-          ? { width: 512, height: 512 }
+          ? { width: AVATAR_UPLOAD_SIDE, height: AVATAR_UPLOAD_SIDE }
           : { width: 1500, height: 500 };
         const manipUri = await resizeAndCompress(uri, {
           width: target.width,
@@ -230,8 +231,8 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
     try {
       await runWithPermissions(["photos"], async () => {
         const pickedUri = await openCroppedImagePicker({
-          width: 800,
-          height: 800,
+          width: AVATAR_UPLOAD_SIDE,
+          height: AVATAR_UPLOAD_SIDE,
           circle: false,
           quality: 0.9,
           forceJpg: true,

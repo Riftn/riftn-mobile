@@ -1031,6 +1031,8 @@
     "buyBotAlertsDesc": "Mostrar alertas de transacciones del bot de compra en el chat",
     "notificationShowCount": "Mostrar el número en la campana",
     "notificationShowCountDesc": "Ver cuántas notificaciones no has leído en lugar de solo el brillo",
+    "messagesShowCount": "Mostrar el número en Mensajes",
+    "messagesShowCountDesc": "Ver cuántos mensajes no has leído en lugar de solo el brillo",
     "chatSection": "Chat",
     "doNotDisturb": "No molestar",
     "doNotDisturbDesc": "Silenciar todas las notificaciones de mensajes",
@@ -7701,7 +7703,11 @@
       "inviteMessage": "Únete a mí en Riftn: {{url}}",
       "searchAll": "Buscar \"{{q}}\" en todo Riftn",
       "searchAllSub": "Publicaciones, vídeos, directos"
-    }
+    },
+    "shareGroups": "Grupos",
+    "shareKindGroup": "Grupo",
+    "shareKindChannel": "Canal",
+    "shareKindCommunity": "Comunidad"
   },
   "editPost": {
     "mediaPermission": "Se necesita permiso para la biblioteca multimedia",
@@ -16878,5 +16884,24 @@
     "sent_other": "Enviado a {{count}} chats",
     "partSent": "Enviado a {{ok}} de {{total}} chats",
     "notSent": "No se pudo enviar. Inténtalo de nuevo."
+  },
+  "msgSelect": {
+    "toolbar": "Mensajes seleccionados",
+    "pick": "Toca mensajes para seleccionarlos",
+    "selected": "{{count}} seleccionados",
+    "copy": "Copiar",
+    "forward": "Reenviar",
+    "deleteSome": "Eliminar {{count}}",
+    "forwarded_one": "{{count}} mensaje reenviado",
+    "forwarded_other": "{{count}} mensajes reenviados",
+    "partForwarded": "Reenviados {{ok}} de {{total}}",
+    "nothingToCopy": "No hay nada que copiar en los mensajes elegidos",
+    "copied_one": "{{count}} mensaje copiado",
+    "copied_other": "{{count}} mensajes copiados",
+    "deleteTitle_one": "¿Eliminar {{count}} mensaje?",
+    "deleteTitle_other": "¿Eliminar {{count}} mensajes?",
+    "deleteBody": "Se eliminarán para todos en este chat.",
+    "deleted_one": "{{count}} mensaje eliminado",
+    "deleted_other": "{{count}} mensajes eliminados"
   }
 }
