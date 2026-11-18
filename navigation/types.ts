@@ -65,6 +65,8 @@ export type AppStackParamList = {
     video?: { uri: string; width: number; height: number; duration?: number; mimeType?: string; fileName?: string };
     /** Open on Livestream, e.g. from the + button while the home feed is on Live. */
     live?: boolean;
+    /** A post's song to start with, from tapping the song on that post. */
+    sound?: import('../hooks/usePostSound').AttachedSound;
   } | undefined;
   [ScreenNames.VideoPlayer]: {
     videoId?: string;

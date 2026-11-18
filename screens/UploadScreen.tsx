@@ -99,7 +99,7 @@ import { INITIAL_LIVE_SETTINGS } from "../components/Upload/LiveSettingsPanel";
 import ConfirmUploadModal from "../components/Upload/ConfirmUploadModal";
 import { useUploadPost } from "../hooks/useUploadPost";
 import { useUploadLive } from "../hooks/useUploadLive";
-import { usePostSound } from "../hooks/usePostSound";
+import { usePostSound, type AttachedSound } from "../hooks/usePostSound";
 import { buildSoundtrackTag } from "../libs/parseSoundtrack";
 import SoundPickerSheet from "../components/Post/SoundPickerSheet";
 import ScheduleSheet from "../components/Upload/ScheduleSheet";
@@ -1232,6 +1232,11 @@ export default function UploadScreen() {
   } = useUploadLive();
 
   const { attachedSound, selectSound, clearSound } = usePostSound();
+  // Opened from a post's song chip: start with that song attached.
+  const incomingSound = route.params?.sound as AttachedSound | undefined;
+  useEffect(() => {
+    if (incomingSound?.url) selectSound(incomingSound);
+  }, [incomingSound, selectSound]);
   const { openModal: openStages, createSpace, scheduleSpace } = useStages();
   const [showSoundPicker, setShowSoundPicker] = useState(false);
   const [scheduledDate, setScheduledDate] = useState<Date | null>(null);
