@@ -23,7 +23,10 @@ import { IS_APP_STORE_BUILD } from "../../../config/storefront";
 import { parseBannedWords } from "../../../libs/group-bots";
 import type { Community } from "../../../types/community";
 
-const MIN_USD_OPTIONS = [0, 10, 50, 100, 250, 1000];
+/** The buy bot never posts buys under $50; admins pick any size from there up. */
+const MIN_USD_FLOOR = 50;
+const MIN_USD_MAX = 1_000_000;
+const MIN_USD_OPTIONS = [50, 100, 250, 1000];
 const FLOOD_MAX_OPTIONS = [3, 5, 10, 20];
 const FLOOD_SECONDS_OPTIONS = [5, 10, 30, 60];
 
@@ -41,11 +44,17 @@ export function AutoModTab({ community }: { community: Community }) {
   });
   const [saving, setSaving] = useState<string | null>(null);
   const [words, setWords] = useState("");
+  const [minDraft, setMinDraft] = useState("");
 
   const serverWords = (data?.automod.banned_words ?? []).join("\n");
   useEffect(() => {
     setWords(serverWords);
   }, [serverWords]);
+
+  const serverMin = data?.buy_bot.min_usd;
+  useEffect(() => {
+    if (serverMin != null) setMinDraft(String(Math.max(MIN_USD_FLOOR, serverMin)));
+  }, [serverMin]);
 
   const save = async (id: string, patch: GroupBotSettingsPatch) => {
     if (!wallet) return;
@@ -79,6 +88,12 @@ export function AutoModTab({ community }: { community: Community }) {
 
   const { automod, buy_bot: buyBot, token } = data;
   const busy = saving !== null;
+  // Typed or picked, the size lands between $50 and $1,000,000.
+  const saveMin = (raw: number) => {
+    const n = Math.min(MIN_USD_MAX, Math.max(MIN_USD_FLOOR, Math.round(raw || 0)));
+    setMinDraft(String(n));
+    if (n !== buyBot.min_usd) void save("bb-min", { buy_bot: { min_usd: n } });
+  };
   const wordsChanged = parseBannedWords(words).join("\n") !== serverWords;
 
   const Toggle = ({ id, title, hint, value, onChange, disabled }: {
@@ -151,9 +166,25 @@ export function AutoModTab({ community }: { community: Community }) {
                 options={MIN_USD_OPTIONS}
                 value={buyBot.min_usd}
                 disabled={!buyBot.enabled}
-                label={(n) => (n === 0 ? t("communities.buyBot.any", { defaultValue: "Any size" }) : `$${n.toLocaleString("en-US")}`)}
-                onPick={(n) => void save("bb-min", { buy_bot: { min_usd: n } })}
+                label={(n) => `$${n.toLocaleString("en-US")}`}
+                onPick={saveMin}
               />
+              <View style={styles.minField}>
+                <Text className="text-zinc-400 text-sm">$</Text>
+                <TextInput
+                  value={minDraft}
+                  onChangeText={(v) => setMinDraft(v.replace(/[^0-9]/g, ""))}
+                  onEndEditing={() => saveMin(Number(minDraft))}
+                  keyboardType="number-pad"
+                  returnKeyType="done"
+                  editable={buyBot.enabled && saving === null}
+                  maxLength={7}
+                  accessibilityLabel={t("communities.buyBot.minUsd", { defaultValue: "Smallest buy to post" })}
+                  placeholder="50"
+                  placeholderTextColor="#71717a"
+                  style={styles.minInput}
+                />
+              </View>
             </>
           )}
         </View>
@@ -251,6 +282,25 @@ export function AutoModTab({ community }: { community: Community }) {
 }
 
 const styles = StyleSheet.create({
+  minField: {
+    marginTop: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-start",
+    gap: 4,
+    minWidth: 120,
+    borderRadius: 10,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(255,255,255,0.15)",
+    backgroundColor: "rgba(255,255,255,0.04)",
+    paddingHorizontal: 10,
+  },
+  minInput: {
+    flex: 1,
+    color: "#fff",
+    fontSize: 14,
+    paddingVertical: 8,
+  },
   card: {
     borderRadius: 12,
     borderWidth: StyleSheet.hairlineWidth,
