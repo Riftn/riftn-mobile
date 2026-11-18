@@ -1,4 +1,5 @@
 import type { VideoPlayer } from "expo-video";
+import { followSoundInBackground } from "./backgroundVideoAudio";
 
 /**
  * Let muted video share the audio session with other apps.
@@ -23,4 +24,6 @@ export function shareAudioWhenSilent(player: VideoPlayer | null | undefined): vo
   if (!player) return;
   try { player.audioMixingMode = "auto"; } catch {}
   try { player.preservesPitch = true; } catch {}
+  // Sound keeps playing when the app is minimised (libs/backgroundVideoAudio).
+  followSoundInBackground(player);
 }
