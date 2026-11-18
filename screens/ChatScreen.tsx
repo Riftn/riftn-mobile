@@ -1669,7 +1669,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const picking = pickedMsgs !== null;
   /** Picked messages in thread order, oldest first (the list is newest first). */
   const pickedList = useMemo(
-    () => (pickedMsgs ? messageList.filter((m) => pickedMsgs.has(m._id) && !m.isDeleted).reverse() : []),
+    () => (pickedMsgs ? messageList.filter((m) => pickedMsgs.has(m._id)).reverse() : []),
     [pickedMsgs, messageList],
   );
   const pickedOwn = useMemo(() => pickedList.filter((m) => isMine(m)), [pickedList, isMine]);
@@ -2019,7 +2019,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       );
       // Picking: the whole line is one tap target with a tick on the left;
       // the bubble's own taps, holds and swipes wait until picking ends.
-      const pickable = !item.isDeleted && !(item as OptimisticMessage)?._tempId;
+      const pickable = !(item as OptimisticMessage)?._tempId;
       if (picking) {
         const checked = !!pickedMsgs?.has(item._id);
         return (
