@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "الكل",
+    "unread": "غير مقروءة",
+    "groups": "المجموعات"
+  },
   "comicBorder": {
     "title": "الإطار",
     "theme": "السمة",

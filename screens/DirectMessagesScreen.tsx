@@ -27,6 +27,7 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import NewDMModal from "../components/DM/NewDMModal";
 import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
+import { ChatCard, ChatListTabs, CHAT_CARD_GAP, CHAT_CARD_INSET, type ChatListTab } from "../components/DM/ChatCard";
 import UnreadCountChip from "../components/DM/UnreadCountChip";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
@@ -69,7 +70,8 @@ import { DMSocketEvent } from "../services/enums/dm-socket-events.enum";
 import { useTabBarHide } from "../context/TabBarHideContext";
 const renderPullScroll = (props: React.ComponentProps<typeof PullRefreshScrollView>) => <PullRefreshScrollView {...props} />;
 
-const SEPARATOR = { height: 1, backgroundColor: "rgba(255,255,255,0.07)" } as const;
+// Cards sit apart; no divider lines (design B).
+const SEPARATOR = { height: CHAT_CARD_GAP } as const;
 const SEARCH_ACTION = { width: 28, height: 28, borderRadius: 6, alignItems: "center", justifyContent: "center" } as const;
 
 const DirectMessagesInner: React.FC = () => {
@@ -158,6 +160,14 @@ const DirectMessagesInner: React.FC = () => {
   const noRequestsLeft = requestChats.length === 0;
   useEffect(() => { if (noRequestsLeft) setShowRequests(false); }, [noRequestsLeft]);
   const inRequests = showRequests && !query.trim();
+  // All / Unread / Groups / Requests at the top of the list (design B).
+  const [listTab, setListTab] = useState<"all" | "unread" | "groups">("all");
+  const tabFilter = !query.trim() && !inRequests ? listTab : "all";
+  const activeTab: ChatListTab = inRequests ? "requests" : listTab;
+  const pickTab = useCallback((tab: ChatListTab) => {
+    setShowRequests(tab === "requests");
+    setListTab(tab === "unread" || tab === "groups" ? tab : "all");
+  }, []);
 
   // Filtered & sorted conversations
   const filtered = useMemo(() => {
@@ -189,6 +199,30 @@ const DirectMessagesInner: React.FC = () => {
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, showRequests]);
+
+  const convHasUnread = useCallback(
+    (c: DmConversation) => (c.unreadCount || 0) > 0 || !!chatPrefs.get(c._id)?.markedUnread,
+    [chatPrefs],
+  );
+  const shown = useMemo(
+    () => tabFilter === "groups" ? [] : tabFilter === "unread" ? filtered.filter(convHasUnread) : filtered,
+    [filtered, tabFilter, convHasUnread],
+  );
+  const shownGroups = useMemo(
+    () => tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread) : groupChats,
+    [groupChats, tabFilter, chatPrefs],
+  );
+  const inboxUnreadChats = useMemo(
+    () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id) && convHasUnread(c)).length
+      + groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread).length,
+    [conversations, pendingDeletes, convHasUnread, groupChats, chatPrefs],
+  );
+  const tabs = useMemo(() => [
+    { key: "all" as const, label: t("messagesTabs.all", { defaultValue: "All" }) },
+    { key: "unread" as const, label: t("messagesTabs.unread", { defaultValue: "Unread" }), count: inboxUnreadChats },
+    { key: "groups" as const, label: t("messagesTabs.groups", { defaultValue: "Groups" }) },
+    ...(requestChats.length > 0 ? [{ key: "requests" as const, label: t("dmRequests.title", { defaultValue: "Requests" }), count: requestChats.length }] : []),
+  ], [t, inboxUnreadChats, requestChats.length]);
 
   // Rows waiting out their undo window count as gone, so swiping away the last
   // one lands on the real empty state rather than "no matches".
@@ -569,41 +603,36 @@ const DirectMessagesInner: React.FC = () => {
   );
 
   const publicChatItem = useMemo(
-    () => inRequests ? (
+    () => (
       <>
-        <TouchableOpacity
-          onPress={() => setShowRequests(false)}
-          activeOpacity={0.7}
-          accessibilityRole="button"
-          accessibilityLabel={t("common.goBack")}
-          testID="requests-back"
-          className="flex-row items-center px-4 pt-4 pb-2 gap-2"
-        >
-          <Icon name="ChevronLeft" size={18} color="#A1A1AA" />
-          <Text className="text-theme-neutrals-100 text-[15px] font-semibold">
-            {t("dmRequests.title", { defaultValue: "Requests" })}
+      {!query.trim() && <ChatListTabs tabs={tabs} active={activeTab} onPick={pickTab} />}
+      <View style={SEPARATOR} />
+      {inRequests ? (
+        <>
+          <Text className="text-theme-neutrals-400 text-[13px] px-1" style={{ lineHeight: 18 }}>
+            {t("dmRequests.hint", { defaultValue: "Messages from people you don't follow. Accept one, reply or follow them and the chat moves to your inbox." })}
           </Text>
-        </TouchableOpacity>
-        <Text className="text-theme-neutrals-400 text-[13px] px-4 pb-3" style={{ lineHeight: 18 }}>
-          {t("dmRequests.hint", { defaultValue: "Messages from people you don't follow. Accept one, reply or follow them and the chat moves to your inbox." })}
-        </Text>
-        <View style={SEPARATOR} />
-      </>
-    ) : (
+          <View style={SEPARATOR} />
+        </>
+      ) : (
       <>
+      {(tabFilter === "all" || (tabFilter === "unread" && publicUnread > 0)) && (
+      <>
+      <ChatCard unread={publicUnread > 0}>
       <TouchableOpacity
         onPress={handleOpenLiveChat}
         activeOpacity={0.7}
-        className="flex-row items-center px-4 py-4 gap-3"
+        className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
+        style={{ minHeight: 72 }}
       >
-        {/* Logo styled like Avatar size={48} */}
+        {/* Logo styled like the chat avatars */}
         <View
-          style={{ width: 48, height: 48, borderRadius: Math.round(48 * 0.16) }}
+          style={{ width: 44, height: 44, borderRadius: 12 }}
           className="dark-surface bg-black items-center justify-center overflow-hidden"
         >
           <Image
             source={require("../assets/web-icons/dehub-logo-compact.png")}
-            style={{ width: 32, height: 32 }}
+            style={{ width: 30, height: 30 }}
             contentFit="contain"
           />
         </View>
@@ -629,8 +658,11 @@ const DirectMessagesInner: React.FC = () => {
           </View>
         )}
       </TouchableOpacity>
+      </ChatCard>
       <View style={SEPARATOR} />
-      {groupChats.map((c) => (
+      </>
+      )}
+      {shownGroups.map((c) => (
         <React.Fragment key={c.id}>
           <GroupChatRow
             community={c}
@@ -643,17 +675,19 @@ const DirectMessagesInner: React.FC = () => {
           <View style={SEPARATOR} />
         </React.Fragment>
       ))}
-      {requestChats.length > 0 && !query.trim() && (
+      {requestChats.length > 0 && !query.trim() && tabFilter === "all" && (
         <>
+          <ChatCard unread={requestUnread > 0}>
           <TouchableOpacity
             onPress={() => setShowRequests(true)}
             activeOpacity={0.7}
             accessibilityRole="button"
             testID="requests-open"
-            className="flex-row items-center px-4 py-4 gap-3"
+            className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
+            style={{ minHeight: 72 }}
           >
             <View
-              style={{ width: 48, height: 48, borderRadius: Math.round(48 * 0.16), backgroundColor: "rgba(127,127,127,0.16)" }}
+              style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: "rgba(127,127,127,0.16)" }}
               className="items-center justify-center"
             >
               <Icon name="Mail" size={22} color="#A1A1AA" />
@@ -668,12 +702,15 @@ const DirectMessagesInner: React.FC = () => {
             </View>
             {requestUnread > 0 && <UnreadCountChip count={requestUnread} />}
           </TouchableOpacity>
+          </ChatCard>
           <View style={SEPARATOR} />
         </>
       )}
       </>
+      )}
+      </>
     ),
-    [handleOpenLiveChat, publicUnread, t, groupChats, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk],
+    [handleOpenLiveChat, publicUnread, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabs, activeTab, pickTab, tabFilter],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, []);
@@ -725,11 +762,11 @@ const DirectMessagesInner: React.FC = () => {
             the hidden native spinner showed nothing and needed a very long pull. */}
         <PullRefreshArea refreshing={!!contactsLoading} onRefresh={refreshContacts}>
         <FlatList
-          data={filtered}
+          data={shown}
           keyExtractor={keyExtractor}
           renderItem={renderItem}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ paddingBottom: picking ? 150 : 80 }}
+          contentContainerStyle={{ paddingHorizontal: CHAT_CARD_INSET, paddingTop: 6, paddingBottom: picking ? 150 : 80 }}
           extraData={bulkIds}
           className="flex-1"
           ListHeaderComponent={publicChatItem}
@@ -744,7 +781,7 @@ const DirectMessagesInner: React.FC = () => {
                 onNewChat={openNewDM}
                 onNewGroup={() => setNewChatKind("group")}
               />
-            ) : hasConversations ? (
+            ) : tabFilter === "groups" ? null : hasConversations ? (
               <View className="items-center mt-10">
                 <Text className="text-theme-neutrals-400">{t("dm.noConversationsFound")}</Text>
               </View>

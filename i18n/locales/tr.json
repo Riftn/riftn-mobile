@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "Tümü",
+    "unread": "Okunmamış",
+    "groups": "Gruplar"
+  },
   "comicBorder": {
     "title": "Çerçeve",
     "theme": "Tema",
