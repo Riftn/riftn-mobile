@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "Tous",
+    "unread": "Non lus",
+    "groups": "Groupes"
+  },
   "comicBorder": {
     "title": "Bordure",
     "theme": "Thème",

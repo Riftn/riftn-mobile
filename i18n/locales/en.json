@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "All",
+    "unread": "Unread",
+    "groups": "Groups"
+  },
   "twoFactor": {
     "wrongCode": "That code didn’t match. Try the newest one in your app.",
     "stackTop": "One more step",
