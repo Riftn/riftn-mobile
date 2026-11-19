@@ -1957,10 +1957,103 @@ async function runSpeed(): Promise<void> {
   console.error("[perf-tour] done");
 }
 
+/**
+ * Reactions landing in public chat: opens the public chat and plays scripted
+ * reaction updates through the chat's own socket handler (the same path a
+ * real reaction takes), on the newest lines. Filmed by the harness; the
+ * style comes from dehub.perfTour.reactStyle (fly when unset).
+ */
+type ChatLine = import("../../services/livechat.service").LiveChatMessageData;
+type ChatTap = (update: (prev: ChatLine[]) => ChatLine[]) => void;
+/** Each mounted live chat (hooks/useLiveChat) adds its line updater here. */
+const chatTaps = new Set<ChatTap>();
+(globalThis as { __liveChatTaps?: Set<ChatTap> }).__liveChatTaps = chatTaps;
+
+/**
+ * Reactions landing in a live's chat, signed out: opens a live, adds three
+ * chat lines, then plays reactions on them through the chat's own state, the
+ * way socket updates arrive. Filmed by the harness. The style comes from
+ * dehub.perfTour.reactStyle (fly when unset).
+ */
+async function runReactions(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "reactions" };
+  const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
+  const style = (await AsyncStorage.getItem("dehub.perfTour.reactStyle")) || "fly";
+  prefs.setAppPref("chatReactionStyle", style as never);
+  extra.style = style;
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(8000);
+  let streamId = "";
+  try {
+    const { getLiveVideos } = require("../../services/live.service") as { getLiveVideos(p: object): Promise<any> };
+    const res = await getLiveVideos({ unit: 50, sortMode: "recent" });
+    const rows: any[] = Array.isArray(res) ? res : Array.isArray(res?.result) ? res.result : [];
+    const onAir = rows.find((r) => r?.status === "live" || r?.isLive) ?? rows[0];
+    streamId = String(onAir?._id ?? onAir?.id ?? "");
+  } catch (error) {
+    console.error(`[perf-tour] live list failed ${String(error)}`);
+  }
+  extra.streamId = streamId;
+  nav.navigate(ScreenNames.LiveViewer, { streamId });
+  await sleep(10000);
+  extra.taps = chatTaps.size;
+  const fake = (n: number) => `0x${String(n).repeat(40).slice(0, 40)}`;
+  const people = [
+    { address: fake(7), username: "xluna", displayName: "Luna" },
+    { address: fake(8), username: "ellaverse", displayName: "Ella Verse" },
+    { address: fake(9), username: "deepwater", displayName: "Deep Water" },
+  ];
+  const texts = ["gm chat, who is watching tonight?", "this set is unreal", "turn it up"];
+  const ids = texts.map((_, i) => `tour-line-${Date.now()}-${i}`);
+  const at = Date.now();
+  const lines: ChatLine[] = texts.map((content, i) => ({
+    _id: ids[i], roomId: "tour", sender: people[i], senderAddress: people[i].address, content,
+    messageType: "text", reactions: i === 0 ? { "🔥": [fake(1), fake(2)] } : {},
+    createdAt: new Date(at - (3 - i) * 1000).toISOString(),
+  }) as unknown as ChatLine);
+  for (const tap of chatTaps) tap((prev) => [...prev.filter((m) => !m._id.startsWith("tour-line-")), ...lines]);
+  await sleep(2500);
+  await shot("reactions-0-lines");
+  const add = (line: number, emoji: string, who: string) => {
+    const id = ids[line];
+    for (const tap of chatTaps) tap((prev) => prev.map((m) => {
+      if (m._id !== id) return m;
+      const cur = (m.reactions ?? {}) as Record<string, string[]>;
+      return { ...m, reactions: { ...cur, [emoji]: [...(cur[emoji] ?? []), who] } } as ChatLine;
+    }));
+  };
+  const beats: Array<[number, number, string, string]> = [
+    [800, 0, "🔥", fake(3)],
+    [2000, 1, "❤️", fake(4)],
+    [3300, 2, "😂", fake(5)],
+    [3650, 2, "😂", fake(6)],
+    [4000, 2, "😂", fake(1)],
+    [5300, 1, "🚀", fake(2)],
+    [6600, 0, "💯", fake(4)],
+  ];
+  const t0 = Date.now();
+  for (const [ms, line, emoji, who] of beats) {
+    const wait = t0 + ms - Date.now();
+    if (wait > 0) await sleep(wait);
+    add(line, emoji, who);
+    await sleep(350);
+    await shot(`reactions-${ms}-landing`);
+  }
+  await sleep(2500);
+  await shot("reactions-9-after");
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] reactions done: style ${style}, stream ${streamId || "none"}, taps ${chatTaps.size}`);
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1979,6 +2072,7 @@ void (async () => {
     else if (mode === "menu") await runMenu();
     else if (mode === "speed") await runSpeed();
     else if (mode === "livetheme") await runLiveTheme();
+    else if (mode === "reactions") await runReactions();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

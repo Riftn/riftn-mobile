@@ -27,6 +27,7 @@ import MessageSurface from "../components/DM/MessageSurface";
 import ScreenHeader from "../components/ScreenHeader";
 import ConfirmModal from "../components/common/ConfirmModal";
 import LiveChatMessage from "../components/LiveChat/LiveChatMessage";
+import { ReactionArrivalScope } from "../components/ChatReactions/ReactionArrival";
 import { LiveChatLens } from "../components/LiveChat/LiveChatLens";
 import ChatTextSizeButton from "../components/LiveChat/ChatTextSizeButton";
 import LiveChatInput from "../components/LiveChat/LiveChatInput";
@@ -1230,6 +1231,7 @@ const LiveChatScreen: React.FC = () => {
       {/* Clips the list where it rides up under the header. */}
       <View className="flex-1" style={{ overflow: "hidden" }}>
         <Animated.View style={[{ flex: 1 }, holdLiftStyle]}>
+        <ReactionArrivalScope style={{ flex: 1 }}>
         <FlatList
           ref={flatListRef}
           data={listItems}
@@ -1281,6 +1283,7 @@ const LiveChatScreen: React.FC = () => {
             }, 300);
           }}
         />
+        </ReactionArrivalScope>
         </Animated.View>
 
         {(() => {

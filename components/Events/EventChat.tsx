@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { InlineEmoji } from "../common/EmojiText";
+import { markReactionHost, ReactionArrivalScope, ReactionGlyph, RollingCount } from "../ChatReactions/ReactionArrival";
 import { getAvatarUrl } from "../../libs/misc";
 import { useAuthActions, useAuthState, useUser } from "../../context/AuthContext";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
@@ -88,7 +89,7 @@ export default function EventChat({ eventId }: { eventId: string }) {
   const visible = messages.slice(-80);
 
   return (
-    <View style={styles.wrap}>
+    <ReactionArrivalScope style={styles.wrap}>
       <View style={styles.head}>
         <Icon name="MessageEnvelope" size={14} color="rgba(255,255,255,0.6)" />
         <Text style={styles.headText}>{t("copy.460b3a7da007", { defaultValue: "Chat" })}</Text>
@@ -107,6 +108,7 @@ export default function EventChat({ eventId }: { eventId: string }) {
             const name = m.display_name || m.username || `${m.wallet_address.slice(0, 6)}…`;
             const mine = !!me && m.wallet_address.toLowerCase() === me;
             const reactions = Object.entries(m.reactions || {}).filter(([, a]) => a.length > 0);
+            markReactionHost(m.id);
             const open = selected === m.id;
             return (
               <View key={m.id}>
@@ -146,8 +148,8 @@ export default function EventChat({ eventId }: { eventId: string }) {
                               onPress={() => toggleReaction(m, emoji)}
                               style={[styles.chip, reacted && styles.chipMine]}
                             >
-                              <InlineEmoji value={emoji} size={13} />
-                              <Text style={[styles.chipText, reacted && { color: "#fff" }]}>{addrs.length}</Text>
+                              <ReactionGlyph messageId={m.id} emoji={emoji} addresses={addrs} me={me} size={13} still={<InlineEmoji value={emoji} size={13} />} />
+                              <RollingCount value={addrs.length} style={[styles.chipText, reacted && { color: "#fff" }]} />
                             </Pressable>
                           );
                         })}
@@ -272,7 +274,7 @@ export default function EventChat({ eventId }: { eventId: string }) {
         </Pressable>
       </View>
       <MessageReportModal report={reportFor} onClose={() => setReportFor(null)} />
-    </View>
+    </ReactionArrivalScope>
   );
 }
 

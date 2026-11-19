@@ -20,6 +20,7 @@ import { isPostLandingStyle, type PostLandingStyle } from '../libs/postLandingSt
 import { DEFAULT_MENU_LAYOUT, isMenuLayout, type MenuLayout } from '../libs/menuLayout';
 import { CHAT_TEXT_SCALE, isChatTextSize, type ChatTextSize } from '../libs/chatTextSize';
 import { isChatDeleteChoice, type ChatDeleteChoice } from '../libs/chatDeleteChoice';
+import { isChatReactionStyle, type ChatReactionStyle } from '../libs/chatReactionStyle';
 import { claimMinimalLaunch } from '../libs/minimalBootGuard';
 import { bootRevealed } from '../libs/bootReveal';
 import { getDefaultChainId, loadDefaultChains, subscribeDefaultChain } from '../libs/defaultChain';
@@ -67,6 +68,8 @@ const KEYS = {
   // Saved answer to "Delete message?" (ask / me / everyone), web's key
   // (lib/chat-delete-choice).
   chatDeleteChoice: 'riftn.chat.deleteChoice',
+  // How reactions move when they land in a chat (libs/chatReactionStyle), web's key.
+  chatReactionStyle: 'riftn.chat.reactionStyle',
   // Theme Color per customisable theme, and the Brand palette. Web's keys and
   // value shapes (see theme/themeColor.ts).
   themeHues: 'dehub.themeHues',
@@ -106,6 +109,8 @@ export interface AppPrefs {
   chatCards: boolean;
   /** Saved answer to "Delete message?": ask every time, or always for me / for everyone. */
   chatDeleteChoice: ChatDeleteChoice;
+  /** How a reaction moves when it lands in a chat (libs/chatReactionStyle). */
+  chatReactionStyle: ChatReactionStyle;
   /** How the menu drawer groups its pages (libs/menuLayout). */
   menuLayout: MenuLayout;
   themeHues: Record<string, number>;
@@ -148,6 +153,7 @@ export const DEFAULT_APP_PREFS: AppPrefs = {
   chatTextSize: 'default',
   chatCards: true,
   chatDeleteChoice: 'ask',
+  chatReactionStyle: 'fly',
   menuLayout: DEFAULT_MENU_LAYOUT,
   themeHues: {},
   brandColors: [],
@@ -240,6 +246,10 @@ function init() {
         chatDeleteChoice: (() => {
           const stored = get('chatDeleteChoice');
           return isChatDeleteChoice(stored) ? stored : DEFAULT_APP_PREFS.chatDeleteChoice;
+        })(),
+        chatReactionStyle: (() => {
+          const stored = get('chatReactionStyle');
+          return isChatReactionStyle(stored) ? stored : DEFAULT_APP_PREFS.chatReactionStyle;
         })(),
         chatTextSize: (() => {
           const stored = get('chatTextSize');

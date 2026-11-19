@@ -38,6 +38,7 @@ import { useRoomChat, type ChatRoom, type TvChatMessage } from "../../hooks/useT
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import EmojiSheet from "../Upload/EmojiSheet";
 import { InlineEmoji, expandEmojiTokens } from "../common/EmojiText";
+import { ReactionArrivalScope, ReactionGlyph, RollingCount, useReactionHost } from "../ChatReactions/ReactionArrival";
 import { useTranslation as useTextTranslation } from "../../hooks/useTranslation";
 import TranslateButton from "../ui/TranslateButton";
 import { MessageReportModal, type MessageReport } from "../common/MessageReportHost";
@@ -80,6 +81,7 @@ const ChatRow: React.FC<{
     () => Object.entries(message.reactions || {}).filter(([, addrs]) => addrs.length > 0),
     [message.reactions]
   );
+  useReactionHost(message.id);
 
   const profileId = message.username || message.wallet_address;
 
@@ -146,10 +148,8 @@ const ChatRow: React.FC<{
                   style={[styles.reactionPill, mine && styles.reactionPillMine]}
                   hitSlop={8}
                 >
-                  <InlineEmoji value={emoji} size={11} />
-                  <Text style={[styles.reactionCount, mine && { color: "#FFFFFF" }]}>
-                    {addrs.length}
-                  </Text>
+                  <ReactionGlyph messageId={message.id} emoji={emoji} addresses={addrs} me={myAddress} size={11} still={<InlineEmoji value={emoji} size={11} />} />
+                  <RollingCount value={addrs.length} style={[styles.reactionCount, mine && { color: "#FFFFFF" }]} />
                 </Pressable>
               );
             })}
@@ -375,6 +375,7 @@ const TVChatPanel: React.FC<TVChatPanelProps> = ({
           <ActivityIndicator color="#FFFFFF" />
         </View>
       ) : (
+        <ReactionArrivalScope style={{ flex: 1, minHeight: 0 }}>
         <FlatList
           style={{ flex: 1, minHeight: 0 }}
           ref={listRef}
@@ -406,6 +407,7 @@ const TVChatPanel: React.FC<TVChatPanelProps> = ({
             </View>
           }
         />
+        </ReactionArrivalScope>
       )}
 
       {!!replyTo && (

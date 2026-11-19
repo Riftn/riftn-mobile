@@ -404,6 +404,20 @@ if [ "$MODE" = menu ]; then
   exit 0
 fi
 
+if [ "$MODE" = reactions ]; then
+  # Reactions landing live in public chat, filmed: Fly in (the default) on
+  # three themes, then Burst once.
+  for theme in ${WALLET_THEMES:-system hazy system-light}; do
+    run after "reactions-fly-$theme" record reactions "$theme"
+  done
+  storage set dehub.perfTour.reactStyle burst
+  run after "reactions-burst-system" record reactions system
+  storage drop dehub.perfTour.reactStyle
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
 if [ "$MODE" = livetheme ]; then
   # Leaving a live in System Light, main's code then this checkout's, both
   # filmed; then this checkout's on two dark themes.

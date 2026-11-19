@@ -76,6 +76,7 @@ import MentionSuggestions from "../common/MentionSuggestions";
 import EmojiSheet from "../Upload/EmojiSheet";
 import WhenOpened from "../ui/WhenOpened";
 import { InlineEmoji, expandEmojiTokens } from "../common/EmojiText";
+import { ReactionArrivalScope, ReactionGlyph, RollingCount, useReactionHost } from "../ChatReactions/ReactionArrival";
 import { useMentions } from "../../hooks/useMentions";
 import { useCommunityJoinLines } from "../../hooks/useCommunityJoinLines";
 import type { MentionUser } from "../../services/mention.service";
@@ -179,6 +180,7 @@ const ChatRow: React.FC<{
     () => Object.entries(message.reactions || {}).filter(([, addrs]) => addrs.length > 0),
     [message.reactions],
   );
+  useReactionHost(message.id);
 
   const profileId = message.username || message.wallet_address;
   // A tapped picture opens full screen, with Download.
@@ -348,10 +350,8 @@ const ChatRow: React.FC<{
                   delayLongPress={300}
                   style={[styles.reactionPill, mine && styles.reactionPillMine]}
                 >
-                  <InlineEmoji value={emoji} size={11} />
-                  <Text style={[styles.reactionCount, mine && { color: "#FFFFFF" }]}>
-                    {addrs.length}
-                  </Text>
+                  <ReactionGlyph messageId={message.id} emoji={emoji} addresses={addrs} me={myAddress} still={<InlineEmoji value={emoji} size={11} />} size={11} />
+                  <RollingCount value={addrs.length} style={[styles.reactionCount, mine && { color: "#FFFFFF" }]} />
                 </Pressable>
               );
             })}
@@ -1040,7 +1040,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           <ActivityIndicator size="small" color="#F4F4F5" />
         </View>
       ) : (
-        <View style={{ flex: 1 }}>
+        <ReactionArrivalScope style={{ flex: 1 }}>
         <FlatList
           ref={listRef}
           // "Show earlier messages" prepends a page; without this the list jumped
@@ -1122,7 +1122,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
             </View>
           );
         })()}
-        </View>
+        </ReactionArrivalScope>
       )}
 
       {!!replyTo && !editing && (

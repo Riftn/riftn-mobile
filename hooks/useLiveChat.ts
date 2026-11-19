@@ -143,6 +143,16 @@ export const useLiveChat = (
   const [connected, setConnected] = useState(false);
   const [joining, setJoining] = useState(false);
   const [messages, setMessages] = useState<LiveChatMessageData[]>([]);
+  // Simulator check only (scripts/ios-nav/tour.ts creates the set): lets the
+  // check change the lines the way socket events would. Never set in the app.
+  useEffect(() => {
+    type Tap = (update: (prev: LiveChatMessageData[]) => LiveChatMessageData[]) => void;
+    const taps = (globalThis as { __liveChatTaps?: Set<Tap> }).__liveChatTaps;
+    if (!taps) return;
+    const tap: Tap = (update) => setMessages(update);
+    taps.add(tap);
+    return () => { taps.delete(tap); };
+  }, []);
   const [room, setRoom] = useState<LiveChatRoom | null>(null);
   const [myUser, setMyUser] = useState<LiveChatUser | null>(null);
   const [isBanned, setIsBanned] = useState(false);
