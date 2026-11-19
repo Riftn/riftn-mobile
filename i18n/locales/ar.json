@@ -7445,6 +7445,8 @@
     "noLiveStreams": "لا توجد بثوث مباشرة",
     "noOneStreaming": "لا أحد يبث الآن. عد لاحقًا!",
     "loadStreamsFailed": "تعذر تحميل البثوث. حاول مرة أخرى.",
+    "shareLive": "شاهد {{name}} مباشرة على Riftn الآن! \"{{title}}\"",
+    "shareReplay": "شاهد إعادة البث المباشر لـ {{name}} على Riftn",
     "screenShare": {
       "start": "مشاركة الشاشة",
       "stop": "إيقاف مشاركة الشاشة",

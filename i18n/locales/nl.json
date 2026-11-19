@@ -7559,6 +7559,8 @@
     "noLiveStreams": "Geen livestreams",
     "noOneStreaming": "Niemand streamt op dit moment. Kom later terug!",
     "loadStreamsFailed": "Streams konden niet worden geladen. Probeer het opnieuw.",
+    "shareLive": "Kijk nu live naar {{name}} op Riftn! \"{{title}}\"",
+    "shareReplay": "Bekijk de herhaling van de livestream van {{name}} op Riftn",
     "screenShare": {
       "start": "Scherm delen",
       "stop": "Stoppen met scherm delen",
