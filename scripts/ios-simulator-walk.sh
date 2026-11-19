@@ -34,8 +34,16 @@ running() {
   xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$BUNDLE"
 }
 
+# The iPhone Duo has two screens, and a plain screenshot can fail there: then
+# try each display by name, and keep the errors so a missing picture is explained.
 shot() {
-  xcrun simctl io "$UDID" screenshot "$OUT/shots/$1.png" >/dev/null 2>&1 || true
+  local f="$OUT/shots/$1.png" d
+  xcrun simctl io "$UDID" screenshot "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" && return 0
+  for d in internal inner main external outer; do
+    xcrun simctl io "$UDID" screenshot --display="$d" "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" && return 0
+  done
+  screencapture -x -o -l"$(osascript -e 'tell application "Simulator" to id of window 1' 2>/dev/null)" "$f" 2>>"$OUT/logs/shot-errors.txt" \
+    || screencapture -x "$f" 2>>"$OUT/logs/shot-errors.txt" || true
 }
 
 launch() {
