@@ -7783,7 +7783,8 @@
     "shareGroups": "المجموعات",
     "shareKindGroup": "مجموعة",
     "shareKindChannel": "قناة",
-    "shareKindCommunity": "مجتمع"
+    "shareKindCommunity": "مجتمع",
+    "copyMedia": "نسخ الوسائط"
   },
   "editPost": {
     "mediaPermission": "يلزم إذن الوصول إلى مكتبة الوسائط",

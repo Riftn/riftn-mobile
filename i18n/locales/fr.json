@@ -7767,7 +7767,8 @@
     "shareGroups": "Groupes",
     "shareKindGroup": "Groupe",
     "shareKindChannel": "Canal",
-    "shareKindCommunity": "Communauté"
+    "shareKindCommunity": "Communauté",
+    "copyMedia": "Copier le média"
   },
   "editPost": {
     "mediaPermission": "L'autorisation d'accès à la médiathèque est requise",

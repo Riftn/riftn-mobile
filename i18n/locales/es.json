@@ -7763,7 +7763,8 @@
     "shareGroups": "Grupos",
     "shareKindGroup": "Grupo",
     "shareKindChannel": "Canal",
-    "shareKindCommunity": "Comunidad"
+    "shareKindCommunity": "Comunidad",
+    "copyMedia": "Copiar contenido"
   },
   "editPost": {
     "mediaPermission": "Se necesita permiso para la biblioteca multimedia",

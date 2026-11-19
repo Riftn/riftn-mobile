@@ -7901,7 +7901,8 @@
     "shareGroups": "Groepen",
     "shareKindGroup": "Groep",
     "shareKindChannel": "Kanaal",
-    "shareKindCommunity": "Community"
+    "shareKindCommunity": "Community",
+    "copyMedia": "Media kopiëren"
   },
   "editPost": {
     "mediaPermission": "Toestemming voor de mediabibliotheek is vereist",
