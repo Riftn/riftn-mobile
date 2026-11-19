@@ -7,12 +7,14 @@ export default function CallModalsHost() {
     const Ended = require('./CallEndedScreen').default;
     return <Ended />;
   }
+  // Subtitles live as long as the call, minimised or not.
+  const Captions = require('./CallCaptions').CallCaptionEngine;
   if (currentCall.group_id) {
     const Group = require('./GroupCallModal').default;
-    return <Group />;
+    return <><Captions /><Group /></>;
   }
   const Incoming = isIncoming ? require('./IncomingCallModal').default : null;
   const Active = currentCall.call_type === 'video'
     ? require('./VideoCallModal').default : require('./VoiceCallModal').default;
-  return <>{Incoming && <Incoming />}<Active /></>;
+  return <><Captions />{Incoming && <Incoming />}<Active /></>;
 }
