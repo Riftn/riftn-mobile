@@ -62,6 +62,8 @@ import { baseLang } from "../../hooks/useVoiceDub";
 import { defaultChainId } from "../../config/constants";
 import { refreshLinkPreview } from "../../libs/link-preview";
 import { firstExternalUrl } from "./LinkPreviewCard";
+import { REACTION_LIST, type PostReaction } from "../../libs/reactions";
+import { copyToClipboard } from "../../libs/clipboard.utils";
 
 export interface PostOptionsMenuProps {
   visible: boolean;
@@ -214,6 +216,25 @@ export interface PostOptionsMenuProps {
    * picture in picture, full screen, sound), as a video in the feed has them.
    */
   player?: PlayerRows;
+  /**
+   * What the post's action bar does, at the top of the menu: the ten
+   * reactions, then comment, repost, quote, tip and copy text. A hold on a
+   * post opens this menu, so everything you can do to a post is in one place.
+   */
+  quick?: QuickActions;
+}
+
+export interface QuickActions {
+  myReaction?: PostReaction | null;
+  onReact?: (reaction: PostReaction) => void;
+  onComment?: () => void;
+  reposted?: boolean;
+  onRepost?: () => void;
+  onUndoRepost?: () => void;
+  onQuote?: () => void;
+  onTip?: () => void;
+  /** The post's words, for Copy text. */
+  text?: string | null;
 }
 
 export interface PlayerRows {
@@ -263,6 +284,55 @@ const OptionRow: React.FC<OptionRowProps> = memo(
     </TouchableOpacity>
   )
 );
+
+/** The action bar's actions, at the top of the menu. Each one closes it. */
+const QuickBlock: React.FC<{ quick: QuickActions; onClose: () => void }> = memo(({ quick, onClose }) => {
+  const { t } = useTranslation();
+  const { isLight } = useAppTheme();
+  const run = (fn?: () => void) => () => { onClose(); if (fn) setTimeout(fn, 250); };
+  const words = (quick.text || "").trim();
+  return (
+    <View className="border-b border-white/10 pb-1 mb-1">
+      {!!quick.onReact && (
+        <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 16, paddingTop: 4, paddingBottom: 8 }}>
+          {REACTION_LIST.map((r) => {
+            const mine = quick.myReaction === r.key;
+            return (
+              <TouchableOpacity
+                key={r.key}
+                accessibilityRole="button"
+                accessibilityLabel={r.label}
+                accessibilityState={{ selected: mine }}
+                onPress={() => { onClose(); quick.onReact?.(r.key); }}
+                activeOpacity={0.6}
+                hitSlop={4}
+                style={{
+                  width: 32, height: 32, borderRadius: 16, alignItems: "center", justifyContent: "center",
+                  backgroundColor: mine ? (isLight ? "hsla(0,0%,0%,0.12)" : "hsla(0,0%,100%,0.18)") : "transparent",
+                }}
+              >
+                <Text style={{ fontSize: 21 }}>{r.emoji}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
+      )}
+      {!!quick.onComment && <OptionRow icon="MessageSquare" label={t("copy.44f5e3fbec57", { defaultValue: "Comment" })} onPress={run(quick.onComment)} />}
+      {quick.reposted
+        ? (!!quick.onUndoRepost && <OptionRow icon="Repeat2" filled label={t("feedCard.undoRepost")} onPress={run(quick.onUndoRepost)} />)
+        : (!!quick.onRepost && <OptionRow icon="Repeat2" label={t("feedCard.repost")} onPress={run(quick.onRepost)} />)}
+      {!!quick.onQuote && <OptionRow icon="Quote" label={t("copy.eb4cdebd82bf", { defaultValue: "Quote" })} onPress={run(quick.onQuote)} />}
+      {!!quick.onTip && <OptionRow icon="Gem" label={t("postOptions.sendTip")} onPress={run(quick.onTip)} />}
+      {!!words && (
+        <OptionRow
+          icon="Copy"
+          label={t("communities.chatPanel.copyText")}
+          onPress={() => { onClose(); copyToClipboard(words); toastSuccess(t("toasts.copied_to_clipboard")); }}
+        />
+      )}
+    </View>
+  );
+});
 
 /** Loop, speed, picture in picture, full screen and sound. The toggles keep the menu open. */
 const PlayerRowsBlock: React.FC<{ player: PlayerRows; onClose: () => void }> = memo(({ player, onClose }) => {
@@ -353,7 +423,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   onInfoPress,
   onAskAi,
   linkText,
-  hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,}) => {
+  hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,  quick,}) => {
   usePerfProbe("PostOptionsMenu");
   const user = useUser();
   const { requireAuth } = useAuthActions();
@@ -692,6 +762,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
         {/* Options list */}
         <View className="pb-6">
           {player ? <PlayerRowsBlock player={player} onClose={onClose} /> : null}
+          {quick ? <QuickBlock quick={quick} onClose={onClose} /> : null}
           {/* Bookmark / pin / post info — first, as in the web drawer. A host
               that also shows these on its action bar still passes them: the
               menu is where people look for an action by name. */}
