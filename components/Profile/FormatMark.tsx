@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Circle, G, Path, Rect } from "react-native-svg";
 import { useTranslation } from "react-i18next";
-import { useAppTheme } from "../../context/ThemeContext";
 import { SpotifyLogo } from "../common/SpotifyCard";
 import type { GridCardKind } from "../../libs/gridCard";
 
@@ -12,14 +11,12 @@ import type { GridCardKind } from "../../libs/gridCard";
  * One small custom icon per post format (photo, video, short, comic, song,
  * stage, poll...), in the same top-right spot on every profile grid tile. It
  * replaces the old word pills ("Comic", "Short", "Earn") and the stock icons
- * in glass circles. Same glyphs as the web grid
+ * in glass circles. The glyph sits bare, with a soft outline over pictures.
+ * Same glyphs as the web grid
  * (components/app/profile/FormatMark).
  */
 
 export type FormatKind = GridCardKind | "photo" | "photos" | "video" | "replay" | "audio" | "article" | "text";
-
-/** How the mark sits on a tile: a = bare glyph, b = glass stamp, c = corner fold. */
-export const FORMAT_LOOK: "a" | "b" | "c" = "b";
 
 const LIVE_RED = "#FF2D55";
 
@@ -256,15 +253,16 @@ const GLYPHS: Record<FormatKind, { wash?: React.ReactNode; lines: React.ReactNod
   spotify: { lines: null },
 };
 
+/** Screen-reader name per format, from keys the app already has. */
 const LABEL: Record<FormatKind, [string, string]> = {
-  photo: ["profile.format.photo", "Photo"],
-  photos: ["profile.multiPhoto", "Photos"],
-  video: ["profile.tabs.videos", "Video"],
+  photo: ["dm.photo", "Photo"],
+  photos: ["profile.tabImages", "Images"],
+  video: ["dm.video", "Video"],
   short: ["profile.gridCard.short", "Short"],
-  replay: ["profile.tabs.live", "Live"],
-  audio: ["profile.tabs.songs", "Audio"],
-  article: ["profile.tabs.articles", "Article"],
-  text: ["profile.tabs.posts", "Post"],
+  replay: ["profile.tabLive", "Live"],
+  audio: ["profile.tabAudio", "Audio"],
+  article: ["profile.articleShort", "Article"],
+  text: ["profile.post", "Post"],
   comic: ["profile.gridCard.comic", "Comic"],
   earn: ["profile.gridCard.earn", "Earn"],
   stage: ["profile.gridCard.stage", "Stage"],
@@ -280,17 +278,21 @@ const LABEL: Record<FormatKind, [string, string]> = {
   bounty: ["profile.gridCard.bounty", "Bounty"],
   app: ["profile.gridCard.app", "App"],
   proposal: ["profile.gridCard.proposal", "Proposal"],
-  spotify: ["profile.gridCard.spotify", "Spotify"],
+  spotify: ["", "Spotify"],
 };
 
 /** Just the glyph, drawn at `size` in `color`; `wash` is the duotone fill strength. */
-export function FormatGlyph({ kind, size, color, wash = 0.32, strokeWidth = 1.8 }: { kind: FormatKind; size: number; color: string; wash?: number; strokeWidth?: number }) {
+export function FormatGlyph({ kind, size, color, wash = 0, strokeWidth = 1.8, halo }: { kind: FormatKind; size: number; color: string; wash?: number; strokeWidth?: number; halo?: string }) {
   if (kind === "spotify") return <SpotifyLogo size={size} />;
   const glyph = GLYPHS[kind];
   return (
-    <Svg width={size} height={size} viewBox="0 0 24 24" color={color} fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">
-      {glyph.wash && wash > 0 ? <G fill={color} stroke="none" opacity={wash}>{glyph.wash}</G> : null}
-      {glyph.lines}
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round">
+      {/* A soft dark outline under the lines keeps a white glyph readable on bright pictures (works on Android, where view shadows don't). */}
+      {halo ? <G color={halo} stroke={halo} strokeWidth={strokeWidth + 2.2} opacity={0.45}>{glyph.lines}</G> : null}
+      <G color={color} stroke={color} strokeWidth={strokeWidth}>
+        {glyph.wash && wash > 0 ? <G fill={color} stroke="none" opacity={wash}>{glyph.wash}</G> : null}
+        {glyph.lines}
+      </G>
     </Svg>
   );
 }
@@ -305,82 +307,17 @@ export interface FormatInk {
 /** The mark on a tile, named for screen readers. `live` adds the red dot. */
 export function FormatMark({ kind, live, poster }: { kind: FormatKind; live?: boolean; poster?: FormatInk }) {
   const { t } = useTranslation();
-  const { theme, isLight } = useAppTheme();
-  const isOsaka = theme === "osaka";
   const [key, label] = LABEL[kind];
-  const name = live ? t("profile.gridCard.liveStage", "Live stage") : t(key, label);
-  const dot = live ? <View style={styles.dot} /> : null;
-
-  if (FORMAT_LOOK === "c") {
-    const solid = isOsaka ? "#FF6FB5" : isLight ? "#0D0D12" : "#FFFFFF";
-    const solidInk = isOsaka ? "#1A0C16" : isLight ? "#FFFFFF" : "#000000";
-    return (
-      <View style={styles.fold} pointerEvents="none" accessible accessibilityRole="image" accessibilityLabel={name}>
-        <Svg width={36} height={36} viewBox="0 0 36 36" style={StyleSheet.absoluteFill}>
-          <Path d="M0 0L36 36H4a4 4 0 0 1-4-4z" fill={solid} />
-        </Svg>
-        <View style={styles.foldGlyph}><FormatGlyph kind={kind} size={12} color={solidInk} wash={0.22} strokeWidth={2.1} /></View>
-        {dot}
-      </View>
-    );
-  }
-
-  if (FORMAT_LOOK === "a") {
-    return (
-      <View style={[styles.bare, !poster && styles.bareShadow]} pointerEvents="none" accessible accessibilityRole="image" accessibilityLabel={name}>
-        <FormatGlyph kind={kind} size={16} color={poster ? poster.ink : "#FFFFFF"} wash={0} />
-        {dot}
-      </View>
-    );
-  }
-
+  const name = live ? t("profile.gridCard.liveStage", "Live stage") : key ? t(key, label) : label;
   return (
-    <View
-      style={[
-        styles.stamp,
-        poster ? { backgroundColor: poster.glass, borderColor: poster.line } : null,
-        isOsaka && { borderColor: "rgba(255,111,181,0.5)" },
-      ]}
-      pointerEvents="none"
-      accessible
-      accessibilityRole="image"
-      accessibilityLabel={name}
-    >
-      <FormatGlyph kind={kind} size={13} color={poster ? poster.ink : isOsaka ? "#FFD1E8" : "#FFFFFF"} />
-      {dot}
+    <View style={styles.mark} pointerEvents="none" accessible accessibilityRole="image" accessibilityLabel={name}>
+      <FormatGlyph kind={kind} size={16} color={poster ? poster.ink : "#FFFFFF"} halo={poster ? undefined : "#000000"} />
+      {live ? <View style={styles.dot} /> : null}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  stamp: {
-    position: "absolute",
-    top: 6,
-    right: 6,
-    zIndex: 2,
-    width: 23,
-    height: 23,
-    borderRadius: 7,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.32)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.3)",
-  },
-  bare: { position: "absolute", top: 5, right: 5, zIndex: 2, width: 20, height: 20, alignItems: "center", justifyContent: "center" },
-  bareShadow: { shadowColor: "#000", shadowOpacity: 0.6, shadowRadius: 1.5, shadowOffset: { width: 0, height: 1 } },
-  fold: {
-    position: "absolute",
-    top: 0,
-    right: 0,
-    zIndex: 2,
-    width: 36,
-    height: 36,
-    shadowColor: "#000",
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
-    shadowOffset: { width: -1.5, height: 1.5 },
-  },
-  foldGlyph: { position: "absolute", left: 4, bottom: 4 },
-  dot: { position: "absolute", top: -2, right: -2, width: 7, height: 7, borderRadius: 4, backgroundColor: LIVE_RED, borderWidth: 1, borderColor: "rgba(0,0,0,0.35)" },
+  mark: { position: "absolute", top: 5, right: 5, zIndex: 2, width: 20, height: 20, alignItems: "center", justifyContent: "center" },
+  dot: { position: "absolute", top: -1, right: -1, width: 7, height: 7, borderRadius: 4, backgroundColor: LIVE_RED, borderWidth: 1, borderColor: "rgba(0,0,0,0.35)" },
 });
