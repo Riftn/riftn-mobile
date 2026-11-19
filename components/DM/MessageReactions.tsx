@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import { View, Text, Pressable, ScrollView } from "react-native";
 import Icon from "../ui/Icon";
+import { ReactionGlyph, RollingCount } from "../ChatReactions/ReactionArrival";
 import { useTranslation } from "react-i18next";
 
 /** Same quick row the web DM, public and community chats use. */
@@ -69,11 +70,12 @@ export const ReactionStrip: React.FC<{
 
 /** Reaction chips under a bubble. Tapping one toggles your own. */
 export const ReactionChips: React.FC<{
+  messageId: string;
   reactions?: Record<string, string[]>;
   myAddress: string;
   isMine: boolean;
   onToggle: (emoji: string) => void;
-}> = memo(({ reactions, myAddress, isMine, onToggle }) => {
+}> = memo(({ messageId, reactions, myAddress, isMine, onToggle }) => {
   const entries = Object.entries(reactions || {}).filter(([, who]) => who?.length > 0);
   if (!entries.length) return null;
   return (
@@ -96,9 +98,9 @@ export const ReactionChips: React.FC<{
                 : "bg-theme-neutrals-800 border-theme-neutrals-700"
             }`}
           >
-            <Text style={{ fontSize: 14 }}>{emoji}</Text>
+            <ReactionGlyph messageId={messageId} emoji={emoji} addresses={who} me={myAddress} size={14} />
             {who.length > 1 && (
-              <Text className="text-[11px] text-theme-neutrals-300">{who.length}</Text>
+              <RollingCount value={who.length} className="text-[11px] text-theme-neutrals-300" />
             )}
           </Pressable>
         );

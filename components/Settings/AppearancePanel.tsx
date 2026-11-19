@@ -41,6 +41,7 @@ import ThemeColorPicker from './ThemeColorPicker';
 import { hasThemeColor } from '../../theme/themeColor';
 import { useAppPrefs, setAppPref } from '../../hooks/useAppPrefs';
 import { isChatDeleteChoice } from '../../libs/chatDeleteChoice';
+import { isChatReactionStyle } from '../../libs/chatReactionStyle';
 import { POST_LANDING_STYLES, isPostLandingStyle, type PostLandingStyle } from '../../libs/postLandingStyle';
 import { MENU_LAYOUTS, MENU_LAYOUT_PREF_KEY, isMenuLayout, type MenuLayout } from '../../libs/menuLayout';
 import { saveAccountPrefs } from '../../libs/feed-interests';
@@ -99,6 +100,7 @@ const AppearancePanel: React.FC = () => {
   const [feedModalVisible, setFeedModalVisible] = useState(false);
   const [landingModalVisible, setLandingModalVisible] = useState(false);
   const [deleteChoiceVisible, setDeleteChoiceVisible] = useState(false);
+  const [reactionStyleVisible, setReactionStyleVisible] = useState(false);
   const [chatTextModalVisible, setChatTextModalVisible] = useState(false);
   const [menuLayoutModalVisible, setMenuLayoutModalVisible] = useState(false);
   const user = useUser() as any;
@@ -120,6 +122,12 @@ const AppearancePanel: React.FC = () => {
     { value: 'ask', label: t('settings.chatDeleteAsk', 'Ask every time') },
     { value: 'me', label: t('settings.chatDeleteMe', 'Delete for me'), description: t('settings.chatDeleteMeDesc', 'Gone from your chat, others still see it') },
     { value: 'everyone', label: t('settings.chatDeleteEveryone', 'Delete for everyone'), description: t('settings.chatDeleteEveryoneDesc', 'When you can. Someone else’s message in a group still goes for you only') },
+  ];
+  const reactionStyleOptions = [
+    { value: 'fly', label: t('settings.chatReactionFly', 'Fly in'), description: t('settings.chatReactionFlyDesc', 'The emoji flies onto the message') },
+    { value: 'pop', label: t('settings.chatReactionPop', 'Pop'), description: t('settings.chatReactionPopDesc', 'It springs in place, small and calm') },
+    { value: 'burst', label: t('settings.chatReactionBurst', 'Burst'), description: t('settings.chatReactionBurstDesc', 'Yours blooms big with sparks') },
+    { value: 'off', label: t('settings.chatReactionOff', 'Off'), description: t('settings.chatReactionOffDesc', 'No motion, the number just changes') },
   ];
   const landingLabel = (style: PostLandingStyle) => ({
     ghost: t('settings.postLandingGhost', 'Ghost slot'),
@@ -306,6 +314,17 @@ const AppearancePanel: React.FC = () => {
           />
         </SettingsAnchor>
         <Divider />
+        {/* How a reaction moves when it lands in a chat (components/ChatReactions). Same choice as web. */}
+        <SettingsAnchor id="chat-reaction-style">
+          <SettingsLinkRow
+            icon="SmilePlus"
+            label={t('settings.chatReactionStyle', 'Reactions in chat')}
+            description={t('settings.chatReactionStyleDesc', 'How a reaction moves when it lands in a chat, yours or someone else’s.')}
+            value={reactionStyleOptions.find((o) => o.value === prefs.chatReactionStyle)?.label}
+            onPress={() => setReactionStyleVisible(true)}
+          />
+        </SettingsAnchor>
+        <Divider />
         {/* Chat list as glass cards, or a plain list with lines (components/DM/ChatCard). */}
         <SettingsAnchor id="chat-cards">
           <SettingsToggleRow
@@ -414,6 +433,17 @@ const AppearancePanel: React.FC = () => {
         options={deleteChoiceOptions}
         onSelect={(value) => {
           if (isChatDeleteChoice(value)) setAppPref('chatDeleteChoice', value);
+        }}
+      />
+
+      <SettingsOptionModal
+        visible={reactionStyleVisible}
+        onClose={() => setReactionStyleVisible(false)}
+        title={t('settings.chatReactionStyle', 'Reactions in chat')}
+        value={prefs.chatReactionStyle}
+        options={reactionStyleOptions}
+        onSelect={(value) => {
+          if (isChatReactionStyle(value)) setAppPref('chatReactionStyle', value);
         }}
       />
 

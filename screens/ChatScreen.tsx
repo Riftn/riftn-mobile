@@ -1,3 +1,4 @@
+import { ReactionArrivalScope } from "../components/ChatReactions/ReactionArrival";
 import { usePerfProbe } from "../libs/perfTrace";
 import MessageSearch from "../components/DM/MessageSearch";
 import { setLockedMediaPayer } from "../libs/dmLocked";
@@ -2350,6 +2351,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               </View>
             </TouchableWithoutFeedback>
           ) : (
+            <ReactionArrivalScope style={{ flex: 1 }}>
             <FlatList
               ref={listRef}
               inverted
@@ -2383,6 +2385,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               ListFooterComponent={listFooter}
               showsVerticalScrollIndicator={false}
             />
+            </ReactionArrivalScope>
           )}
 
           {/* Jump capsule: up to the unread marker until it has been on

@@ -4,6 +4,7 @@ import { DhbCoin } from "../common/DhbCoin";
 import React, { memo, useCallback, useEffect, useMemo, useRef } from "react";
 import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSpring, withTiming } from "react-native-reanimated";
 import { View, Text, FlatList, Pressable, TouchableOpacity } from "react-native";
+import { ReactionArrivalScope, ReactionGlyph, RollingCount, useReactionHost } from "../ChatReactions/ReactionArrival";
 import { Image } from "expo-image";
 import { StreamActivityType } from "../../services/enums/livestream.enum";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
@@ -142,9 +143,11 @@ interface ChatBubbleProps {
   onHold?: (activity: ChatActivity, translate?: TranslateToggle, layout?: ChatHoldLayout) => void;
   /** Set on the reader's own lines only. */
   onShowReactors?: (messageId: string) => void;
+  /** The reader's wallet, so their own reaction gets the bigger moment. */
+  me?: string;
 }
 
-const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, onShowReactors }) => {
+const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, onShowReactors, me }) => {
   const { t } = useI18n();
   const displayName = resolveDisplayName(a);
   const avatarUrl = resolveAvatarUrl(a);
@@ -185,6 +188,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
     () => Object.entries(a.reactions ?? {}).filter(([, who]) => who?.length > 0),
     [a.reactions],
   );
+  useReactionHost(a.id);
 
   switch (a.status) {
     case StreamActivityType.MESSAGE:
@@ -246,8 +250,8 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
                   className="flex-row items-center rounded-full px-1.5 py-0.5"
                   style={{ backgroundColor: "rgba(0,0,0,0.35)" }}
                 >
-                  <Text style={{ fontSize: 12 }}>{emoji}</Text>
-                  {who.length > 1 ? <Text style={{ ...TEXT_SHADOW, color: "#fff", fontSize: 11, marginLeft: 3 }}>{who.length}</Text> : null}
+                  {a.id ? <ReactionGlyph messageId={a.id} emoji={emoji} addresses={who} me={me} size={12} /> : <Text style={{ fontSize: 12 }}>{emoji}</Text>}
+                  {who.length > 1 ? <View style={{ marginLeft: 3 }}><RollingCount value={who.length} style={{ ...TEXT_SHADOW, color: "#fff", fontSize: 11 }} /></View> : null}
                 </Pressable>
               ))}
             </View>
@@ -414,7 +418,7 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
   const renderItem = useCallback(
     ({ item, index }: { item: ChatActivity; index: number }) => {
       const mine = !!myAddress && String(item.user?.address || item.address || "").toLowerCase() === myAddress;
-      const bubble = <ChatBubble a={item} onUserPress={handleUserPress} onHold={onHold} onShowReactors={mine ? onShowReactors : undefined} />;
+      const bubble = <ChatBubble a={item} onUserPress={handleUserPress} onHold={onHold} onShowReactors={mine ? onShowReactors : undefined} me={myAddress} />;
       const key = keyExtractor(item, index);
       if (seen.current!.has(key)) return bubble;
       return <LandIn glow={item.status === StreamActivityType.TIP}>{bubble}</LandIn>;
@@ -428,7 +432,7 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
        only ever covering more of the stream with nothing in it. */
     /* Shrinks rather than pushing the reply box off the bottom when the
        keyboard lifts the bar and the screen runs out of room. */
-    <View style={{ height: 220, flexShrink: 1, minHeight: 0 }} pointerEvents="box-none">
+    <ReactionArrivalScope style={{ height: 220, flexShrink: 1, minHeight: 0 }} pointerEvents="box-none">
       <FlatList
         ref={listRef}
         data={reversed}
@@ -444,7 +448,7 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
         scrollEnabled={!holding}
         showsVerticalScrollIndicator={false}
       />
-    </View>
+    </ReactionArrivalScope>
   );
 };
 

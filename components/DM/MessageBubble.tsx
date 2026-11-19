@@ -1,6 +1,7 @@
 import { usePerfProbe } from "../../libs/perfTrace";
 import { outsideImage } from "../../libs/outside-image";
 import { ReactionChips } from "./MessageReactions";
+import { useReactionHost } from "../ChatReactions/ReactionArrival";
 import CallNoteCard from "./CallNoteCard";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 import { useTranslation as _useCopy } from 'react-i18next';
@@ -345,6 +346,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   const containerRef = useRef<View>(null);
 
   const isTipMsg = (message.msgType as DmMsgType) === "tip";
+  useReactionHost(message._id);
 
   // Highlight animation for scroll-to-reply
   const highlightOpacity = useSharedValue(0);
@@ -1223,6 +1225,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
       </GestureDetector>
       {onToggleReaction && (
         <ReactionChips
+          messageId={message._id}
           reactions={message.reactions}
           myAddress={myAddress}
           isMine={isMine}

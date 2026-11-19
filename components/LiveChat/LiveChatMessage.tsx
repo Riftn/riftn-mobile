@@ -1,3 +1,4 @@
+import { ReactionGlyph, RollingCount, useReactionHost } from "../ChatReactions/ReactionArrival";
 import { useChatTextScale } from "../../hooks/useAppPrefs";
 import * as Haptics from "expo-haptics";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
@@ -203,6 +204,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
     });
   }, [onLongPress, message, showTranslate, bodyText, isTranslated, handleTranslate, handleShowOriginal]);
 
+  useReactionHost(message._id);
   // Reactions display
   const reactionEntries = useMemo(() => {
     if (!message.reactions) return [];
@@ -417,8 +419,8 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
                   addrs.includes(myAddress) ? "bg-blue-500/20 border border-blue-500/30" : "bg-white/5"
                 }`}
               >
-                <InlineEmoji value={emoji} size={14} />
-                <Text className="text-white/50 text-[10px] ml-1">{addrs.length}</Text>
+                <ReactionGlyph messageId={message._id} emoji={emoji} addresses={addrs} me={myAddress} size={14} still={<InlineEmoji value={emoji} size={14} />} />
+                <RollingCount value={addrs.length} className="text-white/50 text-[10px] ml-1" />
               </TouchableOpacity>
             ))}
           </View>
