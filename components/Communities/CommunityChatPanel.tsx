@@ -79,7 +79,7 @@ import { useCommunityJoinLines } from "../../hooks/useCommunityJoinLines";
 import type { MentionUser } from "../../services/mention.service";
 import { ChatReactorsSheet } from "./ChatReactorsSheet";
 import TranslateButton from "../ui/TranslateButton";
-import { canTranslateDm, getDmTranslation, shouldAutoTranslateDm, toggleDmTranslation, useDmTranslation } from "../../libs/dm-translation-store";
+import { canTranslateDm, getDmTranslation, shouldAutoTranslateDm, toggleDmTranslation, translateDmAndAbove, useDmTranslation } from "../../libs/dm-translation-store";
 import { getUserLanguage } from "../../services/translation.service";
 import GifPicker from "../DM/GifPicker";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
@@ -1372,8 +1372,17 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
                     onPress={() => {
                       const id = sheetFor.id;
                       const text = chatBodyText(sheetFor);
+                      const shown = getDmTranslation(id)?.status === "shown";
+                      const at = sheetFor.created_at;
                       setSheetFor(null);
-                      void toggleDmTranslation(id, text);
+                      if (shown) {
+                        void toggleDmTranslation(id, text);
+                        return;
+                      }
+                      // Translate also translates everything other people wrote above it.
+                      void translateDmAndAbove(id, text, visibleMessages
+                        .filter((m) => m.created_at <= at && (!myAddress || m.wallet_address?.toLowerCase() !== myAddress))
+                        .map((m) => ({ id: m.id, content: chatBodyText(m), at: new Date(m.created_at).getTime() })));
                     }}
                   >
                     <Icon
