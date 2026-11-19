@@ -121,6 +121,18 @@ export function needsReplyPostAuthor(post?: UserReplyPost | null): boolean {
 
 const replyPostRequests = new Map<number, Promise<UserReplyPost | null>>();
 
+/** Posts already fetched, readable without waiting. */
+const replyPostsLoaded = new Map<number, UserReplyPost>();
+
+/**
+ * The post behind a reply if it has already been fetched. A card that scrolls
+ * back into view starts with it, instead of a skeleton that then grows to the
+ * full card and shoves the list.
+ */
+export function peekReplyPost(tokenId: number): UserReplyPost | undefined {
+  return replyPostsLoaded.get(tokenId);
+}
+
 /**
  * Fetch the full post behind a reply once per tokenId — every reply on the
  * same post shares the request. Resolves null when the post cannot be read
@@ -133,7 +145,9 @@ export function loadReplyPost(tokenId: number): Promise<UserReplyPost | null> {
       .then((res) => {
         const nft = res?.result;
         if (!nft) throw new Error("no post");
-        return nftToReplyPost(nft as Record<string, any>, tokenId);
+        const post = nftToReplyPost(nft as Record<string, any>, tokenId);
+        replyPostsLoaded.set(tokenId, post);
+        return post;
       })
       .catch(() => {
         replyPostRequests.delete(tokenId);
