@@ -100,7 +100,7 @@ const AppearancePanel: React.FC = () => {
   const menuLayoutLabel = (layout: MenuLayout) => ({
     tabs: t('settings.menuLayoutTabs', 'Tabs'),
     sections: t('settings.menuLayoutSections', 'Sections'),
-    folders: t('settings.menuLayoutFolders', 'Folders'),
+    folders: t('settings.menuLayoutFolders'),
   })[layout];
   const menuLayoutDescription = (layout: MenuLayout) => ({
     tabs: t('settings.menuLayoutTabsDesc', 'One group at a time, with big icons'),
