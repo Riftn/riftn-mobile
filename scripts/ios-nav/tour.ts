@@ -1957,10 +1957,83 @@ async function runSpeed(): Promise<void> {
   console.error("[perf-tour] done");
 }
 
+/**
+ * Reactions landing in public chat: opens the public chat and plays scripted
+ * reaction updates through the chat's own socket handler (the same path a
+ * real reaction takes), on the newest lines. Filmed by the harness; the
+ * style comes from dehub.perfTour.reactStyle (fly when unset).
+ */
+const reactionHandlers: Array<(p: { messageId: string; reactions: Record<string, string[]> }) => void> = [];
+try {
+  const SocketCls = (require("socket.io-client") as { Socket: { prototype: { on: (ev: string, fn: unknown) => unknown } } }).Socket;
+  const origOn = SocketCls.prototype.on;
+  SocketCls.prototype.on = function (this: unknown, ev: string, fn: unknown) {
+    if (ev === "livechat:reactionUpdated" && typeof fn === "function") reactionHandlers.push(fn as never);
+    return origOn.call(this, ev, fn);
+  };
+} catch (error) {
+  console.error(`[perf-tour] socket patch failed ${String(error)}`);
+}
+
+async function runReactions(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "reactions" };
+  const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
+  const style = (await AsyncStorage.getItem("dehub.perfTour.reactStyle")) || "fly";
+  prefs.setAppPref("chatReactionStyle", style as never);
+  extra.style = style;
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(8000);
+  nav.navigate(ScreenNames.LiveChat);
+  await sleep(9000);
+  const { getLiveChatMessages } = require("../../services/livechat.service") as typeof import("../../services/livechat.service");
+  const page = await getLiveChatMessages({ limit: 20 });
+  const rows = [...(page?.messages ?? [])].sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+  const lines = rows.slice(-3);
+  extra.handlers = reactionHandlers.length;
+  extra.lines = lines.length;
+  await shot("reactions-0-open");
+  const fake = (n: number) => `0x${String(n).repeat(40).slice(0, 40)}`;
+  const state = new Map<string, Record<string, string[]>>(lines.map((m: any) => [m._id, { ...(m.reactions ?? {}) }]));
+  const add = (line: number, emoji: string, who: string) => {
+    const m: any = lines[line];
+    if (!m) return;
+    const cur = state.get(m._id) ?? {};
+    const next = { ...cur, [emoji]: [...(cur[emoji] ?? []), who] };
+    state.set(m._id, next);
+    for (const h of reactionHandlers) h({ messageId: m._id, reactions: next });
+  };
+  const beats: Array<[number, number, string, string]> = [
+    [800, 2, "🔥", fake(1)],
+    [1800, 1, "❤️", fake(2)],
+    [3000, 2, "😂", fake(3)],
+    [3350, 2, "😂", fake(4)],
+    [3700, 2, "😂", fake(5)],
+    [5000, 0, "🚀", fake(6)],
+    [6200, 1, "🔥", fake(7)],
+  ];
+  const t0 = Date.now();
+  for (const [at, line, emoji, who] of beats) {
+    const wait = t0 + at - Date.now();
+    if (wait > 0) await sleep(wait);
+    add(line, emoji, who);
+    await sleep(380);
+    await shot(`reactions-${at}-landing`);
+  }
+  await sleep(2500);
+  await shot("reactions-9-after");
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] reactions done: style ${style}, handlers ${reactionHandlers.length}, lines ${lines.length}`);
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1979,6 +2052,7 @@ void (async () => {
     else if (mode === "menu") await runMenu();
     else if (mode === "speed") await runSpeed();
     else if (mode === "livetheme") await runLiveTheme();
+    else if (mode === "reactions") await runReactions();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);
