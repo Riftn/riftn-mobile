@@ -1,0 +1,29 @@
+name: APNs key handoff
+
+# One-off: encrypts the app's Apple push key to the server's handoff key so the
+# server can send VoIP pushes for incoming calls. Prints only ciphertext.
+# Removed once done.
+
+on:
+  push:
+    branches: [claude/project-thread-srrk43]
+    paths:
+      - 'apns-handoff/**'
+      - '.github/workflows/apns-key-handoff.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  encrypt:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Encrypt the push key to the server
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: node apns-handoff/encrypt.mjs
