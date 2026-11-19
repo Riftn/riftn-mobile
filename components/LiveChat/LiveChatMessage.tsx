@@ -26,6 +26,7 @@ import { replyQuoteText } from "../../libs/livechat-cache";
 import type { LiveChatMessageData, LiveChatUser } from "../../services/livechat.service";
 import type { MessageLayout } from "./LiveChatContextMenu";
 import { FRAME_INSET } from "../ui/HoldSheet";
+import { useAppTheme } from "../../context/ThemeContext";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
 import ImageViewerModal from "../common/ImageViewerModal";
 import { InlineEmoji, expandEmojiTokens } from "../common/EmojiText";
@@ -106,6 +107,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   // Both sides can be empty — a signed-out reader has no address, and a
   // message can arrive with no author — and empty must not match empty.
   const isMe = !!myAddress && message.senderAddress?.toLowerCase() === myAddress;
+  const { isLight } = useAppTheme();
   const isSystem = message.messageType === "system";
   // The @assistant bot posts as a real account, so its reply arrives here like
   // any other message — it just gets an AI tag instead of a holder badge.
@@ -229,6 +231,16 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
       className="flex-row px-4 py-2"
       style={{ opacity: message.isDeleted ? 0.4 : 1 }}
     >
+      {/* Your own lines sit on a soft filled card, as in group chats. */}
+      {isMe && !replying ? (
+        <View
+          pointerEvents="none"
+          style={{
+            position: "absolute", top: 2, bottom: 2, left: FRAME_INSET, right: FRAME_INSET, borderRadius: 18,
+            backgroundColor: isLight ? "hsla(240,6%,10%,0.05)" : "hsla(0,0%,100%,0.08)",
+          }}
+        />
+      ) : null}
       {/* The line being replied to keeps the glowing card it had in the hold sheet. */}
       {replying ? (
         <View
