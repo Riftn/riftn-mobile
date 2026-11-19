@@ -225,6 +225,15 @@ run() {
             # scrubber, slow enough for the tour to picture it half way.
             IFS=: read -r _ _ scrub_y <<< "$touch"
             idb ui swipe --udid "$UDID" --duration 6 70 "$scrub_y" 310 "$scrub_y" >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+          hswipe:*)
+            # "hswipe:<label>": a finger dragged right to left across the middle
+            # of the screen, slow enough to picture half way (<name>-hswipe-mid).
+            idb ui swipe --udid "$UDID" --duration 1.5 330 300 70 300 >/dev/null 2>&1 &
+            hswipe_pid=$!
+            sleep 0.8
+            mkdir -p "$OUT/pages"
+            xcrun simctl io "$UDID" screenshot --type=jpeg "$OUT/pages/$name-hswipe-mid.jpg" >/dev/null 2>&1 || true
+            wait "$hswipe_pid" || echo "$name: idb swipe failed" ;;
           drag:*)
             # A finger pulling the page down, above where a keyboard sits.
             idb ui swipe --udid "$UDID" --duration 0.5 200 250 200 400 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;

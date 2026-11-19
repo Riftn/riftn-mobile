@@ -47,9 +47,13 @@ jest.mock('react-native-gesture-handler', () => ({
   GestureDetector: ({ children }: { children: React.ReactNode }) => children,
   Gesture: { Pan: () => {
     const gesture: Record<string, unknown> = {};
-    ['activeOffsetY', 'failOffsetX'].forEach(key => { gesture[key] = () => gesture; });
+    // Only the sheet's own drag (the one with a vertical offset) is recorded;
+    // the menu's sideways tab swipe is another Pan.
+    let sheet = false;
+    gesture.activeOffsetY = () => { sheet = true; return gesture; };
+    ['failOffsetX', 'activeOffsetX', 'failOffsetY', 'enabled'].forEach(key => { gesture[key] = () => gesture; });
     ['onStart', 'onUpdate', 'onEnd', 'onFinalize'].forEach(key => {
-      gesture[key] = (fn: (e: Record<string, number>) => void) => { mockHandlers[key] = fn; return gesture; };
+      gesture[key] = (fn: (e: Record<string, number>) => void) => { if (sheet) mockHandlers[key] = fn; return gesture; };
     });
     return gesture;
   } },
@@ -63,6 +67,7 @@ jest.mock('react-native-reanimated', () => ({
   __esModule: true, default: { View: 'View', ScrollView: 'ScrollView' },
   useSharedValue: (value: unknown) => ({ value }),
   useAnimatedStyle: (factory: () => unknown) => factory(),
+  useAnimatedReaction: () => undefined,
   withTiming: (value: unknown) => value, runOnJS: (fn: unknown) => fn,
   Easing: { bezier: jest.fn() }, interpolate: jest.fn(() => 0),
 }));
