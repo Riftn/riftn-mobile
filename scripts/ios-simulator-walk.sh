@@ -34,8 +34,16 @@ running() {
   xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$BUNDLE"
 }
 
+# The iPhone Duo has two screens, and a plain screenshot can fail there: then
+# try each display by name, and keep the errors so a missing picture is explained.
 shot() {
-  xcrun simctl io "$UDID" screenshot "$OUT/shots/$1.png" >/dev/null 2>&1 || true
+  local f="$OUT/shots/$1.png" d
+  xcrun simctl io "$UDID" screenshot "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" && return 0
+  for d in internal inner main external outer; do
+    xcrun simctl io "$UDID" screenshot --display="$d" "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" && return 0
+  done
+  screencapture -x -o -l"$(osascript -e 'tell application "Simulator" to id of window 1' 2>/dev/null)" "$f" 2>>"$OUT/logs/shot-errors.txt" \
+    || screencapture -x "$f" 2>>"$OUT/logs/shot-errors.txt" || true
 }
 
 launch() {
@@ -46,7 +54,7 @@ launch() {
 # When the prompt's blue Open button is on screen, tap it (needs idb).
 confirm_open() {
   command -v idb >/dev/null 2>&1 || return 0
-  if [ "${DEVICE:-iphone}" = "ipad" ]; then
+  if [ "${DEVICE:-iphone}" != "iphone" ]; then
     confirm_open_anywhere
     return 0
   fi
@@ -247,7 +255,7 @@ for t in ${THEMES:-dark light syslight}; do
   esac
 done
 
-if [ "${DEVICE:-iphone}" = "ipad" ]; then
+if [ "${DEVICE:-iphone}" != "iphone" ]; then
   if turn_sideways; then
     walk dark system side-dark sideways
   else

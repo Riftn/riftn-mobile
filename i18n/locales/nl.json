@@ -8257,7 +8257,19 @@
     "declined": "Oproep geweigerd",
     "noAnswer": "Geen antwoord",
     "missed": "Gemist gesprek",
-    "callBack": "Terugbellen"
+    "callBack": "Terugbellen",
+    "group": "Groep",
+    "groupVoiceCall": "Groepsspraakoproep",
+    "groupVideoCall": "Groepsvideogesprek",
+    "callingGroup": "Groep wordt gebeld...",
+    "isCalling": "{{name}} belt",
+    "leave": "Verlaten",
+    "joinCall": "Deelnemen",
+    "startGroupVoice": "Groepsspraakoproep starten",
+    "startGroupVideo": "Groepsvideogesprek starten",
+    "subtitles": "Ondertiteling",
+    "subtitleMyVoice": "Mijn stem ondertitelen",
+    "you": "Jij"
   },
   "badgeAscension": {
     "reached": "Je hebt {{tier}} bereikt",

@@ -291,6 +291,9 @@ interface TileProps {
   onPress: () => void;
 }
 
+/** Tile artwork URLs that have been on screen at least once. */
+const shownTileArt = new Set<string>();
+
 const Tile = memo<TileProps>(({ big = false, label, labelSize, icon, iconUrl, iconColor, width, active, badgeCount = 0, disabled, soonLabel, skin, hud, square, lifted, onPress }) => {
   const glyphColor = iconColor ?? (hud
     ? skin?.glow ?? "#22D3EE"
@@ -299,8 +302,17 @@ const Tile = memo<TileProps>(({ big = false, label, labelSize, icon, iconUrl, ic
   const [artFailed, setArtFailed] = useState(false);
   // The glyph stays until the artwork reports it is on screen: on some Android
   // phones the download came back blank without an error, leaving empty tiles.
-  const [artShown, setArtShown] = useState(false);
-  useEffect(() => { setArtFailed(false); setArtShown(false); }, [iconUrl]);
+  // Artwork already drawn once this session comes straight back (memory cache)
+  // when a tab change remounts the tile: no glyph swap, no fade, no flicker.
+  const [artShown, setArtShown] = useState(() => !!iconUrl && shownTileArt.has(iconUrl));
+  const lastIconUrl = useRef(iconUrl);
+  useEffect(() => {
+    if (lastIconUrl.current === iconUrl) return;
+    lastIconUrl.current = iconUrl;
+    setArtFailed(false);
+    setArtShown(!!iconUrl && shownTileArt.has(iconUrl));
+  }, [iconUrl]);
+  const artWasShown = !!iconUrl && shownTileArt.has(iconUrl);
   return (
     <TouchableOpacity
       accessibilityRole="button"
@@ -337,9 +349,9 @@ const Tile = memo<TileProps>(({ big = false, label, labelSize, icon, iconUrl, ic
             source={{ uri: iconUrl }}
             style={[styles.tileImage, big && styles.tileIconBig, !artShown && StyleSheet.absoluteFill]}
             contentFit="contain"
-            cachePolicy="disk"
-            transition={120}
-            onDisplay={() => setArtShown(true)}
+            cachePolicy="memory-disk"
+            transition={artWasShown ? 0 : 120}
+            onDisplay={() => { if (iconUrl) shownTileArt.add(iconUrl); setArtShown(true); }}
             onError={() => setArtFailed(true)}
           />
         ) : null}
@@ -1153,7 +1165,9 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                         >
                           {current
                             ? dragGrid(true)
-                            : Math.abs(i - tabIndex) <= 1 && (
+                            // Every group stays drawn (a handful of tiles each), so a
+                            // tab change never builds a page or reloads its art mid-swipe.
+                            : (
                               <View style={styles.grid}>{sortGroup(group).map((item) => renderPlain(item, bigTileWidth, true))}</View>
                             )}
                         </View>

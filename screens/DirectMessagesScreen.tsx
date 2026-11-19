@@ -37,7 +37,7 @@ import ReactionAlertBadge, { reactionAlertLine } from "../components/DM/Reaction
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
 import { chatsFromMemberships } from "../libs/community-kinds";
-import { useChatPrefs } from "../hooks/useChatPrefs";
+import { useChatPrefs, isPrefMuted } from "../hooks/useChatPrefs";
 import { PUBLIC_CHAT_PREF_ID, roomChatId } from "../services/dm/dm.api";
 import { useQuery } from "@tanstack/react-query";
 import type { Community } from "../types/community";
@@ -1096,6 +1096,8 @@ const DirectMessagesInner: React.FC = () => {
           onDelete={handleCtxDelete}
           onSelectMany={handleCtxSelectMany}
           onAddToTab={ctxConv && !ctxConv.isRequest ? () => setTabActions({ kind: "chat", id: ctxConv._id }) : undefined}
+          muted={!!ctxConv && isPrefMuted(chatPrefs.get(ctxConv._id))}
+          onToggleMute={ctxConv && !ctxConv.isRequest ? () => void updateChatPref(ctxConv._id, { mutedUntil: isPrefMuted(chatPrefs.get(ctxConv._id)) ? null : "forever" }) : undefined}
           onToggleFreeAccess={handleCtxToggleFreeAccess}
           peerHasFreeAccess={
             !!(myDmStatus?.freeAccessUsers?.some(
