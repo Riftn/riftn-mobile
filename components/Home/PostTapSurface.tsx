@@ -1,9 +1,9 @@
 import React, { memo, useEffect, useRef, useState } from "react";
 import { Pressable, Text, View, type GestureResponderEvent, type StyleProp, type ViewStyle } from "react-native";
 import { showTapBurst } from "../../libs/tap-reaction-layer";
-import { isInTapReactionCenter, TAP_GESTURE_WINDOW_MS, TAP_REACTION_RESOLUTION_MS } from "../../libs/tap-gesture";
+import { TAP_GESTURE_WINDOW_MS, TAP_REACTION_RESOLUTION_MS } from "../../libs/tap-gesture";
 
-/** Only central taps wait for a reaction; the rest of the post opens immediately. */
+/** A tap anywhere on the media waits a moment for a second one: two taps like, three love. */
 function PostTapSurface({ children, onPress, onHold, onReaction, style, resetKey, onPressIntent, accessibilityLabel, immediatePress = false }: {
   children: React.ReactNode;
   onPress?: () => void;
@@ -18,8 +18,6 @@ function PostTapSurface({ children, onPress, onHold, onReaction, style, resetKey
   /** Which post this is, for a list that reuses one card for another. */
   resetKey?: string;
 }) {
-  const surface = useRef<View>(null);
-  const size = useRef({ width: 0, height: 0 });
   const generation = useRef(0);
   const count = useRef(0);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -60,11 +58,9 @@ function PostTapSurface({ children, onPress, onHold, onReaction, style, resetKey
   };
   return (
     <Pressable
-      ref={surface}
       style={style}
       accessibilityRole={onPress ? "button" : undefined}
       accessibilityLabel={accessibilityLabel}
-      onLayout={(event) => { size.current = event.nativeEvent.layout; }}
       onTouchStart={(event) => {
         origin.current = { x: event.nativeEvent.pageX, y: event.nativeEvent.pageY };
         moved.current = (event.nativeEvent.touches?.length ?? 1) > 1;
@@ -89,39 +85,19 @@ function PostTapSurface({ children, onPress, onHold, onReaction, style, resetKey
           callbacks.current.onPress();
           return;
         }
-        const { pageX, pageY, locationX, locationY } = event.nativeEvent;
-        const currentGeneration = generation.current;
-        const finishTap = (central: boolean) => {
-          if (currentGeneration !== generation.current) return;
-          if (!central) {
-            reset();
-            onPressIntent?.();
-            callbacks.current.onPress?.();
-            return;
-          }
-          if (timer.current) clearTimeout(timer.current);
-          count.current += 1;
-          if (count.current === 1) {
-            onPressIntent?.();
-            timer.current = setTimeout(() => { reset(); callbacks.current.onPress?.(); }, TAP_GESTURE_WINDOW_MS);
-          } else if (count.current === 2) {
-            showFeedback("like", { x: pageX, y: pageY });
-            timer.current = setTimeout(() => { reset(); callbacks.current.onReaction("like"); }, TAP_REACTION_RESOLUTION_MS);
-          } else {
-            reset();
-            showFeedback("love", { x: pageX, y: pageY });
-            callbacks.current.onReaction("love");
-          }
-        };
-        // Text/image descendants can be the native event target: locationX/Y
-        // then belong to that child. Measure the owning surface and use page
-        // coordinates so its reaction zone does not move with the child.
-        if (surface.current?.measureInWindow && Number.isFinite(pageX) && Number.isFinite(pageY)) {
-          surface.current.measureInWindow((left, top, width, height) => {
-            finishTap(isInTapReactionCenter(pageX - left, pageY - top, width, height));
-          });
+        const { pageX, pageY } = event.nativeEvent;
+        if (timer.current) clearTimeout(timer.current);
+        count.current += 1;
+        if (count.current === 1) {
+          onPressIntent?.();
+          timer.current = setTimeout(() => { reset(); callbacks.current.onPress?.(); }, TAP_GESTURE_WINDOW_MS);
+        } else if (count.current === 2) {
+          showFeedback("like", { x: pageX, y: pageY });
+          timer.current = setTimeout(() => { reset(); callbacks.current.onReaction("like"); }, TAP_REACTION_RESOLUTION_MS);
         } else {
-          finishTap(isInTapReactionCenter(locationX, locationY, size.current.width, size.current.height));
+          reset();
+          showFeedback("love", { x: pageX, y: pageY });
+          callbacks.current.onReaction("love");
         }
       }}
     >

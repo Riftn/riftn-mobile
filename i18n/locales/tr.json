@@ -4448,6 +4448,10 @@
     "tokenAmount": "{{amount}} jeton"
   },
   "communities": {
+    "muteChat": "Sessize al",
+    "mutedChat": "Sessizde",
+    "muteChatHint": "Bu topluluğun sohbetinden bildirim alma. Sohbeti okumaya devam edebilirsin",
+    "unmuteChatHint": "Bu topluluğun sohbetinden yeniden bildirim al",
     "newChat": {
       "description": "Ne hakkında? (isteğe bağlı)",
       "groupCreated": "Grup oluşturuldu",

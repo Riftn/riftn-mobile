@@ -4636,6 +4636,10 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "muteChat": "Dempen",
+    "mutedChat": "Gedempt",
+    "muteChatHint": "Geen meldingen meer van de chat van deze community. Je kunt hem nog steeds lezen",
+    "unmuteChatHint": "Weer meldingen krijgen van de chat van deze community",
     "newChat": {
       "description": "Waar gaat het over? (optioneel)",
       "groupCreated": "Groep gemaakt",
