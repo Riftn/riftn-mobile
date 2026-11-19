@@ -206,11 +206,13 @@ describe('tabs layout (the default)', () => {
 
   it('opens on Main and switches groups from the tab row', () => {
     const view = render(<AppDrawer visible onClose={jest.fn()} />);
-    expect(view.queryByLabelText('nav.profile')).not.toBeNull();
-    expect(view.queryByLabelText('nav.dao')).toBeNull();
+    // Every group is drawn side by side; only the one on show is reachable.
+    const shown = { includeHiddenElements: false };
+    expect(view.queryByLabelText('nav.profile', shown)).not.toBeNull();
+    expect(view.queryByLabelText('nav.dao', shown)).toBeNull();
     fireEvent.press(view.getByText('nav.groups.riftn'));
-    expect(view.queryByLabelText('nav.dao')).not.toBeNull();
-    expect(view.queryByLabelText('nav.profile')).toBeNull();
+    expect(view.queryByLabelText('nav.dao', shown)).not.toBeNull();
+    expect(view.queryByLabelText('nav.profile', shown)).toBeNull();
   });
 
   it('turns the tab row into the search field, and the X back into tabs', () => {
