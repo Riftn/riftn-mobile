@@ -60,7 +60,7 @@ export default function CreatorGalleryScreen() {
   useEffect(() => { setReply(null); setEditing(null); setFullscreen(false); if (index >= 0) pager.current?.scrollToIndex({ index, animated: false }); }, [id, index, width]);
   const mutation = useMutation({ mutationFn: ({ action, data }: { action: string; data: Record<string, string | boolean | null> }) => writeGeneration(id!, action, { ...data, username: user?.username ?? null, avatar: user?.avatarImageUrl ?? null }, wallet),
     onSuccess: () => { void qc.invalidateQueries({ queryKey: ['public-generations'] }); void qc.invalidateQueries({ queryKey: ['generation-discussion', id] }); },
-    onError: (error: Error) => Alert.alert(t('common.error', { defaultValue: 'Something went wrong. Please try again.' }), error.message) });
+    onError: (error: Error) => Alert.alert(t('common.somethingWentWrong'), error.message) });
   const act = (action: string, data: Record<string, string | boolean | null>) => { if (!wallet) { nav.navigate(ScreenNames.SignIn); return; } if (!mutation.isPending) mutation.mutate({ action, data }); };
   const showComments = () => { scroll.current?.scrollTo({ y: commentY, animated: true }); input.current?.focus(); };
   const rows = useMemo(() => {
@@ -112,7 +112,7 @@ export default function CreatorGalleryScreen() {
           {(reply || editing) && button(t('common.cancel'), () => { setReply(null); setEditing(null); setDraft(''); })}
           {reply && <Text className="text-theme-neutrals-300">{t('governance.discussion.replyingTo', { name: reply.username || reply.wallet_address })}</Text>}
           <TextInput ref={input} multiline maxLength={4000} value={draft} editable={!mutation.isPending} onChangeText={setDraft} placeholder={t('governance.addComment')} placeholderTextColor="#888" className="my-3 rounded-xl border border-theme-neutrals-600 p-3 text-theme-neutrals-100" />
-          {button(t('common.send', { defaultValue: 'Send' }), () => {
+          {button(t('creator.gallery.send'), () => {
             if (!wallet) { nav.navigate(ScreenNames.SignIn); return; }
             mutation.mutate({ action: editing ? 'edit' : 'comment', data: { content: draft, parent_id: reply?.id ?? null, comment_id: editing?.id ?? null } }, { onSuccess: () => { setDraft(''); setReply(null); setEditing(null); } });
           }, !draft.trim() || mutation.isPending)}

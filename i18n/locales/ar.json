@@ -11536,7 +11536,19 @@
     "presetOpenViaductTrainName": "قطار فوق الجسر",
     "presetOpenViaductTrainHint": "عرض ثابت واسع مع نوافذ مضاءة وعمق عدسة طويلة",
     "presetOpenTowerTiltName": "إمالة البرج",
-    "presetOpenTowerTiltHint": "إمالة بطيئة إلى الأسفل في مدينة غائمة"
+    "presetOpenTowerTiltHint": "إمالة بطيئة إلى الأسفل في مدينة غائمة",
+    "gallery": {
+      "browse": "تصفح الإبداعات",
+      "fullscreen": "عرض بملء الشاشة",
+      "missing": "هذا الإبداع غير متاح.",
+      "send": "إرسال",
+      "notifications": {
+        "generation_like": "تفاعل {{name}} مع إبداعك",
+        "generation_comment_like": "تفاعل {{name}} مع تعليقك",
+        "generation_reply": "ردّ {{name}} على تعليقك",
+        "generation_comment": "علّق {{name}} على إبداعك"
+      }
+    }
   },
   "fractions": {
     "title": "الأجزاء",

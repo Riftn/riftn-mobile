@@ -11201,6 +11201,18 @@
     }
   },
   "creator": {
+    "gallery": {
+      "browse": "Browse generations",
+      "fullscreen": "View full screen",
+      "missing": "This generation is unavailable.",
+      "send": "Send",
+      "notifications": {
+        "generation_like": "{{name}} reacted to your generation",
+        "generation_comment_like": "{{name}} reacted to your comment",
+        "generation_reply": "{{name}} replied to your comment",
+        "generation_comment": "{{name}} commented on your generation"
+      }
+    },
     "layerNewAttempt": "Review a new attempt",
     "layerTitle": "Separate image layers",
     "layerPngRequired": "Choose a saved PNG image, up to 12 MiB and four megapixels.",

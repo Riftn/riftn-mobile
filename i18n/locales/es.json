@@ -11516,7 +11516,19 @@
     "presetOpenViaductTrainName": "Tren de viaducto",
     "presetOpenViaductTrainHint": "Plano amplio estático con ventanas iluminadas y profundidad de lente largo",
     "presetOpenTowerTiltName": "Inclinación de la torre",
-    "presetOpenTowerTiltHint": "Inclinación lenta hacia abajo en una ciudad nublada"
+    "presetOpenTowerTiltHint": "Inclinación lenta hacia abajo en una ciudad nublada",
+    "gallery": {
+      "browse": "Explorar creaciones",
+      "fullscreen": "Ver en pantalla completa",
+      "missing": "Esta creación no está disponible.",
+      "send": "Enviar",
+      "notifications": {
+        "generation_like": "{{name}} reaccionó a tu creación",
+        "generation_comment_like": "{{name}} reaccionó a tu comentario",
+        "generation_reply": "{{name}} respondió a tu comentario",
+        "generation_comment": "{{name}} comentó tu creación"
+      }
+    }
   },
   "fractions": {
     "title": "Fracciones",
