@@ -11,6 +11,7 @@
  */
 import { Vibration } from "react-native";
 import { createAudioPlayer, type AudioPlayer } from "expo-audio";
+import * as Notifications from "expo-notifications";
 
 /** Buzz, rest, buzz, long rest: the rhythm people read as a phone ringing. */
 const RING_BUZZ = [0, 700, 300, 700, 1400];
@@ -18,9 +19,24 @@ const RING_BUZZ = [0, 700, 300, 700, 1400];
 let player: AudioPlayer | null = null;
 let ringing = false;
 
+/** The call screen is up, so the "Incoming call" notifications in the tray are done with. */
+async function clearCallNotifications(): Promise<void> {
+  try {
+    const shown = await Notifications.getPresentedNotificationsAsync();
+    await Promise.all(
+      shown
+        .filter((n) => (n.request?.content?.data as { type?: string } | undefined)?.type === "incoming_call")
+        .map((n) => Notifications.dismissNotificationAsync(n.request.identifier)),
+    );
+  } catch {
+    // Nothing to clear; the ring still plays.
+  }
+}
+
 export function startCallRingtone(): void {
   if (ringing) return;
   ringing = true;
+  void clearCallNotifications();
   try {
     Vibration.vibrate(RING_BUZZ, true);
   } catch {

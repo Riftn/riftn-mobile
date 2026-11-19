@@ -15,6 +15,11 @@ type Patch = {
 
 const FOREVER = "2999-12-31T00:00:00.000Z";
 
+/** True while this chat's mute is still running. */
+export function isPrefMuted(pref?: ChatPref | null): boolean {
+  return !!pref?.mutedUntil && new Date(pref.mutedUntil).getTime() > Date.now();
+}
+
 /**
  * Your own chat settings, saved on the server so they follow you between
  * devices (the same store the website uses). Changes show at once and roll
