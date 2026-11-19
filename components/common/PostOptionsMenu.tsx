@@ -235,6 +235,13 @@ export interface QuickActions {
   onTip?: () => void;
   /** The post's words, for Copy text. */
   text?: string | null;
+  /** Your own text post or article on your profile: its look picker. */
+  look?: PostLookRow;
+}
+
+export interface PostLookRow {
+  label: string;
+  onPress: () => void;
 }
 
 export interface PlayerRows {
@@ -323,6 +330,7 @@ const QuickBlock: React.FC<{ quick: QuickActions; onClose: () => void }> = memo(
         : (!!quick.onRepost && <OptionRow icon="Repeat2" label={t("feedCard.repost")} onPress={run(quick.onRepost)} />)}
       {!!quick.onQuote && <OptionRow icon="Quote" label={t("copy.eb4cdebd82bf", { defaultValue: "Quote" })} onPress={run(quick.onQuote)} />}
       {!!quick.onTip && <OptionRow icon="Gem" label={t("postOptions.sendTip")} onPress={run(quick.onTip)} />}
+      {!!quick.look && <OptionRow icon="Palette" label={quick.look.label} onPress={run(quick.look.onPress)} />}
       {!!words && (
         <OptionRow
           icon="Copy"

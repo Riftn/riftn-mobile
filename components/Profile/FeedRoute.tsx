@@ -18,6 +18,7 @@ import { noteProfileFeedOpen, useProvidedProfileFeed } from '../../libs/profileF
 import { useProfilePostBg } from './PostBackground';
 import { postBgToken } from '../../libs/postBackgrounds';
 import FeedCard from '../Home/FeedCard';
+import type { PostLookRow } from '../common/PostOptionsMenu';
 import FeedCardSkeleton from '../Feed/FeedCardSkeleton';
 import Icon from '../ui/Icon';
 import { isReelSlide } from '../../libs/profileReel';
@@ -128,8 +129,11 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   const postBg = useProfilePostBg();
   // Holding somebody else's tile opens that post's full menu. A card for it
   // is mounted out of sight and shows only the menu and its sheets.
-  const [heldTile, setHeldTile] = useState<UnifiedFeedItem | null>(null);
-  const heldMenu = useMemo(() => ({ onDone: () => setHeldTile(null) }), []);
+  // Your own text post or article adds its look picker as a row of the menu.
+  const [held, setHeld] = useState<{ item: UnifiedFeedItem; look?: PostLookRow } | null>(null);
+  const holdTile = useCallback((item: UnifiedFeedItem, look?: PostLookRow) => setHeld({ item, look }), []);
+  const heldMenu = useMemo(() => ({ onDone: () => setHeld(null), look: held?.look }), [held]);
+  const heldTile = held?.item ?? null;
   const heldHost = heldTile ? (
     <View key={String(heldTile.tokenId ?? heldTile.id)} pointerEvents="none" style={{ position: 'absolute', left: -10000, top: 0, width: 360, opacity: 0 }}>
       <FeedCard item={heldTile} isVisible={false} isAutoplayActive={false} menuHost={heldMenu} />
@@ -257,7 +261,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
       <View style={{ flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 1 }}>
         {pinnedPosts.map((item) => (
           <View key={`pinned-${item.tokenId}`} style={{ width: '33.333%' }}>
-            <ProfileGridTile item={item as UnifiedFeedItem} pinned onPress={openTile} ownerHold={isOwnProfile} />
+            <ProfileGridTile item={item as UnifiedFeedItem} pinned onPress={openTile} ownerHold={isOwnProfile} onHold={holdTile} />
           </View>
         ))}
       </View>
@@ -309,7 +313,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   const renderItem = useCallback(
     ({ item, index }: InfiniteFeedRenderItemInfo) => {
       placed.current[index] = item as UnifiedFeedItem;
-      return <ProfileGridTile item={item as UnifiedFeedItem} onPress={openTile} ownerHold={isOwnProfile} index={index} onHold={isOwnProfile ? undefined : setHeldTile} />;
+      return <ProfileGridTile item={item as UnifiedFeedItem} onPress={openTile} ownerHold={isOwnProfile} index={index} onHold={holdTile} />;
     },
     [openTile, isOwnProfile],
   );
