@@ -26,6 +26,7 @@ import { useCommentAttachPicker } from "../Comments/useCommentAttachPicker";
 import { useVoiceRecorder, VoiceNoteRecordingOverlay, type VoiceNoteResult } from "../Comments/VoiceNoteRecorder";
 import { COMPOSER, composerStyles } from "../Comments/composerLayout";
 import GifPicker from "../DM/GifPicker";
+import WhenOpened from "../ui/WhenOpened";
 import EmojiSheet from "../Upload/EmojiSheet";
 import MentionSuggestions from "../common/MentionSuggestions";
 import type { TranslateToggle } from "../ui/TranslateButton";
@@ -373,50 +374,66 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
       )}
 
       {attachSheet}
-      <GifPicker
-        visible={gifOpen}
-        onClose={() => setGifOpen(false)}
-        onPick={(url) => { setGifOpen(false); setMedia({ type: "gif", url }); }}
-      />
-      <EmojiSheet
-        visible={emojiOpen}
-        onClose={() => setEmojiOpen(false)}
-        onSelect={(emoji: string) => setText((current) => (current + emoji).slice(0, 500))}
-      />
-      <CommentContextMenu
-        visible={context !== null}
-        comment={context?.comment ?? null}
-        layout={context?.layout ?? null}
-        isReply={context?.extra.isReply}
-        isOwnComment={context?.extra.isOwnComment ?? false}
-        liked={context?.extra.liked}
-        disliked={context?.extra.disliked}
-        canDelete={context?.extra.isOwnComment}
-        onClose={() => setContext(null)}
-        onReply={() => { if (context) handleReply(context.comment); setContext(null); }}
-        onEdit={context?.extra.isOwnComment ? () => { if (context) handleStartEdit(context.comment); setContext(null); } : undefined}
-        onDelete={context?.extra.isOwnComment ? () => { if (context) handleDelete(context.comment); setContext(null); } : undefined}
-        onReport={isAuthed && context ? () => handleReport(context.comment) : undefined}
-        onLike={() => {
-          if (context) void handleReact(Number(context.comment.id), "like").catch(() => {});
-          setContext(null);
-        }}
-        onDislike={() => {
-          if (context) void handleReact(Number(context.comment.id), "dislike").catch(() => {});
-          setContext(null);
-        }}
-        onShowLikers={context ? () => { setLikersFor(Number(context.comment.id)); setContext(null); } : undefined}
-        tokenId={`request:${featureId}`}
-        translate={context?.extra.translate}
-        myReaction={context?.extra.myReaction}
-        react={context?.extra.react}
-      />
-      <CommentLikersSheet
-        visible={likersFor != null}
-        onClose={() => setLikersFor(null)}
-        commentId={likersFor}
-        loadPage={rows ? featureLikersLoader(rows) : undefined}
-      />
+      <WhenOpened open={gifOpen}>
+        {() => (
+          <GifPicker
+            visible={gifOpen}
+            onClose={() => setGifOpen(false)}
+            onPick={(url) => { setGifOpen(false); setMedia({ type: "gif", url }); }}
+          />
+        )}
+      </WhenOpened>
+      <WhenOpened open={emojiOpen}>
+        {() => (
+          <EmojiSheet
+            visible={emojiOpen}
+            onClose={() => setEmojiOpen(false)}
+            onSelect={(emoji: string) => setText((current) => (current + emoji).slice(0, 500))}
+          />
+        )}
+      </WhenOpened>
+      <WhenOpened open={context !== null}>
+        {() => (
+          <CommentContextMenu
+            visible={context !== null}
+            comment={context?.comment ?? null}
+            layout={context?.layout ?? null}
+            isReply={context?.extra.isReply}
+            isOwnComment={context?.extra.isOwnComment ?? false}
+            liked={context?.extra.liked}
+            disliked={context?.extra.disliked}
+            canDelete={context?.extra.isOwnComment}
+            onClose={() => setContext(null)}
+            onReply={() => { if (context) handleReply(context.comment); setContext(null); }}
+            onEdit={context?.extra.isOwnComment ? () => { if (context) handleStartEdit(context.comment); setContext(null); } : undefined}
+            onDelete={context?.extra.isOwnComment ? () => { if (context) handleDelete(context.comment); setContext(null); } : undefined}
+            onReport={isAuthed && context ? () => handleReport(context.comment) : undefined}
+            onLike={() => {
+              if (context) void handleReact(Number(context.comment.id), "like").catch(() => {});
+              setContext(null);
+            }}
+            onDislike={() => {
+              if (context) void handleReact(Number(context.comment.id), "dislike").catch(() => {});
+              setContext(null);
+            }}
+            onShowLikers={context ? () => { setLikersFor(Number(context.comment.id)); setContext(null); } : undefined}
+            tokenId={`request:${featureId}`}
+            translate={context?.extra.translate}
+            myReaction={context?.extra.myReaction}
+            react={context?.extra.react}
+          />
+        )}
+      </WhenOpened>
+      <WhenOpened open={likersFor != null}>
+        {() => (
+          <CommentLikersSheet
+            visible={likersFor != null}
+            onClose={() => setLikersFor(null)}
+            commentId={likersFor}
+            loadPage={rows ? featureLikersLoader(rows) : undefined}
+          />
+        )}
+      </WhenOpened>
     </View>
   );
 };

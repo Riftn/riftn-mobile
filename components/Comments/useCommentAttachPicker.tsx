@@ -10,6 +10,7 @@ import * as DocumentPicker from "expo-document-picker";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useTranslation } from "react-i18next";
 import ChatAttachSheet from "../DM/ChatAttachSheet";
+import WhenOpened from "../ui/WhenOpened";
 import { runWithPermissions } from "../../libs/permissions.util";
 import { toastError } from "../../libs/toast";
 import type { MediaAttachment } from "./CommentMediaPreview";
@@ -88,24 +89,28 @@ export function useCommentAttachPicker(onPicked: (media: MediaAttachment) => voi
   }, [onPicked, tooBig, t]);
 
   const sheet = (
-    <ChatAttachSheet
-      visible={open}
-      onClose={() => setOpen(false)}
-      options={[
-        {
-          key: "gallery",
-          icon: "Image",
-          label: t("comments.attachPhotoOrVideo", { defaultValue: "Photo or video" }),
-          onPress: () => { setOpen(false); void pickGallery(); },
-        },
-        {
-          key: "audio",
-          icon: "Music",
-          label: t("comments.attachAudioFile", { defaultValue: "Audio file" }),
-          onPress: () => { setOpen(false); void pickAudio(); },
-        },
-      ]}
-    />
+    <WhenOpened open={open}>
+      {() => (
+        <ChatAttachSheet
+          visible={open}
+          onClose={() => setOpen(false)}
+          options={[
+            {
+              key: "gallery",
+              icon: "Image",
+              label: t("comments.attachPhotoOrVideo", { defaultValue: "Photo or video" }),
+              onPress: () => { setOpen(false); void pickGallery(); },
+            },
+            {
+              key: "audio",
+              icon: "Music",
+              label: t("comments.attachAudioFile", { defaultValue: "Audio file" }),
+              onPress: () => { setOpen(false); void pickAudio(); },
+            },
+          ]}
+        />
+      )}
+    </WhenOpened>
   );
 
   return {

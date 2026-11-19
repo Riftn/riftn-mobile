@@ -41,6 +41,7 @@ import {
 import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "./VoiceNoteRecorder";
 import type { VoiceNoteResult } from "./VoiceNoteRecorder";
 import GifPicker from "../DM/GifPicker";
+import WhenOpened from "../ui/WhenOpened";
 import EmojiSheet from "../Upload/EmojiSheet";
 import GlassTipSheet from "../Tip/GlassTipSheet";
 import ReportModal from "../common/ReportModal";
@@ -2215,71 +2216,91 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
 
       {/* Common Ground steps, opened by the first Post of the session on a
           thread that has the mode on. Its own Post button sends the reply. */}
-      <CommonGroundSheet
-        visible={commonGroundVisible}
-        onClose={() => setCommonGroundVisible(false)}
-        draft={inputText}
-        onConfirm={handleCommonGroundConfirm}
-      />
+      <WhenOpened open={commonGroundVisible}>
+        {() => (
+          <CommonGroundSheet
+            visible={commonGroundVisible}
+            onClose={() => setCommonGroundVisible(false)}
+            draft={inputText}
+            onConfirm={handleCommonGroundConfirm}
+          />
+        )}
+      </WhenOpened>
 
       {attachSheet}
-      <GifPicker
-        visible={gifPickerVisible}
-        onClose={handleCloseGifPicker}
-        onPick={handleGifPicked}
-      />
+      <WhenOpened open={gifPickerVisible}>
+        {() => (
+          <GifPicker
+            visible={gifPickerVisible}
+            onClose={handleCloseGifPicker}
+            onPick={handleGifPicked}
+          />
+        )}
+      </WhenOpened>
 
-      <EmojiSheet
-        visible={emojiPickerVisible}
-        onClose={handleCloseEmojiPicker}
-        onSelect={handleEmojiSelected}
-      />
+      <WhenOpened open={emojiPickerVisible}>
+        {() => (
+          <EmojiSheet
+            visible={emojiPickerVisible}
+            onClose={handleCloseEmojiPicker}
+            onSelect={handleEmojiSelected}
+          />
+        )}
+      </WhenOpened>
 
-      <CommentContextMenu
-        visible={contextComment !== null}
-        comment={contextComment}
-        layout={contextLayout}
-        isReply={contextMeta?.isReply}
-        isOwnComment={contextMeta?.isOwnComment ?? false}
-        liked={contextMeta?.liked}
-        canDelete={contextMeta?.isOwnComment}
-        onClose={closeContextMenu}
-        onReply={handleContextReply}
-        onEdit={contextMeta?.isOwnComment ? handleContextEdit : undefined}
-        onDelete={contextMeta?.isOwnComment ? handleContextDelete : undefined}
-        onReport={contextMeta?.isOwnComment || !userAddress ? undefined : handleContextReport}
-        onAnchor={
-          contextMeta?.isOwnComment && !contextMeta?.isReply && canAnchor
-            ? handleContextAnchor
-            : undefined
-        }
-        onPin={
-          // Root comments only — a reply sits in a subtree nothing re-orders,
-          // so pinning one would move nothing.
-          isOwnThread && !contextMeta?.isReply ? handleContextPin : undefined
-        }
-        onLike={handleContextLike}
-        onDislike={handleContextDislike}
-        onShowLikers={
-          contextComment ? () => setLikersCommentId(Number(contextComment.id)) : undefined
-        }
-        tokenId={tokenId}
-        translate={contextMeta?.translate}
-        myReaction={contextMeta?.myReaction}
-        react={contextMeta?.react}
-        onLift={holdLift.onLift}
-        liftTop={holdLift.top}
-      />
+      <WhenOpened open={contextComment !== null}>
+        {() => (
+          <CommentContextMenu
+            visible={contextComment !== null}
+            comment={contextComment}
+            layout={contextLayout}
+            isReply={contextMeta?.isReply}
+            isOwnComment={contextMeta?.isOwnComment ?? false}
+            liked={contextMeta?.liked}
+            canDelete={contextMeta?.isOwnComment}
+            onClose={closeContextMenu}
+            onReply={handleContextReply}
+            onEdit={contextMeta?.isOwnComment ? handleContextEdit : undefined}
+            onDelete={contextMeta?.isOwnComment ? handleContextDelete : undefined}
+            onReport={contextMeta?.isOwnComment || !userAddress ? undefined : handleContextReport}
+            onAnchor={
+              contextMeta?.isOwnComment && !contextMeta?.isReply && canAnchor
+                ? handleContextAnchor
+                : undefined
+            }
+            onPin={
+              // Root comments only — a reply sits in a subtree nothing re-orders,
+              // so pinning one would move nothing.
+              isOwnThread && !contextMeta?.isReply ? handleContextPin : undefined
+            }
+            onLike={handleContextLike}
+            onDislike={handleContextDislike}
+            onShowLikers={
+              contextComment ? () => setLikersCommentId(Number(contextComment.id)) : undefined
+            }
+            tokenId={tokenId}
+            translate={contextMeta?.translate}
+            myReaction={contextMeta?.myReaction}
+            react={contextMeta?.react}
+            onLift={holdLift.onLift}
+            liftTop={holdLift.top}
+          />
+        )}
+      </WhenOpened>
 
       {/* Report somebody else's comment. One sheet for the whole section,
           aimed at whichever comment's Report row was picked. */}
-      <ReportModal
-        visible={reportTarget !== null}
-        onClose={() => setReportTarget(null)}
-        type="comment"
-        commentId={reportTarget?.id}
-        tokenId={tokenId}
-      />
+      <WhenOpened open={reportTarget !== null}>
+        {() => (
+          <ReportModal
+            visible={reportTarget !== null}
+            onClose={() => setReportTarget(null)}
+            type="comment"
+            commentId={reportTarget?.id}
+            tokenId={tokenId}
+          />
+        )}
+      </WhenOpened>
 
       {/* Tip a comment's author. Always the EVM DHB flow — comment authors
           are tipped as people, whatever chain the post lives on. */}
@@ -2298,11 +2319,15 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
         }}
       />
 
-      <CommentLikersSheet
-        visible={likersCommentId !== null}
-        onClose={() => setLikersCommentId(null)}
-        commentId={likersCommentId}
-      />
+      <WhenOpened open={likersCommentId !== null}>
+        {() => (
+          <CommentLikersSheet
+            visible={likersCommentId !== null}
+            onClose={() => setLikersCommentId(null)}
+            commentId={likersCommentId}
+          />
+        )}
+      </WhenOpened>
     </View>
   );
 };

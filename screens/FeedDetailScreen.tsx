@@ -33,6 +33,7 @@ import type { MediaAttachment } from "../components/Comments/CommentMediaPreview
 import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../components/Comments/VoiceNoteRecorder";
 import type { VoiceNoteResult } from "../components/Comments/VoiceNoteRecorder";
 import GifPicker from "../components/DM/GifPicker";
+import WhenOpened from "../components/ui/WhenOpened";
 import EmojiSheet from "../components/Upload/EmojiSheet";
 import GlassTipSheet from "../components/Tip/GlassTipSheet";
 import ReportModal from "../components/common/ReportModal";
@@ -2085,60 +2086,76 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
 
       {/* GIF picker modal */}
       {attachSheet}
-      <GifPicker
-        visible={gifPickerVisible}
-        onClose={handleCloseGifPicker}
-        onPick={handleGifPicked}
-      />
+      <WhenOpened open={gifPickerVisible}>
+        {() => (
+          <GifPicker
+            visible={gifPickerVisible}
+            onClose={handleCloseGifPicker}
+            onPick={handleGifPicked}
+          />
+        )}
+      </WhenOpened>
 
-      <EmojiSheet
-        visible={emojiPickerVisible}
-        onClose={handleCloseEmojiPicker}
-        onSelect={handleEmojiSelected}
-      />
+      <WhenOpened open={emojiPickerVisible}>
+        {() => (
+          <EmojiSheet
+            visible={emojiPickerVisible}
+            onClose={handleCloseEmojiPicker}
+            onSelect={handleEmojiSelected}
+          />
+        )}
+      </WhenOpened>
 
       {/* WhatsApp/IG-style context menu */}
-      <CommentContextMenu
-        visible={contextComment !== null}
-        comment={contextComment}
-        layout={contextLayout}
-        isReply={contextMeta?.isReply}
-        isOwnComment={contextMeta?.isOwnComment ?? false}
-        liked={contextMeta?.liked}
-        disliked={contextMeta?.disliked}
-        canDelete={contextMeta?.isOwnComment}
-        onClose={closeContextMenu}
-        onReply={handleContextReply}
-        onEdit={contextMeta?.isOwnComment ? handleContextEdit : undefined}
-        onDelete={contextMeta?.isOwnComment ? handleContextDelete : undefined}
-        onReport={contextMeta?.isOwnComment || !address ? undefined : handleContextReport}
-        onPin={
-          // Root comments only — a reply sits in a subtree nothing re-orders,
-          // so pinning one would move nothing.
-          isOwnThread && !contextMeta?.isReply ? handleContextPin : undefined
-        }
-        onLike={handleContextLike}
-        onDislike={handleContextDislike}
-        onShowLikers={
-          contextComment ? () => setLikersCommentId(Number(contextComment.id)) : undefined
-        }
-        tokenId={tokenId}
-        translate={contextMeta?.translate}
-        myReaction={contextMeta?.myReaction}
-        react={contextMeta?.react}
-        onLift={holdLift.onLift}
-        liftTop={holdLift.top}
-      />
+      <WhenOpened open={contextComment !== null}>
+        {() => (
+          <CommentContextMenu
+            visible={contextComment !== null}
+            comment={contextComment}
+            layout={contextLayout}
+            isReply={contextMeta?.isReply}
+            isOwnComment={contextMeta?.isOwnComment ?? false}
+            liked={contextMeta?.liked}
+            disliked={contextMeta?.disliked}
+            canDelete={contextMeta?.isOwnComment}
+            onClose={closeContextMenu}
+            onReply={handleContextReply}
+            onEdit={contextMeta?.isOwnComment ? handleContextEdit : undefined}
+            onDelete={contextMeta?.isOwnComment ? handleContextDelete : undefined}
+            onReport={contextMeta?.isOwnComment || !address ? undefined : handleContextReport}
+            onPin={
+              // Root comments only — a reply sits in a subtree nothing re-orders,
+              // so pinning one would move nothing.
+              isOwnThread && !contextMeta?.isReply ? handleContextPin : undefined
+            }
+            onLike={handleContextLike}
+            onDislike={handleContextDislike}
+            onShowLikers={
+              contextComment ? () => setLikersCommentId(Number(contextComment.id)) : undefined
+            }
+            tokenId={tokenId}
+            translate={contextMeta?.translate}
+            myReaction={contextMeta?.myReaction}
+            react={contextMeta?.react}
+            onLift={holdLift.onLift}
+            liftTop={holdLift.top}
+          />
+        )}
+      </WhenOpened>
 
       {/* Report somebody else's comment. One sheet for the whole screen,
           aimed at whichever comment's Report row was picked. */}
-      <ReportModal
-        visible={reportTarget !== null}
-        onClose={() => setReportTarget(null)}
-        type="comment"
-        commentId={reportTarget?.id}
-        tokenId={tokenId}
-      />
+      <WhenOpened open={reportTarget !== null}>
+        {() => (
+          <ReportModal
+            visible={reportTarget !== null}
+            onClose={() => setReportTarget(null)}
+            type="comment"
+            commentId={reportTarget?.id}
+            tokenId={tokenId}
+          />
+        )}
+      </WhenOpened>
 
       {/* Tip a comment's author. Always the EVM DHB flow — comment authors
           are tipped as people, whatever chain the post lives on. */}
@@ -2157,11 +2174,15 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         }}
       />
 
-      <CommentLikersSheet
-        visible={likersCommentId !== null}
-        onClose={() => setLikersCommentId(null)}
-        commentId={likersCommentId}
-      />
+      <WhenOpened open={likersCommentId !== null}>
+        {() => (
+          <CommentLikersSheet
+            visible={likersCommentId !== null}
+            onClose={() => setLikersCommentId(null)}
+            commentId={likersCommentId}
+          />
+        )}
+      </WhenOpened>
 
       {showCommentSheet && tokenId != null && (
         <CommentBottomSheet
