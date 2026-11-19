@@ -40,6 +40,9 @@ import ThemeColorPicker from './ThemeColorPicker';
 import { hasThemeColor } from '../../theme/themeColor';
 import { useAppPrefs, setAppPref } from '../../hooks/useAppPrefs';
 import { POST_LANDING_STYLES, isPostLandingStyle, type PostLandingStyle } from '../../libs/postLandingStyle';
+import { MENU_LAYOUTS, MENU_LAYOUT_PREF_KEY, isMenuLayout, type MenuLayout } from '../../libs/menuLayout';
+import { saveAccountPrefs } from '../../libs/feed-interests';
+import { useUser } from '../../context/AuthContext';
 import { useDataSaver, setDataSaverPref } from '../../hooks/useDataSaver';
 import { useShortsEnabled } from '../../hooks/useShortsEnabled';
 import { useHighQualityImages, setHighQualityImages } from '../../libs/cdnImage';
@@ -92,6 +95,18 @@ const AppearancePanel: React.FC = () => {
   const [feedModalVisible, setFeedModalVisible] = useState(false);
   const [landingModalVisible, setLandingModalVisible] = useState(false);
   const [chatTextModalVisible, setChatTextModalVisible] = useState(false);
+  const [menuLayoutModalVisible, setMenuLayoutModalVisible] = useState(false);
+  const user = useUser() as any;
+  const menuLayoutLabel = (layout: MenuLayout) => ({
+    tabs: t('settings.menuLayoutTabs', 'Tabs'),
+    sections: t('settings.menuLayoutSections', 'Sections'),
+    folders: t('settings.menuLayoutFolders'),
+  })[layout];
+  const menuLayoutDescription = (layout: MenuLayout) => ({
+    tabs: t('settings.menuLayoutTabsDesc', 'One group at a time, with big icons'),
+    sections: t('settings.menuLayoutSectionsDesc', 'Every page at once, under group headers'),
+    folders: t('settings.menuLayoutFoldersDesc', 'Your main pages, then a folder for each group'),
+  })[layout];
   const chatTextLabels = useChatTextSizeLabels();
   const landingLabel = (style: PostLandingStyle) => ({
     ghost: t('settings.postLandingGhost', 'Ghost slot'),
@@ -191,6 +206,17 @@ const AppearancePanel: React.FC = () => {
       {/* Web's Layout rows: which feed a launch opens on, and a way back
           from the filter toggles that stay on as defaults. */}
       <SettingsSection label={t('settings.layout', 'Layout')} icon="LayoutGrid" anchor="default-feed">
+        {/* How the menu drawer groups its pages (libs/menuLayout). */}
+        <SettingsAnchor id="menu-layout">
+          <SettingsLinkRow
+            icon="LayoutGrid"
+            label={t('settings.menuLayout', 'Menu layout')}
+            description={t('settings.menuLayoutDesc', 'How the menu groups its pages')}
+            value={menuLayoutLabel(prefs.menuLayout)}
+            onPress={() => setMenuLayoutModalVisible(true)}
+          />
+        </SettingsAnchor>
+        <Divider />
         <SettingsLinkRow
           icon="House"
           label={t('settings.defaultFeed', 'Default feed')}
@@ -232,6 +258,17 @@ const AppearancePanel: React.FC = () => {
             description={t('settings.chatTextSizeDesc', 'Bigger or smaller messages in every chat. Adds to your phone text size.')}
             value={chatTextLabels[prefs.chatTextSize]}
             onPress={() => setChatTextModalVisible(true)}
+          />
+        </SettingsAnchor>
+        <Divider />
+        {/* Chat list as glass cards, or a plain list with lines (components/DM/ChatCard). */}
+        <SettingsAnchor id="chat-cards">
+          <SettingsToggleRow
+            icon="MessagesSquare"
+            label={t('settings.chatCards', 'Chats as cards')}
+            description={t('settings.chatCardsDesc', 'Each chat on its own card. Turn off for a plain list with a line between chats.')}
+            value={prefs.chatCards}
+            onValueChange={(v) => setAppPref('chatCards', v)}
           />
         </SettingsAnchor>
       </SettingsSection>
@@ -336,6 +373,26 @@ const AppearancePanel: React.FC = () => {
         }))}
         onSelect={(value) => {
           if (isPostLandingStyle(value)) setAppPref('postLanding', value);
+        }}
+        maxHeight="70%"
+      />
+
+      <SettingsOptionModal
+        visible={menuLayoutModalVisible}
+        onClose={() => setMenuLayoutModalVisible(false)}
+        title={t('settings.menuLayout', 'Menu layout')}
+        value={prefs.menuLayout}
+        options={MENU_LAYOUTS.map((layout) => ({
+          value: layout,
+          label: menuLayoutLabel(layout),
+          description: menuLayoutDescription(layout),
+        }))}
+        onSelect={(value) => {
+          if (!isMenuLayout(value)) return;
+          setAppPref('menuLayout', value);
+          // The phone browser reads the same account key (web lib/menu-layout).
+          const wallet = ((user?.walletAddress || user?.address || '') as string).toLowerCase();
+          if (wallet) saveAccountPrefs(wallet, { [MENU_LAYOUT_PREF_KEY]: value }).catch(() => { /* the device copy stands */ });
         }}
         maxHeight="70%"
       />

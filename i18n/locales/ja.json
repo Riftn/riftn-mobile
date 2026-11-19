@@ -2944,7 +2944,14 @@
     "pricing": "料金",
     "reorderHint": "任意のアイコンを長押ししてドラッグして並べ替えます",
     "reorderReset": "リセット",
-    "nfts": "NFT"
+    "nfts": "NFT",
+    "groups": {
+      "main": "メイン",
+      "create": "作成",
+      "discover": "見つける",
+      "money": "お金",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "招待した人すべてから、ずっと報酬を",
@@ -3710,6 +3717,8 @@
     "themeColorBrandFailed": "プロフィール画像から色を読み取れませんでした",
     "chatTextSize": "チャットの文字サイズ",
     "chatTextSizeDesc": "すべてのチャットでメッセージを大きく、または小さく表示します。端末の文字サイズに上乗せされます。",
+    "chatCards": "チャットをカード表示",
+    "chatCardsDesc": "チャットごとにカードで表示します。オフにすると区切り線付きのシンプルな一覧になります。",
     "showLikes": "いいねを全員に表示",
     "showLikesDesc": "誰でもプロフィールの「いいね」タブを開けます。初期設定はオフなので、自分がいいねした投稿は自分だけが見られます。",
     "showFollowersList": "フォロワーを表示",
@@ -3725,7 +3734,15 @@
     "messagesShowCountDesc": "通知の光だけでなく、未読メッセージ数を確認できるようにします",
     "pushNotRegisteredDescIos": "アプリが閉じている間は通知を受け取れません：このiPhoneはプッシュ通知に登録されていません。設定でRiftnの通知が許可されていることを確認してから、アプリを再度開いてください。",
     "tipsOffNote": "これがオンの間、チップの受け取りはオフになります。チップを再び受け取るにはオフにしてください。",
-    "socialLinksDesc": "X, Instagram, TikTok, YouTube, Discord, Telegram"
+    "socialLinksDesc": "X, Instagram, TikTok, YouTube, Discord, Telegram",
+    "menuLayout": "メニューのレイアウト",
+    "menuLayoutDesc": "メニューのページのまとめ方",
+    "menuLayoutTabs": "タブ",
+    "menuLayoutTabsDesc": "1グループずつ、大きなアイコンで",
+    "menuLayoutSections": "セクション",
+    "menuLayoutSectionsDesc": "すべてのページを見出しの下に表示",
+    "menuLayoutFolders": "フォルダ",
+    "menuLayoutFoldersDesc": "メインのページと、グループごとのフォルダ"
   },
   "common": {
     "remove": "削除",

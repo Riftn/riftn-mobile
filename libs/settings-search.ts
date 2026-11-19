@@ -57,6 +57,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
   { tab: 'appearance', anchor: 'theme-color', label: 'Theme Color', labelKey: 'settings.themeColor', keywords: 'hue colour color accent brand rainbow tint' },
   { tab: 'appearance', anchor: 'dim-lights', label: 'Dim Lights', labelKey: 'settings.dimLights', keywords: 'brightness blue light night filter' },
   { tab: 'appearance', anchor: 'language', label: 'Language', labelKey: 'settings.language', keywords: 'translate locale english' },
+  { tab: 'appearance', anchor: 'menu-layout', label: 'Menu layout', labelKey: 'settings.menuLayout', keywords: 'menu tabs sections folders groups categories buttons icons grid organise layout' },
   { tab: 'appearance', anchor: 'default-feed', label: 'Default feed', labelKey: 'settings.defaultFeed', keywords: 'home shorts videos images music audio live open start tab layout' },
   { tab: 'appearance', anchor: 'feed-toggles', label: 'Reset feed toggles', labelKey: 'settings.feedToggles', keywords: 'filters sort default remember clear' },
   { tab: 'appearance', anchor: 'media', label: 'Media', labelKey: 'settings.media', keywords: 'video images playback' },

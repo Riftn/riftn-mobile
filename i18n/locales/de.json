@@ -2907,7 +2907,14 @@
     "premium": "Premium",
     "pricing": "Preise",
     "reorderHint": "Halte und ziehe ein beliebiges Symbol, um es neu anzuordnen",
-    "reorderReset": "Reset"
+    "reorderReset": "Reset",
+    "groups": {
+      "main": "Start",
+      "create": "Erstellen",
+      "discover": "Entdecken",
+      "money": "Geld",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Verdiene an allen, die du einlädst — für immer",
@@ -3674,6 +3681,8 @@
     "themeColorBrandFailed": "Farben deines Profilbilds konnten nicht gelesen werden",
     "chatTextSize": "Chat-Textgröße",
     "chatTextSizeDesc": "Größere oder kleinere Nachrichten in allen Chats. Kommt zur Textgröße deines Telefons hinzu.",
+    "chatCards": "Chats als Karten",
+    "chatCardsDesc": "Jeder Chat auf einer eigenen Karte. Aus für eine schlichte Liste mit Linien zwischen den Chats.",
     "showLikes": "Meine Likes allen zeigen",
     "showLikesDesc": "Jeder kann den Likes-Tab in deinem Profil öffnen. Standardmäßig aus, also siehst nur du, was dir gefallen hat.",
     "showFollowersList": "Zeigen, wer mir folgt",
@@ -3681,7 +3690,15 @@
     "showFollowingList": "Zeigen, wem ich folge",
     "showFollowingListDesc": "Jeder kann die Liste der Personen öffnen, denen du folgst. Wenn das aus ist, siehst nur du sie.",
     "showFollowCounts": "Meine Follower-Zahlen zeigen",
-    "showFollowCountsDesc": "Zeigt, wie viele Follower du hast und wie vielen Personen du folgst. Ausschalten blendet auch beide Listen aus."
+    "showFollowCountsDesc": "Zeigt, wie viele Follower du hast und wie vielen Personen du folgst. Ausschalten blendet auch beide Listen aus.",
+    "menuLayout": "Menü-Layout",
+    "menuLayoutDesc": "Wie das Menü seine Seiten gruppiert",
+    "menuLayoutTabs": "Tabs",
+    "menuLayoutTabsDesc": "Eine Gruppe nach der anderen, mit großen Symbolen",
+    "menuLayoutSections": "Abschnitte",
+    "menuLayoutSectionsDesc": "Alle Seiten auf einmal, unter Überschriften",
+    "menuLayoutFolders": "Ordner",
+    "menuLayoutFoldersDesc": "Deine Hauptseiten, dann ein Ordner pro Gruppe"
   },
   "common": {
     "refresh": "Aktualisieren",

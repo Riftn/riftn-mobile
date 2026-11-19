@@ -31,6 +31,31 @@ export async function reportCommunityChatMessage(communityId: string, messageId:
   }
 }
 
+/**
+ * A reaction you just left on (or took off) someone's message. The API re-reads
+ * it under your wallet session and shows the emoji in the author's Chat list
+ * until they open the chat.
+ */
+export async function reportCommunityChatReaction(
+  communityId: string,
+  messageId: string,
+  emoji: string,
+  walletAddress: string,
+  removed = false,
+): Promise<void> {
+  try {
+    const session = await ensureWalletSession(walletAddress.toLowerCase());
+    if (!session) return;
+    await apiClient.post(
+      "/notification/community-chat/reaction",
+      { communityId, messageId, emoji, walletSession: session.token, removed },
+      { isAuthRequired: true },
+    );
+  } catch {
+    // Best effort: a missed badge is never a failed reaction.
+  }
+}
+
 export async function markCommunityChatSeen(communityId: string): Promise<void> {
   try {
     await apiClient.post("/notification/community-chat/seen", { communityId }, { isAuthRequired: true });

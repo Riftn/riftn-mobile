@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} reactie op je berichten",
+    "many_other": "{{count}} reacties op je berichten",
+    "manySame_one": "{{emoji}} × {{count}} op je berichten",
+    "manySame_other": "{{emoji}} × {{count}} op je berichten",
+    "one": "Reageerde {{emoji}} op je bericht",
+    "oneNamed": "{{name}} reageerde {{emoji}} op je bericht"
+  },
   "messagesTabs": {
     "all": "Alle",
     "unread": "Ongelezen",
@@ -783,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Prijzen",
     "reorderHint": "Houd een pictogram ingedrukt en sleep het om de volgorde te wijzigen",
-    "reorderReset": "Resetten"
+    "reorderReset": "Resetten",
+    "groups": {
+      "main": "Hoofd",
+      "create": "Maken",
+      "discover": "Ontdekken",
+      "money": "Geld",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Verdien aan iedereen die je uitnodigt — voor altijd",
@@ -1557,6 +1572,8 @@
     "themeColorBrandFailed": "Kon de kleuren van je profielfoto niet lezen",
     "chatTextSize": "Tekstgrootte in chat",
     "chatTextSizeDesc": "Grotere of kleinere berichten in elke chat. Bovenop de tekstgrootte van je telefoon.",
+    "chatCards": "Chats als kaarten",
+    "chatCardsDesc": "Elke chat op een eigen kaart. Zet uit voor een gewone lijst met een lijn tussen chats.",
     "showLikes": "Mijn likes aan iedereen tonen",
     "showLikesDesc": "Iedereen kan het tabblad Likes op je profiel openen. Standaard uit, dus alleen jij ziet wat je leuk vond.",
     "showFollowersList": "Tonen wie mij volgt",
@@ -1564,7 +1581,15 @@
     "showFollowingList": "Tonen wie ik volg",
     "showFollowingListDesc": "Laat iedereen de lijst openen van mensen die je volgt. Als dit uit staat, kun alleen jij die zien.",
     "showFollowCounts": "Mijn volgersaantallen tonen",
-    "showFollowCountsDesc": "Toont hoeveel volgers je hebt en hoeveel mensen je volgt. Uitzetten verbergt ook beide lijsten."
+    "showFollowCountsDesc": "Toont hoeveel volgers je hebt en hoeveel mensen je volgt. Uitzetten verbergt ook beide lijsten.",
+    "menuLayout": "Menu-indeling",
+    "menuLayoutDesc": "Hoe het menu zijn pagina's groepeert",
+    "menuLayoutTabs": "Tabbladen",
+    "menuLayoutTabsDesc": "Eén groep tegelijk, met grote iconen",
+    "menuLayoutSections": "Secties",
+    "menuLayoutSectionsDesc": "Alle pagina's tegelijk, onder kopjes",
+    "menuLayoutFolders": "Mappen",
+    "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep"
   },
   "common": {
     "refresh": "Vernieuwen",
@@ -17286,5 +17311,20 @@
     "saveFailed": "Je tabbladen konden niet worden opgeslagen, probeer opnieuw",
     "show": "Tabblad tonen",
     "tooMany": "Je kunt maximaal 10 tabbladen hebben"
+  },
+  "msgDelete": {
+    "title": "Bericht verwijderen?",
+    "titleMany": "{{count}} berichten verwijderen?",
+    "bodyOwn": "Verwijder het alleen uit jouw chat, of voor iedereen.",
+    "bodyOwnMany": "Verwijder ze alleen uit jouw chat, of voor iedereen.",
+    "bodyOthers": "Het wordt alleen uit jouw chat verwijderd. De ander ziet het nog steeds.",
+    "bodyOthersMany": "Ze worden alleen uit jouw chat verwijderd. Anderen in de chat zien ze nog steeds.",
+    "bodyOwnBoth": "Verwijder het alleen uit jouw chat, of voor jullie allebei.",
+    "bodyOwnBothMany": "Verwijder ze alleen uit jouw chat, of voor jullie allebei.",
+    "forMe": "Verwijderen voor mij",
+    "forEveryone": "Verwijderen voor iedereen",
+    "forBoth": "Verwijderen voor ons allebei",
+    "forMeAndName": "Verwijderen voor mij en {{name}}",
+    "failed": "Kon het bericht niet verwijderen"
   }
 }

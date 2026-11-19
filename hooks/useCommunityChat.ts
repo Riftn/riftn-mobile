@@ -19,17 +19,19 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../libs/blocked-authors";
 import { useTranslation as _useCopy } from 'react-i18next';
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../services/supabase";
 import { useUser } from "../context/AuthContext";
 import { withWalletHeader } from "../libs/supabase-wallet-client";
 import {
   deleteCommunityMessage,
+  hiddenCommunityMessageIds,
+  hideCommunityMessage,
   pinCommunityMessage,
 } from "../services/communities.service";
 import { communityErrorMessage } from "../libs/community-permissions";
 import { notifyCommunityMentions } from "../libs/community-mention-notify";
-import { COMMUNITY_CHAT_SEEN_INTERVAL_MS, markCommunityChatSeen, reportCommunityChatMessage } from "../libs/community-chat-notify";
+import { COMMUNITY_CHAT_SEEN_INTERVAL_MS, markCommunityChatSeen, reportCommunityChatMessage, reportCommunityChatReaction } from "../libs/community-chat-notify";
 import { toastError, toastSuccess } from "../libs/toast";
 import { createLogger } from "../libs/logger";
 import type { CommunityChatMessage } from "../types/community";
@@ -69,7 +71,21 @@ export function useCommunityChat(
   const history = useCommunityChatHistory({
     communityId, walletAddress, isPrivate, enabled: active, readPage: readCommunityPage,
   });
-  const { rawMessages, referenceMessages, messagesKey: key, isLoading } = history;
+  const { rawMessages: storedMessages, referenceMessages, messagesKey: key, isLoading } = history;
+
+  // "Delete for me": ids this person hid. Everyone else still sees them.
+  const hiddenKey = useMemo(() => ["community-chat-hidden", communityId, walletAddress?.toLowerCase() ?? ""], [communityId, walletAddress]);
+  const { data: hiddenIds } = useQuery({
+    queryKey: hiddenKey,
+    queryFn: () => hiddenCommunityMessageIds(walletAddress!, communityId!).catch(() => [] as string[]),
+    enabled: !!communityId && !!walletAddress,
+    staleTime: 5 * 60_000,
+  });
+  const rawMessages = useMemo(() => {
+    if (!hiddenIds?.length) return storedMessages;
+    const hidden = new Set(hiddenIds);
+    return storedMessages.filter((m) => !hidden.has(m.id));
+  }, [storedMessages, hiddenIds]);
 
   // While the chat is on screen its notification is cleared and new pings are
   // held (libs/community-chat-notify). Re-sent every minute, and it stops when
@@ -235,7 +251,7 @@ export function useCommunityChat(
   );
 
   const reactionWrite = useCallback(
-    async (messageId: string, reactions: Record<string, string[]>, fallback: string) => {
+    async (messageId: string, reactions: Record<string, string[]>, fallback: string, report?: { emoji: string; removed: boolean; author?: string }) => {
       if (!walletAddress) return;
       const prev = queryClient.getQueryData<CommunityChatHistory<CommunityChatMessage>>(key);
       updateCommunityChatCache<CommunityChatMessage>(queryClient,key, (old = []) =>
@@ -252,9 +268,12 @@ export function useCommunityChat(
       if (error) {
         toastError(communityErrorMessage(error, fallback));
         if (prev) queryClient.setQueryData(key, prev);
+      } else if (report && communityId && report.author && report.author.toLowerCase() !== walletAddress.toLowerCase()) {
+        // The author sees the emoji in their Chat list until they open the chat.
+        void reportCommunityChatReaction(communityId, messageId, report.emoji, walletAddress, report.removed);
       }
     },
-    [walletAddress, queryClient, key],
+    [walletAddress, queryClient, key, communityId],
   );
 
   const addReaction = useCallback(
@@ -266,7 +285,7 @@ export function useCommunityChat(
       const addresses = reactions[emoji] || [];
       if (addresses.some((a) => a.toLowerCase() === walletAddress.toLowerCase())) return;
       reactions[emoji] = [...addresses, walletAddress.toLowerCase()];
-      await reactionWrite(messageId, reactions, _copy("copy.13931898084d", { defaultValue: "Failed to react" }));
+      await reactionWrite(messageId, reactions, _copy("copy.13931898084d", { defaultValue: "Failed to react" }), { emoji, removed: false, author: msg.wallet_address });
     },
     [rawMessages, walletAddress, reactionWrite, _copy],
   );
@@ -280,7 +299,7 @@ export function useCommunityChat(
       const addresses = reactions[emoji] || [];
       reactions[emoji] = addresses.filter((a) => a.toLowerCase() !== walletAddress.toLowerCase());
       if (reactions[emoji].length === 0) delete reactions[emoji];
-      await reactionWrite(messageId, reactions, _copy("copy.bf206a215a1f", { defaultValue: "Failed to remove reaction" }));
+      await reactionWrite(messageId, reactions, _copy("copy.bf206a215a1f", { defaultValue: "Failed to remove reaction" }), { emoji, removed: true, author: msg.wallet_address });
     },
     [rawMessages, walletAddress, reactionWrite, _copy],
   );
@@ -302,6 +321,23 @@ export function useCommunityChat(
       }
     },
     [walletAddress, communityId, queryClient, key, _copy],
+  );
+
+  /** Delete for me: any message, gone from your view only. */
+  const hideMessage = useCallback(
+    async (messageId: string) => {
+      if (!walletAddress || !communityId) return;
+      const prev = queryClient.getQueryData<string[]>(hiddenKey);
+      queryClient.setQueryData<string[]>(hiddenKey, (old = []) => (old.includes(messageId) ? old : [...old, messageId]));
+      try {
+        await hideCommunityMessage(walletAddress, messageId);
+      } catch (error) {
+        log.error("hide failed", error);
+        toastError(_copy("msgDelete.failed", { defaultValue: "Could not delete the message" }));
+        queryClient.setQueryData(hiddenKey, prev ?? []);
+      }
+    },
+    [walletAddress, communityId, queryClient, hiddenKey, _copy],
   );
 
   const setPinned = useCallback(
@@ -352,6 +388,7 @@ export function useCommunityChat(
     sendMessage,
     editMessage,
     deleteMessage,
+    hideMessage,
     setPinned,
     addReaction,
     removeReaction,

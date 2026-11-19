@@ -15,6 +15,9 @@ let mockDigitalPurchasesEnabled = true;
 let mockActiveScreen = 'DM';
 const mockOpenLink = jest.fn();
 const mockRequireAuth = jest.fn();
+// Most cases press pages from every group, so they read the all-on-one-page layout.
+let mockMenuLayout = 'sections';
+jest.mock('../../hooks/useAppPrefs', () => ({ useAppPrefs: () => ({ menuLayout: mockMenuLayout }) }));
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 // The system theme, without the native modules the real provider loads.
 jest.mock('../../context/ThemeContext', () => ({
@@ -95,7 +98,7 @@ const destinations = [
   ['nav.connectAi', 'Connect'],
 ] as const;
 
-beforeEach(() => { jest.clearAllMocks(); mockSignedIn = true; mockWallet = '0xmember'; mockBalance = 500; mockDigitalPurchasesEnabled = true; mockActiveScreen = 'DM'; });
+beforeEach(() => { jest.clearAllMocks(); mockSignedIn = true; mockWallet = '0xmember'; mockBalance = 500; mockDigitalPurchasesEnabled = true; mockActiveScreen = 'DM'; mockMenuLayout = 'sections'; });
 
 it.each(['nav.superpowers', 'nav.governance', 'nav.tv', 'nav.converter'])('leaves %s out of the App Store build', (label) => {
   mockDigitalPurchasesEnabled = false;
@@ -197,3 +200,26 @@ it('leaves Home and the feed tabs off the resting menu but finds Home by search'
 });
 
 beforeEach(() => { draftStorage.delete('dehub-drafts-v1'); __resetDraftCacheForTests(); });
+
+describe('tabs layout (the default)', () => {
+  beforeEach(() => { mockMenuLayout = 'tabs'; });
+
+  it('opens on Main and switches groups from the tab row', () => {
+    const view = render(<AppDrawer visible onClose={jest.fn()} />);
+    expect(view.queryByLabelText('nav.profile')).not.toBeNull();
+    expect(view.queryByLabelText('nav.dao')).toBeNull();
+    fireEvent.press(view.getByText('nav.groups.riftn'));
+    expect(view.queryByLabelText('nav.dao')).not.toBeNull();
+    expect(view.queryByLabelText('nav.profile')).toBeNull();
+  });
+
+  it('turns the tab row into the search field, and the X back into tabs', () => {
+    const view = render(<AppDrawer visible onClose={jest.fn()} />);
+    fireEvent.press(view.getByLabelText('sidebar.searchMenu'));
+    expect(view.queryByText('nav.groups.main')).toBeNull();
+    fireEvent.changeText(view.getByLabelText('sidebar.searchMenu'), 'nav.dao');
+    expect(view.queryByLabelText('nav.dao')).not.toBeNull();
+    fireEvent.press(view.getByLabelText('sidebar.clearSearch'));
+    expect(view.queryByText('nav.groups.main')).not.toBeNull();
+  });
+});

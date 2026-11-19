@@ -2995,7 +2995,14 @@
     "premium": "Prezioso",
     "pricing": "Prezzi",
     "reorderHint": "Tieni premuto e trascina qualsiasi icona per riorganizzare",
-    "reorderReset": "Ripristina"
+    "reorderReset": "Ripristina",
+    "groups": {
+      "main": "Principale",
+      "create": "Crea",
+      "discover": "Scopri",
+      "money": "Soldi",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Guadagna da tutti quelli che inviti — per sempre",
@@ -3762,6 +3769,8 @@
     "themeColorBrandFailed": "Non è stato possibile leggere i colori della tua foto profilo",
     "chatTextSize": "Dimensione del testo della chat",
     "chatTextSizeDesc": "Messaggi più grandi o più piccoli in ogni chat. Si somma alla dimensione del testo del telefono.",
+    "chatCards": "Chat come schede",
+    "chatCardsDesc": "Ogni chat sulla sua scheda. Disattiva per un elenco semplice con una linea tra le chat.",
     "showLikes": "Mostra i miei Mi piace a tutti",
     "showLikesDesc": "Chiunque può aprire la scheda Mi piace del tuo profilo. Disattivato di default, quindi solo tu vedi cosa ti è piaciuto.",
     "showFollowersList": "Mostra chi mi segue",
@@ -3769,7 +3778,15 @@
     "showFollowingList": "Mostra chi seguo",
     "showFollowingListDesc": "Permetti a chiunque di aprire la lista delle persone che segui. Se disattivato, solo tu puoi vederla.",
     "showFollowCounts": "Mostra i miei numeri di follower",
-    "showFollowCountsDesc": "Mostra quanti follower hai e quante persone segui. Disattivarlo nasconde anche entrambe le liste."
+    "showFollowCountsDesc": "Mostra quanti follower hai e quante persone segui. Disattivarlo nasconde anche entrambe le liste.",
+    "menuLayout": "Layout del menu",
+    "menuLayoutDesc": "Come il menu raggruppa le pagine",
+    "menuLayoutTabs": "Schede",
+    "menuLayoutTabsDesc": "Un gruppo alla volta, con icone grandi",
+    "menuLayoutSections": "Sezioni",
+    "menuLayoutSectionsDesc": "Tutte le pagine insieme, sotto intestazioni",
+    "menuLayoutFolders": "Cartelle",
+    "menuLayoutFoldersDesc": "Le tue pagine principali, poi una cartella per gruppo"
   },
   "common": {
     "refresh": "Aggiorna",

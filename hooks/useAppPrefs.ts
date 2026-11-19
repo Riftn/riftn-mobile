@@ -17,6 +17,7 @@ import { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isAppThemeName, type AppThemeName } from '../theme/colors';
 import { isPostLandingStyle, type PostLandingStyle } from '../libs/postLandingStyle';
+import { DEFAULT_MENU_LAYOUT, isMenuLayout, type MenuLayout } from '../libs/menuLayout';
 import { CHAT_TEXT_SCALE, isChatTextSize, type ChatTextSize } from '../libs/chatTextSize';
 import { claimMinimalLaunch } from '../libs/minimalBootGuard';
 import { bootRevealed } from '../libs/bootReveal';
@@ -60,11 +61,15 @@ const KEYS = {
   postLanding: 'dehub.postLanding',
   // Chat text size, web's key (lib/chat-text-size).
   chatTextSize: 'riftn.chat.textSize',
+  // Chat list: each chat on its own card (on) or a plain list with lines (off).
+  chatCards: 'riftn.chat.cards',
   // Theme Color per customisable theme, and the Brand palette. Web's keys and
   // value shapes (see theme/themeColor.ts).
   themeHues: 'dehub.themeHues',
   brandColors: 'dehub.brandColors',
   halloweenOptOut: 'dehub.halloween2026.optOut',
+  // Menu drawer grouping (libs/menuLayout), web's key.
+  menuLayout: 'menu-layout',
 } as const;
 
 export type AppPrefKey = keyof typeof KEYS;
@@ -93,6 +98,10 @@ export interface AppPrefs {
   postLanding: PostLandingStyle;
   /** Size of text in every chat (libs/chatTextSize). */
   chatTextSize: ChatTextSize;
+  /** Chat list as cards (true) or a plain list with a line between chats (false). */
+  chatCards: boolean;
+  /** How the menu drawer groups its pages (libs/menuLayout). */
+  menuLayout: MenuLayout;
   themeHues: Record<string, number>;
   brandColors: string[];
   /** Picked a theme on Halloween 2026, so skip the Horror override (libs/halloweenOverride). */
@@ -131,6 +140,8 @@ export const DEFAULT_APP_PREFS: AppPrefs = {
   leftHanded: false,
   postLanding: 'ghost',
   chatTextSize: 'default',
+  chatCards: true,
+  menuLayout: DEFAULT_MENU_LAYOUT,
   themeHues: {},
   brandColors: [],
   halloweenOptOut: false,
@@ -214,6 +225,7 @@ function init() {
         skipSegments: parseBool(get('skipSegments'), DEFAULT_APP_PREFS.skipSegments),
         leftHanded: parseBool(get('leftHanded'), DEFAULT_APP_PREFS.leftHanded),
         halloweenOptOut: parseBool(get('halloweenOptOut'), DEFAULT_APP_PREFS.halloweenOptOut),
+        chatCards: parseBool(get('chatCards'), DEFAULT_APP_PREFS.chatCards),
         postLanding: (() => {
           const stored = get('postLanding');
           return isPostLandingStyle(stored) ? stored : DEFAULT_APP_PREFS.postLanding;
@@ -221,6 +233,10 @@ function init() {
         chatTextSize: (() => {
           const stored = get('chatTextSize');
           return isChatTextSize(stored) ? stored : DEFAULT_APP_PREFS.chatTextSize;
+        })(),
+        menuLayout: (() => {
+          const stored = get('menuLayout');
+          return isMenuLayout(stored) ? stored : DEFAULT_APP_PREFS.menuLayout;
         })(),
         themeHues: (() => {
           try {

@@ -239,6 +239,10 @@ export interface ReactionUpdatedPayload {
   dmId: ID;
   messageId: ID;
   reactions: Record<string, string[]>;
+  /** Who changed it (lowercased address). */
+  by?: string;
+  /** The emoji, when this was a new reaction. */
+  added?: string;
 }
 
 
@@ -315,6 +319,8 @@ export interface DeleteMessagePayload {
 export interface DeleteMessageResponse {
   dmId: ID;
   messageId: ID;
+  /** Deleted for this person only (their other devices drop it too). */
+  forMe?: boolean;
 }
 
 /** Client → Server: readReceipt */

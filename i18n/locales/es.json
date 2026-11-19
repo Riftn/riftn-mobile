@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} reacción a tus mensajes",
+    "many_other": "{{count}} reacciones a tus mensajes",
+    "manySame_one": "{{emoji}} × {{count}} en tus mensajes",
+    "manySame_other": "{{emoji}} × {{count}} en tus mensajes",
+    "one": "Reaccionó {{emoji}} a tu mensaje",
+    "oneNamed": "{{name}} reaccionó {{emoji}} a tu mensaje"
+  },
   "messagesTabs": {
     "all": "Todos",
     "unread": "No leídos",
@@ -783,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Precios",
     "reorderHint": "Mantén y arrastra cualquier icono para reorganizar",
-    "reorderReset": "Restablecer"
+    "reorderReset": "Restablecer",
+    "groups": {
+      "main": "Principal",
+      "create": "Crear",
+      "discover": "Descubrir",
+      "money": "Dinero",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Gana con todos los que invites — para siempre",
@@ -1557,6 +1572,8 @@
     "themeColorBrandFailed": "No se pudieron leer los colores de tu foto de perfil",
     "chatTextSize": "Tamaño del texto del chat",
     "chatTextSizeDesc": "Mensajes más grandes o más pequeños en todos los chats. Se suma al tamaño de texto de tu teléfono.",
+    "chatCards": "Chats como tarjetas",
+    "chatCardsDesc": "Cada chat en su propia tarjeta. Desactívalo para una lista simple con una línea entre chats.",
     "showLikes": "Mostrar mis me gusta a todos",
     "showLikesDesc": "Cualquiera puede abrir la pestaña Me gusta de tu perfil. Desactivado por defecto, así que solo tú ves lo que te gustó.",
     "showFollowersList": "Mostrar quién me sigue",
@@ -1564,7 +1581,15 @@
     "showFollowingList": "Mostrar a quién sigo",
     "showFollowingListDesc": "Deja que cualquiera abra la lista de personas que sigues. Si está desactivado, solo tú puedes verla.",
     "showFollowCounts": "Mostrar mis números de seguidores",
-    "showFollowCountsDesc": "Muestra cuántos seguidores tienes y a cuántas personas sigues. Al desactivarlo también se ocultan ambas listas."
+    "showFollowCountsDesc": "Muestra cuántos seguidores tienes y a cuántas personas sigues. Al desactivarlo también se ocultan ambas listas.",
+    "menuLayout": "Diseño del menú",
+    "menuLayoutDesc": "Cómo agrupa el menú sus páginas",
+    "menuLayoutTabs": "Pestañas",
+    "menuLayoutTabsDesc": "Un grupo a la vez, con iconos grandes",
+    "menuLayoutSections": "Secciones",
+    "menuLayoutSectionsDesc": "Todas las páginas a la vez, bajo encabezados",
+    "menuLayoutFolders": "Carpetas",
+    "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo"
   },
   "common": {
     "refresh": "Actualizar",
@@ -17035,5 +17060,20 @@
     "saveFailed": "No se pudieron guardar tus pestañas, inténtalo de nuevo",
     "show": "Mostrar pestaña",
     "tooMany": "Puedes tener hasta 10 pestañas"
+  },
+  "msgDelete": {
+    "title": "¿Eliminar mensaje?",
+    "titleMany": "¿Eliminar {{count}} mensajes?",
+    "bodyOwn": "Quítalo solo de tu chat o para todos.",
+    "bodyOwnMany": "Quítalos solo de tu chat o para todos.",
+    "bodyOthers": "Se quitará solo de tu chat. La otra persona lo seguirá viendo.",
+    "bodyOthersMany": "Se quitarán solo de tu chat. Los demás en el chat los seguirán viendo.",
+    "bodyOwnBoth": "Quítalo solo de tu chat o para los dos.",
+    "bodyOwnBothMany": "Quítalos solo de tu chat o para los dos.",
+    "forMe": "Eliminar para mí",
+    "forEveryone": "Eliminar para todos",
+    "forBoth": "Eliminar para los dos",
+    "forMeAndName": "Eliminar para mí y {{name}}",
+    "failed": "No se pudo eliminar el mensaje"
   }
 }

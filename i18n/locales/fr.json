@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} réaction à vos messages",
+    "many_other": "{{count}} réactions à vos messages",
+    "manySame_one": "{{emoji}} × {{count}} sur vos messages",
+    "manySame_other": "{{emoji}} × {{count}} sur vos messages",
+    "one": "A réagi {{emoji}} à votre message",
+    "oneNamed": "{{name}} a réagi {{emoji}} à votre message"
+  },
   "messagesTabs": {
     "all": "Tous",
     "unread": "Non lus",
@@ -783,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Tarifs",
     "reorderHint": "Maintenez et faites glisser n'importe quelle icône pour réorganiser",
-    "reorderReset": "Réinitialiser"
+    "reorderReset": "Réinitialiser",
+    "groups": {
+      "main": "Principal",
+      "create": "Créer",
+      "discover": "Découvrir",
+      "money": "Argent",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Gagnez sur tous ceux que vous invitez — pour toujours",
@@ -1557,6 +1572,8 @@
     "themeColorBrandFailed": "Impossible de lire les couleurs de votre photo de profil",
     "chatTextSize": "Taille du texte du chat",
     "chatTextSizeDesc": "Messages plus grands ou plus petits dans tous les chats. S'ajoute à la taille du texte de votre téléphone.",
+    "chatCards": "Chats en cartes",
+    "chatCardsDesc": "Chaque chat sur sa propre carte. Désactivez pour une liste simple avec une ligne entre les chats.",
     "showLikes": "Montrer mes j'aime à tout le monde",
     "showLikesDesc": "Tout le monde peut ouvrir l'onglet J'aime de ton profil. Désactivé par défaut : toi seul vois ce que tu as aimé.",
     "showFollowersList": "Montrer qui me suit",
@@ -1564,7 +1581,15 @@
     "showFollowingList": "Montrer qui je suis",
     "showFollowingListDesc": "Permet à tout le monde d'ouvrir la liste des personnes que tu suis. Désactivé, toi seul peux la voir.",
     "showFollowCounts": "Montrer mes nombres d'abonnés",
-    "showFollowCountsDesc": "Affiche combien d'abonnés tu as et combien de personnes tu suis. Le désactiver masque aussi les deux listes."
+    "showFollowCountsDesc": "Affiche combien d'abonnés tu as et combien de personnes tu suis. Le désactiver masque aussi les deux listes.",
+    "menuLayout": "Disposition du menu",
+    "menuLayoutDesc": "Comment le menu regroupe ses pages",
+    "menuLayoutTabs": "Onglets",
+    "menuLayoutTabsDesc": "Un groupe à la fois, avec de grandes icônes",
+    "menuLayoutSections": "Sections",
+    "menuLayoutSectionsDesc": "Toutes les pages, sous des en-têtes",
+    "menuLayoutFolders": "Dossiers",
+    "menuLayoutFoldersDesc": "Vos pages principales, puis un dossier par groupe"
   },
   "common": {
     "refresh": "Actualiser",
@@ -17039,5 +17064,20 @@
     "saveFailed": "Impossible d’enregistrer vos onglets, réessayez",
     "show": "Afficher l’onglet",
     "tooMany": "Vous pouvez avoir jusqu’à 10 onglets"
+  },
+  "msgDelete": {
+    "title": "Supprimer le message ?",
+    "titleMany": "Supprimer {{count}} messages ?",
+    "bodyOwn": "Retirez-le seulement de votre discussion, ou pour tout le monde.",
+    "bodyOwnMany": "Retirez-les seulement de votre discussion, ou pour tout le monde.",
+    "bodyOthers": "Il sera retiré de votre discussion uniquement. L'autre personne le verra toujours.",
+    "bodyOthersMany": "Ils seront retirés de votre discussion uniquement. Les autres membres les verront toujours.",
+    "bodyOwnBoth": "Retirez-le seulement de votre discussion, ou pour vous deux.",
+    "bodyOwnBothMany": "Retirez-les seulement de votre discussion, ou pour vous deux.",
+    "forMe": "Supprimer pour moi",
+    "forEveryone": "Supprimer pour tout le monde",
+    "forBoth": "Supprimer pour nous deux",
+    "forMeAndName": "Supprimer pour moi et {{name}}",
+    "failed": "Impossible de supprimer le message"
   }
 }

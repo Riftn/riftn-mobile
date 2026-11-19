@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} تفاعل مع رسائلك",
+    "many_other": "{{count}} تفاعلات مع رسائلك",
+    "manySame_one": "{{emoji}} × {{count}} على رسائلك",
+    "manySame_other": "{{emoji}} × {{count}} على رسائلك",
+    "one": "تفاعل بـ {{emoji}} مع رسالتك",
+    "oneNamed": "{{name}} تفاعل بـ {{emoji}} مع رسالتك"
+  },
   "messagesTabs": {
     "all": "الكل",
     "unread": "غير مقروءة",
@@ -783,7 +791,14 @@
     "premium": "بريميوم",
     "pricing": "الأسعار",
     "reorderHint": "أمسك واسحب أي أيكونة لإعادة ترتيبها",
-    "reorderReset": "إعادة تعيين"
+    "reorderReset": "إعادة تعيين",
+    "groups": {
+      "main": "الرئيسية",
+      "create": "إنشاء",
+      "discover": "استكشاف",
+      "money": "المال",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "اربح من كل من تدعوه — إلى الأبد",
@@ -1557,6 +1572,8 @@
     "themeColorBrandFailed": "تعذّرت قراءة الألوان من صورتك الشخصية",
     "chatTextSize": "حجم نص الدردشة",
     "chatTextSizeDesc": "رسائل أكبر أو أصغر في كل الدردشات. يُضاف إلى حجم نص هاتفك.",
+    "chatCards": "الدردشات كبطاقات",
+    "chatCardsDesc": "كل دردشة في بطاقتها. أوقفه لقائمة بسيطة بخط بين الدردشات.",
     "showLikes": "إظهار إعجاباتي للجميع",
     "showLikesDesc": "يمكن لأي شخص فتح تبويب الإعجابات في ملفك الشخصي. مطفأ افتراضيًا، لذا أنت وحدك ترى ما أعجبك.",
     "showFollowersList": "إظهار من يتابعني",
@@ -1564,7 +1581,15 @@
     "showFollowingList": "إظهار من أتابع",
     "showFollowingListDesc": "اسمح لأي شخص بفتح قائمة الأشخاص الذين تتابعهم. عند الإيقاف، أنت وحدك من يراها.",
     "showFollowCounts": "إظهار أعداد المتابعين",
-    "showFollowCountsDesc": "يعرض عدد متابعيك وعدد من تتابعهم. إيقافه يخفي القائمتين أيضًا."
+    "showFollowCountsDesc": "يعرض عدد متابعيك وعدد من تتابعهم. إيقافه يخفي القائمتين أيضًا.",
+    "menuLayout": "تخطيط القائمة",
+    "menuLayoutDesc": "كيف تجمع القائمة صفحاتها",
+    "menuLayoutTabs": "علامات تبويب",
+    "menuLayoutTabsDesc": "مجموعة واحدة في كل مرة، بأيقونات كبيرة",
+    "menuLayoutSections": "أقسام",
+    "menuLayoutSectionsDesc": "كل الصفحات معًا، تحت عناوين",
+    "menuLayoutFolders": "مجلدات",
+    "menuLayoutFoldersDesc": "صفحاتك الرئيسية، ثم مجلد لكل مجموعة"
   },
   "common": {
     "refresh": "تحديث",
@@ -17055,5 +17080,20 @@
     "saveFailed": "تعذّر حفظ علامات التبويب، حاول مرة أخرى",
     "show": "إظهار علامة التبويب",
     "tooMany": "يمكنك امتلاك حتى 10 علامات تبويب"
+  },
+  "msgDelete": {
+    "title": "حذف الرسالة؟",
+    "titleMany": "حذف {{count}} رسائل؟",
+    "bodyOwn": "احذفها من محادثتك فقط، أو للجميع.",
+    "bodyOwnMany": "احذفها من محادثتك فقط، أو للجميع.",
+    "bodyOthers": "ستُحذف من محادثتك فقط. سيظل الطرف الآخر يراها.",
+    "bodyOthersMany": "ستُحذف من محادثتك فقط. سيظل الآخرون في المحادثة يرونها.",
+    "bodyOwnBoth": "احذفها من محادثتك فقط، أو لديكما معًا.",
+    "bodyOwnBothMany": "احذفها من محادثتك فقط، أو لديكما معًا.",
+    "forMe": "حذف لديّ",
+    "forEveryone": "حذف للجميع",
+    "forBoth": "حذف لدينا نحن الاثنين",
+    "forMeAndName": "حذف لديّ ولدى {{name}}",
+    "failed": "تعذّر حذف الرسالة"
   }
 }

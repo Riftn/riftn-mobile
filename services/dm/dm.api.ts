@@ -370,7 +370,20 @@ export interface ChatPref {
   listedAt?: string | null;
   /** DMs: your messages in this chat are end-to-end encrypted since then. */
   encryptedAt?: string | null;
+  /** Reactions to your messages you haven't seen; cleared when you open the chat. */
+  reactions?: ChatReactionSummary | null;
 }
+
+/** Reactions other people left on your messages in a chat, not seen yet. */
+export interface ChatReactionSummary {
+  total: number;
+  /** Most used first. */
+  emojis: { emoji: string; count: number }[];
+  last: { emoji: string; by: string; name: string | null; messageId: string; at: string };
+}
+
+/** Public Chat keeps only its waiting reactions in the settings store. */
+export const PUBLIC_CHAT_PREF_ID = "live:global";
 
 /**
  * Group, channel and community chats are communities underneath. Their
@@ -388,7 +401,7 @@ export async function getChatPrefs(): Promise<ChatPref[]> {
 
 export async function setChatPref(
   conversationId: string,
-  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean },
+  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean; seenReactions?: true },
 ): Promise<void> {
   await apiClient.post(`/dm/chat-prefs/${encodeURIComponent(conversationId)}`, patch, { isAuthRequired: true });
 }

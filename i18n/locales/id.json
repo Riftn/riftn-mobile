@@ -2994,7 +2994,14 @@
     "premium": "Premium",
     "pricing": "Harga",
     "reorderHint": "Tahan dan seret ikon apa pun untuk mengatur ulang",
-    "reorderReset": "Atur ulang"
+    "reorderReset": "Atur ulang",
+    "groups": {
+      "main": "Utama",
+      "create": "Buat",
+      "discover": "Jelajahi",
+      "money": "Uang",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Dapat penghasilan dari semua yang kamu undang — selamanya",
@@ -3761,6 +3768,8 @@
     "themeColorBrandFailed": "Tidak bisa membaca warna dari foto profil Anda",
     "chatTextSize": "Ukuran teks chat",
     "chatTextSizeDesc": "Pesan lebih besar atau lebih kecil di semua chat. Ditambahkan ke ukuran teks ponsel Anda.",
+    "chatCards": "Chat sebagai kartu",
+    "chatCardsDesc": "Setiap chat di kartunya sendiri. Matikan untuk daftar polos dengan garis di antara chat.",
     "showLikes": "Tampilkan suka saya ke semua orang",
     "showLikesDesc": "Siapa pun bisa membuka tab Suka di profilmu. Mati secara bawaan, jadi hanya kamu yang melihat apa yang kamu sukai.",
     "showFollowersList": "Tampilkan siapa yang mengikuti saya",
@@ -3768,7 +3777,15 @@
     "showFollowingList": "Tampilkan siapa yang saya ikuti",
     "showFollowingListDesc": "Izinkan siapa pun membuka daftar orang yang kamu ikuti. Jika mati, hanya kamu yang bisa melihatnya.",
     "showFollowCounts": "Tampilkan jumlah pengikut saya",
-    "showFollowCountsDesc": "Menampilkan berapa pengikutmu dan berapa orang yang kamu ikuti. Mematikannya juga menyembunyikan kedua daftar."
+    "showFollowCountsDesc": "Menampilkan berapa pengikutmu dan berapa orang yang kamu ikuti. Mematikannya juga menyembunyikan kedua daftar.",
+    "menuLayout": "Tata letak menu",
+    "menuLayoutDesc": "Cara menu mengelompokkan halamannya",
+    "menuLayoutTabs": "Tab",
+    "menuLayoutTabsDesc": "Satu grup sekaligus, dengan ikon besar",
+    "menuLayoutSections": "Bagian",
+    "menuLayoutSectionsDesc": "Semua halaman sekaligus, di bawah judul",
+    "menuLayoutFolders": "Folder",
+    "menuLayoutFoldersDesc": "Halaman utamamu, lalu satu folder per grup"
   },
   "common": {
     "refresh": "Segarkan",

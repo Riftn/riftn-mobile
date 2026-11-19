@@ -2944,7 +2944,14 @@
     "reorderHint": "按住并拖动任意图标以重新排列",
     "reorderReset": "重置",
     "nfts": "NFT",
-    "dao": "DAO"
+    "dao": "DAO",
+    "groups": {
+      "main": "主要",
+      "create": "创作",
+      "discover": "发现",
+      "money": "资金",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "你邀请的每个人都为你带来收入——永久有效",
@@ -3710,6 +3717,8 @@
     "themeColorBrandFailed": "无法从你的头像读取颜色",
     "chatTextSize": "聊天文字大小",
     "chatTextSizeDesc": "在所有聊天中放大或缩小消息。在手机文字大小的基础上叠加。",
+    "chatCards": "聊天以卡片显示",
+    "chatCardsDesc": "每个聊天单独一张卡片。关闭后变为带分隔线的简洁列表。",
     "showLikes": "向所有人显示我的点赞",
     "showLikesDesc": "任何人都可以打开你主页上的“点赞”标签。默认关闭，所以只有你能看到自己点赞了什么。",
     "showFollowersList": "显示谁关注了我",
@@ -3725,7 +3734,15 @@
     "messagesShowCountDesc": "查看未读消息数量，而不是仅仅显示光晕",
     "pushNotRegisteredDescIos": "当应用关闭时，通知无法到达你：此 iPhone 从未注册推送。检查设置中是否允许 Riftn 的通知，然后再次打开应用。",
     "tipsOffNote": "当此功能开启时，小费和转账对你关闭。关闭它以再次获得小费。",
-    "socialLinksDesc": "X, Instagram, TikTok, YouTube, Discord, Telegram"
+    "socialLinksDesc": "X, Instagram, TikTok, YouTube, Discord, Telegram",
+    "menuLayout": "菜单布局",
+    "menuLayoutDesc": "菜单如何分组页面",
+    "menuLayoutTabs": "标签页",
+    "menuLayoutTabsDesc": "一次一个分组，大图标",
+    "menuLayoutSections": "分区",
+    "menuLayoutSectionsDesc": "所有页面一次显示，按标题分组",
+    "menuLayoutFolders": "文件夹",
+    "menuLayoutFoldersDesc": "主要页面，然后每组一个文件夹"
   },
   "common": {
     "refresh": "刷新",
