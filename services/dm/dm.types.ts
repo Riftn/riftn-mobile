@@ -319,6 +319,8 @@ export interface DeleteMessagePayload {
 export interface DeleteMessageResponse {
   dmId: ID;
   messageId: ID;
+  /** Deleted for this person only (their other devices drop it too). */
+  forMe?: boolean;
 }
 
 /** Client → Server: readReceipt */

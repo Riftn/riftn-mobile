@@ -448,6 +448,16 @@ export function deleteCommunityMessage(w: string, messageId: string) {
   return rpc("community_delete_message", { _message_id: messageId }, w);
 }
 
+/** Delete for me: the message leaves your view only; everyone else still sees it. */
+export function hideCommunityMessage(w: string, messageId: string) {
+  return rpc("community_hide_message", { _message_id: messageId }, w);
+}
+
+/** Ids of the messages you deleted for yourself in this chat. */
+export async function hiddenCommunityMessageIds(w: string, communityId: string): Promise<string[]> {
+  return (await rpc<string[] | null>("community_hidden_message_ids", { _community_id: communityId }, w)) ?? [];
+}
+
 export function pinCommunityMessage(w: string, messageId: string, pinned: boolean) {
   return rpc("community_pin_message", { _message_id: messageId, _pinned: pinned }, w);
 }
