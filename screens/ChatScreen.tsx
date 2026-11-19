@@ -2367,6 +2367,10 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               onContentSizeChange={onContentSizeChange}
               onEndReached={loadMore}
               onEndReachedThreshold={0.3}
+              // Fewer offscreen screens and smaller batches: the JS thread
+              // stays free for the scroll in a long thread.
+              windowSize={15}
+              maxToRenderPerBatch={10}
               onScrollToIndexFailed={onScrollToIndexFailed}
               onViewableItemsChanged={onViewableItemsChanged}
               viewabilityConfig={viewabilityConfig}

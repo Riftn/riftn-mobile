@@ -15,6 +15,7 @@ import {
   Linking,
 } from "react-native";
 import type { ImageLoadEventData } from "expo-image";
+import SwipeReplyArrows from "../Chat/SwipeReplyArrows";
 import SmartImage from "../common/SmartImage";
 import Animated, {
   useAnimatedStyle,
@@ -24,8 +25,6 @@ import Animated, {
   withSequence,
   withDelay,
   runOnJS,
-  interpolate,
-  Extrapolation,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
@@ -373,6 +372,9 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
   const REPLY_THRESHOLD = 60;
   const translateX = useSharedValue(0);
+  // Reply arrows are built on the first swipe, not for every bubble on screen.
+  const [swipeArmed, setSwipeArmed] = useState(false);
+  const noSwipe = useMemo(() => Gesture.Tap(), []);
 
   const fireSwipeReply = useCallback(() => {
     haptic.select();
@@ -387,6 +389,9 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
       Gesture.Pan()
         .activeOffsetX([-14, 14])
         .failOffsetY([-15, 15])
+        .onStart(() => {
+          runOnJS(setSwipeArmed)(true);
+        })
         .onUpdate((e) => {
           translateX.value = Math.min(Math.max(e.translationX, -80), 80);
         })
@@ -401,44 +406,6 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
   const swipeAnimStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
-  }));
-
-  const replyIconStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(
-      translateX.value,
-      [0, REPLY_THRESHOLD],
-      [0, 1],
-      Extrapolation.CLAMP,
-    ),
-    transform: [
-      {
-        scale: interpolate(
-          translateX.value,
-          [0, REPLY_THRESHOLD],
-          [0.5, 1],
-          Extrapolation.CLAMP,
-        ),
-      },
-    ],
-  }));
-
-  const replyIconLeftSwipeStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(
-      -translateX.value,
-      [0, REPLY_THRESHOLD],
-      [0, 1],
-      Extrapolation.CLAMP,
-    ),
-    transform: [
-      {
-        scale: interpolate(
-          -translateX.value,
-          [0, REPLY_THRESHOLD],
-          [0.5, 1],
-          Extrapolation.CLAMP,
-        ),
-      },
-    ],
   }));
 
   const senderUser = getSenderUser(message);
@@ -773,43 +740,10 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
   return (
     <View>
-      {/* Reply arrow icon — sits behind the message */}
-      <Animated.View
-        style={[
-          replyIconStyle,
-          {
-            position: "absolute",
-            left: 8,
-            top: 0,
-            bottom: 0,
-            justifyContent: "center",
-            alignItems: "center",
-          },
-        ]}
-      >
-        <View className="w-8 h-8 rounded-xl bg-theme-neutrals-800 items-center justify-center">
-          <Icon name="Undo2" size={18} color="#F4F4F5" />
-        </View>
-      </Animated.View>
-      <Animated.View
-        style={[
-          replyIconLeftSwipeStyle,
-          {
-            position: "absolute",
-            right: 8,
-            top: 0,
-            bottom: 0,
-            justifyContent: "center",
-            alignItems: "center",
-          },
-        ]}
-      >
-        <View className="w-8 h-8 rounded-xl bg-theme-neutrals-800 items-center justify-center">
-          <Icon name="Undo2" size={18} color="#F4F4F5" />
-        </View>
-      </Animated.View>
+      {/* Reply arrows — sit behind the message */}
+      {swipeArmed ? <SwipeReplyArrows x={translateX} threshold={REPLY_THRESHOLD} /> : null}
 
-      <GestureDetector gesture={onSwipeToReply ? panGesture : Gesture.Tap()}>
+      <GestureDetector gesture={onSwipeToReply ? panGesture : noSwipe}>
         <Animated.View style={swipeAnimStyle}>
           <Pressable
             onLongPress={handleLongPress}
@@ -821,22 +755,24 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             isMine ? "justify-end" : "justify-start"
           }`}
         >
-          {/* Highlight overlay for scroll-to-reply */}
-          <Animated.View
-            style={[
-              {
-                position: "absolute",
-                top: -2,
-                left: 0,
-                right: 0,
-                bottom: -2,
-                backgroundColor: "rgba(255,255,255, 0.12)",
-                borderRadius: 12,
-              },
-              highlightStyle,
-            ]}
-            pointerEvents="none"
-          />
+          {/* Highlight overlay for scroll-to-reply (only while flashing) */}
+          {highlighted ? (
+            <Animated.View
+              style={[
+                {
+                  position: "absolute",
+                  top: -2,
+                  left: 0,
+                  right: 0,
+                  bottom: -2,
+                  backgroundColor: "rgba(255,255,255, 0.12)",
+                  borderRadius: 12,
+                },
+                highlightStyle,
+              ]}
+              pointerEvents="none"
+            />
+          ) : null}
           {/* Avatar (other user, first in a group) */}
           {!isMine && showAvatar && (
             <Avatar

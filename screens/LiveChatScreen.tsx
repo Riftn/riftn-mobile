@@ -985,7 +985,7 @@ const LiveChatScreen: React.FC = () => {
 
       const msg = item.data;
       const row = (
-        <SwipeToReply onReply={() => handleReply(msg)} enabled={!msg.isDeleted}>
+        <SwipeToReply onReply={handleReply} payload={msg} enabled={!msg.isDeleted}>
         <LiveChatMessage
           message={msg}
           myAddress={myAddress}
@@ -1186,6 +1186,9 @@ const LiveChatScreen: React.FC = () => {
           inverted={false}
           initialNumToRender={30}
           maxToRenderPerBatch={20}
+          // Keep ~7 screens mounted instead of 21: less offscreen work on the
+          // JS thread while a long chat is flicked through.
+          windowSize={15}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="interactive"
