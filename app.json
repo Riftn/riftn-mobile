@@ -36,7 +36,7 @@
         "webcredentials:riftn.com"
       ],
       "infoPlist": {
-        "UIBackgroundModes": ["audio"],
+        "UIBackgroundModes": ["audio", "voip"],
         "RTCAppGroupIdentifier": "group.io.dehub.mobile.screen-capture",
         "RTCScreenSharingExtension": "io.dehub.mobile.screen-capture-upload",
         "LSApplicationQueriesSchemes": [

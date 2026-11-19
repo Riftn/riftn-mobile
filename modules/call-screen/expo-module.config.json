@@ -1,0 +1,10 @@
+{
+  "platforms": ["android", "apple"],
+  "apple": {
+    "modules": ["CallScreenModule"],
+    "appDelegateSubscribers": ["CallScreenAppDelegateSubscriber"]
+  },
+  "android": {
+    "modules": ["io.dehub.callscreen.CallScreenModule"]
+  }
+}

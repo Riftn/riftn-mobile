@@ -9,6 +9,7 @@ import { createLogger } from '../../libs/logger';
 import { translateCopy as _translateCopy } from '../../i18n/copy';
 import { IS_APP_STORE_BUILD } from '../../config/storefront';
 import { CALL_RING_CHANNEL, CALL_RING_SOUND, nativeCarriesCallRingtone } from '../../libs/call-ring-support';
+import { callScreenSupported, getVoipToken } from '../../modules/call-screen';
 import i18n from 'i18next';
 
 const logger = createLogger('PushService');
@@ -81,6 +82,10 @@ export interface PushTokenPayload {
   deviceName?: string;
   /** This build bundles the call ringtone, so calls can ring with it. */
   callRingtone?: boolean;
+  /** iPhone: PushKit token for incoming calls on the CallKit call screen. */
+  voipToken?: string;
+  /** This build shows incoming calls on the phone's own call screen. */
+  callScreen?: boolean;
 }
 
 export interface NotificationData {
@@ -462,8 +467,11 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
     throw new Error('Invalid Expo push token format');
   }
 
+  const voipToken = Platform.OS === 'ios' ? await getVoipToken() : null;
+  const registrationKey = `${token}|${voipToken ?? ''}`;
+
   // Skip if same token already registered
-  if (lastBackendRegisteredToken === token) {
+  if (lastBackendRegisteredToken === registrationKey) {
     logger.debug('Token already registered with backend, skipping');
     return true;
   }
@@ -488,13 +496,15 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
       deviceId,
       deviceName: getDeviceName(),
       callRingtone: nativeCarriesCallRingtone(),
+      callScreen: callScreenSupported(),
+      ...(voipToken ? { voipToken } : {}),
     };
 
     const response = await apiClient.post('/push/token', payload, { isAuthRequired: true });
     
     if (response?.success) {
       logger.info('Push token registered with backend');
-      lastBackendRegisteredToken = token;
+      lastBackendRegisteredToken = registrationKey;
       return true;
     }
     
@@ -506,6 +516,16 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
   } finally {
     backendRegistrationInProgress = false;
   }
+}
+
+/**
+ * Send the registration again with what this phone knows now, e.g. once the
+ * iPhone's VoIP token arrives after the Expo token was already registered.
+ */
+export async function refreshPushRegistration(): Promise<boolean> {
+  const token = cachedExpoPushToken ?? lastBackendRegisteredToken?.split('|')[0] ?? null;
+  if (!token || !isValidExpoPushToken(token)) return false;
+  return registerPushTokenWithBackend(token);
 }
 
 /**

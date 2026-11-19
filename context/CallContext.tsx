@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useMemo, type PropsWithChildren } from "react";
 import { useCall as useCallImpl, type UseCallReturn } from "../hooks/useCall";
 import { trackVisualActivity, visualActivity } from "../libs/visualActivity";
+import { useNativeCallScreen } from "../hooks/useNativeCallScreen";
 
 export const CallContext = createContext<UseCallReturn | null>(null);
 type CallActions = Pick<UseCallReturn, "setCallMessageHandler">;
@@ -8,6 +9,7 @@ const CallActionsContext = createContext<CallActions | null>(null);
 
 export const CallProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const call = useCallImpl();
+  useNativeCallScreen(call);
   const actions = useMemo(() => ({ setCallMessageHandler: call.setCallMessageHandler }), [call.setCallMessageHandler]);
   useEffect(trackVisualActivity, []);
   useEffect(() => {
