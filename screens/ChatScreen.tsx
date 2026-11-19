@@ -1670,29 +1670,60 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [contextMessage, toggleReaction],
   );
 
-  // One-to-one chat: like Telegram, either person can delete any message, for both of them.
+  // Like Telegram: your own message goes for both of you or just for you;
+  // the other person's can only be deleted for you (it stays in their chat).
+  const deleteMessages = useCallback(
+    (convId: string, list: DmMessage[], forBoth: boolean) => {
+      const event = forBoth ? DMSocketEvent.DeleteMessage : DMSocketEvent.HideMessage;
+      for (const m of list) {
+        ws.emitAuthed(event, { dmId: convId, messageId: m._id });
+        dmActions.removeMessage({ dmId: convId, messageId: m._id });
+      }
+    },
+    [ws],
+  );
+  const askDelete = useCallback(
+    (convId: string, list: DmMessage[], onDone: () => void) => {
+      const allMine = list.length > 0 && list.every((m) => isMine(m));
+      const many = list.length > 1;
+      const title = many
+        ? t("msgDelete.titleMany", { defaultValue: "Delete {{count}} messages?", count: list.length })
+        : t("msgDelete.title", { defaultValue: "Delete message?" });
+      const body = allMine
+        ? (many
+          ? t("msgDelete.bodyOwnBothMany", { defaultValue: "Remove them from your chat only, or for both of you." })
+          : t("msgDelete.bodyOwnBoth", { defaultValue: "Remove it from your chat only, or for both of you." }))
+        : (many
+          ? t("msgDelete.bodyOthersMany", { defaultValue: "They will be removed from your chat only. Others in the chat will still see them." })
+          : t("msgDelete.bodyOthers", { defaultValue: "It will be removed from your chat only. The other person will still see it." }));
+      const go = (forBoth: boolean) => {
+        deleteMessages(convId, list, forBoth);
+        if (many) toastSuccess(t("msgSelect.deleted", { defaultValue: "Deleted {{count}} messages", count: list.length }));
+        else toastSuccess(t("dm.messageDeleted"));
+        onDone();
+      };
+      Alert.alert(title, body, [
+        { text: t("common.cancel"), style: "cancel" },
+        { text: t("msgDelete.forMe", { defaultValue: "Delete for me" }), style: allMine ? "default" : "destructive", onPress: () => go(false) },
+        ...(allMine
+          ? [{
+            text: t("msgDelete.forMeAndName", { defaultValue: "Delete for me and {{name}}", name: peerLabel }),
+            style: "destructive" as const,
+            onPress: () => go(true),
+          }]
+          : []),
+      ]);
+    },
+    [isMine, deleteMessages, peerLabel],
+  );
+
   const handleDelete = useCallback(() => {
     if (!contextMessage || !currentConvId) return;
     const target = contextMessage;
     const convId = currentConvId;
     closeContextMenu();
-    Alert.alert(
-      t("dm.deleteOneTitle", { defaultValue: "Delete this message?" }),
-      t("dm.deleteForBothBody", { defaultValue: "It will be removed for both of you." }),
-      [
-        { text: t("common.cancel"), style: "cancel" },
-        {
-          text: t("common.delete"),
-          style: "destructive",
-          onPress: () => {
-            ws.emitAuthed(DMSocketEvent.DeleteMessage, { dmId: convId, messageId: target._id });
-            dmActions.removeMessage({ dmId: convId, messageId: target._id });
-            toastSuccess(t("dm.messageDeleted"));
-          },
-        },
-      ],
-    );
-  }, [contextMessage, currentConvId, ws, closeContextMenu]);
+    askDelete(convId, [target], () => {});
+  }, [contextMessage, currentConvId, closeContextMenu, askDelete]);
 
   const handleForward = useCallback(() => {
     if (contextMessage) setForwardMessage(contextMessage);
@@ -1785,7 +1816,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     () => (pickedMsgs ? messageList.filter((m) => pickedMsgs.has(m._id)).reverse() : []),
     [pickedMsgs, messageList],
   );
-  // One-to-one chat: every picked message can be deleted for both of you.
+  // Every pick can be deleted for you; all-yours picks can go for both.
   const pickedOwn = pickedList;
   const togglePick = useCallback((m: DmMessage) => {
     setPickedMsgs((prev) => {
@@ -1827,27 +1858,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   }, [pickedList]);
   const deletePicked = useCallback(() => {
     if (!currentConvId || !pickedOwn.length) return;
-    const list = pickedOwn;
-    Alert.alert(
-      t("msgSelect.deleteTitle", { defaultValue: "Delete {{count}} messages?", count: list.length }),
-      t("msgSelect.deleteForBothBody", { defaultValue: "They will be removed for both of you." }),
-      [
-        { text: t("common.cancel"), style: "cancel" },
-        {
-          text: t("common.delete"),
-          style: "destructive",
-          onPress: () => {
-            for (const m of list) {
-              ws.emitAuthed(DMSocketEvent.DeleteMessage, { dmId: currentConvId, messageId: m._id });
-              dmActions.removeMessage({ dmId: currentConvId, messageId: m._id });
-            }
-            toastSuccess(t("msgSelect.deleted", { defaultValue: "Deleted {{count}} messages", count: list.length }));
-            setPickedMsgs(null);
-          },
-        },
-      ],
-    );
-  }, [currentConvId, pickedOwn, ws]);
+    askDelete(currentConvId, pickedOwn, () => setPickedMsgs(null));
+  }, [currentConvId, pickedOwn, askDelete]);
 
 
   const onTypingChange = useCallback(

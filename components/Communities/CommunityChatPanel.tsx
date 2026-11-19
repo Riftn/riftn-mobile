@@ -419,6 +419,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     sendMessage,
     editMessage,
     deleteMessage,
+    hideMessage,
     setPinned,
     addReaction,
     removeReaction,
@@ -876,30 +877,39 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     [canRestrictMembers, myAddress, community.id, abilities, showProfile],
   );
 
+  // Like Telegram: your own message (or anyone's, for a moderator) can go for
+  // everyone; any message can be deleted just for you.
   const confirmDelete = useCallback(
     (message: CommunityChatMessage) => {
       setSheetFor(null);
+      const mine = !!myAddress && message.wallet_address?.toLowerCase() === myAddress;
+      const forEveryone = mine || canDeleteAny;
       if (alertTimer.current) clearTimeout(alertTimer.current);
       alertTimer.current = setTimeout(() => {
         Alert.alert(
-          t("communities.chatPanel.deleteTitle", { defaultValue: "Delete message" }),
-          t("communities.chatPanel.deleteConfirm", {
-            defaultValue: "Delete this message? This cannot be undone.",
-          }),
+          t("msgDelete.title", { defaultValue: "Delete message?" }),
+          forEveryone
+            ? t("msgDelete.bodyOwn", { defaultValue: "Remove it from your chat only, or for everyone." })
+            : t("msgDelete.bodyOthers", { defaultValue: "It will be removed from your chat only. The other person will still see it." }),
           [
             { text: t("common.cancel", { defaultValue: "Cancel" }), style: "cancel" },
             {
-              text: t("common.delete", { defaultValue: "Delete" }),
-              style: "destructive",
-              onPress: () => {
-                void deleteMessage(message.id);
-              },
+              text: t("msgDelete.forMe", { defaultValue: "Delete for me" }),
+              style: forEveryone ? "default" : "destructive",
+              onPress: () => { void hideMessage(message.id); },
             },
+            ...(forEveryone
+              ? [{
+                text: t("msgDelete.forEveryone", { defaultValue: "Delete for everyone" }),
+                style: "destructive" as const,
+                onPress: () => { void deleteMessage(message.id); },
+              }]
+              : []),
           ],
         );
       }, ALERT_DELAY_MS);
     },
-    [t, deleteMessage],
+    [t, deleteMessage, hideMessage, myAddress, canDeleteAny],
   );
 
   const renderItem = useCallback(
@@ -967,7 +977,8 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
 
   const sheetIsMine = !!sheetFor && !!myAddress && sheetFor.wallet_address?.toLowerCase() === myAddress;
   const sheetCanEdit = sheetIsMine && sheetFor?.message_type === "text" && !!sheetFor?.content;
-  const sheetCanDelete = sheetIsMine || canDeleteAny;
+  // Anyone can delete a message for themselves (the alert offers "for everyone" when allowed).
+  const sheetCanDelete = !!sheetFor?.id;
 
   const pinnedSender = pinnedMessage
     ? pinnedMessage.display_name ||

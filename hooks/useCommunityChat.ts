@@ -19,12 +19,14 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../libs/blocked-authors";
 import { useTranslation as _useCopy } from 'react-i18next';
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../services/supabase";
 import { useUser } from "../context/AuthContext";
 import { withWalletHeader } from "../libs/supabase-wallet-client";
 import {
   deleteCommunityMessage,
+  hiddenCommunityMessageIds,
+  hideCommunityMessage,
   pinCommunityMessage,
 } from "../services/communities.service";
 import { communityErrorMessage } from "../libs/community-permissions";
@@ -69,7 +71,21 @@ export function useCommunityChat(
   const history = useCommunityChatHistory({
     communityId, walletAddress, isPrivate, enabled: active, readPage: readCommunityPage,
   });
-  const { rawMessages, referenceMessages, messagesKey: key, isLoading } = history;
+  const { rawMessages: storedMessages, referenceMessages, messagesKey: key, isLoading } = history;
+
+  // "Delete for me": ids this person hid. Everyone else still sees them.
+  const hiddenKey = useMemo(() => ["community-chat-hidden", communityId, walletAddress?.toLowerCase() ?? ""], [communityId, walletAddress]);
+  const { data: hiddenIds } = useQuery({
+    queryKey: hiddenKey,
+    queryFn: () => hiddenCommunityMessageIds(walletAddress!, communityId!).catch(() => [] as string[]),
+    enabled: !!communityId && !!walletAddress,
+    staleTime: 5 * 60_000,
+  });
+  const rawMessages = useMemo(() => {
+    if (!hiddenIds?.length) return storedMessages;
+    const hidden = new Set(hiddenIds);
+    return storedMessages.filter((m) => !hidden.has(m.id));
+  }, [storedMessages, hiddenIds]);
 
   // While the chat is on screen its notification is cleared and new pings are
   // held (libs/community-chat-notify). Re-sent every minute, and it stops when
@@ -304,6 +320,23 @@ export function useCommunityChat(
     [walletAddress, communityId, queryClient, key, _copy],
   );
 
+  /** Delete for me: any message, gone from your view only. */
+  const hideMessage = useCallback(
+    async (messageId: string) => {
+      if (!walletAddress || !communityId) return;
+      const prev = queryClient.getQueryData<string[]>(hiddenKey);
+      queryClient.setQueryData<string[]>(hiddenKey, (old = []) => (old.includes(messageId) ? old : [...old, messageId]));
+      try {
+        await hideCommunityMessage(walletAddress, messageId);
+      } catch (error) {
+        log.error("hide failed", error);
+        toastError(_copy("msgDelete.failed", { defaultValue: "Could not delete the message" }));
+        queryClient.setQueryData(hiddenKey, prev ?? []);
+      }
+    },
+    [walletAddress, communityId, queryClient, hiddenKey, _copy],
+  );
+
   const setPinned = useCallback(
     async (messageId: string, pinned: boolean) => {
       if (!walletAddress || !communityId) return;
@@ -352,6 +385,7 @@ export function useCommunityChat(
     sendMessage,
     editMessage,
     deleteMessage,
+    hideMessage,
     setPinned,
     addReaction,
     removeReaction,
