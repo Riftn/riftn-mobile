@@ -72,7 +72,7 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
-elif [ "$MODE" = touch ] || [ "$MODE" = keys ] || [ "$MODE" = shells ] || [ "$MODE" = bones ]; then
+elif [ "$MODE" = touch ] || [ "$MODE" = keys ] || [ "$MODE" = player ] || [ "$MODE" = menu ] || [ "$MODE" = shells ] || [ "$MODE" = bones ]; then
   bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
@@ -228,6 +228,15 @@ run() {
           drag:*)
             # A finger pulling the page down, above where a keyboard sits.
             idb ui swipe --udid "$UDID" --duration 0.5 200 250 200 400 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+          flick:*)
+            # "flick:<label>:<text>:<dy>": a finger drawn up (dy < 0) or
+            # down from the middle of whatever has that label.
+            IFS=: read -r _ flick_name flick_text flick_dy <<< "$touch"
+            idb ui describe-all --udid "$UDID" > "$WORK/ax.json" 2>/dev/null || echo "[]" > "$WORK/ax.json"
+            read -r fx fy <<< "$(python3 scripts/ios-nav/ax-find.py "$WORK/ax.json" "$flick_text" "$OUT/nav/$name-finds.txt" "$flick_name")"
+            if [ -n "$fx" ]; then
+              idb ui swipe --udid "$UDID" --duration 0.35 "$fx" "$fy" "$fx" "$((fy + flick_dy))" >/dev/null 2>&1 || echo "$name: idb swipe failed"
+            fi ;;
           find:*)
             # "find:<label>:<button text>": tap the button with that text,
             # wherever it is drawn; nothing is tapped when it is not up.
@@ -386,6 +395,18 @@ if [ "$MODE" = loginsheet ]; then
   done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = player ]; then
+  # Loop off by default, a short moving on when it ends, the Shorts menu's
+  # player rows and the When? wheel, in several themes.
+  for theme in ${PLAYER_THEMES:-system system-light osaka}; do
+    run after "player-$theme" "" player "$theme"
+    python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(sys.argv[2], {k: d.get(k) for k in ("signedIn", "loopOnStart", "opened", "firstPlayer", "afterEnd", "movedOn", "loopAfterTap", "loopAfterSecondTap", "uploadRoute", "error")})' "$OUT/nav/player-$theme.json" "$theme" 2>/dev/null || true
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-600 > "$OUT/logs/tour.txt" || true
   exit 0
 fi
 

@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import BlurSafeImage from "../common/BlurSafeImage";
 import { useTranslation } from "react-i18next";
-import Icon, { type IconName } from "../ui/Icon";
+import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
 import { resolveContentType } from "../Home/FeedCard";
 import type { UnifiedFeedItem } from "../../services/feed.unified.service";
@@ -17,7 +17,8 @@ import { usePostBgHoldProps } from "./PostBgPicker";
 import { ArticleTileFace, openArticleTilePicker, useProfileArticleTile } from "./ArticleTile";
 import { articleReadMinutes } from "../../libs/articleTile";
 import { mediaCardOf, textCardOf, wordsWithoutLinks } from "../../libs/gridCard";
-import { GridCardFace, GridKindPill, GridPollProbe, type GridPalette } from "./GridCardFace";
+import { GridCardFace, GridPollProbe, type GridPalette } from "./GridCardFace";
+import { FormatMark, type FormatKind } from "./FormatMark";
 import { GRIP_ROOM, GridGrip, useGridDrag } from "./GridDrag";
 
 /**
@@ -64,14 +65,6 @@ function plainText(text?: string): string {
     .replace(/[#*_>`~]/g, "")
     .replace(/\s+/g, " ")
     .trim();
-}
-
-function Badge({ icon, poster, light }: { icon: IconName; poster?: boolean; light?: boolean }) {
-  return (
-    <View style={[styles.badge, poster && styles.badgePoster, poster && light && styles.badgePosterLight]}>
-      <Icon name={icon} size={12} color={poster && light ? "#17161B" : "#FFFFFF"} />
-    </View>
-  );
 }
 
 interface ProfileGridTileProps {
@@ -186,16 +179,16 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
   if (kind === "text" || kind === "article") {
     const rawWords = kind === "article" ? item.title || item.name : item.description || item.name;
     const words = plainText(card ? wordsWithoutLinks(rawWords || "") : rawWords);
-    const posterInner = (pill?: React.ReactNode) => (
+    const posterInner = (format: FormatKind = "text") => (
       <View style={styles.textInner}>
-        {pinChip ? <View style={styles.inlineChip}>{pinChip}</View> : pill ? <View style={styles.inlineChip}>{pill}</View> : softLight ? <View style={styles.softGap} /> : <Text style={[styles.quote, { color: ink }]}>{"“"}</Text>}
+        {pinChip ? <View style={styles.inlineChip}>{pinChip}</View> : softLight ? <View style={styles.softGap} /> : <Text style={[styles.quote, { color: ink }]}>{"“"}</Text>}
         {softLight && <Text pointerEvents="none" style={[styles.softQuote, { color: ink }]}>{"“"}</Text>}
         <Text numberOfLines={5} style={[styles.words, { color: ink }]}>{words}</Text>
         <View style={styles.stats}>
           <View style={styles.stat}><Icon name="MessageSquare" size={10} color={sub} /><Text style={[styles.meta, { color: sub }]}>{formatCompactNumber(item.commentCount ?? 0)}</Text></View>
           <View style={styles.stat}><Icon name="ThumbsUp" size={10} color={sub} /><Text style={[styles.meta, { color: sub }]}>{formatCompactNumber(likeCount)}</Text></View>
         </View>
-        <Badge icon="MessageSquare" poster light={lightPoster && !postBg} />
+        <FormatMark kind={format} poster={palette} />
       </View>
     );
     body = (
@@ -205,14 +198,14 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
         {kind === "article" ? (
           <>
             <ArticleTileFace look={articleLook} {...articleSample} />
-            {articleLook === "cover" && <Badge icon="Blog" />}
+            <FormatMark kind="article" />
           </>
         ) : card ? (
-          <GridCardFace card={card} tokenId={tokenNum} item={item} words={words} chip={pinChip ?? undefined} palette={palette} fallback={posterInner(<GridKindPill kind={card.kind} inline palette={palette} />)} />
+          <GridCardFace card={card} tokenId={tokenNum} item={item} words={words} chip={pinChip ?? undefined} palette={palette} fallback={posterInner(card.kind)} />
         ) : locked || tokenNum <= 0 ? (
           posterInner()
         ) : (
-          <GridPollProbe tokenId={tokenNum} words={words} chip={pinChip ?? undefined} palette={palette} poster={posterInner()} fallback={posterInner(<GridKindPill kind="poll" inline palette={palette} />)} />
+          <GridPollProbe tokenId={tokenNum} words={words} chip={pinChip ?? undefined} palette={palette} poster={posterInner()} fallback={posterInner("poll")} />
         )}
         {kind === "article" && pinChip}
       </View>
@@ -235,7 +228,7 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
           ))}
         </View>
         <Text numberOfLines={1} style={[styles.audioTitle, hasGrip && styles.audioTitleGrip]}>{label}</Text>
-        <Badge icon="Music" />
+        <FormatMark kind="audio" />
         {pinChip}
       </View>
     );
@@ -245,17 +238,18 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
     body = (
       <View className="dark-surface" style={[styles.fill, { backgroundColor: isOsaka ? posterBg : "#111111" }]}>
         {!!cover && <Image source={{ uri: cover }} style={StyleSheet.absoluteFill} contentFit="cover" recyclingKey={id} transition={0} />}
-        {(kind !== "photo" || multi || pinned || mediaKind) && <View style={[StyleSheet.absoluteFill, styles.shade]} pointerEvents="none" />}
+        <View style={[StyleSheet.absoluteFill, styles.shade]} pointerEvents="none" />
         {isLive ? (
           <View style={[styles.chip, { backgroundColor: LIVE_RED }]}>
             <View style={styles.liveDot} />
             <Text style={[styles.chipText, { color: "#FFFFFF", letterSpacing: 0.5 }]}>{t("live.liveBadge", "LIVE")}</Text>
           </View>
         ) : (
-          pinChip ?? (mediaKind ? <GridKindPill kind={mediaKind} /> : null)
+          <>
+            {pinChip}
+            <FormatMark kind={mediaKind ?? (kind === "photo" ? (multi ? "photos" : "photo") : resolveContentType(item) === "live" ? "replay" : "video")} />
+          </>
         )}
-        {kind === "video" && <Badge icon={resolveContentType(item) === "live" ? "Radio" : resolveContentType(item) === "short" ? ("Shorts" as IconName) : "Film"} />}
-        {multi && <Badge icon="Images" />}
         {kind === "video" && !!duration && <View style={styles.dur}><Text style={styles.durText}>{duration}</Text></View>}
         {(kind === "video" || isLive) && views > 0 && <Text style={[styles.views, hasGrip && styles.viewsGrip]}>{hasGrip ? formatCompactNumber(views) : t("music.viewsCount", { count: views, views: formatCompactNumber(views) })}</Text>}
         {isLive && <View style={[StyleSheet.absoluteFill, styles.liveRing]} pointerEvents="none" />}
@@ -302,21 +296,6 @@ const styles = StyleSheet.create({
   fill: { flex: 1, borderRadius: 3, overflow: "hidden" },
   center: { alignItems: "center", justifyContent: "center" },
   shade: { backgroundColor: "rgba(0,0,0,0.16)" },
-  badge: {
-    position: "absolute",
-    top: 6,
-    right: 6,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(0,0,0,0.34)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.28)",
-  },
-  badgePoster: { backgroundColor: "rgba(255,255,255,0.1)", borderColor: "rgba(255,255,255,0.22)" },
-  badgePosterLight: { backgroundColor: "rgba(0,0,0,0.06)", borderColor: "rgba(0,0,0,0.12)" },
   chip: {
     position: "absolute",
     top: 6,

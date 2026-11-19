@@ -1,7 +1,7 @@
 import LiveChatSearch, { LiveChatSearchPill, chatSearchPerson, rememberChatSearch, useChatSearch, type ChatSearchPerson } from "../components/LiveChat/LiveChatSearch";
 import { useDraftState } from "../hooks/useDraftState";
 import { FlatList } from "react-native-gesture-handler";
-import SwipeToReply from "../components/chat/SwipeToReply";
+import SwipeToReply from "../components/Chat/SwipeToReply";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";

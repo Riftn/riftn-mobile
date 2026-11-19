@@ -54,3 +54,15 @@ describe('refreshLinkPreview', () => {
     expect((await fetchLinkPreview(url))?.title).toBe('Kept');
   });
 });
+
+describe('link preview text', () => {
+  it('shows escaped meta values as plain text', async () => {
+    mockInvoke.mockResolvedValueOnce({
+      data: { title: 'What Riftn&#39;s Tagline Means', description: 'you&#x27;d &amp; more', image: null, siteName: 'Riftn' },
+      error: null,
+    });
+    const preview = await fetchLinkPreview('https://example.com/entities-check');
+    expect(preview?.title).toBe("What Riftn's Tagline Means");
+    expect(preview?.description).toBe("you'd & more");
+  });
+});

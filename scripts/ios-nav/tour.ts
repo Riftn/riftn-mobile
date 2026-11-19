@@ -1298,10 +1298,147 @@ async function runLoginSheet(): Promise<void> {
   await sleep(7000);
   await shot("login-3-page");
   await sleep(6000);
+  // A misspelled provider in the email box ("gmail.coms"): the field should
+  // offer "Did you mean ...gmail.com?" instead of sending. Only on a build
+  // that has the check, so main's run never sends a code to a dead address.
+  const i18next = (require("i18next").default ?? require("i18next")) as { exists(key: string): boolean; t(key: string): string };
+  extra.typoCheck = i18next.exists("loginModal.didYouMean");
+  if (extra.typoCheck) {
+    const field = liveInputs[liveInputs.length - 1];
+    if (field) inputState.focusTextInput(field);
+    await sleep(2000);
+    await AsyncStorage.setItem(SWIPE_KEY, "type:email:alex@gmail.coms");
+    await sleep(5000);
+    await AsyncStorage.setItem(SWIPE_KEY, `find:emailgo:${i18next.t("loginModal.sendCode")}`);
+    await sleep(6000);
+    const { Keyboard } = require("react-native") as typeof import("react-native");
+    Keyboard.dismiss();
+    await sleep(2500);
+    await shot("login-4-email-typo");
+    await sleep(6000);
+  }
   await AsyncStorage.removeItem(SWIPE_KEY);
   extra.finishedAt = Date.now();
   await save(true);
   console.error(`[perf-tour] loginsheet ${JSON.stringify(extra)}`);
+}
+
+/**
+ * Player and When? checks: loop is off on a fresh start, a short that ends
+ * moves on by itself, the Shorts "..." menu shows the player rows (loop
+ * switch tapped on and off again), and the When? sheet's hour wheel turns
+ * under a real finger flick. A picture of each step.
+ */
+async function runPlayer(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "player" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+  let asks = 0;
+  const ask = async (request: string, waitMs: number) => {
+    asks += 1;
+    await AsyncStorage.setItem(SWIPE_KEY, request.replace("#", String(asks)));
+    await sleep(waitMs);
+  };
+  if (signedIn) {
+    await sleep(14000);
+    await ask("tap:not-now-photo-#:201:802", 9000);
+    await ask("tap:not-now-notifications-#:201:649", 9000);
+  }
+  const prefs = require("../../libs/video-preferences") as typeof import("../../libs/video-preferences");
+  extra.loopOnStart = prefs.getIsLooping();
+
+  // Every player the app starts, so the one playing can be sent to its end.
+  const players = new Map<object, number>();
+  const calls: { wall: number; player: number; call: string }[] = [];
+  extra.calls = calls;
+  let nextId = 1;
+  try {
+    const probe = createVideoPlayer(null);
+    const proto = Object.getPrototypeOf(probe) as Record<string, unknown>;
+    for (const name of ["play", "replaceAsync", "replace"]) {
+      const original = proto[name];
+      if (typeof original !== "function") continue;
+      proto[name] = function (this: object, ...args: unknown[]) {
+        if (!players.has(this)) players.set(this, nextId++);
+        calls.push({ wall: Date.now(), player: players.get(this) ?? 0, call: name });
+        return (original as (...a: unknown[]) => unknown).apply(this, args);
+      };
+    }
+    probe.release();
+  } catch (error) {
+    extra.patchError = String(error);
+  }
+  const playing = (): { player: { currentTime: number; duration: number; playing: boolean }; id: number } | undefined => {
+    for (const [player, id] of players) {
+      try {
+        const p = player as { currentTime: number; duration: number; playing: boolean };
+        if (p.playing && p.duration > 0) return { player: p, id };
+      } catch { /* released */ }
+    }
+    return undefined;
+  };
+
+  nav.navigate(ScreenNames.ShortsViewer, {});
+  await sleep(9000);
+  extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
+  await shot("player-1-shorts");
+  await sleep(700);
+  const first = playing();
+  extra.firstPlayer = first ? { id: first.id, duration: Math.round(first.player.duration) } : null;
+  if (first) {
+    const seekAt = Date.now();
+    extra.seekAt = seekAt;
+    try { first.player.currentTime = Math.max(0, first.player.duration - 1.5); } catch (error) { extra.seekError = String(error); }
+    await sleep(9000);
+    const next = playing();
+    extra.afterEnd = next ? { id: next.id, at: Math.round(next.player.currentTime), duration: Math.round(next.player.duration) } : null;
+    extra.callsAfterEnd = calls.filter((c) => c.wall >= seekAt).length;
+    // Moved on: another player is playing, or the same one plays a clip of another length.
+    extra.movedOn = !!next && (next.id !== first.id || Math.round(next.player.duration) !== Math.round(first.player.duration));
+  }
+  await shot("player-2-after-clip-end");
+  await sleep(700);
+
+  await ask("find:menu-#:More options", 9000);
+  await shot("player-3-menu");
+  await sleep(700);
+  await ask("find:loop-on-#:Toggle loop", 7000);
+  extra.loopAfterTap = prefs.getIsLooping();
+  await shot("player-4-loop-on");
+  await sleep(700);
+  await ask("find:loop-off-#:Toggle loop", 7000);
+  extra.loopAfterSecondTap = prefs.getIsLooping();
+  // The dimmed space above the menu closes it.
+  await ask("tap:menu-close-#:196:120", 7000);
+  await shot("player-5-menu-closed");
+  await sleep(700);
+  if (nav.canGoBack()) nav.goBack();
+  await sleep(3000);
+
+  if (signedIn) {
+    nav.navigate(ScreenNames.Upload);
+    await sleep(6000);
+    extra.uploadRoute = nav.getCurrentRoute()?.name;
+    await ask("find:when-#:Schedule Post", 9000);
+    await shot("player-6-when");
+    await sleep(700);
+    await ask("flick:hour-#:Hour:-120", 9000);
+    await shot("player-7-hour-turned");
+    await sleep(700);
+    await ask("flick:minute-#:Minute:80", 9000);
+    await shot("player-8-minute-turned");
+    await sleep(700);
+  }
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] player ${JSON.stringify({ ...extra, calls: calls.length })}`);
 }
 
 /**
@@ -1355,7 +1492,7 @@ async function runMenu(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "menu") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1370,6 +1507,7 @@ void (async () => {
     else if (mode === "keys") await runKeys();
     else if (mode === "wallet") await runWallet();
     else if (mode === "loginsheet") await runLoginSheet();
+    else if (mode === "player") await runPlayer();
     else if (mode === "menu") await runMenu();
     else await run();
   } catch (error) {
