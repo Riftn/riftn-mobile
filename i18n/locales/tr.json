@@ -5828,6 +5828,7 @@
     "image": "Bir resim gönderildi"
   },
   "liveChat": {
+    "jumpToMentions": "Yanıtlara ve bahsetmelere git",
     "attach": "Fotoğraf, GIF veya emoji ekleyin",
     "attachTitle": "Mesajınıza ekleyin",
     "attachPhoto": "Fotoğraf",

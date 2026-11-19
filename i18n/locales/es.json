@@ -5829,6 +5829,7 @@
     "image": "Envié una imagen"
   },
   "liveChat": {
+    "jumpToMentions": "Ir a respuestas y menciones",
     "attach": "Añade una foto, un GIF o un emoji",
     "attachTitle": "Añadir a tu mensaje",
     "attachPhoto": "Foto",
