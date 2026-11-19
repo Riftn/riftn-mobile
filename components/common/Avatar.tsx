@@ -33,6 +33,8 @@ interface AvatarProps {
   live?: boolean;
   /** Profile-sized avatars: a much quieter ripple (see LiveRipple `quiet`). */
   liveQuiet?: boolean;
+  /** An animated avatar (GIF/WebP) plays; false holds its first frame. */
+  animate?: boolean;
 }
 
 const INITIAL_BG = "#2A2C2E";
@@ -70,6 +72,7 @@ const Avatar: React.FC<AvatarProps> = ({
   name,
   live = false,
   liveQuiet = false,
+  animate,
 }) => {
   // There used to be a `loaded` flag set from the Image's onLoad, purely to
   // decide whether to show the initial behind it. That was a guaranteed extra
@@ -171,6 +174,7 @@ const Avatar: React.FC<AvatarProps> = ({
           // of the cache does most of the work here; the recycling key keeps a
           // reused row from flashing the previous user's face.
           recyclingKey={current}
+          autoplay={animate}
           transition={0}
           onError={() => setLoad((s) => (s.key === key ? { ...s, step: s.step + 1 } : s))}
         />

@@ -15,7 +15,8 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-nati
 import { Image } from "expo-image";
 import MaskedView from "@react-native-masked-view/masked-view";
 import Svg, { Path } from "react-native-svg";
-import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
+import Animated, { cancelAnimation, Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
+import { useAmbientMotion } from "../../hooks/useAmbientMotion";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
@@ -385,12 +386,24 @@ function LiveStill({ item, small = false }: { item: LiveNowItem; small?: boolean
   );
 }
 
-/** One soft dot that breathes every 3 seconds. */
+/**
+ * One soft dot that breathes every 3 seconds, only while the bar is on
+ * screen. The bar sits on Home, which stays mounted under Shorts and every
+ * other pushed screen: the endless loop kept Android's UI thread committing
+ * a frame for it the whole time, behind a playing short.
+ */
 function BreathingDot({ color }: { color: string }) {
   const p = useSharedValue(0);
+  const running = useAmbientMotion();
   useEffect(() => {
+    if (!running) {
+      cancelAnimation(p);
+      p.value = 0;
+      return;
+    }
     p.value = withRepeat(withTiming(1, { duration: 1500, easing: Easing.inOut(Easing.ease) }), -1, true);
-  }, [p]);
+    return () => cancelAnimation(p);
+  }, [p, running]);
   const halo = useAnimatedStyle(() => ({ opacity: p.value * 0.22, transform: [{ scale: 1 + p.value * 0.9 }] }));
   const core = useAnimatedStyle(() => ({ opacity: 0.75 + p.value * 0.25 }));
   return (

@@ -101,6 +101,7 @@ import { useSettledPagerIndex } from "../hooks/useSettledPagerIndex";
 import PictureInPictureButton from "../components/common/PictureInPictureButton";
 import { configureForBackgroundPlayback, releaseBackgroundPlayback } from "../libs/audioSession";
 import { setPlayerProp } from "../libs/playerProps";
+import { setThemeBackdropVisible } from "../libs/themeBackdrop";
 import { FEED_BUFFER_OPTIONS } from "../libs/videoBuffering";
 import { useScrubGesture } from "../hooks/useScrubGesture";
 import { useDataSaver } from "../hooks/useDataSaver";
@@ -2706,6 +2707,9 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                 <Avatar
                   uri={avatarUrl}
                   name={displayName}
+                  // An animated avatar decoded every frame on each mounted
+                  // short; only the one being watched plays it.
+                  animate={isActive}
                   size={48}
                   style={styles.avatar}
                 />
@@ -2976,6 +2980,17 @@ const ShortsViewerScreen = () => {
     configureForBackgroundPlayback().catch(() => {});
     return () => { releaseBackgroundPlayback().catch(() => {}); };
   }, [viewerPlaybackAllowed]);
+  // The viewer is opaque black, so a live theme scene behind it (a WebGL
+  // page under the navigator) was drawing every frame for nobody. Pause it
+  // while the viewer is in front; it carries on from where it was.
+  useEffect(() => {
+    const hide = () => setThemeBackdropVisible(false);
+    const show = () => setThemeBackdropVisible(true);
+    if (navigation.isFocused?.()) hide();
+    const offFocus = navigation.addListener("focus", hide);
+    const offBlur = navigation.addListener("blur", show);
+    return () => { offFocus(); offBlur(); show(); };
+  }, [navigation]);
   const [page, setPage] = useState(initialPage ?? (isFromFeed ? 0 : 1));
   const viewerRestore = useRef({ initialIndex: activeIndex, initialItems: items, initialPage: page, feedParams });
   viewerRestore.current = { initialIndex: activeIndex, initialItems: items, initialPage: page, feedParams };
