@@ -18,6 +18,7 @@ import {
   type UnifiedFeedItem,
 } from "../../services/feed.unified.service";
 import { getMyPosts, getUserReplies, type UserReplyItem } from "../../services/user.service";
+import { loadReplyPost, needsReplyPostAuthor, needsReplyPostEnrichment } from "../../libs/replyPostDisplay";
 import { useUser } from "../../context/AuthContext";
 import { theme } from "../../theme";
 import { useFeedCardVisibility } from "../../hooks/useFeedCardVisibility";
@@ -218,6 +219,17 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
     }
   }, [address, loadingMore, loading, loadPostsPage]);
 
+  // Fetch the posts behind the replies up front, so a reply card mounts
+  // complete instead of growing from a skeleton under the reader's thumb.
+  useEffect(() => {
+    for (const reply of replies) {
+      const tokenId = reply.tokenId ?? reply.post?.tokenId ?? 0;
+      if (tokenId && (needsReplyPostAuthor(reply.post) || needsReplyPostEnrichment(reply.post, tokenId))) {
+        void loadReplyPost(tokenId);
+      }
+    }
+  }, [replies]);
+
   const merged = useMemo<ProfilePostRow[]>(() => {
     const rows: ProfilePostRow[] = [
       ...posts.map((post) => ({
@@ -249,6 +261,21 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
     visibilityExtraData,
   } = useFeedCardVisibility();
 
+  // One handler for every reply row. A new closure per render broke the
+  // cards' memo, so each row coming into view redrew every reply mounted.
+  const openReply = useCallback(
+    (reply: UserReplyItem) => {
+      const tokenId = reply.tokenId ?? reply.post?.tokenId;
+      if (!tokenId) return;
+      onBeforeNavigate?.();
+      navigation.navigate(ScreenNames.FeedDetail, {
+        tokenId: String(tokenId),
+        commentId: String(reply.id),
+      });
+    },
+    [navigation, onBeforeNavigate],
+  );
+
   const renderRow = useCallback(
     ({ item }: { item: ProfilePostRow }) => {
       if (item.kind === "reply") {
@@ -257,15 +284,7 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
             <UserReplyCard
               cinematic={cinematic}
               item={item.item}
-              onPress={(reply) => {
-                const tokenId = reply.tokenId ?? reply.post?.tokenId;
-                if (!tokenId) return;
-                onBeforeNavigate?.();
-                navigation.navigate(ScreenNames.FeedDetail, {
-                  tokenId: String(tokenId),
-                  commentId: String(reply.id),
-                });
-              }}
+              onPress={openReply}
             />
           </View>
         );
@@ -284,8 +303,12 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
         </View>
       );
     },
-    [cinematic, isItemVisible, isItemAutoplayActive, navigation, onBeforeNavigate, isOwnProfile],
+    [cinematic, isItemVisible, isItemAutoplayActive, openReply, onBeforeNavigate, isOwnProfile],
   );
+
+  // Same element between renders, so the profile header isn't rebuilt each
+  // time a row scrolls into view.
+  const headerElement = useMemo(() => (listHeader ? <>{listHeader}</> : undefined), [listHeader]);
 
   if (loading) {
     return (
@@ -332,8 +355,6 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
       </Animated.ScrollView>
     );
   }
-
-  const headerElement = listHeader ? <>{listHeader}</> : undefined;
 
   return (
     <ProfileFeedOriginContext.Provider value={feedSource}>
