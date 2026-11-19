@@ -23,6 +23,14 @@ on:
         description: 'nav only: reuse the simulator app an earlier run of this workflow built (its run id), when native code has not changed'
         required: false
         default: ''
+      minify:
+        description: "speed only: false keeps component names in the bundle, so each step also lists which components built the most (times from such a run are not comparable)"
+        required: false
+        default: 'true'
+      rounds:
+        description: 'nav and speed: how many before/after rounds'
+        required: false
+        default: '2'
       account:
         description: "nav, probe and speed: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
         required: false
@@ -175,6 +183,8 @@ jobs:
         if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'keys' || inputs.task == 'wide' || inputs.task == 'shells' || inputs.task == 'bones' || inputs.task == 'wallet' || inputs.task == 'loginsheet' || inputs.task == 'player' || inputs.task == 'menu' || inputs.task == 'speed'
         env:
           NAV_MODE: ${{ inputs.task }}
+          MINIFY: ${{ inputs.minify || 'true' }}
+          ROUNDS: ${{ inputs.rounds || '2' }}
           SHELL_THEMES: ${{ inputs.task == 'shells' && inputs.themes || '' }}
           SIM_TEST_KEY: ${{ secrets.SIM_TEST_KEY }}
           # Read from App Store Connect inside the script; never printed.
