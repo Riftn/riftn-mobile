@@ -39,11 +39,17 @@ public class MediaBridgeModule: Module {
       return true
     }.runOnQueue(.main)
 
+    // Watched from the moment the module loads, not only once JS subscribes,
+    // so the first press after launch is not missed.
+    OnCreate {
+      self.startObserving()
+    }
+
     OnStartObserving {
       self.startObserving()
     }
 
-    OnStopObserving {
+    OnDestroy {
       self.stopObserving()
     }
   }
