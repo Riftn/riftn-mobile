@@ -168,7 +168,6 @@ export default function SuperPowersScreen() {
                 <ThemeIcon icon="superpowers" size={orbitSize * 0.17} />
                 <Text style={styles.coreBig} numberOfLines={1}>12</Text>
                 <Text style={styles.coreSub} numberOfLines={1}>{t("superpowers.twelvePowers")}</Text>
-                <Text style={styles.coreSub} numberOfLines={2}>{t("superpowers.teamUpOpenToAll")}</Text>
               </>
             )
           }
@@ -253,7 +252,9 @@ export default function SuperPowersScreen() {
             action={<KitButton label={t("common.tryAgain")} onPress={() => void refetchStatus()} />}
           />
         ) : (
+          // Team up is available without buying tokens or holding a badge.
           <View style={styles.panel}>
+            <Text style={styles.muted}>{t("superpowers.teamUpOpenToAll")}</Text>
             <BadgeProgress balance={status?.badgeBalance ?? 0} compact />
             {DIGITAL_PURCHASES_ENABLED && <KitButton
               onPress={() => setBuyOpen(true)}
