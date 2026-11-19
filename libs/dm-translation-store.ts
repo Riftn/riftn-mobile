@@ -122,6 +122,53 @@ export async function autoTranslateDm(id: string, content?: string | null): Prom
   }
 }
 
+/** At most this many follow-on translations in flight from one tap (web's TRANSLATE_UP_CONCURRENCY). */
+const TRANSLATE_ABOVE_CONCURRENCY = 3;
+/** The most earlier messages one tap asks for, so a long chat never fires hundreds of requests. */
+const TRANSLATE_ABOVE_LIMIT = 100;
+
+/** One earlier message, translated without a spinner or toast; a failure leaves it as typed. */
+async function translateDmQuietly(id: string, content?: string | null): Promise<void> {
+  if (entries.has(id)) return;
+  const text = dmTranslatableText(content);
+  if (!text) return;
+  try {
+    const result = await translateText(text, getUserLanguage(), 'auto', { isPublic: false });
+    if (result.sameLanguage || !result.translatedText?.trim() || result.translatedText.trim() === text) return;
+    // The reader may have translated it themselves meanwhile; their answer stands.
+    if (entries.has(id)) return;
+    set(id, { status: 'shown', text: result.translatedText });
+  } catch {
+    // Quiet: Translate in the hold menu is still there for this one.
+  }
+}
+
+/**
+ * "Translate" on one message translates every message above it too, the same
+ * as web (hooks/use-translate-up). The tapped message goes straight away with
+ * its usual spinner and toasts; the earlier ones follow quietly, nearest
+ * first, a few at a time. `earlier` is the other person's messages sent before
+ * the tapped one, in any order.
+ */
+export async function translateDmAndAbove(
+  id: string,
+  content: string | null | undefined,
+  earlier: ReadonlyArray<{ id: string; content?: string | null; at: number }>,
+): Promise<void> {
+  if (!hasAiConsent() && !(await ensureAiConsent())) return;
+  const tapped = toggleDmTranslation(id, content);
+  const queue = earlier
+    .filter((line) => line.id && line.id !== id && !entries.has(line.id) && canTranslateDm(line.content))
+    .sort((a, b) => b.at - a.at)
+    .slice(0, TRANSLATE_ABOVE_LIMIT);
+  const worker = async () => {
+    for (let next = queue.shift(); next; next = queue.shift()) {
+      await translateDmQuietly(next.id, next.content);
+    }
+  };
+  await Promise.all([tapped, ...Array.from({ length: TRANSLATE_ABOVE_CONCURRENCY }, worker)]);
+}
+
 /** Tests only. */
 export function __resetDmTranslations() {
   autoTried.clear();

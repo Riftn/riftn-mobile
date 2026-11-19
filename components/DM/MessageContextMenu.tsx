@@ -49,6 +49,8 @@ interface MessageContextMenuProps {
   onReply?: () => void;
   onEdit?: () => void;
   onForward?: () => void;
+  /** Translate this message and every earlier one. Absent: translate just this one. */
+  onTranslate?: () => void;
   /** Start picking several messages, this one first. */
   onSelect?: () => void;
   onDelete?: () => void;
@@ -415,6 +417,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
   onEdit,
   onForward,
   onSelect,
+  onTranslate,
   onDelete,
   canDeleteAny = false,
   onCopy,
@@ -554,7 +557,10 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
           const id = message._id;
           const content = message.content;
           onClose();
-          void toggleDmTranslation(id, content);
+          // Translating one line translates the ones above it too; showing
+          // the original back only ever touches this one.
+          if (!shown && onTranslate) onTranslate();
+          else void toggleDmTranslation(id, content);
         },
       });
     }
@@ -603,6 +609,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     onReply,
     onForward,
     onSelect,
+    onTranslate,
     onEdit,
     onPin,
     onUnpin,
