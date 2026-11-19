@@ -186,7 +186,7 @@ const DirectMessagesInner: React.FC = () => {
   const [tabActions, setTabActions] = useState<{ kind: "tab"; id: string } | { kind: "chat"; id: string } | null>(null);
   const requestsMode = showRequests || activeTab === "requests";
   const inRequests = requestsMode && !query.trim();
-  // Unread keeps chats with something new; Communities keeps Public Chat,
+  // Unread keeps chats with something new; Groups keeps
   // groups, channels and community chats.
   const tabFilter: "all" | "unread" | "groups" = !query.trim() && !inRequests
     ? (activeTab === "unread" ? "unread" : activeTab === "communities" ? "groups" : "all")
@@ -195,7 +195,7 @@ const DirectMessagesInner: React.FC = () => {
     customTab ? customTab.chats.includes(c._id) : true, [customTab]);
   const roomInTab = useCallback((c: { id: string }) =>
     activeTab === "direct" ? false : customTab ? customTab.chats.includes(roomChatId(c.id)) : true, [activeTab, customTab]);
-  const publicInTab = activeTab === "direct" ? false : customTab ? customTab.chats.includes(PUBLIC_CHAT_TAB_ID) : true;
+  const publicInTab = activeTab === "direct" || activeTab === "communities" ? false : customTab ? customTab.chats.includes(PUBLIC_CHAT_TAB_ID) : true;
 
   // Filtered & sorted conversations
   const filtered = useMemo(() => {
@@ -647,7 +647,7 @@ const DirectMessagesInner: React.FC = () => {
       all: sum(inbox) + publicUnread,
       unread: sum(inbox) + publicUnread,
       direct: sum(inbox),
-      communities: publicUnread,
+      communities: 0,
       requests: requestUnread,
     };
     for (const tab of chatTabs.tabs) {
@@ -765,7 +765,7 @@ const DirectMessagesInner: React.FC = () => {
         </>
       ) : (
       <>
-      {(tabFilter === "all" || tabFilter === "groups" || (tabFilter === "unread" && (publicUnread > 0 || !!publicReactions))) && publicInTab && (
+      {(tabFilter === "all" || (tabFilter === "unread" && (publicUnread > 0 || !!publicReactions))) && publicInTab && (
       <>
       <ChatCard unread={publicUnread > 0 || !!publicReactions}>
       <TouchableOpacity

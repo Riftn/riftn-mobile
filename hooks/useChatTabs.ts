@@ -39,7 +39,7 @@ export function useChatTabs(enabled = true) {
     all: t("chatTabs.all", { defaultValue: "All" }),
     unread: t("messagesTabs.unread", { defaultValue: "Unread" }),
     direct: t("chatTabs.direct", { defaultValue: "Direct" }),
-    communities: t("chatTabs.communities", { defaultValue: "Communities" }),
+    communities: t("messagesTabs.groups", { defaultValue: "Groups" }),
     requests: t("chatTabs.requests", { defaultValue: "Requests" }),
   } as Record<string, string>)[id] ?? id, [t]);
 
