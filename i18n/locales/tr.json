@@ -3558,6 +3558,7 @@
     "signInToSee": "Hesabınızdaki akışları görmek için oturum açın."
   },
   "loginModal": {
+    "didYouMean": "{{email}} mi demek istediniz?",
     "title": "Giriş Yap",
     "continueEmail": "E-posta ile Devam Et",
     "continueSMS": "SMS ile Devam Et",

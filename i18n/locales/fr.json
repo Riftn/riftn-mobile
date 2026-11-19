@@ -3562,6 +3562,7 @@
     "signInToSee": "Connectez-vous pour voir les flux sur votre compte."
   },
   "loginModal": {
+    "didYouMean": "Vouliez-vous dire {{email}} ?",
     "title": "Se connecter",
     "continueEmail": "Continuer avec Email",
     "continueSMS": "Continuer avec SMS",

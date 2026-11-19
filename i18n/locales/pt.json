@@ -5822,6 +5822,7 @@
     "handlePrompt": "Prompt"
   },
   "loginModal": {
+    "didYouMean": "Você quis dizer {{email}}?",
     "title": "Entrar",
     "continueEmail": "Continuar com Email",
     "continueSMS": "Continuar com SMS",

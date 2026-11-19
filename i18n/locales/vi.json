@@ -5738,6 +5738,7 @@
     "handlePrompt": "Lời nhắc"
   },
   "loginModal": {
+    "didYouMean": "Ý bạn là {{email}}?",
     "title": "Đăng nhập",
     "continueEmail": "Tiếp tục với Email",
     "continueSMS": "Tiếp tục với SMS",

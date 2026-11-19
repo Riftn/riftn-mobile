@@ -3,7 +3,8 @@ import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { View, TextInput } from "react-native";
 import { useTranslation } from "react-i18next";
-import { AuthButton, AuthField, AuthErrorNotice } from "./AuthControls";
+import { AuthButton, AuthField, AuthErrorNotice, AuthTextButton } from "./AuthControls";
+import { suggestEmailFix } from "../../libs/email-typo";
 
 interface EmailLoginFlowProps {
   onSubmit: (provider: string, email?: string) => void;
@@ -30,6 +31,10 @@ const EmailLoginFlow: React.FC<EmailLoginFlowProps> = ({
   const [showInput, setShowInput] = useState(!!startOpen);
   const [emailError, setEmailError] = useState("");
   const [email, setEmail] = useSurfaceDraft("components/auth/EmailLoginFlow.tsx:email", "");
+  // "Did you mean name@gmail.com?" for a misspelled provider. Shown once per
+  // typed address; pressing the button again sends to it as typed.
+  const [emailSuggestion, setEmailSuggestion] = useState<string | null>(null);
+  const typoShownForRef = useRef<string | null>(null);
   const inputRef = useRef<TextInput>(null);
   const containerRef = useRef<View>(null);
 
@@ -52,6 +57,13 @@ const EmailLoginFlow: React.FC<EmailLoginFlowProps> = ({
       return;
     }
     setEmailError("");
+    const fix = suggestEmailFix(value);
+    if (fix && typoShownForRef.current !== value) {
+      typoShownForRef.current = value;
+      setEmailSuggestion(fix);
+      return;
+    }
+    setEmailSuggestion(null);
     onSubmit("email_passwordless", value);
   };
 
@@ -79,7 +91,7 @@ const EmailLoginFlow: React.FC<EmailLoginFlowProps> = ({
         ref={inputRef}
         onFocus={handleFocus}
         value={email}
-        onChangeText={(value) => { setEmail(value); if (emailError) setEmailError(""); }}
+        onChangeText={(value) => { setEmail(value); if (emailError) setEmailError(""); if (emailSuggestion) setEmailSuggestion(null); }}
         placeholder={_copy("copy.b4c9a289323b", { defaultValue: "user@example.com" })}
         accessibilityLabel={t("loginModal.emailPlaceholder")}
         editable={!loading && !disabled}
@@ -94,6 +106,17 @@ const EmailLoginFlow: React.FC<EmailLoginFlowProps> = ({
         style={{ textAlign: "center" }}
       />
       {emailError ? <AuthErrorNotice message={emailError} /> : null}
+      {emailSuggestion ? (
+        <AuthTextButton
+          tone="default"
+          label={t("loginModal.didYouMean", { defaultValue: "Did you mean {{email}}?", email: emailSuggestion })}
+          onPress={() => {
+            setEmail(emailSuggestion);
+            setEmailSuggestion(null);
+            inputRef.current?.focus();
+          }}
+        />
+      ) : null}
       <AuthButton
         variant="primary"
         label={startOpen ? t("loginModal.continueEmail") : t("loginModal.sendCode")}

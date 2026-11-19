@@ -5953,6 +5953,7 @@
     "audioSeconds": "सेकंड में साउंड की लंबाई"
   },
   "loginModal": {
+    "didYouMean": "क्या आपका मतलब {{email}} था?",
     "title": "लॉग इन",
     "continueEmail": "ईमेल से जारी रखें",
     "continueSMS": "SMS से जारी रखें",

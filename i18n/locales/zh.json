@@ -5821,6 +5821,7 @@
     "audioSeconds": "音频时长（秒）"
   },
   "loginModal": {
+    "didYouMean": "您是想输入 {{email}} 吗?",
     "title": "登录",
     "continueEmail": "使用邮箱继续",
     "continueSMS": "使用短信继续",

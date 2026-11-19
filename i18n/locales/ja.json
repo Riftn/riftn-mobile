@@ -5819,6 +5819,7 @@
     "audioSeconds": "音声の長さ（秒）"
   },
   "loginModal": {
+    "didYouMean": "{{email}} のことですか?",
     "title": "ログイン",
     "continueEmail": "メールで続ける",
     "continueSMS": "SMSで続ける",
