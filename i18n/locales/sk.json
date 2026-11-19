@@ -3161,6 +3161,8 @@
     "feedTogglesCleared": "Filtre kanála obnovené",
     "defaultProfileTab": "Predvolená karta profilu",
     "defaultProfileTabDesc": "Vyber, ktorú kartu uvidia návštevníci na tvojom profile ako prvú",
+    "defaultProfileView": "Rozloženie príspevkov na profile",
+    "defaultProfileViewDesc": "Zobraz svoje príspevky ako mriežku alebo zoznam, keď niekto otvorí tvoj profil",
     "defaultPostVisibilityDesc": "Platí pre všetky aktuálne a budúce príspevky",
     "public": "Verejné",
     "publicDesc": "Ktokoľvek môže vidieť vaše príspevky",

@@ -7,7 +7,7 @@ import { FIELD_TEXT } from "../../theme/inputs";
 import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_HAIRLINE } from "../../theme/minimal";
 import GlassModal from "../ui/GlassModal";
-import { setProfileViewMode, useProfileViewMode } from "../../libs/profileViewMode";
+import { useProfileViewMode, useSetProfileViewMode } from "../../libs/profileViewMode";
 
 
 /**
@@ -102,6 +102,7 @@ const ProfileContentToolbar: React.FC<ProfileContentToolbarProps> = ({
   const current = sortChoices.find((item) => item.key === sort) ?? SORT_MENU_LABELS[0];
   const searchInputRef = React.useRef<TextInput>(null);
   const viewMode = useProfileViewMode();
+  const setProfileViewMode = useSetProfileViewMode();
 
   React.useEffect(() => {
     if (isSearchOpen) requestAnimationFrame(() => searchInputRef.current?.focus());

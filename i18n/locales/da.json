@@ -3158,6 +3158,8 @@
     "feedTogglesCleared": "Feedfiltre nulstillet",
     "defaultProfileTab": "Standardfane på profilen",
     "defaultProfileTabDesc": "Vælg, hvilken fane besøgende ser først på din profil",
+    "defaultProfileView": "Layout for profilopslag",
+    "defaultProfileViewDesc": "Vis dine opslag som gitter eller liste, når nogen åbner din profil",
     "defaultPostVisibilityDesc": "Gælder for alle nuværende og fremtidige opslag",
     "public": "Offentlig",
     "publicDesc": "Alle kan se dine opslag",
