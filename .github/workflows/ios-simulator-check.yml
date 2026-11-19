@@ -32,9 +32,13 @@ on:
         required: false
         default: '2'
       device:
-        description: 'walk only: iphone or ipad (an iPad simulator, upright then on its side)'
+        description: 'walk only: iphone, ipad (an iPad simulator, upright then on its side) or duo (the iPhone Duo folding phone, built with Xcode 27)'
         required: false
         default: 'iphone'
+      xcode:
+        description: "26.2 (the store build's Xcode today) or 27 (the newest Xcode 27 on the runner; duo always uses it)"
+        required: false
+        default: '26.2'
       account:
         description: "nav, probe and speed: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
         required: false
@@ -55,7 +59,7 @@ concurrency:
 jobs:
   simulator:
     name: Build and walk the app on an iPhone simulator
-    runs-on: macos-15
+    runs-on: ${{ (inputs.device == 'duo' || startsWith(inputs.xcode, '27')) && 'xcode-27' || 'macos-15' }}
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
@@ -65,7 +69,12 @@ jobs:
           cache: npm
       - name: Use the store build's Xcode
         run: |
-          sudo xcode-select -s /Applications/Xcode_26.2.app/Contents/Developer
+          WANT="${{ inputs.xcode || '26.2' }}"
+          if [ "${{ inputs.device }}" = "duo" ]; then WANT=27; fi
+          ls -d /Applications/Xcode*.app
+          XCODE="$(ls -d /Applications/Xcode_${WANT}*.app | grep -v -i beta | sort -V | tail -1)"
+          if [ -z "$XCODE" ]; then echo "No Xcode $WANT on this runner"; exit 1; fi
+          sudo xcode-select -s "$XCODE/Contents/Developer"
           xcodebuild -version
       - run: npm ci --legacy-peer-deps
       - run: npx patch-package --error-on-fail
@@ -86,20 +95,27 @@ jobs:
       - name: Boot an iPhone simulator
         id: sim
         run: |
-          RUNTIME="$(xcrun simctl list runtimes -j | python3 -c '
-          import json, sys
-          rs = [r for r in json.load(sys.stdin)["runtimes"] if r["platform"] == "iOS" and r["isAvailable"]]
-          rs.sort(key=lambda r: [int(p) for p in r["version"].split(".")])
-          print(rs[-1]["identifier"])')"
           TYPE="$(xcrun simctl list devicetypes -j | python3 -c '
           import json, sys
           names = [d["name"] for d in json.load(sys.stdin)["devicetypes"]]
           wants = ["iPhone 17 Pro", "iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro"]
+          if sys.argv[1] == "duo":
+              print("Device types:", ", ".join(names), file=sys.stderr)
+              wants = [n for n in names if "Duo" in n or "Fold" in n]
           if sys.argv[1] == "ipad":
               wants = [n for n in names if n.startswith("iPad Air 11-inch")][::-1] + [n for n in names if n.startswith("iPad Pro 11-inch")][::-1] + [n for n in names if n.startswith("iPad")][::-1]
           for want in wants:
               if want in names:
                   print(want); break' "${{ inputs.device || 'iphone' }}")"
+          # Newest iOS runtime that can run that device (the iPhone Duo has its
+          # own device-specific runtimes, and the newest generic one refuses it).
+          RUNTIME="$(xcrun simctl list runtimes -j | python3 -c '
+          import json, sys
+          rs = [r for r in json.load(sys.stdin)["runtimes"] if r["platform"] == "iOS" and r["isAvailable"]]
+          ok = [r for r in rs if any(d.get("name") == sys.argv[1] for d in r.get("supportedDeviceTypes", []))]
+          rs = ok or rs
+          rs.sort(key=lambda r: [int(p) for p in r["version"].split(".")])
+          print(rs[-1]["identifier"])' "$TYPE")"
           UDID="$(xcrun simctl create riftn-check "$TYPE" "$RUNTIME")"
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b

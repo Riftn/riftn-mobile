@@ -8143,7 +8143,19 @@
     "declined": "تم رفض المكالمة",
     "noAnswer": "لا يوجد رد",
     "missed": "مكالمة فائتة",
-    "callBack": "إعادة الاتصال"
+    "callBack": "إعادة الاتصال",
+    "group": "مجموعة",
+    "groupVoiceCall": "مكالمة صوتية جماعية",
+    "groupVideoCall": "مكالمة فيديو جماعية",
+    "callingGroup": "جارٍ الاتصال بالمجموعة...",
+    "isCalling": "{{name}} يتصل",
+    "leave": "مغادرة",
+    "joinCall": "انضمام",
+    "startGroupVoice": "بدء مكالمة صوتية جماعية",
+    "startGroupVideo": "بدء مكالمة فيديو جماعية",
+    "subtitles": "الترجمة",
+    "subtitleMyVoice": "ترجمة صوتي",
+    "you": "أنت"
   },
   "badgeAscension": {
     "reached": "لقد وصلت إلى {{tier}}",

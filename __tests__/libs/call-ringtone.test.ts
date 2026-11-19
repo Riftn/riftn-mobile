@@ -2,6 +2,10 @@ const mockPlayer = { play: jest.fn(), pause: jest.fn(), seekTo: jest.fn(), loop:
 const mockVibrate = jest.fn();
 const mockCancel = jest.fn();
 jest.mock('expo-audio', () => ({ createAudioPlayer: jest.fn(() => mockPlayer) }));
+jest.mock('expo-notifications', () => ({
+  getPresentedNotificationsAsync: jest.fn(() => Promise.resolve([])),
+  dismissNotificationAsync: jest.fn(() => Promise.resolve()),
+}));
 jest.mock('react-native', () => ({ Vibration: { vibrate: (...a: unknown[]) => mockVibrate(...a), cancel: () => mockCancel() } }));
 
 import { startCallRingtone, stopCallRingtone } from '../../libs/call-ringtone';

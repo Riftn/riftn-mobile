@@ -70,6 +70,7 @@ import { roomChatId } from "../services/dm/dm.api";
 import CommunityDescription from "../components/Communities/CommunityDescription";
 import { TopHolders } from "../components/Communities/TopHolders";
 import { formatHolderAmount, holderGateMessage, holderGateOf, isDehubToken, runHolderCheck } from "../libs/holder-gate";
+import GroupCallButtons from "../components/Call/GroupCallButtons";
 import { communityKindOf, confirmEntry, entryPriceOf, entryStatus, isPublicChatCommunity } from "../libs/community-kinds";
 import { useWeb3Provider, useERC20Contract } from "../hooks/use-web3";
 import { writeContractAA } from "../libs/aa.write";
@@ -762,7 +763,12 @@ const CommunityDetailScreen: React.FC = () => {
 
   return (
     <View className="flex-1 bg-theme-neutrals-900">
-      <ScreenHeader title={t("communities.title")} />
+      <ScreenHeader
+        title={t("communities.title")}
+        rightContent={isMember && kind === "group" ? (
+          <GroupCallButtons groupId={community.id} groupName={community.name} members={members.map((m) => m.wallet_address)} />
+        ) : undefined}
+      />
       {tab === "posts" ? (
         <View className="flex-1">
           {community.is_private && !isMember ? <ScrollView showsVerticalScrollIndicator={false}>{HeaderBlock}<Text className="text-zinc-400 text-center p-6">{t('communities.joinToSeePosts')}</Text></ScrollView> : <CommunityFeedRoute

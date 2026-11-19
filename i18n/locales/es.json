@@ -8119,7 +8119,19 @@
     "declined": "Llamada rechazada",
     "noAnswer": "Sin respuesta",
     "missed": "Llamada perdida",
-    "callBack": "Devolver la llamada"
+    "callBack": "Devolver la llamada",
+    "group": "Grupo",
+    "groupVoiceCall": "Llamada de voz grupal",
+    "groupVideoCall": "Videollamada grupal",
+    "callingGroup": "Llamando al grupo...",
+    "isCalling": "{{name}} está llamando",
+    "leave": "Salir",
+    "joinCall": "Unirse",
+    "startGroupVoice": "Iniciar una llamada de voz grupal",
+    "startGroupVideo": "Iniciar una videollamada grupal",
+    "subtitles": "Subtítulos",
+    "subtitleMyVoice": "Subtitular mi voz",
+    "you": "Tú"
   },
   "badgeAscension": {
     "reached": "Has llegado a {{tier}}",

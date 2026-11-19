@@ -8118,7 +8118,19 @@
     "declined": "Çağrı reddedildi",
     "noAnswer": "Cevap yok",
     "missed": "Cevapsız arama",
-    "callBack": "Geri ara"
+    "callBack": "Geri ara",
+    "group": "Grup",
+    "groupVoiceCall": "Grup sesli araması",
+    "groupVideoCall": "Grup görüntülü araması",
+    "callingGroup": "Grup aranıyor...",
+    "isCalling": "{{name}} arıyor",
+    "leave": "Ayrıl",
+    "joinCall": "Katıl",
+    "startGroupVoice": "Grup sesli araması başlat",
+    "startGroupVideo": "Grup görüntülü araması başlat",
+    "subtitles": "Altyazı",
+    "subtitleMyVoice": "Sesimi altyazıla",
+    "you": "Sen"
   },
   "badgeAscension": {
     "reached": "{{tier}} seviyesine ulaştınız",

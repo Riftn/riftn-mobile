@@ -1,0 +1,32 @@
+plugins {
+  id 'com.android.library'
+  id 'expo-module-gradle-plugin'
+}
+
+group = 'io.dehub'
+version = '1.0.0'
+
+android {
+  namespace 'io.dehub.callscreen'
+  defaultConfig {
+    versionCode 1
+    versionName '1.0.0'
+  }
+}
+
+// expo-notifications ships prebuilt (its local Maven repo), so it is compiled
+// against by version; the app already carries it at runtime.
+def notificationsVersion = new groovy.json.JsonSlurper().parse(
+  new File(
+    providers.exec {
+      workingDir(rootDir)
+      commandLine("node", "--print", "require.resolve('expo-notifications/package.json')")
+    }.standardOutput.asText.get().trim()
+  )
+).version
+
+dependencies {
+  compileOnly "host.exp.exponent:expo.modules.notifications:${notificationsVersion}"
+  compileOnly 'com.google.firebase:firebase-messaging:25.0.1'
+  implementation 'androidx.core:core:1.17.0'
+}
