@@ -28,6 +28,7 @@ import type {
 import { likeComment, type LikeCommentResult } from "../../services/nft.service";
 import {
   loadReplyPost,
+  peekReplyPost,
   needsReplyPostAuthor,
   needsReplyPostEnrichment,
   resolveReplyPostBody,
@@ -370,9 +371,11 @@ const UserReplyCardComponent: React.FC<UserReplyCardProps> = ({
   const tokenId = item.tokenId ?? item.post?.tokenId ?? 0;
   const needsPost = !!tokenId && (needsReplyPostAuthor(item.post) || needsReplyPostEnrichment(item.post, tokenId));
   // undefined: still loading. null: could not be fetched (deleted, hidden).
-  const [loadedPost, setLoadedPost] = useState<UserReplyPost | null | undefined>(undefined);
+  const [loadedPost, setLoadedPost] = useState<UserReplyPost | null | undefined>(() =>
+    needsPost ? peekReplyPost(tokenId) : undefined,
+  );
   useEffect(() => {
-    if (!needsPost) return;
+    if (!needsPost || peekReplyPost(tokenId)) return;
     let cancelled = false;
     loadReplyPost(tokenId).then((post) => {
       if (!cancelled) setLoadedPost(post);
