@@ -24,7 +24,7 @@
     },
     "runtimeVersion": "sdk55-screen-capture-1",
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "jsEngine": "hermes",
       "bundleIdentifier": "io.dehub.mobile",
       "usesAppleSignIn": true,
