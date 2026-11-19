@@ -14,8 +14,19 @@ android {
   }
 }
 
+// expo-notifications ships prebuilt (its local Maven repo), so it is compiled
+// against by version; the app already carries it at runtime.
+def notificationsVersion = new groovy.json.JsonSlurper().parse(
+  new File(
+    providers.exec {
+      workingDir(rootDir)
+      commandLine("node", "--print", "require.resolve('expo-notifications/package.json')")
+    }.standardOutput.asText.get().trim()
+  )
+).version
+
 dependencies {
-  implementation project(':expo-notifications')
+  compileOnly "host.exp.exponent:expo.modules.notifications:${notificationsVersion}"
+  compileOnly 'com.google.firebase:firebase-messaging:25.0.1'
   implementation 'androidx.core:core:1.17.0'
-  implementation 'com.google.firebase:firebase-messaging:25.0.1'
 }

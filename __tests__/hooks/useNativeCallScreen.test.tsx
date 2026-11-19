@@ -53,7 +53,7 @@ describe('useNativeCallScreen', () => {
 
   it('stops the phone ring when the app rings, and ends it when the call finishes', async () => {
     const ringing = fakeCall({ currentCall: { id: 'c1', status: 'ringing' }, isIncoming: true });
-    const { rerender } = renderHook(({ call }) => useNativeCallScreen(call), { initialProps: { call: ringing } });
+    const { rerender } = renderHook(({ call }: { call: any }) => useNativeCallScreen(call), { initialProps: { call: ringing } });
     expect(mockEnd).toHaveBeenCalledWith('c1');
     mockEnd.mockClear();
     rerender({ call: fakeCall() });
