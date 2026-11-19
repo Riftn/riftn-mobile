@@ -380,9 +380,22 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
 
 
   const sendInFlight = useRef(false);
+  // A plain line (no attachment, tip, reply or edit) goes to the send queue,
+  // which keeps the order, so the next one need not wait for the server to
+  // confirm it. Sending held the box until then, and a second message typed
+  // fast was dropped on Send. The same text is never taken twice: a double tap
+  // lands before the box has redrawn empty.
+  const plainTaken = useRef<string | null>(null);
+  if (plainTaken.current !== null && plainTaken.current !== text) plainTaken.current = null;
   const handleSend = useCallback(async () => {
     if (sending || sendInFlight.current) return;
-    sendInFlight.current = true;
+    const plain = !gifUrl && !studio.length && !media && !editingMessage && !tipAmount && !replyTo;
+    if (plain) {
+      if (!text.trim() || plainTaken.current === text) return;
+      plainTaken.current = text;
+    } else {
+      sendInFlight.current = true;
+    }
     try {
     haptic.tap();
 
@@ -448,8 +461,11 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     }
     if (editingMessage) setEditText.complete(text, "");
     emitTyping(false);
-    } finally { sendInFlight.current = false; }
-  }, [text, media, studio, gifUrl, sending, onSendText, onSendMedia, onSendGif, emitTyping, tipAmount, setText, editingMessage, setEditText, setOrdinaryText]);
+    } finally {
+      if (plain) plainTaken.current = null;
+      else sendInFlight.current = false;
+    }
+  }, [text, media, studio, gifUrl, sending, onSendText, onSendMedia, onSendGif, emitTyping, tipAmount, setText, editingMessage, setEditText, setOrdinaryText, replyTo]);
 
 
   /** Picked photos/videos join the edit screen, which opens on the newest. */
