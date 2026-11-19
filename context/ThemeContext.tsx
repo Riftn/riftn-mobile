@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { AppState, Appearance, Platform } from 'react-native';
 import * as SystemUI from 'expo-system-ui';
 import { colorScheme, vars } from 'nativewind';
@@ -24,7 +24,10 @@ const { setThemePass } = require('../libs/jsx/shape') as {
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { setControlMaterial } = require('../libs/jsx/controls');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const { setLightTone } = require('../libs/jsx/tone') as { setLightTone: (on: boolean) => void };
+const { setLightTone, DarkRoom } = require('../libs/jsx/tone') as {
+  setLightTone: (on: boolean) => void;
+  DarkRoom: React.Context<boolean>;
+};
 
 type AppThemeContextValue = {
   /** The theme the app runs. System Light runs as `system`; see `themeChoice`. */
@@ -50,11 +53,21 @@ type AppThemeContextValue = {
   setBrandColors: (colors: string[]) => void;
   /** The colour the theme's glass is tinted with, following Theme Color. */
   accent: Rgb;
-  /** Run System Light as System until the returned release is called (see useDarkSurface). */
-  holdDarkSurface: () => () => void;
 };
 
-const AppThemeContext = createContext<AppThemeContextValue | null>(null);
+/** Context value plus System's view of it, which a dark room hands out. */
+type AppThemeProviderValue = AppThemeContextValue & { darkRoom: AppThemeContextValue };
+
+const AppThemeContext = createContext<AppThemeProviderValue | null>(null);
+
+/** System's glass for neutral buttons (libs/jsx/controls.js). */
+const SYSTEM_CONTROL_SURFACE = {
+  backgroundColor: 'rgba(255,255,255,0.12)',
+  borderWidth: 1,
+  borderColor: 'rgba(255,255,255,0.30)',
+  borderTopColor: 'rgba(255,255,255,0.45)',
+  borderRadius: 12,
+};
 
 /**
  * Minimal squares off everything, same as web's
@@ -216,18 +229,6 @@ function skinRootVars(theme: AppThemeName, skin: ThemeSkin) {
 
 export const AppThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const prefs = useAppPrefs();
-  // Live is a dark room in every theme: while a screen holds a dark surface
-  // (useDarkSurface), System Light runs as System. The saved pick never changes.
-  const [darkHolds, setDarkHolds] = useState(0);
-  const holdDarkSurface = useCallback(() => {
-    setDarkHolds((n) => n + 1);
-    let released = false;
-    return () => {
-      if (released) return;
-      released = true;
-      setDarkHolds((n) => n - 1);
-    };
-  }, []);
   // Halloween: Horror paints for everyone until local midnight, without
   // touching the saved pick. Re-checked at midnight and on every foreground.
   const [halloweenDay, setHalloweenDay] = useState(() => isHalloweenDay());
@@ -244,7 +245,7 @@ export const AppThemeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     };
   }, [halloweenDay]);
   const pickedTheme: AppThemeName = halloweenDay && !prefs.halloweenOptOut ? HALLOWEEN_THEME : prefs.theme;
-  const themeChoice: AppThemeName = darkHolds > 0 && pickedTheme === SYSTEM_LIGHT ? 'system' : pickedTheme;
+  const themeChoice: AppThemeName = pickedTheme;
   const theme = effectiveTheme(themeChoice);
   const isLight = themeChoice === SYSTEM_LIGHT;
   // Screens are written against the dark palette and System Light turns its
@@ -281,14 +282,16 @@ export const AppThemeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     },
     foreground: '#FFFFFF',
     ownedSurfaces: [],
+    // Buttons in a dark room (the live viewer) keep System's glass.
+    dark: SYSTEM_CONTROL_SURFACE,
   } : {
-    surface: {
-      backgroundColor: theme === 'minimal' ? '#000' : 'rgba(255,255,255,0.12)',
+    surface: theme === 'minimal' ? {
+      backgroundColor: '#000',
       borderWidth: 1,
-      borderColor: theme === 'minimal' ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.30)',
-      borderTopColor: theme === 'minimal' ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.45)',
-      borderRadius: theme === 'minimal' ? 0 : 12,
-    },
+      borderColor: 'rgba(255,255,255,0.22)',
+      borderTopColor: 'rgba(255,255,255,0.22)',
+      borderRadius: 0,
+    } : SYSTEM_CONTROL_SURFACE,
     foreground: '#FFFFFF',
     ownedSurfaces: [],
   }, [skin, theme, isLight]);
@@ -360,13 +363,15 @@ export const AppThemeProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setAppPref('brandColors', next.filter((c) => /^#[0-9a-f]{6}$/i.test(c)).slice(0, 3));
   }, []);
 
-  const value = useMemo<AppThemeContextValue>(
-    () => ({
+  const value = useMemo<AppThemeProviderValue>(() => {
+    const own: AppThemeContextValue = {
       theme, themeChoice, isLight, isMinimal: theme === 'minimal', colors, pageColors, skin, setTheme,
-      themeHues, brandColors, setThemeHue, setBrandColors, accent, holdDarkSurface,
-    }),
-    [colors, pageColors, setTheme, skin, theme, themeChoice, isLight, themeHues, brandColors, setThemeHue, setBrandColors, accent, holdDarkSurface],
-  );
+      themeHues, brandColors, setThemeHue, setBrandColors, accent,
+    };
+    // What a dark room (the live viewer) reads: System Light seen as System.
+    const darkRoom = isLight ? { ...own, themeChoice: 'system' as AppThemeName, isLight: false, pageColors: colors } : own;
+    return { ...own, darkRoom };
+  }, [colors, pageColors, setTheme, skin, theme, themeChoice, isLight, themeHues, brandColors, setThemeHue, setBrandColors, accent]);
 
   return <AppThemeContext.Provider value={value}>{children}</AppThemeContext.Provider>;
 };
@@ -378,9 +383,20 @@ export function useOptionalThemeName(): string | null {
 
 export function useAppTheme(): AppThemeContextValue {
   const value = useContext(AppThemeContext);
+  const room = useContext(DarkRoom);
   if (!value) throw new Error('useAppTheme must be used within AppThemeProvider');
-  return value;
+  return room ? value.darkRoom : value;
 }
+
+/**
+ * A screen that is dark in every theme (Live is a dark room). Only what is
+ * inside sees System: the rest of the app keeps the saved theme, so opening
+ * and leaving it never redraws the screens underneath. Pair it with a
+ * `dark-surface` view, which keeps class and inline colours dark.
+ */
+export const DarkRoomProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <DarkRoom.Provider value>{children}</DarkRoom.Provider>
+);
 
 /** Style for the app's root view: always a set of variables — see SYSTEM_ROOT_VARS. */
 export function useThemeRootStyle() {
@@ -394,17 +410,4 @@ export function useThemeRootStyle() {
   // were fine and Requests, profiles, settings and notifications were not.
   if (isLight) return Platform.OS === 'ios' ? SYSTEM_ROOT_VARS : SYSTEM_LIGHT_ROOT_VARS;
   return skin ? skinRootVars(theme, skin) : SYSTEM_ROOT_VARS;
-}
-
-/**
- * Keep this screen dark in every theme while it is mounted: System Light runs
- * as System, status bar, nav bar and sheets included. Returns whether the
- * switch has landed, so a screen can hold its first paint until it has
- * (anything rendered under the light tone keeps those colours until it
- * re-renders).
- */
-export function useDarkSurface(): boolean {
-  const { holdDarkSurface, isLight } = useAppTheme();
-  useLayoutEffect(() => holdDarkSurface(), [holdDarkSurface]);
-  return !isLight;
 }

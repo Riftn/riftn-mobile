@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import { View, StatusBar, Platform, ActivityIndicator } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import { View, StatusBar, Platform, ActivityIndicator, StyleSheet } from "react-native";
+import { useFocusEffect, useRoute } from "@react-navigation/native";
 import LiveStreamPlayer from "../components/VideoPlayer/LiveStreamPlayer";
-import { useFocusedDarkSurface } from "../hooks/useFocusedDarkSurface";
+import { DarkRoomProvider, useAppTheme } from "../context/ThemeContext";
+import { setNavigationBarDarkIcons } from "../modules/system-bars";
 
 type RouteParams = {
   tokenId?: string | number;
@@ -27,15 +28,22 @@ const isStreamId = (id: unknown): id is string =>
 const LiveViewerScreen: React.FC = () => {
   const route = useRoute<any>();
   const params = (route.params || {}) as RouteParams;
-  // Live is a dark room in every theme. Until System Light has handed over to
-  // System, paint only the black well: a player drawn under the light tone
-  // would keep those colours. The hold ends as soon as the screen loses focus,
-  // so Back lands on the device's theme at once; the player stays mounted
-  // (dark-surface keeps it dark) instead of dropping the stream mid-exit.
-  const darkNow = useFocusedDarkSurface();
-  const landed = useRef(false);
-  if (darkNow) landed.current = true;
-  const dark = landed.current;
+  // Live is a dark room in every theme, and only this screen is: the app
+  // keeps its saved theme underneath. Switching the whole app to dark while a
+  // live was open redrew every screen under it, and leaving redrew them all
+  // again, which left Home dark and frozen for seconds in System Light.
+  // `dark-surface` keeps the colours dark, DarkRoomProvider what reads the theme.
+  const { isLight } = useAppTheme();
+  // Android's gesture bar sits on the live's black: light icons while it shows.
+  useFocusEffect(
+    useCallback(() => {
+      if (Platform.OS !== "android" || !isLight) return;
+      void setNavigationBarDarkIcons(false);
+      return () => {
+        void setNavigationBarDarkIcons(true);
+      };
+    }, [isLight])
+  );
 
   // Resolve the real stream ID from multiple possible sources
   const known = [
@@ -77,7 +85,8 @@ const LiveViewerScreen: React.FC = () => {
   const nft = params.nft ?? looked?.nft ?? undefined;
 
   return (
-    <View className="flex-1 dark-surface bg-black">
+    <DarkRoomProvider>
+    <View className="dark-surface" style={styles.room}>
       <StatusBar
         barStyle="light-content"
         backgroundColor="transparent"
@@ -87,7 +96,7 @@ const LiveViewerScreen: React.FC = () => {
         <View className="flex-1 items-center justify-center">
           <ActivityIndicator color="#fff" />
         </View>
-      ) : dark ? (
+      ) : (
         <LiveStreamPlayer
           key={streamId ?? params.streamId ?? tokenId}
           {...params}
@@ -95,9 +104,14 @@ const LiveViewerScreen: React.FC = () => {
           nft={nft}
           streamId={streamId ?? params.streamId}
         />
-      ) : null}
+      )}
     </View>
+    </DarkRoomProvider>
   );
 };
+
+// The page colour by value: a class colour here is drawn through System
+// Light's colour pass, which reads it light on Android.
+const styles = StyleSheet.create({ room: { flex: 1, backgroundColor: "#000" } });
 
 export default LiveViewerScreen;
