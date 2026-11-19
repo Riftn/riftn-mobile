@@ -8,6 +8,7 @@ import { getDeviceId, getDeviceName } from '../../libs/device';
 import { createLogger } from '../../libs/logger';
 import { translateCopy as _translateCopy } from '../../i18n/copy';
 import { IS_APP_STORE_BUILD } from '../../config/storefront';
+import { CALL_RING_CHANNEL, CALL_RING_SOUND, nativeCarriesCallRingtone } from '../../libs/call-ring-support';
 import i18n from 'i18next';
 
 const logger = createLogger('PushService');
@@ -78,6 +79,8 @@ export interface PushTokenPayload {
   platform: 'ios' | 'android';
   deviceId: string;
   deviceName?: string;
+  /** This build bundles the call ringtone, so calls can ring with it. */
+  callRingtone?: boolean;
 }
 
 export interface NotificationData {
@@ -410,6 +413,23 @@ async function setupAndroidChannels(): Promise<void> {
       bypassDnd: false,
     });
 
+    // Builds that bundle the ringtone get a second calls channel that plays it
+    // (Android takes the sound from the channel and never lets it change, so it
+    // cannot be added to "calls" after the fact). The backend only routes calls
+    // here for phones that registered with callRingtone.
+    if (nativeCarriesCallRingtone()) {
+      await Notifications.setNotificationChannelAsync(CALL_RING_CHANNEL, {
+        name: _translateCopy("copy.b73a5e2ca645", { defaultValue: "Calls" }),
+        description: _translateCopy("copy.bf9e71502382", { defaultValue: "Incoming voice and video calls" }),
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 700, 300, 700, 1400, 700, 300, 700],
+        lightColor: '#000000',
+        sound: CALL_RING_SOUND,
+        lockscreenVisibility: Notifications.AndroidNotificationVisibility.PUBLIC,
+        bypassDnd: false,
+      });
+    }
+
     // Content channel (milestones, moderation)
     await Notifications.setNotificationChannelAsync('content', {
       name: _translateCopy("copy.d5e589f88a38", { defaultValue: "Content Updates" }),
@@ -467,6 +487,7 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
       platform: Platform.OS as 'ios' | 'android',
       deviceId,
       deviceName: getDeviceName(),
+      callRingtone: nativeCarriesCallRingtone(),
     };
 
     const response = await apiClient.post('/push/token', payload, { isAuthRequired: true });

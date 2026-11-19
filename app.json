@@ -3,7 +3,7 @@
     "scheme": "dehub",
     "name": "Riftn",
     "slug": "dehubmobile",
-    "version": "1.19.2",
+    "version": "1.20.0",
     "orientation": "portrait",
     "icon": "./assets/AppIcons/playstore.png",
     "userInterfaceStyle": "dark",
@@ -308,7 +308,8 @@
         {
           "icon": "./assets/AppIcons/notification_badge.png",
           "color": "#8e8e93",
-          "defaultChannel": "default"
+          "defaultChannel": "default",
+          "sounds": ["./assets/sounds/call_ring.wav"]
         }
       ],
       [
