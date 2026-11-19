@@ -19,11 +19,13 @@ function darkNeutral(hex) {
   return parseInt(h.slice(0, 2), 16) < 96;
 }
 let styleCache = new WeakMap();
+let darkCache = new WeakMap();
 
 function setControlMaterial(next) {
   if (next === material) return;
   material = next;
   styleCache = new WeakMap();
+  darkCache = new WeakMap();
 }
 
 function neutral(color) {
@@ -115,6 +117,29 @@ function paintChildren(children) {
   return Array.isArray(children) ? React.Children.map(children, paintLabel) : paintLabel(children);
 }
 
+/**
+ * The same style with this theme's control surface swapped for its dark
+ * version (`material.dark`, System Light only), or the same style. For
+ * buttons in a dark room, which draw on the dark colours.
+ */
+function darkControlStyle(style) {
+  if (!material || !material.dark) return style;
+  if (typeof style === 'function') return (state) => darkControlStyle(style(state));
+  if (style === material.surface) return material.dark;
+  if (!Array.isArray(style)) return style;
+  const hit = darkCache.get(style);
+  if (hit) return hit;
+  let changed = false;
+  const next = style.map((part) => {
+    const swapped = darkControlStyle(part);
+    if (swapped !== part) changed = true;
+    return swapped;
+  });
+  const result = changed ? next : style;
+  darkCache.set(style, result);
+  return result;
+}
+
 function controlProps(props) {
   if (!material || !props || (typeof props.onPress !== 'function' && props.accessibilityRole !== 'button')) return props;
   // Picture controls own their dark fill as well as their white labels.
@@ -139,4 +164,4 @@ function controlProps(props) {
   return { ...props, style, children: paintChildren(props.children) };
 }
 
-module.exports = { setControlMaterial, controlProps };
+module.exports = { setControlMaterial, controlProps, darkControlStyle };

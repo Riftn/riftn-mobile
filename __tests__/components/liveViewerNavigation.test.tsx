@@ -8,10 +8,14 @@ jest.mock('../../services/nft.service', () => ({ getNFT: (...args: unknown[]) =>
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
   View: 'View', Text: 'Text', Pressable: 'Pressable', StatusBar: 'StatusBar',
-  ActivityIndicator: 'ActivityIndicator', Platform: { OS: 'android' }, StyleSheet: { flatten: (style: unknown) => style },
+  ActivityIndicator: 'ActivityIndicator', Platform: { OS: 'android' }, StyleSheet: { flatten: (style: unknown) => style, create: (styles: unknown) => styles },
 }));
-jest.mock('@react-navigation/native', () => ({ useRoute: () => ({ params: mockParams }) }));
-jest.mock('../../hooks/useFocusedDarkSurface', () => ({ useFocusedDarkSurface: () => true }));
+jest.mock('@react-navigation/native', () => ({ useRoute: () => ({ params: mockParams }), useFocusEffect: () => {} }));
+jest.mock('../../context/ThemeContext', () => ({
+  useAppTheme: () => ({ isLight: true }),
+  DarkRoomProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+jest.mock('../../modules/system-bars', () => ({ setNavigationBarDarkIcons: jest.fn() }));
 jest.mock('../../components/VideoPlayer/LiveStreamPlayer', () => {
   const React = require('react');
   const { Pressable, Text } = require('react-native');
