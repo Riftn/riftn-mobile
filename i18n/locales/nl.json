@@ -8247,7 +8247,17 @@
     "declined": "Oproep geweigerd",
     "noAnswer": "Geen antwoord",
     "missed": "Gemist gesprek",
-    "callBack": "Terugbellen"
+    "callBack": "Terugbellen",
+    "group": "Groep",
+    "groupVoiceCall": "Groepsspraakoproep",
+    "groupVideoCall": "Groepsvideogesprek",
+    "callingGroup": "Groep wordt gebeld...",
+    "isCalling": "{{name}} belt",
+    "leave": "Verlaten",
+    "joinCall": "Deelnemen",
+    "startGroupVoice": "Groepsspraakoproep starten",
+    "startGroupVideo": "Groepsvideogesprek starten",
+    "you": "Jij"
   },
   "badgeAscension": {
     "reached": "Je hebt {{tier}} bereikt",
@@ -17369,6 +17379,9 @@
     "tooMany": "Je kunt maximaal 10 tabbladen hebben"
   },
   "msgDelete": {
+    "chatTitle": "Deze chat verwijderen?",
+    "chatBodyBoth": "Verwijder hem alleen uit je chats, of verwijder alle berichten voor jullie allebei. Dit kan niet ongedaan worden gemaakt.",
+    "chatBodyMe": "Hij wordt alleen uit jouw chats verwijderd. Anderen zien hem nog wel.",
     "title": "Bericht verwijderen?",
     "titleMany": "{{count}} berichten verwijderen?",
     "bodyOwn": "Verwijder het alleen uit jouw chat, of voor iedereen.",
@@ -17384,5 +17397,9 @@
     "remember": "Onthoud mijn keuze",
     "rememberHint": "Wijzig dit altijd in Instellingen",
     "failed": "Kon het bericht niet verwijderen"
+  },
+  "roomPreview": {
+    "you": "Jij",
+    "voice": "🎤 Spraakbericht"
   }
 }

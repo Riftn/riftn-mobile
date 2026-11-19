@@ -16,7 +16,7 @@ jest.mock('react-native-gesture-handler', () => ({
   GestureDetector: ({ children }: { children: unknown }) => require('react').createElement('GestureDetector', null, children),
 }));
 jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isMinimal: false }) }));
-jest.mock('../../components/Home/feedBleed', () => ({ useFeedBleed: () => null }));
+jest.mock('../../components/Home/feedBleed', () => ({ useFeedBleed: () => null, useLightFlatFeed: () => false }));
 jest.mock('../../hooks/useDataSaver', () => ({ useDataSaver: () => ({ liteMode: false }) }));
 jest.mock('react-native', () => ({
   View: 'View', Text: 'Text', Pressable: 'Pressable', ScrollView: 'ScrollView',

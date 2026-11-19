@@ -22,7 +22,7 @@ import { usePeerIdentity } from "./usePeerIdentity";
 const CallMiniPlayer: React.FC = () => {
   const {
     isCallActive, isConnecting, isRinging, isMinimized, isMuted, peerAddress,
-    endCall, toggleMute, setMinimized,
+    endCall, toggleMute, setMinimized, currentCall,
   } = useCall();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -31,6 +31,9 @@ const CallMiniPlayer: React.FC = () => {
   if (!isMinimized || (!isCallActive && !isConnecting)) return null;
 
   const fallback = isRinging ? t("calls.calling") : t("calls.connecting");
+  // A group call folds to its name.
+  const isGroup = !!currentCall?.group_id;
+  const name = isGroup ? currentCall?.group_name || peer.name : peer.name;
 
   return (
     <View style={[styles.container, { bottom: Math.max(80, insets.bottom + 64) }]}>
@@ -41,9 +44,9 @@ const CallMiniPlayer: React.FC = () => {
         accessibilityRole="button"
         accessibilityLabel={t("calls.expand")}
       >
-        <Avatar uri={peer.avatarUrl} size={36} radius={10} name={peer.name} />
+        <Avatar uri={isGroup ? null : peer.avatarUrl} size={36} radius={10} name={name} />
         <View style={styles.text}>
-          <Text style={styles.name} numberOfLines={1}>{peer.name}</Text>
+          <Text style={styles.name} numberOfLines={1}>{name}</Text>
           <Text style={styles.time} numberOfLines={1}><CallDuration fallback={fallback} /></Text>
         </View>
         {isCallActive ? <CallWave paused={isMuted} height={16} color="#F4F4F5" /> : null}
@@ -63,7 +66,7 @@ const CallMiniPlayer: React.FC = () => {
         style={[styles.button, styles.buttonSolid]}
         hitSlop={6}
         accessibilityRole="button"
-        accessibilityLabel={t("calls.end")}
+        accessibilityLabel={isGroup ? t("calls.leave", { defaultValue: "Leave" }) : t("calls.end")}
       >
         <Icon name="PhoneOff" size={17} color="#0A0A0C" />
       </Pressable>

@@ -8108,7 +8108,17 @@
     "declined": "Çağrı reddedildi",
     "noAnswer": "Cevap yok",
     "missed": "Cevapsız arama",
-    "callBack": "Geri ara"
+    "callBack": "Geri ara",
+    "group": "Grup",
+    "groupVoiceCall": "Grup sesli araması",
+    "groupVideoCall": "Grup görüntülü araması",
+    "callingGroup": "Grup aranıyor...",
+    "isCalling": "{{name}} arıyor",
+    "leave": "Ayrıl",
+    "joinCall": "Katıl",
+    "startGroupVoice": "Grup sesli araması başlat",
+    "startGroupVideo": "Grup görüntülü araması başlat",
+    "you": "Sen"
   },
   "badgeAscension": {
     "reached": "{{tier}} seviyesine ulaştınız",
@@ -17117,6 +17127,9 @@
     "tooMany": "En fazla 10 sekmen olabilir"
   },
   "msgDelete": {
+    "chatTitle": "Bu sohbet silinsin mi?",
+    "chatBodyBoth": "Yalnızca sohbetlerinden sil ya da ikiniz için tüm mesajları sil. Bu işlem geri alınamaz.",
+    "chatBodyMe": "Yalnızca senin sohbetlerinden kaldırılır. Diğerleri görmeye devam eder.",
     "title": "Mesaj silinsin mi?",
     "titleMany": "{{count}} mesaj silinsin mi?",
     "bodyOwn": "Yalnızca kendi sohbetinden ya da herkes için kaldır.",
@@ -17132,5 +17145,9 @@
     "remember": "Seçimimi hatırla",
     "rememberHint": "İstediğin zaman Ayarlar'dan değiştir",
     "failed": "Mesaj silinemedi"
+  },
+  "roomPreview": {
+    "you": "Sen",
+    "voice": "🎤 Sesli mesaj"
   }
 }

@@ -92,6 +92,7 @@ import {
   AI_TOOL_MODELS,
   CATEGORY_LABELS,
   DEFAULT_CHAT_MODEL,
+  currentChatModel,
   DEFAULT_IMAGE_MODEL,
   DEFAULT_TOOL_FOR_CATEGORY,
   DEFAULT_VIDEO_MODEL,
@@ -469,7 +470,7 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
       .then((raw) => {
         if (!raw) return;
         const parsed = JSON.parse(raw);
-        setSettings({ ...DEFAULT_SETTINGS, ...parsed.settings });
+        setSettings({ ...DEFAULT_SETTINGS, ...parsed.settings, chatModel: currentChatModel(parsed.settings?.chatModel) });
         if (parsed.style) setSelectedStyle(parsed.style);
       })
       .catch(() => {
