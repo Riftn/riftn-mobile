@@ -3,7 +3,6 @@ import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "rea
 import { Image } from "expo-image";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import Icon, { type IconName } from "../ui/Icon";
 import GeneratedStageCover from "../Stages/GeneratedStageCover";
 import { supabase } from "../../services/supabase";
 import { getNFT } from "../../services/nft.service";
@@ -15,6 +14,7 @@ import { storageImageSource } from "../../libs/cdnImage";
 import { getAvatarUrl } from "../../libs/misc";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { nftToReplyPost, resolveReplyPostThumbnail } from "../../libs/replyPostDisplay";
+import { FormatMark } from "./FormatMark";
 import { linkHost, type GridCardKind, type TextCard } from "../../libs/gridCard";
 import { parseSpotifyLink, type SpotifyLink } from "../../libs/spotify";
 import { useSpotifyOnScreen } from "../../libs/spotify-player";
@@ -39,28 +39,8 @@ import { PlayGlyph, SpotifyEq, SpotifyLogo, SpotifyProgress, useSpotifyControls,
  * Same tiles as the web grid (components/app/profile/GridCardTile).
  */
 
-const LIVE_RED = "#FF2D55";
 const COVER_WIDTH = 260;
 
-const KIND: Record<GridCardKind, { key: string; label: string; icon: IconName }> = {
-  stage: { key: "stage", label: "Stage", icon: "Mic" },
-  event: { key: "event", label: "Event", icon: "Calendar" },
-  poll: { key: "poll", label: "Poll", icon: "BarChart3" },
-  quote: { key: "quote", label: "Quote", icon: "Quote" },
-  sharedPost: { key: "shared", label: "Shared", icon: "Share2" },
-  link: { key: "link", label: "Link", icon: "Link" },
-  community: { key: "community", label: "Community", icon: "Users" },
-  shop: { key: "shop", label: "Shop", icon: "Store" },
-  profile: { key: "profile", label: "Profile", icon: "User" },
-  film: { key: "film", label: "Film", icon: "Tv" },
-  bounty: { key: "bounty", label: "Bounty", icon: "Briefcase" },
-  app: { key: "app", label: "App", icon: "LayoutGrid" },
-  proposal: { key: "proposal", label: "Proposal", icon: "Vote" },
-  short: { key: "short", label: "Short", icon: "Shorts" as IconName },
-  comic: { key: "comic", label: "Comic", icon: "Smile" },
-  earn: { key: "earn", label: "Earn", icon: "Coins" },
-  spotify: { key: "spotify", label: "Spotify", icon: "Music" },
-};
 
 /** Ink for the tile the face sits on (the poster's own palette). */
 export interface GridPalette {
@@ -70,30 +50,9 @@ export interface GridPalette {
   line: string;
 }
 
-/** The pill: what this tile is. `inline` sits in a text poster's flow; otherwise it floats top-left. */
-export function GridKindPill({ kind, live, inline, palette }: { kind: GridCardKind; live?: boolean; inline?: boolean; palette?: GridPalette }) {
-  const { t } = useTranslation();
-  const { key, label, icon } = KIND[kind];
-  const onPoster = inline && palette;
-  const color = live ? "#FFFFFF" : onPoster ? palette!.ink : "#FFFFFF";
-  return (
-    <View
-      style={[
-        styles.pill,
-        !inline && styles.pillFloat,
-        live
-          ? { backgroundColor: LIVE_RED, borderColor: "transparent" }
-          : onPoster
-            ? { backgroundColor: palette!.glass, borderColor: palette!.line }
-            : null,
-      ]}
-    >
-      {live ? <View style={styles.liveDot} /> : kind === "spotify" ? <SpotifyLogo size={10} /> : <Icon name={icon} size={10} color={color} />}
-      <Text numberOfLines={1} style={[styles.pillText, { color }]}>
-        {live ? t("profile.gridCard.liveStage", "Live stage") : t(`profile.gridCard.${key}`, label)}
-      </Text>
-    </View>
-  );
+/** What this tile is: its format icon top right (FormatMark). Over a poster (no picture) it takes the poster's ink. */
+export function GridKindPill({ kind, live, palette }: { kind: GridCardKind; live?: boolean; inline?: boolean; palette?: GridPalette }) {
+  return <FormatMark kind={kind} live={live} poster={palette} />;
 }
 
 interface FaceProps {
@@ -112,7 +71,7 @@ function CoverFace({ kind, live, cover, title, sub, chip, palette }: { kind: Gri
         <Text numberOfLines={3} style={[styles.title, { color: palette.ink }]}>{title}</Text>
         {!!sub && <Text numberOfLines={1} style={[styles.sub, { color: palette.sub }]}>{sub}</Text>}
       </View>
-      {chip ?? <GridKindPill kind={kind} live={live} />}
+      {chip}<GridKindPill kind={kind} live={live} />
     </View>
   );
 }
@@ -235,7 +194,7 @@ function PollBody({ poll, options, total, words, chip, palette, t }: any) {
           {t("profile.gridCard.votes", { count: total, value: formatCompactNumber(total), defaultValue: "{{value}} votes" })}
         </Text>
       </View>
-      {chip ?? <GridKindPill kind="poll" />}
+      {chip}<GridKindPill kind="poll" palette={palette} />
     </View>
   );
 }
@@ -256,7 +215,7 @@ function PostInPost({ kind, raw, tokenId, words, chip, palette }: { kind: GridCa
           {!!text && <Text numberOfLines={thumb ? 1 : 3} style={[styles.sub, { color: palette.sub }]}>{text}</Text>}
         </View>
       </View>
-      {chip ?? <GridKindPill kind={kind} />}
+      {chip}<GridKindPill kind={kind} palette={palette} />
     </View>
   );
 }
@@ -348,7 +307,7 @@ function SpotifyFaceBody({ preview, link, chip }: { preview: LinkPreviewData; li
           <Text numberOfLines={1} style={styles.spotifySub}>{item.subtitle}</Text>
         </View>
         {isCurrent && <SpotifyProgress active times={false} style={styles.spotifyBar} />}
-        {chip ?? <GridKindPill kind="spotify" />}
+        {chip}<GridKindPill kind="spotify" />
       </View>
     </KeepDarkScope>
   );
@@ -463,22 +422,6 @@ export const GridPollProbe = memo(function GridPollProbe({ tokenId, poster, ...f
 });
 
 const styles = StyleSheet.create({
-  pill: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "flex-start",
-    gap: 3,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-    borderRadius: 5,
-    borderWidth: StyleSheet.hairlineWidth,
-    backgroundColor: "rgba(0,0,0,0.45)",
-    borderColor: "rgba(255,255,255,0.22)",
-    maxWidth: "86%",
-  },
-  pillFloat: { position: "absolute", top: 6, left: 6, zIndex: 1 },
-  pillText: { fontSize: 9.5, fontWeight: "800" },
-  liveDot: { width: 5, height: 5, borderRadius: 3, backgroundColor: "#FFFFFF" },
   cover: { height: "52%", overflow: "hidden" },
   body: { flex: 1, paddingHorizontal: 7, paddingTop: 6, paddingBottom: 6, gap: 3 },
   title: { fontSize: 11.5, lineHeight: 14, fontWeight: "800" },

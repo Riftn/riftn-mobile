@@ -5732,6 +5732,7 @@
     "handlePrompt": "프롬프트"
   },
   "loginModal": {
+    "didYouMean": "{{email}}을(를) 말씀하신 건가요?",
     "title": "로그인",
     "continueEmail": "이메일로 계속",
     "continueSMS": "SMS로 계속",

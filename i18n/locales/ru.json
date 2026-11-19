@@ -5951,6 +5951,7 @@
     "audioSeconds": "Длительность звука в секундах"
   },
   "loginModal": {
+    "didYouMean": "Вы имели в виду {{email}}?",
     "title": "Войти",
     "continueEmail": "Продолжить с Email",
     "continueSMS": "Продолжить с SMS",

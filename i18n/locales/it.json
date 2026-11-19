@@ -5729,6 +5729,7 @@
     "handlePrompt": "Personalizza"
   },
   "loginModal": {
+    "didYouMean": "Intendevi {{email}}?",
     "title": "Accedi",
     "continueEmail": "Continua con Email",
     "continueSMS": "Continua con SMS",
