@@ -47,7 +47,7 @@ jest.mock('react-native-gesture-handler', () => ({
   GestureDetector: ({ children }: { children: React.ReactNode }) => children,
   Gesture: { Pan: () => {
     const gesture: Record<string, unknown> = {};
-    ['activeOffsetY', 'failOffsetX', 'onStart', 'onUpdate', 'onEnd', 'onFinalize'].forEach(key => { gesture[key] = () => gesture; });
+    ['activeOffsetY', 'failOffsetX', 'activeOffsetX', 'failOffsetY', 'enabled', 'onStart', 'onUpdate', 'onEnd', 'onFinalize'].forEach(key => { gesture[key] = () => gesture; });
     return gesture;
   } },
 }));
@@ -58,7 +58,7 @@ jest.mock('../../components/common/Reorder', () => ({
 }));
 jest.mock('react-native-reanimated', () => ({
   __esModule: true, default: { View: 'View', ScrollView: 'ScrollView' },
-  useSharedValue: (value: unknown) => ({ value }), useAnimatedStyle: () => ({}),
+  useSharedValue: (value: unknown) => ({ value }), useAnimatedStyle: () => ({}), useAnimatedReaction: () => undefined,
   withTiming: (value: unknown) => value, runOnJS: (fn: unknown) => fn,
   Easing: { bezier: jest.fn() }, interpolate: jest.fn(),
 }));

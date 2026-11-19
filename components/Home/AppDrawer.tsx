@@ -27,6 +27,8 @@ import { CommonActions, useNavigation, useNavigationState } from "@react-navigat
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   useSharedValue,
+  useAnimatedReaction,
+  type SharedValue,
   useAnimatedStyle,
   withTiming,
   runOnJS,
@@ -64,6 +66,7 @@ import { groupMenuItems, type MenuGroup } from "../../libs/menuGroups";
 
 const OPEN_TIMING = { duration: 300, easing: Easing.bezier(0.25, 0.1, 0.25, 1) };
 const CLOSE_TIMING = { duration: 220, easing: Easing.bezier(0.25, 0.1, 0.25, 1) };
+const TAB_TIMING = { duration: 280, easing: Easing.bezier(0.16, 1, 0.3, 1) };
 
 const VELOCITY_THRESHOLD = 500;
 // Fraction of the sheet height a downward drag has to cover to count as a close.
@@ -395,33 +398,34 @@ const MenuSlot = memo(function MenuSlot({
  * The group words beside the search button (Tabs layout). Same 12px corners
  * as the search field; a glass pill slides under the lit word.
  */
-function MenuTabs({ labels, index, onChange, square, surface }: {
+function MenuTabs({ labels, pos, onChange, square, surface }: {
   labels: string[];
-  index: number;
+  /** The tab on show; fractional while a finger drags the pages. */
+  pos: SharedValue<number>;
   onChange: (index: number) => void;
   square: boolean;
   surface: any;
 }) {
   const [slots, setSlots] = useState<Array<{ x: number; w: number }>>([]);
-  const x = useSharedValue(0);
-  const w = useSharedValue(0);
-  useEffect(() => {
-    const slot = slots[index];
-    if (!slot) return;
-    if (w.value === 0) {
-      x.value = slot.x;
-      w.value = slot.w;
-    } else {
-      const timing = { duration: 260, easing: Easing.bezier(0.16, 1, 0.3, 1) };
-      x.value = withTiming(slot.x, timing);
-      w.value = withTiming(slot.w, timing);
-    }
-  }, [index, slots, x, w]);
-  const pillStyle = useAnimatedStyle(() => ({
-    width: w.value,
-    opacity: w.value > 0 ? 1 : 0,
-    transform: [{ translateX: x.value }],
-  }));
+  const [index, setIndex] = useState(0);
+  useAnimatedReaction(() => Math.round(pos.value), (next, prev) => {
+    if (next !== prev) runOnJS(setIndex)(next);
+  });
+  const pillStyle = useAnimatedStyle(() => {
+    const n = slots.length;
+    if (n === 0 || n < labels.length) return { opacity: 0 };
+    const p = Math.max(0, Math.min(n - 1, pos.value));
+    const i = Math.floor(p);
+    const a = slots[i];
+    const b = slots[Math.min(n - 1, i + 1)] ?? a;
+    if (!a || !b) return { opacity: 0 };
+    const f = p - i;
+    return {
+      opacity: 1,
+      width: a.w + (b.w - a.w) * f,
+      transform: [{ translateX: a.x + (b.x - a.x) * f }],
+    };
+  }, [slots, labels.length]);
   return (
     <View accessibilityRole="tablist" style={[styles.tabsBar, surface, square && styles.square]}>
       <Animated.View pointerEvents="none" style={[styles.tabsPill, square && styles.square, pillStyle]} />
@@ -682,7 +686,44 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
     setMenuQuery.complete(menuQuery, "");
     setSearchOpen(false);
   }, [menuQuery, setMenuQuery]);
-  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  // Tabs: the groups sit side by side and a sideways drag moves them under the
+  // finger; tabPos is the group on show, fractional mid-drag, and the tab
+  // pill reads it too.
+  const tabCount = menuGroups.length;
+  const tabPos = useSharedValue(0);
+  const swipeFrom = useSharedValue(0);
+  const tabPageWidth = screenWidth - SHEET_BORDER_X;
+  useEffect(() => {
+    tabPos.value = visible ? withTiming(tabIndex, TAB_TIMING) : tabIndex;
+  }, [tabIndex, visible, tabPos]);
+  const tabSwipe = Gesture.Pan()
+    .enabled(tabsHeader && !searching && !menuReorder.draggingId && tabCount > 1)
+    .activeOffsetX([-12, 12])
+    .failOffsetY([-12, 12])
+    .onStart(() => {
+      swipeFrom.value = Math.round(tabPos.value);
+    })
+    .onUpdate((e) => {
+      const last = tabCount - 1;
+      let p = swipeFrom.value - e.translationX / tabPageWidth;
+      // Past the first or last group the row only gives a little.
+      if (p < 0) p /= 3;
+      else if (p > last) p = last + (p - last) / 3;
+      tabPos.value = p;
+    })
+    .onEnd((e) => {
+      const from = swipeFrom.value;
+      const moved = tabPos.value - from;
+      let next = from;
+      if (Math.abs(e.velocityX) > 400 && Math.abs(e.translationX) > 20) next = from + (e.velocityX < 0 ? 1 : -1);
+      else if (Math.abs(moved) > 0.3) next = from + (moved > 0 ? 1 : -1);
+      next = Math.max(0, Math.min(tabCount - 1, next));
+      tabPos.value = withTiming(next, TAB_TIMING);
+      if (next !== from) runOnJS(setMenuTab)(next);
+    });
+  const tabStripStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: -tabPos.value * tabPageWidth }],
+  }), [tabPageWidth]);
   // An opened folder's panel lands under the folders, often below the fold.
   useEffect(() => {
     if (!openFolder) return;
@@ -976,7 +1017,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                 </TouchableOpacity>
                 <MenuTabs
                   labels={menuGroups.map((group) => t(group.labelKey, group.fallback))}
-                  index={tabIndex}
+                  pos={tabPos}
                   onChange={setMenuTab}
                   square={square}
                   surface={searchField.surface}
@@ -1096,23 +1137,31 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
             </>
           ) : (
             <>
-              {/* Tabs: one group; a sideways swipe moves to the next. */}
-              <View
-                style={{ minHeight: tabsMinHeight }}
-                onTouchStart={(e) => { swipeStart.current = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY }; }}
-                onTouchEnd={(e) => {
-                  const start = swipeStart.current;
-                  swipeStart.current = null;
-                  if (!start || menuReorder.draggingId) return;
-                  const dx = e.nativeEvent.pageX - start.x;
-                  const dy = e.nativeEvent.pageY - start.y;
-                  if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
-                  const next = tabIndex + (dx < 0 ? 1 : -1);
-                  if (next >= 0 && next < menuGroups.length) setMenuTab(next);
-                }}
-              >
-                {dragGrid(true)}
-              </View>
+              {/* Tabs: the groups side by side; a sideways drag moves them. */}
+              <GestureDetector gesture={tabSwipe}>
+                <View style={{ minHeight: tabsMinHeight, marginHorizontal: -GRID_PADDING, overflow: "hidden" }}>
+                  <Animated.View style={[{ flexDirection: "row", width: tabPageWidth * tabCount }, tabStripStyle]}>
+                    {menuGroups.map((group, i) => {
+                      const current = i === tabIndex;
+                      return (
+                        <View
+                          key={group.id}
+                          style={{ width: tabPageWidth, paddingHorizontal: GRID_PADDING }}
+                          accessibilityElementsHidden={!current}
+                          importantForAccessibility={current ? "auto" : "no-hide-descendants"}
+                          pointerEvents={current ? "auto" : "none"}
+                        >
+                          {current
+                            ? dragGrid(true)
+                            : Math.abs(i - tabIndex) <= 1 && (
+                              <View style={styles.grid}>{sortGroup(group).map((item) => renderPlain(item, bigTileWidth, true))}</View>
+                            )}
+                        </View>
+                      );
+                    })}
+                  </Animated.View>
+                </View>
+              </GestureDetector>
               <View style={styles.dots}>
                 {menuGroups.map((group, i) => (
                   <View key={group.id} style={[styles.dot, i === tabIndex && styles.dotOn]} />
