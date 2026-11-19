@@ -2995,7 +2995,14 @@
     "premium": "Prezioso",
     "pricing": "Prezzi",
     "reorderHint": "Tieni premuto e trascina qualsiasi icona per riorganizzare",
-    "reorderReset": "Ripristina"
+    "reorderReset": "Ripristina",
+    "groups": {
+      "main": "Principale",
+      "create": "Crea",
+      "discover": "Scopri",
+      "money": "Soldi",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Guadagna da tutti quelli che inviti — per sempre",
@@ -3769,7 +3776,15 @@
     "showFollowingList": "Mostra chi seguo",
     "showFollowingListDesc": "Permetti a chiunque di aprire la lista delle persone che segui. Se disattivato, solo tu puoi vederla.",
     "showFollowCounts": "Mostra i miei numeri di follower",
-    "showFollowCountsDesc": "Mostra quanti follower hai e quante persone segui. Disattivarlo nasconde anche entrambe le liste."
+    "showFollowCountsDesc": "Mostra quanti follower hai e quante persone segui. Disattivarlo nasconde anche entrambe le liste.",
+    "menuLayout": "Layout del menu",
+    "menuLayoutDesc": "Come il menu raggruppa le pagine",
+    "menuLayoutTabs": "Schede",
+    "menuLayoutTabsDesc": "Un gruppo alla volta, con icone grandi",
+    "menuLayoutSections": "Sezioni",
+    "menuLayoutSectionsDesc": "Tutte le pagine insieme, sotto intestazioni",
+    "menuLayoutFolders": "Cartelle",
+    "menuLayoutFoldersDesc": "Le tue pagine principali, poi una cartella per gruppo"
   },
   "common": {
     "refresh": "Aggiorna",

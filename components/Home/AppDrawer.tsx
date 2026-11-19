@@ -54,6 +54,8 @@ import { ReorderItem, justDropped, useReorder, type ReorderCtx } from "../common
 import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
 import { applyNavOrder, navOrderId, resetNavOrder, saveNavOrder, useNavOrder } from "../../libs/navOrder";
 import SearchRequestPrompt from "../Search/SearchRequestPrompt";
+import { useAppPrefs } from "../../hooks/useAppPrefs";
+import { groupMenuItems, type MenuGroup } from "../../libs/menuGroups";
 
 // The menu is a bottom sheet: grab handle, who is signed in, the search field,
 // then a four-column grid of the same glossy 3D icons the web menu uses. It
@@ -75,6 +77,10 @@ const GRID_COLUMNS = 4;
 // The sheet's 1px left and right borders sit inside the screen width.
 const SHEET_BORDER_X = 2;
 const ICON_SIZE = 44;
+// Tabs and Folders lay the menu out three a row with bigger art (libs/menuLayout).
+const BIG_COLUMNS = 3;
+const BIG_ICON_SIZE = 58;
+const BIG_TILE_HEIGHT = 104;
 
 // Per-theme 3D artwork is served by the website (public/theme-icons/<theme>/),
 // the same files the web menu draws, so both stay on one set. expo-image keeps
@@ -260,6 +266,8 @@ function useTileLabelSize(labels: string[], tileWidth: number) {
 }
 
 interface TileProps {
+  /** Three-a-row tile (Tabs and Folders layouts): bigger art and name. */
+  big?: boolean;
   label: string;
   /** The grid's shared label size (useTileLabelSize). */
   labelSize?: number;
@@ -280,7 +288,7 @@ interface TileProps {
   onPress: () => void;
 }
 
-const Tile = memo<TileProps>(({ label, labelSize, icon, iconUrl, iconColor, width, active, badgeCount = 0, disabled, soonLabel, skin, hud, square, lifted, onPress }) => {
+const Tile = memo<TileProps>(({ big = false, label, labelSize, icon, iconUrl, iconColor, width, active, badgeCount = 0, disabled, soonLabel, skin, hud, square, lifted, onPress }) => {
   const glyphColor = iconColor ?? (hud
     ? skin?.glow ?? "#22D3EE"
     : active ? skin?.tabIconActive ?? "#FFFFFF" : skin?.tabIcon ?? "rgba(255,255,255,0.9)");
@@ -299,6 +307,7 @@ const Tile = memo<TileProps>(({ label, labelSize, icon, iconUrl, iconColor, widt
       onPress={onPress}
       style={[
         styles.tile,
+        big && styles.tileBig,
         { width },
         Platform.OS === "android" ? skin?.strip : skin?.card,
         active && styles.tileActive,
@@ -316,14 +325,14 @@ const Tile = memo<TileProps>(({ label, labelSize, icon, iconUrl, iconColor, widt
         />
       ) : null}
       {skin?.brackets ? <HudBrackets color={skin.brackets} length={8} width={1} /> : null}
-      <View style={styles.tileIcon}>
+      <View style={[styles.tileIcon, big && styles.tileIconBig]}>
         {!(iconUrl && !artFailed && artShown) ? (
-          <Icon name={icon} size={26} color={glyphColor} strokeWidth={1.6} />
+          <Icon name={icon} size={big ? 34 : 26} color={glyphColor} strokeWidth={1.6} />
         ) : null}
         {iconUrl && !artFailed ? (
           <Image
             source={{ uri: iconUrl }}
-            style={[styles.tileImage, !artShown && StyleSheet.absoluteFill]}
+            style={[styles.tileImage, big && styles.tileIconBig, !artShown && StyleSheet.absoluteFill]}
             contentFit="contain"
             cachePolicy="disk"
             transition={120}
@@ -340,7 +349,7 @@ const Tile = memo<TileProps>(({ label, labelSize, icon, iconUrl, iconColor, widt
         )}
       </View>
       <Text
-        style={[styles.tileLabel, labelSize ? { fontSize: labelSize } : null, active && styles.tileLabelActive, skin?.tabIcon ? { color: active ? skin.tabIconActive ?? skin.tabIcon : skin.tabIcon } : null]}
+        style={[styles.tileLabel, big ? { fontSize: 13 } : labelSize ? { fontSize: labelSize } : null, active && styles.tileLabelActive, skin?.tabIcon ? { color: active ? skin.tabIconActive ?? skin.tabIcon : skin.tabIcon } : null]}
         // Two-word names wrap onto two lines; single words share the grid's
         // size (useTileLabelSize). Fit-to-width stays as a backstop for the
         // bolder active label.
@@ -381,6 +390,65 @@ const MenuSlot = memo(function MenuSlot({
     </ReorderItem>
   );
 });
+
+/**
+ * The group words beside the search button (Tabs layout). Same 12px corners
+ * as the search field; a glass pill slides under the lit word.
+ */
+function MenuTabs({ labels, index, onChange, square, surface }: {
+  labels: string[];
+  index: number;
+  onChange: (index: number) => void;
+  square: boolean;
+  surface: any;
+}) {
+  const [slots, setSlots] = useState<Array<{ x: number; w: number }>>([]);
+  const x = useSharedValue(0);
+  const w = useSharedValue(0);
+  useEffect(() => {
+    const slot = slots[index];
+    if (!slot) return;
+    if (w.value === 0) {
+      x.value = slot.x;
+      w.value = slot.w;
+    } else {
+      const timing = { duration: 260, easing: Easing.bezier(0.16, 1, 0.3, 1) };
+      x.value = withTiming(slot.x, timing);
+      w.value = withTiming(slot.w, timing);
+    }
+  }, [index, slots, x, w]);
+  const pillStyle = useAnimatedStyle(() => ({
+    width: w.value,
+    opacity: w.value > 0 ? 1 : 0,
+    transform: [{ translateX: x.value }],
+  }));
+  return (
+    <View accessibilityRole="tablist" style={[styles.tabsBar, surface, square && styles.square]}>
+      <Animated.View pointerEvents="none" style={[styles.tabsPill, square && styles.square, pillStyle]} />
+      {labels.map((label, i) => (
+        <TouchableOpacity
+          key={i}
+          accessibilityRole="tab"
+          accessibilityState={{ selected: i === index }}
+          activeOpacity={0.7}
+          onPress={() => onChange(i)}
+          onLayout={(e) => {
+            const { x: left, width } = e.nativeEvent.layout;
+            setSlots((prev) => {
+              if (prev[i]?.x === left && prev[i]?.w === width) return prev;
+              const next = [...prev];
+              next[i] = { x: left, w: width };
+              return next;
+            });
+          }}
+          style={styles.tabButton}
+        >
+          <Text style={[styles.tabText, i === index && styles.tabTextActive]} numberOfLines={1}>{label}</Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+}
 
 interface AppDrawerProps {
   visible: boolean;
@@ -535,15 +603,46 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   // name in the reader's language and in English, its search words ("build"
   // finds Requests) in English and translated, plurals and small typos. Rows
   // marked searchOnly only appear once something is typed.
-  const visibleItems = useMemo(() => {
-    const allowed = NAV_ITEMS.filter(
-      (item) => (isSignedIn || !item.requiresAuth) && (DIGITAL_PURCHASES_ENABLED || !item.storefrontHidden)
-        && (item.screen !== ScreenNames.Agents || canManageAgents(user?.walletAddress || user?.address)),
-    );
-    return filterNavRows(allowed, menuQuery, (key, defaultValue) => t(key, defaultValue));
-  }, [isSignedIn, menuQuery, t, user?.walletAddress, user?.address]);
+  const allowedItems = useMemo(() => NAV_ITEMS.filter(
+    (item) => (isSignedIn || !item.requiresAuth) && (DIGITAL_PURCHASES_ENABLED || !item.storefrontHidden)
+      && (item.screen !== ScreenNames.Agents || canManageAgents(user?.walletAddress || user?.address)),
+  ), [isSignedIn, user?.walletAddress, user?.address]);
+  const visibleItems = useMemo(
+    () => filterNavRows(allowedItems, menuQuery, (key, defaultValue) => t(key, defaultValue)),
+    [allowedItems, menuQuery, t],
+  );
 
   const searching = menuQuery.trim().length > 0;
+
+  // Groups (libs/menuGroups) in the layout picked in Settings (libs/menuLayout):
+  // Tabs (default) shows one group at a time, Sections every group under a
+  // header, Folders the Main group and then a folder per other group.
+  const menuLayout = useAppPrefs().menuLayout;
+  const restingItems = useMemo(
+    () => filterNavRows(allowedItems, "", (key, defaultValue) => t(key, defaultValue)),
+    [allowedItems, t],
+  );
+  const menuGroups = useMemo(() => groupMenuItems(restingItems), [restingItems]);
+  const grouped = menuGroups.length > 1;
+  const [menuTab, setMenuTab] = useState(0);
+  const tabIndex = Math.min(menuTab, Math.max(0, menuGroups.length - 1));
+  const [openFolder, setOpenFolder] = useState<string | null>(null);
+  // Tabs: search is a button beside the group words until tapped, then that
+  // row is the search field (X turns it back).
+  const tabsHeader = grouped && menuLayout === "tabs";
+  const [searchOpen, setSearchOpen] = useState(false);
+  const bigTiles = grouped && menuLayout !== "sections";
+  const bigTileWidth = Math.floor((screenWidth - SHEET_BORDER_X - GRID_PADDING * 2 - GRID_GAP * (BIG_COLUMNS - 1)) / BIG_COLUMNS);
+  // The open folder's panel has its own 12px padding and 1px border each side.
+  const panelTileWidth = Math.floor((screenWidth - SHEET_BORDER_X - GRID_PADDING * 2 - 26 - GRID_GAP * (BIG_COLUMNS - 1)) / BIG_COLUMNS);
+  // Rows a drag can rearrange: the tab on show, or Folders' Main grid. The
+  // Sections layout is several grids, so it holds still.
+  const reorderPool = useMemo(() => {
+    if (searching || !grouped) return visibleItems;
+    if (menuLayout === "tabs") return menuGroups[tabIndex]?.items ?? [];
+    if (menuLayout === "folders") return menuGroups[0]?.items ?? [];
+    return [];
+  }, [searching, grouped, visibleItems, menuLayout, menuGroups, tabIndex]);
   // Sized from the resting grid's names, so a search does not resize the tiles.
   const gridLabels = useMemo(() => NAV_ITEMS.filter((item) => !item.searchOnly).map((item) => t(item.labelKey)), [t]);
   const tileLabel = useTileLabelSize(gridLabels, tileWidth);
@@ -554,8 +653,8 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const savedMenuOrder = useNavOrder("menu");
   const menuWallet = ((user as any)?.walletAddress || (user as any)?.address || "").toLowerCase() || null;
   const orderedItems = useMemo(
-    () => (searching ? visibleItems : applyNavOrder(visibleItems, savedMenuOrder, (item) => navOrderId(item.labelKey))),
-    [searching, visibleItems, savedMenuOrder],
+    () => (searching ? reorderPool : applyNavOrder(reorderPool, savedMenuOrder, (item) => navOrderId(item.labelKey))),
+    [searching, reorderPool, savedMenuOrder],
   );
   const itemsById = useMemo(() => new Map(orderedItems.map((item) => [navOrderId(item.labelKey), item])), [orderedItems]);
   const orderedIds = useMemo(() => orderedItems.map((item) => navOrderId(item.labelKey)), [orderedItems]);
@@ -563,12 +662,33 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
     (next: string[]) => saveNavOrder("menu", next, DEFAULT_MENU_IDS, isSignedIn ? menuWallet : null),
     [isSignedIn, menuWallet],
   );
-  const menuReorder = useReorder({ ids: orderedIds, onCommit: commitMenuOrder, disabled: searching });
+  const reorderOff = searching || (grouped && menuLayout === "sections");
+  const menuReorder = useReorder({ ids: orderedIds, onCommit: commitMenuOrder, disabled: reorderOff });
+  const sortGroup = useCallback(
+    (group: MenuGroup<DrawerItem>) => applyNavOrder(group.items, savedMenuOrder, (item) => navOrderId(item.labelKey)),
+    [savedMenuOrder],
+  );
 
-  // Never reopen the sheet mid-filter.
+  // Never reopen the sheet mid-filter, and always on the first group.
   useEffect(() => {
-    if (!visible) setMenuQuery.initialize("");
+    if (!visible) {
+      setMenuQuery.initialize("");
+      setSearchOpen(false);
+      setMenuTab(0);
+      setOpenFolder(null);
+    }
   }, [visible, setMenuQuery]);
+  const closeSearch = useCallback(() => {
+    setMenuQuery.complete(menuQuery, "");
+    setSearchOpen(false);
+  }, [menuQuery, setMenuQuery]);
+  const swipeStart = useRef<{ x: number; y: number } | null>(null);
+  // An opened folder's panel lands under the folders, often below the fold.
+  useEffect(() => {
+    if (!openFolder) return;
+    const id = setTimeout(() => (menuReorder.scrollRef?.current as any)?.scrollToEnd?.({ animated: true }), 60);
+    return () => clearTimeout(id);
+  }, [openFolder, menuReorder.scrollRef]);
 
   // The closed menu stays mounted, so on Android its search field was the
   // first focusable box left on Home once another screen's focused field went
@@ -647,7 +767,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   // The DHB the wallet actually holds; badgeBalance can include delegation.
   const dhbBalance = Math.floor(user?.ownBadgeBalance ?? user?.badgeBalance ?? 0);
 
-  const renderItem = (item: DrawerItem) => {
+  const renderItem = (item: DrawerItem, big = false) => {
     const key = ICON_KEYS[item.labelKey];
     const id = navOrderId(item.labelKey);
     return (
@@ -657,12 +777,13 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
         ctx={menuReorder.ctx}
         item={item}
         onItemPress={handleItemPress}
+        big={big}
         label={t(item.labelKey)}
         labelSize={tileLabel.size}
         icon={item.icon}
         iconUrl={key ? themeIconUrl(themeName, key) : undefined}
         iconColor={['hacker', 'island', 'horror'].includes(themeName) ? appTheme.colors.accent : undefined}
-        width={tileWidth}
+        width={big ? bigTileWidth : tileWidth}
         active={!!item.screen && item.screen === activeRouteName && !item.params}
         badgeCount={
           !isSignedIn ? 0
@@ -680,7 +801,63 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
     );
   };
 
+  // A tile outside the drag grid (Sections, an open folder): same look, no handle.
+  const renderPlain = (item: DrawerItem, width: number, big: boolean) => {
+    const key = ICON_KEYS[item.labelKey];
+    return (
+      <Tile
+        key={item.labelKey}
+        big={big}
+        label={t(item.labelKey)}
+        labelSize={tileLabel.size}
+        icon={item.icon}
+        iconUrl={key ? themeIconUrl(themeName, key) : undefined}
+        iconColor={['hacker', 'island', 'horror'].includes(themeName) ? appTheme.colors.accent : undefined}
+        width={width}
+        active={!!item.screen && item.screen === activeRouteName && !item.params}
+        badgeCount={
+          !isSignedIn ? 0
+            : item.screen === ScreenNames.DM ? messagesUnread
+              : item.screen === ScreenNames.Notifications ? user?.notificationCount ?? 0
+                : 0
+        }
+        disabled={item.disabled}
+        soonLabel={t("screens.soon")}
+        skin={skin}
+        hud={hud}
+        square={square}
+        onPress={() => handleItemPress(item)}
+      />
+    );
+  };
+
   const hairline = skin?.card?.borderColor ?? "rgba(255, 255, 255, 0.10)";
+  const dragGrid = (big: boolean) => (
+    <View style={styles.grid}>
+      {menuReorder.order.map((id) => itemsById.get(id)).filter((item): item is DrawerItem => !!item).map((item) => renderItem(item, big))}
+    </View>
+  );
+  const reorderHint = (
+    <View style={styles.reorderHint}>
+      <Text style={styles.reorderHintText}>{t("nav.reorderHint", { defaultValue: "Hold and drag any icon to rearrange" })}</Text>
+      {savedMenuOrder.length > 0 && (
+        <TouchableOpacity
+          accessibilityRole="button"
+          onPress={() => menuReorder.animateChange(
+            () => resetNavOrder("menu", isSignedIn ? menuWallet : null),
+            reorderPool.map((item) => navOrderId(item.labelKey)),
+          )}
+          hitSlop={{ top: 14, bottom: 14, left: 10, right: 10 }}
+        >
+          <Text style={styles.reorderReset}>{t("nav.reorderReset", { defaultValue: "Reset" })}</Text>
+        </TouchableOpacity>
+      )}
+    </View>
+  );
+  // Every tab as tall as the longest, so the sheet holds still between them.
+  const longestGroup = Math.max(0, ...menuGroups.map((group) => group.items.length));
+  const tabRows = Math.ceil(longestGroup / BIG_COLUMNS);
+  const tabsMinHeight = tabRows * BIG_TILE_HEIGHT + Math.max(0, tabRows - 1) * GRID_GAP;
 
   return (
     <View
@@ -786,6 +963,26 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
             {/* Menu search. Filters the tiles below; anything that is not a
                 page is one tap away via the hand-off, which runs the query on
                 the Explore tab. */}
+            {tabsHeader && !searchOpen && !menuQuery ? (
+              <View style={styles.tabsRow}>
+                <TouchableOpacity
+                  accessibilityRole="button"
+                  accessibilityLabel={t("sidebar.searchMenu")}
+                  onPress={() => setSearchOpen(true)}
+                  activeOpacity={0.7}
+                  style={[styles.searchButton, square && styles.square, searchField.surface]}
+                >
+                  <Icon name="Search" size={18} color="#D4D4D8" />
+                </TouchableOpacity>
+                <MenuTabs
+                  labels={menuGroups.map((group) => t(group.labelKey, group.fallback))}
+                  index={tabIndex}
+                  onChange={setMenuTab}
+                  square={square}
+                  surface={searchField.surface}
+                />
+              </View>
+            ) : (
             <View style={[styles.searchWrap, square && styles.square, searchField.surface]}>
               <Icon name="Search" size={16} color="#808089" />
               <TextInput
@@ -803,10 +1000,11 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                 autoCorrect={false}
                 autoCapitalize="none"
                 accessibilityLabel={t("sidebar.searchMenu")}
+                autoFocus={tabsHeader && searchOpen}
               />
-              {menuQuery.length > 0 && (
+              {(menuQuery.length > 0 || (tabsHeader && searchOpen)) && (
                 <TouchableOpacity
-                  onPress={() => setMenuQuery.complete(menuQuery, "")}
+                  onPress={closeSearch}
                   hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                   accessibilityRole="button"
                   accessibilityLabel={t("sidebar.clearSearch")}
@@ -815,6 +1013,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                 </TouchableOpacity>
               )}
             </View>
+            )}
           </View>
         </GestureDetector>
 
@@ -828,29 +1027,99 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ paddingHorizontal: GRID_PADDING, paddingBottom: 16 }}
         >
-          {/* Same order as the web menu, one continuous grid. */}
           {tileLabel.measurer}
-          {orderedItems.length > 0 && (
-            <View style={styles.grid}>
-              {menuReorder.order.map((id) => itemsById.get(id)).filter((item): item is DrawerItem => !!item).map(renderItem)}
-            </View>
-          )}
-          {!searching && (
-            <View style={styles.reorderHint}>
-              <Text style={styles.reorderHintText}>{t("nav.reorderHint", { defaultValue: "Hold and drag any icon to rearrange" })}</Text>
-              {savedMenuOrder.length > 0 && (
-                <TouchableOpacity
-                  accessibilityRole="button"
-                  onPress={() => menuReorder.animateChange(
-                    () => resetNavOrder("menu", isSignedIn ? menuWallet : null),
-                    visibleItems.map((item) => navOrderId(item.labelKey)),
-                  )}
-                  hitSlop={{ top: 14, bottom: 14, left: 10, right: 10 }}
-                >
-                  <Text style={styles.reorderReset}>{t("nav.reorderReset", { defaultValue: "Reset" })}</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+          {searching || !grouped ? (
+            <>
+              {/* Search results, ranked: one grid whatever the layout. */}
+              {orderedItems.length > 0 && dragGrid(bigTiles)}
+              {!searching && reorderHint}
+            </>
+          ) : menuLayout === "sections" ? (
+            menuGroups.map((group, i) => (
+              <View key={group.id}>
+                <View style={[styles.sectionHead, i === 0 && { marginTop: 2 }]}>
+                  <Text style={styles.sectionTitle}>{t(group.labelKey, group.fallback)}</Text>
+                  <Text style={styles.sectionCount}>{group.items.length}</Text>
+                </View>
+                <View style={styles.grid}>{sortGroup(group).map((item) => renderPlain(item, tileWidth, false))}</View>
+              </View>
+            ))
+          ) : menuLayout === "folders" ? (
+            <>
+              {dragGrid(true)}
+              <View style={[styles.grid, { marginTop: GRID_GAP }]}>
+                {menuGroups.slice(1).map((group) => {
+                  const isOpen = openFolder === group.id;
+                  return (
+                    <TouchableOpacity
+                      key={group.id}
+                      accessibilityRole="button"
+                      accessibilityLabel={t(group.labelKey, group.fallback)}
+                      accessibilityState={{ expanded: isOpen }}
+                      activeOpacity={0.7}
+                      onPress={() => setOpenFolder(isOpen ? null : group.id)}
+                      style={[
+                        styles.tile,
+                        styles.folderTile,
+                        { width: tileWidth },
+                        Platform.OS === "android" ? skin?.strip : skin?.card,
+                        isOpen && styles.tileActive,
+                        isOpen && skin?.stripActive,
+                        square && styles.square,
+                      ]}
+                    >
+                      <View style={[styles.folderIcons, square && styles.square]}>
+                        {group.items.slice(0, 4).map((item) => {
+                          const key = ICON_KEYS[item.labelKey];
+                          return key
+                            ? <Image key={item.labelKey} source={{ uri: themeIconUrl(themeName, key) }} style={styles.folderIcon} contentFit="contain" cachePolicy="disk" />
+                            : <Icon key={item.labelKey} name={item.icon} size={16} color="#D4D4D8" />;
+                        })}
+                      </View>
+                      <Text style={styles.folderName} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.85}>{t(group.labelKey, group.fallback)}</Text>
+                      <Text style={styles.folderCount}>{group.items.length}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+              {(() => {
+                const open = menuGroups.find((group) => group.id === openFolder);
+                if (!open) return null;
+                return (
+                  <View style={[styles.folderPanel, square && styles.square, { borderColor: hairline }]}>
+                    <Text style={styles.folderPanelTitle}>{t(open.labelKey, open.fallback)}</Text>
+                    <View style={styles.grid}>{sortGroup(open).map((item) => renderPlain(item, panelTileWidth, true))}</View>
+                  </View>
+                );
+              })()}
+              {reorderHint}
+            </>
+          ) : (
+            <>
+              {/* Tabs: one group; a sideways swipe moves to the next. */}
+              <View
+                style={{ minHeight: tabsMinHeight }}
+                onTouchStart={(e) => { swipeStart.current = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY }; }}
+                onTouchEnd={(e) => {
+                  const start = swipeStart.current;
+                  swipeStart.current = null;
+                  if (!start || menuReorder.draggingId) return;
+                  const dx = e.nativeEvent.pageX - start.x;
+                  const dy = e.nativeEvent.pageY - start.y;
+                  if (Math.abs(dx) < 48 || Math.abs(dx) < Math.abs(dy) * 1.5) return;
+                  const next = tabIndex + (dx < 0 ? 1 : -1);
+                  if (next >= 0 && next < menuGroups.length) setMenuTab(next);
+                }}
+              >
+                {dragGrid(true)}
+              </View>
+              <View style={styles.dots}>
+                {menuGroups.map((group, i) => (
+                  <View key={group.id} style={[styles.dot, i === tabIndex && styles.dotOn]} />
+                ))}
+              </View>
+              {reorderHint}
+            </>
           )}
 
           {searching && (
@@ -1020,6 +1289,137 @@ const styles = StyleSheet.create({
     // text off-centre inside a fixed-height row.
     paddingVertical: 0,
   },
+  tabsRow: {
+    flexDirection: "row",
+    gap: 6,
+    height: 42,
+    marginHorizontal: GRID_PADDING,
+    marginBottom: 14,
+  },
+  searchButton: {
+    width: 42,
+    height: 42,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 12,
+    backgroundColor: "rgba(255, 255, 255, 0.06)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.10)",
+  },
+  tabsBar: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "stretch",
+    padding: 3,
+    borderRadius: 12,
+    backgroundColor: "rgba(255, 255, 255, 0.06)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.10)",
+  },
+  tabsPill: {
+    position: "absolute",
+    top: 3,
+    bottom: 3,
+    left: 0,
+    borderRadius: 9,
+    backgroundColor: "rgba(255, 255, 255, 0.16)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.28)",
+  },
+  tabButton: {
+    flexGrow: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 5,
+  },
+  tabText: {
+    color: "#A1A1AA",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  tabTextActive: {
+    color: "#FFFFFF",
+  },
+  dots: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 6,
+    marginTop: 14,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#A1A1AA",
+    opacity: 0.35,
+  },
+  dotOn: {
+    width: 18,
+    opacity: 0.9,
+  },
+  sectionHead: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    justifyContent: "space-between",
+    marginTop: 16,
+    marginBottom: 8,
+    marginHorizontal: 2,
+  },
+  sectionTitle: {
+    color: "#E4E4E7",
+    fontSize: 12.5,
+    fontWeight: "800",
+    letterSpacing: 0.8,
+    textTransform: "uppercase",
+  },
+  sectionCount: {
+    color: "#71717A",
+    fontSize: 12,
+  },
+  folderTile: {
+    minHeight: 96,
+    gap: 5,
+    paddingVertical: 9,
+  },
+  folderIcons: {
+    width: 50,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 3,
+    padding: 4,
+    borderRadius: 10,
+    backgroundColor: "rgba(255, 255, 255, 0.06)",
+  },
+  folderIcon: {
+    width: 19,
+    height: 19,
+  },
+  folderName: {
+    color: "#F4F4F5",
+    fontSize: 12,
+    fontWeight: "700",
+    textAlign: "center",
+    alignSelf: "stretch",
+  },
+  folderCount: {
+    color: "#71717A",
+    fontSize: 10.5,
+    marginTop: -3,
+  },
+  folderPanel: {
+    marginTop: 12,
+    padding: 12,
+    borderRadius: 18,
+    borderWidth: 1,
+    backgroundColor: "rgba(255, 255, 255, 0.04)",
+  },
+  folderPanelTitle: {
+    color: "#F4F4F5",
+    fontSize: 15,
+    fontWeight: "800",
+    marginBottom: 10,
+    marginHorizontal: 2,
+  },
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -1066,6 +1466,16 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0.04)",
     borderWidth: 1,
     borderColor: "rgba(255, 255, 255, 0.08)",
+  },
+  tileBig: {
+    gap: 8,
+    paddingTop: 13,
+    paddingBottom: 11,
+    minHeight: BIG_TILE_HEIGHT,
+  },
+  tileIconBig: {
+    width: BIG_ICON_SIZE,
+    height: BIG_ICON_SIZE,
   },
   tileActive: {
     backgroundColor: "rgba(255, 255, 255, 0.12)",

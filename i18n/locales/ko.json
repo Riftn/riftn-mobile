@@ -2994,7 +2994,14 @@
     "premium": "프리미엄",
     "pricing": "요금제",
     "reorderHint": "아이콘을 길게 누른 상태에서 드래그하여 재정렬",
-    "reorderReset": "초기화"
+    "reorderReset": "초기화",
+    "groups": {
+      "main": "메인",
+      "create": "만들기",
+      "discover": "둘러보기",
+      "money": "머니",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "초대한 모든 사람에게서 평생 수익을",
@@ -3768,7 +3775,15 @@
     "showFollowingList": "내가 팔로우하는 사람 보이기",
     "showFollowingListDesc": "누구나 내가 팔로우하는 사람 목록을 열 수 있게 해요. 끄면 나만 볼 수 있어요.",
     "showFollowCounts": "팔로워 수 보이기",
-    "showFollowCountsDesc": "팔로워 수와 팔로잉 수를 보여줘요. 끄면 두 목록도 숨겨져요."
+    "showFollowCountsDesc": "팔로워 수와 팔로잉 수를 보여줘요. 끄면 두 목록도 숨겨져요.",
+    "menuLayout": "메뉴 레이아웃",
+    "menuLayoutDesc": "메뉴가 페이지를 묶는 방식",
+    "menuLayoutTabs": "탭",
+    "menuLayoutTabsDesc": "한 번에 한 그룹씩, 큰 아이콘으로",
+    "menuLayoutSections": "섹션",
+    "menuLayoutSectionsDesc": "모든 페이지를 제목 아래에 한 번에",
+    "menuLayoutFolders": "폴더",
+    "menuLayoutFoldersDesc": "주요 페이지, 그리고 그룹별 폴더"
   },
   "common": {
     "refresh": "새로고침",

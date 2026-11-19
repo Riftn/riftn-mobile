@@ -2995,7 +2995,14 @@
     "premium": "Cao cấp",
     "pricing": "Bảng giá",
     "reorderHint": "Giữ và kéo bất kỳ biểu tượng nào để sắp xếp lại",
-    "reorderReset": "Đặt lại"
+    "reorderReset": "Đặt lại",
+    "groups": {
+      "main": "Chính",
+      "create": "Tạo",
+      "discover": "Khám phá",
+      "money": "Tiền",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Kiếm tiền từ mọi người bạn mời — mãi mãi",
@@ -3769,7 +3776,15 @@
     "showFollowingList": "Hiển thị tôi theo dõi ai",
     "showFollowingListDesc": "Cho phép mọi người mở danh sách những người bạn theo dõi. Khi tắt, chỉ bạn xem được.",
     "showFollowCounts": "Hiển thị số người theo dõi",
-    "showFollowCountsDesc": "Hiển thị bạn có bao nhiêu người theo dõi và đang theo dõi bao nhiêu người. Tắt đi cũng ẩn cả hai danh sách."
+    "showFollowCountsDesc": "Hiển thị bạn có bao nhiêu người theo dõi và đang theo dõi bao nhiêu người. Tắt đi cũng ẩn cả hai danh sách.",
+    "menuLayout": "Bố cục menu",
+    "menuLayoutDesc": "Cách menu nhóm các trang",
+    "menuLayoutTabs": "Thẻ",
+    "menuLayoutTabsDesc": "Mỗi lần một nhóm, biểu tượng lớn",
+    "menuLayoutSections": "Mục",
+    "menuLayoutSectionsDesc": "Tất cả trang cùng lúc, dưới tiêu đề",
+    "menuLayoutFolders": "Thư mục",
+    "menuLayoutFoldersDesc": "Trang chính của bạn, rồi mỗi nhóm một thư mục"
   },
   "common": {
     "refresh": "Làm mới",

@@ -783,7 +783,14 @@
     "premium": "بريميوم",
     "pricing": "الأسعار",
     "reorderHint": "أمسك واسحب أي أيكونة لإعادة ترتيبها",
-    "reorderReset": "إعادة تعيين"
+    "reorderReset": "إعادة تعيين",
+    "groups": {
+      "main": "الرئيسية",
+      "create": "إنشاء",
+      "discover": "استكشاف",
+      "money": "المال",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "اربح من كل من تدعوه — إلى الأبد",
@@ -1564,7 +1571,15 @@
     "showFollowingList": "إظهار من أتابع",
     "showFollowingListDesc": "اسمح لأي شخص بفتح قائمة الأشخاص الذين تتابعهم. عند الإيقاف، أنت وحدك من يراها.",
     "showFollowCounts": "إظهار أعداد المتابعين",
-    "showFollowCountsDesc": "يعرض عدد متابعيك وعدد من تتابعهم. إيقافه يخفي القائمتين أيضًا."
+    "showFollowCountsDesc": "يعرض عدد متابعيك وعدد من تتابعهم. إيقافه يخفي القائمتين أيضًا.",
+    "menuLayout": "تخطيط القائمة",
+    "menuLayoutDesc": "كيف تجمع القائمة صفحاتها",
+    "menuLayoutTabs": "علامات تبويب",
+    "menuLayoutTabsDesc": "مجموعة واحدة في كل مرة، بأيقونات كبيرة",
+    "menuLayoutSections": "أقسام",
+    "menuLayoutSectionsDesc": "كل الصفحات معًا، تحت عناوين",
+    "menuLayoutFolders": "مجلدات",
+    "menuLayoutFoldersDesc": "صفحاتك الرئيسية، ثم مجلد لكل مجموعة"
   },
   "common": {
     "refresh": "تحديث",

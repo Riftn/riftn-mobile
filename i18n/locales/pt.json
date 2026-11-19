@@ -2945,7 +2945,14 @@
     "premium": "Premium",
     "pricing": "Preços",
     "reorderHint": "Segure e arraste qualquer ícone para reorganizar",
-    "reorderReset": "Redefinir"
+    "reorderReset": "Redefinir",
+    "groups": {
+      "main": "Principal",
+      "create": "Criar",
+      "discover": "Descobrir",
+      "money": "Dinheiro",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Ganhe com todos que você convidar — para sempre",
@@ -3726,7 +3733,15 @@
     "messagesShowCount": "Mostrar o número em Mensagens",
     "messagesShowCountDesc": "Ver quantas mensagens não foram lidas em vez de apenas o brilho",
     "pushNotRegisteredDescIos": "As notificações não podem chegar até você enquanto o aplicativo estiver fechado: este iPhone nunca se registrou para push. Verifique se as notificações estão permitidas para o Riftn nos Ajustes e, em seguida, abra o aplicativo novamente.",
-    "tipsOffNote": "Gorjetas e envios para você estão desativados enquanto isso estiver ligado. Desative para receber gorjetas novamente."
+    "tipsOffNote": "Gorjetas e envios para você estão desativados enquanto isso estiver ligado. Desative para receber gorjetas novamente.",
+    "menuLayout": "Layout do menu",
+    "menuLayoutDesc": "Como o menu agrupa as páginas",
+    "menuLayoutTabs": "Abas",
+    "menuLayoutTabsDesc": "Um grupo por vez, com ícones grandes",
+    "menuLayoutSections": "Seções",
+    "menuLayoutSectionsDesc": "Todas as páginas, sob cabeçalhos",
+    "menuLayoutFolders": "Pastas",
+    "menuLayoutFoldersDesc": "Suas páginas principais e uma pasta por grupo"
   },
   "common": {
     "refresh": "Atualizar",
