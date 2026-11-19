@@ -5679,6 +5679,7 @@
     "handlePrompt": "พร้อมท์"
   },
   "loginModal": {
+    "didYouMean": "คุณหมายถึง {{email}} ใช่ไหม?",
     "title": "เข้าสู่ระบบ",
     "continueEmail": "ดำเนินการต่อด้วยอีเมล",
     "continueSMS": "ดำเนินการต่อด้วย SMS",

@@ -3560,6 +3560,7 @@
     "signInToSee": "Inicia sesión para ver los flujos de tu cuenta."
   },
   "loginModal": {
+    "didYouMean": "¿Quisiste decir {{email}}?",
     "title": "Iniciar sesión",
     "continueEmail": "Continuar con Email",
     "continueSMS": "Continuar con SMS",

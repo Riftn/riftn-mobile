@@ -5659,6 +5659,7 @@
     "handlePrompt": "Eingabeaufforderung"
   },
   "loginModal": {
+    "didYouMean": "Meintest du {{email}}?",
     "title": "Anmelden",
     "continueEmail": "Weiter mit E-Mail",
     "continueSMS": "Weiter mit SMS",

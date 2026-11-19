@@ -5663,6 +5663,7 @@
     "handlePrompt": "Wybierz tematy"
   },
   "loginModal": {
+    "didYouMean": "Czy chodziło ci o {{email}}?",
     "title": "Zaloguj się",
     "continueEmail": "Kontynuuj przez e-mail",
     "continueSMS": "Kontynuuj przez SMS",

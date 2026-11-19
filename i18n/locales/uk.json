@@ -6013,6 +6013,7 @@
     "handlePrompt": "Сформувати"
   },
   "loginModal": {
+    "didYouMean": "Ви мали на увазі {{email}}?",
     "title": "Увійти",
     "continueEmail": "Продовжити з Email",
     "continueSMS": "Продовжити з SMS",
