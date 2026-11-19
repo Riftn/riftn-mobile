@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "Mesajlarına {{count}} tepki",
+    "many_other": "Mesajlarına {{count}} tepki",
+    "manySame_one": "Mesajlarında {{emoji}} × {{count}}",
+    "manySame_other": "Mesajlarında {{emoji}} × {{count}}",
+    "one": "Mesajına {{emoji}} tepkisi verdi",
+    "oneNamed": "{{name}} mesajına {{emoji}} tepkisi verdi"
+  },
   "messagesTabs": {
     "all": "Tümü",
     "unread": "Okunmamış",
@@ -783,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Fiyatlandırma",
     "reorderHint": "Yeniden düzenlemek için herhangi bir simgeyi basılı tutun ve sürükleyin",
-    "reorderReset": "Sıfırla"
+    "reorderReset": "Sıfırla",
+    "groups": {
+      "main": "Ana",
+      "create": "Oluştur",
+      "discover": "Keşfet",
+      "money": "Para",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Davet ettiğin herkesten sonsuza dek kazan",
@@ -1024,6 +1039,8 @@
     "feedTogglesCleared": "Akış filtreleri sıfırlandı",
     "defaultProfileTab": "Varsayılan profil sekmesi",
     "defaultProfileTabDesc": "Ziyaretçilerin profilinizde ilk hangi sekmeyi göreceğini seçin",
+    "defaultProfileView": "Profil gönderi düzeni",
+    "defaultProfileViewDesc": "Profilinizi açanlara gönderilerinizi ızgara ya da liste olarak gösterin",
     "defaultPostVisibilityDesc": "Tüm mevcut ve gelecek gönderilere uygulanır",
     "public": "Herkese Açık",
     "publicDesc": "Herkes gönderilerinizi görebilir",
@@ -1562,7 +1579,15 @@
     "showFollowingList": "Kimleri takip ettiğimi göster",
     "showFollowingListDesc": "Herkesin takip ettiğin kişilerin listesini açmasına izin ver. Kapalıyken yalnızca sen görebilirsin.",
     "showFollowCounts": "Takipçi sayılarımı göster",
-    "showFollowCountsDesc": "Kaç takipçin olduğunu ve kaç kişiyi takip ettiğini gösterir. Kapatmak iki listeyi de gizler."
+    "showFollowCountsDesc": "Kaç takipçin olduğunu ve kaç kişiyi takip ettiğini gösterir. Kapatmak iki listeyi de gizler.",
+    "menuLayout": "Menü düzeni",
+    "menuLayoutDesc": "Menünün sayfaları nasıl grupladığı",
+    "menuLayoutTabs": "Sekmeler",
+    "menuLayoutTabsDesc": "Her seferinde bir grup, büyük simgelerle",
+    "menuLayoutSections": "Bölümler",
+    "menuLayoutSectionsDesc": "Tüm sayfalar bir arada, başlıklar altında",
+    "menuLayoutFolders": "Klasörler",
+    "menuLayoutFoldersDesc": "Ana sayfaların, ardından her grup için bir klasör"
   },
   "common": {
     "refresh": "Yenile",
@@ -3558,6 +3583,7 @@
     "signInToSee": "Hesabınızdaki akışları görmek için oturum açın."
   },
   "loginModal": {
+    "didYouMean": "{{email}} mi demek istediniz?",
     "title": "Giriş Yap",
     "continueEmail": "E-posta ile Devam Et",
     "continueSMS": "SMS ile Devam Et",
@@ -14662,6 +14688,9 @@
     "20d4214b9d4b": "Gönderilen talepleri görüntüle",
     "2971f9103f78": "Riftn'ı daha iyi hale getirmeye yardımcı olduğunuz için teşekkürler. İstediğiniz bir şey artık yayında:",
     "8f3dc69e83c4": "Geri bildiriminiz gönderildi!",
+    "7f78bdc0762d": "+{{value1}} puan",
+    "f0c8bb34335b": "+{{value1}} puan kazandın",
+    "0fbe06b679a8": "Yayınlanan her istek için {{value1}} puan, Top builders puanına eklenir.",
     "905392fbed15": "Riftn'ı daha iyi hale getirmeye yardımcı olduğunuz için teşekkürler — {{value1}} istediğiniz şeyler artık yayında:",
     "bdd4f5015e96": "Gönderilen istek bildirimini kapat",
     "da4c7c208cf4": "Göz atın",
@@ -16973,6 +17002,55 @@
     "pages": "Sayfalar",
     "people": "Kişiler",
     "linkTo": "{{name}} bağlantısı ekle"
+  },
+  "chatTabs": {
+    "addChats": "Sohbet ekle",
+    "addToTab": "Sekmeye ekle",
+    "addedTo": "{{name}} sekmesine eklendi",
+    "all": "Tümü",
+    "alwaysOn": "Her zaman açık",
+    "builtIn": "Yerleşik",
+    "chatCount": "{{n}} sohbet",
+    "chatsInTab": "Bu sekmedeki sohbetler",
+    "communities": "Topluluklar",
+    "create": "Sekme oluştur",
+    "delete": "Sekmeyi sil",
+    "deleteBody": "Sekme kaldırılır. Sohbetleri Tümü’nde kalır ve mesajlarını korur.",
+    "deleteTitle": "“{{name}}” silinsin mi?",
+    "deleted": "{{name}} silindi",
+    "direct": "Doğrudan",
+    "edit": "Sekmeleri düzenle",
+    "editHintApp": "Sıralamak için okları kullan. Gizli sekmeler sohbetlerini korur.",
+    "editTab": "Sekmeyi düzenle",
+    "emoji": "Bir emoji seç",
+    "emptyBody": "Buraya sohbet ekle, Tümü’nde de kalırlar.",
+    "emptyTitle": "{{name}} boş",
+    "hide": "Sekmeyi gizle",
+    "kindChannel": "Kanal",
+    "kindCommunity": "Topluluk",
+    "kindDirect": "Doğrudan",
+    "kindGroup": "Grup",
+    "kindPublic": "Herkese açık",
+    "moveDown": "Aşağı taşı",
+    "moveLeft": "Sola taşı",
+    "moveRight": "Sağa taşı",
+    "moveUp": "Yukarı taşı",
+    "namePlaceholder": "Sekme adı",
+    "new": "Yeni sekme",
+    "newWith": "Yeni sekme…",
+    "noEmoji": "Emoji yok",
+    "picked": "{{n}} seçildi",
+    "removedFrom": "{{name}} sekmesinden çıkarıldı",
+    "renameEdit": "Yeniden adlandır ve düzenle",
+    "requests": "İstekler",
+    "sCreators": "Üreticiler",
+    "sFriends": "Arkadaşlar",
+    "sGaming": "Oyun",
+    "sTrading": "Trading",
+    "sWork": "İş",
+    "saveFailed": "Sekmeler kaydedilemedi, tekrar dene",
+    "show": "Sekmeyi göster",
+    "tooMany": "En fazla 10 sekmen olabilir"
   },
   "msgDelete": {
     "title": "Mesaj silinsin mi?",

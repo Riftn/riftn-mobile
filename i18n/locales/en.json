@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} reaction to your messages",
+    "many_other": "{{count}} reactions to your messages",
+    "manySame_one": "{{emoji}} × {{count}} on your messages",
+    "manySame_other": "{{emoji}} × {{count}} on your messages",
+    "one": "Reacted {{emoji}} to your message",
+    "oneNamed": "{{name}} reacted {{emoji}} to your message"
+  },
   "messagesTabs": {
     "all": "All",
     "unread": "Unread",
@@ -788,6 +796,13 @@
       "launchpad": "launch a token, create a coin, make a coin, meme coin, bonding curve, tokenise"
     },
     "nfts": "NFTs",
+    "groups": {
+      "main": "Main",
+      "create": "Create",
+      "discover": "Discover",
+      "money": "Money",
+      "riftn": "Riftn"
+    },
     "reorderHint": "Hold and drag any icon to rearrange",
     "reorderReset": "Reset",
     "fractions": "Fractions",
@@ -937,6 +952,14 @@
   },
   "settings": {
     "chatTextSize": "Chat text size",
+    "menuLayout": "Menu layout",
+    "menuLayoutDesc": "How the menu groups its pages",
+    "menuLayoutTabs": "Tabs",
+    "menuLayoutTabsDesc": "One group at a time, with big icons",
+    "menuLayoutSections": "Sections",
+    "menuLayoutSectionsDesc": "Every page at once, under group headers",
+    "menuLayoutFolders": "Folders",
+    "menuLayoutFoldersDesc": "Your main pages, then a folder for each group",
     "chatTextSizeDesc": "Bigger or smaller messages in every chat. Adds to your phone text size.",
     "contactSupport": "Contact support",
     "shortsSaveFailed": "Failed to save Shorts preference",
@@ -1084,6 +1107,8 @@
     "feedTogglesCleared": "Feed toggles reset",
     "defaultProfileTab": "Default profile tab",
     "defaultProfileTabDesc": "Choose which tab visitors see first on your profile",
+    "defaultProfileView": "Profile posts layout",
+    "defaultProfileViewDesc": "Show your posts as a grid or a list when people open your profile",
     "defaultPostVisibilityDesc": "Applies to all current and future posts",
     "public": "Public",
     "publicDesc": "Anyone can see your posts",
@@ -3592,6 +3617,7 @@
     "signInToSee": "Sign in to see the flows on your account."
   },
   "loginModal": {
+    "didYouMean": "Did you mean {{email}}?",
     "title": "Log in",
     "continueEmail": "Continue with Email",
     "continueSMS": "Continue with SMS",
@@ -15099,6 +15125,9 @@
     "20d4214b9d4b": "View shipped requests",
     "2971f9103f78": "Thanks for helping make Riftn better — something you asked for is now live:",
     "8f3dc69e83c4": "Your feedback shipped!",
+    "7f78bdc0762d": "+{{value1}} pts",
+    "f0c8bb34335b": "You earned +{{value1}} points",
+    "0fbe06b679a8": "{{value1}} points for each shipped request, added to your Top builders score.",
     "905392fbed15": "Thanks for helping make Riftn better — {{value1}} things you asked for are now live:",
     "bdd4f5015e96": "Close shipped request notification",
     "da4c7c208cf4": "Check it out",
@@ -16816,6 +16845,7 @@
     "cancel": "Cancel",
     "rowDesc": "Lost your wallet, or someone else has its key? Move your account to a new wallet. Your username, posts and followers come with you."
   },
+  "chatTabs":{"addChats":"Add chats","addToTab":"Add to tab","addedTo":"Added to {{name}}","all":"All","alwaysOn":"Always on","builtIn":"Built in","chatCount":"{{n}} chats","chatsInTab":"Chats in this tab","communities":"Communities","create":"Create tab","delete":"Delete tab","deleteBody":"The tab goes away. Its chats stay in All and keep their messages.","deleteTitle":"Delete “{{name}}”?","deleted":"Deleted {{name}}","direct":"Direct","edit":"Edit tabs","editHintApp":"Use the arrows to reorder. Hidden tabs keep their chats.","editTab":"Edit tab","emoji":"Pick an emoji","emptyBody":"Add chats here and they stay in All too.","emptyTitle":"{{name}} is empty","hide":"Hide tab","kindChannel":"Channel","kindCommunity":"Community","kindDirect":"Direct","kindGroup":"Group","kindPublic":"Public","moveDown":"Move down","moveLeft":"Move left","moveRight":"Move right","moveUp":"Move up","namePlaceholder":"Tab name","new":"New tab","newWith":"New tab…","noEmoji":"No emoji","picked":"{{n}} picked","removedFrom":"Removed from {{name}}","renameEdit":"Rename and edit","requests":"Requests","sCreators":"Creators","sFriends":"Friends","sGaming":"Gaming","sTrading":"Trading","sWork":"Work","saveFailed":"Couldn't save your tabs, try again","show":"Show tab","tooMany":"You can have up to 10 tabs"},
   "msgDelete": {
     "title": "Delete message?",
     "titleMany": "Delete {{count}} messages?",

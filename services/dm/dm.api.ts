@@ -370,7 +370,20 @@ export interface ChatPref {
   listedAt?: string | null;
   /** DMs: your messages in this chat are end-to-end encrypted since then. */
   encryptedAt?: string | null;
+  /** Reactions to your messages you haven't seen; cleared when you open the chat. */
+  reactions?: ChatReactionSummary | null;
 }
+
+/** Reactions other people left on your messages in a chat, not seen yet. */
+export interface ChatReactionSummary {
+  total: number;
+  /** Most used first. */
+  emojis: { emoji: string; count: number }[];
+  last: { emoji: string; by: string; name: string | null; messageId: string; at: string };
+}
+
+/** Public Chat keeps only its waiting reactions in the settings store. */
+export const PUBLIC_CHAT_PREF_ID = "live:global";
 
 /**
  * Group, channel and community chats are communities underneath. Their
@@ -388,7 +401,7 @@ export async function getChatPrefs(): Promise<ChatPref[]> {
 
 export async function setChatPref(
   conversationId: string,
-  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean },
+  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean; seenReactions?: true },
 ): Promise<void> {
   await apiClient.post(`/dm/chat-prefs/${encodeURIComponent(conversationId)}`, patch, { isAuthRequired: true });
 }
@@ -449,6 +462,37 @@ export async function unlockLockedMedia(messageId: ID, txHash: string): Promise<
 /** The recipient has watched a view-once attachment; the server removes it for both. */
 export async function markDmMessageViewed(messageId: string): Promise<void> {
   await apiClient.post(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
+}
+
+/** Chat tabs: the person's own tabs, tab order and hidden built-ins. Mirrors web chat-tabs.ts. */
+export interface ChatTab {
+  id: string;
+  name: string;
+  emoji: string;
+  /** DM ids, `community:<uuid>` for group/community chats, `public` for Public Chat. */
+  chats: string[];
+}
+export interface ChatTabsState {
+  tabs: ChatTab[];
+  order: string[];
+  hidden: string[];
+}
+export const BUILTIN_CHAT_TABS = ["all", "unread", "direct", "communities", "requests"] as const;
+export const DEFAULT_CHAT_TABS: ChatTabsState = { tabs: [], order: [...BUILTIN_CHAT_TABS], hidden: [] };
+export const PUBLIC_CHAT_TAB_ID = "public";
+export const MAX_CHAT_TABS = 10;
+export const MAX_CHAT_TAB_NAME = 20;
+
+export async function getChatTabs(): Promise<ChatTabsState> {
+  const res: any = await apiClient.get(`/dm/chat-tabs`, { isAuthRequired: true } as any);
+  const r = res?.result ?? res?.data?.result;
+  return r && Array.isArray(r.tabs) ? r : DEFAULT_CHAT_TABS;
+}
+
+export async function saveChatTabs(state: ChatTabsState): Promise<ChatTabsState | null> {
+  const res: any = await apiClient.put(`/dm/chat-tabs`, state, { isAuthRequired: true });
+  const r = res?.result ?? res?.data?.result;
+  return r && Array.isArray(r.tabs) ? r : null;
 }
 
 /**

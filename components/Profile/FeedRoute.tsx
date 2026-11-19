@@ -126,6 +126,16 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   // screen, from the tapped one (libs/profileReel). Likes, comments and share
   // ride along on every slide; a still slide links on to its post page.
   const postBg = useProfilePostBg();
+  // Holding somebody else's tile opens that post's full menu. A card for it
+  // is mounted out of sight and shows only the menu and its sheets.
+  const [heldTile, setHeldTile] = useState<UnifiedFeedItem | null>(null);
+  const heldMenu = useMemo(() => ({ onDone: () => setHeldTile(null) }), []);
+  const heldHost = heldTile ? (
+    <View key={String(heldTile.tokenId ?? heldTile.id)} pointerEvents="none" style={{ position: 'absolute', left: -10000, top: 0, width: 360, opacity: 0 }}>
+      <FeedCard item={heldTile} isVisible={false} isAutoplayActive={false} menuHost={heldMenu} />
+    </View>
+  ) : null;
+
   const openTile = useCallback((item: UnifiedFeedItem, _kind?: unknown, images?: string[]) => {
     const tokenId = item.tokenId ?? item.id;
     if (tokenId == null) return;
@@ -299,7 +309,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
   const renderItem = useCallback(
     ({ item, index }: InfiniteFeedRenderItemInfo) => {
       placed.current[index] = item as UnifiedFeedItem;
-      return <ProfileGridTile item={item as UnifiedFeedItem} onPress={openTile} ownerHold={isOwnProfile} index={index} />;
+      return <ProfileGridTile item={item as UnifiedFeedItem} onPress={openTile} ownerHold={isOwnProfile} index={index} onHold={isOwnProfile ? undefined : setHeldTile} />;
     },
     [openTile, isOwnProfile],
   );
@@ -355,6 +365,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
         )}
         renderItem={isList ? renderListItem : renderItem}
       />
+      {heldHost}
     </GridDragHost>
   );
 };

@@ -1,5 +1,6 @@
 /**
- * Pulls the account's dragged menu orders (libs/navOrder) on sign-in, the way
+ * Pulls the account's dragged menu orders (libs/navOrder), and its menu
+ * layout (libs/menuLayout), on sign-in, the way
  * useFeedInterestsServerSync does for interests. Server wins; an account that
  * has none yet adopts what this device was arranged into.
  */
@@ -8,6 +9,8 @@ import { supabase } from "../services/supabase";
 import { withWalletHeader } from "../libs/supabase-wallet-client";
 import { useUser } from "../context/AuthContext";
 import { saveAccountPrefs } from "../libs/feed-interests";
+import { setAppPref } from "./useAppPrefs";
+import { MENU_LAYOUT_PREF_KEY, isMenuLayout } from "../libs/menuLayout";
 import { NAV_ORDER_PREF_KEYS, getNavOrder, sanitiseNavOrder, writeNavOrder, type NavOrderSurface } from "../libs/navOrder";
 
 const SURFACES: NavOrderSurface[] = ["menu", "bar"];
@@ -32,6 +35,9 @@ export function useNavOrderServerSync(): void {
           if (Array.isArray(value)) writeNavOrder(surface, sanitiseNavOrder(value));
           else if (getNavOrder(surface).length) adopt[NAV_ORDER_PREF_KEYS[surface]] = getNavOrder(surface);
         }
+        // The menu layout set on the phone browser or another phone.
+        const layout = prefs[MENU_LAYOUT_PREF_KEY];
+        if (isMenuLayout(layout)) setAppPref("menuLayout", layout);
         if (Object.keys(adopt).length) await saveAccountPrefs(wallet, adopt);
       } catch {
         /* the device copy stands */

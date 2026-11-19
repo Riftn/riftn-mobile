@@ -17,6 +17,7 @@ import { useCallback, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isAppThemeName, type AppThemeName } from '../theme/colors';
 import { isPostLandingStyle, type PostLandingStyle } from '../libs/postLandingStyle';
+import { DEFAULT_MENU_LAYOUT, isMenuLayout, type MenuLayout } from '../libs/menuLayout';
 import { CHAT_TEXT_SCALE, isChatTextSize, type ChatTextSize } from '../libs/chatTextSize';
 import { claimMinimalLaunch } from '../libs/minimalBootGuard';
 import { bootRevealed } from '../libs/bootReveal';
@@ -65,6 +66,8 @@ const KEYS = {
   themeHues: 'dehub.themeHues',
   brandColors: 'dehub.brandColors',
   halloweenOptOut: 'dehub.halloween2026.optOut',
+  // Menu drawer grouping (libs/menuLayout), web's key.
+  menuLayout: 'menu-layout',
 } as const;
 
 export type AppPrefKey = keyof typeof KEYS;
@@ -93,6 +96,8 @@ export interface AppPrefs {
   postLanding: PostLandingStyle;
   /** Size of text in every chat (libs/chatTextSize). */
   chatTextSize: ChatTextSize;
+  /** How the menu drawer groups its pages (libs/menuLayout). */
+  menuLayout: MenuLayout;
   themeHues: Record<string, number>;
   brandColors: string[];
   /** Picked a theme on Halloween 2026, so skip the Horror override (libs/halloweenOverride). */
@@ -131,6 +136,7 @@ export const DEFAULT_APP_PREFS: AppPrefs = {
   leftHanded: false,
   postLanding: 'ghost',
   chatTextSize: 'default',
+  menuLayout: DEFAULT_MENU_LAYOUT,
   themeHues: {},
   brandColors: [],
   halloweenOptOut: false,
@@ -221,6 +227,10 @@ function init() {
         chatTextSize: (() => {
           const stored = get('chatTextSize');
           return isChatTextSize(stored) ? stored : DEFAULT_APP_PREFS.chatTextSize;
+        })(),
+        menuLayout: (() => {
+          const stored = get('menuLayout');
+          return isMenuLayout(stored) ? stored : DEFAULT_APP_PREFS.menuLayout;
         })(),
         themeHues: (() => {
           try {

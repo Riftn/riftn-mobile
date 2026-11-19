@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} reacción a tus mensajes",
+    "many_other": "{{count}} reacciones a tus mensajes",
+    "manySame_one": "{{emoji}} × {{count}} en tus mensajes",
+    "manySame_other": "{{emoji}} × {{count}} en tus mensajes",
+    "one": "Reaccionó {{emoji}} a tu mensaje",
+    "oneNamed": "{{name}} reaccionó {{emoji}} a tu mensaje"
+  },
   "messagesTabs": {
     "all": "Todos",
     "unread": "No leídos",
@@ -783,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Precios",
     "reorderHint": "Mantén y arrastra cualquier icono para reorganizar",
-    "reorderReset": "Restablecer"
+    "reorderReset": "Restablecer",
+    "groups": {
+      "main": "Principal",
+      "create": "Crear",
+      "discover": "Descubrir",
+      "money": "Dinero",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Gana con todos los que invites — para siempre",
@@ -1024,6 +1039,8 @@
     "feedTogglesCleared": "Filtros del feed restablecidos",
     "defaultProfileTab": "Pestaña de perfil por defecto",
     "defaultProfileTabDesc": "Elige qué pestaña ven primero los visitantes en tu perfil",
+    "defaultProfileView": "Diseño de las publicaciones del perfil",
+    "defaultProfileViewDesc": "Muestra tus publicaciones en cuadrícula o en lista cuando alguien abra tu perfil",
     "defaultPostVisibilityDesc": "Se aplica a todas las publicaciones actuales y futuras",
     "public": "Público",
     "publicDesc": "Cualquiera puede ver tus publicaciones",
@@ -1562,7 +1579,15 @@
     "showFollowingList": "Mostrar a quién sigo",
     "showFollowingListDesc": "Deja que cualquiera abra la lista de personas que sigues. Si está desactivado, solo tú puedes verla.",
     "showFollowCounts": "Mostrar mis números de seguidores",
-    "showFollowCountsDesc": "Muestra cuántos seguidores tienes y a cuántas personas sigues. Al desactivarlo también se ocultan ambas listas."
+    "showFollowCountsDesc": "Muestra cuántos seguidores tienes y a cuántas personas sigues. Al desactivarlo también se ocultan ambas listas.",
+    "menuLayout": "Diseño del menú",
+    "menuLayoutDesc": "Cómo agrupa el menú sus páginas",
+    "menuLayoutTabs": "Pestañas",
+    "menuLayoutTabsDesc": "Un grupo a la vez, con iconos grandes",
+    "menuLayoutSections": "Secciones",
+    "menuLayoutSectionsDesc": "Todas las páginas a la vez, bajo encabezados",
+    "menuLayoutFolders": "Carpetas",
+    "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo"
   },
   "common": {
     "refresh": "Actualizar",
@@ -3558,6 +3583,7 @@
     "signInToSee": "Inicia sesión para ver los flujos de tu cuenta."
   },
   "loginModal": {
+    "didYouMean": "¿Quisiste decir {{email}}?",
     "title": "Iniciar sesión",
     "continueEmail": "Continuar con Email",
     "continueSMS": "Continuar con SMS",
@@ -14678,6 +14704,9 @@
     "20d4214b9d4b": "Ver solicitudes enviadas",
     "2971f9103f78": "Gracias por ayudar a mejorar Riftn: algo que pediste ya está disponible:",
     "8f3dc69e83c4": "¡Tus comentarios han sido enviados!",
+    "7f78bdc0762d": "+{{value1}} pts",
+    "f0c8bb34335b": "Ganaste +{{value1}} puntos",
+    "0fbe06b679a8": "{{value1}} puntos por cada petición lanzada, sumados a tu puntuación de Top builders.",
     "905392fbed15": "Gracias por ayudar a mejorar Riftn: {{value1}} las cosas que pediste ya están disponibles:",
     "bdd4f5015e96": "Cerrar notificación de solicitud enviada",
     "da4c7c208cf4": "Échale un vistazo",
@@ -16974,6 +17003,55 @@
     "pages": "Páginas",
     "people": "Personas",
     "linkTo": "Enlazar {{name}}"
+  },
+  "chatTabs": {
+    "addChats": "Añadir chats",
+    "addToTab": "Añadir a pestaña",
+    "addedTo": "Añadido a {{name}}",
+    "all": "Todos",
+    "alwaysOn": "Siempre visible",
+    "builtIn": "Integrada",
+    "chatCount": "{{n}} chats",
+    "chatsInTab": "Chats en esta pestaña",
+    "communities": "Comunidades",
+    "create": "Crear pestaña",
+    "delete": "Eliminar pestaña",
+    "deleteBody": "La pestaña desaparece. Sus chats siguen en Todos y conservan sus mensajes.",
+    "deleteTitle": "¿Eliminar «{{name}}»?",
+    "deleted": "{{name}} eliminada",
+    "direct": "Directos",
+    "edit": "Editar pestañas",
+    "editHintApp": "Usa las flechas para reordenar. Las pestañas ocultas conservan sus chats.",
+    "editTab": "Editar pestaña",
+    "emoji": "Elige un emoji",
+    "emptyBody": "Añade chats aquí y seguirán también en Todos.",
+    "emptyTitle": "{{name}} está vacía",
+    "hide": "Ocultar pestaña",
+    "kindChannel": "Canal",
+    "kindCommunity": "Comunidad",
+    "kindDirect": "Directo",
+    "kindGroup": "Grupo",
+    "kindPublic": "Público",
+    "moveDown": "Bajar",
+    "moveLeft": "Mover a la izquierda",
+    "moveRight": "Mover a la derecha",
+    "moveUp": "Subir",
+    "namePlaceholder": "Nombre de la pestaña",
+    "new": "Nueva pestaña",
+    "newWith": "Nueva pestaña…",
+    "noEmoji": "Sin emoji",
+    "picked": "{{n}} elegidos",
+    "removedFrom": "Quitado de {{name}}",
+    "renameEdit": "Renombrar y editar",
+    "requests": "Solicitudes",
+    "sCreators": "Creadores",
+    "sFriends": "Amigos",
+    "sGaming": "Juegos",
+    "sTrading": "Trading",
+    "sWork": "Trabajo",
+    "saveFailed": "No se pudieron guardar tus pestañas, inténtalo de nuevo",
+    "show": "Mostrar pestaña",
+    "tooMany": "Puedes tener hasta 10 pestañas"
   },
   "msgDelete": {
     "title": "¿Eliminar mensaje?",

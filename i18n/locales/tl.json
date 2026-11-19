@@ -3158,6 +3158,8 @@
     "feedTogglesCleared": "Na-reset ang mga filter ng feed",
     "defaultProfileTab": "Default na tab ng profile",
     "defaultProfileTabDesc": "Piliin kung aling tab ang unang makikita ng mga bisita sa profile mo",
+    "defaultProfileView": "Ayos ng mga post sa profile",
+    "defaultProfileViewDesc": "Ipakita ang mga post mo bilang grid o listahan kapag binuksan ng iba ang profile mo",
     "defaultPostVisibilityDesc": "Nalalapat sa lahat ng kasalukuyan at hinaharap na mga post",
     "public": "Pampubliko",
     "publicDesc": "Sinuman ay maaaring makita ang iyong mga post",

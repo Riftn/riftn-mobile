@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} réaction à vos messages",
+    "many_other": "{{count}} réactions à vos messages",
+    "manySame_one": "{{emoji}} × {{count}} sur vos messages",
+    "manySame_other": "{{emoji}} × {{count}} sur vos messages",
+    "one": "A réagi {{emoji}} à votre message",
+    "oneNamed": "{{name}} a réagi {{emoji}} à votre message"
+  },
   "messagesTabs": {
     "all": "Tous",
     "unread": "Non lus",
@@ -783,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Tarifs",
     "reorderHint": "Maintenez et faites glisser n'importe quelle icône pour réorganiser",
-    "reorderReset": "Réinitialiser"
+    "reorderReset": "Réinitialiser",
+    "groups": {
+      "main": "Principal",
+      "create": "Créer",
+      "discover": "Découvrir",
+      "money": "Argent",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Gagnez sur tous ceux que vous invitez — pour toujours",
@@ -1024,6 +1039,8 @@
     "feedTogglesCleared": "Filtres du fil réinitialisés",
     "defaultProfileTab": "Onglet de profil par défaut",
     "defaultProfileTabDesc": "Choisissez l'onglet que les visiteurs voient en premier sur votre profil",
+    "defaultProfileView": "Disposition des publications du profil",
+    "defaultProfileViewDesc": "Affichez vos publications en grille ou en liste quand quelqu'un ouvre votre profil",
     "defaultPostVisibilityDesc": "S'applique à toutes les publications actuelles et futures",
     "public": "Public",
     "publicDesc": "Tout le monde peut voir vos publications",
@@ -1562,7 +1579,15 @@
     "showFollowingList": "Montrer qui je suis",
     "showFollowingListDesc": "Permet à tout le monde d'ouvrir la liste des personnes que tu suis. Désactivé, toi seul peux la voir.",
     "showFollowCounts": "Montrer mes nombres d'abonnés",
-    "showFollowCountsDesc": "Affiche combien d'abonnés tu as et combien de personnes tu suis. Le désactiver masque aussi les deux listes."
+    "showFollowCountsDesc": "Affiche combien d'abonnés tu as et combien de personnes tu suis. Le désactiver masque aussi les deux listes.",
+    "menuLayout": "Disposition du menu",
+    "menuLayoutDesc": "Comment le menu regroupe ses pages",
+    "menuLayoutTabs": "Onglets",
+    "menuLayoutTabsDesc": "Un groupe à la fois, avec de grandes icônes",
+    "menuLayoutSections": "Sections",
+    "menuLayoutSectionsDesc": "Toutes les pages, sous des en-têtes",
+    "menuLayoutFolders": "Dossiers",
+    "menuLayoutFoldersDesc": "Vos pages principales, puis un dossier par groupe"
   },
   "common": {
     "refresh": "Actualiser",
@@ -3562,6 +3587,7 @@
     "signInToSee": "Connectez-vous pour voir les flux sur votre compte."
   },
   "loginModal": {
+    "didYouMean": "Vouliez-vous dire {{email}} ?",
     "title": "Se connecter",
     "continueEmail": "Continuer avec Email",
     "continueSMS": "Continuer avec SMS",
@@ -14682,6 +14708,9 @@
     "20d4214b9d4b": "Voir les demandes expédiées",
     "2971f9103f78": "Merci d'avoir aidé à améliorer Riftn — quelque chose que vous avez demandé est maintenant en ligne :",
     "8f3dc69e83c4": "Votre retour expédié !",
+    "7f78bdc0762d": "+{{value1}} pts",
+    "f0c8bb34335b": "Tu as gagné +{{value1}} points",
+    "0fbe06b679a8": "{{value1}} points pour chaque demande livrée, ajoutés à ton score Top builders.",
     "905392fbed15": "Merci d'avoir aidé à améliorer Riftn — {{value1}} choses que vous avez demandées sont maintenant en ligne :",
     "bdd4f5015e96": "Fermer la notification de demande expédiée",
     "da4c7c208cf4": "Vérifiez cela",
@@ -16978,6 +17007,55 @@
     "pages": "Pages",
     "people": "Personnes",
     "linkTo": "Lier {{name}}"
+  },
+  "chatTabs": {
+    "addChats": "Ajouter des chats",
+    "addToTab": "Ajouter à un onglet",
+    "addedTo": "Ajouté à {{name}}",
+    "all": "Tous",
+    "alwaysOn": "Toujours affiché",
+    "builtIn": "Intégré",
+    "chatCount": "{{n}} chats",
+    "chatsInTab": "Chats de cet onglet",
+    "communities": "Communautés",
+    "create": "Créer l’onglet",
+    "delete": "Supprimer l’onglet",
+    "deleteBody": "L’onglet disparaît. Ses chats restent dans Tous avec leurs messages.",
+    "deleteTitle": "Supprimer « {{name}} » ?",
+    "deleted": "{{name}} supprimé",
+    "direct": "Directs",
+    "edit": "Modifier les onglets",
+    "editHintApp": "Utilisez les flèches pour réordonner. Les onglets masqués gardent leurs chats.",
+    "editTab": "Modifier l’onglet",
+    "emoji": "Choisir un emoji",
+    "emptyBody": "Ajoutez des chats ici, ils restent aussi dans Tous.",
+    "emptyTitle": "{{name}} est vide",
+    "hide": "Masquer l’onglet",
+    "kindChannel": "Canal",
+    "kindCommunity": "Communauté",
+    "kindDirect": "Direct",
+    "kindGroup": "Groupe",
+    "kindPublic": "Public",
+    "moveDown": "Descendre",
+    "moveLeft": "Déplacer à gauche",
+    "moveRight": "Déplacer à droite",
+    "moveUp": "Monter",
+    "namePlaceholder": "Nom de l’onglet",
+    "new": "Nouvel onglet",
+    "newWith": "Nouvel onglet…",
+    "noEmoji": "Sans emoji",
+    "picked": "{{n}} choisis",
+    "removedFrom": "Retiré de {{name}}",
+    "renameEdit": "Renommer et modifier",
+    "requests": "Demandes",
+    "sCreators": "Créateurs",
+    "sFriends": "Amis",
+    "sGaming": "Jeux",
+    "sTrading": "Trading",
+    "sWork": "Travail",
+    "saveFailed": "Impossible d’enregistrer vos onglets, réessayez",
+    "show": "Afficher l’onglet",
+    "tooMany": "Vous pouvez avoir jusqu’à 10 onglets"
   },
   "msgDelete": {
     "title": "Supprimer le message ?",

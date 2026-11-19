@@ -27,13 +27,14 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import NewDMModal from "../components/DM/NewDMModal";
 import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
-import { ChatCard, ChatListTabs, CHAT_CARD_GAP, CHAT_CARD_INSET, type ChatListTab } from "../components/DM/ChatCard";
+import { ChatCard, CHAT_CARD_GAP, CHAT_CARD_INSET } from "../components/DM/ChatCard";
 import UnreadCountChip from "../components/DM/UnreadCountChip";
+import ReactionAlertBadge, { reactionAlertLine } from "../components/DM/ReactionAlertBadge";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
 import { chatsFromMemberships } from "../libs/community-kinds";
 import { useChatPrefs } from "../hooks/useChatPrefs";
-import { roomChatId } from "../services/dm/dm.api";
+import { PUBLIC_CHAT_PREF_ID, roomChatId } from "../services/dm/dm.api";
 import { useQuery } from "@tanstack/react-query";
 import type { Community } from "../types/community";
 import DMSettingsModal from "../components/DM/DMSettingsModal";
@@ -68,6 +69,10 @@ import { sendToMany } from "../services/dm/bulk-reply";
 import { useWebSocketApi } from "../context/WebSocketContext";
 import { DMSocketEvent } from "../services/enums/dm-socket-events.enum";
 import { useTabBarHide } from "../context/TabBarHideContext";
+import { useChatTabs } from "../hooks/useChatTabs";
+import { ChatTabActions, ChatTabBar, ChatTabEditor, ChatTabsManager, confirmDeleteTab, type TabCandidate } from "../components/DM/ChatTabs";
+import { PUBLIC_CHAT_TAB_ID } from "../services/dm/dm.api";
+import { getAvatarUrl } from "../libs/misc";
 const renderPullScroll = (props: React.ComponentProps<typeof PullRefreshScrollView>) => <PullRefreshScrollView {...props} />;
 
 // Cards sit apart; no divider lines (design B).
@@ -116,7 +121,8 @@ const DirectMessagesInner: React.FC = () => {
   });
   // Communities join the list when the member chose Show in Chats (the same
   // setting the website reads).
-  const { byId: chatPrefs, update: updateChatPref } = useChatPrefs(!!myAddress);
+  const { byId: chatPrefs, update: updateChatPref, seeReactions, refresh: refreshChatPrefs } = useChatPrefs(!!myAddress);
+  const publicReactions = chatPrefs.get(PUBLIC_CHAT_PREF_ID)?.reactions ?? null;
   const groupChats = useMemo(() => {
     const q = query.trim().toLowerCase();
     return chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt)
@@ -124,8 +130,9 @@ const DirectMessagesInner: React.FC = () => {
   }, [memberships, query, chatPrefs]);
   const openGroupChat = useCallback((c: Community, invite = false) => {
     if (chatPrefs.get(roomChatId(c.id))?.markedUnread) void updateChatPref(roomChatId(c.id), { unread: false });
+    seeReactions(roomChatId(c.id));
     navigation.navigate(ScreenNames.CommunityDetail as any, { slug: c.slug, tab: "chat", ...(invite ? { invite: true } : {}) });
-  }, [navigation, chatPrefs, updateChatPref]);
+  }, [navigation, chatPrefs, updateChatPref, seeReactions]);
   const [dnd, setDnd] = useState(false);
   const [newDmVisible, setNewDmVisible] = useState(false);
   const [dmSettingsVisible, setDmSettingsVisible] = useState(false);
@@ -159,15 +166,37 @@ const DirectMessagesInner: React.FC = () => {
   // The last request was accepted or deleted: nothing left to show here.
   const noRequestsLeft = requestChats.length === 0;
   useEffect(() => { if (noRequestsLeft) setShowRequests(false); }, [noRequestsLeft]);
-  const inRequests = showRequests && !query.trim();
-  // All / Unread / Groups / Requests at the top of the list (design B).
-  const [listTab, setListTab] = useState<"all" | "unread" | "groups">("all");
-  const tabFilter = !query.trim() && !inRequests ? listTab : "all";
-  const activeTab: ChatListTab = inRequests ? "requests" : listTab;
-  const pickTab = useCallback((tab: ChatListTab) => {
-    setShowRequests(tab === "requests");
-    setListTab(tab === "unread" || tab === "groups" ? tab : "all");
-  }, []);
+
+  /*
+   * Tabs at the top of the list: All, Unread, Direct, Communities, Requests
+   * and the person's own tabs, the same ones riftn.com/chat shows. A search
+   * looks through everything, so the tabs step aside while one is typed.
+   */
+  const chatTabs = useChatTabs(!!myAddress);
+  const [activeTabRaw, setActiveTab] = useState("all");
+  const tabsOn = !!myAddress && !query.trim();
+  const activeTabView = chatTabs.tabs.find((x) => x.id === activeTabRaw && !x.hidden);
+  const activeTab = tabsOn && activeTabView ? activeTabView.id : "all";
+  const customTab = tabsOn && activeTabView && !activeTabView.builtin ? activeTabView : null;
+  const requestsTabShown = !chatTabs.tabs.find((x) => x.id === "requests")?.hidden;
+  useEffect(() => {
+    if (noRequestsLeft && !contactsLoading && activeTabRaw === "requests") setActiveTab("all");
+  }, [noRequestsLeft, contactsLoading, activeTabRaw]);
+  const [tabEditor, setTabEditor] = useState<{ id?: string; preset?: string[] } | null>(null);
+  const [tabManager, setTabManager] = useState(false);
+  const [tabActions, setTabActions] = useState<{ kind: "tab"; id: string } | { kind: "chat"; id: string } | null>(null);
+  const requestsMode = showRequests || activeTab === "requests";
+  const inRequests = requestsMode && !query.trim();
+  // Unread keeps chats with something new; Communities keeps Public Chat,
+  // groups, channels and community chats.
+  const tabFilter: "all" | "unread" | "groups" = !query.trim() && !inRequests
+    ? (activeTab === "unread" ? "unread" : activeTab === "communities" ? "groups" : "all")
+    : "all";
+  const convInTab = useCallback((c: DmConversation) =>
+    customTab ? customTab.chats.includes(c._id) : true, [customTab]);
+  const roomInTab = useCallback((c: { id: string }) =>
+    activeTab === "direct" ? false : customTab ? customTab.chats.includes(roomChatId(c.id)) : true, [activeTab, customTab]);
+  const publicInTab = activeTab === "direct" ? false : customTab ? customTab.chats.includes(PUBLIC_CHAT_TAB_ID) : true;
 
   // Filtered & sorted conversations
   const filtered = useMemo(() => {
@@ -188,7 +217,7 @@ const DirectMessagesInner: React.FC = () => {
       : conversations;
     // First messages from people you don't follow wait under Requests. A
     // search looks through both, so a request is never unfindable.
-    const scoped = q ? list : list.filter((c) => !!c.isRequest === showRequests);
+    const scoped = q ? list : list.filter((c) => !!c.isRequest === requestsMode);
     return scoped
       .filter((c) => !pendingDeletes.has(c._id))
       .filter((c) => !isAuthorBlocked(getOtherParticipant(c, myUserId, myAddress)?.address))
@@ -198,31 +227,25 @@ const DirectMessagesInner: React.FC = () => {
           +new Date(a.updatedAt || a.lastMessageAt || 0),
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, showRequests]);
+  }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, requestsMode]);
 
   const convHasUnread = useCallback(
-    (c: DmConversation) => (c.unreadCount || 0) > 0 || !!chatPrefs.get(c._id)?.markedUnread,
+    (c: DmConversation) => (c.unreadCount || 0) > 0 || !!chatPrefs.get(c._id)?.markedUnread || !!chatPrefs.get(c._id)?.reactions,
     [chatPrefs],
   );
   const shown = useMemo(
-    () => tabFilter === "groups" ? [] : tabFilter === "unread" ? filtered.filter(convHasUnread) : filtered,
-    [filtered, tabFilter, convHasUnread],
+    () => (tabFilter === "groups" ? [] : tabFilter === "unread" ? filtered.filter(convHasUnread) : filtered).filter((c) => inRequests || convInTab(c)),
+    [filtered, tabFilter, convHasUnread, convInTab, inRequests],
   );
   const shownGroups = useMemo(
-    () => tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread) : groupChats,
-    [groupChats, tabFilter, chatPrefs],
+    () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions) : groupChats).filter(roomInTab),
+    [groupChats, tabFilter, chatPrefs, roomInTab],
   );
   const inboxUnreadChats = useMemo(
     () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id) && convHasUnread(c)).length
-      + groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread).length,
+      + groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions).length,
     [conversations, pendingDeletes, convHasUnread, groupChats, chatPrefs],
   );
-  const tabs = useMemo(() => [
-    { key: "all" as const, label: t("messagesTabs.all", { defaultValue: "All" }) },
-    { key: "unread" as const, label: t("messagesTabs.unread", { defaultValue: "Unread" }), count: inboxUnreadChats },
-    { key: "groups" as const, label: t("messagesTabs.groups", { defaultValue: "Groups" }) },
-    ...(requestChats.length > 0 ? [{ key: "requests" as const, label: t("dmRequests.title", { defaultValue: "Requests" }), count: requestChats.length }] : []),
-  ], [t, inboxUnreadChats, requestChats.length]);
 
   // Rows waiting out their undo window count as gone, so swiping away the last
   // one lands on the real empty state rather than "no matches".
@@ -383,6 +406,16 @@ const DirectMessagesInner: React.FC = () => {
   }, [ctxConv]);
 
   const ws = useWebSocketApi();
+  // Someone reacted to one of your DMs: the list's reaction badges refresh now.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const off = ws.on(DMSocketEvent.ReactionUpdated, (payload: { added?: string; by?: string }) => {
+      if (!payload?.added || !payload.by || payload.by.toLowerCase() === (myAddress || "").toLowerCase()) return;
+      clearTimeout(timer);
+      timer = setTimeout(refreshChatPrefs, 600);
+    });
+    return () => { clearTimeout(timer); off?.(); };
+  }, [ws, myAddress, refreshChatPrefs]);
   // Only chats still on screen count (one may have been deleted meanwhile).
   const bulkChats = useMemo(
     () => (bulkIds ? filtered.filter((c) => bulkIds.has(c._id)) : []),
@@ -559,8 +592,9 @@ const DirectMessagesInner: React.FC = () => {
 
 
   const handleOpenLiveChat = useCallback(() => {
+    seeReactions(PUBLIC_CHAT_PREF_ID);
     navigation.navigate(ScreenNames.LiveChat as any);
-  }, [navigation]);
+  }, [navigation, seeReactions]);
 
   const openSettings = useCallback(() => {
     openMenu();
@@ -581,6 +615,7 @@ const DirectMessagesInner: React.FC = () => {
         selecting={picking}
         checked={!!bulkIds?.has(item._id)}
         markedUnread={!!chatPrefs.get(item._id)?.markedUnread}
+        reactions={chatPrefs.get(item._id)?.reactions}
       />
     ),
     [
@@ -602,10 +637,121 @@ const DirectMessagesInner: React.FC = () => {
     [],
   );
 
+  // Unread chats per tab, for the counts on the tab row.
+  const inbox = useMemo(
+    () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id)),
+    [conversations, pendingDeletes],
+  );
+  const tabUnread = useMemo(() => {
+    const sum = (list: DmConversation[]) => list.reduce((n, c) => n + (c.unreadCount || 0), 0);
+    const out: Record<string, number> = {
+      all: sum(inbox) + publicUnread,
+      unread: sum(inbox) + publicUnread,
+      direct: sum(inbox),
+      communities: publicUnread,
+      requests: requestUnread,
+    };
+    for (const tab of chatTabs.tabs) {
+      if (tab.builtin) continue;
+      out[tab.id] = sum(inbox.filter((c) => tab.chats.includes(c._id))) + (tab.chats.includes(PUBLIC_CHAT_TAB_ID) ? publicUnread : 0);
+    }
+    return out;
+  }, [inbox, publicUnread, requestUnread, chatTabs.tabs]);
+  // An empty Requests tab stays out of the row.
+  const tabRowTabs = requestChats.length
+    ? chatTabs.tabs
+    : chatTabs.tabs.map((x) => (x.id === "requests" && activeTab !== "requests" ? { ...x, hidden: true } : x));
+  const tabCandidates = useMemo<TabCandidate[]>(() => [
+    { id: PUBLIC_CHAT_TAB_ID, name: t("publicChat.title"), source: require("../assets/web-icons/dehub-logo-compact.png"), kind: t("chatTabs.kindPublic", { defaultValue: "Public" }) },
+    ...chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt).map((c) => ({
+      id: roomChatId(c.id),
+      name: c.name,
+      avatar: (c as any).avatar_url || undefined,
+      kind: (c as any).kind === "channel" ? t("chatTabs.kindChannel", { defaultValue: "Channel" })
+        : (c as any).kind === "group" ? t("chatTabs.kindGroup", { defaultValue: "Group" })
+        : t("chatTabs.kindCommunity", { defaultValue: "Community" }),
+    })),
+    ...inbox.map((c) => {
+      const other = getOtherParticipant(c, myUserId, myAddress);
+      const avatar = getAvatarUrl(other?.avatarImageUrl);
+      return {
+        id: c._id,
+        name: other?.displayName || other?.username || truncateAddress(other?.address || "") || t("settings.unknown"),
+        avatar: avatar && avatar !== "default-avatar" ? avatar : undefined,
+        kind: t("chatTabs.kindDirect", { defaultValue: "Direct" }),
+        round: true,
+      };
+    }),
+  ], [t, memberships, chatPrefs, inbox, myUserId, myAddress]);
+  const tabBeingEdited = tabEditor?.id ? chatTabs.tabs.find((x) => x.id === tabEditor.id) : undefined;
+  const tabEditorInitial = useMemo(() => (tabEditor
+    ? tabBeingEdited
+      ? { id: tabBeingEdited.id, name: tabBeingEdited.name, emoji: tabBeingEdited.emoji, chats: tabBeingEdited.chats }
+      : { name: "", emoji: "", chats: tabEditor.preset ?? [] }
+    : null), [tabEditor, tabBeingEdited]);
+  const askDeleteTab = useCallback((id: string) => {
+    const tab = chatTabs.tabs.find((x) => x.id === id);
+    if (!tab) return;
+    confirmDeleteTab(t, tab, () => {
+      void chatTabs.remove(id);
+      if (activeTabRaw === id) setActiveTab("all");
+      toastSuccess(t("chatTabs.deleted", { defaultValue: "Deleted {{name}}", name: tab.name }));
+    });
+  }, [chatTabs, t, activeTabRaw]);
+  const moveCustomTab = (id: string, by: -1 | 1) => {
+    const ids = chatTabs.tabs.map((x) => x.id);
+    const customIds = chatTabs.tabs.filter((x) => !x.builtin).map((x) => x.id);
+    const other = customIds[customIds.indexOf(id) + by];
+    if (!other) return;
+    const a = ids.indexOf(id), b = ids.indexOf(other);
+    [ids[a], ids[b]] = [ids[b], ids[a]];
+    void chatTabs.reorder(ids);
+  };
+  const heldTab = tabActions?.kind === "tab" ? chatTabs.tabs.find((x) => x.id === tabActions.id) : undefined;
+  const customTabs = chatTabs.tabs.filter((x) => !x.builtin);
+  const tabActionsTitle = heldTab
+    ? (heldTab.emoji ? `${heldTab.emoji} ${heldTab.name}` : heldTab.name)
+    : t("chatTabs.addToTab", { defaultValue: "Add to tab" });
+  const tabActionRows = !tabActions ? [] : heldTab ? (heldTab.builtin ? [
+    ...(heldTab.id !== "all" ? [{ key: "hide", icon: "EyeOff", label: t("chatTabs.hide", { defaultValue: "Hide tab" }), onPress: () => { void chatTabs.setHidden(heldTab.id, true); if (activeTabRaw === heldTab.id) setActiveTab("all"); } }] : []),
+    { key: "manage", icon: "SlidersHorizontal", label: t("chatTabs.edit", { defaultValue: "Edit tabs" }), onPress: () => setTabManager(true) },
+  ] : [
+    { key: "edit", icon: "Pencil", label: t("chatTabs.renameEdit", { defaultValue: "Rename and edit" }), onPress: () => setTabEditor({ id: heldTab.id }) },
+    { key: "add", icon: "Plus", label: t("chatTabs.addChats", { defaultValue: "Add chats" }), onPress: () => setTabEditor({ id: heldTab.id }) },
+    { key: "left", icon: "ChevronLeft", label: t("chatTabs.moveLeft", { defaultValue: "Move left" }), disabled: customTabs[0]?.id === heldTab.id, onPress: () => moveCustomTab(heldTab.id, -1) },
+    { key: "right", icon: "ChevronRight", label: t("chatTabs.moveRight", { defaultValue: "Move right" }), disabled: customTabs[customTabs.length - 1]?.id === heldTab.id, onPress: () => moveCustomTab(heldTab.id, 1) },
+    { key: "delete", icon: "Trash2", destructive: true, label: t("chatTabs.delete", { defaultValue: "Delete tab" }), onPress: () => askDeleteTab(heldTab.id) },
+  ]) : [
+    ...customTabs.map((tab) => ({
+      key: tab.id,
+      emoji: tab.emoji || "•",
+      label: tab.name,
+      checked: tab.chats.includes(tabActions.id),
+      onPress: () => {
+        const had = tab.chats.includes(tabActions.id);
+        void chatTabs.toggleChat(tab.id, tabActions.id);
+        toastSuccess(had
+          ? t("chatTabs.removedFrom", { defaultValue: "Removed from {{name}}", name: tab.name })
+          : t("chatTabs.addedTo", { defaultValue: "Added to {{name}}", name: tab.name }));
+      },
+    })),
+    { key: "new", icon: "Plus", label: t("chatTabs.newWith", { defaultValue: "New tab…" }), onPress: () => setTabEditor({ preset: [tabActions.id] }) },
+  ];
+
   const publicChatItem = useMemo(
     () => (
       <>
-      {!query.trim() && <ChatListTabs tabs={tabs} active={activeTab} onPick={pickTab} />}
+      {tabsOn && (
+        <ChatTabBar
+          tabs={tabRowTabs}
+          active={activeTab}
+          unread={tabUnread}
+          onSelect={(id) => { setShowRequests(false); setActiveTab(id); }}
+          onNew={() => setTabEditor({})}
+          onManage={() => setTabManager(true)}
+          onHold={(tab) => setTabActions({ kind: "tab", id: tab.id })}
+        />
+      )}
       <View style={SEPARATOR} />
       {inRequests ? (
         <>
@@ -616,9 +762,9 @@ const DirectMessagesInner: React.FC = () => {
         </>
       ) : (
       <>
-      {(tabFilter === "all" || (tabFilter === "unread" && publicUnread > 0)) && (
+      {(tabFilter === "all" || tabFilter === "groups" || (tabFilter === "unread" && (publicUnread > 0 || !!publicReactions))) && publicInTab && (
       <>
-      <ChatCard unread={publicUnread > 0}>
+      <ChatCard unread={publicUnread > 0 || !!publicReactions}>
       <TouchableOpacity
         onPress={handleOpenLiveChat}
         activeOpacity={0.7}
@@ -645,11 +791,18 @@ const DirectMessagesInner: React.FC = () => {
             </Text>
           </View>
           <View className="flex-row items-center gap-1 mt-0.5">
+            {publicReactions ? (
+              <Text testID="reaction-alert-line" className="text-white text-[14px] font-bold flex-1" numberOfLines={1}>
+                {reactionAlertLine(t as any, publicReactions, { named: true })}
+              </Text>
+            ) : (
             <Text className="text-theme-neutrals-400 text-[14px] flex-1" numberOfLines={1}>
               {t("publicChat.subtitle")}
             </Text>
+            )}
           </View>
         </View>
+        <ReactionAlertBadge reactions={publicReactions} />
         {publicUnread > 0 && (
           <View style={{ minWidth: 20, height: 20, paddingHorizontal: 6, borderRadius: 10, backgroundColor: "#ef4444", alignItems: "center", justifyContent: "center" }}>
             <Text style={{ color: "#ffffff", fontSize: 12, fontWeight: "700" }}>
@@ -671,11 +824,12 @@ const DirectMessagesInner: React.FC = () => {
             selecting={picking}
             checked={!!bulkIds?.has(roomChatId(c.id))}
             markedUnread={!!chatPrefs.get(roomChatId(c.id))?.markedUnread}
+            reactions={chatPrefs.get(roomChatId(c.id))?.reactions}
           />
           <View style={SEPARATOR} />
         </React.Fragment>
       ))}
-      {requestChats.length > 0 && !query.trim() && tabFilter === "all" && (
+      {requestChats.length > 0 && !query.trim() && tabFilter === "all" && !customTab && activeTab !== "direct" && (!tabsOn || !requestsTabShown) && (
         <>
           <ChatCard unread={requestUnread > 0}>
           <TouchableOpacity
@@ -710,7 +864,7 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabs, activeTab, pickTab, tabFilter],
+    [handleOpenLiveChat, publicUnread, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, requestsTabShown],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, []);
@@ -781,7 +935,22 @@ const DirectMessagesInner: React.FC = () => {
                 onNewChat={openNewDM}
                 onNewGroup={() => setNewChatKind("group")}
               />
-            ) : tabFilter === "groups" ? null : hasConversations ? (
+            ) : tabFilter === "groups" ? null : customTab ? (
+              !publicInTab && !shownGroups.length ? (
+                <View className="items-center mt-12 px-8" testID="chat-tab-empty">
+                  <Text style={{ fontSize: 26, marginBottom: 10 }}>{customTab.emoji || "🗂️"}</Text>
+                  <Text className="text-theme-neutrals-100 text-base font-semibold">
+                    {t("chatTabs.emptyTitle", { defaultValue: "{{name}} is empty", name: customTab.name })}
+                  </Text>
+                  <Text className="text-theme-neutrals-400 text-sm mt-1 text-center">
+                    {t("chatTabs.emptyBody", { defaultValue: "Add chats here and they stay in All too." })}
+                  </Text>
+                  <TouchableOpacity onPress={() => setTabEditor({ id: customTab.id })} accessibilityRole="button" className="mt-4 px-5 py-2.5 rounded-xl bg-white">
+                    <Text className="text-black text-sm font-bold">{t("chatTabs.addChats", { defaultValue: "Add chats" })}</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : null
+            ) : hasConversations ? (
               <View className="items-center mt-10">
                 <Text className="text-theme-neutrals-400">{t("dm.noConversationsFound")}</Text>
               </View>
@@ -837,6 +1006,39 @@ const DirectMessagesInner: React.FC = () => {
           onOpenChange={setDmSettingsVisible}
         />
 
+        <ChatTabEditor
+          visible={!!tabEditor}
+          initial={tabEditorInitial}
+          candidates={tabCandidates}
+          onClose={() => setTabEditor(null)}
+          onDelete={tabBeingEdited ? () => { const tab = tabBeingEdited; setTabEditor(null); setTimeout(() => askDeleteTab(tab.id), 300); } : undefined}
+          onSave={(tab) => {
+            if (tabBeingEdited) void chatTabs.update(tabBeingEdited.id, tab);
+            else {
+              if (!chatTabs.canAdd) { toastError(t("chatTabs.tooMany", { defaultValue: "You can have up to 10 tabs" })); return; }
+              setActiveTab(chatTabs.create(tab));
+            }
+            setTabEditor(null);
+          }}
+        />
+        <ChatTabsManager
+          visible={tabManager && !tabEditor}
+          tabs={chatTabs.tabs}
+          canAdd={chatTabs.canAdd}
+          onReorder={(ids) => void chatTabs.reorder(ids)}
+          onHide={(id, hidden) => { void chatTabs.setHidden(id, hidden); if (hidden && activeTabRaw === id) setActiveTab("all"); }}
+          onEdit={(id) => setTabEditor({ id })}
+          onDelete={askDeleteTab}
+          onNew={() => setTabEditor({})}
+          onClose={() => setTabManager(false)}
+        />
+        <ChatTabActions
+          visible={!!tabActions}
+          title={tabActionsTitle}
+          rows={tabActionRows}
+          onClose={() => setTabActions(null)}
+        />
+
         <ConversationContextMenu
           visible={!!ctxConv}
           conversation={ctxConv}
@@ -846,6 +1048,7 @@ const DirectMessagesInner: React.FC = () => {
           onBlock={handleCtxBlock}
           onDelete={handleCtxDelete}
           onSelectMany={handleCtxSelectMany}
+          onAddToTab={ctxConv && !ctxConv.isRequest ? () => setTabActions({ kind: "chat", id: ctxConv._id }) : undefined}
           onToggleFreeAccess={handleCtxToggleFreeAccess}
           peerHasFreeAccess={
             !!(myDmStatus?.freeAccessUsers?.some(

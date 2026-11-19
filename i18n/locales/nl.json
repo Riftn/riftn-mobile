@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} reactie op je berichten",
+    "many_other": "{{count}} reacties op je berichten",
+    "manySame_one": "{{emoji}} × {{count}} op je berichten",
+    "manySame_other": "{{emoji}} × {{count}} op je berichten",
+    "one": "Reageerde {{emoji}} op je bericht",
+    "oneNamed": "{{name}} reageerde {{emoji}} op je bericht"
+  },
   "messagesTabs": {
     "all": "Alle",
     "unread": "Ongelezen",
@@ -783,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Prijzen",
     "reorderHint": "Houd een pictogram ingedrukt en sleep het om de volgorde te wijzigen",
-    "reorderReset": "Resetten"
+    "reorderReset": "Resetten",
+    "groups": {
+      "main": "Hoofd",
+      "create": "Maken",
+      "discover": "Ontdekken",
+      "money": "Geld",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Verdien aan iedereen die je uitnodigt — voor altijd",
@@ -1024,6 +1039,8 @@
     "feedTogglesCleared": "Feedfilters gereset",
     "defaultProfileTab": "Standaard profieltabblad",
     "defaultProfileTabDesc": "Kies welk tabblad bezoekers als eerste zien op je profiel",
+    "defaultProfileView": "Indeling van profielberichten",
+    "defaultProfileViewDesc": "Toon je berichten als raster of als lijst wanneer mensen je profiel openen",
     "defaultPostVisibilityDesc": "Geldt voor alle huidige en toekomstige berichten",
     "public": "Openbaar",
     "publicDesc": "Iedereen kan je berichten zien",
@@ -1562,7 +1579,15 @@
     "showFollowingList": "Tonen wie ik volg",
     "showFollowingListDesc": "Laat iedereen de lijst openen van mensen die je volgt. Als dit uit staat, kun alleen jij die zien.",
     "showFollowCounts": "Mijn volgersaantallen tonen",
-    "showFollowCountsDesc": "Toont hoeveel volgers je hebt en hoeveel mensen je volgt. Uitzetten verbergt ook beide lijsten."
+    "showFollowCountsDesc": "Toont hoeveel volgers je hebt en hoeveel mensen je volgt. Uitzetten verbergt ook beide lijsten.",
+    "menuLayout": "Menu-indeling",
+    "menuLayoutDesc": "Hoe het menu zijn pagina's groepeert",
+    "menuLayoutTabs": "Tabbladen",
+    "menuLayoutTabsDesc": "Eén groep tegelijk, met grote iconen",
+    "menuLayoutSections": "Secties",
+    "menuLayoutSectionsDesc": "Alle pagina's tegelijk, onder kopjes",
+    "menuLayoutFolders": "Mappen",
+    "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep"
   },
   "common": {
     "refresh": "Vernieuwen",
@@ -3746,6 +3771,7 @@
     "signInToSee": "Log in om de flows in je account te bekijken."
   },
   "loginModal": {
+    "didYouMean": "Bedoelde je {{email}}?",
     "title": "Inloggen",
     "continueEmail": "Doorgaan met e-mail",
     "continueSMS": "Doorgaan met SMS",
@@ -14914,6 +14940,9 @@
     "20d4214b9d4b": "Verzonden aanvragen bekijken",
     "2971f9103f78": "Bedankt voor je hulp om Riftn beter te maken — iets waar je om hebt gevraagd is nu live:",
     "8f3dc69e83c4": "Je feedback is verzonden!",
+    "7f78bdc0762d": "+{{value1}} pnt",
+    "f0c8bb34335b": "Je hebt +{{value1}} punten verdiend",
+    "0fbe06b679a8": "{{value1}} punten voor elk opgeleverd verzoek, opgeteld bij je Top builders-score.",
     "905392fbed15": "Bedankt voor je hulp om Riftn beter te maken — {{value1}} dingen waar je om hebt gevraagd zijn nu live:",
     "bdd4f5015e96": "Verzonden aanvraagmelding sluiten",
     "da4c7c208cf4": "Bekijk het hier",
@@ -17225,6 +17254,55 @@
     "pages": "Pagina’s",
     "people": "Mensen",
     "linkTo": "{{name}} linken"
+  },
+  "chatTabs": {
+    "addChats": "Chats toevoegen",
+    "addToTab": "Aan tabblad toevoegen",
+    "addedTo": "Toegevoegd aan {{name}}",
+    "all": "Alles",
+    "alwaysOn": "Altijd aan",
+    "builtIn": "Ingebouwd",
+    "chatCount": "{{n}} chats",
+    "chatsInTab": "Chats in dit tabblad",
+    "communities": "Community’s",
+    "create": "Tabblad maken",
+    "delete": "Tabblad verwijderen",
+    "deleteBody": "Het tabblad verdwijnt. De chats blijven in Alles en houden hun berichten.",
+    "deleteTitle": "“{{name}}” verwijderen?",
+    "deleted": "{{name}} verwijderd",
+    "direct": "Direct",
+    "edit": "Tabbladen bewerken",
+    "editHintApp": "Gebruik de pijlen om te ordenen. Verborgen tabbladen houden hun chats.",
+    "editTab": "Tabblad bewerken",
+    "emoji": "Kies een emoji",
+    "emptyBody": "Voeg hier chats toe, ze blijven ook in Alles.",
+    "emptyTitle": "{{name}} is leeg",
+    "hide": "Tabblad verbergen",
+    "kindChannel": "Kanaal",
+    "kindCommunity": "Community",
+    "kindDirect": "Direct",
+    "kindGroup": "Groep",
+    "kindPublic": "Openbaar",
+    "moveDown": "Omlaag",
+    "moveLeft": "Naar links",
+    "moveRight": "Naar rechts",
+    "moveUp": "Omhoog",
+    "namePlaceholder": "Naam tabblad",
+    "new": "Nieuw tabblad",
+    "newWith": "Nieuw tabblad…",
+    "noEmoji": "Geen emoji",
+    "picked": "{{n}} gekozen",
+    "removedFrom": "Verwijderd uit {{name}}",
+    "renameEdit": "Hernoemen en bewerken",
+    "requests": "Verzoeken",
+    "sCreators": "Makers",
+    "sFriends": "Vrienden",
+    "sGaming": "Gaming",
+    "sTrading": "Trading",
+    "sWork": "Werk",
+    "saveFailed": "Je tabbladen konden niet worden opgeslagen, probeer opnieuw",
+    "show": "Tabblad tonen",
+    "tooMany": "Je kunt maximaal 10 tabbladen hebben"
   },
   "msgDelete": {
     "title": "Bericht verwijderen?",
