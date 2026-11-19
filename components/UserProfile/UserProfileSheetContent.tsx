@@ -16,6 +16,7 @@ import { ProfileArticleTileContext, useResolvedArticleTile } from "../Profile/Ar
 import GlassModal from "../ui/GlassModal";
 import GlassTipSheet from "../Tip/GlassTipSheet";
 import ConfirmBlockModal from "../common/ConfirmBlockModal";
+import WhenOpened from "../ui/WhenOpened";
 import ReportModal from "../common/ReportModal";
 import LendBadgeSheet from "./LendBadgeSheet";
 import Icon from "../ui/Icon";
@@ -732,22 +733,30 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
         </View>
       </GlassModal>
 
-      <ConfirmBlockModal
-        visible={showBlockConfirm}
-        mode={youBlocked ? "unblock" : "block"}
-        targetLabel={profileData?.displayName || t("copy.04f8996da763", { defaultValue: "user" })}
-        onConfirm={handleConfirmBlock}
-        onCancel={() => setShowBlockConfirm(false)}
-        loading={blockLoading}
-      />
+      <WhenOpened open={showBlockConfirm}>
+        {() => (
+          <ConfirmBlockModal
+            visible={showBlockConfirm}
+            mode={youBlocked ? "unblock" : "block"}
+            targetLabel={profileData?.displayName || t("copy.04f8996da763", { defaultValue: "user" })}
+            onConfirm={handleConfirmBlock}
+            onCancel={() => setShowBlockConfirm(false)}
+            loading={blockLoading}
+          />
+        )}
+      </WhenOpened>
 
-      <ReportModal
-        visible={showReportUser}
-        onClose={() => setShowReportUser(false)}
-        type="user"
-        userId={profileData?.address}
-        userName={profileData?.displayName}
-      />
+      <WhenOpened open={showReportUser}>
+        {() => (
+          <ReportModal
+            visible={showReportUser}
+            onClose={() => setShowReportUser(false)}
+            type="user"
+            userId={profileData?.address}
+            userName={profileData?.displayName}
+          />
+        )}
+      </WhenOpened>
 
       {!IS_APP_STORE_BUILD && (
         <LendBadgeSheet

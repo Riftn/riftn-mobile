@@ -1850,7 +1850,13 @@ async function runSpeed(): Promise<void> {
   const post = (await AsyncStorage.getItem(`${FLAG_KEY}.post`)) || "742";
   await timed("post open (first)", push(ScreenNames.FeedDetail, { tokenId: post }), { watchMs: 2400 });
   await timed("post back", back());
+  const beforePost = new Set(liveInputs);
   await timed("post open", push(ScreenNames.FeedDetail, { tokenId: post }), { watchMs: 2400 });
+  // The comment box under a post. Nothing is posted.
+  if (signedIn) {
+    await typeInto("post comment typing", newInput(beforePost), "hello there, how are you");
+    Keyboard.dismiss();
+  }
   await timed("post back 2", back());
   const profileStep = { delayMs: PROFILE_LINK_DELAY_MS, watchMs: 2400 };
   await timed("profile open (first)", openProfile("riftn"), profileStep);
