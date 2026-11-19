@@ -395,3 +395,15 @@ export function dehubLinkLabel(kind: DehubLinkKind): string {
 
 /** Share origin — the same host the web app builds links on. */
 export const SHARE_ORIGIN = 'https://riftn.com';
+
+// An old dehub.io address (bare or www, with or without https://). Subdomains
+// such as staging.dehub.io and emails at dehub.io are left alone.
+const OLD_HOST_RE = /(^|[^\w.@/-]|https?:\/\/)(?:www\.)?dehub\.io(?![\w-]|\.\w)/gi;
+
+/**
+ * One-line previews (the chat list) show old dehub.io links as riftn.com,
+ * where they now open. Display only: the message itself is not changed.
+ */
+export function previewLinks(text: string): string {
+  return text.replace(OLD_HOST_RE, (_m, before: string) => `${before}riftn.com`);
+}

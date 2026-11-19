@@ -2604,7 +2604,8 @@
     "57e2faa5ec63": "Fain fo Riftn",
     "7db20897053b": "Pipo",
     "96d7bff86b44": "Search no fit load",
-    "d8b8392e2c54": "Tray agen"
+    "d8b8392e2c54": "Tray agen",
+    "94cee2c8c1c1": "Ya profile don move"
   },
   "dehubLinks": {
     "kind": {
@@ -2906,7 +2907,72 @@
     "reorderReset": "Reset",
     "reorderHint": "Hold and drag any icon to rearrange am",
     "groups": {
-      "create": "Mek"
+      "create": "Mek",
+      "main": "Main",
+      "discover": "Discover",
+      "money": "Moni",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "feed, timeline, latest posts, fo yu, pipul weh a di follow, front page",
+      "profile": "ma profile, ma account, ma page, ma posts, avatar, bio, pipul weh dem di follow mi",
+      "explore": "search, find, look fo, weti di trend, popular, hashtags, pipul, creators",
+      "prompt": "AI, generate, AI picture, AI video, picture maker, turn text fo picture, AI art",
+      "editor": "video editor, edit video, trim, cut am, captions, subtitles, effects",
+      "creator": "create, mek sometin, studio, AI tools, picture, video, music, voiceover, 3D",
+      "converter": "import video, download, YouTube, TikTok, Instagram, change am, convert",
+      "migrate": "move ma channel, carry ma channel kam, bulk import, YouTube channel",
+      "notifications": "alerts, activity, who mention mi, replies, likes, bell",
+      "messages": "DM, direct messages, chat, inbox, tok, private message",
+      "communities": "groups, community, rooms, clubs, forums, members, njangi",
+      "assistant": "AI, chatbot, ask question, helep mi, AI chat, questions",
+      "settings": "preferences, account, privacy, security, password, language, theme, dark mode, pipul weh a block, delete account",
+      "leaderboard": "ranking, rank, top creators, top users, points, scores, who di lead",
+      "bookmarks": "saved, weti a don save, favourites, watch later, read later, saved posts, library",
+      "command": "dashboard, analytics, earnings, how much a don mek, insights, moderation, ma stats",
+      "wallet": "balance, money, moni, funds, tokens, crypto, deposit, withdraw, send, receive, pay",
+      "events": "calendar, schedule, meetup, weti di kam, tickets, AMA",
+      "stages": "audio rooms, voice chat, spaces, live audio, tok, podcast",
+      "featureRequests": "build, builders, ideas, suggestions, report bug, bugs, fixes, roadmap, vote, weti a want, improve",
+      "feedback": "review, rating, survey, weti a tink, complain, give feedback",
+      "staking": "stake, deposit, yield, rewards, earn, profit share, badge, tiers, interest, mek moni",
+      "superpowers": "boost, promote, perks, powers, badge perks, reach plenti pipul, upgrades",
+      "governance": "vote, voting, proposals, poll, ballot, decide, mek we decide",
+      "dao": "treasury, donate, give moni, community fund, contribute, grants",
+      "bounties": "work, jobs, tasks, gigs, freelance, hire, mek moni, work weh dem di pay",
+      "myBounties": "ma bounties, ma jobs, history, payouts, work weh a don finish",
+      "affiliate": "referral, invite friends, invite, commission, partner, earn, bring pipul kam",
+      "careers": "jobs, hiring, work wit we, join di team, apply, work weh e dey",
+      "stores": "shop, store, market, merch, buy, sell, products, shopping",
+      "fractions": "shares, ownership, invest, own post, NFT, NFTs, collectibles, trade, buy share",
+      "usernames": "username, handle, name, change ma name, buy name, sell name",
+      "accounts": "buy account, sell account, account weh dem di sell, followers, transfer account",
+      "apps": "app store, mini apps, build app, developers, tools",
+      "arcade": "games, game, play, gaming, chess, shooter, fun, play game",
+      "glossary": "terms, weti e mean, dictionary, meaning, weti bi",
+      "compare": "comparison, compare, versus, which one fine pass, YouTube, X, TikTok",
+      "guide": "how fo start, how fo do, tutorial, helep, learn, beginner, a just kam",
+      "stats": "statistics, analytics, numbers, charts, price, supply, who hold am",
+      "docs": "documentation, helep, API, whitepaper, developers, manual, how e di work",
+      "blog": "news, articles, updates, announcements, weti new",
+      "videos": "watch, videos, clips, long videos, mek a watch",
+      "shorts": "reels, short videos, standing videos, swipe",
+      "music": "audio, songs, tracks, listen, radio, playlist, njoh music",
+      "liveTv": "TV, streams, streaming, live, broadcast, channels, watch am live",
+      "buyTokens": "buy tokens, purchase, top up, card, credit card, fiat, pay wit card",
+      "bridge": "cross chain, move tokens, chains, move am from one chain go another one",
+      "top100": "top 100, coins, cryptocurrencies, market cap, prices, how much coin cost",
+      "agents": "AI agents, agents, bots, automation, personas, bots weh dem di work",
+      "advertising": "ads, adverts, campaign, promote, sponsor, marketing, advertise ma ting",
+      "premium": "subscription, upgrade, pro, membership, no ads, no adverts",
+      "pricing": "plans, cost, price, how much, how much e bi, subscription",
+      "creators": "creator programme, ambassadors, partners, apply as creator, monetise, mek moni fo content",
+      "connectAi": "MCP, ChatGPT, Claude, API, integration, connect AI, join AI",
+      "packs": "emoji, stickers, GIFs, emoji packs, sticker packs, ma own emoji",
+      "publicChat": "chat, global chat, chat room, lobby, tok, community chat",
+      "planned": "scheduled, schedule, scheduled posts, queue, later, post am later",
+      "liveStudio": "go live, stream, streaming, OBS, overlays, alerts, widgets, start live",
+      "launchpad": "launch token, create coin, mek coin, meme coin, bonding curve, tokenise"
     }
   },
   "affiliate": {
@@ -3786,7 +3852,14 @@
     "addMessage": "I no understand wetin you mean.",
     "messagePublic": "Fo ol pipo",
     "railTitle": "Tip dem",
-    "railTotal": "{{amount}} token"
+    "railTotal": "{{amount}} token",
+    "messagePlaceholder": "Tok sometin wit ya tip",
+    "messagePrivate": "Na only {{name}}",
+    "theCreator": "di creator",
+    "messageWallNote": "E go show fo di tip wall wen di tip don pass.",
+    "sendWithMessage": "Send am wit message",
+    "messageFailed": "We no fit add ya message. No tip no go.",
+    "wallLabel": "Tip messages"
   },
   "postOptions": {
     "skippableSections": "Skippable section",
@@ -3870,7 +3943,11 @@
     "postUnpinned": "E don unpin from your profile",
     "pinFailed": "We no fit pin or unpin this post",
     "askAi": "Ask AI",
-    "aiOverview": "AI overview"
+    "aiOverview": "AI overview",
+    "refreshLinkPreview": "Refresh di link preview",
+    "linkPreviewRefreshed": "Link preview don refresh",
+    "linkPreviewRefreshFailed": "We no fit reach dat site. Try again later.",
+    "castToTv": "Cast am fo TV"
   },
   "filters": {
     "sort": "Arenj",
@@ -4421,7 +4498,17 @@
       "featureQueued": "Yout request “{{title}}” i dey wait to be build.",
       "governanceVotedPassed": "Proposal yusay vote pass: “{{title}}”",
       "governancePassed": "Yas! Proposal \"{{title}}\" pass wey 🎉",
-      "governanceRejected": "Proposal yu write, ‘{{title}}’, no pass wey."
+      "governanceRejected": "Proposal yu write, ‘{{title}}’, no pass wey.",
+      "featureNewNamed": "{{name}} post new request “{{title}}”",
+      "featureNew": "{{name}} post new request",
+      "featureActivityNamed": "{{name}} comment fo “{{title}}”",
+      "featureActivity": "{{name}} comment fo one request",
+      "featureCommentLikeNamed": "{{name}} like ya comment fo “{{title}}”",
+      "featureCommentLike": "{{name}} like ya comment fo one request",
+      "governanceCommentLikeNamed": "{{name}} like ya comment fo proposal “{{title}}”",
+      "governanceCommentLike": "{{name}} like ya comment fo one proposal",
+      "featureShipped": "Ya request “{{title}}” don ship 🎉",
+      "governanceVotedRejected": "One proposal weh yu bin vote fo no pass: “{{title}}”"
     },
     "stores": "Store dem",
     "features": "Feature dem",
@@ -4507,7 +4594,11 @@
     "tokenAmount": "{{amount}} token",
     "groupNew": "Nyu",
     "groupThisWeek": "Dis week",
-    "searchClose": "Kap Ya Search"
+    "searchClose": "Kap Ya Search",
+    "groupToday": "Today",
+    "groupEarlier": "Before",
+    "searchPlaceholder": "Find notifications",
+    "searchEmpty": "No notification no match"
   },
   "leaderboard": {
     "title": "Leaderboard dem",
@@ -4765,7 +4856,12 @@
     "exploreWithoutSignIn": "Waka around without sign in",
     "exploreWithoutSignInA11y": "Waka around Riftn without sign in",
     "invalidImportSecret": "Na dey no be valid phrase wey 12/24 word na or private key wey.",
-    "walletSignupBlocked": "Dis wallet na brand new. New wallet dem need balance or some transaction weh e don do before for open account. Sign up wit one of de options dem for down, then connect dis wallet for Settings."
+    "walletSignupBlocked": "Dis wallet na brand new. New wallet dem need balance or some transaction weh e don do before for open account. Sign up wit one of de options dem for down, then connect dis wallet for Settings.",
+    "accountDeleted": "Dem don delete dis account. Yu fit sign up again as new account.",
+    "accountDeletedHours_one": "Dem don delete dis account. Yu fit sign up again wit di same email or phone afta like {{count}} hour.",
+    "accountDeletedHours_other": "Dem don delete dis account. Yu fit sign up again wit di same email or phone afta like {{count}} hours.",
+    "accountDeletedDays_one": "Dem don delete dis account. Yu fit sign up again wit di same email or phone afta like {{count}} day.",
+    "accountDeletedDays_other": "Dem don delete dis account. Yu fit sign up again wit di same email or phone afta like {{count}} days."
   },
   "messages": {
     "encryptionSetupFailed": "Enkripshon set up no go wey. Try again, please.",
@@ -4974,14 +5070,49 @@
     "pinnedShort": "E dey pinned",
     "post": "Post am",
     "arrange": {
-      "saving": "I di save..."
+      "saving": "I di save...",
+      "title": "Arrange ya posts",
+      "hint": "Hold one post an drag am go yi new place. Visitors go see dis order first.",
+      "drag": "Drag am fo move",
+      "toTop": "Move am go top",
+      "save": "Save di order",
+      "saved": "Ya order don save",
+      "reset": "E don go back fo newest first",
+      "resetDone": "E don go back fo newest first",
+      "saveFailed": "We no fit save ya order. Abeg try again.",
+      "loadFailed": "We no fit load ya posts. Close dis one an try again.",
+      "empty": "Notin fo arrange yet. Post sometin first."
     },
     "reserve": {
-      "signIn": "Enta"
+      "signIn": "Enta",
+      "available": "Username dey free",
+      "held": "We di hold am fo yu",
+      "ended": "Hold don finish",
+      "busy": "Somebody di reserve am",
+      "availableBody": "riftn.com/{{name}} dey free now so. Reserve am an we go hold am fo yu one minute as yu di sign up.",
+      "heldBody": "Nobody no fit take @{{name}} till di timer finish. Finish sign up fo keep am.",
+      "endedBody": "Ya one minute don finish, so @{{name}} don open fo everybody again. E still dey free.",
+      "busyBody": "Somebody di sign up as @{{name}} now so. If dem no finish, e go free wen di timer finish.",
+      "finish": "Finish ya sign up",
+      "again": "Reserve am again",
+      "cta": "Reserve am now",
+      "letGo": "Leave am",
+      "haveAccount": "Yu get account?"
     },
     "tabLikes": "Like dem",
     "likesEmptyTitle": "No like dey yet",
-    "likesPrivateTitle": "Like dem na private"
+    "likesPrivateTitle": "Like dem na private",
+    "sortCustom": "Ya own order",
+    "arrangeButton": "Arrange di posts",
+    "mutualsOne": "{{count}} Mutual:",
+    "mutualsMany": "{{count}} Mutual dem:",
+    "tabArticles": "Articles",
+    "articlesEmptyTitle": "No article yet",
+    "articlesEmptySubtitle": "Articles go show fo here",
+    "likesEmptyOwn": "Posts weh yu like go show fo here. Na only yu fit see dem unless yu on Show my likes fo Settings.",
+    "likesEmptyOther": "E never like notin yet.",
+    "likesPrivateDesc": "Dis account no di show weti e like.",
+    "unavailable": "Profile no dey"
   },
   "tv": {
     "title": "TV",
@@ -5619,7 +5750,8 @@
     "passkeyNotLinked": "No account dey join wit dat finga yet. Mek new account instead.",
     "passkeyAlreadyRegistered": "Dat finga don already get account. Yuz Sign in instead.",
     "passkeyFailed": "Sign-in wit finga no wok. Abeg try again.",
-    "passkeyBackupHint": "Ya account dey fo di passkey fo dis device. Fo plenti phone e dey sync wit ya Google or Apple account, an yu fit add password backup fo Settings."
+    "passkeyBackupHint": "Ya account dey fo di passkey fo dis device. Fo plenti phone e dey sync wit ya Google or Apple account, an yu fit add password backup fo Settings.",
+    "didYouMean": "Na {{email}} yu mean?"
   },
   "careers": {
     "title": "Careers for Riftn",
@@ -5903,7 +6035,16 @@
     "clearSearch": "Klin di search",
     "noMenuMatches": "Notin fo di menu match",
     "searchDehubFor": "Search \"{{query}}\" fo Riftn",
-    "requestSend": "Send di request"
+    "requestSend": "Send di request",
+    "requestPrompt": "E never dey here? Send am as request",
+    "requestPromptShort": "E never dey here?",
+    "requestDraftMenu": "Mek wuna add {{query}} fo Riftn",
+    "requestDraftSettings": "One setting fo {{query}}",
+    "requestPostsTo": "E go enter Requests",
+    "requestHint": "E go enter Requests fo ya name. We go tell yu wen e don land.",
+    "requestSent": "E don enter Requests",
+    "requestSentHint": "We go tell yu wen e don land.",
+    "requestSeeIt": "See am fo Requests"
   },
   "comments": {
     "reportComment": "Report di comment",
@@ -5992,7 +6133,18 @@
     "tabReplies": "Ansa dem",
     "tabQuotes": "Quote dem",
     "tabReposts": "Repost dem",
-    "tabSearch": "Find"
+    "tabSearch": "Find",
+    "attachMedia": "Attach picture, video or audio",
+    "attachTooLarge": "Dat file pass di {{size}} MB limit.",
+    "threadParts": {
+      "reorder": "Arrange am again",
+      "save": "Save di order",
+      "saved": "Thread order don save",
+      "saveFailed": "We no fit save di order. Try again.",
+      "addPart": "Add am fo thread",
+      "addPlaceholder": "Add sometin fo ya thread...",
+      "label": "Thread · {{count}} part"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "E current owner no dey fit read a go now.",
@@ -7841,8 +7993,31 @@
     "nonFollowers": {
       "notNow": "No be now",
       "cancel": "Kansel",
-      "close": "Klos"
-    }
+      "close": "Klos",
+      "title": "Yu want clean who yu di follow?",
+      "body": "{{count}} accounts weh yu di follow no di follow yu back.",
+      "cta": "Unfollow all {{count}} dem",
+      "confirmTitle": "Unfollow {{count}} accounts dem?",
+      "confirmBody": "Dem no go know. Yu fit follow anybody again later.",
+      "confirm": "Yes, unfollow {{count}} dem",
+      "working": "Di unfollow {{done}} fo {{total}}...",
+      "background": "Mek e continue fo back",
+      "failed": "E no fit start. Try again afta one minute.",
+      "doneTitle": "All don clean",
+      "doneAll": "Yu don unfollow {{done}} accounts weh dem no bin di follow yu back.",
+      "doneSome": "Yu don unfollow {{done}} accounts. We no fit unfollow {{failed}}.",
+      "doneToast": "Yu don unfollow {{done}} accounts weh dem no di follow yu back"
+    },
+    "followBackAll": "Follow everybody back",
+    "followingBackProgress": "Di follow back {{completed}} fo {{total}}",
+    "followedBackSome": "Yu don follow {{followed}} pipul back; {{failed}} no work",
+    "everyoneFollowedBack": "Yu don already follow everybody back",
+    "followBackConfirmTitle_one": "Follow {{count}} person back?",
+    "followBackConfirmTitle_other": "Follow {{count}} pipul back?",
+    "followBackConfirmBody": "Dem don already di follow yu. Private accounts go get follow request.",
+    "followedBackCount_one": "Yu don follow {{count}} person back",
+    "followedBackCount_other": "Yu don follow {{count}} pipul back",
+    "followBackDoneBody": "Yu fit find all dem fo Following."
   },
   "reactionInfo": {
     "mentionedYouPublicChat": "{{name}} mention yu long public chat",
@@ -9366,7 +9541,8 @@
       "people": "Pipo",
       "communities": "Community dem",
       "newChat": "Nai chat."
-    }
+    },
+    "attachTooLarge": "Dat file pass di {{size}} MB limit."
   },
   "editPost": {
     "mediaPermission": "You need media library permission",
@@ -9488,7 +9664,8 @@
     "doubleTapRewind": "Double tap mek e go back",
     "doubleTapForward": "Double tap mek e skip front",
     "pipUnavailable": "Picture in picture no dey. Check sey dem allow am for Riftn for your device settings.",
-    "yourDhbBalance": "Yu tok balance: {{amount}}"
+    "yourDhbBalance": "Yu tok balance: {{amount}}",
+    "notAvailableForPost": "E no dey fo dis post"
   },
   "liveViewer": {
     "loadingStream": "Stream dey load...",
@@ -14796,7 +14973,9 @@
     "invalidEmail": "Enter one email address valid wey you go use.",
     "joinedBodyNoEmail": "Wetin we go send you email when token dey launch.",
     "failed": "Wetin no save for you. Try again.",
-    "privacy": "Wah! Na me go tell you go launch a go dey."
+    "privacy": "Wah! Na me go tell you go launch a go dey.",
+    "joinedTitle": "Yu dey fo di list",
+    "joinedBody": "We go send email fo {{email}} wen di token launch."
   },
   "githubLink": {
     "hint": "Log in for GitHub make dem see say di account na yours. Riftn only dey see your public GitHub profile.",
@@ -14806,7 +14985,9 @@
     "disconnect": "Disconnect",
     "connected": "GitHub connected",
     "disconnected": "GitHub disconnected",
-    "failed": "Couldn't connect GitHub. Try again."
+    "failed": "Couldn't connect GitHub. Try again.",
+    "taken": "Dat GitHub account don already dey fo another Riftn profile.",
+    "unavailable": "GitHub verification di kam soon."
   },
   "comic": {
     "showAll": "Show all {{count}} pages",
@@ -14966,7 +15147,9 @@
     }
   },
   "whenSheet": {
-    "tooSoon": "Pick time weh never reach."
+    "tooSoon": "Pick time weh never reach.",
+    "today": "Today",
+    "earlierShort": "Before"
   },
   "planned": {
     "title": "Dem don plan am",
@@ -15140,6 +15323,8 @@
     "kindGroup": "Gruup",
     "kindPublic": "Fo ol pipo",
     "requests": "Request dem",
-    "sCreators": "Creator dem"
+    "sCreators": "Creator dem",
+    "moveDown": "Move am down",
+    "moveUp": "Move am up"
   }
 }

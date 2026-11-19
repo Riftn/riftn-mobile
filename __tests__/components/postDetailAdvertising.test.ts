@@ -12,7 +12,9 @@ describe("post detail advertising continuation", () => {
 
   it("places the continuation after the detail screen's comments", () => {
     expect(detail).toContain("{showAllCommentsRow}");
-    expect(detail).toContain('<PostDetailContinuation currentPostId={String(tokenId)} profileFeed={profileFeed} loadMoreSignal={autoMorePosts ? morePostsSignal : undefined} />');
+    expect(detail).toContain("const continuationLoadSignal = autoMorePosts ? morePostsSignal : undefined;");
+    expect(detail).toContain('<PostDetailContinuation currentPostId={String(tokenId)} profileFeed={profileFeed} loadMoreSignal={continuationLoadSignal} drawGate={morePostsGate} />');
+    expect(detail).toContain("ListFooterComponent={listFooter}");
     expect(detail.indexOf("{showAllCommentsRow}")).toBeLessThan(detail.indexOf("<PostDetailContinuation"));
   });
 
@@ -28,6 +30,11 @@ describe("post detail advertising continuation", () => {
     expect(continuation).toContain("startTransition(() => setDrawn((n) => n + 1))");
     expect(continuation).toContain("{posts.slice(0, drawn).map((post) => (");
     expect(continuation).toContain("if (!loadMoreSignal || !hasNextPage || isFetchingNextPage || drawing) return;");
+  });
+
+  it("draws the posts far below only as the reader nears them", () => {
+    expect(continuation).toContain("if (!drawing || !gateOpen) return;");
+    expect(detail).toContain("morePostsGate.set(g.content - listBottomPadding < g.y + g.viewport * (1 + MORE_POSTS_AHEAD));");
   });
 
   it("uses the same served-ad and tracking endpoints as web", () => {

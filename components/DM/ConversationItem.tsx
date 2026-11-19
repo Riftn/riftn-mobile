@@ -25,6 +25,7 @@ import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
 import { useDraftText } from "../../hooks/useDraft";
 import { useLiveTarget } from "../../hooks/useIsUserLive";
 import { openLiveTarget } from "../../libs/openLiveTarget";
+import { previewLinks } from "../../libs/dehub-links";
 import SwipeableRow, { type SwipeAction } from "../common/SwipeableRow";
 import { useAppTheme } from "../../context/ThemeContext";
 import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
@@ -123,7 +124,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
       const amt = last.tipSymbol && last.tipSymbol !== "DHB"
         ? `${Number(last.tipAmount).toLocaleString()} ${last.tipSymbol}`
         : t("dm.tokenAmount", { amount: Number(last.tipAmount).toLocaleString() });
-      const contentPreview = last.content?.replace(/\n/g, " ")?.trim();
+      const contentPreview = previewLinks(last.content ?? "").replace(/\n/g, " ")?.trim();
       const msgLabel = last.msgType === "gif" ? "GIF" : last.msgType === "media" ? mediaLabel : contentPreview || t("dm.message");
       return {
         previewText: withPrefix(`${msgLabel} · ${amt}`),
@@ -132,7 +133,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
     }
     // Per-message fee message (paymentStatus set but no tipAmount — fee-based)
     if (last.paymentStatus || last.paymentTxHash) {
-      const contentPreview = last.content?.replace(/\n/g, " ")?.trim();
+      const contentPreview = previewLinks(last.content ?? "").replace(/\n/g, " ")?.trim();
       const msgLabel = last.msgType === "gif" ? "GIF" : last.msgType === "media" ? mediaLabel : contentPreview || t("dm.message");
       return {
         previewText: withPrefix(t("dm.paidPreview", { label: msgLabel })),
@@ -172,7 +173,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         previewIcon: null,
       };
     }
-    const text = last.content?.replace(/\n/g, " ") || "";
+    const text = previewLinks(last.content ?? "").replace(/\n/g, " ") || "";
     return {
       previewText: withPrefix(text),
       previewIcon: null,
