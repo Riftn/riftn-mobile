@@ -3859,7 +3859,9 @@
     "notificationShowCountDesc": "खाली चमक न, देखऽ कि केतना नोटिफिकेसन बिना पढ़ल हइ",
     "messagesShowCount": "मैसेज पर गिनती देखावऽ",
     "messagesShowCountDesc": "खाली चमक न, देखऽ कि केतना मैसेज बिना पढ़ल हइ",
-    "pushNotRegisteredDescIos": "ऐप बंद रहला पर नोटिफिकेसन तोहरा तक न पहुंच सकऽ हइ: ई iPhone पुश ला कभी रजिस्टर न होलइ। सेटिंग में Riftn ला नोटिफिकेसन चालू हइ कि न जांचऽ, फिर ऐप दोबारा खोलऽ।"
+    "pushNotRegisteredDescIos": "ऐप बंद रहला पर नोटिफिकेसन तोहरा तक न पहुंच सकऽ हइ: ई iPhone पुश ला कभी रजिस्टर न होलइ। सेटिंग में Riftn ला नोटिफिकेसन चालू हइ कि न जांचऽ, फिर ऐप दोबारा खोलऽ।",
+    "publicChatInBar": "नीचे के बार में पब्लिक चैट",
+    "publicChatInBarDesc": "स्क्रीन के नीचे वाला बार से एक टैप में पब्लिक चैट खोलऽ"
   },
   "common": {
     "refresh": "ताज़ा करें",
@@ -4780,7 +4782,13 @@
     "addedToLeaderboard": "आपको जोड़ा गया है! शेष: {{balance}} टोकन",
     "balanceTooLow": "शेष राशि बहुत कम है ({{balance}} टोकन)",
     "tokenAmount": "{{amount}} टोकन",
-    "provisional": "अस्थायी"
+    "provisional": "अस्थायी",
+    "ogChallenge": "OG चैलेंज",
+    "ogHolders_one": "{{count}} OG होल्डर",
+    "ogHolders_other": "{{count}} OG होल्डर",
+    "ogChallengeTitle": "OG होल्डर के वापस लावऽ",
+    "ogChallengeBody": "ओइसन लोग के न्योता भेजऽ जेकरा पास अभियो DHB हे। जब ऊ तोहर इनवाइट लिंक से जुड़तन आ अप्पन DHB अप्पन Riftn वॉलेट में रखतन, तऽ ऊ हियाँ तोहरा लेल गिनल जइतन।",
+    "ogChallengeCta": "अप्पन इनवाइट लिंक पावऽ"
   },
   "explorePage": {
     "searchPlaceholder": "लोग, पोस्ट, या कंटेंट खोजो...",

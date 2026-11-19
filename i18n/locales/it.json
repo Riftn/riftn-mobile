@@ -9,8 +9,21 @@
     "tab": "Fumetto",
     "title": "Fumetto",
     "editor": {
-      "cover": "Copertina"
-    }
+      "cover": "Copertina",
+      "count": "{{count}} di {{limit}} pagine",
+      "coverHint": "La pagina 1 è la copertina",
+      "empty": "Aggiungi le pagine con il pulsante foto. Ogni pagina ha una didascalia e un testo alternativo.",
+      "caption": "Didascalia per questa pagina",
+      "alt": "Testo alternativo: cosa mostra la pagina"
+    },
+    "chip": "Fumetto · {{count}} pagine",
+    "open": "Apri il fumetto, pagina {{page}} di {{total}}",
+    "flip": "Pagina {{page}} di {{total}}. Tocca per girare",
+    "page": "Pagina {{page}}",
+    "goto": "Pagina {{page}}",
+    "alt": "Testo alternativo",
+    "cards": "Torna alle schede",
+    "readAll": "Leggi tutte le pagine"
   },
   "comicBorder": {
     "title": "Bordo",
@@ -2625,7 +2638,66 @@
     "57e2faa5ec63": "Cerca su Riftn",
     "7db20897053b": "Persone",
     "96d7bff86b44": "La ricerca non è riuscita a caricarsi",
-    "d8b8392e2c54": "Prova di nuovo"
+    "d8b8392e2c54": "Prova di nuovo",
+    "e587a51bc3ce": "Novità su Riftn",
+    "d7396f3b8881": "Nuovo mi piace o commento su Riftn",
+    "037a2ecd34b0": "Nuovo follower su Riftn",
+    "b63561f1b73a": "Nuova mancia o guadagno su Riftn",
+    "0ae84457a2df": "Qualcuno che segui è in diretta su Riftn",
+    "a7bac8dca08b": "Chiamata in arrivo su Riftn",
+    "9d309cb4a034": "Aggiornamento sul tuo post Riftn",
+    "914be7a9350a": "Messaggio da Riftn",
+    "2ab63e6ced90": "Non fattibile",
+    "79688f176607": "Segnato come Non fattibile",
+    "465fe84f18fc": "Segna come Non fattibile",
+    "0d24977e6943": "Modifica motivo",
+    "0a54f1d10336": "Perché non è fattibile? (facoltativo)",
+    "3d024b567634": "Breve motivo visibile a tutti",
+    "ad389aa4c08e": "Motivo:",
+    "78b3ae9561ee": "Niente di escluso",
+    "89b4d1850766": "Qui appaiono le richieste che non possiamo realizzare ora, con il motivo.",
+    "3f9b2c71d0a4": "{{n}} risultati",
+    "8c4e1a6b2f57": "per “{{query}}”",
+    "63eb38b938b8": "Segna come In coda",
+    "2fffca525795": "Segna come Rilasciato",
+    "3ee050a08bfa": "Torna alle Richieste",
+    "ae6a0ffbe609": "Segnato come In coda",
+    "366cb56b38ce": "Segnato come Rilasciato",
+    "9db7b5ba03bb": "Riportato nelle Richieste",
+    "bb2be752e079": "Impossibile cambiare lo stato",
+    "1d7234ff1b79": "in {{feed}}",
+    "e122e5c2b563": "Trascina su per chiudere",
+    "1aa9d734f2ee": "Scegli cosa cercare",
+    "35034aa59bd3": "Nessun risultato in {{feed}}. Prova altre parole o cerca ovunque.",
+    "415155739590": "Cerca ovunque",
+    "90f1afe66801": "Ricerca di “{{query}}”…",
+    "9e13d826baaf": "Cerca immagini",
+    "e8756c6865a5": "Cerca short",
+    "c7661da99c41": "Cerca video",
+    "cbf6f228327c": "Cerca musica",
+    "d7b559f2d8c6": "Prova altre parole o modifica i filtri.",
+    "ef557404f465": "Nessun risultato per “{{query}}”",
+    "d1a0c7e2f301": "A cosa stai pensando oggi?",
+    "d1a0c7e2f302": "A cosa pensi oggi?",
+    "d1a0c7e2f303": "A cosa stai pensando?",
+    "d1a0c7e2f304": "Hai qualcosa in mente?",
+    "d1a0c7e2f305": "A cosa stai pensando in questo momento?",
+    "d1a0c7e2f306": "A cosa pensiamo oggi?",
+    "d1a0c7e2f307": "Qualcosa in mente oggi?",
+    "d1a0c7e2f308": "A cosa stai pensando stavolta?",
+    "a7c1e0f4b2d9": "Tocca per parlare",
+    "b3e8d1c6f0a2": "Tocca per inviare",
+    "c9f2a4e7d1b5": "In ascolto... tocca la sfera per inviare",
+    "94cee2c8c1c1": "Il tuo profilo si è spostato",
+    "22577ebd908e": "Genera video Wan 3.0 · colonna sonora originale",
+    "1fa2357ab7e1": "Genera video Seedance 720p · colonna sonora originale",
+    "7f78bdc0762d": "+{{value1}} pt",
+    "f0c8bb34335b": "Hai guadagnato +{{value1}} punti",
+    "0fbe06b679a8": "{{value1}} punti per ogni richiesta rilasciata, aggiunti al tuo punteggio Top builder.",
+    "ebebdc70335b": "Barre di vetro",
+    "5ff272ba7871": "Linee di seta",
+    "a941e90ca93d": "Alone di copertina",
+    "04dbbe4dff7a": "Onda fedele"
   },
   "dehubLinks": {
     "kind": {
@@ -2879,10 +2951,20 @@
       "numbers": "Elenco numerato",
       "link": "Collegamento",
       "image": "Aggiungi immagini"
-    }
+    },
+    "imageLimit": "Gli articoli possono contenere fino a {{count}} immagini",
+    "imageFailed": "Impossibile aggiungere l'immagine. Provane un'altra.",
+    "imagesUploading": "Aggiunta immagini ({{count}})…",
+    "bodyTooLong": "{{count}} caratteri oltre il limite",
+    "imagesCount": "Immagini · {{count}}/{{max}}",
+    "captionPlaceholder": "Aggiungi una didascalia",
+    "captionLabel": "Didascalia per l'immagine {{n}}",
+    "removeInlineImage": "Rimuovi immagine {{n}}"
   },
   "storefront": {
-    "unavailable": "Non disponibile in questa versione dell'app"
+    "unavailable": "Non disponibile in questa versione dell'app",
+    "continueOnWeb": "Continua su riftn.com",
+    "webOnlyHint": "Completa l'operazione su riftn.com. Si apre in Safari."
   },
   "nav": {
     "launchpad": "Launchpad",
@@ -3791,7 +3873,21 @@
     "menuLayoutFolders": "Cartelle",
     "menuLayoutFoldersDesc": "Le tue pagine principali, poi una cartella per gruppo",
     "publicChatInBar": "Chat pubblica nella barra in basso",
-    "publicChatInBarDesc": "Entra nella Chat pubblica con un tocco dalla barra in fondo allo schermo"
+    "publicChatInBarDesc": "Entra nella Chat pubblica con un tocco dalla barra in fondo allo schermo",
+    "chatDeleteChoice": "Quando elimini un messaggio",
+    "chatDeleteChoiceDesc": "Chiedi ogni volta, oppure elimina sempre solo per te o per tutti nella chat.",
+    "chatDeleteAsk": "Chiedi ogni volta",
+    "chatDeleteMe": "Elimina per me",
+    "chatDeleteMeDesc": "Sparisce dalla tua chat, gli altri lo vedono ancora",
+    "chatDeleteEveryone": "Elimina per tutti",
+    "chatDeleteEveryoneDesc": "Quando possibile. Il messaggio di un'altra persona in un gruppo viene eliminato solo per te",
+    "contactSupport": "Contatta l'assistenza",
+    "notificationShowCount": "Mostra il numero sulla campanella",
+    "notificationShowCountDesc": "Vedi quante notifiche non hai letto invece del solo bagliore",
+    "messagesShowCount": "Mostra il numero su Messaggi",
+    "messagesShowCountDesc": "Vedi quanti messaggi non hai letto invece del solo bagliore",
+    "pushNotRegisteredDescIos": "Le notifiche non possono raggiungerti quando l'app è chiusa: questo iPhone non si è mai registrato per le notifiche push. Verifica che le notifiche per Riftn siano consentite in Impostazioni, poi riapri l'app.",
+    "tipsOffNote": "Mance e invii a te sono disattivati mentre questa opzione è attiva. Disattivala per ricevere di nuovo mance."
   },
   "common": {
     "refresh": "Aggiorna",
@@ -3917,7 +4013,15 @@
     "addMessage": "Aggiungi un messaggio (facoltativo)",
     "messagePublic": "Pubblico",
     "railTitle": "Mance",
-    "railTotal": "{{amount}} token"
+    "railTotal": "{{amount}} token",
+    "messagePlaceholder": "Scrivi qualcosa con la tua mancia",
+    "messagePrivate": "Solo {{name}}",
+    "theCreator": "il creator",
+    "messageWallNote": "Appare sulla bacheca delle mance quando la mancia va a buon fine.",
+    "sendWithMessage": "Invia con messaggio",
+    "messageFailed": "Impossibile aggiungere il tuo messaggio. Nessuna mancia è stata inviata.",
+    "wallLabel": "Messaggi delle mance",
+    "messagePrivateNote": "Lo vede solo {{name}}, nella sua notifica."
   },
   "postOptions": {
     "embed": "Incorpora",
@@ -4001,7 +4105,17 @@
     "giftBoost": "Regala un boost",
     "giftBoostDesc": "Usa uno dei tuoi su questo post",
     "askAi": "Chiedi all'IA",
-    "aiOverview": "Panoramica AI"
+    "aiOverview": "Panoramica AI",
+    "unmuteUser": "Riattiva {{name}}",
+    "unmuteDesc": "Rivedi i suoi post",
+    "unmutedUser": "{{name}} riattivato",
+    "refreshLinkPreview": "Aggiorna anteprima link",
+    "linkPreviewRefreshed": "Anteprima link aggiornata",
+    "linkPreviewRefreshFailed": "Impossibile raggiungere il sito. Riprova più tardi.",
+    "castToTv": "Trasmetti alla TV",
+    "castIosDesc": "AirPlay su Apple TV o smart TV",
+    "castAndroidDesc": "Duplica lo schermo con Cast o Smart View",
+    "castAndroidHelp": "Apri le impostazioni rapide e tocca Smart View o Cast, poi scegli la tua TV."
   },
   "filters": {
     "sort": "Ordina",
@@ -4652,7 +4766,9 @@
       "hereNamed": "{{name}} ha inviato un messaggio a tutti gli utenti di \"{{community}}\""
     },
     "tokenAmount": "{{amount}} token",
-    "searchClose": "Chiudi ricerca"
+    "searchClose": "Chiudi ricerca",
+    "searchPlaceholder": "Cerca nelle notifiche",
+    "searchEmpty": "Nessuna notifica corrispondente"
   },
   "leaderboard": {
     "title": "Classifica",
@@ -4860,8 +4976,31 @@
       "comments": "Commenti",
       "showLess": "Mostra meno",
       "viewProfile": "Visualizza profilo",
-      "you": "Tu"
-    }
+      "you": "Tu",
+      "title": "Top builder",
+      "breakdown": "{{shipped}} rilasciate ({{sp}}) · {{votes}} voti positivi ({{vp}}) · {{comments}} commenti ({{cp}})",
+      "showAll": "Mostra i primi {{n}}",
+      "showEveryone": "Mostra tutti i {{n}} builder",
+      "showMore": "Mostra altri {{n}}",
+      "rule": "10 pt per richiesta rilasciata, 1 per voto positivo, 2 per commento sulla richiesta di qualcun altro.",
+      "pts": "{{n}} pt",
+      "gap": "{{n}} pt per superare {{name}}",
+      "join": "Pubblica un prompt che viene rilasciato per entrare in classifica",
+      "points": "Punti",
+      "infoLabel": "Come funzionano i punti",
+      "infoShipped": "per richiesta rilasciata",
+      "infoVote": "per voto positivo sulle tue richieste",
+      "infoComment": "per commento sulla richiesta di qualcun altro",
+      "infoCap": "I commenti contano fino a {{n}} per periodo.",
+      "pt": "1 pt",
+      "infoTitle": "Come funzionano i punti"
+    },
+    "deviceInfoNote": "Le informazioni sul dispositivo vengono allegate per aiutarci a correggere i bug.",
+    "deviceInfo": "Info dispositivo",
+    "deviceInfoOwners": "Solo i proprietari della bacheca lo vedono",
+    "deviceInfoError": "Impossibile caricare le info del dispositivo",
+    "deviceInfoNone": "Nessuna info del dispositivo per questa richiesta",
+    "deviceInfoErrors": "Errori recenti"
   },
   "auth": {
     "loginRequired": "Accesso richiesto",
@@ -4918,7 +5057,13 @@
     "importWalletPurpose": "Questo strumento è per l'importazione di account esistenti da Riftn.io.",
     "importSecretPlaceholder": "12 o 24 parole, oppure una chiave privata",
     "invalidImportSecret": "Non è una frase valida di 12/24 parole né una chiave privata",
-    "walletSignupBlocked": "Questo wallet è nuovo di zecca. I wallet nuovi devono avere un saldo o una transazione passata per aprire un account. Registrati con una delle opzioni qui sotto, poi collega questo wallet dalle Impostazioni."
+    "walletSignupBlocked": "Questo wallet è nuovo di zecca. I wallet nuovi devono avere un saldo o una transazione passata per aprire un account. Registrati con una delle opzioni qui sotto, poi collega questo wallet dalle Impostazioni.",
+    "accountDeleted": "Questo account è stato eliminato. Puoi registrarti di nuovo con un nuovo account.",
+    "accountDeletedHours_one": "Questo account è stato eliminato. Potrai registrarti di nuovo con la stessa email o lo stesso telefono tra circa {{count}} ora.",
+    "accountDeletedHours_other": "Questo account è stato eliminato. Potrai registrarti di nuovo con la stessa email o lo stesso telefono tra circa {{count}} ore.",
+    "accountDeletedDays_one": "Questo account è stato eliminato. Potrai registrarti di nuovo con la stessa email o lo stesso telefono tra circa {{count}} giorno.",
+    "accountDeletedDays_other": "Questo account è stato eliminato. Potrai registrarti di nuovo con la stessa email o lo stesso telefono tra circa {{count}} giorni.",
+    "signInPageWouldNotOpen": "La pagina di accesso si è chiusa prima di aprirsi. Riprova o continua con l'email."
   },
   "messages": {
     "unreadMarkerOne": "1 messaggio non letto",
@@ -5142,11 +5287,41 @@
     "pinnedShort": "Fissato",
     "post": "Pubblica",
     "arrange": {
-      "saving": "Salvataggio..."
+      "saving": "Salvataggio...",
+      "title": "Riordina i tuoi post",
+      "hint": "Tieni premuto un post e trascinalo nella nuova posizione. I visitatori vedono prima questo ordine.",
+      "drag": "Trascina per spostare",
+      "toTop": "Sposta in cima",
+      "save": "Salva ordine",
+      "saved": "Il tuo ordine è salvato",
+      "reset": "Torna ai più recenti",
+      "resetDone": "Torna ai più recenti",
+      "saveFailed": "Impossibile salvare l'ordine. Riprova.",
+      "loadFailed": "Impossibile caricare i tuoi post. Chiudi e riprova.",
+      "empty": "Ancora niente da riordinare. Pubblica prima qualcosa."
     },
     "reserve": {
-      "signIn": "Accedi"
-    }
+      "signIn": "Accedi",
+      "available": "Nome utente disponibile",
+      "held": "Riservato per te",
+      "ended": "Prenotazione scaduta",
+      "busy": "In fase di prenotazione",
+      "availableBody": "riftn.com/{{name}} è libero in questo momento. Prenotalo e lo teniamo per te per un minuto mentre ti registri.",
+      "heldBody": "Nessun altro può prendere @{{name}} finché il timer non scade. Completa la registrazione per tenerlo.",
+      "endedBody": "Il tuo minuto è scaduto, quindi @{{name}} è di nuovo disponibile per tutti. È ancora libero.",
+      "busyBody": "Qualcuno si sta registrando come @{{name}} in questo momento. Se non completa, si libera alla fine del timer.",
+      "finish": "Completa la registrazione",
+      "again": "Prenota di nuovo",
+      "cta": "Prenota ora",
+      "letGo": "Lascia perdere",
+      "haveAccount": "Hai un account?"
+    },
+    "articleViews": "{{views}} visualizzazioni",
+    "sortBy": "Ordina per",
+    "sortCustom": "Ordine personalizzato",
+    "arrangeButton": "Riordina i post",
+    "mutualsOne": "{{count}} in comune:",
+    "mutualsMany": "{{count}} in comune:"
   },
   "tv": {
     "title": "TV",
@@ -5664,7 +5839,26 @@
       "filter": "Filtra attività"
     },
     "welcome": {
-      "text": "Messaggio di benvenuto"
+      "text": "Messaggio di benvenuto",
+      "title": "Dai il benvenuto ai nuovi membri",
+      "help": "Questo agente segue e/o scrive alle persone appena iscritte a Riftn, alcune al giorno.",
+      "follow": "Segui i nuovi membri",
+      "message": "Scrivi ai nuovi membri",
+      "textHelp": "{name} diventa il suo @nomeutente. Niente link. Inviato una sola volta per persona.",
+      "saveText": "Salva messaggio",
+      "perDay": "Persone al giorno",
+      "fewer": "Meno al giorno",
+      "more": "Più al giorno",
+      "today": "Oggi: {{follows}} seguiti · {{messages}} contattati",
+      "limits": "Mai la stessa persona due volte. Salta chi ti ha bloccato o silenziato, ha disattivato i nuovi messaggi o si è nascosto dai Nuovi membri.",
+      "showLog": "Vedi chi ha accolto",
+      "hideLog": "Nascondi benvenuti",
+      "empty": "Ancora nessuno. I nuovi membri appaiono qui man mano che si iscrivono.",
+      "followed": "Seguito",
+      "messaged": "Contattato",
+      "skipped": "Saltato",
+      "failed": "Non raggiungibile",
+      "defaultText": "Ciao {name}, benvenuto su Riftn! 👋"
     }
   },
   "hero": {
@@ -5755,7 +5949,43 @@
     "disconnect": "Disconnetti",
     "payAndRun": "Paga ed esegui",
     "run": "Esegui",
-    "handlePrompt": "Personalizza"
+    "handlePrompt": "Personalizza",
+    "retryFreeTask": "Riprova attività gratuita",
+    "previewSavedMedia": "Anteprima media salvati",
+    "audioSavePending": "L'audio è pronto, ma il salvataggio nella libreria privata è in sospeso. Riprendi per recuperarlo.",
+    "freeResultUnknown": "La risposta dell'attività gratuita è stata interrotta. Non verrà inviata di nuovo automaticamente. Scegli Riprova attività gratuita, poi riprendi; il pagamento e gli altri job vengono conservati.",
+    "formAuthor": "Modifica flusso",
+    "formAuthorHint": "Crea un flusso con input tipizzati. Salvalo qui o organizzalo nel canvas web.",
+    "chooseSavedMedia": "Scegli media salvati",
+    "formInput": "Input: {{handle}}",
+    "reviewRun": "Controlla l'esecuzione",
+    "resumeRun": "Riprendi esecuzione salvata",
+    "confirmPrice": "Totale: {{price}} token",
+    "recoveryHint": "I riferimenti di job e pagamenti sono salvati su questo dispositivo. Riprendi il lavoro interrotto prima di avviare un'altra esecuzione.",
+    "newRun": "Avvia un'altra esecuzione",
+    "loadMoreMedia": "Carica altri media",
+    "invalidGraph": "Controlla i collegamenti: ogni input ha bisogno di una sorgente compatibile e il grafo non può contenere cicli.",
+    "unsupportedNode": "Questo nodo non può ancora essere eseguito nel modulo nativo. Usa il canvas web per questo flusso.",
+    "missingPrompt": "Collega un nodo di testo con un prompt.",
+    "invalidSettings": "Queste impostazioni non sono supportate dal modello selezionato.",
+    "missingCapturedFrame": "Cattura un fotogramma nel canvas web prima di usare questo video come input immagine.",
+    "missingSavedMedia": "Il media sorgente salvato manca o non è più disponibile per questo account.",
+    "nothingToRun": "Aggiungi un generatore per eseguire questo flusso.",
+    "quoteFailed": "Impossibile calcolare il prezzo di questo flusso. Riprova.",
+    "recoverBeforeEdit": "Riprendi l'esecuzione salvata prima di modificarne il grafo o avviarne un'altra.",
+    "runAlreadyComplete": "Questa esecuzione è completata. Scegli Avvia un'altra esecuzione per generare di nuovo.",
+    "recoveryCorrupt": "Impossibile leggere il record di recupero salvato. Conserva questo flusso e contatta l'assistenza prima di pagare di nuovo.",
+    "paidUnavailable": "Qui puoi creare e salvare flussi. Le esecuzioni a pagamento non sono disponibili in questo store.",
+    "planChanged": "Il flusso è cambiato dopo il calcolo del prezzo. Controlla di nuovo l'esecuzione.",
+    "connectOwnerWallet": "Collega il portafoglio proprietario di questo flusso.",
+    "runFailed": "Il nodo non è riuscito a terminare. Il riferimento al job salvato viene conservato per il recupero.",
+    "recoveryPending": "Il rendering è ancora in sospeso. Riprendi questa esecuzione per recuperarlo.",
+    "nodeAudioGen": "Generatore audio",
+    "nodeAudioGenDesc": "Voce, effetti sonori, trascrizione e isolamento audio",
+    "nodeAudioInput": "Audio salvato",
+    "nodeAudioInputDesc": "Usa l'audio privato della tua libreria",
+    "audioVoiceId": "ID voce",
+    "audioSeconds": "Durata del suono in secondi"
   },
   "loginModal": {
     "didYouMean": "Intendevi {{email}}?",
@@ -6058,7 +6288,13 @@
     },
     "holdTokensToVote": "Tieni i token Riftn per votare",
     "mustHoldTokens": "Devi possedere token Riftn per votare le proposte di governance.",
-    "forLabel": "A favore"
+    "forLabel": "A favore",
+    "optionVoters_one": "{{count}} votante",
+    "optionVoters_other": "{{count}} votanti",
+    "optionWinner": "Vincitore: {{option}}",
+    "optionNoWinner": "Nessun vincitore netto",
+    "optionTapToUndo": "Tocca di nuovo la tua risposta per ritirare il voto",
+    "optionPickOne": "Scegli una risposta"
   },
   "sidebar": {
     "talkOfTheTown": "Di cosa si parla",
@@ -6175,7 +6411,24 @@
     "tabReplies": "Risposte",
     "tabQuotes": "Citazioni",
     "tabReposts": "Repost",
-    "tabSearch": "Cerca"
+    "tabSearch": "Cerca",
+    "attachAudioFile": "File audio",
+    "attachMedia": "Allega una foto, un video o un audio",
+    "attachPhotoOrVideo": "Foto o video",
+    "attachTooLarge": "Il file supera il limite di {{size}} MB.",
+    "playVideo": "Riproduci video",
+    "threadParts": {
+      "reorder": "Riordina",
+      "reorderHint": "Tieni premuta e trascina una parte, o usa le frecce, poi salva.",
+      "save": "Salva ordine",
+      "saved": "Ordine del thread salvato",
+      "saveFailed": "Impossibile salvare l'ordine. Riprova.",
+      "moveUp": "Sposta su la parte {{n}}",
+      "moveDown": "Sposta giù la parte {{n}}",
+      "addPart": "Aggiungi al thread",
+      "addPlaceholder": "Aggiungi al tuo thread...",
+      "label": "Thread · {{count}} parti"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "Al momento non è possibile leggere gli attuali proprietari.",
@@ -6733,7 +6986,8 @@
         "invites": "Inviti",
         "rules": "Regole",
         "recentActions": "Azioni recenti",
-        "danger": "Zona pericolosa"
+        "danger": "Zona pericolosa",
+        "automod": "Auto-mod e bot"
       },
       "title": "Gestisci",
       "purgeTitle": "Eliminare tutti i messaggi?",
@@ -6925,24 +7179,107 @@
       "buyer": "Acquirente:",
       "balance": "Saldo:",
       "price": "Prezzo:",
-      "marketCap": "Capitalizzazione di mercato:"
+      "marketCap": "Capitalizzazione di mercato:",
+      "title": "ACQUISTO {{amount}}",
+      "txn": "Txn",
+      "titleToken": "ACQUISTO {{amount}} ${{symbol}}"
     },
     "newChat": {
       "public": "Pubblico",
       "private": "Privato",
       "free": "Gratis",
       "paid": "Pagato",
-      "group": "Raggruppa"
+      "group": "Raggruppa",
+      "description": "Di cosa si tratta? (facoltativo)",
+      "groupCreated": "Gruppo creato",
+      "channelCreated": "Canale creato",
+      "newGroup": "Nuovo gruppo",
+      "newChannel": "Nuovo canale",
+      "groupName": "Nome del gruppo",
+      "channelName": "Nome del canale",
+      "whoCanJoin": "Chi può unirsi",
+      "publicDetail": "Chiunque può trovarlo e unirsi",
+      "inviteOnly": "Solo su invito",
+      "privateDetail": "Si entra con il tuo invito o la tua approvazione",
+      "entry": "Ingresso",
+      "freeDetail": "Ingresso gratuito",
+      "paidDetail": "Un unico pagamento in token, direttamente a te",
+      "price": "Prezzo in token",
+      "channelNote": "Solo tu e i tuoi admin potete pubblicare. I membri leggono e reagiscono.",
+      "createGroup": "Crea gruppo",
+      "createChannel": "Crea canale",
+      "channel": "Canale",
+      "adminsOnly": "In questo canale pubblicano solo gli admin.",
+      "message": "Nuovo messaggio",
+      "messageDetail": "Una chat privata con una persona",
+      "groupDetail": "Chatta con tante persone, in pubblico o in privato",
+      "channelDetail": "Trasmetti ai follower, gratis o a pagamento",
+      "title": "Crea qualcosa",
+      "channelRow": "Canale · {{formattedCount}} membri",
+      "groupRow": "Gruppo · {{formattedCount}} membri"
     },
     "holderGate": {
       "chain": "Catena",
-      "tab": "Sostegni"
+      "tab": "Sostegni",
+      "failed": "Impossibile leggere il tuo saldo ora. Riprova tra un momento.",
+      "short": "Solo possessori: ti servono {{need}}. Ne hai {{have}}.",
+      "required": "Solo possessori: il tuo portafoglio non contiene abbastanza token di questa community per chattare.",
+      "topHolders": "Principali possessori",
+      "noHolders": "I possessori appaiono qui quando si uniscono.",
+      "saved": "Regola possessori salvata",
+      "cleared": "Chiunque può di nuovo unirsi",
+      "saveFailed": "Impossibile salvare la regola possessori",
+      "title": "Solo possessori",
+      "explain": "Solo i portafogli che possiedono questo token possono unirsi e chattare. I saldi vengono letti dalla chain quando qualcuno si unisce.",
+      "which": "Token",
+      "dehubTokens": "Token Riftn",
+      "otherToken": "Un altro token",
+      "token": "Contratto del token",
+      "reading": "Lettura del token…",
+      "badAddress": "Non è un indirizzo di token",
+      "minimum": "Quantità minima",
+      "save": "Salva regola possessori",
+      "chip": "Solo possessori · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Parole bannate",
       "floodMax": "{{count}} messaggi",
       "saved": "Salvato",
-      "wordCount": "{{count}} parole"
+      "wordCount": "{{count}} parole",
+      "title": "Auto-mod",
+      "hint": "Blocca un messaggio prima che qualcuno lo veda e spiega il motivo al mittente. Proprietari e admin non vengono mai bloccati.",
+      "enabled": "Auto-mod attivo",
+      "bannedWordsHint": "Una per riga o separate da virgola. Solo parole intere; vengono rilevate anche le grafie spaziate come s.c.a.m.",
+      "bannedWordsPlaceholder": "truffa\nrug pull",
+      "blockLinks": "Blocca link",
+      "blockLinksHint": "Link esterni e inviti Telegram/Discord. I link Riftn funzionano ancora.",
+      "repeats": "Blocca ripetizioni",
+      "repeatsHint": "Impedisce di inviare di nuovo la stessa riga entro 10 minuti.",
+      "flood": "Anti-flood",
+      "floodHint": "Al massimo {{max}} messaggi ogni {{seconds}}s per persona.",
+      "noAccess": "Solo il proprietario e gli admin possono modificare queste impostazioni.",
+      "saveFailed": "Impossibile salvare. Riprova.",
+      "saveWords": "Salva parole",
+      "bannedWord": "Quel messaggio contiene una parola non consentita in questo gruppo.",
+      "links": "In questo gruppo i link non sono consentiti.",
+      "repeat": "L'hai appena inviato. Prova a dire qualcosa di nuovo.",
+      "reserved": "Questo tipo di messaggio può arrivare solo dai bot del gruppo.",
+      "floodError": "Stai inviando troppo in fretta. Aspetta {{value1}}s e riprova."
+    },
+    "entry": {
+      "switchChain": "Passa il portafoglio a BNB Chain o Base per pagare.",
+      "failed": "Non abbiamo ancora potuto confermare il pagamento. Se i token sono usciti dal portafoglio, tocca di nuovo Unisciti tra un minuto.",
+      "chip": "{{amount}} per unirsi"
+    },
+    "jumpToReply": "Vai al messaggio a cui si risponde",
+    "buyBot": {
+      "title": "Buy bot",
+      "any": "Qualsiasi importo",
+      "enabled": "Pubblica avvisi di acquisto",
+      "hint": "Pubblica ogni acquisto di ${{symbol}} in questa chat, circa un minuto dopo che avviene.",
+      "minUsd": "Acquisto minimo da pubblicare",
+      "noToken": "Collega un token dall'intestazione del gruppo (modifica, poi Ticker) e ogni acquisto apparirà in questa chat.",
+      "unsupported": "${{symbol}} è su una chain o un tipo di pool che il buy bot non monitora ancora. Supportati: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism e Avalanche (pool in stile Uniswap v2/v3)."
     }
   },
   "work": {
@@ -7930,7 +8267,8 @@
     "jumpToLatest": "Passa agli ultimi messaggi",
     "ban": "Banna",
     "banConfirm": "Sei sicuro di voler bannare {{name}}?",
-    "banFailed": "Impossibile bannare l'utente"
+    "banFailed": "Impossibile bannare l'utente",
+    "jumpToMentions": "Vai a risposte e menzioni"
   },
   "promptFeed": {
     "headline": "Cosa vuoi vedere?",
@@ -9083,10 +9421,12 @@
     "editFailed": "Impossibile applicare la modifica. Riprova.",
     "altPlaceholderVideo": "Descrivi questo video",
     "preview": {
-      "title": "Anteprima"
+      "title": "Anteprima",
+      "hint": "Ecco come apparirà il tuo post nel feed."
     },
     "recent": {
-      "all": "Tutti"
+      "all": "Tutti",
+      "show": "Mostra foto recenti"
     },
     "studio": {
       "crop": "Ritaglia",
@@ -9105,11 +9445,46 @@
       "ticker": "Testo scorrevole",
       "textBg": "Sfondo",
       "font": {
-        "bold": "Grassetto"
-      }
+        "bold": "Grassetto",
+        "clean": "Pulito",
+        "serif": "Serif",
+        "mono": "Mono"
+      },
+      "looks": "Look",
+      "adjust": "Regola",
+      "tint": "Tinta",
+      "vignette": "Vignettatura",
+      "prev": "Foto precedente",
+      "count": "{{n}} di {{total}}",
+      "next": "Foto successiva",
+      "title": "Modifica foto",
+      "holdHint": "Tieni premuto per vedere l'originale",
+      "cropCorner": "Angolo di ritaglio",
+      "straighten": "Raddrizza",
+      "flip": "Capovolgi",
+      "mention": "Menziona",
+      "layerHint": "Trascina testi e sticker per spostarli. Tocca due volte per cambiare il testo.",
+      "looksAdjust": "Look e regolazioni"
     },
     "edited": "Modificato",
-    "edit": "Modifica"
+    "edit": "Modifica",
+    "altHint": "Descrivi cosa contiene per chi non può vederlo.",
+    "altPlaceholder": "Descrivi questa foto",
+    "altTab": "Testo alternativo",
+    "editVideo": "Modifica video",
+    "trim": "Taglia",
+    "trimAndCover": "Taglia e copertina",
+    "trimStart": "Inizio della clip",
+    "trimEnd": "Fine della clip",
+    "trimHint": "Trascina le maniglie bianche per tagliare. Tocca la striscia per spostarti.",
+    "useFrameAsCover": "Usa questo fotogramma come copertina",
+    "photoHoldHint": "Tieni premuto per altre opzioni",
+    "editPhoto": "Modifica foto {{n}}",
+    "editAltText": "Modifica testo alternativo",
+    "addAltText": "Aggiungi testo alternativo",
+    "moveEarlier": "Sposta prima",
+    "moveLater": "Sposta dopo",
+    "photoN": "Foto {{n}} di {{total}}"
   },
   "bounty": {
     "claimed": "Riscosso",
@@ -9746,12 +10121,32 @@
     "shareKindChannel": "Canale",
     "shareKindCommunity": "Community",
     "newDrawer": {
-      "to": "A"
+      "to": "A",
+      "placeholder": "Nome o @nomeutente",
+      "recent": "RECENTI",
+      "suggested": "SUGGERITI",
+      "youFollow": "PERSONE CHE SEGUI",
+      "chattedBefore": "Vi siete scritti",
+      "mutual": "Reciproco",
+      "dmsOff": "DM disattivati",
+      "keepTyping": "Continua a scrivere per cercare tra tutti",
+      "sayHi": "Saluta qualcuno",
+      "typeAny": "Scrivi un nome o un @nomeutente"
     },
     "download": "Scarica",
     "deleteOneTitle": "Eliminare questo messaggio?",
     "retrySend": "Riprova",
-    "discardSend": "Rimuovi"
+    "discardSend": "Rimuovi",
+    "copyMedia": "Copia media",
+    "reportMessage": "Segnala messaggio",
+    "fileSaved": "File salvato",
+    "fileSaveFailed": "Impossibile salvare il file",
+    "attachAnything": "Allega una foto, un video, un audio o un file",
+    "attachFileOrAudio": "File o audio",
+    "attachPhotoOrVideo": "Foto o video",
+    "attachTooLarge": "Il file supera il limite di {{size}} MB.",
+    "deleteForBothBody": "Verrà rimosso per entrambi.",
+    "notSent": "Non inviato"
   },
   "editPost": {
     "mediaPermission": "È richiesta l'autorizzazione alla libreria multimediale",
@@ -9874,7 +10269,8 @@
     "notAvailableForPost": "Non disponibile per questo post",
     "noVideo": "Nessun video",
     "rotate": "Ruota",
-    "yourDhbBalance": "Il tuo saldo token: {{amount}}"
+    "yourDhbBalance": "Il tuo saldo token: {{amount}}",
+    "fullscreen": "Schermo intero"
   },
   "liveViewer": {
     "loadingStream": "Caricamento diretta...",
@@ -10190,7 +10586,22 @@
     "didNotRecoverEither": "Quell'accesso non ha recuperato nessuno dei profili mostrati qui. Non è cambiato nulla. Prova l'accesso originale del profilo che vuoi.",
     "didNotRecoverThis": "Quell'accesso ha recuperato un portafoglio diverso da quello di questo profilo. Non è cambiato nulla. Prova l'accesso che lo ha creato in origine.",
     "couldNotRetrieve": "Non è stato possibile recuperare quel vecchio portafoglio su questo dispositivo. Puoi comunque recuperarlo su riftn.com qui sotto.",
-    "matchedWithBalance": "Abbinato, {{balance}} token"
+    "matchedWithBalance": "Abbinato, {{balance}} token",
+    "methodEmail": "un codice via email",
+    "methodPhone": "un numero di telefono",
+    "madeWithNamed": "@{{name}} è stato creato con {{method}}. Continua con lo stesso account {{method}} per recuperarlo.",
+    "madeWith": "Questo profilo è stato creato con {{method}}. Continua con lo stesso account {{method}} per recuperarlo.",
+    "madeWithEmailNamed": "@{{name}} è stato creato con un codice via email. Invieremo un altro codice a quell'email per recuperarlo.",
+    "madeWithEmail": "Questo profilo è stato creato con un codice via email. Invieremo un altro codice a quell'email per recuperarlo.",
+    "madeWithPhoneNamed": "@{{name}} è stato creato con un numero di telefono. Invieremo un altro codice via SMS a quel numero per recuperarlo.",
+    "madeWithPhone": "Questo profilo è stato creato con un numero di telefono. Invieremo un altro codice via SMS a quel numero per recuperarlo.",
+    "wrongSignInNamed": "Quell'accesso apre un portafoglio diverso, non @{{name}}. @{{name}} è stato creato con {{method}}, quindi solo quello può recuperarlo.",
+    "wrongSignIn": "Quell'accesso apre un portafoglio diverso. Questo profilo è stato creato con {{method}}, quindi solo quello può recuperarlo.",
+    "continueWith": "Continua con {{provider}}",
+    "differentSignIn": "Hai usato un altro metodo di accesso?",
+    "oldAccountPhone": "Numero di telefono del vecchio account",
+    "recoverFromPhoneA11y": "Recupera il vecchio account da questo numero di telefono",
+    "phoneNeedsCode": "Inserisci il numero con il prefisso internazionale, ad es. +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Acquista token",
@@ -10972,8 +11383,17 @@
       "translationFailed": "La traduzione non è riuscita. I sottotitoli non sono stati modificati.",
       "lockedTranslation": "Sblocca i sottotitoli bloccati per includerli.",
       "styles": {
-        "bold": "Grassetto"
-      }
+        "bold": "Grassetto",
+        "classic": "Classic",
+        "boxed": "Boxed",
+        "wordpop": "Word Pop",
+        "rapid": "Rapid Reveal",
+        "beast": "Beast Mode",
+        "stacked": "Impilati",
+        "serif": "Serif",
+        "bubble": "Fumetto"
+      },
+      "style": "Stile sottotitoli"
     },
     "app": {
       "newDesign": "Nuovo progetto",
@@ -11043,7 +11463,11 @@
       "vibrant": "Vivace",
       "cyber": "Cyber",
       "invert": "Inverti",
-      "strength": "Resistenza del filtro: {{value}}%"
+      "strength": "Resistenza del filtro: {{value}}%",
+      "fadedFilm": "Pellicola sbiadita",
+      "technicolor": "Technicolor",
+      "newsreel": "Cinegiornale",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "Ritaglia",
@@ -11124,14 +11548,18 @@
       "pptx": "Presentazione di PowerPoint",
       "pptxHint": "Ogni pagina diventa un'immagine diapositiva, con note e collegamenti del presentatore. Modifica il testo e gli elementi individuali nel progetto originale.",
       "section": "Sezione denominata",
-      "transparent": "Sfondo trasparente"
+      "transparent": "Sfondo trasparente",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "Scarica uno ZIP con la timeline in FCPXML e Premiere XML più tutti i file multimediali, così puoi finire il montaggio in Premiere Pro, Final Cut Pro o DaVinci Resolve. I testi diventano marker; gli effetti restano in Riftn."
     },
     "adjust": {
       "auto": "Miglioramento automatico",
       "autoFailed": "Impossibile analizzare questa immagine.",
       "tint": "Tinta {{value}}",
       "vignette": "Vignettatura {{value}}%",
-      "warmth": "Calore {{value}}"
+      "warmth": "Calore {{value}}",
+      "halation": "Alone {{value}}%",
+      "scanlines": "Linee di scansione {{value}}%"
     },
     "draw": {
       "colour": "Colore penna",
@@ -11225,7 +11653,45 @@
       "openGenerator": "Rivedi e genera",
       "working": "Ci sto lavorando…",
       "stop": "Ferma",
-      "queue": "Aggiungi alla coda"
+      "queue": "Aggiungi alla coda",
+      "stopped": "Interrotto. Nient'altro è stato modificato.",
+      "queued": "{{count}} in coda",
+      "restore": "Ripristina fino a qui",
+      "restoreHint": "Riporta il progetto com'era prima di questo messaggio. Annulla lo ripristina.",
+      "restored": "Progetto ripristinato a prima di quel messaggio. Premi Annulla per recuperare la versione più recente.",
+      "rewrite": "Rendi più chiara la mia richiesta",
+      "rewriteFailed": "Impossibile riscriverlo. Il tuo testo è invariato.",
+      "feedback": "Ti è stato utile?",
+      "good": "Buona risposta",
+      "bad": "Risposta pessima",
+      "retryPrefix": "Non era giusto. Invece, ",
+      "recipesTitle": "Ricette",
+      "recipe": {
+        "podcastClip": {
+          "label": "Clip podcast",
+          "prompt": "Trova il momento più forte di 30 secondi, taglia lì, aggiungi i sottotitoli Word Pop e mettilo in 9:16."
+        },
+        "talkingHead": {
+          "label": "Inquadratura parlata pulita",
+          "prompt": "Taglia le pause lunghe, aggiungi i sottotitoli Classic e dagli un look caldo e delicato."
+        },
+        "productPromo": {
+          "label": "Promo prodotto",
+          "prompt": "Crea una promo di 15 secondi: titolo d'impatto all'inizio, transizioni Zoom in tra le clip, sottotitoli Bold e musica allegra."
+        },
+        "hypeReel": {
+          "label": "Reel adrenalinico",
+          "prompt": "Taglia le clip a tempo di musica, usa le transizioni Fly up e il look Technicolor."
+        },
+        "retroEdit": {
+          "label": "Montaggio retrò",
+          "prompt": "Dai a ogni clip il look VHS, aggiungi un grande titolo con grazie e usa le transizioni Fade."
+        },
+        "tutorial": {
+          "label": "Tutorial",
+          "prompt": "Aggiungi un titolo per ogni passaggio, sottotitoli Boxed e rallenta il momento chiave a 0.5x."
+        }
+      }
     },
     "brand": {
       "addColor": "Aggiungi un colore del brand",
@@ -11251,7 +11717,10 @@
       "saveNewPreset": "Salva nuovo",
       "saveStyles": "Salva gli stili con il design",
       "stylesSaved": "Gli stili del marchio salvati con questo design",
-      "usePreset": "Usa gli stili"
+      "usePreset": "Usa gli stili",
+      "dehubApplied": "Brand Riftn applicato a {{count}} livelli.",
+      "dehubApply": "Usa il brand Riftn",
+      "dehubHint": "Colori ufficiali Riftn, font Exo e Inter e logo Riftn, con un clic."
     },
     "templates": {
       "announcement": {
@@ -11364,7 +11833,9 @@
       "exportHint": "Tieni aperto l’editor mentre il tuo video viene elaborato.",
       "tooLarge": "Il file è troppo grande per l’editor. Il limite è 400 MB.",
       "tZoomIn": "Ingrandisci",
-      "tZoomOut": "Zoom indietro"
+      "tZoomOut": "Zoom indietro",
+      "tFlyUp": "Vola su",
+      "tFlyDown": "Vola giù"
     },
     "motion": {
       "title": "Movimento",
@@ -12550,21 +13021,141 @@
       "add": "Aggiungi",
       "scale": "Dimensione",
       "color": "Colore",
-      "light": "Chiaro"
+      "light": "Chiaro",
+      "create": "Aggiungi uno stage 3D",
+      "title": "Stage di scena 3D",
+      "hint": "Imposta un'inquadratura con sfere e cubi. Videocamera, posizionamento e tre luci d'area indipendenti modificano il fotogramma renderizzato.",
+      "preview": "Anteprima della scena renderizzata",
+      "error": "Impossibile preparare il fotogramma. Controlla i riferimenti dell'inquadratura e riprova.",
+      "elevation": "Elevazione",
+      "distance": "Distanza",
+      "fov": "Campo visivo",
+      "object": "Oggetto",
+      "sphere": "Sfera",
+      "box": "Cubo",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "Rimuovi oggetto",
+      "intensity": "Intensità",
+      "diffusion": "Diffusione",
+      "saving": "Preparazione del fotogramma…",
+      "useFrame": "Usa il fotogramma renderizzato come riferimento dell'inquadratura",
+      "frameHint": "Crea un PNG da 320 × 180 e lo aggiunge ai riferimenti di questa inquadratura. Controlla il limite di riferimenti e il preventivo del modello prima di generare.",
+      "frameName": "Fotogramma dello stage di scena"
     },
     "clipFix": {
-      "listening": "In ascolto…"
+      "listening": "In ascolto…",
+      "detach": "Separa audio",
+      "detached": "Audio spostato in una clip separata",
+      "detachFailed": "Impossibile separare l'audio di questa clip",
+      "removeBars": "Rimuovi bande nere",
+      "scanning": "Controllo dei fotogrammi…",
+      "noBars": "Nessuna banda nera trovata",
+      "barsRemoved": "Bande nere ritagliate",
+      "barsFailed": "Impossibile controllare le bande nere in questo video",
+      "reframe": "Reinquadratura automatica",
+      "reframeHint": "Il video si adatta già al formato di questa pagina",
+      "reframed": "Reinquadrato per seguire l'azione",
+      "reframeFailed": "Impossibile reinquadrare questo video",
+      "retakes": "Rimuovi ripetizioni",
+      "noRetakes": "Nessuna ripetizione trovata",
+      "retakesRemoved": "{{count}} ripetizioni rimosse, mantenuta l'ultima ripresa",
+      "retakesFailed": "Impossibile rimuovere le ripetizioni da questa clip"
     },
     "voiceClone": {
       "stop": "Ferma registrazione",
-      "failed": "Clonazione della voce fallita."
+      "failed": "Clonazione della voce fallita.",
+      "pickerLabel": "Clona la tua voce",
+      "pickerDetail": "Voci fuori campo con la tua voce",
+      "title": "Clona la tua voce",
+      "description": "Registrati o scegli una clip in cui parli. Paghi una volta e la tua voce è tua per ogni voce fuori campo.",
+      "defaultName": "La mia voce",
+      "record": "Registra un campione (da 30 secondi a 2 minuti)",
+      "fromMedia": "Oppure usa una clip da Media",
+      "recorded": "La tua registrazione",
+      "sample": "Campione: {{name}}",
+      "hint": "Funziona meglio un parlato chiaro senza musica.",
+      "noMic": "Impossibile usare il microfono.",
+      "sampleFailed": "Impossibile leggere l'audio di quella clip.",
+      "pay": "Clona per {{amount}} token",
+      "useFree": "Clona (già pagato)",
+      "owned": "La tua voce “{{name}}” è già pronta. Sceglila dall'elenco delle voci.",
+      "useOwned": "Usa la mia voce",
+      "ready": "“{{name}}” è pronta per le voci fuori campo.",
+      "paidFailed": "Il tuo pagamento è salvato. Riapri e il prossimo tentativo è gratuito.",
+      "consent": "Clona solo la tua voce o una che hai il permesso di usare."
     },
     "linkImport": {
       "go": "Importa",
-      "downloading": "Download {{percent}}%"
+      "downloading": "Download {{percent}}%",
+      "open": "Importa da un link",
+      "placeholder": "Incolla un link di YouTube, TikTok o altro",
+      "rights": "Questo video è mio o ho il permesso di usarlo",
+      "audioOnly": "Solo audio",
+      "queued": "In coda…",
+      "waiting": "In attesa del sito, nuovo tentativo a breve…",
+      "adding": "Aggiunta a Media…",
+      "added": "Importato e aggiunto alla timeline.",
+      "failed": "Impossibile importare quel link."
     },
     "reverse": {
-      "action": "Inversa"
+      "action": "Inversa",
+      "working": "Inversione {{percent}}%",
+      "done": "Clip invertita.",
+      "failed": "Impossibile invertire questa clip.",
+      "unsupported": "Questo browser non può invertire i video. Prova Chrome o Edge.",
+      "tooLong": "Si possono invertire clip fino a {{seconds}} secondi."
+    },
+    "film": {
+      "repairRefs": "Rimuovi i link ai media mancanti",
+      "title": "Progetto film",
+      "intro": "Pianifica le inquadrature con riferimenti di immagini riutilizzabili. Brief, ordine delle inquadrature e risultati selezionati vengono salvati con il progetto.",
+      "create": "Crea piano del film",
+      "name": "Nome del film",
+      "brief": "Brief del film",
+      "sharedReferences": "Riferimenti di immagini condivisi (fino a 4)",
+      "shot": "Inquadratura",
+      "addShot": "Aggiungi inquadratura",
+      "shotName": "Nome dell'inquadratura",
+      "action": "Azione e composizione dell'inquadratura",
+      "seconds": "Secondi di video richiesti",
+      "shotReferences": "Riferimenti di immagini extra (limite totale 4)",
+      "frame": "Prepara fotogramma",
+      "video": "Prepara video",
+      "review": "Controlla modello, riferimenti, durata del video e prezzo nello studio prima di generare.",
+      "result": "Risultato dell'inquadratura accettato",
+      "noResult": "Nessun risultato selezionato",
+      "resultHint": "Scegli un'immagine o un video accettato da Caricamenti. Il link viene salvato con questa inquadratura; usa la timeline per montare il film.",
+      "earlier": "Sposta prima",
+      "later": "Sposta dopo",
+      "remove": "Rimuovi inquadratura",
+      "issue": "Controlla la descrizione dell'inquadratura e i media di riferimento, poi riprova. Tieni aperto il progetto se non è stato possibile salvarlo.",
+      "searchMedia": "Cerca media per nome",
+      "refreshMedia": "Aggiorna media"
+    },
+    "speakers": {
+      "find": "Trova i parlanti",
+      "name": "Parlante {{number}}",
+      "onlyOne": "Trovato un solo parlante.",
+      "failed": "Impossibile trovare i parlanti.",
+      "kept": "Mantenuto solo {{name}}.",
+      "editFailed": "Questa modifica non si adatta alla clip.",
+      "split": "Divisa in {{count}} inquadrature per parlante.",
+      "keepOnly": "Mantieni solo",
+      "splitAction": "Taglia a ogni cambio di parlante"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Descrivi l'oggetto 3D che vuoi",
+      "queued": "Stiamo creando il tuo oggetto 3D. Lo troverai nella scheda Generazioni.",
+      "note": "Gli oggetti 3D arrivano in Media come una breve clip rotante con sfondo trasparente."
+    },
+    "behind": {
+      "action": "Testo dietro la persona",
+      "working": "Scontorno della persona…",
+      "done": "Testo e sottotitoli ora sono dietro la persona.",
+      "failed": "Impossibile mettere il testo dietro la persona."
     }
   },
   "creator": {
@@ -13029,7 +13620,47 @@
     "referenceComposeHint": "Porta personaggi, oggetti e ambientazioni da multiple immagini in una singola composizione",
     "marketing": {
       "import": {
-        "use": "Utilizza questi dettagli"
+        "use": "Utilizza questi dettagli",
+        "url": "URL della pagina prodotto",
+        "action": "Leggi la pagina prodotto",
+        "loading": "Lettura della pagina…",
+        "hint": "Importa il testo da una pagina prodotto pubblica. Controlla i dettagli prima di usarli; allega le immagini del prodotto separatamente nello studio.",
+        "source": "Fonte importata",
+        "review": "Scegli un prodotto da copiare nel tuo brief modificabile. Il titolo, il tono e i colori del brand restano invariati.",
+        "errors": {
+          "signIn": "Accedi per importare una pagina prodotto.",
+          "url": "Usa un URL prodotto pubblico HTTPS.",
+          "empty": "Nessun dettaglio di prodotto utilizzabile trovato. Aggiungili manualmente.",
+          "busy": "Troppe importazioni in corso. Riprova tra poco.",
+          "unavailable": "Impossibile importare questa pagina. Aggiungi manualmente i dettagli del prodotto.",
+          "failed": "Importazione non riuscita. Il tuo brief è salvato; riprova o inserisci i dettagli manualmente."
+        }
+      },
+      "title": "Brief della campagna",
+      "intro": "Descrivi il tuo prodotto e il tuo brand, poi prepara i formati pubblicitari corrispondenti.",
+      "saved": "Il tuo brief è salvato su questo dispositivo per questo account.",
+      "preview": "Prepara i formati",
+      "clear": "Cancella brief",
+      "required": "Aggiungi nome e descrizione del prodotto per preparare i formati.",
+      "variants": "Formati della campagna",
+      "reviewHint": "Controlla modello, prezzo e riferimento del prodotto nello studio prima di generare. Ogni formato è una generazione separata.",
+      "open": "Controlla nello studio",
+      "fields": {
+        "product": "Nome del prodotto (obbligatorio)",
+        "description": "Dati del prodotto (obbligatorio)",
+        "brand": "Nome del brand",
+        "audience": "Pubblico di riferimento",
+        "benefit": "Vantaggio principale",
+        "voice": "Tono del brand",
+        "palette": "Colori del brand",
+        "headline": "Titolo approvato",
+        "cta": "Call to action"
+      },
+      "formats": {
+        "square": "Annuncio quadrato",
+        "portrait": "Annuncio verticale",
+        "story": "Immagine per storia",
+        "video": "Video verticale"
       }
     },
     "batchCount": "Immagini",
@@ -13037,7 +13668,109 @@
     "cinema": {
       "close": "Chiudi",
       "performance": {
-        "label": "Prestazioni"
+        "label": "Prestazioni",
+        "0": "Gioioso",
+        "1": "Malinconico",
+        "2": "Ansioso",
+        "3": "Sicuro di sé",
+        "4": "Meravigliato",
+        "5": "Contenuto",
+        "6": "Giocoso"
+      },
+      "title": "Regia cinematografica",
+      "hint": "Guida lo stile visivo della tua prossima immagine o video. I risultati variano in base al modello.",
+      "none": "Nessuna regia",
+      "reset": "Cancella regia",
+      "camera": {
+        "label": "Look della camera",
+        "0": "Cinema digitale",
+        "1": "Pellicola 35mm",
+        "2": "Pellicola 16mm",
+        "3": "Grande formato",
+        "4": "Videocamera vintage"
+      },
+      "lens": {
+        "label": "Look dell'obiettivo",
+        "0": "Sferico",
+        "1": "Anamorfico",
+        "2": "Vetro morbido vintage",
+        "3": "Macro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Lunghezza focale",
+        "0": "18mm grandangolo",
+        "1": "24mm grandangolo",
+        "2": "35mm naturale",
+        "3": "50mm standard",
+        "4": "85mm ritratto",
+        "5": "135mm teleobiettivo"
+      },
+      "aperture": {
+        "label": "Profondità di campo",
+        "0": "f/1.4 molto ridotta",
+        "1": "f/2.8 ridotta",
+        "2": "f/5.6 moderata",
+        "3": "f/11 fuoco profondo"
+      },
+      "movement": {
+        "label": "Movimento di camera",
+        "0": "Cavalletto fisso",
+        "1": "Carrellata lenta in avanti",
+        "2": "Carrellata lenta indietro",
+        "3": "Carrellata laterale",
+        "4": "Orbita attorno al soggetto",
+        "5": "Camera a mano",
+        "6": "Salita con gru",
+        "7": "Panoramica lenta"
+      },
+      "lighting": {
+        "label": "Illuminazione",
+        "0": "Luce diurna morbida",
+        "1": "Ora d'oro",
+        "2": "Chiaroscuro low-key",
+        "3": "Studio high-key",
+        "4": "Luci al neon in scena",
+        "5": "Controluce a silhouette",
+        "6": "Luce diffusa nuvolosa"
+      },
+      "tempo": {
+        "label": "Ritmo dell'inquadratura",
+        "0": "Unica inquadratura continua",
+        "1": "Azione calma e senza fretta",
+        "2": "Azione dinamica ed energica",
+        "3": "Azione caotica e frenetica"
+      },
+      "era": {
+        "label": "Epoca",
+        "0": "Anni '20",
+        "1": "Anni '50",
+        "2": "Anni '60",
+        "3": "Anni '70",
+        "4": "Anni '80",
+        "5": "Anni '90",
+        "6": "Oggi",
+        "7": "Futuro prossimo"
+      },
+      "genre": {
+        "label": "Genere",
+        "0": "Documentario",
+        "1": "Dramma",
+        "2": "Film noir",
+        "3": "Fantascienza",
+        "4": "Fantasy",
+        "5": "Commedia romantica",
+        "6": "Thriller",
+        "7": "Western"
+      },
+      "palette": {
+        "label": "Palette di colori",
+        "0": "Ambra calda",
+        "1": "Blu freddo",
+        "2": "Toni terrosi tenui",
+        "3": "Pastello",
+        "4": "Monocromatico ad alto contrasto",
+        "5": "Colori primari saturi"
       }
     },
     "audioNoSpeech": "Non è stato trovato alcun discorso in quella registrazione.",
@@ -13056,9 +13789,140 @@
     "gallery": {
       "send": "Invia",
       "notifications": {
-        "generation_reply": "{{name}} ha risposto al tuo commento"
+        "generation_reply": "{{name}} ha risposto al tuo commento",
+        "generation_like": "{{name}} ha reagito alla tua generazione",
+        "generation_comment_like": "{{name}} ha reagito al tuo commento",
+        "generation_comment": "{{name}} ha commentato la tua generazione"
+      },
+      "browse": "Sfoglia le generazioni",
+      "empty": "Ancora nessuna creazione",
+      "fullscreen": "Visualizza a schermo intero",
+      "missing": "Questa generazione non è disponibile."
+    },
+    "layerNewAttempt": "Controlla un nuovo tentativo",
+    "layerTitle": "Separa i livelli dell'immagine",
+    "layerPngRequired": "Scegli un'immagine PNG salvata, fino a 12 MiB e quattro megapixel.",
+    "layerSource": "Immagine originale",
+    "layerDescription": "Quattro livelli PNG trasparenti. Il testo resta parte di ogni immagine.",
+    "layerSeparate": "Separa livelli",
+    "layerPending": "Job salvato: {{status}}. Recupera o riprova il salvataggio senza un altro pagamento.",
+    "layerCollect": "Recupera / riprova salvataggio",
+    "layerOpen": "Apri i livelli nell'editor",
+    "layerExport": "Esporta livelli PNG + ZIP con manifest",
+    "layerNumber": "Livello {{number}}",
+    "priceRetry": "Impossibile confermare il prezzo. Controlla il prezzo e riprova.",
+    "avatarTitle": "Ritratto parlante",
+    "avatarRequirements": "Ritratto PNG quadrato, 512–2048 pixel, fino a 5 MB. WAV PCM mono 24 kHz a 16 bit, 5–30 secondi. L'ultima frazione di secondo viene riempita con silenzio.",
+    "avatarPortrait": "Scegli il ritratto PNG",
+    "avatarAudio": "Scegli il parlato WAV",
+    "avatarPermission": "Ho il permesso di animare questo ritratto e di usare questo audio.",
+    "avatarQuote": "{{seconds}} secondi incluso il silenzio · {{amount}} token",
+    "avatarPrepare": "Prepara e controlla il prezzo",
+    "batchFlowLimit": "L'elenco dei Flow è pieno. Rimuovi un Flow inutilizzato prima di creare un altro batch.",
+    "batchReviewCampaign": "Controlla il batch della campagna in Flow",
+    "batchReviewFilmImages": "Controlla il batch di immagini dello storyboard",
+    "batchReviewFilmVideos": "Controlla il batch di clip del film",
+    "batchReviewHint": "Apre un Flow salvato separato. Controlla ogni elemento e il prezzo totale prima di pagare. Gli elementi completati e il pagamento originale vengono conservati per il recupero. I riferimenti vengono copiati nella tua libreria privata; si applicano costi di archiviazione e rete.",
+    "batchInvalid": "Completa ogni elemento prima di preparare un batch di 1–12 immagini o clip.",
+    "batchReferenceLimit": "Questo batch supporta un solo riferimento immagine per elemento. Rimuovi i riferimenti in più o prepara quell'elemento singolarmente.",
+    "batchVideoSettings": "Per questo batch, le clip richiedono una durata intera di 4–15 secondi e un formato 16:9, 9:16 o 1:1.",
+    "batchMissingReference": "Un riferimento manca, non è supportato o supera i 25 MB. Ripristinalo nell'editor prima di preparare il batch.",
+    "batchOwnerChanged": "L'account o la bozza sono cambiati. Riapri questo batch con il suo account originale.",
+    "batchConflict": "Il batch salvato non corrisponde alla sua istantanea originale.",
+    "campaignPlanTitle": "Varianti ed episodi della campagna",
+    "campaignPlanIntro": "Salva fino a 12 varianti o episodi. Ognuno apre lo studio per la propria revisione e il proprio preventivo. Le note condivise guidano la continuità; aspetto del prodotto, personaggi e voci possono variare tra le generazioni.",
+    "campaignTitle": "Nome della campagna o della serie",
+    "campaignContinuity": "Note condivise su personaggio, voce e stile",
+    "campaignVariantTitle": "Nome della variante o dell'episodio",
+    "campaignHook": "Hook iniziale",
+    "campaignLanguage": "Lingua di output",
+    "campaignScript": "Script o sequenza di scene approvati",
+    "campaignAdd": "Aggiungi variante o episodio",
+    "campaignClear": "Cancella piano",
+    "campaignFormat": "Formato di output",
+    "audioExportFormat": "Formato di esportazione",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Allega una clip sorgente da estendere.",
+    "extensionSeconds": "+{{seconds}}s di nuove riprese",
+    "extensionHelp": "Restituisce la tua clip sorgente con circa quattro secondi nuovi. L'output viene ridimensionato fino a 720p a 24 fps. Per l'estensione viene generato un nuovo audio.",
+    "extensionForward": "Aggiungi circa quattro secondi dopo la clip sorgente",
+    "extensionBackward": "Aggiungi circa quattro secondi prima della clip sorgente",
+    "expandDescription": "Genera nuovi bordi dell'immagine. Prompt in inglese facoltativo; una sola immagine sorgente.",
+    "relightDescription": "Cambia l'illuminazione di una foto in base alla tua descrizione di luce e sfondo.",
+    "expandPromptHint": "Allega un'immagine e scegli il nuovo formato. Prompt in inglese facoltativo.",
+    "expandEnglishOnly": "Questo modello di espansione accetta prompt in inglese. Lascia il prompt vuoto per l'espansione automatica.",
+    "expandNeedsImage": "Allega un'immagine da espandere.",
+    "learn": {
+      "title": "Lezioni per creator",
+      "intro": "Lezioni brevi, una verifica e un esercizio modificabile per ciascuna. I progressi sono salvati su questo dispositivo per il tuo account.",
+      "back": "Torna a Creator",
+      "lessons": "Lezioni",
+      "progress": "{{completed}} verifiche superate su {{total}}",
+      "check": "Verifica risposta",
+      "correct": "Verifica superata",
+      "retry": "Riprova. Rileggi la lezione qui sopra.",
+      "exerciseTitle": "Esercizio pratico",
+      "exerciseHint": "Apri un esempio modificabile nel tuo spazio di lavoro dello studio. Aprire una bozza è gratis; la generazione richiede la tua revisione e un preventivo a parte. Modifica l'esempio prima di generare.",
+      "openExercise": "Apri la bozza dell'esercizio",
+      "closeExercise": "Chiudi esercizio",
+      "brief": {
+        "title": "Scrivi un brief visivo chiaro",
+        "body1": "Descrivi un soggetto concreto, la sua azione e l'ambientazione. Aggiungi inquadratura o movimento di camera quando aiutano la scena. Tieni le idee non correlate per un'altra bozza.",
+        "body2": "Indicazioni su luce, obiettivo e stile guidano il modello. Non garantiscono il comportamento fisico della camera né un'immagine esatta. Cambia una parte alla volta così puoi confrontare le revisioni.",
+        "body3": "Prima di generare, controlla il modello selezionato, gli allegati supportati, le dimensioni e il prezzo. Conserva la bozza originale per poterci tornare.",
+        "question": "Quale brief è più facile da rivedere?",
+        "answer0": "Un soggetto, un'azione e un'ambientazione chiari",
+        "answer1": "Solo il nome di un modello",
+        "answer2": "Un elenco di stili contraddittori",
+        "exercise": "Una teiera in ceramica su un tavolo di legno accanto a una finestra. Luce morbida del mattino, inquadratura media, sfondo semplice. Mantieni la teiera come soggetto chiaro."
+      },
+      "continuity": {
+        "title": "Pianifica le inquadrature e controlla la continuità",
+        "body1": "Usa il pannello Film nell'editor per salvare un brief e le inquadrature in ordine. Prepara ogni fotogramma o clip separatamente, controlla il preventivo e seleziona un risultato accettato.",
+        "body2": "Allega solo riferimenti accettati dal modello scelto. Riutilizzare un riferimento può guidare l'aspetto; non addestra un'identità né garantisce una corrispondenza. Personaggi e voci possono variare tra le generazioni.",
+        "body3": "Conserva le riprese riuscite e montale nella timeline. Controlla movimento, volti, dialoghi e transizioni prima di esportare.",
+        "question": "Cosa aiuta la continuità tra le inquadrature?",
+        "answer0": "Più prompt non correlati",
+        "answer1": "Riferimenti approvati e note sulle inquadrature revisionate",
+        "answer2": "Dare per scontato che l'identità del personaggio sia garantita",
+        "exercise": "Campo lungo di un viaggiatore solitario che raggiunge una costa tranquilla all'alba. Lento movimento di camera in avanti, atmosfera calma. Un'unica inquadratura continua."
+      },
+      "campaign": {
+        "title": "Usa dati di prodotto approvati",
+        "body1": "Parti da dati di prodotto che puoi verificare. Controlla i metadati importati prima di usarli. Scrivi esplicitamente il titolo e la call to action; non inventare prezzi, recensioni o dichiarazioni sulle prestazioni.",
+        "body2": "Usa le varianti di campagna salvate per tenere insieme note condivise e singoli hook, script, lingue e formati. Prepara un elemento revisionato alla volta e controlla il suo preventivo nello studio.",
+        "body3": "Controlla nel risultato il testo visibile, l'aspetto del prodotto e le eventuali dichiarazioni parlate. Un prompt non prova l'accuratezza del prodotto né le prestazioni di marketing.",
+        "question": "Quando va inclusa una dichiarazione sul prodotto?",
+        "answer0": "Ogni volta che sembra convincente",
+        "answer1": "Dopo aver inventato una recensione a cinque stelle",
+        "answer2": "Quando deriva da dati di prodotto approvati",
+        "exercise": "Crea una pubblicità di prodotto in verticale per un tè in foglie intere venduto in una latta riutilizzabile. Titolo approvato: Prenditi del tempo per il tè. CTA approvata: Scopri la collezione. Usa solo questi dati; non inventare sconti, recensioni o benefici per la salute."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "Questa chat riproduce la registrazione privata salvata su questo dispositivo. Su un altro dispositivo, apri la tua libreria Creator al termine del salvataggio nel cloud. Se esci ora, riapri questa chat per completare il salvataggio.",
+    "batchPaymentHelp": "Ogni immagine inviata viene addebitata separatamente. Se un batch si interrompe, i token non usati del suo pagamento vengono riutilizzati automaticamente per una generazione successiva che copre.",
+    "endFrameHelp": "Aggiungi un'immagine iniziale con il pulsante allegati.",
+    "seed": "Seed (facoltativo, 0–2147483647)",
+    "negativePrompt": "Prompt negativo (facoltativo)",
+    "invalidSeed": "Il seed deve essere un numero intero da 0 a 2147483647.",
+    "endFrameNeedsStart": "Allega un'immagine iniziale prima di selezionare un fotogramma finale.",
+    "batchStopped": "Batch interrotto dopo {{submitted}} di {{quantity}} invii. {{remaining}} non sono stati inviati. Le immagini completate sono salvate.",
+    "audioInvalidTask": "Scegli un'attività audio supportata.",
+    "audioNeedsFile": "Allega prima un file audio o video supportato.",
+    "audioTextLimit": "Voce e dialoghi consentono 1–5000 caratteri; gli effetti sonori 1–1000.",
+    "audioDurationLimit": "La durata del suono deve essere Auto (0) o 0,5–30 secondi.",
+    "audioModels": "Altri modelli audio",
+    "audioAttach": "Allega registrazione",
+    "audioAttachFailed": "Impossibile allegare quella registrazione.",
+    "audioSeconds": "Secondi (0 = Auto)",
+    "audioInvalidResponse": "Il servizio audio ha restituito un risultato non valido.",
+    "audioResultTooLarge": "Il risultato audio è vuoto o supera i 50 MB.",
+    "audioFailed": "Impossibile elaborare quell'audio.",
+    "loop": "Ripeti",
+    "libraryFavorites": "Preferiti",
+    "libraryFavoriteAdd": "Aggiungi ai preferiti",
+    "libraryFavoriteRemove": "Rimuovi dai preferiti"
   },
   "fractions": {
     "title": "Frazioni",
@@ -13200,7 +14064,8 @@
     "offerSubmitted_other": "Offerta presentata per {{count}} frazioni a {{price}} token ciascuna",
     "yourOfferLabel": "La tua Offerta (token per Frazione)",
     "listedToast_one": "Listata {{count}} frazione a {{price}} token ciascuna",
-    "listedToast_other": "Listate {{count}} frazioni a {{price}} token ciascuna"
+    "listedToast_other": "Listate {{count}} frazioni a {{price}} token ciascuna",
+    "nftsSubtitle": "Qualsiasi NFT, scambi in un solo passaggio"
   },
   "moderation": {
     "appealDuplicate": "Hai già presentato ricorso",
@@ -14512,7 +15377,14 @@
     "faqWhatA": "Tramite MCP può sfogliare i post pubblici di Riftn, cercare argomenti e consultare profili dei creator. Non pubblica a tuo nome.",
     "faqAccountQ": "Mi serve un account Riftn?",
     "chatgptFaqAccount": "Non è richiesto alcun account per leggere contenuti pubblici tramite il connettore. Un account Riftn è necessario solo se desideri pubblicare, inviare mance o detenere token Riftn.",
-    "claudeFaqAccount": "No. La lettura di contenuti pubblici funziona senza un account. Hai bisogno di un account Riftn solo per pubblicare, inviare mance o detenere token Riftn."
+    "claudeFaqAccount": "No. La lettura di contenuti pubblici funziona senza un account. Hai bisogno di un account Riftn solo per pubblicare, inviare mance o detenere token Riftn.",
+    "subtitleAccount": "Usa Riftn da ChatGPT, Claude o qualsiasi app MCP. Naviga senza account o accedi per salvare bozze private, pubblicare e programmare post, gestire immagini e sondaggi, leggere le statistiche, rispondere e seguire.",
+    "agentsTitle": "Gestisci i tuoi agenti dall'assistente",
+    "agentsBody": "Quando ti colleghi, consenti anche \"Agisci come i tuoi agenti\". Il tuo assistente potrà pubblicare, rispondere, reagire, ripubblicare, seguire o modificare un profilo come qualsiasi agente di tua proprietà. Non può mai agire come un account che non possiedi.",
+    "keysTitle": "Chiavi personali",
+    "keysBody": "Per script, bot e app che non possono aprire una pagina di accesso. Una chiave fa solo ciò che consenti e si disattiva dopo 30 giorni di inutilizzo.",
+    "keysMake": "Crea una chiave personale",
+    "manageLinked": "Gestisci app collegate e chiavi"
   },
   "credits": {
     "percentUsed": "{{percent}}% utilizzato",
@@ -14626,7 +15498,10 @@
       "title": "Paga {{name}}?",
       "body": "Il token va direttamente al portafoglio dell'app, {{wallet}}. I pagamenti non possono essere annullati.",
       "confirm": "Paga {{amount}} token",
-      "sent": "Pagato {{amount}} token a {{name}}."
+      "sent": "Pagato {{amount}} token a {{name}}.",
+      "testBadge": "Modalità test",
+      "testBody": "Questa app è tua, quindi è un test: nessun token viene spostato e la ricevuta è contrassegnata come test.",
+      "testSent": "Pagamento di test di {{amount}} token. Non è stato inviato nulla."
     },
     "add": {
       "title": "Aggiungi {{name}}?",
@@ -14702,7 +15577,16 @@
     "level": "Livello {{level}}",
     "streak_one": "{{count}}-seriedi settimane",
     "streak_other": "{{count}}-seriedi settimane",
-    "tipJar": "Vaso regalo"
+    "tipJar": "Vaso regalo",
+    "eyebrow": {
+      "follow": "Nuovo follower",
+      "subscribe": "Nuovo abbonato",
+      "subscribedTo": "Abbonato · {{plan}}",
+      "gifted_one": "Ha regalato un abbonamento",
+      "gifted_other": "Ha regalato {{count}} abbonamenti",
+      "share": "Ha condiviso la diretta",
+      "join": "Appena arrivato"
+    }
   },
   "liveStudio": {
     "title": "Live Studio",
@@ -15069,8 +15953,20 @@
         "off": "Disattivato",
         "idle": "Pronto",
         "live": "In diretta",
-        "error": "Errore"
-      }
+        "error": "Errore",
+        "connecting": "Connessione in corso"
+      },
+      "title": "Destinazioni multistream",
+      "intro": "Vai in diretta su Riftn una volta sola e inviamo gratis la tua diretta a tutte le piattaforme attivate qui. Parte pochi secondi dopo che sei andato in diretta.",
+      "add": "Aggiungi destinazione",
+      "empty": "Ancora nessuna destinazione. Aggiungi Twitch, YouTube, Kick o qualsiasi server RTMP.",
+      "server": "URL del server",
+      "findKey": "Trova il server e la chiave di {{name}}",
+      "customHint": "Incolla il server RTMP e la chiave forniti dalla tua piattaforma.",
+      "keyNote": "La tua chiave è salvata crittografata sui nostri server e non verrà più mostrata.",
+      "added": "{{name}} aggiunto",
+      "saveFailed": "Impossibile salvare la destinazione",
+      "toggle": "Trasmetti a questa destinazione"
     }
   },
   "liveChatModeration": {
@@ -15221,7 +16117,52 @@
     "endPrice": "Prezzo più basso, raggiunto alla fine ({{symbol}})",
     "dropBadge": "Diminuzione del prezzo",
     "days_one": "{{count}} giorno",
-    "days_other": "{{count}} giorni"
+    "days_other": "{{count}} giorni",
+    "actCollectionOffer": "Offerta sulla collezione",
+    "actListed": "In vendita",
+    "actSale": "Vendita",
+    "buyAll": "Compra tutto",
+    "buySeveral": "Compra più NFT",
+    "cartBought": "Acquistati {{n}}. Ora sono nel tuo portafoglio.",
+    "cartCount": "{{n}} nel carrello",
+    "cartFull": "Fino a 20 alla volta",
+    "cartOneCoin": "Una sola chain e una sola moneta per carrello. Svuotalo per cambiare.",
+    "cartOwn": "Questo è già tuo",
+    "cartPick": "Tocca per aggiungere al carrello",
+    "forSaleHere": "In vendita qui",
+    "noActivity": "Ancora niente qui",
+    "shareMessage": "Compra e vendi NFT su Riftn",
+    "loadFailed": "Impossibile caricare il mercato. Trascina per riprovare.",
+    "signInTitle": "Accedi per vedere i tuoi NFT",
+    "walletOn": "NFT nel tuo portafoglio su {{chain}}",
+    "listedAt": "In vendita",
+    "noneHeld": "Ancora nessun NFT in questo portafoglio",
+    "subtitle": "Compra e vendi su BNB, Base, Ethereum e Robinhood",
+    "startHint": "Metti in vendita un NFT da I tuoi per essere il primo.",
+    "wrongChain": "Passa il portafoglio a {{chain}} per scambiarlo",
+    "failed": "Non è andato a buon fine. Riprova.",
+    "bought": "È tuo",
+    "cancelledOrder": "Annullato on-chain",
+    "notEnough": "{{symbol}} insufficienti nel tuo portafoglio",
+    "offerSent": "Offerta inviata",
+    "cancelListing": "Annulla inserzione",
+    "buyConfirm": "Comprare {{name}}?",
+    "volShort": "Vol",
+    "salesCount": "{{n}} venduti",
+    "bestOffer": "Offerta migliore",
+    "fromOpenSea": "Collezioni top su OpenSea",
+    "buyHere": "Comprali qui",
+    "openSeaNote": "In vendita su OpenSea. Paghi il venditore direttamente su Seaport; Riftn non aggiunge commissioni.",
+    "notListed": "Al momento non è in vendita.",
+    "priceLabel": "Prezzo pagato dall'acquirente",
+    "offerLabel": "La tua offerta",
+    "list": "Metti in vendita",
+    "listHint": "La firma è gratuita. La prima vendita da una collezione ti chiede di approvarla una volta.",
+    "offerHint": "La firma è gratuita. I tuoi token restano nel portafoglio finché il possessore non accetta.",
+    "viewOnly": "In questa app non è possibile comprare e vendere NFT.",
+    "tradeOnWeb": "Scambia su riftn.com",
+    "feesFootnote": "Commissioni: 2%, o 1% se paghi in token. Ogni scambio è un unico swap on-chain.",
+    "bundleBadge": "Pacchetto ×{{n}}"
   },
   "riftnMove": {
     "title": "DeHub ora è Riftn",
@@ -15347,15 +16288,51 @@
     "change": "Cambia"
   },
   "remix": {
-    "cut": "Taglia"
+    "cut": "Taglia",
+    "title": "Remix",
+    "greenScreen": "Green screen",
+    "collab": "Collab",
+    "sound": "Usa suono",
+    "unavailable": "Questo video non è disponibile per il remix.",
+    "openFailed": "Impossibile aprire il remix. Controlla la connessione e i permessi della fotocamera, poi riprova.",
+    "tooLarge": "Questa registrazione è troppo grande. Registra una ripresa più breve.",
+    "invalidRecording": "Impossibile leggere la registrazione. Registra un'altra ripresa.",
+    "saveFailed": "Impossibile salvare il remix. Riprova.",
+    "startHint": "Guarda l'anteprima della fotocamera sopra questo video, poi registra il tuo remix. Uscendo da questa schermata la fotocamera si spegne.",
+    "openCamera": "Apri fotocamera"
   },
   "signedFollows": {
     "setUp": "Attiva",
     "turnOff": "Disattiva",
-    "efpTurnOff": "Ferma"
+    "efpTurnOff": "Ferma",
+    "title": "I tuoi follow, on-chain",
+    "description": "Il tuo portafoglio firma chi segui e ogni giorno l'elenco viene registrato su Base. Qualsiasi app può trovare i tuoi follow dal tuo portafoglio, anche senza Riftn.",
+    "on": "Attivo su questo dispositivo",
+    "off": "Disattivato su questo dispositivo",
+    "turnedOn": "I tuoi follow ora sono firmati dal tuo portafoglio",
+    "turnedOff": "Disattivato su questo dispositivo",
+    "failed": "Il tuo portafoglio non ha firmato. Riprova.",
+    "hiddenNote": "Gli elenchi di follow nascosti e gli account privati sono esclusi dall'elenco pubblico.",
+    "efpOn": "Copiati su EFP · {{count}} follow",
+    "efpOff": "Mettili anche su EFP",
+    "efpTurnOn": "Aggiungi a EFP",
+    "efpDone": "I tuoi follow stanno passando su EFP",
+    "efpStopped": "Copia su EFP interrotta. L'elenco resta tuo.",
+    "efpHasList": "Hai già un elenco EFP. Riftn non può ancora riempirlo.",
+    "efpNoGas": "Per questo il tuo portafoglio ha bisogno di un po' di ETH su Base.",
+    "efpFailed": "Non è andato a buon fine. Riprova.",
+    "efpNote": "EFP è un elenco di follow letto da altre app (efp.app). Gratis con il tuo portafoglio Riftn; gli altri portafogli pagano pochi centesimi su Base. L'elenco è tuo.",
+    "efpUseWeb": "Con il tuo portafoglio, fallo in Impostazioni su riftn.com."
   },
   "postEditHistory": {
-    "original": "Originale"
+    "original": "Originale",
+    "title": "Cronologia modifiche",
+    "edited_one": "Modificato una volta",
+    "edited_other": "Modificato {{count}} volte",
+    "lastEdit": "Ultima modifica {{time}}",
+    "editN": "Modifica {{n}}",
+    "now": "Ora",
+    "showChanges": "Mostra cosa è cambiato"
   },
   "studioDeck": {
     "remove": "Rimuovi",
@@ -15364,29 +16341,64 @@
       "modes": {
         "none": "Disattivato",
         "blur": "Sfocatura",
-        "color": "Colore"
-      }
+        "color": "Colore",
+        "image": "Immagine"
+      },
+      "failed": "Impossibile avviare la rimozione dello sfondo su questo dispositivo.",
+      "hint": "Funziona sul tuo dispositivo. La prima volta servono alcuni secondi per caricarlo."
     },
     "scenes": {
       "countdown": "Conto alla rovescia",
       "names": {
-        "starting": "Inizia a breve"
+        "starting": "Inizia a breve",
+        "chatting": "Solo chiacchiere",
+        "brb": "Torno subito",
+        "ending": "Fine della diretta"
+      },
+      "title": "Scene",
+      "picture": "Immagine",
+      "noCountdown": "Nessun conto alla rovescia",
+      "minutes": "{{count}} min",
+      "hints": {
+        "starting": "Schermata con conto alla rovescia",
+        "chatting": "Videocamera a schermo intero",
+        "brb": "Schermata, microfono disattivato",
+        "ending": "Schermata di ringraziamento"
+      },
+      "subtitles": {
+        "starting": "La diretta inizia tra",
+        "brb": "Torno tra un attimo",
+        "ending": "Grazie per aver guardato"
       }
     },
     "widgets": {
-      "tab": "Widget"
+      "tab": "Widget",
+      "title": "Mostra i widget nel mio video",
+      "hint": "Avvisi, barre degli obiettivi e chat vengono disegnati nella tua diretta, così li vedono anche gli spettatori su Twitch, YouTube e tutte le altre piattaforme.",
+      "failed": "Impossibile cambiare dove appaiono i widget. Riprova."
     },
     "sources": {
       "image": "Immagine",
       "show": "Mostra in streaming",
       "positions": {
-        "center": "Centra"
+        "center": "Centra",
+        "top-left": "In alto a sinistra",
+        "top-right": "In alto a destra",
+        "bottom-left": "In basso a sinistra",
+        "bottom-right": "In basso a destra"
       },
       "sizes": {
         "small": "Piccolo",
         "medium": "Media",
         "large": "Grande"
-      }
+      },
+      "title": "Sorgenti",
+      "addImage": "Immagine o logo",
+      "failed": "Impossibile aggiungere questa sorgente.",
+      "hint": "Le sorgenti vengono disegnate sopra la tua immagine per ogni spettatore e su ogni piattaforma."
+    },
+    "phone": {
+      "title": "Studio"
     }
   },
   "whenSheet": {
@@ -15394,7 +16406,30 @@
     "earlierShort": "Precedenti",
     "tooSoon": "Scegli un orario futuro.",
     "show": "Mostra",
-    "hide": "Nascondi"
+    "hide": "Nascondi",
+    "title": "Quando?",
+    "tonight": "Stasera",
+    "inAnHour": "Tra un'ora",
+    "tomorrow": "Domani",
+    "primeTime": "Prima serata",
+    "scheduleFor": "Programma per {{when}}",
+    "liveTip": "I tuoi follower possono impostare un promemoria. Sei tu ad avviare la Live quando è il momento.",
+    "stageTip": "Appare subito nella sezione In arrivo, così le persone possono toccare Ricordamelo.",
+    "typePlaceholder": "Scrivi un orario, ad es. \"ven 20:00\" o \"tra 2 ore\"",
+    "typeLabel": "Scrivi un orario",
+    "typeHelp": "Prova \"stasera\", \"domani 9:00\", \"sab mezzogiorno\" o \"30 ott 19:00\".",
+    "orPickDay": "Oppure scegli un giorno",
+    "earlier": "15 minuti prima",
+    "later": "15 minuti dopo",
+    "laterShort": "Dopo",
+    "tooSoonMin": "Scegli un orario tra almeno {{count}} minuti.",
+    "zone": "Il tuo orario ({{zone}}). Gli altri lo vedono nel proprio fuso orario.",
+    "remove": "Rimuovi programmazione",
+    "startsIn": "Inizia tra {{time}}",
+    "bestTime": "Orario migliore",
+    "fansOnline": "Quando sono online i miei fan?",
+    "fansBasis": "Più è chiaro, più follower stavano guardando, ultimi {{count}} giorni.",
+    "everyoneBasis": "Non c'è ancora abbastanza attività dei follower, quindi questo riguarda tutti su Riftn."
   },
   "planned": {
     "title": "Pianificata",
@@ -15409,21 +16444,45 @@
     "loading": "Caricamento in corso...",
     "startNow": "Inizia ora",
     "cancel": "Annulla",
-    "cancelled": "Annullato"
+    "cancelled": "Annullato",
+    "subtitle": "Post, Live e Stage che hai programmato",
+    "seoTitle": "Programmati · Riftn",
+    "seoDescription": "I tuoi post, Live e Stage programmati su Riftn, tutti in un unico posto.",
+    "lives": "Live",
+    "signIn": "Accedi per vedere cosa hai programmato",
+    "emptyTitle": "Ancora niente in programma",
+    "emptyBody": "Scegli \"Quando?\" mentre crei un post, una Live o uno Stage e apparirà qui.",
+    "move": "Sposta",
+    "postNow": "Pubblica ora",
+    "confirmCancel": "Tocca di nuovo per annullare",
+    "moved": "Spostato a {{when}}",
+    "postingNow": "Pubblicazione entro un minuto",
+    "moveFailed": "Impossibile spostarlo. Riprova.",
+    "seeAll": "Vedi tutto ciò che hai programmato"
   },
   "welcome": {
     "about": {
       "title": "Benvenuto in Riftn",
       "day": "Giorno",
       "month": "Mese",
-      "year": "Anno"
+      "year": "Anno",
+      "sub": "Il tuo compleanno resta privato. Scegli un aspetto, puoi cambiarlo quando vuoi.",
+      "birthday": "Data di nascita",
+      "pick": "Scegli il tuo compleanno",
+      "invalid": "Inserisci la data di nascita completa.",
+      "tooYoung": "Devi avere almeno {{age}} anni per usare Riftn.",
+      "theme": "Il tuo aspetto"
     },
     "name": {
       "title": "Il tuo nome",
-      "placeholder": "Il tuo nome"
+      "placeholder": "Il tuo nome",
+      "sub": "Questo è il nome che le persone vedono sui tuoi post."
     },
     "card": {
-      "name": "Il tuo nome"
+      "name": "Il tuo nome",
+      "interests": "I tuoi interessi",
+      "following": "seguiti",
+      "followers": "follower"
     },
     "topic": {
       "music": "Musica",
@@ -15433,11 +16492,49 @@
       "comedy": "Commedia",
       "food": "Cibo",
       "news": "Notizie",
-      "science": "Scienze"
+      "science": "Scienze",
+      "gaming": "Gaming",
+      "travel": "Viaggi",
+      "film": "Cinema",
+      "anime": "Anime",
+      "cars": "Auto",
+      "podcast": "Podcast",
+      "animals": "Animali",
+      "tech": "Tecnologia"
     },
     "back": "Indietro",
     "skipPhoto": "Salta per ora",
-    "preview": "Anteprima"
+    "preview": "Anteprima",
+    "username": {
+      "title": "Il tuo @username",
+      "sub": "Lettere, numeri e trattini bassi. Puoi cambiarlo più tardi.",
+      "yours": "@{{name}} è tuo"
+    },
+    "photo": {
+      "title": "La tua foto",
+      "sub": "Facoltativo. Le persone seguono più volentieri un volto.",
+      "choose": "Scegli una foto",
+      "change": "Scegline un'altra"
+    },
+    "interests": {
+      "title": "I tuoi interessi",
+      "sub": "Scegline almeno 3. Appariranno per primi nelle tue categorie."
+    },
+    "people": {
+      "title": "Le tue persone",
+      "sub": "Tocca per seguire. I loro post riempiranno il tuo feed Seguiti.",
+      "empty": "Nessun suggerimento al momento. In Esplora trovi altre persone.",
+      "followers": "{{count}} follower"
+    },
+    "done": {
+      "title": "Stai benissimo, {{name}}",
+      "sub": "Da oggi tutti vedono questa scheda.",
+      "eyebrow": "Profilo attivo"
+    },
+    "enter": "Entra in Riftn",
+    "pickMore": "Scegline altri {{count}}",
+    "cardHint": "Ecco come ti vedranno le persone",
+    "followFailed": "Impossibile seguire. Riprova."
   },
   "appTokens": {
     "title": "I tuoi token",
@@ -15448,10 +16545,35 @@
     "amount": "Importo",
     "notePlaceholder": "Aggiungi una nota (facoltativo)",
     "sendButton": "Invia",
-    "errorInsufficient": "Token non sufficienti"
+    "errorInsufficient": "Token non sufficienti",
+    "rowHint": "Saldo in-app",
+    "explainer": "I tuoi token ora vivono dentro Riftn. Sei partito con quello che possedevi e avevi in staking onchain al lancio. Inviare, dare mance e spendere li sposta all'istante, senza commissioni e senza nulla onchain. I saldi passeranno al nuovo token al momento dell'airdrop.",
+    "kindOpening": "Saldo iniziale",
+    "kindSent": "Inviati a {{name}}",
+    "kindReceived": "Da {{name}}",
+    "kindSpent": "Spesi in Riftn",
+    "kindRefund": "Rimborso",
+    "kindAdjust": "Rettifica di Riftn",
+    "sendTitle": "Invia token",
+    "sendHint": "Invia token dentro Riftn a un altro account. Istantaneo e gratuito, nulla va onchain.",
+    "toPlaceholder": "@username o indirizzo 0x",
+    "looking": "Ricerca in corso…",
+    "available": "Disponibili: {{amount}}",
+    "sent": "Inviati {{amount}} token a {{name}}",
+    "errorRateLimit": "Troppi invii nell'ultima ora. Riprova più tardi.",
+    "errorNoRecipient": "Nessun account Riftn trovato",
+    "errorSelf": "Non puoi inviare a te stesso",
+    "errorGeneric": "Invio non riuscito. Riprova."
   },
   "avatarPrompt": {
-    "notNow": "Non ora"
+    "notNow": "Non ora",
+    "title": "Aggiungi una foto profilo",
+    "body": "Le persone ti riconoscono più in fretta nei feed, nei commenti e nelle chat se hai un volto o un logo.",
+    "choose": "Scegli una foto",
+    "another": "Scegline un'altra",
+    "save": "Usa questa foto",
+    "saved": "Stai benissimo",
+    "failed": "Impossibile salvare la foto. Riprova."
   },
   "postStats": {
     "audience": "Pubblico",
@@ -15469,35 +16591,159 @@
     "shares": "Condivisioni",
     "signedOutViewers": "Disconnesso",
     "topSupporters": "I migliori sostenitori",
-    "visitors": "Disconnesso"
+    "visitors": "Disconnesso",
+    "aboutUsual": "in linea con il solito",
+    "afterWatching": "ti hanno seguito dopo averlo visto",
+    "avg": "media",
+    "avgWatch": "Visione media",
+    "bestTime": "Quando guarda il tuo pubblico",
+    "bigDrop": "Calo forte",
+    "byBadge": "per badge",
+    "devices": "Dispositivo (membri)",
+    "finishedLower": "completato",
+    "finishedPct": "{{pct}}% l'ha guardato fino alla fine",
+    "inOut": "{{in}} membri · {{out}} non connessi",
+    "leave": "{{pct}}% abbandona",
+    "linkClicks": "Clic sul link",
+    "newToYou": "nuovi per te",
+    "noAccount": "nessun account",
+    "noViewersYet": "Nessuno ha ancora visto questo post.",
+    "noWatchYet": "Il tempo di visione appare qui quando le persone lo riproducono. Il conteggio è iniziato il 31 ott 2026.",
+    "open": "Guarda come sta andando il tuo post",
+    "otherBadges": "Altri badge",
+    "peak": "Picco {{time}} · {{n}}",
+    "peopleReached": "Persone raggiunte",
+    "playsLower": "riproduzioni",
+    "playsMembers": "Riproduzioni dei membri",
+    "playsVisitors": "Riproduzioni senza accesso",
+    "profileTaps": "Tocchi sul tuo profilo",
+    "reach": "Copertura",
+    "saves": "Salvataggi",
+    "seeAll": "Vedi tutte le statistiche",
+    "signedIn": "connessi",
+    "signedOutLower": "non connessi",
+    "stillWatching": "Ancora in visione",
+    "timesUsual": "{{ratio}}× il solito",
+    "vsUsualPct": "{{pct}} rispetto al tuo post medio",
+    "unavailableBody": "Solo il creator può vedere le statistiche di questo post.",
+    "unavailableTitle": "Statistiche non disponibili",
+    "vsUsual": "rispetto al tuo post medio",
+    "watching": "In visione",
+    "whoSawIt": "Chi l'ha visto",
+    "withRepeats": "{{n}} ripetizioni",
+    "yourFollowers": "i tuoi follower",
+    "first48": "Prime 48 ore",
+    "howItsDoing": "Come sta andando",
+    "bestTip": "La maggior parte dei tuoi spettatori arriva {{day}} verso le {{hour}}:00. Pubblicare poco prima dà al post la partenza migliore.",
+    "last30": "ultimi 30 giorni",
+    "day": {
+      "sun": "Dom",
+      "mon": "Lun",
+      "tue": "Mar",
+      "wed": "Mer",
+      "thu": "Gio",
+      "fri": "Ven",
+      "sat": "Sab"
+    }
   },
   "duet": {
     "policyEveryone": "Tutti",
     "policyFollowers": "Follower",
     "policyNobody": "Nessuno",
-    "loadMore": "Carica altro"
+    "loadMore": "Carica altro",
+    "with": "Duetto con @{{username}}",
+    "withOriginal": "Duetto · vedi l'originale",
+    "unavailable": "Questo video non è più disponibile per i duetti.",
+    "allowLabel": "Consenti duetti",
+    "allowDescription": "Chi può registrare un duetto accanto ai tuoi video. Puoi cambiarlo anche per ogni post.",
+    "settingsSection": "Duetti",
+    "policyDefault": "Impostazione dell'account",
+    "saveFailed": "Impossibile salvare. Riprova.",
+    "count_one": "{{count}} duetto",
+    "count_other": "{{count}} duetti",
+    "pageHeading": "Duetti",
+    "pageTitle": "Duetti di {{title}} di @{{creator}}",
+    "pageTitleNoCreator": "Duetti di {{title}}",
+    "pageDescription": "Guarda tutti i duetti di questo video su Riftn, o registra il tuo fianco a fianco.",
+    "empty": "Ancora nessun duetto. Apri le opzioni del video e scegli Remix → Duetto per fare il primo.",
+    "video": "Video",
+    "notFound": "Questo video non è disponibile.",
+    "notFoundTitle": "Video non trovato — Riftn",
+    "browseShorts": "Sfoglia gli Shorts"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Tutti",
       "followers": "Follower",
-      "nobody": "Nessuno"
+      "nobody": "Nessuno",
+      "default": "La mia impostazione predefinita"
+    },
+    "shareFailed": "La tua mancia è stata inviata, ma la quota del creator originale non è andata a buon fine.",
+    "notify": {
+      "duet": "{{name}} ha fatto un duetto con il tuo video",
+      "stitch": "{{name}} ha fatto uno stitch del tuo video",
+      "react": "{{name}} ha reagito al tuo video",
+      "reactLive": "{{name}} sta reagendo in diretta al tuo video"
+    },
+    "linkFailed": "Il tuo post è online, ma non è stato possibile collegarlo al video originale.",
+    "settingsHeading": "Remix",
+    "stitch": {
+      "allow": "Consenti stitch",
+      "allowDesc": "Chi può usare fino a 5 secondi dei tuoi video nei propri. Puoi cambiarlo anche per ogni post.",
+      "saveFailed": "Impossibile salvare l'impostazione degli stitch. Riprova.",
+      "settingFailed": "Il tuo post è online, ma l'impostazione degli stitch non è stata salvata. Cambiala da Modifica post.",
+      "from": "Stitch da {{name}}",
+      "count_one": "{{count}} stitch",
+      "count_other": "{{count}} stitch",
+      "listTitle": "Stitch",
+      "listFailed": "Impossibile caricare gli stitch. Riprova.",
+      "listEmpty": "Ancora nessuno stitch.",
+      "unavailable": "Questo video non è più disponibile per gli stitch."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Tutti",
       "followers": "Follower",
-      "nobody": "Nessuno"
+      "nobody": "Nessuno",
+      "default": "Predefinito dell'account ({{value}})"
     },
     "heading": "Reazioni",
     "more": "Mostra di più",
     "liveNow": "In diretta",
-    "untitled": "Reazione"
+    "untitled": "Reazione",
+    "reactionTo": "Reazione a",
+    "reactingTo": "Reazione a",
+    "count_one": "{{count}} reazione",
+    "count_other": "{{count}} reazioni",
+    "allow": "Consenti reazioni",
+    "remixesSection": "Remix",
+    "allowDescription": "Permetti ad altri creator di reagire ai tuoi video, registrati o in diretta. Puoi comunque cambiarlo su ogni post.",
+    "pageTitle": "Reazioni a {{title}} — Riftn",
+    "pageDescription": "Guarda i creator reagire a “{{title}}” di {{creator}} su Riftn, registrati e in diretta.",
+    "backToVideo": "Torna al video",
+    "empty": "Ancora nessuna reazione. Apri il menu Remix del video e scegli Reagisci per essere il primo.",
+    "wasLive": "Era in diretta",
+    "thisVideo": "questo video"
   },
   "liveClips": {
     "copyLink": "Copia link",
-    "linkCopied": "Link copiato"
+    "linkCopied": "Link copiato",
+    "button": "Clip di questo momento",
+    "capturing": "Acquisizione dell'ultimo minuto della diretta…",
+    "failed": "Impossibile creare questa clip.",
+    "highlightTitle": "Highlight",
+    "length": "Clip da {{seconds}}s",
+    "make": "Crea clip",
+    "postToShorts": "Pubblica negli Shorts",
+    "posted": "Clip pubblicata negli Shorts",
+    "postedBody": "La tua clip è negli Shorts. Condividila così più persone trovano la diretta.",
+    "rendering": "Stiamo tagliando la tua clip. Ci vuole circa mezzo minuto…",
+    "starting": "Avvio della clip…",
+    "title": "Clip",
+    "titleLabel": "Titolo della clip",
+    "titlePlaceholder": "Dai un titolo alla tua clip",
+    "viewShort": "Vedi Short"
   },
   "liveHype": {
     "gift": {
@@ -15509,16 +16755,65 @@
       "stage": {
         "preparing": "Preparazione…",
         "confirming": "In attesa della transazione…",
-        "recording": "Completamento…"
-      }
+        "recording": "Completamento…",
+        "wallet": "Conferma nel tuo portafoglio"
+      },
+      "open": "Regala abbonamenti",
+      "title": "Regala abbonamenti",
+      "mode": {
+        "random": "Spettatori casuali in chat",
+        "user": "Una persona specifica"
+      },
+      "randomHint": "Va a chi ha scritto in chat negli ultimi 30 minuti e non è ancora abbonato.",
+      "send_one": "Regala 1 abbonamento · ${{price}}",
+      "send_other": "Regala {{count}} abbonamenti · ${{price}}",
+      "payHint": "Pagato in token dal tuo portafoglio con un solo trasferimento.",
+      "fewer_one": "Al momento solo 1 persona in chat può ricevere un abbonamento, quindi ne paghi 1.",
+      "fewer_other": "Al momento solo {{count}} persone in chat possono ricevere un abbonamento, quindi ne paghi {{count}}.",
+      "done_one": "Abbonamento regalato!",
+      "done_other": "{{count}} abbonamenti regalati!",
+      "failed": "Impossibile regalare gli abbonamenti",
+      "notReady": "I regali non sono ancora disponibili per questo piano",
+      "noPlan": "Scegli prima un piano",
+      "noPlans": "{{name}} non ha ancora piani di abbonamento da regalare."
+    },
+    "train": {
+      "level": "Hype Train · Livello {{level}}",
+      "endedLevel": "L'Hype Train ha completato il livello {{level}}!",
+      "ended": "Hype Train terminato",
+      "thanks_one": "Grazie a {{count}} sostenitore",
+      "thanks_other": "Grazie a {{count}} sostenitori",
+      "top": "Top: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Altro",
-    "confirming": "Conferma del pagamento in corso..."
+    "confirming": "Conferma del pagamento in corso...",
+    "lockPhoto": "Blocca foto",
+    "lockVideo": "Blocca video",
+    "lockOnPrice": "Bloccato · {{price}} token",
+    "lockCustomLabel": "Prezzo personalizzato in token",
+    "lockHint": "Lo vedono sfocato finché non ti pagano. I file bloccati non sono crittografati end-to-end.",
+    "dhbNow": "{{dhb}} al prezzo di oggi",
+    "lockCustomUsd": "$ Altro",
+    "lockCustomUsdLabel": "Prezzo personalizzato in dollari",
+    "lockDhbNow": "≈ {{dhb}} oggi. Pagano sempre {{price}}, qualunque sia il valore dei token.",
+    "lockOnUsd": "Bloccato · {{price}}",
+    "lockedPhoto": "Foto bloccata",
+    "lockedVideo": "Video bloccato",
+    "unlockFor": "Sblocca per {{price}}",
+    "unlockOnWeb": "Sblocca su riftn.com · {{price}}",
+    "stillConfirming": "Pagamento inviato. Si apre appena viene confermato.",
+    "payFailed": "Impossibile sbloccare",
+    "unlocked": "Sbloccato",
+    "unlockedTag": "Sbloccato",
+    "notYet": "Non ancora sbloccato",
+    "uploading": "Blocco in corso…",
+    "unlockedByThem": "Il tuo {{kind}} bloccato è stato sbloccato: +{{amount}} token"
   },
   "liveShorts": {
-    "live": "IN DIRETTA"
+    "live": "IN DIRETTA",
+    "join": "Entra in diretta"
   },
   "feedFilters": {
     "clearAllShort": "Cancella tutto",
@@ -15527,7 +16822,20 @@
     "groupDate": "Data",
     "groupSort": "Ordina",
     "groupType": "Tipo",
-    "save": "Salva"
+    "save": "Salva",
+    "clearAll": "Cancella tutti i filtri",
+    "collapse": "Nascondi filtri",
+    "count": "{{count}} filtri attivi",
+    "deletePreset": "Elimina {{name}}",
+    "groupAccess": "Accesso",
+    "groupTag": "Tag",
+    "myPresets": "I miei preset",
+    "presetName": "Nome del preset",
+    "remove": "Rimuovi {{label}}",
+    "saveCurrent": "+ Salva attuale",
+    "savePreset": "Salva come preset",
+    "show": "Mostra filtri",
+    "updatePreset": "Rinomina preset"
   },
   "ownKeys": {
     "working": "In elaborazione",
@@ -15535,7 +16843,21 @@
     "check": "Verifica",
     "remove": "Rimuovi",
     "save": "Salva",
-    "cancel": "Annulla"
+    "cancel": "Annulla",
+    "title": "Le tue chiavi IA",
+    "description": "Aggiungi una chiave di un provider di IA e gli strumenti Creator verranno eseguiti sul tuo account. Riftn non addebita nulla per quei job. Le chiavi sono crittografate e non vengono più mostrate.",
+    "invalid": "Rifiutata, sostituiscila",
+    "noCredit": "Credito esaurito",
+    "disabled": "Disattivata da Riftn",
+    "saved": "Chiave {{name}} salvata. Gli strumenti su {{name}} ora usano il tuo account.",
+    "savedNoCredit": "Chiave {{name}} salvata, ma l'account ha esaurito il credito.",
+    "removed": "Chiave {{name}} rimossa.",
+    "replaceKey": "Sostituisci chiave",
+    "add": "Aggiungi chiave",
+    "paste": "Incolla la tua chiave {{name}}",
+    "getKey": "Ottieni una chiave {{name}}",
+    "showLess": "Mostra solo le mie chiavi",
+    "addAnother": "Aggiungi un altro provider"
   },
   "postBg": {
     "addMedia": "Aggiungi un'immagine, una GIF o un video",
@@ -15547,40 +16869,149 @@
     "names": {
       "lava": "Lampada di lava",
       "chrome": "Cromo Liquido",
-      "snow": "Nevicata"
+      "snow": "Nevicata",
+      "ink": "Acquerello d'inchiostro",
+      "news": "Carta di giornale",
+      "split": "Crepuscolo diviso",
+      "blue": "Cianografia",
+      "terra": "Terrazzo",
+      "half": "Retino pop",
+      "topo": "Curve di livello",
+      "velvet": "Velluto",
+      "sorbet": "Sorbetto",
+      "carbon": "Carbonio",
+      "echo": "Eco del profilo",
+      "cards": "Carte colorate",
+      "deck": "Mazzo di motivi",
+      "aurora": "Aurora",
+      "stars": "Campo stellare",
+      "rain": "Pioggia sul vetro",
+      "drive": "Guida notturna",
+      "breathe": "Respiro",
+      "spin": "Prisma rotante",
+      "tide": "Marea",
+      "ember": "Braci",
+      "holo": "Olografico",
+      "rift": "Rift",
+      "mesh": "Mesh",
+      "grain": "Grana della pellicola",
+      "orbit": "Orbita",
+      "ripple": "Increspatura",
+      "dotwave": "Onda di punti",
+      "scan": "CRT",
+      "silk": "Seta",
+      "bokeh": "Bokeh",
+      "photo": "La tua immagine"
     },
-    "sameAsProfile": "Profilo"
+    "sameAsProfile": "Profilo",
+    "scope": "Applica a",
+    "thisPost": "Questo post",
+    "allPosts": "Tutti i post",
+    "sameAsProfileSub": "Come il tuo profilo",
+    "title": "Sfondo del post",
+    "editRow": "Sfondo del post",
+    "hint": "Scorri la striscia. Il post cambia mentre scorri. Solo tu puoi modificarlo.",
+    "moving": "Animato",
+    "still": "Statico",
+    "plain": "Post semplici",
+    "position": "{{n}} di {{total}}",
+    "sample": "Ecco come appaiono i tuoi post di testo sul tuo profilo.",
+    "saveFailed": "Impossibile salvare lo sfondo. Riprova.",
+    "base": "Base",
+    "accent2": "Accento 2",
+    "ownColours": "I tuoi colori"
   },
   "articleTile": {
-    "cover": "Copertina"
+    "cover": "Copertina",
+    "title": "Riquadri degli articoli",
+    "dropcap": "Capolettera",
+    "hint": "Come appaiono i tuoi articoli nella griglia del profilo. Solo tu puoi modificarlo.",
+    "saveFailed": "Impossibile salvare. Riprova."
   },
   "aiConsent": {
-    "allow": "Consenti"
+    "allow": "Consenti",
+    "title": "Usare le funzioni IA?",
+    "body": "Per funzionare, le funzioni IA inviano ciò che fornisci (testo, foto o audio, e il post o la chat di riferimento) a provider di IA terzi come Google, OpenAI, Groq, OpenRouter, fal ed ElevenLabs. Puoi cambiarlo in qualsiasi momento in Impostazioni → Privacy.",
+    "declined": "Le funzioni IA sono disattivate. Puoi attivarle in Impostazioni → Privacy.",
+    "settingLabel": "Funzioni IA",
+    "settingDesc": "Consenti ad assistente, traduzione, risposte suggerite e aiuto alla scrittura di inviare ciò che fornisci a provider di IA terzi."
   },
   "dmRequests": {
     "title": "Richieste",
     "accept": "Accetta",
     "delete": "Elimina",
-    "block": "Blocca"
+    "block": "Blocca",
+    "hint": "Messaggi da persone che non segui. Accettane uno, rispondi o segui la persona e la chat passa nella tua casella.",
+    "rowHint": "{{n}} da persone che non segui",
+    "banner": "Non segui {{name}}. Accetta per spostare questa chat nella tua casella, o rispondi e basta.",
+    "accepted": "Spostata nella tua casella",
+    "acceptFailed": "Impossibile accettare, riprova"
   },
   "dmSchedule": {
     "view": "Visualizza",
     "edit": "Modifica",
     "editLabel": "Modifica messaggio",
-    "error": "Non ha funzionato. Riprova."
+    "error": "Non ha funzionato. Riprova.",
+    "button": "Programma messaggio",
+    "title": "Messaggi programmati",
+    "whenTitle": "Quando inviarlo?",
+    "waiting": "{{n}} programmati",
+    "next": "prossimo {{when}}",
+    "failedCount": "{{n}} non inviati",
+    "notSent": "Non inviato",
+    "emptyTitle": "Niente in programma",
+    "emptyBody": "Scrivi un messaggio, poi tocca l'orologio per scegliere quando inviarlo.",
+    "changeTime": "Cambia orario",
+    "sendNow": "Invia ora",
+    "deleted": "Messaggio programmato eliminato",
+    "unreadable": "Scritto su un altro dispositivo. Verrà comunque inviato.",
+    "footnote": "Gli orari sono nel tuo fuso orario. Nessuno vede un messaggio finché non viene inviato.",
+    "footnoteNamed": "Gli orari sono nel tuo fuso orario. {{name}} vede un messaggio solo dopo l'invio.",
+    "textOnly": "Per ora si possono programmare solo messaggi di testo.",
+    "scheduledToast": "Programmato per {{when}}",
+    "failedToast": "Impossibile inviare un messaggio programmato"
   },
   "chatBulk": {
     "selected": "{{count}} selezionato",
     "cancel": "Annulla",
     "reply": "Rispondi",
-    "delete": "Elimina"
+    "delete": "Elimina",
+    "select": "Seleziona",
+    "toolbar": "Chat selezionate",
+    "pick": "Tocca le chat per selezionarle",
+    "read": "Segna come letto",
+    "unread": "Segna come non letto",
+    "replyTitle_one": "Rispondi a {{count}} chat",
+    "replyTitle_other": "Rispondi a {{count}} chat",
+    "replyHint": "Ogni persona lo riceve come un normale messaggio nella propria chat.",
+    "replyPlaceholder": "Scrivi un messaggio…",
+    "sendAll": "Invia a {{count}}",
+    "deleted_one": "{{count}} chat eliminata",
+    "deleted_other": "{{count}} chat eliminate",
+    "sent_one": "Inviato a {{count}} chat",
+    "sent_other": "Inviato a {{count}} chat",
+    "partSent": "Inviato a {{ok}} chat su {{total}}",
+    "notSent": "Invio non riuscito. Riprova."
   },
   "msgSelect": {
     "selected": "{{count}} selezionato",
     "copy": "Copia",
     "forward": "Inoltra",
     "deleted_one": "Messaggio cancellato {{count}}",
-    "deleted_other": "Messaggi cancellati {{count}}"
+    "deleted_other": "Messaggi cancellati {{count}}",
+    "toolbar": "Messaggi selezionati",
+    "pick": "Tocca i messaggi per selezionarli",
+    "deleteSome": "Elimina {{count}}",
+    "forwarded_one": "{{count}} messaggio inoltrato",
+    "forwarded_other": "{{count}} messaggi inoltrati",
+    "partForwarded": "Inoltrati {{ok}} su {{total}}",
+    "nothingToCopy": "Niente da copiare nei messaggi scelti",
+    "copied_one": "{{count}} messaggio copiato",
+    "copied_other": "{{count}} messaggi copiati",
+    "deleteTitle_one": "Eliminare {{count}} messaggio?",
+    "deleteTitle_other": "Eliminare {{count}} messaggi?",
+    "deleteBody": "Verranno rimossi per tutti in questa chat.",
+    "deleteForBothBody": "Verranno rimossi per entrambi."
   },
   "mentionLinks": {
     "communities": "Community",
@@ -15638,13 +17069,64 @@
     "tooMany": "Puoi avere fino a 10 schede"
   },
   "messagesTabs": {
-    "all": "Tutti"
+    "all": "Tutti",
+    "unread": "Non letti",
+    "groups": "Gruppi"
   },
   "resetWallet": {
     "mismatch": "Le password non corrispondono",
     "logOut": "Esci",
     "confirm": "Conferma la password",
     "ack": "Capisco che i miei vecchi fondi rimangono nel vecchio portafoglio.",
-    "cancel": "Annulla"
+    "cancel": "Annulla",
+    "tooShort": "La password deve contenere almeno {{count}} caratteri",
+    "breached": "Questa password è comparsa in una violazione di dati. Scegline un'altra",
+    "weak": "Scegli una password più sicura (combina lettere, numeri e simboli)",
+    "doneTitle": "Il tuo account è sul nuovo portafoglio",
+    "twoFactor": "Inserisci il codice dell'app di autenticazione per spostare il tuo account.",
+    "failed": "Impossibile reimpostare il portafoglio. Non è stato spostato nulla. Riprova.",
+    "title": "Reimposta portafoglio",
+    "reloginApp": "Il ripristino si conferma con l'email, il telefono o l'accesso Google del tuo account, non con il vecchio portafoglio, perché chiunque abbia la vecchia chiave potrebbe firmare. Esci, accedi di nuovo con quel metodo, poi torna qui. Non hai ancora un'email di accesso? Aggiungila prima su riftn.com in Impostazioni → Accesso.",
+    "intro": "Crea un nuovo portafoglio Riftn e vi sposta username, post, follower e messaggi. Usalo se hai perso il portafoglio o se qualcun altro ne ha la chiave. Il vecchio portafoglio non funzionerà più per l'accesso.",
+    "funds": "Token, NFT e altri saldi non vengono spostati. Restano al vecchio indirizzo. Se puoi ancora aprire il vecchio portafoglio, trasferiscili prima.",
+    "password": "Password del nuovo portafoglio (min. {{count}} caratteri)",
+    "twoFactorPlaceholder": "Codice di autenticazione",
+    "submit": "Reimposta portafoglio",
+    "rowDesc": "Hai perso il portafoglio o qualcun altro ne ha la chiave? Sposta il tuo account su un nuovo portafoglio. Username, post e follower vengono con te."
+  },
+  "chatReactions": {
+    "many_one": "{{count}} reazione ai tuoi messaggi",
+    "many_other": "{{count}} reazioni ai tuoi messaggi",
+    "manySame_one": "{{emoji}} × {{count}} sui tuoi messaggi",
+    "manySame_other": "{{emoji}} × {{count}} sui tuoi messaggi",
+    "one": "Ha reagito con {{emoji}} al tuo messaggio",
+    "oneNamed": "{{name}} ha reagito con {{emoji}} al tuo messaggio"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Il post resta online.",
+      "onBody": "Il post si elimina da solo {{value1}} dopo la pubblicazione."
+    }
+  },
+  "dmSafety": {
+    "notReal": "Questo non è il vero {{name}}.",
+    "neverLink": "Il team di Riftn non ti invierà mai in DM un link per sistemare il tuo profilo o portafoglio. Non aprire link, non collegare il portafoglio e non firmare nulla. Blocca e segnala questo account."
+  },
+  "msgDelete": {
+    "title": "Eliminare il messaggio?",
+    "titleMany": "Eliminare {{count}} messaggi?",
+    "bodyOwn": "Rimuovilo solo dalla tua chat o per tutti.",
+    "bodyOwnMany": "Rimuovili solo dalla tua chat o per tutti.",
+    "bodyOthers": "Verrà rimosso solo dalla tua chat. L'altra persona lo vedrà ancora.",
+    "bodyOthersMany": "Verranno rimossi solo dalla tua chat. Gli altri nella chat li vedranno ancora.",
+    "bodyOwnBoth": "Rimuovilo solo dalla tua chat o per entrambi.",
+    "bodyOwnBothMany": "Rimuovili solo dalla tua chat o per entrambi.",
+    "forMe": "Elimina per me",
+    "forEveryone": "Elimina per tutti",
+    "forBoth": "Elimina per entrambi",
+    "forMeAndName": "Elimina per me e {{name}}",
+    "remember": "Ricorda la mia scelta",
+    "rememberHint": "Puoi cambiarla quando vuoi in Impostazioni",
+    "failed": "Impossibile eliminare il messaggio"
   }
 }
