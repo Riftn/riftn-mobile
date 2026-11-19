@@ -1963,18 +1963,18 @@ async function runSpeed(): Promise<void> {
  * real reaction takes), on the newest lines. Filmed by the harness; the
  * style comes from dehub.perfTour.reactStyle (fly when unset).
  */
-const reactionHandlers: Array<(p: { messageId: string; reactions: Record<string, string[]> }) => void> = [];
-try {
-  const SocketCls = (require("socket.io-client") as { Socket: { prototype: { on: (ev: string, fn: unknown) => unknown } } }).Socket;
-  const origOn = SocketCls.prototype.on;
-  SocketCls.prototype.on = function (this: unknown, ev: string, fn: unknown) {
-    if (ev === "livechat:reactionUpdated" && typeof fn === "function") reactionHandlers.push(fn as never);
-    return origOn.call(this, ev, fn);
-  };
-} catch (error) {
-  console.error(`[perf-tour] socket patch failed ${String(error)}`);
-}
+type ChatLine = import("../../services/livechat.service").LiveChatMessageData;
+type ChatTap = (update: (prev: ChatLine[]) => ChatLine[]) => void;
+/** Each mounted live chat (hooks/useLiveChat) adds its line updater here. */
+const chatTaps = new Set<ChatTap>();
+(globalThis as { __liveChatTaps?: Set<ChatTap> }).__liveChatTaps = chatTaps;
 
+/**
+ * Reactions landing in a live's chat, signed out: opens a live, adds three
+ * chat lines, then plays reactions on them through the chat's own state, the
+ * way socket updates arrive. Filmed by the harness. The style comes from
+ * dehub.perfTour.reactStyle (fly when unset).
+ */
 async function runReactions(): Promise<void> {
   extra = { startedAt: Date.now(), mode: "reactions" };
   const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
@@ -1987,47 +1987,67 @@ async function runReactions(): Promise<void> {
     await sleep(1500);
   }
   await sleep(8000);
-  nav.navigate(ScreenNames.LiveChat);
-  await sleep(9000);
-  const { getLiveChatMessages } = require("../../services/livechat.service") as typeof import("../../services/livechat.service");
-  const page = await getLiveChatMessages({ limit: 20 });
-  const rows = [...(page?.messages ?? [])].sort((a: any, b: any) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-  const lines = rows.slice(-3);
-  extra.handlers = reactionHandlers.length;
-  extra.lines = lines.length;
-  await shot("reactions-0-open");
+  let streamId = "";
+  try {
+    const { getLiveVideos } = require("../../services/live.service") as { getLiveVideos(p: object): Promise<any> };
+    const res = await getLiveVideos({ unit: 50, sortMode: "recent" });
+    const rows: any[] = Array.isArray(res) ? res : Array.isArray(res?.result) ? res.result : [];
+    const onAir = rows.find((r) => r?.status === "live" || r?.isLive) ?? rows[0];
+    streamId = String(onAir?._id ?? onAir?.id ?? "");
+  } catch (error) {
+    console.error(`[perf-tour] live list failed ${String(error)}`);
+  }
+  extra.streamId = streamId;
+  nav.navigate(ScreenNames.LiveViewer, { streamId });
+  await sleep(10000);
+  extra.taps = chatTaps.size;
   const fake = (n: number) => `0x${String(n).repeat(40).slice(0, 40)}`;
-  const state = new Map<string, Record<string, string[]>>(lines.map((m: any) => [m._id, { ...(m.reactions ?? {}) }]));
+  const people = [
+    { address: fake(7), username: "xluna", displayName: "Luna" },
+    { address: fake(8), username: "ellaverse", displayName: "Ella Verse" },
+    { address: fake(9), username: "deepwater", displayName: "Deep Water" },
+  ];
+  const texts = ["gm chat, who is watching tonight?", "this set is unreal", "turn it up"];
+  const ids = texts.map((_, i) => `tour-line-${Date.now()}-${i}`);
+  const at = Date.now();
+  const lines: ChatLine[] = texts.map((content, i) => ({
+    _id: ids[i], roomId: "tour", sender: people[i], senderAddress: people[i].address, content,
+    messageType: "text", reactions: i === 0 ? { "🔥": [fake(1), fake(2)] } : {},
+    createdAt: new Date(at - (3 - i) * 1000).toISOString(),
+  }) as unknown as ChatLine);
+  for (const tap of chatTaps) tap((prev) => [...prev.filter((m) => !m._id.startsWith("tour-line-")), ...lines]);
+  await sleep(2500);
+  await shot("reactions-0-lines");
   const add = (line: number, emoji: string, who: string) => {
-    const m: any = lines[line];
-    if (!m) return;
-    const cur = state.get(m._id) ?? {};
-    const next = { ...cur, [emoji]: [...(cur[emoji] ?? []), who] };
-    state.set(m._id, next);
-    for (const h of reactionHandlers) h({ messageId: m._id, reactions: next });
+    const id = ids[line];
+    for (const tap of chatTaps) tap((prev) => prev.map((m) => {
+      if (m._id !== id) return m;
+      const cur = (m.reactions ?? {}) as Record<string, string[]>;
+      return { ...m, reactions: { ...cur, [emoji]: [...(cur[emoji] ?? []), who] } } as ChatLine;
+    }));
   };
   const beats: Array<[number, number, string, string]> = [
-    [800, 2, "🔥", fake(1)],
-    [1800, 1, "❤️", fake(2)],
-    [3000, 2, "😂", fake(3)],
-    [3350, 2, "😂", fake(4)],
-    [3700, 2, "😂", fake(5)],
-    [5000, 0, "🚀", fake(6)],
-    [6200, 1, "🔥", fake(7)],
+    [800, 0, "🔥", fake(3)],
+    [2000, 1, "❤️", fake(4)],
+    [3300, 2, "😂", fake(5)],
+    [3650, 2, "😂", fake(6)],
+    [4000, 2, "😂", fake(1)],
+    [5300, 1, "🚀", fake(2)],
+    [6600, 0, "💯", fake(4)],
   ];
   const t0 = Date.now();
-  for (const [at, line, emoji, who] of beats) {
-    const wait = t0 + at - Date.now();
+  for (const [ms, line, emoji, who] of beats) {
+    const wait = t0 + ms - Date.now();
     if (wait > 0) await sleep(wait);
     add(line, emoji, who);
-    await sleep(380);
-    await shot(`reactions-${at}-landing`);
+    await sleep(350);
+    await shot(`reactions-${ms}-landing`);
   }
   await sleep(2500);
   await shot("reactions-9-after");
   extra.finishedAt = Date.now();
   await save(true);
-  console.error(`[perf-tour] reactions done: style ${style}, handlers ${reactionHandlers.length}, lines ${lines.length}`);
+  console.error(`[perf-tour] reactions done: style ${style}, stream ${streamId || "none"}, taps ${chatTaps.size}`);
 }
 
 void (async () => {
