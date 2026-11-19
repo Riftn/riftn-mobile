@@ -29,6 +29,28 @@ export function getProfileViewDefault(account: unknown): ProfileViewMode {
   return parseProfileViewDefault(customs?.[PROFILE_VIEW_DEFAULT_KEY]);
 }
 
+/**
+ * How the reader wants every profile they open to start: each owner's own
+ * choice (default), or always grid, or always list. Saved in the reader's own
+ * `customs.profileViewOthers` (same key as web).
+ */
+export type ProfileViewReaderPref = "owner" | ProfileViewMode;
+export const PROFILE_VIEW_READER_KEY = "profileViewOthers";
+
+export function parseProfileViewReaderPref(raw: unknown): ProfileViewReaderPref {
+  return raw === "grid" || raw === "list" ? raw : "owner";
+}
+
+export function getProfileViewReaderPref(account: unknown): ProfileViewReaderPref {
+  const customs = (account as { customs?: Record<string, unknown> } | null | undefined)?.customs;
+  return parseProfileViewReaderPref(customs?.[PROFILE_VIEW_READER_KEY]);
+}
+
+/** The view a profile opens in for this reader. Your own profile always uses your own default. */
+export function startingProfileView(ownerDefault: ProfileViewMode, readerPref: ProfileViewReaderPref, isOwnProfile: boolean): ProfileViewMode {
+  return isOwnProfile || readerPref === "owner" ? ownerDefault : readerPref;
+}
+
 const listeners = new Set<() => void>();
 let flips: Record<string, ProfileViewMode> = {};
 
