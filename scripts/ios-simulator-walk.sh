@@ -46,7 +46,7 @@ launch() {
 # When the prompt's blue Open button is on screen, tap it (needs idb).
 confirm_open() {
   command -v idb >/dev/null 2>&1 || return 0
-  if [ "${DEVICE:-iphone}" = "ipad" ]; then
+  if [ "${DEVICE:-iphone}" != "iphone" ]; then
     confirm_open_anywhere
     return 0
   fi
@@ -247,7 +247,7 @@ for t in ${THEMES:-dark light syslight}; do
   esac
 done
 
-if [ "${DEVICE:-iphone}" = "ipad" ]; then
+if [ "${DEVICE:-iphone}" != "iphone" ]; then
   if turn_sideways; then
     walk dark system side-dark sideways
   else
