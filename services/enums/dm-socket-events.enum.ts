@@ -26,6 +26,8 @@ export enum DMSocketEvent {
   AddReaction = "addReaction",
   RemoveReaction = "removeReaction",
   ReactionUpdated = "reactionUpdated",
+  /** A 1:1 chat deleted for both people by the other person. */
+  ConversationDeleted = "conversationDeleted",
 
   // Media upload progress/completion keyed by message/job id
   JobMessageId = "jobMessageId",

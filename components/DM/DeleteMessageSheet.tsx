@@ -34,6 +34,11 @@ export interface DeleteRequest {
   oneToOne?: boolean;
   peerName?: string | null;
   onDelete: (scope: DeleteScope) => void;
+  /**
+   * "chat": deleting a whole chat (Messages list or chat menu). Always asks
+   * (resolveDelete never skips it) and has no "Remember my choice" row.
+   */
+  subject?: "message" | "chat";
 }
 
 /**
@@ -43,7 +48,7 @@ export interface DeleteRequest {
  */
 export function resolveDelete(req: DeleteRequest): DeleteRequest | null {
   const saved = getAppPrefs().chatDeleteChoice;
-  if (saved === "ask") return req;
+  if (saved === "ask" || req.subject === "chat") return req;
   req.onDelete(saved === "everyone" && req.canDeleteForEveryone ? "everyone" : "me");
   return null;
 }
@@ -83,10 +88,17 @@ export default function DeleteMessageSheet({ request, onClose }: { request: Dele
   if ((!visible && isFullyClosed) || !req) return null;
 
   const many = req.count > 1;
-  const title = many
+  const wholeChat = req.subject === "chat";
+  const title = wholeChat
+    ? t("msgDelete.chatTitle", { defaultValue: "Delete this chat?" })
+    : many
     ? t("msgDelete.titleMany", { defaultValue: "Delete {{count}} messages?", count: req.count })
     : t("msgDelete.title", { defaultValue: "Delete message?" });
-  const body = req.canDeleteForEveryone
+  const body = wholeChat
+    ? (req.canDeleteForEveryone
+      ? t("msgDelete.chatBodyBoth", { defaultValue: "Delete it from your chats only, or every message for both of you. This can't be undone." })
+      : t("msgDelete.chatBodyMe", { defaultValue: "It will be removed from your chats only. Others will still see it." }))
+    : req.canDeleteForEveryone
     ? (req.oneToOne
       ? (many
         ? t("msgDelete.bodyOwnBothMany", { defaultValue: "Remove them from your chat only, or for both of you." })
@@ -104,7 +116,7 @@ export default function DeleteMessageSheet({ request, onClose }: { request: Dele
     : t("msgDelete.forEveryone", { defaultValue: "Delete for everyone" });
 
   const pick = (scope: DeleteScope) => {
-    if (remember) setAppPref("chatDeleteChoice", scope);
+    if (remember && !wholeChat) setAppPref("chatDeleteChoice", scope);
     onClose();
     req.onDelete(scope);
   };
@@ -122,7 +134,7 @@ export default function DeleteMessageSheet({ request, onClose }: { request: Dele
         <SheetBackdrop backdrop={backdrop} />
         <Pressable style={{ flex: 1 }} onPress={onClose} />
       </Animated.View>
-      <Animated.View style={[styles.sheet, { paddingBottom: insets.bottom + 10 }, sheetStyle]} testID="delete-message-sheet">
+      <Animated.View style={[styles.sheet, { paddingBottom: insets.bottom + 10 }, sheetStyle]} testID={wholeChat ? "delete-chat-sheet" : "delete-message-sheet"}>
         <SheetGlassFill backdropBlurred={backdrop.blurred} style={[StyleSheet.absoluteFill, styles.overlay]} />
         <View style={styles.handleWrap}><View style={styles.handle} /></View>
         <View style={styles.head}>
@@ -138,7 +150,7 @@ export default function DeleteMessageSheet({ request, onClose }: { request: Dele
           ) : null}
           <Row icon={req.canDeleteForEveryone ? "EyeOff" : "Trash2"} label={t("msgDelete.forMe", { defaultValue: "Delete for me" })} onPress={() => pick("me")} testID="delete-me" />
         </View>
-        <TouchableOpacity
+        {wholeChat ? <View style={{ height: 10 }} /> : <TouchableOpacity
           onPress={() => setRemember((v) => !v)}
           activeOpacity={0.6}
           style={styles.remember}
@@ -155,7 +167,7 @@ export default function DeleteMessageSheet({ request, onClose }: { request: Dele
               <Text style={styles.hint}>{t("msgDelete.rememberHint", { defaultValue: "Change it any time in Settings" })}</Text>
             ) : null}
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity>}
         <TouchableOpacity onPress={onClose} activeOpacity={0.6} style={styles.cancel} testID="delete-cancel">
           <Text style={styles.cancelText}>{t("common.cancel", { defaultValue: "Cancel" })}</Text>
         </TouchableOpacity>

@@ -352,9 +352,11 @@ export async function searchDmUsers(query: string): Promise<DmConversation[]> {
 export async function deleteConversation(
   dmId: string,
   address: string,
+  options: { forEveryone?: boolean } = {},
 ): Promise<{ success: boolean; message?: string; deletedMessages?: number }> {
-  return apiClient.delete(`/dm/conversation/${dmId}`, {
-    data: { address },
+  // forEveryone (1:1 chats): every message and the chat go for both people.
+  return apiClient.delete(`/dm/conversation/${dmId}${options.forEveryone ? "?forEveryone=1" : ""}`, {
+    data: options.forEveryone ? { address, forEveryone: true } : { address },
     isAuthRequired: true,
   } as any);
 }

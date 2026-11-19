@@ -1,4 +1,6 @@
 import { translateCopy as _translateCopy } from "../../i18n/copy";
+import { useMentions } from "../../hooks/useMentions";
+import MentionSuggestions from "../common/MentionSuggestions";
 import { useDraftState } from '../../hooks/useDraftState';
 import { DhbCoin } from "../common/DhbCoin";
 import React, { memo, useCallback, useMemo, useRef, useState } from "react";
@@ -123,6 +125,8 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
 }) => {
   const { t } = useTranslation();
   const [message, setMessage] = useDraftState(draftScope, "");
+  // @tagging: typing @ offers people, picking one fills in "@username ".
+  const mentions = useMentions(message, setMessage as (t: string) => void, undefined, false);
   const sending = useRef(false);
   const listRef = useRef<FlatList<ProducerChatActivity> | null>(null);
   const { showUserProfile } = useUserProfileSheet();
@@ -229,6 +233,16 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
         />
       </MaskedView>
 
+      {canSend && isLive ? (
+        <View style={{ marginTop: 8 }}>
+          <MentionSuggestions
+            visible={mentions.showSuggestions}
+            suggestions={mentions.suggestions}
+            onSelect={mentions.selectMention}
+            loading={mentions.loading}
+          />
+        </View>
+      ) : null}
       <View
         ref={composerKeyboard.ref}
         collapsable={false}
@@ -238,7 +252,8 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
       >
         <TextInput
           value={message}
-          onChangeText={setMessage}
+          onChangeText={mentions.handleChangeText}
+          onSelectionChange={mentions.handleSelectionChange}
           placeholder={
             isLive && canSend ? t("live.saySomething") : t("live.chatUnavailable")
           }
