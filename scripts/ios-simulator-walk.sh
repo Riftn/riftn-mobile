@@ -76,9 +76,13 @@ PY
 
 # The same prompt on an iPad sits somewhere else, and moves when the iPad is
 # turned: find its Open button by name, or failing that by its blue fill.
+# The iPad asks once, then remembers: after its Open has been tapped, one
+# look per page is enough.
+OPEN_TAPPED=0
 confirm_open_anywhere() {
-  local i pos
-  for i in 1 2 3 4; do
+  local i pos tries="1 2 3 4"
+  [ "$OPEN_TAPPED" = 1 ] && tries="1"
+  for i in $tries; do
     limit 15 idb ui describe-all --udid "$UDID" > "$OUT/.ax.json" 2>/dev/null || echo "[]" > "$OUT/.ax.json"
     pos="$(python3 scripts/ios-nav/ax-find.py "$OUT/.ax.json" Open "$OUT/logs/open-prompt.txt" open)"
     if [ -z "$pos" ]; then
@@ -105,6 +109,7 @@ PY
     if [ -n "$pos" ]; then
       # shellcheck disable=SC2086
       limit 15 idb ui tap --udid "$UDID" $pos >/dev/null 2>&1 || true
+      OPEN_TAPPED=1
       return 0
     fi
     sleep 1
@@ -123,6 +128,7 @@ turn_sideways() {
 
 PAGES=(
   "app/post/742"
+  "app"
   "app/post/5799"
   "app/post/742/info"
   "maldoteth"
@@ -187,6 +193,7 @@ PY
 }
 
 SIDEWAYS_PAGES=(
+  "app"
   "app/post/742"
   "app/post/5799"
   "maldoteth"
