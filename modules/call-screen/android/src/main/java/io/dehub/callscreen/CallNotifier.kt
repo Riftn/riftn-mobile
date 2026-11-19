@@ -58,6 +58,7 @@ object CallNotifier {
       .setOngoing(true)
       .setAutoCancel(false)
       .setTimeoutAfter(RING_MS)
+      .setOnlyAlertOnce(true)
       .setContentIntent(open)
       .setFullScreenIntent(open, true)
     try {
