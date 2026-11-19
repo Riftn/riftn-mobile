@@ -94,3 +94,55 @@ export const UnreadJumpButton = memo(function UnreadJumpButton({
     </TouchableOpacity>
   );
 });
+
+/**
+ * Telegram's "@" bubble: lines that reply to you or tag you, which arrived
+ * since you last read the room. A tap goes to the oldest one; the count says
+ * how many are left.
+ */
+export const MentionJumpButton = memo(function MentionJumpButton({
+  count,
+  onPress,
+}: {
+  count: number;
+  onPress: () => void;
+}) {
+  const { t } = useTranslation();
+  const { isLight } = useAppTheme();
+  const c = isLight ? JUMP_LIGHT : JUMP_DARK;
+  const label = t("liveChat.jumpToMentions", { defaultValue: "Jump to replies and mentions" });
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={0.8}
+      hitSlop={8}
+      accessibilityRole="button"
+      accessibilityLabel={`${label} (${formatUnreadCount(count)})`}
+      className="dark-surface h-11 w-11 items-center justify-center rounded-full"
+      style={{
+        backgroundColor: c.fill,
+        borderRadius: 22,
+        borderWidth: 1,
+        borderColor: c.rim,
+        shadowColor: "#000",
+        shadowOpacity: isLight ? 0.12 : 0.3,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
+        elevation: 6,
+      }}
+    >
+      <Text className="text-base font-bold" style={{ color: c.ink }}>@</Text>
+      <View
+        pointerEvents="none"
+        style={{
+          position: "absolute", top: -4, right: -4, minWidth: 18, height: 18, borderRadius: 9,
+          paddingHorizontal: 4, alignItems: "center", justifyContent: "center", backgroundColor: "hsla(217,91%,60%,1)",
+        }}
+      >
+        <Text style={{ color: "hsla(0,0%,100%,1)", fontSize: 10, fontWeight: "700", fontVariant: ["tabular-nums"] }}>
+          {formatUnreadCount(count)}
+        </Text>
+      </View>
+    </TouchableOpacity>
+  );
+});
