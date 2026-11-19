@@ -44,7 +44,7 @@
     "failed": "Girêdan nehat temamkirin. Dîsa têketinê biceribîne.",
     "generate": "Bi krediyên xwe, dravdanên piştrastkirî an wêneyên belaş ên guncav medyayê çêke",
     "generatePrompt": "Modelên wêneyan ên Riftn nîşanî min bide û berî ku portreyekê çêkî, bihayê wê ji min re bêje.",
-    "intro": "Di ChatGPT de Riftn bigere, an hesabê xwe girêde da ku profîla xwe nû bikî, şandiyan biweşînî û Stûdyoya Afirîneran bikar bînî. Ji bo kontrolên hesabê https://dehub.io/mcp wek girêdera OAuth zêde bike.",
+    "intro": "Di ChatGPT de Riftn bigere, an hesabê xwe girêde da ku profîla xwe nû bikî, şandiyan biweşînî û Stûdyoya Afirîneran bikar bînî. Ji bo kontrolên hesabê https://riftn.com/mcp wek girêdera OAuth zêde bike.",
     "libraryPrompt": "Çavkaniyên herî dawî yên di pirtûkxaneya min a Riftn Creator de nîşan bide.",
     "manage": "Girêdanên hesabê birêve bibe",
     "profile": "Profîl, wêne û mîhengên nepenîtiyê yên xwe biguherîne",
@@ -52,7 +52,7 @@
     "read": "Hesab, şandî, agahdarî û pirtûkxaneya Afirîner a xwe bixwîne",
     "signIn": "Têkeve Riftn",
     "social": "Şandî û şîroveyan biweşîne, kesan bişopîne û nîşanan tomar bike",
-    "step": "Ji bo kontrolên hesabê, https://dehub.io/mcp wekî girêdereke OAuth lê zêde bike, têkeve Riftn û berî ku destûra gihîştinê bidî, destûran binirxîne.",
+    "step": "Ji bo kontrolên hesabê, https://riftn.com/mcp wekî girêdereke OAuth lê zêde bike, têkeve Riftn û berî ku destûra gihîştinê bidî, destûran binirxîne.",
     "title": "Hesabê xwe yê Riftn girêde",
     "what": "Şandî û profîlên giştî bigere. Bi girêdana hesabê ya OAuth, profîl û nepenîtiya xwe birêve bibe, şandî û şîroveyan biweşîne, kesan bişopîne, agahdariyan bixwîne, nîşanan tomar bike û wêne, vîdyo, deng û hêmanên 3D çêke. Çêkirin rêzikên dravdanê yên heyî yên Riftn bikar tîne."
   },
@@ -2650,7 +2650,8 @@
       "profile": "profîl",
       "proposal": "pêşniyar",
       "stage": "sehne",
-      "store": "firoşgeh"
+      "store": "firoşgeh",
+      "featureRequest": "daxwaz"
     }
   },
   "postGate": {
@@ -2915,7 +2916,7 @@
     "careers": "Kar",
     "glossary": "Ferheng",
     "create": "Biafirîne",
-    "login": "Têkeve",
+    "login": "Têkeve / Tomar bibe",
     "connecting": "Tê girêdan...",
     "signMessage": "Peyamê îmze bike",
     "communities": "Civak",
@@ -2936,7 +2937,11 @@
     "premium": "Premium",
     "pricing": "Biha",
     "reorderHint": "Hildin û derêjin herîkoka ku we li serê xwe de ye bo ku bi rêza xwe re bi kar bînin.",
-    "reorderReset": "Vegerîne"
+    "reorderReset": "Vegerîne",
+    "groups": {
+      "create": "Biafirîne",
+      "discover": "Keşf bike"
+    }
   },
   "affiliate": {
     "subtitle": "Ji her kesê ku tu vedixwînî qezenc bike — her û her",
@@ -3688,7 +3693,8 @@
     "themeColorBrand": "Marqe",
     "themeColorBrandDesc": "Rengên wêneyê profîla xwe bikar bîne",
     "themeColorBrandNoAvatar": "Ji bo bikaranîna rengên marqeyê wêneyekî profîlê lê zêde bike",
-    "themeColorBrandFailed": "Rengên wêneyê profîla te nehatin xwendin"
+    "themeColorBrandFailed": "Rengên wêneyê profîla te nehatin xwendin",
+    "menuLayoutFolders": "Peldank"
   },
   "common": {
     "refresh": "Nû bike",
@@ -3756,7 +3762,8 @@
     "next": "Pêşve",
     "previous": "Paşve",
     "redo": "Dîsa bike",
-    "remove": "Rake"
+    "remove": "Rake",
+    "loadMore": "Zêdetir bar bike"
   },
   "tip": {
     "payDirect": "Rasterast bi {{symbol}} li ser {{chain}} ji {{name}} re tê şandin. Bê guhertin.",
@@ -4468,8 +4475,8 @@
     "clearAll": "Hemû agahdariyan paqij bike",
     "removeHistory": "Hemû dîroka agahdariyan rake",
     "notificationTypes": "Cureyên agahdariyê",
-    "likes": "Ecibandin",
-    "likesDesc": "Dema ku kesek naveroka te diecibîne",
+    "likes": "Bertek",
+    "likesDesc": "Dema ku kesek bertekê dide naveroka te",
     "comments": "Şîrove",
     "commentsDesc": "Dema ku kesek şîrove dike an bersiv dide",
     "follows": "Şopandin",
@@ -4490,8 +4497,8 @@
     "markAsRead": "Wek xwendî nîşan bike",
     "clearNotification": "Agahdariyê pak bike",
     "loginDescription": "Ji bo dîtina agahdariyên xwe û ji bo ku li ser Riftn ji hevalên xwe agahdar bimînî, têkeve.",
-    "likedPost": "{{name}} şandiya te eciband",
-    "likedPosts": "{{name}} {{count}} ji şandiyên te ecibandin",
+    "likedPost": "{{name}} bertek da şandiya te",
+    "likedPosts": "{{name}} bertek da {{count}} ji şandiyên te",
     "commentedPost": "{{name}} li ser şandiya te şîrove kir",
     "commentedPosts": "{{name}} li ser {{count}} ji şandiyên te şîrove kir",
     "repliedComment": "{{name}} bersiva şîroveya te da",
@@ -4656,7 +4663,7 @@
     "promptHeading": "Divê em paşê çi ava bikin?",
     "promptHint": "Wê rave bike. Wêneyeke ekranê têxe. Bike ku pêk were.",
     "promptLabel": "Prompta te",
-    "promptMediaError": "Wêne an vîdyoyên ku her yek di bin 20MB de be hilbijêre.",
+    "promptMediaError": "Wêne an vîdyoyên ku her yek di bin 50MB de be hilbijêre.",
     "promptMediaLimit": "Heta {{max}} pêvek.",
     "promptNew": "Prompta nû",
     "promptPageTitle": "Daxwaz",
@@ -5629,7 +5636,7 @@
     "run": "Bimeşîne"
   },
   "loginModal": {
-    "title": "Têkeve",
+    "title": "Têkeve / Tomar bibe",
     "continueEmail": "Bi E-nameyê Bidomîne",
     "continueSMS": "Bi SMS-ê Bidomîne",
     "continueGoogle": "Bi Google Bidomîne",
@@ -7588,7 +7595,7 @@
     "onStage": "Li ser sehneyê",
     "noSpeakers": "Hîn axaftvan tune ne",
     "voiceEffect": "🎭 Bandora dengê",
-    "textToSpeech": "🔊 Nivîs-bo-axaftin",
+    "textToSpeech": "Nivîs-bo-axaftin",
     "loadVoices": "Dengan bar bike",
     "ttsPlaceholder": "Peyamekê binivîse da ku biaxivî…",
     "signInToJoin": "Ji bo tevlêbûnê têkeve hesabê xwe",
@@ -12990,7 +12997,15 @@
     "referenceProductName": "Berhema xwe bixe nav klîpekê",
     "referenceProductHint": "Berhema nîşandayî biguherîne û dîmena orîjînal biparêze.",
     "referenceComposeName": "Wêneyên referansê bike yek",
-    "referenceComposeHint": "Karakter, tişt û dîmenên ji gelek wêneyan bîne nav yek kompozîsyonê."
+    "referenceComposeHint": "Karakter, tişt û dîmenên ji gelek wêneyan bîne nav yek kompozîsyonê.",
+    "madeOnDehub": "Li ser Riftn hatiye çêkirin",
+    "aiGenerationAlt": "Çêkirina AI",
+    "gallery": {
+      "send": "Bişîne",
+      "notifications": {
+        "generation_reply": "{{name}} bersiva şîroveya te da"
+      }
+    }
   },
   "fractions": {
     "title": "Perçe",
@@ -14095,7 +14110,7 @@
   "multiPost": {
     "tab": "Pirweşandin",
     "title": "Pirweşandin",
-    "intro": "Di heman demê de bi dehub re li X, YouTube, Instagram, TikTok û hîn zêdetir biweşîne. Carekê hesabên xwe girê bide, paşê hilbijêre ka her şandî dê biçe ku.",
+    "intro": "Di heman demê de bi Riftn re li X, YouTube, Instagram, TikTok û hîn zêdetir biweşîne. Carekê hesabên xwe girê bide, paşê hilbijêre ka her şandî dê biçe ku.",
     "creditsHeading": "Krediyên şandiyê",
     "credits": "{{count}} krediyên şandiyê",
     "topUpTitle": "Kredî zêde bike û teserûf bike",
@@ -15655,7 +15670,8 @@
       "chrome": "Kromê herikbar",
       "orbit": "Zivirîn",
       "snow": "Barîna berfê"
-    }
+    },
+    "sameAsProfile": "Profîl"
   },
   "articleTile": {
     "cover": "Berg"
@@ -15687,5 +15703,36 @@
     "forward": "Bişîne pêş",
     "deleted_one": "{{count}} peyam hat jêbirin",
     "deleted_other": "{{count}} peyam hatin jêbirin"
+  },
+  "messagesTabs": {
+    "all": "Hemû"
+  },
+  "mentionLinks": {
+    "communities": "Civak",
+    "pages": "Rûpel",
+    "people": "Kes"
+  },
+  "resetWallet": {
+    "mismatch": "Şîfre li hev nayên",
+    "logOut": "Derkeve",
+    "confirm": "Şîfreyê piştrast bike",
+    "ack": "Ez fêm dikim ku pereyên min ên kevn di berîka kevn de dimînin.",
+    "cancel": "Betal bike"
+  },
+  "chatTabs": {
+    "all": "Hemû",
+    "alwaysOn": "Her tim vekirî",
+    "communities": "Civak",
+    "direct": "Rasterast",
+    "kindCommunity": "Civak",
+    "kindDirect": "Rasterast",
+    "kindGroup": "Kom",
+    "kindPublic": "Giştî",
+    "moveDown": "Bibe jêr",
+    "moveUp": "Bibe jor",
+    "requests": "Daxwaz",
+    "sCreators": "Afirîner",
+    "sGaming": "Lîstik",
+    "sTrading": "Bazirganî"
   }
 }

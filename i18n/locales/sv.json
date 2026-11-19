@@ -22,7 +22,7 @@
     "failed": "Kunde inte slutföra anslutningen. Försök att logga in igen.",
     "generate": "Generera media med hjälp av dina krediter, bekräftade betalningar eller berättigade gratis bilder",
     "generatePrompt": "Visa mig Riftns bildmodeller och citera ett porträtt innan du genererar det.",
-    "intro": "Bläddra på Riftn i ChatGPT, eller länka ditt eget konto för att uppdatera din profil, publicera inlägg och använda Creator Studio. Lägg till https://dehub.io/mcp som en OAuth-kontakt för kontokontroller.",
+    "intro": "Bläddra på Riftn i ChatGPT, eller länka ditt eget konto för att uppdatera din profil, publicera inlägg och använda Creator Studio. Lägg till https://riftn.com/mcp som en OAuth-kontakt för kontokontroller.",
     "libraryPrompt": "Visa de senaste resurserna i mitt Riftn Creator-bibliotek.",
     "manage": "Hantera kontoanslutningar",
     "profile": "Redigera din profil, dina bilder och sekretessinställningar",
@@ -30,7 +30,7 @@
     "read": "Läs ditt konto, inlägg, aviseringar och kreatörsbibliotek",
     "signIn": "Logga in på Riftn",
     "social": "Publicera inlägg och kommentarer, följ personer och spara bokmärken",
-    "step": "För kontokontroller, lägg till https://dehub.io/mcp som en OAuth-kontakt, logga in på Riftn och granska behörigheterna innan du tillåter åtkomst.",
+    "step": "För kontokontroller, lägg till https://riftn.com/mcp som en OAuth-kontakt, logga in på Riftn och granska behörigheterna innan du tillåter åtkomst.",
     "title": "Anslut ditt Riftn-konto",
     "what": "Bläddra bland offentliga inlägg och profiler. Med en OAuth-kontoanslutning kan du hantera din profil och integritet, publicera inlägg och kommentarer, följa personer, läsa aviseringar, spara bokmärken och generera bilder, video, ljud och 3D-tillgångar. Generation använder Riftns befintliga betalningsregler."
   },
@@ -2627,7 +2627,8 @@
       "profile": "profil",
       "proposal": "förslag",
       "stage": "steg",
-      "store": "butik"
+      "store": "butik",
+      "featureRequest": "begäran"
     }
   },
   "postGate": {
@@ -2917,7 +2918,11 @@
     "premium": "Premium",
     "pricing": "Priser",
     "reorderHint": "Håll och dra valfri ikon för att ordna om",
-    "reorderReset": "Återställ"
+    "reorderReset": "Återställ",
+    "groups": {
+      "create": "Skapa",
+      "discover": "Upptäck"
+    }
   },
   "affiliate": {
     "subtitle": "Tjäna från alla du bjuder in – för alltid",
@@ -3681,7 +3686,8 @@
     "themeColorBrand": "Varumärke",
     "themeColorBrandDesc": "Använd färgerna i din profilbild",
     "themeColorBrandNoAvatar": "Lägg till en profilbild för att använda varumärkesfärger",
-    "themeColorBrandFailed": "Kunde inte läsa färger från din profilbild"
+    "themeColorBrandFailed": "Kunde inte läsa färger från din profilbild",
+    "menuLayoutFolders": "Mappar"
   },
   "common": {
     "refresh": "Uppdatera",
@@ -3749,7 +3755,8 @@
     "next": "Nästa",
     "previous": "Föregående",
     "redo": "Återgör",
-    "remove": "Ta bort"
+    "remove": "Ta bort",
+    "loadMore": "Ladda fler"
   },
   "tip": {
     "payDirect": "Skickat direkt till {{name}} i {{symbol}} på {{chain}}. Inga byte.",
@@ -4651,7 +4658,7 @@
     "promptHeading": "Vad ska vi bygga nästa?",
     "promptHint": "Beskriv det. Lägg in en skärmavbild. Gör det till verklighet.",
     "promptLabel": "Din förfrågan",
-    "promptMediaError": "Välj bilder eller videor under 20 MB vardera.",
+    "promptMediaError": "Välj bilder eller videor under 50 MB vardera.",
     "promptMediaLimit": "Maximalt {{max}} bifogade filer.",
     "promptNew": "Ny förfrågan",
     "promptPageTitle": "Anmodningar",
@@ -7566,7 +7573,7 @@
     "onStage": "På scen",
     "noSpeakers": "Inga talare än",
     "voiceEffect": "🎭 Rösteffekt",
-    "textToSpeech": "🔊 Text-till-tal",
+    "textToSpeech": "Text-till-tal",
     "loadVoices": "Ladda röster",
     "ttsPlaceholder": "Skriv ett meddelande att tala…",
     "signInToJoin": "Logga in för att delta",
@@ -12788,7 +12795,15 @@
     "loop": "Slinga",
     "dialogueFormat": "Skriv scenen som \"Name: line\", en talare per rad.",
     "fileTooLarge": "Den filen är över 100 MB. Använd en kortare eller mindre fil.",
-    "signInToGenerate": "Logga in för att generera."
+    "signInToGenerate": "Logga in för att generera.",
+    "madeOnDehub": "Skapat på Riftn",
+    "aiGenerationAlt": "AI-generering",
+    "gallery": {
+      "send": "Skicka",
+      "notifications": {
+        "generation_reply": "{{name}} svarade på din kommentar"
+      }
+    }
   },
   "fractions": {
     "title": "Fraktioner",
@@ -13802,7 +13817,7 @@
   "multiPost": {
     "tab": "Multi-postning",
     "title": "Multi-postning",
-    "intro": "Posta till X, YouTube, Instagram, TikTok och mer samtidigt som dehub. Anslut dina konton en gång, välj sedan var varje inlägg går.",
+    "intro": "Posta till X, YouTube, Instagram, TikTok och mer samtidigt som Riftn. Anslut dina konton en gång, välj sedan var varje inlägg går.",
     "creditsHeading": "Postkrediter",
     "credits": "{{count}} postkrediter",
     "topUpTitle": "Ladda upp och spara",
@@ -15344,7 +15359,8 @@
       "drive": "Nattkörning",
       "chrome": "Flytande krom",
       "snow": "Snöfall"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Omslag"
@@ -15376,5 +15392,36 @@
     "forward": "Vidarebefordra",
     "deleted_one": "Raderade {{count}} meddelande",
     "deleted_other": "Raderade {{count}} meddelanden"
+  },
+  "messagesTabs": {
+    "all": "Alla"
+  },
+  "mentionLinks": {
+    "communities": "Gemenskaper",
+    "pages": "Sidor",
+    "people": "Personer"
+  },
+  "resetWallet": {
+    "mismatch": "Lösenorden matchar inte",
+    "logOut": "Logga ut",
+    "confirm": "Bekräfta lösenord",
+    "ack": "Jag förstår att mina gamla medel förblir i det gamla värdes.",
+    "cancel": "Avbryt"
+  },
+  "chatTabs": {
+    "all": "Alla",
+    "alwaysOn": "Alltid på",
+    "communities": "Gemenskaper",
+    "direct": "Direkt",
+    "kindCommunity": "Gemenskap",
+    "kindDirect": "Direkt",
+    "kindGroup": "Gruppera",
+    "kindPublic": "Offentlig",
+    "moveDown": "Flytta ner",
+    "moveUp": "Flytta upp",
+    "requests": "Funktionsförfrågningar",
+    "sCreators": "Kreatörer",
+    "sGaming": "Spel",
+    "sTrading": "Handel"
   }
 }

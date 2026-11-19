@@ -16,13 +16,13 @@
     "generate": "用你嘅積分，確認嘅付款或合資格嘅免費圖像生成媒體",
     "account": "公開瀏覽唔需要帳戶。連結你嘅 Riftn 帳戶嚟管理你嘅個人檔案同埋建立或者發佈內容。",
     "allow": "允許連線",
-    "body": "連結你嘅帳戶嚟管理你嘅個人檔案、發佈文章同埋喺即時通訊度建立內容。連線會喺24小時內到期。你可以隨時斷開連線。",
+    "body": "連接你嘅帳號，管理你嘅檔案，發佈文章同埋用聊天發佈內容。連接有效期限係 24 小時。你可以隨時斷開連接。",
     "deny": "取消",
     "disconnect": "斷開連線",
     "empty": "冇有效嘅帳戶連線。",
     "failed": "完成唔到連線。試下再登入。",
     "generatePrompt": "畀我睇下 Riftn 嘅圖片模型，同埋喺生成之前引用一張人像。",
-    "intro": "瀏覽 Riftn 於 ChatGPT，或連結你自己的帳戶以更新個人資料、發佈文章及使用 Creator Studio。加入 [https://dehub.io/mcp](https://dehub.io/mcp) 作為 OAuth 連接器，以控制帳戶。",
+    "intro": "用 ChatGPT 瀏覽 Riftn，或者連接你嘅帳號更新你嘅檔案，發佈文章同埋用創作者工作室。加 https://riftn.com/mcp 做 OAuth 連接器，控制帳號。",
     "libraryPrompt": "喺我嘅 Riftn 創作者庫入面顯示最新嘅資產。",
     "manage": "管理帳戶連線",
     "profile": "編輯你嘅個人檔案、圖片同私隱設定",
@@ -30,7 +30,7 @@
     "read": "睇睇你個帳號、文章、通知同創作庫",
     "signIn": "登入 Riftn",
     "social": "發佈文章跟留言，追蹤人士及儲存書籤",
-    "step": "如果要控制帳戶，請將 https://dehub.io/mcp 加入 OAuth 連接器，登入 Riftn 同埋喺允許存取之前睇返權限。",
+    "step": "為控制帳號，加入 https://riftn.com/mcp 做 OAuth 連接器，登入 Riftn 同埋檢視權限之前允許存取。",
     "title": "連接你嘅 Riftn 帳戶",
     "what": "瀏覽公眾文章及個人資料頁。透過 OAuth 帳戶連接，管理個人資料及隱私設定、發佈文章及評論、追蹤人士、閱讀通知、收藏書籤及產生圖片、影片、音頻及 3D 資產。產生功能遵從 Riftn 現有付費規則。"
   },
@@ -2628,7 +2628,8 @@
       "profile": "個人資料",
       "proposal": "提議",
       "stage": "舞台",
-      "store": "商店"
+      "store": "商店",
+      "featureRequest": "要求"
     }
   },
   "postGate": {
@@ -2917,7 +2918,12 @@
     "premium": "高級版",
     "pricing": "定價",
     "reorderHint": "按住同拖曳任何圖示嚟重新排列",
-    "reorderReset": "重設"
+    "reorderReset": "重設",
+    "groups": {
+      "create": "建立",
+      "discover": "探索",
+      "riftn": "去中心"
+    }
   },
   "affiliate": {
     "subtitle": "你邀请的每个人都为你带来收入——永久有效",
@@ -3681,7 +3687,8 @@
     "themeColorBrand": "品牌",
     "themeColorBrandDesc": "用你頭像嘅顏色",
     "themeColorBrandNoAvatar": "加張頭像先可以用品牌配色",
-    "themeColorBrandFailed": "讀唔到你頭像嘅顏色"
+    "themeColorBrandFailed": "讀唔到你頭像嘅顏色",
+    "menuLayoutFolders": "資料夾"
   },
   "common": {
     "refresh": "刷新",
@@ -3749,7 +3756,8 @@
     "next": "下一頁",
     "previous": "上一步",
     "redo": "重做",
-    "remove": "刪除"
+    "remove": "刪除",
+    "loadMore": "載入更多"
   },
   "tip": {
     "payDirect": "直接喺 {{chain}} 嘅 {{symbol}} 入面嘅 {{name}} 。冇交換。",
@@ -4651,7 +4659,7 @@
     "promptHeading": "我哋下一步應該建立啲咩？",
     "promptHint": "形容下佢。放入螢幕截圖。令到佢發生。",
     "promptLabel": "你嘅提示",
-    "promptMediaError": "揀每張20MB 以下嘅圖片或者影片。",
+    "promptMediaError": "揀每張50MB 以下嘅圖片或者影片。",
     "promptMediaLimit": "最多 {{max}} 附件。",
     "promptNew": "新提示",
     "promptPageTitle": "要求",
@@ -7566,7 +7574,7 @@
     "onStage": "喺台上",
     "noSpeakers": "仲未有喇叭",
     "voiceEffect": "🎭 語音效果",
-    "textToSpeech": "🔊 文字轉語音",
+    "textToSpeech": "文字轉語音",
     "loadVoices": "載入聲音",
     "ttsPlaceholder": "打個訊息嚟講⋯",
     "signInToJoin": "登入嚟加入",
@@ -12780,7 +12788,15 @@
     "loop": "迴圈",
     "dialogueFormat": "以「名字: 台詞」形式寫下場景，每行一個說話者。",
     "fileTooLarge": "該檔案超過100 MB。請使用較短或較小的檔案。",
-    "signInToGenerate": "登入以生成。"
+    "signInToGenerate": "登入以生成。",
+    "madeOnDehub": "喺 Riftn 整嘅",
+    "aiGenerationAlt": "人工智能生成",
+    "gallery": {
+      "send": "發送",
+      "notifications": {
+        "generation_reply": "{{name}} 回覆咗你嘅留言"
+      }
+    }
   },
   "fractions": {
     "title": "碎片",
@@ -13794,7 +13810,7 @@
   "multiPost": {
     "tab": "同時發佈",
     "title": "同時發佈",
-    "intro": "透過 dehub 同時發佈到 X、YouTube、Instagram、TikTok 等平台。一次連接您的帳戶，然後選擇每個帖子的發佈平台。",
+    "intro": "透過 Riftn 同時發佈到 X、YouTube、Instagram、TikTok 等平台。一次連接您的帳戶，然後選擇每個帖子的發佈平台。",
     "creditsHeading": "帖子積分",
     "credits": "{{count}} 個帖子積分",
     "topUpTitle": "增值並節省",
@@ -15358,7 +15374,8 @@
       "chrome": "液體鍍鋅",
       "orbit": "環繞",
       "snow": "降雪"
-    }
+    },
+    "sameAsProfile": "個人檔案"
   },
   "articleTile": {
     "cover": "封面"
@@ -15390,5 +15407,36 @@
     "forward": "轉寄",
     "deleted_one": "刪除 {{count}} 個訊息",
     "deleted_other": "刪除 {{count}} 個訊息"
+  },
+  "messagesTabs": {
+    "all": "全部"
+  },
+  "mentionLinks": {
+    "communities": "社群",
+    "pages": "頁面",
+    "people": "用戶"
+  },
+  "resetWallet": {
+    "mismatch": "密碼唔吻合",
+    "logOut": "登出",
+    "confirm": "確認密碼",
+    "ack": "我明白舊嘅資金喺舊嘅錢包中。",
+    "cancel": "取消"
+  },
+  "chatTabs": {
+    "all": "全部",
+    "alwaysOn": "一直開啟",
+    "communities": "社群",
+    "direct": "直接",
+    "kindCommunity": "社區",
+    "kindDirect": "直接",
+    "kindGroup": "分組",
+    "kindPublic": "公開",
+    "moveDown": "移除",
+    "moveUp": "向上移動",
+    "requests": "功能請求",
+    "sCreators": "創作者",
+    "sGaming": "遊戲",
+    "sTrading": "交易"
   }
 }

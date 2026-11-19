@@ -28,14 +28,14 @@
   "accountConnect": {
     "account": "Duyệt web công cộng không cần tài khoản. Liên kết tài khoản Riftn của bạn để quản lý hồ sơ của bạn và tạo hoặc xuất bản nội dung.",
     "allow": "Cho phép kết nối",
-    "body": "Liên kết tài khoản của bạn để quản lý hồ sơ, xuất bản bài đăng và tạo nội dung từ cuộc trò chuyện. Kết nối sẽ hết hạn trong vòng 24 giờ. Bạn có thể ngắt kết nối bất cứ lúc nào.",
+    "body": "Liên kết tài khoản để quản lý hồ sơ, đăng bài và tạo nội dung từ trò chuyện. Các kết nối sẽ hết hạn trong 24 giờ. Bạn có thể ngắt kết nối bất kỳ lúc nào.",
     "deny": "Hủy",
     "disconnect": "Ngắt kết nối",
     "empty": "Không có kết nối tài khoản đang hoạt động.",
     "failed": "Không thể hoàn tất kết nối. Thử đăng nhập lại.",
     "generate": "Tạo nội dung đa phương tiện bằng cách sử dụng tín dụng, khoản thanh toán đã xác nhận hoặc hình ảnh miễn phí đủ điều kiện",
     "generatePrompt": "Cho tôi xem các mô hình hình ảnh của Riftn và trích dẫn một bức chân dung trước khi tạo ra nó.",
-    "intro": "Duyệt Riftn trong ChatGPT hoặc liên kết tài khoản của riêng bạn để cập nhật hồ sơ, xuất bản bài đăng và sử dụng Creator Studio. Thêm https://dehub.io/mcp làm trình kết nối OAuth để kiểm soát tài khoản.",
+    "intro": "Duyệt Riftn trong ChatGPT, hoặc liên kết tài khoản của bạn để cập nhật hồ sơ, đăng bài và sử dụng Creator Studio. Thêm https://riftn.com/mcp làm bộ kết nối OAuth cho các điều khiển tài khoản.",
     "libraryPrompt": "Hiển thị các nội dung mới nhất trong thư viện Riftn Creator của tôi.",
     "manage": "Quản lý kết nối tài khoản",
     "profile": "Chỉnh sửa hồ sơ, hình ảnh và cài đặt quyền riêng tư của bạn",
@@ -43,7 +43,7 @@
     "read": "Đọc tài khoản, bài đăng, thông báo và thư viện Creator của bạn",
     "signIn": "Đăng nhập vào Riftn",
     "social": "Đăng bài viết và bình luận, theo dõi mọi người và lưu dấu trang",
-    "step": "Để kiểm soát tài khoản, hãy thêm https://dehub.io/mcp làm trình kết nối OAuth, đăng nhập vào Riftn và xem lại các quyền trước khi cho phép truy cập.",
+    "step": "Đối với các điều khiển tài khoản, thêm https://riftn.com/mcp làm bộ kết nối OAuth, đăng nhập vào Riftn và xem xét các quyền trước khi cho phép truy cập.",
     "title": "Kết nối tài khoản Riftn của bạn",
     "what": "Duyệt các bài đăng và hồ sơ công khai. Với kết nối tài khoản OAuth, hãy quản lý hồ sơ và quyền riêng tư của bạn, đăng bài đăng và nhận xét, theo dõi mọi người, đọc thông báo, lưu dấu trang và tạo tài sản hình ảnh, video, âm thanh và 3D. Generation sử dụng các quy tắc thanh toán hiện có của Riftn."
   },
@@ -3868,7 +3868,8 @@
     "undo": "Hoàn tác",
     "apply": "Áp dụng",
     "redo": "Làm lại",
-    "remove": "Xóa"
+    "remove": "Xóa",
+    "loadMore": "Tải thêm"
   },
   "tip": {
     "title": "Gửi tiền thưởng",
@@ -4591,7 +4592,7 @@
     "removeHistory": "Xoá toàn bộ lịch sử thông báo",
     "notificationTypes": "Loại thông báo",
     "likes": "Lượt thích",
-    "likesDesc": "Khi ai đó thích nội dung của bạn",
+    "likesDesc": "Khi có người thích nội dung của bạn",
     "comments": "Bình luận",
     "commentsDesc": "Khi ai đó bình luận hoặc trả lời",
     "follows": "Người theo dõi",
@@ -4612,8 +4613,8 @@
     "markAsRead": "Đánh dấu đã đọc",
     "clearNotification": "Xóa thông báo",
     "loginDescription": "Đăng nhập để xem thông báo và cập nhật tin từ bạn bè trên Riftn.",
-    "likedPost": "{{name}} đã thích bài viết của bạn",
-    "likedPosts": "{{name}} đã thích {{count}} bài viết của bạn",
+    "likedPost": "{{name}} đã thích bài đăng của bạn",
+    "likedPosts": "{{name}} đã thích {{count}} bài đăng của bạn",
     "commentedPost": "{{name}} đã bình luận bài viết của bạn",
     "commentedPosts": "{{name}} đã bình luận {{count}} bài viết của bạn",
     "repliedComment": "{{name}} đã trả lời bình luận của bạn",
@@ -4774,7 +4775,7 @@
     "promptHeading": "Điều gì chúng ta nên xây dựng tiếp?",
     "promptHint": "Mô tả nó. Thêm một ảnh chụp màn hình. Tạo nó xảy ra.",
     "promptLabel": "Danh sách nhắc nhở của bạn",
-    "promptMediaError": "Chọn hình ảnh hoặc video dưới 20MB mỗi hình.",
+    "promptMediaError": "Chọn hình ảnh hoặc video dưới 50MB mỗi hình.",
     "promptMediaLimit": "Đến {{max}} hình ảnh.",
     "promptNew": "Danh sách nhắc nhở mới",
     "promptPageTitle": "Yêu cầu",
@@ -5761,7 +5762,7 @@
   },
   "loginModal": {
     "didYouMean": "Ý bạn là {{email}}?",
-    "title": "Đăng nhập",
+    "title": "Log in",
     "continueEmail": "Tiếp tục với Email",
     "continueSMS": "Tiếp tục với SMS",
     "continueGoogle": "Tiếp tục với Google",
@@ -7715,7 +7716,7 @@
     "onStage": "Trên sân khấu",
     "noSpeakers": "Chưa có diễn giả nào",
     "voiceEffect": "Hiệu ứng 🎭 giọng nói",
-    "textToSpeech": "🔊 Chuyển văn bản thành giọng nói",
+    "textToSpeech": "Chuyển văn bản thành giọng nói",
     "loadVoices": "Tải giọng nói",
     "ttsPlaceholder": "Nhập tin nhắn để nói…",
     "signInToJoin": "Đăng nhập để tham gia",
@@ -13071,7 +13072,14 @@
     "loop": "Vòng lặp",
     "dialogueFormat": "Viết cảnh dưới dạng \"Tên: dòng thoại\", một diễn viên trên mỗi dòng.",
     "fileTooLarge": "Tệp đó vượt quá 100 MB. Sử dụng một tệp ngắn hơn hoặc nhỏ hơn.",
-    "signInToGenerate": "Đăng nhập để tạo."
+    "signInToGenerate": "Đăng nhập để tạo.",
+    "madeOnDehub": "Tạo trên Riftn",
+    "gallery": {
+      "send": "Gửi",
+      "notifications": {
+        "generation_reply": "{{name}} đã trả lời bình luận của bạn"
+      }
+    }
   },
   "fractions": {
     "title": "Phần sở hữu",
@@ -14089,7 +14097,7 @@
   "multiPost": {
     "tab": "Đăng đa nền tảng",
     "title": "Đăng đa nền tảng",
-    "intro": "Đăng lên X, YouTube, Instagram, TikTok và nhiều nền tảng khác cùng một lúc với dehub. Kết nối tài khoản của bạn một lần, sau đó chọn nơi mỗi bài đăng sẽ được gửi.",
+    "intro": "Đăng lên X, YouTube, Instagram, TikTok và nhiều nền tảng khác cùng một lúc với Riftn. Kết nối tài khoản của bạn một lần, sau đó chọn nơi mỗi bài đăng sẽ được gửi.",
     "creditsHeading": "Tín dụng đăng bài",
     "credits": "{{count}} tín dụng đăng bài",
     "topUpTitle": "Nạp thêm và tiết kiệm",
@@ -15609,7 +15617,8 @@
       "lava": "Đèn dung nham",
       "chrome": "Chrome lỏng",
       "snow": "Tuyết rơi"
-    }
+    },
+    "sameAsProfile": "Hồ sơ"
   },
   "articleTile": {
     "cover": "Ảnh bìa"
@@ -15696,5 +15705,15 @@
     "saveFailed": "Không lưu được thẻ, hãy thử lại",
     "show": "Hiện thẻ",
     "tooMany": "Bạn có thể có tối đa 10 thẻ"
+  },
+  "messagesTabs": {
+    "all": "Tất cả"
+  },
+  "resetWallet": {
+    "mismatch": "Mật khẩu không khớp",
+    "logOut": "Đăng xuất",
+    "confirm": "Xác nhận mật khẩu",
+    "ack": "Tôi hiểu rằng các quỹ cũ của tôi vẫn ở trong ví cũ.",
+    "cancel": "Hủy"
   }
 }

@@ -17,12 +17,12 @@
     "deny": "取消",
     "generate": "使用您的积分、确认支付或符合条件的免费图片生成媒体",
     "generatePrompt": "显示Riftn的图像模型并在生成之前引用一个肖像。",
-    "intro": "在ChatGPT中浏览Riftn，或者链接您的账户更新您的资料、发布帖子并使用创作者工作室。添加https://dehub.io/mcp作为OAuth连接器进行账户控制。",
+    "intro": "在ChatGPT中浏览Riftn，或者链接您的账户更新您的资料、发布帖子并使用创作者工作室。添加https://riftn.com/mcp作为OAuth连接器进行账户控制。",
     "libraryPrompt": "显示我的Riftn创作者库中的最新资产。",
     "profile": "编辑您的资料、图片和隐私设置",
     "read": "阅读您的账户、帖子、通知和创作者库",
     "signIn": "登录Riftn",
-    "step": "为账户控制添加https://dehub.io/mcp作为OAuth连接器，登录Riftn并在允许访问之前查看权限。",
+    "step": "为账户控制添加https://riftn.com/mcp作为OAuth连接器，登录Riftn并在允许访问之前查看权限。",
     "title": "连接您的Riftn账户",
     "what": "浏览公开帖子和资料。使用OAuth账户连接管理您的资料和隐私、发布帖子和评论、关注人、阅读通知、保存书签和生成图片、视频、音频和3D资产。生成使用Riftn的现有支付规则。",
     "account": "公开浏览唔需帐号。𠊎你的Riftn帐号连接，管理你的资料，创作或发布内容。",
@@ -2627,7 +2627,8 @@
       "profile": "资料",
       "proposal": "提案",
       "stage": "舞台",
-      "store": "店家"
+      "store": "店家",
+      "featureRequest": "请求"
     }
   },
   "postGate": {
@@ -2916,7 +2917,12 @@
     "premium": "会员",
     "pricing": "价钱",
     "reorderHint": "按住并拖动任意图标进行重新排列",
-    "reorderReset": "重置"
+    "reorderReset": "重置",
+    "groups": {
+      "create": "创建",
+      "discover": "寻寻看",
+      "riftn": "德赫布"
+    }
   },
   "affiliate": {
     "subtitle": "你邀请的每个人都为你带来收入——永久有效",
@@ -3668,7 +3674,8 @@
     "themeColorBrand": "品牌",
     "themeColorBrandDesc": "用汝头像其色",
     "themeColorBrandNoAvatar": "加头像正会用品牌色",
-    "themeColorBrandFailed": "对汝头像读无着色"
+    "themeColorBrandFailed": "对汝头像读无着色",
+    "menuLayoutFolders": "夹仔"
   },
   "common": {
     "apply": "應用",
@@ -3736,7 +3743,8 @@
     "allowCameraForQr": "允许相机访问扫描二维码",
     "scanQrHint": "點相機對準錢包地址 QR code",
     "paste": "粘貼",
-    "undo": "撤销"
+    "undo": "撤销",
+    "loadMore": "加载更多"
   },
   "tip": {
     "payDirect": "直接发送到{{name}}在{{symbol}}上的{{chain}}。无交换。",
@@ -4638,7 +4646,7 @@
     "promptHeading": "我们下一个应该建什么？",
     "promptHint": "描述一下。放一个截图。让它发生。",
     "promptLabel": "您的提示",
-    "promptMediaError": "选择图片或视频，每个文件大小不超过20MB。",
+    "promptMediaError": "选择图片或视频，每个文件大小不超过50MB。",
     "promptMediaLimit": "到{{max}}附件。",
     "promptNew": "新提示",
     "promptPageTitle": "请求",
@@ -7522,7 +7530,7 @@
     "onStage": "在舞台上",
     "noSpeakers": "还没有发言人",
     "voiceEffect": "🎭 声音特效",
-    "textToSpeech": "🔊 文本转语音",
+    "textToSpeech": "文本转语音",
     "loadVoices": "加载声音",
     "ttsPlaceholder": "输入消息来朗读…",
     "signInToJoin": "请登录加入",
@@ -12818,7 +12826,14 @@
     "loop": "迴圈",
     "dialogueFormat": "把劇本寫成「名字：台詞」，每行一個說話者。",
     "fileTooLarge": "𠮷個檔案超過100MB，用個小點或小一點的嘛。",
-    "signInToGenerate": "登入就可以生成囉！"
+    "signInToGenerate": "登入就可以生成囉！",
+    "madeOnDehub": "Riftn 出品",
+    "gallery": {
+      "send": "发送",
+      "notifications": {
+        "generation_reply": "{{name}} 回复了你其评论"
+      }
+    }
   },
   "fractions": {
     "title": "碎片",
@@ -13832,7 +13847,7 @@
   "multiPost": {
     "tab": "多重发布",
     "title": "多重发布",
-    "intro": "与 dehub 同时发布到 X、YouTube、Instagram、TikTok 等平台。一次性连接您的账户，然后选择每个帖子要发布到的平台。",
+    "intro": "与 Riftn 同时发布到 X、YouTube、Instagram、TikTok 等平台。一次性连接您的账户，然后选择每个帖子要发布到的平台。",
     "creditsHeading": "帖子积分",
     "credits": "{{count}} 个帖子积分",
     "topUpTitle": "充值并节省",
@@ -15379,7 +15394,8 @@
       "chrome": "液态铬",
       "orbit": "轨道",
       "snow": "雪花"
-    }
+    },
+    "sameAsProfile": "个人页"
   },
   "articleTile": {
     "cover": "封面"
@@ -15411,5 +15427,35 @@
     "forward": "转发",
     "deleted_one": "删除 {{count}} 消息",
     "deleted_other": "删除 {{count}} 条消息"
+  },
+  "messagesTabs": {
+    "all": "全部"
+  },
+  "mentionLinks": {
+    "communities": "社区",
+    "pages": "页面",
+    "people": "人"
+  },
+  "resetWallet": {
+    "mismatch": "密碼不符",
+    "logOut": "登出",
+    "confirm": "确认密码",
+    "ack": "我理解我的旧资金仍在旧钱包中。",
+    "cancel": "取消"
+  },
+  "chatTabs": {
+    "all": "全部",
+    "alwaysOn": "始终开启",
+    "communities": "社区",
+    "direct": "直接推荐",
+    "kindCommunity": "社區",
+    "kindDirect": "直接推荐",
+    "kindGroup": "分组",
+    "kindPublic": "公开",
+    "moveDown": "下降",
+    "moveUp": "上升",
+    "requests": "功能请求",
+    "sCreators": "创作者",
+    "sGaming": "游戏"
   }
 }

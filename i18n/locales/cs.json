@@ -22,7 +22,7 @@
     "failed": "Nepodařilo se dokončit připojení. Zkuste se znovu přihlásit.",
     "generate": "Vytvářejte média pomocí svých bodů, potvrzených plateb nebo vhodných zdarma obrázků",
     "generatePrompt": "Zobrazte si Riftnovy modely obrázků a citujte portrét před generováním.",
-    "intro": "Procházejte Riftn v ChatGPT, nebo připojte svůj vlastní účet k aktualizaci profilu, publikování příspěvků a použití Creator Studio. Přidejte https://dehub.io/mcp jako OAuth spojení pro řízení účtu.",
+    "intro": "Procházejte Riftn v ChatGPT, nebo připojte svůj vlastní účet k aktualizaci profilu, publikování příspěvků a použití Creator Studio. Přidejte https://riftn.com/mcp jako OAuth spojení pro řízení účtu.",
     "libraryPrompt": "Zobrazte nejnovější asset v Riftn Creator knihovně.",
     "manage": "Správa připojení účtu",
     "profile": "Upravte svůj profil, obrázky a nastavení soukromí",
@@ -30,7 +30,7 @@
     "read": "Přečtěte si svůj účet, příspěvky, notifikace a knihovnu Creator",
     "signIn": "Přihlaste se do Riftn",
     "social": "Publikujte příspěvky a komentáře, sledujte lidi a uložte si záložky",
-    "step": "Pro řízení účtu přidejte https://dehub.io/mcp jako OAuth spojení, přihlaste se do Riftn a prohlédněte si povolení před povolením přístupu.",
+    "step": "Pro řízení účtu přidejte https://riftn.com/mcp jako OAuth spojení, přihlaste se do Riftn a prohlédněte si povolení před povolením přístupu.",
     "title": "Připojte svůj účet Riftn",
     "what": "Procházejte veřejné příspěvky a profily. S OAuth připojením účtu můžete řídit svůj profil a soukromí, publikovat příspěvky a komentáře, sledovat lidi, číst notifikace, ukládat záložky a generovat obrázky, videa, audio a 3D asset. Generování používá platidla Riftn podle stávajících pravidel."
   },
@@ -2627,7 +2627,8 @@
       "profile": "profil",
       "proposal": "návrh",
       "stage": "stupeň",
-      "store": "obchod"
+      "store": "obchod",
+      "featureRequest": "požadavek"
     }
   },
   "postGate": {
@@ -2917,7 +2918,11 @@
     "premium": "Prémiový",
     "pricing": "Ceník",
     "reorderHint": "Držte a přetáhněte libovolnou ikonu pro přeuspořádání",
-    "reorderReset": "Reset"
+    "reorderReset": "Reset",
+    "groups": {
+      "create": "Vytvořit",
+      "discover": "Objevovat"
+    }
   },
   "affiliate": {
     "subtitle": "Získejte z každého, koho pozvete — navždy",
@@ -3681,7 +3686,8 @@
     "themeColorBrand": "Značka",
     "themeColorBrandDesc": "Použít barvy tvé profilové fotky",
     "themeColorBrandNoAvatar": "Přidej profilovou fotku, abys mohl použít barvy značky",
-    "themeColorBrandFailed": "Nepodařilo se načíst barvy z tvé profilové fotky"
+    "themeColorBrandFailed": "Nepodařilo se načíst barvy z tvé profilové fotky",
+    "menuLayoutFolders": "Složky"
   },
   "common": {
     "refresh": "Obnovit",
@@ -3749,7 +3755,8 @@
     "next": "Další",
     "previous": "Předchozí",
     "redo": "Znovu provést",
-    "remove": "Odstranit"
+    "remove": "Odstranit",
+    "loadMore": "Načíst více"
   },
   "tip": {
     "payDirect": "Posláno přímo na {{name}} v {{symbol}} dne {{chain}}. Žádná výměna.",
@@ -4652,7 +4659,7 @@
     "promptHeading": "Co bychom měli postavit další?",
     "promptHint": "Popište to. Vložte snímek. Udělejte to.",
     "promptLabel": "Vaše prompt",
-    "promptMediaError": "Vyberte obrázky nebo videa do 20 MB.",
+    "promptMediaError": "Vyberte obrázky nebo videa do 50 MB.",
     "promptMediaLimit": "Do {{max}} příloh.",
     "promptNew": "Nový prompt",
     "promptPageTitle": "Žádosti",
@@ -12794,7 +12801,15 @@
     "loop": "Smyčka",
     "dialogueFormat": "Napište scénu jako \"Jméno: řádek\", jeden mluvčí na řádek.",
     "fileTooLarge": "Tento soubor je větší než 100 MB. Použijte kratší nebo menší soubor.",
-    "signInToGenerate": "Přihlaste se pro generování."
+    "signInToGenerate": "Přihlaste se pro generování.",
+    "madeOnDehub": "Vytvořeno na Riftn",
+    "aiGenerationAlt": "AI generování",
+    "gallery": {
+      "send": "Odeslat",
+      "notifications": {
+        "generation_reply": "{{name}} odpověděl na váš komentář"
+      }
+    }
   },
   "fractions": {
     "title": "Frakce",
@@ -13808,7 +13823,7 @@
   "multiPost": {
     "tab": "Více příspěvků",
     "title": "Více příspěvků",
-    "intro": "Publikujte na X, YouTube, Instagram, TikTok a další současně s dehub. Připojte své účty jednou a poté vyberte, kam každý příspěvek půjde.",
+    "intro": "Publikujte na X, YouTube, Instagram, TikTok a další současně s Riftn. Připojte své účty jednou a poté vyberte, kam každý příspěvek půjde.",
     "creditsHeading": "Kredity za příspěvky",
     "credits": "{{count}} kreditů za příspěvky",
     "topUpTitle": "Doplňte a ušetřete",
@@ -15367,7 +15382,8 @@
       "chrome": "Tekutý chrom",
       "orbit": "Orbita",
       "snow": "Sněžení"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Obálka"
@@ -15399,5 +15415,36 @@
     "forward": "Přeposlat",
     "deleted_one": "Smazáno {{count}} zpráva",
     "deleted_other": "Smazány {{count}} zprávy"
+  },
+  "messagesTabs": {
+    "all": "Vše"
+  },
+  "mentionLinks": {
+    "communities": "Komunity",
+    "pages": "Stránky",
+    "people": "Lidé"
+  },
+  "resetWallet": {
+    "mismatch": "Hesla se neshodují",
+    "logOut": "Odhlásit se",
+    "confirm": "Potvrdit heslo",
+    "ack": "Rozumím, že mé staré prostředky zůstávají v staré peněžence.",
+    "cancel": "Zrušit"
+  },
+  "chatTabs": {
+    "all": "Vše",
+    "alwaysOn": "Vždy zapnuto",
+    "communities": "Komunity",
+    "direct": "Přímý",
+    "kindCommunity": "Komunita",
+    "kindDirect": "Přímý",
+    "kindGroup": "Seskupit",
+    "kindPublic": "Veřejné",
+    "moveDown": "Posunout dolů",
+    "moveUp": "Posunout nahoru",
+    "requests": "Požadavky na funkce",
+    "sCreators": "Tvůrci",
+    "sGaming": "Počítačové hry",
+    "sTrading": "Obchodování"
   }
 }

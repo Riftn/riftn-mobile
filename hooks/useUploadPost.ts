@@ -119,8 +119,12 @@ export type UploadPayload = {
   quotePolicy?: "followers" | "nobody";
   /** Who may reply. Absent means anyone. */
   replyPolicy?: "followers" | "following" | "mentioned";
-  /** Who may see it. Absent means everyone; fixed once posted. */
-  visibility?: "followers" | "direct";
+  /**
+   * Who may see it. Absent means everyone; fixed once posted. "self" (Only me)
+   * is only sent when making a post: the server keeps it as a direct post
+   * that names nobody, so it reads back as "direct".
+   */
+  visibility?: "followers" | "direct" | "self";
   /** Connected external accounts to cross-post to once the post is up. */
   crossPostAccountIds?: string[];
 };

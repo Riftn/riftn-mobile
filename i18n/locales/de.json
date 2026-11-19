@@ -3769,7 +3769,8 @@
     "next": "Nächste",
     "previous": "Vorherige",
     "redo": "Wiederholen",
-    "remove": "Entfernen"
+    "remove": "Entfernen",
+    "loadMore": "Mehr laden"
   },
   "tip": {
     "title": "Trinkgeld senden",
@@ -4750,7 +4751,7 @@
     "promptDetails": "Optionale Angaben",
     "promptDevice": "Gerät & Betriebssystem (für Fehler)",
     "promptFilters": "Nach Kategorie filtern",
-    "promptMediaError": "Wählen Sie Bilder oder Videos mit jeweils weniger als 20 MB.",
+    "promptMediaError": "Wählen Sie Bilder oder Videos mit jeweils weniger als 50 MB.",
     "promptMediaLimit": "Bis zu {{max}} Anhänge.",
     "removePromptAttachment": "{{name}}entfernen",
     "promptAttachment": "Anhang {{number}}",
@@ -7688,7 +7689,7 @@
     "onStage": "Auf der Bühne",
     "noSpeakers": "Noch keine Lautsprecher",
     "voiceEffect": "🎭 Spracheffekt",
-    "textToSpeech": "🔊 Text-to-Speech",
+    "textToSpeech": "Text-to-Speech",
     "loadVoices": "Stimmen laden",
     "ttsPlaceholder": "Geben Sie eine Nachricht ein, um zu sprechen...",
     "signInToJoin": "Melden Sie sich an, um teilzunehmen",
@@ -12967,7 +12968,15 @@
     "loop": "Schleife",
     "dialogueFormat": "Schreiben Sie die Szene als \"Name: Zeile\", ein Sprecher pro Zeile.",
     "fileTooLarge": "Diese Datei ist größer als 100 MB. Verwende eine kürzere oder kleinere Datei.",
-    "signInToGenerate": "Melde dich an, um zu generieren."
+    "signInToGenerate": "Melde dich an, um zu generieren.",
+    "madeOnDehub": "Erstellt auf Riftn",
+    "aiGenerationAlt": "KI-Generierung",
+    "gallery": {
+      "send": "Senden",
+      "notifications": {
+        "generation_reply": "{{name}} hat auf deinen Kommentar geantwortet"
+      }
+    }
   },
   "fractions": {
     "title": "Anteile",
@@ -13936,7 +13945,7 @@
   "multiPost": {
     "tab": "Multi-Posting",
     "title": "Multi-Posting",
-    "intro": "Poste gleichzeitig auf X, YouTube, Instagram, TikTok und mehr mit dehub. Verbinde deine Konten einmal und wähle dann aus, wohin jeder Beitrag gesendet wird.",
+    "intro": "Poste gleichzeitig auf X, YouTube, Instagram, TikTok und mehr mit Riftn. Verbinde deine Konten einmal und wähle dann aus, wohin jeder Beitrag gesendet wird.",
     "creditsHeading": "Post-Credits",
     "credits": "{{count}} Post-Credits",
     "topUpTitle": "Aufladen und sparen",
@@ -15035,10 +15044,10 @@
     "empty": "Keine aktiven Konto-Verbindungen.",
     "disconnect": "Trennen",
     "failed": "Die Verbindung konnte nicht abgeschlossen werden. Versuchen Sie es erneut.",
-    "intro": "Browsen Sie Riftn in ChatGPT, oder verbinden Sie Ihr eigenes Konto, um Ihr Profil zu aktualisieren, Beiträge zu veröffentlichen und Creator Studio zu verwenden. Fügen Sie https://dehub.io/mcp als OAuth-Connector für Kontrollzugriff hinzu.",
+    "intro": "Browsen Sie Riftn in ChatGPT, oder verbinden Sie Ihr eigenes Konto, um Ihr Profil zu aktualisieren, Beiträge zu veröffentlichen und Creator Studio zu verwenden. Fügen Sie https://riftn.com/mcp als OAuth-Connector für Kontrollzugriff hinzu.",
     "what": "Browsen Sie öffentliche Beiträge und Profile. Mit einer OAuth-Konto-Verbindung können Sie Ihr Profil und die Privatsphäre verwalten, Beiträge und Kommentare veröffentlichen, Personen folgen, Benachrichtigungen lesen, Lesezeichen speichern und Bilder, Videos, Audio- und 3D-Assets erstellen. Die Erstellung verwendet die Zahlungsregeln von Riftn.",
     "account": "Öffentliches Browsen benötigt kein Konto. Verbinden Sie Ihr Riftn-Konto, um Ihr Profil zu verwalten und Inhalte zu erstellen oder zu veröffentlichen.",
-    "step": "Für Kontrollzugriffe fügen Sie https://dehub.io/mcp als OAuth-Connector hinzu, melden Sie sich bei Riftn an und überprüfen Sie die Berechtigungen, bevor Sie den Zugriff erlauben.",
+    "step": "Für Kontrollzugriffe fügen Sie https://riftn.com/mcp als OAuth-Connector hinzu, melden Sie sich bei Riftn an und überprüfen Sie die Berechtigungen, bevor Sie den Zugriff erlauben.",
     "profilePrompt": "Aktualisieren Sie mein Riftn-Bio: Independent Kreativschaffender, der Filme und Musik macht.",
     "generatePrompt": "Zeigen Sie mir die Bildmodelle von Riftn und zitieren Sie ein Portrait, bevor Sie es generieren.",
     "libraryPrompt": "Zeigen Sie mir die neuesten Assets in meiner Riftn-Creator-Bibliothek."
@@ -15615,5 +15624,15 @@
     "saveFailed": "Tabs konnten nicht gespeichert werden, versuch es erneut",
     "show": "Tab anzeigen",
     "tooMany": "Du kannst bis zu 10 Tabs haben"
+  },
+  "messagesTabs": {
+    "all": "Alle"
+  },
+  "resetWallet": {
+    "mismatch": "Passwörter stimmen nicht überein",
+    "logOut": "Abmelden",
+    "confirm": "Passwort bestätigen",
+    "ack": "Ich verstehe, dass meine alten Guthaben im alten Wallet bleiben.",
+    "cancel": "Abbrechen"
   }
 }

@@ -35,7 +35,7 @@
     "failed": "Nem sikerült befejezni a kapcsolatot. Próbálj meg újra bejelentkezni.",
     "generate": "Hozz létre médiát a kreditjeid, a visszaigazolt fizetéseid vagy a feltételeknek megfelelő ingyenes képek felhasználásával",
     "generatePrompt": "Mutassa meg a Riftn képmodelljeit, és idézzen egy portrét, mielőtt létrehozná.",
-    "intro": "Böngéssz a Riftn szolgáltatásban a ChatGPT-ben, vagy kapcsold össze a saját fiókodat a profilod frissítéséhez, bejegyzések közzétételéhez és az Alkotói Stúdió használatához. Adja hozzá a https://dehub.io/mcp webhelyet OAuth-csatlakozóként a fiókvezérléshez.",
+    "intro": "Böngéssz a Riftn szolgáltatásban a ChatGPT-ben, vagy kapcsold össze a saját fiókodat a profilod frissítéséhez, bejegyzések közzétételéhez és az Alkotói Stúdió használatához. Adja hozzá a https://riftn.com/mcp webhelyet OAuth-csatlakozóként a fiókvezérléshez.",
     "libraryPrompt": "Mutasd meg a legújabb eszközöket a Riftn Creator könyvtáramban.",
     "manage": "Fiókkapcsolatok kezelése",
     "profile": "Profil, képek és adatvédelmi beállítások szerkesztése",
@@ -43,7 +43,7 @@
     "read": "Olvasd el a fiókodat, a bejegyzéseidet, az értesítéseidet és az",
     "signIn": "Bejelentkezés a Riftnba",
     "social": "Bejegyzések és hozzászólások közzététele, személyek követése és könyvjelzők mentése",
-    "step": "A fiókvezérléshez adja hozzá a https://dehub.io/mcp webhelyet OAuth-csatlakozóként, jelentkezzen be a Riftnba, és ellenőrizze az engedélyeket, mielőtt engedélyezné a hozzáférést.",
+    "step": "A fiókvezérléshez adja hozzá a https://riftn.com/mcp webhelyet OAuth-csatlakozóként, jelentkezzen be a Riftnba, és ellenőrizze az engedélyeket, mielőtt engedélyezné a hozzáférést.",
     "title": "Riftn-fiók csatlakoztatása",
     "what": "Böngéssz nyilvános bejegyzések és profilok között. OAuth-fiókkapcsolattal kezelheti profilját és adatvédelmét, bejegyzéseket és megjegyzéseket tehet közzé, követheti az embereket, olvashatja az értesítéseket, mentheti a könyvjelzőket, valamint képeket, videókat, hang- és 3D-eszközöket hozhat létre. A generáció a Riftn meglévő fizetési szabályait használja."
   },
@@ -2641,7 +2641,8 @@
       "profile": "profil",
       "proposal": "ajánlat",
       "stage": "színpad",
-      "store": "bolt"
+      "store": "bolt",
+      "featureRequest": "kérés"
     }
   },
   "postGate": {
@@ -2931,7 +2932,11 @@
     "premium": "Prémium",
     "pricing": "Árak",
     "reorderHint": "Tartsa lenyomva és húzza bármelyik ikont az átrendezéshez",
-    "reorderReset": "Visszaállítás"
+    "reorderReset": "Visszaállítás",
+    "groups": {
+      "create": "Létrehozás",
+      "discover": "Felfedezés"
+    }
   },
   "affiliate": {
     "subtitle": "Keress minden meghívottad után — örökre",
@@ -3695,7 +3700,8 @@
     "themeColorBrand": "Márka",
     "themeColorBrandDesc": "A profilképed színeinek használata",
     "themeColorBrandNoAvatar": "Adj hozzá profilképet a márkaszínek használatához",
-    "themeColorBrandFailed": "Nem sikerült színeket kiolvasni a profilképedből"
+    "themeColorBrandFailed": "Nem sikerült színeket kiolvasni a profilképedből",
+    "menuLayoutFolders": "Mappák"
   },
   "common": {
     "refresh": "Frissítés",
@@ -3763,7 +3769,8 @@
     "next": "Következő",
     "previous": "Előző",
     "redo": "Visszaállít",
-    "remove": "Töröl"
+    "remove": "Töröl",
+    "loadMore": "Több betöltése"
   },
   "tip": {
     "payDirect": "Egyenesen ide küldve:{{name}}, {{symbol}}, {{chain}}. Nincs csere.",
@@ -4666,7 +4673,7 @@
     "promptHeading": "Mit építsünk a következő?",
     "promptHint": "Irányítsd le egy képernyőképben. Hozd létre.",
     "promptLabel": "A sugalmazásod",
-    "promptMediaError": "Válassza ki a 20 MB-nál kisebb képeket vagy videókat.",
+    "promptMediaError": "Válassza ki a 50 MB-nál kisebb képeket vagy videókat.",
     "promptMediaLimit": "{{max}} maximális fájl.",
     "promptNew": "Új sugalmazás",
     "promptPageTitle": "Kérések",
@@ -7583,7 +7590,7 @@
     "onStage": "Színpadon",
     "noSpeakers": "Még nincsenek hangszórók",
     "voiceEffect": "🎭 Hanghatás",
-    "textToSpeech": "🔊 Szövegfelolvasás",
+    "textToSpeech": "Szövegfelolvasás",
     "loadVoices": "Hangok betöltése",
     "ttsPlaceholder": "Írjon be egy üzenetet a felszólaláshoz…",
     "signInToJoin": "Jelentkezz be, hogy csatlakozhass",
@@ -12806,7 +12813,15 @@
     "loop": "Hurok",
     "dialogueFormat": "Írj le a jelenetet „Név: sor\" formátumban, egy beszélő soronként.",
     "fileTooLarge": "Ez a fájl nagyobb, mint 100 MB. Használj rövidebb vagy kisebb fájlt.",
-    "signInToGenerate": "Jelentkezz be a generáláshoz."
+    "signInToGenerate": "Jelentkezz be a generáláshoz.",
+    "madeOnDehub": "A Riftnon készült",
+    "aiGenerationAlt": "AI-generálás",
+    "gallery": {
+      "send": "Küldés",
+      "notifications": {
+        "generation_reply": "{{name}} válaszolt hozzászólására"
+      }
+    }
   },
   "fractions": {
     "title": "Frakciók",
@@ -13820,7 +13835,7 @@
   "multiPost": {
     "tab": "Többposztolás",
     "title": "Többposztolás",
-    "intro": "Posztolj egyszerre az X-re, YouTube-ra, Instagramra, TikTokra és még sok másra a dehubbal. Csatlakoztasd a fiókjaidat egyszer, majd válaszd ki, hova kerüljön minden poszt.",
+    "intro": "Posztolj egyszerre az X-re, YouTube-ra, Instagramra, TikTokra és még sok másra a Riftnbal. Csatlakoztasd a fiókjaidat egyszer, majd válaszd ki, hova kerüljön minden poszt.",
     "creditsHeading": "Posztkreditek",
     "credits": "{{count}} posztkredit",
     "topUpTitle": "Feltöltés és megtakarítás",
@@ -15356,7 +15371,8 @@
       "drive": "Éjszakai vezetés",
       "chrome": "Folyékony króm",
       "snow": "Havazás"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Borítókép"
@@ -15388,5 +15404,36 @@
     "forward": "Továbbítás",
     "deleted_one": "Töröltem {{count}} üzenetet",
     "deleted_other": "Töröltem {{count}} üzenetet"
+  },
+  "messagesTabs": {
+    "all": "Összes"
+  },
+  "mentionLinks": {
+    "communities": "Közösségek",
+    "pages": "Oldalak",
+    "people": "Emberek"
+  },
+  "resetWallet": {
+    "mismatch": "A jelszavak nem egyeznek meg",
+    "logOut": "Kilépés",
+    "confirm": "Jelszó megerősítése",
+    "ack": "Megértettem, hogy a régi pénzügyi eszközök a régi tárhelyen maradnak.",
+    "cancel": "Mégse"
+  },
+  "chatTabs": {
+    "all": "Összes",
+    "alwaysOn": "Mindig bekapcsolt",
+    "communities": "Közösségek",
+    "direct": "Közvetlen",
+    "kindCommunity": "Közösség",
+    "kindDirect": "Közvetlen",
+    "kindGroup": "Csoportosítás",
+    "kindPublic": "Nyilvános",
+    "moveDown": "Le",
+    "moveUp": "Fel",
+    "requests": "Funkciókérések",
+    "sCreators": "Alkotók",
+    "sGaming": "Játék",
+    "sTrading": "Kereskedés"
   }
 }

@@ -22,7 +22,7 @@
     "failed": "Bağlantı tamamlana bilmədi. Yenidən daxil olmağa çalışın.",
     "generate": "Kreditləriniz, təsdiqlənmiş ödənişləriniz və ya tələblərə cavab verən pulsuz şəkillərinizdən istifadə edərək media yaradın",
     "generatePrompt": "Mənə Riftn-ın təsvir modellərini göstərin və onu yaratmazdan əvvəl portreti sitat gətirin.",
-    "intro": "ÇatGPT-də Riftn-a baxın və ya profilinizi yeniləmək, yazıları dərc etmək və Creator Studio-dan istifadə etmək üçün öz hesabınızı əlaqələndirin. Hesab nəzarətləri üçün https://dehub.io/mcp saytını OAuth konnektoru kimi əlavə edin.",
+    "intro": "ÇatGPT-də Riftn-a baxın və ya profilinizi yeniləmək, yazıları dərc etmək və Creator Studio-dan istifadə etmək üçün öz hesabınızı əlaqələndirin. Hesab nəzarətləri üçün https://riftn.com/mcp saytını OAuth konnektoru kimi əlavə edin.",
     "libraryPrompt": "Riftn Yaradıcı kitabxanamda ən son aktivləri göstərin.",
     "manage": "Hesab bağlantılarını idarə edin",
     "profile": "Profil, şəkillər və məxfilik parametrlərinizi redaktə edin",
@@ -30,7 +30,7 @@
     "read": "Hesabınızı, mesajlarınızı, bildirişlərinizi və Yaradıcı kitabxananı oxuyun",
     "signIn": "Riftn-a daxil ol",
     "social": "Yazılar və şərhlər dərc edin, insanları izləyin və əlfəcinləri yaddaşda saxlayın",
-    "step": "Hesab nəzarətləri üçün https://dehub.io/mcp saytını OAuth birləşdiricisi kimi əlavə edin, Riftn-a daxil olun və girişə icazə verməzdən əvvəl icazələri nəzərdən keçirin.",
+    "step": "Hesab nəzarətləri üçün https://riftn.com/mcp saytını OAuth birləşdiricisi kimi əlavə edin, Riftn-a daxil olun və girişə icazə verməzdən əvvəl icazələri nəzərdən keçirin.",
     "title": "Riftn hesabınızı qoşun",
     "what": "İctimai postlara və profillərə baxın. OAuth hesabı bağlantısı ilə profilinizi və məxfiliyinizi idarə edin, yazı və şərhləri dərc edin, insanları izləyin, bildirişləri oxuyun, əlfəcinləri yaddaşda saxlayın və şəkillər, video, audio və 3D aktivlər yaradın. Nəsil Riftn-ın mövcud ödəniş qaydalarından istifadə edir."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profil",
       "proposal": "təklif",
       "stage": "mərhələ",
-      "store": "mağaza"
+      "store": "mağaza",
+      "featureRequest": "istənilən istifadəçi hesabını qəbul et"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Qiymətlər",
     "reorderHint": "Dəstək və simvolları yerinə yetirmək üçün tutaraq sırala bilərsiniz.",
-    "reorderReset": "Sıfırla"
+    "reorderReset": "Sıfırla",
+    "groups": {
+      "create": "Yarat",
+      "discover": "Kəşf et"
+    }
   },
   "affiliate": {
     "subtitle": "Dəvət etdiyiniz hər kəsdən qazanın — əbədi",
@@ -3680,7 +3685,8 @@
     "themeColorBrand": "Brend",
     "themeColorBrandDesc": "Profil şəklinizin rənglərini istifadə edin",
     "themeColorBrandNoAvatar": "Brend rənglərini istifadə etmək üçün profil şəkli əlavə edin",
-    "themeColorBrandFailed": "Profil şəklinizdən rənglər oxuna bilmədi"
+    "themeColorBrandFailed": "Profil şəklinizdən rənglər oxuna bilmədi",
+    "menuLayoutFolders": "Qovluqlar"
   },
   "common": {
     "refresh": "Yenilə",
@@ -3748,7 +3754,8 @@
     "next": "Növbəti",
     "previous": "Əvvəlki",
     "redo": "Yenidən et",
-    "remove": "Sil"
+    "remove": "Sil",
+    "loadMore": "Daha çox yüklə"
   },
   "tip": {
     "payDirect": "{{name}}-ə {{symbol}}-də {{chain}}-də doğrudan göndərildi. Deyişmə yoxdur.",
@@ -4651,7 +4658,7 @@
     "promptHeading": "Nəyi yaradacağıq?",
     "promptHint": "Təsvir edin. Ekran görüntüsünü əlavə edin. Həyata keçirin.",
     "promptLabel": "Sizin tələb",
-    "promptMediaError": "Hər biri 20 MB-dan kiçik şəkillər və ya videolar seçin.",
+    "promptMediaError": "Hər biri 50 MB-dan kiçik şəkillər və ya videolar seçin.",
     "promptMediaLimit": "{{max}}-dək əlavə.",
     "promptNew": "Yeni tələb",
     "promptPageTitle": "İstəklər",
@@ -7565,7 +7572,7 @@
     "onStage": "Səhnədə",
     "noSpeakers": "Hələ səsgücləndirici yoxdur",
     "voiceEffect": "🎭 Səs Effekti",
-    "textToSpeech": "Mətndən 🔊 texnologiyaya",
+    "textToSpeech": "Mətndən  texnologiyaya",
     "loadVoices": "Səsləri yüklə",
     "ttsPlaceholder": "Danışmaq üçün mesaj yazın...",
     "signInToJoin": "Qoşulmaq üçün daxil olun",
@@ -12789,7 +12796,15 @@
     "loop": "Döngə",
     "dialogueFormat": "Səhnəni \"Ad: sətir\" kimi yazın, hər sətirdə bir spikerdir.",
     "fileTooLarge": "Bu fayl 100 MB-dan çoxdur. Daha qısa və ya kiçik olanı istifadə edin.",
-    "signInToGenerate": "Yaratmaq üçün daxil olun."
+    "signInToGenerate": "Yaratmaq üçün daxil olun.",
+    "madeOnDehub": "Riftn-da yaradılıb",
+    "aiGenerationAlt": "AI yaradılışı",
+    "gallery": {
+      "send": "Göndər",
+      "notifications": {
+        "generation_reply": "{{name}} şərhinizə cavab verdi"
+      }
+    }
   },
   "fractions": {
     "title": "Fraksiyalar",
@@ -13803,7 +13818,7 @@
   "multiPost": {
     "tab": "Çoxlu göndəriş",
     "title": "Çoxlu göndəriş",
-    "intro": "X, YouTube, Instagram, TikTok və daha çox yerə eyni anda dehub kimi göndərin. Hesablarınızı bir dəfə qoşun, sonra hər göndərişin hara gedəcəyini seçin.",
+    "intro": "X, YouTube, Instagram, TikTok və daha çox yerə eyni anda Riftn kimi göndərin. Hesablarınızı bir dəfə qoşun, sonra hər göndərişin hara gedəcəyini seçin.",
     "creditsHeading": "Göndəriş kreditləri",
     "credits": "{{count}} göndəriş krediti",
     "topUpTitle": "Yuxarı doldurun və qənaət edin",
@@ -15344,7 +15359,8 @@
       "drive": "Gecə sürmə məsafəsi",
       "chrome": "Maye Xrom",
       "snow": "Qar yağışı"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Üz qabığı"
@@ -15376,5 +15392,35 @@
     "forward": "Yönləndir",
     "deleted_one": "{{count}} mesaj silindi",
     "deleted_other": "{{count}} mesaj silindi"
+  },
+  "messagesTabs": {
+    "all": "Hamısı"
+  },
+  "mentionLinks": {
+    "communities": "İcmalar",
+    "pages": "Səhifələr",
+    "people": "İnsanlar"
+  },
+  "resetWallet": {
+    "mismatch": "Parollar eyni deyil",
+    "logOut": "Çıxış et",
+    "confirm": "Parolu təsdiqləyin",
+    "ack": "Köhnə pul kisəsində köhnə vəsaitimin qaldığını başa düşürəm.",
+    "cancel": "Ləğv et"
+  },
+  "chatTabs": {
+    "all": "Hamısı",
+    "communities": "İcmalar",
+    "direct": "Birbaşa",
+    "kindCommunity": "İcma",
+    "kindDirect": "Birbaşa",
+    "kindGroup": "Qruplaşdır",
+    "kindPublic": "Açıq",
+    "moveDown": "Aşağıya daşı",
+    "moveUp": "Yuxarıya daşı",
+    "requests": "Sorğular",
+    "sCreators": "Yaradıcılar",
+    "sGaming": "Oyun",
+    "sTrading": "Ticarət"
   }
 }

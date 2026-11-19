@@ -22,7 +22,7 @@
     "failed": "ግንኙነቱን ማጠናቀቅ አልተቻለም ። እንደገና ለመመዝገብ ይሞክሩ.",
     "generate": "ክሬዲትዎን ፣ የተረጋገጡ ክፍያዎችን ወይም ብቁ የሆኑ ነፃ ምስሎችን በመጠቀም ሚዲያዎችን ያመነጩ",
     "generatePrompt": "የ Riftn ምስል ሞዴሎችን አሳዩኝ እና ከማመንጨትዎ በፊት አንድ ስዕል ጠቅ ያድርጉ ።",
-    "intro": "በChatGPT ውስጥ Riftnን ያስሱ፣ ወይም መገለጫዎን ለማዘመን፣ ልጥፎችን ለማተም እና የCreator Studioን ለመጠቀም የራስዎን መለያ ያገናኙ። ለመለያ ቁጥጥር https://dehub.io/mcp እንደ OAuth ማገናኛ ያክሉ።",
+    "intro": "በChatGPT ውስጥ Riftnን ያስሱ፣ ወይም መገለጫዎን ለማዘመን፣ ልጥፎችን ለማተም እና የCreator Studioን ለመጠቀም የራስዎን መለያ ያገናኙ። ለመለያ ቁጥጥር https://riftn.com/mcp እንደ OAuth ማገናኛ ያክሉ።",
     "libraryPrompt": "አስተዳደርን ለየትኛው አስተዳደር ማስተላለፍ",
     "manage": "የመለያ ግንኙነቶችን ያስተዳድሩ",
     "profile": "መገለጫዎን ፣ ምስሎችን እና የግላዊነት ቅንብሮችን ያርትዑ",
@@ -30,7 +30,7 @@
     "read": "መለያዎን ፣ ልጥፎችዎን ፣ ማሳወቂያዎችዎን እና የፈጣሪ ቤተ-መጽሐፍትዎን ያንብቡ",
     "signIn": "ወደ Riftn ይግቡ",
     "social": "ተዘጋጅና ተንቀሳቅና ተንቀሳቅና የሚያደርጉ ጽሁፍዎችን እንዲዘጋጅና እንዲተንቀሳቅና እንዲሰርቅ",
-    "step": "ለመለያ መቆጣጠሪያዎች፣ https://dehub.io/mcp እንደ OAuth ማገናኛ ያክሉ፣ ወደ Riftn ይግቡ እና መዳረሻ ከመፍቀድዎ በፊት ፈቃዶቹን ይገምግሙ።",
+    "step": "ለመለያ መቆጣጠሪያዎች፣ https://riftn.com/mcp እንደ OAuth ማገናኛ ያክሉ፣ ወደ Riftn ይግቡ እና መዳረሻ ከመፍቀድዎ በፊት ፈቃዶቹን ይገምግሙ።",
     "title": "የ Riftn መለያዎን ያገናኙ",
     "what": "የህዝብ ልጥፎችን እና መገለጫዎችን ያስሱ ። በ OAuth መለያ ግንኙነት መገለጫዎን እና ግላዊነትዎን ያስተዳድሩ ፣ ልጥፎችን እና አስተያየቶችን ያትሙ ፣ ሰዎችን ይከተሉ ፣ ማሳወቂያዎችን ያንብቡ ፣ ዕልባቶችን ያስቀምጡ እና ምስሎችን ፣ ቪዲዮዎችን ፣ ኦዲዮዎችን እና 3D ንብረቶችን ያመነጫሉ ። ትውልዱ የ Riftn ነባር የክፍያ ደንቦችን ይጠቀማል ።"
   },
@@ -2628,7 +2628,8 @@
       "profile": "መገለጫ",
       "proposal": "ፕሮፖዛል",
       "stage": "ደረጃ",
-      "store": "መደብር"
+      "store": "መደብር",
+      "featureRequest": "ጥያቄ"
     }
   },
   "postGate": {
@@ -2917,7 +2918,11 @@
     "premium": "ፕሪሚየም",
     "pricing": "ዋጋ አሰጣጥ",
     "reorderHint": "የተሰጠው አይኮን ይጠየቀው እና ይምረጡ",
-    "reorderReset": "ዳግም አስጀምር"
+    "reorderReset": "ዳግም አስጀምር",
+    "groups": {
+      "create": "ፍጠር",
+      "discover": "አግኝ"
+    }
   },
   "affiliate": {
     "subtitle": "የጋበዝከው ሰው ሁሉ ያገኛል — ለዘላለም",
@@ -3679,7 +3684,8 @@
     "themeColorBrand": "የምርት ስም",
     "themeColorBrandDesc": "የመገለጫ ስዕልዎን ቀለሞች ይጠቀሙ",
     "themeColorBrandNoAvatar": "የምርት ስም ቀለሞችን ለመጠቀም የመገለጫ ስዕል ያክሉ",
-    "themeColorBrandFailed": "ከመገለጫ ስዕልዎ ቀለሞችን ማንበብ አልተቻለም"
+    "themeColorBrandFailed": "ከመገለጫ ስዕልዎ ቀለሞችን ማንበብ አልተቻለም",
+    "menuLayoutFolders": "አቃፊዎች"
   },
   "common": {
     "remove": "አስወግድ",
@@ -3747,7 +3753,8 @@
     "apply": "ያመልክቱ",
     "next": "ቀጣይ",
     "previous": "ቀዳሚ",
-    "redo": "አድርግ"
+    "redo": "አድርግ",
+    "loadMore": "ተጨማሪ ጫን"
   },
   "tip": {
     "payDirect": "በቀጥታ ወደ {{name}} in {{symbol}} on {{chain}}. ምንም ስዋፕ.",
@@ -4650,7 +4657,7 @@
     "promptHeading": "ቀጥለን ምን እንገንባ?",
     "promptHint": "ግለጸው። ቅጽበታዊ ገጽ እይታ (screenshot) አስገባ። እንዲሳካ አድርገው።",
     "promptLabel": "የእርስዎ ጥያቄ",
-    "promptMediaError": "እያንዳንዳቸው ከ20ሜባ በታች የሆኑ ምስሎችን ወይም ቪዲዮዎችን ምረጥ።",
+    "promptMediaError": "እያንዳንዳቸው ከ50ሜባ በታች የሆኑ ምስሎችን ወይም ቪዲዮዎችን ምረጥ።",
     "promptMediaLimit": "እስከ {{max}} አባሪዎች።",
     "promptNew": "አዲስ ጥያቄ",
     "promptPageTitle": "ጥያቄዎች",
@@ -7597,7 +7604,7 @@
     "onStage": "ደረጃ ላይ",
     "noSpeakers": "እስካሁን ምንም ተናጋሪዎች የሉም",
     "voiceEffect": "🎭 የድምፅ ውጤት",
-    "textToSpeech": "🔊 የጽሑፍ-ወደ-ንግግር",
+    "textToSpeech": "የጽሑፍ-ወደ-ንግግር",
     "loadVoices": "ድምፆችን ጫን",
     "ttsPlaceholder": "ለመነጋገር መልእክት ይተይቡ...",
     "signInToJoin": "ለመግባት ይግቡ",
@@ -12823,7 +12830,15 @@
     "loop": "ሉፕ",
     "dialogueFormat": "ትዕይንቱን እንደ \"ስም: መስመር,\" በአንድ መስመር አንድ ተናጋሪ ይጻፉ.",
     "fileTooLarge": "ያ ፋይል ከ 100 ሜባ በላይ ነው ። አጭር ወይም ትንሽ ይጠቀሙ.",
-    "signInToGenerate": "ለማመንጨት ይግቡ ።"
+    "signInToGenerate": "ለማመንጨት ይግቡ ።",
+    "madeOnDehub": "በRiftn የተሠራ",
+    "aiGenerationAlt": "AI ትውልድ",
+    "gallery": {
+      "send": "ላክ",
+      "notifications": {
+        "generation_reply": "{{name}} አስተያየትህ ላይ ምላሽ ሰጠ"
+      }
+    }
   },
   "fractions": {
     "title": "ክፍልፋዮች",
@@ -13837,7 +13852,7 @@
   "multiPost": {
     "tab": "ባለብዙ ልጥፍ",
     "title": "ባለብዙ ልጥፍ",
-    "intro": "እንደ dehub ሁሉንም በአንድ ጊዜ ወደ X, YouTube, Instagram, TikTok እና ሌሎችም ይለጥፉ። መለያዎችዎን አንድ ጊዜ ያገናኙ፣ ከዚያ እያንዳንዱ ልጥፍ የት እንደሚሄድ ይምረጡ።",
+    "intro": "እንደ Riftn ሁሉንም በአንድ ጊዜ ወደ X, YouTube, Instagram, TikTok እና ሌሎችም ይለጥፉ። መለያዎችዎን አንድ ጊዜ ያገናኙ፣ ከዚያ እያንዳንዱ ልጥፍ የት እንደሚሄድ ይምረጡ።",
     "creditsHeading": "የልጥፍ ክሬዲቶች",
     "credits": "{{count}} የልጥፍ ክሬዲቶች",
     "topUpTitle": "ከፍተኛ እና አስቀምጥ",
@@ -15389,7 +15404,8 @@
       "chrome": "ፈሳሽ ክሮም",
       "orbit": "ምህዋር",
       "snow": "የበረዶ ዝናብ"
-    }
+    },
+    "sameAsProfile": "መገለጫ"
   },
   "articleTile": {
     "cover": "ሽፋን"
@@ -15421,5 +15437,36 @@
     "forward": "አስተላልፍ",
     "deleted_one": "ተሰርዟል {{count}} መልዕክት",
     "deleted_other": "ተሰርዟል {{count}} መልዕክቶች"
+  },
+  "messagesTabs": {
+    "all": "ሁሉም"
+  },
+  "mentionLinks": {
+    "communities": "ማህበረሰቦች",
+    "pages": "ገጾች",
+    "people": "ሰዎች"
+  },
+  "resetWallet": {
+    "mismatch": "የይለፍ ቃሎች አይዛመዱም",
+    "logOut": "ወደ ውጭ ይግቡ",
+    "confirm": "የይለፍ ቃል ያረጋግጡ",
+    "ack": "ቆንጆ ገንዘብ በቆንጆ ዋሊት ውስጥ ይቆያል ብዬ ተረድቻለሁ።",
+    "cancel": "ሰርዝ"
+  },
+  "chatTabs": {
+    "all": "ሁሉም",
+    "alwaysOn": "ሁልጊዜ ላይ",
+    "communities": "ማህበረሰቦች",
+    "direct": "ቀጥታ",
+    "kindCommunity": "ማህበረሰብ",
+    "kindDirect": "ቀጥታ",
+    "kindGroup": "ቡድን",
+    "kindPublic": "ይፋ",
+    "moveDown": "ወደ ታች ያንቀሳቅሱ",
+    "moveUp": "ወደ ላይ ያንቀሳቅሱ",
+    "requests": "ጥያቄዎች",
+    "sCreators": "ፈጣሪዎች",
+    "sGaming": "ጨዋታ",
+    "sTrading": "ትሬዲንግ"
   }
 }

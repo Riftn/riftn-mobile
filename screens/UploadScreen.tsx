@@ -503,7 +503,7 @@ export default function UploadScreen() {
   // Who may reply. Anyone, unless the creator narrows it.
   const [replyPolicy, setReplyPolicy] = useState<"public" | "followers" | "following" | "mentioned">("public");
   // Who may see the post. Everyone, unless the creator narrows it; fixed once posted.
-  const [visibility, setVisibility] = useState<"public" | "followers" | "direct">("public");
+  const [visibility, setVisibility] = useState<"public" | "followers" | "direct" | "self">("public");
   // Hold menu on a photo tile (index), or null.
   const [showPreview, setShowPreview] = useState(false);
   const [photoMenu, setPhotoMenu] = useState<number | null>(null);
@@ -3562,6 +3562,8 @@ export default function UploadScreen() {
                   options={[
                     { value: "followers", label: t("postVisibility.followers") },
                     { value: "direct", label: t("postVisibility.direct") },
+                    // Only the author can read it. Same words as the quote setting's "Only me".
+                    { value: "self", label: t("quotePolicy.nobody") },
                   ]}
                   onChange={setVisibility}
                   hint={visibility === "direct" ? t("postVisibility.directHint") : undefined}

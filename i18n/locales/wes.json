@@ -18,20 +18,20 @@
     "title": "Connect yu Riftn account",
     "account": "Pablik bros no need akount. Link yu Riftn akount tu manaj yu profil an krea or publis kontent.",
     "allow": "Alawe konneksyon",
-    "body": "Link yu account fo manage yu profile, post post an create content from chat. Connection go expire after 24 hour. Yu can disconnect any time.",
+    "body": "Link yu account fo manage yu profile, post post an create content from chat. Connection go expire after 30 day. Yu can disconnect any time.",
     "deny": "Kansel",
     "disconnect": "Diskonnekt",
     "empty": "No aktiv akount konneksyon.",
     "failed": "No komplit konneksyon. Tri sign in agen.",
     "generate": "Genarate media wit your kredit, konfirm paymen or eligib frit imej",
     "generatePrompt": "Show me Riftn imej model an quote a potrait befo genarate im.",
-    "intro": "Bros Riftn in ChatGPT, or link yu own akount tu apdeyt yu profil, publis post an use Creator Studio. Ad https://dehub.io/mcp as OAuth konektor for akount kontrol.",
+    "intro": "Bros Riftn in ChatGPT, or link yu own akount tu apdeyt yu profil, publis post an use Creator Studio. Ad https://riftn.com/mcp as OAuth konektor for akount kontrol.",
     "libraryPrompt": "Show latest aset in my Riftn Kreator libari.",
     "manage": "Manaj akount konneksyon",
     "profilePrompt": "Apdeyt my Riftn bio tu: Indipenden kreator make film an mizik.",
     "signIn": "Sign in tu Riftn",
     "social": "Publis post an koment, folow pipo an save bookmark",
-    "step": "For akount kontrol, ad https://dehub.io/mcp as OAuth konektor, sign in tu Riftn an rivyu permishon befo alawe akses.",
+    "step": "For akount kontrol, ad https://riftn.com/mcp as OAuth konektor, sign in tu Riftn an rivyu permishon befo alawe akses.",
     "what": "Bros pablik post an profil. Wit OAuth akount konneksyon, manaj yu profil an privasi, publis post an koment, folow pipo, red notifikesyon, save bookmark an genarate imej, video, audio an 3D aset. Genarashon use Riftn existing paymen ruw."
   },
   "creatorSupport": {
@@ -2883,7 +2883,7 @@
     "careers": "Wok dem",
     "glossary": "Glossary",
     "create": "Mek",
-    "login": "Log In",
+    "login": "Log in",
     "connecting": "E dey connect...",
     "signMessage": "Sign message",
     "communities": "Grup dem",
@@ -2904,7 +2904,10 @@
     "premium": "Premium",
     "pricing": "Price dem",
     "reorderReset": "Reset",
-    "reorderHint": "Hold and drag any icon to rearrange am"
+    "reorderHint": "Hold and drag any icon to rearrange am",
+    "groups": {
+      "create": "Mek"
+    }
   },
   "affiliate": {
     "subtitle": "Win moni from ol pipo weh yu invait — fo evri taim",
@@ -3656,7 +3659,8 @@
     "themeColorBrand": "Brand",
     "themeColorBrandDesc": "Yus yua profile picture color dem",
     "themeColorBrandNoAvatar": "Add wan profile picture mek yu yus Brand color dem",
-    "themeColorBrandFailed": "I no fit read color dem from yua profile picture"
+    "themeColorBrandFailed": "I no fit read color dem from yua profile picture",
+    "menuLayoutFolders": "Folder dem"
   },
   "common": {
     "refresh": "Lod-am again",
@@ -3724,7 +3728,8 @@
     "next": "Di next one",
     "previous": "Bifo",
     "redo": "Redo",
-    "remove": "Comot am"
+    "remove": "Comot am",
+    "loadMore": "Bring more"
   },
   "tip": {
     "attachDescription": "Put Riftn tokens as tip fo yu message",
@@ -4430,7 +4435,7 @@
     "clearAll": "Clean ol notification",
     "removeHistory": "Remove ol notification weh don pass",
     "notificationTypes": "Kain notification dem",
-    "likes": "Like dem",
+    "likes": "Likes",
     "likesDesc": "When some pesin like your content",
     "comments": "Comment dem",
     "commentsDesc": "When some pesin comment or reply",
@@ -4617,7 +4622,7 @@
     "promptHeading": "Wetin we go build next?",
     "promptHint": "Describe am. Drop screenshot. Make am happen.",
     "promptLabel": "Yam promp",
-    "promptMediaError": "Chose piks or video wey dey less than 20MB each.",
+    "promptMediaError": "Chose piks or video wey dey less than 50MB each.",
     "promptMediaLimit": "Up to {{max}} attachment.",
     "promptNew": "New promp",
     "promptPageTitle": "Request",
@@ -5580,7 +5585,7 @@
     "run": "Ron"
   },
   "loginModal": {
-    "title": "Log In",
+    "title": "Log in",
     "continueEmail": "Continue wit Email",
     "continueSMS": "Continue wit SMS",
     "continueGoogle": "Continue wit Google",
@@ -7490,7 +7495,7 @@
     "onStage": "Fo Stage",
     "noSpeakers": "No speaker yet",
     "voiceEffect": "🎭 Voice Effect",
-    "textToSpeech": "🔊 Text-to-Speech",
+    "textToSpeech": "Text-to-Speech",
     "loadVoices": "Lod vois dem",
     "signInToJoin": "Enta fo join",
     "endStage": "Finis Stage",
@@ -12634,7 +12639,14 @@
     },
     "audioNoSpeech": "Nemesis no dey find word for dat recording.",
     "dialogueFormat": "Write scene wey \"Name: line\", one speaker per line.",
-    "fileTooLarge": "Dat file big wey over 100MB. Use one wey short or small."
+    "fileTooLarge": "Dat file big wey over 100MB. Use one wey short or small.",
+    "madeOnDehub": "Mek for Riftn",
+    "gallery": {
+      "send": "Sen",
+      "notifications": {
+        "generation_reply": "{{name}} reply your comment"
+      }
+    }
   },
   "fractions": {
     "title": "Fraction dem",
@@ -13664,7 +13676,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "Post fo X, YouTube, Instagram, TikTok an oda wan dem sem taim as dehub. Konek yu akaunt dem wan taim, den choose usai ech post go go.",
+    "intro": "Post fo X, YouTube, Instagram, TikTok an oda wan dem sem taim as Riftn. Konek yu akaunt dem wan taim, den choose usai ech post go go.",
     "creditsHeading": "Post credits",
     "credits": "{{count}} post credits",
     "topUpTitle": "Top up an save moni",
@@ -15105,5 +15117,29 @@
     "selected": "{{count}} don select",
     "copy": "Kopi",
     "forward": "Forward am"
+  },
+  "messagesTabs": {
+    "all": "Ol"
+  },
+  "mentionLinks": {
+    "communities": "Grup dem",
+    "pages": "Page dem",
+    "people": "Pipo"
+  },
+  "resetWallet": {
+    "logOut": "Log Out",
+    "confirm": "Confirm di password",
+    "ack": "M no understand wetin happen to my old funds stay for old wallet.",
+    "cancel": "Kansel"
+  },
+  "chatTabs": {
+    "all": "Ol",
+    "communities": "Grup dem",
+    "direct": "Direk",
+    "kindDirect": "Direk",
+    "kindGroup": "Gruup",
+    "kindPublic": "Fo ol pipo",
+    "requests": "Request dem",
+    "sCreators": "Creator dem"
   }
 }

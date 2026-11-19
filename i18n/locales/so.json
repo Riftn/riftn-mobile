@@ -22,7 +22,7 @@
     "failed": "Ma dhammaystiri karo xidhiidhka. Isku day inaad mar kale saxiixdo.",
     "generate": "Abuur warbaahinta adoo adeegsanaya amaahdaada, lacagaha la xaqiijiyay ama sawirada bilaashka ah ee u qalma",
     "generatePrompt": "Muuji moodooyinka sawirka Riftn oo soo xigo sawir ka hor inta aan la soo saarin.",
-    "intro": "Browse Riftn ee ChatGPT, ama isku xir koontadaada si aad u cusbooneysiiso astaantaada, u daabacdo qoraallo oo isticmaal Abuuraha Studio. Ku dar https://dehub.io/mcp sida isku xiraha OAuth ee koontaroolka koontada.",
+    "intro": "Browse Riftn ee ChatGPT, ama isku xir koontadaada si aad u cusbooneysiiso astaantaada, u daabacdo qoraallo oo isticmaal Abuuraha Studio. Ku dar https://riftn.com/mcp sida isku xiraha OAuth ee koontaroolka koontada.",
     "libraryPrompt": "Muuji hantidii ugu dambeysay maktabadayda Riftn Creator.",
     "manage": "Maamul isku xirka koontada",
     "profile": "Mabda ku dhaadsameeyo profile, warshadaha iyo macluumaadka dibedda.",
@@ -30,7 +30,7 @@
     "read": "Akhri koontadaada, boostadaada, ogeysiisyada iyo maktabadda Abuuraha",
     "signIn": "Gal Riftn",
     "social": "Daabac qoraallada iyo faallooyinka, raac dadka oo keydso calaamadaha buugaagta",
-    "step": "Xakamaynta koontada, ku dar https://dehub.io/mcp sida isku xiraha OAuth, ku qor Riftn oo dib u eeg rukhsadaha ka hor intaadan u oggolaan marin.",
+    "step": "Xakamaynta koontada, ku dar https://riftn.com/mcp sida isku xiraha OAuth, ku qor Riftn oo dib u eeg rukhsadaha ka hor intaadan u oggolaan marin.",
     "title": "Ku xir koontadaada Riftn",
     "what": "Baadh qoraallada iyo astaamaha dadweynaha. Adigoo isticmaalaya xidhiidhka xisaabta OAuth, maamul astaantaada iyo asturnaantaada, daabac qoraallo iyo faallooyin, raac dadka, akhri ogeysiisyada, kaydi calaamadaha (bookmarks) oo samee sawirro, muuqaallo, maqal iyo hanti 3D ah. Abuuristu waxay isticmaashaa xeerarka lacag-bixinta ee hadda jira ee Riftn."
   },
@@ -2628,7 +2628,8 @@
       "profile": "astaanta isticmaalaha",
       "proposal": "soo jeedinta",
       "stage": "marxaladda",
-      "store": "dukaanka"
+      "store": "dukaanka",
+      "featureRequest": "codsi"
     }
   },
   "postGate": {
@@ -2914,7 +2915,11 @@
     "premium": "Daboolka",
     "pricing": "Qiimaha",
     "reorderHint": "Qabso oo jiido icon kasta si ay dib u abaabulaan",
-    "reorderReset": "Dib u deji"
+    "reorderReset": "Dib u deji",
+    "groups": {
+      "create": "Samee",
+      "discover": "Sahan"
+    }
   },
   "affiliate": {
     "subtitle": "Ka soo hel qof kasta oo aad martiqaaddo — weligaa",
@@ -3666,7 +3671,8 @@
     "themeColorBrand": "Astaanta",
     "themeColorBrandDesc": "Isticmaal midabada sawirka profilkaaga",
     "themeColorBrandNoAvatar": "Ku dar sawir profile si aad u isticmaasho midabada Astaanta",
-    "themeColorBrandFailed": "Lagama akhrin karin midabada sawirka profilkaaga"
+    "themeColorBrandFailed": "Lagama akhrin karin midabada sawirka profilkaaga",
+    "menuLayoutFolders": "Foolarada"
   },
   "common": {
     "remove": "Ka saar",
@@ -3734,7 +3740,8 @@
     "apply": "Codso",
     "next": "Xiga",
     "previous": "Hore",
-    "redo": "Dib u samee"
+    "redo": "Dib u samee",
+    "loadMore": "Wax kale soo dejiso"
   },
   "tip": {
     "payDirect": "Si toos ah loogu diray {{name}} gudaha {{symbol}} taariikhdu markay ahayd {{chain}}. Wax isweydaarsi ma jiro.",
@@ -4637,7 +4644,7 @@
     "promptHeading": "Maxaan dhisnaa xiga?",
     "promptHint": "Sharaxaad ka bixi. Ku rid shaashad. Ka dhig inay dhacdo.",
     "promptLabel": "Degdegga ah",
-    "promptMediaError": "Dooro sawiro ama fiidiyowyo ka yar 20MB mid kasta.",
+    "promptMediaError": "Dooro sawiro ama fiidiyowyo ka yar 50MB mid kasta.",
     "promptMediaLimit": "Badiyadka to {{max}} attachments",
     "promptNew": "Dhiirrigelin cusub",
     "promptPageTitle": "Codsiyo",
@@ -12747,7 +12754,15 @@
     "priceFreeRateLimited": "Free · xadka sicirka khuseeya",
     "dialogueFormat": "Ku qor goobta sida \"Name: line,\" hal afhayeen halkii line.",
     "fileTooLarge": "Faylkaas wuxuu ka badan yahay 100 MB. Isticmaal mid ka gaaban ama ka yar.",
-    "signInToGenerate": "Soo gal si aad u abuurto."
+    "signInToGenerate": "Soo gal si aad u abuurto.",
+    "madeOnDehub": "Lagu sameeyay Riftn",
+    "aiGenerationAlt": "Qarniga AI",
+    "gallery": {
+      "send": "Dir",
+      "notifications": {
+        "generation_reply": "{{name}} ayaa jawaabay faalladaada"
+      }
+    }
   },
   "fractions": {
     "title": "Saamiyo",
@@ -13761,7 +13776,7 @@
   "multiPost": {
     "tab": "Dhowr boost",
     "title": "Dhowr boost",
-    "intro": "U dir X, YouTube, Instagram, TikTok iyo kuwo kale isla markiiba sida dehub. Ku xir akoonnadaada hal mar, ka dibna dooro meesha boost kasta tagayso.",
+    "intro": "U dir X, YouTube, Instagram, TikTok iyo kuwo kale isla markiiba sida Riftn. Ku xir akoonnadaada hal mar, ka dibna dooro meesha boost kasta tagayso.",
     "creditsHeading": "Dhibcaha boostka",
     "credits": "{{count}} dhibcaha boostka",
     "topUpTitle": "Ku soo kabo oo keydi",
@@ -15290,7 +15305,8 @@
       "chrome": "Dareeraha Chrome",
       "orbit": "Wareeg",
       "snow": "Baraf ka da 'ay"
-    }
+    },
+    "sameAsProfile": "Bogga shaqsiga"
   },
   "articleTile": {
     "cover": "Dabool"
@@ -15322,5 +15338,36 @@
     "forward": "U gudbi",
     "deleted_one": "{{count}} fariin ayaa la tirtiray",
     "deleted_other": "{{count}} fariimood ayaa la tirtiray"
+  },
+  "messagesTabs": {
+    "all": "Dhammaan"
+  },
+  "mentionLinks": {
+    "communities": "Bulshooyin",
+    "pages": "Bogag",
+    "people": "Dadka"
+  },
+  "resetWallet": {
+    "mismatch": "Furayaashu isma laha",
+    "logOut": "Ka bax",
+    "confirm": "Xaqiiji furaha sirta ah",
+    "ack": "Waan fahamsanahay in lacagtaydii hore ay ku sii jirayso boorsadii hore.",
+    "cancel": "Jooji"
+  },
+  "chatTabs": {
+    "all": "Dhammaan",
+    "alwaysOn": "Had iyo jeer daaran",
+    "communities": "Bulshooyin",
+    "direct": "Toos",
+    "kindCommunity": "Bulsho",
+    "kindDirect": "Toos",
+    "kindGroup": "Koox",
+    "kindPublic": "Dadweyne",
+    "moveDown": "Hoos u dhaqaaq",
+    "moveUp": "Kor u qaad",
+    "requests": "Codsiga",
+    "sCreators": "Hal-abuurayaal",
+    "sGaming": "Cayaaraha",
+    "sTrading": "Ganacsiga"
   }
 }

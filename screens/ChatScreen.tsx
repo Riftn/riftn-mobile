@@ -71,6 +71,7 @@ import Avatar from "../components/common/Avatar";
 import OnlineDot from "../components/common/OnlineDot";
 import ChatHeaderMenuButton from "../components/Chat/ChatHeaderMenuButton";
 import ChatMenu from "../components/Chat/ChatMenu";
+import { translateDmAndAbove } from "../libs/dm-translation-store";
 import ConfirmBlockModal from "../components/common/ConfirmBlockModal";
 import PinnedMessageBanner from "../components/DM/PinnedMessageBanner";
 
@@ -1630,6 +1631,18 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     closeContextMenu();
   }, [contextMessage, closeContextMenu]);
 
+  // Translate on one message translates every message above it too, as on web.
+  const handleTranslateAbove = useCallback(() => {
+    const tapped = contextMessage;
+    if (!tapped?._id) return;
+    const at = Date.parse(String(tapped.createdAt)) || Date.now();
+    const earlier = storeMessages
+      .filter((m) => !!m._id && !isMine(m))
+      .map((m) => ({ id: m._id, content: m.content, at: Date.parse(String(m.createdAt)) || 0 }))
+      .filter((line) => line.at <= at);
+    void translateDmAndAbove(tapped._id, tapped.content, earlier);
+  }, [contextMessage, storeMessages, isMine]);
+
   /**
    * Toggle one emoji on any message in the thread, old or new. Shown at once,
    * then the server's reactionUpdated echo replaces it with the real map; a
@@ -2497,6 +2510,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           onEdit={handleEdit}
           onForward={handleForward}
           onSelect={handleSelect}
+          onTranslate={handleTranslateAbove}
           onDelete={handleDelete}
           canDeleteAny
           onPin={handlePinMessage}

@@ -35,7 +35,7 @@
     "failed": "Tidak dapat menyelesaikan koneksi. Coba masuk lagi.",
     "generate": "Hasilkan media menggunakan kredit Anda, pembayaran terkonfirmasi, atau gambar gratis yang memenuhi syarat",
     "generatePrompt": "Tunjukkan model gambar Riftn dan kutip potret sebelum memproduksinya.",
-    "intro": "Telusuri Riftn di ChatGPT, atau tautkan akun Anda sendiri untuk memperbarui profil, memublikasikan postingan, dan menggunakan Studio Kreator. Tambahkan https://dehub.io/mcp sebagai konektor OAuth untuk kontrol akun.",
+    "intro": "Telusuri Riftn di ChatGPT, atau tautkan akun Anda sendiri untuk memperbarui profil, memublikasikan postingan, dan menggunakan Studio Kreator. Tambahkan https://riftn.com/mcp sebagai konektor OAuth untuk kontrol akun.",
     "libraryPrompt": "Daftar aset terbaru di perpustakaan Riftn Creator saya.",
     "manage": "Kelola koneksi akun",
     "profile": "Edit profil, gambar, dan pengaturan privasi Anda",
@@ -43,7 +43,7 @@
     "read": "Baca akun, postingan, notifikasi, dan pustaka Kreator Anda",
     "signIn": "Masuk ke Riftn",
     "social": "Publikasikan pos dan komentar, ikuti orang, dan simpan bookmark",
-    "step": "Untuk kontrol akun, tambahkan https://dehub.io/mcp sebagai konektor OAuth, masuk ke Riftn dan tinjau izin sebelum mengizinkan akses.",
+    "step": "Untuk kontrol akun, tambahkan https://riftn.com/mcp sebagai konektor OAuth, masuk ke Riftn dan tinjau izin sebelum mengizinkan akses.",
     "title": "Hubungkan akun Riftn Anda",
     "what": "Telusuri postingan dan profil publik. Dengan koneksi akun OAuth, kelola profil dan privasi Anda, publikasikan postingan dan komentar, ikuti orang, baca pemberitahuan, simpan bookmark, dan hasilkan gambar, video, audio, dan aset 3D. Generasi menggunakan aturan pembayaran Riftn yang ada."
   },
@@ -3856,7 +3856,8 @@
     "next": "Berikutnya",
     "previous": "Sebelumnya",
     "redo": "Ulangi",
-    "remove": "Hapus"
+    "remove": "Hapus",
+    "loadMore": "Muat lebih banyak"
   },
   "tip": {
     "title": "Kirim Tip",
@@ -4762,7 +4763,7 @@
     "promptHeading": "Apa yang harus kita bangun selanjutnya?",
     "promptHint": "Deskripsikan. Masukkan tangkapan layar. Buatlah terjadi.",
     "promptLabel": "Prompt Anda",
-    "promptMediaError": "Pilih gambar atau video dengan ukuran tidak lebih dari 20MB masing-masing.",
+    "promptMediaError": "Pilih gambar atau video dengan ukuran tidak lebih dari 50MB masing-masing.",
     "promptMediaLimit": "Maksimal {{max}} attachment.",
     "promptNew": "Prompt baru",
     "promptPageTitle": "Permintaan",
@@ -7753,7 +7754,7 @@
     "onStage": "Di Atas Panggung",
     "noSpeakers": "Belum ada pembicara",
     "voiceEffect": "Efek 🎭 Suara",
-    "textToSpeech": "🔊 Text - to - Speech",
+    "textToSpeech": "Text - to - Speech",
     "loadVoices": "Muat suara",
     "ttsPlaceholder": "Ketik pesan untuk berbicara...",
     "signInToJoin": "Masuk untuk bergabung",
@@ -13032,7 +13033,15 @@
     "priceFreeRateLimited": "Gratis · batas tarif berlaku",
     "dialogueFormat": "Tulis adegannya sebagai “Nama: dialog”, satu pembicara per baris.",
     "fileTooLarge": "Berkas itu lebih dari 100 MB. Gunakan yang lebih pendek atau lebih kecil.",
-    "signInToGenerate": "Masuk untuk membuat."
+    "signInToGenerate": "Masuk untuk membuat.",
+    "madeOnDehub": "Dibuat di Riftn",
+    "aiGenerationAlt": "Karya AI",
+    "gallery": {
+      "send": "Kirim",
+      "notifications": {
+        "generation_reply": "{{name}} membalas komentar Anda"
+      }
+    }
   },
   "fractions": {
     "title": "Fraksi",
@@ -14001,7 +14010,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "Posting ke X, YouTube, Instagram, TikTok, dan lainnya secara bersamaan dengan dehub. Hubungkan akun Anda sekali, lalu pilih ke mana setiap postingan akan dikirim.",
+    "intro": "Posting ke X, YouTube, Instagram, TikTok, dan lainnya secara bersamaan dengan Riftn. Hubungkan akun Anda sekali, lalu pilih ke mana setiap postingan akan dikirim.",
     "creditsHeading": "Kredit postingan",
     "credits": "{{count}} kredit postingan",
     "topUpTitle": "Isi ulang dan hemat",
@@ -15519,7 +15528,8 @@
       "lava": "Lampu Lava",
       "drive": "Mobil Malam",
       "snow": "Hujan salju"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Sampul"
@@ -15606,5 +15616,15 @@
     "saveFailed": "Tab gagal disimpan, coba lagi",
     "show": "Tampilkan tab",
     "tooMany": "Kamu bisa punya hingga 10 tab"
+  },
+  "messagesTabs": {
+    "all": "Semua"
+  },
+  "resetWallet": {
+    "mismatch": "Kata sandi tidak cocok",
+    "logOut": "Keluar",
+    "confirm": "Konfirmasi sandi",
+    "ack": "Saya mengerti dana lama saya tetap berada di dompet lama.",
+    "cancel": "Batal"
   }
 }

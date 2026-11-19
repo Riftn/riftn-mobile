@@ -22,7 +22,7 @@
     "failed": "Tidak dapat melengkapkan sambungan. Cuba log masuk sekali lagi.",
     "generate": "Jana media menggunakan kredit anda, bayaran yang disahkan atau imej percuma yang layak",
     "generatePrompt": "Tunjukkan kepada saya model imej Riftn dan petikan potret sebelum menjanakannya.",
-    "intro": "Semak imbas Riftn dalam ChatGPT, atau pautkan akaun anda sendiri untuk mengemas kini profil anda, menyiarkan hantaran dan menggunakan Studio Pengkarya. Tambah https://dehub.io/mcp sebagai penyambung OAuth untuk kawalan akaun.",
+    "intro": "Semak imbas Riftn dalam ChatGPT, atau pautkan akaun anda sendiri untuk mengemas kini profil anda, menyiarkan hantaran dan menggunakan Studio Pengkarya. Tambah https://riftn.com/mcp sebagai penyambung OAuth untuk kawalan akaun.",
     "libraryPrompt": "Tunjukkan aset terkini dalam pustaka Pengkarya Riftn saya.",
     "manage": "Urus sambungan akaun",
     "profile": "Edit profil, imej dan tetapan privasi anda",
@@ -30,7 +30,7 @@
     "read": "Baca akaun, hantaran, pemberitahuan dan pustaka Pengkarya anda",
     "signIn": "Log masuk ke Riftn",
     "social": "Siarkan hantaran dan komen, ikuti orang dan simpan penanda halaman",
-    "step": "Untuk kawalan akaun, tambah https://dehub.io/mcp sebagai penyambung OAuth, log masuk ke Riftn dan semak kebenaran sebelum membenarkan akses.",
+    "step": "Untuk kawalan akaun, tambah https://riftn.com/mcp sebagai penyambung OAuth, log masuk ke Riftn dan semak kebenaran sebelum membenarkan akses.",
     "title": "Sambungkan akaun Riftn anda",
     "what": "Semak imbas hantaran dan profil awam. Dengan sambungan akaun OAuth, uruskan profil dan privasi anda, siarkan hantaran dan komen, ikuti orang, baca pemberitahuan, simpan penanda halaman dan jana imej, video, audio dan aset 3D. Penjanaan menggunakan peraturan bayaran sedia ada Riftn."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profil",
       "proposal": "cadangan",
       "stage": "peringkat",
-      "store": "kedai"
+      "store": "kedai",
+      "featureRequest": "permintaan"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Harga",
     "reorderHint": "Tahan dan seret sebarang ikon untuk menyusun semula",
-    "reorderReset": "Tetapkan semula"
+    "reorderReset": "Tetapkan semula",
+    "groups": {
+      "create": "Cipta",
+      "discover": "Terokai"
+    }
   },
   "affiliate": {
     "subtitle": "Peroleh daripada setiap orang yang anda jemput — selama-lamanya",
@@ -3682,7 +3687,8 @@
     "themeColorBrand": "Jenama",
     "themeColorBrandDesc": "Guna warna gambar profil anda",
     "themeColorBrandNoAvatar": "Tambah gambar profil untuk menggunakan warna Jenama",
-    "themeColorBrandFailed": "Tidak dapat membaca warna daripada gambar profil anda"
+    "themeColorBrandFailed": "Tidak dapat membaca warna daripada gambar profil anda",
+    "menuLayoutFolders": "Folder"
   },
   "common": {
     "mute": "Bisukan",
@@ -4006,7 +4012,8 @@
     "scanQrHint": "Halakan kamera ke alamat dompet Kod QR",
     "allowCameraForQr": "Benarkan akses kamera untuk mengimbas kod QR",
     "apply": "Terapkan",
-    "remove": "Hapus"
+    "remove": "Hapus",
+    "loadMore": "Muat lagi"
   },
   "tip": {
     "payDirect": "Dihantar terus ke {{name}} di {{symbol}} pada {{chain}}. Tiada pertukaran.",
@@ -4723,7 +4730,7 @@
     "removeHistory": "Padam semua sejarah pemberitahuan",
     "notificationTypes": "Jenis Pemberitahuan",
     "likes": "Suka",
-    "likesDesc": "Apabila seseorang suka kandungan anda",
+    "likesDesc": "Apabila seseorang menyukai kandungan anda",
     "comments": "Komen",
     "commentsDesc": "Apabila seseorang mengulas atau membalas",
     "follows": "Ikutan",
@@ -4744,8 +4751,8 @@
     "markAsRead": "Tandai sebagai dibaca",
     "clearNotification": "Kosongkan pemberitahuan",
     "loginDescription": "Log masuk untuk melihat pemberitahuan anda dan kekal dikemas kini dengan rakan anda di Riftn.",
-    "likedPost": "{{name}} menyukai siaran anda",
-    "likedPosts": "{{name}} menyukai {{count}} siaran anda",
+    "likedPost": "{{name}} menyukai hantaran anda",
+    "likedPosts": "{{name}} menyukai {{count}} hantaran anda",
     "commentedPost": "{{name}} mengulas siaran anda",
     "commentedPosts": "{{name}} mengulas {{count}} siaran anda",
     "repliedComment": "{{name}} membalas komen anda",
@@ -4909,7 +4916,7 @@
     "promptHeading": "Apa yang harus kita bina seterusnya?",
     "promptHint": "Laporkan. Masukkan skrin tona. Buatkan ia berlaku.",
     "promptLabel": "Permintaan anda",
-    "promptMediaError": "Pilih imej atau video di bawah 20MB setiap satu.",
+    "promptMediaError": "Pilih imej atau video di bawah 50MB setiap satu.",
     "promptMediaLimit": "Sehingga {{max}} lampiran.",
     "promptNew": "Permintaan baru",
     "promptPageTitle": "Permintaan",
@@ -5883,7 +5890,7 @@
     "handlePrompt": "Gesaan"
   },
   "loginModal": {
-    "title": "Log masuk",
+    "title": "Log in",
     "continueEmail": "Teruskan dengan E-mel",
     "continueSMS": "Teruskan dengan SMS",
     "continueGoogle": "Teruskan dengan Google",
@@ -7823,7 +7830,7 @@
     "onStage": "Di Atas Pentas",
     "noSpeakers": "Belum ada pembesar suara",
     "voiceEffect": "Kesan 🎭 Suara",
-    "textToSpeech": "🔊 Teks- ke- Tutur",
+    "textToSpeech": "Teks- ke- Tutur",
     "loadVoices": "Muatkan suara",
     "ttsPlaceholder": "Taip mesej untuk bercakap...",
     "signInToJoin": "Log masuk untuk menyertai",
@@ -13047,7 +13054,15 @@
     "loop": "Gelung",
     "dialogueFormat": "Tulis adegan sebagai \"Nama: baris\", satu penutur setiap baris.",
     "fileTooLarge": "Fail itu melebihi 100 MB. Gunakan yang lebih pendek atau lebih kecil.",
-    "signInToGenerate": "Daftar masuk untuk menjana."
+    "signInToGenerate": "Daftar masuk untuk menjana.",
+    "madeOnDehub": "Dibuat di Riftn",
+    "aiGenerationAlt": "Penjanaan AI",
+    "gallery": {
+      "send": "Hantar",
+      "notifications": {
+        "generation_reply": "{{name}} membalas komen anda"
+      }
+    }
   },
   "fractions": {
     "title": "Pecahan",
@@ -14061,7 +14076,7 @@
   "multiPost": {
     "tab": "Siaran berbilang",
     "title": "Siaran berbilang",
-    "intro": "Siarkan ke X, YouTube, Instagram, TikTok dan banyak lagi pada masa yang sama dengan dehub. Sambungkan akaun anda sekali, kemudian pilih ke mana setiap siaran pergi.",
+    "intro": "Siarkan ke X, YouTube, Instagram, TikTok dan banyak lagi pada masa yang sama dengan Riftn. Sambungkan akaun anda sekali, kemudian pilih ke mana setiap siaran pergi.",
     "creditsHeading": "Kredit siaran",
     "credits": "{{count}} kredit siaran",
     "topUpTitle": "Tambah dan simpan",
@@ -15605,7 +15620,8 @@
       "lava": "Lampu Lava",
       "drive": "Pandu Malam",
       "snow": "Salji turun"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Kulit"
@@ -15637,5 +15653,36 @@
     "forward": "Majukan",
     "deleted_one": "Dihapus {{count}} pesan",
     "deleted_other": "Dihapus {{count}} pesan"
+  },
+  "messagesTabs": {
+    "all": "Semua"
+  },
+  "mentionLinks": {
+    "communities": "Komuniti",
+    "pages": "Halaman",
+    "people": "Orang"
+  },
+  "resetWallet": {
+    "mismatch": "Kata laluan tidak cocok",
+    "logOut": "Log keluar",
+    "confirm": "Sahkan kata laluan",
+    "ack": "Saya faham bahawa dana lama saya tetap di dompet lama.",
+    "cancel": "Batal"
+  },
+  "chatTabs": {
+    "all": "Semua",
+    "alwaysOn": "Sentiasa dihidupkan",
+    "communities": "Komuniti",
+    "direct": "Langsung",
+    "kindCommunity": "Komuniti",
+    "kindDirect": "Langsung",
+    "kindGroup": "Kumpulan",
+    "kindPublic": "Awam",
+    "moveDown": "Pindah ke bawah",
+    "moveUp": "Pindah ke atas",
+    "requests": "Permintaan",
+    "sCreators": "Pencipta",
+    "sGaming": "Permainan",
+    "sTrading": "Perdagangan"
   }
 }

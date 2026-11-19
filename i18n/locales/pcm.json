@@ -14,16 +14,13 @@
   },
   "accountConnect": {
     "account": "You no need account to browse wetin dey public. Link your Riftn account make you fit manage your profile, create and publish content.",
-    "body": "Link your account make you fit manage your profile, publish posts and create content from chat. Connection go expire inside 24 hours. You fit disconnect anytime.",
     "generate": "Generate media with your credits, payments wey don confirm or free images wey you qualify for",
     "generatePrompt": "Show me Riftn image models and tell me di price for one portrait before you generate am.",
-    "intro": "Browse Riftn inside ChatGPT, or link your own account make you fit update your profile, publish posts and use Creator Studio. Add https://dehub.io/mcp as OAuth connector to control your account.",
     "libraryPrompt": "Show me di latest assets wey dey my Riftn Creator library.",
     "profile": "Change your profile, pictures and privacy settings",
     "profilePrompt": "Change my Riftn bio to: Independent creator wey dey make films and music.",
     "read": "See your account, posts, notifications and wetin dey your Creator library",
     "social": "Publish post and comment, follow people and keep bookmarks",
-    "step": "To control your account, add https://dehub.io/mcp as OAuth connector, sign in to Riftn and check di permissions well before you allow access.",
     "title": "Connect di Riftn account wey be your own",
     "what": "Browse posts and profiles wey dey public. If you connect your account with OAuth, you fit manage your profile and privacy, publish posts and comments, follow people, read notifications, save bookmarks and generate images, video, audio and 3D assets. Generation dey follow di payment rules wey Riftn already get.",
     "allow": "Allow connection",
@@ -2877,7 +2874,7 @@
     "careers": "Job Dem",
     "glossary": "Word Meaning",
     "create": "Create",
-    "login": "Enter",
+    "login": "Log in",
     "connecting": "E dey connect...",
     "signMessage": "Sign di message",
     "communities": "Communities",
@@ -3718,7 +3715,8 @@
     "next": "Di next one",
     "previous": "Previous (previous)",
     "redo": "Redo am",
-    "remove": "Comot am"
+    "remove": "Comot am",
+    "loadMore": "Bring more"
   },
   "tip": {
     "payViaBridgeDpay": "E don move go Base and pay to Riftn Pay, tokens go land in about one minute",
@@ -4422,7 +4420,7 @@
     "clearAll": "Clear all di notifications",
     "removeHistory": "Comot all di notification wey don pass",
     "notificationTypes": "Notification types",
-    "likes": "Like",
+    "likes": "Likes",
     "likesDesc": "When pesin like your content",
     "comments": "Comment Dem",
     "commentsDesc": "When pesin comment or reply",
@@ -4600,7 +4598,7 @@
   "features": {
     "promptDevice": "Your device & OS (if na bug)",
     "promptHeading": "Wetin we go build next?",
-    "promptMediaError": "Choose images or videos wey no pass 20MB each.",
+    "promptMediaError": "Choose images or videos wey no pass 50MB each.",
     "promptDrop": "Wen yu wan post pikin, yu go click \"Paste image\" or \"Drop image\" wey dey top of screen.",
     "promptAttach": "Attach images",
     "promptAttachment": "Attachment {{number}}",
@@ -5559,7 +5557,7 @@
   "loginModal": {
     "continueGoogle": "Use Google continue",
     "continueApple": "Use Apple continue",
-    "title": "Enter",
+    "title": "Log in",
     "continueEmail": "Continue with your Email",
     "continueSMS": "Continue with SMS.",
     "continueTelegram": "Continue with Telegram.",
@@ -7462,7 +7460,7 @@
     "onStage": "On Stage",
     "noSpeakers": "No speaker yet",
     "voiceEffect": "🎭 Voice Effect",
-    "textToSpeech": "🔊 Text-to-Speech",
+    "textToSpeech": "Text-to-Speech",
     "loadVoices": "Load voices",
     "signInToJoin": "Sign in make you join",
     "endStage": "End Stage",
@@ -12604,7 +12602,14 @@
       "close": "Close Am"
     },
     "audioNoSpeech": "We no see any speech for dat recording.",
-    "fileTooLarge": "Na dem file dey pass 100 MB. Use one dat short or small for you."
+    "fileTooLarge": "Na dem file dey pass 100 MB. Use one dat short or small for you.",
+    "madeOnDehub": "Dem make am for Riftn",
+    "gallery": {
+      "send": "Send am",
+      "notifications": {
+        "generation_reply": "{{name}} reply your comment"
+      }
+    }
   },
   "fractions": {
     "buyForTotal": "Buy {{quantity}}, e go cost {{total}}",
@@ -13634,7 +13639,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "Post for X, YouTube, Instagram, TikTok and plenty more at the same time wey you dey post for dehub. Connect your accounts once, then choose where each post go go.",
+    "intro": "Post for X, YouTube, Instagram, TikTok and plenty more at the same time wey you dey post for Riftn. Connect your accounts once, then choose where each post go go.",
     "creditsHeading": "Post credits",
     "credits": "{{count}} post credits",
     "topUpTitle": "Top up make you save money",
@@ -15038,5 +15043,20 @@
   "msgSelect": {
     "selected": "You don select {{count}}",
     "forward": "Forward am"
+  },
+  "mentionLinks": {
+    "pages": "Page Dem",
+    "people": "Pipo"
+  },
+  "resetWallet": {
+    "logOut": "Comot",
+    "ack": "I understand say my old money still dey inside the old wallet.",
+    "cancel": "Cancel am"
+  },
+  "chatTabs": {
+    "alwaysOn": "Always on.",
+    "kindCommunity": "Gburugburu",
+    "kindPublic": "Everybody",
+    "requests": "Request Dem"
   }
 }

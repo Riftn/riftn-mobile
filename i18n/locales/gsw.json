@@ -22,7 +22,7 @@
     "failed": "Die Verbindung konnte nicht abgeschlossen werden. Versuche es erneut.",
     "generate": "Erstelle Medien mit Deinen Credits, bestätigten Zahlungen oder freien Bildern",
     "generatePrompt": "Zeige mir die Riftn-Bildmodelle und zitiere ein Portrait, bevor ich es generiere.",
-    "intro": "Bleibe in Riftn im Chat, oder verbinde dein eigenes Konto, um dein Profil zu aktualisieren, Beiträge zu publizieren und Creator Studio zu verwenden. Füge https://dehub.io/mcp als OAuth-Connector für Kontrollzugriff hinzu.",
+    "intro": "Bleibe in Riftn im Chat, oder verbinde dein eigenes Konto, um dein Profil zu aktualisieren, Beiträge zu publizieren und Creator Studio zu verwenden. Füge https://riftn.com/mcp als OAuth-Connector für Kontrollzugriff hinzu.",
     "libraryPrompt": "Zeige mir die neuesten Inhalte in meiner Riftn-Creator-Bibliothek.",
     "manage": "Verwalte Konto-Verbindungen",
     "profile": "Bearbeite dein Profil, Bilder und Datenschutzeinstellungen",
@@ -30,7 +30,7 @@
     "read": "Lese dein Konto, Beiträge, Benachrichtigungen und Deinen Creator-Bibliothek",
     "signIn": "Melde dich bei Riftn an",
     "social": "Publiziere Beiträge und Kommentare, folge Personen und speichere Lesezeichen",
-    "step": "Für Kontrollzugriffe füge https://dehub.io/mcp als OAuth-Connector hinzu, melde dich bei Riftn an und überprüfe die Berechtigungen, bevor du den Zugriff erlaubst.",
+    "step": "Für Kontrollzugriffe füge https://riftn.com/mcp als OAuth-Connector hinzu, melde dich bei Riftn an und überprüfe die Berechtigungen, bevor du den Zugriff erlaubst.",
     "title": "Verbinde Riftn-Konto",
     "what": "Bleibe in öffentlichen Beiträgen und Profilen. Mit einer OAuth-Konto-Verbindung verwalte dein Profil und die Privatsphäre, publiziere Beiträge und Kommentare, folge Personen, lies Benachrichtigungen, speichere Lesezeichen und erstelle Bilder, Videos, Audio- und 3D-Inhalte. Die Erstellung verwendet Riftns bestehende Zahlungsregeln."
   },
@@ -2628,7 +2628,8 @@
       "profile": "Profil",
       "proposal": "Vorschlag",
       "stage": "Bühne",
-      "store": "Shop"
+      "store": "Shop",
+      "featureRequest": "Anforderig"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Priise",
     "reorderHint": "Halb und zieh jede Ikon, um neu anzuordnen.",
-    "reorderReset": "Zrüggsetze"
+    "reorderReset": "Zrüggsetze",
+    "groups": {
+      "create": "Erstelle",
+      "discover": "Entdecke"
+    }
   },
   "affiliate": {
     "subtitle": "Verdiene an allen, die du einlädst — für immer",
@@ -3670,7 +3675,8 @@
     "themeColorBrand": "Brand",
     "themeColorBrandDesc": "Bruuch d'Farbe vo dim Profilbild",
     "themeColorBrandNoAvatar": "Füeg es Profilbild dezue, zum d'Brand-Farbe z'bruuche",
-    "themeColorBrandFailed": "D'Farbe vo dim Profilbild hend nid chöne gläse wärde"
+    "themeColorBrandFailed": "D'Farbe vo dim Profilbild hend nid chöne gläse wärde",
+    "menuLayoutFolders": "Ordner"
   },
   "common": {
     "refresh": "Aktualisiere",
@@ -3738,7 +3744,8 @@
     "next": "Näscht",
     "previous": "Vora",
     "redo": "Wiederholen",
-    "remove": "Entfernen"
+    "remove": "Entfernen",
+    "loadMore": "Meh lade"
   },
   "tip": {
     "payDirect": "Direkt an {{name}} in {{symbol}} auf {{chain}} gesendet. Kein Tausch.",
@@ -4643,7 +4650,7 @@
     "promptDrop": "Bilder hier einfügen",
     "promptFilters": "Nach Kategorie filtern",
     "promptHeading": "Was bauten wir nächstes Mal?",
-    "promptMediaError": "Wähle Bilder oder Videos unter 20 MB pro Datei aus.",
+    "promptMediaError": "Wähle Bilder oder Videos unter 50 MB pro Datei aus.",
     "promptMediaLimit": "Bis zu {{max}} Anhänge möglich.",
     "promptPlaceholder": "Een Idee, Verbesserung oder Bug…",
     "promptPost": "Post-Befehl eintipfen",
@@ -7586,7 +7593,7 @@
     "onStage": "Uf dr Bühni",
     "noSpeakers": "No kei Redner",
     "voiceEffect": "🎭 Stimm-Effekt",
-    "textToSpeech": "🔊 Text-zu-Stimm",
+    "textToSpeech": "Text-zu-Stimm",
     "loadVoices": "Stimme lade",
     "ttsPlaceholder": "Schriib e Botschaft zum rede...",
     "signInToJoin": "Aamelde zum mitmache",
@@ -12804,7 +12811,15 @@
     "loop": "Wiederholung",
     "dialogueFormat": "Schreib die Szene als \"Name: Zeile\", pro Sprecher eine Zeile.",
     "fileTooLarge": "Die Datei ist über 100 MB gross. Verwende eine kürzere oder kleinere.",
-    "signInToGenerate": "Anmelden, um zu generieren."
+    "signInToGenerate": "Anmelden, um zu generieren.",
+    "madeOnDehub": "Gmacht uf Riftn",
+    "aiGenerationAlt": "AI-Erschaffung",
+    "gallery": {
+      "send": "Schicke",
+      "notifications": {
+        "generation_reply": "{{name}} het uf din Kommentar gantwortet"
+      }
+    }
   },
   "fractions": {
     "title": "Aateil",
@@ -13818,7 +13833,7 @@
   "multiPost": {
     "tab": "Multi-Posting",
     "title": "Multi-Posting",
-    "intro": "Post zu X, YouTube, Instagram, TikTok und meh glichziitig mit dehub. Verbind din Account einisch, denn wählsch, wohi jede Post gaht.",
+    "intro": "Post zu X, YouTube, Instagram, TikTok und meh glichziitig mit Riftn. Verbind din Account einisch, denn wählsch, wohi jede Post gaht.",
     "creditsHeading": "Post-Credits",
     "credits": "{{count}} Post-Credits",
     "topUpTitle": "Auflade und spare",
@@ -15348,7 +15363,8 @@
       "drive": "Nachtfahrt",
       "chrome": "Flüssig-Chrom",
       "snow": "Schneefall"
-    }
+    },
+    "sameAsProfile": "Profiu"
   },
   "articleTile": {
     "cover": "Deckel"
@@ -15380,5 +15396,35 @@
     "forward": "Wiiterleite",
     "deleted_one": "Nachricht gelöscht: {{count}}",
     "deleted_other": "Nachrichten gelöscht: {{count}}"
+  },
+  "messagesTabs": {
+    "all": "Alli"
+  },
+  "mentionLinks": {
+    "communities": "Communitys",
+    "pages": "Siite",
+    "people": "Lüt"
+  },
+  "resetWallet": {
+    "mismatch": "Passwörter stimmen nicht überein",
+    "logOut": "Abmelden",
+    "confirm": "Bestätige das Passwort",
+    "ack": "Ich verstehe, dass meini alte Fonds uf de alten Wallet bleibn.",
+    "cancel": "Abbräche"
+  },
+  "chatTabs": {
+    "all": "Alli",
+    "alwaysOn": "Immer an",
+    "communities": "Communitys",
+    "direct": "Direkt",
+    "kindCommunity": "Gmeinschaft",
+    "kindDirect": "Direkt",
+    "kindGroup": "Gruppä",
+    "kindPublic": "Öffentlech",
+    "moveDown": "Gang abe",
+    "moveUp": "Nimm nach obe",
+    "requests": "Aafrage",
+    "sCreators": "Creator",
+    "sTrading": "Handel"
   }
 }

@@ -22,7 +22,7 @@
     "failed": "Tsy nahavita nifandray. Miditra indray.",
     "generate": "Hiteraka haino aman-jery mampiasa ny nahazoan-dalana, voamarina fandoavam-bola na azo fidiana maimaim-poana sary",
     "generatePrompt": "Asehoy ahy ny sarin'i Riftn ary manonona sary iray alohan'ny hamokarana azy.",
-    "intro": "Tsidiho ny Riftn ao amin'ny ChatGPT, na mampifandray ny kaontinao manokana amin'ny fanavaozana ny mombamomba anao, mamoaka lahatsoratra ary mampiasa ny Creator Studio. Ampio ny https://dehub.io/mcp ho toy ny connector OAuth ho an'ny fanaraha-maso ny kaonty.",
+    "intro": "Tsidiho ny Riftn ao amin'ny ChatGPT, na mampifandray ny kaontinao manokana amin'ny fanavaozana ny mombamomba anao, mamoaka lahatsoratra ary mampiasa ny Creator Studio. Ampio ny https://riftn.com/mcp ho toy ny connector OAuth ho an'ny fanaraha-maso ny kaonty.",
     "libraryPrompt": "Asehoy ny fananana farany ao amin'ny tranombokin'ny mpamorona Riftn.",
     "manage": "Mitantana fifandraisana amin'ny kaonty",
     "profile": "Amboary ny mombamomba anao, ny sary ary ny safidinao manokana",
@@ -30,7 +30,7 @@
     "read": "Vakio ny kaontinao, ny hafatrao, ny fampahafantarana ary ny Mpamorona trano famakiam-boky",
     "signIn": "Midira ao amin'ny Riftn",
     "social": "Ambarao ny lahatsoratra sy ny fanehoan-kevitra, araho ny olona ary tehirizo ny rohy",
-    "step": "Ho an'ny fanaraha-maso ny kaonty, ampio https://dehub.io/mcp ho toy ny connector OAuth, midira ao amin'ny Riftn ary avereno jerena ny fahazoan-dàlana alohan'ny hamelana ny fidirana.",
+    "step": "Ho an'ny fanaraha-maso ny kaonty, ampio https://riftn.com/mcp ho toy ny connector OAuth, midira ao amin'ny Riftn ary avereno jerena ny fahazoan-dàlana alohan'ny hamelana ny fidirana.",
     "title": "Connect ny Riftn kaonty",
     "what": "Tsidiho ny lahatsoratra sy ny mombamomba ny daholobe. Miaraka amin'ny fifandraisana amin'ny kaonty OAuth, mitantana ny mombamomba anao sy ny fiainanao manokana, mamoaka lahatsoratra sy fanehoan-kevitra, araho ny olona, vakio ny fampandrenesana, vonjeo ny rohy ary mamorona sary, lahatsary, feo ary 3D fananana. Ny Generation dia mampiasa ny fitsipika mifehy ny fandoavam-bola efa misy Riftn."
   },
@@ -2628,7 +2628,8 @@
       "profile": "piraofily",
       "proposal": "tolo-kevitra",
       "stage": "sehatra",
-      "store": "fivarotana"
+      "store": "fivarotana",
+      "featureRequest": "hevitra"
     }
   },
   "postGate": {
@@ -2917,7 +2918,11 @@
     "premium": "Premium",
     "pricing": "Vidiny",
     "reorderHint": "Tazony ary zarao izay kisary hanamboarana",
-    "reorderReset": "Averina"
+    "reorderReset": "Averina",
+    "groups": {
+      "create": "Mamorona",
+      "discover": "Hikaroka"
+    }
   },
   "affiliate": {
     "subtitle": "Mahazoa vola amin'ny olona rehetra asainao — mandrakizay",
@@ -3669,7 +3674,8 @@
     "themeColorBrand": "Marika",
     "themeColorBrandDesc": "Ampiasao ny lokon'ny sarinao",
     "themeColorBrandNoAvatar": "Ampidiro sary mombamomba mba hampiasana ny lokon'ny Marika",
-    "themeColorBrandFailed": "Tsy afaka namaky loko avy amin'ny sarinao"
+    "themeColorBrandFailed": "Tsy afaka namaky loko avy amin'ny sarinao",
+    "menuLayoutFolders": "Rakitra"
   },
   "common": {
     "refresh": "_Avereno zahana",
@@ -3737,7 +3743,8 @@
     "next": "Manaraka",
     "previous": "Aloha",
     "redo": "Avereno ny fanovana",
-    "remove": "Esory"
+    "remove": "Esory",
+    "loadMore": "Ampidiro betsaka kokoa"
   },
   "tip": {
     "payDirect": "Nalefa mivantana tany amin'ny {{name}} ao amin'ny {{symbol}} amin'ny {{chain}}. Tsy misy fifanakalozana.",
@@ -4663,7 +4670,7 @@
     "promptHeading": "Inona no tokony horenintsika manaraka?",
     "promptHint": "Famarito izany. Alefaso ny pikantsary iray. Ataovy tanteraka izany.",
     "promptLabel": "Ny famporisihanao",
-    "promptMediaError": "Misafidiana sary na horonan-tsary latsaky ny 20MB ny tsirairay.",
+    "promptMediaError": "Misafidiana sary na horonan-tsary latsaky ny 50MB ny tsirairay.",
     "promptMediaLimit": "Hatramin'ny {{max}} ny fametahana.",
     "promptNew": "Famporisihana vaovao",
     "promptPageTitle": "Fangatahana",
@@ -7574,7 +7581,7 @@
     "onStage": "Eo An-toerana",
     "noSpeakers": "Tsy mbola misy miresaka",
     "voiceEffect": "🎭 Feo Effect",
-    "textToSpeech": "🔊 Kisendrasendra",
+    "textToSpeech": "Kisendrasendra",
     "loadVoices": "Alaivo ny feo",
     "ttsPlaceholder": "Mandefasa hafatra ho azy eto",
     "signInToJoin": "Midira hiditra",
@@ -12875,7 +12882,15 @@
     "loop": "Manome fitoerana",
     "dialogueFormat": "Soraty hoe \"Anarana: tsipika\", mpandray fitenenana iray isaky ny laharana iray.",
     "fileTooLarge": "Ny fetra ho azy fotsiny dia 100Gb ihany no toerana omeny anao. Ampiasao kely na kely kokoa.",
-    "signInToGenerate": "Midira raha hamoronana azy."
+    "signInToGenerate": "Midira raha hamoronana azy.",
+    "madeOnDehub": "Natao tao amin'ny Riftn",
+    "aiGenerationAlt": "AI taranaka",
+    "gallery": {
+      "send": "Mandefa",
+      "notifications": {
+        "generation_reply": "{{name}} namaly ny fanehoan-kevitrao"
+      }
+    }
   },
   "fractions": {
     "title": "Amboaram-peon-kira",
@@ -13889,7 +13904,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "Mba afaka mandefa amin'ny X, YouTube, Instagram, TikTok sy maro hafa miaraka amin'ny dehub. Ampifandraiso indray mandeha ny kaontinao, dia safidio izay handefasana ny tsirairay.",
+    "intro": "Mba afaka mandefa amin'ny X, YouTube, Instagram, TikTok sy maro hafa miaraka amin'ny Riftn. Ampifandraiso indray mandeha ny kaontinao, dia safidio izay handefasana ny tsirairay.",
     "creditsHeading": "Crédits fandefasana",
     "credits": "{{count}} crédits fandefasana",
     "topUpTitle": "Top up ary vonjy",
@@ -15427,7 +15442,8 @@
       "chrome": "Rano Chrome",
       "orbit": "Mihodina",
       "snow": "Oram-panala"
-    }
+    },
+    "sameAsProfile": "Mombamomba"
   },
   "articleTile": {
     "cover": "Fonony"
@@ -15459,5 +15475,36 @@
     "forward": "Alefaso",
     "deleted_one": "Voafafa {{count}} hafatra",
     "deleted_other": "Voafafa {{count}} hafatra"
+  },
+  "messagesTabs": {
+    "all": "Izy rehetra"
+  },
+  "mentionLinks": {
+    "communities": "Vondrona",
+    "pages": "Pejy",
+    "people": "Olona"
+  },
+  "resetWallet": {
+    "mismatch": "Mpananarana tsy misy tsy mitovy",
+    "logOut": "Miala amin ny kaonty",
+    "confirm": "Hanamarina ny tenimiafina",
+    "ack": "Nauunawaan ko na ang aking lumang pondo ay manatili sa lumang wallet.",
+    "cancel": "Foano"
+  },
+  "chatTabs": {
+    "all": "Izy rehetra",
+    "alwaysOn": "Mirehitra foana",
+    "communities": "Vondrona",
+    "direct": "Mivantana",
+    "kindCommunity": "Fiaraha-monina",
+    "kindDirect": "Mivantana",
+    "kindGroup": "Vondrona",
+    "kindPublic": "Ho an'ny rehetra",
+    "moveDown": "Midina",
+    "moveUp": "Atsangana",
+    "requests": "Fangatahana",
+    "sCreators": "Mpamorona",
+    "sGaming": "Lalao",
+    "sTrading": "- Varotra…"
   }
 }

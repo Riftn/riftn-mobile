@@ -15,14 +15,14 @@
   "accountConnect": {
     "account": "Ang pampublikong pagba - browse ay hindi nangangailangan ng account. I - link ang iyong Riftn account upang pamahalaan ang iyong profile at lumikha o mag - publish ng nilalaman.",
     "allow": "Pahintulutan ang koneksyon",
-    "body": "I - link ang iyong account upang pamahalaan ang iyong profile, mag - publish ng mga post at lumikha ng nilalaman mula sa chat. Mag - e - expire ang mga koneksyon sa loob ng 24 na oras. Puwede kang mag - disconnect anumang oras.",
+    "body": "Iugnay ang iyong account para pamahalaan ang iyong profile, mag-publish ng mga post at lumikha ng nilalaman mula sa chat. Ang mga koneksyon ay mag-eexpire sa loob ng 30 araw. Maaari mong i-disconnect anumang oras.",
     "deny": "Kanselahin",
     "disconnect": "Huwag magkabit",
     "empty": "Walang mga aktibong koneksyon sa account.",
     "failed": "Hindi makumpleto ang koneksyon. Subukang mag - sign in muli.",
     "generate": "Bumuo ng media gamit ang iyong mga kredito, nakumpirma na mga pagbabayad o karapat - dapat na libreng mga imahe",
     "generatePrompt": "Ipakita sa akin ang mga modelo ng imahe ni Riftn at i - quote ang isang portrait bago ito mabuo.",
-    "intro": "Mag - browse ng Riftn sa ChatGPT, o i - link ang iyong sariling account upang i - update ang iyong profile, mag - publish ng mga post at gamitin ang Creator Studio. Magdagdag ng https://dehub.io/mcp bilang konektor ng OAuth para sa mga kontrol sa account.",
+    "intro": "Mag-browse sa Riftn sa ChatGPT, o i-link ang iyong sariling account para i-update ang iyong profile, mag-publish ng mga post at gamitin ang Creator Studio. Idagdag ang https://riftn.com/mcp bilang isang OAuth connector para sa mga kontrol ng account.",
     "libraryPrompt": "Ipakita ang mga pinakabagong asset sa aking Riftn Creator library.",
     "manage": "Pangasiwaan ang mga koneksyon sa account",
     "profile": "I - edit ang iyong profile, mga larawan at mga setting ng privacy",
@@ -30,7 +30,7 @@
     "read": "Basahin ang iyong account, mga post, mga abiso at Creator library",
     "signIn": "Mag-log in sa Riftn",
     "social": "Magpost ng mga post at komento, sumusunod sa mga tao at magtataglay ng mga bookmark",
-    "step": "Para sa mga kontrol ng account, idagdag ang https://dehub.io/mcp bilang konektor ng OAuth, mag - sign in sa Riftn at suriin ang mga pahintulot bago pahintulutan ang pag - access.",
+    "step": "Para sa mga kontrol ng account, idagdag ang https://riftn.com/mcp bilang isang OAuth connector, mag-sign in sa Riftn at suriin ang mga pahintulot bago payagan ang pag-access.",
     "title": "Ikonekta ang iyong Riftn account",
     "what": "Mag - browse ng mga pampublikong post at profile. Sa pamamagitan ng isang OAuth account koneksyon, pamahalaan ang iyong profile at privacy, i - publish ang mga post at mga komento, sundin ang mga tao, basahin ang mga notification, i - save ang mga bookmark at bumuo ng mga imahe, video, audio at 3D asset. Ginagamit ng Generation ang mga umiiral nang alituntunin sa pagbabayad ng Riftn."
   },
@@ -2628,7 +2628,8 @@
       "profile": "Profile",
       "proposal": "panukala",
       "stage": "entablado",
-      "store": "magasin"
+      "store": "magasin",
+      "featureRequest": "Mga Hiling"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Presyo",
     "reorderHint": "I - hold at i - drag ang anumang icon upang muling ayusin",
-    "reorderReset": "I - reset"
+    "reorderReset": "I - reset",
+    "groups": {
+      "create": "Gumawa",
+      "discover": "Tumuklas"
+    }
   },
   "affiliate": {
     "subtitle": "Kumita mula sa lahat ng iyong iniimbitahan — magpakailanman",
@@ -3682,7 +3687,8 @@
     "themeColorBrand": "Ang brand",
     "themeColorBrandDesc": "Gamitin ang mga kulay ng profile picture mo",
     "themeColorBrandNoAvatar": "Magdagdag ng profile picture para magamit ang mga kulay ng Brand",
-    "themeColorBrandFailed": "Hindi mabasa ang mga kulay mula sa profile picture mo"
+    "themeColorBrandFailed": "Hindi mabasa ang mga kulay mula sa profile picture mo",
+    "menuLayoutFolders": "Mga folder"
   },
   "common": {
     "refresh": "I-refresh",
@@ -3791,7 +3797,8 @@
     "next": "Pagitan",
     "previous": "Bago",
     "redo": "Muli",
-    "remove": "Alisin"
+    "remove": "Alisin",
+    "loadMore": "Mag-load pa"
   },
   "tip": {
     "payDirect": "Direktang ipinadala sa {{name}} sa {{symbol}} sa {{chain}}. Walang palitan.",
@@ -4508,7 +4515,7 @@
     "removeHistory": "Alisin ang lahat ng kasaysayan ng notipikasyon",
     "notificationTypes": "Mga Uri ng Notipikasyon",
     "likes": "Mga Like",
-    "likesDesc": "Kapag may nag-like sa iyong content",
+    "likesDesc": "Kapag may nag-like sa nilalaman mo",
     "comments": "Mga Komento",
     "commentsDesc": "Kapag may nagkomento o sumagot",
     "follows": "Mga Follow",
@@ -4529,8 +4536,8 @@
     "markAsRead": "Markahan bilang nabasa",
     "clearNotification": "I-clear ang abiso",
     "loginDescription": "Mag-log in para tingnan ang iyong mga notipikasyon at manatiling updated sa iyong mga kaibigan sa Riftn.",
-    "likedPost": "Nagustuhan ni {{name}} ang iyong post",
-    "likedPosts": "Nagustuhan ni {{name}} ang {{count}} sa iyong mga post",
+    "likedPost": "Na-like ni {{name}} ang post mo",
+    "likedPosts": "Na-like ni {{name}} ang {{count}} sa mga post mo",
     "commentedPost": "Nag-comment si {{name}} sa iyong post",
     "commentedPosts": "Nag-comment si {{name}} sa {{count}} sa iyong mga post",
     "repliedComment": "Sumagot si {{name}} sa iyong comment",
@@ -4699,7 +4706,7 @@
     "promptHeading": "Anong dapat natin gawin sa susunod?",
     "promptHint": "Ito'y iginuhit. Ito'y isama ang screenshot. Gawin ito.",
     "promptLabel": "Ang inyong tukoy",
-    "promptMediaError": "Pumili ng mga larawan o video sa ilalim ng 20MB bawat isa.",
+    "promptMediaError": "Pumili ng mga larawan o video sa ilalim ng 50MB bawat isa.",
     "promptMediaLimit": "Hanggang {{max}}(na) attachment.",
     "promptNew": "Bagong tukoy",
     "promptPageTitle": "Mga Hiling",
@@ -5673,7 +5680,7 @@
     "handlePrompt": "Mga sulat"
   },
   "loginModal": {
-    "title": "Mag-login",
+    "title": "Log in",
     "continueEmail": "Magpatuloy gamit ang Email",
     "continueSMS": "Magpatuloy gamit ang SMS",
     "continueGoogle": "Magpatuloy gamit ang Google",
@@ -7612,7 +7619,7 @@
     "onStage": "Sa Entablado",
     "noSpeakers": "Wala pang speaker",
     "voiceEffect": "🎭 Epekto ng Boses",
-    "textToSpeech": "🔊 Text - to - Speech",
+    "textToSpeech": "Text - to - Speech",
     "loadVoices": "Mag - load ng mga boses",
     "ttsPlaceholder": "Mag - type ng mensahe para magsalita...",
     "signInToJoin": "Mag - sign in para sumali",
@@ -12967,7 +12974,14 @@
     "priceFreeRateLimited": "Libre · nalalapat ang mga limitasyon ng rate",
     "dialogueFormat": "Isulat ang eksena bilang \"Pangalan: linya\", isang nagsasalita bawat linya.",
     "fileTooLarge": "Ang file na iyon ay higit sa 100 MB. Gumamit ng mas maikling o mas maliit na isa.",
-    "signInToGenerate": "Mag-sign in upang lumikha."
+    "signInToGenerate": "Mag-sign in upang lumikha.",
+    "madeOnDehub": "Ginawa sa Riftn",
+    "gallery": {
+      "send": "Ipadala",
+      "notifications": {
+        "generation_reply": "Sumagot si {{name}} sa iyong comment"
+      }
+    }
   },
   "fractions": {
     "title": "Mga bahagi",
@@ -13981,7 +13995,7 @@
   "multiPost": {
     "tab": "Maramihang pagpopost",
     "title": "Maramihang pagpopost",
-    "intro": "Mag-post sa X, YouTube, Instagram, TikTok at iba pa nang sabay-sabay gamit ang dehub. Ikonekta ang iyong mga account nang isang beses, pagkatapos piliin kung saan mapupunta ang bawat post.",
+    "intro": "Mag-post sa X, YouTube, Instagram, TikTok at iba pa nang sabay-sabay gamit ang Riftn. Ikonekta ang iyong mga account nang isang beses, pagkatapos piliin kung saan mapupunta ang bawat post.",
     "creditsHeading": "Kredito sa pag-post",
     "credits": "{{count}} kredito sa pag-post",
     "topUpTitle": "Mag-top up at magtipid",
@@ -15561,5 +15575,36 @@
     "forward": "I-forward",
     "deleted_one": "Inalis ang {{count}} na mensahe",
     "deleted_other": "Inalis ang {{count}} na mga mensahe"
+  },
+  "messagesTabs": {
+    "all": "Lahat"
+  },
+  "mentionLinks": {
+    "communities": "Mga Komunidad",
+    "pages": "Mga pahina",
+    "people": "Mga tao"
+  },
+  "resetWallet": {
+    "mismatch": "Hindi tumutugma ang mga salinlahi",
+    "logOut": "Mag - log out",
+    "confirm": "Pirmahan ng password",
+    "ack": "Naiintindihan ko ang aking mga lumang pondo na manatili sa lumang wallet.",
+    "cancel": "Kanselahin"
+  },
+  "chatTabs": {
+    "all": "Lahat",
+    "alwaysOn": "Laging naka-on",
+    "communities": "Mga Komunidad",
+    "direct": "Direkta",
+    "kindCommunity": "Komunidad",
+    "kindDirect": "Direkta",
+    "kindGroup": "Pangkatin",
+    "kindPublic": "Pampubliko",
+    "moveDown": "Ilipat pababa",
+    "moveUp": "Ilipat pataas",
+    "requests": "Kahilingan",
+    "sCreators": "Mga creator",
+    "sGaming": "Pagsisikatan",
+    "sTrading": "Kalakalan"
   }
 }

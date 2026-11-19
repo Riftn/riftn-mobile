@@ -22,7 +22,7 @@
     "failed": "Ba zai iya kammala haɗin ba. Gwada sake shiga.",
     "generate": "Generate kafofin watsa labarai ta amfani da takardunku, tabbatar da biyan kuɗi ko cancantar hotuna kyauta",
     "generatePrompt": "Nuna mini samfuran hoto na Riftn kuma ka ambaci hoto kafin samar da shi.",
-    "intro": "Browse Riftn a cikin ChatGPT, ko haɗa asusunka don sabunta bayaninka, buga sakonni da amfani da Creator Studio. Ƙara https://dehub.io/mcp a matsayin mai haɗa OAuth don sarrafa asusun.",
+    "intro": "Browse Riftn a cikin ChatGPT, ko haɗa asusunka don sabunta bayaninka, buga sakonni da amfani da Creator Studio. Ƙara https://riftn.com/mcp a matsayin mai haɗa OAuth don sarrafa asusun.",
     "libraryPrompt": "Nuna sabbin kadarori a cikin ɗakin karatu na Riftn Creator.",
     "manage": "Gudanar da haɗin asusun",
     "profile": "Shirya bayaninka, hotuna da saitunan sirri",
@@ -30,7 +30,7 @@
     "read": "Kara takardar muku, wallafe-wallafe, bayanan bayanan da kibecin Creator.",
     "signIn": "Shiga cikin Riftn",
     "social": "Kirkira takardu da labarai, kada ayyuka da kada abokin hulda, da kada takarda.",
-    "step": "Don sarrafa asusun, ƙara https://dehub.io/mcp a matsayin mai haɗa OAuth, shiga cikin Riftn kuma sake duba izini kafin ba da damar samun dama.",
+    "step": "Don sarrafa asusun, ƙara https://riftn.com/mcp a matsayin mai haɗa OAuth, shiga cikin Riftn kuma sake duba izini kafin ba da damar samun dama.",
     "title": "Haɗa asusunka na Riftn",
     "what": "Browse jama'a posts da bayanan martaba. Tare da haɗin asusun OAuth, sarrafa bayaninka da sirrinka, buga sakonni da sharhi, bi mutane, karanta sanarwa, adana alamun littafi da kuma samar da hotuna, bidiyo, sauti da kadarorin 3D. Generation yana amfani da dokokin biyan kuɗi na Riftn na yanzu."
   },
@@ -2628,7 +2628,8 @@
       "profile": "bayanin martaba",
       "proposal": "shawarwari",
       "stage": "mataki",
-      "store": "shagon"
+      "store": "shagon",
+      "featureRequest": "tambayar"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Farashi",
     "reorderHint": "Riƙe da jawo kowane icon don sake tsarawa",
-    "reorderReset": "Sake saitawa"
+    "reorderReset": "Sake saitawa",
+    "groups": {
+      "create": "Ƙirƙira",
+      "discover": "Gano"
+    }
   },
   "affiliate": {
     "subtitle": "Samun kuɗi daga kowane mutum da ka gayyata — har abada",
@@ -3680,7 +3685,8 @@
     "themeColorBrand": "Alama",
     "themeColorBrandDesc": "Yi amfani da launukan hoton bayanan martabarka",
     "themeColorBrandNoAvatar": "Ƙara hoton bayanan martaba don amfani da launukan Alama",
-    "themeColorBrandFailed": "Ba a iya karanta launuka daga hoton bayanan martabarka ba"
+    "themeColorBrandFailed": "Ba a iya karanta launuka daga hoton bayanan martabarka ba",
+    "menuLayoutFolders": "Fayiloli"
   },
   "common": {
     "refresh": "Sake sabuntawa",
@@ -3748,7 +3754,8 @@
     "next": "Na gaba",
     "previous": "Na baya",
     "redo": "Sake yi",
-    "remove": "Cire"
+    "remove": "Cire",
+    "loadMore": "Ɗora ƙari"
   },
   "tip": {
     "payDirect": "Aika kai tsaye zuwa {{name}} a {{symbol}} on {{chain}}. Babu swap.",
@@ -4651,7 +4658,7 @@
     "promptHeading": "Menene ya kamata mu gina gaba?",
     "promptHint": "Bayyana shi. Drop a cikin wani screenshot. Ka sanya shi ya faru.",
     "promptLabel": "Yo Gabba Gabba",
-    "promptMediaError": "Zaɓi hotuna ko bidiyo a ƙarƙashin 20MB kowane.",
+    "promptMediaError": "Zaɓi hotuna ko bidiyo a ƙarƙashin 50MB kowane.",
     "promptMediaLimit": "Har zuwa {{max}} attachments.",
     "promptNew": "Sabon hanzari",
     "promptPageTitle": "Bukatun",
@@ -7564,7 +7571,7 @@
     "onStage": "A kan Mataki",
     "noSpeakers": "Babu masu magana har yanzu",
     "voiceEffect": "Sakamakon 🎭 Murya",
-    "textToSpeech": "Rubutun 🔊 Magana",
+    "textToSpeech": "Rubutun  Magana",
     "loadVoices": "Load muryoyin",
     "ttsPlaceholder": "Rubuta sako don magana...",
     "signInToJoin": "Shiga don shiga",
@@ -12787,7 +12794,15 @@
     "loop": "Madauki",
     "dialogueFormat": "Rubuta yanayin a matsayin \"Sunan: layi,\" mai magana daya da layi.",
     "fileTooLarge": "Wannan fayil ne a kan 100 MB. Yi amfani da mafi guntu ko ƙarami.",
-    "signInToGenerate": "Shiga don samar."
+    "signInToGenerate": "Shiga don samar.",
+    "madeOnDehub": "An yi a Riftn",
+    "aiGenerationAlt": "AI ƙarni",
+    "gallery": {
+      "send": "Aika",
+      "notifications": {
+        "generation_reply": "{{name}} ya amsa sharhinka"
+      }
+    }
   },
   "fractions": {
     "title": "Rabe-rabe",
@@ -13801,7 +13816,7 @@
   "multiPost": {
     "tab": "Rarraba posts da yawa",
     "title": "Rarraba posts da yawa",
-    "intro": "Yi post zuwa X, YouTube, Instagram, TikTok da ƙari a lokaci guda tare da dehub. Haɗa asusunka sau ɗaya, sannan zaɓi inda kowane post zai tafi.",
+    "intro": "Yi post zuwa X, YouTube, Instagram, TikTok da ƙari a lokaci guda tare da Riftn. Haɗa asusunka sau ɗaya, sannan zaɓi inda kowane post zai tafi.",
     "creditsHeading": "Kudin posts",
     "credits": "{{count}} kudin posts",
     "topUpTitle": "Ƙara kuɗi da adanawa",
@@ -15330,7 +15345,8 @@
       "chrome": "Ruwan ƙarfe",
       "orbit": "Zagayawa",
       "snow": "Ruwan dusar ƙanƙara"
-    }
+    },
+    "sameAsProfile": "Bayanan kai"
   },
   "articleTile": {
     "cover": "Murfi"
@@ -15362,5 +15378,36 @@
     "forward": "Tura gaba",
     "deleted_one": "An goge saƙo {{count}}",
     "deleted_other": "An goge saƙonni {{count}}"
+  },
+  "messagesTabs": {
+    "all": "Duka"
+  },
+  "mentionLinks": {
+    "communities": "Al'ummomi",
+    "pages": "Shafuka",
+    "people": "Mutane"
+  },
+  "resetWallet": {
+    "mismatch": "Kalmomin wucewa ba su daidaita ba",
+    "logOut": "Shiga waje",
+    "confirm": "Tabbatar da kalmar sirri",
+    "ack": "Na fahimci cewa tsoffin kuɗina suna nan a tsohon walat.",
+    "cancel": "Soke"
+  },
+  "chatTabs": {
+    "all": "Duka",
+    "alwaysOn": "A kunne koyaushe",
+    "communities": "Al'ummomi",
+    "direct": "Kai tsaye",
+    "kindCommunity": "Al'umma",
+    "kindDirect": "Kai tsaye",
+    "kindGroup": "Rukunin",
+    "kindPublic": "Jama'a",
+    "moveDown": "Yi ƙaura ƙasa",
+    "moveUp": "Motsa sama",
+    "requests": "Buƙatun",
+    "sCreators": "Masu ƙirƙira",
+    "sGaming": "Wasanni",
+    "sTrading": "Ciniki"
   }
 }

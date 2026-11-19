@@ -15,14 +15,14 @@
   "accountConnect": {
     "account": "La navegació pública no necessita cap compte. Vincula el teu compte de Riftn per gestionar el teu perfil i crear o publicar contingut.",
     "allow": "Permet la connexió",
-    "body": "Vincula el teu compte per gestionar el teu perfil, publicar publicacions i crear contingut des del xat. Les connexions caduquen en un termini de 24 hores. Pots desconnectar-te quan vulguis.",
+    "body": "Vincula el teu compte per gestionar el teu perfil, publicar publicacions i crear contingut des del xat. Les connexions caduquen en un termini de 30 dies. Pots desconnectar-te quan vulguis.",
     "deny": "Cancel·lar",
     "disconnect": "Desconnecta",
     "empty": "No hi ha connexions actives al compte.",
     "failed": "No s'ha pogut completar la connexió. Intenta iniciar la sessió de nou.",
     "generate": "Genera multimèdia amb els teus crèdits, pagaments confirmats o imatges gratuïtes que compleixin els requis",
     "generatePrompt": "Ensenya'm els models d'imatge de Riftn i cita un retrat abans de generar-lo.",
-    "intro": "Navega per Riftn a ChatGPT o enllaça el teu compte per actualitzar el teu perfil, publicar publicacions i utilitzar Creator Studio. Afegeix https://dehub.io/mcp com a connector OAuth per als controls del compte.",
+    "intro": "Navega per Riftn a ChatGPT o enllaça el teu compte per actualitzar el teu perfil, publicar publicacions i utilitzar Creator Studio. Afegeix https://riftn.com/mcp com a connector OAuth per als controls del compte.",
     "libraryPrompt": "Mostra els últims recursos a la meva biblioteca de Riftn Creator.",
     "manage": "Gestiona les connexions del compte",
     "profile": "Modifica el teu perfil, les imatges i la configuració de privacitat",
@@ -30,7 +30,7 @@
     "read": "Llegeix el teu compte, les publicacions, les notificacions i la biblioteca de creadors",
     "signIn": "Inicia sessió a Riftn",
     "social": "Publica publicacions i comentaris, segueix persones i desa les adreces d'interès",
-    "step": "Per als controls del compte, afegeix https://dehub.io/mcp com a connector OAuth, inicia la sessió a Riftn i revisa els permisos abans de permetre l'accés.",
+    "step": "Per als controls del compte, afegeix https://riftn.com/mcp com a connector OAuth, inicia la sessió a Riftn i revisa els permisos abans de permetre l'accés.",
     "title": "Connecta el teu compte de Riftn",
     "what": "Navega per les publicacions i els perfils públics. Amb una connexió al compte d'OAuth, gestiona el teu perfil i la teva privacitat, publica publicacions i comentaris, segueix persones, llegeix notificacions, desa adreces d'interès i genera imatges, vídeos, àudio i actius 3D. Generation utilitza les normes de pagament existents de Riftn."
   },
@@ -2627,7 +2627,8 @@
       "profile": "perfil",
       "proposal": "proposta",
       "stage": "etapa",
-      "store": "botiga"
+      "store": "botiga",
+      "featureRequest": "Solicitude"
     }
   },
   "postGate": {
@@ -2917,7 +2918,11 @@
     "premium": "Premium",
     "pricing": "Preus",
     "reorderHint": "Mantingues i arrossega qualsevol icona per reorganitzar",
-    "reorderReset": "Reset"
+    "reorderReset": "Reset",
+    "groups": {
+      "create": "Crear",
+      "discover": "Descobreix"
+    }
   },
   "affiliate": {
     "subtitle": "Guanya de tothom que convidis, per sempre",
@@ -3681,7 +3686,8 @@
     "themeColorBrand": "Marca",
     "themeColorBrandDesc": "Fes servir els colors de la teva foto de perfil",
     "themeColorBrandNoAvatar": "Afegeix una foto de perfil per fer servir els colors de marca",
-    "themeColorBrandFailed": "No s'han pogut llegir els colors de la teva foto de perfil"
+    "themeColorBrandFailed": "No s'han pogut llegir els colors de la teva foto de perfil",
+    "menuLayoutFolders": "Carpetes"
   },
   "common": {
     "refresh": "Actualitzar",
@@ -3749,7 +3755,8 @@
     "next": "Proper",
     "previous": "Anterior",
     "redo": "Desfés",
-    "remove": "Elimina"
+    "remove": "Elimina",
+    "loadMore": "Carregar més"
   },
   "tip": {
     "payDirect": "S'ha enviat directament a {{name}} a {{symbol}} el {{chain}}. Sense intercanvi.",
@@ -4652,7 +4659,7 @@
     "promptHeading": "Què volem construir a continuació?",
     "promptHint": "Descriu-ho. Insereix una captura de pantalla. Fes-ho passar.",
     "promptLabel": "La teva sol·licitud",
-    "promptMediaError": "Tria imatges o vídeos de menys de 20 MB cadascun.",
+    "promptMediaError": "Tria imatges o vídeos de menys de 50 MB cadascun.",
     "promptMediaLimit": "Fins a {{max}} adjunts.",
     "promptNew": "Nova sol·licitud",
     "promptPageTitle": "Solicitudes",
@@ -7565,7 +7572,7 @@
     "onStage": "A l'escenari",
     "noSpeakers": "Encara no hi ha parlants",
     "voiceEffect": "Efecte 🎭 de veu",
-    "textToSpeech": "🔊 Text a veu",
+    "textToSpeech": "Text a veu",
     "loadVoices": "Carrega veus",
     "ttsPlaceholder": "Escriu un missatge per parlar...",
     "signInToJoin": "Inicia sessió per unir-te",
@@ -12784,7 +12791,15 @@
     "loop": "Bucle",
     "dialogueFormat": "Escriu l'escena com a \"Nom: línia\", un parlant per línia.",
     "fileTooLarge": "Aquest fitxer supera els 100 MB. Utilitza un més curt o més petit.",
-    "signInToGenerate": "Inicia sessió per generar."
+    "signInToGenerate": "Inicia sessió per generar.",
+    "madeOnDehub": "Fet a Riftn",
+    "aiGenerationAlt": "Generació d'IA",
+    "gallery": {
+      "send": "Enviar",
+      "notifications": {
+        "generation_reply": "{{name}} ha respost al teu comentari"
+      }
+    }
   },
   "fractions": {
     "title": "Fraccions",
@@ -13798,7 +13813,7 @@
   "multiPost": {
     "tab": "Publicació múltiple",
     "title": "Publicació múltiple",
-    "intro": "Publica a X, YouTube, Instagram, TikTok i més alhora amb dehub. Connecta els teus comptes un cop i tria on va cada publicació.",
+    "intro": "Publica a X, YouTube, Instagram, TikTok i més alhora amb Riftn. Connecta els teus comptes un cop i tria on va cada publicació.",
     "creditsHeading": "Crèdits de publicació",
     "credits": "{{count}} crèdits de publicació",
     "topUpTitle": "Recarrega i estalvia",
@@ -15347,7 +15362,8 @@
       "chrome": "Crom líquid",
       "orbit": "Òrbita",
       "snow": "Nevada"
-    }
+    },
+    "sameAsProfile": "Perfil"
   },
   "articleTile": {
     "cover": "Portada"
@@ -15379,5 +15395,36 @@
     "forward": "Reenvia",
     "deleted_one": "Esborrat {{count}} missatge",
     "deleted_other": "Esborrats {{count}} missatges"
+  },
+  "messagesTabs": {
+    "all": "Tots"
+  },
+  "mentionLinks": {
+    "communities": "Comunitats",
+    "pages": "Pàgines",
+    "people": "Persones"
+  },
+  "resetWallet": {
+    "mismatch": "Les contrasenyes no coincideixen",
+    "logOut": "Tanca la sessió",
+    "confirm": "Confirmar contrasenya",
+    "ack": "Entenc que els meus fons antics es queden a l'antic carter.",
+    "cancel": "Cancel·la"
+  },
+  "chatTabs": {
+    "all": "Tots",
+    "alwaysOn": "Sempre activat",
+    "communities": "Comunitats",
+    "direct": "Directe",
+    "kindCommunity": "Comunitat",
+    "kindDirect": "Directe",
+    "kindGroup": "Agrupar",
+    "kindPublic": "Públic",
+    "moveDown": "Mou avall",
+    "moveUp": "Mou amunt",
+    "requests": "Sol·licituds",
+    "sCreators": "Creadors",
+    "sGaming": "Jocs",
+    "sTrading": "Operació"
   }
 }
