@@ -32,7 +32,7 @@ createPrivateKey(key.keyP8); // throws if it is not a usable key
 const body = key.keyP8.replace(/-----[^-]+-----/g, '').replace(/\s+/g, '');
 const payload = Buffer.from(JSON.stringify({ k: key.keyIdentifier, p: body }));
 const cipher = publicEncrypt(
-  { key: readFileSync(new URL('./public.pem', import.meta.url)), padding: constants.RSA_PKCS1_OAEP_PADDING, oaepHash: 'sha256' },
+  { key: readFileSync(new URL('./server-public-key.txt', import.meta.url)), padding: constants.RSA_PKCS1_OAEP_PADDING, oaepHash: 'sha256' },
   payload,
 );
 console.log('----- ciphertext -----');
