@@ -610,7 +610,7 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
           <Text className="text-theme-neutrals-300 text-xs font-semibold uppercase mb-1">{t("articles.body")}</Text>
           <TextInput value={articleBody} onChangeText={setArticleBody} maxLength={ARTICLE_RAW_MAX} multiline
             placeholder={t("articles.placeholder")} placeholderTextColor="#8B8D90"
-            textAlignVertical="top" className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm min-h-[220px]" />
+            textAlignVertical="top" style={{ maxHeight: 320 }} className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm min-h-[220px]" />
           <Text className="text-theme-neutrals-500 text-xs text-right">{articleTextLength(articleBody).toLocaleString("en-US")}/20,000</Text>
         </View>}
         {initialDescription ? (
@@ -628,6 +628,9 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
               multiline
               numberOfLines={4}
               textAlignVertical="top"
+              // Capped so long text scrolls inside the box and the count
+              // under it never drops out of view.
+              style={{ maxHeight: 200 }}
               className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm min-h-[80px] mb-1"
             />
             <MentionSuggestions
