@@ -2565,7 +2565,10 @@
     "b4c9a289323b": "user@example.com",
     "bf640b85d499": "riftn.com · ",
     "3ff66a9762c9": "{{value1}}、{{value2}}、{{value3}}",
-    "12a7c0529934": "/docs/getting-started"
+    "12a7c0529934": "/docs/getting-started",
+    "7f78bdc0762d": "+{{value1}}ポイント",
+    "f0c8bb34335b": "+{{value1}}ポイント獲得しました",
+    "0fbe06b679a8": "リリースされたリクエストごとに{{value1}}ポイントが、トップビルダーのスコアに加算されます。"
   },
   "dehubLinks": {
     "kind": {
@@ -2645,7 +2648,8 @@
       "location": "場所",
       "custom": "カスタム",
       "customOption": "カスタムラベル"
-    }
+    },
+    "placeholderLink": "yoursite.com"
   },
   "notificationFilters": {
     "title": "通知をフィルターする相手",
@@ -3747,7 +3751,14 @@
     "menuLayoutFolders": "フォルダ",
     "menuLayoutFoldersDesc": "メインのページと、グループごとのフォルダ",
     "publicChatInBar": "下のバーに公開チャット",
-    "publicChatInBarDesc": "画面下のバーからワンタップで公開チャットへ"
+    "publicChatInBarDesc": "画面下のバーからワンタップで公開チャットへ",
+    "chatDeleteChoice": "メッセージを削除するとき",
+    "chatDeleteChoiceDesc": "毎回確認するか、常に自分だけ、またはチャットの全員から削除するかを選べます。",
+    "chatDeleteAsk": "毎回確認する",
+    "chatDeleteMe": "自分だけ削除",
+    "chatDeleteMeDesc": "自分のチャットからは消えますが、他の人には表示されたままです",
+    "chatDeleteEveryone": "全員から削除",
+    "chatDeleteEveryoneDesc": "可能な場合のみ。グループ内の他の人のメッセージは自分のチャットからのみ削除されます"
   },
   "common": {
     "remove": "削除",
@@ -7124,7 +7135,9 @@
       "links": "このグループではリンクは許可されていません。",
       "repeat": "今それを送ったばかりだよ。何か新しいことを言ってみて。",
       "reserved": "そんなメッセージは、グループのボットからしか送られてこないはずだ。",
-      "floodError": "送信が速すぎます。{{value1}}秒待ってからもう一度試してください。"
+      "floodError": "送信が速すぎます。{{value1}}秒待ってからもう一度試してください。",
+      "bannedWordsPlaceholder": "詐欺\nラグプル",
+      "saveWords": "ワードを保存"
     },
     "entry": {
       "switchChain": "支払うには、ウォレットをBNB ChainまたはBaseに切り替えてください。",
@@ -8127,7 +8140,8 @@
     "modBadge": "モデ",
     "ban": "禁止する",
     "banConfirm": "{{name}} を禁止しますか？",
-    "banFailed": "ユーザーの禁止に失敗しました"
+    "banFailed": "ユーザーの禁止に失敗しました",
+    "jumpToMentions": "返信とメンションへ移動"
   },
   "promptFeed": {
     "headline": "何を見たいですか？",
@@ -10004,7 +10018,8 @@
     "attachPhotoOrVideo": "写真または動画",
     "attachTooLarge": "そのファイルは {{size}} MBの制限を超えています。",
     "deleteForBothBody": "両方のチャットから削除されます。",
-    "notSent": "未送信"
+    "notSent": "未送信",
+    "copyMedia": "メディアをコピー"
   },
   "editPost": {
     "mediaPermission": "メディアライブラリへのアクセス許可が必要です",
@@ -11313,7 +11328,8 @@
       "pptxHint": "各ページは1つのスライドイメージになり、プレゼンターのノートとリンクが含まれる。元のデザインを編集して個別のテキストと要素を編集する。",
       "section": "名前付きセクション",
       "transparent": "透過背景",
-      "nleHint": "タイムラインをFCPXMLおよびPremiere XMLとして、すべてのメディアファイルと共にZIPでダウンロードします。これにより、Premiere Pro、Final Cut Pro、またはDaVinci Resolveで編集を仕上げることができます。テキストはマーカーに変換され、エフェクトはRiftn内に保持されます。"
+      "nleHint": "タイムラインをFCPXMLおよびPremiere XMLとして、すべてのメディアファイルと共にZIPでダウンロードします。これにより、Premiere Pro、Final Cut Pro、またはDaVinci Resolveで編集を仕上げることができます。テキストはマーカーに変換され、エフェクトはRiftn内に保持されます。",
+      "nle": "Premiere / Final Cut / Resolve（XML）"
     },
     "adjust": {
       "auto": "自動補正",
@@ -12940,7 +12956,8 @@
       "useOwned": "私の声を使って",
       "ready": "「{{name}}」はボイスオーバーの準備が完了しました。",
       "paidFailed": "お支払情報が保存されました。次回以降、この画面からのお支払いは無料となります。",
-      "consent": "自分の声、または使用許可を得ている声のみをクローンしてください。"
+      "consent": "自分の声、または使用許可を得ている声のみをクローンしてください。",
+      "sample": "サンプル：{{name}}"
     },
     "linkImport": {
       "go": "インポート",
@@ -13616,7 +13633,8 @@
         "5": "ロマンティック・コメディ",
         "6": "スリラー",
         "7": "西部劇",
-        "label": "ジャンル"
+        "label": "ジャンル",
+        "3": "SF"
       },
       "palette": {
         "0": "温かみのあるアンバー",
@@ -13714,7 +13732,8 @@
         "answer0": "明確な主題、行為、背景",
         "answer1": "トヨタ・カローラ",
         "answer2": "矛盾するスタイルのリスト",
-        "exercise": "窓際の木製テーブルの上に置かれた陶器のティーポット。柔らかな朝の光、ミディアムショット、シンプルな背景。ティーポットがはっきりと主題になるように。"
+        "exercise": "窓際の木製テーブルの上に置かれた陶器のティーポット。柔らかな朝の光、ミディアムショット、シンプルな背景。ティーポットがはっきりと主題になるように。",
+        "body1": "具体的な被写体、その動作、舞台を説明してください。シーンに役立つならフレーミングやカメラの動きも加えましょう。関係のないアイデアは別の下書きに回してください。"
       },
       "continuity": {
         "title": "ショットの計画と連続性の確認",
@@ -13766,9 +13785,17 @@
     "gallery": {
       "send": "送信",
       "notifications": {
-        "generation_reply": "{{name}}があなたのコメントに返信しました"
-      }
-    }
+        "generation_reply": "{{name}}があなたのコメントに返信しました",
+        "generation_like": "{{name}}があなたの生成物にリアクションしました",
+        "generation_comment_like": "{{name}}があなたのコメントにリアクションしました",
+        "generation_comment": "{{name}}があなたの生成物にコメントしました"
+      },
+      "browse": "生成物を見る",
+      "empty": "作品はまだありません",
+      "fullscreen": "全画面で表示",
+      "missing": "この生成物は利用できません。"
+    },
+    "audioExportMp3": "MP3 · 128 kbps"
   },
   "fractions": {
     "title": "フラクション",
@@ -16809,7 +16836,8 @@
     "saveCurrent": "+ 現在のものを保存",
     "savePreset": "プリセットとして保存",
     "show": "フィルターを表示",
-    "updatePreset": "プリセットの名前を変更"
+    "updatePreset": "プリセットの名前を変更",
+    "count": "{{count}}個のフィルターが有効"
   },
   "ownKeys": {
     "working": "処理中",
@@ -16874,7 +16902,8 @@
       "dotwave": "ドットウェーブ",
       "silk": "シルク",
       "bokeh": "ボケ",
-      "photo": "あなたの写真"
+      "photo": "あなたの写真",
+      "scan": "CRT"
     },
     "title": "投稿の背景",
     "editRow": "投稿の背景",
@@ -16888,7 +16917,11 @@
     "base": "ベース",
     "accent2": "アクセント2",
     "ownColours": "自分の色",
-    "sameAsProfile": "プロフィール"
+    "sameAsProfile": "プロフィール",
+    "scope": "適用先",
+    "thisPost": "この投稿",
+    "allPosts": "すべての投稿",
+    "sameAsProfileSub": "プロフィールと同じ"
   },
   "articleTile": {
     "cover": "カバー",
@@ -17074,6 +17107,28 @@
     "tooMany": "タブは最大 10 個までです"
   },
   "msgDelete": {
-    "titleMany": "{{count}}件のメッセージを削除しますか？"
+    "titleMany": "{{count}}件のメッセージを削除しますか？",
+    "title": "メッセージを削除しますか？",
+    "bodyOwn": "自分のチャットからのみ削除するか、全員から削除します。",
+    "bodyOwnMany": "自分のチャットからのみ削除するか、全員から削除します。",
+    "bodyOthers": "自分のチャットからのみ削除されます。相手には表示されたままです。",
+    "bodyOthersMany": "自分のチャットからのみ削除されます。チャットの他のメンバーには表示されたままです。",
+    "bodyOwnBoth": "自分のチャットからのみ削除するか、お互いから削除します。",
+    "bodyOwnBothMany": "自分のチャットからのみ削除するか、お互いから削除します。",
+    "forMe": "自分だけ削除",
+    "forEveryone": "全員から削除",
+    "forBoth": "お互いから削除",
+    "forMeAndName": "自分と{{name}}から削除",
+    "remember": "選択を記憶する",
+    "rememberHint": "設定からいつでも変更できます",
+    "failed": "メッセージを削除できませんでした"
+  },
+  "chatReactions": {
+    "many_one": "あなたのメッセージへのリアクション{{count}}件",
+    "many_other": "あなたのメッセージへのリアクション{{count}}件",
+    "manySame_one": "あなたのメッセージに{{emoji}} × {{count}}",
+    "manySame_other": "あなたのメッセージに{{emoji}} × {{count}}",
+    "one": "あなたのメッセージに{{emoji}}でリアクションしました",
+    "oneNamed": "{{name}}があなたのメッセージに{{emoji}}でリアクションしました"
   }
 }
