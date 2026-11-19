@@ -2872,21 +2872,6 @@ export default function UploadScreen() {
               loading={bodyAssets.loading}
             />
 
-            {/* Character count alone, right-aligned, as web ends this row.
-                Enhance moved down to the action bar beside Post, where web
-                keeps it. */}
-            {!articleMode && <View className="flex-row items-center justify-end mt-1">
-              <Text
-                className={`text-xs ${
-                  bodyText.length >= DESCRIPTION_MAX
-                    ? "text-white/80"
-                    : "text-theme-neutrals-500"
-                }`}
-              >
-                {formatCharCount(bodyText.length)}/{formatCharCount(DESCRIPTION_MAX)}
-              </Text>
-            </View>}
-
             {isLiveMode && (
               <View className="mt-2 flex-row items-center">
                 <View className="w-2.5 h-2.5 rounded-full bg-white mr-2" />
@@ -3328,6 +3313,19 @@ export default function UploadScreen() {
         </Pressable>
       </GestureScrollView>
       </GestureDetector>
+      {/* Character count sits under the scrolling editor, not inside it, so it
+          stays in view however many lines the post runs to. */}
+      {!articleMode && <View className="flex-row items-center justify-end px-4 pt-1 pb-1">
+        <Text
+          className={`text-xs ${
+            bodyText.length >= DESCRIPTION_MAX
+              ? "text-white/80"
+              : "text-theme-neutrals-500"
+          }`}
+        >
+          {formatCharCount(bodyText.length)}/{formatCharCount(DESCRIPTION_MAX)}
+        </Text>
+      </View>}
       {/* Options scroll in their own short box, as on web: the tabs and the
           editor stay put while the switches scroll underneath them. */}
       <View className="border-t border-white/10">
