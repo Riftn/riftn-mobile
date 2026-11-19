@@ -165,7 +165,8 @@ const BAR_ENTRIES: BarEntry[] = [
   ...TABS.filter((tab) => !tab.isCenter).map((tab) => ({ id: navOrderId(tab.labelKey), tab })),
   ...SCROLL_NAV_ITEMS.map((item) => ({ id: navOrderId(item.labelKey), item })),
 ];
-const DEFAULT_BAR_IDS = BAR_ENTRIES.map((entry) => entry.id);
+/** The bar's default order (Settings' Public Chat switch rearranges it). */
+export const DEFAULT_BAR_IDS = BAR_ENTRIES.map((entry) => entry.id);
 
 // DHB-unlock surfaces the App Store build leaves out — see config/storefront.
 const STOREFRONT_HIDDEN_SCREENS = new Set([

@@ -1,0 +1,40 @@
+name: Send TestFlight build to testers
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: Build number (empty = newest processed build)
+        required: false
+      group:
+        description: TestFlight group
+        required: false
+        default: Dev testers
+      what_to_test:
+        description: What testers should try (optional)
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testflight-send-build
+  cancel-in-progress: false
+
+jobs:
+  send:
+    name: Send build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Add the build to the group and open beta review
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          BUILD_NUMBER: ${{ inputs.build_number }}
+          TESTER_GROUP: ${{ inputs.group }}
+          WHAT_TO_TEST: ${{ inputs.what_to_test }}
+        run: node scripts/testflight-send-build.mjs

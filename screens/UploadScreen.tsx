@@ -113,6 +113,7 @@ import GlassModal from "../components/ui/GlassModal";
 import FeedCard from "../components/Home/FeedCard";
 import EnhanceSheet from "../components/Upload/EnhanceSheet";
 import { type VideoTrim } from "../components/Upload/VideoTrimSheet";
+import { MediaControlIcon } from "../components/common/MediaControlGlyph";
 import DmVideoStudio, { type StudioColour, type VideoCrop } from "../components/DM/DmVideoStudio";
 import { videoEditsPayload, postDestructShort, type PostVideoEdits } from "../libs/post-video-edits";
 import type { DmVideoOptions } from "../libs/dm-video-options";
@@ -127,6 +128,7 @@ import type { StudioEdits } from "../components/Upload/studioPaint";
 import type { FilterSettings } from "../libs/imageFilters";
 import { optionalSkia } from "../libs/skia";
 import EmojiSheet from "../components/Upload/EmojiSheet";
+import WhenOpened from "../components/ui/WhenOpened";
 import { useSwipeBackAction } from '../hooks/useSwipeBack';
 import type { UploadPayload, UploadStage, PickedAudio } from "../hooks/useUploadPost";
 import type { LiveUploadPayload } from "../hooks/useUploadLive";
@@ -2594,20 +2596,24 @@ export default function UploadScreen() {
   }, [pickedVideo, player, videoTrim, videoCoverAt, videoEdits, videoDestruct]);
 
   const soundPickerSheet = (
-      <SoundPickerSheet
-        visible={showSoundPicker}
-        onClose={() => setShowSoundPicker(false)}
-        onSelect={(sound) => {
-          // A new song keeps the levels the poster already set.
-          selectSound(attachedSound ? { ...sound, url: withSoundMix(sound.url, soundMix(attachedSound.url)) } : sound);
-          setShowSoundPicker(false);
-        }}
-        currentSound={attachedSound}
-        opaque={showVideoTrim}
-        clipSeconds={mediaMode === "video" && pickedVideo
-          ? (videoTrim ? videoTrim.end - videoTrim.start : (pickedVideo.duration ?? 0) / 1000) || undefined
-          : undefined}
-      />
+      <WhenOpened open={showSoundPicker}>
+        {() => (
+          <SoundPickerSheet
+            visible={showSoundPicker}
+            onClose={() => setShowSoundPicker(false)}
+            onSelect={(sound) => {
+              // A new song keeps the levels the poster already set.
+              selectSound(attachedSound ? { ...sound, url: withSoundMix(sound.url, soundMix(attachedSound.url)) } : sound);
+              setShowSoundPicker(false);
+            }}
+            currentSound={attachedSound}
+            opaque={showVideoTrim}
+            clipSeconds={mediaMode === "video" && pickedVideo
+              ? (videoTrim ? videoTrim.end - videoTrim.start : (pickedVideo.duration ?? 0) / 1000) || undefined
+              : undefined}
+          />
+        )}
+      </WhenOpened>
   );
 
   const handleToggleTitle = useCallback((value: boolean) => {
@@ -3112,6 +3118,11 @@ export default function UploadScreen() {
                       ? t("upload.edited", { defaultValue: "Edited" })
                       : t("upload.edit", { defaultValue: "Edit" })}
                 />
+                <Pressable onPress={() => setIsMuted((m) => !m)} hitSlop={10} testID="upload-video-sound"
+                  accessibilityRole="button" accessibilityLabel={isMuted ? t("common.unmute") : t("common.mute")}
+                  style={{ position: "absolute", top: 8, right: 8, padding: 2, zIndex: 30 }}>
+                  <MediaControlIcon name={isMuted ? "VolumeX" : "Volume2"} size={20} />
+                </Pressable>
               </View>
               </View>
             )}
@@ -3910,140 +3921,160 @@ export default function UploadScreen() {
       {/* The sheets and drawers below are all closed on open; they mount once
           the composer is up so the first frame stays light. */}
       {sheet.extrasReady && <>
-      <GlassModal visible={photoMenu !== null} onClose={() => setPhotoMenu(null)} presentation="bottom" scrollable>
-        {photoMenu !== null && pickedImages[photoMenu] ? (() => {
-          const idx = photoMenu;
-          const img = pickedImages[idx];
-          const canEdit = !!PhotoStudio && !isGifAsset(img);
-          const rows: { key: string; icon: IconName; label: string; run: () => void; danger?: boolean }[] = [
-            ...(canEdit
-              ? [
-                  { key: "edit", icon: "SlidersHorizontal" as IconName, label: t("upload.studio.looksAdjust", { defaultValue: "Looks and adjust" }), run: () => setImageEdit({ index: idx, tab: "looks" }) },
-                  { key: "crop", icon: "Crop" as IconName, label: t("upload.cropRotate"), run: () => setImageEdit({ index: idx, tab: "crop" }) },
-                  { key: "draw", icon: "Pencil" as IconName, label: t("upload.drawWrite"), run: () => setImageEdit({ index: idx, tab: "draw" }) },
-                ]
-              : []),
-            { key: "alt", icon: "Captions" as IconName, label: img.description ? t("upload.editAltText", { defaultValue: "Edit alt text" }) : t("upload.addAltText", { defaultValue: "Add alt text" }), run: () => setAltEditor({ kind: "image", index: idx }) },
-            { key: "replace", icon: "Upload" as IconName, label: t("upload.changeImage", { index: idx + 1 }), run: () => handleChangeImage(idx) },
-            ...(idx > 0 ? [{ key: "left", icon: "ArrowLeft" as IconName, label: t("upload.moveEarlier", { defaultValue: "Move earlier" }), run: () => movePhoto(idx, idx - 1) }] : []),
-            ...(idx < pickedImages.length - 1 ? [{ key: "right", icon: "ArrowRight" as IconName, label: t("upload.moveLater", { defaultValue: "Move later" }), run: () => movePhoto(idx, idx + 1) }] : []),
-            { key: "remove", icon: "Trash2" as IconName, label: t("upload.removeImage"), run: () => handleRemoveImage(idx), danger: true },
-          ];
-          return (
-            <View className="px-4 pt-2 pb-4" style={{ gap: 4 }}>
-              <Text className="text-base font-semibold mb-2" style={{ color: themeColors.foreground }}>
-                {t("upload.photoN", { defaultValue: "Photo {{n}} of {{total}}", n: idx + 1, total: pickedImages.length })}
-              </Text>
-              {rows.map((r) => (
-                <TouchableOpacity
-                  key={r.key}
-                  onPress={() => { setPhotoMenu(null); r.run(); }}
-                  accessibilityRole="button"
-                  className="flex-row items-center px-4 py-3 rounded-xl"
-                >
-                  <Icon name={r.icon} size={20} color={r.danger ? "#f87171" : themeColors.foreground} />
-                  <Text className="flex-1 ml-3 text-sm" style={{ color: r.danger ? "#f87171" : themeColors.foreground }}>
-                    {r.label}
+      <WhenOpened open={photoMenu !== null}>
+        {() => (
+          <GlassModal visible={photoMenu !== null} onClose={() => setPhotoMenu(null)} presentation="bottom" scrollable>
+            {photoMenu !== null && pickedImages[photoMenu] ? (() => {
+              const idx = photoMenu;
+              const img = pickedImages[idx];
+              const canEdit = !!PhotoStudio && !isGifAsset(img);
+              const rows: { key: string; icon: IconName; label: string; run: () => void; danger?: boolean }[] = [
+                ...(canEdit
+                  ? [
+                      { key: "edit", icon: "SlidersHorizontal" as IconName, label: t("upload.studio.looksAdjust", { defaultValue: "Looks and adjust" }), run: () => setImageEdit({ index: idx, tab: "looks" }) },
+                      { key: "crop", icon: "Crop" as IconName, label: t("upload.cropRotate"), run: () => setImageEdit({ index: idx, tab: "crop" }) },
+                      { key: "draw", icon: "Pencil" as IconName, label: t("upload.drawWrite"), run: () => setImageEdit({ index: idx, tab: "draw" }) },
+                    ]
+                  : []),
+                { key: "alt", icon: "Captions" as IconName, label: img.description ? t("upload.editAltText", { defaultValue: "Edit alt text" }) : t("upload.addAltText", { defaultValue: "Add alt text" }), run: () => setAltEditor({ kind: "image", index: idx }) },
+                { key: "replace", icon: "Upload" as IconName, label: t("upload.changeImage", { index: idx + 1 }), run: () => handleChangeImage(idx) },
+                ...(idx > 0 ? [{ key: "left", icon: "ArrowLeft" as IconName, label: t("upload.moveEarlier", { defaultValue: "Move earlier" }), run: () => movePhoto(idx, idx - 1) }] : []),
+                ...(idx < pickedImages.length - 1 ? [{ key: "right", icon: "ArrowRight" as IconName, label: t("upload.moveLater", { defaultValue: "Move later" }), run: () => movePhoto(idx, idx + 1) }] : []),
+                { key: "remove", icon: "Trash2" as IconName, label: t("upload.removeImage"), run: () => handleRemoveImage(idx), danger: true },
+              ];
+              return (
+                <View className="px-4 pt-2 pb-4" style={{ gap: 4 }}>
+                  <Text className="text-base font-semibold mb-2" style={{ color: themeColors.foreground }}>
+                    {t("upload.photoN", { defaultValue: "Photo {{n}} of {{total}}", n: idx + 1, total: pickedImages.length })}
                   </Text>
+                  {rows.map((r) => (
+                    <TouchableOpacity
+                      key={r.key}
+                      onPress={() => { setPhotoMenu(null); r.run(); }}
+                      accessibilityRole="button"
+                      className="flex-row items-center px-4 py-3 rounded-xl"
+                    >
+                      <Icon name={r.icon} size={20} color={r.danger ? "#f87171" : themeColors.foreground} />
+                      <Text className="flex-1 ml-3 text-sm" style={{ color: r.danger ? "#f87171" : themeColors.foreground }}>
+                        {r.label}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              );
+            })() : null}
+          </GlassModal>
+        )}
+      </WhenOpened>
+
+      <WhenOpened open={showPreview}>
+        {() => (
+          <GlassModal visible={showPreview} onClose={() => setShowPreview(false)} presentation="bottom" scrollable>
+            {showPreview ? (
+              <View className="px-4 pt-2 pb-4">
+                <Text className="text-base font-semibold mb-3" style={{ color: themeColors.foreground }}>{t("upload.preview.title")}</Text>
+                <View pointerEvents="none">
+                  <FeedCard item={previewItem} isVisible={false} isAutoplayActive={false} enablePreview={false} disablePress />
+                </View>
+                <Text className="text-xs text-center mt-3" style={{ color: themeColors.mutedForeground }}>{t("upload.preview.hint")}</Text>
+              </View>
+            ) : null}
+          </GlassModal>
+        )}
+      </WhenOpened>
+
+      <WhenOpened open={showPostOptions}>
+        {() => (
+          <GlassModal visible={showPostOptions} onClose={() => setShowPostOptions(false)} presentation="bottom" scrollable>
+            <View className="px-4 pt-2 pb-4" style={{ gap: 8 }}>
+              <Text className="text-base font-semibold mb-2" style={{ color: themeColors.foreground }}>{t("player.moreOptions")}</Text>
+              {showPollButton && (
+                <TouchableOpacity
+                  onPress={() => { setShowPostOptions(false); handleTogglePoll(); }}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: pollEnabled }}
+                  className="flex-row items-center px-4 py-3 rounded-xl"
+                  style={{ backgroundColor: pollEnabled ? "rgba(255,255,255,0.15)" : "transparent" }}
+                >
+                  <Icon name="ChartBarBig" size={20} color={themeColors.foreground} />
+                  <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("upload.addPoll")}</Text>
+                  {pollEnabled && <Icon name="Check" size={18} color={themeColors.foreground} />}
                 </TouchableOpacity>
-              ))}
+              )}
+              {/* Comic lives here, under Polls, rather than as a top tab. */}
+              {!isLiveMode && !isStageMode && !articleMode && !isQuoteMode && !pickedVideo && !pickedAudio && !pollEnabled && (
+                <TouchableOpacity
+                  onPress={() => {
+                    setShowPostOptions(false);
+                    if (comicMode) { setComicMode(false); setShowTitle(false); }
+                    else { setShowTitle(true); setComicMode(true); setPollEnabled(false); setMonetization(emptyMonetization()); }
+                  }}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: comicMode }}
+                  className="flex-row items-center px-4 py-3 rounded-xl"
+                  style={{ backgroundColor: comicMode ? "rgba(255,255,255,0.15)" : "transparent" }}
+                >
+                  <Icon name="BookOpen" size={20} color={themeColors.foreground} />
+                  <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("comic.tab")}</Text>
+                  {comicMode && <Icon name="Check" size={18} color={themeColors.foreground} />}
+                </TouchableOpacity>
+              )}
+              {!isLiveMode && (
+                <TouchableOpacity
+                  onPress={() => { setShowPostOptions(false); setContentWarning(prev => prev === null ? "" : null); }}
+                  accessibilityRole="button"
+                  accessibilityState={{ selected: contentWarning !== null }}
+                  className="flex-row items-center px-4 py-3 rounded-xl"
+                  style={{ backgroundColor: contentWarning !== null ? "rgba(255,255,255,0.15)" : "transparent" }}
+                >
+                  <Ionicons name="warning-outline" size={20} color={themeColors.foreground} />
+                  <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{contentWarning !== null ? t("contentWarning.remove") : t("contentWarning.add")}</Text>
+                  {contentWarning !== null && <Icon name="Check" size={18} color={themeColors.foreground} />}
+                </TouchableOpacity>
+              )}
+              {visibility === "public" && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode && (
+                <CrossPostButton
+                  menuItem
+                  open={crossPostOpen}
+                  onToggle={() => { setShowPostOptions(false); setCrossPostOpen(v => !v); }}
+                  onManage={() => { setShowPostOptions(false); setCrossPostSetupOpen(true); }}
+                />
+              )}
             </View>
-          );
-        })() : null}
-      </GlassModal>
-
-      <GlassModal visible={showPreview} onClose={() => setShowPreview(false)} presentation="bottom" scrollable>
-        {showPreview ? (
-          <View className="px-4 pt-2 pb-4">
-            <Text className="text-base font-semibold mb-3" style={{ color: themeColors.foreground }}>{t("upload.preview.title")}</Text>
-            <View pointerEvents="none">
-              <FeedCard item={previewItem} isVisible={false} isAutoplayActive={false} enablePreview={false} disablePress />
-            </View>
-            <Text className="text-xs text-center mt-3" style={{ color: themeColors.mutedForeground }}>{t("upload.preview.hint")}</Text>
-          </View>
-        ) : null}
-      </GlassModal>
-
-      <GlassModal visible={showPostOptions} onClose={() => setShowPostOptions(false)} presentation="bottom" scrollable>
-        <View className="px-4 pt-2 pb-4" style={{ gap: 8 }}>
-          <Text className="text-base font-semibold mb-2" style={{ color: themeColors.foreground }}>{t("player.moreOptions")}</Text>
-          {showPollButton && (
-            <TouchableOpacity
-              onPress={() => { setShowPostOptions(false); handleTogglePoll(); }}
-              accessibilityRole="button"
-              accessibilityState={{ selected: pollEnabled }}
-              className="flex-row items-center px-4 py-3 rounded-xl"
-              style={{ backgroundColor: pollEnabled ? "rgba(255,255,255,0.15)" : "transparent" }}
-            >
-              <Icon name="ChartBarBig" size={20} color={themeColors.foreground} />
-              <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("upload.addPoll")}</Text>
-              {pollEnabled && <Icon name="Check" size={18} color={themeColors.foreground} />}
-            </TouchableOpacity>
-          )}
-          {/* Comic lives here, under Polls, rather than as a top tab. */}
-          {!isLiveMode && !isStageMode && !articleMode && !isQuoteMode && !pickedVideo && !pickedAudio && !pollEnabled && (
-            <TouchableOpacity
-              onPress={() => {
-                setShowPostOptions(false);
-                if (comicMode) { setComicMode(false); setShowTitle(false); }
-                else { setShowTitle(true); setComicMode(true); setPollEnabled(false); setMonetization(emptyMonetization()); }
-              }}
-              accessibilityRole="button"
-              accessibilityState={{ selected: comicMode }}
-              className="flex-row items-center px-4 py-3 rounded-xl"
-              style={{ backgroundColor: comicMode ? "rgba(255,255,255,0.15)" : "transparent" }}
-            >
-              <Icon name="BookOpen" size={20} color={themeColors.foreground} />
-              <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{t("comic.tab")}</Text>
-              {comicMode && <Icon name="Check" size={18} color={themeColors.foreground} />}
-            </TouchableOpacity>
-          )}
-          {!isLiveMode && (
-            <TouchableOpacity
-              onPress={() => { setShowPostOptions(false); setContentWarning(prev => prev === null ? "" : null); }}
-              accessibilityRole="button"
-              accessibilityState={{ selected: contentWarning !== null }}
-              className="flex-row items-center px-4 py-3 rounded-xl"
-              style={{ backgroundColor: contentWarning !== null ? "rgba(255,255,255,0.15)" : "transparent" }}
-            >
-              <Ionicons name="warning-outline" size={20} color={themeColors.foreground} />
-              <Text className="flex-1 ml-3 text-sm" style={{ color: themeColors.foreground }}>{contentWarning !== null ? t("contentWarning.remove") : t("contentWarning.add")}</Text>
-              {contentWarning !== null && <Icon name="Check" size={18} color={themeColors.foreground} />}
-            </TouchableOpacity>
-          )}
-          {visibility === "public" && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode && (
-            <CrossPostButton
-              menuItem
-              open={crossPostOpen}
-              onToggle={() => { setShowPostOptions(false); setCrossPostOpen(v => !v); }}
-              onManage={() => { setShowPostOptions(false); setCrossPostSetupOpen(true); }}
-            />
-          )}
-        </View>
-      </GlassModal>
+          </GlassModal>
+        )}
+      </WhenOpened>
 
       <MultiPostSheet visible={crossPostSetupOpen} onClose={() => { setCrossPostSetupOpen(false); setCrossPostOpen(true); }} />
 
-      <CategoryDrawer
-        visible={categoryOpen}
-        onClose={() => setCategoryOpen(false)}
-        categories={categories}
-        allCategories={allCategories}
-        min={CATEGORIES_MIN}
-        max={CATEGORIES_MAX}
-        onAdd={addCategory}
-        onRemove={removeCategory}
-        type="feed"
-      />
+      <WhenOpened open={categoryOpen}>
+        {() => (
+          <CategoryDrawer
+            visible={categoryOpen}
+            onClose={() => setCategoryOpen(false)}
+            categories={categories}
+            allCategories={allCategories}
+            min={CATEGORIES_MIN}
+            max={CATEGORIES_MAX}
+            onAdd={addCategory}
+            onRemove={removeCategory}
+            type="feed"
+          />
+        )}
+      </WhenOpened>
 
-      <CommunityDrawer
-        visible={communityOpen}
-        onClose={() => setCommunityOpen(false)}
-        communities={userCommunities}
-        selectedSlug={selectedCommunity?.slug}
-        onSelect={handleSelectCommunity}
-        onClear={handleClearCommunity}
-      />
+      <WhenOpened open={communityOpen}>
+        {() => (
+          <CommunityDrawer
+            visible={communityOpen}
+            onClose={() => setCommunityOpen(false)}
+            communities={userCommunities}
+            selectedSlug={selectedCommunity?.slug}
+            onSelect={handleSelectCommunity}
+            onClear={handleClearCommunity}
+          />
+        )}
+      </WhenOpened>
 
       {/*
         Live only. Posting no longer confirms anything, but going live blocks
@@ -4061,98 +4092,114 @@ export default function UploadScreen() {
         title={t("upload.confirmLivestream")}
       />
 
-      <GlassModal
-        visible={showSaveDraftModal}
-        onClose={() => setShowSaveDraftModal(false)}
-        presentation="center"
-        maxHeight="40%"
-        blurIntensity={30}
-      >
-        <View className="p-5" style={draftModalTheme}>
-          <Text className="text-lg font-bold text-center mb-2" style={DIALOG_INK}>
-            {t("drafts.saveTitle")}
-          </Text>
-          <Text className="text-sm text-center mb-4" style={DIALOG_MUTED}>
-            {t("drafts.savePrompt")}
-          </Text>
-          <View className="flex-row">
-            <TouchableOpacity
-              onPress={() => setShowSaveDraftModal(false)}
-              activeOpacity={0.7}
-              className="flex-1 px-4 py-3 rounded-xl bg-theme-neutrals-800 border border-theme-neutrals-700 mr-2"
-            >
-              <Text className="text-center font-medium" style={DIALOG_INK}>{t("common.cancel")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleConfirmSaveDraft}
-              activeOpacity={0.7}
-              className="flex-1 px-4 py-3 rounded-xl bg-white"
-            >
-              <Text className="text-black text-center font-semibold">{t("common.save")}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </GlassModal>
+      <WhenOpened open={showSaveDraftModal}>
+        {() => (
+          <GlassModal
+            visible={showSaveDraftModal}
+            onClose={() => setShowSaveDraftModal(false)}
+            presentation="center"
+            maxHeight="40%"
+            blurIntensity={30}
+          >
+            <View className="p-5" style={draftModalTheme}>
+              <Text className="text-lg font-bold text-center mb-2" style={DIALOG_INK}>
+                {t("drafts.saveTitle")}
+              </Text>
+              <Text className="text-sm text-center mb-4" style={DIALOG_MUTED}>
+                {t("drafts.savePrompt")}
+              </Text>
+              <View className="flex-row">
+                <TouchableOpacity
+                  onPress={() => setShowSaveDraftModal(false)}
+                  activeOpacity={0.7}
+                  className="flex-1 px-4 py-3 rounded-xl bg-theme-neutrals-800 border border-theme-neutrals-700 mr-2"
+                >
+                  <Text className="text-center font-medium" style={DIALOG_INK}>{t("common.cancel")}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleConfirmSaveDraft}
+                  activeOpacity={0.7}
+                  className="flex-1 px-4 py-3 rounded-xl bg-white"
+                >
+                  <Text className="text-black text-center font-semibold">{t("common.save")}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </GlassModal>
+        )}
+      </WhenOpened>
 
       {/* Made for kids — confirm before arming, never before clearing.
           The three lines are the three things a creator can get wrong about
           this switch: who it adds, what it costs, and who can reply. */}
-      <GlassModal
-        visible={forKidsConfirmOpen}
-        onClose={() => setForKidsConfirmOpen(false)}
-        presentation="center"
-        maxHeight="55%"
-        blurIntensity={30}
-      >
-        <View className="p-5">
-          <Text className="text-lg font-bold text-center mb-3" style={DIALOG_INK}>
-            {t("upload.madeForKidsConfirmTitle")}
-          </Text>
-          <Text className="text-sm mb-2" style={DIALOG_MUTED}>
-            {t("upload.madeForKidsConfirmAudience")}
-          </Text>
-          <Text className="text-sm mb-2" style={DIALOG_MUTED}>
-            {t("upload.madeForKidsConfirmReach")}
-          </Text>
-          <Text className="text-sm mb-4" style={DIALOG_MUTED}>
-            {t("upload.madeForKidsConfirmComments")}
-          </Text>
-          <View className="flex-row">
-            <TouchableOpacity
-              onPress={() => setForKidsConfirmOpen(false)}
-              activeOpacity={0.7}
-              className="flex-1 px-4 py-3 rounded-xl bg-theme-neutrals-800 border border-theme-neutrals-700 mr-2"
-            >
-              <Text className="text-center font-medium" style={DIALOG_INK}>{t("common.cancel")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setIsForKids(true);
-                setForKidsConfirmOpen(false);
-              }}
-              activeOpacity={0.7}
-              className="flex-1 px-4 py-3 rounded-xl bg-white"
-            >
-              <Text className="text-black text-center font-semibold">
-                {t("upload.madeForKidsConfirmYes")}
+      <WhenOpened open={forKidsConfirmOpen}>
+        {() => (
+          <GlassModal
+            visible={forKidsConfirmOpen}
+            onClose={() => setForKidsConfirmOpen(false)}
+            presentation="center"
+            maxHeight="55%"
+            blurIntensity={30}
+          >
+            <View className="p-5">
+              <Text className="text-lg font-bold text-center mb-3" style={DIALOG_INK}>
+                {t("upload.madeForKidsConfirmTitle")}
               </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </GlassModal>
+              <Text className="text-sm mb-2" style={DIALOG_MUTED}>
+                {t("upload.madeForKidsConfirmAudience")}
+              </Text>
+              <Text className="text-sm mb-2" style={DIALOG_MUTED}>
+                {t("upload.madeForKidsConfirmReach")}
+              </Text>
+              <Text className="text-sm mb-4" style={DIALOG_MUTED}>
+                {t("upload.madeForKidsConfirmComments")}
+              </Text>
+              <View className="flex-row">
+                <TouchableOpacity
+                  onPress={() => setForKidsConfirmOpen(false)}
+                  activeOpacity={0.7}
+                  className="flex-1 px-4 py-3 rounded-xl bg-theme-neutrals-800 border border-theme-neutrals-700 mr-2"
+                >
+                  <Text className="text-center font-medium" style={DIALOG_INK}>{t("common.cancel")}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    setIsForKids(true);
+                    setForKidsConfirmOpen(false);
+                  }}
+                  activeOpacity={0.7}
+                  className="flex-1 px-4 py-3 rounded-xl bg-white"
+                >
+                  <Text className="text-black text-center font-semibold">
+                    {t("upload.madeForKidsConfirmYes")}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </GlassModal>
+        )}
+      </WhenOpened>
 
-      <EnhanceSheet
-        visible={showEnhanceSheet}
-        onClose={() => setShowEnhanceSheet(false)}
-        onEnhance={handleEnhanceText}
-        onGenerateContent={handleGenerateContent}
-      />
+      <WhenOpened open={showEnhanceSheet}>
+        {() => (
+          <EnhanceSheet
+            visible={showEnhanceSheet}
+            onClose={() => setShowEnhanceSheet(false)}
+            onEnhance={handleEnhanceText}
+            onGenerateContent={handleGenerateContent}
+          />
+        )}
+      </WhenOpened>
 
-      <EmojiSheet
-        visible={showEmojiSheet}
-        onClose={() => setShowEmojiSheet(false)}
-        onSelect={handleInsertEmoji}
-      />
+      <WhenOpened open={showEmojiSheet}>
+        {() => (
+          <EmojiSheet
+            visible={showEmojiSheet}
+            onClose={() => setShowEmojiSheet(false)}
+            onSelect={handleInsertEmoji}
+          />
+        )}
+      </WhenOpened>
 
       {/* Inside the video edit screen while it is open (its Sound tab), else here. */}
       {!(showVideoTrim && pickedVideo) && soundPickerSheet}
@@ -4160,87 +4207,95 @@ export default function UploadScreen() {
       {/* Live options sheet — camera, encoder or stage. Sized for three
           rows: at 35% the third sat below the fold, so adding the encoder
           route would have buried Stages the way the encoder itself was. */}
-      <GlassModal scrollable
-        visible={showLiveOptions}
-        onClose={() => setShowLiveOptions(false)}
-        presentation="bottom"
-        maxHeight="46%"
-        blurIntensity={40}
-      >
-        <View className="p-5">
-          <Text className="text-white text-base font-semibold text-center mb-4">
-            {t("upload.liveFeaturesTitle")}
-          </Text>
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              setShowLiveOptions(false);
-              setLiveSettings((prev) => ({ ...prev, useEncoder: false }));
-              handleToggleLiveMode();
-            }}
-            className="flex-row items-center gap-3 py-4 px-4 rounded-xl mb-3"
-            style={{ backgroundColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
+      <WhenOpened open={showLiveOptions}>
+        {() => (
+          <GlassModal scrollable
+            visible={showLiveOptions}
+            onClose={() => setShowLiveOptions(false)}
+            presentation="bottom"
+            maxHeight="46%"
+            blurIntensity={40}
           >
-            <Icon name="Radio" size={22} color="#F4F4F5" />
-            <View className="flex-1">
-              <Text className="text-white font-semibold text-sm">{t("upload.goLive")}</Text>
-              <Text className="text-theme-neutrals-400 text-xs mt-0.5">{t("upload.startLivestream")}</Text>
-            </View>
-            <Icon name="ChevronRight" size={18} color="#6F7174" />
-          </TouchableOpacity>
+            <View className="p-5">
+              <Text className="text-white text-base font-semibold text-center mb-4">
+                {t("upload.liveFeaturesTitle")}
+              </Text>
 
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              setShowLiveOptions(false);
-              setLiveSettings((prev) => ({ ...prev, useEncoder: true }));
-              handleToggleLiveMode();
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  setShowLiveOptions(false);
+                  setLiveSettings((prev) => ({ ...prev, useEncoder: false }));
+                  handleToggleLiveMode();
+                }}
+                className="flex-row items-center gap-3 py-4 px-4 rounded-xl mb-3"
+                style={{ backgroundColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
+              >
+                <Icon name="Radio" size={22} color="#F4F4F5" />
+                <View className="flex-1">
+                  <Text className="text-white font-semibold text-sm">{t("upload.goLive")}</Text>
+                  <Text className="text-theme-neutrals-400 text-xs mt-0.5">{t("upload.startLivestream")}</Text>
+                </View>
+                <Icon name="ChevronRight" size={18} color="#6F7174" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  setShowLiveOptions(false);
+                  setLiveSettings((prev) => ({ ...prev, useEncoder: true }));
+                  handleToggleLiveMode();
+                }}
+                className="flex-row items-center gap-3 py-4 px-4 rounded-xl mb-3"
+                style={{ backgroundColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
+              >
+                <Icon name="MonitorPlay" size={22} color="#D4D4D8" />
+                <View className="flex-1">
+                  <Text className="text-white font-semibold text-sm">{t("upload.encoderTitle")}</Text>
+                  <Text className="text-theme-neutrals-400 text-xs mt-0.5">{t("upload.encoderHint")}</Text>
+                </View>
+                <Icon name="ChevronRight" size={18} color="#6F7174" />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={() => {
+                  setShowLiveOptions(false);
+                  // Navigate only after this sheet has dismissed, so the push does
+                  // not race the dismissal animation.
+                  setTimeout(() => openStages("browse"), 250);
+                }}
+                className="flex-row items-center gap-3 py-4 px-4 rounded-xl"
+                style={{ backgroundColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
+              >
+                <Icon name="Mic" size={22} color="#D4D4D8" />
+                <View className="flex-1">
+                  <Text className="text-white font-semibold text-sm">{t("nav.stages")}</Text>
+                  <Text className="text-theme-neutrals-400 text-xs mt-0.5">{t("upload.joinStage")}</Text>
+                </View>
+                <Icon name="ChevronRight" size={18} color="#6F7174" />
+              </TouchableOpacity>
+            </View>
+          </GlassModal>
+        )}
+      </WhenOpened>
+
+      <WhenOpened open={showScheduleSheet}>
+        {() => (
+          <ScheduleSheet
+            visible={showScheduleSheet}
+            onClose={() => setShowScheduleSheet(false)}
+            scheduledDate={composerSchedule}
+            title={scheduleTitle}
+            minimumMinutes={isLiveMode ? 30 : 0}
+            kind={isStageMode ? "stage" : isLiveMode ? "live" : "post"}
+            onSchedule={(date) => {
+              if (isLiveMode) setLiveSettings(prev => ({ ...prev, scheduleEnabled: !!date, scheduledDate: date }));
+              else setScheduledDate(date);
             }}
-            className="flex-row items-center gap-3 py-4 px-4 rounded-xl mb-3"
-            style={{ backgroundColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
-          >
-            <Icon name="MonitorPlay" size={22} color="#D4D4D8" />
-            <View className="flex-1">
-              <Text className="text-white font-semibold text-sm">{t("upload.encoderTitle")}</Text>
-              <Text className="text-theme-neutrals-400 text-xs mt-0.5">{t("upload.encoderHint")}</Text>
-            </View>
-            <Icon name="ChevronRight" size={18} color="#6F7174" />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              setShowLiveOptions(false);
-              // Navigate only after this sheet has dismissed, so the push does
-              // not race the dismissal animation.
-              setTimeout(() => openStages("browse"), 250);
-            }}
-            className="flex-row items-center gap-3 py-4 px-4 rounded-xl"
-            style={{ backgroundColor: "rgba(255,255,255,0.15)", borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
-          >
-            <Icon name="Mic" size={22} color="#D4D4D8" />
-            <View className="flex-1">
-              <Text className="text-white font-semibold text-sm">{t("nav.stages")}</Text>
-              <Text className="text-theme-neutrals-400 text-xs mt-0.5">{t("upload.joinStage")}</Text>
-            </View>
-            <Icon name="ChevronRight" size={18} color="#6F7174" />
-          </TouchableOpacity>
-        </View>
-      </GlassModal>
-
-      <ScheduleSheet
-        visible={showScheduleSheet}
-        onClose={() => setShowScheduleSheet(false)}
-        scheduledDate={composerSchedule}
-        title={scheduleTitle}
-        minimumMinutes={isLiveMode ? 30 : 0}
-        kind={isStageMode ? "stage" : isLiveMode ? "live" : "post"}
-        onSchedule={(date) => {
-          if (isLiveMode) setLiveSettings(prev => ({ ...prev, scheduleEnabled: !!date, scheduledDate: date }));
-          else setScheduledDate(date);
-        }}
-      />
+          />
+        )}
+      </WhenOpened>
 
       <ShopSheet
         draftScope={draftScope}
@@ -4255,46 +4310,50 @@ export default function UploadScreen() {
         tier={shopAllowance.tier}
       />
 
-      <GlassModal
-        visible={showDiscardModal}
-        onClose={() => setShowDiscardModal(false)}
-        presentation="center"
-        maxHeight="45%"
-        blurIntensity={30}
-        dismissible={false}
-      >
-        <View className="p-5" style={draftModalTheme}>
-          <Text className="text-lg font-bold text-center mb-2" style={DIALOG_INK}>
-            {t("upload.discardPostTitle")}
-          </Text>
-          <Text className="text-sm text-center mb-4" style={DIALOG_MUTED}>
-            {t("upload.discardPostBody")}
-          </Text>
-          <View className="gap-3">
-            <TouchableOpacity
-              onPress={handleDiscardSaveDraft}
-              activeOpacity={0.7}
-              className="px-4 py-3 rounded-xl bg-white"
-            >
-              <Text className="text-black text-center font-semibold">{t("upload.saveToDrafts")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={handleDiscard}
-              activeOpacity={0.7}
-              className="px-4 py-3 rounded-xl bg-theme-neutrals-800 border border-theme-neutrals-700"
-            >
-              <Text className="text-center font-medium" style={DIALOG_SOFT}>{t("upload.discard")}</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setShowDiscardModal(false)}
-              activeOpacity={0.7}
-              className="px-4 py-2"
-            >
-              <Text className="text-center text-sm" style={DIALOG_MUTED}>{t("common.cancel")}</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </GlassModal>
+      <WhenOpened open={showDiscardModal}>
+        {() => (
+          <GlassModal
+            visible={showDiscardModal}
+            onClose={() => setShowDiscardModal(false)}
+            presentation="center"
+            maxHeight="45%"
+            blurIntensity={30}
+            dismissible={false}
+          >
+            <View className="p-5" style={draftModalTheme}>
+              <Text className="text-lg font-bold text-center mb-2" style={DIALOG_INK}>
+                {t("upload.discardPostTitle")}
+              </Text>
+              <Text className="text-sm text-center mb-4" style={DIALOG_MUTED}>
+                {t("upload.discardPostBody")}
+              </Text>
+              <View className="gap-3">
+                <TouchableOpacity
+                  onPress={handleDiscardSaveDraft}
+                  activeOpacity={0.7}
+                  className="px-4 py-3 rounded-xl bg-white"
+                >
+                  <Text className="text-black text-center font-semibold">{t("upload.saveToDrafts")}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleDiscard}
+                  activeOpacity={0.7}
+                  className="px-4 py-3 rounded-xl bg-theme-neutrals-800 border border-theme-neutrals-700"
+                >
+                  <Text className="text-center font-medium" style={DIALOG_SOFT}>{t("upload.discard")}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setShowDiscardModal(false)}
+                  activeOpacity={0.7}
+                  className="px-4 py-2"
+                >
+                  <Text className="text-center text-sm" style={DIALOG_MUTED}>{t("common.cancel")}</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </GlassModal>
+        )}
+      </WhenOpened>
 
       <PlanFormSheet
         visible={showPlanForm}

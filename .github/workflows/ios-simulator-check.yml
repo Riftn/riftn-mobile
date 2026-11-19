@@ -16,13 +16,25 @@ on:
         required: false
         default: 'dark light syslight'
       task:
-        description: 'walk = open every page and screenshot it. nav = time page switches, main against this branch. probe = look for where a switch spends its time. touch = real finger swipes back and a tap, with a picture of each. shorts = how soon the next short plays after a real swipe, main against this branch. keys = can the keyboard always be closed (the X in the Explore pill, Done on number pads, a drag of the page). wide = a wide video in the swipe player, pictured on five themes. shells = a picture of every page held on its loading shell, then of the page (themes = app themes, e.g. system hazy). bones = measure every page layout for its loading placeholder. wallet = Connect Wallet on the sign-in page, main against this branch. loginsheet = the sign-in pop-ups from a like, from + and the Log in page, main against this branch. player = loop off by default, a short moving on when it ends, the Shorts menu player rows and the When? wheel. menu = the phone menu in tabs, sections and folders, with the search row. speed = chats, typing, search and the busiest switches timed, main against this branch (use account=review)'
+        description: 'walk = open every page and screenshot it. nav = time page switches, main against this branch. probe = look for where a switch spends its time. touch = real finger swipes back and a tap, with a picture of each. shorts = how soon the next short plays after a real swipe, main against this branch. keys = can the keyboard always be closed (the X in the Explore pill, Done on number pads, a drag of the page). wide = a wide video in the swipe player, pictured on five themes. shells = a picture of every page held on its loading shell, then of the page (themes = app themes, e.g. system hazy). bones = measure every page layout for its loading placeholder. wallet = Connect Wallet on the sign-in page, main against this branch. loginsheet = the sign-in pop-ups from a like, from + and the Log in page, main against this branch. player = loop off by default, a short moving on when it ends, the Shorts menu player rows and the When? wheel. menu = the phone menu in tabs, sections and folders, with the search row. speed = chats, typing, search and the busiest switches timed, main against this branch (use account=review). livetheme = open a live and go Back in System Light, Home pictured right after, main against this branch'
         required: false
         default: 'walk'
       app_run_id:
         description: 'nav only: reuse the simulator app an earlier run of this workflow built (its run id), when native code has not changed'
         required: false
         default: ''
+      minify:
+        description: "speed only: false keeps component names in the bundle, so each step also lists which components built the most (times from such a run are not comparable)"
+        required: false
+        default: 'true'
+      rounds:
+        description: 'nav and speed: how many before/after rounds'
+        required: false
+        default: '2'
+      device:
+        description: 'walk only: iphone or ipad (an iPad simulator, upright then on its side)'
+        required: false
+        default: 'iphone'
       account:
         description: "nav, probe and speed: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
         required: false
@@ -37,7 +49,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-simulator-check-${{ github.ref }}-${{ inputs.task || 'walk' }}
+  group: ios-simulator-check-${{ github.ref }}-${{ inputs.task || 'walk' }}-${{ inputs.device || 'iphone' }}
   cancel-in-progress: true
 
 jobs:
@@ -82,9 +94,12 @@ jobs:
           TYPE="$(xcrun simctl list devicetypes -j | python3 -c '
           import json, sys
           names = [d["name"] for d in json.load(sys.stdin)["devicetypes"]]
-          for want in ["iPhone 17 Pro", "iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro"]:
+          wants = ["iPhone 17 Pro", "iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro"]
+          if sys.argv[1] == "ipad":
+              wants = [n for n in names if n.startswith("iPad Air 11-inch")][::-1] + [n for n in names if n.startswith("iPad Pro 11-inch")][::-1] + [n for n in names if n.startswith("iPad")][::-1]
+          for want in wants:
               if want in names:
-                  print(want); break')"
+                  print(want); break' "${{ inputs.device || 'iphone' }}")"
           UDID="$(xcrun simctl create riftn-check "$TYPE" "$RUNTIME")"
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
@@ -165,16 +180,20 @@ jobs:
           grep -cE "warning:" xcodebuild.log > sim-check/warning-count.txt || true
           gzip -c xcodebuild.log > sim-check/xcodebuild.log.gz
       - name: Walk every page in dark, light and System Light
-        if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'keys' && inputs.task != 'wide' && inputs.task != 'shells' && inputs.task != 'bones' && inputs.task != 'wallet' && inputs.task != 'loginsheet' && inputs.task != 'player' && inputs.task != 'menu' && inputs.task != 'speed'
+        if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'keys' && inputs.task != 'wide' && inputs.task != 'shells' && inputs.task != 'bones' && inputs.task != 'wallet' && inputs.task != 'loginsheet' && inputs.task != 'player' && inputs.task != 'menu' && inputs.task != 'speed' && inputs.task != 'livetheme'
+        timeout-minutes: 45
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-simulator-walk.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
         env:
           THEMES: ${{ inputs.themes || 'dark light syslight' }}
+          DEVICE: ${{ inputs.device || 'iphone' }}
       - name: Time page switches, main against this branch
-        if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'keys' || inputs.task == 'wide' || inputs.task == 'shells' || inputs.task == 'bones' || inputs.task == 'wallet' || inputs.task == 'loginsheet' || inputs.task == 'player' || inputs.task == 'menu' || inputs.task == 'speed'
+        if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'keys' || inputs.task == 'wide' || inputs.task == 'shells' || inputs.task == 'bones' || inputs.task == 'wallet' || inputs.task == 'loginsheet' || inputs.task == 'player' || inputs.task == 'menu' || inputs.task == 'speed' || inputs.task == 'livetheme'
         env:
           NAV_MODE: ${{ inputs.task }}
+          MINIFY: ${{ inputs.minify || 'true' }}
+          ROUNDS: ${{ inputs.rounds || '2' }}
           SHELL_THEMES: ${{ inputs.task == 'shells' && inputs.themes || '' }}
           SIM_TEST_KEY: ${{ secrets.SIM_TEST_KEY }}
           # Read from App Store Connect inside the script; never printed.

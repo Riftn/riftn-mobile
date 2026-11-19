@@ -2612,7 +2612,66 @@
     "57e2faa5ec63": "Cari di Riftn",
     "7db20897053b": "Orang",
     "96d7bff86b44": "Carian tidak dapat dimuatkan",
-    "d8b8392e2c54": "Coba lagi"
+    "d8b8392e2c54": "Coba lagi",
+    "e587a51bc3ce": "Baharu di Riftn",
+    "d7396f3b8881": "Suka atau komen baharu di Riftn",
+    "037a2ecd34b0": "Pengikut baharu di Riftn",
+    "b63561f1b73a": "Tip atau pendapatan baharu di Riftn",
+    "0ae84457a2df": "Seseorang yang anda ikuti sedang langsung di Riftn",
+    "a7bac8dca08b": "Panggilan masuk di Riftn",
+    "9d309cb4a034": "Kemas kini tentang hantaran Riftn anda",
+    "914be7a9350a": "Mesej daripada Riftn",
+    "2ab63e6ced90": "Tidak boleh dilaksanakan",
+    "79688f176607": "Ditanda Tidak boleh dilaksanakan",
+    "465fe84f18fc": "Tanda Tidak boleh dilaksanakan",
+    "0d24977e6943": "Sunting sebab",
+    "0a54f1d10336": "Kenapa ini tidak boleh dilaksanakan? (pilihan)",
+    "3d024b567634": "Sebab ringkas yang akan dilihat orang",
+    "ad389aa4c08e": "Sebab:",
+    "78b3ae9561ee": "Tiada yang ditolak",
+    "89b4d1850766": "Permintaan yang tidak dapat kami bina sekarang dipaparkan di sini, bersama sebabnya.",
+    "3f9b2c71d0a4": "{{n}} hasil",
+    "8c4e1a6b2f57": "untuk “{{query}}”",
+    "63eb38b938b8": "Tanda Dalam Giliran",
+    "2fffca525795": "Tanda Dihantar",
+    "3ee050a08bfa": "Kembali ke Permintaan",
+    "ae6a0ffbe609": "Ditanda Dalam Giliran",
+    "366cb56b38ce": "Ditanda Dihantar",
+    "9db7b5ba03bb": "Dipindahkan semula ke Permintaan",
+    "bb2be752e079": "Tidak dapat menukar status",
+    "1d7234ff1b79": "dalam {{feed}}",
+    "e122e5c2b563": "Seret ke atas untuk menutup",
+    "1aa9d734f2ee": "Pilih apa yang hendak dicari",
+    "35034aa59bd3": "Tiada apa-apa dalam {{feed}} yang sepadan. Cuba perkataan lain atau cari semua.",
+    "415155739590": "Cari semua",
+    "90f1afe66801": "Mencari “{{query}}”…",
+    "9e13d826baaf": "Cari imej",
+    "e8756c6865a5": "Cari shorts",
+    "c7661da99c41": "Cari video",
+    "cbf6f228327c": "Cari muzik",
+    "d7b559f2d8c6": "Cuba perkataan lain, atau ubah penapis.",
+    "ef557404f465": "Tiada hasil untuk “{{query}}”",
+    "d1a0c7e2f301": "Apa yang anda fikirkan hari ini?",
+    "d1a0c7e2f302": "Apa yang sedang anda fikirkan hari ini?",
+    "d1a0c7e2f303": "Apa yang anda fikirkan?",
+    "d1a0c7e2f304": "Ada sesuatu di fikiran anda?",
+    "d1a0c7e2f305": "Apa yang anda fikirkan sekarang?",
+    "d1a0c7e2f306": "Apa yang kita fikirkan hari ini?",
+    "d1a0c7e2f307": "Ada apa-apa di fikiran anda hari ini?",
+    "d1a0c7e2f308": "Apa yang anda fikirkan kali ini?",
+    "a7c1e0f4b2d9": "Ketik untuk bercakap",
+    "b3e8d1c6f0a2": "Ketik untuk hantar",
+    "c9f2a4e7d1b5": "Mendengar... ketik bola untuk hantar",
+    "94cee2c8c1c1": "Profil anda telah berpindah",
+    "22577ebd908e": "Jana video Wan 3.0 · runut bunyi asli",
+    "1fa2357ab7e1": "Jana video Seedance 720p · runut bunyi asli",
+    "7f78bdc0762d": "+{{value1}} mata",
+    "f0c8bb34335b": "Anda memperoleh +{{value1}} mata",
+    "0fbe06b679a8": "{{value1}} mata untuk setiap permintaan yang dilancarkan, ditambah ke skor Pembina teratas anda.",
+    "ebebdc70335b": "Bar Kaca",
+    "5ff272ba7871": "Garis Sutera",
+    "a941e90ca93d": "Halo Kulit",
+    "04dbbe4dff7a": "Gelombang Sejati"
   },
   "dehubLinks": {
     "kind": {
@@ -2629,7 +2688,8 @@
       "proposal": "cadangan",
       "stage": "peringkat",
       "store": "kedai",
-      "featureRequest": "permintaan"
+      "featureRequest": "permintaan",
+      "page": "halaman"
     }
   },
   "postGate": {
@@ -2865,10 +2925,20 @@
       "numbers": "Senarai nombor",
       "link": "Pautan",
       "image": "Saya tidak dapat melaksanakan permintaan tersebut."
-    }
+    },
+    "imageLimit": "Artikel boleh memuatkan sehingga {{count}} imej",
+    "imageFailed": "Imej itu tidak dapat ditambah. Cuba yang lain.",
+    "imagesUploading": "Menambah imej ({{count}})…",
+    "bodyTooLong": "{{count}} aksara melebihi had",
+    "imagesCount": "Imej · {{count}}/{{max}}",
+    "captionPlaceholder": "Tambah kapsyen",
+    "captionLabel": "Kapsyen untuk imej {{n}}",
+    "removeInlineImage": "Buang imej {{n}}"
   },
   "storefront": {
-    "unavailable": "Tidak tersedia dalam versi aplikasi ini"
+    "unavailable": "Tidak tersedia dalam versi aplikasi ini",
+    "continueOnWeb": "Teruskan di riftn.com",
+    "webOnlyHint": "Selesaikan ini di riftn.com. Ia dibuka dalam Safari."
   },
   "nav": {
     "launchpad": "Launchpad",
@@ -2922,7 +2992,72 @@
     "reorderReset": "Tetapkan semula",
     "groups": {
       "create": "Cipta",
-      "discover": "Terokai"
+      "discover": "Terokai",
+      "main": "Utama",
+      "money": "Wang",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "suapan, garis masa, siaran terkini, untuk anda, mengikuti, halaman utama",
+      "profile": "profil saya, akaun saya, halaman saya, siaran saya, avatar, bio, pengikut",
+      "explore": "cari, teroka, temui, sohor kini, popular, hashtag, orang, pencipta",
+      "prompt": "AI, jana, imej AI, video AI, pembuat gambar, teks ke imej, seni AI",
+      "editor": "penyunting video, sunting video, potong, kerat, kapsyen, sari kata, kesan",
+      "creator": "cipta, studio, alat AI, imej, video, muzik, suara latar, 3D",
+      "converter": "import video, muat turun, YouTube, TikTok, Instagram, tukar",
+      "migrate": "pindahkan saluran saya, import saluran, import pukal, saluran YouTube",
+      "notifications": "makluman, aktiviti, sebutan, balasan, suka, loceng",
+      "messages": "DM, mesej terus, sembang, peti masuk, perbualan, mesej peribadi",
+      "communities": "kumpulan, komuniti, bilik, kelab, forum, ahli",
+      "assistant": "AI, chatbot, tanya, bantuan, sembang AI, soalan",
+      "settings": "keutamaan, akaun, privasi, keselamatan, kata laluan, bahasa, tema, mod gelap, disekat, padam akaun",
+      "leaderboard": "kedudukan, ranking, pencipta teratas, pengguna teratas, mata, skor",
+      "bookmarks": "disimpan, kegemaran, tonton kemudian, baca kemudian, siaran disimpan, pustaka",
+      "command": "papan pemuka, analitik, pendapatan, hasil, cerapan, moderasi, statistik saya",
+      "wallet": "baki, wang, dana, token, kripto, deposit, keluarkan, hantar, terima, bayar",
+      "events": "kalendar, jadual, pertemuan, akan datang, tiket, AMA",
+      "stages": "bilik audio, sembang suara, spaces, audio langsung, bual, podcast",
+      "featureRequests": "bina, pembina, idea, cadangan, laporkan pepijat, pepijat, pembaikan, peta jalan, undi, senarai hajat, tambah baik",
+      "feedback": "ulasan, penarafan, tinjauan, pendapat, aduan, beri maklum balas",
+      "staking": "stake, deposit, hasil, ganjaran, peroleh, perkongsian untung, lencana, peringkat, faedah",
+      "superpowers": "boost, promosi, keistimewaan, kuasa, keistimewaan lencana, capaian, naik taraf",
+      "governance": "undi, mengundi, cadangan, tinjauan, kertas undi, putuskan",
+      "dao": "perbendaharaan, derma, sumbangan, dana komuniti, menyumbang, geran",
+      "bounties": "kerja, pekerjaan, tugasan, gig, bebas, upah, dapatkan wang, kerja berbayar",
+      "myBounties": "ganjaran saya, kerja saya, sejarah, bayaran, kerja selesai",
+      "affiliate": "rujukan, jemput rakan, jemput, komisen, rakan kongsi, peroleh",
+      "careers": "pekerjaan, pengambilan, bekerja dengan kami, sertai pasukan, mohon, kekosongan",
+      "stores": "kedai, gedung, pasaran, barangan, beli, jual, produk, membeli-belah",
+      "fractions": "saham, pemilikan, labur, miliki siaran, NFT, NFTs, barang koleksi, dagang",
+      "usernames": "nama pengguna, handle, nama, tukar nama saya, beli nama, jual nama",
+      "accounts": "beli akaun, jual akaun, akaun untuk dijual, pengikut, pindah akaun",
+      "apps": "gedung aplikasi, aplikasi mini, bina aplikasi, pembangun, alat",
+      "arcade": "permainan, game, main, bermain, catur, penembak, seronok",
+      "glossary": "istilah, definisi, kamus, maksud, apakah",
+      "compare": "perbandingan, bandingkan, lawan, alternatif, YouTube, X, TikTok",
+      "guide": "bermula, cara, tutorial, bantuan, belajar, pemula, baru di sini",
+      "stats": "statistik, analitik, nombor, carta, harga, bekalan, pemegang",
+      "docs": "dokumentasi, bantuan, API, kertas putih, pembangun, manual",
+      "blog": "berita, artikel, kemas kini, pengumuman, apa yang baharu",
+      "videos": "tonton, video, klip, video panjang",
+      "shorts": "reels, video pendek, video menegak, leret",
+      "music": "audio, lagu, trek, dengar, radio, senarai main",
+      "liveTv": "TV, strim, penstriman, langsung, siaran, saluran, tonton langsung",
+      "buyTokens": "beli token, pembelian, tambah nilai, kad, kad kredit, fiat",
+      "bridge": "rantaian silang, pindah token, rantaian, pindah antara rantaian",
+      "top100": "100 teratas, syiling, mata wang kripto, permodalan pasaran, harga",
+      "agents": "ejen AI, ejen, bot, automasi, persona",
+      "advertising": "iklan, pengiklanan, kempen, promosi, penaja, pemasaran",
+      "premium": "langganan, naik taraf, pro, keahlian, tiada iklan, bebas iklan",
+      "pricing": "pelan, kos, harga, berapa, langganan",
+      "creators": "program pencipta, duta, rakan kongsi, mohon sebagai pencipta, mengewang",
+      "getTheApp": "muat turun aplikasi, Android, iPhone, aplikasi mudah alih, pasang, APK",
+      "connectAi": "MCP, ChatGPT, Claude, API, integrasi, sambung AI",
+      "packs": "emoji, pelekat, GIF, pek emoji, pek pelekat, emoji tersuai",
+      "publicChat": "sembang, sembang global, bilik sembang, lobi, bual, sembang komuniti",
+      "planned": "dijadualkan, jadual, siaran berjadual, baris gilir, kemudian",
+      "liveStudio": "siar langsung, strim, penstriman, OBS, tindanan, makluman, widget",
+      "launchpad": "lancar token, cipta syiling, buat syiling, meme coin, bonding curve, tokenkan"
     }
   },
   "affiliate": {
@@ -3688,7 +3823,45 @@
     "themeColorBrandDesc": "Guna warna gambar profil anda",
     "themeColorBrandNoAvatar": "Tambah gambar profil untuk menggunakan warna Jenama",
     "themeColorBrandFailed": "Tidak dapat membaca warna daripada gambar profil anda",
-    "menuLayoutFolders": "Folder"
+    "menuLayoutFolders": "Folder",
+    "chatDeleteChoice": "Apabila anda memadam mesej",
+    "chatDeleteChoiceDesc": "Tanya setiap kali, atau sentiasa padam untuk anda sahaja atau untuk semua orang dalam sembang.",
+    "chatDeleteAsk": "Tanya setiap kali",
+    "chatDeleteMe": "Padam untuk saya",
+    "chatDeleteMeDesc": "Hilang daripada sembang anda, orang lain masih melihatnya",
+    "chatDeleteEveryone": "Padam untuk semua",
+    "chatDeleteEveryoneDesc": "Apabila boleh. Mesej orang lain dalam kumpulan tetap hilang untuk anda sahaja",
+    "chatTextSize": "Saiz teks sembang",
+    "menuLayout": "Susun atur menu",
+    "menuLayoutDesc": "Cara menu mengumpulkan halamannya",
+    "menuLayoutTabs": "Tab",
+    "menuLayoutTabsDesc": "Satu kumpulan pada satu masa, dengan ikon besar",
+    "menuLayoutSections": "Bahagian",
+    "menuLayoutSectionsDesc": "Semua halaman sekali gus, di bawah pengepala kumpulan",
+    "menuLayoutFoldersDesc": "Halaman utama anda, kemudian folder untuk setiap kumpulan",
+    "publicChatInBar": "Sembang Awam di bar bawah",
+    "publicChatInBarDesc": "Satu ketikan ke Sembang Awam dari bar di bahagian bawah skrin",
+    "chatTextSizeDesc": "Mesej lebih besar atau lebih kecil dalam setiap sembang. Ditambah kepada saiz teks telefon anda.",
+    "chatCards": "Sembang sebagai kad",
+    "chatCardsDesc": "Setiap sembang pada kadnya sendiri. Matikan untuk senarai biasa dengan garisan antara sembang.",
+    "contactSupport": "Hubungi sokongan",
+    "showLikes": "Tunjukkan suka saya kepada semua",
+    "showLikesDesc": "Sesiapa boleh membuka tab Suka pada profil anda. Mati secara lalai, jadi hanya anda yang boleh melihat apa yang anda suka.",
+    "showFollowersList": "Tunjukkan siapa yang mengikuti saya",
+    "showFollowersListDesc": "Benarkan sesiapa membuka senarai pengikut anda. Apabila ini dimatikan, hanya anda yang boleh melihatnya.",
+    "showFollowingList": "Tunjukkan siapa yang saya ikuti",
+    "showFollowingListDesc": "Benarkan sesiapa membuka senarai orang yang anda ikuti. Apabila ini dimatikan, hanya anda yang boleh melihatnya.",
+    "showFollowCounts": "Tunjukkan bilangan pengikut saya",
+    "showFollowCountsDesc": "Tunjukkan berapa ramai pengikut anda dan berapa ramai orang yang anda ikuti. Mematikan ini juga menyembunyikan kedua-dua senarai.",
+    "readerProfileView": "Buka profil lain sebagai",
+    "readerProfileViewDesc": "Pilih grid atau senarai untuk setiap profil yang anda buka, atau kekalkan pilihan setiap orang",
+    "readerProfileViewOwner": "Pilihan setiap orang",
+    "notificationShowCount": "Tunjukkan nombor pada loceng",
+    "notificationShowCountDesc": "Lihat berapa banyak pemberitahuan belum dibaca dan bukan sekadar cahaya",
+    "messagesShowCount": "Tunjukkan nombor pada Mesej",
+    "messagesShowCountDesc": "Lihat berapa banyak mesej belum dibaca dan bukan sekadar cahaya",
+    "pushNotRegisteredDescIos": "Pemberitahuan tidak dapat sampai kepada anda semasa aplikasi ditutup: iPhone ini tidak pernah mendaftar untuk push. Pastikan pemberitahuan dibenarkan untuk Riftn dalam Tetapan, kemudian buka aplikasi sekali lagi.",
+    "tipsOffNote": "Tip dan kiriman kepada anda dimatikan semasa ini dihidupkan. Matikannya untuk menerima tip semula."
   },
   "common": {
     "mute": "Bisukan",
@@ -4070,7 +4243,15 @@
     "addMessage": "Tambah pesanan (pilihan)",
     "messagePublic": "Awam",
     "railTitle": "Petua",
-    "railTotal": "{{amount}} token"
+    "railTotal": "{{amount}} token",
+    "messagePlaceholder": "Katakan sesuatu bersama tip anda",
+    "messagePrivate": "Hanya {{name}}",
+    "theCreator": "pencipta",
+    "messageWallNote": "Dipaparkan di dinding tip sebaik sahaja tip berjaya.",
+    "sendWithMessage": "Hantar dengan mesej",
+    "messageFailed": "Mesej anda tidak dapat ditambah. Tiada tip dihantar.",
+    "wallLabel": "Mesej tip",
+    "messagePrivateNote": "Hanya {{name}} melihatnya, dalam pemberitahuan mereka."
   },
   "postOptions": {
     "skippableSections": "Bahagian yang boleh dilangkau",
@@ -4154,7 +4335,17 @@
     "giftBoost": "Hadiahkan boost",
     "giftBoostDesc": "Gunakan satu milik anda pada siaran ini",
     "askAi": "Tanya AI",
-    "aiOverview": "Gambaran keseluruhan AI"
+    "aiOverview": "Gambaran keseluruhan AI",
+    "unmuteUser": "Nyahbisu {{name}}",
+    "unmuteDesc": "Lihat siaran mereka semula",
+    "unmutedUser": "{{name}} dinyahbisukan",
+    "refreshLinkPreview": "Muat semula pratonton pautan",
+    "linkPreviewRefreshed": "Pratonton pautan dimuat semula",
+    "linkPreviewRefreshFailed": "Tidak dapat mencapai laman itu. Cuba lagi nanti.",
+    "castToTv": "Hantar ke TV",
+    "castIosDesc": "AirPlay ke Apple TV atau TV pintar",
+    "castAndroidDesc": "Cerminkan skrin anda dengan Cast atau Smart View",
+    "castAndroidHelp": "Buka tetapan pantas anda dan ketik Smart View atau Cast, kemudian pilih TV anda."
   },
   "filters": {
     "sort": "Isih",
@@ -4360,7 +4551,8 @@
     "failedToClosePoll": "Gagal menutup pengundian",
     "endsIn": "Tamat {{time}}",
     "multipleChoice": "Benarkan berbilang jawapan",
-    "online": "{{count}} dalam talian"
+    "online": "{{count}} dalam talian",
+    "onlineHint": "{{count}} orang berada dalam sembang ini sekarang"
   },
   "aiChat": {
     "title": "level",
@@ -4802,7 +4994,11 @@
     "groupNew": "Baharu",
     "groupToday": "Hari ini",
     "groupThisWeek": "Minggu ini",
-    "searchClose": "Tutup carian"
+    "searchClose": "Tutup carian",
+    "allSettings": "Semua tetapan pemberitahuan",
+    "groupEarlier": "Lebih awal",
+    "searchPlaceholder": "Cari pemberitahuan",
+    "searchEmpty": "Tiada pemberitahuan yang sepadan"
   },
   "leaderboard": {
     "title": "Papan pendahulu",
@@ -4842,7 +5038,13 @@
     "addedToLeaderboard": "Anda telah ditambah! Baki: {{balance}} token",
     "balanceTooLow": "Baki terlalu rendah ({{balance}} token)",
     "tokenAmount": "{{amount}} token",
-    "provisional": "sementara"
+    "provisional": "sementara",
+    "ogChallenge": "Cabaran OG",
+    "ogHolders_one": "{{count}} pemegang OG",
+    "ogHolders_other": "{{count}} pemegang OG",
+    "ogChallengeTitle": "Bawa kembali pemegang OG",
+    "ogChallengeBody": "Jemput orang yang masih memegang DHB. Apabila mereka menyertai dengan pautan jemputan anda dan menyimpan DHB dalam dompet Riftn mereka, mereka dikira untuk anda di sini.",
+    "ogChallengeCta": "Dapatkan pautan jemputan anda"
   },
   "explorePage": {
     "searchPlaceholder": "Cari orang, siaran, atau kandungan...",
@@ -5004,8 +5206,31 @@
       "comments": "Komen",
       "showLess": "Tunjukkan sedikit",
       "viewProfile": "Lihat profil",
-      "you": "Anda"
-    }
+      "you": "Anda",
+      "title": "Pembina teratas",
+      "breakdown": "{{shipped}} dilancarkan ({{sp}}) · {{votes}} undian naik ({{vp}}) · {{comments}} komen ({{cp}})",
+      "showAll": "Tunjukkan {{n}} teratas",
+      "showEveryone": "Tunjukkan kesemua {{n}} pembina",
+      "showMore": "Tunjukkan {{n}} lagi",
+      "rule": "10 mata bagi setiap permintaan yang dilancarkan, 1 bagi setiap undian naik, 2 bagi setiap komen pada permintaan orang lain.",
+      "pts": "{{n}} mata",
+      "gap": "{{n}} mata untuk memintas {{name}}",
+      "join": "Siarkan gesaan yang dilancarkan untuk menyertai papan",
+      "points": "Mata",
+      "infoLabel": "Cara mata berfungsi",
+      "infoShipped": "bagi setiap permintaan yang dilancarkan",
+      "infoVote": "bagi setiap undian naik pada permintaan anda",
+      "infoComment": "bagi setiap komen pada permintaan orang lain",
+      "infoCap": "Komen dikira sehingga {{n}} bagi setiap tempoh.",
+      "pt": "1 mata",
+      "infoTitle": "Cara mata berfungsi"
+    },
+    "deviceInfoNote": "Maklumat peranti dilampirkan untuk membantu kami membaiki pepijat.",
+    "deviceInfo": "Maklumat peranti",
+    "deviceInfoOwners": "Hanya pemilik papan melihat ini",
+    "deviceInfoError": "Tidak dapat memuatkan maklumat peranti",
+    "deviceInfoNone": "Tiada maklumat peranti untuk permintaan ini",
+    "deviceInfoErrors": "Ralat terkini"
   },
   "auth": {
     "loginRequired": "Log masuk diperlukan",
@@ -5062,7 +5287,13 @@
     "importWalletPurpose": "Alat ini adalah untuk mengimport akaun sedia ada daripada Riftn.io.",
     "importSecretPlaceholder": "12 atau 24 perkataan, atau kunci peribadi",
     "invalidImportSecret": "Itu bukan frasa atau kunci persendirian 12/24 perkataan yang sah",
-    "walletSignupBlocked": "Dompet ini baharu sepenuhnya. Dompet baharu memerlukan baki atau transaksi terdahulu untuk membuka akaun. Daftar dengan salah satu pilihan di bawah, kemudian sambungkan dompet ini dari Tetapan."
+    "walletSignupBlocked": "Dompet ini baharu sepenuhnya. Dompet baharu memerlukan baki atau transaksi terdahulu untuk membuka akaun. Daftar dengan salah satu pilihan di bawah, kemudian sambungkan dompet ini dari Tetapan.",
+    "accountDeleted": "Akaun ini telah dipadam. Anda boleh mendaftar semula sebagai akaun baharu.",
+    "accountDeletedHours_one": "Akaun ini telah dipadam. Anda boleh mendaftar semula dengan e-mel atau telefon yang sama dalam kira-kira {{count}} jam.",
+    "accountDeletedHours_other": "Akaun ini telah dipadam. Anda boleh mendaftar semula dengan e-mel atau telefon yang sama dalam kira-kira {{count}} jam.",
+    "accountDeletedDays_one": "Akaun ini telah dipadam. Anda boleh mendaftar semula dengan e-mel atau telefon yang sama dalam kira-kira {{count}} hari.",
+    "accountDeletedDays_other": "Akaun ini telah dipadam. Anda boleh mendaftar semula dengan e-mel atau telefon yang sama dalam kira-kira {{count}} hari.",
+    "signInPageWouldNotOpen": "Halaman log masuk tertutup sebelum ia dibuka. Cuba lagi, atau teruskan dengan e-mel."
   },
   "messages": {
     "encryptionSetupFailed": "Persediaan penyulitan gagal. Sila cuba lagi.",
@@ -5087,7 +5318,11 @@
     "title": "Mesej",
     "searchConversations": "Cari perbualan...",
     "failedToLoad": "Gagal memuatkan perbualan",
-    "tryAgain": "Cuba Lagi"
+    "tryAgain": "Cuba Lagi",
+    "unreadMarkerOne": "1 mesej belum dibaca",
+    "unreadMarkerMany": "{{value}} mesej belum dibaca",
+    "jumpToUnread": "Lompat ke mesej pertama yang belum dibaca",
+    "jumpToLatest": "Lompat ke mesej terkini"
   },
   "music": {
     "chartOrder": "Susunan carta audio",
@@ -5272,14 +5507,51 @@
     "pinnedShort": "Disemat",
     "post": "Hantar",
     "arrange": {
-      "saving": "Menyimpan..."
+      "saving": "Menyimpan...",
+      "title": "Susun siaran anda",
+      "hint": "Tahan siaran dan seretnya ke tempat baharu. Pelawat melihat susunan ini dahulu.",
+      "drag": "Seret untuk alih",
+      "toTop": "Alih ke atas",
+      "save": "Simpan susunan",
+      "saved": "Susunan anda telah disimpan",
+      "reset": "Kembali kepada terbaharu dahulu",
+      "resetDone": "Kembali kepada terbaharu dahulu",
+      "saveFailed": "Tidak dapat menyimpan susunan anda. Sila cuba lagi.",
+      "loadFailed": "Tidak dapat memuatkan siaran anda. Tutup ini dan cuba lagi.",
+      "empty": "Belum ada apa-apa untuk disusun. Siarkan sesuatu dahulu."
     },
     "reserve": {
-      "signIn": "Daftar masuk"
+      "signIn": "Daftar masuk",
+      "available": "Nama pengguna tersedia",
+      "held": "Ditahan untuk anda",
+      "ended": "Tahanan tamat",
+      "busy": "Sedang ditempah",
+      "availableBody": "riftn.com/{{name}} masih kosong sekarang. Tempahnya dan kami tahan selama satu minit semasa anda mendaftar.",
+      "heldBody": "Tiada orang lain boleh mengambil @{{name}} sehingga pemasa tamat. Selesaikan pendaftaran untuk menyimpannya.",
+      "endedBody": "Minit anda telah tamat, jadi @{{name}} terbuka kepada semua semula. Ia masih kosong.",
+      "busyBody": "Seseorang sedang mendaftar sebagai @{{name}} sekarang. Jika mereka tidak selesai, ia akan bebas apabila pemasa tamat.",
+      "finish": "Selesaikan pendaftaran",
+      "again": "Tempah semula",
+      "cta": "Tempah sekarang",
+      "letGo": "Lepaskan",
+      "haveAccount": "Sudah ada akaun?"
     },
     "tabLikes": "Suka",
     "likesEmptyTitle": "Tiada suka lagi",
-    "likesPrivateTitle": "Suka adalah peribadi"
+    "likesPrivateTitle": "Suka adalah peribadi",
+    "articleViews": "{{views}} tontonan",
+    "sortBy": "Isih mengikut",
+    "sortCustom": "Susunan tersuai",
+    "arrangeButton": "Susun siaran",
+    "mutualsOne": "{{count}} Bersama:",
+    "mutualsMany": "{{count}} Bersama:",
+    "tabArticles": "Artikel",
+    "articlesEmptyTitle": "Belum ada artikel",
+    "articlesEmptySubtitle": "Artikel akan dipaparkan di sini",
+    "likesEmptyOwn": "Siaran yang anda suka dipaparkan di sini. Hanya anda yang boleh melihatnya melainkan anda menghidupkan Tunjukkan suka saya dalam Tetapan.",
+    "likesEmptyOther": "Belum ada yang disukai.",
+    "likesPrivateDesc": "Akaun ini merahsiakan sukanya.",
+    "unavailable": "Profil tidak tersedia"
   },
   "tv": {
     "title": "TV",
@@ -5797,7 +6069,26 @@
       "filter": "Tapis aktiviti"
     },
     "welcome": {
-      "text": "Mesej alu-aluan"
+      "text": "Mesej alu-aluan",
+      "title": "Alu-alukan ahli baharu",
+      "help": "Ejen ini mengikuti dan/atau menghantar mesej kepada orang yang baru menyertai Riftn, beberapa orang sehari.",
+      "follow": "Ikuti ahli baharu",
+      "message": "Hantar mesej kepada ahli baharu",
+      "textHelp": "{name} menjadi @namapengguna mereka. Tiada pautan. Dihantar sekali bagi setiap orang.",
+      "saveText": "Simpan mesej",
+      "perDay": "Orang sehari",
+      "fewer": "Kurang sehari",
+      "more": "Lebih sehari",
+      "today": "Hari ini: {{follows}} diikuti · {{messages}} dihantar mesej",
+      "limits": "Tidak sekali-kali orang yang sama dua kali. Melangkau sesiapa yang menyekat atau membisukan anda, mematikan mesej baharu atau bersembunyi daripada Ahli baharu.",
+      "showLog": "Lihat siapa yang dialu-alukan",
+      "hideLog": "Sembunyikan alu-aluan",
+      "empty": "Belum ada sesiapa. Ahli baharu dipaparkan di sini apabila mereka menyertai.",
+      "followed": "Diikuti",
+      "messaged": "Dihantar mesej",
+      "skipped": "Dilangkau",
+      "failed": "Tidak dapat dicapai",
+      "defaultText": "Hai {name}, selamat datang ke Riftn! 👋"
     }
   },
   "hero": {
@@ -5887,7 +6178,44 @@
     "disconnect": "Putuskan sambungan",
     "payAndRun": "Bayar dan jalankan",
     "run": "Jalankan",
-    "handlePrompt": "Gesaan"
+    "handlePrompt": "Gesaan",
+    "retryFreeTask": "Cuba semula tugasan percuma",
+    "previewSavedMedia": "Pratonton media tersimpan",
+    "audioSavePending": "Audio sudah sedia, tetapi penyimpanannya ke pustaka peribadi masih belum selesai. Sambung semula untuk mendapatkannya.",
+    "freeResultUnknown": "Respons tugasan percuma terganggu. Ia tidak akan dihantar semula secara automatik. Pilih Cuba semula tugasan percuma, kemudian sambung semula; bayaran dan kerja lain anda dikekalkan.",
+    "formAuthor": "Sunting flow",
+    "formAuthorHint": "Bina flow dengan input bertaip. Simpan di sini, atau susun pada kanvas web.",
+    "chooseSavedMedia": "Pilih media tersimpan",
+    "model": "Model",
+    "formInput": "Input: {{handle}}",
+    "reviewRun": "Semak larian",
+    "resumeRun": "Sambung semula larian tersimpan",
+    "confirmPrice": "Jumlah: {{price}} token",
+    "recoveryHint": "Rujukan kerja dan bayaran disimpan pada peranti ini. Sambung semula kerja yang terganggu sebelum memulakan larian lain.",
+    "newRun": "Mulakan larian lain",
+    "loadMoreMedia": "Muatkan lebih banyak media",
+    "invalidGraph": "Semak sambungan: setiap input memerlukan sumber yang serasi dan graf tidak boleh mengandungi kitaran.",
+    "unsupportedNode": "Nod ini belum boleh berjalan dalam bentuk asli. Gunakan kanvas web untuk flow ini.",
+    "missingPrompt": "Sambungkan nod teks dengan gesaan.",
+    "invalidSettings": "Tetapan ini tidak disokong oleh model yang dipilih.",
+    "missingCapturedFrame": "Tangkap bingkai pada kanvas web sebelum menggunakan video ini sebagai input imej.",
+    "missingSavedMedia": "Media sumber tersimpan hilang atau tidak lagi tersedia untuk akaun ini.",
+    "nothingToRun": "Tambah penjana untuk menjalankan flow ini.",
+    "quoteFailed": "Tidak dapat menentukan harga flow ini. Cuba lagi.",
+    "recoverBeforeEdit": "Sambung semula larian tersimpan sebelum mengubah grafnya atau memulakan larian lain.",
+    "runAlreadyComplete": "Larian ini sudah selesai. Pilih Mulakan larian lain untuk menjana semula.",
+    "recoveryCorrupt": "Rekod pemulihan tersimpan tidak dapat dibaca. Simpan flow ini dan hubungi sokongan sebelum membayar lagi.",
+    "paidUnavailable": "Anda boleh mengarang dan menyimpan flow di sini. Larian berbayar tidak tersedia di kedai ini.",
+    "planChanged": "Flow berubah selepas penentuan harga. Semak larian sekali lagi.",
+    "connectOwnerWallet": "Sambungkan dompet yang memiliki flow ini.",
+    "runFailed": "Nod tidak dapat diselesaikan. Rujukan kerja tersimpannya dikekalkan untuk pemulihan.",
+    "recoveryPending": "Pemaparan masih belum selesai. Sambung semula larian ini untuk mendapatkannya.",
+    "nodeAudioGen": "Penjana audio",
+    "nodeAudioGenDesc": "Pertuturan, kesan bunyi, transkripsi dan pengasingan audio",
+    "nodeAudioInput": "Audio tersimpan",
+    "nodeAudioInputDesc": "Gunakan audio peribadi daripada pustaka anda",
+    "audioVoiceId": "ID suara",
+    "audioSeconds": "Panjang bunyi dalam saat"
   },
   "loginModal": {
     "title": "Log in",
@@ -5924,7 +6252,8 @@
     "passkeyNotLinked": "Tiada akaun yang dipautkan dengan cap jari itu lagi. Cipta akaun baharu sebaliknya.",
     "passkeyAlreadyRegistered": "Cap jari itu sudah mempunyai akaun. Gunakan Log masuk sebaliknya.",
     "passkeyFailed": "Log masuk cap jari gagal. Sila cuba lagi.",
-    "passkeyBackupHint": "Akaun anda berada dalam kunci laluan peranti ini. Pada kebanyakan telefon, ia disegerakkan dengan akaun Google atau Apple anda, dan anda boleh menambah sandaran kata laluan dalam Tetapan."
+    "passkeyBackupHint": "Akaun anda berada dalam kunci laluan peranti ini. Pada kebanyakan telefon, ia disegerakkan dengan akaun Google atau Apple anda, dan anda boleh menambah sandaran kata laluan dalam Tetapan.",
+    "didYouMean": "Adakah anda maksudkan {{email}}?"
   },
   "careers": {
     "title": "Kerjaya di Riftn",
@@ -6189,7 +6518,13 @@
       "authorChip": "Pengarang cadangan"
     },
     "holdTokensToVote": "Pegang token Riftn untuk mengundi",
-    "mustHoldTokens": "Anda mesti memegang token Riftn untuk mengundi cadangan tadbir urus."
+    "mustHoldTokens": "Anda mesti memegang token Riftn untuk mengundi cadangan tadbir urus.",
+    "optionVoters_one": "{{count}} pengundi",
+    "optionVoters_other": "{{count}} pengundi",
+    "optionWinner": "Pemenang: {{option}}",
+    "optionNoWinner": "Tiada pemenang yang jelas",
+    "optionTapToUndo": "Ketik jawapan anda sekali lagi untuk menarik balik undian anda",
+    "optionPickOne": "Pilih satu jawapan"
   },
   "sidebar": {
     "talkOfTheTown": "Bualan Hangat",
@@ -6208,7 +6543,16 @@
     "clearSearch": "Kosongkan carian",
     "noMenuMatches": "Tiada yang sepadan dalam menu",
     "searchDehubFor": "Cari \"{{query}}\" di Riftn",
-    "requestSend": "Hantar permohonan"
+    "requestSend": "Hantar permohonan",
+    "requestPrompt": "Belum ada di sini? Hantar sebagai permintaan",
+    "requestPromptShort": "Belum ada di sini?",
+    "requestDraftMenu": "Tambah {{query}} ke Riftn",
+    "requestDraftSettings": "Tetapan untuk {{query}}",
+    "requestPostsTo": "Disiarkan ke Permintaan",
+    "requestHint": "Disiarkan ke Permintaan atas nama anda. Kami akan memberitahu anda apabila ia dilancarkan.",
+    "requestSent": "Dihantar ke Permintaan",
+    "requestSentHint": "Kami akan memberitahu anda apabila ia dilancarkan.",
+    "requestSeeIt": "Lihat di Permintaan"
   },
   "comments": {
     "kidsOnlyThread": "Siaran ini untuk kanak-kanak. Hanya Mod Kanak-kanak boleh mengulas.",
@@ -6297,7 +6641,24 @@
     "tabReplies": "Balasan",
     "tabQuotes": "Petikan",
     "tabReposts": "Siaran semula",
-    "tabSearch": "Cari"
+    "tabSearch": "Cari",
+    "attachAudioFile": "Fail audio",
+    "attachMedia": "Lampirkan foto, video atau audio",
+    "attachPhotoOrVideo": "Foto atau video",
+    "attachTooLarge": "Fail itu melebihi had {{size}} MB.",
+    "playVideo": "Main video",
+    "threadParts": {
+      "reorder": "Susun semula",
+      "reorderHint": "Tahan dan seret satu bahagian, atau gunakan anak panah, kemudian simpan.",
+      "save": "Simpan susunan",
+      "saved": "Susunan bebenang disimpan",
+      "saveFailed": "Tidak dapat menyimpan susunan. Cuba lagi.",
+      "moveUp": "Alihkan bahagian {{n}} ke atas",
+      "moveDown": "Alihkan bahagian {{n}} ke bawah",
+      "addPart": "Tambah ke bebenang",
+      "addPlaceholder": "Tambah ke bebenang anda...",
+      "label": "Bebenang · {{count}} bahagian"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "Pemilik semasa tidak boleh dibaca sekarang.",
@@ -6831,7 +7192,9 @@
       "joined": "{{name}} menyertai",
       "reactions": "Tindak balas",
       "photoTooLarge": "Imej mesti kurang daripada 10MB",
-      "aiAdminFailed": "Pentadbir AI gagal menjawab"
+      "aiAdminFailed": "Pentadbir AI gagal menjawab",
+      "addToMessages": "Tambah ke Mesej",
+      "inMessages": "Dalam Mesej"
     },
     "manage": {
       "dismissAdminTitle": "Abaikan pentadbir",
@@ -6853,7 +7216,8 @@
         "invites": "Jemputan",
         "rules": "Peraturan",
         "recentActions": "Tindakan terkini",
-        "danger": "Zon bahaya"
+        "danger": "Zon bahaya",
+        "automod": "Auto-mod & bot"
       },
       "title": "Urus",
       "purgeTitle": "Hapuskan semua mesej?",
@@ -7040,24 +7404,112 @@
       "buyer": "Pembeli:",
       "balance": "Baki:",
       "price": "Harga:",
-      "marketCap": "Permodalan pasaran:"
+      "marketCap": "Permodalan pasaran:",
+      "title": "BELI {{amount}}",
+      "txn": "Txn",
+      "titleToken": "BELI {{amount}} ${{symbol}}"
     },
     "newChat": {
       "public": "Awam",
       "private": "Peribadi",
       "free": "Percuma",
       "paid": "Dibayar",
-      "group": "Kumpulan"
+      "group": "Kumpulan",
+      "description": "Tentang apa? (pilihan)",
+      "groupCreated": "Kumpulan dicipta",
+      "channelCreated": "Saluran dicipta",
+      "newGroup": "Kumpulan baharu",
+      "newChannel": "Saluran baharu",
+      "groupName": "Nama kumpulan",
+      "channelName": "Nama saluran",
+      "whoCanJoin": "Siapa boleh sertai",
+      "publicDetail": "Sesiapa sahaja boleh cari dan sertai",
+      "inviteOnly": "Jemputan sahaja",
+      "privateDetail": "Orang sertai melalui jemputan atau kelulusan anda",
+      "entry": "Kemasukan",
+      "freeDetail": "Percuma untuk sertai",
+      "paidDetail": "Satu bayaran dalam token, terus kepada anda",
+      "price": "Harga dalam token",
+      "channelNote": "Hanya anda dan admin anda boleh menyiarkan. Ahli membaca dan memberi reaksi.",
+      "createGroup": "Cipta kumpulan",
+      "createChannel": "Cipta saluran",
+      "channel": "Saluran",
+      "adminsOnly": "Hanya admin boleh menyiarkan dalam saluran ini.",
+      "message": "Mesej baharu",
+      "messageDetail": "Sembang peribadi dengan seorang",
+      "groupDetail": "Sembang dengan ramai orang, awam atau peribadi",
+      "channelDetail": "Siarkan kepada pengikut, percuma atau berbayar",
+      "title": "Mulakan sesuatu",
+      "channelRow": "Saluran · {{formattedCount}} ahli",
+      "groupRow": "Kumpulan · {{formattedCount}} ahli"
     },
     "holderGate": {
       "chain": "Rantaian",
-      "tab": "Pemegang"
+      "tab": "Pemegang",
+      "failed": "Tidak dapat membaca baki anda sekarang. Cuba lagi sebentar lagi.",
+      "short": "Pemegang sahaja: anda perlukan {{need}}. Anda memegang {{have}}.",
+      "required": "Pemegang sahaja: dompet anda tidak memegang cukup token komuniti ini untuk bersembang.",
+      "topHolders": "Pemegang teratas",
+      "noHolders": "Pemegang akan muncul di sini selepas mereka sertai.",
+      "saved": "Peraturan pemegang disimpan",
+      "cleared": "Sesiapa sahaja boleh sertai semula",
+      "saveFailed": "Tidak dapat menyimpan peraturan pemegang",
+      "title": "Pemegang sahaja",
+      "explain": "Hanya dompet yang memegang token ini boleh sertai dan bersembang. Baki dibaca daripada rantaian apabila seseorang sertai.",
+      "which": "Token",
+      "dehubTokens": "Token Riftn",
+      "otherToken": "Token lain",
+      "token": "Kontrak token",
+      "reading": "Membaca token…",
+      "badAddress": "Itu bukan alamat token",
+      "minimum": "Minimum untuk dipegang",
+      "save": "Simpan peraturan pemegang",
+      "chip": "Pemegang sahaja · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Kata-kata yang dilarang",
       "floodMax": "Mesej-mesej {{count}}",
       "saved": "Disimpan",
-      "wordCount": "{{count}} perkataan"
+      "wordCount": "{{count}} perkataan",
+      "title": "Auto-mod",
+      "hint": "Menyekat mesej sebelum sesiapa melihatnya dan memberitahu pengirim sebabnya. Pemilik dan admin tidak pernah disekat.",
+      "enabled": "Auto-mod hidup",
+      "bannedWordsHint": "Satu setiap baris atau koma. Perkataan penuh sahaja, dan ejaan berjarak seperti s.c.a.m juga dikesan.",
+      "bannedWordsPlaceholder": "penipuan\nrug pull",
+      "blockLinks": "Sekat pautan",
+      "blockLinksHint": "Pautan luar dan jemputan Telegram/Discord. Pautan Riftn masih berfungsi.",
+      "repeats": "Sekat ulangan",
+      "repeatsHint": "Menghalang seseorang menghantar baris yang sama lagi dalam masa 10 minit.",
+      "flood": "Anti-banjir",
+      "floodHint": "Paling banyak {{max}} mesej setiap {{seconds}}s bagi setiap orang.",
+      "noAccess": "Hanya pemilik dan admin boleh menukar tetapan ini.",
+      "saveFailed": "Tidak dapat menyimpan. Cuba lagi.",
+      "saveWords": "Simpan perkataan",
+      "bannedWord": "Mesej itu mengandungi perkataan yang tidak dibenarkan dalam kumpulan ini.",
+      "links": "Pautan tidak dibenarkan dalam kumpulan ini.",
+      "repeat": "Anda baru sahaja menghantar itu. Cuba katakan sesuatu yang baharu.",
+      "reserved": "Jenis mesej itu hanya boleh datang daripada bot kumpulan.",
+      "floodError": "Anda menghantar terlalu laju. Tunggu {{value1}}s dan cuba lagi."
+    },
+    "entry": {
+      "switchChain": "Tukar dompet anda ke BNB Chain atau Base untuk membayar.",
+      "failed": "Kami belum dapat mengesahkan bayaran anda. Jika token telah keluar dari dompet anda, ketik Sertai semula dalam seminit.",
+      "chip": "{{amount}} untuk sertai"
+    },
+    "jumpToReply": "Lompat ke mesej yang dibalas",
+    "avatarUpdated": "Gambar dikemas kini",
+    "bannerUpdated": "Sepanduk dikemas kini",
+    "imageUploadFailed": "Tidak dapat memuat naik imej itu. Cuba lagi.",
+    "changeBanner": "Tukar sepanduk",
+    "changeAvatar": "Tukar gambar",
+    "buyBot": {
+      "title": "Bot beli",
+      "any": "Sebarang saiz",
+      "enabled": "Hantar amaran belian",
+      "hint": "Menghantar setiap belian ${{symbol}} ke sembang ini, kira-kira seminit selepas ia berlaku.",
+      "minUsd": "Belian terkecil untuk dihantar",
+      "noToken": "Pautkan token dari pengepala kumpulan (sunting, kemudian Ticker) dan setiap belian akan muncul dalam sembang ini.",
+      "unsupported": "${{symbol}} berada pada rantaian atau jenis pool yang belum dipantau oleh bot beli. Disokong: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism dan Avalanche (pool gaya Uniswap v2/v3)."
     }
   },
   "work": {
@@ -7996,7 +8448,8 @@
     "jumpToLatest": "Lompat ke mesej terkini",
     "ban": "Sekat",
     "banConfirm": "Adakah anda pasti mahu menyekat {{name}}?",
-    "banFailed": "Gagal menyekat pengguna"
+    "banFailed": "Gagal menyekat pengguna",
+    "jumpToMentions": "Lompat ke balasan dan sebutan"
   },
   "promptFeed": {
     "headline": "Apa yang anda mahu lihat?",
@@ -8182,7 +8635,13 @@
     },
     "followBackConfirm": "Ikuti balas",
     "followBackNotNow": "Tidak sekarang",
-    "followBackDone": "Selesai"
+    "followBackDone": "Selesai",
+    "followBackConfirmTitle_one": "Ikuti semula {{count}} orang?",
+    "followBackConfirmTitle_other": "Ikuti semula {{count}} orang?",
+    "followBackConfirmBody": "Mereka sudah mengikuti anda. Akaun peribadi akan menerima permintaan ikut.",
+    "followedBackCount_one": "Mengikuti semula {{count}} orang",
+    "followedBackCount_other": "Mengikuti semula {{count}} orang",
+    "followBackDoneBody": "Anda boleh menemui mereka semua dalam Mengikuti."
   },
   "reactionInfo": {
     "title": "Tindak balas",
@@ -9105,10 +9564,12 @@
     "madeForKidsConfirmAudience": "Anak-anak yang menggunakan Mod Keselamatan Kanak-kanak akan melihat pos ini sahaja. Tiada apa-apa lagi di Riftn yang akan mereka lihat.",
     "altPlaceholderVideo": "Terangkan video ini",
     "preview": {
-      "title": "Pratonton"
+      "title": "Pratonton",
+      "hint": "Beginilah rupa hantaran anda dalam feed."
     },
     "recent": {
-      "all": "Semua"
+      "all": "Semua",
+      "show": "Tunjukkan foto terkini"
     },
     "studio": {
       "crop": "Pangkas",
@@ -9127,11 +9588,46 @@
       "ticker": "Stock Ticker",
       "textBg": "Latar belakang",
       "font": {
-        "bold": "Tebal"
-      }
+        "bold": "Tebal",
+        "clean": "Bersih",
+        "serif": "Serif",
+        "mono": "Mono"
+      },
+      "looks": "Gaya",
+      "adjust": "Laraskan",
+      "tint": "Rona",
+      "vignette": "Vignet",
+      "prev": "Foto sebelumnya",
+      "count": "{{n}} daripada {{total}}",
+      "next": "Foto seterusnya",
+      "title": "Sunting foto",
+      "holdHint": "Tahan untuk melihat yang asal",
+      "cropCorner": "Sudut potong",
+      "straighten": "Luruskan",
+      "flip": "Balikkan",
+      "mention": "Sebut",
+      "layerHint": "Seret perkataan dan pelekat untuk mengalihkannya. Ketik dua kali untuk menukar perkataan.",
+      "looksAdjust": "Gaya dan laraskan"
     },
     "edited": "Disunting",
-    "edit": "Sunting"
+    "edit": "Sunting",
+    "altHint": "Terangkan kandungannya untuk mereka yang tidak dapat melihat.",
+    "altPlaceholder": "Terangkan foto ini",
+    "altTab": "Teks alt",
+    "editVideo": "Sunting video",
+    "trim": "Potong",
+    "trimAndCover": "Potong dan kulit",
+    "trimStart": "Permulaan klip",
+    "trimEnd": "Penghujung klip",
+    "trimHint": "Seret pemegang putih untuk memotong. Ketik jalur untuk mengalihkan.",
+    "useFrameAsCover": "Guna bingkai ini sebagai kulit",
+    "photoHoldHint": "Tahan untuk lebih banyak pilihan",
+    "editPhoto": "Sunting foto {{n}}",
+    "editAltText": "Sunting teks alt",
+    "addAltText": "Tambah teks alt",
+    "moveEarlier": "Alih lebih awal",
+    "moveLater": "Alih lebih lewat",
+    "photoN": "Foto {{n}} daripada {{total}}"
   },
   "bounty": {
     "claimed": "Telah dituntut",
@@ -9426,7 +9922,13 @@
     "noLiveStreams": "Tiada strim langsung",
     "noOneStreaming": "Tiada sesiapa menstrim sekarang. Kembali nanti!",
     "loadStreamsFailed": "Gagal memuatkan strim. Cuba lagi.",
-    "liveBadge": "LANGSUNG"
+    "liveBadge": "LANGSUNG",
+    "screenShare": {
+      "start": "Kongsi skrin",
+      "stop": "Berhenti berkongsi skrin",
+      "sharing": "Anda sedang berkongsi skrin anda",
+      "hint": "Penonton melihat skrin anda. Ketik butang skrin untuk kembali ke kamera."
+    }
   },
   "liveShop": {
     "title": "Beli-belah dari siaran ini",
@@ -9741,7 +10243,17 @@
     "planTypeNotAllowed": "Pelan pencipta ini tidak membenarkan jenis mesej ini.",
     "planMinTip": "Tip untuk pencipta ini mestilah sekurang-kurangnya {{amount}} token.",
     "newDrawer": {
-      "to": "Kepada"
+      "to": "Kepada",
+      "placeholder": "Nama atau @namapengguna",
+      "recent": "TERKINI",
+      "suggested": "DICADANGKAN",
+      "youFollow": "ORANG YANG ANDA IKUTI",
+      "chattedBefore": "Pernah bersembang",
+      "mutual": "Bersama",
+      "dmsOff": "DM dimatikan",
+      "keepTyping": "Teruskan menaip untuk mencari semua orang",
+      "sayHi": "Tegur seseorang",
+      "typeAny": "Taip sebarang nama atau @namapengguna"
     },
     "download": "Muat Turun",
     "deleteOneTitle": "Hapuskan mesej ini?",
@@ -9754,8 +10266,30 @@
       "communities": "Komuniti",
       "members": "{{n}} ahli",
       "newChat": "Sembang baharu",
-      "invite": "Undang"
-    }
+      "invite": "Undang",
+      "noChats": "Belum ada sembang dengan \"{{q}}\". Ini siapa dan apa yang sepadan.",
+      "nothing": "Belum ada yang sepadan dengan \"{{q}}\". Mulakan sesuatu yang baharu.",
+      "start": "Atau mulakan sesuatu",
+      "newChatSub": "Pilih sesiapa sahaja",
+      "newGroup": "Kumpulan baharu",
+      "newGroupSub": "Bersembang bersama",
+      "inviteSub": "Kongsi pautan",
+      "inviteMessage": "Sertai saya di Riftn: {{url}}",
+      "searchAll": "Cari \"{{q}}\" di seluruh Riftn",
+      "searchAllSub": "Hantaran, video, strim langsung"
+    },
+    "copyMedia": "Salin media",
+    "reportMessage": "Laporkan mesej",
+    "fileSaved": "Fail disimpan",
+    "fileSaveFailed": "Tidak dapat menyimpan fail",
+    "attachAnything": "Lampirkan foto, video, audio atau fail",
+    "attachFileOrAudio": "Fail atau audio",
+    "attachPhotoOrVideo": "Foto atau video",
+    "attachTooLarge": "Fail itu melebihi had {{size}} MB.",
+    "deleteForBothBody": "Ia akan dibuang untuk anda berdua.",
+    "notSent": "Tidak dihantar",
+    "shareGroups": "Kumpulan",
+    "shareKindChannel": "Saluran"
   },
   "editPost": {
     "mediaPermission": "Kebenaran pustaka media diperlukan",
@@ -9877,7 +10411,9 @@
     "pipUnavailable": "Gambar dalam gambar tidak tersedia. Pastikan ia dibenarkan untuk Riftn dalam tetapan peranti anda.",
     "noVideo": "Tiada video",
     "rotate": "Putar",
-    "yourDhbBalance": "Baki token anda: {{amount}}"
+    "yourDhbBalance": "Baki token anda: {{amount}}",
+    "fullscreen": "Skrin penuh",
+    "notAvailableForPost": "Tidak tersedia untuk siaran ini"
   },
   "liveViewer": {
     "loadingStream": "Memuatkan siaran...",
@@ -10193,7 +10729,22 @@
     "didNotRecoverEither": "Log masuk itu tidak memulihkan mana-mana profil yang ditunjukkan di sini. Tiada apa-apa berubah. Cuba log masuk asal bagi profil yang anda mahu.",
     "didNotRecoverThis": "Log masuk itu memulihkan dompet yang berbeza daripada profil ini. Tiada apa-apa berubah. Cuba log masuk yang asalnya menciptanya.",
     "couldNotRetrieve": "Dompet lama itu tidak dapat diperoleh pada peranti ini. Anda masih boleh memulihkannya di riftn.com di bawah.",
-    "matchedWithBalance": "Padanan, {{balance}} token"
+    "matchedWithBalance": "Padanan, {{balance}} token",
+    "methodEmail": "kod e-mel",
+    "methodPhone": "nombor telefon",
+    "madeWithNamed": "@{{name}} dibuat dengan {{method}}. Teruskan dengan akaun {{method}} yang sama untuk memulihkannya.",
+    "madeWith": "Profil ini dibuat dengan {{method}}. Teruskan dengan akaun {{method}} yang sama untuk memulihkannya.",
+    "madeWithEmailNamed": "@{{name}} dibuat dengan kod e-mel. Kami akan menghantar satu lagi kod ke e-mel itu untuk memulihkannya.",
+    "madeWithEmail": "Profil ini dibuat dengan kod e-mel. Kami akan menghantar satu lagi kod ke e-mel itu untuk memulihkannya.",
+    "madeWithPhoneNamed": "@{{name}} dibuat dengan nombor telefon. Kami akan menghantar SMS satu lagi kod ke nombor itu untuk memulihkannya.",
+    "madeWithPhone": "Profil ini dibuat dengan nombor telefon. Kami akan menghantar SMS satu lagi kod ke nombor itu untuk memulihkannya.",
+    "wrongSignInNamed": "Log masuk itu membuka dompet lain, bukan @{{name}}. @{{name}} dibuat dengan {{method}}, jadi hanya itu yang boleh memulihkannya.",
+    "wrongSignIn": "Log masuk itu membuka dompet lain. Profil ini dibuat dengan {{method}}, jadi hanya itu yang boleh memulihkannya.",
+    "continueWith": "Teruskan dengan {{provider}}",
+    "differentSignIn": "Guna log masuk lain?",
+    "oldAccountPhone": "Nombor telefon akaun lama",
+    "recoverFromPhoneA11y": "Pulihkan akaun lama daripada nombor telefon ini",
+    "phoneNeedsCode": "Masukkan nombor dengan kod negaranya, seperti +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Beli token",
@@ -10975,8 +11526,17 @@
       "noSpeech": "Tiada pertuturan ditemui dalam klip ini.",
       "failed": "Tidak dapat mencipta kapsyen untuk klip ini.",
       "styles": {
-        "bold": "Tebal"
-      }
+        "bold": "Tebal",
+        "classic": "Klasik",
+        "boxed": "Berkotak",
+        "wordpop": "Word Pop",
+        "rapid": "Rapid Reveal",
+        "beast": "Beast Mode",
+        "stacked": "Bertindan",
+        "serif": "Serif",
+        "bubble": "Gelembung"
+      },
+      "style": "Gaya kapsyen"
     },
     "app": {
       "newDesign": "Reka bentuk baharu",
@@ -11046,7 +11606,11 @@
       "vibrant": "Bertenaga",
       "cyber": "Siber",
       "invert": "Songsang",
-      "strength": "Kekuatan penapis: {{value}}%"
+      "strength": "Kekuatan penapis: {{value}}%",
+      "fadedFilm": "Filem pudar",
+      "technicolor": "Technicolor",
+      "newsreel": "Berita lama",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "Pangkas",
@@ -11127,14 +11691,18 @@
       "pptx": "Persembahan PowerPoint",
       "pptxHint": "Setiap halaman menjadi satu imej slide, dengan catatan pengacarakan dan pautan. Edit teks dan unsur individu dalam rancangan asal.",
       "section": "Bahagian bernama",
-      "transparent": "Latar belakang transparan"
+      "transparent": "Latar belakang transparan",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "Memuat turun ZIP dengan garis masa anda sebagai FCPXML dan Premiere XML serta setiap fail media, supaya anda boleh menyiapkan suntingan dalam Premiere Pro, Final Cut Pro atau DaVinci Resolve. Teks menjadi penanda; kesan kekal dalam Riftn."
     },
     "adjust": {
       "auto": "Tingkatkan automatik",
       "autoFailed": "Tidak dapat menganalisis gambar ini.",
       "tint": "Rona {{value}}",
       "vignette": "Vignet {{value}}%",
-      "warmth": "Kehangatan {{value}}"
+      "warmth": "Kehangatan {{value}}",
+      "halation": "Halasi {{value}}%",
+      "scanlines": "Garis imbasan {{value}}%"
     },
     "draw": {
       "colour": "Warna pen",
@@ -11228,7 +11796,45 @@
       "openGenerator": "Semak dan jana",
       "working": "Sedang diusahakan…",
       "stop": "Hentikan",
-      "queue": "Tambah ke antrian"
+      "queue": "Tambah ke antrian",
+      "stopped": "Dihentikan. Tiada apa-apa lagi diubah.",
+      "queued": "{{count}} dalam baris gilir",
+      "restore": "Pulihkan ke sini",
+      "restoreHint": "Kembalikan projek seperti sebelum mesej ini. Buat asal akan mengembalikannya.",
+      "restored": "Projek dipulihkan ke sebelum mesej itu. Tekan buat asal untuk mengembalikan versi yang lebih baharu.",
+      "rewrite": "Jadikan permintaan saya lebih jelas",
+      "rewriteFailed": "Tidak dapat menulis semula itu. Teks anda tidak berubah.",
+      "feedback": "Adakah ini membantu?",
+      "good": "Balasan baik",
+      "bad": "Balasan buruk",
+      "retryPrefix": "Itu tidak betul. Sebaliknya, ",
+      "recipesTitle": "Resipi",
+      "recipe": {
+        "podcastClip": {
+          "label": "Klip podcast",
+          "prompt": "Cari detik 30 saat yang paling kuat, potong ke situ, tambah kapsyen Word Pop dan jadikannya 9:16."
+        },
+        "talkingHead": {
+          "label": "Kepala bercakap yang kemas",
+          "prompt": "Potong jeda panjang, tambah kapsyen Classic, dan beri rupa hangat yang halus."
+        },
+        "productPromo": {
+          "label": "Promo produk",
+          "prompt": "Buat promo 15 saat: tajuk yang padu di permulaan, peralihan Zoom in antara klip, kapsyen Bold dan muzik ceria."
+        },
+        "hypeReel": {
+          "label": "Reel hype",
+          "prompt": "Potong klip mengikut rentak muzik, gunakan peralihan Fly up dan rupa Technicolor."
+        },
+        "retroEdit": {
+          "label": "Suntingan retro",
+          "prompt": "Beri setiap klip rupa VHS, tambah tajuk serif yang besar, dan gunakan peralihan Fade."
+        },
+        "tutorial": {
+          "label": "Tutorial",
+          "prompt": "Tambah tajuk untuk setiap langkah, kapsyen Boxed, dan perlahankan detik penting kepada 0.5x."
+        }
+      }
     },
     "brand": {
       "addColor": "Tambah warna jenama",
@@ -11254,7 +11860,10 @@
       "saveNewPreset": "Simpan baru",
       "saveStyles": "Simpan gaya dengan rancangan",
       "stylesSaved": "Gaya jenama disimpan bersama rancangan ini",
-      "usePreset": "Guna gaya"
+      "usePreset": "Guna gaya",
+      "dehubApplied": "Jenama Riftn digunakan pada {{count}} lapisan.",
+      "dehubApply": "Gunakan jenama Riftn",
+      "dehubHint": "Warna rasmi Riftn, fon Exo dan Inter, dan logo Riftn, dalam satu klik."
     },
     "templates": {
       "announcement": {
@@ -11367,7 +11976,9 @@
       "exportHint": "Biarkan editor terbuka semasa video anda dirender.",
       "tooLarge": "Fail itu terlalu besar untuk editor. Hadnya ialah 400 MB.",
       "tZoomIn": "Zum masuk",
-      "tZoomOut": "Zum keluar"
+      "tZoomOut": "Zum keluar",
+      "tFlyUp": "Terbang ke atas",
+      "tFlyDown": "Terbang ke bawah"
     },
     "motion": {
       "title": "Gerakan",
@@ -12553,21 +13164,141 @@
       "add": "Tambah",
       "scale": "Saiz",
       "color": "Warna",
-      "light": "Cahaya"
+      "light": "Cahaya",
+      "create": "Tambah pentas 3D",
+      "title": "Pentas adegan 3D",
+      "hint": "Susun syot dengan sfera dan kotak. Kamera, kedudukan dan tiga lampu kawasan bebas mengubah bingkai yang dipaparkan.",
+      "preview": "Pratonton adegan yang dipaparkan",
+      "error": "Tidak dapat menyediakan bingkai. Semak rujukan syot anda dan cuba lagi.",
+      "elevation": "Ketinggian",
+      "distance": "Jarak",
+      "fov": "Medan pandangan",
+      "object": "Objek",
+      "sphere": "Sfera",
+      "box": "Kotak",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "Buang objek",
+      "intensity": "Keamatan",
+      "diffusion": "Resapan",
+      "saving": "Menyediakan bingkai…",
+      "useFrame": "Gunakan bingkai yang dipaparkan sebagai rujukan syot",
+      "frameHint": "Mencipta PNG 320 × 180 dan menambahkannya ke rujukan syot ini. Semak had rujukan dan sebut harga model sebelum menjana.",
+      "frameName": "Bingkai pentas adegan"
     },
     "clipFix": {
-      "listening": "Mendengarkan…"
+      "listening": "Mendengarkan…",
+      "detach": "Asingkan audio",
+      "detached": "Audio dipindahkan ke klipnya sendiri",
+      "detachFailed": "Tidak dapat mengasingkan audio klip ini",
+      "removeBars": "Buang bar hitam",
+      "scanning": "Menyemak bingkai…",
+      "noBars": "Tiada bar hitam ditemui",
+      "barsRemoved": "Bar hitam dipangkas",
+      "barsFailed": "Tidak dapat menyemak video ini untuk bar hitam",
+      "reframe": "Bingkai semula automatik",
+      "reframeHint": "Video ini sudah muat dengan bentuk halaman ini",
+      "reframed": "Dibingkai semula untuk mengikuti aksi",
+      "reframeFailed": "Tidak dapat membingkai semula video ini",
+      "retakes": "Buang ambil semula",
+      "noRetakes": "Tiada ambil semula ditemui",
+      "retakesRemoved": "{{count}} ambil semula dibuang, ambilan terakhir dikekalkan",
+      "retakesFailed": "Tidak dapat membuang ambil semula daripada klip ini"
     },
     "voiceClone": {
       "stop": "Hentikan rakaman",
-      "failed": "Klonan suara gagal."
+      "failed": "Klonan suara gagal.",
+      "pickerLabel": "Klon suara anda",
+      "pickerDetail": "Suara latar dengan suara anda sendiri",
+      "title": "Klon suara anda",
+      "description": "Rakam diri anda atau pilih klip anda bercakap. Anda bayar sekali dan suara anda milik anda untuk setiap suara latar.",
+      "defaultName": "Suara saya",
+      "record": "Rakam sampel (30 saat hingga 2 minit)",
+      "fromMedia": "Atau gunakan klip daripada Media",
+      "recorded": "Rakaman anda",
+      "sample": "Sampel: {{name}}",
+      "hint": "Pertuturan yang jelas tanpa muzik paling berkesan.",
+      "noMic": "Tidak dapat menggunakan mikrofon.",
+      "sampleFailed": "Tidak dapat membaca bunyi daripada klip itu.",
+      "pay": "Klon dengan {{amount}} token",
+      "useFree": "Klon (sudah dibayar)",
+      "owned": "Suara anda “{{name}}” sudah disediakan. Pilihnya daripada senarai suara.",
+      "useOwned": "Gunakan suara saya",
+      "ready": "“{{name}}” sedia untuk suara latar.",
+      "paidFailed": "Bayaran anda disimpan. Buka ini semula dan cubaan seterusnya percuma.",
+      "consent": "Klon suara anda sendiri sahaja, atau suara yang anda mendapat kebenaran untuk digunakan."
     },
     "linkImport": {
       "go": "Mengimport",
-      "downloading": "Memuat turun {{percent}}%"
+      "downloading": "Memuat turun {{percent}}%",
+      "open": "Import daripada pautan",
+      "placeholder": "Tampal pautan YouTube, TikTok atau lain-lain",
+      "rights": "Saya memiliki video ini atau mempunyai kebenaran untuk menggunakannya",
+      "audioOnly": "Bunyi sahaja",
+      "queued": "Dalam baris gilir…",
+      "waiting": "Menunggu laman, mencuba lagi sebentar…",
+      "adding": "Menambah ke Media…",
+      "added": "Diimport dan ditambah ke garis masa.",
+      "failed": "Tidak dapat mengimport pautan itu."
     },
     "reverse": {
-      "action": "Songsang"
+      "action": "Songsang",
+      "working": "Menterbalikkan {{percent}}%",
+      "done": "Klip diterbalikkan.",
+      "failed": "Tidak dapat menterbalikkan klip ini.",
+      "unsupported": "Pelayar ini tidak boleh menterbalikkan video. Cuba Chrome atau Edge.",
+      "tooLong": "Klip sehingga {{seconds}} saat boleh diterbalikkan."
+    },
+    "film": {
+      "repairRefs": "Buang pautan media yang hilang",
+      "title": "Projek filem",
+      "intro": "Rancang syot dengan rujukan imej boleh guna semula. Taklimat, susunan syot dan hasil pilihan anda disimpan bersama projek ini.",
+      "create": "Cipta pelan filem",
+      "name": "Nama filem",
+      "brief": "Taklimat filem",
+      "sharedReferences": "Rujukan imej bersama (sehingga 4)",
+      "shot": "Syot",
+      "addShot": "Tambah syot",
+      "shotName": "Nama syot",
+      "action": "Aksi dan komposisi syot",
+      "seconds": "Saat video yang diminta",
+      "shotReferences": "Rujukan imej tambahan (had gabungan 4)",
+      "frame": "Sediakan bingkai",
+      "video": "Sediakan video",
+      "review": "Semak model, rujukan, tempoh video dan harga dalam studio sebelum menjana.",
+      "result": "Hasil syot yang diterima",
+      "noResult": "Tiada hasil dipilih",
+      "resultHint": "Pilih imej atau video yang diterima daripada Muat Naik. Pautannya disimpan bersama syot ini; gunakan garis masa untuk menghimpunkan filem.",
+      "earlier": "Alih lebih awal",
+      "later": "Alih lebih lewat",
+      "remove": "Buang syot",
+      "issue": "Semak huraian syot dan media rujukan, kemudian cuba lagi. Biarkan projek terbuka jika ia tidak dapat disimpan.",
+      "searchMedia": "Cari media mengikut nama",
+      "refreshMedia": "Muat semula media"
+    },
+    "speakers": {
+      "find": "Cari penutur",
+      "name": "Penutur {{number}}",
+      "onlyOne": "Hanya seorang penutur ditemui.",
+      "failed": "Tidak dapat mencari penutur.",
+      "kept": "Hanya {{name}} dikekalkan.",
+      "editFailed": "Suntingan itu tidak sesuai dengan klip ini.",
+      "split": "Dipecahkan kepada {{count}} syot penutur.",
+      "keepOnly": "Kekalkan sahaja",
+      "splitAction": "Potong pada setiap pertukaran penutur"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Huraikan objek 3D yang anda mahu",
+      "queued": "Membina objek 3D anda. Ia akan muncul dalam tab Hasil Janaan.",
+      "note": "Objek 3D masuk ke Media sebagai klip berputar pendek dengan latar belakang lutsinar."
+    },
+    "behind": {
+      "action": "Teks di belakang orang",
+      "working": "Memotong keluar orang…",
+      "done": "Teks dan kapsyen kini berada di belakang orang.",
+      "failed": "Tidak dapat meletakkan teks di belakang orang."
     }
   },
   "creator": {
@@ -13032,7 +13763,47 @@
     "referenceComposeHint": "Bawa watak, objek dan latar daripada pelbagai imej ke dalam satu komposisi.",
     "marketing": {
       "import": {
-        "use": "Gunakan butiran ini"
+        "use": "Gunakan butiran ini",
+        "url": "URL halaman produk",
+        "action": "Baca halaman produk",
+        "loading": "Membaca halaman…",
+        "hint": "Import teks daripada halaman produk awam. Semak butiran sebelum menggunakannya; lampirkan imej produk secara berasingan dalam studio.",
+        "source": "Sumber yang diimport",
+        "review": "Pilih produk untuk disalin ke dalam taklimat boleh sunting anda. Tajuk utama, suara dan warna jenama anda kekal tidak berubah.",
+        "errors": {
+          "signIn": "Log masuk untuk mengimport halaman produk.",
+          "url": "Gunakan URL produk HTTPS awam.",
+          "empty": "Tiada butiran produk yang boleh digunakan ditemui. Tambahkannya secara manual.",
+          "busy": "Terlalu banyak import sedang berjalan. Cuba lagi sebentar lagi.",
+          "unavailable": "Halaman ini tidak dapat diimport. Tambah butiran produk secara manual.",
+          "failed": "Import gagal. Taklimat anda disimpan; cuba lagi atau masukkan butiran secara manual."
+        }
+      },
+      "title": "Taklimat kempen",
+      "intro": "Huraikan produk dan jenama anda, kemudian sediakan format iklan yang sepadan.",
+      "saved": "Taklimat anda disimpan pada peranti ini untuk akaun ini.",
+      "preview": "Sediakan format",
+      "clear": "Kosongkan taklimat",
+      "required": "Tambah nama dan huraian produk untuk menyediakan format.",
+      "variants": "Format kempen",
+      "reviewHint": "Semak model, harga dan rujukan produk dalam studio sebelum menjana. Setiap format ialah penjanaan berasingan.",
+      "open": "Semak dalam studio",
+      "fields": {
+        "product": "Nama produk (wajib)",
+        "description": "Fakta produk (wajib)",
+        "brand": "Nama jenama",
+        "audience": "Khalayak sasaran",
+        "benefit": "Manfaat utama",
+        "voice": "Suara jenama",
+        "palette": "Warna jenama",
+        "headline": "Tajuk utama diluluskan",
+        "cta": "Seruan tindakan"
+      },
+      "formats": {
+        "square": "Iklan segi empat sama",
+        "portrait": "Iklan potret",
+        "story": "Imej Story",
+        "video": "Video menegak"
       }
     },
     "batchCount": "Imej",
@@ -13040,7 +13811,109 @@
     "cinema": {
       "close": "Tutup",
       "performance": {
-        "label": "Prestasi"
+        "label": "Prestasi",
+        "0": "Gembira",
+        "1": "Sayu",
+        "2": "Cemas",
+        "3": "Yakin",
+        "4": "Kagum",
+        "5": "Terkawal",
+        "6": "Ceria"
+      },
+      "title": "Arahan sinematik",
+      "hint": "Bimbing gaya visual imej atau video anda yang seterusnya. Hasil berbeza mengikut model.",
+      "none": "Tiada arahan",
+      "reset": "Kosongkan arahan",
+      "camera": {
+        "label": "Rupa kamera",
+        "0": "Sinema digital",
+        "1": "Filem 35mm",
+        "2": "Filem 16mm",
+        "3": "Format besar",
+        "4": "Kamkoder vintaj"
+      },
+      "lens": {
+        "label": "Rupa lensa",
+        "0": "Sfera",
+        "1": "Anamorfik",
+        "2": "Kaca lembut vintaj",
+        "3": "Makro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Panjang fokus",
+        "0": "18mm lebar",
+        "1": "24mm lebar",
+        "2": "35mm semula jadi",
+        "3": "50mm standard",
+        "4": "85mm potret",
+        "5": "135mm telefoto"
+      },
+      "aperture": {
+        "label": "Kedalaman medan",
+        "0": "f/1.4 sangat cetek",
+        "1": "f/2.8 cetek",
+        "2": "f/5.6 sederhana",
+        "3": "f/11 fokus dalam"
+      },
+      "movement": {
+        "label": "Pergerakan kamera",
+        "0": "Tripod statik",
+        "1": "Dolly masuk perlahan",
+        "2": "Dolly keluar perlahan",
+        "3": "Penjejakan sisi",
+        "4": "Mengorbit subjek",
+        "5": "Pegang tangan",
+        "6": "Kren naik",
+        "7": "Pan perlahan"
+      },
+      "lighting": {
+        "label": "Pencahayaan",
+        "0": "Cahaya siang lembut",
+        "1": "Waktu keemasan",
+        "2": "Chiaroscuro gelap",
+        "3": "Studio terang",
+        "4": "Lampu neon praktikal",
+        "5": "Siluet cahaya belakang",
+        "6": "Mendung tersebar"
+      },
+      "tempo": {
+        "label": "Tempo syot",
+        "0": "Satu syot berterusan",
+        "1": "Aksi tenang dan santai",
+        "2": "Aksi dinamik dan bertenaga",
+        "3": "Aksi huru-hara dan pantas"
+      },
+      "era": {
+        "label": "Era",
+        "0": "1920-an",
+        "1": "1950-an",
+        "2": "1960-an",
+        "3": "1970-an",
+        "4": "1980-an",
+        "5": "1990-an",
+        "6": "Masa kini",
+        "7": "Masa depan terdekat"
+      },
+      "genre": {
+        "label": "Genre",
+        "0": "Dokumentari",
+        "1": "Drama",
+        "2": "Filem noir",
+        "3": "Fiksyen sains",
+        "4": "Fantasi",
+        "5": "Komedi romantik",
+        "6": "Thriller",
+        "7": "Koboi"
+      },
+      "palette": {
+        "label": "Palet warna",
+        "0": "Ambar hangat",
+        "1": "Biru sejuk",
+        "2": "Warna tanah lembut",
+        "3": "Pastel",
+        "4": "Monokrom kontras tinggi",
+        "5": "Warna primer tepu"
       }
     },
     "audioNoSpeech": "Tiada ucapan ditemui dalam rakaman itu.",
@@ -13060,9 +13933,139 @@
     "gallery": {
       "send": "Hantar",
       "notifications": {
-        "generation_reply": "{{name}} membalas komen anda"
+        "generation_reply": "{{name}} membalas komen anda",
+        "generation_like": "{{name}} memberi reaksi kepada hasil janaan anda",
+        "generation_comment_like": "{{name}} memberi reaksi kepada komen anda",
+        "generation_comment": "{{name}} mengulas hasil janaan anda"
+      },
+      "browse": "Layari hasil janaan",
+      "empty": "Belum ada ciptaan",
+      "fullscreen": "Lihat skrin penuh",
+      "missing": "Hasil janaan ini tidak tersedia."
+    },
+    "layerNewAttempt": "Semak percubaan baharu",
+    "layerTitle": "Asingkan lapisan imej",
+    "layerPngRequired": "Pilih imej PNG yang disimpan, sehingga 12 MiB dan empat megapiksel.",
+    "layerSource": "Imej asal",
+    "layerDescription": "Empat lapisan PNG lutsinar. Teks kekal sebahagian daripada setiap imej.",
+    "layerSeparate": "Asingkan lapisan",
+    "layerPending": "Kerja disimpan: {{status}}. Ambil atau cuba simpan semula tanpa bayaran lain.",
+    "layerCollect": "Ambil / cuba simpan semula",
+    "layerOpen": "Buka lapisan dalam editor",
+    "layerExport": "Eksport lapisan PNG + ZIP manifest",
+    "layerNumber": "Lapisan {{number}}",
+    "priceRetry": "Harga tidak dapat disahkan. Semak harga dan cuba lagi.",
+    "avatarTitle": "Potret bercakap",
+    "avatarRequirements": "Potret PNG segi empat sama, 512–2048 piksel, sehingga 5 MB. WAV PCM mono 24 kHz 16-bit, 5–30 saat. Pecahan terakhir sesaat dipadankan dengan senyap.",
+    "avatarPortrait": "Pilih potret PNG",
+    "avatarAudio": "Pilih WAV pertuturan",
+    "avatarPermission": "Saya mempunyai kebenaran untuk menganimasikan potret ini dan menggunakan audio ini.",
+    "avatarQuote": "{{seconds}} saat termasuk senyap · {{amount}} token",
+    "avatarPrepare": "Sediakan dan semak harga",
+    "batchFlowLimit": "Senarai Flow sudah penuh. Buang Flow yang tidak digunakan sebelum mencipta kelompok lain.",
+    "batchReviewCampaign": "Semak kelompok kempen dalam Flow",
+    "batchReviewFilmImages": "Semak kelompok imej papan cerita",
+    "batchReviewFilmVideos": "Semak kelompok klip filem",
+    "batchReviewHint": "Membuka Flow tersimpan yang berasingan. Semak setiap item dan harga penuh sebelum membayar. Item yang selesai dan bayaran asal disimpan untuk pemulihan. Rujukan disalin ke pustaka peribadi anda; penggunaan storan dan rangkaian dikenakan.",
+    "batchInvalid": "Lengkapkan setiap item sebelum menyediakan kelompok 1–12 imej atau klip.",
+    "batchReferenceLimit": "Kelompok ini menyokong satu rujukan imej bagi setiap item. Buang rujukan tambahan atau sediakan item itu secara berasingan.",
+    "batchVideoSettings": "Untuk kelompok ini, klip memerlukan tempoh penuh 4–15 saat dan nisbah aspek 16:9, 9:16 atau 1:1.",
+    "batchMissingReference": "Rujukan hilang, tidak disokong atau lebih besar daripada 25 MB. Pulihkannya dalam penyunting sebelum menyediakan kelompok.",
+    "batchOwnerChanged": "Akaun atau draf telah berubah. Buka semula kelompok ini di bawah akaun asalnya.",
+    "batchConflict": "Kelompok tersimpan tidak sepadan dengan petikan asalnya.",
+    "campaignPlanTitle": "Varian dan episod kempen",
+    "campaignPlanIntro": "Simpan sehingga 12 variasi atau episod. Setiap satu membuka studio untuk semakan dan sebut harganya sendiri. Nota bersama membimbing kesinambungan; rupa produk, watak dan suara boleh berbeza antara penjanaan.",
+    "campaignTitle": "Nama kempen atau siri",
+    "campaignContinuity": "Nota watak, suara dan gaya bersama",
+    "campaignVariantTitle": "Nama varian atau episod",
+    "campaignHook": "Cangkuk pembukaan",
+    "campaignLanguage": "Bahasa output",
+    "campaignScript": "Skrip atau urutan adegan yang diluluskan",
+    "campaignAdd": "Tambah varian atau episod",
+    "campaignClear": "Kosongkan pelan",
+    "campaignFormat": "Format output",
+    "audioExportFormat": "Format eksport",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Lampirkan satu klip sumber untuk dipanjangkan.",
+    "extensionSeconds": "+{{seconds}}s rakaman baharu",
+    "extensionHelp": "Mengembalikan klip sumber anda dengan kira-kira empat saat baharu. Output diubah saiz sehingga 720p pada 24 fps. Audio baharu dijana untuk sambungan.",
+    "extensionForward": "Tambah kira-kira empat saat selepas klip sumber anda",
+    "extensionBackward": "Tambah kira-kira empat saat sebelum klip sumber anda",
+    "expandDescription": "Jana sempadan imej baharu. Gesaan bahasa Inggeris pilihan; satu imej sumber.",
+    "relightDescription": "Ubah pencahayaan satu foto berdasarkan huraian pencahayaan dan latar belakang anda.",
+    "expandPromptHint": "Lampirkan satu imej dan pilih nisbah aspek baharunya. Gesaan bahasa Inggeris pilihan.",
+    "expandEnglishOnly": "Model pembesaran ini menerima gesaan bahasa Inggeris. Biarkan gesaan kosong untuk pembesaran automatik.",
+    "expandNeedsImage": "Lampirkan imej untuk dibesarkan.",
+    "learn": {
+      "title": "Pelajaran Creator",
+      "intro": "Pelajaran ringkas, semakan pengetahuan dan latihan boleh sunting untuk setiap satu. Kemajuan disimpan pada peranti ini untuk akaun anda.",
+      "back": "Kembali ke Creator",
+      "lessons": "Pelajaran",
+      "progress": "{{completed}} daripada {{total}} semakan pengetahuan lulus",
+      "check": "Semak jawapan",
+      "correct": "Semakan pengetahuan lulus",
+      "retry": "Cuba lagi. Semak pelajaran di atas.",
+      "exerciseTitle": "Latihan praktikal",
+      "exerciseHint": "Buka contoh boleh sunting dalam ruang kerja studio anda sendiri. Membuka draf adalah percuma; penjanaan memerlukan semakan anda dan sebut harganya sendiri. Sunting contoh sebelum menjana.",
+      "openExercise": "Buka draf latihan",
+      "closeExercise": "Tutup latihan",
+      "brief": {
+        "title": "Tulis taklimat visual yang jelas",
+        "body1": "Huraikan subjek yang konkrit, tindakannya dan latarnya. Tambah pembingkaian atau pergerakan kamera apabila ia membantu adegan. Simpan idea yang tidak berkaitan untuk draf lain.",
+        "body2": "Arahan pencahayaan, lensa dan gaya membimbing model. Ia tidak menjamin tingkah laku kamera fizikal atau imej yang tepat. Ubah satu bahagian pada satu masa supaya anda boleh membandingkan semakan.",
+        "body3": "Sebelum menjana, semak model yang dipilih, lampiran yang disokong, dimensi dan harga. Simpan draf asal supaya anda boleh kembali kepadanya.",
+        "question": "Taklimat manakah yang paling mudah disemak semula?",
+        "answer0": "Subjek, tindakan dan latar yang jelas",
+        "answer1": "Hanya nama model",
+        "answer2": "Senarai gaya yang bercanggah",
+        "exercise": "Teko seramik di atas meja kayu di sebelah tingkap. Cahaya pagi yang lembut, pembingkaian sederhana, latar belakang ringkas. Kekalkan teko sebagai subjek yang jelas."
+      },
+      "continuity": {
+        "title": "Rancang syot dan semak kesinambungan",
+        "body1": "Gunakan panel Filem dalam penyunting untuk menyimpan taklimat dan syot tersusun. Sediakan setiap bingkai atau klip secara berasingan, semak sebut harganya, dan pilih hasil yang diterima.",
+        "body2": "Lampirkan hanya rujukan yang diterima oleh model pilihan anda. Menggunakan semula rujukan boleh membimbing rupa; ia tidak melatih identiti atau menjamin padanan. Watak dan suara boleh berbeza antara penjanaan.",
+        "body3": "Simpan rakaman yang berjaya dan himpunkannya dalam garis masa. Semak pergerakan, wajah, dialog dan peralihan sebelum eksport.",
+        "question": "Apakah yang menyokong kesinambungan merentas syot?",
+        "answer0": "Lebih banyak gesaan yang tidak berkaitan",
+        "answer1": "Rujukan yang diluluskan dan nota syot yang disemak",
+        "answer2": "Menganggap identiti watak terjamin",
+        "exercise": "Syot lebar seorang pengembara bersendirian tiba di pantai yang sunyi ketika matahari terbit. Pergerakan kamera perlahan ke hadapan, suasana tenang. Satu syot berterusan."
+      },
+      "campaign": {
+        "title": "Gunakan fakta produk yang diluluskan",
+        "body1": "Mulakan dengan fakta produk yang boleh anda sahkan. Semak metadata yang diimport sebelum menggunakannya. Tulis tajuk utama dan seruan tindakan secara jelas; jangan reka harga, ulasan atau dakwaan prestasi.",
+        "body2": "Gunakan varian kempen tersimpan untuk mengumpulkan nota bersama serta cangkuk, skrip, bahasa dan format individu. Sediakan satu item yang disemak pada satu masa dan semak sebut harganya dalam studio.",
+        "body3": "Semak teks yang kelihatan, rupa produk dan sebarang dakwaan lisan dalam hasilnya. Gesaan bukan bukti ketepatan produk atau prestasi pemasaran.",
+        "question": "Bilakah dakwaan produk patut dimasukkan?",
+        "answer0": "Bila-bila masa ia kedengaran meyakinkan",
+        "answer1": "Selepas mereka ulasan lima bintang",
+        "answer2": "Apabila ia datang daripada fakta produk yang diluluskan",
+        "exercise": "Cipta iklan produk potret untuk teh daun penuh yang dijual dalam tin boleh guna semula. Tajuk utama diluluskan: Luangkan masa untuk teh. CTA diluluskan: Terokai koleksi. Gunakan fakta ini sahaja; jangan reka diskaun, ulasan atau dakwaan kesihatan."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "Sembang ini memainkan rakaman peribadi yang disimpan pada peranti ini. Untuk peranti lain, buka pustaka Creator anda selepas simpanan awan selesai. Jika anda keluar sekarang, buka semula sembang ini untuk selesai menyimpan.",
+    "batchPaymentHelp": "Setiap imej yang dihantar dicaj secara berasingan. Jika kelompok berhenti, token yang tidak digunakan daripada bayarannya digunakan semula secara automatik untuk penjanaan kemudian yang diliputinya.",
+    "endFrameHelp": "Tambah imej permulaan dengan butang lampiran.",
+    "seed": "Seed (pilihan, 0–2147483647)",
+    "negativePrompt": "Prompt negatif (pilihan)",
+    "invalidSeed": "Seed mestilah nombor bulat dari 0 hingga 2147483647.",
+    "endFrameNeedsStart": "Lampirkan imej permulaan sebelum memilih bingkai akhir.",
+    "batchStopped": "Kelompok dihentikan selepas {{submitted}} daripada {{quantity}} serahan. {{remaining}} tidak diserahkan. Imej yang siap telah disimpan.",
+    "audioInvalidTask": "Pilih tugas audio yang disokong.",
+    "audioNeedsFile": "Lampirkan fail audio atau video yang disokong dahulu.",
+    "audioTextLimit": "Pertuturan dan dialog membenarkan 1–5000 aksara; kesan bunyi membenarkan 1–1000.",
+    "audioDurationLimit": "Tempoh bunyi mesti Auto (0) atau 0.5–30 saat.",
+    "audioModels": "Model audio lain",
+    "audioAttach": "Lampirkan rakaman",
+    "audioAttachFailed": "Tidak dapat melampirkan rakaman itu.",
+    "audioSeconds": "Saat (0 = Auto)",
+    "audioInvalidResponse": "Perkhidmatan audio mengembalikan hasil yang tidak sah.",
+    "audioResultTooLarge": "Hasil audio kosong atau melebihi 50 MB.",
+    "audioFailed": "Tidak dapat memproses audio itu.",
+    "libraryFavorites": "Kegemaran",
+    "libraryFavoriteAdd": "Tambah ke kegemaran",
+    "libraryFavoriteRemove": "Buang daripada kegemaran"
   },
   "fractions": {
     "title": "Pecahan",
@@ -13204,7 +14207,8 @@
     "offerSubmitted_other": "Tawaran diserahkan untuk {{count}} pecahan pada {{price}} token setiap satu",
     "yourOfferLabel": "Tawaran Anda (token setiap Pecahan)",
     "listedToast_one": "Tersenarai {{count}} pecahan pada {{price}} token setiap satu",
-    "listedToast_other": "Tersenarai {{count}} pecahan pada {{price}} token setiap satu"
+    "listedToast_other": "Tersenarai {{count}} pecahan pada {{price}} token setiap satu",
+    "nftsSubtitle": "Sebarang NFT, tukaran satu langkah"
   },
   "moderation": {
     "appealDuplicate": "Anda telah membuat rayuan ini",
@@ -13304,7 +14308,11 @@
     "ended": "Tamat",
     "stage": "Pentás",
     "upcomingStage": "Pentás akan datang",
-    "members": "{{compact}} ahli"
+    "members": "{{compact}} ahli",
+    "requestComments_one": "{{compact}} komen",
+    "requestComments_other": "{{compact}} komen",
+    "requestVotes_one": "{{compact}} undi",
+    "requestVotes_other": "{{compact}} undi"
   },
   "report": {
     "whyVideo": "Mengapakah anda melaporkan video ini?",
@@ -14561,7 +15569,14 @@
     "faqWhatA": "Melalui MCP, ia boleh melayari siaran awam Riftn, mencari topik dan melihat profil pencipta. Ia tidak menyiarkan bagi pihak anda.",
     "faqAccountQ": "Adakah saya perlukan akaun Riftn?",
     "chatgptFaqAccount": "Tiada akaun diperlukan untuk membaca kandungan awam melalui penyambung. Akaun Riftn hanya diperlukan jika anda ingin menyiarkan, memberi tip atau memegang token Riftn.",
-    "claudeFaqAccount": "Tidak. Membaca kandungan awam berfungsi tanpa akaun. Anda hanya memerlukan akaun Riftn untuk menyiarkan, memberi tip atau memegang token Riftn."
+    "claudeFaqAccount": "Tidak. Membaca kandungan awam berfungsi tanpa akaun. Anda hanya memerlukan akaun Riftn untuk menyiarkan, memberi tip atau memegang token Riftn.",
+    "subtitleAccount": "Guna Riftn dari ChatGPT, Claude atau mana-mana aplikasi MCP. Layari tanpa akaun, atau log masuk untuk menyimpan draf peribadi, menerbit dan menjadualkan hantaran, mengurus imej dan undian, membaca analitik, membalas dan mengikuti.",
+    "agentsTitle": "Jalankan ejen anda daripada pembantu anda",
+    "agentsBody": "Semasa menyambung, benarkan juga \"Bertindak sebagai ejen anda\". Pembantu anda kemudian boleh menyiarkan hantaran, membalas, memberi reaksi, menyiarkan semula, mengikuti atau menyunting profil sebagai mana-mana ejen milik anda. Ia tidak boleh bertindak sebagai akaun yang bukan milik anda.",
+    "keysTitle": "Kunci peribadi",
+    "keysBody": "Untuk skrip, bot dan aplikasi yang tidak dapat membuka halaman log masuk. Kunci hanya melakukan apa yang anda benarkan dan tamat selepas 30 hari tidak digunakan.",
+    "keysMake": "Buat kunci peribadi",
+    "manageLinked": "Urus aplikasi dan kunci yang dipautkan"
   },
   "credits": {
     "percentUsed": "{{percent}}% digunakan",
@@ -14661,7 +15676,10 @@
       "title": "Bayar {{name}}?",
       "body": "token langsung ke dompet aplikasi, {{wallet}}. Pembayaran tidak boleh dibatalkan.",
       "confirm": "Bayar {{amount}} token",
-      "sent": "Bayar {{amount}} token kepada {{name}}."
+      "sent": "Bayar {{amount}} token kepada {{name}}.",
+      "testBadge": "Mod ujian",
+      "testBody": "Anda memiliki aplikasi ini, jadi ini ialah ujian: tiada token berpindah dan resit ditandakan sebagai ujian.",
+      "testSent": "Bayaran ujian sebanyak {{amount}} token. Tiada apa-apa dihantar."
     },
     "add": {
       "confirm": "Tambah aplikasi",
@@ -14775,7 +15793,16 @@
     "level": "Tahap {{level}}",
     "streak_one": "{{count}}minggu berturut-turut",
     "streak_other": "{{count}}minggu berturut-turut",
-    "tipJar": "Balang hadiah"
+    "tipJar": "Balang hadiah",
+    "eyebrow": {
+      "follow": "Pengikut baharu",
+      "subscribe": "Pelanggan baharu",
+      "subscribedTo": "Melanggan · {{plan}}",
+      "gifted_one": "Menghadiahkan satu langganan",
+      "gifted_other": "Menghadiahkan {{count}} langganan",
+      "share": "Berkongsi strim",
+      "join": "Baru menyertai"
+    }
   },
   "liveStudio": {
     "controls": {
@@ -15141,8 +16168,21 @@
         "off": "Lumpuh",
         "idle": "Sedia",
         "live": "Langsung",
-        "error": "Ralat"
-      }
+        "error": "Ralat",
+        "connecting": "Menyambung"
+      },
+      "title": "Destinasi multistrim",
+      "intro": "Siarkan langsung di Riftn sekali dan kami tolak strim anda ke setiap platform yang dihidupkan di sini, percuma. Ia bermula dalam beberapa saat selepas anda bersiaran langsung.",
+      "add": "Tambah destinasi",
+      "empty": "Belum ada destinasi. Tambah Twitch, YouTube, Kick atau mana-mana pelayan RTMP.",
+      "platform": "Platform",
+      "server": "URL pelayan",
+      "findKey": "Cari pelayan dan kunci {{name}} anda",
+      "customHint": "Tampal pelayan RTMP dan kunci yang diberikan oleh platform anda.",
+      "keyNote": "Kunci anda disimpan secara tersulit di pelayan kami dan tidak akan ditunjukkan lagi.",
+      "added": "{{name}} ditambah",
+      "saveFailed": "Tidak dapat menyimpan destinasi",
+      "toggle": "Strim ke destinasi ini"
     }
   },
   "liveChatModeration": {
@@ -15197,7 +16237,8 @@
     "joinedBodyNoEmail": "Kami akan menghantar email kepada anda apabila token dilancarkan.",
     "failed": "Tidak dapat menyimpan itu. Coba lagi.",
     "privacy": "Hanya digunakan untuk memberitahu tentang pelancaran.",
-    "emailLabel": "Emel"
+    "emailLabel": "Emel",
+    "emailPlaceholder": "E-mel anda"
   },
   "githubLink": {
     "hint": "Daftar masuk ke GitHub untuk membuktikan akaun itu milik anda. Riftn hanya melihat profil GitHub awam anda.",
@@ -15233,7 +16274,9 @@
       "caption": "Teks ini tidak diberikan.",
       "alt": "Teks alternatif: apa yang dipaparkan oleh halaman",
       "cover": "Kulit"
-    }
+    },
+    "cards": "Kembali ke kad",
+    "readAll": "Baca semua halaman"
   },
   "nftMarket": {
     "dehubPostsName": "Riftn Posts",
@@ -15304,7 +16347,59 @@
     "endPrice": "Harga terendah, dicapai pada akhir ({{symbol}})",
     "dropBadge": "Penurunan harga",
     "days_one": "{{count}} hari",
-    "days_other": "{{count}} hari"
+    "days_other": "{{count}} hari",
+    "actCollectionOffer": "Tawaran koleksi",
+    "actListed": "Disenaraikan",
+    "actSale": "Jualan",
+    "buyAll": "Beli semua",
+    "buySeveral": "Beli beberapa",
+    "cartBought": "{{n}} dibeli. Ia kini dalam dompet anda.",
+    "cartCount": "{{n}} dalam troli",
+    "cartFull": "Sehingga 20 pada satu masa",
+    "cartOneCoin": "Satu rantaian dan satu syiling bagi setiap troli. Kosongkannya untuk menukar.",
+    "cartOwn": "Yang itu milik anda",
+    "cartPick": "Ketik untuk tambah ke troli",
+    "forSaleHere": "Dijual di sini",
+    "noActivity": "Belum ada apa-apa di sini",
+    "shareMessage": "Beli dan jual NFT di Riftn",
+    "loadFailed": "Tidak dapat memuatkan pasaran. Tarik untuk cuba semula.",
+    "signInTitle": "Log masuk untuk melihat NFT anda",
+    "walletOn": "NFT dalam dompet anda di {{chain}}",
+    "listedAt": "Disenaraikan",
+    "noneHeld": "Belum ada NFT dalam dompet ini",
+    "title": "NFT",
+    "subtitle": "Beli dan jual di BNB, Base, Ethereum dan Robinhood",
+    "startHint": "Senaraikan NFT daripada Milik Anda untuk menjadi yang pertama.",
+    "wrongChain": "Tukar dompet anda ke {{chain}} untuk berdagang ini",
+    "failed": "Tidak berjaya. Cuba lagi.",
+    "bought": "Ia milik anda",
+    "cancelledOrder": "Dibatalkan di rantaian",
+    "notEnough": "{{symbol}} tidak mencukupi dalam dompet anda",
+    "offerSent": "Tawaran dihantar",
+    "feeRow": "Yuran Riftn ({{pct}}%)",
+    "royaltyRow": "Royalti pencipta",
+    "youGet": "Anda dapat",
+    "holderGets": "Pemegang dapat",
+    "cancelListing": "Batalkan penyenaraian",
+    "buyConfirm": "Beli {{name}}?",
+    "volShort": "Vol",
+    "salesCount": "{{n}} terjual",
+    "bestOffer": "Tawaran terbaik",
+    "fromOpenSea": "Koleksi teratas di OpenSea",
+    "buyHere": "Beli di sini",
+    "openSeaNote": "Disenaraikan di OpenSea. Anda membayar penjual terus di Seaport; Riftn tidak menambah sebarang yuran.",
+    "notListed": "Tidak disenaraikan untuk dijual sekarang.",
+    "priceLabel": "Harga yang dibayar pembeli",
+    "offerLabel": "Tawaran anda",
+    "list": "Senaraikan",
+    "sendOffer": "Hantar tawaran",
+    "listHint": "Menandatangani adalah percuma. Jualan pertama daripada koleksi meminta anda meluluskannya sekali.",
+    "offerHint": "Menandatangani adalah percuma. Token anda kekal dalam dompet anda sehingga pemegang menerima.",
+    "viewOnly": "Membeli dan menjual NFT tidak tersedia dalam aplikasi ini.",
+    "tradeOnWeb": "Berdagang di riftn.com",
+    "feesFootnote": "Yuran: 2%, atau 1% apabila membayar dengan token. Setiap dagangan ialah satu tukaran di rantaian.",
+    "shortTitle": "NFT",
+    "bundleBadge": "Berkas ×{{n}}"
   },
   "riftnMove": {
     "title": "DeHub kini Riftn",
@@ -15335,7 +16430,11 @@
     "loading": "Sedang memuat...",
     "paused": "Dipauskan",
     "preview": "Pratonton",
-    "seek": "Mencari"
+    "seek": "Mencari",
+    "popOut": "Keluarkan",
+    "backInPost": "Main di sini sahaja",
+    "inCorner": "Dimainkan di sudut",
+    "tapToStartApp": "Ketik main dalam pemain Spotify"
   },
   "twoFactor": {
     "wrongCode": "Kod itu tidak sepadan. Cuba kod terbaru dalam aplikasi anda.",
@@ -15417,18 +16516,57 @@
   "chatTextSize": {
     "title": "Saiz teks",
     "default": "Lalai",
-    "larger": "Lebih besar"
+    "larger": "Lebih besar",
+    "small": "Kecil",
+    "large": "Besar",
+    "largest": "Terbesar"
   },
   "remix": {
-    "cut": "Potong"
+    "cut": "Potong",
+    "title": "Remix",
+    "greenScreen": "Skrin hijau",
+    "collab": "Kolaborasi",
+    "sound": "Gunakan bunyi",
+    "unavailable": "Video ini tidak tersedia untuk remix.",
+    "openFailed": "Remix tidak dapat dibuka. Semak sambungan dan kebenaran kamera anda, kemudian cuba lagi.",
+    "tooLarge": "Rakaman ini terlalu besar. Rakam ambilan yang lebih pendek.",
+    "invalidRecording": "Rakaman tidak dapat dibaca. Sila rakam ambilan lain.",
+    "saveFailed": "Remix tidak dapat disimpan. Sila cuba lagi.",
+    "startHint": "Pratonton kamera anda di atas video ini, kemudian rakam remix anda. Meninggalkan skrin ini menghentikan kamera.",
+    "openCamera": "Buka kamera"
   },
   "signedFollows": {
     "setUp": "Hidupkan",
     "turnOff": "Matikan",
-    "efpTurnOff": "Hentikan"
+    "efpTurnOff": "Hentikan",
+    "title": "Ikutan anda, di rantaian",
+    "description": "Dompet anda menandatangani siapa yang anda ikuti, dan setiap hari senarai itu dicop di Base. Mana-mana aplikasi boleh mencari ikutan anda daripada dompet anda, walaupun tanpa Riftn.",
+    "on": "Hidup untuk peranti ini",
+    "off": "Mati untuk peranti ini",
+    "turnedOn": "Ikutan anda kini ditandatangani oleh dompet anda",
+    "turnedOff": "Dimatikan untuk peranti ini",
+    "failed": "Dompet anda tidak menandatangani. Cuba lagi.",
+    "hiddenNote": "Senarai ikutan tersembunyi dan akaun peribadi tidak dimasukkan dalam senarai awam.",
+    "efpOn": "Disalin ke EFP · {{count}} ikutan",
+    "efpOff": "Letakkan juga di EFP",
+    "efpTurnOn": "Tambah ke EFP",
+    "efpDone": "Ikutan anda sedang dimasukkan ke EFP",
+    "efpStopped": "Salinan EFP dihentikan. Senarai itu tetap milik anda.",
+    "efpHasList": "Anda sudah mempunyai senarai EFP. Riftn belum dapat mengisinya lagi.",
+    "efpNoGas": "Dompet anda memerlukan sedikit ETH di Base untuk ini.",
+    "efpFailed": "Tidak berjaya. Cuba lagi.",
+    "efpNote": "EFP ialah senarai ikutan yang dibaca oleh aplikasi lain (efp.app). Percuma dengan dompet Riftn anda; dompet lain membayar beberapa sen di Base. Senarai itu milik anda.",
+    "efpUseWeb": "Dengan dompet anda sendiri, lakukan ini dalam Tetapan di riftn.com."
   },
   "postEditHistory": {
-    "original": "Asal"
+    "original": "Asal",
+    "title": "Sejarah suntingan",
+    "edited_one": "Disunting sekali",
+    "edited_other": "Disunting {{count}} kali",
+    "lastEdit": "Suntingan terakhir {{time}}",
+    "editN": "Suntingan {{n}}",
+    "now": "Sekarang",
+    "showChanges": "Tunjukkan apa yang berubah"
   },
   "studioDeck": {
     "remove": "Alih keluar",
@@ -15437,34 +16575,95 @@
       "modes": {
         "none": "Lumpuh",
         "blur": "Kabur",
-        "color": "Warna"
-      }
+        "color": "Warna",
+        "image": "Gambar"
+      },
+      "failed": "Pembuangan latar belakang tidak dapat dimulakan pada peranti ini.",
+      "hint": "Berjalan pada peranti anda. Kali pertama mengambil beberapa saat untuk dimuatkan."
     },
     "scenes": {
       "countdown": "Kiraan mengundur",
       "names": {
-        "starting": "Bermula tidak lama lagi"
+        "starting": "Bermula tidak lama lagi",
+        "chatting": "Sekadar bersembang",
+        "brb": "Sekejap lagi kembali",
+        "ending": "Strim tamat"
+      },
+      "title": "Adegan",
+      "picture": "Gambar",
+      "noCountdown": "Tiada kiraan detik",
+      "minutes": "{{count}} min",
+      "hints": {
+        "starting": "Kad dengan kiraan detik",
+        "chatting": "Kamera skrin penuh",
+        "brb": "Kad, mikrofon dibisukan",
+        "ending": "Kad terima kasih"
+      },
+      "subtitles": {
+        "starting": "Strim bermula dalam",
+        "brb": "Kembali sebentar lagi",
+        "ending": "Terima kasih kerana menonton"
       }
     },
     "widgets": {
-      "tab": "Widget"
+      "tab": "Widget",
+      "title": "Tunjukkan widget dalam video saya",
+      "hint": "Makluman, bar matlamat dan sembang dilukis ke dalam strim anda, jadi penonton di Twitch, YouTube dan setiap platform lain turut melihatnya.",
+      "failed": "Tidak dapat menukar tempat widget anda dipaparkan. Cuba lagi."
     },
     "sources": {
       "image": "Imej",
       "show": "Tunjukkan pada strim",
       "positions": {
-        "center": "Tengahkan"
+        "center": "Tengahkan",
+        "top-left": "Atas kiri",
+        "top-right": "Atas kanan",
+        "bottom-left": "Bawah kiri",
+        "bottom-right": "Bawah kanan"
       },
       "sizes": {
-        "medium": "Sederhana"
-      }
+        "medium": "Sederhana",
+        "small": "Kecil",
+        "large": "Besar"
+      },
+      "title": "Sumber",
+      "addImage": "Imej atau logo",
+      "failed": "Tidak dapat menambah sumber itu.",
+      "hint": "Sumber dilukis di atas gambar anda untuk setiap penonton dan setiap platform."
+    },
+    "phone": {
+      "title": "Studio"
     }
   },
   "whenSheet": {
     "today": "Hari ini",
     "tooSoon": "Pilih masa di masa hadapan.",
     "show": "Tunjukkan",
-    "hide": "Sembunyikan"
+    "hide": "Sembunyikan",
+    "title": "Bila?",
+    "tonight": "Malam ini",
+    "inAnHour": "Dalam sejam",
+    "tomorrow": "Esok",
+    "primeTime": "Waktu perdana",
+    "scheduleFor": "Jadualkan untuk {{when}}",
+    "liveTip": "Pengikut anda boleh menetapkan peringatan. Anda sendiri yang memulakan Live apabila tiba masanya.",
+    "stageTip": "Ia terus masuk ke rak Akan Datang, jadi orang boleh ketik Ingatkan saya.",
+    "typePlaceholder": "Taip masa, seperti \"jum 8pm\" atau \"dalam 2 jam\"",
+    "typeLabel": "Taip masa",
+    "typeHelp": "Cuba \"malam ini\", \"esok 9am\", \"sab tengah hari\" atau \"30 okt 7pm\".",
+    "orPickDay": "Atau pilih hari",
+    "earlier": "15 minit lebih awal",
+    "later": "15 minit lebih lewat",
+    "earlierShort": "Lebih awal",
+    "laterShort": "Kemudian",
+    "tooSoonMin": "Pilih masa sekurang-kurangnya {{count}} minit dari sekarang.",
+    "zone": "Waktu anda ({{zone}}). Orang lain melihatnya dalam waktu mereka sendiri.",
+    "remove": "Buang jadual",
+    "startsIn": "Bermula dalam {{time}}",
+    "bestTime": "Masa terbaik",
+    "fansOnline": "Bilakah peminat saya dalam talian?",
+    "fansBasis": "Lebih terang bermaksud lebih ramai pengikut anda menonton, {{count}} hari lepas.",
+    "everyoneBasis": "Aktiviti pengikut belum mencukupi, jadi ini ialah semua orang di Riftn."
   },
   "planned": {
     "title": "Dirancang",
@@ -15479,22 +16678,45 @@
     "loading": "Memuatkan…",
     "startNow": "Mulakan sekarang",
     "cancel": "Batal",
-    "cancelled": "Dibatalkan"
+    "cancelled": "Dibatalkan",
+    "subtitle": "Siaran, Live dan Stage yang telah anda jadualkan",
+    "seoTitle": "Dirancang · Riftn",
+    "seoDescription": "Siaran, Live dan Stage berjadual anda di Riftn, semuanya di satu tempat.",
+    "lives": "Live",
+    "signIn": "Log masuk untuk melihat apa yang telah anda rancang",
+    "emptyTitle": "Belum ada apa-apa dirancang",
+    "emptyBody": "Pilih \"Bila?\" semasa membuat siaran, Live atau Stage dan ia akan dipaparkan di sini.",
+    "move": "Alih",
+    "postNow": "Siarkan sekarang",
+    "confirmCancel": "Ketik sekali lagi untuk membatalkan",
+    "moved": "Dialihkan ke {{when}}",
+    "postingNow": "Menyiarkan dalam masa kurang seminit",
+    "moveFailed": "Tidak dapat mengalihkannya. Cuba lagi.",
+    "seeAll": "Lihat semua yang telah anda rancang"
   },
   "welcome": {
     "about": {
       "title": "Selamat datang ke Riftn",
       "day": "Hari",
       "month": "Bulan",
-      "year": "Tahun"
+      "year": "Tahun",
+      "sub": "Hari lahir anda kekal peribadi. Pilih rupa, anda boleh mengubahnya bila-bila masa.",
+      "birthday": "Tarikh lahir",
+      "pick": "Pilih hari lahir anda",
+      "invalid": "Masukkan tarikh lahir penuh anda.",
+      "tooYoung": "Anda perlu berumur {{age}} tahun atau lebih untuk menggunakan Riftn.",
+      "theme": "Rupa anda"
     },
     "name": {
       "title": "Nama anda",
-      "placeholder": "Nama anda"
+      "placeholder": "Nama anda",
+      "sub": "Ini ialah nama yang dilihat orang pada siaran anda."
     },
     "card": {
       "name": "Nama anda",
-      "followers": "pengikut"
+      "followers": "pengikut",
+      "interests": "Minat anda",
+      "following": "mengikuti"
     },
     "topic": {
       "music": "Muzik",
@@ -15506,11 +16728,47 @@
       "film": "Filem",
       "food": "Makanan",
       "news": "Berita",
-      "science": "Sains"
+      "science": "Sains",
+      "travel": "Pelancongan",
+      "anime": "Anime",
+      "cars": "Kereta",
+      "podcast": "Podcast",
+      "animals": "Haiwan",
+      "tech": "Teknologi"
     },
     "back": "Kembali",
     "skipPhoto": "Langkau buat masa ini",
-    "preview": "Siaran awal"
+    "preview": "Siaran awal",
+    "username": {
+      "title": "@namapengguna anda",
+      "sub": "Huruf, nombor dan garis bawah. Anda boleh mengubahnya kemudian.",
+      "yours": "@{{name}} milik anda"
+    },
+    "photo": {
+      "title": "Foto anda",
+      "sub": "Pilihan. Orang lebih cepat mengikuti wajah.",
+      "choose": "Pilih foto",
+      "change": "Pilih yang lain"
+    },
+    "interests": {
+      "title": "Minat anda",
+      "sub": "Pilih sekurang-kurangnya 3. Ia diutamakan dalam kategori anda."
+    },
+    "people": {
+      "title": "Orang anda",
+      "sub": "Ketik untuk ikuti. Siaran mereka mengisi suapan Mengikuti anda.",
+      "empty": "Tiada cadangan sekarang. Teroka mempunyai lebih ramai orang untuk ditemui.",
+      "followers": "{{count}} pengikut"
+    },
+    "done": {
+      "title": "Nampak hebat, {{name}}",
+      "sub": "Semua orang melihat kad ini mulai hari ini.",
+      "eyebrow": "Profil aktif"
+    },
+    "enter": "Masuk Riftn",
+    "pickMore": "Pilih {{count}} lagi",
+    "cardHint": "Beginilah orang akan melihat anda",
+    "followFailed": "Tidak dapat mengikuti. Cuba lagi."
   },
   "appTokens": {
     "title": "Token Anda",
@@ -15520,10 +16778,36 @@
     "amount": "Jumlah",
     "notePlaceholder": "Tambah nota (pilihan)",
     "sendButton": "Hantar",
-    "errorInsufficient": "Token tidak mencukupi"
+    "errorInsufficient": "Token tidak mencukupi",
+    "rowHint": "Baki dalam aplikasi",
+    "explainer": "Token anda kini berada di dalam Riftn. Anda bermula dengan apa yang anda pegang dan stake di rantaian semasa pelancaran. Menghantar, memberi tip dan berbelanja memindahkannya serta-merta, tanpa yuran dan tiada apa-apa di rantaian. Baki dibawa ke token baharu semasa airdrop.",
+    "kindOpening": "Baki permulaan",
+    "kindSent": "Dihantar kepada {{name}}",
+    "kindReceived": "Daripada {{name}}",
+    "kindSpent": "Dibelanjakan dalam Riftn",
+    "kindRefund": "Bayaran balik",
+    "kindDeposit": "Deposit",
+    "kindAdjust": "Pelarasan oleh Riftn",
+    "sendTitle": "Hantar token",
+    "sendHint": "Menghantar token di dalam Riftn ke akaun lain. Serta-merta dan percuma, tiada apa-apa di rantaian.",
+    "toPlaceholder": "@namapengguna atau alamat 0x",
+    "looking": "Mencari…",
+    "available": "Tersedia: {{amount}}",
+    "sent": "{{amount}} token dihantar kepada {{name}}",
+    "errorRateLimit": "Terlalu banyak penghantaran dalam sejam lepas. Cuba lagi nanti.",
+    "errorNoRecipient": "Tiada akaun Riftn ditemui",
+    "errorSelf": "Anda tidak boleh menghantar kepada diri sendiri",
+    "errorGeneric": "Tidak dapat menghantar. Cuba lagi."
   },
   "avatarPrompt": {
-    "notNow": "Tidak sekarang"
+    "notNow": "Tidak sekarang",
+    "title": "Tambah foto profil",
+    "body": "Orang lebih cepat mengenali anda dalam suapan, komen dan sembang apabila anda mempunyai wajah atau logo.",
+    "choose": "Pilih foto",
+    "another": "Pilih yang lain",
+    "save": "Gunakan foto ini",
+    "saved": "Nampak hebat",
+    "failed": "Tidak dapat menyimpan foto anda. Cuba lagi."
   },
   "postStats": {
     "audience": "Khalayak",
@@ -15541,35 +16825,159 @@
     "shares": "Kongsi",
     "signedOutViewers": "Log keluar",
     "topSupporters": "Penyokong utama",
-    "visitors": "Log keluar"
+    "visitors": "Log keluar",
+    "aboutUsual": "berbanding biasa anda",
+    "afterWatching": "mengikuti selepas melihatnya",
+    "avg": "purata",
+    "avgWatch": "Purata tontonan",
+    "bestTime": "Bila orang anda menonton",
+    "bigDrop": "Penurunan besar",
+    "byBadge": "mengikut lencana",
+    "devices": "Peranti (ahli)",
+    "finishedLower": "selesai",
+    "finishedPct": "{{pct}}% menonton hingga habis",
+    "inOut": "{{in}} ahli · {{out}} log keluar",
+    "leave": "{{pct}}% keluar",
+    "linkClicks": "Klik pautan",
+    "newToYou": "baharu kepada anda",
+    "noAccount": "tiada akaun",
+    "noViewersYet": "Belum ada sesiapa melihat siaran ini.",
+    "noWatchYet": "Masa tontonan dipaparkan di sini sebaik sahaja orang memainkannya. Ia mula dikira pada 31 Okt 2026.",
+    "open": "Lihat prestasi siaran anda",
+    "otherBadges": "Lencana lain",
+    "peak": "Puncak {{time}} · {{n}}",
+    "peopleReached": "Orang dicapai",
+    "playsLower": "main",
+    "playsMembers": "Main oleh ahli",
+    "playsVisitors": "Main tanpa log masuk",
+    "profileTaps": "Ketikan ke profil anda",
+    "reach": "Capaian",
+    "saves": "Simpanan",
+    "seeAll": "Lihat semua statistik",
+    "signedIn": "log masuk",
+    "signedOutLower": "log keluar",
+    "stillWatching": "Masih menonton",
+    "timesUsual": "{{ratio}}× biasa",
+    "vsUsualPct": "{{pct}} berbanding siaran biasa anda",
+    "unavailableBody": "Hanya pencipta boleh melihat statistik siaran ini.",
+    "unavailableTitle": "Statistik tidak tersedia",
+    "vsUsual": "berbanding siaran biasa anda",
+    "watching": "Menonton",
+    "whoSawIt": "Siapa yang melihatnya",
+    "withRepeats": "{{n}} ulangan",
+    "yourFollowers": "pengikut anda",
+    "first48": "48 jam pertama",
+    "howItsDoing": "Prestasinya",
+    "bestTip": "Kebanyakan penonton anda muncul pada {{day}} sekitar pukul {{hour}}:00. Menyiarkan sejurus sebelum itu memberi permulaan terbaik kepada siaran.",
+    "last30": "30 hari lepas",
+    "day": {
+      "sun": "Ahd",
+      "mon": "Isn",
+      "tue": "Sel",
+      "wed": "Rab",
+      "thu": "Kha",
+      "fri": "Jum",
+      "sat": "Sab"
+    }
   },
   "duet": {
     "policyEveryone": "Semua orang",
     "policyFollowers": "Pengikut",
     "policyNobody": "Tiada siapa",
-    "loadMore": "Muatkan lagi"
+    "loadMore": "Muatkan lagi",
+    "with": "Duet dengan @{{username}}",
+    "withOriginal": "Duet · lihat asal",
+    "unavailable": "Video ini tidak lagi tersedia untuk duet.",
+    "allowLabel": "Benarkan duet",
+    "allowDescription": "Siapa yang boleh merakam duet bersebelahan video anda. Anda juga boleh mengubahnya pada setiap siaran.",
+    "settingsSection": "Duet",
+    "policyDefault": "Tetapan akaun",
+    "saveFailed": "Tidak dapat menyimpan. Cuba lagi.",
+    "count_one": "{{count}} duet",
+    "count_other": "{{count}} duet",
+    "pageHeading": "Duet",
+    "pageTitle": "Duet {{title}} oleh @{{creator}}",
+    "pageTitleNoCreator": "Duet {{title}}",
+    "pageDescription": "Tonton setiap duet video ini di Riftn, atau rakam duet anda sendiri sebelah-menyebelah.",
+    "empty": "Belum ada duet. Buka pilihan video dan pilih Remix → Duet untuk membuat yang pertama.",
+    "video": "Video",
+    "notFound": "Video ini tidak tersedia.",
+    "notFoundTitle": "Video tidak ditemui — Riftn",
+    "browseShorts": "Layari Shorts"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Semua orang",
       "followers": "Pengikut",
-      "nobody": "Tiada siapa"
+      "nobody": "Tiada siapa",
+      "default": "Lalai saya"
+    },
+    "shareFailed": "Tip anda telah dihantar, tetapi bahagian pencipta asal tidak berjaya.",
+    "notify": {
+      "duet": "{{name}} membuat duet dengan video anda",
+      "stitch": "{{name}} mencantum video anda",
+      "react": "{{name}} bertindak balas terhadap video anda",
+      "reactLive": "{{name}} sedang bertindak balas secara langsung terhadap video anda"
+    },
+    "linkFailed": "Siaran anda telah naik, tetapi tidak dapat dipautkan ke video asal.",
+    "settingsHeading": "Remix",
+    "stitch": {
+      "allow": "Benarkan cantuman",
+      "allowDesc": "Siapa yang boleh menggunakan sehingga 5 saat video anda dalam video mereka. Anda juga boleh mengubahnya bagi setiap siaran.",
+      "saveFailed": "Tidak dapat menyimpan tetapan cantuman anda. Cuba lagi.",
+      "settingFailed": "Siaran anda telah naik, tetapi tetapan cantumannya tidak disimpan. Ubah daripada Sunting siaran.",
+      "from": "Dicantum daripada {{name}}",
+      "count_one": "{{count}} Cantuman",
+      "count_other": "{{count}} Cantuman",
+      "listTitle": "Cantuman",
+      "listFailed": "Tidak dapat memuatkan cantuman. Cuba lagi.",
+      "listEmpty": "Belum ada cantuman.",
+      "unavailable": "Video ini tidak lagi tersedia untuk cantuman."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Semua orang",
       "followers": "Pengikut",
-      "nobody": "Tiada siapa"
+      "nobody": "Tiada siapa",
+      "default": "Lalai akaun ({{value}})"
     },
     "heading": "Tindak balas",
     "more": "Lihat lebih banyak",
     "liveNow": "Langsung",
-    "untitled": "Tindak balas"
+    "untitled": "Tindak balas",
+    "reactionTo": "Reaksi kepada",
+    "reactingTo": "Memberi reaksi kepada",
+    "count_one": "{{count}} reaksi",
+    "count_other": "{{count}} reaksi",
+    "allow": "Benarkan reaksi",
+    "remixesSection": "Remix",
+    "allowDescription": "Benarkan pencipta lain memberi reaksi kepada video anda, dirakam atau secara langsung. Anda masih boleh mengubahnya pada setiap siaran.",
+    "pageTitle": "Reaksi kepada {{title}} — Riftn",
+    "pageDescription": "Tonton pencipta memberi reaksi kepada “{{title}}” oleh {{creator}} di Riftn, dirakam dan secara langsung.",
+    "backToVideo": "Kembali ke video",
+    "empty": "Belum ada reaksi. Buka menu Remix video dan pilih Reaksi untuk menjadi yang pertama.",
+    "wasLive": "Pernah siaran langsung",
+    "thisVideo": "video ini"
   },
   "liveClips": {
     "copyLink": "Salin pautan",
-    "linkCopied": "Pautan disalin"
+    "linkCopied": "Pautan disalin",
+    "button": "Klip detik ini",
+    "capturing": "Mengambil minit terakhir strim…",
+    "failed": "Klip ini tidak dapat dibuat.",
+    "highlightTitle": "Sorotan",
+    "length": "Klip {{seconds}}s",
+    "make": "Buat klip",
+    "postToShorts": "Siarkan ke Shorts",
+    "posted": "Klip disiarkan ke Shorts",
+    "postedBody": "Klip anda ada di Shorts. Kongsikannya supaya lebih ramai orang menemui strim ini.",
+    "rendering": "Memotong klip anda. Ini mengambil masa kira-kira setengah minit…",
+    "starting": "Memulakan klip anda…",
+    "title": "Klip",
+    "titleLabel": "Tajuk klip",
+    "titlePlaceholder": "Beri klip anda tajuk",
+    "viewShort": "Lihat Short"
   },
   "liveHype": {
     "gift": {
@@ -15581,16 +16989,65 @@
       "stage": {
         "preparing": "Menyediakan…",
         "confirming": "Menunggu transaksi…",
-        "recording": "Menyelesaikan…"
-      }
+        "recording": "Menyelesaikan…",
+        "wallet": "Sahkan dalam dompet anda"
+      },
+      "open": "Hadiahkan langganan",
+      "title": "Hadiahkan langganan",
+      "mode": {
+        "random": "Penonton rawak dalam sembang",
+        "user": "Seseorang yang tertentu"
+      },
+      "randomHint": "Diberikan kepada orang yang bersembang dalam 30 minit lepas dan belum melanggan.",
+      "send_one": "Hadiahkan 1 langganan · ${{price}}",
+      "send_other": "Hadiahkan {{count}} langganan · ${{price}}",
+      "payHint": "Dibayar dalam token daripada dompet anda dalam satu pindahan.",
+      "fewer_one": "Hanya 1 orang dalam sembang boleh menerima langganan sekarang, jadi anda membayar untuk 1.",
+      "fewer_other": "Hanya {{count}} orang dalam sembang boleh menerima langganan sekarang, jadi anda membayar untuk {{count}}.",
+      "done_one": "Langganan dihadiahkan!",
+      "done_other": "{{count}} langganan dihadiahkan!",
+      "failed": "Tidak dapat menghadiahkan langganan",
+      "notReady": "Hadiah belum tersedia untuk pelan ini",
+      "noPlan": "Pilih pelan dahulu",
+      "noPlans": "{{name}} belum mempunyai pelan langganan untuk dihadiahkan."
+    },
+    "train": {
+      "level": "Kereta Hype · Tahap {{level}}",
+      "endedLevel": "Kereta Hype menamatkan tahap {{level}}!",
+      "ended": "Kereta Hype tamat",
+      "thanks_one": "Terima kasih kepada {{count}} penyokong",
+      "thanks_other": "Terima kasih kepada {{count}} penyokong",
+      "top": "Teratas: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Lain-lain",
-    "confirming": "Mengesahkan bayaran..."
+    "confirming": "Mengesahkan bayaran...",
+    "lockPhoto": "Kunci foto",
+    "lockVideo": "Kunci video",
+    "lockOnPrice": "Dikunci · {{price}} token",
+    "lockCustomLabel": "Harga tersuai dalam token",
+    "lockHint": "Mereka melihatnya kabur sehingga mereka membayar anda. Fail yang dikunci tidak disulitkan hujung ke hujung.",
+    "dhbNow": "{{dhb}} pada harga hari ini",
+    "lockCustomUsd": "$ Lain",
+    "lockCustomUsdLabel": "Harga tersuai dalam dolar",
+    "lockDhbNow": "≈ {{dhb}} hari ini. Mereka sentiasa membayar {{price}}, walau berapa pun nilai token.",
+    "lockOnUsd": "Dikunci · {{price}}",
+    "lockedPhoto": "Foto dikunci",
+    "lockedVideo": "Video dikunci",
+    "unlockFor": "Buka kunci untuk {{price}}",
+    "unlockOnWeb": "Buka kunci di riftn.com · {{price}}",
+    "stillConfirming": "Bayaran dihantar. Ia akan dibuka sebaik sahaja disahkan.",
+    "payFailed": "Tidak dapat membuka kunci",
+    "unlocked": "Dibuka",
+    "unlockedTag": "Dibuka",
+    "notYet": "Belum dibuka",
+    "uploading": "Mengunci…",
+    "unlockedByThem": "{{kind}} anda yang dikunci telah dibuka: +{{amount}} token"
   },
   "liveShorts": {
-    "live": "LANGSUNG"
+    "live": "LANGSUNG",
+    "join": "Sertai siaran langsung"
   },
   "feedFilters": {
     "clearAllShort": "Padam semua",
@@ -15599,7 +17056,20 @@
     "groupDate": "Tarikh",
     "groupSort": "Isih",
     "groupType": "Jenis",
-    "save": "Simpan"
+    "save": "Simpan",
+    "clearAll": "Kosongkan semua penapis",
+    "collapse": "Sembunyikan penapis",
+    "count": "{{count}} penapis aktif",
+    "deletePreset": "Padam {{name}}",
+    "groupAccess": "Akses",
+    "groupTag": "Tag",
+    "myPresets": "Pratetap saya",
+    "presetName": "Nama pratetap",
+    "remove": "Buang {{label}}",
+    "saveCurrent": "+ Simpan semasa",
+    "savePreset": "Simpan sebagai pratetap",
+    "show": "Tunjukkan penapis",
+    "updatePreset": "Namakan semula pratetap"
   },
   "ownKeys": {
     "working": "Sedang bekerja",
@@ -15607,7 +17077,21 @@
     "check": "Semak",
     "remove": "Alih keluar",
     "save": "Simpan",
-    "cancel": "Batal"
+    "cancel": "Batal",
+    "title": "Kunci AI anda sendiri",
+    "description": "Tambah kunci daripada penyedia AI dan alat Creator akan berjalan pada akaun anda. Riftn tidak mengenakan apa-apa caj untuk kerja tersebut. Kunci disulitkan dan tidak akan dipaparkan lagi.",
+    "invalid": "Ditolak, gantikannya",
+    "noCredit": "Kredit habis",
+    "disabled": "Dimatikan oleh Riftn",
+    "saved": "Kunci {{name}} disimpan. Alat pada {{name}} kini menggunakan akaun anda.",
+    "savedNoCredit": "Kunci {{name}} disimpan, tetapi kredit akaun telah habis.",
+    "removed": "Kunci {{name}} dibuang.",
+    "replaceKey": "Ganti kunci",
+    "add": "Tambah kunci",
+    "paste": "Tampal kunci {{name}} anda",
+    "getKey": "Dapatkan kunci {{name}}",
+    "showLess": "Tunjukkan kunci saya sahaja",
+    "addAnother": "Tambah penyedia lain"
   },
   "postBg": {
     "addMedia": "Tambah gambar, GIF atau video",
@@ -15619,55 +17103,181 @@
     "names": {
       "lava": "Lampu Lava",
       "drive": "Pandu Malam",
-      "snow": "Salji turun"
+      "snow": "Salji turun",
+      "ink": "Cucian Dakwat",
+      "news": "Kertas Akhbar",
+      "split": "Senja Terbelah",
+      "blue": "Pelan Biru",
+      "terra": "Terrazzo",
+      "half": "Halftone Pop",
+      "topo": "Kontur",
+      "velvet": "Baldu",
+      "sorbet": "Sorbet",
+      "carbon": "Karbon",
+      "echo": "Gema Profil",
+      "cards": "Kad Warna",
+      "deck": "Dek Corak",
+      "aurora": "Aurora",
+      "stars": "Medan Bintang",
+      "rain": "Hujan di Kaca",
+      "breathe": "Bernafas",
+      "spin": "Prisma Berputar",
+      "tide": "Pasang Surut",
+      "ember": "Bara",
+      "holo": "Kerajang Holo",
+      "rift": "Rift",
+      "chrome": "Krom Cecair",
+      "mesh": "Jaring",
+      "grain": "Butiran Filem",
+      "orbit": "Orbit",
+      "ripple": "Riak",
+      "dotwave": "Gelombang Titik",
+      "scan": "CRT",
+      "silk": "Sutera",
+      "bokeh": "Bokeh",
+      "photo": "Gambar anda"
     },
-    "sameAsProfile": "Profil"
+    "sameAsProfile": "Profil",
+    "scope": "Guna pada",
+    "thisPost": "Hantaran ini",
+    "allPosts": "Semua hantaran",
+    "sameAsProfileSub": "Sama seperti profil anda",
+    "title": "Latar belakang hantaran",
+    "editRow": "Latar belakang hantaran",
+    "hint": "Leret jalur. Hantaran anda berubah semasa anda meleret. Hanya anda boleh menukar ini.",
+    "moving": "Bergerak",
+    "still": "Pegun",
+    "plain": "Hantaran biasa",
+    "position": "{{n}} daripada {{total}}",
+    "sample": "Beginilah rupa hantaran teks anda pada profil anda.",
+    "saveFailed": "Tidak dapat menyimpan latar belakang anda. Cuba lagi.",
+    "base": "Asas",
+    "accent2": "Aksen 2",
+    "ownColours": "Warna anda sendiri"
   },
   "articleTile": {
-    "cover": "Kulit"
+    "cover": "Kulit",
+    "title": "Jubin artikel",
+    "dropcap": "Huruf besar awal",
+    "hint": "Rupa artikel anda pada grid profil. Hanya anda boleh menukar ini.",
+    "saveFailed": "Tidak dapat menyimpan. Cuba lagi."
   },
   "aiConsent": {
-    "allow": "Benarkan"
+    "allow": "Benarkan",
+    "title": "Guna ciri AI?",
+    "body": "Untuk berfungsi, ciri AI menghantar apa yang anda berikan (teks, foto atau audio anda, serta hantaran atau sembang berkaitan) kepada penyedia AI pihak ketiga seperti Google, OpenAI, Groq, OpenRouter, fal dan ElevenLabs. Anda boleh menukar ini bila-bila masa di Tetapan → Privasi.",
+    "declined": "Ciri AI dimatikan. Anda boleh menghidupkannya di Tetapan → Privasi.",
+    "settingLabel": "Ciri AI",
+    "settingDesc": "Benarkan pembantu, terjemahan, cadangan balasan dan bantuan menulis menghantar apa yang anda berikan kepada penyedia AI pihak ketiga."
   },
   "dmRequests": {
     "title": "Permintaan",
     "accept": "Terima",
     "delete": "Padam",
-    "block": "Sekat"
+    "block": "Sekat",
+    "hint": "Mesej daripada orang yang anda tidak ikuti. Terima satu, balas atau ikuti mereka dan sembang itu akan berpindah ke peti masuk anda.",
+    "rowHint": "{{n}} daripada orang yang anda tidak ikuti",
+    "banner": "Anda tidak mengikuti {{name}}. Terima untuk memindahkan sembang ini ke peti masuk anda, atau balas sahaja.",
+    "accepted": "Dipindahkan ke peti masuk anda",
+    "acceptFailed": "Tidak dapat menerima, cuba lagi"
   },
   "dmSchedule": {
     "view": "Tonton",
     "edit": "Kemaskini",
     "editLabel": "Edit mesej",
-    "error": "Itu tidak berjaya. Cuba lagi."
+    "error": "Itu tidak berjaya. Cuba lagi.",
+    "button": "Jadualkan mesej",
+    "title": "Mesej berjadual",
+    "whenTitle": "Hantar bila?",
+    "waiting": "{{n}} dijadualkan",
+    "next": "seterusnya {{when}}",
+    "failedCount": "{{n}} tidak dihantar",
+    "notSent": "Tidak dihantar",
+    "emptyTitle": "Tiada apa-apa dijadualkan",
+    "emptyBody": "Tulis mesej, kemudian ketik jam untuk memilih bila ia dihantar.",
+    "changeTime": "Tukar masa",
+    "sendNow": "Hantar sekarang",
+    "deleted": "Mesej berjadual dipadam",
+    "unreadable": "Ditulis pada peranti lain. Ia masih akan dihantar.",
+    "footnote": "Masa adalah dalam zon waktu anda. Tiada sesiapa melihat mesej sehingga ia dihantar.",
+    "footnoteNamed": "Masa adalah dalam zon waktu anda. {{name}} hanya melihat mesej sebaik sahaja ia dihantar.",
+    "textOnly": "Hanya mesej teks boleh dijadualkan buat masa ini.",
+    "scheduledToast": "Dijadualkan untuk {{when}}",
+    "failedToast": "Mesej berjadual tidak dapat dihantar"
   },
   "chatBulk": {
     "selected": "{{count}} yang dipilih",
     "cancel": "Batal",
     "reply": "Balasan",
-    "delete": "Padam"
+    "delete": "Padam",
+    "select": "Pilih",
+    "toolbar": "Sembang dipilih",
+    "pick": "Ketik sembang untuk memilihnya",
+    "read": "Tanda dibaca",
+    "unread": "Tanda belum dibaca",
+    "replyTitle_one": "Balas kepada {{count}} sembang",
+    "replyTitle_other": "Balas kepada {{count}} sembang",
+    "replyHint": "Setiap orang menerima ini sebagai mesej biasa dalam sembang mereka sendiri.",
+    "replyPlaceholder": "Tulis mesej…",
+    "sendAll": "Hantar kepada {{count}}",
+    "deleted_one": "{{count}} sembang dipadam",
+    "deleted_other": "{{count}} sembang dipadam",
+    "sent_one": "Dihantar kepada {{count}} sembang",
+    "sent_other": "Dihantar kepada {{count}} sembang",
+    "partSent": "Dihantar kepada {{ok}} daripada {{total}} sembang",
+    "notSent": "Tidak dapat menghantar. Cuba lagi."
   },
   "msgSelect": {
     "selected": "{{count}} yang dipilih",
     "copy": "Salin",
     "forward": "Majukan",
     "deleted_one": "Dihapus {{count}} pesan",
-    "deleted_other": "Dihapus {{count}} pesan"
+    "deleted_other": "Dihapus {{count}} pesan",
+    "toolbar": "Mesej dipilih",
+    "pick": "Ketik mesej untuk memilihnya",
+    "deleteSome": "Padam {{count}}",
+    "forwarded_one": "{{count}} mesej dimajukan",
+    "forwarded_other": "{{count}} mesej dimajukan",
+    "partForwarded": "Dimajukan {{ok}} daripada {{total}}",
+    "nothingToCopy": "Tiada apa-apa untuk disalin dalam mesej yang dipilih",
+    "copied_one": "{{count}} mesej disalin",
+    "copied_other": "{{count}} mesej disalin",
+    "deleteTitle_one": "Padam {{count}} mesej?",
+    "deleteTitle_other": "Padam {{count}} mesej?",
+    "deleteBody": "Ia akan dibuang untuk semua orang dalam sembang ini.",
+    "deleteForBothBody": "Ia akan dibuang untuk anda berdua."
   },
   "messagesTabs": {
-    "all": "Semua"
+    "all": "Semua",
+    "unread": "Belum dibaca",
+    "groups": "Kumpulan"
   },
   "mentionLinks": {
     "communities": "Komuniti",
     "pages": "Halaman",
-    "people": "Orang"
+    "people": "Orang",
+    "linkTo": "Pautkan {{name}}"
   },
   "resetWallet": {
     "mismatch": "Kata laluan tidak cocok",
     "logOut": "Log keluar",
     "confirm": "Sahkan kata laluan",
     "ack": "Saya faham bahawa dana lama saya tetap di dompet lama.",
-    "cancel": "Batal"
+    "cancel": "Batal",
+    "tooShort": "Kata laluan mestilah sekurang-kurangnya {{count}} aksara",
+    "breached": "Kata laluan ini pernah muncul dalam kebocoran data. Pilih yang lain",
+    "weak": "Pilih kata laluan yang lebih kuat (campurkan huruf, nombor dan simbol)",
+    "doneTitle": "Akaun anda kini menggunakan dompet baharunya",
+    "twoFactor": "Masukkan kod daripada aplikasi pengesah anda untuk memindahkan akaun anda.",
+    "failed": "Tidak dapat menetapkan semula dompet anda. Tiada apa-apa dipindahkan. Cuba lagi.",
+    "title": "Tetapkan semula dompet",
+    "reloginApp": "Tetapan semula dibuktikan dengan e-mel, telefon atau log masuk Google akaun anda, bukan dompet lama, kerana sesiapa yang memegang kunci lama juga boleh menandatangani. Log keluar, log masuk semula dengan log masuk tersebut, kemudian kembali ke sini. Belum ada e-mel log masuk? Tambah satu di riftn.com di bawah Tetapan → Log masuk dahulu.",
+    "intro": "Mencipta dompet Riftn baharu dan memindahkan nama pengguna, hantaran, pengikut dan mesej anda ke dalamnya. Gunakan ini jika dompet anda hilang atau orang lain mempunyai kuncinya. Dompet lama tidak lagi berfungsi untuk log masuk.",
+    "funds": "Token, NFT dan baki lain tidak berpindah. Ia kekal di alamat lama. Jika anda masih boleh membuka dompet lama, hantarkannya keluar dahulu.",
+    "password": "Kata laluan dompet baharu (min {{count}} aksara)",
+    "twoFactorPlaceholder": "Kod pengesah",
+    "submit": "Tetapkan semula dompet",
+    "rowDesc": "Dompet hilang, atau orang lain mempunyai kuncinya? Pindahkan akaun anda ke dompet baharu. Nama pengguna, hantaran dan pengikut anda ikut bersama."
   },
   "chatTabs": {
     "all": "Semua",
@@ -15683,6 +17293,96 @@
     "requests": "Permintaan",
     "sCreators": "Pencipta",
     "sGaming": "Permainan",
-    "sTrading": "Perdagangan"
+    "sTrading": "Perdagangan",
+    "addChats": "Tambah sembang",
+    "addToTab": "Tambah ke tab",
+    "addedTo": "Ditambah ke {{name}}",
+    "builtIn": "Terbina dalam",
+    "chatCount": "{{n}} sembang",
+    "chatsInTab": "Sembang dalam tab ini",
+    "create": "Cipta tab",
+    "delete": "Padam tab",
+    "deleteBody": "Tab akan hilang. Sembangnya kekal dalam Semua dan mengekalkan mesejnya.",
+    "deleteTitle": "Padam “{{name}}”?",
+    "deleted": "{{name}} dipadam",
+    "edit": "Sunting tab",
+    "editHintApp": "Guna anak panah untuk menyusun semula. Tab tersembunyi mengekalkan sembangnya.",
+    "editTab": "Sunting tab",
+    "emoji": "Pilih emoji",
+    "emptyBody": "Tambah sembang di sini dan ia kekal dalam Semua juga.",
+    "emptyTitle": "{{name}} kosong",
+    "hide": "Sembunyikan tab",
+    "kindChannel": "Saluran",
+    "moveLeft": "Alih ke kiri",
+    "moveRight": "Alih ke kanan",
+    "namePlaceholder": "Nama tab",
+    "new": "Tab baharu",
+    "newWith": "Tab baharu…",
+    "noEmoji": "Tiada emoji",
+    "picked": "{{n}} dipilih",
+    "removedFrom": "Dibuang daripada {{name}}",
+    "renameEdit": "Namakan semula dan sunting",
+    "sFriends": "Rakan",
+    "sWork": "Kerja",
+    "saveFailed": "Tidak dapat menyimpan tab anda, cuba lagi",
+    "show": "Tunjukkan tab",
+    "tooMany": "Anda boleh mempunyai sehingga 10 tab"
+  },
+  "chatReactions": {
+    "many_one": "{{count}} reaksi kepada mesej anda",
+    "many_other": "{{count}} reaksi kepada mesej anda",
+    "manySame_one": "{{emoji}} × {{count}} pada mesej anda",
+    "manySame_other": "{{emoji}} × {{count}} pada mesej anda",
+    "one": "Memberi reaksi {{emoji}} kepada mesej anda",
+    "oneNamed": "{{name}} memberi reaksi {{emoji}} kepada mesej anda"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Hantaran kekal disiarkan.",
+      "onBody": "Hantaran akan memadam dirinya {{value1}} selepas disiarkan."
+    }
+  },
+  "accountDeactivation": {
+    "title": "Nyahaktifkan akaun",
+    "short": "Sembunyikan profil anda buat masa ini. Log masuk semula untuk memulihkannya",
+    "description": "Berehat sahaja. Profil, siaran dan komen anda disembunyikan dan anda dilog keluar di semua tempat. Tiada apa-apa dipadam, dan log masuk semula akan mengembalikan semuanya.",
+    "button": "Nyahaktifkan",
+    "confirmTitle": "Nyahaktifkan akaun anda?",
+    "confirmBody": "Profil, siaran dan komen anda akan disembunyikan dan anda akan dilog keluar pada setiap peranti. Log masuk semula bila-bila masa untuk membatalkannya.",
+    "busy": "Menyahaktifkan…",
+    "done": "Akaun dinyahaktifkan",
+    "receipt": "Profil, siaran dan komen anda disembunyikan. Log masuk semula bila-bila masa untuk mengembalikan semuanya.",
+    "error": "Tidak dapat menyahaktifkan akaun anda. Sila cuba lagi.",
+    "acknowledge": "Saya faham profil saya akan disembunyikan dan saya akan dilog keluar di semua tempat.",
+    "understand": "Saya faham"
+  },
+  "halloween": {
+    "title": "Selamat Hari Halloween",
+    "otherThemes": "Tidak rasa seram? Cari tema lain:",
+    "enter": "Masuk ke penjara bawah tanah"
+  },
+  "dmSafety": {
+    "notReal": "Ini bukan {{name}} yang sebenar.",
+    "neverLink": "Pasukan Riftn tidak akan sekali-kali menghantar DM pautan kepada anda untuk membaiki profil atau dompet anda. Jangan buka pautan, sambungkan dompet atau tandatangan apa-apa. Sekat dan laporkan akaun ini."
+  },
+  "profileImage": {
+    "change": "Tukar"
+  },
+  "msgDelete": {
+    "title": "Padam mesej?",
+    "titleMany": "Padam {{count}} mesej?",
+    "bodyOwn": "Buang daripada sembang anda sahaja, atau untuk semua orang.",
+    "bodyOwnMany": "Buang daripada sembang anda sahaja, atau untuk semua orang.",
+    "bodyOthers": "Ia akan dibuang daripada sembang anda sahaja. Orang lain masih akan melihatnya.",
+    "bodyOthersMany": "Ia akan dibuang daripada sembang anda sahaja. Orang lain dalam sembang masih akan melihatnya.",
+    "bodyOwnBoth": "Buang daripada sembang anda sahaja, atau untuk kedua-dua anda.",
+    "bodyOwnBothMany": "Buang daripada sembang anda sahaja, atau untuk kedua-dua anda.",
+    "forMe": "Padam untuk saya",
+    "forEveryone": "Padam untuk semua",
+    "forBoth": "Padam untuk kami berdua",
+    "forMeAndName": "Padam untuk saya dan {{name}}",
+    "remember": "Ingat pilihan saya",
+    "rememberHint": "Ubah bila-bila masa dalam Tetapan",
+    "failed": "Tidak dapat memadam mesej"
   }
 }

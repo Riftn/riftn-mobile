@@ -9,8 +9,21 @@
     "tab": "코믹",
     "title": "코믹",
     "editor": {
-      "cover": "커버"
-    }
+      "cover": "커버",
+      "count": "{{limit}}페이지 중 {{count}}페이지",
+      "coverHint": "1페이지는 표지입니다",
+      "empty": "사진 버튼으로 페이지를 추가하세요. 각 페이지에 캡션과 대체 텍스트가 붙습니다.",
+      "caption": "이 페이지의 캡션",
+      "alt": "대체 텍스트: 페이지에 보이는 내용"
+    },
+    "chip": "만화 · {{count}}페이지",
+    "open": "만화 열기, {{total}}페이지 중 {{page}}페이지",
+    "flip": "{{total}}페이지 중 {{page}}페이지. 탭하여 넘기기",
+    "page": "{{page}}페이지",
+    "goto": "{{page}}페이지",
+    "alt": "대체 텍스트",
+    "cards": "카드로 돌아가기",
+    "readAll": "모든 페이지 읽기"
   },
   "comicBorder": {
     "title": "테두리",
@@ -2625,7 +2638,66 @@
     "57e2faa5ec63": "Riftn 검색",
     "7db20897053b": "사람",
     "96d7bff86b44": "검색을 불러올 수 없습니다",
-    "d8b8392e2c54": "다시 시도"
+    "d8b8392e2c54": "다시 시도",
+    "e587a51bc3ce": "Riftn 새 소식",
+    "d7396f3b8881": "Riftn의 새 좋아요 또는 댓글",
+    "037a2ecd34b0": "Riftn의 새 팔로워",
+    "b63561f1b73a": "Riftn의 새 팁 또는 수익",
+    "0ae84457a2df": "내가 팔로우하는 사람이 Riftn에서 라이브 중입니다",
+    "a7bac8dca08b": "Riftn 수신 전화",
+    "9d309cb4a034": "Riftn 게시물 업데이트",
+    "914be7a9350a": "Riftn에서 온 메시지",
+    "2ab63e6ced90": "구현 불가",
+    "79688f176607": "구현 불가로 표시됨",
+    "465fe84f18fc": "구현 불가로 표시",
+    "0d24977e6943": "사유 수정",
+    "0a54f1d10336": "구현할 수 없는 이유는 무엇인가요? (선택 사항)",
+    "3d024b567634": "사람들에게 표시될 짧은 사유",
+    "ad389aa4c08e": "사유:",
+    "78b3ae9561ee": "제외된 항목 없음",
+    "89b4d1850766": "지금 만들 수 없는 요청이 사유와 함께 여기에 표시됩니다.",
+    "3f9b2c71d0a4": "결과 {{n}}개",
+    "8c4e1a6b2f57": "“{{query}}” 검색 결과",
+    "63eb38b938b8": "대기열로 표시",
+    "2fffca525795": "배포됨으로 표시",
+    "3ee050a08bfa": "요청으로 돌아가기",
+    "ae6a0ffbe609": "대기열로 표시됨",
+    "366cb56b38ce": "배포됨으로 표시됨",
+    "9db7b5ba03bb": "요청으로 다시 이동됨",
+    "bb2be752e079": "상태를 변경할 수 없습니다",
+    "1d7234ff1b79": "{{feed}}에서",
+    "e122e5c2b563": "위로 드래그하여 닫기",
+    "1aa9d734f2ee": "검색 대상 선택",
+    "35034aa59bd3": "{{feed}}에서 일치하는 항목이 없습니다. 다른 단어로 시도하거나 전체를 검색하세요.",
+    "415155739590": "전체 검색",
+    "90f1afe66801": "“{{query}}” 검색 중…",
+    "9e13d826baaf": "이미지 검색",
+    "e8756c6865a5": "쇼츠 검색",
+    "c7661da99c41": "동영상 검색",
+    "cbf6f228327c": "음악 검색",
+    "d7b559f2d8c6": "다른 단어로 시도하거나 필터를 변경하세요.",
+    "ef557404f465": "“{{query}}”에 대한 결과가 없습니다",
+    "d1a0c7e2f301": "오늘 무슨 생각을 하고 계신가요?",
+    "d1a0c7e2f302": "오늘은 어떤 생각을 하고 있나요?",
+    "d1a0c7e2f303": "무슨 생각을 하고 계신가요?",
+    "d1a0c7e2f304": "생각나는 게 있나요?",
+    "d1a0c7e2f305": "지금 무슨 생각을 하고 계신가요?",
+    "d1a0c7e2f306": "오늘은 무슨 생각을 해 볼까요?",
+    "d1a0c7e2f307": "오늘 떠오르는 생각이 있나요?",
+    "d1a0c7e2f308": "이번엔 무슨 생각을 하고 계신가요?",
+    "a7c1e0f4b2d9": "탭하여 말하기",
+    "b3e8d1c6f0a2": "탭하여 보내기",
+    "c9f2a4e7d1b5": "듣는 중... 보내려면 공을 탭하세요",
+    "94cee2c8c1c1": "프로필이 이동되었습니다",
+    "22577ebd908e": "Wan 3.0 동영상 생성 · 오리지널 사운드트랙",
+    "1fa2357ab7e1": "Seedance 720p 동영상 생성 · 오리지널 사운드트랙",
+    "7f78bdc0762d": "+{{value1}}점",
+    "f0c8bb34335b": "+{{value1}}포인트를 획득했습니다",
+    "0fbe06b679a8": "배포된 요청마다 {{value1}}포인트가 상위 빌더 점수에 추가됩니다.",
+    "ebebdc70335b": "글래스 바",
+    "5ff272ba7871": "실크 라인",
+    "a941e90ca93d": "커버 헤일로",
+    "04dbbe4dff7a": "트루 웨이브"
   },
   "dehubLinks": {
     "kind": {
@@ -2705,7 +2777,8 @@
       "location": "위치",
       "custom": "커스텀",
       "customOption": "커스텀 레이블"
-    }
+    },
+    "placeholderLink": "yoursite.com"
   },
   "notificationFilters": {
     "title": "알림 필터 대상",
@@ -2878,10 +2951,20 @@
       "numbers": "번호 매기기 목록",
       "link": "링크",
       "image": "이미지 추가"
-    }
+    },
+    "imageLimit": "아티클에는 이미지를 최대 {{count}}개까지 넣을 수 있습니다",
+    "imageFailed": "해당 이미지를 추가할 수 없습니다. 다른 이미지를 사용해 보세요.",
+    "imagesUploading": "이미지 추가 중({{count}})…",
+    "bodyTooLong": "{{count}}자 초과",
+    "imagesCount": "이미지 · {{count}}/{{max}}",
+    "captionPlaceholder": "캡션 추가",
+    "captionLabel": "이미지 {{n}} 캡션",
+    "removeInlineImage": "이미지 {{n}} 삭제"
   },
   "storefront": {
-    "unavailable": "이 버전의 앱에서는 사용할 수 없습니다"
+    "unavailable": "이 버전의 앱에서는 사용할 수 없습니다",
+    "continueOnWeb": "riftn.com에서 계속하기",
+    "webOnlyHint": "riftn.com에서 완료하세요. Safari에서 열립니다."
   },
   "nav": {
     "launchpad": "런치패드",
@@ -3788,7 +3871,23 @@
     "menuLayoutSections": "섹션",
     "menuLayoutSectionsDesc": "모든 페이지를 제목 아래에 한 번에",
     "menuLayoutFolders": "폴더",
-    "menuLayoutFoldersDesc": "주요 페이지, 그리고 그룹별 폴더"
+    "menuLayoutFoldersDesc": "주요 페이지, 그리고 그룹별 폴더",
+    "publicChatInBar": "하단 바에 공개 채팅",
+    "publicChatInBarDesc": "화면 하단 바에서 한 번만 눌러 공개 채팅으로 이동",
+    "chatDeleteChoice": "메시지를 삭제할 때",
+    "chatDeleteChoiceDesc": "매번 묻거나, 항상 나에게서만 또는 채팅의 모든 사람에게서 삭제합니다.",
+    "chatDeleteAsk": "매번 묻기",
+    "chatDeleteMe": "나에게서 삭제",
+    "chatDeleteMeDesc": "내 채팅에서 사라지지만 다른 사람에게는 계속 보입니다",
+    "chatDeleteEveryone": "모두에게서 삭제",
+    "chatDeleteEveryoneDesc": "가능한 경우에만. 그룹에서 다른 사람의 메시지는 나에게서만 삭제됩니다",
+    "contactSupport": "고객 지원 문의",
+    "notificationShowCount": "벨에 숫자 표시",
+    "notificationShowCountDesc": "표시등 대신 읽지 않은 알림 수를 확인합니다",
+    "messagesShowCount": "메시지에 숫자 표시",
+    "messagesShowCountDesc": "표시등 대신 읽지 않은 메시지 수를 확인합니다",
+    "pushNotRegisteredDescIos": "앱이 닫혀 있는 동안 알림을 받을 수 없습니다. 이 iPhone은 푸시 알림에 등록되지 않았습니다. 설정에서 Riftn 알림이 허용되어 있는지 확인한 후 앱을 다시 여세요.",
+    "tipsOffNote": "이 기능이 켜져 있는 동안에는 팁과 송금을 받을 수 없습니다. 다시 팁을 받으려면 끄세요."
   },
   "common": {
     "refresh": "새로고침",
@@ -3914,7 +4013,15 @@
     "addMessage": "메시지 추가 (선택 사항)",
     "messagePublic": "공개",
     "railTitle": "팁",
-    "railTotal": "{{amount}} 토큰"
+    "railTotal": "{{amount}} 토큰",
+    "messagePlaceholder": "팁과 함께 한마디 남기기",
+    "messagePrivate": "{{name}}님만",
+    "theCreator": "크리에이터",
+    "messageWallNote": "팁이 처리되면 팁 월에 표시됩니다.",
+    "sendWithMessage": "메시지와 함께 보내기",
+    "messageFailed": "메시지를 추가할 수 없습니다. 팁이 전송되지 않았습니다.",
+    "wallLabel": "팁 메시지",
+    "messagePrivateNote": "{{name}}님만 알림에서 볼 수 있습니다."
   },
   "postOptions": {
     "skippableSections": "건너뛸 수 있는 섹션",
@@ -3998,7 +4105,17 @@
     "giftBoost": "부스트 선물하기",
     "giftBoostDesc": "내 부스트 하나를 이 게시물에 씁니다",
     "askAi": "AI에게 묻기",
-    "aiOverview": "AI 개요"
+    "aiOverview": "AI 개요",
+    "unmuteUser": "{{name}}님 뮤트 해제",
+    "unmuteDesc": "게시물 다시 보기",
+    "unmutedUser": "{{name}}님 뮤트를 해제했습니다",
+    "refreshLinkPreview": "링크 미리보기 새로고침",
+    "linkPreviewRefreshed": "링크 미리보기를 새로고침했습니다",
+    "linkPreviewRefreshFailed": "해당 사이트에 연결할 수 없습니다. 나중에 다시 시도하세요.",
+    "castToTv": "TV로 전송",
+    "castIosDesc": "Apple TV 또는 스마트 TV로 AirPlay",
+    "castAndroidDesc": "Cast 또는 Smart View로 화면 미러링",
+    "castAndroidHelp": "빠른 설정을 열고 Smart View 또는 Cast를 탭한 후 TV를 선택하세요."
   },
   "filters": {
     "sort": "정렬",
@@ -4649,7 +4766,9 @@
       "hereNamed": "{{name}} 님이 '{{community}}' 의 모든 사람에게 메시지를 보냈습니다."
     },
     "tokenAmount": "{{amount}} 개의 토큰",
-    "searchClose": "검색 닫기"
+    "searchClose": "검색 닫기",
+    "searchPlaceholder": "알림 검색",
+    "searchEmpty": "일치하는 알림이 없습니다"
   },
   "leaderboard": {
     "title": "리더보드",
@@ -4681,6 +4800,12 @@
     "hidden": "숨김",
     "noDataForPeriod": "이 기간의 데이터가 아직 없습니다",
     "affiliates": "제휴",
+    "ogChallenge": "OG 챌린지",
+    "ogHolders_one": "OG 홀더 {{count}}명",
+    "ogHolders_other": "OG 홀더 {{count}}명",
+    "ogChallengeTitle": "OG 홀더를 다시 데려오세요",
+    "ogChallengeBody": "아직 DHB를 보유한 사람들을 초대하세요. 초대 링크로 가입하고 Riftn 지갑에 DHB를 보유하면 여기에서 내 기록으로 집계됩니다.",
+    "ogChallengeCta": "초대 링크 받기",
     "directReferrals_one": "직접 {{count}}명",
     "directReferrals_other": "직접 {{count}}명",
     "secondaryReferrals_one": "2차 {{count}}명",
@@ -4851,8 +4976,31 @@
       "comments": "댓글",
       "showLess": "간단히 표시",
       "viewProfile": "프로필 보기",
-      "you": "귀하"
-    }
+      "you": "귀하",
+      "title": "상위 빌더",
+      "breakdown": "배포 {{shipped}}개({{sp}}) · 추천 {{votes}}개({{vp}}) · 댓글 {{comments}}개({{cp}})",
+      "showAll": "상위 {{n}}명 보기",
+      "showEveryone": "빌더 {{n}}명 모두 보기",
+      "showMore": "{{n}}개 더 보기",
+      "rule": "배포된 요청당 10점, 추천당 1점, 다른 사람의 요청에 단 댓글당 2점.",
+      "pts": "{{n}}점",
+      "gap": "{{name}}님을 앞지르려면 {{n}}점 필요",
+      "join": "배포되는 프롬프트를 게시하여 순위표에 참여하세요",
+      "points": "포인트",
+      "infoLabel": "포인트 산정 방식",
+      "infoShipped": "배포된 요청당",
+      "infoVote": "내 요청에 받은 추천당",
+      "infoComment": "다른 사람의 요청에 단 댓글당",
+      "infoCap": "댓글은 기간당 최대 {{n}}개까지 집계됩니다.",
+      "pt": "1점",
+      "infoTitle": "포인트 산정 방식"
+    },
+    "deviceInfoNote": "버그 수정을 돕기 위해 기기 정보가 첨부됩니다.",
+    "deviceInfo": "기기 정보",
+    "deviceInfoOwners": "보드 소유자만 볼 수 있습니다",
+    "deviceInfoError": "기기 정보를 불러올 수 없습니다",
+    "deviceInfoNone": "이 요청에 대한 기기 정보가 없습니다",
+    "deviceInfoErrors": "최근 오류"
   },
   "auth": {
     "loginRequired": "로그인 필요",
@@ -4909,7 +5057,13 @@
     "importWalletPurpose": "이 도구는 Riftn.io에서 기존 계정을 가져오는 데 사용됩니다.",
     "importSecretPlaceholder": "12개 또는 24개 단어, 또는 개인 키",
     "invalidImportSecret": "유효한 12/24단어 구문 또는 개인 키가 아닙니다",
-    "walletSignupBlocked": "완전히 새 지갑이에요. 새 지갑으로 계정을 만들려면 잔액이나 이전 거래 내역이 있어야 해요. 아래 방법 중 하나로 가입한 뒤 설정에서 이 지갑을 연결하세요."
+    "walletSignupBlocked": "완전히 새 지갑이에요. 새 지갑으로 계정을 만들려면 잔액이나 이전 거래 내역이 있어야 해요. 아래 방법 중 하나로 가입한 뒤 설정에서 이 지갑을 연결하세요.",
+    "accountDeleted": "삭제된 계정입니다. 새 계정으로 다시 가입할 수 있습니다.",
+    "accountDeletedHours_one": "삭제된 계정입니다. 약 {{count}}시간 후에 같은 이메일 또는 전화번호로 다시 가입할 수 있습니다.",
+    "accountDeletedHours_other": "삭제된 계정입니다. 약 {{count}}시간 후에 같은 이메일 또는 전화번호로 다시 가입할 수 있습니다.",
+    "accountDeletedDays_one": "삭제된 계정입니다. 약 {{count}}일 후에 같은 이메일 또는 전화번호로 다시 가입할 수 있습니다.",
+    "accountDeletedDays_other": "삭제된 계정입니다. 약 {{count}}일 후에 같은 이메일 또는 전화번호로 다시 가입할 수 있습니다.",
+    "signInPageWouldNotOpen": "로그인 페이지가 열리기 전에 닫혔습니다. 다시 시도하거나 이메일로 계속하세요."
   },
   "messages": {
     "unreadMarkerOne": "읽지 않은 메시지 1개",
@@ -5133,11 +5287,41 @@
     "pinnedShort": "고정됨",
     "post": "게시물",
     "arrange": {
-      "saving": "저장 중..."
+      "saving": "저장 중...",
+      "title": "내 게시물 정렬",
+      "hint": "게시물을 길게 누른 채 새 위치로 드래그하세요. 방문자에게 이 순서가 먼저 표시됩니다.",
+      "drag": "드래그하여 이동",
+      "toTop": "맨 위로 이동",
+      "save": "순서 저장",
+      "saved": "순서가 저장되었습니다",
+      "reset": "다시 최신순으로",
+      "resetDone": "다시 최신순으로",
+      "saveFailed": "순서를 저장할 수 없습니다. 다시 시도해 주세요.",
+      "loadFailed": "게시물을 불러올 수 없습니다. 닫고 다시 시도하세요.",
+      "empty": "아직 정렬할 게시물이 없습니다. 먼저 게시해 보세요."
     },
     "reserve": {
-      "signIn": "로그인"
-    }
+      "signIn": "로그인",
+      "available": "사용 가능한 사용자 이름",
+      "held": "예약됨",
+      "ended": "예약 종료",
+      "busy": "예약 중",
+      "availableBody": "riftn.com/{{name}}은(는) 지금 사용할 수 있습니다. 예약하면 가입하는 동안 1분간 보류해 드립니다.",
+      "heldBody": "타이머가 끝날 때까지 다른 사람은 @{{name}}을(를) 가져갈 수 없습니다. 유지하려면 가입을 완료하세요.",
+      "endedBody": "1분이 지나서 @{{name}}을(를) 다시 누구나 사용할 수 있게 되었습니다. 아직 사용 가능합니다.",
+      "busyBody": "지금 누군가 @{{name}}(으)로 가입하고 있습니다. 가입을 완료하지 않으면 타이머가 끝날 때 다시 사용할 수 있습니다.",
+      "finish": "가입 완료",
+      "again": "다시 예약",
+      "cta": "지금 예약",
+      "letGo": "포기하기",
+      "haveAccount": "계정이 있으신가요?"
+    },
+    "articleViews": "조회수 {{views}}회",
+    "sortBy": "정렬 기준",
+    "sortCustom": "사용자 지정 순서",
+    "arrangeButton": "게시물 정렬",
+    "mutualsOne": "맞팔로우 {{count}}명:",
+    "mutualsMany": "맞팔로우 {{count}}명:"
   },
   "tv": {
     "title": "TV",
@@ -5655,7 +5839,26 @@
       "filter": "활동 필터링"
     },
     "welcome": {
-      "text": "환영 메시지"
+      "text": "환영 메시지",
+      "title": "새 멤버 환영하기",
+      "help": "이 에이전트는 Riftn에 새로 가입한 사람을 하루에 몇 명씩 팔로우하거나 메시지를 보냅니다.",
+      "follow": "새 멤버 팔로우",
+      "message": "새 멤버에게 메시지 보내기",
+      "textHelp": "{name}은(는) 상대의 @사용자 이름으로 바뀝니다. 링크는 사용할 수 없습니다. 한 사람당 한 번만 전송됩니다.",
+      "saveText": "메시지 저장",
+      "perDay": "하루 인원",
+      "fewer": "하루에 더 적게",
+      "more": "하루에 더 많이",
+      "today": "오늘: {{follows}}명 팔로우 · {{messages}}명에게 메시지",
+      "limits": "같은 사람에게 두 번 보내지 않습니다. 나를 차단 또는 뮤트했거나, 새 메시지를 껐거나, 새 멤버 목록에서 숨긴 사람은 건너뜁니다.",
+      "showLog": "환영한 사람 보기",
+      "hideLog": "환영 목록 숨기기",
+      "empty": "아직 아무도 없습니다. 새 멤버가 가입하면 여기에 표시됩니다.",
+      "followed": "팔로우함",
+      "messaged": "메시지 보냄",
+      "skipped": "건너뜀",
+      "failed": "연결할 수 없음",
+      "defaultText": "{name}님, Riftn에 오신 것을 환영합니다! 👋"
     }
   },
   "hero": {
@@ -5750,7 +5953,43 @@
     "disconnect": "분리",
     "payAndRun": "결제 및 실행",
     "run": "실행",
-    "handlePrompt": "프롬프트"
+    "handlePrompt": "프롬프트",
+    "retryFreeTask": "무료 작업 재시도",
+    "previewSavedMedia": "저장된 미디어 미리보기",
+    "audioSavePending": "오디오가 준비되었지만 비공개 라이브러리 저장이 대기 중입니다. 받으려면 재개하세요.",
+    "freeResultUnknown": "무료 작업 응답이 중단되었습니다. 자동으로 다시 제출되지 않습니다. 무료 작업 재시도를 선택한 후 재개하세요. 결제와 다른 작업은 유지됩니다.",
+    "formAuthor": "플로 수정",
+    "formAuthorHint": "입력 유형이 지정된 플로를 만드세요. 여기에 저장하거나 웹 캔버스에서 배치하세요.",
+    "chooseSavedMedia": "저장된 미디어 선택",
+    "formInput": "입력: {{handle}}",
+    "reviewRun": "실행 검토",
+    "resumeRun": "저장된 실행 재개",
+    "confirmPrice": "합계: {{price}}토큰",
+    "recoveryHint": "작업 및 결제 참조가 이 기기에 저장됩니다. 다른 실행을 시작하기 전에 중단된 작업을 재개하세요.",
+    "newRun": "새 실행 시작",
+    "loadMoreMedia": "미디어 더 불러오기",
+    "invalidGraph": "연결을 확인하세요. 모든 입력에는 호환되는 소스가 필요하며 그래프에 순환이 있으면 안 됩니다.",
+    "unsupportedNode": "이 노드는 아직 네이티브 양식에서 실행할 수 없습니다. 이 플로에는 웹 캔버스를 사용하세요.",
+    "missingPrompt": "프롬프트가 있는 텍스트 노드를 연결하세요.",
+    "invalidSettings": "선택한 모델에서 지원하지 않는 설정입니다.",
+    "missingCapturedFrame": "이 동영상을 이미지 입력으로 사용하기 전에 웹 캔버스에서 프레임을 캡처하세요.",
+    "missingSavedMedia": "저장된 소스 미디어가 없거나 더 이상 이 계정에서 사용할 수 없습니다.",
+    "nothingToRun": "이 플로를 실행하려면 생성기를 추가하세요.",
+    "quoteFailed": "이 플로의 가격을 책정할 수 없습니다. 다시 시도하세요.",
+    "recoverBeforeEdit": "그래프를 변경하거나 새 실행을 시작하기 전에 저장된 실행을 재개하세요.",
+    "runAlreadyComplete": "이 실행이 완료되었습니다. 다시 생성하려면 새 실행 시작을 선택하세요.",
+    "recoveryCorrupt": "저장된 복구 기록을 읽을 수 없습니다. 다시 결제하기 전에 이 플로를 유지하고 고객 지원에 문의하세요.",
+    "paidUnavailable": "여기서 플로를 작성하고 저장할 수 있습니다. 이 스토어에서는 유료 실행을 사용할 수 없습니다.",
+    "planChanged": "가격 책정 후 플로가 변경되었습니다. 실행을 다시 검토하세요.",
+    "connectOwnerWallet": "이 플로를 소유한 지갑을 연결하세요.",
+    "runFailed": "노드를 완료할 수 없습니다. 저장된 작업 참조는 복구를 위해 유지됩니다.",
+    "recoveryPending": "렌더링이 아직 대기 중입니다. 받으려면 이 실행을 재개하세요.",
+    "nodeAudioGen": "오디오 생성기",
+    "nodeAudioGenDesc": "음성, 효과음, 받아쓰기 및 오디오 분리",
+    "nodeAudioInput": "저장된 오디오",
+    "nodeAudioInputDesc": "라이브러리의 비공개 오디오 사용",
+    "audioVoiceId": "음성 ID",
+    "audioSeconds": "사운드 길이(초)"
   },
   "loginModal": {
     "didYouMean": "{{email}}을(를) 말씀하신 건가요?",
@@ -6053,7 +6292,13 @@
       "showMoreReplies_one": "{{count}}개 더 보기 답글 표시"
     },
     "holdTokensToVote": "Riftn 토큰 보유하여 투표하기",
-    "mustHoldTokens": "거버넌스 제안에 투표하려면 Riftn 토큰을 보유해야 합니다."
+    "mustHoldTokens": "거버넌스 제안에 투표하려면 Riftn 토큰을 보유해야 합니다.",
+    "optionVoters_one": "투표자 {{count}}명",
+    "optionVoters_other": "투표자 {{count}}명",
+    "optionWinner": "우승: {{option}}",
+    "optionNoWinner": "확실한 우승자 없음",
+    "optionTapToUndo": "투표를 취소하려면 답변을 다시 탭하세요",
+    "optionPickOne": "답변 하나를 선택하세요"
   },
   "sidebar": {
     "talkOfTheTown": "화제의 중심",
@@ -6170,7 +6415,24 @@
     "tabReplies": "답글",
     "tabQuotes": "인용",
     "tabReposts": "리포스트",
-    "tabSearch": "검색"
+    "tabSearch": "검색",
+    "attachAudioFile": "오디오 파일",
+    "attachMedia": "사진, 동영상 또는 오디오 첨부",
+    "attachPhotoOrVideo": "사진 또는 동영상",
+    "attachTooLarge": "파일이 {{size}}MB 제한을 초과합니다.",
+    "playVideo": "동영상 재생",
+    "threadParts": {
+      "reorder": "순서 변경",
+      "reorderHint": "항목을 길게 눌러 드래그하거나 화살표를 사용한 후 저장하세요.",
+      "save": "순서 저장",
+      "saved": "스레드 순서가 저장되었습니다",
+      "saveFailed": "순서를 저장할 수 없습니다. 다시 시도하세요.",
+      "moveUp": "{{n}}번째 항목 위로 이동",
+      "moveDown": "{{n}}번째 항목 아래로 이동",
+      "addPart": "스레드에 추가",
+      "addPlaceholder": "스레드에 추가...",
+      "label": "스레드 · {{count}}개 항목"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "현재 소유자를 읽을 수 없습니다.",
@@ -6728,7 +6990,8 @@
         "invites": "초대",
         "rules": "규칙",
         "recentActions": "최근 작업",
-        "danger": "위험 구역"
+        "danger": "위험 구역",
+        "automod": "자동 관리 및 봇"
       },
       "title": "관리",
       "purgeTitle": "모든 메시지를 삭제하시겠어요?",
@@ -6921,25 +7184,106 @@
       "txn": "트랜잭션",
       "balance": "잔액:",
       "price": "가격:",
-      "marketCap": "시가 총액:"
+      "marketCap": "시가 총액:",
+      "title": "{{amount}} 구매",
+      "titleToken": "{{amount}} ${{symbol}} 구매"
     },
     "newChat": {
       "public": "공개",
       "private": "비공개",
       "free": "무료",
       "paid": "결제 완료",
-      "group": "그룹화"
+      "group": "그룹화",
+      "description": "어떤 내용인가요? (선택 사항)",
+      "groupCreated": "그룹이 생성되었습니다",
+      "channelCreated": "채널이 생성되었습니다",
+      "newGroup": "새 그룹",
+      "newChannel": "새 채널",
+      "groupName": "그룹 이름",
+      "channelName": "채널 이름",
+      "whoCanJoin": "참여 가능 대상",
+      "publicDetail": "누구나 찾아서 참여할 수 있습니다",
+      "inviteOnly": "초대 전용",
+      "privateDetail": "내 초대나 승인을 통해 참여합니다",
+      "entry": "참여 조건",
+      "freeDetail": "무료 참여",
+      "paidDetail": "토큰으로 한 번 결제, 나에게 바로 지급",
+      "price": "토큰 가격",
+      "channelNote": "나와 관리자만 게시할 수 있습니다. 멤버는 읽고 리액션할 수 있습니다.",
+      "createGroup": "그룹 만들기",
+      "createChannel": "채널 만들기",
+      "channel": "채널",
+      "adminsOnly": "이 채널에서는 관리자만 게시할 수 있습니다.",
+      "message": "새 메시지",
+      "messageDetail": "한 사람과의 비공개 채팅",
+      "groupDetail": "여러 사람과 공개 또는 비공개로 채팅",
+      "channelDetail": "팔로워에게 무료 또는 유료로 방송",
+      "title": "새로 시작하기",
+      "channelRow": "채널 · 멤버 {{formattedCount}}명",
+      "groupRow": "그룹 · 멤버 {{formattedCount}}명"
     },
     "holderGate": {
       "chain": "체인",
       "which": "토큰",
-      "tab": "홀더"
+      "tab": "홀더",
+      "failed": "지금은 잔액을 읽을 수 없습니다. 잠시 후 다시 시도하세요.",
+      "short": "보유자 전용: {{need}}이(가) 필요합니다. 현재 {{have}} 보유 중입니다.",
+      "required": "보유자 전용: 지갑에 채팅에 필요한 이 커뮤니티 토큰이 충분하지 않습니다.",
+      "topHolders": "상위 보유자",
+      "noHolders": "보유자가 참여하면 여기에 표시됩니다.",
+      "saved": "보유자 규칙이 저장되었습니다",
+      "cleared": "다시 누구나 참여할 수 있습니다",
+      "saveFailed": "보유자 규칙을 저장할 수 없습니다",
+      "title": "보유자 전용",
+      "explain": "이 토큰을 보유한 지갑만 참여하고 채팅할 수 있습니다. 참여 시 체인에서 잔액을 읽습니다.",
+      "dehubTokens": "Riftn 토큰",
+      "otherToken": "다른 토큰",
+      "token": "토큰 컨트랙트",
+      "reading": "토큰 읽는 중…",
+      "badAddress": "토큰 주소가 아닙니다",
+      "minimum": "최소 보유량",
+      "save": "보유자 규칙 저장",
+      "chip": "보유자 전용 · {{amount}}+"
     },
     "automod": {
       "bannedWords": "금지 단어",
       "floodMax": "{{count}} 메시지",
       "saved": "저장됨",
-      "wordCount": "{{count}} 단어"
+      "wordCount": "{{count}} 단어",
+      "title": "자동 관리",
+      "hint": "다른 사람이 보기 전에 메시지를 차단하고 보낸 사람에게 이유를 알려 줍니다. 소유자와 관리자는 차단되지 않습니다.",
+      "enabled": "자동 관리 켜짐",
+      "bannedWordsHint": "한 줄에 하나씩 또는 쉼표로 구분하세요. 완전한 단어만 해당되며, s.c.a.m처럼 띄어 쓴 철자도 감지됩니다.",
+      "bannedWordsPlaceholder": "사기\n러그풀",
+      "blockLinks": "링크 차단",
+      "blockLinksHint": "외부 사이트 링크와 Telegram/Discord 초대. Riftn 링크는 계속 작동합니다.",
+      "repeats": "반복 차단",
+      "repeatsHint": "10분 이내에 같은 내용을 다시 보내지 못하게 합니다.",
+      "flood": "도배 방지",
+      "floodHint": "1인당 {{seconds}}초마다 최대 {{max}}개 메시지.",
+      "noAccess": "소유자와 관리자만 이 설정을 변경할 수 있습니다.",
+      "saveFailed": "저장할 수 없습니다. 다시 시도하세요.",
+      "saveWords": "단어 저장",
+      "bannedWord": "이 그룹에서 허용하지 않는 단어가 포함된 메시지입니다.",
+      "links": "이 그룹에서는 링크를 사용할 수 없습니다.",
+      "repeat": "방금 보낸 메시지입니다. 새로운 내용을 말해 보세요.",
+      "reserved": "이런 종류의 메시지는 그룹의 봇만 보낼 수 있습니다.",
+      "floodError": "너무 빠르게 보내고 있습니다. {{value1}}초 후에 다시 시도하세요."
+    },
+    "entry": {
+      "switchChain": "결제하려면 지갑을 BNB Chain 또는 Base로 전환하세요.",
+      "failed": "아직 결제를 확인할 수 없습니다. 지갑에서 토큰이 빠져나갔다면 1분 후 다시 참여를 탭하세요.",
+      "chip": "참여 비용 {{amount}}"
+    },
+    "jumpToReply": "답장한 메시지로 이동",
+    "buyBot": {
+      "title": "구매 봇",
+      "any": "모든 금액",
+      "enabled": "구매 알림 게시",
+      "hint": "모든 ${{symbol}} 구매를 발생 후 약 1분 뒤 이 채팅에 게시합니다.",
+      "minUsd": "게시할 최소 구매 금액",
+      "noToken": "그룹 헤더에서 토큰을 연결하면(수정 후 티커) 모든 구매가 이 채팅에 표시됩니다.",
+      "unsupported": "${{symbol}}은(는) 구매 봇이 아직 감시하지 않는 체인 또는 풀 유형에 있습니다. 지원: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism, Avalanche(Uniswap v2/v3 방식 풀)."
     }
   },
   "work": {
@@ -7927,7 +8271,8 @@
     "modBadge": "운영자",
     "ban": "차단",
     "banConfirm": "{{name}} 님을 차단하시겠습니까?",
-    "banFailed": "사용자 차단 실패"
+    "banFailed": "사용자 차단 실패",
+    "jumpToMentions": "답글 및 멘션으로 이동"
   },
   "promptFeed": {
     "headline": "무엇을 보고 싶으신가요?",
@@ -9080,10 +9425,12 @@
     "editFailed": "편집을 적용하지 못했습니다. 다시 시도하세요.",
     "altPlaceholderVideo": "이 동영상을 설명하세요",
     "preview": {
-      "title": "미리보기"
+      "title": "미리보기",
+      "hint": "피드에서 게시물이 이렇게 보입니다."
     },
     "recent": {
-      "all": "전체"
+      "all": "전체",
+      "show": "최근 사진 보기"
     },
     "studio": {
       "crop": "자르기",
@@ -9104,11 +9451,44 @@
       "font": {
         "bold": "굵게",
         "serif": "세리프",
-        "mono": "모노"
-      }
+        "mono": "모노",
+        "clean": "깔끔하게"
+      },
+      "looks": "룩",
+      "adjust": "조정",
+      "tint": "색조",
+      "vignette": "비네트",
+      "prev": "이전 사진",
+      "count": "{{total}}개 중 {{n}}",
+      "next": "다음 사진",
+      "title": "사진 수정",
+      "holdHint": "길게 눌러 원본 보기",
+      "cropCorner": "모서리 자르기",
+      "straighten": "수평 맞추기",
+      "flip": "뒤집기",
+      "mention": "멘션",
+      "layerHint": "단어와 스티커를 드래그하여 이동하세요. 두 번 탭하면 단어를 변경할 수 있습니다.",
+      "looksAdjust": "룩 및 조정"
     },
     "edited": "편집됨",
-    "edit": "편집"
+    "edit": "편집",
+    "altHint": "볼 수 없는 사람을 위해 무엇이 담겨 있는지 설명하세요.",
+    "altPlaceholder": "이 사진 설명하기",
+    "altTab": "대체 텍스트",
+    "editVideo": "동영상 수정",
+    "trim": "자르기",
+    "trimAndCover": "자르기 및 커버",
+    "trimStart": "클립 시작",
+    "trimEnd": "클립 끝",
+    "trimHint": "흰색 핸들을 드래그하여 자르세요. 스트립을 탭하여 이동하세요.",
+    "useFrameAsCover": "이 프레임을 커버로 사용",
+    "photoHoldHint": "길게 눌러 더 많은 옵션 보기",
+    "editPhoto": "사진 {{n}} 수정",
+    "editAltText": "대체 텍스트 수정",
+    "addAltText": "대체 텍스트 추가",
+    "moveEarlier": "앞으로 이동",
+    "moveLater": "뒤로 이동",
+    "photoN": "{{total}}장 중 {{n}}번째 사진"
   },
   "bounty": {
     "claimed": "수령 완료",
@@ -9745,12 +10125,32 @@
     "shareKindChannel": "채널",
     "shareKindCommunity": "커뮤니티",
     "newDrawer": {
-      "to": "종료"
+      "to": "종료",
+      "placeholder": "이름 또는 @사용자 이름",
+      "recent": "최근",
+      "suggested": "추천",
+      "youFollow": "내가 팔로우하는 사람",
+      "chattedBefore": "대화 중",
+      "mutual": "맞팔로우",
+      "dmsOff": "DM 꺼짐",
+      "keepTyping": "계속 입력하면 모든 사람을 검색합니다",
+      "sayHi": "누군가에게 인사해 보세요",
+      "typeAny": "이름 또는 @사용자 이름을 입력하세요"
     },
     "download": "다운로드",
     "deleteOneTitle": "이 메시지를 삭제하시겠어요?",
     "retrySend": "다시 시도",
-    "discardSend": "삭제"
+    "discardSend": "삭제",
+    "copyMedia": "미디어 복사",
+    "reportMessage": "메시지 신고",
+    "fileSaved": "파일이 저장되었습니다",
+    "fileSaveFailed": "파일을 저장할 수 없습니다",
+    "attachAnything": "사진, 동영상, 오디오 또는 파일 첨부",
+    "attachFileOrAudio": "파일 또는 오디오",
+    "attachPhotoOrVideo": "사진 또는 동영상",
+    "attachTooLarge": "파일이 {{size}}MB 제한을 초과합니다.",
+    "deleteForBothBody": "두 사람 모두에게서 삭제됩니다.",
+    "notSent": "전송되지 않음"
   },
   "editPost": {
     "mediaPermission": "미디어 라이브러리 권한이 필요합니다",
@@ -9873,7 +10273,8 @@
     "notAvailableForPost": "이 게시물에서는 사용할 수 없습니다",
     "noVideo": "동영상 없음",
     "rotate": "회전",
-    "yourDhbBalance": "토큰 잔액: {{amount}}개"
+    "yourDhbBalance": "토큰 잔액: {{amount}}개",
+    "fullscreen": "전체 화면"
   },
   "liveViewer": {
     "loadingStream": "스트림 불러오는 중…",
@@ -10189,7 +10590,22 @@
     "didNotRecoverEither": "그 로그인으로는 여기 표시된 프로필 중 어느 것도 복구되지 않았습니다. 아무것도 바뀌지 않았습니다. 원하는 프로필의 최초 로그인 방법을 시도해 보세요.",
     "didNotRecoverThis": "그 로그인으로 복구된 것은 이 프로필의 지갑이 아닙니다. 아무것도 바뀌지 않았습니다. 처음 만들 때 사용한 로그인 방법을 시도해 보세요.",
     "couldNotRetrieve": "이 기기에서는 그 이전 지갑을 가져올 수 없었습니다. 아래 riftn.com에서는 여전히 복구할 수 있습니다.",
-    "matchedWithBalance": "일치 · {{balance}}개 토큰"
+    "matchedWithBalance": "일치 · {{balance}}개 토큰",
+    "methodEmail": "이메일 코드",
+    "methodPhone": "전화번호",
+    "madeWithNamed": "@{{name}}은(는) {{method}}(으)로 만들어졌습니다. 다시 가져오려면 같은 {{method}} 계정으로 계속하세요.",
+    "madeWith": "이 프로필은 {{method}}(으)로 만들어졌습니다. 다시 가져오려면 같은 {{method}} 계정으로 계속하세요.",
+    "madeWithEmailNamed": "@{{name}}은(는) 이메일 코드로 만들어졌습니다. 다시 가져오려면 해당 이메일로 코드를 한 번 더 보내 드립니다.",
+    "madeWithEmail": "이 프로필은 이메일 코드로 만들어졌습니다. 다시 가져오려면 해당 이메일로 코드를 한 번 더 보내 드립니다.",
+    "madeWithPhoneNamed": "@{{name}}은(는) 전화번호로 만들어졌습니다. 다시 가져오려면 해당 번호로 코드를 한 번 더 문자로 보내 드립니다.",
+    "madeWithPhone": "이 프로필은 전화번호로 만들어졌습니다. 다시 가져오려면 해당 번호로 코드를 한 번 더 문자로 보내 드립니다.",
+    "wrongSignInNamed": "이 로그인은 @{{name}}이(가) 아닌 다른 지갑을 엽니다. @{{name}}은(는) {{method}}(으)로 만들어졌으므로 그 방법으로만 다시 가져올 수 있습니다.",
+    "wrongSignIn": "이 로그인은 다른 지갑을 엽니다. 이 프로필은 {{method}}(으)로 만들어졌으므로 그 방법으로만 다시 가져올 수 있습니다.",
+    "continueWith": "{{provider}}(으)로 계속하기",
+    "differentSignIn": "다른 방법으로 로그인하셨나요?",
+    "oldAccountPhone": "이전 계정 전화번호",
+    "recoverFromPhoneA11y": "이 전화번호로 이전 계정 복구",
+    "phoneNeedsCode": "+82 10 1234 5678처럼 국가 코드와 함께 번호를 입력하세요."
   },
   "liveGift": {
     "buyTokens": "토큰 구매",
@@ -10972,8 +11388,16 @@
       "lockedTranslation": "잠긴 자막을 포함하려면 잠금을 해제하세요.",
       "styles": {
         "bold": "굵게",
-        "serif": "세리프"
-      }
+        "serif": "세리프",
+        "classic": "Classic",
+        "boxed": "Boxed",
+        "wordpop": "Word Pop",
+        "rapid": "Rapid Reveal",
+        "beast": "Beast Mode",
+        "stacked": "Stacked",
+        "bubble": "Bubble"
+      },
+      "style": "자막 스타일"
     },
     "app": {
       "newDesign": "새 디자인",
@@ -11043,7 +11467,11 @@
       "vibrant": "생생하게",
       "cyber": "사이버",
       "invert": "반전",
-      "strength": "필터 강도: {{value}} %"
+      "strength": "필터 강도: {{value}} %",
+      "fadedFilm": "바랜 필름",
+      "technicolor": "Technicolor",
+      "newsreel": "뉴스릴",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "자르기",
@@ -11124,14 +11552,18 @@
       "pptx": "PowerPoint 프레젠테이션",
       "pptxHint": "각 페이지는 발표자 노트와 링크가 있는 하나의 슬라이드 이미지가 됩니다. 원래 디자인에서 개별 텍스트와 요소를 편집합니다.",
       "section": "명명된 섹션",
-      "transparent": "투명 배경"
+      "transparent": "투명 배경",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "타임라인을 FCPXML 및 Premiere XML로 담고 모든 미디어 파일을 포함한 ZIP을 다운로드하여 Premiere Pro, Final Cut Pro 또는 DaVinci Resolve에서 편집을 마무리할 수 있습니다. 텍스트는 마커가 되며, 효과는 Riftn에 남습니다."
     },
     "adjust": {
       "auto": "자동 보정",
       "autoFailed": "이 사진을 분석할 수 없습니다.",
       "tint": "색조 {{value}}",
       "vignette": "비네트 {{value}}%",
-      "warmth": "따뜻함 {{value}}"
+      "warmth": "따뜻함 {{value}}",
+      "halation": "할레이션 {{value}}%",
+      "scanlines": "스캔라인 {{value}}%"
     },
     "draw": {
       "colour": "펜 색상",
@@ -11225,7 +11657,45 @@
       "openGenerator": "검토 후 생성",
       "working": "작업 중…",
       "stop": "중지",
-      "queue": "대기열에 추가"
+      "queue": "대기열에 추가",
+      "stopped": "중지되었습니다. 다른 항목은 변경되지 않았습니다.",
+      "queued": "{{count}}개 대기 중",
+      "restore": "여기로 복원",
+      "restoreHint": "이 메시지 이전 상태로 프로젝트를 되돌립니다. 실행 취소로 다시 가져올 수 있습니다.",
+      "restored": "프로젝트를 해당 메시지 이전 상태로 복원했습니다. 최신 버전을 되돌리려면 실행 취소를 누르세요.",
+      "rewrite": "내 요청을 더 명확하게",
+      "rewriteFailed": "다시 작성할 수 없습니다. 텍스트는 변경되지 않았습니다.",
+      "feedback": "도움이 되었나요?",
+      "good": "좋은 답변",
+      "bad": "나쁜 답변",
+      "retryPrefix": "그게 아니었어요. 대신, ",
+      "recipesTitle": "레시피",
+      "recipe": {
+        "podcastClip": {
+          "label": "팟캐스트 클립",
+          "prompt": "가장 강렬한 30초 구간을 찾아 잘라내고, Word Pop 자막을 추가해 9:16으로 만드세요."
+        },
+        "talkingHead": {
+          "label": "깔끔한 토킹 헤드",
+          "prompt": "긴 공백을 자르고, Classic 자막을 추가하고, 은은하고 따뜻한 룩을 입히세요."
+        },
+        "productPromo": {
+          "label": "제품 홍보",
+          "prompt": "15초 홍보 영상 만들기: 시작에 임팩트 있는 제목, 클립 사이에 줌 인 전환, Bold 자막과 경쾌한 음악."
+        },
+        "hypeReel": {
+          "label": "하이프 릴",
+          "prompt": "음악 비트에 맞춰 클립을 자르고, 플라이 업 전환과 Technicolor 룩을 사용하세요."
+        },
+        "retroEdit": {
+          "label": "레트로 편집",
+          "prompt": "모든 클립에 VHS 룩을 입히고, 큰 세리프 제목을 추가하고, 페이드 전환을 사용하세요."
+        },
+        "tutorial": {
+          "label": "튜토리얼",
+          "prompt": "단계마다 제목과 Boxed 자막을 추가하고, 핵심 장면을 0.5배속으로 느리게 하세요."
+        }
+      }
     },
     "brand": {
       "addColor": "브랜드 색상 추가",
@@ -11251,7 +11721,10 @@
       "saveNewPreset": "새로 저장",
       "saveStyles": "디자인과 함께 스타일 저장",
       "stylesSaved": "이 디자인과 함께 저장된 브랜드 스타일",
-      "usePreset": "스타일 사용"
+      "usePreset": "스타일 사용",
+      "dehubApplied": "{{count}}개 레이어에 Riftn 브랜드를 적용했습니다.",
+      "dehubApply": "Riftn 브랜드 사용",
+      "dehubHint": "공식 Riftn 색상, Exo 및 Inter 글꼴, Riftn 로고를 한 번에 적용합니다."
     },
     "templates": {
       "announcement": {
@@ -11364,7 +11837,9 @@
       "exportHint": "동영상이 렌더링되는 동안 편집기를 열어 두세요.",
       "tooLarge": "파일이 너무 커서 편집기에서 열 수 없습니다. 최대 400 MB입니다.",
       "tZoomIn": "확대",
-      "tZoomOut": "축소"
+      "tZoomOut": "축소",
+      "tFlyUp": "플라이 업",
+      "tFlyDown": "플라이 다운"
     },
     "motion": {
       "title": "모션",
@@ -12550,21 +13025,141 @@
       "add": "추가",
       "scale": "크기",
       "color": "색상",
-      "light": "라이트"
+      "light": "라이트",
+      "create": "3D 스테이지 추가",
+      "title": "3D 장면 스테이지",
+      "hint": "구와 상자로 샷을 구성하세요. 카메라, 배치, 세 개의 독립적인 영역 조명이 렌더링된 프레임을 바꿉니다.",
+      "preview": "렌더링된 장면 미리보기",
+      "error": "프레임을 준비할 수 없습니다. 샷 참조를 확인하고 다시 시도하세요.",
+      "elevation": "고도",
+      "distance": "거리",
+      "fov": "시야각",
+      "object": "오브젝트",
+      "sphere": "구",
+      "box": "상자",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "오브젝트 삭제",
+      "intensity": "강도",
+      "diffusion": "확산",
+      "saving": "프레임 준비 중…",
+      "useFrame": "렌더링된 프레임을 샷 참조로 사용",
+      "frameHint": "320 × 180 PNG를 만들어 이 샷의 참조에 추가합니다. 생성하기 전에 참조 한도와 모델 견적을 검토하세요.",
+      "frameName": "장면 스테이지 프레임"
     },
     "clipFix": {
-      "listening": "듣는 중…"
+      "listening": "듣는 중…",
+      "detach": "오디오 분리",
+      "detached": "오디오가 별도 클립으로 이동되었습니다",
+      "detachFailed": "이 클립의 오디오를 분리할 수 없습니다",
+      "removeBars": "검은 여백 제거",
+      "scanning": "프레임 확인 중…",
+      "noBars": "검은 여백이 없습니다",
+      "barsRemoved": "검은 여백을 잘라냈습니다",
+      "barsFailed": "이 동영상의 검은 여백을 확인할 수 없습니다",
+      "reframe": "자동 리프레임",
+      "reframeHint": "동영상이 이미 이 페이지 형태에 맞습니다",
+      "reframed": "동작을 따라가도록 리프레임했습니다",
+      "reframeFailed": "이 동영상을 리프레임할 수 없습니다",
+      "retakes": "재촬영 부분 제거",
+      "noRetakes": "재촬영 부분이 없습니다",
+      "retakesRemoved": "재촬영 {{count}}개를 제거하고 마지막 테이크를 유지했습니다",
+      "retakesFailed": "이 클립에서 재촬영 부분을 제거할 수 없습니다"
     },
     "voiceClone": {
       "stop": "녹음 중지",
-      "failed": "음성 클로닝이 실패했습니다."
+      "failed": "음성 클로닝이 실패했습니다.",
+      "pickerLabel": "내 목소리 복제",
+      "pickerDetail": "내 목소리로 만드는 보이스오버",
+      "title": "내 목소리 복제",
+      "description": "직접 녹음하거나 내가 말하는 클립을 선택하세요. 한 번만 결제하면 모든 보이스오버에 내 목소리를 사용할 수 있습니다.",
+      "defaultName": "내 목소리",
+      "record": "샘플 녹음(30초~2분)",
+      "fromMedia": "또는 미디어의 클립 사용",
+      "recorded": "내 녹음",
+      "sample": "샘플: {{name}}",
+      "hint": "음악 없이 또렷한 음성이 가장 좋습니다.",
+      "noMic": "마이크를 사용할 수 없습니다.",
+      "sampleFailed": "해당 클립에서 소리를 읽을 수 없습니다.",
+      "pay": "{{amount}}토큰으로 복제",
+      "useFree": "복제(결제 완료)",
+      "owned": "“{{name}}” 목소리가 이미 설정되어 있습니다. 음성 목록에서 선택하세요.",
+      "useOwned": "내 목소리 사용",
+      "ready": "“{{name}}”을(를) 보이스오버에 사용할 준비가 되었습니다.",
+      "paidFailed": "결제가 저장되었습니다. 이 창을 다시 열면 다음 시도는 무료입니다.",
+      "consent": "본인의 목소리 또는 사용 허가를 받은 목소리만 복제하세요."
     },
     "linkImport": {
       "go": "가져오기",
-      "downloading": "다운로드 중 {{percent}}%"
+      "downloading": "다운로드 중 {{percent}}%",
+      "open": "링크에서 가져오기",
+      "placeholder": "YouTube, TikTok 또는 다른 링크 붙여넣기",
+      "rights": "이 동영상을 소유하고 있거나 사용 허가를 받았습니다",
+      "audioOnly": "소리만",
+      "queued": "대기 중…",
+      "waiting": "사이트 응답을 기다리는 중, 곧 다시 시도합니다…",
+      "adding": "미디어에 추가하는 중…",
+      "added": "가져와서 타임라인에 추가했습니다.",
+      "failed": "해당 링크를 가져올 수 없습니다."
     },
     "reverse": {
-      "action": "거꾸로"
+      "action": "거꾸로",
+      "working": "역재생 처리 중 {{percent}}%",
+      "done": "클립을 역재생으로 만들었습니다.",
+      "failed": "이 클립을 역재생으로 만들 수 없습니다.",
+      "unsupported": "이 브라우저는 동영상 역재생을 지원하지 않습니다. Chrome 또는 Edge를 사용해 보세요.",
+      "tooLong": "최대 {{seconds}}초 길이의 클립만 역재생할 수 있습니다."
+    },
+    "film": {
+      "repairRefs": "누락된 미디어 링크 삭제",
+      "title": "영상 프로젝트",
+      "intro": "재사용 가능한 이미지 참조로 샷을 계획하세요. 브리프, 샷 순서, 선택한 결과는 이 프로젝트와 함께 저장됩니다.",
+      "create": "영상 계획 만들기",
+      "name": "영상 이름",
+      "brief": "영상 브리프",
+      "sharedReferences": "공유 이미지 참조(최대 4개)",
+      "shot": "샷",
+      "addShot": "샷 추가",
+      "shotName": "샷 이름",
+      "action": "샷 동작 및 구도",
+      "seconds": "요청 동영상 길이(초)",
+      "shotReferences": "추가 이미지 참조(합계 최대 4개)",
+      "frame": "프레임 준비",
+      "video": "동영상 준비",
+      "review": "생성하기 전에 스튜디오에서 모델, 참조, 동영상 길이, 가격을 검토하세요.",
+      "result": "승인된 샷 결과",
+      "noResult": "선택된 결과 없음",
+      "resultHint": "업로드에서 승인된 이미지나 동영상을 선택하세요. 링크가 이 샷과 함께 저장되며, 타임라인에서 영상을 조합하세요.",
+      "earlier": "앞으로 이동",
+      "later": "뒤로 이동",
+      "remove": "샷 삭제",
+      "issue": "샷 설명과 참조 미디어를 확인한 후 다시 시도하세요. 저장할 수 없었다면 프로젝트를 열어 두세요.",
+      "searchMedia": "이름으로 미디어 찾기",
+      "refreshMedia": "미디어 새로고침"
+    },
+    "speakers": {
+      "find": "화자 찾기",
+      "name": "화자 {{number}}",
+      "onlyOne": "화자를 한 명만 찾았습니다.",
+      "failed": "화자를 찾을 수 없습니다.",
+      "kept": "{{name}}만 남겼습니다.",
+      "editFailed": "이 편집은 이 클립에 맞지 않습니다.",
+      "split": "화자 샷 {{count}}개로 분할했습니다.",
+      "keepOnly": "이것만 유지",
+      "splitAction": "화자가 바뀔 때마다 자르기"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "원하는 3D 오브젝트를 설명하세요",
+      "queued": "3D 오브젝트를 만드는 중입니다. 생성물 탭에 표시됩니다.",
+      "note": "3D 오브젝트는 배경이 투명한 짧은 회전 클립으로 미디어에 추가됩니다."
+    },
+    "behind": {
+      "action": "인물 뒤 텍스트",
+      "working": "인물을 분리하는 중…",
+      "done": "이제 텍스트와 자막이 인물 뒤에 배치됩니다.",
+      "failed": "텍스트를 인물 뒤에 배치할 수 없습니다."
     }
   },
   "creator": {
@@ -13029,7 +13624,47 @@
     "referenceComposeHint": "여러 이미지에서 캐릭터, 객체 및 설정들을 하나의 구성으로 통합하세요",
     "marketing": {
       "import": {
-        "use": "다음 세부정보를 사용하세요."
+        "use": "다음 세부정보를 사용하세요.",
+        "url": "제품 페이지 URL",
+        "action": "제품 페이지 읽기",
+        "loading": "페이지 읽는 중…",
+        "hint": "공개 제품 페이지에서 텍스트를 가져옵니다. 사용하기 전에 세부 정보를 검토하고, 제품 이미지는 스튜디오에서 따로 첨부하세요.",
+        "source": "가져온 소스",
+        "review": "편집 가능한 브리프에 복사할 제품을 선택하세요. 헤드라인, 음성, 브랜드 색상은 그대로 유지됩니다.",
+        "errors": {
+          "signIn": "제품 페이지를 가져오려면 로그인하세요.",
+          "url": "공개 HTTPS 제품 URL을 사용하세요.",
+          "empty": "사용할 수 있는 제품 정보를 찾지 못했습니다. 직접 추가하세요.",
+          "busy": "진행 중인 가져오기가 너무 많습니다. 잠시 후 다시 시도하세요.",
+          "unavailable": "이 페이지를 가져올 수 없습니다. 제품 정보를 직접 추가하세요.",
+          "failed": "가져오기에 실패했습니다. 브리프는 저장되었으니 다시 시도하거나 정보를 직접 입력하세요."
+        }
+      },
+      "title": "캠페인 브리프",
+      "intro": "제품과 브랜드를 설명한 후 맞는 광고 형식을 준비하세요.",
+      "saved": "브리프는 이 기기에 이 계정으로 저장됩니다.",
+      "preview": "형식 준비",
+      "clear": "브리프 지우기",
+      "required": "형식을 준비하려면 제품 이름과 설명을 추가하세요.",
+      "variants": "캠페인 형식",
+      "reviewHint": "생성하기 전에 스튜디오에서 모델, 가격, 제품 참조를 검토하세요. 각 형식은 별도로 생성됩니다.",
+      "open": "스튜디오에서 검토",
+      "fields": {
+        "product": "제품 이름(필수)",
+        "description": "제품 정보(필수)",
+        "brand": "브랜드 이름",
+        "audience": "타깃 고객",
+        "benefit": "핵심 혜택",
+        "voice": "브랜드 보이스",
+        "palette": "브랜드 색상",
+        "headline": "승인된 헤드라인",
+        "cta": "행동 유도 문구"
+      },
+      "formats": {
+        "square": "정사각형 광고",
+        "portrait": "세로형 광고",
+        "story": "스토리 이미지",
+        "video": "세로 동영상"
       }
     },
     "batchCount": "이미지",
@@ -13037,7 +13672,109 @@
     "cinema": {
       "close": "닫기",
       "performance": {
-        "label": "성능"
+        "label": "성능",
+        "0": "즐거운",
+        "1": "우울한",
+        "2": "불안한",
+        "3": "자신감 있는",
+        "4": "경외감에 찬",
+        "5": "절제된",
+        "6": "장난스러운"
+      },
+      "title": "시네마 연출",
+      "hint": "다음 이미지나 동영상의 시각적 스타일을 안내합니다. 결과는 모델마다 다릅니다.",
+      "none": "연출 없음",
+      "reset": "연출 지우기",
+      "camera": {
+        "label": "카메라 룩",
+        "0": "디지털 시네마",
+        "1": "35mm 필름",
+        "2": "16mm 필름",
+        "3": "대형 포맷",
+        "4": "빈티지 캠코더"
+      },
+      "lens": {
+        "label": "렌즈 룩",
+        "0": "구면 렌즈",
+        "1": "아나모픽",
+        "2": "빈티지 소프트 렌즈",
+        "3": "매크로",
+        "4": "틸트 시프트"
+      },
+      "focalLength": {
+        "label": "초점 거리",
+        "0": "18mm 광각",
+        "1": "24mm 광각",
+        "2": "35mm 자연스러운 화각",
+        "3": "50mm 표준",
+        "4": "85mm 인물",
+        "5": "135mm 망원"
+      },
+      "aperture": {
+        "label": "피사계 심도",
+        "0": "f/1.4 매우 얕음",
+        "1": "f/2.8 얕음",
+        "2": "f/5.6 보통",
+        "3": "f/11 깊은 초점"
+      },
+      "movement": {
+        "label": "카메라 움직임",
+        "0": "삼각대 고정",
+        "1": "느린 돌리 인",
+        "2": "느린 돌리 아웃",
+        "3": "측면 트래킹",
+        "4": "피사체 주위 회전",
+        "5": "핸드헬드",
+        "6": "크레인 상승",
+        "7": "느린 팬"
+      },
+      "lighting": {
+        "label": "조명",
+        "0": "부드러운 자연광",
+        "1": "골든 아워",
+        "2": "로우키 명암 대비",
+        "3": "하이키 스튜디오",
+        "4": "네온 실제 조명",
+        "5": "실루엣 역광",
+        "6": "흐린 날 확산광"
+      },
+      "tempo": {
+        "label": "샷 템포",
+        "0": "단일 연속 샷",
+        "1": "차분하고 여유로운 동작",
+        "2": "역동적이고 활기찬 동작",
+        "3": "혼란스럽고 격렬한 동작"
+      },
+      "era": {
+        "label": "시대",
+        "0": "1920년대",
+        "1": "1950년대",
+        "2": "1960년대",
+        "3": "1970년대",
+        "4": "1980년대",
+        "5": "1990년대",
+        "6": "현대",
+        "7": "가까운 미래"
+      },
+      "genre": {
+        "label": "장르",
+        "0": "다큐멘터리",
+        "1": "드라마",
+        "2": "필름 누아르",
+        "3": "공상 과학",
+        "4": "판타지",
+        "5": "로맨틱 코미디",
+        "6": "스릴러",
+        "7": "서부극"
+      },
+      "palette": {
+        "label": "색상 팔레트",
+        "0": "따뜻한 앰버",
+        "1": "차가운 블루",
+        "2": "차분한 어스 톤",
+        "3": "파스텔",
+        "4": "고대비 흑백",
+        "5": "채도 높은 원색"
       }
     },
     "audioNoSpeech": "녹음 파일에서 발언이 발견되지 않았습니다.",
@@ -13057,9 +13794,139 @@
     "gallery": {
       "send": "전송",
       "notifications": {
-        "generation_reply": "{{name}}이(가) 댓글에 답글"
+        "generation_reply": "{{name}}이(가) 댓글에 답글",
+        "generation_like": "{{name}}님이 내 생성물에 리액션했습니다",
+        "generation_comment_like": "{{name}}님이 내 댓글에 리액션했습니다",
+        "generation_comment": "{{name}}님이 내 생성물에 댓글을 남겼습니다"
+      },
+      "browse": "생성물 둘러보기",
+      "empty": "아직 만든 작품이 없습니다",
+      "fullscreen": "전체 화면으로 보기",
+      "missing": "이 생성물을 사용할 수 없습니다."
+    },
+    "layerNewAttempt": "새 시도 검토",
+    "layerTitle": "이미지 레이어 분리",
+    "layerPngRequired": "최대 12MiB, 4메가픽셀 이하의 저장된 PNG 이미지를 선택하세요.",
+    "layerSource": "원본 이미지",
+    "layerDescription": "투명 PNG 레이어 4개. 텍스트는 각 이미지의 일부로 유지됩니다.",
+    "layerSeparate": "레이어 분리",
+    "layerPending": "저장된 작업: {{status}}. 추가 결제 없이 받거나 저장을 재시도하세요.",
+    "layerCollect": "받기 / 저장 재시도",
+    "layerOpen": "편집기에서 레이어 열기",
+    "layerExport": "PNG 레이어 + 매니페스트 ZIP 내보내기",
+    "layerNumber": "레이어 {{number}}",
+    "priceRetry": "가격을 확인할 수 없습니다. 가격을 검토하고 다시 시도하세요.",
+    "avatarTitle": "말하는 초상화",
+    "avatarRequirements": "정사각형 PNG 초상화, 512–2048픽셀, 최대 5MB. 모노 24kHz 16비트 PCM WAV, 5–30초. 마지막 1초 미만 부분은 무음으로 채워집니다.",
+    "avatarPortrait": "초상화 PNG 선택",
+    "avatarAudio": "음성 WAV 선택",
+    "avatarPermission": "이 초상화를 애니메이션으로 만들고 이 오디오를 사용할 권한이 있습니다.",
+    "avatarQuote": "무음 포함 {{seconds}}초 · {{amount}}토큰",
+    "avatarPrepare": "준비 및 가격 검토",
+    "batchFlowLimit": "Flow 목록이 가득 찼습니다. 새 배치를 만들기 전에 사용하지 않는 Flow를 삭제하세요.",
+    "batchReviewCampaign": "Flow에서 캠페인 배치 검토",
+    "batchReviewFilmImages": "스토리보드 이미지 배치 검토",
+    "batchReviewFilmVideos": "영상 클립 배치 검토",
+    "batchReviewHint": "별도로 저장된 Flow를 엽니다. 결제 전에 모든 항목과 전체 가격을 검토하세요. 완료된 항목과 원래 결제 내역은 복구를 위해 보관됩니다. 참조 자료는 비공개 라이브러리에 복사되며, 저장 공간 및 네트워크 사용량이 적용됩니다.",
+    "batchInvalid": "1–12개의 이미지 또는 클립 배치를 준비하기 전에 각 항목을 완성하세요.",
+    "batchReferenceLimit": "이 배치는 항목당 하나의 이미지 참조만 지원합니다. 추가 참조를 삭제하거나 해당 항목을 개별적으로 준비하세요.",
+    "batchVideoSettings": "이 배치에서 클립은 4–15초의 정수 길이와 16:9, 9:16 또는 1:1 화면 비율이어야 합니다.",
+    "batchMissingReference": "참조가 없거나, 지원되지 않거나, 25MB보다 큽니다. 배치를 준비하기 전에 편집기에서 복원하세요.",
+    "batchOwnerChanged": "계정 또는 초안이 변경되었습니다. 원래 계정으로 이 배치를 다시 여세요.",
+    "batchConflict": "저장된 배치가 원래 스냅샷과 일치하지 않습니다.",
+    "campaignPlanTitle": "캠페인 변형 및 에피소드",
+    "campaignPlanIntro": "최대 12개의 변형 또는 에피소드를 저장하세요. 각각 스튜디오에서 별도로 검토하고 견적을 받습니다. 공유 메모가 연속성을 안내하지만, 제품 외형, 캐릭터, 음성은 생성할 때마다 달라질 수 있습니다.",
+    "campaignTitle": "캠페인 또는 시리즈 이름",
+    "campaignContinuity": "공유 캐릭터, 음성 및 스타일 메모",
+    "campaignVariantTitle": "변형 또는 에피소드 이름",
+    "campaignHook": "오프닝 후크",
+    "campaignLanguage": "출력 언어",
+    "campaignScript": "승인된 스크립트 또는 장면 순서",
+    "campaignAdd": "변형 또는 에피소드 추가",
+    "campaignClear": "계획 지우기",
+    "campaignFormat": "출력 형식",
+    "audioExportFormat": "내보내기 형식",
+    "audioExportMp3": "MP3 · 128kbps",
+    "audioExportWav": "WAV · 24kHz · 모노",
+    "extensionNeedsClip": "연장할 소스 클립을 하나 첨부하세요.",
+    "extensionSeconds": "+{{seconds}}초 새 영상",
+    "extensionHelp": "약 4초의 새 영상이 추가된 소스 클립을 반환합니다. 출력은 최대 720p, 24fps로 조정됩니다. 연장 부분에는 새 오디오가 생성됩니다.",
+    "extensionForward": "소스 클립 뒤에 약 4초 추가",
+    "extensionBackward": "소스 클립 앞에 약 4초 추가",
+    "expandDescription": "새 이미지 테두리를 생성합니다. 영어 프롬프트는 선택 사항이며, 소스 이미지는 하나입니다.",
+    "relightDescription": "조명 및 배경 설명에 따라 사진 한 장의 조명을 바꿉니다.",
+    "expandPromptHint": "이미지 하나를 첨부하고 새 화면 비율을 선택하세요. 영어 프롬프트는 선택 사항입니다.",
+    "expandEnglishOnly": "이 확장 모델은 영어 프롬프트를 지원합니다. 자동 확장을 원하면 프롬프트를 비워 두세요.",
+    "expandNeedsImage": "확장할 이미지를 첨부하세요.",
+    "learn": {
+      "title": "크리에이터 강좌",
+      "intro": "짧은 강좌마다 지식 확인과 편집 가능한 실습이 있습니다. 진행 상황은 이 기기에 내 계정으로 저장됩니다.",
+      "back": "크리에이터로 돌아가기",
+      "lessons": "강좌",
+      "progress": "{{total}}개 중 {{completed}}개 지식 확인 통과",
+      "check": "정답 확인",
+      "correct": "지식 확인 통과",
+      "retry": "다시 시도하세요. 위의 강좌를 복습하세요.",
+      "exerciseTitle": "실습",
+      "exerciseHint": "내 스튜디오 작업 공간에서 편집 가능한 예제를 엽니다. 초안을 여는 것은 무료이며, 생성은 검토와 별도 견적이 필요합니다. 생성하기 전에 예제를 수정하세요.",
+      "openExercise": "실습 초안 열기",
+      "closeExercise": "실습 닫기",
+      "brief": {
+        "title": "명확한 시각적 브리프 작성하기",
+        "body1": "구체적인 대상, 동작, 배경을 설명하세요. 장면에 도움이 되면 구도나 카메라 움직임을 추가하세요. 관련 없는 아이디어는 다른 초안에 남겨 두세요.",
+        "body2": "조명, 렌즈, 스타일 지시는 모델을 안내합니다. 실제 카메라 동작이나 정확한 이미지를 보장하지는 않습니다. 수정본을 비교할 수 있도록 한 번에 한 부분씩 변경하세요.",
+        "body3": "생성하기 전에 선택한 모델, 지원되는 첨부 파일, 크기, 가격을 검토하세요. 다시 돌아갈 수 있도록 원래 초안을 보관하세요.",
+        "question": "어떤 브리프가 가장 수정하기 쉬울까요?",
+        "answer0": "명확한 대상, 동작, 배경",
+        "answer1": "모델 이름만",
+        "answer2": "서로 모순되는 스타일 목록",
+        "exercise": "창가 옆 나무 테이블 위의 도자기 찻주전자. 부드러운 아침 햇살, 미디엄 프레이밍, 단순한 배경. 찻주전자를 명확한 대상으로 유지하세요."
+      },
+      "continuity": {
+        "title": "샷 계획 및 연속성 검토",
+        "body1": "편집기의 영상 패널에서 브리프와 순서대로 정렬된 샷을 저장하세요. 각 프레임이나 클립을 따로 준비하고 견적을 검토한 후 승인된 결과를 선택하세요.",
+        "body2": "선택한 모델이 지원하는 참조만 첨부하세요. 참조를 재사용하면 외형을 유도할 수 있지만, 정체성을 학습하거나 일치를 보장하지는 않습니다. 캐릭터와 음성은 생성할 때마다 달라질 수 있습니다.",
+        "body3": "성공한 테이크를 보관하고 타임라인에서 조합하세요. 내보내기 전에 움직임, 얼굴, 대사, 전환을 검토하세요.",
+        "question": "샷 간의 연속성을 돕는 것은 무엇일까요?",
+        "answer0": "관련 없는 프롬프트를 더 많이",
+        "answer1": "승인된 참조와 검토된 샷 메모",
+        "answer2": "캐릭터 정체성이 보장된다고 가정하기",
+        "exercise": "해 뜰 무렵 고요한 해안에 도착하는 외로운 여행자의 와이드 샷. 느린 전진 카메라 움직임, 차분한 분위기. 하나의 연속 샷."
+      },
+      "campaign": {
+        "title": "승인된 제품 정보 사용",
+        "body1": "확인할 수 있는 제품 정보로 시작하세요. 가져온 메타데이터는 사용하기 전에 검토하세요. 헤드라인과 행동 유도 문구를 명시적으로 작성하고, 가격, 리뷰 또는 성능 주장을 지어내지 마세요.",
+        "body2": "저장된 캠페인 변형을 사용해 공유 메모와 개별 후크, 스크립트, 언어, 형식을 함께 관리하세요. 검토한 항목을 하나씩 준비하고 스튜디오에서 견적을 확인하세요.",
+        "body3": "결과물에서 보이는 텍스트, 제품 외형, 음성으로 전달되는 주장을 검토하세요. 프롬프트는 제품 정확성이나 마케팅 성과를 증명하지 않습니다.",
+        "question": "제품 주장은 언제 포함해야 할까요?",
+        "answer0": "설득력 있게 들릴 때마다",
+        "answer1": "별 다섯 개 리뷰를 지어낸 후",
+        "answer2": "승인된 제품 정보에서 나온 경우",
+        "exercise": "재사용 가능한 틴 케이스에 담긴 홀리프 차를 위한 세로형 제품 광고를 만드세요. 승인된 헤드라인: 차 한 잔의 여유를 가지세요. 승인된 CTA: 컬렉션 둘러보기. 이 정보만 사용하고 할인, 리뷰 또는 건강 관련 주장을 지어내지 마세요."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "이 채팅은 이 기기에 저장된 비공개 녹음을 재생합니다. 다른 기기에서는 클라우드 저장이 완료된 후 크리에이터 라이브러리를 여세요. 지금 나가면 이 채팅을 다시 열어 저장을 완료하세요.",
+    "batchPaymentHelp": "제출된 이미지마다 별도로 요금이 부과됩니다. 배치가 중단되면 결제에서 사용되지 않은 토큰은 이후 해당 생성에 자동으로 재사용됩니다.",
+    "endFrameHelp": "첨부 버튼으로 시작 이미지를 추가하세요.",
+    "seed": "시드(선택 사항, 0–2147483647)",
+    "negativePrompt": "네거티브 프롬프트(선택 사항)",
+    "invalidSeed": "시드는 0에서 2147483647 사이의 정수여야 합니다.",
+    "endFrameNeedsStart": "끝 프레임을 선택하기 전에 시작 이미지를 첨부하세요.",
+    "batchStopped": "{{quantity}}개 중 {{submitted}}개를 제출한 후 배치가 중지되었습니다. {{remaining}}개는 제출되지 않았습니다. 완료된 이미지는 저장되었습니다.",
+    "audioInvalidTask": "지원되는 오디오 작업을 선택하세요.",
+    "audioNeedsFile": "먼저 지원되는 오디오 또는 동영상 파일을 첨부하세요.",
+    "audioTextLimit": "음성과 대화는 1–5000자, 효과음은 1–1000자까지 가능합니다.",
+    "audioDurationLimit": "사운드 길이는 자동(0) 또는 0.5–30초여야 합니다.",
+    "audioModels": "기타 오디오 모델",
+    "audioAttach": "녹음 첨부",
+    "audioAttachFailed": "해당 녹음을 첨부할 수 없습니다.",
+    "audioSeconds": "초(0 = 자동)",
+    "audioInvalidResponse": "오디오 서비스가 잘못된 결과를 반환했습니다.",
+    "audioResultTooLarge": "오디오 결과가 비어 있거나 50MB를 초과합니다.",
+    "audioFailed": "해당 오디오를 처리할 수 없습니다.",
+    "libraryFavorites": "즐겨찾기",
+    "libraryFavoriteAdd": "즐겨찾기에 추가",
+    "libraryFavoriteRemove": "즐겨찾기에서 삭제"
   },
   "fractions": {
     "title": "프랙션",
@@ -13201,7 +14068,8 @@
     "offerSubmitted_other": "{{count}} 개의 분할에 대해 {{price}} 개의 토큰으로 제안 제출",
     "yourOfferLabel": "귀하의 제안 (분할당 토큰)",
     "listedToast_one": "{{count}} 개의 분할을 {{price}} 개의 토큰으로 상장",
-    "listedToast_other": "{{count}} 개의 분할을 {{price}} 개의 토큰으로 상장"
+    "listedToast_other": "{{count}} 개의 분할을 {{price}} 개의 토큰으로 상장",
+    "nftsSubtitle": "모든 NFT, 원스텝 스왑"
   },
   "moderation": {
     "appealDuplicate": "이미 이의를 제기하셨습니다.",
@@ -14513,7 +15381,14 @@
     "faqWhatA": "MCP를 통해 Riftn 공개 게시물을 둘러보고, 주제를 검색하고, 크리에이터 프로필을 조회할 수 있습니다. 사용자를 대신해 게시하지는 않습니다.",
     "faqAccountQ": "Riftn 계정이 필요한가요?",
     "chatgptFaqAccount": "커넥터를 통해 공개 콘텐츠를 읽는 데 계정이 필요하지 않습니다. Riftn 계정은 게시, 팁 또는 Riftn 토큰 보유를 원하는 경우에만 필요합니다.",
-    "claudeFaqAccount": "아니요. 공개 콘텐츠 읽기는 계정 없이도 작동합니다. 게시, 팁 또는 Riftn 토큰 보유에는 Riftn 계정만 필요합니다."
+    "claudeFaqAccount": "아니요. 공개 콘텐츠 읽기는 계정 없이도 작동합니다. 게시, 팁 또는 Riftn 토큰 보유에는 Riftn 계정만 필요합니다.",
+    "subtitleAccount": "ChatGPT, Claude 또는 모든 MCP 앱에서 Riftn을 사용하세요. 계정 없이 둘러보거나, 로그인하여 비공개 초안 저장, 게시물 게시 및 예약, 이미지와 투표 관리, 분석 보기, 답글, 팔로우를 할 수 있습니다.",
+    "agentsTitle": "어시스턴트에서 에이전트 실행하기",
+    "agentsBody": "연결할 때 \"에이전트로 활동\"도 허용하세요. 그러면 어시스턴트가 내가 소유한 에이전트로 게시, 답글, 리액션, 리포스트, 팔로우, 프로필 수정을 할 수 있습니다. 내가 소유하지 않은 계정으로는 절대 활동할 수 없습니다.",
+    "keysTitle": "개인 키",
+    "keysBody": "로그인 페이지를 열 수 없는 스크립트, 봇, 앱을 위한 키입니다. 키는 내가 허용한 작업만 수행하며 30일 동안 사용하지 않으면 중지됩니다.",
+    "keysMake": "개인 키 만들기",
+    "manageLinked": "연결된 앱 및 키 관리"
   },
   "credits": {
     "percentUsed": "{{percent}} % 사용됨",
@@ -14627,7 +15502,10 @@
       "body": "DHB는 바로 앱의 지갑으로 직행합니다. {{wallet}}. 결제는 취소할 수 없습니다.",
       "confirm": "지불 {{amount}} 토큰",
       "sent": "지불된 {{amount}} DHB를 {{name}}로 이체했습니다.",
-      "title": "{{name}}로 지불?"
+      "title": "{{name}}로 지불?",
+      "testBadge": "테스트 모드",
+      "testBody": "내가 소유한 앱이므로 테스트입니다. 토큰은 이동하지 않으며 영수증에 테스트로 표시됩니다.",
+      "testSent": "{{amount}}토큰 테스트 결제입니다. 아무것도 전송되지 않았습니다."
     },
     "add": {
       "title": "{{name}}을(를) 추가하시겠습니까?",
@@ -14703,7 +15581,16 @@
     "level": "레벨 {{level}}",
     "streak_one": "{{count}} -주 연속",
     "streak_other": "{{count}} -주 연속",
-    "tipJar": "선물 항아리"
+    "tipJar": "선물 항아리",
+    "eyebrow": {
+      "follow": "새 팔로워",
+      "subscribe": "새 구독자",
+      "subscribedTo": "구독함 · {{plan}}",
+      "gifted_one": "구독권을 선물함",
+      "gifted_other": "구독권 {{count}}개를 선물함",
+      "share": "방송을 공유함",
+      "join": "방금 참여함"
+    }
   },
   "liveStudio": {
     "controls": {
@@ -15070,8 +15957,20 @@
         "off": "끔",
         "idle": "준비 완료",
         "live": "라이브",
-        "error": "오류"
-      }
+        "error": "오류",
+        "connecting": "연결 중"
+      },
+      "title": "멀티스트림 대상",
+      "intro": "Riftn에서 한 번만 라이브를 시작하면 여기서 켜 둔 모든 플랫폼으로 무료로 방송을 송출합니다. 라이브 시작 후 몇 초 내에 시작됩니다.",
+      "add": "대상 추가",
+      "empty": "아직 대상이 없습니다. Twitch, YouTube, Kick 또는 모든 RTMP 서버를 추가하세요.",
+      "server": "서버 URL",
+      "findKey": "{{name}} 서버와 키 찾기",
+      "customHint": "플랫폼에서 제공하는 RTMP 서버와 키를 붙여넣으세요.",
+      "keyNote": "키는 서버에 암호화되어 저장되며 다시 표시되지 않습니다.",
+      "added": "{{name}} 추가됨",
+      "saveFailed": "대상을 저장할 수 없습니다",
+      "toggle": "이 대상으로 방송하기"
     }
   },
   "liveChatModeration": {
@@ -15111,7 +16010,8 @@
     "priceUnavailable": "예약 불가능한 가격",
     "confirm": "{{chain}} 에 민트",
     "confirmWithCost": "조폐국 {{chain}} · {{cost}}",
-    "notAvailable": "이 체인에서 주조는 아직 사용할 수 없습니다."
+    "notAvailable": "이 체인에서 주조는 아직 사용할 수 없습니다.",
+    "gasOnly": "≈ {{usd}} 가스비"
   },
   "halloween": {
     "title": "해피 할로윈",
@@ -15130,7 +16030,8 @@
     "joinedBodyNoEmail": "이메일을 통해 토큰 출시 시점에 알려드리겠습니다.",
     "failed": "저장할 수 없습니다. 다시 시도해 주세요.",
     "privacy": "오직 출시 소식을 알려주기 위해만 사용됩니다.",
-    "eyebrow": "출시 예정"
+    "eyebrow": "출시 예정",
+    "title": "토큰 곧 출시"
   },
   "githubLink": {
     "hint": "로그인하여 GitHub 계정이 자신의 것임을 증명하세요. Riftn은 당신의 공개 GitHub 프로필만 볼 수 있습니다.",
@@ -15221,7 +16122,51 @@
     "bundleBadge": "번들 ×{{n}}",
     "dropBadge": "가격 하락",
     "days_one": "{{count}}일",
-    "days_other": "{{count}}일"
+    "days_other": "{{count}}일",
+    "actCollectionOffer": "컬렉션 제안",
+    "actListed": "등록됨",
+    "actSale": "판매",
+    "buyAll": "모두 구매",
+    "buySeveral": "여러 개 구매",
+    "cartBought": "{{n}}개를 구매했습니다. 이제 지갑에 있습니다.",
+    "cartCount": "장바구니에 {{n}}개",
+    "cartFull": "한 번에 최대 20개",
+    "cartOneCoin": "장바구니당 하나의 체인과 하나의 코인만 가능합니다. 변경하려면 장바구니를 비우세요.",
+    "cartOwn": "내 소유입니다",
+    "cartPick": "탭하여 장바구니에 추가",
+    "forSaleHere": "여기서 판매 중",
+    "noActivity": "아직 아무것도 없습니다",
+    "shareMessage": "Riftn에서 NFT 사고팔기",
+    "loadFailed": "마켓을 불러올 수 없습니다. 당겨서 다시 시도하세요.",
+    "signInTitle": "내 NFT를 보려면 로그인하세요",
+    "walletOn": "{{chain}} 지갑의 NFT",
+    "listedAt": "등록됨",
+    "noneHeld": "아직 이 지갑에 NFT가 없습니다",
+    "subtitle": "BNB, Base, Ethereum, Robinhood에서 사고팔기",
+    "startHint": "내 NFT에서 NFT를 등록해 첫 판매자가 되세요.",
+    "wrongChain": "거래하려면 지갑을 {{chain}}(으)로 전환하세요",
+    "failed": "처리되지 않았습니다. 다시 시도하세요.",
+    "bought": "내 소유입니다",
+    "cancelledOrder": "온체인에서 취소됨",
+    "notEnough": "지갑에 {{symbol}}이(가) 부족합니다",
+    "offerSent": "제안을 보냈습니다",
+    "cancelListing": "등록 취소",
+    "buyConfirm": "{{name}}을(를) 구매하시겠습니까?",
+    "volShort": "거래량",
+    "salesCount": "{{n}}개 판매됨",
+    "bestOffer": "최고 제안가",
+    "fromOpenSea": "OpenSea 인기 컬렉션",
+    "buyHere": "여기서 구매하기",
+    "openSeaNote": "OpenSea에 등록되어 있습니다. Seaport에서 판매자에게 직접 지불하며, Riftn은 수수료를 추가하지 않습니다.",
+    "notListed": "현재 판매 등록되지 않았습니다.",
+    "priceLabel": "구매자가 지불하는 가격",
+    "offerLabel": "내 제안",
+    "list": "등록하기",
+    "listHint": "서명은 무료입니다. 컬렉션의 첫 판매 시 한 번 승인을 요청합니다.",
+    "offerHint": "서명은 무료입니다. 보유자가 수락할 때까지 토큰은 지갑에 남아 있습니다.",
+    "viewOnly": "이 앱에서는 NFT를 사고팔 수 없습니다.",
+    "tradeOnWeb": "riftn.com에서 거래하기",
+    "feesFootnote": "수수료: 2%, 토큰으로 결제 시 1%. 모든 거래는 한 번의 온체인 스왑입니다."
   },
   "riftnMove": {
     "title": "DeHub가 이제 Riftn입니다",
@@ -15260,7 +16205,11 @@
     "loading": "로딩 중...",
     "paused": "일시정지",
     "preview": "미리보기",
-    "seek": "찾아보기"
+    "seek": "찾아보기",
+    "popOut": "팝아웃",
+    "backInPost": "여기서 재생",
+    "inCorner": "모서리에서 재생 중",
+    "tapToStartApp": "Spotify 플레이어에서 재생을 탭하세요"
   },
   "twoFactor": {
     "wrongCode": "그 코드는 맞지 않았어요. 앱에서 최신 코드를 사용해 보세요.",
@@ -15336,21 +16285,58 @@
     "older": "이전 결과",
     "newer": "다음 결과",
     "gone": "그 메시지는 더 이상 없습니다",
-    "theirMessages": "그들의 메시지"
+    "theirMessages": "그들의 메시지",
+    "position": "{{total}}개 중 {{current}}"
   },
   "profileImage": {
     "change": "변경"
   },
   "remix": {
-    "cut": "자르기"
+    "cut": "자르기",
+    "title": "리믹스",
+    "greenScreen": "그린 스크린",
+    "collab": "콜라보",
+    "sound": "사운드 사용",
+    "unavailable": "이 동영상은 리믹스할 수 없습니다.",
+    "openFailed": "리믹스를 열 수 없습니다. 연결 상태와 카메라 권한을 확인한 후 다시 시도하세요.",
+    "tooLarge": "녹화가 너무 큽니다. 더 짧게 녹화하세요.",
+    "invalidRecording": "녹화를 읽을 수 없습니다. 다시 녹화해 주세요.",
+    "saveFailed": "리믹스를 저장할 수 없습니다. 다시 시도해 주세요.",
+    "startHint": "이 동영상 위에 카메라를 미리 본 후 리믹스를 녹화하세요. 이 화면을 나가면 카메라가 꺼집니다.",
+    "openCamera": "카메라 열기"
   },
   "signedFollows": {
     "setUp": "켜기",
     "turnOff": "비활성화",
-    "efpTurnOff": "중지"
+    "efpTurnOff": "중지",
+    "title": "온체인에 기록되는 내 팔로우",
+    "description": "내 지갑이 팔로우 목록에 서명하고, 매일 이 목록이 Base에 기록됩니다. 어떤 앱이든 Riftn 없이도 내 지갑으로 팔로우를 찾을 수 있습니다.",
+    "on": "이 기기에서 켜짐",
+    "off": "이 기기에서 꺼짐",
+    "turnedOn": "이제 내 팔로우가 지갑으로 서명됩니다",
+    "turnedOff": "이 기기에서 꺼졌습니다",
+    "failed": "지갑이 서명하지 않았습니다. 다시 시도하세요.",
+    "hiddenNote": "숨긴 팔로우 목록과 비공개 계정은 공개 목록에서 제외됩니다.",
+    "efpOn": "EFP에 복사됨 · 팔로우 {{count}}개",
+    "efpOff": "EFP에도 등록하기",
+    "efpTurnOn": "EFP에 추가",
+    "efpDone": "내 팔로우를 EFP에 등록하는 중입니다",
+    "efpStopped": "EFP 복사가 중지되었습니다. 목록은 그대로 내 것입니다.",
+    "efpHasList": "이미 EFP 목록이 있습니다. Riftn은 아직 해당 목록을 채울 수 없습니다.",
+    "efpNoGas": "이 작업을 하려면 지갑에 Base 네트워크의 ETH가 조금 필요합니다.",
+    "efpFailed": "처리되지 않았습니다. 다시 시도하세요.",
+    "efpNote": "EFP는 다른 앱이 읽는 팔로우 목록입니다(efp.app). Riftn 지갑은 무료이며, 다른 지갑은 Base에서 몇 센트를 지불합니다. 목록은 내 것입니다.",
+    "efpUseWeb": "내 지갑을 사용하는 경우 riftn.com의 설정에서 진행하세요."
   },
   "postEditHistory": {
-    "original": "원본"
+    "original": "원본",
+    "title": "수정 기록",
+    "edited_one": "1회 수정됨",
+    "edited_other": "{{count}}회 수정됨",
+    "lastEdit": "마지막 수정 {{time}}",
+    "editN": "수정 {{n}}",
+    "now": "현재",
+    "showChanges": "변경 내용 보기"
   },
   "studioDeck": {
     "remove": "삭제",
@@ -15359,30 +16345,61 @@
       "modes": {
         "none": "끔",
         "blur": "흐림",
-        "color": "색상"
-      }
+        "color": "색상",
+        "image": "사진"
+      },
+      "failed": "이 기기에서는 배경 제거를 시작할 수 없습니다.",
+      "hint": "기기에서 실행됩니다. 처음에는 불러오는 데 몇 초가 걸립니다."
     },
     "scenes": {
       "countdown": "카운트다운",
       "minutes": "{{count}}분",
       "names": {
-        "starting": "곧 시작됩니다"
+        "starting": "곧 시작됩니다",
+        "chatting": "그냥 수다",
+        "brb": "곧 돌아옵니다",
+        "ending": "방송 종료"
+      },
+      "title": "장면",
+      "picture": "사진",
+      "noCountdown": "카운트다운 없음",
+      "hints": {
+        "starting": "카운트다운 카드",
+        "chatting": "카메라 전체 화면",
+        "brb": "카드, 마이크 음소거",
+        "ending": "감사 카드"
+      },
+      "subtitles": {
+        "starting": "방송 시작까지",
+        "brb": "잠시 후 돌아옵니다",
+        "ending": "시청해 주셔서 감사합니다"
       }
     },
     "widgets": {
-      "tab": "위젯"
+      "tab": "위젯",
+      "title": "내 영상에 위젯 표시",
+      "hint": "알림, 목표 바, 채팅이 방송 화면에 그려지므로 Twitch, YouTube 및 다른 모든 플랫폼의 시청자도 볼 수 있습니다.",
+      "failed": "위젯 표시 위치를 변경할 수 없습니다. 다시 시도하세요."
     },
     "sources": {
       "image": "이미지",
       "show": "스트림에 표시",
       "positions": {
-        "center": "센터"
+        "center": "센터",
+        "top-left": "왼쪽 위",
+        "top-right": "오른쪽 위",
+        "bottom-left": "왼쪽 아래",
+        "bottom-right": "오른쪽 아래"
       },
       "sizes": {
         "small": "작게",
         "medium": "보통",
         "large": "크게"
-      }
+      },
+      "title": "소스",
+      "addImage": "이미지 또는 로고",
+      "failed": "해당 소스를 추가할 수 없습니다.",
+      "hint": "소스는 모든 시청자와 모든 플랫폼의 화면 위에 그려집니다."
     },
     "phone": {
       "title": "스튜디오"
@@ -15393,7 +16410,30 @@
     "earlierShort": "이전",
     "tooSoon": "미래의 시간을 선택하세요.",
     "show": "표시",
-    "hide": "숨기기"
+    "hide": "숨기기",
+    "title": "언제?",
+    "tonight": "오늘 밤",
+    "inAnHour": "1시간 후",
+    "tomorrow": "내일",
+    "primeTime": "프라임 타임",
+    "scheduleFor": "{{when}}에 예약",
+    "liveTip": "팔로워가 알림을 설정할 수 있습니다. 시간이 되면 직접 라이브를 시작하세요.",
+    "stageTip": "바로 예정 목록에 표시되어 사람들이 알림 받기를 탭할 수 있습니다.",
+    "typePlaceholder": "\"금 오후 8시\" 또는 \"2시간 후\"처럼 시간을 입력하세요",
+    "typeLabel": "시간 입력",
+    "typeHelp": "\"오늘 밤\", \"내일 오전 9시\", \"토 정오\" 또는 \"10월 30일 오후 7시\"를 입력해 보세요.",
+    "orPickDay": "또는 날짜 선택",
+    "earlier": "15분 앞당기기",
+    "later": "15분 늦추기",
+    "laterShort": "나중에",
+    "tooSoonMin": "지금부터 최소 {{count}}분 이후의 시간을 선택하세요.",
+    "zone": "내 시간({{zone}}). 다른 사람에게는 각자의 시간으로 표시됩니다.",
+    "remove": "예약 삭제",
+    "startsIn": "{{time}} 후 시작",
+    "bestTime": "최적 시간",
+    "fansOnline": "내 팬은 언제 접속하나요?",
+    "fansBasis": "밝을수록 최근 {{count}}일 동안 더 많은 팔로워가 시청했다는 뜻입니다.",
+    "everyoneBasis": "아직 팔로워 활동이 충분하지 않아 Riftn 전체 사용자 기준으로 표시합니다."
   },
   "planned": {
     "title": "계획됨",
@@ -15408,22 +16448,45 @@
     "loading": "로딩 중…",
     "startNow": "지금 시작",
     "cancel": "취소",
-    "cancelled": "취소됨"
+    "cancelled": "취소됨",
+    "subtitle": "예약한 게시물, 라이브, 스테이지",
+    "seoTitle": "예정 · Riftn",
+    "seoDescription": "Riftn에서 예약한 게시물, 라이브, 스테이지를 한곳에서 확인하세요.",
+    "lives": "라이브",
+    "signIn": "예정된 항목을 보려면 로그인하세요",
+    "emptyTitle": "아직 예정된 항목이 없습니다",
+    "emptyBody": "게시물, 라이브 또는 스테이지를 만들 때 \"언제?\"를 선택하면 여기에 표시됩니다.",
+    "move": "이동",
+    "postNow": "지금 게시",
+    "confirmCancel": "취소하려면 다시 탭하세요",
+    "moved": "{{when}}(으)로 이동했습니다",
+    "postingNow": "1분 이내에 게시됩니다",
+    "moveFailed": "이동할 수 없습니다. 다시 시도하세요.",
+    "seeAll": "예정된 항목 모두 보기"
   },
   "welcome": {
     "about": {
       "title": "Riftn에 오신 것을 환영합니다",
       "day": "일",
       "month": "월",
-      "year": "년"
+      "year": "년",
+      "sub": "생일은 비공개로 유지됩니다. 룩을 선택하세요. 언제든지 변경할 수 있습니다.",
+      "birthday": "생년월일",
+      "pick": "생일 선택",
+      "invalid": "생년월일을 모두 입력하세요.",
+      "tooYoung": "Riftn을 사용하려면 {{age}}세 이상이어야 합니다.",
+      "theme": "내 룩"
     },
     "name": {
       "title": "이름",
-      "placeholder": "이름"
+      "placeholder": "이름",
+      "sub": "게시물에 표시되는 이름입니다."
     },
     "card": {
       "name": "이름",
-      "followers": "팔로워"
+      "followers": "팔로워",
+      "interests": "내 관심사",
+      "following": "팔로잉"
     },
     "topic": {
       "music": "음악",
@@ -15436,11 +16499,46 @@
       "podcast": "팟캐스트",
       "food": "음식",
       "news": "뉴스",
-      "science": "과학"
+      "science": "과학",
+      "travel": "여행",
+      "anime": "애니메이션",
+      "cars": "자동차",
+      "animals": "동물",
+      "tech": "테크"
     },
     "back": "뒤로",
     "skipPhoto": "나중에 하기",
-    "preview": "미리보기"
+    "preview": "미리보기",
+    "username": {
+      "title": "내 @사용자 이름",
+      "sub": "문자, 숫자, 밑줄을 사용할 수 있습니다. 나중에 변경할 수 있습니다.",
+      "yours": "@{{name}}은(는) 이제 내 것입니다"
+    },
+    "photo": {
+      "title": "내 사진",
+      "sub": "선택 사항입니다. 얼굴이 보이면 더 빨리 팔로우합니다.",
+      "choose": "사진 선택",
+      "change": "다른 사진 선택"
+    },
+    "interests": {
+      "title": "내 관심사",
+      "sub": "3개 이상 선택하세요. 카테고리에서 먼저 표시됩니다."
+    },
+    "people": {
+      "title": "내 사람들",
+      "sub": "탭하여 팔로우하세요. 이들의 게시물이 팔로잉 피드를 채웁니다.",
+      "empty": "지금은 추천이 없습니다. 탐색에서 더 많은 사람을 찾아보세요.",
+      "followers": "팔로워 {{count}}명"
+    },
+    "done": {
+      "title": "멋져요, {{name}}님",
+      "sub": "오늘부터 모두가 이 카드를 볼 수 있습니다.",
+      "eyebrow": "프로필 공개됨"
+    },
+    "enter": "Riftn 시작하기",
+    "pickMore": "{{count}}개 더 선택하세요",
+    "cardHint": "다른 사람에게 이렇게 보입니다",
+    "followFailed": "팔로우할 수 없습니다. 다시 시도하세요."
   },
   "appTokens": {
     "title": "내 토큰",
@@ -15451,10 +16549,35 @@
     "amount": "금액",
     "notePlaceholder": "메모 추가 (선택)",
     "sendButton": "전송",
-    "errorInsufficient": "토큰 부족"
+    "errorInsufficient": "토큰 부족",
+    "rowHint": "앱 내 잔액",
+    "explainer": "이제 토큰이 Riftn 안에 보관됩니다. 출시 시점에 온체인에서 보유하고 스테이킹한 금액으로 시작했습니다. 보내기, 팁, 사용은 수수료 없이 즉시 처리되며 온체인에는 아무것도 기록되지 않습니다. 잔액은 에어드롭 시 새 토큰으로 이전됩니다.",
+    "kindOpening": "시작 잔액",
+    "kindSent": "{{name}}님에게 보냄",
+    "kindReceived": "{{name}}님으로부터",
+    "kindSpent": "Riftn에서 사용",
+    "kindRefund": "환불",
+    "kindAdjust": "Riftn 조정",
+    "sendTitle": "토큰 보내기",
+    "sendHint": "Riftn 안에서 다른 계정으로 토큰을 보냅니다. 즉시 무료로 처리되며 온체인에는 아무것도 기록되지 않습니다.",
+    "toPlaceholder": "@사용자 이름 또는 0x 주소",
+    "looking": "조회 중…",
+    "available": "사용 가능: {{amount}}",
+    "sent": "{{name}}님에게 {{amount}}토큰을 보냈습니다",
+    "errorRateLimit": "지난 1시간 동안 너무 많이 보냈습니다. 나중에 다시 시도하세요.",
+    "errorNoRecipient": "Riftn 계정을 찾을 수 없습니다",
+    "errorSelf": "자신에게는 보낼 수 없습니다",
+    "errorGeneric": "보낼 수 없습니다. 다시 시도하세요."
   },
   "avatarPrompt": {
-    "notNow": "나중에"
+    "notNow": "나중에",
+    "title": "프로필 사진 추가",
+    "body": "얼굴이나 로고가 있으면 피드, 댓글, 채팅에서 사람들이 더 빨리 알아봅니다.",
+    "choose": "사진 선택",
+    "another": "다른 사진 선택",
+    "save": "이 사진 사용",
+    "saved": "멋져요",
+    "failed": "사진을 저장할 수 없습니다. 다시 시도하세요."
   },
   "postStats": {
     "audience": "대상 그룹",
@@ -15472,36 +16595,159 @@
     "shares": "공유",
     "signedOutViewers": "로그아웃됨",
     "topSupporters": "최고의 서포터",
-    "visitors": "로그아웃됨"
+    "visitors": "로그아웃됨",
+    "aboutUsual": "평소와 비슷",
+    "afterWatching": "보고 나서 팔로우함",
+    "avg": "평균",
+    "avgWatch": "평균 시청 시간",
+    "bestTime": "내 사람들이 시청하는 시간",
+    "bigDrop": "큰 이탈",
+    "byBadge": "배지별",
+    "devices": "기기(회원)",
+    "finishedLower": "끝까지 시청",
+    "finishedPct": "{{pct}}%가 끝까지 시청",
+    "inOut": "회원 {{in}}명 · 비로그인 {{out}}명",
+    "leave": "{{pct}}% 이탈",
+    "linkClicks": "링크 클릭",
+    "newToYou": "처음 본 사람",
+    "noAccount": "계정 없음",
+    "noViewersYet": "아직 아무도 이 게시물을 보지 않았습니다.",
+    "noWatchYet": "사람들이 재생하면 시청 시간이 여기에 표시됩니다. 2026년 10월 31일부터 집계되었습니다.",
+    "open": "게시물 성과 확인하기",
+    "otherBadges": "기타 배지",
+    "peak": "최고 {{time}} · {{n}}",
+    "peopleReached": "도달한 사람",
+    "playsLower": "재생",
+    "playsMembers": "회원 재생 수",
+    "playsVisitors": "비로그인 재생 수",
+    "profileTaps": "프로필 탭",
+    "reach": "도달",
+    "saves": "저장",
+    "seeAll": "모든 통계 보기",
+    "signedIn": "로그인",
+    "signedOutLower": "비로그인",
+    "stillWatching": "계속 시청 중",
+    "timesUsual": "평소의 {{ratio}}배",
+    "vsUsualPct": "평소 게시물 대비 {{pct}}",
+    "unavailableBody": "이 게시물의 통계는 크리에이터만 볼 수 있습니다.",
+    "unavailableTitle": "통계를 사용할 수 없음",
+    "vsUsual": "평소 게시물 대비",
+    "watching": "시청 중",
+    "whoSawIt": "본 사람",
+    "withRepeats": "반복 {{n}}회",
+    "yourFollowers": "내 팔로워",
+    "first48": "처음 48시간",
+    "howItsDoing": "성과",
+    "bestTip": "대부분의 시청자가 {{day}} {{hour}}시경에 접속합니다. 그 직전에 게시하면 가장 좋은 출발을 할 수 있습니다.",
+    "last30": "최근 30일",
+    "day": {
+      "sun": "일",
+      "mon": "월",
+      "tue": "화",
+      "wed": "수",
+      "thu": "목",
+      "fri": "금",
+      "sat": "토"
+    }
   },
   "duet": {
     "policyEveryone": "전체 공개",
     "policyFollowers": "팔로워",
     "policyNobody": "아무도",
     "loadMore": "더 보기",
-    "video": "비디오"
+    "video": "비디오",
+    "with": "@{{username}}님과 듀엣",
+    "withOriginal": "듀엣 · 원본 보기",
+    "unavailable": "이 동영상은 더 이상 듀엣에 사용할 수 없습니다.",
+    "allowLabel": "듀엣 허용",
+    "allowDescription": "내 동영상 옆에 듀엣을 녹화할 수 있는 사람입니다. 게시물마다 변경할 수도 있습니다.",
+    "settingsSection": "듀엣",
+    "policyDefault": "계정 설정",
+    "saveFailed": "저장할 수 없습니다. 다시 시도하세요.",
+    "count_one": "듀엣 {{count}}개",
+    "count_other": "듀엣 {{count}}개",
+    "pageHeading": "듀엣",
+    "pageTitle": "@{{creator}}님의 {{title}} 듀엣",
+    "pageTitleNoCreator": "{{title}} 듀엣",
+    "pageDescription": "Riftn에서 이 동영상의 모든 듀엣을 보거나 나란히 직접 녹화해 보세요.",
+    "empty": "아직 듀엣이 없습니다. 동영상 옵션을 열고 리믹스 → 듀엣을 선택해 첫 듀엣을 만들어 보세요.",
+    "notFound": "이 동영상을 사용할 수 없습니다.",
+    "notFoundTitle": "동영상을 찾을 수 없음 — Riftn",
+    "browseShorts": "쇼츠 둘러보기"
   },
   "remixLinks": {
     "policy": {
       "everyone": "전체 공개",
       "followers": "팔로워",
-      "nobody": "아무도"
+      "nobody": "아무도",
+      "default": "내 기본값"
+    },
+    "shareFailed": "팁은 전송되었지만 원작 크리에이터 몫은 전달되지 않았습니다.",
+    "notify": {
+      "duet": "{{name}}님이 내 동영상과 듀엣했습니다",
+      "stitch": "{{name}}님이 내 동영상을 스티치했습니다",
+      "react": "{{name}}님이 내 동영상에 리액션했습니다",
+      "reactLive": "{{name}}님이 내 동영상에 라이브로 리액션하고 있습니다"
+    },
+    "linkFailed": "게시물은 올라갔지만 원본 동영상과 연결할 수 없었습니다.",
+    "settingsHeading": "리믹스",
+    "stitch": {
+      "allow": "스티치 허용",
+      "allowDesc": "내 동영상을 최대 5초까지 자신의 동영상에 사용할 수 있는 사람입니다. 게시물마다 변경할 수도 있습니다.",
+      "saveFailed": "스티치 설정을 저장할 수 없습니다. 다시 시도하세요.",
+      "settingFailed": "게시물은 올라갔지만 스티치 설정이 저장되지 않았습니다. 게시물 수정에서 변경하세요.",
+      "from": "{{name}}님의 동영상에서 스티치",
+      "count_one": "스티치 {{count}}개",
+      "count_other": "스티치 {{count}}개",
+      "listTitle": "스티치",
+      "listFailed": "스티치를 불러올 수 없습니다. 다시 시도하세요.",
+      "listEmpty": "아직 스티치가 없습니다.",
+      "unavailable": "이 동영상은 더 이상 스티치에 사용할 수 없습니다."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "전체 공개",
       "followers": "팔로워",
-      "nobody": "아무도"
+      "nobody": "아무도",
+      "default": "계정 기본값({{value}})"
     },
     "heading": "리액션",
     "more": "더 보기",
     "liveNow": "라이브",
-    "untitled": "반응"
+    "untitled": "반응",
+    "reactionTo": "리액션 대상",
+    "reactingTo": "리액션 중",
+    "count_one": "리액션 {{count}}개",
+    "count_other": "리액션 {{count}}개",
+    "allow": "리액션 허용",
+    "remixesSection": "리믹스",
+    "allowDescription": "다른 크리에이터가 녹화 또는 라이브로 내 동영상에 리액션할 수 있게 합니다. 게시물마다 변경할 수도 있습니다.",
+    "pageTitle": "{{title}}에 대한 리액션 — Riftn",
+    "pageDescription": "Riftn에서 {{creator}}님의 “{{title}}”에 대한 크리에이터들의 녹화 및 라이브 리액션을 시청하세요.",
+    "backToVideo": "동영상으로 돌아가기",
+    "empty": "아직 리액션이 없습니다. 동영상의 리믹스 메뉴를 열고 리액션을 선택해 첫 리액션을 남겨 보세요.",
+    "wasLive": "라이브였음",
+    "thisVideo": "이 동영상"
   },
   "liveClips": {
     "copyLink": "링크 복사",
-    "linkCopied": "링크 복사 완료"
+    "linkCopied": "링크 복사 완료",
+    "button": "이 순간 클립하기",
+    "capturing": "방송의 마지막 1분을 가져오는 중…",
+    "failed": "이 클립을 만들 수 없습니다.",
+    "highlightTitle": "하이라이트",
+    "length": "{{seconds}}초 클립",
+    "make": "클립 만들기",
+    "postToShorts": "쇼츠에 게시",
+    "posted": "클립이 쇼츠에 게시되었습니다",
+    "postedBody": "클립이 쇼츠에 올라갔습니다. 더 많은 사람이 방송을 찾을 수 있도록 공유하세요.",
+    "rendering": "클립을 자르는 중입니다. 약 30초 정도 걸립니다…",
+    "starting": "클립 시작 중…",
+    "title": "클립",
+    "titleLabel": "클립 제목",
+    "titlePlaceholder": "클립에 제목을 붙이세요",
+    "viewShort": "쇼츠 보기"
   },
   "liveHype": {
     "gift": {
@@ -15513,16 +16759,65 @@
       "stage": {
         "preparing": "준비 중…",
         "confirming": "거래를 기다리는 중…",
-        "recording": "마무리 중…"
-      }
+        "recording": "마무리 중…",
+        "wallet": "지갑에서 확인하세요"
+      },
+      "open": "구독권 선물하기",
+      "title": "구독권 선물하기",
+      "mode": {
+        "random": "채팅 중인 무작위 시청자",
+        "user": "특정 사람"
+      },
+      "randomHint": "최근 30분 이내에 채팅했고 아직 구독하지 않은 사람에게 전달됩니다.",
+      "send_one": "구독권 1개 선물 · ${{price}}",
+      "send_other": "구독권 {{count}}개 선물 · ${{price}}",
+      "payHint": "지갑에서 토큰으로 한 번에 결제됩니다.",
+      "fewer_one": "현재 채팅에서 구독권을 받을 수 있는 사람이 1명뿐이므로 1개만 결제합니다.",
+      "fewer_other": "현재 채팅에서 구독권을 받을 수 있는 사람이 {{count}}명뿐이므로 {{count}}개만 결제합니다.",
+      "done_one": "구독권을 선물했습니다!",
+      "done_other": "구독권 {{count}}개를 선물했습니다!",
+      "failed": "구독권을 선물할 수 없습니다",
+      "notReady": "이 플랜은 아직 선물할 수 없습니다",
+      "noPlan": "먼저 플랜을 선택하세요",
+      "noPlans": "{{name}}님에게는 아직 선물할 구독 플랜이 없습니다."
+    },
+    "train": {
+      "level": "하이프 트레인 · 레벨 {{level}}",
+      "endedLevel": "하이프 트레인이 레벨 {{level}}을(를) 완료했습니다!",
+      "ended": "하이프 트레인 종료",
+      "thanks_one": "서포터 {{count}}명 덕분입니다",
+      "thanks_other": "서포터 {{count}}명 덕분입니다",
+      "top": "최고: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "기타",
-    "confirming": "결제 확인 중..."
+    "confirming": "결제 확인 중...",
+    "lockPhoto": "사진 잠금",
+    "lockVideo": "동영상 잠금",
+    "lockOnPrice": "잠김 · {{price}}토큰",
+    "lockCustomLabel": "토큰으로 직접 가격 설정",
+    "lockHint": "상대방이 결제하기 전까지 흐리게 보입니다. 잠긴 파일은 종단 간 암호화되지 않습니다.",
+    "dhbNow": "오늘 시세로 {{dhb}}",
+    "lockCustomUsd": "$ 기타",
+    "lockCustomUsdLabel": "달러로 직접 가격 설정",
+    "lockDhbNow": "오늘 기준 ≈ {{dhb}}. 토큰 가치와 관계없이 항상 {{price}}을(를) 결제합니다.",
+    "lockOnUsd": "잠김 · {{price}}",
+    "lockedPhoto": "잠긴 사진",
+    "lockedVideo": "잠긴 동영상",
+    "unlockFor": "{{price}}에 잠금 해제",
+    "unlockOnWeb": "riftn.com에서 잠금 해제 · {{price}}",
+    "stillConfirming": "결제를 보냈습니다. 확인되는 즉시 열립니다.",
+    "payFailed": "잠금을 해제할 수 없습니다",
+    "unlocked": "잠금 해제됨",
+    "unlockedTag": "잠금 해제됨",
+    "notYet": "아직 잠금 해제되지 않음",
+    "uploading": "잠그는 중…",
+    "unlockedByThem": "잠긴 {{kind}}이(가) 잠금 해제되었습니다: +{{amount}}토큰"
   },
   "liveShorts": {
-    "live": "라이브"
+    "live": "라이브",
+    "join": "라이브 참여"
   },
   "feedFilters": {
     "clearAllShort": "모두 지우기",
@@ -15531,7 +16826,20 @@
     "groupDate": "날짜",
     "groupSort": "정렬",
     "groupType": "유형",
-    "save": "저장"
+    "save": "저장",
+    "clearAll": "모든 필터 지우기",
+    "collapse": "필터 숨기기",
+    "count": "필터 {{count}}개 적용 중",
+    "deletePreset": "{{name}} 삭제",
+    "groupAccess": "접근 권한",
+    "groupTag": "태그",
+    "myPresets": "내 프리셋",
+    "presetName": "프리셋 이름",
+    "remove": "{{label}} 삭제",
+    "saveCurrent": "+ 현재 설정 저장",
+    "savePreset": "프리셋으로 저장",
+    "show": "필터 보기",
+    "updatePreset": "프리셋 이름 변경"
   },
   "ownKeys": {
     "working": "작업 중",
@@ -15539,7 +16847,21 @@
     "check": "체크",
     "remove": "삭제",
     "save": "저장",
-    "cancel": "취소"
+    "cancel": "취소",
+    "title": "내 AI 키",
+    "description": "AI 제공업체의 키를 추가하면 크리에이터 도구가 내 계정으로 실행됩니다. 해당 작업에 대해 Riftn은 요금을 부과하지 않습니다. 키는 암호화되며 다시 표시되지 않습니다.",
+    "invalid": "거부됨, 교체하세요",
+    "noCredit": "크레딧 부족",
+    "disabled": "Riftn에서 비활성화함",
+    "saved": "{{name}} 키가 저장되었습니다. 이제 {{name}} 도구가 내 계정을 사용합니다.",
+    "savedNoCredit": "{{name}} 키가 저장되었지만 계정의 크레딧이 부족합니다.",
+    "removed": "{{name}} 키가 삭제되었습니다.",
+    "replaceKey": "키 교체",
+    "add": "키 추가",
+    "paste": "{{name}} 키 붙여넣기",
+    "getKey": "{{name}} 키 받기",
+    "showLess": "내 키만 보기",
+    "addAnother": "다른 제공업체 추가"
   },
   "postBg": {
     "addMedia": "사진, GIF 또는 동영상 추가",
@@ -15554,40 +16876,146 @@
       "drive": "야간 드라이브",
       "chrome": "리퀴드 크롬",
       "orbit": "궤도",
-      "snow": "강설량"
+      "snow": "강설량",
+      "ink": "수묵화",
+      "news": "신문지",
+      "split": "황혼 분할",
+      "blue": "청사진",
+      "terra": "테라조",
+      "half": "하프톤 팝",
+      "topo": "등고선",
+      "velvet": "벨벳",
+      "sorbet": "소르베",
+      "carbon": "카본",
+      "echo": "프로필 에코",
+      "cards": "컬러 카드",
+      "deck": "패턴 덱",
+      "stars": "별빛",
+      "rain": "유리창의 비",
+      "breathe": "호흡",
+      "spin": "프리즘 스핀",
+      "tide": "물결",
+      "ember": "불씨",
+      "holo": "홀로그램 포일",
+      "rift": "리프트",
+      "mesh": "메시",
+      "grain": "필름 그레인",
+      "ripple": "파문",
+      "dotwave": "도트 웨이브",
+      "scan": "CRT",
+      "silk": "실크",
+      "bokeh": "보케",
+      "photo": "내 사진"
     },
-    "sameAsProfile": "프로필"
+    "sameAsProfile": "프로필",
+    "scope": "적용 대상",
+    "thisPost": "이 게시물",
+    "allPosts": "모든 게시물",
+    "sameAsProfileSub": "프로필과 동일",
+    "title": "게시물 배경",
+    "editRow": "게시물 배경",
+    "hint": "스트립을 스와이프하세요. 넘길 때마다 게시물이 바뀝니다. 나만 변경할 수 있습니다.",
+    "moving": "움직임",
+    "still": "정지",
+    "plain": "일반 게시물",
+    "position": "{{total}}개 중 {{n}}",
+    "sample": "내 프로필에서 텍스트 게시물이 이렇게 보입니다.",
+    "saveFailed": "배경을 저장할 수 없습니다. 다시 시도하세요.",
+    "base": "기본",
+    "accent2": "강조색 2",
+    "ownColours": "나만의 색상"
   },
   "articleTile": {
-    "cover": "커버"
+    "cover": "커버",
+    "title": "아티클 타일",
+    "dropcap": "드롭 캡",
+    "hint": "프로필 그리드에서 아티클이 이렇게 보입니다. 나만 변경할 수 있습니다.",
+    "saveFailed": "저장할 수 없습니다. 다시 시도하세요."
   },
   "aiConsent": {
-    "allow": "허용"
+    "allow": "허용",
+    "title": "AI 기능을 사용하시겠습니까?",
+    "body": "AI 기능이 작동하려면 제공하신 내용(텍스트, 사진 또는 오디오, 관련 게시물이나 채팅)이 Google, OpenAI, Groq, OpenRouter, fal, ElevenLabs 같은 타사 AI 제공업체로 전송됩니다. 설정 → 개인정보 보호에서 언제든지 변경할 수 있습니다.",
+    "declined": "AI 기능이 꺼져 있습니다. 설정 → 개인정보 보호에서 켤 수 있습니다.",
+    "settingLabel": "AI 기능",
+    "settingDesc": "어시스턴트, 번역, 추천 답장, 글쓰기 도움 기능이 제공하신 내용을 타사 AI 제공업체로 전송하도록 허용합니다."
   },
   "dmRequests": {
     "title": "요청",
     "accept": "수락",
     "delete": "삭제",
-    "block": "차단"
+    "block": "차단",
+    "hint": "내가 팔로우하지 않는 사람의 메시지입니다. 수락하거나, 답장하거나, 팔로우하면 채팅이 받은편지함으로 이동합니다.",
+    "rowHint": "팔로우하지 않는 사람의 메시지 {{n}}개",
+    "banner": "{{name}}님을 팔로우하지 않습니다. 수락하여 이 채팅을 받은편지함으로 옮기거나 그냥 답장하세요.",
+    "accepted": "받은편지함으로 이동했습니다",
+    "acceptFailed": "수락할 수 없습니다. 다시 시도하세요"
   },
   "dmSchedule": {
     "view": "보기",
     "edit": "편집",
     "editLabel": "메시지 수정하기",
-    "error": "실패했습니다. 다시 시도하세요."
+    "error": "실패했습니다. 다시 시도하세요.",
+    "button": "메시지 예약",
+    "title": "예약된 메시지",
+    "whenTitle": "언제 보낼까요?",
+    "waiting": "{{n}}개 예약됨",
+    "next": "다음 {{when}}",
+    "failedCount": "{{n}}개 전송 안 됨",
+    "notSent": "전송되지 않음",
+    "emptyTitle": "예약된 항목 없음",
+    "emptyBody": "메시지를 작성한 후 시계를 탭하여 보낼 시간을 선택하세요.",
+    "changeTime": "시간 변경",
+    "sendNow": "지금 보내기",
+    "deleted": "예약된 메시지가 삭제되었습니다",
+    "unreadable": "다른 기기에서 작성되었습니다. 그래도 전송됩니다.",
+    "footnote": "시간은 내 시간대 기준입니다. 메시지는 전송되기 전까지 아무도 볼 수 없습니다.",
+    "footnoteNamed": "시간은 내 시간대 기준입니다. {{name}}님은 메시지가 전송된 후에만 볼 수 있습니다.",
+    "textOnly": "현재는 텍스트 메시지만 예약할 수 있습니다.",
+    "scheduledToast": "{{when}}에 예약됨",
+    "failedToast": "예약된 메시지를 보낼 수 없습니다"
   },
   "chatBulk": {
     "selected": "{{count}} 선택됨",
     "cancel": "취소",
     "reply": "답글",
-    "delete": "삭제"
+    "delete": "삭제",
+    "select": "선택",
+    "toolbar": "선택한 채팅",
+    "pick": "채팅을 탭하여 선택하세요",
+    "read": "읽음으로 표시",
+    "unread": "읽지 않음으로 표시",
+    "replyTitle_one": "채팅 {{count}}개에 답장",
+    "replyTitle_other": "채팅 {{count}}개에 답장",
+    "replyHint": "각 사람에게 각자의 채팅에서 일반 메시지로 전달됩니다.",
+    "replyPlaceholder": "메시지 작성…",
+    "sendAll": "{{count}}개에 보내기",
+    "deleted_one": "채팅 {{count}}개가 삭제되었습니다",
+    "deleted_other": "채팅 {{count}}개가 삭제되었습니다",
+    "sent_one": "채팅 {{count}}개에 보냈습니다",
+    "sent_other": "채팅 {{count}}개에 보냈습니다",
+    "partSent": "채팅 {{total}}개 중 {{ok}}개에 보냈습니다",
+    "notSent": "보낼 수 없습니다. 다시 시도하세요."
   },
   "msgSelect": {
     "selected": "{{count}} 선택됨",
     "copy": "복사",
     "forward": "전달",
     "deleted_one": "{{count}}개의 메시지 삭제",
-    "deleted_other": "{{count}}개의 메시지 삭제"
+    "deleted_other": "{{count}}개의 메시지 삭제",
+    "toolbar": "선택한 메시지",
+    "pick": "메시지를 탭하여 선택하세요",
+    "deleteSome": "{{count}}개 삭제",
+    "forwarded_one": "메시지 {{count}}개를 전달했습니다",
+    "forwarded_other": "메시지 {{count}}개를 전달했습니다",
+    "partForwarded": "{{total}}개 중 {{ok}}개 전달됨",
+    "nothingToCopy": "선택한 메시지에 복사할 내용이 없습니다",
+    "copied_one": "메시지 {{count}}개를 복사했습니다",
+    "copied_other": "메시지 {{count}}개를 복사했습니다",
+    "deleteTitle_one": "메시지 {{count}}개를 삭제하시겠습니까?",
+    "deleteTitle_other": "메시지 {{count}}개를 삭제하시겠습니까?",
+    "deleteBody": "이 채팅의 모든 사람에게서 삭제됩니다.",
+    "deleteForBothBody": "두 사람 모두에게서 삭제됩니다."
   },
   "mentionLinks": {
     "communities": "커뮤니티",
@@ -15645,13 +17073,64 @@
     "tooMany": "탭은 최대 10개까지 만들 수 있어요"
   },
   "messagesTabs": {
-    "all": "전체"
+    "all": "전체",
+    "unread": "읽지 않음",
+    "groups": "그룹"
   },
   "resetWallet": {
     "mismatch": "비밀번호가 일치하지 않습니다",
     "logOut": "로그 아웃",
     "confirm": "비밀번호 확인",
     "ack": "이전 자금은 이전 지갑에 남아 있습니다.",
-    "cancel": "취소"
+    "cancel": "취소",
+    "tooShort": "비밀번호는 {{count}}자 이상이어야 합니다",
+    "breached": "이 비밀번호는 데이터 유출에 노출된 적이 있습니다. 다른 비밀번호를 선택하세요",
+    "weak": "더 강력한 비밀번호를 선택하세요(문자, 숫자, 기호 조합)",
+    "doneTitle": "계정이 새 지갑으로 이전되었습니다",
+    "twoFactor": "계정을 이전하려면 인증 앱의 코드를 입력하세요.",
+    "failed": "지갑을 재설정할 수 없습니다. 아무것도 이전되지 않았습니다. 다시 시도하세요.",
+    "title": "지갑 재설정",
+    "reloginApp": "이전 키를 가진 사람도 서명할 수 있으므로, 재설정은 이전 지갑이 아닌 계정의 이메일, 전화번호 또는 Google 로그인으로 인증합니다. 로그아웃한 후 해당 로그인 방법으로 다시 로그인하고 여기로 돌아오세요. 아직 로그인 이메일이 없나요? 먼저 riftn.com의 설정 → 로그인에서 추가하세요.",
+    "intro": "새 Riftn 지갑을 만들고 사용자 이름, 게시물, 팔로워, 메시지를 새 지갑으로 이전합니다. 지갑을 잃어버렸거나 다른 사람이 키를 가지고 있다면 사용하세요. 이전 지갑은 더 이상 로그인에 사용할 수 없습니다.",
+    "funds": "토큰, NFT 및 기타 잔액은 이전되지 않으며 이전 주소에 남아 있습니다. 아직 이전 지갑을 열 수 있다면 먼저 옮겨 두세요.",
+    "password": "새 지갑 비밀번호(최소 {{count}}자)",
+    "twoFactorPlaceholder": "인증 코드",
+    "submit": "지갑 재설정",
+    "rowDesc": "지갑을 잃어버렸거나 다른 사람이 키를 가지고 있나요? 계정을 새 지갑으로 이전하세요. 사용자 이름, 게시물, 팔로워도 함께 이전됩니다."
+  },
+  "chatReactions": {
+    "many_one": "내 메시지에 리액션 {{count}}개",
+    "many_other": "내 메시지에 리액션 {{count}}개",
+    "manySame_one": "내 메시지에 {{emoji}} × {{count}}",
+    "manySame_other": "내 메시지에 {{emoji}} × {{count}}",
+    "one": "내 메시지에 {{emoji}} 리액션을 남겼습니다",
+    "oneNamed": "{{name}}님이 내 메시지에 {{emoji}} 리액션을 남겼습니다"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "게시물이 유지됩니다.",
+      "onBody": "게시물이 올라간 후 {{value1}} 뒤에 자동으로 삭제됩니다."
+    }
+  },
+  "dmSafety": {
+    "notReal": "이 계정은 진짜 {{name}}이(가) 아닙니다.",
+    "neverLink": "Riftn 팀은 프로필이나 지갑을 고치라는 링크를 DM으로 보내지 않습니다. 링크를 열거나, 지갑을 연결하거나, 어떤 것에도 서명하지 마세요. 이 계정을 차단하고 신고하세요."
+  },
+  "msgDelete": {
+    "title": "메시지를 삭제하시겠습니까?",
+    "titleMany": "메시지 {{count}}개를 삭제하시겠습니까?",
+    "bodyOwn": "내 채팅에서만 삭제하거나 모두에게서 삭제하세요.",
+    "bodyOwnMany": "내 채팅에서만 삭제하거나 모두에게서 삭제하세요.",
+    "bodyOthers": "내 채팅에서만 삭제됩니다. 상대방은 계속 볼 수 있습니다.",
+    "bodyOthersMany": "내 채팅에서만 삭제됩니다. 채팅의 다른 사람들은 계속 볼 수 있습니다.",
+    "bodyOwnBoth": "내 채팅에서만 삭제하거나 두 사람 모두에게서 삭제하세요.",
+    "bodyOwnBothMany": "내 채팅에서만 삭제하거나 두 사람 모두에게서 삭제하세요.",
+    "forMe": "나에게서 삭제",
+    "forEveryone": "모두에게서 삭제",
+    "forBoth": "두 사람 모두에게서 삭제",
+    "forMeAndName": "나와 {{name}}님에게서 삭제",
+    "remember": "선택 기억하기",
+    "rememberHint": "설정에서 언제든지 변경할 수 있습니다",
+    "failed": "메시지를 삭제할 수 없습니다"
   }
 }

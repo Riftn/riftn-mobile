@@ -25,6 +25,8 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { VIDEO_SPEEDS } from "../../libs/post-video-edits";
+import { setPlayerProp } from "../../libs/playerProps";
+import { MediaControlIcon } from "../common/MediaControlGlyph";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useTranslation as _useCopy } from "react-i18next";
 import SmartImage from "../common/SmartImage";
@@ -229,6 +231,9 @@ export default function DmVideoStudio({
     p.muted = true;
     p.timeUpdateEventInterval = 0.1;
   });
+  // Hear the picked video while editing; the corner icon mutes it.
+  const [soundOn, setSoundOn] = useState(true);
+  useEffect(() => { setPlayerProp(player, "muted", !soundOn); }, [player, soundOn]);
   // Preview the picked speed (posts only; DMs never set it).
   useEffect(() => {
     try { if (player) player.playbackRate = options.speed ?? 1; } catch {}
@@ -368,8 +373,8 @@ export default function DmVideoStudio({
   const allTabs: { key: Tab; label: string; icon: IconName }[] = [
     { key: "cover", label: _copy("dmVideo.cover", { defaultValue: "Cover" }), icon: "Image" },
     { key: "trim", label: _copy("dmVideo.trim", { defaultValue: "Trim" }), icon: "Scissors" },
-    { key: "crop", label: _copy("upload.studio.crop", { defaultValue: "Crop" }), icon: "Crop" },
     { key: "speed", label: _copy("editor.video.speed", { defaultValue: "Speed" }), icon: "Gauge" },
+    { key: "crop", label: _copy("upload.studio.crop", { defaultValue: "Crop" }), icon: "Crop" },
     { key: "mirror", label: _copy("dmVideo.mirror", { defaultValue: "Mirror" }), icon: "FlipHorizontal2" },
     { key: "rotate", label: _copy("dmVideo.rotate", { defaultValue: "Rotate" }), icon: "RotateCw" },
     { key: "looks", label: _copy("upload.studio.looks", { defaultValue: "Looks" }), icon: "Palette" },
@@ -480,6 +485,13 @@ export default function DmVideoStudio({
                       <Icon name="Play" size={20} color={WHITE} fill={WHITE} />
                     </View>
                   )}
+                </Pressable>
+              )}
+              {isVideo && !colourTab && tab !== "crop" && (
+                <Pressable onPress={() => setSoundOn((on) => !on)} hitSlop={10} testID="studio-sound-toggle"
+                  accessibilityRole="button" accessibilityLabel={soundOn ? _copy("common.mute") : _copy("common.unmute")}
+                  style={{ position: "absolute", top: 8, right: 8, padding: 2 }}>
+                  <MediaControlIcon name={soundOn ? "Volume2" : "VolumeX"} size={20} />
                 </Pressable>
               )}
               {lockPrice != null && (
@@ -801,7 +813,7 @@ export default function DmVideoStudio({
             )}
             {tab === "alt" && alt && (
               <View style={{ gap: 6 }}>
-                <TextInput value={alt.value} onChangeText={alt.onChange} maxLength={1000} multiline
+                <TextInput value={alt.value} onChangeText={alt.onChange} maxLength={1000} multiline returnKeyType="done" submitBehavior="blurAndSubmit"
                   placeholder={_copy("upload.altPlaceholderVideo", { defaultValue: "Describe this video" })} placeholderTextColor="rgba(255,255,255,0.4)"
                   accessibilityLabel={_copy("upload.altTab", { defaultValue: "Alt text" })}
                   style={{ minHeight: 64, maxHeight: 110, borderRadius: 12, borderWidth: 1, borderColor: LINE, backgroundColor: "rgba(255,255,255,0.05)", color: WHITE, fontSize: 14, paddingHorizontal: 12, paddingVertical: 8, textAlignVertical: "top" }} />

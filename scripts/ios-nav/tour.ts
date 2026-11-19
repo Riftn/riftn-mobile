@@ -733,6 +733,52 @@ async function runWide(): Promise<void> {
   console.error(`[perf-tour] wide done: opened ${String(extra.opened)}, full screen ${String(extra.fullscreen)}, back on ${String(extra.back)}`);
 }
 
+/**
+ * Leaving a live in System Light: Home has to come back light at once, with
+ * no dark frame and no freeze. Opens a live (one that is on air when there
+ * is one), pictures it, goes Back and pictures Home at 0.3 s, 1.5 s and 5 s,
+ * timing the frames around both switches.
+ */
+async function runLiveTheme(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "livetheme" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  let streamId = "";
+  try {
+    const { getLiveVideos } = require("../../services/live.service") as { getLiveVideos(p: object): Promise<any> };
+    const res = await getLiveVideos({ unit: 50, sortMode: "recent" });
+    const rows: any[] = Array.isArray(res) ? res : Array.isArray(res?.result) ? res.result : [];
+    const onAir = rows.find((r) => r?.status === "live" || r?.isLive) ?? rows[0];
+    streamId = String(onAir?._id ?? onAir?.id ?? "");
+  } catch (error) {
+    console.error(`[perf-tour] live list failed ${String(error)}`);
+  }
+  extra.streamId = streamId;
+  await shot("live-0-home");
+  await sleep(900);
+  for (let round = 1; round <= 2; round++) {
+    await measure(`live open ${round}`, push(ScreenNames.LiveViewer, { streamId }), { watchMs: 2500, restMs: 2500 });
+    await shot(`live-${round}a-open`);
+    await sleep(1500);
+    void measure(`live back ${round}`, () => nav.goBack(), { watchMs: 5500, restMs: 0 });
+    await sleep(200 + 300);
+    await shot(`live-${round}b-back-0.3s`);
+    await sleep(1200);
+    await shot(`live-${round}c-back-1.5s`);
+    await sleep(3500);
+    await shot(`live-${round}d-back-5s`);
+    await sleep(2000);
+  }
+  extra.back = nav.getCurrentRoute()?.name;
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] livetheme done: stream ${streamId || "none"}, back on ${String(extra.back)}`);
+}
+
 type ElementType = string | { displayName?: string; name?: string; render?: ElementType; type?: ElementType } | null;
 
 function typeName(type: ElementType): string {
@@ -1456,7 +1502,7 @@ async function runMenu(): Promise<void> {
   const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
   prefs.setAppPref("menuLayout", "tabs");
   await AsyncStorage.setItem(SWIPE_KEY, "find:open:Open menu");
-  await sleep(7000);
+  await sleep(14000);
   await shot("menu-1-tabs-main");
   await sleep(4000);
   // A real finger dragged sideways across the tiles (the script pictures it
@@ -1587,6 +1633,22 @@ async function runSpeed(): Promise<void> {
     return t?.displayName || t?.name || t?.type?.displayName || t?.type?.name || t?.render?.displayName || t?.render?.name || "other";
   };
   const topKinds = () => [...kinds.entries()].sort((a, b) => b[1] - a[1]).slice(0, 14).map(([name, n]) => `${name} ${n}`);
+  // Which component's render created them. Only a bundle built without
+  // minifying keeps the names (the workflow's minify=false); each element then
+  // costs a stack read, so the times of such a run are not to be compared.
+  const NAMED = (function ownerProbe() {}).name === "ownerProbe";
+  let owners = new Map<string, number>();
+  const INSIDE = /^(ownerOf|counted|jsx|jsxs|jsxDEV|anonymous|renderWithHooks|renderWithHooksAgain|updateFunctionComponent|updateForwardRef|updateMemoComponent|updateSimpleMemoComponent|beginWork|performUnitOfWork|workLoopSync|map|forEach|apply|call)?$/;
+  const ownerOf = (): string => {
+    const lines = (new Error().stack || "").split("\n");
+    for (let i = 1; i < Math.min(lines.length, 9); i++) {
+      const name = /^\s*at ([^\s(]+)/.exec(lines[i])?.[1] ?? "";
+      if (/^(renderWithHooks|updateFunctionComponent|beginWork)/.test(name)) break;
+      if (!INSIDE.test(name)) return name;
+    }
+    return "unnamed";
+  };
+  const topOwners = () => [...owners.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30).map(([name, n]) => `${name} ${n}`);
   const runtime = require("../../libs/jsx/jsx-runtime") as Record<string, (...args: unknown[]) => unknown>;
   for (const key of ["jsx", "jsxs"]) {
     const original = runtime[key];
@@ -1595,6 +1657,10 @@ async function runSpeed(): Promise<void> {
       lastCreatedAt = now();
       const name = typeName(args[0]);
       kinds.set(name, (kinds.get(name) ?? 0) + 1);
+      if (NAMED) {
+        const owner = ownerOf();
+        owners.set(owner, (owners.get(owner) ?? 0) + 1);
+      }
       return original(...args);
     };
   }
@@ -1650,9 +1716,10 @@ async function runSpeed(): Promise<void> {
       origin = now() + (opts.delayMs ?? 0);
       created = 0;
       kinds = new Map();
+      owners = new Map();
       action();
     }, { restMs: 500, ...opts });
-    detail[step] = { elements: created, lastDrawMs: Math.max(0, Math.round(lastCreatedAt - origin)), kinds: topKinds(), ...probes(perfLines) };
+    detail[step] = { elements: created, lastDrawMs: Math.max(0, Math.round(lastCreatedAt - origin)), kinds: topKinds(), ...(NAMED ? { owners: topOwners() } : {}), ...probes(perfLines) };
     await save(false);
   };
 
@@ -1664,6 +1731,7 @@ async function runSpeed(): Promise<void> {
     }
     perfLines = [];
     kinds = new Map();
+    owners = new Map();
     const perKey: number[] = [];
     const perKeyElements: number[] = [];
     for (let i = 1; i <= text.length; i++) {
@@ -1681,6 +1749,7 @@ async function runSpeed(): Promise<void> {
     }
     const lines = perfLines;
     const drawn = topKinds();
+    const builtBy = NAMED ? topOwners() : undefined;
     await sleep(600);
     changeTextOf(input)?.("");
     await sleep(500);
@@ -1691,6 +1760,7 @@ async function runSpeed(): Promise<void> {
       keyElements: middle(perKeyElements),
       keyElementsWorst: Math.max(0, ...perKeyElements),
       kinds: drawn,
+      ...(builtBy ? { owners: builtBy } : {}),
       ...probes(lines),
     };
     console.error(`[perf-tour] ${step} ${JSON.stringify(detail[step])}`);
@@ -1872,7 +1942,10 @@ async function runSpeed(): Promise<void> {
   await timed("feed Shorts", feedTab("short"));
   await timed("feed All", feedTab("all"));
   if (signedIn) {
+    const beforeUpload = new Set(liveInputs);
     await timed("new post open", push(ScreenNames.Upload), { watchMs: 2400 });
+    // The caption box of a new post. Nothing is posted and the box is left empty.
+    await typeInto("new post typing", newInput(beforeUpload), "hello there, how are you");
     Keyboard.dismiss();
     if (nav.getCurrentRoute()?.name === ScreenNames.Upload) await timed("new post back", back());
     await backToTabs();
@@ -1887,7 +1960,7 @@ async function runSpeed(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1905,6 +1978,7 @@ void (async () => {
     else if (mode === "player") await runPlayer();
     else if (mode === "menu") await runMenu();
     else if (mode === "speed") await runSpeed();
+    else if (mode === "livetheme") await runLiveTheme();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

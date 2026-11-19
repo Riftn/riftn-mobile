@@ -18,6 +18,7 @@ import { getAvatarUrl } from "../../libs/misc";
 import { formatRelativeFromNow } from "../../libs/date.util";
 import type { DmConversation, DmMessage, DmUser } from "../../services/dm/dm.types";
 import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
+import { previewLinks } from "../../libs/dehub-links";
 
 
 interface ConversationContextMenuProps {
@@ -109,7 +110,7 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
     if (last.msgType === "voice") text = t("dm.voiceNote");
     else if (last.msgType === "gif") text = "GIF";
     else if (last.msgType === "media") text = last.encMedia ? encryptedMediaLabel(last.encMedia, t) : t("dm.photo");
-    else text = last.content?.replace(/\n/g, " ") || "";
+    else text = previewLinks(last.content ?? "").replace(/\n/g, " ") || "";
     if (isMine) text = t("dm.youSaid", { text });
     const ts = formatRelativeFromNow(last.createdAt || conversation.lastMessageAt);
     return { previewText: text, timeStr: ts };

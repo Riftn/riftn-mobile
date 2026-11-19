@@ -14,6 +14,7 @@ import { formatCallDuration } from "../libs/callDuration";
 import { visualActivity } from "../libs/visualActivity";
 import { revokeAudioFocus } from "../libs/audioFocus";
 import { revokeAllFeedVideo } from "../libs/feedVideoFocus";
+import { stopCallRingtone } from "../libs/call-ringtone";
 
 const log = createLogger("useCall");
 export interface CallSession {
@@ -114,6 +115,7 @@ export function useCall(): UseCallReturn {
     const startedAt = startedAtRef.current;
     generationRef.current += 1;
     joiningRef.current = false;
+    stopCallRingtone();
     publishCall(null);
     clearTimeouts();
     const media = mediaRef.current;
@@ -343,6 +345,8 @@ export function useCall(): UseCallReturn {
     const generation = generationRef.current;
     joiningRef.current = true;
     clearTimeouts();
+    // Silence the ring before the call takes the microphone and speaker.
+    stopCallRingtone();
     setIsIncoming(false); setIsConnecting(true);
     try {
       const { error } = await callClient.from("call_sessions").update({ status: "connected" }).eq("id", call.id);

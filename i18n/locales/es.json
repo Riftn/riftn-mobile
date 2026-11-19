@@ -1599,7 +1599,17 @@
     "menuLayoutSections": "Secciones",
     "menuLayoutSectionsDesc": "Todas las páginas a la vez, bajo encabezados",
     "menuLayoutFolders": "Carpetas",
-    "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo"
+    "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo",
+    "publicChatInBar": "Chat público en la barra inferior",
+    "publicChatInBarDesc": "Entra al Chat público con un toque desde la barra inferior de la pantalla",
+    "loginLook": {
+      "title": "Pantalla de inicio de sesión",
+      "desc": "Cómo se mueven el logo y el lema de Riftn en la pantalla de inicio de sesión en este dispositivo.",
+      "tube": "TV de tubo",
+      "vhs": "Cinta VHS",
+      "led": "Pantalla LED",
+      "holo": "Holograma"
+    }
   },
   "common": {
     "loadMore": "Cargar más",
@@ -2512,6 +2522,12 @@
     "hidden": "Oculto",
     "noDataForPeriod": "Aún no hay datos para este período",
     "affiliates": "Afiliados",
+    "ogChallenge": "Reto OG",
+    "ogHolders_one": "{{count}} holder OG",
+    "ogHolders_other": "{{count}} holders OG",
+    "ogChallengeTitle": "Trae de vuelta a los holders OG",
+    "ogChallengeBody": "Invita a quienes aún tienen DHB. Cuando se unan con tu enlace de invitación y mantengan su DHB en su billetera de Riftn, cuentan para ti aquí.",
+    "ogChallengeCta": "Obtén tu enlace de invitación",
     "directReferrals_one": "{{count}} directos",
     "directReferrals_other": "{{count}} directos",
     "secondaryReferrals_one": "{{count}} secundarios",
@@ -4440,6 +4456,10 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "muteChat": "Silenciar",
+    "mutedChat": "Silenciado",
+    "muteChatHint": "Deja de recibir avisos del chat de esta comunidad. Podrás seguir leyéndolo",
+    "unmuteChatHint": "Vuelve a recibir avisos del chat de esta comunidad",
     "newChat": {
       "description": "¿De qué trata? (opcional)",
       "groupCreated": "Grupo creado",
@@ -7405,6 +7425,8 @@
     "noLiveStreams": "No hay directos",
     "noOneStreaming": "Nadie está transmitiendo ahora. ¡Vuelve más tarde!",
     "loadStreamsFailed": "No se pudieron cargar los directos. Inténtalo de nuevo.",
+    "shareLive": "¡Mira a {{name}} en directo en Riftn ahora! \"{{title}}\"",
+    "shareReplay": "Mira la repetición del directo de {{name}} en Riftn",
     "screenShare": {
       "start": "Compartir pantalla",
       "stop": "Dejar de compartir pantalla",
@@ -17096,6 +17118,9 @@
     "tooMany": "Puedes tener hasta 10 pestañas"
   },
   "msgDelete": {
+    "chatTitle": "¿Eliminar este chat?",
+    "chatBodyBoth": "Bórralo solo de tus chats o borra todos los mensajes para los dos. No se puede deshacer.",
+    "chatBodyMe": "Se quitará solo de tus chats. Los demás lo seguirán viendo.",
     "title": "¿Eliminar mensaje?",
     "titleMany": "¿Eliminar {{count}} mensajes?",
     "bodyOwn": "Quítalo solo de tu chat o para todos.",
@@ -17111,5 +17136,9 @@
     "remember": "Recordar mi elección",
     "rememberHint": "Cámbialo cuando quieras en Ajustes",
     "failed": "No se pudo eliminar el mensaje"
+  },
+  "roomPreview": {
+    "you": "Tú",
+    "voice": "🎤 Mensaje de voz"
   }
 }

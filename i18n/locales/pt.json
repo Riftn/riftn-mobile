@@ -2565,7 +2565,10 @@
     "ebebdc70335b": "Barras de vidro",
     "5ff272ba7871": "Linhas de seda",
     "a941e90ca93d": "Capa Halo",
-    "04dbbe4dff7a": "True Wave"
+    "04dbbe4dff7a": "True Wave",
+    "7f78bdc0762d": "+{{value1}} pts",
+    "f0c8bb34335b": "Você ganhou +{{value1}} pontos",
+    "0fbe06b679a8": "{{value1}} pontos por cada pedido entregue, somados à sua pontuação de Top builders."
   },
   "dehubLinks": {
     "kind": {
@@ -3746,7 +3749,16 @@
     "menuLayoutSections": "Seções",
     "menuLayoutSectionsDesc": "Todas as páginas, sob cabeçalhos",
     "menuLayoutFolders": "Pastas",
-    "menuLayoutFoldersDesc": "Suas páginas principais e uma pasta por grupo"
+    "menuLayoutFoldersDesc": "Suas páginas principais e uma pasta por grupo",
+    "publicChatInBar": "Chat público na barra inferior",
+    "publicChatInBarDesc": "Entre no Chat público com um toque na barra inferior da tela",
+    "chatDeleteChoice": "Ao apagar uma mensagem",
+    "chatDeleteChoiceDesc": "Perguntar sempre, ou sempre apagar só para você ou para todos no chat.",
+    "chatDeleteAsk": "Perguntar sempre",
+    "chatDeleteMe": "Apagar para mim",
+    "chatDeleteMeDesc": "Some do seu chat, os outros ainda veem",
+    "chatDeleteEveryone": "Apagar para todos",
+    "chatDeleteEveryoneDesc": "Quando possível. A mensagem de outra pessoa em um grupo é apagada só para você"
   },
   "common": {
     "refresh": "Atualizar",
@@ -4659,6 +4671,12 @@
     "hidden": "Oculto",
     "noDataForPeriod": "Ainda não há dados para este período",
     "affiliates": "Afiliados",
+    "ogChallenge": "Desafio OG",
+    "ogHolders_one": "{{count}} holder OG",
+    "ogHolders_other": "{{count}} holders OG",
+    "ogChallengeTitle": "Traga de volta os holders OG",
+    "ogChallengeBody": "Convide quem ainda tem DHB. Quando entrarem com seu link de convite e mantiverem o DHB na carteira Riftn, eles contam para você aqui.",
+    "ogChallengeCta": "Pegue seu link de convite",
     "directReferrals_one": "{{count}} diretos",
     "directReferrals_other": "{{count}} diretos",
     "secondaryReferrals_one": "{{count}} secundários",
@@ -7096,7 +7114,8 @@
       "badAddress": "Essa não é uma endereço de token",
       "minimum": "Mínimo para manter",
       "save": "Não há nada a traduzir.",
-      "chip": "Detentores apenas · {{amount}}+"
+      "chip": "Detentores apenas · {{amount}}+",
+      "which": "Token"
     },
     "automod": {
       "bannedWords": "Palavras banidas",
@@ -7120,7 +7139,8 @@
       "links": "Links não são permitidos neste grupo.",
       "repeat": "Você acabou de enviar isso. Tente dizer algo novo.",
       "reserved": "Esse tipo de mensagem só pode vir dos bots do grupo.",
-      "floodError": "Você está enviando rápido demais. Aguarde {{value1}}s e tente novamente."
+      "floodError": "Você está enviando rápido demais. Aguarde {{value1}}s e tente novamente.",
+      "bannedWordsPlaceholder": "golpe\nrug pull"
     },
     "entry": {
       "switchChain": "Alterne sua carteira para BNB Chain ou Base para pagar.",
@@ -8122,7 +8142,8 @@
     "jumpToLatest": "Ir para as mensagens mais recentes",
     "ban": "Banir",
     "banConfirm": "Tem certeza que deseja banir {{name}}?",
-    "banFailed": "Falha ao banir usuário"
+    "banFailed": "Falha ao banir usuário",
+    "jumpToMentions": "Ir para respostas e menções"
   },
   "promptFeed": {
     "headline": "O que você quer ver?",
@@ -9999,7 +10020,8 @@
     "attachPhotoOrVideo": "Foto ou vídeo",
     "attachTooLarge": "Esse arquivo excede o limite de {{size}} MB.",
     "deleteForBothBody": "Ele será removido para ambos.",
-    "notSent": "Não enviado"
+    "notSent": "Não enviado",
+    "copyMedia": "Copiar mídia"
   },
   "editPost": {
     "mediaPermission": "É necessária permissão para a biblioteca multimédia",
@@ -13766,8 +13788,15 @@
     "gallery": {
       "send": "Enviar",
       "notifications": {
-        "generation_reply": "{{name}} respondeu ao seu comentário"
-      }
+        "generation_reply": "{{name}} respondeu ao seu comentário",
+        "generation_like": "{{name}} reagiu à sua geração",
+        "generation_comment_like": "{{name}} reagiu ao seu comentário",
+        "generation_comment": "{{name}} comentou na sua geração"
+      },
+      "browse": "Explorar gerações",
+      "empty": "Nenhuma criação ainda",
+      "fullscreen": "Ver em tela cheia",
+      "missing": "Esta geração não está disponível."
     }
   },
   "fractions": {
@@ -16880,7 +16909,11 @@
     "base": "Base",
     "accent2": "Acento 2",
     "ownColours": "Suas próprias cores",
-    "sameAsProfile": "Perfil"
+    "sameAsProfile": "Perfil",
+    "scope": "Aplicar a",
+    "thisPost": "Este post",
+    "allPosts": "Todos os posts",
+    "sameAsProfileSub": "Igual ao seu perfil"
   },
   "articleTile": {
     "cover": "Capa",
@@ -17076,6 +17109,28 @@
     "tooMany": "Você pode ter até 10 abas"
   },
   "msgDelete": {
-    "titleMany": "Eliminar mensagens {{count}}?"
+    "titleMany": "Eliminar mensagens {{count}}?",
+    "title": "Apagar mensagem?",
+    "bodyOwn": "Remova só do seu chat ou para todos.",
+    "bodyOwnMany": "Remova-as só do seu chat ou para todos.",
+    "bodyOthers": "Ela será removida só do seu chat. A outra pessoa ainda poderá vê-la.",
+    "bodyOthersMany": "Elas serão removidas só do seu chat. Os outros no chat ainda poderão vê-las.",
+    "bodyOwnBoth": "Remova só do seu chat ou para vocês dois.",
+    "bodyOwnBothMany": "Remova-as só do seu chat ou para vocês dois.",
+    "forMe": "Apagar para mim",
+    "forEveryone": "Apagar para todos",
+    "forBoth": "Apagar para nós dois",
+    "forMeAndName": "Apagar para mim e {{name}}",
+    "remember": "Lembrar minha escolha",
+    "rememberHint": "Altere quando quiser em Configurações",
+    "failed": "Não foi possível apagar a mensagem"
+  },
+  "chatReactions": {
+    "many_one": "{{count}} reação às suas mensagens",
+    "many_other": "{{count}} reações às suas mensagens",
+    "manySame_one": "{{emoji}} × {{count}} nas suas mensagens",
+    "manySame_other": "{{emoji}} × {{count}} nas suas mensagens",
+    "one": "Reagiu com {{emoji}} à sua mensagem",
+    "oneNamed": "{{name}} reagiu com {{emoji}} à sua mensagem"
   }
 }

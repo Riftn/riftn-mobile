@@ -2612,7 +2612,66 @@
     "57e2faa5ec63": "Riftn ይፈልጉ",
     "7db20897053b": "ሰዎች",
     "96d7bff86b44": "ፍለጋው መጫን አልቻለም",
-    "d8b8392e2c54": "እንደገና ሞክር"
+    "d8b8392e2c54": "እንደገና ሞክር",
+    "e587a51bc3ce": "በRiftn ላይ አዲስ",
+    "d7396f3b8881": "በRiftn ላይ አዲስ ላይክ ወይም አስተያየት",
+    "037a2ecd34b0": "በRiftn ላይ አዲስ ተከታይ",
+    "b63561f1b73a": "በRiftn ላይ አዲስ ቲፕ ወይም ገቢ",
+    "0ae84457a2df": "የሚከተሉት ሰው በRiftn ላይ ቀጥታ ነው",
+    "a7bac8dca08b": "በRiftn ላይ ገቢ ጥሪ",
+    "9d309cb4a034": "ስለ Riftn ልጥፍዎ ዝመና",
+    "914be7a9350a": "ከRiftn የመጣ መልዕክት",
+    "2ab63e6ced90": "የማይቻል",
+    "79688f176607": "የማይቻል ተብሎ ምልክት ተደርጓል",
+    "465fe84f18fc": "የማይቻል ብለው ምልክት ያድርጉ",
+    "0d24977e6943": "ምክንያቱን አርትዕ",
+    "0a54f1d10336": "ይህ ለምን የማይቻል ነው? (አማራጭ)",
+    "3d024b567634": "ሰዎች የሚያዩት አጭር ምክንያት",
+    "ad389aa4c08e": "ምክንያት፦",
+    "78b3ae9561ee": "ምንም አልተገለለም",
+    "89b4d1850766": "አሁን መገንባት የማንችላቸው ጥያቄዎች ከምክንያቱ ጋር እዚህ ይታያሉ።",
+    "3f9b2c71d0a4": "{{n}} ውጤቶች",
+    "8c4e1a6b2f57": "ለ«{{query}}»",
+    "63eb38b938b8": "በወረፋ ላይ ብለው ምልክት ያድርጉ",
+    "2fffca525795": "ተለቋል ብለው ምልክት ያድርጉ",
+    "3ee050a08bfa": "ወደ ጥያቄዎች ተመለስ",
+    "ae6a0ffbe609": "በወረፋ ላይ ተብሎ ምልክት ተደርጓል",
+    "366cb56b38ce": "ተለቋል ተብሎ ምልክት ተደርጓል",
+    "9db7b5ba03bb": "ወደ ጥያቄዎች ተመልሷል",
+    "bb2be752e079": "ሁኔታውን መቀየር አልተቻለም",
+    "1d7234ff1b79": "በ{{feed}} ውስጥ",
+    "e122e5c2b563": "ለመዝጋት ወደ ላይ ይጎትቱ",
+    "1aa9d734f2ee": "ምን እንደሚፈልጉ ይምረጡ",
+    "35034aa59bd3": "በ{{feed}} ውስጥ ምንም አልተዛመደም። ሌሎች ቃላትን ይሞክሩ ወይም ሁሉንም ይፈልጉ።",
+    "415155739590": "ሁሉንም ፈልግ",
+    "90f1afe66801": "«{{query}}»ን በመፈለግ ላይ…",
+    "9e13d826baaf": "ምስሎችን ፈልግ",
+    "e8756c6865a5": "ሾርትስ ፈልግ",
+    "c7661da99c41": "ቪዲዮዎችን ፈልግ",
+    "cbf6f228327c": "ሙዚቃ ፈልግ",
+    "d7b559f2d8c6": "ሌሎች ቃላትን ይሞክሩ፣ ወይም ማጣሪያዎቹን ይቀይሩ።",
+    "ef557404f465": "ለ«{{query}}» ምንም ውጤት የለም",
+    "d1a0c7e2f301": "ዛሬ ምን እያሰቡ ነው?",
+    "d1a0c7e2f302": "ዛሬ ስለምን እያሰቡ ነው?",
+    "d1a0c7e2f303": "ምን እያሰቡ ነው?",
+    "d1a0c7e2f304": "በአእምሮዎ ያለ ነገር አለ?",
+    "d1a0c7e2f305": "አሁን ምን እያሰቡ ነው?",
+    "d1a0c7e2f306": "ዛሬ ምን እናስባለን?",
+    "d1a0c7e2f307": "ዛሬ በአእምሮዎ ያለ ነገር አለ?",
+    "d1a0c7e2f308": "በዚህ ጊዜ ምን እያሰቡ ነው?",
+    "a7c1e0f4b2d9": "ለመናገር መታ ያድርጉ",
+    "b3e8d1c6f0a2": "ለመላክ መታ ያድርጉ",
+    "c9f2a4e7d1b5": "በማዳመጥ ላይ... ለመላክ ኳሱን መታ ያድርጉ",
+    "94cee2c8c1c1": "መገለጫዎ ተዛውሯል",
+    "22577ebd908e": "የWan 3.0 ቪዲዮ ይፍጠሩ · ኦሪጅናል ማጀቢያ",
+    "1fa2357ab7e1": "የSeedance 720p ቪዲዮ ይፍጠሩ · ኦሪጅናል ማጀቢያ",
+    "7f78bdc0762d": "+{{value1}} ነጥቦች",
+    "f0c8bb34335b": "+{{value1}} ነጥቦችን አግኝተዋል",
+    "0fbe06b679a8": "ለእያንዳንዱ የተለቀቀ ጥያቄ {{value1}} ነጥቦች፣ በምርጥ ገንቢዎች ውጤትዎ ላይ ይታከላሉ።",
+    "ebebdc70335b": "የመስታወት አሞሌዎች",
+    "5ff272ba7871": "የሐር መስመሮች",
+    "a941e90ca93d": "የሽፋን ሃሎ",
+    "04dbbe4dff7a": "እውነተኛ ሞገድ"
   },
   "dehubLinks": {
     "kind": {
@@ -2629,7 +2688,8 @@
       "proposal": "ፕሮፖዛል",
       "stage": "ደረጃ",
       "store": "መደብር",
-      "featureRequest": "ጥያቄ"
+      "featureRequest": "ጥያቄ",
+      "page": "ገጽ"
     }
   },
   "postGate": {
@@ -2691,7 +2751,8 @@
       "location": "አካባቢ",
       "custom": "ብጁ",
       "customOption": "ብጁ መለያ"
-    }
+    },
+    "placeholderLink": "yoursite.com"
   },
   "notificationFilters": {
     "title": "ማሳወቂያዎችን አጣራ ከ",
@@ -2864,10 +2925,20 @@
       "numbers": "Numbered ዝርዝር",
       "link": "አገናኝ",
       "image": "ምስሎችን ጨምር"
-    }
+    },
+    "imageLimit": "መጣጥፎች እስከ {{count}} ምስሎች መያዝ ይችላሉ",
+    "imageFailed": "ያ ምስል ሊታከል አልቻለም። ሌላ ይሞክሩ።",
+    "imagesUploading": "ምስሎችን በማከል ላይ ({{count}})…",
+    "bodyTooLong": "ከገደቡ በላይ {{count}} ቁምፊዎች",
+    "imagesCount": "ምስሎች · {{count}}/{{max}}",
+    "captionPlaceholder": "መግለጫ ጽሑፍ ያክሉ",
+    "captionLabel": "ለምስል {{n}} መግለጫ ጽሑፍ",
+    "removeInlineImage": "ምስል {{n}}ን አስወግድ"
   },
   "storefront": {
-    "unavailable": "በዚህ የመተግበሪያ ስሪት ውስጥ አይገኝም"
+    "unavailable": "በዚህ የመተግበሪያ ስሪት ውስጥ አይገኝም",
+    "continueOnWeb": "በriftn.com ላይ ይቀጥሉ",
+    "webOnlyHint": "ይህን በriftn.com ላይ ይጨርሱ። በSafari ውስጥ ይከፈታል።"
   },
   "nav": {
     "launchpad": "ላውንችፓድ",
@@ -2921,7 +2992,72 @@
     "reorderReset": "ዳግም አስጀምር",
     "groups": {
       "create": "ፍጠር",
-      "discover": "አግኝ"
+      "discover": "አግኝ",
+      "main": "ዋና",
+      "money": "ገንዘብ",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "ምግብ፣ የጊዜ መስመር፣ የቅርብ ልጥፎች፣ ለእርስዎ፣ የሚከተሏቸው፣ የፊት ገጽ",
+      "profile": "መገለጫዬ፣ መለያዬ፣ ገጼ፣ ልጥፎቼ፣ አቫታር፣ ባዮ፣ ተከታዮች",
+      "explore": "ፍለጋ፣ ያግኙ፣ ፈልግ፣ በመታየት ላይ፣ ታዋቂ፣ ሃሽታጎች፣ ሰዎች፣ ፈጣሪዎች",
+      "prompt": "AI፣ ፍጠር፣ AI ምስል፣ AI ቪዲዮ፣ ምስል ሰሪ፣ ከጽሑፍ ወደ ምስል፣ AI ጥበብ",
+      "editor": "ቪዲዮ አርታዒ፣ ቪዲዮ አርትዕ፣ ከርክም፣ ቁረጥ፣ መግለጫ ጽሑፎች፣ ንዑስ ርዕሶች፣ ተጽዕኖዎች",
+      "creator": "ፍጠር፣ ስቱዲዮ፣ AI መሳሪያዎች፣ ምስል፣ ቪዲዮ፣ ሙዚቃ፣ የድምፅ ትረካ፣ 3D",
+      "converter": "ቪዲዮ አስመጣ፣ አውርድ፣ YouTube፣ TikTok፣ Instagram፣ ቀይር",
+      "migrate": "ቻናሌን አዛውር፣ ቻናል አስመጣ፣ በጅምላ አስመጣ፣ YouTube ቻናል",
+      "notifications": "ማንቂያዎች፣ እንቅስቃሴ፣ መጠቀሶች፣ ምላሾች፣ ላይኮች፣ ደወል",
+      "messages": "DM፣ ቀጥተኛ መልዕክቶች፣ ውይይት፣ የገቢ መልዕክት ሳጥን፣ ንግግሮች፣ የግል መልዕክት",
+      "communities": "ቡድኖች፣ ማህበረሰብ፣ ክፍሎች፣ ክለቦች፣ መድረኮች፣ አባላት",
+      "assistant": "AI፣ ቻትቦት፣ ጠይቅ፣ እገዛ፣ AI ውይይት፣ ጥያቄዎች",
+      "settings": "ምርጫዎች፣ መለያ፣ ግላዊነት፣ ደህንነት፣ የይለፍ ቃል፣ ቋንቋ፣ ገጽታ፣ ጨለማ ሁነታ፣ የታገዱ፣ መለያ ሰርዝ",
+      "leaderboard": "ደረጃ አሰጣጥ፣ ደረጃ፣ ምርጥ ፈጣሪዎች፣ ምርጥ ተጠቃሚዎች፣ ነጥቦች፣ ውጤቶች",
+      "bookmarks": "የተቀመጡ፣ ተወዳጆች፣ በኋላ ይመልከቱ፣ በኋላ ያንብቡ፣ የተቀመጡ ልጥፎች፣ ቤተ-መጽሐፍት",
+      "command": "ዳሽቦርድ፣ ትንታኔ፣ ገቢዎች፣ ገቢ፣ ግንዛቤዎች፣ ልከኝነት፣ የእኔ ስታቲስቲክስ",
+      "wallet": "ቀሪ ሂሳብ፣ ገንዘብ፣ ፈንዶች፣ ቶከኖች፣ ክሪፕቶ፣ ገቢ አድርግ፣ አውጣ፣ ላክ፣ ተቀበል፣ ክፈል",
+      "events": "የቀን መቁጠሪያ፣ መርሐግብር፣ ስብሰባ፣ መጪ፣ ቲኬቶች፣ AMA",
+      "stages": "የድምፅ ክፍሎች፣ የድምፅ ውይይት፣ ስፔስ፣ ቀጥታ ድምፅ፣ ንግግር፣ ፖድካስት",
+      "featureRequests": "ገንባ፣ ገንቢዎች፣ ሀሳቦች፣ ጥቆማዎች፣ ስህተት ሪፖርት አድርግ፣ ስህተቶች፣ ጥገናዎች፣ ፍኖተ ካርታ፣ ድምፅ ስጥ፣ የምኞት ዝርዝር፣ አሻሽል",
+      "feedback": "ግምገማ፣ ደረጃ፣ የዳሰሳ ጥናት፣ አስተያየት፣ ቅሬታ፣ አስተያየት ስጥ",
+      "staking": "ስቴክ፣ ገቢ አድርግ፣ ምርት፣ ሽልማቶች፣ አግኝ፣ የትርፍ ድርሻ፣ ባጅ፣ ደረጃዎች፣ ወለድ",
+      "superpowers": "ቡስት፣ አስተዋውቅ፣ ጥቅማ ጥቅሞች፣ ኃይሎች፣ የባጅ ጥቅሞች፣ ተደራሽነት፣ ማሻሻያዎች",
+      "governance": "ድምፅ ስጥ፣ ድምፅ አሰጣጥ፣ ሀሳቦች፣ የሕዝብ አስተያየት፣ የድምፅ መስጫ፣ ወስን",
+      "dao": "ግምጃ ቤት፣ ለግስ፣ ልገሳ፣ የማህበረሰብ ፈንድ፣ አስተዋጽዖ አድርግ፣ ድጎማዎች",
+      "bounties": "ሥራ፣ ሥራዎች፣ ተግባራት፣ ጊዜያዊ ሥራዎች፣ ፍሪላንስ፣ ቅጠር፣ ገንዘብ አግኝ፣ የሚከፈልበት ሥራ",
+      "myBounties": "የእኔ ሽልማቶች፣ የእኔ ሥራዎች፣ ታሪክ፣ ክፍያዎች፣ የተጠናቀቀ ሥራ",
+      "affiliate": "ሪፈራል፣ ጓደኞችን ጋብዝ፣ ጋብዝ፣ ኮሚሽን፣ አጋር፣ አግኝ",
+      "careers": "ሥራዎች፣ ቅጥር፣ ከእኛ ጋር ይስሩ፣ ቡድኑን ይቀላቀሉ፣ ያመልክቱ፣ ክፍት የሥራ ቦታዎች",
+      "stores": "ሱቅ፣ መደብር፣ የገበያ ቦታ፣ ሸቀጦች፣ ግዛ፣ ሽጥ፣ ምርቶች፣ ግብይት",
+      "fractions": "ድርሻዎች፣ ባለቤትነት፣ ኢንቨስት አድርግ፣ ልጥፍ ይኑርህ፣ NFT፣ NFTs፣ ስብስቦች፣ ንግድ",
+      "usernames": "የተጠቃሚ ስም፣ መለያ ስም፣ ስም፣ ስሜን ቀይር፣ ስም ግዛ፣ ስም ሽጥ",
+      "accounts": "መለያ ግዛ፣ መለያ ሽጥ፣ ለሽያጭ የቀረቡ መለያዎች፣ ተከታዮች፣ መለያ አስተላልፍ",
+      "apps": "የመተግበሪያ መደብር፣ ሚኒ መተግበሪያዎች፣ መተግበሪያ ገንባ፣ ገንቢዎች፣ መሳሪያዎች",
+      "arcade": "ጨዋታዎች፣ ጨዋታ፣ ተጫወት፣ ጌም፣ ቼዝ፣ ተኳሽ፣ መዝናኛ",
+      "glossary": "ቃላት፣ ፍቺዎች፣ መዝገበ ቃላት፣ ትርጉም፣ ምንድን ነው",
+      "compare": "ንጽጽር፣ አወዳድር፣ ከ ጋር፣ አማራጮች፣ YouTube፣ X፣ TikTok",
+      "guide": "መጀመር፣ እንዴት፣ መማሪያ፣ እገዛ፣ ተማር፣ ጀማሪ፣ አዲስ ነኝ",
+      "stats": "ስታቲስቲክስ፣ ትንታኔ፣ ቁጥሮች፣ ገበታዎች፣ ዋጋ፣ አቅርቦት፣ ያዢዎች",
+      "docs": "ሰነዶች፣ እገዛ፣ API፣ ነጭ ወረቀት፣ ገንቢዎች፣ መመሪያ",
+      "blog": "ዜና፣ ጽሑፎች፣ ዝመናዎች፣ ማስታወቂያዎች፣ ምን አዲስ ነገር አለ",
+      "videos": "ይመልከቱ፣ ቪዲዮዎች፣ ክሊፖች፣ ረጅም ቪዲዮዎች",
+      "shorts": "ሪልስ፣ አጫጭር ቪዲዮዎች፣ ቋሚ ቪዲዮዎች፣ ያንሸራትቱ",
+      "music": "ድምፅ፣ ዘፈኖች፣ ትራኮች፣ ያዳምጡ፣ ሬዲዮ፣ የአጫዋች ዝርዝር",
+      "liveTv": "ቲቪ፣ ዥረቶች፣ ዥረት፣ ቀጥታ፣ ስርጭት፣ ቻናሎች፣ በቀጥታ ይመልከቱ",
+      "buyTokens": "ቶከኖችን ግዛ፣ ግዢ፣ ሙላ፣ ካርድ፣ ክሬዲት ካርድ፣ ፊያት",
+      "bridge": "ሰንሰለት ተሻጋሪ፣ ቶከኖችን አንቀሳቅስ፣ ሰንሰለቶች፣ በሰንሰለቶች መካከል አስተላልፍ",
+      "top100": "ምርጥ 100፣ ኮይኖች፣ ክሪፕቶከረንሲዎች፣ የገበያ ዋጋ፣ ዋጋዎች",
+      "agents": "AI ወኪሎች፣ ወኪሎች፣ ቦቶች፣ አውቶሜሽን፣ ገጸ-ባህሪያት",
+      "advertising": "ማስታወቂያዎች፣ ማስታወቂያ፣ ዘመቻ፣ አስተዋውቅ፣ ስፖንሰር፣ ግብይት",
+      "premium": "የደንበኝነት ምዝገባ፣ አሻሽል፣ ፕሮ፣ አባልነት፣ ያለ ማስታወቂያ፣ ከማስታወቂያ ነጻ",
+      "pricing": "ዕቅዶች፣ ወጪ፣ ዋጋ፣ ስንት ነው፣ የደንበኝነት ምዝገባ",
+      "creators": "የፈጣሪ ፕሮግራም፣ አምባሳደሮች፣ አጋሮች፣ እንደ ፈጣሪ ያመልክቱ፣ ገቢ ያግኙ",
+      "getTheApp": "መተግበሪያውን አውርድ፣ Android፣ iPhone፣ የሞባይል መተግበሪያ፣ ጫን፣ APK",
+      "connectAi": "MCP፣ ChatGPT፣ Claude፣ API፣ ውህደት፣ AI ያገናኙ",
+      "packs": "ኢሞጂ፣ ስቲከሮች፣ GIFs፣ የኢሞጂ ጥቅሎች፣ የስቲከር ጥቅሎች፣ ብጁ ኢሞጂ",
+      "publicChat": "ውይይት፣ ዓለም አቀፍ ውይይት፣ የውይይት ክፍል፣ ሎቢ፣ ንግግር፣ የማህበረሰብ ውይይት",
+      "planned": "የታቀዱ፣ መርሐግብር፣ የታቀዱ ልጥፎች፣ ወረፋ፣ በኋላ",
+      "liveStudio": "ቀጥታ ይጀምሩ፣ ዥረት፣ ዥረት ማስተላለፍ፣ OBS፣ ተደራቢዎች፣ ማንቂያዎች፣ ዊጀቶች",
+      "launchpad": "ቶከን አስጀምር፣ ኮይን ፍጠር፣ ኮይን ስራ፣ ሚም ኮይን፣ ቦንዲንግ ከርቭ፣ ቶከን አድርግ"
     }
   },
   "affiliate": {
@@ -3685,7 +3821,47 @@
     "themeColorBrandDesc": "የመገለጫ ስዕልዎን ቀለሞች ይጠቀሙ",
     "themeColorBrandNoAvatar": "የምርት ስም ቀለሞችን ለመጠቀም የመገለጫ ስዕል ያክሉ",
     "themeColorBrandFailed": "ከመገለጫ ስዕልዎ ቀለሞችን ማንበብ አልተቻለም",
-    "menuLayoutFolders": "አቃፊዎች"
+    "menuLayoutFolders": "አቃፊዎች",
+    "chatDeleteChoice": "መልዕክት ሲሰርዙ",
+    "chatDeleteChoiceDesc": "ሁልጊዜ ይጠይቅ፣ ወይም ሁልጊዜ ለእርስዎ ብቻ ወይም በውይይቱ ውስጥ ላሉት ሁሉ ይሰርዝ።",
+    "chatDeleteAsk": "ሁልጊዜ ጠይቅ",
+    "chatDeleteMe": "ለእኔ ሰርዝ",
+    "chatDeleteMeDesc": "ከውይይትዎ ይጠፋል፣ ሌሎች አሁንም ያዩታል",
+    "chatDeleteEveryone": "ለሁሉም ሰርዝ",
+    "chatDeleteEveryoneDesc": "በሚቻልበት ጊዜ። በቡድን ውስጥ የሌላ ሰው መልዕክት የሚሰረዘው ለእርስዎ ብቻ ነው",
+    "chatTextSize": "የውይይት ጽሑፍ መጠን",
+    "menuLayout": "የምናሌ አቀማመጥ",
+    "menuLayoutDesc": "ምናሌው ገጾቹን እንዴት እንደሚያቧድን",
+    "menuLayoutTabs": "ትሮች",
+    "menuLayoutTabsDesc": "በአንድ ጊዜ አንድ ቡድን፣ ከትላልቅ አዶዎች ጋር",
+    "menuLayoutSections": "ክፍሎች",
+    "menuLayoutSectionsDesc": "ሁሉም ገጾች በአንድ ጊዜ፣ በቡድን ርዕሶች ስር",
+    "menuLayoutFoldersDesc": "ዋና ገጾችዎ፣ ከዚያም ለእያንዳንዱ ቡድን አንድ ፎልደር",
+    "publicChatInBar": "ይፋዊ ውይይት በታችኛው አሞሌ",
+    "publicChatInBarDesc": "ከማያ ገጹ ግርጌ ካለው አሞሌ በአንድ መታ ወደ ይፋዊ ውይይት",
+    "chatTextSizeDesc": "በእያንዳንዱ ውይይት ውስጥ ትልቅ ወይም ትንሽ መልዕክቶች። በስልክዎ የጽሑፍ መጠን ላይ ይጨመራል።",
+    "chatCards": "ውይይቶች እንደ ካርዶች",
+    "chatCardsDesc": "እያንዳንዱ ውይይት በራሱ ካርድ ላይ። በውይይቶች መካከል መስመር ላለው ቀላል ዝርዝር ያጥፉት።",
+    "contactSupport": "ድጋፍን ያግኙ",
+    "showLikes": "ላይኮቼን ለሁሉም አሳይ",
+    "showLikesDesc": "ማንኛውም ሰው በመገለጫዎ ላይ ያለውን የላይኮች ትር መክፈት ይችላል። በነባሪ ጠፍቷል፣ ስለዚህ የወደዱትን ማየት የሚችሉት እርስዎ ብቻ ነዎት።",
+    "showFollowersList": "የሚከተሉኝን አሳይ",
+    "showFollowersListDesc": "ማንም ሰው የተከታዮችዎን ዝርዝር እንዲከፍት ይፍቀዱ። ይህ ሲጠፋ ማየት የሚችሉት እርስዎ ብቻ ነዎት።",
+    "showFollowingList": "የምከተላቸውን አሳይ",
+    "showFollowingListDesc": "ማንም ሰው የሚከተሏቸውን ሰዎች ዝርዝር እንዲከፍት ይፍቀዱ። ይህ ሲጠፋ ማየት የሚችሉት እርስዎ ብቻ ነዎት።",
+    "showFollowCounts": "የተከታዮቼን ቁጥር አሳይ",
+    "showFollowCountsDesc": "ምን ያህል ተከታዮች እንዳሉዎት እና ምን ያህል ሰዎችን እንደሚከተሉ ያሳዩ። ይህን ማጥፋት ሁለቱንም ዝርዝሮች ይደብቃል።",
+    "defaultProfileView": "የመገለጫ ልጥፎች አቀማመጥ",
+    "defaultProfileViewDesc": "ሰዎች መገለጫዎን ሲከፍቱ ልጥፎችዎን እንደ ፍርግርግ ወይም ዝርዝር ያሳዩ",
+    "readerProfileView": "ሌሎች መገለጫዎችን የሚከፍቱበት",
+    "readerProfileViewDesc": "ለሚከፍቱት እያንዳንዱ መገለጫ ፍርግርግ ወይም ዝርዝር ይምረጡ፣ ወይም የእያንዳንዱን ሰው ምርጫ ይጠብቁ",
+    "readerProfileViewOwner": "የእያንዳንዱ ሰው ምርጫ",
+    "notificationShowCount": "ቁጥሩን በደወሉ ላይ አሳይ",
+    "notificationShowCountDesc": "ብርሃኑን ብቻ ሳይሆን ምን ያህል ማሳወቂያዎች እንዳልተነበቡ ይመልከቱ",
+    "messagesShowCount": "ቁጥሩን በመልዕክቶች ላይ አሳይ",
+    "messagesShowCountDesc": "ብርሃኑን ብቻ ሳይሆን ምን ያህል መልዕክቶች እንዳልተነበቡ ይመልከቱ",
+    "pushNotRegisteredDescIos": "መተግበሪያው ተዘግቶ ሳለ ማሳወቂያዎች ሊደርሱዎት አይችሉም፦ ይህ iPhone ለpush ማሳወቂያዎች ፈጽሞ አልተመዘገበም። በቅንብሮች ውስጥ ለRiftn ማሳወቂያዎች መፈቀዳቸውን ያረጋግጡ፣ ከዚያ መተግበሪያውን እንደገና ይክፈቱ።",
+    "tipsOffNote": "ይህ በርቶ ሳለ ለእርስዎ የሚላኩ ቲፖች እና ዝውውሮች ጠፍተዋል። እንደገና ቲፕ ለመቀበል ያጥፉት።"
   },
   "common": {
     "remove": "አስወግድ",
@@ -3764,7 +3940,7 @@
     "quickAmounts": "ፈጣን መጠኖች",
     "customAmount": "ወይም መጠን አስገባ",
     "sending": "እየላከ...",
-    "privateBalanceNotice": "ይህ ሂሳብ ግላዊ ሚዛን ሁነታ ነው፣ ስለዚህ Riftn 토큰ወይም ጠቃሚ ምክር ወደ ሊልካ አይችልም።",
+    "privateBalanceNotice": "ይህ ሂሳብ የግል ሚዛን ሁነታ በርቷል፣ ስለዚህ Riftn ቶከኖችን ወይም ቲፖችን ወደ እሱ መላክ አይችልም።",
     "privateBalanceError": "ይህ ሂሳብ ግላዊ ሚዛን ሁነታ ሲሆን ጠቃሚ ምክር ተሰናክሏል።",
     "privacyCheckFailed": "የተቀባይ ግላዊነት ቅንብር ማረጋገጥ አልተቻለም። ምንም ጠቃሚ ምክር አልተላከም።",
     "solanaFailed": "Solana ጠቃሚ ምክር ወድቋል",
@@ -3811,7 +3987,15 @@
     "addMessage": "መልእክት ያክሉ (ተራ)",
     "messagePublic": "ይፋ",
     "railTitle": "ጠቃሚ ምክሮች",
-    "railTotal": "{{amount}} ቶከኖች"
+    "railTotal": "{{amount}} ቶከኖች",
+    "messagePlaceholder": "ከቲፕዎ ጋር አንድ ነገር ይበሉ",
+    "messagePrivate": "{{name}} ብቻ",
+    "theCreator": "ፈጣሪው",
+    "messageWallNote": "ቲፑ ሲሳካ በቲፕ ግድግዳው ላይ ይታያል።",
+    "sendWithMessage": "ከመልዕክት ጋር ላክ",
+    "messageFailed": "መልዕክትዎ ሊታከል አልቻለም። ምንም ቲፕ አልተላከም።",
+    "wallLabel": "የቲፕ መልዕክቶች",
+    "messagePrivateNote": "በማሳወቂያቸው ውስጥ የሚያየው {{name}} ብቻ ነው።"
   },
   "postOptions": {
     "skippableSections": "አስተዋጽን አስተምህራት ክልል።",
@@ -3895,7 +4079,17 @@
     "giftBoost": "ማበረታቻ በስጦታ ስጥ",
     "giftBoostDesc": "ከእርስዎ አንዱን በዚህ ልጥፍ ላይ ያውጡ",
     "askAi": "AIን ይጠይቁ",
-    "aiOverview": "የአይአይ አጠቃላይ እይታ"
+    "aiOverview": "የአይአይ አጠቃላይ እይታ",
+    "unmuteUser": "የ{{name}}ን ድምጸ-ከል አንሳ",
+    "unmuteDesc": "ልጥፎቻቸውን እንደገና ይመልከቱ",
+    "unmutedUser": "የ{{name}} ድምጸ-ከል ተነስቷል",
+    "refreshLinkPreview": "የአገናኝ ቅድመ እይታን አድስ",
+    "linkPreviewRefreshed": "የአገናኝ ቅድመ እይታ ታድሷል",
+    "linkPreviewRefreshFailed": "ያንን ጣቢያ ማግኘት አልተቻለም። ቆይተው እንደገና ይሞክሩ።",
+    "castToTv": "ወደ ቲቪ አስተላልፍ",
+    "castIosDesc": "ወደ Apple TV ወይም ስማርት ቲቪ በAirPlay ያስተላልፉ",
+    "castAndroidDesc": "ማያ ገጽዎን በCast ወይም Smart View ያንጸባርቁ",
+    "castAndroidHelp": "ፈጣን ቅንብሮችዎን ይክፈቱ እና Smart View ወይም Castን መታ ያድርጉ፣ ከዚያ ቲቪዎን ይምረጡ።"
   },
   "filters": {
     "ppv": "ፒፒቪ",
@@ -4101,7 +4295,8 @@
     "failedToClosePoll": "ምርጫ መዝጋት አልተሳካም",
     "endsIn": "በ{{time}} ያበቃል",
     "multipleChoice": "ብዙ መልሶችን ፍቀድ",
-    "online": "{{count}} በመስመር ላይ"
+    "online": "{{count}} በመስመር ላይ",
+    "onlineHint": "አሁን በዚህ ውይይት ውስጥ {{count}} ሰዎች አሉ"
   },
   "aiChat": {
     "title": "ረዳት",
@@ -4543,7 +4738,11 @@
     "groupNew": "አዲስ",
     "groupToday": "ዛሬ",
     "groupThisWeek": "በዚህ ሳምንት",
-    "searchClose": "በይበል"
+    "searchClose": "በይበል",
+    "allSettings": "ሁሉም የማሳወቂያ ቅንብሮች",
+    "groupEarlier": "ቀደም ብሎ",
+    "searchPlaceholder": "ማሳወቂያዎችን ይፈልጉ",
+    "searchEmpty": "ምንም ተዛማጅ ማሳወቂያ የለም"
   },
   "leaderboard": {
     "title": "ደረጃ ሰሌዳዎች",
@@ -4583,7 +4782,13 @@
     "addedToLeaderboard": "ተጨምረዋል! ቀሪ ሂሳብ፡ {{balance}} ቶከኖች",
     "balanceTooLow": "ቀሪ ሂሳብ በጣም ዝቅተኛ ነው ({{balance}} ቶከኖች)",
     "tokenAmount": "{{amount}} ቶከኖች",
-    "provisional": "ጊዜያዊ"
+    "provisional": "ጊዜያዊ",
+    "ogChallenge": "የOG ፈተና",
+    "ogHolders_one": "{{count}} OG ያዢ",
+    "ogHolders_other": "{{count}} OG ያዢዎች",
+    "ogChallengeTitle": "የOG ያዢዎችን መልሰው ያምጡ",
+    "ogChallengeBody": "አሁንም DHB የያዙ ሰዎችን ይጋብዙ። በግብዣ አገናኝዎ ሲቀላቀሉ እና DHBቸውን በRiftn የኪስ ቦርሳቸው ውስጥ ሲያቆዩ፣ እዚህ ለእርስዎ ይቆጠራሉ።",
+    "ogChallengeCta": "የግብዣ አገናኝዎን ያግኙ"
   },
   "explorePage": {
     "ppv": "ፒፒቪ",
@@ -4745,8 +4950,31 @@
       "comments": "አስተያየቶች",
       "showLess": "ያነሰ አሳይ",
       "viewProfile": "መገለጫ ይመልከቱ",
-      "you": "እርስዎ"
-    }
+      "you": "እርስዎ",
+      "title": "ምርጥ ገንቢዎች",
+      "breakdown": "{{shipped}} የተለቀቁ ({{sp}}) · {{votes}} ድጋፍ ድምፆች ({{vp}}) · {{comments}} አስተያየቶች ({{cp}})",
+      "showAll": "ምርጥ {{n}}ን አሳይ",
+      "showEveryone": "ሁሉንም {{n}} ገንቢዎች አሳይ",
+      "showMore": "{{n}} ተጨማሪ አሳይ",
+      "rule": "ለእያንዳንዱ የተለቀቀ ጥያቄ 10 ነጥቦች፣ ለእያንዳንዱ ድጋፍ ድምፅ 1፣ በሌላ ሰው ጥያቄ ላይ ለእያንዳንዱ አስተያየት 2።",
+      "pts": "{{n}} ነጥቦች",
+      "gap": "{{name}}ን ለማለፍ {{n}} ነጥቦች",
+      "join": "ሰሌዳውን ለመቀላቀል የሚለቀቅ ጥያቄ ይለጥፉ",
+      "points": "ነጥቦች",
+      "infoLabel": "ነጥቦች እንዴት እንደሚሰሩ",
+      "infoShipped": "ለእያንዳንዱ የተለቀቀ ጥያቄ",
+      "infoVote": "በጥያቄዎችዎ ላይ ለእያንዳንዱ ድጋፍ ድምፅ",
+      "infoComment": "በሌላ ሰው ጥያቄ ላይ ለእያንዳንዱ አስተያየት",
+      "infoCap": "አስተያየቶች በእያንዳንዱ ጊዜ እስከ {{n}} ይቆጠራሉ።",
+      "pt": "1 ነጥብ",
+      "infoTitle": "ነጥቦች እንዴት እንደሚሰሩ"
+    },
+    "deviceInfoNote": "ስህተቶችን እንድናስተካክል ለመርዳት የመሣሪያ መረጃ ተያይዟል።",
+    "deviceInfo": "የመሣሪያ መረጃ",
+    "deviceInfoOwners": "ይህንን የሚያዩት የሰሌዳው ባለቤቶች ብቻ ናቸው",
+    "deviceInfoError": "የመሣሪያ መረጃን መጫን አልተቻለም",
+    "deviceInfoNone": "ለዚህ ጥያቄ የመሣሪያ መረጃ የለም",
+    "deviceInfoErrors": "የቅርብ ጊዜ ስህተቶች"
   },
   "auth": {
     "loginRequired": "መግባት ያስፈልጋል",
@@ -4803,7 +5031,13 @@
     "importWalletPurpose": "ይህ መሳሪያ ከRiftn.io ነባር አካውንቶችን ለማስመጣት ነው።",
     "importSecretPlaceholder": "12 ወይም 24 ቃላት, ወይም የግል ቁልፍ",
     "invalidImportSecret": "ይህ ትክክለኛ የ 12/24-ቃል ሐረግ ወይም የግል ቁልፍ አይደለም",
-    "walletSignupBlocked": "ይህ ዋሌት ሙሉ በሙሉ አዲስ ነው። አዲስ ዋሌቶች መለያ ለመክፈት ቀሪ ሂሳብ ወይም ያለፈ ግብይት ያስፈልጋቸዋል። ከታች ካሉት አማራጮች በአንዱ ይመዝገቡ፣ ከዚያ ይህን ዋሌት ከቅንብሮች ያገናኙ።"
+    "walletSignupBlocked": "ይህ ዋሌት ሙሉ በሙሉ አዲስ ነው። አዲስ ዋሌቶች መለያ ለመክፈት ቀሪ ሂሳብ ወይም ያለፈ ግብይት ያስፈልጋቸዋል። ከታች ካሉት አማራጮች በአንዱ ይመዝገቡ፣ ከዚያ ይህን ዋሌት ከቅንብሮች ያገናኙ።",
+    "accountDeleted": "ይህ መለያ ተሰርዟል። እንደ አዲስ መለያ እንደገና መመዝገብ ይችላሉ።",
+    "accountDeletedHours_one": "ይህ መለያ ተሰርዟል። በተመሳሳይ ኢሜይል ወይም ስልክ በግምት በ{{count}} ሰዓት ውስጥ እንደገና መመዝገብ ይችላሉ።",
+    "accountDeletedHours_other": "ይህ መለያ ተሰርዟል። በተመሳሳይ ኢሜይል ወይም ስልክ በግምት በ{{count}} ሰዓታት ውስጥ እንደገና መመዝገብ ይችላሉ።",
+    "accountDeletedDays_one": "ይህ መለያ ተሰርዟል። በተመሳሳይ ኢሜይል ወይም ስልክ በግምት በ{{count}} ቀን ውስጥ እንደገና መመዝገብ ይችላሉ።",
+    "accountDeletedDays_other": "ይህ መለያ ተሰርዟል። በተመሳሳይ ኢሜይል ወይም ስልክ በግምት በ{{count}} ቀናት ውስጥ እንደገና መመዝገብ ይችላሉ።",
+    "signInPageWouldNotOpen": "የመግቢያ ገጹ ከመከፈቱ በፊት ተዘግቷል። እንደገና ይሞክሩ፣ ወይም በኢሜይል ይቀጥሉ።"
   },
   "messages": {
     "encryptionSetupFailed": "የምዝገባ ማዋቀር አልተሳካም. እባክዎ እንደገና ይሞክሩ.",
@@ -4828,7 +5062,11 @@
     "title": "መልዕክቶች",
     "searchConversations": "ውይይቶችን ፈልግ...",
     "failedToLoad": "ውይይቶችን መጫን አልተሳካም",
-    "tryAgain": "ደግመህ ሞክር"
+    "tryAgain": "ደግመህ ሞክር",
+    "unreadMarkerOne": "1 ያልተነበበ መልዕክት",
+    "unreadMarkerMany": "{{value}} ያልተነበቡ መልዕክቶች",
+    "jumpToUnread": "ወደ መጀመሪያው ያልተነበበ መልዕክት ዝለል",
+    "jumpToLatest": "ወደ የቅርብ ጊዜው መልዕክት ዝለል"
   },
   "music": {
     "likeStation": "ጣቢያውን ወደድኩት",
@@ -5013,14 +5251,51 @@
     "pinnedShort": "ተሰክቷል",
     "post": "ልጥፍ",
     "arrange": {
-      "saving": "በማስቀመጥ ላይ..."
+      "saving": "በማስቀመጥ ላይ...",
+      "title": "ልጥፎችዎን ያደራጁ",
+      "hint": "ልጥፍን ይዘው ወደ አዲሱ ቦታው ይጎትቱት። ጎብኚዎች ይህን ቅደም ተከተል መጀመሪያ ያያሉ።",
+      "drag": "ለማንቀሳቀስ ይጎትቱ",
+      "toTop": "ወደ ላይ አንቀሳቅስ",
+      "save": "ቅደም ተከተሉን አስቀምጥ",
+      "saved": "ቅደም ተከተልዎ ተቀምጧል",
+      "reset": "ወደ አዲሶቹ መጀመሪያ ይመለሱ",
+      "resetDone": "ወደ አዲሶቹ መጀመሪያ ይመለሱ",
+      "saveFailed": "ቅደም ተከተልዎን ማስቀመጥ አልተቻለም። እባክዎ እንደገና ይሞክሩ።",
+      "loadFailed": "ልጥፎችዎን መጫን አልተቻለም። ይህን ዘግተው እንደገና ይሞክሩ።",
+      "empty": "እስካሁን የሚደራጅ ነገር የለም። መጀመሪያ አንድ ነገር ይለጥፉ።"
     },
     "reserve": {
-      "signIn": "ግባ"
+      "signIn": "ግባ",
+      "available": "የተጠቃሚ ስሙ ይገኛል",
+      "held": "ለእርስዎ ተይዟል",
+      "ended": "ቆይታው አብቅቷል",
+      "busy": "እየተያዘ ነው",
+      "availableBody": "riftn.com/{{name}} አሁን ነጻ ነው። ይያዙት፣ እርስዎ እስኪመዘገቡ ድረስ ለአንድ ደቂቃ እንይዝልዎታለን።",
+      "heldBody": "ሰዓቱ እስኪያልቅ ድረስ ሌላ ማንም @{{name}}ን መውሰድ አይችልም። ለማቆየት ምዝገባውን ይጨርሱ።",
+      "endedBody": "ደቂቃዎ አልቋል፣ ስለዚህ @{{name}} እንደገና ለሁሉም ክፍት ነው። አሁንም ነጻ ነው።",
+      "busyBody": "አንድ ሰው አሁን እንደ @{{name}} እየተመዘገበ ነው። ካልጨረሱ ሰዓቱ ሲያልቅ ነጻ ይሆናል።",
+      "finish": "ምዝገባውን ይጨርሱ",
+      "again": "እንደገና ይያዙ",
+      "cta": "አሁን ይያዙ",
+      "letGo": "ይልቀቁት",
+      "haveAccount": "መለያ አለዎት?"
     },
     "tabLikes": "ወደዶች",
     "likesEmptyTitle": "እስካሁን መውደድ የለም",
-    "likesPrivateTitle": "መውደዶች የግል ናቸው"
+    "likesPrivateTitle": "መውደዶች የግል ናቸው",
+    "articleViews": "{{views}} እይታዎች",
+    "sortBy": "ደርድር በ",
+    "sortCustom": "ብጁ ቅደም ተከተል",
+    "arrangeButton": "ልጥፎችን አደራጅ",
+    "mutualsOne": "{{count}} የጋራ፦",
+    "mutualsMany": "{{count}} የጋራ፦",
+    "tabArticles": "መጣጥፎች",
+    "articlesEmptyTitle": "እስካሁን መጣጥፎች የሉም",
+    "articlesEmptySubtitle": "መጣጥፎች እዚህ ይታያሉ",
+    "likesEmptyOwn": "የሚወዷቸው ልጥፎች እዚህ ይታያሉ። በቅንብሮች ውስጥ «ላይኮቼን አሳይ»ን ካላበሩ በስተቀር ማየት የሚችሉት እርስዎ ብቻ ነዎት።",
+    "likesEmptyOther": "እስካሁን የተወደደ ነገር የለም።",
+    "likesPrivateDesc": "ይህ መለያ ላይኮቹን ለራሱ ያስቀምጣል።",
+    "unavailable": "መገለጫው አይገኝም"
   },
   "tv": {
     "title": "ቴሌቪዥን",
@@ -5538,7 +5813,26 @@
       "filter": "እንቅስቃሴን ያጣሩ"
     },
     "welcome": {
-      "text": "የእንኳን ደህና መጡ መልዕክት"
+      "text": "የእንኳን ደህና መጡ መልዕክት",
+      "title": "አዲስ አባላትን እንኳን ደህና መጡ ይበሉ",
+      "help": "ይህ ወኪል Riftnን አዲስ የተቀላቀሉ ሰዎችን በቀን ጥቂቶችን ይከተላል እና/ወይም መልዕክት ይልካል።",
+      "follow": "አዲስ አባላትን ተከተል",
+      "message": "ለአዲስ አባላት መልዕክት ላክ",
+      "textHelp": "{name} የእነሱ @የተጠቃሚ ስም ይሆናል። አገናኞች አይፈቀዱም። ለእያንዳንዱ ሰው አንድ ጊዜ ይላካል።",
+      "saveText": "መልዕክቱን አስቀምጥ",
+      "perDay": "ሰዎች በቀን",
+      "fewer": "በቀን ያነሱ",
+      "more": "በቀን ብዙ",
+      "today": "ዛሬ፦ {{follows}} ተከተለ · {{messages}} መልዕክት ተላከ",
+      "limits": "አንድን ሰው ሁለት ጊዜ አይደግምም። እርስዎን ያገዱ ወይም ድምጸ-ከል ያደረጉ፣ አዲስ መልዕክቶችን ያጠፉ ወይም ከአዲስ አባላት የተደበቁ ሰዎችን ይዘላል።",
+      "showLog": "እነማንን እንደተቀበለ ይመልከቱ",
+      "hideLog": "አቀባበሎችን ደብቅ",
+      "empty": "እስካሁን ማንም የለም። አዲስ አባላት ሲቀላቀሉ እዚህ ይታያሉ።",
+      "followed": "ተከተለ",
+      "messaged": "መልዕክት ተላከ",
+      "skipped": "ተዘሏል",
+      "failed": "ማግኘት አልተቻለም",
+      "defaultText": "ሰላም {name}፣ እንኳን ወደ Riftn በደህና መጡ! 👋"
     }
   },
   "hero": {
@@ -5629,7 +5923,43 @@
     "disconnect": "አይኮንድክትል።",
     "payAndRun": "ይክፈሉ እና ያስኬዱ",
     "run": "ያስኬዱ",
-    "handlePrompt": "ጥያቄ"
+    "handlePrompt": "ጥያቄ",
+    "retryFreeTask": "ነጻውን ተግባር እንደገና ይሞክሩ",
+    "previewSavedMedia": "የተቀመጠውን ሚዲያ ቅድመ እይታ",
+    "audioSavePending": "ድምፁ ዝግጁ ነው፣ ነገር ግን በግል ቤተ-መጽሐፍት ውስጥ መቀመጡ በመጠባበቅ ላይ ነው። ለመሰብሰብ ይቀጥሉ።",
+    "freeResultUnknown": "የነጻው ተግባር ምላሽ ተቋርጧል። በራስ-ሰር እንደገና አይገባም። «ነጻውን ተግባር እንደገና ይሞክሩ»ን ይምረጡ፣ ከዚያ ይቀጥሉ፤ ክፍያዎ እና ሌሎች ሥራዎች ተጠብቀዋል።",
+    "formAuthor": "ፍሰቱን አርትዕ",
+    "formAuthorHint": "የተተየቡ ግብዓቶች ያሉት ፍሰት ይገንቡ። እዚህ ያስቀምጡት፣ ወይም በድር ሸራው ላይ ያደራጁት።",
+    "chooseSavedMedia": "የተቀመጠ ሚዲያ ይምረጡ",
+    "formInput": "ግብዓት፦ {{handle}}",
+    "reviewRun": "ሂደቱን ይገምግሙ",
+    "resumeRun": "የተቀመጠውን ሂደት ይቀጥሉ",
+    "confirmPrice": "ጠቅላላ፦ {{price}} ቶከኖች",
+    "recoveryHint": "የሥራ እና የክፍያ ማጣቀሻዎች በዚህ መሣሪያ ላይ ተቀምጠዋል። ሌላ ሂደት ከመጀመርዎ በፊት የተቋረጠውን ሥራ ይቀጥሉ።",
+    "newRun": "ሌላ ሂደት ጀምር",
+    "loadMoreMedia": "ተጨማሪ ሚዲያ ጫን",
+    "invalidGraph": "ግንኙነቶቹን ያረጋግጡ፦ እያንዳንዱ ግብዓት ተስማሚ ምንጭ ያስፈልገዋል እና ግራፉ ዑደቶችን መያዝ አይችልም።",
+    "unsupportedNode": "ይህ መስቀለኛ መንገድ በቤተኛው ቅጽ ውስጥ ገና መሄድ አይችልም። ለዚህ ፍሰት የድር ሸራውን ይጠቀሙ።",
+    "missingPrompt": "ጥያቄ ያለው የጽሑፍ መስቀለኛ መንገድ ያገናኙ።",
+    "invalidSettings": "እነዚህ ቅንብሮች በተመረጠው ሞዴል አይደገፉም።",
+    "missingCapturedFrame": "ይህን ቪዲዮ እንደ ምስል ግብዓት ከመጠቀምዎ በፊት በድር ሸራው ላይ ፍሬም ያንሱ።",
+    "missingSavedMedia": "የተቀመጠው የምንጭ ሚዲያ ጠፍቷል ወይም ለዚህ መለያ ከአሁን በኋላ አይገኝም።",
+    "nothingToRun": "ይህን ፍሰት ለማስኬድ ፈጣሪ ያክሉ።",
+    "quoteFailed": "የዚህን ፍሰት ዋጋ ማውጣት አልተቻለም። እንደገና ይሞክሩ።",
+    "recoverBeforeEdit": "ግራፉን ከመቀየርዎ ወይም ሌላ ሂደት ከመጀመርዎ በፊት የተቀመጠውን ሂደት ይቀጥሉ።",
+    "runAlreadyComplete": "ይህ ሂደት ተጠናቋል። እንደገና ለመፍጠር «ሌላ ሂደት ጀምር»ን ይምረጡ።",
+    "recoveryCorrupt": "የተቀመጠው የመልሶ ማግኛ መዝገብ ሊነበብ አልቻለም። ይህን ፍሰት ያቆዩ እና እንደገና ከመክፈልዎ በፊት ድጋፍን ያግኙ።",
+    "paidUnavailable": "እዚህ ፍሰቶችን መፍጠር እና ማስቀመጥ ይችላሉ። በዚህ መደብር ውስጥ የሚከፈልባቸው ሂደቶች አይገኙም።",
+    "planChanged": "ፍሰቱ ዋጋ ከወጣለት በኋላ ተቀይሯል። ሂደቱን እንደገና ይገምግሙ።",
+    "connectOwnerWallet": "የዚህ ፍሰት ባለቤት የሆነውን የኪስ ቦርሳ ያገናኙ።",
+    "runFailed": "መስቀለኛ መንገዱ መጨረስ አልቻለም። የተቀመጠው የሥራ ማጣቀሻው ለመልሶ ማግኛ ተይዟል።",
+    "recoveryPending": "ማሳያው አሁንም በመጠባበቅ ላይ ነው። ለመሰብሰብ ይህን ሂደት ይቀጥሉ።",
+    "nodeAudioGen": "የድምፅ ፈጣሪ",
+    "nodeAudioGenDesc": "ንግግር፣ የድምፅ ተጽዕኖዎች፣ ጽሑፍ ቅጂ እና የድምፅ መለያ",
+    "nodeAudioInput": "የተቀመጠ ድምፅ",
+    "nodeAudioInputDesc": "ከቤተ-መጽሐፍትዎ የግል ድምፅ ይጠቀሙ",
+    "audioVoiceId": "የድምፅ መታወቂያ",
+    "audioSeconds": "የድምፅ ርዝመት በሰከንዶች"
   },
   "loginModal": {
     "title": "ግባ",
@@ -5666,7 +5996,8 @@
     "passkeyNotLinked": "ያ የጣት አሻራ ገና ምንም መለያ አልተገናኘም። ይልቁንስ አዲስ መለያ ይፍጠሩ።",
     "passkeyAlreadyRegistered": "ያ የጣት አሻራ ቀድሞውኑ መለያ አለው። ይልቁንስ \"ግባ\" የሚለውን ይጠቀሙ።",
     "passkeyFailed": "የጣት አሻራ መግባት አልተሳካም። እባክዎ እንደገና ይሞክሩ።",
-    "passkeyBackupHint": "መለያዎ በዚህ መሳሪያ የይለፍ ቁልፍ ውስጥ ይኖራል። በአብዛኛዎቹ ስልኮች ከGoogle ወይም Apple መለያዎ ጋር ይመሳሰላል፣ እና በቅንብሮች ውስጥ የይለፍ ቃል ምትኬ ማከል ይችላሉ።"
+    "passkeyBackupHint": "መለያዎ በዚህ መሳሪያ የይለፍ ቁልፍ ውስጥ ይኖራል። በአብዛኛዎቹ ስልኮች ከGoogle ወይም Apple መለያዎ ጋር ይመሳሰላል፣ እና በቅንብሮች ውስጥ የይለፍ ቃል ምትኬ ማከል ይችላሉ።",
+    "didYouMean": "{{email}} ማለትዎ ነው?"
   },
   "careers": {
     "title": "በRiftn ሥራ",
@@ -5961,7 +6292,13 @@
     "tabRejected": "ውድቅ ሆነዋል",
     "weeksAgo": "ከ{{count}}ሳ በፊት",
     "holdTokensToVote": "ለመምረጥ Riftn ቶከኖችን ይያዙ",
-    "mustHoldTokens": "በአስተዳደር ጥያቄዎች ላይ ለመምረጥ Riftn ቶከኖችን መያዝ አለብዎት።"
+    "mustHoldTokens": "በአስተዳደር ጥያቄዎች ላይ ለመምረጥ Riftn ቶከኖችን መያዝ አለብዎት።",
+    "optionVoters_one": "{{count}} ድምፅ ሰጪ",
+    "optionVoters_other": "{{count}} ድምፅ ሰጪዎች",
+    "optionWinner": "አሸናፊ፦ {{option}}",
+    "optionNoWinner": "ግልጽ አሸናፊ የለም",
+    "optionTapToUndo": "ድምፅዎን ለመመለስ መልስዎን እንደገና መታ ያድርጉ",
+    "optionPickOne": "አንድ መልስ ይምረጡ"
   },
   "sidebar": {
     "talkOfTheTown": "የከተማ ወሬ",
@@ -5980,7 +6317,16 @@
     "clearSearch": "ፍለጋ አጽዳ",
     "noMenuMatches": "በምናሌው ውስጥ ምንም አይዛመድም",
     "searchDehubFor": "በRiftn ላይ \"{{query}}\" ፈልግ",
-    "requestSend": "ጥያቄ ላክ"
+    "requestSend": "ጥያቄ ላክ",
+    "requestPrompt": "እስካሁን እዚህ የለም? እንደ ጥያቄ ይላኩት",
+    "requestPromptShort": "እስካሁን እዚህ የለም?",
+    "requestDraftMenu": "{{query}}ን ወደ Riftn ያክሉ",
+    "requestDraftSettings": "ለ{{query}} ቅንብር",
+    "requestPostsTo": "ወደ ጥያቄዎች ይለጠፋል",
+    "requestHint": "በእርስዎ ስም ወደ ጥያቄዎች ይለጠፋል። ሲለቀቅ እናሳውቅዎታለን።",
+    "requestSent": "ወደ ጥያቄዎች ተልኳል",
+    "requestSentHint": "ሲለቀቅ እናሳውቅዎታለን።",
+    "requestSeeIt": "በጥያቄዎች ላይ ይመልከቱት"
   },
   "comments": {
     "reportComment": "አስተያየት ሪፖርት ያድርጉ",
@@ -6069,7 +6415,24 @@
     "tabReplies": "ምላሾች",
     "tabQuotes": "ጥቅሶች",
     "tabReposts": "ዳግም ልጥፎች",
-    "tabSearch": "ፍለጋ"
+    "tabSearch": "ፍለጋ",
+    "attachAudioFile": "የድምፅ ፋይል",
+    "attachMedia": "ፎቶ፣ ቪዲዮ ወይም ድምፅ ያያይዙ",
+    "attachPhotoOrVideo": "ፎቶ ወይም ቪዲዮ",
+    "attachTooLarge": "ያ ፋይል ከ{{size}} MB ገደብ በላይ ነው።",
+    "playVideo": "ቪዲዮ አጫውት",
+    "threadParts": {
+      "reorder": "ቅደም ተከተል ቀይር",
+      "reorderHint": "አንድን ክፍል ይዘው ይጎትቱ፣ ወይም ቀስቶቹን ይጠቀሙ፣ ከዚያ ያስቀምጡ።",
+      "save": "ቅደም ተከተሉን አስቀምጥ",
+      "saved": "የክር ቅደም ተከተል ተቀምጧል",
+      "saveFailed": "ቅደም ተከተሉን ማስቀመጥ አልተቻለም። እንደገና ይሞክሩ።",
+      "moveUp": "ክፍል {{n}}ን ወደ ላይ አንቀሳቅስ",
+      "moveDown": "ክፍል {{n}}ን ወደ ታች አንቀሳቅስ",
+      "addPart": "ወደ ክር ያክሉ",
+      "addPlaceholder": "ወደ ክርዎ ያክሉ...",
+      "label": "ክር · {{count}} ክፍሎች"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "አሁን ያሉት ባለአክሲዮኖች አሁን ሊነበቡ አይችሉም ።",
@@ -6603,7 +6966,9 @@
       "joined": "{{name}} ተቀላቀለ",
       "reactions": "ምላሾች",
       "photoTooLarge": "ምስል ከ10MB ያነሰ መሆን አለበት",
-      "aiAdminFailed": "የ AI አስተዳዳሪ ምላሽ መስጠት አልቻለም"
+      "aiAdminFailed": "የ AI አስተዳዳሪ ምላሽ መስጠት አልቻለም",
+      "addToMessages": "ወደ መልዕክቶች ያክሉ",
+      "inMessages": "በመልዕክቶች ውስጥ"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6627,7 +6992,8 @@
         "invites": "ግብዣዎች",
         "rules": "ደንቦች",
         "recentActions": "የቅርብ ጊዜ እርምጃዎች",
-        "danger": "አደጋ ዞን"
+        "danger": "አደጋ ዞን",
+        "automod": "ራስ-ልከኝነት እና ቦቶች"
       },
       "title": "ያስተዳድሩ",
       "purgeTitle": "ሁሉንም መልዕክቶች ሰርዝ?",
@@ -6813,25 +7179,111 @@
       "txn": "ትንክን",
       "balance": "ሚዛን ፦",
       "price": "ዋጋ:",
-      "marketCap": "የገበያ ካፕ:"
+      "marketCap": "የገበያ ካፕ:",
+      "title": "{{amount}} ግዢ",
+      "titleToken": "{{amount}} ${{symbol}} ግዢ"
     },
     "newChat": {
       "public": "ይፋ",
       "private": "የግል",
       "free": "ነጻ",
       "paid": "የተከፈለ",
-      "group": "ቡድን"
+      "group": "ቡድን",
+      "description": "ስለምንድን ነው? (አማራጭ)",
+      "groupCreated": "ቡድኑ ተፈጥሯል",
+      "channelCreated": "ቻናሉ ተፈጥሯል",
+      "newGroup": "አዲስ ቡድን",
+      "newChannel": "አዲስ ቻናል",
+      "groupName": "የቡድን ስም",
+      "channelName": "የቻናል ስም",
+      "whoCanJoin": "ማን መቀላቀል ይችላል",
+      "publicDetail": "ማንኛውም ሰው ሊያገኘው እና ሊቀላቀል ይችላል",
+      "inviteOnly": "በግብዣ ብቻ",
+      "privateDetail": "ሰዎች በእርስዎ ግብዣ ወይም ፈቃድ ይቀላቀላሉ",
+      "entry": "መግቢያ",
+      "freeDetail": "ለመቀላቀል ክፍያ የለም",
+      "paidDetail": "በቶከኖች አንድ ክፍያ፣ በቀጥታ ለእርስዎ",
+      "price": "ዋጋ በቶከኖች",
+      "channelNote": "መለጠፍ የሚችሉት እርስዎ እና አስተዳዳሪዎችዎ ብቻ ናቸው። አባላት ያነባሉ እና ምላሽ ይሰጣሉ።",
+      "createGroup": "ቡድን ፍጠር",
+      "createChannel": "ቻናል ፍጠር",
+      "channel": "ቻናል",
+      "adminsOnly": "በዚህ ቻናል ውስጥ የሚለጥፉት አስተዳዳሪዎች ብቻ ናቸው።",
+      "message": "አዲስ መልዕክት",
+      "messageDetail": "ከአንድ ሰው ጋር የግል ውይይት",
+      "groupDetail": "ከብዙ ሰዎች ጋር ይወያዩ፣ ይፋዊ ወይም የግል",
+      "channelDetail": "ለተከታዮች ያሰራጩ፣ ነጻ ወይም የሚከፈልበት",
+      "title": "አንድ ነገር ይጀምሩ",
+      "channelRow": "ቻናል · {{formattedCount}} አባላት",
+      "groupRow": "ቡድን · {{formattedCount}} አባላት"
     },
     "holderGate": {
       "chain": "ሰንሰለት",
       "which": "ቶከን",
-      "tab": "ባለቤቶች"
+      "tab": "ባለቤቶች",
+      "failed": "አሁን ቀሪ ሂሳብዎን ማንበብ አልተቻለም። ትንሽ ቆይተው እንደገና ይሞክሩ።",
+      "short": "ለያዢዎች ብቻ፦ {{need}} ያስፈልግዎታል። እርስዎ {{have}} ይዘዋል።",
+      "required": "ለያዢዎች ብቻ፦ ለመወያየት የኪስ ቦርሳዎ የዚህን ማህበረሰብ ቶከን በቂ መጠን አልያዘም።",
+      "topHolders": "ከፍተኛ ያዢዎች",
+      "noHolders": "ያዢዎች ሲቀላቀሉ እዚህ ይታያሉ።",
+      "saved": "የያዢ ደንብ ተቀምጧል",
+      "cleared": "ማንኛውም ሰው እንደገና መቀላቀል ይችላል",
+      "saveFailed": "የያዢ ደንቡን ማስቀመጥ አልተቻለም",
+      "title": "ለያዢዎች ብቻ",
+      "explain": "ይህን ቶከን የያዙ የኪስ ቦርሳዎች ብቻ መቀላቀል እና መወያየት ይችላሉ። አንድ ሰው ሲቀላቀል ቀሪ ሂሳቦች ከሰንሰለቱ ይነበባሉ።",
+      "dehubTokens": "የRiftn ቶከኖች",
+      "otherToken": "ሌላ ቶከን",
+      "token": "የቶከን ውል",
+      "reading": "ቶከኑን በማንበብ ላይ…",
+      "badAddress": "ያ የቶከን አድራሻ አይደለም",
+      "minimum": "የሚያዝ ዝቅተኛ መጠን",
+      "save": "የያዢ ደንብ አስቀምጥ",
+      "chip": "ለያዢዎች ብቻ · {{amount}}+"
     },
     "automod": {
       "bannedWords": "የተከለከሉ ቃላት",
       "floodMax": "{{count}} መልዕክቶች",
       "saved": "ተቀምጧል",
-      "wordCount": "{{count}} ቃላት"
+      "wordCount": "{{count}} ቃላት",
+      "title": "ራስ-ልከኝነት",
+      "hint": "ማንም ከማየቱ በፊት መልዕክትን ያግዳል እና ለላኪው ምክንያቱን ይነግራል። ባለቤቶች እና አስተዳዳሪዎች በፍጹም አይታገዱም።",
+      "enabled": "ራስ-ልከኝነት በርቷል",
+      "bannedWordsHint": "በአንድ መስመር ወይም በኮማ አንድ። ሙሉ ቃላት ብቻ፣ እና እንደ s.c.a.m ያሉ የተራራቁ አጻጻፎችም ይያዛሉ።",
+      "bannedWordsPlaceholder": "ማጭበርበር\nrug pull",
+      "blockLinks": "አገናኞችን አግድ",
+      "blockLinksHint": "ከጣቢያ ውጭ ያሉ አገናኞች እና የTelegram/Discord ግብዣዎች። የRiftn አገናኞች አሁንም ይሰራሉ።",
+      "repeats": "ድግግሞሾችን አግድ",
+      "repeatsHint": "አንድ ሰው ተመሳሳይ መስመርን በ10 ደቂቃዎች ውስጥ እንደገና እንዳይልክ ያቆማል።",
+      "flood": "ፀረ-ጎርፍ",
+      "floodHint": "ለእያንዳንዱ ሰው በየ{{seconds}}ሰ ቢበዛ {{max}} መልዕክቶች።",
+      "noAccess": "እነዚህን ቅንብሮች መቀየር የሚችሉት ባለቤቱ እና አስተዳዳሪዎች ብቻ ናቸው።",
+      "saveFailed": "ማስቀመጥ አልተቻለም። እንደገና ይሞክሩ።",
+      "saveWords": "ቃላትን አስቀምጥ",
+      "bannedWord": "ያ መልዕክት ይህ ቡድን የማይፈቅደው ቃል አለው።",
+      "links": "በዚህ ቡድን ውስጥ አገናኞች አይፈቀዱም።",
+      "repeat": "ያንን አሁን ልከዋል። አዲስ ነገር ለማለት ይሞክሩ።",
+      "reserved": "ያ አይነት መልዕክት ሊመጣ የሚችለው ከቡድኑ ቦቶች ብቻ ነው።",
+      "floodError": "በጣም በፍጥነት እየላኩ ነው። {{value1}}ሰ ይጠብቁ እና እንደገና ይሞክሩ።"
+    },
+    "entry": {
+      "switchChain": "ለመክፈል የኪስ ቦርሳዎን ወደ BNB Chain ወይም Base ይቀይሩ።",
+      "failed": "ክፍያዎን እስካሁን ማረጋገጥ አልቻልንም። ቶከኖች ከኪስ ቦርሳዎ ከወጡ፣ በአንድ ደቂቃ ውስጥ «ተቀላቀል»ን እንደገና መታ ያድርጉ።",
+      "chip": "ለመቀላቀል {{amount}}"
+    },
+    "jumpToReply": "ወደ ተመለሰለት መልዕክት ዝለል",
+    "avatarUpdated": "ምስሉ ተዘምኗል",
+    "bannerUpdated": "ባነሩ ተዘምኗል",
+    "imageUploadFailed": "ያንን ምስል መስቀል አልተቻለም። እንደገና ይሞክሩ።",
+    "changeBanner": "ባነር ቀይር",
+    "changeAvatar": "ምስል ቀይር",
+    "buyBot": {
+      "title": "የግዢ ቦት",
+      "any": "ማንኛውም መጠን",
+      "enabled": "የግዢ ማንቂያዎችን ለጥፍ",
+      "hint": "እያንዳንዱን የ${{symbol}} ግዢ ከተፈጸመ በግምት ከአንድ ደቂቃ በኋላ ወደዚህ ውይይት ይለጥፋል።",
+      "minUsd": "የሚለጠፍ ትንሹ ግዢ",
+      "noToken": "ከቡድኑ ራስጌ ቶከን ያገናኙ (አርትዕ፣ ከዚያ Ticker) እና እያንዳንዱ ግዢ በዚህ ውይይት ውስጥ ይታያል።",
+      "unsupported": "${{symbol}} የግዢ ቦቱ ገና በማይከታተለው ሰንሰለት ወይም የፑል አይነት ላይ ነው። የሚደገፉ፦ Base፣ Ethereum፣ BNB Chain፣ Arbitrum፣ Polygon፣ Optimism እና Avalanche (Uniswap v2/v3 አይነት ፑሎች)።"
     }
   },
   "work": {
@@ -7770,7 +8222,8 @@
     "jumpToLatest": "ወደ የቅርብ ጊዜ መልዕክቶች ዝለል",
     "ban": "አግድ",
     "banConfirm": "{{name}}ን ማገድ እንደሚፈልጉ እርግጠኛ ነዎት?",
-    "banFailed": "ተጠቃሚውን ማገድ አልተቻለም"
+    "banFailed": "ተጠቃሚውን ማገድ አልተቻለም",
+    "jumpToMentions": "ወደ ምላሾች እና መጠቀሶች ዝለል"
   },
   "promptFeed": {
     "headline": "ምን ማየት ይፈልጋሉ?",
@@ -7951,11 +8404,18 @@
       "doneTitle": "ሁሉም ተብራርቷል",
       "doneAll": "ያልተከተለ {{done}} ወደኋላ የማይከተሉ መለያዎች ።",
       "doneSome": "ያልተከተለ {{done}} መለያዎች {{failed}} መከተል አልተቻለም ።",
-      "doneToast": "ያልተከተለ {{done}} መለያዎች ወደኋላ አይከተሉዎትም"
+      "doneToast": "ያልተከተለ {{done}} መለያዎች ወደኋላ አይከተሉዎትም",
+      "body": "የሚከተሏቸው {{count}} መለያዎች መልሰው አይከተሉዎትም።"
     },
     "followBackConfirm": "ተመልሶ መከተል",
     "followBackNotNow": "አሁን አይደለም",
-    "followBackDone": "ተከናውኗል"
+    "followBackDone": "ተከናውኗል",
+    "followBackConfirmTitle_one": "{{count}} ሰው መልሰው ይከተሉ?",
+    "followBackConfirmTitle_other": "{{count}} ሰዎችን መልሰው ይከተሉ?",
+    "followBackConfirmBody": "አስቀድመው ይከተሉዎታል። የግል መለያዎች የመከተል ጥያቄ ይደርሳቸዋል።",
+    "followedBackCount_one": "{{count}} ሰው መልሰው ተከትለዋል",
+    "followedBackCount_other": "{{count}} ሰዎችን መልሰው ተከትለዋል",
+    "followBackDoneBody": "ሁሉንም በ«የሚከተሏቸው» ውስጥ ማግኘት ይችላሉ።"
   },
   "reactionInfo": {
     "title": "ምላሾች",
@@ -7963,7 +8423,7 @@
     "privateDescription": "የልጥፍ ደራሲ ብቻ ይህን ዝርዝር ማየት ይችላል።",
     "empty": "ምንም ምላሽ ገና የለም",
     "emptyDescription": "ለዚህ ልጥፍ ምላሾች እዚህ ይታያሉ።",
-    "anonymous": "{{count}} ከስውር ባッጅ ባለቤቶች ምትክ",
+    "anonymous": "{{count}} መውደዶች ከስውር ባጅ ባለቤቶች",
     "labels": {
       "like": "ወደ ውስጥ ይግቡ",
       "love": "ፍቅር",
@@ -8878,10 +9338,12 @@
     "editFailed": "ያንን ማረም አልተቻለም። እንደገና ሞክር።",
     "altPlaceholderVideo": "ይህን ቪዲዮ ይግለጹ",
     "preview": {
-      "title": "ቅድመ እይታ"
+      "title": "ቅድመ እይታ",
+      "hint": "ልጥፍዎ በምግቡ ውስጥ የሚታየው በዚህ መልኩ ነው።"
     },
     "recent": {
-      "all": "ሁሉም"
+      "all": "ሁሉም",
+      "show": "የቅርብ ጊዜ ፎቶዎችን አሳይ"
     },
     "studio": {
       "crop": "ከርክም",
@@ -8902,11 +9364,44 @@
       "font": {
         "bold": "ቦልድ",
         "serif": "ሴሪፍ",
-        "mono": "ሞኖ"
-      }
+        "mono": "ሞኖ",
+        "clean": "ንጹህ"
+      },
+      "looks": "እይታዎች",
+      "adjust": "አስተካክል",
+      "tint": "ቅልም",
+      "vignette": "ቪኜት",
+      "prev": "ቀዳሚ ፎቶ",
+      "count": "{{n}} ከ{{total}}",
+      "next": "ቀጣይ ፎቶ",
+      "title": "ፎቶ አርትዕ",
+      "holdHint": "ዋናውን ለማየት ይያዙ",
+      "cropCorner": "የመከርከሚያ ጥግ",
+      "straighten": "ቀጥ አድርግ",
+      "flip": "ገልብጥ",
+      "mention": "ጥቀስ",
+      "layerHint": "ቃላትን እና ስቲከሮችን ለማንቀሳቀስ ይጎትቱ። ቃላቱን ለመቀየር ሁለት ጊዜ መታ ያድርጉ።",
+      "looksAdjust": "እይታዎች እና ማስተካከያ"
     },
     "edited": "አርትዖት",
-    "edit": "አርትዕ"
+    "edit": "አርትዕ",
+    "altHint": "ማየት ለማይችሉ ሰዎች በውስጡ ያለውን ይግለጹ።",
+    "altPlaceholder": "ይህን ፎቶ ይግለጹ",
+    "altTab": "አማራጭ ጽሑፍ",
+    "editVideo": "ቪዲዮ አርትዕ",
+    "trim": "ከርክም",
+    "trimAndCover": "ከርክም እና ሽፋን",
+    "trimStart": "የክሊፑ መጀመሪያ",
+    "trimEnd": "የክሊፑ መጨረሻ",
+    "trimHint": "ለመከርከም ነጭ መያዣዎቹን ይጎትቱ። ለማንቀሳቀስ ሰቅሉን መታ ያድርጉ።",
+    "useFrameAsCover": "ይህን ፍሬም እንደ ሽፋን ተጠቀም",
+    "photoHoldHint": "ለተጨማሪ አማራጮች ይያዙ",
+    "editPhoto": "ፎቶ {{n}}ን አርትዕ",
+    "editAltText": "አማራጭ ጽሑፍን አርትዕ",
+    "addAltText": "አማራጭ ጽሑፍ ያክሉ",
+    "moveEarlier": "ወደ ፊት አንቀሳቅስ",
+    "moveLater": "ወደ ኋላ አንቀሳቅስ",
+    "photoN": "ፎቶ {{n}} ከ{{total}}"
   },
   "bounty": {
     "claimed": "ተወስዷል",
@@ -9201,7 +9696,13 @@
     "reconnecting": "እንደገና በመገናኘት ላይ…",
     "connecting": "በመገናኘት ላይ…",
     "shopPutOnAir": "በአየር ላይ ያስቀምጡ",
-    "liveBadge": "በቀጥታ"
+    "liveBadge": "በቀጥታ",
+    "screenShare": {
+      "start": "ማያ ገጽ አጋራ",
+      "stop": "ማያ ገጽ ማጋራትን አቁም",
+      "sharing": "ማያ ገጽዎን እያጋሩ ነው",
+      "hint": "ተመልካቾች ማያ ገጽዎን ያያሉ። ወደ ካሜራው ለመመለስ የማያ ገጽ አዝራሩን መታ ያድርጉ።"
+    }
   },
   "liveShop": {
     "title": "ከዚህ ስርጭት ይግዙ",
@@ -9516,7 +10017,17 @@
     "planTypeNotAllowed": "የዚህ ፈጣሪ እቅድ ይህን አይነት መልዕክት አይፈቅድም።",
     "planMinTip": "ለዚህ ፈጣሪ ቲፕ ቢያንስ {{amount}} ቶከኖች መሆን አለበት።",
     "newDrawer": {
-      "to": "ወደ"
+      "to": "ወደ",
+      "placeholder": "ስም ወይም @የተጠቃሚ ስም",
+      "recent": "የቅርብ ጊዜ",
+      "suggested": "የተጠቆሙ",
+      "youFollow": "የሚከተሏቸው ሰዎች",
+      "chattedBefore": "ትወያያላችሁ",
+      "mutual": "የጋራ",
+      "dmsOff": "DMs ጠፍተዋል",
+      "keepTyping": "ሁሉንም ለመፈለግ መተየብዎን ይቀጥሉ",
+      "sayHi": "ለአንድ ሰው ሰላም ይበሉ",
+      "typeAny": "ማንኛውንም ስም ወይም @የተጠቃሚ ስም ይተይቡ"
     },
     "download": "አውርድ",
     "deleteOneTitle": "ይህን መልዕክት ሰርዝ?",
@@ -9529,8 +10040,30 @@
       "communities": "ማህበረሰቦች",
       "members": "{{n}} አባላት",
       "newChat": "አዲስ ውይይት",
-      "invite": "ግብዣ"
-    }
+      "invite": "ግብዣ",
+      "noChats": "እስካሁን ከ«{{q}}» ጋር ውይይቶች የሉም። የሚዛመዱት እነማን እና ምን እንደሆኑ እነሆ።",
+      "nothing": "እስካሁን ከ«{{q}}» ጋር የሚዛመድ ነገር የለም። አዲስ ነገር ይጀምሩ።",
+      "start": "ወይም አንድ ነገር ይጀምሩ",
+      "newChatSub": "ማንንም ይምረጡ",
+      "newGroup": "አዲስ ቡድን",
+      "newGroupSub": "አብረው ይወያዩ",
+      "inviteSub": "አገናኝ ያጋሩ",
+      "inviteMessage": "በRiftn ላይ ይቀላቀሉኝ፦ {{url}}",
+      "searchAll": "በመላው Riftn ውስጥ «{{q}}»ን ይፈልጉ",
+      "searchAllSub": "ልጥፎች፣ ቪዲዮዎች፣ ቀጥታ ዥረቶች"
+    },
+    "copyMedia": "ሚዲያ ቅዳ",
+    "reportMessage": "መልዕክቱን ሪፖርት አድርግ",
+    "fileSaved": "ፋይሉ ተቀምጧል",
+    "fileSaveFailed": "ፋይሉን ማስቀመጥ አልተቻለም",
+    "attachAnything": "ፎቶ፣ ቪዲዮ፣ ድምፅ ወይም ፋይል ያያይዙ",
+    "attachFileOrAudio": "ፋይል ወይም ድምፅ",
+    "attachPhotoOrVideo": "ፎቶ ወይም ቪዲዮ",
+    "attachTooLarge": "ያ ፋይል ከ{{size}} MB ገደብ በላይ ነው።",
+    "deleteForBothBody": "ለሁለታችሁም ይወገዳል።",
+    "notSent": "አልተላከም",
+    "shareGroups": "ቡድኖች",
+    "shareKindChannel": "ቻናል"
   },
   "editPost": {
     "mediaPermission": "የሚዲያ ቤተ-መጻሕፍት ፈቃድ ያስፈልጋል",
@@ -9652,7 +10185,9 @@
     "pipUnavailable": "ስዕል ውስጥ ስዕል አይገኝም። በDevice Settings ውስጥ ለRiftn መፍቀዱን ያረጋግጡ።",
     "noVideo": "ምንም ቪዲዮ የለም",
     "rotate": "አሽከርክር",
-    "yourDhbBalance": "የእርስዎ ማስመሰያ ሚዛን፡ {{amount}}"
+    "yourDhbBalance": "የእርስዎ ማስመሰያ ሚዛን፡ {{amount}}",
+    "fullscreen": "ሙሉ ማያ ገጽ",
+    "notAvailableForPost": "ለዚህ ልጥፍ አይገኝም"
   },
   "liveViewer": {
     "loadingStream": "ስርጭቱ እየተጫነ ነው...",
@@ -9967,7 +10502,22 @@
     "didNotRecoverEither": "ያ መግቢያ እዚህ ከሚታዩት መገለጫዎች አንዱንም አልመለሰም። ምንም አልተቀየረም። ለሚፈልጉት መገለጫ ዋናውን መግቢያ ይሞክሩ።",
     "didNotRecoverThis": "ያ መግቢያ ከዚህ መገለጫ የተለየ ቦርሳ መልሷል። ምንም አልተቀየረም። መጀመሪያ የፈጠረውን መግቢያ ይሞክሩ።",
     "couldNotRetrieve": "ያንን የቀድሞ ቦርሳ በዚህ መሣሪያ ላይ ማምጣት አልተቻለም። አሁንም ከታች በriftn.com ላይ መመለስ ይችላሉ።",
-    "matchedWithBalance": "ተዛማጅ፣ {{balance}} ማስመሰያ"
+    "matchedWithBalance": "ተዛማጅ፣ {{balance}} ማስመሰያ",
+    "methodEmail": "የኢሜይል ኮድ",
+    "methodPhone": "ስልክ ቁጥር",
+    "madeWithNamed": "@{{name}} የተፈጠረው በ{{method}} ነው። መልሰው ለማምጣት በተመሳሳዩ {{method}} መለያ ይቀጥሉ።",
+    "madeWith": "ይህ መገለጫ የተፈጠረው በ{{method}} ነው። መልሰው ለማምጣት በተመሳሳዩ {{method}} መለያ ይቀጥሉ።",
+    "madeWithEmailNamed": "@{{name}} የተፈጠረው በኢሜይል ኮድ ነው። መልሰው ለማምጣት ወደዚያ ኢሜይል አንድ ተጨማሪ ኮድ እንልካለን።",
+    "madeWithEmail": "ይህ መገለጫ የተፈጠረው በኢሜይል ኮድ ነው። መልሰው ለማምጣት ወደዚያ ኢሜይል አንድ ተጨማሪ ኮድ እንልካለን።",
+    "madeWithPhoneNamed": "@{{name}} የተፈጠረው በስልክ ቁጥር ነው። መልሰው ለማምጣት ወደዚያ ቁጥር አንድ ተጨማሪ ኮድ በጽሑፍ መልዕክት እንልካለን።",
+    "madeWithPhone": "ይህ መገለጫ የተፈጠረው በስልክ ቁጥር ነው። መልሰው ለማምጣት ወደዚያ ቁጥር አንድ ተጨማሪ ኮድ በጽሑፍ መልዕክት እንልካለን።",
+    "wrongSignInNamed": "ያ መግቢያ @{{name}}ን ሳይሆን የተለየ የኪስ ቦርሳ ይከፍታል። @{{name}} የተፈጠረው በ{{method}} ነው፣ ስለዚህ መልሶ ሊያመጣው የሚችለው ያ ብቻ ነው።",
+    "wrongSignIn": "ያ መግቢያ የተለየ የኪስ ቦርሳ ይከፍታል። ይህ መገለጫ የተፈጠረው በ{{method}} ነው፣ ስለዚህ መልሶ ሊያመጣው የሚችለው ያ ብቻ ነው።",
+    "continueWith": "በ{{provider}} ይቀጥሉ",
+    "differentSignIn": "የተለየ መግቢያ ተጠቅመዋል?",
+    "oldAccountPhone": "የቀድሞ መለያ ስልክ ቁጥር",
+    "recoverFromPhoneA11y": "የቀድሞውን መለያ ከዚህ ስልክ ቁጥር መልሰው ያግኙ",
+    "phoneNeedsCode": "ቁጥሩን ከአገር ኮዱ ጋር ያስገቡ፣ ለምሳሌ +90 532 123 4567።"
   },
   "liveGift": {
     "buyTokens": "ምልክቶችን ይግዙ",
@@ -10750,8 +11300,16 @@
       "failed": "ለዚህ ክሊፕ የግርጌ ጽሑፎችን መፍጠር አልተቻለም።",
       "styles": {
         "bold": "ቦልድ",
-        "serif": "ሴሪፍ"
-      }
+        "serif": "ሴሪፍ",
+        "classic": "ክላሲክ",
+        "boxed": "በሳጥን",
+        "wordpop": "Word Pop",
+        "rapid": "ፈጣን መገለጥ",
+        "beast": "Beast Mode",
+        "stacked": "የተደራረበ",
+        "bubble": "አረፋ"
+      },
+      "style": "የመግለጫ ጽሑፍ ስታይል"
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10822,7 +11380,10 @@
       "cyber": "ሳይበር",
       "invert": "ገልብጥ",
       "strength": "የማጣሪያ ጥንካሬ: {{value}}%",
-      "vhs": "ቪኤችኤስ"
+      "vhs": "ቪኤችኤስ",
+      "fadedFilm": "የደበዘዘ ፊልም",
+      "technicolor": "ቴክኒኮለር",
+      "newsreel": "የዜና ፊልም"
     },
     "layer": {
       "crop": "ከርክም",
@@ -10903,14 +11464,18 @@
       "pptx": "PowerPoint ማቅረቢያ",
       "pptxHint": "እያንዳንዱ ገጽ አንድ ተንሸራታች ምስል ይሆናል ፣ ከአቅራቢ ማስታወሻዎች እና አገናኞች ጋር ። በመጀመሪያው ንድፍ ውስጥ የግለሰብ ጽሑፍ እና ንጥረ ነገሮችን ያርትዑ ።",
       "section": "የተሰየመ ክፍል",
-      "transparent": "ግልጽ ዳራ"
+      "transparent": "ግልጽ ዳራ",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "የጊዜ መስመርዎን እንደ FCPXML እና Premiere XML ከእያንዳንዱ የሚዲያ ፋይል ጋር የያዘ ZIP ያወርዳል፣ ስለዚህ አርትዖቱን በPremiere Pro፣ Final Cut Pro ወይም DaVinci Resolve መጨረስ ይችላሉ። ጽሑፍ ምልክቶች ይሆናል፤ ተጽዕኖዎች በRiftn ውስጥ ይቀራሉ።"
     },
     "adjust": {
       "auto": "ራስ-ሰር ማሻሻያ",
       "autoFailed": "ይህን ምስል መተንተን አልተቻለም።",
       "tint": "ቅልም {{value}}",
       "vignette": "ቪኜት {{value}}%",
-      "warmth": "ሙቀት {{value}}"
+      "warmth": "ሙቀት {{value}}",
+      "halation": "ሃሌሽን {{value}}%",
+      "scanlines": "የስካን መስመሮች {{value}}%"
     },
     "draw": {
       "colour": "የብዕር ቀለም",
@@ -11004,7 +11569,45 @@
       "openGenerator": "ገምግም እና ፍጠር",
       "working": "በመስራት ላይ…",
       "stop": "አቁም",
-      "queue": "ወደ ወረፋ ያክሉ"
+      "queue": "ወደ ወረፋ ያክሉ",
+      "stopped": "ቆሟል። ሌላ ምንም አልተቀየረም።",
+      "queued": "{{count}} በወረፋ ላይ",
+      "restore": "ወደዚህ መልስ",
+      "restoreHint": "ፕሮጀክቱን ከዚህ መልዕክት በፊት እንደነበረው ይመልሱ። «ቀልብስ» መልሶ ያመጣዋል።",
+      "restored": "ፕሮጀክቱ ከዚያ መልዕክት በፊት ወደነበረበት ተመልሷል። አዲሱን ስሪት ለመመለስ «ቀልብስ»ን ይጫኑ።",
+      "rewrite": "ጥያቄዬን የበለጠ ግልጽ አድርግ",
+      "rewriteFailed": "ያንን እንደገና መጻፍ አልተቻለም። ጽሑፍዎ አልተቀየረም።",
+      "feedback": "ይህ ጠቃሚ ነበር?",
+      "good": "ጥሩ ምላሽ",
+      "bad": "መጥፎ ምላሽ",
+      "retryPrefix": "ያ ትክክል አልነበረም። በምትኩ፣ ",
+      "recipesTitle": "የምግብ አዘገጃጀቶች",
+      "recipe": {
+        "podcastClip": {
+          "label": "የፖድካስት ክሊፕ",
+          "prompt": "በጣም ጠንካራውን የ30 ሰከንድ ቅጽበት ፈልግ፣ ወደ እሱ ከርክም፣ የWord Pop መግለጫ ጽሑፎችን አክል እና 9:16 አድርገው።"
+        },
+        "talkingHead": {
+          "label": "ንጹህ የሚናገር ሰው",
+          "prompt": "ረጅም ቆምታዎችን ቁረጥ፣ የClassic መግለጫ ጽሑፎችን አክል፣ እና ቀለል ያለ ሞቃታማ እይታ ስጠው።"
+        },
+        "productPromo": {
+          "label": "የምርት ማስተዋወቂያ",
+          "prompt": "የ15 ሰከንድ ማስተዋወቂያ ስራ፦ መጀመሪያ ላይ ጠንካራ ርዕስ፣ በክሊፖች መካከል Zoom in ሽግግሮች፣ Bold መግለጫ ጽሑፎች እና ደማቅ ሙዚቃ።"
+        },
+        "hypeReel": {
+          "label": "የሃይፕ ሪል",
+          "prompt": "ክሊፖቹን በሙዚቃው ምት ቁረጥ፣ Fly up ሽግግሮችን እና የTechnicolor እይታን ተጠቀም።"
+        },
+        "retroEdit": {
+          "label": "ሬትሮ አርትዖት",
+          "prompt": "ለእያንዳንዱ ክሊፕ የVHS እይታ ስጥ፣ ትልቅ ሰሪፍ ርዕስ አክል፣ እና Fade ሽግግሮችን ተጠቀም።"
+        },
+        "tutorial": {
+          "label": "መማሪያ",
+          "prompt": "ለእያንዳንዱ እርምጃ ርዕስ፣ Boxed መግለጫ ጽሑፎችን አክል፣ እና ቁልፉን ቅጽበት ወደ 0.5x አዝግም።"
+        }
+      }
     },
     "brand": {
       "addColor": "የብራንድ ቀለም ያክሉ",
@@ -11030,7 +11633,10 @@
       "saveNewPreset": "አዲስ አስቀምጥ",
       "saveStyles": "ንድፍ ጋር ቅጦች አስቀምጥ",
       "stylesSaved": "የምርት ዘይቤዎች ከዚህ ንድፍ ጋር ተቀምጠዋል",
-      "usePreset": "ቅጦች ይጠቀሙ"
+      "usePreset": "ቅጦች ይጠቀሙ",
+      "dehubApplied": "የRiftn ብራንድ በ{{count}} ንብርብሮች ላይ ተተግብሯል።",
+      "dehubApply": "የRiftn ብራንድን ይጠቀሙ",
+      "dehubHint": "ይፋዊ የRiftn ቀለሞች፣ Exo እና Inter ፊደላት፣ እና የRiftn አርማ፣ በአንድ ጠቅታ።"
     },
     "templates": {
       "announcement": {
@@ -11143,7 +11749,9 @@
       "exportHint": "ቪዲዮዎ እስኪዘጋጅ ድረስ አርታኢውን ክፍት ያድርጉት።",
       "tooLarge": "ይህ ፋይል ለአርታኢው በጣም ትልቅ ነው። ገደቡ 400 MB ነው።",
       "tZoomIn": "ማጉላት",
-      "tZoomOut": "ማሳነስ"
+      "tZoomOut": "ማሳነስ",
+      "tFlyUp": "ወደ ላይ በረር",
+      "tFlyDown": "ወደ ታች በረር"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12329,21 +12937,141 @@
       "add": "አክል",
       "scale": "መጠን",
       "color": "ቀለም",
-      "light": "ብርሃን"
+      "light": "ብርሃን",
+      "create": "3D መድረክ ያክሉ",
+      "title": "የ3D ትዕይንት መድረክ",
+      "hint": "በሉሎች እና በሳጥኖች ቀረጻን ያቅዱ። ካሜራ፣ አቀማመጥ እና ሶስት ገለልተኛ የአካባቢ መብራቶች የሚሰራውን ፍሬም ይቀይራሉ።",
+      "preview": "የተሰራ ትዕይንት ቅድመ እይታ",
+      "error": "ፍሬሙን ማዘጋጀት አልተቻለም። የቀረጻ ማጣቀሻዎችዎን ያረጋግጡ እና እንደገና ይሞክሩ።",
+      "elevation": "ከፍታ",
+      "distance": "ርቀት",
+      "fov": "የእይታ መስክ",
+      "object": "ነገር",
+      "sphere": "ሉል",
+      "box": "ሳጥን",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "ነገሩን አስወግድ",
+      "intensity": "ጥንካሬ",
+      "diffusion": "ስርጭት",
+      "saving": "ፍሬሙን በማዘጋጀት ላይ…",
+      "useFrame": "የተሰራውን ፍሬም እንደ ቀረጻ ማጣቀሻ ይጠቀሙ",
+      "frameHint": "320 × 180 PNG ይፈጥራል እና ወደዚህ ቀረጻ ማጣቀሻዎች ያክለዋል። ከመፍጠርዎ በፊት የማጣቀሻ ገደቡን እና የሞዴሉን የዋጋ ግምት ይገምግሙ።",
+      "frameName": "የትዕይንት መድረክ ፍሬም"
     },
     "clipFix": {
-      "listening": "ማዳመጥ…"
+      "listening": "ማዳመጥ…",
+      "detach": "ድምፁን ለይ",
+      "detached": "ድምፁ ወደ የራሱ ክሊፕ ተዛውሯል",
+      "detachFailed": "የዚህን ክሊፕ ድምፅ መለየት አልተቻለም",
+      "removeBars": "ጥቁር አሞሌዎችን አስወግድ",
+      "scanning": "ፍሬሞችን በማረጋገጥ ላይ…",
+      "noBars": "ጥቁር አሞሌዎች አልተገኙም",
+      "barsRemoved": "ጥቁር አሞሌዎች ተከርክመዋል",
+      "barsFailed": "ይህን ቪዲዮ ለጥቁር አሞሌዎች ማረጋገጥ አልተቻለም",
+      "reframe": "በራስ-ሰር እንደገና ፍሬም አድርግ",
+      "reframeHint": "ቪዲዮው አስቀድሞ ከዚህ የገጽ ቅርጽ ጋር ይስማማል",
+      "reframed": "ድርጊቱን እንዲከተል እንደገና ፍሬም ተደርጓል",
+      "reframeFailed": "ይህን ቪዲዮ እንደገና ፍሬም ማድረግ አልተቻለም",
+      "retakes": "ድጋሚ ቀረጻዎችን አስወግድ",
+      "noRetakes": "ድጋሚ ቀረጻዎች አልተገኙም",
+      "retakesRemoved": "{{count}} ድጋሚ ቀረጻ(ዎች) ተወግደዋል፣ የመጨረሻው ቀረጻ ተይዟል",
+      "retakesFailed": "ከዚህ ክሊፕ ድጋሚ ቀረጻዎችን ማስወገድ አልተቻለም"
     },
     "voiceClone": {
       "stop": "ቅጂ አቁም",
-      "failed": "የድምፅ ክሎኒንግ አልተሳካም።"
+      "failed": "የድምፅ ክሎኒንግ አልተሳካም።",
+      "pickerLabel": "ድምፅዎን ይቅዱ",
+      "pickerDetail": "በራስዎ ድምፅ የሚቀርቡ ትረካዎች",
+      "title": "ድምፅዎን ይቅዱ",
+      "description": "ራስዎን ይቅረጹ ወይም እርስዎ ሲናገሩ የሚያሳይ ክሊፕ ይምረጡ። አንድ ጊዜ ይከፍላሉ እና ድምፅዎ ለእያንዳንዱ ትረካ የእርስዎ ነው።",
+      "defaultName": "የእኔ ድምፅ",
+      "record": "ናሙና ይቅረጹ (ከ30 ሰከንድ እስከ 2 ደቂቃ)",
+      "fromMedia": "ወይም ከሚዲያ ክሊፕ ይጠቀሙ",
+      "recorded": "የእርስዎ ቀረጻ",
+      "sample": "ናሙና፦ {{name}}",
+      "hint": "ሙዚቃ የሌለው ግልጽ ንግግር የተሻለ ይሰራል።",
+      "noMic": "ማይክሮፎኑን መጠቀም አልተቻለም።",
+      "sampleFailed": "ከዚያ ክሊፕ ድምፁን ማንበብ አልተቻለም።",
+      "pay": "በ{{amount}} ቶከኖች ይቅዱ",
+      "useFree": "ይቅዱ (አስቀድሞ የተከፈለ)",
+      "owned": "የእርስዎ ድምፅ «{{name}}» አስቀድሞ ተዘጋጅቷል። ከድምፅ ዝርዝሩ ይምረጡት።",
+      "useOwned": "የእኔን ድምፅ ተጠቀም",
+      "ready": "«{{name}}» ለትረካዎች ዝግጁ ነው።",
+      "paidFailed": "ክፍያዎ ተቀምጧል። ይህን እንደገና ይክፈቱ እና ቀጣዩ ሙከራ ነጻ ነው።",
+      "consent": "የራስዎን ድምፅ ወይም ለመጠቀም ፈቃድ ያለዎትን ድምፅ ብቻ ይቅዱ።"
     },
     "linkImport": {
       "go": "አስገባ",
-      "downloading": "ማውረድ {{percent}}%"
+      "downloading": "ማውረድ {{percent}}%",
+      "open": "ከአገናኝ አስመጣ",
+      "placeholder": "የYouTube፣ TikTok ወይም ሌላ አገናኝ ይለጥፉ",
+      "rights": "የዚህ ቪዲዮ ባለቤት ነኝ ወይም ለመጠቀም ፈቃድ አለኝ",
+      "audioOnly": "ድምፅ ብቻ",
+      "queued": "በወረፋ ላይ…",
+      "waiting": "ጣቢያውን በመጠበቅ ላይ፣ በቅርቡ እንደገና ይሞከራል…",
+      "adding": "ወደ ሚዲያ በማከል ላይ…",
+      "added": "ገብቷል እና ወደ የጊዜ መስመሩ ታክሏል።",
+      "failed": "ያንን አገናኝ ማስመጣት አልተቻለም።"
     },
     "reverse": {
-      "action": "ዳግም አስጀምር"
+      "action": "ዳግም አስጀምር",
+      "working": "በመገልበጥ ላይ {{percent}}%",
+      "done": "ክሊፑ ተገልብጧል።",
+      "failed": "ይህን ክሊፕ መገልበጥ አልተቻለም።",
+      "unsupported": "ይህ አሳሽ ቪዲዮ መገልበጥ አይችልም። Chrome ወይም Edge ይሞክሩ።",
+      "tooLong": "እስከ {{seconds}} ሰከንድ የሆኑ ክሊፖች ሊገለበጡ ይችላሉ።"
+    },
+    "film": {
+      "repairRefs": "የጠፉ የሚዲያ አገናኞችን ያስወግዱ",
+      "title": "የፊልም ፕሮጀክት",
+      "intro": "በድጋሚ ጥቅም ላይ በሚውሉ የምስል ማጣቀሻዎች ቀረጻዎችን ያቅዱ። መግለጫዎ፣ የቀረጻ ቅደም ተከተል እና የተመረጡ ውጤቶች ከዚህ ፕሮጀክት ጋር ይቀመጣሉ።",
+      "create": "የፊልም ዕቅድ ይፍጠሩ",
+      "name": "የፊልም ስም",
+      "brief": "የፊልም መግለጫ",
+      "sharedReferences": "የጋራ የምስል ማጣቀሻዎች (እስከ 4)",
+      "shot": "ቀረጻ",
+      "addShot": "ቀረጻ ያክሉ",
+      "shotName": "የቀረጻ ስም",
+      "action": "የቀረጻ ድርጊት እና ቅንብር",
+      "seconds": "የተጠየቁ የቪዲዮ ሰከንዶች",
+      "shotReferences": "ተጨማሪ የምስል ማጣቀሻዎች (የተጣመረ ገደብ 4)",
+      "frame": "ፍሬም አዘጋጅ",
+      "video": "ቪዲዮ አዘጋጅ",
+      "review": "ከመፍጠርዎ በፊት ሞዴሉን፣ ማጣቀሻዎችን፣ የቪዲዮ ቆይታውን እና ዋጋውን በስቱዲዮ ውስጥ ይገምግሙ።",
+      "result": "ተቀባይነት ያገኘ የቀረጻ ውጤት",
+      "noResult": "ምንም ውጤት አልተመረጠም",
+      "resultHint": "ከሰቀላዎች ተቀባይነት ያገኘ ምስል ወይም ቪዲዮ ይምረጡ። አገናኙ ከዚህ ቀረጻ ጋር ይቀመጣል፤ ፊልሙን ለማገጣጠም የጊዜ መስመሩን ይጠቀሙ።",
+      "earlier": "ወደ ፊት አንቀሳቅስ",
+      "later": "ወደ ኋላ አንቀሳቅስ",
+      "remove": "ቀረጻውን አስወግድ",
+      "issue": "የቀረጻውን መግለጫ እና የማጣቀሻ ሚዲያውን ያረጋግጡ፣ ከዚያ እንደገና ይሞክሩ። ሊቀመጥ ካልቻለ ፕሮጀክቱን ክፍት ያድርጉት።",
+      "searchMedia": "ሚዲያን በስም ይፈልጉ",
+      "refreshMedia": "ሚዲያን አድስ"
+    },
+    "speakers": {
+      "find": "ተናጋሪዎችን ፈልግ",
+      "name": "ተናጋሪ {{number}}",
+      "onlyOne": "አንድ ተናጋሪ ብቻ ተገኝቷል።",
+      "failed": "ተናጋሪዎቹን ማግኘት አልተቻለም።",
+      "kept": "{{name}} ብቻ ተይዟል።",
+      "editFailed": "ያ አርትዖት ከዚህ ክሊፕ ጋር አልተስማማም።",
+      "split": "ወደ {{count}} የተናጋሪ ቀረጻዎች ተከፍሏል።",
+      "keepOnly": "ይህን ብቻ አቆይ",
+      "splitAction": "በእያንዳንዱ የተናጋሪ ለውጥ ቁረጥ"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "የሚፈልጉትን 3D ነገር ይግለጹ",
+      "queued": "የእርስዎን 3D ነገር በመገንባት ላይ። በፈጠራዎች ትር ውስጥ ይገባል።",
+      "note": "3D ነገሮች ግልጽ ዳራ ያለው አጭር የሚሽከረከር ክሊፕ ሆነው ወደ ሚዲያ ይገባሉ።"
+    },
+    "behind": {
+      "action": "ጽሑፍ ከሰው ጀርባ",
+      "working": "ሰውየውን በመቁረጥ ላይ…",
+      "done": "ጽሑፍ እና መግለጫ ጽሑፎች አሁን ከሰውየው ጀርባ ናቸው።",
+      "failed": "ጽሑፍን ከሰውየው ጀርባ ማድረግ አልተቻለም።"
     }
   },
   "creator": {
@@ -12808,7 +13536,47 @@
     "referenceComposeHint": "ባለሞያዎች፣ ነገሮች እና ቅንብሮችን ከተለያዩ ምስሎች ወደ አንድ አቀማመጥ ይውሰዱ።",
     "marketing": {
       "import": {
-        "use": "እነዚህን ዝርዝሮች ይጠቀሙ"
+        "use": "እነዚህን ዝርዝሮች ይጠቀሙ",
+        "url": "የምርት ገጽ URL",
+        "action": "የምርት ገጹን አንብብ",
+        "loading": "ገጹን በማንበብ ላይ…",
+        "hint": "ከይፋዊ የምርት ገጽ ጽሑፍ ያስመጡ። ከመጠቀምዎ በፊት ዝርዝሮቹን ይገምግሙ፤ የምርት ምስሎችን በስቱዲዮ ውስጥ ለየብቻ ያያይዙ።",
+        "source": "የገባ ምንጭ",
+        "review": "ሊስተካከል ወደሚችለው መግለጫዎ የሚቀዳ ምርት ይምረጡ። ርዕስዎ፣ ድምፅዎ እና የብራንድ ቀለሞችዎ አይቀየሩም።",
+        "errors": {
+          "signIn": "የምርት ገጽ ለማስመጣት ይግቡ።",
+          "url": "ይፋዊ የHTTPS የምርት URL ይጠቀሙ።",
+          "empty": "ጥቅም ላይ ሊውሉ የሚችሉ የምርት ዝርዝሮች አልተገኙም። በእጅ ያክሏቸው።",
+          "busy": "በጣም ብዙ ማስመጣቶች እየሄዱ ነው። በቅርቡ እንደገና ይሞክሩ።",
+          "unavailable": "ይህ ገጽ ሊገባ አልቻለም። የምርቱን ዝርዝሮች በእጅ ያክሉ።",
+          "failed": "ማስመጣቱ አልተሳካም። መግለጫዎ ተቀምጧል፤ እንደገና ይሞክሩ ወይም ዝርዝሮችን በእጅ ያስገቡ።"
+        }
+      },
+      "title": "የዘመቻ መግለጫ",
+      "intro": "ምርትዎን እና ብራንድዎን ይግለጹ፣ ከዚያ ተዛማጅ የማስታወቂያ ቅርጸቶችን ያዘጋጁ።",
+      "saved": "መግለጫዎ በዚህ መሣሪያ ላይ ለዚህ መለያ ተቀምጧል።",
+      "preview": "ቅርጸቶችን አዘጋጅ",
+      "clear": "መግለጫውን አጽዳ",
+      "required": "ቅርጸቶችን ለማዘጋጀት የምርት ስም እና መግለጫ ያክሉ።",
+      "variants": "የዘመቻ ቅርጸቶች",
+      "reviewHint": "ከመፍጠርዎ በፊት ሞዴሉን፣ ዋጋውን እና የምርት ማጣቀሻውን በስቱዲዮ ውስጥ ይገምግሙ። እያንዳንዱ ቅርጸት የተለየ ፈጠራ ነው።",
+      "open": "በስቱዲዮ ውስጥ ይገምግሙ",
+      "fields": {
+        "product": "የምርት ስም (የግድ)",
+        "description": "የምርት እውነታዎች (የግድ)",
+        "brand": "የብራንድ ስም",
+        "audience": "የታለመ ታዳሚ",
+        "benefit": "ዋና ጥቅም",
+        "voice": "የብራንድ ድምፅ",
+        "palette": "የብራንድ ቀለሞች",
+        "headline": "የጸደቀ ርዕስ",
+        "cta": "የድርጊት ጥሪ"
+      },
+      "formats": {
+        "square": "ካሬ ማስታወቂያ",
+        "portrait": "የቁም ማስታወቂያ",
+        "story": "የስቶሪ ምስል",
+        "video": "ቋሚ ቪዲዮ"
       }
     },
     "batchCount": "ምስሎች",
@@ -12816,7 +13584,109 @@
     "cinema": {
       "close": "ዝጋ",
       "performance": {
-        "label": "አፈጻጸም"
+        "label": "አፈጻጸም",
+        "0": "ደስተኛ",
+        "1": "ሀዘንተኛ",
+        "2": "የተጨነቀ",
+        "3": "በራስ የሚተማመን",
+        "4": "የተደነቀ",
+        "5": "የተገደበ",
+        "6": "ተጫዋች"
+      },
+      "title": "የሲኒማ አቅጣጫ",
+      "hint": "የቀጣዩን ምስልዎን ወይም ቪዲዮዎን የእይታ ስታይል ይምሩ። ውጤቶች እንደ ሞዴሉ ይለያያሉ።",
+      "none": "ምንም አቅጣጫ የለም",
+      "reset": "አቅጣጫውን አጽዳ",
+      "camera": {
+        "label": "የካሜራ እይታ",
+        "0": "ዲጂታል ሲኒማ",
+        "1": "35mm ፊልም",
+        "2": "16mm ፊልም",
+        "3": "ትልቅ ቅርጸት",
+        "4": "የድሮ ካምኮርደር"
+      },
+      "lens": {
+        "label": "የሌንስ እይታ",
+        "0": "ሉላዊ",
+        "1": "አናሞርፊክ",
+        "2": "የድሮ ለስላሳ መስታወት",
+        "3": "ማክሮ",
+        "4": "ቲልት-ሺፍት"
+      },
+      "focalLength": {
+        "label": "የትኩረት ርዝመት",
+        "0": "18mm ሰፊ",
+        "1": "24mm ሰፊ",
+        "2": "35mm ተፈጥሯዊ",
+        "3": "50mm መደበኛ",
+        "4": "85mm የቁም ምስል",
+        "5": "135mm ቴሌፎቶ"
+      },
+      "aperture": {
+        "label": "የትኩረት ጥልቀት",
+        "0": "f/1.4 በጣም ጥልቀት የሌለው",
+        "1": "f/2.8 ጥልቀት የሌለው",
+        "2": "f/5.6 መካከለኛ",
+        "3": "f/11 ጥልቅ ትኩረት"
+      },
+      "movement": {
+        "label": "የካሜራ እንቅስቃሴ",
+        "0": "የማይንቀሳቀስ ትሪፖድ",
+        "1": "ቀስ ያለ ወደፊት ዶሊ",
+        "2": "ቀስ ያለ ወደኋላ ዶሊ",
+        "3": "የጎን ተከታይ",
+        "4": "በርዕሰ ጉዳዩ ዙሪያ መዞር",
+        "5": "በእጅ የተያዘ",
+        "6": "የክሬን ከፍታ",
+        "7": "ቀስ ያለ ፓን"
+      },
+      "lighting": {
+        "label": "ብርሃን",
+        "0": "ለስላሳ የቀን ብርሃን",
+        "1": "ወርቃማ ሰዓት",
+        "2": "ዝቅተኛ ቁልፍ ኪያሮስኩሮ",
+        "3": "ከፍተኛ ቁልፍ ስቱዲዮ",
+        "4": "የኒዮን መብራቶች",
+        "5": "የጀርባ ብርሃን ጥላ ምስል",
+        "6": "የደመና የተበተነ ብርሃን"
+      },
+      "tempo": {
+        "label": "የቀረጻ ፍጥነት",
+        "0": "አንድ ቀጣይ ቀረጻ",
+        "1": "የተረጋጋ፣ ያልተቻኮለ ድርጊት",
+        "2": "ተለዋዋጭ፣ ኃይለኛ ድርጊት",
+        "3": "የተመሰቃቀለ፣ የተጣደፈ ድርጊት"
+      },
+      "era": {
+        "label": "ዘመን",
+        "0": "1920ዎቹ",
+        "1": "1950ዎቹ",
+        "2": "1960ዎቹ",
+        "3": "1970ዎቹ",
+        "4": "1980ዎቹ",
+        "5": "1990ዎቹ",
+        "6": "የአሁኑ ዘመን",
+        "7": "የቅርብ ወደፊት"
+      },
+      "genre": {
+        "label": "ዘውግ",
+        "0": "ዘጋቢ ፊልም",
+        "1": "ድራማ",
+        "2": "ፊልም ኑዋር",
+        "3": "ሳይንሳዊ ልቦለድ",
+        "4": "ምናባዊ",
+        "5": "የፍቅር ኮሜዲ",
+        "6": "ትሪለር",
+        "7": "ዌስተርን"
+      },
+      "palette": {
+        "label": "የቀለም ቤተ-ስብስብ",
+        "0": "ሞቃታማ አምበር",
+        "1": "ቀዝቃዛ ሰማያዊ",
+        "2": "የደበዘዙ የመሬት ቀለሞች",
+        "3": "ፓስቴል",
+        "4": "ከፍተኛ ንፅፅር ያለው ባለአንድ ቀለም",
+        "5": "ደማቅ ዋና ቀለሞች"
       }
     },
     "audioNoSpeech": "በዚያ ቅጂ ውስጥ ምንም ንግግር አልተገኘም።",
@@ -12836,9 +13706,139 @@
     "gallery": {
       "send": "ላክ",
       "notifications": {
-        "generation_reply": "{{name}} አስተያየትህ ላይ ምላሽ ሰጠ"
+        "generation_reply": "{{name}} አስተያየትህ ላይ ምላሽ ሰጠ",
+        "generation_like": "{{name}} ለፈጠራዎ ምላሽ ሰጥቷል",
+        "generation_comment_like": "{{name}} ለአስተያየትዎ ምላሽ ሰጥቷል",
+        "generation_comment": "{{name}} በፈጠራዎ ላይ አስተያየት ሰጥቷል"
+      },
+      "browse": "ፈጠራዎችን ያስሱ",
+      "empty": "እስካሁን ፈጠራዎች የሉም",
+      "fullscreen": "በሙሉ ማያ ገጽ ይመልከቱ",
+      "missing": "ይህ ፈጠራ አይገኝም።"
+    },
+    "layerNewAttempt": "አዲስ ሙከራ ይገምግሙ",
+    "layerTitle": "የምስል ንብርብሮችን ለይ",
+    "layerPngRequired": "እስከ 12 MiB እና አራት ሜጋፒክስል የሆነ የተቀመጠ PNG ምስል ይምረጡ።",
+    "layerSource": "ዋናው ምስል",
+    "layerDescription": "አራት ግልጽ የPNG ንብርብሮች። ጽሑፍ የእያንዳንዱ ምስል አካል ሆኖ ይቀራል።",
+    "layerSeparate": "ንብርብሮችን ለይ",
+    "layerPending": "የተቀመጠ ሥራ፦ {{status}}። ያለ ሌላ ክፍያ ይሰብስቡ ወይም ማስቀመጥን እንደገና ይሞክሩ።",
+    "layerCollect": "ሰብስብ / ማስቀመጥን እንደገና ሞክር",
+    "layerOpen": "ንብርብሮችን በአርታዒ ውስጥ ክፈት",
+    "layerExport": "የPNG ንብርብሮችን + manifest ZIP ላክ",
+    "layerNumber": "ንብርብር {{number}}",
+    "priceRetry": "ዋጋው ሊረጋገጥ አልቻለም። ዋጋውን ይገምግሙ እና እንደገና ይሞክሩ።",
+    "avatarTitle": "የሚናገር ምስል",
+    "avatarRequirements": "ካሬ PNG የፊት ምስል፣ 512–2048 ፒክስል፣ እስከ 5 MB። Mono 24 kHz 16-bit PCM WAV፣ 5–30 ሰከንድ። የመጨረሻው የሰከንድ ክፍልፋይ በዝምታ ይሞላል።",
+    "avatarPortrait": "የፊት ምስል PNG ይምረጡ",
+    "avatarAudio": "የንግግር WAV ይምረጡ",
+    "avatarPermission": "ይህን የፊት ምስል ለማንቀሳቀስ እና ይህን ድምፅ ለመጠቀም ፈቃድ አለኝ።",
+    "avatarQuote": "ዝምታን ጨምሮ {{seconds}} ሰከንድ · {{amount}} ቶከኖች",
+    "avatarPrepare": "ያዘጋጁ እና ዋጋውን ይገምግሙ",
+    "batchFlowLimit": "የFlow ዝርዝሩ ሞልቷል። ሌላ ስብስብ ከመፍጠርዎ በፊት ጥቅም ላይ ያልዋለ Flow ያስወግዱ።",
+    "batchReviewCampaign": "የዘመቻ ስብስቡን በFlow ውስጥ ይገምግሙ",
+    "batchReviewFilmImages": "የስቶሪቦርድ ምስሎች ስብስብን ይገምግሙ",
+    "batchReviewFilmVideos": "የፊልም ክሊፖች ስብስብን ይገምግሙ",
+    "batchReviewHint": "የተለየ የተቀመጠ Flow ይከፍታል። ከመክፈልዎ በፊት እያንዳንዱን ንጥል እና ሙሉ ዋጋውን ይገምግሙ። የተጠናቀቁ ንጥሎች እና የመጀመሪያው ክፍያ ለመልሶ ማግኛ ይቀመጣሉ። ማጣቀሻዎች ወደ የግል ቤተ-መጽሐፍትዎ ይቀዳሉ፤ የማከማቻ እና የአውታረ መረብ አጠቃቀም ክፍያ ይመለከታል።",
+    "batchInvalid": "የ1–12 ምስሎች ወይም ክሊፖች ስብስብ ከማዘጋጀትዎ በፊት እያንዳንዱን ንጥል ያጠናቅቁ።",
+    "batchReferenceLimit": "ይህ ስብስብ ለእያንዳንዱ ንጥል አንድ የምስል ማጣቀሻ ብቻ ይደግፋል። ተጨማሪ ማጣቀሻዎችን ያስወግዱ ወይም ያንን ንጥል ለብቻው ያዘጋጁ።",
+    "batchVideoSettings": "ለዚህ ስብስብ፣ ክሊፖች ከ4–15 ሰከንድ ሙሉ ቆይታ እና 16:9፣ 9:16 ወይም 1:1 የገጽታ ጥምርታ ያስፈልጋቸዋል።",
+    "batchMissingReference": "አንድ ማጣቀሻ ጠፍቷል፣ አይደገፍም ወይም ከ25 MB በላይ ነው። ስብስቡን ከማዘጋጀትዎ በፊት በአርታዒው ውስጥ ይመልሱት።",
+    "batchOwnerChanged": "መለያው ወይም ረቂቁ ተቀይሯል። ይህን ስብስብ በመጀመሪያው መለያው ስር እንደገና ይክፈቱት።",
+    "batchConflict": "የተቀመጠው ስብስብ ከመጀመሪያው ቅጽበታዊ ገጽታው ጋር አይዛመድም።",
+    "campaignPlanTitle": "የዘመቻ ልዩነቶች እና ክፍሎች",
+    "campaignPlanIntro": "እስከ 12 ልዩነቶችን ወይም ክፍሎችን ያስቀምጡ። እያንዳንዳቸው ስቱዲዮውን ለራሳቸው ግምገማ እና የዋጋ ግምት ይከፍታሉ። የጋራ ማስታወሻዎች ቀጣይነትን ይመራሉ፤ የምርት መልክ፣ ገጸ-ባህሪያት እና ድምፆች በፈጠራዎች መካከል ሊለያዩ ይችላሉ።",
+    "campaignTitle": "የዘመቻ ወይም የተከታታይ ስም",
+    "campaignContinuity": "የጋራ የገጸ-ባህሪ፣ የድምፅ እና የስታይል ማስታወሻዎች",
+    "campaignVariantTitle": "የልዩነት ወይም የክፍል ስም",
+    "campaignHook": "የመክፈቻ መንጠቆ",
+    "campaignLanguage": "የውጤት ቋንቋ",
+    "campaignScript": "የጸደቀ ስክሪፕት ወይም የትዕይንት ቅደም ተከተል",
+    "campaignAdd": "ልዩነት ወይም ክፍል ያክሉ",
+    "campaignClear": "ዕቅዱን አጽዳ",
+    "campaignFormat": "የውጤት ቅርጸት",
+    "audioExportFormat": "የመላኪያ ቅርጸት",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "ለማራዘም አንድ ምንጭ ክሊፕ ያያይዙ።",
+    "extensionSeconds": "+{{seconds}}ሰ አዲስ ቀረጻ",
+    "extensionHelp": "የምንጭ ክሊፕዎን በግምት አራት አዲስ ሰከንዶች ጨምሮ ይመልሳል። ውጤቱ እስከ 720p በ24 fps መጠኑ ይቀየራል። ለማራዘሚያው አዲስ ድምፅ ይፈጠራል።",
+    "extensionForward": "ከምንጭ ክሊፕዎ በኋላ በግምት አራት ሰከንድ ያክሉ",
+    "extensionBackward": "ከምንጭ ክሊፕዎ በፊት በግምት አራት ሰከንድ ያክሉ",
+    "expandDescription": "አዲስ የምስል ጠርዞችን ይፍጠሩ። አማራጭ የእንግሊዝኛ ጥያቄ፤ አንድ ምንጭ ምስል።",
+    "relightDescription": "አንድን ፎቶ ከብርሃን እና ዳራ መግለጫዎ በአዲስ ብርሃን ያሳዩ።",
+    "expandPromptHint": "አንድ ምስል ያያይዙ እና አዲሱን የገጽታ ጥምርታውን ይምረጡ። የእንግሊዝኛ ጥያቄ አማራጭ ነው።",
+    "expandEnglishOnly": "ይህ የማስፋፊያ ሞዴል የእንግሊዝኛ ጥያቄዎችን ይቀበላል። ለራስ-ሰር ማስፋፊያ ጥያቄውን ባዶ ይተዉት።",
+    "expandNeedsImage": "ለማስፋት ምስል ያያይዙ።",
+    "learn": {
+      "title": "የፈጣሪ ትምህርቶች",
+      "intro": "አጫጭር ትምህርቶች፣ የእውቀት ማረጋገጫ እና ለእያንዳንዱ ሊስተካከል የሚችል መልመጃ። እድገት በዚህ መሣሪያ ላይ ለመለያዎ ይቀመጣል።",
+      "back": "ወደ ፈጣሪ ተመለስ",
+      "lessons": "ትምህርቶች",
+      "progress": "ከ{{total}} የእውቀት ማረጋገጫዎች {{completed}} አልፈዋል",
+      "check": "መልሱን አረጋግጥ",
+      "correct": "የእውቀት ማረጋገጫው አልፏል",
+      "retry": "እንደገና ይሞክሩ። ከላይ ያለውን ትምህርት ይከልሱ።",
+      "exerciseTitle": "ተግባራዊ መልመጃ",
+      "exerciseHint": "ሊስተካከል የሚችል ምሳሌ በራስዎ የስቱዲዮ የሥራ ቦታ ይክፈቱ። ረቂቅ መክፈት ነጻ ነው፤ መፍጠር የእርስዎን ግምገማ እና የራሱን የዋጋ ግምት ይፈልጋል። ከመፍጠርዎ በፊት ምሳሌውን ያርትዑ።",
+      "openExercise": "የመልመጃ ረቂቅ ክፈት",
+      "closeExercise": "መልመጃውን ዝጋ",
+      "brief": {
+        "title": "ግልጽ የእይታ መግለጫ ይጻፉ",
+        "body1": "ተጨባጭ ርዕሰ ጉዳይን፣ ድርጊቱን እና ቦታውን ይግለጹ። ትዕይንቱን ሲረዳ የፍሬም አቀማመጥ ወይም የካሜራ እንቅስቃሴ ያክሉ። ያልተዛመዱ ሀሳቦችን ለሌላ ረቂቅ ያስቀምጡ።",
+        "body2": "የብርሃን፣ የሌንስ እና የስታይል መመሪያዎች ሞዴሉን ይመራሉ። አካላዊ የካሜራ ባህሪን ወይም ትክክለኛ ምስልን አያረጋግጡም። ክለሳዎችን ማወዳደር እንዲችሉ በአንድ ጊዜ አንድ ክፍል ይቀይሩ።",
+        "body3": "ከመፍጠርዎ በፊት የተመረጠውን ሞዴል፣ የሚደገፉ አባሪዎችን፣ ልኬቶችን እና ዋጋን ይገምግሙ። ወደ እሱ መመለስ እንዲችሉ የመጀመሪያውን ረቂቅ ያስቀምጡ።",
+        "question": "የትኛው መግለጫ ለመከለስ ቀላል ነው?",
+        "answer0": "ግልጽ ርዕሰ ጉዳይ፣ ድርጊት እና ቦታ",
+        "answer1": "የሞዴል ስም ብቻ",
+        "answer2": "እርስ በርስ የሚጋጩ ስታይሎች ዝርዝር",
+        "exercise": "በመስኮት አጠገብ ባለ የእንጨት ጠረጴዛ ላይ ያለ የሸክላ የሻይ ማንቆርቆሪያ። ለስላሳ የጠዋት ብርሃን፣ መካከለኛ ፍሬም፣ ቀላል ዳራ። ማንቆርቆሪያውን ግልጽ ርዕሰ ጉዳይ አድርገው ያቆዩት።"
+      },
+      "continuity": {
+        "title": "ቀረጻዎችን ያቅዱ እና ቀጣይነትን ይገምግሙ",
+        "body1": "መግለጫ እና በቅደም ተከተል የተደረደሩ ቀረጻዎችን ለማስቀመጥ በአርታዒው ውስጥ ያለውን የፊልም ፓነል ይጠቀሙ። እያንዳንዱን ፍሬም ወይም ክሊፕ ለየብቻ ያዘጋጁ፣ የዋጋ ግምቱን ይገምግሙ እና ተቀባይነት ያገኘ ውጤት ይምረጡ።",
+        "body2": "በመረጡት ሞዴል ተቀባይነት ያላቸውን ማጣቀሻዎች ብቻ ያያይዙ። ማጣቀሻን እንደገና መጠቀም መልክን ሊመራ ይችላል፤ ማንነትን አያሰለጥንም ወይም መመሳሰልን አያረጋግጥም። ገጸ-ባህሪያት እና ድምፆች በፈጠራዎች መካከል ሊለያዩ ይችላሉ።",
+        "body3": "የተሳኩ ቀረጻዎችን ያስቀምጡ እና በጊዜ መስመሩ ውስጥ ያገጣጥሟቸው። ከመላክዎ በፊት እንቅስቃሴን፣ ፊቶችን፣ ንግግርን እና ሽግግሮችን ይገምግሙ።",
+        "question": "በቀረጻዎች መካከል ቀጣይነትን የሚደግፈው ምንድን ነው?",
+        "answer0": "ተጨማሪ ያልተዛመዱ ጥያቄዎች",
+        "answer1": "የጸደቁ ማጣቀሻዎች እና የተገመገሙ የቀረጻ ማስታወሻዎች",
+        "answer2": "የገጸ-ባህሪ ማንነት የተረጋገጠ ነው ብሎ መገመት",
+        "exercise": "በፀሐይ መውጫ ጸጥ ወዳለ የባሕር ዳርቻ የደረሰ ብቸኛ መንገደኛ ሰፊ ቀረጻ። ቀስ ያለ ወደፊት የካሜራ እንቅስቃሴ፣ የተረጋጋ ድባብ። አንድ ቀጣይ ቀረጻ።"
+      },
+      "campaign": {
+        "title": "የጸደቁ የምርት እውነታዎችን ይጠቀሙ",
+        "body1": "ማረጋገጥ በሚችሏቸው የምርት እውነታዎች ይጀምሩ። ከመጠቀምዎ በፊት የገባውን ሜታዳታ ይገምግሙ። ርዕሱን እና የድርጊት ጥሪውን በግልጽ ይጻፉ፤ ዋጋዎችን፣ ግምገማዎችን ወይም የአፈጻጸም ማረጋገጫዎችን አይፍጠሩ።",
+        "body2": "የጋራ ማስታወሻዎችን እና የግል መንጠቆዎችን፣ ስክሪፕቶችን፣ ቋንቋዎችን እና ቅርጸቶችን አንድ ላይ ለማቆየት የተቀመጡ የዘመቻ ልዩነቶችን ይጠቀሙ። በአንድ ጊዜ አንድ የተገመገመ ንጥል ያዘጋጁ እና የዋጋ ግምቱን በስቱዲዮ ውስጥ ያረጋግጡ።",
+        "body3": "በውጤቱ ውስጥ የሚታየውን ጽሑፍ፣ የምርቱን መልክ እና ማንኛውንም የተነገሩ ማረጋገጫዎች ይገምግሙ። ጥያቄ የምርት ትክክለኛነት ወይም የግብይት አፈጻጸም ማረጋገጫ አይደለም።",
+        "question": "የምርት ማረጋገጫ መካተት ያለበት መቼ ነው?",
+        "answer0": "አሳማኝ በሚመስልበት ጊዜ ሁሉ",
+        "answer1": "የአምስት ኮከብ ግምገማ ከፈጠሩ በኋላ",
+        "answer2": "ከጸደቁ የምርት እውነታዎች ሲመጣ",
+        "exercise": "እንደገና ጥቅም ላይ በሚውል ቆርቆሮ ውስጥ ለሚሸጥ ሙሉ ቅጠል ሻይ የቁም የምርት ማስታወቂያ ይፍጠሩ። የጸደቀ ርዕስ፦ ለሻይ ጊዜ ይስጡ። የጸደቀ CTA፦ ስብስቡን ያስሱ። እነዚህን እውነታዎች ብቻ ይጠቀሙ፤ ቅናሾችን፣ ግምገማዎችን ወይም የጤና ማረጋገጫዎችን አይፍጠሩ።"
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "ይህ ውይይት በዚህ መሣሪያ ላይ የተቀመጠውን የግል ቀረጻ ያጫውታል። ለሌላ መሣሪያ፣ የደመና ማስቀመጥ ከተጠናቀቀ በኋላ የፈጣሪ ቤተ-መጽሐፍትዎን ይክፈቱ። አሁን ከወጡ፣ ማስቀመጡን ለመጨረስ ይህን ውይይት እንደገና ይክፈቱ።",
+    "batchPaymentHelp": "እያንዳንዱ የገባ ምስል ለየብቻ ይከፈልበታል። ስብስብ ከቆመ፣ ከክፍያው ጥቅም ላይ ያልዋሉ ቶከኖች ለሚሸፍነው ቀጣይ ፈጠራ በራስ-ሰር እንደገና ጥቅም ላይ ይውላሉ።",
+    "endFrameHelp": "በአባሪ አዝራሩ የመነሻ ምስል ያክሉ።",
+    "seed": "Seed (አማራጭ፣ 0–2147483647)",
+    "negativePrompt": "አሉታዊ ጥያቄ (አማራጭ)",
+    "invalidSeed": "Seed ከ0 እስከ 2147483647 ያለ ሙሉ ቁጥር መሆን አለበት።",
+    "endFrameNeedsStart": "የመጨረሻ ፍሬም ከመምረጥዎ በፊት የመነሻ ምስል ያያይዙ።",
+    "batchStopped": "ስብስቡ ከ{{quantity}} ማስረከቢያዎች {{submitted}} በኋላ ቆሟል። {{remaining}} አልገቡም። የተጠናቀቁ ምስሎች ተቀምጠዋል።",
+    "audioInvalidTask": "የሚደገፍ የድምፅ ተግባር ይምረጡ።",
+    "audioNeedsFile": "መጀመሪያ የሚደገፍ የድምፅ ወይም የቪዲዮ ፋይል ያያይዙ።",
+    "audioTextLimit": "ንግግር እና ውይይት 1–5000 ቁምፊዎችን ይፈቅዳሉ፤ የድምፅ ተጽዕኖዎች 1–1000 ይፈቅዳሉ።",
+    "audioDurationLimit": "የድምፅ ቆይታ ራስ-ሰር (0) ወይም 0.5–30 ሰከንድ መሆን አለበት።",
+    "audioModels": "ሌሎች የድምፅ ሞዴሎች",
+    "audioAttach": "ቀረጻ ያያይዙ",
+    "audioAttachFailed": "ያንን ቀረጻ ማያያዝ አልተቻለም።",
+    "audioSeconds": "ሰከንዶች (0 = ራስ-ሰር)",
+    "audioInvalidResponse": "የድምፅ አገልግሎቱ ልክ ያልሆነ ውጤት መልሷል።",
+    "audioResultTooLarge": "የድምፅ ውጤቱ ባዶ ነው ወይም ከ50 MB በላይ ነው።",
+    "audioFailed": "ያንን ድምፅ ማስኬድ አልተቻለም።",
+    "libraryFavorites": "ተወዳጆች",
+    "libraryFavoriteAdd": "ወደ ተወዳጆች ያክሉ",
+    "libraryFavoriteRemove": "ከተወዳጆች ያስወግዱ"
   },
   "fractions": {
     "title": "ክፍልፋዮች",
@@ -12980,7 +13980,8 @@
     "offerSubmitted_other": "ለ {{count}} ክፍልፋዮች በ{{price}} ቶከኖች ለእያንዳንዱ የቀረበ ቅናሽ",
     "yourOfferLabel": "የእርስዎ ቅናሽ (ቶከኖች ለእያንዳንዱ ክፍልፋይ)",
     "listedToast_one": "{{count}} ክፍልፋይ በ{{price}} ቶከኖች ለእያንዳንዱ ተዘርዝሯል",
-    "listedToast_other": "{{count}} ክፍልፋዮች በ{{price}} ቶከኖች ለእያንዳንዱ ተዘርዝረዋል"
+    "listedToast_other": "{{count}} ክፍልፋዮች በ{{price}} ቶከኖች ለእያንዳንዱ ተዘርዝረዋል",
+    "nftsSubtitle": "ማንኛውም NFT፣ በአንድ እርምጃ መለዋወጥ"
   },
   "moderation": {
     "appealDuplicate": "አስቀድመህ ይህን አቤቱታ አቅርበሃል",
@@ -13080,7 +14081,11 @@
     "ended": "አብቅቷል",
     "stage": "መድረክ",
     "upcomingStage": "የሚመጣ መድረክ",
-    "members": "{{compact}} አባላት"
+    "members": "{{compact}} አባላት",
+    "requestComments_one": "{{compact}} አስተያየት",
+    "requestComments_other": "{{compact}} አስተያየቶች",
+    "requestVotes_one": "{{compact}} ድምፅ",
+    "requestVotes_other": "{{compact}} ድምፆች"
   },
   "report": {
     "whyVideo": "ይህንን ቪዲዮ ለምን እየዘገቡት ነው?",
@@ -14337,7 +15342,14 @@
     "faqWhatA": "በMCP በኩል የRiftn ይፋዊ ልጥፎችን ማሰስ፣ ርዕሶችን መፈለግ እና የፈጣሪ መገለጫዎችን ማየት ይችላል። በእርስዎ ስም አይለጥፍም።",
     "faqAccountQ": "የRiftn መለያ ያስፈልገኛል?",
     "chatgptFaqAccount": "በአገናኙ በኩል የህዝብ ይዘትን ለማንበብ ምንም መለያ አያስፈልግም። የRiftn ቶከኖችን ለመለጠፍ፣ ለመጠቆም ወይም ለመያዝ ከፈለጉ ብቻ የRiftn መለያ ያስፈልጋል።",
-    "claudeFaqAccount": "አይደለም። የህዝብ ይዘትን ማንበብ ያለ መለያ ይሰራል:: የRiftn ቶከኖችን ለመለጠፍ፣ ለመጠቆም ወይም ለመያዝ የRiftn መለያ ብቻ ያስፈልግዎታል።"
+    "claudeFaqAccount": "አይደለም። የህዝብ ይዘትን ማንበብ ያለ መለያ ይሰራል:: የRiftn ቶከኖችን ለመለጠፍ፣ ለመጠቆም ወይም ለመያዝ የRiftn መለያ ብቻ ያስፈልግዎታል።",
+    "subtitleAccount": "Riftnን ከChatGPT፣ Claude ወይም ከማንኛውም የMCP መተግበሪያ ይጠቀሙ። ያለ መለያ ያስሱ፣ ወይም የግል ረቂቆችን ለማስቀመጥ፣ ልጥፎችን ለማተም እና መርሐግብር ለማስያዝ፣ ምስሎችን እና የሕዝብ አስተያየቶችን ለማስተዳደር፣ ትንታኔዎችን ለማንበብ፣ ለመመለስ እና ለመከተል ይግቡ።",
+    "agentsTitle": "ወኪሎችዎን ከረዳትዎ ያስኪዱ",
+    "agentsBody": "ሲያገናኙ «እንደ ወኪሎችዎ ይሥሩ»ንም ይፍቀዱ። ከዚያ ረዳትዎ በባለቤትነት በያዙት ማንኛውም ወኪል ስም መለጠፍ፣ መመለስ፣ ምላሽ መስጠት፣ እንደገና መለጠፍ፣ መከተል ወይም መገለጫ ማርትዕ ይችላል። ባለቤት ያልሆኑበትን መለያ በፍጹም ወክሎ መሥራት አይችልም።",
+    "keysTitle": "የግል ቁልፎች",
+    "keysBody": "የመግቢያ ገጽ መክፈት ለማይችሉ ስክሪፕቶች፣ ቦቶች እና መተግበሪያዎች። ቁልፍ የሚያደርገው እርስዎ የፈቀዱትን ብቻ ነው እና ለ30 ቀናት ጥቅም ላይ ካልዋለ ይቆማል።",
+    "keysMake": "የግል ቁልፍ ይስሩ",
+    "manageLinked": "የተገናኙ መተግበሪያዎችን እና ቁልፎችን ያስተዳድሩ"
   },
   "credits": {
     "percentUsed": "{{percent}}% ጥቅም ላይ ውሏል",
@@ -14442,7 +15454,10 @@
       "title": "ይክፈሉ {{name}}?",
       "body": "ዲኤችቢ በቀጥታ ወደ መተግበሪያው የኪስ ቦርሳ ይሄዳል ፣ {{wallet}}. ክፍያዎች ሊመለሱ አይችሉም ።",
       "confirm": "ይክፈሉ {{amount}} ቶከኖች",
-      "sent": "የተከፈለ {{amount}}ቶከኖች ወደ {{name}}."
+      "sent": "የተከፈለ {{amount}}ቶከኖች ወደ {{name}}.",
+      "testBadge": "የሙከራ ሁነታ",
+      "testBody": "የዚህ መተግበሪያ ባለቤት እርስዎ ነዎት፣ ስለዚህ ይህ ሙከራ ነው፦ ምንም ቶከኖች አይንቀሳቀሱም እና ደረሰኙ ሙከራ ተብሎ ምልክት ይደረግበታል።",
+      "testSent": "የ{{amount}} ቶከኖች የሙከራ ክፍያ። ምንም አልተላከም።"
     }
   },
   "aiStyles": {
@@ -14551,7 +15566,16 @@
     "points_one": "{{formatted}} ነጥብ",
     "points_other": "{{formatted}} ነጥቦች",
     "level": "ደረጃ {{level}}",
-    "tipJar": "የስጦታ ማሰሮ"
+    "tipJar": "የስጦታ ማሰሮ",
+    "eyebrow": {
+      "follow": "አዲስ ተከታይ",
+      "subscribe": "አዲስ ደንበኛ",
+      "subscribedTo": "ተመዝግቧል · {{plan}}",
+      "gifted_one": "ምዝገባ በስጦታ ሰጥቷል",
+      "gifted_other": "{{count}} ምዝገባዎችን በስጦታ ሰጥቷል",
+      "share": "ዥረቱን አጋርቷል",
+      "join": "አሁን ተቀላቅሏል"
+    }
   },
   "liveStudio": {
     "unsaved": "ያልተቀመጡ ለውጦች",
@@ -14918,8 +15942,20 @@
         "off": "አጥፋ",
         "idle": "ዝግጁ",
         "live": "ቀጥታ",
-        "error": "ስህተት"
-      }
+        "error": "ስህተት",
+        "connecting": "በማገናኘት ላይ"
+      },
+      "title": "የብዙ ዥረት መዳረሻዎች",
+      "intro": "በRiftn ላይ አንድ ጊዜ ቀጥታ ይጀምሩ፣ እኛም ዥረትዎን እዚህ ወደበሩት እያንዳንዱ መድረክ በነጻ እንልካለን። ቀጥታ ከጀመሩ በጥቂት ሰከንዶች ውስጥ ይጀምራል።",
+      "add": "መዳረሻ ያክሉ",
+      "empty": "እስካሁን መዳረሻዎች የሉም። Twitch፣ YouTube፣ Kick ወይም ማንኛውንም የRTMP አገልጋይ ያክሉ።",
+      "server": "የአገልጋይ URL",
+      "findKey": "የ{{name}} አገልጋይዎን እና ቁልፍዎን ያግኙ",
+      "customHint": "መድረክዎ የሰጠዎትን የRTMP አገልጋይ እና ቁልፍ ይለጥፉ።",
+      "keyNote": "ቁልፍዎ በአገልጋዮቻችን ላይ ተመስጥሮ ይቀመጣል እና ዳግም አይታይም።",
+      "added": "{{name}} ታክሏል",
+      "saveFailed": "መዳረሻውን ማስቀመጥ አልተቻለም",
+      "toggle": "ወደዚህ መዳረሻ ዥረት ያስተላልፉ"
     }
   },
   "liveChatModeration": {
@@ -14959,7 +15995,8 @@
     "paidFromWalletPlain": "ከኪስ ቦርሳዎ ተከፍሏል",
     "priceUnavailable": "ዋጋ አይገኝም",
     "confirmWithCost": "በ {{chain}} {{cost}}",
-    "notAvailable": "በዚህ ሰንሰለት ላይ መቀባት ገና አልተገኘም ።"
+    "notAvailable": "በዚህ ሰንሰለት ላይ መቀባት ገና አልተገኘም ።",
+    "confirm": "በ{{chain}} ላይ ሚንት ያድርጉ"
   },
   "tokenLaunch": {
     "eyebrow": "በቅርቡ ይደርሳል",
@@ -15006,7 +16043,13 @@
       "cover": "ሽፋን",
       "caption": "ለዚህ ገጽ መግለጫ",
       "alt": "ተለዋጭ ጽሑፍ: ገጹ ምን እንደሚያሳይ"
-    }
+    },
+    "toComic": "ኮሚክ አድርገው",
+    "toCarousel": "እንደ ካሩሰል አሳይ",
+    "converted": "አሁን እንደ ኮሚክ እየታየ ነው",
+    "unconverted": "አሁን እንደ ካሩሰል እየታየ ነው",
+    "convertFailed": "አቀማመጡን መቀየር አልተቻለም",
+    "readAll": "ሁሉንም ገጾች ያንብቡ"
   },
   "nftMarket": {
     "dehubPostsName": "የRiftn ጋዜጠኛዎች",
@@ -15084,7 +16127,52 @@
     "dropBadge": "ዋጋ ተቀንሷል",
     "days_one": "{{count}} ቀን",
     "days_other": "{{count}} ቀናት",
-    "days": "{{count}} ቀናት"
+    "days": "{{count}} ቀናት",
+    "actCollectionOffer": "የስብስብ ቅናሽ",
+    "actListed": "ተዘርዝሯል",
+    "actSale": "ሽያጭ",
+    "buyAll": "ሁሉንም ግዛ",
+    "buySeveral": "ብዙ ግዛ",
+    "cartBought": "{{n}} ተገዝቷል። አሁን በኪስ ቦርሳዎ ውስጥ ናቸው።",
+    "cartCount": "{{n}} በጋሪ ውስጥ",
+    "cartFull": "በአንድ ጊዜ እስከ 20",
+    "cartOneCoin": "በአንድ ጋሪ አንድ ሰንሰለት እና አንድ ኮይን። ለመቀየር ያጽዱት።",
+    "cartOwn": "ያ የእርስዎ ነው",
+    "cartPick": "ወደ ጋሪ ለማከል መታ ያድርጉ",
+    "forSaleHere": "እዚህ ለሽያጭ",
+    "noActivity": "እስካሁን እዚህ ምንም የለም",
+    "shareMessage": "በRiftn ላይ NFTዎችን ይግዙ እና ይሽጡ",
+    "loadFailed": "ገበያውን መጫን አልተቻለም። እንደገና ለመሞከር ይጎትቱ።",
+    "signInTitle": "NFTዎችዎን ለማየት ይግቡ",
+    "walletOn": "በ{{chain}} ላይ በኪስ ቦርሳዎ ውስጥ ያሉ NFTዎች",
+    "listedAt": "ተዘርዝሯል",
+    "noneHeld": "በዚህ የኪስ ቦርሳ ውስጥ እስካሁን NFTዎች የሉም",
+    "subtitle": "በBNB፣ Base፣ Ethereum እና Robinhood ላይ ይግዙ እና ይሽጡ",
+    "startHint": "የመጀመሪያው ለመሆን ከ«የእርስዎ» NFT ይዘርዝሩ።",
+    "wrongChain": "ይህን ለመገበያየት የኪስ ቦርሳዎን ወደ {{chain}} ይቀይሩ",
+    "failed": "አልተሳካም። እንደገና ይሞክሩ።",
+    "bought": "የእርስዎ ነው",
+    "cancelledOrder": "በሰንሰለት ላይ ተሰርዟል",
+    "notEnough": "በኪስ ቦርሳዎ ውስጥ በቂ {{symbol}} የለም",
+    "offerSent": "ቅናሹ ተልኳል",
+    "cancelListing": "ዝርዝሩን ሰርዝ",
+    "buyConfirm": "{{name}}ን ይግዙ?",
+    "volShort": "መጠን",
+    "salesCount": "{{n}} ተሽጧል",
+    "bestOffer": "ምርጥ ቅናሽ",
+    "fromOpenSea": "በOpenSea ላይ ምርጥ ስብስቦች",
+    "buyHere": "እዚህ ይግዟቸው",
+    "openSeaNote": "በOpenSea ላይ ተዘርዝሯል። ለሻጩ በቀጥታ በSeaport ይከፍላሉ፤ Riftn ምንም ክፍያ አይጨምርም።",
+    "notListed": "አሁን ለሽያጭ አልተዘረዘረም።",
+    "priceLabel": "ገዢው የሚከፍለው ዋጋ",
+    "offerLabel": "የእርስዎ ቅናሽ",
+    "list": "ይዘርዝሩት",
+    "listHint": "መፈረም ነጻ ነው። ከአንድ ስብስብ የመጀመሪያው ሽያጭ አንድ ጊዜ እንዲያጸድቁ ይጠይቅዎታል።",
+    "offerHint": "መፈረም ነጻ ነው። ያዢው እስኪቀበል ድረስ ቶከኖችዎ በኪስ ቦርሳዎ ውስጥ ይቆያሉ።",
+    "viewOnly": "በዚህ መተግበሪያ ውስጥ NFTዎችን መግዛት እና መሸጥ አይገኝም።",
+    "tradeOnWeb": "በriftn.com ላይ ይገበያዩ",
+    "feesFootnote": "ክፍያዎች፦ 2%፣ ወይም በቶከኖች ሲከፍሉ 1%። እያንዳንዱ ግብይት አንድ በሰንሰለት ላይ የሚደረግ ልውውጥ ነው።",
+    "mintedCount": "{{n}} ሚንት ተደርጓል"
   },
   "reel": {
     "readAll": "ሁሉንም ያንብቡ",
@@ -15110,7 +16198,11 @@
     "loading": "በመጫን ላይ...",
     "paused": "ለአፍታ ቆሟል",
     "preview": "ቅድመ እይታ",
-    "seek": "ፈልግ"
+    "seek": "ፈልግ",
+    "popOut": "አውጣ",
+    "backInPost": "በምትኩ እዚህ አጫውት",
+    "inCorner": "በጥግ ላይ እየተጫወተ ነው",
+    "tapToStartApp": "በSpotify ማጫወቻው ውስጥ አጫውትን መታ ያድርጉ"
   },
   "twoFactor": {
     "wrongCode": "ያን ኮድ አልተዛለቀም። በመተግበሪያዎ ውስጥ አዲሱን ይሞክሩ።",
@@ -15192,18 +16284,57 @@
   "chatTextSize": {
     "title": "የጽሑፍ መጠን",
     "default": "ነባሪ",
-    "larger": "ትልቅ"
+    "larger": "ትልቅ",
+    "small": "ትንሽ",
+    "large": "ትልቅ",
+    "largest": "ትልቁ"
   },
   "remix": {
-    "cut": "ቁረጥ"
+    "cut": "ቁረጥ",
+    "title": "ሪሚክስ",
+    "greenScreen": "አረንጓዴ ስክሪን",
+    "collab": "ትብብር",
+    "sound": "ድምፁን ተጠቀም",
+    "unavailable": "ይህ ቪዲዮ ለሪሚክስ አይገኝም።",
+    "openFailed": "ሪሚክሱ ሊከፈት አልቻለም። ግንኙነትዎን እና የካሜራ ፈቃዶችን ያረጋግጡ፣ ከዚያ እንደገና ይሞክሩ።",
+    "tooLarge": "ይህ ቀረጻ በጣም ትልቅ ነው። አጠር ያለ ቀረጻ ይቅረጹ።",
+    "invalidRecording": "ቀረጻው ሊነበብ አልቻለም። እባክዎ ሌላ ቀረጻ ይቅረጹ።",
+    "saveFailed": "ሪሚክሱ ሊቀመጥ አልቻለም። እባክዎ እንደገና ይሞክሩ።",
+    "startHint": "ካሜራዎን በዚህ ቪዲዮ ላይ በቅድመ እይታ ይመልከቱ፣ ከዚያ ሪሚክስዎን ይቅረጹ። ከዚህ ማያ ገጽ መውጣት ካሜራውን ያቆማል።",
+    "openCamera": "ካሜራ ክፈት"
   },
   "signedFollows": {
     "setUp": "አብራሪ",
     "turnOff": "አጥፋ",
-    "efpTurnOff": "አቁም"
+    "efpTurnOff": "አቁም",
+    "title": "የሚከተሏቸው፣ በሰንሰለት ላይ",
+    "description": "የኪስ ቦርሳዎ የሚከተሏቸውን ይፈርማል፣ እና በየቀኑ ዝርዝሩ በBase ላይ ይታተማል። ማንኛውም መተግበሪያ ያለ Riftn እንኳን የሚከተሏቸውን ከኪስ ቦርሳዎ ማግኘት ይችላል።",
+    "on": "ለዚህ መሣሪያ በርቷል",
+    "off": "ለዚህ መሣሪያ ጠፍቷል",
+    "turnedOn": "የሚከተሏቸው አሁን በኪስ ቦርሳዎ ተፈርመዋል",
+    "turnedOff": "ለዚህ መሣሪያ ጠፍቷል",
+    "failed": "የኪስ ቦርሳዎ አልፈረመም። እንደገና ይሞክሩ።",
+    "hiddenNote": "የተደበቁ የመከተል ዝርዝሮች እና የግል መለያዎች ከይፋዊው ዝርዝር ውጭ ይሆናሉ።",
+    "efpOn": "ወደ EFP ተቀድቷል · {{count}} የሚከተሏቸው",
+    "efpOff": "በEFP ላይም ያስቀምጧቸው",
+    "efpTurnOn": "ወደ EFP ያክሉ",
+    "efpDone": "የሚከተሏቸው ወደ EFP እየገቡ ነው",
+    "efpStopped": "የEFP ቅጂ ቆሟል። ዝርዝሩ የእርስዎ ሆኖ ይቀራል።",
+    "efpHasList": "አስቀድመው የEFP ዝርዝር አለዎት። Riftn ያንን ገና መሙላት አይችልም።",
+    "efpNoGas": "ለዚህ የኪስ ቦርሳዎ በBase ላይ ትንሽ ETH ያስፈልገዋል።",
+    "efpFailed": "አልተሳካም። እንደገና ይሞክሩ።",
+    "efpNote": "EFP ሌሎች መተግበሪያዎች የሚያነቡት የመከተል ዝርዝር ነው (efp.app)። በRiftn የኪስ ቦርሳዎ ነጻ ነው፤ ሌሎች የኪስ ቦርሳዎች በBase ላይ ጥቂት ሳንቲሞች ይከፍላሉ። ዝርዝሩ የእርስዎ ነው።",
+    "efpUseWeb": "በራስዎ የኪስ ቦርሳ፣ ይህን በriftn.com ላይ በቅንብሮች ውስጥ ያድርጉ።"
   },
   "postEditHistory": {
-    "original": "የመጀመሪያው"
+    "original": "የመጀመሪያው",
+    "title": "የአርትዖት ታሪክ",
+    "edited_one": "አንድ ጊዜ ተስተካክሏል",
+    "edited_other": "{{count}} ጊዜ ተስተካክሏል",
+    "lastEdit": "የመጨረሻ አርትዖት {{time}}",
+    "editN": "አርትዖት {{n}}",
+    "now": "አሁን",
+    "showChanges": "የተቀየረውን አሳይ"
   },
   "studioDeck": {
     "remove": "አስወግድ",
@@ -15212,28 +16343,61 @@
       "modes": {
         "none": "አጥፋ",
         "blur": "ብዥታ",
-        "color": "ቀለም"
-      }
+        "color": "ቀለም",
+        "image": "ምስል"
+      },
+      "failed": "ዳራ ማስወገድ በዚህ መሣሪያ ላይ መጀመር አልቻለም።",
+      "hint": "በመሣሪያዎ ላይ ይሰራል። የመጀመሪያው ጊዜ ለመጫን ጥቂት ሰከንዶች ይወስዳል።"
     },
     "scenes": {
       "countdown": "ቆጠራ",
       "minutes": "{{count}} ደቂቃ",
       "names": {
-        "starting": "በቅርቡ ይጀምራል"
+        "starting": "በቅርቡ ይጀምራል",
+        "chatting": "መወያየት ብቻ",
+        "brb": "አሁኑኑ እመለሳለሁ",
+        "ending": "ዥረቱ እያለቀ ነው"
+      },
+      "title": "ትዕይንቶች",
+      "picture": "ምስል",
+      "noCountdown": "ቆጠራ የለም",
+      "hints": {
+        "starting": "ቆጠራ ያለው ካርድ",
+        "chatting": "ካሜራ በሙሉ ማያ ገጽ",
+        "brb": "ካርድ፣ ማይክ ድምጸ-ከል",
+        "ending": "የምስጋና ካርድ"
+      },
+      "subtitles": {
+        "starting": "ዥረቱ የሚጀምረው በ",
+        "brb": "በቅጽበት እመለሳለሁ",
+        "ending": "ስለተመለከቱ እናመሰግናለን"
       }
     },
     "widgets": {
-      "tab": "መግብሮች"
+      "tab": "መግብሮች",
+      "title": "ዊጀቶችን በቪዲዮዬ ውስጥ አሳይ",
+      "hint": "ማንቂያዎች፣ የግብ አሞሌዎች እና ውይይት በዥረትዎ ውስጥ ይሳላሉ፣ ስለዚህ በTwitch፣ YouTube እና በሌሎች መድረኮች ያሉ ተመልካቾችም ያዩዋቸዋል።",
+      "failed": "ዊጀቶችዎ የሚታዩበትን ቦታ መቀየር አልተቻለም። እንደገና ይሞክሩ።"
     },
     "sources": {
       "image": "ምስል",
       "show": "በዥረት ላይ አሳይ",
       "positions": {
-        "center": "ማዕከል"
+        "center": "ማዕከል",
+        "top-left": "ከላይ ግራ",
+        "top-right": "ከላይ ቀኝ",
+        "bottom-left": "ከታች ግራ",
+        "bottom-right": "ከታች ቀኝ"
       },
       "sizes": {
-        "medium": "መካከለኛ"
-      }
+        "medium": "መካከለኛ",
+        "small": "ትንሽ",
+        "large": "ትልቅ"
+      },
+      "title": "ምንጮች",
+      "addImage": "ምስል ወይም አርማ",
+      "failed": "ያንን ምንጭ ማከል አልተቻለም።",
+      "hint": "ምንጮች ለእያንዳንዱ ተመልካች እና ለእያንዳንዱ መድረክ በምስልዎ ላይ ይሳላሉ።"
     },
     "phone": {
       "title": "ስቱዲዮ"
@@ -15243,7 +16407,31 @@
     "today": "ዛሬ",
     "tooSoon": "ለወደፊቱ ጊዜ ይምረጡ።",
     "show": "አሳይ",
-    "hide": "ደብቅ"
+    "hide": "ደብቅ",
+    "title": "መቼ?",
+    "tonight": "ዛሬ ማታ",
+    "inAnHour": "በአንድ ሰዓት ውስጥ",
+    "tomorrow": "ነገ",
+    "primeTime": "ዋና ሰዓት",
+    "scheduleFor": "ለ{{when}} መርሐግብር ያስይዙ",
+    "liveTip": "ተከታዮችዎ አስታዋሽ ማዘጋጀት ይችላሉ። ጊዜው ሲደርስ ቀጥታውን እራስዎ ይጀምራሉ።",
+    "stageTip": "ወዲያውኑ በመጪ መደርደሪያ ላይ ይወጣል፣ ስለዚህ ሰዎች «አስታውሰኝ»ን መታ ማድረግ ይችላሉ።",
+    "typePlaceholder": "ሰዓት ይተይቡ፣ ለምሳሌ «ዓርብ 8pm» ወይም «በ2 ሰዓት ውስጥ»",
+    "typeLabel": "ሰዓት ይተይቡ",
+    "typeHelp": "«ዛሬ ማታ»፣ «ነገ 9am»፣ «ቅዳሜ እኩለ ቀን» ወይም «30 oct 7pm» ይሞክሩ።",
+    "orPickDay": "ወይም ቀን ይምረጡ",
+    "earlier": "15 ደቂቃ ቀደም ብሎ",
+    "later": "15 ደቂቃ ዘግይቶ",
+    "earlierShort": "ቀደም ብሎ",
+    "laterShort": "ዘግይቶ",
+    "tooSoonMin": "ከአሁን ቢያንስ {{count}} ደቂቃ በኋላ ያለ ሰዓት ይምረጡ።",
+    "zone": "የእርስዎ ሰዓት ({{zone}})። ሌሎች ሁሉ በራሳቸው ሰዓት ያዩታል።",
+    "remove": "መርሐግብሩን አስወግድ",
+    "startsIn": "በ{{time}} ውስጥ ይጀምራል",
+    "bestTime": "ምርጥ ሰዓት",
+    "fansOnline": "አድናቂዎቼ መቼ መስመር ላይ ናቸው?",
+    "fansBasis": "ይበልጥ ደማቅ ማለት ባለፉት {{count}} ቀናት ብዙ ተከታዮችዎ ይመለከቱ ነበር ማለት ነው።",
+    "everyoneBasis": "እስካሁን በቂ የተከታይ እንቅስቃሴ የለም፣ ስለዚህ ይህ በRiftn ላይ ያሉ ሁሉንም ያሳያል።"
   },
   "planned": {
     "title": "የታቀደ",
@@ -15258,22 +16446,45 @@
     "loading": "በመጫን ላይ…",
     "startNow": "አሁን ጀምር",
     "cancel": "ሰርዝ",
-    "cancelled": "ተሰርዟል"
+    "cancelled": "ተሰርዟል",
+    "subtitle": "መርሐግብር ያስያዟቸው ልጥፎች፣ ቀጥታዎች እና መድረኮች",
+    "seoTitle": "የታቀዱ · Riftn",
+    "seoDescription": "በRiftn ላይ የታቀዱ ልጥፎችዎ፣ ቀጥታዎችዎ እና መድረኮችዎ፣ ሁሉም በአንድ ቦታ።",
+    "lives": "ቀጥታዎች",
+    "signIn": "ያቀዱትን ለማየት ይግቡ",
+    "emptyTitle": "እስካሁን ምንም የታቀደ ነገር የለም",
+    "emptyBody": "ልጥፍ፣ ቀጥታ ወይም መድረክ ሲሰሩ «መቼ?»ን ይምረጡ እና እዚህ ይታያል።",
+    "move": "አንቀሳቅስ",
+    "postNow": "አሁን ለጥፍ",
+    "confirmCancel": "ለመሰረዝ እንደገና መታ ያድርጉ",
+    "moved": "ወደ {{when}} ተዛውሯል",
+    "postingNow": "በአንድ ደቂቃ ውስጥ ይለጠፋል",
+    "moveFailed": "ማንቀሳቀስ አልተቻለም። እንደገና ይሞክሩ።",
+    "seeAll": "ያቀዱትን ሁሉ ይመልከቱ"
   },
   "welcome": {
     "about": {
       "title": "ወደ Riftn እንኳን በደህና መጡ",
       "day": "ቀን",
       "month": "ወር",
-      "year": "ዓመት"
+      "year": "ዓመት",
+      "sub": "የልደት ቀንዎ የግል ሆኖ ይቆያል። እይታ ይምረጡ፣ በማንኛውም ጊዜ መቀየር ይችላሉ።",
+      "birthday": "የትውልድ ቀን",
+      "pick": "የልደት ቀንዎን ይምረጡ",
+      "invalid": "ሙሉ የትውልድ ቀንዎን ያስገቡ።",
+      "tooYoung": "Riftnን ለመጠቀም {{age}} ዓመት ወይም ከዚያ በላይ መሆን አለብዎት።",
+      "theme": "የእርስዎ እይታ"
     },
     "name": {
       "title": "ስምዎ",
-      "placeholder": "ስምዎ"
+      "placeholder": "ስምዎ",
+      "sub": "ይህ ሰዎች በልጥፎችዎ ላይ የሚያዩት ስም ነው።"
     },
     "card": {
       "name": "ስምዎ",
-      "followers": "ተከታዮች"
+      "followers": "ተከታዮች",
+      "interests": "የእርስዎ ፍላጎቶች",
+      "following": "የሚከተሏቸው"
     },
     "topic": {
       "music": "ሙዚቃ",
@@ -15285,11 +16496,47 @@
       "film": "ፊልም",
       "podcast": "ፖድካስት",
       "news": "ዜና",
-      "science": "ሳይንስ"
+      "science": "ሳይንስ",
+      "travel": "ጉዞ",
+      "anime": "አኒሜ",
+      "cars": "መኪኖች",
+      "animals": "እንስሳት",
+      "tech": "ቴክኖሎጂ",
+      "food": "ምግብ"
     },
     "back": "ተመለስ",
     "skipPhoto": "ለአሁኑ ይዝለሉ",
-    "preview": "ቅድመ እይታ"
+    "preview": "ቅድመ እይታ",
+    "username": {
+      "title": "የእርስዎ @የተጠቃሚ ስም",
+      "sub": "ፊደላት፣ ቁጥሮች እና የግርጌ መስመሮች። በኋላ መቀየር ይችላሉ።",
+      "yours": "@{{name}} የእርስዎ ነው"
+    },
+    "photo": {
+      "title": "የእርስዎ ፎቶ",
+      "sub": "አማራጭ። ሰዎች ፊቶችን በፍጥነት ይከተላሉ።",
+      "choose": "ፎቶ ይምረጡ",
+      "change": "ሌላ ይምረጡ"
+    },
+    "interests": {
+      "title": "የእርስዎ ፍላጎቶች",
+      "sub": "ቢያንስ 3 ይምረጡ። በምድቦችዎ ውስጥ መጀመሪያ ይመጣሉ።"
+    },
+    "people": {
+      "title": "የእርስዎ ሰዎች",
+      "sub": "ለመከተል መታ ያድርጉ። ልጥፎቻቸው የሚከተሏቸውን ምግብ ይሞላሉ።",
+      "empty": "አሁን ምንም ጥቆማዎች የሉም። አስስ ውስጥ የሚገኙ ተጨማሪ ሰዎች አሉ።",
+      "followers": "{{count}} ተከታዮች"
+    },
+    "done": {
+      "title": "ጥሩ ይመስላል፣ {{name}}",
+      "sub": "ከዛሬ ጀምሮ ሁሉም ሰው ይህን ካርድ ያያል።",
+      "eyebrow": "መገለጫው ቀጥታ ነው"
+    },
+    "enter": "ወደ Riftn ይግቡ",
+    "pickMore": "{{count}} ተጨማሪ ይምረጡ",
+    "cardHint": "ሰዎች እርስዎን የሚያዩት በዚህ መልኩ ነው",
+    "followFailed": "መከተል አልተቻለም። እንደገና ይሞክሩ።"
   },
   "appTokens": {
     "title": "የእርስዎ ቶከኖች",
@@ -15300,10 +16547,35 @@
     "amount": "መጠን",
     "notePlaceholder": "ማስታወሻ ጨምር (አማራጭ)",
     "sendButton": "ላክ",
-    "errorInsufficient": "በቂ ቶከኖች የሉም"
+    "errorInsufficient": "በቂ ቶከኖች የሉም",
+    "rowHint": "በመተግበሪያ ውስጥ ያለ ቀሪ ሂሳብ",
+    "explainer": "ቶከኖችዎ አሁን በRiftn ውስጥ ይኖራሉ። በማስጀመሪያው ጊዜ በሰንሰለት ላይ በያዙት እና ባስቀመጡት ጀምረዋል። መላክ፣ ቲፕ መስጠት እና ወጪ ማድረግ ያለ ክፍያ እና ያለ ምንም የሰንሰለት ግብይት ወዲያውኑ ያንቀሳቅሷቸዋል። ቀሪ ሂሳቦች በኤርድሮፑ ጊዜ ወደ አዲሱ ቶከን ይተላለፋሉ።",
+    "kindOpening": "የመነሻ ቀሪ ሂሳብ",
+    "kindSent": "ለ{{name}} ተልኳል",
+    "kindReceived": "ከ{{name}}",
+    "kindSpent": "በRiftn ውስጥ ወጪ ተደርጓል",
+    "kindRefund": "ተመላሽ ገንዘብ",
+    "kindAdjust": "በRiftn የተደረገ ማስተካከያ",
+    "sendTitle": "ቶከኖችን ላክ",
+    "sendHint": "በRiftn ውስጥ ቶከኖችን ወደ ሌላ መለያ ይልካል። ፈጣን እና ነጻ ነው፣ በሰንሰለት ላይ ምንም አይሄድም።",
+    "toPlaceholder": "@የተጠቃሚ ስም ወይም 0x አድራሻ",
+    "looking": "በመፈለግ ላይ…",
+    "available": "የሚገኝ፦ {{amount}}",
+    "sent": "{{amount}} ቶከኖች ለ{{name}} ተልከዋል",
+    "errorRateLimit": "ባለፈው ሰዓት ውስጥ በጣም ብዙ ዝውውሮች። ቆይተው እንደገና ይሞክሩ።",
+    "errorNoRecipient": "ምንም የRiftn መለያ አልተገኘም",
+    "errorSelf": "ለራስዎ መላክ አይችሉም",
+    "errorGeneric": "መላክ አልተቻለም። እንደገና ይሞክሩ።"
   },
   "avatarPrompt": {
-    "notNow": "አሁን አይደለም"
+    "notNow": "አሁን አይደለም",
+    "title": "የመገለጫ ፎቶ ያክሉ",
+    "body": "ፊት ወይም አርማ ሲኖርዎት ሰዎች በምግቦች፣ በአስተያየቶች እና በውይይቶች ውስጥ በፍጥነት ያገኙዎታል።",
+    "choose": "ፎቶ ይምረጡ",
+    "another": "ሌላ ይምረጡ",
+    "save": "ይህን ፎቶ ተጠቀም",
+    "saved": "ጥሩ ይመስላል",
+    "failed": "ፎቶዎን ማስቀመጥ አልተቻለም። እንደገና ይሞክሩ።"
   },
   "postStats": {
     "audience": "ታዳሚዎች",
@@ -15321,36 +16593,159 @@
     "shares": "ሼር",
     "signedOutViewers": "ወጥተዋል",
     "topSupporters": "ከፍተኛ ደጋፊዎች",
-    "visitors": "ወጥተዋል"
+    "visitors": "ወጥተዋል",
+    "aboutUsual": "እንደተለመደው ያህል",
+    "afterWatching": "ካዩት በኋላ ተከተሉ",
+    "avg": "አማካይ",
+    "avgWatch": "አማካይ የእይታ ጊዜ",
+    "bestTime": "ሰዎችዎ የሚመለከቱበት ጊዜ",
+    "bigDrop": "ትልቅ ቅናሽ",
+    "byBadge": "በባጅ",
+    "devices": "መሣሪያ (አባላት)",
+    "finishedLower": "ጨርሰዋል",
+    "finishedPct": "{{pct}}% እስከ መጨረሻው ተመልክተዋል",
+    "inOut": "{{in}} አባላት · {{out}} ያልገቡ",
+    "leave": "{{pct}}% ይወጣሉ",
+    "linkClicks": "የአገናኝ ጠቅታዎች",
+    "newToYou": "ለእርስዎ አዲስ",
+    "noAccount": "መለያ የለም",
+    "noViewersYet": "እስካሁን ይህን ልጥፍ ያየ ማንም የለም።",
+    "noWatchYet": "ሰዎች ሲያጫውቱት የእይታ ጊዜ እዚህ ይታያል። መቁጠር የጀመረው በ31 Oct 2026 ነው።",
+    "open": "ልጥፍዎ እንዴት እየሄደ እንደሆነ ይመልከቱ",
+    "otherBadges": "ሌሎች ባጆች",
+    "peak": "ከፍተኛ {{time}} · {{n}}",
+    "peopleReached": "የተደረሱ ሰዎች",
+    "playsLower": "ማጫወቻዎች",
+    "playsMembers": "በአባላት የተጫወቱ",
+    "playsVisitors": "ሳይገቡ የተጫወቱ",
+    "profileTaps": "ወደ መገለጫዎ የተደረጉ መታዎች",
+    "reach": "ተደራሽነት",
+    "saves": "የተቀመጡ",
+    "seeAll": "ሁሉንም ስታቲስቲክስ ይመልከቱ",
+    "signedIn": "የገቡ",
+    "signedOutLower": "ያልገቡ",
+    "stillWatching": "አሁንም እየተመለከቱ",
+    "timesUsual": "ከተለመደው {{ratio}}×",
+    "vsUsualPct": "{{pct}} ከተለመደው ልጥፍዎ ጋር ሲነጻጸር",
+    "unavailableBody": "የዚህን ልጥፍ ስታቲስቲክስ ማየት የሚችለው ፈጣሪው ብቻ ነው።",
+    "unavailableTitle": "ስታቲስቲክስ አይገኝም",
+    "vsUsual": "ከተለመደው ልጥፍዎ ጋር ሲነጻጸር",
+    "watching": "እየተመለከቱ",
+    "whoSawIt": "ማን አየው",
+    "withRepeats": "{{n}} ድግግሞሾች",
+    "yourFollowers": "ተከታዮችዎ",
+    "first48": "የመጀመሪያዎቹ 48 ሰዓታት",
+    "howItsDoing": "እንዴት እየሄደ ነው",
+    "bestTip": "አብዛኞቹ ተመልካቾችዎ {{day}} በ{{hour}}:00 አካባቢ ይመጣሉ። ከዚያ ትንሽ ቀደም ብሎ መለጠፍ ለልጥፍ ምርጥ ጅምር ይሰጣል።",
+    "last30": "ያለፉት 30 ቀናት",
+    "day": {
+      "sun": "እሑድ",
+      "mon": "ሰኞ",
+      "tue": "ማክሰኞ",
+      "wed": "ረቡዕ",
+      "thu": "ሐሙስ",
+      "fri": "ዓርብ",
+      "sat": "ቅዳሜ"
+    }
   },
   "duet": {
     "policyEveryone": "ሁሉም",
     "policyFollowers": "ተከታዮች",
     "policyNobody": "ማንም",
     "loadMore": "ተጨማሪ ጫን",
-    "video": "ቪዲዮ"
+    "video": "ቪዲዮ",
+    "with": "ከ@{{username}} ጋር ዱዌት",
+    "withOriginal": "ዱዌት · ዋናውን ይመልከቱ",
+    "unavailable": "ይህ ቪዲዮ ከአሁን በኋላ ለዱዌት አይገኝም።",
+    "allowLabel": "ዱዌቶችን ፍቀድ",
+    "allowDescription": "ከቪዲዮዎችዎ ጎን ዱዌት መቅረጽ የሚችለው ማን ነው። በእያንዳንዱ ልጥፍ ላይም መቀየር ይችላሉ።",
+    "settingsSection": "ዱዌቶች",
+    "policyDefault": "የመለያ ቅንብር",
+    "saveFailed": "ማስቀመጥ አልተቻለም። እንደገና ይሞክሩ።",
+    "count_one": "{{count}} ዱዌት",
+    "count_other": "{{count}} ዱዌቶች",
+    "pageHeading": "ዱዌቶች",
+    "pageTitle": "የ{{title}} ዱዌቶች በ@{{creator}}",
+    "pageTitleNoCreator": "የ{{title}} ዱዌቶች",
+    "pageDescription": "የዚህን ቪዲዮ ሁሉንም ዱዌቶች በRiftn ላይ ይመልከቱ፣ ወይም የራስዎን ጎን ለጎን ይቅረጹ።",
+    "empty": "እስካሁን ዱዌቶች የሉም። የመጀመሪያውን ለመስራት የቪዲዮውን አማራጮች ከፍተው ሪሚክስ → ዱዌት ይምረጡ።",
+    "notFound": "ይህ ቪዲዮ አይገኝም።",
+    "notFoundTitle": "ቪዲዮው አልተገኘም — Riftn",
+    "browseShorts": "ሾርትስን ያስሱ"
   },
   "remixLinks": {
     "policy": {
       "everyone": "ሁሉም",
       "followers": "ተከታዮች",
-      "nobody": "ማንም"
+      "nobody": "ማንም",
+      "default": "የእኔ ነባሪ"
+    },
+    "shareFailed": "ቲፕዎ ተልኳል፣ ነገር ግን የዋናው ፈጣሪ ድርሻ አልደረሰም።",
+    "notify": {
+      "duet": "{{name}} ከቪዲዮዎ ጋር ዱዌት ሰርቷል",
+      "stitch": "{{name}} ቪዲዮዎን ስቲች አድርጓል",
+      "react": "{{name}} ለቪዲዮዎ ምላሽ ሰጥቷል",
+      "reactLive": "{{name}} ለቪዲዮዎ በቀጥታ ምላሽ እየሰጠ ነው"
+    },
+    "linkFailed": "ልጥፍዎ ወጥቷል፣ ነገር ግን ከዋናው ቪዲዮ ጋር ሊገናኝ አልቻለም።",
+    "settingsHeading": "ሪሚክሶች",
+    "stitch": {
+      "allow": "ስቲቾችን ፍቀድ",
+      "allowDesc": "ከቪዲዮዎችዎ እስከ 5 ሰከንድ በራሳቸው ቪዲዮ ውስጥ መጠቀም የሚችለው ማን ነው። በእያንዳንዱ ልጥፍም መቀየር ይችላሉ።",
+      "saveFailed": "የስቲች ቅንብርዎን ማስቀመጥ አልተቻለም። እንደገና ይሞክሩ።",
+      "settingFailed": "ልጥፍዎ ወጥቷል፣ ነገር ግን የስቲች ቅንብሩ አልተቀመጠም። ከ«ልጥፍ አርትዕ» ይቀይሩት።",
+      "from": "ከ{{name}} የተሰፋ",
+      "count_one": "{{count}} ስቲች",
+      "count_other": "{{count}} ስቲቾች",
+      "listTitle": "ስቲቾች",
+      "listFailed": "ስቲቾችን መጫን አልተቻለም። እንደገና ይሞክሩ።",
+      "listEmpty": "እስካሁን ስቲቾች የሉም።",
+      "unavailable": "ይህ ቪዲዮ ከአሁን በኋላ ለስቲች አይገኝም።"
     }
   },
   "reactions": {
     "policy": {
       "everyone": "ሁሉም",
       "followers": "ተከታዮች",
-      "nobody": "ማንም"
+      "nobody": "ማንም",
+      "default": "የመለያ ነባሪ ({{value}})"
     },
     "heading": "ምላሾች",
     "more": "ተጨማሪ አሳይ",
     "liveNow": "ቀጥታ",
-    "untitled": "ምላሽ"
+    "untitled": "ምላሽ",
+    "reactionTo": "ምላሽ ለ",
+    "reactingTo": "ምላሽ እየሰጡ ያሉት ለ",
+    "count_one": "{{count}} ምላሽ",
+    "count_other": "{{count}} ምላሾች",
+    "allow": "ምላሾችን ፍቀድ",
+    "remixesSection": "ሪሚክሶች",
+    "allowDescription": "ሌሎች ፈጣሪዎች ለቪዲዮዎችዎ በቀረጻ ወይም በቀጥታ ምላሽ እንዲሰጡ ይፍቀዱ። አሁንም በእያንዳንዱ ልጥፍ ላይ መቀየር ይችላሉ።",
+    "pageTitle": "ለ{{title}} የተሰጡ ምላሾች — Riftn",
+    "pageDescription": "ፈጣሪዎች በRiftn ላይ በ{{creator}} ለቀረበው «{{title}}» በቀረጻ እና በቀጥታ ምላሽ ሲሰጡ ይመልከቱ።",
+    "backToVideo": "ወደ ቪዲዮው ተመለስ",
+    "empty": "እስካሁን ምላሾች የሉም። የቪዲዮውን የሪሚክስ ምናሌ ከፍተው የመጀመሪያው ለመሆን «ምላሽ»ን ይምረጡ።",
+    "wasLive": "ቀጥታ ነበር",
+    "thisVideo": "ይህ ቪዲዮ"
   },
   "liveClips": {
     "copyLink": "አገናኝ ቅዳ",
-    "linkCopied": "አገናኝ ተገለበጠ"
+    "linkCopied": "አገናኝ ተገለበጠ",
+    "button": "ይህን ቅጽበት ክሊፕ አድርግ",
+    "capturing": "የዥረቱን የመጨረሻ ደቂቃ በመያዝ ላይ…",
+    "failed": "ይህ ክሊፕ ሊሰራ አልቻለም።",
+    "highlightTitle": "ድምቀት",
+    "length": "የ{{seconds}}ሰ ክሊፕ",
+    "make": "ክሊፕ ስራ",
+    "postToShorts": "ወደ ሾርትስ ለጥፍ",
+    "posted": "ክሊፑ ወደ ሾርትስ ተለጥፏል",
+    "postedBody": "ክሊፕዎ በሾርትስ ላይ ነው። ብዙ ሰዎች ዥረቱን እንዲያገኙ ያጋሩት።",
+    "rendering": "ክሊፕዎን በመቁረጥ ላይ። ይህ በግምት ግማሽ ደቂቃ ይወስዳል…",
+    "starting": "ክሊፕዎን በመጀመር ላይ…",
+    "title": "ክሊፕ",
+    "titleLabel": "የክሊፕ ርዕስ",
+    "titlePlaceholder": "ለክሊፕዎ ርዕስ ይስጡ",
+    "viewShort": "ሾርቱን ይመልከቱ"
   },
   "liveHype": {
     "gift": {
@@ -15362,16 +16757,65 @@
       "stage": {
         "preparing": "በዝግጅት ላይ…",
         "confirming": "ግብይቱን በመጠበቅ ላይ…",
-        "recording": "በማጠናቀቅ ላይ…"
-      }
+        "recording": "በማጠናቀቅ ላይ…",
+        "wallet": "በኪስ ቦርሳዎ ውስጥ ያረጋግጡ"
+      },
+      "open": "የደንበኝነት ምዝገባዎችን በስጦታ ይስጡ",
+      "title": "የደንበኝነት ምዝገባዎችን በስጦታ ይስጡ",
+      "mode": {
+        "random": "በውይይት ውስጥ ያሉ የዘፈቀደ ተመልካቾች",
+        "user": "የተወሰነ ሰው"
+      },
+      "randomHint": "ባለፉት 30 ደቂቃዎች ውስጥ ለተወያዩ እና እስካሁን ላልተመዘገቡ ሰዎች ይሄዳል።",
+      "send_one": "1 ምዝገባ በስጦታ ይስጡ · ${{price}}",
+      "send_other": "{{count}} ምዝገባዎችን በስጦታ ይስጡ · ${{price}}",
+      "payHint": "ከኪስ ቦርሳዎ በቶከኖች በአንድ ዝውውር ይከፈላል።",
+      "fewer_one": "አሁን በውይይት ውስጥ ምዝገባ መቀበል የሚችለው 1 ሰው ብቻ ነው፣ ስለዚህ ለ1 ይከፍላሉ።",
+      "fewer_other": "አሁን በውይይት ውስጥ ምዝገባ መቀበል የሚችሉት {{count}} ሰዎች ብቻ ናቸው፣ ስለዚህ ለ{{count}} ይከፍላሉ።",
+      "done_one": "የደንበኝነት ምዝገባ በስጦታ ተሰጥቷል!",
+      "done_other": "{{count}} የደንበኝነት ምዝገባዎች በስጦታ ተሰጥተዋል!",
+      "failed": "የደንበኝነት ምዝገባዎችን በስጦታ መስጠት አልተቻለም",
+      "notReady": "ለዚህ ዕቅድ ስጦታ መስጠት ገና አይገኝም",
+      "noPlan": "መጀመሪያ ዕቅድ ይምረጡ",
+      "noPlans": "{{name}} እስካሁን በስጦታ የሚሰጡ የደንበኝነት ምዝገባ ዕቅዶች የሉትም።"
+    },
+    "train": {
+      "level": "የሃይፕ ባቡር · ደረጃ {{level}}",
+      "endedLevel": "የሃይፕ ባቡሩ ደረጃ {{level}}ን አጠናቋል!",
+      "ended": "የሃይፕ ባቡሩ አብቅቷል",
+      "thanks_one": "ለ{{count}} ደጋፊ እናመሰግናለን",
+      "thanks_other": "ለ{{count}} ደጋፊዎች እናመሰግናለን",
+      "top": "ከፍተኛ፦ {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "ሌላ",
-    "confirming": "የክፍያ ማረጋገጫ…"
+    "confirming": "የክፍያ ማረጋገጫ…",
+    "lockPhoto": "ፎቶ ቆልፍ",
+    "lockVideo": "ቪዲዮ ቆልፍ",
+    "lockOnPrice": "ተቆልፏል · {{price}} ቶከኖች",
+    "lockCustomLabel": "ብጁ ዋጋ በቶከኖች",
+    "lockHint": "እስኪከፍሉዎት ድረስ ደብዝዞ ያዩታል። የተቆለፉ ፋይሎች ከጫፍ እስከ ጫፍ የተመሰጠሩ አይደሉም።",
+    "dhbNow": "{{dhb}} በዛሬው ዋጋ",
+    "lockCustomUsd": "$ ሌላ",
+    "lockCustomUsdLabel": "ብጁ ዋጋ በዶላር",
+    "lockDhbNow": "≈ ዛሬ {{dhb}}። ቶከኖች ምንም ያህል ዋጋ ቢኖራቸው ሁልጊዜ {{price}} ይከፍላሉ።",
+    "lockOnUsd": "ተቆልፏል · {{price}}",
+    "lockedPhoto": "የተቆለፈ ፎቶ",
+    "lockedVideo": "የተቆለፈ ቪዲዮ",
+    "unlockFor": "በ{{price}} ይክፈቱ",
+    "unlockOnWeb": "በriftn.com ላይ ይክፈቱ · {{price}}",
+    "stillConfirming": "ክፍያው ተልኳል። እንደተረጋገጠ ወዲያውኑ ይከፈታል።",
+    "payFailed": "መክፈት አልተቻለም",
+    "unlocked": "ተከፍቷል",
+    "unlockedTag": "ተከፍቷል",
+    "notYet": "እስካሁን አልተከፈተም",
+    "uploading": "በመቆለፍ ላይ…",
+    "unlockedByThem": "የተቆለፈው {{kind}}ዎ ተከፍቷል፦ +{{amount}} ቶከኖች"
   },
   "liveShorts": {
-    "live": "በቀጥታ"
+    "live": "በቀጥታ",
+    "join": "ቀጥታውን ይቀላቀሉ"
   },
   "feedFilters": {
     "clearAllShort": "ሁሉንም አጽዳ",
@@ -15380,7 +16824,20 @@
     "groupDate": "ቀን",
     "groupSort": "ደርድር",
     "groupType": "ዓይነት",
-    "save": "አስቀምጥ"
+    "save": "አስቀምጥ",
+    "clearAll": "ሁሉንም ማጣሪያዎች አጽዳ",
+    "collapse": "ማጣሪያዎችን ደብቅ",
+    "count": "{{count}} ማጣሪያዎች በርተዋል",
+    "deletePreset": "{{name}}ን ሰርዝ",
+    "groupAccess": "መዳረሻ",
+    "groupTag": "መለያ",
+    "myPresets": "የእኔ ቅድመ-ቅንብሮች",
+    "presetName": "የቅድመ-ቅንብር ስም",
+    "remove": "{{label}}ን አስወግድ",
+    "saveCurrent": "+ የአሁኑን አስቀምጥ",
+    "savePreset": "እንደ ቅድመ-ቅንብር አስቀምጥ",
+    "show": "ማጣሪያዎችን አሳይ",
+    "updatePreset": "ቅድመ-ቅንብሩን እንደገና ሰይም"
   },
   "ownKeys": {
     "working": "መስራት",
@@ -15388,7 +16845,21 @@
     "check": "አረጋግጥ",
     "remove": "አስወግድ",
     "save": "አስቀምጥ",
-    "cancel": "ሰርዝ"
+    "cancel": "ሰርዝ",
+    "title": "የእርስዎ የራስ AI ቁልፎች",
+    "description": "ከAI አቅራቢ ቁልፍ ያክሉ እና የፈጣሪ መሳሪያዎች በምትኩ በመለያዎ ላይ ይሰራሉ። Riftn ለእነዚያ ሥራዎች ምንም አያስከፍልም። ቁልፎች የተመሰጠሩ ናቸው እና ዳግም አይታዩም።",
+    "invalid": "ውድቅ ተደርጓል፣ ይተኩት",
+    "noCredit": "ክሬዲት አልቋል",
+    "disabled": "በRiftn ጠፍቷል",
+    "saved": "የ{{name}} ቁልፍ ተቀምጧል። በ{{name}} ላይ ያሉ መሳሪያዎች አሁን መለያዎን ይጠቀማሉ።",
+    "savedNoCredit": "የ{{name}} ቁልፍ ተቀምጧል፣ ነገር ግን መለያው ክሬዲት አልቆበታል።",
+    "removed": "የ{{name}} ቁልፍ ተወግዷል።",
+    "replaceKey": "ቁልፉን ተካ",
+    "add": "ቁልፍ ያክሉ",
+    "paste": "የ{{name}} ቁልፍዎን ይለጥፉ",
+    "getKey": "የ{{name}} ቁልፍ ያግኙ",
+    "showLess": "የእኔን ቁልፎች ብቻ አሳይ",
+    "addAnother": "ሌላ አቅራቢ ያክሉ"
   },
   "postBg": {
     "addMedia": "ፎቶ፣ GIF ወይም ቪዲዮ ያክሉ",
@@ -15403,55 +16874,178 @@
       "drive": "የምሽት ድራይቭ",
       "chrome": "ፈሳሽ ክሮም",
       "orbit": "ምህዋር",
-      "snow": "የበረዶ ዝናብ"
+      "snow": "የበረዶ ዝናብ",
+      "ink": "የቀለም እጥበት",
+      "news": "የጋዜጣ ወረቀት",
+      "split": "የምሽት ክፍፍል",
+      "blue": "ንድፍ ካርታ",
+      "terra": "ቴራዞ",
+      "half": "ሃልፍቶን ፖፕ",
+      "topo": "ኮንቱር",
+      "velvet": "ቬልቬት",
+      "sorbet": "ሶርቤ",
+      "carbon": "ካርቦን",
+      "echo": "የመገለጫ ማስተጋቢያ",
+      "cards": "የቀለም ካርዶች",
+      "deck": "የንድፍ ስብስብ",
+      "stars": "የከዋክብት መስክ",
+      "rain": "ዝናብ በመስታወት ላይ",
+      "breathe": "ተንፍስ",
+      "spin": "የፕሪዝም ሽክርክሪት",
+      "tide": "ማዕበል",
+      "ember": "ፍም",
+      "holo": "ሆሎ ፎይል",
+      "rift": "ስንጥቅ",
+      "mesh": "መረብ",
+      "grain": "የፊልም ቅንጣት",
+      "ripple": "ሞገድ",
+      "dotwave": "የነጥብ ሞገድ",
+      "scan": "CRT",
+      "silk": "ሐር",
+      "bokeh": "ቦኬ",
+      "photo": "የእርስዎ ምስል"
     },
-    "sameAsProfile": "መገለጫ"
+    "sameAsProfile": "መገለጫ",
+    "scope": "ተግብር ለ",
+    "thisPost": "ይህ ልጥፍ",
+    "allPosts": "ሁሉም ልጥፎች",
+    "sameAsProfileSub": "ከመገለጫዎ ጋር ተመሳሳይ",
+    "title": "የልጥፍ ዳራ",
+    "editRow": "የልጥፍ ዳራ",
+    "hint": "ሰቅሉን ያንሸራትቱ። ሲሄዱ ልጥፍዎ ይቀየራል። ይህን መቀየር የሚችሉት እርስዎ ብቻ ነዎት።",
+    "moving": "የሚንቀሳቀስ",
+    "still": "የማይንቀሳቀስ",
+    "plain": "ቀላል ልጥፎች",
+    "position": "{{n}} ከ{{total}}",
+    "sample": "የጽሑፍ ልጥፎችዎ በመገለጫዎ ላይ የሚታዩት በዚህ መልኩ ነው።",
+    "saveFailed": "ዳራዎን ማስቀመጥ አልተቻለም። እንደገና ይሞክሩ።",
+    "base": "መሠረት",
+    "accent2": "ማድመቂያ 2",
+    "ownColours": "የእርስዎ የራስ ቀለሞች"
   },
   "articleTile": {
-    "cover": "ሽፋን"
+    "cover": "ሽፋን",
+    "title": "የመጣጥፍ ሰቆች",
+    "dropcap": "ትልቅ መነሻ ፊደል",
+    "hint": "መጣጥፎችዎ በመገለጫ ፍርግርግዎ ላይ እንዴት እንደሚታዩ። ይህን መቀየር የሚችሉት እርስዎ ብቻ ነዎት።",
+    "saveFailed": "ማስቀመጥ አልተቻለም። እንደገና ይሞክሩ።"
   },
   "aiConsent": {
-    "allow": "ፍቀድ"
+    "allow": "ፍቀድ",
+    "title": "የAI ባህሪያትን ይጠቀሙ?",
+    "body": "ለመስራት፣ የAI ባህሪያት የሚሰጧቸውን (ጽሑፍዎን፣ ፎቶዎችዎን ወይም ድምፅዎን፣ እና የሚመለከተውን ልጥፍ ወይም ውይይት) እንደ Google፣ OpenAI፣ Groq፣ OpenRouter፣ fal እና ElevenLabs ላሉ የሶስተኛ ወገን AI አቅራቢዎች ይልካሉ። ይህን በማንኛውም ጊዜ በቅንብሮች → ግላዊነት ውስጥ መቀየር ይችላሉ።",
+    "declined": "የAI ባህሪያት ጠፍተዋል። በቅንብሮች → ግላዊነት ውስጥ ማብራት ይችላሉ።",
+    "settingLabel": "የAI ባህሪያት",
+    "settingDesc": "ረዳቱ፣ ትርጉም፣ የተጠቆሙ ምላሾች እና የአጻጻፍ እገዛ የሚሰጧቸውን ለሶስተኛ ወገን AI አቅራቢዎች እንዲልኩ ይፍቀዱ።"
   },
   "dmRequests": {
     "title": "ጥያቄዎች",
     "accept": "ተቀበል",
     "delete": "ሰርዝ",
-    "block": "አግድ"
+    "block": "አግድ",
+    "hint": "ከማይከተሏቸው ሰዎች የመጡ መልዕክቶች። አንዱን ይቀበሉ፣ ይመልሱ ወይም ይከተሏቸው እና ውይይቱ ወደ የገቢ መልዕክት ሳጥንዎ ይዛወራል።",
+    "rowHint": "ከማይከተሏቸው ሰዎች {{n}}",
+    "banner": "{{name}}ን አይከተሉም። ይህን ውይይት ወደ የገቢ መልዕክት ሳጥንዎ ለማዛወር ይቀበሉ፣ ወይም በቀላሉ ይመልሱ።",
+    "accepted": "ወደ የገቢ መልዕክት ሳጥንዎ ተዛውሯል",
+    "acceptFailed": "መቀበል አልተቻለም፣ እንደገና ይሞክሩ"
   },
   "dmSchedule": {
     "view": "ተመልከት",
     "edit": "አርትዕ",
     "editLabel": "መልዕክት አርትዕ",
-    "error": "ያ አልሰራም እንደገና ሞክር ።"
+    "error": "ያ አልሰራም እንደገና ሞክር ።",
+    "button": "መልዕክት መርሐግብር ያስይዙ",
+    "title": "መርሐግብር የተያዘላቸው መልዕክቶች",
+    "whenTitle": "መቼ ይላክ?",
+    "waiting": "{{n}} መርሐግብር ተይዟል",
+    "next": "ቀጣይ {{when}}",
+    "failedCount": "{{n}} አልተላኩም",
+    "notSent": "አልተላከም",
+    "emptyTitle": "ምንም መርሐግብር የተያዘለት የለም",
+    "emptyBody": "መልዕክት ይጻፉ፣ ከዚያ መቼ እንደሚላክ ለመምረጥ ሰዓቱን መታ ያድርጉ።",
+    "changeTime": "ሰዓቱን ቀይር",
+    "sendNow": "አሁን ላክ",
+    "deleted": "መርሐግብር የተያዘለት መልዕክት ተሰርዟል",
+    "unreadable": "በሌላ መሣሪያ ላይ ተጽፏል። አሁንም ይላካል።",
+    "footnote": "ሰዓቶቹ በእርስዎ የሰዓት ሰቅ ናቸው። መልዕክት እስኪላክ ድረስ ማንም አያየውም።",
+    "footnoteNamed": "ሰዓቶቹ በእርስዎ የሰዓት ሰቅ ናቸው። {{name}} መልዕክትን የሚያየው ከተላከ በኋላ ብቻ ነው።",
+    "textOnly": "ለአሁን መርሐግብር ሊያዝላቸው የሚችሉት የጽሑፍ መልዕክቶች ብቻ ናቸው።",
+    "scheduledToast": "ለ{{when}} መርሐግብር ተይዟል",
+    "failedToast": "መርሐግብር የተያዘለት መልዕክት ሊላክ አልቻለም"
   },
   "chatBulk": {
     "selected": "{{count}} ተመርጧል",
     "cancel": "ሰርዝ",
     "reply": "መልስ",
-    "delete": "ሰርዝ"
+    "delete": "ሰርዝ",
+    "select": "ምረጥ",
+    "toolbar": "የተመረጡ ውይይቶች",
+    "pick": "ለመምረጥ ውይይቶችን መታ ያድርጉ",
+    "read": "እንደተነበበ ምልክት አድርግ",
+    "unread": "እንዳልተነበበ ምልክት አድርግ",
+    "replyTitle_one": "ለ{{count}} ውይይት ይመልሱ",
+    "replyTitle_other": "ለ{{count}} ውይይቶች ይመልሱ",
+    "replyHint": "እያንዳንዱ ሰው ይህን በራሱ ውይይት ውስጥ እንደ መደበኛ መልዕክት ያገኛል።",
+    "replyPlaceholder": "መልዕክት ይጻፉ…",
+    "sendAll": "ለ{{count}} ላክ",
+    "deleted_one": "{{count}} ውይይት ተሰርዟል",
+    "deleted_other": "{{count}} ውይይቶች ተሰርዘዋል",
+    "sent_one": "ለ{{count}} ውይይት ተልኳል",
+    "sent_other": "ለ{{count}} ውይይቶች ተልኳል",
+    "partSent": "ከ{{total}} ውይይቶች ለ{{ok}} ተልኳል",
+    "notSent": "መላክ አልተቻለም። እንደገና ይሞክሩ።"
   },
   "msgSelect": {
     "selected": "{{count}} ተመርጧል",
     "copy": "ቅዳ",
     "forward": "አስተላልፍ",
     "deleted_one": "ተሰርዟል {{count}} መልዕክት",
-    "deleted_other": "ተሰርዟል {{count}} መልዕክቶች"
+    "deleted_other": "ተሰርዟል {{count}} መልዕክቶች",
+    "toolbar": "የተመረጡ መልዕክቶች",
+    "pick": "ለመምረጥ መልዕክቶችን መታ ያድርጉ",
+    "deleteSome": "{{count}} ሰርዝ",
+    "forwarded_one": "{{count}} መልዕክት ተላልፏል",
+    "forwarded_other": "{{count}} መልዕክቶች ተላልፈዋል",
+    "partForwarded": "ከ{{total}} {{ok}} ተላልፈዋል",
+    "nothingToCopy": "በተመረጡት መልዕክቶች ውስጥ የሚቀዳ ነገር የለም",
+    "copied_one": "{{count}} መልዕክት ተቀድቷል",
+    "copied_other": "{{count}} መልዕክቶች ተቀድተዋል",
+    "deleteTitle_one": "{{count}} መልዕክት ይሰረዝ?",
+    "deleteTitle_other": "{{count}} መልዕክቶች ይሰረዙ?",
+    "deleteBody": "በዚህ ውይይት ውስጥ ላሉት ሁሉ ይወገዳሉ።",
+    "deleteForBothBody": "ለሁለታችሁም ይወገዳሉ።"
   },
   "messagesTabs": {
-    "all": "ሁሉም"
+    "all": "ሁሉም",
+    "unread": "ያልተነበቡ",
+    "groups": "ቡድኖች"
   },
   "mentionLinks": {
     "communities": "ማህበረሰቦች",
     "pages": "ገጾች",
-    "people": "ሰዎች"
+    "people": "ሰዎች",
+    "linkTo": "{{name}}ን አገናኝ"
   },
   "resetWallet": {
     "mismatch": "የይለፍ ቃሎች አይዛመዱም",
     "logOut": "ወደ ውጭ ይግቡ",
     "confirm": "የይለፍ ቃል ያረጋግጡ",
     "ack": "ቆንጆ ገንዘብ በቆንጆ ዋሊት ውስጥ ይቆያል ብዬ ተረድቻለሁ።",
-    "cancel": "ሰርዝ"
+    "cancel": "ሰርዝ",
+    "tooShort": "የይለፍ ቃል ቢያንስ {{count}} ቁምፊዎች መሆን አለበት",
+    "breached": "ይህ የይለፍ ቃል በውሂብ ጥሰት ውስጥ ታይቷል። የተለየ ይምረጡ",
+    "weak": "የበለጠ ጠንካራ የይለፍ ቃል ይምረጡ (ፊደላትን፣ ቁጥሮችን እና ምልክቶችን ያቀላቅሉ)",
+    "doneTitle": "መለያዎ በአዲሱ የኪስ ቦርሳው ላይ ነው",
+    "twoFactor": "መለያዎን ለማዛወር ከማረጋገጫ መተግበሪያዎ ኮዱን ያስገቡ።",
+    "failed": "የኪስ ቦርሳዎን ዳግም ማስጀመር አልተቻለም። ምንም አልተዛወረም። እንደገና ይሞክሩ።",
+    "title": "የኪስ ቦርሳን ዳግም አስጀምር",
+    "reloginApp": "ዳግም ማስጀመር የሚረጋገጠው በቀድሞው የኪስ ቦርሳ ሳይሆን በመለያዎ ኢሜይል፣ ስልክ ወይም Google መግቢያ ነው፣ ምክንያቱም የቀድሞውን ቁልፍ የያዘ ማንኛውም ሰው መፈረም ይችላል። ይውጡ፣ በዚያ መግቢያ እንደገና ይግቡ፣ ከዚያ ወደዚህ ይመለሱ። እስካሁን የመግቢያ ኢሜይል የለዎትም? መጀመሪያ በriftn.com ላይ በቅንብሮች → መግቢያ ስር ያክሉ።",
+    "intro": "አዲስ የRiftn የኪስ ቦርሳ ይሰራል እና የተጠቃሚ ስምዎን፣ ልጥፎችዎን፣ ተከታዮችዎን እና መልዕክቶችዎን ወደ እሱ ያዛውራል። የኪስ ቦርሳዎ ከጠፋ ወይም ሌላ ሰው ቁልፉን ከያዘ ይህን ይጠቀሙ። የቀድሞው የኪስ ቦርሳ ለመግቢያ መስራት ያቆማል።",
+    "funds": "ቶከኖች፣ NFTዎች እና ሌሎች ቀሪ ሂሳቦች አይዛወሩም። በቀድሞው አድራሻ ይቆያሉ። የቀድሞውን የኪስ ቦርሳ አሁንም መክፈት ከቻሉ፣ መጀመሪያ ያውጧቸው።",
+    "password": "አዲስ የኪስ ቦርሳ የይለፍ ቃል (ቢያንስ {{count}} ቁምፊዎች)",
+    "twoFactorPlaceholder": "የማረጋገጫ ኮድ",
+    "submit": "የኪስ ቦርሳን ዳግም አስጀምር",
+    "rowDesc": "የኪስ ቦርሳዎ ጠፍቷል፣ ወይም ሌላ ሰው ቁልፉን ይዟል? መለያዎን ወደ አዲስ የኪስ ቦርሳ ያዛውሩ። የተጠቃሚ ስምዎ፣ ልጥፎችዎ እና ተከታዮችዎ አብረውዎት ይመጣሉ።"
   },
   "chatTabs": {
     "all": "ሁሉም",
@@ -15467,6 +17061,101 @@
     "requests": "ጥያቄዎች",
     "sCreators": "ፈጣሪዎች",
     "sGaming": "ጨዋታ",
-    "sTrading": "ትሬዲንግ"
+    "sTrading": "ትሬዲንግ",
+    "addChats": "ውይይቶችን ያክሉ",
+    "addToTab": "ወደ ትር ያክሉ",
+    "addedTo": "ወደ {{name}} ታክሏል",
+    "builtIn": "አብሮ የተሰራ",
+    "chatCount": "{{n}} ውይይቶች",
+    "chatsInTab": "በዚህ ትር ውስጥ ያሉ ውይይቶች",
+    "create": "ትር ፍጠር",
+    "delete": "ትሩን ሰርዝ",
+    "deleteBody": "ትሩ ይጠፋል። ውይይቶቹ በ«ሁሉም» ውስጥ ይቆያሉ እና መልዕክቶቻቸውን ይጠብቃሉ።",
+    "deleteTitle": "«{{name}}» ይሰረዝ?",
+    "deleted": "{{name}} ተሰርዟል",
+    "edit": "ትሮችን አርትዕ",
+    "editHintApp": "ቅደም ተከተሉን ለመቀየር ቀስቶቹን ይጠቀሙ። የተደበቁ ትሮች ውይይቶቻቸውን ይጠብቃሉ።",
+    "editTab": "ትሩን አርትዕ",
+    "emoji": "ኢሞጂ ይምረጡ",
+    "emptyBody": "ውይይቶችን እዚህ ያክሉ እና በ«ሁሉም» ውስጥም ይቆያሉ።",
+    "emptyTitle": "{{name}} ባዶ ነው",
+    "hide": "ትሩን ደብቅ",
+    "kindChannel": "ቻናል",
+    "moveLeft": "ወደ ግራ አንቀሳቅስ",
+    "moveRight": "ወደ ቀኝ አንቀሳቅስ",
+    "namePlaceholder": "የትር ስም",
+    "new": "አዲስ ትር",
+    "newWith": "አዲስ ትር…",
+    "noEmoji": "ኢሞጂ የለም",
+    "picked": "{{n}} ተመርጠዋል",
+    "removedFrom": "ከ{{name}} ተወግዷል",
+    "renameEdit": "እንደገና ሰይም እና አርትዕ",
+    "sFriends": "ጓደኞች",
+    "sWork": "ሥራ",
+    "saveFailed": "ትሮችዎን ማስቀመጥ አልተቻለም፣ እንደገና ይሞክሩ",
+    "show": "ትሩን አሳይ",
+    "tooMany": "እስከ 10 ትሮች ሊኖሩዎት ይችላሉ"
+  },
+  "chatReactions": {
+    "many_one": "ለመልዕክቶችዎ {{count}} ምላሽ",
+    "many_other": "ለመልዕክቶችዎ {{count}} ምላሾች",
+    "manySame_one": "በመልዕክቶችዎ ላይ {{emoji}} × {{count}}",
+    "manySame_other": "በመልዕክቶችዎ ላይ {{emoji}} × {{count}}",
+    "one": "ለመልዕክትዎ {{emoji}} ምላሽ ሰጥቷል",
+    "oneNamed": "{{name}} ለመልዕክትዎ {{emoji}} ምላሽ ሰጥቷል"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "ልጥፉ እንዳለ ይቆያል።",
+      "onBody": "ልጥፉ ከወጣ ከ{{value1}} በኋላ ራሱን ይሰርዛል።"
+    }
+  },
+  "accountDeactivation": {
+    "title": "መለያን አቦዝን",
+    "short": "መገለጫዎን ለጊዜው ይደብቁ። ለመመለስ እንደገና ይግቡ",
+    "description": "በምትኩ እረፍት ይውሰዱ። መገለጫዎ፣ ልጥፎችዎ እና አስተያየቶችዎ ይደበቃሉ እና ከሁሉም ቦታ ይወጣሉ። ምንም አይሰረዝም፣ እና እንደገና መግባት ሁሉንም መልሶ ያመጣል።",
+    "button": "አቦዝን",
+    "confirmTitle": "መለያዎን ያቦዝኑ?",
+    "confirmBody": "መገለጫዎ፣ ልጥፎችዎ እና አስተያየቶችዎ ይደበቃሉ እና ከእያንዳንዱ መሣሪያ ይወጣሉ። ይህን ለመቀልበስ በማንኛውም ጊዜ እንደገና ይግቡ።",
+    "busy": "በማቦዘን ላይ…",
+    "done": "መለያው ቦዝኗል",
+    "receipt": "መገለጫዎ፣ ልጥፎችዎ እና አስተያየቶችዎ ተደብቀዋል። ሁሉንም ለመመለስ በማንኛውም ጊዜ እንደገና ይግቡ።",
+    "error": "መለያዎን ማቦዘን አልተቻለም። እባክዎ እንደገና ይሞክሩ።",
+    "acknowledge": "መገለጫዬ እንደሚደበቅ እና ከሁሉም ቦታ እንደምወጣ ተረድቻለሁ።",
+    "understand": "ተረድቻለሁ"
+  },
+  "halloween": {
+    "title": "መልካም ሃሎዊን",
+    "otherThemes": "የሚያስፈራ ስሜት የለዎትም? ሌሎች ገጽታዎችን ያግኙ፦",
+    "enter": "ወደ ጉድጓዱ ይግቡ"
+  },
+  "riftnMove": {
+    "title": "DeHub አሁን Riftn ሆኗል",
+    "body": "ያው መተግበሪያ፣ ያው መለያ፣ ያው ጓደኞች። አዲስ ስም ብቻ።",
+    "continue": "ለመቀጠል መታ ያድርጉ"
+  },
+  "dmSafety": {
+    "notReal": "ይህ እውነተኛው {{name}} አይደለም።",
+    "neverLink": "የRiftn ቡድን መገለጫዎን ወይም የኪስ ቦርሳዎን ለማስተካከል አገናኝ በDM በፍጹም አይልክልዎትም። አገናኞችን አይክፈቱ፣ የኪስ ቦርሳዎን አያገናኙ ወይም ምንም ነገር አይፈርሙ። ይህን መለያ ያግዱ እና ሪፖርት ያድርጉ።"
+  },
+  "profileImage": {
+    "change": "ቀይር"
+  },
+  "msgDelete": {
+    "title": "መልዕክቱ ይሰረዝ?",
+    "titleMany": "{{count}} መልዕክቶች ይሰረዙ?",
+    "bodyOwn": "ከውይይትዎ ብቻ ወይም ለሁሉም ያስወግዱት።",
+    "bodyOwnMany": "ከውይይትዎ ብቻ ወይም ለሁሉም ያስወግዷቸው።",
+    "bodyOthers": "ከውይይትዎ ብቻ ይወገዳል። ሌላኛው ሰው አሁንም ያየዋል።",
+    "bodyOthersMany": "ከውይይትዎ ብቻ ይወገዳሉ። በውይይቱ ውስጥ ያሉ ሌሎች አሁንም ያዩዋቸዋል።",
+    "bodyOwnBoth": "ከውይይትዎ ብቻ ወይም ለሁለታችሁም ያስወግዱት።",
+    "bodyOwnBothMany": "ከውይይትዎ ብቻ ወይም ለሁለታችሁም ያስወግዷቸው።",
+    "forMe": "ለእኔ ሰርዝ",
+    "forEveryone": "ለሁሉም ሰርዝ",
+    "forBoth": "ለሁለታችንም ሰርዝ",
+    "forMeAndName": "ለእኔ እና ለ{{name}} ሰርዝ",
+    "remember": "ምርጫዬን አስታውስ",
+    "rememberHint": "በማንኛውም ጊዜ በቅንብሮች ውስጥ ይቀይሩት",
+    "failed": "መልዕክቱን መሰረዝ አልተቻለም"
   }
 }

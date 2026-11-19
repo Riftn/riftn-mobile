@@ -17,6 +17,7 @@ import {
   ActivityIndicator,
   FlatList,
   Alert,
+  type LayoutChangeEvent,
 } from "react-native";
 import { useBackPress } from "../hooks/useBackPress";
 
@@ -854,6 +855,49 @@ const SearchScreen: React.FC = () => {
     return null;
   }, [loadingMore, activeTab, accountsPagination, contentPagination, accounts.length, content.length]);
 
+  const handleCleanListLayout = useCallback((e: LayoutChangeEvent) => {
+    cleanListY.current = e.nativeEvent.layout.y;
+  }, []);
+  const handleNewMembersLayout = useCallback((layout: { y: number; height: number }) => {
+    newMembersLayout.current = { y: cleanListY.current + layout.y, height: layout.height };
+  }, []);
+  // Built once and kept while what it shows is unchanged. Inline, it was a new
+  // header on every key typed in the search box, and the whole Explore list
+  // under the keyboard was redrawn for each letter.
+  const hasTrending = !trendingLoading && trendingVideos.length > 0;
+  const idleHeader = useMemo(() => (
+    <>
+    {/* The clean list (web's ExplorePhoneHome): category words, then
+        recent searches, trending tags, who is live, top tokens and
+        people, one line each. A category word swaps it for that
+        category's newest posts. */}
+    {categories.length > 0 && (
+      <ExploreCategoryWords
+        categories={categories}
+        value={browseCategory}
+        onChange={pickBrowseCategory}
+      />
+    )}
+    {!browseCategory && (
+      <View onLayout={handleCleanListLayout}>
+        <ExploreCleanList
+          recentSearches={searchHistory}
+          onSearch={handleSuggestionClick}
+          onRemoveSearch={handleRemoveHistory}
+          onClearSearches={handleClearHistory}
+          onTopic={handleExploreTopic}
+          onNewMembersLayout={handleNewMembersLayout}
+        />
+      </View>
+    )}
+    {!browseCategory && hasTrending && (
+      <ExploreSection icon="posts" title={t(TRENDING_LABEL[activeTab] || "search.trendingThisWeek")}>
+        <View />
+      </ExploreSection>
+    )}
+    </>
+  ), [categories, browseCategory, pickBrowseCategory, searchHistory, handleSuggestionClick, handleRemoveHistory, handleClearHistory, handleExploreTopic, handleCleanListLayout, handleNewMembersLayout, hasTrending, activeTab, t]);
+
   const renderContent = () => {
     // Loading
     if (loading) {
@@ -1116,38 +1160,7 @@ const SearchScreen: React.FC = () => {
         scrollEventThrottle={16}
         scrollIndicatorInsets={{ top: headerHeight }}
         contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: insets.bottom + 80 }}
-        ListHeaderComponent={<>
-        {/* The clean list (web's ExplorePhoneHome): category words, then
-            recent searches, trending tags, who is live, top tokens and
-            people, one line each. A category word swaps it for that
-            category's newest posts. */}
-        {categories.length > 0 && (
-          <ExploreCategoryWords
-            categories={categories}
-            value={browseCategory}
-            onChange={pickBrowseCategory}
-          />
-        )}
-        {!browseCategory && (
-          <View onLayout={(e) => { cleanListY.current = e.nativeEvent.layout.y; }}>
-            <ExploreCleanList
-              recentSearches={searchHistory}
-              onSearch={handleSuggestionClick}
-              onRemoveSearch={handleRemoveHistory}
-              onClearSearches={handleClearHistory}
-              onTopic={handleExploreTopic}
-              onNewMembersLayout={(layout) => {
-                newMembersLayout.current = { y: cleanListY.current + layout.y, height: layout.height };
-              }}
-            />
-          </View>
-        )}
-        {!browseCategory && !trendingLoading && trendingVideos.length > 0 && (
-          <ExploreSection icon="posts" title={t(TRENDING_LABEL[activeTab] || "search.trendingThisWeek")}>
-            <View />
-          </ExploreSection>
-        )}
-        </>}
+        ListHeaderComponent={idleHeader}
         ListEmptyComponent={trendingLoading ? (
           <View className="px-2 pt-2">
             <FeedCardSkeleton count={3} />

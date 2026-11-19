@@ -1599,7 +1599,17 @@
     "menuLayoutSections": "Secties",
     "menuLayoutSectionsDesc": "Alle pagina's tegelijk, onder kopjes",
     "menuLayoutFolders": "Mappen",
-    "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep"
+    "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep",
+    "publicChatInBar": "Openbare chat in de onderste balk",
+    "publicChatInBarDesc": "Met één tik vanuit de balk onderaan het scherm naar de openbare chat",
+    "loginLook": {
+      "title": "Inlogscherm",
+      "desc": "Hoe het Riftn-logo en de slogan bewegen op het inlogscherm op dit apparaat.",
+      "tube": "Buis-tv",
+      "vhs": "VHS-band",
+      "led": "LED-wand",
+      "holo": "Hologram"
+    }
   },
   "common": {
     "loadMore": "Meer laden",
@@ -2700,6 +2710,12 @@
     "hidden": "Verborgen",
     "noDataForPeriod": "Nog geen gegevens voor deze periode",
     "affiliates": "Partners",
+    "ogChallenge": "OG-uitdaging",
+    "ogHolders_one": "{{count}} OG-holder",
+    "ogHolders_other": "{{count}} OG-holders",
+    "ogChallengeTitle": "Haal de OG-holders terug",
+    "ogChallengeBody": "Nodig mensen uit die nog DHB hebben. Als ze via jouw uitnodigingslink lid worden en hun DHB in hun Riftn-wallet houden, tellen ze hier voor jou.",
+    "ogChallengeCta": "Haal je uitnodigingslink op",
     "directReferrals_one": "{{count}} rechtstreeks",
     "directReferrals_other": "{{count}} rechtstreeks",
     "secondaryReferrals_one": "{{count}} indirect",
@@ -4628,6 +4644,10 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "muteChat": "Dempen",
+    "mutedChat": "Gedempt",
+    "muteChatHint": "Geen meldingen meer van de chat van deze community. Je kunt hem nog steeds lezen",
+    "unmuteChatHint": "Weer meldingen krijgen van de chat van deze community",
     "newChat": {
       "description": "Waar gaat het over? (optioneel)",
       "groupCreated": "Groep gemaakt",
@@ -7543,6 +7563,8 @@
     "noLiveStreams": "Geen livestreams",
     "noOneStreaming": "Niemand streamt op dit moment. Kom later terug!",
     "loadStreamsFailed": "Streams konden niet worden geladen. Probeer het opnieuw.",
+    "shareLive": "Kijk nu live naar {{name}} op Riftn! \"{{title}}\"",
+    "shareReplay": "Bekijk de herhaling van de livestream van {{name}} op Riftn",
     "screenShare": {
       "start": "Scherm delen",
       "stop": "Stoppen met scherm delen",
@@ -17347,6 +17369,9 @@
     "tooMany": "Je kunt maximaal 10 tabbladen hebben"
   },
   "msgDelete": {
+    "chatTitle": "Deze chat verwijderen?",
+    "chatBodyBoth": "Verwijder hem alleen uit je chats, of verwijder alle berichten voor jullie allebei. Dit kan niet ongedaan worden gemaakt.",
+    "chatBodyMe": "Hij wordt alleen uit jouw chats verwijderd. Anderen zien hem nog wel.",
     "title": "Bericht verwijderen?",
     "titleMany": "{{count}} berichten verwijderen?",
     "bodyOwn": "Verwijder het alleen uit jouw chat, of voor iedereen.",
@@ -17362,5 +17387,9 @@
     "remember": "Onthoud mijn keuze",
     "rememberHint": "Wijzig dit altijd in Instellingen",
     "failed": "Kon het bericht niet verwijderen"
+  },
+  "roomPreview": {
+    "you": "Jij",
+    "voice": "🎤 Spraakbericht"
   }
 }

@@ -120,7 +120,7 @@ export const ExploreCategoryWords = memo(function ExploreCategoryWords({
   );
 });
 
-export default function ExploreCleanList({
+function ExploreCleanList({
   recentSearches,
   onSearch,
   onRemoveSearch,
@@ -304,3 +304,5 @@ const styles = StyleSheet.create({
   token: { width: "47%", flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 10 },
   tokenRank: { width: 16, fontSize: 12, fontWeight: "600" },
 });
+
+export default memo(ExploreCleanList);

@@ -1,5 +1,5 @@
 import { useTranslation as _useCopy } from 'react-i18next';
-import React, { startTransition, useEffect, useMemo, useRef, useState } from "react";
+import React, { startTransition, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ import {
   useProvidedProfileFeed,
   type ProfileFeedOrigin,
 } from "../../libs/profileFeedOrigin";
+import { ALWAYS_OPEN, type DrawGate } from "../../libs/drawGate";
 
 const HOUSE_AD_POST_ID = "2008";
 const POSTS_PER_PAGE = 6;
@@ -39,10 +40,15 @@ interface PostDetailContinuationProps {
    * nears the end, and the "Load more" button goes away.
    */
   loadMoreSignal?: number;
+  /**
+   * When given, a card past the first is drawn only while the gate is open:
+   * the posts far below the screen wait until the reader scrolls toward them.
+   */
+  drawGate?: DrawGate;
 }
 
 /** Ad first, then an explicitly paginated continuation of recent posts. */
-export default function PostDetailContinuation({ currentPostId, profileFeed, loadMoreSignal }: PostDetailContinuationProps) {
+function PostDetailContinuation({ currentPostId, profileFeed, loadMoreSignal, drawGate = ALWAYS_OPEN }: PostDetailContinuationProps) {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const { isMinimal } = useAppTheme();
@@ -123,14 +129,16 @@ export default function PostDetailContinuation({ currentPostId, profileFeed, loa
   }, [currentPostId, loaded, fromProfile, profileIndex]);
 
   // These posts sit below the fold. Drawn together they held the page still
-  // for a moment right after it opened, so they come in one at a time.
+  // for a moment right after it opened, so they come in one at a time, and
+  // only as far ahead of the reader as the gate allows.
   const [drawn, setDrawn] = useState(FIRST_POSTS);
   const drawing = drawn < posts.length;
+  const gateOpen = useSyncExternalStore(drawGate.subscribe, drawGate.get, drawGate.get);
   useEffect(() => {
-    if (!drawing) return;
+    if (!drawing || !gateOpen) return;
     const timer = setTimeout(() => startTransition(() => setDrawn((n) => n + 1)), NEXT_POST_AFTER_MS);
     return () => clearTimeout(timer);
-  }, [drawing, drawn]);
+  }, [drawing, drawn, gateOpen]);
 
   useEffect(() => {
     // A list still being drawn is short, which reads as "near the end"; the
@@ -224,3 +232,5 @@ export default function PostDetailContinuation({ currentPostId, profileFeed, loa
     </ProfileFeedOriginContext.Provider>
   );
 }
+
+export default React.memo(PostDetailContinuation);

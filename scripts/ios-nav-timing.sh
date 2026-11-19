@@ -232,7 +232,9 @@ run() {
             hswipe_pid=$!
             sleep 0.8
             mkdir -p "$OUT/pages"
-            xcrun simctl io "$UDID" screenshot --type=jpeg "$OUT/pages/$name-hswipe-mid.jpg" >/dev/null 2>&1 || true
+            xcrun simctl io "$UDID" screenshot --type=jpeg "$OUT/pages/$name-hswipe-mid.jpg" >/dev/null 2>&1 \
+              || idb screenshot --udid "$UDID" "$OUT/pages/$name-hswipe-mid.png" >/dev/null 2>&1 \
+              || echo "$name: mid-swipe picture failed"
             wait "$hswipe_pid" || echo "$name: idb swipe failed" ;;
           drag:*)
             # A finger pulling the page down, above where a keyboard sits.
@@ -250,8 +252,15 @@ run() {
             # "find:<label>:<button text>": tap the button with that text,
             # wherever it is drawn; nothing is tapped when it is not up.
             IFS=: read -r _ find_name find_text <<< "$touch"
-            idb ui describe-all --udid "$UDID" > "$WORK/ax.json" 2>/dev/null || echo "[]" > "$WORK/ax.json"
-            read -r tap_x tap_y <<< "$(python3 scripts/ios-nav/ax-find.py "$WORK/ax.json" "$find_text" "$OUT/nav/$name-finds.txt" "$find_name")"
+            # The first read after launch can come back empty, so look again
+            # a few times before calling the button missing.
+            tap_x=""
+            for _ in 1 2 3 4; do
+              idb ui describe-all --udid "$UDID" > "$WORK/ax.json" 2>/dev/null || echo "[]" > "$WORK/ax.json"
+              read -r tap_x tap_y <<< "$(python3 scripts/ios-nav/ax-find.py "$WORK/ax.json" "$find_text" "$OUT/nav/$name-finds.txt" "$find_name")"
+              [ -n "$tap_x" ] && break
+              sleep 1.5
+            done
             if [ -n "$tap_x" ]; then
               idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed"
             fi ;;
@@ -389,6 +398,19 @@ if [ "$MODE" = menu ]; then
   # The phone menu in each layout, in several themes.
   for theme in ${WALLET_THEMES:-system hazy system-light}; do
     run after "menu-$theme" "" menu "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = livetheme ]; then
+  # Leaving a live in System Light, main's code then this checkout's, both
+  # filmed; then this checkout's on two dark themes.
+  run before "livetheme-main-system-light" record livetheme system-light
+  run after "livetheme-system-light" record livetheme system-light
+  for theme in ${LIVE_THEMES:-system hazy}; do
+    run after "livetheme-$theme" "" livetheme "$theme"
   done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true

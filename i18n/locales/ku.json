@@ -4,8 +4,26 @@
     "tab": "Komîk",
     "title": "Komîk",
     "editor": {
-      "cover": "Berg"
-    }
+      "cover": "Berg",
+      "count": "{{count}} ji {{limit}} rûpelan",
+      "coverHint": "Rûpela 1 berg e",
+      "empty": "Rûpelên xwe bi bişkoka wêneyê zêde bike. Her rûpel binnivîsek û nivîsa alternatîf distîne.",
+      "caption": "Binnivîs ji bo vê rûpelê",
+      "alt": "Nivîsa alternatîf: rûpel çi nîşan dide"
+    },
+    "toComic": "Bike komîk",
+    "toCarousel": "Wek karûsel nîşan bide",
+    "converted": "Niha wek komîk tê nîşandan",
+    "unconverted": "Niha wek karûsel tê nîşandan",
+    "convertFailed": "Rêzkirin nehat guhertin",
+    "chip": "Komîk · {{count}} rûpel",
+    "open": "Komîkê veke, rûpel {{page}} ji {{total}}",
+    "flip": "Rûpel {{page}} ji {{total}}. Ji bo zivirandinê bitikîne",
+    "page": "Rûpel {{page}}",
+    "goto": "Rûpel {{page}}",
+    "alt": "Nivîsa alternatîf",
+    "cards": "Vegere kartan",
+    "readAll": "Hemû rûpelan bixwîne"
   },
   "comicBorder": {
     "title": "Çarçove",
@@ -2634,7 +2652,66 @@
     "57e2faa5ec63": "Li Riftn bigere",
     "7db20897053b": "Kes",
     "96d7bff86b44": "Lêgerîn nikaribû barkirin",
-    "d8b8392e2c54": "Dîsa biceribîne"
+    "d8b8392e2c54": "Dîsa biceribîne",
+    "e587a51bc3ce": "Nû li Riftn",
+    "d7396f3b8881": "Ecibandin an şîroveyeke nû li Riftn",
+    "037a2ecd34b0": "Şopînerekî nû li Riftn",
+    "b63561f1b73a": "Bexşîş an qezenceke nû li Riftn",
+    "0ae84457a2df": "Kesekî ku tu dişopînî li Riftn zindî ye",
+    "a7bac8dca08b": "Bangeke tê li Riftn",
+    "9d309cb4a034": "Nûkirin li ser şandiya te ya Riftn",
+    "914be7a9350a": "Peyam ji Riftn",
+    "2ab63e6ced90": "Nayê kirin",
+    "79688f176607": "Wek Nayê kirin hat nîşankirin",
+    "465fe84f18fc": "Wek Nayê kirin nîşan bike",
+    "0d24977e6943": "Sedemê biguherîne",
+    "0a54f1d10336": "Çima ev nayê kirin? (ne mecbûrî)",
+    "3d024b567634": "Sedemeke kurt ku kes dê bibînin",
+    "ad389aa4c08e": "Çima:",
+    "78b3ae9561ee": "Tiştek nehatiye redkirin",
+    "89b4d1850766": "Daxwazên ku em niha nikarin ava bikin li vir bi sedemê xuya dibin.",
+    "3f9b2c71d0a4": "{{n}} encam",
+    "8c4e1a6b2f57": "ji bo “{{query}}”",
+    "63eb38b938b8": "Wek Di rêzê de nîşan bike",
+    "2fffca525795": "Wek Derketî nîşan bike",
+    "3ee050a08bfa": "Vegere Daxwazan",
+    "ae6a0ffbe609": "Wek Di rêzê de hat nîşankirin",
+    "366cb56b38ce": "Wek Derketî hat nîşankirin",
+    "9db7b5ba03bb": "Vegeriya Daxwazan",
+    "bb2be752e079": "Rewş nehat guhertin",
+    "1d7234ff1b79": "di {{feed}} de",
+    "e122e5c2b563": "Ji bo girtinê ber bi jor bikişîne",
+    "1aa9d734f2ee": "Hilbijêre li çi bigerî",
+    "35034aa59bd3": "Di {{feed}} de tiştek li hev nehat. Peyvên din biceribîne an li her tiştî bigere.",
+    "415155739590": "Li her tiştî bigere",
+    "90f1afe66801": "Li “{{query}}” tê gerîn…",
+    "9e13d826baaf": "Li wêneyan bigere",
+    "e8756c6865a5": "Li kurte vîdyoyan bigere",
+    "c7661da99c41": "Li vîdyoyan bigere",
+    "cbf6f228327c": "Li muzîkê bigere",
+    "d7b559f2d8c6": "Peyvên din biceribîne, an parzûnan biguherîne.",
+    "ef557404f465": "Ji bo “{{query}}” tu encam tune",
+    "d1a0c7e2f301": "Îro çi di hişê te de ye?",
+    "d1a0c7e2f302": "Îro tu li ser çi difikirî?",
+    "d1a0c7e2f303": "Çi di hişê te de ye?",
+    "d1a0c7e2f304": "Tiştek di hişê te de heye?",
+    "d1a0c7e2f305": "Niha çi di hişê te de ye?",
+    "d1a0c7e2f306": "Îro em li ser çi difikirin?",
+    "d1a0c7e2f307": "Îro tiştek di hişê te de heye?",
+    "d1a0c7e2f308": "Vê carê çi di hişê te de ye?",
+    "a7c1e0f4b2d9": "Bitikîne da ku biaxivî",
+    "b3e8d1c6f0a2": "Bitikîne da ku bişînî",
+    "c9f2a4e7d1b5": "Guhdarî dike... li topê bitikîne da ku bişînî",
+    "94cee2c8c1c1": "Profîla te hat guhestin",
+    "22577ebd908e": "Vîdyoya Wan 3.0 çêke · dengê orîjînal",
+    "1fa2357ab7e1": "Vîdyoya Seedance 720p çêke · dengê orîjînal",
+    "7f78bdc0762d": "+{{value1}} xal",
+    "f0c8bb34335b": "Te +{{value1}} xal qezenc kir",
+    "0fbe06b679a8": "Ji bo her daxwaza derketî {{value1}} xal, li puana te ya Avakerên herî jor tê zêdekirin.",
+    "ebebdc70335b": "Barikên Camî",
+    "5ff272ba7871": "Xetên Hevirmîşî",
+    "a941e90ca93d": "Haleya Bergê",
+    "04dbbe4dff7a": "Pêla Rastîn"
   },
   "dehubLinks": {
     "kind": {
@@ -2651,7 +2728,8 @@
       "proposal": "pêşniyar",
       "stage": "sehne",
       "store": "firoşgeh",
-      "featureRequest": "daxwaz"
+      "featureRequest": "daxwaz",
+      "page": "rûpel"
     }
   },
   "postGate": {
@@ -2709,7 +2787,12 @@
       "location": "Location",
       "custom": "Custom",
       "customOption": "Nirxa standard"
-    }
+    },
+    "add": "Qadê zêde bike",
+    "remove": "Qadê rake",
+    "descriptionPresets": "Malperek, cînav an her tiştekî din zêde bike. Girêdan bi torên te yên civakî re xuya dibin.",
+    "type": "Cureyê qadê",
+    "needsLabel": "Navekî bide her qada taybet"
   },
   "notificationFilters": {
     "title": "Agahdariyan parzûn bike ji",
@@ -2883,10 +2966,20 @@
       "numbers": "Lîsteya hejmarkirî",
       "link": "Girêdan",
       "image": "Wêneyan lê zêde bike"
-    }
+    },
+    "imageLimit": "Gotar dikarin heta {{count}} wêneyan bihewînin",
+    "imageFailed": "Ew wêne nehat zêdekirin. Yekî din biceribîne.",
+    "imagesUploading": "Wêne tên zêdekirin ({{count}})…",
+    "bodyTooLong": "{{count}} tîp ji sînorê zêdetir",
+    "imagesCount": "Wêne · {{count}}/{{max}}",
+    "captionPlaceholder": "Binnivîsekê zêde bike",
+    "captionLabel": "Binnivîs ji bo wêneya {{n}}",
+    "removeInlineImage": "Wêneya {{n}} rake"
   },
   "storefront": {
-    "unavailable": "Di vê guhertoya sepanê de tune ye"
+    "unavailable": "Di vê guhertoya sepanê de tune ye",
+    "continueOnWeb": "Li riftn.com bidomîne",
+    "webOnlyHint": "Vê li riftn.com biqedîne. Di Safari de vedibe."
   },
   "nav": {
     "launchpad": "Launchpad",
@@ -2940,7 +3033,72 @@
     "reorderReset": "Vegerîne",
     "groups": {
       "create": "Biafirîne",
-      "discover": "Keşf bike"
+      "discover": "Keşf bike",
+      "main": "Sereke",
+      "money": "Pere",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "herik, demjimêr, şandiyên dawî, ji bo te, dişopîne, rûpela pêşîn",
+      "profile": "profîla min, hesabê min, rûpela min, şandiyên min, avatar, biyografî, şopîner",
+      "explore": "lêgerîn, keşf, bibîne, rojev, populer, haştag, kes, afirîner",
+      "prompt": "AI, çêkirin, wêneya AI, vîdyoya AI, çêkerê wêneyan, nivîs bo wêne, hunera AI",
+      "editor": "edîtora vîdyoyê, vîdyoyê biguherîne, kurt bike, bibire, binnivîs, sernivîs, efekt",
+      "creator": "biafirîne, studyo, amûrên AI, wêne, vîdyo, muzîk, dengdan, 3D",
+      "converter": "vîdyo têxe, daxistin, YouTube, TikTok, Instagram, veguherîne",
+      "migrate": "kanala min bar bike, kanalê têxe, têxistina bi komî, kanala YouTube",
+      "notifications": "hişyarî, çalakî, behskirin, bersiv, ecibandin, zengil",
+      "messages": "DM, peyamên rasterast, sohbet, qutiya peyaman, axaftin, peyama taybet",
+      "communities": "kom, civak, ode, klub, forum, endam",
+      "assistant": "AI, chatbot, bipirse, alîkarî, sohbeta AI, pirs",
+      "settings": "tercîh, hesab, nepenî, ewlehî, şîfre, ziman, tema, moda tarî, astengkirî, hesabê jê bibe",
+      "leaderboard": "rêzbendî, rêz, afirînerên herî jor, bikarhênerên herî jor, xal, puan",
+      "bookmarks": "tomarkirî, bijarte, paşê temaşe bike, paşê bixwîne, şandiyên tomarkirî, pirtûkxane",
+      "command": "panel, analîtîk, qezenc, dahat, têgihîştin, moderasyon, statîstîkên min",
+      "wallet": "bermayî, pere, drav, token, kripto, depo, vekişandin, bişîne, bistîne, bide",
+      "events": "salname, bername, civîn, pêşeroj, bilêt, AMA",
+      "stages": "odeyên dengî, sohbeta dengî, space, dengê zindî, axaftin, podcast",
+      "featureRequests": "çêkirin, avaker, raman, pêşniyar, çewtiyekê ragihîne, çewtî, rastkirin, nexşerê, deng bide, lîsteya xwestekan, baştir bike",
+      "feedback": "nirxandin, puan, anket, raman, gilî, nêrîna xwe bide",
+      "staking": "stake, depo, berhem, xelat, qezenc bike, para qezencê, nîşan, ast, faîz",
+      "superpowers": "boost, pêş bixe, avantaj, hêz, avantajên nîşanê, gihîştin, nûkirin",
+      "governance": "deng bide, dengdan, pêşniyar, rapirsî, sindoq, biryar bide",
+      "dao": "xezîne, bexş bike, bexşîn, fona civakê, beşdar bibe, alîkarî",
+      "bounties": "kar, xebat, erk, karên demkî, serbixwe, bi kar bîne, pere qezenc bike, karê bi pere",
+      "myBounties": "xelatên min, karên min, dîrok, dravdan, karên qediyayî",
+      "affiliate": "referans, hevalan vexwîne, vexwîne, komîsyon, hevkar, qezenc bike",
+      "careers": "kar, karmendî, bi me re bixebite, tevlî tîmê bibe, serlêdan bike, valahî",
+      "stores": "dikan, firoşgeh, bazar, merch, bikire, bifroşe, berhem, kirîn",
+      "fractions": "par, xwedîtî, veberhênan, xwedîyê şandiyekê be, NFT, NFTs, berhevkirî, bazirganî",
+      "usernames": "navê bikarhêner, handle, nav, navê min biguherîne, navekî bikire, navekî bifroşe",
+      "accounts": "hesab bikire, hesab bifroşe, hesabên firotanê, şopîner, hesab veguhezîne",
+      "apps": "firoşgeha sepanan, mini sepan, sepanekê çêke, pêşdebir, amûr",
+      "arcade": "lîstik, lîstok, bilîze, lîstin, şetrenc, şûter, kêf",
+      "glossary": "têgeh, pênase, ferheng, wate, çi ye",
+      "compare": "berawird, berawird bike, li hember, alternatîf, YouTube, X, TikTok",
+      "guide": "destpêk, çawa, rêber, alîkarî, fêr bibe, destpêker, nû li vir",
+      "stats": "statîstîk, analîtîk, hejmar, grafîk, biha, peyda, xwedî",
+      "docs": "belgekirin, alîkarî, API, whitepaper, pêşdebir, rêbernameyê",
+      "blog": "nûçe, gotar, nûkirin, daxuyanî, çi nû ye",
+      "videos": "temaşe bike, vîdyo, klîp, vîdyoyên dirêj",
+      "shorts": "reels, kurte vîdyo, vîdyoyên vertîkal, bikişîne",
+      "music": "deng, stran, track, guhdarî bike, radyo, lîsteya lêdanê",
+      "liveTv": "TV, weşan, weşandin, zindî, weşana zindî, kanal, zindî temaşe bike",
+      "buyTokens": "token bikire, kirîn, bar bike, kart, karta krediyê, fiat",
+      "bridge": "navzincîr, tokenan biguhezîne, zincîr, veguhastina di navbera zincîran de",
+      "top100": "top 100, coin, kriptopere, nirxa bazarê, biha",
+      "agents": "ajanên AI, ajan, bot, otomasyon, persona",
+      "advertising": "reklam, reklamên, kampanya, pêş bixe, sponsor, marketing",
+      "premium": "abonetî, nûkirin, pro, endamtî, bê reklam, bêreklam",
+      "pricing": "plan, lêçûn, biha, çiqas, abonetî",
+      "creators": "bernameya afirîneran, balyoz, hevkar, wek afirîner serlêdan bike, qezenc bike",
+      "getTheApp": "sepanê dakêşe, Android, iPhone, sepana mobîl, saz bike, APK",
+      "connectAi": "MCP, ChatGPT, Claude, API, entegrasyon, AI girê bide",
+      "packs": "emojî, stîker, GIF, pakêtên emojî, pakêtên stîkeran, emojiyên taybet",
+      "publicChat": "sohbet, sohbeta giştî, odeya sohbetê, lobî, axaftin, sohbeta civakê",
+      "planned": "plankirî, bername, şandiyên plankirî, rêz, paşê",
+      "liveStudio": "zindî biweşîne, weşan, weşandin, OBS, overlay, hişyarî, wîdget",
+      "launchpad": "tokenekê dest pê bike, coinekê çêke, coin çêke, meme coin, bonding curve, tokenîze bike"
     }
   },
   "affiliate": {
@@ -3694,7 +3852,57 @@
     "themeColorBrandDesc": "Rengên wêneyê profîla xwe bikar bîne",
     "themeColorBrandNoAvatar": "Ji bo bikaranîna rengên marqeyê wêneyekî profîlê lê zêde bike",
     "themeColorBrandFailed": "Rengên wêneyê profîla te nehatin xwendin",
-    "menuLayoutFolders": "Peldank"
+    "menuLayoutFolders": "Peldank",
+    "chatDeleteChoice": "Dema ku tu peyamekê jê dibî",
+    "chatDeleteChoiceDesc": "Her car bipirse, an her dem tenê ji bo xwe an ji bo her kesê di sohbetê de jê bibe.",
+    "chatDeleteAsk": "Her car bipirse",
+    "chatDeleteMe": "Ji bo min jê bibe",
+    "chatDeleteMeDesc": "Ji sohbeta te diçe, yên din hêj dibînin",
+    "chatDeleteEveryone": "Ji bo her kesî jê bibe",
+    "chatDeleteEveryoneDesc": "Dema ku tu dikarî. Peyama kesekî din di komekê de tenê ji bo te diçe",
+    "chatTextSize": "Mezinahiya nivîsa sohbetê",
+    "menuLayout": "Rêzkirina menuyê",
+    "menuLayoutDesc": "Menu rûpelên xwe çawa kom dike",
+    "menuLayoutTabs": "Tab",
+    "menuLayoutTabsDesc": "Her car komek, bi îkonên mezin",
+    "menuLayoutSections": "Beş",
+    "menuLayoutSectionsDesc": "Hemû rûpel bi carekê, di bin sernavên koman de",
+    "menuLayoutFoldersDesc": "Rûpelên te yên sereke, paşê peldankek ji bo her komê",
+    "publicChatInBar": "Sohbeta Giştî di barika jêrîn de",
+    "publicChatInBarDesc": "Bi yek tikandinê ji barika li binê ekranê bikeve Sohbeta Giştî",
+    "chatTextSizeDesc": "Peyamên mezintir an piçûktir di her sohbetê de. Li ser mezinahiya nivîsa telefona te zêde dibe.",
+    "chatCards": "Sohbet wek kart",
+    "chatCardsDesc": "Her sohbet li ser karta xwe. Ji bo lîsteyeke sade bi xetekê di navbera sohbetan de, bigire.",
+    "contactSupport": "Bi piştgiriyê re têkilî dayne",
+    "showLikes": "Ecibandinên min nîşanî her kesî bide",
+    "showLikesDesc": "Her kes dikare tabloya Ecibandinan li ser profîla te veke. Bi xwerû girtî ye, ji ber vê tenê tu dibînî ka te çi ecibandiye.",
+    "showFollowersList": "Nîşan bide kî min dişopîne",
+    "showFollowersListDesc": "Bihêle her kes lîsteya şopînerên te veke. Dema ev girtî be, tenê tu dikarî wê bibînî.",
+    "showFollowingList": "Nîşan bide ez kê dişopînim",
+    "showFollowingListDesc": "Bihêle her kes lîsteya kesên ku tu dişopînî veke. Dema ev girtî be, tenê tu dikarî wê bibînî.",
+    "showFollowCounts": "Hejmara şopînerên min nîşan bide",
+    "showFollowCountsDesc": "Nîşan bide çend şopînerên te hene û tu çend kesan dişopînî. Girtina vê her du lîsteyan jî vedişêre.",
+    "postLanding": "Piştî ku tu biweşînî",
+    "postLandingDesc": "Şandiya te ya nû çawa dikeve herika te",
+    "postLandingGhost": "Cihê veşartî",
+    "postLandingGhostDesc": "Herika te cih vedike û şandiya te bi nermî dikeve cihê xwe",
+    "postLandingMorph": "Veguherîn",
+    "postLandingMorphDesc": "Nivîsgeh piçûk dibe û dibe şandiya te",
+    "postLandingPill": "Ji hebê bo kartê",
+    "postLandingPillDesc": "Barika barkirinê piştî ku şandî hat weşandin vedibe û dibe şandiya te",
+    "postLandingDrop": "Ji jor bikeve",
+    "postLandingDropDesc": "Şandiya te bi hindek lerizînê ji jor dikeve",
+    "defaultProfileView": "Rêzkirina şandiyên profîlê",
+    "defaultProfileViewDesc": "Dema ku kes profîla te vedikin, şandiyên xwe wek tor an lîste nîşan bide",
+    "readerProfileView": "Profîlên din veke wek",
+    "readerProfileViewDesc": "Ji bo her profîla ku tu vedikî tor an lîste hilbijêre, an jî bijartina her kesî bihêle",
+    "readerProfileViewOwner": "Bijartina her kesî",
+    "notificationShowCount": "Hejmarê li ser zengilê nîşan bide",
+    "notificationShowCountDesc": "Li şûna tenê ronahiyê bibîne çend agahdarî nexwendî ne",
+    "messagesShowCount": "Hejmarê li ser Peyaman nîşan bide",
+    "messagesShowCountDesc": "Li şûna tenê ronahiyê bibîne çend peyam nexwendî ne",
+    "pushNotRegisteredDescIos": "Dema sepan girtî be agahdarî nagihîjin te: ev iPhone qet ji bo push tomar nebûye. Kontrol bike ku di Mîhengan de destûra agahdariyan ji bo Riftn heye, paşê sepanê dîsa veke.",
+    "tipsOffNote": "Dema ev vekirî be, bexşîş û şandinên ji te re girtî ne. Wê bigire da ku dîsa bexşîş bistînî."
   },
   "common": {
     "refresh": "Nû bike",
@@ -3820,7 +4028,15 @@
     "addMessage": "Peyamekê zêde bike (vebijarkî)",
     "messagePublic": "Giştî",
     "railTitle": "Bexşîş",
-    "railTotal": "{{amount}} token"
+    "railTotal": "{{amount}} token",
+    "messagePlaceholder": "Bi bexşîşa xwe re tiştekî bibêje",
+    "messagePrivate": "Tenê {{name}}",
+    "theCreator": "afirîner",
+    "messageWallNote": "Piştî ku bexşîş derbas bibe, li ser dîwarê bexşîşan xuya dibe.",
+    "sendWithMessage": "Bi peyamê re bişîne",
+    "messageFailed": "Peyama te nehat zêdekirin. Tu bexşîş nehat şandin.",
+    "wallLabel": "Peyamên bexşîşê",
+    "messagePrivateNote": "Tenê {{name}} wê dibîne, di agahdariya xwe de."
   },
   "postOptions": {
     "skippableSections": "Beşên ku dikarin werin avêtin",
@@ -3904,7 +4120,17 @@
     "pinFailed": "Pînkirin an rakirina pîna vê şandiyê bi ser neket",
     "share": "Parve bike",
     "askAi": "Ji AI bipirse",
-    "aiOverview": "Nêrîna giştî ya AI"
+    "aiOverview": "Nêrîna giştî ya AI",
+    "unmuteUser": "Bêdengiya {{name}} rake",
+    "unmuteDesc": "Şandiyên wan dîsa bibîne",
+    "unmutedUser": "Bêdengiya {{name}} hat rakirin",
+    "refreshLinkPreview": "Pêşdîtina girêdanê nû bike",
+    "linkPreviewRefreshed": "Pêşdîtina girêdanê hat nûkirin",
+    "linkPreviewRefreshFailed": "Negihîşt wê malperê. Paşê dîsa biceribîne.",
+    "castToTv": "Li TV-yê nîşan bide",
+    "castIosDesc": "Bi AirPlay li Apple TV an TV-ya biaqil nîşan bide",
+    "castAndroidDesc": "Ekrana xwe bi Cast an Smart View nîşan bide",
+    "castAndroidHelp": "Mîhengên xwe yên bilez veke û li Smart View an Cast bitikîne, paşê TV-ya xwe hilbijêre."
   },
   "filters": {
     "sort": "Rêz bike",
@@ -4110,7 +4336,8 @@
     "failedToClosePoll": "Girtina rapirsiyê bi ser neket",
     "endsIn": "Bi dawî dibe {{time}}",
     "multipleChoice": "Destûra gelek bersivan bide",
-    "online": "{{count}} serhêl"
+    "online": "{{count}} serhêl",
+    "onlineHint": "Niha {{count}} kes di vê sohbetê de ne"
   },
   "aiChat": {
     "title": "Arîkar",
@@ -4461,7 +4688,11 @@
       "governanceVotedPassed": "Pêşniyara ku tu hatî vote kir bûye serkeftin: “{{title}}”",
       "governanceVotedRejected": "Pêşniyara ku tu hatî vote kir nehat serkeftin: “{{title}}”",
       "governancePassed": "Pêşniyara te “{{title}}” serkeftin 🎉",
-      "governanceRejected": "Pêşniyara te “{{title}}” nehat serkeftin"
+      "governanceRejected": "Pêşniyara te “{{title}}” nehat serkeftin",
+      "featureNewNamed": "{{name}} daxwazeke nû weşand “{{title}}”",
+      "featureNew": "{{name}} daxwazeke nû weşand",
+      "featureActivityNamed": "{{name}} li ser “{{title}}” şîrove kir",
+      "featureActivity": "{{name}} li ser daxwazekê şîrove kir"
     },
     "stores": "Firoşgeh",
     "features": "Taybetmendî",
@@ -4549,7 +4780,10 @@
     "groupToday": "Îro",
     "groupThisWeek": "Vê hefteyê",
     "groupEarlier": "Berê",
-    "searchClose": "Lêgerînê bigire"
+    "searchClose": "Lêgerînê bigire",
+    "allSettings": "Hemû mîhengên agahdariyê",
+    "searchPlaceholder": "Li agahdariyan bigere",
+    "searchEmpty": "Tu agahdarî li hev nayê"
   },
   "leaderboard": {
     "title": "Tabloyên serketinê",
@@ -4589,7 +4823,13 @@
     "provisional": "demkî",
     "addedToLeaderboard": "Tu hatî zêdekirin! Bermayî: {{balance}} token",
     "balanceTooLow": "Bermayî pir kêm e ({{balance}} token)",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "ogChallenge": "Pêşbirka OG",
+    "ogHolders_one": "{{count}} xwediyê OG",
+    "ogHolders_other": "{{count}} xwediyên OG",
+    "ogChallengeTitle": "Xwediyên OG vegerîne",
+    "ogChallengeBody": "Kesên ku hêj DHB digirin vexwîne. Dema ew bi girêdana vexwendina te tevlî dibin û DHB-ya xwe di berîka xwe ya Riftn de dihêlin, li vir ji bo te tên hejmartin.",
+    "ogChallengeCta": "Girêdana xwe ya vexwendinê bistîne"
   },
   "explorePage": {
     "searchPlaceholder": "Li kesan, şandiyan an naverokê bigere...",
@@ -4751,8 +4991,31 @@
       "comments": "Şîrove",
       "showLess": "Kêmtir nîşan bide",
       "viewProfile": "Profîlê bibîne",
-      "you": "Tu"
-    }
+      "you": "Tu",
+      "title": "Avakerên herî jor",
+      "breakdown": "{{shipped}} derketî ({{sp}}) · {{votes}} dengên erênî ({{vp}}) · {{comments}} şîrove ({{cp}})",
+      "showAll": "Top {{n}} nîşan bide",
+      "showEveryone": "Hemû {{n}} avakeran nîşan bide",
+      "showMore": "{{n}} zêdetir nîşan bide",
+      "rule": "Ji bo her daxwaza derketî 10 xal, ji bo her dengê erênî 1, ji bo her şîroveyê li ser daxwaza kesekî din 2.",
+      "pts": "{{n}} xal",
+      "gap": "{{n}} xal heta derbaskirina {{name}}",
+      "join": "Promptekê ku derdikeve biweşîne da ku tevlî tabloyê bibî",
+      "points": "Xal",
+      "infoLabel": "Xal çawa dixebitin",
+      "infoShipped": "ji bo her daxwaza derketî",
+      "infoVote": "ji bo her dengê erênî li ser daxwazên te",
+      "infoComment": "ji bo her şîroveyê li ser daxwaza kesekî din",
+      "infoCap": "Şîrove di her serdemê de heta {{n}} tên hejmartin.",
+      "pt": "1 xal",
+      "infoTitle": "Xal çawa dixebitin"
+    },
+    "deviceInfoNote": "Agahiyên cîhazê hatine pêvekirin da ku alîkariya me bikin çewtiyan rast bikin.",
+    "deviceInfo": "Agahiyên cîhazê",
+    "deviceInfoOwners": "Tenê xwediyên panelê vê dibînin",
+    "deviceInfoError": "Agahiyên cîhazê nehatin barkirin",
+    "deviceInfoNone": "Ji bo vê daxwazê agahiyên cîhazê tune",
+    "deviceInfoErrors": "Çewtiyên dawî"
   },
   "auth": {
     "loginRequired": "Têketin pêwîst e",
@@ -4809,7 +5072,13 @@
     "continueExploringA11y": "Keşfkirina Riftn-ê bidomîne",
     "importSecretPlaceholder": "12 an 24 peyv, an mifteyeke taybet",
     "invalidImportSecret": "Ev ne hevokeke derbasdar a 12/24 peyvî an mifteyeke taybet e",
-    "walletSignupBlocked": "Ev berîk bi tevahî nû ye. Ji bo vekirina hesabekî divê berîkên nû xwedî bermayiyek an danûstandineke berê bin. Bi yek ji vebijarkên li jêr tomar bibe, paşê vê berîkê ji Mîhengan girê bide."
+    "walletSignupBlocked": "Ev berîk bi tevahî nû ye. Ji bo vekirina hesabekî divê berîkên nû xwedî bermayiyek an danûstandineke berê bin. Bi yek ji vebijarkên li jêr tomar bibe, paşê vê berîkê ji Mîhengan girê bide.",
+    "accountDeleted": "Ev hesab hat jêbirin. Tu dikarî dîsa wek hesabekî nû tomar bibî.",
+    "accountDeletedHours_one": "Ev hesab hat jêbirin. Tu dikarî bi heman e-name an telefonê di nêzîkî {{count}} saetê de dîsa tomar bibî.",
+    "accountDeletedHours_other": "Ev hesab hat jêbirin. Tu dikarî bi heman e-name an telefonê di nêzîkî {{count}} saetan de dîsa tomar bibî.",
+    "accountDeletedDays_one": "Ev hesab hat jêbirin. Tu dikarî bi heman e-name an telefonê di nêzîkî {{count}} rojê de dîsa tomar bibî.",
+    "accountDeletedDays_other": "Ev hesab hat jêbirin. Tu dikarî bi heman e-name an telefonê di nêzîkî {{count}} rojan de dîsa tomar bibî.",
+    "signInPageWouldNotOpen": "Rûpela têketinê berî vebûnê hat girtin. Dîsa biceribîne, an bi e-nameyê bidomîne."
   },
   "messages": {
     "encryptionSetupFailed": "Sazkirina şîfrekirinê bi ser neket. Ji kerema xwe dîsa biceribîne.",
@@ -4834,7 +5103,11 @@
     "title": "Peyam",
     "searchConversations": "Li sohbetan bigere...",
     "failedToLoad": "Barkirina sohbetan bi ser neket",
-    "tryAgain": "Dîsa Biceribîne"
+    "tryAgain": "Dîsa Biceribîne",
+    "unreadMarkerOne": "1 peyama nexwendî",
+    "unreadMarkerMany": "{{value}} peyamên nexwendî",
+    "jumpToUnread": "Biçe peyama nexwendî ya yekem",
+    "jumpToLatest": "Biçe peyama herî dawî"
   },
   "music": {
     "likeStation": "Stasyonê biecibîne",
@@ -5019,14 +5292,51 @@
     "pinnedShort": "Pînkirî",
     "post": "Biweşîne",
     "arrange": {
-      "saving": "Tê tomarkirin..."
+      "saving": "Tê tomarkirin...",
+      "title": "Şandiyên xwe rêz bike",
+      "hint": "Şandiyekê bigire û bikişîne cihê wê yê nû. Mêvan pêşî vê rêzê dibînin.",
+      "drag": "Bikişîne da ku bilivînî",
+      "toTop": "Bibe serî",
+      "save": "Rêzê tomar bike",
+      "saved": "Rêza te hat tomarkirin",
+      "reset": "Vegere ya herî nû pêşî",
+      "resetDone": "Vegere ya herî nû pêşî",
+      "saveFailed": "Rêza te nehat tomarkirin. Ji kerema xwe dîsa biceribîne.",
+      "loadFailed": "Şandiyên te nehatin barkirin. Vê bigire û dîsa biceribîne.",
+      "empty": "Hêj tiştek tune ku rêz bikî. Pêşî tiştekî biweşîne."
     },
     "reserve": {
-      "signIn": "Têketin"
+      "signIn": "Têketin",
+      "available": "Navê bikarhêner berdest e",
+      "held": "Ji bo te hatiye girtin",
+      "ended": "Girtin qediya",
+      "busy": "Tê veqetandin",
+      "availableBody": "riftn.com/{{name}} niha vala ye. Wê veqetîne û em ê wê ji bo yek xulekê ji bo te bigirin dema tu tomar dibî.",
+      "heldBody": "Heta ku dem neqede, kesekî din nikare @{{name}} bigire. Tomarbûnê biqedîne da ku wê bihêlî.",
+      "endedBody": "Xuleka te qediya, ji ber vê @{{name}} dîsa ji her kesî re vekirî ye. Hêj vala ye.",
+      "busyBody": "Kesek niha wek @{{name}} tomar dibe. Heke ew neqedîne, dema dem biqede vala dibe.",
+      "finish": "Tomarbûnê biqedîne",
+      "again": "Dîsa veqetîne",
+      "cta": "Niha veqetîne",
+      "letGo": "Berde",
+      "haveAccount": "Hesabê te heye?"
     },
     "tabLikes": "Ecibandin",
     "likesEmptyTitle": "Hêj ecibandin tune",
-    "likesPrivateTitle": "Ecibandin taybet in"
+    "likesPrivateTitle": "Ecibandin taybet in",
+    "articleViews": "{{views}} dîtin",
+    "sortBy": "Rêz bike li gorî",
+    "sortCustom": "Rêzkirina taybet",
+    "arrangeButton": "Şandiyan rêz bike",
+    "mutualsOne": "{{count}} Hevbeş:",
+    "mutualsMany": "{{count}} Hevbeş:",
+    "tabArticles": "Gotar",
+    "articlesEmptyTitle": "Hêj gotar tune",
+    "articlesEmptySubtitle": "Gotar dê li vir xuya bibin",
+    "likesEmptyOwn": "Şandiyên ku tu diecibînî li vir xuya dibin. Tenê tu dikarî wan bibînî heta ku tu di Mîhengan de Ecibandinên min nîşan bide vekî.",
+    "likesEmptyOther": "Hêj tiştek nehatiye ecibandin.",
+    "likesPrivateDesc": "Ev hesab ecibandinên xwe ji xwe re dihêle.",
+    "unavailable": "Profîl ne berdest e"
   },
   "tv": {
     "title": "TV",
@@ -5544,7 +5854,26 @@
       "filter": "Çalakiyan parzûn bike"
     },
     "welcome": {
-      "text": "Peyama bixêrhatinê"
+      "text": "Peyama bixêrhatinê",
+      "title": "Bi xêr hatina endamên nû",
+      "help": "Ev ajan kesên ku nû tevlî Riftn bûne dişopîne û/an peyamê ji wan re dişîne, rojê çend kes.",
+      "follow": "Endamên nû bişopîne",
+      "message": "Peyamê ji endamên nû re bişîne",
+      "textHelp": "{name} dibe @navêbikarhêner ê wan. Bê girêdan. Ji bo her kesî carekê tê şandin.",
+      "saveText": "Peyamê tomar bike",
+      "perDay": "Kes di rojê de",
+      "fewer": "Rojê kêmtir",
+      "more": "Rojê zêdetir",
+      "today": "Îro: {{follows}} hatin şopandin · {{messages}} peyam hatin şandin",
+      "limits": "Qet heman kes du caran na. Her kesê ku te asteng kiriye an bêdeng kiriye, peyamên nû girtine an xwe ji Endamên nû veşartiye derbas dike.",
+      "showLog": "Bibîne ka kê bi xêr hat",
+      "hideLog": "Bixêrhatinan veşêre",
+      "empty": "Hêj kes tune. Endamên nû dema tevlî dibin li vir xuya dibin.",
+      "followed": "Hat şopandin",
+      "messaged": "Peyam hat şandin",
+      "skipped": "Hat derbaskirin",
+      "failed": "Negihîşt",
+      "defaultText": "Silav {name}, bi xêr hatî Riftn! 👋"
     }
   },
   "hero": {
@@ -5633,7 +5962,45 @@
     "resolution": "Rezolûsyon",
     "disconnect": "Girêdanê qut bike",
     "payAndRun": "Bide û bixebitîne",
-    "run": "Bimeşîne"
+    "run": "Bimeşîne",
+    "retryFreeTask": "Erka belaş dîsa biceribîne",
+    "previewSavedMedia": "Pêşdîtina medyaya tomarkirî",
+    "audioSavePending": "Deng amade ye, lê tomarkirina wê li pirtûkxaneya taybet li bendê ye. Bidomîne da ku wê bigirî.",
+    "freeResultUnknown": "Bersiva erka belaş qut bû. Ew ê bixweber dîsa neyê şandin. Erka belaş dîsa biceribîne hilbijêre, paşê bidomîne; dayîna te û karên din tên parastin.",
+    "formAuthor": "Flowê biguherîne",
+    "formAuthorHint": "Flowekê bi têketinên cureyî ava bike. Li vir tomar bike, an li ser kanvasa webê rêz bike.",
+    "chooseSavedMedia": "Medyaya tomarkirî hilbijêre",
+    "model": "Model",
+    "formInput": "Têketin: {{handle}}",
+    "reviewRun": "Xebitandinê binirxîne",
+    "resumeRun": "Xebitandina tomarkirî bidomîne",
+    "confirmPrice": "Tevahî: {{price}} token",
+    "recoveryHint": "Referansên kar û dayînê li ser vê cîhazê tomarkirî ne. Berî destpêkirina xebitandineke din karê qutbûyî bidomîne.",
+    "newRun": "Xebitandineke din dest pê bike",
+    "loadMoreMedia": "Medyaya zêdetir bar bike",
+    "invalidGraph": "Girêdanan kontrol bike: her têketin çavkaniyeke lihevhatî hewce dike û di grafê de nabe çerx hebin.",
+    "unsupportedNode": "Ev girêk hêj nikare di forma xwecihî de bixebite. Ji bo vê flowê kanvasa webê bikar bîne.",
+    "missingPrompt": "Girêkeke nivîsê ya bi promptê ve girê bide.",
+    "invalidSettings": "Ev mîheng ji aliyê modela hilbijartî ve nayên piştgirîkirin.",
+    "missingCapturedFrame": "Berî ku vê vîdyoyê wek têketina wêneyê bikar bînî, li ser kanvasa webê çarçoveyekê bigire.",
+    "missingSavedMedia": "Medyaya çavkaniyê ya tomarkirî winda ye an êdî ji bo vî hesabî ne berdest e.",
+    "nothingToRun": "Ji bo xebitandina vê flowê çêkerekî zêde bike.",
+    "quoteFailed": "Bihayê vê flowê nehat hesabkirin. Dîsa biceribîne.",
+    "recoverBeforeEdit": "Berî guhertina grafa wê an destpêkirina xebitandineke din, xebitandina tomarkirî bidomîne.",
+    "runAlreadyComplete": "Ev xebitandin qediyaye. Ji bo çêkirina dîsa Xebitandineke din dest pê bike hilbijêre.",
+    "recoveryCorrupt": "Tomara vegerandinê ya tomarkirî nehat xwendin. Vê flowê bihêle û berî ku dîsa bidî bi piştgiriyê re têkilî dayne.",
+    "paidUnavailable": "Tu dikarî li vir flowan binivîsî û tomar bikî. Xebitandinên bi pere di vê firoşgehê de ne berdest in.",
+    "planChanged": "Flow piştî bihakirinê guherî. Xebitandinê dîsa binirxîne.",
+    "connectOwnerWallet": "Berîka ku xwediyê vê flowê ye girê bide.",
+    "runFailed": "Girêk nikaribû biqede. Referansa wê ya karê tomarkirî ji bo vegerandinê tê parastin.",
+    "recoveryPending": "Render hêj li bendê ye. Vê xebitandinê bidomîne da ku wê bigirî.",
+    "nodeAudioGen": "Çêkerê dengî",
+    "nodeAudioGenDesc": "Axaftin, efektên dengî, nivîsandin û veqetandina dengî",
+    "nodeAudioInput": "Dengê tomarkirî",
+    "nodeAudioInputDesc": "Dengê taybet ji pirtûkxaneya xwe bikar bîne",
+    "audioVoiceId": "Nasnameya dengî",
+    "audioSeconds": "Dirêjahiya dengî bi çirkeyan",
+    "handlePrompt": "Prompt"
   },
   "loginModal": {
     "title": "Têkeve / Tomar bibe",
@@ -5670,7 +6037,8 @@
     "passkeyNotLinked": "Hîn tu hesab bi wê şopa tiliyê ve nehatiye girêdan. Li şûna wê hesabê nû biafirîne.",
     "passkeyAlreadyRegistered": "Ji bo wê şopa tiliyê jixwe hesabek heye. Li şûna wê Têkeve bikar bîne.",
     "passkeyFailed": "Têketina bi şopa tiliyê bi ser neket. Ji kerema xwe dîsa biceribîne.",
-    "passkeyBackupHint": "Hesabê te di kilîda têketinê ya vê cîhazê de ye. Li ser piraniya telefonan ew bi hesabê te yê Google an Apple re hevdem dibe, û tu dikarî di Mîhengan de wekî paşkeft şîfreyekê jî lê zêde bikî."
+    "passkeyBackupHint": "Hesabê te di kilîda têketinê ya vê cîhazê de ye. Li ser piraniya telefonan ew bi hesabê te yê Google an Apple re hevdem dibe, û tu dikarî di Mîhengan de wekî paşkeft şîfreyekê jî lê zêde bikî.",
+    "didYouMean": "Mebesta te {{email}} bû?"
   },
   "careers": {
     "title": "Karên li Riftn",
@@ -5935,7 +6303,13 @@
       "authorChip": "Nivîskarê pêşniyarê"
     },
     "holdTokensToVote": "Ji bo dengdanê xwedî tokenên Riftn be",
-    "mustHoldTokens": "Divê tu xwedî tokenên Riftn bî da ku li ser pêşniyarên rêvebiriyê deng bidî."
+    "mustHoldTokens": "Divê tu xwedî tokenên Riftn bî da ku li ser pêşniyarên rêvebiriyê deng bidî.",
+    "optionVoters_one": "{{count}} dengder",
+    "optionVoters_other": "{{count}} dengder",
+    "optionWinner": "Serketî: {{option}}",
+    "optionNoWinner": "Serketiyekî zelal tune",
+    "optionTapToUndo": "Ji bo vegerandina dengê xwe dîsa li bersiva xwe bitikîne",
+    "optionPickOne": "Bersivekê hilbijêre"
   },
   "sidebar": {
     "talkOfTheTown": "Behsa bajêr",
@@ -5954,7 +6328,16 @@
     "clearSearch": "Lêgerînê pak bike",
     "noMenuMatches": "Di menuyê de tu tişt li hev nayê",
     "searchDehubFor": "Li Riftn li \"{{query}}\" bigere",
-    "requestSend": "Daxwazê bişîne"
+    "requestSend": "Daxwazê bişîne",
+    "requestPrompt": "Hêj ne li vir e? Wek daxwazekê bişîne",
+    "requestPromptShort": "Hêj ne li vir e?",
+    "requestDraftMenu": "{{query}} li Riftn zêde bike",
+    "requestDraftSettings": "Mîhengek ji bo {{query}}",
+    "requestPostsTo": "Diçe Daxwazan",
+    "requestHint": "Wek te diçe Daxwazan. Em ê ji te re bibêjin dema ku derkeve.",
+    "requestSent": "Ji Daxwazan re hat şandin",
+    "requestSentHint": "Em ê ji te re bibêjin dema ku derkeve.",
+    "requestSeeIt": "Li Daxwazan bibîne"
   },
   "comments": {
     "showAll": "Hemû şîroveyan nîşan bide",
@@ -6043,7 +6426,24 @@
     "tabReplies": "Bersiv",
     "tabQuotes": "Jêgirtin",
     "tabReposts": "Ji nû ve weşandin",
-    "tabSearch": "Lê bigere"
+    "tabSearch": "Lê bigere",
+    "attachAudioFile": "Pelê dengî",
+    "attachMedia": "Wêne, vîdyo an deng pêve bike",
+    "attachPhotoOrVideo": "Wêne an vîdyo",
+    "attachTooLarge": "Ew pel ji sînorê {{size}} MB mezintir e.",
+    "playVideo": "Vîdyoyê lê bide",
+    "threadParts": {
+      "reorder": "Ji nû ve rêz bike",
+      "reorderHint": "Beşekê bigire û bikişîne, an tîran bikar bîne, paşê tomar bike.",
+      "save": "Rêzê tomar bike",
+      "saved": "Rêza zincîrê hat tomarkirin",
+      "saveFailed": "Rêz nehat tomarkirin. Dîsa biceribîne.",
+      "moveUp": "Beşa {{n}} bilind bike",
+      "moveDown": "Beşa {{n}} nizm bike",
+      "addPart": "Li zincîrê zêde bike",
+      "addPlaceholder": "Li zincîra xwe zêde bike...",
+      "label": "Zincîr · {{count}} beş"
+    }
   },
   "postInfo": {
     "unavailable": "Ne berdest e",
@@ -6578,7 +6978,9 @@
       "joined": "{{name}} tevlî bû",
       "reactions": "Bertek",
       "photoTooLarge": "Divê wêne ji 10MB kêmtir be",
-      "aiAdminFailed": "Rêvebera AI bersiv neda"
+      "aiAdminFailed": "Rêvebera AI bersiv neda",
+      "addToMessages": "Li Peyaman zêde bike",
+      "inMessages": "Di Peyaman de"
     },
     "manage": {
       "dismissAdminTitle": "Ji rêveberiyê derxe",
@@ -6600,7 +7002,8 @@
         "invites": "Vexwendin",
         "rules": "Rêgez",
         "recentActions": "Çalakiyên dawî",
-        "danger": "Herêma xetereyê"
+        "danger": "Herêma xetereyê",
+        "automod": "Moderasyona otomatîk û bot"
       },
       "title": "Birêve bibe",
       "purgeTitle": "Hemû peyaman jê bibe?",
@@ -6787,24 +7190,111 @@
       "buyer": "Kirîyar:",
       "balance": "Bermayî:",
       "price": "Biha:",
-      "marketCap": "Sermayeya bazarê:"
+      "marketCap": "Sermayeya bazarê:",
+      "title": "{{amount}} KIRÎN",
+      "txn": "Mam.",
+      "titleToken": "{{amount}} ${{symbol}} KIRÎN"
     },
     "newChat": {
       "public": "Giştî",
       "private": "Taybet",
       "free": "Bêpere",
       "paid": "Hat dayîn",
-      "group": "Kom"
+      "group": "Kom",
+      "description": "Li ser çi ye? (ne mecbûrî)",
+      "groupCreated": "Kom hat çêkirin",
+      "channelCreated": "Kanal hat çêkirin",
+      "newGroup": "Koma nû",
+      "newChannel": "Kanala nû",
+      "groupName": "Navê komê",
+      "channelName": "Navê kanalê",
+      "whoCanJoin": "Kî dikare tevlî bibe",
+      "publicDetail": "Her kes dikare wê bibîne û tevlî bibe",
+      "inviteOnly": "Tenê bi vexwendinê",
+      "privateDetail": "Kes bi vexwendina te an erêkirina te tevlî dibin",
+      "entry": "Ketin",
+      "freeDetail": "Ji bo tevlîbûnê belaş e",
+      "paidDetail": "Yek dayîn bi tokenan, rasterast ji te re",
+      "price": "Biha bi tokenan",
+      "channelNote": "Tenê tu û rêveberên te dikarin biweşînin. Endam dixwînin û bertekê didin.",
+      "createGroup": "Komê çêke",
+      "createChannel": "Kanalê çêke",
+      "channel": "Kanal",
+      "adminsOnly": "Di vê kanalê de tenê rêveber diweşînin.",
+      "message": "Peyama nû",
+      "messageDetail": "Sohbeteke taybet bi kesekî re",
+      "groupDetail": "Bi gelek kesan re sohbet bike, giştî an taybet",
+      "channelDetail": "Ji şopîneran re biweşîne, belaş an bi pere",
+      "title": "Tiştekî dest pê bike",
+      "channelRow": "Kanal · {{formattedCount}} endam",
+      "groupRow": "Kom · {{formattedCount}} endam"
     },
     "holderGate": {
       "chain": "Zincîr",
-      "tab": "Xwedî"
+      "tab": "Xwedî",
+      "failed": "Niha bermayiya te nehat xwendin. Piştî kêliyekê dîsa biceribîne.",
+      "short": "Tenê xwedî: {{need}} hewce ye. Di destê te de {{have}} heye.",
+      "required": "Tenê xwedî: di berîka te de têra sohbetê tokena vê civakê tune.",
+      "topHolders": "Xwediyên herî mezin",
+      "noHolders": "Xwedî piştî ku tevlî dibin li vir xuya dibin.",
+      "saved": "Qaîdeya xwediyan hat tomarkirin",
+      "cleared": "Her kes dikare dîsa tevlî bibe",
+      "saveFailed": "Qaîdeya xwediyan nehat tomarkirin",
+      "title": "Tenê xwedî",
+      "explain": "Tenê berîkên ku vê tokenê digirin dikarin tevlî bibin û sohbet bikin. Dema kesek tevlî dibe bermayî ji zincîrê tên xwendin.",
+      "which": "Token",
+      "dehubTokens": "Tokenên Riftn",
+      "otherToken": "Tokeneke din",
+      "token": "Peymana tokenê",
+      "reading": "Token tê xwendin…",
+      "badAddress": "Ew ne navnîşaneke tokenê ye",
+      "minimum": "Kêmtirîn ji bo girtinê",
+      "save": "Qaîdeya xwediyan tomar bike",
+      "chip": "Tenê xwedî · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Peyvên qedexekirî",
       "floodMax": "Peyamên {{count}}",
       "saved": "Hat tomarkirin",
-      "wordCount": "{{count}} peyv"
+      "wordCount": "{{count}} peyv",
+      "title": "Moderasyona otomatîk",
+      "hint": "Peyamekê berî ku kes bibîne asteng dike û ji şandiyar re dibêje çima. Xwedî û rêveber qet nayên astengkirin.",
+      "enabled": "Moderasyona otomatîk vekirî ye",
+      "bannedWordsHint": "Her rêzê yek an bi bêhnokê. Tenê peyvên tevahî, û nivîsînên bi valahî yên wek s.c.a.m jî tên girtin.",
+      "bannedWordsPlaceholder": "xapandin\nrug pull",
+      "blockLinks": "Girêdanan asteng bike",
+      "blockLinksHint": "Girêdanên derveyî malperê û vexwendinên Telegram/Discord. Girêdanên Riftn hêj dixebitin.",
+      "repeats": "Dubarekirinan asteng bike",
+      "repeatsHint": "Nahêle kesek di nav 10 xulekan de heman rêzê dîsa bişîne.",
+      "flood": "Dijî-lehiyê",
+      "floodHint": "Ji bo her kesî herî zêde {{max}} peyam her {{seconds}} çirkeyan.",
+      "noAccess": "Tenê xwedî û rêveber dikarin van mîhengan biguherînin.",
+      "saveFailed": "Nehat tomarkirin. Dîsa biceribîne.",
+      "saveWords": "Peyvan tomar bike",
+      "bannedWord": "Di wê peyamê de peyveke ku ev kom destûrê nade heye.",
+      "links": "Di vê komê de girêdan nayên destûrdan.",
+      "repeat": "Te ev nû şand. Hewl bide tiştekî nû bibêjî.",
+      "reserved": "Ew cure peyam tenê dikare ji botên komê bê.",
+      "floodError": "Tu pir bilez dişînî. {{value1}} çirkeyan li bendê be û dîsa biceribîne."
+    },
+    "entry": {
+      "switchChain": "Ji bo dayînê berîka xwe derbasî BNB Chain an Base bike.",
+      "failed": "Me hêj nikarî dayîna te piştrast bikin. Heke token ji berîka te derketin, piştî xulekekê dîsa li Tevlî bibe bitikîne.",
+      "chip": "{{amount}} ji bo tevlîbûnê"
+    },
+    "avatarUpdated": "Wêne hat nûkirin",
+    "bannerUpdated": "Banner hat nûkirin",
+    "imageUploadFailed": "Ew wêne nehat barkirin. Dîsa biceribîne.",
+    "changeBanner": "Bannerê biguherîne",
+    "changeAvatar": "Wêneyê biguherîne",
+    "buyBot": {
+      "title": "Bota kirînê",
+      "any": "Her mezinahî",
+      "enabled": "Hişyariyên kirînê biweşîne",
+      "hint": "Her kirîna ${{symbol}} di vê sohbetê de diweşîne, nêzîkî xulekekê piştî ku diqewime.",
+      "minUsd": "Kirîna herî piçûk a ku tê weşandin",
+      "noToken": "Ji sernavê komê tokenekê girê bide (biguherîne, paşê Ticker) û her kirîn di vê sohbetê de xuya dibe.",
+      "unsupported": "${{symbol}} li ser zincîr an cureyê poolê ye ku bota kirînê hêj naşopîne. Piştgirîkirî: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism û Avalanche (poolên bi şêweya Uniswap v2/v3)."
     }
   },
   "work": {
@@ -7736,7 +8226,8 @@
     "unpinMessage": "Pîna peyamê rake",
     "ban": "Qedexe bike",
     "banConfirm": "Tu piştrast î ku dixwazî {{name}} qedexe bikî?",
-    "banFailed": "Qedexekirina bikarhêner bi ser neket"
+    "banFailed": "Qedexekirina bikarhêner bi ser neket",
+    "jumpToMentions": "Biçe bersiv û behskirinan"
   },
   "promptFeed": {
     "headline": "Tu dixwazî çi bibînî?",
@@ -7922,7 +8413,13 @@
     },
     "followBackConfirm": "Tu jî bişopîne",
     "followBackNotNow": "Nêzîkî",
-    "followBackDone": "Qedexe"
+    "followBackDone": "Qedexe",
+    "followBackConfirmTitle_one": "{{count}} kesî bişopînî?",
+    "followBackConfirmTitle_other": "{{count}} kesan bişopînî?",
+    "followBackConfirmBody": "Ew jixwe te dişopînin. Hesabên taybet daxwaza şopandinê distînin.",
+    "followedBackCount_one": "{{count}} kes hat şopandin",
+    "followedBackCount_other": "{{count}} kes hatin şopandin",
+    "followBackDoneBody": "Tu dikarî hemûyan di Dişopîne de bibînî."
   },
   "reactionInfo": {
     "mentionedYouLiveChat": "{{name}} di sohbeta zindî de behsa te kir",
@@ -8837,10 +9334,12 @@
     "altPlaceholderVideo": "Vê vîdyoyê bide nasîn",
     "landingLive": "Zindî",
     "preview": {
-      "title": "Pêşdîtin"
+      "title": "Pêşdîtin",
+      "hint": "Şandiya te dê di herikê de bi vî awayî xuya bibe."
     },
     "recent": {
-      "all": "Hemû"
+      "all": "Hemû",
+      "show": "Wêneyên dawî nîşan bide"
     },
     "studio": {
       "crop": "Birrîn",
@@ -8859,13 +9358,47 @@
       "ticker": "Tîker",
       "textBg": "Paşxane",
       "font": {
-        "bold": "Qalind"
-      }
+        "bold": "Qalind",
+        "clean": "Paqij",
+        "serif": "Serif",
+        "mono": "Mono"
+      },
+      "looks": "Dîmen",
+      "adjust": "Eyar bike",
+      "tint": "Reng",
+      "vignette": "Vînyet",
+      "prev": "Wêneya berê",
+      "count": "{{n}} ji {{total}}",
+      "next": "Wêneya din",
+      "title": "Wêneyê biguherîne",
+      "holdHint": "Bigire da ku orîjînalê bibînî",
+      "cropCorner": "Quncikê birînê",
+      "straighten": "Rast bike",
+      "flip": "Berevajî bike",
+      "mention": "Behs bike",
+      "layerHint": "Peyv û stîkeran bikişîne da ku wan bilivînî. Du caran bitikîne da ku peyvan biguherînî.",
+      "looksAdjust": "Dîmen û eyarkirin"
     },
     "edited": "Guhertî",
     "edit": "Biguherîne",
     "moveEarlier": "Bibe pêştir",
-    "moveLater": "Bibe paştir"
+    "moveLater": "Bibe paştir",
+    "altHint": "Ji bo kesên ku nikarin bibînin bibêje çi tê de ye.",
+    "altPlaceholder": "Vê wêneyê rave bike",
+    "altTab": "Nivîsa alternatîf",
+    "editVideo": "Vîdyoyê biguherîne",
+    "landingPosting": "Tê weşandin",
+    "trim": "Kurt bike",
+    "trimAndCover": "Kurt bike û berg",
+    "trimStart": "Destpêka klîpê",
+    "trimEnd": "Dawiya klîpê",
+    "trimHint": "Ji bo kurtkirinê destikên spî bikişîne. Ji bo livandinê li şerîtê bitikîne.",
+    "useFrameAsCover": "Vê çarçoveyê wek berg bikar bîne",
+    "photoHoldHint": "Ji bo vebijarkên zêdetir bigire",
+    "editPhoto": "Wêneya {{n}} biguherîne",
+    "editAltText": "Nivîsa alternatîf biguherîne",
+    "addAltText": "Nivîsa alternatîf zêde bike",
+    "photoN": "Wêne {{n}} ji {{total}}"
   },
   "bounty": {
     "claimed": "Hate wergirtin",
@@ -9160,7 +9693,13 @@
     "chatUnavailable": "Sohbet ne berdest e",
     "tippedAmount": "{{amount}} bexşîş da",
     "shopPutOnAir": "Têxe weşanê",
-    "liveBadge": "ZINDÎ"
+    "liveBadge": "ZINDÎ",
+    "screenShare": {
+      "start": "Ekranê parve bike",
+      "stop": "Parvekirina ekranê rawestîne",
+      "sharing": "Tu ekrana xwe parve dikî",
+      "hint": "Temaşevan ekrana te dibînin. Li bişkoka ekranê bitikîne da ku vegerî kamerayê."
+    }
   },
   "liveShop": {
     "title": "Ji vê weşanê bikire",
@@ -9475,7 +10014,17 @@
     "paymentSendingAmount": "Tê şandin · {{amount}}",
     "paymentSentWith": "Bi {{amount}} hat şandin",
     "newDrawer": {
-      "to": "Heta"
+      "to": "Heta",
+      "placeholder": "Nav an @navêbikarhêner",
+      "recent": "DAWÎ",
+      "suggested": "PÊŞNIYARKIRÎ",
+      "youFollow": "KESÊN KU TU DIŞOPÎNÎ",
+      "chattedBefore": "Hûn diaxivin",
+      "mutual": "Hevbeş",
+      "dmsOff": "DM girtî ne",
+      "keepTyping": "Binivîse da ku li her kesî bigerî",
+      "sayHi": "Ji kesekî re silav bike",
+      "typeAny": "Her nav an @navêbikarhêner binivîse"
     },
     "download": "Daxe",
     "deleteOneTitle": "Vê peyamê jê bibî?",
@@ -9488,8 +10037,30 @@
       "communities": "Civak",
       "members": "{{n}} endam",
       "newChat": "Sohbeta nû",
-      "invite": "Vexwîne"
-    }
+      "invite": "Vexwîne",
+      "noChats": "Hêj sohbet bi \"{{q}}\" tune. Ev in kes û tiştên ku li hev tên.",
+      "nothing": "Hêj tiştek bi \"{{q}}\" re li hev nayê. Tiştekî nû dest pê bike.",
+      "start": "An tiştekî dest pê bike",
+      "newChatSub": "Her kesî hilbijêre",
+      "newGroup": "Koma nû",
+      "newGroupSub": "Bi hev re sohbet bikin",
+      "inviteSub": "Girêdanekê parve bike",
+      "inviteMessage": "Li Riftn tevlî min bibe: {{url}}",
+      "searchAll": "Li hemû Riftn li \"{{q}}\" bigere",
+      "searchAllSub": "Şandî, vîdyo, weşanên zindî"
+    },
+    "copyMedia": "Medyayê kopî bike",
+    "reportMessage": "Peyamê ragihîne",
+    "fileSaved": "Pel hat tomarkirin",
+    "fileSaveFailed": "Pel nehat tomarkirin",
+    "attachAnything": "Wêne, vîdyo, deng an pelekî pêve bike",
+    "attachFileOrAudio": "Pel an deng",
+    "attachPhotoOrVideo": "Wêne an vîdyo",
+    "attachTooLarge": "Ew pel ji sînorê {{size}} MB mezintir e.",
+    "deleteForBothBody": "Ew ê ji bo her duyên we bê rakirin.",
+    "notSent": "Nehat şandin",
+    "shareGroups": "Kom",
+    "shareKindChannel": "Kanal"
   },
   "editPost": {
     "mediaPermission": "Destûra pirtûkxaneya medyayê pêwîst e",
@@ -9612,7 +10183,8 @@
     "pipUnavailable": "Wêne di nav wêneyê de ne berdest e. Di mîhengên cîhaza xwe de kontrol bike ka ji bo Riftn destûr heye.",
     "noVideo": "Vîdyo tune",
     "rotate": "Bizivirîne",
-    "yourDhbBalance": "Bermayiya tokenên te: {{amount}}"
+    "yourDhbBalance": "Bermayiya tokenên te: {{amount}}",
+    "notAvailableForPost": "Ji bo vê şandiyê ne berdest e"
   },
   "liveViewer": {
     "loadingStream": "Weşan tê barkirin...",
@@ -9845,7 +10417,22 @@
     "didNotRecoverEither": "Wê têketinê tu profîlek ku li vir tê nîşandan venegerand. Tiştek neguherî. Ji bo profîla ku tu dixwazî têketina resen biceribîne.",
     "didNotRecoverThis": "Wê têketinê berîkek din vegerand, ne ya vê profîlê. Tiştek neguherî. Têketina ku ew di destpêkê de çêkiribû biceribîne.",
     "couldNotRetrieve": "Ew berîka kevn li ser vê amûrê nehat anîn. Tu hîn jî dikarî wê li jêr li ser riftn.com vegerînî.",
-    "matchedWithBalance": "Li hev hat, {{balance}} token"
+    "matchedWithBalance": "Li hev hat, {{balance}} token",
+    "methodEmail": "koda e-nameyê",
+    "methodPhone": "hejmara telefonê",
+    "madeWithNamed": "@{{name}} bi {{method}} hatibû çêkirin. Bi heman hesabê {{method}} bidomîne da ku wê vegerînî.",
+    "madeWith": "Ev profîl bi {{method}} hatibû çêkirin. Bi heman hesabê {{method}} bidomîne da ku wê vegerînî.",
+    "madeWithEmailNamed": "@{{name}} bi koda e-nameyê hatibû çêkirin. Em ê kodeke din ji wê e-nameyê re bişînin da ku wê vegerînin.",
+    "madeWithEmail": "Ev profîl bi koda e-nameyê hatibû çêkirin. Em ê kodeke din ji wê e-nameyê re bişînin da ku wê vegerînin.",
+    "madeWithPhoneNamed": "@{{name}} bi hejmara telefonê hatibû çêkirin. Em ê kodeke din bi SMS ji wê hejmarê re bişînin da ku wê vegerînin.",
+    "madeWithPhone": "Ev profîl bi hejmara telefonê hatibû çêkirin. Em ê kodeke din bi SMS ji wê hejmarê re bişînin da ku wê vegerînin.",
+    "wrongSignInNamed": "Ew têketin berîkeke din vedike, ne @{{name}}. @{{name}} bi {{method}} hatibû çêkirin, ji ber vê tenê ew dikare wê vegerîne.",
+    "wrongSignIn": "Ew têketin berîkeke din vedike. Ev profîl bi {{method}} hatibû çêkirin, ji ber vê tenê ew dikare wê vegerîne.",
+    "continueWith": "Bi {{provider}} bidomîne",
+    "differentSignIn": "Te têketineke din bikar anî?",
+    "oldAccountPhone": "Hejmara telefonê ya hesabê kevn",
+    "recoverFromPhoneA11y": "Hesabê kevn ji vê hejmara telefonê vegerîne",
+    "phoneNeedsCode": "Hejmarê bi koda welêt binivîse, wek +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Token bikire",
@@ -10683,8 +11270,17 @@
       "noSpeech": "Di vê klîpê de axaftin nehat dîtin.",
       "failed": "Ji bo vê klîpê binnivîs nehatin afirandin.",
       "styles": {
-        "bold": "Qalind"
-      }
+        "bold": "Qalind",
+        "classic": "Klasîk",
+        "boxed": "Qutîkirî",
+        "wordpop": "Word Pop",
+        "rapid": "Xuyabûna bilez",
+        "beast": "Beast Mode",
+        "stacked": "Li ser hev",
+        "serif": "Serif",
+        "bubble": "Balon"
+      },
+      "style": "Şêwaza binnivîsê"
     },
     "app": {
       "newDesign": "Sêwirana nû",
@@ -10754,7 +11350,11 @@
       "vibrant": "Geş",
       "cyber": "Sîber",
       "invert": "Berevajî",
-      "strength": "Hêza parzûnê: {{value}}%"
+      "strength": "Hêza parzûnê: {{value}}%",
+      "fadedFilm": "Fîlma rengçûyî",
+      "technicolor": "Technicolor",
+      "newsreel": "Nûçeya kevn",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "Birrîn",
@@ -10835,14 +11435,18 @@
       "pptx": "Pêşkêşiya PowerPoint",
       "pptxHint": "Her rûpel dibe wêneyekî slaytê, bi notên pêşkêşkar û girêdanan. Nivîs û hêmanên yek bi yek di sêwirana orîjînal de biguherîne.",
       "section": "Beşa binavkirî",
-      "transparent": "Paşxaneya zelal"
+      "transparent": "Paşxaneya zelal",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "ZIPekê bi demjimêra te wek FCPXML û Premiere XML û her pelê medyayê dadixe, da ku tu karibî guherandinê di Premiere Pro, Final Cut Pro an DaVinci Resolve de biqedînî. Nivîs dibe nîşanker; efekt di Riftn de dimînin."
     },
     "adjust": {
       "auto": "Pêşxistina otomatîkî",
       "autoFailed": "Min nekarî vê wêneyê analîz bikim.",
       "tint": "Rengkirin {{value}}",
       "vignette": "Vînyet {{value}}%",
-      "warmth": "Germî {{value}}"
+      "warmth": "Germî {{value}}",
+      "halation": "Halasyon {{value}}%",
+      "scanlines": "Xetên skanê {{value}}%"
     },
     "draw": {
       "colour": "Rengê pênûsê",
@@ -10936,7 +11540,45 @@
       "openGenerator": "Binirxîne û çêke",
       "working": "Li ser wê xebat tê kirin…",
       "stop": "Rawestîne",
-      "queue": "Li rêzê zêde bike"
+      "queue": "Li rêzê zêde bike",
+      "stopped": "Rawestiya. Tiştekî din nehat guhertin.",
+      "queued": "{{count}} di rêzê de",
+      "restore": "Heta vir vegerîne",
+      "restoreHint": "Projeyê vegerîne rewşa berî vê peyamê. Paşvekirin wê vedigerîne.",
+      "restored": "Proje vegeriya rewşa berî wê peyamê. Paşve bike da ku guhertoya nûtir vegerînî.",
+      "rewrite": "Daxwaza min zelaltir bike",
+      "rewriteFailed": "Ev ji nû ve nehat nivîsandin. Nivîsa te neguherî.",
+      "feedback": "Ev alîkar bû?",
+      "good": "Bersiva baş",
+      "bad": "Bersiva xirab",
+      "retryPrefix": "Ev ne rast bû. Li şûna wê, ",
+      "recipesTitle": "Reçete",
+      "recipe": {
+        "podcastClip": {
+          "label": "Klîpa podcastê",
+          "prompt": "Kêliya herî xurt a 30 çirkeyan bibîne, heta wê kurt bike, binnivîsên Word Pop zêde bike û bike 9:16."
+        },
+        "talkingHead": {
+          "label": "Axaftina paqij a li ber kamerayê",
+          "prompt": "Rawestanên dirêj bibire, binnivîsên Classic zêde bike, û dîmeneke germ a nazik bide."
+        },
+        "productPromo": {
+          "label": "Reklama berhemê",
+          "prompt": "Reklameke 15 çirkeyan çêke: sernavekî bihêz li destpêkê, derbasbûnên Zoom in di navbera klîpan de, binnivîsên Bold û muzîka şad."
+        },
+        "hypeReel": {
+          "label": "Reela coşê",
+          "prompt": "Klîpan li gorî rîtma muzîkê bibire, derbasbûnên Fly up û dîmena Technicolor bikar bîne."
+        },
+        "retroEdit": {
+          "label": "Guherandina retro",
+          "prompt": "Dîmena VHS bide her klîpê, sernavekî mezin ê serif zêde bike, û derbasbûnên Fade bikar bîne."
+        },
+        "tutorial": {
+          "label": "Rêber",
+          "prompt": "Ji bo her gavê sernavekê, binnivîsên Boxed zêde bike, û kêliya sereke hêdî bike heta 0.5x."
+        }
+      }
     },
     "brand": {
       "presetLibrary": "Şêwazên marqeyê yên tomarkirî",
@@ -10962,7 +11604,10 @@
       "saveNewPreset": "Wekî nû tomar bike",
       "saveStyles": "Şêwazan bi sêwiranê re tomar bike",
       "stylesSaved": "Şêwazên marqeyê bi vê sêwiranê re hatin tomarkirin",
-      "usePreset": "Şêwazan bi kar bîne"
+      "usePreset": "Şêwazan bi kar bîne",
+      "dehubApplied": "Marqeya Riftn li {{count}} qatan hat sepandin.",
+      "dehubApply": "Marqeya Riftn bikar bîne",
+      "dehubHint": "Rengên fermî yên Riftn, fontên Exo û Inter, û logoya Riftn, bi yek tikandinê."
     },
     "templates": {
       "announcement": {
@@ -11075,7 +11720,9 @@
       "exportHint": "Heta vîdyoya te tê çêkirin, edîtorê vekirî bihêle.",
       "tooLarge": "Ev pel ji bo edîtorê pir mezin e. Sînor 400 MB e.",
       "tZoomIn": "Nêzîk bike",
-      "tZoomOut": "Zoomê kêm bike"
+      "tZoomOut": "Zoomê kêm bike",
+      "tFlyUp": "Bifire jor",
+      "tFlyDown": "Bifire jêr"
     },
     "motion": {
       "title": "Tevger",
@@ -12256,18 +12903,90 @@
       "zoomOut": "Kanvasê biçûk bike"
     },
     "clipFix": {
-      "listening": "Guhdarî dike…"
+      "listening": "Guhdarî dike…",
+      "detach": "Deng veqetîne",
+      "detached": "Deng çû klîpa xwe ya cuda",
+      "detachFailed": "Dengê vê klîpê nehat veqetandin",
+      "removeBars": "Xetên reş rake",
+      "scanning": "Çarçove tên kontrolkirin…",
+      "noBars": "Tu xetên reş nehatin dîtin",
+      "barsRemoved": "Xetên reş hatin birîn",
+      "barsFailed": "Ev vîdyo ji bo xetên reş nehat kontrolkirin",
+      "reframe": "Ji nû ve çarçovekirina otomatîk",
+      "reframeHint": "Vîdyo jixwe li şêweya vê rûpelê tê",
+      "reframed": "Ji nû ve hat çarçovekirin da ku çalakiyê bişopîne",
+      "reframeFailed": "Ev vîdyo ji nû ve nehat çarçovekirin",
+      "retakes": "Tomarên dubare rake",
+      "noRetakes": "Tu tomarên dubare nehatin dîtin",
+      "retakesRemoved": "{{count}} tomarên dubare hatin rakirin, ya dawî hat hiştin",
+      "retakesFailed": "Tomarên dubare ji vê klîpê nehatin rakirin"
     },
     "voiceClone": {
       "stop": "Tomarkirinê rawestîne",
-      "failed": "Klonkirina deng bi ser neket."
+      "failed": "Klonkirina deng bi ser neket.",
+      "pickerLabel": "Dengê xwe klon bike",
+      "pickerDetail": "Dengdan bi dengê te bi xwe",
+      "title": "Dengê xwe klon bike",
+      "description": "Xwe tomar bike an klîpeke ku tu tê de diaxivî hilbijêre. Tu carekê didî û dengê te ji bo her dengdanê ya te ye.",
+      "defaultName": "Dengê min",
+      "record": "Nimûneyekê tomar bike (30 çirke heta 2 xulek)",
+      "fromMedia": "An klîpekê ji Medyayê bikar bîne",
+      "recorded": "Tomara te",
+      "sample": "Nimûne: {{name}}",
+      "hint": "Axaftina zelal bê muzîk çêtirîn dixebite.",
+      "noMic": "Mîkrofon nehat bikaranîn.",
+      "sampleFailed": "Deng ji wê klîpê nehat xwendin.",
+      "pay": "Bi {{amount}} token klon bike",
+      "useFree": "Klon bike (jixwe hatiye dayîn)",
+      "owned": "Dengê te “{{name}}” jixwe amade ye. Ji lîsteya dengan hilbijêre.",
+      "useOwned": "Dengê min bikar bîne",
+      "ready": "“{{name}}” ji bo dengdanê amade ye.",
+      "paidFailed": "Dayîna te tomarkirî ye. Vê dîsa veke û ceribandina din belaş e.",
+      "consent": "Tenê dengê xwe klon bike, an yekî ku destûra te heye bikar bînî."
     },
     "linkImport": {
       "go": "Têxe",
-      "downloading": "Tê daxistin {{percent}}%"
+      "downloading": "Tê daxistin {{percent}}%",
+      "open": "Ji girêdanekê têxe",
+      "placeholder": "Girêdaneke YouTube, TikTok an yeke din bixe vir",
+      "rights": "Ez xwediyê vê vîdyoyê me an destûra min heye ku bikar bînim",
+      "audioOnly": "Tenê deng",
+      "queued": "Di rêzê de…",
+      "waiting": "Li benda malperê ye, di demeke nêzîk de dîsa diceribîne…",
+      "adding": "Li Medyayê tê zêdekirin…",
+      "added": "Hat têxistin û li demjimêrê hat zêdekirin.",
+      "failed": "Ew girêdan nehat têxistin."
     },
     "reverse": {
-      "action": "Berevajî bike"
+      "action": "Berevajî bike",
+      "working": "Tê berevajîkirin {{percent}}%",
+      "done": "Klîp hat berevajîkirin.",
+      "failed": "Ev klîp nehat berevajîkirin.",
+      "unsupported": "Ev gerok nikare vîdyoyê berevajî bike. Chrome an Edge biceribîne.",
+      "tooLong": "Klîpên heta {{seconds}} çirkeyan dikarin bên berevajîkirin."
+    },
+    "speakers": {
+      "find": "Axaftvanan bibîne",
+      "name": "Axaftvan {{number}}",
+      "onlyOne": "Tenê axaftvanek hat dîtin.",
+      "failed": "Axaftvan nehatin dîtin.",
+      "kept": "Tenê {{name}} hat hiştin.",
+      "editFailed": "Ew guherandin li vê klîpê nehat.",
+      "split": "Bû {{count}} dîmenên axaftvanan.",
+      "keepOnly": "Tenê bihêle",
+      "splitAction": "Li her guhertina axaftvan bibire"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Tiştê 3D yê ku tu dixwazî rave bike",
+      "queued": "Tiştê te yê 3D tê çêkirin. Ew dikeve taba Çêkirinan.",
+      "note": "Tiştên 3D wek klîpeke kurt a dizivire bi paşxaneyeke zelal dikevin Medyayê."
+    },
+    "behind": {
+      "action": "Nivîs li pişt kesî",
+      "working": "Kes tê jêkirin…",
+      "done": "Nivîs û binnivîs niha li pişt kesî ne.",
+      "failed": "Nivîs nehat danîn li pişt kesî."
     }
   },
   "creator": {
@@ -13003,9 +13722,38 @@
     "gallery": {
       "send": "Bişîne",
       "notifications": {
-        "generation_reply": "{{name}} bersiva şîroveya te da"
-      }
-    }
+        "generation_reply": "{{name}} bersiva şîroveya te da",
+        "generation_like": "{{name}} bertek da çêkirina te",
+        "generation_comment_like": "{{name}} bertek da şîroveya te",
+        "generation_comment": "{{name}} li ser çêkirina te şîrove kir"
+      },
+      "browse": "Li çêkirinan bigere",
+      "empty": "Hêj afirandin tune",
+      "fullscreen": "Di ekrana tevahî de bibîne",
+      "missing": "Ev çêkirin ne berdest e."
+    },
+    "priceRetry": "Biha nehat piştrastkirin. Bihayê binirxîne û dîsa biceribîne.",
+    "avatarTitle": "Portreya diaxive",
+    "avatarRequirements": "Portreya PNG ya çargoşe, 512–2048 pîksel, heta 5 MB. WAV ya mono 24 kHz 16-bit PCM, 5–30 çirke. Beşa dawî ya çirkeyê bi bêdengiyê tê dagirtin.",
+    "avatarPortrait": "Portreya PNG hilbijêre",
+    "avatarAudio": "WAV ya axaftinê hilbijêre",
+    "avatarPermission": "Destûra min heye ku vê portreyê biliviyînim û vî dengî bikar bînim.",
+    "avatarQuote": "{{seconds}} çirke bi bêdengiyê re · {{amount}} token",
+    "avatarPrepare": "Amade bike û bihayê binirxîne",
+    "batchFlowLimit": "Lîsteya Flow tije ye. Berî çêkirina komeke din Flowek ku nayê bikaranîn rake.",
+    "batchReviewCampaign": "Koma kampanyayê di Flow de binirxîne",
+    "batchReviewFilmImages": "Koma wêneyên storyboardê binirxîne",
+    "batchReviewFilmVideos": "Koma klîpên fîlmê binirxîne",
+    "batchReviewHint": "Flowek tomarkirî ya cuda vedike. Berî dayînê her tiştî û bihayê tevahî binirxîne. Tiştên qediyayî û dayîna orîjînal ji bo vegerandinê tên parastin. Referans li pirtûkxaneya te ya taybet tên kopîkirin; lêçûnên hilanînê û torê derbas dibin.",
+    "batchInvalid": "Berî amadekirina komeke 1–12 wêne an klîpan her tiştî temam bike.",
+    "batchReferenceLimit": "Ev kom ji bo her tiştî yek referansa wêneyê piştgirî dike. Referansên zêde rake an wî tiştî bi tenê amade bike.",
+    "batchVideoSettings": "Ji bo vê komê, klîp demeke tam a 4–15 çirkeyan û rêjeya 16:9, 9:16 an 1:1 hewce dikin.",
+    "batchMissingReference": "Referansek winda ye, nayê piştgirîkirin an ji 25 MB mezintir e. Berî amadekirina komê wê di edîtorê de vegerîne.",
+    "batchOwnerChanged": "Hesab an reşnivîs guherî. Vê komê di bin hesabê wê yê orîjînal de ji nû ve veke.",
+    "batchConflict": "Koma tomarkirî bi wêneya wê ya orîjînal re li hev nayê.",
+    "libraryFavorites": "Bijarte",
+    "libraryFavoriteAdd": "Li bijarteyan zêde bike",
+    "libraryFavoriteRemove": "Ji bijarteyan rake"
   },
   "fractions": {
     "title": "Perçe",
@@ -13147,7 +13895,8 @@
     "offerSubmitted_other": "Pêşniyar ji bo {{count}} perçeyan hat şandin, her yek bi {{price}} token",
     "yourOfferLabel": "Pêşniyara te (token ji bo her perçeyekê)",
     "listedToast_one": "{{count}} perçe hat lîstekirin, her yek bi {{price}} token",
-    "listedToast_other": "{{count}} perçe hatin lîstekirin, her yek bi {{price}} token"
+    "listedToast_other": "{{count}} perçe hatin lîstekirin, her yek bi {{price}} token",
+    "nftsSubtitle": "Her NFT, guherandinên yek-gavî"
   },
   "moderation": {
     "appealDuplicate": "Te berê li ser vê îtiraz kiriye",
@@ -13338,7 +14087,11 @@
     "ended": "Qediya",
     "stage": "Sehne",
     "upcomingStage": "Sehneya bê",
-    "members": "{{compact}} endam"
+    "members": "{{compact}} endam",
+    "requestComments_one": "{{compact}} şîrove",
+    "requestComments_other": "{{compact}} şîrove",
+    "requestVotes_one": "{{compact}} deng",
+    "requestVotes_other": "{{compact}} deng"
   },
   "report": {
     "whyVideo": "Çima tu vê vîdyoyê ragihînî?",
@@ -14595,7 +15348,14 @@
     "faqWhatA": "Bi rêya MCP ew dikare şandiyên giştî yên Riftn bibîne, li mijaran bigere û li profîlên afirîneran binêre. Ew li şûna te naweşîne.",
     "faqAccountQ": "Ma hewcedariya min bi hesabekî Riftn heye?",
     "chatgptFaqAccount": "Ji bo xwendina naveroka giştî bi rêya girêderê hesab ne hewce ye. Hesabekî Riftn tenê hewce ye heke tu bixwazî biweşînî, bexşîşê bidî an tokenên Riftn bigirî.",
-    "claudeFaqAccount": "Na. Xwendina naveroka giştî bê hesab dixebite. Tenê ji bo weşandin, dayîna bexşîşê an girtina tokenên Riftn hesabekî Riftn hewce ye."
+    "claudeFaqAccount": "Na. Xwendina naveroka giştî bê hesab dixebite. Tenê ji bo weşandin, dayîna bexşîşê an girtina tokenên Riftn hesabekî Riftn hewce ye.",
+    "subtitleAccount": "Riftn ji ChatGPT, Claude an her sepana MCP bikar bîne. Bê hesab bigere, an têkeve da ku reşnivîsên taybet tomar bikî, şandiyan biweşînî û plan bikî, wêne û rapirsiyan birêve bibî, analîtîkê bixwînî, bersiv bidî û bişopînî.",
+    "agentsTitle": "Ajanên xwe ji arîkarê xwe bixebitîne",
+    "agentsBody": "Dema tu girê didî, destûrê bide \"Wek ajanên xwe tevbigere\" jî. Paşê arîkarê te dikare wek her ajanekî ku tu xwedî dikî biweşîne, bersiv bide, bertek bide, ji nû ve biweşîne, bişopîne an profîlekê biguherîne. Ew qet nikare wek hesabekî ku tu ne xwediyê wî yî tevbigere.",
+    "keysTitle": "Mifteyên kesane",
+    "keysBody": "Ji bo skrîpt, bot û sepanên ku nikarin rûpeleke têketinê vekin. Mifteyek tenê tiştê ku tu destûrê didî dike û piştî 30 rojên bêkarî disekine.",
+    "keysMake": "Mifteyeke kesane çêke",
+    "manageLinked": "Sepan û mifteyên girêdayî birêve bibe"
   },
   "credits": {
     "percentUsed": "{{percent}}% hat bikaranîn",
@@ -14687,7 +15447,10 @@
       "body": "Token rasterast diçin berîka sepanê, {{wallet}}. Dravdan nayên vegerandin.",
       "title": "Ji {{name}} re pere bide?",
       "confirm": "{{amount}} token bide",
-      "sent": "{{amount}} token ji {{name}} re hat dayîn."
+      "sent": "{{amount}} token ji {{name}} re hat dayîn.",
+      "testBadge": "Moda ceribandinê",
+      "testBody": "Tu xwediyê vê sepanê yî, ji ber vê ev ceribandin e: tu token naçin û meqbûz wek ceribandin tê nîşankirin.",
+      "testSent": "Dayîna ceribandinê ya {{amount}} tokenan. Tiştek nehat şandin."
     },
     "add": {
       "body": "Ew ê di bin Sepanên te de xuya bibe û dikare agahdariyan ji te re bişîne. Tu dikarî her dem wê ji rûpela Sepanan rakî.",
@@ -14809,7 +15572,16 @@
     "level": "Asta {{level}}",
     "streak_one": "Rêzeya {{count}} hefteyî",
     "streak_other": "Rêzeya {{count}} hefteyî",
-    "tipJar": "Kûpa diyariyan"
+    "tipJar": "Kûpa diyariyan",
+    "eyebrow": {
+      "follow": "Şopînerê nû",
+      "subscribe": "Aboneyê nû",
+      "subscribedTo": "Abone bû · {{plan}}",
+      "gifted_one": "Aboneyek diyarî kir",
+      "gifted_other": "{{count}} abone diyarî kirin",
+      "share": "Weşan parve kir",
+      "join": "Nû tevlî bû"
+    }
   },
   "liveStudio": {
     "controls": {
@@ -15188,7 +15960,8 @@
         "connecting": "Tê girêdan",
         "live": "Zindî",
         "error": "Çewtî"
-      }
+      },
+      "platform": "Platform"
     }
   },
   "liveChatModeration": {
@@ -15240,7 +16013,11 @@
     "failed": "Nêzêk kirina nekir. Bêhn re bi kar bîne.",
     "eyebrow": "Coming soon",
     "notifyMe": "Notify me",
-    "emailLabel": "Email"
+    "emailLabel": "Email",
+    "body": "Dema tokena nû amade dibe kirîn girtî ye. Di kêliya ku zindî dibe de e-nameyekê bistîne.",
+    "invalidEmail": "E-nameyeke derbasdar binivîse",
+    "joinedBodyNoEmail": "Dema token dest pê bike em ê e-nameyekê ji te re bişînin.",
+    "privacy": "Tenê ji bo agahdarkirina te li ser destpêkê tê bikaranîn."
   },
   "githubLink": {
     "verified": "Tasdîq kirî ye",
@@ -15249,7 +16026,10 @@
     "disconnected": "GitHub dereng bûye.",
     "taken": "Evîfa GitHubê li ser profilek din ê Riftnê ye.",
     "failed": "Nekare GitHubê ve. Lêgerîn bikin.",
-    "unavailable": "GitHubê diyarkirina bi ser dibe."
+    "unavailable": "GitHubê diyarkirina bi ser dibe.",
+    "hint": "Têkeve GitHub da ku îspat bikî hesab ya te ye. Riftn tenê profîla te ya giştî ya GitHub dibîne.",
+    "connect": "GitHub girê bide",
+    "connected": "GitHub girêdayî ye"
   },
   "nftMarket": {
     "dehubPostsName": "Riftn Posts",
@@ -15327,7 +16107,52 @@
     "days_one": "{{count}} roj",
     "days_other": "{{count}} roj",
     "sellYoursHint": "Ji walletê xwe lîste bike",
-    "spotlightForSale": "Niha tê firotin"
+    "spotlightForSale": "Niha tê firotin",
+    "actCollectionOffer": "Pêşniyara berhevokê",
+    "actListed": "Lîstekirî",
+    "actSale": "Firotin",
+    "buyAll": "Hemûyan bikire",
+    "buySeveral": "Çendan bikire",
+    "cartBought": "{{n}} hatin kirîn. Ew niha di berîka te de ne.",
+    "cartCount": "{{n}} di selikê de",
+    "cartFull": "Her car heta 20",
+    "cartOneCoin": "Ji bo her selikê yek zincîr û yek coin. Ji bo guhertinê wê vala bike.",
+    "cartOwn": "Ew ya te ye",
+    "cartPick": "Bitikîne da ku li selikê zêde bikî",
+    "forSaleHere": "Li vir ji bo firotinê",
+    "noActivity": "Hêj tiştek li vir tune",
+    "shareMessage": "Li Riftn NFTan bikire û bifroşe",
+    "loadFailed": "Bazar nehat barkirin. Ji bo dîsa ceribandinê bikişîne.",
+    "signInTitle": "Têkeve da ku NFTyên xwe bibînî",
+    "walletOn": "NFTyên di berîka te de li ser {{chain}}",
+    "listedAt": "Lîstekirî",
+    "noneHeld": "Hêj di vê berîkê de NFT tune",
+    "subtitle": "Li ser BNB, Base, Ethereum û Robinhood bikire û bifroşe",
+    "startHint": "Ji Yên te NFTyekê lîste bike da ku yê yekem bî.",
+    "wrongChain": "Ji bo bazirganiya vê berîka xwe derbasî {{chain}} bike",
+    "failed": "Ev bi ser neket. Dîsa biceribîne.",
+    "bought": "Ew ya te ye",
+    "cancelledOrder": "Li ser zincîrê hat betalkirin",
+    "notEnough": "Di berîka te de {{symbol}} têr nake",
+    "offerSent": "Pêşniyar hat şandin",
+    "cancelListing": "Lîstekirinê betal bike",
+    "buyConfirm": "{{name}} bikirî?",
+    "volShort": "Qeb.",
+    "salesCount": "{{n}} hatin firotin",
+    "bestOffer": "Pêşniyara herî baş",
+    "fromOpenSea": "Berhevokên herî jor li OpenSea",
+    "buyHere": "Wan li vir bikire",
+    "openSeaNote": "Li OpenSea lîstekirî ye. Tu rasterast li ser Seaport bi firoşkar re didî; Riftn tu lêçûnê zêde nake.",
+    "notListed": "Niha ji bo firotinê ne lîstekirî ye.",
+    "priceLabel": "Bihayê ku kiryar dide",
+    "offerLabel": "Pêşniyara te",
+    "list": "Lîste bike",
+    "listHint": "Îmzekirin belaş e. Firotina yekem ji berhevokekê carekê ji te dixwaze ku wê bipejirînî.",
+    "offerHint": "Îmzekirin belaş e. Tokenên te heta ku xwedî qebûl neke di berîka te de dimînin.",
+    "viewOnly": "Kirîn û firotina NFTan di vê sepanê de ne berdest e.",
+    "tradeOnWeb": "Li riftn.com bazirganiyê bike",
+    "feesFootnote": "Lêçûn: 2%, an 1% dema bi tokenan tê dayîn. Her bazirganî yek guherandineke li ser zincîrê ye.",
+    "bundleBadge": "Pakêt ×{{n}}"
   },
   "reel": {
     "readAll": "Hemî bixwîne",
@@ -15353,7 +16178,11 @@
     "loading": "Tê barkirin…",
     "paused": "Rawestandî",
     "preview": "Pêşdîtin",
-    "seek": "Bazde"
+    "seek": "Bazde",
+    "popOut": "Derxe derve",
+    "backInPost": "Li şûna wê li vir lê bide",
+    "inCorner": "Li quncikê tê lêdan",
+    "tapToStartApp": "Di lêderê Spotify de li lêdanê bitikîne"
   },
   "twoFactor": {
     "wrongCode": "Ev kod nehatê hevpeyvîn. Ji bo herî nûjenê di sepanê xwe de biceribîne.",
@@ -15435,15 +16264,43 @@
   "chatTextSize": {
     "title": "Mezinahiya nivîsê",
     "default": "Standard",
-    "larger": "Mezintir"
+    "larger": "Mezintir",
+    "small": "Piçûk",
+    "large": "Mezin",
+    "largest": "Herî mezin"
   },
   "signedFollows": {
     "setUp": "Çalak bikin",
     "turnOff": "Bigire",
-    "efpTurnOff": "Rawestîne"
+    "efpTurnOff": "Rawestîne",
+    "title": "Şopandinên te, li ser zincîrê",
+    "description": "Berîka te îmze dike ka tu kê dişopînî, û her roj lîste li ser Base tê mohrkirin. Her sepan dikare şopandinên te ji berîka te bibîne, heta bê Riftn jî.",
+    "on": "Ji bo vê cîhazê vekirî ye",
+    "off": "Ji bo vê cîhazê girtî ye",
+    "turnedOn": "Şopandinên te niha ji aliyê berîka te ve tên îmzekirin",
+    "turnedOff": "Ji bo vê cîhazê hat girtin",
+    "failed": "Berîka te îmze nekir. Dîsa biceribîne.",
+    "hiddenNote": "Lîsteyên şopandinê yên veşartî û hesabên taybet ji lîsteya giştî derdikevin.",
+    "efpOn": "Li EFP hat kopîkirin · {{count}} şopandin",
+    "efpOff": "Wan li EFP jî deyne",
+    "efpTurnOn": "Li EFP zêde bike",
+    "efpDone": "Şopandinên te diçin ser EFP",
+    "efpStopped": "Kopîkirina EFP rawestiya. Lîste ya te dimîne.",
+    "efpHasList": "Lîsteyeke te ya EFP jixwe heye. Riftn hêj nikare wê dagire.",
+    "efpNoGas": "Ji bo vê, berîka te hinekî ETH li ser Base hewce dike.",
+    "efpFailed": "Ev bi ser neket. Dîsa biceribîne.",
+    "efpNote": "EFP lîsteyeke şopandinê ye ku sepanên din dixwînin (efp.app). Bi berîka te ya Riftn belaş e; berîkên din çend sentan li ser Base didin. Lîste ya te ye.",
+    "efpUseWeb": "Bi berîka xwe ya taybet, vê li riftn.com di Mîhengan de bike."
   },
   "postEditHistory": {
-    "original": "Orîjînal"
+    "original": "Orîjînal",
+    "title": "Dîroka guherandinê",
+    "edited_one": "Carekê hat guherandin",
+    "edited_other": "{{count}} caran hat guherandin",
+    "lastEdit": "Guherandina dawî {{time}}",
+    "editN": "Guherandin {{n}}",
+    "now": "Niha",
+    "showChanges": "Nîşan bide çi guherî"
   },
   "studioDeck": {
     "remove": "Rake",
@@ -15452,28 +16309,61 @@
       "modes": {
         "none": "Girtî",
         "blur": "Şêlûbûn",
-        "color": "Reng"
-      }
+        "color": "Reng",
+        "image": "Wêne"
+      },
+      "failed": "Rakirina paşxaneyê li ser vê cîhazê dest pê nekir.",
+      "hint": "Li ser cîhaza te dixebite. Cara yekem barkirin çend çirkeyan digire."
     },
     "scenes": {
       "countdown": "Jimartina paşve",
       "minutes": "{{count}} xulek",
       "names": {
-        "starting": "Zû dest pê dike"
+        "starting": "Zû dest pê dike",
+        "chatting": "Tenê sohbet",
+        "brb": "Niha vedigerim",
+        "ending": "Dawiya weşanê"
+      },
+      "title": "Dîmen",
+      "picture": "Wêne",
+      "noCountdown": "Bê jimartina berevajî",
+      "hints": {
+        "starting": "Kart bi jimartina berevajî",
+        "chatting": "Kamera di ekrana tevahî de",
+        "brb": "Kart, mîkrofon bêdeng",
+        "ending": "Karta spasiyê"
+      },
+      "subtitles": {
+        "starting": "Weşan dest pê dike di",
+        "brb": "Di demeke kurt de vedigerim",
+        "ending": "Spas ji bo temaşekirinê"
       }
     },
     "widgets": {
-      "tab": "Widget"
+      "tab": "Widget",
+      "title": "Wîdgetan di vîdyoya min de nîşan bide",
+      "hint": "Hişyarî, barikên armancê û sohbet di weşana te de tên xêzkirin, ji ber vê temaşevanên li Twitch, YouTube û her platformeke din jî wan dibînin.",
+      "failed": "Cihê ku wîdgetên te lê xuya dibin nehat guhertin. Dîsa biceribîne."
     },
     "sources": {
       "image": "Wêne",
       "show": "Li ser weşanê nîşan bide",
       "positions": {
-        "center": "Navend"
+        "center": "Navend",
+        "top-left": "Jor çep",
+        "top-right": "Jor rast",
+        "bottom-left": "Jêr çep",
+        "bottom-right": "Jêr rast"
       },
       "sizes": {
-        "medium": "Navîn"
-      }
+        "medium": "Navîn",
+        "small": "Piçûk",
+        "large": "Mezin"
+      },
+      "title": "Çavkanî",
+      "addImage": "Wêne an logo",
+      "failed": "Ew çavkanî nehat zêdekirin.",
+      "hint": "Çavkanî ji bo her temaşevan û her platformê li ser wêneya te tên xêzkirin."
     },
     "phone": {
       "title": "Stûdyo"
@@ -15484,7 +16374,30 @@
     "earlierShort": "Berê",
     "tooSoon": "Di pêşerojê de demek hilbijêre.",
     "show": "Nîşan bide",
-    "hide": "Veşêre"
+    "hide": "Veşêre",
+    "title": "Kengê?",
+    "tonight": "Îşev",
+    "inAnHour": "Di saetekê de",
+    "tomorrow": "Sibê",
+    "primeTime": "Dema herî baş",
+    "scheduleFor": "Ji bo {{when}} plan bike",
+    "liveTip": "Şopînerên te dikarin bîrxistinekê saz bikin. Dema wext hat tu bi xwe Zindî dest pê dikî.",
+    "stageTip": "Ew yekser dikeve refika Pêşerojê, da ku kes karibin li Bîne bîra min bitikînin.",
+    "typePlaceholder": "Demekê binivîse, wek \"în 8 êvarê\" an \"di 2 saetan de\"",
+    "typeLabel": "Demekê binivîse",
+    "typeHelp": "\"îşev\", \"sibê 9 sibehê\", \"şemî nîvro\" an \"30 cotmeh 7 êvarê\" biceribîne.",
+    "orPickDay": "An rojekê hilbijêre",
+    "earlier": "15 xulek zûtir",
+    "later": "15 xulek derengtir",
+    "laterShort": "Paşê",
+    "tooSoonMin": "Demekê herî kêm {{count}} xulek ji niha pê ve hilbijêre.",
+    "zone": "Dema te ({{zone}}). Her kesê din wê li gorî dema xwe dibîne.",
+    "remove": "Planê rake",
+    "startsIn": "Di {{time}} de dest pê dike",
+    "bestTime": "Dema herî baş",
+    "fansOnline": "Fanên min kengê serhêl in?",
+    "fansBasis": "Ronîtir tê wateya ku zêdetir şopînerên te temaşe dikirin, di {{count}} rojên dawî de.",
+    "everyoneBasis": "Hêj çalakiya şopîneran têr nake, ji ber vê ev her kesê li Riftn e."
   },
   "planned": {
     "title": "Plankirî",
@@ -15499,22 +16412,45 @@
     "loading": "Tê barkirin…",
     "startNow": "Niha dest pê bike",
     "cancel": "Betal bike",
-    "cancelled": "Betalkirî"
+    "cancelled": "Betalkirî",
+    "subtitle": "Şandî, weşanên zindî û Sehneyên ku te plan kirine",
+    "seoTitle": "Plankirî · Riftn",
+    "seoDescription": "Şandî, weşanên zindî û Sehneyên te yên plankirî li Riftn, hemû li yek cihî.",
+    "lives": "Weşanên zindî",
+    "signIn": "Têkeve da ku bibînî te çi plan kiriye",
+    "emptyTitle": "Hêj tiştek nehatiye plankirin",
+    "emptyBody": "Dema şandiyek, Zindî an Sehneyek çêdikî \"Kengê?\" hilbijêre û ew li vir xuya dibe.",
+    "move": "Bibe",
+    "postNow": "Niha biweşîne",
+    "confirmCancel": "Ji bo betalkirinê dîsa bitikîne",
+    "moved": "Bo {{when}} hat birin",
+    "postingNow": "Di kêmtirî xulekekê de tê weşandin",
+    "moveFailed": "Nehat birin. Dîsa biceribîne.",
+    "seeAll": "Her tiştê ku te plan kiriye bibîne"
   },
   "welcome": {
     "about": {
       "title": "Bi xêr hatî bo Riftnê",
       "day": "Roj",
       "month": "Meh",
-      "year": "Sal"
+      "year": "Sal",
+      "sub": "Rojbûna te taybet dimîne. Dîmenekê hilbijêre, tu dikarî her dem biguherînî.",
+      "birthday": "Dîroka jidayikbûnê",
+      "pick": "Rojbûna xwe hilbijêre",
+      "invalid": "Dîroka xwe ya jidayikbûnê ya tevahî binivîse.",
+      "tooYoung": "Ji bo bikaranîna Riftn divê tu {{age}} salî an mezintir bî.",
+      "theme": "Dîmena te"
     },
     "name": {
       "title": "Navê te",
-      "placeholder": "Navê te"
+      "placeholder": "Navê te",
+      "sub": "Ev navê ku kes li ser şandiyên te dibînin e."
     },
     "card": {
       "name": "Navê te",
-      "followers": "şopîner"
+      "followers": "şopîner",
+      "interests": "Berjewendiyên te",
+      "following": "dişopîne"
     },
     "topic": {
       "music": "Muzîk",
@@ -15526,11 +16462,47 @@
       "film": "Fîlm",
       "food": "Xwarin",
       "news": "Nûçe",
-      "science": "Zanist"
+      "science": "Zanist",
+      "travel": "Rêwîtî",
+      "anime": "Anime",
+      "cars": "Erebe",
+      "podcast": "Podcast",
+      "animals": "Heywan",
+      "tech": "Teknolojî"
     },
     "back": "Vegere",
     "skipPhoto": "Niha derbas bike",
-    "preview": "Pêşdîtin"
+    "preview": "Pêşdîtin",
+    "username": {
+      "title": "@navêbikarhêner ê te",
+      "sub": "Tîp, hejmar û xêzikên jêrîn. Tu dikarî paşê biguherînî.",
+      "yours": "@{{name}} ya te ye"
+    },
+    "photo": {
+      "title": "Wêneya te",
+      "sub": "Ne mecbûrî. Kes rûyan zûtir dişopînin.",
+      "choose": "Wêneyekê hilbijêre",
+      "change": "Yekî din hilbijêre"
+    },
+    "interests": {
+      "title": "Berjewendiyên te",
+      "sub": "Herî kêm 3 hilbijêre. Ew di kategoriyên te de pêşî tên."
+    },
+    "people": {
+      "title": "Kesên te",
+      "sub": "Ji bo şopandinê bitikîne. Şandiyên wan herika te ya Dişopîne tije dikin.",
+      "empty": "Niha pêşniyar tune. Di Keşfê de kesên zêdetir hene ku bibînî.",
+      "followers": "{{count}} şopîner"
+    },
+    "done": {
+      "title": "Baş xuya dike, {{name}}",
+      "sub": "Ji îro pê ve her kes vê kartê dibîne.",
+      "eyebrow": "Profîl zindî ye"
+    },
+    "enter": "Bikeve Riftn",
+    "pickMore": "{{count}} zêdetir hilbijêre",
+    "cardHint": "Kes dê te bi vî awayî bibînin",
+    "followFailed": "Nehat şopandin. Dîsa biceribîne."
   },
   "appTokens": {
     "title": "Tokenên te",
@@ -15541,10 +16513,35 @@
     "amount": "Mîqdar",
     "notePlaceholder": "Nîşeyekê lê zêde bike (vebijarkî)",
     "sendButton": "Bişîne",
-    "errorInsufficient": "Token têr nakin"
+    "errorInsufficient": "Token têr nakin",
+    "rowHint": "Bermayiya di sepanê de",
+    "explainer": "Tokenên te niha di nav Riftn de dijîn. Te bi tiştê ku di destpêkê de li ser zincîrê digirt û stake dikir dest pê kir. Şandin, bexşîşdan û xerckirin wan yekser diguhezînin, bê lêçûn û bê tiştekî li ser zincîrê. Bermayî di airdropê de derbasî tokena nû dibin.",
+    "kindOpening": "Bermayiya destpêkê",
+    "kindSent": "Ji {{name}} re hat şandin",
+    "kindReceived": "Ji {{name}}",
+    "kindSpent": "Di Riftn de hat xerckirin",
+    "kindRefund": "Vegerandin",
+    "kindAdjust": "Eyarkirin ji aliyê Riftn ve",
+    "sendTitle": "Token bişîne",
+    "sendHint": "Di nav Riftn de token ji hesabekî din re dişîne. Yekser û belaş, tiştek naçe ser zincîrê.",
+    "toPlaceholder": "@navêbikarhêner an navnîşana 0x",
+    "looking": "Tê gerîn…",
+    "available": "Berdest: {{amount}}",
+    "sent": "{{amount}} token ji {{name}} re hatin şandin",
+    "errorRateLimit": "Di saeta dawî de pir şandin hene. Paşê dîsa biceribîne.",
+    "errorNoRecipient": "Tu hesabê Riftn nehat dîtin",
+    "errorSelf": "Tu nikarî ji xwe re bişînî",
+    "errorGeneric": "Nehat şandin. Dîsa biceribîne."
   },
   "avatarPrompt": {
-    "notNow": "Nêzîkî"
+    "notNow": "Nêzîkî",
+    "title": "Wêneyeke profîlê zêde bike",
+    "body": "Dema rû an logoyeke te hebe, kes te di herikan, şîrove û sohbetan de zûtir dibînin.",
+    "choose": "Wêneyekê hilbijêre",
+    "another": "Yekî din hilbijêre",
+    "save": "Vê wêneyê bikar bîne",
+    "saved": "Baş xuya dike",
+    "failed": "Wêneya te nehat tomarkirin. Dîsa biceribîne."
   },
   "postStats": {
     "audience": "Temaşevan",
@@ -15562,36 +16559,159 @@
     "shares": "Parvekirin",
     "signedOutViewers": "Derketî",
     "topSupporters": "Piştgirên herî jor",
-    "visitors": "Derketî"
+    "visitors": "Derketî",
+    "aboutUsual": "nêzîkî ya te ya asayî",
+    "afterWatching": "piştî dîtinê şopandin",
+    "avg": "nav.",
+    "avgWatch": "Temaşekirina navîn",
+    "bestTime": "Kesên te kengê temaşe dikin",
+    "bigDrop": "Daketina mezin",
+    "byBadge": "li gorî nîşanê",
+    "devices": "Cîhaz (endam)",
+    "finishedLower": "qedandin",
+    "finishedPct": "{{pct}}% heta dawiyê temaşe kirin",
+    "inOut": "{{in}} endam · {{out}} derketî",
+    "leave": "{{pct}}% derdikevin",
+    "linkClicks": "Tikandinên girêdanê",
+    "newToYou": "ji te re nû",
+    "noAccount": "bê hesab",
+    "noViewersYet": "Hêj kesî ev şandî nedîtiye.",
+    "noWatchYet": "Dema temaşekirinê piştî ku kes lê didin li vir xuya dibe. Hejmartin di 31 Cotmeh 2026 de dest pê kir.",
+    "open": "Bibîne şandiya te çawa diçe",
+    "otherBadges": "Nîşanên din",
+    "peak": "Lûtke {{time}} · {{n}}",
+    "peopleReached": "Kesên gihîştî",
+    "playsLower": "lêdan",
+    "playsMembers": "Lêdanên endaman",
+    "playsVisitors": "Lêdanên bê têketin",
+    "profileTaps": "Tikandinên li profîla te",
+    "reach": "Gihîştin",
+    "saves": "Tomarkirin",
+    "seeAll": "Hemû statîstîkan bibîne",
+    "signedIn": "têketî",
+    "signedOutLower": "derketî",
+    "stillWatching": "Hêj temaşe dikin",
+    "timesUsual": "{{ratio}}× ya asayî",
+    "vsUsualPct": "{{pct}} li hember şandiya te ya asayî",
+    "unavailableBody": "Tenê afirîner dikare statîstîkên vê şandiyê bibîne.",
+    "unavailableTitle": "Statîstîk ne berdest in",
+    "vsUsual": "li hember şandiya te ya asayî",
+    "watching": "Temaşe dikin",
+    "whoSawIt": "Kê dît",
+    "withRepeats": "{{n}} dubarekirin",
+    "yourFollowers": "şopînerên te",
+    "first48": "48 saetên yekem",
+    "howItsDoing": "Çawa diçe",
+    "bestTip": "Piraniya temaşevanên te {{day}} nêzîkî {{hour}}:00 tên. Weşandina berî wê demê destpêka herî baş dide şandiyê.",
+    "last30": "30 rojên dawî",
+    "day": {
+      "sun": "Yek",
+      "mon": "Duş",
+      "tue": "Sêş",
+      "wed": "Çar",
+      "thu": "Pên",
+      "fri": "În",
+      "sat": "Şem"
+    }
   },
   "duet": {
     "policyEveryone": "Her kes",
     "policyFollowers": "Şopîner",
     "policyNobody": "Tu kes",
     "loadMore": "Zêdetir bar bike",
-    "video": "Vîdyo"
+    "video": "Vîdyo",
+    "with": "Duet bi @{{username}} re",
+    "withOriginal": "Duet · orîjînalê bibîne",
+    "unavailable": "Ev vîdyo êdî ji bo duetan ne berdest e.",
+    "allowLabel": "Destûrê bide duetan",
+    "allowDescription": "Kî dikare li kêleka vîdyoyên te duetekê tomar bike. Tu dikarî li ser her şandiyê jî biguherînî.",
+    "settingsSection": "Duet",
+    "policyDefault": "Mîhenga hesabê",
+    "saveFailed": "Nehat tomarkirin. Dîsa biceribîne.",
+    "count_one": "{{count}} duet",
+    "count_other": "{{count}} duet",
+    "pageHeading": "Duet",
+    "pageTitle": "Duetên {{title}} ji aliyê @{{creator}} ve",
+    "pageTitleNoCreator": "Duetên {{title}}",
+    "pageDescription": "Li Riftn her duetên vê vîdyoyê temaşe bike, an ya xwe li kêlekê tomar bike.",
+    "empty": "Hêj duet tune. Vebijarkên vîdyoyê veke û Remix → Duet hilbijêre da ku yê yekem çêkî.",
+    "notFound": "Ev vîdyo ne berdest e.",
+    "notFoundTitle": "Vîdyo nehat dîtin — Riftn",
+    "browseShorts": "Li kurte vîdyoyan bigere"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Her kes",
       "followers": "Şopîner",
-      "nobody": "Tu kes"
+      "nobody": "Tu kes",
+      "default": "Xwerûya min"
+    },
+    "shareFailed": "Bexşîşa te hat şandin, lê para afirînerê orîjînal negihîşt.",
+    "notify": {
+      "duet": "{{name}} bi vîdyoya te re duet kir",
+      "stitch": "{{name}} vîdyoya te stitch kir",
+      "react": "{{name}} bertek da vîdyoya te",
+      "reactLive": "{{name}} bi zindî bertekê dide vîdyoya te"
+    },
+    "linkFailed": "Şandiya te hat weşandin, lê bi vîdyoya orîjînal ve nehat girêdan.",
+    "settingsHeading": "Remix",
+    "stitch": {
+      "allow": "Destûrê bide stitchan",
+      "allowDesc": "Kî dikare heta 5 çirkeyan ji vîdyoyên te di yên xwe de bikar bîne. Tu dikarî ji bo her şandiyê jî biguherînî.",
+      "saveFailed": "Mîhenga stitchê nehat tomarkirin. Dîsa biceribîne.",
+      "settingFailed": "Şandiya te hat weşandin, lê mîhenga wê ya stitchê nehat tomarkirin. Wê ji Guherandina şandiyê biguherîne.",
+      "from": "Ji {{name}} hat stitchkirin",
+      "count_one": "{{count}} Stitch",
+      "count_other": "{{count}} Stitch",
+      "listTitle": "Stitch",
+      "listFailed": "Stitch nehatin barkirin. Dîsa biceribîne.",
+      "listEmpty": "Hêj stitch tune.",
+      "unavailable": "Ev vîdyo êdî ji bo stitchan ne berdest e."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Her kes",
       "followers": "Şopîner",
-      "nobody": "Tu kes"
+      "nobody": "Tu kes",
+      "default": "Xwerûya hesabê ({{value}})"
     },
     "heading": "Bertek",
     "more": "Zêdetir nîşan bide",
     "liveNow": "Zindî",
-    "untitled": "Bertek"
+    "untitled": "Bertek",
+    "reactionTo": "Bertek li ser",
+    "reactingTo": "Bertek dide",
+    "count_one": "{{count}} bertek",
+    "count_other": "{{count}} bertek",
+    "allow": "Destûrê bide bertekan",
+    "remixesSection": "Remix",
+    "allowDescription": "Bihêle afirînerên din bertekê bidin vîdyoyên te, tomarkirî an zindî. Tu hêj dikarî li ser her şandiyê biguherînî.",
+    "pageTitle": "Bertekên li ser {{title}} — Riftn",
+    "pageDescription": "Li Riftn temaşe bike ka afirîner çawa bertekê didin “{{title}}” ya {{creator}}, tomarkirî û zindî.",
+    "backToVideo": "Vegere vîdyoyê",
+    "empty": "Hêj bertek tune. Menuya Remix a vîdyoyê veke û Bertek hilbijêre da ku yê yekem bî.",
+    "wasLive": "Zindî bû",
+    "thisVideo": "ev vîdyo"
   },
   "liveClips": {
     "copyLink": "Girêdanê kopî bike",
-    "linkCopied": "Girêdan hat kopîkirin"
+    "linkCopied": "Girêdan hat kopîkirin",
+    "button": "Vê kêliyê bike klîp",
+    "capturing": "Xuleka dawî ya weşanê tê girtin…",
+    "failed": "Ev klîp nehat çêkirin.",
+    "highlightTitle": "Kêliya girîng",
+    "length": "Klîpa {{seconds}} çirkeyî",
+    "make": "Klîpê çêke",
+    "postToShorts": "Li Kurte vîdyoyan biweşîne",
+    "posted": "Klîp li Kurte vîdyoyan hat weşandin",
+    "postedBody": "Klîpa te li Kurte vîdyoyan e. Parve bike da ku bêtir kes weşanê bibînin.",
+    "rendering": "Klîpa te tê birîn. Ev nêzîkî nîv xulekê digire…",
+    "starting": "Klîpa te dest pê dike…",
+    "title": "Klîp",
+    "titleLabel": "Sernavê klîpê",
+    "titlePlaceholder": "Sernavekî bide klîpa xwe",
+    "viewShort": "Kurte vîdyoyê bibîne"
   },
   "liveHype": {
     "train": {
@@ -15630,15 +16750,38 @@
         "wallet": "Di berîka xwe de piştrast bike",
         "confirming": "Li benda danûstandinê…",
         "recording": "Tê temamkirin…"
-      }
+      },
+      "plan": "Plan"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Yên din",
-    "confirming": "Dravdan tê piştrastkirin…"
+    "confirming": "Dravdan tê piştrastkirin…",
+    "lockPhoto": "Wêneyê kilît bike",
+    "lockVideo": "Vîdyoyê kilît bike",
+    "lockOnPrice": "Kilîtkirî · {{price}} token",
+    "lockCustomLabel": "Bihayê taybet bi tokenan",
+    "lockHint": "Heta ku ji te re nedin ew wê şêlû dibînin. Pelên kilîtkirî ji serî heta dawiyê nehatine şîfrekirin.",
+    "dhbNow": "{{dhb}} bi bihayê îro",
+    "lockCustomUsd": "$ Yên din",
+    "lockCustomUsdLabel": "Bihayê taybet bi dolaran",
+    "lockDhbNow": "≈ {{dhb}} îro. Ew her dem {{price}} didin, token çiqas bihêjin jî.",
+    "lockOnUsd": "Kilîtkirî · {{price}}",
+    "lockedPhoto": "Wêneya kilîtkirî",
+    "lockedVideo": "Vîdyoya kilîtkirî",
+    "unlockFor": "Bi {{price}} veke",
+    "unlockOnWeb": "Li riftn.com veke · {{price}}",
+    "stillConfirming": "Dayîn hat şandin. Gava piştrast bibe vedibe.",
+    "payFailed": "Nehat vekirin",
+    "unlocked": "Vebû",
+    "unlockedTag": "Vebû",
+    "notYet": "Hêj venebûye",
+    "uploading": "Tê kilîtkirin…",
+    "unlockedByThem": "{{kind}} ya te ya kilîtkirî hat vekirin: +{{amount}} token"
   },
   "liveShorts": {
-    "live": "ZINDÎ"
+    "live": "ZINDÎ",
+    "join": "Tevlî zindî bibe"
   },
   "feedFilters": {
     "clearAllShort": "Hemûyan paqij bike",
@@ -15647,7 +16790,20 @@
     "groupDate": "Dîrok",
     "groupSort": "Rêz bike",
     "groupType": "Cure",
-    "save": "Tomar bike"
+    "save": "Tomar bike",
+    "clearAll": "Hemû parzûnan paqij bike",
+    "collapse": "Parzûnan veşêre",
+    "count": "{{count}} parzûn vekirî ne",
+    "deletePreset": "{{name}} jê bibe",
+    "groupAccess": "Gihîştin",
+    "groupTag": "Etîket",
+    "myPresets": "Pêşmîhengên min",
+    "presetName": "Navê pêşmîhengê",
+    "remove": "{{label}} rake",
+    "saveCurrent": "+ Ya heyî tomar bike",
+    "savePreset": "Wek pêşmîheng tomar bike",
+    "show": "Parzûnan nîşan bide",
+    "updatePreset": "Navê pêşmîhengê biguherîne"
   },
   "ownKeys": {
     "working": "Dixebite",
@@ -15655,7 +16811,21 @@
     "check": "Kontrol bike",
     "remove": "Rake",
     "save": "Tomar bike",
-    "cancel": "Betal bike"
+    "cancel": "Betal bike",
+    "title": "Mifteyên te yên AI",
+    "description": "Mifteyekê ji pêşkêşkerekî AI zêde bike û amûrên Creator li şûna wê li ser hesabê te dixebitin. Riftn ji bo wan karan tiştekî nastîne. Mifte tên şîfrekirin û qet dîsa nayên nîşandan.",
+    "invalid": "Hat redkirin, wê biguherîne",
+    "noCredit": "Kredî qediya",
+    "disabled": "Ji aliyê Riftn ve hat girtin",
+    "saved": "Mifteya {{name}} hat tomarkirin. Amûrên li ser {{name}} niha hesabê te bikar tînin.",
+    "savedNoCredit": "Mifteya {{name}} hat tomarkirin, lê krediya hesabê qediyaye.",
+    "removed": "Mifteya {{name}} hat rakirin.",
+    "replaceKey": "Mifteyê biguherîne",
+    "add": "Mifteyê zêde bike",
+    "paste": "Mifteya xwe ya {{name}} bixe vir",
+    "getKey": "Mifteyeke {{name}} bistîne",
+    "showLess": "Tenê mifteyên min nîşan bide",
+    "addAnother": "Pêşkêşkerekî din zêde bike"
   },
   "postBg": {
     "addMedia": "Wêne, GIF an vîdyoyek zêde bike",
@@ -15669,55 +16839,179 @@
       "drive": "Ajotina şevê",
       "chrome": "Kromê herikbar",
       "orbit": "Zivirîn",
-      "snow": "Barîna berfê"
+      "snow": "Barîna berfê",
+      "ink": "Mûrekeba Şuştî",
+      "news": "Kaxeza Rojnameyê",
+      "split": "Êvara Parçebûyî",
+      "blue": "Nexşeya Şîn",
+      "terra": "Terrazzo",
+      "half": "Halftone Pop",
+      "topo": "Kontur",
+      "velvet": "Qedîfe",
+      "sorbet": "Şerbet",
+      "carbon": "Karbon",
+      "echo": "Dengvedana Profîlê",
+      "cards": "Kartên Rengîn",
+      "deck": "Desteya Şêweyan",
+      "aurora": "Aurora",
+      "stars": "Qada Stêrkan",
+      "rain": "Baran li ser Camê",
+      "breathe": "Bêhn Bide",
+      "spin": "Zivirîna Prîzmayê",
+      "tide": "Pêl",
+      "ember": "Pizîsk",
+      "holo": "Pelika Holo",
+      "rift": "Rift",
+      "mesh": "Tor",
+      "grain": "Gewrîna Fîlmê",
+      "ripple": "Lerizîn",
+      "dotwave": "Pêla Xalan",
+      "scan": "CRT",
+      "silk": "Hevirmiş",
+      "bokeh": "Bokeh",
+      "photo": "Wêneya te"
     },
-    "sameAsProfile": "Profîl"
+    "sameAsProfile": "Profîl",
+    "scope": "Bisepîne li",
+    "thisPost": "Ev şandî",
+    "allPosts": "Hemû şandî",
+    "sameAsProfileSub": "Wek profîla te",
+    "title": "Paşxaneya şandiyê",
+    "editRow": "Paşxaneya şandiyê",
+    "hint": "Şerîtê bikişîne. Şandiya te dema tu diçî diguhere. Tenê tu dikarî vê biguherînî.",
+    "moving": "Diliviye",
+    "still": "Sabît",
+    "plain": "Şandiyên sade",
+    "position": "{{n}} ji {{total}}",
+    "sample": "Şandiyên te yên nivîsê li ser profîla te bi vî awayî xuya dibin.",
+    "saveFailed": "Paşxaneya te nehat tomarkirin. Dîsa biceribîne.",
+    "base": "Bingeh",
+    "accent2": "Rengê duyem",
+    "ownColours": "Rengên te"
   },
   "articleTile": {
-    "cover": "Berg"
+    "cover": "Berg",
+    "title": "Kaşiyên gotaran",
+    "dropcap": "Tîpa mezin a destpêkê",
+    "hint": "Gotarên te li ser tora profîla te çawa xuya dibin. Tenê tu dikarî vê biguherînî.",
+    "saveFailed": "Nehat tomarkirin. Dîsa biceribîne."
   },
   "aiConsent": {
-    "allow": "Destûr bide"
+    "allow": "Destûr bide",
+    "title": "Taybetmendiyên AI bikar bînî?",
+    "body": "Ji bo xebatê, taybetmendiyên AI tiştê ku tu didî wan (nivîs, wêne an dengê te, û şandî an sohbeta ku li ser e) ji pêşkêşkerên AI yên partiya sêyem ên wek Google, OpenAI, Groq, OpenRouter, fal û ElevenLabs re dişînin. Tu dikarî vê her dem di Mîheng → Nepenî de biguherînî.",
+    "declined": "Taybetmendiyên AI girtî ne. Tu dikarî wan di Mîheng → Nepenî de vekî.",
+    "settingLabel": "Taybetmendiyên AI",
+    "settingDesc": "Bihêle arîkar, werger, bersivên pêşniyarkirî û alîkariya nivîsandinê tiştê ku tu didî wan ji pêşkêşkerên AI yên partiya sêyem re bişînin."
   },
   "dmRequests": {
     "title": "Daxwaz",
     "accept": "Qebûl bike",
     "delete": "Jê bibe",
-    "block": "Asteng bike"
+    "block": "Asteng bike",
+    "hint": "Peyamên ji kesên ku tu wan naşopînî. Yekê qebûl bike, bersiv bide an wan bişopîne û sohbet diçe qutiya te ya peyaman.",
+    "rowHint": "{{n}} ji kesên ku tu wan naşopînî",
+    "banner": "Tu {{name}} naşopînî. Qebûl bike da ku vê sohbetê bibî qutiya xwe ya peyaman, an tenê bersiv bide.",
+    "accepted": "Çû qutiya te ya peyaman",
+    "acceptFailed": "Nehat qebûlkirin, dîsa biceribîne"
   },
   "dmSchedule": {
     "view": "Bibîne",
     "edit": "Biguherîne",
     "editLabel": "Peyamê biguherîne",
-    "error": "Ew nexebitî. Dîsa biceribîne."
+    "error": "Ew nexebitî. Dîsa biceribîne.",
+    "button": "Peyamê plan bike",
+    "title": "Peyamên plankirî",
+    "whenTitle": "Kengê bişîne?",
+    "waiting": "{{n}} plankirî",
+    "next": "ya din {{when}}",
+    "failedCount": "{{n}} nehatin şandin",
+    "notSent": "Nehat şandin",
+    "emptyTitle": "Tiştek nehatiye plankirin",
+    "emptyBody": "Peyamekê binivîse, paşê li saetê bitikîne da ku hilbijêrî kengê bê şandin.",
+    "changeTime": "Demê biguherîne",
+    "sendNow": "Niha bişîne",
+    "deleted": "Peyama plankirî hat jêbirin",
+    "unreadable": "Li ser cîhazeke din hatiye nivîsandin. Dîsa jî dê bê şandin.",
+    "footnote": "Dem li gorî herêma demê ya te ne. Heta ku peyam neyê şandin kes wê nabîne.",
+    "footnoteNamed": "Dem li gorî herêma demê ya te ne. {{name}} peyamê tenê piştî şandinê dibîne.",
+    "textOnly": "Niha tenê peyamên nivîsê dikarin bên plankirin.",
+    "scheduledToast": "Ji bo {{when}} hat plankirin",
+    "failedToast": "Peyameke plankirî nehat şandin"
   },
   "chatBulk": {
     "selected": "{{count}} hatin hilbijartin",
     "cancel": "Betal bike",
     "reply": "Bersiv bide",
-    "delete": "Jê bibe"
+    "delete": "Jê bibe",
+    "select": "Hilbijêre",
+    "toolbar": "Sohbetên hilbijartî",
+    "pick": "Li sohbetan bitikîne da ku wan hilbijêrî",
+    "read": "Wek xwendî nîşan bike",
+    "unread": "Wek nexwendî nîşan bike",
+    "replyTitle_one": "Bersivê bide {{count}} sohbetê",
+    "replyTitle_other": "Bersivê bide {{count}} sohbetan",
+    "replyHint": "Her kes vê wek peyameke asayî di sohbeta xwe de distîne.",
+    "replyPlaceholder": "Peyamekê binivîse…",
+    "sendAll": "Ji {{count}} re bişîne",
+    "deleted_one": "{{count}} sohbet hat jêbirin",
+    "deleted_other": "{{count}} sohbet hatin jêbirin",
+    "sent_one": "Ji {{count}} sohbetê re hat şandin",
+    "sent_other": "Ji {{count}} sohbetan re hat şandin",
+    "partSent": "Ji {{ok}} ji {{total}} sohbetan re hat şandin",
+    "notSent": "Nehat şandin. Dîsa biceribîne."
   },
   "msgSelect": {
     "selected": "{{count}} hatin hilbijartin",
     "copy": "Kopî bike",
     "forward": "Bişîne pêş",
     "deleted_one": "{{count}} peyam hat jêbirin",
-    "deleted_other": "{{count}} peyam hatin jêbirin"
+    "deleted_other": "{{count}} peyam hatin jêbirin",
+    "toolbar": "Peyamên hilbijartî",
+    "pick": "Li peyaman bitikîne da ku wan hilbijêrî",
+    "deleteSome": "{{count}} jê bibe",
+    "forwarded_one": "{{count}} peyam hat veguhestin",
+    "forwarded_other": "{{count}} peyam hatin veguhestin",
+    "partForwarded": "{{ok}} ji {{total}} hatin veguhestin",
+    "nothingToCopy": "Di peyamên hilbijartî de tiştek tune ku kopî bikî",
+    "copied_one": "{{count}} peyam hat kopîkirin",
+    "copied_other": "{{count}} peyam hatin kopîkirin",
+    "deleteTitle_one": "{{count}} peyamê jê bibî?",
+    "deleteTitle_other": "{{count}} peyaman jê bibî?",
+    "deleteBody": "Ew ê ji bo her kesê di vê sohbetê de bên rakirin.",
+    "deleteForBothBody": "Ew ê ji bo her duyên we bên rakirin."
   },
   "messagesTabs": {
-    "all": "Hemû"
+    "all": "Hemû",
+    "unread": "Nexwendî",
+    "groups": "Kom"
   },
   "mentionLinks": {
     "communities": "Civak",
     "pages": "Rûpel",
-    "people": "Kes"
+    "people": "Kes",
+    "linkTo": "{{name}} girê bide"
   },
   "resetWallet": {
     "mismatch": "Şîfre li hev nayên",
     "logOut": "Derkeve",
     "confirm": "Şîfreyê piştrast bike",
     "ack": "Ez fêm dikim ku pereyên min ên kevn di berîka kevn de dimînin.",
-    "cancel": "Betal bike"
+    "cancel": "Betal bike",
+    "tooShort": "Şîfre divê herî kêm {{count}} tîp be",
+    "breached": "Ev şîfre di derketina daneyan de xuya bûye. Yeke din hilbijêre",
+    "weak": "Şîfreyeke bihêztir hilbijêre (tîp, hejmar û sembolan tevlihev bike)",
+    "doneTitle": "Hesabê te li ser berîka xwe ya nû ye",
+    "twoFactor": "Koda ji sepana xwe ya rastkirinê binivîse da ku hesabê xwe biguhezînî.",
+    "failed": "Berîka te ji nû ve nehat sazkirin. Tiştek nehat guhestin. Dîsa biceribîne.",
+    "title": "Berîkê ji nû ve saz bike",
+    "reloginApp": "Ji nû ve sazkirin bi e-name, telefon an têketina Google ya hesabê te tê îspatkirin, ne bi berîka kevn, ji ber ku her kesê ku mifteya kevn digire jî dikare îmze bike. Derkeve, bi wê têketinê dîsa têkeve, paşê vegere vir. Hêj e-nameya têketinê tune? Pêşî li riftn.com di bin Mîheng → Têketin de yekê zêde bike.",
+    "intro": "Berîkeke nû ya Riftn çêdike û navê bikarhêner, şandî, şopîner û peyamên te diguhezîne ser wê. Vê bikar bîne heke berîka te winda bûbe an mifteya wê li cem kesekî din be. Berîka kevn ji bo têketinê êdî naxebite.",
+    "funds": "Token, NFT û bermayiyên din naguhezin. Ew li navnîşana kevn dimînin. Heke tu hêj dikarî berîka kevn vekî, pêşî wan derxe.",
+    "password": "Şîfreya berîka nû (herî kêm {{count}} tîp)",
+    "twoFactorPlaceholder": "Koda rastkirinê",
+    "submit": "Berîkê ji nû ve saz bike",
+    "rowDesc": "Berîka te winda bû, an mifteya wê li cem kesekî din e? Hesabê xwe biguhezîne berîkeke nû. Navê bikarhêner, şandî û şopînerên te bi te re tên."
   },
   "chatTabs": {
     "all": "Hemû",
@@ -15733,6 +17027,101 @@
     "requests": "Daxwaz",
     "sCreators": "Afirîner",
     "sGaming": "Lîstik",
-    "sTrading": "Bazirganî"
+    "sTrading": "Bazirganî",
+    "addChats": "Sohbetan zêde bike",
+    "addToTab": "Li tabê zêde bike",
+    "addedTo": "Li {{name}} hat zêdekirin",
+    "builtIn": "Hundirîn",
+    "chatCount": "{{n}} sohbet",
+    "chatsInTab": "Sohbetên di vê tabê de",
+    "create": "Tabê çêke",
+    "delete": "Tabê jê bibe",
+    "deleteBody": "Tab diçe. Sohbetên wê di Hemû de dimînin û peyamên xwe diparêzin.",
+    "deleteTitle": "“{{name}}” jê bibî?",
+    "deleted": "{{name}} hat jêbirin",
+    "edit": "Taban biguherîne",
+    "editHintApp": "Ji bo ji nû ve rêzkirinê tîran bikar bîne. Tabên veşartî sohbetên xwe diparêzin.",
+    "editTab": "Tabê biguherîne",
+    "emoji": "Emojiyekê hilbijêre",
+    "emptyBody": "Sohbetan li vir zêde bike û ew di Hemû de jî dimînin.",
+    "emptyTitle": "{{name}} vala ye",
+    "hide": "Tabê veşêre",
+    "kindChannel": "Kanal",
+    "moveLeft": "Bibe çepê",
+    "moveRight": "Bibe rastê",
+    "namePlaceholder": "Navê tabê",
+    "new": "Taba nû",
+    "newWith": "Taba nû…",
+    "noEmoji": "Bê emojî",
+    "picked": "{{n}} hatin hilbijartin",
+    "removedFrom": "Ji {{name}} hat rakirin",
+    "renameEdit": "Nav biguherîne û sererast bike",
+    "sFriends": "Heval",
+    "sWork": "Kar",
+    "saveFailed": "Tabên te nehatin tomarkirin, dîsa biceribîne",
+    "show": "Tabê nîşan bide",
+    "tooMany": "Tu dikarî heta 10 taban hebî"
+  },
+  "chatReactions": {
+    "many_one": "{{count}} bertek li ser peyamên te",
+    "many_other": "{{count}} bertek li ser peyamên te",
+    "manySame_one": "{{emoji}} × {{count}} li ser peyamên te",
+    "manySame_other": "{{emoji}} × {{count}} li ser peyamên te",
+    "one": "Bi {{emoji}} bertek da peyama te",
+    "oneNamed": "{{name}} bi {{emoji}} bertek da peyama te"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Şandî dimîne.",
+      "onBody": "Şandî {{value1}} piştî weşandinê xwe jê dibe."
+    }
+  },
+  "accountDeactivation": {
+    "title": "Hesabê neçalak bike",
+    "short": "Profîla xwe niha veşêre. Dîsa têkeve da ku wê vegerînî",
+    "description": "Li şûna wê bêhnekê bide. Profîl, şandî û şîroveyên te tên veşartin û tu ji her derê derdikevî. Tiştek nayê jêbirin, û dîsa têketin hemûyan vedigerîne.",
+    "button": "Neçalak bike",
+    "confirmTitle": "Hesabê xwe neçalak bikî?",
+    "confirmBody": "Profîl, şandî û şîroveyên te dê bên veşartin û tu ê li ser her cîhazê derkevî. Her dem dîsa têkeve da ku vê betal bikî.",
+    "busy": "Tê neçalakkirin…",
+    "done": "Hesab hat neçalakkirin",
+    "receipt": "Profîl, şandî û şîroveyên te veşartî ne. Her dem dîsa têkeve da ku her tiştî vegerînî.",
+    "error": "Hesabê te nehat neçalakkirin. Ji kerema xwe dîsa biceribîne.",
+    "acknowledge": "Ez fêm dikim ku profîla min dê bê veşartin û ez ê ji her derê derkevim.",
+    "understand": "Ez fêm dikim"
+  },
+  "halloween": {
+    "title": "Halloween pîroz be",
+    "otherThemes": "Ne di halê tirsê de yî? Temayên din bibîne:",
+    "enter": "Bikeve zindanê"
+  },
+  "riftnMove": {
+    "title": "DeHub niha Riftn e",
+    "body": "Heman sepan, heman hesab, heman heval. Tenê navekî nû.",
+    "continue": "Ji bo domandinê bitikîne"
+  },
+  "dmSafety": {
+    "notReal": "Ev ne {{name}} ya rastîn e.",
+    "neverLink": "Tîma Riftn qet bi DM girêdanekê ji bo rastkirina profîl an berîka te ji te re naşîne. Girêdanan venekî, berîka xwe girê nede û tiştekî îmze neke. Vî hesabî asteng bike û ragihîne."
+  },
+  "profileImage": {
+    "change": "Biguherîne"
+  },
+  "msgDelete": {
+    "title": "Peyamê jê bibî?",
+    "titleMany": "{{count}} peyaman jê bibî?",
+    "bodyOwn": "Tenê ji sohbeta xwe rake, an ji bo her kesî.",
+    "bodyOwnMany": "Wan tenê ji sohbeta xwe rake, an ji bo her kesî.",
+    "bodyOthers": "Ew ê tenê ji sohbeta te bê rakirin. Kesê din dê hêj wê bibîne.",
+    "bodyOthersMany": "Ew ê tenê ji sohbeta te bên rakirin. Yên din ên di sohbetê de dê hêj wan bibînin.",
+    "bodyOwnBoth": "Tenê ji sohbeta xwe rake, an ji bo her duyên we.",
+    "bodyOwnBothMany": "Wan tenê ji sohbeta xwe rake, an ji bo her duyên we.",
+    "forMe": "Ji bo min jê bibe",
+    "forEveryone": "Ji bo her kesî jê bibe",
+    "forBoth": "Ji bo her duyên me jê bibe",
+    "forMeAndName": "Ji bo min û {{name}} jê bibe",
+    "remember": "Bijartina min bîne bîra xwe",
+    "rememberHint": "Her dem di Mîhengan de biguherîne",
+    "failed": "Peyam nehat jêbirin"
   }
 }

@@ -34,6 +34,7 @@ import {
   type LeaderboardUser,
 } from "../services/leaderboard.service";
 import { getAffiliateLeaderboard } from "../services/affiliate-leaderboard";
+import { getOgChallengeLeaderboard } from "../services/og-challenge-leaderboard";
 import { applyLeaderboardRules } from "../libs/leaderboard-rules";
 import { getAvatarUrl } from "../libs/misc";
 import { toastError, toastInfo, toastSuccess } from "../libs/toast";
@@ -65,6 +66,35 @@ interface ListHeaderContentProps {
   showRefreshMe: boolean;
 }
 
+/** What the OG Challenge board counts, with the way to an invite link. */
+const OgChallengeNote: React.FC = () => {
+  const { t } = useTranslation();
+  const navigation = useNavigation<any>();
+  return (
+    <View className="mx-4 mb-3 rounded-2xl border border-theme-neutrals-700 px-4 py-3">
+      <Text className="text-white text-sm font-semibold">
+        {t("leaderboard.ogChallengeTitle", "Bring back the OG holders")}
+      </Text>
+      <Text className="text-theme-neutrals-300 text-sm mt-1">
+        {t(
+          "leaderboard.ogChallengeBody",
+          "Invite people who still hold DHB. When they join with your invite link and keep their DHB in their Riftn wallet, they count for you here.",
+        )}
+      </Text>
+      <TouchableOpacity
+        onPress={() => navigation.navigate(ScreenNames.Affiliate)}
+        activeOpacity={0.7}
+        accessibilityRole="button"
+        hitSlop={{ top: 8, bottom: 8 }}
+      >
+        <Text className="text-white text-sm font-semibold mt-2 underline">
+          {t("leaderboard.ogChallengeCta", "Get your invite link")}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 const ListHeaderContent = React.memo<ListHeaderContentProps>(
   ({
     sortCategory,
@@ -87,6 +117,7 @@ const ListHeaderContent = React.memo<ListHeaderContentProps>(
       <View>
         <LeaderboardCategoryPills active={sortCategory} onSelect={onCategoryChange} />
         <LeaderboardTimePills active={period} onSelect={onPeriodChange} />
+        {sortCategory === "ogChallenge" ? <OgChallengeNote /> : null}
         <LeaderboardSearchBar value={searchQuery} onChangeText={onSearchChange} onFocus={onSearchFocus} />
         <View className="mx-4 mb-2 flex-row items-center justify-between">
           <TouchableOpacity
@@ -138,7 +169,7 @@ const ListHeaderContent = React.memo<ListHeaderContentProps>(
   }
 );
 
-const toRow = (u: LeaderboardUser & { directReferrals?: number; secondaryReferrals?: number; rank?: number }): LBRow => ({
+const toRow = (u: LeaderboardUser & { directReferrals?: number; secondaryReferrals?: number; ogDhb?: number; rank?: number }): LBRow => ({
   rank: u.rank ?? 0,
   account: u.account,
   username: u.username || "",
@@ -152,6 +183,7 @@ const toRow = (u: LeaderboardUser & { directReferrals?: number; secondaryReferra
   subscribers: u.subscribers ?? 0,
   directReferrals: u.directReferrals,
   secondaryReferrals: u.secondaryReferrals,
+  ogDhb: u.ogDhb,
   delta: u.delta,
   badgeBalance: u.badgeBalance,
   badgeLock: u.badgeLock,
@@ -206,8 +238,10 @@ const LeaderboardScreen = () => {
       // Only show skeleton on very first load
       if (!hasLoadedOnce.current && !isRefresh) setLoading(true);
       try {
-        let entries: Array<LeaderboardUser & { directReferrals?: number; secondaryReferrals?: number }>;
-        if (sort === "affiliates") {
+        let entries: Array<LeaderboardUser & { directReferrals?: number; secondaryReferrals?: number; ogDhb?: number }>;
+        if (sort === "ogChallenge") {
+          entries = await getOgChallengeLeaderboard(nextPeriod);
+        } else if (sort === "affiliates") {
           entries = await getAffiliateLeaderboard(nextPeriod);
         } else {
           const res = await getLeaderboard({ sort, period: nextPeriod, force });
@@ -217,6 +251,7 @@ const LeaderboardScreen = () => {
           entries = res.data.result.byWalletBalance;
         }
         if (seq !== requestSeq.current) return;
+        // The OG board ranks on the same referral count as the affiliates one.
         const ranked = applyLeaderboardRules(entries, { sort, period: nextPeriod });
         // Update data and filters together to prevent flash
         setData(ranked.map(toRow));

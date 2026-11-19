@@ -1,4 +1,5 @@
 import { PROFILE_BAR_HEIGHT, PROFILE_TABS_TOP_GAP, PINNED_PROFILE_TABS_HEIGHT } from '../Profile/useProfileCollapse';
+import { useSaveOwnProfileView } from "../../hooks/useSaveOwnProfileView";
 import { ProfileViewModeContext, getProfileViewReaderPref, startingProfileView, useProfileViewState, type ProfileViewMode } from "../../libs/profileViewMode";
 import { useUser } from "../../context/AuthContext";
 import type { SharedValue } from 'react-native-reanimated';
@@ -880,10 +881,10 @@ const UserProfileBottomContentTabs: React.FC<UserProfileBottomContentTabsProps> 
   const me = useUser() as { address?: string; walletAddress?: string; customs?: Record<string, unknown> } | null;
   const mine = (me?.address || me?.walletAddress || "").toLowerCase();
   const isOwn = !!mine && !!props.address && props.address.toLowerCase() === mine;
-  const profileView = useProfileViewState(
+  const profileView = useSaveOwnProfileView(useProfileViewState(
     props.address,
     startingProfileView(props.defaultView ?? "grid", getProfileViewReaderPref(me), isOwn),
-  );
+  ), isOwn);
   return (
     <ProfileViewModeContext.Provider value={profileView}>
       <UserProfileBottomContentTabsInner {...props} />

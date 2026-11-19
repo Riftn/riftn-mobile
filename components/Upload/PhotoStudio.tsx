@@ -11,6 +11,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
+  Keyboard,
   Modal,
   PanResponder,
   Platform,
@@ -550,7 +551,7 @@ export default function PhotoStudio({ photos, startIndex, startTab = "looks", on
             {image && box ? (
               <Pressable className="dark-surface"
                 disabled={tab === "draw" || tab === "crop"}
-                onPressIn={() => setComparing(true)}
+                onPressIn={() => { if (Keyboard.isVisible()) { Keyboard.dismiss(); return; } setComparing(true); }}
                 onPressOut={() => setComparing(false)}
                 style={{ width: box.w, height: box.h }}
                 accessibilityHint={t("upload.studio.holdHint", { defaultValue: "Hold to see the original" })}
@@ -776,6 +777,10 @@ export default function PhotoStudio({ photos, startIndex, startTab = "looks", on
                   onChangeText={(v) => setAlts((a) => a.map((x, i) => (i === index ? v : x)))}
                   maxLength={1000}
                   multiline
+                  // The keyboard pans the screen up past Back and Done, so the
+                  // return key closes it (alt text needs no new lines).
+                  returnKeyType="done"
+                  submitBehavior="blurAndSubmit"
                   placeholder={t("upload.altPlaceholder", { defaultValue: "Describe this photo" })}
                   placeholderTextColor="rgba(255,255,255,0.4)"
                   style={{ minHeight: 72, maxHeight: 120, borderRadius: 12, borderWidth: 1, borderColor: "rgba(255,255,255,0.15)", backgroundColor: "rgba(255,255,255,0.06)", color: WHITE, fontSize: 14, paddingHorizontal: 12, paddingVertical: 8, textAlignVertical: "top" }}

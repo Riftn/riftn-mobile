@@ -2565,7 +2565,10 @@
     "bf4151fc970f": "WORK_ADMIN_ARBITERS",
     "bf640b85d499": "riftn.com · ",
     "ca7842e53ac8": "riftn.com",
-    "12a7c0529934": "/docs/getting-started"
+    "12a7c0529934": "/docs/getting-started",
+    "7f78bdc0762d": "+{{value1}} 分",
+    "f0c8bb34335b": "你获得了 +{{value1}} 积分",
+    "0fbe06b679a8": "每个已上线的请求 {{value1}} 积分，计入你的顶级建设者分数。"
   },
   "dehubLinks": {
     "kind": {
@@ -2645,7 +2648,8 @@
       "location": "位置",
       "custom": "自定义",
       "customOption": "自定义标签"
-    }
+    },
+    "placeholderLink": "yoursite.com"
   },
   "notificationFilters": {
     "title": "过滤以下来源的通知",
@@ -3745,7 +3749,16 @@
     "menuLayoutSections": "分区",
     "menuLayoutSectionsDesc": "所有页面一次显示，按标题分组",
     "menuLayoutFolders": "文件夹",
-    "menuLayoutFoldersDesc": "主要页面，然后每组一个文件夹"
+    "menuLayoutFoldersDesc": "主要页面，然后每组一个文件夹",
+    "publicChatInBar": "底部栏中的公共聊天",
+    "publicChatInBarDesc": "在屏幕底部栏一键进入公共聊天",
+    "chatDeleteChoice": "删除消息时",
+    "chatDeleteChoiceDesc": "每次询问，或始终仅为自己删除或为聊天中的所有人删除。",
+    "chatDeleteAsk": "每次询问",
+    "chatDeleteMe": "为我删除",
+    "chatDeleteMeDesc": "从你的聊天中消失，其他人仍可看到",
+    "chatDeleteEveryone": "为所有人删除",
+    "chatDeleteEveryoneDesc": "在可行时。群组中他人的消息仍仅为你删除"
   },
   "common": {
     "refresh": "刷新",
@@ -4658,6 +4671,12 @@
     "hidden": "已隐藏",
     "noDataForPeriod": "该时段暂无数据",
     "affiliates": "推广联盟",
+    "ogChallenge": "OG 挑战",
+    "ogHolders_one": "{{count}} 位 OG 持有者",
+    "ogHolders_other": "{{count}} 位 OG 持有者",
+    "ogChallengeTitle": "把 OG 持有者带回来",
+    "ogChallengeBody": "邀请仍持有 DHB 的人。他们通过你的邀请链接加入并把 DHB 保留在 Riftn 钱包中，就会在这里计入你的成绩。",
+    "ogChallengeCta": "获取你的邀请链接",
     "directReferrals_one": "{{count}} 直接推荐",
     "directReferrals_other": "{{count}} 直接推荐",
     "secondaryReferrals_one": "{{count}} 二级推荐",
@@ -7119,7 +7138,8 @@
       "links": "本群组不允许发布链接。",
       "repeat": "你刚才已经发过那条了。试着说点新鲜的。",
       "reserved": "那种消息只能是群里的机器人发出来的。",
-      "floodError": "您发送得太快了。请等待 {{value1}} 秒后再试。"
+      "floodError": "您发送得太快了。请等待 {{value1}} 秒后再试。",
+      "bannedWordsPlaceholder": "诈骗\n跑路"
     },
     "entry": {
       "switchChain": "请将你的钱包切换至 BNB Chain 或 Base 以进行支付。",
@@ -8122,7 +8142,8 @@
     "modBadge": "管理员",
     "ban": "封禁",
     "banConfirm": "您确定要封禁 {{name}} 吗？",
-    "banFailed": "封禁用户失败"
+    "banFailed": "封禁用户失败",
+    "jumpToMentions": "跳转到回复和提及"
   },
   "promptFeed": {
     "headline": "你想看什么？",
@@ -9999,7 +10020,8 @@
     "attachPhotoOrVideo": "照片或视频",
     "attachTooLarge": "该文件超过了{{size}} MB的限制。",
     "deleteForBothBody": "它将会被两边删除。",
-    "notSent": "未发送"
+    "notSent": "未发送",
+    "copyMedia": "复制媒体"
   },
   "editPost": {
     "mediaPermission": "需要媒体库权限",
@@ -11308,7 +11330,8 @@
       "pptxHint": "每个页面变成一个幻灯片图像，带有演示笔记和链接。编辑原始设计中的单独文本和元素。",
       "section": "命名节",
       "transparent": "透明背景",
-      "nleHint": "下载一个包含你时间轴的 FCPXML 和 Premiere XML 以及所有媒体文件的 ZIP 包，以便你在 Premiere Pro、Final Cut Pro 或 DaVinci Resolve 中完成剪辑。文本将变为标记；特效保留在 Riftn 中。"
+      "nleHint": "下载一个包含你时间轴的 FCPXML 和 Premiere XML 以及所有媒体文件的 ZIP 包，以便你在 Premiere Pro、Final Cut Pro 或 DaVinci Resolve 中完成剪辑。文本将变为标记；特效保留在 Riftn 中。",
+      "nle": "Premiere / Final Cut / Resolve (XML)"
     },
     "adjust": {
       "auto": "自动增强",
@@ -13764,9 +13787,17 @@
     "gallery": {
       "send": "发送",
       "notifications": {
-        "generation_reply": "{{name}}回复了你的评论"
-      }
-    }
+        "generation_reply": "{{name}}回复了你的评论",
+        "generation_like": "{{name}} 回应了你的生成内容",
+        "generation_comment_like": "{{name}} 回应了你的评论",
+        "generation_comment": "{{name}} 评论了你的生成内容"
+      },
+      "browse": "浏览生成内容",
+      "empty": "暂无创作",
+      "fullscreen": "全屏查看",
+      "missing": "该生成内容不可用。"
+    },
+    "audioExportMp3": "MP3 · 128 kbps"
   },
   "fractions": {
     "title": "碎片",
@@ -15979,7 +16010,8 @@
     "priceUnavailable": "价格不可用",
     "confirm": "{{chain}}薄荷",
     "confirmWithCost": "在{{chain}} · {{cost}}上完好无损",
-    "notAvailable": "此链上的铸造尚不可用。"
+    "notAvailable": "此链上的铸造尚不可用。",
+    "gasOnly": "≈ {{usd}} Gas 费"
   },
   "halloween": {
     "title": "万圣节快乐",
@@ -16887,7 +16919,11 @@
     "base": "基础",
     "accent2": "强调 2",
     "ownColours": "自定义颜色",
-    "sameAsProfile": "个人资料"
+    "sameAsProfile": "个人资料",
+    "scope": "应用到",
+    "thisPost": "此帖子",
+    "allPosts": "所有帖子",
+    "sameAsProfileSub": "与你的个人资料相同"
   },
   "articleTile": {
     "cover": "封面",
@@ -17073,6 +17109,28 @@
     "tooMany": "最多可以有 10 个标签"
   },
   "msgDelete": {
-    "titleMany": "删除 {{count}} 条消息？"
+    "titleMany": "删除 {{count}} 条消息？",
+    "title": "删除消息？",
+    "bodyOwn": "仅从你的聊天中删除，或为所有人删除。",
+    "bodyOwnMany": "仅从你的聊天中删除，或为所有人删除。",
+    "bodyOthers": "将仅从你的聊天中删除。对方仍可看到。",
+    "bodyOthersMany": "将仅从你的聊天中删除。聊天中的其他人仍可看到。",
+    "bodyOwnBoth": "仅从你的聊天中删除，或为你们双方删除。",
+    "bodyOwnBothMany": "仅从你的聊天中删除，或为你们双方删除。",
+    "forMe": "为我删除",
+    "forEveryone": "为所有人删除",
+    "forBoth": "为我们双方删除",
+    "forMeAndName": "为我和 {{name}} 删除",
+    "remember": "记住我的选择",
+    "rememberHint": "可随时在设置中更改",
+    "failed": "无法删除该消息"
+  },
+  "chatReactions": {
+    "many_one": "你的消息收到 {{count}} 个回应",
+    "many_other": "你的消息收到 {{count}} 个回应",
+    "manySame_one": "你的消息收到 {{emoji}} × {{count}}",
+    "manySame_other": "你的消息收到 {{emoji}} × {{count}}",
+    "one": "对你的消息回应了 {{emoji}}",
+    "oneNamed": "{{name}} 对你的消息回应了 {{emoji}}"
   }
 }

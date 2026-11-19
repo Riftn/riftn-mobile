@@ -3,6 +3,7 @@ import { PersistentVideoView } from '../common/PersistentVideoView';
 import { isPictureInPicturePlayer, canStartVideo } from '../../libs/pictureInPicture';
 import { applyVideoVolume } from '../../libs/dub-mix';
 import DubVolumeSheet from '../VideoPlayerCore/DubVolumeSheet';
+import WhenOpened from '../ui/WhenOpened';
 import { useMediaVolume, getIsLooping, setIsLooping as persistLooping, useMediaLooping } from '../../libs/video-preferences';
 import { useFeedPlaybackAllowed, useFeedSurfaceActive, useCallInProgress, visualActivity } from "../../libs/visualActivity";
 import { MediaControlIcon as BareIcon, MediaControlLabel, MediaControlText } from "../common/MediaControlGlyph";
@@ -1130,8 +1131,35 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
 
   const handleMediaSurfacePress = useCallback((event: GestureResponderEvent) => {
     if (onOpenViewer && !isContentGated) {
-      preparePostMediaNavigation(videoUrl);
-      onOpenViewer();
+      // Opening the viewer can't be undone, so one tap waits a moment for a
+      // second: two taps like the video, three love it, one opens it.
+      if (!onTapReaction) {
+        preparePostMediaNavigation(videoUrl);
+        onOpenViewer();
+        return;
+      }
+      const { locationX, locationY, pageX, pageY } = event.nativeEvent;
+      if (surfaceTapTimerRef.current) clearTimeout(surfaceTapTimerRef.current);
+      surfaceTapCountRef.current += 1;
+      if (surfaceTapCountRef.current === 1) {
+        preparePostMediaNavigation(videoUrl);
+        surfaceTapTimerRef.current = setTimeout(() => {
+          resetSurfaceTapSequence();
+          onOpenViewer();
+        }, TAP_GESTURE_WINDOW_MS);
+        return;
+      }
+      if (surfaceTapCountRef.current === 2) {
+        showTapReactionAnimation("like", locationX, locationY, pageX, pageY);
+        surfaceTapTimerRef.current = setTimeout(() => {
+          resetSurfaceTapSequence();
+          onTapReaction("like");
+        }, TAP_REACTION_RESOLUTION_MS);
+        return;
+      }
+      resetSurfaceTapSequence();
+      showTapReactionAnimation("love", locationX, locationY, pageX, pageY);
+      onTapReaction("love");
       return;
     }
     if (!onTapReaction) {
@@ -1796,9 +1824,13 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
         />
       )}
 
-      <DubVolumeSheet visible={dubVolumeOpen && dubAvailable} onClose={() => setDubVolumeOpen(false)}
-        muted={isMuted || volume === 0} onToggleMute={() => { if (volume === 0) applyVolume(0.8); else handleToggleMute(); }}
-        onUnmute={() => { if (isMuted || volume === 0) applyVolume(volume || 0.8); }} />
+      <WhenOpened open={dubVolumeOpen && dubAvailable}>
+        {() => (
+          <DubVolumeSheet visible={dubVolumeOpen && dubAvailable} onClose={() => setDubVolumeOpen(false)}
+            muted={isMuted || volume === 0} onToggleMute={() => { if (volume === 0) applyVolume(0.8); else handleToggleMute(); }}
+            onUnmute={() => { if (isMuted || volume === 0) applyVolume(volume || 0.8); }} />
+        )}
+      </WhenOpened>
 
       {tapAnimReaction && (
         <View

@@ -34,10 +34,11 @@ describe("post page when the post fails to load", () => {
 
   it("drops 'no comments yet' and the composer when there is no post", () => {
     const empty = detail.slice(
-      detail.indexOf("ListEmptyComponent={"),
-      detail.indexOf("renderItem={renderCommentItem}"),
+      detail.indexOf("const listEmpty = useMemo"),
+      detail.indexOf("const listContentStyle = useMemo"),
     );
-    expect(empty).toContain(") : !item ? null : loadError ? (");
+    expect(detail).toContain("ListEmptyComponent={listEmpty}");
+    expect(empty).toContain(") : !hasItem ? null : loadError ? (");
     expect(empty).toContain('t("comments.loadFailed")');
     expect(empty.indexOf('t("comments.loadFailed")')).toBeLessThan(empty.indexOf('t("comments.noneYetAddYours")'));
 

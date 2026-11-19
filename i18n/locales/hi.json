@@ -2694,7 +2694,10 @@
     "7b17fb0bd173": "name@example.com",
     "8d6f0c73fbaf": "RTMP:",
     "b4c9a289323b": "user@example.com",
-    "bf640b85d499": "riftn.com · "
+    "bf640b85d499": "riftn.com · ",
+    "7f78bdc0762d": "+{{value1}} पॉइंट",
+    "f0c8bb34335b": "आपने +{{value1}} पॉइंट कमाए",
+    "0fbe06b679a8": "हर शिप किए गए अनुरोध के लिए {{value1}} पॉइंट, जो आपके टॉप बिल्डर्स स्कोर में जुड़ते हैं।"
   },
   "dehubLinks": {
     "kind": {
@@ -3875,7 +3878,16 @@
     "menuLayoutSections": "सेक्शन",
     "menuLayoutSectionsDesc": "सभी पेज एक साथ, शीर्षकों के नीचे",
     "menuLayoutFolders": "फ़ोल्डर",
-    "menuLayoutFoldersDesc": "आपके मुख्य पेज, फिर हर समूह के लिए एक फ़ोल्डर"
+    "menuLayoutFoldersDesc": "आपके मुख्य पेज, फिर हर समूह के लिए एक फ़ोल्डर",
+    "publicChatInBar": "नीचे की पट्टी में पब्लिक चैट",
+    "publicChatInBarDesc": "स्क्रीन के नीचे की पट्टी से एक टैप में पब्लिक चैट खोलें",
+    "chatDeleteChoice": "जब आप कोई मैसेज डिलीट करें",
+    "chatDeleteChoiceDesc": "हर बार पूछें, या हमेशा सिर्फ़ अपने लिए या चैट में सभी के लिए डिलीट करें।",
+    "chatDeleteAsk": "हर बार पूछें",
+    "chatDeleteMe": "मेरे लिए डिलीट करें",
+    "chatDeleteMeDesc": "आपकी चैट से हट जाएगा, बाकी लोग अब भी देख सकेंगे",
+    "chatDeleteEveryone": "सभी के लिए डिलीट करें",
+    "chatDeleteEveryoneDesc": "जब संभव हो। ग्रुप में किसी और का मैसेज फिर भी सिर्फ़ आपके लिए हटेगा"
   },
   "common": {
     "refresh": "रिफ्रेश करें",
@@ -4794,6 +4806,12 @@
     "hidden": "छिपा हुआ",
     "noDataForPeriod": "इस अवधि के लिए अभी कोई डेटा नहीं है",
     "affiliates": "एफिलिएट",
+    "ogChallenge": "OG चैलेंज",
+    "ogHolders_one": "{{count}} OG होल्डर",
+    "ogHolders_other": "{{count}} OG होल्डर",
+    "ogChallengeTitle": "OG होल्डर्स को वापस लाएं",
+    "ogChallengeBody": "उन लोगों को बुलाएं जिनके पास अब भी DHB है। जब वे आपके इनवाइट लिंक से जुड़ते हैं और अपना DHB Riftn वॉलेट में रखते हैं, तो वे यहां आपके लिए गिने जाते हैं।",
+    "ogChallengeCta": "अपना इनवाइट लिंक पाएं",
     "directReferrals_one": "{{count}} प्रत्यक्ष",
     "directReferrals_other": "{{count}} प्रत्यक्ष",
     "secondaryReferrals_one": "{{count}} द्वितीयक",
@@ -7251,7 +7269,8 @@
       "links": "इस ग्रुप में लिंक की अनुमति नहीं है।",
       "repeat": "आपने अभी वही भेजा है। कुछ नया कहने की कोशिश करें।",
       "reserved": "इस तरह का संदेश केवल ग्रुप के बॉट्स से ही आ सकता है।",
-      "floodError": "आप बहुत तेज़ी से भेज रहे हैं। {{value1}} सेकंड प्रतीक्षा करें और पुनः प्रयास करें।"
+      "floodError": "आप बहुत तेज़ी से भेज रहे हैं। {{value1}} सेकंड प्रतीक्षा करें और पुनः प्रयास करें।",
+      "bannedWordsPlaceholder": "स्कैम\nरग पुल"
     },
     "entry": {
       "switchChain": "भुगतान करने के लिए अपने वॉलेट को BNB Chain या Base पर स्विच करें।",
@@ -8254,7 +8273,8 @@
     "attachGif": "जीआईएफ",
     "ban": "बैन करें",
     "banConfirm": "क्या आप वाकई {{name}} को बैन करना चाहते हैं?",
-    "banFailed": "उपयोगकर्ता को बैन करने में विफल"
+    "banFailed": "उपयोगकर्ता को बैन करने में विफल",
+    "jumpToMentions": "जवाब और उल्लेख पर जाएँ"
   },
   "promptFeed": {
     "headline": "आप क्या देखना चाहते हैं?",
@@ -9469,7 +9489,8 @@
     "addAltText": "ऑल्ट टेक्स्ट जोड़ें",
     "moveEarlier": "पहले ले जाएं",
     "moveLater": "बाद में ले जाएं",
-    "photoN": "{{total}} में से {{n}} फोटो"
+    "photoN": "{{total}} में से {{n}} फोटो",
+    "altPlaceholder": "इस फ़ोटो का वर्णन करें"
   },
   "bounty": {
     "claimed": "प्राप्त किया",
@@ -10130,7 +10151,8 @@
     "attachPhotoOrVideo": "फ़ोटो या वीडियो",
     "attachTooLarge": "वह फ़ाइल {{size}} MB की सीमा से अधिक है।",
     "deleteForBothBody": "इसे आप दोनों के लिए हटा दिया जाएगा।",
-    "notSent": "नहीं भेजा गया"
+    "notSent": "नहीं भेजा गया",
+    "copyMedia": "मीडिया कॉपी करें"
   },
   "editPost": {
     "mediaPermission": "मीडिया लाइब्रेरी की अनुमति आवश्यक है",
@@ -13896,9 +13918,17 @@
     "gallery": {
       "send": "भेजें",
       "notifications": {
-        "generation_reply": "{{name}} ने आपकी टिप्पणी का जवाब दिया"
-      }
-    }
+        "generation_reply": "{{name}} ने आपकी टिप्पणी का जवाब दिया",
+        "generation_like": "{{name}} ने आपकी जनरेशन पर प्रतिक्रिया दी",
+        "generation_comment_like": "{{name}} ने आपके कमेंट पर प्रतिक्रिया दी",
+        "generation_comment": "{{name}} ने आपकी जनरेशन पर कमेंट किया"
+      },
+      "browse": "जनरेशन ब्राउज़ करें",
+      "empty": "अभी तक कोई क्रिएशन नहीं",
+      "fullscreen": "फ़ुल स्क्रीन में देखें",
+      "missing": "यह जनरेशन उपलब्ध नहीं है।"
+    },
+    "audioExportMp3": "MP3 · 128 kbps"
   },
   "fractions": {
     "title": "फ़्रैक्शन",
@@ -16891,7 +16921,11 @@
     "base": "बेस",
     "accent2": "एक्सेंट 2",
     "ownColours": "आपके अपने रंग",
-    "sameAsProfile": "प्रोफ़ाइल"
+    "sameAsProfile": "प्रोफ़ाइल",
+    "scope": "इस पर लागू करें",
+    "thisPost": "यह पोस्ट",
+    "allPosts": "सभी पोस्ट",
+    "sameAsProfileSub": "आपकी प्रोफ़ाइल जैसा ही"
   },
   "articleTile": {
     "cover": "कवर",
@@ -17077,6 +17111,28 @@
     "tooMany": "आप अधिकतम 10 टैब रख सकते हैं"
   },
   "msgDelete": {
-    "titleMany": "{{count}} संदेश हटाएं?"
+    "titleMany": "{{count}} संदेश हटाएं?",
+    "title": "मैसेज डिलीट करें?",
+    "bodyOwn": "इसे सिर्फ़ अपनी चैट से हटाएँ, या सभी के लिए।",
+    "bodyOwnMany": "इन्हें सिर्फ़ अपनी चैट से हटाएँ, या सभी के लिए।",
+    "bodyOthers": "यह सिर्फ़ आपकी चैट से हटेगा। दूसरा व्यक्ति इसे अब भी देख सकेगा।",
+    "bodyOthersMany": "ये सिर्फ़ आपकी चैट से हटेंगे। चैट के बाकी लोग इन्हें अब भी देख सकेंगे।",
+    "bodyOwnBoth": "इसे सिर्फ़ अपनी चैट से हटाएँ, या आप दोनों के लिए।",
+    "bodyOwnBothMany": "इन्हें सिर्फ़ अपनी चैट से हटाएँ, या आप दोनों के लिए।",
+    "forMe": "मेरे लिए डिलीट करें",
+    "forEveryone": "सभी के लिए डिलीट करें",
+    "forBoth": "हम दोनों के लिए डिलीट करें",
+    "forMeAndName": "मेरे और {{name}} के लिए डिलीट करें",
+    "remember": "मेरी पसंद याद रखें",
+    "rememberHint": "इसे कभी भी सेटिंग्स में बदलें",
+    "failed": "मैसेज डिलीट नहीं हो सका"
+  },
+  "chatReactions": {
+    "many_one": "आपके मैसेज पर {{count}} प्रतिक्रिया",
+    "many_other": "आपके मैसेज पर {{count}} प्रतिक्रियाएँ",
+    "manySame_one": "आपके मैसेज पर {{emoji}} × {{count}}",
+    "manySame_other": "आपके मैसेज पर {{emoji}} × {{count}}",
+    "one": "आपके मैसेज पर {{emoji}} प्रतिक्रिया दी",
+    "oneNamed": "{{name}} ने आपके मैसेज पर {{emoji}} प्रतिक्रिया दी"
   }
 }

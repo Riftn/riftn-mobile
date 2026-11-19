@@ -10,7 +10,7 @@
  * (expo-audio's recorder, player and sampling).
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import { createAudioPlayer, RecordingPresets, useAudioRecorder, type AudioPlayer } from 'expo-audio';
 import { useSharedValue } from 'react-native-reanimated';
@@ -302,5 +302,11 @@ export function useVoiceChat({ walletAddress, payForSession, onTranscript }: Opt
     };
   }, [recorder, clearMeter, releasePlayer]);
 
-  return { isVoiceMode, status, exchangesLeft, level, start, stop, skip, speak, resume, finishTurn };
+  // One object for as long as nothing in it changes, so a screen that passes
+  // it (or a handler built on it) to a memoised child does not redraw that
+  // child on every render of its own, such as each key typed.
+  return useMemo(
+    () => ({ isVoiceMode, status, exchangesLeft, level, start, stop, skip, speak, resume, finishTurn }),
+    [isVoiceMode, status, exchangesLeft, level, start, stop, skip, speak, resume, finishTurn],
+  );
 }

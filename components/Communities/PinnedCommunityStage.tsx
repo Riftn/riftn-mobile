@@ -10,12 +10,27 @@ import { storageImageSource } from "../../libs/cdnImage";
 import { useAppTheme } from "../../context/ThemeContext";
 import Icon from "../ui/Icon";
 import { KeepDarkScope } from '../../libs/jsx/tone';
+import { optionalSkia } from '../../libs/skia';
+
+// A real blur on every phone. Builds without Skia keep the older look below.
+const SkiaArt = optionalSkia(() => require('./PinnedArtCanvas') as typeof import('./PinnedArtCanvas'));
 
 /** Paint only the details area; leave the overlapping avatar outside the clip. */
 export function PinnedCommunityWash({ community }: { community?: Community | null }) {
   const { isMinimal, isLight } = useAppTheme();
   const [height, setHeight] = useState(0);
+  const [width, setWidth] = useState(0);
   if (!community?.banner_url) return null;
+  if (SkiaArt) {
+    const uri = storageImageSource(community.banner_url, 480)?.uri;
+    return (
+      <KeepDarkScope>
+      <View pointerEvents="none" style={[styles.wash, isLight && styles.artBase]} onLayout={(event) => { setHeight(event.nativeEvent.layout.height); setWidth(event.nativeEvent.layout.width); }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+        {uri ? <SkiaArt.PinnedWashCanvas uri={uri} width={width} height={height} opacity={isMinimal ? 0.3 : 0.5} /> : null}
+      </View>
+      </KeepDarkScope>
+    );
+  }
   return (
     <KeepDarkScope>
     <View renderToHardwareTextureAndroid pointerEvents="none" style={[styles.wash, isLight && styles.artBase]} onLayout={(event) => setHeight(event.nativeEvent.layout.height)} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
@@ -79,6 +94,17 @@ export function PinnedCommunityStrip({ community, onOpen, onManagePins, onMore }
 export function PinnedCommunityDissolve({ community }: { community: Community }) {
   const { width } = useWindowDimensions();
   const { isLight } = useAppTheme();
+  const [boxWidth, setBoxWidth] = useState(0);
+  if (SkiaArt) {
+    const uri = storageImageSource(community.banner_url, width)?.uri;
+    return (
+      <KeepDarkScope>
+      <View pointerEvents="none" style={[styles.dissolve, { height: SkiaArt.DISSOLVE_HEIGHT }, isLight && styles.artBase]} onLayout={(event) => setBoxWidth(event.nativeEvent.layout.width)} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+        {uri ? <SkiaArt.PinnedDissolveCanvas uri={uri} width={boxWidth} /> : null}
+      </View>
+      </KeepDarkScope>
+    );
+  }
   return (
     <KeepDarkScope>
     <View renderToHardwareTextureAndroid pointerEvents="none" style={[styles.dissolve, isLight && styles.artBase]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">

@@ -498,240 +498,244 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
       />
       {!isFullScreen && <View style={{ height: 40 }} />}
 
-      <GlassModal scrollable
-        visible={showProfileMenu}
-        onClose={() => setShowProfileMenu(false)}
-        onDismiss={runPendingMenuAction}
-        presentation="bottom"
-        maxHeight="80%"
-        blurIntensity={50}
-      >
-        <View className="pb-4 pt-2" style={{ backgroundColor: "rgba(10,10,12,0.85)" }}>
-          <TouchableOpacity
-            onPress={handleMenuMessage}
-            activeOpacity={0.7}
-            className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
-          >
-            <View className="w-5 h-5 items-center justify-center mr-3">
-              <Icon name="MessageEnvelope" size={18} color="#fff" />
-            </View>
-            <View className="flex-1">
-              <Text className="text-white text-[15px] font-medium">{t("profileOptions.message")}</Text>
-              <Text className="text-theme-neutrals-500 text-xs mt-0.5">
-                {t("profileOptions.sendDm")}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <View className="mx-5 my-1 h-px bg-white/10" />
-
-          {purchaseOfferVisible() && (
-          <TouchableOpacity
-            onPress={handleMenuTip}
-            disabled={paymentsHidden}
-            activeOpacity={0.7}
-            className={`mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10 ${paymentsHidden ? "opacity-40" : ""}`}
-          >
-            <View className="w-5 h-5 items-center justify-center mr-3">
-              <Icon name="HandCoins" size={18} color="#fff" />
-            </View>
-            <View className="flex-1">
-              <Text className="text-white text-[15px] font-medium">{paymentsHidden ? t("profileOptions.tipsDisabled") : t("profileOptions.sendTip")}</Text>
-              <Text className="text-theme-neutrals-500 text-xs mt-0.5">
-                {paymentsHidden ? t("profileOptions.privateBalanceMode") : t("profileOptions.sendTipTo", { name: profileData?.displayName || t("profileOptions.thisUser") })}
-              </Text>
-            </View>
-          </TouchableOpacity>
-          )}
-
-          {/* Lending a badge is not offered in the App Store build: its slots
-              come from staking. Its divider goes with it unless a tip row sits above. */}
-          {(!IS_APP_STORE_BUILD || purchaseOfferVisible()) && <View className="mx-5 my-1 h-px bg-white/10" />}
-
-          {!IS_APP_STORE_BUILD && (
-          <>
-          <TouchableOpacity
-            onPress={handleMenuLendBadge}
-            activeOpacity={0.7}
-            className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
-          >
-            <View className="w-5 h-5 items-center justify-center mr-3">
-              <Icon name="Award" size={18} color="#fff" />
-            </View>
-            <View className="flex-1">
-              <Text className="text-white text-[15px] font-medium">{t("settings.badgeDelegation")}</Text>
-              <Text className="text-theme-neutrals-500 text-xs mt-0.5">
-                {t("settings.badgeDelegationNoteAny")}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <View className="mx-5 my-1 h-px bg-white/10" />
-          </>
-          )}
-
-          <TouchableOpacity
-            onPress={handleMenuShare}
-            activeOpacity={0.7}
-            className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
-          >
-            <View className="w-5 h-5 items-center justify-center mr-3">
-              <Icon name="Share2" size={18} color="#fff" />
-            </View>
-            <View className="flex-1">
-              <Text className="text-white text-[15px] font-medium">{t("profileOptions.shareProfile")}</Text>
-              <Text className="text-theme-neutrals-500 text-xs mt-0.5">
-                {t("profileOptions.shareProfileHint")}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <View className="mx-5 my-1 h-px bg-white/10" />
-
-          <TouchableOpacity
-            onPress={handleMenuCopyUrl}
-            activeOpacity={0.7}
-            className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
-          >
-            <View className="w-5 h-5 items-center justify-center mr-3">
-              <Icon name="Link" size={18} color="#fff" />
-            </View>
-            <View className="flex-1">
-              <Text className="text-white text-[15px] font-medium">{t("profileOptions.copyProfileUrl")}</Text>
-              <Text className="text-theme-neutrals-500 text-xs mt-0.5">
-                {t("profileOptions.copyLinkHint")}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <View className="mx-5 my-1 h-px bg-white/10" />
-
-          {!isPrivate && (
-            <>
-              <TouchableOpacity
-                onPress={handleMenuCopyRssFeed}
-                activeOpacity={0.7}
-                className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
-              >
-                <View className="w-5 h-5 items-center justify-center mr-3">
-                  <Ionicons name="logo-rss" size={18} color="#fff" />
-                </View>
-                <View className="flex-1">
-                  <Text className="text-white text-[15px] font-medium">{t("profileOptions.copyRssFeed")}</Text>
-                  <Text className="text-theme-neutrals-500 text-xs mt-0.5">
-                    {t("profileOptions.copyRssFeedHint")}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-
-              <View className="mx-5 my-1 h-px bg-white/10" />
-            </>
-          )}
-
-          {followsYou && (
-            <>
-              <TouchableOpacity
-                onPress={handleRemoveFollowerPress}
-                activeOpacity={0.7}
-                className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
-              >
-                <View className="w-5 h-5 items-center justify-center mr-3">
-                  <Ionicons name="person-remove-outline" size={18} color="#fff" />
-                </View>
-                <View className="flex-1">
-                  <Text className="text-white text-[15px] font-medium">
-                    {t("profileOptions.removeFollower")}
-                  </Text>
-                  <Text className="text-theme-neutrals-500 text-xs mt-0.5">{_copy("copy.5948954e3b49", { defaultValue: "Remove " })}{profileData?.displayName || _copy("copy.0913f7bb109b", { defaultValue: "this user" })}{_copy("copy.3ff441f1f484", { defaultValue: " from your followers" })}</Text>
-                </View>
-              </TouchableOpacity>
-
-              <View className="mx-5 my-1 h-px bg-white/10" />
-            </>
-          )}
-
-          <TouchableOpacity
-            onPress={handleBlockPress}
-            activeOpacity={0.7}
-            className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
-          >
-            <View className="w-5 h-5 items-center justify-center mr-3">
-              <Ionicons
-                name={youBlocked ? "lock-open-outline" : "ban-outline"}
-                size={18}
-                color="#F4F4F5"
-              />
-            </View>
-            <View className="flex-1">
-              <Text style={{ color: "#F4F4F5" }} className="text-[15px] font-medium">
-                {youBlocked
-                  ? _copy("copy.46785e0aacc9", { defaultValue: "Unblock {{value1}}", value1: profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" }) })
-                  : _copy("copy.8d3f3e35915d", { defaultValue: "Block {{value1}}", value1: profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" }) })}
-              </Text>
-              <Text className="text-theme-neutrals-500 text-xs mt-0.5">
-                {youBlocked
-                  ? t("profileOptions.allowInFeeds")
-                  : t("profileOptions.hideContent")}
-              </Text>
-            </View>
-          </TouchableOpacity>
-
-          <View className="mx-5 my-1 h-px bg-white/10" />
-
-          <TouchableOpacity
-            onPress={handleReportPress}
-            activeOpacity={0.7}
-            className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
-          >
-            <View className="w-5 h-5 items-center justify-center mr-3">
-              <Ionicons name="flag-outline" size={18} color="#D4D4D8" />
-            </View>
-            <View className="flex-1">
-              <Text style={{ color: "#D4D4D8" }} className="text-[15px] font-medium">{_copy("copy.83e2982ce44d", { defaultValue: "Report " })}{profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" })}
-              </Text>
-              <Text className="text-theme-neutrals-500 text-xs mt-0.5">
-                {t("profileOptions.reportHint")}
-              </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </GlassModal>
-
-      <GlassModal
-        visible={showRemoveFollowerConfirm}
-        onClose={() => setShowRemoveFollowerConfirm(false)}
-        presentation="center"
-        maxHeight="40%"
-        blurIntensity={50}
-      >
-        <View className="px-5 py-6 items-center">
-          <View className="w-14 h-14 rounded-2xl bg-white/10 items-center justify-center mb-4">
-            <Ionicons name="person-remove-outline" size={28} color="#fff" />
-          </View>
-          <Text className="text-white text-lg font-semibold text-center mb-2">
-            {t("profileOptions.removeFollowerTitle")}
-          </Text>
-          <Text className="text-theme-neutrals-400 text-sm text-center mb-6 leading-5">
-            {t("profileOptions.removeFollowerBody", { name: profileData?.displayName || t("profileOptions.thisUser") })}
-          </Text>
-          <View className="flex-row gap-3 w-full">
+      <WhenOpened open={showProfileMenu}>{() => (
+        <GlassModal scrollable
+          visible={showProfileMenu}
+          onClose={() => setShowProfileMenu(false)}
+          onDismiss={runPendingMenuAction}
+          presentation="bottom"
+          maxHeight="80%"
+          blurIntensity={50}
+        >
+          <View className="pb-4 pt-2" style={{ backgroundColor: "rgba(10,10,12,0.85)" }}>
             <TouchableOpacity
-              onPress={() => setShowRemoveFollowerConfirm(false)}
-              className="flex-1 bg-theme-neutrals-800 py-3 rounded-xl items-center"
+              onPress={handleMenuMessage}
               activeOpacity={0.7}
+              className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
             >
-              <Text className="text-white font-semibold">{t("common.cancel")}</Text>
+              <View className="w-5 h-5 items-center justify-center mr-3">
+                <Icon name="MessageEnvelope" size={18} color="#fff" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-white text-[15px] font-medium">{t("profileOptions.message")}</Text>
+                <Text className="text-theme-neutrals-500 text-xs mt-0.5">
+                  {t("profileOptions.sendDm")}
+                </Text>
+              </View>
             </TouchableOpacity>
+
+            <View className="mx-5 my-1 h-px bg-white/10" />
+
+            {purchaseOfferVisible() && (
             <TouchableOpacity
-              onPress={handleConfirmRemoveFollower}
-              className="flex-1 bg-white/15 border border-white/25 py-3 rounded-xl items-center"
+              onPress={handleMenuTip}
+              disabled={paymentsHidden}
               activeOpacity={0.7}
+              className={`mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10 ${paymentsHidden ? "opacity-40" : ""}`}
             >
-              <Text className="text-white font-semibold">{t("follow.remove")}</Text>
+              <View className="w-5 h-5 items-center justify-center mr-3">
+                <Icon name="HandCoins" size={18} color="#fff" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-white text-[15px] font-medium">{paymentsHidden ? t("profileOptions.tipsDisabled") : t("profileOptions.sendTip")}</Text>
+                <Text className="text-theme-neutrals-500 text-xs mt-0.5">
+                  {paymentsHidden ? t("profileOptions.privateBalanceMode") : t("profileOptions.sendTipTo", { name: profileData?.displayName || t("profileOptions.thisUser") })}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            )}
+
+            {/* Lending a badge is not offered in the App Store build: its slots
+                come from staking. Its divider goes with it unless a tip row sits above. */}
+            {(!IS_APP_STORE_BUILD || purchaseOfferVisible()) && <View className="mx-5 my-1 h-px bg-white/10" />}
+
+            {!IS_APP_STORE_BUILD && (
+            <>
+            <TouchableOpacity
+              onPress={handleMenuLendBadge}
+              activeOpacity={0.7}
+              className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
+            >
+              <View className="w-5 h-5 items-center justify-center mr-3">
+                <Icon name="Award" size={18} color="#fff" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-white text-[15px] font-medium">{t("settings.badgeDelegation")}</Text>
+                <Text className="text-theme-neutrals-500 text-xs mt-0.5">
+                  {t("settings.badgeDelegationNoteAny")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <View className="mx-5 my-1 h-px bg-white/10" />
+            </>
+            )}
+
+            <TouchableOpacity
+              onPress={handleMenuShare}
+              activeOpacity={0.7}
+              className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
+            >
+              <View className="w-5 h-5 items-center justify-center mr-3">
+                <Icon name="Share2" size={18} color="#fff" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-white text-[15px] font-medium">{t("profileOptions.shareProfile")}</Text>
+                <Text className="text-theme-neutrals-500 text-xs mt-0.5">
+                  {t("profileOptions.shareProfileHint")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <View className="mx-5 my-1 h-px bg-white/10" />
+
+            <TouchableOpacity
+              onPress={handleMenuCopyUrl}
+              activeOpacity={0.7}
+              className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
+            >
+              <View className="w-5 h-5 items-center justify-center mr-3">
+                <Icon name="Link" size={18} color="#fff" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-white text-[15px] font-medium">{t("profileOptions.copyProfileUrl")}</Text>
+                <Text className="text-theme-neutrals-500 text-xs mt-0.5">
+                  {t("profileOptions.copyLinkHint")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <View className="mx-5 my-1 h-px bg-white/10" />
+
+            {!isPrivate && (
+              <>
+                <TouchableOpacity
+                  onPress={handleMenuCopyRssFeed}
+                  activeOpacity={0.7}
+                  className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
+                >
+                  <View className="w-5 h-5 items-center justify-center mr-3">
+                    <Ionicons name="logo-rss" size={18} color="#fff" />
+                  </View>
+                  <View className="flex-1">
+                    <Text className="text-white text-[15px] font-medium">{t("profileOptions.copyRssFeed")}</Text>
+                    <Text className="text-theme-neutrals-500 text-xs mt-0.5">
+                      {t("profileOptions.copyRssFeedHint")}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+
+                <View className="mx-5 my-1 h-px bg-white/10" />
+              </>
+            )}
+
+            {followsYou && (
+              <>
+                <TouchableOpacity
+                  onPress={handleRemoveFollowerPress}
+                  activeOpacity={0.7}
+                  className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
+                >
+                  <View className="w-5 h-5 items-center justify-center mr-3">
+                    <Ionicons name="person-remove-outline" size={18} color="#fff" />
+                  </View>
+                  <View className="flex-1">
+                    <Text className="text-white text-[15px] font-medium">
+                      {t("profileOptions.removeFollower")}
+                    </Text>
+                    <Text className="text-theme-neutrals-500 text-xs mt-0.5">{_copy("copy.5948954e3b49", { defaultValue: "Remove " })}{profileData?.displayName || _copy("copy.0913f7bb109b", { defaultValue: "this user" })}{_copy("copy.3ff441f1f484", { defaultValue: " from your followers" })}</Text>
+                  </View>
+                </TouchableOpacity>
+
+                <View className="mx-5 my-1 h-px bg-white/10" />
+              </>
+            )}
+
+            <TouchableOpacity
+              onPress={handleBlockPress}
+              activeOpacity={0.7}
+              className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
+            >
+              <View className="w-5 h-5 items-center justify-center mr-3">
+                <Ionicons
+                  name={youBlocked ? "lock-open-outline" : "ban-outline"}
+                  size={18}
+                  color="#F4F4F5"
+                />
+              </View>
+              <View className="flex-1">
+                <Text style={{ color: "#F4F4F5" }} className="text-[15px] font-medium">
+                  {youBlocked
+                    ? _copy("copy.46785e0aacc9", { defaultValue: "Unblock {{value1}}", value1: profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" }) })
+                    : _copy("copy.8d3f3e35915d", { defaultValue: "Block {{value1}}", value1: profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" }) })}
+                </Text>
+                <Text className="text-theme-neutrals-500 text-xs mt-0.5">
+                  {youBlocked
+                    ? t("profileOptions.allowInFeeds")
+                    : t("profileOptions.hideContent")}
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <View className="mx-5 my-1 h-px bg-white/10" />
+
+            <TouchableOpacity
+              onPress={handleReportPress}
+              activeOpacity={0.7}
+              className="mx-3 flex-row items-center rounded-xl px-3 py-3.5 active:bg-white/10"
+            >
+              <View className="w-5 h-5 items-center justify-center mr-3">
+                <Ionicons name="flag-outline" size={18} color="#D4D4D8" />
+              </View>
+              <View className="flex-1">
+                <Text style={{ color: "#D4D4D8" }} className="text-[15px] font-medium">{_copy("copy.83e2982ce44d", { defaultValue: "Report " })}{profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" })}
+                </Text>
+                <Text className="text-theme-neutrals-500 text-xs mt-0.5">
+                  {t("profileOptions.reportHint")}
+                </Text>
+              </View>
             </TouchableOpacity>
           </View>
-        </View>
-      </GlassModal>
+        </GlassModal>
+      )}</WhenOpened>
+
+      <WhenOpened open={showRemoveFollowerConfirm}>{() => (
+        <GlassModal
+          visible={showRemoveFollowerConfirm}
+          onClose={() => setShowRemoveFollowerConfirm(false)}
+          presentation="center"
+          maxHeight="40%"
+          blurIntensity={50}
+        >
+          <View className="px-5 py-6 items-center">
+            <View className="w-14 h-14 rounded-2xl bg-white/10 items-center justify-center mb-4">
+              <Ionicons name="person-remove-outline" size={28} color="#fff" />
+            </View>
+            <Text className="text-white text-lg font-semibold text-center mb-2">
+              {t("profileOptions.removeFollowerTitle")}
+            </Text>
+            <Text className="text-theme-neutrals-400 text-sm text-center mb-6 leading-5">
+              {t("profileOptions.removeFollowerBody", { name: profileData?.displayName || t("profileOptions.thisUser") })}
+            </Text>
+            <View className="flex-row gap-3 w-full">
+              <TouchableOpacity
+                onPress={() => setShowRemoveFollowerConfirm(false)}
+                className="flex-1 bg-theme-neutrals-800 py-3 rounded-xl items-center"
+                activeOpacity={0.7}
+              >
+                <Text className="text-white font-semibold">{t("common.cancel")}</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleConfirmRemoveFollower}
+                className="flex-1 bg-white/15 border border-white/25 py-3 rounded-xl items-center"
+                activeOpacity={0.7}
+              >
+                <Text className="text-white font-semibold">{t("follow.remove")}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </GlassModal>
+      )}</WhenOpened>
 
       <WhenOpened open={showBlockConfirm}>
         {() => (

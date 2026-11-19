@@ -114,3 +114,27 @@ it('leaves a dark-surface element alone when a parent re-creates it', () => {
   expect(tree.root.findByType('View' as any)).toBeTruthy();
   act(() => tree.unmount());
 });
+
+it('gives neutral buttons in a dark room System glass, and leaves other dark surfaces alone', () => {
+  const { setControlMaterial, controlProps } = require('../../libs/jsx/controls');
+  const { DarkRoom } = require('../../libs/jsx/tone');
+  const wash = { backgroundColor: 'rgba(255,255,255,0.06)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.14)', borderRadius: 12 };
+  const glass = { backgroundColor: 'rgba(255,255,255,0.12)', borderWidth: 1, borderColor: 'rgba(255,255,255,0.30)', borderRadius: 12 };
+  setControlMaterial({ surface: wash, foreground: '#FFFFFF', ownedSurfaces: [], dark: glass });
+  setLightTone(true);
+  try {
+    const own = { height: 40, backgroundColor: 'rgba(0,0,0,0.4)' };
+    const [type, props] = tone(View, controlProps({ onPress: () => {}, style: own, children: 'x' }));
+    const [darkType, darkProps] = tone(View, { className: 'dark-surface', children: React.createElement(type, props) });
+    const button = (inRoom: boolean) => {
+      let tree: any;
+      const host = React.createElement(darkType, darkProps);
+      act(() => { tree = create(inRoom ? React.createElement(DarkRoom.Provider, { value: true }, host) : host); });
+      return tree.root.findAllByType(View as any).find((v: any) => v.props.onPress).props.style;
+    };
+    expect(button(true)).toEqual([own, glass]);
+    expect(button(false)).toEqual([own, wash]);
+  } finally {
+    setControlMaterial(null);
+  }
+});

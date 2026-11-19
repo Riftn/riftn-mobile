@@ -695,6 +695,30 @@ const CommunityDetailScreen: React.FC = () => {
               </TouchableOpacity>
             );
           })()}
+          {isMember && !!walletAddress && !isPublicChat && (() => {
+            // Stops this community's chat alerts on every device; the chat
+            // itself stays readable. Same switch as Mute in the Chat list.
+            const mutedUntil = chatPrefs.get(roomChatId(community.id))?.mutedUntil;
+            const muted = !!mutedUntil && new Date(mutedUntil).getTime() > Date.now();
+            return (
+              <TouchableOpacity
+                style={styles.secondaryBtn}
+                testID="community-mute"
+                accessibilityState={{ checked: muted }}
+                accessibilityHint={muted
+                  ? t("communities.unmuteChatHint", { defaultValue: "Get alerts from this community's chat again" })
+                  : t("communities.muteChatHint", { defaultValue: "Stop alerts from this community's chat. You can still read it" })}
+                onPress={() => void updateChatPref(roomChatId(community.id), { mutedUntil: muted ? null : "forever" })}
+              >
+                <Icon name={muted ? "BellOff" : "Bell"} size={16} color="#fff" />
+                <Text style={styles.secondaryBtnText}>
+                  {muted
+                    ? t("communities.mutedChat", { defaultValue: "Muted" })
+                    : t("communities.muteChat", { defaultValue: "Mute" })}
+                </Text>
+              </TouchableOpacity>
+            );
+          })()}
           <TouchableOpacity style={styles.secondaryBtn} onPress={() => setShareOpen(true)}>
             <Icon name="Share2" size={16} color="#fff" />
             <Text style={styles.secondaryBtnText}>{t("communities.share")}</Text>

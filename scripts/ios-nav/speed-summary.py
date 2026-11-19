@@ -105,3 +105,6 @@ for label, runs in (("before", before), ("after", after)):
         kinds = value.get("kinds") or []
         if kinds:
             print(f"  drawn most: " + ", ".join(kinds[:10]))
+        built_by = value.get("owners") or []
+        if built_by:
+            print(f"  built by: " + ", ".join(built_by))

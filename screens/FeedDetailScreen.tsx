@@ -65,6 +65,7 @@ import { collapsedReplyIds } from "../libs/comment-preview";
 import { ScreenNames } from "../navigation/ScreenNames";
 import type { PostReaction } from "../libs/reactions";
 import PostDetailContinuation from "../components/Advertising/PostDetailContinuation";
+import { createDrawGate } from "../libs/drawGate";
 import { useAppTheme } from "../context/ThemeContext";
 import { MINIMAL_INSET, MINIMAL_TAB_LINE } from "../theme/minimal";
 import { peekPostDetailSeed, postWarmKey, takeWarmRequest } from "../libs/navPrefetch";
@@ -85,6 +86,9 @@ const MINIMAL_INPUT_LINE = "rgba(255,255,255,0.10)";
 /** A comment plus how deep it sits in the thread (0 = top-level, 1 = direct reply, …). */
 type ThreadedComment = Comment & { depth: number };
 const EMPTY_COMMENTS: ThreadedComment[] = [];
+const commentKey = (c: ThreadedComment) => String(c.id);
+/** "More posts" is drawn this many screens ahead of what the reader can see. */
+const MORE_POSTS_AHEAD = 1.5;
 
 
 /**
@@ -458,15 +462,21 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   const [composerHeight, setComposerHeight] = useState(0);
   const [pastComments, setPastComments] = useState(false);
   const composerSlide = useRef(new Animated.Value(0)).current;
+  // "More posts" under the comments is up to seven feed cards. They are drawn
+  // as the reader nears them, not all at once behind a post that just opened.
+  const morePostsGate = useRef(createDrawGate()).current;
   const updatePastComments = useCallback(() => {
     const g = scrollGeom.current;
+    if (g.viewport && g.content) {
+      morePostsGate.set(g.content - listBottomPadding < g.y + g.viewport * (1 + MORE_POSTS_AHEAD));
+    }
     if (!g.continuation || !g.viewport) return;
     const sectionTop = g.content - listBottomPadding - g.continuation;
     // Past the comments once "More posts" fills the lower half of the screen.
     // A short post that fits on one screen never scrolls, so never hides it.
     const past = g.y > 40 && sectionTop < g.y + g.viewport * 0.5;
     setPastComments((prev) => (prev === past ? prev : past));
-  }, [listBottomPadding]);
+  }, [listBottomPadding, morePostsGate]);
   const handleListScroll = useCallback((e: NativeSyntheticEvent<NativeScrollEvent>) => {
     scrollGeom.current.y = e.nativeEvent.contentOffset.y;
     updatePastComments();
@@ -1205,7 +1215,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
    * The way out of the focused view — the rest of the post's comments, one tap
    * away rather than loaded over the thing they came to read.
    */
-  const showAllCommentsRow = focusOnly ? (
+  const showAllCommentsRow = useMemo(() => focusOnly ? (
     <View className="px-8 py-3">
       <TouchableOpacity
         onPress={() => setShowAllThreads(true)}
@@ -1216,7 +1226,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         <Text className={isMinimal ? "text-white text-xs underline" : "text-theme-neutrals-300 text-xs"}>{t("comments.showAll")}</Text>
       </TouchableOpacity>
     </View>
-  ) : null;
+  ) : null, [focusOnly, isMinimal, t]);
 
   const handleToggleThread = useCallback((rootId: string) => {
     setExpandedThreads((prev) => {
@@ -1698,6 +1708,50 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
     </View>
   ), [item, authorThreadEntries, authorThreadTools, renderCommentItem, immersive, stage, loading, privateError, loadError, postUnavailable, fetchData, openCommentSheet, isMinimal, t, renderCommentTabs, handleTabRowLayout, handleStageAnchor, handleStageComment, handlePostBack, commentSort, commentSearchOpen, commentQuery, toggleCommentSearch, comments.length, setCommentQuery, noComments, leanPost]);
 
+  // The list is a pure component: it redraws its rows whenever one of its
+  // props is a new object. Built inline, the header, footer, empty state and
+  // padding were new on every render, so each key typed in the comment box
+  // redrew every comment row. Each is rebuilt only when what it shows changes.
+  const listHeader = useMemo(() => renderHeader(), [renderHeader]);
+  const hasItem = !!item;
+  const continuationLoadSignal = autoMorePosts ? morePostsSignal : undefined;
+  const listFooter = useMemo(() => (
+    <View>
+      {showAllCommentsRow}
+      {hasItem && tokenId != null && transitionSettled && (
+        <View onLayout={handleContinuationLayout}>
+          <PostDetailContinuation currentPostId={String(tokenId)} profileFeed={profileFeed} loadMoreSignal={continuationLoadSignal} drawGate={morePostsGate} />
+        </View>
+      )}
+    </View>
+  ), [showAllCommentsRow, hasItem, tokenId, transitionSettled, handleContinuationLayout, profileFeed, continuationLoadSignal, morePostsGate]);
+  const commentsPending = loading || (!transitionSettled && !embedded && !noComments && !loadError);
+  const listEmpty = useMemo(() => (leanPost ? null : commentsPending ? (
+    <View className="px-4 py-3">
+      <CommentsSkeleton />
+    </View>
+  ) : !hasItem ? null : loadError ? (
+    // The post is up but its comments didn't come: say so, rather than
+    // "no comments yet" on a post whose card counts some.
+    <View className="px-4 py-6 items-start" style={{ gap: 12 }}>
+      <Text className="text-theme-neutrals-400 text-sm">{t("comments.loadFailed")}</Text>
+      <Pressable
+        onPress={() => { void fetchData(); }}
+        accessibilityRole="button"
+        className={isMinimal ? "px-5 py-2 border" : "px-5 py-2 rounded-xl bg-theme-neutrals-700"}
+        // Minimal: outline only, no fill.
+        style={isMinimal ? { borderColor: MINIMAL_TAB_LINE } : undefined}
+      >
+        <Text className="text-theme-neutrals-50 font-medium">{t("common.retry")}</Text>
+      </Pressable>
+    </View>
+  ) : noComments ? null : (
+    <View className="px-4 py-6">
+      <Text className="text-theme-neutrals-400 text-sm">{t("comments.noneYetAddYours")}</Text>
+    </View>
+  )), [leanPost, commentsPending, hasItem, loadError, noComments, fetchData, isMinimal, t]);
+  const listContentStyle = useMemo(() => ({ paddingHorizontal: 0, paddingBottom: listBottomPadding }), [listBottomPadding]);
+
   // The name sits in bold wherever the language puts it. The sentence is
   // translated whole and cut around the name, because a translated "Replying
   // to" with the name glued on after it only reads right in languages that put
@@ -1740,59 +1794,30 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         scrollEnabled={!contextComment}
         showsVerticalScrollIndicator={false}
         data={leanPost ? EMPTY_COMMENTS : listComments}
-        keyExtractor={(c) => String(c.id)}
+        keyExtractor={commentKey}
         // An element, not the function: FlatList treats a function as a
         // component type, so every new renderHeader identity (loading flips,
         // comment count changes) remounted the whole post card — a live post
         // restarted its stream and dropped an open reaction picker.
-        ListHeaderComponent={renderHeader()}
-        ListFooterComponent={(
-          <View>
-            {showAllCommentsRow}
-            {item && tokenId != null && transitionSettled && (
-              <View onLayout={handleContinuationLayout}>
-                <PostDetailContinuation currentPostId={String(tokenId)} profileFeed={profileFeed} loadMoreSignal={autoMorePosts ? morePostsSignal : undefined} />
-              </View>
-            )}
-          </View>
-        )}
+        ListHeaderComponent={listHeader}
+        ListFooterComponent={listFooter}
         // Scrolling to a row this list has not measured yet is a normal miss on
         // a post whose header is a video: land near it and let the next pass
         // finish the job rather than dropping the jump.
         onScrollToIndexFailed={handleScrollToIndexFailed}
         onEndReached={handleEndReached}
         onEndReachedThreshold={1.5}
-        ListEmptyComponent={leanPost ? null : loading || (!transitionSettled && !embedded && !noComments && !loadError) ? (
-          <View className="px-4 py-3">
-            <CommentsSkeleton />
-          </View>
-        ) : !item ? null : loadError ? (
-          // The post is up but its comments didn't come: say so, rather than
-          // "no comments yet" on a post whose card counts some.
-          <View className="px-4 py-6 items-start" style={{ gap: 12 }}>
-            <Text className="text-theme-neutrals-400 text-sm">{t("comments.loadFailed")}</Text>
-            <Pressable
-              onPress={() => { void fetchData(); }}
-              accessibilityRole="button"
-              className={isMinimal ? "px-5 py-2 border" : "px-5 py-2 rounded-xl bg-theme-neutrals-700"}
-              // Minimal: outline only, no fill.
-              style={isMinimal ? { borderColor: MINIMAL_TAB_LINE } : undefined}
-            >
-              <Text className="text-theme-neutrals-50 font-medium">{t("common.retry")}</Text>
-            </Pressable>
-          </View>
-        ) : noComments ? null : (
-          <View className="px-4 py-6">
-            <Text className="text-theme-neutrals-400 text-sm">{t("comments.noneYetAddYours")}</Text>
-          </View>
-        )}
+        ListEmptyComponent={listEmpty}
         renderItem={renderCommentItem}
-        // The post itself heads the list, so the first screen holds only a
-        // handful of comments; the default ten doubled the first render's rows.
-        initialNumToRender={6}
-        maxToRenderPerBatch={6}
-        windowSize={11}
-        contentContainerStyle={{ paddingHorizontal: 0, paddingBottom: listBottomPadding }}
+        // The post itself heads the list, so the first screen shows two or
+        // three comments at most. A comment row is several hundred elements:
+        // six at once, six more straight after and five screens kept drawn
+        // below held the post frozen while rows nobody could see were built.
+        // Three at a time, two screens each way.
+        initialNumToRender={3}
+        maxToRenderPerBatch={3}
+        windowSize={5}
+        contentContainerStyle={listContentStyle}
         keyboardShouldPersistTaps="handled"
         viewabilityConfig={viewabilityConfig}
         onViewableItemsChanged={onViewableItemsChanged}

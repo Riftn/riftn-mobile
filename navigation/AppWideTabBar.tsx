@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Keyboard, Platform, StyleSheet, View } from "react-native";
 import { navigationRef } from "../App";
 import { ScreenNames } from "./ScreenNames";
@@ -81,10 +81,25 @@ export default function AppWideTabBar() {
     return () => { show.remove(); hide.remove(); };
   }, []);
 
-  if (!route || NO_BAR.has(route) || ownBars > 0 || keyboardUp) return null;
+  const standDown = !route || NO_BAR.has(route) || ownBars > 0 || keyboardUp;
+  // Built the first time a page needs it, then kept and only hidden: building
+  // a fresh copy on every push was a fifth of the time a post, the
+  // notifications or search took to open.
+  const built = useRef(false);
+  if (!standDown) built.current = true;
+  if (!built.current) return null;
   return (
-    <View style={StyleSheet.absoluteFill} pointerEvents="box-none">
+    <View
+      style={standDown ? styles.away : StyleSheet.absoluteFill}
+      pointerEvents={standDown ? "none" : "box-none"}
+      accessibilityElementsHidden={standDown}
+      importantForAccessibility={standDown ? "no-hide-descendants" : "auto"}
+    >
       <StandaloneTabBar appWide />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  away: { ...StyleSheet.absoluteFillObject, display: "none" },
+});

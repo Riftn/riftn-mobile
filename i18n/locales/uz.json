@@ -2612,7 +2612,66 @@
     "57e2faa5ec63": "Riftn dan qidirish",
     "7db20897053b": "Odamlar",
     "96d7bff86b44": "Qidiruv yuklashda muammoqalik",
-    "d8b8392e2c54": "Qayta urinib ko&#39;ring"
+    "d8b8392e2c54": "Qayta urinib ko&#39;ring",
+    "e587a51bc3ce": "Riftn'da yangilik",
+    "d7396f3b8881": "Riftn'da yangi layk yoki izoh",
+    "037a2ecd34b0": "Riftn'da yangi obunachi",
+    "b63561f1b73a": "Riftn'da yangi choychaqa yoki daromad",
+    "0ae84457a2df": "Siz kuzatadigan kishi Riftn'da jonli efirda",
+    "a7bac8dca08b": "Riftn'da kiruvchi qo'ng'iroq",
+    "9d309cb4a034": "Riftn'dagi postingiz bo'yicha yangilik",
+    "914be7a9350a": "Riftn'dan xabar",
+    "2ab63e6ced90": "Amalga oshirib bo'lmaydi",
+    "79688f176607": "Amalga oshirib bo'lmaydi deb belgilandi",
+    "465fe84f18fc": "Amalga oshirib bo'lmaydi deb belgilash",
+    "0d24977e6943": "Sababni tahrirlash",
+    "0a54f1d10336": "Nega buni amalga oshirib bo'lmaydi? (ixtiyoriy)",
+    "3d024b567634": "Odamlar ko'radigan qisqa sabab",
+    "ad389aa4c08e": "Sababi:",
+    "78b3ae9561ee": "Hech narsa rad etilmagan",
+    "89b4d1850766": "Hozir yarata olmaydigan so'rovlarimiz sababi bilan shu yerda ko'rinadi.",
+    "3f9b2c71d0a4": "{{n}} ta natija",
+    "8c4e1a6b2f57": "“{{query}}” bo'yicha",
+    "63eb38b938b8": "Navbatda deb belgilash",
+    "2fffca525795": "Chiqarildi deb belgilash",
+    "3ee050a08bfa": "So'rovlarga qaytarish",
+    "ae6a0ffbe609": "Navbatda deb belgilandi",
+    "366cb56b38ce": "Chiqarildi deb belgilandi",
+    "9db7b5ba03bb": "So'rovlarga qaytarildi",
+    "bb2be752e079": "Holatni o'zgartirib bo'lmadi",
+    "1d7234ff1b79": "{{feed}} ichida",
+    "e122e5c2b563": "Yopish uchun yuqoriga suring",
+    "1aa9d734f2ee": "Nimani qidirishni tanlang",
+    "35034aa59bd3": "{{feed}} da hech narsa mos kelmadi. Boshqa so'zlarni sinab ko'ring yoki hamma joydan qidiring.",
+    "415155739590": "Hamma joydan qidirish",
+    "90f1afe66801": "“{{query}}” qidirilmoqda…",
+    "9e13d826baaf": "Rasmlarni qidirish",
+    "e8756c6865a5": "Shorts'ni qidirish",
+    "c7661da99c41": "Videolarni qidirish",
+    "cbf6f228327c": "Musiqani qidirish",
+    "d7b559f2d8c6": "Boshqa so'zlarni sinab ko'ring yoki filtrlarni o'zgartiring.",
+    "ef557404f465": "“{{query}}” bo'yicha natija yo'q",
+    "d1a0c7e2f301": "Bugun nima haqida o'ylayapsiz?",
+    "d1a0c7e2f302": "Bugun nimani o'ylayapsiz?",
+    "d1a0c7e2f303": "Nima yangiliklar?",
+    "d1a0c7e2f304": "Aytadigan gapingiz bormi?",
+    "d1a0c7e2f305": "Hozir nima haqida o'ylayapsiz?",
+    "d1a0c7e2f306": "Bugun nima o'ylayapmiz?",
+    "d1a0c7e2f307": "Bugun xayolingizda biror narsa bormi?",
+    "d1a0c7e2f308": "Bu safar xayolingizda nima bor?",
+    "a7c1e0f4b2d9": "Gapirish uchun bosing",
+    "b3e8d1c6f0a2": "Yuborish uchun bosing",
+    "c9f2a4e7d1b5": "Tinglanmoqda... yuborish uchun sharni bosing",
+    "94cee2c8c1c1": "Profilingiz ko'chirildi",
+    "22577ebd908e": "Wan 3.0 video yaratish · original saundtrek",
+    "1fa2357ab7e1": "Seedance 720p video yaratish · original saundtrek",
+    "7f78bdc0762d": "+{{value1}} ball",
+    "f0c8bb34335b": "Siz +{{value1}} ball oldingiz",
+    "0fbe06b679a8": "Bajarilgan har bir so'rov uchun {{value1}} ball, Top quruvchilar hisobingizga qo'shiladi.",
+    "ebebdc70335b": "Shisha ustunlar",
+    "5ff272ba7871": "Ipak chiziqlar",
+    "a941e90ca93d": "Muqova halosi",
+    "04dbbe4dff7a": "Haqiqiy to'lqin"
   },
   "dehubLinks": {
     "kind": {
@@ -2629,7 +2688,8 @@
       "proposal": "taklif",
       "stage": "sahna",
       "store": "doʻkon",
-      "featureRequest": "so'rov"
+      "featureRequest": "so'rov",
+      "page": "sahifa"
     }
   },
   "postGate": {
@@ -2865,10 +2925,20 @@
       "numbers": "Sonli roʻyxat",
       "link": "Havola",
       "image": "Rasmlar qo&#39;shish"
-    }
+    },
+    "imageLimit": "Maqolalarda {{count}} tagacha rasm bo'lishi mumkin",
+    "imageFailed": "Bu rasmni qo'shib bo'lmadi. Boshqasini sinab ko'ring.",
+    "imagesUploading": "Rasmlar qo'shilmoqda ({{count}})…",
+    "bodyTooLong": "Chegaradan {{count}} belgi ortiq",
+    "imagesCount": "Rasmlar · {{count}}/{{max}}",
+    "captionPlaceholder": "Izoh qo'shing",
+    "captionLabel": "{{n}}-rasm uchun izoh",
+    "removeInlineImage": "{{n}}-rasmni olib tashlash"
   },
   "storefront": {
-    "unavailable": "Ilovaning bu versiyasida mavjud emas"
+    "unavailable": "Ilovaning bu versiyasida mavjud emas",
+    "continueOnWeb": "riftn.com saytida davom etish",
+    "webOnlyHint": "Buni riftn.com saytida yakunlang. U Safari'da ochiladi."
   },
   "nav": {
     "launchpad": "Ishga tushirish paneli",
@@ -2922,7 +2992,72 @@
     "reorderReset": "Qayta tiklash",
     "groups": {
       "create": "Yaratish",
-      "discover": "Kashf etish"
+      "discover": "Kashf etish",
+      "main": "Asosiy",
+      "money": "Pul",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "lenta, xronologiya, so'nggi postlar, siz uchun, kuzatilayotganlar, bosh sahifa",
+      "profile": "mening profilim, mening hisobim, mening sahifam, mening postlarim, avatar, bio, obunachilar",
+      "explore": "qidirish, kashf qilish, topish, trenddagi, mashhur, heshteglar, odamlar, ijodkorlar",
+      "prompt": "AI, yaratish, AI rasm, AI video, rasm yaratuvchi, matndan rasm, AI san'at",
+      "editor": "video muharriri, videoni tahrirlash, qirqish, kesish, taglavhalar, subtitrlar, effektlar",
+      "creator": "yaratish, studiya, AI vositalar, rasm, video, musiqa, ovoz berish, 3D",
+      "converter": "video import, yuklab olish, YouTube, TikTok, Instagram, konvertatsiya",
+      "migrate": "kanalimni ko'chirish, kanal import, ommaviy import, YouTube kanal",
+      "notifications": "ogohlantirishlar, faollik, eslatmalar, javoblar, yoqtirishlar, qo'ng'iroqcha",
+      "messages": "DM, shaxsiy xabarlar, suhbat, chat, kiruvchi, yozishmalar, shaxsiy xabar",
+      "communities": "guruhlar, hamjamiyat, xonalar, klublar, forumlar, a'zolar",
+      "assistant": "AI, chatbot, so'rash, yordam, AI chat, savollar",
+      "settings": "sozlamalar, hisob, maxfiylik, xavfsizlik, parol, til, mavzu, qorong'i rejim, bloklangan, hisobni o'chirish",
+      "leaderboard": "reyting, o'rin, top ijodkorlar, top foydalanuvchilar, ballar, natijalar",
+      "bookmarks": "saqlangan, sevimlilar, keyinroq ko'rish, keyinroq o'qish, saqlangan postlar, kutubxona",
+      "command": "boshqaruv paneli, analitika, daromad, tushum, tahlillar, moderatsiya, statistikam",
+      "wallet": "balans, pul, mablag', tokenlar, kripto, depozit, yechib olish, yuborish, qabul qilish, to'lash",
+      "events": "kalendar, jadval, uchrashuv, yaqinlashayotgan, chiptalar, AMA",
+      "stages": "audio xonalar, ovozli chat, spaces, jonli audio, suhbat, podkast",
+      "featureRequests": "qurish, quruvchilar, g'oyalar, takliflar, xato haqida xabar berish, xatolar, tuzatishlar, yo'l xaritasi, ovoz berish, istaklar, yaxshilash",
+      "feedback": "sharh, baho, so'rovnoma, fikr, shikoyat, fikr bildirish",
+      "staking": "steyk, depozit, daromadlilik, mukofotlar, ishlash, foyda ulushi, nishon, darajalar, foiz",
+      "superpowers": "boost, reklama qilish, imtiyozlar, kuchlar, nishon imtiyozlari, qamrov, yangilanishlar",
+      "governance": "ovoz berish, ovoz, takliflar, so'rovnoma, byulleten, qaror qilish",
+      "dao": "xazina, xayriya, ehson, hamjamiyat fondi, hissa qo'shish, grantlar",
+      "bounties": "ish, ishlar, vazifalar, buyurtmalar, frilans, yollash, pul ishlash, haq to'lanadigan ish",
+      "myBounties": "mening bauntilarim, mening ishlarim, tarix, to'lovlar, bajarilgan ish",
+      "affiliate": "referal, do'stlarni taklif qilish, taklif, komissiya, hamkor, ishlash",
+      "careers": "vakansiyalar, ishga olish, biz bilan ishlang, jamoaga qo'shiling, ariza berish, bo'sh ish o'rinlari",
+      "stores": "do'kon, magazin, bozor, merch, sotib olish, sotish, mahsulotlar, xarid",
+      "fractions": "ulushlar, egalik, investitsiya, postga egalik, NFT, NFTs, kolleksiya, savdo",
+      "usernames": "foydalanuvchi nomi, handle, nom, nomimni o'zgartirish, nom sotib olish, nom sotish",
+      "accounts": "hisob sotib olish, hisob sotish, sotuvdagi hisoblar, obunachilar, hisobni o'tkazish",
+      "apps": "ilovalar do'koni, mini ilovalar, ilova yaratish, dasturchilar, vositalar",
+      "arcade": "o'yinlar, o'yin, o'ynash, geyming, shaxmat, shuter, ko'ngilochar",
+      "glossary": "atamalar, ta'riflar, lug'at, ma'no, nima bu",
+      "compare": "taqqoslash, solishtirish, qarshi, muqobillar, YouTube, X, TikTok",
+      "guide": "boshlash, qanday qilib, qo'llanma, yordam, o'rganish, yangi boshlovchi, bu yerda yangiman",
+      "stats": "statistika, analitika, raqamlar, grafiklar, narx, taklif hajmi, egalar",
+      "docs": "hujjatlar, yordam, API, whitepaper, dasturchilar, qo'llanma",
+      "blog": "yangiliklar, maqolalar, yangilanishlar, e'lonlar, nima yangi",
+      "videos": "tomosha, videolar, kliplar, uzun videolar",
+      "shorts": "reels, qisqa videolar, vertikal videolar, surish",
+      "music": "audio, qo'shiqlar, treklar, tinglash, radio, pleylist",
+      "liveTv": "TV, striminglar, strim, jonli, efir, kanallar, jonli tomosha",
+      "buyTokens": "token sotib olish, xarid, hisobni to'ldirish, karta, kredit karta, fiat",
+      "bridge": "kross-cheyn, tokenlarni ko'chirish, tarmoqlar, tarmoqlar orasida o'tkazish",
+      "top100": "top 100, tangalar, kriptovalyutalar, bozor kapitalizatsiyasi, narxlar",
+      "agents": "AI agentlar, agentlar, botlar, avtomatlashtirish, personajlar",
+      "advertising": "reklama, e'lonlar, kampaniya, reklama qilish, homiy, marketing",
+      "premium": "obuna, yangilash, pro, a'zolik, reklamasiz, reklamadan xoli",
+      "pricing": "tariflar, narx, qiymat, qancha turadi, obuna",
+      "creators": "ijodkorlar dasturi, elchilar, hamkorlar, ijodkor sifatida ariza berish, monetizatsiya",
+      "getTheApp": "ilovani yuklab olish, Android, iPhone, mobil ilova, o'rnatish, APK",
+      "connectAi": "MCP, ChatGPT, Claude, API, integratsiya, AI ulash",
+      "packs": "emoji, stikerlar, GIF, emoji to'plamlari, stiker to'plamlari, maxsus emoji",
+      "publicChat": "chat, umumiy chat, chat xonasi, lobbi, suhbat, hamjamiyat chati",
+      "planned": "rejalashtirilgan, jadval, rejalashtirilgan postlar, navbat, keyinroq",
+      "liveStudio": "jonli efirga chiqish, strim, striming, OBS, overleylar, ogohlantirishlar, vidjetlar",
+      "launchpad": "token chiqarish, tanga yaratish, tanga qilish, meme tanga, bonding curve, tokenlashtirish"
     }
   },
   "affiliate": {
@@ -3686,7 +3821,47 @@
     "themeColorBrandDesc": "Profil rasmingiz ranglaridan foydalanish",
     "themeColorBrandNoAvatar": "Brend ranglaridan foydalanish uchun profil rasmi qo'shing",
     "themeColorBrandFailed": "Profil rasmingizdan ranglarni o'qib bo'lmadi",
-    "menuLayoutFolders": "Papkalar"
+    "menuLayoutFolders": "Papkalar",
+    "chatDeleteChoice": "Xabarni o'chirganingizda",
+    "chatDeleteChoiceDesc": "Har safar so'rash yoki doim faqat o'zingiz uchun yoki chatdagi hamma uchun o'chirish.",
+    "chatDeleteAsk": "Har safar so'rash",
+    "chatDeleteMe": "Men uchun o'chirish",
+    "chatDeleteMeDesc": "Sizning chatingizdan yo'qoladi, boshqalar uni ko'raveradi",
+    "chatDeleteEveryone": "Hamma uchun o'chirish",
+    "chatDeleteEveryoneDesc": "Imkon bo'lganda. Guruhdagi boshqa birovning xabari baribir faqat siz uchun o'chadi",
+    "chatTextSize": "Chat matni o'lchami",
+    "menuLayout": "Menyu ko'rinishi",
+    "menuLayoutDesc": "Menyu sahifalarini qanday guruhlaydi",
+    "menuLayoutTabs": "Yorliqlar",
+    "menuLayoutTabsDesc": "Bir vaqtda bitta guruh, katta belgilar bilan",
+    "menuLayoutSections": "Bo'limlar",
+    "menuLayoutSectionsDesc": "Barcha sahifalar birdaniga, guruh sarlavhalari ostida",
+    "menuLayoutFoldersDesc": "Asosiy sahifalaringiz, keyin har bir guruh uchun papka",
+    "publicChatInBar": "Pastki panelda umumiy chat",
+    "publicChatInBarDesc": "Ekran pastidagi paneldan bir bosishda umumiy chatga o'tish",
+    "chatTextSizeDesc": "Barcha chatlardagi xabarlarni kattaroq yoki kichikroq qiladi. Telefoningiz matn o'lchamiga qo'shiladi.",
+    "chatCards": "Chatlar kartochka ko'rinishida",
+    "chatCardsDesc": "Har bir chat alohida kartochkada. O'chirsangiz, chatlar orasida chiziq bilan oddiy ro'yxat bo'ladi.",
+    "contactSupport": "Yordam xizmatiga yozish",
+    "showLikes": "Yoqtirganlarimni hammaga ko'rsatish",
+    "showLikesDesc": "Har kim profilingizdagi Yoqtirishlar bo'limini ocha oladi. Standart holatda o'chiq, shuning uchun nimani yoqtirganingizni faqat siz ko'rasiz.",
+    "showFollowersList": "Kim meni kuzatishini ko'rsatish",
+    "showFollowersListDesc": "Har kimga obunachilaringiz ro'yxatini ochishga ruxsat bering. O'chiq bo'lsa, uni faqat siz ko'rasiz.",
+    "showFollowingList": "Men kimni kuzatishimni ko'rsatish",
+    "showFollowingListDesc": "Har kimga siz kuzatayotgan odamlar ro'yxatini ochishga ruxsat bering. O'chiq bo'lsa, uni faqat siz ko'rasiz.",
+    "showFollowCounts": "Obunachilar sonini ko'rsatish",
+    "showFollowCountsDesc": "Nechta obunachingiz borligi va nechta odamni kuzatishingizni ko'rsatish. Buni o'chirish ikkala ro'yxatni ham yashiradi.",
+    "defaultProfileView": "Profildagi postlar ko'rinishi",
+    "defaultProfileViewDesc": "Odamlar profilingizni ochganda postlaringizni to'r yoki ro'yxat ko'rinishida ko'rsatish",
+    "readerProfileView": "Boshqa profillarni quyidagicha ochish",
+    "readerProfileViewDesc": "Ochgan har bir profilingiz uchun to'r yoki ro'yxatni tanlang yoki har bir kishining o'z tanlovini saqlang",
+    "readerProfileViewOwner": "Har kimning o'z tanlovi",
+    "notificationShowCount": "Qo'ng'iroqchada sonni ko'rsatish",
+    "notificationShowCountDesc": "Faqat yorug'lik o'rniga nechta bildirishnoma o'qilmaganini ko'ring",
+    "messagesShowCount": "Xabarlarda sonni ko'rsatish",
+    "messagesShowCountDesc": "Faqat yorug'lik o'rniga nechta xabar o'qilmaganini ko'ring",
+    "pushNotRegisteredDescIos": "Ilova yopiqligida bildirishnomalar sizga yetib bormaydi: bu iPhone push uchun ro'yxatdan o'tmagan. Sozlamalarda Riftn uchun bildirishnomalarga ruxsat berilganini tekshiring, so'ng ilovani qayta oching.",
+    "tipsOffNote": "Bu yoqilganda sizga tiplar va o'tkazmalar o'chiq bo'ladi. Yana tip olish uchun buni o'chiring."
   },
   "common": {
     "refresh": "Yangilash",
@@ -3812,7 +3987,15 @@
     "addMessage": "Xabar yozing (va shart emas).",
     "messagePublic": "Ommaviy",
     "railTitle": "Maslahatlar",
-    "railTotal": "{{amount}} token"
+    "railTotal": "{{amount}} token",
+    "messagePlaceholder": "Tipingiz bilan biror narsa yozing",
+    "messagePrivate": "Faqat {{name}}",
+    "theCreator": "muallif",
+    "messageWallNote": "Tip o'tgach, tiplar devorida ko'rinadi.",
+    "sendWithMessage": "Xabar bilan yuborish",
+    "messageFailed": "Xabaringizni qo'shib bo'lmadi. Tip yuborilmadi.",
+    "wallLabel": "Tip xabarlari",
+    "messagePrivateNote": "Buni faqat {{name}} o'z bildirishnomasida ko'radi."
   },
   "postOptions": {
     "skippableSections": "O'tkazib yuboriladigan bo'limlar",
@@ -3896,7 +4079,17 @@
     "giftBoost": "Boost sovg'a qilish",
     "giftBoostDesc": "O'zingiznikidan birini shu postga sarflang",
     "askAi": "Sun'iy intellektdan so'rash",
-    "aiOverview": "Sun'iy intellektga umumiy nuqtai nazar"
+    "aiOverview": "Sun'iy intellektga umumiy nuqtai nazar",
+    "unmuteUser": "{{name}} ovozini yoqish",
+    "unmuteDesc": "Uning postlarini yana ko'rish",
+    "unmutedUser": "{{name}} ovozi yoqildi",
+    "refreshLinkPreview": "Havola ko'rinishini yangilash",
+    "linkPreviewRefreshed": "Havola ko'rinishi yangilandi",
+    "linkPreviewRefreshFailed": "Saytga ulanib bo'lmadi. Keyinroq qayta urinib ko'ring.",
+    "castToTv": "Televizorga uzatish",
+    "castIosDesc": "Apple TV yoki smart TV'ga AirPlay orqali",
+    "castAndroidDesc": "Ekraningizni Cast yoki Smart View orqali uzating",
+    "castAndroidHelp": "Tezkor sozlamalarni ochib, Smart View yoki Cast'ni bosing, so'ng televizoringizni tanlang."
   },
   "filters": {
     "sort": "Saralash",
@@ -4102,7 +4295,8 @@
     "failedToClosePoll": "So'rovnomani yopishda xatolik yuz berdi",
     "endsIn": "Yakunlanadi {{time}}",
     "multipleChoice": "Ko'p javoblarga ruxsat berish",
-    "online": "{{count}} onlayn"
+    "online": "{{count}} onlayn",
+    "onlineHint": "Hozir bu chatda {{count}} kishi bor"
   },
   "aiChat": {
     "title": "Yordamchi",
@@ -4472,7 +4666,10 @@
       "governanceVotedPassed": "Siz ovoz bergan taklif qabul qilindi: “{{title}}”",
       "governanceVotedRejected": "Siz ovoz bergan taklif qabul qilinmadi: “{{title}}”",
       "governancePassed": "“{{title}}” taklifingiz qabul qilindi 🎉",
-      "governanceRejected": "“{{title}}” taklifingiz qabul qilinmadi"
+      "governanceRejected": "“{{title}}” taklifingiz qabul qilinmadi",
+      "featureNewNamed": "{{name}} yangi so'rov joyladi: “{{title}}”",
+      "featureActivityNamed": "{{name}} “{{title}}” ga izoh qoldirdi",
+      "featureActivity": "{{name}} so'rovga izoh qoldirdi"
     },
     "stores": "Do'konlar",
     "features": "Imkoniyatlar",
@@ -4559,7 +4756,11 @@
     "groupNew": "Yangi",
     "groupToday": "Bugun",
     "groupThisWeek": "Bu hafta",
-    "searchClose": "Yopish"
+    "searchClose": "Yopish",
+    "allSettings": "Barcha bildirishnoma sozlamalari",
+    "groupEarlier": "Avvalroq",
+    "searchPlaceholder": "Bildirishnomalarni qidirish",
+    "searchEmpty": "Mos bildirishnomalar yo'q"
   },
   "leaderboard": {
     "title": "Reyting",
@@ -4599,7 +4800,13 @@
     "addedToLeaderboard": "Siz qo'shildingiz! Balans: {{balance}} token",
     "balanceTooLow": "Balans past ({{balance}} token)",
     "tokenAmount": "{{amount}} token",
-    "provisional": "dastlabki"
+    "provisional": "dastlabki",
+    "ogChallenge": "OG musobaqasi",
+    "ogHolders_one": "{{count}} ta OG egasi",
+    "ogHolders_other": "{{count}} ta OG egasi",
+    "ogChallengeTitle": "OG egalarini qaytaring",
+    "ogChallengeBody": "Hali ham DHB saqlayotgan odamlarni taklif qiling. Ular taklif havolangiz orqali qo'shilib, DHB'ni Riftn hamyonida saqlasa, bu yerda siz uchun hisoblanadi.",
+    "ogChallengeCta": "Taklif havolangizni oling"
   },
   "explorePage": {
     "searchPlaceholder": "Odamlar, postlar yoki kontent qidirish...",
@@ -4761,8 +4968,31 @@
       "comments": "Izohlar",
       "showLess": "Kamroq ko&#39;rsatish",
       "viewProfile": "Profilni ko&#39;rish",
-      "you": "Siz"
-    }
+      "you": "Siz",
+      "title": "Eng yaxshi yaratuvchilar",
+      "breakdown": "{{shipped}} ta chiqarilgan ({{sp}}) · {{votes}} ta ovoz ({{vp}}) · {{comments}} ta izoh ({{cp}})",
+      "showAll": "Top {{n}} ni ko'rsatish",
+      "showEveryone": "Barcha {{n}} yaratuvchini ko'rsatish",
+      "showMore": "Yana {{n}} tasini ko'rsatish",
+      "rule": "Chiqarilgan har bir so'rov uchun 10 ball, har bir ovoz uchun 1, birovning so'roviga har bir izoh uchun 2 ball.",
+      "pts": "{{n}} ball",
+      "gap": "{{name}}ni ortda qoldirish uchun {{n}} ball",
+      "join": "Reytingga kirish uchun amalga oshadigan so'rov joylang",
+      "points": "Ballar",
+      "infoLabel": "Ballar qanday hisoblanadi",
+      "infoShipped": "chiqarilgan har bir so'rov uchun",
+      "infoVote": "so'rovlaringizga har bir ovoz uchun",
+      "infoComment": "birovning so'roviga har bir izoh uchun",
+      "infoCap": "Har bir davrda {{n}} tagacha izoh hisobga olinadi.",
+      "pt": "1 ball",
+      "infoTitle": "Ballar qanday hisoblanadi"
+    },
+    "deviceInfoNote": "Xatolarni tuzatishimizga yordam berish uchun qurilma ma'lumotlari biriktiriladi.",
+    "deviceInfo": "Qurilma ma'lumotlari",
+    "deviceInfoOwners": "Buni faqat doska egalari ko'radi",
+    "deviceInfoError": "Qurilma ma'lumotlarini yuklab bo'lmadi",
+    "deviceInfoNone": "Bu so'rov uchun qurilma ma'lumotlari yo'q",
+    "deviceInfoErrors": "So'nggi xatolar"
   },
   "auth": {
     "loginRequired": "Avtorizatsiya kerak",
@@ -4819,7 +5049,13 @@
     "importWalletPurpose": "Ushbu vosita Riftn.io dan mavjud hisoblarni import qilish uchun mo'ljallangan.",
     "importSecretPlaceholder": "12 yoki 24 so‘z, yoki maxfiy kalit",
     "invalidImportSecret": "Bu yaroqli 12/24‑so‘zli ibora yoki maxfiy kalit emas",
-    "walletSignupBlocked": "Bu hamyon butunlay yangi. Yangi hamyonlarga hisob ochish uchun balans yoki oldingi tranzaksiya kerak. Quyidagi variantlardan biri bilan roʻyxatdan oʻting, soʻng bu hamyonni Sozlamalardan ulang."
+    "walletSignupBlocked": "Bu hamyon butunlay yangi. Yangi hamyonlarga hisob ochish uchun balans yoki oldingi tranzaksiya kerak. Quyidagi variantlardan biri bilan roʻyxatdan oʻting, soʻng bu hamyonni Sozlamalardan ulang.",
+    "accountDeleted": "Bu hisob o'chirilgan. Yangi hisob sifatida qayta ro'yxatdan o'tishingiz mumkin.",
+    "accountDeletedHours_one": "Bu hisob o'chirilgan. Taxminan {{count}} soatdan keyin xuddi shu email yoki telefon bilan qayta ro'yxatdan o'tishingiz mumkin.",
+    "accountDeletedHours_other": "Bu hisob o'chirilgan. Taxminan {{count}} soatdan keyin xuddi shu email yoki telefon bilan qayta ro'yxatdan o'tishingiz mumkin.",
+    "accountDeletedDays_one": "Bu hisob o'chirilgan. Taxminan {{count}} kundan keyin xuddi shu email yoki telefon bilan qayta ro'yxatdan o'tishingiz mumkin.",
+    "accountDeletedDays_other": "Bu hisob o'chirilgan. Taxminan {{count}} kundan keyin xuddi shu email yoki telefon bilan qayta ro'yxatdan o'tishingiz mumkin.",
+    "signInPageWouldNotOpen": "Kirish sahifasi ochilishidan oldin yopildi. Qayta urinib ko'ring yoki email bilan davom eting."
   },
   "messages": {
     "encryptionSetupFailed": "Shifrlash sozlanmadi. Qaytadan urinib ko'ring.",
@@ -4844,7 +5080,11 @@
     "title": "Xabarlar",
     "searchConversations": "Suhbatlarni qidirish...",
     "failedToLoad": "Suhbatlarni yuklash amalga oshmadi",
-    "tryAgain": "Qayta urinib koʻring"
+    "tryAgain": "Qayta urinib koʻring",
+    "unreadMarkerOne": "1 ta o'qilmagan xabar",
+    "unreadMarkerMany": "{{value}} ta o'qilmagan xabar",
+    "jumpToUnread": "Birinchi o'qilmagan xabarga o'tish",
+    "jumpToLatest": "Oxirgi xabarga o'tish"
   },
   "music": {
     "chartOrder": "Audio jadval tartibi",
@@ -5029,14 +5269,51 @@
     "pinnedShort": "Qadoqlangan",
     "post": "Joylash",
     "arrange": {
-      "saving": "Saqlanmoqda..."
+      "saving": "Saqlanmoqda...",
+      "title": "Postlaringizni tartiblang",
+      "hint": "Postni bosib turing va yangi joyiga suring. Mehmonlar avval shu tartibni ko'radi.",
+      "drag": "Ko'chirish uchun suring",
+      "toTop": "Tepaga ko'chirish",
+      "save": "Tartibni saqlash",
+      "saved": "Tartibingiz saqlandi",
+      "reset": "Yana eng yangilari birinchi",
+      "resetDone": "Yana eng yangilari birinchi",
+      "saveFailed": "Tartibingizni saqlab bo'lmadi. Iltimos, qayta urinib ko'ring.",
+      "loadFailed": "Postlaringizni yuklab bo'lmadi. Buni yoping va qayta urinib ko'ring.",
+      "empty": "Hali tartiblash uchun hech narsa yo'q. Avval biror narsa joylang."
     },
     "reserve": {
-      "signIn": "Kirish"
+      "signIn": "Kirish",
+      "available": "Foydalanuvchi nomi bo'sh",
+      "held": "Siz uchun band qilindi",
+      "ended": "Band qilish tugadi",
+      "busy": "Band qilinmoqda",
+      "availableBody": "riftn.com/{{name}} hozir bo'sh. Uni band qiling, ro'yxatdan o'tayotganingizda biz uni bir daqiqa saqlab turamiz.",
+      "heldBody": "Taymer tugamaguncha hech kim @{{name}} ni ola olmaydi. Uni saqlab qolish uchun ro'yxatdan o'tishni yakunlang.",
+      "endedBody": "Bir daqiqangiz tugadi, shuning uchun @{{name}} yana hamma uchun ochiq. U hali ham bo'sh.",
+      "busyBody": "Kimdir hozir @{{name}} nomi bilan ro'yxatdan o'tmoqda. Agar ular yakunlamasa, taymer tugaganda nom bo'shaydi.",
+      "finish": "Ro'yxatdan o'tishni yakunlash",
+      "again": "Qayta band qilish",
+      "cta": "Hozir band qilish",
+      "letGo": "Voz kechish",
+      "haveAccount": "Hisobingiz bormi?"
     },
     "tabLikes": "Yoqtirishlar",
     "likesEmptyTitle": "Hozircha layklar yoʻq",
-    "likesPrivateTitle": "Layklar yopiq"
+    "likesPrivateTitle": "Layklar yopiq",
+    "articleViews": "{{views}} marta ko'rilgan",
+    "sortBy": "Saralash",
+    "sortCustom": "Maxsus tartib",
+    "arrangeButton": "Postlarni tartiblash",
+    "mutualsOne": "{{count}} ta o'zaro:",
+    "mutualsMany": "{{count}} ta o'zaro:",
+    "tabArticles": "Maqolalar",
+    "articlesEmptyTitle": "Hali maqolalar yo'q",
+    "articlesEmptySubtitle": "Maqolalar shu yerda paydo bo'ladi",
+    "likesEmptyOwn": "Yoqtirgan postlaringiz shu yerda ko'rinadi. Sozlamalarda Yoqtirganlarimni ko'rsatish ni yoqmaguningizcha ularni faqat siz ko'rasiz.",
+    "likesEmptyOther": "Hali hech narsa yoqtirilmagan.",
+    "likesPrivateDesc": "Bu hisob yoqtirganlarini yashiradi.",
+    "unavailable": "Profil mavjud emas"
   },
   "tv": {
     "title": "Televizor",
@@ -5554,7 +5831,26 @@
       "filter": "Faoliyatni filtrlash"
     },
     "welcome": {
-      "text": "Xush kelibsiz xabari"
+      "text": "Xush kelibsiz xabari",
+      "title": "Yangi a'zolarni kutib olish",
+      "help": "Bu agent Riftn'ga endigina qo'shilgan odamlarni kuniga bir nechtadan kuzatadi va/yoki ularga xabar yozadi.",
+      "follow": "Yangi a'zolarni kuzatish",
+      "message": "Yangi a'zolarga xabar yozish",
+      "textHelp": "{name} ularning @username'iga aylanadi. Havolalarsiz. Har bir kishiga bir marta yuboriladi.",
+      "saveText": "Xabarni saqlash",
+      "perDay": "Kuniga odamlar",
+      "fewer": "Kuniga kamroq",
+      "more": "Kuniga ko'proq",
+      "today": "Bugun: {{follows}} ta kuzatildi · {{messages}} ta xabar yozildi",
+      "limits": "Hech qachon bir odamga ikki marta emas. Sizni bloklagan yoki ovozsiz qilgan, yangi xabarlarni o'chirgan yoki Yangi a'zolardan yashiringanlarni o'tkazib yuboradi.",
+      "showLog": "Kimlarni kutib olganini ko'rish",
+      "hideLog": "Kutib olishlarni yashirish",
+      "empty": "Hali hech kim yo'q. Yangi a'zolar qo'shilishi bilan shu yerda ko'rinadi.",
+      "followed": "Kuzatildi",
+      "messaged": "Xabar yozildi",
+      "skipped": "O'tkazib yuborildi",
+      "failed": "Yetib bo'lmadi",
+      "defaultText": "Salom {name}, Riftn'ga xush kelibsiz! 👋"
     }
   },
   "hero": {
@@ -5644,7 +5940,44 @@
     "disconnect": "Uzish",
     "payAndRun": "To'lov qiling va ishga tushiring",
     "run": "Ishga tushiring",
-    "handlePrompt": "Sozlash"
+    "handlePrompt": "Sozlash",
+    "retryFreeTask": "Bepul vazifani qayta urinish",
+    "previewSavedMedia": "Saqlangan mediani oldindan ko'rish",
+    "audioSavePending": "Audio tayyor, lekin uni shaxsiy kutubxonaga saqlash kutilmoqda. Uni olish uchun davom ettiring.",
+    "freeResultUnknown": "Bepul vazifa javobi uzilib qoldi. U avtomatik ravishda qayta yuborilmaydi. Bepul vazifani qayta urinish ni tanlang, so'ng davom ettiring; to'lovingiz va boshqa vazifalar saqlanadi.",
+    "formAuthor": "Flow'ni tahrirlash",
+    "formAuthorHint": "Turlangan kirishlar bilan flow yarating. Uni shu yerda saqlang yoki veb-kanvasda joylashtiring.",
+    "chooseSavedMedia": "Saqlangan mediani tanlash",
+    "model": "Model",
+    "formInput": "Kirish: {{handle}}",
+    "reviewRun": "Ishga tushirishni ko'rib chiqish",
+    "resumeRun": "Saqlangan ishga tushirishni davom ettirish",
+    "confirmPrice": "Jami: {{price}} token",
+    "recoveryHint": "Vazifa va to'lov ma'lumotlari shu qurilmada saqlanadi. Yangisini boshlashdan oldin to'xtatilgan ishni davom ettiring.",
+    "newRun": "Yana ishga tushirish",
+    "loadMoreMedia": "Ko'proq media yuklash",
+    "invalidGraph": "Ulanishlarni tekshiring: har bir kirishga mos manba kerak va graf sikllarga ega bo'lmasligi kerak.",
+    "unsupportedNode": "Bu tugun hali native shaklda ishlay olmaydi. Bu flow uchun veb-kanvasdan foydalaning.",
+    "missingPrompt": "Prompt yozilgan matn tugunini ulang.",
+    "invalidSettings": "Bu sozlamalar tanlangan model tomonidan qo'llab-quvvatlanmaydi.",
+    "missingCapturedFrame": "Bu videoni rasm kirishi sifatida ishlatishdan oldin veb-kanvasda kadr oling.",
+    "missingSavedMedia": "Saqlangan manba media yo'q yoki endi bu hisob uchun mavjud emas.",
+    "nothingToRun": "Bu oqimni ishga tushirish uchun generator qo'shing.",
+    "quoteFailed": "Bu flow narxini hisoblab bo'lmadi. Qayta urinib ko'ring.",
+    "recoverBeforeEdit": "Grafni o'zgartirish yoki yangisini boshlashdan oldin saqlangan ishga tushirishni davom ettiring.",
+    "runAlreadyComplete": "Bu ishga tushirish yakunlangan. Qayta yaratish uchun Yana ishga tushirish ni tanlang.",
+    "recoveryCorrupt": "Saqlangan tiklash yozuvini o'qib bo'lmadi. Bu flow'ni saqlang va qayta to'lashdan oldin qo'llab-quvvatlash xizmatiga murojaat qiling.",
+    "paidUnavailable": "Bu yerda flow'larni yaratishingiz va saqlashingiz mumkin. Bu do'konda pullik ishga tushirishlar mavjud emas.",
+    "planChanged": "Narx hisoblangandan keyin flow o'zgardi. Ishga tushirishni qayta ko'rib chiqing.",
+    "connectOwnerWallet": "Bu flow'ga egalik qiluvchi hamyonni ulang.",
+    "runFailed": "Tugun yakunlana olmadi. Uning saqlangan vazifa havolasi tiklash uchun saqlanadi.",
+    "recoveryPending": "Render hali kutilmoqda. Uni olish uchun bu ishga tushirishni davom ettiring.",
+    "nodeAudioGen": "Audio generator",
+    "nodeAudioGenDesc": "Nutq, ovoz effektlari, transkripsiya va audioni ajratish",
+    "nodeAudioInput": "Saqlangan audio",
+    "nodeAudioInputDesc": "Kutubxonangizdagi shaxsiy audiodan foydalaning",
+    "audioVoiceId": "Ovoz ID",
+    "audioSeconds": "Ovoz uzunligi (soniya)"
   },
   "loginModal": {
     "title": "Kirish",
@@ -5681,7 +6014,8 @@
     "passkeyNotLinked": "Hozircha bu barmoq iziga hech qanday hisob bog'lanmagan. Buning o'rniga yangi hisob yarating.",
     "passkeyAlreadyRegistered": "Bu barmoq izida allaqachon hisob mavjud. Buning o'rniga \"Kirish\"dan foydalaning.",
     "passkeyFailed": "Barmoq izi bilan kirish amalga oshmadi. Iltimos, qayta urinib ko'ring.",
-    "passkeyBackupHint": "Sizning hisobingiz ushbu qurilmaning parol kalitida saqlanadi. Aksariyat telefonlarda u Google yoki Apple hisobingiz bilan sinxronlanadi va sozlamalarda zaxira parolni qo'shishingiz mumkin."
+    "passkeyBackupHint": "Sizning hisobingiz ushbu qurilmaning parol kalitida saqlanadi. Aksariyat telefonlarda u Google yoki Apple hisobingiz bilan sinxronlanadi va sozlamalarda zaxira parolni qo'shishingiz mumkin.",
+    "didYouMean": "{{email}} demoqchimidingiz?"
   },
   "careers": {
     "title": "Riftn da karyera",
@@ -5946,7 +6280,13 @@
       "edited": "tahrirlangan"
     },
     "holdTokensToVote": "Tokenlarni saqlash uchun Riftn tokenlarini saqlang",
-    "mustHoldTokens": "Boshqaruv takliflari bo'yicha ovoz berish uchun siz Riftn tokenlarini saqlashingiz kerak."
+    "mustHoldTokens": "Boshqaruv takliflari bo'yicha ovoz berish uchun siz Riftn tokenlarini saqlashingiz kerak.",
+    "optionVoters_one": "{{count}} ta ovoz beruvchi",
+    "optionVoters_other": "{{count}} ta ovoz beruvchi",
+    "optionWinner": "G'olib: {{option}}",
+    "optionNoWinner": "Aniq g'olib yo'q",
+    "optionTapToUndo": "Ovozingizni qaytarib olish uchun javobingizni yana bosing",
+    "optionPickOne": "Bitta javobni tanlang"
   },
   "sidebar": {
     "talkOfTheTown": "Shahar gapi",
@@ -5965,7 +6305,16 @@
     "clearSearch": "Qidiruvni tozalash",
     "noMenuMatches": "Menyuda hech nima mos kelmadi",
     "searchDehubFor": "Riftn'da «{{query}}» ni qidirish",
-    "requestSend": "So'rov yuborish"
+    "requestSend": "So'rov yuborish",
+    "requestPrompt": "Bu yerda hali yo'qmi? So'rov sifatida yuboring",
+    "requestPromptShort": "Hali yo'qmi?",
+    "requestDraftMenu": "{{query}} ni Riftn'ga qo'shish",
+    "requestDraftSettings": "{{query}} uchun sozlama",
+    "requestPostsTo": "So'rovlarga joylanadi",
+    "requestHint": "Sizning nomingizdan So'rovlarga joylanadi. Tayyor bo'lganda sizga xabar beramiz.",
+    "requestSent": "So'rovlarga yuborildi",
+    "requestSentHint": "Tayyor bo'lganda sizga xabar beramiz.",
+    "requestSeeIt": "So'rovlarda ko'rish"
   },
   "comments": {
     "reportComment": "Fikr haqida xabar berish",
@@ -6054,7 +6403,24 @@
     "tabReplies": "Javoblar",
     "tabQuotes": "Iqtiboslar",
     "tabReposts": "Repostlar",
-    "tabSearch": "Qidirish"
+    "tabSearch": "Qidirish",
+    "attachAudioFile": "Audio fayl",
+    "attachMedia": "Rasm, video yoki audio biriktirish",
+    "attachPhotoOrVideo": "Rasm yoki video",
+    "attachTooLarge": "Bu fayl {{size}} MB chegarasidan katta.",
+    "playVideo": "Videoni ijro etish",
+    "threadParts": {
+      "reorder": "Tartibni o'zgartirish",
+      "reorderHint": "Qismni bosib turib suring yoki strelkalardan foydalaning, keyin saqlang.",
+      "save": "Tartibni saqlash",
+      "saved": "Tred tartibi saqlandi",
+      "saveFailed": "Tartibni saqlab bo'lmadi. Qayta urinib ko'ring.",
+      "moveUp": "{{n}}-qismni yuqoriga surish",
+      "moveDown": "{{n}}-qismni pastga surish",
+      "addPart": "Tredga qo'shish",
+      "addPlaceholder": "Tredingizga qo'shing...",
+      "label": "Tred · {{count}} qism"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "Hozirgi egalarini hozir oʻqib boʻlmaydi.",
@@ -6588,7 +6954,9 @@
       "joined": "{{name}} qo'shildi",
       "reactions": "Reaksiyalar",
       "photoTooLarge": "Rasm 10MB dan kichik boʻlishi kerak",
-      "aiAdminFailed": "AI Admin javob bera olmadi"
+      "aiAdminFailed": "AI Admin javob bera olmadi",
+      "addToMessages": "Xabarlarga qo'shish",
+      "inMessages": "Xabarlarda"
     },
     "manage": {
       "dismissAdminTitle": "Administratorni yopish",
@@ -6610,7 +6978,8 @@
         "invites": "Taklifnomalar",
         "rules": "Qoidalar",
         "recentActions": "So'nggi harakatlar",
-        "danger": "Xavfli zona"
+        "danger": "Xavfli zona",
+        "automod": "Avto-moderatsiya va botlar"
       },
       "title": "Boshqarish",
       "purgeTitle": "Xatlarni oʻchirish",
@@ -6797,24 +7166,112 @@
       "buyer": "Xaridor:",
       "balance": "Balans:",
       "price": "Narxi:",
-      "marketCap": "Bozor kapitallashuvi:"
+      "marketCap": "Bozor kapitallashuvi:",
+      "title": "{{amount}} XARID",
+      "txn": "Tranz.",
+      "titleToken": "{{amount}} ${{symbol}} XARID"
     },
     "newChat": {
       "public": "Ommaviy",
       "private": "Shaxsiy",
       "free": "Bepul",
       "paid": "Pullik",
-      "group": "Guruhlash"
+      "group": "Guruhlash",
+      "description": "U nima haqida? (ixtiyoriy)",
+      "groupCreated": "Guruh yaratildi",
+      "channelCreated": "Kanal yaratildi",
+      "newGroup": "Yangi guruh",
+      "newChannel": "Yangi kanal",
+      "groupName": "Guruh nomi",
+      "channelName": "Kanal nomi",
+      "whoCanJoin": "Kim qo'shila oladi",
+      "publicDetail": "Har kim topib, qo'shila oladi",
+      "inviteOnly": "Faqat taklif bilan",
+      "privateDetail": "Odamlar taklifingiz yoki tasdig'ingiz bilan qo'shiladi",
+      "entry": "Kirish",
+      "freeDetail": "Qo'shilish bepul",
+      "paidDetail": "Tokenlarda bir martalik to'lov, to'g'ridan-to'g'ri sizga",
+      "price": "Tokenlardagi narx",
+      "channelNote": "Faqat siz va adminlaringiz post joylay oladi. A'zolar o'qiydi va reaksiya bildiradi.",
+      "createGroup": "Guruh yaratish",
+      "createChannel": "Kanal yaratish",
+      "channel": "Kanal",
+      "adminsOnly": "Bu kanalda faqat adminlar post joylaydi.",
+      "message": "Yangi xabar",
+      "messageDetail": "Bir kishi bilan shaxsiy chat",
+      "groupDetail": "Ko'p odam bilan chat, ommaviy yoki shaxsiy",
+      "channelDetail": "Obunachilarga tarqatish, bepul yoki pullik",
+      "title": "Nimadir boshlang",
+      "channelRow": "Kanal · {{formattedCount}} a'zo",
+      "groupRow": "Guruh · {{formattedCount}} a'zo"
     },
     "holderGate": {
       "chain": "Zanjir",
-      "tab": "Egalari"
+      "tab": "Egalari",
+      "failed": "Hozir balansingizni o'qib bo'lmadi. Birozdan so'ng qayta urinib ko'ring.",
+      "short": "Faqat egalar uchun: sizga {{need}} kerak. Sizda {{have}} bor.",
+      "required": "Faqat egalar uchun: chat qilish uchun hamyoningizda bu hamjamiyat tokeni yetarli emas.",
+      "topHolders": "Eng yirik egalar",
+      "noHolders": "Egalar qo'shilgach shu yerda ko'rinadi.",
+      "saved": "Egalik qoidasi saqlandi",
+      "cleared": "Endi yana har kim qo'shila oladi",
+      "saveFailed": "Egalik qoidasini saqlab bo'lmadi",
+      "title": "Faqat egalar uchun",
+      "explain": "Faqat bu tokenga ega hamyonlar qo'shilib, chat qila oladi. Kimdir qo'shilganda balanslar zanjirdan o'qiladi.",
+      "which": "Token",
+      "dehubTokens": "Riftn tokenlari",
+      "otherToken": "Boshqa token",
+      "token": "Token kontrakti",
+      "reading": "Token o'qilmoqda…",
+      "badAddress": "Bu token manzili emas",
+      "minimum": "Kamida qancha bo'lishi kerak",
+      "save": "Egalik qoidasini saqlash",
+      "chip": "Faqat egalar · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Cheklangan so‘zlar",
       "floodMax": "{{count}} xabarlar",
       "saved": "Saqlandi",
-      "wordCount": "{{count}} so&#39;zlari"
+      "wordCount": "{{count}} so&#39;zlari",
+      "title": "Avto-moderatsiya",
+      "hint": "Xabarni hech kim ko'rishidan oldin bloklaydi va yuboruvchiga sababini aytadi. Egalar va adminlar hech qachon bloklanmaydi.",
+      "enabled": "Avto-moderatsiya yoqilgan",
+      "bannedWordsHint": "Har qatorda bittadan yoki vergul bilan. Faqat to'liq so'zlar, s.c.a.m kabi bo'lib yozilganlari ham ushlanadi.",
+      "bannedWordsPlaceholder": "firibgarlik\nrug pull",
+      "blockLinks": "Havolalarni bloklash",
+      "blockLinksHint": "Tashqi havolalar va Telegram/Discord takliflari. Riftn havolalari ishlayveradi.",
+      "repeats": "Takrorlarni bloklash",
+      "repeatsHint": "Kimdir 10 daqiqa ichida bir xil qatorni yana yuborishini to'xtatadi.",
+      "flood": "Floodga qarshi",
+      "floodHint": "Har bir kishi uchun har {{seconds}} soniyada ko'pi bilan {{max}} ta xabar.",
+      "noAccess": "Bu sozlamalarni faqat ega va adminlar o'zgartira oladi.",
+      "saveFailed": "Saqlab bo'lmadi. Qayta urinib ko'ring.",
+      "saveWords": "So'zlarni saqlash",
+      "bannedWord": "Bu xabarda guruhda taqiqlangan so'z bor.",
+      "links": "Bu guruhda havolalar taqiqlangan.",
+      "repeat": "Buni hozirgina yubordingiz. Yangi narsa yozib ko'ring.",
+      "reserved": "Bunday xabarni faqat guruh botlari yubora oladi.",
+      "floodError": "Juda tez yuboryapsiz. {{value1}} soniya kutib, qayta urinib ko'ring."
+    },
+    "entry": {
+      "switchChain": "To'lash uchun hamyoningizni BNB Chain yoki Base'ga o'tkazing.",
+      "failed": "To'lovingizni hali tasdiqlay olmadik. Agar tokenlar hamyoningizdan chiqqan bo'lsa, bir daqiqadan so'ng yana Qo'shilishni bosing.",
+      "chip": "Qo'shilish {{amount}}"
+    },
+    "jumpToReply": "Javob berilgan xabarga o'tish",
+    "avatarUpdated": "Rasm yangilandi",
+    "bannerUpdated": "Banner yangilandi",
+    "imageUploadFailed": "Rasmni yuklab bo'lmadi. Qayta urinib ko'ring.",
+    "changeBanner": "Bannerni o'zgartirish",
+    "changeAvatar": "Rasmni o'zgartirish",
+    "buyBot": {
+      "title": "Xarid boti",
+      "any": "Istalgan hajm",
+      "enabled": "Xarid xabarlarini joylash",
+      "hint": "Har bir ${{symbol}} xaridini sodir bo'lganidan taxminan bir daqiqa o'tib shu chatga joylaydi.",
+      "minUsd": "Joylanadigan eng kichik xarid",
+      "noToken": "Guruh sarlavhasidan token ulang (tahrirlash, so'ng Tiker) va har bir xarid shu chatda ko'rinadi.",
+      "unsupported": "${{symbol}} xarid boti hali kuzatmaydigan zanjir yoki hovuz turida. Qo'llab-quvvatlanadi: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism va Avalanche (Uniswap v2/v3 uslubidagi hovuzlar)."
     }
   },
   "work": {
@@ -7753,7 +8210,8 @@
     "jumpToLatest": "So'nggi xabarlarga o'tish",
     "ban": "Taqiqlash",
     "banConfirm": "{{name}} ni taqiqlashga ishonchingiz komilmi?",
-    "banFailed": "Foydalanuvchini taqiqlashda xatolik yuz berdi"
+    "banFailed": "Foydalanuvchini taqiqlashda xatolik yuz berdi",
+    "jumpToMentions": "Javoblar va eslatmalarga o'tish"
   },
   "promptFeed": {
     "headline": "Nimani ko‘rmoqchisiz?",
@@ -7925,8 +8383,27 @@
     "nonFollowers": {
       "notNow": "Hozir emas",
       "cancel": "Bekor qilish",
-      "close": "Yopish"
-    }
+      "close": "Yopish",
+      "title": "Kuzatayotganlaringizni tozalaysizmi?",
+      "body": "Siz kuzatayotgan {{count}} ta hisob sizni javoban kuzatmaydi.",
+      "cta": "{{count}} tasining hammasini kuzatishni to'xtatish",
+      "confirmTitle": "{{count}} ta hisobni kuzatishni to'xtatasizmi?",
+      "confirmBody": "Ularga xabar berilmaydi. Keyinroq istalgan kishini qayta kuzatishingiz mumkin.",
+      "confirm": "Ha, {{count}} tasini to'xtatish",
+      "working": "{{total}} tadan {{done}} tasi kuzatishdan chiqarilmoqda...",
+      "background": "Fonda davom ettirish",
+      "failed": "Boshlab bo'lmadi. Bir daqiqadan keyin qayta urinib ko'ring.",
+      "doneTitle": "Hammasi tozalandi",
+      "doneAll": "Sizni javoban kuzatmagan {{done}} ta hisobni kuzatish to'xtatildi.",
+      "doneSome": "{{done}} ta hisobni kuzatish to'xtatildi. {{failed}} tasini to'xtatib bo'lmadi.",
+      "doneToast": "Sizni kuzatmagan {{done}} ta hisobni kuzatish to'xtatildi"
+    },
+    "followBackConfirmTitle_one": "{{count}} kishini javoban kuzatasizmi?",
+    "followBackConfirmTitle_other": "{{count}} kishini javoban kuzatasizmi?",
+    "followBackConfirmBody": "Ular allaqachon sizni kuzatadi. Shaxsiy hisoblarga kuzatish so'rovi yuboriladi.",
+    "followedBackCount_one": "{{count}} kishi javoban kuzatildi",
+    "followedBackCount_other": "{{count}} kishi javoban kuzatildi",
+    "followBackDoneBody": "Ularning barchasini Obunalar bo'limida topishingiz mumkin."
   },
   "reactionInfo": {
     "title": "Reaksiyalar",
@@ -8849,10 +9326,12 @@
     "editFailed": "Buning amalga oshirishga urinib ko'rish mumkin emas. Qayta urinib ko'ring.",
     "altPlaceholderVideo": "Bu videoni tavsiflang",
     "preview": {
-      "title": "Kuzatish"
+      "title": "Kuzatish",
+      "hint": "Postingiz lentada shunday ko'rinadi."
     },
     "recent": {
-      "all": "Hammasi"
+      "all": "Hammasi",
+      "show": "So'nggi rasmlarni ko'rsatish"
     },
     "studio": {
       "crop": "Qirqish",
@@ -8871,11 +9350,46 @@
       "ticker": "Tiker",
       "textBg": "Fon",
       "font": {
-        "bold": "Qalin"
-      }
+        "bold": "Qalin",
+        "clean": "Toza",
+        "serif": "Serif",
+        "mono": "Mono"
+      },
+      "looks": "Uslublar",
+      "adjust": "Sozlash",
+      "tint": "Tus",
+      "vignette": "Vinyetka",
+      "prev": "Oldingi rasm",
+      "count": "{{n}} / {{total}}",
+      "next": "Keyingi rasm",
+      "title": "Rasmni tahrirlash",
+      "holdHint": "Aslini ko'rish uchun bosib turing",
+      "cropCorner": "Qirqish burchagi",
+      "straighten": "To'g'rilash",
+      "flip": "Aylantirish",
+      "mention": "Belgilash",
+      "layerHint": "So'z va stikerlarni siljitish uchun torting. So'zlarni o'zgartirish uchun ikki marta bosing.",
+      "looksAdjust": "Uslublar va sozlash"
     },
     "edited": "Oʻzgartirilgan",
-    "edit": "Tahrirlash"
+    "edit": "Tahrirlash",
+    "altHint": "Ko'ra olmaydigan odamlar uchun unda nima borligini yozing.",
+    "altPlaceholder": "Bu rasmni tasvirlang",
+    "altTab": "Alt matn",
+    "editVideo": "Videoni tahrirlash",
+    "trim": "Qirqish",
+    "trimAndCover": "Qirqish va muqova",
+    "trimStart": "Klip boshi",
+    "trimEnd": "Klip oxiri",
+    "trimHint": "Qirqish uchun oq tutqichlarni torting. Siljitish uchun lentani bosing.",
+    "useFrameAsCover": "Bu kadrni muqova qilish",
+    "photoHoldHint": "Ko'proq imkoniyatlar uchun bosib turing",
+    "editPhoto": "{{n}}-rasmni tahrirlash",
+    "editAltText": "Alt matnni tahrirlash",
+    "addAltText": "Alt matn qo'shish",
+    "moveEarlier": "Oldinga surish",
+    "moveLater": "Orqaga surish",
+    "photoN": "Rasm {{n}} / {{total}}"
   },
   "bounty": {
     "claimed": "Olindi",
@@ -9170,7 +9684,13 @@
     "noLiveStreams": "Jonli efirlar yo‘q",
     "noOneStreaming": "Hozir hech kim efirda emas. Keyinroq qayting!",
     "loadStreamsFailed": "Efirlarni yuklab bo‘lmadi. Qayta urinib ko‘ring.",
-    "liveBadge": "ONALINE"
+    "liveBadge": "ONALINE",
+    "screenShare": {
+      "start": "Ekranni ulashish",
+      "stop": "Ekran ulashishni to'xtatish",
+      "sharing": "Ekraningizni ulashyapsiz",
+      "hint": "Tomoshabinlar ekraningizni ko'radi. Kameraga qaytish uchun ekran tugmasini bosing."
+    }
   },
   "liveShop": {
     "title": "Ushbu efirdan xarid qiling",
@@ -9485,7 +10005,17 @@
     "planTypeNotAllowed": "Bu ijodkorning rejasi bunday turdagi xabarga ruxsat bermaydi.",
     "planMinTip": "Bu ijodkor uchun choychaqa kamida {{amount}} tokenlar bo‘lishi kerak.",
     "newDrawer": {
-      "to": "Gacha"
+      "to": "Gacha",
+      "placeholder": "Ism yoki @username",
+      "recent": "SO'NGGI",
+      "suggested": "TAVSIYA ETILGAN",
+      "youFollow": "SIZ KUZATADIGANLAR",
+      "chattedBefore": "Suhbatlashgansiz",
+      "mutual": "O'zaro",
+      "dmsOff": "DM o'chiq",
+      "keepTyping": "Hammadan qidirish uchun yozishda davom eting",
+      "sayHi": "Kimgadir salom yozing",
+      "typeAny": "Istalgan ism yoki @username kiriting"
     },
     "download": "Yuklab olish",
     "deleteOneTitle": "Bu xabar oʻchirilsinmi?",
@@ -9498,8 +10028,30 @@
       "communities": "Jamoalar",
       "members": "{{n}} a&#39;zolar",
       "newChat": "Yangi chat",
-      "invite": "Taklif qiling"
-    }
+      "invite": "Taklif qiling",
+      "noChats": "“{{q}}” bilan hali chat yo'q. Mana mos keladigan odamlar va narsalar.",
+      "nothing": "“{{q}}” bo'yicha hali hech narsa topilmadi. Yangi narsa boshlang.",
+      "start": "Yoki nimadir boshlang",
+      "newChatSub": "Istalgan kishini tanlang",
+      "newGroup": "Yangi guruh",
+      "newGroupSub": "Birga chat qiling",
+      "inviteSub": "Havola ulashing",
+      "inviteMessage": "Menga Riftn'da qo'shiling: {{url}}",
+      "searchAll": "Butun Riftn bo'ylab “{{q}}” ni qidirish",
+      "searchAllSub": "Postlar, videolar, jonli efirlar"
+    },
+    "copyMedia": "Mediani nusxalash",
+    "reportMessage": "Xabar ustidan shikoyat qilish",
+    "fileSaved": "Fayl saqlandi",
+    "fileSaveFailed": "Faylni saqlab bo'lmadi",
+    "attachAnything": "Rasm, video, audio yoki fayl biriktiring",
+    "attachFileOrAudio": "Fayl yoki audio",
+    "attachPhotoOrVideo": "Rasm yoki video",
+    "attachTooLarge": "Bu fayl {{size}} MB chegarasidan katta.",
+    "deleteForBothBody": "U ikkalangiz uchun o'chiriladi.",
+    "notSent": "Yuborilmadi",
+    "shareGroups": "Guruhlar",
+    "shareKindChannel": "Kanal"
   },
   "editPost": {
     "mediaPermission": "Media kutubxonasiga ruxsat kerak",
@@ -9621,7 +10173,9 @@
     "pipUnavailable": "Rasmlar ichida rasm rejimi mavjud emas. Qurilma sozlamalarida Riftn uchun ruxsat berilganligini tekshiring.",
     "noVideo": "Video yo'q",
     "rotate": "Aylantirish",
-    "yourDhbBalance": "Sizning token balansingiz: {{amount}} ta"
+    "yourDhbBalance": "Sizning token balansingiz: {{amount}} ta",
+    "fullscreen": "To'liq ekran",
+    "notAvailableForPost": "Bu post uchun mavjud emas"
   },
   "liveViewer": {
     "loadingStream": "Efir yuklanmoqda...",
@@ -9937,7 +10491,22 @@
     "didNotRecoverEither": "Bu kirish bu yerda ko'rsatilgan profillarning birortasini ham tiklamadi. Hech narsa o'zgarmadi. Kerakli profilning dastlabki kirish usulini sinab ko'ring.",
     "didNotRecoverThis": "Bu kirish ushbu profilnikidan boshqa hamyonni tikladi. Hech narsa o'zgarmadi. Uni dastlab yaratgan kirish usulini sinab ko'ring.",
     "couldNotRetrieve": "Bu qurilmada o'sha eski hamyonni olib bo'lmadi. Uni quyidagi riftn.com saytida hamon tiklashingiz mumkin.",
-    "matchedWithBalance": "Mos keldi, {{balance}} ta token"
+    "matchedWithBalance": "Mos keldi, {{balance}} ta token",
+    "methodEmail": "email kodi",
+    "methodPhone": "telefon raqami",
+    "madeWithNamed": "@{{name}} {{method}} bilan yaratilgan. Uni qaytarish uchun o'sha {{method}} hisobi bilan davom eting.",
+    "madeWith": "Bu profil {{method}} bilan yaratilgan. Uni qaytarish uchun o'sha {{method}} hisobi bilan davom eting.",
+    "madeWithEmailNamed": "@{{name}} email kodi bilan yaratilgan. Uni qaytarish uchun o'sha emailga yana bitta kod yuboramiz.",
+    "madeWithEmail": "Bu profil email kodi bilan yaratilgan. Uni qaytarish uchun o'sha emailga yana bitta kod yuboramiz.",
+    "madeWithPhoneNamed": "@{{name}} telefon raqami bilan yaratilgan. Uni qaytarish uchun o'sha raqamga yana bitta kod SMS qilamiz.",
+    "madeWithPhone": "Bu profil telefon raqami bilan yaratilgan. Uni qaytarish uchun o'sha raqamga yana bitta kod SMS qilamiz.",
+    "wrongSignInNamed": "Bu kirish @{{name}} emas, boshqa hamyonni ochadi. @{{name}} {{method}} bilan yaratilgan, shuning uchun faqat o'sha uni qaytara oladi.",
+    "wrongSignIn": "Bu kirish boshqa hamyonni ochadi. Bu profil {{method}} bilan yaratilgan, shuning uchun faqat o'sha uni qaytara oladi.",
+    "continueWith": "{{provider}} bilan davom etish",
+    "differentSignIn": "Boshqa usulda kirganmisiz?",
+    "oldAccountPhone": "Eski hisob telefon raqami",
+    "recoverFromPhoneA11y": "Eski hisobni shu telefon raqamidan tiklash",
+    "phoneNeedsCode": "Raqamni mamlakat kodi bilan kiriting, masalan +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Token sotib oling",
@@ -10756,8 +11325,17 @@
       "noSpeech": "Bu klipda nutq topilmadi.",
       "failed": "Bu klip uchun subtitr yaratib bo‘lmadi.",
       "styles": {
-        "bold": "Qalin"
-      }
+        "bold": "Qalin",
+        "classic": "Klassik",
+        "boxed": "Ramkali",
+        "wordpop": "Word Pop",
+        "rapid": "Tez ochilish",
+        "beast": "Beast Mode",
+        "stacked": "Ustma-ust",
+        "serif": "Serif",
+        "bubble": "Pufak"
+      },
+      "style": "Taglavha uslubi"
     },
     "app": {
       "newDesign": "Yangi dizayn",
@@ -10827,7 +11405,11 @@
       "vibrant": "Yorqin",
       "cyber": "Kiber",
       "invert": "Teskari",
-      "strength": "- Filter kuchi: {{value}}%"
+      "strength": "- Filter kuchi: {{value}}%",
+      "fadedFilm": "Xira plyonka",
+      "technicolor": "Technicolor",
+      "newsreel": "Kinoxronika",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "Qirqish",
@@ -10908,14 +11490,18 @@
       "pptx": "- PowerPoint ko'rsatuvi",
       "pptxHint": "- Har bir sahifa bitta diapositivga aylanadi, presenter yozuvlari va linklar bilan. Asl dizaynning individual matn va elementlarini tahrirlash mumkin.",
       "section": "- Atamali bo'lim",
-      "transparent": "- To'liq muvozanat"
+      "transparent": "- To'liq muvozanat",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "Vaqt shkalangizni FCPXML va Premiere XML ko'rinishida hamda barcha media fayllar bilan ZIP qilib yuklab oladi, shunda tahrirni Premiere Pro, Final Cut Pro yoki DaVinci Resolve'da yakunlashingiz mumkin. Matn markerlarga aylanadi; effektlar Riftn'da qoladi."
     },
     "adjust": {
       "auto": "Avtomatik yaxshilash",
       "autoFailed": "Bu rasmni tahlil qilib bo'lmadi.",
       "tint": "Tus {{value}}",
       "vignette": "Vinyetka {{value}}%",
-      "warmth": "Iliqlik {{value}}"
+      "warmth": "Iliqlik {{value}}",
+      "halation": "Halatsiya {{value}}%",
+      "scanlines": "Skan chiziqlari {{value}}%"
     },
     "draw": {
       "colour": "Qalam rangi",
@@ -11009,7 +11595,45 @@
       "openGenerator": "Ko'rib chiqish va yaratish",
       "working": "Ustida ishlayapman…",
       "stop": "To'xtatish",
-      "queue": "Navbatga qo'shish"
+      "queue": "Navbatga qo'shish",
+      "stopped": "To'xtatildi. Boshqa hech narsa o'zgartirilmadi.",
+      "queued": "{{count}} ta navbatda",
+      "restore": "Shu yergacha tiklash",
+      "restoreHint": "Loyihani shu xabardan oldingi holatiga qaytarish. Bekor qilish uni qaytaradi.",
+      "restored": "Loyiha o'sha xabardan oldingi holatiga tiklandi. Yangiroq versiyani qaytarish uchun bekor qilishni bosing.",
+      "rewrite": "So'rovimni aniqroq qilish",
+      "rewriteFailed": "Qayta yozib bo'lmadi. Matningiz o'zgarmadi.",
+      "feedback": "Bu foydali bo'ldimi?",
+      "good": "Yaxshi javob",
+      "bad": "Yomon javob",
+      "retryPrefix": "Bu to'g'ri emas edi. Buning o'rniga, ",
+      "recipesTitle": "Retseptlar",
+      "recipe": {
+        "podcastClip": {
+          "label": "Podkast klipi",
+          "prompt": "Eng kuchli 30 soniyalik lahzani top, shunga qirq, Word Pop taglavhalarini qo'sh va 9:16 qil."
+        },
+        "talkingHead": {
+          "label": "Toza so'zlovchi kadr",
+          "prompt": "Uzun pauzalarni kes, Classic taglavhalarini qo'sh va unga yengil iliq ko'rinish ber."
+        },
+        "productPromo": {
+          "label": "Mahsulot promo",
+          "prompt": "15 soniyalik promo yarat: boshida ta'sirli sarlavha, kliplar orasida Zoom in o'tishlari, Bold taglavhalar va quvnoq musiqa."
+        },
+        "hypeReel": {
+          "label": "Hype rolik",
+          "prompt": "Kliplarni musiqa ritmiga moslab kes, Fly up o'tishlari va Technicolor ko'rinishidan foydalan."
+        },
+        "retroEdit": {
+          "label": "Retro tahrir",
+          "prompt": "Har bir klipga VHS ko'rinishini ber, katta serif sarlavha qo'sh va Fade o'tishlaridan foydalan."
+        },
+        "tutorial": {
+          "label": "Qo'llanma",
+          "prompt": "Har bir qadam uchun sarlavha, Boxed taglavhalar qo'sh va asosiy lahzani 0.5x gacha sekinlashtir."
+        }
+      }
     },
     "brand": {
       "replacePreset": "Hozirgi bilan almashtirish",
@@ -11035,7 +11659,10 @@
       "saveNewPreset": "Yangisini saqlash",
       "saveStyles": "Dizayn bilan uslublarni saqlang",
       "stylesSaved": "Ushbu dizayn bilan saqlangan brend uslublari",
-      "usePreset": "Uslublardan foydalaning"
+      "usePreset": "Uslublardan foydalaning",
+      "dehubApplied": "Riftn brendi {{count}} ta qatlamga qo'llandi.",
+      "dehubApply": "Riftn brendidan foydalanish",
+      "dehubHint": "Rasmiy Riftn ranglari, Exo va Inter shriftlari hamda Riftn logotipi — bir bosishda."
     },
     "templates": {
       "announcement": {
@@ -11148,7 +11775,9 @@
       "exportHint": "Video tayyor bo‘lguncha muharrirni ochiq qoldiring.",
       "tooLarge": "Bu fayl muharrir uchun juda katta. Chegara 400 MB.",
       "tZoomIn": "Yaqinlashtirish",
-      "tZoomOut": "Kattalashtirish"
+      "tZoomOut": "Kattalashtirish",
+      "tFlyUp": "Yuqoriga uchish",
+      "tFlyDown": "Pastga uchish"
     },
     "motion": {
       "title": "Harakat",
@@ -12334,21 +12963,141 @@
       "add": "Qo'shish",
       "scale": "Hajmi",
       "color": "Rang",
-      "light": "Yorugʻ"
+      "light": "Yorugʻ",
+      "create": "3D sahna qo'shish",
+      "title": "3D sahna maydoni",
+      "hint": "Sharlar va qutilar bilan kadrni joylashtiring. Kamera, joylashuv va uchta mustaqil maydon chirog'i render qilingan kadrni o'zgartiradi.",
+      "preview": "Render qilingan sahnani oldindan ko'rish",
+      "error": "Kadrni tayyorlab bo'lmadi. Kadr namunalaringizni tekshiring va qayta urinib ko'ring.",
+      "elevation": "Balandlik",
+      "distance": "Masofa",
+      "fov": "Ko'rish burchagi",
+      "object": "Obyekt",
+      "sphere": "Shar",
+      "box": "Quti",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "Obyektni olib tashlash",
+      "intensity": "Intensivlik",
+      "diffusion": "Tarqalish",
+      "saving": "Kadr tayyorlanmoqda…",
+      "useFrame": "Render qilingan kadrni kadr namunasi sifatida ishlatish",
+      "frameHint": "320 × 180 PNG yaratadi va uni shu kadr namunalariga qo'shadi. Yaratishdan oldin namunalar chegarasi va model narxini ko'rib chiqing.",
+      "frameName": "Sahna maydoni kadri"
     },
     "clipFix": {
-      "listening": "Teshiklash…"
+      "listening": "Teshiklash…",
+      "detach": "Audioni ajratish",
+      "detached": "Audio alohida klipga ko'chirildi",
+      "detachFailed": "Bu klip audiosini ajratib bo'lmadi",
+      "removeBars": "Qora chiziqlarni olib tashlash",
+      "scanning": "Kadrlar tekshirilmoqda…",
+      "noBars": "Qora chiziqlar topilmadi",
+      "barsRemoved": "Qora chiziqlar kesildi",
+      "barsFailed": "Bu videoni qora chiziqlarga tekshirib bo'lmadi",
+      "reframe": "Avto qayta kadrlash",
+      "reframeHint": "Video allaqachon bu sahifa shakliga mos keladi",
+      "reframed": "Harakatni kuzatish uchun qayta kadrlandi",
+      "reframeFailed": "Bu videoni qayta kadrlab bo'lmadi",
+      "retakes": "Qayta dublarni olib tashlash",
+      "noRetakes": "Qayta dublar topilmadi",
+      "retakesRemoved": "{{count}} ta qayta dubl olib tashlandi, oxirgi dubl qoldirildi",
+      "retakesFailed": "Bu klipdan qayta dublarni olib tashlab bo'lmadi"
     },
     "voiceClone": {
       "stop": "Yozishni toʻxtatish",
-      "failed": "Ses klonlash muvaffaqiyatsizlik."
+      "failed": "Ses klonlash muvaffaqiyatsizlik.",
+      "pickerLabel": "Ovozingizni klonlash",
+      "pickerDetail": "O'z ovozingizda ovoz berish",
+      "title": "Ovozingizni klonlash",
+      "description": "O'zingizni yozib oling yoki gapirayotgan klipingizni tanlang. Bir marta to'laysiz va ovozingiz barcha ovoz berishlar uchun sizniki bo'ladi.",
+      "defaultName": "Mening ovozim",
+      "record": "Namuna yozib olish (30 soniyadan 2 daqiqagacha)",
+      "fromMedia": "Yoki Media'dagi klipdan foydalaning",
+      "recorded": "Sizning yozuvingiz",
+      "sample": "Namuna: {{name}}",
+      "hint": "Musiqasiz aniq nutq eng yaxshi natija beradi.",
+      "noMic": "Mikrofondan foydalanib bo'lmadi.",
+      "sampleFailed": "Bu klipdan ovozni o'qib bo'lmadi.",
+      "pay": "{{amount}} tokenga klonlash",
+      "useFree": "Klonlash (to'langan)",
+      "owned": "“{{name}}” ovozingiz allaqachon sozlangan. Uni ovozlar ro'yxatidan tanlang.",
+      "useOwned": "Mening ovozimdan foydalanish",
+      "ready": "“{{name}}” ovoz berish uchun tayyor.",
+      "paidFailed": "To'lovingiz saqlangan. Buni qayta oching, keyingi urinish bepul.",
+      "consent": "Faqat o'z ovozingizni yoki foydalanishga ruxsatingiz bor ovozni klonlang."
     },
     "linkImport": {
       "go": "Import qilish",
-      "downloading": "Yuklab olinmoqda {{percent}}%"
+      "downloading": "Yuklab olinmoqda {{percent}}%",
+      "open": "Havoladan import qilish",
+      "placeholder": "YouTube, TikTok yoki boshqa havolani joylashtiring",
+      "rights": "Bu video menga tegishli yoki undan foydalanishga ruxsatim bor",
+      "audioOnly": "Faqat ovoz",
+      "queued": "Navbatda…",
+      "waiting": "Sayt kutilmoqda, tez orada qayta uriniladi…",
+      "adding": "Media'ga qo'shilmoqda…",
+      "added": "Import qilindi va vaqt shkalasiga qo'shildi.",
+      "failed": "Bu havolani import qilib bo'lmadi."
     },
     "reverse": {
-      "action": "Teskari"
+      "action": "Teskari",
+      "working": "Teskari aylantirilmoqda {{percent}}%",
+      "done": "Klip teskari aylantirildi.",
+      "failed": "Bu klipni teskari aylantirib bo'lmadi.",
+      "unsupported": "Bu brauzer videoni teskari aylantira olmaydi. Chrome yoki Edge'ni sinab ko'ring.",
+      "tooLong": "{{seconds}} soniyagacha bo'lgan kliplarni teskari aylantirish mumkin."
+    },
+    "film": {
+      "repairRefs": "Yo'qolgan media havolalarini olib tashlash",
+      "title": "Film loyihasi",
+      "intro": "Qayta ishlatiladigan rasm namunalari bilan kadrlarni rejalashtiring. Topshiriq, kadrlar tartibi va tanlangan natijalar shu loyiha bilan saqlanadi.",
+      "create": "Film rejasini yaratish",
+      "name": "Film nomi",
+      "brief": "Film topshirig'i",
+      "sharedReferences": "Umumiy rasm namunalari (4 tagacha)",
+      "shot": "Kadr",
+      "addShot": "Kadr qo'shish",
+      "shotName": "Kadr nomi",
+      "action": "Kadrdagi harakat va kompozitsiya",
+      "seconds": "So'ralgan video soniyalari",
+      "shotReferences": "Qo'shimcha rasm namunalari (umumiy chegara 4)",
+      "frame": "Kadr tayyorlash",
+      "video": "Video tayyorlash",
+      "review": "Yaratishdan oldin studiyada model, namunalar, video davomiyligi va narxni ko'rib chiqing.",
+      "result": "Qabul qilingan kadr natijasi",
+      "noResult": "Natija tanlanmagan",
+      "resultHint": "Yuklanganlardan qabul qilingan rasm yoki videoni tanlang. Uning havolasi shu kadr bilan saqlanadi; filmni yig'ish uchun vaqt shkalasidan foydalaning.",
+      "earlier": "Oldinga surish",
+      "later": "Orqaga surish",
+      "remove": "Kadrni olib tashlash",
+      "issue": "Kadr tavsifi va namuna mediasini tekshiring, so'ng qayta urinib ko'ring. Agar saqlanmagan bo'lsa, loyihani ochiq qoldiring.",
+      "searchMedia": "Mediani nomi bo'yicha topish",
+      "refreshMedia": "Mediani yangilash"
+    },
+    "speakers": {
+      "find": "So'zlovchilarni topish",
+      "name": "So'zlovchi {{number}}",
+      "onlyOne": "Faqat bitta so'zlovchi topildi.",
+      "failed": "So'zlovchilarni topib bo'lmadi.",
+      "kept": "Faqat {{name}} qoldirildi.",
+      "editFailed": "Bu tahrir ushbu klipga mos kelmadi.",
+      "split": "{{count}} ta so'zlovchi kadriga ajratildi.",
+      "keepOnly": "Faqat shuni qoldirish",
+      "splitAction": "Har bir so'zlovchi almashganda kesish"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Kerakli 3D obyektni tasvirlab bering",
+      "queued": "3D obyektingiz yaratilmoqda. U Yaratilganlar bo'limida paydo bo'ladi.",
+      "note": "3D obyektlar Media'ga shaffof fonli qisqa aylanuvchi klip sifatida keladi."
+    },
+    "behind": {
+      "action": "Matn odam orqasida",
+      "working": "Odam kesib olinmoqda…",
+      "done": "Matn va taglavhalar endi odam orqasida.",
+      "failed": "Matnni odam orqasiga qo'yib bo'lmadi."
     }
   },
   "creator": {
@@ -12813,7 +13562,47 @@
     "referenceComposeHint": "Bir nechta tasvirlardan belgilar, obyektlar va muhitni bitta kompozitsiyaga olib keling.",
     "marketing": {
       "import": {
-        "use": "Ushbu tafsilotlardan foydalaning"
+        "use": "Ushbu tafsilotlardan foydalaning",
+        "url": "Mahsulot sahifasi URL",
+        "action": "Mahsulot sahifasini o'qish",
+        "loading": "Sahifa o'qilmoqda…",
+        "hint": "Ochiq mahsulot sahifasidan matn import qiling. Ishlatishdan oldin tafsilotlarni ko'rib chiqing; mahsulot rasmlarini studiyada alohida biriktiring.",
+        "source": "Import qilingan manba",
+        "review": "Tahrirlanadigan topshiriqingizga nusxalash uchun mahsulotni tanlang. Sarlavhangiz, ovozingiz va brend ranglaringiz o'zgarmaydi.",
+        "errors": {
+          "signIn": "Mahsulot sahifasini import qilish uchun tizimga kiring.",
+          "url": "Ochiq HTTPS mahsulot URL manzilidan foydalaning.",
+          "empty": "Foydali mahsulot tafsilotlari topilmadi. Ularni qo'lda qo'shing.",
+          "busy": "Juda ko'p import ishlamoqda. Birozdan keyin qayta urinib ko'ring.",
+          "unavailable": "Bu sahifani import qilib bo'lmadi. Mahsulot tafsilotlarini qo'lda qo'shing.",
+          "failed": "Import muvaffaqiyatsiz. Topshiriqingiz saqlangan; qayta urinib ko'ring yoki tafsilotlarni qo'lda kiriting."
+        }
+      },
+      "title": "Kampaniya topshirig'i",
+      "intro": "Mahsulotingiz va brendingizni tasvirlab bering, so'ng mos reklama formatlarini tayyorlang.",
+      "saved": "Topshiriqingiz shu hisob uchun ushbu qurilmada saqlangan.",
+      "preview": "Formatlarni tayyorlash",
+      "clear": "Topshiriqni tozalash",
+      "required": "Formatlarni tayyorlash uchun mahsulot nomi va tavsifini qo'shing.",
+      "variants": "Kampaniya formatlari",
+      "reviewHint": "Yaratishdan oldin studiyada model, narx va mahsulot namunasini ko'rib chiqing. Har bir format alohida yaratiladi.",
+      "open": "Studiyada ko'rib chiqish",
+      "fields": {
+        "product": "Mahsulot nomi (majburiy)",
+        "description": "Mahsulot faktlari (majburiy)",
+        "brand": "Brend nomi",
+        "audience": "Maqsadli auditoriya",
+        "benefit": "Asosiy afzallik",
+        "voice": "Brend ovozi",
+        "palette": "Brend ranglari",
+        "headline": "Tasdiqlangan sarlavha",
+        "cta": "Harakatga chaqiruv"
+      },
+      "formats": {
+        "square": "Kvadrat reklama",
+        "portrait": "Vertikal reklama",
+        "story": "Stories rasmi",
+        "video": "Vertikal video"
       }
     },
     "batchCount": "Rasmlar",
@@ -12821,7 +13610,109 @@
     "cinema": {
       "close": "Yopish",
       "performance": {
-        "label": "Samaradorlik"
+        "label": "Samaradorlik",
+        "0": "Quvnoq",
+        "1": "Mungli",
+        "2": "Xavotirli",
+        "3": "Ishonchli",
+        "4": "Hayratda",
+        "5": "Vazmin",
+        "6": "O'yinqaroq"
+      },
+      "title": "Kino rejissurasi",
+      "hint": "Keyingi rasm yoki videongizning vizual uslubini yo'naltiring. Natijalar modelga qarab farq qiladi.",
+      "none": "Yo'naltirishsiz",
+      "reset": "Yo'naltirishni tozalash",
+      "camera": {
+        "label": "Kamera ko'rinishi",
+        "0": "Raqamli kino",
+        "1": "35mm plyonka",
+        "2": "16mm plyonka",
+        "3": "Katta format",
+        "4": "Eski videokamera"
+      },
+      "lens": {
+        "label": "Obyektiv ko'rinishi",
+        "0": "Sferik",
+        "1": "Anamorfik",
+        "2": "Eski yumshoq oyna",
+        "3": "Makro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Fokus masofasi",
+        "0": "18mm keng",
+        "1": "24mm keng",
+        "2": "35mm tabiiy",
+        "3": "50mm standart",
+        "4": "85mm portret",
+        "5": "135mm telefoto"
+      },
+      "aperture": {
+        "label": "Maydon chuqurligi",
+        "0": "f/1.4 juda sayoz",
+        "1": "f/2.8 sayoz",
+        "2": "f/5.6 o'rtacha",
+        "3": "f/11 chuqur fokus"
+      },
+      "movement": {
+        "label": "Kamera harakati",
+        "0": "Shtativda qotirilgan",
+        "1": "Sekin yaqinlashish",
+        "2": "Sekin uzoqlashish",
+        "3": "Yon tomonga kuzatish",
+        "4": "Obyekt atrofida aylanish",
+        "5": "Qo'lda",
+        "6": "Kran bilan ko'tarilish",
+        "7": "Sekin panorama"
+      },
+      "lighting": {
+        "label": "Yoritish",
+        "0": "Yumshoq kunduzgi yorug'lik",
+        "1": "Oltin soat",
+        "2": "Qorong'i kyaroskuro",
+        "3": "Yorqin studiya",
+        "4": "Neon chiroqlar",
+        "5": "Siluet, orqa yorug'lik",
+        "6": "Bulutli, tarqoq yorug'lik"
+      },
+      "tempo": {
+        "label": "Kadr tempi",
+        "0": "Bitta uzluksiz kadr",
+        "1": "Xotirjam, shoshilmas harakat",
+        "2": "Dinamik, g'ayratli harakat",
+        "3": "Tartibsiz, jo'shqin harakat"
+      },
+      "era": {
+        "label": "Davr",
+        "0": "1920-yillar",
+        "1": "1950-yillar",
+        "2": "1960-yillar",
+        "3": "1970-yillar",
+        "4": "1980-yillar",
+        "5": "1990-yillar",
+        "6": "Hozirgi kun",
+        "7": "Yaqin kelajak"
+      },
+      "genre": {
+        "label": "Janr",
+        "0": "Hujjatli",
+        "1": "Drama",
+        "2": "Nuar film",
+        "3": "Ilmiy fantastika",
+        "4": "Fentezi",
+        "5": "Romantik komediya",
+        "6": "Triller",
+        "7": "Vestern"
+      },
+      "palette": {
+        "label": "Rang palitrasi",
+        "0": "Iliq qahrabo",
+        "1": "Sovuq ko'k",
+        "2": "Xira tuproq ranglari",
+        "3": "Pastel",
+        "4": "Yuqori kontrastli monoxrom",
+        "5": "To'yingan asosiy ranglar"
       }
     },
     "audioNoSpeech": "Qayta ko'rib chiqish uchun shu yozuvda gap bo'lmadi.",
@@ -12841,9 +13732,139 @@
     "gallery": {
       "send": "Yuborish",
       "notifications": {
-        "generation_reply": "{{name}} izohingizga javob berdi"
+        "generation_reply": "{{name}} izohingizga javob berdi",
+        "generation_like": "{{name}} yaratgan ishingizga reaksiya bildirdi",
+        "generation_comment_like": "{{name}} izohingizga reaksiya bildirdi",
+        "generation_comment": "{{name}} yaratgan ishingizga izoh qoldirdi"
+      },
+      "browse": "Yaratilganlarni ko'rish",
+      "empty": "Hali ijodlar yo'q",
+      "fullscreen": "To'liq ekranda ko'rish",
+      "missing": "Bu yaratilgan ish mavjud emas."
+    },
+    "layerNewAttempt": "Yangi urinishni ko'rib chiqish",
+    "layerTitle": "Rasm qatlamlarini ajratish",
+    "layerPngRequired": "12 MiB va to'rt megapikselgacha bo'lgan saqlangan PNG rasmni tanlang.",
+    "layerSource": "Asl rasm",
+    "layerDescription": "To'rtta shaffof PNG qatlam. Matn har bir rasmning bir qismi bo'lib qoladi.",
+    "layerSeparate": "Qatlamlarni ajratish",
+    "layerPending": "Saqlangan vazifa: {{status}}. Qayta to'lovsiz oling yoki saqlashni qayta urining.",
+    "layerCollect": "Olish / saqlashni qayta urinish",
+    "layerOpen": "Qatlamlarni muharrirda ochish",
+    "layerExport": "PNG qatlamlar + manifest ZIP eksport qilish",
+    "layerNumber": "{{number}}-qatlam",
+    "priceRetry": "Narxni tasdiqlab bo'lmadi. Narxni ko'rib chiqib, qayta urinib ko'ring.",
+    "avatarTitle": "Gapiruvchi portret",
+    "avatarRequirements": "Kvadrat PNG portret, 512–2048 piksel, 5 MB gacha. Mono 24 kHz 16-bit PCM WAV, 5–30 soniya. Oxirgi soniya ulushi sukunat bilan to'ldiriladi.",
+    "avatarPortrait": "Portret PNG tanlash",
+    "avatarAudio": "Nutq WAV tanlash",
+    "avatarPermission": "Menda bu portretni jonlantirish va bu audiodan foydalanish uchun ruxsat bor.",
+    "avatarQuote": "Sukunat bilan birga {{seconds}} soniya · {{amount}} token",
+    "avatarPrepare": "Tayyorlash va narxni ko'rib chiqish",
+    "batchFlowLimit": "Flow ro'yxati to'lgan. Yangi to'plam yaratishdan oldin ishlatilmayotgan Flow'ni o'chiring.",
+    "batchReviewCampaign": "Kampaniya to'plamini Flow'da ko'rib chiqish",
+    "batchReviewFilmImages": "Storiboard rasmlari to'plamini ko'rib chiqish",
+    "batchReviewFilmVideos": "Film kliplari to'plamini ko'rib chiqish",
+    "batchReviewHint": "Alohida saqlangan Flow ochiladi. To'lashdan oldin har bir elementni va to'liq narxni ko'rib chiqing. Tugallangan elementlar va asl to'lov tiklash uchun saqlanadi. Namunalar shaxsiy kutubxonangizga nusxalanadi; xotira va tarmoq sarfi hisoblanadi.",
+    "batchInvalid": "1–12 ta rasm yoki klipdan iborat to'plam tayyorlashdan oldin har bir elementni to'ldiring.",
+    "batchReferenceLimit": "Bu to'plam har bir element uchun bitta rasm namunasini qo'llab-quvvatlaydi. Ortiqcha namunalarni olib tashlang yoki o'sha elementni alohida tayyorlang.",
+    "batchVideoSettings": "Bu to'plam uchun kliplar 4–15 soniyalik butun davomiylikka va 16:9, 9:16 yoki 1:1 tomonlar nisbatiga ega bo'lishi kerak.",
+    "batchMissingReference": "Namuna yo'q, qo'llab-quvvatlanmaydi yoki 25 MB dan katta. To'plamni tayyorlashdan oldin uni muharrirda tiklang.",
+    "batchOwnerChanged": "Hisob yoki qoralama o'zgardi. Bu to'plamni asl hisobi ostida qayta oching.",
+    "batchConflict": "Saqlangan to'plam asl nusxasiga mos kelmaydi.",
+    "campaignPlanTitle": "Kampaniya variantlari va epizodlari",
+    "campaignPlanIntro": "12 tagacha variant yoki epizodni saqlang. Har biri o'z tekshiruvi va narxi uchun studiyani ochadi. Umumiy qaydlar uzviylikni yo'naltiradi; mahsulot ko'rinishi, personajlar va ovozlar yaratishlar orasida farq qilishi mumkin.",
+    "campaignTitle": "Kampaniya yoki serial nomi",
+    "campaignContinuity": "Umumiy personaj, ovoz va uslub qaydlari",
+    "campaignVariantTitle": "Variant yoki epizod nomi",
+    "campaignHook": "Boshlang'ich hook",
+    "campaignLanguage": "Natija tili",
+    "campaignScript": "Tasdiqlangan ssenariy yoki sahnalar ketma-ketligi",
+    "campaignAdd": "Variant yoki epizod qo'shish",
+    "campaignClear": "Rejani tozalash",
+    "campaignFormat": "Natija formati",
+    "audioExportFormat": "Eksport formati",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Uzaytirish uchun bitta manba klip biriktiring.",
+    "extensionSeconds": "+{{seconds}} soniya yangi kadr",
+    "extensionHelp": "Manba klipingizni taxminan to'rt soniyalik yangi qism bilan qaytaradi. Natija 720p gacha, 24 fps da o'lchamlanadi. Uzaytirish uchun yangi audio yaratiladi.",
+    "extensionForward": "Manba klipdan keyin taxminan to'rt soniya qo'shish",
+    "extensionBackward": "Manba klipdan oldin taxminan to'rt soniya qo'shish",
+    "expandDescription": "Rasmning yangi chegaralarini yaratish. Ixtiyoriy inglizcha prompt; bitta manba rasm.",
+    "relightDescription": "Bitta suratni yoritish va fon tavsifingiz asosida qayta yoritish.",
+    "expandPromptHint": "Bitta rasm biriktiring va uning yangi tomonlar nisbatini tanlang. Inglizcha prompt ixtiyoriy.",
+    "expandEnglishOnly": "Bu kengaytirish modeli inglizcha promptlarni qabul qiladi. Avtomatik kengaytirish uchun promptni bo'sh qoldiring.",
+    "expandNeedsImage": "Kengaytirish uchun rasm biriktiring.",
+    "learn": {
+      "title": "Ijodkor darslari",
+      "intro": "Har biri uchun qisqa darslar, bilim tekshiruvi va tahrirlanadigan mashq. Jarayon hisobingiz uchun shu qurilmada saqlanadi.",
+      "back": "Creator'ga qaytish",
+      "lessons": "Darslar",
+      "progress": "{{total}} ta bilim tekshiruvidan {{completed}} tasi o'tildi",
+      "check": "Javobni tekshirish",
+      "correct": "Bilim tekshiruvi o'tildi",
+      "retry": "Qayta urinib ko'ring. Yuqoridagi darsni qayta ko'rib chiqing.",
+      "exerciseTitle": "Amaliy mashq",
+      "exerciseHint": "O'z studiya ish maydoningizda tahrirlanadigan namunani oching. Qoralamani ochish bepul; yaratish uchun sizning tekshiruvingiz va alohida narx kerak. Yaratishdan oldin namunani tahrirlang.",
+      "openExercise": "Mashq qoralamasini ochish",
+      "closeExercise": "Mashqni yopish",
+      "brief": {
+        "title": "Aniq vizual topshiriq yozing",
+        "body1": "Aniq obyekt, uning harakati va muhitini tasvirlang. Sahnaga yordam bersa, kadr yoki kamera harakatini qo'shing. Aloqasiz g'oyalarni boshqa qoralamaga qoldiring.",
+        "body2": "Yoritish, obyektiv va uslub ko'rsatmalari modelni yo'naltiradi. Ular kameraning jismoniy xatti-harakatini yoki aniq tasvirni kafolatlamaydi. Tahrirlarni solishtirish uchun bir vaqtda bitta qismni o'zgartiring.",
+        "body3": "Yaratishdan oldin tanlangan model, qo'llab-quvvatlanadigan biriktirmalar, o'lchamlar va narxni ko'rib chiqing. Unga qaytish uchun asl qoralamani saqlang.",
+        "question": "Qaysi topshiriqni qayta ishlash eng oson?",
+        "answer0": "Aniq obyekt, harakat va muhit",
+        "answer1": "Faqat model nomi",
+        "answer2": "Bir-biriga zid uslublar ro'yxati",
+        "exercise": "Deraza yonidagi yog'och stol ustidagi sopol choynak. Yumshoq ertalabki yorug'lik, o'rtacha kadr, oddiy fon. Choynak aniq asosiy obyekt bo'lib qolsin."
+      },
+      "continuity": {
+        "title": "Kadrlarni rejalashtiring va uzviylikni tekshiring",
+        "body1": "Topshiriq va tartiblangan kadrlarni saqlash uchun muharrirdagi Film panelidan foydalaning. Har bir kadr yoki klipni alohida tayyorlang, narxini ko'rib chiqing va qabul qilingan natijani tanlang.",
+        "body2": "Faqat tanlangan modelingiz qabul qiladigan namunalarni biriktiring. Namunani qayta ishlatish tashqi ko'rinishni yo'naltirishi mumkin; u shaxsni o'rgatmaydi va moslikni kafolatlamaydi. Personajlar va ovozlar yaratishlar orasida farq qilishi mumkin.",
+        "body3": "Muvaffaqiyatli dublarni saqlang va ularni vaqt shkalasida yig'ing. Eksportdan oldin harakat, yuzlar, dialog va o'tishlarni ko'rib chiqing.",
+        "question": "Kadrlar orasidagi uzviylikni nima ta'minlaydi?",
+        "answer0": "Ko'proq aloqasiz promptlar",
+        "answer1": "Tasdiqlangan namunalar va ko'rib chiqilgan kadr qaydlari",
+        "answer2": "Personaj shaxsi kafolatlangan deb hisoblash",
+        "exercise": "Quyosh chiqishida sokin qirg'oqqa yetib kelgan yolg'iz sayohatchining keng kadri. Sekin oldinga kamera harakati, osoyishta muhit. Bitta uzluksiz kadr."
+      },
+      "campaign": {
+        "title": "Tasdiqlangan mahsulot faktlaridan foydalaning",
+        "body1": "Tekshira oladigan mahsulot faktlaridan boshlang. Import qilingan metama'lumotlarni ishlatishdan oldin ko'rib chiqing. Sarlavha va harakatga chaqiruvni aniq yozing; narxlar, sharhlar yoki samaradorlik da'volarini o'ylab topmang.",
+        "body2": "Umumiy qaydlar va alohida hooklar, ssenariylar, tillar va formatlarni birga saqlash uchun saqlangan kampaniya variantlaridan foydalaning. Bir vaqtda bitta ko'rib chiqilgan elementni tayyorlang va uning narxini studiyada tekshiring.",
+        "body3": "Natijadagi ko'rinadigan matn, mahsulot ko'rinishi va har qanday og'zaki da'volarni ko'rib chiqing. Prompt mahsulot aniqligi yoki marketing samaradorligining isboti emas.",
+        "question": "Mahsulot haqidagi da'vo qachon kiritilishi kerak?",
+        "answer0": "Ishonarli eshitilganda",
+        "answer1": "Besh yulduzli sharh o'ylab topilgandan keyin",
+        "answer2": "U tasdiqlangan mahsulot faktlaridan olinganda",
+        "exercise": "Qayta ishlatiladigan qutida sotiladigan butun bargli choy uchun vertikal mahsulot reklamasini yarating. Tasdiqlangan sarlavha: Choyga vaqt ajrating. Tasdiqlangan CTA: To'plamni ko'ring. Faqat shu faktlardan foydalaning; chegirmalar, sharhlar yoki sog'liq haqidagi da'volarni o'ylab topmang."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "Bu chat shu qurilmada saqlangan shaxsiy yozuvni ijro etadi. Boshqa qurilmada bulutga saqlash tugagach, Creator kutubxonangizni oching. Hozir chiqsangiz, saqlashni yakunlash uchun bu chatni qayta oching.",
+    "batchPaymentHelp": "Har bir yuborilgan rasm uchun alohida haq olinadi. Agar to'plam to'xtasa, uning to'lovidan ishlatilmagan tokenlar u qamrab oladigan keyingi yaratish uchun avtomatik qayta ishlatiladi.",
+    "endFrameHelp": "Biriktirish tugmasi bilan boshlang'ich rasm qo'shing.",
+    "seed": "Seed (ixtiyoriy, 0–2147483647)",
+    "negativePrompt": "Salbiy prompt (ixtiyoriy)",
+    "invalidSeed": "Seed 0 dan 2147483647 gacha butun son bo'lishi kerak.",
+    "endFrameNeedsStart": "Yakuniy kadrni tanlashdan oldin boshlang'ich rasm biriktiring.",
+    "batchStopped": "To'plam {{quantity}} tadan {{submitted}} ta yuborilgandan keyin to'xtadi. {{remaining}} tasi yuborilmadi. Tayyor rasmlar saqlandi.",
+    "audioInvalidTask": "Qo'llab-quvvatlanadigan audio vazifani tanlang.",
+    "audioNeedsFile": "Avval qo'llab-quvvatlanadigan audio yoki video fayl biriktiring.",
+    "audioTextLimit": "Nutq va dialog uchun 1–5000 belgi; ovoz effektlari uchun 1–1000 belgi.",
+    "audioDurationLimit": "Ovoz davomiyligi Avto (0) yoki 0,5–30 soniya bo'lishi kerak.",
+    "audioModels": "Boshqa audio modellar",
+    "audioAttach": "Yozuvni biriktirish",
+    "audioAttachFailed": "Bu yozuvni biriktirib bo'lmadi.",
+    "audioSeconds": "Soniyalar (0 = Avto)",
+    "audioInvalidResponse": "Audio xizmati noto'g'ri natija qaytardi.",
+    "audioResultTooLarge": "Audio natija bo'sh yoki 50 MB dan katta.",
+    "audioFailed": "Bu audioni qayta ishlab bo'lmadi.",
+    "libraryFavorites": "Sevimlilar",
+    "libraryFavoriteAdd": "Sevimlilarga qo'shish",
+    "libraryFavoriteRemove": "Sevimlilardan olib tashlash"
   },
   "fractions": {
     "title": "Ulushlar",
@@ -12985,7 +14006,8 @@
     "offerSubmitted_other": "{{count}} ulushlar uchun {{price}} token narxida taklif yuborildi",
     "yourOfferLabel": "Sizning taklifingiz (Tokenlar har bir ulush uchun)",
     "listedToast_one": "{{count}} ulush {{price}} token narxida ro'yxatga olindi",
-    "listedToast_other": "{{count}} ulushlar {{price}} token narxida ro'yxatga olindi"
+    "listedToast_other": "{{count}} ulushlar {{price}} token narxida ro'yxatga olindi",
+    "nftsSubtitle": "Istalgan NFT, bir bosqichli almashuvlar"
   },
   "moderation": {
     "appealDuplicate": "Siz allaqachon bunga shikoyat qilgansiz",
@@ -13085,7 +14107,11 @@
     "ended": "Yakunlandi",
     "stage": "Sahna",
     "upcomingStage": "Kutilayotgan sahna",
-    "members": "{{compact}} a'zo"
+    "members": "{{compact}} a'zo",
+    "requestComments_one": "{{compact}} ta izoh",
+    "requestComments_other": "{{compact}} ta izoh",
+    "requestVotes_one": "{{compact}} ta ovoz",
+    "requestVotes_other": "{{compact}} ta ovoz"
   },
   "report": {
     "whyVideo": "Nima uchun ushbu videoni xabar qilmoqchisiz?",
@@ -14342,7 +15368,14 @@
     "faqWhatA": "MCP orqali u Riftn'ning ochiq postlarini ko'rishi, mavzularni qidirishi va ijodkorlar profillarini ko'rishi mumkin. U sizning nomingizdan post joylamaydi.",
     "faqAccountQ": "Menga Riftn hisobi kerakmi?",
     "chatgptFaqAccount": "Konektor orqali ommaviy kontentni o'qish uchun hisob talab qilinmaydi. Faqat Riftn tokenlarini joylashtirish, maslahat berish yoki saqlashni istasangiz, Riftn hisobi kerak bo'ladi.",
-    "claudeFaqAccount": "Yo'q. Ommaviy kontentni o'qish hisob qaydnomasisiz ishlaydi. Faqat Riftn tokenlarini joylashtirish, maslahat berish yoki saqlash uchun Riftn hisobi kerak."
+    "claudeFaqAccount": "Yo'q. Ommaviy kontentni o'qish hisob qaydnomasisiz ishlaydi. Faqat Riftn tokenlarini joylashtirish, maslahat berish yoki saqlash uchun Riftn hisobi kerak.",
+    "subtitleAccount": "Riftn'dan ChatGPT, Claude yoki istalgan MCP ilovasi orqali foydalaning. Hisobsiz ko'rib chiqing yoki shaxsiy qoralamalarni saqlash, postlarni nashr qilish va rejalashtirish, rasm va so'rovnomalarni boshqarish, analitikani o'qish, javob berish va kuzatish uchun kiring.",
+    "agentsTitle": "Agentlaringizni assistentingizdan boshqaring",
+    "agentsBody": "Ulanayotganda «Agentlaringiz nomidan harakat qilish»ga ham ruxsat bering. Shunda yordamchingiz sizga tegishli istalgan agent nomidan post joylashi, javob berishi, reaksiya bildirishi, repost qilishi, kuzatishi yoki profilni tahrirlashi mumkin. U hech qachon sizga tegishli bo'lmagan hisob nomidan harakat qila olmaydi.",
+    "keysTitle": "Shaxsiy kalitlar",
+    "keysBody": "Kirish sahifasini ocha olmaydigan skriptlar, botlar va ilovalar uchun. Kalit faqat siz ruxsat bergan narsani bajaradi va 30 kun ishlatilmasa to'xtaydi.",
+    "keysMake": "Shaxsiy kalit yaratish",
+    "manageLinked": "Ulangan ilovalar va kalitlarni boshqarish"
   },
   "credits": {
     "percentUsed": "{{percent}}% ishlatilgan",
@@ -14442,7 +15475,10 @@
       "body": "tokenlar toʻgʻridan-toʻgʻri ilovaning pul xazinasi (wallet) ga yetadi, {{wallet}}. Toʻlovlar qaytarib olinmaydi.",
       "sent": "Tozalanmagan {{amount}} tokenlar ni {{name}}ga sotib oldim.",
       "title": "To'lov {{name}}?",
-      "confirm": "To'lov {{amount}} tokenlar"
+      "confirm": "To'lov {{amount}} tokenlar",
+      "testBadge": "Test rejimi",
+      "testBody": "Bu ilova sizniki, shuning uchun bu test: hech qanday token o'tkazilmaydi va kvitansiya test deb belgilanadi.",
+      "testSent": "{{amount}} tokenlik test to'lovi. Hech narsa yuborilmadi."
     },
     "add": {
       "title": "{{name}}?",
@@ -14556,7 +15592,16 @@
     "level": "Daraja {{level}}",
     "streak_one": "{{count}}-haftalik seriya",
     "streak_other": "{{count}}-haftalik seriya",
-    "tipJar": "Sovg'a idishi"
+    "tipJar": "Sovg'a idishi",
+    "eyebrow": {
+      "follow": "Yangi obunachi",
+      "subscribe": "Yangi pullik obunachi",
+      "subscribedTo": "Obuna bo'ldi · {{plan}}",
+      "gifted_one": "Obuna sovg'a qildi",
+      "gifted_other": "{{count}} ta obuna sovg'a qildi",
+      "share": "Strimni ulashdi",
+      "join": "Hozirgina qo'shildi"
+    }
   },
   "liveStudio": {
     "controls": {
@@ -14923,8 +15968,20 @@
         "off": "Oʻchiq",
         "idle": "Tayyor",
         "live": "Jonli",
-        "error": "Xatolik"
-      }
+        "error": "Xatolik",
+        "connecting": "Ulanmoqda"
+      },
+      "title": "Multistrim manzillari",
+      "intro": "Riftn'da bir marta jonli efirga chiqing, biz strimingizni bu yerda yoqilgan barcha platformalarga bepul uzatamiz. U jonli efirga chiqqaningizdan bir necha soniya ichida boshlanadi.",
+      "add": "Manzil qo'shish",
+      "empty": "Hali manzillar yo'q. Twitch, YouTube, Kick yoki istalgan RTMP serverni qo'shing.",
+      "server": "Server URL",
+      "findKey": "{{name}} serveri va kalitini toping",
+      "customHint": "Platformangiz bergan RTMP server va kalitni joylashtiring.",
+      "keyNote": "Kalitingiz serverlarimizda shifrlangan holda saqlanadi va boshqa hech qachon ko'rsatilmaydi.",
+      "added": "{{name}} qo'shildi",
+      "saveFailed": "Manzilni saqlab bo'lmadi",
+      "toggle": "Shu manzilga strim qilish"
     }
   },
   "liveChatModeration": {
@@ -14978,7 +16035,9 @@
     "joinedBodyNoEmail": "Biz sizga tokenning chiqishi haqida ma'lumot berish uchun xabarnoma jo'natamiz.",
     "failed": "Saqlab bo'lmadi. Qaytadan urinib ko'ring.",
     "privacy": "Faoliyatga faqat chiqarilish haqida xabar berish uchun ishlatiladi.",
-    "emailLabel": "Elektron pochta"
+    "emailLabel": "Elektron pochta",
+    "title": "Token tez orada chiqadi",
+    "invalidEmail": "To'g'ri email kiriting"
   },
   "githubLink": {
     "hint": "Xotira kirishingiz uchun GitHubga kirishingiz kerak, shuning uchun hisobingiz siznikiga tegishli ekanligini isbotlash kerak. Riftn faqat sizning GitHubdagi umumiy profilingizni koʻrishadi.",
@@ -15011,7 +16070,12 @@
       "cover": "Qopqoq",
       "caption": "Bu sahifaning yozuvi",
       "alt": "Alt matni: sahifada nima ko‘rinadi"
-    }
+    },
+    "toComic": "Komiksga aylantirish",
+    "toCarousel": "Karusel sifatida ko'rsatish",
+    "converted": "Endi komiks sifatida ko'rsatilmoqda",
+    "unconverted": "Endi karusel sifatida ko'rsatilmoqda",
+    "convertFailed": "Ko'rinishni o'zgartirib bo'lmadi"
   },
   "nftMarket": {
     "dehubPostsName": "Riftn Posts",
@@ -15090,7 +16154,51 @@
     "bundleBadge": "To'plam ×{{n}}",
     "dropBadge": "Narxlarning pasayishi",
     "days_one": "{{count}} kun",
-    "days_other": "{{count}} kunlar"
+    "days_other": "{{count}} kunlar",
+    "actCollectionOffer": "Kolleksiya taklifi",
+    "actListed": "Sotuvga qo'yildi",
+    "actSale": "Sotuv",
+    "buyAll": "Hammasini sotib olish",
+    "buySeveral": "Bir nechtasini sotib olish",
+    "cartBought": "{{n}} ta sotib olindi. Ular endi hamyoningizda.",
+    "cartCount": "Savatda {{n}} ta",
+    "cartFull": "Bir vaqtda 20 tagacha",
+    "cartOneCoin": "Har bir savatda bitta tarmoq va bitta tanga. Almashtirish uchun uni tozalang.",
+    "cartOwn": "Bu sizniki",
+    "cartPick": "Savatga qo'shish uchun bosing",
+    "forSaleHere": "Shu yerda sotuvda",
+    "noActivity": "Bu yerda hali hech narsa yo'q",
+    "shareMessage": "Riftn'da NFT sotib oling va soting",
+    "loadFailed": "Bozorni yuklab bo'lmadi. Qayta urinish uchun pastga torting.",
+    "signInTitle": "NFT'laringizni ko'rish uchun kiring",
+    "walletOn": "{{chain}} dagi hamyoningizdagi NFT'lar",
+    "listedAt": "Sotuvga qo'yildi",
+    "noneHeld": "Bu hamyonda hali NFT yo'q",
+    "subtitle": "BNB, Base, Ethereum va Robinhood'da sotib oling va soting",
+    "startHint": "Birinchi bo'lish uchun «Siznikilar» bo'limidan NFT joylang.",
+    "wrongChain": "Buni savdo qilish uchun hamyoningizni {{chain}} ga o'tkazing",
+    "failed": "Bu amalga oshmadi. Qayta urinib ko'ring.",
+    "bought": "Endi u sizniki",
+    "cancelledOrder": "Zanjirda bekor qilindi",
+    "notEnough": "Hamyoningizda {{symbol}} yetarli emas",
+    "offerSent": "Taklif yuborildi",
+    "cancelListing": "Sotuvdan olish",
+    "buyConfirm": "{{name}} sotib olinsinmi?",
+    "volShort": "Hajm",
+    "salesCount": "{{n}} ta sotildi",
+    "bestOffer": "Eng yaxshi taklif",
+    "fromOpenSea": "OpenSea'dagi top kolleksiyalar",
+    "buyHere": "Ularni shu yerda sotib oling",
+    "openSeaNote": "OpenSea'da sotuvga qo'yilgan. Siz sotuvchiga to'g'ridan-to'g'ri Seaport orqali to'laysiz; Riftn komissiya qo'shmaydi.",
+    "notListed": "Hozir sotuvga qo'yilmagan.",
+    "priceLabel": "Xaridor to'laydigan narx",
+    "offerLabel": "Sizning taklifingiz",
+    "list": "Sotuvga qo'yish",
+    "listHint": "Imzolash bepul. Kolleksiyadan birinchi sotuvda bir marta tasdiqlash so'raladi.",
+    "offerHint": "Imzolash bepul. Egasi qabul qilmaguncha tokenlaringiz hamyoningizda qoladi.",
+    "viewOnly": "Bu ilovada NFT sotib olish va sotish mavjud emas.",
+    "tradeOnWeb": "riftn.com saytida savdo qiling",
+    "feesFootnote": "Komissiya: 2%, tokenlarda to'lasangiz 1%. Har bir savdo — bitta zanjirdagi almashuv."
   },
   "reel": {
     "readAll": "Hammasini o'qing",
@@ -15116,7 +16224,11 @@
     "loading": "Yuklab olinmoqda...",
     "paused": "To&#39;xtatildi",
     "preview": "Kuzatish",
-    "seek": "Izlash"
+    "seek": "Izlash",
+    "popOut": "Alohida oynada",
+    "backInPost": "Shu yerda ijro etish",
+    "inCorner": "Burchakda ijro etilmoqda",
+    "tapToStartApp": "Spotify pleerida ijro tugmasini bosing"
   },
   "twoFactor": {
     "wrongCode": "Bu kod mos kelmadi. Ilovangizdagi eng yangisini sinab ko‘ring.",
@@ -15198,18 +16310,57 @@
   "chatTextSize": {
     "title": "Matn hajmi",
     "default": "Standart",
-    "larger": "Kattaroq"
+    "larger": "Kattaroq",
+    "small": "Kichik",
+    "large": "Katta",
+    "largest": "Eng katta"
   },
   "remix": {
-    "cut": "Kesish"
+    "cut": "Kesish",
+    "title": "Remiks",
+    "greenScreen": "Yashil ekran",
+    "collab": "Hamkorlik",
+    "sound": "Ovozdan foydalanish",
+    "unavailable": "Bu videoni remiks qilib bo'lmaydi.",
+    "openFailed": "Remiksni ochib bo'lmadi. Ulanish va kamera ruxsatlarini tekshirib, qayta urinib ko'ring.",
+    "tooLarge": "Bu yozuv juda katta. Qisqaroq yozib oling.",
+    "invalidRecording": "Yozuvni o'qib bo'lmadi. Iltimos, qaytadan yozib oling.",
+    "saveFailed": "Remiksni saqlab bo'lmadi. Iltimos, qayta urinib ko'ring.",
+    "startHint": "Kamerangizni shu video ustida ko'rib chiqing, so'ng remiksingizni yozib oling. Bu ekrandan chiqsangiz kamera to'xtaydi.",
+    "openCamera": "Kamerani ochish"
   },
   "signedFollows": {
     "setUp": "Yoqish",
     "turnOff": "O‘chirish",
-    "efpTurnOff": "To'xtatish"
+    "efpTurnOff": "To'xtatish",
+    "title": "Obunalaringiz blokcheynda",
+    "description": "Hamyoningiz kimni kuzatishingizni imzolaydi va ro'yxat har kuni Base'da muhrlanadi. Har qanday ilova obunalaringizni hamyoningiz orqali topa oladi, hatto Riftn'siz ham.",
+    "on": "Bu qurilmada yoqilgan",
+    "off": "Bu qurilmada o'chirilgan",
+    "turnedOn": "Obunalaringiz endi hamyoningiz tomonidan imzolanadi",
+    "turnedOff": "Bu qurilmada o'chirildi",
+    "failed": "Hamyoningiz imzolamadi. Qayta urinib ko'ring.",
+    "hiddenNote": "Yashirin obunalar ro'yxati va shaxsiy hisoblar ochiq ro'yxatga kiritilmaydi.",
+    "efpOn": "EFP'ga nusxalandi · {{count}} ta obuna",
+    "efpOff": "Ularni EFP'ga ham joylash",
+    "efpTurnOn": "EFP'ga qo'shish",
+    "efpDone": "Obunalaringiz EFP'ga joylanmoqda",
+    "efpStopped": "EFP nusxalash to'xtatildi. Ro'yxat sizniki bo'lib qoladi.",
+    "efpHasList": "Sizda allaqachon EFP ro'yxati bor. Riftn uni hozircha to'ldira olmaydi.",
+    "efpNoGas": "Buning uchun hamyoningizda Base tarmog'ida ozgina ETH bo'lishi kerak.",
+    "efpFailed": "Bu amalga oshmadi. Qayta urinib ko'ring.",
+    "efpNote": "EFP — boshqa ilovalar o'qiydigan obunalar ro'yxati (efp.app). Riftn hamyoningiz bilan bepul; boshqa hamyonlar Base'da bir necha sent to'laydi. Ro'yxat sizniki.",
+    "efpUseWeb": "O'z hamyoningiz bilan buni riftn.com saytidagi Sozlamalarda bajaring."
   },
   "postEditHistory": {
-    "original": "Asl"
+    "original": "Asl",
+    "title": "Tahrirlash tarixi",
+    "edited_one": "Bir marta tahrirlangan",
+    "edited_other": "{{count}} marta tahrirlangan",
+    "lastEdit": "Oxirgi tahrir {{time}}",
+    "editN": "{{n}}-tahrir",
+    "now": "Hozir",
+    "showChanges": "Nima o'zgarganini ko'rsatish"
   },
   "studioDeck": {
     "remove": "Olib tashlash",
@@ -15218,28 +16369,61 @@
       "modes": {
         "none": "Oʻchiq",
         "blur": "Xiralik",
-        "color": "Rang"
-      }
+        "color": "Rang",
+        "image": "Rasm"
+      },
+      "failed": "Bu qurilmada fonni olib tashlashni boshlab bo'lmadi.",
+      "hint": "Qurilmangizda ishlaydi. Birinchi marta yuklanishi bir necha soniya oladi."
     },
     "scenes": {
       "countdown": "Ortga hisoblash",
       "minutes": "{{count}} daqika",
       "names": {
-        "starting": "Tez orada boshlanadi"
+        "starting": "Tez orada boshlanadi",
+        "chatting": "Shunchaki suhbat",
+        "brb": "Hozir qaytaman",
+        "ending": "Strim tugashi"
+      },
+      "title": "Sahnalar",
+      "picture": "Rasm",
+      "noCountdown": "Teskari sanoqsiz",
+      "hints": {
+        "starting": "Teskari sanoqli kartochka",
+        "chatting": "Kamera to'liq ekranda",
+        "brb": "Kartochka, mikrofon o'chiq",
+        "ending": "Rahmat kartochkasi"
+      },
+      "subtitles": {
+        "starting": "Strim boshlanishiga",
+        "brb": "Bir daqiqada qaytaman",
+        "ending": "Tomosha qilganingiz uchun rahmat"
       }
     },
     "widgets": {
-      "tab": "Vidjetlar"
+      "tab": "Vidjetlar",
+      "title": "Vidjetlarni videomda ko'rsatish",
+      "hint": "Ogohlantirishlar, maqsad panellari va chat strimingizga chiziladi, shuning uchun Twitch, YouTube va boshqa barcha platformalardagi tomoshabinlar ham ularni ko'radi.",
+      "failed": "Vidjetlar ko'rinadigan joyni o'zgartirib bo'lmadi. Qayta urinib ko'ring."
     },
     "sources": {
       "image": "Rasm",
       "show": "Strimda ko'rsatish",
       "positions": {
-        "center": "Markazlashtir"
+        "center": "Markazlashtir",
+        "top-left": "Yuqori chap",
+        "top-right": "Yuqori o'ng",
+        "bottom-left": "Pastki chap",
+        "bottom-right": "Pastki o'ng"
       },
       "sizes": {
-        "medium": "O'rtacha"
-      }
+        "medium": "O'rtacha",
+        "small": "Kichik",
+        "large": "Katta"
+      },
+      "title": "Manbalar",
+      "addImage": "Rasm yoki logotip",
+      "failed": "Bu manbani qo'shib bo'lmadi.",
+      "hint": "Manbalar har bir tomoshabin va har bir platforma uchun rasmingiz ustiga chiziladi."
     },
     "phone": {
       "title": "Studiya"
@@ -15249,7 +16433,31 @@
     "today": "Bugun",
     "tooSoon": "Kelajakdan vaqtni tanlang.",
     "show": "Ko'rsatish",
-    "hide": "Yashirish"
+    "hide": "Yashirish",
+    "title": "Qachon?",
+    "tonight": "Bugun kechqurun",
+    "inAnHour": "Bir soatdan keyin",
+    "tomorrow": "Ertaga",
+    "primeTime": "Praym-taym",
+    "scheduleFor": "{{when}} ga rejalashtirish",
+    "liveTip": "Obunachilaringiz eslatma qo'yishi mumkin. Vaqti kelganda jonli efirni o'zingiz boshlaysiz.",
+    "stageTip": "U darhol Yaqinlashayotganlar javoniga chiqadi, shunda odamlar Eslatish ni bosishi mumkin.",
+    "typePlaceholder": "Vaqtni yozing, masalan \"juma 20:00\" yoki \"2 soatdan keyin\"",
+    "typeLabel": "Vaqtni yozing",
+    "typeHelp": "\"bugun kechqurun\", \"ertaga 9:00\", \"shanba tush\" yoki \"30 okt 19:00\" ni sinab ko'ring.",
+    "orPickDay": "Yoki kunni tanlang",
+    "earlier": "15 daqiqa oldinroq",
+    "later": "15 daqiqa keyinroq",
+    "earlierShort": "Avvalroq",
+    "laterShort": "Keyinroq",
+    "tooSoonMin": "Hozirdan kamida {{count}} daqiqa keyingi vaqtni tanlang.",
+    "zone": "Sizning vaqtingiz ({{zone}}). Boshqalar uni o'z vaqtida ko'radi.",
+    "remove": "Rejani olib tashlash",
+    "startsIn": "{{time}} dan keyin boshlanadi",
+    "bestTime": "Eng yaxshi vaqt",
+    "fansOnline": "Muxlislarim qachon onlayn?",
+    "fansBasis": "Yorqinroq — so'nggi {{count}} kunda ko'proq obunachilaringiz tomosha qilgan.",
+    "everyoneBasis": "Obunachilar faolligi hali yetarli emas, shuning uchun bu Riftn'dagi hamma uchun."
   },
   "planned": {
     "title": "Rejalashtirilgan",
@@ -15264,22 +16472,45 @@
     "loading": "Yuklanyapti…",
     "startNow": "Hozir boshlash",
     "cancel": "Bekor qilish",
-    "cancelled": "Bekor qilindi"
+    "cancelled": "Bekor qilindi",
+    "subtitle": "Siz rejalashtirgan postlar, jonli efirlar va Stage'lar",
+    "seoTitle": "Rejalashtirilgan · Riftn",
+    "seoDescription": "Riftn'dagi rejalashtirilgan postlaringiz, jonli efirlaringiz va Stage'laringiz bir joyda.",
+    "lives": "Jonli efirlar",
+    "signIn": "Rejalaringizni ko'rish uchun tizimga kiring",
+    "emptyTitle": "Hali hech narsa rejalashtirilmagan",
+    "emptyBody": "Post, jonli efir yoki Stage yaratayotganda \"Qachon?\" ni tanlang va u shu yerda paydo bo'ladi.",
+    "move": "Ko'chirish",
+    "postNow": "Hozir joylash",
+    "confirmCancel": "Bekor qilish uchun yana bosing",
+    "moved": "{{when}} ga ko'chirildi",
+    "postingNow": "Bir daqiqadan kamroq vaqtda joylanadi",
+    "moveFailed": "Ko'chirib bo'lmadi. Qayta urinib ko'ring.",
+    "seeAll": "Rejalashtirgan hamma narsangizni ko'rish"
   },
   "welcome": {
     "about": {
       "title": "Riftn'ga xush kelibsiz",
       "day": "Kun",
       "month": "Oy",
-      "year": "Yil"
+      "year": "Yil",
+      "sub": "Tug'ilgan kuningiz maxfiy qoladi. Ko'rinishni tanlang, uni istalgan vaqtda o'zgartirishingiz mumkin.",
+      "birthday": "Tug'ilgan sana",
+      "pick": "Tug'ilgan kuningizni tanlang",
+      "invalid": "To'liq tug'ilgan sanangizni kiriting.",
+      "tooYoung": "Riftn'dan foydalanish uchun {{age}} yosh yoki undan katta bo'lishingiz kerak.",
+      "theme": "Sizning ko'rinishingiz"
     },
     "name": {
       "title": "Ismingiz",
-      "placeholder": "Ismingiz"
+      "placeholder": "Ismingiz",
+      "sub": "Bu odamlar postlaringizda ko'radigan ism."
     },
     "card": {
       "name": "Ismingiz",
-      "followers": "izdoshlar"
+      "followers": "izdoshlar",
+      "interests": "Qiziqishlaringiz",
+      "following": "kuzatilmoqda"
     },
     "topic": {
       "music": "Musiqa",
@@ -15291,11 +16522,47 @@
       "podcast": "Podkast",
       "food": "Oziq-ovqat",
       "news": "Yangiliklar",
-      "science": "Fan"
+      "science": "Fan",
+      "travel": "Sayohat",
+      "film": "Kino",
+      "anime": "Anime",
+      "cars": "Avtomobillar",
+      "animals": "Hayvonlar",
+      "tech": "Texnologiya"
     },
     "back": "Orqaga",
     "skipPhoto": "Hozirda o'tkazib yuborish",
-    "preview": "Koʻrinish"
+    "preview": "Koʻrinish",
+    "username": {
+      "title": "Sizning @username",
+      "sub": "Harflar, raqamlar va pastki chiziq. Keyinroq o'zgartirishingiz mumkin.",
+      "yours": "@{{name}} sizniki"
+    },
+    "photo": {
+      "title": "Sizning rasmingiz",
+      "sub": "Ixtiyoriy. Odamlar yuzlarni tezroq kuzatadi.",
+      "choose": "Rasm tanlash",
+      "change": "Boshqasini tanlash"
+    },
+    "interests": {
+      "title": "Qiziqishlaringiz",
+      "sub": "Kamida 3 tasini tanlang. Ular toifalaringizda birinchi bo'ladi."
+    },
+    "people": {
+      "title": "Sizning odamlaringiz",
+      "sub": "Kuzatish uchun bosing. Ularning postlari Obunalar lentangizni to'ldiradi.",
+      "empty": "Hozircha tavsiyalar yo'q. Kashf qilish bo'limida topiladigan odamlar ko'proq.",
+      "followers": "{{count}} obunachi"
+    },
+    "done": {
+      "title": "Ajoyib ko'rinyapti, {{name}}",
+      "sub": "Bugundan boshlab bu kartochkani hamma ko'radi.",
+      "eyebrow": "Profil faol"
+    },
+    "enter": "Riftn'ga kirish",
+    "pickMore": "Yana {{count}} ta tanlang",
+    "cardHint": "Odamlar sizni shunday ko'radi",
+    "followFailed": "Kuzatib bo'lmadi. Qayta urinib ko'ring."
   },
   "appTokens": {
     "title": "Sizning tokenlaringiz",
@@ -15306,10 +16573,35 @@
     "amount": "Miqdori",
     "notePlaceholder": "Izoh qo‘sh (ixtiyoriy)",
     "sendButton": "Yuborish",
-    "errorInsufficient": "Tokenlar yetarli emas"
+    "errorInsufficient": "Tokenlar yetarli emas",
+    "rowHint": "Ilova ichidagi balans",
+    "explainer": "Tokenlaringiz endi Riftn ichida. Siz ishga tushirish paytida blokcheynda saqlagan va steyk qilgan miqdor bilan boshladingiz. Yuborish, tip berish va sarflash ularni darhol, komissiyasiz va blokcheynsiz o'tkazadi. Balanslar airdrop paytida yangi tokenga o'tkaziladi.",
+    "kindOpening": "Boshlang'ich balans",
+    "kindSent": "{{name}} ga yuborildi",
+    "kindReceived": "{{name}} dan",
+    "kindSpent": "Riftn'da sarflandi",
+    "kindRefund": "Qaytarim",
+    "kindAdjust": "Riftn tomonidan tuzatish",
+    "sendTitle": "Token yuborish",
+    "sendHint": "Tokenlarni Riftn ichida boshqa hisobga yuboradi. Darhol va bepul, blokcheynga hech narsa chiqmaydi.",
+    "toPlaceholder": "@username yoki 0x manzil",
+    "looking": "Qidirilmoqda…",
+    "available": "Mavjud: {{amount}}",
+    "sent": "{{name}} ga {{amount}} token yuborildi",
+    "errorRateLimit": "So'nggi bir soatda juda ko'p yuborildi. Keyinroq qayta urinib ko'ring.",
+    "errorNoRecipient": "Riftn hisobi topilmadi",
+    "errorSelf": "O'zingizga yubora olmaysiz",
+    "errorGeneric": "Yuborib bo'lmadi. Qayta urinib ko'ring."
   },
   "avatarPrompt": {
-    "notNow": "Hozir emas"
+    "notNow": "Hozir emas",
+    "title": "Profil rasmini qo'shing",
+    "body": "Yuz yoki logotipingiz bo'lsa, odamlar sizni lentalar, izohlar va chatlarda tezroq taniydi.",
+    "choose": "Rasm tanlash",
+    "another": "Boshqasini tanlash",
+    "save": "Shu rasmdan foydalanish",
+    "saved": "Ajoyib ko'rinyapti",
+    "failed": "Rasmingizni saqlab bo'lmadi. Qayta urinib ko'ring."
   },
   "postStats": {
     "audience": "Tomoshabin",
@@ -15327,35 +16619,159 @@
     "shares": "Ulashishlar",
     "signedOutViewers": "Chiqdingiz",
     "topSupporters": "Eng yaxshi tarafdorlar",
-    "visitors": "Chiqdingiz"
+    "visitors": "Chiqdingiz",
+    "aboutUsual": "odatdagidek",
+    "afterWatching": "ko'rgandan keyin kuzatdi",
+    "avg": "o'rtacha",
+    "avgWatch": "O'rtacha tomosha",
+    "bestTime": "Odamlaringiz qachon tomosha qiladi",
+    "bigDrop": "Katta tushish",
+    "byBadge": "nishon bo'yicha",
+    "devices": "Qurilma (a'zolar)",
+    "finishedLower": "oxirigacha ko'rdi",
+    "finishedPct": "{{pct}}% oxirigacha ko'rdi",
+    "inOut": "{{in}} a'zo · {{out}} tizimga kirmagan",
+    "leave": "{{pct}}% chiqib ketadi",
+    "linkClicks": "Havola bosishlari",
+    "newToYou": "siz uchun yangi",
+    "noAccount": "hisobsiz",
+    "noViewersYet": "Bu postni hali hech kim ko'rmagan.",
+    "noWatchYet": "Odamlar uni ijro etgach, tomosha vaqti shu yerda ko'rinadi. Hisoblash 2026-yil 31-oktabrda boshlangan.",
+    "open": "Postingiz qanday ketayotganini ko'ring",
+    "otherBadges": "Boshqa nishonlar",
+    "peak": "Cho'qqi {{time}} · {{n}}",
+    "peopleReached": "Qamrab olingan odamlar",
+    "playsLower": "ijro",
+    "playsMembers": "A'zolar ijrolari",
+    "playsVisitors": "Tizimga kirmaganlar ijrolari",
+    "profileTaps": "Profilingizga o'tishlar",
+    "reach": "Qamrov",
+    "saves": "Saqlashlar",
+    "seeAll": "Barcha statistikani ko'rish",
+    "signedIn": "tizimga kirgan",
+    "signedOutLower": "tizimga kirmagan",
+    "stillWatching": "Hali tomosha qilmoqda",
+    "timesUsual": "odatdagidan {{ratio}}×",
+    "vsUsualPct": "odatdagi postingizga nisbatan {{pct}}",
+    "unavailableBody": "Bu post statistikasini faqat muallif ko'ra oladi.",
+    "unavailableTitle": "Statistika mavjud emas",
+    "vsUsual": "odatdagi postingizga nisbatan",
+    "watching": "Tomosha qilmoqda",
+    "whoSawIt": "Kim ko'rdi",
+    "withRepeats": "{{n}} ta takroriy",
+    "yourFollowers": "obunachilaringiz",
+    "first48": "Birinchi 48 soat",
+    "howItsDoing": "Qanday ketyapti",
+    "bestTip": "Tomoshabinlaringizning ko'pchiligi {{day}} kuni soat {{hour}}:00 atrofida keladi. Undan sal oldin joylash postga eng yaxshi start beradi.",
+    "last30": "so'nggi 30 kun",
+    "day": {
+      "sun": "Yak",
+      "mon": "Dush",
+      "tue": "Sesh",
+      "wed": "Chor",
+      "thu": "Pay",
+      "fri": "Jum",
+      "sat": "Shan"
+    }
   },
   "duet": {
     "policyEveryone": "Hamma",
     "policyFollowers": "Obunachilar",
     "policyNobody": "Hech kim",
-    "loadMore": "Koʻproq yuklash"
+    "loadMore": "Koʻproq yuklash",
+    "with": "@{{username}} bilan duet",
+    "withOriginal": "Duet · asl videoni ko'rish",
+    "unavailable": "Bu video endi duetlar uchun mavjud emas.",
+    "allowLabel": "Duetlarga ruxsat berish",
+    "allowDescription": "Videolaringiz yonida kim duet yozib olishi mumkin. Buni har bir postda ham o'zgartirishingiz mumkin.",
+    "settingsSection": "Duetlar",
+    "policyDefault": "Hisob sozlamasi",
+    "saveFailed": "Saqlab bo'lmadi. Qayta urinib ko'ring.",
+    "count_one": "{{count}} duet",
+    "count_other": "{{count}} duet",
+    "pageHeading": "Duetlar",
+    "pageTitle": "@{{creator}} ning {{title}} videosiga duetlar",
+    "pageTitleNoCreator": "{{title}} videosiga duetlar",
+    "pageDescription": "Riftn'da bu videoning barcha duetlarini tomosha qiling yoki yonma-yon o'zingiznikini yozib oling.",
+    "empty": "Hali duetlar yo'q. Birinchisini yaratish uchun video sozlamalarini oching va Remiks → Duet ni tanlang.",
+    "video": "Video",
+    "notFound": "Bu video mavjud emas.",
+    "notFoundTitle": "Video topilmadi — Riftn",
+    "browseShorts": "Shorts'ni ko'rish"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Hamma",
       "followers": "Obunachilar",
-      "nobody": "Hech kim"
+      "nobody": "Hech kim",
+      "default": "Mening standart sozlamam"
+    },
+    "shareFailed": "Tipingiz yuborildi, lekin asl muallifning ulushi o'tmadi.",
+    "notify": {
+      "duet": "{{name}} videongizga duet qildi",
+      "stitch": "{{name}} videongizdan stitch qildi",
+      "react": "{{name}} videongizga reaksiya qildi",
+      "reactLive": "{{name}} videongizga jonli reaksiya qilmoqda"
+    },
+    "linkFailed": "Postingiz joylandi, lekin uni asl videoga bog'lab bo'lmadi.",
+    "settingsHeading": "Remikslar",
+    "stitch": {
+      "allow": "Stitchlarga ruxsat berish",
+      "allowDesc": "Kim videolaringizdan 5 soniyagacha qismini o'z videosida ishlata oladi. Buni har bir postda ham o'zgartirishingiz mumkin.",
+      "saveFailed": "Stitch sozlamangizni saqlab bo'lmadi. Qayta urinib ko'ring.",
+      "settingFailed": "Postingiz joylandi, lekin stitch sozlamasi saqlanmadi. Uni Postni tahrirlash orqali o'zgartiring.",
+      "from": "{{name}} videosidan stitch",
+      "count_one": "{{count}} ta stitch",
+      "count_other": "{{count}} ta stitch",
+      "listTitle": "Stitchlar",
+      "listFailed": "Stitchlarni yuklab bo'lmadi. Qayta urinib ko'ring.",
+      "listEmpty": "Hali stitchlar yo'q.",
+      "unavailable": "Bu video endi stitchlar uchun mavjud emas."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Hamma",
       "followers": "Obunachilar",
-      "nobody": "Hech kim"
+      "nobody": "Hech kim",
+      "default": "Hisob standarti ({{value}})"
     },
     "heading": "Reaksiyalar",
     "more": "Batafsil ma'lumot",
     "liveNow": "Jonli",
-    "untitled": "Reaksiya"
+    "untitled": "Reaksiya",
+    "reactionTo": "Reaksiya:",
+    "reactingTo": "Reaksiya bildirilmoqda:",
+    "count_one": "{{count}} ta reaksiya",
+    "count_other": "{{count}} ta reaksiya",
+    "allow": "Reaksiyalarga ruxsat berish",
+    "remixesSection": "Remikslar",
+    "allowDescription": "Boshqa ijodkorlarga videolaringizga yozib olingan yoki jonli reaksiya bildirishga ruxsat bering. Buni har bir postda baribir o'zgartirishingiz mumkin.",
+    "pageTitle": "{{title}} ga reaksiyalar — Riftn",
+    "pageDescription": "Riftn'da ijodkorlarning {{creator}} ning “{{title}}” videosiga yozib olingan va jonli reaksiyalarini tomosha qiling.",
+    "backToVideo": "Videoga qaytish",
+    "empty": "Hali reaksiyalar yo'q. Birinchi bo'lish uchun videoning Remiks menyusini oching va Reaksiya ni tanlang.",
+    "wasLive": "Jonli edi",
+    "thisVideo": "bu video"
   },
   "liveClips": {
     "copyLink": "Havolani nusxalash",
-    "linkCopied": "Havola nusxalandi"
+    "linkCopied": "Havola nusxalandi",
+    "button": "Bu lahzani kliplash",
+    "capturing": "Efirning oxirgi daqiqasi olinmoqda…",
+    "failed": "Bu klipni yaratib bo'lmadi.",
+    "highlightTitle": "Eng yaxshi lahza",
+    "length": "{{seconds}} soniyalik klip",
+    "make": "Klip yaratish",
+    "postToShorts": "Shortilarga joylash",
+    "posted": "Klip Shortilarga joylandi",
+    "postedBody": "Klipingiz Shortilarda. Ko'proq odam efirni topishi uchun uni ulashing.",
+    "rendering": "Klipingiz qirqilmoqda. Bu taxminan yarim daqiqa oladi…",
+    "starting": "Klipingiz boshlanmoqda…",
+    "title": "Klip",
+    "titleLabel": "Klip sarlavhasi",
+    "titlePlaceholder": "Klipingizga sarlavha bering",
+    "viewShort": "Shortni ko'rish"
   },
   "liveHype": {
     "gift": {
@@ -15367,16 +16783,65 @@
       "stage": {
         "preparing": "Tayyorlanmoqda…",
         "confirming": "Tranzaksiya kutilmoqda…",
-        "recording": "Yakunlanmoqda…"
-      }
+        "recording": "Yakunlanmoqda…",
+        "wallet": "Hamyoningizda tasdiqlang"
+      },
+      "open": "Obunalarni sovg'a qilish",
+      "title": "Obunalarni sovg'a qilish",
+      "mode": {
+        "random": "Chatdagi tasodifiy tomoshabinlar",
+        "user": "Muayyan kishi"
+      },
+      "randomHint": "So'nggi 30 daqiqada chatda yozgan va hali obuna bo'lmagan odamlarga beriladi.",
+      "send_one": "1 ta obuna sovg'a qilish · ${{price}}",
+      "send_other": "{{count}} ta obuna sovg'a qilish · ${{price}}",
+      "payHint": "Hamyoningizdan tokenlarda bitta o'tkazma bilan to'lanadi.",
+      "fewer_one": "Hozir chatda faqat 1 kishi obuna olishi mumkin, shuning uchun 1 tasi uchun to'laysiz.",
+      "fewer_other": "Hozir chatda faqat {{count}} kishi obuna olishi mumkin, shuning uchun {{count}} tasi uchun to'laysiz.",
+      "done_one": "Obuna sovg'a qilindi!",
+      "done_other": "{{count}} ta obuna sovg'a qilindi!",
+      "failed": "Obunalarni sovg'a qilib bo'lmadi",
+      "notReady": "Bu tarif uchun sovg'a qilish hali mavjud emas",
+      "noPlan": "Avval tarifni tanlang",
+      "noPlans": "{{name}} da hali sovg'a qilish uchun obuna tariflari yo'q."
+    },
+    "train": {
+      "level": "Hype poyezdi · {{level}}-daraja",
+      "endedLevel": "Hype poyezdi {{level}}-darajani yakunladi!",
+      "ended": "Hype poyezdi tugadi",
+      "thanks_one": "{{count}} ta qo'llab-quvvatlovchiga rahmat",
+      "thanks_other": "{{count}} ta qo'llab-quvvatlovchiga rahmat",
+      "top": "Top: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Boshqa",
-    "confirming": "Toʻlov tasdiqlanmoqda…"
+    "confirming": "Toʻlov tasdiqlanmoqda…",
+    "lockPhoto": "Rasmni qulflash",
+    "lockVideo": "Videoni qulflash",
+    "lockOnPrice": "Qulflangan · {{price}} token",
+    "lockCustomLabel": "Tokenlardagi maxsus narx",
+    "lockHint": "Ular sizga to'lamaguncha uni xira ko'radi. Qulflangan fayllar uchidan-uchiga shifrlanmaydi.",
+    "dhbNow": "Bugungi narxda {{dhb}}",
+    "lockCustomUsd": "$ Boshqa",
+    "lockCustomUsdLabel": "Dollardagi maxsus narx",
+    "lockDhbNow": "Bugun ≈ {{dhb}}. Tokenlar qancha turishidan qat'i nazar, ular doim {{price}} to'laydi.",
+    "lockOnUsd": "Qulflangan · {{price}}",
+    "lockedPhoto": "Qulflangan rasm",
+    "lockedVideo": "Qulflangan video",
+    "unlockFor": "{{price}} evaziga ochish",
+    "unlockOnWeb": "riftn.com saytida ochish · {{price}}",
+    "stillConfirming": "To'lov yuborildi. Tasdiqlanishi bilan ochiladi.",
+    "payFailed": "Ochib bo'lmadi",
+    "unlocked": "Ochildi",
+    "unlockedTag": "Ochildi",
+    "notYet": "Hali ochilmagan",
+    "uploading": "Qulflanmoqda…",
+    "unlockedByThem": "Qulflangan {{kind}} ochildi: +{{amount}} token"
   },
   "liveShorts": {
-    "live": "ONALINE"
+    "live": "ONALINE",
+    "join": "Jonli efirga qo'shilish"
   },
   "feedFilters": {
     "clearAllShort": "Hammasini tozalash",
@@ -15385,7 +16850,20 @@
     "groupDate": "Sana",
     "groupSort": "Saralash",
     "groupType": "Turi",
-    "save": "Saqlash"
+    "save": "Saqlash",
+    "clearAll": "Barcha filtrlarni tozalash",
+    "collapse": "Filtrlarni yashirish",
+    "count": "{{count}} ta filtr yoqilgan",
+    "deletePreset": "{{name}}ni o'chirish",
+    "groupAccess": "Kirish",
+    "groupTag": "Teg",
+    "myPresets": "Mening shablonlarim",
+    "presetName": "Shablon nomi",
+    "remove": "{{label}}ni olib tashlash",
+    "saveCurrent": "+ Joriysini saqlash",
+    "savePreset": "Shablon sifatida saqlash",
+    "show": "Filtrlarni ko'rsatish",
+    "updatePreset": "Shablon nomini o'zgartirish"
   },
   "ownKeys": {
     "working": "Ishlamoqda",
@@ -15393,7 +16871,21 @@
     "check": "Tekshirish",
     "remove": "Olib tashlash",
     "save": "Saqlash",
-    "cancel": "Bekor qilish"
+    "cancel": "Bekor qilish",
+    "title": "O'z AI kalitlaringiz",
+    "description": "AI provayderidan kalit qo'shing va Creator vositalari sizning hisobingizda ishlaydi. Riftn bu vazifalar uchun hech narsa olmaydi. Kalitlar shifrlanadi va boshqa ko'rsatilmaydi.",
+    "invalid": "Rad etildi, almashtiring",
+    "noCredit": "Kredit tugagan",
+    "disabled": "Riftn tomonidan o'chirilgan",
+    "saved": "{{name}} kaliti saqlandi. {{name}} dagi vositalar endi sizning hisobingizdan foydalanadi.",
+    "savedNoCredit": "{{name}} kaliti saqlandi, lekin hisobda kredit tugagan.",
+    "removed": "{{name}} kaliti olib tashlandi.",
+    "replaceKey": "Kalitni almashtirish",
+    "add": "Kalit qo'shish",
+    "paste": "{{name}} kalitingizni joylashtiring",
+    "getKey": "{{name}} kalitini olish",
+    "showLess": "Faqat mening kalitlarimni ko'rsatish",
+    "addAnother": "Boshqa provayder qo'shish"
   },
   "postBg": {
     "addMedia": "Rasm, GIF yoki video qo‘shish",
@@ -15407,55 +16899,179 @@
       "drive": "Kechlik Yurishi",
       "chrome": "Suyuq xrom",
       "orbit": "Orbita",
-      "snow": "Qor yog&#39;ishi"
+      "snow": "Qor yog&#39;ishi",
+      "ink": "Siyoh yuvilishi",
+      "news": "Gazeta qog'ozi",
+      "split": "Shom bo'linishi",
+      "blue": "Chizma",
+      "terra": "Terrazzo",
+      "half": "Rastrli pop",
+      "topo": "Kontur",
+      "velvet": "Baxmal",
+      "sorbet": "Sorbet",
+      "carbon": "Karbon",
+      "echo": "Profil aks-sadosi",
+      "cards": "Rang kartalari",
+      "deck": "Naqshlar to'plami",
+      "aurora": "Qutb yog'dusi",
+      "stars": "Yulduzli osmon",
+      "rain": "Oynadagi yomg'ir",
+      "breathe": "Nafas",
+      "spin": "Prizma aylanishi",
+      "tide": "To'lqin",
+      "ember": "Cho'g'lar",
+      "holo": "Golografik folga",
+      "rift": "Rift",
+      "mesh": "To'r",
+      "grain": "Plyonka donadorligi",
+      "ripple": "Mavj",
+      "dotwave": "Nuqtali to'lqin",
+      "scan": "CRT",
+      "silk": "Ipak",
+      "bokeh": "Boke",
+      "photo": "Sizning rasmingiz"
     },
-    "sameAsProfile": "Profil"
+    "sameAsProfile": "Profil",
+    "scope": "Qo'llash",
+    "thisPost": "Shu post",
+    "allPosts": "Barcha postlar",
+    "sameAsProfileSub": "Profilingiz bilan bir xil",
+    "title": "Post foni",
+    "editRow": "Post foni",
+    "hint": "Lentani suring. Postingiz shu zahoti o'zgaradi. Buni faqat siz o'zgartira olasiz.",
+    "moving": "Harakatli",
+    "still": "Harakatsiz",
+    "plain": "Oddiy postlar",
+    "position": "{{n}} / {{total}}",
+    "sample": "Matnli postlaringiz profilingizda shunday ko'rinadi.",
+    "saveFailed": "Foningizni saqlab bo'lmadi. Qayta urinib ko'ring.",
+    "base": "Asos",
+    "accent2": "Urg'u 2",
+    "ownColours": "O'z ranglaringiz"
   },
   "articleTile": {
-    "cover": "Muqova"
+    "cover": "Muqova",
+    "title": "Maqola plitkalari",
+    "dropcap": "Bosh harf",
+    "hint": "Maqolalaringiz profilingiz to'rida shunday ko'rinadi. Buni faqat siz o'zgartira olasiz.",
+    "saveFailed": "Saqlab bo'lmadi. Qayta urinib ko'ring."
   },
   "aiConsent": {
-    "allow": "Ruxsat berish"
+    "allow": "Ruxsat berish",
+    "title": "AI funksiyalaridan foydalanilsinmi?",
+    "body": "Ishlashi uchun AI funksiyalari siz bergan narsalarni (matningiz, rasmlar yoki audio hamda tegishli post yoki chat) Google, OpenAI, Groq, OpenRouter, fal va ElevenLabs kabi uchinchi tomon AI provayderlariga yuboradi. Buni istalgan vaqtda Sozlamalar → Maxfiylik bo'limida o'zgartirishingiz mumkin.",
+    "declined": "AI funksiyalari o'chirilgan. Ularni Sozlamalar → Maxfiylik bo'limida yoqishingiz mumkin.",
+    "settingLabel": "AI funksiyalari",
+    "settingDesc": "Yordamchi, tarjima, tavsiya etilgan javoblar va yozishda yordam siz bergan narsalarni uchinchi tomon AI provayderlariga yuborishiga ruxsat berish."
   },
   "dmRequests": {
     "title": "Soʻrovlar",
     "accept": "Qabul qilish",
     "delete": "Oʻchirish",
-    "block": "Bloklash"
+    "block": "Bloklash",
+    "hint": "Siz kuzatmaydigan odamlardan kelgan xabarlar. Birini qabul qiling, javob bering yoki ularni kuzating — chat kiruvchi xabarlaringizga o'tadi.",
+    "rowHint": "Siz kuzatmaydigan odamlardan {{n}} ta",
+    "banner": "Siz {{name}}ni kuzatmaysiz. Bu chatni kiruvchi xabarlarga o'tkazish uchun qabul qiling yoki shunchaki javob bering.",
+    "accepted": "Kiruvchi xabarlarga o'tkazildi",
+    "acceptFailed": "Qabul qilib bo'lmadi, qayta urinib ko'ring"
   },
   "dmSchedule": {
     "view": "Koʻrish",
     "edit": "Tahrirlash",
     "editLabel": "Xabarni tahrirlash",
-    "error": "Bu ish bermadi. Qaytadan urinib ko'ring."
+    "error": "Bu ish bermadi. Qaytadan urinib ko'ring.",
+    "button": "Xabarni rejalashtirish",
+    "title": "Rejalashtirilgan xabarlar",
+    "whenTitle": "Qachon yuborilsin?",
+    "waiting": "{{n}} ta rejalashtirilgan",
+    "next": "keyingisi {{when}}",
+    "failedCount": "{{n}} ta yuborilmadi",
+    "notSent": "Yuborilmadi",
+    "emptyTitle": "Hech narsa rejalashtirilmagan",
+    "emptyBody": "Xabar yozing, so'ng qachon yuborilishini tanlash uchun soatchani bosing.",
+    "changeTime": "Vaqtni o'zgartirish",
+    "sendNow": "Hozir yuborish",
+    "deleted": "Rejalashtirilgan xabar o'chirildi",
+    "unreadable": "Boshqa qurilmada yozilgan. Baribir yuboriladi.",
+    "footnote": "Vaqtlar sizning vaqt mintaqangizda. Xabar yuborilmaguncha uni hech kim ko'rmaydi.",
+    "footnoteNamed": "Vaqtlar sizning vaqt mintaqangizda. {{name}} xabarni faqat u yuborilgandan keyin ko'radi.",
+    "textOnly": "Hozircha faqat matnli xabarlarni rejalashtirish mumkin.",
+    "scheduledToast": "{{when}} ga rejalashtirildi",
+    "failedToast": "Rejalashtirilgan xabarni yuborib bo'lmadi"
   },
   "chatBulk": {
     "selected": "{{count}} tanlangan",
     "cancel": "Bekor qilish",
     "reply": "Javob",
-    "delete": "Oʻchirish"
+    "delete": "Oʻchirish",
+    "select": "Tanlash",
+    "toolbar": "Tanlangan chatlar",
+    "pick": "Tanlash uchun chatlarni bosing",
+    "read": "O'qilgan deb belgilash",
+    "unread": "O'qilmagan deb belgilash",
+    "replyTitle_one": "{{count}} ta chatga javob berish",
+    "replyTitle_other": "{{count}} ta chatga javob berish",
+    "replyHint": "Har bir kishi buni o'z chatida oddiy xabar sifatida oladi.",
+    "replyPlaceholder": "Xabar yozing…",
+    "sendAll": "{{count}} tasiga yuborish",
+    "deleted_one": "{{count}} ta chat o'chirildi",
+    "deleted_other": "{{count}} ta chat o'chirildi",
+    "sent_one": "{{count}} ta chatga yuborildi",
+    "sent_other": "{{count}} ta chatga yuborildi",
+    "partSent": "{{total}} ta chatdan {{ok}} tasiga yuborildi",
+    "notSent": "Yuborib bo'lmadi. Qayta urinib ko'ring."
   },
   "msgSelect": {
     "selected": "{{count}} tanlangan",
     "copy": "Nusxalash",
     "forward": "Uzatish",
     "deleted_one": "O'chirilgan {{count}} xabarnoma",
-    "deleted_other": "O'chirilgan {{count}} xabarlar"
+    "deleted_other": "O'chirilgan {{count}} xabarlar",
+    "toolbar": "Tanlangan xabarlar",
+    "pick": "Tanlash uchun xabarlarni bosing",
+    "deleteSome": "{{count}} tasini o'chirish",
+    "forwarded_one": "{{count}} ta xabar uzatildi",
+    "forwarded_other": "{{count}} ta xabar uzatildi",
+    "partForwarded": "{{total}} tadan {{ok}} tasi uzatildi",
+    "nothingToCopy": "Tanlangan xabarlarda nusxalanadigan narsa yo'q",
+    "copied_one": "{{count}} ta xabar nusxalandi",
+    "copied_other": "{{count}} ta xabar nusxalandi",
+    "deleteTitle_one": "{{count}} ta xabar o'chirilsinmi?",
+    "deleteTitle_other": "{{count}} ta xabar o'chirilsinmi?",
+    "deleteBody": "Ular bu chatdagi hamma uchun o'chiriladi.",
+    "deleteForBothBody": "Ular ikkalangiz uchun o'chiriladi."
   },
   "messagesTabs": {
-    "all": "Hammasi"
+    "all": "Hammasi",
+    "unread": "O'qilmagan",
+    "groups": "Guruhlar"
   },
   "mentionLinks": {
     "communities": "Hamjamiyatlar",
     "pages": "Sahifalar",
-    "people": "Odamlar"
+    "people": "Odamlar",
+    "linkTo": "{{name}} ni bog'lash"
   },
   "resetWallet": {
     "mismatch": "Parollar mos kelmaydi",
     "logOut": "Chiqish",
     "confirm": "Parolni tasdiqlash",
     "ack": "Men eski mablaglarim eski hamyonda qolishini tushundim.",
-    "cancel": "Bekor qilish"
+    "cancel": "Bekor qilish",
+    "tooShort": "Parol kamida {{count}} belgidan iborat bo'lishi kerak",
+    "breached": "Bu parol ma'lumotlar sizib chiqishida paydo bo'lgan. Boshqasini tanlang",
+    "weak": "Kuchliroq parol tanlang (harflar, raqamlar va belgilarni aralashtiring)",
+    "doneTitle": "Hisobingiz yangi hamyonda",
+    "twoFactor": "Hisobingizni ko'chirish uchun autentifikator ilovasidagi kodni kiriting.",
+    "failed": "Hamyoningizni tiklab bo'lmadi. Hech narsa ko'chirilmadi. Qayta urinib ko'ring.",
+    "title": "Hamyonni tiklash",
+    "reloginApp": "Tiklash eski hamyon bilan emas, hisobingizning email, telefon yoki Google orqali kirishi bilan tasdiqlanadi, chunki eski kalitga ega har kim ham imzolay oladi. Chiqing, o'sha usul bilan qayta kiring, so'ng shu yerga qayting. Kirish uchun email hali yo'qmi? Avval riftn.com saytida Sozlamalar → Kirish bo'limida qo'shing.",
+    "intro": "Yangi Riftn hamyonini yaratadi va foydalanuvchi nomingiz, postlaringiz, obunachilaringiz va xabarlaringizni unga ko'chiradi. Hamyoningiz yo'qolgan bo'lsa yoki uning kaliti boshqa birovda bo'lsa, shundan foydalaning. Eski hamyon bilan endi kirib bo'lmaydi.",
+    "funds": "Tokenlar, NFT'lar va boshqa balanslar ko'chmaydi. Ular eski manzilda qoladi. Agar eski hamyonni hali ocha olsangiz, avval ularni chiqarib oling.",
+    "password": "Yangi hamyon paroli (kamida {{count}} belgi)",
+    "twoFactorPlaceholder": "Autentifikator kodi",
+    "submit": "Hamyonni tiklash",
+    "rowDesc": "Hamyoningizni yo'qotdingizmi yoki uning kaliti boshqa birovdami? Hisobingizni yangi hamyonga ko'chiring. Foydalanuvchi nomingiz, postlaringiz va obunachilaringiz siz bilan birga o'tadi."
   },
   "chatTabs": {
     "all": "Hammasi",
@@ -15471,6 +17087,101 @@
     "requests": "Soʻrovlar",
     "sCreators": "Ijodkorlar",
     "sGaming": "Oʻyinlar",
-    "sTrading": "Savdo"
+    "sTrading": "Savdo",
+    "addChats": "Chatlar qo'shish",
+    "addToTab": "Tabga qo'shish",
+    "addedTo": "{{name}} ga qo'shildi",
+    "builtIn": "O'rnatilgan",
+    "chatCount": "{{n}} ta chat",
+    "chatsInTab": "Bu tabdagi chatlar",
+    "create": "Tab yaratish",
+    "delete": "Tabni o'chirish",
+    "deleteBody": "Tab yo'qoladi. Uning chatlari Barchasi bo'limida qoladi va xabarlari saqlanadi.",
+    "deleteTitle": "“{{name}}” o'chirilsinmi?",
+    "deleted": "{{name}} o'chirildi",
+    "edit": "Tablarni tahrirlash",
+    "editHintApp": "Tartibini o'zgartirish uchun strelkalardan foydalaning. Yashirilgan tablar chatlarini saqlab qoladi.",
+    "editTab": "Tabni tahrirlash",
+    "emoji": "Emoji tanlang",
+    "emptyBody": "Chatlarni shu yerga qo'shing, ular Barchasi bo'limida ham qoladi.",
+    "emptyTitle": "{{name}} bo'sh",
+    "hide": "Tabni yashirish",
+    "kindChannel": "Kanal",
+    "moveLeft": "Chapga surish",
+    "moveRight": "O'ngga surish",
+    "namePlaceholder": "Tab nomi",
+    "new": "Yangi tab",
+    "newWith": "Yangi tab…",
+    "noEmoji": "Emoji yo'q",
+    "picked": "{{n}} ta tanlandi",
+    "removedFrom": "{{name}} dan olib tashlandi",
+    "renameEdit": "Nomini o'zgartirish va tahrirlash",
+    "sFriends": "Do'stlar",
+    "sWork": "Ish",
+    "saveFailed": "Tablaringizni saqlab bo'lmadi, qayta urinib ko'ring",
+    "show": "Tabni ko'rsatish",
+    "tooMany": "Ko'pi bilan 10 ta tab bo'lishi mumkin"
+  },
+  "chatReactions": {
+    "many_one": "Xabarlaringizga {{count}} ta reaksiya",
+    "many_other": "Xabarlaringizga {{count}} ta reaksiya",
+    "manySame_one": "Xabarlaringizda {{emoji}} × {{count}}",
+    "manySame_other": "Xabarlaringizda {{emoji}} × {{count}}",
+    "one": "Xabaringizga {{emoji}} bilan reaksiya bildirdi",
+    "oneNamed": "{{name}} xabaringizga {{emoji}} bilan reaksiya bildirdi"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Post saqlanib qoladi.",
+      "onBody": "Post joylangandan {{value1}} o'tib o'zini o'chiradi."
+    }
+  },
+  "accountDeactivation": {
+    "title": "Hisobni faolsizlantirish",
+    "short": "Profilingizni hozircha yashiring. Tiklash uchun qayta kiring",
+    "description": "Buning o'rniga tanaffus qiling. Profilingiz, postlaringiz va izohlaringiz yashiriladi va hamma joydan chiqarilasiz. Hech narsa o'chirilmaydi, qayta kirsangiz hammasi qaytadi.",
+    "button": "Faolsizlantirish",
+    "confirmTitle": "Hisobingizni faolsizlantirasizmi?",
+    "confirmBody": "Profilingiz, postlaringiz va izohlaringiz yashiriladi va barcha qurilmalardan chiqarilasiz. Buni bekor qilish uchun istalgan vaqtda qayta kiring.",
+    "busy": "Faolsizlantirilmoqda…",
+    "done": "Hisob faolsizlantirildi",
+    "receipt": "Profilingiz, postlaringiz va izohlaringiz yashirildi. Hammasini qaytarish uchun istalgan vaqtda qayta kiring.",
+    "error": "Hisobingizni faolsizlantirib bo'lmadi. Iltimos, qayta urinib ko'ring.",
+    "acknowledge": "Profilim yashirilishini va hamma joydan chiqarilishimni tushunaman.",
+    "understand": "Tushunaman"
+  },
+  "halloween": {
+    "title": "Xellouin muborak",
+    "otherThemes": "Qo'rqinchli kayfiyatda emasmisiz? Boshqa mavzularni toping:",
+    "enter": "Zindonga kirish"
+  },
+  "riftnMove": {
+    "title": "DeHub endi Riftn",
+    "body": "O'sha ilova, o'sha hisob, o'sha do'stlar. Faqat yangi nom.",
+    "continue": "Davom etish uchun bosing"
+  },
+  "dmSafety": {
+    "notReal": "Bu haqiqiy {{name}} emas.",
+    "neverLink": "Riftn jamoasi profilingiz yoki hamyoningizni tuzatish uchun sizga hech qachon shaxsiy xabarda havola yubormaydi. Havolalarni ochmang, hamyoningizni ulamang va hech narsani imzolamang. Bu hisobni bloklang va shikoyat qiling."
+  },
+  "profileImage": {
+    "change": "O'zgartirish"
+  },
+  "msgDelete": {
+    "title": "Xabar o'chirilsinmi?",
+    "titleMany": "{{count}} ta xabar o'chirilsinmi?",
+    "bodyOwn": "Uni faqat o'z chatingizdan yoki hamma uchun o'chiring.",
+    "bodyOwnMany": "Ularni faqat o'z chatingizdan yoki hamma uchun o'chiring.",
+    "bodyOthers": "U faqat sizning chatingizdan o'chiriladi. Boshqa odam uni ko'rishda davom etadi.",
+    "bodyOthersMany": "Ular faqat sizning chatingizdan o'chiriladi. Chatdagi boshqalar ularni ko'rishda davom etadi.",
+    "bodyOwnBoth": "Uni faqat o'z chatingizdan yoki ikkalangiz uchun o'chiring.",
+    "bodyOwnBothMany": "Ularni faqat o'z chatingizdan yoki ikkalangiz uchun o'chiring.",
+    "forMe": "Men uchun o'chirish",
+    "forEveryone": "Hamma uchun o'chirish",
+    "forBoth": "Ikkalamiz uchun o'chirish",
+    "forMeAndName": "Men va {{name}} uchun o'chirish",
+    "remember": "Tanlovimni eslab qolish",
+    "rememberHint": "Buni istalgan vaqtda Sozlamalarda o'zgartiring",
+    "failed": "Xabarni o'chirib bo'lmadi"
   }
 }

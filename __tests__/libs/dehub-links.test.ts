@@ -8,9 +8,25 @@ import {
   stripDehubLinks,
   stripDehubLinkMatches,
   dehubLinkLabel,
+  previewLinks,
 } from '../../libs/dehub-links';
 
 describe('parseDehubLink', () => {
+  it('reads the share link of a post that is not minted yet', () => {
+    expect(parseDehubLink('https://riftn.com/newpost/4821?ref=AB12')).toMatchObject({
+      kind: 'post',
+      newPostId: '4821',
+    });
+    expect(parseDehubLink('https://riftn.com/newpost/abc')).toBeNull();
+    expect(findDehubLink('look at this\nhttps://riftn.com/newpost/7')).toMatchObject({ kind: 'post', newPostId: '7' });
+  });
+
+  it('reads the short post link and its thread tail', () => {
+    expect(parseDehubLink('https://riftn.com/posts/12')).toMatchObject({ kind: 'post', tokenId: '12' });
+    expect(parseDehubLink('https://riftn.com/posts/12/b/55')).toMatchObject({ kind: 'post', tokenId: '12', commentId: '55' });
+    expect(parseDehubLink('https://riftn.com/posts/12/x')).toBeNull();
+  });
+
   it('reads a post link', () => {
     expect(parseDehubLink('https://dehub.io/app/post/12345')).toMatchObject({
       kind: 'post',
@@ -431,5 +447,19 @@ describe('feature request and page links', () => {
     expect(parseDehubLink('https://riftn.com/app/not-a-page')).toBeNull();
     expect(parseDehubLink('/app/leaderboard')).toBeNull();
     expect(parseDehubLink('https://evil.example/app/leaderboard')).toBeNull();
+  });
+});
+
+describe('previewLinks', () => {
+  it('shows old dehub.io links as riftn.com', () => {
+    expect(previewLinks('https://dehub.io/app/leaderboard')).toBe('https://riftn.com/app/leaderboard');
+    expect(previewLinks('look https://www.dehub.io/app/x?y=1 ok')).toBe('look https://riftn.com/app/x?y=1 ok');
+    expect(previewLinks('visit dehub.io.')).toBe('visit riftn.com.');
+  });
+
+  it('leaves subdomains, emails and lookalikes alone', () => {
+    for (const s of ['https://staging.dehub.io/x', 'me@dehub.io', 'notdehub.io', 'dehub.io.evil.com', 'https://riftn.com/app']) {
+      expect(previewLinks(s)).toBe(s);
+    }
   });
 });
