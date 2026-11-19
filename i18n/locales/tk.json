@@ -15311,6 +15311,9 @@
     "cancel": "Ýatyr"
   },
   "postBg": {
+    "addMedia": "Surat, GIF ýa-da wideo goş",
+    "changeMedia": "Suraty, GIF-i ýa-da wideony üýtget",
+    "videoSize": "Bu wideo {{n}} MB-dan uly. Kiçiräk birini saýlaň.",
     "none": "Hiç biri",
     "yours": "Seniňki",
     "accent": "Aktsent",

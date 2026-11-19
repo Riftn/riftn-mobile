@@ -15525,6 +15525,9 @@
     "cancel": "Kanselleer"
   },
   "postBg": {
+    "addMedia": "Voeg 'n prent, GIF of video by",
+    "changeMedia": "Verander prent, GIF of video",
+    "videoSize": "Daardie video is groter as {{n}} MB. Kies 'n kleiner een.",
     "none": "Geen",
     "yours": "Joue",
     "accent": "Aksent",

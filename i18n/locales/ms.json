@@ -15595,6 +15595,9 @@
     "cancel": "Batal"
   },
   "postBg": {
+    "addMedia": "Tambah gambar, GIF atau video",
+    "changeMedia": "Tukar gambar, GIF atau video",
+    "videoSize": "Video itu melebihi {{n}} MB. Pilih yang lebih kecil.",
     "none": "Tiada",
     "yours": "Milik anda",
     "accent": "Aksen",

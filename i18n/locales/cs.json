@@ -15355,6 +15355,9 @@
     "cancel": "Zrušit"
   },
   "postBg": {
+    "addMedia": "Přidat obrázek, GIF nebo video",
+    "changeMedia": "Změnit obrázek, GIF nebo video",
+    "videoSize": "Toto video má přes {{n}} MB. Vyberte menší.",
     "none": "Žádný",
     "yours": "Vaše",
     "accent": "Znaková úprava",

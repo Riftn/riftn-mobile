@@ -2,6 +2,9 @@ import React, { createContext, memo, useContext, useEffect, useId, useMemo, useR
 import { useAmbientMotion } from "../../hooks/useAmbientMotion";
 import { StyleSheet, View, type LayoutChangeEvent } from "react-native";
 import { Image } from "expo-image";
+import { VideoView, useVideoPlayer } from "expo-video";
+import { useSilenceOnRelease } from "../../hooks/useSilenceOnRelease";
+import { shareAudioWhenSilent } from "../../libs/videoAudioMixing";
 import Animated, {
   Easing,
   cancelAnimation,
@@ -29,7 +32,7 @@ import Svg, {
   Stop,
 } from "react-native-svg";
 import { isLowEndDevice } from "../../libs/deviceTier";
-import { parsePostBg, postBgVariant, type PostBg, type PostBgPalette } from "../../libs/postBackgrounds";
+import { parsePostBg, postBgIsVideo, postBgVariant, type PostBg, type PostBgPalette } from "../../libs/postBackgrounds";
 import BlurSafeImage from "../common/BlurSafeImage";
 
 /**
@@ -334,11 +337,28 @@ function Still({ id, c, n = 0, art }: { id: string; c: PostBgPalette; n?: number
   }
 }
 
-/** Your own picture or GIF, under a scrim so the words always read. */
-function Photo({ uri }: { uri: string }) {
+/** Your own video as a silent loop. Plays only while `active`; holds its first frame otherwise. */
+function VideoLoop({ uri, active }: { uri: string; active: boolean }) {
+  const player = useVideoPlayer(uri, (p) => {
+    shareAudioWhenSilent(p);
+    p.loop = true;
+    p.muted = true;
+  });
+  useSilenceOnRelease(player);
+  useEffect(() => {
+    if (active) player.play();
+    else player.pause();
+  }, [active, player]);
+  return <VideoView player={player} style={svgFill} contentFit="cover" nativeControls={false} allowsPictureInPicture={false} />;
+}
+
+/** Your own picture, GIF or video, under a scrim so the words always read. */
+function Photo({ uri, active }: { uri: string; active: boolean }) {
   return (
     <View style={[fill, { backgroundColor: "#111" }]}>
-      <Image source={{ uri }} contentFit="cover" cachePolicy="memory-disk" style={svgFill} autoplay />
+      {postBgIsVideo(uri)
+        ? <VideoLoop uri={uri} active={active && !still} />
+        : <Image source={{ uri }} contentFit="cover" cachePolicy="memory-disk" style={svgFill} autoplay />}
       <Lin stops={[[0, "#000", 0.42], [0.4, "#000", 0.22], [1, "#000", 0.5]]} />
     </View>
   );
@@ -979,7 +999,7 @@ export const PostBgLayer = memo(function PostBgLayer({ bg, active = true, seed }
   return (
     <View pointerEvents="none" style={[fill, { overflow: "hidden" }]} onLayout={Moving ? onLayout : undefined}>
       {bg.kind === "photo"
-        ? (bg.image ? <Photo uri={bg.image} /> : null)
+        ? (bg.image ? <Photo uri={bg.image} active={active && ambient} /> : null)
         : Moving
           ? (size ? <Moving key={colors.join()} c={colors} w={size.w} h={size.h} active={active && ambient} /> : null)
           : <Still id={bg.id} c={colors} n={postBgVariant(seed ?? own, 8)} art={art} />}

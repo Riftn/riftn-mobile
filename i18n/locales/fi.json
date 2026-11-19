@@ -15356,6 +15356,9 @@
     "cancel": "Peruuta"
   },
   "postBg": {
+    "addMedia": "Lisää kuva, GIF tai video",
+    "changeMedia": "Vaihda kuva, GIF tai video",
+    "videoSize": "Video on yli {{n}} Mt. Valitse pienempi.",
     "none": "Ei mitään",
     "yours": "Sinun",
     "accent": "Kirjaimet",

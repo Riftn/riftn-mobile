@@ -15351,6 +15351,9 @@
     "cancel": "Tühista"
   },
   "postBg": {
+    "addMedia": "Lisa pilt, GIF või video",
+    "changeMedia": "Muuda pilti, GIF-i või videot",
+    "videoSize": "See video on üle {{n}} MB. Vali väiksem.",
     "none": "Mitte ühtegi",
     "yours": "Sinu omad",
     "accent": "Aktsent",

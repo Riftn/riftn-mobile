@@ -16684,6 +16684,9 @@
     "addAnother": "Ajouter un autre fournisseur"
   },
   "postBg": {
+    "addMedia": "Ajouter une image, un GIF ou une vidéo",
+    "changeMedia": "Changer l'image, le GIF ou la vidéo",
+    "videoSize": "Cette vidéo dépasse {{n}} Mo. Choisissez-en une plus petite.",
     "title": "Fond des publications",
     "editRow": "Fond des publications",
     "hint": "Fais défiler la bande. Ta publication change au fur et à mesure. Toi seul peux le modifier.",
@@ -16736,8 +16739,6 @@
     "accent": "Accent",
     "accent2": "Accent 2",
     "ownColours": "Vos propres couleurs",
-    "addPhoto": "Ajouter une image ou un GIF",
-    "changePhoto": "Changer l'image ou le GIF"
   },
   "riftnMove": {
     "title": "DeHub devient Riftn",

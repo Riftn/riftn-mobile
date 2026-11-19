@@ -15295,6 +15295,9 @@
     "cancel": "بىكار قىلىش"
   },
   "postBg": {
+    "addMedia": "رەسىم، GIF ياكى سىن قوشۇش",
+    "changeMedia": "رەسىم، GIF ياكى سىننى ئالماشتۇرۇش",
+    "videoSize": "بۇ سىن {{n}} MB دىن چوڭ. كىچىكرەكىنى تاللاڭ.",
     "none": "يوق",
     "yours": "Sizning qismingiz",
     "accent": "Tayyorlash",

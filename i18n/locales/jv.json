@@ -15307,6 +15307,9 @@
     "cancel": "Batal"
   },
   "postBg": {
+    "addMedia": "Tambah gambar, GIF, utawa video",
+    "changeMedia": "Ganti gambar, GIF, utawa video",
+    "videoSize": "Video kuwi luwih saka {{n}} MB. Pilih sing luwih cilik.",
     "none": "Ora ana",
     "yours": "Duwekmu",
     "accent": "Aksen",

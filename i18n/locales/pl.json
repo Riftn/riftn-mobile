@@ -15474,6 +15474,9 @@
     "cancel": "Anuluj"
   },
   "postBg": {
+    "addMedia": "Dodaj obraz, GIF lub film",
+    "changeMedia": "Zmień obraz, GIF lub film",
+    "videoSize": "Ten film ma ponad {{n}} MB. Wybierz mniejszy.",
     "none": "Brak",
     "yours": "Twoje",
     "accent": "Akcent",

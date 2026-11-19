@@ -16679,6 +16679,9 @@
     "addAnother": "Başka sağlayıcı ekle"
   },
   "postBg": {
+    "addMedia": "Resim, GIF veya video ekle",
+    "changeMedia": "Resmi, GIF'i veya videoyu değiştir",
+    "videoSize": "Bu video {{n}} MB'tan büyük. Daha küçük bir tane seç.",
     "title": "Gönderi arka planı",
     "editRow": "Gönderi arka planı",
     "hint": "Şeridi kaydır. Gönderin sen ilerledikçe değişir. Bunu yalnızca sen değiştirebilirsin.",
@@ -16731,8 +16734,6 @@
     "accent": "Vurgu",
     "accent2": "Vurgu 2",
     "ownColours": "Kendi renklerin",
-    "addPhoto": "Resim veya GIF ekle",
-    "changePhoto": "Resmi veya GIF'i değiştir"
   },
   "riftnMove": {
     "title": "DeHub artık Riftn",

@@ -15355,6 +15355,9 @@
     "cancel": "Khansela"
   },
   "postBg": {
+    "addMedia": "Engeza isithombe, i-GIF noma ividiyo",
+    "changeMedia": "Shintsha isithombe, i-GIF noma ividiyo",
+    "videoSize": "Leyo vidiyo idlula u-{{n}} MB. Khetha encane.",
     "none": "Akukho",
     "yours": "Okwakho",
     "accent": "Uphawu lokugcizelela",

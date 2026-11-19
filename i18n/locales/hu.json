@@ -15345,6 +15345,9 @@
     "cancel": "Mégse"
   },
   "postBg": {
+    "addMedia": "Kép, GIF vagy videó hozzáadása",
+    "changeMedia": "Kép, GIF vagy videó cseréje",
+    "videoSize": "Ez a videó nagyobb {{n}} MB-nál. Válassz kisebbet.",
     "none": "Egyik sem",
     "yours": "Tiéd",
     "accent": "Ékezet",

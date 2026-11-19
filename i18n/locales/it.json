@@ -15495,6 +15495,9 @@
     "cancel": "Annulla"
   },
   "postBg": {
+    "addMedia": "Aggiungi un'immagine, una GIF o un video",
+    "changeMedia": "Cambia immagine, GIF o video",
+    "videoSize": "Questo video supera i {{n}} MB. Scegline uno più piccolo.",
     "none": "Nessuno",
     "yours": "Tuoi",
     "accent": "Accento",

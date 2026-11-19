@@ -16621,6 +16621,9 @@
     "addAnother": "Add another provider"
   },
   "postBg": {
+    "addMedia": "Add a picture, GIF or video",
+    "changeMedia": "Change picture, GIF or video",
+    "videoSize": "That video is over {{n}} MB. Pick a smaller one.",
     "title": "Post background",
     "editRow": "Post background",
     "hint": "Swipe the strip. Your post changes as you go. Only you can change this.",
@@ -16636,8 +16639,6 @@
     "accent": "Accent",
     "accent2": "Accent 2",
     "ownColours": "Your own colours",
-    "addPhoto": "Add a picture or GIF",
-    "changePhoto": "Change picture or GIF",
     "names": {
       "ink": "Ink Wash",
       "news": "Newsprint",

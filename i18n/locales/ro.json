@@ -15355,6 +15355,9 @@
     "cancel": "Anulează"
   },
   "postBg": {
+    "addMedia": "Adaugă o imagine, un GIF sau un videoclip",
+    "changeMedia": "Schimbă imaginea, GIF-ul sau videoclipul",
+    "videoSize": "Videoclipul depășește {{n}} MB. Alege unul mai mic.",
     "none": "Niciuna",
     "yours": "Ale tale",
     "names": {

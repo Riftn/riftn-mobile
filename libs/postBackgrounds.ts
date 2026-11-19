@@ -85,13 +85,13 @@ const DEFS: readonly Def[] = [
   { id: "bokeh", name: "Bokeh", kind: "moving", palettes: [P("#0a0812", "#ffb35c", "#ff6fb5"), P("#08080a", "#ffffff", "#a8adb8"), P("#040c14", "#4fd1ff", "#8c7cff"), P("#0c0f05", "#d9ff6b", "#ffd36b")] },
   { id: "snow", name: "Snowfall", kind: "moving", palettes: [P("#0a1220", "#ffffff", "#9fb6d9"), P("#050506", "#ffffff", "#8a8a90"), P("#120a1c", "#ffe9f6", "#b89be0"), P("#04120e", "#eafff7", "#7fd4b8")] },
 
-  // The owner"s own picture or GIF.
+  // The owner"s own picture, GIF or video.
   { id: POST_BG_PHOTO_ID, name: "Your photo", kind: "photo", tone: "dark", palettes: [] },
 ];
 
 const HEX = /^#[0-9a-f]{6}$/i;
-/** Our own upload keys only: postbgs/<wallet>-<hash>.<jpg|webp>. */
-const IMAGE_KEY = /^postbgs\/0x[0-9a-f]{40}-[0-9a-f]{8,64}\.(?:jpg|webp)$/;
+/** Our own upload keys only: postbgs/<wallet>-<hash>.<jpg|webp|mp4>. */
+const IMAGE_KEY = /^postbgs\/0x[0-9a-f]{40}-[0-9a-f]{8,64}\.(?:jpg|webp|mp4)$/;
 const CDN_BASE = "https://dehubcdn.ams3.cdn.digitaloceanspaces.com/";
 
 function luminance(hex: string): number {
@@ -147,6 +147,14 @@ export function withPostBgColors(bg: PostBg, colors: PostBgPalette | null | unde
 export function postBgPaletteIndex(bg: PostBg | null): number {
   if (!bg?.colors) return 0;
   return bg.palettes.findIndex((p) => samePalette(p, bg.colors!));
+}
+
+/**
+ * The owner's own backdrop is a video loop: one of our .mp4 uploads, a
+ * just-picked local video, or a web preview (blob: URL tagged "#video").
+ */
+export function postBgIsVideo(url: string | null | undefined): boolean {
+  return !!url && (/\.(?:mp4|mov|m4v|webm|3gp|mkv)(?:[?#]|$)/i.test(url) || /^blob:.*#video$/.test(url));
 }
 
 export function postBgImageUrl(key: unknown, cdnBase = CDN_BASE): string | null {
