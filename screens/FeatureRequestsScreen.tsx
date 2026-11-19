@@ -801,7 +801,7 @@ const PromptComposer: React.FC<{
         <Text style={styles.fieldLabel}>{t("features.categoryLabel")}</Text>
         <View style={styles.catWrap}>{CATEGORY_KEYS.map(key => <Pressable key={key} onPress={() => setCategory(key)} disabled={submitting}
           accessibilityRole="button" accessibilityState={{ selected: category === key }} style={[styles.sheetChip, category === key && styles.sheetChipActive]}>
-          <Text style={[styles.sheetChipText, category === key && styles.sheetChipTextActive]}>{t(CATEGORY_I18N[key])}</Text>
+          <Text style={[styles.sheetChipText, category === key && styles.sheetChipTextActive]}>{category === key ? "✓ " : ""}{t(CATEGORY_I18N[key])}</Text>
         </Pressable>)}</View>
         <Text style={styles.fieldLabel}>{t("features.promptDevice", "Device & OS (for bugs)")}</Text>
         <TextInput value={device} onChangeText={setDevice} maxLength={DEVICE_MAX} editable={!submitting} style={styles.input} />
@@ -1628,7 +1628,9 @@ const styles = StyleSheet.create({
   },
   sheetChipActive: { backgroundColor: "#FFFFFF" },
   sheetChipText: { color: "#A1A1AA", fontSize: 12, fontWeight: "500", flexShrink: 0 },
-  sheetChipTextActive: { color: "#000000" },
+  // Themes with a control material repaint every neutral pill the same, so
+  // the picked one would read like the rest. The tick and weight survive it.
+  sheetChipTextActive: { color: "#000000", fontWeight: "700" },
 
   pickGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginBottom: 8 },
   pickTile: {
