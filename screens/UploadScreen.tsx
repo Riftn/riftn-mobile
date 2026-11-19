@@ -137,6 +137,7 @@ import { uploadState } from "../store/upload.store";
 import { postLandingActions } from "../libs/postLanding";
 import type { PostLandingStyle } from "../libs/postLandingStyle";
 import CrossPostPicker, { CrossPostButton, useCrossPostAccountCount } from "../components/Upload/CrossPostPicker";
+import MultiPostSheet from "../components/Upload/MultiPostSheet";
 import { crossPostState } from "../libs/crosspost-store";
 import QuotedPostEmbed from "../components/common/QuotedPostEmbed";
 import { enhanceText } from "../services/ai.service";
@@ -1252,6 +1253,8 @@ export default function UploadScreen() {
   const composerSchedule = isLiveMode ? (liveSettings.scheduleEnabled ? liveSettings.scheduledDate : null) : scheduledDate;
   const scheduleTitle = isStageMode ? t("stages.scheduleStage") : isLiveMode ? t("upload.scheduleLivestream") : t("upload.schedulePostTitle");
   const [crossPostOpen, setCrossPostOpen] = useState(false);
+  // Multi-post set up opens over the composer, so the post is never left.
+  const [crossPostSetupOpen, setCrossPostSetupOpen] = useState(false);
 
   const soundtrackEnabled =
     !isLiveMode && !isQuoteMode && (mediaMode === "video" || mediaMode === "images");
@@ -2774,7 +2777,7 @@ export default function UploadScreen() {
           )}
 
           {crossPostOpen && visibility === "public" && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode && (
-            <CrossPostPicker onManage={() => nav.navigate(ScreenNames.AccountSettings, { initialTab: "multipost" })} />
+            <CrossPostPicker onManage={() => setCrossPostSetupOpen(true)} />
           )}
 
           <View className="mt-3">
@@ -4013,11 +4016,13 @@ export default function UploadScreen() {
               menuItem
               open={crossPostOpen}
               onToggle={() => { setShowPostOptions(false); setCrossPostOpen(v => !v); }}
-              onManage={() => { setShowPostOptions(false); nav.navigate(ScreenNames.AccountSettings, { initialTab: "multipost" }); }}
+              onManage={() => { setShowPostOptions(false); setCrossPostSetupOpen(true); }}
             />
           )}
         </View>
       </GlassModal>
+
+      <MultiPostSheet visible={crossPostSetupOpen} onClose={() => { setCrossPostSetupOpen(false); setCrossPostOpen(true); }} />
 
       <CategoryDrawer
         visible={categoryOpen}
