@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { usePoll, useVoteOnPoll, useRemovePollVote, useClosePoll } from "../../hooks/usePolls";
 import { useUser } from "../../context/AuthContext";
+import { usePollTranslation } from "../../hooks/usePollTranslation";
 
 function formatRelativeTime(iso: string, t: TFunction): string {
   const diffMs = new Date(iso).getTime() - Date.now();
@@ -22,14 +23,17 @@ function formatRelativeTime(iso: string, t: TFunction): string {
 interface PollCardProps {
   tokenId: number;
   pollOwnerAddress?: string;
+  /** Translate the question and options into the reader's language. Off for private (direct message) polls. */
+  autoTranslate?: boolean;
 }
 
-const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress }) => {
+const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress, autoTranslate = true }) => {
   const { t } = useTranslation();
   const { poll, loading, refetch } = usePoll(tokenId);
   const { vote, loading: voting } = useVoteOnPoll();
   const { removeVote, loading: removing } = useRemovePollVote();
   const { closePoll, loading: closing } = useClosePoll();
+  const translatedPoll = usePollTranslation(tokenId, poll?.question, poll?.options, autoTranslate && !!poll);
   const user = useUser();
 
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
@@ -152,7 +156,7 @@ const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress }) => {
       {/* Header */}
       <View className="flex-row items-start justify-between mb-2">
         <Text className="text-white font-medium text-sm flex-1 mr-2">
-          {poll.question}
+          {translatedPoll?.question ?? poll.question}
           {/* The footer already says "Ended 1 day ago"; say it once. Kept
               when the poll was closed early or has no end time. */}
           {isEnded && !endedByTime && (
@@ -226,7 +230,7 @@ const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress }) => {
                     className={`text-sm flex-shrink ${isVoted || won ? "text-white font-medium" : "text-zinc-300"}`}
                     numberOfLines={2}
                   >
-                    {option.text}
+                    {translatedPoll ? translatedPoll.option(option.index, option.text) : option.text}
                   </Text>
                   {won && <Icon name="Check" size={14} color="#F4F4F5" />}
                 </View>
