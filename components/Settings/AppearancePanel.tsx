@@ -35,6 +35,7 @@ import {
   type AppFeedTab,
 } from '../../libs/feed-defaults';
 import ThemePicker from './ThemePicker';
+import LoginLookPicker from './LoginLookPicker';
 import { ChatTextSizePicker, useChatTextSizeLabels } from '../LiveChat/ChatTextSizeButton';
 import ThemeColorPicker from './ThemeColorPicker';
 import { hasThemeColor } from '../../theme/themeColor';
@@ -167,6 +168,14 @@ const AppearancePanel: React.FC = () => {
           <ThemeColorPicker theme={prefs.theme} />
         </SettingsAnchor>
       ) : null}
+
+      {/* How the logo and slogan move on the sign-in screen, as on web. */}
+      <SettingsAnchor id="login-look">
+        <View className="mt-6">
+          <SectionLabel label={t('settings.loginLook.title', 'Sign-in screen')} />
+          <LoginLookPicker />
+        </View>
+      </SettingsAnchor>
 
       <SettingsSection label={t('settings.appearance')} icon="Monitor" anchor="dim-lights">
         <SettingsToggleRow

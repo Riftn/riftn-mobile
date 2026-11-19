@@ -1601,7 +1601,15 @@
     "menuLayoutFolders": "Dossiers",
     "menuLayoutFoldersDesc": "Vos pages principales, puis un dossier par groupe",
     "publicChatInBar": "Chat public dans la barre du bas",
-    "publicChatInBarDesc": "Ouvre le Chat public d'un seul geste depuis la barre en bas de l'écran"
+    "publicChatInBarDesc": "Ouvre le Chat public d'un seul geste depuis la barre en bas de l'écran",
+    "loginLook": {
+      "title": "Écran de connexion",
+      "desc": "Comment le logo et le slogan Riftn bougent sur l'écran de connexion sur cet appareil.",
+      "tube": "TV cathodique",
+      "vhs": "Cassette VHS",
+      "led": "Mur LED",
+      "holo": "Hologramme"
+    }
   },
   "common": {
     "loadMore": "Charger plus",
