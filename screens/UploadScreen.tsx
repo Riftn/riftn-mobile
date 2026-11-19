@@ -941,9 +941,8 @@ export default function UploadScreen() {
   // stream's cover. A video or an audio clip is a post, not a preview.
   const showLiveButton =
     !isQuoteMode && (isLiveMode || (!pickedVideo && !pickedAudio && !isAudioRecording));
-  // Polls are text-only on web too — no video, no images.
-  const showPollButton =
-    !isLiveMode && !isQuoteMode && !comicMode && !pickedVideo && pickedImages.length === 0;
+  // A poll can ride on any post: text, photos or a video (same as web).
+  const showPollButton = !isLiveMode && !isQuoteMode && !comicMode;
 
   const player = useVideoPlayer(pickedVideo?.uri ?? null, (p) => {
     shareAudioWhenSilent(p);
