@@ -3859,7 +3859,9 @@
     "notificationShowCountDesc": "खाली चमक के बदले देखीं कि केतना सूचना बिना पढ़ल बा",
     "messagesShowCount": "Messages पर गिनती देखाईं",
     "messagesShowCountDesc": "खाली चमक के बदले देखीं कि केतना संदेस बिना पढ़ल बा",
-    "pushNotRegisteredDescIos": "ऐप बंद रहला पर सूचना रउआ ले ना पहुँच सकेला: ई iPhone पुश खातिर कबो रजिस्टर ना भइल। सेटिंग्स में जाँचीं कि Riftn खातिर सूचना चालू बा, फेर ऐप दोबारा खोलीं।"
+    "pushNotRegisteredDescIos": "ऐप बंद रहला पर सूचना रउआ ले ना पहुँच सकेला: ई iPhone पुश खातिर कबो रजिस्टर ना भइल। सेटिंग्स में जाँचीं कि Riftn खातिर सूचना चालू बा, फेर ऐप दोबारा खोलीं।",
+    "publicChatInBar": "नीचे के बार में पब्लिक चैट",
+    "publicChatInBarDesc": "स्क्रीन के नीचे वाला बार से एक टैप में पब्लिक चैट खोलीं"
   },
   "common": {
     "refresh": "ताज़ा करें",
@@ -4780,7 +4782,13 @@
     "addedToLeaderboard": "आपको जोड़ा गया है! शेष: {{balance}} टोकन",
     "balanceTooLow": "शेष राशि बहुत कम है ({{balance}} टोकन)",
     "tokenAmount": "{{amount}} टोकन",
-    "provisional": "अस्थायी"
+    "provisional": "अस्थायी",
+    "ogChallenge": "OG चैलेंज",
+    "ogHolders_one": "{{count}} OG होल्डर",
+    "ogHolders_other": "{{count}} OG होल्डर",
+    "ogChallengeTitle": "OG होल्डर लोग के वापस ले आईं",
+    "ogChallengeBody": "ओह लोग के न्योता दीं जे अबहियों DHB रखले बा। जब ऊ रउआ इनवाइट लिंक से जुड़ेलें आ आपन DHB अपना Riftn वॉलेट में रखेलें, त ऊ इहाँ रउआ खातिर गिनाइहें।",
+    "ogChallengeCta": "आपन इनवाइट लिंक पाईं"
   },
   "explorePage": {
     "searchPlaceholder": "लोग, पोस्ट या सामग्री खोजीं...",
