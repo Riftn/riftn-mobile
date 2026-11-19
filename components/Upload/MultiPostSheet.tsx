@@ -10,7 +10,7 @@ import WebPurchaseLink from "../common/WebPurchaseLink";
 import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
 import { useAppTheme } from "../../context/ThemeContext";
 import { crossPostState, toggleCrossPostAccount } from "../../libs/crosspost-store";
-import { MULTIPOST_PLATFORMS, PLATFORM_NAMES } from "../../services/multipost.service";
+import { MULTIPOST_PLATFORMS, PLATFORM_NAMES, type SocialAccount } from "../../services/multipost.service";
 import {
   BUNDLE_STOPS, CREDIT_PRICE_USD, DEFAULT_PLATFORM_CREDITS, bundleDiscount, bundlePriceUsd, creditsFor,
 } from "../../libs/social-pricing";
@@ -18,21 +18,54 @@ import { platformIcon, useMultipostSetup } from "../Settings/MultiPostPanel";
 
 const FILL = "rgba(127,127,127,0.12)";
 
+interface MultiPostSheetViewProps {
+  visible: boolean;
+  onClose: () => void;
+  accounts: SocialAccount[];
+  balance: number;
+  loading?: boolean;
+  failed?: boolean;
+  selected: readonly string[];
+  onToggle: (accountId: string) => void;
+  connecting: string | null;
+  onConnect: (platform: string) => void;
+  buying: boolean;
+  onBuy: (credits: number) => void;
+}
+
 /**
  * Multi-posting set up from inside the composer: connect accounts, switch them
  * on for this post and top up credits, then Done drops back onto the post
  * exactly as it was. Settings keeps the same controls as a page.
  */
 const MultiPostSheet: React.FC<{ visible: boolean; onClose: () => void }> = ({ visible, onClose }) => {
-  const { t } = useTranslation();
-  const { colors } = useAppTheme();
   const { selected } = useSnapshot(crossPostState);
-  const [stopIndex, setStopIndex] = useState(3);
   const { wallet, status, buying, connecting, handleConnect, handleBuy } = useMultipostSetup({ inPost: true });
   if (!wallet) return null;
+  return (
+    <MultiPostSheetView
+      visible={visible}
+      onClose={onClose}
+      accounts={status.data?.accounts ?? []}
+      balance={status.data?.credits ?? 0}
+      loading={status.isLoading}
+      failed={status.isError}
+      selected={selected}
+      onToggle={toggleCrossPostAccount}
+      connecting={connecting}
+      onConnect={handleConnect}
+      buying={buying}
+      onBuy={handleBuy}
+    />
+  );
+};
 
-  const accounts = status.data?.accounts ?? [];
-  const balance = status.data?.credits ?? 0;
+export const MultiPostSheetView: React.FC<MultiPostSheetViewProps> = ({
+  visible, onClose, accounts, balance, loading, failed, selected, onToggle, connecting, onConnect, buying, onBuy,
+}) => {
+  const { t } = useTranslation();
+  const { colors } = useAppTheme();
+  const [stopIndex, setStopIndex] = useState(3);
   const connected = new Set(accounts.filter((a) => !a.pending).map((a) => a.platform));
   const toConnect = MULTIPOST_PLATFORMS.filter((p) => !connected.has(p));
   const credits = BUNDLE_STOPS[stopIndex];
@@ -57,9 +90,9 @@ const MultiPostSheet: React.FC<{ visible: boolean; onClose: () => void }> = ({ v
         <Text className="text-sm mt-1" style={{ color: colors.mutedForeground }}>{t("multiPost.intro")}</Text>
 
         {label(t("multiPost.alsoPostTo"), using > 0 ? t("multiPost.creditsUsed", { count: using, balance }) : undefined)}
-        {status.isLoading ? (
+        {loading ? (
           <ActivityIndicator color={colors.foreground} className="my-3" />
-        ) : status.isError ? (
+        ) : failed ? (
           <Text className="text-sm text-red-400">{t("multiPost.loadFailed")}</Text>
         ) : accounts.length === 0 ? (
           <Text className="text-sm" style={{ color: colors.mutedForeground }}>{t("multiPost.noAccounts")}</Text>
@@ -88,7 +121,7 @@ const MultiPostSheet: React.FC<{ visible: boolean; onClose: () => void }> = ({ v
                   ) : (
                     <CustomSwitch
                       value={selected.includes(a.id)}
-                      onValueChange={() => toggleCrossPostAccount(a.id)}
+                      onValueChange={() => onToggle(a.id)}
                       accessibilityLabel={`${t("multiPost.alsoPostTo")} ${name}`}
                     />
                   )}
@@ -103,7 +136,7 @@ const MultiPostSheet: React.FC<{ visible: boolean; onClose: () => void }> = ({ v
           {toConnect.map((platform) => (
             <TouchableOpacity
               key={platform}
-              onPress={() => handleConnect(platform)}
+              onPress={() => onConnect(platform)}
               disabled={connecting !== null}
               accessibilityRole="button"
               accessibilityLabel={`${t("multiPost.connect")} ${PLATFORM_NAMES[platform]}`}
@@ -159,7 +192,7 @@ const MultiPostSheet: React.FC<{ visible: boolean; onClose: () => void }> = ({ v
                   </Text>
                 </View>
                 <TouchableOpacity
-                  onPress={() => handleBuy(credits)}
+                  onPress={() => onBuy(credits)}
                   disabled={buying}
                   className="px-4 py-2.5 rounded-xl"
                   style={{ borderWidth: 1, borderColor: colors.border, backgroundColor: FILL, opacity: buying ? 0.6 : 1 }}
@@ -181,9 +214,9 @@ const MultiPostSheet: React.FC<{ visible: boolean; onClose: () => void }> = ({ v
           onPress={onClose}
           accessibilityRole="button"
           className="mt-5 h-11 rounded-xl items-center justify-center"
-          style={{ backgroundColor: colors.foreground }}
+          style={{ backgroundColor: FILL, borderWidth: 1, borderColor: colors.border }}
         >
-          <Text className="font-semibold text-sm" style={{ color: colors.background }}>{t("common.done")}</Text>
+          <Text className="font-semibold text-sm" style={{ color: colors.foreground }}>{t("common.done")}</Text>
         </TouchableOpacity>
       </View>
     </GlassModal>
