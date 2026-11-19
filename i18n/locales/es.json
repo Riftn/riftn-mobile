@@ -1024,6 +1024,8 @@
     "feedTogglesCleared": "Filtros del feed restablecidos",
     "defaultProfileTab": "Pestaña de perfil por defecto",
     "defaultProfileTabDesc": "Elige qué pestaña ven primero los visitantes en tu perfil",
+    "defaultProfileView": "Diseño de las publicaciones del perfil",
+    "defaultProfileViewDesc": "Muestra tus publicaciones en cuadrícula o en lista cuando alguien abra tu perfil",
     "defaultPostVisibilityDesc": "Se aplica a todas las publicaciones actuales y futuras",
     "public": "Público",
     "publicDesc": "Cualquiera puede ver tus publicaciones",

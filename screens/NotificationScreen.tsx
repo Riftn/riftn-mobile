@@ -33,9 +33,11 @@ import {
   markAllNotificationsAsRead,
   acceptFollowRequest,
   rejectFollowRequest,
+  followUser,
   type NotificationItem,
   type NotificationCategory,
 } from "../services/user.service";
+import { reportActionError } from "../libs/error-feedback";
 import {
   fetchCustomNotifications,
   isCustomNotificationId,
@@ -63,6 +65,8 @@ import SmartImage from "../components/common/SmartImage";
 import { reactionMeta } from "../libs/reactions";
 import AppealSheet from "../components/Notifications/AppealSheet";
 import NotificationCommentCard, { notificationHasComment } from "../components/Notifications/NotificationCommentCard";
+import NotificationRequestCard from "../components/Notifications/NotificationRequestCard";
+import { notificationHasRequestCard } from "../libs/notification-request";
 import QuickSettingsSheet from "../components/Notifications/QuickSettingsSheet";
 import NotificationSearchLine, { notificationMatches } from "../components/Notifications/NotificationSearchLine";
 import PageDrawer, { PageDrawerScrollView } from "../components/common/PageDrawer";
@@ -458,20 +462,23 @@ const THUMB_PT = 44;
  * origin here; this is that same rule, plus the resize every other image in
  * the app asks for.
  */
-function resolveNotificationThumbnail(item: NotificationItem): string | undefined {
+function resolveNotificationThumbnail(item: NotificationItem, width = THUMB_PT): string | undefined {
   const raw = item.tokenThumbnail?.trim();
   if (raw) {
     const absolute = /^https?:\/\//i.test(raw) ? raw : buildCdnPath(raw) ?? raw;
-    return cdnImage(absolute, { width: THUMB_PT });
+    return cdnImage(absolute, { width });
   }
   // Shorts carry no stored thumbnail path — their poster frame is derived from
   // the tokenId, the same way the feed builds it. Long-form video posts can't
   // be derived (the extension lives in the stored path), so they stay blank.
   if (item.postType === 'short' && item.tokenId != null) {
-    return getShortsThumbnailUrl(item.tokenId, THUMB_PT);
+    return getShortsThumbnailUrl(item.tokenId, width);
   }
   return undefined;
 }
+
+/** Height of the post picture on a like or repost row. */
+const BIG_PICTURE_PT = 132;
 
 // Motion for the per-row actions: the unread dot fades out, a cleared row
 // slides and collapses.
@@ -611,8 +618,37 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
     !/\w/.test(sentence.charAt(actorNameAt + (actorName?.length || 0)));
 
   const clickable = isNotificationClickable(item);
-  const thumbnail = useMemo(() => resolveNotificationThumbnail(item), [item]);
+  // Likes and reposts are about your own post: show it big enough to tell
+  // which one, not as a 44pt chip.
+  const bigPicture = item.type === NotificationType.LIKE || item.type === NotificationType.REPOST;
+  const thumbnail = useMemo(
+    () => resolveNotificationThumbnail(item, bigPicture ? BIG_PICTURE_PT * 2 : THUMB_PT),
+    [item, bigPicture],
+  );
   const [thumbFailed, setThumbFailed] = useState(false);
+
+  // Follow back, right on the row. A follow row that names one person.
+  const viewer = ((useUser() as { walletAddress?: string; address?: string } | null)?.walletAddress || '').toLowerCase();
+  const followActor = (item.actor?.address || item.actorAddress || '').toLowerCase();
+  const [followState, setFollowState] = useState<'idle' | 'busy' | 'following' | 'requested'>('idle');
+  const followsActor = followState === 'following' || (followState === 'idle' && !!item.actor?.isFollowing);
+  const showFollowBack = (item.type as string) === NotificationType.FOLLOWING &&
+    !isGrouped(item) && !!followActor && !!viewer && followActor !== viewer &&
+    !(item.actor as { isFollowRequestPending?: boolean } | undefined)?.isFollowRequestPending;
+  const handleFollowBack = useCallback(async () => {
+    if (followState === 'busy' || followsActor || followState === 'requested') return;
+    if (!item.read) onMarkRead(item);
+    setFollowState('busy');
+    try {
+      const res = await followUser(viewer, followActor);
+      setFollowState(res.status === 'pending' ? 'requested' : 'following');
+    } catch (error) {
+      setFollowState('idle');
+      reportActionError(error, t('follow.followBackAllFailed'));
+    }
+  }, [followState, followsActor, item, onMarkRead, viewer, followActor, t]);
+  // A live row is a door: Watch goes straight in.
+  const showWatch = item.type === NotificationType.LIVESTREAM_START && item.tokenId != null;
   const [marking, setMarking] = useState(false);
 
   // A decision someone can disagree with, as opposed to something that merely
@@ -818,6 +854,82 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
             />
           )}
 
+          {/* A Requests-board row: the comment or the new request itself,
+              with Reply / Like or Upvote. */}
+          {notificationHasRequestCard(item) && (
+            <NotificationRequestCard
+              item={item}
+              onOpen={onPress}
+              onEngaged={item.read ? undefined : onMarkRead}
+            />
+          )}
+
+          {bigPicture && !!thumbnail && !thumbFailed && (
+            <TouchableOpacity activeOpacity={0.85} onPress={() => onPress(item)} style={{ marginTop: 8, alignSelf: 'flex-start' }}>
+              <SmartImage
+                source={{ uri: thumbnail }}
+                style={{ width: BIG_PICTURE_PT * 1.5, height: BIG_PICTURE_PT, borderRadius: 12, backgroundColor: '#18181B' }}
+                contentFit="cover"
+                recyclingKey={`${item._id}:big`}
+                transition={120}
+                onError={() => setThumbFailed(true)}
+              />
+              {(item.postType === 'video' || item.postType === 'short') && (
+                <View style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' }}>
+                  <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', borderRadius: 14, padding: 6 }}>
+                    <Icon name="Play" size={14} color="white" fill="white" />
+                  </View>
+                </View>
+              )}
+            </TouchableOpacity>
+          )}
+
+          {(showFollowBack || showWatch) && (
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10, gap: 8 }}>
+              {showFollowBack && (followsActor || followState === 'requested' ? (
+                <View
+                  className="border-theme-neutrals-600"
+                  style={{ flexDirection: 'row', alignItems: 'center', gap: 5, height: 30, paddingHorizontal: 14, borderRadius: 15, borderWidth: 1 }}
+                >
+                  <Icon name="Check" size={13} color="#F4F4F5" />
+                  <Text className="text-theme-neutrals-100" style={{ fontSize: 13, fontWeight: '600' }}>
+                    {followState === 'requested' ? t('follow.requested', { defaultValue: 'Requested' }) : t('follow.following')}
+                  </Text>
+                </View>
+              ) : (
+                <TouchableOpacity
+                  onPress={handleFollowBack}
+                  disabled={followState === 'busy'}
+                  activeOpacity={0.85}
+                  hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+                  className={accentFill ? undefined : 'bg-theme-accent'}
+                  style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, height: 30, paddingHorizontal: 14, borderRadius: 15 }, accentFill ? { backgroundColor: accentFill } : null]}
+                >
+                  {followState === 'busy'
+                    ? <ActivityIndicator size="small" color={accentFill ? '#FFFFFF' : '#000000'} />
+                    : <Icon name="UserPlus" size={13} color={accentFill ? '#FFFFFF' : '#000000'} />}
+                  <Text className="text-theme-accent-foreground" style={[{ fontSize: 13, fontWeight: '600' }, accentFill ? { color: '#FFFFFF' } : null]}>
+                    {t('follow.followBack')}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+              {showWatch && (
+                <TouchableOpacity
+                  onPress={() => { if (!item.read) onMarkRead(item); onPress(item); }}
+                  activeOpacity={0.85}
+                  hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
+                  className={accentFill ? undefined : 'bg-theme-accent'}
+                  style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, height: 30, paddingHorizontal: 14, borderRadius: 15 }, accentFill ? { backgroundColor: accentFill } : null]}
+                >
+                  <Icon name="Radio" size={13} color={accentFill ? '#FFFFFF' : '#000000'} />
+                  <Text className="text-theme-accent-foreground" style={[{ fontSize: 13, fontWeight: '600' }, accentFill ? { color: '#FFFFFF' } : null]}>
+                    {t('cinema.watchNow')}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          )}
+
           {/* Aggregation indicator */}
           {item.aggregatedCount && item.aggregatedCount > 1 && item.latestActorNames && (item.type as string) !== 'community_chat' && (
             <Text className="text-theme-neutrals-500" style={{ fontSize: 13, marginTop: 2 }}>
@@ -914,7 +1026,7 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
 
         {/* Thumbnail for content notifications. A source that 404s hides the
             whole tile — a play badge over nothing is what this looked like. */}
-        {!!thumbnail && !thumbFailed && (
+        {!!thumbnail && !thumbFailed && !bigPicture && (
           <View style={{ marginLeft: 12 }}>
             <SmartImage
               source={{ uri: thumbnail }}

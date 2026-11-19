@@ -1024,6 +1024,8 @@
     "feedTogglesCleared": "Akış filtreleri sıfırlandı",
     "defaultProfileTab": "Varsayılan profil sekmesi",
     "defaultProfileTabDesc": "Ziyaretçilerin profilinizde ilk hangi sekmeyi göreceğini seçin",
+    "defaultProfileView": "Profil gönderi düzeni",
+    "defaultProfileViewDesc": "Profilinizi açanlara gönderilerinizi ızgara ya da liste olarak gösterin",
     "defaultPostVisibilityDesc": "Tüm mevcut ve gelecek gönderilere uygulanır",
     "public": "Herkese Açık",
     "publicDesc": "Herkes gönderilerinizi görebilir",

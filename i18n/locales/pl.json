@@ -3171,6 +3171,8 @@
     "feedTogglesCleared": "Filtry kanału zresetowane",
     "defaultProfileTab": "Domyślna zakładka profilu",
     "defaultProfileTabDesc": "Wybierz, którą zakładkę odwiedzający zobaczą najpierw na Twoim profilu",
+    "defaultProfileView": "Układ postów na profilu",
+    "defaultProfileViewDesc": "Pokazuj swoje posty w siatce lub na liście, gdy ktoś otworzy Twój profil",
     "defaultPostVisibilityDesc": "Dotyczy wszystkich obecnych i przyszłych postów",
     "public": "Publiczny",
     "publicDesc": "Każdy może zobaczyć Twoje posty",
