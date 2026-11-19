@@ -25,9 +25,9 @@ describe('Shorts audio ownership', () => {
     expect(source).toContain('if (!isActive && peekingRef.current) return;');
     // Only a loaded player is started early, silently.
     expect(source).toContain('if (player.status !== "readyToPlay" || player.playing) return;');
-    expect(source).toContain('player.muted = true;');
+    expect(source).toContain('setPlayerProp(player, "muted", true);');
     // A short being left gets the viewer's sound setting back when it stops.
-    expect(source).toContain('player.muted = isMutedRef.current;');
+    expect(source).toContain('setPlayerProp(player, "muted", isMutedRef.current);');
   });
 
   it('sets the sound session up once for the viewer, never as each short lands', () => {
