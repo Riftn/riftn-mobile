@@ -1,4 +1,4 @@
-# Working notes for this repo
+# Team skills and working notes
 
 ## Team skills: check these first
 Before starting a task, open the team skill that matches it and follow its steps:
@@ -14,7 +14,7 @@ Before starting a task, open the team skill that matches it and follow its steps
 If a workflow changes, update the matching skill too, so the next person gets the new steps.
 
 ## Requests board rule
-If a request needs more info from the person who posted it, or we can't test it ourselves (for example it only happens on iPhone or one browser), reply to them on the request from the @assistant account. Say what we changed or what we need from them. Never leave a request silent.
+If a request needs more info from the person who posted it, or we can't test it ourselves (for example it only happens on iPhone or one browser), reply to them on the request from the @assistant account. Never leave a request silent. Full rules: [requests-board.md](requests-board.md).
 
 ## This repo
 - Default branch: `main`. JS changes ship by OTA (`manual-ota.yml`, platform=both). Native changes need a store build.
