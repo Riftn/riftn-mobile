@@ -383,6 +383,12 @@ export default function UploadScreen() {
   const safeBottom = useSafeAreaInsets().bottom;
   const kbLiftValue = useKeyboardLiftValue(Platform.OS === "ios" ? 0 : safeBottom);
   const toolbarLiftStyle = useAnimatedStyle(() => ({ marginBottom: kbLiftValue.value }));
+  // While the title or text is being typed in, the options box below gives
+  // up most of its height so the writing area has room to show (and scroll
+  // through) the title and several lines, not just the last two.
+  const [writing, setWriting] = useState(false);
+  const startWriting = useCallback(() => setWriting(true), []);
+  const stopWriting = useCallback(() => setWriting(false), []);
   const { drafts, saveDraft, deleteDraft } = useDrafts(authUser?.address);
 
   const avatarUri = useMemo(
@@ -2792,6 +2798,8 @@ export default function UploadScreen() {
             {showTitleInput && !articleMode && (
               <TextInput
                 ref={titleRef}
+                onFocus={startWriting}
+                onBlur={stopWriting}
                 value={titleText}
                 onChangeText={setTitleText}
                 placeholder={t("features.titleLabel")}
@@ -2804,6 +2812,8 @@ export default function UploadScreen() {
             )}
             {!articleMode && <GestureDetector gesture={sheet.text}><ComposerBodyInput
               ref={bodyInputRef}
+              onFocus={startWriting}
+              onBlur={stopWriting}
               value={bodyText}
               onChangeText={handleBodyChange}
               onSelectionChange={(e) => {
@@ -3330,7 +3340,7 @@ export default function UploadScreen() {
           editor stay put while the switches scroll underneath them. */}
       <View className="border-t border-white/10">
         <ScrollView
-          style={{ maxHeight: 180 }}
+          style={{ maxHeight: writing ? 72 : 180 }}
           contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 4 }}
           nestedScrollEnabled
           keyboardShouldPersistTaps="handled"
