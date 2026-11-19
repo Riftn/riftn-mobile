@@ -11214,6 +11214,7 @@
     "aiGenerationAlt": "AI generation",
     "gallery": {
       "browse": "Browse generations",
+      "empty": "No creations yet",
       "fullscreen": "View full screen",
       "missing": "This generation is unavailable.",
       "send": "Send",
