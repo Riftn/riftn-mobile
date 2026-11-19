@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useCall } from "../../context/CallContext";
 import { CallDuration } from "./CallDuration";
 import { CallStage, CallIdentity, CallControl, CallDock, CallFoot, CallWave } from "./CallChrome";
+import { CallCaptionsControl, CallCaptionsOverlay } from "./CallCaptions";
 import { usePeerIdentity } from "./usePeerIdentity";
 
 const VoiceCallModal: React.FC = () => {
@@ -41,6 +42,7 @@ const VoiceCallModal: React.FC = () => {
         {isCallActive ? <CallWave paused={isMuted} /> : null}
       </CallIdentity>
       <CallFoot>
+        {isCallActive ? <CallCaptionsOverlay /> : null}
         <CallDock>
           <CallControl
             icon={isSpeakerOn ? "Volume2" : "Volume1"}
@@ -54,6 +56,7 @@ const VoiceCallModal: React.FC = () => {
             onPress={toggleMute}
             active={isMuted}
           />
+          {isCallActive ? <CallCaptionsControl /> : null}
           <CallControl
             icon="PhoneOff"
             label={isCallActive ? t("calls.end") : t("common.cancel")}

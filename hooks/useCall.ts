@@ -3,7 +3,7 @@ import { useState, useRef, useCallback, useEffect, useMemo } from "react";
 import { Platform, PermissionsAndroid, AppState } from "react-native";
 import createAgoraRtcEngine, {
   type IRtcEngine, type IRtcEngineEventHandler, type VideoCanvas,
-  VideoSourceType, RenderModeType, ChannelProfileType, ClientRoleType,
+  VideoSourceType, RenderModeType, ChannelProfileType, ClientRoleType, RawAudioFrameOpModeType,
 } from "react-native-agora";
 import { supabase, fetchAgoraToken, walletScopedClient } from "../services/supabase";
 import { AGORA_APP_ID } from "../config/agora.config";
@@ -63,6 +63,17 @@ export interface UseCallReturn {
   toggleMute: () => void; toggleSpeaker: () => void; toggleCamera: () => void; switchCamera: () => void;
   setCallMessageHandler: (handler: ((content: string) => void) | null) => void;
   isMinimized: boolean; setMinimized: (minimized: boolean) => void;
+  /** The call's room once it is live (`dm-call-<id>` or `group-call-<group>`), for subtitles. */
+  captionRoom: string | null;
+  /** Wallets whose subtitles this call shows: the two people, or everyone in the group room. */
+  captionSpeakers: string[];
+  /**
+   * Raw 16 kHz mono 16-bit microphone frames, for live subtitles. Returns a
+   * stop function. Frames keep coming while muted; the caller gates on that.
+   */
+  tapMicrophone: (onFrame: (pcm: Uint8Array) => void) => () => void;
+  /** Everyone else's volume (100 = normal), lowered under a dubbed line. */
+  setCallVolume: (volume: number) => void;
 }
 const LOCAL_CANVAS: VideoCanvas = {
   uid: 0, sourceType: VideoSourceType.VideoSourceCamera, renderMode: RenderModeType.RenderModeHidden,
@@ -582,14 +593,49 @@ export function useCall(): UseCallReturn {
   const isRinging = !!currentCall && isConnecting && !isCallActive && currentCall.status === "ringing"
     && currentCall.caller_address === userAddress;
   const isGroupCall = !!currentCall?.group_id;
+  const captionRoom = !currentCall || !isCallActive
+    ? null
+    : currentCall.group_id ? groupCallChannel(currentCall.group_id) : isSessionId(currentCall.id) ? `dm-call-${currentCall.id}` : null;
+  const captionSpeakers = useMemo(() => {
+    if (!currentCall) return [];
+    const wallets = currentCall.group_id
+      ? [userAddress, ...groupParticipants.map((p) => p.wallet ?? "")]
+      : [currentCall.caller_address, currentCall.recipient_address];
+    return [...new Set(wallets.map((w) => (w || "").toLowerCase()).filter(Boolean))];
+  }, [currentCall, groupParticipants, userAddress]);
+  const tapMicrophone = useCallback((onFrame: (pcm: Uint8Array) => void) => {
+    const media = mediaRef.current;
+    if (!media) return () => {};
+    const engine = media.engine;
+    const observer = {
+      onRecordAudioFrame: (_channel: string, frame: { buffer?: Uint8Array }) => {
+        if (frame?.buffer) onFrame(frame.buffer);
+      },
+    };
+    try {
+      // 1024 samples a call = 64 ms frames, the same pacing as the website.
+      engine.setRecordingAudioFrameParameters(16000, 1, RawAudioFrameOpModeType.RawAudioFrameOpModeReadOnly, 1024);
+      engine.getMediaEngine().registerAudioFrameObserver(observer);
+    } catch (error) {
+      log.warn("Microphone tap failed", error);
+      return () => {};
+    }
+    return () => {
+      try { engine.getMediaEngine().unregisterAudioFrameObserver(observer); } catch { /* engine already released */ }
+    };
+  }, []);
+  const setCallVolume = useCallback((volume: number) => {
+    try { mediaRef.current?.engine.adjustPlaybackSignalVolume(volume); } catch { /* call already over */ }
+  }, []);
   return useMemo(() => ({
+    captionRoom, captionSpeakers, tapMicrophone, setCallVolume,
     isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary,
     isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas,
     startCall, endCall, acceptCall, rejectCall: endCall, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
-  }), [isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
+  }), [captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, remoteCanvas, startCall, endCall, acceptCall,
     toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);

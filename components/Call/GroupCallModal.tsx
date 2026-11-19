@@ -10,6 +10,7 @@ import { useAuth } from "../../context/AuthContext";
 import type { GroupParticipant } from "../../hooks/useCall";
 import { CallDuration } from "./CallDuration";
 import { CallStage, CallIdentity, CallControl, CallDock, CallFoot, CallPill, CallRow, useStage } from "./CallChrome";
+import { CallCaptionsControl, CallCaptionsOverlay } from "./CallCaptions";
 import { usePeerIdentity } from "./usePeerIdentity";
 import { startCallRingtone, stopCallRingtone } from "../../libs/call-ringtone";
 
@@ -95,6 +96,8 @@ const GroupCallModal: React.FC = () => {
         participants={groupParticipants}
       />
       <CallFoot>
+        <CallCaptionsOverlay />
+        {isVideo ? <CallCaptionsControl variant="chip" /> : null}
         <CallDock compact={isVideo}>
           {!isVideo ? (
             <CallControl icon={isSpeakerOn ? "Volume2" : "Volume1"} label={t("calls.speaker")} onPress={toggleSpeaker} active={isSpeakerOn} />
@@ -106,6 +109,7 @@ const GroupCallModal: React.FC = () => {
               <CallControl icon="RefreshCw" label={t("calls.flip")} onPress={switchCamera} compact />
             </>
           ) : null}
+          {isVideo ? null : <CallCaptionsControl />}
           <CallControl icon="PhoneOff" label={t("calls.leave", { defaultValue: "Leave" })} onPress={endCall} primary compact={isVideo} />
         </CallDock>
       </CallFoot>
