@@ -1,5 +1,7 @@
 import { purchaseOfferVisible } from "../../config/storefront";
 import { useTranslation as _useCopy } from 'react-i18next';
+import { useMentions } from "../../hooks/useMentions";
+import MentionSuggestions from "../common/MentionSuggestions";
 import { useDraftState } from '../../hooks/useDraftState';
 /**
  * The live viewer's bottom bar: say something, or do something.
@@ -101,6 +103,8 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const [message, setMessage] = useDraftState(draftScope, "");
+  // @tagging: typing @ offers people, picking one fills in "@username ".
+  const mentions = useMentions(message, setMessage as (t: string) => void, undefined, false);
   const sending = useRef(false);
   const [reactionsOpen, setReactionsOpen] = useState(false);
   const [gifPickerVisible, setGifPickerVisible] = useState(false);
@@ -142,12 +146,13 @@ const LiveViewerActionBar: React.FC<Props> = ({
     // back unless something new has been typed since.
     const sent = message;
     setMessage("");
+    mentions.reset();
     try {
       if (!(await onSendMessage(content))) setMessage((current) => (current.trim() ? current : sent));
     } catch {
       setMessage((current) => (current.trim() ? current : sent));
     } finally { sending.current = false; }
-  }, [message, inputDisabled, onSendMessage, setMessage]);
+  }, [message, inputDisabled, onSendMessage, setMessage, mentions]);
 
   const handleReact = useCallback(
     (type: ReactionType) => {
@@ -203,13 +208,25 @@ const LiveViewerActionBar: React.FC<Props> = ({
         </View>
       ) : null}
 
+      {!inputDisabled ? (
+        <View style={styles.mentionWrap}>
+          <MentionSuggestions
+            visible={mentions.showSuggestions}
+            suggestions={mentions.suggestions}
+            onSelect={mentions.selectMention}
+            loading={mentions.loading}
+          />
+        </View>
+      ) : null}
+
       <View style={styles.row} pointerEvents="box-none">
         <View style={styles.inputWrap}>
           <ChromeFill glass />
           <TextInput
             ref={inputRef}
             value={message}
-            onChangeText={setMessage}
+            onChangeText={mentions.handleChangeText}
+            onSelectionChange={mentions.handleSelectionChange}
             placeholder={placeholderText}
             placeholderTextColor="rgba(255,255,255,0.45)"
             style={styles.input}
@@ -311,6 +328,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
 
 
 const styles = StyleSheet.create({
+  mentionWrap: { marginHorizontal: 10, marginBottom: 6 },
   row: {
     flexDirection: "row",
     alignItems: "flex-end",

@@ -52,13 +52,20 @@ export interface ChatModelOption {
 
 export const CHAT_MODEL_OPTIONS: ChatModelOption[] = [
   { id: 'auto', name: 'Auto', get description() { return _translateCopy("copy.4a9fd15a895c", { defaultValue: "Riftn trained model" }); }, emoji: '✨' },
-  { id: 'gemini-2.5-flash', name: 'Gemini Flash', get description() { return _translateCopy("copy.98f96a4d8578", { defaultValue: "Fast & free" }); }, emoji: '⚡' },
-  { id: 'gemini-2.5-pro', name: 'Gemini Pro', get description() { return _translateCopy("copy.6157bb4bd99f", { defaultValue: "Best reasoning $$" }); }, emoji: '💎' },
+  { id: 'gemini-3-flash', name: 'Gemini 3 Flash', get description() { return _translateCopy("copy.98f96a4d8578", { defaultValue: "Fast & free" }); }, emoji: '⚡' },
+  { id: 'gemini-3-pro', name: 'Gemini 3 Pro', get description() { return _translateCopy("copy.6157bb4bd99f", { defaultValue: "Best reasoning $$" }); }, emoji: '💎' },
   { id: 'gpt-5-mini', name: 'GPT-5 Mini', get description() { return _translateCopy("copy.af4707aebdfa", { defaultValue: "OpenAI $" }); }, emoji: '🧠' },
   { id: 'grok-4', name: 'Grok 4', get description() { return _translateCopy("copy.362058144c4a", { defaultValue: "xAI flagship $$$" }); }, emoji: '🔮' },
 ];
 
 export const DEFAULT_CHAT_MODEL = 'auto';
+
+/** Picks saved before the Gemini 3 update open as their new versions. */
+const CHAT_MODEL_RENAMES: Record<string, string> = { 'gemini-2.5-flash': 'gemini-3-flash', 'gemini-2.5-pro': 'gemini-3-pro' };
+export function currentChatModel(id: string | null | undefined): string {
+  const next = id ? CHAT_MODEL_RENAMES[id] ?? id : DEFAULT_CHAT_MODEL;
+  return CHAT_MODEL_OPTIONS.some((m) => m.id === next) ? next : DEFAULT_CHAT_MODEL;
+}
 
 /* ── Image models ────────────────────────────────────────────────────────── */
 

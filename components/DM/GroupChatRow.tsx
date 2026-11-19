@@ -13,11 +13,19 @@ import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
 import { ChatCard } from "./ChatCard";
 import ReactionAlertBadge, { reactionAlertLine } from "./ReactionAlertBadge";
 import type { ChatReactionSummary } from "../../services/dm/dm.api";
+import UnreadCountChip from "./UnreadCountChip";
+import { formatShortAgo } from "../../libs/date.util";
+import { roomPreviewLine } from "../../libs/room-chat-read";
+import type { RoomSummary } from "../../hooks/useRoomChatSummaries";
 
 const DEHUB_COIN = require("../../assets/web-icons/dehub-coin.png");
 
-export default function GroupChatRow({ community, onPress, onLongPress, selecting = false, checked = false, markedUnread = false, reactions = null }: {
+export default function GroupChatRow({ community, onPress, onLongPress, selecting = false, checked = false, markedUnread = false, reactions = null, summary, me = "" }: {
   community: Community;
+  /** Newest line and unread number (hooks/useRoomChatSummaries). */
+  summary?: RoomSummary;
+  /** Your wallet, so your own newest line reads "You: …". */
+  me?: string;
   onPress: () => void;
   /** Hold the row to start picking several chats. */
   onLongPress?: () => void;
@@ -37,8 +45,11 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
   const subtitle = kind === "channel"
     ? t("communities.newChat.channelRow", { defaultValue: "Channel · {{formattedCount}} members", count: community.member_count ?? 0, formattedCount })
     : t("communities.newChat.groupRow", { defaultValue: "Group · {{formattedCount}} members", count: community.member_count ?? 0, formattedCount });
+  const unread = summary?.unread ?? 0;
+  const preview = summary?.last ? roomPreviewLine(summary.last, me, t as any) : "";
+  const lastAt = summary?.last?.created_at ? formatShortAgo(summary.last.created_at) : "";
   return (
-    <ChatCard unread={markedUnread || !!reactions} checked={selecting && checked}>
+    <ChatCard unread={markedUnread || !!reactions || unread > 0} checked={selecting && checked}>
     <TouchableOpacity
       onPress={onPress}
       onLongPress={onLongPress}
@@ -63,13 +74,19 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
           <Icon name={kindIcon as any} size={13} color="#a1a1aa" />
           <Text className="text-theme-neutrals-100 text-[15px] font-semibold flex-shrink" numberOfLines={1}>{community.name}</Text>
           {community.is_private && <Icon name="Lock" size={12} color="#808089" />}
-          {markedUnread && !reactions && <View style={{ marginLeft: "auto" }}><MarkedUnreadDot /></View>}
-          {reactions && <View style={{ marginLeft: "auto" }}><ReactionAlertBadge reactions={reactions} /></View>}
+          {!!lastAt && (
+            <Text testID="room-last-at" className="text-[12.5px] text-theme-neutrals-500" style={{ marginLeft: "auto", fontVariant: ["tabular-nums"] }}>{lastAt}</Text>
+          )}
+          {markedUnread && !reactions && !(unread > 0) && <View style={lastAt ? undefined : { marginLeft: "auto" }}><MarkedUnreadDot /></View>}
+          {reactions && <View style={lastAt ? undefined : { marginLeft: "auto" }}><ReactionAlertBadge reactions={reactions} /></View>}
+          {unread > 0 && <View style={lastAt || reactions ? undefined : { marginLeft: "auto" }}><UnreadCountChip count={unread} /></View>}
         </View>
         {reactions ? (
           <Text testID="reaction-alert-line" className="text-white text-[14px] font-bold mt-0.5" numberOfLines={1}>
             {reactionAlertLine(t as any, reactions, { named: true })}
           </Text>
+        ) : preview ? (
+          <Text testID="room-preview" className={`text-white text-[14px] mt-0.5 ${unread > 0 ? "font-bold" : "font-normal"}`} numberOfLines={1}>{preview}</Text>
         ) : (
         <View className="flex-row items-center gap-1 mt-0.5">
           <Text className="text-theme-neutrals-400 text-[14px]" numberOfLines={1}>{subtitle}</Text>

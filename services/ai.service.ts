@@ -294,8 +294,8 @@ export async function checkConversationTone(text: string, mode: CoachMode = 'coa
 
 export type AIModel =
   | 'auto'
-  | 'gemini-2.5-flash'
-  | 'gemini-2.5-pro'
+  | 'gemini-3-flash'
+  | 'gemini-3-pro'
   | 'gpt-5-mini'
   | 'grok-4';
 

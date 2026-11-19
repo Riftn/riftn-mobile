@@ -63,6 +63,7 @@ import { toastWarning } from "../libs/toast";
 import { localFileSize } from "../libs/storage-upload";
 import { featurePromptFields } from "../libs/feature-prompt";
 import { optionalSkia } from "../libs/skia";
+import type { StudioEdits } from "../components/Upload/studioPaint";
 import { theme } from "../theme";
 import { getAvatarUrl } from "../libs/misc";
 import { formatCompactNumber } from "../libs";
@@ -698,9 +699,13 @@ const FeatureCard: React.FC<{
 
 // ── Submit sheet ────────────────────────────────────────────────────────────
 
-/** Draw & write from the composer, so a screenshot can be marked up before it is sent. Skia, so older installs skip it. */
-const ImageEditSheet = optionalSkia(
-  () => require("../components/Upload/ImageEditSheet").default as typeof import("../components/Upload/ImageEditSheet").default,
+/**
+ * Crop, rotate, draw & write from the composer, so a screenshot can be cut
+ * down and marked up before it is sent. The post composer's photo editor.
+ * Skia, so older installs skip it.
+ */
+const PhotoStudio = optionalSkia(
+  () => require("../components/Upload/PhotoStudio").default as typeof import("../components/Upload/PhotoStudio").default,
 );
 
 const PromptComposer: React.FC<{
@@ -717,6 +722,9 @@ const PromptComposer: React.FC<{
   const [attachments, setAttachments] = useState<FeatureAttachment[]>([]);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [markupIndex, setMarkupIndex] = useState<number | null>(null);
+  // The original picture and the edits behind each edited one, keyed by the
+  // edited file, so opening it again picks up where you left off.
+  const [studioBase, setStudioBase] = useState<Record<string, { baseUri: string; edits: StudioEdits }>>({});
   const inputRef = React.useRef<TextInput>(null);
   React.useEffect(() => { if (focusRequest) inputRef.current?.focus(); }, [focusRequest]);
   const { isSignedIn, needsUsername } = useAuthState();
@@ -781,30 +789,37 @@ const PromptComposer: React.FC<{
               accessibilityRole="button" accessibilityLabel={t("features.removePromptAttachment", "Remove {{name}}", { name: attachment.fileName || String(index + 1) })}>
               <Icon name="X" size={12} color="#FFFFFF" />
             </Pressable>
-            {ImageEditSheet && !attachment.mimeType?.startsWith("video/") && attachment.mimeType !== "image/gif" && (
+            {PhotoStudio && !attachment.mimeType?.startsWith("video/") && attachment.mimeType !== "image/gif" && (
               <Pressable className="dark-surface" style={styles.pickMarkup} disabled={submitting} hitSlop={8}
-                onPress={() => setMarkupIndex(index)}
-                accessibilityRole="button" accessibilityLabel={t("upload.drawWrite")}>
-                <Icon name="Pencil" size={12} color="#FFFFFF" />
+                onPress={() => setMarkupIndex(index)} testID="request-photo-edit"
+                accessibilityRole="button" accessibilityLabel={t("upload.cropRotate")}>
+                <Icon name="Crop" size={12} color="#FFFFFF" />
               </Pressable>
             )}
           </ThemePanel>
           <Text numberOfLines={1} style={styles.promptFilename}>{attachment.fileName || t("features.promptAttachment", "Attachment {{number}}", { number: index + 1 })}</Text>
         </View>)}
       </ScrollView>}
-      {ImageEditSheet && markupIndex !== null && attachments[markupIndex] && (
-        <ImageEditSheet
-          mode="draw"
-          uri={attachments[markupIndex].uri}
-          mimeType={attachments[markupIndex].mimeType}
-          onClose={() => setMarkupIndex(null)}
-          onApply={(result) => {
-            const index = markupIndex;
-            setAttachments(prev => prev.map((a, i) => (i === index ? { uri: result.uri, mimeType: result.mimeType, fileName: result.fileName } : a)));
-            setMarkupIndex(null);
-          }}
-        />
-      )}
+      {PhotoStudio && markupIndex !== null && attachments[markupIndex] && (() => {
+        const current = attachments[markupIndex];
+        const base = studioBase[current.uri];
+        return (
+          <PhotoStudio
+            photos={[{ baseUri: base?.baseUri ?? current.uri, mimeType: current.mimeType, edits: base?.edits }]}
+            startIndex={0}
+            startTab="crop"
+            onClose={() => setMarkupIndex(null)}
+            onDone={(results) => {
+              const index = markupIndex;
+              const r = results[0];
+              setMarkupIndex(null);
+              if (!r) return;
+              setStudioBase(prev => ({ ...prev, [r.uri]: { baseUri: base?.baseUri ?? current.uri, edits: r.edits } }));
+              setAttachments(prev => prev.map((a, i) => (i === index ? { uri: r.uri, mimeType: r.mimeType, fileName: r.fileName } : a)));
+            }}
+          />
+        );
+      })()}
       <View style={styles.promptToolbar}>
         <Pressable onPress={pickMedia} disabled={submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS}
           accessibilityRole="button" style={[styles.promptAttach, (submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS) && styles.disabled]}>
