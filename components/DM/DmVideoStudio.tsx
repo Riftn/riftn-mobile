@@ -813,7 +813,7 @@ export default function DmVideoStudio({
             )}
             {tab === "alt" && alt && (
               <View style={{ gap: 6 }}>
-                <TextInput value={alt.value} onChangeText={alt.onChange} maxLength={1000} multiline
+                <TextInput value={alt.value} onChangeText={alt.onChange} maxLength={1000} multiline returnKeyType="done" submitBehavior="blurAndSubmit"
                   placeholder={_copy("upload.altPlaceholderVideo", { defaultValue: "Describe this video" })} placeholderTextColor="rgba(255,255,255,0.4)"
                   accessibilityLabel={_copy("upload.altTab", { defaultValue: "Alt text" })}
                   style={{ minHeight: 64, maxHeight: 110, borderRadius: 12, borderWidth: 1, borderColor: LINE, backgroundColor: "rgba(255,255,255,0.05)", color: WHITE, fontSize: 14, paddingHorizontal: 12, paddingVertical: 8, textAlignVertical: "top" }} />
