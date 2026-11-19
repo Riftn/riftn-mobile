@@ -9,8 +9,21 @@
     "tab": "Quadrinho",
     "title": "Quadrinho",
     "editor": {
-      "cover": "Capa"
-    }
+      "cover": "Capa",
+      "count": "{{count}} de {{limit}} páginas",
+      "coverHint": "A página 1 é a capa",
+      "empty": "Adicione suas páginas com o botão de foto. Cada página recebe uma legenda e um texto alternativo.",
+      "caption": "Legenda para esta página",
+      "alt": "Texto alternativo: o que a página mostra"
+    },
+    "chip": "Quadrinho · {{count}} páginas",
+    "open": "Abrir quadrinho, página {{page}} de {{total}}",
+    "flip": "Página {{page}} de {{total}}. Toque para virar",
+    "page": "Página {{page}}",
+    "goto": "Página {{page}}",
+    "alt": "Texto alternativo",
+    "cards": "Voltar para os cards",
+    "readAll": "Ler todas as páginas"
   },
   "comicBorder": {
     "title": "Borda",
@@ -2528,7 +2541,31 @@
     "d0c1a3684775": "As músicas não carregaram. Tente novamente em um momento.",
     "d14064f80f52": "Adicionar som",
     "71988c4d8e08": "Texto",
-    "147170e793c6": "Largo"
+    "147170e793c6": "Largo",
+    "e587a51bc3ce": "Novidades no Riftn",
+    "d7396f3b8881": "Nova curtida ou comentário no Riftn",
+    "037a2ecd34b0": "Novo seguidor no Riftn",
+    "b63561f1b73a": "Nova gorjeta ou ganho no Riftn",
+    "0ae84457a2df": "Alguém que você segue está ao vivo no Riftn",
+    "a7bac8dca08b": "Chamada recebida no Riftn",
+    "9d309cb4a034": "Atualização na sua publicação no Riftn",
+    "914be7a9350a": "Mensagem do Riftn",
+    "3f9b2c71d0a4": "{{n}} resultados",
+    "8c4e1a6b2f57": "para “{{query}}”",
+    "63eb38b938b8": "Marcar como na fila",
+    "2fffca525795": "Marcar como enviado",
+    "3ee050a08bfa": "Voltar para Solicitações",
+    "ae6a0ffbe609": "Marcado como na fila",
+    "366cb56b38ce": "Marcado como enviado",
+    "9db7b5ba03bb": "Movido de volta para Solicitações",
+    "bb2be752e079": "Não foi possível alterar o status",
+    "1d7234ff1b79": "em {{feed}}",
+    "e122e5c2b563": "Arraste para cima para fechar",
+    "94cee2c8c1c1": "Seu perfil foi movido",
+    "ebebdc70335b": "Barras de vidro",
+    "5ff272ba7871": "Linhas de seda",
+    "a941e90ca93d": "Capa Halo",
+    "04dbbe4dff7a": "True Wave"
   },
   "dehubLinks": {
     "kind": {
@@ -2782,10 +2819,20 @@
       "numbers": "Lista numerada",
       "link": "Associar",
       "image": "Adicionar imagens"
-    }
+    },
+    "imageLimit": "Artigos podem conter até {{count}} imagens",
+    "imageFailed": "Essa imagem não pôde ser adicionada. Tente outra.",
+    "imagesUploading": "Adicionando imagens ({{count}})…",
+    "bodyTooLong": "{{count}} caracteres acima do limite",
+    "imagesCount": "Imagens · {{count}}/{{max}}",
+    "captionPlaceholder": "Adicionar uma legenda",
+    "captionLabel": "Legenda para a imagem {{n}}",
+    "removeInlineImage": "Remover imagem {{n}}"
   },
   "storefront": {
-    "unavailable": "Não disponível nesta versão do app"
+    "unavailable": "Não disponível nesta versão do app",
+    "continueOnWeb": "Continuar em riftn.com",
+    "webOnlyHint": "Termine isto em riftn.com. Abre no Safari."
   },
   "nav": {
     "launchpad": "Launchpad",
@@ -3670,7 +3717,14 @@
     "showFollowingList": "Mostrar quem eu sigo",
     "showFollowingListDesc": "Permite que qualquer pessoa abra a lista de quem você segue. Desativado, só você pode vê-la.",
     "showFollowCounts": "Mostrar meus números de seguidores",
-    "showFollowCountsDesc": "Mostra quantos seguidores você tem e quantas pessoas você segue. Desativar também oculta as duas listas."
+    "showFollowCountsDesc": "Mostra quantos seguidores você tem e quantas pessoas você segue. Desativar também oculta as duas listas.",
+    "contactSupport": "Contatar suporte",
+    "notificationShowCount": "Mostrar o número no sino",
+    "notificationShowCountDesc": "Ver quantas notificações não foram lidas em vez de apenas o brilho",
+    "messagesShowCount": "Mostrar o número em Mensagens",
+    "messagesShowCountDesc": "Ver quantas mensagens não foram lidas em vez de apenas o brilho",
+    "pushNotRegisteredDescIos": "As notificações não podem chegar até você enquanto o aplicativo estiver fechado: este iPhone nunca se registrou para push. Verifique se as notificações estão permitidas para o Riftn nos Ajustes e, em seguida, abra o aplicativo novamente.",
+    "tipsOffNote": "Gorjetas e envios para você estão desativados enquanto isso estiver ligado. Desative para receber gorjetas novamente."
   },
   "common": {
     "refresh": "Atualizar",
@@ -3890,7 +3944,14 @@
     "aiOverview": "AI overview",
     "refreshLinkPreview": "Atualizar visualização de link",
     "linkPreviewRefreshed": "Visualização de link atualizada",
-    "linkPreviewRefreshFailed": "Não foi possível acessar esse site. Tente novamente mais tarde."
+    "linkPreviewRefreshFailed": "Não foi possível acessar esse site. Tente novamente mais tarde.",
+    "unmuteUser": "Reativar som de {{name}}",
+    "unmuteDesc": "Ver as postagens deles novamente",
+    "unmutedUser": "Som de {{name}} reativado",
+    "castToTv": "Transmitir para a TV",
+    "castIosDesc": "AirPlay para uma Apple TV ou smart TV",
+    "castAndroidDesc": "Espelhe sua tela com Cast ou Smart View",
+    "castAndroidHelp": "Abra suas configurações rápidas e toque em Smart View ou Cast, depois escolha sua TV."
   },
   "filters": {
     "sort": "Ordenar",
@@ -4541,7 +4602,9 @@
       "governancePassed": "Sua proposta “{{title}}” foi aprovada 🎉",
       "governanceRejected": "Sua proposta “{{title}}” não foi aprovada"
     },
-    "searchClose": "Fechar pesquisa"
+    "searchClose": "Fechar pesquisa",
+    "searchPlaceholder": "Pesquisar notificações",
+    "searchEmpty": "Nenhuma notificação corresponde"
   },
   "leaderboard": {
     "title": "Classificação",
@@ -4743,8 +4806,31 @@
       "comments": "Comentários",
       "showLess": "Mostrar menos",
       "viewProfile": "Ver perfil",
-      "you": "Você"
-    }
+      "you": "Você",
+      "title": "Principais construtores",
+      "breakdown": "{{shipped}} enviado ({{sp}}) · {{votes}} votos ({{vp}}) · {{comments}} comentários ({{cp}})",
+      "showAll": "Mostrar os {{n}} principais",
+      "showEveryone": "Mostrar todos os {{n}} construtores",
+      "showMore": "Mostrar mais {{n}}",
+      "rule": "10 pts por solicitação enviada, 1 por voto, 2 por comentário na solicitação de outra pessoa.",
+      "pts": "{{n}} pts",
+      "gap": "{{n}} pts para passar de {{name}}",
+      "join": "Publique um prompt que seja enviado para entrar no quadro",
+      "points": "Pontos",
+      "infoLabel": "Como os pontos funcionam",
+      "infoShipped": "por solicitação enviada",
+      "infoVote": "por voto nas suas solicitações",
+      "infoComment": "por comentário na solicitação de outra pessoa",
+      "infoCap": "Os comentários contam até {{n}} por período.",
+      "pt": "1 pt",
+      "infoTitle": "Como os pontos funcionam"
+    },
+    "deviceInfoNote": "As informações do dispositivo estão anexadas para nos ajudar a corrigir bugs.",
+    "deviceInfo": "Informações do dispositivo",
+    "deviceInfoOwners": "Apenas os proprietários do quadro veem isto",
+    "deviceInfoError": "Não foi possível carregar as informações do dispositivo",
+    "deviceInfoNone": "Nenhuma informação de dispositivo para esta solicitação",
+    "deviceInfoErrors": "Erros recentes"
   },
   "auth": {
     "loginRequired": "Login necessário",
@@ -5050,8 +5136,22 @@
     "likesPrivateDesc": "Esta conta mantém as curtidas só para si.",
     "articleMinRead": "{{count}} min de leitura",
     "reserve": {
-      "signIn": "Entrar"
-    }
+      "signIn": "Entrar",
+      "available": "Nome de usuário disponível",
+      "held": "Reservado para você",
+      "ended": "Reserva encerrada",
+      "busy": "Sendo reservado",
+      "availableBody": "riftn.com/{{name}} está livre agora. Reserve-o e nós o seguraremos por um minuto enquanto você se cadastra.",
+      "heldBody": "Ninguém mais pode pegar @{{name}} até que o tempo acabe. Conclua o cadastro para mantê-lo.",
+      "endedBody": "Seu minuto acabou, então @{{name}} está aberto para todos novamente. Ainda está livre.",
+      "busyBody": "Alguém está se cadastrando como @{{name}} agora mesmo. Se não terminarem, ele será liberado quando o cronômetro acabar.",
+      "finish": "Concluir cadastro",
+      "again": "Reservar novamente",
+      "cta": "Reservar agora",
+      "letGo": "Deixar passar",
+      "haveAccount": "Já tem uma conta?"
+    },
+    "articleViews": "{{views}} visualizações"
   },
   "tv": {
     "title": "TV",
@@ -6021,7 +6121,13 @@
       "authorChip": "Autor da proposta"
     },
     "holdTokensToVote": "Mantenha tokens Riftn para votar",
-    "mustHoldTokens": "Você deve manter tokens Riftn para votar em propostas de governança."
+    "mustHoldTokens": "Você deve manter tokens Riftn para votar em propostas de governança.",
+    "optionVoters_one": "{{count}} votante",
+    "optionVoters_other": "{{count}} votantes",
+    "optionWinner": "Vencedor: {{option}}",
+    "optionNoWinner": "Sem vencedor claro",
+    "optionTapToUndo": "Toque na sua resposta novamente para retirar seu voto",
+    "optionPickOne": "Escolha uma resposta"
   },
   "sidebar": {
     "talkOfTheTown": "Assunto do momento",
@@ -6140,8 +6246,22 @@
     "tabReposts": "Repostagens",
     "tabSearch": "Buscar",
     "threadParts": {
-      "save": "Salvar ordem"
-    }
+      "save": "Salvar ordem",
+      "reorder": "Reorganizar",
+      "reorderHint": "Segure e arraste uma parte ou use as setas, depois salve.",
+      "saved": "Ordem da thread salva",
+      "saveFailed": "Não foi possível salvar a ordem. Tente novamente.",
+      "moveUp": "Mover parte {{n}} para cima",
+      "moveDown": "Mover parte {{n}} para baixo",
+      "addPart": "Adicionar à thread",
+      "addPlaceholder": "Adicionar à sua thread...",
+      "label": "Thread · {{count}} partes"
+    },
+    "attachAudioFile": "Arquivo de áudio",
+    "attachMedia": "Anexe uma foto, vídeo ou áudio",
+    "attachPhotoOrVideo": "Foto ou vídeo",
+    "attachTooLarge": "Esse arquivo excede o limite de {{size}} MB.",
+    "playVideo": "Tocar vídeo"
   },
   "postInfo": {
     "ownersUnavailable": "Os proprietários atuais não podem ser lidos no momento.",
@@ -6672,7 +6792,8 @@
         "invites": "Convites",
         "rules": "Regras",
         "recentActions": "Ações recentes",
-        "danger": "Zona de perigo"
+        "danger": "Zona de perigo",
+        "automod": "Auto-mod & bots"
       },
       "title": "Gerenciar",
       "purgeTitle": "Excluir todas as mensagens?",
@@ -6892,24 +7013,104 @@
       "buyer": "Comprador:",
       "balance": "Saldo:",
       "price": "Preço:",
-      "marketCap": "Valor de mercado:"
+      "marketCap": "Valor de mercado:",
+      "title": "{{amount}} COMPRAR",
+      "txn": "Txn",
+      "titleToken": "{{amount}} ${{symbol}} COMPRAR"
     },
     "newChat": {
       "public": "Público",
       "private": "Privado",
       "free": "Grátis",
       "paid": "Pago",
-      "group": "Agrupar"
+      "group": "Agrupar",
+      "description": "Sobre o que é? (opcional)",
+      "groupCreated": "Grupo criado",
+      "channelCreated": "Canal criado",
+      "newGroup": "Novo grupo",
+      "newChannel": "Novo canal",
+      "groupName": "Nome do grupo",
+      "channelName": "Nome do canal",
+      "whoCanJoin": "Quem pode entrar",
+      "publicDetail": "Qualquer pessoa pode encontrar e entrar",
+      "inviteOnly": "Apenas por convite",
+      "privateDetail": "As pessoas entram com seu convite ou sua aprovação",
+      "entry": "Entrada",
+      "freeDetail": "Sem custo para entrar",
+      "paidDetail": "Um pagamento em tokens, direto para você",
+      "price": "Preço em tokens",
+      "channelNote": "Apenas você e seus administradores podem publicar. Os membros leem e reagem.",
+      "createGroup": "Criar grupo",
+      "createChannel": "Criar canal",
+      "channel": "Canal",
+      "adminsOnly": "Apenas administradores publicam neste canal.",
+      "message": "Nova mensagem",
+      "messageDetail": "Um chat privado com uma pessoa",
+      "groupDetail": "Chat com muitas pessoas, público ou privado",
+      "channelDetail": "Transmissão para seguidores, gratuita ou paga",
+      "title": "Começar algo",
+      "channelRow": "Canal · {{formattedCount}} membros",
+      "groupRow": "Grupo · {{formattedCount}} membros"
     },
     "holderGate": {
       "chain": "Corrente",
-      "tab": "Titulares"
+      "tab": "Titulares",
+      "failed": "Não consegui ler o seu saldo agora. Tente novamente em um momento.",
+      "short": "Titulares apenas: você precisa de {{need}}. Você é o {{have}}.",
+      "required": "Titulares apenas: sua carteira não tem dinheiro suficiente da moeda da comunidade para conversar.",
+      "topHolders": "Detentores de topo",
+      "noHolders": "Os detentores aparecem aqui quando se juntam.",
+      "saved": "Regra do detentor salva",
+      "cleared": "Todas as pessoas podem se juntar novamente",
+      "saveFailed": "Não consegui salvar a regra.",
+      "title": "Detentores apenas",
+      "explain": "Somente carteiras que possuem esse token podem se juntar e conversar. As balanças são lidas da cadeia quando alguém se junta.",
+      "dehubTokens": "Riftn tokens",
+      "otherToken": "Outro token",
+      "token": "Contrato de token",
+      "reading": "Lendo token…",
+      "badAddress": "Essa não é uma endereço de token",
+      "minimum": "Mínimo para manter",
+      "save": "Não há nada a traduzir.",
+      "chip": "Detentores apenas · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Palavras banidas",
       "floodMax": "Mensagens do {{count}}",
       "saved": "Guardado",
-      "wordCount": "{{count}} palavras"
+      "wordCount": "{{count}} palavras",
+      "title": "Auto-modo",
+      "hint": "Bloqueia uma mensagem antes que alguém a veja e informa o remetente por que. Os proprietários e administradores nunca são bloqueados.",
+      "enabled": "Modo automático ativado",
+      "bannedWordsHint": "Uma por linha ou vírgula. Palavras inteiras apenas, e ortografias espaçadas como s.c.a.m são capturadas também.",
+      "blockLinks": "Bloquear links",
+      "blockLinksHint": "Links externos e convites de Telegram/Discord. Os links do Riftn ainda funcionam.",
+      "repeats": "Bloquear repetições",
+      "repeatsHint": "Impede que alguém envie a mesma linha novamente dentro de 10 minutos.",
+      "flood": "Anti-flood",
+      "floodHint": "No máximo {{max}} mensagens a cada {{seconds}}s por pessoa.",
+      "noAccess": "Apenas o proprietário e os administradores podem alterar essas configurações.",
+      "saveFailed": "Não foi possível salvar. Tente novamente.",
+      "saveWords": "Salvar palavras",
+      "bannedWord": "Essa mensagem contém uma palavra que este grupo não permite.",
+      "links": "Links não são permitidos neste grupo.",
+      "repeat": "Você acabou de enviar isso. Tente dizer algo novo.",
+      "reserved": "Esse tipo de mensagem só pode vir dos bots do grupo.",
+      "floodError": "Você está enviando rápido demais. Aguarde {{value1}}s e tente novamente."
+    },
+    "entry": {
+      "switchChain": "Alterne sua carteira para BNB Chain ou Base para pagar.",
+      "failed": "Não conseguimos confirmar seu pagamento ainda. Se os tokens saíram da sua carteira, toque em Entrar novamente em um minuto.",
+      "chip": "{{amount}} para entrar"
+    },
+    "buyBot": {
+      "title": "Comprar bot",
+      "any": "Qualquer tamanho",
+      "enabled": "Postar alertas de compra",
+      "hint": "Posta cada compra de ${{symbol}} neste chat, cerca de um minuto após acontecer.",
+      "minUsd": "Compra mínima para postar",
+      "noToken": "Vincule um token do cabeçalho do grupo (edite e depois Ticker) e cada compra aparecerá neste chat.",
+      "unsupported": "${{symbol}} está em uma rede ou tipo de pool que o bot de compra ainda não monitora. Suportado: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism e Avalanche (pools estilo Uniswap v2/v3)."
     }
   },
   "work": {
@@ -9050,10 +9251,12 @@
     "editFailed": "Não foi possível aplicar a edição. Tente novamente.",
     "altPlaceholderVideo": "Descreva este vídeo",
     "preview": {
-      "title": "Visualização"
+      "title": "Visualização",
+      "hint": "É assim que sua postagem aparecerá no feed."
     },
     "recent": {
-      "all": "Todos"
+      "all": "Todos",
+      "show": "Mostrar fotos recentes"
     },
     "studio": {
       "crop": "Recortar",
@@ -9069,13 +9272,49 @@
       "ticker": "Faixa de texto",
       "textBg": "Fundamentos DA invenção",
       "font": {
-        "bold": "Negrito"
-      }
+        "bold": "Negrito",
+        "clean": "Clean",
+        "serif": "Serif",
+        "mono": "Mono"
+      },
+      "looks": "Aparências",
+      "adjust": "Ajustar",
+      "tint": "Matiz",
+      "vignette": "Vinheta",
+      "prev": "Foto anterior",
+      "count": "{{n}} de {{total}}",
+      "next": "Próxima foto",
+      "title": "Editar foto",
+      "holdHint": "Mantenha pressionado para ver a original",
+      "cropCorner": "Cortar canto",
+      "original": "Original",
+      "straighten": "Endireitar",
+      "ratioOriginal": "Original",
+      "flip": "Inverter",
+      "stickers": "Figurinhas",
+      "mention": "Mencionar",
+      "layerHint": "Arraste palavras e figurinhas para movê-las. Toque duas vezes para alterar as palavras.",
+      "looksAdjust": "Aparências e ajustar"
     },
     "edited": "Editado",
     "edit": "Editar",
     "moveEarlier": "Mover para trás",
-    "moveLater": "Mover para frente"
+    "moveLater": "Mover para frente",
+    "altHint": "Diga o que há nela para pessoas que não podem vê-la.",
+    "altPlaceholder": "Descreva esta foto",
+    "altTab": "Texto alternativo",
+    "editVideo": "Editar vídeo",
+    "trim": "Cortar",
+    "trimAndCover": "Cortar e capa",
+    "trimStart": "Início do clipe",
+    "trimEnd": "Fim do clipe",
+    "trimHint": "Arraste as alças brancas para cortar. Toque na faixa para mover.",
+    "useFrameAsCover": "Usar este quadro como capa",
+    "photoHoldHint": "Mantenha pressionado para mais opções",
+    "editPhoto": "Editar foto {{n}}",
+    "editAltText": "Editar texto alternativo",
+    "addAltText": "Adicionar texto alternativo",
+    "photoN": "Foto {{n}} de {{total}}"
   },
   "bounty": {
     "claimed": "Resgatado",
@@ -9706,12 +9945,31 @@
     "shareKindChannel": "Canal",
     "shareKindCommunity": "Comunidade",
     "newDrawer": {
-      "to": "Até"
+      "to": "Até",
+      "placeholder": "Nome ou @nome de usuário",
+      "recent": "RECENTES",
+      "suggested": "SUGESTÕES",
+      "youFollow": "PESSOAS QUE VOCÊ SEGUE",
+      "chattedBefore": "Você fala",
+      "mutual": "Mútuo",
+      "dmsOff": "DMs desativadas",
+      "keepTyping": "Continue digitando para pesquisar todos",
+      "sayHi": "Diga oi para alguém",
+      "typeAny": "Digite qualquer nome ou @nome de usuário"
     },
     "download": "Baixar",
     "deleteOneTitle": "Excluir esta mensagem?",
     "retrySend": "Tentar novamente",
-    "discardSend": "Remover"
+    "discardSend": "Remover",
+    "reportMessage": "Denunciar mensagem",
+    "fileSaved": "Arquivo salvo",
+    "fileSaveFailed": "Não foi possível salvar o arquivo",
+    "attachAnything": "Anexe uma foto, vídeo, áudio ou arquivo",
+    "attachFileOrAudio": "Arquivo ou áudio",
+    "attachPhotoOrVideo": "Foto ou vídeo",
+    "attachTooLarge": "Esse arquivo excede o limite de {{size}} MB.",
+    "deleteForBothBody": "Ele será removido para ambos.",
+    "notSent": "Não enviado"
   },
   "editPost": {
     "mediaPermission": "É necessária permissão para a biblioteca multimédia",
@@ -13461,7 +13719,18 @@
     "signInToGenerate": "Faça login para gerar.",
     "libraryFavorites": "Favoritos",
     "libraryFavoriteAdd": "Adicionar aos favoritos",
-    "libraryFavoriteRemove": "Remover dos favoritos"
+    "libraryFavoriteRemove": "Remover dos favoritos",
+    "layerNewAttempt": "Tentar novamente",
+    "layerTitle": "Separar camadas da imagem",
+    "layerPngRequired": "Escolha uma imagem PNG salva, com até 12 MiB e quatro megapixels.",
+    "layerSource": "Imagem original",
+    "layerDescription": "Quatro camadas PNG transparentes. O texto permanece parte de cada imagem.",
+    "layerSeparate": "Camadas separadas",
+    "layerPending": "Trabalho salvo: {{status}}. Colete ou tente salvar novamente sem outro pagamento.",
+    "layerCollect": "Coletar / tentar salvar novamente",
+    "layerOpen": "Abrir camadas no editor",
+    "layerExport": "Exportar camadas PNG + ZIP de manifesto",
+    "layerNumber": "Camada {{number}}"
   },
   "fractions": {
     "title": "Frações",
@@ -13603,7 +13872,8 @@
     "offerSubmitted_other": "Oferta submetida para {{count}} frações a {{price}} tokens cada",
     "yourOfferLabel": "Sua Oferta (tokens por Fração)",
     "listedToast_one": "Listou {{count}} fração a {{price}} tokens cada",
-    "listedToast_other": "Listou {{count}} frações a {{price}} tokens cada"
+    "listedToast_other": "Listou {{count}} frações a {{price}} tokens cada",
+    "nftsSubtitle": "Qualquer NFT, trocas em uma etapa"
   },
   "moderation": {
     "appealDuplicate": "Já interpôs recurso contra isto",
@@ -14915,7 +15185,14 @@
     "faqWhatA": "Via MCP, ele navega por posts públicos do Riftn, pesquisa assuntos e consulta perfis de criadores. Ele não publica em seu nome.",
     "faqAccountQ": "Preciso de uma conta no Riftn?",
     "chatgptFaqAccount": "Nenhuma conta é necessária para ler conteúdo público através do conector. Uma conta Riftn é necessária apenas se você quiser postar, dar gorjetas ou manter tokens Riftn.",
-    "claudeFaqAccount": "Não. Ler conteúdo público funciona sem uma conta. Você só precisa de uma conta Riftn para postar, dar gorjetas ou manter tokens Riftn."
+    "claudeFaqAccount": "Não. Ler conteúdo público funciona sem uma conta. Você só precisa de uma conta Riftn para postar, dar gorjetas ou manter tokens Riftn.",
+    "subtitleAccount": "Use o Riftn do ChatGPT, Claude ou qualquer aplicativo MCP. Navegue sem uma conta ou faça login para salvar rascunhos privados, publicar e agendar postagens, gerenciar imagens e enquetes, ler análises, responder e seguir.",
+    "agentsTitle": "Execute seus agentes a partir do seu assistente",
+    "agentsBody": "Ao conectar, permita também \"Atuar como seus agentes\". Seu assistente poderá então publicar, responder, reagir, republicar, seguir ou editar um perfil como qualquer agente que você possua. Ele nunca poderá atuar como uma conta que você não possui.",
+    "keysTitle": "Chaves pessoais",
+    "keysBody": "Para scripts, bots e aplicativos que não podem abrir uma página de login. Uma chave faz apenas o que você permite e para de funcionar após 30 dias sem uso.",
+    "keysMake": "Criar uma chave pessoal",
+    "manageLinked": "Gerenciar aplicativos e chaves vinculados"
   },
   "credits": {
     "percentUsed": "{{percent}}% usado",
@@ -15029,7 +15306,10 @@
       "title": "Pagar {{name}}?",
       "body": "O tokens vai diretamente para a carteira do app, {{wallet}}. Pagamentos não podem ser reembolsados.",
       "confirm": "Pagar {{amount}} tokens",
-      "sent": "Pago {{amount}} tokens a {{name}}."
+      "sent": "Pago {{amount}} tokens a {{name}}.",
+      "testBadge": "Modo de teste",
+      "testBody": "Você é o proprietário deste aplicativo, então este é um teste: nenhum token é movimentado e o recibo é marcado como teste.",
+      "testSent": "Pagamento de teste de {{amount}} tokens. Nada foi enviado."
     },
     "add": {
       "title": "Adicione {{name}}?",
@@ -15774,7 +16054,8 @@
     "hide": "Esconder",
     "fansBasis": "Mais claro significa que mais de seus seguidores estavam assistindo, nos últimos {{count}} dias.",
     "everyoneBasis": "Não há atividade suficiente de seguidores ainda, então é todos em Riftn.",
-    "earlierShort": "Anteriores"
+    "earlierShort": "Anteriores",
+    "laterShort": "Mais tarde"
   },
   "planned": {
     "title": "Planejado",
@@ -15937,7 +16218,8 @@
     "joinedBody": "Vamos enviar um email para {{email}} quando o token for lançado.",
     "joinedBodyNoEmail": "Vamos te enviar um email quando o token for lançado.",
     "failed": "Não foi possível salvar isso. Tente novamente.",
-    "privacy": "Apenas para te contar sobre o lançamento."
+    "privacy": "Apenas para te contar sobre o lançamento.",
+    "emailPlaceholder": "Seu e-mail"
   },
   "duet": {
     "with": "Dueto com @{{username}}",
@@ -15968,7 +16250,9 @@
     "shareFailed": "Sua gorjeta foi enviada, mas a parte do criador original não foi concluída.",
     "notify": {
       "react": "{{name}} reagiu ao seu vídeo",
-      "reactLive": "{{name}} está reagindo ao seu vídeo ao vivo"
+      "reactLive": "{{name}} está reagindo ao seu vídeo ao vivo",
+      "duet": "{{name}} fez um dueto com seu vídeo",
+      "stitch": "{{name}} fez um stitch com seu vídeo"
     },
     "linkFailed": "O seu post está online, mas não conseguiu ser vinculado ao vídeo original.",
     "settingsHeading": "Remixes",
@@ -16190,7 +16474,56 @@
     "endPrice": "Preço mais baixo, atingido no final ({{symbol}})",
     "dropBadge": "Redução de preço",
     "days_one": "{{count}} dia",
-    "days_other": "{{count}} dias"
+    "days_other": "{{count}} dias",
+    "actCollectionOffer": "Oferta de coleção",
+    "actListed": "Listado",
+    "actSale": "Venda",
+    "buyAll": "Comprar tudo",
+    "buySeveral": "Comprar vários",
+    "cartBought": "{{n}} comprados. Eles já estão na sua carteira.",
+    "cartCount": "{{n}} no carrinho",
+    "cartFull": "Até 20 de cada vez",
+    "cartOneCoin": "Uma corrente e uma moeda por carrinho. Esvazie-o para trocar.",
+    "cartOwn": "Esse é seu",
+    "cartPick": "Toque para adicionar ao carrinho",
+    "forSaleHere": "À venda aqui",
+    "noActivity": "Nada aqui ainda",
+    "shareMessage": "Compre e venda NFTs na Riftn",
+    "allChains": "Todas as redes",
+    "loadFailed": "Não foi possível carregar o mercado. Puxe para tentar novamente.",
+    "signInTitle": "Faça login para ver seus NFTs",
+    "walletOn": "NFTs na sua carteira em {{chain}}",
+    "listedAt": "Listado",
+    "noneHeld": "Nenhum NFT nesta carteira ainda",
+    "title": "NFTs",
+    "subtitle": "Compre e venda em BNB, Base, Ethereum e Robinhood",
+    "startHint": "Liste um NFT seu para ser o primeiro.",
+    "wrongChain": "Mude sua carteira para {{chain}} para negociar isso",
+    "failed": "Não foi possível concluir. Tente novamente.",
+    "bought": "É seu",
+    "cancelledOrder": "Cancelado na rede",
+    "notEnough": "Saldo insuficiente de {{symbol}} na sua carteira",
+    "offerSent": "Oferta enviada",
+    "cancelListing": "Cancelar listagem",
+    "buyConfirm": "Comprar {{name}}?",
+    "volShort": "Vol",
+    "salesCount": "{{n}} vendidos",
+    "bestOffer": "Melhor oferta",
+    "fromOpenSea": "Principais coleções no OpenSea",
+    "buyHere": "Compre-os aqui",
+    "openSeaNote": "Listado no OpenSea. Você paga ao vendedor diretamente no Seaport; a Riftn não adiciona taxas.",
+    "notListed": "Não listado para venda no momento.",
+    "priceLabel": "Preço que o comprador paga",
+    "offerLabel": "Sua oferta",
+    "list": "Listar",
+    "listHint": "Assinar é gratuito. A primeira venda de uma coleção solicita que você a aprove uma vez.",
+    "offerHint": "Assinar é gratuito. Seus tokens permanecem na sua carteira até que o detentor aceite.",
+    "viewOnly": "Comprar e vender NFTs não está disponível neste aplicativo.",
+    "tradeOnWeb": "Negocie em riftn.com",
+    "feesFootnote": "Taxas: 2%, ou 1% ao pagar com tokens. Cada negociação é uma troca on-chain.",
+    "listedCount": "{{n}} à venda",
+    "shortTitle": "NFTs",
+    "bundleBadge": "Pacote ×{{n}}"
   },
   "riftnMove": {
     "title": "DeHub agora é Riftn",
@@ -16229,7 +16562,11 @@
     "loading": "Carregando…",
     "paused": "Pausado",
     "preview": "Visualização",
-    "seek": "Procurar"
+    "seek": "Procurar",
+    "popOut": "Abrir em janela",
+    "backInPost": "Reproduzir aqui em vez disso",
+    "inCorner": "Reproduzindo no canto",
+    "tapToStartApp": "Toque em reproduzir no player do Spotify"
   },
   "twoFactor": {
     "wrongCode": "Esse código não combinou. Tente o mais recente no seu aplicativo.",
@@ -16314,7 +16651,25 @@
   "signedFollows": {
     "setUp": "Ativar",
     "turnOff": "Desligar",
-    "efpTurnOff": "Parar"
+    "efpTurnOff": "Parar",
+    "title": "Seus seguidores, on-chain",
+    "description": "Sua carteira assina quem você segue, e todos os dias a lista é registrada na Base. Qualquer aplicativo pode encontrar seus seguidores a partir da sua carteira, mesmo sem o Riftn.",
+    "on": "Ativado para este dispositivo",
+    "off": "Desativado para este dispositivo",
+    "turnedOn": "Seus seguidores agora estão assinados pela sua carteira",
+    "turnedOff": "Desativado para este dispositivo",
+    "failed": "Sua carteira não assinou. Tente novamente.",
+    "hiddenNote": "Listas de seguidores ocultas e contas privadas são deixadas de fora da lista pública.",
+    "efpOn": "Copiado para EFP · {{count}} seguidores",
+    "efpOff": "Também colocá-los no EFP",
+    "efpTurnOn": "Adicionar ao EFP",
+    "efpDone": "Seus seguidores estão sendo adicionados ao EFP",
+    "efpStopped": "Cópia para o EFP interrompida. A lista continua sendo sua.",
+    "efpHasList": "Você já possui uma lista EFP. O Riftn ainda não consegue preencher essa.",
+    "efpNoGas": "Sua carteira precisa de um pouco de ETH na Base para isso.",
+    "efpFailed": "Isso não foi processado. Tente novamente.",
+    "efpNote": "EFP é uma lista de seguidores que outros aplicativos leem (efp.app). Gratuito com sua carteira Riftn; outras carteiras pagam alguns centavos na Base. A lista é sua.",
+    "efpUseWeb": "Com sua própria carteira, faça isso em Configurações em riftn.com."
   },
   "postStats": {
     "aboutUsual": "sobre seu usual",
@@ -16383,7 +16738,9 @@
       "thu": "Qui",
       "fri": "Sex",
       "sat": "Sáb"
-    }
+    },
+    "timesUsual": "{{ratio}}× habitual",
+    "vsUsualPct": "{{pct}} vs sua publicação habitual"
   },
   "feedFilters": {
     "clearAllShort": "Limpar tudo",
@@ -16392,7 +16749,20 @@
     "groupDate": "Data",
     "groupSort": "Ordenar",
     "groupType": "Tipo",
-    "save": "Salvar"
+    "save": "Salvar",
+    "clearAll": "Limpar todos os filtros",
+    "collapse": "Ocultar filtros",
+    "count": "{{count}} filtros ativados",
+    "deletePreset": "Excluir {{name}}",
+    "groupAccess": "Acesso",
+    "groupTag": "Marcar",
+    "myPresets": "Meus presets",
+    "presetName": "Nome do preset",
+    "remove": "Remover {{label}}",
+    "saveCurrent": "+ Salvar atual",
+    "savePreset": "Salvar como preset",
+    "show": "Mostrar filtros",
+    "updatePreset": "Renomear preset"
   },
   "ownKeys": {
     "working": "Processando",
@@ -16400,7 +16770,21 @@
     "check": "Verificar",
     "remove": "Remover",
     "save": "Salvar",
-    "cancel": "Cancelar"
+    "cancel": "Cancelar",
+    "title": "Suas próprias chaves de IA",
+    "description": "Adicione uma chave de um provedor de IA e as ferramentas do Criador serão executadas na sua conta. A Riftn não cobra nada por esses trabalhos. As chaves são criptografadas e nunca mais serão exibidas.",
+    "invalid": "Rejeitado, substitua-o",
+    "noCredit": "Sem crédito",
+    "disabled": "Desativado pela Riftn",
+    "saved": "Chave {{name}} salva. As ferramentas em {{name}} agora usam sua conta.",
+    "savedNoCredit": "Chave {{name}} salva, mas a conta está sem crédito.",
+    "removed": "Chave {{name}} removida.",
+    "replaceKey": "Substituir chave",
+    "add": "Adicionar chave",
+    "paste": "Cole sua chave {{name}}",
+    "getKey": "Obter uma chave {{name}}",
+    "showLess": "Mostrar apenas minhas chaves",
+    "addAnother": "Adicionar outro provedor"
   },
   "postBg": {
     "none": "Nenhum",
@@ -16410,44 +16794,196 @@
       "lava": "Lâmpada de lava",
       "chrome": "Cromo Líquido",
       "orbit": "Órbita",
-      "snow": "Queda de neve"
-    }
+      "snow": "Queda de neve",
+      "ink": "Lavagem de tinta",
+      "news": "Papel de jornal",
+      "split": "Divisão crepuscular",
+      "blue": "Projeto",
+      "terra": "Terrazzo",
+      "half": "Pop de meio-tom",
+      "topo": "Contorno",
+      "velvet": "Veludo",
+      "sorbet": "Sorbet",
+      "carbon": "Carbono",
+      "echo": "Eco do perfil",
+      "cards": "Cartões de Cores",
+      "deck": "Baralho de Padrões",
+      "aurora": "Aurora",
+      "stars": "Campo Estelar",
+      "rain": "Chuva no Vidro",
+      "drive": "Dirigindo à Noite",
+      "breathe": "Respire",
+      "spin": "Giro de Prisma",
+      "tide": "Maré",
+      "ember": "Brasas",
+      "holo": "Papel Holográfico",
+      "rift": "Fenda",
+      "mesh": "Malha",
+      "grain": "Granulação de Filme",
+      "ripple": "Ondulação",
+      "dotwave": "Onda de Pontos",
+      "scan": "CRT",
+      "silk": "Seda",
+      "bokeh": "Bokeh",
+      "photo": "Sua foto"
+    },
+    "title": "Fundo da publicação",
+    "editRow": "Fundo da publicação",
+    "hint": "Deslize a faixa. Sua publicação muda conforme você desliza. Só você pode alterar isso.",
+    "moving": "Em movimento",
+    "still": "Estático",
+    "plain": "Publicações simples",
+    "position": "{{n}} de {{total}}",
+    "sample": "É assim que suas publicações de texto aparecem no seu perfil.",
+    "saveFailed": "Não foi possível salvar seu fundo. Tente novamente.",
+    "base": "Base",
+    "accent2": "Acento 2",
+    "ownColours": "Suas próprias cores",
+    "addPhoto": "Adicionar uma imagem ou GIF",
+    "changePhoto": "Alterar imagem ou GIF"
   },
   "articleTile": {
-    "cover": "Capa"
+    "cover": "Capa",
+    "title": "Blocos de artigo",
+    "dropcap": "Letra capitular",
+    "hint": "Como seus artigos aparecem na grade do seu perfil. Só você pode alterar isso.",
+    "saveFailed": "Não foi possível salvar. Tente novamente."
   },
   "aiConsent": {
-    "allow": "Permitir"
+    "allow": "Permitir",
+    "title": "Usar recursos de IA?",
+    "body": "Para funcionar, os recursos de IA enviam o que você fornece (seu texto, fotos ou áudio, e a publicação ou chat relacionado) para provedores de IA terceiros, como Google, OpenAI, Groq, OpenRouter, fal e ElevenLabs. Você pode alterar isso a qualquer momento em Configurações → Privacidade.",
+    "declined": "Os recursos de IA estão desativados. Você pode ativá-los em Configurações → Privacidade.",
+    "settingLabel": "Recursos de IA",
+    "settingDesc": "Permita que o assistente, a tradução, as respostas sugeridas e a ajuda na escrita enviem o que você fornece a provedores de IA terceiros."
   },
   "dmRequests": {
     "title": "Solicitações",
     "accept": "Aceitar",
     "delete": "Excluir",
-    "block": "Bloquear"
+    "block": "Bloquear",
+    "hint": "Mensagens de pessoas que você não segue. Aceite uma, responda ou siga-as e o chat será movido para sua caixa de entrada.",
+    "rowHint": "{{n}} de pessoas que você não segue",
+    "banner": "Você não segue {{name}}. Aceite para mover este chat para sua caixa de entrada, ou apenas responda.",
+    "accepted": "Movido para sua caixa de entrada",
+    "acceptFailed": "Não foi possível aceitar, tente novamente"
   },
   "dmSchedule": {
     "view": "Ver",
     "edit": "Editar",
     "editLabel": "Editar mensagem",
-    "error": "Isso não funcionou. Tente novamente."
+    "error": "Isso não funcionou. Tente novamente.",
+    "button": "Agendar mensagem",
+    "title": "Mensagens agendadas",
+    "whenTitle": "Enviar quando?",
+    "waiting": "{{n}} agendado",
+    "next": "próximo {{when}}",
+    "failedCount": "{{n}} não enviado",
+    "notSent": "Não enviado",
+    "emptyTitle": "Nada agendado",
+    "emptyBody": "Escreva uma mensagem e toque no relógio para escolher quando ela será enviada.",
+    "changeTime": "Alterar horário",
+    "sendNow": "Enviar agora",
+    "deleted": "Mensagem agendada excluída",
+    "unreadable": "Escrita em outro dispositivo. Ela ainda será enviada.",
+    "footnote": "Os horários estão no seu fuso horário. Ninguém vê uma mensagem até que ela seja enviada.",
+    "footnoteNamed": "Os horários estão no seu fuso horário. {{name}} só vê uma mensagem depois que ela é enviada.",
+    "textOnly": "Apenas mensagens de texto podem ser agendadas por enquanto.",
+    "scheduledToast": "Agendado para {{when}}",
+    "failedToast": "Não foi possível enviar uma mensagem agendada"
   },
   "chatBulk": {
     "selected": "{{count}} selecionado",
     "cancel": "Cancelar",
     "reply": "Responder",
-    "delete": "Excluir"
+    "delete": "Excluir",
+    "select": "Selecionar",
+    "toolbar": "Chats selecionados",
+    "pick": "Toque nos chats para selecioná-los",
+    "read": "Marcar como lida",
+    "unread": "Marcar como não lida",
+    "replyTitle_one": "Responder ao chat de {{count}}",
+    "replyTitle_other": "Responder a {{count}} chats",
+    "replyHint": "Cada pessoa recebe isto como uma mensagem normal no seu próprio chat.",
+    "replyPlaceholder": "Escreva uma mensagem…",
+    "sendAll": "Enviar para {{count}}",
+    "deleted_one": "Chat {{count}} eliminado",
+    "deleted_other": "Chats {{count}} eliminados",
+    "sent_one": "Enviado para o chat {{count}}",
+    "sent_other": "Enviado para os chats {{count}}",
+    "partSent": "Enviado para {{ok}} de {{total}} chats",
+    "notSent": "Não foi possível enviar. Tente novamente."
   },
   "msgSelect": {
     "selected": "{{count}} selecionado",
     "copy": "Copiar",
     "forward": "Encaminhar",
     "deleted_one": "Mensagem deletada {{count}}",
-    "deleted_other": "Mensagens deletadas {{count}}"
+    "deleted_other": "Mensagens deletadas {{count}}",
+    "toolbar": "Mensagens selecionadas",
+    "pick": "Toque nas mensagens para as selecionar",
+    "deleteSome": "Eliminar {{count}}",
+    "forwarded_one": "Mensagem {{count}} reencaminhada",
+    "forwarded_other": "Mensagens {{count}} reencaminhadas",
+    "partForwarded": "Reencaminhado {{ok}} de {{total}}",
+    "nothingToCopy": "Nada para copiar nas mensagens escolhidas",
+    "copied_one": "Mensagem {{count}} copiada",
+    "copied_other": "Mensagens {{count}} copiadas",
+    "deleteTitle_one": "Eliminar mensagem {{count}}?",
+    "deleteTitle_other": "Eliminar mensagens {{count}}?",
+    "deleteBody": "Serão removidas para todos neste chat.",
+    "deleteForBothBody": "Serão removidas para ambos."
   },
   "mentionLinks": {
     "communities": "Comunidades",
     "pages": "Páginas",
     "people": "Pessoas",
     "linkTo": "Vincular {{name}}"
+  },
+  "messagesTabs": {
+    "all": "Tudo",
+    "unread": "Não lidas",
+    "groups": "Grupos"
+  },
+  "postEditHistory": {
+    "title": "Histórico de edições",
+    "edited_one": "Editado uma vez",
+    "edited_other": "Editado {{count}} vezes",
+    "lastEdit": "Última edição {{time}}",
+    "original": "Original",
+    "editN": "Edição {{n}}",
+    "now": "Agora",
+    "showChanges": "Mostrar o que mudou"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "A postagem permanece.",
+      "onBody": "A postagem se exclui {{value1}} após ser publicada."
+    }
+  },
+  "dmSafety": {
+    "notReal": "Este não é o verdadeiro {{name}}.",
+    "neverLink": "A equipe da Riftn nunca enviará uma DM com um link para corrigir seu perfil ou carteira. Não abra links, não conecte sua carteira e não assine nada. Bloqueie e denuncie esta conta."
+  },
+  "resetWallet": {
+    "mismatch": "As palavras-passe não coincidem",
+    "tooShort": "A palavra-passe deve ter pelo menos {{count}} caracteres",
+    "breached": "Esta palavra-passe apareceu numa violação de dados. Escolha uma diferente",
+    "weak": "Escolha uma palavra-passe mais forte (misture letras, números e símbolos)",
+    "doneTitle": "A sua conta está na sua nova carteira",
+    "twoFactor": "Introduza o código da sua aplicação de autenticação para mover a sua conta.",
+    "failed": "Não foi possível repor a sua carteira. Nada foi movido. Tente novamente.",
+    "title": "Redefinir carteira",
+    "reloginApp": "Uma redefinição é comprovada com o e-mail, telefone ou login do Google da sua conta, não com a carteira antiga, porque qualquer pessoa que possua a chave antiga também poderia assinar. Saia da conta, entre novamente com esse login e depois volte aqui. Ainda não tem um e-mail de login? Adicione um em riftn.com em Configurações → Login primeiro.",
+    "logOut": "Sair",
+    "intro": "Cria uma nova carteira Riftn e move seu nome de usuário, postagens, seguidores e mensagens para ela. Use isso se sua carteira for perdida ou se outra pessoa tiver a chave dela. A carteira antiga para de funcionar para login.",
+    "funds": "Tokens, NFTs e outros saldos não são movidos. Eles permanecem no endereço antigo. Se você ainda conseguir abrir a carteira antiga, envie-os para fora primeiro.",
+    "password": "Nova senha da carteira (mín. {{count}} caracteres)",
+    "confirm": "Confirmar senha",
+    "twoFactorPlaceholder": "Código do autenticador",
+    "ack": "Eu entendo que meus fundos antigos permanecem na carteira antiga.",
+    "submit": "Redefinir carteira",
+    "cancel": "Cancelar",
+    "rowDesc": "Perdeu sua carteira ou outra pessoa tem a chave dela? Mova sua conta para uma nova carteira. Seu nome de usuário, postagens e seguidores vão com você."
   }
 }
