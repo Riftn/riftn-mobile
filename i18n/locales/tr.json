@@ -7424,6 +7424,8 @@
     "noLiveStreams": "Canlı yayın yok",
     "noOneStreaming": "Şu anda kimse yayın yapmıyor. Daha sonra tekrar bak!",
     "loadStreamsFailed": "Yayınlar yüklenemedi. Lütfen tekrar dene.",
+    "shareLive": "{{name}} şu anda Riftn'de canlı yayında, hemen izle! \"{{title}}\"",
+    "shareReplay": "{{name}} adlı kişinin canlı yayın tekrarını Riftn'de izle",
     "screenShare": {
       "start": "Ekranı paylaş",
       "stop": "Ekran paylaşımını durdur",

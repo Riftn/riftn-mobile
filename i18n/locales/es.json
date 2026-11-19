@@ -7425,6 +7425,8 @@
     "noLiveStreams": "No hay directos",
     "noOneStreaming": "Nadie está transmitiendo ahora. ¡Vuelve más tarde!",
     "loadStreamsFailed": "No se pudieron cargar los directos. Inténtalo de nuevo.",
+    "shareLive": "¡Mira a {{name}} en directo en Riftn ahora! \"{{title}}\"",
+    "shareReplay": "Mira la repetición del directo de {{name}} en Riftn",
     "screenShare": {
       "start": "Compartir pantalla",
       "stop": "Dejar de compartir pantalla",

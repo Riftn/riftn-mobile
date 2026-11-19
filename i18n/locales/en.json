@@ -7466,7 +7466,9 @@
     "justChatting": "Just Chatting",
     "noLiveStreams": "No Live Streams",
     "noOneStreaming": "No one is streaming right now. Check back later!",
-    "loadStreamsFailed": "Unable to load streams. Please try again."
+    "loadStreamsFailed": "Unable to load streams. Please try again.",
+    "shareLive": "Watch {{name}} live on Riftn now! \"{{title}}\"",
+    "shareReplay": "Watch {{name}}'s live replay on Riftn"
   },
   "liveShop": {
     "title": "Shop this stream",
