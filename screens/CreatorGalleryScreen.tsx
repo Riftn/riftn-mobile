@@ -4,6 +4,9 @@ import { useNavigation, useRoute, type RouteProp } from '@react-navigation/nativ
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import Avatar from '../components/common/Avatar';
+import { getAccountSummaries } from '../services/user.service';
+import { useUserProfileSheet } from '../context/UserProfileSheetContext';
 import ScreenHeader from '../components/ScreenHeader';
 import SmartImage from '../components/common/SmartImage';
 import ImageViewerModal from '../components/common/ImageViewerModal';
@@ -33,6 +36,7 @@ export default function CreatorGalleryScreen() {
   const route = useRoute<RouteProp<AppStackParamList, ScreenNames.CreatorGallery>>();
   const id = route.params?.id;
   const user = useUser();
+  const { showUserProfile } = useUserProfileSheet();
   const wallet = (user?.walletAddress || user?.address || '').toLowerCase();
   const { width } = useWindowDimensions();
   const qc = useQueryClient();
@@ -50,12 +54,13 @@ export default function CreatorGalleryScreen() {
   const discussion = useQuery({ queryKey: ['generation-discussion', id, wallet], queryFn: () => readGenerationDiscussion(id!), enabled: !!id });
   const items = list.data?.pages.flat() ?? [];
   const item = detail.data?.[0];
+  const author = useQuery({ queryKey: ['generation-author', item?.owner_wallet], enabled: !!item?.owner_wallet, staleTime: 300_000, queryFn: async () => (await getAccountSummaries([item!.owner_wallet!]))[0] }).data;
   const index = items.findIndex(row => row.id === id);
   useEffect(() => { if (id && list.hasNextPage && !list.isFetchingNextPage && (index < 0 || index >= items.length - 2)) void list.fetchNextPage(); }, [id, index, items.length, list.hasNextPage, list.isFetchingNextPage]);
   useEffect(() => { setReply(null); setEditing(null); setFullscreen(false); if (index >= 0) pager.current?.scrollToIndex({ index, animated: false }); }, [id, index, width]);
   const mutation = useMutation({ mutationFn: ({ action, data }: { action: string; data: Record<string, string | boolean | null> }) => writeGeneration(id!, action, { ...data, username: user?.username ?? null, avatar: user?.avatarImageUrl ?? null }, wallet),
     onSuccess: () => { void qc.invalidateQueries({ queryKey: ['public-generations'] }); void qc.invalidateQueries({ queryKey: ['generation-discussion', id] }); },
-    onError: (error: Error) => Alert.alert(t('common.error'), error.message) });
+    onError: (error: Error) => Alert.alert(t('common.error', { defaultValue: 'Something went wrong. Please try again.' }), error.message) });
   const act = (action: string, data: Record<string, string | boolean | null>) => { if (!wallet) { nav.navigate(ScreenNames.SignIn); return; } if (!mutation.isPending) mutation.mutate({ action, data }); };
   const showComments = () => { scroll.current?.scrollTo({ y: commentY, animated: true }); input.current?.focus(); };
   const rows = useMemo(() => {
@@ -82,9 +87,9 @@ export default function CreatorGalleryScreen() {
           onMomentumScrollEnd={event => { const next = items[Math.round(event.nativeEvent.contentOffset.x / width)]; if (next && next.id !== id) nav.setParams({ id: next.id, commentId: undefined, comment: undefined }); }}
           renderItem={({ item: slide }) => <Pressable onPress={() => setFullscreen(true)} accessibilityLabel={t('creator.gallery.fullscreen', { defaultValue: 'View full screen' })} style={{ width, height: width * 0.85, backgroundColor: '#000' }}><SmartImage source={{ uri: slide.image_url }} contentFit="contain" style={{ width, height: '100%' }} /></Pressable>} />
           : <MosaicImage item={item} onPress={() => setFullscreen(true)} />}
-        <View className="px-4"><Text className="mt-4 text-lg font-bold text-theme-neutrals-100">{item.title || t('creator.aiGenerationAlt')}</Text>
+        <View className="px-4">{item.owner_wallet && <Pressable onPress={() => showUserProfile(author?.username || item.owner_wallet!)} className="mt-4 flex-row items-center gap-3"><Avatar uri={author?.avatarImageUrl} name={author?.username || item.owner_wallet} size={36} /><Text className="font-bold text-theme-neutrals-100">{author?.displayName || author?.username || item.owner_wallet.slice(0, 6) + '…' + item.owner_wallet.slice(-4)}</Text></Pressable>}<Text className="mt-4 text-lg font-bold text-theme-neutrals-100">{item.title || t('creator.aiGenerationAlt')}</Text>
           <FeedActionBar liked={!!item.my_reaction && item.my_reaction !== 'dislike'} disliked={item.my_reaction === 'dislike'} saved={item.saved} reposted={false}
-            likeCount={item.likes} dislikeCount={item.dislikes} commentCount={item.comments} repostCount={0} tipCount={0} myReaction={item.my_reaction}
+            reactionCounts={item.reaction_counts} likeCount={item.likes} dislikeCount={item.dislikes} commentCount={item.comments} repostCount={0} tipCount={0} myReaction={item.my_reaction}
             onLike={() => act('react', { reaction: item.my_reaction ? null : 'like' })} onReact={reaction => act('react', { reaction: item.my_reaction === reaction ? null : reaction })}
             onComment={showComments} onShare={share} onSave={() => act('save', { saved: !item.saved })} onInfo={() => Alert.alert(item.title || t('creator.aiGenerationAlt'), new Date(item.created_at).toLocaleString())} />
         </View>
@@ -106,7 +111,7 @@ export default function CreatorGalleryScreen() {
           })}
           {(reply || editing) && button(t('common.cancel'), () => { setReply(null); setEditing(null); setDraft(''); })}
           {reply && <Text className="text-theme-neutrals-300">{t('governance.discussion.replyingTo', { name: reply.username || reply.wallet_address })}</Text>}
-          <TextInput ref={input} multiline maxLength={4000} value={draft} onChangeText={setDraft} placeholder={t('governance.addComment')} placeholderTextColor="#888" className="my-3 rounded-xl border border-theme-neutrals-600 p-3 text-theme-neutrals-100" />
+          <TextInput ref={input} multiline maxLength={4000} value={draft} editable={!mutation.isPending} onChangeText={setDraft} placeholder={t('governance.addComment')} placeholderTextColor="#888" className="my-3 rounded-xl border border-theme-neutrals-600 p-3 text-theme-neutrals-100" />
           {button(t('common.send', { defaultValue: 'Send' }), () => {
             if (!wallet) { nav.navigate(ScreenNames.SignIn); return; }
             mutation.mutate({ action: editing ? 'edit' : 'comment', data: { content: draft, parent_id: reply?.id ?? null, comment_id: editing?.id ?? null } }, { onSuccess: () => { setDraft(''); setReply(null); setEditing(null); } });
