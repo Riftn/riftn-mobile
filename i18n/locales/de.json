@@ -9921,6 +9921,7 @@
     "viewFeed": "Ihren Feed anzeigen",
     "yourChannel": "Dein Kanal",
     "yourChannelHint": "Füge deine Kanaladresse ein – der Handle allein funktioniert auch.",
+    "placeholder": "youtube.com/@you, tiktok.com/@you, vimeo.com/you…",
     "costsNote": "Bezahlt in Riftn-Token, einmalig, bevor der Batch beginnt. Badge-Inhaber zahlen weniger – dein Rabatt wird auf das Angebot angewendet. Wenn ein Video nicht importiert werden kann, wird sein Anteil auf deine nächste Migration gutgeschrieben."
   },
   "calls": {

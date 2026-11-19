@@ -2655,14 +2655,20 @@
     "94cee2c8c1c1": "آپ کی پروفائل منتقل ہو گئی",
     "22577ebd908e": "Wan 3.0 ویڈیو بنائیں · اصل ساؤنڈ ٹریک",
     "1fa2357ab7e1": "Seedance 720p ویڈیو بنائیں · اصل ساؤنڈ ٹریک",
-    "5dc85dbc155e": "BNB چین",
-    "89c9b65356e3": "X (ٹویٹر)",
-    "a731a58c4cf3": "ٹوئچ",
+    "5dc85dbc155e": "BNB Chain",
+    "89c9b65356e3": "X (Twitter)",
+    "a731a58c4cf3": "Twitch",
     "ebebdc70335b": "گلاس بارز",
     "5ff272ba7871": "سلک لائنز",
     "a941e90ca93d": "کور ہیلو",
     "04dbbe4dff7a": "ٹرو ویو",
-    "f223faa96f22": "ایپل"
+    "f223faa96f22": "Apple",
+    "00c90f4b707a": "SRT / VTT",
+    "713d24d02e26": "XXXX-XXXX",
+    "7b17fb0bd173": "name@example.com",
+    "8d6f0c73fbaf": "RTMP:",
+    "90e98b380307": "Watch2Earn: ",
+    "b4c9a289323b": "user@example.com"
   },
   "dehubLinks": {
     "kind": {
@@ -3041,7 +3047,8 @@
       "planned": "شیڈولڈ، شیڈول، شیڈولڈ پوسٹس، قطار، بعد میں",
       "liveStudio": "لائیو جائیں، اسٹریم، اسٹریمنگ، OBS، اوورلیز، الرٹس، ویجٹس",
       "launchpad": "ٹوکن لانچ کریں، کوائن بنائیں، کوائن تیار کریں، میم کوائن، بانڈنگ کرو، ٹوکنائز کریں"
-    }
+    },
+    "nfts": "NFT"
   },
   "affiliate": {
     "subtitle": "آپ کے ہر مدعو کردہ شخص سے کمائیں — ہمیشہ کے لیے",
@@ -7072,7 +7079,9 @@
         "showMore": "مزید دکھائیں ({{value}})"
       },
       "searchMembers": "نام، @username یا والیٹ کے لحاظ سے تلاش کریں",
-      "noMemberMatches": "اس تلاش سے کوئی ممبر مماثل نہیں ہے۔"
+      "noMemberMatches": "اس تلاش سے کوئی ممبر مماثل نہیں ہے۔",
+      "reasonCounter": "{{len}}/200",
+      "restrictionWithReason": "{{state}} — {{reason}}"
     },
     "chooseAvatar": "اوتار منتخب کریں",
     "loadFailed": "کمیونٹیز لوڈ نہیں ہو سکیں",
@@ -7681,7 +7690,8 @@
       "cancelled": "منسوخ"
     },
     "removePhoto": "تصویر ہٹائیں",
-    "listingOptions": "لسٹنگ کے اختیارات"
+    "listingOptions": "لسٹنگ کے اختیارات",
+    "podUrlPlaceholder": "https://…"
   },
   "accounts": {
     "browse": "براؤز کریں",
@@ -8475,7 +8485,8 @@
       "emptyFeed": "ہمیں اس فیڈ میں کوئی قسط نہیں مل سکی ۔",
       "badFeed": "یہ لنک پوڈ کاسٹ فیڈ کی طرح نہیں لگتا ہے ۔",
       "tooMany": "ایک وقت میں 20 اقساط تک درآمد کریں ۔"
-    }
+    },
+    "tileSourceKind": "{{source}} · {{kind}}"
   },
   "earnings": {
     "filter24h": "24گھنٹے",
@@ -11066,7 +11077,7 @@
         "tutorial": "کوئک ٹیوٹوریل"
       },
       "useFormat": "{{aspect}} ویڈیو فارمیٹ استعمال کریں",
-      "duration": "{{seconds}}سیکنڈ"
+      "duration": "{{seconds}}s"
     },
     "highlights": {
       "captionHint": "صرف موجودہ عنوانات کے ذریعہ احاطہ کردہ تقریر پر غور کیا جائے گا ۔",
@@ -11270,7 +11281,8 @@
       "agentWebOnly": "اس میں سے کچھ فی الحال صرف ویب ایڈیٹر میں کام کرتا ہے۔",
       "brandLogoHint": "صفحے پر کوئی تصویر منتخب کریں، پھر اسے اپنے لوگو کے طور پر استعمال کریں۔",
       "useAsLogo": "منتخب تصویر استعمال کریں",
-      "bgRemoveFailed": "پس منظر ہٹایا نہیں جا سکا۔ کوئی اور تصویر آزمائیں۔"
+      "bgRemoveFailed": "پس منظر ہٹایا نہیں جا سکا۔ کوئی اور تصویر آزمائیں۔",
+      "dimensions": "{{width}} × {{height}}"
     },
     "filters": {
       "none": "اصل",
@@ -11660,7 +11672,8 @@
       "tZoomIn": "زوم ان کریں",
       "tZoomOut": "زوم آؤٹ کریں",
       "tFlyUp": "فلائی اپ (Fly up)",
-      "tFlyDown": "فلائی ڈاؤن (Fly down)"
+      "tFlyDown": "فلائی ڈاؤن (Fly down)",
+      "speedValue": "{{value}}×"
     },
     "motion": {
       "title": "حرکت",
@@ -11703,7 +11716,8 @@
         "easeOutBack": "واپسی اختتام پر",
         "easeInOutBack": "واپسی آغاز و اختتام پر",
         "hold": "روکے رکھیں"
-      }
+      },
+      "segment": "{{from}} → {{to}}"
     },
     "live": {
       "paused": "لائیو ایڈیٹس منقطع",
@@ -16063,7 +16077,9 @@
     "tradeOnWeb": "riftn.com پر ٹریڈ کریں۔",
     "feesFootnote": "فیس: 2%، یا ٹوکنز میں ادائیگی کرنے پر 1%۔ ہر ٹریڈ ایک آن چین سواپ ہے۔",
     "alertSaved": "الرٹ آن ہے۔ جب کوئی لسٹ ہوگا تو ہم آپ کو بتا دیں گے۔",
-    "statMinted": "منٹڈ"
+    "statMinted": "منٹڈ",
+    "title": "NFT",
+    "shortTitle": "NFT"
   },
   "riftnMove": {
     "title": "DeHub اب Riftn ہے",
@@ -16793,7 +16809,7 @@
       "grain": "فلم گرین",
       "ripple": "رپل",
       "dotwave": "ڈاٹ ویو",
-      "scan": "سی آر ٹی",
+      "scan": "CRT",
       "silk": "سلک",
       "bokeh": "بوکے",
       "photo": "آپ کی تصویر"

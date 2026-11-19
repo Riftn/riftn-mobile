@@ -2543,12 +2543,29 @@
     "94cee2c8c1c1": "您的个人资料已移动",
     "22577ebd908e": "生成 Wan 3.0 视频 · 原声带",
     "1fa2357ab7e1": "生成 Seedance 720p 视频 · 原声带",
-    "5dc85dbc155e": "BNB链",
+    "5dc85dbc155e": "BNB Chain",
     "ebebdc70335b": "玻璃条",
     "5ff272ba7871": "丝绸线条",
     "a941e90ca93d": "光晕遮罩",
     "04dbbe4dff7a": "真实波纹",
-    "f223faa96f22": "苹果"
+    "f223faa96f22": "Apple",
+    "94a6a84d8cbc": "Solscan",
+    "00c90f4b707a": "SRT / VTT",
+    "1a00975a0ac1": "@channel",
+    "2f51108189d2": "PPV: ",
+    "450683b66da4": " SRT / VTT",
+    "713d24d02e26": "XXXX-XXXX",
+    "7b17fb0bd173": "name@example.com",
+    "89c9b65356e3": "X (Twitter)",
+    "8d6f0c73fbaf": "RTMP:",
+    "a731a58c4cf3": "Twitch",
+    "af4707aebdfa": "OpenAI $",
+    "b4c9a289323b": "user@example.com",
+    "bd4ef74463ac": "BUSD",
+    "bf4151fc970f": "WORK_ADMIN_ARBITERS",
+    "bf640b85d499": "riftn.com · ",
+    "ca7842e53ac8": "riftn.com",
+    "12a7c0529934": "/docs/getting-started"
   },
   "dehubLinks": {
     "kind": {
@@ -2925,7 +2942,9 @@
     "premium": "高级版",
     "pricing": "定价",
     "reorderHint": "按住并拖动任意图标以重新排列",
-    "reorderReset": "重置"
+    "reorderReset": "重置",
+    "nfts": "NFT",
+    "dao": "DAO"
   },
   "affiliate": {
     "subtitle": "你邀请的每个人都为你带来收入——永久有效",
@@ -3703,7 +3722,8 @@
     "messagesShowCount": "在消息中显示数字",
     "messagesShowCountDesc": "查看未读消息数量，而不是仅仅显示光晕",
     "pushNotRegisteredDescIos": "当应用关闭时，通知无法到达你：此 iPhone 从未注册推送。检查设置中是否允许 Riftn 的通知，然后再次打开应用。",
-    "tipsOffNote": "当此功能开启时，小费和转账对你关闭。关闭它以再次获得小费。"
+    "tipsOffNote": "当此功能开启时，小费和转账对你关闭。关闭它以再次获得小费。",
+    "socialLinksDesc": "X, Instagram, TikTok, YouTube, Discord, Telegram"
   },
   "common": {
     "refresh": "刷新",
@@ -5902,7 +5922,10 @@
     "nameEmailRequired": "姓名和邮箱为必填项",
     "applicationSuccess": "申请提交成功！我们会与你联系。",
     "applicationFailed": "提交失败。请重试。",
-    "namePlaceholder": "简·史密斯"
+    "namePlaceholder": "简·史密斯",
+    "instagram": "Instagram",
+    "telegram": "Telegram",
+    "xTwitter": "X (Twitter)"
   },
   "raffle": {
     "title": "奖品抽奖",
@@ -6236,7 +6259,8 @@
       "addPart": "添加到主题",
       "addPlaceholder": "添加到你的主题...",
       "label": "主题 · {{count}} 个部分"
-    }
+    },
+    "rowA11yLabel": "{{name}}, {{time}}: {{text}}"
   },
   "postInfo": {
     "ownersUnavailable": "目前无法读取当前所有者。",
@@ -6924,7 +6948,9 @@
       "addAdministrator": "添加管理员",
       "inviteLimit": "限制 {{n}}",
       "searchMembers": "按姓名、@用户名或钱包搜索",
-      "noMemberMatches": "没有与该搜索条件匹配的会员。"
+      "noMemberMatches": "没有与该搜索条件匹配的会员。",
+      "reasonCounter": "{{len}}/200",
+      "restrictionWithReason": "{{state}} — {{reason}}"
     },
     "chooseAvatar": "选择头像",
     "loadFailed": "无法加载社区",
@@ -7562,7 +7588,8 @@
       "cancelled": "已取消"
     },
     "removePhoto": "移除照片",
-    "listingOptions": "列表选项"
+    "listingOptions": "列表选项",
+    "podUrlPlaceholder": "https://…"
   },
   "accounts": {
     "browse": "浏览",
@@ -7753,7 +7780,7 @@
     "vivid": "鲜艳",
     "neon": "霓虹",
     "pixelate": "像素化",
-    "vhs": "录像带"
+    "vhs": "VHS"
   },
   "dub": {
     "audio": "音频",
@@ -8405,7 +8432,8 @@
       "emptyFeed": "我们在该订阅源中找不到任何剧集。",
       "badFeed": "该链接看起来不像播客源。",
       "tooMany": "一次最多可导入20集。"
-    }
+    },
+    "tileSourceKind": "{{source}} · {{kind}}"
   },
   "earnings": {
     "filter24h": "24小时",
@@ -9580,7 +9608,8 @@
     "noLiveStreams": "没有直播",
     "noOneStreaming": "现在没有人在直播，请稍后再来！",
     "loadStreamsFailed": "无法加载直播，请重试。",
-    "liveBadge": "直播中"
+    "liveBadge": "直播中",
+    "detailsLivepeerId": "Livepeer ID:"
   },
   "liveShop": {
     "title": "在本场直播购物",
@@ -10218,7 +10247,8 @@
     "viewFeed": "查看您的动态",
     "yourChannel": "您的频道",
     "yourChannelHint": "粘贴您的频道地址—其本身的句柄也起作用。",
-    "costsNote": "使用 Riftn 代币支付，一次性支付，在批次开始前。徽章持有者支付更少——您的折扣已应用于报价。如果视频无法导入，其份额将返还至您下次迁移。"
+    "costsNote": "使用 Riftn 代币支付，一次性支付，在批次开始前。徽章持有者支付更少——您的折扣已应用于报价。如果视频无法导入，其份额将返还至您下次迁移。",
+    "placeholder": "youtube.com/ @ you、tiktok.com/ @ you、vimeo.com/you…"
   },
   "calls": {
     "voiceCall": "Riftn语音通话",
@@ -11142,7 +11172,8 @@
       "agentWebOnly": "其中部分功能目前仅支持网页版编辑器。",
       "brandLogoHint": "在页面上选择一张图片，然后将其用作你的标志。",
       "useAsLogo": "使用所选图片",
-      "bgRemoveFailed": "无法移除背景。请换一张图片试试。"
+      "bgRemoveFailed": "无法移除背景。请换一张图片试试。",
+      "dimensions": "{{width}} × {{height}}"
     },
     "filters": {
       "none": "原图",
@@ -11531,7 +11562,8 @@
       "tZoomIn": "放大",
       "tZoomOut": "缩小",
       "tFlyUp": "向上飞入",
-      "tFlyDown": "向下飞入"
+      "tFlyDown": "向下飞入",
+      "speedValue": "{{value}}×"
     },
     "motion": {
       "title": "动效",
@@ -11574,7 +11606,8 @@
         "easeOutBack": "回弹缓出",
         "easeInOutBack": "回弹缓入缓出",
         "hold": "定格"
-      }
+      },
+      "segment": "{{from}} → {{to}}"
     },
     "live": {
       "join": "加入直播会话",
@@ -14591,7 +14624,7 @@
     "tab": {
       "emoji": "表情",
       "sticker": "贴纸",
-      "gif": "GIF 动图"
+      "gif": "GIF"
     },
     "kind": {
       "emoji": "表情包",
@@ -14617,7 +14650,7 @@
       "packs": "表情包",
       "emoji": "表情",
       "stickers": "贴纸",
-      "gifs": "GIF 动图"
+      "gifs": "GIF"
     },
     "signInToCreate": "创建包以登录",
     "signInToAdd": "添加以登录",
@@ -14955,7 +14988,9 @@
     "vol24h": "24h 量",
     "volume24h": "24 小时成交量",
     "website": "网站",
-    "title": "发射台"
+    "title": "发射台",
+    "telegram": "Telegram",
+    "twitter": "X / Twitter"
   },
   "premium": {
     "bestValue": "最超值",
@@ -15108,7 +15143,8 @@
     "soc2": "SOC 2 安全认证（即将推出）",
     "aiEducator": "AI Educator 与 Slack 支持",
     "lookingForPremium": "正在寻找Riftn Extra会员资格？",
-    "seePremiumPlans": "查看Premium版方案"
+    "seePremiumPlans": "查看Premium版方案",
+    "groupSeedance20": "Seedance 2.0"
   },
   "connect": {
     "title": "将 Riftn 连接到你的 AI 助手",
@@ -16058,7 +16094,9 @@
     "offerHint": "签名是免费的。您的代币会保留在您的钱包中，直到持有人接受。",
     "viewOnly": "在此应用中无法购买和出售 NFT。",
     "tradeOnWeb": "在 riftn.com 进行交易。",
-    "feesFootnote": "费用：2%，使用代币支付时为 1%。每笔交易都是一次链上交换。"
+    "feesFootnote": "费用：2%，使用代币支付时为 1%。每笔交易都是一次链上交换。",
+    "title": "NFT",
+    "shortTitle": "NFT"
   },
   "riftnMove": {
     "title": "DeHub 现已更名为 Riftn",
@@ -16791,7 +16829,7 @@
       "grain": "胶片颗粒",
       "ripple": "涟漪",
       "dotwave": "点波",
-      "scan": "批判性种族理论",
+      "scan": "CRT",
       "silk": "丝绸",
       "bokeh": "焦外成像",
       "photo": "你的图片"

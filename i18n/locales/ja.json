@@ -2541,14 +2541,31 @@
     "94cee2c8c1c1": "プロフィールが移動しました",
     "22577ebd908e": "Wan 3.0動画を生成 · オリジナルサウンドトラック",
     "1fa2357ab7e1": "Seedance 720p動画を生成 · オリジナルサウンドトラック",
-    "5dc85dbc155e": "BNBチェーン",
-    "ca7842e53ac8": "リフティン.コム",
-    "a731a58c4cf3": "ツイッチ",
+    "5dc85dbc155e": "BNB Chain",
+    "ca7842e53ac8": "riftn.com",
+    "a731a58c4cf3": "Twitch",
     "ebebdc70335b": "グラスバー",
     "5ff272ba7871": "シルクライン",
     "a941e90ca93d": "カバー・ハロー",
     "04dbbe4dff7a": "トゥルーウェーブ",
-    "f223faa96f22": "アップル"
+    "f223faa96f22": "Apple",
+    "00c90f4b707a": "SRT / VTT",
+    "1226cd46b31a": "PPV ",
+    "1a00975a0ac1": "@channel",
+    "2f51108189d2": "PPV: ",
+    "419f1a83fab2": "yourname.eth",
+    "450683b66da4": " SRT / VTT",
+    "53e6cdc30765": "you@example.com",
+    "6bdf24e0e55f": "RPM $",
+    "713d24d02e26": "XXXX-XXXX",
+    "7b17fb0bd173": "name@example.com",
+    "89c9b65356e3": "X (Twitter)",
+    "8d6f0c73fbaf": "RTMP:",
+    "90e98b380307": "Watch2Earn: ",
+    "b4c9a289323b": "user@example.com",
+    "bf640b85d499": "riftn.com · ",
+    "3ff66a9762c9": "{{value1}}、{{value2}}、{{value3}}",
+    "12a7c0529934": "/docs/getting-started"
   },
   "dehubLinks": {
     "kind": {
@@ -2926,7 +2943,8 @@
     "premium": "プレミアム",
     "pricing": "料金",
     "reorderHint": "任意のアイコンを長押ししてドラッグして並べ替えます",
-    "reorderReset": "リセット"
+    "reorderReset": "リセット",
+    "nfts": "NFT"
   },
   "affiliate": {
     "subtitle": "招待した人すべてから、ずっと報酬を",
@@ -3704,7 +3722,8 @@
     "messagesShowCount": "メッセージに数字を表示",
     "messagesShowCountDesc": "通知の光だけでなく、未読メッセージ数を確認できるようにします",
     "pushNotRegisteredDescIos": "アプリが閉じている間は通知を受け取れません：このiPhoneはプッシュ通知に登録されていません。設定でRiftnの通知が許可されていることを確認してから、アプリを再度開いてください。",
-    "tipsOffNote": "これがオンの間、チップの受け取りはオフになります。チップを再び受け取るにはオフにしてください。"
+    "tipsOffNote": "これがオンの間、チップの受け取りはオフになります。チップを再び受け取るにはオフにしてください。",
+    "socialLinksDesc": "X, Instagram, TikTok, YouTube, Discord, Telegram"
   },
   "common": {
     "remove": "削除",
@@ -4384,7 +4403,8 @@
     "solanaAddressHint": "SOLとSPLトークンのみ",
     "solanaAddressCopied": "Solanaの住所がコピーされました",
     "chooseNetwork": "ネットワークを選択",
-    "solanaSendUnavailable": "Solanaでの送信はまだ利用できません"
+    "solanaSendUnavailable": "Solanaでの送信はまだ利用できません",
+    "evmAddressLabel": "EVM"
   },
   "bookmarks": {
     "title": "ブックマーク",
@@ -5348,7 +5368,8 @@
     "priceUnavailable": "トークン価格が利用できません — しばらくしてからもう一度お試しください。",
     "insufficientBalance": "このチャージにはトークンが不足しています。",
     "payDhb": "{{amount}} トークンを支払う",
-    "topUpExplanation": "あなたのトークンはオンチェーンでRiftn広告トレジャリーに転送され、その後、独立したオンチェーン検証後に残高がクレジットされます。"
+    "topUpExplanation": "あなたのトークンはオンチェーンでRiftn広告トレジャリーに転送され、その後、独立したオンチェーン検証後に残高がクレジットされます。",
+    "ecpm": "eCPM"
   },
   "buyCoins": {
     "title": "コインを購入",
@@ -5381,7 +5402,8 @@
     "otherTokensDesc": "カードで Base 上の ETH または USDC を購入",
     "shareToFeed": "フィードにシェアする",
     "sharePostTemplate": "Riftnのスタックに{{amount}} $ DHBを追加しました。 コミュニティと一緒に構築しましょう。# Riftn # トークン",
-    "minDhbPurchase": "最小トークン購入額は $0.50 です"
+    "minDhbPurchase": "最小トークン購入額は $0.50 です",
+    "cardBankDesc": "Visa、Mastercard、Apple Pay"
   },
   "agents": {
     "life": {
@@ -5900,7 +5922,8 @@
     "nameEmailRequired": "名前とメールアドレスは必須です",
     "applicationSuccess": "応募が正常に送信されました！ご連絡いたします。",
     "applicationFailed": "送信に失敗しました。もう一度お試しください。",
-    "namePlaceholder": "ジェーン・スミス"
+    "namePlaceholder": "ジェーン・スミス",
+    "xTwitter": "X (Twitter)"
   },
   "raffle": {
     "title": "抽選",
@@ -6234,7 +6257,8 @@
       "addPart": "スレッドに追加",
       "addPlaceholder": "スレッドに追加...",
       "label": "スレッド · {{count}} parts"
-    }
+    },
+    "rowA11yLabel": "{{name}}, {{time}}: {{text}}"
   },
   "postInfo": {
     "ownersUnavailable": "現在の所有者を今は読み取れません。",
@@ -6922,7 +6946,9 @@
         "showMore": "さらに表示 ({{value}})"
       },
       "searchMembers": "名前、@ユーザー名、またはウォレットで検索",
-      "noMemberMatches": "その検索に一致するメンバーはいません。"
+      "noMemberMatches": "その検索に一致するメンバーはいません。",
+      "reasonCounter": "{{len}}/200",
+      "restrictionWithReason": "{{state}} — {{reason}}"
     },
     "chooseAvatar": "アバターを選択",
     "loadFailed": "コミュニティを読み込めませんでした",
@@ -7559,7 +7585,8 @@
       "cancelled": "キャンセル"
     },
     "removePhoto": "写真を削除",
-    "listingOptions": "リストオプション"
+    "listingOptions": "リストオプション",
+    "podUrlPlaceholder": "https://…"
   },
   "accounts": {
     "browse": "見る",
@@ -9578,7 +9605,8 @@
     "noLiveStreams": "ライブ配信はありません",
     "noOneStreaming": "今は誰も配信していません。また後で見てください！",
     "loadStreamsFailed": "配信を読み込めませんでした。もう一度お試しください。",
-    "liveBadge": "ライブ"
+    "liveBadge": "ライブ",
+    "detailsLivepeerId": "Livepeer ID:"
   },
   "liveShop": {
     "title": "この配信でショッピング",
@@ -10216,7 +10244,8 @@
     "viewFeed": "フィードを表示",
     "yourChannel": "あなたのチャンネル",
     "yourChannelHint": "チャンネルアドレスを貼り付けます。ハンドル自体も機能します。",
-    "costsNote": "Riftn トークンで支払い済み、バッチ開始前に一度だけ。バッジ保有者は割引が適用され、見積もり額が軽減されます。動画をインポートできない場合、そのシェアは次の移行時に返金されます。"
+    "costsNote": "Riftn トークンで支払い済み、バッチ開始前に一度だけ。バッジ保有者は割引が適用され、見積もり額が軽減されます。動画をインポートできない場合、そのシェアは次の移行時に返金されます。",
+    "placeholder": "youtube.com/ @ you、tiktok.com/ @ you、vimeo.com/you…"
   },
   "calls": {
     "voiceCall": "Riftn音声通話",
@@ -11140,7 +11169,8 @@
       "agentWebOnly": "その一部は現在ウェブ版エディターでのみ利用できます。",
       "brandLogoHint": "ページ上の画像を選択して、ロゴとして使用します。",
       "useAsLogo": "選択した画像を使用",
-      "bgRemoveFailed": "背景を削除できませんでした。別の画像でお試しください。"
+      "bgRemoveFailed": "背景を削除できませんでした。別の画像でお試しください。",
+      "dimensions": "{{width}} × {{height}}"
     },
     "filters": {
       "none": "オリジナル",
@@ -11529,7 +11559,8 @@
       "tZoomIn": "ズームイン",
       "tZoomOut": "ズームアウト",
       "tFlyUp": "上に移動",
-      "tFlyDown": "下に移動"
+      "tFlyDown": "下に移動",
+      "speedValue": "{{value}}×"
     },
     "motion": {
       "title": "モーション",
@@ -11572,7 +11603,8 @@
         "easeOutBack": "バックアウト",
         "easeInOutBack": "バックインアウト",
         "hold": "ホールド"
-      }
+      },
+      "segment": "{{from}} → {{to}}"
     },
     "live": {
       "join": "ライブセッションに参加",
@@ -14586,7 +14618,7 @@
     "tab": {
       "emoji": "絵文字",
       "sticker": "ステッカー",
-      "gif": "GIF画像"
+      "gif": "GIF"
     },
     "kind": {
       "emoji": "絵文字パック",
@@ -14612,7 +14644,7 @@
       "packs": "パック",
       "emoji": "絵文字",
       "stickers": "ステッカー",
-      "gifs": "GIF画像"
+      "gifs": "GIF"
     },
     "signInToCreate": "パックを作成するにはサインインしてください",
     "signInToAdd": "追加するにはサインインしてください",
@@ -14951,7 +14983,8 @@
     "next": "次へ",
     "review": "レビュー",
     "vol24h": "24時間ボリューム",
-    "mcap": "時価総額"
+    "mcap": "時価総額",
+    "twitter": "X/Twitter"
   },
   "premium": {
     "bestValue": "最高の価値",
@@ -15104,7 +15137,8 @@
     "soc2": "SOC 2セキュリティ（近日公開予定）",
     "aiEducator": "AIエデュケーター＆Slackサポート",
     "lookingForPremium": "代わりにRiftn Extraメンバーシップをお探しですか？",
-    "seePremiumPlans": "Premiumプランを見る"
+    "seePremiumPlans": "Premiumプランを見る",
+    "sso": "SSO"
   },
   "connect": {
     "title": "RiftnをAIアシスタントに接続",
@@ -16055,7 +16089,9 @@
     "offerHint": "署名は無料です。保有者が承認するまで、トークンはあなたのウォレットに留まります。",
     "viewOnly": "このアプリではNFTの売買はできません。",
     "tradeOnWeb": "riftn.comで取引する",
-    "feesFootnote": "手数料：2%（トークンで支払う場合は1%）。すべての取引はオンチェーンスワップとして実行されます。"
+    "feesFootnote": "手数料：2%（トークンで支払う場合は1%）。すべての取引はオンチェーンスワップとして実行されます。",
+    "title": "NFT",
+    "shortTitle": "NFT"
   },
   "riftnMove": {
     "title": "DeHubはRiftnになりました",
