@@ -65,7 +65,7 @@ import { getAccountSummaries, type AccountSummary } from "../services/user.servi
 import { useUserProfileSheet } from "../context/UserProfileSheetContext";
 import LoadErrorState from "../components/ui/LoadErrorState";
 import { useKeyboardOffset } from "../hooks/useKeyboardLayout";
-import { useChatPrefs } from "../hooks/useChatPrefs";
+import { useChatPrefs, isPrefMuted } from "../hooks/useChatPrefs";
 import { roomChatId } from "../services/dm/dm.api";
 import CommunityDescription from "../components/Communities/CommunityDescription";
 import { TopHolders } from "../components/Communities/TopHolders";
@@ -677,6 +677,24 @@ const CommunityDetailScreen: React.FC = () => {
               </Text>
             </TouchableOpacity>
           )}
+          {/* Mute this community's chat: no more pushes for its messages until
+              you turn it back on. Same setting as muting it from Messages. */}
+          {isMember && !!walletAddress && (() => {
+            const muted = isPrefMuted(chatPrefs.get(roomChatId(community.id)));
+            return (
+              <TouchableOpacity
+                style={styles.secondaryBtn}
+                testID="community-mute"
+                accessibilityState={{ checked: muted }}
+                onPress={() => void updateChatPref(roomChatId(community.id), { mutedUntil: muted ? null : "forever" })}
+              >
+                <Icon name={muted ? "BellOff" : "Bell"} size={16} color="#fff" />
+                <Text style={styles.secondaryBtnText}>
+                  {muted ? t("common.unmute", { defaultValue: "Unmute" }) : t("common.mute", { defaultValue: "Mute" })}
+                </Text>
+              </TouchableOpacity>
+            );
+          })()}
           {isMember && !!walletAddress && communityKindOf(community) === "community" && !isPublicChat && (() => {
             const listed = !!chatPrefs.get(roomChatId(community.id))?.listedAt;
             return (

@@ -12,5 +12,10 @@ export function inAppDehubUrl(rawUrl: string): string | null {
   const match = parseDehubLink(rawUrl);
   if (match?.kind === 'proposal') return `dehub://app/governance/${match.proposalId}`;
   const own = rawUrl.match(/^(?:https?:\/\/)?(?:www\.)?(?:dehub\.io|riftn\.com)\/(app(?:[/?#].*)?)$/i);
-  return own ? `dehub://${own[1]}` : null;
+  if (own) return `dehub://${own[1]}`;
+  // A post's top-level addresses (/newpost/12, /posts/12) have screens too.
+  // Handed to the system instead, an iPhone opened them in Safari, so a post
+  // sent in a DM left the app.
+  const post = rawUrl.match(/^(?:https?:\/\/)?(?:www\.)?(?:dehub\.io|riftn\.com)\/((?:newpost|posts)\/\d+(?:[/?#].*)?)$/i);
+  return post ? `dehub://${post[1]}` : null;
 }

@@ -43,7 +43,7 @@ import { useWorkJob } from '../../hooks/useWork';
 import { appLocale } from "../../libs/date.util";
 import { useAppTheme } from '../../context/ThemeContext';
 import { fetchTitleOffers } from '../../services/justwatch.service';
-import { resolveArticleSlug } from '../../services/nft.service';
+import { resolveArticleSlug, resolveNewPost } from '../../services/nft.service';
 import { detectLocale } from '../../libs/cinema-locales';
 import { minimalFlat } from '../../theme/minimal';
 import { useGovernanceProposal } from '../../hooks/useGovernanceDiscussion';
@@ -758,7 +758,15 @@ export function useOpenDehubLink() {
             navigation.navigate(ScreenNames.PostResolver, { tokenId: link.articleSlug });
             return;
           }
-          navigation.navigate(ScreenNames.FeedDetail, { tokenId: link.tokenId });
+          // An off-chain post's own address (/newpost/<n>) resolves the same way.
+          if (!link.tokenId && link.newPostId) {
+            navigation.navigate(ScreenNames.PostResolverNewPost, { newPostId: link.newPostId });
+            return;
+          }
+          navigation.navigate(ScreenNames.FeedDetail, {
+            tokenId: link.tokenId,
+            ...(link.commentId ? { commentId: link.commentId } : {}),
+          });
           return;
         case 'profile':
           // ScreenNames.Profile is your OWN profile and reads no params, so
@@ -884,6 +892,31 @@ function SlugSharedPostPreview({
   return <SharedPostPreview tokenId={String(data.tokenId)} {...rest} />;
 }
 
+/**
+ * A post shared by its off-chain address (/newpost/12). Same idea as the slug
+ * form: look up its tokenId, then draw the ordinary post card.
+ */
+function NewPostSharedPreview({
+  newPostId,
+  fallback,
+  ...rest
+}: {
+  newPostId: string;
+  fallback: React.ReactElement;
+  isMine: boolean;
+  fallbackTitle?: string;
+  onPress: () => void;
+  onLongPress?: () => void;
+}) {
+  const { data } = useQuery({
+    queryKey: ['newpost-slug', newPostId],
+    queryFn: () => resolveNewPost(newPostId),
+    staleTime: 60 * 60 * 1000,
+  });
+  if (!data?.tokenId) return fallback;
+  return <SharedPostPreview tokenId={String(data.tokenId)} {...rest} />;
+}
+
 const DehubLinkCardComponent: React.FC<DehubLinkCardProps> = ({
   link,
   isMine = false,
@@ -913,6 +946,19 @@ const DehubLinkCardComponent: React.FC<DehubLinkCardProps> = ({
     return (
       <SlugSharedPostPreview
         slug={link.articleSlug}
+        isMine={isMine}
+        fallbackTitle={fallbackTitle}
+        onPress={open}
+        onLongPress={onLongPress}
+        fallback={fallback}
+      />
+    );
+  }
+
+  if (link.kind === 'post' && !link.tokenId && link.newPostId) {
+    return (
+      <NewPostSharedPreview
+        newPostId={link.newPostId}
         isMine={isMine}
         fallbackTitle={fallbackTitle}
         onPress={open}

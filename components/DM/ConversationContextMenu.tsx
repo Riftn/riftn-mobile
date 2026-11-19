@@ -39,6 +39,10 @@ interface ConversationContextMenuProps {
   peerHasFreeAccess?: boolean;
   /** Whether the current user is a creator with per-message fee. */
   isCreator?: boolean;
+  /** This chat's notifications are muted. */
+  muted?: boolean;
+  /** Mute or unmute this chat's notifications. */
+  onToggleMute?: () => void;
 }
 
 
@@ -91,6 +95,8 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
   onToggleFreeAccess,
   peerHasFreeAccess,
   isCreator,
+  muted,
+  onToggleMute,
 }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -140,6 +146,11 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
     onClose();
     setTimeout(() => onAddToTab?.(), 250);
   }, [onClose, onAddToTab]);
+
+  const handleToggleMute = useCallback(() => {
+    onClose();
+    onToggleMute?.();
+  }, [onClose, onToggleMute]);
 
   const handleToggleFreeAccess = useCallback(() => {
     onClose();
@@ -238,6 +249,13 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
             )}
             {onAddToTab && (
               <ActionRow icon="folder-open-outline" label={t("chatTabs.addToTab", { defaultValue: "Add to tab" })} onPress={handleAddToTab} />
+            )}
+            {onToggleMute && (
+              <ActionRow
+                icon={muted ? "notifications-outline" : "notifications-off-outline"}
+                label={muted ? t("common.unmute", { defaultValue: "Unmute" }) : t("common.mute", { defaultValue: "Mute" })}
+                onPress={handleToggleMute}
+              />
             )}
             {isCreator && onToggleFreeAccess && (
               <ActionRow

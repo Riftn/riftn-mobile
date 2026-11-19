@@ -1637,11 +1637,13 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
 
       {!hideControls && !isContentGated && !isProcessing && !isFailed && (
         <>
-          {/* The video tap target is a sibling behind the controls. Nesting the
+          {/* One tap opens the video, two like it, three love it. The open
+              waits out the double-tap window so a like never opens it too.
+              The video tap target is a sibling behind the controls. Nesting the
               timeline inside it let a seek bubble into play/pause, and made the
               whole media box too eager to claim vertical feed flicks. */}
           {feedPreview && onTapReaction ? (
-            <PostTapSurface resetKey={String(tokenId ?? videoUrl)} immediatePress style={StyleSheet.absoluteFill}
+            <PostTapSurface resetKey={String(tokenId ?? videoUrl)} style={StyleSheet.absoluteFill}
               onPress={() => { preparePostMediaNavigation(videoUrl); onOpenViewer?.(); }}
               onReaction={onTapReaction} accessibilityLabel={t("audioPost.play")}>
               {null}
@@ -2371,7 +2373,7 @@ const FeedVideoPoster: React.FC<Pick<FeedVideoPlayerProps, "tokenId" | "storedAs
         )}
         {children}
         {!active && !hideControls && (feedPreview && onTapReaction ? (
-          <PostTapSurface resetKey={String(tokenId ?? thumbnail)} immediatePress style={[styles.playOverlay, BARE_LAYER]}
+          <PostTapSurface resetKey={String(tokenId ?? thumbnail)} style={[styles.playOverlay, BARE_LAYER]}
             onPress={onPress} onReaction={onTapReaction} accessibilityLabel={t("audioPost.play")}>
             {null}
           </PostTapSurface>

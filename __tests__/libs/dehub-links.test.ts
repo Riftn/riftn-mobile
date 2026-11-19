@@ -20,6 +20,21 @@ describe('parseDehubLink', () => {
     });
   });
 
+  it('reads an off-chain post shared by its own address', () => {
+    expect(parseDehubLink('https://riftn.com/newpost/4821')).toMatchObject({
+      kind: 'post',
+      newPostId: '4821',
+    });
+    expect(parseDehubLink('https://riftn.com/newpost/4821')?.tokenId).toBeUndefined();
+    expect(parseDehubLink('https://riftn.com/newpost/abc')).toBeNull();
+  });
+
+  it('reads the short post form, with a thread entry', () => {
+    expect(parseDehubLink('https://riftn.com/posts/77')).toMatchObject({ kind: 'post', tokenId: '77' });
+    expect(parseDehubLink('https://riftn.com/posts/77/b/9')).toMatchObject({ kind: 'post', tokenId: '77', commentId: '9' });
+    expect(parseDehubLink('https://riftn.com/posts/77/x')).toBeNull();
+  });
+
   it('treats /app/video/:id as a post', () => {
     expect(parseDehubLink('https://dehub.io/app/video/77')).toMatchObject({
       kind: 'post',

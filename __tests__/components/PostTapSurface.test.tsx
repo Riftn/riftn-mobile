@@ -24,7 +24,7 @@ describe('text and image post gestures', () => {
     return { ...view, open, react, surface, event, tap };
   }
 
-  it('opens the image after one central tap, without reacting', () => {
+  it('opens the image after one tap, without reacting', () => {
     const s = setup(); s.tap();
     expect(s.open).not.toHaveBeenCalled();
     act(() => jest.advanceTimersByTime(360));
@@ -32,7 +32,7 @@ describe('text and image post gestures', () => {
     expect(s.react).not.toHaveBeenCalled();
   });
 
-  it('opens navigable captions on the first central tap without waiting for reaction arbitration', () => {
+  it('opens navigable captions on the first tap without waiting for reaction arbitration', () => {
     const s = setup(true);
     s.tap();
     expect(s.open).toHaveBeenCalledTimes(1);
@@ -49,23 +49,23 @@ describe('text and image post gestures', () => {
     expect(s.open).not.toHaveBeenCalled();
   });
 
-  it('opens immediately outside the center without waiting for another tap', () => {
+  it('likes on a double tap near the edge, not only in the middle', () => {
+    const s = setup();
+    fireEvent(s.surface, 'touchStart', s.event(12, 190));
+    fireEvent.press(s.surface, s.event(12, 190));
+    act(() => jest.advanceTimersByTime(100));
+    fireEvent(s.surface, 'touchStart', s.event(14, 188));
+    fireEvent.press(s.surface, s.event(14, 188));
+    act(() => jest.advanceTimersByTime(1000));
+    expect(s.react).toHaveBeenCalledWith('like');
+    expect(s.open).not.toHaveBeenCalled();
+  });
+
+  it('opens after one tap near the edge', () => {
     const s = setup();
     fireEvent(s.surface, 'touchStart', s.event(20));
     fireEvent.press(s.surface, s.event(20));
-    expect(s.open).toHaveBeenCalledTimes(1);
-    expect(s.react).not.toHaveBeenCalled();
-    act(() => jest.advanceTimersByTime(1000));
-    expect(s.open).toHaveBeenCalledTimes(1);
-    expect(s.react).not.toHaveBeenCalled();
-  });
-
-  it('cancels a pending central gesture when the next tap opens outside it', () => {
-    const s = setup(); s.tap();
-    fireEvent(s.surface, 'touchStart', s.event(20));
-    fireEvent.press(s.surface, s.event(20));
-    expect(s.open).toHaveBeenCalledTimes(1);
-    act(() => jest.advanceTimersByTime(1000));
+    act(() => jest.advanceTimersByTime(360));
     expect(s.open).toHaveBeenCalledTimes(1);
     expect(s.react).not.toHaveBeenCalled();
   });

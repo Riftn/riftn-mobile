@@ -48,6 +48,10 @@ export interface DehubLinkMatch {
   tokenId?: string;
   /** `/app/post/<title-slug>`: a post's readable address, resolved to a tokenId on use. */
   articleSlug?: string;
+  /** `/newpost/<n>`: an off-chain post's own address, resolved to a tokenId on use. */
+  newPostId?: string;
+  /** `/posts/<id>/b/<commentId>`: one entry in the author's thread. */
+  commentId?: string;
   username?: string;
   slug?: string;
   code?: string;
@@ -187,6 +191,25 @@ export function parseDehubLink(input: string): DehubLinkMatch | null {
       return { ...base, kind: 'post', articleSlug: scoped[1].toLowerCase() };
     }
     return null;
+  }
+
+  // ── /newpost/:n — an off-chain post's own address ──
+  //
+  // Top-level like web's route, and what every share button hands out for a
+  // post that has not minted yet. Not reading it left those posts as a bare
+  // link in a DM, which opened the website instead of the post.
+  if (scoped[0] === 'newpost' && scoped[1]) {
+    if (!/^\d+$/.test(scoped[1])) return null;
+    return { ...base, kind: 'post', newPostId: scoped[1] };
+  }
+
+  // ── /posts/:id, /posts/:id/b, /posts/:id/b/:commentId — the short post form ──
+  if (scoped[0] === 'posts' && scoped[1]) {
+    if (!/^\d+$/.test(scoped[1])) return null;
+    if (scoped[2] !== undefined && scoped[2] !== 'b') return null;
+    const commentId = scoped[3];
+    if (commentId !== undefined && !/^\d+$/.test(commentId)) return null;
+    return { ...base, kind: 'post', tokenId: scoped[1], ...(commentId ? { commentId } : {}) };
   }
 
   // ── community invite (before the slug form, or ':slug' swallows 'join') ──
