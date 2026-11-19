@@ -36,6 +36,7 @@ import type { MessageLayout } from "../components/LiveChat/LiveChatContextMenu";
 import PinnedMessagesBar from "../components/LiveChat/PinnedMessagesBar";
 import { useKeyboardRide } from "../hooks/useKeyboardRide";
 import GifPicker from "../components/DM/GifPicker";
+import WhenOpened from "../components/ui/WhenOpened";
 import { useLiveChat } from "../hooks/useLiveChat";
 import { useUser } from "../context/AuthContext";
 import { useUserProfileSheet } from "../context/UserProfileSheetContext";
@@ -1276,43 +1277,55 @@ const LiveChatScreen: React.FC = () => {
         </Animated.View>
       </View>
 
-      <GifPicker
-        visible={showGifPicker}
-        onClose={() => setShowGifPicker(false)}
-        onPick={handleGifPicked}
-      />
+      <WhenOpened open={showGifPicker}>
+        {() => (
+          <GifPicker
+            visible={showGifPicker}
+            onClose={() => setShowGifPicker(false)}
+            onPick={handleGifPicked}
+          />
+        )}
+      </WhenOpened>
 
-      <CommentLikersSheet visible={!!reactorsFor} onClose={closeReactors} commentId={null} chatMessageId={reactorsFor} />
+      <WhenOpened open={!!reactorsFor}>
+        {() => (
+          <CommentLikersSheet visible={!!reactorsFor} onClose={closeReactors} commentId={null} chatMessageId={reactorsFor} />
+        )}
+      </WhenOpened>
 
-      <LiveChatContextMenu
-        visible={contextMenuVisible}
-        message={contextMenuMessage}
-        layout={contextMenuLayout}
-        isMe={
-          !!myAddress &&
-          contextMenuMessage?.senderAddress?.toLowerCase() === myAddress
-        }
-        viewerAddress={myAddress}
-        isModerator={isModerator}
-        onClose={handleContextMenuClose}
-        onReply={handleContextReply}
-        onReact={handleContextReact}
-        onEdit={handleContextEdit}
-        onDelete={handleContextDelete}
-        onPin={handleContextPin}
-        onSeeMessages={handleContextSeeMessages}
-        isSenderBanned={
-          !!contextMenuMessage?.senderAddress &&
-          (room?.bannedUsers || []).some(
-            (a) => a?.toLowerCase() === contextMenuMessage.senderAddress.toLowerCase()
-          )
-        }
-        onBan={handleContextBan}
-        onUnban={handleContextUnban}
-        translate={contextMenuTranslate}
-        onShowReactors={setReactorsFor}
-        onLift={handleHoldLift}
-      />
+      <WhenOpened open={contextMenuVisible}>
+        {() => (
+          <LiveChatContextMenu
+            visible={contextMenuVisible}
+            message={contextMenuMessage}
+            layout={contextMenuLayout}
+            isMe={
+              !!myAddress &&
+              contextMenuMessage?.senderAddress?.toLowerCase() === myAddress
+            }
+            viewerAddress={myAddress}
+            isModerator={isModerator}
+            onClose={handleContextMenuClose}
+            onReply={handleContextReply}
+            onReact={handleContextReact}
+            onEdit={handleContextEdit}
+            onDelete={handleContextDelete}
+            onPin={handleContextPin}
+            onSeeMessages={handleContextSeeMessages}
+            isSenderBanned={
+              !!contextMenuMessage?.senderAddress &&
+              (room?.bannedUsers || []).some(
+                (a) => a?.toLowerCase() === contextMenuMessage.senderAddress.toLowerCase()
+              )
+            }
+            onBan={handleContextBan}
+            onUnban={handleContextUnban}
+            translate={contextMenuTranslate}
+            onShowReactors={setReactorsFor}
+            onLift={handleHoldLift}
+          />
+        )}
+      </WhenOpened>
 
       {searchOpen && searchView === "list" ? (
         <LiveChatSearch
@@ -1327,15 +1340,19 @@ const LiveChatScreen: React.FC = () => {
         />
       ) : null}
 
-      <ConfirmModal
-        visible={confirmModal.visible}
-        title={confirmModal.title}
-        description={confirmModal.description}
-        confirmText={confirmModal.confirmText}
-        confirmKind={confirmModal.confirmKind}
-        onConfirm={confirmModal.onConfirm}
-        onCancel={dismissConfirm}
-      />
+      <WhenOpened open={confirmModal.visible}>
+        {() => (
+          <ConfirmModal
+            visible={confirmModal.visible}
+            title={confirmModal.title}
+            description={confirmModal.description}
+            confirmText={confirmModal.confirmText}
+            confirmKind={confirmModal.confirmKind}
+            onConfirm={confirmModal.onConfirm}
+            onCancel={dismissConfirm}
+          />
+        )}
+      </WhenOpened>
     </View>
   );
 };

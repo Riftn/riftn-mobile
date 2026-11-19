@@ -102,3 +102,6 @@ for label, runs in (("before", before), ("after", after)):
         top = value.get("top") or []
         if top:
             print(f"- {name}: {value.get('tasks')} tasks, {value.get('taskMs')} ms in all, longest {value.get('longest')} ms, stalls {value.get('stalls')} ms | " + "; ".join(top[:6]))
+        kinds = value.get("kinds") or []
+        if kinds:
+            print(f"  drawn most: " + ", ".join(kinds[:10]))

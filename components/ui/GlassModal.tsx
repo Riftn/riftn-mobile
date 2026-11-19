@@ -25,6 +25,7 @@ import SheetGlass from "./SheetGlass";
 import SheetBackdrop, { useSheetBackdrop } from "./SheetBackdrop";
 import { SHEET_GLASS_BORDER } from "../../theme/sheetGlass";
 import { MOTION, SNAP_SPRING } from "../../theme/motion";
+import { useOpenedOnce } from "./WhenOpened";
 
 export interface GlassModalProps {
   visible: boolean;
@@ -261,6 +262,7 @@ const GlassModal: React.FC<GlassModalProps> = ({
   // A drawer stays mounted through its slide out; the Modal goes after it.
   const [mounted, setMounted] = useState(shown);
   if (shown && !mounted) setMounted(true);
+  const openedOnce = useOpenedOnce(shown || mounted);
   useEffect(() => {
     if (!slides) {
       if (!shown) setMounted(false);
@@ -329,6 +331,10 @@ const GlassModal: React.FC<GlassModalProps> = ({
       inputState.blurTextInput(behind);
     }
   }, [shown, inputState]);
+
+  // Never opened: there is no window to build yet, so nothing is drawn for it
+  // on each render of the screen it sits on.
+  if (!openedOnce) return null;
 
   return (
     <Modal

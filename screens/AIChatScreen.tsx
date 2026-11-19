@@ -47,6 +47,7 @@ import { isLowEndDevice } from '../libs/deviceTier';
 import { useVoiceChat } from '../hooks/useVoiceChat';
 import { useJobPayment } from '../hooks/useAiPayment';
 import ChatHistorySheet from '../components/Assistant/ChatHistorySheet';
+import WhenOpened from '../components/ui/WhenOpened';
 import SupportTicketSheet, { useMySupportTickets } from '../components/Assistant/SupportTicketSheet';
 import CreditPaywallSheet from '../components/Assistant/CreditPaywallSheet';
 import AssistantSettingsSheet, {
@@ -2225,59 +2226,87 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
         />}
       </View>
 
-      <SupportTicketSheet
-        visible={supportVisible}
-        onClose={() => setSupportVisible(false)}
-        enabled={!!user}
-      />
+      <WhenOpened open={supportVisible}>
+        {() => (
+          <SupportTicketSheet
+            visible={supportVisible}
+            onClose={() => setSupportVisible(false)}
+            enabled={!!user}
+          />
+        )}
+      </WhenOpened>
 
-      <ChatHistorySheet
-        visible={historyVisible}
-        onClose={() => setHistoryVisible(false)}
-        conversations={conversations}
-        onSelect={handleHistorySelect}
-        onDelete={deleteConversation}
-        onClearAll={clearAll}
-        activeConversationId={conversationId}
-        walletAddress={walletAddress}
-        onMediaPress={handleImagePress}
-      />
+      <WhenOpened open={historyVisible}>
+        {() => (
+          <ChatHistorySheet
+            visible={historyVisible}
+            onClose={() => setHistoryVisible(false)}
+            conversations={conversations}
+            onSelect={handleHistorySelect}
+            onDelete={deleteConversation}
+            onClearAll={clearAll}
+            activeConversationId={conversationId}
+            walletAddress={walletAddress}
+            onMediaPress={handleImagePress}
+          />
+        )}
+      </WhenOpened>
 
-      <AssistantSettingsSheet
-        visible={settingsVisible}
-        onClose={() => setSettingsVisible(false)}
-        settings={settings}
-        onChange={updateSettings}
-      />
+      <WhenOpened open={settingsVisible}>
+        {() => (
+          <AssistantSettingsSheet
+            visible={settingsVisible}
+            onClose={() => setSettingsVisible(false)}
+            settings={settings}
+            onChange={updateSettings}
+          />
+        )}
+      </WhenOpened>
 
-      <TemplatesSheet
-        visible={templatesVisible}
-        onClose={() => setTemplatesVisible(false)}
-        activeId={templateId}
-        onSelect={handlePickTemplate}
-        initialKind={studioSettings.mode === 'image' ? 'image' : 'video'}
-      />
+      <WhenOpened open={templatesVisible}>
+        {() => (
+          <TemplatesSheet
+            visible={templatesVisible}
+            onClose={() => setTemplatesVisible(false)}
+            activeId={templateId}
+            onSelect={handlePickTemplate}
+            initialKind={studioSettings.mode === 'image' ? 'image' : 'video'}
+          />
+        )}
+      </WhenOpened>
 
-      <AssistantStyleSheet
-        visible={styleVisible}
-        onClose={() => setStyleVisible(false)}
-        selectedStyle={selectedStyle}
-        onSelect={handleStyleSelect}
-      />
+      <WhenOpened open={styleVisible}>
+        {() => (
+          <AssistantStyleSheet
+            visible={styleVisible}
+            onClose={() => setStyleVisible(false)}
+            selectedStyle={selectedStyle}
+            onSelect={handleStyleSelect}
+          />
+        )}
+      </WhenOpened>
 
-      <PosterConfigSheet
-        visible={posterVisible}
-        onClose={() => setPosterVisible(false)}
-        userPrompt={pendingPrompt}
-        onConfirm={handlePosterConfirm}
-      />
+      <WhenOpened open={posterVisible}>
+        {() => (
+          <PosterConfigSheet
+            visible={posterVisible}
+            onClose={() => setPosterVisible(false)}
+            userPrompt={pendingPrompt}
+            onConfirm={handlePosterConfirm}
+          />
+        )}
+      </WhenOpened>
 
-      <MusicConfirmSheet
-        visible={musicVisible}
-        onClose={() => setMusicVisible(false)}
-        userPrompt={pendingPrompt}
-        onConfirm={handleMusicConfirm}
-      />
+      <WhenOpened open={musicVisible}>
+        {() => (
+          <MusicConfirmSheet
+            visible={musicVisible}
+            onClose={() => setMusicVisible(false)}
+            userPrompt={pendingPrompt}
+            onConfirm={handleMusicConfirm}
+          />
+        )}
+      </WhenOpened>
 
       <CreditPaywallSheet
         visible={imagePaywallVisible}

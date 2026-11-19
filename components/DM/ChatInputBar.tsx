@@ -47,6 +47,7 @@ import LockPriceRow from "./LockPriceRow";
 const DM_ATTACH_LIMITS = { image: 10 * 1024 * 1024, video: 50 * 1024 * 1024, audio: 20 * 1024 * 1024 } as const;
 import GifPicker from "./GifPicker";
 import ChatAttachSheet, { type ChatAttachOption } from "./ChatAttachSheet";
+import WhenOpened from "../ui/WhenOpened";
 import SmartReplyTray from "./SmartReplyTray";
 import { useSmartReplies } from "../../hooks/useSmartReplies";
 import { setAppPref, useAppPrefs } from "../../hooks/useAppPrefs";
@@ -1138,37 +1139,54 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
 
       </View>
 
-      {/* GIF Picker modal */}
-      <GifPicker
-        visible={gifPickerVisible}
-        onPick={handleGifPicked}
-        onClose={() => {
-          setGifPickerVisible(false);
-          keyboardSwap.restore();
-        }}
-      />
+      {/* Each of these is built only once it has been opened: closed, they
+          were drawn again on every key typed into the box above. */}
+      <WhenOpened open={gifPickerVisible}>
+        {() => (
+          <GifPicker
+            visible={gifPickerVisible}
+            onPick={handleGifPicked}
+            onClose={() => {
+              setGifPickerVisible(false);
+              keyboardSwap.restore();
+            }}
+          />
+        )}
+      </WhenOpened>
 
-      <ChatAttachSheet
-        visible={clipOpen}
-        onClose={() => setClipOpen(false)}
-        options={[
-          { key: "gallery", icon: "Image", label: t("dm.attachPhotoOrVideo", { defaultValue: "Photo or video" }), onPress: () => { setClipOpen(false); void handlePickGallery(); } },
-          { key: "any", icon: "Paperclip", label: t("dm.attachFileOrAudio", { defaultValue: "File or audio" }), onPress: () => { setClipOpen(false); void handlePickAnyFile(); } },
-        ]}
-      />
-      <ChatAttachSheet
-        visible={attachOpen}
-        onClose={() => setAttachOpen(false)}
-        options={attachOptions}
-      />
-      <LanguageSelectModal
-        visible={translator.pickerOpen}
-        onClose={translator.closePicker}
-        onSelect={translator.choose}
-        selected={translator.lang}
-        title={t("common.translate")}
-        subtitle=""
-      />
+      <WhenOpened open={clipOpen}>
+        {() => (
+          <ChatAttachSheet
+            visible={clipOpen}
+            onClose={() => setClipOpen(false)}
+            options={[
+              { key: "gallery", icon: "Image", label: t("dm.attachPhotoOrVideo", { defaultValue: "Photo or video" }), onPress: () => { setClipOpen(false); void handlePickGallery(); } },
+              { key: "any", icon: "Paperclip", label: t("dm.attachFileOrAudio", { defaultValue: "File or audio" }), onPress: () => { setClipOpen(false); void handlePickAnyFile(); } },
+            ]}
+          />
+        )}
+      </WhenOpened>
+      <WhenOpened open={attachOpen}>
+        {() => (
+          <ChatAttachSheet
+            visible={attachOpen}
+            onClose={() => setAttachOpen(false)}
+            options={attachOptions}
+          />
+        )}
+      </WhenOpened>
+      <WhenOpened open={translator.pickerOpen}>
+        {() => (
+          <LanguageSelectModal
+            visible={translator.pickerOpen}
+            onClose={translator.closePicker}
+            onSelect={translator.choose}
+            selected={translator.lang}
+            title={t("common.translate")}
+            subtitle=""
+          />
+        )}
+      </WhenOpened>
     </>
   );
 };

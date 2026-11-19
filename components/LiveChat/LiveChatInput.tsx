@@ -16,6 +16,7 @@ import SmartImage from "../common/SmartImage";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import LiveChatAttachSheet from "./LiveChatAttachSheet";
+import WhenOpened from "../ui/WhenOpened";
 import EmojiSheet from "../Upload/EmojiSheet";
 import MentionSuggestions from "../common/MentionSuggestions";
 import { useMentions } from "../../hooks/useMentions";
@@ -482,37 +483,49 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
         </View>
       )}
 
-      <LiveChatAttachSheet
-        visible={attachOpen}
-        onClose={() => {
-          setAttachOpen(false);
-          keyboardSwap.restore();
-        }}
-        onPickImage={handlePickImage}
-        onPickGif={handlePickGif}
-        onPickEmoji={handlePickEmoji}
-        onMoreEmoji={() => {
-          // One modal at a time: let the attach sheet finish closing first.
-          setAttachOpen(false);
-          setTimeout(() => setEmojiSheetOpen(true), 250);
-        }}
-      />
-      <LanguageSelectModal
-        visible={translator.pickerOpen}
-        onClose={translator.closePicker}
-        onSelect={translator.choose}
-        selected={translator.lang}
-        title={t("common.translate")}
-        subtitle=""
-      />
-      <EmojiSheet
-        visible={emojiSheetOpen}
-        onClose={() => {
-          setEmojiSheetOpen(false);
-          keyboardSwap.restore();
-        }}
-        onSelect={handlePickEmoji}
-      />
+      <WhenOpened open={attachOpen}>
+        {() => (
+          <LiveChatAttachSheet
+            visible={attachOpen}
+            onClose={() => {
+              setAttachOpen(false);
+              keyboardSwap.restore();
+            }}
+            onPickImage={handlePickImage}
+            onPickGif={handlePickGif}
+            onPickEmoji={handlePickEmoji}
+            onMoreEmoji={() => {
+              // One modal at a time: let the attach sheet finish closing first.
+              setAttachOpen(false);
+              setTimeout(() => setEmojiSheetOpen(true), 250);
+            }}
+          />
+        )}
+      </WhenOpened>
+      <WhenOpened open={translator.pickerOpen}>
+        {() => (
+          <LanguageSelectModal
+            visible={translator.pickerOpen}
+            onClose={translator.closePicker}
+            onSelect={translator.choose}
+            selected={translator.lang}
+            title={t("common.translate")}
+            subtitle=""
+          />
+        )}
+      </WhenOpened>
+      <WhenOpened open={emojiSheetOpen}>
+        {() => (
+          <EmojiSheet
+            visible={emojiSheetOpen}
+            onClose={() => {
+              setEmojiSheetOpen(false);
+              keyboardSwap.restore();
+            }}
+            onSelect={handlePickEmoji}
+          />
+        )}
+      </WhenOpened>
     </View>
   );
 };

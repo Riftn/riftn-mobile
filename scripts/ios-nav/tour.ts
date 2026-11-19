@@ -1573,12 +1573,22 @@ async function runSpeed(): Promise<void> {
   // Elements created (how much of the screen is drawn again) and when the last one was.
   let created = 0;
   let lastCreatedAt = 0;
+  // The same count by what was created, so a step can name what it drew most.
+  let kinds = new Map<string, number>();
+  const typeName = (type: unknown): string => {
+    if (typeof type === "string") return type;
+    const t = type as { displayName?: string; name?: string; type?: { displayName?: string; name?: string }; render?: { displayName?: string; name?: string } } | null;
+    return t?.displayName || t?.name || t?.type?.displayName || t?.type?.name || t?.render?.displayName || t?.render?.name || "other";
+  };
+  const topKinds = () => [...kinds.entries()].sort((a, b) => b[1] - a[1]).slice(0, 14).map(([name, n]) => `${name} ${n}`);
   const runtime = require("../../libs/jsx/jsx-runtime") as Record<string, (...args: unknown[]) => unknown>;
   for (const key of ["jsx", "jsxs"]) {
     const original = runtime[key];
     runtime[key] = function counted(...args: unknown[]) {
       created += 1;
       lastCreatedAt = now();
+      const name = typeName(args[0]);
+      kinds.set(name, (kinds.get(name) ?? 0) + 1);
       return original(...args);
     };
   }
@@ -1633,9 +1643,10 @@ async function runSpeed(): Promise<void> {
     await measure(step, () => {
       origin = now() + (opts.delayMs ?? 0);
       created = 0;
+      kinds = new Map();
       action();
     }, { restMs: 500, ...opts });
-    detail[step] = { elements: created, lastDrawMs: Math.max(0, Math.round(lastCreatedAt - origin)), ...probes(perfLines) };
+    detail[step] = { elements: created, lastDrawMs: Math.max(0, Math.round(lastCreatedAt - origin)), kinds: topKinds(), ...probes(perfLines) };
     await save(false);
   };
 
@@ -1646,6 +1657,7 @@ async function runSpeed(): Promise<void> {
       return;
     }
     perfLines = [];
+    kinds = new Map();
     const perKey: number[] = [];
     const perKeyElements: number[] = [];
     for (let i = 1; i <= text.length; i++) {
@@ -1662,6 +1674,7 @@ async function runSpeed(): Promise<void> {
       await sleep(140);
     }
     const lines = perfLines;
+    const drawn = topKinds();
     await sleep(600);
     changeTextOf(input)?.("");
     await sleep(500);
@@ -1671,6 +1684,7 @@ async function runSpeed(): Promise<void> {
       keyWorstMs: Math.round(Math.max(0, ...perKey)),
       keyElements: middle(perKeyElements),
       keyElementsWorst: Math.max(0, ...perKeyElements),
+      kinds: drawn,
       ...probes(lines),
     };
     console.error(`[perf-tour] ${step} ${JSON.stringify(detail[step])}`);
@@ -1713,7 +1727,10 @@ async function runSpeed(): Promise<void> {
     await timed("tab Messages again", tab(ScreenNames.DM));
 
     // The direct chat with the most history on this account.
-    const dm = require("../../store/dm.store") as { dmState: { contactsById: Record<string, unknown>; messagesByConversation: Record<string, unknown[]> } };
+    const dm = require("../../store/dm.store") as {
+      dmState: { contactsById: Record<string, unknown>; messagesByConversation: Record<string, unknown[]> };
+      dmActions: { addOptimistic: (id: string, line: unknown) => void; removeOptimistic: (id: string, tempId: string) => void };
+    };
     const ids = Object.keys(dm.dmState.contactsById).sort((a, b) => (dm.dmState.messagesByConversation[b]?.length ?? 0) - (dm.dmState.messagesByConversation[a]?.length ?? 0));
     extra.chats = ids.length;
     if (ids.length) {
@@ -1727,6 +1744,13 @@ async function runSpeed(): Promise<void> {
       await scrollList("chat scroll");
       const box = newInput(had);
       await typeInto("chat typing", box, "hello there, how are you");
+      // The first thing a send does: the line appears in the chat before the
+      // server has it. The same store call, with nothing queued or sent, and
+      // the line is taken away again.
+      const tempId = `temp-tour-${Date.now()}`;
+      const line = { _id: tempId, _optimistic: true, _tempId: tempId, conversation: ids[0], sender: "me", author: "me", content: "hello there, how are you", msgType: "msg", tipAmount: null, paymentStatus: null, createdAt: new Date().toISOString() };
+      await timed("chat own line appears", () => dm.dmActions.addOptimistic(ids[0], line), { watchMs: 1200 });
+      await timed("chat own line removed", () => dm.dmActions.removeOptimistic(ids[0], tempId), { watchMs: 1200 });
       Keyboard.dismiss();
       await timed("chat back 2", back());
     }
