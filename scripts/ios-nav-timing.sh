@@ -404,6 +404,19 @@ if [ "$MODE" = menu ]; then
   exit 0
 fi
 
+if [ "$MODE" = livetheme ]; then
+  # Leaving a live in System Light, main's code then this checkout's, both
+  # filmed; then this checkout's on two dark themes.
+  run before "livetheme-main-system-light" record livetheme system-light
+  run after "livetheme-system-light" record livetheme system-light
+  for theme in ${LIVE_THEMES:-system hazy}; do
+    run after "livetheme-$theme" "" livetheme "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
 if [ "$MODE" = loginsheet ]; then
   # The sign-in pop-ups (like, +, Log in page): main's code first, then this
   # checkout's in several themes.
