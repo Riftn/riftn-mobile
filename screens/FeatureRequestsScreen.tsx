@@ -28,7 +28,7 @@ import { useSurfaceDraft } from '../hooks/useSurfaceDraft';
  * Post-info actions in the shared post ActionBar — none of them have a
  * feature-request row behind them, so they would ship as dead buttons.
  */
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -51,6 +51,7 @@ import { DeHubLoader } from "../components/DeHubLoader";
 import { Image } from "expo-image";
 import { useVideoPlayer, VideoView } from "expo-video";
 import * as ImagePicker from "expo-image-picker";
+import { captureVideoCover } from "../libs/videoCover";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "../components/ui/Icon";
@@ -255,6 +256,31 @@ const RequestVideo: React.FC<{ url: string; badge: number }> = ({ url, badge }) 
 const RequestVideoPlayer: React.FC<{ url: string }> = ({ url }) => {
   const player = useVideoPlayer(url, p => { p.play(); });
   return <VideoView player={player} style={StyleSheet.absoluteFill} contentFit="contain" nativeControls />;
+};
+
+/**
+ * A video picked into the request composer. The image view can't draw a
+ * video, so the tile stayed blank; this shows a real frame from the clip and
+ * plays it in place on tap, so the poster can check what they're sending.
+ */
+const PromptVideoPreview: React.FC<{ uri: string }> = ({ uri }) => {
+  const [cover, setCover] = useState<string | null>(null);
+  const [playing, setPlaying] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    setCover(null);
+    captureVideoCover(uri, 0.5).then((frame) => { if (alive) setCover(frame); }).catch(() => {});
+    return () => { alive = false; };
+  }, [uri]);
+  if (playing) return <RequestVideoPlayer url={uri} />;
+  return (
+    <Pressable onPress={() => setPlaying(true)} style={StyleSheet.absoluteFill} accessibilityRole="button">
+      {cover ? <Image source={{ uri: cover }} style={StyleSheet.absoluteFill} contentFit="cover" /> : <View style={[StyleSheet.absoluteFill, styles.promptVideoBlank]} />}
+      <View className="dark-surface" style={styles.promptPlay}>
+        <Icon name="Play" size={14} color="#FFFFFF" />
+      </View>
+    </Pressable>
+  );
 };
 
 // ── Card ────────────────────────────────────────────────────────────────────
@@ -747,7 +773,9 @@ const PromptComposer: React.FC<{
       {attachments.length > 0 && <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled" style={styles.promptPreviews}>
         {attachments.map((attachment, index) => <View key={`${attachment.uri}-${index}`} style={styles.promptAttachment}>
           <ThemePanel style={styles.promptThumbnail}>
-            <Image source={{ uri: attachment.uri }} style={StyleSheet.absoluteFill} contentFit="cover" />
+            {attachment.mimeType?.startsWith("video/")
+              ? <PromptVideoPreview uri={attachment.uri} />
+              : <Image source={{ uri: attachment.uri }} style={StyleSheet.absoluteFill} contentFit="cover" />}
             <Pressable className="dark-surface" style={styles.pickRemove} disabled={submitting} hitSlop={8}
               onPress={() => setAttachments(prev => prev.filter((_, i) => i !== index))}
               accessibilityRole="button" accessibilityLabel={t("features.removePromptAttachment", "Remove {{name}}", { name: attachment.fileName || String(index + 1) })}>
@@ -1313,6 +1341,18 @@ const styles = StyleSheet.create({
   promptPreviews: { flexGrow: 0, marginTop: 12 },
   promptAttachment: { width: 112, marginRight: 8 },
   promptThumbnail: { height: 80, borderRadius: 10, overflow: "hidden" },
+  promptVideoBlank: { backgroundColor: "#18181B" },
+  promptPlay: {
+    position: "absolute",
+    left: 4,
+    bottom: 4,
+    width: 24,
+    height: 24,
+    borderRadius: 8,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   promptFilename: { fontSize: 10, color: "#A1A1AA", marginTop: 4 },
   promptToolbar: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 12, gap: 8 },
   promptAttach: { flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 8 },
