@@ -14,6 +14,11 @@ import type { ChatTabView } from "../../hooks/useChatTabs";
  */
 
 const CHIP = { height: 32, borderRadius: 16, paddingHorizontal: 12, flexDirection: "row" as const, alignItems: "center" as const, gap: 6 };
+// The open tab gets a glowing white line under its label, same as the web
+// tabs on Messages and /chat (no filled pill).
+const BEAM = { position: "absolute" as const, left: 12, right: 12, bottom: 0, height: 2, borderRadius: 2, backgroundColor: "#fff", shadowColor: "#fff", shadowOpacity: 0.9, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } };
+// Android has no coloured shadows, so a soft wider band fakes the glow.
+const HALO = { position: "absolute" as const, left: 8, right: 8, bottom: -2, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.16)" };
 const SHEET_BG = "#0e0e10";
 
 export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, onHold }: {
@@ -38,7 +43,7 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
       horizontal
       showsHorizontalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 4, paddingBottom: 8, gap: 6, alignItems: "center" }}
+      contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 4, paddingBottom: 8, gap: 4, alignItems: "center" }}
       style={{ flexGrow: 0 }}
       testID="chat-tabs"
     >
@@ -55,21 +60,23 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
             onPress={() => onSelect(tab.id)}
             onLongPress={() => onHold(tab)}
             delayLongPress={350}
-            style={[CHIP, { backgroundColor: on ? "#F4F4F5" : "rgba(255,255,255,0.07)" }]}
+            style={CHIP}
           >
+            {on && Platform.OS === "android" && <View pointerEvents="none" style={HALO} />}
+            {on && <View pointerEvents="none" testID="chat-tab-beam" style={BEAM} />}
             {!!tab.emoji && <Text style={{ fontSize: 13 }}>{tab.emoji}</Text>}
-            <Text style={{ color: on ? "#000" : "#D4D4D8", fontSize: 13, fontWeight: "600" }} numberOfLines={1}>{tab.name}</Text>
+            <Text style={{ color: on ? "#fff" : "#A1A1AA", fontSize: 13, fontWeight: "600" }} numberOfLines={1}>{tab.name}</Text>
             {n > 0 && (
-              <View style={{ minWidth: 18, height: 18, borderRadius: 9, paddingHorizontal: 5, alignItems: "center", justifyContent: "center", backgroundColor: on ? "#000" : "#ef4444" }}>
-                <Text style={{ color: "#fff", fontSize: 11, fontWeight: "700" }}>{n > 99 ? "99+" : String(n)}</Text>
+              <View style={{ minWidth: 18, height: 18, borderRadius: 6, paddingHorizontal: 5, alignItems: "center", justifyContent: "center", backgroundColor: on ? "#fff" : "rgba(255,255,255,0.09)" }}>
+                <Text style={{ color: on ? "#0b0b0c" : "#D4D4D8", fontSize: 11, fontWeight: "700", fontVariant: ["tabular-nums"] }}>{n > 99 ? "99+" : String(n)}</Text>
               </View>
             )}
           </Pressable>
         );
       })}
       <TouchableOpacity testID="chat-tab-new" onPress={onNew} accessibilityRole="button" accessibilityLabel={t("chatTabs.new", { defaultValue: "New tab" })}
-        style={[CHIP, { width: 32, paddingHorizontal: 0, justifyContent: "center", backgroundColor: "rgba(255,255,255,0.07)" }]}>
-        <Icon name="Plus" size={16} color="#A1A1AA" />
+        style={[CHIP, { width: 32, paddingHorizontal: 0, justifyContent: "center" }]}>
+        <Icon name="Plus" size={16} color="#71717A" />
       </TouchableOpacity>
       <TouchableOpacity testID="chat-tab-manage" onPress={onManage} accessibilityRole="button" accessibilityLabel={t("chatTabs.edit", { defaultValue: "Edit tabs" })}
         style={[CHIP, { width: 32, paddingHorizontal: 0, justifyContent: "center" }]}>
