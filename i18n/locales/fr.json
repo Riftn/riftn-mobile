@@ -11526,6 +11526,7 @@
     "presetAnimeStillName": "Anime Still",
     "gallery": {
       "browse": "Parcourir les créations",
+      "empty": "Aucune création pour le moment",
       "fullscreen": "Afficher en plein écran",
       "missing": "Cette création n’est pas disponible.",
       "send": "Envoyer",

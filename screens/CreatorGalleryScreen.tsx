@@ -166,7 +166,7 @@ export default function CreatorGalleryScreen() {
       onScroll={event => { const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent; if (list.hasNextPage && !list.isFetchingNextPage && contentOffset.y + layoutMeasurement.height > contentSize.height - 800) void list.fetchNextPage(); }}>
       {list.isLoading && <MosaicSkeleton />}
       {list.isError && <GalleryCard><View style={{ padding: 24, alignItems: 'center' }}>{button(t('common.retry', { defaultValue: 'Retry' }), () => void list.refetch())}</View></GalleryCard>}
-      {!list.isLoading && !list.isError && !items.length && <GalleryCard><View style={{ padding: 24, alignItems: 'center' }}><Text style={styles.muted}>{t('creator.noCreationsYet')}</Text></View></GalleryCard>}
+      {!list.isLoading && !list.isError && !items.length && <GalleryCard><View style={{ padding: 24, alignItems: 'center' }}><Text style={styles.muted}>{t('creator.gallery.empty')}</Text></View></GalleryCard>}
       <View style={{ flexDirection: 'row', gap: 10 }}>{[0, 1].map(column => <View key={column} style={{ flex: 1 }}>{items.filter((_, i) => i % 2 === column).map(row => <MosaicImage key={row.id} item={row} onPress={() => nav.setParams({ id: row.id, commentId: undefined, comment: undefined })} />)}</View>)}</View>
       {list.isFetchingNextPage && <ActivityIndicator style={{ marginTop: 8 }} />}
     </ScrollView>}

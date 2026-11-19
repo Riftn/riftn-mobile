@@ -11724,6 +11724,7 @@
     "studioWelcome": "Kies een medium en model, voeg een prompt toe of selecteer een voorinstelling, en maak vervolgens. Bekijk de prijs voordat u genereert. Uw resultaten staan hier.",
     "gallery": {
       "browse": "Creaties bekijken",
+      "empty": "Nog geen creaties",
       "fullscreen": "Op volledig scherm bekijken",
       "missing": "Deze creatie is niet beschikbaar.",
       "send": "Versturen",
