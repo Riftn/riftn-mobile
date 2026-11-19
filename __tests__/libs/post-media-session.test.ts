@@ -66,4 +66,42 @@ describe('post media sessions', () => {
     expect(abandoned.value).toBeNull();
     expect(dispose).toHaveBeenCalledTimes(5);
   });
+
+  it('does not evict a player whose screen has not claimed it yet', () => {
+    const dispose = jest.fn();
+    const fresh = postMediaSession<any>('video:fresh-mount', dispose);
+    fresh.value = { pause: jest.fn() };
+    for (let index = 0; index < 4; index++) {
+      const key = `video:parked-again-${index}`;
+      const session = postMediaSession<any>(key, dispose);
+      session.value = { pause: jest.fn() };
+      claimPostMedia(key, session, {})();
+    }
+    expect(fresh.value).not.toBeNull();
+    const release = claimPostMedia('video:fresh-mount', fresh, {});
+    jest.advanceTimersByTime(5000);
+    expect(fresh.value).not.toBeNull();
+    release();
+    jest.advanceTimersByTime(2000);
+    expect(fresh.value).toBeNull();
+  });
+
+  it('still releases a player whose key was taken by a newer session', () => {
+    const dispose = jest.fn();
+    const old = postMediaSession<any>('video:replaced', dispose);
+    const player = { pause: jest.fn() };
+    old.value = player;
+    const release = claimPostMedia('video:replaced', old, {});
+    release();
+    jest.advanceTimersByTime(2000);
+    // Gone from the map; a new session takes the key while the old one is reclaimed.
+    const newer = postMediaSession<any>('video:replaced', dispose);
+    newer.value = { pause: jest.fn() };
+    old.value = player;
+    const releaseOld = claimPostMedia('video:replaced', old, {});
+    releaseOld();
+    jest.advanceTimersByTime(2000);
+    expect(dispose).toHaveBeenCalledWith(player);
+    expect(old.value).toBeNull();
+  });
 });
