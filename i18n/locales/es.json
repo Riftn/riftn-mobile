@@ -1572,6 +1572,8 @@
     "themeColorBrandFailed": "No se pudieron leer los colores de tu foto de perfil",
     "chatTextSize": "Tamaño del texto del chat",
     "chatTextSizeDesc": "Mensajes más grandes o más pequeños en todos los chats. Se suma al tamaño de texto de tu teléfono.",
+    "chatCards": "Chats como tarjetas",
+    "chatCardsDesc": "Cada chat en su propia tarjeta. Desactívalo para una lista simple con una línea entre chats.",
     "showLikes": "Mostrar mis me gusta a todos",
     "showLikesDesc": "Cualquiera puede abrir la pestaña Me gusta de tu perfil. Desactivado por defecto, así que solo tú ves lo que te gustó.",
     "showFollowersList": "Mostrar quién me sigue",

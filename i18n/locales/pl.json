@@ -3698,6 +3698,8 @@
     "themeColorBrandFailed": "Nie udało się odczytać kolorów ze zdjęcia profilowego",
     "chatTextSize": "Rozmiar tekstu czatu",
     "chatTextSizeDesc": "Większe lub mniejsze wiadomości we wszystkich czatach. Dodaje się do rozmiaru tekstu w telefonie.",
+    "chatCards": "Czaty jako karty",
+    "chatCardsDesc": "Każdy czat na osobnej karcie. Wyłącz, aby mieć prostą listę z linią między czatami.",
     "showLikes": "Pokazuj moje polubienia wszystkim",
     "showLikesDesc": "Każdy może otworzyć kartę Polubienia na twoim profilu. Domyślnie wyłączone, więc tylko ty widzisz, co polubiłeś.",
     "showFollowersList": "Pokazuj, kto mnie obserwuje",

@@ -1572,6 +1572,8 @@
     "themeColorBrandFailed": "Profil fotoğrafınızdan renkler okunamadı",
     "chatTextSize": "Sohbet metin boyutu",
     "chatTextSizeDesc": "Tüm sohbetlerde daha büyük veya küçük mesajlar. Telefonunuzun metin boyutuna eklenir.",
+    "chatCards": "Sohbetler kart olarak",
+    "chatCardsDesc": "Her sohbet kendi kartında. Kapatınca sohbetler arasında çizgi olan sade bir liste olur.",
     "showLikes": "Beğenilerimi herkese göster",
     "showLikesDesc": "Herkes profilindeki Beğeniler sekmesini açabilir. Varsayılan olarak kapalı, yani neyi beğendiğini yalnızca sen görürsün.",
     "showFollowersList": "Beni kimlerin takip ettiğini göster",

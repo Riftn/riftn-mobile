@@ -3769,6 +3769,8 @@
     "themeColorBrandFailed": "Non è stato possibile leggere i colori della tua foto profilo",
     "chatTextSize": "Dimensione del testo della chat",
     "chatTextSizeDesc": "Messaggi più grandi o più piccoli in ogni chat. Si somma alla dimensione del testo del telefono.",
+    "chatCards": "Chat come schede",
+    "chatCardsDesc": "Ogni chat sulla sua scheda. Disattiva per un elenco semplice con una linea tra le chat.",
     "showLikes": "Mostra i miei Mi piace a tutti",
     "showLikesDesc": "Chiunque può aprire la scheda Mi piace del tuo profilo. Disattivato di default, quindi solo tu vedi cosa ti è piaciuto.",
     "showFollowersList": "Mostra chi mi segue",

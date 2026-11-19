@@ -3719,6 +3719,8 @@
     "themeColorBrandFailed": "Não foi possível ler as cores da sua foto de perfil",
     "chatTextSize": "Tamanho do texto do chat",
     "chatTextSizeDesc": "Mensagens maiores ou menores em todos os chats. Soma-se ao tamanho de texto do seu telefone.",
+    "chatCards": "Chats como cartões",
+    "chatCardsDesc": "Cada chat no seu próprio cartão. Desative para uma lista simples com uma linha entre chats.",
     "showLikes": "Mostrar minhas curtidas para todos",
     "showLikesDesc": "Qualquer pessoa pode abrir a aba Curtidas do seu perfil. Desativado por padrão, então só você vê o que curtiu.",
     "showFollowersList": "Mostrar quem me segue",

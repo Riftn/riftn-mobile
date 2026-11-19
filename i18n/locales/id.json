@@ -3768,6 +3768,8 @@
     "themeColorBrandFailed": "Tidak bisa membaca warna dari foto profil Anda",
     "chatTextSize": "Ukuran teks chat",
     "chatTextSizeDesc": "Pesan lebih besar atau lebih kecil di semua chat. Ditambahkan ke ukuran teks ponsel Anda.",
+    "chatCards": "Chat sebagai kartu",
+    "chatCardsDesc": "Setiap chat di kartunya sendiri. Matikan untuk daftar polos dengan garis di antara chat.",
     "showLikes": "Tampilkan suka saya ke semua orang",
     "showLikesDesc": "Siapa pun bisa membuka tab Suka di profilmu. Mati secara bawaan, jadi hanya kamu yang melihat apa yang kamu sukai.",
     "showFollowersList": "Tampilkan siapa yang mengikuti saya",

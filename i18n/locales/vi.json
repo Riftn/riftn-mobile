@@ -3769,6 +3769,8 @@
     "themeColorBrandFailed": "Không đọc được màu từ ảnh đại diện của bạn",
     "chatTextSize": "Cỡ chữ trò chuyện",
     "chatTextSizeDesc": "Tin nhắn lớn hơn hoặc nhỏ hơn trong mọi cuộc trò chuyện. Cộng thêm vào cỡ chữ của điện thoại.",
+    "chatCards": "Cuộc trò chuyện dạng thẻ",
+    "chatCardsDesc": "Mỗi cuộc trò chuyện một thẻ. Tắt để có danh sách đơn giản với đường kẻ giữa các cuộc trò chuyện.",
     "showLikes": "Hiển thị lượt thích của tôi cho mọi người",
     "showLikesDesc": "Ai cũng có thể mở tab Lượt thích trên hồ sơ của bạn. Mặc định tắt, nên chỉ bạn thấy những gì mình đã thích.",
     "showFollowersList": "Hiển thị ai theo dõi tôi",
