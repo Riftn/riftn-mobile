@@ -7762,7 +7762,8 @@
     "shareGroups": "Gruplar",
     "shareKindGroup": "Grup",
     "shareKindChannel": "Kanal",
-    "shareKindCommunity": "Topluluk"
+    "shareKindCommunity": "Topluluk",
+    "copyMedia": "Medyayı kopyala"
   },
   "editPost": {
     "mediaPermission": "Medya kitaplığı izni gerekiyor",

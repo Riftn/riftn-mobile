@@ -3,6 +3,8 @@ import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import HoldSheet, { type HoldReactionChip, type HoldTile } from "../ui/HoldSheet";
 import { useTranslation } from "react-i18next";
 import { copyToClipboard } from "../../libs/clipboard.utils";
+import { copyMessageMedia } from "../../libs/copyMessageMedia";
+import { buildCdnPath } from "../../libs/misc";
 import type { LiveChatMessageData } from "../../services/livechat.service";
 import EmojiSheet from "../Upload/EmojiSheet";
 
@@ -139,6 +141,14 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
   // sheet slides away, instead of the list dropping back and then jumping up.
   if (onReply) tiles.push({ key: "reply", icon: "Reply", label: t("liveChat.reply"), prime: true, onPress: () => { onReply(message); onClose(); } });
   if (hasContent) tiles.push({ key: "copy", icon: "Copy", label: t("common.copy"), onPress: () => { copyToClipboard(message.content); onClose(); } });
+  // A photo or GIF can be copied as itself, not just its caption.
+  const firstMedia = message.media?.[0];
+  const rawMedia = message.messageType === "gif" ? (message.gif?.url || firstMedia?.url) : message.messageType === "media" ? firstMedia?.url : undefined;
+  const mediaUrl = rawMedia ? (/^https?:/.test(rawMedia) ? rawMedia : buildCdnPath(rawMedia) ?? null) : null;
+  if (mediaUrl && /^https?:/.test(mediaUrl)) {
+    const kind = message.messageType === "gif" || firstMedia?.type === "gif" || firstMedia?.mimeType === "image/gif" ? "gif" as const : "image" as const;
+    tiles.push({ key: "copy-media", icon: "Images", label: t("dm.copyMedia", { defaultValue: "Copy media" }), onPress: () => { onClose(); void copyMessageMedia(mediaUrl, kind); } });
+  }
   if (translate) tiles.push({
     key: "translate",
     icon: translate.isTranslated ? "RotateCcw" : "Languages",
