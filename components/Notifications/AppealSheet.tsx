@@ -17,6 +17,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "../ui/Icon";
 import { appealModerationDecision } from "../../services/moderation.service";
 import useKeyboard from "../../hooks/useKeyboard";
+import { useAppTheme } from "../../context/ThemeContext";
 
 /**
  * Appeal a moderation decision.
@@ -57,6 +58,10 @@ const AppealSheet: React.FC<AppealSheetProps> = ({
   // inset. Not while typing: the keyboard already lifts the sheet clear of it.
   const insets = useSafeAreaInsets();
   const { isVisible: kbUp } = useKeyboard();
+  // hsla() so System Light's colour pass leaves it alone: the white handle
+  // vanished on the light sheet, leaving no visible way to close it.
+  const { isLight } = useAppTheme();
+  const handleColor = isLight ? "hsla(0,0%,0%,0.28)" : "hsla(0,0%,100%,0.4)";
 
   // A fresh sheet is a fresh appeal — a kept draft would be filed against
   // whichever decision was opened next.
@@ -99,6 +104,13 @@ const AppealSheet: React.FC<AppealSheetProps> = ({
         behavior="padding"
         style={{ flex: 1, justifyContent: "flex-end", backgroundColor: "rgba(0,0,0,0.6)" }}
       >
+        {/* Tapping the dimmed page above the sheet closes it, like every other sheet. */}
+        <Pressable
+          style={{ flex: 1 }}
+          onPress={onClose}
+          accessibilityRole="button"
+          accessibilityLabel={t("common.close", "Close")}
+        />
         <View
           style={{
             backgroundColor: "#09090B",
@@ -112,8 +124,8 @@ const AppealSheet: React.FC<AppealSheetProps> = ({
         >
           <ScrollView keyboardShouldPersistTaps="handled" contentContainerStyle={{ gap: 12 }}>
           {/* A handle, no close button: drag the header down to close. */}
-          <SheetDismissHandle onClose={onClose} style={{ alignItems: "center", marginTop: -8 }}>
-            <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.4)" }} />
+          <SheetDismissHandle onClose={onClose} style={{ alignItems: "center", marginTop: -8, paddingVertical: 4 }}>
+            <View style={{ width: 40, height: 5, borderRadius: 3, backgroundColor: handleColor }} />
           </SheetDismissHandle>
           <SheetDismissHandle onClose={onClose} style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
             <Icon name="Scale" size={20} color="#fff" />

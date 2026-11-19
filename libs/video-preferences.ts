@@ -38,16 +38,25 @@ export interface VideoPreferences {
    * the old button, which pinned on every tap.
    */
   rateScope?: number;
+  /**
+   * 2 = loop is on unless the viewer turned it off. Blobs before 2 saved
+   * isLooping: false for everyone who never touched the button, so they start
+   * looping once; a viewer's own choice after that is kept. Same as web.
+   */
+  loopScope?: number;
 }
 
 const RATE_SCOPE = 3;
+const LOOP_SCOPE = 2;
 
 const DEFAULTS: VideoPreferences = {
   playbackRate: 1,
-  isLooping: false,
+  // A video plays again from the start until you move on to another one.
+  isLooping: true,
   volume: 0.8,
   ratesByCreator: {},
   rateScope: RATE_SCOPE,
+  loopScope: LOOP_SCOPE,
 };
 
 let cached: VideoPreferences = { ...DEFAULTS, ratesByCreator: {} };
@@ -74,6 +83,8 @@ function sanitise(stored: any): VideoPreferences {
     // once, creator speeds included.
     playbackRate: current && base.playbackRate > 0 ? base.playbackRate : DEFAULTS.playbackRate,
     rateScope: RATE_SCOPE,
+    isLooping: base.loopScope === LOOP_SCOPE ? base.isLooping === true : true,
+    loopScope: LOOP_SCOPE,
     // Spreading alone would carry through a null or an array left by an older
     // blob, and every lookup after that would throw.
     ratesByCreator:

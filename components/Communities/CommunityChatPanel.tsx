@@ -93,6 +93,7 @@ import { askAiAdmin, getCommunityMemberRow } from "../../services/communities.se
 import { MemberActionsSheet, canTargetMember } from "./manage/MemberActionsSheet";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 import { UnreadMarker, UnreadJumpButton } from "../DM/UnreadJump";
+import { useAppTheme } from "../../context/ThemeContext";
 import type { UnreadAnchor } from "../../libs/chatUnreadAnchor";
 import { anchorFromReadSpot } from "../../libs/chatReadPosition";
 import { useChatReadPosition } from "../../hooks/useChatReadPosition";
@@ -163,6 +164,7 @@ const ChatRow: React.FC<{
   const { t } = useTranslation();
 
   const isMe = !!myAddress && message.wallet_address?.toLowerCase() === myAddress;
+  const { isLight } = useAppTheme();
   const displayName =
     message.display_name ||
     message.username ||
@@ -221,7 +223,7 @@ const ChatRow: React.FC<{
       onLongPress={() => onLongPress(message)}
       delayLongPress={300}
       className="flex-row px-3 py-1.5"
-      style={flashing ? styles.flash : undefined}
+      style={[isMe && (isLight ? styles.mineRowLight : styles.mineRow), flashing && styles.flash]}
     >
       <Pressable onPress={() => profileId && onOpenProfile(profileId, message.wallet_address)}>
         <Avatar uri={avatarUrl} size={32} name={displayName} />
@@ -1511,6 +1513,21 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 8, padding: 24 },
   dim: { color: "#A1A1AA", fontSize: 12, textAlign: "center" },
 
+  // Your own lines sit on a soft tint so they stand out in a busy group.
+  // Inset by 6 and padded by 6 so avatars stay in line with everyone else's.
+  // hsla() keeps System Light's colour pass off it.
+  mineRow: {
+    backgroundColor: "hsla(0,0%,100%,0.07)",
+    borderRadius: 14,
+    marginHorizontal: 6,
+    paddingHorizontal: 6,
+  },
+  mineRowLight: {
+    backgroundColor: "hsla(0,0%,0%,0.045)",
+    borderRadius: 14,
+    marginHorizontal: 6,
+    paddingHorizontal: 6,
+  },
   flash: {
     backgroundColor: "rgba(255,255,255,0.08)",
     borderRadius: 10,

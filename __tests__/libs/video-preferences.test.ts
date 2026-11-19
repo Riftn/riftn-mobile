@@ -23,11 +23,22 @@ beforeEach(() => {
   mockRead.mockReset().mockImplementation(key => Promise.resolve(mockValues.get(key) ?? null));
 });
 
-it('defaults replay to off on a fresh install', async () => {
+it('defaults replay to on on a fresh install', async () => {
   const prefs = restart();
-  expect(prefs.getIsLooping()).toBe(false);
+  expect(prefs.getIsLooping()).toBe(true);
   await prefs.warmVideoPreferences();
-  expect(prefs.getIsLooping()).toBe(false);
+  expect(prefs.getIsLooping()).toBe(true);
+});
+
+it('turns replay on once for blobs saved before it was the default, then keeps the choice', async () => {
+  mockRead.mockImplementationOnce(() => Promise.resolve(JSON.stringify({ isLooping: false, rateScope: 3 })));
+  const old = restart();
+  await old.warmVideoPreferences();
+  expect(old.getIsLooping()).toBe(true);
+  mockRead.mockImplementationOnce(() => Promise.resolve(JSON.stringify({ isLooping: false, rateScope: 3, loopScope: 2 })));
+  const chosen = restart();
+  await chosen.warmVideoPreferences();
+  expect(chosen.getIsLooping()).toBe(false);
 });
 
 it.each([true, false])('restores replay=%s after an app restart', async looping => {
