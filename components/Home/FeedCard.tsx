@@ -445,12 +445,17 @@ const CardSheets = memo(function CardSheets({
   postKey,
   control,
   render,
+  onAnyOpenChange,
 }: {
   postKey: string;
   control: React.MutableRefObject<CardSheetControl | null>;
   render: (open: CardSheetsOpen) => React.ReactNode;
+  /** Only the menu host listens, so ordinary cards never re-render for it. */
+  onAnyOpenChange?: (anyOpen: boolean) => void;
 }) {
   const [open, setOpen] = useKeyedState<CardSheetsOpen>(postKey, NO_SHEETS_OPEN);
+  const anyOpen = Object.values(open).some(Boolean);
+  useEffect(() => { onAnyOpenChange?.(anyOpen); }, [anyOpen, onAnyOpenChange]);
   useLayoutEffect(() => {
     control.current = (key, sheet, next) => {
       // A late open (after sign-in, after a save) meant for a post this card
@@ -1560,7 +1565,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     if (isMenuHost) handleOpenOptions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMenuHost]);
-  const anySheetOpen = Object.values(open).some(Boolean);
+  // The sheets' open state lives in CardSheets, which reports it here for the
+  // menu host only. (A bare `open` here compiled against the DOM's
+  // window.open and threw on phones, hiding every post in the feed.)
+  const [anySheetOpen, setAnySheetOpen] = useState(false);
   const sheetWasOpen = useRef(false);
   useEffect(() => {
     if (!isMenuHost) return;
@@ -2596,7 +2604,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     </>
     );
   };
-  const sheets = <CardSheets postKey={postKey} control={sheetControl} render={renderSheets} />;
+  const sheets = <CardSheets postKey={postKey} control={sheetControl} render={renderSheets} onAnyOpenChange={isMenuHost ? setAnySheetOpen : undefined} />;
 
   if (tabletPortrait) {
     return (
