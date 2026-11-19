@@ -60,6 +60,10 @@ export interface UseCallReturn {
   localCanvas: VideoCanvas; remoteCanvas: VideoCanvas;
   startCall: (recipientAddress: string, callType?: "audio" | "video") => Promise<void>;
   endCall: () => void; acceptCall: () => void; rejectCall: () => void;
+  /** Answer from the phone's call screen (CallKit / Android call notification), even with the app in the background. */
+  acceptCallById: (sessionId: string) => Promise<void>;
+  /** Decline from the phone's call screen. */
+  declineCallById: (sessionId: string) => Promise<void>;
   toggleMute: () => void; toggleSpeaker: () => void; toggleCamera: () => void; switchCamera: () => void;
   setCallMessageHandler: (handler: ((content: string) => void) | null) => void;
   isMinimized: boolean; setMinimized: (minimized: boolean) => void;
@@ -567,6 +571,42 @@ export function useCall(): UseCallReturn {
     } finally { if (generationRef.current === generation) joiningRef.current = false; }
   }, [callClient, clearTimeouts, publishCall, joinChannel, endCall, markEnded, armGroupTimeout]);
 
+  const acceptRef = useRef(acceptCall);
+  acceptRef.current = acceptCall;
+  const acceptCallById = useCallback(async (sessionId: string) => {
+    const existing = currentCallRef.current;
+    if (existing?.id === sessionId) {
+      if (existing.status === "ringing") await acceptRef.current();
+      return;
+    }
+    if (existing || !userAddress) return;
+    try {
+      const { data } = await callClient.from("call_sessions").select("id,caller_address,recipient_address,status,call_type,created_at,group_id,group_name")
+        .eq("id", sessionId).eq("recipient_address", userAddress).maybeSingle();
+      if (!data || data.status !== "ringing" || currentCallRef.current) return;
+      generationRef.current += 1;
+      dismissCallSummary();
+      // Straight to joining: the phone's call screen already rang and was answered.
+      publishCall(data as CallSession);
+      setMinimized(false);
+      visualActivity.setCall(true, true);
+      revokeAllFeedVideo(); revokeAudioFocus();
+      await acceptRef.current();
+    } catch (error) {
+      log.warn("Answer from call screen failed", error);
+    }
+  }, [userAddress, callClient, publishCall, dismissCallSummary]);
+  const declineCallById = useCallback(async (sessionId: string) => {
+    if (currentCallRef.current?.id === sessionId) { await finishCall(); return; }
+    if (!userAddress) return;
+    try {
+      await callClient.from("call_sessions").update({ status: "ended" })
+        .eq("id", sessionId).eq("recipient_address", userAddress).eq("status", "ringing");
+    } catch (error) {
+      log.warn("Decline from call screen failed", error);
+    }
+  }, [userAddress, callClient, finishCall]);
+
   const toggleMute = useCallback(() => {
     const engine = mediaRef.current?.engine;
     if (engine) setIsMuted(previous => { engine.muteLocalAudioStream(!previous); return !previous; });
@@ -633,10 +673,10 @@ export function useCall(): UseCallReturn {
     isRinging, callSummary, dismissCallSummary,
     isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas,
-    startCall, endCall, acceptCall, rejectCall: endCall, toggleMute, toggleSpeaker, toggleCamera,
+    startCall, endCall, acceptCall, rejectCall: endCall, acceptCallById, declineCallById, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
   }), [captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
-    callStartedAt, remoteUid, peerAddress, remoteCanvas, startCall, endCall, acceptCall,
+    callStartedAt, remoteUid, peerAddress, remoteCanvas, startCall, endCall, acceptCall, acceptCallById, declineCallById,
     toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);
 }

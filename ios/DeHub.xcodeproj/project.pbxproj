@@ -12,6 +12,7 @@
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		D8F356E3C6773F72E2ACF7BB /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 05F95CB5DA0E20D841AB7296 /* PrivacyInfo.xcprivacy */; };
+		A7C3E1F2B4D5469788CA1101 /* call_ring.wav in Resources */ = {isa = PBXBuildFile; fileRef = A7C3E1F2B4D5469788CA1102 /* call_ring.wav */; };
 		DE7A1001000000000000AA01 /* DHBVideoLooks.m in Sources */ = {isa = PBXBuildFile; fileRef = DE7A1002000000000000AA02 /* DHBVideoLooks.m */; };
 		DE7A1004000000000000AA04 /* DHBStudio.m in Sources */ = {isa = PBXBuildFile; fileRef = DE7A1005000000000000AA05 /* DHBStudio.m */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		03266A3C8D7D78FB8638EB46 /* Pods-DeHub.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeHub.debug.xcconfig"; path = "Target Support Files/Pods-DeHub/Pods-DeHub.debug.xcconfig"; sourceTree = "<group>"; };
 		05F95CB5DA0E20D841AB7296 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = DeHub/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		A7C3E1F2B4D5469788CA1102 /* call_ring.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = call_ring.wav; path = DeHub/call_ring.wav; sourceTree = "<group>"; };
 		1083AF776CAF554B58543CD9 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-DeHub/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DeHub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeHub.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DeHub/Images.xcassets; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
 				05F95CB5DA0E20D841AB7296 /* PrivacyInfo.xcprivacy */,
+				A7C3E1F2B4D5469788CA1102 /* call_ring.wav */,
 			);
 			name = DeHub;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
 				D8F356E3C6773F72E2ACF7BB /* PrivacyInfo.xcprivacy in Resources */,
+				A7C3E1F2B4D5469788CA1101 /* call_ring.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

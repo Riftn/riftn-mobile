@@ -686,6 +686,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     return getImageUrl(item.imageUrl || item.thumbnailUrl || "", LOCKED_PREVIEW_WIDTH) || galleryImages[0];
   }, [item, rawImageUrls, galleryImages]);
   const hasImages = galleryImages.length > 0;
+  // A post that is only words: its text is the post, so a double tap on the
+  // text likes it the way a double tap on a photo does. Captions under media
+  // open on the first tap; the media above them takes the double tap.
+  const textOnly = !isVideo && !isLive && !hasImages && contentType !== "audio";
   const postImage = contentType === "image" && hasImages;
   const hasMultipleImages = galleryImages.length > 1;
 
@@ -2643,7 +2647,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                 onBoostPress={DIGITAL_PURCHASES_ENABLED && isOwnerPost && isSignedIn && tokenId != null ? handleBoostPress : undefined}
                 isHidden={isHidden}
               />
-              <PostTapSurface resetKey={postKey} immediatePress onPressIntent={warmPost} onReaction={handleVideoTapReaction} onPress={disablePress ? undefined : handleCaptionPress} onHold={holdMenu}>
+              <PostTapSurface resetKey={postKey} immediatePress={!textOnly} onPressIntent={warmPost} onReaction={handleVideoTapReaction} onPress={disablePress ? undefined : handleCaptionPress} onHold={holdMenu}>
                 <FeedCaption tapExpand={captionTapExpand} resetKey={postKey} statsTokenId={tokenId} title={overlayTitle || undefined} description={displayCaption || undefined}
                   variant="portrait" compactPortrait={SCREEN_WIDTH < 768} maxLines={4} showCategories={false} flagged={item.communityAlertStatus === "pending"}
                   onCategoryPress={onCategorySelect} onCashtagPress={setActiveCashtag} />
@@ -3043,7 +3047,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                 {soundtrackBadge}
                 <PostTapSurface
                   resetKey={postKey}
-                  immediatePress
+                  immediatePress={!textOnly}
                   onReaction={handleVideoTapReaction}
                   onPress={disablePress ? undefined : handleCaptionPress}
                   onHold={holdMenu}
@@ -3103,7 +3107,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             <>
               <PostTapSurface
                 resetKey={postKey}
-                immediatePress
+                immediatePress={!textOnly}
                 onReaction={handleVideoTapReaction}
                 onPress={disablePress ? undefined : handleCaptionPress}
                 onHold={holdMenu}
@@ -3300,7 +3304,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           and the post did not open. */}
       <PostTapSurface
         resetKey={postKey}
-        immediatePress
+        immediatePress={!textOnly}
         onPressIntent={warmPost}
         onReaction={handleVideoTapReaction}
         onPress={disablePress ? undefined : handleCaptionPress}
