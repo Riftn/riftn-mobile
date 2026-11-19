@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "ฮิตสัปดาห์นี้บน Audius ฟรีใช้ได้ ศิลปินจะได้รับเครดิตในโพสต์ของคุณ",
     "d2e45b7406fc": "เพลงสาธารณะและ Creative Commons จาก Wikimedia Commons ศิลปินจะได้รับเครดิตในโพสต์ของคุณ",
     "d0c1a3684775": "เพลงไม่โหลด ลองใหม่อีกครั้งในขณะนี้",
-    "d14064f80f52": "เพิ่มเสียง"
+    "d14064f80f52": "เพิ่มเสียง",
+    "71988c4d8e08": "ข้อความ",
+    "147170e793c6": "กว้าง",
+    "481859b689b0": "กวดเบิ่งการเชื่อมต่อแล้วลองอีกเทื่อ",
+    "57e2faa5ec63": "ก้นหาใน Riftn",
+    "7db20897053b": "คน",
+    "96d7bff86b44": "ค้นหาไม่สามารถโหลดได้",
+    "d8b8392e2c54": "ลองใหม่"
   },
   "dehubLinks": {
     "kind": {
@@ -2677,7 +2684,8 @@
       "podcast": "พอดคาสต์",
       "newsletter": "นิวส์เล็ตเตอร์",
       "pronouns": "คำบอกเล่า",
-      "location": "ที่ตั้ง"
+      "location": "ที่ตั้ง",
+      "custom": "กำหนดเอง"
     }
   },
   "notificationFilters": {
@@ -2849,7 +2857,8 @@
       "quote": "คำอ้างอิง",
       "bullets": "รายการคู่",
       "numbers": "รายการเลขคณิต",
-      "link": "ลิงก์"
+      "link": "ลิงก์",
+      "image": "เพิ่มรูปภาพ"
     }
   },
   "storefront": {
@@ -3777,7 +3786,11 @@
     "payViaDpay": "ชำระเงินให้ Riftn Pay โทเค็นจะมาถึงในประมาณ 30 วินาที",
     "payViaBridgeDpay": "ย้ายไปยัง Base และชำระเงินให้ Riftn Pay โทเค็นจะมาถึงในประมาณหนึ่งนาที",
     "tokensUnit": "โทเค็น",
-    "tokenAmount": "{{amount}} โทเค็น"
+    "tokenAmount": "{{amount}} โทเค็น",
+    "addMessage": "เพิ่มคำสั่ง (ไม่จำเป็น)",
+    "messagePublic": "สาธารณะ",
+    "railTitle": "ทิป",
+    "railTotal": "{{amount}} โทเค็น"
   },
   "postOptions": {
     "aiOverview": "ภาพรวม AI",
@@ -4501,7 +4514,11 @@
       "here": "{{name}} ส่งข้อความถึงทุกคนในชุมชน",
       "hereNamed": "{{name}} ส่งข้อความถึงทุกคนใน “{{community}}”"
     },
-    "tokenAmount": "{{amount}} โทเคน"
+    "tokenAmount": "{{amount}} โทเคน",
+    "groupNew": "ใหม่",
+    "groupToday": "วันนี้",
+    "groupThisWeek": "อาทิตย์นี้",
+    "searchClose": "ปิดการค้นหา"
   },
   "leaderboard": {
     "title": "กระดานคะแนน",
@@ -4693,7 +4710,18 @@
     "attachmentTooLarge": "แต่ละไฟล์ต้องน้อยกว่า 50MB",
     "deleteCommentA11y": "ลบคอมเมนต์",
     "sendCommentA11y": "ส่งคอมเมนต์",
-    "requestOptions": "ขอทางเลือก"
+    "requestOptions": "ขอทางเลือก",
+    "deviceInfoNoErrors": "ไม่มี",
+    "topBuilders": {
+      "month": "เดือนนี้",
+      "allTime": "ทุกเวลา",
+      "shipped": "ส่งแล้ว",
+      "votes": "เสียงโหวต",
+      "comments": "ความเห็น",
+      "showLess": "แสดงน้อยลง",
+      "viewProfile": "ดูโปรไฟล์",
+      "you": "คุณ"
+    }
   },
   "auth": {
     "loginRequired": "ต้องเข้าสู่ระบบ",
@@ -4948,8 +4976,25 @@
       "votes_one": "{{value}} โหวต",
       "votes_other": "{{value}} ใบเสียง",
       "members_one": "{{value}} สมาชิก",
-      "members_other": "{{value}}"
-    }
+      "members_other": "{{value}}",
+      "poll": "โพล",
+      "shared": "แชร์แล้ว",
+      "link": "ลิงก์",
+      "short": "ชอต"
+    },
+    "articleShort": "บทความ",
+    "articleMinRead": "{{count}} นาทีอ่าน",
+    "pinnedShort": "ปักหมุด",
+    "post": "โพสต์",
+    "arrange": {
+      "saving": "กำลังบันทึก..."
+    },
+    "reserve": {
+      "signIn": "เข้าสู่ระบบ"
+    },
+    "tabLikes": "มัก",
+    "likesEmptyTitle": "ยังบ่มีการถูกใจ",
+    "likesPrivateTitle": "การถูกใจเป็นส่วนตัว"
   },
   "tv": {
     "title": "โทรทัศน์",
@@ -5465,6 +5510,9 @@
         "scheduled": "งานที่ตั้งเวลาไว้",
         "active": "เอเจนต์ที่ใช้งานอยู่"
       }
+    },
+    "welcome": {
+      "text": "ข้อความต้อนฮับ"
     }
   },
   "hero": {
@@ -5546,7 +5594,16 @@
     "nowPublic": "โฟลว์เป็นสาธารณะแล้ว",
     "openCanvas": "เปิดผืนผ้าใบ",
     "playVideo": "เล่นวิดีโอ",
-    "signInToSee": "ลงชื่อเข้าใช้เพื่อดูโฟลว์ในบัญชีของคุณ"
+    "signInToSee": "ลงชื่อเข้าใช้เพื่อดูโฟลว์ในบัญชีของคุณ",
+    "newNativeFlow": "โฟลว์ใหม่",
+    "model": "โมเดล",
+    "aspectRatio": "อัตราส่วนภาพ",
+    "duration": "ระยะเวลาส่วนต่อเนื่องในวินาที",
+    "resolution": "ความละเอียด",
+    "disconnect": "ตัดการเชื่อมต่อ",
+    "payAndRun": "ชำระเงินและรัน",
+    "run": "รัน",
+    "handlePrompt": "ความต้องการ"
   },
   "loginModal": {
     "title": "เข้าสู่ระบบ",
@@ -5866,7 +5923,8 @@
     "searchMenu": "ค้นหาเมนู",
     "clearSearch": "ล้างการค้นหา",
     "noMenuMatches": "บ่มีหยังในเมนูที่ตรงกัน",
-    "searchDehubFor": "ค้นหา \"{{query}}\" อยู่ Riftn"
+    "searchDehubFor": "ค้นหา \"{{query}}\" อยู่ Riftn",
+    "requestSend": "ส่งคำขอ"
   },
   "comments": {
     "reportComment": "รายงานความคิดเห็น",
@@ -6485,7 +6543,11 @@
       "copied": "ข้อความคัดลอกแล้ว",
       "copyText": "คัดลอกข้อความ",
       "mutedUntil": "คุณถูกปิดเสียงจนกว่าจะถึง {{date}}",
-      "slowMode": "โหมดช้า: ส่งข้อความได้ทุกๆ {{interval}}"
+      "slowMode": "โหมดช้า: ส่งข้อความได้ทุกๆ {{interval}}",
+      "joined": "{{name}} เข้าร่วม",
+      "reactions": "ปฏิกิริยา",
+      "photoTooLarge": "ฮูปต้องน้อยกว่า 10MB",
+      "aiAdminFailed": "AI Admin ไม่ตอบสนอง"
     },
     "manage": {
       "dismissAdminTitle": "ปิดการดูแลระบบ",
@@ -6688,7 +6750,30 @@
       "requestToJoin": "ขอเข้า",
       "approvalNote": "ต้องมีการอนุมัติจากผู้ดูแลก่อนที่คุณจะเข้า"
     },
-    "editInfo": "แก้ไขชื่อและคำอธิบาย"
+    "editInfo": "แก้ไขชื่อและคำอธิบาย",
+    "buyAlert": {
+      "spent": "ใช้ไปแล้ว",
+      "buyer": "คุณผู้ซื้อ:",
+      "price": "ราคา:",
+      "marketCap": "มูลค่าตลาด:"
+    },
+    "newChat": {
+      "public": "สาธารณะ",
+      "private": "ส่วนตัว",
+      "free": "ฟรี",
+      "paid": "ชำระเงินแล้ว",
+      "group": "จัดกลุ่ม"
+    },
+    "holderGate": {
+      "chain": "เครือข่าย",
+      "which": "โทเค็น"
+    },
+    "automod": {
+      "bannedWords": "คำห้าม",
+      "floodMax": "ข้อความของ {{count}}",
+      "saved": "บันทึกแล้ว",
+      "wordCount": "{{count}} คำ"
+    }
   },
   "work": {
     "integrity": {
@@ -7791,7 +7876,15 @@
     "requestPendingBody": "คำขอติดตามของคุณถูกส่งแล้ว คุณจะสามารถเห็นโพสต์ของพวกเขาได้เมื่อพวกเขาอนุมัติคำขอของคุณ",
     "followToSeePosts": "ติดตามบัญชีนี้เพื่อดูโพสต์ของพวกเขา",
     "loadFailed": "โหลดรายการนี้บ่ได้",
-    "new": "ใหม่"
+    "new": "ใหม่",
+    "followBackConfirm": "ติดตามกลับ",
+    "followBackNotNow": "ไว้ก่อน",
+    "followBackDone": "เสร็จแล้ว",
+    "nonFollowers": {
+      "notNow": "ไว้ก่อน",
+      "cancel": "ยกเลิก",
+      "close": "ปิด"
+    }
   },
   "reactionInfo": {
     "mentionedYouComment": "{{name}} เอิ้นถึงเจ้าในคอมเมนต์",
@@ -8709,7 +8802,38 @@
     "coverFrames": "เลือกกรอบภาพปก",
     "coverFrame": "ใช้กรอบภาพ {{index}} เป็นภาพปก",
     "uploadCover": "อัปโหลดภาพปก",
-    "editFailed": "ไม่สามารถนำไปใช้ได้ ลองอีกครั้ง"
+    "editFailed": "ไม่สามารถนำไปใช้ได้ ลองอีกครั้ง",
+    "altPlaceholderVideo": "อธิบายวิดีโอนี้",
+    "landingLive": "ถ่ายทอดสด",
+    "preview": {
+      "title": "ดูตัวอย่าง"
+    },
+    "recent": {
+      "all": "ทั้งหมด"
+    },
+    "studio": {
+      "crop": "ครอบตัด",
+      "draw": "วาด",
+      "light": "สว่าง",
+      "contrast": "ความแตกต่าง",
+      "warmth": "ความร้อน",
+      "colour": "สี",
+      "fade": "เฟด",
+      "original": "ต้นฉบับ",
+      "ratioOriginal": "ต้นฉบับ",
+      "ratioFree": "ฟรี",
+      "rotate": "หมุน",
+      "strength": "ความแข็งแกร่ง",
+      "stickers": "สติ๊กเกอร์",
+      "ticker": "สัญลักษณ์",
+      "textBg": "พื้นหลัง",
+      "font": {
+        "bold": "ตัวหนา",
+        "mono": "โมโน"
+      }
+    },
+    "edited": "แก้ไขแล้ว",
+    "edit": "แก้ไข"
   },
   "bounty": {
     "claimed": "ฮับแล้ว",
@@ -9003,7 +9127,8 @@
     "justChatting": "พูดคุยทั่วไป",
     "noLiveStreams": "ไม่มีไลฟ์สตรีม",
     "noOneStreaming": "ตอนนี้ไม่มีใครสตรีม กลับมาดูใหม่ภายหลัง!",
-    "loadStreamsFailed": "โหลดสตรีมไม่ได้ ลองอีกครั้ง"
+    "loadStreamsFailed": "โหลดสตรีมไม่ได้ ลองอีกครั้ง",
+    "liveBadge": "ถ่ายทอดสด"
   },
   "liveShop": {
     "title": "ซื้อของจากไลฟ์นี้",
@@ -9316,7 +9441,23 @@
     "paymentSentWith": "ส่งแล้วพร้อม {{amount}}",
     "planRestricted": "ผู้ใช้คนนี้ต้องสมัครสมาชิกก่อนจั่งสิฮับข้อความได้",
     "planTypeNotAllowed": "แพ็กเกจของครีเอเตอร์คนนี้บ่อนุญาตข้อความแบบนี้",
-    "planMinTip": "ทิปให้ครีเอเตอร์คนนี้ต้องมีอย่างน้อย {{amount}} โทเค็น"
+    "planMinTip": "ทิปให้ครีเอเตอร์คนนี้ต้องมีอย่างน้อย {{amount}} โทเค็น",
+    "newDrawer": {
+      "to": "ถึง"
+    },
+    "download": "ดาวน์โหลด",
+    "deleteOneTitle": "ลบข้อความนี้?",
+    "retrySend": "ลองใหม่",
+    "discardSend": "ลบ",
+    "shareKindGroup": "จัดกลุ่ม",
+    "shareKindCommunity": "ชุมชน",
+    "searchDiscover": {
+      "people": "คน",
+      "communities": "ซุมซน",
+      "members": "{{n}}",
+      "newChat": "แชทใหม่",
+      "invite": "เชิญ"
+    }
   },
   "editPost": {
     "mediaPermission": "ต้องได้ฮับสิทธิ์เข้าเถิงคลังสื่อ",
@@ -10536,7 +10677,10 @@
       "hint": "เปลี่ยนเสียงเว้าเป็นคำบรรยายตามเวลา ปรับแต่งสไตล์ได้ ทำงานในเครื่องของเจ้า: ฟรีและเป็นส่วนตัว ใช้เทื่อแรกสิดาวน์โหลดโมเดล",
       "done": "เพิ่มคำบรรยาย {{count}} รายการแล้ว",
       "noSpeech": "บ่พบเสียงเว้าในคลิปนี้",
-      "failed": "สร้างคำบรรยายให้คลิปนี้บ่ได้"
+      "failed": "สร้างคำบรรยายให้คลิปนี้บ่ได้",
+      "styles": {
+        "bold": "ตัวหนา"
+      }
     },
     "app": {
       "newDesign": "งานออกแบบใหม่",
@@ -10786,7 +10930,9 @@
       "suggestTitle": "ใส่หัวข้อใหญ่ตัวหนาอยู่ด้านบน แล้วใส่หัวข้อย่อยน้อยกว่าไว้ข้างล่าง",
       "undo": "เลิกทำ",
       "openGenerator": "ตรวจเบิ่งแล้วสร้าง",
-      "working": "กำลังเฮ็ดอยู่…"
+      "working": "กำลังเฮ็ดอยู่…",
+      "stop": "หยุด",
+      "queue": "เพิ่มไปยังคิว"
     },
     "brand": {
       "addColor": "เพิ่มสีแบรนด์",
@@ -10923,7 +11069,9 @@
       "rendering": "กำลังเรนเดอร์วิดีโอ… {{percent}}%",
       "mp4": "วิดีโอ MP4",
       "exportHint": "เปิดตัวแก้ไขไว้ก่อนเด้อ ระหว่างเรนเดอร์วิดีโอ",
-      "tooLarge": "ไฟล์นี้ใหญ่โพดสำหรับตัวแก้ไข จำกัดอยู่ที่ 400 MB"
+      "tooLarge": "ไฟล์นี้ใหญ่โพดสำหรับตัวแก้ไข จำกัดอยู่ที่ 400 MB",
+      "tZoomIn": "Zoom ใน",
+      "tZoomOut": "Zoom ออก"
     },
     "motion": {
       "title": "การเคลื่อนไหว",
@@ -12100,6 +12248,28 @@
       "selection": "ที่เลือก",
       "fit": "ปรับให้เข้ากับขอบ",
       "pan": "ปานแคนวาส"
+    },
+    "stage": {
+      "camera": "กล้อง",
+      "yaw": "การหมุน",
+      "add": "เพิ่ม",
+      "scale": "ขนาด",
+      "color": "สี",
+      "light": "สว่าง"
+    },
+    "clipFix": {
+      "listening": "กำลังฟัง..."
+    },
+    "voiceClone": {
+      "stop": "หยุดอัดเสียง",
+      "failed": "การบันทึกเสียงล้มเหลว"
+    },
+    "linkImport": {
+      "go": "นำเข้า",
+      "downloading": "กำลังดาวน์โหลด {{percent}}%"
+    },
+    "reverse": {
+      "action": "ย้อนกลับ"
     }
   },
   "creator": {
@@ -12561,7 +12731,32 @@
     "referenceProductName": "Place your product ในคลิป",
     "referenceProductHint": "แทนที่ผลิตภัณฑ์หลักและรักษาสถานการณ์เดิม",
     "referenceComposeName": "Combine reference images",
-    "referenceComposeHint": "นำตัวละคร, วัตถุ และสถานการณ์จากภาพหลายภาพมารวมเป็นภาพเดียว"
+    "referenceComposeHint": "นำตัวละคร, วัตถุ และสถานการณ์จากภาพหลายภาพมารวมเป็นภาพเดียว",
+    "marketing": {
+      "import": {
+        "use": "ใช้รายละเอียดนี้"
+      }
+    },
+    "batchCount": "ฮูป",
+    "endFrame": "เฟรมสิ้นสุด",
+    "cinema": {
+      "close": "ปิด",
+      "performance": {
+        "label": "ประสิทธิภาพ"
+      }
+    },
+    "audioNoSpeech": "ไม่มีเสียงพูดในบันทึกนั้น",
+    "audioTaskSpeechLabel": "เสียง",
+    "audioTaskDialogueLabel": "การสนทนา",
+    "audioTaskSfxLabel": "Bob: [หัวเราะ] ไปก่อนหน้าเธอ",
+    "audioTaskVoiceChangerLabel": "เครื่องเปลี่ยนเสียง",
+    "audioTaskTranscribeLabel": "แปลคลิปขณะรักษาเสียงของผู้พูด",
+    "audioTaskIsolateLabel": "แก้ไข",
+    "priceFreeRateLimited": "ฟรี · จำกัดอัตราการใช้งาน",
+    "loop": "วนซ้ำ",
+    "dialogueFormat": "เขียนฉากเป็น \"ชื่อ: บรรทัด\" ตัวพูดต่อกันบรรทัดละคน",
+    "fileTooLarge": "ไฟล์นี้มีขนาดเกิน 100 MB ใช้ไฟล์ที่สั้นหรือเล็กกว่า",
+    "signInToGenerate": "ลงชื่อเข้าใช้เพื่อสร้าง"
   },
   "fractions": {
     "title": "ส่วนแบ่ง",
@@ -14630,6 +14825,19 @@
       "stop": "หยุด",
       "addFive": "เพิ่มเวลา 5 นาที",
       "removeFive": "นั่งพัก 5 นาที"
+    },
+    "destinations": {
+      "platform": "แพลตฟอร์ม",
+      "label": "ชื่อ (ไม่จำเป็น)",
+      "key": "กุญแจสตรีม",
+      "save": "เพิ่ม",
+      "cancel": "ยกเลิก",
+      "states": {
+        "off": "ปิด",
+        "idle": "พร้อมแล้ว",
+        "live": "ถ่ายทอดสด",
+        "error": "ข้อผิดพลาด"
+      }
     }
   },
   "liveChatModeration": {
@@ -14669,7 +14877,8 @@
     "priceUnavailable": "ราคาคือไม่สามารถหาได้",
     "confirm": "มิ้นท์บน {{chain}}",
     "confirmWithCost": "มิ้นท์บน {{chain}} · {{cost}}",
-    "notAvailable": "ไม่สามารถmintได้บนช่วงนี้"
+    "notAvailable": "ไม่สามารถmintได้บนช่วงนี้",
+    "title": "มินต์โพสต์"
   },
   "tokenLaunch": {
     "title": "โทเคนกำลังเปิดตัวเร็ว ๆ นี้",
@@ -14678,7 +14887,9 @@
     "emailLabel": "อีเมล์",
     "invalidEmail": "เข้ารหัสอีเมลที่ถูกต้อง",
     "failed": "assistant",
-    "privacy": "แค่บอกเฉพาะเรื่องการเปิดตัวเท่านั้น"
+    "privacy": "แค่บอกเฉพาะเรื่องการเปิดตัวเท่านั้น",
+    "eyebrow": "เร็วๆ นี้",
+    "notifyMe": "แจ้งข้อย"
   },
   "githubLink": {
     "hint": "เข้าสู่ระบบ GitHub เพื่อยืนยันว่าบัญชีเป็นของคุณ ด้วย Riftn จะเห็นโปรไฟล์ GitHub ที่เป็นสาธารณะของคุณเท่านั้น",
@@ -14686,7 +14897,10 @@
     "connected": "GitHub เชื่อมต่อแล้ว",
     "disconnected": "GitHub ติดต่อไม่ได้",
     "taken": "นี่อะคอ้อน GitHub นี้เคยใช้ในโปรไฟล์ Riftn อีกแล้ว",
-    "unavailable": "GitHub verification (การยืนยันตัวตนของ GitHub) จะมาถึงเร็วๆ นี้"
+    "unavailable": "GitHub verification (การยืนยันตัวตนของ GitHub) จะมาถึงเร็วๆ นี้",
+    "verified": "ตรวจสอบแล้ว",
+    "verifiedAria": "บัญชี GitHub ที่ตรวจสอบแล้ว",
+    "failed": "ไม่สามารถเชื่อมต่อกับ GitHub ได้ ลองอีกครั้ง"
   },
   "comic": {
     "showAll": "แสดงทั้งหมด {{count}} หน้า",
@@ -14721,7 +14935,64 @@
     "days": "{{count}} วัน",
     "spotlightForSale": "กำลังขายอยู่",
     "spotlightNew": "เพิ่ง Minted",
-    "buyFor": "ซื้อที่ {{price}}"
+    "buyFor": "ซื้อที่ {{price}}",
+    "actAll": "ทั้งหมด",
+    "actListings": "รายการ",
+    "actOffer": "ข้อเสนอ",
+    "actOffers": "ข้อเสนอ",
+    "actSales": "ยอดขาย",
+    "tabActivity": "กิจกรรม",
+    "allChains": "ทุกเชน",
+    "newest": "ใหม่สุด",
+    "cheapest": "ราคาต่ำสุด",
+    "soldFor": "ขายแล้ว",
+    "signIn": "เข้าสู่ระบบ",
+    "share": "แชร์",
+    "noneForSale": "ยังไม่มีสิ่งที่ขาย",
+    "noSales": "ยังไม่มีการขายอะไรเลย",
+    "tabBrowse": "เรียกดู",
+    "tabMine": "ของคุณ",
+    "tabSales": "ยอดขาย",
+    "cancelled": "ยกเลิก",
+    "sold": "ขายแล้ว",
+    "listed": "ขายอยู่",
+    "feeRow": "ค่าธรรมเนียมการเปิดรอยแตก ({{pct}}%)",
+    "royaltyRow": "ค่าธรรมเนียมผู้สร้าง",
+    "youGet": "คุณได้",
+    "holderGets": "ผู้ถือได้",
+    "loading": "กำลังโหลด…",
+    "price": "ราคา",
+    "seller": "ผู้ขาย",
+    "tabRecent": "ล่าสุด",
+    "buyNow": "ซื้อเลย",
+    "offers": "ข้อเสนอ",
+    "cancel": "ยกเลิก",
+    "accept": "ยอมรับ",
+    "signInToTrade": "ลงชื่อเข้าใช้เพื่อซื้อขาย",
+    "listForSale": "ประกาศขาย",
+    "makeOffer": "เสนอราคา",
+    "sendOffer": "ส่งข้อเสนอ",
+    "back": "กลับ",
+    "dropsTo": "ราคาลดลงถึง {{price}} บาท ณ วันที่ {{date}}",
+    "inBundle": "ขายเป็นเซ็ตกับ {{n}}",
+    "trending": "คอลเลกชันที่ได้รับความนิยม",
+    "floor": "ราคาพื้น",
+    "listedCount": "{{n}} ขายแล้ว",
+    "thisCollection": "คอลเลกชันนี้",
+    "collectionOffer": "เสนอราคาในใด ๆ",
+    "showAll": "แสดงทั้งหมด",
+    "filters": "ตัวกรอง",
+    "forSale": "ขายแล้ว",
+    "openToOffers": "เปิดให้เสนอราคา",
+    "freshMints": "สดใหม่จากผู้สร้าง Riftn",
+    "offersOpen": "เปิดให้เสนอราคา",
+    "anyInCollection": "อะไรไหมที่คุณเก็บไว้",
+    "thisNft": "นิฟท์",
+    "priceAlert": "ราคาแจ้งเตือน",
+    "alertSaved": "แจ้งเตือนเปิดไว้ คุณจะได้รับการแจ้งเตือนเมื่อมีการจัดจำหน่าย",
+    "endPrice": "ราคาต่ำสุด, ถึงตอนจบ ({{symbol}})",
+    "days_one": "{{count}} วัน",
+    "days_other": "{{count}} วัน"
   },
   "reel": {
     "readAll": "อ่านทั้งหมด",
@@ -14743,7 +15014,11 @@
       "episode": "ตอนพอดแคสต์",
       "show": "พอดแคสต์",
       "artist": "ศิลปิน"
-    }
+    },
+    "loading": "กำลังโหลด…",
+    "paused": "หยุดชั่วคราว",
+    "preview": "ดูตัวอย่าง",
+    "seek": "หาค้นหา"
   },
   "twoFactor": {
     "wrongCode": "รหัสบ่คือกัน ลองใช้รหัสใหม่ล่าสุดในแอปเบิ่งเด้อ",
@@ -14821,5 +15096,251 @@
     "newer": "ผลลัพธ์ใหม่",
     "gone": "ข้อความนั้นไม่อยู่ที่นี่อีกต่อไป",
     "theirMessages": "ข้อความของพวกเขา"
+  },
+  "chatTextSize": {
+    "title": "ขนาดตัวอักษร",
+    "default": "มาตรฐาน",
+    "larger": "ใหญ่ขึ้น"
+  },
+  "remix": {
+    "cut": "ตัด"
+  },
+  "signedFollows": {
+    "setUp": "เปิดใช้งาน",
+    "turnOff": "ปิด",
+    "efpTurnOff": "หยุด"
+  },
+  "postEditHistory": {
+    "original": "ต้นฉบับ"
+  },
+  "studioDeck": {
+    "remove": "ลบ",
+    "background": {
+      "title": "พื้นหลัง",
+      "modes": {
+        "none": "ปิด",
+        "blur": "เบลอ",
+        "color": "สี"
+      }
+    },
+    "scenes": {
+      "countdown": "นับถอยหลัง",
+      "minutes": "{{count}} นาที",
+      "names": {
+        "starting": "สิเริ่มไวๆ นี้"
+      }
+    },
+    "widgets": {
+      "tab": "ไวเจ็ต"
+    },
+    "sources": {
+      "image": "ภาพ",
+      "show": "แสดงบนสตรีม",
+      "positions": {
+        "center": "ศูนย์กลาง"
+      },
+      "sizes": {
+        "medium": "ปานกลาง"
+      }
+    },
+    "phone": {
+      "title": "สตูดิโอ"
+    }
+  },
+  "whenSheet": {
+    "today": "วันนี้",
+    "tooSoon": "เลือกเวลาในอนาคต",
+    "show": "แสดง",
+    "hide": "ซ่อน"
+  },
+  "planned": {
+    "title": "วางแผนแล้ว",
+    "all": "ทั้งหมด",
+    "posts": "โพสต์",
+    "stages": "ห้องเสียง",
+    "post": "โพสต์",
+    "live": "ถ่ายทอดสด",
+    "stage": "สเตจ",
+    "untitledPost": "โพสต์",
+    "untitledLive": "ถ่ายทอดสด",
+    "loading": "กำลังโหลด…",
+    "startNow": "เริ่มเลย",
+    "cancel": "ยกเลิก",
+    "cancelled": "ยกเลิก"
+  },
+  "welcome": {
+    "about": {
+      "title": "ยินดีต้อนรับสู่ Riftn",
+      "day": "วัน",
+      "month": "เดือน",
+      "year": "ปี"
+    },
+    "name": {
+      "title": "ชื่อของคุณ",
+      "placeholder": "ชื่อของคุณ"
+    },
+    "card": {
+      "name": "ชื่อของคุณ",
+      "followers": "ผู้ติดตาม"
+    },
+    "topic": {
+      "music": "เพลง",
+      "art": "ศิลปะ",
+      "gaming": "เกม",
+      "crypto": "คริปโต",
+      "sports": "กีฬา",
+      "comedy": "การแสดงตลก",
+      "film": "หนัง",
+      "podcast": "พอดแคสต์",
+      "food": "อาหาร",
+      "news": "ข่าว",
+      "science": "วิทยาศาสตร์"
+    },
+    "back": "กลับ",
+    "skipPhoto": "เลื่อนไปก่อน",
+    "preview": "ดูส่วนตัวอย่าง"
+  },
+  "appTokens": {
+    "title": "โทเคนของคุณ",
+    "history": "ประวัติ",
+    "noHistory": "ยังไม่มีกิจกรรม",
+    "kindDeposit": "ฝาก",
+    "to": "ถึง",
+    "amount": "จำนวน",
+    "notePlaceholder": "เพิ่มข้อความ (บ่บังคับ)",
+    "sendButton": "ส่ง",
+    "errorInsufficient": "โทเค็นไม่พอ"
+  },
+  "avatarPrompt": {
+    "notNow": "ไว้ก่อน"
+  },
+  "postStats": {
+    "audience": "กลุ่มเป้าหมาย",
+    "engagement": "การมีส่วนร่วม",
+    "finished": "เสร็จแล้ว",
+    "members": "สมาชิก",
+    "membersLower": "สมาชิก",
+    "newFollowers": "ผู้ติดตามใหม่",
+    "noBadge": "ไม่มีชื่อ",
+    "people": "คน",
+    "plays": "ครั้งที่ฟัง",
+    "quotes": "อ้างอิง",
+    "reposts": "แชร์ซ้ำ",
+    "saved": "บันทึกแล้ว",
+    "shares": "แชร์",
+    "signedOutViewers": "ออกจากระบบแล้ว",
+    "topSupporters": "ผู้สนับสนุนอันดับสูงสุด",
+    "visitors": "ออกจากระบบแล้ว"
+  },
+  "duet": {
+    "policyEveryone": "ทุกคน",
+    "policyFollowers": "ผู้ติดตาม",
+    "policyNobody": "บ่มีใคร",
+    "loadMore": "โหลดเพิ่ม",
+    "video": "วิดีโอ"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "ทุกคน",
+      "followers": "ผู้ติดตาม",
+      "nobody": "บ่มีใคร"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "ทุกคน",
+      "followers": "ผู้ติดตาม",
+      "nobody": "บ่มีใคร"
+    },
+    "heading": "การตอบสนอง",
+    "more": "แสดงเพิ่มเติม",
+    "liveNow": "ถ่ายทอดสด",
+    "untitled": "ปฏิกิริยา"
+  },
+  "liveClips": {
+    "copyLink": "คัดลอกลิงก์",
+    "linkCopied": "ลิงก์ถูกคัดลอกแล้ว"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "แผน",
+      "howMany": "จักอัน",
+      "who": "ชื่อผู้ใช้หรือที่อยู่กระเป๋า",
+      "whoPlaceholder": "@ชื่อผู้ใช้",
+      "cancel": "ยกเลิก",
+      "stage": {
+        "preparing": "กำลังเตรียม…",
+        "confirming": "กำลังถ้าธุรกรรม…",
+        "recording": "กำลังเฮ็ดให้เสร็จ…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "อื่นๆ",
+    "confirming": "กำลังยืนยันการชำระเงิน…"
+  },
+  "liveShorts": {
+    "live": "ถ่ายทอดสด"
+  },
+  "feedFilters": {
+    "clearAllShort": "ล้างทั้งหมด",
+    "done": "เสร็จสิ้น",
+    "edit": "แก้ไข",
+    "groupDate": "วันที่",
+    "groupSort": "เรียง",
+    "groupType": "ประเภท",
+    "save": "บันทึก"
+  },
+  "ownKeys": {
+    "working": "กำลังทำงานอยู่",
+    "failed": "มีบางอย่างผิดพลาด ลองใหม่อีกเทื่อ",
+    "check": "ตรวจสอบ",
+    "remove": "ลบ",
+    "save": "บันทึก",
+    "cancel": "ยกเลิก"
+  },
+  "postBg": {
+    "none": "ไม่มี",
+    "yours": "ของคุณ",
+    "accent": "อักขระพิเศษ",
+    "names": {
+      "aurora": "ออรอรา",
+      "lava": "โคมลาวา",
+      "drive": "น็อตไนท์ไดร์ฟ",
+      "chrome": "ลิควิด ครอม",
+      "orbit": "การเคลื่อนที่วงกลม (Orbit)",
+      "snow": "หิมะตก"
+    }
+  },
+  "articleTile": {
+    "cover": "ภาพปก"
+  },
+  "aiConsent": {
+    "allow": "อนุญาต"
+  },
+  "dmRequests": {
+    "title": "ขอฟีเจอร์",
+    "accept": "ยอมรับ",
+    "delete": "ลบ",
+    "block": "บล็อก"
+  },
+  "dmSchedule": {
+    "view": "เบิ่ง",
+    "edit": "แก้ไข",
+    "editLabel": "แก้ไขข้อความ",
+    "error": "นั่นไม่ได้ผล ลองอีกครั้ง"
+  },
+  "chatBulk": {
+    "selected": "{{count}} เลือกแล้ว",
+    "cancel": "ยกเลิก",
+    "reply": "ตอบกลับ",
+    "delete": "ลบ"
+  },
+  "msgSelect": {
+    "selected": "{{count}} เลือกแล้ว",
+    "copy": "ก๊อปปี้",
+    "forward": "ส่งต่อ",
+    "deleted_one": "ลบข้อความของ {{count}}",
+    "deleted_other": "ลบข้อความที่มี {{count}}"
   }
 }

@@ -409,7 +409,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
     [playingKey, currentSound, playPreview, pick, t],
   );
 
-  if (!visible) return null;
+  // No early return: the Modal stays mounted so closing fades it out.
 
   const sheetHeight = heightAnim.interpolate({
     inputRange: [0, 1],

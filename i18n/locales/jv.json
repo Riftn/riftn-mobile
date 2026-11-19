@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Tren minggu iki ing Audius. Gratis digunakake, artis bakal diparingi kredit ing kirimanmu.",
     "d2e45b7406fc": "Domain publik lan musik Creative Commons saka Wikimedia Commons. Artis bakal diparingi kredit ing kirimanmu.",
     "d0c1a3684775": "Lagu ora bisa dimuat. Coba maneh sakmenit.",
-    "d14064f80f52": "Tambah swara"
+    "d14064f80f52": "Tambah swara",
+    "71988c4d8e08": "Teks",
+    "147170e793c6": "Kebareng",
+    "481859b689b0": "Cek koneksi lan coba lagi.",
+    "57e2faa5ec63": "Golek ing Riftn",
+    "7db20897053b": "Orang-orang",
+    "96d7bff86b44": "Pencarian tidak bisa dimuat",
+    "d8b8392e2c54": "Kasus iki wujud ingkang kawruh lan ngèlmu ingkang saé."
   },
   "dehubLinks": {
     "kind": {
@@ -2853,7 +2860,8 @@
       "quote": "Kutipan",
       "bullets": "Daftar bintang",
       "numbers": "Daftar nomer",
-      "link": "Tautan"
+      "link": "Tautan",
+      "image": "Tambah gambar"
     }
   },
   "storefront": {
@@ -3781,7 +3789,11 @@
     "payViaDpay": "Dibayar menyang Riftn Pay, token teka kira-kira 30 detik",
     "payViaBridgeDpay": "Dipindhah menyang Base lan dibayar menyang Riftn Pay, token teka kira-kira sak menit",
     "tokensUnit": "token",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "addMessage": "Tambahkan pesan (opsional)",
+    "messagePublic": "Umum",
+    "railTitle": "Tip",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "skippableSections": "Bagean sing bisa dilewati",
@@ -4509,7 +4521,11 @@
       "here": "{{name}} ngirim pesen marang kabeh wong ing komunitas",
       "hereNamed": "{{name}} ngirim pesen marang kabeh wong ing “{{community}}”"
     },
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "groupNew": "Anyar",
+    "groupToday": "Dina Iki",
+    "groupThisWeek": "Minggu Iki",
+    "searchClose": "Tutup panggolekan"
   },
   "leaderboard": {
     "title": "Papan Peringkat",
@@ -4701,7 +4717,18 @@
     "attachmentTooLarge": "Saben berkas kudu kurang saka 50MB",
     "deleteCommentA11y": "Busak komentar",
     "sendCommentA11y": "Kirim komentar",
-    "requestOptions": "Pilihan panjaluk"
+    "requestOptions": "Pilihan panjaluk",
+    "deviceInfoNoErrors": "Ora ana",
+    "topBuilders": {
+      "month": "Sasi Iki",
+      "allTime": "Saben wektu",
+      "shipped": "Wis Diluncurake",
+      "votes": "Swara",
+      "comments": "Komentar",
+      "showLess": "Tampilake luwih sethithik",
+      "viewProfile": "Ngliwati profil",
+      "you": "Sampeyan"
+    }
   },
   "auth": {
     "loginRequired": "Kudu Mlebu",
@@ -4962,7 +4989,20 @@
       "votes_other": "{{value}} milih",
       "members_one": "{{value}} anggota",
       "members_other": "{{value}} anggota"
-    }
+    },
+    "articleShort": "Artikel",
+    "articleMinRead": "{{count}} menit baca",
+    "pinnedShort": "Disematake",
+    "post": "Kirim",
+    "arrange": {
+      "saving": "Nyimpen..."
+    },
+    "reserve": {
+      "signIn": "Mlebu"
+    },
+    "tabLikes": "Seneng",
+    "likesEmptyTitle": "Durung ana sing seneng",
+    "likesPrivateTitle": "Dhaftar seneng iku pribadi"
   },
   "tv": {
     "title": "TV",
@@ -5478,6 +5518,9 @@
       "liveNews": "Nanggapi warta anyar sajrone urip otonom",
       "title": "Papan kerja agen",
       "baseline": "Cuplikan pisanan; jupuk maneh mengko kanggo mbandhingake."
+    },
+    "welcome": {
+      "text": "Pesen sugeng rawuh"
     }
   },
   "hero": {
@@ -5559,7 +5602,15 @@
     "nowPublic": "Alur saiki umum",
     "openCanvas": "Bukak kanvas",
     "playVideo": "Putar video",
-    "signInToSee": "Mlebu kanggo ndeleng alur ing akun sampeyan."
+    "signInToSee": "Mlebu kanggo ndeleng alur ing akun sampeyan.",
+    "newNativeFlow": "Alur anyar",
+    "aspectRatio": "Rasio aspek",
+    "duration": "Lamae ngisor nganggo detik",
+    "resolution": "Résolusi",
+    "disconnect": "Mlebu",
+    "payAndRun": "Bayar lan run",
+    "run": "Jalanake",
+    "handlePrompt": "Pituduh"
   },
   "loginModal": {
     "title": "Mlebu",
@@ -5879,7 +5930,8 @@
     "searchMenu": "Goleki menu",
     "clearSearch": "Busak panggolekan",
     "noMenuMatches": "Ora ana sing cocog ing menu",
-    "searchDehubFor": "Goleki \"{{query}}\" ing Riftn"
+    "searchDehubFor": "Goleki \"{{query}}\" ing Riftn",
+    "requestSend": "Kirim panyuwunan"
   },
   "comments": {
     "reportComment": "Laporaen komentar",
@@ -6498,7 +6550,11 @@
       "copied": "Pasan dikopi",
       "copyText": "Salin teks",
       "mutedUntil": "Sampeyan bisu nganti {{date}}",
-      "slowMode": "Mode alon: siji pesen saben {{interval}}"
+      "slowMode": "Mode alon: siji pesen saben {{interval}}",
+      "joined": "{{name}} melu",
+      "reactions": "Reaksi",
+      "photoTooLarge": "Gambar kudu kurang saka 10MB",
+      "aiAdminFailed": "AI Admin gawe jawab"
     },
     "manage": {
       "dismissAdminTitle": "Tolak admin",
@@ -6701,6 +6757,27 @@
       "notFound": "Tautan undang iki ora valid.",
       "requestToJoin": "Miwiti nggabung",
       "approvalNote": "Admin wajib nanggapi permohonanmu sadurungé kamu bisa gabung."
+    },
+    "buyAlert": {
+      "spent": "Gwéngan",
+      "buyer": "Kliwon:",
+      "price": "Harga:"
+    },
+    "newChat": {
+      "public": "Umum",
+      "private": "Pribadi",
+      "free": "Ganjaran gratis",
+      "paid": "Dibayar",
+      "group": "Golongan"
+    },
+    "holderGate": {
+      "chain": "Rantai"
+    },
+    "automod": {
+      "bannedWords": "Kata-kata terlarang",
+      "floodMax": "Pesan {{count}}",
+      "saved": "Disimpen",
+      "wordCount": "{{count}} kata"
     }
   },
   "work": {
@@ -7822,7 +7899,10 @@
       "doneAll": "Mbusak tindak {{done}} akun sing ora ngetutake sampeyan bali.",
       "doneSome": "Mbusak tindak {{done}} akun. {{failed}} ora bisa dibusak.",
       "doneToast": "Mbusak tindak {{done}} akun sing ora ngetutake sampeyan bali"
-    }
+    },
+    "followBackConfirm": "Tututi bali",
+    "followBackNotNow": "Ora saiki",
+    "followBackDone": "Rampung"
   },
   "reactionInfo": {
     "mentionedYouLiveChat": "{{name}} nyebut sampeyan ing obrolan langsung",
@@ -8740,7 +8820,37 @@
     "coverFrames": "Pilih frame cover",
     "coverFrame": "Gunakake frame {{index}} minangka cover",
     "uploadCover": "Nambah cover gambar",
-    "editFailed": "Gawe filter iku ora bisa diaplikasake. Coba lagi."
+    "editFailed": "Gawe filter iku ora bisa diaplikasake. Coba lagi.",
+    "altPlaceholderVideo": "Terangna video iki",
+    "landingLive": "Langsung",
+    "preview": {
+      "title": "Pratélanan"
+    },
+    "recent": {
+      "all": "Kabèh"
+    },
+    "studio": {
+      "crop": "Potong",
+      "draw": "Nggambar",
+      "light": "Padhang",
+      "contrast": "Kasus",
+      "warmth": "Sangat panas",
+      "colour": "Warna",
+      "fade": "Miwiti",
+      "original": "Asli",
+      "ratioOriginal": "Asli",
+      "ratioFree": "Ganjaran gratis",
+      "rotate": "Puter",
+      "strength": "Kekuatan",
+      "stickers": "Stiker",
+      "ticker": "Tiker",
+      "textBg": "Latar mburi",
+      "font": {
+        "bold": "Kandel"
+      }
+    },
+    "edited": "Disunting",
+    "edit": "Sunting"
   },
   "bounty": {
     "claimed": "Wis diklaim",
@@ -9034,7 +9144,8 @@
     "preparingCamera": "Nyepakake kamera…",
     "reconnecting": "Nyambungake maneh…",
     "connecting": "Nyambungake…",
-    "shopPutOnAir": "Lebokake ing udhara"
+    "shopPutOnAir": "Lebokake ing udhara",
+    "liveBadge": "LANGsung"
   },
   "liveShop": {
     "title": "Blanja saka siaran iki",
@@ -9347,7 +9458,22 @@
     "paymentSentWith": "Dikirim nganggo {{amount}}",
     "planRestricted": "Pangguna iki mbutuhake langganan kanggo nampa pesen.",
     "planTypeNotAllowed": "Paket kreator iki ora ngidini jinis pesen iki.",
-    "planMinTip": "Tip kanggo kreator iki paling sithik {{amount}} token."
+    "planMinTip": "Tip kanggo kreator iki paling sithik {{amount}} token.",
+    "newDrawer": {
+      "to": "Tos"
+    },
+    "download": "Unduh",
+    "deleteOneTitle": "Hapus pesen iki?",
+    "retrySend": "Coba maneh",
+    "discardSend": "Busak",
+    "shareKindGroup": "Golongan",
+    "shareKindCommunity": "Komunitas",
+    "searchDiscover": {
+      "people": "Wong",
+      "communities": "Komunitas",
+      "newChat": "Obrolan anyar",
+      "invite": "Kanggo ngajogine"
+    }
   },
   "editPost": {
     "mediaPermission": "Butuh idin pustaka media",
@@ -10569,7 +10695,10 @@
       "hint": "Ngowahi omongan dadi teks sing pas wektune lan bisa diganti gayane. Mlaku ing piranti sampeyan: gratis lan pribadi. Nalika pisanan dienggo, model bakal diundhuh.",
       "done": "{{count}} teks ditambahake.",
       "noSpeech": "Ora ana omongan ing klip iki.",
-      "failed": "Ora bisa nggawe teks kanggo klip iki."
+      "failed": "Ora bisa nggawe teks kanggo klip iki.",
+      "styles": {
+        "bold": "Tebal"
+      }
     },
     "app": {
       "newDesign": "Desain anyar",
@@ -10819,7 +10948,9 @@
       "suggestTitle": "Tambahna judhul gedhe kandel ing ndhuwur lan subjudhul luwih cilik ing ngisore",
       "undo": "Batalake",
       "openGenerator": "Priksa lan gawe",
-      "working": "Lagi digarap…"
+      "working": "Lagi digarap…",
+      "stop": "Mandheg",
+      "queue": "Tambah menyang antrian"
     },
     "brand": {
       "addColor": "Tambah werna merek",
@@ -10956,7 +11087,9 @@
       "rendering": "Ngrender video… {{percent}}%",
       "mp4": "Video MP4",
       "exportHint": "Tetep bukak editor nalika videomu dirender.",
-      "tooLarge": "File kuwi kegedhen kanggo editor. Watese 400 MB."
+      "tooLarge": "File kuwi kegedhen kanggo editor. Watese 400 MB.",
+      "tZoomIn": "Mbalik ing wates",
+      "tZoomOut": "Njupuk swara"
     },
     "motion": {
       "title": "Obah",
@@ -12131,6 +12264,28 @@
     },
     "frames": {
       "title": "Fram foto"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Rotasi",
+      "add": "Tambah",
+      "scale": "Ukuran",
+      "color": "Werna",
+      "light": "Padhang"
+    },
+    "clipFix": {
+      "listening": "Menganggo..."
+    },
+    "voiceClone": {
+      "stop": "Mandeg Rekam",
+      "failed": "Gagal kloning suara"
+    },
+    "linkImport": {
+      "go": "Impor",
+      "downloading": "Ngundhuh {{percent}}%"
+    },
+    "reverse": {
+      "action": "Balik"
     }
   },
   "creator": {
@@ -12592,7 +12747,30 @@
     "referenceProductName": "Tempel produk sampeyan ing klip",
     "referenceProductHint": "Ganti produk utama lan njaga adegan asli.",
     "referenceComposeName": "Gabung gambar referensi",
-    "referenceComposeHint": "Bawa karakter, obyek lan setelan saka sawetara gambar menyang siji komposisi."
+    "referenceComposeHint": "Bawa karakter, obyek lan setelan saka sawetara gambar menyang siji komposisi.",
+    "marketing": {
+      "import": {
+        "use": "Gunakake rincian iki"
+      }
+    },
+    "batchCount": "Gambar",
+    "endFrame": "Bingkai pungkasan",
+    "cinema": {
+      "close": "Tutup",
+      "performance": {
+        "label": "Kinerja"
+      }
+    },
+    "audioNoSpeech": "Belom ketemu omongan di rekaman itu.",
+    "audioTaskSpeechLabel": "Dhiskusi",
+    "audioTaskDialogueLabel": "Dialog",
+    "audioTaskSfxLabel": "Efek suara",
+    "audioTaskTranscribeLabel": "Transkripsi",
+    "audioTaskIsolateLabel": "Resikna",
+    "priceFreeRateLimited": "Gratis · watesan tarif lumaku",
+    "dialogueFormat": "Tulis adegan sama format \"Nama: baris\", satu penutur per baris.",
+    "fileTooLarge": "File iku luwih saka 100 MB. Gunakake sing luwih cendhak utawa luwih cilik.",
+    "signInToGenerate": "Masuk ke dalam untuk ngenerate."
   },
   "fractions": {
     "title": "Bagean",
@@ -14661,6 +14839,19 @@
       "intro": "Penonton entuk poin saben menit nonton kowe lan siji saben 100 token sing hadiah. Chat lan reaksi ora entuk apa-apa, dadi poin ora bisa ditani.",
       "empty": "Durung ana poin. Padha kumpul nalika wong nonton lan hadiah.",
       "widgetHint": "Tambah widget Loyal viewers kanggo nunjukake daftar iki ing stream."
+    },
+    "destinations": {
+      "platform": "Pramuka",
+      "label": "Nami (opsional)",
+      "key": "Tombol siaran",
+      "save": "Tambah",
+      "cancel": "Batal",
+      "states": {
+        "off": "Mati",
+        "idle": "Siap",
+        "live": "Langsung",
+        "error": "Kesalahan"
+      }
     }
   },
   "liveChatModeration": {
@@ -14713,7 +14904,8 @@
     "joinedBody": "Kita bakal ngirim email ke {{email}} kalau token udah keluar.",
     "joinedBodyNoEmail": "Kami bakal ngirim email ke gwe kanggo ngaweni token lanjar.",
     "failed": "Saya nggih ora bisa ngerti apa inggung.",
-    "privacy": "Gampang aja ngomongin tentang peluncuran."
+    "privacy": "Gampang aja ngomongin tentang peluncuran.",
+    "eyebrow": "Segera hadir"
   },
   "githubLink": {
     "hint": "Masuk ke GitHub ngawé nganggo akunmu kanggo ngawé bukti akunmu kanggo kanggoan. Riftn cuma nglihat profile GitHubmu kanggo publik aja.",
@@ -14758,7 +14950,62 @@
     "collections": "Collections",
     "days": "{{count}} days",
     "spotlightNew": "Just minted",
-    "buyFor": "Kuyéng dhuwur saking {{price}}"
+    "buyFor": "Kuyéng dhuwur saking {{price}}",
+    "actAll": "Semua",
+    "actListings": "Daftar",
+    "actOffers": "Tawaran",
+    "actSales": "Penjualan",
+    "tabActivity": "Aktivitas",
+    "allChains": "Saben siji",
+    "newest": "Paling Anyar",
+    "cheapest": "Harga paling murah",
+    "soldFor": "Dipunjualan",
+    "signIn": "Mlebu",
+    "share": "Bareng",
+    "noneForSale": "Belum ada yang dijual",
+    "tabBrowse": "Brosis",
+    "tabMine": "Duwekmu",
+    "tabSales": "Penjualan",
+    "cancelled": "Dibatalake",
+    "sold": "Dipunjualan",
+    "listed": "Dijual",
+    "feeRow": "Biaya Riftn ({{pct}}%)",
+    "royaltyRow": "Royalti pencipta",
+    "youGet": "Sampeyan entuk",
+    "holderGets": "Pemegang entuk",
+    "loading": "Sedang dimuat…",
+    "price": "Rega",
+    "seller": "Bakul",
+    "tabRecent": "Anyar",
+    "buyNow": "Kapilih siki!",
+    "offers": "Tawaran",
+    "cancel": "Batalké",
+    "accept": "Tampa",
+    "signInToTrade": "Tandhing siji kanggo ngedalokake",
+    "listForSale": "Sajagin ingkang kersane",
+    "makeOffer": "Ajukan tawaran",
+    "sendOffer": "Kirim tawaran",
+    "back": "Bali",
+    "dropsTo": "Harga dhuwuré dadi njero {{price}} oleh {{date}}",
+    "inBundle": "Dijual ing wujud paketan {{n}}",
+    "showAll": "Kanggo ngarani semuwa.",
+    "filters": "Panyaring",
+    "forSale": "Untuk dijual",
+    "freshMints": "Segar saka pencipta Riftn",
+    "anyInCollection": "Any ingkang di koleksi",
+    "thisNft": "NFT iki",
+    "priceAlert": "Sinyo wong!",
+    "alertUnder": "Beritahu aku nalika didaftar ing utawa ngisor ({{symbol}}, opsional)",
+    "turnOnAlert": "Nyalakake paring tandha",
+    "alertSaved": "Goyangin iku. Kita bakal ngomongin kalau ada yang diisihin.",
+    "priceDrop": "Regane mudhun seiring wektu",
+    "endPrice": "Regane paling murah, digayuh ing pungkasan ({{symbol}})",
+    "bundleBadge": "Bundel ×{{n}}",
+    "dropBadge": "Ganti harga",
+    "days_one": "{{count}} haré",
+    "days_other": "{{count}} haré",
+    "tapToOffer": "Tuku siji kanggo nyuwun tawaran",
+    "spotlightForSale": "Dijual saiki"
   },
   "reel": {
     "readAll": "Waca kabeh",
@@ -14780,7 +15027,11 @@
       "episode": "Episode podcast",
       "show": "Podcast",
       "artist": "Artis"
-    }
+    },
+    "loading": "Sedang dimuat…",
+    "paused": "Paus",
+    "preview": "Pratélanan",
+    "seek": "Cari"
   },
   "twoFactor": {
     "wrongCode": "Kode kasebut ora cocog. Coba sing paling anyar ing aplikasi sampeyan.",
@@ -14858,5 +15109,241 @@
     "newer": "Hasil lebih baru",
     "gone": "Pesan itu sudah tidak ada lagi",
     "theirMessages": "Pesan mereka"
+  },
+  "chatTextSize": {
+    "title": "Géngéngan tulisan",
+    "default": "Kudu",
+    "larger": "Luwih gedhe"
+  },
+  "remix": {
+    "cut": "Potong"
+  },
+  "signedFollows": {
+    "setUp": "Aktifake",
+    "turnOff": "Mateni",
+    "efpTurnOff": "Mandheg"
+  },
+  "postEditHistory": {
+    "original": "Asli"
+  },
+  "studioDeck": {
+    "remove": "Busak",
+    "background": {
+      "title": "Latar mburi",
+      "modes": {
+        "none": "Mati",
+        "blur": "Burem",
+        "color": "Warna"
+      }
+    },
+    "scenes": {
+      "countdown": "Petungan mundur",
+      "minutes": "{{count}} menit",
+      "names": {
+        "starting": "Arep wiwit"
+      }
+    },
+    "widgets": {
+      "tab": "Widget"
+    },
+    "sources": {
+      "image": "Gambar",
+      "show": "Tampilake ing stream",
+      "positions": {
+        "center": "Kénéka"
+      },
+      "sizes": {
+        "medium": "Sedheng"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Dina Iki",
+    "tooSoon": "Pilih wektu ing mangsa ngarep.",
+    "show": "Tampilake",
+    "hide": "Umpetake"
+  },
+  "planned": {
+    "title": "Direncanakake",
+    "all": "Semua",
+    "posts": "Kiriman",
+    "stages": "Ruang swara",
+    "post": "Kirim",
+    "live": "Langsung",
+    "stage": "Panggung",
+    "untitledPost": "Kirim",
+    "untitledLive": "Langsung",
+    "loading": "Ngundhuh…",
+    "startNow": "Wiwiti saiki",
+    "cancel": "Batal",
+    "cancelled": "Dibatalkan"
+  },
+  "welcome": {
+    "about": {
+      "title": "Sugeng rawuh ing Riftn",
+      "day": "Dina",
+      "month": "Sasi",
+      "year": "Taun"
+    },
+    "name": {
+      "title": "Jenengmu",
+      "placeholder": "Jenengmu"
+    },
+    "card": {
+      "name": "Jenengmu",
+      "followers": "pengikut"
+    },
+    "topic": {
+      "music": "Musik",
+      "art": "Seni",
+      "gaming": "Game",
+      "crypto": "Kripto",
+      "sports": "Olahraga",
+      "comedy": "Komedi",
+      "podcast": "Pandhawa Swara",
+      "food": "Panganan",
+      "news": "Berita",
+      "science": "Sains"
+    },
+    "back": "Bali",
+    "skipPhoto": "Liwat saiki",
+    "preview": "Pratélanan"
+  },
+  "appTokens": {
+    "title": "Token sampeyan",
+    "history": "Riwayat",
+    "noHistory": "Durung ana aktivitas",
+    "kindDeposit": "Tambah Dana",
+    "to": "Tos",
+    "amount": "Jumlah",
+    "notePlaceholder": "Tambahi cathetan (opsional)",
+    "sendButton": "Kirim",
+    "errorInsufficient": "Token ora cukup"
+  },
+  "avatarPrompt": {
+    "notNow": "Ora saiki"
+  },
+  "postStats": {
+    "engagement": "Keterlibatan",
+    "finished": "Rampung",
+    "members": "Anggota",
+    "membersLower": "anggota",
+    "newFollowers": "Pengikut baru",
+    "noBadge": "Saben badge",
+    "people": "Wong",
+    "plays": "Main-main",
+    "quotes": "kutipan",
+    "reposts": "Kiriman Ulang",
+    "saved": "Disimpen",
+    "shares": "Dibagekake",
+    "signedOutViewers": "Metu",
+    "topSupporters": "Pendukung paling dhuwur",
+    "visitors": "Metu"
+  },
+  "duet": {
+    "policyEveryone": "Kabeh wong",
+    "policyFollowers": "Pengikut",
+    "policyNobody": "Ora Ana",
+    "loadMore": "Muat Luwih Akeh"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Kabeh wong",
+      "followers": "Pengikut",
+      "nobody": "Ora Ana"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Kabeh wong",
+      "followers": "Pengikut",
+      "nobody": "Ora Ana"
+    },
+    "heading": "Tanggapan",
+    "more": "Nampilin lebih",
+    "liveNow": "Langsung",
+    "untitled": "Réaksi"
+  },
+  "liveClips": {
+    "copyLink": "Salin tautan",
+    "linkCopied": "Link udh dipake"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Rencana",
+      "howMany": "Pira",
+      "who": "Jeneng pangguna utawa alamat dompet",
+      "whoPlaceholder": "@jenengpangguna",
+      "cancel": "Batal",
+      "stage": {
+        "preparing": "Nyepakake…",
+        "confirming": "Ngenteni transaksi…",
+        "recording": "Ngrampungake…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Liyane",
+    "confirming": "Mengonfirmasi pembayaran…"
+  },
+  "liveShorts": {
+    "live": "LANGsung"
+  },
+  "feedFilters": {
+    "clearAllShort": "Busak Kabeh",
+    "done": "Selesai",
+    "edit": "Sunting",
+    "groupDate": "Tanggal",
+    "groupSort": "Urutake",
+    "groupType": "Jenis",
+    "save": "Simpen"
+  },
+  "ownKeys": {
+    "working": "Nglakoni",
+    "failed": "Ana sing salah. Coba maneh.",
+    "check": "Kecèk",
+    "remove": "Busak",
+    "save": "Simpen",
+    "cancel": "Batal"
+  },
+  "postBg": {
+    "none": "Ora ana",
+    "yours": "Duwekmu",
+    "accent": "Aksen",
+    "names": {
+      "lava": "Lampu lava",
+      "drive": "Nganti Malem",
+      "snow": "Salju"
+    }
+  },
+  "articleTile": {
+    "cover": "Sampul"
+  },
+  "aiConsent": {
+    "allow": "Idinake"
+  },
+  "dmRequests": {
+    "title": "Panjalukan Fitur",
+    "accept": "Tampa",
+    "delete": "Busak",
+    "block": "Blokir"
+  },
+  "dmSchedule": {
+    "view": "Tonton",
+    "edit": "Rubah",
+    "error": "Iku ora bisa. Coba maneh."
+  },
+  "chatBulk": {
+    "selected": "{{count}} dipilih",
+    "cancel": "Batal",
+    "reply": "Balasan",
+    "delete": "Busak"
+  },
+  "msgSelect": {
+    "selected": "{{count}} dipilih",
+    "copy": "Salin",
+    "forward": "Terusaké",
+    "deleted_one": "Hapus pesan {{count}}",
+    "deleted_other": "Hapus pesan {{count}}"
   }
 }

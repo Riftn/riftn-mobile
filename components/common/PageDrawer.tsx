@@ -1,8 +1,7 @@
-import React, { createContext, forwardRef, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, forwardRef, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
   BackHandler,
   Pressable,
-  RefreshControl,
   ScrollView,
   StyleSheet,
   View,
@@ -13,6 +12,8 @@ import {
 } from "react-native";
 import { Gesture, GestureDetector, type NativeGesture } from "react-native-gesture-handler";
 import Animated, { Easing, runOnJS, useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
+import PullRefreshMark, { PULL_HOLD, PULL_HOLD_MAX_MS } from "../Feed/PullRefreshMark";
+import { PULL_CANCEL_MS, PULL_RETURN_MS, pullForDrag, pullShouldRefresh, pullSpringProgress } from "../../libs/pill-pull-motion";
 import { MOTION, SNAP_SPRING } from "../../theme/motion";
 import { useFocusEffect } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -38,8 +39,6 @@ type DrawerList = {
   gesture: NativeGesture;
   onScrollY: (y: number) => void;
   scrollEnabled: boolean;
-  /** Full and refreshable: a pull at the top of the list refreshes it. */
-  refresh: DrawerRefresh | null;
 };
 const DrawerListContext = createContext<DrawerList | null>(null);
 /** Fills the screen, from inside the drawer (the search field on focus). */
@@ -57,7 +56,11 @@ export const usePageDrawerExpand = () => useContext(DrawerExpandContext);
  *
  * With `refresh`, the drawer opens full and a pull at the top of the list
  * refreshes it instead of moving the sheet; the header still pulls the sheet
- * down to close it.
+ * down to close it. The sheet's own pan draws that pull (the list lowers and
+ * a refresh mark turns in the gap). It is not a RefreshControl: on Android
+ * that wraps the scroll view in a SwipeRefreshLayout, the list's native
+ * gesture then sat on the wrapper instead of the scroll view, and once the
+ * sheet's pan took the finger the list stopped scrolling at all.
  *
  * The page's list must scroll in a `PageDrawerScrollView` (FlashList and
  * FlatList: `renderScrollComponent={PageDrawerScrollView}`), so the sheet
@@ -93,7 +96,6 @@ export const PageDrawerScrollView = forwardRef<ScrollView, ScrollViewProps>(func
     onScroll?.(e);
   }, [list, onScroll]);
   if (!list) return <ScrollView ref={ref} {...props} />;
-  const refresh = list.scrollEnabled ? list.refresh : null;
   return (
     <GestureDetector gesture={list.gesture}>
       <ScrollView
@@ -102,13 +104,12 @@ export const PageDrawerScrollView = forwardRef<ScrollView, ScrollViewProps>(func
         scrollEnabled={list.scrollEnabled && props.scrollEnabled !== false}
         onScroll={handleScroll}
         scrollEventThrottle={16}
-        // iOS only shows the pull-to-refresh spinner on a list that bounces.
-        bounces={!!refresh}
-        alwaysBounceVertical={!!refresh}
+        // No bounce and no RefreshControl: the drawer draws its own pull
+        // (see Sheet), and the GestureDetector must sit on the scroll view
+        // itself for the list to keep scrolling under the sheet's pan.
+        bounces={false}
         overScrollMode="never"
-        refreshControl={refresh ? (
-          <RefreshControl refreshing={refresh.refreshing} onRefresh={refresh.onRefresh} tintColor="#A1A1AA" colors={["#A1A1AA"]} />
-        ) : props.refreshControl}
+        refreshControl={undefined}
       />
     </GestureDetector>
   );
@@ -118,6 +119,11 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
   const { height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   const mid = Math.round(height * PART_OPEN_DROP);
+  // Full, the sheet stops just under the status bar instead of running up
+  // behind it: its rounded top and handle are in view, and the header's own
+  // 8pt top inset is then the whole gap above the pill, matching its sides.
+  const top = insets.top;
+  const sheetHeight = height - top;
   const translateY = useSharedValue(height);
   const backdrop = useSharedValue(0);
   // The page above stays sharp under a plain dim, not a live blur. On Android
@@ -144,7 +150,7 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
   const [full, setFull] = useState(openFull);
 
   useEffect(() => {
-    translateY.value = withTiming(openFull ? 0 : mid, { duration: MOTION.open, easing: Easing.out(Easing.cubic) });
+    translateY.value = withTiming(openFull ? top : mid, { duration: MOTION.open, easing: Easing.out(Easing.cubic) });
     backdrop.value = withTiming(1, { duration: MOTION.backdropIn });
     // Mount-only: the sheet slides up once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -162,7 +168,7 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
   const expand = useCallback(() => {
     if (closing.value || expanded.value) return;
     expanded.value = true;
-    translateY.value = withTiming(0, SETTLE);
+    translateY.value = withTiming(top, SETTLE);
     setFull(true);
   }, [closing, expanded, translateY]);
 
@@ -179,10 +185,43 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
     lastScrollAt.value = Date.now();
   }, [scrollY, lastScrollAt]);
   const listGesture = useMemo(() => Gesture.Native(), []);
+  const list = useMemo(() => ({ gesture: listGesture, onScrollY, scrollEnabled: full }), [listGesture, onScrollY, full]);
+
+  // Pull to refresh, drawn by the sheet: how far the list is lowered.
   const refreshing = refresh?.refreshing ?? false;
   const onRefresh = refresh?.onRefresh;
-  const listRefresh = useMemo(() => (onRefresh ? { refreshing, onRefresh } : null), [refreshing, onRefresh]);
-  const list = useMemo(() => ({ gesture: listGesture, onScrollY, scrollEnabled: full, refresh: listRefresh }), [listGesture, onScrollY, full, listRefresh]);
+  const pull = useSharedValue(0);
+  // Armed when a drag starts on the list at its top; pulling once it moves down.
+  const pullArmed = useSharedValue(false);
+  const pulling = useSharedValue(false);
+  // Lowered and waiting for the refresh to report back.
+  const holding = useSharedValue(false);
+  const busy = useSharedValue(refreshing);
+  const [spinning, setSpinning] = useState(false);
+  const refreshingRef = useRef(refreshing);
+  refreshingRef.current = refreshing;
+  const settlePull = useCallback(() => {
+    holding.value = false;
+    pull.value = withTiming(0, { duration: PULL_RETURN_MS, easing: pullSpringProgress });
+    setSpinning(false);
+  }, [holding, pull]);
+  const runRefresh = useCallback(() => {
+    setSpinning(true);
+    onRefresh?.();
+    // A refresh that was skipped (one already running) never reports back.
+    setTimeout(() => { if (!refreshingRef.current && holding.value) settlePull(); }, 700);
+  }, [onRefresh, holding, settlePull]);
+  useEffect(() => {
+    busy.value = refreshing;
+    if (refreshing || !holding.value) return;
+    settlePull();
+  }, [refreshing, busy, holding, settlePull]);
+  // A refresh that never reports back must not hold the list down forever.
+  useEffect(() => {
+    if (!spinning) return;
+    const timer = setTimeout(settlePull, PULL_HOLD_MAX_MS);
+    return () => clearTimeout(timer);
+  }, [spinning, settlePull]);
 
   // One pan over the whole sheet, sharing the finger with the list.
   // Part open, any vertical drag moves the sheet: up to fill the screen, down
@@ -201,16 +240,30 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
       startedAtTop.value = scrollY.value <= 1 && Date.now() - lastScrollAt.value > SCROLL_SETTLE_MS;
       // Refreshable and full: the list owns pulls that start on it (they
       // refresh), the header owns the rest (they move the sheet).
-      fromList.value = refreshable.value && expanded.value && e.y > insets.top + grabHeight.value;
-      base.value = expanded.value ? 0 : mid;
+      fromList.value = refreshable.value && expanded.value && e.y > grabHeight.value;
+      pullArmed.value = fromList.value && startedAtTop.value && !busy.value && !holding.value;
+      pulling.value = false;
+      base.value = expanded.value ? top : mid;
       moving.value = false;
     })
     .onUpdate((e) => {
-      if (closing.value || fromList.value) return;
+      if (closing.value) return;
+      if (fromList.value) {
+        // A pull down from the top of the list lowers it to refresh; anything
+        // else on the list is the list's own scroll.
+        if (!pullArmed.value) return;
+        if (!pulling.value) {
+          if (scrollY.value > 1 || e.translationY < -4) { pullArmed.value = false; return; }
+          if (e.translationY <= 0) return;
+          pulling.value = true;
+        }
+        pull.value = pullForDrag(e.translationY);
+        return;
+      }
       if (expanded.value && refreshable.value) {
         // Full and refreshable, pulled by the header: down only.
         moving.value = true;
-        translateY.value = Math.max(0, e.translationY);
+        translateY.value = top + Math.max(0, e.translationY);
       } else if (expanded.value) {
         // Full: only a pull down from the top of the list moves the sheet.
         if (!startedAtTop.value) return;
@@ -219,18 +272,30 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
           return;
         }
         moving.value = true;
-        translateY.value = Math.max(0, e.translationY);
+        translateY.value = top + Math.max(0, e.translationY);
       } else {
         moving.value = true;
         let y = base.value + e.translationY;
         // Past full, it gives a little and stops.
-        if (y < 0) y = y / 4;
+        if (y < top) y = top + (y - top) / 4;
         translateY.value = y;
       }
       const below = translateY.value - mid;
       backdrop.value = below > 0 ? 1 - Math.min(1, below / Math.max(1, height - mid)) : 1;
     })
     .onEnd((e) => {
+      if (pulling.value) {
+        pulling.value = false;
+        pullArmed.value = false;
+        if (pullShouldRefresh(pull.value, e.velocityY) && !busy.value) {
+          holding.value = true;
+          pull.value = withTiming(PULL_HOLD, { duration: PULL_RETURN_MS, easing: pullSpringProgress });
+          runOnJS(runRefresh)();
+        } else {
+          pull.value = withTiming(0, { duration: PULL_CANCEL_MS, easing: pullSpringProgress });
+        }
+        return;
+      }
       if (!moving.value || closing.value) return;
       const offset = translateY.value;
       const below = offset - mid;
@@ -253,34 +318,34 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
         goFull = rose >= 48 || (rose >= 16 && speed <= -FLICK_SPEED);
       } else {
         // From full: a clear pull or flick down steps back to part open.
-        goFull = !(offset >= mid / 2 || (offset >= FLICK_MIN_PULL && speed >= FLICK_SPEED));
+        const dropped = offset - top;
+        goFull = !(dropped >= (mid - top) / 2 || (dropped >= FLICK_MIN_PULL && speed >= FLICK_SPEED));
       }
       expanded.value = goFull;
       moving.value = false;
-      translateY.value = withSpring(goFull ? 0 : mid, SNAP_SPRING);
+      translateY.value = withSpring(goFull ? top : mid, SNAP_SPRING);
       backdrop.value = withTiming(1, { duration: MOTION.backdropIn });
       runOnJS(setFull)(goFull);
     })
     .onFinalize(() => {
+      if (pulling.value) {
+        pulling.value = false;
+        if (!holding.value) pull.value = withTiming(0, { duration: PULL_CANCEL_MS, easing: pullSpringProgress });
+      }
+      pullArmed.value = false;
       // Cancelled mid-drag (onEnd never ran): back to where it rested.
       if (!closing.value && moving.value) {
-        translateY.value = withSpring(expanded.value ? 0 : mid, SNAP_SPRING);
+        translateY.value = withSpring(expanded.value ? top : mid, SNAP_SPRING);
         backdrop.value = withTiming(1, { duration: MOTION.backdropIn });
       }
       moving.value = false;
-    }), [listGesture, startedAtTop, scrollY, lastScrollAt, base, expanded, moving, closing, translateY, backdrop, mid, height, onClose, refreshable, fromList, grabHeight, insets.top]);
+    }), [listGesture, startedAtTop, scrollY, lastScrollAt, base, expanded, moving, closing, translateY, backdrop, mid, height, onClose, refreshable, fromList, grabHeight, insets.top, pull, pullArmed, pulling, holding, busy, runRefresh]);
 
-  const sheetStyle = useAnimatedStyle(() => {
-    // How far toward full (0 part open, 1 full): the header clears the status
-    // bar as it gets there. The rounded top stays, so it still reads as a drawer.
-    const p = mid > 0 ? Math.max(0, Math.min(1, 1 - translateY.value / mid)) : 1;
-    return {
-      transform: [{ translateY: translateY.value }],
-      paddingTop: insets.top * p,
-    };
-  });
+  const sheetStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+  }));
   const backdropStyle = useAnimatedStyle(() => ({ opacity: backdrop.value }));
-
+  const listPullStyle = useAnimatedStyle(() => ({ transform: [{ translateY: pull.value }] }));
   return (
     <View style={styles.root} pointerEvents="box-none">
       <Animated.View style={[StyleSheet.absoluteFill, backdropStyle]}>
@@ -288,16 +353,25 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
         <Pressable style={{ flex: 1 }} onPress={close} accessibilityRole="button" />
       </Animated.View>
       <GestureDetector gesture={pan}>
-        <Animated.View style={[styles.sheet, { height }, sheetStyle]}>
+        <Animated.View style={[styles.sheet, { height: sheetHeight }, sheetStyle]}>
           {/* Liquid glass on every theme: the page behind blurred under the
               theme's wash, as phone web's bell drawer. */}
           <SheetGlassFill allThemes style={[StyleSheet.absoluteFill, styles.surface]} />
           <DrawerExpandContext.Provider value={expand}>
-            <View style={styles.top} onLayout={(e) => { grabHeight.value = e.nativeEvent.layout.height; }}>{grab}</View>
+            <View style={styles.top} onLayout={(e) => { grabHeight.value = e.nativeEvent.layout.height; }}>
+              {grab}
+              {/* Shows the sheet can be dragged down. It sits at the very top
+                  of the sheet, in the header's own top inset, so it adds no
+                  height and stays clear of the pill. */}
+              <View pointerEvents="none" style={styles.handle} accessible={false} />
+            </View>
             <DrawerListContext.Provider value={list}>
               {/* Part open, the bottom fifth of the sheet sits below the
                   screen; keep the list's end above it. */}
-              <View style={{ flex: 1, marginBottom: full ? 0 : mid }}>{children}</View>
+              <View style={{ flex: 1, marginBottom: full ? 0 : Math.max(0, mid - top), overflow: "hidden" }}>
+                {refresh ? <PullRefreshMark pull={pull} holding={holding} spinning={spinning} /> : null}
+                <Animated.View style={[{ flex: 1 }, refresh ? listPullStyle : null]}>{children}</Animated.View>
+              </View>
             </DrawerListContext.Provider>
           </DrawerExpandContext.Provider>
         </Animated.View>
@@ -325,4 +399,14 @@ const styles = StyleSheet.create({
   // No room of its own above the header: the header's own 8pt top inset then
   // matches its 8pt sides.
   top: { paddingTop: 0 },
+  handle: {
+    position: "absolute",
+    top: 2,
+    left: "50%",
+    marginLeft: -18,
+    width: 36,
+    height: 3,
+    borderRadius: 1.5,
+    backgroundColor: "rgba(161,161,170,0.45)",
+  },
 });

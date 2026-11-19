@@ -19,6 +19,12 @@ export interface DmVideoOptions {
   mirror?: boolean;
   rotate?: QuarterTurn;
   hidden?: 'reveal';
+  /**
+   * Playback speed picked in the post composer's video editor. Posts only:
+   * the server bakes it into the file. cleanVideoOptions drops it, so a DM
+   * never sends it.
+   */
+  speed?: number;
 }
 
 const num = (v: unknown): number | undefined =>

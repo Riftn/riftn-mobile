@@ -4,6 +4,7 @@ import { Dimensions, Keyboard, Platform, StatusBar, View, useWindowDimensions, t
 import { SafeAreaInsetsContext } from "react-native-safe-area-context";
 import { initialSafeAreaMetrics } from "../libs/initialSafeAreaMetrics";
 import { keyboardComposerLift, keyboardTopFromEvent } from "../libs/keyboard-composer";
+import { SheetTopContext } from "../libs/sheet-top";
 
 type ComposerKeyboardOptions = {
   /** Space left between the composer and the top of the keys. */
@@ -35,6 +36,8 @@ export const selfLiftingComposers = new Set<React.RefObject<View | null>>();
  * the keys, leaving a band of the page showing between them.
  */
 export const ScreenSpaceWindowContext = createContext(false);
+
+export { SheetTopContext };
 
 /**
  * Mark a composer whose screen lifts it some other way (the post page's
@@ -84,6 +87,9 @@ export function useComposerKeyboard(viewportHeight: number = 0, options: Compose
   const insets = useContext(SafeAreaInsetsContext);
   const screenSpace = useRef(false);
   screenSpace.current = useContext(ScreenSpaceWindowContext);
+  const sheetTopValue = useContext(SheetTopContext);
+  const sheetTop = useRef(0);
+  sheetTop.current = Platform.OS === "ios" ? sheetTopValue : 0;
   const navBar = useRef(0);
   // The provider's inset can read 0 on some screens while the real nav bar is
   // there; the launch-time inset is the nav bar's own height, so never use less.
@@ -119,7 +125,10 @@ export function useComposerKeyboard(viewportHeight: number = 0, options: Compose
       // before the window has insets), which left every composer a status bar
       // (36dp on a Galaxy S24+) under the keys. The safe-area top is the same
       // status bar, so fall back to it.
-      const windowTop = Platform.OS === "android" && !screenSpace.current ? statusBar.current : 0;
+      // iOS: a composer in a modal sheet measures from the sheet's top.
+      const windowTop = Platform.OS === "android"
+        ? (screenSpace.current ? 0 : statusBar.current)
+        : sheetTop.current;
       const next = keyboardComposerLift(y + windowTop + measuredHeight, appliedLift, top, settings.current.gap);
       setState((prev) =>
         prev.visible && Math.abs(next - prev.lift) < 1 ? prev : { visible: true, lift: next },
@@ -188,7 +197,7 @@ export function useComposerKeyboard(viewportHeight: number = 0, options: Compose
     };
   }, [measure, enabled]);
 
-  useEffect(() => { measure(); }, [width, height, viewportHeight, measure]);
+  useEffect(() => { measure(); }, [width, height, viewportHeight, sheetTopValue, measure]);
 
   return { ref, lift: state.lift, isVisible: state.visible, onLayout: measure };
 }

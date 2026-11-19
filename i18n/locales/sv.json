@@ -2605,7 +2605,13 @@
     "cbade2afaee2": "Trender denna vecka på Audius. Gratis att använda, artisten får krediteras på ditt inlägg.",
     "d2e45b7406fc": "Allmänna domän och Creative Commons-musik från Wikimedia Commons. Artisten får krediteras på ditt inlägg.",
     "d0c1a3684775": "Låtar laddades inte. Försök igen om ett ögonblick.",
-    "d14064f80f52": "Lägg till ljud"
+    "d14064f80f52": "Lägg till ljud",
+    "147170e793c6": "Bred",
+    "481859b689b0": "Kontrollera din anslutning och försök igen.",
+    "57e2faa5ec63": "Sök i Riftn",
+    "7db20897053b": "Personer",
+    "96d7bff86b44": "Sökning kunde inte laddas",
+    "d8b8392e2c54": "Försök igen"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2861,8 @@
       "quote": "Citat",
       "bullets": "Punktlista",
       "numbers": "Numrerad lista",
-      "link": "Länk"
+      "link": "Länk",
+      "image": "Lägg till bilder"
     }
   },
   "storefront": {
@@ -3150,6 +3157,8 @@
     "feedTogglesCleared": "Flödesfilter återställda",
     "defaultProfileTab": "Standardflik på profilen",
     "defaultProfileTabDesc": "Välj vilken flik besökare ser först på din profil",
+    "defaultProfileView": "Layout för profilinlägg",
+    "defaultProfileViewDesc": "Visa dina inlägg som rutnät eller lista när någon öppnar din profil",
     "defaultPostVisibilityDesc": "Gäller alla nuvarande och framtida inlägg",
     "public": "Offentlig",
     "publicDesc": "Alla kan se dina inlägg",
@@ -3793,7 +3802,11 @@
     "payViaDpay": "Betalt till Riftn Pay, tokens anländer om cirka 30s",
     "payViaBridgeDpay": "Flyttat till Base och betalat till Riftn Pay, tokens anländer om cirka en minut",
     "tokensUnit": "tokens",
-    "tokenAmount": "{{amount}} polletter"
+    "tokenAmount": "{{amount}} polletter",
+    "addMessage": "Lägg till ett meddelande (valfritt)",
+    "messagePublic": "Offentlig",
+    "railTitle": "Dricks",
+    "railTotal": "{{amount}} polletter"
   },
   "postOptions": {
     "skippableSections": "Sektioner som kan hoppas över",
@@ -4520,7 +4533,11 @@
       "here": "{{name}} skickade meddelanden till alla i communityn",
       "hereNamed": "{{name}} skickade meddelanden till alla i \"{{community}}\""
     },
-    "tokenAmount": "{{amount}} polletter"
+    "tokenAmount": "{{amount}} polletter",
+    "groupNew": "Nytt",
+    "groupToday": "Idag",
+    "groupThisWeek": "Denna vecka",
+    "searchClose": "Stäng sökning"
   },
   "leaderboard": {
     "title": "Topplista",
@@ -4712,7 +4729,18 @@
     "attachmentTooLarge": "Varje fil måste vara under 50 MB",
     "deleteCommentA11y": "Ta bort kommentar",
     "sendCommentA11y": "Sádde kommeantta",
-    "requestOptions": "Alternativ för förfrågan"
+    "requestOptions": "Alternativ för förfrågan",
+    "deviceInfoNoErrors": "Ingen",
+    "topBuilders": {
+      "month": "Denna månad",
+      "allTime": "All tid",
+      "shipped": "Levererad",
+      "votes": "Röster",
+      "comments": "Kommentarer",
+      "showLess": "Visa mindre",
+      "viewProfile": "Visa profil",
+      "you": "Du"
+    }
   },
   "auth": {
     "loginRequired": "Inloggning krävs",
@@ -4973,7 +5001,20 @@
       "votes_other": "{{value}} röster",
       "members_one": "{{value}} medlem",
       "members_other": "{{value}} medlemmar"
-    }
+    },
+    "articleShort": "Artikel",
+    "articleMinRead": "{{count}} min läsning",
+    "pinnedShort": "Fäst",
+    "post": "Inlägg",
+    "arrange": {
+      "saving": "Sparar..."
+    },
+    "reserve": {
+      "signIn": "Logga in"
+    },
+    "tabLikes": "Gillar",
+    "likesEmptyTitle": "Inga gillamarkeringar än",
+    "likesPrivateTitle": "Gillamarkeringar är privata"
   },
   "tv": {
     "title": "TV",
@@ -5489,6 +5530,9 @@
       "action": "Åtgärd",
       "schedule": "Schemalägg",
       "filter": "Filtrera aktivitet"
+    },
+    "welcome": {
+      "text": "Välkomstmeddelande"
     }
   },
   "hero": {
@@ -5574,7 +5618,16 @@
     "nowPublic": "Flödet är nu offentligt",
     "openCanvas": "Duken",
     "playVideo": "Spela upp video",
-    "signInToSee": "Logga in för att se flödena på ditt konto."
+    "signInToSee": "Logga in för att se flödena på ditt konto.",
+    "newNativeFlow": "Nytt flöde",
+    "model": "Modell",
+    "aspectRatio": "Bildförhållande",
+    "duration": "Varaktighet i sekunder",
+    "resolution": "Upplösning",
+    "disconnect": "Koppla från",
+    "payAndRun": "Betala och kör",
+    "run": "Kör",
+    "handlePrompt": "Styr"
   },
   "loginModal": {
     "title": "Logga in",
@@ -5894,7 +5947,8 @@
     "searchMenu": "Sök i menyn",
     "clearSearch": "Rensa sökningen",
     "noMenuMatches": "Inget i menyn matchar",
-    "searchDehubFor": "Sök efter ”{{query}}” på Riftn"
+    "searchDehubFor": "Sök efter ”{{query}}” på Riftn",
+    "requestSend": "Skicka begäran"
   },
   "comments": {
     "reportComment": "Rapportera kommentar",
@@ -6513,7 +6567,11 @@
       "copied": "Meddelande kopierat",
       "copyText": "Kopiera text",
       "mutedUntil": "Du är avstängd tills {{date}}",
-      "slowMode": "Långsamt läge: ett meddelande var {{interval}}"
+      "slowMode": "Långsamt läge: ett meddelande var {{interval}}",
+      "joined": "{{name}} gick med",
+      "reactions": "Reaktioner",
+      "photoTooLarge": "Bilden måste vara under 10MB",
+      "aiAdminFailed": "AI-administratör misslyckades med att svara"
     },
     "manage": {
       "dismissAdminTitle": "Avfärda admin",
@@ -6716,6 +6774,30 @@
       "notFound": "Den här inbjudningslänken är inte giltig.",
       "requestToJoin": "Ansök om att gå med",
       "approvalNote": "En administratör måste godkänna din förfrågan innan du kan gå med."
+    },
+    "buyAlert": {
+      "spent": "Utgifter:",
+      "buyer": "Köpare:",
+      "balance": "Saldo:",
+      "price": "Pris:",
+      "marketCap": "Börsvärde:"
+    },
+    "newChat": {
+      "public": "Offentlig",
+      "private": "Privat",
+      "free": "Gratis",
+      "paid": "Betald",
+      "group": "Gruppera"
+    },
+    "holderGate": {
+      "chain": "Kedja",
+      "tab": "Hållare"
+    },
+    "automod": {
+      "bannedWords": "Bannade ord",
+      "floodMax": "{{count}} meddelanden",
+      "saved": "Sparad",
+      "wordCount": "{{count}} ord"
     }
   },
   "work": {
@@ -7837,7 +7919,10 @@
       "doneAll": "Avföljade {{done}} konton som inte följde dig tillbaka.",
       "doneSome": "Avföljade {{done}} konton. {{failed}} kunde inte avföljas.",
       "doneToast": "Avföljade {{done}} konton som inte följde dig tillbaka"
-    }
+    },
+    "followBackConfirm": "Följ tillbaka",
+    "followBackNotNow": "Inte nu",
+    "followBackDone": "Klar"
   },
   "reactionInfo": {
     "title": "Reaktioner",
@@ -8757,7 +8842,32 @@
     "coverFrames": "Välj en bildruta som omslag",
     "coverFrame": "Använd bildruta {{index}} som omslag",
     "uploadCover": "Ladda upp en omslagsbild",
-    "editFailed": "Det gick inte att tillämpa ändringen. Försök igen."
+    "editFailed": "Det gick inte att tillämpa ändringen. Försök igen.",
+    "altPlaceholderVideo": "Beskriv den här videon",
+    "preview": {
+      "title": "Förhandsvisning"
+    },
+    "recent": {
+      "all": "Alla"
+    },
+    "studio": {
+      "crop": "Beskär",
+      "draw": "Rita",
+      "light": "Ljust",
+      "contrast": "Kontrast",
+      "warmth": "Värme",
+      "colour": "Färg",
+      "fade": "Tona",
+      "ratioFree": "Gratis",
+      "rotate": "Rotera",
+      "strength": "Styrka",
+      "textBg": "Bakgrund",
+      "font": {
+        "bold": "Fet"
+      }
+    },
+    "edited": "Redigerad",
+    "edit": "Redigera"
   },
   "bounty": {
     "claimed": "Uttagen",
@@ -9364,7 +9474,23 @@
     "paymentSentWith": "Skickat med {{amount}}",
     "planRestricted": "Den här användaren kräver en prenumeration för att ta emot meddelanden.",
     "planTypeNotAllowed": "Den här skaparens plan tillåter inte den här typen av meddelande.",
-    "planMinTip": "Dricksen måste vara minst {{amount}} tokens för den här skaparen."
+    "planMinTip": "Dricksen måste vara minst {{amount}} tokens för den här skaparen.",
+    "newDrawer": {
+      "to": "Till"
+    },
+    "download": "Ladda ner",
+    "deleteOneTitle": "Ta bort det här meddelandet?",
+    "retrySend": "Försök igen",
+    "discardSend": "Ta bort",
+    "shareKindGroup": "Gruppera",
+    "shareKindCommunity": "Gemenskap",
+    "searchDiscover": {
+      "people": "Personer",
+      "communities": "Gemenskaper",
+      "members": "{{n}} medlemmar",
+      "newChat": "Ny chatt",
+      "invite": "Inbjud"
+    }
   },
   "editPost": {
     "mediaPermission": "Behörighet till mediebiblioteket krävs",
@@ -10582,7 +10708,10 @@
       "hint": "Gör om tal till tidsatta undertexter som du kan ändra stil på. Körs på din enhet: gratis och privat. Första gången laddas modellen ned.",
       "done": "{{count}} undertexter har lagts till.",
       "noSpeech": "Inget tal hittades i klippet.",
-      "failed": "Det gick inte att skapa undertexter för klippet."
+      "failed": "Det gick inte att skapa undertexter för klippet.",
+      "styles": {
+        "bold": "Fetstil"
+      }
     },
     "app": {
       "newDesign": "Ny design",
@@ -10832,7 +10961,9 @@
       "suggestTitle": "Lägg till en stor fet rubrik överst och en mindre underrubrik under den",
       "undo": "Ångra",
       "openGenerator": "Granska och generera",
-      "working": "Jobbar på det…"
+      "working": "Jobbar på det…",
+      "stop": "Stoppa",
+      "queue": "Lägg till i kö"
     },
     "brand": {
       "addColor": "Lägg till varumärkesfärg",
@@ -10969,7 +11100,9 @@
       "rendering": "Renderar video… {{percent}} %",
       "mp4": "MP4-video",
       "exportHint": "Håll redigeraren öppen medan videon renderas.",
-      "tooLarge": "Filen är för stor för redigeraren. Gränsen är 400 MB."
+      "tooLarge": "Filen är för stor för redigeraren. Gränsen är 400 MB.",
+      "tZoomIn": "Zooma in",
+      "tZoomOut": "Zooma ut"
     },
     "motion": {
       "title": "Rörelse",
@@ -12148,6 +12281,27 @@
       "selection": "Val",
       "zoomIn": "Zooma in arbetsytan",
       "zoomOut": "Zooma ut arbetsytan"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "add": "Lägg till",
+      "scale": "Storlek",
+      "color": "Färg",
+      "light": "Ljust"
+    },
+    "clipFix": {
+      "listening": "Lyssnar…"
+    },
+    "voiceClone": {
+      "stop": "Stoppa inspelning",
+      "failed": "Stimmen klonades inte."
+    },
+    "linkImport": {
+      "go": "Importera",
+      "downloading": "Laddar ned {{percent}}%"
+    },
+    "reverse": {
+      "action": "Vänd"
     }
   },
   "creator": {
@@ -12609,7 +12763,32 @@
     "referenceProductName": "Placera ditt produkt i en klippning",
     "referenceProductHint": "Ersätt den framträdande produkten och bevara den ursprungliga scenen",
     "referenceComposeName": "Kombinera referensbilder",
-    "referenceComposeHint": "Förena karaktärer, objekt och miljöer från flera bilder till en sammansättning"
+    "referenceComposeHint": "Förena karaktärer, objekt och miljöer från flera bilder till en sammansättning",
+    "marketing": {
+      "import": {
+        "use": "Använd dessa uppgifter"
+      }
+    },
+    "batchCount": "Bilder",
+    "endFrame": "Slutbildruta",
+    "cinema": {
+      "close": "Stäng",
+      "performance": {
+        "label": "Prestanda"
+      }
+    },
+    "audioNoSpeech": "Inga tal hittades i den inspelningen.",
+    "audioTaskSpeechLabel": "Talinställningar",
+    "audioTaskDialogueLabel": "Dialog",
+    "audioTaskSfxLabel": "Ljudeffekt",
+    "audioTaskVoiceChangerLabel": "Röstförändring",
+    "audioTaskTranscribeLabel": "Transkribera",
+    "audioTaskIsolateLabel": "Rensa upp",
+    "priceFreeRateLimited": "Gratis · prisgränser gäller",
+    "loop": "Slinga",
+    "dialogueFormat": "Skriv scenen som \"Name: line\", en talare per rad.",
+    "fileTooLarge": "Den filen är över 100 MB. Använd en kortare eller mindre fil.",
+    "signInToGenerate": "Logga in för att generera."
   },
   "fractions": {
     "title": "Fraktioner",
@@ -14678,6 +14857,19 @@
       "intro": "Tittare tjänar en poäng för varje minut de tittar på dig och en för varje 100 tokens de ger bort. Chatt och reaktioner tjänar ingenting, så poäng kan inte odlas.",
       "empty": "Inga poäng ännu. De byggs upp när folk tittar på och presenterar.",
       "widgetHint": "Lägg till widgeten Lojala tittare för att visa den här listan i ström."
+    },
+    "destinations": {
+      "platform": "Plattform",
+      "label": "Namn (valfritt)",
+      "key": "Stream-nyckel",
+      "save": "Lägg till",
+      "cancel": "Avbryt",
+      "states": {
+        "off": "Av",
+        "idle": "Klar",
+        "live": "Liv",
+        "error": "Fel"
+      }
     }
   },
   "liveChatModeration": {
@@ -14785,7 +14977,68 @@
     "days": "{{count}} dagar",
     "spotlightForSale": "För sälj nu",
     "spotlightNew": "Nyutgivet",
-    "buyFor": "Köp för {{price}}"
+    "buyFor": "Köp för {{price}}",
+    "actAll": "Alla",
+    "actListings": "Annonser",
+    "actOffer": "Bjuder",
+    "actOffers": "Bud",
+    "actSales": "Försäljning",
+    "tabActivity": "Aktivitet",
+    "allChains": "Alla kedjor",
+    "newest": "Nyaste",
+    "cheapest": "Lägsta pris",
+    "soldFor": "Såld",
+    "signIn": "Logga in",
+    "share": "Dela",
+    "noneForSale": "Ingenting till salu ännu",
+    "noSales": "Inga försäljningar ännu",
+    "tabBrowse": "Bläddra",
+    "tabMine": "Dina",
+    "tabSales": "Försäljning",
+    "cancelled": "Avbruten",
+    "sold": "Såld",
+    "listed": "Listad till försäljning",
+    "feeRow": "Riftn avgift ({{pct}}%)",
+    "royaltyRow": "Skaparkonungar",
+    "youGet": "Du får",
+    "holderGets": "Innehavaren får",
+    "loading": "Laddar…",
+    "price": "Pris",
+    "seller": "Säljare",
+    "tabRecent": "Senaste",
+    "buyNow": "Köpa nu",
+    "offers": "Erbjudanden",
+    "cancel": "Avbryt",
+    "accept": "Acceptera",
+    "signInToTrade": "Logga in för att handla",
+    "listForSale": "Lista till försäljning",
+    "makeOffer": "Gör ett erbjudande",
+    "sendOffer": "Skicka bud",
+    "back": "Tillbaka",
+    "dropsTo": "Priset sjunker till {{price}} vid {{date}}",
+    "inBundle": "Såld som ett paket av {{n}}",
+    "trending": "Trendiga samlingar",
+    "listedCount": "{{n}} till salu",
+    "thisCollection": "Denna samling",
+    "collectionOffer": "Erbjudande på något som helst",
+    "showAll": "Visa alla",
+    "filters": "Filter",
+    "forSale": "Till salu",
+    "openToOffers": "Öppen för erbjudanden",
+    "freshMints": "Från Riftn-skaparna precis nu!",
+    "offersOpen": "Öppen för erbjudanden",
+    "mintedCount": "{{n}} mintad",
+    "anyInCollection": "Något i samlingen",
+    "thisNft": "Den här NFT:n",
+    "priceAlert": "Prisvarning",
+    "alertUnder": "Meddela mig när den listas till eller under ({{symbol}}, valfritt)",
+    "turnOnAlert": "Slå på varningen",
+    "alertSaved": "Alerta på. Vi kommer att meddela när en är listad.",
+    "priceDrop": "Priset sjunker över tid",
+    "endPrice": "Lägsta pris, uppnått vid slutet ({{symbol}})",
+    "dropBadge": "Prisnedgång",
+    "days_one": "{{count}} dag",
+    "days_other": "{{count}} dagar"
   },
   "riftnMove": {
     "title": "DeHub heter nu Riftn",
@@ -14812,7 +15065,11 @@
       "episode": "Podcast-avsnitt",
       "show": "Podcast",
       "artist": "Konstnär"
-    }
+    },
+    "loading": "Laddar…",
+    "paused": "Pausad",
+    "preview": "Förhandsvisning",
+    "seek": "Sök"
   },
   "twoFactor": {
     "wrongCode": "Den koden stämde inte. Prova den senaste i din app.",
@@ -14890,5 +15147,231 @@
     "newer": "Nyare resultat",
     "gone": "Det meddelandet finns inte längre här",
     "theirMessages": "Deras meddelanden"
+  },
+  "chatTextSize": {
+    "title": "Textstorlek",
+    "default": "Standard",
+    "larger": "Större"
+  },
+  "remix": {
+    "cut": "Klipp ut"
+  },
+  "signedFollows": {
+    "setUp": "Aktivera",
+    "turnOff": "Stäng av",
+    "efpTurnOff": "Stoppa"
+  },
+  "studioDeck": {
+    "remove": "Ta bort",
+    "background": {
+      "title": "Bakgrund",
+      "modes": {
+        "none": "Av",
+        "blur": "Oskärpa",
+        "color": "Färg"
+      }
+    },
+    "scenes": {
+      "countdown": "Nedräkning",
+      "names": {
+        "starting": "Börjar snart"
+      }
+    },
+    "widgets": {
+      "tab": "Widgetar"
+    },
+    "sources": {
+      "image": "Bild",
+      "show": "Visa i strömmen",
+      "positions": {
+        "center": "Centrera"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Idag",
+    "tooSoon": "Välj en tid i framtiden.",
+    "show": "Visa",
+    "hide": "Dölj"
+  },
+  "planned": {
+    "title": "Planerad",
+    "all": "Alla",
+    "posts": "Inlägg",
+    "stages": "Ljudrum",
+    "post": "Inlägg",
+    "live": "Liv",
+    "stage": "Scen",
+    "untitledPost": "Inlägg",
+    "untitledLive": "Liv",
+    "loading": "Laddar…",
+    "startNow": "Börja nu",
+    "cancel": "Avbryt",
+    "cancelled": "Avbruten"
+  },
+  "welcome": {
+    "about": {
+      "title": "Välkommen till Riftn",
+      "day": "Dag",
+      "month": "Månad",
+      "year": "År"
+    },
+    "name": {
+      "title": "Ditt namn",
+      "placeholder": "Ditt namn"
+    },
+    "card": {
+      "name": "Ditt namn",
+      "followers": "följare"
+    },
+    "topic": {
+      "music": "Musik",
+      "art": "Konst",
+      "gaming": "Spel",
+      "crypto": "Krypto",
+      "sports": "Sport",
+      "comedy": "Komedi",
+      "food": "Mat",
+      "news": "Nyheter",
+      "science": "Vetenskap"
+    },
+    "back": "Tillbaka",
+    "skipPhoto": "Hoppa över för tillfället",
+    "preview": "Förhandsgranska"
+  },
+  "appTokens": {
+    "title": "Dina tokens",
+    "history": "Historik",
+    "noHistory": "Ingen aktivitet ännu",
+    "kindDeposit": "Lägg till medel",
+    "to": "Till",
+    "amount": "Belopp",
+    "notePlaceholder": "Lägg till en notering (valfritt)",
+    "sendButton": "Skicka",
+    "errorInsufficient": "Inte tillräckligt med tokens"
+  },
+  "avatarPrompt": {
+    "notNow": "Inte nu"
+  },
+  "postStats": {
+    "audience": "Publik",
+    "engagement": "Engagemang",
+    "finished": "Avslutad",
+    "members": "Medlemmar",
+    "membersLower": "medlemmar",
+    "newFollowers": "Nya följare",
+    "noBadge": "Inga medaljer",
+    "people": "Personer",
+    "plays": "Spelar",
+    "quotes": "Citat",
+    "reposts": "Omdelningar",
+    "saved": "Sparad",
+    "shares": "Delningar",
+    "signedOutViewers": "Utloggad",
+    "topSupporters": "Toppanhängare",
+    "visitors": "Utloggad"
+  },
+  "duet": {
+    "policyEveryone": "Alla",
+    "policyFollowers": "Följare",
+    "policyNobody": "Ingen",
+    "loadMore": "Ladda fler"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Alla",
+      "followers": "Följare",
+      "nobody": "Ingen"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Alla",
+      "followers": "Följare",
+      "nobody": "Ingen"
+    },
+    "heading": "Reaktioner",
+    "more": "Visa fler",
+    "liveNow": "Liv",
+    "untitled": "Reaktion"
+  },
+  "liveClips": {
+    "copyLink": "Kopiera länk",
+    "linkCopied": "Länk kopierad"
+  },
+  "liveHype": {
+    "gift": {
+      "howMany": "Hur många",
+      "who": "Användarnamn eller plånboksadress",
+      "whoPlaceholder": "@användarnamn",
+      "cancel": "Avbryt",
+      "stage": {
+        "preparing": "Förbereder…",
+        "confirming": "Väntar på transaktionen…",
+        "recording": "Slutför…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Övrigt",
+    "confirming": "Bekräftar betalning..."
+  },
+  "feedFilters": {
+    "clearAllShort": "Rensa alla",
+    "done": "Klar",
+    "edit": "Redigera",
+    "groupDate": "Datum",
+    "groupSort": "Sortera",
+    "groupType": "Typ",
+    "save": "Spara"
+  },
+  "ownKeys": {
+    "working": "Arbetar",
+    "failed": "Något gick fel. Försök igen.",
+    "check": "Kontrollera",
+    "remove": "Ta bort",
+    "save": "Spara",
+    "cancel": "Avbryt"
+  },
+  "postBg": {
+    "none": "Ingen",
+    "yours": "Dina",
+    "names": {
+      "lava": "Lavalampa",
+      "drive": "Nattkörning",
+      "chrome": "Flytande krom",
+      "snow": "Snöfall"
+    }
+  },
+  "articleTile": {
+    "cover": "Omslag"
+  },
+  "aiConsent": {
+    "allow": "Tillåt"
+  },
+  "dmRequests": {
+    "title": "Funktionsförfrågningar",
+    "accept": "Acceptera",
+    "delete": "Radera",
+    "block": "Blockera"
+  },
+  "dmSchedule": {
+    "view": "Titta",
+    "edit": "Redigera",
+    "editLabel": "Redigera meddelande",
+    "error": "Det fungerade inte. Försök igen."
+  },
+  "chatBulk": {
+    "selected": "{{count}} valda",
+    "cancel": "Avbryt",
+    "reply": "Svar",
+    "delete": "Radera"
+  },
+  "msgSelect": {
+    "selected": "{{count}} valda",
+    "copy": "Kopiera",
+    "forward": "Vidarebefordra",
+    "deleted_one": "Raderade {{count}} meddelande",
+    "deleted_other": "Raderade {{count}} meddelanden"
   }
 }

@@ -464,7 +464,7 @@ export interface ChatTabsState {
   order: string[];
   hidden: string[];
 }
-export const BUILTIN_CHAT_TABS = ["all", "direct", "communities", "requests"] as const;
+export const BUILTIN_CHAT_TABS = ["all", "unread", "direct", "communities", "requests"] as const;
 export const DEFAULT_CHAT_TABS: ChatTabsState = { tabs: [], order: [...BUILTIN_CHAT_TABS], hidden: [] };
 export const PUBLIC_CHAT_TAB_ID = "public";
 export const MAX_CHAT_TABS = 10;
@@ -480,4 +480,27 @@ export async function saveChatTabs(state: ChatTabsState): Promise<ChatTabsState 
   const res: any = await apiClient.put(`/dm/chat-tabs`, state, { isAuthRequired: true });
   const r = res?.result ?? res?.data?.result;
   return r && Array.isArray(r.tabs) ? r : null;
+}
+
+/**
+ * Where you stopped reading one chat, kept on the server so the app and the
+ * website open it on the same line. Chat ids: a DM id, `community:<uuid>`,
+ * or `live:<room>` for the public chat. Mirrors web read-position.ts.
+ */
+export interface ChatReadPosition {
+  chatId: string;
+  messageId: string;
+  /** The line's own time (ISO). Lines after it are unread. */
+  at: string;
+  savedAt: string | null;
+}
+
+export async function getChatReadPosition(chatId: string): Promise<ChatReadPosition | null> {
+  const res: any = await apiClient.get(`/dm/read-position/${encodeURIComponent(chatId)}`, { isAuthRequired: true } as any);
+  const row = res?.result ?? res?.data?.result ?? null;
+  return row && row.messageId && row.at ? row : null;
+}
+
+export async function saveChatReadPosition(chatId: string, messageId: string, at: string): Promise<void> {
+  await apiClient.post(`/dm/read-position/${encodeURIComponent(chatId)}`, { messageId, at }, { isAuthRequired: true });
 }

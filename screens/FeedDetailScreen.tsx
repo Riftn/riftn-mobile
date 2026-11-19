@@ -191,9 +191,9 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   const commentIdParam: number | string | undefined = embedded ? undefined : route?.params?.commentId ?? route?.params?.c;
   /**
    * The comment this screen was opened FOR, as a string, for the life of the
-   * screen. Distinct from `highlightedCommentId` below, which is the four-second
-   * ring: that one expiring used to take a linked reply out of the list with it,
-   * because the collapse rule read the ring rather than the destination.
+   * screen. The row is never lit up: landing on it is the whole signal. (A
+   * timed highlight used to take a linked reply out of the list with it when
+   * it expired, because the collapse rule read the highlight.)
    */
   const focusCommentId = commentIdParam != null ? String(commentIdParam) : undefined;
   // The opener (a notification) may already know the post's kind, so the
@@ -251,7 +251,6 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   const growingInput = useGrowingTextInput(inputText);
   const mentions = useMentions(inputText, setInputText);
   const [posting, setPosting] = useState(false);
-  const [highlightedCommentId, setHighlightedCommentId] = useState<number | null>(null);
   /** Root comment ids whose full reply thread the reader has opened. */
   const [expandedThreads, setExpandedThreads] = useState<Set<string>>(() => new Set());
   // The comment tab row, laid out the way web's post page has it: replies,
@@ -483,9 +482,18 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
     scrollGeom.current.viewport = e.nativeEvent.layout.height;
     updatePastComments();
   }, [updatePastComments]);
+  /**
+   * While a notification landing is settling, every change in the list's
+   * height (the post's picture or video taking its real size, a link preview
+   * filling in) puts the linked comment straight back where it was meant to
+   * be, in the same frame, instead of waiting for the next timed pass. Set by
+   * the focus effect below; cleared when the reader drags or it times out.
+   */
+  const focusRelandRef = useRef<(() => void) | null>(null);
   const handleContentSize = useCallback((_w: number, h: number) => {
     scrollGeom.current.content = h;
     updatePastComments();
+    focusRelandRef.current?.();
   }, [updatePastComments]);
   const handleContinuationLayout = useCallback((e: LayoutChangeEvent) => {
     scrollGeom.current.continuation = e.nativeEvent.layout.height;
@@ -619,14 +627,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
       rawComments.forEach((c) => emit(c, 0));
 
       setComments(flat);
-      
-      // Highlight the target comment (top-level or reply). Long enough to
-      // outlast the last re-scroll onto it (2.8s below), so the reader still
-      // sees it lit once it has come to rest.
-      if (highlightId != null && flat.some((c) => Number(c.id) === highlightId)) {
-        setHighlightedCommentId(highlightId);
-        setTimeout(() => setHighlightedCommentId(null), 6500);
-      }
+
     } catch (e: any) {
       console.error("[FeedDetailScreen] fetchData error", e);
       const msg = e?.message || e?.toString() || '';
@@ -1159,6 +1160,22 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
     // started scrolling themselves.
     focusTimersRef.current.forEach(clearTimeout);
     focusTimersRef.current = [700, 1600, 2800].map((ms) => setTimeout(jump, ms));
+    // And on every height change in between, for the next 8 seconds, so a
+    // slow image never leaves the comment pushed down even for a moment.
+    const until = Date.now() + 8000;
+    let queued = false;
+    focusRelandRef.current = () => {
+      if (focusDraggedRef.current || Date.now() > until) {
+        focusRelandRef.current = null;
+        return;
+      }
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        jump();
+      });
+    };
   }, [focusCommentId, listComments]);
   const visibleCommentsRef = useRef(listComments);
   visibleCommentsRef.current = listComments;
@@ -1167,6 +1184,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   useEffect(() => () => focusTimersRef.current.forEach(clearTimeout), []);
   const handleFocusDrag = useCallback(() => {
     focusDraggedRef.current = true;
+    focusRelandRef.current = null;
   }, []);
 
   const handleScrollToIndexFailed = useCallback(
@@ -1223,7 +1241,6 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   const renderCommentItem = useCallback(
     ({ item: c }: { item: ThreadedComment }) => {
       const isReply = c.depth > 0;
-      const isHighlighted = highlightedCommentId != null && String(c.id) === String(highlightedCommentId);
       const meta = threadMeta.get(String(c.id));
 
       return (
@@ -1260,12 +1277,11 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
             tokenId={tokenId}
             contentType="feed"
             postCreator={postCreator}
-            highlighted={isHighlighted}
           />
         </View>
       );
     },
-    [handleReplyPress, handleUserPress, tipTotals, tipTippers, viewerWallet, handleLikeComment, handleDislikeComment, handleStartEdit, isOwnThread, handlePinComment, address, handleReportComment, handleDeleteComment, handleCommentLongPress, tokenId, highlightedCommentId, threadMeta, handleToggleThread, postCreator]
+    [handleReplyPress, handleUserPress, tipTotals, tipTippers, viewerWallet, handleLikeComment, handleDislikeComment, handleStartEdit, isOwnThread, handlePinComment, address, handleReportComment, handleDeleteComment, handleCommentLongPress, tokenId, threadMeta, handleToggleThread, postCreator]
   );
 
   // Send media comment
@@ -1781,6 +1797,8 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         onViewableItemsChanged={onViewableItemsChanged}
         onScroll={handleListScroll}
         onScrollBeginDrag={handleFocusDrag}
+        // A tap (open replies, a like) is the reader taking over too.
+        onTouchStart={handleFocusDrag}
         scrollEventThrottle={16}
         onLayout={handleListLayout}
         onContentSizeChange={handleContentSize}

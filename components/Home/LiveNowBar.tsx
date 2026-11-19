@@ -13,6 +13,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
+import MaskedView from "@react-native-masked-view/masked-view";
+import Svg, { Path } from "react-native-svg";
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
@@ -184,8 +186,8 @@ function faceSources(item: LiveNowItem, size: number) {
     : { uri: item.avatar, fallbackUri: null };
 }
 
-export function LiveFace({ item, size, live = true }: { item: LiveNowItem; size: number; live?: boolean }) {
-  return <Avatar {...faceSources(item, size)} size={size} name={item.username || item.wallet} live={live} />;
+export function LiveFace({ item, size, live = true, radius }: { item: LiveNowItem; size: number; live?: boolean; radius?: number }) {
+  return <Avatar {...faceSources(item, size)} size={size} radius={radius} name={item.username || item.wallet} live={live} />;
 }
 
 /** What the glass shows: the broadcast when there is a picture, else the host's face. */
@@ -248,7 +250,7 @@ export function LiveNowRow({
         <View style={[StyleSheet.absoluteFill, { backgroundColor: veil }]} pointerEvents="none" />
 
         {single ? (
-          <LiveStill item={single} cornerRing={isLight ? "#FFFFFF" : theme === "osaka" ? "#15121F" : "#000000"} />
+          <LiveStill item={single} />
         ) : (
           <View style={styles.fan}>
             {items.slice(0, 3).reverse().map((item, i, arr) => (
@@ -341,20 +343,36 @@ function fanStyle(i: number, count: number) {
   return steps[count === 2 ? i + 1 : i];
 }
 
+/** The 56x34 still with the face's corner cut out: the face's own shape (20px, radius 6) grown by a 1.5px gap. */
+const NOTCH_PATH =
+  "M0 0H56V34H0Z M47 16.5H55A7.5 7.5 0 0 1 62.5 24V32A7.5 7.5 0 0 1 55 39.5H47A7.5 7.5 0 0 1 39.5 32V24A7.5 7.5 0 0 1 47 16.5Z";
+function CornerNotch() {
+  return (
+    <Svg width={56} height={34} viewBox="0 0 56 34">
+      <Path d={NOTCH_PATH} fill="#000" fillRule="evenodd" />
+    </Svg>
+  );
+}
+
 /** Small 16:9 frame: the broadcast still with the face on its corner, or the face alone in soft focus. */
-function LiveStill({ item, small = false, cornerRing = "#000000" }: { item: LiveNowItem; small?: boolean; cornerRing?: string }) {
+function LiveStill({ item, small = false }: { item: LiveNowItem; small?: boolean }) {
   const [broken, setBroken] = useState(false);
   const cover = !broken ? item.cover : null;
   const frame = small ? styles.stillSmall : styles.still;
   if (cover) {
+    const picture = <Image source={{ uri: cover }} style={frame} contentFit="cover" cachePolicy="memory-disk" onError={() => setBroken(true)} />;
+    if (small) return picture;
+    // No border round the face (it read as a black ring on dark themes). The
+    // still is cut away around the face with a thin 1.5px gap instead, so the
+    // glass shows through between them. Same notch as web's live-now-glass.css.
     return (
       <View>
-        <Image source={{ uri: cover }} style={frame} contentFit="cover" cachePolicy="memory-disk" onError={() => setBroken(true)} />
-        {!small && (
-          <View style={[styles.corner, { borderColor: cornerRing }]}>
-            <LiveFace item={item} size={20} live={false} />
-          </View>
-        )}
+        <MaskedView style={frame} maskElement={<CornerNotch />}>
+          {picture}
+        </MaskedView>
+        <View style={styles.corner}>
+          <LiveFace item={item} size={20} radius={6} live={false} />
+        </View>
       </View>
     );
   }
@@ -466,10 +484,9 @@ const styles = StyleSheet.create({
   },
   corner: {
     position: "absolute",
-    right: -6,
-    bottom: -5,
-    borderWidth: 2,
-    borderRadius: 7,
+    right: -5,
+    bottom: -4,
+    borderRadius: 6,
     overflow: "hidden",
   },
   fan: {

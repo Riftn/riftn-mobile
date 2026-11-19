@@ -11,8 +11,8 @@ import React, {
   useRef,
   useState,
 } from "react";
+import { FlatList } from "react-native-gesture-handler";
 import {
-  FlatList,
   Text,
   View,
   TouchableOpacity,
@@ -38,7 +38,9 @@ import ChatInputBar, {
 import type { SmartReplyTurn } from "../services/ai.service";
 import ChatDayPill, { chatDayKey } from "../components/DM/ChatDayPill";
 import { UnreadMarker, UnreadJumpButton } from "../components/DM/UnreadJump";
-import { findUnreadAnchor } from "../libs/chatUnreadAnchor";
+import { findUnreadAnchor, type UnreadAnchor } from "../libs/chatUnreadAnchor";
+import { anchorFromReadSpot } from "../libs/chatReadPosition";
+import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import MessageContextMenu, {
   type MessageLayout,
 } from "../components/DM/MessageContextMenu";
@@ -175,6 +177,8 @@ export type ChatScreenProps = {
 
 
 const PAGE_SIZE = 30;
+/** History pages a chat may pull in at open to reach where you left off. */
+const MAX_READ_SPOT_PAGES = 10;
 /** How long an edit may go unacknowledged before the old words are put back. */
 const EDIT_CONFIRM_TIMEOUT_MS = 10_000;
 const log = createLogger("ChatScreen");
@@ -291,6 +295,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const createdConvIdRef = useRef<ID | null>(null);
   const [loadingMore, setLoadingMore] = useState(false);
   const [initialLoading, setInitialLoading] = useState(false);
+  // The fresh newest page has landed (the store can hold an older cached copy).
+  const [headLoaded, setHeadLoaded] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [remoteTyping, setRemoteTyping] = useState(false);
 
@@ -575,7 +581,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     unreadAtOpenRef.current = Math.max(unreadAtOpenRef.current, fromConversation, fromFlags);
     if (currentConversation || storeMessages.length > 0) unreadSnapTakenRef.current = true;
   }
-  const unreadAnchor = useMemo(
+  const flagAnchor = useMemo(
     () => findUnreadAnchor(
       messageList.map((m) => ({
         id: m._id,
@@ -588,6 +594,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     ),
     [messageList, isMine],
   );
+  // Where you left off, saved on the server (same spot as the website). With
+  // a spot the chat opens on the line after it; without one it falls back to
+  // the read-flag guess above.
+  const readChatId = currentConvId && /^[0-9a-f]{24}$/i.test(String(currentConvId)) ? String(currentConvId) : null;
+  const readSpot = useChatReadPosition(readChatId);
+  const [spotAnchor, setSpotAnchor] = useState<{ anchor: UnreadAnchor | null } | null>(null);
+  const unreadAnchor = readSpot.opening ? (spotAnchor?.anchor ?? null) : (readSpot.ready ? flagAnchor : null);
+  // Saving starts once the chat has been placed, so the bottom it paints
+  // first never counts as having read everything.
+  const readTrackingRef = useRef(false);
 
   /**
    * Tail of the thread handed to the reply drafter, oldest first. Text only —
@@ -701,10 +717,24 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     if (anchorIndex >= range.min && anchorIndex <= range.max) setUnreadMarkerSeen(true);
   }, []);
   useEffect(() => { refreshUnreadJump(); }, [unreadAnchor, refreshUnreadJump]);
+  /** Saves the newest line on screen (lowest index on the inverted list) as where you left off. */
+  const reportReadSpotRef = useRef(() => {});
+  reportReadSpotRef.current = () => {
+    const range = visibleRangeRef.current;
+    if (!range || !readTrackingRef.current) return;
+    const list = unreadStateRef.current.list;
+    for (let i = range.min; i <= range.max; i++) {
+      const m = list[i];
+      if (!m || String(m._id).startsWith("temp") || !m.createdAt) continue;
+      readSpot.report(String(m._id), String(m.createdAt));
+      return;
+    }
+  };
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
     refreshUnreadJump();
+    reportReadSpotRef.current();
   }).current;
   const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 10 }).current;
 
@@ -734,6 +764,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     const timer = setTimeout(() => {
       unreadPlacedRef.current = true;
       scrollToUnreadMarker(false);
+      // Let the jump settle before the rows on screen count as read.
+      setTimeout(() => { readTrackingRef.current = true; reportReadSpotRef.current(); }, 600);
     }, 150);
     return () => clearTimeout(timer);
   }, [unreadAnchor, initialLoading, scrollToUnreadMarker]);
@@ -1002,7 +1034,10 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     } catch (e) {
       log.error("recover message head", e);
     } finally {
-      if (isCurrent()) setInitialLoading(false);
+      if (isCurrent()) {
+        setInitialLoading(false);
+        setHeadLoaded(true);
+      }
     }
   }, [currentConvId, address, identityTick, normalizeAuthor, userId]);
   useDmHeadRecovery(recoverHead, allow && !!currentConvId && !!address);
@@ -1031,6 +1066,45 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       setLoadingMore(false);
     }
   }, [currentConvId, address, storeMessages.length, loadingMore, hasMore]);
+
+  // Decide once where the chat opens from the saved spot: pull in older pages
+  // until the spot is loaded (up to MAX_READ_SPOT_PAGES), then fix the marker.
+  const readSpotPagesRef = useRef(0);
+  const [headWaitOver, setHeadWaitOver] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setHeadWaitOver(true), 4000);
+    return () => clearTimeout(timer);
+  }, []);
+  useEffect(() => {
+    const spot = readSpot.opening;
+    if (!spot || spotAnchor || initialLoading || !storeMessages.length) return;
+    if (!headLoaded && !headWaitOver) return;
+    const lines = storeMessages.map((m) => ({
+      id: String(m._id),
+      mine: isMine(m),
+      at: m.createdAt,
+      skip: !!m.undecryptable || String(m._id).startsWith("temp"),
+    }));
+    const found = anchorFromReadSpot(lines, spot, hasMore, openedAtRef.current);
+    if (found.kind === "older") {
+      if (readSpotPagesRef.current < MAX_READ_SPOT_PAGES) {
+        if (!loadingMore) {
+          readSpotPagesRef.current += 1;
+          void loadMore();
+        }
+        return;
+      }
+      const theirs = lines.filter((l) => !l.mine && !l.skip);
+      setSpotAnchor({ anchor: theirs.length ? { id: theirs[0].id, ids: theirs.map((l) => l.id), count: theirs.length } : null });
+      return;
+    }
+    setSpotAnchor({ anchor: found.kind === "anchor" ? found.anchor : null });
+  }, [readSpot.opening, spotAnchor, initialLoading, storeMessages, headLoaded, headWaitOver, hasMore, loadingMore, loadMore, isMine]);
+  // No marker to place: saving can start straight away.
+  useEffect(() => {
+    if (!readSpot.ready) return;
+    if (readSpot.opening ? (spotAnchor && !spotAnchor.anchor) : !flagAnchor) readTrackingRef.current = true;
+  }, [readSpot.ready, readSpot.opening, spotAnchor, flagAnchor]);
 
   // Re-emit whenever new messages arrive so the other user gets read receipts
   // even for messages sent while we're already viewing the conversation.
@@ -1596,15 +1670,28 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [contextMessage, toggleReaction],
   );
 
+  // One-to-one chat: like Telegram, either person can delete any message, for both of them.
   const handleDelete = useCallback(() => {
     if (!contextMessage || !currentConvId) return;
-    ws.emitAuthed(DMSocketEvent.DeleteMessage, {
-      dmId: currentConvId,
-      messageId: contextMessage._id,
-    });
-    dmActions.removeMessage({ dmId: currentConvId, messageId: contextMessage._id });
-    toastSuccess(t("dm.messageDeleted"));
+    const target = contextMessage;
+    const convId = currentConvId;
     closeContextMenu();
+    Alert.alert(
+      t("dm.deleteOneTitle", { defaultValue: "Delete this message?" }),
+      t("dm.deleteForBothBody", { defaultValue: "It will be removed for both of you." }),
+      [
+        { text: t("common.cancel"), style: "cancel" },
+        {
+          text: t("common.delete"),
+          style: "destructive",
+          onPress: () => {
+            ws.emitAuthed(DMSocketEvent.DeleteMessage, { dmId: convId, messageId: target._id });
+            dmActions.removeMessage({ dmId: convId, messageId: target._id });
+            toastSuccess(t("dm.messageDeleted"));
+          },
+        },
+      ],
+    );
   }, [contextMessage, currentConvId, ws, closeContextMenu]);
 
   const handleForward = useCallback(() => {
@@ -1698,7 +1785,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     () => (pickedMsgs ? messageList.filter((m) => pickedMsgs.has(m._id)).reverse() : []),
     [pickedMsgs, messageList],
   );
-  const pickedOwn = useMemo(() => pickedList.filter((m) => isMine(m)), [pickedList, isMine]);
+  // One-to-one chat: every picked message can be deleted for both of you.
+  const pickedOwn = pickedList;
   const togglePick = useCallback((m: DmMessage) => {
     setPickedMsgs((prev) => {
       const next = new Set(prev ?? []);
@@ -1742,7 +1830,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     const list = pickedOwn;
     Alert.alert(
       t("msgSelect.deleteTitle", { defaultValue: "Delete {{count}} messages?", count: list.length }),
-      t("msgSelect.deleteBody", { defaultValue: "They will be removed for everyone in this chat." }),
+      t("msgSelect.deleteForBothBody", { defaultValue: "They will be removed for both of you." }),
       [
         { text: t("common.cancel"), style: "cancel" },
         {
@@ -2403,6 +2491,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           onForward={handleForward}
           onSelect={handleSelect}
           onDelete={handleDelete}
+          canDeleteAny
           onPin={handlePinMessage}
           onUnpin={handleUnpinMessage}
           isPinned={contextMessage ? pinnedMessageId === contextMessage._id : false}

@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "Alle",
+    "unread": "Ongelezen",
+    "groups": "Groepen"
+  },
   "comicBorder": {
     "title": "Rand",
     "theme": "Thema",
@@ -189,7 +194,9 @@
       "profile": "profiel",
       "proposal": "voorstel",
       "stage": "fase",
-      "store": "winkel"
+      "store": "winkel",
+      "featureRequest": "verzoek",
+      "page": "pagina"
     }
   },
   "stageCover": {
@@ -1017,6 +1024,8 @@
     "feedTogglesCleared": "Feedfilters gereset",
     "defaultProfileTab": "Standaard profieltabblad",
     "defaultProfileTabDesc": "Kies welk tabblad bezoekers als eerste zien op je profiel",
+    "defaultProfileView": "Indeling van profielberichten",
+    "defaultProfileViewDesc": "Toon je berichten als raster of als lijst wanneer mensen je profiel openen",
     "defaultPostVisibilityDesc": "Geldt voor alle huidige en toekomstige berichten",
     "public": "Openbaar",
     "publicDesc": "Iedereen kan je berichten zien",
@@ -7698,6 +7707,8 @@
     "allDisabled": "Alle DM's staan momenteel uit. Nieuwe DM's worden standaard geblokkeerd.",
     "failedToEdit": "Bewerken mislukt",
     "messageDeleted": "Bericht verwijderd",
+    "deleteOneTitle": "Dit bericht verwijderen?",
+    "deleteForBothBody": "Het wordt voor jullie allebei verwijderd.",
     "cantForwardFromDevice": "Dit bericht kan niet worden doorgestuurd vanaf dit apparaat",
     "messageForwarded": "Bericht doorgestuurd",
     "clearMessages": "Berichten wissen",
@@ -9622,7 +9633,7 @@
       "connected_other": "{{count}} verbonden · Cloudversie {{revision}}",
       "hint": "Deel je aanwezigheid met de redacteurs van dit project.",
       "disconnected": "Ontkoppeld. Sluit opnieuw aan om opnieuw te verbinden.",
-      "saveHint": "Gebruik **Opslaan naar cloud** om wijzigingen in de tijdlijn te delen.",
+      "saveHint": "Gebruik Opslaan naar cloud om wijzigingen in de tijdlijn te delen.",
       "error": "Live-sessie niet beschikbaar. Meld je aan en sla dit project op in de cloud, of check je uitnodiging voor het bewerken.",
       "stopEdits": "Stop live bewerkingen",
       "receiveEdits": "Ontvang live bewerkingen",
@@ -11921,7 +11932,11 @@
     "ended": "Afgelopen",
     "stage": "Podium",
     "upcomingStage": "Aankomend podium",
-    "members": "{{compact}} leden"
+    "members": "{{compact}} leden",
+    "requestComments_one": "{{compact}} reactie",
+    "requestComments_other": "{{compact}} reacties",
+    "requestVotes_one": "{{compact}} stem",
+    "requestVotes_other": "{{compact}} stemmen"
   },
   "report": {
     "whyVideo": "Waarom meld je deze video aan?",
@@ -15336,7 +15351,7 @@
     "93355a336fb2": "Aanbod kon niet worden teruggetrokken",
     "f5d57264900f": "Dank je — die sectie is gemarkeerd voor iedereen",
     "7f7cc5e7783e": "Portemonnee is verbonden maar nog niet klaar om te ondertekenen. Probeer het opnieuw.",
-    "699830e56105": "Portemonneeverbinding onderbroken. Tap **Connect Wallet** om opnieuw te verbinden.",
+    "699830e56105": "Portemonneeverbinding onderbroken. Tap Connect Wallet om opnieuw te verbinden.",
     "0ac2773360a1": "Portemonnee-authenticatie mislukt. Probeer het opnieuw.",
     "511c14feaf85": "Portemonneeherverbinding mislukt. Probeer het opnieuw.",
     "4a9b1d39db85": "Het posten van de baan is mislukt.",
@@ -16945,8 +16960,27 @@
       "spin": "Draaiend prisma",
       "tide": "Getij",
       "ember": "Gloeiende kooltjes",
-      "holo": "Holofolie"
-    }
+      "holo": "Holofolie",
+      "rift": "Kloof",
+      "chrome": "Vloeibaar chroom",
+      "mesh": "Gaas",
+      "grain": "Filmkorrel",
+      "orbit": "Baan",
+      "ripple": "Rimpeling",
+      "dotwave": "Stippengolf",
+      "scan": "CRT",
+      "silk": "Zijde",
+      "bokeh": "Bokeh",
+      "snow": "Sneeuwval",
+      "photo": "Jouw afbeelding"
+    },
+    "yours": "Jouw",
+    "base": "Basis",
+    "accent": "Accent",
+    "accent2": "Accent 2",
+    "ownColours": "Je eigen kleuren",
+    "addPhoto": "Voeg een afbeelding of GIF toe",
+    "changePhoto": "Wijzig afbeelding of GIF"
   },
   "riftnMove": {
     "title": "DeHub heet nu Riftn",
@@ -17145,6 +17179,7 @@
     "notSent": "Versturen mislukt. Probeer het opnieuw."
   },
   "msgSelect": {
+    "deleteForBothBody": "Ze worden voor jullie allebei verwijderd.",
     "toolbar": "Geselecteerde berichten",
     "pick": "Tik op berichten om ze te selecteren",
     "selected": "{{count}} geselecteerd",
@@ -17162,6 +17197,36 @@
     "deleteBody": "Ze worden voor iedereen in deze chat verwijderd.",
     "deleted_one": "{{count}} bericht verwijderd",
     "deleted_other": "{{count}} berichten verwijderd"
+  },
+  "profileImage": {
+    "change": "Wijzigen"
+  },
+  "resetWallet": {
+    "mismatch": "Wachtwoorden komen niet overeen",
+    "tooShort": "Wachtwoord moet minstens {{count}} tekens hebben",
+    "breached": "Dit wachtwoord is in een datalek verschenen. Kies een ander",
+    "weak": "Kies een sterker wachtwoord (combineer letters, cijfers en symbolen)",
+    "doneTitle": "Je account staat op je nieuwe wallet",
+    "twoFactor": "Voer de code uit je authenticator-app in om je account te verplaatsen.",
+    "failed": "Je wallet kon niet worden gereset. Er is niets verplaatst. Probeer het opnieuw.",
+    "title": "Wallet resetten",
+    "reloginApp": "Een reset wordt bewezen met het e-mailadres, telefoonnummer of de Google-login van je account, niet met de oude wallet, omdat iedereen met de oude sleutel ook kan ondertekenen. Log uit, log weer in met die login en kom dan hier terug. Nog geen inlog-e-mail? Voeg er eerst een toe op riftn.com onder Instellingen → Inloggen.",
+    "logOut": "Uitloggen",
+    "intro": "Maakt een nieuwe Riftn-wallet en zet je gebruikersnaam, posts, volgers en berichten daarop over. Gebruik dit als je wallet kwijt is of iemand anders de sleutel heeft. De oude wallet werkt niet meer om in te loggen.",
+    "funds": "Tokens, NFT's en andere saldi worden niet verplaatst. Ze blijven op het oude adres. Kun je de oude wallet nog openen, stuur ze dan eerst weg.",
+    "password": "Nieuw walletwachtwoord (min. {{count}} tekens)",
+    "confirm": "Bevestig wachtwoord",
+    "twoFactorPlaceholder": "Authenticatorcode",
+    "ack": "Ik begrijp dat mijn oude tegoeden in de oude wallet blijven.",
+    "submit": "Wallet resetten",
+    "cancel": "Annuleren",
+    "rowDesc": "Wallet kwijt, of heeft iemand anders de sleutel? Verplaats je account naar een nieuwe wallet. Je gebruikersnaam, posts en volgers gaan mee."
+  },
+  "mentionLinks": {
+    "communities": "Community’s",
+    "pages": "Pagina’s",
+    "people": "Mensen",
+    "linkTo": "{{name}} linken"
   },
   "chatTabs": {
     "addChats": "Chats toevoegen",

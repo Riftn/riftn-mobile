@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Trending this week on Audius. Libreng gamitin, ang artist ay binibigyan ng kredito sa iyong post.",
     "d2e45b7406fc": "Public domain at Creative Commons na musika mula sa Wikimedia Commons. Ang artist ay binibigyan ng kredito sa iyong post.",
     "d0c1a3684775": "Kawikaan ay hindi nag-load. Subukan muli sa sandaling ito.",
-    "d14064f80f52": "Magdagdag ng tunog"
+    "d14064f80f52": "Magdagdag ng tunog",
+    "71988c4d8e08": "Teksto",
+    "147170e793c6": "Malapad",
+    "481859b689b0": "Tignan ang iyong koneksyon at subukan ulit.",
+    "57e2faa5ec63": "Maghanap sa Riftn",
+    "7db20897053b": "Mga tao",
+    "96d7bff86b44": "Hindi ma-load ang paghahanap",
+    "d8b8392e2c54": "Subukan muli"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Mga pahayag",
       "bullets": "Mga talaan ng bulilit",
       "numbers": "Mga talaan ng bilang",
-      "link": "I-link"
+      "link": "I-link",
+      "image": "Magdagdag ng mga larawan"
     }
   },
   "storefront": {
@@ -3150,6 +3158,8 @@
     "feedTogglesCleared": "Na-reset ang mga filter ng feed",
     "defaultProfileTab": "Default na tab ng profile",
     "defaultProfileTabDesc": "Piliin kung aling tab ang unang makikita ng mga bisita sa profile mo",
+    "defaultProfileView": "Ayos ng mga post sa profile",
+    "defaultProfileViewDesc": "Ipakita ang mga post mo bilang grid o listahan kapag binuksan ng iba ang profile mo",
     "defaultPostVisibilityDesc": "Nalalapat sa lahat ng kasalukuyan at hinaharap na mga post",
     "public": "Pampubliko",
     "publicDesc": "Sinuman ay maaaring makita ang iyong mga post",
@@ -3834,7 +3844,11 @@
     "payViaDpay": "Nabayaran sa Riftn Pay, darating ang tokens sa humigit-kumulang 30s",
     "payViaBridgeDpay": "Nailipat sa Base at nabayaran sa Riftn Pay, darating ang tokens sa humigit-kumulang isang minuto",
     "tokensUnit": "token",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "addMessage": "Magdagdag ng mensahe (opsyonal)",
+    "messagePublic": "Pampubliko",
+    "railTitle": "Mga Tip",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "skippableSections": "Mga seksyong madaling laktawan",
@@ -4562,7 +4576,11 @@
       "hereNamed": "Nagpadala ang {{name}} ng mensahe sa lahat sa “{{community}}”"
     },
     "badgeLoanLapsed": "Hindi ka na maaaring magpahiram ng iyong {{tier}} badge kay {{name}}",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "groupNew": "Bago",
+    "groupToday": "Ngayong araw",
+    "groupThisWeek": "Ngayong linggo",
+    "searchClose": "Isara ang paghahanap"
   },
   "leaderboard": {
     "title": "Leaderboard",
@@ -4759,7 +4777,18 @@
     "attachmentTooLarge": "Dapat wala pang 50MB ang bawat file",
     "deleteCommentA11y": "I-delete ang komento",
     "sendCommentA11y": "Magpadala ng komento",
-    "requestOptions": "Mga opsyon sa kahilingan"
+    "requestOptions": "Mga opsyon sa kahilingan",
+    "deviceInfoNoErrors": "Wala",
+    "topBuilders": {
+      "month": "Ngayong buwan",
+      "allTime": "Lahat ng oras",
+      "shipped": "Ipinadala",
+      "votes": "Boto",
+      "comments": "Mga Komento",
+      "showLess": "Magpakita ng mas kaunti",
+      "viewProfile": "Tingnan ang profile",
+      "you": "Ikaw"
+    }
   },
   "auth": {
     "loginRequired": "Kinakailangan ang pag - log in",
@@ -5020,7 +5049,19 @@
       "votes_other": "{{value}} boto",
       "members_one": "{{value}} miyembro",
       "members_other": "{{value}} miyembro"
-    }
+    },
+    "articleShort": "Artikulo",
+    "pinnedShort": "Naka-pin",
+    "post": "I-post",
+    "arrange": {
+      "saving": "Sini-save..."
+    },
+    "reserve": {
+      "signIn": "Mag-sign in"
+    },
+    "tabLikes": "Mga Like",
+    "likesEmptyTitle": "Wala pang like",
+    "likesPrivateTitle": "Pribado ang mga like"
   },
   "tv": {
     "title": "TV",
@@ -5536,6 +5577,9 @@
       "schedule": "Iskedyul",
       "filter": "I-filter ang aktibidad",
       "knowledge": "Sangguniang materyal"
+    },
+    "welcome": {
+      "text": "Mensahe ng pagbati"
     }
   },
   "hero": {
@@ -5617,7 +5661,16 @@
     "nowPublic": "Pampubliko na ang flow",
     "openCanvas": "Buksan ang canvas",
     "playVideo": "I-play ang video",
-    "signInToSee": "Mag-sign in para makita ang mga flow sa iyong account."
+    "signInToSee": "Mag-sign in para makita ang mga flow sa iyong account.",
+    "newNativeFlow": "Bagong flow",
+    "model": "Modelo",
+    "aspectRatio": "Pantay na aspeto",
+    "duration": "Habang panahon sa segundo",
+    "resolution": "Resolusyon",
+    "disconnect": "Huwag magkabit",
+    "payAndRun": "Magbayad at patakbuhin",
+    "run": "Patakbuhin",
+    "handlePrompt": "Mga sulat"
   },
   "loginModal": {
     "title": "Mag-login",
@@ -5937,7 +5990,8 @@
     "searchMenu": "Maghanap sa menu",
     "clearSearch": "I-clear ang paghahanap",
     "noMenuMatches": "Walang tumutugma sa menu",
-    "searchDehubFor": "Maghanap ng \"{{query}}\" sa Riftn"
+    "searchDehubFor": "Maghanap ng \"{{query}}\" sa Riftn",
+    "requestSend": "Ipadala ang hiling"
   },
   "comments": {
     "reportComment": "Mag - ulat ng komento",
@@ -6556,7 +6610,11 @@
       "copied": "Nakopya na ang mensahe",
       "copyText": "Kopyahin ang teksto",
       "mutedUntil": "Naka - mute ka hanggang {{date}}",
-      "slowMode": "Mabagal na mode: isang mensahe kada {{interval}}"
+      "slowMode": "Mabagal na mode: isang mensahe kada {{interval}}",
+      "joined": "{{name}} sumali",
+      "reactions": "Mga Reaksyon",
+      "photoTooLarge": "Dapat mas maliit sa 10MB ang larawan",
+      "aiAdminFailed": "Nabigong tumugon ang AI Admin"
     },
     "manage": {
       "dismissAdminTitle": "I - dismiss ang admin",
@@ -6759,6 +6817,29 @@
       "notFound": "Hindi wasto ang link ng imbitasyon na ito.",
       "requestToJoin": "Hilingin na sumali",
       "approvalNote": "Kailangang aprubahan ng isang admin ang iyong kahilingan bago ka makasali."
+    },
+    "buyAlert": {
+      "spent": "Username:",
+      "buyer": "Username:",
+      "balance": "Balanse:",
+      "price": "Presyo:"
+    },
+    "newChat": {
+      "public": "Pampubliko",
+      "private": "Pribado",
+      "free": "Libre",
+      "paid": "Bayad na",
+      "group": "Pangkatin"
+    },
+    "holderGate": {
+      "chain": "Kadena",
+      "tab": "Ang mga may-ari ng token"
+    },
+    "automod": {
+      "bannedWords": "Mga ipinagbabawal na salita",
+      "floodMax": "Mga mensahe ni {{count}}",
+      "saved": "Nai-save",
+      "wordCount": "{{count}} mga salita"
     }
   },
   "work": {
@@ -7880,7 +7961,10 @@
       "doneAll": "Na-unfollow ang {{done}} account na hindi ka sinusundan pabalik.",
       "doneSome": "Na-unfollow ang {{done}} account. {{failed}} ang hindi na-unfollow.",
       "doneToast": "Na-unfollow ang {{done}} account na hindi ka sinusundan pabalik"
-    }
+    },
+    "followBackConfirm": "Sundang pabalik",
+    "followBackNotNow": "Hindi ngayon",
+    "followBackDone": "Tapos na"
   },
   "reactionInfo": {
     "title": "Mga Reaksyon",
@@ -8800,7 +8884,36 @@
     "fade": "Pagkupas {{value}}%",
     "grayscale": "Grayscale {{value}}%",
     "textSize": "Laki ng teksto {{value}}",
-    "coverFrame": "Gamitin ang frame {{index}} bilang cover"
+    "coverFrame": "Gamitin ang frame {{index}} bilang cover",
+    "altPlaceholderVideo": "Ilarawan ang video na ito",
+    "preview": {
+      "title": "Pagsusuri"
+    },
+    "recent": {
+      "all": "Lahat"
+    },
+    "studio": {
+      "crop": "I-crop",
+      "draw": "Gumuhit",
+      "light": "Maliwanag",
+      "contrast": "Password:",
+      "warmth": "Mainit",
+      "colour": "Kulay",
+      "fade": "I - fade",
+      "original": "Orihinal",
+      "ratioOriginal": "Orihinal",
+      "ratioFree": "Libre",
+      "rotate": "I-rotate",
+      "strength": "Katayuan",
+      "stickers": "Mga Sticker",
+      "textBg": "Paksa",
+      "font": {
+        "bold": "Makapal",
+        "mono": "Bono (paglilinaw)"
+      }
+    },
+    "edited": "Na - edit",
+    "edit": "I-edit"
   },
   "bounty": {
     "claimed": "Nakuha na",
@@ -9094,7 +9207,8 @@
     "justChatting": "Kuwentuhan lang",
     "noLiveStreams": "Walang live stream",
     "noOneStreaming": "Walang nag-i-stream ngayon. Bumalik mamaya!",
-    "loadStreamsFailed": "Hindi ma-load ang mga stream. Subukang muli."
+    "loadStreamsFailed": "Hindi ma-load ang mga stream. Subukang muli.",
+    "liveBadge": "BUHAY"
   },
   "liveShop": {
     "title": "Mamili mula sa stream na ito",
@@ -9407,7 +9521,23 @@
     "planRestricted": "Kailangan ng user na ito ng subscription para makatanggap ng mga mensahe.",
     "planTypeNotAllowed": "Hindi pinapayagan ng plano ng creator na ito ang ganitong uri ng mensahe.",
     "planMinTip": "Ang tip para sa creator na ito ay dapat hindi bababa sa {{amount}} tokens.",
-    "userFallback": "manggagawa"
+    "userFallback": "manggagawa",
+    "newDrawer": {
+      "to": "Hanggang"
+    },
+    "download": "I-download",
+    "deleteOneTitle": "Tanggalin ang mensaheng ito?",
+    "retrySend": "Subukan ulit",
+    "discardSend": "Alisin",
+    "shareKindGroup": "Pangkatin",
+    "shareKindCommunity": "Komunidad",
+    "searchDiscover": {
+      "people": "Mga Tao",
+      "communities": "Mga komunidad",
+      "members": "{{n}} miyembro",
+      "newChat": "Bagong chat",
+      "invite": "Mag-invite"
+    }
   },
   "editPost": {
     "mediaPermission": "Kailangan ng pahintulot sa media library",
@@ -10759,7 +10889,10 @@
       "hint": "Ginagawang naka-time na caption ang pananalita na puwede mong baguhin ang istilo. Tumatakbo sa device mo: libre at pribado. Ida-download ang model sa unang paggamit.",
       "done": "Nagdagdag ng {{count}} caption.",
       "noSpeech": "Walang nakitang pananalita sa clip na ito.",
-      "failed": "Hindi makagawa ng caption para sa clip na ito."
+      "failed": "Hindi makagawa ng caption para sa clip na ito.",
+      "styles": {
+        "bold": "Makapal"
+      }
     },
     "app": {
       "newDesign": "Bagong disenyo",
@@ -10829,7 +10962,8 @@
       "vibrant": "Makulay",
       "cyber": "Cyber",
       "invert": "Baligtad",
-      "strength": "Lakas ng filter:{{value}}%"
+      "strength": "Lakas ng filter:{{value}}%",
+      "vhs": "Video Home Service"
     },
     "layer": {
       "crop": "I-crop",
@@ -11009,7 +11143,9 @@
       "suggestTitle": "Magdagdag ng malaking bold na pamagat sa itaas at mas maliit na subtitle sa ilalim nito",
       "undo": "I-undo",
       "openGenerator": "Suriin at gumawa",
-      "working": "Ginagawa na…"
+      "working": "Ginagawa na…",
+      "stop": "Itigil",
+      "queue": "Idagdag sa queue"
     },
     "brand": {
       "addColor": "Magdagdag ng kulay ng brand",
@@ -11146,7 +11282,9 @@
       "rendering": "Nire-render ang video… {{percent}}%",
       "mp4": "MP4 na video",
       "exportHint": "Panatilihing bukas ang editor habang nire-render ang video mo.",
-      "tooLarge": "Masyadong malaki ang file na iyan para sa editor. Ang limitasyon ay 400 MB."
+      "tooLarge": "Masyadong malaki ang file na iyan para sa editor. Ang limitasyon ay 400 MB.",
+      "tZoomIn": "Mag - zoom in",
+      "tZoomOut": "Mag - zoom out"
     },
     "motion": {
       "title": "Galaw",
@@ -12325,6 +12463,27 @@
       "selection": "Pagpapalawak ng canvas",
       "zoomIn": "Pumapalag ng canvas",
       "zoomOut": "Pumapalag ng canvas"
+    },
+    "stage": {
+      "yaw": "Pag-ikot",
+      "add": "Idagdag",
+      "scale": "Laki",
+      "color": "Kulay",
+      "light": "Maliwanag"
+    },
+    "clipFix": {
+      "listening": "Nakikinig…"
+    },
+    "voiceClone": {
+      "stop": "Itigil ang pag-record",
+      "failed": "Nabigo ang voice cloning."
+    },
+    "linkImport": {
+      "go": "Mag-import",
+      "downloading": "Nagda-download {{percent}}%"
+    },
+    "reverse": {
+      "action": "Balik"
     }
   },
   "creator": {
@@ -12786,7 +12945,29 @@
     "referenceProductName": "Ilagay ang iyong produkto sa isang clip",
     "referenceProductHint": "Palitan ang tampok na produkto at panatilihin ang orihinal na eksena.",
     "referenceComposeName": "Pagsamahin ang mga reference na larawan",
-    "referenceComposeHint": "Dalhin ang mga karakter, bagay at setting mula sa maraming larawan sa isang komposisyon."
+    "referenceComposeHint": "Dalhin ang mga karakter, bagay at setting mula sa maraming larawan sa isang komposisyon.",
+    "marketing": {
+      "import": {
+        "use": "Gamitin ang mga detalyeng ito"
+      }
+    },
+    "batchCount": "Mga Larawan",
+    "endFrame": "Pagtatapos ng frame",
+    "cinema": {
+      "close": "Isara",
+      "performance": {
+        "label": "Pagtatanghal"
+      }
+    },
+    "audioNoSpeech": "Walang sinabi ang natagpuan sa pag-record.",
+    "audioTaskSpeechLabel": "Pagsasalita",
+    "audioTaskDialogueLabel": "parang",
+    "audioTaskSfxLabel": "sound effecta",
+    "audioTaskVoiceChangerLabel": "Tagapalit ng boses",
+    "priceFreeRateLimited": "Libre · nalalapat ang mga limitasyon ng rate",
+    "dialogueFormat": "Isulat ang eksena bilang \"Pangalan: linya\", isang nagsasalita bawat linya.",
+    "fileTooLarge": "Ang file na iyon ay higit sa 100 MB. Gumamit ng mas maikling o mas maliit na isa.",
+    "signInToGenerate": "Mag-sign in upang lumikha."
   },
   "fractions": {
     "title": "Mga bahagi",
@@ -14855,6 +15036,18 @@
       "intro": "Ang mga manonood ay kumikita ng isang puntos para sa bawat minuto na pinapanood ka nila at isa para sa bawat 100 token na kanilang regalo. Ang chat at mga reaksyon ay walang kinikita, kaya hindi maaaring magsaka ang mga puntos.",
       "empty": "Wala pang puntos. Nagtatayo sila habang nanonood at nagbibigay ng regalo ang mga tao.",
       "widgetHint": "Idagdag ang widget na Mga matapat na manonood para maipakita ang listahang ito sa stream."
+    },
+    "destinations": {
+      "label": "Pangalan (opsyonal)",
+      "key": "Susi sa stream",
+      "save": "Idagdag",
+      "cancel": "Kanselahin",
+      "states": {
+        "off": "Naka-off",
+        "idle": "Handa na",
+        "live": "Buhay",
+        "error": "Kahinaan"
+      }
     }
   },
   "liveChatModeration": {
@@ -14960,7 +15153,69 @@
     "collections": "Mga Koleksiyon",
     "days": "{{count}} araw",
     "spotlightNew": "Nagmimintang",
-    "buyFor": "Bumili para sa {{price}}"
+    "buyFor": "Bumili para sa {{price}}",
+    "actAll": "Lahat",
+    "actListings": "Mga listing",
+    "actOffer": "Alok",
+    "actOffers": "Mga alok",
+    "actSales": "Mga benta",
+    "tabActivity": "Aktibidad",
+    "allChains": "Lahat ng chains",
+    "newest": "Pinakabago",
+    "cheapest": "Pinakamababang presyo",
+    "soldFor": "Nabenta",
+    "signIn": "Mag-sign in",
+    "share": "Ibahagi",
+    "noneForSale": "Walang para sa benta pa",
+    "noSales": "Walang benta pa",
+    "tabBrowse": "Tuklasin",
+    "tabMine": "Sa iyo",
+    "tabSales": "Mga benta",
+    "cancelled": "Kinansela",
+    "sold": "Nabenta",
+    "listed": "Inilista para sa benta",
+    "feeRow": "Riftn bayad ({{pct}}%)",
+    "royaltyRow": "Royalty ng creator",
+    "youGet": "Makukuha mo",
+    "holderGets": "Makukuha ng holder",
+    "loading": "Mga pag-uugnay...",
+    "price": "Presyo",
+    "seller": "Nagbebenta",
+    "tabRecent": "Kamakailan",
+    "buyNow": "Bumili ngayon",
+    "offers": "Mga alok",
+    "cancel": "Kanselahin",
+    "accept": "Tanggapin",
+    "signInToTrade": "Mag-sign in upang magtipid",
+    "listForSale": "Ilista para sa benta",
+    "makeOffer": "Gumawa ng alok",
+    "sendOffer": "Magpadala ng alok",
+    "back": "Bumalik",
+    "dropsTo": "Bumaba ang presyo sa {{price}} sa {{date}}",
+    "inBundle": "Ibinenta bilang bundle ng {{n}}",
+    "trending": "Mga trending collection",
+    "listedCount": "{{n}} para sa benta",
+    "thisCollection": "Ang collection na ito",
+    "collectionOffer": "Mag-alok sa anumang",
+    "showAll": "Ipakita lahat",
+    "filters": "Mga Filter",
+    "forSale": "Para sa benta",
+    "openToOffers": "Bukas sa mga alok",
+    "freshMints": "Bago mula sa mga Riftn creators",
+    "offersOpen": "Bukas sa mga alok",
+    "mintedCount": "{{n}} na-mint",
+    "anyInCollection": "Kahit saan sa koleksyon",
+    "thisNft": "Ang NFT na ito",
+    "priceAlert": "Alerto sa presyo",
+    "alertUnder": "Sabihin sa akin kung nakalista sa o sa ilalim ng ({{symbol}}, opsyonal)",
+    "turnOnAlert": "Buksan ang alerto",
+    "alertSaved": "Alert ay naka-on. Sasabihin namin sa iyo kapag nakalista na ang isa.",
+    "priceDrop": "Bumababa ang presyo sa paglipas ng panahon",
+    "endPrice": "Pinakamababang presyo, naaabot sa dulo ({{symbol}})",
+    "dropBadge": "Pagbaba ng Presyo",
+    "days_one": "{{count}} araw",
+    "days_other": "{{count}} araw",
+    "spotlightForSale": "Para sa benta ngayon"
   },
   "riftnMove": {
     "title": "Riftn na ang DeHub",
@@ -14987,7 +15242,11 @@
       "episode": "Episode ng Podcast",
       "show": "Podcast",
       "artist": "Artist"
-    }
+    },
+    "loading": "Mga pag-uugnay...",
+    "paused": "Nagpahinga",
+    "preview": "Pagsusuri",
+    "seek": "Hahanap"
   },
   "twoFactor": {
     "wrongCode": "Hindi tumugma ang code na iyon. Subukan ang pinakabago sa iyong app.",
@@ -15065,5 +15324,239 @@
     "newer": "Mas bagong resulta",
     "gone": "Ang mensaheng iyon ay hindi na narito",
     "theirMessages": "Ang kanilang mga mensahe"
+  },
+  "chatTextSize": {
+    "title": "Kabuuang sukat ng teksto",
+    "default": "Pangkalahatang",
+    "larger": "Mas malaki"
+  },
+  "remix": {
+    "cut": "Gupitin"
+  },
+  "signedFollows": {
+    "setUp": "I-on",
+    "turnOff": "I-off",
+    "efpTurnOff": "Itigil"
+  },
+  "postEditHistory": {
+    "original": "Orihinal"
+  },
+  "studioDeck": {
+    "remove": "Alisin",
+    "background": {
+      "title": "Paksa",
+      "modes": {
+        "none": "Naka-off",
+        "blur": "Paglabo",
+        "color": "Kulay"
+      }
+    },
+    "scenes": {
+      "names": {
+        "starting": "Malapit nang magsimula"
+      }
+    },
+    "widgets": {
+      "tab": "Mga Widget"
+    },
+    "sources": {
+      "image": "Larawan",
+      "show": "Ipakita sa stream",
+      "positions": {
+        "center": "Sentro"
+      },
+      "sizes": {
+        "medium": "Katamtaman"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Ngayong araw",
+    "tooSoon": "Pumili ng oras sa hinaharap.",
+    "show": "Ipakita",
+    "hide": "Itago"
+  },
+  "planned": {
+    "title": "Nakaplano",
+    "all": "Lahat",
+    "posts": "Email *",
+    "stages": "Mga audio room",
+    "post": "I-post",
+    "live": "Buhay",
+    "stage": "Entablado",
+    "untitledPost": "I-post",
+    "untitledLive": "Buhay",
+    "loading": "Naglo-load…",
+    "startNow": "Magsimula ngayon",
+    "cancel": "Kanselahin",
+    "cancelled": "Kinansela"
+  },
+  "welcome": {
+    "about": {
+      "title": "Maligayang pagdating sa Riftn",
+      "day": "Araw",
+      "month": "Buwan",
+      "year": "Taon"
+    },
+    "name": {
+      "title": "Ang iyong pangalan",
+      "placeholder": "Ang iyong pangalan"
+    },
+    "card": {
+      "name": "Ang iyong pangalan",
+      "followers": "mga tagasunod"
+    },
+    "topic": {
+      "music": "Musika",
+      "art": "Sining",
+      "gaming": "Pagsisikatan",
+      "crypto": "Bitcoin",
+      "sports": "Mga Larong Palaro",
+      "film": "Pelikula",
+      "food": "Pagkain",
+      "news": "Balita",
+      "science": "Agham"
+    },
+    "back": "Bumalik",
+    "skipPhoto": "I-skip para sa ngayon",
+    "preview": "Pagsusuri"
+  },
+  "appTokens": {
+    "title": "Ang iyong mga token",
+    "history": "Kasaysayan",
+    "noHistory": "Wala pang aktibidad",
+    "kindDeposit": "Deposito",
+    "to": "Hanggang",
+    "amount": "Halaga",
+    "notePlaceholder": "Magdagdag ng paalala (opsyonal)",
+    "sendButton": "Ipadala",
+    "errorInsufficient": "Walang sapat na tokens"
+  },
+  "avatarPrompt": {
+    "notNow": "Hindi ngayon"
+  },
+  "postStats": {
+    "audience": "Tagapanood",
+    "engagement": "Pakikilahok",
+    "finished": "Tapos na",
+    "members": "Mga Miyembro",
+    "membersLower": "miyembro",
+    "newFollowers": "Mga bagong tagasunod",
+    "noBadge": "Walang badge",
+    "people": "Mga tao",
+    "plays": "Mga Pag - play",
+    "quotes": "Quote",
+    "reposts": "Mga Repost",
+    "saved": "Nai-save",
+    "shares": "Mga Pagbabahagi",
+    "signedOutViewers": "Naka-sign out",
+    "topSupporters": "Mga nangungunang tagasuporta",
+    "visitors": "Naka-sign out"
+  },
+  "duet": {
+    "policyEveryone": "Lahat",
+    "policyFollowers": "Mga tagasunod",
+    "policyNobody": "Wala",
+    "loadMore": "Mag-load pa"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Lahat",
+      "followers": "Mga tagasunod",
+      "nobody": "Wala"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Lahat",
+      "followers": "Mga tagasunod",
+      "nobody": "Wala"
+    },
+    "heading": "mga reaksyon",
+    "more": "Magpakita pa",
+    "liveNow": "Buhay",
+    "untitled": "Reaksyon"
+  },
+  "liveClips": {
+    "copyLink": "Kopyahin ang link",
+    "linkCopied": "Link na kopya"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Plano",
+      "howMany": "Ilang",
+      "who": "Username o wallet address",
+      "cancel": "Kanselahin",
+      "stage": {
+        "preparing": "Nagpe-prepare…",
+        "confirming": "Hinihintay ang transaksyon…",
+        "recording": "Tinatapos…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Iba pa",
+    "confirming": "Kinukumpirma ang pagbabayad..."
+  },
+  "liveShorts": {
+    "live": "BUHAY"
+  },
+  "feedFilters": {
+    "clearAllShort": "Linisin lahat",
+    "done": "Tapos na",
+    "edit": "I-edit",
+    "groupDate": "Petsa",
+    "groupSort": "Ayusin",
+    "groupType": "Uri",
+    "save": "I-save"
+  },
+  "ownKeys": {
+    "working": "Nagtatrabaho",
+    "failed": "Nagkaproblema. Subukan muli.",
+    "check": "Tignan",
+    "remove": "Alisin",
+    "save": "I-save",
+    "cancel": "Kanselahin"
+  },
+  "postBg": {
+    "none": "Wala",
+    "yours": "Sa iyo",
+    "accent": "Aksent",
+    "names": {
+      "lava": "Lava lamp",
+      "chrome": "Likidong Kromo",
+      "snow": "Pagbagsak ng niyebe"
+    }
+  },
+  "articleTile": {
+    "cover": "Takip"
+  },
+  "aiConsent": {
+    "allow": "Payagan"
+  },
+  "dmRequests": {
+    "title": "Kahilingan",
+    "accept": "Tanggapin",
+    "delete": "Tanggalin",
+    "block": "I - block"
+  },
+  "dmSchedule": {
+    "view": "Tingnan",
+    "edit": "I-edit",
+    "editLabel": "I-edit ang mensahe",
+    "error": "Hindi ito gumana. Subukan muli."
+  },
+  "chatBulk": {
+    "selected": "Pagbabago ng {{count}} mga piniling",
+    "cancel": "Kanselahin",
+    "reply": "Tugon",
+    "delete": "Burahin"
+  },
+  "msgSelect": {
+    "selected": "Pagbabago ng {{count}} mga piniling",
+    "copy": "Kopyahin",
+    "forward": "I-forward",
+    "deleted_one": "Inalis ang {{count}} na mensahe",
+    "deleted_other": "Inalis ang {{count}} na mga mensahe"
   }
 }

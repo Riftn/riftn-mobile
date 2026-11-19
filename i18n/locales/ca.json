@@ -2605,7 +2605,13 @@
     "cbade2afaee2": "Tendències d'aquesta setmana a Audius. D'ús gratuït. S'indicarà l'artista a la teva publicació.",
     "d2e45b7406fc": "Música de domini públic i Creative Commons de Wikimedia Commons. L'artista apareixerà acreditat a la teva publicació.",
     "d0c1a3684775": "No s'han carregat les cançons. Torna-ho a provar d'aquí a un moment.",
-    "d14064f80f52": "Afegeix so"
+    "d14064f80f52": "Afegeix so",
+    "147170e793c6": "Àmplia",
+    "481859b689b0": "Comprova la teva connexió i torna a intentar-ho.",
+    "57e2faa5ec63": "Cerca a Riftn",
+    "7db20897053b": "Persones",
+    "96d7bff86b44": "No s'ha pogut carregar la cerca",
+    "d8b8392e2c54": "Prova-ho de nou"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2861,8 @@
       "quote": "Cita",
       "bullets": "Llista de punts",
       "numbers": "Llista numerada",
-      "link": "Enllaç"
+      "link": "Enllaç",
+      "image": "Afegir imatges"
     }
   },
   "storefront": {
@@ -3150,6 +3157,8 @@
     "feedTogglesCleared": "Filtres del feed restablerts",
     "defaultProfileTab": "Pestanya de perfil per defecte",
     "defaultProfileTabDesc": "Tria quina pestanya veuen primer els visitants al teu perfil",
+    "defaultProfileView": "Disposició de les publicacions del perfil",
+    "defaultProfileViewDesc": "Mostra les teves publicacions en graella o en llista quan algú obri el teu perfil",
     "defaultPostVisibilityDesc": "S'aplica a totes les publicacions actuals i futures",
     "public": "Públic",
     "publicDesc": "Qualsevol pot veure les teves publicacions",
@@ -3793,7 +3802,11 @@
     "payViaDpay": "Pagat a Riftn Pay, els tokens arriben en uns 30s",
     "payViaBridgeDpay": "Mogut a Base i pagat a Riftn Pay, els tokens arriben en aproximadament un minut",
     "tokensUnit": "fitxes",
-    "tokenAmount": "{{amount}} fitxes"
+    "tokenAmount": "{{amount}} fitxes",
+    "addMessage": "Afegeix un missatge (opcional)",
+    "messagePublic": "Públic",
+    "railTitle": "Consells",
+    "railTotal": "{{amount}} fitxes"
   },
   "postOptions": {
     "skippableSections": "Seccions que es poden saltar",
@@ -4521,7 +4534,11 @@
       "here": "{{name}} ha enviat un missatge a tothom de la comunitat",
       "hereNamed": "{{name}}ha enviat un missatge a tothom a “{{community}}”"
     },
-    "tokenAmount": "{{amount}} fitxes"
+    "tokenAmount": "{{amount}} fitxes",
+    "groupNew": "Nou",
+    "groupToday": "Avui",
+    "groupThisWeek": "Aquesta setmana",
+    "searchClose": "Tanca la cerca"
   },
   "leaderboard": {
     "title": "Classificació",
@@ -4713,7 +4730,18 @@
     "attachmentTooLarge": "Cada fitxer ha de pesar menys de 50 MB",
     "deleteCommentA11y": "Suprimeix el comentari",
     "sendCommentA11y": "Enviar comentari",
-    "requestOptions": "Opcions de sol·licitud"
+    "requestOptions": "Opcions de sol·licitud",
+    "deviceInfoNoErrors": "Cap",
+    "topBuilders": {
+      "month": "Aquest mes",
+      "allTime": "Tota la història",
+      "shipped": "Lliurat",
+      "votes": "Vots",
+      "comments": "Comentaris",
+      "showLess": "Mostra'n menys",
+      "viewProfile": "Mostra el perfil",
+      "you": "Tu"
+    }
   },
   "auth": {
     "loginRequired": "Cal iniciar sessió",
@@ -4974,7 +5002,19 @@
       "votes_other": "{{value}} vots",
       "members_one": "{{value}} membre",
       "members_other": "{{value}} membres"
-    }
+    },
+    "articleMinRead": "{{count}} min llegeix",
+    "pinnedShort": "Fixat",
+    "post": "Publicació",
+    "arrange": {
+      "saving": "Desant..."
+    },
+    "reserve": {
+      "signIn": "Inicia sessió"
+    },
+    "tabLikes": "M'agrada",
+    "likesEmptyTitle": "Encara no hi ha m'agrada",
+    "likesPrivateTitle": "Els m'agrada són privats"
   },
   "tv": {
     "title": "TV",
@@ -5490,6 +5530,9 @@
       "action": "Acció",
       "schedule": "Programa",
       "filter": "Filtra l'activitat"
+    },
+    "welcome": {
+      "text": "Missatge de benvinguda"
     }
   },
   "hero": {
@@ -5571,7 +5614,15 @@
     "nowPublic": "El flux ara és públic",
     "openCanvas": "Obre el llenç",
     "playVideo": "Reprodueix el vídeo",
-    "signInToSee": "Inicia sessió per veure els fluxos del teu compte."
+    "signInToSee": "Inicia sessió per veure els fluxos del teu compte.",
+    "newNativeFlow": "Nou flux",
+    "aspectRatio": "Relació d'aspecte",
+    "duration": "Duració en segons",
+    "resolution": "Resolució",
+    "disconnect": "Desconnecta",
+    "payAndRun": "Pagar i executar",
+    "run": "Executar",
+    "handlePrompt": "Demana"
   },
   "loginModal": {
     "title": "Iniciar sessió",
@@ -5891,7 +5942,8 @@
     "searchMenu": "Cerca al menú",
     "clearSearch": "Neteja la cerca",
     "noMenuMatches": "Res del menú no coincideix",
-    "searchDehubFor": "Cerca «{{query}}» a Riftn"
+    "searchDehubFor": "Cerca «{{query}}» a Riftn",
+    "requestSend": "Envia la sol·licitud"
   },
   "comments": {
     "reportComment": "Denuncia el comentari",
@@ -6510,7 +6562,11 @@
       "copied": "Missatge copiat",
       "copyText": "Copia el text",
       "mutedUntil": "Estàs silenciós fins a {{date}}",
-      "slowMode": "Mode lent: un missatge cada {{interval}}"
+      "slowMode": "Mode lent: un missatge cada {{interval}}",
+      "joined": "{{name}} s'ha unit",
+      "reactions": "Reaccions",
+      "photoTooLarge": "La imatge ha de ser inferior a 10MB",
+      "aiAdminFailed": "L'AI Admin no ha respondut"
     },
     "manage": {
       "dismissAdminTitle": "Ignora administrador",
@@ -6713,6 +6769,30 @@
       "notFound": "Aquest enllaç d'invitació no és vàlid.",
       "requestToJoin": "Sol·licita unir-te",
       "approvalNote": "Un administrador ha d'aprovar la teva sol·licitud abans que puguis unir-te."
+    },
+    "buyAlert": {
+      "spent": "Gastat:",
+      "buyer": "Comprador:",
+      "balance": "Saldo:",
+      "price": "Preu:",
+      "marketCap": "Capitalizació de mercat:"
+    },
+    "newChat": {
+      "public": "Públic",
+      "private": "Privat",
+      "free": "Gratis",
+      "paid": "Pagat",
+      "group": "Agrupar"
+    },
+    "holderGate": {
+      "chain": "Cadena",
+      "tab": "Titulars"
+    },
+    "automod": {
+      "bannedWords": "Paraules bandejades",
+      "floodMax": "{{count}} missatges",
+      "saved": "Desat",
+      "wordCount": "{{count}} paraules"
     }
   },
   "work": {
@@ -7834,7 +7914,10 @@
       "doneAll": "Has deixat de seguir {{done}} comptes que no et seguien.",
       "doneSome": "S'han deixat de seguir {{done}} comptes. No s'ha pogut deixar de seguir {{failed}}.",
       "doneToast": "Els comptes {{done}} que han deixat de seguir-te no et segueixen"
-    }
+    },
+    "followBackConfirm": "Seguir de tornada",
+    "followBackNotNow": "Ara no",
+    "followBackDone": "Fet"
   },
   "reactionInfo": {
     "title": "Reaccions",
@@ -8754,7 +8837,32 @@
     "coverFrames": "Escollir una capçalera",
     "coverFrame": "Utilitzar la capçalera {{index}} com a capçalera",
     "uploadCover": "Carregar una imatge de capçalera",
-    "editFailed": "No s'ha pogut aplicar aquesta edició. Prova-ho de nou."
+    "editFailed": "No s'ha pogut aplicar aquesta edició. Prova-ho de nou.",
+    "altPlaceholderVideo": "Descriu aquest vídeo",
+    "preview": {
+      "title": "Previsualització"
+    },
+    "recent": {
+      "all": "Tots"
+    },
+    "studio": {
+      "crop": "Retalla",
+      "draw": "Dibuixa",
+      "light": "Clar",
+      "warmth": "Calidesa",
+      "colour": "Color",
+      "fade": "Esvaeix",
+      "ratioFree": "Gratis",
+      "rotate": "Girar",
+      "strength": "Força",
+      "stickers": "Adhesius",
+      "textBg": "Fons",
+      "font": {
+        "bold": "Negreta"
+      }
+    },
+    "edited": "Editat",
+    "edit": "Editar"
   },
   "bounty": {
     "claimed": "Reclamat",
@@ -9048,7 +9156,8 @@
     "justChatting": "Només xerrar",
     "noLiveStreams": "No hi ha directes",
     "noOneStreaming": "Ara ningú no emet. Torna-hi més tard!",
-    "loadStreamsFailed": "No s'han pogut carregar els directes. Torna-ho a provar."
+    "loadStreamsFailed": "No s'han pogut carregar els directes. Torna-ho a provar.",
+    "liveBadge": "EN DIRECTE"
   },
   "liveShop": {
     "title": "Compra en aquesta emissió",
@@ -9361,7 +9470,23 @@
     "paymentSentWith": "Enviat amb {{amount}}",
     "planRestricted": "Aquest usuari requereix una subscripció per rebre missatges.",
     "planTypeNotAllowed": "El pla d'aquest creador no permet aquest tipus de missatge.",
-    "planMinTip": "La propina ha de ser d'almenys {{amount}} tokens per a aquest creador."
+    "planMinTip": "La propina ha de ser d'almenys {{amount}} tokens per a aquest creador.",
+    "newDrawer": {
+      "to": "A"
+    },
+    "download": "Descarregar",
+    "deleteOneTitle": "Vols eliminar aquest missatge?",
+    "retrySend": "Torna-ho a provar",
+    "discardSend": "Treu",
+    "shareKindGroup": "Agrupar",
+    "shareKindCommunity": "Comunitat",
+    "searchDiscover": {
+      "people": "Persones",
+      "communities": "Comunitats",
+      "members": "Membres de {{n}}",
+      "newChat": "Xat nou",
+      "invite": "Convida"
+    }
   },
   "editPost": {
     "mediaPermission": "Cal permís per a la biblioteca multimèdia",
@@ -10579,7 +10704,10 @@
       "hint": "Converteix la veu en subtítols sincronitzats que pots personalitzar. Funciona al teu dispositiu: gratuït i privat. El primer ús descarrega el model.",
       "done": "S'han afegit {{count}} subtítols.",
       "noSpeech": "No s'ha trobat veu en aquest clip.",
-      "failed": "No s'han pogut crear subtítols per a aquest clip."
+      "failed": "No s'han pogut crear subtítols per a aquest clip.",
+      "styles": {
+        "bold": "Negreta"
+      }
     },
     "app": {
       "newDesign": "Disseny nou",
@@ -10829,7 +10957,9 @@
       "suggestTitle": "Afegeix un títol gran i en negreta a dalt i un subtítol més petit a sota",
       "undo": "Desfés",
       "openGenerator": "Revisa i genera",
-      "working": "Hi estic treballant…"
+      "working": "Hi estic treballant…",
+      "stop": "Aturar",
+      "queue": "Afegir a la cua"
     },
     "brand": {
       "addColor": "Afegeix un color de marca",
@@ -10966,7 +11096,9 @@
       "rendering": "Renderitzant el vídeo… {{percent}}%",
       "mp4": "Vídeo MP4",
       "exportHint": "Mantén l'editor obert mentre es renderitza el vídeo.",
-      "tooLarge": "Aquest fitxer és massa gran per a l'editor. El límit és de 400 MB."
+      "tooLarge": "Aquest fitxer és massa gran per a l'editor. El límit és de 400 MB.",
+      "tZoomIn": "Amplia",
+      "tZoomOut": "Allunyar"
     },
     "motion": {
       "title": "Moviment",
@@ -12145,6 +12277,27 @@
       "selection": "Selecció",
       "zoomIn": "Apropa el llenç",
       "zoomOut": "Allunya el llenç"
+    },
+    "stage": {
+      "camera": "Càmera",
+      "yaw": "Rotació",
+      "add": "Afegir",
+      "scale": "Mida",
+      "light": "Clar"
+    },
+    "clipFix": {
+      "listening": "Escoltant…"
+    },
+    "voiceClone": {
+      "stop": "Aturar gravació",
+      "failed": "La clonació de veu ha fallat."
+    },
+    "linkImport": {
+      "go": "Importar",
+      "downloading": "Descarregant {{percent}}%"
+    },
+    "reverse": {
+      "action": "Inverteix"
     }
   },
   "creator": {
@@ -12606,7 +12759,32 @@
     "referenceProductName": "Col·loca el teu producte en un clip",
     "referenceProductHint": "Sustituïx el producte destacat i preserva la escena original.",
     "referenceComposeName": "Combina imatges de referència",
-    "referenceComposeHint": "Porta caràcters, objectes i escenaris de múltiples imatges a una sola composició."
+    "referenceComposeHint": "Porta caràcters, objectes i escenaris de múltiples imatges a una sola composició.",
+    "marketing": {
+      "import": {
+        "use": "Utilitza aquesta informació"
+      }
+    },
+    "batchCount": "Imatges",
+    "endFrame": "Fotograma final",
+    "cinema": {
+      "close": "Tancar",
+      "performance": {
+        "label": "Rendiment"
+      }
+    },
+    "audioNoSpeech": "No s'ha trobat cap discurs en aquesta gravació.",
+    "audioTaskSpeechLabel": "veu",
+    "audioTaskDialogueLabel": "Dialogar",
+    "audioTaskSfxLabel": "Efecte de so",
+    "audioTaskVoiceChangerLabel": "Canviador de veu",
+    "audioTaskTranscribeLabel": "Transcriure",
+    "audioTaskIsolateLabel": "Netejar",
+    "priceFreeRateLimited": "S'apliquen límits de tarifa gratuïta",
+    "loop": "Bucle",
+    "dialogueFormat": "Escriu l'escena com a \"Nom: línia\", un parlant per línia.",
+    "fileTooLarge": "Aquest fitxer supera els 100 MB. Utilitza un més curt o més petit.",
+    "signInToGenerate": "Inicia sessió per generar."
   },
   "fractions": {
     "title": "Fraccions",
@@ -14675,6 +14853,18 @@
       "intro": "Els espectadors guanyen un punt per cada minut que et miren i un per cada 100 fitxes que regalen. El xat i les reaccions no guanyen res, de manera que no es poden acumular punts.",
       "empty": "Encara no hi ha punts. S'acumulen a mesura que la gent observa i regala.",
       "widgetHint": "Afegeix el giny Visualitzadors lleials per mostrar aquesta llista a la transmissió."
+    },
+    "destinations": {
+      "platform": "Plataforma",
+      "label": "Nom (opcional)",
+      "key": "Clau de transmissió",
+      "save": "Afegir",
+      "cancel": "Cancel·lar",
+      "states": {
+        "off": "Desactivat",
+        "idle": "A punt",
+        "live": "En directe"
+      }
     }
   },
   "liveChatModeration": {
@@ -14777,7 +14967,72 @@
     "days": "{{count}} dies",
     "spotlightForSale": "En venda ara",
     "spotlightNew": "Acabament mintat",
-    "buyFor": "Compra per {{price}}"
+    "buyFor": "Compra per {{price}}",
+    "actAll": "Tots",
+    "actListings": "Anuncis",
+    "actOffer": "Oferta",
+    "actOffers": "Ofertes",
+    "actSales": "Vendes",
+    "tabActivity": "Activitat",
+    "allChains": "Totes les cadenes",
+    "newest": "Més recent",
+    "cheapest": "Preu més baix",
+    "soldFor": "Venut",
+    "signIn": "Inicia sessió",
+    "title": "NFTS",
+    "share": "Comparteix",
+    "noneForSale": "Res en venda encara",
+    "noSales": "Encara no hi ha vendes",
+    "tabBrowse": "Explora",
+    "tabMine": "Els teus",
+    "tabSales": "Vendes",
+    "cancelled": "Cancel·lat",
+    "sold": "Venut",
+    "listed": "Anunciada a la venda",
+    "feeRow": "Comissió Riftn ({{pct}}%)",
+    "royaltyRow": "Royalties del creador",
+    "youGet": "Tu reus",
+    "holderGets": "El titular reus",
+    "loading": "Carregant…",
+    "price": "Preu",
+    "seller": "Venedor",
+    "tabRecent": "Recents",
+    "buyNow": "Compra ara",
+    "offers": "Ofertes",
+    "cancel": "Cancel·la",
+    "accept": "Accepta",
+    "signInToTrade": "Inicia sessió per negociar",
+    "listForSale": "Llista per vendre",
+    "makeOffer": "Fes una oferta",
+    "sendOffer": "Envia oferta",
+    "back": "Enrere",
+    "dropsTo": "El preu baixa a {{price}} per {{date}}",
+    "inBundle": "Venut com a paquet de {{n}}",
+    "trending": "Col·leccions de moda",
+    "floor": "Pis",
+    "listedCount": "{{n}} en venda",
+    "thisCollection": "Aquesta col·lecció",
+    "collectionOffer": "Oferta en qualsevol",
+    "showAll": "Mostra-ho tot",
+    "shortTitle": "NFTS",
+    "filters": "Filtres",
+    "forSale": "En venda",
+    "openToOffers": "Obert a ofertes",
+    "freshMints": "Fresc dels creadors de Riftn",
+    "offersOpen": "Obert a ofertes",
+    "mintedCount": "{{n}} encunyat",
+    "anyInCollection": "Qualsevol a la col·lecció",
+    "thisNft": "Aquesta NFT",
+    "priceAlert": "Alerta de preu",
+    "alertUnder": "Digues-me quan es llista a o sota ({{symbol}}, opcional)",
+    "turnOnAlert": "Activa l'alerta",
+    "alertSaved": "Alerta activada. Et direm quan es llisten.",
+    "priceDrop": "Preus que baixen amb el temps",
+    "endPrice": "Preu més baix, aconseguit al final ({{symbol}})",
+    "bundleBadge": "Feix ×{{n}}",
+    "dropBadge": "Baixa de preu",
+    "days_one": "{{count}} dia",
+    "days_other": "{{count}} dies"
   },
   "reel": {
     "readAll": "Llegir-ho tot",
@@ -14885,5 +15140,241 @@
     "newer": "Resultat més recent",
     "gone": "Aquest missatge ja no hi és",
     "theirMessages": "Els seus missatges"
+  },
+  "chatTextSize": {
+    "title": "Mida del text",
+    "default": "Per defecte",
+    "larger": "Més gran"
+  },
+  "remix": {
+    "cut": "Retalla"
+  },
+  "signedFollows": {
+    "setUp": "Activa",
+    "turnOff": "Desactiva",
+    "efpTurnOff": "Aturar"
+  },
+  "studioDeck": {
+    "remove": "Treu",
+    "background": {
+      "title": "Fons",
+      "modes": {
+        "none": "Desactivat",
+        "blur": "Difuminat",
+        "color": "Color"
+      }
+    },
+    "scenes": {
+      "countdown": "Compte enrere",
+      "names": {
+        "starting": "Comença aviat"
+      }
+    },
+    "widgets": {
+      "tab": "Ginys"
+    },
+    "sources": {
+      "image": "Imatge",
+      "show": "Mostra a la transmissió",
+      "sizes": {
+        "medium": "Mitjana"
+      }
+    },
+    "phone": {
+      "title": "Estudi"
+    }
+  },
+  "whenSheet": {
+    "today": "Avui",
+    "tooSoon": "Tria una hora en el futur.",
+    "show": "Mostra",
+    "hide": "Amaga"
+  },
+  "planned": {
+    "title": "Planificat",
+    "all": "Tots",
+    "posts": "Publicacions",
+    "stages": "Sales d'àudio",
+    "post": "Publicació",
+    "live": "En directe",
+    "stage": "Escenari",
+    "untitledPost": "Publicació",
+    "untitledLive": "En directe",
+    "loading": "S'està carregant...",
+    "startNow": "Comença ara",
+    "cancel": "Cancel·lar",
+    "cancelled": "Cancel·lada"
+  },
+  "welcome": {
+    "about": {
+      "title": "Benvingut a Riftn",
+      "day": "Dia",
+      "month": "Mes",
+      "year": "Any"
+    },
+    "name": {
+      "title": "El teu nom",
+      "placeholder": "El teu nom"
+    },
+    "card": {
+      "name": "El teu nom",
+      "followers": "seguidors"
+    },
+    "topic": {
+      "music": "Música",
+      "gaming": "Jocs",
+      "crypto": "Cripto",
+      "sports": "Esports",
+      "comedy": "Comèdia",
+      "film": "Pel·lícula",
+      "food": "Alimentació",
+      "news": "Notícies",
+      "science": "Ciències"
+    },
+    "back": "Enrere",
+    "skipPhoto": "Omet ara",
+    "preview": "Previsualització"
+  },
+  "appTokens": {
+    "title": "Els teus tokens",
+    "history": "Historial",
+    "noHistory": "Encara no hi ha activitat",
+    "kindDeposit": "Dipositar",
+    "to": "A",
+    "amount": "Quantitat",
+    "notePlaceholder": "Afegeix una nota (opcional)",
+    "sendButton": "Enviar",
+    "errorInsufficient": "Tokens insuficients"
+  },
+  "avatarPrompt": {
+    "notNow": "Ara no"
+  },
+  "postStats": {
+    "audience": "Audiència",
+    "engagement": "Interacció",
+    "finished": "Finalitzat",
+    "members": "Membres",
+    "membersLower": "membres",
+    "newFollowers": "Nous seguidors",
+    "noBadge": "Sense distintiu",
+    "people": "Persones",
+    "plays": "Jocs",
+    "quotes": "cites",
+    "reposts": "Republicacions",
+    "saved": "Desat",
+    "shares": "Compartits",
+    "signedOutViewers": "Sessió tancada",
+    "topSupporters": "Els millors seguidors",
+    "visitors": "Sessió tancada"
+  },
+  "duet": {
+    "policyEveryone": "Tothom",
+    "policyFollowers": "Seguidors",
+    "policyNobody": "Ningú",
+    "loadMore": "Carregar més",
+    "video": "Vídeo"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Tothom",
+      "followers": "Seguidors",
+      "nobody": "Ningú"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Tothom",
+      "followers": "Seguidors",
+      "nobody": "Ningú"
+    },
+    "heading": "Reaccions",
+    "more": "Mostra més",
+    "liveNow": "En directe",
+    "untitled": "Reacció"
+  },
+  "liveClips": {
+    "copyLink": "Copia l'enllaç",
+    "linkCopied": "Enllaç copiat"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Pla",
+      "howMany": "Quants",
+      "who": "Nom d'usuari o adreça de la cartera",
+      "whoPlaceholder": "@nomusuari",
+      "cancel": "Cancel·lar",
+      "stage": {
+        "preparing": "Preparant…",
+        "confirming": "S'està esperant la transacció…",
+        "recording": "S'està finalitzant…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Altre",
+    "confirming": "S'està confirmant el pagament..."
+  },
+  "liveShorts": {
+    "live": "EN DIRECTE"
+  },
+  "feedFilters": {
+    "clearAllShort": "Esborrar tot",
+    "done": "Fet",
+    "edit": "Editar",
+    "groupDate": "Data",
+    "groupSort": "Ordenar",
+    "groupType": "Tipus",
+    "save": "Desa"
+  },
+  "ownKeys": {
+    "working": "En curs",
+    "failed": "S'ha produït un error. Torna-ho a provar",
+    "check": "Verifica",
+    "remove": "Treu",
+    "save": "Desa",
+    "cancel": "Cancel·la"
+  },
+  "postBg": {
+    "none": "Cap",
+    "yours": "Els teus",
+    "accent": "Acents",
+    "names": {
+      "lava": "Llum de lava",
+      "drive": "Un cotxe de nit",
+      "chrome": "Crom líquid",
+      "orbit": "Òrbita",
+      "snow": "Nevada"
+    }
+  },
+  "articleTile": {
+    "cover": "Portada"
+  },
+  "aiConsent": {
+    "allow": "Permet"
+  },
+  "dmRequests": {
+    "title": "Sol·licituds",
+    "accept": "Accepta",
+    "delete": "Eliminar",
+    "block": "Bloca"
+  },
+  "dmSchedule": {
+    "view": "Veure",
+    "edit": "Editar",
+    "editLabel": "Editar missatge",
+    "error": "No ha funcionat. Torna-ho a provar."
+  },
+  "chatBulk": {
+    "selected": "{{count}} seleccionat",
+    "cancel": "Cancel·la",
+    "reply": "Resposta",
+    "delete": "Eliminar"
+  },
+  "msgSelect": {
+    "selected": "{{count}} seleccionat",
+    "copy": "Copia",
+    "forward": "Reenvia",
+    "deleted_one": "Esborrat {{count}} missatge",
+    "deleted_other": "Esborrats {{count}} missatges"
   }
 }

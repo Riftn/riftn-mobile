@@ -8,11 +8,13 @@ import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import { appLocale } from "../../libs/date.util";
 import { parseWhen } from "../../libs/parseWhen";
+import { localWhenPlaceholder, toEnglishWhen } from "../../libs/localWhen";
 import { bestTime, toLocalGrid } from "../../libs/fansOnline";
 import { getFansOnline } from "../../services/scheduled.service";
 import { UserContext } from "../../context/AuthContext";
 import { KitButton, useKitColors } from "../page/PageKit";
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from "../../hooks/useSearchFieldMaterial";
+import TimeWheel from "./TimeWheel";
 
 export type ScheduleKind = "post" | "live" | "stage" | "message";
 
@@ -90,7 +92,8 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
   const selectedAt = atMinutes(day, minutes);
   const validTime = selectedAt.getTime() > earliest;
 
-  const parsed = useMemo(() => (typed.trim() ? parseWhen(typed) : null), [typed]);
+  // Typed in the reader's own language ("cuma 20:00", "2 saat sonra") as well as English.
+  const parsed = useMemo(() => (typed.trim() ? parseWhen(typed) ?? parseWhen(toEnglishWhen(typed, locale ?? "en")) : null), [typed, locale]);
   useEffect(() => {
     if (!parsed) return;
     setDay(startOfDay(parsed.at));
@@ -144,8 +147,11 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
     setMinutes(at.getHours() * 60 + at.getMinutes());
     setTyped("");
   };
-  const step = (delta: number) => choose(atMinutes(day, minutes + delta));
-  const stepBy = kind === "message" ? 5 : STEP;
+  // The wheels move the time within the picked day.
+  const pickClock = (total: number) => {
+    setMinutes(total);
+    setTyped("");
+  };
 
   const handleConfirm = () => {
     if (!validTime) return;
@@ -184,7 +190,7 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
             onChangeText={setTyped}
             onFocus={field.onFocus}
             onBlur={field.onBlur}
-            placeholder={t("whenSheet.typePlaceholder", { defaultValue: 'Type a time, like "fri 8pm" or "in 2 hours"' })}
+            placeholder={localWhenPlaceholder(t("whenSheet.typePlaceholder", { defaultValue: 'Type a time, like "fri 8pm" or "in 2 hours"' }), locale ?? "en")}
             placeholderTextColor="rgba(255,255,255,0.45)"
             accessibilityLabel={t("whenSheet.typeLabel", { defaultValue: "Type a time" })}
             style={[styles.typeInput, SEARCH_INPUT_CLEAR]}
@@ -309,15 +315,8 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
           })}
         </ScrollView>
 
-        <View style={styles.timeRow}>
-          <Pressable onPress={() => step(-stepBy)} accessibilityRole="button" accessibilityLabel={kind === "message" ? t("whenSheet.earlierShort", { defaultValue: "Earlier" }) : t("whenSheet.earlier", { defaultValue: "15 minutes earlier" })} hitSlop={6}>
-            <View style={[styles.stepper, { backgroundColor: c.chipBg, borderColor: c.hairline }]}><Icon name="Minus" size={16} color="#FFFFFF" /></View>
-          </Pressable>
-          <Text style={styles.time}>{timeLabel(selectedAt)}</Text>
-          <Pressable onPress={() => step(stepBy)} accessibilityRole="button" accessibilityLabel={kind === "message" ? t("whenSheet.laterShort", { defaultValue: "Later" }) : t("whenSheet.later", { defaultValue: "15 minutes later" })} hitSlop={6}>
-            <View style={[styles.stepper, { backgroundColor: c.chipBg, borderColor: c.hairline }]}><Icon name="Plus" size={16} color="#FFFFFF" /></View>
-          </Pressable>
-        </View>
+        {/* Spin the hour and the minutes, like the iPhone clock. */}
+        <TimeWheel minutes={minutes} onChange={pickClock} locale={locale ?? undefined} />
 
         {!validTime ? (
           <Text accessibilityRole="alert" style={[styles.note, { color: "#FBBF24" }]}>
@@ -379,9 +378,6 @@ const styles = StyleSheet.create({
   dayNum: { color: "#FFFFFF", fontSize: 18, fontWeight: "600" },
   dayNumActive: { fontWeight: "800" },
   beam: { position: "absolute", bottom: 2, left: "30%", right: "30%", height: 3, borderRadius: 3, backgroundColor: "#fff", shadowColor: "#fff", shadowOpacity: 0.9, shadowRadius: 6, shadowOffset: { width: 0, height: 0 } },
-  timeRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 20 },
-  stepper: { width: 40, height: 40, borderRadius: 20, borderWidth: 1, alignItems: "center", justifyContent: "center" },
-  time: { color: "#FFFFFF", fontSize: 28, fontWeight: "800", minWidth: 124, textAlign: "center", fontVariant: ["tabular-nums"] },
   note: { color: "rgba(255,255,255,0.6)", fontSize: 12, textAlign: "center", marginTop: -6 },
   actions: { gap: 8, marginTop: 4 },
   fansToggle: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 4 },

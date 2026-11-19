@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "د اوډیوس په دې اونۍ کې ترند. وړیا کارول، هنرمند ستاسو پوسټ کې کریډیټ ترلاسه کوي.",
     "d2e45b7406fc": "د ویکیمیډیا کامنز څخه د عامه ډومین او کرییټیو کامنز موسیقي. هنرمند ستاسو پوسټ کې کریډیټ ترلاسه کوي.",
     "d0c1a3684775": "سینګونه نه دي بار شوي. یو لحظه وروسته بیا هڅه وکړئ.",
-    "d14064f80f52": "غږ اضافه کړئ"
+    "d14064f80f52": "غږ اضافه کړئ",
+    "71988c4d8e08": "متن په نه په",
+    "147170e793c6": "په پراخه کچه",
+    "481859b689b0": "خپل اتصال وګورئ او بیا هڅه وکړئ.",
+    "57e2faa5ec63": "په Riftn کې ولټوئ",
+    "7db20897053b": "د خلکو په اړه",
+    "96d7bff86b44": "د لټون بار نشو بارول",
+    "d8b8392e2c54": "بیا هڅه وکړئ"
   },
   "dehubLinks": {
     "kind": {
@@ -2680,7 +2687,8 @@
       "location": "مکان",
       "custom": "خپل ډول",
       "customOption": "خپل نوم"
-    }
+    },
+    "descriptionPresets": "یوه ویب پا، ه، ضمیمه یا کوم بل څه اضافه کړئ. ستاسو د ټولنیزو رسنیو چینلونو سره لینکونه شریک کړئ."
   },
   "notificationFilters": {
     "title": "له دې خلکو خبرتیاوې فلټر کړئ",
@@ -2851,7 +2859,8 @@
       "quote": "په نقل قول کې",
       "bullets": "د شاتو مچۍ",
       "numbers": "د شمېرنې لیست",
-      "link": "په لینک کې"
+      "link": "په لینک کې",
+      "image": "انځورونه اضافه کړئ"
     }
   },
   "storefront": {
@@ -3779,7 +3788,11 @@
     "payViaDpay": "Riftn Pay ته تادیه شوي، ټوکنونه په شاوخوا 30s کې رسیږي",
     "payViaBridgeDpay": "بیس ته لیږدول شوي او Riftn Pay ته تادیه شوي، ټوکنونه په شاوخوا یوه دقیقه کې رسیږي",
     "tokensUnit": "ټوکنونه",
-    "tokenAmount": "{{amount}} ټوکنونه"
+    "tokenAmount": "{{amount}} ټوکنونه",
+    "addMessage": "یو پیغام اضافه کړئ (اختیاري)",
+    "messagePublic": "عامه",
+    "railTitle": "ټیپس",
+    "railTotal": "{{amount}} ټوکنونه"
   },
   "postOptions": {
     "skippableSections": "د سکریپ وړ وړ برخې",
@@ -4501,7 +4514,11 @@
       "here": "{{name}} په ټولنه کې هر چا ته پیغام واستوه",
       "hereNamed": "{{name}} په \"{{community}}\" کې هر چا ته پیغام واستوه"
     },
-    "tokenAmount": "{{amount}} ټوکنونه"
+    "tokenAmount": "{{amount}} ټوکنونه",
+    "groupNew": "نوی",
+    "groupToday": "نن",
+    "groupThisWeek": "دا اونۍ",
+    "searchClose": "نږدې پلټنه وکړئ"
   },
   "leaderboard": {
     "title": "لیډربورډونه",
@@ -4693,7 +4710,18 @@
     "attachmentTooLarge": "هره فایل باید له 50MB څخه کم وي",
     "deleteCommentA11y": "د نظرونو لرې کول",
     "sendCommentA11y": "نظرات ياداشت په نه په",
-    "requestOptions": "د غوښتنې انتخابونه"
+    "requestOptions": "د غوښتنې انتخابونه",
+    "deviceInfoNoErrors": "هیڅ نه",
+    "topBuilders": {
+      "month": "دا میاشت",
+      "allTime": "همه وختونه",
+      "shipped": "لیږل شوي",
+      "votes": "د رایو شمېرنه",
+      "comments": "نظرونه",
+      "showLess": "لږ وښایاست",
+      "viewProfile": "د پروفایل لیدنه",
+      "you": "تاسو"
+    }
   },
   "auth": {
     "loginRequired": "ننوتل اړین دي",
@@ -4949,7 +4977,20 @@
       "listens_one": "{{value}} واوره",
       "listens_other": "{{value}} اوري",
       "members_one": "{{value}} غړی"
-    }
+    },
+    "articleShort": "د مقالې",
+    "articleMinRead": "{{count}} دقیقې لوستل",
+    "pinnedShort": "پین شوی",
+    "post": "پوسټ",
+    "arrange": {
+      "saving": "خوندي کیږي..."
+    },
+    "reserve": {
+      "signIn": "ننوتل"
+    },
+    "tabLikes": "خوښونې",
+    "likesEmptyTitle": "تر اوسه خوښې نشته",
+    "likesPrivateTitle": "خوښې شخصي دي"
   },
   "tv": {
     "title": "TV",
@@ -5465,6 +5506,9 @@
       "growthChange": "د تعقیبونکو بدلون: له {{time}} راهیسې {{count}}",
       "runs": "{{runs}} وروستۍ اجراوې · {{completed}} بشپړې · {{failed}} ناکامې",
       "dehub_stream_timeout": "د سټریم چټ نظارت وکړئ"
+    },
+    "welcome": {
+      "text": "د ښه راغلاست پیغام"
     }
   },
   "hero": {
@@ -5546,7 +5590,16 @@
     "nowPublic": "اوس په عام محضر کې ګرځې",
     "openCanvas": "د شاتو مچۍ خلاص کړئ",
     "playVideo": "په ویدیو کې لوبې وکړئ",
-    "signInToSee": "ستاسو په حساب کې د جریانونو لیدو لپاره لاسلیک وکړئ."
+    "signInToSee": "ستاسو په حساب کې د جریانونو لیدو لپاره لاسلیک وکړئ.",
+    "newNativeFlow": "نوی جریان",
+    "model": "موډل",
+    "aspectRatio": "د اړخ تناسب",
+    "duration": "موده په ثانیو کې",
+    "resolution": "ریزولوشن",
+    "disconnect": "سره نښلوي",
+    "payAndRun": "پرداخت کنید و اجرا کنید",
+    "run": "اجرا کړئ",
+    "handlePrompt": "اشاره"
   },
   "loginModal": {
     "title": "ننوتل",
@@ -5866,7 +5919,8 @@
     "searchMenu": "مینو ولټوئ",
     "clearSearch": "لټون پاک کړئ",
     "noMenuMatches": "په مینو کې هیڅ سمون نه لري",
-    "searchDehubFor": "په Riftn کې \"{{query}}\" ولټوئ"
+    "searchDehubFor": "په Riftn کې \"{{query}}\" ولټوئ",
+    "requestSend": "غوښتنه واستوئ"
   },
   "comments": {
     "reportComment": "د نظر ورکولو راپور",
@@ -6484,7 +6538,11 @@
       "copied": "پيام هاي کپي شده",
       "copyText": "د متن کاپي کول",
       "mutedUntil": "تریاک تر هغه وخته چې {{date}} شي",
-      "slowMode": "ورو ورو حالت: هر {{interval}} یو پیغام"
+      "slowMode": "ورو ورو حالت: هر {{interval}} یو پیغام",
+      "joined": "{{name}} یوځای شو",
+      "reactions": "عکس العملونه",
+      "photoTooLarge": "انځور باید له ۱۰MB نه کم وي",
+      "aiAdminFailed": "د ناټو سرمنشي په دې اړه غبرګون نه دی ښودلی"
     },
     "manage": {
       "restrictionWithReason": "{{state}} — {{reason}}",
@@ -6688,7 +6746,33 @@
       "requestToJoin": "د شاملیدو غوښتنه",
       "approvalNote": "یو مدیر باید ستاسو غوښتنه تصویب کړي مخکې لدې چې تاسو شامل شئ."
     },
-    "pin": "پین"
+    "pin": "پین",
+    "buyAlert": {
+      "spent": "لګول شوي:",
+      "buyer": "د اخيستلو لپاره وکارول",
+      "txn": "د TXN په اړه",
+      "balance": "د تعادل په اړه:",
+      "price": "د قیمت لپاره:",
+      "marketCap": "د مارکیټ کیپ:"
+    },
+    "newChat": {
+      "public": "عامه",
+      "private": "شخصي",
+      "free": "په آزاده توګه",
+      "paid": "پیسې ورکول کیږي",
+      "group": "د ډلې"
+    },
+    "holderGate": {
+      "chain": "زنځیر",
+      "which": "ټوکن",
+      "tab": "مالکان"
+    },
+    "automod": {
+      "bannedWords": "لغاتونه په لغت کې منع کول",
+      "floodMax": "{{count}} پیغامونه",
+      "saved": "خوندي شوی",
+      "wordCount": "{{count}} کلمې"
+    }
   },
   "work": {
     "integrity": {
@@ -7807,7 +7891,10 @@
       "doneAll": "د هغو {{done}} حسابونو نه تعقیب کول لغوه شول چې ستا پسې نه تعقیبوي.",
       "doneSome": "د {{done}} حسابونه نه تعقیب شول. د {{failed}} نه نه شو کولای.",
       "doneToast": "د هغو {{done}} حسابونو نه تعقیب کول لغوه شول چې ستا پسې نه تعقیبوي."
-    }
+    },
+    "followBackConfirm": "شاته پیروي وکړئ",
+    "followBackNotNow": "اوس نه",
+    "followBackDone": "پای"
   },
   "reactionInfo": {
     "mentionedYouLiveChat": "{{name}} په ژوندۍ چټ کې ستاسو یادونه وکړه",
@@ -8725,7 +8812,39 @@
     "uploadCover": "د پوښښ عکس پورته کړئ",
     "editFailed": "تاسو نشئ کولی دا کیک جوړ کړئ، بیا هڅه وکړئ.",
     "grayscale": "خړ رنګ {{value}}%",
-    "textSize": "د متن اندازه {{value}}"
+    "textSize": "د متن اندازه {{value}}",
+    "altPlaceholderVideo": "دا ویډیو تشریح کړئ",
+    "landingLive": "ژوندی",
+    "preview": {
+      "title": "پریویو"
+    },
+    "recent": {
+      "all": "ټول"
+    },
+    "studio": {
+      "crop": "کرپ",
+      "draw": "رسمول",
+      "light": "رڼا",
+      "contrast": "په متضاد ډول",
+      "warmth": "په ګرمۍ کې",
+      "colour": "د رنګونو",
+      "fade": "په نه په خنده دار",
+      "original": "اصلي",
+      "ratioOriginal": "اصلي",
+      "ratioFree": "په آزاده توګه",
+      "rotate": "ګرځول",
+      "strength": "ځواک",
+      "stickers": "سټیکرونه",
+      "ticker": "ټیکر",
+      "textBg": "شالید",
+      "font": {
+        "bold": "بولډ",
+        "serif": "په نه په خنده دار",
+        "mono": "مونو"
+      }
+    },
+    "edited": "نشر شوي په",
+    "edit": "سمون"
   },
   "bounty": {
     "claimed": "ترلاسه شو",
@@ -9019,7 +9138,8 @@
     "reconnecting": "بیا نښلول…",
     "connecting": "نښلول…",
     "detailsLivepeerId": "د تذکرو د وېش په اړه:",
-    "shopPutOnAir": "هوایي ډګر ته لاړ شئ"
+    "shopPutOnAir": "هوایي ډګر ته لاړ شئ",
+    "liveBadge": "لایو"
   },
   "liveShop": {
     "title": "له دې خپرونې پیرود وکړئ",
@@ -9332,7 +9452,23 @@
     "paymentSentWith": "د {{amount}} سره لیږل شوي",
     "planRestricted": "دا کارن د پیغامونو ترلاسه کولو لپاره ګډون ته اړتیا لري.",
     "planTypeNotAllowed": "د دې جوړونکي پلان دا ډول پیغام نه مني.",
-    "planMinTip": "د دې جوړونکي لپاره ټیپ باید لږ تر لږه {{amount}} ټوکنونه وي."
+    "planMinTip": "د دې جوړونکي لپاره ټیپ باید لږ تر لږه {{amount}} ټوکنونه وي.",
+    "newDrawer": {
+      "to": "د دې لپاره چې"
+    },
+    "download": "ډاونلوډ",
+    "deleteOneTitle": "ایا تاسو دا پیغام لرې کړی ؟",
+    "retrySend": "بیا هڅه وکړئ",
+    "discardSend": "لرې کړئ",
+    "shareKindGroup": "د ډلې",
+    "shareKindCommunity": "ټولنه",
+    "searchDiscover": {
+      "people": "خلک",
+      "communities": "ټولنې",
+      "members": "{{n}} غړي",
+      "newChat": "نوې خبرې",
+      "invite": "بلنه ورکول"
+    }
   },
   "editPost": {
     "mediaPermission": "د رسنیو کتابتون اجازه اړینه ده",
@@ -9508,7 +9644,8 @@
     "clearHistoryTitle": "د لټون تاریخچه پاکه شي؟",
     "clearHistoryBody": "دا ستاسو ټول وروستي لټونونه لرې کوي.",
     "removeFromHistory": "\"{{query}}\" له تاریخچې لرې کړه",
-    "close": "نږدې پلټنه وکړئ"
+    "close": "نږدې پلټنه وکړئ",
+    "open": "لټون"
   },
   "notifPrompt": {
     "stayInLoop": "باخبره اوسئ",
@@ -10548,7 +10685,11 @@
       "hint": "خبرې په وخت برابرو سرلیکونو بدلوي چې بڼه یې بدلولی شئ. ستاسو په وسیله چلېږي: وړیا او خصوصي. لومړی ځل ماډل ښکته کوي.",
       "done": "{{count}} سرلیکونه زیات شول.",
       "noSpeech": "په دې کلیپ کې خبرې ونه موندل شوې.",
-      "failed": "د دې کلیپ لپاره سرلیکونه جوړ نه شول."
+      "failed": "د دې کلیپ لپاره سرلیکونه جوړ نه شول.",
+      "styles": {
+        "bold": "په زړه پوری",
+        "serif": "په نه په خنده دار"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10618,7 +10759,8 @@
       "moody": "خفه",
       "vibrant": "روښانه",
       "cyber": "سایبر",
-      "invert": "اړول"
+      "invert": "اړول",
+      "vhs": "د WHSR په اړه"
     },
     "layer": {
       "crop": "کرپ",
@@ -10798,7 +10940,9 @@
       "suggestTitle": "پورته یو لوی پنډ سرلیک او لاندې یې یو کوچنی فرعي سرلیک ور زیات کړه",
       "undo": "بېرته اخیستل",
       "openGenerator": "کتنه او جوړول",
-      "working": "کار روان دی…"
+      "working": "کار روان دی…",
+      "stop": "بند کړئ",
+      "queue": "قطار ته اضافه کړئ"
     },
     "brand": {
       "presetName": "برېنډ پريزېټ نوم",
@@ -10935,7 +11079,9 @@
       "rendering": "ویډیو جوړیږي… {{percent}}%",
       "mp4": "MP4 ویډیو",
       "exportHint": "تر څو چې ستاسو ویډیو جوړیږي، ایډیټر خلاص وساتئ.",
-      "tooLarge": "دا فایل د ایډیټر لپاره ډېر لوی دی. حد 400 MB دی."
+      "tooLarge": "دا فایل د ایډیټر لپاره ډېر لوی دی. حد 400 MB دی.",
+      "tZoomIn": "زوم په انسټاګرام کې",
+      "tZoomOut": "زوم لرې کړئ"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12114,6 +12260,31 @@
       "selection": "د انتخاب لپاره",
       "zoomIn": "په کانکریټو کې د زوم کانکریټ",
       "zoomOut": "د شاتو مچیو څخه د شاتو مچۍ"
+    },
+    "stage": {
+      "camera": "د کامرې",
+      "yaw": "ګرځول",
+      "add": "اضافه کړئ",
+      "scale": "د اندازې اندازه",
+      "color": "رنګ",
+      "light": "رڼا"
+    },
+    "clipFix": {
+      "listening": "د خبرو په اورېدو..."
+    },
+    "generate3d": {
+      "label": "په نه په 3D"
+    },
+    "voiceClone": {
+      "stop": "ضبط ودروئ",
+      "failed": "صوت دېرېدنه ناکام شوه."
+    },
+    "linkImport": {
+      "go": "واردول",
+      "downloading": "ډاونلوډ کیدو {{percent}}%"
+    },
+    "reverse": {
+      "action": "معکوس کړئ"
     }
   },
   "creator": {
@@ -12575,7 +12746,32 @@
     "referenceProductName": "خپل محصول په کلیپ کې ځای وکړئ",
     "referenceProductHint": "د ځای پر ځای شوي محصول راوړئ او اصلي صحنه پاتې کړئ",
     "referenceComposeName": "مرجع عکسونه یوځای کړئ",
-    "referenceComposeHint": "څلور عکسونو څخه د شخصونو، شیانو او ځایونو راوړل او یو ځای کېدل"
+    "referenceComposeHint": "څلور عکسونو څخه د شخصونو، شیانو او ځایونو راوړل او یو ځای کېدل",
+    "marketing": {
+      "import": {
+        "use": "د دې تفصيلاتو څخه کار واخلئ"
+      }
+    },
+    "batchCount": "انځورونه",
+    "endFrame": "د پای چوکاټ",
+    "cinema": {
+      "close": "بندول",
+      "performance": {
+        "label": "فعالیت"
+      }
+    },
+    "audioNoSpeech": "په هغه ریکارډ کې هیڅ غږ ونه موندل شو.",
+    "audioTaskSpeechLabel": "خبرې اترې",
+    "audioTaskDialogueLabel": "خبرې اترې",
+    "audioTaskSfxLabel": "د غږ اغیز",
+    "audioTaskVoiceChangerLabel": "د غږ بدلول",
+    "audioTaskTranscribeLabel": "د ټرانسفرمر په اړه",
+    "audioTaskIsolateLabel": "پاکې جامې واغوندئ",
+    "priceFreeRateLimited": "د نرخ محدودیتونه: د نرخ محدودیتونه پلي کیږي",
+    "loop": "د لوپ په اړه",
+    "dialogueFormat": "صحنه د \"نوم: لیکه\" په توګه لیکئ، یو خبرې کونکی په هر لیکه کې.",
+    "fileTooLarge": "دا فایل له 100 MB څخه ډیر دی. یو کوچنی یا ډیر کوچنی واخلئ.",
+    "signInToGenerate": "د تولید لپاره لاسلیک وکړئ."
   },
   "fractions": {
     "title": "ونډې",
@@ -14643,6 +14839,19 @@
       "intro": "لیدونکي د هرې دقیقې لپاره یو ټکی ترلاسه کوي چې دوی یې ګوري او د 100 ټوکنونه لپاره یو چې دوی یې ډالۍ کوي. خبرې اترې او عکس العملونه هیڅ ګټه نه کوي، نو ټکي نشي کرل کیدی.",
       "empty": "دوی لا تر اوسه هیڅ شی نه لري، دوی لکه څنګه چې خلک ګوري او ډالۍ کوي.",
       "widgetHint": "په ټویټر کې د دې لیست ښودلو لپاره د وفادار لیدونکي ویجټ اضافه کړئ."
+    },
+    "destinations": {
+      "platform": "پلټفارم",
+      "label": "نوم (اختیاري)",
+      "key": "د سټریم کلي",
+      "save": "اضافه کړئ",
+      "cancel": "لغوه کول",
+      "states": {
+        "off": "بند",
+        "idle": "چمتو",
+        "live": "ژوندی",
+        "error": "تېروتنه"
+      }
     }
   },
   "liveChatModeration": {
@@ -14697,7 +14906,8 @@
     "disconnect": "سره نښلوي",
     "taken": "چېرې GitHub اکاونټ د بل Riftn پروفایل په نوم لیکل شوی دی.",
     "failed": "چې ناکام شوه، ګیت هاب ته اړوند. بیا پېژندنه وکړئ.",
-    "unavailable": "GitHub د ورکړې/تایید (Verification) د ورځو په لړ کې راغلی دی."
+    "unavailable": "GitHub د ورکړې/تایید (Verification) د ورځو په لړ کې راغلی دی.",
+    "verified": "تایید شوي"
   },
   "comic": {
     "showAll": "ټولې {{count}} پاڼې وښایاست",
@@ -14726,7 +14936,60 @@
     "tapToOffer": "یو ټپ کړئ چې یو تجویز وکړئ",
     "collections": "کالکشنز",
     "spotlightForSale": "اوس د فروخت لپاره",
-    "spotlightNew": "څلۍ"
+    "spotlightNew": "څلۍ",
+    "actAll": "ټول",
+    "actListings": "لیستونه",
+    "actOffers": "وړاندیزونه",
+    "actSales": "پلور",
+    "tabActivity": "فعالیت",
+    "allChains": "چېنګلې ټولې",
+    "newest": "نوي",
+    "cheapest": "تر ټولو ټیټه بیه",
+    "soldFor": "د پلورلو لپاره",
+    "signIn": "ننوتل",
+    "title": "NFT",
+    "share": "د شریکولو لپاره",
+    "noneForSale": "لا تر اوسه د خرڅلاو لپاره هیڅ شی نشته",
+    "tabBrowse": "وګورئ",
+    "tabMine": "ستاسو په اړه",
+    "tabSales": "پلور",
+    "cancelled": "کڅل شوي",
+    "sold": "د پلورلو لپاره",
+    "listed": "د پلور لپاره لیست شوی",
+    "royaltyRow": "کريېټر رويالټي",
+    "youGet": "چې تاسې وایئ؟",
+    "loading": "د بار وړلو لپاره...",
+    "price": "بیه",
+    "seller": "فروښت کوونکی",
+    "tabRecent": "وروستي",
+    "buyNow": "دې اوس مه‌لک‌وو",
+    "offers": "وړاندیزونه",
+    "cancel": "لغوه کول",
+    "accept": "د قبولۍ وړ",
+    "signInToTrade": "د سوداګرۍ لپاره ننوتل",
+    "listForSale": "پلورلو ته کېږدئ",
+    "makeOffer": "پیشنهاد وکړئ",
+    "back": "ځانګړی",
+    "dropsTo": "قیمت وړاندې د {{price}} تر {{date}} پورې راوړل شوی.",
+    "floor": "کڅه",
+    "thisCollection": "دا ټولګه",
+    "collectionOffer": "د هر څه وړاندیز",
+    "showAll": "ټول ښکاره کړئ",
+    "shortTitle": "NFT",
+    "filters": "فلټرونه",
+    "forSale": "د خرڅلاو لپاره",
+    "openToOffers": "د وړاندیزونو لپاره خلاص",
+    "freshMints": "نوي له Riftn جوړونکو څخه",
+    "offersOpen": "د وړاندیزونو لپاره خلاص",
+    "anyInCollection": "کومې چا په ټولګه کې؟",
+    "thisNft": "دې نړۍ د انځورونو د ډالرو (NFT)",
+    "alertUnder": "ځانته په ټاپه کښې د لیست شوي ځای یا څخه لاندې ({{symbol}}, چې پوښتنه ده)",
+    "bundleBadge": "بندل ×{{n}}",
+    "dropBadge": "قیمت وړاندې شوی",
+    "days_one": "{{count}} ورځ",
+    "days_other": "{{count}} ورځې",
+    "statForSale": "د خرڅلاو لپاره",
+    "days": "{{count}} ورځې"
   },
   "reel": {
     "readAll": "همه چی بخونه",
@@ -14834,5 +15097,251 @@
     "newer": "نوی نتیجه",
     "gone": "دا پیغام نور دلته نشته",
     "theirMessages": "د دوی پیغامونه"
+  },
+  "chatTextSize": {
+    "title": "د متن اندازه",
+    "default": "په ډیفالټ ډول",
+    "larger": "لویې لویې"
+  },
+  "remix": {
+    "cut": "پرې کول"
+  },
+  "signedFollows": {
+    "setUp": "فعال کړئ",
+    "turnOff": "بند کړئ",
+    "efpTurnOff": "بند کړئ"
+  },
+  "postEditHistory": {
+    "original": "اصلي"
+  },
+  "studioDeck": {
+    "remove": "لرې کړئ",
+    "background": {
+      "title": "شالید",
+      "modes": {
+        "none": "بند",
+        "blur": "تتوالی",
+        "color": "د رنګونو"
+      }
+    },
+    "scenes": {
+      "countdown": "د محاسبې په اړه",
+      "minutes": "{{count}} دقیقې",
+      "names": {
+        "starting": "ژر پیلیږي"
+      }
+    },
+    "widgets": {
+      "tab": "ویجټونه"
+    },
+    "sources": {
+      "image": "په انځور کې",
+      "show": "په لښکرګاه کې چاودنې وشوې",
+      "positions": {
+        "center": "مرکز"
+      },
+      "sizes": {
+        "medium": "منځنی"
+      }
+    },
+    "phone": {
+      "title": "مطالعه او"
+    }
+  },
+  "whenSheet": {
+    "today": "نن",
+    "tooSoon": "په راتلونکي کې وخت وټاکئ.",
+    "show": "ښکاره کړئ",
+    "hide": "پټ کړئ"
+  },
+  "planned": {
+    "title": "پلان شوی",
+    "all": "ټول",
+    "posts": "پوسټونه",
+    "stages": "غږيزې خونې",
+    "post": "پوسټ",
+    "live": "ژوندی",
+    "stage": "سټېج",
+    "untitledPost": "پوسټ",
+    "untitledLive": "ژوندی",
+    "loading": "د بار وړلو لپاره...",
+    "startNow": "اوس پیل کړئ",
+    "cancel": "لغوه کول",
+    "cancelled": "لغوه شوې"
+  },
+  "welcome": {
+    "about": {
+      "title": "Riftn ته ښه راغلاست",
+      "day": "ورځ",
+      "month": "میاشت",
+      "year": "کال"
+    },
+    "name": {
+      "title": "ستاسو نوم",
+      "placeholder": "ستاسو نوم"
+    },
+    "card": {
+      "name": "ستاسو نوم",
+      "followers": "پيروان په په"
+    },
+    "topic": {
+      "music": "موسیقي",
+      "art": "هنر",
+      "gaming": "لوبې",
+      "crypto": "کریپتو",
+      "sports": "لوبې",
+      "comedy": "کومېډي",
+      "film": "فلم",
+      "podcast": "پوډکاسټ",
+      "food": "خواړه",
+      "news": "خبرونه",
+      "science": "ساینس"
+    },
+    "back": "بیرته",
+    "skipPhoto": "اوس لپاره پریږدئ",
+    "preview": "مخکینی: د مخکتنې"
+  },
+  "appTokens": {
+    "title": "ستاسو ټوکنونه",
+    "history": "تاریخ",
+    "noHistory": "لا تر اوسه پورې هیڅ فعالیت نه دی شوی",
+    "kindDeposit": "جمع",
+    "to": "د دې لپاره چې",
+    "amount": "مقدار",
+    "notePlaceholder": "یادښت ورزیات کړه (اختیاري)",
+    "sendButton": "واستول",
+    "errorInsufficient": "کافي ټوکنونه نشته"
+  },
+  "avatarPrompt": {
+    "notNow": "اوس نه"
+  },
+  "postStats": {
+    "audience": "د مخکښو",
+    "engagement": "ګډون",
+    "finished": "پای ته ورسېد",
+    "members": "غړي",
+    "membersLower": "غړي",
+    "newFollowers": "نوي پیروان ترلاسه کړئ",
+    "noBadge": "بدنه نه لري",
+    "people": "خلک",
+    "plays": "لوبې وکړئ",
+    "quotes": "اقتباسونه",
+    "reposts": "ریپوسټونه",
+    "saved": "خوندي شوی",
+    "shares": "شریکونه",
+    "signedOutViewers": "وتل",
+    "topSupporters": "تر ټولو لوړ ملاتړ کونکي",
+    "visitors": "وتل"
+  },
+  "duet": {
+    "policyEveryone": "هر څوک",
+    "policyFollowers": "تعقیبوونکي",
+    "policyNobody": "هیڅوک",
+    "loadMore": "نور لوډ کړئ",
+    "video": "ویډیو"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "هر څوک",
+      "followers": "تعقیبوونکي",
+      "nobody": "هیڅوک"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "هر څوک",
+      "followers": "تعقیبوونکي",
+      "nobody": "هیڅوک"
+    },
+    "heading": "عکس العملونه",
+    "more": "نور وښایاست",
+    "liveNow": "ژوندی",
+    "untitled": "د عکس العمل په اړه"
+  },
+  "liveClips": {
+    "copyLink": "لینک کاپي کړئ",
+    "linkCopied": "د پی ډی ایف کاپي شوی"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "پلان",
+      "howMany": "څومره",
+      "who": "کارن نوم یا د بټوې پته",
+      "whoPlaceholder": "@کارننوم",
+      "cancel": "لغوه کول",
+      "stage": {
+        "preparing": "چمتو کول...",
+        "confirming": "د راکړې ورکړې انتظار…",
+        "recording": "بشپړیږي…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "نور",
+    "confirming": "د تادیې تایید کول..."
+  },
+  "liveShorts": {
+    "live": "لایو"
+  },
+  "feedFilters": {
+    "clearAllShort": "ټول پاک کړئ",
+    "done": "ترسره شوی",
+    "edit": "سمون",
+    "groupDate": "نیټه",
+    "groupSort": "ترتیب",
+    "groupType": "ډول",
+    "save": "خوندي کړئ"
+  },
+  "ownKeys": {
+    "working": "کار کوي",
+    "failed": "یو څه غلط شو، بیا هڅه وکړئ.",
+    "check": "وڅېړئ",
+    "remove": "لرې کړئ",
+    "save": "خوندي کړئ",
+    "cancel": "لغوه"
+  },
+  "postBg": {
+    "none": "هیڅ نه",
+    "yours": "ستاسو په اړه",
+    "accent": "لهجه",
+    "names": {
+      "aurora": "د Aurora په اړه",
+      "lava": "لاوا لمپ",
+      "drive": "په شپه کې موټر چلول",
+      "chrome": "کروم شوی کروم شوی",
+      "orbit": "اربيټ",
+      "snow": "د واورې اورښت"
+    }
+  },
+  "articleTile": {
+    "cover": "پوښ"
+  },
+  "aiConsent": {
+    "allow": "اجازه ورکړئ"
+  },
+  "dmRequests": {
+    "title": "غوښتنې",
+    "accept": "قبولول",
+    "delete": "حذف",
+    "block": "بلاک کړئ"
+  },
+  "dmSchedule": {
+    "view": "لیدل",
+    "edit": "ایډیټ کړئ",
+    "editLabel": "پيامک سرکاري",
+    "error": "دا کار نه کوي، بیا هڅه وکړئ."
+  },
+  "chatBulk": {
+    "selected": "{{count}} ټاکل شوي",
+    "cancel": "لغوه",
+    "reply": "ځواب",
+    "delete": "حذف"
+  },
+  "msgSelect": {
+    "selected": "{{count}} ټاکل شوي",
+    "copy": "کاپي",
+    "forward": "مخکې ولېږئ",
+    "deleted_one": "{{count}} پیغام حذف شو",
+    "deleted_other": "{{count}} پیغامونه حذف شول"
   }
 }

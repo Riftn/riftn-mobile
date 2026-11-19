@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Sel nädalal Audiuses populaarne. Vaba kasutamiseks, esitajat mainitakse sinu postituses.",
     "d2e45b7406fc": "Avaliku kasutuse ja Creative Commonsi litsentsiga muusika Wikimedia Commonsist. Teie postituses märgitakse ära esitaja nimi.",
     "d0c1a3684775": "Lood ei laadinud. Proovige hetke pärast uuesti.",
-    "d14064f80f52": "Lisa heli"
+    "d14064f80f52": "Lisa heli",
+    "71988c4d8e08": "Tekst",
+    "147170e793c6": "Lai",
+    "481859b689b0": "Kontrolli ühendust ja proovi uuesti.",
+    "57e2faa5ec63": "Otsi Riftnist",
+    "7db20897053b": "Inimesed",
+    "96d7bff86b44": "Otsingut ei saanud laadida",
+    "d8b8392e2c54": "Proovi uuesti"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Tsitaat",
       "bullets": "Nupuliste loend",
       "numbers": "Numbritega loend",
-      "link": "Lingi"
+      "link": "Lingi",
+      "image": "Lisa pildid"
     }
   },
   "storefront": {
@@ -3793,7 +3801,11 @@
     "payViaDpay": "Makstud Riftn Pay'le, märgid saabuvad umbes 30s",
     "payViaBridgeDpay": "Liigutatud Base'i ja makstud Riftn Pay'le, märgid saabuvad umbes minuti pärast",
     "tokensUnit": "märki",
-    "tokenAmount": "{{amount}} märki"
+    "tokenAmount": "{{amount}} märki",
+    "addMessage": "Lisa sõnum (valikuline)",
+    "messagePublic": "Avalik",
+    "railTitle": "Näpunäited",
+    "railTotal": "{{amount}} märki"
   },
   "postOptions": {
     "skippableSections": "Vahelejäetavad sektsioonid",
@@ -4521,7 +4533,11 @@
       "here": "{{name}} saatis sõnumi kõigile kogukonna liikmetele",
       "hereNamed": "{{name}} saatis sõnumi kõigile asukohas „{{community}}“"
     },
-    "tokenAmount": "{{amount}} žetooni"
+    "tokenAmount": "{{amount}} žetooni",
+    "groupNew": "Uus",
+    "groupToday": "Täna",
+    "groupThisWeek": "Sel nädalal",
+    "searchClose": "Sulge otsing"
   },
   "leaderboard": {
     "title": "Edetabel",
@@ -4713,7 +4729,18 @@
     "attachmentTooLarge": "Iga fail peab olema alla 50 MB",
     "deleteCommentA11y": "Kustuta kommentaar",
     "sendCommentA11y": "Saada kommentaar",
-    "requestOptions": "Tellimuse valikud"
+    "requestOptions": "Tellimuse valikud",
+    "deviceInfoNoErrors": "Mitte ühtegi",
+    "topBuilders": {
+      "month": "Sel kuul",
+      "allTime": "Kogu aeg",
+      "shipped": "Tarnitud",
+      "votes": "Hääled",
+      "comments": "Kommentaarid",
+      "showLess": "Näita vähem",
+      "viewProfile": "Vaata profiili",
+      "you": "Sina"
+    }
   },
   "auth": {
     "loginRequired": "Sisselogimine nõutav",
@@ -4974,7 +5001,20 @@
       "votes_other": "{{value}} hääletavad",
       "members_one": "{{value}} liige",
       "members_other": "{{value}} liikmed"
-    }
+    },
+    "articleShort": "Artikkel",
+    "articleMinRead": "{{count}} min lugemine",
+    "pinnedShort": "Kinnitatud",
+    "post": "Postitus",
+    "arrange": {
+      "saving": "Salvestamine..."
+    },
+    "reserve": {
+      "signIn": "Logi sisse"
+    },
+    "tabLikes": "Meeldimised",
+    "likesEmptyTitle": "Meeldimisi veel pole",
+    "likesPrivateTitle": "Meeldimised on privaatsed"
   },
   "tv": {
     "title": "TV",
@@ -5490,6 +5530,9 @@
       "action": "Tegevus",
       "schedule": "Planeeri",
       "filter": "Filtreeri tegevus"
+    },
+    "welcome": {
+      "text": "Tervitussõnum"
     }
   },
   "hero": {
@@ -5571,7 +5614,16 @@
     "nowPublic": "Voog on nüüd avalik",
     "openCanvas": "Lõuend",
     "playVideo": "Vaata videot",
-    "signInToSee": "Konto voogude nägemiseks logi sisse."
+    "signInToSee": "Konto voogude nägemiseks logi sisse.",
+    "newNativeFlow": "Uus voog",
+    "model": "Mudel",
+    "aspectRatio": "Kuvasuhe",
+    "duration": "Kestus sekundites",
+    "resolution": "Eraldusvõime",
+    "disconnect": "Katkesta",
+    "payAndRun": "Makske ja käivitage",
+    "run": "Käivita",
+    "handlePrompt": "Kohanda"
   },
   "loginModal": {
     "title": "Logi sisse",
@@ -5891,7 +5943,8 @@
     "searchMenu": "Otsi menüüst",
     "clearSearch": "Tühjenda otsing",
     "noMenuMatches": "Menüüs ei vasta miski",
-    "searchDehubFor": "Otsi Riftnist „{{query}}“"
+    "searchDehubFor": "Otsi Riftnist „{{query}}“",
+    "requestSend": "Saada palve"
   },
   "comments": {
     "reportComment": "Teata kommentaarist",
@@ -6510,7 +6563,11 @@
       "copied": "Sõnum on kopeeritud",
       "copyText": "Kopeeri tekst",
       "mutedUntil": "Oled vaigistatud kuni {{date}}",
-      "slowMode": "Aeglane režiim: üks teade iga {{interval}} järel"
+      "slowMode": "Aeglane režiim: üks teade iga {{interval}} järel",
+      "joined": "{{name}} liitus",
+      "reactions": "Reaktsioonid",
+      "photoTooLarge": "Pilt peab olema väiksem kui 10MB",
+      "aiAdminFailed": "AI Admin ei vastanud"
     },
     "manage": {
       "dismissAdminTitle": "Loobu administraatorist",
@@ -6713,6 +6770,31 @@
       "notFound": "See kutselink on kehtetu.",
       "requestToJoin": "Taotle liitumist",
       "approvalNote": "Enne liitumist peab administraator sinu taotluse kinnitama."
+    },
+    "buyAlert": {
+      "spent": "Kulutatud:",
+      "buyer": "Ostja:",
+      "balance": "Tasakaal:",
+      "price": "Hind:",
+      "marketCap": "Turu ülempiir:"
+    },
+    "newChat": {
+      "public": "Avalik",
+      "private": "Privaatne",
+      "free": "Tasuta",
+      "paid": "Makstud",
+      "group": "Grupeeri"
+    },
+    "holderGate": {
+      "chain": "Ahel",
+      "which": "Žetoon",
+      "tab": "Hoidikud"
+    },
+    "automod": {
+      "bannedWords": "Keelatud sõnad",
+      "floodMax": "{{count}} sõnumit",
+      "saved": "Salvestatud",
+      "wordCount": "{{count}} sõna"
     }
   },
   "work": {
@@ -7834,7 +7916,10 @@
       "doneAll": "{{done}} kontot, mis ei jälitanud sind, ei jälgitud.",
       "doneSome": "Kontode {{done}} jälgimise lõpetamine. {{failed}} jälgimise lõpetamine ebaõnnestus.",
       "doneToast": "Kontosid, mida ei jälgita {{done}}, ei jälitata tagasi"
-    }
+    },
+    "followBackConfirm": "Vastujälgimine",
+    "followBackNotNow": "Mitte praegu",
+    "followBackDone": "Valmis"
   },
   "reactionInfo": {
     "title": "Reaktsioonid",
@@ -8754,7 +8839,38 @@
     "coverFrames": "Vali kaanepilt",
     "coverFrame": "Kasuta kaanepilti {{index}}",
     "uploadCover": "Lae üles kaanepilt",
-    "editFailed": "Sai edasi teha seda redigeerimist. Proovi uuesti."
+    "editFailed": "Sai edasi teha seda redigeerimist. Proovi uuesti.",
+    "altPlaceholderVideo": "Kirjelda seda videot",
+    "preview": {
+      "title": "Eelvaade"
+    },
+    "recent": {
+      "all": "Kõik"
+    },
+    "studio": {
+      "crop": "Kärbi",
+      "draw": "Joonista",
+      "light": "Hele",
+      "contrast": "Kontrastsus",
+      "warmth": "Soojus",
+      "colour": "Värv",
+      "fade": "Hajumine",
+      "original": "Originaal",
+      "ratioOriginal": "Originaal",
+      "ratioFree": "Tasuta",
+      "rotate": "Pööra",
+      "strength": "Tugevus",
+      "stickers": "Kleebised",
+      "ticker": "Tikker",
+      "textBg": "Taust",
+      "font": {
+        "bold": "Paks",
+        "serif": "Kriips",
+        "mono": "Üksik"
+      }
+    },
+    "edited": "Muudetud",
+    "edit": "Muuda"
   },
   "bounty": {
     "claimed": "Lunastatud",
@@ -9048,7 +9164,8 @@
     "justChatting": "Lihtsalt jutt",
     "noLiveStreams": "Otseülekandeid pole",
     "noOneStreaming": "Praegu ei kanna keegi üle. Vaata hiljem uuesti!",
-    "loadStreamsFailed": "Ülekandeid ei õnnestunud laadida. Proovi uuesti."
+    "loadStreamsFailed": "Ülekandeid ei õnnestunud laadida. Proovi uuesti.",
+    "liveBadge": "OTSE"
   },
   "liveShop": {
     "title": "Osta sellest voost",
@@ -9361,7 +9478,23 @@
     "paymentSentWith": "Saadetud koos {{amount}}",
     "planRestricted": "See kasutaja nõuab sõnumite saamiseks tellimust.",
     "planTypeNotAllowed": "Selle looja pakett ei luba seda tüüpi sõnumit.",
-    "planMinTip": "Selle looja jootraha peab olema vähemalt {{amount}} märki."
+    "planMinTip": "Selle looja jootraha peab olema vähemalt {{amount}} märki.",
+    "newDrawer": {
+      "to": "Kuni"
+    },
+    "download": "Laadi alla",
+    "deleteOneTitle": "Kas kustutada see sõnum?",
+    "retrySend": "Proovi uuesti",
+    "discardSend": "Eemalda",
+    "shareKindGroup": "Grupeeri",
+    "shareKindCommunity": "Kogukond",
+    "searchDiscover": {
+      "people": "Inimesed",
+      "communities": "Kogukonnad",
+      "members": "{{n}} liiget",
+      "newChat": "Uus vestlus",
+      "invite": "Kutsu"
+    }
   },
   "editPost": {
     "mediaPermission": "Meediakogu luba on nõutav",
@@ -10579,7 +10712,11 @@
       "hint": "Muudab kõne ajastatud subtiitriteks, mille stiili saad muuta. Töötab sinu seadmes: tasuta ja privaatne. Esimesel kasutusel laaditakse mudel alla.",
       "done": "Lisatud {{count}} subtiitrit.",
       "noSpeech": "Selles klipis kõnet ei leitud.",
-      "failed": "Selle klipi jaoks ei õnnestunud subtiitreid luua."
+      "failed": "Selle klipi jaoks ei õnnestunud subtiitreid luua.",
+      "styles": {
+        "bold": "Tugev",
+        "serif": "Kriips"
+      }
     },
     "app": {
       "newDesign": "Uus kujundus",
@@ -10829,7 +10966,9 @@
       "suggestTitle": "Lisa üles suur jäme pealkiri ja selle alla väiksem alapealkiri",
       "undo": "Võta tagasi",
       "openGenerator": "Vaata üle ja genereeri",
-      "working": "Töötan selle kallal…"
+      "working": "Töötan selle kallal…",
+      "stop": "Peata",
+      "queue": "Lisa järjekorda"
     },
     "brand": {
       "addColor": "Lisa brändi värv",
@@ -10966,7 +11105,9 @@
       "rendering": "Video renderdamine… {{percent}}%",
       "mp4": "MP4-video",
       "exportHint": "Hoidke redaktor avatuna, kuni video renderdatakse.",
-      "tooLarge": "See fail on redaktori jaoks liiga suur. Piirang on 400 MB."
+      "tooLarge": "See fail on redaktori jaoks liiga suur. Piirang on 400 MB.",
+      "tZoomIn": "Suumi sisse",
+      "tZoomOut": "Vähenda"
     },
     "motion": {
       "title": "Liikumine",
@@ -12145,6 +12286,28 @@
       "selection": "Valik",
       "zoomIn": "Suumi lõuend sisse",
       "zoomOut": "Suumi lõuend välja"
+    },
+    "stage": {
+      "camera": "Kaamera",
+      "yaw": "Pööramine",
+      "add": "Lisa",
+      "scale": "Suurus",
+      "color": "Värv",
+      "light": "Hele"
+    },
+    "clipFix": {
+      "listening": "Kuulamine..."
+    },
+    "voiceClone": {
+      "stop": "Peata salvestamine",
+      "failed": "Hääle kloonimine ebaõnnestus."
+    },
+    "linkImport": {
+      "go": "Impordi",
+      "downloading": "Allalaadimine {{percent}}%"
+    },
+    "reverse": {
+      "action": "Tagasikäik"
     }
   },
   "creator": {
@@ -12606,7 +12769,32 @@
     "referenceProductName": "Paiguta oma toode klippi sisse",
     "referenceProductHint": "Asenda esindatud toodet säilitades algse vaate",
     "referenceComposeName": "Ühendage viitepildisid",
-    "referenceComposeHint": "Tuuge karakterid, objektid ja vaated mitmest pildist ühte koostisse"
+    "referenceComposeHint": "Tuuge karakterid, objektid ja vaated mitmest pildist ühte koostisse",
+    "marketing": {
+      "import": {
+        "use": "Kasuta neid andmeid"
+      }
+    },
+    "batchCount": "Pildid",
+    "endFrame": "Lõpukaader",
+    "cinema": {
+      "close": "Sulge",
+      "performance": {
+        "label": "Jõudlus"
+      }
+    },
+    "audioNoSpeech": "Puudub kõne selle salvestisele.",
+    "audioTaskSpeechLabel": "Kõne",
+    "audioTaskDialogueLabel": "Dialoog",
+    "audioTaskSfxLabel": "Heliefekt",
+    "audioTaskVoiceChangerLabel": "Häälte muutja",
+    "audioTaskTranscribeLabel": "Transkribeeri",
+    "audioTaskIsolateLabel": "Puhasta",
+    "priceFreeRateLimited": "Kehtivad tasuta · hinnapiirangud",
+    "loop": "Silmus",
+    "dialogueFormat": "Kirjuta stseen kujul \"Nimi: rida\", üks kõneleja rea kohta.",
+    "fileTooLarge": "See fail on üle 100 MB. Kasuta lühemat või väiksemat.",
+    "signInToGenerate": "Logi sisse, et genereerida."
   },
   "fractions": {
     "title": "Fraktsioonid",
@@ -14675,6 +14863,19 @@
       "intro": "Vaatajad teenivad ühe punkti iga minuti eest, mil nad sind vaatavad, ja ühe punkti iga 100 märki eest, mille nad kingivad. Vestlused ja reaktsioonid ei teeni midagi, seega ei saa punkte koguda.",
       "empty": "Punkte veel pole. Need kogunevad, kui inimesed vaatavad ja kingivad.",
       "widgetHint": "Selle loendi kuvamiseks voos lisa lojaalsete vaatajate vidin."
+    },
+    "destinations": {
+      "platform": "Platvorm",
+      "label": "Nimi (võimalik)",
+      "key": "Voogedastuse võti",
+      "save": "Lisa",
+      "cancel": "Tühista",
+      "states": {
+        "off": "Väljas",
+        "idle": "Valmis",
+        "live": "Otse",
+        "error": "Viga"
+      }
     }
   },
   "liveChatModeration": {
@@ -14777,7 +14978,72 @@
     "days": "{{count}} päeva",
     "spotlightForSale": "Müügile nüüd",
     "spotlightNew": "Just mintitud",
-    "buyFor": "Osta eest {{price}}"
+    "buyFor": "Osta eest {{price}}",
+    "actAll": "Kõik",
+    "actListings": "Kuulutused",
+    "actOffer": "Pakkumine",
+    "actOffers": "Pakkumised",
+    "actSales": "Müük",
+    "tabActivity": "Tegevus",
+    "allChains": "Kõik ketid",
+    "newest": "Uusimad",
+    "cheapest": "Madalaim hind",
+    "soldFor": "Müüdud",
+    "signIn": "Logi sisse",
+    "title": "NFTS",
+    "share": "Jaga",
+    "noneForSale": "Veel midagi müügiks pole",
+    "noSales": "Müügi pole veel",
+    "tabBrowse": "Sirvi",
+    "tabMine": "Sinu omad",
+    "tabSales": "Müük",
+    "cancelled": "Tühistatud",
+    "sold": "Müüdud",
+    "listed": "Müügiks loetletud",
+    "feeRow": "Riftni tasu ({{pct}}%)",
+    "royaltyRow": "Loojate autoriõigus",
+    "youGet": "Sa saad",
+    "holderGets": "Haldur saab",
+    "loading": "Laadimine...",
+    "price": "Hind",
+    "seller": "Müüja",
+    "tabRecent": "Hiljutised",
+    "buyNow": "Osta kohe",
+    "offers": "Pakkumised",
+    "cancel": "Tühista",
+    "accept": "Võta vastu",
+    "signInToTrade": "Logi sisse kauplemiseks",
+    "listForSale": "Loetle müügiks",
+    "makeOffer": "Tee pakkumine",
+    "sendOffer": "Saada pakkumine",
+    "back": "Tagasi",
+    "dropsTo": "Hind langeb {{price}}-le {{date}}-le",
+    "inBundle": "Müüdud pakina {{n}}",
+    "trending": "Populaarsed kollektsioonid",
+    "floor": "Põrand",
+    "listedCount": "{{n}} müügiks",
+    "thisCollection": "See kollektsioon",
+    "collectionOffer": "Paku mis tahes",
+    "showAll": "Kuva kõik",
+    "shortTitle": "NFTS",
+    "filters": "Filtrid",
+    "forSale": "Müüa",
+    "openToOffers": "Pakkumistele avatud",
+    "freshMints": "Värskelt Riftni loojatelt",
+    "offersOpen": "Pakkumistele avatud",
+    "mintedCount": "{{n}} vermitud",
+    "anyInCollection": "Kõik kogumiselt",
+    "thisNft": "See NFT",
+    "priceAlert": "Hindahoiatus",
+    "alertUnder": "Räägi mulle, kui see on loetletud või all ({{symbol}}, valikuline)",
+    "turnOnAlert": "Lülita teavitus sisse",
+    "alertSaved": "Hoiatus on sisse lülitatud. Me teatame sulle, kui üks on loetletud.",
+    "priceDrop": "Hind langeb aja jooksul",
+    "endPrice": "Alliminnimishind, mis saavutatakse lõpus ({{symbol}})",
+    "bundleBadge": "Pakk ×{{n}}",
+    "dropBadge": "Hinna langus",
+    "days_one": "{{count}} päev",
+    "days_other": "{{count}} päeva"
   },
   "reel": {
     "readAll": "Loe kõiki",
@@ -14885,5 +15151,246 @@
     "newer": "Uuem tulemus",
     "gone": "Seda sõnumit pole enam siin",
     "theirMessages": "Tema sõnumid"
+  },
+  "chatTextSize": {
+    "title": "Teksti suurus",
+    "default": "Vaikimisi",
+    "larger": "Suurem"
+  },
+  "remix": {
+    "cut": "Lõika"
+  },
+  "signedFollows": {
+    "setUp": "Lülita sisse",
+    "turnOff": "Lülita välja",
+    "efpTurnOff": "Peata"
+  },
+  "postEditHistory": {
+    "original": "Originaal"
+  },
+  "studioDeck": {
+    "remove": "Eemalda",
+    "background": {
+      "title": "Taust",
+      "modes": {
+        "none": "Väljas",
+        "blur": "Hägu",
+        "color": "Värv"
+      }
+    },
+    "scenes": {
+      "countdown": "Stardiloendus",
+      "names": {
+        "starting": "Algab varsti"
+      }
+    },
+    "widgets": {
+      "tab": "Vidinad"
+    },
+    "sources": {
+      "image": "Pilt",
+      "show": "Näita streamis",
+      "positions": {
+        "center": "Keskel"
+      },
+      "sizes": {
+        "medium": "Keskmine"
+      }
+    },
+    "phone": {
+      "title": "Stuudio"
+    }
+  },
+  "whenSheet": {
+    "today": "Täna",
+    "tooSoon": "Vali tulevikus olev aeg.",
+    "show": "Näita",
+    "hide": "Peida"
+  },
+  "planned": {
+    "title": "Planeeritud",
+    "all": "Kõik",
+    "posts": "Postitused",
+    "stages": "Helitoad",
+    "post": "Postitus",
+    "live": "Otse",
+    "stage": "Etapp",
+    "untitledPost": "Postitus",
+    "untitledLive": "Otse",
+    "loading": "Laadimine…",
+    "startNow": "Alusta kohe",
+    "cancel": "Tühista",
+    "cancelled": "Tühistatud"
+  },
+  "welcome": {
+    "about": {
+      "title": "Tere tulemast Riftni",
+      "day": "Päev",
+      "month": "Kuu",
+      "year": "Aasta"
+    },
+    "name": {
+      "title": "Sinu nimi",
+      "placeholder": "Sinu nimi"
+    },
+    "card": {
+      "name": "Sinu nimi",
+      "followers": "jälgijad"
+    },
+    "topic": {
+      "music": "Muusika",
+      "art": "Kunst",
+      "gaming": "Mängimine",
+      "crypto": "Krüpto",
+      "sports": "Spordid",
+      "comedy": "Komöödia",
+      "food": "Toit",
+      "news": "Uudised",
+      "science": "Teadus"
+    },
+    "back": "Tagasi",
+    "skipPhoto": "Jäta vahele praegu",
+    "preview": "Eelvaade"
+  },
+  "appTokens": {
+    "title": "Teie märgid",
+    "history": "Ajalugu",
+    "noHistory": "Tegevusi pole veel",
+    "kindDeposit": "Lisa vahendeid",
+    "to": "Kuni",
+    "amount": "Summa",
+    "notePlaceholder": "Lisa märkus (valikuline)",
+    "sendButton": "Saada",
+    "errorInsufficient": "Märke pole piisavalt"
+  },
+  "avatarPrompt": {
+    "notNow": "Mitte praegu"
+  },
+  "postStats": {
+    "audience": "Publik",
+    "engagement": "Kaasamine",
+    "finished": "Lõppenud",
+    "members": "Liikmed",
+    "membersLower": "liikmed",
+    "newFollowers": "Uued jälgijad",
+    "noBadge": "Ei sümbolit",
+    "people": "Inimesed",
+    "plays": "Mängib",
+    "quotes": "tsitaati",
+    "reposts": "Taaspostitused",
+    "saved": "Salvestatud",
+    "shares": "Jagamised",
+    "signedOutViewers": "Välja logitud",
+    "topSupporters": "Parimad toetajad",
+    "visitors": "Välja logitud"
+  },
+  "duet": {
+    "policyEveryone": "Kõik",
+    "policyFollowers": "Jälgijad",
+    "policyNobody": "Mitte keegi",
+    "loadMore": "Laadi rohkem"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Kõik",
+      "followers": "Jälgijad",
+      "nobody": "Mitte keegi"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Kõik",
+      "followers": "Jälgijad",
+      "nobody": "Mitte keegi"
+    },
+    "heading": "Vastusteade",
+    "more": "Näita rohkem",
+    "liveNow": "Otse",
+    "untitled": "Reaktsioon"
+  },
+  "liveClips": {
+    "copyLink": "Kopeeri link",
+    "linkCopied": "Link kopitud"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Plaan",
+      "howMany": "Kui palju",
+      "who": "Kasutajanimi või rahakoti aadress",
+      "whoPlaceholder": "@kasutajanimi",
+      "cancel": "Tühista",
+      "stage": {
+        "preparing": "Ettevalmistamine…",
+        "confirming": "Tehingu ootamine…",
+        "recording": "Lõpetamine…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Muu",
+    "confirming": "Makse kinnitamine…"
+  },
+  "liveShorts": {
+    "live": "OTSE"
+  },
+  "feedFilters": {
+    "clearAllShort": "Tühjenda kõik",
+    "done": "Tehtud",
+    "edit": "Muuda",
+    "groupDate": "Kuupäev",
+    "groupSort": "Sorteeri",
+    "groupType": "Tüüp",
+    "save": "Salvesta"
+  },
+  "ownKeys": {
+    "working": "Töötab",
+    "failed": "Midagi läks valesti. Proovi uuesti.",
+    "check": "Kontrolli",
+    "remove": "Eemalda",
+    "save": "Salvesta",
+    "cancel": "Tühista"
+  },
+  "postBg": {
+    "none": "Mitte ühtegi",
+    "yours": "Sinu omad",
+    "accent": "Aktsent",
+    "names": {
+      "lava": "Laavalamp",
+      "drive": "Öine sõit",
+      "chrome": "Vedel kroom",
+      "orbit": "Orbiit",
+      "snow": "Lumi langus"
+    }
+  },
+  "articleTile": {
+    "cover": "Kaanepilt"
+  },
+  "aiConsent": {
+    "allow": "Luba"
+  },
+  "dmRequests": {
+    "title": "Funktsioonisoovid",
+    "accept": "Vastu võtma",
+    "delete": "Kustuta",
+    "block": "Blokeeri"
+  },
+  "dmSchedule": {
+    "view": "Vaata",
+    "edit": "Redigeeri",
+    "editLabel": "Muuda sõnumit",
+    "error": "See ei õnnestunud. Proovi uuesti."
+  },
+  "chatBulk": {
+    "selected": "{{count}} valitud",
+    "cancel": "Tühista",
+    "reply": "Vasta",
+    "delete": "Kustuta"
+  },
+  "msgSelect": {
+    "selected": "{{count}} valitud",
+    "copy": "Kopeeri",
+    "forward": "Edasta",
+    "deleted_one": "Kustutatud {{count}} sõnum",
+    "deleted_other": "Kustutatud {{count}} sõnumit"
   }
 }

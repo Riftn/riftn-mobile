@@ -3,6 +3,13 @@ import { Text, TouchableOpacity, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
+import { useAppTheme } from "../../context/ThemeContext";
+
+// Solid fills, written as hsla() so the System Light colour pass leaves them
+// alone. A see-through fill with an Android elevation shadow drew the shadow
+// inside the button (a grey square with a white block behind the arrow).
+const JUMP_LIGHT = { fill: "hsla(0,0%,100%,1)", rim: "hsla(0,0%,0%,0.08)", well: "hsla(0,0%,0%,0.06)", ink: "hsla(240,6%,10%,1)" };
+const JUMP_DARK = { fill: "hsla(240,6%,10%,1)", rim: "hsla(0,0%,100%,0.10)", well: "hsla(0,0%,100%,0.12)", ink: "hsla(240,5%,96%,1)" };
 
 export const formatUnreadCount = (n: number) => (n > 99 ? "99+" : String(n));
 
@@ -44,6 +51,8 @@ export const UnreadJumpButton = memo(function UnreadJumpButton({
   onPress: () => void;
 }) {
   const { t } = useTranslation();
+  const { isLight } = useAppTheme();
+  const c = isLight ? JUMP_LIGHT : JUMP_DARK;
   const turn = useSharedValue(up ? 180 : 0);
   useEffect(() => {
     turn.value = withTiming(up ? 180 : 0, { duration: 280 });
@@ -59,17 +68,27 @@ export const UnreadJumpButton = memo(function UnreadJumpButton({
       hitSlop={8}
       accessibilityRole="button"
       accessibilityLabel={count > 0 ? `${label} (${formatUnreadCount(count)})` : label}
-      className="dark-surface h-11 flex-row items-center rounded-full bg-black/60 border border-white/10"
-      style={{ shadowColor: "#000", shadowOpacity: 0.3, shadowRadius: 10, shadowOffset: { width: 0, height: 4 }, elevation: 6 }}
+      className="dark-surface h-11 flex-row items-center rounded-full"
+      style={{
+        backgroundColor: c.fill,
+        borderRadius: 22,
+        borderWidth: 1,
+        borderColor: c.rim,
+        shadowColor: "#000",
+        shadowOpacity: isLight ? 0.12 : 0.3,
+        shadowRadius: 10,
+        shadowOffset: { width: 0, height: 4 },
+        elevation: 6,
+      }}
     >
       {count > 0 ? (
-        <Text className="pl-3.5 pr-1 text-sm font-semibold text-white" style={{ fontVariant: ["tabular-nums"] }}>
+        <Text className="pl-3.5 pr-1 text-sm font-semibold" style={{ color: c.ink, fontVariant: ["tabular-nums"] }}>
           {formatUnreadCount(count)}
         </Text>
       ) : null}
-      <View className="m-1 h-9 w-9 items-center justify-center rounded-full bg-white/15">
+      <View className="m-1 h-9 w-9 items-center justify-center rounded-full" style={{ backgroundColor: c.well, borderRadius: 18 }}>
         <Animated.View style={arrowStyle}>
-          <Icon name="ArrowDown" size={16} color="#F4F4F5" />
+          <Icon name="ArrowDown" size={16} color={c.ink} />
         </Animated.View>
       </View>
     </TouchableOpacity>

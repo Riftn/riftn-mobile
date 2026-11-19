@@ -24,6 +24,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useVideoPlayer, VideoView } from "expo-video";
+import { VIDEO_SPEEDS } from "../../libs/post-video-edits";
 import * as VideoThumbnails from "expo-video-thumbnails";
 import { useTranslation as _useCopy } from "react-i18next";
 import SmartImage from "../common/SmartImage";
@@ -42,13 +43,15 @@ import { LOCK_QUICK_PRICES } from "./LockPriceRow";
 import { LOCK_DEFAULT_USD, formatLockUsd } from "../../libs/dmLocked";
 import { ADJUST_RANGES, DEFAULT_ADJUST, STUDIO_LOOKS, studioColorMatrix, type StudioAdjust, type StudioAdjustKey } from "../../libs/imageFilters";
 import { POST_DESTRUCT_CHOICES, postDestructLabel } from "../../libs/post-video-edits";
+import { SOUND_MIX_PRESETS, type SoundMix } from "../../libs/soundWindow";
+import { useAppTheme } from "../../context/ThemeContext";
 import { optionalSkia } from "../../libs/skia";
 import { VIDEO_CROP_RATIOS, cropRatioValue, dragCropRect, fitCropRect, isFullCrop, type CropHandle, type CropRatioId, type VideoCropRect } from "../../libs/video-crop";
 
 // The player cannot be colour filtered, so Looks and Adjust paint a still with Skia.
 const VideoLookFrame = optionalSkia(() => require("./VideoLookFrame").default as typeof import("./VideoLookFrame").default);
 
-export type Tab = "cover" | "trim" | "crop" | "mirror" | "rotate" | "looks" | "adjust" | "hide" | "timer" | "expire" | "alt" | "sound";
+export type Tab = "cover" | "trim" | "crop" | "speed" | "mirror" | "rotate" | "looks" | "adjust" | "hide" | "timer" | "expire" | "alt" | "sound";
 const ADJUST_ORDER: StudioAdjustKey[] = ["light", "contrast", "warmth", "tint", "colour", "fade", "vignette"];
 
 /** Post videos: look, strength and adjust dials. */
@@ -110,6 +113,8 @@ interface Props {
   /** Pay-to-unlock price in DHB; null = not locked. No handler = locking is not offered in this chat. */
   lockPrice?: number | null;
   onLockPriceChange?: (p: number | null) => void;
+  /** Photos: opens the full photo editor (crop, looks, draw, text). */
+  onEditPhoto?: () => void;
   /** Posts: look + adjust dials (the server bakes them in). */
   colour?: StudioColour;
   onColourChange?: (c: StudioColour) => void;
@@ -127,7 +132,15 @@ interface Props {
   /** Posts: swap the video for another one from the device. */
   onReplace?: () => void;
   /** Posts: the song laid over the video. */
-  sound?: { title?: string; creator?: string; onPick: () => void; onClear: () => void };
+  sound?: {
+    title?: string;
+    creator?: string;
+    onPick: () => void;
+    onClear: () => void;
+    /** How loud the song and the video's own sound play on the post. */
+    mix?: SoundMix;
+    onMixChange?: (mix: SoundMix) => void;
+  };
   /** Sheets that open over this screen (an iPhone modal can only stack on the one it is inside). */
   children?: React.ReactNode;
 }
@@ -169,7 +182,7 @@ function useFilmstrip(uri: string, duration: number, enabled: boolean) {
 export default function DmVideoStudio({
   visible, onClose, uri, duration = 0, width, height, size, options, onOptionsChange,
   destruct, onDestructChange, onCoverFrame, onConfirm, confirmLabel, initialTab = "trim", onlyTabs,
-  lockPrice = null, onLockPriceChange,
+  lockPrice = null, onLockPriceChange, onEditPhoto,
   kind = "video", strip, active = 0, onSelect, onAddMore, onRemove, allowTimer = true,
   colour, onColourChange, postTimer, alt, onUploadCover, coverPictureUri,
   crop, onCropChange, onReplace, sound, children,
@@ -216,6 +229,10 @@ export default function DmVideoStudio({
     p.muted = true;
     p.timeUpdateEventInterval = 0.1;
   });
+  // Preview the picked speed (posts only; DMs never set it).
+  useEffect(() => {
+    try { if (player) player.playbackRate = options.speed ?? 1; } catch {}
+  }, [player, options.speed]);
   useEffect(() => {
     if (!visible || !isVideo) return;
     try { player.currentTime = range.current.start; player.play(); } catch { /* not loaded yet */ }
@@ -352,6 +369,7 @@ export default function DmVideoStudio({
     { key: "cover", label: _copy("dmVideo.cover", { defaultValue: "Cover" }), icon: "Image" },
     { key: "trim", label: _copy("dmVideo.trim", { defaultValue: "Trim" }), icon: "Scissors" },
     { key: "crop", label: _copy("upload.studio.crop", { defaultValue: "Crop" }), icon: "Crop" },
+    { key: "speed", label: _copy("editor.video.speed", { defaultValue: "Speed" }), icon: "Gauge" },
     { key: "mirror", label: _copy("dmVideo.mirror", { defaultValue: "Mirror" }), icon: "FlipHorizontal2" },
     { key: "rotate", label: _copy("dmVideo.rotate", { defaultValue: "Rotate" }), icon: "RotateCw" },
     { key: "looks", label: _copy("upload.studio.looks", { defaultValue: "Looks" }), icon: "Palette" },
@@ -532,6 +550,14 @@ export default function DmVideoStudio({
           {tabs.length > 0 && <>
           <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0, borderBottomWidth: 1, borderBottomColor: "rgba(255,255,255,0.1)", marginTop: 8 }}
             contentContainerStyle={{ flexGrow: 1, justifyContent: "space-around", gap: tabs.length > 6 ? 4 : 0, paddingHorizontal: tabs.length > 6 ? 6 : 0 }}>
+            {!isVideo && onEditPhoto && (
+              <Pressable onPress={onEditPhoto} accessibilityRole="button" accessibilityLabel={_copy("upload.studio.title", { defaultValue: "Edit photo" })}
+                testID="dm-photo-edit"
+                style={{ alignItems: "center", gap: 3, paddingHorizontal: 6, paddingTop: 4, paddingBottom: 8, borderBottomWidth: 2, borderBottomColor: "transparent" }}>
+                <Icon name="Pencil" size={18} color={MUTED} />
+                <Text style={{ color: MUTED, fontSize: 11 }}>{_copy("common.edit", { defaultValue: "Edit" })}</Text>
+              </Pressable>
+            )}
             {tabs.map(({ key, label, icon }) => {
               const on = tab === key;
               return (
@@ -645,6 +671,19 @@ export default function DmVideoStudio({
                 })}
               </View>
             )}
+            {tab === "speed" && (
+              <View style={{ flexDirection: "row", borderRadius: 999, borderWidth: 1, borderColor: LINE, overflow: "hidden" }}>
+                {VIDEO_SPEEDS.map((sp) => {
+                  const on = (options.speed ?? 1) === sp;
+                  return (
+                    <Pressable key={sp} onPress={() => set({ speed: sp === 1 ? undefined : sp })} accessibilityRole="button" accessibilityState={{ selected: on }}
+                      style={{ flex: 1, paddingVertical: 9, alignItems: "center", backgroundColor: on ? WHITE : "transparent" }}>
+                      <Text style={{ color: on ? "#000" : MUTED, fontSize: 12, fontWeight: "600", fontVariant: ["tabular-nums"] }}>{sp}×</Text>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            )}
             {tab === "rotate" && (
               <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
                 <Pressable onPress={() => set({ rotate: nextQuarterTurn(options.rotate) || undefined })} accessibilityRole="button"
@@ -744,7 +783,11 @@ export default function DmVideoStudio({
                       <Icon name="X" size={14} color={WHITE} />
                     </Pressable>
                   </View>
-                ) : (
+                ) : null}
+                {sound.title && sound.mix && sound.onMixChange ? (
+                  <SoundMixRows mix={sound.mix} onChange={sound.onMixChange} />
+                ) : null}
+                {sound.title ? null : (
                   <Pressable onPress={sound.onPick} accessibilityRole="button" testID="studio-add-sound"
                     style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8, height: 44, borderRadius: 12, borderWidth: 1, borderColor: LINE }}>
                     <Icon name="Music" size={16} color={WHITE} />
@@ -894,6 +937,60 @@ function VideoCropOverlay({ width, height, rect, ratio, frameAspect, onChange }:
         <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: "33.33%", height: 1, backgroundColor: "rgba(255,255,255,0.35)" }} />
         <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: "66.66%", height: 1, backgroundColor: "rgba(255,255,255,0.35)" }} />
         {(["tl", "tr", "bl", "br"] as const).map(corner)}
+      </View>
+    </View>
+  );
+}
+
+const sameMix = (a: SoundMix, b: SoundMix) =>
+  Math.round(a.song * 100) === Math.round(b.song * 100) && Math.round(a.video * 100) === Math.round(b.video * 100);
+
+/** Two sliders (song, video sound) and three quick picks. Same as the web composer. */
+function SoundMixRows({ mix, onChange }: { mix: SoundMix; onChange: (mix: SoundMix) => void }) {
+  const { t: _copy } = _useCopy();
+  // Slider tints and the quick picks skip the light theme's colour turn, so
+  // they pick their ink here.
+  const { isLight } = useAppTheme();
+  const ink = isLight ? "#111114" : WHITE;
+  const rest = isLight ? "rgba(0,0,0,0.15)" : "rgba(255,255,255,0.25)";
+  const rows = [
+    { key: "song" as const, icon: "Music" as IconName, label: _copy("copy.fea4b5ceffa8", { defaultValue: "Song" }) },
+    { key: "video" as const, icon: "Video" as IconName, label: _copy("copy.4bf9a522a0de", { defaultValue: "Video sound" }) },
+  ];
+  const picks = [
+    { mix: SOUND_MIX_PRESETS.songOnly, label: _copy("copy.5405fb40dded", { defaultValue: "Song only" }) },
+    { mix: SOUND_MIX_PRESETS.mix, label: _copy("copy.dce6eb4447ef", { defaultValue: "Mix" }) },
+    { mix: SOUND_MIX_PRESETS.videoOnly, label: _copy("copy.0f8fed0dc99b", { defaultValue: "Video only" }) },
+  ];
+  return (
+    <View testID="studio-sound-mix" style={{ gap: 4, borderRadius: 12, borderWidth: 1, borderColor: LINE, backgroundColor: "rgba(255,255,255,0.04)", paddingHorizontal: 12, paddingVertical: 8 }}>
+      {rows.map(({ key, icon, label }) => {
+        const value = Math.round(mix[key] * 100);
+        return (
+          <View key={key} style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <Icon name={icon} size={14} color={MUTED} />
+            <Text style={{ color: WHITE, fontSize: 12, width: 76 }} numberOfLines={1}>{label}</Text>
+            <Slider style={{ flex: 1, height: 28 }} value={value} minimumValue={0} maximumValue={100} step={1}
+              onValueChange={(v) => onChange({ ...mix, [key]: Math.round(v) / 100 })}
+              minimumTrackTintColor={ink} maximumTrackTintColor={rest} thumbTintColor={ink}
+              accessibilityLabel={label} />
+            <Text style={{ color: WHITE, fontSize: 11, width: 36, textAlign: "right", fontVariant: ["tabular-nums"] }}>{value}%</Text>
+          </View>
+        );
+      })}
+      <View style={{ flexDirection: "row", gap: 6, paddingTop: 2 }}>
+        {picks.map((pick) => {
+          const on = sameMix(mix, pick.mix);
+          return (
+            // Own colours (not the theme's control glass), so the picked one reads as picked on every theme.
+            <Pressable key={pick.label} onPress={() => onChange({ ...pick.mix })} accessibilityRole="button" accessibilityState={{ selected: on }} className="dark-surface"
+              style={{ flex: 1, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center", borderWidth: 1,
+                borderColor: on ? ink : (isLight ? "rgba(0,0,0,0.12)" : LINE),
+                backgroundColor: on ? ink : (isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)") }}>
+              <Text style={{ color: on ? (isLight ? WHITE : "#000") : (isLight ? "#3F3F46" : "#D4D4D8"), fontSize: 11, fontWeight: "600" }}>{pick.label}</Text>
+            </Pressable>
+          );
+        })}
       </View>
     </View>
   );

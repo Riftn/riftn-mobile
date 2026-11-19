@@ -5,7 +5,12 @@
     "converted": "Ora appare come fumetto",
     "unconverted": "Ora appare come carosello",
     "convertFailed": "Impossibile cambiare il layout",
-    "showAll": "Mostra tutte le {{count}} pagine"
+    "showAll": "Mostra tutte le {{count}} pagine",
+    "tab": "Fumetto",
+    "title": "Fumetto",
+    "editor": {
+      "cover": "Copertina"
+    }
   },
   "comicBorder": {
     "title": "Bordo",
@@ -2613,7 +2618,14 @@
     "cbade2afaee2": "Di tendenza questa settimana su Audius. Gratuito da usare, l'artista viene accreditato nel tuo post.",
     "d2e45b7406fc": "Musica di pubblico dominio e Creative Commons da Wikimedia Commons. L'artista viene accreditato nel tuo post.",
     "d0c1a3684775": "Le canzoni non sono state caricate. Riprova tra un attimo.",
-    "d14064f80f52": "Aggiungi suono"
+    "d14064f80f52": "Aggiungi suono",
+    "71988c4d8e08": "Testo",
+    "147170e793c6": "Larghezza",
+    "481859b689b0": "Controlla la tua connessione e riprova.",
+    "57e2faa5ec63": "Cerca su Riftn",
+    "7db20897053b": "Persone",
+    "96d7bff86b44": "La ricerca non è riuscita a caricarsi",
+    "d8b8392e2c54": "Prova di nuovo"
   },
   "dehubLinks": {
     "kind": {
@@ -2629,7 +2641,9 @@
       "profile": "profilo",
       "proposal": "proposta",
       "stage": "fase",
-      "store": "negozio"
+      "store": "negozio",
+      "featureRequest": "richiesta",
+      "page": "pagina"
     }
   },
   "stageCover": {
@@ -2863,7 +2877,8 @@
       "quote": "Citazione",
       "bullets": "Elenco a punti",
       "numbers": "Elenco numerato",
-      "link": "Collegamento"
+      "link": "Collegamento",
+      "image": "Aggiungi immagini"
     }
   },
   "storefront": {
@@ -3220,6 +3235,8 @@
     "feedTogglesCleared": "Filtri del feed reimpostati",
     "defaultProfileTab": "Scheda profilo predefinita",
     "defaultProfileTabDesc": "Scegli quale scheda vedono per prima i visitatori sul tuo profilo",
+    "defaultProfileView": "Layout dei post del profilo",
+    "defaultProfileViewDesc": "Mostra i tuoi post in griglia o in elenco quando qualcuno apre il tuo profilo",
     "defaultPostVisibilityDesc": "Si applica a tutti i post attuali e futuri",
     "public": "Pubblico",
     "publicDesc": "Chiunque può vedere i tuoi post",
@@ -3873,7 +3890,11 @@
     "payDirectNoName": "Inviato direttamente al creator in {{symbol}} su {{chain}}. Nessuno swap.",
     "payViaBridgeDpay": "Spostato su Base e pagato a Riftn Pay, i token arrivano in circa un minuto",
     "tokensUnit": "token",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "addMessage": "Aggiungi un messaggio (facoltativo)",
+    "messagePublic": "Pubblico",
+    "railTitle": "Mance",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "embed": "Incorpora",
@@ -4607,7 +4628,8 @@
       "here": "{{name}} ha inviato un messaggio a tutti i membri della community",
       "hereNamed": "{{name}} ha inviato un messaggio a tutti gli utenti di \"{{community}}\""
     },
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "searchClose": "Chiudi ricerca"
   },
   "leaderboard": {
     "title": "Classifica",
@@ -4799,7 +4821,18 @@
     "attachmentTooLarge": "Ogni file deve essere sotto i 50 MB",
     "deleteCommentA11y": "Elimina il commento",
     "sendCommentA11y": "Invia commento",
-    "requestOptions": "Opzioni richiesta"
+    "requestOptions": "Opzioni richiesta",
+    "deviceInfoNoErrors": "Nessuno",
+    "topBuilders": {
+      "month": "Questo mese",
+      "allTime": "Tutto il tempo",
+      "shipped": "Completate",
+      "votes": "Voti",
+      "comments": "Commenti",
+      "showLess": "Mostra meno",
+      "viewProfile": "Visualizza profilo",
+      "you": "Tu"
+    }
   },
   "auth": {
     "loginRequired": "Accesso richiesto",
@@ -5074,7 +5107,17 @@
     "likesEmptyOwn": "I post che ti piacciono compaiono qui. Solo tu puoi vederli, a meno che non attivi Mostra i miei Mi piace nelle Impostazioni.",
     "likesEmptyOther": "Ancora nessun Mi piace.",
     "likesPrivateTitle": "I Mi piace sono privati",
-    "likesPrivateDesc": "Questo account tiene per sé i suoi Mi piace."
+    "likesPrivateDesc": "Questo account tiene per sé i suoi Mi piace.",
+    "articleShort": "Articolo",
+    "articleMinRead": "{{count}} minuti di lettura",
+    "pinnedShort": "Fissato",
+    "post": "Pubblica",
+    "arrange": {
+      "saving": "Salvataggio..."
+    },
+    "reserve": {
+      "signIn": "Accedi"
+    }
   },
   "tv": {
     "title": "TV",
@@ -5590,6 +5633,9 @@
       "action": "Azione",
       "schedule": "Programma",
       "filter": "Filtra attività"
+    },
+    "welcome": {
+      "text": "Messaggio di benvenuto"
     }
   },
   "hero": {
@@ -5671,7 +5717,16 @@
     "nowPublic": "Il flusso è ora pubblico",
     "openCanvas": "Apri la tela",
     "playVideo": "Riproduci video",
-    "signInToSee": "Accedi per visualizzare i flussi sul tuo account."
+    "signInToSee": "Accedi per visualizzare i flussi sul tuo account.",
+    "newNativeFlow": "Nuovo flusso",
+    "model": "Modello",
+    "aspectRatio": "Rapporto d'aspetto",
+    "duration": "Durata in secondi",
+    "resolution": "Risoluzione",
+    "disconnect": "Disconnetti",
+    "payAndRun": "Paga ed esegui",
+    "run": "Esegui",
+    "handlePrompt": "Personalizza"
   },
   "loginModal": {
     "title": "Accedi",
@@ -6625,7 +6680,8 @@
       "copied": "Messaggio copiato",
       "copyText": "Copia testo",
       "mutedUntil": "Sei disattivato fino a {{date}}",
-      "slowMode": "Modalità lenta: un messaggio ogni {{interval}}"
+      "slowMode": "Modalità lenta: un messaggio ogni {{interval}}",
+      "aiAdminFailed": "L'amministratore AI non ha risposto"
     },
     "manage": {
       "dismissAdminTitle": "Rimuovi amministratore",
@@ -6833,6 +6889,30 @@
       "notFound": "Questo link di invito non è valido.",
       "requestToJoin": "Richiedi di unirti",
       "approvalNote": "Un amministratore deve approvare la tua richiesta prima che tu possa iscriverti."
+    },
+    "buyAlert": {
+      "spent": "Speso:",
+      "buyer": "Acquirente:",
+      "balance": "Saldo:",
+      "price": "Prezzo:",
+      "marketCap": "Capitalizzazione di mercato:"
+    },
+    "newChat": {
+      "public": "Pubblico",
+      "private": "Privato",
+      "free": "Gratis",
+      "paid": "Pagato",
+      "group": "Raggruppa"
+    },
+    "holderGate": {
+      "chain": "Catena",
+      "tab": "Sostegni"
+    },
+    "automod": {
+      "bannedWords": "Parole bannate",
+      "floodMax": "{{count}} messaggi",
+      "saved": "Salvato",
+      "wordCount": "{{count}} parole"
     }
   },
   "work": {
@@ -8970,7 +9050,36 @@
     "coverFrames": "Scegli un fotogramma di copertina",
     "coverFrame": "Usa il fotogramma {{index}} come copertina",
     "uploadCover": "Carica un'immagine di copertina",
-    "editFailed": "Impossibile applicare la modifica. Riprova."
+    "editFailed": "Impossibile applicare la modifica. Riprova.",
+    "altPlaceholderVideo": "Descrivi questo video",
+    "preview": {
+      "title": "Anteprima"
+    },
+    "recent": {
+      "all": "Tutti"
+    },
+    "studio": {
+      "crop": "Ritaglia",
+      "draw": "Disegna",
+      "light": "Chiaro",
+      "contrast": "Contrasto",
+      "warmth": "Calore",
+      "colour": "Colore",
+      "fade": "Dissolvenza",
+      "original": "Originale",
+      "ratioOriginal": "Originale",
+      "ratioFree": "Gratis",
+      "rotate": "Ruota",
+      "strength": "Rafforzamento",
+      "stickers": "Sticker",
+      "ticker": "Testo scorrevole",
+      "textBg": "Sfondo",
+      "font": {
+        "bold": "Grassetto"
+      }
+    },
+    "edited": "Modificato",
+    "edit": "Modifica"
   },
   "bounty": {
     "claimed": "Riscosso",
@@ -9264,7 +9373,8 @@
     "justChatting": "Solo chiacchiere",
     "noLiveStreams": "Nessuna diretta",
     "noOneStreaming": "Nessuno sta trasmettendo ora. Torna più tardi!",
-    "loadStreamsFailed": "Impossibile caricare le dirette. Riprova."
+    "loadStreamsFailed": "Impossibile caricare le dirette. Riprova.",
+    "liveBadge": "IN DIRETTA"
   },
   "liveShop": {
     "title": "Acquista da questa diretta",
@@ -9598,7 +9708,14 @@
     "shareGroups": "Gruppi",
     "shareKindGroup": "Gruppo",
     "shareKindChannel": "Canale",
-    "shareKindCommunity": "Community"
+    "shareKindCommunity": "Community",
+    "newDrawer": {
+      "to": "A"
+    },
+    "download": "Scarica",
+    "deleteOneTitle": "Eliminare questo messaggio?",
+    "retrySend": "Riprova",
+    "discardSend": "Rimuovi"
   },
   "editPost": {
     "mediaPermission": "È richiesta l'autorizzazione alla libreria multimediale",
@@ -10817,7 +10934,10 @@
       "translateCount": "Traduci {{count}} sottotitoli",
       "translationDone": "{{count}} sottotitoli tradotti",
       "translationFailed": "La traduzione non è riuscita. I sottotitoli non sono stati modificati.",
-      "lockedTranslation": "Sblocca i sottotitoli bloccati per includerli."
+      "lockedTranslation": "Sblocca i sottotitoli bloccati per includerli.",
+      "styles": {
+        "bold": "Grassetto"
+      }
     },
     "app": {
       "newDesign": "Nuovo progetto",
@@ -11067,7 +11187,9 @@
       "suggestTitle": "Aggiungi un titolo grande in grassetto in alto e un sottotitolo più piccolo sotto",
       "undo": "Annulla",
       "openGenerator": "Rivedi e genera",
-      "working": "Ci sto lavorando…"
+      "working": "Ci sto lavorando…",
+      "stop": "Ferma",
+      "queue": "Aggiungi alla coda"
     },
     "brand": {
       "addColor": "Aggiungi un colore del brand",
@@ -11204,7 +11326,9 @@
       "rendering": "Rendering del video… {{percent}}%",
       "mp4": "Video MP4",
       "exportHint": "Tieni aperto l’editor mentre il tuo video viene elaborato.",
-      "tooLarge": "Il file è troppo grande per l’editor. Il limite è 400 MB."
+      "tooLarge": "Il file è troppo grande per l’editor. Il limite è 400 MB.",
+      "tZoomIn": "Ingrandisci",
+      "tZoomOut": "Zoom indietro"
     },
     "motion": {
       "title": "Movimento",
@@ -12383,6 +12507,28 @@
       "selection": "Selezione",
       "zoomIn": "Ingrandisci la tela",
       "zoomOut": "Zoom indietro sul canvas"
+    },
+    "stage": {
+      "camera": "Fotocamera",
+      "yaw": "Rotazione",
+      "add": "Aggiungi",
+      "scale": "Dimensione",
+      "color": "Colore",
+      "light": "Chiaro"
+    },
+    "clipFix": {
+      "listening": "In ascolto…"
+    },
+    "voiceClone": {
+      "stop": "Ferma registrazione",
+      "failed": "Clonazione della voce fallita."
+    },
+    "linkImport": {
+      "go": "Importa",
+      "downloading": "Download {{percent}}%"
+    },
+    "reverse": {
+      "action": "Inversa"
     }
   },
   "creator": {
@@ -12844,7 +12990,31 @@
     "referenceProductName": "Posiziona il tuo prodotto in un clip",
     "referenceProductHint": "Sostituisci il prodotto principale e preserva la scena originale",
     "referenceComposeName": "Combina immagini di riferimento",
-    "referenceComposeHint": "Porta personaggi, oggetti e ambientazioni da multiple immagini in una singola composizione"
+    "referenceComposeHint": "Porta personaggi, oggetti e ambientazioni da multiple immagini in una singola composizione",
+    "marketing": {
+      "import": {
+        "use": "Utilizza questi dettagli"
+      }
+    },
+    "batchCount": "Immagini",
+    "endFrame": "Frame finale",
+    "cinema": {
+      "close": "Chiudi",
+      "performance": {
+        "label": "Prestazioni"
+      }
+    },
+    "audioNoSpeech": "Non è stato trovato alcun discorso in quella registrazione.",
+    "audioTaskSpeechLabel": "Parlato",
+    "audioTaskDialogueLabel": "Dialogo",
+    "audioTaskSfxLabel": "Effetto sonoro",
+    "audioTaskVoiceChangerLabel": "Cambiavoce",
+    "audioTaskTranscribeLabel": "Trascrivi",
+    "audioTaskIsolateLabel": "Pulisci",
+    "priceFreeRateLimited": "Gratuito · si applicano limiti tariffari",
+    "dialogueFormat": "Scrivi la scena come \"Nome: riga\", un altoparlante per riga.",
+    "fileTooLarge": "Quel file supera i 100 MB. Usa uno più breve o più piccolo.",
+    "signInToGenerate": "Accedi per generare."
   },
   "fractions": {
     "title": "Frazioni",
@@ -13037,7 +13207,11 @@
     "ended": "Terminato",
     "stage": "Palco",
     "upcomingStage": "Palco imminente",
-    "members": "{{compact}} membri"
+    "members": "{{compact}} membri",
+    "requestComments_one": "{{compact}} commento",
+    "requestComments_other": "{{compact}} commenti",
+    "requestVotes_one": "{{compact}} voto",
+    "requestVotes_other": "{{compact}} voti"
   },
   "report": {
     "whyVideo": "Perché stai segnalando questo video?",
@@ -14840,6 +15014,19 @@
       "intro": "Gli spettatori guadagnano un punto per ogni minuto che guardano te e uno per ogni 100 token che donano. Chat e reazioni non danno punti, quindi i punti non possono essere accumulati in modo artificiale.",
       "empty": "Ancora nessun punto. Si accumulano mentre le persone guardano e donano.",
       "widgetHint": "Aggiungi il widget \"Spectatori fedeli\" per mostrare questa lista in stream."
+    },
+    "destinations": {
+      "platform": "Piattaforma",
+      "label": "Nome (opzionale)",
+      "key": "Chiave di streaming",
+      "save": "Aggiungi",
+      "cancel": "Annulla",
+      "states": {
+        "off": "Disattivato",
+        "idle": "Pronto",
+        "live": "In diretta",
+        "error": "Errore"
+      }
     }
   },
   "liveChatModeration": {
@@ -14926,7 +15113,71 @@
     "days": "{{count}} giorni",
     "spotlightForSale": "In vendita ora",
     "spotlightNew": "Appena fuso",
-    "buyFor": "Acquista per {{price}}"
+    "buyFor": "Acquista per {{price}}",
+    "actAll": "Tutti",
+    "actListings": "Annunci",
+    "actOffer": "Offerta",
+    "actOffers": "Offerte",
+    "actSales": "Vendite",
+    "tabActivity": "Attività",
+    "allChains": "Tutte le catene",
+    "newest": "Più recenti",
+    "cheapest": "Prezzo più basso",
+    "soldFor": "Venduto",
+    "signIn": "Accedi",
+    "title": "NFT",
+    "share": "Condividi",
+    "noneForSale": "Niente in vendita ancora",
+    "noSales": "Nessuna vendita ancora",
+    "tabBrowse": "Esplora",
+    "tabMine": "Tuoi",
+    "tabSales": "Vendite",
+    "cancelled": "Annullato",
+    "sold": "Venduto",
+    "listed": "In vendita",
+    "feeRow": "Commissione Riftn ({{pct}}%)",
+    "royaltyRow": "Royalty del creatore",
+    "youGet": "Ricevi",
+    "holderGets": "Il titolare riceve",
+    "loading": "Caricamento in corso...",
+    "price": "Prezzo",
+    "seller": "Venditore",
+    "tabRecent": "Recenti",
+    "buyNow": "Compra ora",
+    "offers": "Offerta",
+    "cancel": "Annulla",
+    "accept": "Accettare",
+    "signInToTrade": "Accedi per scambiare",
+    "listForSale": "Lista in vendita",
+    "makeOffer": "Fai un'offerta",
+    "sendOffer": "Invia offerta",
+    "back": "Indietro",
+    "dropsTo": "Prezzi scendono a {{price}} da parte di {{date}}",
+    "inBundle": "Venduto come bundle di {{n}}",
+    "trending": "Collezioni di tendenza",
+    "floor": "Piano",
+    "listedCount": "{{n}} in vendita",
+    "thisCollection": "Questa collezione",
+    "collectionOffer": "Offerta su qualsiasi",
+    "showAll": "Mostra tutto",
+    "shortTitle": "NFT",
+    "filters": "Filtri",
+    "forSale": "In vendita",
+    "openToOffers": "Aperto alle offerte",
+    "freshMints": "Fresco dai creatori di Riftn",
+    "offersOpen": "Aperto alle offerte",
+    "mintedCount": "{{n}} coniato",
+    "anyInCollection": "Qualsiasi raccolta in",
+    "thisNft": "Questo NFT",
+    "priceAlert": "Preavviso prezzo",
+    "alertUnder": "Dimmi quando è quotato a o sotto ({{symbol}}, opzionale)",
+    "turnOnAlert": "Attiva avviso",
+    "alertSaved": "Avviso attivo. Ci informeremo quando ne verrà elencato uno.",
+    "priceDrop": "Il prezzo scende nel tempo",
+    "endPrice": "Prezzo più basso, raggiunto alla fine ({{symbol}})",
+    "dropBadge": "Diminuzione del prezzo",
+    "days_one": "{{count}} giorno",
+    "days_other": "{{count}} giorni"
   },
   "riftnMove": {
     "title": "DeHub ora è Riftn",
@@ -15047,6 +15298,247 @@
     "newer": "Risultato più recente",
     "gone": "Questo messaggio non è più qui",
     "theirMessages": "I loro messaggi"
+  },
+  "profileImage": {
+    "change": "Cambia"
+  },
+  "remix": {
+    "cut": "Taglia"
+  },
+  "signedFollows": {
+    "setUp": "Attiva",
+    "turnOff": "Disattiva",
+    "efpTurnOff": "Ferma"
+  },
+  "postEditHistory": {
+    "original": "Originale"
+  },
+  "studioDeck": {
+    "remove": "Rimuovi",
+    "background": {
+      "title": "Sfondo",
+      "modes": {
+        "none": "Disattivato",
+        "blur": "Sfocatura",
+        "color": "Colore"
+      }
+    },
+    "scenes": {
+      "countdown": "Conto alla rovescia",
+      "names": {
+        "starting": "Inizia a breve"
+      }
+    },
+    "widgets": {
+      "tab": "Widget"
+    },
+    "sources": {
+      "image": "Immagine",
+      "show": "Mostra in streaming",
+      "positions": {
+        "center": "Centra"
+      },
+      "sizes": {
+        "small": "Piccolo",
+        "medium": "Media",
+        "large": "Grande"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Oggi",
+    "earlierShort": "Precedenti",
+    "tooSoon": "Scegli un orario futuro.",
+    "show": "Mostra",
+    "hide": "Nascondi"
+  },
+  "planned": {
+    "title": "Pianificata",
+    "all": "Tutti",
+    "posts": "Post",
+    "stages": "Stanze audio",
+    "post": "Pubblica",
+    "live": "In diretta",
+    "stage": "Palco",
+    "untitledPost": "Pubblica",
+    "untitledLive": "In diretta",
+    "loading": "Caricamento in corso...",
+    "startNow": "Inizia ora",
+    "cancel": "Annulla",
+    "cancelled": "Annullato"
+  },
+  "welcome": {
+    "about": {
+      "title": "Benvenuto in Riftn",
+      "day": "Giorno",
+      "month": "Mese",
+      "year": "Anno"
+    },
+    "name": {
+      "title": "Il tuo nome",
+      "placeholder": "Il tuo nome"
+    },
+    "card": {
+      "name": "Il tuo nome"
+    },
+    "topic": {
+      "music": "Musica",
+      "art": "Arte",
+      "crypto": "Cripto",
+      "sports": "Sport",
+      "comedy": "Commedia",
+      "food": "Cibo",
+      "news": "Notizie",
+      "science": "Scienze"
+    },
+    "back": "Indietro",
+    "skipPhoto": "Salta per ora",
+    "preview": "Anteprima"
+  },
+  "appTokens": {
+    "title": "I tuoi token",
+    "history": "Cronologia",
+    "noHistory": "Ancora nessuna attività",
+    "kindDeposit": "Deposita",
+    "to": "A",
+    "amount": "Importo",
+    "notePlaceholder": "Aggiungi una nota (facoltativo)",
+    "sendButton": "Invia",
+    "errorInsufficient": "Token non sufficienti"
+  },
+  "avatarPrompt": {
+    "notNow": "Non ora"
+  },
+  "postStats": {
+    "audience": "Pubblico",
+    "engagement": "Interazioni",
+    "finished": "Terminato",
+    "members": "Membri",
+    "membersLower": "membri",
+    "newFollowers": "Nuovi follower",
+    "noBadge": "Nessuna medaglia",
+    "people": "Persone",
+    "plays": "Riproduzioni",
+    "quotes": "citazioni",
+    "reposts": "Condivisioni",
+    "saved": "Salvato",
+    "shares": "Condivisioni",
+    "signedOutViewers": "Disconnesso",
+    "topSupporters": "I migliori sostenitori",
+    "visitors": "Disconnesso"
+  },
+  "duet": {
+    "policyEveryone": "Tutti",
+    "policyFollowers": "Follower",
+    "policyNobody": "Nessuno",
+    "loadMore": "Carica altro"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Tutti",
+      "followers": "Follower",
+      "nobody": "Nessuno"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Tutti",
+      "followers": "Follower",
+      "nobody": "Nessuno"
+    },
+    "heading": "Reazioni",
+    "more": "Mostra di più",
+    "liveNow": "In diretta",
+    "untitled": "Reazione"
+  },
+  "liveClips": {
+    "copyLink": "Copia link",
+    "linkCopied": "Link copiato"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Piano",
+      "howMany": "Quanti",
+      "who": "Nome utente o indirizzo del wallet",
+      "whoPlaceholder": "@nomeutente",
+      "cancel": "Annulla",
+      "stage": {
+        "preparing": "Preparazione…",
+        "confirming": "In attesa della transazione…",
+        "recording": "Completamento…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Altro",
+    "confirming": "Conferma del pagamento in corso..."
+  },
+  "liveShorts": {
+    "live": "IN DIRETTA"
+  },
+  "feedFilters": {
+    "clearAllShort": "Cancella tutto",
+    "done": "Fatto",
+    "edit": "Modifica",
+    "groupDate": "Data",
+    "groupSort": "Ordina",
+    "groupType": "Tipo",
+    "save": "Salva"
+  },
+  "ownKeys": {
+    "working": "In elaborazione",
+    "failed": "Si è verificato un errore. Riprova.",
+    "check": "Verifica",
+    "remove": "Rimuovi",
+    "save": "Salva",
+    "cancel": "Annulla"
+  },
+  "postBg": {
+    "none": "Nessuno",
+    "yours": "Tuoi",
+    "accent": "Accento",
+    "names": {
+      "lava": "Lampada di lava",
+      "chrome": "Cromo Liquido",
+      "snow": "Nevicata"
+    }
+  },
+  "articleTile": {
+    "cover": "Copertina"
+  },
+  "aiConsent": {
+    "allow": "Consenti"
+  },
+  "dmRequests": {
+    "title": "Richieste",
+    "accept": "Accetta",
+    "delete": "Elimina",
+    "block": "Blocca"
+  },
+  "dmSchedule": {
+    "view": "Visualizza",
+    "edit": "Modifica",
+    "editLabel": "Modifica messaggio",
+    "error": "Non ha funzionato. Riprova."
+  },
+  "chatBulk": {
+    "selected": "{{count}} selezionato",
+    "cancel": "Annulla",
+    "reply": "Rispondi",
+    "delete": "Elimina"
+  },
+  "msgSelect": {
+    "selected": "{{count}} selezionato",
+    "copy": "Copia",
+    "forward": "Inoltra",
+    "deleted_one": "Messaggio cancellato {{count}}",
+    "deleted_other": "Messaggi cancellati {{count}}"
+  },
+  "mentionLinks": {
+    "communities": "Community",
+    "pages": "Pagine",
+    "people": "Persone",
+    "linkTo": "Collega {{name}}"
   },
   "chatTabs": {
     "addChats": "Aggiungi chat",

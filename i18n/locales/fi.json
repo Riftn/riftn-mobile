@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Tämän viikon trendit Audiuksessa. Vapaasti käytettävissä, ja artisti mainitaan julkaisussasi.",
     "d2e45b7406fc": "Public domain -musiikkia ja Creative Commons -lisensoitua musiikkia Wikimedia Commonsista. Artisti mainitaan julkaisussasi.",
     "d0c1a3684775": "Kappaleita ei ladattu. Yritä hetken kuluttua uudelleen.",
-    "d14064f80f52": "Lisää ääni"
+    "d14064f80f52": "Lisää ääni",
+    "71988c4d8e08": "Teksti",
+    "147170e793c6": "Leveä",
+    "481859b689b0": "Tarkista yhteys ja yritä uudelleen.",
+    "57e2faa5ec63": "Hae Riftnista",
+    "7db20897053b": "Ihmiset",
+    "96d7bff86b44": "Hakua ei voitu ladata",
+    "d8b8392e2c54": "Yritä uudelleen"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Lainaus",
       "bullets": "Luettelointi",
       "numbers": "Pilkkuettu luettelo",
-      "link": "Linkki"
+      "link": "Linkki",
+      "image": "Lisää kuvia"
     }
   },
   "storefront": {
@@ -3150,6 +3158,8 @@
     "feedTogglesCleared": "Syötteen suodattimet nollattu",
     "defaultProfileTab": "Profiilin oletusvälilehti",
     "defaultProfileTabDesc": "Valitse, minkä välilehden kävijät näkevät ensin profiilissasi",
+    "defaultProfileView": "Profiilin julkaisujen asettelu",
+    "defaultProfileViewDesc": "Näytä julkaisusi ruudukkona tai listana, kun joku avaa profiilisi",
     "defaultPostVisibilityDesc": "Koskee kaikkia nykyisiä ja tulevia julkaisuja",
     "public": "Julkinen",
     "publicDesc": "Kuka tahansa voi nähdä julkaisusi",
@@ -3793,7 +3803,11 @@
     "payViaDpay": "Maksettu Riftn Paylle, tokenit saapuvat noin 30 sekunnissa",
     "payViaBridgeDpay": "Siirretty Baseen ja maksettu Riftn Paylle, tokenit saapuvat noin minuutissa",
     "tokensUnit": "tokenia",
-    "tokenAmount": "{{amount}} tokenia"
+    "tokenAmount": "{{amount}} tokenia",
+    "addMessage": "Lisää viesti (valinnainen)",
+    "messagePublic": "Julkinen",
+    "railTitle": "Vinkit",
+    "railTotal": "{{amount}} tokenia"
   },
   "postOptions": {
     "skippableSections": "Ohitettavat osiot",
@@ -4521,7 +4535,11 @@
       "here": "{{name}} lähetti viestin kaikille yhteisön jäsenille",
       "hereNamed": "{{name}} viestitti kaikille kohteessa \"{{community}}\""
     },
-    "tokenAmount": "{{amount}} tokenia"
+    "tokenAmount": "{{amount}} tokenia",
+    "groupNew": "Uutta",
+    "groupToday": "Tänään",
+    "groupThisWeek": "Tällä viikolla",
+    "searchClose": "Sulje hakua"
   },
   "leaderboard": {
     "title": "Tulostaulukko",
@@ -4713,7 +4731,18 @@
     "attachmentTooLarge": "Jokaisen tiedoston on oltava alle 50 Mt",
     "deleteCommentA11y": "Poista kommentti",
     "sendCommentA11y": "Lähetä kommentti",
-    "requestOptions": "Pyyntövaihtoehdot"
+    "requestOptions": "Pyyntövaihtoehdot",
+    "deviceInfoNoErrors": "Ei mitään",
+    "topBuilders": {
+      "month": "Tässä kuussa",
+      "allTime": "Kaikki aika",
+      "shipped": "Toimitettu",
+      "votes": "Äänet",
+      "comments": "Kommentit",
+      "showLess": "Näytä vähemmän",
+      "viewProfile": "Profiili",
+      "you": "Sinä"
+    }
   },
   "auth": {
     "loginRequired": "Kirjautuminen vaaditaan",
@@ -4974,7 +5003,20 @@
       "votes_other": "{{value}} ääntä",
       "members_one": "{{value}} jäsen",
       "members_other": "{{value}} jäsentä"
-    }
+    },
+    "articleShort": "Artikkeli",
+    "articleMinRead": "{{count}} minuutin luettelo",
+    "pinnedShort": "Kiinnitetty",
+    "post": "Julkaise",
+    "arrange": {
+      "saving": "Tallennetaan..."
+    },
+    "reserve": {
+      "signIn": "Kirjaudu sisään"
+    },
+    "tabLikes": "Tykkäykset",
+    "likesEmptyTitle": "Ei vielä tykkäyksiä",
+    "likesPrivateTitle": "Tykkäykset ovat yksityisiä"
   },
   "tv": {
     "title": "TV",
@@ -5490,6 +5532,9 @@
       "action": "Toiminto",
       "schedule": "Aikataulu",
       "filter": "Suodata toiminta"
+    },
+    "welcome": {
+      "text": "Tervetuloviesti"
     }
   },
   "hero": {
@@ -5571,7 +5616,16 @@
     "nowPublic": "Virtaus on nyt julkinen",
     "openCanvas": "Avaa kangas",
     "playVideo": "Toista video",
-    "signInToSee": "Kirjaudu sisään nähdäksesi tililläsi olevat rahavirrat."
+    "signInToSee": "Kirjaudu sisään nähdäksesi tililläsi olevat rahavirrat.",
+    "newNativeFlow": "Uusi flow",
+    "model": "Malli",
+    "aspectRatio": "Kuvasuhde",
+    "duration": "Kesto sekunneissa",
+    "resolution": "Resoluutio",
+    "disconnect": "Katkaise yhteys",
+    "payAndRun": "Maksa ja suorita",
+    "run": "Suorita",
+    "handlePrompt": "Ohjaa"
   },
   "loginModal": {
     "title": "Kirjaudu sisään",
@@ -5891,7 +5945,8 @@
     "searchMenu": "Hae valikosta",
     "clearSearch": "Tyhjennä haku",
     "noMenuMatches": "Mikään valikossa ei täsmää",
-    "searchDehubFor": "Hae Riftnista ”{{query}}”"
+    "searchDehubFor": "Hae Riftnista ”{{query}}”",
+    "requestSend": "Lähetä pyyntö"
   },
   "comments": {
     "reportComment": "Ilmoita kommentista",
@@ -6510,7 +6565,11 @@
       "copied": "Viesti kopioitu",
       "copyText": "Kopioi teksti",
       "mutedUntil": "Sinut mykistetään {{date}}asti",
-      "slowMode": "Hidas tila: yksi viesti {{interval}} välein"
+      "slowMode": "Hidas tila: yksi viesti {{interval}} välein",
+      "joined": "{{name}} liittyi",
+      "reactions": "Reaktiot",
+      "photoTooLarge": "Kuvan tulee olla alle 10 Mt",
+      "aiAdminFailed": "AI Admin ei vastannut"
     },
     "manage": {
       "dismissAdminTitle": "Hylkää ylläpitäjä",
@@ -6713,6 +6772,30 @@
       "notFound": "Tämä kutsulinkki ei kelpaa.",
       "requestToJoin": "Pyydä saada liittyä",
       "approvalNote": "Ylläpitäjän on hyväksyttävä pyyntösi, ennen kuin voit liittyä."
+    },
+    "buyAlert": {
+      "spent": "Käytetty:",
+      "buyer": "Ostaja:",
+      "balance": "Saldo:",
+      "price": "Hinta:",
+      "marketCap": "Markkina-arvo:"
+    },
+    "newChat": {
+      "public": "Julkinen",
+      "private": "Yksityinen",
+      "free": "Ilmainen",
+      "paid": "Maksettu",
+      "group": "Ryhmittele"
+    },
+    "holderGate": {
+      "chain": "Ketju",
+      "tab": "Omistajat"
+    },
+    "automod": {
+      "bannedWords": "Kielletyt sanat",
+      "floodMax": "{{count}} viestiä",
+      "saved": "Tallennettu",
+      "wordCount": "{{count}} sanaa"
     }
   },
   "work": {
@@ -7833,7 +7916,10 @@
       "doneAll": "{{done}} tiliä, jotka eivät seuranneet sinua takaisin, ei seurattu.",
       "doneSome": "{{done}} -tilien seuraamista ei voitu lopettaa. {{failed}} -tilien seuraamista ei voitu lopettaa.",
       "doneToast": "Ei seurattu {{done}} tiliä, jotka eivät seuraa sinua takaisin"
-    }
+    },
+    "followBackConfirm": "Vastaa seurantaan",
+    "followBackNotNow": "Ei nyt",
+    "followBackDone": "Valmis"
   },
   "reactionInfo": {
     "title": "Reaktiot",
@@ -8753,7 +8839,37 @@
     "coverFrames": "Valitse kansiokuva",
     "coverFrame": "Käytä kansiokuvana {{index}}",
     "uploadCover": "Lataa kansiokuva",
-    "editFailed": "Ei voitu soveltaa muokkausta. Yritä uudelleen."
+    "editFailed": "Ei voitu soveltaa muokkausta. Yritä uudelleen.",
+    "altPlaceholderVideo": "Kuvaile tämä video",
+    "preview": {
+      "title": "Esikatselu"
+    },
+    "recent": {
+      "all": "Kaikki"
+    },
+    "studio": {
+      "crop": "Rajaa",
+      "draw": "Piirrä",
+      "light": "Vaalea",
+      "contrast": "Kontrasti",
+      "warmth": "Lämpö",
+      "colour": "Väri",
+      "fade": "Häivytys",
+      "original": "Alkuperäinen",
+      "ratioOriginal": "Alkuperäinen",
+      "ratioFree": "Ilmainen",
+      "rotate": "Kierrä",
+      "strength": "Vahvuus",
+      "stickers": "Tarrat",
+      "ticker": "Tikkeri",
+      "textBg": "Tausta",
+      "font": {
+        "bold": "Lihavoitu",
+        "mono": "Yksi"
+      }
+    },
+    "edited": "Muokattu",
+    "edit": "Muokkaa"
   },
   "bounty": {
     "claimed": "Lunastettu",
@@ -9047,7 +9163,8 @@
     "justChatting": "Pelkkää juttelua",
     "noLiveStreams": "Ei livestriimejä",
     "noOneStreaming": "Kukaan ei striimaa juuri nyt. Palaa myöhemmin!",
-    "loadStreamsFailed": "Striimejä ei voitu ladata. Yritä uudelleen."
+    "loadStreamsFailed": "Striimejä ei voitu ladata. Yritä uudelleen.",
+    "liveBadge": "LIVENÄ"
   },
   "liveShop": {
     "title": "Osta tästä lähetyksestä",
@@ -9360,7 +9477,23 @@
     "paymentSentWith": "Lähetetty {{amount}}",
     "planRestricted": "Tämä käyttäjä vaatii tilauksen viestien vastaanottamiseen.",
     "planTypeNotAllowed": "Tämän tekijän paketti ei salli tämäntyyppistä viestiä.",
-    "planMinTip": "Tipin tälle tekijälle on oltava vähintään {{amount}} tokenia."
+    "planMinTip": "Tipin tälle tekijälle on oltava vähintään {{amount}} tokenia.",
+    "newDrawer": {
+      "to": "Loppuu"
+    },
+    "download": "Lataa",
+    "deleteOneTitle": "Poistetaanko tämä viesti?",
+    "retrySend": "Yritä uudelleen",
+    "discardSend": "Poista",
+    "shareKindGroup": "Ryhmittele",
+    "shareKindCommunity": "Yhteisö",
+    "searchDiscover": {
+      "people": "Ihmiset",
+      "communities": "Yhteisöt",
+      "members": "{{n}} jäsentä",
+      "newChat": "Uusi keskustelu",
+      "invite": "Kutsu"
+    }
   },
   "editPost": {
     "mediaPermission": "Mediakirjaston käyttöoikeus vaaditaan",
@@ -10578,7 +10711,10 @@
       "hint": "Muuttaa puheen ajastetuiksi tekstityksiksi, joiden tyyliä voit muokata. Toimii laitteellasi: ilmainen ja yksityinen. Ensimmäisellä kerralla malli ladataan.",
       "done": "Lisättiin {{count}} tekstitystä.",
       "noSpeech": "Tästä leikkeestä ei löytynyt puhetta.",
-      "failed": "Tekstityksiä ei voitu luoda tälle leikkeelle."
+      "failed": "Tekstityksiä ei voitu luoda tälle leikkeelle.",
+      "styles": {
+        "bold": "Lihavoitu"
+      }
     },
     "app": {
       "newDesign": "Uusi suunnitelma",
@@ -10828,7 +10964,9 @@
       "suggestTitle": "Lisää ylös iso lihavoitu otsikko ja sen alle pienempi alaotsikko",
       "undo": "Kumoa",
       "openGenerator": "Tarkista ja luo",
-      "working": "Työn alla…"
+      "working": "Työn alla…",
+      "stop": "Pysäytä",
+      "queue": "Lisää jonoon"
     },
     "brand": {
       "addColor": "Lisää brändiväri",
@@ -10965,7 +11103,9 @@
       "rendering": "Renderöidään videota… {{percent}} %",
       "mp4": "MP4-video",
       "exportHint": "Pidä editori auki, kun videotasi renderöidään.",
-      "tooLarge": "Tiedosto on liian suuri editorille. Raja on 400 MB."
+      "tooLarge": "Tiedosto on liian suuri editorille. Raja on 400 MB.",
+      "tZoomIn": "Lähennä",
+      "tZoomOut": "Loitonna"
     },
     "motion": {
       "title": "Liike",
@@ -12144,6 +12284,28 @@
       "selection": "Valinta",
       "zoomIn": "Zoom-ohjelman kannaksen suurennus",
       "zoomOut": "Loitonna kangasta"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Kierto",
+      "add": "Lisää",
+      "scale": "Koko",
+      "color": "Väri",
+      "light": "Vaalea"
+    },
+    "clipFix": {
+      "listening": "Kuunnellaan…"
+    },
+    "voiceClone": {
+      "stop": "Lopeta tallennus",
+      "failed": "Ääniklonaus epäonnistui."
+    },
+    "linkImport": {
+      "go": "Tuo",
+      "downloading": "Ladataan {{percent}}%"
+    },
+    "reverse": {
+      "action": "Taaksepäin"
     }
   },
   "creator": {
@@ -12605,7 +12767,32 @@
     "referenceProductName": "Aseta tuotteesi videoon",
     "referenceProductHint": "Korvaa esitelty tuote säilyttäen alkuperäisen taustan",
     "referenceComposeName": "Yhdistä viitekuvat",
-    "referenceComposeHint": "Tuo useista kuvista eri hahmot, esineet ja asetelmat yhteen koostumukseen"
+    "referenceComposeHint": "Tuo useista kuvista eri hahmot, esineet ja asetelmat yhteen koostumukseen",
+    "marketing": {
+      "import": {
+        "use": "Käytä näitä tietoja"
+      }
+    },
+    "batchCount": "Kuvat",
+    "endFrame": "Lopetuskehys",
+    "cinema": {
+      "close": "Sulje",
+      "performance": {
+        "label": "Suorituskyky"
+      }
+    },
+    "audioNoSpeech": "Ei löytynyt puhetta tallennetuista äänitiedoista",
+    "audioTaskSpeechLabel": "Puhe",
+    "audioTaskDialogueLabel": "Vuoropuhelu",
+    "audioTaskSfxLabel": "Äänitehoste",
+    "audioTaskVoiceChangerLabel": "Äänenmuunnin",
+    "audioTaskTranscribeLabel": "Litterointi",
+    "audioTaskIsolateLabel": "Siivous",
+    "priceFreeRateLimited": "Ilmaisia · hintarajoituksia sovelletaan",
+    "loop": "Silmukka",
+    "dialogueFormat": "Kirjoita kohtaus muodossa \"Nimi: rivi\", yksi puhuja per rivi.",
+    "fileTooLarge": "Tiedosto on yli 100 Mt. Käytä lyhyempää tai pienempää tiedostoa.",
+    "signInToGenerate": "Kirjaudu sisään luodaksesi."
   },
   "fractions": {
     "title": "Fraktiot",
@@ -14674,6 +14861,19 @@
       "intro": "Katsojat ansaitsevat pisteen jokaisesta katselemastaan minuutista ja yhden jokaisesta lahjoittamastaan 100 tokenia: stä. Chat ja reaktiot eivät tuota mitään, joten pisteitä ei voi kerätä.",
       "empty": "Ei vielä pisteitä. Niitä kertyy, kun ihmiset katsovat ja antavat lahjoja.",
       "widgetHint": "Lisää Uskolliset katsojat -widgetti näyttääksesi tämän luettelon streamissa."
+    },
+    "destinations": {
+      "platform": "Alusta",
+      "label": "Nimi (vapaaehtoinen)",
+      "key": "Striimiavain",
+      "save": "Lisää",
+      "cancel": "Peruuta",
+      "states": {
+        "off": "Pois päältä",
+        "idle": "Valmis",
+        "live": "Suora",
+        "error": "Virhe"
+      }
     }
   },
   "liveChatModeration": {
@@ -14727,7 +14927,8 @@
     "joinedBody": "Me lähetämme sähköpostin {{email}}, kun token julkaistaan.",
     "joinedBodyNoEmail": "Me lähetämme sinulle sähköpostia, kun token julkaistaan.",
     "failed": "Ei voinut tallentaa sitä. Yritä uudelleen.",
-    "privacy": "Ainoastaan kerron sinulle uuden julkaisun tiedoista."
+    "privacy": "Ainoastaan kerron sinulle uuden julkaisun tiedoista.",
+    "notifyMe": "Ilmoita minulle"
   },
   "githubLink": {
     "hint": "Kirjaudu GitHubiin todistaaksesi, että tili on sinun. Riftn näkee vain julkisen GitHub-profiilisi.",
@@ -14778,7 +14979,73 @@
     "days": "{{count}} päivää",
     "spotlightForSale": "Myytävänä nyt",
     "spotlightNew": "Vain mintattu",
-    "buyFor": "Osta {{price}}"
+    "buyFor": "Osta {{price}}",
+    "actAll": "Kaikki",
+    "actListings": "Ilmoitukset",
+    "actOffer": "Tarjotaa",
+    "actOffers": "Tarjoukset",
+    "actSales": "Myydyt",
+    "tabActivity": "Toiminta",
+    "allChains": "Kaikki ketjut",
+    "newest": "Uusimmat",
+    "cheapest": "Alin hinta",
+    "soldFor": "Myyty",
+    "signIn": "Kirjaudu sisään",
+    "title": "NFTS",
+    "share": "Jaa",
+    "noneForSale": "Ei vielä myytävää",
+    "noSales": "Ei myyntiä vielä",
+    "tabBrowse": "Selaa",
+    "tabMine": "Sinun",
+    "tabSales": "Myydyt",
+    "cancelled": "Peruttu",
+    "sold": "Myyty",
+    "listed": "Myynnissä",
+    "feeRow": "Riftn -maksu ({{pct}}%)",
+    "royaltyRow": "Luojan palkkio",
+    "youGet": "Saat",
+    "holderGets": "Omistaja saa",
+    "loading": "Ladataan…",
+    "price": "Hinta",
+    "seller": "Myyjä",
+    "tabRecent": "Viimeaikaiset",
+    "buyNow": "Osta nyt",
+    "offers": "Tarjoukset",
+    "cancel": "Peruuta",
+    "accept": "Hyväksy",
+    "signInToTrade": "Kirjaudu sisään kauppaan",
+    "listForSale": "Luettavaksi myyntiin",
+    "makeOffer": "Tee tarjous",
+    "sendOffer": "Lähetä tarjous",
+    "back": "Takaisin",
+    "dropsTo": "Hinta laskee {{price}}:een {{date}}:na.",
+    "inBundle": "Myydään pakettina {{n}}",
+    "trending": "Trendikkäät kokoelmat",
+    "floor": "Lattia",
+    "listedCount": "{{n}} myytävänä",
+    "thisCollection": "Tämä kokoelma",
+    "collectionOffer": "Tarjoa missä tahansa",
+    "showAll": "Näytä kaikki",
+    "shortTitle": "NFTS",
+    "filters": "Suodattimet",
+    "forSale": "Myytävänä",
+    "openToOffers": "Avaa tarjouksille",
+    "freshMints": "Tuoretta tietoa Riftnin tekijöiltä",
+    "offersOpen": "Avaa tarjouksille",
+    "mintedCount": "{{n}} lyöty",
+    "anyInCollection": "Jokainen kokoelma",
+    "thisNft": "Tämä NFT",
+    "priceAlert": "Hinta-alertti",
+    "alertUnder": "Kerro minulle, kun se listataan tai alle ({{symbol}}, vapaaehtoinen)",
+    "turnOnAlert": "Ota ilmoitus päälle",
+    "alertSaved": "Varoitus päällä. Kerromme, kun joku listataan.",
+    "priceDrop": "Hinta laskee ajan myötä",
+    "endPrice": "Alin hinta, saavutettu lopussa ({{symbol}})",
+    "bundleBadge": "Paketti ×{{n}}",
+    "dropBadge": "Hinnan lasku",
+    "days_one": "{{count}} päivä",
+    "days_other": "{{count}} päivää",
+    "sellYoursHint": "Listaaja taskustasi"
   },
   "riftnMove": {
     "title": "DeHub on nyt Riftn",
@@ -14891,5 +15158,244 @@
     "newer": "Uudempi tulos",
     "gone": "Tätä viestiä ei ole enää täällä",
     "theirMessages": "Hänen viestinsä"
+  },
+  "chatTextSize": {
+    "title": "Tekstin koko",
+    "default": "Oletus",
+    "larger": "Suurempi"
+  },
+  "remix": {
+    "cut": "Leikkaa"
+  },
+  "signedFollows": {
+    "setUp": "Ota käyttöön",
+    "turnOff": "Poista",
+    "efpTurnOff": "Pysäytä"
+  },
+  "postEditHistory": {
+    "original": "Alkuperäinen"
+  },
+  "studioDeck": {
+    "remove": "Poista",
+    "background": {
+      "title": "Tausta",
+      "modes": {
+        "none": "Pois päältä",
+        "blur": "Sumennus",
+        "color": "Väri"
+      }
+    },
+    "scenes": {
+      "countdown": "Lähtölaskenta",
+      "names": {
+        "starting": "Alkaa pian"
+      }
+    },
+    "widgets": {
+      "tab": "Widgetit"
+    },
+    "sources": {
+      "image": "Kuva",
+      "show": "Näytä suoratoistossa",
+      "positions": {
+        "center": "Keskitä"
+      },
+      "sizes": {
+        "medium": "Keskitaso"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Tänään",
+    "tooSoon": "Valitse tulevaisuuden ajankohta.",
+    "show": "Näytä",
+    "hide": "Piilota"
+  },
+  "planned": {
+    "title": "Suunniteltu",
+    "all": "Kaikki",
+    "posts": "Julkaisut",
+    "stages": "Äänihuoneet",
+    "post": "Julkaise",
+    "live": "Suora",
+    "stage": "Lava",
+    "untitledPost": "Julkaise",
+    "untitledLive": "Suora",
+    "loading": "Ladataan…",
+    "startNow": "Aloita nyt",
+    "cancel": "Peruuta",
+    "cancelled": "Peruutettu"
+  },
+  "welcome": {
+    "about": {
+      "title": "Tervetuloa Riftniin",
+      "day": "Päivä",
+      "month": "Kuukausi",
+      "year": "Vuosi"
+    },
+    "name": {
+      "title": "Nimi",
+      "placeholder": "Nimi"
+    },
+    "card": {
+      "name": "Nimi",
+      "followers": "seuraajat"
+    },
+    "topic": {
+      "music": "Musiikki",
+      "art": "Taide",
+      "gaming": "Pelit",
+      "crypto": "Krypto",
+      "sports": "Urheilu",
+      "comedy": "Komedia",
+      "film": "Elokuva",
+      "food": "Ruoka",
+      "news": "Uutiset",
+      "science": "Tiede"
+    },
+    "back": "Takaisin",
+    "skipPhoto": "Ohita tällä kertaa",
+    "preview": "Esikatselu"
+  },
+  "appTokens": {
+    "title": "Omat tokenisi",
+    "history": "Historia",
+    "noHistory": "Ei vielä aktiviteetteja",
+    "kindDeposit": "Lisää varoja",
+    "to": "Loppuu",
+    "amount": "Summa",
+    "notePlaceholder": "Lisää viesti (valinnainen)",
+    "sendButton": "Lähetä",
+    "errorInsufficient": "Ei tarpeeksi tokeneita"
+  },
+  "avatarPrompt": {
+    "notNow": "Ei nyt"
+  },
+  "postStats": {
+    "audience": "Yleisö",
+    "engagement": "Sitoutuminen",
+    "finished": "Päättynyt",
+    "members": "Jäsenet",
+    "membersLower": "jäsentä",
+    "newFollowers": "Uudet seuraajat",
+    "noBadge": "Ei tunnusta",
+    "people": "Ihmiset",
+    "plays": "Soittaa",
+    "quotes": "lainausta",
+    "reposts": "Uudelleenjulkaisut",
+    "saved": "Tallennettu",
+    "shares": "Jaot",
+    "signedOutViewers": "Kirjauduttu ulos",
+    "topSupporters": "Parhaat kannattajat",
+    "visitors": "Kirjauduttu ulos"
+  },
+  "duet": {
+    "policyEveryone": "Kaikki",
+    "policyFollowers": "Seuraajat",
+    "policyNobody": "Ei kukaan",
+    "loadMore": "Lataa lisää"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Kaikki",
+      "followers": "Seuraajat",
+      "nobody": "Ei kukaan"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Kaikki",
+      "followers": "Seuraajat",
+      "nobody": "Ei kukaan"
+    },
+    "heading": "Reaktiot",
+    "more": "Näytä enemmän",
+    "liveNow": "Suora",
+    "untitled": "Reaktio"
+  },
+  "liveClips": {
+    "copyLink": "Kopioi linkki",
+    "linkCopied": "Linkki kopioitu"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Suunnitelma",
+      "howMany": "Kuinka monta",
+      "who": "Käyttäjänimi tai lompakko-osoite",
+      "whoPlaceholder": "@käyttäjänimi",
+      "cancel": "Peruuta",
+      "stage": {
+        "preparing": "Valmistellaan…",
+        "confirming": "Odotetaan tapahtumaa…",
+        "recording": "Viimeistellään…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Muu",
+    "confirming": "Vahvistetaan maksua…"
+  },
+  "liveShorts": {
+    "live": "LIVENÄ"
+  },
+  "feedFilters": {
+    "clearAllShort": "Tyhjennä kaikki",
+    "done": "Valmis",
+    "edit": "Muokkaa",
+    "groupDate": "Päivämäärä",
+    "groupSort": "Lajittele",
+    "groupType": "Tyyppi",
+    "save": "Tallenna"
+  },
+  "ownKeys": {
+    "working": "Käynnissä",
+    "failed": "Jokin meni pieleen. Yritä uudelleen.",
+    "check": "Tarkista",
+    "remove": "Poista",
+    "save": "Tallenna",
+    "cancel": "Peruuta"
+  },
+  "postBg": {
+    "none": "Ei mitään",
+    "yours": "Sinun",
+    "accent": "Kirjaimet",
+    "names": {
+      "lava": "Laavalamppu",
+      "drive": "Yöajelu",
+      "chrome": "Nestekromi",
+      "orbit": "Kiertorata",
+      "snow": "Lumisade"
+    }
+  },
+  "articleTile": {
+    "cover": "Kansikuva"
+  },
+  "aiConsent": {
+    "allow": "Salli"
+  },
+  "dmRequests": {
+    "title": "Ominaisuuspyynnöt",
+    "accept": "Hyväksy",
+    "delete": "Poista",
+    "block": "Estä"
+  },
+  "dmSchedule": {
+    "view": "Katso",
+    "edit": "Muokkaa",
+    "editLabel": "Muokkaa viestiä",
+    "error": "Se ei toiminut. Yritä uudelleen."
+  },
+  "chatBulk": {
+    "selected": "{{count}} valittu",
+    "cancel": "Peruuta",
+    "reply": "Vastaa",
+    "delete": "Poista"
+  },
+  "msgSelect": {
+    "selected": "{{count}} valittu",
+    "copy": "Kopioi",
+    "forward": "Välitä",
+    "deleted_one": "Poistettu {{count}} viesti",
+    "deleted_other": "Poistettu {{count}} viestiä"
   }
 }

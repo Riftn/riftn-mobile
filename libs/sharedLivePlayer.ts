@@ -23,7 +23,10 @@ import {
   EVENT_LIVE_BUFFER_OPTIONS,
   EVENT_TARGET_OFFSET_FROM_LIVE_SEC,
   LIVE_BUFFER_OPTIONS,
+  SETTLED_LIVE_OFFSET_SEC,
 } from "./videoBuffering";
+
+export { SETTLED_LIVE_OFFSET_SEC, startReloadedLiveBehindEdge } from "./videoBuffering";
 import { releaseAfterPictureInPicture } from './pictureInPicture';
 import { shareAudioWhenSilent } from "./videoAudioMixing";
 import { perfMark } from "./perfTrace";
@@ -69,13 +72,6 @@ export function markBigEventLive(url: string | null | undefined, event: boolean)
   if (entry) tuneForLatency(entry.player, url);
 }
 
-/**
- * Android: how far behind live a stream settles once it has stalled, in
- * seconds. With LIVE_BUFFER_OPTIONS' three seconds of forward buffer, the next
- * thing the player fetches from six seconds back is always a finished
- * two-second segment, never the newest 0.2s part.
- */
-export const SETTLED_LIVE_OFFSET_SEC = 6;
 
 /**
  * The start of a fresh muxer's playlist is seven placeholder segments
@@ -109,7 +105,8 @@ export function settleTarget(position: number, windowDuration: number, want: num
 }
 
 /**
- * Android only: once a live stalls, settle it a few seconds behind the edge.
+ * Once a live stalls, settle it a few seconds behind the edge (the iPhone
+ * version is settleBehindLiveOnStallIOS below).
  *
  * The self-hosted ingest serves low-latency HLS: two-second segments, each
  * also published as 0.2s parts, with a half-second hold-back. ExoPlayer takes
@@ -128,6 +125,7 @@ export function settleTarget(position: number, windowDuration: number, want: num
  * stalls, never gets here, and keeps the half-second latency.
  */
 export function settleBehindLiveOnStall(player: VideoPlayer, url: string): () => void {
+  if (Platform.OS === "ios") return settleBehindLiveOnStallIOS(player, url);
   if (Platform.OS !== "android") return () => undefined;
   let played = false;
   // Once per source: the buffering our own seek causes, and any stall after
@@ -152,6 +150,65 @@ export function settleBehindLiveOnStall(player: VideoPlayer, url: string): () =>
       }
     }),
     // A reloaded source starts at the live edge again.
+    player.addListener("sourceChange", () => {
+      played = false;
+      settled = false;
+    }),
+  ];
+  return () => subs.forEach((sub) => sub.remove());
+}
+
+/**
+ * Where an iPhone's stalled live should go back by, in seconds, or null to
+ * leave it alone.
+ *
+ * AVPlayer reports no window for a live (its duration is 0), so this works
+ * from how far behind the server's clock the picture is (`currentOffsetFromLive`,
+ * read from the playlist's PROGRAM-DATE-TIME) and from the playhead, which
+ * counts from the first segment it loaded. The playhead check keeps the seek
+ * out of the placeholder segments a freshly started muxer opens with, which
+ * matters most here: the iPhone's AAC copy is started on demand by the first
+ * iPhone that asks for it.
+ */
+export function iosSettleBack(offsetFromLive: number | null | undefined, position: number, want: number): number | null {
+  if (typeof offsetFromLive !== "number" || !Number.isFinite(offsetFromLive) || offsetFromLive < 0) return null;
+  if (!Number.isFinite(position)) return null;
+  // Already far enough behind live: this stall is the network, not the edge.
+  if (offsetFromLive >= want - 1) return null;
+  const back = want - offsetFromLive;
+  if (back < 1) return null;
+  if (position - back < PLACEHOLDER_WINDOW_SEC) return null;
+  return back;
+}
+
+/**
+ * The iPhone half of the same fix. AVPlayer plays the same low-latency
+ * playlist at the newest parts, and from a phone far from the server it stalls
+ * the same way. Once it has stalled, it is sent a few seconds back and told to
+ * stay there (`targetOffsetFromLive`), so it fetches whole segments from then
+ * on. A reload started by the playback recovery starts there too.
+ */
+function settleBehindLiveOnStallIOS(player: VideoPlayer, url: string): () => void {
+  let played = false;
+  let settled = false;
+  const subs = [
+    player.addListener("playingChange", (event) => {
+      if (event?.isPlaying) played = true;
+    }),
+    player.addListener("statusChange", (event) => {
+      if (event?.status !== "loading" || !played || settled) return;
+      try {
+        const want = bigEventUrls.has(url) ? EVENT_TARGET_OFFSET_FROM_LIVE_SEC : SETTLED_LIVE_OFFSET_SEC;
+        const back = iosSettleBack(player.currentOffsetFromLive, player.currentTime, want);
+        if (back == null) return;
+        settled = true;
+        perfMark(`live settle ${want}s behind`);
+        player.targetOffsetFromLive = want;
+        player.seekBy(-back);
+      } catch {
+        /* A released player, or an older native module: nothing to settle. */
+      }
+    }),
     player.addListener("sourceChange", () => {
       played = false;
       settled = false;

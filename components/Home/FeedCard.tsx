@@ -122,7 +122,7 @@ import Icon, { type IconName } from "../ui/Icon";
 import TranslateButton from "../ui/TranslateButton";
 import SoundtrackBadge, { SoundDrift } from "../Post/SoundtrackBadge";
 import RemixCredits from "../Post/RemixCredits";
-import { parseSoundtrack } from "../../libs/parseSoundtrack";
+import { attachedSoundFrom, parseSoundtrack } from "../../libs/parseSoundtrack";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useCopy } from "react-i18next";
 import { useImageTranslation } from "../../hooks/useImageTranslation";
@@ -1021,6 +1021,12 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // It must say so in words, or a paid post reads as organic reach.
   const isBoosted = !!(item as any).__boosted;
   const goToSuperPowers = useCallback(() => navigation.navigate(ScreenNames.SuperPowers), [navigation]);
+  // Tapping a video's song chip starts a new post with the same song.
+  const openSoundtrackComposer = useCallback(() => {
+    if (!soundtrack?.url) return;
+    const sound = attachedSoundFrom(soundtrack);
+    requireAuth?.(() => navigation.navigate(ScreenNames.Upload as never, { sound } as never));
+  }, [soundtrack, requireAuth, navigation]);
   // The App Store build has no SuperPowers page (config/storefront): the
   // label stays, the link goes.
   const openSuperPowers = DIGITAL_PURCHASES_ENABLED ? goToSuperPowers : undefined;
@@ -2004,6 +2010,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       transcodingStatus={item.transcodingStatus}
       storyboard={isActuallyGated ? undefined : item.storyboard}
       soundtrackUrl={isActuallyGated || matureGate.isGated ? undefined : soundtrack?.url}
+      soundtrackTitle={soundtrack?.title}
+      soundtrackCreator={soundtrack?.creator}
+      onSoundtrackPress={openSoundtrackComposer}
       isOwner={!!isOwnerPost}
       duration={duration}
       tokenId={tokenId}
@@ -2584,7 +2593,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   variant="portrait" compactPortrait={SCREEN_WIDTH < 768} maxLines={4} showCategories={false} flagged={item.communityAlertStatus === "pending"}
                   onCategoryPress={onCategorySelect} onCashtagPress={setActiveCashtag} />
               </PostTapSurface>
-              {hasSoundtrack && !soundtrackOnMedia && <View className="mt-2"><SoundtrackBadge key={postKey} title={soundtrack.title} creator={soundtrack.creator} url={soundtrack.url} isVisible={isVisible} withVideo={isVideo} /></View>}
+              {hasSoundtrack && !soundtrackOnMedia && !isVideo && <View className="mt-2"><SoundtrackBadge key={postKey} title={soundtrack.title} creator={soundtrack.creator} url={soundtrack.url} isVisible={isVisible} /></View>}
               {(item as any).isQuotePost && <QuotedPostEmbed key={postKey} quotedPost={(item as any).quotedPost} quotedTokenId={(item as any).quotedTokenId} revoked={(item as any).quoteRevoked} quoteTokenId={tokenId ?? undefined} />}
               <DehubLinkCards links={dehubLinks} />
               {remixCredits}
@@ -2649,14 +2658,13 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             <View onLayout={stageMedia ? undefined : reportAnchor}>
               {!immersive && renderContent()}
             </View>
-            {hasSoundtrack && !isActuallyGated && (
+            {hasSoundtrack && !isActuallyGated && !isVideo && (
               <View className="mt-2">
                 <SoundtrackBadge
                   key={postKey}
                   title={soundtrack.title}
                   creator={soundtrack.creator}
                   url={soundtrack.url}
-                  withVideo={isVideo}
                   isVisible={isVisible}
                 />
               </View>
@@ -2819,14 +2827,13 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         inline
       />
     ) : null;
-    const soundtrackBadge = hasSoundtrack && !isActuallyGated && !soundtrackOnMedia ? (
+    const soundtrackBadge = hasSoundtrack && !isActuallyGated && !soundtrackOnMedia && !isVideo ? (
       <View className="mt-2">
         <SoundtrackBadge
           key={postKey}
           title={soundtrack.title}
           creator={soundtrack.creator}
           url={soundtrack.url}
-          withVideo={isVideo}
           isVisible={isVisible}
         />
       </View>
@@ -3221,15 +3228,14 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         </View>
       )}
 
-      {hasSoundtrack && !isActuallyGated && !soundtrackOnMedia && (
+      {hasSoundtrack && !isActuallyGated && !soundtrackOnMedia && !isVideo && (
         <View className="mt-2">
           <SoundtrackBadge
             key={postKey}
             title={soundtrack.title}
             creator={soundtrack.creator}
             url={soundtrack.url}
-            withVideo={isVideo}
-            isVisible={isVisible}
+              isVisible={isVisible}
           />
         </View>
       )}

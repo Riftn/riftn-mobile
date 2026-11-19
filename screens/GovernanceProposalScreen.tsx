@@ -112,7 +112,7 @@ const CommentRow: React.FC<{
     <FocusAnchor active={highlighted} onMeasured={onHighlightMeasured}>
     <Pressable
       onPress={() => onReply(comment)}
-      style={[styles.commentRow, highlighted && styles.commentRowHighlighted]}
+      style={styles.commentRow}
       accessibilityRole="button"
       accessibilityLabel={t("governance.discussion.reply")}
     >
@@ -715,7 +715,6 @@ const styles = StyleSheet.create({
   noComments: { color: "#808089", fontSize: 12, textAlign: "center", paddingVertical: 8 },
 
   commentRow: { flexDirection: "row", gap: 10, paddingVertical: 6, marginHorizontal: -14, paddingHorizontal: 14, borderRadius: 8 },
-  commentRowHighlighted: { backgroundColor: "rgba(255,255,255,0.06)" },
   threadLineAbove: { position: "absolute", left: THREAD_X, top: 0, height: 6 + 14, width: 1, backgroundColor: THREAD_LINE },
   threadLineBelow: { position: "absolute", left: THREAD_X, top: 6 + 14, bottom: 0, width: 1, backgroundColor: THREAD_LINE },
   commentHead: { flexDirection: "row", alignItems: "center", gap: 6 },

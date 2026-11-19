@@ -113,6 +113,7 @@ import {
 } from "../hooks/useFeatureRequests";
 import { Collapsible, CollapsibleChevron } from "../components/ui/Collapsible";
 import DeviceInfoPanel from "../components/FeatureRequests/DeviceInfoPanel";
+import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 const TITLE_MAX = 100;
 const DESC_MAX = 1000;
@@ -694,6 +695,7 @@ const PromptComposer: React.FC<{
   React.useEffect(() => { if (focusRequest) inputRef.current?.focus(); }, [focusRequest]);
   const { isSignedIn, needsUsername } = useAuthState();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const valid = description.trim().length > 0;
 
   const pickMedia = useCallback(async () => {
@@ -719,7 +721,7 @@ const PromptComposer: React.FC<{
 
   const handleSubmit = async () => {
     if (!valid || submitting) return;
-    if (!isSignedIn || needsUsername) { navigation.navigate(ScreenNames.SignIn); return; }
+    if (!isSignedIn || needsUsername) { openSignIn(); return; }
     const prompt = description.trim();
     try {
       await onSubmit({
@@ -820,6 +822,7 @@ function FeatureRequestsBoard() {
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   // Opened from the menu, a render-time canGoBack() is still false; this
   // follows the stack once the push is saved.
   const canPop = useCanGoBack();
@@ -930,7 +933,7 @@ function FeatureRequestsBoard() {
   const handleVote = useCallback(
     (feature: FeatureRequest, voteType: 1 | -1) => {
       if (!isAuthed) {
-        navigation.navigate(ScreenNames.SignIn);
+        openSignIn();
         return;
       }
       voteMutation.mutate({

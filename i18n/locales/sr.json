@@ -1,6 +1,11 @@
 {
   "comic": {
-    "showAll": "Прикажи свих {{count}} страница"
+    "showAll": "Прикажи свих {{count}} страница",
+    "tab": "Стрип",
+    "title": "Стрип",
+    "editor": {
+      "cover": "Насловна слика"
+    }
   },
   "comicBorder": {
     "title": "Оквир",
@@ -2608,7 +2613,14 @@
     "cbade2afaee2": "Трендови ове недеље на Аудиус. Бесплатно за коришћење, уметник добија кредитет на вашем посту.",
     "d2e45b7406fc": "Јавни домен и Цреативе Цоммонс музика са Wикимедиа Цоммонс. Уметник добија кредитет на вашем посту.",
     "d0c1a3684775": "Песме се нису учитале. Покушајте поново за тренутак.",
-    "d14064f80f52": "Додај звук"
+    "d14064f80f52": "Додај звук",
+    "71988c4d8e08": "Теxт",
+    "147170e793c6": "Широко",
+    "481859b689b0": "Проверите вашу везу и покушајте поново.",
+    "57e2faa5ec63": "Претражи Riftn",
+    "7db20897053b": "Људи",
+    "96d7bff86b44": "Претрага није могла да се учита",
+    "d8b8392e2c54": "Покушајте поново"
   },
   "dehubLinks": {
     "kind": {
@@ -2858,7 +2870,8 @@
       "quote": "Цитат",
       "bullets": "Булбаста листа",
       "numbers": "Бројчана листа",
-      "link": "Линк"
+      "link": "Линк",
+      "image": "Додајте слике"
     }
   },
   "storefront": {
@@ -3151,6 +3164,8 @@
     "feedTogglesCleared": "Филтери фида су ресетовани",
     "defaultProfileTab": "Подразумевана картица профила",
     "defaultProfileTabDesc": "Изаберите коју картицу посетиоци прво виде на вашем профилу",
+    "defaultProfileView": "Распоред објава на профилу",
+    "defaultProfileViewDesc": "Прикажите своје објаве као мрежу или листу када неко отвори ваш профил",
     "defaultPostVisibilityDesc": "Важи за све тренутне и будуће објаве",
     "public": "Јавно",
     "publicDesc": "Свако може видети ваше објаве",
@@ -3796,7 +3811,11 @@
     "payViaDpay": "Плаћено Riftn Паy-у, токенови долазе у око 30с",
     "payViaBridgeDpay": "Премјештени на Басе и плаћено Riftn Паy-у, токенови долазе у око минута",
     "tokensUnit": "токенови",
-    "tokenAmount": "{{amount}} токенови"
+    "tokenAmount": "{{amount}} токенови",
+    "addMessage": "Напишите поруку (није обавезно)",
+    "messagePublic": "Јавно",
+    "railTitle": "Савјети",
+    "railTotal": "{{amount}} токена"
   },
   "postOptions": {
     "skippableSections": "Делови који се могу прескочити",
@@ -4524,7 +4543,11 @@
       "here": "{{name}} је послао/ла поруку свима у заједници",
       "hereNamed": "{{name}} је послао/ла поруку свима у „{{community}}“"
     },
-    "tokenAmount": "{{amount}} токена"
+    "tokenAmount": "{{amount}} токена",
+    "groupNew": "Ново",
+    "groupToday": "Данас",
+    "groupThisWeek": "Ова недеља",
+    "searchClose": "Затвори претрагу"
   },
   "leaderboard": {
     "title": "Ранг листа",
@@ -4716,7 +4739,18 @@
     "attachmentTooLarge": "Свака датотека мора бити мања од 50 MB",
     "deleteCommentA11y": "Избриши коментар",
     "sendCommentA11y": "Пошаљи коментар",
-    "requestOptions": "Опције захтева"
+    "requestOptions": "Опције захтева",
+    "deviceInfoNoErrors": "Ниједно",
+    "topBuilders": {
+      "month": "Овај месец",
+      "allTime": "Све време",
+      "shipped": "Испоручено",
+      "votes": "Гласови",
+      "comments": "Коментари",
+      "showLess": "Прикажи мање",
+      "viewProfile": "Прикажи профил",
+      "you": "Ви"
+    }
   },
   "auth": {
     "loginRequired": "Пријава је обавезна",
@@ -4977,7 +5011,20 @@
       "votes_other": "{{value}} гласова",
       "members_one": "{{value}} члан",
       "members_other": "Чланови: {{value}}"
-    }
+    },
+    "articleShort": "Члан",
+    "articleMinRead": "{{count}} мин читања",
+    "pinnedShort": "Закачено",
+    "post": "Објава",
+    "arrange": {
+      "saving": "Чување..."
+    },
+    "reserve": {
+      "signIn": "Пријави се"
+    },
+    "tabLikes": "Свиђања",
+    "likesEmptyTitle": "Још нема лајкова",
+    "likesPrivateTitle": "Лајкови су приватни"
   },
   "tv": {
     "title": "ТВ",
@@ -5493,6 +5540,9 @@
       "action": "Радња",
       "schedule": "Распоред",
       "filter": "Филтрирај активности"
+    },
+    "welcome": {
+      "text": "Порука добродошлице"
     }
   },
   "hero": {
@@ -5578,7 +5628,16 @@
     "nowPublic": "Ток је сада јаван",
     "openCanvas": "Отворите платно",
     "playVideo": "Репродуцирај видео",
-    "signInToSee": "Пријави се и погледај тијекове на свом рачуну."
+    "signInToSee": "Пријави се и погледај тијекове на свом рачуну.",
+    "newNativeFlow": "Нови флоу",
+    "model": "Модел",
+    "aspectRatio": "Однос страница",
+    "duration": "Трајање у секундама",
+    "resolution": "Резолуција",
+    "disconnect": "Прекини везу",
+    "payAndRun": "Плати и покрени",
+    "run": "Покрени",
+    "handlePrompt": "Упит"
   },
   "loginModal": {
     "title": "Пријава",
@@ -5898,7 +5957,8 @@
     "searchMenu": "Претражи мени",
     "clearSearch": "Обриши претрагу",
     "noMenuMatches": "Ништа у менију се не поклапа",
-    "searchDehubFor": "Претражи „{{query}}” на Riftn-у"
+    "searchDehubFor": "Претражи „{{query}}” на Riftn-у",
+    "requestSend": "Пошаљи захтев"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6517,7 +6577,11 @@
       "copied": "Порука је копирана",
       "copyText": "Копирај текст",
       "mutedUntil": "Искључен вам је звук до {{date}}",
-      "slowMode": "Успорени начин рада: једна порука сваких {{interval}}"
+      "slowMode": "Успорени начин рада: једна порука сваких {{interval}}",
+      "joined": "{{name}} се придружио/ла",
+      "reactions": "Реакције",
+      "photoTooLarge": "Слика мора бити мања од 10MB",
+      "aiAdminFailed": "AI Админ није одговорио"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6720,6 +6784,32 @@
       "notFound": "Овај линк за позив није важећи.",
       "requestToJoin": "Захтев за приступ",
       "approvalNote": "Администратор мора да одобри ваш захтев да би сте могли да се придружите."
+    },
+    "buyAlert": {
+      "spent": "Потрошено:",
+      "buyer": "Купац:",
+      "txn": "Тxн",
+      "balance": "Расположив баланс:",
+      "price": "Цена:",
+      "marketCap": "Тржишна капитализација:"
+    },
+    "newChat": {
+      "public": "Јавно",
+      "private": "Приватно",
+      "free": "Бесплатно",
+      "paid": "Плаћено",
+      "group": "Групиши"
+    },
+    "holderGate": {
+      "chain": "Ланац",
+      "which": "Токен",
+      "tab": "Донађеритељи"
+    },
+    "automod": {
+      "bannedWords": "Забрањене речи",
+      "floodMax": "{{count}} поруке",
+      "saved": "Сачувано",
+      "wordCount": "{{count}} речи"
     }
   },
   "work": {
@@ -7829,7 +7919,10 @@
       "doneAll": "Откажено праћење {{done}} налога који вас нису пратили назад.",
       "doneSome": "Откажено праћење {{done}} налога. {{failed}} није могло да се откаже.",
       "doneToast": "Откажено праћење {{done}} налога који вас нису пратили."
-    }
+    },
+    "followBackConfirm": "Узврати праћење",
+    "followBackNotNow": "Не сада",
+    "followBackDone": "Готово"
   },
   "reactionInfo": {
     "title": "Реакције",
@@ -8726,7 +8819,38 @@
     "coverFrames": "Изабери оквир за насловну слику",
     "coverFrame": "Употребите оквир {{index}} као насловну слику",
     "uploadCover": "Учитај насловну слику",
-    "editFailed": "Није могуће применити ту едитацију. Покушај поново."
+    "editFailed": "Није могуће применити ту едитацију. Покушај поново.",
+    "altPlaceholderVideo": "Опишите овај видео",
+    "preview": {
+      "title": "Преглед"
+    },
+    "recent": {
+      "all": "Све"
+    },
+    "studio": {
+      "crop": "Исеци",
+      "draw": "Цртање",
+      "light": "Светла",
+      "contrast": "Контраст",
+      "warmth": "Топлина",
+      "colour": "Боја",
+      "fade": "Замућење",
+      "original": "Оригинал",
+      "ratioOriginal": "Оригинал",
+      "ratioFree": "Бесплатно",
+      "rotate": "Ротирај",
+      "strength": "Снага",
+      "stickers": "Налепнице",
+      "ticker": "Тикер",
+      "textBg": "Позадина",
+      "font": {
+        "bold": "Подебљано",
+        "serif": "Сериф",
+        "mono": "Моно"
+      }
+    },
+    "edited": "Изменљено",
+    "edit": "Измени"
   },
   "bounty": {
     "claimed": "Преузето",
@@ -9020,7 +9144,8 @@
     "justChatting": "Само ћаскање",
     "noLiveStreams": "Нема преноса уживо",
     "noOneStreaming": "Тренутно нико не преноси. Свратите касније!",
-    "loadStreamsFailed": "Преноси нису могли да се учитају. Покушајте поново."
+    "loadStreamsFailed": "Преноси нису могли да се учитају. Покушајте поново.",
+    "liveBadge": "ЛИВЕ"
   },
   "liveShop": {
     "title": "Куповина из овог преноса",
@@ -9333,7 +9458,23 @@
     "paymentSentWith": "Послато са {{amount}}",
     "planRestricted": "Овај корисник захтева претплату да би примао поруке.",
     "planTypeNotAllowed": "План овог креатора не дозвољава ову врсту поруке.",
-    "planMinTip": "Напојница за овог креатора мора бити најмање {{amount}} токенови."
+    "planMinTip": "Напојница за овог креатора мора бити најмање {{amount}} токенови.",
+    "newDrawer": {
+      "to": "До"
+    },
+    "download": "Преузми",
+    "deleteOneTitle": "Желите ли да избришете ову поруку?",
+    "retrySend": "Покушај поново",
+    "discardSend": "Уклони",
+    "shareKindGroup": "Групиши",
+    "shareKindCommunity": "Заједница",
+    "searchDiscover": {
+      "people": "Људи",
+      "communities": "Заједнице",
+      "members": "Чланови: {{n}}",
+      "newChat": "Нови ћаскање",
+      "invite": "Позови"
+    }
   },
   "editPost": {
     "mediaPermission": "Потребна је дозвола за медијску библиотеку",
@@ -10514,7 +10655,11 @@
       "hint": "Претвара говор у темпиране титлове којима можеш да промениш стил. Ради на твом уређају: бесплатно и приватно. При првом коришћењу преузима се модел.",
       "done": "Додато титлова: {{count}}.",
       "noSpeech": "У овом клипу није пронађен говор.",
-      "failed": "Није могуће направити титлове за овај клип."
+      "failed": "Није могуће направити титлове за овај клип.",
+      "styles": {
+        "bold": "Болд",
+        "serif": "Сериф"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10584,7 +10729,8 @@
       "vibrant": "Живо",
       "cyber": "Сајбер",
       "invert": "Инвертуј",
-      "strength": "Јачина филтера: {{value}}%"
+      "strength": "Јачина филтера: {{value}}%",
+      "vhs": "ВХС"
     },
     "layer": {
       "crop": "Исеци",
@@ -10764,7 +10910,9 @@
       "suggestTitle": "Додај велики подебљани наслов на врху и мањи поднаслов испод њега",
       "undo": "Опозови",
       "openGenerator": "Прегледај и генериши",
-      "working": "Радим на томе…"
+      "working": "Радим на томе…",
+      "stop": "Заустави",
+      "queue": "Додај у ред"
     },
     "brand": {
       "addColor": "Додај боју бренда",
@@ -10901,7 +11049,9 @@
       "rendering": "Рендеровање видеа… {{percent}}%",
       "mp4": "MP4 видео",
       "exportHint": "Држи едитор отвореним док се видео рендерује.",
-      "tooLarge": "Та датотека је превелика за едитор. Ограничење је 400 MB."
+      "tooLarge": "Та датотека је превелика за едитор. Ограничење је 400 MB.",
+      "tZoomIn": "Увећај",
+      "tZoomOut": "Приближите се"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12080,6 +12230,31 @@
       "selection": "Селектовање",
       "zoomIn": "Померај канвас у горњу страну",
       "zoomOut": "Померај канвас у доњу страну"
+    },
+    "stage": {
+      "camera": "Камера",
+      "yaw": "Ротација",
+      "add": "Додај",
+      "scale": "Величина",
+      "color": "Боја",
+      "light": "Светла"
+    },
+    "clipFix": {
+      "listening": "Слушање…"
+    },
+    "generate3d": {
+      "label": "3Д"
+    },
+    "voiceClone": {
+      "stop": "Заустави снимање",
+      "failed": "Гласовно клонирање није успело."
+    },
+    "linkImport": {
+      "go": "Увези",
+      "downloading": "Преузимање {{percent}}%"
+    },
+    "reverse": {
+      "action": "Обрнуто"
     }
   },
   "creator": {
@@ -12541,7 +12716,32 @@
     "referenceProductName": "Стави свој производ у клип",
     "referenceProductHint": "Замени истакнути производ и чувај оригиналну сцену.",
     "referenceComposeName": "Комбинуј референцне слике",
-    "referenceComposeHint": "Унеси ликове, објекте и поднесе из више слика у једну композицију."
+    "referenceComposeHint": "Унеси ликове, објекте и поднесе из више слика у једну композицију.",
+    "marketing": {
+      "import": {
+        "use": "Користите ове податке"
+      }
+    },
+    "batchCount": "Слике",
+    "endFrame": "Крајњи кадар",
+    "cinema": {
+      "close": "Затвори",
+      "performance": {
+        "label": "Перформансе"
+      }
+    },
+    "audioNoSpeech": "Није пронађен говор у снимци.",
+    "audioTaskSpeechLabel": "Говор",
+    "audioTaskDialogueLabel": "Дијалог",
+    "audioTaskSfxLabel": "Звучни ефекат",
+    "audioTaskVoiceChangerLabel": "Мењач гласа",
+    "audioTaskTranscribeLabel": "Препиши",
+    "audioTaskIsolateLabel": "Очистите",
+    "priceFreeRateLimited": "Бесплатно · важе ограничења коришћења",
+    "loop": "Петља",
+    "dialogueFormat": "Напишите сценариј као \"Име: линија\", један говорник по линији.",
+    "fileTooLarge": "Тај фајл је преко 100 МБ. Користите краћи или мањи.",
+    "signInToGenerate": "Пријавите се да бисте генерисали."
   },
   "fractions": {
     "title": "Удели",
@@ -14675,6 +14875,19 @@
       "intro": "Гледаоци зарађују поен за сваки минут гледања и по један за сваких 100 токенови које поклоне. Ћаскање и реакције не доносе ништа, тако да се поени не могу скупљати.",
       "empty": "Још нема бодова. Они се гомилају док људи гледају и поклањају.",
       "widgetHint": "Додајте виџет Лојалних гледалаца да бисте приказали ову листу у стриму."
+    },
+    "destinations": {
+      "platform": "Платформа",
+      "label": "Име (није обавезно)",
+      "key": "Кључ за стрим",
+      "save": "Додај",
+      "cancel": "Откажи",
+      "states": {
+        "off": "Искључено",
+        "idle": "Спремно",
+        "live": "Уживо",
+        "error": "Грешка"
+      }
     }
   },
   "liveChatModeration": {
@@ -14756,7 +14969,70 @@
     "days": "{{count}} дана",
     "spotlightForSale": "На продаји сада",
     "spotlightNew": "Само ковано",
-    "buyFor": "Купи за {{price}}"
+    "buyFor": "Купи за {{price}}",
+    "actAll": "Све",
+    "actListings": "Огласи",
+    "actOffer": "Понуда",
+    "actOffers": "Понуде",
+    "actSales": "Продаја",
+    "tabActivity": "Активност",
+    "allChains": "Све ланцеве",
+    "newest": "Најновије",
+    "cheapest": "Најнижа цијена",
+    "soldFor": "Продато",
+    "signIn": "Пријави се",
+    "title": "НФТови",
+    "share": "Подијели",
+    "noneForSale": "Још увек ништа за продају",
+    "noSales": "Још нема продаја",
+    "tabBrowse": "Пређите по wеб-у.",
+    "tabMine": "Твоје",
+    "tabSales": "Продаја",
+    "cancelled": "Отказано",
+    "sold": "Продато",
+    "listed": "Нуди се на продају",
+    "feeRow": "Riftn фее ({{pct}}%)",
+    "royaltyRow": "Цреатор роyалтy",
+    "youGet": "Добијате",
+    "holderGets": "Власник добија",
+    "loading": "Учитавање…",
+    "price": "Цена",
+    "seller": "Продавач",
+    "tabRecent": "Скорашње",
+    "buyNow": "Купи сада",
+    "offers": "Нудбе",
+    "cancel": "Одустани",
+    "accept": "Прихвати",
+    "signInToTrade": "Пријави се за трговање",
+    "listForSale": "Постави на продају",
+    "makeOffer": "Направите понуду.",
+    "sendOffer": "Пошаљи понуду",
+    "back": "Назад",
+    "dropsTo": "Цена пада на {{price}} до {{date}}",
+    "inBundle": "Продато као пакет од {{n}}",
+    "trending": "Трендинг колекције",
+    "listedCount": "{{n}} за продају",
+    "thisCollection": "Ова колекција",
+    "showAll": "Покажи све.",
+    "shortTitle": "НФТови",
+    "filters": "Филтери",
+    "forSale": "На продају",
+    "openToOffers": "Отворен за понуде",
+    "freshMints": "Свеже од створаца Riftn-а",
+    "offersOpen": "Отворен за понуде",
+    "mintedCount": "{{n}} минтед",
+    "anyInCollection": "Све у колекцији",
+    "thisNft": "Овај NFT",
+    "priceAlert": "Упозорење за цену",
+    "alertUnder": "Обавести ме када буде постављен на или испод ({{symbol}}, опционално)",
+    "turnOnAlert": "Укључи упозорење",
+    "alertSaved": "Обавестићемо те када буде листиран.",
+    "priceDrop": "Цена пада са временом",
+    "endPrice": "Најнижа цена, постигнута на крају ({{symbol}})",
+    "bundleBadge": "Бундл ×{{n}}",
+    "dropBadge": "Смањење цене",
+    "days_one": "{{count}} дан",
+    "days_other": "{{count}} дана"
   },
   "reel": {
     "readAll": "Прочитајте све",
@@ -14778,7 +15054,11 @@
       "episode": "Епизода подкаста",
       "show": "Подкаст",
       "artist": "Извођач"
-    }
+    },
+    "loading": "Учитавање…",
+    "paused": "Прекинуто",
+    "preview": "Преглед",
+    "seek": "Тражи"
   },
   "twoFactor": {
     "wrongCode": "Тај код се не поклапа. Покушајте са најновијим у вашој апликацији.",
@@ -14856,5 +15136,251 @@
     "newer": "Новији резултат",
     "gone": "Та порука више није овде",
     "theirMessages": "Њихове поруке"
+  },
+  "chatTextSize": {
+    "title": "Величина текста",
+    "default": "Подразумевано",
+    "larger": "Веће"
+  },
+  "remix": {
+    "cut": "Исеци"
+  },
+  "signedFollows": {
+    "setUp": "Укључи",
+    "turnOff": "Искључи",
+    "efpTurnOff": "Заустави"
+  },
+  "postEditHistory": {
+    "original": "Оригинал"
+  },
+  "studioDeck": {
+    "remove": "Уклони",
+    "background": {
+      "title": "Позадина",
+      "modes": {
+        "none": "Искључено",
+        "blur": "Замућење",
+        "color": "Боја"
+      }
+    },
+    "scenes": {
+      "countdown": "Одбројавање",
+      "minutes": "{{count}} мин",
+      "names": {
+        "starting": "Ускоро почиње"
+      }
+    },
+    "widgets": {
+      "tab": "Виџети"
+    },
+    "sources": {
+      "image": "Слика",
+      "show": "Прикажи у стриму",
+      "positions": {
+        "center": "Центрирај"
+      },
+      "sizes": {
+        "medium": "Средњи"
+      }
+    },
+    "phone": {
+      "title": "Студио"
+    }
+  },
+  "whenSheet": {
+    "today": "Данас",
+    "tooSoon": "Изаберите време у будућности.",
+    "show": "Прикажи",
+    "hide": "Сакриј"
+  },
+  "planned": {
+    "title": "Планирано",
+    "all": "Све",
+    "posts": "Објаве",
+    "stages": "Аудио собе",
+    "post": "Објава",
+    "live": "Уживо",
+    "stage": "Скена",
+    "untitledPost": "Објава",
+    "untitledLive": "Уживо",
+    "loading": "Учитавање…",
+    "startNow": "Покрени сада",
+    "cancel": "Откажи",
+    "cancelled": "Отказано"
+  },
+  "welcome": {
+    "about": {
+      "title": "Добродошли у Riftn",
+      "day": "Дан",
+      "month": "Месец",
+      "year": "Година"
+    },
+    "name": {
+      "title": "Ваше име",
+      "placeholder": "Ваше име"
+    },
+    "card": {
+      "name": "Ваше име",
+      "followers": "пратиоци"
+    },
+    "topic": {
+      "music": "Музика",
+      "art": "Уметност",
+      "gaming": "Гејминг",
+      "crypto": "Крипто",
+      "sports": "Спорт",
+      "comedy": "Комедија",
+      "film": "Филм",
+      "podcast": "Подкаст",
+      "food": "Храна",
+      "news": "Новости",
+      "science": "Наука"
+    },
+    "back": "Назад",
+    "skipPhoto": "Остави за сада",
+    "preview": "Преглед"
+  },
+  "appTokens": {
+    "title": "Ваш токени",
+    "history": "Историја",
+    "noHistory": "Још увек нема активности",
+    "kindDeposit": "Додај средства",
+    "to": "До",
+    "amount": "Износ",
+    "notePlaceholder": "Додај поруку (опционо)",
+    "sendButton": "Пошаљи",
+    "errorInsufficient": "Нема довољно токена"
+  },
+  "avatarPrompt": {
+    "notNow": "Не сада"
+  },
+  "postStats": {
+    "audience": "Публика",
+    "engagement": "Ангажовање",
+    "finished": "Завршено",
+    "members": "Чланови",
+    "membersLower": "чланови",
+    "newFollowers": "нови следбеници.",
+    "noBadge": "Без одличја",
+    "people": "Људи",
+    "plays": "Репродукује се",
+    "quotes": "Цитата",
+    "reposts": "Дељења",
+    "saved": "Сачувано",
+    "shares": "Дељења",
+    "signedOutViewers": "Одјављен",
+    "topSupporters": "Главне присталице",
+    "visitors": "Одјављен"
+  },
+  "duet": {
+    "policyEveryone": "Сви",
+    "policyFollowers": "Пратиоци",
+    "policyNobody": "Нико",
+    "loadMore": "Учитај још",
+    "video": "Видео"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Сви",
+      "followers": "Пратиоци",
+      "nobody": "Нико"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Сви",
+      "followers": "Пратиоци",
+      "nobody": "Нико"
+    },
+    "heading": "Реакције",
+    "more": "Покажи више",
+    "liveNow": "Уживо",
+    "untitled": "Реакција"
+  },
+  "liveClips": {
+    "copyLink": "Копирај линк",
+    "linkCopied": "Линк копиран"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "План",
+      "howMany": "Колико",
+      "who": "Корисничко име или адреса новчаника",
+      "whoPlaceholder": "@корисничко_име",
+      "cancel": "Откажи",
+      "stage": {
+        "preparing": "Припрема се…",
+        "confirming": "Чекање трансакције…",
+        "recording": "Довршавање…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Остало",
+    "confirming": "Потврђивање плаћања…"
+  },
+  "liveShorts": {
+    "live": "ЛИВЕ"
+  },
+  "feedFilters": {
+    "clearAllShort": "Обриши све",
+    "done": "Заврсено",
+    "edit": "Измени",
+    "groupDate": "Датум",
+    "groupSort": "Сортирај",
+    "groupType": "Тип",
+    "save": "Сачувај"
+  },
+  "ownKeys": {
+    "working": "Ради се",
+    "failed": "Нешто није у реду. Покушајте поново.",
+    "check": "Провера",
+    "remove": "Уклони",
+    "save": "Сачувај",
+    "cancel": "Откажи"
+  },
+  "postBg": {
+    "none": "Ниједно",
+    "yours": "Твоје",
+    "accent": "Нагласак",
+    "names": {
+      "aurora": "Аурора",
+      "lava": "Лава лампа",
+      "drive": "Ноћна вожња",
+      "chrome": "Течни хром",
+      "orbit": "Орбит",
+      "snow": "Снежне падавине"
+    }
+  },
+  "articleTile": {
+    "cover": "Насловна слика"
+  },
+  "aiConsent": {
+    "allow": "Дозволи"
+  },
+  "dmRequests": {
+    "title": "Захтеви за функције",
+    "accept": "Прихвати",
+    "delete": "Обриши",
+    "block": "Блокирај"
+  },
+  "dmSchedule": {
+    "view": "Погледај",
+    "edit": "Уреди",
+    "editLabel": "Измијените поруку",
+    "error": "То није успело. Покушај поново."
+  },
+  "chatBulk": {
+    "selected": "{{count}} избрано",
+    "cancel": "Откажи",
+    "reply": "Одговор",
+    "delete": "Обриши"
+  },
+  "msgSelect": {
+    "selected": "{{count}} избрано",
+    "copy": "Копирај",
+    "forward": "Проследи",
+    "deleted_one": "Избрисано {{count}} порука",
+    "deleted_other": "Избрисано {{count}} поруке"
   }
 }

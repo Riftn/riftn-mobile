@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Папулярнае на гэтым тыдні на Audius. Выкарыстоўваць бясплатна, выканаўца будзе ўказаны ў вашым допісе.",
     "d2e45b7406fc": "Музыка з грамадскага набытку і пад ліцэнзіяй Creative Commons з Wikimedia Commons. Выканаўца будзе ўказаны ў вашым допісе.",
     "d0c1a3684775": "Песні не загрузіліся. Паўтарыце спробу праз некаторы час.",
-    "d14064f80f52": "Дадаць гук"
+    "d14064f80f52": "Дадаць гук",
+    "71988c4d8e08": "Тэкст",
+    "147170e793c6": "Шырока",
+    "481859b689b0": "Пакалірыць вашыя злучэнні і спрабуйце паўторна.",
+    "57e2faa5ec63": "Пошук у Riftn",
+    "7db20897053b": "Людзі",
+    "96d7bff86b44": "Не ўдалося загрузіць пошук",
+    "d8b8392e2c54": "Паспрабуйце паўтарыць"
   },
   "dehubLinks": {
     "kind": {
@@ -2854,7 +2861,8 @@
       "quote": "Цытата",
       "bullets": "Бульбітны спіс",
       "numbers": "Нумарыраваны спіс",
-      "link": "Прылучэнне"
+      "link": "Прылучэнне",
+      "image": "Дадаць выявы"
     }
   },
   "storefront": {
@@ -3792,7 +3800,11 @@
     "payViaDpay": "Аплачана ў Riftn Pay, токены прыбудуць прыкладна праз 30 с",
     "payViaBridgeDpay": "Пераведзена ў Base і аплачана ў Riftn Pay, токены прыбудуць прыкладна праз хвіліну",
     "tokensUnit": "токены",
-    "tokenAmount": "{{amount}} токенаў"
+    "tokenAmount": "{{amount}} токенаў",
+    "addMessage": "Дадаць паведамленне (неабавязкова)",
+    "messagePublic": "Публічна",
+    "railTitle": "Парады",
+    "railTotal": "{{amount}} токенаў"
   },
   "postOptions": {
     "skippableSections": "Прапускальныя раздзелы",
@@ -4533,7 +4545,11 @@
       "hereNamed": "{{name}} паведамляў усім у «{{community}}»"
     },
     "badgeLoanDropped": "Вы больш не можаце пазычаць свой значок {{tier}} для {{name}}",
-    "tokenAmount": "{{amount}} токенаў"
+    "tokenAmount": "{{amount}} токенаў",
+    "groupNew": "Новае",
+    "groupToday": "Сёння",
+    "groupThisWeek": "На гэтым тыдні",
+    "searchClose": "Зачыніць пошук"
   },
   "leaderboard": {
     "title": "Табліца лідараў",
@@ -4725,7 +4741,18 @@
     "attachmentTooLarge": "Кожны файл павінен быць меншы за 50 МБ",
     "deleteCommentA11y": "Выдаліць каментарый",
     "sendCommentA11y": "Даслаць каментар",
-    "requestOptions": "Параметры запыту"
+    "requestOptions": "Параметры запыту",
+    "deviceInfoNoErrors": "Няма",
+    "topBuilders": {
+      "month": "У гэтым месяцы",
+      "allTime": "Усё часы",
+      "shipped": "Рэалізавана",
+      "votes": "Гласы",
+      "comments": "Каментарыі",
+      "showLess": "Паказаць менш",
+      "viewProfile": "Прагляд прафіля",
+      "you": "Вы"
+    }
   },
   "auth": {
     "loginRequired": "Патрабуецца ўваход",
@@ -4986,7 +5013,20 @@
       "votes_other": "{{value}} галасоў",
       "members_one": "{{value}} удзельнік",
       "members_other": "{{value}} члены"
-    }
+    },
+    "articleShort": "Артыкул",
+    "articleMinRead": "{{count}} min прачытаць",
+    "pinnedShort": "Замацавана",
+    "post": "Публікацыя",
+    "arrange": {
+      "saving": "Захаванне..."
+    },
+    "reserve": {
+      "signIn": "Увайсці"
+    },
+    "tabLikes": "Лайкі",
+    "likesEmptyTitle": "Пакуль няма лайкаў",
+    "likesPrivateTitle": "Лайкі схаваныя"
   },
   "tv": {
     "title": "ТБ",
@@ -5502,6 +5542,9 @@
       "action": "Дзеянне",
       "schedule": "Расклад",
       "filter": "Фільтр актыўнасці"
+    },
+    "welcome": {
+      "text": "Прывітальнае паведамленне"
     }
   },
   "hero": {
@@ -5583,7 +5626,16 @@
     "nowPublic": "Паток цяпер агульнадаступны",
     "openCanvas": "Адчыніць палатно",
     "playVideo": "прайграць відэа",
-    "signInToSee": "Увайдзіце, каб убачыць патокі на вашым уліковым запісе."
+    "signInToSee": "Увайдзіце, каб убачыць патокі на вашым уліковым запісе.",
+    "newNativeFlow": "Новы паток",
+    "model": "Мадэль",
+    "aspectRatio": "Суадносіны сторон",
+    "duration": "Трывалісць у секундах",
+    "resolution": "Разрозненне",
+    "disconnect": "Адключыць",
+    "payAndRun": "Аплаціць і запусціць",
+    "run": "Запусціць",
+    "handlePrompt": "Падказка"
   },
   "loginModal": {
     "title": "Увайсці",
@@ -5903,7 +5955,8 @@
     "searchMenu": "Пошук у меню",
     "clearSearch": "Ачысціць пошук",
     "noMenuMatches": "У меню нічога не знойдзена",
-    "searchDehubFor": "Шукаць «{{query}}» у Riftn"
+    "searchDehubFor": "Шукаць «{{query}}» у Riftn",
+    "requestSend": "Адправіць запыт"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6522,7 +6575,11 @@
       "copied": "Паведамленне скапіявана",
       "copyText": "Капіяваць тэкст",
       "mutedUntil": "Вы прыглушаныя, пакуль {{date}}",
-      "slowMode": "Павольны рэжым: па адным паведамленні кожны {{interval}}"
+      "slowMode": "Павольны рэжым: па адным паведамленні кожны {{interval}}",
+      "joined": "{{name}} далучана",
+      "reactions": "Рэакцыі",
+      "photoTooLarge": "Выява павінна быць менш за 10MB",
+      "aiAdminFailed": "Адміністратар ІІ не адказаў"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6725,6 +6782,32 @@
       "notFound": "Гэты запрашальны лінк не валідны.",
       "requestToJoin": "Заява пра далучэнне",
       "approvalNote": "Адміністратару трэба давераваць вашу заяву, каб вы маглі далучыцца."
+    },
+    "buyAlert": {
+      "spent": "Выдаткавана:",
+      "buyer": "Пакупнік:",
+      "txn": "Трэн",
+      "balance": "Баланс:",
+      "price": "Цана:",
+      "marketCap": "Капіталізацыя рынку:"
+    },
+    "newChat": {
+      "public": "Публічна",
+      "private": "Прыватныя",
+      "free": "Бясплатна",
+      "paid": "Аплачаны",
+      "group": "Згрупаваць"
+    },
+    "holderGate": {
+      "chain": "Ланцуг",
+      "which": "Токен",
+      "tab": "Уладальнікі"
+    },
+    "automod": {
+      "bannedWords": "Забароненыя словы",
+      "floodMax": "Паведамленні: {{count}}",
+      "saved": "Захавана",
+      "wordCount": "{{count}} словы"
     }
   },
   "work": {
@@ -7846,7 +7929,10 @@
       "doneAll": "Непадпісаныя {{done}} акаўнты, якія не ішлі за вамі назад.",
       "doneSome": "Невыкананы {{done}} рахункі. {{failed}} не можа быць адменена.",
       "doneToast": "Невыкананы {{done}} рахункі не ідуць за вамі назад"
-    }
+    },
+    "followBackConfirm": "Узаемная падпіска",
+    "followBackNotNow": "Не зараз",
+    "followBackDone": "Гатова"
   },
   "reactionInfo": {
     "title": "Рэакцыі",
@@ -8766,7 +8852,38 @@
     "coverFrames": "Выберыце рамку",
     "coverFrame": "Выкарыстоўваць рамку {{index}} як вокладку",
     "uploadCover": "Заладзіць вокладку",
-    "editFailed": "Не ўдалося прымяніць гэтыя правілы. Папраўце."
+    "editFailed": "Не ўдалося прымяніць гэтыя правілы. Папраўце.",
+    "altPlaceholderVideo": "Апішыце гэта відэа",
+    "preview": {
+      "title": "Прагляд"
+    },
+    "recent": {
+      "all": "Усе"
+    },
+    "studio": {
+      "crop": "Абрэзаць",
+      "draw": "Маляваць",
+      "light": "Светлая",
+      "contrast": "Кантраст",
+      "warmth": "Цёпла",
+      "colour": "Колькасць",
+      "fade": "Знікаць",
+      "original": "Арыгінал",
+      "ratioOriginal": "Арыгінал",
+      "ratioFree": "Бясплатна",
+      "rotate": "Павярнуць",
+      "strength": "Сіла",
+      "stickers": "Стыкеры",
+      "ticker": "Цікер",
+      "textBg": "Фон",
+      "font": {
+        "bold": "Тоўсты",
+        "serif": "Серфінг",
+        "mono": "Мона"
+      }
+    },
+    "edited": "Адрэдагавана",
+    "edit": "Рэдагаваць"
   },
   "bounty": {
     "claimed": "Атрымана",
@@ -9060,7 +9177,8 @@
     "justChatting": "Проста размовы",
     "noLiveStreams": "Няма трансляцый",
     "noOneStreaming": "Зараз ніхто не трансліруе. Зазірніце пазней!",
-    "loadStreamsFailed": "Не ўдалося загрузіць трансляцыі. Паспрабуйце яшчэ раз."
+    "loadStreamsFailed": "Не ўдалося загрузіць трансляцыі. Паспрабуйце яшчэ раз.",
+    "liveBadge": "ПРАМА"
   },
   "liveShop": {
     "title": "Купляйце з гэтага эфіру",
@@ -9373,7 +9491,23 @@
     "paymentSentWith": "Адпраўлена з {{amount}}",
     "planRestricted": "Гэты карыстальнік патрабуе падпіску, каб атрымліваць паведамленні.",
     "planTypeNotAllowed": "План гэтага аўтара не дазваляе такі тып паведамлення.",
-    "planMinTip": "Чаявыя для гэтага аўтара павінны быць не менш за {{amount}} токены."
+    "planMinTip": "Чаявыя для гэтага аўтара павінны быць не менш за {{amount}} токены.",
+    "newDrawer": {
+      "to": "Да"
+    },
+    "download": "Спампаваць",
+    "deleteOneTitle": "Выдаліць гэтае паведамленне?",
+    "retrySend": "Паўтарыць",
+    "discardSend": "Выдаліць",
+    "shareKindGroup": "Згрупаваць",
+    "shareKindCommunity": "Супольнасць",
+    "searchDiscover": {
+      "people": "Людзі",
+      "communities": "Суполкі",
+      "members": "{{n}} члены",
+      "newChat": "Новы чат",
+      "invite": "Запрасіць"
+    }
   },
   "editPost": {
     "mediaPermission": "Патрэбны дазвол на медыябібліятэку",
@@ -10618,7 +10752,11 @@
       "hint": "Пераўтварае маўленне ў субтытры з таймінгам, стыль якіх можна змяніць. Працуе на вашай прыладзе: бясплатна і прыватна. Пры першым выкарыстанні спампоўваецца мадэль.",
       "done": "Дададзена субтытраў: {{count}}.",
       "noSpeech": "У гэтым кліпе не знойдзена маўлення.",
-      "failed": "Не ўдалося стварыць субтытры для гэтага кліпа."
+      "failed": "Не ўдалося стварыць субтытры для гэтага кліпа.",
+      "styles": {
+        "bold": "Цяжкі шрыфт",
+        "serif": "Серфінг"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10688,7 +10826,8 @@
       "vibrant": "Яркі",
       "cyber": "Кібер",
       "invert": "Інверсія",
-      "strength": "Сіла фільтра: {{value}}%"
+      "strength": "Сіла фільтра: {{value}}%",
+      "vhs": "ВГТ"
     },
     "layer": {
       "crop": "Абрэзаць",
@@ -10868,7 +11007,9 @@
       "suggestTitle": "Дадай вялікі тоўсты загаловак уверсе і меншы падзагаловак пад ім",
       "undo": "Адмяніць",
       "openGenerator": "Праглядзець і стварыць",
-      "working": "Працую над гэтым…"
+      "working": "Працую над гэтым…",
+      "stop": "Спыніць",
+      "queue": "Дадаць у чаргу"
     },
     "brand": {
       "addColor": "Дадаць колер брэнда",
@@ -11005,7 +11146,9 @@
       "rendering": "Апрацоўка відэа… {{percent}}%",
       "mp4": "Відэа MP4",
       "exportHint": "Не закрывайце рэдактар, пакуль відэа апрацоўваецца.",
-      "tooLarge": "Гэты файл завялікі для рэдактара. Ліміт — 400 MB."
+      "tooLarge": "Гэты файл завялікі для рэдактара. Ліміт — 400 MB.",
+      "tZoomIn": "Павялічыць",
+      "tZoomOut": "Паменшыць"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12184,6 +12327,28 @@
       "selection": "Вылучэнне",
       "zoomIn": "Палатно маштабавання ў",
       "zoomOut": "Палатно павелічэння"
+    },
+    "stage": {
+      "camera": "Камера",
+      "yaw": "Паварот",
+      "add": "Дадаць",
+      "scale": "Розмiр",
+      "color": "Колер",
+      "light": "Светлая"
+    },
+    "clipFix": {
+      "listening": "Слухаю…"
+    },
+    "voiceClone": {
+      "stop": "Спыніць запіс",
+      "failed": "Азвучка не ўдалася."
+    },
+    "linkImport": {
+      "go": "Імпартаваць",
+      "downloading": "Загрузка {{percent}}%"
+    },
+    "reverse": {
+      "action": "Адваротны"
     }
   },
   "creator": {
@@ -12645,7 +12810,32 @@
     "referenceProductName": "Размясціце свой прадукт у кліпе",
     "referenceProductHint": "Замяніць паказаны прадукт і захоўваць арыгінальнае сцэну.",
     "referenceComposeName": "Аб'яднаць спасылковыя выявы",
-    "referenceComposeHint": "Перанесці персанажы, аб'екты і налады з некалькіх выяў у адну кампазіцыю."
+    "referenceComposeHint": "Перанесці персанажы, аб'екты і налады з некалькіх выяў у адну кампазіцыю.",
+    "marketing": {
+      "import": {
+        "use": "Выкарыстоўваць гэтыя звесткі"
+      }
+    },
+    "batchCount": "Выявы",
+    "endFrame": "Канцавы кадр",
+    "cinema": {
+      "close": "Зачыніць",
+      "performance": {
+        "label": "Прадукцыйнасць"
+      }
+    },
+    "audioNoSpeech": "Няма слоў у гэтай запісу.",
+    "audioTaskSpeechLabel": "Маўленне",
+    "audioTaskDialogueLabel": "Дыялог",
+    "audioTaskSfxLabel": "Зацяненне колеру",
+    "audioTaskVoiceChangerLabel": "Змяняльнік голаса",
+    "audioTaskTranscribeLabel": "Транскрыпцыя",
+    "audioTaskIsolateLabel": "Ачыстка",
+    "priceFreeRateLimited": "Бясплатныя абмежаванні тарыфаў",
+    "loop": "Цыкл",
+    "dialogueFormat": "Напішыце сцену як \"Імя: лінія\", адзін дыктар на лінію.",
+    "fileTooLarge": "Гэты файл больш за 100 МБ. Выкарыстайце карацейшы або меншы.",
+    "signInToGenerate": "Увайдзіце, каб генерыраць."
   },
   "fractions": {
     "title": "Фракцыі",
@@ -14714,6 +14904,19 @@
       "intro": "Гледачы зарабляюць бал за кожную хвіліну, якую яны глядзяць на вас, і па адным за кожныя 100 токены, якія яны даюць. Чат і рэакцыі нічога не зарабляюць, таму кропкі нельга вырабляць.",
       "empty": "Пакуль няма ачкоў. Яны нарастаюць, калі людзі глядзяць і даруюць.",
       "widgetHint": "Дадаць віджэт \"Лаяльныя гледачы\", каб паказаць гэты спіс на патоку."
+    },
+    "destinations": {
+      "platform": "Платформа",
+      "label": "Імя (неабавязкова)",
+      "key": "Ключ трансляцыі",
+      "save": "Дадаць",
+      "cancel": "Скасаваць",
+      "states": {
+        "off": "Выключана",
+        "idle": "Гатова",
+        "live": "Прамая трансляцыя",
+        "error": "Памылка"
+      }
     }
   },
   "liveChatModeration": {
@@ -14816,7 +15019,71 @@
     "days": "{{count}} дзён",
     "spotlightForSale": "На продаж зараз",
     "spotlightNew": "Толькі праміні",
-    "buyFor": "Купіць за {{price}}"
+    "buyFor": "Купіць за {{price}}",
+    "actAll": "Усе",
+    "actListings": "Аб'явы",
+    "actOffer": "Прапановы",
+    "actOffers": "Прапановы",
+    "actSales": "Продажы",
+    "tabActivity": "Актыўнасць",
+    "allChains": "Усе ланцужкі",
+    "newest": "Найнавейшыя",
+    "cheapest": "Найніжэйшая цана",
+    "soldFor": "Прданы",
+    "signIn": "Увайсці",
+    "title": "NFT",
+    "share": "Падзяліцца",
+    "noneForSale": "Нічога яшчэ не выстаўлена на продаж",
+    "noSales": "Няма продажаў яшчэ",
+    "tabBrowse": "Агляд",
+    "tabMine": "Вашы",
+    "tabSales": "Продажы",
+    "cancelled": "Скасавана",
+    "sold": "Прданы",
+    "listed": "Выстаўлена на продаж",
+    "feeRow": "Плата Riftn ({{pct}}%)",
+    "royaltyRow": "Роялці творца",
+    "youGet": "Твая сума",
+    "holderGets": "Утрымальнік атрымлівае",
+    "loading": "Загрузка…",
+    "price": "Цана",
+    "seller": "Прадавец",
+    "tabRecent": "Нядаўнія",
+    "buyNow": "Купіць зараз",
+    "offers": "Прапановы",
+    "cancel": "Скасаваць",
+    "accept": "Прыняць",
+    "signInToTrade": "Увайсці для гандлю",
+    "listForSale": "Пазначыць для продажу",
+    "makeOffer": "Зрабіць прапанову",
+    "sendOffer": "Адправіць прапанову",
+    "back": "Назад",
+    "dropsTo": "Цана спадае да {{price}} да {{date}}",
+    "inBundle": "Прададзена як пакупка {{n}}",
+    "trending": "Тэндэнцыйныя калекцыі",
+    "floor": "Падлога",
+    "listedCount": "{{n}} на продаж",
+    "thisCollection": "Гэтая калекцыя",
+    "collectionOffer": "Прапанова па любым",
+    "showAll": "Паказаць усё",
+    "shortTitle": "NFT",
+    "filters": "Фільтры",
+    "forSale": "Продаж",
+    "openToOffers": "Адкрыць для прапаноў",
+    "freshMints": "Свежая ад стваральнікаў Riftn",
+    "offersOpen": "Адкрыць для прапаноў",
+    "anyInCollection": "Усе ў калекцыі",
+    "thisNft": "Гэта NFT",
+    "priceAlert": "Алерт пра цану",
+    "alertUnder": "Паведамі, калі будзе прададзена па цане або ніжэй ({{symbol}}, неабавязкова)",
+    "turnOnAlert": "Уключыць папярэджанне",
+    "alertSaved": "Алерт уключаны. Мы паведамім табе, калі ён будзе прададзены.",
+    "priceDrop": "Цана спадае з часам",
+    "endPrice": "Найніжэйшая цана, дасягнутая ў канцы ({{symbol}})",
+    "bundleBadge": "Пакупка ×{{n}}",
+    "dropBadge": "Падзенне цаны",
+    "days_one": "{{count}} дзень",
+    "days_other": "{{count}} дні"
   },
   "reel": {
     "readAll": "Прачытайце ўсё",
@@ -14924,5 +15191,251 @@
     "newer": "Больш новы вынік",
     "gone": "Гэтага паведамлення тут больш няма",
     "theirMessages": "Іх паведамленні"
+  },
+  "chatTextSize": {
+    "title": "Памер тэксту",
+    "default": "Па змаўчанні",
+    "larger": "Большы"
+  },
+  "remix": {
+    "cut": "Выразаць"
+  },
+  "signedFollows": {
+    "setUp": "Уключыць",
+    "turnOff": "Выключыць",
+    "efpTurnOff": "Спыніць"
+  },
+  "postEditHistory": {
+    "original": "Арыгінал"
+  },
+  "studioDeck": {
+    "remove": "Выдаліць",
+    "background": {
+      "title": "Фон",
+      "modes": {
+        "none": "Выключана",
+        "blur": "Размыццё",
+        "color": "Колькасць"
+      }
+    },
+    "scenes": {
+      "countdown": "Зваротны адлік",
+      "minutes": "{{count}} хв",
+      "names": {
+        "starting": "Хутка пачнецца"
+      }
+    },
+    "widgets": {
+      "tab": "Віджэты"
+    },
+    "sources": {
+      "image": "Малюнак",
+      "show": "Паказаць на стрымінге",
+      "positions": {
+        "center": "Цэнтраваць"
+      },
+      "sizes": {
+        "medium": "Сярэдняя"
+      }
+    },
+    "phone": {
+      "title": "Студыя"
+    }
+  },
+  "whenSheet": {
+    "today": "Сёння",
+    "tooSoon": "Выберыце час у будучыні.",
+    "show": "Паказаць",
+    "hide": "Схаваць"
+  },
+  "planned": {
+    "title": "Запланавана",
+    "all": "Усе",
+    "posts": "Публікацыі",
+    "stages": "Галасавыя пакоі",
+    "post": "Публікацыя",
+    "live": "Прамая трансляцыя",
+    "stage": "Сцэна",
+    "untitledPost": "Публікацыя",
+    "untitledLive": "Прамая трансляцыя",
+    "loading": "Загрузка...",
+    "startNow": "Пачаць зараз",
+    "cancel": "Скасаваць",
+    "cancelled": "Скасавана"
+  },
+  "welcome": {
+    "about": {
+      "title": "Вітаем у Riftn",
+      "day": "Дзень",
+      "month": "Месяц",
+      "year": "Год"
+    },
+    "name": {
+      "title": "Твае імя",
+      "placeholder": "Твае імя"
+    },
+    "card": {
+      "name": "Твае імя",
+      "followers": "паслядоўнікі"
+    },
+    "topic": {
+      "music": "Музыка",
+      "art": "Мастацтва",
+      "gaming": "Азартныя гульні",
+      "crypto": "Крыпта",
+      "sports": "Спорт",
+      "comedy": "Камедыя",
+      "film": "Фільм",
+      "podcast": "Падкаст",
+      "food": "Праўда",
+      "news": "Новыя навіны",
+      "science": "Навука"
+    },
+    "back": "Назад",
+    "skipPhoto": "Прапусціць зараз",
+    "preview": "Папярэдні прагляд"
+  },
+  "appTokens": {
+    "title": "Вашы токены",
+    "history": "Гісторыя",
+    "noHistory": "Актыўнасці пакуль няма",
+    "kindDeposit": "Папоўніць",
+    "to": "Да",
+    "amount": "Сума",
+    "notePlaceholder": "Дадай нататку (неабавязкова)",
+    "sendButton": "Адправіць",
+    "errorInsufficient": "Не хапае токенаў"
+  },
+  "avatarPrompt": {
+    "notNow": "Не зараз"
+  },
+  "postStats": {
+    "audience": "Аўдыторыя",
+    "engagement": "Узаемадзеянне",
+    "finished": "Завершана",
+    "members": "Удзельнікі",
+    "membersLower": "удзельнікі",
+    "newFollowers": "Новыя паслядоўнікі",
+    "noBadge": "Няма шчытка",
+    "people": "Людзі",
+    "plays": "П 'есы",
+    "quotes": "цытат",
+    "reposts": "Рэпосты",
+    "saved": "Захавана",
+    "shares": "Акцыі",
+    "signedOutViewers": "Выхад выкананы",
+    "topSupporters": "Лепшыя прыхільнікі",
+    "visitors": "Выхад выкананы"
+  },
+  "duet": {
+    "policyEveryone": "Усе",
+    "policyFollowers": "Падпісчыкі",
+    "policyNobody": "Ніхто",
+    "loadMore": "Загрузіць яшчэ",
+    "video": "Відэа"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Усе",
+      "followers": "Падпісчыкі",
+      "nobody": "Ніхто"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Усе",
+      "followers": "Падпісчыкі",
+      "nobody": "Ніхто"
+    },
+    "heading": "Рэакцыі",
+    "more": "Паказаць больш",
+    "liveNow": "Прамая трансляцыя",
+    "untitled": "Рэакцыя"
+  },
+  "liveClips": {
+    "copyLink": "Капіяваць спасылку",
+    "linkCopied": "Пазіцыйны лічбавы код скопіяваны"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "План",
+      "howMany": "Колькі",
+      "who": "Імя карыстальніка або адрас кашалька",
+      "whoPlaceholder": "@імя_карыстальніка",
+      "cancel": "Скасаваць",
+      "stage": {
+        "preparing": "Падрыхтоўка…",
+        "confirming": "Чаканне транзакцыі…",
+        "recording": "Завяршэнне…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Іншае",
+    "confirming": "Пацверджанне аплаты..."
+  },
+  "liveShorts": {
+    "live": "ПРАМА"
+  },
+  "feedFilters": {
+    "clearAllShort": "Ачысціць усе",
+    "done": "Гатовы",
+    "edit": "Рэдагаваць",
+    "groupDate": "Дата",
+    "groupSort": "Сартаваць",
+    "groupType": "Тып",
+    "save": "Захаваць"
+  },
+  "ownKeys": {
+    "working": "Ў працэсе",
+    "failed": "Нешта пайшло не так. Паспрабуй яшчэ раз.",
+    "check": "Паказаць",
+    "remove": "Выдаліць",
+    "save": "Захаваць",
+    "cancel": "Скасаваць"
+  },
+  "postBg": {
+    "none": "Няма",
+    "yours": "Вашы",
+    "accent": "Акцэнт",
+    "names": {
+      "aurora": "Аўрора",
+      "lava": "Лававая лямпа",
+      "drive": "Начны дыск",
+      "chrome": "Вадкі хром",
+      "orbit": "Арбіта",
+      "snow": "Снегапады"
+    }
+  },
+  "articleTile": {
+    "cover": "Вокладка"
+  },
+  "aiConsent": {
+    "allow": "Дазволіць"
+  },
+  "dmRequests": {
+    "title": "Запыты на функцыі",
+    "accept": "Прыняць",
+    "delete": "Выдаліць",
+    "block": "Заблакаваць"
+  },
+  "dmSchedule": {
+    "view": "Прагляд",
+    "edit": "Правка",
+    "editLabel": "Рэдагаваць паведамленне",
+    "error": "Гэта не спрацавала. Паспрабуй яшчэ раз."
+  },
+  "chatBulk": {
+    "selected": "{{count}} выбраны",
+    "cancel": "Скасаваць",
+    "reply": "Адказаць",
+    "delete": "Выдаліць"
+  },
+  "msgSelect": {
+    "selected": "{{count}} выбраны",
+    "copy": "Капіяваць",
+    "forward": "Пераслаць",
+    "deleted_one": "Выдалена {{count}} паведамленне",
+    "deleted_other": "Выдаленыя паведамленні {{count}}"
   }
 }

@@ -5,7 +5,12 @@
     "converted": "מוצג עכשיו כקומיקס",
     "unconverted": "מוצג עכשיו כקרוסלה",
     "convertFailed": "לא ניתן לשנות את הפריסה",
-    "showAll": "הצגת כל {{count}} העמודים"
+    "showAll": "הצגת כל {{count}} העמודים",
+    "tab": "קומיק",
+    "title": "קומיק",
+    "editor": {
+      "cover": "תמונת שער"
+    }
   },
   "comicBorder": {
     "title": "מסגרת",
@@ -2613,7 +2618,14 @@
     "cbade2afaee2": "הטרנדים של השבוע ב-Audius. השימוש חופשי, והאמן יקבל קרדיט בפוסט שלכם.",
     "d2e45b7406fc": "מוזיקה מהרשות הציבורית ומרשיון Creative Commons מ-Wikimedia Commons. האמן יקבל קרדיט בפוסט שלכם.",
     "d0c1a3684775": "השירים לא נטענו. יש לנסות שוב בעוד רגע.",
-    "d14064f80f52": "הוספת צליל"
+    "d14064f80f52": "הוספת צליל",
+    "71988c4d8e08": "טקסט",
+    "147170e793c6": "רחב",
+    "481859b689b0": "יש לבדוק את החיבור ולנסות שוב.",
+    "57e2faa5ec63": "חפש ב-Riftn",
+    "7db20897053b": "אנשים",
+    "96d7bff86b44": "החיפוש לא הצליח לטעון",
+    "d8b8392e2c54": "נסה שוב"
   },
   "dehubLinks": {
     "kind": {
@@ -2862,7 +2874,8 @@
       "quote": "ציטוט",
       "bullets": "רשימת נקודות",
       "numbers": "רשימה ממוספרת",
-      "link": "קישור"
+      "link": "קישור",
+      "image": "הוסף תמונות"
     }
   },
   "storefront": {
@@ -3157,6 +3170,8 @@
     "feedTogglesCleared": "מסנני הפיד אופסו",
     "defaultProfileTab": "לשונית ברירת המחדל בפרופיל",
     "defaultProfileTabDesc": "בחרו איזו לשונית מבקרים רואים ראשונה בפרופיל שלכם",
+    "defaultProfileView": "פריסת הפוסטים בפרופיל",
+    "defaultProfileViewDesc": "הציגו את הפוסטים שלכם כרשת או כרשימה כשאנשים פותחים את הפרופיל שלכם",
     "defaultPostVisibilityDesc": "חל על כל הפוסטים הנוכחיים והעתידיים",
     "public": "ציבורי",
     "publicDesc": "כולם יכולים לראות את הפוסטים שלך",
@@ -3800,7 +3815,11 @@
     "payViaDpay": "שולם ל-Riftn Pay, האסימונים יגיעו בעוד כ-30 שניות",
     "payViaBridgeDpay": "הועבר ל-Base ושולם ל-Riftn Pay, האסימונים יגיעו בעוד כדקה",
     "tokensUnit": "אסימונים",
-    "tokenAmount": "{{amount}} אסימונים"
+    "tokenAmount": "{{amount}} אסימונים",
+    "addMessage": "הוסף הודעה (אופציונלי)",
+    "messagePublic": "ציבורי",
+    "railTitle": "טיפים",
+    "railTotal": "{{amount}} אסימונים"
   },
   "postOptions": {
     "skippableSections": "מקטעים שניתן לדלג עליהם",
@@ -4528,7 +4547,11 @@
       "here": "{{name}} שלחה הודעה לכל חברי הקהילה",
       "hereNamed": "{{name}} שלחה הודעה לכולם באזור \"{{community}}\""
     },
-    "tokenAmount": "{{amount}} אסימונים"
+    "tokenAmount": "{{amount}} אסימונים",
+    "groupNew": "חדש",
+    "groupToday": "היום",
+    "groupThisWeek": "השבוע",
+    "searchClose": "סגור מחפש"
   },
   "leaderboard": {
     "title": "טבלת מובילים",
@@ -4720,7 +4743,18 @@
     "attachmentTooLarge": "כל קובץ חייב להיות מתחת ל-50MB",
     "deleteCommentA11y": "מחק הערה",
     "sendCommentA11y": "שלח תגובה",
-    "requestOptions": "אפשרויות בקשה"
+    "requestOptions": "אפשרויות בקשה",
+    "deviceInfoNoErrors": "אין",
+    "topBuilders": {
+      "month": "החודש",
+      "allTime": "כל הזמן",
+      "shipped": "נשלח",
+      "votes": "הצבעות",
+      "comments": "תגובות",
+      "showLess": "הצג פחות",
+      "viewProfile": "צפייה בפרופיל",
+      "you": "אתה"
+    }
   },
   "auth": {
     "loginRequired": "נדרשת התחברות",
@@ -4981,7 +5015,20 @@
       "votes_other": "{{value}} הצבעות",
       "members_one": "{{value}} חבר",
       "members_other": "{{value}} חברים"
-    }
+    },
+    "articleShort": "מאמר",
+    "articleMinRead": "{{count}} דקות קריאה",
+    "pinnedShort": "מוצמד",
+    "post": "פוסט",
+    "arrange": {
+      "saving": "שומר..."
+    },
+    "reserve": {
+      "signIn": "התחבר"
+    },
+    "tabLikes": "לייקים",
+    "likesEmptyTitle": "עדיין אין לייקים",
+    "likesPrivateTitle": "הלייקים פרטיים"
   },
   "tv": {
     "title": "טלוויזיה",
@@ -5497,6 +5544,9 @@
       "action": "פעולה",
       "schedule": "לוח זמנים",
       "filter": "סינון פעילות"
+    },
+    "welcome": {
+      "text": "הודעת פתיחה"
     }
   },
   "hero": {
@@ -5582,7 +5632,16 @@
     "nowPublic": "Flow הוא כעת ציבורי",
     "openCanvas": "פתיחת תפריט משטח הציור",
     "playVideo": "נגן וידאו",
-    "signInToSee": "היכנס כדי לראות את התזרים בחשבון שלך."
+    "signInToSee": "היכנס כדי לראות את התזרים בחשבון שלך.",
+    "newNativeFlow": "זרימה חדשה",
+    "model": "מודל",
+    "aspectRatio": "יחס גובה-רוחב",
+    "duration": "אורך בזמן שניות",
+    "resolution": "רזולוציה",
+    "disconnect": "התנתקות",
+    "payAndRun": "שלם והפעל",
+    "run": "הפעל",
+    "handlePrompt": "הגדרה"
   },
   "loginModal": {
     "title": "התחבר",
@@ -5902,7 +5961,8 @@
     "searchMenu": "חיפוש בתפריט",
     "clearSearch": "ניקוי החיפוש",
     "noMenuMatches": "אין התאמה בתפריט",
-    "searchDehubFor": "חיפוש \"{{query}}\" ב-Riftn"
+    "searchDehubFor": "חיפוש \"{{query}}\" ב-Riftn",
+    "requestSend": "שלח בקשה"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6521,7 +6581,11 @@
       "copied": "ההודעה הועתקה",
       "copyText": "העתקת טקסט",
       "mutedUntil": "אתם מושתקים עד {{date}}",
-      "slowMode": "מצב איטי: הודעה אחת בכל {{interval}}"
+      "slowMode": "מצב איטי: הודעה אחת בכל {{interval}}",
+      "joined": "{{name}} הצטרפו",
+      "reactions": "תגובות",
+      "photoTooLarge": "התמונה חייבת להיות קטנה מ-10MB",
+      "aiAdminFailed": "מנהל AI נכשל בתגובה"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6724,6 +6788,31 @@
       "notFound": "קישור הזמנה זה אינו תקף.",
       "requestToJoin": "בקש להצטרף",
       "approvalNote": "מנהל צריך לאשר את בקשתך לפני שתוכל להצטרף."
+    },
+    "buyAlert": {
+      "spent": "הוצאה:",
+      "buyer": "קונה:",
+      "balance": "יתרה:",
+      "price": "מחיר:",
+      "marketCap": "שווי שוק:"
+    },
+    "newChat": {
+      "public": "ציבורי",
+      "private": "פרטי",
+      "free": "חינם",
+      "paid": "שולם",
+      "group": "קבץ"
+    },
+    "holderGate": {
+      "chain": "רשת",
+      "which": "טוקן",
+      "tab": "בעלי"
+    },
+    "automod": {
+      "bannedWords": "מילים אסורות",
+      "floodMax": "הודעות {{count}}",
+      "saved": "נשמר",
+      "wordCount": "{{count}} מילים"
     }
   },
   "work": {
@@ -7844,7 +7933,10 @@
       "doneAll": "הפסקת לעקוב אחרי {{done}} חשבונות שלא עקבו אחרי אותך.",
       "doneSome": "הפסקת לעקוב אחרי {{done}} חשבונות. לא ניתן היה להפסיק לעקוב אחרי {{failed}}.",
       "doneToast": "הפסקת לעקוב אחרי {{done}} חשבונות שלא עקבו אחרי אותך"
-    }
+    },
+    "followBackConfirm": "עקוב בחזרה",
+    "followBackNotNow": "לא עכשיו",
+    "followBackDone": "בוצע"
   },
   "reactionInfo": {
     "title": "תגובות",
@@ -8764,7 +8856,38 @@
     "coverFrames": "בחר פרופיל",
     "coverFrame": "שימוש בפרופיל {{index}} ככותרת",
     "uploadCover": "העלה תמונת כותרת",
-    "editFailed": "לא ניתן ליישום את העריכה. נסה שוב."
+    "editFailed": "לא ניתן ליישום את העריכה. נסה שוב.",
+    "altPlaceholderVideo": "תארו את הסרטון הזה",
+    "preview": {
+      "title": "תצוגה מקדימה"
+    },
+    "recent": {
+      "all": "הכל"
+    },
+    "studio": {
+      "crop": "חתוך",
+      "draw": "ציור",
+      "light": "בהיר",
+      "contrast": "ניגודיות",
+      "warmth": "חום",
+      "colour": "צבע",
+      "fade": "עמעום",
+      "original": "מקור",
+      "ratioOriginal": "מקור",
+      "ratioFree": "חינם",
+      "rotate": "סובב",
+      "strength": "חוזק",
+      "stickers": "מדבקות",
+      "ticker": "טיקר",
+      "textBg": "רקע",
+      "font": {
+        "bold": "מודגש",
+        "serif": "סריף",
+        "mono": "מונו"
+      }
+    },
+    "edited": "נערך",
+    "edit": "ערוך"
   },
   "bounty": {
     "claimed": "נאסף",
@@ -9058,7 +9181,8 @@
     "justChatting": "סתם צ'אט",
     "noLiveStreams": "אין שידורים חיים",
     "noOneStreaming": "אף אחד לא משדר כרגע. כדאי לבדוק שוב אחר כך!",
-    "loadStreamsFailed": "לא ניתן לטעון שידורים. נסו שוב."
+    "loadStreamsFailed": "לא ניתן לטעון שידורים. נסו שוב.",
+    "liveBadge": "חי"
   },
   "liveShop": {
     "title": "קנו מהשידור הזה",
@@ -9371,7 +9495,23 @@
     "paymentSentWith": "נשלח עם {{amount}}",
     "planRestricted": "משתמש זה דורש מינוי כדי לקבל הודעות.",
     "planTypeNotAllowed": "התוכנית של יוצר זה אינה מאפשרת סוג הודעה זה.",
-    "planMinTip": "הטיפ ליוצר זה חייב להיות לפחות {{amount}} אסימונים."
+    "planMinTip": "הטיפ ליוצר זה חייב להיות לפחות {{amount}} אסימונים.",
+    "newDrawer": {
+      "to": "לכבוד"
+    },
+    "download": "הורד",
+    "deleteOneTitle": "למחוק את ההודעה הזו?",
+    "retrySend": "נסו שוב",
+    "discardSend": "הסר",
+    "shareKindGroup": "קבץ",
+    "shareKindCommunity": "קהילה",
+    "searchDiscover": {
+      "people": "אנשים",
+      "communities": "קהילות",
+      "members": "{{n}} חברים",
+      "newChat": "צ'אט חדש",
+      "invite": "הזמין"
+    }
   },
   "editPost": {
     "mediaPermission": "נדרשת הרשאה לספריית המדיה",
@@ -10589,7 +10729,11 @@
       "hint": "הופך דיבור לכתוביות מתוזמנות שאפשר לעצב מחדש. פועל במכשיר שלך: חינם ופרטי. בשימוש הראשון המודל יורד.",
       "done": "נוספו {{count}} כתוביות.",
       "noSpeech": "לא נמצא דיבור בקליפ הזה.",
-      "failed": "לא ניתן ליצור כתוביות לקליפ הזה."
+      "failed": "לא ניתן ליצור כתוביות לקליפ הזה.",
+      "styles": {
+        "bold": "מודגש",
+        "serif": "סריף"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10659,7 +10803,8 @@
       "vibrant": "תוסס",
       "cyber": "סייבר",
       "invert": "היפוך",
-      "strength": "עוצמת סינון: {{value}}%"
+      "strength": "עוצמת סינון: {{value}}%",
+      "vhs": "קלטת וידאו ביתית"
     },
     "layer": {
       "crop": "חתוך",
@@ -10839,7 +10984,9 @@
       "suggestTitle": "הוסף כותרת גדולה ומודגשת למעלה וכותרת משנה קטנה יותר מתחתיה",
       "undo": "בטל",
       "openGenerator": "סקור וצור",
-      "working": "עובד על זה…"
+      "working": "עובד על זה…",
+      "stop": "עצור",
+      "queue": "הוסף לתור"
     },
     "brand": {
       "addColor": "הוספת צבע מותג",
@@ -10976,7 +11123,9 @@
       "rendering": "מעבד וידאו… {{percent}}%",
       "mp4": "וידאו MP4",
       "exportHint": "השאר את העורך פתוח בזמן שהווידאו מעובד.",
-      "tooLarge": "הקובץ גדול מדי עבור העורך. המגבלה היא 400 MB."
+      "tooLarge": "הקובץ גדול מדי עבור העורך. המגבלה היא 400 MB.",
+      "tZoomIn": "הגדלה",
+      "tZoomOut": "התרחק"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12155,6 +12304,31 @@
       "selection": "בחירה",
       "zoomIn": "בד התקרבות פנימה",
       "zoomOut": "הזום את הקנבס החוצה"
+    },
+    "stage": {
+      "camera": "מצלמה",
+      "yaw": "סיבוב",
+      "add": "הוסף",
+      "scale": "גודל",
+      "color": "צבע",
+      "light": "בהיר"
+    },
+    "clipFix": {
+      "listening": "מאזין…"
+    },
+    "generate3d": {
+      "label": "תלת מימד"
+    },
+    "voiceClone": {
+      "stop": "עצור הקלטה",
+      "failed": "הצלחתי להעתיק קול"
+    },
+    "linkImport": {
+      "go": "ייבא",
+      "downloading": "הורדה {{percent}}%"
+    },
+    "reverse": {
+      "action": "היפוך"
     }
   },
   "creator": {
@@ -12616,7 +12790,32 @@
     "referenceProductName": "השתל את המוצר בקליפ",
     "referenceProductHint": "החלף את המוצר המוצג תוך שמירה על הסצנה המקורית",
     "referenceComposeName": "איחד תמונות התייחסות",
-    "referenceComposeHint": "הביא דמויות, פריטים ואתרים ממספר תמונות לתוך תצוגה אחת"
+    "referenceComposeHint": "הביא דמויות, פריטים ואתרים ממספר תמונות לתוך תצוגה אחת",
+    "marketing": {
+      "import": {
+        "use": "שימוש בפרטים האלה"
+      }
+    },
+    "batchCount": "תמונות",
+    "endFrame": "פריים סיום",
+    "cinema": {
+      "close": "סגור",
+      "performance": {
+        "label": "ביצועים"
+      }
+    },
+    "audioNoSpeech": "לא נמצא דיבור בהקלטה זו.",
+    "audioTaskSpeechLabel": "דיבור",
+    "audioTaskDialogueLabel": "דיאלוג",
+    "audioTaskSfxLabel": "אפקט קול II",
+    "audioTaskVoiceChangerLabel": "מחליף קול",
+    "audioTaskTranscribeLabel": "שעתוק",
+    "audioTaskIsolateLabel": "ניקיון",
+    "priceFreeRateLimited": "חינם · בכפוף למגבלות התעריף",
+    "loop": "לופ",
+    "dialogueFormat": "כתוב את הסצנה כ\"שם: שורה\", דובר אחד לכל שורה.",
+    "fileTooLarge": "הקובץ הזה גדול מ-100 MB. השתמש בקובץ קצר יותר או קטן יותר.",
+    "signInToGenerate": "התחבר כדי ליצור."
   },
   "fractions": {
     "title": "חלקים",
@@ -14685,6 +14884,19 @@
       "intro": "צופים רוכשים נקודה לכל דקה שהם צופים בך ואחת לכל 100 דה\"ב שניתנים כמתנה. שיחה ותגובות לא מעניקות נקודות, כך שלא ניתן לגדל נקודות באופן מלאכותי.",
       "empty": "עדיין אין נקודות. הנקודות מתגבשות כשהיוצרים צופים ומגיעים כמתנות.",
       "widgetHint": "הוסף את וידג'ט הצופים הנאמנים כדי להציג את הרשימה בחיוך."
+    },
+    "destinations": {
+      "platform": "פלטפורמה",
+      "label": "שם (אופציונלי)",
+      "key": "מפתח שידור",
+      "save": "הוסף",
+      "cancel": "ביטול",
+      "states": {
+        "off": "כבוי",
+        "idle": "מוכן",
+        "live": "שידור חי",
+        "error": "שגיאה"
+      }
     }
   },
   "liveChatModeration": {
@@ -14765,7 +14977,73 @@
     "collections": "אוסףים",
     "days": "{{count}} ימים",
     "spotlightForSale": "למכירה עכשיו",
-    "buyFor": "קנה עבור {{price}}"
+    "buyFor": "קנה עבור {{price}}",
+    "actAll": "הכל",
+    "actListings": "מודעות",
+    "actOffer": "הצעה",
+    "actOffers": "הצעות",
+    "actSales": "מכירות",
+    "tabActivity": "פעילות",
+    "allChains": "כל השרשרות",
+    "newest": "חדש ביותר",
+    "cheapest": "מחיר הנמוך ביותר",
+    "soldFor": "נמכר",
+    "signIn": "התחבר",
+    "title": "NFTים",
+    "share": "שיתוף",
+    "noneForSale": "אין עדיין למכירה",
+    "noSales": "אין מכירות עדיין",
+    "tabBrowse": "לברר",
+    "tabMine": "שלך",
+    "tabSales": "מכירות",
+    "cancelled": "בוטל",
+    "sold": "נמכר",
+    "listed": "רשום למכירה",
+    "feeRow": "עמלת Riftn ({{pct}}%)",
+    "royaltyRow": "רויאלטי של היוצר",
+    "youGet": "אתה מקבל",
+    "holderGets": "בעל מקבל",
+    "loading": "מעבר...",
+    "price": "מחיר",
+    "seller": "מוכר",
+    "tabRecent": "אחרון",
+    "buyNow": "קנה עכשיו",
+    "offers": "הצעות",
+    "cancel": "ביטול",
+    "accept": "קבל",
+    "signInToTrade": "התחבר לסחר",
+    "listForSale": "רשום למכירה",
+    "makeOffer": "להציע הצעה",
+    "sendOffer": "שלח הצעה",
+    "back": "חזור",
+    "dropsTo": "המחיר יורד ל-{{price}} עד {{date}}",
+    "inBundle": "נמכר כחבילה של {{n}}",
+    "trending": "קולקציות פופולריות",
+    "floor": "קומה",
+    "listedCount": "{{n}} למכירה",
+    "thisCollection": "הקולקציה הזו",
+    "collectionOffer": "הצעה על כל",
+    "showAll": "הראו לי הכל",
+    "shortTitle": "NFTים",
+    "filters": "מסננים",
+    "forSale": "למכירה",
+    "openToOffers": "פתוח להצעות",
+    "freshMints": "רענן מיוצרי Riftn",
+    "offersOpen": "פתוח להצעות",
+    "mintedCount": "{{n}} הוטבע",
+    "anyInCollection": "כל אחד באוסף",
+    "thisNft": "זה NFT",
+    "priceAlert": "התראת מחיר",
+    "alertUnder": "תגיד לי מתי רשום ב- או מתחת ל- ({{symbol}}, אופציונלי)",
+    "turnOnAlert": "הפעל התראה",
+    "alertSaved": "התראה פעילה. נגיד לך כשאחד יהיה ברשימה.",
+    "priceDrop": "המחיר יורד עם הזמן",
+    "endPrice": "המחיר הנמוך ביותר, הושג בסוף ({{symbol}})",
+    "bundleBadge": "בונדל ×{{n}}",
+    "dropBadge": "ירידה במחיר",
+    "days_one": "{{count}} יום",
+    "days_other": "{{count}} ימים",
+    "spotlightNew": "זה עתה נטבע"
   },
   "riftnMove": {
     "title": "DeHub הוא עכשיו Riftn",
@@ -14792,7 +15070,11 @@
       "episode": "פרק פודקאסט",
       "show": "פודקאסט",
       "artist": "אמן"
-    }
+    },
+    "loading": "מעבר...",
+    "paused": "מושהה",
+    "preview": "תצוגה מקדימה",
+    "seek": "חפש"
   },
   "twoFactor": {
     "wrongCode": "הקוד הזה לא תואם. נסה את האחרון באפליקציה שלך.",
@@ -14870,5 +15152,251 @@
     "newer": "תוצאה חדשה יותר",
     "gone": "ההודעה הזו כבר לא כאן",
     "theirMessages": "הודעותיהם"
+  },
+  "chatTextSize": {
+    "title": "גודל טקסט",
+    "default": "ברירת מחדל",
+    "larger": "גדול יותר"
+  },
+  "remix": {
+    "cut": "גזור"
+  },
+  "signedFollows": {
+    "setUp": "הפעל",
+    "turnOff": "כבה",
+    "efpTurnOff": "עצור"
+  },
+  "postEditHistory": {
+    "original": "מקורי"
+  },
+  "studioDeck": {
+    "remove": "הסר",
+    "background": {
+      "title": "רקע",
+      "modes": {
+        "none": "כבוי",
+        "blur": "טשטוש",
+        "color": "צבע"
+      }
+    },
+    "scenes": {
+      "countdown": "ספירה לאחור",
+      "minutes": "{{count}} דק'",
+      "names": {
+        "starting": "מתחיל בקרוב"
+      }
+    },
+    "widgets": {
+      "tab": "ווידג'טים"
+    },
+    "sources": {
+      "image": "תמונה",
+      "show": "הצגה בזרם",
+      "positions": {
+        "center": "מרכז"
+      },
+      "sizes": {
+        "medium": "בינונית"
+      }
+    },
+    "phone": {
+      "title": "סטודיו"
+    }
+  },
+  "whenSheet": {
+    "today": "היום",
+    "tooSoon": "כדאי לבחור מועד בעתיד.",
+    "show": "הצג",
+    "hide": "הסתר"
+  },
+  "planned": {
+    "title": "מתוכנן",
+    "all": "הכל",
+    "posts": "פוסטים",
+    "stages": "חדרי אודיו",
+    "post": "פוסט",
+    "live": "שידור חי",
+    "stage": "במה",
+    "untitledPost": "פוסט",
+    "untitledLive": "שידור חי",
+    "loading": "טוען…",
+    "startNow": "התחל עכשיו",
+    "cancel": "ביטול",
+    "cancelled": "בוטל"
+  },
+  "welcome": {
+    "about": {
+      "title": "ברוכים הבאים ל-Riftn",
+      "day": "יום",
+      "month": "חודש",
+      "year": "שנה"
+    },
+    "name": {
+      "title": "שמך",
+      "placeholder": "שמך"
+    },
+    "card": {
+      "name": "שמך",
+      "followers": "עוקבים"
+    },
+    "topic": {
+      "music": "מוזיקה",
+      "art": "אמנות",
+      "gaming": "גיימינג",
+      "crypto": "קריפטו",
+      "sports": "ספורט",
+      "comedy": "קומדיה",
+      "film": "סרט",
+      "podcast": "פודקאסט",
+      "food": "אוכל",
+      "news": "חדשות",
+      "science": "מדע"
+    },
+    "back": "חזור",
+    "skipPhoto": "התעלם עכשיו",
+    "preview": "תצוגה מקדימה"
+  },
+  "appTokens": {
+    "title": "האסימונים שלך",
+    "history": "היסטוריה",
+    "noHistory": "עדיין אין פעילות",
+    "kindDeposit": "הוסף כספים",
+    "to": "לכבוד",
+    "amount": "סכום",
+    "notePlaceholder": "הוסף הערה (אופציונלי)",
+    "sendButton": "שלח",
+    "errorInsufficient": "אין מספיק אסימונים"
+  },
+  "avatarPrompt": {
+    "notNow": "לא עכשיו"
+  },
+  "postStats": {
+    "audience": "אודיטוריה",
+    "engagement": "מעורבות",
+    "finished": "הסתיים",
+    "members": "חברים",
+    "membersLower": "חברים",
+    "newFollowers": "עוקבים חדשים",
+    "noBadge": "לא מדליק",
+    "people": "אנשים",
+    "plays": "מחזות",
+    "quotes": "ציטוטים",
+    "reposts": "שיתופים",
+    "saved": "נשמר",
+    "shares": "שיתופים",
+    "signedOutViewers": "התנתקת",
+    "topSupporters": "תומכים מובילים",
+    "visitors": "התנתקת"
+  },
+  "duet": {
+    "policyEveryone": "כולם",
+    "policyFollowers": "עוקבים",
+    "policyNobody": "אף אחד",
+    "loadMore": "טען עוד",
+    "video": "סרטון"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "כולם",
+      "followers": "עוקבים",
+      "nobody": "אף אחד"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "כולם",
+      "followers": "עוקבים",
+      "nobody": "אף אחד"
+    },
+    "heading": "התגובות.",
+    "more": "פרטים נוספים",
+    "liveNow": "שידור חי",
+    "untitled": "תגובה"
+  },
+  "liveClips": {
+    "copyLink": "העתק קישור",
+    "linkCopied": "הקישור הועתק"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "תוכנית",
+      "howMany": "כמה",
+      "who": "שם משתמש או כתובת ארנק",
+      "whoPlaceholder": "@שם_משתמש",
+      "cancel": "ביטול",
+      "stage": {
+        "preparing": "מכין…",
+        "confirming": "ממתין לעסקה…",
+        "recording": "מסיים…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "אחר",
+    "confirming": "אישור התשלום…"
+  },
+  "liveShorts": {
+    "live": "חי"
+  },
+  "feedFilters": {
+    "clearAllShort": "נקה הכל",
+    "done": "נעשה",
+    "edit": "ערוך",
+    "groupDate": "תאריך",
+    "groupSort": "מיון",
+    "groupType": "סוג",
+    "save": "שמור"
+  },
+  "ownKeys": {
+    "working": "בעבודה",
+    "failed": "משהו השתבש. יש לנסות שוב.",
+    "check": "בדוק",
+    "remove": "הסר",
+    "save": "שמור",
+    "cancel": "ביטול"
+  },
+  "postBg": {
+    "none": "אין",
+    "yours": "שלך",
+    "accent": "סימן דגש",
+    "names": {
+      "aurora": "אורורה",
+      "lava": "מנורת לבה",
+      "drive": "נסיעה לילית",
+      "chrome": "כרום נוזלי",
+      "orbit": "מסלול מעגלי",
+      "snow": "שלגweather forecast"
+    }
+  },
+  "articleTile": {
+    "cover": "תמונת שער"
+  },
+  "aiConsent": {
+    "allow": "לאשר"
+  },
+  "dmRequests": {
+    "title": "בקשות תכונות",
+    "accept": "קבל",
+    "delete": "מחק",
+    "block": "חסום"
+  },
+  "dmSchedule": {
+    "view": "צפה",
+    "edit": "ערוך",
+    "editLabel": "ערוך הודעה",
+    "error": "זה לא עבד. נסה שוב."
+  },
+  "chatBulk": {
+    "selected": "{{count}} נבחר",
+    "cancel": "ביטול",
+    "reply": "תגובה",
+    "delete": "מחק"
+  },
+  "msgSelect": {
+    "selected": "{{count}} נבחר",
+    "copy": "העתק",
+    "forward": "העבר",
+    "deleted_one": "מחק {{count}} הודעה",
+    "deleted_other": "מחק {{count}} הודעות"
   }
 }

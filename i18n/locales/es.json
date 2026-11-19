@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "Todos",
+    "unread": "No leídos",
+    "groups": "Grupos"
+  },
   "comicBorder": {
     "title": "Borde",
     "theme": "Tema",
@@ -189,7 +194,9 @@
       "profile": "perfil",
       "proposal": "propuesta",
       "stage": "etapa",
-      "store": "tienda"
+      "store": "tienda",
+      "featureRequest": "solicitud",
+      "page": "página"
     }
   },
   "stageCover": {
@@ -1017,6 +1024,8 @@
     "feedTogglesCleared": "Filtros del feed restablecidos",
     "defaultProfileTab": "Pestaña de perfil por defecto",
     "defaultProfileTabDesc": "Elige qué pestaña ven primero los visitantes en tu perfil",
+    "defaultProfileView": "Diseño de las publicaciones del perfil",
+    "defaultProfileViewDesc": "Muestra tus publicaciones en cuadrícula o en lista cuando alguien abra tu perfil",
     "defaultPostVisibilityDesc": "Se aplica a todas las publicaciones actuales y futuras",
     "public": "Público",
     "publicDesc": "Cualquiera puede ver tus publicaciones",
@@ -7560,6 +7569,8 @@
     "allDisabled": "Ahora mismo todos los mensajes están desactivados. Los nuevos se bloquean por defecto.",
     "failedToEdit": "No se pudo editar la regla.",
     "messageDeleted": "Mensaje eliminado",
+    "deleteOneTitle": "¿Eliminar este mensaje?",
+    "deleteForBothBody": "Se eliminará para los dos.",
     "cantForwardFromDevice": "Este mensaje no se puede reenviar desde este dispositivo",
     "messageForwarded": "Mensaje reenviado –",
     "clearMessages": "MENSAJES CLAROS",
@@ -11670,7 +11681,11 @@
     "ended": "Finalizado",
     "stage": "Escenario",
     "upcomingStage": "Próximo escenario",
-    "members": "{{compact}} miembros"
+    "members": "{{compact}} miembros",
+    "requestComments_one": "{{compact}} comentario",
+    "requestComments_other": "{{compact}} comentarios",
+    "requestVotes_one": "{{compact}} voto",
+    "requestVotes_other": "{{compact}} votos"
   },
   "report": {
     "whyVideo": "¿Por qué estás reportando este video?",
@@ -16694,8 +16709,27 @@
       "spin": "Prisma giratorio",
       "tide": "Marea",
       "ember": "Brasas",
-      "holo": "Holográfico"
-    }
+      "holo": "Holográfico",
+      "rift": "Grieta",
+      "chrome": "Cromo líquido",
+      "mesh": "Malla",
+      "grain": "Grano de película",
+      "orbit": "Órbita",
+      "ripple": "Onda",
+      "dotwave": "Ola de puntos",
+      "scan": "CRT",
+      "silk": "Seda",
+      "bokeh": "Bokeh",
+      "snow": "Nevada",
+      "photo": "Tu imagen"
+    },
+    "yours": "Tuyos",
+    "base": "Base",
+    "accent": "Acento",
+    "accent2": "Acento 2",
+    "ownColours": "Tus propios colores",
+    "addPhoto": "Añadir una imagen o GIF",
+    "changePhoto": "Cambiar imagen o GIF"
   },
   "riftnMove": {
     "title": "DeHub ahora es Riftn",
@@ -16894,6 +16928,7 @@
     "notSent": "No se pudo enviar. Inténtalo de nuevo."
   },
   "msgSelect": {
+    "deleteForBothBody": "Se eliminarán para los dos.",
     "toolbar": "Mensajes seleccionados",
     "pick": "Toca mensajes para seleccionarlos",
     "selected": "{{count}} seleccionados",
@@ -16911,6 +16946,36 @@
     "deleteBody": "Se eliminarán para todos en este chat.",
     "deleted_one": "{{count}} mensaje eliminado",
     "deleted_other": "{{count}} mensajes eliminados"
+  },
+  "profileImage": {
+    "change": "Cambiar"
+  },
+  "resetWallet": {
+    "mismatch": "Las contraseñas no coinciden",
+    "tooShort": "La contraseña debe tener al menos {{count}} caracteres",
+    "breached": "Esta contraseña ha aparecido en una filtración de datos. Elige otra",
+    "weak": "Elige una contraseña más segura (mezcla letras, números y símbolos)",
+    "doneTitle": "Tu cuenta ya está en su nueva billetera",
+    "twoFactor": "Introduce el código de tu app de autenticación para mover tu cuenta.",
+    "failed": "No se pudo restablecer tu billetera. No se movió nada. Inténtalo de nuevo.",
+    "title": "Restablecer billetera",
+    "reloginApp": "El restablecimiento se confirma con el correo, teléfono o inicio de sesión de Google de tu cuenta, no con la billetera antigua, porque cualquiera que tenga la clave antigua también podría firmar. Cierra sesión, vuelve a entrar con ese inicio de sesión y regresa aquí. ¿Aún no tienes correo de inicio de sesión? Primero añade uno en riftn.com en Ajustes → Inicio de sesión.",
+    "logOut": "Cerrar sesión",
+    "intro": "Crea una nueva billetera de Riftn y mueve a ella tu nombre de usuario, publicaciones, seguidores y mensajes. Úsalo si perdiste tu billetera o si otra persona tiene su clave. La billetera antigua deja de servir para iniciar sesión.",
+    "funds": "Los tokens, NFT y otros saldos no se mueven. Se quedan en la dirección antigua. Si aún puedes abrir la billetera antigua, envíalos antes.",
+    "password": "Nueva contraseña de la billetera (mín. {{count}} caracteres)",
+    "confirm": "Confirmar contraseña",
+    "twoFactorPlaceholder": "Código de autenticación",
+    "ack": "Entiendo que mis fondos antiguos se quedan en la billetera antigua.",
+    "submit": "Restablecer billetera",
+    "cancel": "Cancelar",
+    "rowDesc": "¿Perdiste tu billetera o alguien más tiene su clave? Mueve tu cuenta a una nueva billetera. Tu nombre de usuario, publicaciones y seguidores vienen contigo."
+  },
+  "mentionLinks": {
+    "communities": "Comunidades",
+    "pages": "Páginas",
+    "people": "Personas",
+    "linkTo": "Enlazar {{name}}"
   },
   "chatTabs": {
     "addChats": "Añadir chats",

@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
+  Platform,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, { FadeIn, FadeOut, SlideInUp, SlideOutDown } from "react-native-reanimated";
@@ -23,6 +24,7 @@ import { useTranslation } from "react-i18next";
 import { useThemeRootStyle } from "../../context/ThemeContext";
 import { DrawerSurface } from "../ui/SheetGlass";
 import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
+import { useSheetClosed } from "../../hooks/useSheetClosed";
 
 interface CreatePollSheetProps {
   visible: boolean;
@@ -58,6 +60,7 @@ const CreatePollSheet: React.FC<CreatePollSheetProps> = ({
   // The page behind is blurred by the backdrop, not by the sliding panel: a
   // blur inside the panel came out unblurred on iOS and the chat read through.
   const backdrop = useSheetBackdrop(visible);
+  const [isFullyClosed] = useSheetClosed(visible, 240);
 
   const [question, setQuestion] = useSurfaceDraft("components/DM/CreatePollSheet.tsx:question", "");
   const [options, setOptions] = useState(["", ""]);
@@ -105,18 +108,23 @@ const CreatePollSheet: React.FC<CreatePollSheetProps> = ({
     } catch {}
   }, [canCreate, options, question, durationHours, isMultipleChoice, createPoll, onCreated, setQuestion, postTokenId, conversationId]);
 
-  if (!visible) return null;
+  if (!visible && isFullyClosed) return null;
 
   return (
     <Modal
+      // Android keeps the window up while the panel slides out (its `exiting`
+      // runs only if the window is still there); iOS drops it at once, because
+      // a lingering window takes the next one down with it.
+      visible={visible || (Platform.OS === "android" && !isFullyClosed)}
       transparent
       animationType="none"
       statusBarTranslucent
       onRequestClose={onClose}
       navigationBarTranslucent
     >
+      {visible && <>
       {/* Full screen, so the part under the panel is blurred too. */}
-      <Animated.View entering={FadeIn.duration(200)} style={StyleSheet.absoluteFill} pointerEvents="none">
+      <Animated.View entering={FadeIn.duration(200)} exiting={FadeOut.duration(200)} style={StyleSheet.absoluteFill} pointerEvents="none">
         <SheetBackdrop backdrop={backdrop} />
       </Animated.View>
       <Pressable style={{ flex: 1 }} onPress={onClose} />
@@ -266,6 +274,7 @@ const CreatePollSheet: React.FC<CreatePollSheetProps> = ({
           </ScrollView>
         </Animated.View>
       </KeyboardAvoidingView>
+      </>}
     </Modal>
   );
 };

@@ -69,7 +69,14 @@ function MiniPlayer({ entry, bounds }: { entry: InAppVideoMini; bounds: MiniRect
   useEffect(() => {
     requestAudioFocus(stop);
     const playingSub = entry.player.addListener('playingChange', event => setPlaying(event.isPlaying));
-    const appSub = AppState.addEventListener('change', state => { if (state !== 'active') stop(); });
+    // A mini player with sound keeps playing when the app is minimised
+    // (libs/backgroundVideoAudio); a silent one stops as before.
+    const appSub = AppState.addEventListener('change', state => {
+      if (state === 'active') return;
+      let audible = false;
+      try { audible = entry.player.playing && !entry.player.muted && entry.player.volume > 0; } catch {}
+      if (!audible) stop();
+    });
     // Abort a stalled surface handoff instead of hiding it behind a poster.
     // The original route remains mounted until a real hosted frame arrives.
     const timer = setTimeout(() => {

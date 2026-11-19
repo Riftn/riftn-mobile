@@ -11,7 +11,8 @@ import Avatar from "../common/Avatar";
 import NewMemberChip from "../common/NewMemberChip";
 import OnlineDot from "../common/OnlineDot";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
-import { formatRelativeFromNow } from "../../libs/date.util";
+import { formatShortAgo } from "../../libs/date.util";
+import { ChatCard } from "./ChatCard";
 import type { DmConversation, DmMessage, DmUser } from "../../services/dm/dm.types";
 import { getOtherParticipant } from "../../services/dm/dm.types";
 import { useUnreadCount } from "../../store/dm.store";
@@ -24,7 +25,7 @@ import { useLiveTarget } from "../../hooks/useIsUserLive";
 import { openLiveTarget } from "../../libs/openLiveTarget";
 import SwipeableRow, { type SwipeAction } from "../common/SwipeableRow";
 import { useAppTheme } from "../../context/ThemeContext";
-import { BulkTick, CHECKED_FILL, MarkedUnreadDot } from "./BulkChatBar";
+import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
 
 interface ConversationItemProps {
   conversation: DmConversation;
@@ -175,7 +176,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
 
   const timeStr = useMemo(() => {
     const last = conversation.messages?.[0];
-    return formatRelativeFromNow(
+    return formatShortAgo(
       last?.createdAt || conversation.lastMessageAt || conversation.updatedAt,
     );
   }, [conversation]);
@@ -222,7 +223,8 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
 
   return (
     <Animated.View entering={animateIn ? FadeIn.duration(250) : undefined}>
-      <SwipeableRow actions={swipeActions}>
+      <ChatCard unread={unreadCount > 0 || markedUnread} checked={selecting && checked}>
+      <SwipeableRow actions={swipeActions} backgroundClassName="">
       <TouchableOpacity
         onPress={handlePress}
         onLongPress={handleLongPress}
@@ -230,9 +232,9 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         activeOpacity={0.7}
         accessibilityState={selecting ? { selected: checked } : undefined}
         testID={selecting ? (checked ? "chat-row-checked" : "chat-row-unchecked") : undefined}
-        className="flex-row items-center px-4 py-4 gap-3"
+        className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
+        style={{ minHeight: 72 }}
       >
-        {selecting && checked && <View pointerEvents="none" style={CHECKED_FILL} />}
         {selecting && <BulkTick checked={checked} />}
         <TouchableOpacity
           disabled={selecting}
@@ -246,7 +248,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
                 ? avatarUrl
                 : undefined
             }
-            size={48}
+            size={44}
             name={displayName}
             live={live}
           />
@@ -281,7 +283,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
                 </Text>
               )}
             </View>
-            <Text className="text-[14px] text-theme-neutrals-500">{timeStr}</Text>
+            <Text className="text-[12.5px] text-theme-neutrals-500" style={{ fontVariant: ["tabular-nums"] }}>{timeStr}</Text>
             {markedUnread && !(unreadCount > 0) && <MarkedUnreadDot />}
             <UnreadCountChip count={unreadCount} />
           </View>
@@ -312,6 +314,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         </View>
       </TouchableOpacity>
       </SwipeableRow>
+      </ChatCard>
     </Animated.View>
   );
 };

@@ -40,6 +40,7 @@ import { runWithPermissions } from "../../libs/permissions.util";
 import { cleanVideoOptions, type DmVideoOptions } from "../../libs/dm-video-options";
 import { type DmDestructChoice } from "../../libs/dm-destruct";
 import DmVideoStudio from "./DmVideoStudio";
+import LockPriceRow from "./LockPriceRow";
 
 
 /** Per-kind caps, matching the backend's DM limits. */
@@ -54,6 +55,19 @@ import type { SmartReplyTurn } from "../../services/ai.service";
 import type { DmMessage, DmFee } from "../../services/dm/dm.types";
 import { DM_TEXT_MAX_LENGTH } from "../../services/dm/dm.types";
 import { haptic } from "../../libs/haptics";
+import { useComposeTranslate } from "../../hooks/useComposeTranslate";
+import LanguageSelectModal from "../Settings/LanguageSelectModal";
+import MentionSuggestions from "../common/MentionSuggestions";
+import { useMentions } from "../../hooks/useMentions";
+import { optionalSkia } from "../../libs/skia";
+import type { StudioResult } from "../Upload/PhotoStudio";
+import type { StudioEdits } from "../Upload/studioPaint";
+
+// The post composer's photo editor (crop, looks, adjust, draw, text). Skia,
+// so only on builds that carry it.
+const PhotoStudio = optionalSkia(
+  () => require("../Upload/PhotoStudio").default as typeof import("../Upload/PhotoStudio").default,
+);
 
 
 export type ChatMediaAttachment = {
@@ -76,6 +90,9 @@ export type ChatMediaAttachment = {
   options?: DmVideoOptions;
   /** Self-destruct: gone after one view or a set time. */
   destruct?: DmDestructChoice | null;
+  /** Photo editor: the untouched original and the edits over it. */
+  editBaseUri?: string;
+  studioEdits?: StudioEdits;
 };
 
 interface ChatInputBarProps {
@@ -209,6 +226,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   // The edit screen opens on a pick; Confirm brings the picks back here as a
   // row above the box. X drops only what was picked since it opened.
   const [studioOpen, setStudioOpen] = useState(false);
+  const [photoEditing, setPhotoEditing] = useState(false);
   const studioOpenRef = useRef(false);
   studioOpenRef.current = studioOpen;
   const studioBase = useRef(0);
@@ -347,6 +365,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     },
     [emitTyping, setText],
   );
+
+  const mentions = useMentions(text, handleTextChange);
 
   // Cleanup typing timer on unmount
   useEffect(
@@ -594,6 +614,8 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   }, [onCancelEdit, setEditText]);
 
 
+  const translator = useComposeTranslate(text, setText);
+
   const handleEnhance = useCallback(async () => {
     const trimmed = text.trim();
     if (!trimmed || enhancing) return;
@@ -692,6 +714,13 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
       icon: "Sparkles",
       label: t("dm.enhanceWithAi"),
       onPress: fromSheet(handleEnhance),
+      disabled: !text.trim(),
+    },
+    {
+      key: "translate",
+      icon: "Languages",
+      label: t("common.translate"),
+      onPress: fromSheet(translator.openPicker),
       disabled: !text.trim(),
     },
   ];
@@ -832,6 +861,39 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
               onCoverFrame={(uri) => patchStudio({ thumbnailUri: uri })}
               lockPrice={allowLock ? cur.lockPrice ?? null : null}
               onLockPriceChange={allowLock ? (price) => patchStudio({ lockPrice: price }) : undefined}
+              onEditPhoto={PhotoStudio && cur.type === "image" && !/gif/i.test(cur.mimeType || "") ? () => {
+                setStudioOpen(false);
+                setTimeout(() => setPhotoEditing(true), 300);
+              } : undefined}
+            />
+          );
+        })()}
+        {PhotoStudio && photoEditing && studio.length > 0 && (() => {
+          const cur = studio[Math.min(studioActive, studio.length - 1)];
+          const back = () => { setPhotoEditing(false); setTimeout(() => setStudioOpen(true), 300); };
+          return (
+            <PhotoStudio
+              photos={[{ baseUri: cur.editBaseUri ?? cur.uri, mimeType: cur.mimeType, edits: cur.studioEdits }]}
+              startIndex={0}
+              startTab="crop"
+              onClose={back}
+              onDone={(results: StudioResult[]) => {
+                const r = results[0];
+                if (r) {
+                  patchStudio({
+                    editBaseUri: cur.editBaseUri ?? cur.uri,
+                    studioEdits: r.edits,
+                    uri: r.uri,
+                    thumbnailUri: undefined,
+                    width: r.width,
+                    height: r.height,
+                    mimeType: r.mimeType,
+                    name: r.fileName,
+                    size: undefined,
+                  });
+                }
+                back();
+              }}
             />
           );
         })()}
@@ -917,14 +979,38 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
                 <Icon name="X" size={12} color="#09090B" />
               </TouchableOpacity>
             </View>
+            {/* A document can go out locked too: they pay to download it. */}
+            {allowLock && media?.type === "file" && (
+              <View className="mt-2">
+                <LockPriceRow
+                  kind="file"
+                  value={media.lockPrice ?? null}
+                  onChange={(price) => setMedia((m) => (m ? { ...m, lockPrice: price } : m))}
+                />
+              </View>
+            )}
           </Animated.View>
         )}
 
+          {/* @ in a message: people, communities and pages, like web's
+              composer. A community or page types its link, which the
+              message shows as a card. */}
+          {mentions.showSuggestions && (
+            <View className="mx-3 mt-2">
+              <MentionSuggestions
+                visible={mentions.showSuggestions}
+                suggestions={mentions.suggestions}
+                onSelect={mentions.selectMention}
+                loading={mentions.loading}
+              />
+            </View>
+          )}
           <View className="mx-3 mt-3" style={INPUT_BOX}>
             <TextInput
               ref={inputRef}
               value={text}
-              onChangeText={handleTextChange}
+              onChangeText={mentions.handleChangeText}
+              onSelectionChange={mentions.handleSelectionChange}
               onFocus={() => setComposerFocused(true)}
               onBlur={() => setComposerFocused(false)}
               placeholder={placeholder}
@@ -967,6 +1053,17 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
           <TouchableOpacity {...gifPress} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.chooseGif")}><Icon name="Smile" size={20} color="#A1A1AA" /></TouchableOpacity>
           <TouchableOpacity onPress={() => { haptic.tap(); Keyboard.dismiss(); setClipOpen(true); }} disabled={enhancing} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.attachAnything", { defaultValue: "Attach a photo, video, audio or file" })}><Icon name="Paperclip" size={20} color="#A1A1AA" /></TouchableOpacity>
           <TouchableOpacity onPress={onStartVoice} disabled={enhancing || sending} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("comments.recordVoice")}><Icon name="Mic" size={20} color="#A1A1AA" /></TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => void translator.translate()}
+            onLongPress={translator.openPicker}
+            disabled={enhancing || translator.busy || !text.trim()}
+            style={CONTROL_BOX}
+            className="items-center justify-center"
+            accessibilityRole="button"
+            accessibilityLabel={t("common.translate")}
+          >
+            {translator.busy ? <ActivityIndicator size={16} color="#F4F4F5" /> : <Icon name="Languages" size={20} color={text.trim() ? "#A1A1AA" : "#52525B"} />}
+          </TouchableOpacity>
           <TouchableOpacity onPress={handleEnhance} disabled={enhancing || !text.trim()} style={CONTROL_BOX} className="items-center justify-center" accessibilityRole="button" accessibilityLabel={t("dm.enhanceWithAi")}><Icon name="Sparkles" size={20} color={text.trim() ? "#A1A1AA" : "#52525B"} /></TouchableOpacity>
           {/* Send stays in its own slot, including fee and tip-only sends. */}
           {(
@@ -1063,6 +1160,14 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
         visible={attachOpen}
         onClose={() => setAttachOpen(false)}
         options={attachOptions}
+      />
+      <LanguageSelectModal
+        visible={translator.pickerOpen}
+        onClose={translator.closePicker}
+        onSelect={translator.choose}
+        selected={translator.lang}
+        title={t("common.translate")}
+        subtitle=""
       />
     </>
   );

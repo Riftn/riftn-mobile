@@ -1,12 +1,13 @@
 import LiveChatSearch, { LiveChatSearchPill, chatSearchPerson, rememberChatSearch, useChatSearch, type ChatSearchPerson } from "../components/LiveChat/LiveChatSearch";
 import { useDraftState } from "../hooks/useDraftState";
+import { FlatList } from "react-native-gesture-handler";
+import SwipeToReply from "../components/chat/SwipeToReply";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { TFunction } from "i18next";
 import {
   View,
   Text,
-  FlatList,
   ActivityIndicator,
   TouchableOpacity,
   ListRenderItemInfo,
@@ -49,6 +50,10 @@ import { openCroppedImagePicker } from "../libs/assets.util";
 import { runWithPermissions } from "../libs/permissions.util";
 import { toastError } from "../libs/toast";
 import type { LiveChatMessageData, LiveChatUser, SendMessagePayload } from "../services/livechat.service";
+import { UnreadMarker, UnreadJumpButton } from "../components/DM/UnreadJump";
+import type { UnreadAnchor } from "../libs/chatUnreadAnchor";
+import { anchorFromReadSpot } from "../libs/chatReadPosition";
+import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { isPublicChatOpen, setPublicChatOpen } from "../libs/public-chat-alerts";
 import { publicChatUnread } from "../hooks/usePublicChatUnread";
@@ -72,6 +77,9 @@ const getDateLabel = (iso: string, t: TFunction, lang?: string): string => {
 };
 
 /** Insert date separators between messages from different days */
+/** Older pages Public Chat may pull in at open to reach where you left off. */
+const MAX_READ_SPOT_PAGES = 10;
+
 type ListItem =
   | { type: "message"; data: LiveChatMessageData }
   | { type: "date"; label: string; key: string };
@@ -365,6 +373,120 @@ const LiveChatScreen: React.FC = () => {
     },
     [hasMore, loadingMore, loadMoreMessages, hasNewer, loadNewerMessages]
   );
+
+  // ─── Where you left off ──────────────────────────────────────────────────
+  // Signed in, Public Chat opens on the first line you haven't seen (saved on
+  // the server, same spot as the website) under an "Unread messages" line.
+  const readSpot = useChatReadPosition(myAddress ? "live:global" : null);
+  const openedAtRef = useRef(Date.now());
+  const [unreadAnchor, setUnreadAnchor] = useState<UnreadAnchor | null>(null);
+  const [readDecided, setReadDecided] = useState(false);
+  const readSpotPagesRef = useRef(0);
+  const readTrackingRef = useRef(false);
+  const unreadPlacedRef = useRef(false);
+  const [unreadBelow, setUnreadBelow] = useState(0);
+  const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
+  const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
+  useEffect(() => {
+    if (readDecided || !initialScrollDone || !messages.length || !readSpot.ready) return;
+    const decide = (anchor: UnreadAnchor | null) => {
+      setReadDecided(true);
+      setUnreadAnchor(anchor);
+      if (anchor) isAtBottomRef.current = false;
+      else readTrackingRef.current = true;
+    };
+    if (!readSpot.opening || hasNewer) { decide(null); return; }
+    const lines = messages.map((m) => ({
+      id: m._id,
+      mine: !!myAddress && (m.senderAddress || m.sender?.address || "").toLowerCase() === myAddress,
+      at: m.createdAt,
+      skip: !!m.isDeleted || m.messageType === "system",
+    }));
+    const found = anchorFromReadSpot(lines, readSpot.opening, hasMore, openedAtRef.current);
+    if (found.kind === "older") {
+      if (readSpotPagesRef.current < MAX_READ_SPOT_PAGES) {
+        if (!loadingMore) {
+          readSpotPagesRef.current += 1;
+          loadMoreMessages();
+        }
+        return;
+      }
+      const theirs = lines.filter((l) => !l.mine && !l.skip);
+      decide(theirs.length ? { id: theirs[0].id, ids: theirs.map((l) => l.id), count: theirs.length } : null);
+      return;
+    }
+    decide(found.kind === "anchor" ? found.anchor : null);
+  }, [readDecided, initialScrollDone, messages, readSpot.ready, readSpot.opening, hasNewer, hasMore, loadingMore, loadMoreMessages, myAddress]);
+
+  const listItemsRef = useRef(listItems);
+  listItemsRef.current = listItems;
+  const unreadAnchorRef = useRef(unreadAnchor);
+  unreadAnchorRef.current = unreadAnchor;
+  const indexOfMessage = (id: string) => listItemsRef.current.findIndex((item) => item.type === "message" && item.data._id === id);
+
+  // Land on the marker: its row at the top of the screen.
+  useEffect(() => {
+    if (!unreadAnchor || unreadPlacedRef.current) return;
+    const index = indexOfMessage(unreadAnchor.id);
+    if (index < 0) return;
+    const timer = setTimeout(() => {
+      unreadPlacedRef.current = true;
+      isAtBottomRef.current = false;
+      setAtBottom(false);
+      try {
+        flatListRef.current?.scrollToIndex({ index, animated: false, viewPosition: 0 });
+      } catch { /* onScrollToIndexFailed */ }
+      setTimeout(() => { readTrackingRef.current = true; reportReadSpotRef.current(); }, 600);
+    }, 150);
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [unreadAnchor, listItems]);
+
+  const visibleRangeRef = useRef<{ min: number; max: number } | null>(null);
+  const reportReadSpotRef = useRef(() => {});
+  reportReadSpotRef.current = () => {
+    const range = visibleRangeRef.current;
+    if (!range || !readTrackingRef.current) return;
+    const list = listItemsRef.current;
+    for (let i = range.max; i >= range.min; i--) {
+      const item = list[i];
+      if (!item || item.type !== "message") continue;
+      readSpot.report(item.data._id, item.data.createdAt);
+      return;
+    }
+  };
+  const refreshUnreadJump = useCallback(() => {
+    const anchor = unreadAnchorRef.current;
+    const range = visibleRangeRef.current;
+    if (!anchor || !range) { setUnreadBelow(0); setUnreadMarkerAbove(false); return; }
+    let below = 0;
+    for (const id of anchor.ids) if (indexOfMessage(id) > range.max) below++;
+    setUnreadBelow(below);
+    const at = indexOfMessage(anchor.id);
+    setUnreadMarkerAbove(at >= 0 && at < range.min);
+    if (at >= range.min && at <= range.max) setUnreadMarkerSeen(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => { refreshUnreadJump(); }, [unreadAnchor, refreshUnreadJump]);
+  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
+    const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
+    visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    refreshUnreadJump();
+    reportReadSpotRef.current();
+  }).current;
+  const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 10 }).current;
+  const scrollToUnreadMarker = useCallback(() => {
+    const anchor = unreadAnchorRef.current;
+    if (!anchor) return;
+    const index = indexOfMessage(anchor.id);
+    if (index < 0) return;
+    isAtBottomRef.current = false;
+    try {
+      flatListRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0 });
+    } catch { /* onScrollToIndexFailed */ }
+    setUnreadMarkerSeen(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /** Leave an older stretch and show the newest lines again. */
   const goToLatest = useCallback(async () => {
@@ -862,7 +984,8 @@ const LiveChatScreen: React.FC = () => {
       }
 
       const msg = item.data;
-      return (
+      const row = (
+        <SwipeToReply onReply={() => handleReply(msg)} enabled={!msg.isDeleted}>
         <LiveChatMessage
           message={msg}
           myAddress={myAddress}
@@ -875,9 +998,19 @@ const LiveChatScreen: React.FC = () => {
           highlighted={highlightedId === msg._id}
           replying={replyingId === msg._id}
         />
+        </SwipeToReply>
+      );
+      if (unreadAnchor?.id !== msg._id) return row;
+      return (
+        <View>
+          <UnreadMarker count={unreadAnchor.count} />
+          {row}
+        </View>
       );
     },
     [
+      handleReply,
+      unreadAnchor,
       myAddress,
       isModerator,
       handleSelectReaction,
@@ -1045,6 +1178,8 @@ const LiveChatScreen: React.FC = () => {
           ListHeaderComponent={ListHeader}
           ListEmptyComponent={ListEmpty}
           onScroll={handleScroll}
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
           onContentSizeChange={handleContentSizeChange}
           onLayout={handleLayout}
           scrollEventThrottle={100}
@@ -1071,20 +1206,21 @@ const LiveChatScreen: React.FC = () => {
         />
         </Animated.View>
 
-        {(hasNewer || (!atBottom && messages.length > 10)) && (
-          <Animated.View style={[{ position: "absolute", right: 16, bottom: composerHeight + 12 }, composerRideStyle]}>
-            <TouchableOpacity
-              onPress={() => (hasNewer ? void goToLatest() : scrollToBottom())}
-              accessibilityRole="button"
-              accessibilityLabel={t("liveChat.jumpToLatest")}
-              activeOpacity={0.7}
-            >
-              <View className="bg-white/10 rounded-xl w-10 h-10 items-center justify-center">
-                <Icon name="ChevronDown" size={22} color="rgba(255,255,255,0.6)" />
-              </View>
-            </TouchableOpacity>
-          </Animated.View>
-        )}
+        {(() => {
+          // Same control as DMs: up to the unread line until it has been seen,
+          // then down to the newest, with the unread lines still below.
+          const up = !!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove;
+          if (!(up || hasNewer || unreadBelow > 0 || (!atBottom && messages.length > 10))) return null;
+          return (
+            <Animated.View style={[{ position: "absolute", right: 16, bottom: composerHeight + 12 }, composerRideStyle]}>
+              <UnreadJumpButton
+                up={up}
+                count={unreadBelow}
+                onPress={up ? scrollToUnreadMarker : () => (hasNewer ? void goToLatest() : scrollToBottom())}
+              />
+            </Animated.View>
+          );
+        })()}
 
         {searchOpen && searchView === "chat" ? (
           <View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: composerHeight, alignItems: "center", justifyContent: "center", zIndex: 5 }}>

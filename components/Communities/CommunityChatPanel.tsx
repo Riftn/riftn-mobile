@@ -89,14 +89,23 @@ import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../Comments/VoiceNo
 import type { VoiceNoteResult } from "../Comments/VoiceNoteRecorder";
 import { uploadLiveChatImage } from "../../services/livechat.service";
 import { toastError } from "../../libs/toast";
-import { askAiAdmin } from "../../services/communities.service";
+import { askAiAdmin, getCommunityMemberRow } from "../../services/communities.service";
+import { MemberActionsSheet, canTargetMember } from "./manage/MemberActionsSheet";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
+import { UnreadMarker, UnreadJumpButton } from "../DM/UnreadJump";
+import { useAppTheme } from "../../context/ThemeContext";
+import type { UnreadAnchor } from "../../libs/chatUnreadAnchor";
+import { anchorFromReadSpot } from "../../libs/chatReadPosition";
+import { useChatReadPosition } from "../../hooks/useChatReadPosition";
+import { roomChatId } from "../../services/dm/dm.api";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 const PHOTO_MAX_BYTES = 10 * 1024 * 1024;
 const MAX_LEN = 500;
 /** Rendered window, oldest end trimmed. Grown by the "show earlier" header. */
 const PAGE = 30;
+/** History pages a chat may pull in at open to reach where you left off. */
+const MAX_READ_SPOT_PAGES = 10;
 const FLASH_MS = 1500;
 /** Long enough for the action sheet to finish dismissing before an Alert. */
 const ALERT_DELAY_MS = 250;
@@ -149,12 +158,13 @@ const ChatRow: React.FC<{
   onLongPress: (message: CommunityChatMessage) => void;
   onToggleReaction: (id: string, emoji: string) => void;
   onShowReactors: (message: CommunityChatMessage, emoji: string) => void;
-  onOpenProfile: (identifier: string) => void;
+  onOpenProfile: (identifier: string, wallet?: string) => void;
   onJumpToMessage: (id: string) => Promise<void>;
 }> = ({ message, myAddress, flashing, canReact, onLongPress, onToggleReaction, onShowReactors, onOpenProfile, onJumpToMessage }) => {
   const { t } = useTranslation();
 
   const isMe = !!myAddress && message.wallet_address?.toLowerCase() === myAddress;
+  const { isLight } = useAppTheme();
   const displayName =
     message.display_name ||
     message.username ||
@@ -213,9 +223,9 @@ const ChatRow: React.FC<{
       onLongPress={() => onLongPress(message)}
       delayLongPress={300}
       className="flex-row px-3 py-1.5"
-      style={flashing ? styles.flash : undefined}
+      style={[isMe && (isLight ? styles.mineRowLight : styles.mineRow), flashing && styles.flash]}
     >
-      <Pressable onPress={() => profileId && onOpenProfile(profileId)}>
+      <Pressable onPress={() => profileId && onOpenProfile(profileId, message.wallet_address)}>
         <Avatar uri={avatarUrl} size={32} name={displayName} />
       </Pressable>
 
@@ -225,7 +235,7 @@ const ChatRow: React.FC<{
             className="font-bold text-white"
             style={{ fontSize: 13.5 * textScale }}
             numberOfLines={1}
-            onPress={() => profileId && onOpenProfile(profileId)}
+            onPress={() => profileId && onOpenProfile(profileId, message.wallet_address)}
           >
             {displayName}
           </Text>
@@ -596,6 +606,122 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     } catch { toastError(t("common.failedToLoad")); }
   }, [showLatest, scrollToBottom, t]);
 
+  // ─── Where you left off ──────────────────────────────────────────────────
+  // Saved on the server per chat (same spot as the website). The chat opens
+  // on the first line you haven't seen, under an "Unread messages" line.
+  const readSpot = useChatReadPosition(myAddress ? roomChatId(community.id) : null);
+  const openedAtRef = useRef(Date.now());
+  const [unreadAnchor, setUnreadAnchor] = useState<UnreadAnchor | null>(null);
+  const [readDecided, setReadDecided] = useState(false);
+  const readSpotPagesRef = useRef(0);
+  const readTrackingRef = useRef(false);
+  const unreadPlacedRef = useRef(false);
+  const [unreadBelow, setUnreadBelow] = useState(0);
+  const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
+  const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
+  useEffect(() => {
+    if (readDecided || isLoading || !messages.length || !readSpot.ready) return;
+    const decide = (anchor: UnreadAnchor | null) => {
+      setReadDecided(true);
+      setUnreadAnchor(anchor);
+      if (anchor) {
+        atBottomRef.current = false;
+        const index = messages.findIndex((m) => m.id === anchor.id);
+        if (index >= 0) setVisibleCount((c) => Math.max(c, messages.length - index + 3));
+      } else {
+        readTrackingRef.current = true;
+      }
+    };
+    if (!readSpot.opening || isHistoryWindow) { decide(null); return; }
+    const lines = messages.map((m) => ({
+      id: m.id,
+      mine: !!myAddress && m.wallet_address?.toLowerCase() === myAddress,
+      at: m.created_at,
+      skip: !!(m as { send_state?: string }).send_state || m.message_type === "buy_alert" || m.message_type === "admin_response",
+    }));
+    const found = anchorFromReadSpot(lines, readSpot.opening, hasOlderMessages, openedAtRef.current);
+    if (found.kind === "older") {
+      if (readSpotPagesRef.current < MAX_READ_SPOT_PAGES) {
+        if (!isLoadingOlder) {
+          readSpotPagesRef.current += 1;
+          loadOlder().catch(() => {});
+        }
+        return;
+      }
+      const theirs = lines.filter((l) => !l.mine && !l.skip);
+      decide(theirs.length ? { id: theirs[0].id, ids: theirs.map((l) => l.id), count: theirs.length } : null);
+      return;
+    }
+    decide(found.kind === "anchor" ? found.anchor : null);
+  }, [readDecided, isLoading, messages, readSpot.ready, readSpot.opening, isHistoryWindow, hasOlderMessages, isLoadingOlder, loadOlder, myAddress]);
+
+  // Land on the marker once its row is in the list: it sits at the top.
+  useEffect(() => {
+    if (!unreadAnchor || unreadPlacedRef.current) return;
+    const index = listItems.findIndex((m) => m.id === unreadAnchor.id);
+    if (index < 0) return;
+    const timer = setTimeout(() => {
+      unreadPlacedRef.current = true;
+      try {
+        listRef.current?.scrollToIndex({ index, animated: false, viewPosition: 0 });
+      } catch { /* onScrollToIndexFailed */ }
+      setTimeout(() => { readTrackingRef.current = true; reportReadSpotRef.current(); }, 600);
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [unreadAnchor, listItems]);
+
+  const listItemsRef = useRef(listItems);
+  listItemsRef.current = listItems;
+  const unreadAnchorRef = useRef(unreadAnchor);
+  unreadAnchorRef.current = unreadAnchor;
+  const visibleRangeRef = useRef<{ min: number; max: number } | null>(null);
+  const reportReadSpotRef = useRef(() => {});
+  reportReadSpotRef.current = () => {
+    const range = visibleRangeRef.current;
+    if (!range || !readTrackingRef.current) return;
+    const list = listItemsRef.current;
+    for (let i = range.max; i >= range.min; i--) {
+      const m = list[i];
+      if (!m || m.message_type === JOIN_LINE_TYPE || (m as { send_state?: string }).send_state) continue;
+      readSpot.report(m.id, m.created_at);
+      return;
+    }
+  };
+  const refreshUnreadJump = useCallback(() => {
+    const anchor = unreadAnchorRef.current;
+    const range = visibleRangeRef.current;
+    if (!anchor || !range) { setUnreadBelow(0); setUnreadMarkerAbove(false); return; }
+    const list = listItemsRef.current;
+    let below = 0;
+    for (const id of anchor.ids) {
+      const i = list.findIndex((m) => m.id === id);
+      if (i > range.max) below++;
+    }
+    setUnreadBelow(below);
+    const at = list.findIndex((m) => m.id === anchor.id);
+    setUnreadMarkerAbove(at >= 0 && at < range.min);
+    if (at >= range.min && at <= range.max) setUnreadMarkerSeen(true);
+  }, []);
+  useEffect(() => { refreshUnreadJump(); }, [unreadAnchor, refreshUnreadJump]);
+  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
+    const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
+    visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    refreshUnreadJump();
+    reportReadSpotRef.current();
+  }).current;
+  const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 10 }).current;
+  const scrollToUnreadMarker = useCallback(() => {
+    const anchor = unreadAnchorRef.current;
+    if (!anchor) return;
+    const index = listItemsRef.current.findIndex((m) => m.id === anchor.id);
+    if (index < 0) return;
+    atBottomRef.current = false;
+    try {
+      listRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0 });
+    } catch { /* onScrollToIndexFailed */ }
+    setUnreadMarkerSeen(true);
+  }, []);
+
   const handleSend = useCallback(async () => {
     const body = text.trim();
     if (!body || sending) return;
@@ -726,9 +852,28 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   // Read live from messages so the sheet follows realtime reaction changes.
   const reactorsMessage = reactorsFor ? messages.find((m) => m.id === reactorsFor.id) : undefined;
 
-  const handleOpenProfile = useCallback(
+  const showProfile = useCallback(
     (identifier: string) => showUserProfile(identifier, { source: "community-chat" }),
     [showUserProfile],
+  );
+  // An owner or an admin who may restrict members gets that member's actions
+  // (mute, ban, remove…) from a tap on their name; everyone else, the profile.
+  const [memberActions, setMemberActions] = useState<CommunityMember | null>(null);
+  const canRestrictMembers = abilities.isOwner || abilities.can("restrict_members");
+  const handleOpenProfile = useCallback(
+    (identifier: string, wallet?: string) => {
+      if (!canRestrictMembers || !wallet || !myAddress || wallet.toLowerCase() === myAddress) {
+        showProfile(identifier);
+        return;
+      }
+      getCommunityMemberRow(community.id, wallet, myAddress)
+        .then((row) => {
+          if (row && canTargetMember(abilities, myAddress, row)) setMemberActions(row);
+          else showProfile(identifier);
+        })
+        .catch(() => showProfile(identifier));
+    },
+    [canRestrictMembers, myAddress, community.id, abilities, showProfile],
   );
 
   const confirmDelete = useCallback(
@@ -771,7 +916,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
       if (item.message_type === "buy_alert" && IS_APP_STORE_BUILD) return null;
       const buy = item.message_type === "buy_alert" ? parseBuyAlert(item.content) : null;
       if (buy) return <BuyAlertCard data={buy} time={formatClock(new Date(item.created_at))} />;
-      return (
+      const row = (
       <ChatRow
         message={item}
         myAddress={myAddress}
@@ -784,8 +929,15 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
         onJumpToMessage={jumpToMessage}
       />
       );
+      if (unreadAnchor?.id !== item.id) return row;
+      return (
+        <View>
+          <UnreadMarker count={unreadAnchor.count} />
+          {row}
+        </View>
+      );
     },
-    [t, myAddress, flashId, canSend, handleToggleReaction, handleShowReactors, handleOpenProfile, jumpToMessage],
+    [t, myAddress, flashId, canSend, handleToggleReaction, handleShowReactors, handleOpenProfile, jumpToMessage, unreadAnchor],
   );
 
   // ── composer state, in the order the server checks them ──
@@ -882,6 +1034,8 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           keyboardDismissMode="interactive"
           initialNumToRender={20}
           maxToRenderPerBatch={20}
+          onViewableItemsChanged={onViewableItemsChanged}
+          viewabilityConfig={viewabilityConfig}
           onScroll={(e) => {
             const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
             const fromBottom = contentSize.height - contentOffset.y - layoutMeasurement.height;
@@ -892,6 +1046,12 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           }}
           scrollEventThrottle={100}
           onContentSizeChange={() => {
+            if (atBottomRef.current) listRef.current?.scrollToEnd({ animated: false });
+          }}
+          // The keyboard shrinks the list from below. A list that is not
+          // inverted keeps its top in place, so the newest messages slid
+          // under the reply box; hold the reader on the latest one instead.
+          onLayout={() => {
             if (atBottomRef.current) listRef.current?.scrollToEnd({ animated: false });
           }}
           onScrollToIndexFailed={(info) => {
@@ -923,20 +1083,21 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
             </View>
           }
         />
-        {showJump || unseen > 0 || isHistoryWindow ? (
-          <Pressable
-            onPress={jumpToLatest}
-            hitSlop={8}
-            style={styles.jumpLatest}
-            accessibilityRole="button"
-            accessibilityLabel={t("communities.chatPanel.jumpToLatest", { defaultValue: "Jump to latest" })}
-          >
-            <Icon name="ArrowDown" size={14} color="#F4F4F5" />
-            {unseen > 0 ? (
-              <Text style={styles.jumpLatestText}>{unseen > 99 ? "99+" : unseen}</Text>
-            ) : null}
-          </Pressable>
-        ) : null}
+        {(() => {
+          // Same control as DMs: up to the unread line until it has been seen,
+          // then down to the newest, with the unread lines still below.
+          const up = !!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove;
+          if (!(up || showJump || unseen > 0 || isHistoryWindow)) return null;
+          return (
+            <View style={styles.jumpWrap}>
+              <UnreadJumpButton
+                up={up}
+                count={unreadBelow + unseen}
+                onPress={up ? scrollToUnreadMarker : () => void jumpToLatest()}
+              />
+            </View>
+          );
+        })()}
         </View>
       )}
 
@@ -1123,6 +1284,16 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           }}
         />
       )}
+
+      <MemberActionsSheet
+        community={community}
+        membership={membership}
+        target={memberActions}
+        visible={!!memberActions}
+        onClose={() => setMemberActions(null)}
+        onEditRights={() => setMemberActions(null)}
+        onViewProfile={(m) => setTimeout(() => showProfile(m.wallet_address), 250)}
+      />
 
       {!!reactorsMessage && !!reactorsFor && (
         <ChatReactorsSheet
@@ -1342,6 +1513,21 @@ const styles = StyleSheet.create({
   center: { flex: 1, alignItems: "center", justifyContent: "center", gap: 8, padding: 24 },
   dim: { color: "#A1A1AA", fontSize: 12, textAlign: "center" },
 
+  // Your own lines sit on a soft tint so they stand out in a busy group.
+  // Inset by 6 and padded by 6 so avatars stay in line with everyone else's.
+  // hsla() keeps System Light's colour pass off it.
+  mineRow: {
+    backgroundColor: "hsla(0,0%,100%,0.07)",
+    borderRadius: 14,
+    marginHorizontal: 6,
+    paddingHorizontal: 6,
+  },
+  mineRowLight: {
+    backgroundColor: "hsla(0,0%,0%,0.045)",
+    borderRadius: 14,
+    marginHorizontal: 6,
+    paddingHorizontal: 6,
+  },
   flash: {
     backgroundColor: "rgba(255,255,255,0.08)",
     borderRadius: 10,
@@ -1389,6 +1575,11 @@ const styles = StyleSheet.create({
   pinnedName: { color: "#e4e4e7", fontWeight: "600" },
 
   showMore: { alignSelf: "center", paddingVertical: 8, paddingHorizontal: 14 },
+  jumpWrap: {
+    position: "absolute",
+    right: 12,
+    bottom: 10,
+  },
   jumpLatest: {
     position: "absolute",
     right: 12,

@@ -42,6 +42,7 @@ import {
 import type { Community, CommunityMember } from "../types/community";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { ShareLinks } from "../navigation/linking.config";
+import { copyToClipboard } from "../libs";
 import { formatCompactNumber } from "../libs/numbers.util";
 import { toastError, toastInfo, toastSuccess } from "../libs/toast";
 import * as ImagePicker from "expo-image-picker";
@@ -596,6 +597,21 @@ const CommunityDetailScreen: React.FC = () => {
               </Text>
               {community.is_private && <Icon name="Lock" size={14} color="#808089" />}
             </View>
+            {!!community.slug && (
+              <TouchableOpacity
+                onPress={() => {
+                  copyToClipboard(ShareLinks.community(community.slug));
+                  toastSuccess(t("communities.linkCopied"));
+                }}
+                accessibilityRole="button"
+                testID="community-handle"
+                hitSlop={6}
+              >
+                <Text className="text-zinc-400 text-sm mt-0.5" numberOfLines={1}>
+                  riftn/{community.slug.toLowerCase()}
+                </Text>
+              </TouchableOpacity>
+            )}
             <Text className="text-zinc-400 text-sm mt-1">
               {formatCompactNumber(community.member_count)} {t("communities.membersLabel")}
             </Text>

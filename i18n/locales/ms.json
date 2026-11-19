@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Trending minggu ini di Audius. Percuma untuk digunakan, artis akan diberikan kredit pada kiriman anda.",
     "d2e45b7406fc": "Domain awam dan muzik Creative Commons dari Wikimedia Commons. Artis akan diberikan kredit pada kiriman anda.",
     "d0c1a3684775": "Lagu tidak dimuatkan. Cuba lagi sebentar lagi.",
-    "d14064f80f52": "Tambah bunyi"
+    "d14064f80f52": "Tambah bunyi",
+    "71988c4d8e08": "Teks",
+    "147170e793c6": "Luas",
+    "481859b689b0": "Periksa koneksi dan cuba lagi.",
+    "57e2faa5ec63": "Cari di Riftn",
+    "7db20897053b": "Orang",
+    "96d7bff86b44": "Carian tidak dapat dimuatkan",
+    "d8b8392e2c54": "Coba lagi"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Kutipan",
       "bullets": "Senarai bulat",
       "numbers": "Senarai nombor",
-      "link": "Pautan"
+      "link": "Pautan",
+      "image": "Saya tidak dapat melaksanakan permintaan tersebut."
     }
   },
   "storefront": {
@@ -3150,6 +3158,8 @@
     "feedTogglesCleared": "Penapis suapan ditetapkan semula",
     "defaultProfileTab": "Tab profil lalai",
     "defaultProfileTabDesc": "Pilih tab yang pelawat lihat dahulu pada profil anda",
+    "defaultProfileView": "Susun atur hantaran profil",
+    "defaultProfileViewDesc": "Tunjukkan hantaran anda sebagai grid atau senarai apabila orang membuka profil anda",
     "defaultPostVisibilityDesc": "Digunakan untuk semua siaran semasa dan masa hadapan",
     "public": "Awam",
     "publicDesc": "Sesiapa sahaja boleh melihat siaran anda",
@@ -4049,7 +4059,11 @@
     "payViaDpay": "Dibayar kepada Riftn Pay, token tiba dalam masa kira-kira 30s",
     "payViaBridgeDpay": "Dipindahkan ke Base dan dibayar kepada Riftn Pay, token tiba dalam masa kira-kira seminit",
     "tokensUnit": "token",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "addMessage": "Tambah pesanan (pilihan)",
+    "messagePublic": "Awam",
+    "railTitle": "Petua",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "skippableSections": "Bahagian yang boleh dilangkau",
@@ -4777,7 +4791,11 @@
       "here": "{{name}} menghantar mesej kepada semua orang dalam komuniti",
       "hereNamed": "{{name}} menghantar mesej kepada semua orang dalam “{{community}}”"
     },
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "groupNew": "Baharu",
+    "groupToday": "Hari ini",
+    "groupThisWeek": "Minggu ini",
+    "searchClose": "Tutup carian"
   },
   "leaderboard": {
     "title": "Papan pendahulu",
@@ -4969,7 +4987,18 @@
     "attachmentTooLarge": "Setiap fail mesti di bawah 50MB",
     "deleteCommentA11y": "Padam komen",
     "sendCommentA11y": "Hantar komen",
-    "requestOptions": "Pilihan permohonan"
+    "requestOptions": "Pilihan permohonan",
+    "deviceInfoNoErrors": "Tiada",
+    "topBuilders": {
+      "month": "Bulan ini",
+      "allTime": "Semua masa",
+      "shipped": "Dihantar",
+      "votes": "Undian",
+      "comments": "Komen",
+      "showLess": "Tunjukkan sedikit",
+      "viewProfile": "Lihat profil",
+      "you": "Anda"
+    }
   },
   "auth": {
     "loginRequired": "Log masuk diperlukan",
@@ -5230,7 +5259,20 @@
       "votes_other": "{{value}} undi",
       "members_one": "{{value}} ahli",
       "members_other": "{{value}} ahli"
-    }
+    },
+    "articleShort": "Artikel",
+    "articleMinRead": "{{count}} min membaca",
+    "pinnedShort": "Disemat",
+    "post": "Hantar",
+    "arrange": {
+      "saving": "Menyimpan..."
+    },
+    "reserve": {
+      "signIn": "Daftar masuk"
+    },
+    "tabLikes": "Suka",
+    "likesEmptyTitle": "Tiada suka lagi",
+    "likesPrivateTitle": "Suka adalah peribadi"
   },
   "tv": {
     "title": "TV",
@@ -5746,6 +5788,9 @@
       "action": "Tindakan",
       "schedule": "Jadual",
       "filter": "Tapis aktiviti"
+    },
+    "welcome": {
+      "text": "Mesej alu-aluan"
     }
   },
   "hero": {
@@ -5827,7 +5872,15 @@
     "nowPublic": "Aliran kini bersifat umum",
     "openCanvas": "Buka kanvas",
     "playVideo": "Mainkan video",
-    "signInToSee": "Daftar masuk untuk melihat aliran di akaun anda."
+    "signInToSee": "Daftar masuk untuk melihat aliran di akaun anda.",
+    "newNativeFlow": "Aliran baharu",
+    "aspectRatio": "Nisbah aspek",
+    "duration": "Masa dalam saat",
+    "resolution": "Resolusi",
+    "disconnect": "Putuskan sambungan",
+    "payAndRun": "Bayar dan jalankan",
+    "run": "Jalankan",
+    "handlePrompt": "Gesaan"
   },
   "loginModal": {
     "title": "Log masuk",
@@ -6147,7 +6200,8 @@
     "searchMenu": "Cari dalam menu",
     "clearSearch": "Kosongkan carian",
     "noMenuMatches": "Tiada yang sepadan dalam menu",
-    "searchDehubFor": "Cari \"{{query}}\" di Riftn"
+    "searchDehubFor": "Cari \"{{query}}\" di Riftn",
+    "requestSend": "Hantar permohonan"
   },
   "comments": {
     "kidsOnlyThread": "Siaran ini untuk kanak-kanak. Hanya Mod Kanak-kanak boleh mengulas.",
@@ -6766,7 +6820,11 @@
       "copied": "Mesej disalin",
       "copyText": "Salin teks",
       "mutedUntil": "Anda diredam sehingga {{date}}",
-      "slowMode": "Mod perlahan: satu mesej setiap {{interval}}"
+      "slowMode": "Mod perlahan: satu mesej setiap {{interval}}",
+      "joined": "{{name}} menyertai",
+      "reactions": "Tindak balas",
+      "photoTooLarge": "Imej mesti kurang daripada 10MB",
+      "aiAdminFailed": "Pentadbir AI gagal menjawab"
     },
     "manage": {
       "dismissAdminTitle": "Abaikan pentadbir",
@@ -6969,6 +7027,30 @@
       "notFound": "Pautan jemputan ini tidak sah.",
       "requestToJoin": "Mohon untuk menyertai",
       "approvalNote": "Pentadbir perlu meluluskan permohonan anda sebelum anda boleh menyertai."
+    },
+    "buyAlert": {
+      "spent": "Dibelanjakan:",
+      "buyer": "Pembeli:",
+      "balance": "Baki:",
+      "price": "Harga:",
+      "marketCap": "Permodalan pasaran:"
+    },
+    "newChat": {
+      "public": "Awam",
+      "private": "Peribadi",
+      "free": "Percuma",
+      "paid": "Dibayar",
+      "group": "Kumpulan"
+    },
+    "holderGate": {
+      "chain": "Rantaian",
+      "tab": "Pemegang"
+    },
+    "automod": {
+      "bannedWords": "Kata-kata yang dilarang",
+      "floodMax": "Mesej-mesej {{count}}",
+      "saved": "Disimpan",
+      "wordCount": "{{count}} perkataan"
     }
   },
   "work": {
@@ -8090,7 +8172,10 @@
       "doneAll": "Menyahikuti {{done}} akaun yang tidak mengikut anda kembali.",
       "doneSome": "Menyahikuti {{done}} akaun. {{failed}} tidak dapat disyahikuti.",
       "doneToast": "Menyahikuti {{done}} akaun yang tidak mengikut anda kembali"
-    }
+    },
+    "followBackConfirm": "Ikuti balas",
+    "followBackNotNow": "Tidak sekarang",
+    "followBackDone": "Selesai"
   },
   "reactionInfo": {
     "title": "Tindak balas",
@@ -9010,7 +9095,36 @@
     "coverFrame": "Gunakan kerangka {{index}} sebagai latar",
     "uploadCover": "Muat imej latar",
     "editFailed": "Tidak dapat menerapkan suntingan itu. Coba sekali lagi.",
-    "madeForKidsConfirmAudience": "Anak-anak yang menggunakan Mod Keselamatan Kanak-kanak akan melihat pos ini sahaja. Tiada apa-apa lagi di Riftn yang akan mereka lihat."
+    "madeForKidsConfirmAudience": "Anak-anak yang menggunakan Mod Keselamatan Kanak-kanak akan melihat pos ini sahaja. Tiada apa-apa lagi di Riftn yang akan mereka lihat.",
+    "altPlaceholderVideo": "Terangkan video ini",
+    "preview": {
+      "title": "Pratonton"
+    },
+    "recent": {
+      "all": "Semua"
+    },
+    "studio": {
+      "crop": "Pangkas",
+      "draw": "Lukis",
+      "light": "Cerah",
+      "contrast": "Kontras",
+      "warmth": "Kehangatan",
+      "colour": "Warna",
+      "fade": "Pudar",
+      "original": "Asal",
+      "ratioOriginal": "Asal",
+      "ratioFree": "Percuma",
+      "rotate": "Putar",
+      "strength": "Kekuatan",
+      "stickers": "Pelekat",
+      "ticker": "Stock Ticker",
+      "textBg": "Latar belakang",
+      "font": {
+        "bold": "Tebal"
+      }
+    },
+    "edited": "Disunting",
+    "edit": "Sunting"
   },
   "bounty": {
     "claimed": "Telah dituntut",
@@ -9304,7 +9418,8 @@
     "justChatting": "Sembang sahaja",
     "noLiveStreams": "Tiada strim langsung",
     "noOneStreaming": "Tiada sesiapa menstrim sekarang. Kembali nanti!",
-    "loadStreamsFailed": "Gagal memuatkan strim. Cuba lagi."
+    "loadStreamsFailed": "Gagal memuatkan strim. Cuba lagi.",
+    "liveBadge": "LANGSUNG"
   },
   "liveShop": {
     "title": "Beli-belah dari siaran ini",
@@ -9617,7 +9732,23 @@
     "paymentSentWith": "Dihantar dengan {{amount}}",
     "planRestricted": "Pengguna ini memerlukan langganan untuk menerima mesej.",
     "planTypeNotAllowed": "Pelan pencipta ini tidak membenarkan jenis mesej ini.",
-    "planMinTip": "Tip untuk pencipta ini mestilah sekurang-kurangnya {{amount}} token."
+    "planMinTip": "Tip untuk pencipta ini mestilah sekurang-kurangnya {{amount}} token.",
+    "newDrawer": {
+      "to": "Kepada"
+    },
+    "download": "Muat Turun",
+    "deleteOneTitle": "Hapuskan mesej ini?",
+    "retrySend": "Cuba semula",
+    "discardSend": "Alih keluar",
+    "shareKindGroup": "Kumpulan",
+    "shareKindCommunity": "Komuniti",
+    "searchDiscover": {
+      "people": "Orang",
+      "communities": "Komuniti",
+      "members": "{{n}} ahli",
+      "newChat": "Sembang baharu",
+      "invite": "Undang"
+    }
   },
   "editPost": {
     "mediaPermission": "Kebenaran pustaka media diperlukan",
@@ -10835,7 +10966,10 @@
       "hint": "Menukar pertuturan kepada kapsyen bermasa yang boleh anda gayakan semula. Berjalan pada peranti anda: percuma dan peribadi. Penggunaan pertama akan memuat turun model.",
       "done": "{{count}} kapsyen ditambah.",
       "noSpeech": "Tiada pertuturan ditemui dalam klip ini.",
-      "failed": "Tidak dapat mencipta kapsyen untuk klip ini."
+      "failed": "Tidak dapat mencipta kapsyen untuk klip ini.",
+      "styles": {
+        "bold": "Tebal"
+      }
     },
     "app": {
       "newDesign": "Reka bentuk baharu",
@@ -11085,7 +11219,9 @@
       "suggestTitle": "Tambah tajuk besar dan tebal di atas dan subtajuk yang lebih kecil di bawahnya",
       "undo": "Buat asal",
       "openGenerator": "Semak dan jana",
-      "working": "Sedang diusahakan…"
+      "working": "Sedang diusahakan…",
+      "stop": "Hentikan",
+      "queue": "Tambah ke antrian"
     },
     "brand": {
       "addColor": "Tambah warna jenama",
@@ -11222,7 +11358,9 @@
       "rendering": "Merender video… {{percent}}%",
       "mp4": "Video MP4",
       "exportHint": "Biarkan editor terbuka semasa video anda dirender.",
-      "tooLarge": "Fail itu terlalu besar untuk editor. Hadnya ialah 400 MB."
+      "tooLarge": "Fail itu terlalu besar untuk editor. Hadnya ialah 400 MB.",
+      "tZoomIn": "Zum masuk",
+      "tZoomOut": "Zum keluar"
     },
     "motion": {
       "title": "Gerakan",
@@ -12401,6 +12539,28 @@
       "selection": "/Pilih/Kesatuan",
       "zoomIn": "Zum kanvas ke dalam",
       "zoomOut": "Zum keluar kanvas"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Putaran",
+      "add": "Tambah",
+      "scale": "Saiz",
+      "color": "Warna",
+      "light": "Cahaya"
+    },
+    "clipFix": {
+      "listening": "Mendengarkan…"
+    },
+    "voiceClone": {
+      "stop": "Hentikan rakaman",
+      "failed": "Klonan suara gagal."
+    },
+    "linkImport": {
+      "go": "Mengimport",
+      "downloading": "Memuat turun {{percent}}%"
+    },
+    "reverse": {
+      "action": "Songsang"
     }
   },
   "creator": {
@@ -12862,7 +13022,32 @@
     "referenceProductName": "Letakkan produk anda dalam klip",
     "referenceProductHint": "Gantikan produk yang dipaparkan dan kekalkan adegan asal.",
     "referenceComposeName": "Gabungkan imej rujukan",
-    "referenceComposeHint": "Bawa watak, objek dan latar daripada pelbagai imej ke dalam satu komposisi."
+    "referenceComposeHint": "Bawa watak, objek dan latar daripada pelbagai imej ke dalam satu komposisi.",
+    "marketing": {
+      "import": {
+        "use": "Gunakan butiran ini"
+      }
+    },
+    "batchCount": "Imej",
+    "endFrame": "Bingkai tamat",
+    "cinema": {
+      "close": "Tutup",
+      "performance": {
+        "label": "Prestasi"
+      }
+    },
+    "audioNoSpeech": "Tiada ucapan ditemui dalam rakaman itu.",
+    "audioTaskSpeechLabel": "Pertuturan",
+    "audioTaskDialogueLabel": "Dialog",
+    "audioTaskSfxLabel": "Jarak gelombang:",
+    "audioTaskVoiceChangerLabel": "Penukar suara",
+    "audioTaskTranscribeLabel": "menyalin",
+    "audioTaskIsolateLabel": "Bersihkan",
+    "priceFreeRateLimited": "Percuma · had kadar dikenakan",
+    "loop": "Gelung",
+    "dialogueFormat": "Tulis adegan sebagai \"Nama: baris\", satu penutur setiap baris.",
+    "fileTooLarge": "Fail itu melebihi 100 MB. Gunakan yang lebih pendek atau lebih kecil.",
+    "signInToGenerate": "Daftar masuk untuk menjana."
   },
   "fractions": {
     "title": "Pecahan",
@@ -14931,6 +15116,18 @@
       "intro": "Penonton mendapat mata untuk setiap minit mereka menonton anda dan satu untuk setiap 100 token yang mereka hadiahkan. Sembang dan reaksi tidak mendapat apa-apa, jadi mata tidak boleh diternak.",
       "empty": "Belum ada mata lagi. Ia bertambah apabila orang ramai menonton dan menghadiahkannya.",
       "widgetHint": "Tambah widget Penonton setia untuk menunjukkan senarai ini pada strim."
+    },
+    "destinations": {
+      "label": "Nama (pilihan)",
+      "key": "Kunci strim",
+      "save": "Tambah",
+      "cancel": "Batal",
+      "states": {
+        "off": "Lumpuh",
+        "idle": "Sedia",
+        "live": "Langsung",
+        "error": "Ralat"
+      }
     }
   },
   "liveChatModeration": {
@@ -14984,7 +15181,8 @@
     "joinedBody": "Kami akan menghantar email kepada {{email}} apabila token dilancarkan.",
     "joinedBodyNoEmail": "Kami akan menghantar email kepada anda apabila token dilancarkan.",
     "failed": "Tidak dapat menyimpan itu. Coba lagi.",
-    "privacy": "Hanya digunakan untuk memberitahu tentang pelancaran."
+    "privacy": "Hanya digunakan untuk memberitahu tentang pelancaran.",
+    "emailLabel": "Emel"
   },
   "githubLink": {
     "hint": "Daftar masuk ke GitHub untuk membuktikan akaun itu milik anda. Riftn hanya melihat profil GitHub awam anda.",
@@ -15018,7 +15216,8 @@
       "coverHint": "Halaman 1 ialah sampul.",
       "empty": "Tambahkan halaman-halaman anda dengan tombol foto. Setiap halaman mendapat tajuk dan teks alt.",
       "caption": "Teks ini tidak diberikan.",
-      "alt": "Teks alternatif: apa yang dipaparkan oleh halaman"
+      "alt": "Teks alternatif: apa yang dipaparkan oleh halaman",
+      "cover": "Kulit"
     }
   },
   "nftMarket": {
@@ -15033,7 +15232,64 @@
     "days": "{{count}} hari",
     "spotlightForSale": "Dijual sekarang",
     "spotlightNew": "Baru saja ditempa",
-    "buyFor": "Beli untuk {{price}}"
+    "buyFor": "Beli untuk {{price}}",
+    "actAll": "Semua",
+    "actListings": "Iklan",
+    "actOffer": "Tawaran",
+    "actOffers": "Tawaran",
+    "actSales": "Penjualan",
+    "tabActivity": "Aktiviti",
+    "allChains": "Semua rangkaian",
+    "newest": "Terbaru",
+    "cheapest": "Harga terendah",
+    "soldFor": "Telah dijual",
+    "signIn": "Daftar masuk",
+    "share": "Kongsi",
+    "noneForSale": "Tiada yang dijual lagi",
+    "noSales": "Tiada jualan lagi",
+    "tabBrowse": "Lihat",
+    "tabMine": "Milik anda",
+    "tabSales": "Penjualan",
+    "cancelled": "Dibatalkan",
+    "sold": "Telah dijual",
+    "listed": "Disenaraikan untuk dijual",
+    "loading": "Sedang memuat...",
+    "price": "Harga",
+    "seller": "Penjual",
+    "tabRecent": "Terkini",
+    "buyNow": "Beli sekarang",
+    "offers": "Tawaran",
+    "cancel": "Batal",
+    "accept": "Terima",
+    "signInToTrade": "Daftar masuk untuk berdagang",
+    "listForSale": "Daftar untuk dijual",
+    "makeOffer": "Tawarkan",
+    "back": "Kembali",
+    "dropsTo": "Harga turun kepada {{price}} pada {{date}}",
+    "inBundle": "Dijual sebagai bundel {{n}}",
+    "trending": "Koleksi trending",
+    "floor": "Harga terendah",
+    "listedCount": "{{n}} untuk dijual",
+    "thisCollection": "Koleksi ini",
+    "collectionOffer": "Tawaran pada mana-mana",
+    "showAll": "Tunjukkan semua",
+    "filters": "Penapis",
+    "forSale": "Untuk dijual",
+    "openToOffers": "Buka kepada tawaran",
+    "freshMints": "Baru dari pencipta Riftn",
+    "offersOpen": "Buka kepada tawaran",
+    "mintedCount": "{{n}} dicetak",
+    "anyInCollection": "Mana-mana dalam koleksi",
+    "thisNft": "NFT ini",
+    "priceAlert": "Peringatan harga",
+    "alertUnder": "Beritahu saya bila didaftarkan pada atau di bawah ({{symbol}}, pilihan)",
+    "turnOnAlert": "Hidupkan peringatan",
+    "alertSaved": "Beritahu. Kami akan memberitahu anda apabila satu senarai.",
+    "priceDrop": "Harga turun seiring masa",
+    "endPrice": "Harga terendah, dicapai pada akhir ({{symbol}})",
+    "dropBadge": "Penurunan harga",
+    "days_one": "{{count}} hari",
+    "days_other": "{{count}} hari"
   },
   "riftnMove": {
     "title": "DeHub kini Riftn",
@@ -15060,7 +15316,11 @@
       "episode": "Episod audio siar",
       "show": "Podcast",
       "artist": "Artis"
-    }
+    },
+    "loading": "Sedang memuat...",
+    "paused": "Dipauskan",
+    "preview": "Pratonton",
+    "seek": "Mencari"
   },
   "twoFactor": {
     "wrongCode": "Kod itu tidak sepadan. Cuba kod terbaru dalam aplikasi anda.",
@@ -15138,5 +15398,241 @@
     "newer": "Keputusan baru",
     "gone": "Mesej itu tidak lagi di sini",
     "theirMessages": "Mesej mereka"
+  },
+  "chatTextSize": {
+    "title": "Saiz teks",
+    "default": "Lalai",
+    "larger": "Lebih besar"
+  },
+  "remix": {
+    "cut": "Potong"
+  },
+  "signedFollows": {
+    "setUp": "Hidupkan",
+    "turnOff": "Matikan",
+    "efpTurnOff": "Hentikan"
+  },
+  "postEditHistory": {
+    "original": "Asal"
+  },
+  "studioDeck": {
+    "remove": "Alih keluar",
+    "background": {
+      "title": "Latar belakang",
+      "modes": {
+        "none": "Lumpuh",
+        "blur": "Kabur",
+        "color": "Warna"
+      }
+    },
+    "scenes": {
+      "countdown": "Kiraan mengundur",
+      "names": {
+        "starting": "Bermula tidak lama lagi"
+      }
+    },
+    "widgets": {
+      "tab": "Widget"
+    },
+    "sources": {
+      "image": "Imej",
+      "show": "Tunjukkan pada strim",
+      "positions": {
+        "center": "Tengahkan"
+      },
+      "sizes": {
+        "medium": "Sederhana"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "Hari ini",
+    "tooSoon": "Pilih masa di masa hadapan.",
+    "show": "Tunjukkan",
+    "hide": "Sembunyikan"
+  },
+  "planned": {
+    "title": "Dirancang",
+    "all": "Semua",
+    "posts": "Catatan",
+    "stages": "Bilik audio",
+    "post": "Pos",
+    "live": "Langsung",
+    "stage": "Pentas",
+    "untitledPost": "Pos",
+    "untitledLive": "Langsung",
+    "loading": "Memuatkan…",
+    "startNow": "Mulakan sekarang",
+    "cancel": "Batal",
+    "cancelled": "Dibatalkan"
+  },
+  "welcome": {
+    "about": {
+      "title": "Selamat datang ke Riftn",
+      "day": "Hari",
+      "month": "Bulan",
+      "year": "Tahun"
+    },
+    "name": {
+      "title": "Nama anda",
+      "placeholder": "Nama anda"
+    },
+    "card": {
+      "name": "Nama anda",
+      "followers": "pengikut"
+    },
+    "topic": {
+      "music": "Muzik",
+      "art": "Seni",
+      "gaming": "Permainan",
+      "crypto": "Kripto",
+      "sports": "Sukan",
+      "comedy": "Komedi",
+      "film": "Filem",
+      "food": "Makanan",
+      "news": "Berita",
+      "science": "Sains"
+    },
+    "back": "Kembali",
+    "skipPhoto": "Langkau buat masa ini",
+    "preview": "Siaran awal"
+  },
+  "appTokens": {
+    "title": "Token Anda",
+    "history": "Sejarah",
+    "noHistory": "Belum ada aktiviti",
+    "to": "Kepada",
+    "amount": "Jumlah",
+    "notePlaceholder": "Tambah nota (pilihan)",
+    "sendButton": "Hantar",
+    "errorInsufficient": "Token tidak mencukupi"
+  },
+  "avatarPrompt": {
+    "notNow": "Tidak sekarang"
+  },
+  "postStats": {
+    "audience": "Khalayak",
+    "engagement": "Penglibatan",
+    "finished": "Selesai",
+    "members": "Ahli",
+    "membersLower": "ahli",
+    "newFollowers": "Pengikut baharu",
+    "noBadge": "Tiada lencana",
+    "people": "Orang",
+    "plays": "Main",
+    "quotes": "Petikan",
+    "reposts": "Siaran Ulang",
+    "saved": "Disimpan",
+    "shares": "Kongsi",
+    "signedOutViewers": "Log keluar",
+    "topSupporters": "Penyokong utama",
+    "visitors": "Log keluar"
+  },
+  "duet": {
+    "policyEveryone": "Semua orang",
+    "policyFollowers": "Pengikut",
+    "policyNobody": "Tiada siapa",
+    "loadMore": "Muatkan lagi"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Semua orang",
+      "followers": "Pengikut",
+      "nobody": "Tiada siapa"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Semua orang",
+      "followers": "Pengikut",
+      "nobody": "Tiada siapa"
+    },
+    "heading": "Tindak balas",
+    "more": "Lihat lebih banyak",
+    "liveNow": "Langsung",
+    "untitled": "Tindak balas"
+  },
+  "liveClips": {
+    "copyLink": "Salin pautan",
+    "linkCopied": "Pautan disalin"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Pelan",
+      "howMany": "Berapa banyak",
+      "who": "Nama pengguna atau alamat dompet",
+      "whoPlaceholder": "@namapengguna",
+      "cancel": "Batal",
+      "stage": {
+        "preparing": "Menyediakan…",
+        "confirming": "Menunggu transaksi…",
+        "recording": "Menyelesaikan…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Lain-lain",
+    "confirming": "Mengesahkan bayaran..."
+  },
+  "liveShorts": {
+    "live": "LANGSUNG"
+  },
+  "feedFilters": {
+    "clearAllShort": "Padam semua",
+    "done": "Selesai",
+    "edit": "Sunting",
+    "groupDate": "Tarikh",
+    "groupSort": "Isih",
+    "groupType": "Jenis",
+    "save": "Simpan"
+  },
+  "ownKeys": {
+    "working": "Sedang bekerja",
+    "failed": "Ada sesuatu yang tidak kena. Cuba lagi.",
+    "check": "Semak",
+    "remove": "Alih keluar",
+    "save": "Simpan",
+    "cancel": "Batal"
+  },
+  "postBg": {
+    "none": "Tiada",
+    "yours": "Milik anda",
+    "accent": "Aksen",
+    "names": {
+      "lava": "Lampu Lava",
+      "drive": "Pandu Malam",
+      "snow": "Salji turun"
+    }
+  },
+  "articleTile": {
+    "cover": "Kulit"
+  },
+  "aiConsent": {
+    "allow": "Benarkan"
+  },
+  "dmRequests": {
+    "title": "Permintaan",
+    "accept": "Terima",
+    "delete": "Padam",
+    "block": "Sekat"
+  },
+  "dmSchedule": {
+    "view": "Tonton",
+    "edit": "Kemaskini",
+    "editLabel": "Edit mesej",
+    "error": "Itu tidak berjaya. Cuba lagi."
+  },
+  "chatBulk": {
+    "selected": "{{count}} yang dipilih",
+    "cancel": "Batal",
+    "reply": "Balasan",
+    "delete": "Padam"
+  },
+  "msgSelect": {
+    "selected": "{{count}} yang dipilih",
+    "copy": "Salin",
+    "forward": "Majukan",
+    "deleted_one": "Dihapus {{count}} pesan",
+    "deleted_other": "Dihapus {{count}} pesan"
   }
 }

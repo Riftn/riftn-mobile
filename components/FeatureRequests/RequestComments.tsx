@@ -42,6 +42,7 @@ import {
 import type { Comment } from "../../services/nft.service";
 import type { PostReaction } from "../../libs/reactions";
 import { ScreenNames } from "../../navigation/ScreenNames";
+import { useOpenSignIn } from "../../hooks/useOpenSignIn";
 
 /** Replies shown under a comment before "Show N more". */
 const VISIBLE_REPLIES = 1;
@@ -60,6 +61,7 @@ interface Props {
 const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddress, isAuthed, highlightCommentId, onHighlightMeasured }) => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const { showUserProfile } = useUserProfileSheet();
   const { data, isLoading, isError, isFetching, refetch } = useFeatureRequestThread(featureId);
   const { submit, edit, remove, react } = useFeatureThreadActions(featureId, { title: featureTitle, authorAddress });
@@ -90,7 +92,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
   }, [highlightCommentId, rows]);
 
   const requireAuth = useCallback((run: () => void) => {
-    if (!isAuthed) { navigation.navigate(ScreenNames.SignIn); return; }
+    if (!isAuthed) { openSignIn(); return; }
     run();
   }, [isAuthed, navigation]);
 
@@ -107,7 +109,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
   }), [requireAuth, setText]);
 
   const handleReact = useCallback(async (commentId: number, reaction: PostReaction) => {
-    if (!isAuthed) { navigation.navigate(ScreenNames.SignIn); throw new Error("signed out"); }
+    if (!isAuthed) { openSignIn(); throw new Error("signed out"); }
     const row = rows?.get(commentId);
     if (!row) return;
     const current = [...(data?.threads ?? [])]
@@ -218,7 +220,6 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
         onLongPress={(target, layout, extra) => setContext({ comment: target, layout, extra })}
         tokenId={`request:${featureId}`}
         contentType="feed"
-        highlighted={highlightNumber === comment.id}
         repliesExpanded={opts.toggleRoot != null && expanded.has(opts.toggleRoot)}
         onToggleReplies={opts.toggleRoot != null ? () => {
           const root = opts.toggleRoot!;
@@ -284,7 +285,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
       />
 
       {!isAuthed ? (
-        <Pressable onPress={() => navigation.navigate(ScreenNames.SignIn)} style={styles.signIn}>
+        <Pressable onPress={() => openSignIn()} style={styles.signIn}>
           <Text style={styles.signInText}>{t("features.signInToComment")}</Text>
         </Pressable>
       ) : recorder.isRecording ? (

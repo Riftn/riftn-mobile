@@ -1,4 +1,9 @@
 {
+  "messagesTabs": {
+    "all": "Tümü",
+    "unread": "Okunmamış",
+    "groups": "Gruplar"
+  },
   "comicBorder": {
     "title": "Çerçeve",
     "theme": "Tema",
@@ -189,7 +194,9 @@
       "profile": "profil",
       "proposal": "teklif",
       "stage": "aşama",
-      "store": "mağaza"
+      "store": "mağaza",
+      "featureRequest": "istek",
+      "page": "sayfa"
     }
   },
   "stageCover": {
@@ -1017,6 +1024,8 @@
     "feedTogglesCleared": "Akış filtreleri sıfırlandı",
     "defaultProfileTab": "Varsayılan profil sekmesi",
     "defaultProfileTabDesc": "Ziyaretçilerin profilinizde ilk hangi sekmeyi göreceğini seçin",
+    "defaultProfileView": "Profil gönderi düzeni",
+    "defaultProfileViewDesc": "Profilinizi açanlara gönderilerinizi ızgara ya da liste olarak gösterin",
     "defaultPostVisibilityDesc": "Tüm mevcut ve gelecek gönderilere uygulanır",
     "public": "Herkese Açık",
     "publicDesc": "Herkes gönderilerinizi görebilir",
@@ -7559,6 +7568,8 @@
     "allDisabled": "Şu anda tüm DM'ler kapalı. Yeni DM'ler varsayılan olarak engellenir.",
     "failedToEdit": "Düzenlenemedi",
     "messageDeleted": "Mesaj silindi",
+    "deleteOneTitle": "Bu mesaj silinsin mi?",
+    "deleteForBothBody": "İkiniz için de silinecek.",
     "cantForwardFromDevice": "Bu mesaj bu cihazdan iletilemiyor",
     "messageForwarded": "Mesaj iletildi",
     "clearMessages": "Mesajları Temizle",
@@ -11669,7 +11680,11 @@
     "ended": "Bitti",
     "stage": "Sahne",
     "upcomingStage": "Yaklaşan sahne",
-    "members": "{{compact}} üye"
+    "members": "{{compact}} üye",
+    "requestComments_one": "{{compact}} yorum",
+    "requestComments_other": "{{compact}} yorum",
+    "requestVotes_one": "{{compact}} oy",
+    "requestVotes_other": "{{compact}} oy"
   },
   "report": {
     "whyVideo": "Bu videoyu neden bildiriyorsunuz?",
@@ -15548,7 +15563,7 @@
     "c86fdb55e2fa": "Ses Alanı",
     "3010b02a4030": "Kullanıcıların konuşabileceği, dinleyebileceği ve sohbete katılmak için ellerini kaldırabilecekleri canlı bir ses odası.",
     "39924344e766": "Görünürlük & Erişim",
-    "51f926834f07": "Herkes tarafından görülebilen içerik. Kişiler, **görünür** gönderilere bakabilir, beğenebilir ve yorum yapabilir.",
+    "51f926834f07": "Herkes tarafından görülebilen içerik. Kişiler, görünür gönderilere bakabilir, beğenebilir ve yorum yapabilir.",
     "04d02a85c7b9": "İçerik yalnızca sizin tarafınızdan görülebilir. Özel gönderiler diğer kullanıcılardan ve genel akıştan gizlenir.",
     "1c1f651829b5": "Görüntüleme Başına Ödeme (PPV)",
     "ad2cbb28a08f": "Sadece Abone",
@@ -16693,8 +16708,27 @@
       "spin": "Dönen prizma",
       "tide": "Gelgit",
       "ember": "Közler",
-      "holo": "Holo folyo"
-    }
+      "holo": "Holo folyo",
+      "rift": "Yarık",
+      "chrome": "Sıvı Krom",
+      "mesh": "Ağ",
+      "grain": "Film Greni",
+      "orbit": "Yörünge",
+      "ripple": "Dalgacık",
+      "dotwave": "Nokta Dalgası",
+      "scan": "CRT",
+      "silk": "İpek",
+      "bokeh": "Bokeh",
+      "snow": "Kar Yağışı",
+      "photo": "Senin resmin"
+    },
+    "yours": "Seninkiler",
+    "base": "Taban",
+    "accent": "Vurgu",
+    "accent2": "Vurgu 2",
+    "ownColours": "Kendi renklerin",
+    "addPhoto": "Resim veya GIF ekle",
+    "changePhoto": "Resmi veya GIF'i değiştir"
   },
   "riftnMove": {
     "title": "DeHub artık Riftn",
@@ -16893,6 +16927,7 @@
     "notSent": "Gönderilemedi. Tekrar deneyin."
   },
   "msgSelect": {
+    "deleteForBothBody": "İkiniz için de silinecekler.",
     "toolbar": "Seçili mesajlar",
     "pick": "Seçmek için mesajlara dokunun",
     "selected": "{{count}} seçildi",
@@ -16910,6 +16945,36 @@
     "deleteBody": "Bu sohbetteki herkes için kaldırılacak.",
     "deleted_one": "{{count}} mesaj silindi",
     "deleted_other": "{{count}} mesaj silindi"
+  },
+  "profileImage": {
+    "change": "Değiştir"
+  },
+  "resetWallet": {
+    "mismatch": "Şifreler eşleşmiyor",
+    "tooShort": "Şifre en az {{count}} karakter olmalı",
+    "breached": "Bu şifre bir veri sızıntısında görüldü. Başka bir şifre seç",
+    "weak": "Daha güçlü bir şifre seç (harf, rakam ve sembolleri karıştır)",
+    "doneTitle": "Hesabın artık yeni cüzdanında",
+    "twoFactor": "Hesabını taşımak için doğrulama uygulamandaki kodu gir.",
+    "failed": "Cüzdanın sıfırlanamadı. Hiçbir şey taşınmadı. Tekrar dene.",
+    "title": "Cüzdanı sıfırla",
+    "reloginApp": "Sıfırlama, eski cüzdanla değil hesabının e-posta, telefon veya Google girişiyle kanıtlanır; çünkü eski anahtara sahip olan herkes de imzalayabilir. Çıkış yap, o girişle tekrar giriş yap ve buraya geri dön. Henüz giriş e-postan yok mu? Önce riftn.com'da Ayarlar → Giriş bölümünden bir tane ekle.",
+    "logOut": "Çıkış yap",
+    "intro": "Yeni bir Riftn cüzdanı oluşturur ve kullanıcı adını, gönderilerini, takipçilerini ve mesajlarını ona taşır. Cüzdanını kaybettiysen veya anahtarı başka birindeyse bunu kullan. Eski cüzdan artık giriş için çalışmaz.",
+    "funds": "Tokenlar, NFT'ler ve diğer bakiyeler taşınmaz. Eski adreste kalırlar. Eski cüzdanı hâlâ açabiliyorsan önce onları gönder.",
+    "password": "Yeni cüzdan şifresi (en az {{count}} karakter)",
+    "confirm": "Şifreyi onayla",
+    "twoFactorPlaceholder": "Doğrulama kodu",
+    "ack": "Eski fonlarımın eski cüzdanda kaldığını anlıyorum.",
+    "submit": "Cüzdanı sıfırla",
+    "cancel": "İptal",
+    "rowDesc": "Cüzdanını mı kaybettin, yoksa anahtarı başkasında mı? Hesabını yeni bir cüzdana taşı. Kullanıcı adın, gönderilerin ve takipçilerin seninle gelir."
+  },
+  "mentionLinks": {
+    "communities": "Topluluklar",
+    "pages": "Sayfalar",
+    "people": "Kişiler",
+    "linkTo": "{{name}} bağlantısı ekle"
   },
   "chatTabs": {
     "addChats": "Sohbet ekle",

@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Trender denne uken på Audius. Gratis å bruke, artisten får kreditering i innlegget ditt.",
     "d2e45b7406fc": "Offentlig domene og Creative Commons-musikk fra Wikimedia Commons. Artisten får kreditering i innlegget ditt.",
     "d0c1a3684775": "Sanger lastet ikke inn. Prøv igjen om et øyeblikk.",
-    "d14064f80f52": "Legg til lyd"
+    "d14064f80f52": "Legg til lyd",
+    "71988c4d8e08": "Tekst",
+    "147170e793c6": "Bred",
+    "481859b689b0": "Sjekk tilkoblingen din og prøv på nytt.",
+    "57e2faa5ec63": "Søk i Riftn",
+    "7db20897053b": "Mennesker",
+    "96d7bff86b44": "Søk kunne ikke lastes",
+    "d8b8392e2c54": "Prøv igjen"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Sitat",
       "bullets": "Bulpett liste",
       "numbers": "Nummerert liste",
-      "link": "Lenke"
+      "link": "Lenke",
+      "image": "Legg til bilder"
     }
   },
   "storefront": {
@@ -3150,6 +3158,8 @@
     "feedTogglesCleared": "Feedfiltre tilbakestilt",
     "defaultProfileTab": "Standardfane på profilen",
     "defaultProfileTabDesc": "Velg hvilken fane besøkende ser først på profilen din",
+    "defaultProfileView": "Oppsett for profilinnlegg",
+    "defaultProfileViewDesc": "Vis innleggene dine som rutenett eller liste når noen åpner profilen din",
     "defaultPostVisibilityDesc": "Gjelder alle nåværende og fremtidige innlegg",
     "public": "Offentlig",
     "publicDesc": "Hvem som helst kan se innleggene dine",
@@ -3793,7 +3803,10 @@
     "payViaDpay": "Betalt til Riftn Pay, tokens ankommer om ca. 30s",
     "payViaBridgeDpay": "Flyttet til Base og betalt til Riftn Pay, tokens ankommer om ca. et minutt",
     "tokensUnit": "tokens",
-    "tokenAmount": "{{amount}} tokens"
+    "tokenAmount": "{{amount}} tokens",
+    "addMessage": "Legg til en melding (valgfritt)",
+    "messagePublic": "Offentlig",
+    "railTitle": "Type"
   },
   "postOptions": {
     "skippableSections": "Deler som kan hoppes over",
@@ -4521,7 +4534,11 @@
       "here": "{{name}} sendte melding til alle i fellesskapet",
       "hereNamed": "{{name}} sendte melding til alle i «{{community}}»"
     },
-    "tokenAmount": "{{amount}} tokens"
+    "tokenAmount": "{{amount}} tokens",
+    "groupNew": "Nytt",
+    "groupToday": "I dag",
+    "groupThisWeek": "Denne uken",
+    "searchClose": "Lukk søket"
   },
   "leaderboard": {
     "title": "Toppliste",
@@ -4713,7 +4730,18 @@
     "attachmentTooLarge": "Hver fil må være under 50 MB",
     "deleteCommentA11y": "Slett kommentar",
     "sendCommentA11y": "send kommentar",
-    "requestOptions": "Forespørselsalternativer"
+    "requestOptions": "Forespørselsalternativer",
+    "deviceInfoNoErrors": "Ingen",
+    "topBuilders": {
+      "month": "Denne måneden",
+      "allTime": "Hele tiden",
+      "shipped": "Levert",
+      "votes": "Stemmer",
+      "comments": "Kommentarer",
+      "showLess": "Vis mindre",
+      "viewProfile": "Se profil",
+      "you": "Du"
+    }
   },
   "auth": {
     "loginRequired": "Innlogging påkrevd",
@@ -4974,7 +5002,20 @@
       "votes_other": "{{value}} stemmer",
       "members_one": "{{value}} medlem",
       "members_other": "{{value}} medlemmer"
-    }
+    },
+    "articleShort": "Artikkel",
+    "articleMinRead": "{{count}} min lesing",
+    "pinnedShort": "Festet",
+    "post": "Publiser",
+    "arrange": {
+      "saving": "Lagrer..."
+    },
+    "reserve": {
+      "signIn": "Logg inn"
+    },
+    "tabLikes": "Liker",
+    "likesEmptyTitle": "Ingen likerklikk ennå",
+    "likesPrivateTitle": "Likerklikk er private"
   },
   "tv": {
     "title": "TV",
@@ -5490,6 +5531,9 @@
       "action": "Handling",
       "schedule": "Tidsplan",
       "filter": "Filtrer aktivitet"
+    },
+    "welcome": {
+      "text": "Velkomstmelding"
     }
   },
   "hero": {
@@ -5571,7 +5615,16 @@
     "nowPublic": "Flyten er nå offentlig",
     "openCanvas": "Åpne lerretet",
     "playVideo": "Spill av video",
-    "signInToSee": "Logg inn for å se flytene på kontoen din."
+    "signInToSee": "Logg inn for å se flytene på kontoen din.",
+    "newNativeFlow": "Ny flyt",
+    "model": "Modell",
+    "aspectRatio": "Sideforhold",
+    "duration": "Varighet i sekunder",
+    "resolution": "Oppløsning",
+    "disconnect": "Avbryt",
+    "payAndRun": "Betal og kjør",
+    "run": "Kjør",
+    "handlePrompt": "Fremlegg"
   },
   "loginModal": {
     "title": "Logg inn",
@@ -5891,7 +5944,8 @@
     "searchMenu": "Søk i menyen",
     "clearSearch": "Tøm søket",
     "noMenuMatches": "Ingenting i menyen samsvarer",
-    "searchDehubFor": "Søk etter «{{query}}» på Riftn"
+    "searchDehubFor": "Søk etter «{{query}}» på Riftn",
+    "requestSend": "Send forespørsel"
   },
   "comments": {
     "reportComment": "Rapportkommentar",
@@ -6510,7 +6564,11 @@
       "copied": "Meldingen er kopiert",
       "copyText": "Oppsprettmeny",
       "mutedUntil": "Du er dempet til {{date}}",
-      "slowMode": "Sakte modus: én melding hver {{interval}}"
+      "slowMode": "Sakte modus: én melding hver {{interval}}",
+      "joined": "{{name}} ble med",
+      "reactions": "Reaksjoner",
+      "photoTooLarge": "Bildet må være under 10 MB",
+      "aiAdminFailed": "AI Admin svarte ikke"
     },
     "manage": {
       "dismissAdminTitle": "Avvis administrator",
@@ -6713,6 +6771,31 @@
       "notFound": "Denne invitasjonslenken er ikke gyldig.",
       "requestToJoin": "Forespørsel om å bli med",
       "approvalNote": "En administrator må godkjenne forespørselen din før du kan bli med."
+    },
+    "buyAlert": {
+      "spent": "Brukt:",
+      "buyer": "Kjøper:",
+      "balance": "Balans:",
+      "price": "Pris:",
+      "marketCap": "Markedsverdi:"
+    },
+    "newChat": {
+      "public": "Offentlig",
+      "private": "Privat",
+      "free": "Gratis",
+      "paid": "Betalt",
+      "group": "Gruppér"
+    },
+    "holderGate": {
+      "chain": "Kjede",
+      "which": "Tegn",
+      "tab": "Holdere"
+    },
+    "automod": {
+      "bannedWords": "Bannede ord",
+      "floodMax": "{{count}} meldinger",
+      "saved": "Lagret",
+      "wordCount": "{{count}} ord"
     }
   },
   "work": {
@@ -7834,7 +7917,10 @@
       "doneAll": "Fjernet sporing av {{done}} kontoer som ikke fulgte deg tilbake.",
       "doneSome": "Fjernet sporing av {{done}} kontoer. {{failed}} kunne ikke fjernes.",
       "doneToast": "Fjernet sporing av {{done}} kontoer som ikke fulgte deg."
-    }
+    },
+    "followBackConfirm": "Følg tilbake",
+    "followBackNotNow": "Ikke nå",
+    "followBackDone": "Ferdig"
   },
   "reactionInfo": {
     "title": "Reaksjon",
@@ -8754,7 +8840,34 @@
     "coverFrames": "Velg et bilde som omslag",
     "coverFrame": "Bruk bilde {{index}} som omslag",
     "uploadCover": "Last opp et omslagsbilde",
-    "editFailed": "Kunne ikke bruke endringen. Prøv igjen."
+    "editFailed": "Kunne ikke bruke endringen. Prøv igjen.",
+    "altPlaceholderVideo": "Beskriv denne videoen",
+    "preview": {
+      "title": "Forhåndsvisning"
+    },
+    "recent": {
+      "all": "Alle"
+    },
+    "studio": {
+      "crop": "Beskjær",
+      "draw": "Tegn",
+      "light": "Lys",
+      "contrast": "Kontrast",
+      "warmth": "Varme",
+      "colour": "Farge",
+      "fade": "Falme",
+      "ratioFree": "Gratis",
+      "rotate": "Roter",
+      "strength": "Styrke",
+      "stickers": "Klistremerker",
+      "textBg": "Bakgrunn",
+      "font": {
+        "bold": "Fet",
+        "mono": "Enhet"
+      }
+    },
+    "edited": "Redigert",
+    "edit": "Rediger"
   },
   "bounty": {
     "claimed": "Innløst",
@@ -9048,7 +9161,8 @@
     "justChatting": "Bare prat",
     "noLiveStreams": "Ingen direktesendinger",
     "noOneStreaming": "Ingen strømmer akkurat nå. Kom tilbake senere!",
-    "loadStreamsFailed": "Kunne ikke laste inn strømmer. Prøv igjen."
+    "loadStreamsFailed": "Kunne ikke laste inn strømmer. Prøv igjen.",
+    "liveBadge": "DIREKTE"
   },
   "liveShop": {
     "title": "Handle fra denne sendingen",
@@ -9361,7 +9475,23 @@
     "paymentSentWith": "Sendt med {{amount}}",
     "planRestricted": "Denne brukeren krever et abonnement for å motta meldinger.",
     "planTypeNotAllowed": "Denne skaperens plan tillater ikke denne typen melding.",
-    "planMinTip": "Tipset må være minst {{amount}} tokens for denne skaperen."
+    "planMinTip": "Tipset må være minst {{amount}} tokens for denne skaperen.",
+    "newDrawer": {
+      "to": "Til"
+    },
+    "download": "Last ned",
+    "deleteOneTitle": "Slette denne meldingen?",
+    "retrySend": "Prøv igjen",
+    "discardSend": "Fjern",
+    "shareKindGroup": "Gruppér",
+    "shareKindCommunity": "Fellesskap",
+    "searchDiscover": {
+      "people": "Folk",
+      "communities": "Fellesskap",
+      "members": "{{n}} medlemmer",
+      "newChat": "Ny prat",
+      "invite": "Invitere"
+    }
   },
   "editPost": {
     "mediaPermission": "Tillatelse til mediebiblioteket kreves",
@@ -10579,7 +10709,10 @@
       "hint": "Gjør tale om til tidsbestemt teksting du kan style om. Kjører på enheten din: gratis og privat. Første gang lastes modellen ned.",
       "done": "La til {{count}} tekstlinjer.",
       "noSpeech": "Fant ingen tale i dette klippet.",
-      "failed": "Kunne ikke lage teksting for dette klippet."
+      "failed": "Kunne ikke lage teksting for dette klippet.",
+      "styles": {
+        "bold": "Fet tekst"
+      }
     },
     "app": {
       "newDesign": "Nytt design",
@@ -10829,7 +10962,9 @@
       "suggestTitle": "Legg til en stor fet tittel øverst og en mindre undertittel under",
       "undo": "Angre",
       "openGenerator": "Se over og generer",
-      "working": "Jobber med det…"
+      "working": "Jobber med det…",
+      "stop": "Stopp",
+      "queue": "Legg til i kø"
     },
     "brand": {
       "addColor": "Legg til en merkevarefarge",
@@ -10966,7 +11101,9 @@
       "rendering": "Renderer video… {{percent}}%",
       "mp4": "MP4-video",
       "exportHint": "Hold redigeringsverktøyet åpent mens videoen renderes.",
-      "tooLarge": "Filen er for stor for redigeringsverktøyet. Grensen er 400 MB."
+      "tooLarge": "Filen er for stor for redigeringsverktøyet. Grensen er 400 MB.",
+      "tZoomIn": "Zoom inn",
+      "tZoomOut": "Zoom ut"
     },
     "motion": {
       "title": "Bevegelse",
@@ -12145,6 +12282,28 @@
       "selection": "Utvalg",
       "zoomIn": "Zoom inn på lerretet",
       "zoomOut": "Zoom ut på lerretet"
+    },
+    "stage": {
+      "camera": "Kamera",
+      "yaw": "Rotasjon",
+      "add": "Legg til",
+      "scale": "Størrelse",
+      "color": "Farge",
+      "light": "Lys"
+    },
+    "clipFix": {
+      "listening": "Lytter…"
+    },
+    "voiceClone": {
+      "stop": "Stopp opptak",
+      "failed": "Stemmekloning mislyktes."
+    },
+    "linkImport": {
+      "go": "Importer",
+      "downloading": "Laster ned {{percent}}%"
+    },
+    "reverse": {
+      "action": "Omsett"
     }
   },
   "creator": {
@@ -12606,7 +12765,32 @@
     "referenceProductName": "Plasser produktet ditt i en klipp",
     "referenceProductHint": "Ersett det fremhevede produktet og bevar det originale scenet",
     "referenceComposeName": "Kombiner referansebilder",
-    "referenceComposeHint": "Få karakterer, gjenstander og settinger fra flere bilder inn i en sammensetning"
+    "referenceComposeHint": "Få karakterer, gjenstander og settinger fra flere bilder inn i en sammensetning",
+    "marketing": {
+      "import": {
+        "use": "Bruk disse detaljene"
+      }
+    },
+    "batchCount": "Bilder",
+    "endFrame": "Sluttbilde",
+    "cinema": {
+      "close": "Lukk",
+      "performance": {
+        "label": "Ytelse"
+      }
+    },
+    "audioNoSpeech": "Ingen tale ble funnet i denne opptaket.",
+    "audioTaskSpeechLabel": "Tale",
+    "audioTaskDialogueLabel": "Scener med flere talere, en stemme per linje",
+    "audioTaskSfxLabel": "Lyd effekt",
+    "audioTaskVoiceChangerLabel": "Stemmeendring",
+    "audioTaskTranscribeLabel": "Transkribering",
+    "audioTaskIsolateLabel": "Rens opp",
+    "priceFreeRateLimited": "Gratis · prisgrenser gjelder",
+    "loop": "Løkke",
+    "dialogueFormat": "Skriv scenen som \"Navn: linje\", en talebærer per linje.",
+    "fileTooLarge": "Denne filen er over 100 MB. Bruk en kortere eller mindre fil.",
+    "signInToGenerate": "Logg inn for å generere."
   },
   "fractions": {
     "title": "Andeler",
@@ -14675,6 +14859,19 @@
       "intro": "Seere tjener et poeng for hvert minutt de ser deg, og ett for hver 100 tokens de gir bort. Chat og reaksjoner gir ingenting, så poeng kan ikke opptjenes.",
       "empty": "Ingen poeng ennå. De bygger seg opp etter hvert som folk ser på og gir gaver.",
       "widgetHint": "Legg til Lojale seere-widgeten for å vise denne listen på strømming."
+    },
+    "destinations": {
+      "platform": "Plattform",
+      "label": "Navn (valgfritt)",
+      "key": "Strømmenøkkel",
+      "save": "Legg til",
+      "cancel": "Avbryt",
+      "states": {
+        "off": "Av",
+        "idle": "Klar",
+        "live": "Direkte",
+        "error": "Feil"
+      }
     }
   },
   "liveChatModeration": {
@@ -14739,7 +14936,8 @@
     "disconnected": "GitHub ble avkoblet",
     "taken": "Den GitHub-kontoen er allerede knyttet til et annet Riftn-profil.",
     "failed": "Kunne ikke koble til GitHub. Prøv på nytt.",
-    "unavailable": "GitHub-verifisering kommer snart."
+    "unavailable": "GitHub-verifisering kommer snart.",
+    "disconnect": "Avbryt"
   },
   "comic": {
     "toComic": "Gjør til tegneserie",
@@ -14779,7 +14977,72 @@
     "days": "{{count}} dager",
     "spotlightForSale": "Til salgs nå",
     "spotlightNew": "Nylig slått ut",
-    "buyFor": "Kjøp for {{price}}"
+    "buyFor": "Kjøp for {{price}}",
+    "actAll": "Alle",
+    "actListings": "Annonser",
+    "actOffer": "Tilbud",
+    "actOffers": "Bud",
+    "actSales": "Salg",
+    "tabActivity": "Aktivitet",
+    "allChains": "Alle kjeder",
+    "newest": "Nyeste",
+    "cheapest": "Lavest pris",
+    "soldFor": "Solgt",
+    "signIn": "Logg inn",
+    "title": "NFT-er",
+    "share": "Dele",
+    "noneForSale": "Ingenting til salgs ennå",
+    "noSales": "Ingen salg ennå",
+    "tabBrowse": "Bla gjennom",
+    "tabMine": "Dine",
+    "tabSales": "Salg",
+    "cancelled": "Avbrutt",
+    "sold": "Solgt",
+    "listed": "Listet for salg",
+    "feeRow": "Riftn avgift ({{pct}}%)",
+    "royaltyRow": "Skaperroyalty",
+    "youGet": "Du får",
+    "holderGets": "Holder får",
+    "loading": "Laster…",
+    "price": "Pris",
+    "seller": "Selger",
+    "tabRecent": "Nylige",
+    "buyNow": "Kjøp nå",
+    "offers": "Tilbud",
+    "cancel": "Avbryt",
+    "accept": "Godta",
+    "signInToTrade": "Logg inn for å handle",
+    "listForSale": "List opp til salgs",
+    "makeOffer": "Legg inn et tilbud",
+    "sendOffer": "Send tilbud",
+    "back": "Tilbake",
+    "dropsTo": "Prisen synker til {{price}} ved {{date}}",
+    "inBundle": "Solg som et sett med {{n}}",
+    "trending": "Trendende samlinger",
+    "floor": "Bunn",
+    "listedCount": "{{n}} til salgs",
+    "thisCollection": "Denne samlingen",
+    "collectionOffer": "Tilbud på hva som helst",
+    "showAll": "Vis alle",
+    "shortTitle": "NFT-er",
+    "filters": "Filtre",
+    "forSale": "Til salgs",
+    "openToOffers": "Åpen for tilbud",
+    "freshMints": "Nylig fra Riftn-kreatører",
+    "offersOpen": "Åpen for tilbud",
+    "mintedCount": "{{n}} utgitt",
+    "anyInCollection": "Noen i samlingen",
+    "thisNft": "Denne NFT-en",
+    "priceAlert": "Pris-alert",
+    "alertUnder": "La meg vite når den listes til eller under ({{symbol}}, frivillig)",
+    "turnOnAlert": "Slå på alert",
+    "alertSaved": "Varsling på. Vi vil fortelle deg når en er oppført.",
+    "priceDrop": "Pris synker over tid",
+    "endPrice": "Laveste pris, nådd ved slutten ({{symbol}})",
+    "bundleBadge": "Pakke ×{{n}}",
+    "dropBadge": "Prisfall",
+    "days_one": "{{count}} dag",
+    "days_other": "{{count}} dager"
   },
   "riftnMove": {
     "title": "DeHub heter nå Riftn",
@@ -14806,7 +15069,11 @@
       "episode": "Podcast-episode",
       "show": "Podkast",
       "artist": "Artist"
-    }
+    },
+    "loading": "Laster…",
+    "paused": "Pausert",
+    "preview": "Forhåndsvisning",
+    "seek": "Søk"
   },
   "twoFactor": {
     "wrongCode": "Den koden stemte ikke. Prøv den nyeste i appen din.",
@@ -14884,5 +15151,236 @@
     "newer": "Nyere resultat",
     "gone": "Den meldingen er ikke lenger her",
     "theirMessages": "Deres meldinger"
+  },
+  "chatTextSize": {
+    "title": "Tekststørrelse",
+    "default": "Misligholde",
+    "larger": "Større"
+  },
+  "remix": {
+    "cut": "Klipp ut"
+  },
+  "signedFollows": {
+    "setUp": "Slå på",
+    "turnOff": "Slå av",
+    "efpTurnOff": "Stopp"
+  },
+  "studioDeck": {
+    "remove": "Fjern",
+    "background": {
+      "title": "Bakgrunn",
+      "modes": {
+        "none": "Av",
+        "blur": "Uskarphet",
+        "color": "Farge"
+      }
+    },
+    "scenes": {
+      "countdown": "Nedtelling",
+      "names": {
+        "starting": "Starter snart"
+      }
+    },
+    "widgets": {
+      "tab": "Widgeter"
+    },
+    "sources": {
+      "image": "Bilde",
+      "show": "Vis på strømming",
+      "positions": {
+        "center": "Sentre"
+      }
+    }
+  },
+  "whenSheet": {
+    "today": "I dag",
+    "tooSoon": "Velg et tidspunkt i fremtiden.",
+    "show": "Vis",
+    "hide": "Skjul"
+  },
+  "planned": {
+    "title": "Planlagt",
+    "all": "Alle",
+    "posts": "Innlegg",
+    "stages": "Lydrom",
+    "post": "Publiser",
+    "live": "Direkte",
+    "stage": "Scene",
+    "untitledPost": "Publiser",
+    "untitledLive": "Direkte",
+    "loading": "Laster inn…",
+    "startNow": "Start nå",
+    "cancel": "Avbryt",
+    "cancelled": "Avlyst"
+  },
+  "welcome": {
+    "about": {
+      "title": "Velkommen til Riftn",
+      "day": "Dag",
+      "month": "Måned",
+      "year": "År"
+    },
+    "name": {
+      "title": "Navnet ditt",
+      "placeholder": "Navnet ditt"
+    },
+    "card": {
+      "name": "Navnet ditt",
+      "followers": "følgere"
+    },
+    "topic": {
+      "music": "Musikk",
+      "art": "Kunst",
+      "gaming": "Spill",
+      "crypto": "Krypto",
+      "sports": "Sport",
+      "comedy": "Komödie",
+      "podcast": "Podkast",
+      "food": "Maten",
+      "news": "Nyheter",
+      "science": "Vitenskap"
+    },
+    "back": "Tilbake",
+    "skipPhoto": "Hopp over for nå",
+    "preview": "Forhåndsvis"
+  },
+  "appTokens": {
+    "title": "Dine tokens",
+    "history": "Historikk",
+    "noHistory": "Ingen aktivitet enda",
+    "kindDeposit": "Legg til midler",
+    "to": "Til",
+    "amount": "Beløp",
+    "notePlaceholder": "Legg til et notat (valgfritt)",
+    "sendButton": "Sende",
+    "errorInsufficient": "Ikke nok tokens"
+  },
+  "avatarPrompt": {
+    "notNow": "Ikke nå"
+  },
+  "postStats": {
+    "audience": "Målgruppe",
+    "engagement": "Engasjement",
+    "finished": "Fullført",
+    "members": "Medlemmer",
+    "membersLower": "medlemmer",
+    "newFollowers": "Nye følgere",
+    "noBadge": "Ingen merke",
+    "people": "Folk",
+    "plays": "Spill",
+    "quotes": "Sitater",
+    "reposts": "Delinger",
+    "saved": "Lagret",
+    "shares": "Delinger",
+    "signedOutViewers": "Logget ut",
+    "topSupporters": "Toppstøttespillere",
+    "visitors": "Logget ut"
+  },
+  "duet": {
+    "policyEveryone": "Alle",
+    "policyFollowers": "Følgere",
+    "policyNobody": "Ingen",
+    "loadMore": "Last mer"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Alle",
+      "followers": "Følgere",
+      "nobody": "Ingen"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Alle",
+      "followers": "Følgere",
+      "nobody": "Ingen"
+    },
+    "heading": "Reaksjon",
+    "more": "Vis flere",
+    "liveNow": "Direkte",
+    "untitled": "Reaksjon"
+  },
+  "liveClips": {
+    "copyLink": "Kopier lenke",
+    "linkCopied": "Link kopiert"
+  },
+  "liveHype": {
+    "gift": {
+      "howMany": "Hvor mange",
+      "who": "Brukernavn eller lommebokadresse",
+      "whoPlaceholder": "@brukernavn",
+      "cancel": "Avbryt",
+      "stage": {
+        "preparing": "Forbereder…",
+        "confirming": "Venter på transaksjonen…",
+        "recording": "Fullfører…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Annet",
+    "confirming": "Bekrefter betaling…"
+  },
+  "liveShorts": {
+    "live": "DIREKTE"
+  },
+  "feedFilters": {
+    "clearAllShort": "Fjern alle",
+    "done": "Ferdig",
+    "edit": "Rediger",
+    "groupDate": "Dato",
+    "groupSort": "Sorter",
+    "save": "Lagre"
+  },
+  "ownKeys": {
+    "working": "Arbeider",
+    "failed": "Noe gikk galt. Prøv på nytt.",
+    "check": "Sjekke",
+    "remove": "Fjern",
+    "save": "Lagre",
+    "cancel": "Avbryt"
+  },
+  "postBg": {
+    "none": "Ingen",
+    "yours": "Dine",
+    "accent": "Tone",
+    "names": {
+      "aurora": "Åpenbaring",
+      "lava": "Lavalampe",
+      "drive": "Nattkjøring",
+      "chrome": "Vannkrom",
+      "snow": "Snøfall"
+    }
+  },
+  "articleTile": {
+    "cover": "Forsidebilde"
+  },
+  "aiConsent": {
+    "allow": "Tillat"
+  },
+  "dmRequests": {
+    "title": "Funksjonsforespørsler",
+    "accept": "Godta",
+    "delete": "Slett",
+    "block": "Blokker"
+  },
+  "dmSchedule": {
+    "view": "Se",
+    "edit": "Rediger",
+    "editLabel": "Rediger melding",
+    "error": "Det fungerte ikke. Prøv igjen."
+  },
+  "chatBulk": {
+    "selected": "{{count}} valgt",
+    "cancel": "Avbryt",
+    "reply": "Svar",
+    "delete": "Slett"
+  },
+  "msgSelect": {
+    "selected": "{{count}} valgt",
+    "copy": "Kopier",
+    "forward": "Videresend",
+    "deleted_one": "Slettet {{count}} melding",
+    "deleted_other": "Slettet {{count}} meldinger"
   }
 }

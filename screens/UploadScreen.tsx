@@ -1,13 +1,14 @@
 import { usePerfProbe, perfMark } from "../libs/perfTrace";
 import ThemePanel from '../components/ui/ThemePanel';
 import { useTranslation as _useCopy } from 'react-i18next';
-import { clock, soundWindow } from "../libs/soundWindow";
+import { clock, soundMix, soundWindow, withSoundMix } from "../libs/soundWindow";
 import { readDraft } from "../libs/draft-cache";
 import { accountDraftKey, useDraftState } from '../hooks/useDraftState';
 import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD, MATURE_CONTENT_ENABLED } from "../config/storefront";
 import { normalizeCategoryName } from "../libs/strings.util";
 import { t } from "i18next";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLingering } from "../hooks/useLingering";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   View,
@@ -99,7 +100,7 @@ import { INITIAL_LIVE_SETTINGS } from "../components/Upload/LiveSettingsPanel";
 import ConfirmUploadModal from "../components/Upload/ConfirmUploadModal";
 import { useUploadPost } from "../hooks/useUploadPost";
 import { useUploadLive } from "../hooks/useUploadLive";
-import { usePostSound } from "../hooks/usePostSound";
+import { usePostSound, type AttachedSound } from "../hooks/usePostSound";
 import { buildSoundtrackTag } from "../libs/parseSoundtrack";
 import SoundPickerSheet from "../components/Post/SoundPickerSheet";
 import ScheduleSheet from "../components/Upload/ScheduleSheet";
@@ -479,6 +480,8 @@ export default function UploadScreen() {
   const skipPhotoAutoEdit = useRef(false);
   const seenPhotos = useRef<Set<string>>(new Set());
   const [altEditor, setAltEditor] = useState<{ kind: "image" | "video"; index: number } | null>(null);
+  // The alt sheet slides away with its content instead of vanishing.
+  const altShown = useLingering(altEditor);
   // The content warning being written: null is "none", "" is "toggled on, still empty".
   const [contentWarning, setContentWarning] = useState<string | null>(null);
   // The poster closed the $TICKER / address card, so the post goes out without one.
@@ -1232,6 +1235,11 @@ export default function UploadScreen() {
   } = useUploadLive();
 
   const { attachedSound, selectSound, clearSound } = usePostSound();
+  // Opened from a post's song chip: start with that song attached.
+  const incomingSound = route.params?.sound as AttachedSound | undefined;
+  useEffect(() => {
+    if (incomingSound?.url) selectSound(incomingSound);
+  }, [incomingSound, selectSound]);
   const { openModal: openStages, createSpace, scheduleSpace } = useStages();
   const [showSoundPicker, setShowSoundPicker] = useState(false);
   const [scheduledDate, setScheduledDate] = useState<Date | null>(null);
@@ -2568,7 +2576,7 @@ export default function UploadScreen() {
   const openVideoEditor = useCallback(() => {
     if (!pickedVideo) return;
     player.pause();
-    setVideoEditOpts({ trimStart: videoTrim?.start, trimEnd: videoTrim?.end, coverAt: videoCoverAt, mirror: videoEdits?.mirror, rotate: videoEdits?.rotate || undefined });
+    setVideoEditOpts({ trimStart: videoTrim?.start, trimEnd: videoTrim?.end, coverAt: videoCoverAt, mirror: videoEdits?.mirror, rotate: videoEdits?.rotate || undefined, speed: videoEdits?.speed });
     setVideoColourDraft({ look: videoEdits?.look, strength: videoEdits?.strength, adjust: videoEdits?.adjust });
     setVideoCropDraft({ rect: videoEdits?.crop, ratio: videoEdits?.cropRatio });
     setVideoDestructDraft(videoDestruct);
@@ -2582,7 +2590,8 @@ export default function UploadScreen() {
         visible={showSoundPicker}
         onClose={() => setShowSoundPicker(false)}
         onSelect={(sound) => {
-          selectSound(sound);
+          // A new song keeps the levels the poster already set.
+          selectSound(attachedSound ? { ...sound, url: withSoundMix(sound.url, soundMix(attachedSound.url)) } : sound);
           setShowSoundPicker(false);
         }}
         currentSound={attachedSound}
@@ -4328,7 +4337,7 @@ export default function UploadScreen() {
             destruct={null}
             onDestructChange={() => undefined}
             allowTimer={false}
-            onlyTabs={["cover", "trim", "crop", "looks", "adjust", "expire", "alt", "sound"]}
+            onlyTabs={["cover", "trim", "crop", "speed", "looks", "adjust", "expire", "alt", "sound"]}
             onRemove={() => { setShowVideoTrim(false); handleRemoveVideo(); }}
             onReplace={() => {
               setShowVideoTrim(false);
@@ -4340,6 +4349,8 @@ export default function UploadScreen() {
               creator: attachedSound?.creator,
               onPick: () => setShowSoundPicker(true),
               onClear: clearSound,
+              mix: attachedSound ? soundMix(attachedSound.url) : undefined,
+              onMixChange: (mix) => { if (attachedSound) selectSound({ ...attachedSound, url: withSoundMix(attachedSound.url, mix) }); },
             }}
             crop={videoCropDraft}
             onCropChange={setVideoCropDraft}
@@ -4379,6 +4390,7 @@ export default function UploadScreen() {
                 adjust: videoColourDraft.adjust,
                 crop: videoCropDraft.rect,
                 cropRatio: videoCropDraft.rect ? videoCropDraft.ratio : undefined,
+                speed: videoEditOpts.speed && videoEditOpts.speed !== 1 ? videoEditOpts.speed : undefined,
               };
               const keep = videoEditsPayload(edits) ? edits : null;
               setVideoEdits(keep);
@@ -4427,19 +4439,19 @@ export default function UploadScreen() {
         );
       })()}
 
-      {altEditor && (
+      {altShown && (
         <AltTextSheet
-          visible
+          visible={!!altEditor}
           onClose={() => setAltEditor(null)}
-          kind={altEditor.kind}
-          previewUri={altEditor.kind === "image" ? pickedImages[altEditor.index]?.uri : undefined}
-          initial={altEditor.kind === "image" ? pickedImages[altEditor.index]?.description : pickedVideo?.description}
+          kind={altShown.kind}
+          previewUri={altShown.kind === "image" ? pickedImages[altShown.index]?.uri : undefined}
+          initial={altShown.kind === "image" ? pickedImages[altShown.index]?.description : pickedVideo?.description}
           onSave={(text) => {
             const description = text || undefined;
-            if (altEditor.kind === "video") {
+            if (altShown.kind === "video") {
               setPickedVideo(prev => (prev ? { ...prev, description } : prev));
             } else {
-              const index = altEditor.index;
+              const index = altShown.index;
               setPickedImages(prev => prev.map((img, i) => (i === index ? { ...img, description } : img)));
             }
           }}

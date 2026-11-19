@@ -170,7 +170,12 @@ const ReactionInfoSheetComponent: React.FC<ReactionInfoSheetProps> = ({
       fetchPage(0);
       translateY.value = withTiming(0, { duration: 300, easing: Easing.out(Easing.cubic) });
       backdropOpacity.value = withTiming(1, { duration: 250 });
+    } else if (translateY.value >= SHEET_HEIGHT - 1) {
+      // Its own swipe or close button already slid it off: drop the window now.
+      backdropOpacity.value = 0;
+      setIsFullyClosed(true);
     } else {
+      // Closed from outside (a pick, a send): slide it away before the window goes.
       translateY.value = withTiming(
         SHEET_HEIGHT,
         { duration: 220, easing: Easing.in(Easing.cubic) },
@@ -267,7 +272,7 @@ const ReactionInfoSheetComponent: React.FC<ReactionInfoSheetProps> = ({
   if (!visible && isFullyClosed) return null;
 
   return (
-    <Modal visible={visible && !sheetHidden} onDismiss={openPendingProfile} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={closeSheet}>
+    <Modal visible={(visible || (Platform.OS === "android" && !isFullyClosed)) && !sheetHidden} onDismiss={openPendingProfile} transparent animationType="none" statusBarTranslucent navigationBarTranslucent onRequestClose={closeSheet}>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Animated.View style={[StyleSheet.absoluteFill, backdropStyle]}>
           <SheetBackdrop backdrop={backdrop} />

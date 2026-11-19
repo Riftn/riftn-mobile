@@ -1,6 +1,11 @@
 {
   "comic": {
-    "showAll": "Hemû {{count}} rûpelan nîşan bide"
+    "showAll": "Hemû {{count}} rûpelan nîşan bide",
+    "tab": "Komîk",
+    "title": "Komîk",
+    "editor": {
+      "cover": "Berg"
+    }
   },
   "comicBorder": {
     "title": "Çarçove",
@@ -2622,7 +2627,14 @@
     "cbade2afaee2": "Li ser Audiusê ev hefteyê trend e. Belaş e, hunermend di posta te de tê nas kirin.",
     "d2e45b7406fc": "Muzîka domena giştî û Creative Commons ji Wikimedia Commons. Hunermend di posta te de tê nas kirin.",
     "d0c1a3684775": "Stran nehatin barkirin. Di demekê de dîsa biceribîne.",
-    "d14064f80f52": "Dengê zêde bike"
+    "d14064f80f52": "Dengê zêde bike",
+    "71988c4d8e08": "Nivîs",
+    "147170e793c6": "Fireh",
+    "481859b689b0": "Girêdana xwe kontrol bike û dîsa biceribîne.",
+    "57e2faa5ec63": "Li Riftn bigere",
+    "7db20897053b": "Kes",
+    "96d7bff86b44": "Lêgerîn nikaribû barkirin",
+    "d8b8392e2c54": "Dîsa biceribîne"
   },
   "dehubLinks": {
     "kind": {
@@ -2868,7 +2880,8 @@
       "quote": "Jêgirtin",
       "bullets": "Lîsteya xalan",
       "numbers": "Lîsteya hejmarkirî",
-      "link": "Girêdan"
+      "link": "Girêdan",
+      "image": "Wêneyan lê zêde bike"
     }
   },
   "storefront": {
@@ -3796,7 +3809,11 @@
     "payViaDpay": "Ji Riftn Pay re hat dayîn, token di nêzîkî 30 saniyeyan de digihîjin",
     "payViaBridgeDpay": "Hat veguhastin bo Base û ji Riftn Pay re hat dayîn, token di nêzîkî xulekekê de digihîjin",
     "tokensUnit": "token",
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "addMessage": "Peyamekê zêde bike (vebijarkî)",
+    "messagePublic": "Giştî",
+    "railTitle": "Bexşîş",
+    "railTotal": "{{amount}} token"
   },
   "postOptions": {
     "skippableSections": "Beşên ku dikarin werin avêtin",
@@ -4520,7 +4537,12 @@
       "here": "{{name}} ji her kesî re di civakê de peyamek şand",
       "hereNamed": "{{name}} ji her kesî re di “{{community}}” de peyamek şand"
     },
-    "tokenAmount": "{{amount}} token"
+    "tokenAmount": "{{amount}} token",
+    "groupNew": "Nû",
+    "groupToday": "Îro",
+    "groupThisWeek": "Vê hefteyê",
+    "groupEarlier": "Berê",
+    "searchClose": "Lêgerînê bigire"
   },
   "leaderboard": {
     "title": "Tabloyên serketinê",
@@ -4712,7 +4734,18 @@
     "attachmentTooLarge": "Divê her pel ji 50MB kêmtir be",
     "deleteCommentA11y": "Şîroveyê jê bibe",
     "sendCommentA11y": "Şîrove bişîne",
-    "requestOptions": "Vebijarkên daxwazê"
+    "requestOptions": "Vebijarkên daxwazê",
+    "deviceInfoNoErrors": "Tune",
+    "topBuilders": {
+      "month": "Vê mehê",
+      "allTime": "Her dem",
+      "shipped": "Hat şandin",
+      "votes": "Deng",
+      "comments": "Şîrove",
+      "showLess": "Kêmtir nîşan bide",
+      "viewProfile": "Profîlê bibîne",
+      "you": "Tu"
+    }
   },
   "auth": {
     "loginRequired": "Têketin pêwîst e",
@@ -4973,7 +5006,20 @@
       "votes_other": "{{value}} deng",
       "members_one": "{{value}} endam",
       "members_other": "{{value}} endam"
-    }
+    },
+    "articleShort": "Gotar",
+    "articleMinRead": "{{count}} xulek xwendin",
+    "pinnedShort": "Pînkirî",
+    "post": "Biweşîne",
+    "arrange": {
+      "saving": "Tê tomarkirin..."
+    },
+    "reserve": {
+      "signIn": "Têketin"
+    },
+    "tabLikes": "Ecibandin",
+    "likesEmptyTitle": "Hêj ecibandin tune",
+    "likesPrivateTitle": "Ecibandin taybet in"
   },
   "tv": {
     "title": "TV",
@@ -5489,6 +5535,9 @@
       "action": "Çalakî",
       "schedule": "Demsaz bike",
       "filter": "Çalakiyan parzûn bike"
+    },
+    "welcome": {
+      "text": "Peyama bixêrhatinê"
     }
   },
   "hero": {
@@ -5570,7 +5619,14 @@
     "nowPublic": "Herikîn niha giştî ye",
     "openCanvas": "Kanvasê veke",
     "playVideo": "Vîdyoyê lê bide",
-    "signInToSee": "Ji bo dîtina herikînên li ser hesabê xwe têkeve."
+    "signInToSee": "Ji bo dîtina herikînên li ser hesabê xwe têkeve.",
+    "newNativeFlow": "Herikîna nû",
+    "aspectRatio": "Rêjeya dîmenê",
+    "duration": "Dem bi çirkeyan",
+    "resolution": "Rezolûsyon",
+    "disconnect": "Girêdanê qut bike",
+    "payAndRun": "Bide û bixebitîne",
+    "run": "Bimeşîne"
   },
   "loginModal": {
     "title": "Têkeve",
@@ -5890,7 +5946,8 @@
     "searchMenu": "Li menuyê bigere",
     "clearSearch": "Lêgerînê pak bike",
     "noMenuMatches": "Di menuyê de tu tişt li hev nayê",
-    "searchDehubFor": "Li Riftn li \"{{query}}\" bigere"
+    "searchDehubFor": "Li Riftn li \"{{query}}\" bigere",
+    "requestSend": "Daxwazê bişîne"
   },
   "comments": {
     "showAll": "Hemû şîroveyan nîşan bide",
@@ -6510,7 +6567,11 @@
       "copied": "Peyam hat kopîkirin",
       "copyText": "Nivîsê kopî bike",
       "mutedUntil": "Tu heta {{date}} hatî bêdengkirin",
-      "slowMode": "Moda hêdî: her {{interval}} yek peyam"
+      "slowMode": "Moda hêdî: her {{interval}} yek peyam",
+      "joined": "{{name}} tevlî bû",
+      "reactions": "Bertek",
+      "photoTooLarge": "Divê wêne ji 10MB kêmtir be",
+      "aiAdminFailed": "Rêvebera AI bersiv neda"
     },
     "manage": {
       "dismissAdminTitle": "Ji rêveberiyê derxe",
@@ -6713,6 +6774,30 @@
       "notFound": "Ev girêdana vexwendinê ne derbasdar e.",
       "requestToJoin": "Daxwaza tevlêbûnê",
       "approvalNote": "Divê rêveberek daxwaza te bipejirîne berî ku tu tevlî bibî."
+    },
+    "buyAlert": {
+      "spent": "Xerckirî:",
+      "buyer": "Kirîyar:",
+      "balance": "Bermayî:",
+      "price": "Biha:",
+      "marketCap": "Sermayeya bazarê:"
+    },
+    "newChat": {
+      "public": "Giştî",
+      "private": "Taybet",
+      "free": "Bêpere",
+      "paid": "Hat dayîn",
+      "group": "Kom"
+    },
+    "holderGate": {
+      "chain": "Zincîr",
+      "tab": "Xwedî"
+    },
+    "automod": {
+      "bannedWords": "Peyvên qedexekirî",
+      "floodMax": "Peyamên {{count}}",
+      "saved": "Hat tomarkirin",
+      "wordCount": "{{count}} peyv"
     }
   },
   "work": {
@@ -7827,7 +7912,10 @@
       "doneAll": "Jêbirî {{done}} hesabên ku ne têkiliyê dikin.",
       "doneSome": "Jêbirî {{done}} hesabên. {{failed}} nikaribû jêbirin.",
       "doneToast": "Jêbirî {{done}} hesabên ne têkiliyê dikin."
-    }
+    },
+    "followBackConfirm": "Tu jî bişopîne",
+    "followBackNotNow": "Nêzîkî",
+    "followBackDone": "Qedexe"
   },
   "reactionInfo": {
     "mentionedYouLiveChat": "{{name}} di sohbeta zindî de behsa te kir",
@@ -8738,7 +8826,39 @@
     "coverFrames": "Çarçoveyeke bergê hilbijêre",
     "coverFrame": "Çarçoveya {{index}} wekî berg bi kar bîne",
     "uploadCover": "Wêneyê bergê bar bike",
-    "editFailed": "Ew guhertin nehat sepandin. Dîsa biceribîne."
+    "editFailed": "Ew guhertin nehat sepandin. Dîsa biceribîne.",
+    "altPlaceholderVideo": "Vê vîdyoyê bide nasîn",
+    "landingLive": "Zindî",
+    "preview": {
+      "title": "Pêşdîtin"
+    },
+    "recent": {
+      "all": "Hemû"
+    },
+    "studio": {
+      "crop": "Birrîn",
+      "draw": "Xêzkirin",
+      "light": "Ronî",
+      "contrast": "Kontrast",
+      "warmth": "Germahî",
+      "colour": "Reng",
+      "fade": "Kalbûn",
+      "original": "Orîjînal",
+      "ratioOriginal": "Orîjînal",
+      "ratioFree": "Bêpere",
+      "rotate": "Bizivirîne",
+      "strength": "Hêz",
+      "stickers": "Stîker",
+      "ticker": "Tîker",
+      "textBg": "Paşxane",
+      "font": {
+        "bold": "Qalind"
+      }
+    },
+    "edited": "Guhertî",
+    "edit": "Biguherîne",
+    "moveEarlier": "Bibe pêştir",
+    "moveLater": "Bibe paştir"
   },
   "bounty": {
     "claimed": "Hate wergirtin",
@@ -9032,7 +9152,8 @@
     "saySomething": "Tiştekî bêje...",
     "chatUnavailable": "Sohbet ne berdest e",
     "tippedAmount": "{{amount}} bexşîş da",
-    "shopPutOnAir": "Têxe weşanê"
+    "shopPutOnAir": "Têxe weşanê",
+    "liveBadge": "ZINDÎ"
   },
   "liveShop": {
     "title": "Ji vê weşanê bikire",
@@ -9345,7 +9466,23 @@
     "tippedYouAmount": "{{amount}} bexşîş da te",
     "paymentFailedAmount": "Bi ser neket · {{amount}}",
     "paymentSendingAmount": "Tê şandin · {{amount}}",
-    "paymentSentWith": "Bi {{amount}} hat şandin"
+    "paymentSentWith": "Bi {{amount}} hat şandin",
+    "newDrawer": {
+      "to": "Heta"
+    },
+    "download": "Daxe",
+    "deleteOneTitle": "Vê peyamê jê bibî?",
+    "retrySend": "Dîsa biceribîne",
+    "discardSend": "Rake",
+    "shareKindGroup": "Kom",
+    "shareKindCommunity": "Civak",
+    "searchDiscover": {
+      "people": "Kes",
+      "communities": "Civak",
+      "members": "{{n}} endam",
+      "newChat": "Sohbeta nû",
+      "invite": "Vexwîne"
+    }
   },
   "editPost": {
     "mediaPermission": "Destûra pirtûkxaneya medyayê pêwîst e",
@@ -10537,7 +10674,10 @@
       "hint": "Axaftinê vediguherîne binnivîsên demkirî yên ku tu dikarî şêwaza wan biguherînî. Li ser cîhaza te dixebite: belaş û taybet. Bikaranîna yekem modelê dadixe.",
       "done": "{{count}} binnivîs hatin zêdekirin.",
       "noSpeech": "Di vê klîpê de axaftin nehat dîtin.",
-      "failed": "Ji bo vê klîpê binnivîs nehatin afirandin."
+      "failed": "Ji bo vê klîpê binnivîs nehatin afirandin.",
+      "styles": {
+        "bold": "Qalind"
+      }
     },
     "app": {
       "newDesign": "Sêwirana nû",
@@ -10787,7 +10927,9 @@
       "suggestTitle": "Li jor sernavekî mezin û qalind û li binê wê binsernavekî biçûktir lê zêde bike",
       "undo": "Vegerîne",
       "openGenerator": "Binirxîne û çêke",
-      "working": "Li ser wê xebat tê kirin…"
+      "working": "Li ser wê xebat tê kirin…",
+      "stop": "Rawestîne",
+      "queue": "Li rêzê zêde bike"
     },
     "brand": {
       "presetLibrary": "Şêwazên marqeyê yên tomarkirî",
@@ -10924,7 +11066,9 @@
       "rendering": "Vîdyo tê çêkirin… {{percent}}%",
       "mp4": "Vîdyoya MP4",
       "exportHint": "Heta vîdyoya te tê çêkirin, edîtorê vekirî bihêle.",
-      "tooLarge": "Ev pel ji bo edîtorê pir mezin e. Sînor 400 MB e."
+      "tooLarge": "Ev pel ji bo edîtorê pir mezin e. Sînor 400 MB e.",
+      "tZoomIn": "Nêzîk bike",
+      "tZoomOut": "Zoomê kêm bike"
     },
     "motion": {
       "title": "Tevger",
@@ -12103,6 +12247,20 @@
       "selection": "Hilbijartin",
       "zoomIn": "Kanvasê mezin bike",
       "zoomOut": "Kanvasê biçûk bike"
+    },
+    "clipFix": {
+      "listening": "Guhdarî dike…"
+    },
+    "voiceClone": {
+      "stop": "Tomarkirinê rawestîne",
+      "failed": "Klonkirina deng bi ser neket."
+    },
+    "linkImport": {
+      "go": "Têxe",
+      "downloading": "Tê daxistin {{percent}}%"
+    },
+    "reverse": {
+      "action": "Berevajî bike"
     }
   },
   "creator": {
@@ -14992,6 +15150,30 @@
       "intro": "Temaşevan ji bo her xuleka ku te temaşe dikin xalekê û ji bo her 100 token ku diyarî dikin xalekê qezenc dikin. Sohbet û bertek tiştekî qezenc nakin, ji ber vê yekê xal bi xapandinê nayên berhevkirin.",
       "empty": "Hîn xal tune ne. Gava mirov temaşe dikin û diyarî didin ew zêde dibin.",
       "widgetHint": "Ji bo nîşandana vê lîsteyê li ser weşanê widgeta Temaşevanên dilsoz lê zêde bike."
+    },
+    "destinations": {
+      "title": "Armancên pirweşanê",
+      "intro": "Carekê li ser Riftn zindî biweşîne û em weşana te belaş digihînin her platforma ku li vir vekirî ye. Di nav çend çirkeyan de piştî ku tu zindî diweşînî dest pê dike.",
+      "add": "Armancê zêde bike",
+      "empty": "Hîn armanc tune ne. Twitch, YouTube, Kick an her serverekî RTMP zêde bike.",
+      "label": "Nav (vebijarkî)",
+      "server": "URL ya serverê",
+      "key": "Mifteya weşanê",
+      "findKey": "Server û mifteya xwe ya {{name}} bibîne",
+      "customHint": "Server û mifteya RTMP ya ku platforma te dide te bizeliqîne.",
+      "keyNote": "Mifteya te bi şîfrekirî li ser serverên me tê tomarkirin û careke din nayê nîşandan.",
+      "save": "Lê zêde bike",
+      "cancel": "Betal bike",
+      "added": "{{name}} hat zêdekirin",
+      "saveFailed": "Armanc nehat tomarkirin",
+      "toggle": "Ji bo vê armancê biweşîne",
+      "states": {
+        "off": "Girtî",
+        "idle": "Amade ye",
+        "connecting": "Tê girêdan",
+        "live": "Zindî",
+        "error": "Çewtî"
+      }
     }
   },
   "liveChatModeration": {
@@ -15064,7 +15246,73 @@
     "collections": "Collections",
     "days": "{{count}} days",
     "spotlightNew": "Just minted",
-    "buyFor": "Xwarin bikin li ser {{price}}"
+    "buyFor": "Xwarin bikin li ser {{price}}",
+    "actAll": "Hemû",
+    "actListings": "Lîste",
+    "actOffer": "Ofiser",
+    "actOffers": "Pêşniyar",
+    "actSales": "Firotîn",
+    "tabActivity": "Çalakî",
+    "allChains": "Hemû rêzên",
+    "newest": "Ya herî nû",
+    "cheapest": "Bihayê kêm",
+    "soldFor": "Firotî",
+    "signIn": "Têketin",
+    "title": "NFT",
+    "share": "Parve bike",
+    "noneForSale": "Hîn tiştek ji bo firotinê tune",
+    "noSales": "Hejmarên ji bo karûbarên vekirî nîn.",
+    "tabBrowse": "Gerrîn",
+    "tabMine": "Ya te",
+    "tabSales": "Firotîn",
+    "cancelled": "Hemîn projeyê rûdanî ye.",
+    "sold": "Firotî",
+    "listed": "Ji bo firotinê hatiye lîstekirin",
+    "feeRow": "Berhemê Riftn ({{pct}}%)",
+    "royaltyRow": "Mafê afirandina",
+    "youGet": "Tu distînî",
+    "holderGets": "Girtiyê distîne",
+    "loading": "Tê barkirin…",
+    "price": "Biha",
+    "seller": "Firoşkar",
+    "tabRecent": "Dawî",
+    "buyNow": "Niha bikê",
+    "offers": "Offere",
+    "cancel": "Betal bike",
+    "accept": "Qebûl bike",
+    "signInToTrade": "Têkeve bo bazirganî",
+    "listForSale": "Ji bo firotinê lîste bike",
+    "makeOffer": "Pêşniyarê xwe bike",
+    "sendOffer": "Pêşniyaz bişîne",
+    "back": "Paşde",
+    "dropsTo": "Nirxê dikeve {{price}} bi {{date}}",
+    "inBundle": "Wekî pakete ya {{n}} firotî",
+    "trending": "Koleksiyonên trend",
+    "floor": "Zemin",
+    "listedCount": "{{n}} ji bo firotinê",
+    "thisCollection": "Ev koleksiyon",
+    "collectionOffer": "Pêşniyar li ser her tişt",
+    "showAll": "Hemû nîşan bide",
+    "shortTitle": "NFT",
+    "filters": "Filtre",
+    "forSale": "Ji bo firotinê",
+    "openToOffers": "Vêdîtinê",
+    "freshMints": "Nû ji çêkerên Riftn",
+    "offersOpen": "Vêdîtinê",
+    "mintedCount": "{{n}} hatî çêkirin",
+    "anyInCollection": "Any li ser koleksiyona.",
+    "thisNft": "Ev NFT",
+    "priceAlert": "Qedexê qîmetê",
+    "alertUnder": "Mîn bibêje dema ku tê lîstkirin an jêr ({{symbol}}, vebijark)",
+    "turnOnAlert": "Agahdariya xwe vekirin",
+    "alertSaved": "Dengê xaterekê tê. Ez ji tiştê ku yek li gorîya heye, ji hawîrdar dibim.",
+    "priceDrop": "Bihaye li ser demê dakeve",
+    "endPrice": "Bihayê herî nizm, di dawiya demê de hatiye gihîştin ({{symbol}})",
+    "dropBadge": "Bihayê kêm bû",
+    "days_one": "{{count}} roj",
+    "days_other": "{{count}} roj",
+    "sellYoursHint": "Ji walletê xwe lîste bike",
+    "spotlightForSale": "Niha tê firotin"
   },
   "reel": {
     "readAll": "Hemî bixwîne",
@@ -15086,7 +15334,11 @@
       "episode": "Podcast episode",
       "show": "Podcast",
       "artist": "Artist"
-    }
+    },
+    "loading": "Tê barkirin…",
+    "paused": "Rawestandî",
+    "preview": "Pêşdîtin",
+    "seek": "Bazde"
   },
   "twoFactor": {
     "wrongCode": "Ev kod nehatê hevpeyvîn. Ji bo herî nûjenê di sepanê xwe de biceribîne.",
@@ -15164,5 +15416,273 @@
     "newer": "Encama nû",
     "gone": "Ev peyam nêzîkî tune ye",
     "theirMessages": "Peyamên wan"
+  },
+  "chatTextSize": {
+    "title": "Mezinahiya nivîsê",
+    "default": "Standard",
+    "larger": "Mezintir"
+  },
+  "signedFollows": {
+    "setUp": "Çalak bikin",
+    "turnOff": "Bigire",
+    "efpTurnOff": "Rawestîne"
+  },
+  "postEditHistory": {
+    "original": "Orîjînal"
+  },
+  "studioDeck": {
+    "remove": "Rake",
+    "background": {
+      "title": "Paşxane",
+      "modes": {
+        "none": "Girtî",
+        "blur": "Şêlûbûn",
+        "color": "Reng"
+      }
+    },
+    "scenes": {
+      "countdown": "Jimartina paşve",
+      "minutes": "{{count}} xulek",
+      "names": {
+        "starting": "Zû dest pê dike"
+      }
+    },
+    "widgets": {
+      "tab": "Widget"
+    },
+    "sources": {
+      "image": "Wêne",
+      "show": "Li ser weşanê nîşan bide",
+      "positions": {
+        "center": "Navend"
+      },
+      "sizes": {
+        "medium": "Navîn"
+      }
+    },
+    "phone": {
+      "title": "Stûdyo"
+    }
+  },
+  "whenSheet": {
+    "today": "Îro",
+    "earlierShort": "Berê",
+    "tooSoon": "Di pêşerojê de demek hilbijêre.",
+    "show": "Nîşan bide",
+    "hide": "Veşêre"
+  },
+  "planned": {
+    "title": "Plankirî",
+    "all": "Hemû",
+    "posts": "Şandî",
+    "stages": "Sehne",
+    "post": "Biweşîne",
+    "live": "Zindî",
+    "stage": "Dikê",
+    "untitledPost": "Biweşîne",
+    "untitledLive": "Zindî",
+    "loading": "Tê barkirin…",
+    "startNow": "Niha dest pê bike",
+    "cancel": "Betal bike",
+    "cancelled": "Betalkirî"
+  },
+  "welcome": {
+    "about": {
+      "title": "Bi xêr hatî bo Riftnê",
+      "day": "Roj",
+      "month": "Meh",
+      "year": "Sal"
+    },
+    "name": {
+      "title": "Navê te",
+      "placeholder": "Navê te"
+    },
+    "card": {
+      "name": "Navê te",
+      "followers": "şopîner"
+    },
+    "topic": {
+      "music": "Muzîk",
+      "art": "Huner",
+      "gaming": "Lîstik",
+      "crypto": "Krîpto",
+      "sports": "Werzîş",
+      "comedy": "Komedî",
+      "film": "Fîlm",
+      "food": "Xwarin",
+      "news": "Nûçe",
+      "science": "Zanist"
+    },
+    "back": "Vegere",
+    "skipPhoto": "Niha derbas bike",
+    "preview": "Pêşdîtin"
+  },
+  "appTokens": {
+    "title": "Tokenên te",
+    "history": "Dîrok",
+    "noHistory": "Hîn çalakî tune",
+    "kindDeposit": "Razîne",
+    "to": "Heta",
+    "amount": "Mîqdar",
+    "notePlaceholder": "Nîşeyekê lê zêde bike (vebijarkî)",
+    "sendButton": "Bişîne",
+    "errorInsufficient": "Token têr nakin"
+  },
+  "avatarPrompt": {
+    "notNow": "Nêzîkî"
+  },
+  "postStats": {
+    "audience": "Temaşevan",
+    "engagement": "Beşdarî",
+    "finished": "Qediya",
+    "members": "Endam",
+    "membersLower": "endam",
+    "newFollowers": "Şopînerên nû",
+    "noBadge": "Nîşan tune",
+    "people": "Kes",
+    "plays": "Lêdan",
+    "quotes": "Jêgirtin",
+    "reposts": "Ji nû ve weşandin",
+    "saved": "Hat tomarkirin",
+    "shares": "Parvekirin",
+    "signedOutViewers": "Derketî",
+    "topSupporters": "Piştgirên herî jor",
+    "visitors": "Derketî"
+  },
+  "duet": {
+    "policyEveryone": "Her kes",
+    "policyFollowers": "Şopîner",
+    "policyNobody": "Tu kes",
+    "loadMore": "Zêdetir bar bike",
+    "video": "Vîdyo"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Her kes",
+      "followers": "Şopîner",
+      "nobody": "Tu kes"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Her kes",
+      "followers": "Şopîner",
+      "nobody": "Tu kes"
+    },
+    "heading": "Bertek",
+    "more": "Zêdetir nîşan bide",
+    "liveNow": "Zindî",
+    "untitled": "Bertek"
+  },
+  "liveClips": {
+    "copyLink": "Girêdanê kopî bike",
+    "linkCopied": "Girêdan hat kopîkirin"
+  },
+  "liveHype": {
+    "train": {
+      "level": "Trêna coşê · Asta {{level}}",
+      "endedLevel": "Trêna coşê asta {{level}} qedand!",
+      "ended": "Trêna coşê bi dawî bû",
+      "thanks_one": "Spas ji {{count}} piştgir re",
+      "thanks_other": "Spas ji {{count}} piştgiran re",
+      "top": "Herî jor: {{name}}"
+    },
+    "gift": {
+      "open": "Abonetiyan diyarî bike",
+      "title": "Abonetiyan diyarî bike",
+      "mode": {
+        "random": "Temaşevanên tesadufî di sohbetê de",
+        "user": "Kesekî taybet"
+      },
+      "howMany": "Çend",
+      "randomHint": "Diçe kesên ku di 30 xulekên dawî de sohbet kirine û hîn ne abone ne.",
+      "who": "Navê bikarhêner an navnîşana berîkê",
+      "whoPlaceholder": "@navêbikarhêner",
+      "send_one": "1 abonetî diyarî bike · ${{price}}",
+      "send_other": "{{count}} abonetî diyarî bike · ${{price}}",
+      "payHint": "Bi token ji berîka te bi yek veguhestinê tê dayîn.",
+      "fewer_one": "Niha tenê 1 kes di sohbetê de dikare abonetiyekê bistîne, ji ber vê tu ji bo 1 didî.",
+      "fewer_other": "Niha tenê {{count}} kes di sohbetê de dikarin abonetiyekê bistînin, ji ber vê tu ji bo {{count}} didî.",
+      "done_one": "Abonetî hat diyarîkirin!",
+      "done_other": "{{count}} abonetî hatin diyarîkirin!",
+      "failed": "Abonetî nehatin diyarîkirin",
+      "notReady": "Diyarîkirin hîn ji bo vê planê ne berdest e",
+      "noPlan": "Pêşî planekê hilbijêre",
+      "noPlans": "{{name}} hîn planeke abonetiyê ya ji bo diyarîkirinê tune ye.",
+      "cancel": "Betal bike",
+      "stage": {
+        "preparing": "Tê amadekirin…",
+        "wallet": "Di berîka xwe de piştrast bike",
+        "confirming": "Li benda danûstandinê…",
+        "recording": "Tê temamkirin…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Yên din",
+    "confirming": "Dravdan tê piştrastkirin…"
+  },
+  "liveShorts": {
+    "live": "ZINDÎ"
+  },
+  "feedFilters": {
+    "clearAllShort": "Hemûyan paqij bike",
+    "done": "Qediya",
+    "edit": "Biguherîne",
+    "groupDate": "Dîrok",
+    "groupSort": "Rêz bike",
+    "groupType": "Cure",
+    "save": "Tomar bike"
+  },
+  "ownKeys": {
+    "working": "Dixebite",
+    "failed": "Tiştek çewt çû. Dîsa biceribîne.",
+    "check": "Kontrol bike",
+    "remove": "Rake",
+    "save": "Tomar bike",
+    "cancel": "Betal bike"
+  },
+  "postBg": {
+    "none": "Tune",
+    "yours": "Ya te",
+    "accent": "Rengê tekezkirinê",
+    "names": {
+      "lava": "Lampaya lavayê",
+      "drive": "Ajotina şevê",
+      "chrome": "Kromê herikbar",
+      "orbit": "Zivirîn",
+      "snow": "Barîna berfê"
+    }
+  },
+  "articleTile": {
+    "cover": "Berg"
+  },
+  "aiConsent": {
+    "allow": "Destûr bide"
+  },
+  "dmRequests": {
+    "title": "Daxwaz",
+    "accept": "Qebûl bike",
+    "delete": "Jê bibe",
+    "block": "Asteng bike"
+  },
+  "dmSchedule": {
+    "view": "Bibîne",
+    "edit": "Biguherîne",
+    "editLabel": "Peyamê biguherîne",
+    "error": "Ew nexebitî. Dîsa biceribîne."
+  },
+  "chatBulk": {
+    "selected": "{{count}} hatin hilbijartin",
+    "cancel": "Betal bike",
+    "reply": "Bersiv bide",
+    "delete": "Jê bibe"
+  },
+  "msgSelect": {
+    "selected": "{{count}} hatin hilbijartin",
+    "copy": "Kopî bike",
+    "forward": "Bişîne pêş",
+    "deleted_one": "{{count}} peyam hat jêbirin",
+    "deleted_other": "{{count}} peyam hatin jêbirin"
   }
 }

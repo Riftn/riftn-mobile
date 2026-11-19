@@ -37,6 +37,7 @@ export function useChatTabs(enabled = true) {
 
   const builtinName = useCallback((id: string) => ({
     all: t("chatTabs.all", { defaultValue: "All" }),
+    unread: t("messagesTabs.unread", { defaultValue: "Unread" }),
     direct: t("chatTabs.direct", { defaultValue: "Direct" }),
     communities: t("chatTabs.communities", { defaultValue: "Communities" }),
     requests: t("chatTabs.requests", { defaultValue: "Requests" }),

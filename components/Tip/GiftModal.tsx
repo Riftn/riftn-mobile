@@ -393,19 +393,16 @@ const GiftModal: React.FC<GiftModalProps> = ({
       scrollable
     >
       <View className="p-5">
-        <View className="gap-1">
-          {/* The diamond leads the sheet on web too — same mark, same side. */}
-          <View className="flex-row items-center gap-2">
-            <Gem size={20} color="#fff" />
-            <Text className="text-white text-2xl font-bold">{t("liveGift.sendAGift") as string}</Text>
-          </View>
-          <Text className="text-white/70 text-[12px]">
-            {t("tip.toRecipient", { name: `${toAddress?.slice(0, 6)}…${toAddress?.slice(-4)}` }) as string}
-          </Text>
+        {/* The diamond leads the sheet on web too — same mark, same side.
+            No recipient wallet line under it: you are already on the
+            streamer's live, and the room goes to the gift tiles. */}
+        <View className="flex-row items-center gap-2">
+          <Gem size={20} color="#fff" />
+          <Text className="text-white text-2xl font-bold">{t("liveGift.sendAGift") as string}</Text>
         </View>
 
         <>
-            <View className="mt-4" style={{ maxHeight: 256 }}>
+            <View className="mt-4" style={{ maxHeight: 300 }}>
               <FlatList
                 data={giftTiers as any}
                 keyExtractor={(item: any) => String(item.min)}
@@ -437,9 +434,12 @@ const GiftModal: React.FC<GiftModalProps> = ({
                           >
                             {t(`liveGift.tier.${item.key}`, { defaultValue: item.name }) as string}
                           </Text>
-                          <Text className="text-white/60 text-[10px]">
-                            {item.min.toLocaleString()} <DhbCoin />
-                          </Text>
+                          <View className="flex-row items-center gap-1">
+                            <Text className="text-white/60 text-[10px]">
+                              {item.min.toLocaleString()}
+                            </Text>
+                            <DhbCoin size={11} />
+                          </View>
                         </View>
                       </View>
                     </TouchableOpacity>
@@ -469,9 +469,14 @@ const GiftModal: React.FC<GiftModalProps> = ({
                 />
               </View>
               <View className="flex-row justify-between mt-2">
-                <Text className="text-[11px] text-white/60">
-                  {t("tip.balanceAmount", { amount: formatNumber(balance) }) as string} <DhbCoin />
-                </Text>
+                {/* Coin leads the balance on the same line. Nested in the
+                    Text it dropped below the words on some phones. */}
+                <View className="flex-row items-center gap-1 flex-shrink">
+                  <DhbCoin size={12} />
+                  <Text className="text-[11px] text-white/60" numberOfLines={1}>
+                    {t("tip.balanceAmount", { amount: formatNumber(balance) }) as string}
+                  </Text>
+                </View>
                 <Text
                   className={`text-[11px] ${
                     overLimit ? "text-white/80" : "text-white/40"

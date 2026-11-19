@@ -16,6 +16,7 @@ import { ScreenNames } from '../../navigation/ScreenNames';
 import { seedPostDetail, warmRequest } from '../../libs/navPrefetch';
 import { noteProfileFeedOpen, useProvidedProfileFeed } from '../../libs/profileFeedOrigin';
 import { useProfilePostBg } from './PostBackground';
+import { postBgToken } from '../../libs/postBackgrounds';
 import FeedCard from '../Home/FeedCard';
 import FeedCardSkeleton from '../Feed/FeedCardSkeleton';
 import Icon from '../ui/Icon';
@@ -142,7 +143,7 @@ const FeedRoute: React.FC<FeedRouteProps> = ({
       initialIndex: 0,
       initialItems: [item],
       initialThumbnail: images?.[0],
-      feedParams: { profileFeed: origin, fromId: String(tokenId), reel: true, reelBgId: postBg?.id ?? null },
+      feedParams: { profileFeed: origin, fromId: String(tokenId), reel: true, reelBgId: postBgToken(postBg) },
     });
   }, [navigation, onBeforeNavigate, feedSource, postBg]);
 

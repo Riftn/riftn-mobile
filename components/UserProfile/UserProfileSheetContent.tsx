@@ -33,6 +33,7 @@ import { apiClient } from "../../libs/api.client";
 import { useAuthActions, useUser } from "../../context/AuthContext";
 import { isReservedUsername } from "../../libs/reserved-usernames";
 import { getDefaultProfileTab } from "../../libs/profile-default-tab";
+import { getProfileViewDefault } from "../../libs/profileViewMode";
 import { dislikesArePublic } from '../../libs/disliked-posts-store';
 import { likesArePublic } from '../../libs/profile-privacy';
 
@@ -53,6 +54,8 @@ interface UserProfileSheetContentProps {
   canViewContent?: boolean;
   isOwnProfile?: boolean;
   avatarUrl: string;
+  /** Untouched original avatar, for Copy on the hold menu. */
+  avatarFullUrl?: string;
   coverUrl: string;
   defaultBanner: any;
   stats: any[];
@@ -96,6 +99,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
   canViewContent,
   isOwnProfile = false,
   avatarUrl,
+  avatarFullUrl,
   coverUrl,
   defaultBanner,
   stats,
@@ -265,6 +269,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           onIdentityBottom={collapse?.onIdentityBottom}
           onActionsBottom={collapse?.onActionsBottom}
           avatarUrl={avatarUrl}
+          avatarFullUrl={avatarFullUrl}
           coverUrl={coverUrl}
           displayName={profileData.displayName}
           badge={profileData.badge}
@@ -484,6 +489,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
         blockedYou={blockedYou}
         pendingTab={pendingTab}
         defaultTab={getDefaultProfileTab(data)}
+        defaultView={getProfileViewDefault(data)}
         showDislikesTab={dislikesArePublic((data as any)?.customs)}
         showLikesTab={likesArePublic((data as any)?.customs)}
         hasCustomOrder={!!(data as any)?.profileOrderAt}

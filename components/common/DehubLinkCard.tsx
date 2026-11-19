@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, StyleSheet, useWindowDimensions } from 'react-native';
 import { Image } from 'expo-image';
 import { storageImageSource } from '../../libs/cdnImage';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useLinkTo } from '@react-navigation/native';
 import { useQuery } from '@tanstack/react-query';
 import Icon, { type IconName } from '../ui/Icon';
 import SharedPostPreview from '../DM/SharedPostPreview';
@@ -49,6 +49,9 @@ import { minimalFlat } from '../../theme/minimal';
 import { useGovernanceProposal } from '../../hooks/useGovernanceDiscussion';
 import { useAuthState } from '../../context/AuthContext';
 import * as WebBrowser from 'expo-web-browser';
+import { useOpenSignIn } from "../../hooks/useOpenSignIn";
+import { useFeatureRequest, STATUS_LABELS, featureAttachments, isVideoAttachment } from '../../hooks/useFeatureRequests';
+import { linkablePageFor } from '../../libs/linkablePages';
 
 /** How many cards one message or caption may draw before the rest stay as text. */
 export const MAX_CARDS_PER_MESSAGE = 2;
@@ -198,6 +201,7 @@ const SkeletonCard = () => {
 const SkillCardEmbed: React.FC<{ slug: string; onOpen: () => void; fallback: React.ReactElement }> = ({ slug, onOpen, fallback }) => {
   const { t } = useTranslation();
   const navigation = useNavigation<any>();
+  const openSignIn = useOpenSignIn();
   const { isSignedIn, needsUsername } = useAuthState();
   const { data, isLoading } = useQuery({
     queryKey: ['skill-preview', slug],
@@ -223,7 +227,7 @@ const SkillCardEmbed: React.FC<{ slug: string; onOpen: () => void; fallback: Rea
       accessibilityRole="button"
       accessibilityLabel={t('postOptions.share')}
       onPress={() => {
-        if (!isSignedIn || needsUsername) { navigation.navigate(ScreenNames.SignIn); return; }
+        if (!isSignedIn || needsUsername) { openSignIn(); return; }
         navigation.navigate(ScreenNames.Upload, { initialText: `https://riftn.com/app/assistant?skill=${encodeURIComponent(slug)}` });
       }}
       style={{ flexDirection: 'row', alignItems: 'center', gap: 8, paddingVertical: 8 }}
@@ -641,6 +645,73 @@ const ProfileCardEmbed: React.FC<{ username: string; onOpen: () => void; fallbac
   );
 };
 
+// Same keys the Requests board shows its statuses with.
+const REQUEST_STATUS_I18N: Record<string, string> = {
+  open: 'features.statusOpen',
+  under_review: 'features.statusUnderReview',
+  planned: 'features.statusPlanned',
+  in_progress: 'features.statusInProgress',
+  completed: 'features.statusCompleted',
+  shipped: 'features.shipped',
+  declined: 'copy.2ab63e6ced90',
+};
+
+/** A Requests board link (riftn.com/features?feature=<id>), read live. */
+const FeatureRequestCardEmbed: React.FC<{ id: string; onOpen: () => void; fallback: React.ReactElement }> = ({
+  id,
+  onOpen,
+  fallback,
+}) => {
+  const { t } = useTranslation();
+  const { data, isLoading, isError } = useFeatureRequest(id);
+
+  if (isLoading) return <SkeletonCard />;
+  if (isError || !data) return fallback;
+
+  const image = featureAttachments(data).find((url) => !isVideoAttachment(url)) ?? null;
+  const status = t(REQUEST_STATUS_I18N[data.status] ?? 'features.statusOpen', STATUS_LABELS[data.status] ?? '');
+  const votes = (data as any).like_count ?? (data as any).vote_count ?? 0;
+  const comments = (data as any).comment_count ?? 0;
+  return (
+    <RowCard
+      eyebrow={`${t('nav.featureRequests')} · ${status}`}
+      title={data.title}
+      titleLines={2}
+      description={data.description || undefined}
+      meta={[
+        data.author_username ? `@${data.author_username}` : null,
+        t('linkCard.requestVotes', { count: votes, compact: formatCompactNumber(votes), defaultValue: votes === 1 ? '{{compact}} vote' : '{{compact}} votes' }),
+        t('linkCard.requestComments', { count: comments, compact: formatCompactNumber(comments), defaultValue: comments === 1 ? '{{compact}} comment' : '{{compact}} comments' }),
+      ].filter(Boolean).join(' · ')}
+      imageUri={image}
+      fallbackIcon="Lightbulb"
+      onPress={onOpen}
+    />
+  );
+};
+
+/** A riftn.com link to one of our pages: its menu name and icon, opens its screen. */
+const PageCardEmbed: React.FC<{ pagePath: string; path: string; onOpen: () => void; fallback: React.ReactElement }> = ({
+  pagePath,
+  path,
+  onOpen,
+  fallback,
+}) => {
+  const { t } = useTranslation();
+  const page = linkablePageFor(pagePath);
+  if (!page) return fallback;
+  return (
+    <RowCard
+      eyebrow="Riftn"
+      title={t(page.labelKey, page.labelKey)}
+      subtitle={`riftn.com${path}`}
+      fallbackIcon={page.icon}
+      cta={t('wallet.view')}
+      onPress={onOpen}
+    />
+  );
+};
+
 // ── Dispatcher ──────────────────────────────────────────────────────────────
 
 interface DehubLinkCardProps {
@@ -667,6 +738,10 @@ interface DehubLinkCardProps {
  */
 export function useOpenDehubLink() {
   const navigation = useNavigation<any>();
+  // Pages and requests open through the same router a riftn.com link from
+  // outside the app goes through (navigation/linking.config), so every page
+  // with a screen opens it, and one without opens on the web in-app.
+  const linkTo = useLinkTo();
   const { openModal: openStages, joinSpace, guestListenSpace } = useStages();
   const { showUserProfile } = useUserProfileSheet();
 
@@ -761,6 +836,14 @@ export function useOpenDehubLink() {
         case 'proposal':
           navigation.navigate(ScreenNames.GovernanceProposal, { proposalId: link.proposalId });
           return;
+        case 'featureRequest':
+        case 'page':
+          try {
+            linkTo(link.path.startsWith('/') ? link.path : `/${link.path}`);
+          } catch {
+            void WebBrowser.openBrowserAsync(`https://riftn.com${link.path}`);
+          }
+          return;
         case 'film':
           navigation.navigate(ScreenNames.Cinema, {
             filmType: link.filmObjectType === 'show' ? 'series' : 'film',
@@ -771,7 +854,7 @@ export function useOpenDehubLink() {
           return;
       }
     },
-    [navigation, openStages, joinSpace, guestListenSpace, showUserProfile],
+    [navigation, linkTo, openStages, joinSpace, guestListenSpace, showUserProfile],
   );
 }
 
@@ -886,6 +969,12 @@ const DehubLinkCardComponent: React.FC<DehubLinkCardProps> = ({
       break;
     case 'bounty':
       card = <BountyCardEmbed jobKey={link.bountyJobKey!} onOpen={open} fallback={fallback} />;
+      break;
+    case 'featureRequest':
+      card = <FeatureRequestCardEmbed id={link.featureRequestId!} onOpen={open} fallback={fallback} />;
+      break;
+    case 'page':
+      card = <PageCardEmbed pagePath={link.pagePath!} path={link.path} onOpen={open} fallback={fallback} />;
       break;
     case 'film':
       card = (

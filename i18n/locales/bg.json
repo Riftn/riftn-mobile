@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Популярно тази седмица в Audius. Може да се използва безплатно, а изпълнителят получава признание в публикацията ви.",
     "d2e45b7406fc": "Музика в обществено достояние и с лиценз Creative Commons от Wikimedia Commons. Изпълнителят получава признание в публикацията ви.",
     "d0c1a3684775": "Песните не се заредиха. Опитайте отново след малко.",
-    "d14064f80f52": "Добавяне на звук"
+    "d14064f80f52": "Добавяне на звук",
+    "71988c4d8e08": "Текст",
+    "147170e793c6": "Широк",
+    "481859b689b0": "Проверете връзката си и опитайте отново.",
+    "57e2faa5ec63": "Търси в Riftn",
+    "7db20897053b": "Хора",
+    "96d7bff86b44": "Търсенето не можа да се зареди",
+    "d8b8392e2c54": "Опитайте отново"
   },
   "dehubLinks": {
     "kind": {
@@ -2854,7 +2861,8 @@
       "quote": "Цитат",
       "bullets": "Списък с бели точки",
       "numbers": "Номериран списък",
-      "link": "Връзка"
+      "link": "Връзка",
+      "image": "Добавяне на изображения"
     }
   },
   "storefront": {
@@ -3149,6 +3157,8 @@
     "feedTogglesCleared": "Филтрите на лентата са нулирани",
     "defaultProfileTab": "Раздел на профила по подразбиране",
     "defaultProfileTabDesc": "Изберете кой раздел посетителите да виждат първи в профила ви",
+    "defaultProfileView": "Изглед на публикациите в профила",
+    "defaultProfileViewDesc": "Показвайте публикациите си като мрежа или списък, когато някой отвори профила ви",
     "defaultPostVisibilityDesc": "Прилага се за всички настоящи и бъдещи публикации",
     "public": "Публично",
     "publicDesc": "Всеки може да вижда публикациите ви",
@@ -3792,7 +3802,11 @@
     "payViaDpay": "Платено на Riftn Pay, токените пристигат за около 30 сек.",
     "payViaBridgeDpay": "Преместено към Base и платено на Riftn Pay, токените пристигат за около минута",
     "tokensUnit": "токена",
-    "tokenAmount": "{{amount}} токена"
+    "tokenAmount": "{{amount}} токена",
+    "addMessage": "Добавете съобщение (необязателно)",
+    "messagePublic": "Публично",
+    "railTitle": "Съвети",
+    "railTotal": "{{amount}} токена"
   },
   "postOptions": {
     "skippableSections": "Секции за прескачане",
@@ -4520,7 +4534,11 @@
       "here": "{{name}} изпрати съобщение на всички в общността",
       "hereNamed": "{{name}} изпрати съобщение на всички в „{{community}}“"
     },
-    "tokenAmount": "{{amount}} токена"
+    "tokenAmount": "{{amount}} токена",
+    "groupNew": "Нови",
+    "groupToday": "Днес",
+    "groupThisWeek": "Тази седмица",
+    "searchClose": "Затваряне на търсенето"
   },
   "leaderboard": {
     "title": "Класация",
@@ -4712,7 +4730,18 @@
     "attachmentTooLarge": "Всеки файл трябва да е под 50MB",
     "deleteCommentA11y": "Изтриване на коментар",
     "sendCommentA11y": "Изпратете коментар",
-    "requestOptions": "Опции за заявка"
+    "requestOptions": "Опции за заявка",
+    "deviceInfoNoErrors": "Нито едно",
+    "topBuilders": {
+      "month": "Този месец",
+      "allTime": "Цялото време",
+      "shipped": "Доставено",
+      "votes": "Гласове",
+      "comments": "Коментари",
+      "showLess": "Покажи по-малко",
+      "viewProfile": "Преглед на профила",
+      "you": "Вие"
+    }
   },
   "auth": {
     "loginRequired": "Изисква се вход",
@@ -4972,7 +5001,20 @@
       "votes_other": "{{value}} гласа",
       "members_one": "Член на {{value}}",
       "members_other": "{{value}} членове"
-    }
+    },
+    "articleShort": "Статия",
+    "articleMinRead": "{{count}} минути четене",
+    "pinnedShort": "Закачено",
+    "post": "Публикация",
+    "arrange": {
+      "saving": "Запазва се..."
+    },
+    "reserve": {
+      "signIn": "Влез"
+    },
+    "tabLikes": "Харесвания",
+    "likesEmptyTitle": "Все още няма харесвания",
+    "likesPrivateTitle": "Харесванията са лични"
   },
   "tv": {
     "title": "ТВ",
@@ -5488,6 +5530,9 @@
       "action": "Действие",
       "schedule": "Насрочване",
       "filter": "Филтриране на дейността"
+    },
+    "welcome": {
+      "text": "Приветствено съобщение"
     }
   },
   "hero": {
@@ -5573,7 +5618,16 @@
     "nowPublic": "Потокът вече е публичен",
     "openCanvas": "Отворете платното",
     "playVideo": "Възпроизвеждане на видео",
-    "signInToSee": "Влезте, за да видите потоците в акаунта си."
+    "signInToSee": "Влезте, за да видите потоците в акаунта си.",
+    "newNativeFlow": "Нов поток",
+    "model": "Модел",
+    "aspectRatio": "Съотношение на страните",
+    "duration": "Траене в секунди",
+    "resolution": "Разделителна способност",
+    "disconnect": "Отключи",
+    "payAndRun": "Плати и стартирай",
+    "run": "Стартирай",
+    "handlePrompt": "Подкана"
   },
   "loginModal": {
     "title": "Вход",
@@ -5893,7 +5947,8 @@
     "searchMenu": "Търсене в менюто",
     "clearSearch": "Изчистване на търсенето",
     "noMenuMatches": "Нищо в менюто не съвпада",
-    "searchDehubFor": "Търсене на „{{query}}“ в Riftn"
+    "searchDehubFor": "Търсене на „{{query}}“ в Riftn",
+    "requestSend": "Изпрати заявка"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6512,7 +6567,11 @@
       "copied": "Съобщението е копирано",
       "copyText": "Копиране на текст",
       "mutedUntil": "Заглушени сте до {{date}}",
-      "slowMode": "Бавен режим: по едно съобщение на всеки {{interval}}"
+      "slowMode": "Бавен режим: по едно съобщение на всеки {{interval}}",
+      "joined": "{{name}} се присъедини",
+      "reactions": "Реакции",
+      "photoTooLarge": "Снимката трябва да е по-малка от 10MB",
+      "aiAdminFailed": "AI Админ не отговорил"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6715,6 +6774,32 @@
       "notFound": "Тази връзка за покана не е валидна.",
       "requestToJoin": "Заявка за присъединяване",
       "approvalNote": "Администраторът трябва да одобри заявката ви, преди да можете да се присъедините."
+    },
+    "buyAlert": {
+      "spent": "Изразходвани:",
+      "buyer": "Купувач:",
+      "txn": "Тн",
+      "balance": "Баланс:",
+      "price": "Цена:",
+      "marketCap": "Пазарна капитализация:"
+    },
+    "newChat": {
+      "public": "Публично",
+      "private": "Частно",
+      "free": "Безплатно",
+      "paid": "Платено",
+      "group": "Групирай"
+    },
+    "holderGate": {
+      "chain": "Верига",
+      "which": "Токен",
+      "tab": "Държатели"
+    },
+    "automod": {
+      "bannedWords": "Забранени думи",
+      "floodMax": "{{count}} съобщения",
+      "saved": "Запазено",
+      "wordCount": "{{count}} думи"
     }
   },
   "work": {
@@ -7836,7 +7921,10 @@
       "doneAll": "Не сте следвали акаунти в {{done}}, които не са ви последвали.",
       "doneSome": "Прекъснати акаунти в {{done}}. {{failed}} не може да бъде прекратено.",
       "doneToast": "Непроследявани акаунти в {{done}}, които не ви следят"
-    }
+    },
+    "followBackConfirm": "Последвай обратно",
+    "followBackNotNow": "Не сега",
+    "followBackDone": "Приключено"
   },
   "reactionInfo": {
     "title": "Реакции",
@@ -8756,7 +8844,38 @@
     "coverFrames": "Избереш обложка",
     "coverFrame": "Използвай фрама {{index}} като обложка",
     "uploadCover": "Качи обложка",
-    "editFailed": "Не можах да приложа тази редакция. Опитай отново."
+    "editFailed": "Не можах да приложа тази редакция. Опитай отново.",
+    "altPlaceholderVideo": "Опишете това видео",
+    "preview": {
+      "title": "Преглед"
+    },
+    "recent": {
+      "all": "Всички"
+    },
+    "studio": {
+      "crop": "Изрязване",
+      "draw": "Рисуване",
+      "light": "Светла",
+      "contrast": "Контраст",
+      "warmth": "Топлина",
+      "colour": "Цвят",
+      "fade": "Избледняване",
+      "original": "Оригинал",
+      "ratioOriginal": "Оригинал",
+      "ratioFree": "Безплатно",
+      "rotate": "Завъртане",
+      "strength": "Силата",
+      "stickers": "Стикери",
+      "ticker": "Тикер",
+      "textBg": "Фон",
+      "font": {
+        "bold": "Получер",
+        "serif": "Сериф",
+        "mono": "Моно"
+      }
+    },
+    "edited": "Редактирано",
+    "edit": "Редактирай"
   },
   "bounty": {
     "claimed": "Получено",
@@ -9050,7 +9169,8 @@
     "justChatting": "Просто чат",
     "noLiveStreams": "Няма излъчвания на живо",
     "noOneStreaming": "В момента никой не стриймва. Провери по-късно!",
-    "loadStreamsFailed": "Излъчванията не се заредиха. Опитай отново."
+    "loadStreamsFailed": "Излъчванията не се заредиха. Опитай отново.",
+    "liveBadge": "ЖИВО"
   },
   "liveShop": {
     "title": "Пазарувай от този стрийм",
@@ -9363,7 +9483,23 @@
     "paymentSentWith": "Изпратено с {{amount}}",
     "planRestricted": "Този потребител изисква абонамент, за да получава съобщения.",
     "planTypeNotAllowed": "Планът на този създател не позволява този вид съобщение.",
-    "planMinTip": "Бакшишът трябва да е поне {{amount}} токена за този създател."
+    "planMinTip": "Бакшишът трябва да е поне {{amount}} токена за този създател.",
+    "newDrawer": {
+      "to": "На"
+    },
+    "download": "Изтегли",
+    "deleteOneTitle": "Изтриване на това съобщение?",
+    "retrySend": "Нов опит",
+    "discardSend": "Премахни",
+    "shareKindGroup": "Групирай",
+    "shareKindCommunity": "Общност",
+    "searchDiscover": {
+      "people": "Хора",
+      "communities": "Общности",
+      "members": "{{n}} членове",
+      "newChat": "Нов чат",
+      "invite": "Пригласи"
+    }
   },
   "editPost": {
     "mediaPermission": "Нужно е разрешение за медийната библиотека",
@@ -10581,7 +10717,11 @@
       "hint": "Превръща речта в синхронизирани субтитри, които можеш да оформиш. Работи на устройството ти: безплатно и поверително. При първото използване се изтегля моделът.",
       "done": "Добавени са {{count}} субтитъра.",
       "noSpeech": "В този клип не е открита реч.",
-      "failed": "Не успяхме да създадем субтитри за този клип."
+      "failed": "Не успяхме да създадем субтитри за този клип.",
+      "styles": {
+        "bold": "Тежко",
+        "serif": "Сериф"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10651,7 +10791,8 @@
       "vibrant": "Ярък",
       "cyber": "Кибер",
       "invert": "Инверсия",
-      "strength": "Сила на филтъра: {{value}}%"
+      "strength": "Сила на филтъра: {{value}}%",
+      "vhs": "ВХС"
     },
     "layer": {
       "crop": "Изрязване",
@@ -10831,7 +10972,9 @@
       "suggestTitle": "Добави голямо удебелено заглавие горе и по-малко подзаглавие под него",
       "undo": "Отмени",
       "openGenerator": "Преглед и генериране",
-      "working": "Работя по въпроса…"
+      "working": "Работя по въпроса…",
+      "stop": "Спри",
+      "queue": "Добавяне в опашката"
     },
     "brand": {
       "addColor": "Добави цвят на бранда",
@@ -10968,7 +11111,9 @@
       "rendering": "Обработване на видеото… {{percent}}%",
       "mp4": "MP4 видео",
       "exportHint": "Дръж редактора отворен, докато видеото се обработва.",
-      "tooLarge": "Файлът е твърде голям за редактора. Лимитът е 400 MB."
+      "tooLarge": "Файлът е твърде голям за редактора. Лимитът е 400 MB.",
+      "tZoomIn": "Увеличаване",
+      "tZoomOut": "Извадете се от фокус"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12147,6 +12292,28 @@
       "selection": "Избор",
       "zoomIn": "Увеличаване на платното",
       "zoomOut": "Намаляване на платно"
+    },
+    "stage": {
+      "camera": "Камера",
+      "yaw": "Завъртане",
+      "add": "Добави",
+      "scale": "Размер",
+      "color": "Цвят",
+      "light": "Светла"
+    },
+    "clipFix": {
+      "listening": "Слушам…"
+    },
+    "voiceClone": {
+      "stop": "Спри записа",
+      "failed": "Клониране на глас неуспешно."
+    },
+    "linkImport": {
+      "go": "Импортирай",
+      "downloading": "Изтегляне {{percent}}%"
+    },
+    "reverse": {
+      "action": "Обратно"
     }
   },
   "creator": {
@@ -12608,7 +12775,32 @@
     "referenceProductName": "Поставете продукта си в клип",
     "referenceProductHint": "Заменете представения продукт и запазете оригиналната сцена.",
     "referenceComposeName": "Комбинирайте референтни изображения",
-    "referenceComposeHint": "Приведете герои, обекти и настройки от множество изображения в една композиция."
+    "referenceComposeHint": "Приведете герои, обекти и настройки от множество изображения в една композиция.",
+    "marketing": {
+      "import": {
+        "use": "Използвайте тези подробности"
+      }
+    },
+    "batchCount": "Снимки",
+    "endFrame": "Крайна кадър",
+    "cinema": {
+      "close": "Затвори",
+      "performance": {
+        "label": "Производителност"
+      }
+    },
+    "audioNoSpeech": "В този запис не е намерена реч.",
+    "audioTaskSpeechLabel": "Говор",
+    "audioTaskDialogueLabel": "Диалог",
+    "audioTaskSfxLabel": "Звуков ефект",
+    "audioTaskVoiceChangerLabel": "Промяна на гласа",
+    "audioTaskTranscribeLabel": "Транскрибиране",
+    "audioTaskIsolateLabel": "Почистване",
+    "priceFreeRateLimited": "Прилагат се лимити за безплатни · тарифи",
+    "loop": "Цикъл",
+    "dialogueFormat": "Напишете сцената като \"Име: реплика\", един говорител на ред.",
+    "fileTooLarge": "Този файл е над 100 MB. Използвайте по-кратък или по-малък.",
+    "signInToGenerate": "Влезте, за да генерирате."
   },
   "fractions": {
     "title": "Дроби",
@@ -14677,6 +14869,19 @@
       "intro": "Зрителите печелят точка за всяка минута, в която ви гледат, и по една за всеки 100 токена, които подаряват. Чатът и реакциите не печелят нищо, така че точките не могат да се обработват.",
       "empty": "Все още няма точки, натрупват се, докато хората гледат и подаряват.",
       "widgetHint": "Добавете уиджета за лоялни зрители, за да покажете този списък в потока."
+    },
+    "destinations": {
+      "platform": "Платформа",
+      "label": "Име (необязателно)",
+      "key": "Ключ за стрийм",
+      "save": "Добави",
+      "cancel": "Отказ",
+      "states": {
+        "off": "Изключен",
+        "idle": "Готово",
+        "live": "На живо",
+        "error": "Грешка"
+      }
     }
   },
   "liveChatModeration": {
@@ -14757,7 +14962,8 @@
       "coverHint": "Страница 1 е корицата",
       "empty": "Добавете страниците си с бутона за снимка. На всяка страница се добавя подпис и алт текст.",
       "caption": "Заглавие за тази страница:",
-      "alt": "Алт текст: какъвто е съдържанието на страницата"
+      "alt": "Алт текст: какъвто е съдържанието на страницата",
+      "cover": "Корица"
     }
   },
   "nftMarket": {
@@ -14772,7 +14978,72 @@
     "days": "{{count}} дни",
     "spotlightForSale": "За продажба сега",
     "spotlightNew": "Току що изпечено",
-    "buyFor": "Купете за {{price}}"
+    "buyFor": "Купете за {{price}}",
+    "actAll": "Всички",
+    "actListings": "Обяви",
+    "actOffer": "Поръчка",
+    "actOffers": "Оферти",
+    "actSales": "Продажби",
+    "tabActivity": "Активност",
+    "allChains": "Всички вериги",
+    "newest": "Най-нови",
+    "cheapest": "Най-ниска цена",
+    "soldFor": "Продадено",
+    "signIn": "Влез",
+    "title": "NFT",
+    "share": "Споделяне",
+    "noneForSale": "Нищо за продажба засега",
+    "noSales": "Все още няма продажби",
+    "tabBrowse": "Разгледайте",
+    "tabMine": "Ваши",
+    "tabSales": "Продажби",
+    "cancelled": "Отменено",
+    "sold": "Продадено",
+    "listed": "Списък за продажба",
+    "feeRow": "Такса Riftn ({{pct}}%)",
+    "royaltyRow": "Роялти на създателя",
+    "youGet": "Ти получаваш",
+    "holderGets": "Холдърът получава",
+    "loading": "Зареждане…",
+    "price": "Цена",
+    "seller": "Продавач",
+    "tabRecent": "Скорошни",
+    "buyNow": "Купи сега",
+    "offers": "Оферти",
+    "cancel": "Отказ",
+    "accept": "Приеми",
+    "signInToTrade": "Влезте за търговия",
+    "listForSale": "Публикувай за продажба",
+    "makeOffer": "Направете оферта",
+    "sendOffer": "Изпрати оферта",
+    "back": "Назад",
+    "dropsTo": "Цената пада до {{price}} от {{date}}",
+    "inBundle": "Продадено като пакет от {{n}}",
+    "trending": "Популярни колекции",
+    "floor": "Под",
+    "listedCount": "{{n}} се продава",
+    "thisCollection": "Тази колекция",
+    "collectionOffer": "Предложение за всички",
+    "showAll": "Показване на всички",
+    "shortTitle": "NFT",
+    "filters": "Филтри",
+    "forSale": "Продава",
+    "openToOffers": "Отворено за оферти",
+    "freshMints": "Свежо от създателите на RIFTN",
+    "offersOpen": "Отворено за оферти",
+    "mintedCount": "Изсечено на {{n}}",
+    "anyInCollection": "Всички в колекцията",
+    "thisNft": "Това NFT",
+    "priceAlert": "Уведомление за цена",
+    "alertUnder": "Кажи ми, когато е листнато на или под ({{symbol}}, по избор)",
+    "turnOnAlert": "Включи аларма",
+    "alertSaved": "Уведомление включено. Ще ви уведомим, когато е публикувано.",
+    "priceDrop": "Цената намалява с времето",
+    "endPrice": "Най-ниската цена, достигната в края ({{symbol}})",
+    "bundleBadge": "Пакет ×{{n}}",
+    "dropBadge": "Падане на цената",
+    "days_one": "{{count}} ден",
+    "days_other": "{{count}} дни"
   },
   "reel": {
     "readAll": "Четене на всички",
@@ -14880,5 +15151,251 @@
     "newer": "По-нов резултат",
     "gone": "Това съобщение вече не е тук",
     "theirMessages": "Техните съобщения"
+  },
+  "chatTextSize": {
+    "title": "Размер на текста",
+    "default": "По подразбиране",
+    "larger": "По - големи"
+  },
+  "remix": {
+    "cut": "Изрежи"
+  },
+  "signedFollows": {
+    "setUp": "Включи",
+    "turnOff": "& Изключване",
+    "efpTurnOff": "Спри"
+  },
+  "postEditHistory": {
+    "original": "Оригинал"
+  },
+  "studioDeck": {
+    "remove": "Премахни",
+    "background": {
+      "title": "Фон",
+      "modes": {
+        "none": "Изключен",
+        "blur": "Замъгляване",
+        "color": "Цвят"
+      }
+    },
+    "scenes": {
+      "countdown": "Счетовете",
+      "minutes": "{{count}} мин",
+      "names": {
+        "starting": "Започва скоро"
+      }
+    },
+    "widgets": {
+      "tab": "Виджети"
+    },
+    "sources": {
+      "image": "Изображение",
+      "show": "Покажи в стрийма",
+      "positions": {
+        "center": "Центрирай"
+      },
+      "sizes": {
+        "medium": "Средно"
+      }
+    },
+    "phone": {
+      "title": "Студио"
+    }
+  },
+  "whenSheet": {
+    "today": "Днес",
+    "tooSoon": "Изберете бъдещ час.",
+    "show": "Покажи",
+    "hide": "Скрий"
+  },
+  "planned": {
+    "title": "Планирана",
+    "all": "Всички",
+    "posts": "Публикации",
+    "stages": "Аудио стаи",
+    "post": "Публикация",
+    "live": "На живо",
+    "stage": "Сцена",
+    "untitledPost": "Публикация",
+    "untitledLive": "На живо",
+    "loading": "Зареждане...",
+    "startNow": "Започнете сега",
+    "cancel": "Отказ",
+    "cancelled": "Отменено"
+  },
+  "welcome": {
+    "about": {
+      "title": "Добре дошли в Riftn",
+      "day": "Ден",
+      "month": "Месец",
+      "year": "Година"
+    },
+    "name": {
+      "title": "Името ми",
+      "placeholder": "Името ми"
+    },
+    "card": {
+      "name": "Името ми",
+      "followers": "последователи"
+    },
+    "topic": {
+      "music": "Музика",
+      "art": "Изкуство",
+      "gaming": "Гейминг",
+      "crypto": "Крипто",
+      "sports": "Състезания",
+      "comedy": "Комедия",
+      "film": "Филм",
+      "podcast": "Подкаст",
+      "food": "Храна",
+      "news": "Новини",
+      "science": "Наука"
+    },
+    "back": "Назад",
+    "skipPhoto": "Пропуснете за сега",
+    "preview": "Преглед"
+  },
+  "appTokens": {
+    "title": "Вашите токени",
+    "history": "История",
+    "noHistory": "Все още няма активност",
+    "kindDeposit": "Добави средства",
+    "to": "На",
+    "amount": "Сума",
+    "notePlaceholder": "Добави бележка (по избор)",
+    "sendButton": "Изпращане",
+    "errorInsufficient": "Недостатъчно токени"
+  },
+  "avatarPrompt": {
+    "notNow": "Не сега"
+  },
+  "postStats": {
+    "audience": "Публика",
+    "engagement": "Ангажираност",
+    "finished": "Приключи",
+    "members": "Членове",
+    "membersLower": "членове",
+    "newFollowers": "Нови последователи",
+    "noBadge": "Няма значка",
+    "people": "Хора",
+    "plays": "Представления",
+    "quotes": "цитата",
+    "reposts": "Споделяния",
+    "saved": "Запазено",
+    "shares": "Споделяния",
+    "signedOutViewers": "Излязохте",
+    "topSupporters": "Водещи поддръжници",
+    "visitors": "Излязохте"
+  },
+  "duet": {
+    "policyEveryone": "Всички",
+    "policyFollowers": "Последователи",
+    "policyNobody": "Никой",
+    "loadMore": "Зареди още",
+    "video": "Видео"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Всички",
+      "followers": "Последователи",
+      "nobody": "Никой"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Всички",
+      "followers": "Последователи",
+      "nobody": "Никой"
+    },
+    "heading": "Реакции",
+    "more": "Покажи повече",
+    "liveNow": "На живо",
+    "untitled": "Реакция"
+  },
+  "liveClips": {
+    "copyLink": "Копирай връзката",
+    "linkCopied": "Връзката е копирана"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "План",
+      "howMany": "Колко",
+      "who": "Потребителско име или адрес на портфейл",
+      "whoPlaceholder": "@потребителско_име",
+      "cancel": "Отказ",
+      "stage": {
+        "preparing": "Подготовка…",
+        "confirming": "Изчакване на транзакцията…",
+        "recording": "Приключване…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Друго",
+    "confirming": "Потвърждаване на плащането..."
+  },
+  "liveShorts": {
+    "live": "ЖИВО"
+  },
+  "feedFilters": {
+    "clearAllShort": "Изчисти всичко",
+    "done": "Завършено",
+    "edit": "Редактирай",
+    "groupDate": "Дата",
+    "groupSort": "Сортирай",
+    "groupType": "Тип",
+    "save": "Запазване"
+  },
+  "ownKeys": {
+    "working": "В процес на работа",
+    "failed": "Възникна грешка. Опитайте отново.",
+    "check": "Провери",
+    "remove": "Премахни",
+    "save": "Запазване",
+    "cancel": "Отказ"
+  },
+  "postBg": {
+    "none": "Нито едно",
+    "yours": "Ваши",
+    "accent": "Акцент",
+    "names": {
+      "aurora": "Аврора",
+      "lava": "Лава лампа",
+      "drive": "Нощно шофиране",
+      "chrome": "Течен хром",
+      "orbit": "Орбита",
+      "snow": "Снеговалеж"
+    }
+  },
+  "articleTile": {
+    "cover": "Корица"
+  },
+  "aiConsent": {
+    "allow": "Разреши"
+  },
+  "dmRequests": {
+    "title": "Заявки за функции",
+    "accept": "Приеми",
+    "delete": "Изтрий",
+    "block": "Блокиране"
+  },
+  "dmSchedule": {
+    "view": "Преглед",
+    "edit": "Редактирай",
+    "editLabel": "Редактиране на съобщение",
+    "error": "Това не проработи. Опитайте отново."
+  },
+  "chatBulk": {
+    "selected": "{{count}} избрани",
+    "cancel": "Отказ",
+    "reply": "Отговор",
+    "delete": "Изтрий"
+  },
+  "msgSelect": {
+    "selected": "{{count}} избрани",
+    "copy": "Копирай",
+    "forward": "Препрати",
+    "deleted_one": "Изтрит {{count}} съобщение",
+    "deleted_other": "Изтрити {{count}} съобщения"
   }
 }

@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "កំពុងតែពេញនិយមសប្ដាហ៍នេះលើ Audius។ ឥតគិតថ្លៃប្រើ, សិល្បករនឹងទទួលបានការគោរពក្នុងការបង្ហោះរបស់អ្នក។",
     "d2e45b7406fc": "សិទ្ធិជាសាធារណៈ និងតន្ត្រី Creative Commons ពី Wikimedia Commons។ សិល្បករនឹងទទួលបានការគោរពក្នុងការបង្ហោះរបស់អ្នក។",
     "d0c1a3684775": "ចម្រៀងមិនបានផ្ទុក។ សូមព្យាយាមម្តងទៀតក្នុងពេលបន្តិច។",
-    "d14064f80f52": "បន្ថែមសំឡេង"
+    "d14064f80f52": "បន្ថែមសំឡេង",
+    "71988c4d8e08": "អត្ថបទ",
+    "147170e793c6": "ធំទូលាយ",
+    "481859b689b0": "សូមពិនិត្យការតភ្ជាប់របស់អ្នក ហើយព្យាយាមម្ដងទៀត។",
+    "57e2faa5ec63": "ស្វែងរកក្នុង Riftn",
+    "7db20897053b": "មនុស្ស",
+    "96d7bff86b44": "មិនអាចផ្ទុកការស្វែងរកបាន",
+    "d8b8392e2c54": "ព្យាយាមម្តងទៀត"
   },
   "dehubLinks": {
     "kind": {
@@ -2682,7 +2689,8 @@
       "location": "ទីតាំង",
       "custom": "ផ្ទាល់ខ្លួន",
       "customOption": "ស្លាកផ្ទាល់ខ្លួន"
-    }
+    },
+    "placeholderPronouns": "ពួកគេ"
   },
   "notificationFilters": {
     "title": "ត្រងការជូនដំណឹងពី",
@@ -2853,7 +2861,8 @@
       "quote": "សម្រង់",
       "bullets": "បញ្ជីគ្រាប់",
       "numbers": "បញ្ជីលេខ",
-      "link": "តំណ"
+      "link": "តំណ",
+      "image": "បន្ថែមរូបភាព"
     }
   },
   "storefront": {
@@ -3781,7 +3790,11 @@
     "stageDelivering": "Riftn Pay កំពុងផ្ញើថូខឹនរបស់អ្នក...",
     "payViaDpay": "បង់ប្រាក់ទៅ Riftn Pay ថូខឹនមកដល់ប្រហែល 30 វិនាទី",
     "payViaBridgeDpay": "បានផ្លាស់ទៅ Base និងបង់ប្រាក់ទៅ Riftn Pay ថូខឹនមកដល់ក្នុងរយៈពេលប្រហែលមួយនាទី",
-    "tokensUnit": "ថូខឹន"
+    "tokensUnit": "ថូខឹន",
+    "addMessage": "បន្ថែមសារ (ស្ម័គ្រចិត្ត)",
+    "messagePublic": "សាធារណៈ",
+    "railTitle": "គន្លឹះ",
+    "railTotal": "{{amount}} តូខឹន"
   },
   "postOptions": {
     "skippableSections": "ផ្នែកដែលអាចរំលងបាន",
@@ -4522,7 +4535,11 @@
       "here": "{{name}} @ បានផ្ញើសារទៅគ្រប់គ្នានៅក្នុងសហគមន៍",
       "hereNamed": "{{name}} @ បានផ្ញើសារទៅអ្នករាល់គ្នានៅក្នុង \"{{community}}\""
     },
-    "tokenAmount": "តូខឹន {{amount}}"
+    "tokenAmount": "តូខឹន {{amount}}",
+    "groupNew": "ថ្មី",
+    "groupToday": "ថ្ងៃនេះ",
+    "groupThisWeek": "សប្តាហ៍នេះ",
+    "searchClose": "បានបិទនៅក្រោយសរសេរ"
   },
   "leaderboard": {
     "title": "តារាងចំណាត់ថ្នាក់",
@@ -4714,7 +4731,18 @@
     "attachmentTooLarge": "ឯកសារនីមួយៗត្រូវតែតិចជាង 50MB",
     "deleteCommentA11y": "លុបមតិយោបល់",
     "sendCommentA11y": "ផ្ញើមតិ",
-    "requestOptions": "ជម្រើសស្នើសុំ"
+    "requestOptions": "ជម្រើសស្នើសុំ",
+    "deviceInfoNoErrors": "គ្មាន",
+    "topBuilders": {
+      "month": "ខែនេះ",
+      "allTime": "គ្រប់ពេលវេលា",
+      "shipped": "បានដាក់ឲ្យប្រើ",
+      "votes": "ការបោះឆ្នោត",
+      "comments": "មតិយោបល់",
+      "showLess": "បង្ហាញតិចជាង",
+      "viewProfile": "មើលប្រវត្តិរូប",
+      "you": "អ្នក"
+    }
   },
   "auth": {
     "loginRequired": "តម្រូវឲ្យចូល",
@@ -4975,7 +5003,20 @@
       "votes_other": "{{value}} បោះឆ្នោត",
       "members_one": "{{value}} សមាជិក",
       "members_other": "{{value}} សមាជិក"
-    }
+    },
+    "articleShort": "អត្ថបទ",
+    "articleMinRead": "{{count}} នាទីអាន",
+    "pinnedShort": "បានកន្លាស់",
+    "post": "បង្ហោះ",
+    "arrange": {
+      "saving": "កំពុងរក្សាទុក..."
+    },
+    "reserve": {
+      "signIn": "ចូល"
+    },
+    "tabLikes": "ចូលចិត្ត",
+    "likesEmptyTitle": "មិនទាន់មានការចូលចិត្តទេ",
+    "likesPrivateTitle": "ការចូលចិត្តគឺឯកជន"
   },
   "tv": {
     "title": "ទូរទស្សន៍",
@@ -5491,6 +5532,9 @@
       "action": "សកម្មភាព",
       "schedule": "កាលវិភាគ",
       "filter": "តម្រងសកម្មភាព"
+    },
+    "welcome": {
+      "text": "សារស្វាគមន៍"
     }
   },
   "hero": {
@@ -5572,7 +5616,16 @@
     "nowPublic": "លំហូរឥឡូវនេះជាសាធារណៈ",
     "openCanvas": "បើកផ្ទាំងគំនូរ",
     "playVideo": "ចាក់វីដេអូ",
-    "signInToSee": "ចុះឈ្មោះដើម្បីមើលលំហូរនៅលើគណនីរបស់អ្នក។"
+    "signInToSee": "ចុះឈ្មោះដើម្បីមើលលំហូរនៅលើគណនីរបស់អ្នក។",
+    "newNativeFlow": "លំហូរថ្មី",
+    "model": "ម៉ូដែល",
+    "aspectRatio": "សមាមាត្រផ្ទៃ",
+    "duration": "រយៈពេលគិតជាវិនាទី",
+    "resolution": "ដំណោះស្រាយ",
+    "disconnect": "ការបង្កើតការសម្រាប់",
+    "payAndRun": "ចំណាយ និងដំណើរការ",
+    "run": "ដំណើរការ",
+    "handlePrompt": "រំលេច"
   },
   "loginModal": {
     "title": "ចូល",
@@ -5892,7 +5945,8 @@
     "searchMenu": "ស្វែងរកម៉ឺនុយ",
     "clearSearch": "សម្អាតការស្វែងរក",
     "noMenuMatches": "គ្មានអ្វីនៅក្នុងម៉ឺនុយត្រូវគ្នាទេ",
-    "searchDehubFor": "ស្វែងរក \"{{query}}\" នៅលើ Riftn"
+    "searchDehubFor": "ស្វែងរក \"{{query}}\" នៅលើ Riftn",
+    "requestSend": "ផ្ញើសំណើរសុំ"
   },
   "comments": {
     "rowA11yLabel": "{{name}}, {{time}}: {{text}}",
@@ -6511,7 +6565,11 @@
       "copied": "បានចម្លងសារ",
       "copyText": "ចម្លងអត្ថបទ",
       "mutedUntil": "អ្នកត្រូវបានបិទសំឡេងរហូតដល់ {{date}}",
-      "slowMode": "របៀប យឺត & # 160; ៖ សារ មួយ រៀងរាល់{{interval}}"
+      "slowMode": "របៀប យឺត & # 160; ៖ សារ មួយ រៀងរាល់{{interval}}",
+      "joined": "{{name}} ចូលរួម",
+      "reactions": "ប្រតិកម្ម",
+      "photoTooLarge": "រូបភាពត្រូវតែតូចជាង 10MB",
+      "aiAdminFailed": "អ្នកគ្រប់គ្រង AI បានបរាជ័យក្នុងការឆ្លើយតប"
     },
     "manage": {
       "reasonCounter": "{{len}}/200",
@@ -6714,6 +6772,32 @@
       "notFound": "ការបញ្ជូនបញ្ចូលនេះមិនមែនជាបញ្ចូលប្រព័ន្ធដែលអាចប្រើបាន។",
       "requestToJoin": "សូមសុំចូល",
       "approvalNote": "មុខងារមួយត្រូវបានប្រើការអនុញ្ញាតឱ្យអ្នកអាចចូលបានពីមុន"
+    },
+    "buyAlert": {
+      "spent": "ចំណាយ៖",
+      "buyer": "អ្នកទិញ៖",
+      "txn": "ទំនាក់ទំនង",
+      "balance": "សមតុល្យ៖",
+      "price": "តម្លៃ៖",
+      "marketCap": "មួក ទីផ្សារ & # 160; ៖"
+    },
+    "newChat": {
+      "public": "សាធារណៈ",
+      "private": "ឯកជន",
+      "free": "ឥតគិតថ្លៃ",
+      "paid": "បានបង់ប្រាក់",
+      "group": "ក្រុម"
+    },
+    "holderGate": {
+      "chain": "ខ្សែសង្វាក់",
+      "which": "ថូខឹន",
+      "tab": "អ្នកកាន់កាប់"
+    },
+    "automod": {
+      "bannedWords": "ពាក្យហាមឃាត់",
+      "floodMax": "សារ {{count}}",
+      "saved": "រក្សាទុក",
+      "wordCount": "{{count}} ពាក្យ"
     }
   },
   "work": {
@@ -7835,7 +7919,10 @@
       "doneAll": "បានលុបអ្នកតាមដាន {{done}} គណនីដែលមិនត្រូវតាមអ្នកវិញ។",
       "doneSome": "បានលុបអ្នកតាមដាន {{done}} គណនី។ {{failed}} មិនអាចលុបបានទេ។",
       "doneToast": "បានលុបអ្នកតាមដាន {{done}} គណនីដែលមិនត្រូវតាមអ្នកវិញ"
-    }
+    },
+    "followBackConfirm": "តាមដានវិញ",
+    "followBackNotNow": "មិនឥឡូវនេះ",
+    "followBackDone": "រួចរាល់"
   },
   "reactionInfo": {
     "title": "ប្រតិកម្ម",
@@ -8753,7 +8840,39 @@
     "coverFrame": "ប្រើរង្វល់ {{index}} ជារង្វល់បង្ហាញ",
     "uploadCover": "ដាក់រង្វល់បង្ហាញចូល",
     "editFailed": "មិនអាចកែប្រែបាន បើកឡើងវិញទៀត",
-    "fade": "ស្រអាប់ {{value}}%"
+    "fade": "ស្រអាប់ {{value}}%",
+    "altPlaceholderVideo": "ពិពណ៌នាវីដេអូនេះ",
+    "landingLive": "ផ្សាយផ្ទាល់",
+    "preview": {
+      "title": "មើលជាមុន"
+    },
+    "recent": {
+      "all": "ទាំងអស់"
+    },
+    "studio": {
+      "crop": "ច្រឹប",
+      "draw": "គូរ",
+      "light": "ភ្លឺ",
+      "contrast": "កម្រិត ពណ៌",
+      "warmth": "ភាពកក់ក្តៅ",
+      "colour": "ពណ៌",
+      "fade": "រសាត់",
+      "original": "ដើម",
+      "ratioOriginal": "ដើម",
+      "ratioFree": "ឥតគិតថ្លៃ",
+      "rotate": "បង្វិល",
+      "strength": "កម្លាំង",
+      "stickers": "ស្លាក",
+      "ticker": "និមិត្តសញ្ញា",
+      "textBg": "ផ្ទៃខាងក្រោយ",
+      "font": {
+        "bold": "ដិត",
+        "serif": "សំណាក់",
+        "mono": "ម៉ូណូ"
+      }
+    },
+    "edited": "បានកែសម្រួល",
+    "edit": "កែសម្រួល"
   },
   "bounty": {
     "claimed": "បានទាមទារ",
@@ -9047,7 +9166,8 @@
     "detailsKey": "សោ & # 160; ៖",
     "detailsLivepeerId": "លេខសម្គាល់ Livepeer & # 160; ៖",
     "shopPutOnAir": "ដាក់លើអាកាស",
-    "tippedAmount": "ទំព័រ ទី {{amount}} ទាំងអស់ 988 ទំព័រ"
+    "tippedAmount": "ទំព័រ ទី {{amount}} ទាំងអស់ 988 ទំព័រ",
+    "liveBadge": "ផ្សាយផ្ទាល់"
   },
   "liveShop": {
     "title": "ទិញទំនិញពីការផ្សាយនេះ",
@@ -9360,7 +9480,23 @@
     "paymentSentWith": "បានផ្ញើជាមួយ {{amount}}",
     "planRestricted": "អ្នកប្រើនេះតម្រូវឱ្យមានការជាវ ដើម្បីទទួលសារ។",
     "planTypeNotAllowed": "គម្រោងរបស់អ្នកបង្កើតនេះ មិនអនុញ្ញាតសារប្រភេទនេះទេ។",
-    "planMinTip": "ទឹកប្រាក់ធីបសម្រាប់អ្នកបង្កើតនេះ ត្រូវតែយ៉ាងហោចណាស់ {{amount}} ថូខឹន។"
+    "planMinTip": "ទឹកប្រាក់ធីបសម្រាប់អ្នកបង្កើតនេះ ត្រូវតែយ៉ាងហោចណាស់ {{amount}} ថូខឹន។",
+    "newDrawer": {
+      "to": "ដល់"
+    },
+    "download": "ទាញយក",
+    "deleteOneTitle": "លុបចោលសារនេះឬ?",
+    "retrySend": "ព្យាយាមម្ដងទៀត",
+    "discardSend": "ដកចេញ",
+    "shareKindGroup": "ក្រុម",
+    "shareKindCommunity": "សហគមន៍",
+    "searchDiscover": {
+      "people": "មនុស្ស",
+      "communities": "សហគមន៍",
+      "members": "សមាជិក {{n}}",
+      "newChat": "ការជជែកកំសាន្តថ្មី",
+      "invite": "អញ្ជើញ"
+    }
   },
   "editPost": {
     "mediaPermission": "ត្រូវការការអនុញ្ញាតបណ្ណាល័យមេឌៀ",
@@ -10605,7 +10741,11 @@
       "hint": "បំប្លែងសំឡេងនិយាយទៅជាអក្សររត់តាមពេលវេលា ដែលអ្នកអាចកែរចនាបាន។ ដំណើរការលើឧបករណ៍របស់អ្នក៖ ឥតគិតថ្លៃ និងឯកជន។ ការប្រើលើកដំបូងនឹងទាញយកម៉ូដែល។",
       "done": "បានបន្ថែមអក្សររត់ {{count}}។",
       "noSpeech": "រកមិនឃើញសំឡេងនិយាយក្នុងឃ្លីបនេះទេ។",
-      "failed": "មិនអាចបង្កើតអក្សររត់សម្រាប់ឃ្លីបនេះបានទេ។"
+      "failed": "មិនអាចបង្កើតអក្សររត់សម្រាប់ឃ្លីបនេះបានទេ។",
+      "styles": {
+        "bold": "ដិត",
+        "serif": "សំណាក់"
+      }
     },
     "app": {
       "dimensions": "{{width}} × {{height}}",
@@ -10675,7 +10815,8 @@
       "vibrant": "រស់រវើក",
       "cyber": "ស៊ីប័រ",
       "invert": "បញ្ច្រាស",
-      "strength": "កម្លាំងតម្រង: {{value}}%"
+      "strength": "កម្លាំងតម្រង: {{value}}%",
+      "vhs": "វីហេស"
     },
     "layer": {
       "crop": "ច្រឹប",
@@ -10855,7 +10996,9 @@
       "suggestTitle": "បន្ថែមចំណងជើងធំដិតនៅខាងលើ និងចំណងជើងរងតូចជាងនៅខាងក្រោម",
       "undo": "មិនធ្វើវិញ",
       "openGenerator": "ពិនិត្យ និងបង្កើត",
-      "working": "កំពុងធ្វើ…"
+      "working": "កំពុងធ្វើ…",
+      "stop": "បញ្ឈប់",
+      "queue": "បន្ថែមទៅក្នុងលេខ"
     },
     "brand": {
       "addColor": "បន្ថែមពណ៌ម៉ាក",
@@ -10992,7 +11135,9 @@
       "rendering": "កំពុងបង្កើតវីដេអូ… {{percent}}%",
       "mp4": "វីដេអូ MP4",
       "exportHint": "សូមបើកកម្មវិធីកែសម្រួលទុក ខណៈពេលវីដេអូកំពុងបង្កើត។",
-      "tooLarge": "ឯកសារនោះធំពេកសម្រាប់កម្មវិធីកែសម្រួល។ ដែនកំណត់គឺ 400 MB។"
+      "tooLarge": "ឯកសារនោះធំពេកសម្រាប់កម្មវិធីកែសម្រួល។ ដែនកំណត់គឺ 400 MB។",
+      "tZoomIn": "ពង្រីក",
+      "tZoomOut": "បង្រួម"
     },
     "motion": {
       "segment": "{{from}} → {{to}}",
@@ -12171,6 +12316,28 @@
       "selection": "ការ​ជ្រើសរើស",
       "zoomIn": "ផ្ទាំងក្រណាត់ពង្រីកបង្រួម",
       "zoomOut": "ផ្ទាំងក្រណាត់ពង្រីកបង្រួមចេញ"
+    },
+    "stage": {
+      "camera": "កាមេរ៉ា",
+      "yaw": "ការបង្វិល",
+      "add": "បន្ថែម",
+      "scale": "ទំហំ",
+      "color": "ពណ៌",
+      "light": "ភ្លឺ"
+    },
+    "clipFix": {
+      "listening": "កំពុងស្តាប់..."
+    },
+    "voiceClone": {
+      "stop": "បញ្ឈប់ការថត",
+      "failed": "ការធ្វើក្លូនសំឡេងបានបរាជ័យ ។"
+    },
+    "linkImport": {
+      "go": "នាំចូល",
+      "downloading": "ទាញយក {{percent}}%"
+    },
+    "reverse": {
+      "action": "បញ្ច្រាស"
     }
   },
   "creator": {
@@ -12632,7 +12799,31 @@
     "referenceProductName": "ដាក់ផលិតផលរបស់អ្នកនៅក្នុងឃ្លីប",
     "referenceProductHint": "ជំនួសផលិតផលដែលមានលក្ខណៈពិសេស និងរក្សាកន្លែងកើតហេតុដើម ។",
     "referenceComposeName": "បន្សំរូបភាពយោង",
-    "referenceComposeHint": "នាំយកតួអង្គ វត្ថុ និងការកំណត់ពីរូបភាពជាច្រើនទៅក្នុងសមាសភាពតែមួយ ។"
+    "referenceComposeHint": "នាំយកតួអង្គ វត្ថុ និងការកំណត់ពីរូបភាពជាច្រើនទៅក្នុងសមាសភាពតែមួយ ។",
+    "marketing": {
+      "import": {
+        "use": "ប្រើព័ត៌មានលម្អិតទាំងនេះ"
+      }
+    },
+    "batchCount": "រូបភាព",
+    "endFrame": "ស៊ុមបញ្ចប់",
+    "cinema": {
+      "close": "បិទ",
+      "performance": {
+        "label": "ការអនុវត្ត"
+      }
+    },
+    "audioNoSpeech": "រកមិនឃើញការនិយាយនៅក្នុងការថតនោះទេ។",
+    "audioTaskSpeechLabel": "សំដី",
+    "audioTaskDialogueLabel": "នយោបាយ។",
+    "audioTaskSfxLabel": "បែបផែនសំឡេង",
+    "audioTaskVoiceChangerLabel": "អង្គផ្លាស់ប្ដូរសម្លេង",
+    "audioTaskIsolateLabel": "សម្អាត",
+    "priceFreeRateLimited": "ដែនកំណត់អត្រាដោយឥតគិតថ្លៃត្រូវបានអនុវត្ត",
+    "loop": "រង្វិលជុំ",
+    "dialogueFormat": "សរសេរឈុតឆាកជា \"ឈ្មោះ៖ បន្ទាត់\" ដោយអ្នកនិយាយម្នាក់ក្នុងមួយបន្ទាត់។",
+    "fileTooLarge": "ឯកសារនោះមានទំហំលើសពី ១០០ មេកាបៃ។ សូមប្រើឯកសារដែលខ្លីជាង ឬតូចជាង។",
+    "signInToGenerate": "ចុះឈ្មោះដើម្បីបង្កើត។"
   },
   "fractions": {
     "title": "ភាគហ៊ុន",
@@ -14701,6 +14892,19 @@
       "intro": "អ្នកទស្សនាទទួលបានពិន្ទុសម្រាប់រាល់នាទីដែលពួកគេមើលអ្នក និងមួយសម្រាប់រាល់ 100 ថូខឹន ដែលពួកគេផ្តល់ឱ្យ ។ ការជជែក និងប្រតិកម្មមិនទទួលបានអ្វីទេ ដូច្នេះពិន្ទុមិនអាចត្រូវបានដាំដុះបានទេ ។",
       "empty": "មិនទាន់មានពិន្ទុនៅឡើយទេ ។ ពួកគេកសាងឡើងនៅពេលដែលមនុស្សមើលនិងអំណោយ ។",
       "widgetHint": "បន្ថែមធាតុក្រាហ្វិកអ្នកមើលដែលស្មោះត្រង់ដើម្បីបង្ហាញបញ្ជីនេះនៅលើស្ទ្រីម ។"
+    },
+    "destinations": {
+      "platform": "វេទិកា",
+      "label": "ឈ្មោះ (ស្រេចចិត្ត)",
+      "key": "លេខសំងាត់ចាក់ផ្សាយ",
+      "save": "បន្ថែម",
+      "cancel": "បោះបង់",
+      "states": {
+        "off": "បិទ",
+        "idle": "រួចរាល់",
+        "live": "ផ្សាយផ្ទាល់",
+        "error": "កំហុស"
+      }
     }
   },
   "liveChatModeration": {
@@ -14799,7 +15003,74 @@
     "days": "{{count}} ថ្ងៃ",
     "spotlightForSale": "លក់ឥឡូវនេះ",
     "spotlightNew": "ជាមួយបានបង្កើតបានជាមួយបានបង្កើត",
-    "buyFor": "បញ្ចូលទៅកាន់ទៅកាន់{{price}}"
+    "buyFor": "បញ្ចូលទៅកាន់ទៅកាន់{{price}}",
+    "actAll": "ទាំងអស់",
+    "actListings": "បញ្ជីលក់",
+    "actOffer": "ការផ្តល់ជូន",
+    "actOffers": "ការផ្តល់ជូន",
+    "actSales": "ការលក់",
+    "tabActivity": "សកម្មភាព",
+    "allChains": "ខ្សែសង្វាក់ទាំងអស់",
+    "newest": "ថ្មីបំផុត",
+    "cheapest": "តម្លៃទាបបំផុត",
+    "soldFor": "លក់ហើយ",
+    "signIn": "ចូល",
+    "title": "NFT",
+    "share": "ចែករំលែក",
+    "noneForSale": "មិនទាន់មានអ្វីសម្រាប់លក់ទេ",
+    "noSales": "មិនទាន់មានការលក់",
+    "tabBrowse": "រកមើល",
+    "tabMine": "របស់អ្នក",
+    "tabSales": "ការលក់",
+    "cancelled": "បានលុបចោល",
+    "sold": "លក់ហើយ",
+    "listed": "បានចុះបញ្ជីសម្រាប់លក់",
+    "feeRow": "ថ្លៃ Riftn ({{pct}}%)",
+    "royaltyRow": "រាជកម្មក្នុងការបង្កើត",
+    "youGet": "អ្នកទទួលបាន",
+    "holderGets": "អ្នកកាន់ទទួលបាន",
+    "loading": "កំពុង ផ្ទុក…",
+    "price": "តម្លៃ",
+    "seller": "អ្នកលក់",
+    "tabRecent": "ថ្មីៗ",
+    "buyNow": "ទិញឥឡូវនេះ",
+    "offers": "ការផ្តល់ជូន",
+    "cancel": "បោះបង់",
+    "accept": "ទទួលយក",
+    "signInToTrade": "ចូលដើម្បីលក់ដូរ",
+    "listForSale": "បញ្ជីសម្រាប់លក់",
+    "makeOffer": "ធ្វើការផ្តល់ជូន",
+    "sendOffer": "ផ្ញើការផ្តល់ជូន",
+    "back": "ត្រឡប់ក្រោយ",
+    "dropsTo": "តម្លៃធ្លាក់ចុះទៅ {{price}} ដោយ {{date}}",
+    "inBundle": "បានលក់ជាកញ្ចប់នៃ {{n}}",
+    "trending": "ការប្រមូលនិន្នាការ",
+    "floor": "បាត",
+    "listedCount": "{{n}} សម្រាប់លក់",
+    "thisCollection": "សម្រាំង នេះ",
+    "collectionOffer": "ផ្តល់ជូននៅលើណាមួយ",
+    "showAll": "បង្ហាញទាំងអស់",
+    "shortTitle": "NFT",
+    "filters": "តម្រង",
+    "forSale": "សម្រាប់លក់",
+    "openToOffers": "បើកចំហចំពោះការផ្តល់ជូន",
+    "freshMints": "ស្រស់ ពី អ្នក បង្កើត Riftn",
+    "offersOpen": "បើកចំហចំពោះការផ្តល់ជូន",
+    "anyInCollection": "ណាមួយក្នុងសម្រាំង",
+    "thisNft": "NFT នេះ",
+    "priceAlert": "ការជូនដំណឹងតម្លៃ",
+    "alertUnder": "ប្រាប់ឱ្យខ្ញុំដឹងពេលដែលលក់នៅ ឬក្រោម ({{symbol}}, ស្ម័គ្រចិត្ត)",
+    "turnOnAlert": "បើក​ការ​ជូនដំណឹង",
+    "alertSaved": "ការជូនដំណឹងបើក។ យើងនឹងប្រាប់អ្នកពេលមានការបញ្ជី។",
+    "priceDrop": "តម្លៃធ្លាក់ចុះតាមពេលវេលា",
+    "endPrice": "តម្លៃទាបបំផុត ដែលឈានដល់នៅចុងបញ្ចប់ ({{symbol}})",
+    "bundleBadge": "បាច់ ×{{n}}",
+    "dropBadge": "ថយចុះតម្លៃ",
+    "days_one": "{{count}} ថ្ងៃ",
+    "days_other": "{{count}} ថ្ងៃ",
+    "statMinted": "បានអង្កត់ផ្ចិត",
+    "sellYoursHint": "រាយបញ្ជីពីក្ដាប់របស់អ្នក",
+    "latestMints": "អណ្តូងរ៉ែចុងក្រោយបំផុត"
   },
   "reel": {
     "readAll": "អានទាំងអស់",
@@ -14821,7 +15092,11 @@
       "episode": "វគ្គផតខាស់",
       "show": "ផតខាស់",
       "artist": "សិល្បករ"
-    }
+    },
+    "loading": "កំពុង ផ្ទុក…",
+    "paused": "បានផ្អាក",
+    "preview": "មើលជាមុន",
+    "seek": "ស្វែងរក"
   },
   "twoFactor": {
     "wrongCode": "កូដនោះមិនត្រូវគ្នា។ សាកល្បងកូដថ្មីបំផុតនៅក្នុងកម្មវិធីរបស់អ្នក។",
@@ -14899,5 +15174,251 @@
     "newer": "លទ្ធផលថ្មី",
     "gone": "សារនោះមិនមាននៅទីនេះទៀតទេ",
     "theirMessages": "សាររបស់ពួកគេ"
+  },
+  "chatTextSize": {
+    "title": "ទំហំអត្ថបទ",
+    "default": "លំនាំដើម",
+    "larger": "ធំជាង"
+  },
+  "remix": {
+    "cut": "កាត់"
+  },
+  "signedFollows": {
+    "setUp": "បើក",
+    "turnOff": "បិទ",
+    "efpTurnOff": "បញ្ឈប់"
+  },
+  "postEditHistory": {
+    "original": "ដើម"
+  },
+  "studioDeck": {
+    "remove": "ដកចេញ",
+    "background": {
+      "title": "ផ្ទៃខាងក្រោយ",
+      "modes": {
+        "none": "បិទ",
+        "blur": "ព្រិល",
+        "color": "ពណ៌"
+      }
+    },
+    "scenes": {
+      "countdown": "ការរាប់ថយក្រោយ",
+      "minutes": "{{count}} នាទី",
+      "names": {
+        "starting": "ជិតចាប់ផ្តើម"
+      }
+    },
+    "widgets": {
+      "tab": "ធាតុក្រាហ្វិក"
+    },
+    "sources": {
+      "image": "រូបភាព",
+      "show": "បង្ហាញនៅលើស្ទ្រីម",
+      "positions": {
+        "center": "កណ្ដាល"
+      },
+      "sizes": {
+        "medium": "មធ្យម"
+      }
+    },
+    "phone": {
+      "title": "ស្ទូឌីយោ"
+    }
+  },
+  "whenSheet": {
+    "today": "ថ្ងៃនេះ",
+    "tooSoon": "ជ្រើសរើសពេលវេលាមួយក្នុងពេលអនាគត។",
+    "show": "បង្ហាញ",
+    "hide": "លាក់"
+  },
+  "planned": {
+    "title": "គ្រោងទុក",
+    "all": "ទាំងអស់",
+    "posts": "ការបង្ហោះ",
+    "stages": "បន្ទប់សំឡេង",
+    "post": "បង្ហោះ",
+    "live": "ផ្សាយផ្ទាល់",
+    "stage": "ឆាក",
+    "untitledPost": "បង្ហោះ",
+    "untitledLive": "ផ្សាយផ្ទាល់",
+    "loading": "កំពុងផ្ទុក…",
+    "startNow": "ចាប់ផ្តើមឥឡូវ",
+    "cancel": "បោះបង់",
+    "cancelled": "បានបញ្ចប់"
+  },
+  "welcome": {
+    "about": {
+      "title": "សូមស្វាគមន៍មកកាន់ Riftn",
+      "day": "ថ្ងៃ",
+      "month": "ខែ",
+      "year": "ឆ្នាំ"
+    },
+    "name": {
+      "title": "ឈ្មោះរបស់អ្នក",
+      "placeholder": "ឈ្មោះរបស់អ្នក"
+    },
+    "card": {
+      "name": "ឈ្មោះរបស់អ្នក",
+      "followers": "អ្នកដើរតាម"
+    },
+    "topic": {
+      "music": "តន្ត្រី",
+      "art": "សិល្បៈ",
+      "gaming": "ការលេងហ្គេម",
+      "crypto": "គ្រីបតូ",
+      "sports": "កីឡា",
+      "comedy": "កំប្លែង",
+      "film": "ភាពយន្ត",
+      "podcast": "ផតខាស់",
+      "food": "អាហារ",
+      "news": "ព័ត៌មាន",
+      "science": "វិទ្យាសាស្ត្រ"
+    },
+    "back": "ត្រឡប់ក្រោយ",
+    "skipPhoto": "បានបង្កើតក្រោយមានពិនិត្យ",
+    "preview": "មើលជាមុន"
+  },
+  "appTokens": {
+    "title": "Tokens របស់អ្នក",
+    "history": "ប្រវត្តិ",
+    "noHistory": "មិនទាន់មានសកម្មភាពនៅឡើយទេ",
+    "kindDeposit": "បន្ថែមថវិកា",
+    "to": "ដល់",
+    "amount": "ចំនួន",
+    "notePlaceholder": "បន្ថែមកំណត់ចំណាំ (ស្រេចចិត្ត)",
+    "sendButton": "ផ្ញើ",
+    "errorInsufficient": "ថូខឹនមិនគ្រប់គ្រាន់"
+  },
+  "avatarPrompt": {
+    "notNow": "មិនឥឡូវនេះ"
+  },
+  "postStats": {
+    "audience": "ទស្សនិកជន",
+    "engagement": "ការចូលរួម",
+    "finished": "បញ្ចប់",
+    "members": "សមាជិក",
+    "membersLower": "សមាជិក",
+    "newFollowers": "អ្នកតាមដានថ្មី",
+    "noBadge": "គ្មានផ្លាកសញ្ញា",
+    "people": "មនុស្ស",
+    "plays": "លេង",
+    "quotes": "សម្រង់",
+    "reposts": "ការបង្ហោះឡើងវិញ",
+    "saved": "រក្សាទុក",
+    "shares": "ភាគហ៊ុន",
+    "signedOutViewers": "បានចាកចេញ",
+    "topSupporters": "អ្នកគាំទ្រកំពូលៗ",
+    "visitors": "បានចាកចេញ"
+  },
+  "duet": {
+    "policyEveryone": "គ្រប់គ្នា",
+    "policyFollowers": "អ្នកតាមដាន",
+    "policyNobody": "គ្មានអ្នកណា",
+    "loadMore": "ផ្ទុកបន្ថែម",
+    "video": "វីដេអូ"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "គ្រប់គ្នា",
+      "followers": "អ្នកតាមដាន",
+      "nobody": "គ្មានអ្នកណា"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "គ្រប់គ្នា",
+      "followers": "អ្នកតាមដាន",
+      "nobody": "គ្មានអ្នកណា"
+    },
+    "heading": "ប្រតិកម្ម",
+    "more": "បង្ហាញច្រើនទៀត",
+    "liveNow": "ផ្សាយផ្ទាល់",
+    "untitled": "ប្រតិកម្ម"
+  },
+  "liveClips": {
+    "copyLink": "ចម្លងតំណ",
+    "linkCopied": "បានចម្លងតំណភ្ជាប់"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "ផែនការ",
+      "howMany": "ប៉ុន្មាន",
+      "who": "ឈ្មោះអ្នកប្រើ ឬអាសយដ្ឋានកាបូប",
+      "whoPlaceholder": "@ឈ្មោះអ្នកប្រើ",
+      "cancel": "បោះបង់",
+      "stage": {
+        "preparing": "កំពុងរៀបចំ…",
+        "confirming": "កំពុងរង់ចាំប្រតិបត្តិការ…",
+        "recording": "កំពុងបញ្ចប់…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "ផ្សេងៗ",
+    "confirming": "ការបញ្ជាក់ការទូទាត់¢ÂÂÂÂ"
+  },
+  "liveShorts": {
+    "live": "ផ្សាយផ្ទាល់"
+  },
+  "feedFilters": {
+    "clearAllShort": "សម្អាតទាំងអស់",
+    "done": "រួចរាល់",
+    "edit": "កែសម្រួល",
+    "groupDate": "កាលបរិច្ឆេទ",
+    "groupSort": "តម្រៀប",
+    "groupType": "ប្រភេទ",
+    "save": "រក្សាទុក"
+  },
+  "ownKeys": {
+    "working": "កំពុងដំណើរការ",
+    "failed": "មានអ្វីមួយមិនប្រក្រតី ។ ព្យាយាមម្តងទៀត ។",
+    "check": "ពិនិត្យ",
+    "remove": "ដកចេញ",
+    "save": "រក្សាទុក",
+    "cancel": "បោះបង់"
+  },
+  "postBg": {
+    "none": "គ្មាន",
+    "yours": "របស់អ្នក",
+    "accent": "សំឡេង",
+    "names": {
+      "aurora": "អារូរ៉ា",
+      "lava": "អំពូល Lava",
+      "drive": "ការបើកបរពេលយប់",
+      "chrome": "ក្រូមរាវ",
+      "orbit": "គន្លងរង្វង់",
+      "snow": "ព្រិលធ្លាក់"
+    }
+  },
+  "articleTile": {
+    "cover": "គម្រប"
+  },
+  "aiConsent": {
+    "allow": "អនុញ្ញាត"
+  },
+  "dmRequests": {
+    "title": "សំណើមុខងារ",
+    "accept": "យល់ព្រម",
+    "delete": "លុប",
+    "block": "ទប់ស្កាត់"
+  },
+  "dmSchedule": {
+    "view": "មើល",
+    "edit": "កែ",
+    "editLabel": "កែសម្រួលសារ",
+    "error": "នោះមិនបានដំណើរការទេ ។ ព្យាយាមម្តងទៀត ។"
+  },
+  "chatBulk": {
+    "selected": "{{count}} បានជ្រើស",
+    "cancel": "បោះបង់",
+    "reply": "ឆ្លើយតប",
+    "delete": "លុប"
+  },
+  "msgSelect": {
+    "selected": "{{count}} បានជ្រើស",
+    "copy": "ចម្លង",
+    "forward": "បញ្ជូនបន្ត",
+    "deleted_one": "បានលុបសារ {{count}}",
+    "deleted_other": "បានលុប {{count}} សារ"
   }
 }

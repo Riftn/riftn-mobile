@@ -231,6 +231,23 @@ const CaptionOverlay: React.FC<Props> = ({
     });
   };
 
+  // Picking a language is picking what you hear too: a language the video was
+  // not spoken in switches the dubbed audio on in that language, and Original
+  // (or the spoken language) goes back to the original audio.
+  const pickDubForLanguage = (code: string) => {
+    const l = baseLang(code);
+    const spoken = sourceLang || 'en';
+    if (code === 'original' || !l || l === spoken) {
+      if (dubOn || dubPref) setDubSettings({ on: false, lang: null });
+      return;
+    }
+    if (!player) return;
+    setDubSettings({ on: true, lang: l });
+    void findVoice(l).then((voice) => {
+      if (voice === null && !hasCachedDubLanguage(l)) toastInfo(t('dub.noVoice'));
+    });
+  };
+
   // Fixes other viewers have had accepted. Applied to the transcript's own
   // segments before the overlay re-wraps them: corrections are keyed on the
   // segment index, and a wrapped display line has no stable identity.
@@ -433,8 +450,7 @@ const CaptionOverlay: React.FC<Props> = ({
                 onPress={() => {
                   setLang(l.code);
                   setSubtitleLang(l.code);
-                  // A running dub follows the captions to the new language.
-                  if (dubOn && l.code !== 'original') setDubSettings({ lang: baseLang(l.code) });
+                  pickDubForLanguage(l.code);
                   if (!enabled) {
                     setEnabled(true);
                     setSubtitlesEnabled(true);

@@ -2605,7 +2605,14 @@
     "cbade2afaee2": "Ti n ṣafihan ọsẹ yii lori Audius. Ọfẹ lati lo, oṣere naa gba ẹtọ lori ifiweranṣẹ rẹ.",
     "d2e45b7406fc": "Ile-iṣẹ ọfẹ ati orin Creative Commons lati Wikimedia Commons. Oṣere naa gba ẹtọ lori ifiweranṣẹ rẹ.",
     "d0c1a3684775": "Awọn orin ko ṣe ikojọpọ. Gbiyanju lẹẹkansi ni iṣẹju diẹ.",
-    "d14064f80f52": "Fi ohun kun"
+    "d14064f80f52": "Fi ohun kun",
+    "71988c4d8e08": "Ọ̀rọ̀",
+    "147170e793c6": "Fífẹ̀",
+    "481859b689b0": "Ṣàyẹ̀wò ìsopọ̀ rẹ kí o sì tún gbìyànjú.",
+    "57e2faa5ec63": "Wá nínú Riftn",
+    "7db20897053b": "Awọn eniyan",
+    "96d7bff86b44": "Wiwa ko le gbe",
+    "d8b8392e2c54": "Gbiyanju lẹẹkansi"
   },
   "dehubLinks": {
     "kind": {
@@ -2855,7 +2862,8 @@
       "quote": "Àsọtẹ́lẹ̀",
       "bullets": "Atokọ Bullet",
       "numbers": "Àtòjọ àwọn nọ́mbà",
-      "link": "Ìsopọ̀"
+      "link": "Ìsopọ̀",
+      "image": "Fi àwọn àwòrán kún un"
     }
   },
   "storefront": {
@@ -3793,7 +3801,11 @@
     "payViaDpay": "Sanwo si Riftn Pay, awọn ami-ami de ni nipa 30s",
     "payViaBridgeDpay": "Gbe lọ si Base ati sanwo si Riftn Pay, awọn ami-ami de ni nipa iṣẹju kan",
     "tokensUnit": "awọn ami-ami",
-    "tokenAmount": "{{amount}} awọn ami-ami"
+    "tokenAmount": "{{amount}} awọn ami-ami",
+    "addMessage": "Fi àtẹ̀jísẹ́ kan kún un (bí ó bá wù ú)",
+    "messagePublic": "Gbangba",
+    "railTitle": "Awọn imọran",
+    "railTotal": "{{amount}} awọn ami-ami"
   },
   "postOptions": {
     "skippableSections": "Awọn apakan ti o le fo",
@@ -4514,7 +4526,11 @@
       "here": "{{name}} fi ránṣẹ́ sí gbogbo ènìyàn ní agbègbè",
       "hereNamed": "{{name}} ránṣẹ́ sí gbogbo ènìyàn ní “{{community}}@”"
     },
-    "tokenAmount": "{{amount}} àmi-ìṣẹ́"
+    "tokenAmount": "{{amount}} àmi-ìṣẹ́",
+    "groupNew": "Tuntun",
+    "groupToday": "Lónìí",
+    "groupThisWeek": "Ọ̀sẹ̀ yìí",
+    "searchClose": "Pa wíwá mọ́"
   },
   "leaderboard": {
     "title": "Àtòjọ Ìpò",
@@ -4706,7 +4722,18 @@
     "attachmentTooLarge": "Fáìlì kọ̀ọ̀kan gbọ́dọ̀ kéré sí 50MB",
     "deleteCommentA11y": "Pa àlàyé yìí rẹ́?",
     "sendCommentA11y": "Fi ọrọìwòye ranṣẹ",
-    "requestOptions": "Beere awọn aṣayan"
+    "requestOptions": "Beere awọn aṣayan",
+    "deviceInfoNoErrors": "Ko si",
+    "topBuilders": {
+      "month": "Oṣù yìí",
+      "allTime": "Gbogbo àkókò",
+      "shipped": "Ti ránṣẹ́",
+      "votes": "Àwọn ìbò",
+      "comments": "Àsọyé",
+      "showLess": "Fihan diẹ",
+      "viewProfile": "Wo àkọọlẹ",
+      "you": "Iwọ"
+    }
   },
   "auth": {
     "loginRequired": "Wíwọlé ni a nílò",
@@ -4967,7 +4994,20 @@
       "votes_other": "{{value}} àwọn àbò",
       "members_one": "{{value}} ọmọ ẹgbẹ",
       "members_other": "{{value}} awọn ọmọ ẹgbẹ"
-    }
+    },
+    "articleShort": "Àpilẹ̀kọ",
+    "articleMinRead": "{{count}} min ka",
+    "pinnedShort": "Títì",
+    "post": "Firánṣẹ́",
+    "arrange": {
+      "saving": "Ó ń fi pamọ́..."
+    },
+    "reserve": {
+      "signIn": "Wọlé"
+    },
+    "tabLikes": "Ìfẹ́ràn",
+    "likesEmptyTitle": "Kò sí ìfẹ́ràn síbẹ̀",
+    "likesPrivateTitle": "Àwọn ìfẹ́ràn jẹ́ àṣírí"
   },
   "tv": {
     "title": "TV",
@@ -5483,6 +5523,9 @@
       "action": "Ìgbésẹ̀",
       "schedule": "Àtòjọ",
       "filter": "Yan irú ìṣe"
+    },
+    "welcome": {
+      "text": "Ìfiránṣẹ́ ìkíni"
     }
   },
   "hero": {
@@ -5564,7 +5607,16 @@
     "nowPublic": "Ṣiṣan jẹ ti gbogbo eniyan ni bayi",
     "openCanvas": "Ṣii kanfasi",
     "playVideo": "Ṣe fidio",
-    "signInToSee": "Wọle lati wo awọn ṣiṣan ti o wa ninu akọọlẹ rẹ."
+    "signInToSee": "Wọle lati wo awọn ṣiṣan ti o wa ninu akọọlẹ rẹ.",
+    "newNativeFlow": "Ise tuntun",
+    "model": "Àpẹẹrẹ",
+    "aspectRatio": "Ìwọ̀n àwòrán",
+    "duration": "Ìye àkókò ní ìṣẹ́jú-àáyá",
+    "resolution": "Ìwọ̀n àwòrán",
+    "disconnect": "Pa isopọ mọ",
+    "payAndRun": "Sanwo ki o ṣiṣẹ",
+    "run": "Ṣiṣẹ",
+    "handlePrompt": "Ohun tí o fẹ́ kà"
   },
   "loginModal": {
     "title": "Wọlé",
@@ -5884,7 +5936,8 @@
     "searchMenu": "Wá àkọsílẹ̀",
     "clearSearch": "Pa àwárí rẹ́",
     "noMenuMatches": "Kò sí ohun tí ó bá mu nínú àkọsílẹ̀",
-    "searchDehubFor": "Wá \"{{query}}\" lórí Riftn"
+    "searchDehubFor": "Wá \"{{query}}\" lórí Riftn",
+    "requestSend": "Fi ìbéèrè rànsẹ̀"
   },
   "comments": {
     "reportComment": "Iroyin asọye",
@@ -6503,7 +6556,11 @@
       "copied": "Àdàkọ àtẹ̀jíṣẹ́",
       "copyText": "Daakọ ọrọ",
       "mutedUntil": "O dákẹ́ títí di {{date}}",
-      "slowMode": "Ipò dídára: àtẹ̀jíṣẹ́ kan ní gbogbo {{interval}}"
+      "slowMode": "Ipò dídára: àtẹ̀jíṣẹ́ kan ní gbogbo {{interval}}",
+      "joined": "{{name}} darapọ mọ",
+      "reactions": "Ìdáhùn",
+      "photoTooLarge": "Àwòrán gbọdọ̀ kéré ju 10MB",
+      "aiAdminFailed": "Àdìmínì AI kò dáhùn"
     },
     "manage": {
       "dismissAdminTitle": "Kú ìṣàkóso",
@@ -6706,6 +6763,31 @@
       "notFound": "Ìsopọ̀ ìkésíni yìí kò wúlò.",
       "requestToJoin": "Ìbéèrè láti darapọ̀ mọ́",
       "approvalNote": "Olùṣàkóso ní láti fọwọ́ sí ìbéèrè rẹ kí o tó lè darapọ̀ mọ́ wọn."
+    },
+    "buyAlert": {
+      "spent": "Ìnáwó:",
+      "buyer": "Oníra:",
+      "balance": "Iwontunwonsi:",
+      "price": "Iye:",
+      "marketCap": "Orí ọjà:"
+    },
+    "newChat": {
+      "public": "Gbangba",
+      "private": "Àdáni",
+      "free": "FREE",
+      "paid": "Ti sanwo",
+      "group": "Ikọ̀"
+    },
+    "holderGate": {
+      "chain": "Pq",
+      "which": "Tọ́kẹ̀nì",
+      "tab": "Àwọn tó ní"
+    },
+    "automod": {
+      "bannedWords": "Awọn ọrọ ti a ẹ ko",
+      "floodMax": "Awọn ifiranṣẹ {{count}}",
+      "saved": "Ti fipamọ",
+      "wordCount": "{{count}} àwọn ọ̀rọ̀"
     }
   },
   "work": {
@@ -7809,7 +7891,15 @@
     "requestPendingBody": "Ibeere atẹle rẹ ti firanṣẹ. Iwọ yoo ni anfani lati wo awọn ifiweranṣẹ wọn ni kete ti wọn ba fọwọsi ibeere rẹ.",
     "followToSeePosts": "Tẹle akọọlẹ yii lati wo awọn ifiweranṣẹ wọn.",
     "loadFailed": "N kò lè gba àtòjọ yìí.",
-    "new": "Tuntun"
+    "new": "Tuntun",
+    "followBackConfirm": "Ìgbà padà",
+    "followBackNotNow": "Kì í ṣe ní báyìí",
+    "followBackDone": "Ó ti parí",
+    "nonFollowers": {
+      "notNow": "Kì í ṣe ní báyìí",
+      "cancel": "Fagilee",
+      "close": "Pàdé"
+    }
   },
   "reactionInfo": {
     "title": "Ìdáhùn",
@@ -8729,7 +8819,35 @@
     "coverFrame": "Lo àwo àtẹsẹ {{index}} gẹ́gẹ́ bí àwo àtẹsẹ",
     "uploadCover": "Gbé àwo àtẹsẹ kan sókè",
     "editFailed": "Kò ṣeé ṣe láti fi ìgbésẹ̀ yìí sílẹ̀. Gbìyànjú lẹ́ẹ̀kan síi.",
-    "chooseDatabase": "Yan Ilé-ìkànsí Aláìlòpin"
+    "chooseDatabase": "Yan Ilé-ìkànsí Aláìlòpin",
+    "altPlaceholderVideo": "Ṣapejuwe fidio yii",
+    "preview": {
+      "title": "Awotẹlẹ"
+    },
+    "recent": {
+      "all": "Gbogbo"
+    },
+    "studio": {
+      "crop": "Ge",
+      "draw": "Yà",
+      "light": "Ìmọ́lẹ̀",
+      "contrast": "Ìyàtọ̀",
+      "warmth": "Ooru",
+      "colour": "Awọ",
+      "fade": "Ṣíṣá",
+      "original": "Atilẹba",
+      "ratioOriginal": "Atilẹba",
+      "ratioFree": "FREE",
+      "rotate": "Yípo",
+      "strength": "Agbára",
+      "stickers": "Àwọn àmì ìdánilẹ́kọ̀ọ́",
+      "textBg": "Ẹ̀yìn",
+      "font": {
+        "bold": "Nípọn"
+      }
+    },
+    "edited": "Ṣatunkọ",
+    "edit": "Ṣàtúnṣe"
   },
   "bounty": {
     "claimed": "Ti gbà",
@@ -9023,7 +9141,8 @@
     "preparingCamera": "Nìṣètò kàmẹ́rà…",
     "reconnecting": "Nìsopọ̀ lẹ́ẹ̀kan sí i…",
     "connecting": "Nìsopọ̀…",
-    "shopPutOnAir": "Fi sí ojú afẹ́fẹ́"
+    "shopPutOnAir": "Fi sí ojú afẹ́fẹ́",
+    "liveBadge": "Gbe"
   },
   "liveShop": {
     "title": "Ra ọjà láti inú ìgbóhùnsáfẹ́fẹ́ yìí",
@@ -9336,7 +9455,23 @@
     "paymentSentWith": "Fi {{amount}} ránṣẹ́",
     "planRestricted": "Olùmúlò yìí nílò ìforúkọsílẹ̀ láti gba àwọn ìfiránṣẹ́.",
     "planTypeNotAllowed": "Ètò olùdá yìí kò gba irú ìfiránṣẹ́ yìí láàyè.",
-    "planMinTip": "Owó ìmoore fún olùdá yìí gbọ́dọ̀ jẹ́ ó kéré tán {{amount}} awọn ami-ami."
+    "planMinTip": "Owó ìmoore fún olùdá yìí gbọ́dọ̀ jẹ́ ó kéré tán {{amount}} awọn ami-ami.",
+    "newDrawer": {
+      "to": "Sí"
+    },
+    "download": "Gbà sílẹ̀",
+    "deleteOneTitle": "Pa àtẹ̀jíṣẹ́ yìí rẹ́?",
+    "retrySend": "Gbìyànjú lẹ́ẹ̀kan sí i",
+    "discardSend": "Yọ kúrò",
+    "shareKindGroup": "Ikọ̀",
+    "shareKindCommunity": "Àwùjọ",
+    "searchDiscover": {
+      "people": "Ènìyàn",
+      "communities": "Àwọn Àwùjọ",
+      "members": "{{n}} awọn ọmọ ẹgbẹ",
+      "newChat": "Ìjíròrò Tuntun",
+      "invite": "Pè"
+    }
   },
   "editPost": {
     "mediaPermission": "A nílò àṣẹ ilé-ìkàwé àwòrán",
@@ -10554,7 +10689,10 @@
       "hint": "Ó ń sọ ọ̀rọ̀ sísọ di àkọlé tí a ṣètò àkókò rẹ̀, tí o lè yí ìrísí rẹ̀ padà. Ó ń ṣiṣẹ́ lórí ẹ̀rọ rẹ: ọ̀fẹ́ àti àṣírí. Ìlò àkọ́kọ́ yóò ṣe ìgbàsílẹ̀ àwòṣe náà.",
       "done": "A ti ṣàfikún àkọlé {{count}}.",
       "noSpeech": "A kò rí ọ̀rọ̀ sísọ nínú agekuru yìí.",
-      "failed": "A kò lè ṣẹ̀dá àkọlé fún agekuru yìí."
+      "failed": "A kò lè ṣẹ̀dá àkọlé fún agekuru yìí.",
+      "styles": {
+        "bold": "Ọ̀rọ̀ ẹ̀ẹ̀ẹ̀"
+      }
     },
     "app": {
       "newDesign": "Àpẹẹrẹ tuntun",
@@ -10804,7 +10942,9 @@
       "suggestTitle": "Fi àkọlé ńlá tó nípọn sí òkè àti àkọlé kékeré sí ìsàlẹ̀ rẹ̀",
       "undo": "Dá padà",
       "openGenerator": "Ṣàyẹ̀wò kí o sì ṣẹ̀dá",
-      "working": "Ó ń ṣiṣẹ́ lórí rẹ̀…"
+      "working": "Ó ń ṣiṣẹ́ lórí rẹ̀…",
+      "stop": "Duro",
+      "queue": "Fi sí ìlò"
     },
     "brand": {
       "presetLoaded": "Àwọn àṣà àmì-ìdánimọ̀ tí a kó wọlé. Lo àṣà náà láti tún àpẹẹrẹ yìí ṣe.",
@@ -10941,7 +11081,9 @@
       "rendering": "Fídíò ń ṣe… {{percent}}%",
       "mp4": "Fídíò MP4",
       "exportHint": "Jẹ́ kí olóòtú ṣí sílẹ̀ nígbà tí fídíò rẹ ń ṣe.",
-      "tooLarge": "Fáìlì yìí ti tóbi jù fún olóòtú. Òpin rẹ̀ jẹ́ 400 MB."
+      "tooLarge": "Fáìlì yìí ti tóbi jù fún olóòtú. Òpin rẹ̀ jẹ́ 400 MB.",
+      "tZoomIn": "Sun-tóbi",
+      "tZoomOut": "Sun-kéré"
     },
     "motion": {
       "title": "Ìṣípòpadà",
@@ -12120,6 +12262,28 @@
       "selection": "Ìyàn",
       "zoomIn": "Sun kánfásì súnmọ́ tòsí",
       "zoomOut": "Sun kánfásì jìnnà síra"
+    },
+    "stage": {
+      "camera": "Kamẹra",
+      "yaw": "Iyipo",
+      "add": "Fikún",
+      "scale": "Iwọn",
+      "color": "Àwọ̀",
+      "light": "Ìmọ́lẹ̀"
+    },
+    "clipFix": {
+      "listening": "Gbígbọ́..."
+    },
+    "voiceClone": {
+      "stop": "Dá ìgbàsílẹ̀ dúró",
+      "failed": "Ìfọkànbalẹ̀ ohùn kùnà."
+    },
+    "linkImport": {
+      "go": "Gbe wọlé",
+      "downloading": "Ìgbàkúrò {{percent}}%"
+    },
+    "reverse": {
+      "action": "Yí padà"
     }
   },
   "creator": {
@@ -12581,7 +12745,31 @@
     "referenceProductName": "Gbe ọja rẹ sinu ipin kan",
     "referenceProductHint": "Rọpo ọja ti a ṣe akiyesi ati jẹ adehun ọna ati ọna atilẹba.",
     "referenceComposeName": "Dapo aworan itọka",
-    "referenceComposeHint": "Mu awọn ohun elo, awọn ohun elo ati awọn ọna lati aworan pupọ sinu iṣelọpọ kan."
+    "referenceComposeHint": "Mu awọn ohun elo, awọn ohun elo ati awọn ọna lati aworan pupọ sinu iṣelọpọ kan.",
+    "marketing": {
+      "import": {
+        "use": "Lo àwọn kúlẹ̀kúlẹ̀ wọ̀nyí"
+      }
+    },
+    "batchCount": "Àwòrán",
+    "endFrame": "Fremu ipari",
+    "cinema": {
+      "close": "Pàdé",
+      "performance": {
+        "label": "Ìṣẹ́"
+      }
+    },
+    "audioNoSpeech": "A kò rí ọ̀rọ̀ kankan nínú àkọsílẹ̀ náà.",
+    "audioTaskSpeechLabel": "Àsọyé",
+    "audioTaskDialogueLabel": "Ìjíròrò",
+    "audioTaskSfxLabel": "Ipa ohun",
+    "audioTaskVoiceChangerLabel": "Ìyípadà ohùn",
+    "audioTaskTranscribeLabel": "Ṣàkọsílẹ̀",
+    "audioTaskIsolateLabel": "Mọ soke",
+    "priceFreeRateLimited": "Òfin owó ọ̀fẹ́ · máa ń bá a lọ",
+    "dialogueFormat": "Kọ ìran náà gẹ́gẹ́ bí \"Orúkọ: ìlà,\" agbẹnusọ kan ní ìlà kọ̀ọ̀kan.",
+    "fileTooLarge": "Fáìlì yẹn ju 100 MB lọ. Lo èyí tí ó kéré jù tàbí tí ó kéré jù.",
+    "signInToGenerate": "Wọlé láti ṣẹ̀dá."
   },
   "fractions": {
     "title": "Ìpín",
@@ -14650,6 +14838,19 @@
       "intro": "Àwọn olùmúran ní àwọn ìdá kan fún ìṣẹ̀jú kọ̀ọ̀kan tí wọ́n ń wò ọ àti ọ̀kan fún 100 awọn ami-ami kọ̀ọ̀kan tí wọ́n ṣe ìbámu. Ìfòrọ̀ àti àwọn ìdáhùn kò ní àwọn ìdá, nítorí náà a kò lè ṣe ìdá.",
       "empty": "Àwọn ìdá kò sí nípa ìsinú. Wọ́n máa ń kó ara wọn nígbà tí àwọn ènìyàn ń wò àti ṣe ìbámu.",
       "widgetHint": "Ṣe àfikún ìtọ́kọ̀ Loyal viewers láti ṣe àfihàn àtòjọ yìí lórí ìṣẹ̀lú."
+    },
+    "destinations": {
+      "platform": "Pẹpẹ",
+      "label": "Orúkọ (ààyè)",
+      "key": "Bọtini ṣiṣan",
+      "save": "Fikún",
+      "cancel": "Fagilee",
+      "states": {
+        "off": "Pa",
+        "idle": "Ó ti ṣetán",
+        "live": "Lásìkò",
+        "error": "Aṣiṣe"
+      }
     }
   },
   "liveChatModeration": {
@@ -14747,7 +14948,65 @@
     "collections": "Àgbàjọ",
     "spotlightForSale": "Ọjọ́ ibẹrẹ.",
     "spotlightNew": "Ọgbọnrin Ọlọrun",
-    "buyFor": "Kaa fun {{price}}"
+    "buyFor": "Kaa fun {{price}}",
+    "actAll": "Gbogbo",
+    "actListings": "Àwọn àkọsílẹ̀ ọjà",
+    "actOffer": "Ìbéèrè",
+    "actOffers": "Àwọn ìfilọ̀",
+    "actSales": "Àwọn idijọ",
+    "tabActivity": "Ìṣe",
+    "allChains": "Gbogbo àwọn ìpele",
+    "newest": "Tuntun Jù",
+    "cheapest": "Iye tí ó kéré jù",
+    "soldFor": "Ta",
+    "signIn": "Wọlé",
+    "share": "Pin",
+    "noneForSale": "Ko si nkankan fun tita sibẹsibẹ",
+    "noSales": "Àìní ìtànjẹ lórí",
+    "tabBrowse": "Ṣàwárí",
+    "tabMine": "Tirẹ",
+    "tabSales": "Àwọn idijọ",
+    "cancelled": "Fagile",
+    "sold": "Ta",
+    "listed": "Ti ṣe atokọ fun tita",
+    "feeRow": "Riftn idiyele ({{pct}}%)",
+    "royaltyRow": "Ẹ̀ka onímọ̀ràn",
+    "youGet": "O gba",
+    "holderGets": "Olùmọ̀ gba",
+    "loading": "Loading...",
+    "price": "Iye",
+    "seller": "Onítajà",
+    "tabRecent": "Àìpẹ́",
+    "buyNow": "Ra nísinsìnyí",
+    "offers": "Àwọn ìfilọ̀",
+    "cancel": "Fagile",
+    "accept": "Gbà",
+    "signInToTrade": "Wọlé láti ṣe ìdárayá",
+    "listForSale": "Àjàkálẹ̀ fún ìdánilọ́rùn lórí",
+    "makeOffer": "Ṣe àwọn ìpinnu",
+    "sendOffer": "Rán àbá",
+    "back": "Pada",
+    "dropsTo": "Àjọ àkọkọọlẹ sí {{price}} sí {{date}}",
+    "trending": "Àwọn ìpilẹ̀ tí ó ń gbẹ̀",
+    "floor": "Ilẹ̀",
+    "listedCount": "{{n}} fun idijọ",
+    "thisCollection": "Ìpilẹ̀ yìí",
+    "collectionOffer": "Ìpinnu lórí eyikeyi",
+    "showAll": "Ṣàfihàn gbogbo",
+    "filters": "Àwọn Sàlẹ̀",
+    "forSale": "Fun idijọ",
+    "openToOffers": "Ṣíṣe àwọn ìpinnu",
+    "freshMints": "Tuntun láti ọ̀dọ̀ Riftn àwọn olùkọ́",
+    "offersOpen": "Ṣíṣe àwọn ìpinnu",
+    "mintedCount": "{{n}} ti a ṣe",
+    "alertSaved": "Ìkìlọ̀ wà. A ó sọ fún ọ nígbà tí ọ̀kan ba ṣe àkójọ.",
+    "dropBadge": "Ìsìnkú ọnà",
+    "days_one": "ọjọ́ {{count}}",
+    "days_other": "àwọn ọjọ́ {{count}}",
+    "dehubPostsName": "Àwọn Ìròyìn Riftn",
+    "statForSale": "Fun ìtànjẹ",
+    "sellYours": "Tà tìyin",
+    "days": "àwọn ọjọ́ {{count}}"
   },
   "reel": {
     "readAll": "Ka gbogbo",
@@ -14769,7 +15028,11 @@
       "episode": "Oríṣun àwòrán, Adarọ ese",
       "show": "Adarọ ese",
       "artist": "Oníṣègùn"
-    }
+    },
+    "loading": "Loading...",
+    "paused": "Ó dúró (Paused)",
+    "preview": "Awotẹlẹ",
+    "seek": "Wá"
   },
   "twoFactor": {
     "wrongCode": "Kóòdì yẹn kò bá a mu. Gbìyànjú èyí tó tuntun nínú àpùlẹ́ẹ̀sì (app) rẹ.",
@@ -14847,5 +15110,248 @@
     "newer": "Abajade tuntun",
     "gone": "Ifiranṣẹ yẹn ko si mọ",
     "theirMessages": "Awọn ifiranṣẹ wọn"
+  },
+  "chatTextSize": {
+    "title": "Ìtóbi ọ̀rọ̀",
+    "default": "Àṣìṣe",
+    "larger": "Tóbi jù"
+  },
+  "remix": {
+    "cut": "Ge"
+  },
+  "signedFollows": {
+    "setUp": "Tan an",
+    "turnOff": "Pa á",
+    "efpTurnOff": "Duro"
+  },
+  "postEditHistory": {
+    "original": "Ojúlówó"
+  },
+  "studioDeck": {
+    "remove": "Yọ kúrò",
+    "background": {
+      "title": "Ẹ̀yìn",
+      "modes": {
+        "none": "Pa",
+        "blur": "Ìṣújú",
+        "color": "Awọ"
+      }
+    },
+    "scenes": {
+      "countdown": "Ìkàwé",
+      "minutes": "{{count}} iṣẹju",
+      "names": {
+        "starting": "Yóò bẹ̀rẹ̀ láìpẹ́"
+      }
+    },
+    "widgets": {
+      "tab": "Àwọn ìrinwọ̀n"
+    },
+    "sources": {
+      "image": "Àwòrán",
+      "show": "Fihàn lórí ìṣẹ̀lẹ̀",
+      "positions": {
+        "center": "Àárín"
+      },
+      "sizes": {
+        "medium": "Ààrin"
+      }
+    },
+    "phone": {
+      "title": "Ilé-iṣẹ́"
+    }
+  },
+  "whenSheet": {
+    "today": "Lónìí",
+    "tooSoon": "Yan àkókò kan ní ọjọ́ iwájú.",
+    "show": "Fihàn",
+    "hide": "Fi pamọ́"
+  },
+  "planned": {
+    "title": "Tí A Gbèrò",
+    "all": "Gbogbo",
+    "posts": "Àròkọ",
+    "stages": "Àwọn yàrá ohùn",
+    "post": "Firánṣẹ́",
+    "live": "Lásìkò",
+    "stage": "Pẹpẹ",
+    "untitledPost": "Firánṣẹ́",
+    "untitledLive": "Lásìkò",
+    "loading": "Nṣe àgbékún…",
+    "startNow": "Bẹ̀rẹ̀ báyìí",
+    "cancel": "Fagilee",
+    "cancelled": "Ti fagile"
+  },
+  "welcome": {
+    "about": {
+      "title": "Ì kàbọ̀ sí Riftn",
+      "day": "Ọjọ́",
+      "month": "Oṣù",
+      "year": "Ọdún"
+    },
+    "name": {
+      "title": "Orúkọ rẹ",
+      "placeholder": "Orúkọ rẹ"
+    },
+    "card": {
+      "name": "Orúkọ rẹ",
+      "followers": "àwọn ọmọ-ẹ̀yìn"
+    },
+    "topic": {
+      "music": "Orin",
+      "art": "Ọnà",
+      "gaming": "Eré",
+      "crypto": "Owó ẹ̀yọ̀ àwòrán (Crypto)",
+      "sports": "Eré ìdárayá",
+      "comedy": "Àwàdà",
+      "film": "Fíìmù",
+      "podcast": "Adarọ ese",
+      "food": "Oúnjẹ",
+      "news": "Awọn iroyin",
+      "science": "Sáyẹ́nsì"
+    },
+    "back": "Padà",
+    "skipPhoto": "Ṣe àìpẹ̀ fún báyìí",
+    "preview": "Awotẹlẹ"
+  },
+  "appTokens": {
+    "title": "Awọn token rẹ",
+    "history": "Ìtàn",
+    "noHistory": "Ko si iṣẹ kankan sibẹsibẹ",
+    "kindDeposit": "Fi owó sí",
+    "to": "Sí",
+    "amount": "Iye",
+    "notePlaceholder": "Fi àkíyèsí kún un (àṣàyàn)",
+    "sendButton": "Rán",
+    "errorInsufficient": "Ko to awọn ami-ami"
+  },
+  "avatarPrompt": {
+    "notNow": "Kì í ṣe ní báyìí"
+  },
+  "postStats": {
+    "audience": "Àwọn olùgbọ́",
+    "engagement": "Ifẹ",
+    "finished": "Ti parí",
+    "members": "Awọn ọmọ ẹgbẹ",
+    "membersLower": "awọn ọmọ ẹgbẹ",
+    "newFollowers": "Àwọn ọmọlẹ́yìn tuntun",
+    "noBadge": "Kò sí àmì ìdánimọ̀",
+    "people": "Ènìyàn",
+    "plays": "Ṣere",
+    "quotes": "Àyọlò",
+    "reposts": "Àtúnkọ",
+    "saved": "Ti fipamọ",
+    "shares": "Pín",
+    "signedOutViewers": "Ti jáde",
+    "topSupporters": "Awọn alatilẹyin ti o ga julọ",
+    "visitors": "Ti jáde"
+  },
+  "duet": {
+    "policyEveryone": "Gbogbo ènìyàn",
+    "policyFollowers": "Àwọn olùtẹ̀lé",
+    "policyNobody": "Kò sí ẹnìkan",
+    "loadMore": "Rù síi",
+    "video": "Fídíò"
+  },
+  "remixLinks": {
+    "policy": {
+      "everyone": "Gbogbo ènìyàn",
+      "followers": "Àwọn olùtẹ̀lé",
+      "nobody": "Kò sí ẹnìkan"
+    }
+  },
+  "reactions": {
+    "policy": {
+      "everyone": "Gbogbo ènìyàn",
+      "followers": "Àwọn olùtẹ̀lé",
+      "nobody": "Kò sí ẹnìkan"
+    },
+    "heading": "Ìdáhùn",
+    "more": "Fi kún un",
+    "liveNow": "Lásìkò",
+    "untitled": "Ìdáhùn"
+  },
+  "liveClips": {
+    "copyLink": "Ẹ̀dà ìjápọ̀",
+    "linkCopied": "Àdàkọ ìjápọ"
+  },
+  "liveHype": {
+    "gift": {
+      "plan": "Ètò",
+      "howMany": "Mélòó",
+      "who": "Orúkọ olùmúlò tàbí àdírẹ́sì àpò",
+      "whoPlaceholder": "@orukoolumulo",
+      "cancel": "Fagilee",
+      "stage": {
+        "preparing": "Nmuratan…",
+        "confirming": "Ń dúró de ìṣòwò…",
+        "recording": "Ń parí…"
+      }
+    }
+  },
+  "dmPaidLock": {
+    "lockCustom": "Mìíràn",
+    "confirming": "Ṣíṣe ìjẹ́rìísí ìsanwó..."
+  },
+  "liveShorts": {
+    "live": "Gbe"
+  },
+  "feedFilters": {
+    "clearAllShort": "Pa gbogbo rẹ̀",
+    "done": "Ṣe",
+    "edit": "Ṣàtúnṣe",
+    "groupDate": "Ọjọ́",
+    "groupSort": "Tò",
+    "groupType": "Irú",
+    "save": "Fi pamọ́"
+  },
+  "ownKeys": {
+    "working": "Ṣiṣẹ",
+    "failed": "Nǹkan kan kò lọ dáadáa. Gbìyànjú lẹ́ẹ̀kan síi.",
+    "check": "Ṣayẹwo",
+    "remove": "Yọ kúrò",
+    "save": "Fi pamọ́",
+    "cancel": "Fagilé"
+  },
+  "postBg": {
+    "none": "Ko si",
+    "yours": "Tirẹ",
+    "accent": "Àkíyèsí",
+    "names": {
+      "lava": "Àtùpà lava",
+      "drive": "Iwakọ Alẹ",
+      "chrome": "Omi Chrome"
+    }
+  },
+  "articleTile": {
+    "cover": "Èèpo"
+  },
+  "aiConsent": {
+    "allow": "Gbà"
+  },
+  "dmRequests": {
+    "title": "Àwọn ìbéèrè",
+    "accept": "Gba",
+    "delete": "Parẹ́",
+    "block": "Dà"
+  },
+  "dmSchedule": {
+    "view": "Wò",
+    "edit": "Ṣatunkọ",
+    "editLabel": "Ṣàtúnṣe àtẹ̀jíṣẹ́",
+    "error": "Ìyẹn kò ṣiṣẹ́. Gbìyànjú lẹ́ẹ̀kan síi."
+  },
+  "chatBulk": {
+    "selected": "{{count}} yan",
+    "cancel": "Fagilé",
+    "reply": "Ìdáhùn",
+    "delete": "Parẹ́"
+  },
+  "msgSelect": {
+    "selected": "{{count}} yan",
+    "copy": "Daakọ",
+    "forward": "Firánṣẹ́ síwájú",
+    "deleted_one": "Ìfìránṣẹ́ {{count}} tí a pa rẹ́",
+    "deleted_other": "Àwọn ìfìránṣẹ́ {{count}} tí a pa rẹ́"
   }
 }
