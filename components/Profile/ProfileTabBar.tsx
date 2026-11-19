@@ -61,26 +61,33 @@ function ProfileTabBarInner<Key extends string>({ items, activeKey, onChange, pi
   const scrollRef = useRef<ScrollView>(null);
   const [railWidth, setRailWidth] = useState(0);
   const [offset, setOffset] = useState(0);
-  const contentWidth = items.length * TAB_WIDTH;
+  // Both bars use the same tab size: the in-profile pill used to squeeze every
+  // tab into the screen width, so with a dozen tabs each one shrank to a sliver
+  // while the pinned bar kept full-size tabs. Now the open pill scrolls like
+  // the pinned bar, and only widens tabs to fill the row when there are few.
+  const tabWidth = !compact && railWidth > 0 && items.length > 0
+    ? Math.max(TAB_WIDTH, railWidth / items.length)
+    : TAB_WIDTH;
+  const contentWidth = items.length * tabWidth;
   const maxOffset = Math.max(0, contentWidth - railWidth);
-  const startHidden = compact && offset > 1;
-  const endHidden = compact && maxOffset - offset > 1;
+  const startHidden = offset > 1;
+  const endHidden = maxOffset - offset > 1;
   const mask = resolveEdgeFadeMask({
     start: I18nManager.isRTL ? endHidden : startHidden,
     end: I18nManager.isRTL ? startHidden : endHidden,
   }, railWidth);
 
   useEffect(() => {
-    if (!compact || !railWidth) return;
+    if (!railWidth) return;
     const index = Math.max(0, items.findIndex(item => item.key === activeKey));
-    const left = index * TAB_WIDTH;
-    const right = left + TAB_WIDTH;
+    const left = index * tabWidth;
+    const right = left + tabWidth;
     const next = left < offset ? left : right > offset + railWidth ? right - railWidth : offset;
     if (next !== offset) scrollRef.current?.scrollTo({ x: next, animated: false });
     // Re-seat the selection when the row changes width or tab, without
     // pulling it back while the user browses the rail.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeKey, railWidth, items, compact]);
+  }, [activeKey, railWidth, items, tabWidth]);
 
   const tabButtons = items.map(item => {
     const focused = item.key === activeKey;
@@ -93,7 +100,7 @@ function ProfileTabBarInner<Key extends string>({ items, activeKey, onChange, pi
         accessibilityState={{ selected: focused }}
         onPress={() => onChange(item.key)}
         activeOpacity={0.72}
-        style={[styles.tab, !compact && styles.expandedTab, !isMinimal && !focused && styles.tabIdle, isMinimal && minimalTab, isMinimal && focused && minimalTabActive]}
+        style={[styles.tab, { width: tabWidth }, !isMinimal && !focused && styles.tabIdle, isMinimal && minimalTab, isMinimal && focused && minimalTabActive]}
       >
         {/* "Beam": a short glowing line under the selected tab, in the tab's
             own ink, instead of a box behind it. Minimal keeps its folder tab. */}
@@ -114,7 +121,7 @@ function ProfileTabBarInner<Key extends string>({ items, activeKey, onChange, pi
             layer paint on every draw, and a software layer invalidates itself
             when that happens, so the pinned profile bar redrew every frame
             even at rest and dropped about a fifth of the frames on scroll. */}
-        {compact ? <MaskedView
+        <MaskedView
           style={styles.railMask}
           maskElement={
             <LinearGradient
@@ -138,7 +145,7 @@ function ProfileTabBarInner<Key extends string>({ items, activeKey, onChange, pi
           >
             {tabButtons}
           </ScrollView>
-        </MaskedView> : <View style={[styles.row, styles.expandedRow]}>{tabButtons}</View>}
+        </MaskedView>
       </View>
     </View>
   );
@@ -152,9 +159,7 @@ const styles = StyleSheet.create({
   embeddedContainer: { backgroundColor: 'transparent' },
   railMask: { width: '100%', height: TAB_HEIGHT },
   row: { flexDirection: 'row', alignItems: 'center' },
-  expandedRow: { width: '100%' },
   tab: { width: TAB_WIDTH, height: TAB_HEIGHT, alignItems: 'center', justifyContent: 'center', borderRadius: 12 },
-  expandedTab: { flex: 1, width: undefined },
   tabIdle: { opacity: 0.6 },
   iconBox: { width: ICON_BOX, height: ICON_BOX, alignItems: 'center', justifyContent: 'center' },
   beam: { position: 'absolute', bottom: 2, left: '30%', right: '30%', height: 3, borderRadius: 3, shadowOpacity: 0.9, shadowRadius: 6, shadowOffset: { width: 0, height: 0 } },
