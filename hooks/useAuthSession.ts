@@ -39,6 +39,7 @@ import {
   displacesAnotherAccount,
   stageIncomingIdentity,
 } from "../libs/profiles";
+import { noteSignInAccount } from "../libs/signInHandoff";
 // balances fetching centralized in useBalances
 
 type Logger = {
@@ -351,6 +352,9 @@ export function useAuthSession({
       chainId: number,
       preOverride: any
     ) => {
+      // A log-in (not a sign-up): hand the account to the sign-in arrival now,
+      // so its picture starts loading before the provider and profile work below.
+      if (!needsUsername) noteSignInAccount(walletUser);
       try {
         if (preOverride && typeof preOverride.request === "function")
           await adoptProvider(preOverride);

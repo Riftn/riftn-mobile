@@ -5833,6 +5833,7 @@
     "image": "Envoi d'une image"
   },
   "liveChat": {
+    "jumpToMentions": "Aller aux réponses et mentions",
     "attach": "Ajoutez une photo, un GIF ou un emoji",
     "attachTitle": "Ajouter à votre message",
     "attachPhoto": "Photo",

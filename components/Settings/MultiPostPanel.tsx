@@ -1,6 +1,6 @@
 import WebPurchaseLink from "../common/WebPurchaseLink";
 import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, TouchableOpacity, ActivityIndicator, Linking } from "react-native";
 import { useTranslation } from "react-i18next";
 import * as WebBrowser from "expo-web-browser";
@@ -19,6 +19,7 @@ import {
   MULTIPOST_PLATFORMS, MULTIPOST_REDIRECT, PLATFORM_NAMES,
   buyCredits, disconnectAccount, getMultipostStatus, startConnect,
 } from "../../services/multipost.service";
+import { crossPostState, toggleCrossPostAccount } from "../../libs/crosspost-store";
 
 const PLATFORM_ICON: Record<string, IconName> = { twitter: "Twitter", instagram: "Instagram", facebook: "Facebook" };
 export const platformIcon = (platform: string): IconName => PLATFORM_ICON[platform] ?? "Globe";
@@ -31,13 +32,18 @@ export function useMultipostWallet(): string | null {
 
 export const multipostQueryKey = (wallet: string | null) => ["multipost", "status", wallet] as const;
 
-const MultiPostPanel: React.FC = () => {
+/**
+ * Everything multi-posting needs: status, connecting, disconnecting and buying
+ * credits. Settings uses it as a page; the composer uses it `inPost`, where an
+ * account connected from the sheet is switched on for that post.
+ */
+export function useMultipostSetup({ inPost = false }: { inPost?: boolean } = {}) {
   const { t } = useTranslation();
   const wallet = useMultipostWallet();
   const qc = useQueryClient();
-  const [stopIndex, setStopIndex] = useState(3);
   const [buying, setBuying] = useState(false);
   const [connecting, setConnecting] = useState<string | null>(null);
+  const knownIds = useRef<Set<string> | null>(null);
 
   const status = useQuery({
     queryKey: multipostQueryKey(wallet),
@@ -49,13 +55,18 @@ const MultiPostPanel: React.FC = () => {
   });
   const refresh = () => qc.invalidateQueries({ queryKey: multipostQueryKey(wallet) });
 
-  const credits = BUNDLE_STOPS[stopIndex];
-  const discount = bundleDiscount(credits);
-  const total = bundlePriceUsd(credits);
-  const accounts = status.data?.accounts ?? [];
-  const connected = new Set(accounts.filter((a) => !a.pending).map((a) => a.platform));
+  // A newly connected account goes straight into this post.
+  const accounts = status.data?.accounts;
+  useEffect(() => {
+    if (!inPost || !knownIds.current || !accounts) return;
+    const fresh = accounts.filter((a) => !a.pending && !knownIds.current!.has(a.id)).map((a) => a.id);
+    if (!fresh.length) return;
+    knownIds.current = null;
+    fresh.forEach((id) => { if (!crossPostState.selected.includes(id)) toggleCrossPostAccount(id); });
+  }, [inPost, accounts]);
 
   const handleConnect = async (platform: string) => {
+    knownIds.current = new Set((status.data?.accounts ?? []).filter((a) => !a.pending).map((a) => a.id));
     setConnecting(platform);
     try {
       const authUrl = await startConnect(wallet, platform);
@@ -96,7 +107,7 @@ const MultiPostPanel: React.FC = () => {
     }
   };
 
-  const handleBuy = async () => {
+  const handleBuy = async (credits: number) => {
     setBuying(true);
     try {
       await buyCredits(wallet, credits);
@@ -108,6 +119,21 @@ const MultiPostPanel: React.FC = () => {
       setBuying(false);
     }
   };
+
+  return { wallet, status, buying, connecting, handleConnect, handleDisconnect, handleBuy };
+}
+
+const MultiPostPanel: React.FC = () => {
+  const { t } = useTranslation();
+  const [stopIndex, setStopIndex] = useState(3);
+  const { wallet, status, buying, connecting, handleConnect, handleDisconnect, handleBuy: buy } = useMultipostSetup();
+
+  const credits = BUNDLE_STOPS[stopIndex];
+  const discount = bundleDiscount(credits);
+  const total = bundlePriceUsd(credits);
+  const accounts = status.data?.accounts ?? [];
+  const connected = new Set(accounts.filter((a) => !a.pending).map((a) => a.platform));
+  const handleBuy = () => buy(credits);
 
   if (!wallet) {
     return <Text className="text-theme-neutrals-400 text-sm m-4">{t("multiPost.signIn")}</Text>;

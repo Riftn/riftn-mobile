@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { addVolumeKeyListener } from "../modules/media-bridge";
 import { setMutedState } from "./videoMutedState";
+import { getVolume, setVolume } from "./video-preferences";
 
 /**
  * Pressing the phone's volume-up key unmutes the video on screen, the way
@@ -16,7 +17,11 @@ const handlers = new Set<() => void>();
 let unsubscribe: (() => void) | null = null;
 
 function onVolumeUp() {
+  console.log("[volume-keys] volume up");
   setMutedState(false);
+  // A video's own level dragged to the bottom is a mute too (the speaker
+  // shows muted at level 0), and players follow this level as it changes.
+  try { if (getVolume() === 0) setVolume(0.8); } catch {}
   handlers.forEach((fn) => {
     try { fn(); } catch {}
   });
