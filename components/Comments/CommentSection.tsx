@@ -79,6 +79,8 @@ import { getFileName, guessMime } from "../../libs/assets.util";
 import { useCommentAttachPicker } from "./useCommentAttachPicker";
 import { useComposerKeyboard, useSelfLiftingComposer } from "../../hooks/useComposerKeyboard";
 import { useMentions } from "../../hooks/useMentions";
+import { useComposeTranslate } from "../../hooks/useComposeTranslate";
+import LanguageSelectModal from "../Settings/LanguageSelectModal";
 import { useAssistantPendingReply } from "../../hooks/useAssistantPendingReply";
 import { mentionsAssistant } from "../../libs/assistant";
 import { aiConsentDeclinedMessage, ensureAiConsent, hasAiConsent } from "../../libs/ai-consent";
@@ -258,6 +260,9 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
   const growingInput = useGrowingTextInput(inputText);
   const [composerHeight, setComposerHeight] = useState(76);
   const mentions = useMentions(inputText, setInputText);
+  // Translate what you typed (English unless you picked another language:
+  // long press). Same button as the Public Chat composer.
+  const translator = useComposeTranslate(inputText, setInputText as (v: string) => void);
   const [replyingTo, setReplyingTo] = useState<Comment | null>(() => draftReplyTarget(restoredDraft));
 
   const [posting, setPosting] = useState(false);
@@ -2124,6 +2129,20 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
                 <Text style={{ fontSize: 18 }}>🙂</Text>
               </Pressable>
                   <View style={{ flex: 1 }} />
+                {inputText.trim().length > 0 && (
+                  <Pressable
+                    onPress={() => void translator.translate()}
+                    onLongPress={translator.openPicker}
+                    disabled={translator.busy}
+                    hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("common.translate")}
+                    testID="comment-translate"
+                    style={toolControl}
+                  >
+                    {translator.busy ? <ActivityIndicator size="small" color="#A6A9AC" /> : <Icon name="Languages" size={19} color="#8B8D90" />}
+                  </Pressable>
+                )}
                 {!editingComment && inputText.trim().length > 0 && (
                   <Pressable
                     onPress={() => setAiMenu(aiMenu === "closed" ? "open" : "closed")}
@@ -2228,6 +2247,18 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
       </WhenOpened>
 
       {attachSheet}
+      <WhenOpened open={translator.pickerOpen}>
+        {() => (
+          <LanguageSelectModal
+            visible={translator.pickerOpen}
+            onClose={translator.closePicker}
+            onSelect={translator.choose}
+            selected={translator.lang}
+            title={t("common.translate")}
+            subtitle=""
+          />
+        )}
+      </WhenOpened>
       <WhenOpened open={gifPickerVisible}>
         {() => (
           <GifPicker

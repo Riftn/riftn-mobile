@@ -16914,6 +16914,9 @@
   },
   "chatTabs":{"addChats":"Add chats","addToTab":"Add to tab","addedTo":"Added to {{name}}","all":"All","alwaysOn":"Always on","builtIn":"Built in","chatCount":"{{n}} chats","chatsInTab":"Chats in this tab","communities":"Communities","create":"Create tab","delete":"Delete tab","deleteBody":"The tab goes away. Its chats stay in All and keep their messages.","deleteTitle":"Delete “{{name}}”?","deleted":"Deleted {{name}}","direct":"Direct","edit":"Edit tabs","editHintApp":"Use the arrows to reorder. Hidden tabs keep their chats.","editTab":"Edit tab","emoji":"Pick an emoji","emptyBody":"Add chats here and they stay in All too.","emptyTitle":"{{name}} is empty","hide":"Hide tab","kindChannel":"Channel","kindCommunity":"Community","kindDirect":"Direct","kindGroup":"Group","kindPublic":"Public","moveDown":"Move down","moveLeft":"Move left","moveRight":"Move right","moveUp":"Move up","namePlaceholder":"Tab name","new":"New tab","newWith":"New tab…","noEmoji":"No emoji","picked":"{{n}} picked","removedFrom":"Removed from {{name}}","renameEdit":"Rename and edit","requests":"Requests","sCreators":"Creators","sFriends":"Friends","sGaming":"Gaming","sTrading":"Trading","sWork":"Work","saveFailed":"Couldn't save your tabs, try again","show":"Show tab","tooMany":"You can have up to 10 tabs"},
   "msgDelete": {
+    "chatTitle": "Delete this chat?",
+    "chatBodyBoth": "Delete it from your chats only, or every message for both of you. This can't be undone.",
+    "chatBodyMe": "It will be removed from your chats only. Others will still see it.",
     "title": "Delete message?",
     "titleMany": "Delete {{count}} messages?",
     "bodyOwn": "Remove it from your chat only, or for everyone.",
@@ -16929,5 +16932,9 @@
     "remember": "Remember my choice",
     "rememberHint": "Change it any time in Settings",
     "failed": "Could not delete the message"
+  },
+  "roomPreview": {
+    "you": "You",
+    "voice": "🎤 Voice message"
   }
 }

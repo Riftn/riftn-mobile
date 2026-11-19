@@ -17128,6 +17128,9 @@
     "tooMany": "Puedes tener hasta 10 pestañas"
   },
   "msgDelete": {
+    "chatTitle": "¿Eliminar este chat?",
+    "chatBodyBoth": "Bórralo solo de tus chats o borra todos los mensajes para los dos. No se puede deshacer.",
+    "chatBodyMe": "Se quitará solo de tus chats. Los demás lo seguirán viendo.",
     "title": "¿Eliminar mensaje?",
     "titleMany": "¿Eliminar {{count}} mensajes?",
     "bodyOwn": "Quítalo solo de tu chat o para todos.",
@@ -17143,5 +17146,9 @@
     "remember": "Recordar mi elección",
     "rememberHint": "Cámbialo cuando quieras en Ajustes",
     "failed": "No se pudo eliminar el mensaje"
+  },
+  "roomPreview": {
+    "you": "Tú",
+    "voice": "🎤 Mensaje de voz"
   }
 }
