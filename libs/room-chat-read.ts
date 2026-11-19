@@ -88,9 +88,9 @@ export function roomPreviewLine(
 ): string {
   const type = (line.message_type || 'text').toLowerCase();
   const body = (line.content || '').replace(/\s+/g, ' ').trim()
-    || (type === 'gif' ? t('copy.fd0ce9669a4e', { defaultValue: '🎞️ GIF' })
+    || (type === 'gif' ? `🎞️ ${t('emojiPicker.tabGif', { defaultValue: 'GIF' })}`
       : type === 'audio' || type === 'voice' ? t('roomPreview.voice', { defaultValue: '🎤 Voice message' })
-        : line.image_url || type === 'image' ? t('copy.1b13ff986443', { defaultValue: '📷 Photo' })
+        : line.image_url || type === 'image' ? `📷 ${t('dm.photo', { defaultValue: 'Photo' })}`
           : '');
   if (!body) return '';
   const mine = !!me && (line.wallet_address || '').toLowerCase() === me.toLowerCase();
