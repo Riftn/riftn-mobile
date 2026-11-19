@@ -20,6 +20,42 @@ export function signInWasWaiting(ms: number): boolean {
   return Date.now() - waitingUntil < ms;
 }
 
+/**
+ * The account a log-in just produced, straight from the log-in response, so
+ * the arrival can show its picture without waiting for the profile refetch
+ * that follows. Only log-ins note one: a new account picking its username is
+ * a sign-up, and gets no arrival.
+ */
+export type ArrivingAccount = { avatarImageUrl: string | null; name: string; at: number };
+let arriving: ArrivingAccount | null = null;
+const arrivingListeners = new Set<() => void>();
+
+export function noteSignInAccount(user: { avatarImageUrl?: string | null; displayName?: string | null; username?: string | null } | null | undefined): void {
+  if (!user) return;
+  arriving = {
+    avatarImageUrl: user.avatarImageUrl || null,
+    name: user.displayName || user.username || '',
+    at: Date.now(),
+  };
+  arrivingListeners.forEach((l) => l());
+}
+
+/** The noted account if it is younger than `ms`; taking it clears it. */
+export function takeArrivingAccount(ms: number): ArrivingAccount | null {
+  const a = arriving;
+  arriving = null;
+  return a && Date.now() - a.at < ms ? a : null;
+}
+
+export function peekArrivingAccount(ms: number): ArrivingAccount | null {
+  return arriving && Date.now() - arriving.at < ms ? arriving : null;
+}
+
+export function subscribeArrivingAccount(listener: () => void): () => void {
+  arrivingListeners.add(listener);
+  return () => { arrivingListeners.delete(listener); };
+}
+
 let ownAvatar: RefObject<View | null> | null = null;
 
 /** The signed-in account's own picture on screen (the home header's). */
