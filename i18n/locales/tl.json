@@ -2612,7 +2612,66 @@
     "57e2faa5ec63": "Maghanap sa Riftn",
     "7db20897053b": "Mga tao",
     "96d7bff86b44": "Hindi ma-load ang paghahanap",
-    "d8b8392e2c54": "Subukan muli"
+    "d8b8392e2c54": "Subukan muli",
+    "e587a51bc3ce": "Bago sa Riftn",
+    "d7396f3b8881": "Bagong like o komento sa Riftn",
+    "037a2ecd34b0": "Bagong tagasunod sa Riftn",
+    "b63561f1b73a": "Bagong tip o kita sa Riftn",
+    "0ae84457a2df": "May sinusundan kang naka-live sa Riftn",
+    "a7bac8dca08b": "Papasok na tawag sa Riftn",
+    "9d309cb4a034": "Update sa Riftn post mo",
+    "914be7a9350a": "Mensahe mula sa Riftn",
+    "2ab63e6ced90": "Hindi magagawa",
+    "79688f176607": "Minarkahang Hindi magagawa",
+    "465fe84f18fc": "Markahang Hindi magagawa",
+    "0d24977e6943": "I-edit ang dahilan",
+    "0a54f1d10336": "Bakit hindi ito magagawa? (opsyonal)",
+    "3d024b567634": "Maikling dahilan na makikita ng mga tao",
+    "ad389aa4c08e": "Dahilan:",
+    "78b3ae9561ee": "Walang tinanggihan",
+    "89b4d1850766": "Lalabas dito ang mga request na hindi namin magagawa sa ngayon, kasama ang dahilan.",
+    "3f9b2c71d0a4": "{{n}} resulta",
+    "8c4e1a6b2f57": "para sa “{{query}}”",
+    "63eb38b938b8": "Markahang Nakapila",
+    "2fffca525795": "Markahang Na-ship",
+    "3ee050a08bfa": "Bumalik sa Mga Request",
+    "ae6a0ffbe609": "Minarkahang Nakapila",
+    "366cb56b38ce": "Minarkahang Na-ship",
+    "9db7b5ba03bb": "Ibinalik sa Mga Request",
+    "bb2be752e079": "Hindi mabago ang status",
+    "1d7234ff1b79": "sa {{feed}}",
+    "e122e5c2b563": "I-drag pataas para isara",
+    "1aa9d734f2ee": "Piliin kung ano ang hahanapin",
+    "35034aa59bd3": "Walang tumugma sa {{feed}}. Sumubok ng ibang salita o hanapin ang lahat.",
+    "415155739590": "Hanapin ang lahat",
+    "90f1afe66801": "Hinahanap ang “{{query}}”…",
+    "9e13d826baaf": "Maghanap ng larawan",
+    "e8756c6865a5": "Maghanap ng shorts",
+    "c7661da99c41": "Maghanap ng video",
+    "cbf6f228327c": "Maghanap ng musika",
+    "d7b559f2d8c6": "Sumubok ng ibang salita, o baguhin ang mga filter.",
+    "ef557404f465": "Walang resulta para sa “{{query}}”",
+    "d1a0c7e2f301": "Ano'ng nasa isip mo ngayong araw?",
+    "d1a0c7e2f302": "Ano'ng iniisip mo ngayong araw?",
+    "d1a0c7e2f303": "Ano'ng nasa isip mo?",
+    "d1a0c7e2f304": "May iniisip ka ba?",
+    "d1a0c7e2f305": "Ano'ng nasa isip mo ngayon?",
+    "d1a0c7e2f306": "Ano'ng iniisip natin ngayon?",
+    "d1a0c7e2f307": "May nasa isip ka ba ngayong araw?",
+    "d1a0c7e2f308": "Ano'ng nasa isip mo ngayon?",
+    "a7c1e0f4b2d9": "I-tap para magsalita",
+    "b3e8d1c6f0a2": "I-tap para ipadala",
+    "c9f2a4e7d1b5": "Nakikinig... i-tap ang bola para ipadala",
+    "94cee2c8c1c1": "Lumipat ang profile mo",
+    "22577ebd908e": "Gumawa ng Wan 3.0 na video · orihinal na soundtrack",
+    "1fa2357ab7e1": "Gumawa ng Seedance 720p na video · orihinal na soundtrack",
+    "7f78bdc0762d": "+{{value1}} pts",
+    "f0c8bb34335b": "Nakakuha ka ng +{{value1}} puntos",
+    "0fbe06b679a8": "{{value1}} puntos para sa bawat na-ship na request, idinadagdag sa iskor mo sa Top builders.",
+    "ebebdc70335b": "Glass Bars",
+    "5ff272ba7871": "Silk Lines",
+    "a941e90ca93d": "Cover Halo",
+    "04dbbe4dff7a": "True Wave"
   },
   "dehubLinks": {
     "kind": {
@@ -2629,7 +2688,8 @@
       "proposal": "panukala",
       "stage": "entablado",
       "store": "magasin",
-      "featureRequest": "Mga Hiling"
+      "featureRequest": "Mga Hiling",
+      "page": "page"
     }
   },
   "postGate": {
@@ -2865,10 +2925,20 @@
       "numbers": "Mga talaan ng bilang",
       "link": "I-link",
       "image": "Magdagdag ng mga larawan"
-    }
+    },
+    "imageLimit": "Hanggang {{count}} larawan ang kaya ng isang article",
+    "imageFailed": "Hindi maidagdag ang larawang iyan. Sumubok ng iba.",
+    "imagesUploading": "Idinadagdag ang mga larawan ({{count}})…",
+    "bodyTooLong": "Lampas ng {{count}} character sa limit",
+    "imagesCount": "Mga larawan · {{count}}/{{max}}",
+    "captionPlaceholder": "Magdagdag ng caption",
+    "captionLabel": "Caption para sa larawan {{n}}",
+    "removeInlineImage": "Alisin ang larawan {{n}}"
   },
   "storefront": {
-    "unavailable": "Hindi available sa bersyong ito ng app"
+    "unavailable": "Hindi available sa bersyong ito ng app",
+    "continueOnWeb": "Magpatuloy sa riftn.com",
+    "webOnlyHint": "Tapusin ito sa riftn.com. Magbubukas ito sa Safari."
   },
   "nav": {
     "launchpad": "Launchpad",
@@ -2922,7 +2992,72 @@
     "reorderReset": "I - reset",
     "groups": {
       "create": "Gumawa",
-      "discover": "Tumuklas"
+      "discover": "Tumuklas",
+      "main": "Pangunahin",
+      "money": "Pera",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "feed, timeline, pinakabagong post, para sa iyo, fina-follow, home, front page",
+      "profile": "profile ko, account ko, page ko, mga post ko, avatar, bio, mga tagasunod, followers",
+      "explore": "maghanap, tuklasin, hanapin, trending, sikat, hashtag, mga tao, mga creator",
+      "prompt": "AI, lumikha, AI na larawan, AI na video, gumawa ng larawan, text to image, AI art",
+      "editor": "video editor, i-edit ang video, i-trim, gupitin, caption, subtitle, effects",
+      "creator": "lumikha, studio, AI tools, larawan, video, musika, voiceover, 3D",
+      "converter": "mag-import ng video, i-download, YouTube, TikTok, Instagram, i-convert",
+      "migrate": "ilipat ang channel ko, mag-import ng channel, bulk import, YouTube channel",
+      "notifications": "alerto, aktibidad, mention, reply, like, kampana, notification",
+      "messages": "DM, direktang mensahe, chat, inbox, usapan, pribadong mensahe",
+      "communities": "grupo, komunidad, room, club, forum, miyembro",
+      "assistant": "AI, chatbot, magtanong, tulong, AI chat, mga tanong",
+      "settings": "preferences, account, privacy, seguridad, password, wika, tema, dark mode, naka-block, burahin ang account",
+      "leaderboard": "ranggo, ranking, nangungunang creator, nangungunang user, puntos, score",
+      "bookmarks": "naka-save, paborito, panoorin mamaya, basahin mamaya, naka-save na post, library",
+      "command": "dashboard, analytics, kita, kinita, insights, moderation, stats ko",
+      "wallet": "balanse, pera, pondo, token, crypto, deposito, withdraw, magpadala, tumanggap, magbayad",
+      "events": "kalendaryo, iskedyul, meetup, paparating, tiket, AMA",
+      "stages": "audio room, voice chat, spaces, live audio, usapan, podcast",
+      "featureRequests": "bumuo, builders, ideya, mungkahi, mag-report ng bug, bug, ayos, roadmap, bumoto, wishlist, pagbutihin",
+      "feedback": "review, rating, survey, opinyon, reklamo, magbigay ng feedback",
+      "staking": "stake, deposito, yield, gantimpala, kumita, profit share, badge, tier, interes",
+      "superpowers": "boost, i-promote, perks, kapangyarihan, badge perks, abot, upgrade",
+      "governance": "bumoto, botohan, panukala, poll, balota, magpasya",
+      "dao": "treasury, mag-donate, donasyon, pondo ng komunidad, mag-ambag, grants",
+      "bounties": "trabaho, jobs, gawain, gig, freelance, mag-hire, kumita ng pera, bayad na trabaho",
+      "myBounties": "mga bounty ko, mga trabaho ko, kasaysayan, payout, natapos na trabaho",
+      "affiliate": "referral, mag-imbita ng kaibigan, imbitahan, komisyon, partner, kumita",
+      "careers": "trabaho, hiring, magtrabaho sa amin, sumali sa team, mag-apply, bakante",
+      "stores": "shop, tindahan, marketplace, merch, bumili, magbenta, produkto, pamimili",
+      "fractions": "shares, pagmamay-ari, mag-invest, magmay-ari ng post, NFT, NFTs, collectibles, trade",
+      "usernames": "username, handle, pangalan, palitan ang pangalan ko, bumili ng pangalan, magbenta ng pangalan",
+      "accounts": "bumili ng account, magbenta ng account, account na ibinebenta, tagasunod, ilipat ang account",
+      "apps": "app store, mini apps, gumawa ng app, developers, tools",
+      "arcade": "laro, games, maglaro, gaming, chess, shooter, saya",
+      "glossary": "termino, kahulugan, diksyunaryo, ibig sabihin, ano ang",
+      "compare": "paghahambing, ihambing, versus, alternatibo, YouTube, X, TikTok",
+      "guide": "pagsisimula, paano, tutorial, tulong, matuto, baguhan, bago rito",
+      "stats": "estadistika, analytics, numero, chart, presyo, supply, holders",
+      "docs": "dokumentasyon, tulong, API, whitepaper, developers, manual",
+      "blog": "balita, artikulo, update, anunsyo, ano ang bago",
+      "videos": "manood, mga video, clip, mahahabang video",
+      "shorts": "reels, maiikling video, patayong video, swipe",
+      "music": "audio, kanta, track, makinig, radyo, playlist",
+      "liveTv": "TV, stream, streaming, live, broadcast, channel, manood ng live",
+      "buyTokens": "bumili ng token, bilhin, mag-top up, card, credit card, fiat",
+      "bridge": "cross chain, ilipat ang token, chain, maglipat sa pagitan ng chain",
+      "top100": "top 100, coins, cryptocurrency, market cap, presyo",
+      "agents": "AI agents, agents, bots, automation, persona",
+      "advertising": "ads, patalastas, kampanya, i-promote, sponsor, marketing",
+      "premium": "subscription, upgrade, pro, membership, walang ads, ad free",
+      "pricing": "plano, gastos, presyo, magkano, subscription",
+      "creators": "creator programme, ambassadors, partner, mag-apply bilang creator, kumita",
+      "getTheApp": "i-download ang app, Android, iPhone, mobile app, i-install, APK",
+      "connectAi": "MCP, ChatGPT, Claude, API, integration, ikonekta ang AI",
+      "packs": "emoji, sticker, GIF, emoji pack, sticker pack, custom emoji",
+      "publicChat": "chat, global chat, chat room, lobby, usapan, community chat",
+      "planned": "naka-iskedyul, iskedyul, naka-iskedyul na post, queue, mamaya",
+      "liveStudio": "mag-live, stream, streaming, OBS, overlay, alerto, widget",
+      "launchpad": "maglunsad ng token, lumikha ng coin, gumawa ng coin, meme coin, bonding curve, tokenize"
     }
   },
   "affiliate": {
@@ -3688,7 +3823,45 @@
     "themeColorBrandDesc": "Gamitin ang mga kulay ng profile picture mo",
     "themeColorBrandNoAvatar": "Magdagdag ng profile picture para magamit ang mga kulay ng Brand",
     "themeColorBrandFailed": "Hindi mabasa ang mga kulay mula sa profile picture mo",
-    "menuLayoutFolders": "Mga folder"
+    "menuLayoutFolders": "Mga folder",
+    "chatDeleteChoice": "Kapag nag-delete ka ng mensahe",
+    "chatDeleteChoiceDesc": "Magtanong tuwing pagkakataon, o laging burahin para sa iyo lang o para sa lahat sa chat.",
+    "chatDeleteAsk": "Magtanong tuwing pagkakataon",
+    "chatDeleteMe": "Burahin para sa akin",
+    "chatDeleteMeDesc": "Mawawala sa chat mo, makikita pa rin ng iba",
+    "chatDeleteEveryone": "Burahin para sa lahat",
+    "chatDeleteEveryoneDesc": "Kapag puwede. Ang mensahe ng iba sa isang grupo ay mabubura para sa iyo lang",
+    "chatTextSize": "Laki ng text sa chat",
+    "menuLayout": "Layout ng menu",
+    "menuLayoutDesc": "Kung paano pinagsasama-sama ng menu ang mga page nito",
+    "menuLayoutTabs": "Mga Tab",
+    "menuLayoutTabsDesc": "Isang grupo bawat pagkakataon, may malalaking icon",
+    "menuLayoutSections": "Mga Seksyon",
+    "menuLayoutSectionsDesc": "Lahat ng page nang sabay, sa ilalim ng mga header ng grupo",
+    "menuLayoutFoldersDesc": "Ang mga pangunahing page mo, tapos isang folder para sa bawat grupo",
+    "publicChatInBar": "Public Chat sa bottom bar",
+    "publicChatInBarDesc": "Isang tap papunta sa Public Chat mula sa bar sa ibaba ng screen",
+    "chatTextSizeDesc": "Mas malaki o mas maliit na mensahe sa bawat chat. Dagdag ito sa laki ng text ng phone mo.",
+    "chatCards": "Chats bilang card",
+    "chatCardsDesc": "Bawat chat ay may sariling card. I-off para sa simpleng listahan na may linya sa pagitan ng mga chat.",
+    "contactSupport": "Makipag-ugnayan sa suporta",
+    "showLikes": "Ipakita ang mga like ko sa lahat",
+    "showLikesDesc": "Mabubuksan ng kahit sino ang Likes tab sa profile mo. Naka-off bilang default, kaya ikaw lang ang makakakita ng mga ni-like mo.",
+    "showFollowersList": "Ipakita kung sino ang nagfo-follow sa akin",
+    "showFollowersListDesc": "Hayaang mabuksan ng kahit sino ang listahan ng mga tagasunod mo. Kapag naka-off ito, ikaw lang ang makakakita nito.",
+    "showFollowingList": "Ipakita kung sino ang fina-follow ko",
+    "showFollowingListDesc": "Hayaang mabuksan ng kahit sino ang listahan ng mga taong fina-follow mo. Kapag naka-off ito, ikaw lang ang makakakita nito.",
+    "showFollowCounts": "Ipakita ang bilang ng mga tagasunod ko",
+    "showFollowCountsDesc": "Ipakita kung ilan ang tagasunod mo at ilan ang fina-follow mo. Kapag in-off ito, maitatago rin ang dalawang listahan.",
+    "readerProfileView": "Buksan ang ibang profile bilang",
+    "readerProfileViewDesc": "Pumili ng grid o list para sa bawat profile na bubuksan mo, o sundin ang pinili ng bawat tao",
+    "readerProfileViewOwner": "Pinili ng bawat tao",
+    "notificationShowCount": "Ipakita ang bilang sa kampana",
+    "notificationShowCountDesc": "Tingnan kung ilang notification ang hindi pa nababasa sa halip na ilaw lang",
+    "messagesShowCount": "Ipakita ang bilang sa Messages",
+    "messagesShowCountDesc": "Tingnan kung ilang mensahe ang hindi pa nababasa sa halip na ilaw lang",
+    "pushNotRegisteredDescIos": "Hindi ka maaabot ng mga notification habang nakasara ang app: hindi kailanman nag-register para sa push ang iPhone na ito. Tiyaking pinapayagan ang notification para sa Riftn sa Settings, saka buksan ulit ang app.",
+    "tipsOffNote": "Naka-off ang mga tip at padala sa iyo habang naka-on ito. I-off ito para makatanggap ulit ng tip."
   },
   "common": {
     "refresh": "I-refresh",
@@ -3855,7 +4028,15 @@
     "addMessage": "Magdagdag ng mensahe (opsyonal)",
     "messagePublic": "Pampubliko",
     "railTitle": "Mga Tip",
-    "railTotal": "{{amount}} token"
+    "railTotal": "{{amount}} token",
+    "messagePlaceholder": "Magsabi ng kahit ano kasama ng tip mo",
+    "messagePrivate": "Si {{name}} lang",
+    "theCreator": "ang creator",
+    "messageWallNote": "Lalabas sa tip wall kapag natuloy ang tip.",
+    "sendWithMessage": "Ipadala kasama ang mensahe",
+    "messageFailed": "Hindi maidagdag ang mensahe mo. Walang naipadalang tip.",
+    "wallLabel": "Mga mensahe ng tip",
+    "messagePrivateNote": "Si {{name}} lang ang makakakita nito, sa notification niya."
   },
   "postOptions": {
     "skippableSections": "Mga seksyong madaling laktawan",
@@ -3939,7 +4120,17 @@
     "giftBoost": "Magregalo ng boost",
     "giftBoostDesc": "Gamitin ang isa sa iyo para sa post na ito",
     "askAi": "Tanungin ang AI",
-    "aiOverview": "Pangkalahatang - ideya ng AI"
+    "aiOverview": "Pangkalahatang - ideya ng AI",
+    "unmuteUser": "I-unmute si {{name}}",
+    "unmuteDesc": "Makita ulit ang mga post nila",
+    "unmutedUser": "Na-unmute si {{name}}",
+    "refreshLinkPreview": "I-refresh ang link preview",
+    "linkPreviewRefreshed": "Na-refresh ang link preview",
+    "linkPreviewRefreshFailed": "Hindi maabot ang site na iyon. Subukan ulit mamaya.",
+    "castToTv": "I-cast sa TV",
+    "castIosDesc": "AirPlay sa Apple TV o smart TV",
+    "castAndroidDesc": "I-mirror ang screen mo gamit ang Cast o Smart View",
+    "castAndroidHelp": "Buksan ang quick settings mo at i-tap ang Smart View o Cast, saka piliin ang TV mo."
   },
   "filters": {
     "sort": "Ayusin",
@@ -4145,7 +4336,8 @@
     "endsIn": "Nagtatapos {{time}}",
     "multipleChoice": "Pahintulutan ang maramihang sagot",
     "online": "{{count}} online",
-    "poll": "Pundasyon"
+    "poll": "Pundasyon",
+    "onlineHint": "{{count}} tao ang nasa chat na ito ngayon"
   },
   "aiChat": {
     "title": "kasalungat katiwala",
@@ -4587,7 +4779,11 @@
     "groupNew": "Bago",
     "groupToday": "Ngayong araw",
     "groupThisWeek": "Ngayong linggo",
-    "searchClose": "Isara ang paghahanap"
+    "searchClose": "Isara ang paghahanap",
+    "allSettings": "Lahat ng setting ng notification",
+    "groupEarlier": "Mas maaga",
+    "searchPlaceholder": "Maghanap ng notification",
+    "searchEmpty": "Walang tugmang notification"
   },
   "leaderboard": {
     "title": "Leaderboard",
@@ -4632,7 +4828,13 @@
     "addedToLeaderboard": "Naidagdag ka na! Balanse: {{balance}} tokens",
     "balanceTooLow": "Masyadong mababa ang balanse ({{balance}} tokens)",
     "tokenAmount": "{{amount}} token",
-    "provisional": "pansamantala"
+    "provisional": "pansamantala",
+    "ogChallenge": "OG Challenge",
+    "ogHolders_one": "{{count}} OG holder",
+    "ogHolders_other": "{{count}} OG holder",
+    "ogChallengeTitle": "Ibalik ang mga OG holder",
+    "ogChallengeBody": "Imbitahan ang mga taong may hawak pang DHB. Kapag sumali sila gamit ang invite link mo at itinago ang DHB nila sa kanilang Riftn wallet, mabibilang sila para sa iyo rito.",
+    "ogChallengeCta": "Kunin ang invite link mo"
   },
   "explorePage": {
     "searchPlaceholder": "Maghanap ng mga tao, post, o nilalaman...",
@@ -4794,8 +4996,31 @@
       "comments": "Mga Komento",
       "showLess": "Magpakita ng mas kaunti",
       "viewProfile": "Tingnan ang profile",
-      "you": "Ikaw"
-    }
+      "you": "Ikaw",
+      "title": "Mga nangungunang builder",
+      "breakdown": "{{shipped}} na-ship ({{sp}}) · {{votes}} upvote ({{vp}}) · {{comments}} komento ({{cp}})",
+      "showAll": "Ipakita ang top {{n}}",
+      "showEveryone": "Ipakita ang lahat ng {{n}} builder",
+      "showMore": "Ipakita ang {{n}} pa",
+      "rule": "10 pts bawat na-ship na request, 1 bawat upvote, 2 bawat komento sa request ng iba.",
+      "pts": "{{n}} pts",
+      "gap": "{{n}} pts para malampasan si {{name}}",
+      "join": "Mag-post ng prompt na mai-ship para makasali sa board",
+      "points": "Puntos",
+      "infoLabel": "Paano gumagana ang puntos",
+      "infoShipped": "bawat na-ship na request",
+      "infoVote": "bawat upvote sa mga request mo",
+      "infoComment": "bawat komento sa request ng iba",
+      "infoCap": "Hanggang {{n}} komento lang ang binibilang bawat period.",
+      "pt": "1 pt",
+      "infoTitle": "Paano gumagana ang puntos"
+    },
+    "deviceInfoNote": "May kalakip na impormasyon ng device para matulungan kaming ayusin ang mga bug.",
+    "deviceInfo": "Impormasyon ng device",
+    "deviceInfoOwners": "Ang mga may-ari lang ng board ang nakakakita nito",
+    "deviceInfoError": "Hindi ma-load ang impormasyon ng device",
+    "deviceInfoNone": "Walang impormasyon ng device para sa request na ito",
+    "deviceInfoErrors": "Mga kamakailang error"
   },
   "auth": {
     "loginRequired": "Kinakailangan ang pag - log in",
@@ -4852,7 +5077,13 @@
     "importWalletPurpose": "Ang tool na ito ay para sa pag - import ng mga umiiral na account mula sa Riftn.io.",
     "importSecretPlaceholder": "12 o 24 salita, o isang private key",
     "invalidImportSecret": "Ito ay hindi isang validong 12/24-salitang pangungusap o private key",
-    "walletSignupBlocked": "Bagong-bago ang wallet na ito. Kailangan ng bagong wallet ng balanse o naunang transaksyon para makapagbukas ng account. Mag-sign up gamit ang isa sa mga opsyon sa ibaba, pagkatapos ay ikonekta ang wallet na ito mula sa Settings."
+    "walletSignupBlocked": "Bagong-bago ang wallet na ito. Kailangan ng bagong wallet ng balanse o naunang transaksyon para makapagbukas ng account. Mag-sign up gamit ang isa sa mga opsyon sa ibaba, pagkatapos ay ikonekta ang wallet na ito mula sa Settings.",
+    "accountDeleted": "Nabura ang account na ito. Puwede kang mag-sign up ulit bilang bagong account.",
+    "accountDeletedHours_one": "Nabura ang account na ito. Puwede kang mag-sign up ulit gamit ang parehong email o phone sa loob ng mga {{count}} oras.",
+    "accountDeletedHours_other": "Nabura ang account na ito. Puwede kang mag-sign up ulit gamit ang parehong email o phone sa loob ng mga {{count}} oras.",
+    "accountDeletedDays_one": "Nabura ang account na ito. Puwede kang mag-sign up ulit gamit ang parehong email o phone sa loob ng mga {{count}} araw.",
+    "accountDeletedDays_other": "Nabura ang account na ito. Puwede kang mag-sign up ulit gamit ang parehong email o phone sa loob ng mga {{count}} araw.",
+    "signInPageWouldNotOpen": "Nagsara ang sign-in page bago pa ito bumukas. Subukan ulit, o magpatuloy gamit ang email."
   },
   "messages": {
     "encryptionSetupFailed": "Nagfail ang setup ng enkripyong. Pumunta muli.",
@@ -4877,7 +5108,11 @@
     "title": "Mga Mensahe",
     "searchConversations": "Maghanap ng mga pag - uusap...",
     "failedToLoad": "Nabigong i - load ang mga pag - uusap",
-    "tryAgain": "Subukan Ulit"
+    "tryAgain": "Subukan Ulit",
+    "unreadMarkerOne": "1 hindi pa nababasang mensahe",
+    "unreadMarkerMany": "{{value}} hindi pa nababasang mensahe",
+    "jumpToUnread": "Pumunta sa unang hindi pa nababasang mensahe",
+    "jumpToLatest": "Pumunta sa pinakabagong mensahe"
   },
   "music": {
     "chartOrder": "Pagkakasunud - sunod ng audio chart",
@@ -5061,14 +5296,52 @@
     "pinnedShort": "Naka-pin",
     "post": "I-post",
     "arrange": {
-      "saving": "Sini-save..."
+      "saving": "Sini-save...",
+      "title": "Ayusin ang mga post mo",
+      "hint": "I-hold ang post at i-drag ito sa bago nitong puwesto. Ito ang unang makikitang pagkakasunod ng mga bisita.",
+      "drag": "I-drag para ilipat",
+      "toTop": "Ilipat sa itaas",
+      "save": "I-save ang pagkakasunod",
+      "saved": "Na-save ang pagkakasunod mo",
+      "reset": "Bumalik sa pinakabago muna",
+      "resetDone": "Bumalik sa pinakabago muna",
+      "saveFailed": "Hindi ma-save ang pagkakasunod mo. Subukan ulit.",
+      "loadFailed": "Hindi ma-load ang mga post mo. Isara ito at subukan ulit.",
+      "empty": "Wala pang aayusin. Mag-post muna."
     },
     "reserve": {
-      "signIn": "Mag-sign in"
+      "signIn": "Mag-sign in",
+      "available": "Available ang username",
+      "held": "Nakareserba para sa iyo",
+      "ended": "Tapos na ang reserba",
+      "busy": "Inirereserba",
+      "availableBody": "Libre ngayon ang riftn.com/{{name}}. I-reserve ito at hahawakan namin ito nang isang minuto habang nagsa-sign up ka.",
+      "heldBody": "Walang ibang makakakuha ng @{{name}} hangga't hindi natatapos ang timer. Tapusin ang sign up para mapanatili ito.",
+      "endedBody": "Naubos ang minuto mo, kaya bukas na ulit sa lahat ang @{{name}}. Libre pa rin ito.",
+      "busyBody": "May nagsa-sign up bilang @{{name}} ngayon. Kung hindi nila matapos, magiging libre ito pagkatapos ng timer.",
+      "finish": "Tapusin ang sign up",
+      "again": "I-reserve ulit",
+      "cta": "I-reserve ngayon",
+      "letGo": "Bitawan",
+      "haveAccount": "May account ka na?"
     },
     "tabLikes": "Mga Like",
     "likesEmptyTitle": "Wala pang like",
-    "likesPrivateTitle": "Pribado ang mga like"
+    "likesPrivateTitle": "Pribado ang mga like",
+    "articleMinRead": "{{count}} min na basa",
+    "articleViews": "{{views}} view",
+    "sortBy": "Pagbukud-bukurin ayon sa",
+    "sortCustom": "Custom na pagkakasunod",
+    "arrangeButton": "Ayusin ang mga post",
+    "mutualsOne": "{{count}} Mutual:",
+    "mutualsMany": "{{count}} Mutual:",
+    "tabArticles": "Mga Artikulo",
+    "articlesEmptyTitle": "Wala pang artikulo",
+    "articlesEmptySubtitle": "Dito lalabas ang mga artikulo",
+    "likesEmptyOwn": "Dito lalabas ang mga post na ni-like mo. Ikaw lang ang makakakita nito maliban kung i-on mo ang Ipakita ang mga like ko sa Settings.",
+    "likesEmptyOther": "Wala pang na-like.",
+    "likesPrivateDesc": "Sinasarili ng account na ito ang mga like nito.",
+    "unavailable": "Hindi available ang profile"
   },
   "tv": {
     "title": "TV",
@@ -5586,7 +5859,26 @@
       "knowledge": "Sangguniang materyal"
     },
     "welcome": {
-      "text": "Mensahe ng pagbati"
+      "text": "Mensahe ng pagbati",
+      "title": "Batiin ang mga bagong miyembro",
+      "help": "Fina-follow at/o mine-message ng agent na ito ang mga taong kasasali lang sa Riftn, ilan bawat araw.",
+      "follow": "I-follow ang mga bagong miyembro",
+      "message": "I-message ang mga bagong miyembro",
+      "textHelp": "Ang {name} ay magiging @username nila. Walang link. Isang beses lang ipapadala sa bawat tao.",
+      "saveText": "I-save ang mensahe",
+      "perDay": "Tao bawat araw",
+      "fewer": "Mas kaunti bawat araw",
+      "more": "Mas marami bawat araw",
+      "today": "Ngayon: {{follows}} na-follow · {{messages}} na-message",
+      "limits": "Hindi kailanman inuulit ang parehong tao. Nilalaktawan ang sinumang nag-block o nag-mute sa iyo, nag-off ng bagong mensahe o nagtago mula sa Mga bagong miyembro.",
+      "showLog": "Tingnan kung sino ang binati nito",
+      "hideLog": "Itago ang mga pagbati",
+      "empty": "Wala pa. Lalabas dito ang mga bagong miyembro habang sumasali sila.",
+      "followed": "Na-follow",
+      "messaged": "Na-message",
+      "skipped": "Nilaktawan",
+      "failed": "Hindi maabot",
+      "defaultText": "Hi {name}, welcome sa Riftn! 👋"
     }
   },
   "hero": {
@@ -5677,7 +5969,43 @@
     "disconnect": "Huwag magkabit",
     "payAndRun": "Magbayad at patakbuhin",
     "run": "Patakbuhin",
-    "handlePrompt": "Mga sulat"
+    "handlePrompt": "Mga sulat",
+    "retryFreeTask": "Subukan ulit ang libreng task",
+    "previewSavedMedia": "I-preview ang naka-save na media",
+    "audioSavePending": "Handa na ang audio, pero nakabinbin pa ang pag-save nito sa pribadong library. Ituloy para makuha ito.",
+    "freeResultUnknown": "Naantala ang tugon ng libreng task. Hindi na ito awtomatikong isusumite ulit. Piliin ang Subukan ulit ang libreng task, saka ituloy; mananatili ang bayad mo at iba pang job.",
+    "formAuthor": "I-edit ang flow",
+    "formAuthorHint": "Bumuo ng flow na may typed inputs. I-save ito rito, o ayusin ito sa web canvas.",
+    "chooseSavedMedia": "Pumili ng naka-save na media",
+    "formInput": "Input: {{handle}}",
+    "reviewRun": "Suriin ang run",
+    "resumeRun": "Ituloy ang naka-save na run",
+    "confirmPrice": "Kabuuan: {{price}} token",
+    "recoveryHint": "Naka-save sa device na ito ang mga reference ng job at bayad. Ituloy ang naantalang trabaho bago magsimula ng panibagong run.",
+    "newRun": "Magsimula ng panibagong run",
+    "loadMoreMedia": "Mag-load ng mas maraming media",
+    "invalidGraph": "Suriin ang mga koneksyon: kailangan ng bawat input ng tugmang source at hindi puwedeng may cycle ang graph.",
+    "unsupportedNode": "Hindi pa puwedeng tumakbo ang node na ito sa native form. Gamitin ang web canvas para sa flow na ito.",
+    "missingPrompt": "Magkonekta ng text node na may prompt.",
+    "invalidSettings": "Hindi suportado ng napiling model ang mga setting na ito.",
+    "missingCapturedFrame": "Kumuha ng frame sa web canvas bago gamitin ang video na ito bilang image input.",
+    "missingSavedMedia": "Nawawala ang naka-save na source media o hindi na ito available sa account na ito.",
+    "nothingToRun": "Magdagdag ng generator para patakbuhin ang flow na ito.",
+    "quoteFailed": "Hindi ma-presyuhan ang flow na ito. Subukan ulit.",
+    "recoverBeforeEdit": "Ituloy muna ang naka-save na run bago baguhin ang graph nito o magsimula ng panibagong run.",
+    "runAlreadyComplete": "Tapos na ang run na ito. Piliin ang Magsimula ng panibagong run para mag-generate ulit.",
+    "recoveryCorrupt": "Hindi mabasa ang naka-save na recovery record. Panatilihin ang flow na ito at makipag-ugnayan sa suporta bago magbayad ulit.",
+    "paidUnavailable": "Puwede kang gumawa at mag-save ng mga flow dito. Hindi available ang bayad na run sa storefront na ito.",
+    "planChanged": "Nagbago ang flow matapos ang pagpepresyo. Suriin ulit ang run.",
+    "connectOwnerWallet": "Ikonekta ang wallet na may-ari ng flow na ito.",
+    "runFailed": "Hindi natapos ang node. Nananatili ang naka-save nitong job reference para sa recovery.",
+    "recoveryPending": "Nakabinbin pa ang render. Ituloy ang run na ito para makuha ito.",
+    "nodeAudioGen": "Audio generator",
+    "nodeAudioGenDesc": "Pananalita, sound effects, transcription at paghihiwalay ng audio",
+    "nodeAudioInput": "Naka-save na audio",
+    "nodeAudioInputDesc": "Gumamit ng pribadong audio mula sa library mo",
+    "audioVoiceId": "Voice ID",
+    "audioSeconds": "Haba ng tunog sa segundo"
   },
   "loginModal": {
     "title": "Log in",
@@ -5714,7 +6042,8 @@
     "passkeyNotLinked": "Wala pang account na naka-link sa fingerprint na iyon. Gumawa na lang ng bagong account.",
     "passkeyAlreadyRegistered": "May account na ang fingerprint na iyon. Gamitin ang Mag-sign in sa halip.",
     "passkeyFailed": "Nabigo ang pag-sign in gamit ang fingerprint. Pakisubukang muli.",
-    "passkeyBackupHint": "Nakatira ang iyong account sa passkey ng device na ito. Sa karamihan ng mga telepono, nag-si-sync ito sa iyong Google o Apple account, at maaari kang magdagdag ng password backup sa Mga Setting."
+    "passkeyBackupHint": "Nakatira ang iyong account sa passkey ng device na ito. Sa karamihan ng mga telepono, nag-si-sync ito sa iyong Google o Apple account, at maaari kang magdagdag ng password backup sa Mga Setting.",
+    "didYouMean": "Ang ibig mo bang sabihin ay {{email}}?"
   },
   "careers": {
     "title": "Mga Karera sa Riftn",
@@ -5979,7 +6308,13 @@
       "authorChip": "May - akda ng panukala"
     },
     "holdTokensToVote": "Maghawak ng Riftn tokens para bumoto",
-    "mustHoldTokens": "Kailangan mong maghawak ng Riftn tokens para bumoto sa mga panukala sa pamamahala."
+    "mustHoldTokens": "Kailangan mong maghawak ng Riftn tokens para bumoto sa mga panukala sa pamamahala.",
+    "optionVoters_one": "{{count}} botante",
+    "optionVoters_other": "{{count}} botante",
+    "optionWinner": "Nanalo: {{option}}",
+    "optionNoWinner": "Walang malinaw na nanalo",
+    "optionTapToUndo": "I-tap ulit ang sagot mo para bawiin ang boto mo",
+    "optionPickOne": "Pumili ng isang sagot"
   },
   "sidebar": {
     "talkOfTheTown": "Tungkol sa City",
@@ -5998,7 +6333,16 @@
     "clearSearch": "I-clear ang paghahanap",
     "noMenuMatches": "Walang tumutugma sa menu",
     "searchDehubFor": "Maghanap ng \"{{query}}\" sa Riftn",
-    "requestSend": "Ipadala ang hiling"
+    "requestSend": "Ipadala ang hiling",
+    "requestPrompt": "Wala pa rito? Ipadala ito bilang request",
+    "requestPromptShort": "Wala pa rito?",
+    "requestDraftMenu": "Idagdag ang {{query}} sa Riftn",
+    "requestDraftSettings": "Isang setting para sa {{query}}",
+    "requestPostsTo": "Ipo-post sa Requests",
+    "requestHint": "Ipo-post sa Requests bilang ikaw. Sasabihan ka namin kapag nailabas na ito.",
+    "requestSent": "Naipadala sa Requests",
+    "requestSentHint": "Sasabihan ka namin kapag nailabas na ito.",
+    "requestSeeIt": "Tingnan ito sa Requests"
   },
   "comments": {
     "reportComment": "Mag - ulat ng komento",
@@ -6087,7 +6431,24 @@
     "tabReplies": "Mga tugon",
     "tabQuotes": "Mga quote",
     "tabReposts": "Mga repost",
-    "tabSearch": "Maghanap"
+    "tabSearch": "Maghanap",
+    "attachAudioFile": "Audio file",
+    "attachMedia": "Mag-attach ng larawan, video o audio",
+    "attachPhotoOrVideo": "Larawan o video",
+    "attachTooLarge": "Lampas ang file na iyon sa limitasyong {{size}} MB.",
+    "playVideo": "I-play ang video",
+    "threadParts": {
+      "reorder": "Ayusin",
+      "reorderHint": "I-hold at i-drag ang isang bahagi, o gamitin ang mga arrow, tapos i-save.",
+      "save": "I-save ang pagkakasunod",
+      "saved": "Na-save ang pagkakasunod ng thread",
+      "saveFailed": "Hindi ma-save ang pagkakasunod. Subukan ulit.",
+      "moveUp": "Iusog pataas ang bahagi {{n}}",
+      "moveDown": "Iusog pababa ang bahagi {{n}}",
+      "addPart": "Idagdag sa thread",
+      "addPlaceholder": "Magdagdag sa thread mo...",
+      "label": "Thread · {{count}} bahagi"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "Hindi mabasa ang mga current owners ngayon.",
@@ -6621,7 +6982,9 @@
       "joined": "{{name}} sumali",
       "reactions": "Mga Reaksyon",
       "photoTooLarge": "Dapat mas maliit sa 10MB ang larawan",
-      "aiAdminFailed": "Nabigong tumugon ang AI Admin"
+      "aiAdminFailed": "Nabigong tumugon ang AI Admin",
+      "addToMessages": "Idagdag sa Messages",
+      "inMessages": "Nasa Messages"
     },
     "manage": {
       "dismissAdminTitle": "I - dismiss ang admin",
@@ -6643,7 +7006,8 @@
         "invites": "Mga Imbitasyon",
         "rules": "Mga Panuntunan",
         "recentActions": "Mga kamakailang aksyon",
-        "danger": "Zona ng panganib"
+        "danger": "Zona ng panganib",
+        "automod": "Auto-mod at mga bot"
       },
       "title": "Pangasiwaan",
       "purgeTitle": "Tanggalin ang lahat ng mga mensahe?",
@@ -6829,24 +7193,113 @@
       "spent": "Username:",
       "buyer": "Username:",
       "balance": "Balanse:",
-      "price": "Presyo:"
+      "price": "Presyo:",
+      "title": "{{amount}} BUY",
+      "txn": "Txn",
+      "marketCap": "Market cap:",
+      "titleToken": "{{amount}} ${{symbol}} BUY"
     },
     "newChat": {
       "public": "Pampubliko",
       "private": "Pribado",
       "free": "Libre",
       "paid": "Bayad na",
-      "group": "Pangkatin"
+      "group": "Pangkatin",
+      "description": "Tungkol saan ito? (opsyonal)",
+      "groupCreated": "Nagawa ang grupo",
+      "channelCreated": "Nagawa ang channel",
+      "newGroup": "Bagong grupo",
+      "newChannel": "Bagong channel",
+      "groupName": "Pangalan ng grupo",
+      "channelName": "Pangalan ng channel",
+      "whoCanJoin": "Sino ang puwedeng sumali",
+      "publicDetail": "Puwede itong mahanap at salihan ng kahit sino",
+      "inviteOnly": "Imbitasyon lang",
+      "privateDetail": "Sumasali ang mga tao gamit ang imbitasyon o pag-apruba mo",
+      "entry": "Pagsali",
+      "freeDetail": "Walang bayad para sumali",
+      "paidDetail": "Isang bayad sa token, diretso sa iyo",
+      "price": "Presyo sa token",
+      "channelNote": "Ikaw at ang mga admin mo lang ang puwedeng mag-post. Nagbabasa at nagre-react ang mga miyembro.",
+      "createGroup": "Gumawa ng grupo",
+      "createChannel": "Gumawa ng channel",
+      "channel": "Channel",
+      "adminsOnly": "Mga admin lang ang nagpo-post sa channel na ito.",
+      "message": "Bagong mensahe",
+      "messageDetail": "Pribadong chat sa isang tao",
+      "groupDetail": "Makipag-chat sa maraming tao, pampubliko o pribado",
+      "channelDetail": "Mag-broadcast sa mga tagasunod, libre o may bayad",
+      "title": "Magsimula ng bago",
+      "channelRow": "Channel · {{formattedCount}} miyembro",
+      "groupRow": "Grupo · {{formattedCount}} miyembro"
     },
     "holderGate": {
       "chain": "Kadena",
-      "tab": "Ang mga may-ari ng token"
+      "tab": "Ang mga may-ari ng token",
+      "failed": "Hindi mabasa ang balanse mo ngayon. Subukan ulit maya-maya.",
+      "short": "Para sa holder lang: kailangan mo ng {{need}}. May hawak kang {{have}}.",
+      "required": "Para sa holder lang: hindi sapat ang token ng community na ito sa wallet mo para makapag-chat.",
+      "topHolders": "Mga nangungunang holder",
+      "noHolders": "Lalabas dito ang mga holder kapag sumali na sila.",
+      "saved": "Na-save ang holder rule",
+      "cleared": "Puwede nang sumali ulit ang kahit sino",
+      "saveFailed": "Hindi ma-save ang holder rule",
+      "title": "Para sa holder lang",
+      "explain": "Mga wallet lang na may hawak ng token na ito ang puwedeng sumali at mag-chat. Binabasa ang mga balanse mula sa chain kapag may sumali.",
+      "which": "Token",
+      "dehubTokens": "Riftn tokens",
+      "otherToken": "Ibang token",
+      "token": "Token contract",
+      "reading": "Binabasa ang token…",
+      "badAddress": "Hindi iyan token address",
+      "minimum": "Minimum na hawak",
+      "save": "I-save ang holder rule",
+      "chip": "Para sa holder lang · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Mga ipinagbabawal na salita",
       "floodMax": "Mga mensahe ni {{count}}",
       "saved": "Nai-save",
-      "wordCount": "{{count}} mga salita"
+      "wordCount": "{{count}} mga salita",
+      "title": "Auto-mod",
+      "hint": "Hinaharangan ang mensahe bago pa ito makita ng kahit sino at sinasabi sa nagpadala kung bakit. Hindi kailanman hinaharangan ang mga owner at admin.",
+      "enabled": "Naka-on ang auto-mod",
+      "bannedWordsHint": "Isa bawat linya o kuwit. Buong salita lang, at nahuhuli rin ang mga spelling na may pagitan gaya ng s.c.a.m.",
+      "bannedWordsPlaceholder": "scam\nrug pull",
+      "blockLinks": "Harangan ang mga link",
+      "blockLinksHint": "Mga link sa labas ng site at mga imbitasyon sa Telegram/Discord. Gumagana pa rin ang mga Riftn link.",
+      "repeats": "Harangan ang mga ulit",
+      "repeatsHint": "Pinipigilan ang pagpapadala ng parehong linya ulit sa loob ng 10 minuto.",
+      "flood": "Anti-flood",
+      "floodHint": "Hanggang {{max}} mensahe bawat {{seconds}}s bawat tao.",
+      "noAccess": "Ang owner at mga admin lang ang puwedeng magbago ng mga setting na ito.",
+      "saveFailed": "Hindi ma-save. Subukan ulit.",
+      "saveWords": "I-save ang mga salita",
+      "bannedWord": "May salita ang mensaheng iyan na hindi pinapayagan ng grupong ito.",
+      "links": "Hindi pinapayagan ang mga link sa grupong ito.",
+      "repeat": "Kakapadala mo lang niyan. Sumubok ng bagong sasabihin.",
+      "reserved": "Sa mga bot lang ng grupo puwedeng manggaling ang ganyang mensahe.",
+      "floodError": "Masyado kang mabilis magpadala. Maghintay ng {{value1}}s at subukan ulit."
+    },
+    "entry": {
+      "switchChain": "Ilipat ang wallet mo sa BNB Chain o Base para magbayad.",
+      "failed": "Hindi pa namin makumpirma ang bayad mo. Kung nabawasan na ng token ang wallet mo, i-tap ulit ang Join pagkalipas ng isang minuto.",
+      "chip": "{{amount}} para sumali"
+    },
+    "jumpToReply": "Pumunta sa sinagot na mensahe",
+    "avatarUpdated": "Na-update ang larawan",
+    "bannerUpdated": "Na-update ang banner",
+    "imageUploadFailed": "Hindi ma-upload ang larawang iyan. Subukan ulit.",
+    "changeBanner": "Palitan ang banner",
+    "changeAvatar": "Palitan ang larawan",
+    "buyBot": {
+      "title": "Buy bot",
+      "any": "Kahit anong laki",
+      "enabled": "Mag-post ng buy alerts",
+      "hint": "Ipo-post ang bawat ${{symbol}} buy sa chat na ito, mga isang minuto matapos itong mangyari.",
+      "minUsd": "Pinakamaliit na buy na ipo-post",
+      "noToken": "Mag-link ng token mula sa header ng grupo (edit, saka Ticker) at lalabas sa chat na ito ang bawat buy.",
+      "unsupported": "Nasa chain o uri ng pool ang ${{symbol}} na hindi pa binabantayan ng buy bot. Suportado: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism at Avalanche (mga pool na gaya ng Uniswap v2/v3)."
     }
   },
   "work": {
@@ -7785,7 +8238,8 @@
     "jumpToLatest": "Pumunta sa mga pinakabagong mensahe",
     "ban": "I-ban",
     "banConfirm": "Sigurado ka bang gusto mong i-ban si {{name}}?",
-    "banFailed": "Nabigong i-ban ang user"
+    "banFailed": "Nabigong i-ban ang user",
+    "jumpToMentions": "Pumunta sa mga sagot at mention"
   },
   "promptFeed": {
     "headline": "Ano ang gusto mong makita?",
@@ -7971,7 +8425,13 @@
     },
     "followBackConfirm": "Sundang pabalik",
     "followBackNotNow": "Hindi ngayon",
-    "followBackDone": "Tapos na"
+    "followBackDone": "Tapos na",
+    "followBackConfirmTitle_one": "I-follow back ang {{count}} tao?",
+    "followBackConfirmTitle_other": "I-follow back ang {{count}} tao?",
+    "followBackConfirmBody": "Fina-follow ka na nila. Makakatanggap ng follow request ang mga pribadong account.",
+    "followedBackCount_one": "Na-follow back ang {{count}} tao",
+    "followedBackCount_other": "Na-follow back ang {{count}} tao",
+    "followBackDoneBody": "Makikita mo silang lahat sa Sinusundan."
   },
   "reactionInfo": {
     "title": "Mga Reaksyon",
@@ -8894,10 +9354,12 @@
     "coverFrame": "Gamitin ang frame {{index}} bilang cover",
     "altPlaceholderVideo": "Ilarawan ang video na ito",
     "preview": {
-      "title": "Pagsusuri"
+      "title": "Pagsusuri",
+      "hint": "Ganito ang magiging itsura ng post mo sa feed."
     },
     "recent": {
-      "all": "Lahat"
+      "all": "Lahat",
+      "show": "Ipakita ang mga kamakailang larawan"
     },
     "studio": {
       "crop": "I-crop",
@@ -8916,11 +9378,46 @@
       "textBg": "Paksa",
       "font": {
         "bold": "Makapal",
-        "mono": "Bono (paglilinaw)"
-      }
+        "mono": "Bono (paglilinaw)",
+        "clean": "Malinis",
+        "serif": "Serif"
+      },
+      "looks": "Mga look",
+      "adjust": "Ayusin",
+      "tint": "Tint",
+      "vignette": "Vignette",
+      "prev": "Nakaraang larawan",
+      "count": "{{n}} sa {{total}}",
+      "next": "Susunod na larawan",
+      "title": "I-edit ang larawan",
+      "holdHint": "Pindutin nang matagal para makita ang orihinal",
+      "cropCorner": "Sulok ng crop",
+      "straighten": "Ituwid",
+      "flip": "I-flip",
+      "mention": "Mention",
+      "ticker": "Ticker",
+      "layerHint": "I-drag ang mga salita at sticker para ilipat. I-tap nang dalawang beses para palitan ang mga salita.",
+      "looksAdjust": "Mga look at ayos"
     },
     "edited": "Na - edit",
-    "edit": "I-edit"
+    "edit": "I-edit",
+    "altHint": "Sabihin kung ano ang nasa loob nito para sa mga taong hindi nakakakita.",
+    "altPlaceholder": "Ilarawan ang larawang ito",
+    "altTab": "Alt text",
+    "editVideo": "I-edit ang video",
+    "trim": "I-trim",
+    "trimAndCover": "I-trim at cover",
+    "trimStart": "Simula ng clip",
+    "trimEnd": "Dulo ng clip",
+    "trimHint": "I-drag ang mga puting hawakan para mag-trim. I-tap ang strip para ilipat.",
+    "useFrameAsCover": "Gamitin ang frame na ito bilang cover",
+    "photoHoldHint": "Pindutin nang matagal para sa iba pang opsyon",
+    "editPhoto": "I-edit ang larawan {{n}}",
+    "editAltText": "I-edit ang alt text",
+    "addAltText": "Magdagdag ng alt text",
+    "moveEarlier": "Iusog pauna",
+    "moveLater": "Iusog pahuli",
+    "photoN": "Larawan {{n}} sa {{total}}"
   },
   "bounty": {
     "claimed": "Nakuha na",
@@ -9536,7 +10033,17 @@
     "planMinTip": "Ang tip para sa creator na ito ay dapat hindi bababa sa {{amount}} tokens.",
     "userFallback": "manggagawa",
     "newDrawer": {
-      "to": "Hanggang"
+      "to": "Hanggang",
+      "placeholder": "Pangalan o @username",
+      "recent": "KAMAKAILAN",
+      "suggested": "IMINUMUNGKAHI",
+      "youFollow": "MGA TAONG FINA-FOLLOW MO",
+      "chattedBefore": "Nag-uusap kayo",
+      "mutual": "Mutual",
+      "dmsOff": "Naka-off ang DM",
+      "keepTyping": "Ituloy ang pag-type para hanapin ang lahat",
+      "sayHi": "Mag-hi sa isang tao",
+      "typeAny": "Mag-type ng kahit anong pangalan o @username"
     },
     "download": "I-download",
     "deleteOneTitle": "Tanggalin ang mensaheng ito?",
@@ -9549,8 +10056,30 @@
       "communities": "Mga komunidad",
       "members": "{{n}} miyembro",
       "newChat": "Bagong chat",
-      "invite": "Mag-invite"
-    }
+      "invite": "Mag-invite",
+      "noChats": "Wala pang chat na may \"{{q}}\". Narito ang mga tao at bagay na tumutugma.",
+      "nothing": "Wala pang tumutugma sa \"{{q}}\". Magsimula ng bago.",
+      "start": "O magsimula ng bago",
+      "newChatSub": "Pumili ng kahit sino",
+      "newGroup": "Bagong grupo",
+      "newGroupSub": "Mag-chat nang sama-sama",
+      "inviteSub": "Mag-share ng link",
+      "inviteMessage": "Sumali sa akin sa Riftn: {{url}}",
+      "searchAll": "Hanapin ang \"{{q}}\" sa buong Riftn",
+      "searchAllSub": "Mga post, video, live stream"
+    },
+    "copyMedia": "Kopyahin ang media",
+    "reportMessage": "I-report ang mensahe",
+    "fileSaved": "Na-save ang file",
+    "fileSaveFailed": "Hindi ma-save ang file",
+    "attachAnything": "Mag-attach ng larawan, video, audio o file",
+    "attachFileOrAudio": "File o audio",
+    "attachPhotoOrVideo": "Larawan o video",
+    "attachTooLarge": "Lampas ang file na iyon sa limitasyong {{size}} MB.",
+    "deleteForBothBody": "Aalisin ito para sa inyong dalawa.",
+    "notSent": "Hindi naipadala",
+    "shareGroups": "Mga grupo",
+    "shareKindChannel": "Channel"
   },
   "editPost": {
     "mediaPermission": "Kailangan ng pahintulot sa media library",
@@ -9672,7 +10201,9 @@
     "pipUnavailable": "Hindi magagamit ang Larawan sa larawan. Suriin kung pinapayagan ito para sa Riftn sa mga setting ng iyong device.",
     "noVideo": "Walang video",
     "rotate": "I-rotate",
-    "yourDhbBalance": "Ang iyong token balance: {{amount}}"
+    "yourDhbBalance": "Ang iyong token balance: {{amount}}",
+    "fullscreen": "Full screen",
+    "notAvailableForPost": "Hindi available para sa post na ito"
   },
   "liveViewer": {
     "loadingStream": "Nilo-load ang stream...",
@@ -9988,7 +10519,22 @@
     "didNotRecoverEither": "Walang narekober na profile ang login na iyon sa mga ipinapakita rito. Walang nabago. Subukan ang orihinal na sign-in ng profile na gusto mo.",
     "didNotRecoverThis": "Ibang wallet ang narekober ng login na iyon, hindi ang sa profile na ito. Walang nabago. Subukan ang sign-in na orihinal na gumawa nito.",
     "couldNotRetrieve": "Hindi makuha ang lumang wallet na iyon sa device na ito. Puwede mo pa rin itong bawiin sa riftn.com sa ibaba.",
-    "matchedWithBalance": "Naitugma, {{balance}} tokens"
+    "matchedWithBalance": "Naitugma, {{balance}} tokens",
+    "methodEmail": "isang email code",
+    "methodPhone": "isang phone number",
+    "madeWithNamed": "Ginawa ang @{{name}} gamit ang {{method}}. Magpatuloy gamit ang parehong {{method}} account para maibalik ito.",
+    "madeWith": "Ginawa ang profile na ito gamit ang {{method}}. Magpatuloy gamit ang parehong {{method}} account para maibalik ito.",
+    "madeWithEmailNamed": "Ginawa ang @{{name}} gamit ang email code. Magpapadala kami ng isa pang code sa email na iyon para maibalik ito.",
+    "madeWithEmail": "Ginawa ang profile na ito gamit ang email code. Magpapadala kami ng isa pang code sa email na iyon para maibalik ito.",
+    "madeWithPhoneNamed": "Ginawa ang @{{name}} gamit ang phone number. Magte-text kami ng isa pang code sa numerong iyon para maibalik ito.",
+    "madeWithPhone": "Ginawa ang profile na ito gamit ang phone number. Magte-text kami ng isa pang code sa numerong iyon para maibalik ito.",
+    "wrongSignInNamed": "Ibang wallet ang nabubuksan ng sign-in na iyan, hindi ang @{{name}}. Ginawa ang @{{name}} gamit ang {{method}}, kaya iyon lang ang makakapagbalik nito.",
+    "wrongSignIn": "Ibang wallet ang nabubuksan ng sign-in na iyan. Ginawa ang profile na ito gamit ang {{method}}, kaya iyon lang ang makakapagbalik nito.",
+    "continueWith": "Magpatuloy gamit ang {{provider}}",
+    "differentSignIn": "Iba ang ginamit mong sign-in?",
+    "oldAccountPhone": "Phone number ng lumang account",
+    "recoverFromPhoneA11y": "I-recover ang lumang account mula sa phone number na ito",
+    "phoneNeedsCode": "Ilagay ang numero kasama ang country code nito, gaya ng +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Bumili ng mga token",
@@ -10904,8 +11450,17 @@
       "noSpeech": "Walang nakitang pananalita sa clip na ito.",
       "failed": "Hindi makagawa ng caption para sa clip na ito.",
       "styles": {
-        "bold": "Makapal"
-      }
+        "bold": "Makapal",
+        "classic": "Classic",
+        "boxed": "Boxed",
+        "wordpop": "Word Pop",
+        "rapid": "Rapid Reveal",
+        "beast": "Beast Mode",
+        "stacked": "Stacked",
+        "serif": "Serif",
+        "bubble": "Bubble"
+      },
+      "style": "Estilo ng caption"
     },
     "app": {
       "newDesign": "Bagong disenyo",
@@ -10976,7 +11531,10 @@
       "cyber": "Cyber",
       "invert": "Baligtad",
       "strength": "Lakas ng filter:{{value}}%",
-      "vhs": "Video Home Service"
+      "vhs": "Video Home Service",
+      "fadedFilm": "Kupas na pelikula",
+      "technicolor": "Technicolor",
+      "newsreel": "Newsreel"
     },
     "layer": {
       "crop": "I-crop",
@@ -11057,14 +11615,18 @@
       "pptx": "Pagtatanghal ng PowerPoint",
       "pptxHint": "Ang bawat pahina ay nagiging isang larawan ng slide, na may mga tala at link ng nagtatanghal. I - edit ang indibidwal na teksto at mga elemento sa orihinal na disenyo.",
       "section": "Pinangalanang seksyon",
-      "transparent": "Transparent na background"
+      "transparent": "Transparent na background",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "Nagda-download ng ZIP na may timeline mo bilang FCPXML at Premiere XML kasama ang bawat media file, para matapos mo ang edit sa Premiere Pro, Final Cut Pro o DaVinci Resolve. Nagiging marker ang text; nananatili sa Riftn ang mga effect."
     },
     "adjust": {
       "auto": "Autoplay Loop",
       "autoFailed": "Hindi ma-analyze ang larawang ito.",
       "tint": "Tint {{value}}",
       "vignette": "Vignette {{value}}%",
-      "warmth": "Mainit {{value}}"
+      "warmth": "Mainit {{value}}",
+      "halation": "Halation {{value}}%",
+      "scanlines": "Scanlines {{value}}%"
     },
     "draw": {
       "colour": "Kulay ng panulat",
@@ -11158,7 +11720,45 @@
       "openGenerator": "Suriin at gumawa",
       "working": "Ginagawa na…",
       "stop": "Itigil",
-      "queue": "Idagdag sa queue"
+      "queue": "Idagdag sa queue",
+      "stopped": "Itinigil. Walang ibang binago.",
+      "queued": "{{count}} ang nakapila",
+      "restore": "Ibalik hanggang dito",
+      "restoreHint": "Ibalik ang project sa dati bago ang mensaheng ito. Ibinabalik ito ng Undo.",
+      "restored": "Naibalik ang project sa bago ang mensaheng iyon. Pindutin ang undo para ibalik ang mas bagong bersyon.",
+      "rewrite": "Gawing mas malinaw ang request ko",
+      "rewriteFailed": "Hindi iyan ma-rewrite. Hindi nagbago ang text mo.",
+      "feedback": "Nakatulong ba ito?",
+      "good": "Magandang sagot",
+      "bad": "Pangit na sagot",
+      "retryPrefix": "Hindi iyon tama. Sa halip, ",
+      "recipesTitle": "Mga recipe",
+      "recipe": {
+        "podcastClip": {
+          "label": "Podcast clip",
+          "prompt": "Hanapin ang pinakamalakas na 30-segundong sandali, i-trim doon, magdagdag ng Word Pop captions at gawin itong 9:16."
+        },
+        "talkingHead": {
+          "label": "Malinis na talking head",
+          "prompt": "Putulin ang mahahabang paghinto, magdagdag ng Classic captions, at bigyan ito ng banayad na mainit na itsura."
+        },
+        "productPromo": {
+          "label": "Product promo",
+          "prompt": "Gumawa ng 15-segundong promo: matinding title sa simula, Zoom in transitions sa pagitan ng mga clip, Bold captions at masiglang musika."
+        },
+        "hypeReel": {
+          "label": "Hype reel",
+          "prompt": "I-cut ang mga clip sa beat ng musika, gumamit ng Fly up transitions at ng Technicolor look."
+        },
+        "retroEdit": {
+          "label": "Retro edit",
+          "prompt": "Bigyan ang bawat clip ng VHS look, magdagdag ng malaking serif na title, at gumamit ng Fade transitions."
+        },
+        "tutorial": {
+          "label": "Tutorial",
+          "prompt": "Magdagdag ng title para sa bawat hakbang, Boxed captions, at bagalan ang mahalagang sandali sa 0.5x."
+        }
+      }
     },
     "brand": {
       "addColor": "Magdagdag ng kulay ng brand",
@@ -11184,7 +11784,10 @@
       "saveNewPreset": "I - save ang bago",
       "saveStyles": "I - save ang mga estilo gamit ang disenyo",
       "stylesSaved": "Na - save ang mga estilo ng brand gamit ang disenyo na ito",
-      "usePreset": "Gumamit ng mga estilo"
+      "usePreset": "Gumamit ng mga estilo",
+      "dehubApplied": "Nailapat ang Riftn brand sa {{count}} layer.",
+      "dehubApply": "Gamitin ang Riftn brand",
+      "dehubHint": "Opisyal na mga kulay ng Riftn, mga font na Exo at Inter, at ang Riftn logo, sa isang click."
     },
     "templates": {
       "announcement": {
@@ -11297,7 +11900,9 @@
       "exportHint": "Panatilihing bukas ang editor habang nire-render ang video mo.",
       "tooLarge": "Masyadong malaki ang file na iyan para sa editor. Ang limitasyon ay 400 MB.",
       "tZoomIn": "Mag - zoom in",
-      "tZoomOut": "Mag - zoom out"
+      "tZoomOut": "Mag - zoom out",
+      "tFlyUp": "Lipad pataas",
+      "tFlyDown": "Lipad pababa"
     },
     "motion": {
       "title": "Galaw",
@@ -12482,21 +13087,142 @@
       "add": "Idagdag",
       "scale": "Laki",
       "color": "Kulay",
-      "light": "Maliwanag"
+      "light": "Maliwanag",
+      "create": "Magdagdag ng 3D stage",
+      "title": "3D scene stage",
+      "hint": "I-block ang shot gamit ang mga sphere at kahon. Binabago ng camera, pagkakalagay at tatlong hiwalay na area light ang na-render na frame.",
+      "preview": "Preview ng na-render na eksena",
+      "error": "Hindi maihanda ang frame. Suriin ang mga shot reference mo at subukan ulit.",
+      "camera": "Camera",
+      "elevation": "Elevation",
+      "distance": "Distansya",
+      "fov": "Field of view",
+      "object": "Bagay",
+      "sphere": "Sphere",
+      "box": "Kahon",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "Alisin ang bagay",
+      "intensity": "Lakas",
+      "diffusion": "Diffusion",
+      "saving": "Inihahanda ang frame…",
+      "useFrame": "Gamitin ang na-render na frame bilang shot reference",
+      "frameHint": "Gumagawa ng 320 × 180 na PNG at idinadagdag ito sa mga reference ng shot na ito. Suriin ang limit ng reference at quote ng model bago mag-generate.",
+      "frameName": "Frame ng scene stage"
     },
     "clipFix": {
-      "listening": "Nakikinig…"
+      "listening": "Nakikinig…",
+      "detach": "Ihiwalay ang audio",
+      "detached": "Nailipat ang audio sa sarili nitong clip",
+      "detachFailed": "Hindi maihiwalay ang audio ng clip na ito",
+      "removeBars": "Alisin ang black bars",
+      "scanning": "Sinusuri ang mga frame…",
+      "noBars": "Walang nakitang black bars",
+      "barsRemoved": "Na-crop ang black bars",
+      "barsFailed": "Hindi masuri ang video na ito para sa black bars",
+      "reframe": "Auto reframe",
+      "reframeHint": "Akma na ang video sa hugis ng page na ito",
+      "reframed": "Na-reframe para sundan ang aksyon",
+      "reframeFailed": "Hindi ma-reframe ang video na ito",
+      "retakes": "Alisin ang mga retake",
+      "noRetakes": "Walang nakitang retake",
+      "retakesRemoved": "Inalis ang {{count}} retake, itinira ang huling take",
+      "retakesFailed": "Hindi maalis ang mga retake sa clip na ito"
     },
     "voiceClone": {
       "stop": "Itigil ang pag-record",
-      "failed": "Nabigo ang voice cloning."
+      "failed": "Nabigo ang voice cloning.",
+      "pickerLabel": "I-clone ang boses mo",
+      "pickerDetail": "Mga voiceover sa sarili mong boses",
+      "title": "I-clone ang boses mo",
+      "description": "I-record ang sarili mo o pumili ng clip mo na nagsasalita. Isang beses ka lang magbabayad at sa iyo na ang boses mo para sa bawat voiceover.",
+      "defaultName": "Boses ko",
+      "record": "Mag-record ng sample (30 segundo hanggang 2 minuto)",
+      "fromMedia": "O gumamit ng clip mula sa Media",
+      "recorded": "Ang recording mo",
+      "sample": "Sample: {{name}}",
+      "hint": "Pinakamainam ang malinaw na pananalita na walang musika.",
+      "noMic": "Hindi magamit ang mikropono.",
+      "sampleFailed": "Hindi mabasa ang tunog mula sa clip na iyan.",
+      "pay": "I-clone sa halagang {{amount}} token",
+      "useFree": "I-clone (bayad na)",
+      "owned": "Naka-set up na ang boses mong “{{name}}”. Piliin ito sa listahan ng boses.",
+      "useOwned": "Gamitin ang boses ko",
+      "ready": "Handa na ang “{{name}}” para sa mga voiceover.",
+      "paidFailed": "Naka-save ang bayad mo. Buksan ulit ito at libre na ang susunod na subok.",
+      "consent": "I-clone lang ang sarili mong boses, o isang may pahintulot kang gamitin."
     },
     "linkImport": {
       "go": "Mag-import",
-      "downloading": "Nagda-download {{percent}}%"
+      "downloading": "Nagda-download {{percent}}%",
+      "open": "Mag-import mula sa link",
+      "placeholder": "I-paste ang YouTube, TikTok o ibang link",
+      "rights": "Akin ang video na ito o may pahintulot akong gamitin ito",
+      "audioOnly": "Tunog lang",
+      "queued": "Nakapila…",
+      "waiting": "Hinihintay ang site, susubukan ulit maya-maya…",
+      "adding": "Idinadagdag sa Media…",
+      "added": "Na-import at naidagdag sa timeline.",
+      "failed": "Hindi ma-import ang link na iyan."
     },
     "reverse": {
-      "action": "Balik"
+      "action": "Balik",
+      "working": "Binabaligtad {{percent}}%",
+      "done": "Nabaligtad ang clip.",
+      "failed": "Hindi mabaligtad ang clip na ito.",
+      "unsupported": "Hindi kayang baligtarin ng browser na ito ang video. Subukan ang Chrome o Edge.",
+      "tooLong": "Mababaligtad ang mga clip na hanggang {{seconds}} segundo."
+    },
+    "film": {
+      "repairRefs": "Alisin ang mga nawawalang media link",
+      "title": "Film project",
+      "intro": "Magplano ng mga shot gamit ang mga reusable na image reference. Naka-save sa project na ito ang brief mo, pagkakasunod ng shot at mga napiling resulta.",
+      "create": "Gumawa ng film plan",
+      "name": "Pangalan ng pelikula",
+      "brief": "Brief ng pelikula",
+      "sharedReferences": "Mga shared na image reference (hanggang 4)",
+      "shot": "Shot",
+      "addShot": "Magdagdag ng shot",
+      "shotName": "Pangalan ng shot",
+      "action": "Aksyon at komposisyon ng shot",
+      "seconds": "Hinihinging segundo ng video",
+      "shotReferences": "Mga dagdag na image reference (pinagsamang limit 4)",
+      "frame": "Ihanda ang frame",
+      "video": "Ihanda ang video",
+      "review": "Suriin ang model, mga reference, haba ng video at presyo sa studio bago mag-generate.",
+      "result": "Tinanggap na resulta ng shot",
+      "noResult": "Walang napiling resulta",
+      "resultHint": "Pumili ng tinanggap na larawan o video mula sa Uploads. Naka-save ang link nito sa shot na ito; gamitin ang timeline para buuin ang pelikula.",
+      "earlier": "Iusog pauna",
+      "later": "Iusog pahuli",
+      "remove": "Alisin ang shot",
+      "issue": "Suriin ang paglalarawan ng shot at reference media, saka subukan ulit. Panatilihing bukas ang project kung hindi ito na-save.",
+      "searchMedia": "Hanapin ang media ayon sa pangalan",
+      "refreshMedia": "I-refresh ang media"
+    },
+    "speakers": {
+      "find": "Hanapin ang mga speaker",
+      "name": "Speaker {{number}}",
+      "onlyOne": "Isang speaker lang ang nakita.",
+      "failed": "Hindi mahanap ang mga speaker.",
+      "kept": "Si {{name}} lang ang itinira.",
+      "editFailed": "Hindi akma ang edit na iyon sa clip na ito.",
+      "split": "Hinati sa {{count}} speaker shot.",
+      "keepOnly": "Itira lang",
+      "splitAction": "I-cut sa bawat palit ng speaker"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Ilarawan ang 3D na bagay na gusto mo",
+      "queued": "Ginagawa ang 3D na bagay mo. Lalabas ito sa tab na Generations.",
+      "note": "Pumapasok sa Media ang mga 3D na bagay bilang maikling umiikot na clip na may transparent na background."
+    },
+    "behind": {
+      "action": "Text sa likod ng tao",
+      "working": "Ginugupit ang tao…",
+      "done": "Nasa likod na ng tao ang text at mga caption.",
+      "failed": "Hindi mailagay ang text sa likod ng tao."
     }
   },
   "creator": {
@@ -12961,7 +13687,47 @@
     "referenceComposeHint": "Dalhin ang mga karakter, bagay at setting mula sa maraming larawan sa isang komposisyon.",
     "marketing": {
       "import": {
-        "use": "Gamitin ang mga detalyeng ito"
+        "use": "Gamitin ang mga detalyeng ito",
+        "url": "URL ng product page",
+        "action": "Basahin ang product page",
+        "loading": "Binabasa ang page…",
+        "hint": "Mag-import ng teksto mula sa pampublikong product page. Suriin ang mga detalye bago gamitin; i-attach nang hiwalay sa studio ang mga larawan ng produkto.",
+        "source": "Na-import na source",
+        "review": "Pumili ng produktong kokopyahin sa nae-edit mong brief. Hindi magbabago ang headline, boses at kulay ng brand mo.",
+        "errors": {
+          "signIn": "Mag-sign in para mag-import ng product page.",
+          "url": "Gumamit ng pampublikong HTTPS na URL ng produkto.",
+          "empty": "Walang nahanap na magagamit na detalye ng produkto. Idagdag ang mga ito nang mano-mano.",
+          "busy": "Masyadong maraming import ang tumatakbo. Subukan ulit maya-maya.",
+          "unavailable": "Hindi ma-import ang page na ito. Idagdag nang mano-mano ang mga detalye ng produkto.",
+          "failed": "Nabigo ang import. Naka-save ang brief mo; subukan ulit o ilagay nang mano-mano ang mga detalye."
+        }
+      },
+      "title": "Brief ng campaign",
+      "intro": "Ilarawan ang produkto at brand mo, tapos ihanda ang mga katugmang ad format.",
+      "saved": "Naka-save ang brief mo sa device na ito para sa account na ito.",
+      "preview": "Ihanda ang mga format",
+      "clear": "I-clear ang brief",
+      "required": "Magdagdag ng pangalan at paglalarawan ng produkto para maihanda ang mga format.",
+      "variants": "Mga format ng campaign",
+      "reviewHint": "Suriin ang model, presyo at product reference sa studio bago mag-generate. Hiwalay na generation ang bawat format.",
+      "open": "Suriin sa studio",
+      "fields": {
+        "product": "Pangalan ng produkto (kailangan)",
+        "description": "Impormasyon ng produkto (kailangan)",
+        "brand": "Pangalan ng brand",
+        "audience": "Target na audience",
+        "benefit": "Pangunahing benepisyo",
+        "voice": "Boses ng brand",
+        "palette": "Mga kulay ng brand",
+        "headline": "Aprubadong headline",
+        "cta": "Call to action"
+      },
+      "formats": {
+        "square": "Square na ad",
+        "portrait": "Portrait na ad",
+        "story": "Larawan ng story",
+        "video": "Patayong video"
       }
     },
     "batchCount": "Mga Larawan",
@@ -12969,7 +13735,109 @@
     "cinema": {
       "close": "Isara",
       "performance": {
-        "label": "Pagtatanghal"
+        "label": "Pagtatanghal",
+        "0": "Masaya",
+        "1": "Malungkot",
+        "2": "Balisa",
+        "3": "Kumpiyansa",
+        "4": "Namangha",
+        "5": "Pigil",
+        "6": "Mapaglaro"
+      },
+      "title": "Direksyong pang-sinema",
+      "hint": "Gabayan ang visual na estilo ng susunod mong larawan o video. Nag-iiba ang resulta depende sa model.",
+      "none": "Walang direksyon",
+      "reset": "I-clear ang direksyon",
+      "camera": {
+        "label": "Itsura ng camera",
+        "0": "Digital na sinema",
+        "1": "35mm na pelikula",
+        "2": "16mm na pelikula",
+        "3": "Large format",
+        "4": "Vintage na camcorder"
+      },
+      "lens": {
+        "label": "Itsura ng lens",
+        "0": "Spherical",
+        "1": "Anamorphic",
+        "2": "Vintage na malambot na salamin",
+        "3": "Macro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Focal length",
+        "0": "18mm malapad",
+        "1": "24mm malapad",
+        "2": "35mm natural",
+        "3": "50mm standard",
+        "4": "85mm portrait",
+        "5": "135mm telephoto"
+      },
+      "aperture": {
+        "label": "Lalim ng field",
+        "0": "f/1.4 napakababaw",
+        "1": "f/2.8 mababaw",
+        "2": "f/5.6 katamtaman",
+        "3": "f/11 malalim na focus"
+      },
+      "movement": {
+        "label": "Galaw ng camera",
+        "0": "Nakapirmeng tripod",
+        "1": "Mabagal na dolly papasok",
+        "2": "Mabagal na dolly palabas",
+        "3": "Pagilid na tracking",
+        "4": "Umikot sa paksa",
+        "5": "Hawak-kamay",
+        "6": "Pataas na crane",
+        "7": "Mabagal na pan"
+      },
+      "lighting": {
+        "label": "Ilaw",
+        "0": "Malambot na liwanag ng araw",
+        "1": "Golden hour",
+        "2": "Madilim na chiaroscuro",
+        "3": "Maliwanag na studio",
+        "4": "Mga neon na ilaw",
+        "5": "Silhouette na backlight",
+        "6": "Makulimlim at diffuse"
+      },
+      "tempo": {
+        "label": "Bilis ng shot",
+        "0": "Isang tuloy-tuloy na shot",
+        "1": "Kalmado at hindi nagmamadaling aksyon",
+        "2": "Dinamiko at masiglang aksyon",
+        "3": "Magulo at mabilis na aksyon"
+      },
+      "era": {
+        "label": "Panahon",
+        "0": "Dekada 1920",
+        "1": "Dekada 1950",
+        "2": "Dekada 1960",
+        "3": "Dekada 1970",
+        "4": "Dekada 1980",
+        "5": "Dekada 1990",
+        "6": "Kasalukuyan",
+        "7": "Malapit na hinaharap"
+      },
+      "genre": {
+        "label": "Genre",
+        "0": "Dokumentaryo",
+        "1": "Drama",
+        "2": "Film noir",
+        "3": "Science fiction",
+        "4": "Pantasya",
+        "5": "Romantic comedy",
+        "6": "Thriller",
+        "7": "Western"
+      },
+      "palette": {
+        "label": "Paleta ng kulay",
+        "0": "Mainit na amber",
+        "1": "Malamig na asul",
+        "2": "Malamlam na kulay-lupa",
+        "3": "Pastel",
+        "4": "High contrast na monochrome",
+        "5": "Matitingkad na pangunahing kulay"
       }
     },
     "audioNoSpeech": "Walang sinabi ang natagpuan sa pag-record.",
@@ -12985,9 +13853,143 @@
     "gallery": {
       "send": "Ipadala",
       "notifications": {
-        "generation_reply": "Sumagot si {{name}} sa iyong comment"
+        "generation_reply": "Sumagot si {{name}} sa iyong comment",
+        "generation_like": "Nag-react si {{name}} sa generation mo",
+        "generation_comment_like": "Nag-react si {{name}} sa comment mo",
+        "generation_comment": "Nag-comment si {{name}} sa generation mo"
+      },
+      "browse": "I-browse ang mga generation",
+      "empty": "Wala pang likha",
+      "fullscreen": "Tingnan nang full screen",
+      "missing": "Hindi available ang generation na ito."
+    },
+    "aiGenerationAlt": "AI generation",
+    "layerNewAttempt": "Suriin ang bagong pagsubok",
+    "layerTitle": "Paghiwalayin ang mga layer ng larawan",
+    "layerPngRequired": "Pumili ng naka-save na PNG na larawan, hanggang 12 MiB at apat na megapixel.",
+    "layerSource": "Orihinal na larawan",
+    "layerDescription": "Apat na transparent na PNG layer. Nananatiling bahagi ng bawat larawan ang text.",
+    "layerSeparate": "Paghiwalayin ang mga layer",
+    "layerPending": "Naka-save na job: {{status}}. Kunin o subukan ulit ang pag-save nang walang panibagong bayad.",
+    "layerCollect": "Kunin / subukan ulit ang save",
+    "layerOpen": "Buksan ang mga layer sa editor",
+    "layerExport": "I-export ang PNG layers + manifest ZIP",
+    "layerNumber": "Layer {{number}}",
+    "priceRetry": "Hindi makumpirma ang presyo. Suriin ang presyo at subukan ulit.",
+    "avatarTitle": "Nagsasalitang portrait",
+    "avatarRequirements": "Square na PNG portrait, 512–2048 pixel, hanggang 5 MB. Mono 24 kHz 16-bit PCM WAV, 5–30 segundo. Pupunuin ng katahimikan ang huling bahagi ng isang segundo.",
+    "avatarPortrait": "Pumili ng portrait PNG",
+    "avatarAudio": "Pumili ng speech WAV",
+    "avatarPermission": "May pahintulot akong i-animate ang portrait na ito at gamitin ang audio na ito.",
+    "avatarQuote": "{{seconds}} segundo kasama ang katahimikan · {{amount}} token",
+    "avatarPrepare": "Ihanda at suriin ang presyo",
+    "batchFlowLimit": "Puno na ang listahan ng Flow. Mag-alis ng hindi ginagamit na Flow bago gumawa ng isa pang batch.",
+    "batchReviewCampaign": "Suriin ang campaign batch sa Flow",
+    "batchReviewFilmImages": "Suriin ang batch ng storyboard image",
+    "batchReviewFilmVideos": "Suriin ang batch ng film clip",
+    "batchReviewHint": "Magbubukas ng hiwalay na naka-save na Flow. Suriin ang bawat item at ang buong presyo bago magbayad. Itatago ang mga natapos na item at ang orihinal na bayad para sa recovery. Kokopyahin ang mga reference sa private library mo; may bayad ang storage at network usage.",
+    "batchInvalid": "Kumpletuhin ang bawat item bago maghanda ng batch na 1–12 larawan o clip.",
+    "batchReferenceLimit": "Isang image reference lang bawat item ang suportado ng batch na ito. Alisin ang sobrang reference o ihanda nang hiwalay ang item na iyon.",
+    "batchVideoSettings": "Para sa batch na ito, kailangan ng mga clip ng buong tagal na 4–15 segundo at aspect ratio na 16:9, 9:16 o 1:1.",
+    "batchMissingReference": "May reference na nawawala, hindi suportado o lampas sa 25 MB. Ibalik ito sa editor bago ihanda ang batch.",
+    "batchOwnerChanged": "Nagbago ang account o draft. Buksan ulit ang batch na ito sa ilalim ng orihinal nitong account.",
+    "batchConflict": "Hindi tugma ang naka-save na batch sa orihinal nitong snapshot.",
+    "campaignPlanTitle": "Mga campaign variant at episode",
+    "campaignPlanIntro": "Mag-save ng hanggang 12 variation o episode. Bawat isa ay magbubukas ng studio para sa sarili nitong review at quote. Ginagabayan ng mga shared note ang continuity; puwedeng mag-iba ang itsura ng produkto, mga karakter at boses sa bawat generation.",
+    "campaignTitle": "Pangalan ng campaign o serye",
+    "campaignContinuity": "Mga shared note sa karakter, boses at estilo",
+    "campaignVariantTitle": "Pangalan ng variant o episode",
+    "campaignHook": "Pambungad na hook",
+    "campaignLanguage": "Wika ng output",
+    "campaignScript": "Aprubadong script o pagkakasunod ng eksena",
+    "campaignAdd": "Magdagdag ng variant o episode",
+    "campaignClear": "I-clear ang plano",
+    "campaignFormat": "Format ng output",
+    "audioExportFormat": "Format ng export",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Mag-attach ng isang source clip na papahabain.",
+    "extensionSeconds": "+{{seconds}}s bagong footage",
+    "extensionHelp": "Ibinabalik ang source clip mo na may mga apat na bagong segundo. Ire-resize ang output hanggang 720p sa 24 fps. Gagawa ng bagong audio para sa extension.",
+    "extensionForward": "Magdagdag ng mga apat na segundo pagkatapos ng source clip mo",
+    "extensionBackward": "Magdagdag ng mga apat na segundo bago ang source clip mo",
+    "expandDescription": "Gumawa ng bagong border ng larawan. Opsyonal na English prompt; isang source image.",
+    "relightDescription": "I-relight ang isang larawan batay sa paglalarawan mo ng ilaw at background.",
+    "expandPromptHint": "Mag-attach ng isang larawan at piliin ang bago nitong aspect ratio. Opsyonal ang English prompt.",
+    "expandEnglishOnly": "English prompt lang ang tinatanggap ng expansion model na ito. Iwanang blangko ang prompt para sa awtomatikong expansion.",
+    "expandNeedsImage": "Mag-attach ng larawang ie-expand.",
+    "learn": {
+      "title": "Mga aralin ng Creator",
+      "intro": "Maiikling aralin, may knowledge check at nae-edit na exercise ang bawat isa. Naka-save ang progreso sa device na ito para sa account mo.",
+      "back": "Bumalik sa Creator",
+      "lessons": "Mga Aralin",
+      "progress": "{{completed}} sa {{total}} knowledge check ang naipasa",
+      "check": "Suriin ang sagot",
+      "correct": "Naipasa ang knowledge check",
+      "retry": "Subukan ulit. Balikan ang aralin sa itaas.",
+      "exerciseTitle": "Praktikal na exercise",
+      "exerciseHint": "Magbukas ng nae-edit na halimbawa sa sarili mong studio workspace. Libre ang pagbukas ng draft; kailangan ng generation ang review mo at sariling quote nito. I-edit ang halimbawa bago mag-generate.",
+      "openExercise": "Buksan ang exercise draft",
+      "closeExercise": "Isara ang exercise",
+      "brief": {
+        "title": "Sumulat ng malinaw na visual brief",
+        "body1": "Ilarawan ang isang konkretong subject, ang ginagawa nito at ang lugar. Magdagdag ng framing o galaw ng camera kung makakatulong ito sa eksena. Itabi ang mga hindi kaugnay na ideya para sa ibang draft.",
+        "body2": "Ginagabayan ng mga direksyon sa ilaw, lens at estilo ang model. Hindi nito ginagarantiya ang pisikal na kilos ng camera o eksaktong larawan. Isa-isang baguhin ang bawat bahagi para maihambing mo ang mga rebisyon.",
+        "body3": "Bago mag-generate, suriin ang napiling model, mga suportadong attachment, sukat at presyo. Itago ang orihinal na draft para mabalikan mo ito.",
+        "question": "Aling brief ang pinakamadaling baguhin?",
+        "answer0": "Malinaw na subject, kilos at lugar",
+        "answer1": "Pangalan lang ng model",
+        "answer2": "Listahan ng magkakasalungat na estilo",
+        "exercise": "Isang ceramic na tsarera sa kahoy na mesa sa tabi ng bintana. Malambot na liwanag ng umaga, medium framing, simpleng background. Panatilihin ang tsarera bilang malinaw na subject."
+      },
+      "continuity": {
+        "title": "Planuhin ang mga shot at suriin ang continuity",
+        "body1": "Gamitin ang Film panel sa editor para mag-save ng brief at nakaayos na mga shot. Ihanda nang hiwalay ang bawat frame o clip, suriin ang quote nito, at pumili ng tinanggap na resulta.",
+        "body2": "Mag-attach lang ng mga reference na tinatanggap ng napili mong model. Makakagabay sa itsura ang muling paggamit ng reference; hindi ito nagte-train ng identity o ginagarantiya ang pagkakatugma. Puwedeng mag-iba ang mga karakter at boses sa bawat generation.",
+        "body3": "Itago ang matatagumpay na take at buuin ang mga ito sa timeline. Suriin ang galaw, mukha, dialogue at transition bago mag-export.",
+        "question": "Ano ang sumusuporta sa continuity sa mga shot?",
+        "answer0": "Mas maraming hindi kaugnay na prompt",
+        "answer1": "Mga aprubadong reference at nasuring tala ng shot",
+        "answer2": "Pag-aakalang garantisado ang identity ng karakter",
+        "exercise": "Wide shot ng nag-iisang manlalakbay na dumarating sa tahimik na baybayin sa pagsikat ng araw. Mabagal na pasulong na galaw ng camera, kalmadong atmospera. Isang tuloy-tuloy na shot."
+      },
+      "campaign": {
+        "title": "Gumamit ng aprubadong impormasyon ng produkto",
+        "body1": "Magsimula sa impormasyon ng produkto na mabe-verify mo. Suriin ang na-import na metadata bago ito gamitin. Isulat nang tahasan ang headline at call to action; huwag mag-imbento ng presyo, review o claim sa performance.",
+        "body2": "Gumamit ng mga naka-save na campaign variant para magkakasama ang mga shared note at indibidwal na hook, script, wika at format. Ihanda nang isa-isa ang bawat nasuring item at tingnan ang quote nito sa studio.",
+        "body3": "Suriin sa resulta ang nakikitang teksto, itsura ng produkto at anumang binigkas na claim. Hindi patunay ang prompt ng katumpakan ng produkto o performance ng marketing.",
+        "question": "Kailan dapat isama ang isang claim tungkol sa produkto?",
+        "answer0": "Basta mukhang kapani-paniwala",
+        "answer1": "Pagkatapos mag-imbento ng five-star na review",
+        "answer2": "Kapag galing ito sa aprubadong impormasyon ng produkto",
+        "exercise": "Gumawa ng portrait na advertisement ng produkto para sa whole-leaf tea na ibinebenta sa reusable na lata. Aprubadong headline: Maglaan ng oras para sa tsaa. Aprubadong CTA: Tuklasin ang koleksyon. Gamitin lang ang mga impormasyong ito; huwag mag-imbento ng diskwento, review o health claim."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "Pine-play ng chat na ito ang pribadong recording na naka-save sa device na ito. Para sa ibang device, buksan ang Creator library mo pagkatapos ng cloud saving. Kung aalis ka ngayon, buksan ulit ang chat na ito para matapos ang pag-save.",
+    "batchPaymentHelp": "Hiwalay na sinisingil ang bawat isinumiteng larawan. Kapag huminto ang isang batch, awtomatikong gagamitin ulit ang mga hindi nagamit na token mula sa bayad nito para sa susunod na generation na sakop nito.",
+    "endFrameHelp": "Magdagdag ng panimulang larawan gamit ang attachment button.",
+    "seed": "Seed (opsyonal, 0–2147483647)",
+    "negativePrompt": "Negative prompt (opsyonal)",
+    "invalidSeed": "Dapat buong numero mula 0 hanggang 2147483647 ang seed.",
+    "endFrameNeedsStart": "Mag-attach ng panimulang larawan bago pumili ng end frame.",
+    "batchStopped": "Huminto ang batch pagkatapos ng {{submitted}} sa {{quantity}} na submission. Hindi naisumite ang {{remaining}}. Naka-save ang mga natapos na larawan.",
+    "audioInvalidTask": "Pumili ng suportadong audio task.",
+    "audioNeedsFile": "Mag-attach muna ng suportadong audio o video file.",
+    "audioTextLimit": "1–5000 character ang puwede sa speech at dialogue; 1–1000 sa sound effects.",
+    "audioDurationLimit": "Dapat Auto (0) o 0.5–30 segundo ang haba ng tunog.",
+    "audioModels": "Iba pang audio model",
+    "audioAttach": "Mag-attach ng recording",
+    "audioAttachFailed": "Hindi ma-attach ang recording na iyan.",
+    "audioSeconds": "Segundo (0 = Auto)",
+    "audioInvalidResponse": "Nagbalik ng hindi wastong resulta ang audio service.",
+    "audioResultTooLarge": "Walang laman ang audio result o lampas ito sa 50 MB.",
+    "audioFailed": "Hindi ma-proseso ang audio na iyan.",
+    "audioTaskTranscribeLabel": "I-transcribe",
+    "audioTaskIsolateLabel": "Linisin",
+    "loop": "Ulit-ulitin",
+    "libraryFavorites": "Mga paborito",
+    "libraryFavoriteAdd": "Idagdag sa mga paborito",
+    "libraryFavoriteRemove": "Alisin sa mga paborito"
   },
   "fractions": {
     "title": "Mga bahagi",
@@ -13129,7 +14131,8 @@
     "offerSubmitted_other": "Nagsumite ng alok para sa {{count}} fraction sa {{price}} token bawat isa",
     "yourOfferLabel": "Ang iyong Alok (token bawat Fraction)",
     "listedToast_one": "Naglista ng {{count}} fraction sa {{price}} token bawat isa",
-    "listedToast_other": "Naglista ng {{count}} fraction sa {{price}} token bawat isa"
+    "listedToast_other": "Naglista ng {{count}} fraction sa {{price}} token bawat isa",
+    "nftsSubtitle": "Kahit anong NFT, swap sa isang hakbang"
   },
   "moderation": {
     "appealDuplicate": "Naapela mo na ito",
@@ -13229,7 +14232,11 @@
     "ended": "Nagtapos",
     "stage": "Entablado",
     "upcomingStage": "Paparating na entablado",
-    "members": "{{compact}} miyembro"
+    "members": "{{compact}} miyembro",
+    "requestComments_one": "{{compact}} komento",
+    "requestComments_other": "{{compact}} komento",
+    "requestVotes_one": "{{compact}} boto",
+    "requestVotes_other": "{{compact}} boto"
   },
   "report": {
     "whyVideo": "Bakit mo irereport ang video na ito?",
@@ -14486,7 +15493,14 @@
     "faqWhatA": "Sa pamamagitan ng MCP, kaya nitong mag-browse ng mga pampublikong post sa Riftn, maghanap ng paksa at tumingin ng mga creator profile. Hindi ito nagpo-post para sa iyo.",
     "faqAccountQ": "Kailangan ko ba ng Riftn account?",
     "chatgptFaqAccount": "Hindi kailangan ng account para basahin ang pampublikong nilalaman sa pamamagitan ng connector. Kailangan lang ng Riftn account kung gusto mong mag-post, mag-tip, o mag-hold ng Riftn token.",
-    "claudeFaqAccount": "Hindi. Gumagana ang pagbabasa ng pampublikong nilalaman nang walang account. Kailangan mo lang ng Riftn account para mag-post, mag-tip, o mag-hold ng Riftn token."
+    "claudeFaqAccount": "Hindi. Gumagana ang pagbabasa ng pampublikong nilalaman nang walang account. Kailangan mo lang ng Riftn account para mag-post, mag-tip, o mag-hold ng Riftn token.",
+    "subtitleAccount": "Gamitin ang Riftn mula sa ChatGPT, Claude o anumang MCP app. Mag-browse nang walang account, o mag-sign in para mag-save ng pribadong draft, mag-publish at mag-schedule ng mga post, mag-manage ng mga larawan at poll, magbasa ng analytics, sumagot at mag-follow.",
+    "agentsTitle": "Patakbuhin ang mga agent mo mula sa assistant mo",
+    "agentsBody": "Kapag kumonekta ka, payagan din ang \"Act as your agents\". Puwede nang mag-post, sumagot, mag-react, mag-repost, mag-follow o mag-edit ng profile ang assistant mo bilang alinmang agent na pag-aari mo. Hindi ito kailanman makakakilos bilang account na hindi mo pag-aari.",
+    "keysTitle": "Mga personal na key",
+    "keysBody": "Para sa mga script, bot at app na hindi makapagbukas ng sign-in page. Ang pinapayagan mo lang ang ginagawa ng key at titigil ito pagkatapos ng 30 araw na hindi ginagamit.",
+    "keysMake": "Gumawa ng personal na key",
+    "manageLinked": "Pamahalaan ang mga naka-link na app at key"
   },
   "credits": {
     "percentUsed": "{{percent}}% ang nagamit",
@@ -14586,7 +15600,10 @@
       "title": "Bayaran ang {{name}}?",
       "body": "Ang tokens ay direktang papunta sa wallet ng app, {{wallet}}. Hindi maaaring ibalik ang mga pagbabayad.",
       "confirm": "Bayaran ang {{amount}} tokens",
-      "sent": "Nabayaran ang {{amount}} tokens sa {{name}}."
+      "sent": "Nabayaran ang {{amount}} tokens sa {{name}}.",
+      "testBadge": "Test mode",
+      "testBody": "Pag-aari mo ang app na ito, kaya test ito: walang token na gagalaw at mamarkahang test ang resibo.",
+      "testSent": "Test na bayad na {{amount}} token. Walang naipadala."
     },
     "add": {
       "title": "Daragdagin ang {{name}}?",
@@ -14700,7 +15717,16 @@
     "level": "Antas {{level}}",
     "streak_one": "{{count}}-linggo ng streak",
     "streak_other": "{{count}}-linggo ng streak",
-    "tipJar": "Garapon na regalo"
+    "tipJar": "Garapon na regalo",
+    "eyebrow": {
+      "follow": "Bagong tagasunod",
+      "subscribe": "Bagong subscriber",
+      "subscribedTo": "Nag-subscribe · {{plan}}",
+      "gifted_one": "Nagregalo ng sub",
+      "gifted_other": "Nagregalo ng {{count}} sub",
+      "share": "Ibinahagi ang stream",
+      "join": "Kakasali lang"
+    }
   },
   "liveStudio": {
     "controls": {
@@ -15066,8 +16092,21 @@
         "off": "Naka-off",
         "idle": "Handa na",
         "live": "Buhay",
-        "error": "Kahinaan"
-      }
+        "error": "Kahinaan",
+        "connecting": "Kumokonekta"
+      },
+      "title": "Mga destinasyon ng multistream",
+      "intro": "Mag-live sa Riftn nang isang beses at ipapadala namin ang stream mo sa bawat platform na naka-on dito, nang libre. Magsisimula ito ilang segundo matapos kang mag-live.",
+      "add": "Magdagdag ng destinasyon",
+      "empty": "Wala pang destinasyon. Magdagdag ng Twitch, YouTube, Kick o anumang RTMP server.",
+      "platform": "Platform",
+      "server": "Server URL",
+      "findKey": "Hanapin ang server at key mo sa {{name}}",
+      "customHint": "I-paste ang RTMP server at key na ibinigay ng platform mo.",
+      "keyNote": "Naka-encrypt na naka-store ang key mo sa aming mga server at hindi na ito ipapakita ulit.",
+      "added": "Naidagdag ang {{name}}",
+      "saveFailed": "Hindi ma-save ang destinasyon",
+      "toggle": "Mag-stream sa destinasyong ito"
     }
   },
   "liveChatModeration": {
@@ -15107,7 +16146,8 @@
     "priceUnavailable": "Hindi available ang presyo",
     "confirm": "Mint sa {{chain}}",
     "confirmWithCost": "Mint sa {{chain}} ·{{cost}}",
-    "notAvailable": "Hindi pa available ang pagmimina sa chain na ito."
+    "notAvailable": "Hindi pa available ang pagmimina sa chain na ito.",
+    "gasCovered": "Sagot ng Riftn ang gas"
   },
   "tokenLaunch": {
     "eyebrow": "Maglalabas na",
@@ -15235,7 +16275,55 @@
     "dropBadge": "Pagbaba ng Presyo",
     "days_one": "{{count}} araw",
     "days_other": "{{count}} araw",
-    "spotlightForSale": "Para sa benta ngayon"
+    "spotlightForSale": "Para sa benta ngayon",
+    "actCollectionOffer": "Alok sa koleksyon",
+    "actListed": "Naka-list",
+    "actSale": "Benta",
+    "buyAll": "Bilhin lahat",
+    "buySeveral": "Bumili ng ilan",
+    "cartBought": "Nabili ang {{n}}. Nasa wallet mo na ang mga ito.",
+    "cartCount": "{{n}} sa cart",
+    "cartFull": "Hanggang 20 nang sabay-sabay",
+    "cartOneCoin": "Isang chain at isang coin bawat cart. I-clear ito para magpalit.",
+    "cartOwn": "Sa iyo na ang isang iyan",
+    "cartPick": "I-tap para idagdag sa cart",
+    "forSaleHere": "Ibinebenta rito",
+    "noActivity": "Wala pang laman dito",
+    "shareMessage": "Bumili at magbenta ng NFT sa Riftn",
+    "loadFailed": "Hindi ma-load ang market. Hilahin para subukan ulit.",
+    "signInTitle": "Mag-sign in para makita ang mga NFT mo",
+    "walletOn": "Mga NFT sa wallet mo sa {{chain}}",
+    "listedAt": "Naka-list",
+    "noneHeld": "Wala pang NFT sa wallet na ito",
+    "title": "Mga NFT",
+    "subtitle": "Bumili at magbenta sa BNB, Base, Ethereum at Robinhood",
+    "startHint": "Mag-list ng NFT mula sa Iyo para mauna.",
+    "wrongChain": "Ilipat ang wallet mo sa {{chain}} para i-trade ito",
+    "failed": "Hindi iyon natuloy. Subukan ulit.",
+    "bought": "Sa iyo na ito",
+    "cancelledOrder": "Kinansela on-chain",
+    "notEnough": "Kulang ang {{symbol}} sa wallet mo",
+    "offerSent": "Naipadala ang alok",
+    "cancelListing": "Kanselahin ang listing",
+    "buyConfirm": "Bilhin ang {{name}}?",
+    "volShort": "Vol",
+    "salesCount": "{{n}} ang nabenta",
+    "bestOffer": "Pinakamagandang alok",
+    "fromOpenSea": "Mga nangungunang koleksyon sa OpenSea",
+    "buyHere": "Bilhin dito",
+    "openSeaNote": "Naka-list sa OpenSea. Direkta kang magbabayad sa seller sa Seaport; walang dagdag na bayad ang Riftn.",
+    "notListed": "Hindi naka-list para ibenta sa ngayon.",
+    "priceLabel": "Presyong babayaran ng buyer",
+    "offerLabel": "Ang alok mo",
+    "list": "I-list ito",
+    "listHint": "Libre ang pag-sign. Hihilingin sa iyo na aprubahan ito nang isang beses sa unang benta mula sa isang koleksyon.",
+    "offerHint": "Libre ang pag-sign. Mananatili sa wallet mo ang mga token mo hanggang tanggapin ng may hawak.",
+    "viewOnly": "Hindi available sa app na ito ang pagbili at pagbenta ng NFT.",
+    "tradeOnWeb": "Mag-trade sa riftn.com",
+    "feesFootnote": "Bayad: 2%, o 1% kapag nagbayad gamit ang token. Isang on-chain swap ang bawat trade.",
+    "floor": "Floor",
+    "shortTitle": "Mga NFT",
+    "bundleBadge": "Bundle ×{{n}}"
   },
   "riftnMove": {
     "title": "Riftn na ang DeHub",
@@ -15266,7 +16354,11 @@
     "loading": "Mga pag-uugnay...",
     "paused": "Nagpahinga",
     "preview": "Pagsusuri",
-    "seek": "Hahanap"
+    "seek": "Hahanap",
+    "popOut": "I-pop out",
+    "backInPost": "Dito na lang i-play",
+    "inCorner": "Nagpe-play sa sulok",
+    "tapToStartApp": "I-tap ang play sa Spotify player"
   },
   "twoFactor": {
     "wrongCode": "Hindi tumugma ang code na iyon. Subukan ang pinakabago sa iyong app.",
@@ -15348,18 +16440,57 @@
   "chatTextSize": {
     "title": "Kabuuang sukat ng teksto",
     "default": "Pangkalahatang",
-    "larger": "Mas malaki"
+    "larger": "Mas malaki",
+    "small": "Maliit",
+    "large": "Malaki",
+    "largest": "Pinakamalaki"
   },
   "remix": {
-    "cut": "Gupitin"
+    "cut": "Gupitin",
+    "title": "Remix",
+    "greenScreen": "Green screen",
+    "collab": "Collab",
+    "sound": "Gamitin ang tunog",
+    "unavailable": "Hindi available ang video na ito para i-remix.",
+    "openFailed": "Hindi mabuksan ang remix. Suriin ang koneksyon mo at mga pahintulot sa camera, saka subukan ulit.",
+    "tooLarge": "Masyadong malaki ang recording na ito. Mag-record ng mas maikling take.",
+    "invalidRecording": "Hindi mabasa ang recording. Pakimag-record ng ibang take.",
+    "saveFailed": "Hindi ma-save ang remix. Pakisubukan ulit.",
+    "startHint": "I-preview ang camera mo sa ibabaw ng video na ito, saka i-record ang remix mo. Titigil ang camera kapag umalis ka sa screen na ito.",
+    "openCamera": "Buksan ang camera"
   },
   "signedFollows": {
     "setUp": "I-on",
     "turnOff": "I-off",
-    "efpTurnOff": "Itigil"
+    "efpTurnOff": "Itigil",
+    "title": "Ang mga follow mo, on chain",
+    "description": "Pinipirmahan ng wallet mo kung sino ang fina-follow mo, at araw-araw na itinatatak ang listahan sa Base. Mahahanap ng kahit anong app ang mga follow mo mula sa wallet mo, kahit wala ang Riftn.",
+    "on": "Naka-on sa device na ito",
+    "off": "Naka-off sa device na ito",
+    "turnedOn": "Pinipirmahan na ng wallet mo ang mga follow mo",
+    "turnedOff": "Na-off sa device na ito",
+    "failed": "Hindi pumirma ang wallet mo. Subukan ulit.",
+    "hiddenNote": "Hindi kasama sa pampublikong listahan ang mga nakatagong follow list at private account.",
+    "efpOn": "Kinopya sa EFP · {{count}} follow",
+    "efpOff": "Ilagay din sila sa EFP",
+    "efpTurnOn": "Idagdag sa EFP",
+    "efpDone": "Inilalagay na sa EFP ang mga follow mo",
+    "efpStopped": "Itinigil ang pagkopya sa EFP. Sa iyo pa rin ang listahan.",
+    "efpHasList": "May EFP list ka na. Hindi pa iyon mapupunan ng Riftn.",
+    "efpNoGas": "Kailangan ng wallet mo ng kaunting ETH sa Base para dito.",
+    "efpFailed": "Hindi iyon natuloy. Subukan ulit.",
+    "efpNote": "Ang EFP ay follow list na binabasa ng ibang app (efp.app). Libre gamit ang Riftn wallet mo; ang ibang wallet ay magbabayad ng ilang sentimo sa Base. Sa iyo ang listahan.",
+    "efpUseWeb": "Kung sarili mong wallet, gawin ito sa Settings sa riftn.com."
   },
   "postEditHistory": {
-    "original": "Orihinal"
+    "original": "Orihinal",
+    "title": "Kasaysayan ng pag-edit",
+    "edited_one": "Na-edit nang isang beses",
+    "edited_other": "Na-edit nang {{count}} beses",
+    "lastEdit": "Huling edit {{time}}",
+    "editN": "Edit {{n}}",
+    "now": "Ngayon",
+    "showChanges": "Ipakita ang mga binago"
   },
   "studioDeck": {
     "remove": "Alisin",
@@ -15368,33 +16499,95 @@
       "modes": {
         "none": "Naka-off",
         "blur": "Paglabo",
-        "color": "Kulay"
-      }
+        "color": "Kulay",
+        "image": "Larawan"
+      },
+      "failed": "Hindi masimulan ang pag-alis ng background sa device na ito.",
+      "hint": "Tumatakbo sa device mo. Ilang segundo ang pag-load sa unang beses."
     },
     "scenes": {
       "names": {
-        "starting": "Malapit nang magsimula"
+        "starting": "Malapit nang magsimula",
+        "chatting": "Kuwentuhan lang",
+        "brb": "Babalik agad",
+        "ending": "Patapos na ang stream"
+      },
+      "title": "Mga eksena",
+      "picture": "Larawan",
+      "countdown": "Countdown",
+      "noCountdown": "Walang countdown",
+      "minutes": "{{count}} min",
+      "hints": {
+        "starting": "Card na may countdown",
+        "chatting": "Full screen na camera",
+        "brb": "Card, naka-mute ang mic",
+        "ending": "Card ng pasasalamat"
+      },
+      "subtitles": {
+        "starting": "Magsisimula ang stream sa",
+        "brb": "Babalik sandali",
+        "ending": "Salamat sa panonood"
       }
     },
     "widgets": {
-      "tab": "Mga Widget"
+      "tab": "Mga Widget",
+      "title": "Ipakita ang mga widget sa video ko",
+      "hint": "Iginuguhit sa stream mo ang mga alert, goal bar at chat, kaya nakikita rin ito ng mga manonood sa Twitch, YouTube at iba pang platform.",
+      "failed": "Hindi mabago kung saan lumalabas ang mga widget mo. Subukan ulit."
     },
     "sources": {
       "image": "Larawan",
       "show": "Ipakita sa stream",
       "positions": {
-        "center": "Sentro"
+        "center": "Sentro",
+        "top-left": "Itaas na kaliwa",
+        "top-right": "Itaas na kanan",
+        "bottom-left": "Ibabang kaliwa",
+        "bottom-right": "Ibabang kanan"
       },
       "sizes": {
-        "medium": "Katamtaman"
-      }
+        "medium": "Katamtaman",
+        "small": "Maliit",
+        "large": "Malaki"
+      },
+      "title": "Mga source",
+      "addImage": "Larawan o logo",
+      "failed": "Hindi maidagdag ang source na iyan.",
+      "hint": "Iginuguhit ang mga source sa ibabaw ng larawan mo para sa bawat manonood at bawat platform."
+    },
+    "phone": {
+      "title": "Studio"
     }
   },
   "whenSheet": {
     "today": "Ngayong araw",
     "tooSoon": "Pumili ng oras sa hinaharap.",
     "show": "Ipakita",
-    "hide": "Itago"
+    "hide": "Itago",
+    "title": "Kailan?",
+    "tonight": "Mamayang gabi",
+    "inAnHour": "Sa loob ng isang oras",
+    "tomorrow": "Bukas",
+    "primeTime": "Prime time",
+    "scheduleFor": "I-schedule sa {{when}}",
+    "liveTip": "Puwedeng mag-set ng paalala ang mga tagasunod mo. Ikaw mismo ang magsisimula ng Live pagdating ng oras.",
+    "stageTip": "Agad itong mapupunta sa Upcoming shelf, para ma-tap ng mga tao ang Remind me.",
+    "typePlaceholder": "Mag-type ng oras, gaya ng \"fri 8pm\" o \"in 2 hours\"",
+    "typeLabel": "Mag-type ng oras",
+    "typeHelp": "Subukan ang \"tonight\", \"tomorrow 9am\", \"sat noon\" o \"30 oct 7pm\".",
+    "orPickDay": "O pumili ng araw",
+    "earlier": "15 minutong mas maaga",
+    "later": "15 minutong mas huli",
+    "earlierShort": "Mas maaga",
+    "laterShort": "Mamaya",
+    "tooSoonMin": "Pumili ng oras na hindi bababa sa {{count}} minuto mula ngayon.",
+    "zone": "Oras mo ({{zone}}). Makikita ito ng iba sa sarili nilang oras.",
+    "remove": "Alisin ang schedule",
+    "startsIn": "Magsisimula sa loob ng {{time}}",
+    "bestTime": "Pinakamagandang oras",
+    "fansOnline": "Kailan online ang mga fan ko?",
+    "fansBasis": "Kapag mas maliwanag, mas maraming tagasunod mo ang nanonood, huling {{count}} araw.",
+    "everyoneBasis": "Kulang pa ang aktibidad ng tagasunod, kaya lahat ng nasa Riftn ito."
   },
   "planned": {
     "title": "Nakaplano",
@@ -15409,22 +16602,45 @@
     "loading": "Naglo-load…",
     "startNow": "Magsimula ngayon",
     "cancel": "Kanselahin",
-    "cancelled": "Kinansela"
+    "cancelled": "Kinansela",
+    "subtitle": "Mga Post, Live at Stage na naka-schedule mo",
+    "seoTitle": "Nakaplano · Riftn",
+    "seoDescription": "Ang mga naka-schedule mong post, Live at Stage sa Riftn, nasa iisang lugar.",
+    "lives": "Mga Live",
+    "signIn": "Mag-sign in para makita ang mga plano mo",
+    "emptyTitle": "Wala pang nakaplano",
+    "emptyBody": "Piliin ang \"Kailan?\" habang gumagawa ng post, Live o Stage at lalabas ito rito.",
+    "move": "Ilipat",
+    "postNow": "I-post ngayon",
+    "confirmCancel": "I-tap ulit para kanselahin",
+    "moved": "Inilipat sa {{when}}",
+    "postingNow": "Ipo-post sa loob ng isang minuto",
+    "moveFailed": "Hindi ito mailipat. Subukan ulit.",
+    "seeAll": "Tingnan ang lahat ng nakaplano mo"
   },
   "welcome": {
     "about": {
       "title": "Maligayang pagdating sa Riftn",
       "day": "Araw",
       "month": "Buwan",
-      "year": "Taon"
+      "year": "Taon",
+      "sub": "Mananatiling pribado ang kaarawan mo. Pumili ng itsura, puwede mo itong baguhin anumang oras.",
+      "birthday": "Petsa ng kapanganakan",
+      "pick": "Piliin ang kaarawan mo",
+      "invalid": "Ilagay ang buong petsa ng kapanganakan mo.",
+      "tooYoung": "Kailangang {{age}} taong gulang ka o higit pa para magamit ang Riftn.",
+      "theme": "Ang itsura mo"
     },
     "name": {
       "title": "Ang iyong pangalan",
-      "placeholder": "Ang iyong pangalan"
+      "placeholder": "Ang iyong pangalan",
+      "sub": "Ito ang pangalang makikita ng mga tao sa mga post mo."
     },
     "card": {
       "name": "Ang iyong pangalan",
-      "followers": "mga tagasunod"
+      "followers": "mga tagasunod",
+      "interests": "Mga interes mo",
+      "following": "sinusundan"
     },
     "topic": {
       "music": "Musika",
@@ -15435,11 +16651,48 @@
       "film": "Pelikula",
       "food": "Pagkain",
       "news": "Balita",
-      "science": "Agham"
+      "science": "Agham",
+      "travel": "Paglalakbay",
+      "comedy": "Komedya",
+      "anime": "Anime",
+      "cars": "Mga kotse",
+      "podcast": "Podcast",
+      "animals": "Mga hayop",
+      "tech": "Tech"
     },
     "back": "Bumalik",
     "skipPhoto": "I-skip para sa ngayon",
-    "preview": "Pagsusuri"
+    "preview": "Pagsusuri",
+    "username": {
+      "title": "Ang @username mo",
+      "sub": "Mga titik, numero at underscore. Puwede mo itong baguhin mamaya.",
+      "yours": "Sa iyo na ang @{{name}}"
+    },
+    "photo": {
+      "title": "Ang larawan mo",
+      "sub": "Opsyonal. Mas mabilis mag-follow ang mga tao kapag may mukha.",
+      "choose": "Pumili ng larawan",
+      "change": "Pumili ng iba"
+    },
+    "interests": {
+      "title": "Mga interes mo",
+      "sub": "Pumili ng hindi bababa sa 3. Mauuna ang mga ito sa mga kategorya mo."
+    },
+    "people": {
+      "title": "Ang mga tao mo",
+      "sub": "I-tap para i-follow. Pupunuin ng mga post nila ang Following feed mo.",
+      "empty": "Walang mungkahi sa ngayon. Mas marami pang tao sa Explore.",
+      "followers": "{{count}} tagasunod"
+    },
+    "done": {
+      "title": "Ang ganda, {{name}}",
+      "sub": "Makikita ng lahat ang card na ito simula ngayon.",
+      "eyebrow": "Live na ang profile"
+    },
+    "enter": "Pumasok sa Riftn",
+    "pickMore": "Pumili ng {{count}} pa",
+    "cardHint": "Ganito ka makikita ng mga tao",
+    "followFailed": "Hindi ma-follow. Subukan ulit."
   },
   "appTokens": {
     "title": "Ang iyong mga token",
@@ -15450,10 +16703,35 @@
     "amount": "Halaga",
     "notePlaceholder": "Magdagdag ng paalala (opsyonal)",
     "sendButton": "Ipadala",
-    "errorInsufficient": "Walang sapat na tokens"
+    "errorInsufficient": "Walang sapat na tokens",
+    "rowHint": "Balanse sa app",
+    "explainer": "Nasa loob na ng Riftn ang mga token mo. Nagsimula ka sa hawak at naka-stake mo onchain noong launch. Agad na gumagalaw ang mga ito kapag nagpadala, nag-tip at gumastos ka, nang walang bayad at walang onchain. Madadala ang mga balanse sa bagong token sa airdrop.",
+    "kindOpening": "Panimulang balanse",
+    "kindSent": "Ipinadala kay {{name}}",
+    "kindReceived": "Mula kay {{name}}",
+    "kindSpent": "Ginastos sa Riftn",
+    "kindRefund": "Refund",
+    "kindAdjust": "Adjustment ng Riftn",
+    "sendTitle": "Magpadala ng token",
+    "sendHint": "Nagpapadala ng token sa loob ng Riftn sa ibang account. Instant at libre, walang napupunta onchain.",
+    "toPlaceholder": "@username o 0x address",
+    "looking": "Hinahanap…",
+    "available": "Available: {{amount}}",
+    "sent": "Naipadala ang {{amount}} token kay {{name}}",
+    "errorRateLimit": "Masyadong maraming padala sa huling oras. Subukan ulit mamaya.",
+    "errorNoRecipient": "Walang nahanap na Riftn account",
+    "errorSelf": "Hindi ka puwedeng magpadala sa sarili mo",
+    "errorGeneric": "Hindi maipadala. Subukan ulit."
   },
   "avatarPrompt": {
-    "notNow": "Hindi ngayon"
+    "notNow": "Hindi ngayon",
+    "title": "Magdagdag ng profile photo",
+    "body": "Mas mabilis kang mapapansin sa mga feed, komento at chat kapag may mukha o logo ka.",
+    "choose": "Pumili ng larawan",
+    "another": "Pumili ng iba",
+    "save": "Gamitin ang larawang ito",
+    "saved": "Ang ganda",
+    "failed": "Hindi ma-save ang larawan mo. Subukan ulit."
   },
   "postStats": {
     "audience": "Tagapanood",
@@ -15471,35 +16749,159 @@
     "shares": "Mga Pagbabahagi",
     "signedOutViewers": "Naka-sign out",
     "topSupporters": "Mga nangungunang tagasuporta",
-    "visitors": "Naka-sign out"
+    "visitors": "Naka-sign out",
+    "aboutUsual": "halos gaya ng dati",
+    "afterWatching": "nag-follow matapos itong makita",
+    "avg": "avg",
+    "avgWatch": "Avg na panonood",
+    "bestTime": "Kailan nanonood ang mga tao mo",
+    "bigDrop": "Malaking bagsak",
+    "byBadge": "ayon sa badge",
+    "devices": "Device (mga miyembro)",
+    "finishedLower": "natapos",
+    "finishedPct": "{{pct}}% ang nanood hanggang dulo",
+    "inOut": "{{in}} miyembro · {{out}} naka-sign out",
+    "leave": "{{pct}}% ang umaalis",
+    "linkClicks": "Mga click sa link",
+    "newToYou": "bago sa iyo",
+    "noAccount": "walang account",
+    "noViewersYet": "Wala pang nakakita sa post na ito.",
+    "noWatchYet": "Lalabas dito ang watch time kapag pinanood na ito ng mga tao. Nagsimula itong magbilang noong 31 Oct 2026.",
+    "open": "Tingnan kung kumusta ang post mo",
+    "otherBadges": "Iba pang badge",
+    "peak": "Pinakamataas {{time}} · {{n}}",
+    "peopleReached": "Mga taong naabot",
+    "playsLower": "plays",
+    "playsMembers": "Plays ng mga miyembro",
+    "playsVisitors": "Plays na naka-sign out",
+    "profileTaps": "Mga tap sa profile mo",
+    "reach": "Abot",
+    "saves": "Mga save",
+    "seeAll": "Tingnan ang lahat ng stats",
+    "signedIn": "naka-sign in",
+    "signedOutLower": "naka-sign out",
+    "stillWatching": "Nanonood pa",
+    "timesUsual": "{{ratio}}× ng dati",
+    "vsUsualPct": "{{pct}} kumpara sa karaniwan mong post",
+    "unavailableBody": "Ang creator lang ang nakakakita ng stats ng post na ito.",
+    "unavailableTitle": "Hindi available ang stats",
+    "vsUsual": "kumpara sa karaniwan mong post",
+    "watching": "Nanonood",
+    "whoSawIt": "Sino ang nakakita",
+    "withRepeats": "{{n}} ulit",
+    "yourFollowers": "mga tagasunod mo",
+    "first48": "Unang 48 oras",
+    "howItsDoing": "Kumusta ito",
+    "bestTip": "Karamihan ng manonood mo ay dumarating tuwing {{day}} bandang {{hour}}:00. Pinakamagandang simula para sa post ang pag-post bago ang oras na iyon.",
+    "last30": "huling 30 araw",
+    "day": {
+      "sun": "Lin",
+      "mon": "Lun",
+      "tue": "Mar",
+      "wed": "Miy",
+      "thu": "Huw",
+      "fri": "Biy",
+      "sat": "Sab"
+    }
   },
   "duet": {
     "policyEveryone": "Lahat",
     "policyFollowers": "Mga tagasunod",
     "policyNobody": "Wala",
-    "loadMore": "Mag-load pa"
+    "loadMore": "Mag-load pa",
+    "with": "Duet kasama si @{{username}}",
+    "withOriginal": "Duet · tingnan ang orihinal",
+    "unavailable": "Hindi na available ang video na ito para sa duet.",
+    "allowLabel": "Payagan ang duet",
+    "allowDescription": "Kung sino ang puwedeng mag-record ng duet katabi ng mga video mo. Puwede mo rin itong baguhin sa bawat post.",
+    "settingsSection": "Mga Duet",
+    "policyDefault": "Setting ng account",
+    "saveFailed": "Hindi ma-save. Subukan ulit.",
+    "count_one": "{{count}} duet",
+    "count_other": "{{count}} duet",
+    "pageHeading": "Mga Duet",
+    "pageTitle": "Mga duet ng {{title}} ni @{{creator}}",
+    "pageTitleNoCreator": "Mga duet ng {{title}}",
+    "pageDescription": "Panoorin ang bawat duet ng video na ito sa Riftn, o mag-record ng sarili mong katabi nito.",
+    "empty": "Wala pang duet. Buksan ang mga opsyon ng video at piliin ang Remix → Duet para gawin ang una.",
+    "video": "Video",
+    "notFound": "Hindi available ang video na ito.",
+    "notFoundTitle": "Hindi nakita ang video — Riftn",
+    "browseShorts": "I-browse ang Shorts"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Lahat",
       "followers": "Mga tagasunod",
-      "nobody": "Wala"
+      "nobody": "Wala",
+      "default": "Default ko"
+    },
+    "shareFailed": "Naipadala ang tip mo, pero hindi natuloy ang bahagi ng orihinal na creator.",
+    "notify": {
+      "duet": "Nag-duet si {{name}} sa video mo",
+      "stitch": "Nag-stitch si {{name}} ng video mo",
+      "react": "Nag-react si {{name}} sa video mo",
+      "reactLive": "Live na nagre-react si {{name}} sa video mo"
+    },
+    "linkFailed": "Naka-post na ang post mo, pero hindi ito ma-link sa orihinal na video.",
+    "settingsHeading": "Mga Remix",
+    "stitch": {
+      "allow": "Payagan ang stitch",
+      "allowDesc": "Kung sino ang puwedeng gumamit ng hanggang 5 segundo ng mga video mo sa sarili nilang video. Puwede mo rin itong baguhin sa bawat post.",
+      "saveFailed": "Hindi ma-save ang setting mo sa stitch. Subukan ulit.",
+      "settingFailed": "Naka-post na ang post mo, pero hindi na-save ang setting nito sa stitch. Baguhin ito sa Edit post.",
+      "from": "Na-stitch mula kay {{name}}",
+      "count_one": "{{count}} Stitch",
+      "count_other": "{{count}} Stitch",
+      "listTitle": "Mga Stitch",
+      "listFailed": "Hindi ma-load ang mga stitch. Subukan ulit.",
+      "listEmpty": "Wala pang stitch.",
+      "unavailable": "Hindi na available ang video na ito para sa stitch."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Lahat",
       "followers": "Mga tagasunod",
-      "nobody": "Wala"
+      "nobody": "Wala",
+      "default": "Default ng account ({{value}})"
     },
     "heading": "mga reaksyon",
     "more": "Magpakita pa",
     "liveNow": "Buhay",
-    "untitled": "Reaksyon"
+    "untitled": "Reaksyon",
+    "reactionTo": "Reaksyon sa",
+    "reactingTo": "Nagre-react sa",
+    "count_one": "{{count}} reaksyon",
+    "count_other": "{{count}} reaksyon",
+    "allow": "Payagan ang mga reaksyon",
+    "remixesSection": "Mga Remix",
+    "allowDescription": "Hayaang mag-react ang ibang creator sa mga video mo, naka-record man o live. Puwede mo pa rin itong baguhin sa bawat post.",
+    "pageTitle": "Mga reaksyon sa {{title}} — Riftn",
+    "pageDescription": "Panoorin ang mga creator na nagre-react sa “{{title}}” ni {{creator}} sa Riftn, naka-record at live.",
+    "backToVideo": "Bumalik sa video",
+    "empty": "Wala pang reaksyon. Buksan ang Remix menu ng video at piliin ang React para mauna.",
+    "wasLive": "Nag-live",
+    "thisVideo": "ang video na ito"
   },
   "liveClips": {
     "copyLink": "Kopyahin ang link",
-    "linkCopied": "Link na kopya"
+    "linkCopied": "Link na kopya",
+    "button": "I-clip ang sandaling ito",
+    "capturing": "Kinukuha ang huling minuto ng stream…",
+    "failed": "Hindi magawa ang clip na ito.",
+    "highlightTitle": "Highlight",
+    "length": "{{seconds}}s na clip",
+    "make": "Gumawa ng clip",
+    "postToShorts": "I-post sa Shorts",
+    "posted": "Nai-post ang clip sa Shorts",
+    "postedBody": "Nasa Shorts na ang clip mo. I-share ito para mas maraming makahanap ng stream.",
+    "rendering": "Ginugupit ang clip mo. Mga kalahating minuto ito…",
+    "starting": "Sinisimulan ang clip mo…",
+    "title": "Clip",
+    "titleLabel": "Title ng clip",
+    "titlePlaceholder": "Bigyan ng title ang clip mo",
+    "viewShort": "Tingnan ang Short"
   },
   "liveHype": {
     "gift": {
@@ -15510,16 +16912,66 @@
       "stage": {
         "preparing": "Nagpe-prepare…",
         "confirming": "Hinihintay ang transaksyon…",
-        "recording": "Tinatapos…"
-      }
+        "recording": "Tinatapos…",
+        "wallet": "Kumpirmahin sa wallet mo"
+      },
+      "open": "Magregalo ng subscription",
+      "title": "Magregalo ng subscription",
+      "mode": {
+        "random": "Random na manonood sa chat",
+        "user": "Isang partikular na tao"
+      },
+      "randomHint": "Mapupunta sa mga taong nag-chat sa huling 30 minuto at hindi pa naka-subscribe.",
+      "whoPlaceholder": "@username",
+      "send_one": "Magregalo ng 1 sub · ${{price}}",
+      "send_other": "Magregalo ng {{count}} sub · ${{price}}",
+      "payHint": "Babayaran gamit ang token mula sa wallet mo sa isang transfer.",
+      "fewer_one": "1 tao lang sa chat ang puwedeng makatanggap ng sub ngayon, kaya 1 lang ang babayaran mo.",
+      "fewer_other": "{{count}} tao lang sa chat ang puwedeng makatanggap ng sub ngayon, kaya {{count}} lang ang babayaran mo.",
+      "done_one": "Naregalo ang subscription!",
+      "done_other": "Naregalo ang {{count}} subscription!",
+      "failed": "Hindi maregalo ang mga subscription",
+      "notReady": "Hindi pa available ang pagreregalo para sa plan na ito",
+      "noPlan": "Pumili muna ng plan",
+      "noPlans": "Wala pang subscription plan si {{name}} na puwedeng iregalo."
+    },
+    "train": {
+      "level": "Hype Train · Level {{level}}",
+      "endedLevel": "Natapos ng Hype Train ang level {{level}}!",
+      "ended": "Tapos na ang Hype Train",
+      "thanks_one": "Salamat sa {{count}} supporter",
+      "thanks_other": "Salamat sa {{count}} supporter",
+      "top": "Nangunguna: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Iba pa",
-    "confirming": "Kinukumpirma ang pagbabayad..."
+    "confirming": "Kinukumpirma ang pagbabayad...",
+    "lockPhoto": "I-lock ang larawan",
+    "lockVideo": "I-lock ang video",
+    "lockOnPrice": "Naka-lock · {{price}} token",
+    "lockCustomLabel": "Custom na presyo sa token",
+    "lockHint": "Malabo nila itong makikita hanggang magbayad sila sa iyo. Hindi end-to-end encrypted ang mga naka-lock na file.",
+    "dhbNow": "{{dhb}} sa presyo ngayon",
+    "lockCustomUsd": "$ Iba",
+    "lockCustomUsdLabel": "Custom na presyo sa dolyar",
+    "lockDhbNow": "≈ {{dhb}} ngayon. Palagi silang magbabayad ng {{price}}, anuman ang halaga ng token.",
+    "lockOnUsd": "Naka-lock · {{price}}",
+    "lockedPhoto": "Naka-lock na larawan",
+    "lockedVideo": "Naka-lock na video",
+    "unlockFor": "I-unlock sa halagang {{price}}",
+    "unlockOnWeb": "I-unlock sa riftn.com · {{price}}",
+    "stillConfirming": "Naipadala ang bayad. Magbubukas ito pagkakumpirma.",
+    "payFailed": "Hindi ma-unlock",
+    "unlocked": "Na-unlock",
+    "unlockedTag": "Na-unlock",
+    "notYet": "Hindi pa na-unlock",
+    "uploading": "Nilo-lock…",
+    "unlockedByThem": "Na-unlock ang naka-lock mong {{kind}}: +{{amount}} token"
   },
   "liveShorts": {
-    "live": "BUHAY"
+    "live": "BUHAY",
+    "join": "Sumali sa live"
   },
   "feedFilters": {
     "clearAllShort": "Linisin lahat",
@@ -15528,7 +16980,20 @@
     "groupDate": "Petsa",
     "groupSort": "Ayusin",
     "groupType": "Uri",
-    "save": "I-save"
+    "save": "I-save",
+    "clearAll": "I-clear ang lahat ng filter",
+    "collapse": "Itago ang mga filter",
+    "count": "{{count}} filter ang naka-on",
+    "deletePreset": "Burahin ang {{name}}",
+    "groupAccess": "Access",
+    "groupTag": "Tag",
+    "myPresets": "Mga preset ko",
+    "presetName": "Pangalan ng preset",
+    "remove": "Alisin ang {{label}}",
+    "saveCurrent": "+ I-save ang kasalukuyan",
+    "savePreset": "I-save bilang preset",
+    "show": "Ipakita ang mga filter",
+    "updatePreset": "Palitan ang pangalan ng preset"
   },
   "ownKeys": {
     "working": "Nagtatrabaho",
@@ -15536,7 +17001,21 @@
     "check": "Tignan",
     "remove": "Alisin",
     "save": "I-save",
-    "cancel": "Kanselahin"
+    "cancel": "Kanselahin",
+    "title": "Sarili mong AI key",
+    "description": "Magdagdag ng key mula sa AI provider at tatakbo sa account mo ang Creator tools. Walang sinisingil ang Riftn para sa mga job na iyon. Naka-encrypt ang mga key at hindi na ipapakita ulit.",
+    "invalid": "Tinanggihan, palitan ito",
+    "noCredit": "Ubos na ang credit",
+    "disabled": "Pinatay ng Riftn",
+    "saved": "Na-save ang key ng {{name}}. Ginagamit na ng mga tool sa {{name}} ang account mo.",
+    "savedNoCredit": "Na-save ang key ng {{name}}, pero ubos na ang credit ng account.",
+    "removed": "Inalis ang key ng {{name}}.",
+    "replaceKey": "Palitan ang key",
+    "add": "Magdagdag ng key",
+    "paste": "I-paste ang {{name}} key mo",
+    "getKey": "Kumuha ng {{name}} key",
+    "showLess": "Ipakita lang ang mga key ko",
+    "addAnother": "Magdagdag ng ibang provider"
   },
   "postBg": {
     "addMedia": "Magdagdag ng larawan, GIF, o video",
@@ -15548,54 +17027,181 @@
     "names": {
       "lava": "Lava lamp",
       "chrome": "Likidong Kromo",
-      "snow": "Pagbagsak ng niyebe"
-    }
+      "snow": "Pagbagsak ng niyebe",
+      "ink": "Ink Wash",
+      "news": "Newsprint",
+      "split": "Dusk Split",
+      "blue": "Blueprint",
+      "terra": "Terrazzo",
+      "half": "Halftone Pop",
+      "topo": "Contour",
+      "velvet": "Velvet",
+      "sorbet": "Sorbet",
+      "carbon": "Carbon",
+      "echo": "Profile Echo",
+      "cards": "Colour Cards",
+      "deck": "Pattern Deck",
+      "aurora": "Aurora",
+      "stars": "Starfield",
+      "rain": "Ulan sa Salamin",
+      "drive": "Night Drive",
+      "breathe": "Huminga",
+      "spin": "Prism Spin",
+      "tide": "Tide",
+      "ember": "Baga",
+      "holo": "Holo Foil",
+      "rift": "Rift",
+      "mesh": "Mesh",
+      "grain": "Film Grain",
+      "orbit": "Orbit",
+      "ripple": "Ripple",
+      "dotwave": "Dot Wave",
+      "scan": "CRT",
+      "silk": "Silk",
+      "bokeh": "Bokeh",
+      "photo": "Ang larawan mo"
+    },
+    "scope": "Ilapat sa",
+    "thisPost": "Ang post na ito",
+    "allPosts": "Lahat ng post",
+    "sameAsProfile": "Profile",
+    "sameAsProfileSub": "Kapareho ng profile mo",
+    "title": "Background ng post",
+    "editRow": "Background ng post",
+    "hint": "I-swipe ang strip. Nagbabago ang post mo habang nag-i-swipe ka. Ikaw lang ang puwedeng magbago nito.",
+    "moving": "Gumagalaw",
+    "still": "Tahimik",
+    "plain": "Simpleng post",
+    "position": "{{n}} sa {{total}}",
+    "sample": "Ganito ang itsura ng mga text post mo sa profile mo.",
+    "saveFailed": "Hindi ma-save ang background mo. Subukan ulit.",
+    "base": "Base",
+    "accent2": "Accent 2",
+    "ownColours": "Sarili mong kulay"
   },
   "articleTile": {
-    "cover": "Takip"
+    "cover": "Takip",
+    "title": "Mga article tile",
+    "dropcap": "Drop cap",
+    "hint": "Kung paano lumalabas ang mga article mo sa profile grid mo. Ikaw lang ang puwedeng magbago nito.",
+    "saveFailed": "Hindi ma-save. Subukan ulit."
   },
   "aiConsent": {
-    "allow": "Payagan"
+    "allow": "Payagan",
+    "title": "Gamitin ang mga AI feature?",
+    "body": "Para gumana, ipinapadala ng mga AI feature ang ibinibigay mo (ang text, larawan o audio mo, at ang post o chat na tinutukoy nito) sa mga third-party AI provider gaya ng Google, OpenAI, Groq, OpenRouter, fal at ElevenLabs. Puwede mo itong baguhin anumang oras sa Settings → Privacy.",
+    "declined": "Naka-off ang mga AI feature. Puwede mo silang i-on sa Settings → Privacy.",
+    "settingLabel": "Mga AI feature",
+    "settingDesc": "Hayaang ipadala ng assistant, translation, mungkahing sagot at tulong sa pagsulat ang ibinibigay mo sa mga third-party AI provider."
   },
   "dmRequests": {
     "title": "Kahilingan",
     "accept": "Tanggapin",
     "delete": "Tanggalin",
-    "block": "I - block"
+    "block": "I - block",
+    "hint": "Mga mensahe mula sa mga taong hindi mo fina-follow. Tanggapin ang isa, sumagot o i-follow sila at mapupunta ang chat sa inbox mo.",
+    "rowHint": "{{n}} mula sa mga taong hindi mo fina-follow",
+    "banner": "Hindi mo fina-follow si {{name}}. Tanggapin para ilipat ang chat na ito sa inbox mo, o sumagot na lang.",
+    "accepted": "Inilipat sa inbox mo",
+    "acceptFailed": "Hindi matanggap, subukan ulit"
   },
   "dmSchedule": {
     "view": "Tingnan",
     "edit": "I-edit",
     "editLabel": "I-edit ang mensahe",
-    "error": "Hindi ito gumana. Subukan muli."
+    "error": "Hindi ito gumana. Subukan muli.",
+    "button": "I-schedule ang mensahe",
+    "title": "Mga naka-schedule na mensahe",
+    "whenTitle": "Kailan ipapadala?",
+    "waiting": "{{n}} naka-schedule",
+    "next": "susunod {{when}}",
+    "failedCount": "{{n}} hindi naipadala",
+    "notSent": "Hindi naipadala",
+    "emptyTitle": "Walang naka-schedule",
+    "emptyBody": "Sumulat ng mensahe, saka i-tap ang orasan para piliin kung kailan ito ipapadala.",
+    "changeTime": "Palitan ang oras",
+    "sendNow": "Ipadala ngayon",
+    "deleted": "Nabura ang naka-schedule na mensahe",
+    "unreadable": "Isinulat sa ibang device. Ipapadala pa rin ito.",
+    "footnote": "Nasa time zone mo ang mga oras. Walang makakakita ng mensahe hangga't hindi ito naipapadala.",
+    "footnoteNamed": "Nasa time zone mo ang mga oras. Makikita lang ni {{name}} ang mensahe kapag naipadala na ito.",
+    "textOnly": "Text message lang ang puwedeng i-schedule sa ngayon.",
+    "scheduledToast": "Naka-schedule sa {{when}}",
+    "failedToast": "Hindi maipadala ang isang naka-schedule na mensahe"
   },
   "chatBulk": {
     "selected": "Pagbabago ng {{count}} mga piniling",
     "cancel": "Kanselahin",
     "reply": "Tugon",
-    "delete": "Burahin"
+    "delete": "Burahin",
+    "select": "Pumili",
+    "toolbar": "Mga napiling chat",
+    "pick": "I-tap ang mga chat para piliin",
+    "read": "Markahang nabasa",
+    "unread": "Markahang hindi pa nabasa",
+    "replyTitle_one": "Sumagot sa {{count}} chat",
+    "replyTitle_other": "Sumagot sa {{count}} chat",
+    "replyHint": "Matatanggap ito ng bawat tao bilang normal na mensahe sa sarili nilang chat.",
+    "replyPlaceholder": "Sumulat ng mensahe…",
+    "sendAll": "Ipadala sa {{count}}",
+    "deleted_one": "Nabura ang {{count}} chat",
+    "deleted_other": "Nabura ang {{count}} chat",
+    "sent_one": "Naipadala sa {{count}} chat",
+    "sent_other": "Naipadala sa {{count}} chat",
+    "partSent": "Naipadala sa {{ok}} sa {{total}} chat",
+    "notSent": "Hindi maipadala. Subukan ulit."
   },
   "msgSelect": {
     "selected": "Pagbabago ng {{count}} mga piniling",
     "copy": "Kopyahin",
     "forward": "I-forward",
     "deleted_one": "Inalis ang {{count}} na mensahe",
-    "deleted_other": "Inalis ang {{count}} na mga mensahe"
+    "deleted_other": "Inalis ang {{count}} na mga mensahe",
+    "toolbar": "Mga napiling mensahe",
+    "pick": "I-tap ang mga mensahe para piliin",
+    "deleteSome": "Burahin ang {{count}}",
+    "forwarded_one": "Nai-forward ang {{count}} mensahe",
+    "forwarded_other": "Nai-forward ang {{count}} mensahe",
+    "partForwarded": "Nai-forward ang {{ok}} sa {{total}}",
+    "nothingToCopy": "Walang makokopya sa mga napiling mensahe",
+    "copied_one": "Nakopya ang {{count}} mensahe",
+    "copied_other": "Nakopya ang {{count}} mensahe",
+    "deleteTitle_one": "Burahin ang {{count}} mensahe?",
+    "deleteTitle_other": "Burahin ang {{count}} mensahe?",
+    "deleteBody": "Aalisin ang mga ito para sa lahat sa chat na ito.",
+    "deleteForBothBody": "Aalisin ang mga ito para sa inyong dalawa."
   },
   "messagesTabs": {
-    "all": "Lahat"
+    "all": "Lahat",
+    "unread": "Hindi pa nababasa",
+    "groups": "Mga grupo"
   },
   "mentionLinks": {
     "communities": "Mga Komunidad",
     "pages": "Mga pahina",
-    "people": "Mga tao"
+    "people": "Mga tao",
+    "linkTo": "I-link ang {{name}}"
   },
   "resetWallet": {
     "mismatch": "Hindi tumutugma ang mga salinlahi",
     "logOut": "Mag - log out",
     "confirm": "Pirmahan ng password",
     "ack": "Naiintindihan ko ang aking mga lumang pondo na manatili sa lumang wallet.",
-    "cancel": "Kanselahin"
+    "cancel": "Kanselahin",
+    "tooShort": "Dapat hindi bababa sa {{count}} character ang password",
+    "breached": "Lumabas na ang password na ito sa isang data breach. Pumili ng iba",
+    "weak": "Pumili ng mas malakas na password (paghaluin ang mga titik, numero at simbolo)",
+    "doneTitle": "Nasa bagong wallet na ang account mo",
+    "twoFactor": "Ilagay ang code mula sa authenticator app mo para ilipat ang account mo.",
+    "failed": "Hindi ma-reset ang wallet mo. Walang nailipat. Subukan ulit.",
+    "title": "I-reset ang wallet",
+    "reloginApp": "Pinapatunayan ang reset gamit ang email, phone o Google sign-in ng account mo, hindi ang lumang wallet, dahil makakapag-sign din ang sinumang may hawak ng lumang key. Mag-log out, mag-log in ulit gamit ang sign-in na iyon, saka bumalik dito. Wala pang sign-in email? Magdagdag muna sa riftn.com sa Settings → Sign-in.",
+    "intro": "Gumagawa ng bagong Riftn wallet at inililipat dito ang username, mga post, tagasunod at mensahe mo. Gamitin ito kung nawala ang wallet mo o may ibang may hawak ng key nito. Hindi na gagana ang lumang wallet para sa sign-in.",
+    "funds": "Hindi lilipat ang mga token, NFT at iba pang balanse. Mananatili ang mga ito sa lumang address. Kung mabubuksan mo pa ang lumang wallet, ipadala muna ang mga ito palabas.",
+    "password": "Bagong password ng wallet (min {{count}} character)",
+    "twoFactorPlaceholder": "Authenticator code",
+    "submit": "I-reset ang wallet",
+    "rowDesc": "Nawala ang wallet mo, o may ibang may hawak ng key nito? Ilipat ang account mo sa bagong wallet. Kasama mong lilipat ang username, mga post at tagasunod mo."
   },
   "chatTabs": {
     "all": "Lahat",
@@ -15611,6 +17217,96 @@
     "requests": "Kahilingan",
     "sCreators": "Mga creator",
     "sGaming": "Pagsisikatan",
-    "sTrading": "Kalakalan"
+    "sTrading": "Kalakalan",
+    "addChats": "Magdagdag ng mga chat",
+    "addToTab": "Idagdag sa tab",
+    "addedTo": "Naidagdag sa {{name}}",
+    "builtIn": "Built-in",
+    "chatCount": "{{n}} chat",
+    "chatsInTab": "Mga chat sa tab na ito",
+    "create": "Gumawa ng tab",
+    "delete": "Burahin ang tab",
+    "deleteBody": "Mawawala ang tab. Mananatili sa All ang mga chat nito at ang mga mensahe nila.",
+    "deleteTitle": "Burahin ang “{{name}}”?",
+    "deleted": "Nabura ang {{name}}",
+    "edit": "I-edit ang mga tab",
+    "editHintApp": "Gamitin ang mga arrow para ayusin ang pagkakasunod. Nananatili ang mga chat sa mga nakatagong tab.",
+    "editTab": "I-edit ang tab",
+    "emoji": "Pumili ng emoji",
+    "emptyBody": "Magdagdag ng mga chat dito at mananatili rin sila sa All.",
+    "emptyTitle": "Walang laman ang {{name}}",
+    "hide": "Itago ang tab",
+    "kindChannel": "Channel",
+    "moveLeft": "Ilipat pakaliwa",
+    "moveRight": "Ilipat pakanan",
+    "namePlaceholder": "Pangalan ng tab",
+    "new": "Bagong tab",
+    "newWith": "Bagong tab…",
+    "noEmoji": "Walang emoji",
+    "picked": "{{n}} napili",
+    "removedFrom": "Inalis sa {{name}}",
+    "renameEdit": "Palitan ang pangalan at i-edit",
+    "sFriends": "Mga kaibigan",
+    "sWork": "Trabaho",
+    "saveFailed": "Hindi ma-save ang mga tab mo, subukan ulit",
+    "show": "Ipakita ang tab",
+    "tooMany": "Hanggang 10 tab lang ang puwede mo"
+  },
+  "chatReactions": {
+    "many_one": "{{count}} reaksyon sa mga mensahe mo",
+    "many_other": "{{count}} reaksyon sa mga mensahe mo",
+    "manySame_one": "{{emoji}} × {{count}} sa mga mensahe mo",
+    "manySame_other": "{{emoji}} × {{count}} sa mga mensahe mo",
+    "one": "Nag-react ng {{emoji}} sa mensahe mo",
+    "oneNamed": "Nag-react si {{name}} ng {{emoji}} sa mensahe mo"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Mananatili ang post.",
+      "onBody": "Kusang mabubura ang post {{value1}} matapos itong ma-post."
+    }
+  },
+  "accountDeactivation": {
+    "title": "I-deactivate ang account",
+    "short": "Itago muna ang profile mo. Mag-sign in ulit para maibalik ito",
+    "description": "Magpahinga muna sa halip. Itatago ang profile, mga post at komento mo at masa-sign out ka kahit saan. Walang mabubura, at maibabalik ang lahat kapag nag-sign in ka ulit.",
+    "button": "I-deactivate",
+    "confirmTitle": "I-deactivate ang account mo?",
+    "confirmBody": "Itatago ang profile, mga post at komento mo at masa-sign out ka sa bawat device. Mag-sign in ulit anumang oras para i-undo ito.",
+    "busy": "Dine-deactivate…",
+    "done": "Na-deactivate ang account",
+    "receipt": "Nakatago ang profile, mga post at komento mo. Mag-sign in ulit anumang oras para maibalik ang lahat.",
+    "error": "Hindi ma-deactivate ang account mo. Pakisubukan ulit.",
+    "acknowledge": "Naiintindihan ko na itatago ang profile ko at masa-sign out ako kahit saan.",
+    "understand": "Naiintindihan ko"
+  },
+  "halloween": {
+    "title": "Maligayang Halloween",
+    "otherThemes": "Ayaw mo ng nakakatakot? Maghanap ng ibang tema:",
+    "enter": "Pumasok sa dungeon"
+  },
+  "dmSafety": {
+    "notReal": "Hindi ito ang totoong {{name}}.",
+    "neverLink": "Hindi ka kailanman padadalhan ng Riftn team ng DM na may link para ayusin ang profile o wallet mo. Huwag magbukas ng link, magkonekta ng wallet o mag-sign ng kahit ano. I-block at i-report ang account na ito."
+  },
+  "profileImage": {
+    "change": "Palitan"
+  },
+  "msgDelete": {
+    "title": "Burahin ang mensahe?",
+    "titleMany": "Burahin ang {{count}} mensahe?",
+    "bodyOwn": "Alisin ito sa chat mo lang, o para sa lahat.",
+    "bodyOwnMany": "Alisin ang mga ito sa chat mo lang, o para sa lahat.",
+    "bodyOthers": "Aalisin lang ito sa chat mo. Makikita pa rin ito ng kausap mo.",
+    "bodyOthersMany": "Aalisin lang ang mga ito sa chat mo. Makikita pa rin ito ng iba sa chat.",
+    "bodyOwnBoth": "Alisin ito sa chat mo lang, o para sa inyong dalawa.",
+    "bodyOwnBothMany": "Alisin ang mga ito sa chat mo lang, o para sa inyong dalawa.",
+    "forMe": "Burahin para sa akin",
+    "forEveryone": "Burahin para sa lahat",
+    "forBoth": "Burahin para sa ating dalawa",
+    "forMeAndName": "Burahin para sa akin at kay {{name}}",
+    "remember": "Tandaan ang pinili ko",
+    "rememberHint": "Baguhin ito anumang oras sa Settings",
+    "failed": "Hindi mabura ang mensahe"
   }
 }
