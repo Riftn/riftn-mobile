@@ -22,6 +22,7 @@ import WebRTCPublisher from "../components/LiveProducer/WebRTCPublisher";
 import VideoLookSheet from "../components/LiveProducer/VideoLookSheet";
 import StudioSheet from "../components/LiveProducer/StudioSheet";
 import { usePhoneStudio } from "../hooks/usePhoneStudio";
+import { liveScreenShareSupported } from "../modules/media-bridge";
 import {
   videoLooksSupported,
   type VideoLookId,
@@ -113,6 +114,8 @@ const LiveProducerScreen: React.FC = () => {
   // Unseen chat badge removed (panel itself can manage highlighting later)
   const [micMuted, setMicMuted] = useState(false);
   const [cameraOff, setCameraOff] = useState(false);
+  // Sharing the phone's screen instead of the camera (only while live).
+  const [screenSharing, setScreenSharing] = useState(false);
   const [externalMode, setExternalMode] = useState(!!startExternal);
   // The camera waits for this: a stream already on air from OBS is only being
   // watched over here, and asking for the camera looked like a new broadcast.
@@ -889,6 +892,13 @@ const LiveProducerScreen: React.FC = () => {
 
   const toggleMic = useCallback(() => setMicMuted((m) => !m), []);
   const toggleCamera = useCallback(() => setCameraOff((c) => !c), []);
+  const toggleScreenShare = useCallback(() => setScreenSharing((v) => !v), []);
+  const handleScreenShareEnded = useCallback(() => setScreenSharing(false), []);
+  const canShareScreen = liveScreenShareSupported();
+  // A share does not outlive the broadcast.
+  useEffect(() => {
+    if (stage !== "live") setScreenSharing(false);
+  }, [stage]);
   const toggleExternal = useCallback(() => {
     setExternalMode((prev) => {
       const next = !prev;
@@ -1276,6 +1286,8 @@ const LiveProducerScreen: React.FC = () => {
               facing={cameraFacing}
               micMuted={micMuted}
               cameraOff={cameraOff}
+              screenSharing={screenSharing}
+              onScreenShareEnded={handleScreenShareEnded}
               videoLook={videoLook}
               studio={{ ...studio.chain, compositing: studio.compositing }}
               onStats={handlePublishStats}
@@ -1523,6 +1535,9 @@ const LiveProducerScreen: React.FC = () => {
                       onFlipCamera={flipCamera}
                       externalMode={externalMode}
                       onToggleExternal={toggleExternal}
+                      {...(canShareScreen && !externalMode
+                        ? { onToggleScreenShare: toggleScreenShare, screenSharing }
+                        : null)}
                       startDisabled={
                         !streamKeyValue || !streamEntity?.livepeerId
                       }

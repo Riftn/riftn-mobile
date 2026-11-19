@@ -7541,7 +7541,13 @@
     "justChatting": "Gewoon kletsen",
     "noLiveStreams": "Geen livestreams",
     "noOneStreaming": "Niemand streamt op dit moment. Kom later terug!",
-    "loadStreamsFailed": "Streams konden niet worden geladen. Probeer het opnieuw."
+    "loadStreamsFailed": "Streams konden niet worden geladen. Probeer het opnieuw.",
+    "screenShare": {
+      "start": "Scherm delen",
+      "stop": "Stoppen met scherm delen",
+      "sharing": "Je deelt je scherm",
+      "hint": "Kijkers zien je scherm. Tik op de schermknop om terug te gaan naar de camera."
+    }
   },
   "liveShop": {
     "title": "Shop in deze stream",

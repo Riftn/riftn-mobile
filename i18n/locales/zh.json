@@ -9633,7 +9633,13 @@
     "noOneStreaming": "现在没有人在直播，请稍后再来！",
     "loadStreamsFailed": "无法加载直播，请重试。",
     "liveBadge": "直播中",
-    "detailsLivepeerId": "Livepeer ID:"
+    "detailsLivepeerId": "Livepeer ID:",
+    "screenShare": {
+      "start": "共享屏幕",
+      "stop": "停止共享屏幕",
+      "sharing": "你正在共享屏幕",
+      "hint": "观众看到的是你的屏幕。点按屏幕按钮即可切换回摄像头。"
+    }
   },
   "liveShop": {
     "title": "在本场直播购物",

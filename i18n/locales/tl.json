@@ -9215,7 +9215,13 @@
     "noLiveStreams": "Walang live stream",
     "noOneStreaming": "Walang nag-i-stream ngayon. Bumalik mamaya!",
     "loadStreamsFailed": "Hindi ma-load ang mga stream. Subukang muli.",
-    "liveBadge": "BUHAY"
+    "liveBadge": "BUHAY",
+    "screenShare": {
+      "start": "Ibahagi ang screen",
+      "stop": "Ihinto ang pagbabahagi ng screen",
+      "sharing": "Ibinabahagi mo ang iyong screen",
+      "hint": "Nakikita ng mga manonood ang iyong screen. I-tap ang screen button para bumalik sa camera."
+    }
   },
   "liveShop": {
     "title": "Mamili mula sa stream na ito",

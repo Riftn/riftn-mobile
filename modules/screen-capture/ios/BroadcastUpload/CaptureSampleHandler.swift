@@ -10,8 +10,25 @@ final class CaptureSampleHandler: RPBroadcastSampleHandler {
   private var ending = false
   private var startedWall: TimeInterval = 0
   private let incoming = DispatchSemaphore(value: 3)
+  /// Set when this broadcast is a screen share for a live stream rather than an editor recording.
+  private var live: LiveShareUploader?
 
   override func broadcastStarted(withSetupInfo setupInfo: [String: NSObject]?) {
+    // The editor always starts through the setup extension, which hands over a
+    // session; the system picker on the live screen hands over nothing.
+    if setupInfo?["sessionId"] == nil {
+      guard let uploader = LiveShareUploader() else {
+        finishBroadcastWithError(NSError(domain: "io.dehub.screen-capture", code: 2,
+          userInfo: [NSLocalizedDescriptionKey: "Start screen share from your live stream in RIFTN."]))
+        return
+      }
+      uploader.onClosed = { [weak self] in
+        self?.finishBroadcastWithError(NSError(domain: "io.dehub.screen-capture", code: 0,
+          userInfo: [NSLocalizedDescriptionKey: "Screen share ended"]))
+      }
+      live = uploader
+      return
+    }
     do {
       guard let id = setupInfo?["sessionId"] as? String, let scope = setupInfo?["scopeKey"] as? String,
         let host = setupInfo?["hostInstanceId"] as? String else { throw CaptureLedgerError.invalidTicket }
@@ -42,6 +59,10 @@ final class CaptureSampleHandler: RPBroadcastSampleHandler {
   }
 
   override func processSampleBuffer(_ sampleBuffer: CMSampleBuffer, with type: RPSampleBufferType) {
+    if let live {
+      if type == .video { live.send(sampleBuffer) }
+      return
+    }
     guard let movie, incoming.wait(timeout: .now()) == .success else { return }
     movie.queue.async {
       defer { self.incoming.signal() }
@@ -58,6 +79,7 @@ final class CaptureSampleHandler: RPBroadcastSampleHandler {
   }
 
   override func broadcastFinished() {
+    if let live { live.close(); self.live = nil; return }
     guard let movie else { return }
     // Keep finalization inside the extension's final callback rather than abandoning it.
     let completed = DispatchSemaphore(value: 0)

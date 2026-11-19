@@ -9326,7 +9326,13 @@
     "justChatting": "Just Chatting",
     "noLiveStreams": "Keine Livestreams",
     "noOneStreaming": "Gerade streamt niemand. Schau später wieder vorbei!",
-    "loadStreamsFailed": "Streams konnten nicht geladen werden. Bitte versuche es erneut."
+    "loadStreamsFailed": "Streams konnten nicht geladen werden. Bitte versuche es erneut.",
+    "screenShare": {
+      "start": "Bildschirm teilen",
+      "stop": "Bildschirmfreigabe beenden",
+      "sharing": "Du teilst deinen Bildschirm",
+      "hint": "Zuschauer sehen deinen Bildschirm. Tippe auf die Bildschirmtaste, um zur Kamera zurückzukehren."
+    }
   },
   "liveShop": {
     "title": "In diesem Stream einkaufen",
