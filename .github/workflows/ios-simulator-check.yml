@@ -181,6 +181,7 @@ jobs:
           gzip -c xcodebuild.log > sim-check/xcodebuild.log.gz
       - name: Walk every page in dark, light and System Light
         if: inputs.task != 'nav' && inputs.task != 'probe' && inputs.task != 'touch' && inputs.task != 'shorts' && inputs.task != 'keys' && inputs.task != 'wide' && inputs.task != 'shells' && inputs.task != 'bones' && inputs.task != 'wallet' && inputs.task != 'loginsheet' && inputs.task != 'player' && inputs.task != 'menu' && inputs.task != 'speed'
+        timeout-minutes: 45
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-simulator-walk.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check

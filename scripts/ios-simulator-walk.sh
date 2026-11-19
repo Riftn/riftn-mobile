@@ -25,6 +25,11 @@ xcrun simctl spawn "$UDID" log stream --style compact --level info \
 LOG_PID=$!
 trap 'kill "$LOG_PID" 2>/dev/null' EXIT
 
+# Runs a command, and gives up on it after the given number of seconds.
+limit() {
+  perl -e 'alarm shift; exec @ARGV' "$@"
+}
+
 running() {
   xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$BUNDLE"
 }
@@ -74,7 +79,7 @@ PY
 confirm_open_anywhere() {
   local i pos
   for i in 1 2 3 4; do
-    idb ui describe-all --udid "$UDID" > "$OUT/.ax.json" 2>/dev/null || echo "[]" > "$OUT/.ax.json"
+    limit 15 idb ui describe-all --udid "$UDID" > "$OUT/.ax.json" 2>/dev/null || echo "[]" > "$OUT/.ax.json"
     pos="$(python3 scripts/ios-nav/ax-find.py "$OUT/.ax.json" Open "$OUT/logs/open-prompt.txt" open)"
     if [ -z "$pos" ]; then
       xcrun simctl io "$UDID" screenshot "$OUT/.prompt.png" >/dev/null 2>&1 || return 0
@@ -99,7 +104,7 @@ PY
     fi
     if [ -n "$pos" ]; then
       # shellcheck disable=SC2086
-      idb ui tap --udid "$UDID" $pos >/dev/null 2>&1 || true
+      limit 15 idb ui tap --udid "$UDID" $pos >/dev/null 2>&1 || true
       return 0
     fi
     sleep 1
@@ -108,9 +113,9 @@ PY
 
 # Turns the simulator on its side through the Simulator app's Device menu.
 turn_sideways() {
-  open -a Simulator --args -CurrentDeviceUDID "$UDID" || return 1
+  limit 30 open -a Simulator --args -CurrentDeviceUDID "$UDID" || return 1
   sleep 15
-  osascript -e 'tell application "Simulator" to activate' \
+  limit 30 osascript -e 'tell application "Simulator" to activate' \
     -e 'tell application "System Events" to tell process "Simulator" to click menu item "Rotate Left" of menu "Device" of menu bar 1' \
     >> "$OUT/logs/rotate.txt" 2>&1 || return 1
   sleep 4
@@ -214,6 +219,7 @@ walk() {
     confirm_open
     sleep 6
     shot "$name"
+    echo "$(date +%H:%M:%S) $name"
     if ! running; then
       echo "$theme: app not running after opening $page" >> "$OUT/crashes.txt"
       launch
