@@ -29,11 +29,12 @@ import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
 import { ChatCard, CHAT_CARD_GAP, CHAT_CARD_INSET } from "../components/DM/ChatCard";
 import UnreadCountChip from "../components/DM/UnreadCountChip";
+import ReactionAlertBadge, { reactionAlertLine } from "../components/DM/ReactionAlertBadge";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
 import { chatsFromMemberships } from "../libs/community-kinds";
 import { useChatPrefs } from "../hooks/useChatPrefs";
-import { roomChatId } from "../services/dm/dm.api";
+import { PUBLIC_CHAT_PREF_ID, roomChatId } from "../services/dm/dm.api";
 import { useQuery } from "@tanstack/react-query";
 import type { Community } from "../types/community";
 import DMSettingsModal from "../components/DM/DMSettingsModal";
@@ -120,7 +121,8 @@ const DirectMessagesInner: React.FC = () => {
   });
   // Communities join the list when the member chose Show in Chats (the same
   // setting the website reads).
-  const { byId: chatPrefs, update: updateChatPref } = useChatPrefs(!!myAddress);
+  const { byId: chatPrefs, update: updateChatPref, seeReactions, refresh: refreshChatPrefs } = useChatPrefs(!!myAddress);
+  const publicReactions = chatPrefs.get(PUBLIC_CHAT_PREF_ID)?.reactions ?? null;
   const groupChats = useMemo(() => {
     const q = query.trim().toLowerCase();
     return chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt)
@@ -128,8 +130,9 @@ const DirectMessagesInner: React.FC = () => {
   }, [memberships, query, chatPrefs]);
   const openGroupChat = useCallback((c: Community, invite = false) => {
     if (chatPrefs.get(roomChatId(c.id))?.markedUnread) void updateChatPref(roomChatId(c.id), { unread: false });
+    seeReactions(roomChatId(c.id));
     navigation.navigate(ScreenNames.CommunityDetail as any, { slug: c.slug, tab: "chat", ...(invite ? { invite: true } : {}) });
-  }, [navigation, chatPrefs, updateChatPref]);
+  }, [navigation, chatPrefs, updateChatPref, seeReactions]);
   const [dnd, setDnd] = useState(false);
   const [newDmVisible, setNewDmVisible] = useState(false);
   const [dmSettingsVisible, setDmSettingsVisible] = useState(false);
@@ -227,7 +230,7 @@ const DirectMessagesInner: React.FC = () => {
   }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, requestsMode]);
 
   const convHasUnread = useCallback(
-    (c: DmConversation) => (c.unreadCount || 0) > 0 || !!chatPrefs.get(c._id)?.markedUnread,
+    (c: DmConversation) => (c.unreadCount || 0) > 0 || !!chatPrefs.get(c._id)?.markedUnread || !!chatPrefs.get(c._id)?.reactions,
     [chatPrefs],
   );
   const shown = useMemo(
@@ -235,12 +238,12 @@ const DirectMessagesInner: React.FC = () => {
     [filtered, tabFilter, convHasUnread, convInTab, inRequests],
   );
   const shownGroups = useMemo(
-    () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread) : groupChats).filter(roomInTab),
+    () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions) : groupChats).filter(roomInTab),
     [groupChats, tabFilter, chatPrefs, roomInTab],
   );
   const inboxUnreadChats = useMemo(
     () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id) && convHasUnread(c)).length
-      + groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread).length,
+      + groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions).length,
     [conversations, pendingDeletes, convHasUnread, groupChats, chatPrefs],
   );
 
@@ -403,6 +406,16 @@ const DirectMessagesInner: React.FC = () => {
   }, [ctxConv]);
 
   const ws = useWebSocketApi();
+  // Someone reacted to one of your DMs: the list's reaction badges refresh now.
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const off = ws.on(DMSocketEvent.ReactionUpdated, (payload: { added?: string; by?: string }) => {
+      if (!payload?.added || !payload.by || payload.by.toLowerCase() === (myAddress || "").toLowerCase()) return;
+      clearTimeout(timer);
+      timer = setTimeout(refreshChatPrefs, 600);
+    });
+    return () => { clearTimeout(timer); off?.(); };
+  }, [ws, myAddress, refreshChatPrefs]);
   // Only chats still on screen count (one may have been deleted meanwhile).
   const bulkChats = useMemo(
     () => (bulkIds ? filtered.filter((c) => bulkIds.has(c._id)) : []),
@@ -579,8 +592,9 @@ const DirectMessagesInner: React.FC = () => {
 
 
   const handleOpenLiveChat = useCallback(() => {
+    seeReactions(PUBLIC_CHAT_PREF_ID);
     navigation.navigate(ScreenNames.LiveChat as any);
-  }, [navigation]);
+  }, [navigation, seeReactions]);
 
   const openSettings = useCallback(() => {
     openMenu();
@@ -601,6 +615,7 @@ const DirectMessagesInner: React.FC = () => {
         selecting={picking}
         checked={!!bulkIds?.has(item._id)}
         markedUnread={!!chatPrefs.get(item._id)?.markedUnread}
+        reactions={chatPrefs.get(item._id)?.reactions}
       />
     ),
     [
@@ -747,9 +762,9 @@ const DirectMessagesInner: React.FC = () => {
         </>
       ) : (
       <>
-      {(tabFilter === "all" || tabFilter === "groups" || (tabFilter === "unread" && publicUnread > 0)) && publicInTab && (
+      {(tabFilter === "all" || tabFilter === "groups" || (tabFilter === "unread" && (publicUnread > 0 || !!publicReactions))) && publicInTab && (
       <>
-      <ChatCard unread={publicUnread > 0}>
+      <ChatCard unread={publicUnread > 0 || !!publicReactions}>
       <TouchableOpacity
         onPress={handleOpenLiveChat}
         activeOpacity={0.7}
@@ -776,11 +791,18 @@ const DirectMessagesInner: React.FC = () => {
             </Text>
           </View>
           <View className="flex-row items-center gap-1 mt-0.5">
+            {publicReactions ? (
+              <Text testID="reaction-alert-line" className="text-white text-[14px] font-bold flex-1" numberOfLines={1}>
+                {reactionAlertLine(t as any, publicReactions, { named: true })}
+              </Text>
+            ) : (
             <Text className="text-theme-neutrals-400 text-[14px] flex-1" numberOfLines={1}>
               {t("publicChat.subtitle")}
             </Text>
+            )}
           </View>
         </View>
+        <ReactionAlertBadge reactions={publicReactions} />
         {publicUnread > 0 && (
           <View style={{ minWidth: 20, height: 20, paddingHorizontal: 6, borderRadius: 10, backgroundColor: "#ef4444", alignItems: "center", justifyContent: "center" }}>
             <Text style={{ color: "#ffffff", fontSize: 12, fontWeight: "700" }}>
@@ -802,6 +824,7 @@ const DirectMessagesInner: React.FC = () => {
             selecting={picking}
             checked={!!bulkIds?.has(roomChatId(c.id))}
             markedUnread={!!chatPrefs.get(roomChatId(c.id))?.markedUnread}
+            reactions={chatPrefs.get(roomChatId(c.id))?.reactions}
           />
           <View style={SEPARATOR} />
         </React.Fragment>

@@ -16,7 +16,8 @@ type Patch = { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: 
  */
 export function useChatPrefs(enabled = true) {
   const queryClient = useQueryClient();
-  const { data } = useQuery({ queryKey: KEY, queryFn: getChatPrefs, enabled, staleTime: 60_000 });
+  // Polls so reactions to your messages show in the list without a reload.
+  const { data } = useQuery({ queryKey: KEY, queryFn: getChatPrefs, enabled, staleTime: 60_000, refetchInterval: 30_000 });
 
   // Sending reads "Encrypt chat" from here (see encrypt-choice).
   useEffect(() => { if (data) setEncryptedChats(data); }, [data]);
@@ -51,5 +52,17 @@ export function useChatPrefs(enabled = true) {
     }
   }, [queryClient]);
 
-  return { byId, update };
+  /** Clear a chat's waiting reactions (it is open). Quiet: only calls out when there are some. */
+  const seeReactions = useCallback((id: string) => {
+    if (!byId.get(id)?.reactions) return;
+    queryClient.setQueryData<ChatPref[]>(KEY, (cur = []) => cur.map((p) => (p.conversationId === id ? { ...p, reactions: null } : p)));
+    setChatPref(id, { seenReactions: true }).catch(() => undefined);
+  }, [byId, queryClient]);
+
+  /** Someone reacted: fetch the list's badges now. */
+  const refresh = useCallback(() => {
+    void queryClient.invalidateQueries({ queryKey: KEY });
+  }, [queryClient]);
+
+  return { byId, update, seeReactions, refresh };
 }

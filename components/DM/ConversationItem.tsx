@@ -1,5 +1,7 @@
 import { usePerfProbe } from "../../libs/perfTrace";
 import UnreadCountChip from "./UnreadCountChip";
+import ReactionAlertBadge, { reactionAlertLine } from "./ReactionAlertBadge";
+import type { ChatReactionSummary } from "../../services/dm/dm.api";
 import BadgeArtwork from "../common/BadgeArtwork";
 import { getBadgeHoverOpticalStyle } from "../../libs/misc";
 import React, { memo, useCallback, useMemo } from "react";
@@ -44,6 +46,8 @@ interface ConversationItemProps {
   checked?: boolean;
   /** You marked this chat unread yourself. */
   markedUnread?: boolean;
+  /** Reactions to your messages here that you haven't seen yet. */
+  reactions?: ChatReactionSummary | null;
 }
 
 const ConversationItemComponent: React.FC<ConversationItemProps> = ({
@@ -59,6 +63,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
   selecting = false,
   checked = false,
   markedUnread = false,
+  reactions = null,
 }) => {
   usePerfProbe("ConversationRow");
   const { t } = useTranslation();
@@ -174,6 +179,15 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
     };
   }, [conversation.messages, t]);
 
+  // A reaction newer than the last message takes the preview line, so
+  // "Reacted ❤️ to your message" reads at a glance instead of a bare dot.
+  const reactionLine = useMemo(() => {
+    if (!reactions) return null;
+    const lastAt = conversation.messages?.[0]?.createdAt;
+    if (lastAt && new Date(reactions.last.at).getTime() < new Date(lastAt).getTime()) return null;
+    return reactionAlertLine(t as any, reactions, { named: false });
+  }, [reactions, conversation.messages, t]);
+
   const timeStr = useMemo(() => {
     const last = conversation.messages?.[0];
     return formatShortAgo(
@@ -223,7 +237,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
 
   return (
     <Animated.View entering={animateIn ? FadeIn.duration(250) : undefined}>
-      <ChatCard unread={unreadCount > 0 || markedUnread} checked={selecting && checked}>
+      <ChatCard unread={unreadCount > 0 || markedUnread || !!reactions} checked={selecting && checked}>
       <SwipeableRow actions={swipeActions} backgroundClassName="">
       <TouchableOpacity
         onPress={handlePress}
@@ -284,11 +298,12 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
               )}
             </View>
             <Text className="text-[12.5px] text-theme-neutrals-500" style={{ fontVariant: ["tabular-nums"] }}>{timeStr}</Text>
-            {markedUnread && !(unreadCount > 0) && <MarkedUnreadDot />}
+            {markedUnread && !(unreadCount > 0) && !reactions && <MarkedUnreadDot />}
+            <ReactionAlertBadge reactions={reactions} />
             <UnreadCountChip count={unreadCount} />
           </View>
           <View className="flex-row items-center gap-1 mt-0.5">
-            {!draft && (previewIcon === "gif" ? (
+            {!draft && !reactionLine && (previewIcon === "gif" ? (
               <Text style={{ fontSize: 10, fontWeight: '800', color: colors.foreground }}>GIF</Text>
             ) : previewIcon && (
               <Icon name={previewIcon === "mic" ? "Mic" : previewIcon === "diamond" ? "Gem" : previewIcon === "videocam" ? "Video" : previewIcon === "image" ? "Image" : previewIcon === "arrow-redo" ? "Forward" : "MessageSquare"} size={13} color={colors.foreground} />
@@ -297,6 +312,10 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
               <Text className="text-[14px] flex-1 text-white" numberOfLines={1}>
                 <Text className="text-white font-medium">{t("dm.draftLabel")} </Text>
                 {draft}
+              </Text>
+            ) : reactionLine ? (
+              <Text testID="reaction-alert-line" className="text-[14px] flex-1 text-white font-bold" numberOfLines={1}>
+                {reactionLine}
               </Text>
             ) : (
               <Text

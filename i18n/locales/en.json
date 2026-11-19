@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "{{count}} reaction to your messages",
+    "many_other": "{{count}} reactions to your messages",
+    "manySame_one": "{{emoji}} × {{count}} on your messages",
+    "manySame_other": "{{emoji}} × {{count}} on your messages",
+    "one": "Reacted {{emoji}} to your message",
+    "oneNamed": "{{name}} reacted {{emoji}} to your message"
+  },
   "messagesTabs": {
     "all": "All",
     "unread": "Unread",
