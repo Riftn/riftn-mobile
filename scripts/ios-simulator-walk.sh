@@ -109,6 +109,8 @@ PAGES=(
   "signin"
 )
 
+PAGES=()
+
 # The app's own theme pick (Settings > Appearance), written where the app's
 # storage reads it on launch. The app must not be running.
 set_app_theme() {
@@ -139,6 +141,12 @@ walk() {
   launch
   sleep 25
   shot "$theme-00-home"
+  local n
+  for n in 1 2 3 4 5 6; do
+    idb ui swipe --udid "$UDID" --duration 0.6 196 700 196 250 >/dev/null 2>&1 || true
+    sleep 4
+    shot "$theme-00-home-scroll$n"
+  done
   local i=1
   for page in "${PAGES[@]}"; do
     local name
