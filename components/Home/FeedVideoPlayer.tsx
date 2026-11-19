@@ -3,6 +3,7 @@ import { PersistentVideoView } from '../common/PersistentVideoView';
 import { isPictureInPicturePlayer, canStartVideo } from '../../libs/pictureInPicture';
 import { applyVideoVolume } from '../../libs/dub-mix';
 import DubVolumeSheet from '../VideoPlayerCore/DubVolumeSheet';
+import WhenOpened from '../ui/WhenOpened';
 import { useMediaVolume, getIsLooping, setIsLooping as persistLooping, useMediaLooping } from '../../libs/video-preferences';
 import { useFeedPlaybackAllowed, useFeedSurfaceActive, useCallInProgress, visualActivity } from "../../libs/visualActivity";
 import { MediaControlIcon as BareIcon, MediaControlLabel, MediaControlText } from "../common/MediaControlGlyph";
@@ -1794,9 +1795,13 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
         />
       )}
 
-      <DubVolumeSheet visible={dubVolumeOpen && dubAvailable} onClose={() => setDubVolumeOpen(false)}
-        muted={isMuted || volume === 0} onToggleMute={() => { if (volume === 0) applyVolume(0.8); else handleToggleMute(); }}
-        onUnmute={() => { if (isMuted || volume === 0) applyVolume(volume || 0.8); }} />
+      <WhenOpened open={dubVolumeOpen && dubAvailable}>
+        {() => (
+          <DubVolumeSheet visible={dubVolumeOpen && dubAvailable} onClose={() => setDubVolumeOpen(false)}
+            muted={isMuted || volume === 0} onToggleMute={() => { if (volume === 0) applyVolume(0.8); else handleToggleMute(); }}
+            onUnmute={() => { if (isMuted || volume === 0) applyVolume(volume || 0.8); }} />
+        )}
+      </WhenOpened>
 
       {tapAnimReaction && (
         <View

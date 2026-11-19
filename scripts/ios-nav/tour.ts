@@ -1587,6 +1587,22 @@ async function runSpeed(): Promise<void> {
     return t?.displayName || t?.name || t?.type?.displayName || t?.type?.name || t?.render?.displayName || t?.render?.name || "other";
   };
   const topKinds = () => [...kinds.entries()].sort((a, b) => b[1] - a[1]).slice(0, 14).map(([name, n]) => `${name} ${n}`);
+  // Which component's render created them. Only a bundle built without
+  // minifying keeps the names (the workflow's minify=false); each element then
+  // costs a stack read, so the times of such a run are not to be compared.
+  const NAMED = (function ownerProbe() {}).name === "ownerProbe";
+  let owners = new Map<string, number>();
+  const INSIDE = /^(ownerOf|counted|jsx|jsxs|jsxDEV|anonymous|renderWithHooks|renderWithHooksAgain|updateFunctionComponent|updateForwardRef|updateMemoComponent|updateSimpleMemoComponent|beginWork|performUnitOfWork|workLoopSync|map|forEach|apply|call)?$/;
+  const ownerOf = (): string => {
+    const lines = (new Error().stack || "").split("\n");
+    for (let i = 1; i < Math.min(lines.length, 9); i++) {
+      const name = /^\s*at ([^\s(]+)/.exec(lines[i])?.[1] ?? "";
+      if (/^(renderWithHooks|updateFunctionComponent|beginWork)/.test(name)) break;
+      if (!INSIDE.test(name)) return name;
+    }
+    return "unnamed";
+  };
+  const topOwners = () => [...owners.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30).map(([name, n]) => `${name} ${n}`);
   const runtime = require("../../libs/jsx/jsx-runtime") as Record<string, (...args: unknown[]) => unknown>;
   for (const key of ["jsx", "jsxs"]) {
     const original = runtime[key];
@@ -1595,6 +1611,10 @@ async function runSpeed(): Promise<void> {
       lastCreatedAt = now();
       const name = typeName(args[0]);
       kinds.set(name, (kinds.get(name) ?? 0) + 1);
+      if (NAMED) {
+        const owner = ownerOf();
+        owners.set(owner, (owners.get(owner) ?? 0) + 1);
+      }
       return original(...args);
     };
   }
@@ -1650,9 +1670,10 @@ async function runSpeed(): Promise<void> {
       origin = now() + (opts.delayMs ?? 0);
       created = 0;
       kinds = new Map();
+      owners = new Map();
       action();
     }, { restMs: 500, ...opts });
-    detail[step] = { elements: created, lastDrawMs: Math.max(0, Math.round(lastCreatedAt - origin)), kinds: topKinds(), ...probes(perfLines) };
+    detail[step] = { elements: created, lastDrawMs: Math.max(0, Math.round(lastCreatedAt - origin)), kinds: topKinds(), ...(NAMED ? { owners: topOwners() } : {}), ...probes(perfLines) };
     await save(false);
   };
 
@@ -1664,6 +1685,7 @@ async function runSpeed(): Promise<void> {
     }
     perfLines = [];
     kinds = new Map();
+    owners = new Map();
     const perKey: number[] = [];
     const perKeyElements: number[] = [];
     for (let i = 1; i <= text.length; i++) {
@@ -1681,6 +1703,7 @@ async function runSpeed(): Promise<void> {
     }
     const lines = perfLines;
     const drawn = topKinds();
+    const builtBy = NAMED ? topOwners() : undefined;
     await sleep(600);
     changeTextOf(input)?.("");
     await sleep(500);
@@ -1691,6 +1714,7 @@ async function runSpeed(): Promise<void> {
       keyElements: middle(perKeyElements),
       keyElementsWorst: Math.max(0, ...perKeyElements),
       kinds: drawn,
+      ...(builtBy ? { owners: builtBy } : {}),
       ...probes(lines),
     };
     console.error(`[perf-tour] ${step} ${JSON.stringify(detail[step])}`);
@@ -1872,7 +1896,10 @@ async function runSpeed(): Promise<void> {
   await timed("feed Shorts", feedTab("short"));
   await timed("feed All", feedTab("all"));
   if (signedIn) {
+    const beforeUpload = new Set(liveInputs);
     await timed("new post open", push(ScreenNames.Upload), { watchMs: 2400 });
+    // The caption box of a new post. Nothing is posted and the box is left empty.
+    await typeInto("new post typing", newInput(beforeUpload), "hello there, how are you");
     Keyboard.dismiss();
     if (nav.getCurrentRoute()?.name === ScreenNames.Upload) await timed("new post back", back());
     await backToTabs();
