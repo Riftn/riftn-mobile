@@ -3146,7 +3146,7 @@
     "shareInviteLink": "Կիսվել հրավերի հղումով"
   },
   "feed": {
-    "home": "Գլხավոdelays",
+    "home": "Գլխավոր",
     "videos": "Տesaholvakner",
     "images": "Նկարներ",
     "shorts": "Շորտեր",
@@ -15055,7 +15055,7 @@
     "amountIn": "Գումարը {{symbol}}-ում",
     "back": "Հետ",
     "basePair": "Հիմնական զույգ ՝",
-    "beTheFirst": "Լбудьте առաջինը:",
+    "beTheFirst": "Եղեք առաջինը:",
     "bought": "Գնել",
     "boughtMock": "Գնել {{symbol}} (ծաղր)",
     "buySymbol": "Գնել {{symbol}}",

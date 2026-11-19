@@ -3940,7 +3940,7 @@
     "quickAmounts": "ፈጣን መጠኖች",
     "customAmount": "ወይም መጠን አስገባ",
     "sending": "እየላከ...",
-    "privateBalanceNotice": "ይህ ሂሳብ ግላዊ ሚዛን ሁነታ ነው፣ ስለዚህ Riftn 토큰ወይም ጠቃሚ ምክር ወደ ሊልካ አይችልም።",
+    "privateBalanceNotice": "ይህ ሂሳብ የግል ሚዛን ሁነታ በርቷል፣ ስለዚህ Riftn ቶከኖችን ወይም ቲፖችን ወደ እሱ መላክ አይችልም።",
     "privateBalanceError": "ይህ ሂሳብ ግላዊ ሚዛን ሁነታ ሲሆን ጠቃሚ ምክር ተሰናክሏል።",
     "privacyCheckFailed": "የተቀባይ ግላዊነት ቅንብር ማረጋገጥ አልተቻለም። ምንም ጠቃሚ ምክር አልተላከም።",
     "solanaFailed": "Solana ጠቃሚ ምክር ወድቋል",
@@ -8423,7 +8423,7 @@
     "privateDescription": "የልጥፍ ደራሲ ብቻ ይህን ዝርዝር ማየት ይችላል።",
     "empty": "ምንም ምላሽ ገና የለም",
     "emptyDescription": "ለዚህ ልጥፍ ምላሾች እዚህ ይታያሉ።",
-    "anonymous": "{{count}} ከስውር ባッጅ ባለቤቶች ምትክ",
+    "anonymous": "{{count}} መውደዶች ከስውር ባጅ ባለቤቶች",
     "labels": {
       "like": "ወደ ውስጥ ይግቡ",
       "love": "ፍቅር",

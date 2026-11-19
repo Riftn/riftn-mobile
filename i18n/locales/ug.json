@@ -6755,7 +6755,7 @@
     "claimOnWeb": "Web appda Claim قىلىڭ",
     "restInBasePool": "{{amount}} Base pool تىدا",
     "lockedUntilWithFee": "{{date}} غىچە قۇلۇپلانغان، شۇنىڭدىن بۇرۇن 12% ھەق",
-    "totalStakedProtocol": "جەمى تۆلەنگەن (پروتокول)",
+    "totalStakedProtocol": "جەمئىي ئامانەت قويۇلغان (پروتوكول)",
     "refreshBalances": "Balances نى يېڭىلاڭ",
     "addressCopied": "Tökləsh ئادرېسى كۆچۈرۈلدى!",
     "checkForNewStake": "يېڭى تۆلەش ئۈچۈن تەكشۈرۈڭ",
@@ -8313,7 +8313,7 @@
   },
   "follow": {
     "noResults": "نەتىجە تېپىلمىدى",
-    "followers": "ئוקۇرمەنلەر",
+    "followers": "ئەگەشكۈچىلەر",
     "following": "ئىزدىگەنلەر",
     "requests": "تىلەك",
     "follow": "ئىزدىگىن",
