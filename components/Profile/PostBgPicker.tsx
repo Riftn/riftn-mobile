@@ -27,16 +27,19 @@ import {
   mergePostBg,
   postBgById,
   postBgImageUrl,
+  postBgIsVideo,
   postBgPaletteIndex,
   withPostBgColors,
   type PostBg,
   type PostBgPalette,
 } from "../../libs/postBackgrounds";
-import { createRNImageFile, openCroppedImagePicker } from "../../libs/assets.util";
+import { createRNImageFile, createRNVideoFile, openMediaPicker } from "../../libs/assets.util";
 import Avatar from "../common/Avatar";
 import { POST_BG_INK, PostBgLayer, ProfilePostBgArtContext, setPostBgOverride, useResolvedPostBg } from "./PostBackground";
 
 const logger = createLogger("PostBgPicker");
+/** Biggest video sent as a post background; the server cuts it to a short loop. */
+const MAX_VIDEO_MB = 90;
 
 /**
  * Profile post background picker: a full-screen preview of your newest text
@@ -123,8 +126,11 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
 
   const choosePhoto = async () => {
     try {
-      const uri = await openCroppedImagePicker({ width: 1080, height: 1350, keepGif: true, quality: 0.9 });
-      if (uri) { setPhoto(uri); setSel(POST_BG_PHOTO_ID); }
+      const picked = await openMediaPicker({ width: 1080, height: 1350, quality: 0.9 });
+      if (!picked) return;
+      if (picked.video && picked.size > MAX_VIDEO_MB * 1024 * 1024) { toastError(null, t("postBg.videoSize", { n: MAX_VIDEO_MB })); return; }
+      setPhoto(picked.uri);
+      setSel(POST_BG_PHOTO_ID);
     } catch { /* closed the picker */ }
   };
 
@@ -177,7 +183,9 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
         if (core?.customs && typeof core.customs === "object") customsBase = core.customs;
       } catch { /* use the cached copy */ }
       const merged = mergePostBg(customsBase, { id: sel, colors });
-      const upload = sel === POST_BG_PHOTO_ID && photo ? createRNImageFile(photo, "postbg") : null;
+      const upload = sel === POST_BG_PHOTO_ID && photo
+        ? (postBgIsVideo(photo) ? createRNVideoFile(photo, "postbg") : createRNImageFile(photo, "postbg"))
+        : null;
       await AuthService.updateProfile({ customs: JSON.stringify(merged), ...(upload ? { postBgImg: upload } : {}) });
       if (address) setPostBgOverride(address, shown);
       patchUser({ customs: merged as Record<string, string> } as any).catch(() => {});
@@ -277,7 +285,7 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
           )}
           {bg?.kind === "photo" && (
             <Pressable onPress={choosePhoto} style={styles.photoBtn} accessibilityRole="button">
-              <Text style={styles.photoBtnText}>{photoSrc ? t("postBg.changePhoto", "Change picture or GIF") : t("postBg.addPhoto", "Add a picture or GIF")}</Text>
+              <Text style={styles.photoBtnText}>{photoSrc ? t("postBg.changeMedia") : t("postBg.addMedia")}</Text>
             </Pressable>
           )}
         </View>

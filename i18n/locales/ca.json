@@ -15335,6 +15335,9 @@
     "cancel": "Cancel·la"
   },
   "postBg": {
+    "addMedia": "Afegeix una imatge, un GIF o un vídeo",
+    "changeMedia": "Canvia la imatge, el GIF o el vídeo",
+    "videoSize": "Aquest vídeo fa més de {{n}} MB. Tria'n un de més petit.",
     "none": "Cap",
     "yours": "Els teus",
     "accent": "Acents",

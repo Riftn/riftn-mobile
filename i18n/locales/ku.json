@@ -15643,6 +15643,9 @@
     "cancel": "Betal bike"
   },
   "postBg": {
+    "addMedia": "Wêne, GIF an vîdyoyek zêde bike",
+    "changeMedia": "Wêne, GIF an vîdyoyê biguherîne",
+    "videoSize": "Ev vîdyo ji {{n}} MB mezintir e. Yekî biçûktir hilbijêre.",
     "none": "Tune",
     "yours": "Ya te",
     "accent": "Rengê tekezkirinê",

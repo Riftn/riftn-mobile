@@ -16807,6 +16807,9 @@
     "addAnother": "Adicionar outro provedor"
   },
   "postBg": {
+    "addMedia": "Adicionar imagem, GIF ou vídeo",
+    "changeMedia": "Trocar imagem, GIF ou vídeo",
+    "videoSize": "Esse vídeo tem mais de {{n}} MB. Escolha um menor.",
     "none": "Nenhum",
     "yours": "Suas",
     "accent": "Acordo (acento)",
@@ -16858,9 +16861,7 @@
     "saveFailed": "Não foi possível salvar seu fundo. Tente novamente.",
     "base": "Base",
     "accent2": "Acento 2",
-    "ownColours": "Suas próprias cores",
-    "addPhoto": "Adicionar uma imagem ou GIF",
-    "changePhoto": "Alterar imagem ou GIF"
+    "ownColours": "Suas próprias cores"
   },
   "articleTile": {
     "cover": "Capa",

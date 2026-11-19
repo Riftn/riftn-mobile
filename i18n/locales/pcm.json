@@ -15007,6 +15007,9 @@
     "cancel": "Cancel am"
   },
   "postBg": {
+    "addMedia": "Add picture, GIF or video",
+    "changeMedia": "Change picture, GIF or video",
+    "videoSize": "Dat video pass {{n}} MB. Pick one wey small pass.",
     "none": "Nothing",
     "yours": "Your own",
     "names": {

@@ -15314,6 +15314,9 @@
     "cancel": "Fagilé"
   },
   "postBg": {
+    "addMedia": "Ṣàfikún àwòrán, GIF tàbí fídíò",
+    "changeMedia": "Yí àwòrán, GIF tàbí fídíò padà",
+    "videoSize": "Fídíò yìí ju {{n}} MB lọ. Yan èyí tí ó kéré.",
     "none": "Ko si",
     "yours": "Tirẹ",
     "accent": "Àkíyèsí",

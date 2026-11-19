@@ -15345,6 +15345,9 @@
     "cancel": "取消"
   },
   "postBg": {
+    "addMedia": "加圖片、GIF 或者影片",
+    "changeMedia": "換圖片、GIF 或者影片",
+    "videoSize": "呢條影片超過 {{n}} MB，揀條細啲嘅。",
     "none": "無",
     "yours": "您的",
     "accent": "口音",

@@ -15337,6 +15337,9 @@
     "cancel": "Abbräche"
   },
   "postBg": {
+    "addMedia": "Bild, GIF oder Video derzuetue",
+    "changeMedia": "Bild, GIF oder Video ändere",
+    "videoSize": "Das Video isch grösser als {{n}} MB. Wähl es chliiners.",
     "none": "Keini",
     "yours": "Deine",
     "accent": "Umlaute",

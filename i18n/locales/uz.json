@@ -15381,6 +15381,9 @@
     "cancel": "Bekor qilish"
   },
   "postBg": {
+    "addMedia": "Rasm, GIF yoki video qo‘shish",
+    "changeMedia": "Rasm, GIF yoki videoni almashtirish",
+    "videoSize": "Bu video {{n}} MB dan katta. Kichikroq birini tanlang.",
     "none": "Yo'q",
     "yours": "Sizniki",
     "accent": "Aktsent",

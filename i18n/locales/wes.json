@@ -15075,6 +15075,9 @@
     "cancel": "Kansel"
   },
   "postBg": {
+    "addMedia": "Add pikcha, GIF or video",
+    "changeMedia": "Chenj pikcha, GIF or video",
+    "videoSize": "Dis video pass {{n}} MB. Chos wan weh smol pass.",
     "none": "Nothing",
     "yours": "Your own",
     "names": {

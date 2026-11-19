@@ -15318,6 +15318,9 @@
     "cancel": "ሰርዝ"
   },
   "postBg": {
+    "addMedia": "ስእሊ፣ GIF ወይ ቪድዮ ወስኽ",
+    "changeMedia": "ስእሊ፣ GIF ወይ ቪድዮ ቀይር",
+    "videoSize": "እዚ ቪድዮ ካብ {{n}} MB ይዓቢ። ዝነኣሰ ምረጽ።",
     "none": "ወላሓደ",
     "yours": "ናትካ",
     "accent": "አካሰንት",

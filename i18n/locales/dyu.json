@@ -15268,6 +15268,9 @@
     "cancel": "A dabila"
   },
   "postBg": {
+    "addMedia": "Ja, GIF walima widewo fara a kan",
+    "changeMedia": "Ja, GIF walima widewo falen",
+    "videoSize": "Nin widewo ka bon ni {{n}} MB ye. Dɔ sugandi min ka dɔgɔ.",
     "none": "Mɔgɔ si tɛ yen",
     "yours": "I ta",
     "accent": "Ni kaan kelen ye",

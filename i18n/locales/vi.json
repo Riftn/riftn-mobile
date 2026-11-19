@@ -15596,6 +15596,9 @@
     "cancel": "Hủy"
   },
   "postBg": {
+    "addMedia": "Thêm ảnh, GIF hoặc video",
+    "changeMedia": "Đổi ảnh, GIF hoặc video",
+    "videoSize": "Video này lớn hơn {{n}} MB. Hãy chọn video nhỏ hơn.",
     "none": "Không có",
     "yours": "Của bạn",
     "accent": "Nhâ ́ n ma ̣ nh",

@@ -15329,6 +15329,9 @@
     "cancel": "Annuller"
   },
   "postBg": {
+    "addMedia": "Tilføj et billede, en GIF eller en video",
+    "changeMedia": "Skift billede, GIF eller video",
+    "videoSize": "Den video er over {{n}} MB. Vælg en mindre.",
     "none": "Ingen",
     "yours": "Dine",
     "accent": "Accenter",

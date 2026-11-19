@@ -15332,6 +15332,9 @@
     "cancel": "Ləğv et"
   },
   "postBg": {
+    "addMedia": "Şəkil, GIF və ya video əlavə et",
+    "changeMedia": "Şəkli, GIF-i və ya videonu dəyiş",
+    "videoSize": "Bu video {{n}} MB-dan böyükdür. Daha kiçik birini seç.",
     "none": "Heç biri",
     "yours": "Sizin",
     "accent": "Vententent",

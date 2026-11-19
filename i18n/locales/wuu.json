@@ -15287,6 +15287,9 @@
     "cancel": "取消"
   },
   "postBg": {
+    "addMedia": "添加图片、GIF 或视频",
+    "changeMedia": "更换图片、GIF 或视频",
+    "videoSize": "该视频超过 {{n}} MB，请选择更小的视频。",
     "none": "無",
     "yours": "您的",
     "accent": "語調",

@@ -15504,6 +15504,9 @@
     "cancel": "Zrušiť"
   },
   "postBg": {
+    "addMedia": "Pridať obrázok, GIF alebo video",
+    "changeMedia": "Zmeniť obrázok, GIF alebo video",
+    "videoSize": "Toto video má viac ako {{n}} MB. Vyberte menšie.",
     "none": "Žiadny",
     "yours": "Vaše",
     "accent": "Prízvuk",

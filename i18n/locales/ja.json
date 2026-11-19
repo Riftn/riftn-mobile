@@ -16808,6 +16808,9 @@
     "addAnother": "別のプロバイダーを追加"
   },
   "postBg": {
+    "addMedia": "画像・GIF・動画を追加",
+    "changeMedia": "画像・GIF・動画を変更",
+    "videoSize": "この動画は {{n}} MB を超えています。もっと小さいものを選んでください。",
     "none": "なし",
     "yours": "あなたのもの",
     "accent": "アクセント",
@@ -16858,9 +16861,7 @@
     "saveFailed": "背景を保存できませんでした。もう一度お試しください。",
     "base": "ベース",
     "accent2": "アクセント2",
-    "ownColours": "自分の色",
-    "addPhoto": "画像またはGIFを追加",
-    "changePhoto": "画像またはGIFを変更"
+    "ownColours": "自分の色"
   },
   "articleTile": {
     "cover": "カバー",

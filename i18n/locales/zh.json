@@ -16814,6 +16814,9 @@
     "addAnother": "添加其他提供商"
   },
   "postBg": {
+    "addMedia": "添加图片、GIF 或视频",
+    "changeMedia": "更换图片、GIF 或视频",
+    "videoSize": "该视频超过 {{n}} MB，请选择更小的视频。",
     "none": "无",
     "yours": "你的",
     "accent": "音调",
@@ -16865,9 +16868,7 @@
     "saveFailed": "无法保存你的背景。请重试。",
     "base": "基础",
     "accent2": "强调 2",
-    "ownColours": "自定义颜色",
-    "addPhoto": "添加图片或 GIF",
-    "changePhoto": "更改图片或 GIF"
+    "ownColours": "自定义颜色"
   },
   "articleTile": {
     "cover": "封面",

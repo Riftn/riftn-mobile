@@ -4,6 +4,7 @@ import {
   parsePostBg,
   parsePostBgColors,
   postBgFromToken,
+  postBgIsVideo,
   postBgPaletteIndex,
   postBgToken,
   postBgTone,
@@ -57,6 +58,14 @@ describe('profile post backgrounds', () => {
     expect(parsePostBg({ postBg: 'photo', postBgImage: KEY })?.image).toMatch(/\/postbgs\/0xa+-b+\.webp$/);
     expect(parsePostBg({ postBg: 'photo', postBgImage: 'https://evil.example/x.gif' })).toBeNull();
     expect(parsePostBg({ postBg: 'photo' })).toBeNull();
+  });
+
+  it('plays our own video uploads and picked videos', () => {
+    expect(postBgIsVideo(parsePostBg({ postBg: 'photo', postBgImage: KEY.replace(/\.webp$/, '.mp4') })?.image)).toBe(true);
+    expect(postBgIsVideo(parsePostBg({ postBg: 'photo', postBgImage: KEY })?.image)).toBe(false);
+    expect(postBgIsVideo('file:///data/user/0/app/cache/clip.MOV')).toBe(true);
+    expect(postBgIsVideo('blob:https://riftn.com/abc#video')).toBe(true);
+    expect(parsePostBg({ postBg: 'photo', postBgImage: KEY.replace(/\.webp$/, '.mov') })).toBeNull();
   });
 
   it('carries a whole look through one string', () => {

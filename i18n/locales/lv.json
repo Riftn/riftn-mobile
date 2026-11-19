@@ -15344,6 +15344,9 @@
     "cancel": "Atcelt"
   },
   "postBg": {
+    "addMedia": "Pievienot attēlu, GIF vai video",
+    "changeMedia": "Mainīt attēlu, GIF vai video",
+    "videoSize": "Šis video ir lielāks par {{n}} MB. Izvēlies mazāku.",
     "none": "Nav",
     "yours": "Jūsu",
     "accent": "Akcents",

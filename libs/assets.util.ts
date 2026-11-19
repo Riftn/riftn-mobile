@@ -171,7 +171,45 @@ export async function prepareImageForUpload<T extends UploadableImage>(asset: T)
   }
 }
 
+export type PickedMedia = { uri: string; video: boolean; size: number };
+
+/**
+ * Pick a picture, GIF or video from the gallery. A still picture goes through
+ * the cropper at `width`x`height`; a GIF and a video come back untouched (the
+ * server sizes them and keeps them moving).
+ */
+export const openMediaPicker = async (opts: { width: number; height: number; quality?: number }): Promise<PickedMedia | null> => {
+  const raw: any = await ImageCropPicker.openPicker({
+    mediaType: "any",
+    cropping: false,
+    compressImageQuality: 1,
+    forceJpg: false,
+  } as any);
+  const uri: string | undefined = raw?.path || raw?.sourceURL;
+  if (!uri) return null;
+  const size = Number(raw?.size) || 0;
+  if (/^video\//i.test(String(raw?.mime || "")) || /\.(?:mp4|mov|m4v|webm|3gp|mkv)$/i.test(uri.split("?")[0])) {
+    return { uri, video: true, size };
+  }
+  if (isGifUri(uri)) return { uri, video: false, size };
+  const cropped: any = await ImageCropPicker.openCropper({
+    path: uri,
+    mediaType: "photo",
+    width: opts.width,
+    height: opts.height,
+    compressImageQuality: opts.quality ?? 0.9,
+    forceJpg: true,
+  } as any);
+  return cropped?.path ? { uri: cropped.path, video: false, size: Number(cropped?.size) || 0 } : null;
+};
+
 export type RNFile = { uri: string; name: string; type: string };
+
+/** A picked video as a multipart file part, keeping its own extension and type. */
+export const createRNVideoFile = (uri: string, namePrefix: string): RNFile => {
+  const ext = (/\.([a-z0-9]{2,4})$/i.exec(uri.split("?")[0])?.[1] || "mp4").toLowerCase();
+  return { uri, name: `${namePrefix}_${Date.now()}.${ext}`, type: guessMime(uri, "video/mp4") };
+};
 
 export const createRNImageFile = (
   uri: string,

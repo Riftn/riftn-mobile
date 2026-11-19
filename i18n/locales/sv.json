@@ -15334,6 +15334,9 @@
     "cancel": "Avbryt"
   },
   "postBg": {
+    "addMedia": "Lägg till en bild, GIF eller video",
+    "changeMedia": "Byt bild, GIF eller video",
+    "videoSize": "Videon är större än {{n}} MB. Välj en mindre.",
     "none": "Ingen",
     "yours": "Dina",
     "names": {

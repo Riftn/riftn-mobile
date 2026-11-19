@@ -15299,6 +15299,9 @@
     "cancel": "Kagbuo"
   },
   "postBg": {
+    "addMedia": "Tinye foto, GIF ma ọ bụ vidiyo",
+    "changeMedia": "Gbanwee foto, GIF ma ọ bụ vidiyo",
+    "videoSize": "Vidiyo ahụ karịrị {{n}} MB. Họrọ nke pere mpe.",
     "none": "Ọ dịghị ihe",
     "yours": "Gị",
     "accent": "Akara ụda",
