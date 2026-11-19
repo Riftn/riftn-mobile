@@ -2601,6 +2601,7 @@ export default function UploadScreen() {
           setShowSoundPicker(false);
         }}
         currentSound={attachedSound}
+        opaque={showVideoTrim}
         clipSeconds={mediaMode === "video" && pickedVideo
           ? (videoTrim ? videoTrim.end - videoTrim.start : (pickedVideo.duration ?? 0) / 1000) || undefined
           : undefined}

@@ -448,6 +448,9 @@ export default function DmVideoStudio({
               {visible && isVideo && (
                 <VideoView
                   player={player}
+                  // A SurfaceView punched through the sound picker opened over
+                  // this screen; a TextureView stays under it.
+                  surfaceType="textureView"
                   nativeControls={false}
                   contentFit="cover"
                   style={{ position: "absolute", width: innerW, height: innerH, left: vidLeft, top: vidTop, transform: videoTransform(options) }}
@@ -942,6 +945,12 @@ function VideoCropOverlay({ width, height, rect, ratio, frameAspect, onChange }:
   );
 }
 
+// Not plain greys: the control material repaints a grey or white fill with
+// the theme's glass (and its label colour), which hid which pick is on and
+// left pale words on a pale chip on the phone. The odd last channel opts out.
+const CHIP_ON = ["rgb(255,255,254)", "rgb(17,17,21)"] as const;
+const CHIP_OFF = ["rgba(255,255,254,0.1)", "rgba(0,0,1,0.05)"] as const;
+
 const sameMix = (a: SoundMix, b: SoundMix) =>
   Math.round(a.song * 100) === Math.round(b.song * 100) && Math.round(a.video * 100) === Math.round(b.video * 100);
 
@@ -986,8 +995,8 @@ function SoundMixRows({ mix, onChange }: { mix: SoundMix; onChange: (mix: SoundM
             <Pressable key={pick.label} onPress={() => onChange({ ...pick.mix })} accessibilityRole="button" accessibilityState={{ selected: on }} className="dark-surface"
               style={{ flex: 1, height: 30, borderRadius: 15, alignItems: "center", justifyContent: "center", borderWidth: 1,
                 borderColor: on ? ink : (isLight ? "rgba(0,0,0,0.12)" : LINE),
-                backgroundColor: on ? ink : (isLight ? "rgba(0,0,0,0.04)" : "rgba(255,255,255,0.06)") }}>
-              <Text style={{ color: on ? (isLight ? WHITE : "#000") : (isLight ? "#3F3F46" : "#D4D4D8"), fontSize: 11, fontWeight: "600" }}>{pick.label}</Text>
+                backgroundColor: on ? CHIP_ON[isLight ? 1 : 0] : CHIP_OFF[isLight ? 1 : 0] }}>
+              <Text style={{ color: on ? (isLight ? WHITE : "#000") : (isLight ? "#27272A" : "#F4F4F5"), fontSize: 11, fontWeight: "600" }}>{pick.label}</Text>
             </Pressable>
           );
         })}

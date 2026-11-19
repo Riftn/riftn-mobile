@@ -40,6 +40,11 @@ interface Props {
   currentSound?: AttachedSound | null;
   /** Length of the attached video, in seconds: the part matches it. */
   clipSeconds?: number;
+  /**
+   * Over the video edit screen: a solid panel. The glass (or a canvas theme's
+   * see-through card) let the editor and its video show through.
+   */
+  opaque?: boolean;
   /** Open straight on this song's part step (screenshot harness). */
   initialPicked?: SoundCandidate;
   initialLibrary?: Library;
@@ -136,10 +141,10 @@ async function fetchRiftn(q: string, page: number) {
   return { items: (res.result || []).map(toRiftnCandidate), next: res.pagination?.hasMore ? page + 1 : undefined };
 }
 
-const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, currentSound, clipSeconds, initialPicked, initialLibrary }) => {
+const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, currentSound, clipSeconds, initialPicked, initialLibrary, opaque }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const glassPanel = useDrawerGlass();
+  const glassPanel = useDrawerGlass() && !opaque;
   // Android blurs the page behind live and re-samples it on every window
   // draw, so a sheet that scrolls (or plays GIFs) paid for it each frame.
   // A plain scrim there, as the comments sheet and page drawers already use.
@@ -429,7 +434,7 @@ const SoundPickerSheet: React.FC<Props> = ({ visible, onClose, onSelect, current
       >
       <SheetBackdrop backdrop={backdrop} />
       <TouchableOpacity style={styles.backdrop} activeOpacity={1} onPress={onClose} />
-      <Animated.View style={[styles.sheet, glassPanel && GLASS_PANEL_CLEAR, { height: sheetHeight }]}>
+      <Animated.View style={[styles.sheet, glassPanel && GLASS_PANEL_CLEAR, opaque && styles.sheetSolid, { height: sheetHeight }]}>
         {glassPanel ? <SheetGlass backdropBlurred={backdrop.blurred} /> : null}
         {/* Only the handle + header drag the sheet; on the whole sheet the
             responder claimed every vertical move, so scrolling the results
@@ -635,6 +640,9 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     overflow: "hidden",
   },
+  // Written as rgb() on purpose: the canvas themes repaint the near-black
+  // glass fill with their own see-through card (libs/jsx/shape.js).
+  sheetSolid: { backgroundColor: "rgb(14,14,17)" },
   handleBar: { alignItems: "center", paddingTop: 10, paddingBottom: 4 },
   handle: { width: 36, height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.2)" },
   header: {
