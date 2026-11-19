@@ -59,7 +59,7 @@ concurrency:
 jobs:
   simulator:
     name: Build and walk the app on an iPhone simulator
-    runs-on: ${{ (inputs.device == 'duo' || startsWith(inputs.xcode, '27')) && 'macos-26' || 'macos-15' }}
+    runs-on: ${{ (inputs.device == 'duo' || startsWith(inputs.xcode, '27')) && 'xcode-27' || 'macos-15' }}
     timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
