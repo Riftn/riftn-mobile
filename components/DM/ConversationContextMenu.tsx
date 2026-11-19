@@ -30,6 +30,8 @@ interface ConversationContextMenuProps {
   onDelete: () => void;
   /** Start picking several chats at once, beginning with this one. */
   onSelectMany?: () => void;
+  /** Put this chat in one of the person's Chat tabs. */
+  onAddToTab?: () => void;
   /** Toggle free access for this user (creator only). */
   onToggleFreeAccess?: () => void;
   /** Whether this user currently has free DM access. */
@@ -84,6 +86,7 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
   onBlock,
   onDelete,
   onSelectMany,
+  onAddToTab,
   onToggleFreeAccess,
   peerHasFreeAccess,
   isCreator,
@@ -131,6 +134,11 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
     onClose();
     onSelectMany?.();
   }, [onClose, onSelectMany]);
+
+  const handleAddToTab = useCallback(() => {
+    onClose();
+    setTimeout(() => onAddToTab?.(), 250);
+  }, [onClose, onAddToTab]);
 
   const handleToggleFreeAccess = useCallback(() => {
     onClose();
@@ -226,6 +234,9 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
             <ActionRow icon="chatbubble-outline" label={t("dm.openChat")} onPress={handleOpen} />
             {onSelectMany && (
               <ActionRow icon="checkmark-circle-outline" label={t("chatBulk.select", { defaultValue: "Select" })} onPress={handleSelectMany} />
+            )}
+            {onAddToTab && (
+              <ActionRow icon="folder-open-outline" label={t("chatTabs.addToTab", { defaultValue: "Add to tab" })} onPress={handleAddToTab} />
             )}
             {isCreator && onToggleFreeAccess && (
               <ActionRow

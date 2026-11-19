@@ -451,6 +451,37 @@ export async function markDmMessageViewed(messageId: string): Promise<void> {
   await apiClient.post(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
 }
 
+/** Chat tabs: the person's own tabs, tab order and hidden built-ins. Mirrors web chat-tabs.ts. */
+export interface ChatTab {
+  id: string;
+  name: string;
+  emoji: string;
+  /** DM ids, `community:<uuid>` for group/community chats, `public` for Public Chat. */
+  chats: string[];
+}
+export interface ChatTabsState {
+  tabs: ChatTab[];
+  order: string[];
+  hidden: string[];
+}
+export const BUILTIN_CHAT_TABS = ["all", "unread", "direct", "communities", "requests"] as const;
+export const DEFAULT_CHAT_TABS: ChatTabsState = { tabs: [], order: [...BUILTIN_CHAT_TABS], hidden: [] };
+export const PUBLIC_CHAT_TAB_ID = "public";
+export const MAX_CHAT_TABS = 10;
+export const MAX_CHAT_TAB_NAME = 20;
+
+export async function getChatTabs(): Promise<ChatTabsState> {
+  const res: any = await apiClient.get(`/dm/chat-tabs`, { isAuthRequired: true } as any);
+  const r = res?.result ?? res?.data?.result;
+  return r && Array.isArray(r.tabs) ? r : DEFAULT_CHAT_TABS;
+}
+
+export async function saveChatTabs(state: ChatTabsState): Promise<ChatTabsState | null> {
+  const res: any = await apiClient.put(`/dm/chat-tabs`, state, { isAuthRequired: true });
+  const r = res?.result ?? res?.data?.result;
+  return r && Array.isArray(r.tabs) ? r : null;
+}
+
 /**
  * Where you stopped reading one chat, kept on the server so the app and the
  * website open it on the same line. Chat ids: a DM id, `community:<uuid>`,
