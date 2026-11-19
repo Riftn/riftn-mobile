@@ -73,13 +73,16 @@ const LeaderboardRowItem: React.FC<Props> = ({ item, sort, period, onPress }) =>
   const withUnit = (text: string) => (DHB_SORTS.has(sort) ? t("leaderboard.tokenAmount", { amount: text }) : text);
 
   let valueText: string;
+  let valueSub: string | null = null;
   let valueClass = "text-white";
   if (hidden) {
     valueText = t("leaderboard.hidden");
     valueClass = "text-theme-neutrals-500";
   } else if (sort === "ogChallenge") {
     const holders = t("leaderboard.ogHolders", { count: item.directReferrals ?? 0, defaultValue: "{{count}} OG holders" });
-    valueText = item.ogDhb ? `${holders} · ${t("leaderboard.tokenAmount", { amount: formatCompactNumber(item.ogDhb) })}` : holders;
+    valueText = holders;
+    // Two lines so the DHB total never squeezes the name on a phone.
+    valueSub = item.ogDhb ? t("leaderboard.tokenAmount", { amount: formatCompactNumber(item.ogDhb) }) : null;
   } else if (sort === "affiliates") {
     const direct = t("leaderboard.directReferrals", { count: item.directReferrals ?? 0 });
     // Tier 2 is only meaningful once someone has it, so it stays off the row
@@ -133,9 +136,16 @@ const LeaderboardRowItem: React.FC<Props> = ({ item, sort, period, onPress }) =>
       </View>
 
       {/* Metric */}
-      <Text className={`${valueClass} text-sm font-bold ml-2`} numberOfLines={1}>
-        {valueText}
-      </Text>
+      <View className="ml-2 items-end">
+        <Text className={`${valueClass} text-sm font-bold`} numberOfLines={1}>
+          {valueText}
+        </Text>
+        {valueSub ? (
+          <Text className="text-theme-neutrals-400 text-xs font-semibold mt-0.5" numberOfLines={1}>
+            {valueSub}
+          </Text>
+        ) : null}
+      </View>
     </TouchableOpacity>
   );
 };
