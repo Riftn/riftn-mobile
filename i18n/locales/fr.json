@@ -4460,6 +4460,10 @@
     "tokenAmount": "{{amount}} jetons"
   },
   "communities": {
+    "muteChat": "Couper",
+    "mutedChat": "Coupé",
+    "muteChatHint": "Ne plus recevoir d'alertes du chat de cette communauté. Vous pouvez toujours le lire",
+    "unmuteChatHint": "Recevoir à nouveau les alertes du chat de cette communauté",
     "newChat": {
       "description": "De quoi s’agit-il ? (facultatif)",
       "groupCreated": "Groupe créé",

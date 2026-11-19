@@ -401,7 +401,7 @@ export async function getChatPrefs(): Promise<ChatPref[]> {
 
 export async function setChatPref(
   conversationId: string,
-  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean; seenReactions?: true },
+  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean; seenReactions?: true; mutedUntil?: string | null },
 ): Promise<void> {
   await apiClient.post(`/dm/chat-prefs/${encodeURIComponent(conversationId)}`, patch, { isAuthRequired: true });
 }

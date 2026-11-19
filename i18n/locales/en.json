@@ -4498,6 +4498,10 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "muteChat": "Mute",
+    "mutedChat": "Muted",
+    "muteChatHint": "Stop alerts from this community's chat. You can still read it",
+    "unmuteChatHint": "Get alerts from this community's chat again",
     "buyAlert": {
       "title": "{{amount}} BUY",
       "spent": "Spent:",

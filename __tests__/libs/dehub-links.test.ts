@@ -12,6 +12,21 @@ import {
 } from '../../libs/dehub-links';
 
 describe('parseDehubLink', () => {
+  it('reads the share link of a post that is not minted yet', () => {
+    expect(parseDehubLink('https://riftn.com/newpost/4821?ref=AB12')).toMatchObject({
+      kind: 'post',
+      newPostId: '4821',
+    });
+    expect(parseDehubLink('https://riftn.com/newpost/abc')).toBeNull();
+    expect(findDehubLink('look at this\nhttps://riftn.com/newpost/7')).toMatchObject({ kind: 'post', newPostId: '7' });
+  });
+
+  it('reads the short post link and its thread tail', () => {
+    expect(parseDehubLink('https://riftn.com/posts/12')).toMatchObject({ kind: 'post', tokenId: '12' });
+    expect(parseDehubLink('https://riftn.com/posts/12/b/55')).toMatchObject({ kind: 'post', tokenId: '12', commentId: '55' });
+    expect(parseDehubLink('https://riftn.com/posts/12/x')).toBeNull();
+  });
+
   it('reads a post link', () => {
     expect(parseDehubLink('https://dehub.io/app/post/12345')).toMatchObject({
       kind: 'post',
