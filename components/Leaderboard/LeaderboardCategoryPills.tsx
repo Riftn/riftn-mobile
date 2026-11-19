@@ -15,7 +15,8 @@ export type SortCategory =
   | "followers"
   | "likes"
   | "subscribers"
-  | "affiliates";
+  | "affiliates"
+  | "ogChallenge";
 
 /**
  * "assets" is not a leaderboard sort — it's a jump to the Top 100 market table,
@@ -40,12 +41,14 @@ const CATEGORIES: CategoryDef[] = [
   { key: "likes", label: "leaderboard.likes", icon: "heart-outline" },
   { key: "subscribers", label: "leaderboard.subscribers", icon: "star-outline" },
   { key: "affiliates", label: "leaderboard.affiliates", icon: "share-social-outline" },
+  // Invites that brought back original DHB holders (services/og-challenge-leaderboard).
+  { key: "ogChallenge", label: "leaderboard.ogChallenge", icon: "trophy-outline" },
   { key: "assets", label: "leaderboard.assets", icon: "stats-chart-outline" },
 ];
 
 // The iPhone app ranks people by follows, likes and subscribers only: token
 // holdings and tip totals stay on the web.
-const APP_STORE_HIDDEN: ReadonlySet<PillKey> = new Set<PillKey>(["holdings", "sentTips", "receivedTips", "affiliates"]);
+const APP_STORE_HIDDEN: ReadonlySet<PillKey> = new Set<PillKey>(["holdings", "sentTips", "receivedTips", "affiliates", "ogChallenge"]);
 const VISIBLE_CATEGORIES = IS_APP_STORE_BUILD
   ? CATEGORIES.filter((c) => !APP_STORE_HIDDEN.has(c.key))
   : CATEGORIES;

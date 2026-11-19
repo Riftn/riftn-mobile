@@ -1599,7 +1599,9 @@
     "menuLayoutSections": "Bölümler",
     "menuLayoutSectionsDesc": "Tüm sayfalar bir arada, başlıklar altında",
     "menuLayoutFolders": "Klasörler",
-    "menuLayoutFoldersDesc": "Ana sayfaların, ardından her grup için bir klasör"
+    "menuLayoutFoldersDesc": "Ana sayfaların, ardından her grup için bir klasör",
+    "publicChatInBar": "Alt çubukta Genel Sohbet",
+    "publicChatInBarDesc": "Ekranın altındaki çubuktan tek dokunuşla Genel Sohbet'e gir"
   },
   "common": {
     "loadMore": "Daha fazla yükle",
@@ -2512,6 +2514,12 @@
     "hidden": "Gizli",
     "noDataForPeriod": "Bu dönem için henüz veri yok",
     "affiliates": "Satış ortakları",
+    "ogChallenge": "OG Görevi",
+    "ogHolders_one": "{{count}} OG sahibi",
+    "ogHolders_other": "{{count}} OG sahibi",
+    "ogChallengeTitle": "OG sahiplerini geri getir",
+    "ogChallengeBody": "Hâlâ DHB tutan kişileri davet et. Davet bağlantınla katılıp DHB'lerini Riftn cüzdanlarında tuttuklarında burada senin için sayılırlar.",
+    "ogChallengeCta": "Davet bağlantını al",
     "directReferrals_one": "{{count}} doğrudan",
     "directReferrals_other": "{{count}} doğrudan",
     "secondaryReferrals_one": "{{count}} ikinci seviye",

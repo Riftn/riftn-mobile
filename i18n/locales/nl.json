@@ -1599,7 +1599,9 @@
     "menuLayoutSections": "Secties",
     "menuLayoutSectionsDesc": "Alle pagina's tegelijk, onder kopjes",
     "menuLayoutFolders": "Mappen",
-    "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep"
+    "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep",
+    "publicChatInBar": "Openbare chat in de onderste balk",
+    "publicChatInBarDesc": "Met één tik vanuit de balk onderaan het scherm naar de openbare chat"
   },
   "common": {
     "loadMore": "Meer laden",
@@ -2700,6 +2702,12 @@
     "hidden": "Verborgen",
     "noDataForPeriod": "Nog geen gegevens voor deze periode",
     "affiliates": "Partners",
+    "ogChallenge": "OG-uitdaging",
+    "ogHolders_one": "{{count}} OG-holder",
+    "ogHolders_other": "{{count}} OG-holders",
+    "ogChallengeTitle": "Haal de OG-holders terug",
+    "ogChallengeBody": "Nodig mensen uit die nog DHB hebben. Als ze via jouw uitnodigingslink lid worden en hun DHB in hun Riftn-wallet houden, tellen ze hier voor jou.",
+    "ogChallengeCta": "Haal je uitnodigingslink op",
     "directReferrals_one": "{{count}} rechtstreeks",
     "directReferrals_other": "{{count}} rechtstreeks",
     "secondaryReferrals_one": "{{count}} indirect",

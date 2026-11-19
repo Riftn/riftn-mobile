@@ -3745,7 +3745,9 @@
     "menuLayoutSections": "セクション",
     "menuLayoutSectionsDesc": "すべてのページを見出しの下に表示",
     "menuLayoutFolders": "フォルダ",
-    "menuLayoutFoldersDesc": "メインのページと、グループごとのフォルダ"
+    "menuLayoutFoldersDesc": "メインのページと、グループごとのフォルダ",
+    "publicChatInBar": "下のバーに公開チャット",
+    "publicChatInBarDesc": "画面下のバーからワンタップで公開チャットへ"
   },
   "common": {
     "remove": "削除",
@@ -4658,6 +4660,12 @@
     "hidden": "非表示",
     "noDataForPeriod": "この期間のデータはまだありません",
     "affiliates": "アフィリエイト",
+    "ogChallenge": "OGチャレンジ",
+    "ogHolders_one": "OGホルダー{{count}}人",
+    "ogHolders_other": "OGホルダー{{count}}人",
+    "ogChallengeTitle": "OGホルダーを呼び戻そう",
+    "ogChallengeBody": "まだDHBを持っている人を招待しよう。招待リンクから参加し、RiftnウォレットにDHBを保有していれば、ここであなたのカウントになります。",
+    "ogChallengeCta": "招待リンクを取得",
     "directReferrals_one": "直接 {{count}}人",
     "directReferrals_other": "直接 {{count}}人",
     "secondaryReferrals_one": "間接 {{count}}人",

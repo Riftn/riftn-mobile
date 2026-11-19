@@ -3745,7 +3745,9 @@
     "menuLayoutSections": "分区",
     "menuLayoutSectionsDesc": "所有页面一次显示，按标题分组",
     "menuLayoutFolders": "文件夹",
-    "menuLayoutFoldersDesc": "主要页面，然后每组一个文件夹"
+    "menuLayoutFoldersDesc": "主要页面，然后每组一个文件夹",
+    "publicChatInBar": "底部栏中的公共聊天",
+    "publicChatInBarDesc": "在屏幕底部栏一键进入公共聊天"
   },
   "common": {
     "refresh": "刷新",
@@ -4658,6 +4660,12 @@
     "hidden": "已隐藏",
     "noDataForPeriod": "该时段暂无数据",
     "affiliates": "推广联盟",
+    "ogChallenge": "OG 挑战",
+    "ogHolders_one": "{{count}} 位 OG 持有者",
+    "ogHolders_other": "{{count}} 位 OG 持有者",
+    "ogChallengeTitle": "把 OG 持有者带回来",
+    "ogChallengeBody": "邀请仍持有 DHB 的人。他们通过你的邀请链接加入并把 DHB 保留在 Riftn 钱包中，就会在这里计入你的成绩。",
+    "ogChallengeCta": "获取你的邀请链接",
     "directReferrals_one": "{{count}} 直接推荐",
     "directReferrals_other": "{{count}} 直接推荐",
     "secondaryReferrals_one": "{{count}} 二级推荐",

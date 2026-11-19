@@ -1599,7 +1599,9 @@
     "menuLayoutSections": "Secciones",
     "menuLayoutSectionsDesc": "Todas las páginas a la vez, bajo encabezados",
     "menuLayoutFolders": "Carpetas",
-    "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo"
+    "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo",
+    "publicChatInBar": "Chat público en la barra inferior",
+    "publicChatInBarDesc": "Entra al Chat público con un toque desde la barra inferior de la pantalla"
   },
   "common": {
     "loadMore": "Cargar más",
@@ -2512,6 +2514,12 @@
     "hidden": "Oculto",
     "noDataForPeriod": "Aún no hay datos para este período",
     "affiliates": "Afiliados",
+    "ogChallenge": "Reto OG",
+    "ogHolders_one": "{{count}} holder OG",
+    "ogHolders_other": "{{count}} holders OG",
+    "ogChallengeTitle": "Trae de vuelta a los holders OG",
+    "ogChallengeBody": "Invita a quienes aún tienen DHB. Cuando se unan con tu enlace de invitación y mantengan su DHB en su billetera de Riftn, cuentan para ti aquí.",
+    "ogChallengeCta": "Obtén tu enlace de invitación",
     "directReferrals_one": "{{count}} directos",
     "directReferrals_other": "{{count}} directos",
     "secondaryReferrals_one": "{{count}} secundarios",

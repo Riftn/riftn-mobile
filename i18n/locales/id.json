@@ -3788,7 +3788,9 @@
     "menuLayoutSections": "Bagian",
     "menuLayoutSectionsDesc": "Semua halaman sekaligus, di bawah judul",
     "menuLayoutFolders": "Folder",
-    "menuLayoutFoldersDesc": "Halaman utamamu, lalu satu folder per grup"
+    "menuLayoutFoldersDesc": "Halaman utamamu, lalu satu folder per grup",
+    "publicChatInBar": "Obrolan Publik di bilah bawah",
+    "publicChatInBarDesc": "Buka Obrolan Publik dengan sekali ketuk dari bilah di bawah layar"
   },
   "common": {
     "refresh": "Segarkan",
@@ -4681,6 +4683,12 @@
     "hidden": "Disembunyikan",
     "noDataForPeriod": "Belum ada data untuk periode ini",
     "affiliates": "Afiliasi",
+    "ogChallenge": "Tantangan OG",
+    "ogHolders_one": "{{count}} holder OG",
+    "ogHolders_other": "{{count}} holder OG",
+    "ogChallengeTitle": "Ajak kembali holder OG",
+    "ogChallengeBody": "Undang orang yang masih memegang DHB. Saat mereka bergabung lewat tautan undanganmu dan menyimpan DHB di dompet Riftn, mereka dihitung untukmu di sini.",
+    "ogChallengeCta": "Dapatkan tautan undanganmu",
     "directReferrals_one": "{{count}} langsung",
     "directReferrals_other": "{{count}} langsung",
     "secondaryReferrals_one": "{{count}} tingkat dua",
