@@ -32,7 +32,7 @@ import Svg, {
   Stop,
 } from "react-native-svg";
 import { isLowEndDevice } from "../../libs/deviceTier";
-import { parsePostBg, postBgIsVideo, postBgVariant, type PostBg, type PostBgPalette } from "../../libs/postBackgrounds";
+import { parsePostBg, postBgFromStored, postBgIsVideo, postBgVariant, type PostBg, type PostBgPalette } from "../../libs/postBackgrounds";
 import BlurSafeImage from "../common/BlurSafeImage";
 
 /**
@@ -74,6 +74,40 @@ export function useResolvedPostBg(address: string | undefined, customs: Record<s
 
 export const ProfilePostBgContext = createContext<PostBg | null>(null);
 export const useProfilePostBg = () => useContext(ProfilePostBgContext);
+
+/**
+ * One post's own backdrop (Token.postBg) can differ from the profile's. A save
+ * in the picker shows at once: an entry here wins over the post's stored value;
+ * null means "back to the profile backdrop". `clearAllPostBgs` does that for
+ * every post by one address (the picker's All posts).
+ */
+const postOverrides = new Map<string, PostBg | null>();
+const clearedAll = new Set<string>();
+export function setPostBgForPost(postId: string | number, bg: PostBg | null) {
+  postOverrides.set(String(postId), bg);
+  version++;
+  listeners.forEach((l) => l());
+}
+export function clearAllPostBgs(address: string) {
+  clearedAll.add(address.toLowerCase());
+  postOverrides.clear();
+  version++;
+  listeners.forEach((l) => l());
+}
+/** The post's own backdrop, or null when it follows the profile. */
+export function usePostOwnBg(post: { id?: unknown; tokenId?: unknown; postBg?: unknown; minter?: unknown } | null | undefined): PostBg | null {
+  useSyncExternalStore(subscribe, snapshot, snapshot);
+  if (!post) return null;
+  const key = String(post.tokenId ?? post.id ?? "");
+  if (key && postOverrides.has(key)) return postOverrides.get(key) ?? null;
+  if (typeof post.minter === "string" && clearedAll.has(post.minter.toLowerCase())) return null;
+  return postBgFromStored(post.postBg);
+}
+/** What a text post on a profile shows: its own backdrop, else the profile's. */
+export function usePostBgFor(post: Parameters<typeof usePostOwnBg>[0]): PostBg | null {
+  const profileBg = useProfilePostBg();
+  return usePostOwnBg(post) ?? profileBg;
+}
 
 /** The profile picture of the profile on screen, for the backdrop that blurs it (Profile Echo). */
 export const ProfilePostBgArtContext = createContext<string | null>(null);

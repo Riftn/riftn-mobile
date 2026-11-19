@@ -16931,6 +16931,11 @@
     "addAnother": "Andere aanbieder toevoegen"
   },
   "postBg": {
+    "scope": "Toepassen op",
+    "thisPost": "Dit bericht",
+    "allPosts": "Alle berichten",
+    "sameAsProfile": "Profiel",
+    "sameAsProfileSub": "Zelfde als je profiel",
     "addMedia": "Voeg een afbeelding, GIF of video toe",
     "changeMedia": "Afbeelding, GIF of video wijzigen",
     "videoSize": "Die video is groter dan {{n}} MB. Kies een kleinere.",

@@ -16700,6 +16700,11 @@
     "addAnother": "إضافة مزوّد آخر"
   },
   "postBg": {
+    "scope": "تطبيق على",
+    "thisPost": "هذا المنشور",
+    "allPosts": "كل المنشورات",
+    "sameAsProfile": "الملف الشخصي",
+    "sameAsProfileSub": "مثل ملفك الشخصي",
     "addMedia": "أضف صورة أو GIF أو فيديو",
     "changeMedia": "غيّر الصورة أو GIF أو الفيديو",
     "videoSize": "هذا الفيديو أكبر من {{n}} ميغابايت. اختر فيديو أصغر.",

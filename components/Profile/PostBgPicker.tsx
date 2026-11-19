@@ -16,7 +16,7 @@ import { useTranslation } from "react-i18next";
 import * as Haptics from "expo-haptics";
 import { useAuthActions, useUser } from "../../context/AuthContext";
 import { AuthService } from "../../services/auth.service";
-import { getAccount } from "../../services/user.service";
+import { getAccount, setPostBackground } from "../../services/user.service";
 import { toastError } from "../../libs/toast";
 import { getAvatarUrl } from "../../libs/misc";
 import { createLogger } from "../../libs/logger";
@@ -26,6 +26,8 @@ import {
   POST_BG_PHOTO_ID,
   mergePostBg,
   postBgById,
+  postBgFromStored,
+  postBgStored,
   postBgImageUrl,
   postBgIsVideo,
   postBgPaletteIndex,
@@ -35,7 +37,7 @@ import {
 } from "../../libs/postBackgrounds";
 import { createRNImageFile, createRNVideoFile, openMediaPicker } from "../../libs/assets.util";
 import Avatar from "../common/Avatar";
-import { POST_BG_INK, PostBgLayer, ProfilePostBgArtContext, setPostBgOverride, useResolvedPostBg } from "./PostBackground";
+import { POST_BG_INK, PostBgLayer, ProfilePostBgArtContext, clearAllPostBgs, setPostBgForPost, setPostBgOverride, usePostOwnBg, useResolvedPostBg } from "./PostBackground";
 
 const logger = createLogger("PostBgPicker");
 /** Biggest video sent as a post background; the server cuts it to a short loop. */
@@ -50,15 +52,17 @@ const MAX_VIDEO_MB = 90;
  * holding your own profile header, or from Edit profile. Mounted once in App.tsx.
  */
 
-type OpenRequest = { sampleText?: string } | null;
+/** The post that was held: its backdrop can be its own, or all posts' at once. */
+export type PostBgTarget = { id?: unknown; tokenId?: unknown; postBg?: unknown; minter?: unknown };
+type OpenRequest = { sampleText?: string; post?: PostBgTarget } | null;
 let request: OpenRequest = null;
 let tick = 0;
 const subs = new Set<() => void>();
 const sub = (l: () => void) => { subs.add(l); return () => subs.delete(l); };
 const snap = () => tick;
 
-export function openPostBgPicker(sampleText?: string) {
-  request = { sampleText };
+export function openPostBgPicker(sampleText?: string, post?: PostBgTarget) {
+  request = { sampleText, post: post && (post.tokenId ?? post.id) != null ? post : undefined };
   tick++;
   try { void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light); } catch { /* not supported */ }
   subs.forEach((l) => l());
@@ -70,10 +74,10 @@ function closePostBgPicker() {
 }
 
 /** Wraps a press target on your own profile so holding it opens the picker. */
-export function usePostBgHoldProps(enabled: boolean, sampleText?: string) {
+export function usePostBgHoldProps(enabled: boolean, sampleText?: string, post?: PostBgTarget) {
   return useMemo(
-    () => (enabled ? { onLongPress: () => openPostBgPicker(sampleText), delayLongPress: 450 } : {}),
-    [enabled, sampleText],
+    () => (enabled ? { onLongPress: () => openPostBgPicker(sampleText, post), delayLongPress: 450 } : {}),
+    [enabled, sampleText, post],
   );
 }
 
@@ -89,6 +93,12 @@ const SWATCHES = [
   "#04122a", "#0a3871", "#1f6feb", "#2ea8ff", "#4fd1ff", "#9fd0ff",
   "#1a0b2b", "#5b2a8c", "#7b61ff", "#b25bff", "#ff6fb5", "#ffc2dc",
 ];
+/** The CDN key inside a postbgs picture URL, to reuse it on one post. */
+function photoKeyOf(url: string | null): string | null {
+  const m = url ? /(postbgs\/[a-z0-9-]+\.(?:jpg|webp|mp4))(?:[?#].*)?$/i.exec(url) : null;
+  return m ? m[1] : null;
+}
+
 const TILE = 56;
 const GAP = 10;
 const STEP = TILE + GAP;
@@ -97,26 +107,35 @@ export default function PostBgPickerHost() {
   useSyncExternalStore(sub, snap, snap);
   const open = !!request;
   if (!open) return null;
-  return <PostBgPicker sampleText={request?.sampleText} />;
+  return <PostBgPicker sampleText={request?.sampleText} post={request?.post} />;
 }
 
-function PostBgPicker({ sampleText }: { sampleText?: string }) {
+type Scope = "post" | "all";
+
+function PostBgPicker({ sampleText, post }: { sampleText?: string; post?: PostBgTarget }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const user = useUser() as any;
   const { patchUser } = useAuthActions();
   const address: string = user?.walletAddress || user?.address || "";
-  const current = useResolvedPostBg(address, user?.customs);
-  const savedPhoto = current?.kind === "photo" ? current.image ?? null : postBgImageUrl(user?.customs?.[POST_BG_IMAGE_KEY]);
-  const [sel, setSel] = useState<string | null>(current?.id ?? null);
-  const [colorsById, setColorsById] = useState<Record<string, PostBgPalette>>(current?.colors && current.palettes.length ? { [current.id]: current.colors } : {});
-  const [customOpen, setCustomOpen] = useState(!!current?.custom);
+  const profileCurrent = useResolvedPostBg(address, user?.customs);
+  const postOwn = usePostOwnBg(post);
+  const postId = post ? String(post.tokenId ?? post.id) : null;
+  // Holding a post edits that post; "All posts" sets the profile backdrop and
+  // puts every post back on it. From the header or Edit profile it's all posts.
+  const [scope, setScope] = useState<Scope>(postId ? "post" : "all");
+  const startBg = postId ? postOwn : profileCurrent;
+  const current = scope === "post" ? postOwn : profileCurrent;
+  const savedPhoto = startBg?.kind === "photo" ? startBg.image ?? null : postBgImageUrl(user?.customs?.[POST_BG_IMAGE_KEY]);
+  const [sel, setSel] = useState<string | null>(startBg?.id ?? null);
+  const [colorsById, setColorsById] = useState<Record<string, PostBgPalette>>(startBg?.colors && startBg.palettes.length ? { [startBg.id]: startBg.colors } : {});
+  const [customOpen, setCustomOpen] = useState(!!startBg?.custom);
   const [well, setWell] = useState(0);
   const [photo, setPhoto] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const listRef = useRef<FlatList<PostBg | null>>(null);
-  const startIndex = Math.max(0, ORDER.findIndex((b) => (b?.id ?? null) === (current?.id ?? null)));
+  const startIndex = Math.max(0, ORDER.findIndex((b) => (b?.id ?? null) === (startBg?.id ?? null)));
   const photoSrc = photo ?? savedPhoto;
 
   useEffect(() => {
@@ -157,7 +176,10 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
     : base.kind === "photo"
       ? (photoSrc ? { ...base, image: photoSrc } : base)
       : withPostBgColors(base, colorsById[base.id] ?? null);
-  const shown = bg && (bg.kind !== "photo" || bg.image) ? bg : null;
+  const picked = bg && (bg.kind !== "photo" || bg.image) ? bg : null;
+  // On one post, None means "same as my profile": preview that.
+  const followsProfile = scope === "post" && !base;
+  const shown = followsProfile ? profileCurrent : picked;
   const paletteIndex = postBgPaletteIndex(bg);
   const setColors = (colors: PostBgPalette) => { if (base) setColorsById((m) => ({ ...m, [base.id]: colors })); };
   const setOne = (value: string) => {
@@ -170,10 +192,24 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
   const save = async () => {
     const colors = bg && bg.palettes.length ? bg.colors ?? null : null;
     const unchanged = !photo && (current?.id ?? null) === sel && (current?.colors ?? []).join() === (bg?.colors ?? []).join();
-    if (unchanged) { closePostBgPicker(); return; }
+    if (unchanged && !(scope === "all" && postId)) { closePostBgPicker(); return; }
     if (sel === POST_BG_PHOTO_ID && !photoSrc) return;
     setSaving(true);
     try {
+      if (scope === "post" && postId) {
+        const upload = sel === POST_BG_PHOTO_ID && photo
+          ? (postBgIsVideo(photo) ? createRNVideoFile(photo, "postbg") : createRNImageFile(photo, "postbg"))
+          : null;
+        // A picture already on the profile (or this post) is reused by its key.
+        const keptKey = sel === POST_BG_PHOTO_ID && !upload ? photoKeyOf(photoSrc) : null;
+        const stored = sel === POST_BG_PHOTO_ID
+          ? (upload ? POST_BG_PHOTO_ID : keptKey ? `${POST_BG_PHOTO_ID}||${keptKey}` : "")
+          : postBgStored(sel, colors);
+        const saved = await setPostBackground(postId, stored, upload ?? undefined);
+        setPostBgForPost(postId, saved ? postBgFromStored(saved) ?? picked : null);
+        closePostBgPicker();
+        return;
+      }
       // Merge into the account's latest customs, not a cached copy, so a
       // setting saved on another device is never written back over.
       let customsBase: Record<string, unknown> = user?.customs ?? {};
@@ -187,7 +223,13 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
         ? (postBgIsVideo(photo) ? createRNVideoFile(photo, "postbg") : createRNImageFile(photo, "postbg"))
         : null;
       await AuthService.updateProfile({ customs: JSON.stringify(merged), ...(upload ? { postBgImg: upload } : {}) });
-      if (address) setPostBgOverride(address, shown);
+      if (address) setPostBgOverride(address, picked);
+      // All posts: drop every post's own backdrop so they all follow this one.
+      // (Only when chosen from a held post: the header just sets the profile's.)
+      if (postId) {
+        await setPostBackground("all", "").catch((e) => logger.warn("Clearing post backgrounds failed", e));
+        if (address) clearAllPostBgs(address);
+      }
       patchUser({ customs: merged as Record<string, string> } as any).catch(() => {});
       closePostBgPicker();
     } catch (error) {
@@ -219,6 +261,16 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
           </Pressable>
         </View>
 
+        {postId && (
+          <View style={styles.chips} accessibilityRole="radiogroup" accessibilityLabel={t("postBg.scope")}>
+            {(["post", "all"] as const).map((s) => (
+              <Pressable key={s} onPress={() => setScope(s)} style={[styles.chip, scope === s && styles.chipOn]} accessibilityRole="radio" accessibilityState={{ checked: scope === s }}>
+                <Text style={styles.chipText}>{s === "post" ? t("postBg.thisPost") : t("postBg.allPosts")}</Text>
+              </Pressable>
+            ))}
+          </View>
+        )}
+
         <View style={styles.stage}>
           <View style={[styles.preview, !shown && styles.previewPlain]}>
             <PostBgLayer bg={shown} />
@@ -236,8 +288,8 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
         </View>
 
         <View style={styles.label} accessibilityLiveRegion="polite">
-          <Text style={styles.labelName}>{bg ? t(`postBg.names.${bg.id}`, bg.name) : t("postBg.none", "None")}</Text>
-          <Text style={styles.labelSub}>{bg ? kindLabel(bg) : t("postBg.plain", "Plain posts")}</Text>
+          <Text style={styles.labelName}>{bg ? t(`postBg.names.${bg.id}`, bg.name) : followsProfile ? t("postBg.sameAsProfile") : t("postBg.none", "None")}</Text>
+          <Text style={styles.labelSub}>{bg ? kindLabel(bg) : followsProfile ? t("postBg.sameAsProfileSub") : t("postBg.plain", "Plain posts")}</Text>
         </View>
 
         <View style={styles.colors}>
@@ -326,7 +378,7 @@ function PostBgPicker({ sampleText }: { sampleText?: string }) {
                 <View style={[styles.swatch, empty && styles.swatchNone, on && styles.swatchOn]}>
                   {item?.kind === "photo" && !photoSrc ? <Text style={styles.addPlus}>+</Text> : <PostBgLayer bg={look} active={on} />}
                 </View>
-                <Text numberOfLines={1} style={styles.tileText}>{item ? t(`postBg.names.${item.id}`, item.name) : t("postBg.none", "None")}</Text>
+                <Text numberOfLines={1} style={styles.tileText}>{item ? t(`postBg.names.${item.id}`, item.name) : scope === "post" ? t("postBg.sameAsProfile") : t("postBg.none", "None")}</Text>
               </Pressable>
             );
           }}

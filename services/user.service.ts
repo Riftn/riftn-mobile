@@ -1136,3 +1136,18 @@ export async function getUserReposts(params: GetUserRepostsParams): Promise<GetU
     throw e;
   }
 }
+
+/**
+ * One post's own backdrop (Token.postBg, "id|#a,#b,#c|postbgs/key"), or every
+ * post's with tokenId "all". An empty postBg puts the post back on the profile
+ * backdrop. `file` is a new picture, GIF or video for a "photo" backdrop.
+ */
+export async function setPostBackground(tokenId: string | number, postBg: string, file?: unknown): Promise<string> {
+  const form = new FormData();
+  form.append('tokenId', String(tokenId));
+  form.append('postBg', postBg);
+  if (file) form.append('postBgImg', file as any);
+  const body = await apiClient.post<any>('/post_background', form, { isAuthRequired: true });
+  if (body?.error || body?.result === false) throw new Error(body?.error_msg || body?.message || 'Post background failed');
+  return typeof body?.postBg === 'string' ? body.postBg : '';
+}
