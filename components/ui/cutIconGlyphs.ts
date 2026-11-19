@@ -3,7 +3,7 @@
 // Each cut icon's character in assets/fonts/cut-icons.ttf, which <Icon>
 // draws as one text glyph on Android instead of an SVG: `o` is the icon as
 // drawn with no fill, `f` with its fill set to the icon's own colour.
-export const CUT_ICON_SOURCES = "a14057b7e940";
+export const CUT_ICON_SOURCES = "947f6084d796";
 
 export const cutIconGlyphs: Partial<Record<string, { o: string; f?: string }>> = {
   ArrowDownToLine: { o: "\ue000", f: "\ue001" },
@@ -112,7 +112,7 @@ export const cutIconGlyphs: Partial<Record<string, { o: string; f?: string }>> =
   Scissors: { o: "\ue06b" },
   Scroll: { o: "\ue06c", f: "\ue06d" },
   Search: { o: "\ue06e" },
-  // Send: no glyph; the font still holds the old arrow, so the SVG plane draws instead.
+  Send: { o: "\ue06f" },
   Settings: { o: "\ue070" },
   Settings2: { o: "\ue070" },
   SettingsCog: { o: "\ue071", f: "\ue072" },
