@@ -1601,7 +1601,15 @@
     "menuLayoutFolders": "Carpetas",
     "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo",
     "publicChatInBar": "Chat público en la barra inferior",
-    "publicChatInBarDesc": "Entra al Chat público con un toque desde la barra inferior de la pantalla"
+    "publicChatInBarDesc": "Entra al Chat público con un toque desde la barra inferior de la pantalla",
+    "loginLook": {
+      "title": "Pantalla de inicio de sesión",
+      "desc": "Cómo se mueven el logo y el lema de Riftn en la pantalla de inicio de sesión en este dispositivo.",
+      "tube": "TV de tubo",
+      "vhs": "Cinta VHS",
+      "led": "Pantalla LED",
+      "holo": "Holograma"
+    }
   },
   "common": {
     "loadMore": "Cargar más",
