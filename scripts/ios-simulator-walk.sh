@@ -140,6 +140,9 @@ walk() {
   set_app_theme "$app_theme"
   launch
   sleep 25
+  xcrun simctl openurl "$UDID" "dehub://app" >/dev/null 2>&1 || true
+  confirm_open
+  sleep 15
   shot "$theme-00-home"
   local n
   for n in 1 2 3 4 5 6; do
