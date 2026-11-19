@@ -5849,6 +5849,7 @@
     "image": "أرسل صورة"
   },
   "liveChat": {
+    "jumpToMentions": "الانتقال إلى الردود والإشارات",
     "attach": "إضافة صورة أو صورة GIF أو رمز تعبيري",
     "attachTitle": "إضافة إلى رسالتك",
     "attachPhoto": "صورة",

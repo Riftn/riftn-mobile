@@ -5877,6 +5877,7 @@
     "image": "Sent an image"
   },
   "liveChat": {
+    "jumpToMentions": "Jump to replies and mentions",
     "attach": "Add a photo, GIF or emoji",
     "attachTitle": "Add to your message",
     "attachPhoto": "Photo",

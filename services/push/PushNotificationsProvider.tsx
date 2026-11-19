@@ -262,6 +262,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   const pushTokenRef = useRef<string | null>(null);
   // Store pending navigation to execute after auth completes
   const pendingNavigationRef = useRef<NotificationData | null>(null);
+  const wasSignedInRef = useRef(false);
   // Track if cold-start notification has been checked
   const coldStartCheckedRef = useRef(false);
   // Track the last processed notification identifier to avoid double-handling
@@ -638,13 +639,18 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     const expected = expectedScreen(sentTo);
     let retried = false;
     const landed = () => appNavigationRef()?.getCurrentRoute?.()?.name as string | undefined;
-    setTimeout(() => {
+    const putRight = () => {
       if (coldStart && expected && sentTo && landed() !== expected) {
         retried = true;
         try {
           (navigationLatestRef.current.navigate as any)(...sentTo);
         } catch {}
       }
+    };
+    setTimeout(() => {
+      putRight();
+      // A slow launch can still be swapping stacks at the first check.
+      setTimeout(putRight, 1500);
       setTimeout(() => {
         try {
           require('../../libs/errorReporter').reportError('PushTap', ['notification tap landed'], {
@@ -652,7 +658,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
             metadata: { type, expected: expected ?? null, landed: landed() ?? null, coldStart, retried },
           });
         } catch {}
-      }, 1500);
+      }, 3000);
     }, 1500);
   };
 
@@ -747,6 +753,8 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   }, []);
 
   useEffect(() => {
+    const wasSignedIn = wasSignedInRef.current;
+    wasSignedInRef.current = isFullySignedIn;
     // Handle pending navigation after auth completes (cold-start stored pending).
     // Checked before the soft-ask branch below: that branch returns early on
     // the very transition this replay exists for (first sign-in of the run),
@@ -755,8 +763,12 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       const pendingData = pendingNavigationRef.current;
       pendingNavigationRef.current = null;
       // Small delay to ensure navigation is ready
+      // A tap held until sign-in is a launch tap: the session was still being
+      // restored and the app stack is only now replacing the sign-in screens,
+      // which can put Home back over the chat. Treat it as a cold start so the
+      // landing is checked and the navigate repeated.
       setTimeout(() => {
-        handleNotificationNavigation(pendingData);
+        handleNotificationNavigation(pendingData, undefined, { coldStart: true });
       }, 500);
     }
 
@@ -782,7 +794,11 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       hasRegisteredRef.current = false;
       isRegisteringRef.current = false;
       pushTokenRef.current = null;
-      pendingNavigationRef.current = null;
+      // Only a real sign-out drops a held tap. While the session is still
+      // being restored this effect re-runs on every auth field that arrives
+      // (address, username check), and clearing here threw away the tap that
+      // opened the app, so it came up on Home instead of the chat.
+      if (wasSignedIn) pendingNavigationRef.current = null;
       softAskHandledRef.current = false;
       setSoftAskVisible(false);
     }

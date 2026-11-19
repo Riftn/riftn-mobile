@@ -51,7 +51,7 @@ import { openCroppedImagePicker } from "../libs/assets.util";
 import { runWithPermissions } from "../libs/permissions.util";
 import { toastError } from "../libs/toast";
 import type { LiveChatMessageData, LiveChatUser, SendMessagePayload } from "../services/livechat.service";
-import { UnreadMarker, UnreadJumpButton } from "../components/DM/UnreadJump";
+import { UnreadMarker, UnreadJumpButton, MentionJumpButton } from "../components/DM/UnreadJump";
 import type { UnreadAnchor } from "../libs/chatUnreadAnchor";
 import { anchorFromReadSpot } from "../libs/chatReadPosition";
 import { useChatReadPosition } from "../hooks/useChatReadPosition";
@@ -469,9 +469,64 @@ const LiveChatScreen: React.FC = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => { refreshUnreadJump(); }, [unreadAnchor, refreshUnreadJump]);
-  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
+  // ─── Replies and mentions since you last read ────────────────────────────
+  // Telegram's "@" bubble: a line that answers you or tags you, newer than
+  // your read spot, stays in the bubble until it has been on screen.
+  const [pingsSeen, setPingsSeen] = useState<ReadonlySet<string>>(() => new Set());
+  const pingsSince = useMemo(() => {
+    if (!readDecided) return null;
+    const at = readSpot.opening?.at ? Date.parse(readSpot.opening.at) : NaN;
+    return Number.isFinite(at) ? at : openedAtRef.current;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [readDecided]);
+  const pingsMe = useCallback((m: LiveChatMessageData) => {
+    if (!myAddress || m.isDeleted || m.messageType === "system") return false;
+    if ((m.senderAddress || m.sender?.address || "").toLowerCase() === myAddress) return false;
+    if ((m.replyToSenderAddress || "").toLowerCase() === myAddress) return true;
+    return !!m.mentions?.some((x) => (x.address || "").toLowerCase() === myAddress);
+  }, [myAddress]);
+  const pings = useMemo(() => {
+    if (pingsSince === null) return [] as LiveChatMessageData[];
+    return messages
+      .filter((m) => pingsMe(m) && !pingsSeen.has(m._id) && (Date.parse(m.createdAt) || 0) > pingsSince)
+      .sort((a, b) => (Date.parse(a.createdAt) || 0) - (Date.parse(b.createdAt) || 0));
+  }, [messages, pingsMe, pingsSeen, pingsSince]);
+  const pingsMeRef = useRef(pingsMe);
+  pingsMeRef.current = pingsMe;
+  const markPingsSeen = useCallback((ids: string[]) => {
+    if (!ids.length) return;
+    setPingsSeen((prev) => {
+      if (ids.every((id) => prev.has(id))) return prev;
+      const next = new Set(prev);
+      ids.forEach((id) => next.add(id));
+      return next;
+    });
+  }, []);
+  const jumpToPing = useCallback(async () => {
+    const target = pings[0];
+    if (!target) return;
+    markPingsSeen([target._id]);
+    isAtBottomRef.current = false;
+    setAtBottom(false);
+    if (indexOfMessage(target._id) >= 0) {
+      highlightAndScrollRef.current(target._id);
+      return;
+    }
+    const found = await jumpToMessage(target._id);
+    if (found) setPendingFocus(target._id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pings, markPingsSeen, jumpToMessage]);
+  const highlightAndScrollRef = useRef<(id: string) => void>(() => {});
+
+  const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null; item?: any }> }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    markPingsSeen(
+      viewableItems
+        .map((v) => v.item)
+        .filter((item) => item?.type === "message" && pingsMeRef.current(item.data))
+        .map((item) => item.data._id as string),
+    );
     refreshUnreadJump();
     reportReadSpotRef.current();
   }).current;
@@ -879,6 +934,8 @@ const LiveChatScreen: React.FC = () => {
     [listItems],
   );
 
+  highlightAndScrollRef.current = highlightAndScroll;
+
   useEffect(() => {
     if (!pendingFocus) return;
     if (!listItems.some((item) => item.type === "message" && item.data._id === pendingFocus)) return;
@@ -1225,6 +1282,12 @@ const LiveChatScreen: React.FC = () => {
             </Animated.View>
           );
         })()}
+
+        {pings.length > 0 && !searchOpen ? (
+          <Animated.View style={[{ position: "absolute", right: 16, bottom: composerHeight + 68 }, composerRideStyle]}>
+            <MentionJumpButton count={pings.length} onPress={() => { void jumpToPing(); }} />
+          </Animated.View>
+        ) : null}
 
         {searchOpen && searchView === "chat" ? (
           <View pointerEvents="box-none" style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: composerHeight, alignItems: "center", justifyContent: "center", zIndex: 5 }}>
