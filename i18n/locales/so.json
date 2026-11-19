@@ -3859,7 +3859,9 @@
     "notificationShowCountDesc": "Arag inta ogeysiis ee aan la akhrin halkii iftiinka oo keliya",
     "messagesShowCount": "Muuji tirada Fariimaha",
     "messagesShowCountDesc": "Arag inta fariimood ee aan la akhrin halkii iftiinka oo keliya",
-    "pushNotRegisteredDescIos": "Ogeysiisyadu kuma soo gaari karaan marka app-ku xiran yahay: iPhone-kan weligii iskama diiwaangelin push. Hubi in ogeysiisyada loo oggol yahay Riftn ee Dejinta, kadib mar kale fur app-ka."
+    "pushNotRegisteredDescIos": "Ogeysiisyadu kuma soo gaari karaan marka app-ku xiran yahay: iPhone-kan weligii iskama diiwaangelin push. Hubi in ogeysiisyada loo oggol yahay Riftn ee Dejinta, kadib mar kale fur app-ka.",
+    "publicChatInBar": "Sheekaysiga Guud ee barta hoose",
+    "publicChatInBarDesc": "Hal taabasho ku gal Sheekaysiga Guud adigoo ka imanaya barta hoose ee shaashadda"
   },
   "common": {
     "remove": "Ka saar",
@@ -4780,7 +4782,13 @@
     "addedToLeaderboard": "Waa lagu daray! Xisaabta: {{balance}} tokens",
     "balanceTooLow": "Xisaabta oo aad u hooseysa ({{balance}} tokens)",
     "tokenAmount": "{{amount}} calaamado",
-    "provisional": "ku-meel-gaar"
+    "provisional": "ku-meel-gaar",
+    "ogChallenge": "Tartanka OG",
+    "ogHolders_one": "{{count}} haystaha OG",
+    "ogHolders_other": "{{count}} haystayaal OG",
+    "ogChallengeTitle": "Soo celi haystayaasha OG",
+    "ogChallengeBody": "Casuun dadka weli haysta DHB. Markay ku soo biiraan xiriiriyaha martiqaadkaaga oo ay DHB-gooda ku hayaan walletkooda Riftn, halkan adiga ayay kuu tirsanayaan.",
+    "ogChallengeCta": "Hel xiriiriyaha martiqaadkaaga"
   },
   "explorePage": {
     "searchPlaceholder": "Raadi dadka, qoraallada, ama nuxurka...",

@@ -3648,7 +3648,9 @@
     "coverUpdateFailed": "कवर अपडेट नी होलक",
     "updateFailed": "अपडेट नी होलक",
     "usernameAvailable": "यूजरनेम मिलत हे",
-    "languageLoadFailed": "भासा नी बदललक। फिर कोसिस करा।"
+    "languageLoadFailed": "भासा नी बदललक। फिर कोसिस करा।",
+    "publicChatInBar": "नीचे बार में पब्लिक चैट",
+    "publicChatInBarDesc": "स्क्रीन कर नीचे वाला बार से एके टैप में पब्लिक चैट"
   },
   "common": {
     "mute": "आवाज बंद करा",
@@ -4473,7 +4475,13 @@
     "directReferrals_other": "{{count}} सीधा",
     "secondaryReferrals_one": "{{count}} दोसर स्तर",
     "secondaryReferrals_other": "{{count}} दोसर स्तर",
-    "provisional": "अस्थायी"
+    "provisional": "अस्थायी",
+    "ogChallenge": "OG चैलेंज",
+    "ogHolders_one": "{{count}} OG होल्डर",
+    "ogHolders_other": "{{count}} OG होल्डर",
+    "ogChallengeTitle": "OG होल्डर मन के वापस लावा",
+    "ogChallengeBody": "ऊ लोग मन के न्योता देवा जेकर पास अभी भी DHB हय। जब ऊ मन तोहर इनवाइट लिंक से जुड़बयँ आउर आपन DHB के आपन Riftn वॉलेट में रखबयँ, तब ऊ मन इहाँ तोहर खातिर गिनाबयँ।",
+    "ogChallengeCta": "आपन इनवाइट लिंक पावा"
   },
   "explorePage": {
     "ppv": "PPV",
