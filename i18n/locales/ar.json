@@ -4480,6 +4480,10 @@
     "tokenAmount": "{{amount}} رموز"
   },
   "communities": {
+    "muteChat": "كتم",
+    "mutedChat": "مكتوم",
+    "muteChatHint": "إيقاف تنبيهات دردشة هذا المجتمع. يمكنك قراءتها دائمًا",
+    "unmuteChatHint": "تلقي تنبيهات دردشة هذا المجتمع مجددًا",
     "newChat": {
       "description": "عن ماذا يتحدث؟ (اختياري)",
       "groupCreated": "تم إنشاء المجموعة",

@@ -49,23 +49,23 @@ describe('text and image post gestures', () => {
     expect(s.open).not.toHaveBeenCalled();
   });
 
-  it('opens immediately outside the center without waiting for another tap', () => {
+  it('likes on a double tap near the edge too, not only in the middle', () => {
+    const s = setup();
+    const edgeTap = () => { fireEvent(s.surface, 'touchStart', s.event(12, 190)); fireEvent.press(s.surface, s.event(12, 190)); };
+    edgeTap();
+    act(() => jest.advanceTimersByTime(120));
+    edgeTap();
+    act(() => jest.advanceTimersByTime(360));
+    expect(s.react).toHaveBeenCalledWith('like');
+    expect(s.open).not.toHaveBeenCalled();
+  });
+
+  it('opens after one tap near the edge once no second tap comes', () => {
     const s = setup();
     fireEvent(s.surface, 'touchStart', s.event(20));
     fireEvent.press(s.surface, s.event(20));
-    expect(s.open).toHaveBeenCalledTimes(1);
-    expect(s.react).not.toHaveBeenCalled();
-    act(() => jest.advanceTimersByTime(1000));
-    expect(s.open).toHaveBeenCalledTimes(1);
-    expect(s.react).not.toHaveBeenCalled();
-  });
-
-  it('cancels a pending central gesture when the next tap opens outside it', () => {
-    const s = setup(); s.tap();
-    fireEvent(s.surface, 'touchStart', s.event(20));
-    fireEvent.press(s.surface, s.event(20));
-    expect(s.open).toHaveBeenCalledTimes(1);
-    act(() => jest.advanceTimersByTime(1000));
+    expect(s.open).not.toHaveBeenCalled();
+    act(() => jest.advanceTimersByTime(360));
     expect(s.open).toHaveBeenCalledTimes(1);
     expect(s.react).not.toHaveBeenCalled();
   });

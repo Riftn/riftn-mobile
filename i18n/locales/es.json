@@ -4456,6 +4456,10 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "muteChat": "Silenciar",
+    "mutedChat": "Silenciado",
+    "muteChatHint": "Deja de recibir avisos del chat de esta comunidad. Podrás seguir leyéndolo",
+    "unmuteChatHint": "Vuelve a recibir avisos del chat de esta comunidad",
     "newChat": {
       "description": "¿De qué trata? (opcional)",
       "groupCreated": "Grupo creado",

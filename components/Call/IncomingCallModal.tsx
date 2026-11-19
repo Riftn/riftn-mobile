@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useCall } from "../../context/CallContext";
 import { CallStage, CallIdentity, CallPill, CallFoot, CallRow } from "./CallChrome";
 import { usePeerIdentity } from "./usePeerIdentity";
+import { startCallRingtone, stopCallRingtone } from "../../libs/call-ringtone";
 
 const IncomingCallModal: React.FC = () => {
   const { isIncoming, currentCall, acceptCall, rejectCall, peerAddress } = useCall();
@@ -11,6 +12,14 @@ const IncomingCallModal: React.FC = () => {
 
   // Back must not decline the call; Accept and Decline are the only exits.
   const ignoreBack = () => {};
+
+  // Ring and buzz for as long as the call is waiting. Accept, Decline, the
+  // caller hanging up or the call timing out all close this screen, which stops it.
+  React.useEffect(() => {
+    if (!isIncoming) return;
+    startCallRingtone();
+    return stopCallRingtone;
+  }, [isIncoming]);
 
   if (!isIncoming) return null;
 
