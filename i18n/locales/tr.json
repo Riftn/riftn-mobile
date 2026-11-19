@@ -1,4 +1,12 @@
 {
+  "chatReactions": {
+    "many_one": "Mesajlarına {{count}} tepki",
+    "many_other": "Mesajlarına {{count}} tepki",
+    "manySame_one": "Mesajlarında {{emoji}} × {{count}}",
+    "manySame_other": "Mesajlarında {{emoji}} × {{count}}",
+    "one": "Mesajına {{emoji}} tepkisi verdi",
+    "oneNamed": "{{name}} mesajına {{emoji}} tepkisi verdi"
+  },
   "messagesTabs": {
     "all": "Tümü",
     "unread": "Okunmamış",
