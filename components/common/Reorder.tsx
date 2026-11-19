@@ -323,6 +323,10 @@ export function ReorderItem({ id, ctx, children, style }: ItemProps) {
   const gesture = useMemo(() => Gesture.Pan()
     .enabled(!disabled)
     .activateAfterLongPress(HOLD_MS)
+    // Only the hold lifts an item. Without a distance of its own, iOS let the
+    // pan start on the first few points of any drag, so a sideways swipe
+    // across the menu tiles picked a tile up instead of turning the page.
+    .minDistance(10000)
     .onBegin(() => {
       "worklet";
       if (active.value) return;

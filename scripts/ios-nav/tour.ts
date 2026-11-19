@@ -1456,7 +1456,7 @@ async function runMenu(): Promise<void> {
   const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
   prefs.setAppPref("menuLayout", "tabs");
   await AsyncStorage.setItem(SWIPE_KEY, "find:open:Open menu");
-  await sleep(7000);
+  await sleep(14000);
   await shot("menu-1-tabs-main");
   await sleep(4000);
   // A real finger dragged sideways across the tiles (the script pictures it
