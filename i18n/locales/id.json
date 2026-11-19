@@ -3788,7 +3788,9 @@
     "menuLayoutSections": "Bagian",
     "menuLayoutSectionsDesc": "Semua halaman sekaligus, di bawah judul",
     "menuLayoutFolders": "Folder",
-    "menuLayoutFoldersDesc": "Halaman utamamu, lalu satu folder per grup"
+    "menuLayoutFoldersDesc": "Halaman utamamu, lalu satu folder per grup",
+    "publicChatInBar": "Obrolan Publik di bilah bawah",
+    "publicChatInBarDesc": "Buka Obrolan Publik dengan sekali ketuk dari bilah di bawah layar"
   },
   "common": {
     "refresh": "Segarkan",

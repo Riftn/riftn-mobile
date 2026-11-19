@@ -3875,7 +3875,9 @@
     "menuLayoutSections": "सेक्शन",
     "menuLayoutSectionsDesc": "सभी पेज एक साथ, शीर्षकों के नीचे",
     "menuLayoutFolders": "फ़ोल्डर",
-    "menuLayoutFoldersDesc": "आपके मुख्य पेज, फिर हर समूह के लिए एक फ़ोल्डर"
+    "menuLayoutFoldersDesc": "आपके मुख्य पेज, फिर हर समूह के लिए एक फ़ोल्डर",
+    "publicChatInBar": "नीचे की पट्टी में पब्लिक चैट",
+    "publicChatInBarDesc": "स्क्रीन के नीचे की पट्टी से एक टैप में पब्लिक चैट खोलें"
   },
   "common": {
     "refresh": "रिफ्रेश करें",

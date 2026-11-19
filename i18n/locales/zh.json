@@ -3745,7 +3745,9 @@
     "menuLayoutSections": "分区",
     "menuLayoutSectionsDesc": "所有页面一次显示，按标题分组",
     "menuLayoutFolders": "文件夹",
-    "menuLayoutFoldersDesc": "主要页面，然后每组一个文件夹"
+    "menuLayoutFoldersDesc": "主要页面，然后每组一个文件夹",
+    "publicChatInBar": "底部栏中的公共聊天",
+    "publicChatInBarDesc": "在屏幕底部栏一键进入公共聊天"
   },
   "common": {
     "refresh": "刷新",

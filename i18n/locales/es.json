@@ -1599,7 +1599,9 @@
     "menuLayoutSections": "Secciones",
     "menuLayoutSectionsDesc": "Todas las páginas a la vez, bajo encabezados",
     "menuLayoutFolders": "Carpetas",
-    "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo"
+    "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo",
+    "publicChatInBar": "Chat público en la barra inferior",
+    "publicChatInBarDesc": "Entra al Chat público con un toque desde la barra inferior de la pantalla"
   },
   "common": {
     "loadMore": "Cargar más",

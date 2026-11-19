@@ -3745,7 +3745,9 @@
     "menuLayoutSections": "セクション",
     "menuLayoutSectionsDesc": "すべてのページを見出しの下に表示",
     "menuLayoutFolders": "フォルダ",
-    "menuLayoutFoldersDesc": "メインのページと、グループごとのフォルダ"
+    "menuLayoutFoldersDesc": "メインのページと、グループごとのフォルダ",
+    "publicChatInBar": "下のバーに公開チャット",
+    "publicChatInBarDesc": "画面下のバーからワンタップで公開チャットへ"
   },
   "common": {
     "remove": "削除",

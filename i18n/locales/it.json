@@ -3789,7 +3789,9 @@
     "menuLayoutSections": "Sezioni",
     "menuLayoutSectionsDesc": "Tutte le pagine insieme, sotto intestazioni",
     "menuLayoutFolders": "Cartelle",
-    "menuLayoutFoldersDesc": "Le tue pagine principali, poi una cartella per gruppo"
+    "menuLayoutFoldersDesc": "Le tue pagine principali, poi una cartella per gruppo",
+    "publicChatInBar": "Chat pubblica nella barra in basso",
+    "publicChatInBarDesc": "Entra nella Chat pubblica con un tocco dalla barra in fondo allo schermo"
   },
   "common": {
     "refresh": "Aggiorna",

@@ -18,7 +18,8 @@ export const BALANCE_OVERRIDES: Record<string, number> = {
   maldoteth: 273298163.18321,
 };
 
-export type LeaderboardSort = LeaderboardSortMode | 'affiliates';
+export type LeaderboardSort = LeaderboardSortMode | 'affiliates' | 'ogChallenge';
+const isReferralBoard = (sort: LeaderboardSort) => sort === 'affiliates' || sort === 'ogChallenge';
 
 export interface RankableEntry {
   account: string;
@@ -59,7 +60,7 @@ export function getEntryValue(
   sort: LeaderboardSort,
   period: LeaderboardPeriod,
 ): number {
-  if (sort === 'affiliates') return entry.directReferrals ?? 0;
+  if (isReferralBoard(sort)) return entry.directReferrals ?? 0;
   if (period !== 'all' && typeof entry.delta === 'number') return entry.delta;
   switch (sort) {
     case 'sentTips':
@@ -89,7 +90,7 @@ export function applyLeaderboardRules<T extends RankableEntry>(
   entries: readonly T[],
   { sort, period }: RuleContext,
 ): T[] {
-  const isAffiliates = sort === 'affiliates';
+  const isAffiliates = isReferralBoard(sort);
   let list = entries.filter((entry) => {
     const name = entry.username?.toLowerCase();
     if (name && BLOCKED_LEADERBOARD_USERS.includes(name)) return false;

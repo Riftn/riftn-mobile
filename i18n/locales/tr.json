@@ -1599,7 +1599,9 @@
     "menuLayoutSections": "Bölümler",
     "menuLayoutSectionsDesc": "Tüm sayfalar bir arada, başlıklar altında",
     "menuLayoutFolders": "Klasörler",
-    "menuLayoutFoldersDesc": "Ana sayfaların, ardından her grup için bir klasör"
+    "menuLayoutFoldersDesc": "Ana sayfaların, ardından her grup için bir klasör",
+    "publicChatInBar": "Alt çubukta Genel Sohbet",
+    "publicChatInBarDesc": "Ekranın altındaki çubuktan tek dokunuşla Genel Sohbet'e gir"
   },
   "common": {
     "loadMore": "Daha fazla yükle",
