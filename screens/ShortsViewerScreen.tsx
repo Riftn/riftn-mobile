@@ -105,7 +105,7 @@ import { useScrubGesture } from "../hooks/useScrubGesture";
 import { useDataSaver } from "../hooks/useDataSaver";
 import { isLowEndDevice } from "../libs/deviceTier";
 import { feedVolumeResponder } from "../libs/feed-volume-responder";
-import { getVolume, setVolume as persistVolume, getIsLooping, useMediaLooping, getPlaybackRateFor, setPlaybackRate as persistPlaybackRate } from "../libs/video-preferences";
+import { getVolume, setVolume as persistVolume, getIsLooping, setIsLooping as persistLooping, useMediaLooping, getPlaybackRateFor, setPlaybackRate as persistPlaybackRate } from "../libs/video-preferences";
 import { getCachedMuted, setMutedState, useMediaMuted } from "../libs/videoMutedState";
 import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "expo-image";
@@ -524,9 +524,11 @@ interface ShortItemProps {
   optionsMenuOpen?: boolean;
   /** Profile reel: the creator's post background, behind text posts. */
   reelBgId?: string | null;
+  /** The playing short reached its end with loop off: the viewer moves on. */
+  onPlayToEnd?: () => void;
 }
 
-const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId }) => {
+const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId, onPlayToEnd }) => {
   const { t: _copy } = _useCopy();
   const feedPlaybackAllowed = useFeedPlaybackAllowed();
   const surfaceActive = useFeedSurfaceActive();
@@ -627,6 +629,12 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
 
   const isLooping = useMediaLooping();
   useEffect(() => { try { player.loop = !!photoMedia || isLooping; } catch {} }, [player, photoMedia, isLooping]);
+  // Loop off (the default): the short that ends moves the viewer on to the next one.
+  useEffect(() => {
+    if (!player || !isActive || photoMedia || !onPlayToEnd) return;
+    const sub = player.addListener("playToEnd", () => { if (!getIsLooping()) onPlayToEnd(); });
+    return () => sub.remove();
+  }, [player, isActive, photoMedia, onPlayToEnd]);
   // Watch time for the creator's stats. A photo short's soundtrack is not a watch.
   useEffect(() => trackPlayerWatchTime(player, noVideo ? null : tokenId), [player, noVideo, tokenId]);
   const itemThumbnail = item.postType === 'short' ? getShortsThumbnailUrl(tokenId) : resolveThumbnail(item);
@@ -3099,6 +3107,8 @@ const ShortsViewerScreen = () => {
   const [chromeRevealTick, setChromeRevealTick] = useState(0);
   const revealChrome = useCallback(() => setChromeRevealTick((n) => n + 1), []);
   const [fullscreenTick, setFullscreenTick] = useState(0);
+  // For the loop switch in the options menu.
+  const isLoopingNow = useMediaLooping();
   const [activeWide, setActiveWide] = useState(false);
   const [activeClean, setActiveClean] = useState(false);
   const handleWideChange = useCallback((wide: boolean, clean: boolean) => {
@@ -3631,6 +3641,19 @@ const ShortsViewerScreen = () => {
     }, PAGER_RESNAP_QUIET_MS);
   }, [containerHeight, items.length, settlePaging]);
   resnapRef.current = resnapPager;
+
+  // A short ended with loop off: page on to the next one, as a swipe would.
+  // Not while comments or the options menu are open over it.
+  const showOptionsMenuRef = useRef(showOptionsMenu);
+  showOptionsMenuRef.current = showOptionsMenu;
+  const handlePlayToEnd = useCallback(() => {
+    if (commentsVisibleRef.current || showOptionsMenuRef.current || pagerTouchedRef.current || getIsLooping()) return;
+    const next = activeIndexRef.current + 1;
+    const height = containerHeight;
+    if (!(height > 0) || next >= itemsRef.current.length) return;
+    listRef.current?.scrollToOffset({ offset: next * height, animated: true });
+    settlePaging(next * height);
+  }, [containerHeight, settlePaging]);
   useEffect(() => () => { if (resnapTimer.current) clearTimeout(resnapTimer.current); }, []);
   // A hold or the comments sheet turned scrolling off; the pager may be mid-way.
   useEffect(() => {
@@ -3693,10 +3716,11 @@ const ShortsViewerScreen = () => {
         onCommentsVisibilityChange={setCommentsVisible}
         optionsMenuOpen={index === activeIndex && showOptionsMenu}
         reelBgId={feedParams.reelBgId}
+        onPlayToEnd={index === activeIndex ? handlePlayToEnd : undefined}
       />
       );
     },
-    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek],
+    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek, handlePlayToEnd],
   );
 
   const keyExtractor = useCallback(
@@ -3911,6 +3935,16 @@ const ShortsViewerScreen = () => {
           isOwner={isOwnerOfActive}
           canReplaceVideo={isOwnerOfActive}
           isHidden={activeIsHidden}
+          player={!activeItem.imageUrls?.length && activeItem.postType !== "feed-images" ? {
+            looping: isLoopingNow,
+            onToggleLoop: () => persistLooping(!getIsLooping()),
+            speedLabel: formatRate(playbackRate),
+            onCycleSpeed: handleCycleSpeed,
+            muted: isMuted,
+            onToggleMute: () => setMutedState(!getCachedMuted()),
+            onPictureInPicture: () => { activeVideoRef.current?.startPictureInPicture().catch(() => {}); },
+            onFullscreen: activeWide ? () => setFullscreenTick((n) => n + 1) : undefined,
+          } : undefined}
           creatorDisplayName={activeDisplayName}
           creatorIdentifier={activeMinter || activeUsername || ""}
           isFollowing={activeIsFollowing}

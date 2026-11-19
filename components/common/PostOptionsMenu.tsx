@@ -22,6 +22,7 @@ import { shareWithRef } from "../../libs/shareRef";
 import { reportPostEvent } from "../../services/post-stats.service";
 import { useTranslation } from "react-i18next";
 import Icon, { type IconName } from "../ui/Icon";
+import { useAppTheme } from "../../context/ThemeContext";
 import AssistantNavIcon from "../ui/AssistantNavIcon";
 import CastToTvRow from "./CastToTvRow";
 import GlassModal from "../ui/GlassModal";
@@ -208,6 +209,22 @@ export interface PostOptionsMenuProps {
   isAudio?: boolean;
   /** A playable (non-live) video: offers the skippable-sections sheet. */
   canMarkSegments?: boolean;
+  /**
+   * Shorts: the player's own buttons at the top of the menu (loop, speed,
+   * picture in picture, full screen, sound), as a video in the feed has them.
+   */
+  player?: PlayerRows;
+}
+
+export interface PlayerRows {
+  looping: boolean;
+  onToggleLoop: () => void;
+  speedLabel: string;
+  onCycleSpeed: () => void;
+  muted: boolean;
+  onToggleMute: () => void;
+  onPictureInPicture?: () => void;
+  onFullscreen?: () => void;
 }
 
 interface OptionRowProps {
@@ -246,6 +263,44 @@ const OptionRow: React.FC<OptionRowProps> = memo(
     </TouchableOpacity>
   )
 );
+
+/** Loop, speed, picture in picture, full screen and sound. The toggles keep the menu open. */
+const PlayerRowsBlock: React.FC<{ player: PlayerRows; onClose: () => void }> = memo(({ player, onClose }) => {
+  const { t } = useTranslation();
+  const { isLight } = useAppTheme();
+  // hsla so the light-theme pass leaves the switch as drawn here.
+  const track = player.looping ? (isLight ? "hsla(240,6%,10%,1)" : "hsla(0,0%,100%,1)") : (isLight ? "hsla(0,0%,0%,0.15)" : "hsla(0,0%,100%,0.2)");
+  const knob = player.looping ? (isLight ? "hsla(0,0%,100%,1)" : "hsla(0,0%,0%,1)") : "hsla(0,0%,100%,1)";
+  return (
+    <View className="border-b border-white/10 pb-1 mb-1">
+      <TouchableOpacity
+        onPress={player.onToggleLoop}
+        activeOpacity={0.7}
+        accessibilityRole="switch"
+        accessibilityState={{ checked: player.looping }}
+        className="mx-3 flex-row items-center rounded-xl px-3 py-3.5"
+      >
+        <View className="w-5 h-5 items-center justify-center mr-3"><Icon name="Repeat" size={20} color="#E5E7EB" /></View>
+        <Text style={{ color: "#E5E7EB", flex: 1 }} className="text-[15px] font-medium">{t("player.toggleLoop")}</Text>
+        <View style={{ width: 36, height: 20, borderRadius: 10, backgroundColor: track, justifyContent: "center" }}>
+          <View style={{ width: 16, height: 16, borderRadius: 8, marginLeft: player.looping ? 18 : 2, backgroundColor: knob }} />
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={player.onCycleSpeed} activeOpacity={0.7} className="mx-3 flex-row items-center rounded-xl px-3 py-3.5">
+        <View className="w-5 h-5 items-center justify-center mr-3"><Icon name="Gauge" size={20} color="#E5E7EB" /></View>
+        <Text style={{ color: "#E5E7EB", flex: 1 }} className="text-[15px] font-medium">{t("player.playbackSpeed")}</Text>
+        <Text style={{ color: "#E5E7EB", opacity: 0.6, fontVariant: ["tabular-nums"] }} className="text-sm">{player.speedLabel}</Text>
+      </TouchableOpacity>
+      {player.onPictureInPicture ? (
+        <OptionRow icon="PictureInPicture2" label={t("player.pictureInPicture")} onPress={() => { onClose(); player.onPictureInPicture?.(); }} />
+      ) : null}
+      {player.onFullscreen ? (
+        <OptionRow icon="Maximize2" label={t("player.enterFullscreen")} onPress={() => { onClose(); player.onFullscreen?.(); }} />
+      ) : null}
+      <OptionRow icon={player.muted ? "VolumeX" : "Volume2"} label={player.muted ? t("common.unmute") : t("common.mute")} onPress={player.onToggleMute} />
+    </View>
+  );
+});
 
 const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   visible,
@@ -298,7 +353,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   onInfoPress,
   onAskAi,
   linkText,
-  hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,}) => {
+  hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,}) => {
   usePerfProbe("PostOptionsMenu");
   const user = useUser();
   const { requireAuth } = useAuthActions();
@@ -636,6 +691,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
 
         {/* Options list */}
         <View className="pb-6">
+          {player ? <PlayerRowsBlock player={player} onClose={onClose} /> : null}
           {/* Bookmark / pin / post info — first, as in the web drawer. A host
               that also shows these on its action bar still passes them: the
               menu is where people look for an action by name. */}

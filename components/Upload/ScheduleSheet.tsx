@@ -14,6 +14,7 @@ import { getFansOnline } from "../../services/scheduled.service";
 import { UserContext } from "../../context/AuthContext";
 import { KitButton, useKitColors } from "../page/PageKit";
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from "../../hooks/useSearchFieldMaterial";
+import TimeWheel from "./TimeWheel";
 
 export type ScheduleKind = "post" | "live" | "stage" | "message";
 
@@ -31,8 +32,6 @@ interface ScheduleSheetProps {
 }
 
 const STEP = 15;
-const HOURS = Array.from({ length: 24 }, (_, h) => h);
-const CLOCK_CHIP = 52;
 const DAYS_SHOWN = 14;
 const DAY_WIDTH = 48;
 
@@ -64,7 +63,6 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
   const [minutes, setMinutes] = useState(19 * 60 + 30);
   const [typed, setTyped] = useState("");
   const stripRef = useRef<ScrollView>(null);
-  const hourStripRef = useRef<ScrollView>(null);
   const [showFans, setShowFans] = useState(false);
   const user = useContext(UserContext)?.user as { walletAddress?: string; address?: string } | null | undefined;
   const wallet = (user?.walletAddress || user?.address || "").toLowerCase();
@@ -149,18 +147,11 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
     setMinutes(at.getHours() * 60 + at.getMinutes());
     setTyped("");
   };
-  const step = (delta: number) => choose(atMinutes(day, minutes + delta));
-  const stepBy = kind === "message" ? 5 : STEP;
-  // Fifteen-minute marks fit one row on a phone; finer times stay on the steppers.
-  const minuteStep = 15;
-  const hourLabel = (h: number) => new Date(2024, 0, 1, h).toLocaleTimeString(locale, { hour: "numeric" });
-  // Keep the picked hour in view as the time moves.
-  const pickedHour = Math.floor(minutes / 60);
-  useEffect(() => {
-    if (!visible) return;
-    const x = Math.max(0, pickedHour * (CLOCK_CHIP + 6) - 2 * (CLOCK_CHIP + 6));
-    requestAnimationFrame(() => hourStripRef.current?.scrollTo({ x, animated: true }));
-  }, [visible, pickedHour]);
+  // The wheels move the time within the picked day.
+  const pickClock = (total: number) => {
+    setMinutes(total);
+    setTyped("");
+  };
 
   const handleConfirm = () => {
     if (!validTime) return;
@@ -324,57 +315,8 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
           })}
         </ScrollView>
 
-        <View style={styles.timeRow}>
-          <Pressable onPress={() => step(-stepBy)} accessibilityRole="button" accessibilityLabel={kind === "message" ? t("whenSheet.earlierShort", { defaultValue: "Earlier" }) : t("whenSheet.earlier", { defaultValue: "15 minutes earlier" })} hitSlop={6}>
-            <View style={[styles.stepper, { backgroundColor: c.chipBg, borderColor: c.hairline }]}><Icon name="Minus" size={16} color="#FFFFFF" /></View>
-          </Pressable>
-          <Text style={styles.time}>{timeLabel(selectedAt)}</Text>
-          <Pressable onPress={() => step(stepBy)} accessibilityRole="button" accessibilityLabel={kind === "message" ? t("whenSheet.laterShort", { defaultValue: "Later" }) : t("whenSheet.later", { defaultValue: "15 minutes later" })} hitSlop={6}>
-            <View style={[styles.stepper, { backgroundColor: c.chipBg, borderColor: c.hairline }]}><Icon name="Plus" size={16} color="#FFFFFF" /></View>
-          </Pressable>
-        </View>
-
-        {/* One tap for the hour, one for the minutes: stepping 5 minutes at a
-            time to get across the day was too slow. */}
-        <ScrollView ref={hourStripRef} horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.clockStrip}>
-          {HOURS.map(h => {
-            const at = atMinutes(day, h * 60 + (minutes % 60));
-            const active = Math.floor(minutes / 60) === h;
-            return (
-              <Pressable
-                key={h}
-                onPress={() => choose(at)}
-                accessibilityRole="button"
-                accessibilityState={{ selected: active }}
-                accessibilityLabel={timeLabel(at)}
-              >
-                {/* The fill sits on an inner View, like the picks above, so the
-                    control pass can't repaint the picked chip back to plain. */}
-                <View style={[styles.clockChip, { backgroundColor: active ? c.activeBg : c.chipBg, borderColor: c.hairline, borderWidth: c.isMinimal && !active ? 1 : 0 }]}>
-                  <Text style={[styles.clockChipText, ink(active)]}>{hourLabel(h)}</Text>
-                </View>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
-        <View style={styles.minuteRow}>
-          {Array.from({ length: 60 / minuteStep }, (_, i) => i * minuteStep).map(m => {
-            const active = minutes % 60 === m;
-            return (
-              <Pressable
-                key={m}
-                onPress={() => choose(atMinutes(day, Math.floor(minutes / 60) * 60 + m))}
-                accessibilityRole="button"
-                accessibilityState={{ selected: active }}
-                style={{ flex: 1 }}
-              >
-                <View style={[styles.minuteChip, { backgroundColor: active ? c.activeBg : c.chipBg, borderColor: c.hairline, borderWidth: c.isMinimal && !active ? 1 : 0 }]}>
-                  <Text style={[styles.clockChipText, ink(active)]}>{`:${String(m).padStart(2, "0")}`}</Text>
-                </View>
-              </Pressable>
-            );
-          })}
-        </View>
+        {/* Spin the hour and the minutes, like the iPhone clock. */}
+        <TimeWheel minutes={minutes} onChange={pickClock} locale={locale ?? undefined} />
 
         {!validTime ? (
           <Text accessibilityRole="alert" style={[styles.note, { color: "#FBBF24" }]}>
@@ -436,14 +378,6 @@ const styles = StyleSheet.create({
   dayNum: { color: "#FFFFFF", fontSize: 18, fontWeight: "600" },
   dayNumActive: { fontWeight: "800" },
   beam: { position: "absolute", bottom: 2, left: "30%", right: "30%", height: 3, borderRadius: 3, backgroundColor: "#fff", shadowColor: "#fff", shadowOpacity: 0.9, shadowRadius: 6, shadowOffset: { width: 0, height: 0 } },
-  timeRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 20 },
-  clockStrip: { gap: 6, paddingVertical: 2 },
-  clockChip: { width: CLOCK_CHIP, height: 36, borderRadius: 10, alignItems: "center", justifyContent: "center" },
-  minuteRow: { flexDirection: "row", gap: 6, marginTop: -6 },
-  minuteChip: { height: 36, borderRadius: 10, alignItems: "center", justifyContent: "center" },
-  clockChipText: { fontSize: 13, fontWeight: "600", fontVariant: ["tabular-nums"] },
-  stepper: { width: 40, height: 40, borderRadius: 20, borderWidth: 1, alignItems: "center", justifyContent: "center" },
-  time: { color: "#FFFFFF", fontSize: 28, fontWeight: "800", minWidth: 124, textAlign: "center", fontVariant: ["tabular-nums"] },
   note: { color: "rgba(255,255,255,0.6)", fontSize: 12, textAlign: "center", marginTop: -6 },
   actions: { gap: 8, marginTop: 4 },
   fansToggle: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 4 },
