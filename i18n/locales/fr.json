@@ -1595,6 +1595,7 @@
     "menuLayoutFoldersDesc": "Vos pages principales, puis un dossier par groupe"
   },
   "common": {
+    "loadMore": "Charger plus",
     "refresh": "Actualiser",
     "mute": "Couper le son",
     "unmute": "Activer le son",
@@ -10772,6 +10773,8 @@
     }
   },
   "creator": {
+    "madeOnDehub": "Créé sur Riftn",
+    "aiGenerationAlt": "Génération IA",
     "layerNewAttempt": "Examiner une nouvelle tentative",
     "layerPngRequired": "Choisissez une image PNG enregistrée, de 12 Mio et quatre mégapixels maximum.",
     "layerTitle": "Séparer les calques de l’image",
@@ -11520,7 +11523,19 @@
     "referenceComposeName": "Combiner des images de référence",
     "referenceComposeHint": "Faire apparaître des personnages, objets et décors issus de plusieurs images dans une seule composition.",
     "presetAdHeadlineName": "Headline Ad",
-    "presetAnimeStillName": "Anime Still"
+    "presetAnimeStillName": "Anime Still",
+    "gallery": {
+      "browse": "Parcourir les créations",
+      "fullscreen": "Afficher en plein écran",
+      "missing": "Cette création n’est pas disponible.",
+      "send": "Envoyer",
+      "notifications": {
+        "generation_like": "{{name}} a réagi à votre création",
+        "generation_comment_like": "{{name}} a réagi à votre commentaire",
+        "generation_reply": "{{name}} a répondu à votre commentaire",
+        "generation_comment": "{{name}} a commenté votre création"
+      }
+    }
   },
   "fractions": {
     "title": "Fractions",

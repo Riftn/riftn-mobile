@@ -151,6 +151,7 @@ export default function CreatorScreen() {
 
   return (
     <View>
+<Pressable onPress={() => nav.navigate(ScreenNames.CreatorGallery)} accessibilityRole="button" className="mx-4 mt-4 rounded-xl border border-theme-neutrals-600 p-4"><Text className="text-theme-neutrals-100">{t('creator.gallery.browse', { defaultValue: 'Browse generations' })}</Text></Pressable>
       <View className="items-center px-4 pb-6 pt-8" onLayout={(e) => { heroBottom.current = e.nativeEvent.layout.y + e.nativeEvent.layout.height; }}>
         <Text className="text-center text-[32px] font-black leading-[34px] text-theme-neutrals-100">{t('creator.heroTitle')}</Text>
         <Text className="mt-3 text-center text-[14px] text-theme-neutrals-400">{t('creator.heroSubtitle')}</Text>

@@ -2053,6 +2053,7 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
     <View style={studio ? { flex: 1 } : s.root} className={studio ? 'bg-theme-neutrals-900' : undefined}>
       {embedded ? null : studio ? <ScreenHeader title={t('creator.studioTitle')} icon="creator" rightContent={
         <View className="flex-row items-center gap-2">
+          <TouchableOpacity onPress={() => navigation.navigate(ScreenNames.CreatorGallery)} accessibilityRole="button" accessibilityLabel={t('creator.gallery.browse', { defaultValue: 'Browse generations' })} className="p-2"><Icon name="Image" size={20} color="#A1A1AA" /></TouchableOpacity>
           <SubscriptionCreditsPill />
           <TouchableOpacity onPress={handleHistoryOpen} accessibilityRole="button" accessibilityLabel={t('assistant.chatHistory')} className="p-2">
             <Icon name="History" size={18} color="#A1A1AA" />

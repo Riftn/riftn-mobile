@@ -1595,6 +1595,7 @@
     "menuLayoutFoldersDesc": "Ana sayfaların, ardından her grup için bir klasör"
   },
   "common": {
+    "loadMore": "Daha fazla yükle",
     "refresh": "Yenile",
     "mute": "Sesi kapat",
     "unmute": "Sesi aç",
@@ -10767,6 +10768,8 @@
     }
   },
   "creator": {
+    "madeOnDehub": "Riftn'da yapıldı",
+    "aiGenerationAlt": "Yapay zekâ üretimi",
     "layerNewAttempt": "Yeni bir denemeyi gözden geçir",
     "layerPngRequired": "En fazla 12 MiB ve dört megapiksel boyutunda kayıtlı bir PNG görseli seçin.",
     "layerTitle": "Görsel katmanlarını ayır",
@@ -11515,7 +11518,19 @@
     "presetOpenViaductTrainName": "Viadukt tren",
     "presetOpenViaductTrainHint": "Aydınlatılmış pencerelerle statik geniş açılı ve uzun odak derinliği",
     "presetOpenTowerTiltName": "Kule eğimi",
-    "presetOpenTowerTiltHint": "Üzerindeki bulutlu şehre yavaş aşağı eğim"
+    "presetOpenTowerTiltHint": "Üzerindeki bulutlu şehre yavaş aşağı eğim",
+    "gallery": {
+      "browse": "Üretimlere göz at",
+      "fullscreen": "Tam ekran görüntüle",
+      "missing": "Bu üretim kullanılamıyor.",
+      "send": "Gönder",
+      "notifications": {
+        "generation_like": "{{name}} üretimine tepki verdi",
+        "generation_comment_like": "{{name}} yorumuna tepki verdi",
+        "generation_reply": "{{name}} yorumunu yanıtladı",
+        "generation_comment": "{{name}} üretimine yorum yaptı"
+      }
+    }
   },
   "fractions": {
     "title": "Paylar",

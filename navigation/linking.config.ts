@@ -486,6 +486,7 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
             path: DeepLinkPaths.CREATOR_FLOW_VIEW,
             parse: { id: (id: string) => id },
           },
+          [ScreenNames.CreatorGallery]: { path: 'creator/gallery/:id?', parse: { comment: (value: string) => value } },
           [ScreenNames.CreatorFlow]: DeepLinkPaths.CREATOR_FLOW,
           [ScreenNames.Maboroshi]: 'creator/maboroshi',
           [ScreenNames.CreatorRemake]: 'creator/remake',
@@ -1096,6 +1097,10 @@ export const parseDeepLink = (url: string): { type: string; params: Record<strin
     // /raffle — prize draws
     if (pathParts[0] === 'raffle' && pathParts.length === 1) {
       return { type: 'raffle', params: qp };
+    }
+
+    if (pathParts[0] === 'creator' && pathParts[1] === 'gallery') {
+      return { type: 'creatorGallery', params: { id: pathParts[2], commentId: qp.comment, ...qp } };
     }
 
     // /creator/flow and /creator/flow/:id

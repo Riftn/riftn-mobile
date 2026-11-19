@@ -15,6 +15,11 @@ import { isCustomPushType, openCustomPush } from "../../libs/custom-notification
 import { markCustomNotificationRead } from "../../libs/custom-notifications";
 
 describe("openCustomPush", () => {
+  it.each(["generation_like", "generation_comment", "generation_reply", "generation_comment_like"])("opens %s at its generation and comment", type => {
+    const navigate = jest.fn();
+    expect(openCustomPush(navigate, { type, referenceId: "generation-1", referenceCommentId: "comment-1" })).toBe(true);
+    expect(navigate).toHaveBeenCalledWith("CreatorGallery", { id: "generation-1", commentId: "comment-1" });
+  });
   const nav = jest.fn();
   beforeEach(() => nav.mockReset());
 

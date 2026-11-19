@@ -57,6 +57,7 @@ export enum ScreenNames {
   FullscreenVideo = 'FullscreenVideo',
   AIChat = 'AIChat',
   Creator = 'Creator',
+  CreatorGallery = 'CreatorGallery',
   Maboroshi = 'Maboroshi',
   CreatorRemake = 'CreatorRemake',
   CreatorStudio = 'CreatorStudio',

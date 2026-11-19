@@ -1595,6 +1595,7 @@
     "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep"
   },
   "common": {
+    "loadMore": "Meer laden",
     "refresh": "Vernieuwen",
     "mute": "Dempen",
     "unmute": "Dempen opheffen",
@@ -10970,6 +10971,8 @@
     }
   },
   "creator": {
+    "madeOnDehub": "Gemaakt op Riftn",
+    "aiGenerationAlt": "AI-generatie",
     "layerNewAttempt": "Een nieuwe poging beoordelen",
     "layerPngRequired": "Kies een opgeslagen PNG-afbeelding van maximaal 12 MiB en vier megapixels.",
     "layerTitle": "Afbeeldingslagen scheiden",
@@ -11718,7 +11721,19 @@
       "none": "Geen textuur"
     },
     "studioTitle": "Creator Studio",
-    "studioWelcome": "Kies een medium en model, voeg een prompt toe of selecteer een voorinstelling, en maak vervolgens. Bekijk de prijs voordat u genereert. Uw resultaten staan hier."
+    "studioWelcome": "Kies een medium en model, voeg een prompt toe of selecteer een voorinstelling, en maak vervolgens. Bekijk de prijs voordat u genereert. Uw resultaten staan hier.",
+    "gallery": {
+      "browse": "Creaties bekijken",
+      "fullscreen": "Op volledig scherm bekijken",
+      "missing": "Deze creatie is niet beschikbaar.",
+      "send": "Versturen",
+      "notifications": {
+        "generation_like": "{{name}} reageerde op je creatie",
+        "generation_comment_like": "{{name}} reageerde op je opmerking",
+        "generation_reply": "{{name}} antwoordde op je opmerking",
+        "generation_comment": "{{name}} plaatste een opmerking bij je creatie"
+      }
+    }
   },
   "fractions": {
     "title": "Fracties",
