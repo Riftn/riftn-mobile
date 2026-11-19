@@ -7,6 +7,10 @@ export default function CallModalsHost() {
     const Ended = require('./CallEndedScreen').default;
     return <Ended />;
   }
+  if (currentCall.group_id) {
+    const Group = require('./GroupCallModal').default;
+    return <Group />;
+  }
   const Incoming = isIncoming ? require('./IncomingCallModal').default : null;
   const Active = currentCall.call_type === 'video'
     ? require('./VideoCallModal').default : require('./VoiceCallModal').default;
