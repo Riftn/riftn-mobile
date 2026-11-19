@@ -1595,6 +1595,7 @@
     "menuLayoutFoldersDesc": "صفحاتك الرئيسية، ثم مجلد لكل مجموعة"
   },
   "common": {
+    "loadMore": "تحميل المزيد",
     "refresh": "تحديث",
     "mute": "كتم الصوت",
     "unmute": "إلغاء كتم الصوت",
@@ -10788,6 +10789,8 @@
     }
   },
   "creator": {
+    "madeOnDehub": "صُنع على Riftn",
+    "aiGenerationAlt": "عمل مولّد بالذكاء الاصطناعي",
     "layerNewAttempt": "مراجعة محاولة جديدة",
     "layerPngRequired": "اختر صورة PNG محفوظة، بحجم يصل إلى 12 ميبيبايت وأربعة ميغابكسل.",
     "layerTitle": "فصل طبقات الصورة",

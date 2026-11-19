@@ -1595,6 +1595,7 @@
     "menuLayoutFoldersDesc": "Tus páginas principales y una carpeta por grupo"
   },
   "common": {
+    "loadMore": "Cargar más",
     "refresh": "Actualizar",
     "mute": "Silenciar",
     "unmute": "Activar sonido",
@@ -10768,6 +10769,8 @@
     }
   },
   "creator": {
+    "madeOnDehub": "Hecho en Riftn",
+    "aiGenerationAlt": "Creación con IA",
     "layerNewAttempt": "Revisar un nuevo intento",
     "layerPngRequired": "Elige una imagen PNG guardada, de hasta 12 MiB y cuatro megapíxeles.",
     "layerTitle": "Separar capas de imagen",

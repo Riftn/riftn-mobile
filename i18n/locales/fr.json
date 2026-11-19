@@ -1595,6 +1595,7 @@
     "menuLayoutFoldersDesc": "Vos pages principales, puis un dossier par groupe"
   },
   "common": {
+    "loadMore": "Charger plus",
     "refresh": "Actualiser",
     "mute": "Couper le son",
     "unmute": "Activer le son",
@@ -10772,6 +10773,8 @@
     }
   },
   "creator": {
+    "madeOnDehub": "Créé sur Riftn",
+    "aiGenerationAlt": "Génération IA",
     "layerNewAttempt": "Examiner une nouvelle tentative",
     "layerPngRequired": "Choisissez une image PNG enregistrée, de 12 Mio et quatre mégapixels maximum.",
     "layerTitle": "Séparer les calques de l’image",
