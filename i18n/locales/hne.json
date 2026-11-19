@@ -3859,7 +3859,9 @@
     "notificationShowCountDesc": "सिरिफ चमक के जगा देखव कि कतका सूचना नइ पढ़े गे हे",
     "messagesShowCount": "संदेस म गिनती देखावव",
     "messagesShowCountDesc": "सिरिफ चमक के जगा देखव कि कतका संदेस नइ पढ़े गे हे",
-    "pushNotRegisteredDescIos": "ऐप बंद रहे म सूचना तुंहर तीर नइ पहुंच सकय: ए iPhone ह पुस बर कभू रजिस्टर नइ करिस। सेटिंग म देखव कि Riftn बर सूचना चालू हे, फेर ऐप ला दोबारा खोलव।"
+    "pushNotRegisteredDescIos": "ऐप बंद रहे म सूचना तुंहर तीर नइ पहुंच सकय: ए iPhone ह पुस बर कभू रजिस्टर नइ करिस। सेटिंग म देखव कि Riftn बर सूचना चालू हे, फेर ऐप ला दोबारा खोलव।",
+    "publicChatInBar": "नीचे के बार म पब्लिक चैट",
+    "publicChatInBarDesc": "स्क्रीन के नीचे के बार ले एक टैप म पब्लिक चैट म जाव"
   },
   "common": {
     "refresh": "ताज़ा करें",
@@ -4780,7 +4782,13 @@
     "addedToLeaderboard": "आपको जोड़ा गया है! शेष: {{balance}} टोकन",
     "balanceTooLow": "शेष बहुत कम है ({{balance}} टोकन)",
     "tokenAmount": "{{amount}} टोकन",
-    "provisional": "अस्थायी"
+    "provisional": "अस्थायी",
+    "ogChallenge": "OG चुनौती",
+    "ogHolders_one": "{{count}} OG होल्डर",
+    "ogHolders_other": "{{count}} OG होल्डर",
+    "ogChallengeTitle": "OG होल्डर मन ला वापस लानव",
+    "ogChallengeBody": "वो मनखे मन ला बलावव जेमन करा अभी घलो DHB हे। जब वो मन तोर इनवाइट लिंक ले जुड़थें अउ अपन DHB ला Riftn बटुआ म रखथें, त वो मन इहाँ तोर बर गिने जाथें।",
+    "ogChallengeCta": "अपन इनवाइट लिंक पाव"
   },
   "explorePage": {
     "searchPlaceholder": "लोग, पोस्ट या सामग्री खोजव...",

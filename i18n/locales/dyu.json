@@ -3859,7 +3859,9 @@
     "notificationShowCountDesc": "A ye notification joli ma kalan, yeelen dɔrɔn nɔ na",
     "messagesShowCount": "Hakɛ yira Messages kan",
     "messagesShowCountDesc": "A ye bataki joli ma kalan, yeelen dɔrɔn nɔ na",
-    "pushNotRegisteredDescIos": "Notificationw tɛ se ka se i ma ni app datugura: nin iPhone ma tɔgɔ sɛbɛn push kama abada. A lajɛ ni notificationw sɔnna Riftn ma Paramètres kɔnɔ, o kɔ app dayɛlɛ tugun."
+    "pushNotRegisteredDescIos": "Notificationw tɛ se ka se i ma ni app datugura: nin iPhone ma tɔgɔ sɛbɛn push kama abada. A lajɛ ni notificationw sɔnna Riftn ma Paramètres kɔnɔ, o kɔ app dayɛlɛ tugun.",
+    "publicChatInBar": "Jama ka baro duguma bara la",
+    "publicChatInBarDesc": "Digi kelen ka don Jama ka baro la ka bɔ ɛkran duguma bara la"
   },
   "common": {
     "refresh": "A kuraya",
@@ -4780,7 +4782,13 @@
     "addedToLeaderboard": "Wawedzerwa! Balance: {{balance}} tokens",
     "balanceTooLow": "Balance yakaderera ({{balance}} tokens)",
     "tokenAmount": "{{amount}} o ye koo ɲuman ye.",
-    "provisional": "waati kelen ta"
+    "provisional": "waati kelen ta",
+    "ogChallenge": "OG Kɛlɛ",
+    "ogHolders_one": "OG marabaga {{count}}",
+    "ogHolders_other": "OG marabagaw {{count}}",
+    "ogChallengeTitle": "OG marabagaw lasegin",
+    "ogChallengeBody": "Mɔgɔ minnu bɛ DHB mara hali bi, olu wele. Ni u donna ni i ka weleli sira ye ka u ka DHB to u ka Riftn wari bɔrɔ kɔnɔ, u bɛ jate i ye yan.",
+    "ogChallengeCta": "I ka weleli sira sɔrɔ"
   },
   "explorePage": {
     "searchPlaceholder": "Dɔ, kɔrɔbɔw, fɔlɔw fɛɛrɛ...",
