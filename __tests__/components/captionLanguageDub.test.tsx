@@ -6,7 +6,7 @@ jest.mock('../../hooks/useDubDiscovery', () => ({ useDubDiscovery: jest.fn() }))
 
 let mockDubOn = true;
 const mockSetDub = jest.fn();
-const mockFindVoice = jest.fn(() => Promise.resolve({ identifier: 'v' }));
+const mockFindVoice = jest.fn((_lang: unknown) => Promise.resolve({ identifier: 'v' }));
 let mockSourceLang = '';
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
@@ -23,7 +23,7 @@ jest.mock('../../libs', () => ({ toastInfo: jest.fn() }));
 jest.mock('../../libs/video-preferences', () => ({ useMediaVolume: () => 1 }));
 jest.mock('../../libs/cached-dub-languages', () => ({ hasCachedDubLanguage: () => false }));
 jest.mock('../../hooks/useVideoDub', () => ({ useDubSettings: () => ({ on: mockDubOn, lang: null }), setDubSettings: (...args: unknown[]) => mockSetDub(...args) }));
-jest.mock('../../hooks/useVoiceDub', () => ({ useVoiceDub: jest.fn(), baseLang: (lang: string) => (lang ?? '').toLowerCase().split('-')[0], findVoice: (...args: unknown[]) => mockFindVoice(...args), speechAvailable: false }));
+jest.mock('../../hooks/useVoiceDub', () => ({ useVoiceDub: jest.fn(), baseLang: (lang: string) => (lang ?? '').toLowerCase().split('-')[0], findVoice: (lang: unknown) => mockFindVoice(lang), speechAvailable: false }));
 jest.mock('../../hooks/useCachedVideoDub', () => ({ useCachedVideoDub: () => null }));
 jest.mock('../../hooks/useCachedDubAudio', () => ({ useCachedDubAudio: jest.fn() }));
 jest.mock('../../hooks/useTranscript', () => ({
