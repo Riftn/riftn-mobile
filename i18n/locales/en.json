@@ -951,6 +951,13 @@
     "postCount_other": "{{count}} posts"
   },
   "settings": {
+    "chatDeleteChoice": "When you delete a message",
+    "chatDeleteChoiceDesc": "Ask every time, or always delete for you only or for everyone in the chat.",
+    "chatDeleteAsk": "Ask every time",
+    "chatDeleteMe": "Delete for me",
+    "chatDeleteMeDesc": "Gone from your chat, others still see it",
+    "chatDeleteEveryone": "Delete for everyone",
+    "chatDeleteEveryoneDesc": "When you can. Someone else’s message in a group still goes for you only",
     "chatTextSize": "Chat text size",
     "menuLayout": "Menu layout",
     "menuLayoutDesc": "How the menu groups its pages",
@@ -16885,6 +16892,8 @@
     "forEveryone": "Delete for everyone",
     "forBoth": "Delete for both of us",
     "forMeAndName": "Delete for me and {{name}}",
+    "remember": "Remember my choice",
+    "rememberHint": "Change it any time in Settings",
     "failed": "Could not delete the message"
   }
 }

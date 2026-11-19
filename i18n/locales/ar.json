@@ -900,6 +900,13 @@
     "postCount_other": "{{count}} منشورات"
   },
   "settings": {
+    "chatDeleteChoice": "عند حذف رسالة",
+    "chatDeleteChoiceDesc": "اسألني كل مرة، أو احذف دائمًا لي فقط أو للجميع في المحادثة.",
+    "chatDeleteAsk": "اسألني كل مرة",
+    "chatDeleteMe": "حذف لدي",
+    "chatDeleteMeDesc": "تختفي من محادثتك ويظل الآخرون يرونها",
+    "chatDeleteEveryone": "حذف لدى الجميع",
+    "chatDeleteEveryoneDesc": "عندما يكون ذلك ممكنًا. رسالة شخص آخر في مجموعة تُحذف لديك فقط",
     "contactSupport": "التواصل مع الدعم",
     "glass": "زجاجي",
     "shortsSaveFailed": "تعذر حفظ تفضيلات السراويل القصيرة",
@@ -17112,6 +17119,8 @@
     "forEveryone": "حذف للجميع",
     "forBoth": "حذف لدينا نحن الاثنين",
     "forMeAndName": "حذف لديّ ولدى {{name}}",
+    "remember": "تذكّر اختياري",
+    "rememberHint": "يمكنك تغييره في أي وقت من الإعدادات",
     "failed": "تعذّر حذف الرسالة"
   }
 }

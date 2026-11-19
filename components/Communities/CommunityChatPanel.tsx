@@ -44,7 +44,6 @@ import {
   FlatList,
   ActivityIndicator,
   Modal,
-  Alert,
   StyleSheet,
 } from "react-native";
 import SmartImage from "../common/SmartImage";
@@ -98,6 +97,7 @@ import type { UnreadAnchor } from "../../libs/chatUnreadAnchor";
 import { anchorFromReadSpot } from "../../libs/chatReadPosition";
 import { useChatReadPosition } from "../../hooks/useChatReadPosition";
 import { roomChatId } from "../../services/dm/dm.api";
+import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../DM/DeleteMessageSheet";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 const PHOTO_MAX_BYTES = 10 * 1024 * 1024;
@@ -107,7 +107,7 @@ const PAGE = 30;
 /** History pages a chat may pull in at open to reach where you left off. */
 const MAX_READ_SPOT_PAGES = 10;
 const FLASH_MS = 1500;
-/** Long enough for the action sheet to finish dismissing before an Alert. */
+/** Long enough for the action sheet to finish dismissing before the delete sheet. */
 const ALERT_DELAY_MS = 250;
 
 const MONTHS = [
@@ -879,37 +879,22 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
 
   // Like Telegram: your own message (or anyone's, for a moderator) can go for
   // everyone; any message can be deleted just for you.
+  const [deleteReq, setDeleteReq] = useState<DeleteRequest | null>(null);
   const confirmDelete = useCallback(
     (message: CommunityChatMessage) => {
       setSheetFor(null);
       const mine = !!myAddress && message.wallet_address?.toLowerCase() === myAddress;
-      const forEveryone = mine || canDeleteAny;
       if (alertTimer.current) clearTimeout(alertTimer.current);
+      // Let the action sheet finish leaving first.
       alertTimer.current = setTimeout(() => {
-        Alert.alert(
-          t("msgDelete.title", { defaultValue: "Delete message?" }),
-          forEveryone
-            ? t("msgDelete.bodyOwn", { defaultValue: "Remove it from your chat only, or for everyone." })
-            : t("msgDelete.bodyOthers", { defaultValue: "It will be removed from your chat only. The other person will still see it." }),
-          [
-            { text: t("common.cancel", { defaultValue: "Cancel" }), style: "cancel" },
-            {
-              text: t("msgDelete.forMe", { defaultValue: "Delete for me" }),
-              style: forEveryone ? "default" : "destructive",
-              onPress: () => { void hideMessage(message.id); },
-            },
-            ...(forEveryone
-              ? [{
-                text: t("msgDelete.forEveryone", { defaultValue: "Delete for everyone" }),
-                style: "destructive" as const,
-                onPress: () => { void deleteMessage(message.id); },
-              }]
-              : []),
-          ],
-        );
+        setDeleteReq(resolveDelete({
+          count: 1,
+          canDeleteForEveryone: mine || canDeleteAny,
+          onDelete: (scope) => { void (scope === "everyone" ? deleteMessage(message.id) : hideMessage(message.id)); },
+        }));
       }, ALERT_DELAY_MS);
     },
-    [t, deleteMessage, hideMessage, myAddress, canDeleteAny],
+    [deleteMessage, hideMessage, myAddress, canDeleteAny],
   );
 
   const renderItem = useCallback(
@@ -1498,6 +1483,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           </Pressable>
         </Pressable>
       </Modal>
+      <DeleteMessageSheet request={deleteReq} onClose={() => setDeleteReq(null)} />
 
       <EmojiSheet
         visible={!!moreFor}

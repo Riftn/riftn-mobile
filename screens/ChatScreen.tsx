@@ -46,6 +46,7 @@ import MessageContextMenu, {
 } from "../components/DM/MessageContextMenu";
 import ForwardPickerModal from "../components/DM/ForwardPickerModal";
 import MessageSelectBar from "../components/DM/MessageSelectBar";
+import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../components/DM/DeleteMessageSheet";
 import { BulkTick, CHECKED_FILL } from "../components/DM/BulkChatBar";
 import { copyToClipboard } from "../libs/clipboard.utils";
 import DmFeeBanner from "../components/DM/DmFeeBanner";
@@ -1675,8 +1676,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [contextMessage, toggleReaction],
   );
 
-  // Like Telegram: your own message goes for both of you or just for you;
-  // the other person's can only be deleted for you (it stays in their chat).
+  // Like Telegram, in a one-to-one chat any message (yours or theirs) can go
+  // for both of you or just for you.
   const deleteMessages = useCallback(
     (convId: string, list: DmMessage[], forBoth: boolean) => {
       const event = forBoth ? DMSocketEvent.DeleteMessage : DMSocketEvent.HideMessage;
@@ -1687,39 +1688,25 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     },
     [ws],
   );
+  const [deleteReq, setDeleteReq] = useState<DeleteRequest | null>(null);
   const askDelete = useCallback(
     (convId: string, list: DmMessage[], onDone: () => void) => {
-      const allMine = list.length > 0 && list.every((m) => isMine(m));
+      if (!list.length) return;
       const many = list.length > 1;
-      const title = many
-        ? t("msgDelete.titleMany", { defaultValue: "Delete {{count}} messages?", count: list.length })
-        : t("msgDelete.title", { defaultValue: "Delete message?" });
-      const body = allMine
-        ? (many
-          ? t("msgDelete.bodyOwnBothMany", { defaultValue: "Remove them from your chat only, or for both of you." })
-          : t("msgDelete.bodyOwnBoth", { defaultValue: "Remove it from your chat only, or for both of you." }))
-        : (many
-          ? t("msgDelete.bodyOthersMany", { defaultValue: "They will be removed from your chat only. Others in the chat will still see them." })
-          : t("msgDelete.bodyOthers", { defaultValue: "It will be removed from your chat only. The other person will still see it." }));
-      const go = (forBoth: boolean) => {
-        deleteMessages(convId, list, forBoth);
-        if (many) toastSuccess(t("msgSelect.deleted", { defaultValue: "Deleted {{count}} messages", count: list.length }));
-        else toastSuccess(t("dm.messageDeleted"));
-        onDone();
-      };
-      Alert.alert(title, body, [
-        { text: t("common.cancel"), style: "cancel" },
-        { text: t("msgDelete.forMe", { defaultValue: "Delete for me" }), style: allMine ? "default" : "destructive", onPress: () => go(false) },
-        ...(allMine
-          ? [{
-            text: t("msgDelete.forMeAndName", { defaultValue: "Delete for me and {{name}}", name: peerLabel }),
-            style: "destructive" as const,
-            onPress: () => go(true),
-          }]
-          : []),
-      ]);
+      setDeleteReq(resolveDelete({
+        count: list.length,
+        canDeleteForEveryone: true,
+        oneToOne: true,
+        peerName: peerLabel,
+        onDelete: (scope) => {
+          deleteMessages(convId, list, scope === "everyone");
+          if (many) toastSuccess(t("msgSelect.deleted", { defaultValue: "Deleted {{count}} messages", count: list.length }));
+          else toastSuccess(t("dm.messageDeleted"));
+          onDone();
+        },
+      }));
     },
-    [isMine, deleteMessages, peerLabel],
+    [deleteMessages, peerLabel],
   );
 
   const handleDelete = useCallback(() => {
@@ -1727,7 +1714,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     const target = contextMessage;
     const convId = currentConvId;
     closeContextMenu();
-    askDelete(convId, [target], () => {});
+    // Let the hold menu finish leaving: iOS won't raise a sheet over a closing one.
+    setTimeout(() => askDelete(convId, [target], () => {}), 250);
   }, [contextMessage, currentConvId, closeContextMenu, askDelete]);
 
   const handleForward = useCallback(() => {
@@ -2485,6 +2473,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             )}
           </View>
         </View>
+
+        <DeleteMessageSheet request={deleteReq} onClose={() => setDeleteReq(null)} />
 
         {/* Context menu */}
         <MessageContextMenu

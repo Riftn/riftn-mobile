@@ -900,6 +900,13 @@
     "postCount_other": "{{count}} publications"
   },
   "settings": {
+    "chatDeleteChoice": "Quand vous supprimez un message",
+    "chatDeleteChoiceDesc": "Demander à chaque fois, ou toujours supprimer pour vous seul ou pour tout le monde dans la discussion.",
+    "chatDeleteAsk": "Demander à chaque fois",
+    "chatDeleteMe": "Supprimer pour moi",
+    "chatDeleteMeDesc": "Disparaît de votre discussion, les autres le voient encore",
+    "chatDeleteEveryone": "Supprimer pour tout le monde",
+    "chatDeleteEveryoneDesc": "Quand c’est possible. Le message de quelqu’un d’autre dans un groupe n’est supprimé que pour vous",
     "contactSupport": "Contacter l'assistance",
     "glass": "Glassy",
     "shortsSaveFailed": "Échec de l'enregistrement des préférences Shorts",
@@ -17096,6 +17103,8 @@
     "forEveryone": "Supprimer pour tout le monde",
     "forBoth": "Supprimer pour nous deux",
     "forMeAndName": "Supprimer pour moi et {{name}}",
+    "remember": "Mémoriser mon choix",
+    "rememberHint": "Modifiable à tout moment dans les Paramètres",
     "failed": "Impossible de supprimer le message"
   }
 }
