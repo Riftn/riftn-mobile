@@ -104,6 +104,10 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const sending = useRef(false);
   const [reactionsOpen, setReactionsOpen] = useState(false);
   const [gifPickerVisible, setGifPickerVisible] = useState(false);
+  // While the box is focused the row stays in its typing layout, so the
+  // first letter (and deleting the last one) no longer swaps the buttons in
+  // and out and makes the box jump under your thumb.
+  const [focused, setFocused] = useState(false);
   const lastTapRef = useRef(0);
   const composerKeyboard = useComposerKeyboard(viewportHeight);
   const inputRef = useRef<TextInput>(null);
@@ -160,6 +164,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const closeReactions = useCallback(() => setReactionsOpen(false), []);
 
   const canSubmit = !!message.trim() && !inputDisabled;
+  const typing = canSubmit || (focused && !inputDisabled);
 
   return (
     <View ref={composerKeyboard.ref} collapsable={false} onLayout={composerKeyboard.onLayout}
@@ -216,14 +221,17 @@ const LiveViewerActionBar: React.FC<Props> = ({
             submitBehavior="submit"
             returnKeyType="send"
             onSubmitEditing={handleSend}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
           />
-          {canSubmit ? (
+          {typing ? (
             <Pressable
               onPress={handleSend}
+              disabled={!canSubmit}
               hitSlop={8}
               accessibilityRole="button"
               accessibilityLabel={t("tip.send", { defaultValue: "Send" })}
-              style={styles.sendButton}
+              style={[styles.sendButton, canSubmit ? null : styles.dim]}
             >
               <Icon name="Send" size={17} color="#fff" strokeWidth={1.8} />
             </Pressable>
@@ -234,11 +242,11 @@ const LiveViewerActionBar: React.FC<Props> = ({
             button — the three things you do to a broadcast, where the thumb
             already is.
 
-            They stand down while there is a message in the box: typing hands
-            the whole row to the text and the send button, and the moment it
-            is empty again they come back. Nothing is ever on this row that
+            They stand down while you are typing (box focused or holding a
+            message): the whole row goes to the text and the send button, and
+            they come back when the keyboard closes with the box empty. Nothing is ever on this row that
             the viewer is not about to use. */}
-        {canSubmit ? null : (
+        {typing ? null : (
           <View style={styles.cluster} pointerEvents="box-none">
           {isLive && !inputDisabled ? (
             <Pressable onPress={() => setGifPickerVisible(true)} hitSlop={CHROME_HIT_SLOP}

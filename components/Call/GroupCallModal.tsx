@@ -11,6 +11,7 @@ import type { GroupParticipant } from "../../hooks/useCall";
 import { CallDuration } from "./CallDuration";
 import { CallStage, CallIdentity, CallControl, CallDock, CallFoot, CallPill, CallRow, useStage } from "./CallChrome";
 import { usePeerIdentity } from "./usePeerIdentity";
+import { startCallRingtone, stopCallRingtone } from "../../libs/call-ringtone";
 
 /**
  * A group call, voice or video, on the same stage as a direct call.
@@ -32,6 +33,13 @@ const GroupCallModal: React.FC = () => {
   const insets = useSafeAreaInsets();
   const caller = usePeerIdentity(isIncoming ? peerAddress : "");
   const self = usePeerIdentity((user?.walletAddress || user?.address || "").toLowerCase());
+
+  // Ring and buzz while a group call is waiting, the same as a one-to-one call.
+  React.useEffect(() => {
+    if (!isIncoming) return;
+    startCallRingtone();
+    return stopCallRingtone;
+  }, [isIncoming]);
 
   if (!currentCall?.group_id) return null;
   if (!isIncoming && (isMinimized || !(isCallActive || isConnecting))) return null;

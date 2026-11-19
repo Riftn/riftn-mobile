@@ -8,6 +8,7 @@ const mockCheck = jest.fn(); const mockTrack = jest.fn();
 let mockWallet = '0xabcdef0123456789abcdef0123456789abcdef01';
 jest.mock('../../context/AuthContext', () => ({ useAuth: () => ({ user: { walletAddress: mockWallet } }) }));
 jest.mock('../../config/agora.config', () => ({ AGORA_APP_ID: 'app' }));
+jest.mock('../../libs/call-ringtone', () => ({ startCallRingtone: jest.fn(), stopCallRingtone: jest.fn() }));
 jest.mock('../../libs/logger', () => ({ createLogger: () => ({ warn: jest.fn(), error: jest.fn() }) }));
 jest.mock('../../libs/api.client', () => ({ apiClient: { post: (...args: unknown[]) => mockPush(...args) } }));
 jest.mock('../../libs/wallet-session', () => ({ ensureWalletSession: (...args: unknown[]) => mockWalletSession(...args) }));

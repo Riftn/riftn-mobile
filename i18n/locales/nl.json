@@ -1601,7 +1601,15 @@
     "menuLayoutFolders": "Mappen",
     "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep",
     "publicChatInBar": "Openbare chat in de onderste balk",
-    "publicChatInBarDesc": "Met één tik vanuit de balk onderaan het scherm naar de openbare chat"
+    "publicChatInBarDesc": "Met één tik vanuit de balk onderaan het scherm naar de openbare chat",
+    "loginLook": {
+      "title": "Inlogscherm",
+      "desc": "Hoe het Riftn-logo en de slogan bewegen op het inlogscherm op dit apparaat.",
+      "tube": "Buis-tv",
+      "vhs": "VHS-band",
+      "led": "LED-wand",
+      "holo": "Hologram"
+    }
   },
   "common": {
     "loadMore": "Meer laden",
@@ -4636,6 +4644,10 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "muteChat": "Dempen",
+    "mutedChat": "Gedempt",
+    "muteChatHint": "Geen meldingen meer van de chat van deze community. Je kunt hem nog steeds lezen",
+    "unmuteChatHint": "Weer meldingen krijgen van de chat van deze community",
     "newChat": {
       "description": "Waar gaat het over? (optioneel)",
       "groupCreated": "Groep gemaakt",
