@@ -16,7 +16,7 @@ import {
   SettingsAnchor,
   SettingsScrollView,
 } from '../components/Settings/SettingsAnchor';
-import { PROFILE_VIEW_DEFAULT_KEY, clearProfileViewFlip, parseProfileViewDefault, type ProfileViewMode } from '../libs/profileViewMode';
+import { PROFILE_VIEW_DEFAULT_KEY, PROFILE_VIEW_READER_KEY, clearProfileViewFlip, parseProfileViewDefault, parseProfileViewReaderPref, type ProfileViewMode, type ProfileViewReaderPref } from '../libs/profileViewMode';
 import Icon from '../components/ui/Icon';
 import LoadErrorState from '../components/ui/LoadErrorState';
 import CustomSwitch from '../components/ui/CustomSwitch';
@@ -115,6 +115,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   const [defaultPostVisibility, setDefaultPostVisibility] = useState<PostVisibility>('public');
   const [defaultProfileTab, setDefaultProfileTab] = useState<ProfileDefaultTab>(DEFAULT_PROFILE_TAB);
   const [defaultProfileView, setDefaultProfileView] = useState<ProfileViewMode>('grid');
+  const [readerProfileView, setReaderProfileView] = useState<ProfileViewReaderPref>('owner');
   const [aiScraping, setAiScraping] = useState<AiScrapingPreference>('allow');
   const [showOnline, setShowOnline] = useState(false);
   const [showDislikes, setShowDislikes] = useState(false);
@@ -136,6 +137,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
   // Landing tab modal
   const [showProfileTabModal, setShowProfileTabModal] = useState(false);
   const [showProfileViewModal, setShowProfileViewModal] = useState(false);
+  const [showReaderViewModal, setShowReaderViewModal] = useState(false);
 
   // Blocked accounts (web keeps this on the Privacy tab — `BlockedUsersSection`)
   const [blockedModalVisible, setBlockedModalVisible] = useState(false);
@@ -187,10 +189,11 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     })(),
     defaultProfileTab: parseDefaultProfileTab(customs.defaultProfileTab),
     defaultProfileView: parseProfileViewDefault(customs[PROFILE_VIEW_DEFAULT_KEY]),
+    readerProfileView: parseProfileViewReaderPref(customs[PROFILE_VIEW_READER_KEY]),
   }), [user, customs]);
 
   const userKey = useMemo(() => {
-    return `${(user as any)?.hideFollowers}|${(user as any)?.isPrivate}|${(user as any)?.hideBadgeAndBalance}|${customs.followVisibility}|${customs.defaultPostVisibility}|${(user as any)?.hideFollowerCounts}|${(user as any)?.showFollowersFollowing}|${(user as any)?.defaultPostVisibility}|${customs.aiScraping}|${customs.showOnline}|${customs.defaultProfileTab}|${customs[PROFILE_VIEW_DEFAULT_KEY]}|${customs[DISLIKES_VISIBILITY_KEY]}|${customs[LIKES_VISIBILITY_KEY]}|${customs[FOLLOWERS_LIST_VISIBILITY_KEY]}|${customs[FOLLOWING_LIST_VISIBILITY_KEY]}`;
+    return `${(user as any)?.hideFollowers}|${(user as any)?.isPrivate}|${(user as any)?.hideBadgeAndBalance}|${customs.followVisibility}|${customs.defaultPostVisibility}|${(user as any)?.hideFollowerCounts}|${(user as any)?.showFollowersFollowing}|${(user as any)?.defaultPostVisibility}|${customs.aiScraping}|${customs.showOnline}|${customs.defaultProfileTab}|${customs[PROFILE_VIEW_DEFAULT_KEY]}|${customs[PROFILE_VIEW_READER_KEY]}|${customs[DISLIKES_VISIBILITY_KEY]}|${customs[LIKES_VISIBILITY_KEY]}|${customs[FOLLOWERS_LIST_VISIBILITY_KEY]}|${customs[FOLLOWING_LIST_VISIBILITY_KEY]}`;
   }, [user, customs]);
 
   /**
@@ -241,6 +244,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     setFollowLists(initial.followLists);
     setDefaultProfileTab(initial.defaultProfileTab);
     setDefaultProfileView(initial.defaultProfileView);
+    setReaderProfileView(initial.readerProfileView);
     if (user && synced) setLoading(false);
   }, [userKey, saving, synced]);
 
@@ -298,6 +302,7 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
       setFollowLists(initial.followLists);
       setDefaultProfileTab(initial.defaultProfileTab);
       setDefaultProfileView(initial.defaultProfileView);
+      setReaderProfileView(initial.readerProfileView);
     } finally {
       setSaving(false);
     }
@@ -341,6 +346,12 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
     clearProfileViewFlip(userAddressKey);
     saveSetting({}, { [PROFILE_VIEW_DEFAULT_KEY]: view });
   }, [saveSetting, userAddressKey]);
+
+  const handleReaderViewChange = useCallback((pref: ProfileViewReaderPref) => {
+    setReaderProfileView(pref);
+    setShowReaderViewModal(false);
+    saveSetting({}, { [PROFILE_VIEW_READER_KEY]: pref });
+  }, [saveSetting]);
 
   const handleToggleAiScraping = useCallback((value: boolean) => {
     const next: AiScrapingPreference = value ? 'allow' : 'deny';
@@ -695,6 +706,30 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
                 <View className="flex-row items-center">
                   <Text className="text-theme-neutrals-400 text-xs mr-2">
                     {defaultProfileView === 'list' ? t('profile.viewList') : t('profile.viewGrid')}
+                  </Text>
+                  <Icon name="ChevronRight" size={18} color="#6b7280" />
+                </View>
+              </TouchableOpacity>
+              </SettingsAnchor>
+              <SettingsAnchor id="reader-profile-view">
+              <TouchableOpacity
+                onPress={() => setShowReaderViewModal(true)}
+                activeOpacity={0.7}
+                className="px-4 py-2 flex-row items-center"
+                disabled={saving}
+              >
+                <View className="mr-3 w-5 h-5 items-center justify-center">
+                  <Icon name={readerProfileView === 'list' ? 'List' : 'LayoutGrid'} size={20} color="#8B8D90" />
+                </View>
+                <View className="flex-1 mr-2">
+                  <Text className="text-white text-base leading-5 font-medium">{t('settings.readerProfileView')}</Text>
+                  <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">
+                    {t('settings.readerProfileViewDesc')}
+                  </Text>
+                </View>
+                <View className="flex-row items-center">
+                  <Text className="text-theme-neutrals-400 text-xs mr-2">
+                    {readerProfileView === 'list' ? t('profile.viewList') : readerProfileView === 'grid' ? t('profile.viewGrid') : t('settings.readerProfileViewOwner')}
                   </Text>
                   <Icon name="ChevronRight" size={18} color="#6b7280" />
                 </View>
@@ -1130,6 +1165,40 @@ const PrivacySettingsScreen: React.FC<any> = ({ navigation, embedded }) => {
               </View>
               <Text className="flex-1 text-white text-[15px] font-medium">{opt.label}</Text>
               {defaultProfileView === opt.value && (
+                <Icon name="Check" size={18} color="#D4D4D8" />
+              )}
+            </TouchableOpacity>
+          ))}
+        </View>
+      </GlassModal>
+
+      {/* Open other profiles as: picker */}
+      <GlassModal
+        visible={showReaderViewModal}
+        onClose={() => setShowReaderViewModal(false)}
+        presentation="bottom"
+        blurIntensity={30}
+      >
+        <View className="pb-4 pt-2">
+          <Text className="text-theme-neutrals-400 text-xs text-center py-3 font-semibold uppercase tracking-widest">
+            {t('settings.readerProfileView')}
+          </Text>
+          {([
+            { value: 'owner' as const, icon: 'Users' as const, label: t('settings.readerProfileViewOwner') },
+            { value: 'grid' as const, icon: 'LayoutGrid' as const, label: t('profile.viewGrid') },
+            { value: 'list' as const, icon: 'List' as const, label: t('profile.viewList') },
+          ]).map(opt => (
+            <TouchableOpacity
+              key={opt.value}
+              onPress={() => handleReaderViewChange(opt.value)}
+              activeOpacity={0.7}
+              className="flex-row items-center px-5 py-3.5"
+            >
+              <View className="mr-3 w-5 h-5 items-center justify-center">
+                <Icon name={opt.icon} size={18} color="#8B8D90" />
+              </View>
+              <Text className="flex-1 text-white text-[15px] font-medium">{opt.label}</Text>
+              {readerProfileView === opt.value && (
                 <Icon name="Check" size={18} color="#D4D4D8" />
               )}
             </TouchableOpacity>

@@ -1,5 +1,6 @@
 import { PROFILE_BAR_HEIGHT, PROFILE_TABS_TOP_GAP, PINNED_PROFILE_TABS_HEIGHT } from '../Profile/useProfileCollapse';
-import { ProfileViewModeContext, useProfileViewState, type ProfileViewMode } from "../../libs/profileViewMode";
+import { ProfileViewModeContext, getProfileViewReaderPref, startingProfileView, useProfileViewState, type ProfileViewMode } from "../../libs/profileViewMode";
+import { useUser } from "../../context/AuthContext";
 import type { SharedValue } from 'react-native-reanimated';
 import { translateCopy as _translateCopy } from '../../i18n/copy';
 import React, {
@@ -871,11 +872,18 @@ const UserProfileBottomContentTabsInner: React.FC<
 };
 
 /**
- * Grid or list on the All tab: the owner's saved default, unless the visitor
- * flipped the toggle on this profile since the app opened.
+ * Grid or list on the All tab: the reader's own "Open other profiles as"
+ * choice, else the owner's saved default, unless the visitor flipped the
+ * toggle on this profile since the app opened.
  */
 const UserProfileBottomContentTabs: React.FC<UserProfileBottomContentTabsProps> = (props) => {
-  const profileView = useProfileViewState(props.address, props.defaultView ?? "grid");
+  const me = useUser() as { address?: string; walletAddress?: string; customs?: Record<string, unknown> } | null;
+  const mine = (me?.address || me?.walletAddress || "").toLowerCase();
+  const isOwn = !!mine && !!props.address && props.address.toLowerCase() === mine;
+  const profileView = useProfileViewState(
+    props.address,
+    startingProfileView(props.defaultView ?? "grid", getProfileViewReaderPref(me), isOwn),
+  );
   return (
     <ProfileViewModeContext.Provider value={profileView}>
       <UserProfileBottomContentTabsInner {...props} />

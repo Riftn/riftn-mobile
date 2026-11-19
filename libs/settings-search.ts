@@ -83,6 +83,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
   { tab: 'privacy', anchor: 'post-visibility', label: 'Post Visibility', labelKey: 'settings.postVisibility', keywords: 'default public private posts' },
   { tab: 'privacy', anchor: 'default-profile-tab', label: 'Default profile tab', labelKey: 'settings.defaultProfileTab', keywords: 'landing tab visitors profile open first' },
   { tab: 'privacy', anchor: 'default-profile-view', label: 'Profile posts layout', labelKey: 'settings.defaultProfileView', keywords: 'grid list view layout profile posts tiles visitors' },
+  { tab: 'privacy', anchor: 'reader-profile-view', label: 'Open other profiles as', labelKey: 'settings.readerProfileView', keywords: 'grid list view layout other profiles open everyone' },
   { tab: 'privacy', anchor: 'show-online', label: "Show when I'm online", labelKey: 'settings.showOnline', keywords: 'online status presence green dot active messages' },
   { tab: 'privacy', anchor: 'show-likes', label: 'Show my likes to everyone', labelKey: 'settings.showLikes', keywords: 'likes liked posts thumbs up hearts profile tab public private hide' },
   { tab: 'privacy', anchor: 'show-dislikes', label: 'Show my dislikes to everyone', labelKey: 'settings.showDislikes', keywords: 'dislikes thumbs down disliked posts profile tab public private' },
