@@ -15,8 +15,10 @@ const CallEndedScreen: React.FC = () => {
   const peer = usePeerIdentity(callSummary?.peerAddress ?? "");
 
   if (!callSummary) return null;
-  const { peerAddress, callType, outcome, duration } = callSummary;
+  const { peerAddress, callType, outcome, duration, groupName } = callSummary;
   const isVideo = callType === "video";
+  const isGroup = groupName != null;
+  const shown = isGroup ? { name: groupName || t("calls.group", { defaultValue: "Group" }), avatarUrl: peer.avatarUrl } : peer;
 
   const status = outcome === "ended"
     ? `${t("calls.ended")}${duration ? ` · ${duration}` : ""}`
@@ -27,22 +29,27 @@ const CallEndedScreen: React.FC = () => {
         : t("calls.missed");
 
   return (
-    <CallStage peer={peer} onRequestClose={dismissCallSummary} onCorner={dismissCallSummary} cornerIcon="X" cornerLabel={t("common.close")}>
+    <CallStage peer={shown} onRequestClose={dismissCallSummary} onCorner={dismissCallSummary} cornerIcon="X" cornerLabel={t("common.close")}>
       <CallIdentity
         kindIcon={isVideo ? "Video" : "Phone"}
-        kindLabel={isVideo ? t("calls.videoCall") : t("calls.voiceCall")}
-        peer={peer}
+        kindLabel={isGroup
+          ? (isVideo ? t("calls.groupVideoCall", { defaultValue: "Group video call" }) : t("calls.groupVoiceCall", { defaultValue: "Group voice call" }))
+          : (isVideo ? t("calls.videoCall") : t("calls.voiceCall"))}
+        peer={shown}
         status={status}
       />
       <CallFoot>
         <CallRow>
           <CallPill icon="X" label={t("common.close")} onPress={dismissCallSummary} />
-          <CallPill
-            icon={isVideo ? "Video" : "Phone"}
-            label={t("calls.callBack")}
-            onPress={() => { void startCall(peerAddress, callType); }}
-            solid
-          />
+          {/* A group call has nobody single to call back; the group is where you came from. */}
+          {isGroup ? null : (
+            <CallPill
+              icon={isVideo ? "Video" : "Phone"}
+              label={t("calls.callBack")}
+              onPress={() => { void startCall(peerAddress, callType); }}
+              solid
+            />
+          )}
         </CallRow>
       </CallFoot>
     </CallStage>

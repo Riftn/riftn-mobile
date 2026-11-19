@@ -8113,7 +8113,17 @@
     "declined": "Appel refusé",
     "noAnswer": "Pas de réponse",
     "missed": "Appel manqué",
-    "callBack": "Rappeler"
+    "callBack": "Rappeler",
+    "group": "Groupe",
+    "groupVoiceCall": "Appel vocal de groupe",
+    "groupVideoCall": "Appel vidéo de groupe",
+    "callingGroup": "Appel du groupe...",
+    "isCalling": "{{name}} vous appelle",
+    "leave": "Quitter",
+    "joinCall": "Rejoindre",
+    "startGroupVoice": "Lancer un appel vocal de groupe",
+    "startGroupVideo": "Lancer un appel vidéo de groupe",
+    "you": "Vous"
   },
   "badgeAscension": {
     "reached": "Vous avez atteint {{tier}}",
