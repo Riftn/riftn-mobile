@@ -95,11 +95,6 @@ jobs:
       - name: Boot an iPhone simulator
         id: sim
         run: |
-          RUNTIME="$(xcrun simctl list runtimes -j | python3 -c '
-          import json, sys
-          rs = [r for r in json.load(sys.stdin)["runtimes"] if r["platform"] == "iOS" and r["isAvailable"]]
-          rs.sort(key=lambda r: [int(p) for p in r["version"].split(".")])
-          print(rs[-1]["identifier"])')"
           TYPE="$(xcrun simctl list devicetypes -j | python3 -c '
           import json, sys
           names = [d["name"] for d in json.load(sys.stdin)["devicetypes"]]
@@ -112,6 +107,15 @@ jobs:
           for want in wants:
               if want in names:
                   print(want); break' "${{ inputs.device || 'iphone' }}")"
+          # Newest iOS runtime that can run that device (the iPhone Duo has its
+          # own device-specific runtimes, and the newest generic one refuses it).
+          RUNTIME="$(xcrun simctl list runtimes -j | python3 -c '
+          import json, sys
+          rs = [r for r in json.load(sys.stdin)["runtimes"] if r["platform"] == "iOS" and r["isAvailable"]]
+          ok = [r for r in rs if any(d.get("name") == sys.argv[1] for d in r.get("supportedDeviceTypes", []))]
+          rs = ok or rs
+          rs.sort(key=lambda r: [int(p) for p in r["version"].split(".")])
+          print(rs[-1]["identifier"])' "$TYPE")"
           UDID="$(xcrun simctl create riftn-check "$TYPE" "$RUNTIME")"
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
