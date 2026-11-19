@@ -253,6 +253,7 @@ function AppNavigatorContent() {
       />
 
       <Stack.Group>
+        <Stack.Screen name={ScreenNames.CreatorGallery} getComponent={() => deferredScreen('../screens/CreatorGalleryScreen#default', () => require('../screens/CreatorGalleryScreen').default)} />
         <Stack.Screen name={ScreenNames.Creator} getComponent={() => deferredScreen('../screens/CreatorScreen#default', () => require('../screens/CreatorScreen').default)} />
         <Stack.Screen name={ScreenNames.Maboroshi} getComponent={() => storefrontRoute(deferredScreen('../screens/MaboroshiScreen#default', () => require('../screens/MaboroshiScreen').default), "/creator/maboroshi")} />
         <Stack.Screen name={ScreenNames.CreatorRemake} getComponent={() => storefrontRoute(deferredScreen('../screens/MaboroshiScreen#default', () => require('../screens/MaboroshiScreen').default), "/creator/remake")} />

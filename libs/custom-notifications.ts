@@ -185,6 +185,10 @@ const composeReferenceContent = (row: CustomNotificationRow, actor: string): str
   const title = row.reference_title?.trim();
   const sentence = (named: string, unnamed: string): string =>
     String(i18n.t(title ? `notifications.custom.${named}` : `notifications.custom.${unnamed}`, { name: actor, title }));
+  if (row.type.startsWith('generation_')) {
+    const fallback = row.type === 'generation_like' ? '{{name}} reacted to your generation' : row.type === 'generation_comment_like' ? '{{name}} reacted to your comment' : row.type === 'generation_reply' ? '{{name}} replied to your comment' : '{{name}} commented on your generation';
+    return String(i18n.t(`creator.gallery.notifications.${row.type}`, { name: actor, defaultValue: fallback }));
+  }
   switch (row.type) {
     case "feature_request_like":
       return sentence('featureLikeNamed', 'featureLike');

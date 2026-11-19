@@ -150,7 +150,7 @@ const FILTER_TYPE_MAP: Record<NotificationTypeFilter, NotificationType[]> = {
   likes: [
     NotificationType.LIKE,
     NotificationType.COMMENT_LIKE,
-    ...(['feature_request_like', 'governance_vote', 'feature_request_comment_like', 'governance_comment_like'] as unknown as NotificationType[]),
+    ...(['generation_like', 'generation_comment_like', 'feature_request_like', 'governance_vote', 'feature_request_comment_like', 'governance_comment_like'] as unknown as NotificationType[]),
   ],
   follows: [NotificationType.FOLLOWING, NotificationType.FOLLOW_REQUEST, NotificationType.FOLLOW_REQUEST_ACCEPTED],
   comments: [
@@ -163,6 +163,7 @@ const FILTER_TYPE_MAP: Record<NotificationTypeFilter, NotificationType[]> = {
       'feature_request_reply',
       'feature_request_mention',
       'feature_request_activity',
+      'generation_comment', 'generation_reply',
       'governance_comment',
       'governance_reply',
       'work_application_reply',
@@ -1411,6 +1412,14 @@ const NotificationScreen = () => {
       // Straight to the proposal. The board used to receive the id and read
       // it for nothing; a comment row also carries the comment it is about,
       // which the proposal screen opens and lights.
+      case 'generation_like':
+      case 'generation_comment_like':
+      case 'generation_comment':
+      case 'generation_reply': {
+        const custom = notification as CustomNotificationItem;
+        leaveTo(ScreenNames.CreatorGallery as never, { id: custom.customReferenceId, commentId: custom.customCommentId } as never);
+        break;
+      }
       case 'governance_vote':
       case 'governance_comment':
       case 'governance_reply':

@@ -57,6 +57,7 @@ const WORK_TYPES = new Set(["work_application", "work_submission", "work_applica
 export function isCustomPushType(type: string | undefined): boolean {
   if (!type) return false;
   return (
+    type.startsWith('generation_') ||
     FEATURE_TYPES.has(type) ||
     GOVERNANCE_TYPES.has(type) ||
     COMMUNITY_TYPES.has(type) ||
@@ -104,6 +105,10 @@ export function openCustomPush(navigate: Navigate, data: CustomPushData, walletA
     markCustomNotificationRead(`${CUSTOM_ID_PREFIX}${data.customId}`, walletAddress).catch(() => {});
   }
 
+  if (type!.startsWith('generation_')) {
+    navigate(ScreenNames.CreatorGallery, { id: ref, commentId });
+    return true;
+  }
   if (FEATURE_TYPES.has(type!)) {
     if (ref) navigate(ScreenNames.FeatureRequests, { requestId: ref, commentId });
     else navigate(ScreenNames.FeatureRequests);
