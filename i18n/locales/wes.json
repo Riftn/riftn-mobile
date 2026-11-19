@@ -2605,7 +2605,49 @@
     "7db20897053b": "Pipo",
     "96d7bff86b44": "Search no fit load",
     "d8b8392e2c54": "Tray agen",
-    "94cee2c8c1c1": "Ya profile don move"
+    "94cee2c8c1c1": "Ya profile don move",
+    "3f9b2c71d0a4": "{{n}} result",
+    "8c4e1a6b2f57": "fo “{{query}}”",
+    "1d7234ff1b79": "fo {{feed}}",
+    "e122e5c2b563": "Drag up fo close",
+    "1aa9d734f2ee": "Choose weti fo search",
+    "35034aa59bd3": "Notin fo {{feed}} match. Try oda word or search everything.",
+    "415155739590": "Search everything",
+    "90f1afe66801": "E di search fo “{{query}}”…",
+    "9e13d826baaf": "Search image",
+    "e8756c6865a5": "Search shorts",
+    "c7661da99c41": "Search video",
+    "cbf6f228327c": "Search music",
+    "d7b559f2d8c6": "Try oda word, or change di filter dem.",
+    "ef557404f465": "No result fo “{{query}}”",
+    "3dd8c4dd8ee7": "Voice mode need microphone access",
+    "d1a0c7e2f301": "Weti dey ya mind today?",
+    "d1a0c7e2f302": "Weti you di think about today?",
+    "d1a0c7e2f303": "Weti dey ya mind?",
+    "d1a0c7e2f304": "Something dey ya mind?",
+    "d1a0c7e2f305": "Weti dey ya mind now now?",
+    "d1a0c7e2f306": "Weti we di think today?",
+    "d1a0c7e2f307": "Anything dey ya mind today?",
+    "d1a0c7e2f308": "Weti dey ya mind dis time?",
+    "a7c1e0f4b2d9": "Tap fo tok",
+    "b3e8d1c6f0a2": "Tap fo send",
+    "c9f2a4e7d1b5": "E di listen... tap di ball fo send",
+    "22577ebd908e": "Generate Wan 3.0 video · original soundtrack",
+    "1fa2357ab7e1": "Generate Seedance 720p video · original soundtrack",
+    "1cb1b494ee3b": "Di part match ya video ({{value1}}).",
+    "3a84120779c5": "Slide fo choose di part",
+    "55b1ec6f0360": "Choose di part",
+    "cbade2afaee2": "Wetin di trend dis week fo Audius. Free fo use, di artist go get credit fo ya post.",
+    "d0c1a3684775": "Song dem no load. Try again small time.",
+    "d2e45b7406fc": "Public domain an Creative Commons music from Wikimedia Commons. Di artist go get credit fo ya post.",
+    "ecb30523a48a": "Find song an artist dem",
+    "7f78bdc0762d": "+{{value1}} pts",
+    "f0c8bb34335b": "You don earn +{{value1}} point",
+    "0fbe06b679a8": "{{value1}} point fo each request weh dem don ship, e go add fo ya Top builders score.",
+    "ebebdc70335b": "Glass Bars",
+    "5ff272ba7871": "Silk Lines",
+    "a941e90ca93d": "Cover Halo",
+    "04dbbe4dff7a": "True Wave"
   },
   "dehubLinks": {
     "kind": {
@@ -2621,7 +2663,9 @@
       "profile": "profile",
       "proposal": "proposal",
       "stage": "stage",
-      "store": "store"
+      "store": "store",
+      "featureRequest": "request",
+      "page": "page"
     }
   },
   "postGate": {
@@ -2677,8 +2721,11 @@
       "pronouns": "Pronouns",
       "location": "Di location.",
       "customOption": "Na custom label.",
-      "custom": "Your own"
-    }
+      "custom": "Your own",
+      "podcast": "Podcast"
+    },
+    "descriptionPresets": "Add website, pronoun or any oda ting. Link dem go show wit ya social dem.",
+    "needsLabel": "Give each custom field yi label"
   },
   "notificationFilters": {
     "title": "Filter notifications from",
@@ -2851,7 +2898,15 @@
       "numbers": "Numbered list",
       "link": "Link-am",
       "image": "Ad foto dem"
-    }
+    },
+    "imageLimit": "Article fit carry reach {{count}} image",
+    "imageFailed": "Dat image no fit add. Try another one.",
+    "imagesUploading": "E di add image dem ({{count}})…",
+    "bodyTooLong": "{{count}} character pass di limit",
+    "imagesCount": "Image · {{count}}/{{max}}",
+    "captionPlaceholder": "Add caption",
+    "captionLabel": "Caption fo image {{n}}",
+    "removeInlineImage": "Comot image {{n}}"
   },
   "storefront": {
     "unavailable": "E no dey for dis version of di app"
@@ -3726,7 +3781,47 @@
     "themeColorBrandDesc": "Yus yua profile picture color dem",
     "themeColorBrandNoAvatar": "Add wan profile picture mek yu yus Brand color dem",
     "themeColorBrandFailed": "I no fit read color dem from yua profile picture",
-    "menuLayoutFolders": "Folder dem"
+    "menuLayoutFolders": "Folder dem",
+    "chatDeleteChoice": "When you delete message",
+    "chatDeleteChoiceDesc": "Ask every time, or always delete fo you only or fo everybody fo di chat.",
+    "chatDeleteAsk": "Ask every time",
+    "chatDeleteMe": "Delete fo me",
+    "chatDeleteMeDesc": "E comot fo ya chat, oda pipo still di see am",
+    "chatDeleteEveryone": "Delete fo everybody",
+    "chatDeleteEveryoneDesc": "When you fit. Oda person yi message fo group go comot fo you only",
+    "menuLayout": "Menu layout",
+    "menuLayoutDesc": "How di menu di group yi page dem",
+    "menuLayoutTabs": "Tab dem",
+    "menuLayoutTabsDesc": "One group at a time, wit big icon",
+    "menuLayoutSections": "Section dem",
+    "menuLayoutSectionsDesc": "All page dem one time, under group header",
+    "menuLayoutFoldersDesc": "Ya main page dem, den folder fo each group",
+    "chatCards": "Chat dem as card",
+    "chatCardsDesc": "Each chat fo yi own card. Off am fo plain list wit line between chat dem.",
+    "showLikes": "Show ma like dem to everybody",
+    "showLikesDesc": "Anybody fit open di Likes tab fo ya profile. E dey off by default, so na only you fit see weti you like.",
+    "showFollowersList": "Show who di follow me",
+    "showFollowersListDesc": "Make anybody fit open ya follower list. When e off, na only you fit see am.",
+    "showFollowingList": "Show who a di follow",
+    "showFollowingListDesc": "Make anybody fit open di list fo pipo wey you di follow. When e off, na only you fit see am.",
+    "showFollowCounts": "Show ma follower number",
+    "showFollowCountsDesc": "Show how many follower you get and how many pipo you di follow. If you off dis one, e go hide both list too.",
+    "postLanding": "After you post",
+    "postLandingDesc": "How ya new post go land fo ya feed",
+    "postLandingGhost": "Ghost slot",
+    "postLandingGhostDesc": "Ya feed go make space and ya post go fade enter yi place",
+    "postLandingMorph": "Morph",
+    "postLandingMorphDesc": "Di composer go shrink turn ya post",
+    "postLandingPill": "Pill to card",
+    "postLandingPillDesc": "Di upload bar go open turn ya post when e don go up",
+    "postLandingDrop": "Drop in",
+    "postLandingDropDesc": "Ya post go drop from top wit small bounce",
+    "defaultProfileView": "Profile post layout",
+    "defaultProfileViewDesc": "Show ya post dem as grid or list when pipo open ya profile",
+    "readerProfileView": "Open oda profile as",
+    "readerProfileViewDesc": "Choose grid or list fo every profile wey you open, or keep each person yi own choice",
+    "readerProfileViewOwner": "Each person yi choice",
+    "tipsOffNote": "Tip and send to you dey off as dis one dey on. Off am fo get tip again."
   },
   "common": {
     "refresh": "Lod-am again",
@@ -4799,7 +4894,13 @@
       "votes": "Vot",
       "comments": "Comment dem",
       "you": "Yu"
-    }
+    },
+    "deviceInfoNote": "Device info dey attach fo help we fix bug dem.",
+    "deviceInfo": "Device info",
+    "deviceInfoOwners": "Na only board owner dem di see dis",
+    "deviceInfoError": "Device info no fit load",
+    "deviceInfoNone": "No device info fo dis request",
+    "deviceInfoErrors": "Recent error dem"
   },
   "auth": {
     "importSecretPlaceholder": "12 or 24 word, or private key",
@@ -5628,6 +5729,28 @@
       "history": "Draft wey di wait an audit log",
       "approve": "Approve am mek i run",
       "dehub_comment": "Ansa an comment"
+    },
+    "welcome": {
+      "title": "Welcome new member dem",
+      "help": "Dis agent di follow and/or message pipo wey just join Riftn, small small every day.",
+      "follow": "Follow new member dem",
+      "message": "Message new member dem",
+      "text": "Welcome message",
+      "textHelp": "{name} go turn dia @username. No link. E go send one time fo each person.",
+      "saveText": "Save message",
+      "perDay": "Pipo fo one day",
+      "fewer": "Less fo one day",
+      "more": "More fo one day",
+      "today": "Today: {{follows}} follow · {{messages}} message",
+      "limits": "Never di same person two time. E di skip anybody wey block or mute you, off new message or hide from New members.",
+      "showLog": "See who e welcome",
+      "hideLog": "Hide welcome dem",
+      "empty": "No person yet. New member dem go show here as dem join.",
+      "followed": "E follow",
+      "messaged": "E message",
+      "skipped": "E skip",
+      "failed": "E no fit reach",
+      "defaultText": "Hey {name}, welcome fo Riftn! 👋"
     }
   },
   "hero": {
@@ -5713,7 +5836,44 @@
     "aspectRatio": "Ratio",
     "duration": "Durashun in sekond",
     "disconnect": "Diskonnekt",
-    "run": "Ron"
+    "run": "Ron",
+    "retryFreeTask": "Try free task again",
+    "previewSavedMedia": "Preview saved media",
+    "audioSavePending": "Di audio don ready, but yi private library save still di wait. Resume fo collect am.",
+    "freeResultUnknown": "Di free task response stop fo middle. E no go submit again by yi sef. Choose Try free task again, den resume; ya payment and oda job dem still dey.",
+    "formAuthor": "Edit flow",
+    "formAuthorHint": "Build flow wit typed input dem. Save am here, or arrange am fo di web canvas.",
+    "newNativeFlow": "New flow",
+    "chooseSavedMedia": "Choose saved media",
+    "formInput": "Input: {{handle}}",
+    "reviewRun": "Check run",
+    "resumeRun": "Resume saved run",
+    "confirmPrice": "Total: {{price}} token",
+    "recoveryHint": "Job and payment reference dem dey save fo dis device. Resume work wey stop before you start anoda run.",
+    "payAndRun": "Pay and run",
+    "newRun": "Start anoda run",
+    "loadMoreMedia": "Load more media",
+    "invalidGraph": "Check di connection dem: every input need source wey match and di graph no fit get cycle.",
+    "unsupportedNode": "Dis node no fit run fo di native form yet. Use di web canvas fo dis flow.",
+    "missingPrompt": "Connect text node wit prompt.",
+    "invalidSettings": "Di model wey you choose no support dis setting dem.",
+    "missingCapturedFrame": "Capture frame fo di web canvas before you use dis video as image input.",
+    "missingSavedMedia": "Saved source media no dey or e no dey again fo dis account.",
+    "quoteFailed": "E no fit price dis flow. Try again.",
+    "recoverBeforeEdit": "Resume di saved run before you change yi graph or start anoda run.",
+    "runAlreadyComplete": "Dis run don finish. Choose Start anoda run fo generate again.",
+    "recoveryCorrupt": "Di saved recovery record no fit read. Keep dis flow and contact support before you pay again.",
+    "paidUnavailable": "You fit write and save flow dem here. Paid run no dey fo dis storefront.",
+    "planChanged": "Di flow change after pricing. Check di run again.",
+    "connectOwnerWallet": "Connect di wallet wey get dis flow.",
+    "runFailed": "Di node no fit finish. Yi saved job reference still dey fo recovery.",
+    "recoveryPending": "Di render still di wait. Resume dis run fo collect am.",
+    "nodeAudioGen": "Audio generator",
+    "nodeAudioGenDesc": "Speech, sound effect, transcription and audio isolation",
+    "nodeAudioInput": "Saved audio",
+    "nodeAudioInputDesc": "Use private audio from ya library",
+    "audioVoiceId": "Voice ID",
+    "audioSeconds": "Sound length fo second"
   },
   "loginModal": {
     "title": "Log in",
@@ -6552,7 +6712,8 @@
       "hint": "I no understand wetin you dey talk.",
       "more": "Loda mor post.",
       "remove": "Mun ya dey remove from community.",
-      "unavailable": "Dis post no dey available."
+      "unavailable": "Dis post no dey available.",
+      "invalidLink": "Paste Riftn post link or post ID."
     },
     "followerInvites": {
       "detail": "Choose up to 50 follower fo one batch. We go pass DM weh na pay or weh dem close. Check di chat fo send weh never confirm before yu try again.",
@@ -6676,7 +6837,8 @@
       "slowMode": "Slow mode: one message for every {{interval}}",
       "joined": "{{name}} join",
       "reactions": "Reaction dem",
-      "photoTooLarge": "Image no fit pass 10MB"
+      "photoTooLarge": "Image no fit pass 10MB",
+      "aiAdminFailed": "AI Admin no answer"
     },
     "manage": {
       "dismissAdminTitle": "Comot am as admin",
@@ -6883,7 +7045,8 @@
       "private": "I hide",
       "free": "Fri",
       "paid": "Don pay",
-      "group": "Gruup"
+      "group": "Gruup",
+      "channel": "Channel"
     },
     "automod": {
       "saved": "Don sev"
@@ -8922,10 +9085,24 @@
       "fade": "Fad.",
       "ratioFree": "Fri",
       "rotate": "Tong am",
-      "strength": "Strong"
+      "strength": "Strong",
+      "colour": "Colour",
+      "original": "Original",
+      "ratioOriginal": "Original",
+      "textBg": "Background",
+      "font": {
+        "bold": "Bold",
+        "serif": "Serif"
+      }
     },
     "edited": "Edit",
-    "edit": "Chenj"
+    "edit": "Chenj",
+    "landingLive": "Live",
+    "preview": {
+      "title": "Preview"
+    },
+    "moveEarlier": "Move am before",
+    "moveLater": "Move am after"
   },
   "bounty": {
     "claimed": "Don claim",
@@ -9219,7 +9396,11 @@
     "justChatting": "Just Chatting",
     "noLiveStreams": "No Live Streams",
     "noOneStreaming": "Wetin no go stream now. Come back later!",
-    "loadStreamsFailed": "Wetin go wrong wey? No go load stream again. Try again, please."
+    "loadStreamsFailed": "Wetin go wrong wey? No go load stream again. Try again, please.",
+    "liveBadge": "LIVE",
+    "screenShare": {
+      "sharing": "You di share ya screen"
+    }
   },
   "liveShop": {
     "transfersPaused": "Token transfer dey pause",
@@ -9542,7 +9723,23 @@
       "communities": "Community dem",
       "newChat": "Nai chat."
     },
-    "attachTooLarge": "Dat file pass di {{size}} MB limit."
+    "attachTooLarge": "Dat file pass di {{size}} MB limit.",
+    "newDrawer": {
+      "to": "Fo",
+      "placeholder": "Name or @username",
+      "chattedBefore": "Una di tok",
+      "mutual": "Mutual",
+      "dmsOff": "DM off",
+      "keepTyping": "Continue type fo search everybody",
+      "sayHi": "Say hi to somebody",
+      "typeAny": "Type any name or @username"
+    },
+    "reportMessage": "Report message",
+    "deleteOneTitle": "Delete dis message?",
+    "notSent": "E no send",
+    "shareGroups": "Group dem",
+    "shareKindChannel": "Channel",
+    "shareKindCommunity": "Community"
   },
   "editPost": {
     "mediaPermission": "You need media library permission",
@@ -10758,7 +10955,19 @@
       "hint": "E di turn tok for timed captions weh you fit change dia style. E di run for yua device: free and private. Di first time, e go download di model.",
       "done": "Don add {{count}} captions.",
       "noSpeech": "No tok for dis clip.",
-      "failed": "E no fit make captions for dis clip."
+      "failed": "E no fit make captions for dis clip.",
+      "style": "Caption style",
+      "styles": {
+        "classic": "Classic",
+        "boxed": "Boxed",
+        "bold": "Bold",
+        "wordpop": "Word Pop",
+        "rapid": "Rapid Reveal",
+        "beast": "Beast Mode",
+        "stacked": "Stacked",
+        "serif": "Serif",
+        "bubble": "Bubble"
+      }
     },
     "app": {
       "newDesign": "New design",
@@ -10909,14 +11118,18 @@
       "section": "Section wey get name",
       "transparent": "See-through background",
       "filenameHint": "Leave am empty for normal name dem. Use {title}, {name}, {section}, {page}, or {page:3}. Put prefix as plain text. Name dem wey repeat go get page-number suffix.",
-      "pageOrderHint": "Page dem go follow di order wey you put. Use 3,1-2 for start wit page 3, or 5-1 for turn range back. Page number wey repeat go show only one time."
+      "pageOrderHint": "Page dem go follow di order wey you put. Use 3,1-2 for start wit page 3, or 5-1 for turn range back. Page number wey repeat go show only one time.",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "E go download ZIP wit ya timeline as FCPXML and Premiere XML plus every media file, so you fit finish di edit fo Premiere Pro, Final Cut Pro or DaVinci Resolve. Text go turn marker; effect dem go stay fo Riftn."
     },
     "adjust": {
       "auto": "Auto enhance",
       "autoFailed": "We no fit check dis picture.",
       "tint": "Tint {{value}}",
       "vignette": "Vignette {{value}}%",
-      "warmth": "Warmth {{value}}"
+      "warmth": "Warmth {{value}}",
+      "halation": "Halation {{value}}%",
+      "scanlines": "Scanlines {{value}}%"
     },
     "draw": {
       "colour": "Pen colour",
@@ -11010,7 +11223,45 @@
       "openGenerator": "Check am and generate",
       "working": "I di work for am…",
       "stop": "Stopam",
-      "queue": "Put am fo line"
+      "queue": "Put am fo line",
+      "stopped": "E don stop. Notin else change.",
+      "queued": "{{count}} dey fo queue",
+      "restore": "Go back reach here",
+      "restoreHint": "Put di project back as e be before dis message. Undo go bring am back.",
+      "restored": "Di project don go back to before dat message. Press undo fo bring di new version back.",
+      "rewrite": "Make ma request clear",
+      "rewriteFailed": "E no fit rewrite dat one. Ya text no change.",
+      "feedback": "Dis one help you?",
+      "good": "Good reply",
+      "bad": "Bad reply",
+      "retryPrefix": "Dat one no correct. Instead, ",
+      "recipesTitle": "Recipe dem",
+      "recipe": {
+        "podcastClip": {
+          "label": "Podcast clip",
+          "prompt": "Find di strongest 30-second moment, trim reach am, add Word Pop caption and make am 9:16."
+        },
+        "talkingHead": {
+          "label": "Clean talking head",
+          "prompt": "Cut long pause dem, add Classic caption, and give am small warm look."
+        },
+        "productPromo": {
+          "label": "Product promo",
+          "prompt": "Make 15-second promo: strong title fo start, Zoom in transition between clip dem, Bold caption and happy music."
+        },
+        "hypeReel": {
+          "label": "Hype reel",
+          "prompt": "Cut di clip dem fo di beat fo di music, use Fly up transition and di Technicolor look."
+        },
+        "retroEdit": {
+          "label": "Retro edit",
+          "prompt": "Give every clip di VHS look, add big serif title, and use Fade transition."
+        },
+        "tutorial": {
+          "label": "Tutorial",
+          "prompt": "Add title fo each step, Boxed caption, and slow di main moment reach 0.5x."
+        }
+      }
     },
     "brand": {
       "addColor": "Add one brand colour",
@@ -11036,7 +11287,10 @@
       "saveNewPreset": "Save am as new",
       "saveStyles": "Save style fit design",
       "stylesSaved": "Brand style save fit dis design",
-      "usePreset": "Use style"
+      "usePreset": "Use style",
+      "dehubApplied": "Riftn brand don apply fo {{count}} layer.",
+      "dehubApply": "Use di Riftn brand",
+      "dehubHint": "Official Riftn colour, Exo and Inter font, and di Riftn logo, fo one click."
     },
     "templates": {
       "announcement": {
@@ -12334,15 +12588,142 @@
       "yaw": "Turn",
       "add": "Add am",
       "color": "Kolo",
-      "light": "Lait"
+      "light": "Lait",
+      "create": "Add 3D stage",
+      "title": "3D scene stage",
+      "hint": "Block shot wit sphere and box dem. Camera, placement and three separate area light di change di rendered frame.",
+      "preview": "Rendered scene preview",
+      "error": "E no fit prepare di frame. Check ya shot reference dem and try again.",
+      "elevation": "Elevation",
+      "distance": "Distance",
+      "fov": "Field of view",
+      "object": "Object",
+      "sphere": "Sphere",
+      "box": "Box",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "scale": "Size",
+      "remove": "Comot object",
+      "intensity": "Intensity",
+      "diffusion": "Diffusion",
+      "saving": "Frame di prepare…",
+      "useFrame": "Use rendered frame as shot reference",
+      "frameHint": "E go create 320 × 180 PNG and add am fo dis shot yi reference dem. Check di reference limit and model quote before you generate.",
+      "frameName": "Scene stage frame"
     },
     "voiceClone": {
       "stop": "Stop rekod",
-      "failed": "Voice cloning fail."
+      "failed": "Voice cloning fail.",
+      "pickerLabel": "Clone ya voice",
+      "pickerDetail": "Voiceover fo ya own voice",
+      "title": "Clone ya voice",
+      "description": "Record ya sef or choose clip wey you di tok. You pay one time and ya voice na ya own fo every voiceover.",
+      "defaultName": "Ma voice",
+      "record": "Record sample (30 second reach 2 minute)",
+      "fromMedia": "Or use clip from Media",
+      "recorded": "Ya recording",
+      "sample": "Sample: {{name}}",
+      "hint": "Clear speech wey no get music di work best.",
+      "noMic": "E no fit use di microphone.",
+      "sampleFailed": "E no fit read di sound from dat clip.",
+      "pay": "Clone fo {{amount}} token",
+      "useFree": "Clone (you don already pay)",
+      "owned": "Ya voice “{{name}}” don already set up. Choose am from di voice list.",
+      "useOwned": "Use ma voice",
+      "ready": "“{{name}}” don ready fo voiceover.",
+      "paidFailed": "Ya payment don save. Open dis one again and di next try go free.",
+      "consent": "Clone only ya own voice, or one wey you get permission fo use."
     },
     "linkImport": {
       "go": "Bring am enter",
-      "downloading": "E dey download {{percent}}%"
+      "downloading": "E dey download {{percent}}%",
+      "open": "Import from link",
+      "placeholder": "Paste YouTube, TikTok or oda link",
+      "rights": "Na ma own video or a get permission fo use am",
+      "audioOnly": "Sound only",
+      "queued": "E dey fo queue…",
+      "waiting": "E di wait fo di site, e go try again soon…",
+      "adding": "E di add fo Media…",
+      "added": "E don import and add fo di timeline.",
+      "failed": "E no fit import dat link."
+    },
+    "film": {
+      "repairRefs": "Comot media link dem wey no dey",
+      "title": "Film project",
+      "intro": "Plan shot dem wit image reference wey you fit use again. Ya brief, shot order and result dem wey you choose di save wit dis project.",
+      "create": "Create film plan",
+      "name": "Film name",
+      "brief": "Film brief",
+      "sharedReferences": "Shared image reference (reach 4)",
+      "shot": "Shot",
+      "addShot": "Add shot",
+      "shotName": "Shot name",
+      "action": "Shot action and composition",
+      "seconds": "Video second wey you want",
+      "shotReferences": "Extra image reference (total limit 4)",
+      "frame": "Prepare frame",
+      "video": "Prepare video",
+      "review": "Check di model, reference, video duration and price fo di studio before you generate.",
+      "result": "Accepted shot result",
+      "noResult": "No result choose",
+      "resultHint": "Choose image or video wey you accept from Uploads. Yi link di save wit dis shot; use di timeline fo put di film together.",
+      "earlier": "Move am before",
+      "later": "Move am after",
+      "remove": "Comot shot",
+      "issue": "Check di shot description and reference media, den try again. Keep di project open if e no fit save.",
+      "searchMedia": "Find media by name",
+      "refreshMedia": "Refresh media"
+    },
+    "clipFix": {
+      "detach": "Separate audio",
+      "detached": "Audio don move go yi own clip",
+      "detachFailed": "E no fit separate dis clip yi audio",
+      "removeBars": "Comot black bar dem",
+      "scanning": "Frame dem di check…",
+      "noBars": "No black bar dey",
+      "barsRemoved": "Black bar dem don crop",
+      "barsFailed": "E no fit check dis video fo black bar",
+      "reframe": "Auto reframe",
+      "reframeHint": "Di video don already fit dis page shape",
+      "reframed": "E don reframe fo follow di action",
+      "reframeFailed": "E no fit reframe dis video",
+      "retakes": "Comot retake dem",
+      "listening": "E di listen…",
+      "noRetakes": "No retake dey",
+      "retakesRemoved": "E don comot {{count}} retake(s), keep di last take",
+      "retakesFailed": "E no fit comot retake dem from dis clip"
+    },
+    "speakers": {
+      "find": "Find speaker dem",
+      "name": "Speaker {{number}}",
+      "onlyOne": "Na only one speaker dey.",
+      "failed": "E no fit find di speaker dem.",
+      "kept": "E keep only {{name}}.",
+      "editFailed": "Dat edit no fit dis clip.",
+      "split": "E don split am to {{count}} speaker shot.",
+      "keepOnly": "Keep only",
+      "splitAction": "Cut fo each speaker change"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Describe di 3D object wey you want",
+      "queued": "Ya 3D object di build. E go land fo di Generations tab.",
+      "note": "3D object dem di come fo Media as short clip wey di turn wit see-through background."
+    },
+    "reverse": {
+      "action": "Reverse",
+      "working": "E di reverse {{percent}}%",
+      "done": "Clip don reverse.",
+      "failed": "E no fit reverse dis clip.",
+      "unsupported": "Dis browser no fit reverse video. Try Chrome or Edge.",
+      "tooLong": "Na clip wey reach {{seconds}} second fit reverse."
+    },
+    "behind": {
+      "action": "Text behind person",
+      "working": "E di cut out di person…",
+      "done": "Text and caption dem dey behind di person now.",
+      "failed": "E no fit put text behind di person."
     }
   },
   "creator": {
@@ -12807,12 +13188,157 @@
     "referenceComposeHint": "Bring characters, objek, objek wey dey for multiple piksins come one for one komposishon.",
     "marketing": {
       "import": {
-        "use": "Use dis detail dem"
+        "use": "Use dis detail dem",
+        "url": "Product page URL",
+        "action": "Read product page",
+        "loading": "Page di read…",
+        "hint": "Import text from public product page. Check di detail dem before you use dem; attach product image dem separate fo di studio.",
+        "source": "Imported source",
+        "review": "Choose product fo copy enter ya brief wey you fit edit. Ya headline, voice and brand color no go change.",
+        "errors": {
+          "signIn": "Sign in fo import product page.",
+          "url": "Use public HTTPS product URL.",
+          "empty": "No product detail wey fit use. Add dem by hand.",
+          "busy": "Too many import di run. Try again small time.",
+          "unavailable": "Dis page no fit import. Add di product detail dem by hand.",
+          "failed": "Import no pass. Ya brief don save; try again or put di detail dem by hand."
+        }
+      },
+      "title": "Campaign brief",
+      "intro": "Describe ya product and brand, den prepare ad format dem wey match.",
+      "saved": "Ya brief don save fo dis device fo dis account.",
+      "preview": "Prepare format dem",
+      "clear": "Clear brief",
+      "required": "Add product name and description fo prepare format dem.",
+      "variants": "Campaign format dem",
+      "reviewHint": "Check di model, price and product reference fo di studio before you generate. Each format na separate generation.",
+      "open": "Check fo studio",
+      "fields": {
+        "product": "Product name (must)",
+        "description": "Product fact dem (must)",
+        "brand": "Brand name",
+        "audience": "Target audience",
+        "benefit": "Main benefit",
+        "voice": "Brand voice",
+        "palette": "Brand color dem",
+        "headline": "Approved headline",
+        "cta": "Call to action"
+      },
+      "formats": {
+        "square": "Square ad",
+        "portrait": "Portrait ad",
+        "story": "Story image",
+        "video": "Vertical video"
       }
     },
     "batchCount": "Pikcha dem",
     "cinema": {
-      "close": "Klos"
+      "close": "Klos",
+      "title": "Cinema direction",
+      "hint": "Guide di visual style fo ya next image or video. Result dem di change by model.",
+      "none": "No direction",
+      "reset": "Clear direction",
+      "camera": {
+        "label": "Camera look",
+        "0": "Digital cinema",
+        "1": "35mm film",
+        "2": "16mm film",
+        "3": "Large format",
+        "4": "Old camcorder"
+      },
+      "lens": {
+        "label": "Lens look",
+        "0": "Spherical",
+        "1": "Anamorphic",
+        "2": "Old soft glass",
+        "3": "Macro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Focal length",
+        "0": "18mm wide",
+        "1": "24mm wide",
+        "2": "35mm natural",
+        "3": "50mm standard",
+        "4": "85mm portrait",
+        "5": "135mm telephoto"
+      },
+      "aperture": {
+        "label": "Depth of field",
+        "0": "f/1.4 shallow well well",
+        "1": "f/2.8 shallow",
+        "2": "f/5.6 medium",
+        "3": "f/11 deep focus"
+      },
+      "movement": {
+        "label": "Camera movement",
+        "0": "Tripod wey no move",
+        "1": "Slow dolly in",
+        "2": "Slow dolly out",
+        "3": "Side tracking",
+        "4": "Turn round di subject",
+        "5": "Handheld",
+        "6": "Crane go up",
+        "7": "Slow pan"
+      },
+      "lighting": {
+        "label": "Lighting",
+        "0": "Soft daylight",
+        "1": "Golden hour",
+        "2": "Low-key chiaroscuro",
+        "3": "High-key studio",
+        "4": "Neon practicals",
+        "5": "Silhouette backlight",
+        "6": "Cloudy soft light"
+      },
+      "tempo": {
+        "label": "Shot tempo",
+        "0": "One continuous shot",
+        "1": "Calm action, no hurry",
+        "2": "Action wit plenty energy",
+        "3": "Wild, chaotic action"
+      },
+      "era": {
+        "label": "Era",
+        "0": "1920s",
+        "1": "1950s",
+        "2": "1960s",
+        "3": "1970s",
+        "4": "1980s",
+        "5": "1990s",
+        "6": "Dis time",
+        "7": "Near future"
+      },
+      "genre": {
+        "label": "Genre",
+        "0": "Documentary",
+        "1": "Drama",
+        "2": "Film noir",
+        "3": "Science fiction",
+        "4": "Fantasy",
+        "5": "Romantic comedy",
+        "6": "Thriller",
+        "7": "Western"
+      },
+      "performance": {
+        "label": "Performance",
+        "0": "Happy",
+        "1": "Sad",
+        "2": "Worried",
+        "3": "Confident",
+        "4": "Wonder-struck",
+        "5": "Calm and controlled",
+        "6": "Playful"
+      },
+      "palette": {
+        "label": "Color palette",
+        "0": "Warm amber",
+        "1": "Cool blue",
+        "2": "Soft earth color dem",
+        "3": "Pastel",
+        "4": "High contrast monochrome",
+        "5": "Strong primary color dem"
+      }
     },
     "audioNoSpeech": "Nemesis no dey find word for dat recording.",
     "dialogueFormat": "Write scene wey \"Name: line\", one speaker per line.",
@@ -12821,9 +13347,112 @@
     "gallery": {
       "send": "Sen",
       "notifications": {
-        "generation_reply": "{{name}} reply your comment"
+        "generation_reply": "{{name}} reply your comment",
+        "generation_like": "{{name}} don react fo ya generation",
+        "generation_comment_like": "{{name}} don react fo ya comment",
+        "generation_comment": "{{name}} don comment fo ya generation"
+      },
+      "browse": "Look generation dem",
+      "fullscreen": "Look full screen",
+      "missing": "Dis generation no dey."
+    },
+    "avatarTitle": "Talking portrait",
+    "avatarRequirements": "Square PNG portrait, 512–2048 pixel, reach 5 MB. Mono 24 kHz 16-bit PCM WAV, 5–30 second. Di last small part fo second go get silence.",
+    "avatarPortrait": "Choose portrait PNG",
+    "avatarAudio": "Choose speech WAV",
+    "avatarPermission": "A get permission fo animate dis portrait and use dis audio.",
+    "avatarQuote": "{{seconds}} second wit silence · {{amount}} token",
+    "avatarPrepare": "Prepare and check price",
+    "batchFlowLimit": "Di Flow list don full. Comot one Flow wey you no di use before you create anoda batch.",
+    "batchReviewCampaign": "Check campaign batch fo Flow",
+    "batchReviewFilmImages": "Check storyboard image batch",
+    "batchReviewFilmVideos": "Check film clip batch",
+    "batchReviewHint": "E go open separate saved Flow. Check every item and di full price before you pay. Item dem wey don finish and di first payment go stay fo recovery. Reference dem go copy fo ya private library; storage and network usage go apply.",
+    "batchInvalid": "Finish each item before you prepare batch fo 1–12 image or clip.",
+    "batchReferenceLimit": "Dis batch di take one image reference fo each item. Comot di extra reference dem or prepare dat item alone.",
+    "batchVideoSettings": "Fo dis batch, clip dem need whole duration fo 4–15 second and 16:9, 9:16 or 1:1 aspect ratio.",
+    "batchMissingReference": "One reference no dey, no supported or e pass 25 MB. Put am back fo di editor before you prepare di batch.",
+    "batchOwnerChanged": "Di account or draft don change. Open dis batch again under yi original account.",
+    "batchConflict": "Di saved batch no match yi original snapshot.",
+    "campaignPlanTitle": "Campaign variant and episode dem",
+    "campaignPlanIntro": "Save reach 12 variation or episode. Each one go open di studio fo yi own review and quote. Shared note dem di guide continuity; product look, character and voice fit change between generation dem.",
+    "campaignTitle": "Campaign or series name",
+    "campaignContinuity": "Shared character, voice and style note",
+    "campaignVariantTitle": "Variant or episode name",
+    "campaignHook": "Opening hook",
+    "campaignLanguage": "Output language",
+    "campaignScript": "Approved script or scene sequence",
+    "campaignAdd": "Add variant or episode",
+    "campaignClear": "Clear plan",
+    "campaignFormat": "Output format",
+    "audioExportFormat": "Export format",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Attach one source clip fo extend.",
+    "extensionSeconds": "+{{seconds}}s new footage",
+    "extensionHelp": "E go return ya source clip wit about four new second. Output go resize reach 720p fo 24 fps. Dem go make new audio fo di extension.",
+    "extensionForward": "Add about four second after ya source clip",
+    "extensionBackward": "Add about four second before ya source clip",
+    "expandDescription": "Make new border fo image. English prompt no be must; one source image.",
+    "relightDescription": "Change di light fo one photo from ya lighting and background description.",
+    "expandPromptHint": "Attach one image and choose yi new aspect ratio. English prompt no be must.",
+    "expandEnglishOnly": "Dis expansion model di take English prompt only. Leave di prompt empty fo automatic expansion.",
+    "expandNeedsImage": "Attach image fo expand.",
+    "learn": {
+      "title": "Creator lesson dem",
+      "intro": "Short lesson, knowledge check and exercise wey you fit edit fo each one. Progress di save fo dis device fo ya account.",
+      "back": "Go back fo Creator",
+      "lessons": "Lesson dem",
+      "progress": "{{completed}} fo {{total}} knowledge check don pass",
+      "check": "Check answer",
+      "correct": "Knowledge check don pass",
+      "retry": "Try again. Read di lesson up there again.",
+      "exerciseTitle": "Practical exercise",
+      "exerciseHint": "Open example wey you fit edit fo ya own studio workspace. To open draft na free; generation need ya review and yi own quote. Edit di example before you generate.",
+      "openExercise": "Open exercise draft",
+      "closeExercise": "Close exercise",
+      "brief": {
+        "title": "Write clear visual brief",
+        "body1": "Describe one real subject, weti e di do and di place. Add framing or camera movement when e help di scene. Keep oda idea dem fo anoda draft.",
+        "body2": "Lighting, lens and style direction di guide di model. Dem no promise real camera behavior or exact image. Change one part at a time so you fit compare di revision dem.",
+        "body3": "Before you generate, check di model wey you choose, attachment wey e support, dimension and price. Keep di original draft so you fit go back to am.",
+        "question": "Which brief easy pass fo revise?",
+        "answer0": "Clear subject, action and place",
+        "answer1": "Only model name",
+        "answer2": "List fo style dem wey di fight each oda",
+        "exercise": "Ceramic teapot fo wooden table near window. Soft morning light, medium framing, simple background. Keep di teapot as di clear subject."
+      },
+      "continuity": {
+        "title": "Plan shot dem and check continuity",
+        "body1": "Use di Film panel fo di editor fo save brief and shot dem fo order. Prepare each frame or clip alone, check yi quote, and choose result wey you accept.",
+        "body2": "Attach only reference dem wey ya model accept. If you use reference again e fit guide how e look; e no di train identity or promise say e go match. Character and voice dem fit change between generation dem.",
+        "body3": "Keep di take dem wey good and put dem together fo di timeline. Check motion, face, dialogue and transition dem before export.",
+        "question": "Weti di help continuity across shot dem?",
+        "answer0": "More prompt dem wey no relate",
+        "answer1": "Approved reference and shot note wey you don check",
+        "answer2": "Think say character identity sure",
+        "exercise": "Wide shot fo one traveler wey reach quiet coast fo sunrise. Slow forward camera movement, calm atmosphere. One continuous shot."
+      },
+      "campaign": {
+        "title": "Use approved product fact dem",
+        "body1": "Start wit product fact wey you fit verify. Check imported metadata before you use am. Write di headline and call to action clear; no invent price, review or performance claim.",
+        "body2": "Use saved campaign variant dem fo keep shared note and each hook, script, language and format together. Prepare one checked item at a time and check yi quote fo di studio.",
+        "body3": "Check di text wey e show, how di product look and any claim wey dem tok fo di result. Prompt no be proof fo product accuracy or marketing performance.",
+        "question": "When you suppose put product claim?",
+        "answer0": "Any time wey e sound convincing",
+        "answer1": "After you invent five-star review",
+        "answer2": "When e come from approved product fact dem",
+        "exercise": "Create portrait product advert fo whole-leaf tea wey dem sell fo tin wey you fit use again. Approved headline: Make time for tea. Approved CTA: Explore the collection. Use only dis fact dem; no invent discount, review or health claim."
       }
-    }
+    },
+    "batchPaymentHelp": "Each image wey you submit go charge separate. If batch stop, token wey e no use from yi payment go use automatic fo later generation wey e cover.",
+    "invalidSeed": "Seed must be whole number from 0 reach 2147483647.",
+    "audioInvalidResponse": "Di audio service return result wey no correct.",
+    "audioTaskSfxLabel": "Sound effect",
+    "loop": "Loop",
+    "libraryFavorites": "Favorite dem",
+    "libraryFavoriteAdd": "Add fo favorite",
+    "libraryFavoriteRemove": "Comot from favorite"
   },
   "fractions": {
     "title": "Fraction dem",
@@ -12965,7 +13594,8 @@
     "offerSubmitted_other": "Offer submit for {{count}} fractions at {{price}} tokis each",
     "yourOfferLabel": "Yor Offer (tokis per Fraction)",
     "listedToast_one": "Listed {{count}} fraction at {{price}} tokis each",
-    "listedToast_other": "Listed {{count}} fractions at {{price}} tokis each"
+    "listedToast_other": "Listed {{count}} fractions at {{price}} tokis each",
+    "nftsSubtitle": "Any NFT, one-step swap"
   },
   "moderation": {
     "appealDuplicate": "You don chop dis one",
@@ -14338,7 +14968,9 @@
     "faqWhatA": "Through MCP e fit look Riftn public posts, search topics and check creator profiles. E no dey post for your name.",
     "faqAccountQ": "I need Riftn account?",
     "chatgptFaqAccount": "You no need account to read public content through di connector. You go only need Riftn account if you wan post, tip or hold Riftn tokens.",
-    "claudeFaqAccount": "No. To read public content no need account. You only need Riftn account to post, tip or hold Riftn tokens."
+    "claudeFaqAccount": "No. To read public content no need account. You only need Riftn account to post, tip or hold Riftn tokens.",
+    "agentsTitle": "Run ya agent dem from ya assistant",
+    "keysTitle": "Personal key dem"
   },
   "credits": {
     "percentUsed": "{{percent}}% used",
@@ -14438,7 +15070,10 @@
       "title": "Pay {{name}}?",
       "body": "tokens go straight go wallet wey app dey, {{wallet}}. Payment no go reverse.",
       "confirm": "Pay {{amount}} tokens",
-      "sent": "Paiti {{amount}} tokens fo {{name}}."
+      "sent": "Paiti {{amount}} tokens fo {{name}}.",
+      "testBadge": "Test mode",
+      "testBody": "Na you get dis app, so dis one na test: no token go move and dem go mark di receipt as test.",
+      "testSent": "Test payment fo {{amount}} token. Notin send."
     },
     "add": {
       "title": "Add {{name}}?",
@@ -14559,7 +15194,16 @@
     "subathonOver": "Time's up",
     "pointsTitle": "Most loyal viewers",
     "points_one": "{{formatted}} point",
-    "points_other": "{{formatted}} points"
+    "points_other": "{{formatted}} points",
+    "eyebrow": {
+      "follow": "New follower",
+      "subscribe": "New subscriber",
+      "subscribedTo": "E subscribe · {{plan}}",
+      "gifted_one": "E gift one sub",
+      "gifted_other": "E gift {{count}} sub",
+      "share": "E share di stream",
+      "join": "E just join"
+    }
   },
   "liveStudio": {
     "empty": "No widget dey yet. Add tip alert or goal fo start.",
@@ -14922,8 +15566,24 @@
       "states": {
         "off": "I of",
         "idle": "E don redi",
-        "error": "Wahala"
-      }
+        "error": "Wahala",
+        "connecting": "E di connect",
+        "live": "Live"
+      },
+      "title": "Multistream destination dem",
+      "intro": "Go live fo Riftn one time and we go push ya stream to every platform wey you on here, free. E di start some second after you go live.",
+      "add": "Add destination",
+      "empty": "No destination yet. Add Twitch, YouTube, Kick or any RTMP server.",
+      "platform": "Platform",
+      "label": "Name (no be must)",
+      "server": "Server URL",
+      "key": "Stream key",
+      "findKey": "Find ya {{name}} server and key",
+      "customHint": "Paste di RTMP server and key wey ya platform give you.",
+      "keyNote": "Ya key dey encrypted fo we server and we no go ever show am again.",
+      "added": "{{name}} don add",
+      "saveFailed": "E no fit save di destination",
+      "toggle": "Stream to dis destination"
     }
   },
   "liveChatModeration": {
@@ -14960,7 +15620,11 @@
     "gasIncluded": "Gas included",
     "gasOnly": "≈ {{usd}} gas",
     "priceUnavailable": "Price unavailable",
-    "confirm": "Mint on {{chain}}"
+    "confirm": "Mint on {{chain}}",
+    "paidFromWallet": "{{amount}} from ya wallet",
+    "paidFromWalletPlain": "You pay from ya wallet",
+    "confirmWithCost": "Mint fo {{chain}} · {{cost}}",
+    "notAvailable": "Minting fo dis chain no dey yet."
   },
   "tokenLaunch": {
     "eyebrow": "Coming soon",
@@ -15042,7 +15706,37 @@
     "back": "Go back",
     "dropsTo": "Pais drop dee {{price}} by {{date}}",
     "showAll": "Show all of dem",
-    "endPrice": "Lowest price, reach at last time ({{symbol}})"
+    "endPrice": "Lowest price, reach at last time ({{symbol}})",
+    "actCollectionOffer": "Collection offer",
+    "actListed": "Listed",
+    "actOffer": "Offer",
+    "actSale": "Sale",
+    "actSales": "Sale dem",
+    "buyAll": "Buy all",
+    "buySeveral": "Buy plenty",
+    "cartBought": "You don buy {{n}}. Dem dey fo ya wallet now.",
+    "cartCount": "{{n}} fo cart",
+    "cartFull": "Reach 20 one time",
+    "cartOneCoin": "One chain and one coin fo each cart. Clear am fo change.",
+    "cartOwn": "Dat one na ya own",
+    "cartPick": "Tap fo add fo cart",
+    "forSaleHere": "Fo sale here",
+    "noActivity": "Notin dey here yet",
+    "listedAt": "Listed",
+    "tabSales": "Sale dem",
+    "failed": "E no pass. Try again.",
+    "volShort": "Vol",
+    "salesCount": "{{n}} don sell",
+    "bestOffer": "Best offer",
+    "fromOpenSea": "Top collection dem fo OpenSea",
+    "buyHere": "Buy dem here",
+    "openSeaNote": "E dey list fo OpenSea. You pay di seller direct fo Seaport; Riftn no add fee.",
+    "freshMints": "Fresh from Riftn creator dem",
+    "alertUnder": "Tell me when dem list am fo or under ({{symbol}}, no be must)",
+    "alertSaved": "Alert don on. We go tell you when dem list one.",
+    "sellYoursHint": "List from ya wallet",
+    "tapToOffer": "Tap one fo make offer",
+    "spotlightForSale": "Fo sale now"
   },
   "reel": {
     "readAll": "Read all",
@@ -15065,7 +15759,9 @@
       "artist": "Artist"
     },
     "loading": "E di load…",
-    "paused": "Pause"
+    "paused": "Pause",
+    "stopAndClose": "Stop and close",
+    "preview": "Preview"
   },
   "twoFactor": {
     "wrongCode": "Dat code no match. Try di new one wey de for your app.",
@@ -15123,33 +15819,132 @@
     "position": "{{current}} of {{total}}",
     "older": "Older result",
     "newer": "Newer result",
-    "theirMessages": "Their messages"
+    "theirMessages": "Their messages",
+    "placeholder": "Find message or pipo",
+    "peopleHere": "Pipo fo dis chat",
+    "hint": "Write one word or one name.",
+    "gone": "Dat message no dey here again"
   },
   "chatTextSize": {
     "title": "Teksi saiz",
-    "larger": "Larjer"
+    "larger": "Larjer",
+    "small": "Small",
+    "large": "Big"
   },
   "signedFollows": {
     "setUp": "Put am on",
-    "efpTurnOff": "Stopam"
+    "efpTurnOff": "Stopam",
+    "title": "Ya follow dem, fo chain",
+    "description": "Ya wallet di sign di pipo wey you follow, and every day dem stamp di list fo Base. Any app fit find ya follow dem from ya wallet, even without Riftn.",
+    "on": "On fo dis device",
+    "off": "Off fo dis device",
+    "turnOff": "Off am",
+    "turnedOn": "Ya wallet don dey sign ya follow dem now",
+    "turnedOff": "E don off fo dis device",
+    "failed": "Ya wallet no sign. Try again.",
+    "hiddenNote": "Hidden follow list and private account dem no dey inside di public list.",
+    "efpOn": "Copy fo EFP · {{count}} follow",
+    "efpOff": "Put dem fo EFP too",
+    "efpTurnOn": "Add fo EFP",
+    "efpDone": "Ya follow dem di go fo EFP",
+    "efpStopped": "EFP copy don stop. Di list still be ya own.",
+    "efpHasList": "You don already get EFP list. Riftn no fit fill dat one yet.",
+    "efpNoGas": "Ya wallet need small ETH fo Base fo dis one.",
+    "efpFailed": "E no pass. Try again.",
+    "efpNote": "EFP na follow list wey oda app dem di read (efp.app). E free wit ya Riftn wallet; oda wallet dem go pay small cent fo Base. Di list na ya own."
   },
   "studioDeck": {
     "remove": "Comot am",
     "background": {
       "modes": {
-        "none": "I of"
-      }
+        "none": "I of",
+        "blur": "Blur",
+        "color": "Colour",
+        "image": "Picture"
+      },
+      "title": "Background",
+      "failed": "Background removal no fit start fo dis device.",
+      "hint": "E di run fo ya device. Di first time go take some second fo load."
     },
     "scenes": {
       "names": {
-        "starting": "E go start soon"
+        "starting": "E go start soon",
+        "chatting": "Just di chat",
+        "brb": "A di come back now",
+        "ending": "Stream di end"
+      },
+      "title": "Scene dem",
+      "picture": "Picture",
+      "countdown": "Countdown",
+      "noCountdown": "No countdown",
+      "minutes": "{{count}} min",
+      "hints": {
+        "starting": "Card wit countdown",
+        "chatting": "Camera full screen",
+        "brb": "Card, mic mute",
+        "ending": "Thank-you card"
+      },
+      "subtitles": {
+        "starting": "Di stream go start fo",
+        "brb": "A di come back now now",
+        "ending": "Thank you fo watch"
+      }
+    },
+    "widgets": {
+      "title": "Show widget dem fo ma video",
+      "hint": "Alert, goal bar and chat dem dey draw inside ya stream, so viewer dem fo Twitch, YouTube and all oda platform go see dem too.",
+      "failed": "E no fit change where ya widget dem di show. Try again."
+    },
+    "sources": {
+      "title": "Source dem",
+      "addImage": "Image or logo",
+      "failed": "E no fit add dat source.",
+      "hint": "Source dem dey draw ova ya picture fo every viewer and every platform.",
+      "image": "Image",
+      "show": "Show fo stream",
+      "positions": {
+        "top-left": "Top left",
+        "top-right": "Top right",
+        "bottom-left": "Bottom left",
+        "bottom-right": "Bottom right",
+        "center": "Centre"
+      },
+      "sizes": {
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Big"
       }
     }
   },
   "whenSheet": {
     "tooSoon": "Pick time weh never reach.",
     "today": "Today",
-    "earlierShort": "Before"
+    "earlierShort": "Before",
+    "title": "Wen?",
+    "tonight": "Tonight",
+    "inAnHour": "Fo one hour",
+    "tomorrow": "Tomorrow",
+    "primeTime": "Prime time",
+    "scheduleFor": "Set fo {{when}}",
+    "liveTip": "Ya followers fit set reminder. Na you go start di Live wen time reach.",
+    "stageTip": "E go enter Upcoming shelf one time, so pipo fit tap Remind me.",
+    "typePlaceholder": "Write time, like \"fri 8pm\" or \"in 2 hours\"",
+    "typeLabel": "Write time",
+    "typeHelp": "Try \"tonight\", \"tomorrow 9am\", \"sat noon\" or \"30 oct 7pm\".",
+    "orPickDay": "Or choose day",
+    "earlier": "15 minute before",
+    "later": "15 minute after",
+    "laterShort": "Later",
+    "tooSoonMin": "Choose time weh e be at least {{count}} minute from now.",
+    "zone": "Ya time ({{zone}}). Everybody else go see am fo dia own time.",
+    "remove": "Comot schedule",
+    "startsIn": "E go start fo {{time}}",
+    "bestTime": "Best time",
+    "fansOnline": "Wen my fans dey online?",
+    "show": "Show",
+    "hide": "Hide",
+    "fansBasis": "Wen e bright pass, e mean sey more of ya followers bin di watch, last {{count}} day.",
+    "everyoneBasis": "Follower activity never reach, so dis one na everybody fo Riftn."
   },
   "planned": {
     "title": "Dem don plan am",
@@ -15161,38 +15956,139 @@
     "loading": "E di load…",
     "startNow": "Start nao",
     "cancel": "Kansel",
-    "cancelled": "Cancel"
+    "cancelled": "Cancel",
+    "subtitle": "Post, Live an Stage dem weh you don set",
+    "seoTitle": "Planned · Riftn",
+    "seoDescription": "Ya post, Live an Stage dem weh you don set fo Riftn, all fo one place.",
+    "lives": "Lives",
+    "live": "Live",
+    "stage": "Stage",
+    "untitledLive": "Live",
+    "signIn": "Sign in fo see wetin you don plan",
+    "emptyTitle": "Notin no dey plan yet",
+    "emptyBody": "Choose \"Wen?\" as you di make post, Live or Stage an e go show here.",
+    "move": "Move",
+    "postNow": "Post now",
+    "confirmCancel": "Tap again fo cancel",
+    "moved": "E don move go {{when}}",
+    "postingNow": "E go post fo less than one minute",
+    "moveFailed": "E no fit move am. Try again.",
+    "seeAll": "See everything weh you don plan"
   },
   "welcome": {
     "about": {
-      "title": "You don land Riftn, welcome"
+      "title": "You don land Riftn, welcome",
+      "sub": "Ya birthday go stay private. Choose look, you fit change am any time.",
+      "birthday": "Day weh dem born you",
+      "pick": "Choose ya birthday",
+      "day": "Day",
+      "month": "Month",
+      "year": "Year",
+      "invalid": "Put ya full date of birth.",
+      "tooYoung": "You need be {{age}} or more fo use Riftn.",
+      "theme": "Ya look"
     },
     "name": {
       "title": "Yor name",
-      "placeholder": "Yor name"
+      "placeholder": "Yor name",
+      "sub": "Na dis name pipo go see fo ya post dem."
     },
     "card": {
       "name": "Yor name",
-      "followers": "fɔlɔwɔs"
+      "followers": "fɔlɔwɔs",
+      "interests": "Wetin you like",
+      "following": "following"
     },
     "topic": {
       "music": "Myuzik",
       "crypto": "Kripto",
       "sports": "Sporz",
-      "news": "Njuz"
+      "news": "Njuz",
+      "art": "Art",
+      "gaming": "Gaming",
+      "travel": "Travel",
+      "comedy": "Comedy",
+      "film": "Film",
+      "anime": "Anime",
+      "cars": "Motor",
+      "podcast": "Podcast",
+      "animals": "Animal",
+      "tech": "Tech",
+      "food": "Chop",
+      "science": "Science"
     },
     "back": "Go back",
-    "skipPhoto": "Leave am fo now"
+    "skipPhoto": "Leave am fo now",
+    "username": {
+      "title": "Ya @username",
+      "sub": "Letter, number an underscore. You fit change am later.",
+      "yours": "@{{name}} na ya own"
+    },
+    "photo": {
+      "title": "Ya photo",
+      "sub": "If you want. Pipo di follow face quick pass.",
+      "choose": "Choose photo",
+      "change": "Choose another one"
+    },
+    "interests": {
+      "title": "Wetin you like",
+      "sub": "Choose at least 3. Dem go first fo ya category dem."
+    },
+    "people": {
+      "title": "Ya pipo",
+      "sub": "Tap fo follow. Dia post go full ya Following feed.",
+      "empty": "No suggestion now. Explore get more pipo fo find.",
+      "followers": "{{count}} followers"
+    },
+    "done": {
+      "title": "You fine, {{name}}",
+      "sub": "Everybody go see dis card from today.",
+      "eyebrow": "Profile don live"
+    },
+    "enter": "Enter Riftn",
+    "pickMore": "Choose {{count}} more",
+    "preview": "Preview",
+    "cardHint": "Na so pipo go see you",
+    "followFailed": "E no fit follow. Try again."
   },
   "appTokens": {
     "kindDeposit": "Put money",
     "amount": "How much",
     "notePlaceholder": "Add smɔl not (if yu want)",
     "sendButton": "Sen",
-    "errorInsufficient": "Na dey no go fit yu token, yu must go buy more."
+    "errorInsufficient": "Na dey no go fit yu token, yu must go buy more.",
+    "title": "Ya token dem",
+    "rowHint": "Balance inside app",
+    "explainer": "Ya token dem don dey inside Riftn now. You start wit wetin you bin hold an stake onchain wen we launch. Send, tip an spend di move dem one time, no fee an notin no go onchain. Balance go carry go di new token fo airdrop.",
+    "history": "History",
+    "noHistory": "No activity yet",
+    "kindOpening": "Starting balance",
+    "kindSent": "You send give {{name}}",
+    "kindReceived": "From {{name}}",
+    "kindSpent": "You spend am fo Riftn",
+    "kindRefund": "Moni back",
+    "kindAdjust": "Riftn don adjust am",
+    "sendTitle": "Send token",
+    "sendHint": "E di send token inside Riftn give another account. Quick an free, notin no go onchain.",
+    "to": "Fo",
+    "toPlaceholder": "@username or 0x address",
+    "looking": "E di find…",
+    "available": "Weh dey: {{amount}}",
+    "sent": "You don send {{amount}} token give {{name}}",
+    "errorRateLimit": "You don send too much fo di last hour. Try again later.",
+    "errorNoRecipient": "No Riftn account dey",
+    "errorSelf": "You no fit send give ya self",
+    "errorGeneric": "E no fit send. Try again."
   },
   "avatarPrompt": {
-    "notNow": "No be now"
+    "notNow": "No be now",
+    "title": "Add profile photo",
+    "body": "Pipo go see you quick pass fo feed, comment an chat wen you get face or logo.",
+    "choose": "Choose photo",
+    "another": "Choose another one",
+    "save": "Use dis photo",
+    "saved": "E fine",
+    "failed": "E no fit save ya photo. Try again."
   },
   "postStats": {
     "audience": "Audienshun",
@@ -15208,34 +16104,145 @@
     "saved": "Don sev",
     "shares": "Share dem",
     "signedOutViewers": "You don sign out",
-    "visitors": "You don sign out"
+    "visitors": "You don sign out",
+    "aboutUsual": "almost like before",
+    "afterWatching": "follow after dem see am",
+    "avg": "avg",
+    "avgWatch": "Avg watch",
+    "bestTime": "Wen ya pipo di watch",
+    "bigDrop": "Big drop",
+    "byBadge": "by badge",
+    "devices": "Device (members)",
+    "finishedLower": "finish",
+    "finishedPct": "{{pct}}% watch reach di end",
+    "inOut": "{{in}} members · {{out}} no sign in",
+    "leave": "{{pct}}% di comot",
+    "linkClicks": "Link click dem",
+    "newToYou": "new fo you",
+    "noAccount": "no account",
+    "noBadge": "No badge",
+    "noViewersYet": "Nobody never see dis post.",
+    "noWatchYet": "Watch time go show here wen pipo play am. E start count fo 31 Oct 2026.",
+    "open": "See how ya post di do",
+    "otherBadges": "Other badge dem",
+    "peak": "Peak {{time}} · {{n}}",
+    "peopleReached": "Pipo weh e reach",
+    "playsLower": "plays",
+    "playsMembers": "Plays by members",
+    "playsVisitors": "Plays without sign in",
+    "profileTaps": "Tap dem fo ya profile",
+    "reach": "Reach",
+    "saves": "Saves",
+    "seeAll": "See all stats",
+    "signedIn": "sign in",
+    "signedOutLower": "no sign in",
+    "stillWatching": "Still di watch",
+    "timesUsual": "{{ratio}}× like before",
+    "vsUsualPct": "{{pct}} compare ya normal post",
+    "topSupporters": "Top supporters",
+    "unavailableBody": "Na only di creator fit see stats fo dis post.",
+    "unavailableTitle": "Stats no dey",
+    "vsUsual": "compare ya normal post",
+    "watching": "Di watch",
+    "whoSawIt": "Who see am",
+    "withRepeats": "{{n}} repeat",
+    "yourFollowers": "ya followers",
+    "first48": "First 48 hour",
+    "howItsDoing": "How e di do",
+    "bestTip": "Most of ya viewers di come {{day}} around {{hour}}:00. If you post small before dat time, post go get di best start.",
+    "last30": "last 30 day",
+    "day": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    }
   },
   "duet": {
     "policyEveryone": "Everybody",
     "policyFollowers": "Follower dem",
     "policyNobody": "Nobody",
     "loadMore": "Bring more",
-    "video": "Vidio"
+    "video": "Vidio",
+    "with": "Duet wit @{{username}}",
+    "withOriginal": "Duet · look di original",
+    "unavailable": "Dis video no dey again fo duet.",
+    "allowLabel": "Allow duet",
+    "allowDescription": "Who fit record duet near ya video dem. You fit change am fo each post too.",
+    "settingsSection": "Duet dem",
+    "policyDefault": "Account setting",
+    "saveFailed": "E no fit save. Try again.",
+    "count_one": "{{count}} duet",
+    "count_other": "{{count}} duet dem",
+    "pageHeading": "Duet dem",
+    "pageTitle": "Duet dem fo {{title}} by @{{creator}}",
+    "pageTitleNoCreator": "Duet dem fo {{title}}",
+    "pageDescription": "Watch all duet fo dis video fo Riftn, or record ya own one side by side.",
+    "empty": "No duet yet. Open di video option dem, choose Remix → Duet fo make di first one.",
+    "notFound": "Dis video no dey.",
+    "browseShorts": "Look Shorts dem"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Everybody",
       "followers": "Follower dem",
-      "nobody": "Nobody"
+      "nobody": "Nobody",
+      "default": "Ma default"
+    },
+    "shareFailed": "Ya tip don go, but di original creator yi share no pass.",
+    "notify": {
+      "duet": "{{name}} don duet ya video",
+      "stitch": "{{name}} don stitch ya video",
+      "react": "{{name}} don react fo ya video",
+      "reactLive": "{{name}} dey react live fo ya video"
+    },
+    "linkFailed": "Ya post don go up, but e no fit link am to di original video.",
+    "settingsHeading": "Remixes",
+    "stitch": {
+      "allow": "Allow stitch",
+      "allowDesc": "Who fit use reach 5 second fo ya video dem fo dia own. You fit change am fo each post too.",
+      "saveFailed": "E no fit save ya stitch setting. Try again.",
+      "settingFailed": "Ya post don go up, but yi stitch setting no save. Change am fo Edit post.",
+      "from": "Stitch from {{name}}",
+      "count_one": "{{count}} Stitch",
+      "count_other": "{{count}} Stitch dem",
+      "listTitle": "Stitch dem",
+      "listFailed": "Stitch dem no fit load. Try again.",
+      "listEmpty": "No stitch yet.",
+      "unavailable": "Dis video no dey again fo stitch."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Everybody",
       "followers": "Follower dem",
-      "nobody": "Nobody"
+      "nobody": "Nobody",
+      "default": "Account default ({{value}})"
     },
     "heading": "Reaction dem",
-    "more": "Shaw mo"
+    "more": "Shaw mo",
+    "reactionTo": "Reaction fo",
+    "reactingTo": "E di react fo",
+    "count_one": "{{count}} reaction",
+    "count_other": "{{count}} reaction dem",
+    "allow": "Allow reaction dem",
+    "remixesSection": "Remixes",
+    "allowDescription": "Make other creators react fo ya video dem, recorded or live. You fit still change am fo each post.",
+    "pageDescription": "Watch creators react fo “{{title}}” by {{creator}} fo Riftn, recorded an live.",
+    "backToVideo": "Go back fo video",
+    "empty": "No reaction yet. Open di video Remix menu an choose React fo be di first.",
+    "liveNow": "Live",
+    "wasLive": "E bin dey live",
+    "untitled": "Reaction",
+    "thisVideo": "dis video"
   },
   "liveClips": {
     "copyLink": "Kopi link",
-    "linkCopied": "Link kopi"
+    "linkCopied": "Link kopi",
+    "title": "Clip"
   },
   "liveHype": {
     "gift": {
@@ -15245,8 +16252,37 @@
       "stage": {
         "preparing": "E dey redi…",
         "confirming": "Dey wait for di transaction…",
-        "recording": "Dey finish am…"
-      }
+        "recording": "Dey finish am…",
+        "wallet": "Confirm fo ya wallet"
+      },
+      "open": "Dash subscription",
+      "title": "Dash subscription",
+      "plan": "Plan",
+      "mode": {
+        "random": "Any viewers fo chat",
+        "user": "One particular person"
+      },
+      "randomHint": "E go go fo pipo weh chat fo di last 30 minute an dem never subscribe.",
+      "whoPlaceholder": "@username",
+      "send_one": "Dash 1 sub · ${{price}}",
+      "send_other": "Dash {{count}} sub · ${{price}}",
+      "payHint": "You go pay wit token from ya wallet fo one transfer.",
+      "fewer_one": "Na only 1 person fo chat fit receive sub now, so you go pay fo 1.",
+      "fewer_other": "Na only {{count}} pipo fo chat fit receive sub now, so you go pay fo {{count}}.",
+      "done_one": "Subscription don dash!",
+      "done_other": "{{count}} subscription don dash!",
+      "failed": "E no fit dash subscription",
+      "notReady": "Dash never dey fo dis plan",
+      "noPlan": "Choose plan first",
+      "noPlans": "{{name}} no get subscription plan fo dash yet."
+    },
+    "train": {
+      "level": "Hype Train · Level {{level}}",
+      "endedLevel": "Hype Train don finish level {{level}}!",
+      "ended": "Hype Train don end",
+      "thanks_one": "Thank you fo {{count}} supporter",
+      "thanks_other": "Thank you fo {{count}} supporter dem",
+      "top": "Top: {{name}}"
     }
   },
   "dmPaidLock": {
@@ -15277,18 +16313,43 @@
     "yours": "Your own",
     "names": {
       "drive": "Nait Nai"
-    }
+    },
+    "sameAsProfile": "Profile"
   },
   "dmRequests": {
     "title": "Request dem",
     "accept": "Gri",
     "delete": "Dilit",
-    "block": "Blok"
+    "block": "Blok",
+    "hint": "Message dem from pipo weh you no di follow. Accept one, answer or follow dem an di chat go move enter ya inbox.",
+    "rowHint": "{{n}} from pipo weh you no di follow",
+    "banner": "You no di follow {{name}}. Accept fo move dis chat enter ya inbox, or just answer.",
+    "accepted": "E don move enter ya inbox",
+    "acceptFailed": "E no fit accept, try again"
   },
   "dmSchedule": {
     "view": "Luk",
     "edit": "Edit am",
-    "error": "Dat nɔ́ wɔ́k. Tri agɛ́n."
+    "error": "Dat nɔ́ wɔ́k. Tri agɛ́n.",
+    "button": "Set message fo later",
+    "title": "Message dem weh you don set",
+    "whenTitle": "Send am wen?",
+    "waiting": "{{n}} don set",
+    "next": "di next one {{when}}",
+    "failedCount": "{{n}} no send",
+    "notSent": "E no send",
+    "emptyTitle": "Notin no dey set",
+    "emptyBody": "Write message, then tap di clock fo choose wen e go send.",
+    "editLabel": "Change message",
+    "changeTime": "Change time",
+    "sendNow": "Send am now",
+    "deleted": "Message weh you set don delete",
+    "unreadable": "Na fo another device you write am. E go still send.",
+    "footnote": "Di time dem na fo ya time zone. Nobody go see message until e send.",
+    "footnoteNamed": "Di time dem na fo ya time zone. {{name}} go see message only wen e don send.",
+    "textOnly": "Na only text message you fit set fo later fo now.",
+    "scheduledToast": "E don set fo {{when}}",
+    "failedToast": "One message weh you set no fit send"
   },
   "chatBulk": {
     "selected": "{{count}} don select",
@@ -15299,15 +16360,18 @@
   "msgSelect": {
     "selected": "{{count}} don select",
     "copy": "Kopi",
-    "forward": "Forward am"
+    "forward": "Forward am",
+    "deleteTitle_other": "Delete {{count}} message dem?"
   },
   "messagesTabs": {
-    "all": "Ol"
+    "all": "Ol",
+    "groups": "Group dem"
   },
   "mentionLinks": {
     "communities": "Grup dem",
     "pages": "Page dem",
-    "people": "Pipo"
+    "people": "Pipo",
+    "linkTo": "Link {{name}}"
   },
   "resetWallet": {
     "logOut": "Log Out",
@@ -15325,6 +16389,62 @@
     "requests": "Request dem",
     "sCreators": "Creator dem",
     "moveDown": "Move am down",
-    "moveUp": "Move am up"
+    "moveUp": "Move am up",
+    "kindChannel": "Channel",
+    "kindCommunity": "Community",
+    "sGaming": "Gaming"
+  },
+  "remix": {
+    "title": "Remix",
+    "greenScreen": "Green screen"
+  },
+  "agents.workspace.news.science": "Science",
+  "postEditHistory": {
+    "title": "Edit history",
+    "edited_one": "E edit one time",
+    "edited_other": "E edit {{count}} time",
+    "lastEdit": "Last edit {{time}}",
+    "original": "Original",
+    "editN": "Edit {{n}}",
+    "now": "Now",
+    "showChanges": "Show weti change"
+  },
+  "accountDeactivation": {
+    "title": "Deactivate account",
+    "short": "Hide ya profile fo now. Sign in again fo bring am back",
+    "description": "Take rest instead. Ya profile, post and comment dem go hide and dem go sign you out everywhere. Notin go delete, and if you sign in again everything go come back.",
+    "button": "Deactivate",
+    "confirmTitle": "Deactivate ya account?",
+    "confirmBody": "Ya profile, post and comment dem go hide and dem go sign you out fo every device. Sign in again any time fo undo dis.",
+    "busy": "E di deactivate…",
+    "done": "Account don deactivate",
+    "receipt": "Ya profile, post and comment dem don hide. Sign in again any time fo bring everything back.",
+    "error": "E no fit deactivate ya account. Abeg try again.",
+    "acknowledge": "A understand say ma profile go hide and dem go sign me out everywhere."
+  },
+  "halloween": {
+    "title": "Happy Halloween",
+    "otherThemes": "You no want spooky? Find other theme dem:",
+    "enter": "Enter di dungeon"
+  },
+  "liveShorts": {
+    "live": "LIVE"
+  },
+  "msgDelete": {
+    "title": "Delete message?",
+    "titleMany": "Delete {{count}} message dem?",
+    "bodyOwn": "Comot am fo ya chat only, or fo everybody.",
+    "bodyOwnMany": "Comot dem fo ya chat only, or fo everybody.",
+    "bodyOthers": "E go comot fo ya chat only. Di other person go still see am.",
+    "bodyOthersMany": "Dem go comot fo ya chat only. Other pipo fo di chat go still see dem.",
+    "bodyOwnBoth": "Comot am fo ya chat only, or fo una two.",
+    "bodyOwnBothMany": "Comot dem fo ya chat only, or fo una two.",
+    "forMe": "Delete fo me",
+    "forEveryone": "Delete fo everybody",
+    "forBoth": "Delete fo we two",
+    "forMeAndName": "Delete fo me an {{name}}",
+    "remember": "Remember wetin I choose",
+    "rememberHint": "Change am any time fo Settings",
+    "failed": "E no fit delete di message"
   }
 }
