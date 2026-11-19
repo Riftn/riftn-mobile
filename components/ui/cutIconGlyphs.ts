@@ -112,7 +112,7 @@ export const cutIconGlyphs: Partial<Record<string, { o: string; f?: string }>> =
   Scissors: { o: "\ue06b" },
   Scroll: { o: "\ue06c", f: "\ue06d" },
   Search: { o: "\ue06e" },
-  Send: { o: "\ue06f" },
+  // Send: no glyph; the font still holds the old arrow, so the SVG plane draws instead.
   Settings: { o: "\ue070" },
   Settings2: { o: "\ue070" },
   SettingsCog: { o: "\ue071", f: "\ue072" },
