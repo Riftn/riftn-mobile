@@ -5,6 +5,7 @@ import { useKeyboardSwap } from "../../hooks/useKeyboardSwap";
 import { useSurfaceDraft, draftIdentity } from '../../hooks/useSurfaceDraft';
 import { useDraftState } from '../../hooks/useDraftState';
 import BadgeArtwork from "../common/BadgeArtwork";
+import SwipeToReply from "../Chat/SwipeToReply";
 /**
  * CommunityChatPanel
  * ==================
@@ -914,6 +915,13 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     [deleteMessage, hideMessage, myAddress, canDeleteAny],
   );
 
+  // Swipe a line sideways to reply, like Public Chat and DMs.
+  const handleSwipeReply = useCallback((message: CommunityChatMessage) => {
+    setEditing(null);
+    setReplyTo(message);
+    inputRef.current?.focus();
+  }, [setReplyTo]);
+
   const renderItem = useCallback(
     ({ item }: { item: CommunityChatMessage }) => {
       // Buy bot posts carry the trade as JSON: draw the card web draws. The
@@ -929,6 +937,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
       const buy = item.message_type === "buy_alert" ? parseBuyAlert(item.content) : null;
       if (buy) return <BuyAlertCard data={buy} time={formatClock(new Date(item.created_at))} />;
       const row = (
+      <SwipeToReply onReply={handleSwipeReply} payload={item} enabled={isMember}>
       <ChatRow
         message={item}
         myAddress={myAddress}
@@ -940,6 +949,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
         onOpenProfile={handleOpenProfile}
         onJumpToMessage={jumpToMessage}
       />
+      </SwipeToReply>
       );
       if (unreadAnchor?.id !== item.id) return row;
       return (
@@ -949,7 +959,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
         </View>
       );
     },
-    [t, myAddress, flashId, canSend, handleToggleReaction, handleShowReactors, handleOpenProfile, jumpToMessage, unreadAnchor],
+    [t, myAddress, flashId, canSend, isMember, handleSwipeReply, handleToggleReaction, handleShowReactors, handleOpenProfile, jumpToMessage, unreadAnchor],
   );
 
   // ── composer state, in the order the server checks them ──
