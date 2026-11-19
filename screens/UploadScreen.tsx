@@ -113,6 +113,7 @@ import GlassModal from "../components/ui/GlassModal";
 import FeedCard from "../components/Home/FeedCard";
 import EnhanceSheet from "../components/Upload/EnhanceSheet";
 import { type VideoTrim } from "../components/Upload/VideoTrimSheet";
+import { MediaControlIcon } from "../components/common/MediaControlGlyph";
 import DmVideoStudio, { type StudioColour, type VideoCrop } from "../components/DM/DmVideoStudio";
 import { videoEditsPayload, postDestructShort, type PostVideoEdits } from "../libs/post-video-edits";
 import type { DmVideoOptions } from "../libs/dm-video-options";
@@ -3112,6 +3113,11 @@ export default function UploadScreen() {
                       ? t("upload.edited", { defaultValue: "Edited" })
                       : t("upload.edit", { defaultValue: "Edit" })}
                 />
+                <Pressable onPress={() => setIsMuted((m) => !m)} hitSlop={10} testID="upload-video-sound"
+                  accessibilityRole="button" accessibilityLabel={isMuted ? t("common.unmute") : t("common.mute")}
+                  style={{ position: "absolute", top: 8, right: 8, padding: 2, zIndex: 30 }}>
+                  <MediaControlIcon name={isMuted ? "VolumeX" : "Volume2"} size={20} />
+                </Pressable>
               </View>
               </View>
             )}
