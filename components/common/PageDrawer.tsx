@@ -30,6 +30,10 @@ const CLOSE_SHARE = 0.25;
 const FLICK_MIN_PULL = 72;
 /** ...and the finger is still moving down this fast (px/s) when it lets go. */
 const FLICK_SPEED = 300;
+/** Opened full (refreshable), a flick from the header closes once it has moved this far... */
+const FULL_FLICK_MIN_PULL = 12;
+/** ...at this speed (px/s). There is no part-open stop on the way down. */
+const FULL_FLICK_SPEED = 250;
 /** A list scrolled this recently (ms) is still gliding from a fling. */
 const SCROLL_SETTLE_MS = 140;
 const SETTLE = { duration: 420, easing: Easing.bezier(0.32, 0.72, 0, 1) };
@@ -55,9 +59,11 @@ export const usePageDrawerExpand = () => useContext(DrawerExpandContext);
  * animation; the sheet does all the moving.
  *
  * With `refresh`, the drawer opens full and a pull at the top of the list
- * refreshes it instead of moving the sheet; the header still pulls the sheet
- * down to close it. The sheet's own pan draws that pull (the list lowers and
- * a refresh mark turns in the gap). It is not a RefreshControl: on Android
+ * refreshes it instead of moving the sheet; the header (the handle area) pulls
+ * the sheet down to close it in one go: there is no part-open stop, a third
+ * of the way down or a small flick closes it, anything less springs back.
+ * The sheet's own pan draws the refresh pull (the list lowers and a refresh
+ * mark turns in the gap). It is not a RefreshControl: on Android
  * that wraps the scroll view in a SwipeRefreshLayout, the list's native
  * gesture then sat on the wrapper instead of the scroll view, and once the
  * sheet's pan took the finger the list stopped scrolling at all.
@@ -280,8 +286,10 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
         if (y < top) y = top + (y - top) / 4;
         translateY.value = y;
       }
-      const below = translateY.value - mid;
-      backdrop.value = below > 0 ? 1 - Math.min(1, below / Math.max(1, height - mid)) : 1;
+      // Refreshable drawers have no part-open stop, so they fade from full.
+      const from = refreshable.value ? top : mid;
+      const below = translateY.value - from;
+      backdrop.value = below > 0 ? 1 - Math.min(1, below / Math.max(1, height - from)) : 1;
     })
     .onEnd((e) => {
       if (pulling.value) {
@@ -298,9 +306,16 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
       }
       if (!moving.value || closing.value) return;
       const offset = translateY.value;
-      const below = offset - mid;
       const speed = e.velocityY;
-      if (below >= (height - mid) * CLOSE_SHARE || (below >= FLICK_MIN_PULL && speed >= FLICK_SPEED)) {
+      // Opened full by the header: one stop only. A third of the way down or a
+      // small flick closes it; anything less springs back to full.
+      const oneStep = refreshable.value && expanded.value;
+      const dropped = offset - top;
+      const below = offset - mid;
+      const shouldClose = oneStep
+        ? dropped >= (height - top) / 3 || (dropped >= FULL_FLICK_MIN_PULL && speed >= FULL_FLICK_SPEED)
+        : below >= (height - mid) * CLOSE_SHARE || (below >= FLICK_MIN_PULL && speed >= FLICK_SPEED);
+      if (shouldClose) {
         closing.value = true;
         backdrop.value = withTiming(0, { duration: MOTION.backdropOut });
         // Carries on at the finger's speed rather than starting from rest.
@@ -312,13 +327,14 @@ function Sheet({ onClose, grab, refresh, children }: PageDrawerProps) {
         return;
       }
       let goFull: boolean;
-      if (!expanded.value) {
+      if (oneStep) {
+        goFull = true;
+      } else if (!expanded.value) {
         // Up far enough, or flicked up: fill the screen.
         const rose = mid - offset;
         goFull = rose >= 48 || (rose >= 16 && speed <= -FLICK_SPEED);
       } else {
         // From full: a clear pull or flick down steps back to part open.
-        const dropped = offset - top;
         goFull = !(dropped >= (mid - top) / 2 || (dropped >= FLICK_MIN_PULL && speed >= FLICK_SPEED));
       }
       expanded.value = goFull;
