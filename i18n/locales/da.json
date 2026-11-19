@@ -22,7 +22,7 @@
     "failed": "Kunne ikke fuldføre forbindelsen. Prøv at logge ind igen.",
     "generate": "Generer medier ved hjælp af dine kreditter, bekræftede betalinger eller kvalificerede gratis billeder",
     "generatePrompt": "Vis mig Riftns billedmodeller, og citér et portræt, før du genererer det.",
-    "intro": "Gennemse Riftn i ChatGPT, eller tilknyt din egen konto for at opdatere din profil, offentliggøre indlæg og bruge Creator Studio. Tilføj https://dehub.io/mcp som et OAuth-stik til kontokontrol.",
+    "intro": "Gennemse Riftn i ChatGPT, eller tilknyt din egen konto for at opdatere din profil, offentliggøre indlæg og bruge Creator Studio. Tilføj https://riftn.com/mcp som et OAuth-stik til kontokontrol.",
     "libraryPrompt": "Vis de seneste aktiver i mit Riftn Creator-bibliotek.",
     "manage": "Administrer kontoforbindelser",
     "profile": "Rediger din profil, dine billeder og dine privatlivsindstillinger",
@@ -30,7 +30,7 @@
     "read": "Læs din konto, dine opslag, meddelelser og dit kreatørbibliotek",
     "signIn": "Log ind på Riftn",
     "social": "Offentliggør indlæg og kommentarer, følg personer, og gem bogmærker",
-    "step": "For kontokontrol skal du tilføje https://dehub.io/mcp som et OAuth-stik, logge på Riftn og gennemgå tilladelserne, før du tillader adgang.",
+    "step": "For kontokontrol skal du tilføje https://riftn.com/mcp som et OAuth-stik, logge på Riftn og gennemgå tilladelserne, før du tillader adgang.",
     "title": "Forbind din Riftn-konto",
     "what": "Gennemse offentlige opslag og profiler. Med en OAuth-kontoforbindelse kan du administrere din profil og dit privatliv, offentliggøre indlæg og kommentarer, følge personer, læse meddelelser, gemme bogmærker og generere billeder, video, lyd og 3D-aktiver. Generation bruger Riftns eksisterende betalingsregler."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profil",
       "proposal": "forslag",
       "stage": "fase",
-      "store": "butik"
+      "store": "butik",
+      "featureRequest": "anmodning"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Priser",
     "reorderHint": "Hold og træk et ikon for at omarrangere",
-    "reorderReset": "Nulstil"
+    "reorderReset": "Nulstil",
+    "groups": {
+      "create": "Opret",
+      "discover": "Opdag"
+    }
   },
   "affiliate": {
     "subtitle": "Tjen penge på alle, du inviterer — for evigt",
@@ -3682,7 +3687,8 @@
     "themeColorBrand": "Brand",
     "themeColorBrandDesc": "Brug farverne fra dit profilbillede",
     "themeColorBrandNoAvatar": "Tilføj et profilbillede for at bruge brandfarver",
-    "themeColorBrandFailed": "Kunne ikke læse farver fra dit profilbillede"
+    "themeColorBrandFailed": "Kunne ikke læse farver fra dit profilbillede",
+    "menuLayoutFolders": "Mapper"
   },
   "common": {
     "refresh": "Opdater",
@@ -3750,7 +3756,8 @@
     "next": "Næste",
     "previous": "Forrige",
     "redo": "Gentag",
-    "remove": "Fjern"
+    "remove": "Fjern",
+    "loadMore": "Indlæs mere"
   },
   "tip": {
     "payDirect": "Sendt direkte til {{name}} i {{symbol}} på {{chain}}. Inkluder ikke swap.",
@@ -4466,7 +4473,7 @@
     "clearAll": "Ryd alle notifikationer",
     "removeHistory": "Fjern al historik",
     "notificationTypes": "Notifikationstyper",
-    "likes": "Ligninger",
+    "likes": "Likes",
     "likesDesc": "Når nogen liker dit indhold",
     "comments": "Kommentarer",
     "commentsDesc": "Når nogen kommenterer eller svarer",
@@ -4653,7 +4660,7 @@
     "promptHeading": "Hvad skal vi bygge næste gang?",
     "promptHint": "Beskriv det. Drop en skærmbillede ind. Gør det til virkelighed.",
     "promptLabel": "Din anmodning",
-    "promptMediaError": "Vælg billeder eller videoer under 20 MB hver.",
+    "promptMediaError": "Vælg billeder eller videoer under 50 MB hver.",
     "promptMediaLimit": "Op til {{max}} tilføjelser.",
     "promptNew": "Ny anmodning",
     "promptPageTitle": "Anmodninger",
@@ -7570,7 +7577,7 @@
     "onStage": "På scenen",
     "noSpeakers": "Ingen højttalere endnu",
     "voiceEffect": "🎭 Stemmeeffekt",
-    "textToSpeech": "🔊 Tekst-til-tale",
+    "textToSpeech": "Tekst-til-tale",
     "loadVoices": "Indlæs stemmer",
     "ttsPlaceholder": "Skriv en besked for at tale...",
     "signInToJoin": "Log ind for at deltage",
@@ -12787,7 +12794,14 @@
     "loop": "Løkke",
     "dialogueFormat": "Skriv scenen som \"Navn: linje\", en højttaler pr. linje.",
     "fileTooLarge": "Denne fil er over 100 MB. Brug en kortere eller mindre.",
-    "signInToGenerate": "Log ind for at generere."
+    "signInToGenerate": "Log ind for at generere.",
+    "madeOnDehub": "Lavet på Riftn",
+    "aiGenerationAlt": "AI-generering",
+    "gallery": {
+      "notifications": {
+        "generation_reply": "{{name}} svarede på din kommentar"
+      }
+    }
   },
   "fractions": {
     "title": "Fraktioner",
@@ -13801,7 +13815,7 @@
   "multiPost": {
     "tab": "Multipel-opslag",
     "title": "Multipel-opslag",
-    "intro": "Post til X, YouTube, Instagram, TikTok og mere på samme tid med dehub. Forbind dine konti én gang, og vælg derefter, hvor hvert opslag skal hen.",
+    "intro": "Post til X, YouTube, Instagram, TikTok og mere på samme tid med Riftn. Forbind dine konti én gang, og vælg derefter, hvor hvert opslag skal hen.",
     "creditsHeading": "Post-kreditter",
     "credits": "{{count}} post-kreditter",
     "topUpTitle": "Top op og spar",
@@ -15339,7 +15353,8 @@
       "lava": "Lavalampe",
       "chrome": "Flydende krom",
       "snow": "Snefald"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Forside"
@@ -15371,5 +15386,36 @@
     "forward": "Videresend",
     "deleted_one": "Slettede {{count}} besked",
     "deleted_other": "Slettede {{count}} beskeder"
+  },
+  "messagesTabs": {
+    "all": "Alle"
+  },
+  "mentionLinks": {
+    "communities": "Fællesskaber",
+    "pages": "Sider",
+    "people": "Personer"
+  },
+  "resetWallet": {
+    "mismatch": "Kunne ikke matche adgangskoderne",
+    "logOut": "Log ud",
+    "confirm": "Bekræft password",
+    "ack": "Jeg forstår, at mine gamle penge forbliver i den gamle tegnebog.",
+    "cancel": "Annuller"
+  },
+  "chatTabs": {
+    "all": "Alle",
+    "alwaysOn": "Altid på",
+    "communities": "Fællesskaber",
+    "direct": "Direkte",
+    "kindCommunity": "Fællesskab",
+    "kindDirect": "Direkte",
+    "kindGroup": "Gruppér",
+    "kindPublic": "Offentlig",
+    "moveDown": "Flyt ned",
+    "moveUp": "Flyt op",
+    "requests": "Funktionsønsker",
+    "sCreators": "Skabere",
+    "sGaming": "Spil",
+    "sTrading": "Handel"
   }
 }

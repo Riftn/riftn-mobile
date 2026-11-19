@@ -17,20 +17,20 @@
     "libraryPrompt": "展示我在 Riftn 创作者库中的最新资产。",
     "account": "公共浏览不需要账户。将Riftn账户链接到管理您的个人资料并创建或发布内容。",
     "allow": "允许连接",
-    "body": "链接你的账户以管理个人资料、发布帖子并从聊天中创建内容。连接在24小时内过期。你可以随时断开连接。",
+    "body": "将您的账户链接以管理个人资料、发布帖子并从聊天中创建内容。连接将在 24 小时内过期。您可以随时断开连接。",
     "deny": "取消",
     "disconnect": "断开连接",
     "empty": "没有活动帐户连接。",
     "failed": "无法完成连接。请重新登录。",
     "generate": "生成媒体使用您的积分、已确认的付款或符合条件的免费图像。",
-    "intro": "浏览 ChatGPT 中的 Riftn，或者将自己的账户链接到更新个人资料、发布帖子并使用 Creator Studio。添加 https://dehub.io/mcp 为 OAuth 连接器进行账户控制。",
+    "intro": "在 ChatGPT 中浏览 Riftn，或链接您自己的账户以更新个人资料、发布帖子并使用创作者工作室。将 https://riftn.com/mcp 添加为 OAuth 连接器以进行账户控制。",
     "manage": "管理帐户连接",
     "profile": "编辑你的个人资料、图片和隐私设置",
     "profilePrompt": "更新您的Riftn简介为：独立创作者，制作电影和音乐。",
     "read": "阅读你的账户、帖子、通知和创作者库。",
     "signIn": "登录 Riftn",
     "social": "发布帖子和评论，关注他人并保存书签。",
-    "step": "为帐户控制添加 https://dehub.io/mcp 作为 OAuth 连接器，登录 Riftn 并在允许访问之前检查权限。",
+    "step": "对于账户控制，添加 https://riftn.com/mcp 作为 OAuth 连接器，登录 Riftn 并在允许访问前查看权限。",
     "title": "连接你的 Riftn 账户",
     "what": "浏览公开帖子和个人资料。通过OAuth账户连接，管理您的个人资料和隐私，发布帖子和评论，关注人，阅读通知，保存书签并生成图像，视频，音频和3D资产。生成使用Riftn的现有支付规则。"
   },
@@ -2628,7 +2628,8 @@
       "profile": "個人資料",
       "proposal": "提案",
       "stage": "舞台",
-      "store": "商店"
+      "store": "商店",
+      "featureRequest": "请求"
     }
   },
   "postGate": {
@@ -2917,7 +2918,12 @@
     "premium": "高级版",
     "pricing": "价钱",
     "reorderHint": "按住并拖动任意图标进行重新排列",
-    "reorderReset": "重置"
+    "reorderReset": "重置",
+    "groups": {
+      "create": "发布",
+      "discover": "寻寻",
+      "riftn": "德赫布"
+    }
   },
   "affiliate": {
     "subtitle": "你邀请的每个人都为你带来收入——永久有效",
@@ -3669,7 +3675,8 @@
     "themeColorBrand": "品牌",
     "themeColorBrandDesc": "用你嘞头像颜色",
     "themeColorBrandNoAvatar": "添个头像才能用品牌色",
-    "themeColorBrandFailed": "打你嘞头像读不出颜色"
+    "themeColorBrandFailed": "打你嘞头像读不出颜色",
+    "menuLayoutFolders": "文件夹"
   },
   "common": {
     "refresh": "刷新",
@@ -3737,7 +3744,8 @@
     "next": "下一步",
     "previous": "上一步",
     "redo": "重做",
-    "remove": "删除"
+    "remove": "删除",
+    "loadMore": "加载更多"
   },
   "tip": {
     "payDirect": "直接发送给 {{name}} 在 {{symbol}} 的 {{chain}}。无交换。",
@@ -4648,7 +4656,7 @@
     "promptFilters": "分类过滤",
     "promptHeading": "我们下一步应该建设什么？",
     "promptHint": "描述一下它。贴张截图。让它发生。",
-    "promptMediaError": "选择每个图片或视频大小小于20MB的内容。",
+    "promptMediaError": "选择每个图片或视频大小小于50MB的内容。",
     "promptMediaLimit": "至多{{max}}个附件。",
     "promptPlaceholder": "描述一个想法、改进或 bug…",
     "queued": "排队",
@@ -7557,7 +7565,7 @@
     "onStage": "舞台上",
     "noSpeakers": "还没有发言人",
     "voiceEffect": "🎭 语音效果",
-    "textToSpeech": "🔊 文本转语音",
+    "textToSpeech": "文本转语音",
     "loadVoices": "加载声音",
     "ttsPlaceholder": "输入消息以朗读…",
     "signInToJoin": "请登录加入",
@@ -12827,7 +12835,15 @@
     "loop": "循环",
     "dialogueFormat": "以“名称：行”写作场景，每个发言一行。",
     "fileTooLarge": "那个文件超过了100 MB。请使用更短或更小的文件。",
-    "signInToGenerate": "请登录以生成。"
+    "signInToGenerate": "请登录以生成。",
+    "madeOnDehub": "在 Riftn 上做的",
+    "aiGenerationAlt": "AI 生成",
+    "gallery": {
+      "send": "发送",
+      "notifications": {
+        "generation_reply": "{{name}} 回复了你的评论"
+      }
+    }
   },
   "fractions": {
     "title": "碎片",
@@ -13841,7 +13857,7 @@
   "multiPost": {
     "tab": "同时发布",
     "title": "同时发布",
-    "intro": "与 dehub 一同发布到 X、YouTube、Instagram、TikTok 等平台。一次性连接您的账户，然后选择每个帖子要发布到的平台。",
+    "intro": "与 Riftn 一同发布到 X、YouTube、Instagram、TikTok 等平台。一次性连接您的账户，然后选择每个帖子要发布到的平台。",
     "creditsHeading": "发布积分",
     "credits": "{{count}} 个发布积分",
     "topUpTitle": "充值并节省",
@@ -15393,7 +15409,8 @@
       "chrome": "液态铬",
       "orbit": "环绕",
       "snow": "雪花"
-    }
+    },
+    "sameAsProfile": "个人"
   },
   "articleTile": {
     "cover": "封面"
@@ -15425,5 +15442,35 @@
     "forward": "转发",
     "deleted_one": "删除 {{count}} 消息",
     "deleted_other": "删除 {{count}} 条消息"
+  },
+  "messagesTabs": {
+    "all": "所有"
+  },
+  "mentionLinks": {
+    "communities": "社区",
+    "pages": "页面",
+    "people": "人"
+  },
+  "resetWallet": {
+    "mismatch": "密码不匹配",
+    "logOut": "登出",
+    "confirm": "确认密码",
+    "ack": "我理解我的旧资金仍然保留在旧钱包中。",
+    "cancel": "取消"
+  },
+  "chatTabs": {
+    "all": "所有",
+    "alwaysOn": "总是开启",
+    "communities": "社区",
+    "direct": "直接推荐",
+    "kindCommunity": "社區",
+    "kindDirect": "直接推荐",
+    "kindGroup": "分组",
+    "kindPublic": "公开",
+    "moveDown": "下降",
+    "moveUp": "上升",
+    "requests": "功能请求",
+    "sCreators": "创作者",
+    "sGaming": "游戏"
   }
 }

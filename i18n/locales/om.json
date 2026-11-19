@@ -22,7 +22,7 @@
     "failed": "Walqabsiisa xumuruu hin danda'amne. Irra deebitee seenuuf yaali.",
     "generate": "Kireditii kee, kaffaltii mirkanaa'e ykn suuroota bilisaa ta'an fayyadamuun miidiyaa uumi",
     "generatePrompt": "Moodeloota suuraa Riftn natti argisiisi fi suuraa namaa (portrait) uumuu kee dura gatii isaa natti himi.",
-    "intro": "ChatGPT keessatti Riftn daawwadhu, ykn piroofaayilii kee haaromsuuf, postiiwwan maxxansuuf fi Creator Studio fayyadamuuf akkaawuntii kee walqabsiisi. To'annoo akkaawuntiitiif https://dehub.io/mcp akka OAuth connector itti dabali.",
+    "intro": "ChatGPT keessatti Riftn daawwadhu, ykn piroofaayilii kee haaromsuuf, postiiwwan maxxansuuf fi Creator Studio fayyadamuuf akkaawuntii kee walqabsiisi. To'annoo akkaawuntiitiif https://riftn.com/mcp akka OAuth connector itti dabali.",
     "libraryPrompt": "Qabeenya dhihoo laayibrarii Uumaa (Creator library) Riftn koo keessa jiru natti argisiisi.",
     "manage": "Walqabsiisa akkaawuntii bulchi",
     "profile": "Piroofaayilii kee, suuroota fi qajeelfamoota iccitii kee gulaali",
@@ -30,7 +30,7 @@
     "read": "Akkaawuntii kee, postiiwwan, beeksisoota fi laayibrarii Uumaa (Creator library) kee dubbisi",
     "signIn": "Riftn irratti seeni",
     "social": "Postiiwwan fi yaada (comment) maxxansi, namoota hordofi fi buukmaarkiiwwan olkaa'i",
-    "step": "To'annoo akkaawuntiitiif, https://dehub.io/mcp akka OAuth connector itti dabali, Riftn irratti seeni fi hayyama kennuun dura hayyamoota sakatta'i.",
+    "step": "To'annoo akkaawuntiitiif, https://riftn.com/mcp akka OAuth connector itti dabali, Riftn irratti seeni fi hayyama kennuun dura hayyamoota sakatta'i.",
     "title": "Akkaawuntii Riftn kee walqabsiisi",
     "what": "Postiiwwan fi piroofaayiloota ifa ta'an daawwadhu. Walqabsiisa akkaawuntii OAuth wajjin, piroofaayilii fi iccitii kee bulchi, postiiwwan fi yaada maxxansi, namoota hordofi, beeksisoota dubbisi, buukmaarkiiwwan olkaa'i fi suuroota, viidiyoo, sagalee fi qabeenya 3D uumi. Uumamuun seera kaffaltii Riftn kan jiru fayyadama."
   },
@@ -2627,7 +2627,8 @@
       "profile": "ibsama",
       "proposal": "abuura",
       "stage": "waltajjii",
-      "store": "kuusuu"
+      "store": "kuusuu",
+      "featureRequest": "gaaffii"
     }
   },
   "postGate": {
@@ -2917,7 +2918,12 @@
     "premium": "Iyyennoo",
     "pricing": "Gatii",
     "reorderHint": "Irra deebi'ii qindeessuuf mallattoo kamiyyuu qabadhuu harkisi",
-    "reorderReset": "Reset gochuu"
+    "reorderReset": "Reset gochuu",
+    "groups": {
+      "create": "Uumi",
+      "discover": "Argadhu",
+      "riftn": "Riftn jedhamuun beekama"
+    }
   },
   "affiliate": {
     "subtitle": "Namoota si waamtan hunda irraa — yoomiyyuu argadhu",
@@ -3669,7 +3675,8 @@
     "themeColorBrand": "Maqaa daldalaa",
     "themeColorBrandDesc": "Halluuwwan suuraa profaayilii keetii fayyadami",
     "themeColorBrandNoAvatar": "Halluuwwan maqaa daldalaa fayyadamuuf suuraa profaayilii dabali",
-    "themeColorBrandFailed": "Suuraa profaayilii kee irraa halluuwwan dubbisuun hin danda'amne"
+    "themeColorBrandFailed": "Suuraa profaayilii kee irraa halluuwwan dubbisuun hin danda'amne",
+    "menuLayoutFolders": "Foolderoota"
   },
   "common": {
     "refresh": "Akkamii deebisu",
@@ -3737,7 +3744,8 @@
     "next": "Kan itti aanu",
     "previous": "Kan duraa",
     "redo": "Irra deebi'ii hojjedhu",
-    "remove": "Irraa kaasuu"
+    "remove": "Irraa kaasuu",
+    "loadMore": "Dabalataa fe'i"
   },
   "tip": {
     "payDirect": "Qajeelatti {{name}} tti {{symbol}} irratti {{chain}} irratti ergameera. Jijjiirraan hin jiru.",
@@ -4488,7 +4496,7 @@
     "clearNotification": "Beeksisa haqi",
     "loginDescription": "Beeksisa ilaaluuf fi hiriyyoota kee waliin walqunnamtee tursiisuuf seeni.",
     "likedPost": "{{name}} barreeffama kee jaallate",
-    "likedPosts": "{{name}} maxxansa keessan {{count}} like godheera",
+    "likedPosts": "{{name}} liked {{count}} of your posts",
     "commentedPost": "{{name}} barreeffama kee irratti yaada kenne",
     "commentedPosts": "{{name}} maxxansa keessan {{count}} irratti yaada kenneera",
     "repliedComment": "{{name}} yaada keessaniif deebii kenneera",
@@ -4652,7 +4660,7 @@
     "promptHeading": "Aan maal haa ijaarru?",
     "promptHint": "Ibsi. Suuraa tokko gadi buusi. Dhugoomsi.",
     "promptLabel": "Qajeelfama kee",
-    "promptMediaError": "Suuraa ykn viidiyoo tokkoon tokkoon isaanii 20MB gadi filadhaa.",
+    "promptMediaError": "Suuraa ykn viidiyoo tokkoon tokkoon isaanii 50MB gadi filadhaa.",
     "promptMediaLimit": "Up to {{max}} attachments.",
     "promptNew": "Qajeelfama haaraa",
     "promptPageTitle": "Gaaffiiwwan",
@@ -7567,7 +7575,7 @@
     "onStage": "Waltajjii irratti",
     "noSpeakers": "Hanga ammaatti dubbattoonni hin jiran",
     "voiceEffect": "🎭 Dhiibbaa Sagalee",
-    "textToSpeech": "🔊 Barreeffama irraa gara dubbiitti",
+    "textToSpeech": "Barreeffama irraa gara dubbiitti",
     "loadVoices": "Sagaleewwan fe'uu",
     "ttsPlaceholder": "Ergaa barreessitee dubbachuuf...",
     "signInToJoin": "Hirmaachuuf galmaa'aa",
@@ -12826,7 +12834,15 @@
     "loop": "Furgaasuu",
     "dialogueFormat": "Mul'ata akka \"Maqaa: sararaatti\" barreessi, sarara tokkoof dubbataa tokko.",
     "fileTooLarge": "Faayilli sun MB 100 ol ta'a. Kan gabaabaa ykn xiqqaa ta’e fayyadami.",
-    "signInToGenerate": "Maddisiisuuf galmaa'i."
+    "signInToGenerate": "Maddisiisuuf galmaa'i.",
+    "madeOnDehub": "Riftn irratti hojjetame",
+    "aiGenerationAlt": "Dhaloota AI",
+    "gallery": {
+      "send": "Ergaa",
+      "notifications": {
+        "generation_reply": "{{name}} yaada keessaniif deebii kenneera"
+      }
+    }
   },
   "fractions": {
     "title": "Qooda",
@@ -13840,7 +13856,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "X, YouTube, Instagram, TikTok fi kanneen biroo irratti isumaan dehub. Walqunnamtii kee yeroo tokkoon walitti qabi, achii booddee guyyaa kamittiin kamittii akka deemuu filadhu.",
+    "intro": "X, YouTube, Instagram, TikTok fi kanneen biroo irratti isumaan Riftn. Walqunnamtii kee yeroo tokkoon walitti qabi, achii booddee guyyaa kamittiin kamittii akka deemuu filadhu.",
     "creditsHeading": "Post credits",
     "credits": "{{count}} post credits",
     "topUpTitle": "Top up fi save",
@@ -15377,7 +15393,8 @@
       "chrome": "Dhangala'aa Kiroomii",
       "orbit": "Orbiiti",
       "snow": "Qorqorroon roobu"
-    }
+    },
+    "sameAsProfile": "Piroofaayilii"
   },
   "articleTile": {
     "cover": "Haguuggii"
@@ -15409,5 +15426,34 @@
     "forward": "Dabarsi",
     "deleted_one": "Ergaan {{count}} haqame",
     "deleted_other": "Ergaawwan {{count}} haqaman"
+  },
+  "messagesTabs": {
+    "all": "Hunda"
+  },
+  "mentionLinks": {
+    "communities": "Hawaasota",
+    "pages": "Fuulota",
+    "people": "Namoota"
+  },
+  "resetWallet": {
+    "mismatch": "Passwordsin akkaa fiiraa matcha",
+    "logOut": "Ba’i",
+    "confirm": "Jecha icciitii mirkaneessi",
+    "ack": "Qabeenya koo duubaa jidha duubaa keessatti hafu akka hubadhu.",
+    "cancel": "Haqi"
+  },
+  "chatTabs": {
+    "all": "Hunda",
+    "alwaysOn": "Yeroo hunda banamee jira",
+    "communities": "Hawaasota",
+    "kindCommunity": "Hawaasa",
+    "kindGroup": "Walitti qabi",
+    "kindPublic": "Ummataa",
+    "moveDown": "Gadi geessuu",
+    "moveUp": "Ol geessuu",
+    "requests": "Gaaffii Amaloota",
+    "sCreators": "Uumtota",
+    "sGaming": "Tapha taphachuu",
+    "sTrading": "Daldala"
   }
 }

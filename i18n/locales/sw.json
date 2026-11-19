@@ -35,7 +35,7 @@
     "failed": "Haikuweza kukamilisha muunganisho. Jaribu kuingia tena.",
     "generate": "Zalisha vyombo vya habari kwa kutumia miamana yako, malipo yaliyothibitishwa au picha zinazostahiki bila malipo",
     "generatePrompt": "Nionyeshe mifano ya picha ya Riftn na nukuu picha kabla ya kuizalisha.",
-    "intro": "Vinjari Riftn katika ChatGPT, au unganisha akaunti yako mwenyewe ili usasishe wasifu wako, uchapishe machapisho na utumie Studio ya Muumba. Weka https://dehub.io/mcp kama kiunganishi cha OAuth kwa udhibiti wa akaunti.",
+    "intro": "Vinjari Riftn katika ChatGPT, au unganisha akaunti yako mwenyewe ili usasishe wasifu wako, uchapishe machapisho na utumie Studio ya Muumba. Weka https://riftn.com/mcp kama kiunganishi cha OAuth kwa udhibiti wa akaunti.",
     "libraryPrompt": "Onyesha nyenzo za hivi karibuni kwenye maktaba yangu ya Muumba wa Riftn.",
     "manage": "Dhibiti miunganisho ya akaunti",
     "profile": "Hariri wasifu wako, picha na mipangilio ya faragha",
@@ -43,7 +43,7 @@
     "read": "Tazama akaunti yako, maandishi yako, habari za utambulisho na kitabu cha Mwandishi",
     "signIn": "Ingia kwenye Riftn",
     "social": "Chapisha machapisho na maoni, fuata watu na uhifadhi alamisho",
-    "step": "Kwa udhibiti wa akaunti, ongeza https://dehub.io/mcp kama mteja wa OAuth, uingie kwenye Riftn na tathmini manufaa kabla ya kubakiza kuingia.",
+    "step": "Kwa udhibiti wa akaunti, ongeza https://riftn.com/mcp kama mteja wa OAuth, uingie kwenye Riftn na tathmini manufaa kabla ya kubakiza kuingia.",
     "title": "Unganisha akaunti yako ya Riftn",
     "what": "Vinjari machapisho ya umma na wasifu. Ukiwa na muunganisho wa akaunti ya OAuth, dhibiti wasifu na faragha yako, chapisha machapisho na maoni, fuata watu, soma arifa, hifadhi alamisho na utengeneze picha, video, sauti na faili za 3D. Kizazi kinatumia sheria za malipo zilizopo za Riftn."
   },
@@ -2641,7 +2641,8 @@
       "profile": "wasifu",
       "proposal": "pendekezo",
       "stage": "sahifa",
-      "store": "duka"
+      "store": "duka",
+      "featureRequest": "ombi"
     }
   },
   "postGate": {
@@ -2931,7 +2932,11 @@
     "premium": "Ya starehe",
     "pricing": "Bei",
     "reorderHint": "Shikilia na buruta ikoni yoyote ili kupanga upya",
-    "reorderReset": "Weka upya"
+    "reorderReset": "Weka upya",
+    "groups": {
+      "create": "Unda",
+      "discover": "Gundua"
+    }
   },
   "affiliate": {
     "subtitle": "Pata kutoka kwa kila mtu unayemwalika — milele",
@@ -3695,7 +3700,8 @@
     "themeColorBrand": "Chapa",
     "themeColorBrandDesc": "Tumia rangi za picha yako ya wasifu",
     "themeColorBrandNoAvatar": "Ongeza picha ya wasifu ili kutumia rangi za Chapa",
-    "themeColorBrandFailed": "Haikuweza kusoma rangi kutoka picha yako ya wasifu"
+    "themeColorBrandFailed": "Haikuweza kusoma rangi kutoka picha yako ya wasifu",
+    "menuLayoutFolders": "Folda"
   },
   "common": {
     "refresh": "Onyesha upya",
@@ -3763,7 +3769,8 @@
     "next": "Jua",
     "previous": "Kutoka",
     "redo": "Kupata Mwembamba",
-    "remove": "Kufukua"
+    "remove": "Kufukua",
+    "loadMore": "Pakia zaidi"
   },
   "tip": {
     "payDirect": "Imetumwa moja kwa moja kwa {{name}} katika {{symbol}} mnamo {{chain}}. Hakuna ubadilishaji.",
@@ -4667,7 +4674,7 @@
     "promptHeading": "Tunapaswa kujenga nini baadaye?",
     "promptHint": "Ielezee. Weka kwenye picha ya skrini. Fanya iwe hivyo.",
     "promptLabel": "Dokezo lako",
-    "promptMediaError": "Chagua picha au video zisizozidi 20MB kila moja.",
+    "promptMediaError": "Chagua picha au video zisizozidi 50MB kila moja.",
     "promptMediaLimit": "Hadi viambatisho {{max}}.",
     "promptNew": "Kidokezi kipya",
     "promptPageTitle": "Maombi",
@@ -7584,7 +7591,7 @@
     "onStage": "Kwenye Jukwaa",
     "noSpeakers": "Hakuna spika bado",
     "voiceEffect": "Athari 🎭 ya Sauti",
-    "textToSpeech": "🔊 Maandishi-kwa-maongezi",
+    "textToSpeech": "Maandishi-kwa-maongezi",
     "loadVoices": "Pakia sauti",
     "ttsPlaceholder": "Andika ujumbe ili uzungumze...",
     "signInToJoin": "Ingia ili ujiunge",
@@ -12808,7 +12815,14 @@
     "loop": "Kitanzi",
     "dialogueFormat": "Andika mabango kama \"Jina: mstari\", msemaji mmoja kwa mstari.",
     "fileTooLarge": "Faili hilo ni kubwa zaidi ya 100 MB. Tumia moja mfupi au ndogo.",
-    "signInToGenerate": "Ingia ili kutengeneza."
+    "signInToGenerate": "Ingia ili kutengeneza.",
+    "madeOnDehub": "Imeundwa kwenye Riftn",
+    "gallery": {
+      "send": "Tuma",
+      "notifications": {
+        "generation_reply": "{{name}} amejibu maoni yako"
+      }
+    }
   },
   "fractions": {
     "title": "Hisa",
@@ -13822,7 +13836,7 @@
   "multiPost": {
     "tab": "Chapisho nyingi",
     "title": "Chapisho nyingi",
-    "intro": "Chapisha kwenye X, YouTube, Instagram, TikTok na zaidi kwa wakati mmoja ukitumia dehub. Unganisha akaunti zako mara moja, kisha uchague ni wapi kila chapisho litaenda.",
+    "intro": "Chapisha kwenye X, YouTube, Instagram, TikTok na zaidi kwa wakati mmoja ukitumia Riftn. Unganisha akaunti zako mara moja, kisha uchague ni wapi kila chapisho litaenda.",
     "creditsHeading": "Mikopo ya chapisho",
     "credits": "{{count}} mikopo ya chapisho",
     "topUpTitle": "Ongeza na uhifadhi",
@@ -15350,7 +15364,8 @@
       "chrome": "Chrome ya Kioevu",
       "orbit": "Obiti",
       "snow": "Maporomoko ya theluji"
-    }
+    },
+    "sameAsProfile": "Wasifu"
   },
   "articleTile": {
     "cover": "Jalada"
@@ -15382,5 +15397,36 @@
     "forward": "Sambaza",
     "deleted_one": "Iliyopunguzwa {{count}} message",
     "deleted_other": "Iliyopunguzwa {{count}} messages"
+  },
+  "messagesTabs": {
+    "all": "Zote"
+  },
+  "mentionLinks": {
+    "communities": "Jamii",
+    "pages": "Kurasa",
+    "people": "Watu"
+  },
+  "resetWallet": {
+    "mismatch": "Nywila hazilingani",
+    "logOut": "Toka",
+    "confirm": "Uamuzi wa kifungu cha kifedha",
+    "ack": "Ninajua pesa zangu za zamani ziko katika kisanduku chake cha zamani.",
+    "cancel": "Ghairi"
+  },
+  "chatTabs": {
+    "all": "Zote",
+    "alwaysOn": "Imekuwa imewekwa kwa kudumu",
+    "communities": "Jamii",
+    "direct": "Moja kwa moja",
+    "kindCommunity": "Jumuiya",
+    "kindDirect": "Moja kwa moja",
+    "kindGroup": "Gawa",
+    "kindPublic": "Umma",
+    "moveDown": "Nenda chini",
+    "moveUp": "Waeleze mifumo ya kawaida",
+    "requests": "Maombi",
+    "sCreators": "Waundaji",
+    "sGaming": "Michezo",
+    "sTrading": "Biashara"
   }
 }

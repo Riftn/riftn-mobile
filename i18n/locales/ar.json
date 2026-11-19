@@ -519,10 +519,10 @@
     "empty": "لا توجد اتصالات حساب نشطة.",
     "disconnect": "قطع الاتصال",
     "failed": "تعذر إكمال الاتصال. حاول تسجيل الدخول مجددًا.",
-    "intro": "تصفح Riftn في ChatGPT أو اربط حسابك لتعديل ملفك الشخصي والنشر واستخدام Creator Studio. أضف https://dehub.io/mcp كموصل OAuth للتحكم بحسابك.",
+    "intro": "تصفح Riftn في ChatGPT أو اربط حسابك لتعديل ملفك الشخصي والنشر واستخدام Creator Studio. أضف https://riftn.com/mcp كموصل OAuth للتحكم بحسابك.",
     "what": "تصفح المنشورات والملفات العامة. يتيح ربط الحساب عبر OAuth إدارة الملف والخصوصية والنشر والتعليق والمتابعة وقراءة الإشعارات وحفظ الإشارات المرجعية وإنشاء الصور والفيديو والصوت والعناصر ثلاثية الأبعاد. تنطبق قواعد الدفع الحالية في Riftn.",
     "account": "لا يلزم حساب لتصفح المحتوى العام. اربط حساب Riftn لإدارة ملفك وإنشاء المحتوى ونشره.",
-    "step": "للتحكم بحسابك أضف https://dehub.io/mcp كموصل OAuth وسجل الدخول إلى Riftn وراجع الأذونات قبل السماح بالوصول.",
+    "step": "للتحكم بحسابك أضف https://riftn.com/mcp كموصل OAuth وسجل الدخول إلى Riftn وراجع الأذونات قبل السماح بالوصول.",
     "profilePrompt": "حدّث نبذتي على Riftn إلى: صانع أفلام وموسيقى مستقل.",
     "generatePrompt": "اعرض نماذج الصور في Riftn وسعر صورة شخصية قبل إنشائها.",
     "libraryPrompt": "اعرض أحدث الملفات في مكتبة Riftn Creator الخاصة بي."
@@ -900,6 +900,13 @@
     "postCount_other": "{{count}} منشورات"
   },
   "settings": {
+    "chatDeleteChoice": "عند حذف رسالة",
+    "chatDeleteChoiceDesc": "اسألني كل مرة، أو احذف دائمًا لي فقط أو للجميع في المحادثة.",
+    "chatDeleteAsk": "اسألني كل مرة",
+    "chatDeleteMe": "حذف لدي",
+    "chatDeleteMeDesc": "تختفي من محادثتك ويظل الآخرون يرونها",
+    "chatDeleteEveryone": "حذف لدى الجميع",
+    "chatDeleteEveryoneDesc": "عندما يكون ذلك ممكنًا. رسالة شخص آخر في مجموعة تُحذف لديك فقط",
     "contactSupport": "التواصل مع الدعم",
     "glass": "زجاجي",
     "shortsSaveFailed": "تعذر حفظ تفضيلات السراويل القصيرة",
@@ -2595,7 +2602,7 @@
     "promptDetails": "تفاصيل اختيارية",
     "promptDevice": "الجهاز ونظام التشغيل (للأخطاء)",
     "promptFilters": "تصفية حسب الفئة",
-    "promptMediaError": "اختر صورًا أو فيديوهات يقل حجم كل منها عن 20 ميغابايت.",
+    "promptMediaError": "اختر صورًا أو فيديوهات يقل حجم كل منها عن 50 ميغابايت.",
     "promptMediaLimit": "حتى {{max}} مرفقات.",
     "removePromptAttachment": "إزالة {{name}}",
     "promptAttachment": "المرفق {{number}}",
@@ -5733,7 +5740,7 @@
     "onStage": "على خشبة المسرح",
     "noSpeakers": "لا يوجد متحدثون حتى الآن",
     "voiceEffect": "التأثير 🎭 الصوتي",
-    "textToSpeech": "🔊 تحويل النص إلى كلام",
+    "textToSpeech": "تحويل النص إلى كلام",
     "loadVoices": "تحميل الأصوات",
     "ttsPlaceholder": "اكتب رسالة للتحدث...",
     "signInToJoin": "تسجيل الدخول للانضمام",
@@ -7776,7 +7783,8 @@
     "shareGroups": "المجموعات",
     "shareKindGroup": "مجموعة",
     "shareKindChannel": "قناة",
-    "shareKindCommunity": "مجتمع"
+    "shareKindCommunity": "مجتمع",
+    "copyMedia": "نسخ الوسائط"
   },
   "editPost": {
     "mediaPermission": "يلزم إذن الوصول إلى مكتبة الوسائط",
@@ -12521,7 +12529,7 @@
   "multiPost": {
     "tab": "النشر المتعدد",
     "title": "النشر المتعدد",
-    "intro": "انشر على X و YouTube و Instagram و TikTok والمزيد في نفس الوقت باستخدام dehub. قم بتوصيل حساباتك مرة واحدة، ثم اختر إلى أين تذهب كل مشاركة.",
+    "intro": "انشر على X و YouTube و Instagram و TikTok والمزيد في نفس الوقت باستخدام Riftn. قم بتوصيل حساباتك مرة واحدة، ثم اختر إلى أين تذهب كل مشاركة.",
     "creditsHeading": "رصيد المشاركات",
     "credits": "{{count}} رصيد مشاركة",
     "topUpTitle": "إعادة الشحن والتوفير",
@@ -17112,6 +17120,8 @@
     "forEveryone": "حذف للجميع",
     "forBoth": "حذف لدينا نحن الاثنين",
     "forMeAndName": "حذف لديّ ولدى {{name}}",
+    "remember": "تذكّر اختياري",
+    "rememberHint": "يمكنك تغييره في أي وقت من الإعدادات",
     "failed": "تعذّر حذف الرسالة"
   }
 }

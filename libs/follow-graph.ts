@@ -156,7 +156,9 @@ export function signFollow(action: Action, follower: string, target: string) {
     const outbox = (await readJson<Pending[]>(OUTBOX(wallet), [])).filter((p) => p.target !== to);
     outbox.push({ action, target: to, at: Math.floor(Date.now() / 1000) });
     await writeJson(OUTBOX(wallet), outbox.slice(-2000));
-    await run(wallet, true);
+    // A follow is not a wallet action: queue the proof and sign it quietly when
+    // the wallet can (Settings "Turn on" is the only place that asks).
+    await run(wallet, false);
   })().catch(() => {});
 }
 

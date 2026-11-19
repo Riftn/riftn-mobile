@@ -507,7 +507,7 @@
   },
   "accountConnect": {
     "title": "Connecter votre compte Riftn",
-    "body": "Connectez votre compte pour gérer votre profil, publier et créer du contenu depuis le chat. Les connexions expirent sous 24 heures. Vous pouvez les révoquer à tout moment.",
+    "body": "Connectez votre compte pour gérer votre profil, publier et créer du contenu depuis le chat. Les connexions expirent sous 30 jours. Vous pouvez les révoquer à tout moment.",
     "read": "Consulter votre compte, vos publications, notifications et créations",
     "profile": "Modifier votre profil, vos images et vos paramètres de confidentialité",
     "social": "Publier, commenter, suivre des personnes et enregistrer des favoris",
@@ -519,10 +519,10 @@
     "empty": "Aucune connexion active.",
     "disconnect": "Déconnecter",
     "failed": "Connexion impossible. Essayez de vous reconnecter.",
-    "intro": "Parcourez Riftn dans ChatGPT ou connectez votre compte pour modifier votre profil, publier et utiliser Creator Studio. Ajoutez https://dehub.io/mcp comme connecteur OAuth pour gérer votre compte.",
+    "intro": "Parcourez Riftn dans ChatGPT ou connectez votre compte pour modifier votre profil, publier et utiliser Creator Studio. Ajoutez https://riftn.com/mcp comme connecteur OAuth pour gérer votre compte.",
     "what": "Consultez les publications et profils publics. Une connexion OAuth permet de gérer le profil et sa confidentialité, publier, commenter, suivre des personnes, consulter les notifications, enregistrer des favoris et créer des images, vidéos, sons et objets 3D. Les règles de paiement Riftn s'appliquent.",
     "account": "La consultation publique ne nécessite aucun compte. Connectez votre compte Riftn pour gérer votre profil, créer et publier du contenu.",
-    "step": "Pour gérer votre compte, ajoutez https://dehub.io/mcp comme connecteur OAuth, connectez-vous à Riftn et examinez les autorisations avant d'accepter.",
+    "step": "Pour gérer votre compte, ajoutez https://riftn.com/mcp comme connecteur OAuth, connectez-vous à Riftn et examinez les autorisations avant d'accepter.",
     "profilePrompt": "Remplace ma biographie Riftn par : Créateur indépendant de films et de musique.",
     "generatePrompt": "Montre les modèles d'image Riftn et le prix d'un portrait avant de le créer.",
     "libraryPrompt": "Montre les dernières créations de ma bibliothèque Riftn."
@@ -900,6 +900,13 @@
     "postCount_other": "{{count}} publications"
   },
   "settings": {
+    "chatDeleteChoice": "Quand vous supprimez un message",
+    "chatDeleteChoiceDesc": "Demander à chaque fois, ou toujours supprimer pour vous seul ou pour tout le monde dans la discussion.",
+    "chatDeleteAsk": "Demander à chaque fois",
+    "chatDeleteMe": "Supprimer pour moi",
+    "chatDeleteMeDesc": "Disparaît de votre discussion, les autres le voient encore",
+    "chatDeleteEveryone": "Supprimer pour tout le monde",
+    "chatDeleteEveryoneDesc": "Quand c’est possible. Le message de quelqu’un d’autre dans un groupe n’est supprimé que pour vous",
     "contactSupport": "Contacter l'assistance",
     "glass": "Glassy",
     "shortsSaveFailed": "Échec de l'enregistrement des préférences Shorts",
@@ -2595,7 +2602,7 @@
     "promptDetails": "Détails facultatifs",
     "promptDevice": "Appareil et système (pour les bugs)",
     "promptFilters": "Filtrer par catégorie",
-    "promptMediaError": "Choisissez des images ou vidéos de moins de 20 Mo chacune.",
+    "promptMediaError": "Choisissez des images ou vidéos de moins de 50 Mo chacune.",
     "promptMediaLimit": "Jusqu’à {{max}} pièces jointes.",
     "removePromptAttachment": "Supprimer {{name}}",
     "promptAttachment": "Pièce jointe {{number}}",
@@ -5717,7 +5724,7 @@
     "onStage": "Sur scène",
     "noSpeakers": "Pas encore de conférenciers",
     "voiceEffect": "Effet 🎭 vocal",
-    "textToSpeech": "🔊 Text-to-Speech",
+    "textToSpeech": "Text-to-Speech",
     "loadVoices": "Charger les voix",
     "ttsPlaceholder": "Tapez un message pour parler...",
     "signInToJoin": "Connectez-vous pour vous inscrire",
@@ -7760,7 +7767,8 @@
     "shareGroups": "Groupes",
     "shareKindGroup": "Groupe",
     "shareKindChannel": "Canal",
-    "shareKindCommunity": "Communauté"
+    "shareKindCommunity": "Communauté",
+    "copyMedia": "Copier le média"
   },
   "editPost": {
     "mediaPermission": "L'autorisation d'accès à la médiathèque est requise",
@@ -12505,7 +12513,7 @@
   "multiPost": {
     "tab": "Multi-publication",
     "title": "Multi-publication",
-    "intro": "Publiez sur X, YouTube, Instagram, TikTok et plus en même temps avec dehub. Connectez vos comptes une fois, puis choisissez où chaque publication va.",
+    "intro": "Publiez sur X, YouTube, Instagram, TikTok et plus en même temps avec Riftn. Connectez vos comptes une fois, puis choisissez où chaque publication va.",
     "creditsHeading": "Crédits de publication",
     "credits": "{{count}} crédits de publication",
     "topUpTitle": "Rechargez et économisez",
@@ -17096,6 +17104,8 @@
     "forEveryone": "Supprimer pour tout le monde",
     "forBoth": "Supprimer pour nous deux",
     "forMeAndName": "Supprimer pour moi et {{name}}",
+    "remember": "Mémoriser mon choix",
+    "rememberHint": "Modifiable à tout moment dans les Paramètres",
     "failed": "Impossible de supprimer le message"
   }
 }

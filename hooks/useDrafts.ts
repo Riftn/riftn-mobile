@@ -70,7 +70,7 @@ export interface Draft {
    * Who may see, quote and reply, and the content warning. Absent on drafts
    * saved before these existed — a draft without them must not reopen public.
    */
-  visibility?: "public" | "followers" | "direct";
+  visibility?: "public" | "followers" | "direct" | "self";
   contentWarning?: string | null;
   quotePolicy?: "public" | "followers" | "nobody";
   replyPolicy?: "public" | "followers" | "following" | "mentioned";

@@ -22,7 +22,7 @@
     "failed": "Kon nie die verbinding voltooi nie. Probeer weer teken.",
     "generate": "Genereer media met jou krediete, bevestigde betalings of in aanmerking kom gratis beelde",
     "generatePrompt": "Wys my Riftn se beeldmodelle en haal 'n portret aan voordat dit gegenereer word.",
-    "intro": "Blaai deur Riftn in ChatGPT, of skakel jou eie rekening om jou profiel op te dateer, plasings te publiseer en Creator Studio te gebruik. Voeg https://dehub.io/mcp by as 'n OAuth-aansluiting vir rekeningbeheer.",
+    "intro": "Blaai deur Riftn in ChatGPT, of skakel jou eie rekening om jou profiel op te dateer, plasings te publiseer en Creator Studio te gebruik. Voeg https://riftn.com/mcp by as 'n OAuth-aansluiting vir rekeningbeheer.",
     "libraryPrompt": "Laasste assets in my Riftn Creator biblioteek wys.",
     "manage": "Bestuur rekeningverbindings",
     "profile": "Probeer jou profiel, beelde en privaatheidstettings te wysig.",
@@ -30,7 +30,7 @@
     "read": "Lees jou rekening, plasings, kennisgewings en Skepperbiblioteek",
     "signIn": "Teken in op Riftn",
     "social": "Publiseer plasings en kommentaar, volg mense en stoor boekmerke",
-    "step": "Vir rekeningbeheer, voeg https://dehub.io/mcp by as 'n OAuth-verbindingspunt, meld aan by Riftn en kyk vooraf na die toestemming voordat toegang verleen word.",
+    "step": "Vir rekeningbeheer, voeg https://riftn.com/mcp by as 'n OAuth-verbindingspunt, meld aan by Riftn en kyk vooraf na die toestemming voordat toegang verleen word.",
     "title": "Koppel jou Riftn-rekening",
     "what": "Blaai deur publieke poste en profiele. Met 'n OAuth-rekeningverbinding, bestuur jou profiel en privaatheid, publiseer plasings en kommentaar, volg mense, lees kennisgewings, stoor boekmerke en genereer beelde, video, klank en 3D-bates. Generasie gebruik Riftn se bestaande betalingsreëls."
   },
@@ -2632,7 +2632,8 @@
       "profile": "profiel",
       "proposal": "voorstel",
       "stage": "stadium",
-      "store": "winkel"
+      "store": "winkel",
+      "featureRequest": "aanvrae"
     }
   },
   "postGate": {
@@ -2984,7 +2985,11 @@
     "premium": "Prysgeverig",
     "pricing": "Pryse",
     "reorderHint": "Hou en sleep enige ikoon vas om dit te herskik",
-    "reorderReset": "Herstel"
+    "reorderReset": "Herstel",
+    "groups": {
+      "create": "Skep",
+      "discover": "Ontdek"
+    }
   },
   "affiliate": {
     "subtitle": "Verdien uit almal wat jy nooi — vir altyd",
@@ -3747,7 +3752,8 @@
     "themeColorBrand": "Handelsmerk",
     "themeColorBrandDesc": "Gebruik die kleure van jou profielfoto",
     "themeColorBrandNoAvatar": "Voeg 'n profielfoto by om handelsmerkkleure te gebruik",
-    "themeColorBrandFailed": "Kon nie kleure uit jou profielfoto lees nie"
+    "themeColorBrandFailed": "Kon nie kleure uit jou profielfoto lees nie",
+    "menuLayoutFolders": "Vouers"
   },
   "common": {
     "refresh": "Verfris",
@@ -3815,7 +3821,8 @@
     "next": "Volgende",
     "previous": "Vorige",
     "redo": "Herhaal",
-    "remove": "Verwyder"
+    "remove": "Verwyder",
+    "loadMore": "Laai meer"
   },
   "tip": {
     "payDirect": "Gestuur reguit na {{name}} in {{symbol}} op {{chain}}. Geen ruil.",
@@ -4539,7 +4546,7 @@
     "removeHistory": "Verwyder alle kennisgewinggeskiedenis",
     "notificationTypes": "Kennisgewing Tipes",
     "likes": "Laaiks",
-    "likesDesc": "Wanneer iemand jou inhoud laaik",
+    "likesDesc": "Wanneer iemand van jou inhoud hou",
     "comments": "Kommentare",
     "commentsDesc": "Wanneer iemand kommentaar lewer of antwoord",
     "follows": "Volgelinge",
@@ -4560,8 +4567,8 @@
     "markAsRead": "Merk as gelees",
     "clearNotification": "Vee kennisgewing uit",
     "loginDescription": "Teken in om jou kennisgewings te sien en op hoogte te bly van jou vriende op Riftn.",
-    "likedPost": "{{name}} het jou plasing gelaaik",
-    "likedPosts": "{{name}} het {{count}} van jou plasings gelaaik",
+    "likedPost": "{{name}} het van jou plasing gehou",
+    "likedPosts": "{{name}} het van {{count}} van jou plasings gehou",
     "commentedPost": "{{name}} het kommentaar op jou plasing gelewer",
     "commentedPosts": "{{name}} het kommentaar op {{count}} van jou plasings gelewer",
     "repliedComment": "{{name}} het op jou kommentaar geantwoord",
@@ -4739,7 +4746,7 @@
     "promptHeading": "Wat moet ons die volgende bou?",
     "promptHint": "Beskryf dit. Skakel 'n skermfoto in. Maak dit werk.",
     "promptLabel": "Jou vra",
-    "promptMediaError": "Kies afbeeldings of videos onder 20MB elk.",
+    "promptMediaError": "Kies afbeeldings of videos onder 50MB elk.",
     "promptMediaLimit": "Tot {{max}} bylae.",
     "promptNew": "Nuwe vra",
     "promptPageTitle": "Vrae",
@@ -5719,7 +5726,7 @@
     "handlePrompt": "Stel saam"
   },
   "loginModal": {
-    "title": "Teken in",
+    "title": "Log in",
     "continueEmail": "Gaan voort met E-pos",
     "continueSMS": "Gaan voort met SMS",
     "continueGoogle": "Gaan voort met Google",
@@ -7664,7 +7671,7 @@
     "onStage": "Op die verhoog",
     "noSpeakers": "Nog geen sprekers",
     "voiceEffect": "🎭 Stem Effek",
-    "textToSpeech": "Teks-na- 🔊 Spraak",
+    "textToSpeech": "Teks-na-  Spraak",
     "loadVoices": "Laai stemme",
     "ttsPlaceholder": "Tik 'n boodskap om te praat...",
     "signInToJoin": "Teken in om aan te sluit",
@@ -12981,7 +12988,15 @@
     "loop": "Lus",
     "dialogueFormat": "Skryf die toneel as \"Naam: lyn\", een spreker per lyn.",
     "fileTooLarge": "Daardie lêer is groter as 100 MB. Gebruik 'n korter of kleiner een.",
-    "signInToGenerate": "Teken in om te genereer."
+    "signInToGenerate": "Teken in om te genereer.",
+    "madeOnDehub": "Gemaak op Riftn",
+    "aiGenerationAlt": "AI-generering",
+    "gallery": {
+      "send": "Stuur",
+      "notifications": {
+        "generation_reply": "{{name}} het op jou kommentaar geantwoord"
+      }
+    }
   },
   "fractions": {
     "title": "Fraksies",
@@ -13995,7 +14010,7 @@
   "multiPost": {
     "tab": "Multi-plasing",
     "title": "Multi-plasing",
-    "intro": "Plaas gelyktydig na X, YouTube, Instagram, TikTok en meer met dehub. Koppel jou rekeninge een keer, kies dan waar elke plasing heen gaan.",
+    "intro": "Plaas gelyktydig na X, YouTube, Instagram, TikTok en meer met Riftn. Koppel jou rekeninge een keer, kies dan waar elke plasing heen gaan.",
     "creditsHeading": "Plaaskrediete",
     "credits": "{{count}} plaaskrediete",
     "topUpTitle": "Vul aan en spaar",
@@ -15536,7 +15551,8 @@
       "drive": "Nagaandrywer",
       "chrome": "Vloeibare Krom",
       "snow": "Sneeuval"
-    }
+    },
+    "sameAsProfile": "Profiel"
   },
   "articleTile": {
     "cover": "Voorblad"
@@ -15569,5 +15585,36 @@
     "forward": "Aanstuur",
     "deleted_one": "{{count}} boodskap verwisig",
     "deleted_other": "{{count}} boodskappe verwisig"
+  },
+  "messagesTabs": {
+    "all": "Alle"
+  },
+  "mentionLinks": {
+    "communities": "Gemeenskappe",
+    "pages": "Bladsye",
+    "people": "Mense"
+  },
+  "resetWallet": {
+    "mismatch": "Woorde stem nie ooreen nie",
+    "logOut": "Uitlog",
+    "confirm": "Bevestig woordeboek",
+    "ack": "Ek verstaan dat my ou geld by die ou sak bly.",
+    "cancel": "Kanselleer"
+  },
+  "chatTabs": {
+    "all": "Alle",
+    "alwaysOn": "Altyd aan",
+    "communities": "Gemeenskappe",
+    "direct": "Direk",
+    "kindCommunity": "Gemeenskap",
+    "kindDirect": "Direk",
+    "kindGroup": "Groepeer",
+    "kindPublic": "Publiek",
+    "moveDown": "Beweeg af",
+    "moveUp": "Beweeg op",
+    "requests": "Versoeke",
+    "sCreators": "Skeppers",
+    "sGaming": "Speletjies",
+    "sTrading": "Handel"
   }
 }

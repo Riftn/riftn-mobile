@@ -22,7 +22,7 @@
     "empty": "Hiç bir hereketli hasabat baglanyşygy ýok.",
     "failed": "Men baglanyşygy tamamlap bilmedim. Gaýtalaň",
     "generate": "Kreditleriňi, tassyklanan tölegleriňi ýa-da pulsuz suratlaryňy ulanyp, habar beriş serişdesini ýarat",
-    "intro": "Bakýň Riftn-da ChatGPT-da, ylýmlaryňyzy güldürmek yada öz profilini güldürmek, ýazylan ýazgylary ýaylapyşyk we Creator Studio-da ýaylapyşyk üçin linkiňizi ýa-da öz hesabyňyzy linkläp üýtgetmek. https://dehub.io/mcp ýolynda OAuth konsentratoryny ýükleň.",
+    "intro": "Bakýň Riftn-da ChatGPT-da, ylýmlaryňyzy güldürmek yada öz profilini güldürmek, ýazylan ýazgylary ýaylapyşyk we Creator Studio-da ýaylapyşyk üçin linkiňizi ýa-da öz hesabyňyzy linkläp üýtgetmek. https://riftn.com/mcp ýolynda OAuth konsentratoryny ýükleň.",
     "libraryPrompt": "Riftn Ýaradyjy kitaphanamda iň soňky esbaplary görkeziň.",
     "manage": "Hesablar baglanmalaryny ýarymlaýyş et",
     "profile": "Profil, suratlar we gizlinlik düzgüni düzediş",
@@ -30,7 +30,7 @@
     "read": "Hasabyňyzy, goýan postlaryňyzy, bildirişleriňizi we Döreýjiler kitaphanasyny okaň",
     "signIn": "Riftn-da ýazylan",
     "social": "Postlary we pikirleri çap ediň, adamlary diňläň we kitaplary saklaň",
-    "step": "Hesabyň häkimiýetleri üçin https://dehub.io/mcp-i OAuth baglaýjy hökmünde goşyň, Riftn-a girip, rugsatlary barlamagyň öň ýanynda barlaň.",
+    "step": "Hesabyň häkimiýetleri üçin https://riftn.com/mcp-i OAuth baglaýjy hökmünde goşyň, Riftn-a girip, rugsatlary barlamagyň öň ýanynda barlaň.",
     "title": "Riftn hesabyňyza goşulyň",
     "what": "Halkara postlary we profilleri barlaň. OAuth hasabat baglanyşygy bilen, profilyňyzy we gizlinligiňizi bejermek, postlary we pikirleri çap etmek, adamlary diňlemek, habarlamalary okamak, kitapçalary saklamak we suratlar, video, ses we 3D serişdelerini ýaratmak. Nesiller Riftn-yň häzirki töleg kadalaryny ulanýarlar."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profily",
       "proposal": "teklip",
       "stage": "sahna",
-      "store": "dükan"
+      "store": "dükan",
+      "featureRequest": "haýyş"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Ýokary derejeli",
     "pricing": "Bahalar",
     "reorderHint": "Her bir simgony saklaň we gaýtargylaň",
-    "reorderReset": "Gaýd Et"
+    "reorderReset": "Gaýd Et",
+    "groups": {
+      "create": "Döret",
+      "discover": "Tap"
+    }
   },
   "affiliate": {
     "subtitle": "Çaýran her bir adamyň hasabyna ebedi girdeji alyň",
@@ -3670,7 +3675,8 @@
     "themeColorBrand": "Marka",
     "themeColorBrandDesc": "Profil suratyňyzyň reňklerini ulanyň",
     "themeColorBrandNoAvatar": "Marka reňklerini ulanmak üçin profil suraty goşuň",
-    "themeColorBrandFailed": "Profil suratyňyzdan reňkleri okap bolmady"
+    "themeColorBrandFailed": "Profil suratyňyzdan reňkleri okap bolmady",
+    "menuLayoutFolders": "Bukjalar"
   },
   "common": {
     "refresh": "Täzelemek",
@@ -3738,7 +3744,8 @@
     "next": "Indiki",
     "previous": "Öňki",
     "redo": "Gaýtadan et",
-    "remove": "Aýyr"
+    "remove": "Aýyr",
+    "loadMore": "Has köp ýükle"
   },
   "tip": {
     "payDirect": "{{chain}} ulgamynda {{symbol}} bilen göni {{name}} ugradylýar. Çalyşyk ýok.",
@@ -4641,7 +4648,7 @@
     "promptHeading": "Indi näme gurmalydyrys?",
     "promptHint": "Düşündiriň. Skrinşot goşuň. Amala aşyryň.",
     "promptLabel": "Siziň soragyňyz",
-    "promptMediaError": "Her biri 20 MB-dan kiçi bolan suratlary ýa-da wideolary saýlaň.",
+    "promptMediaError": "Her biri 50 MB-dan kiçi bolan suratlary ýa-da wideolary saýlaň.",
     "promptMediaLimit": "Iň köp {{max}} goşundy.",
     "promptNew": "Täze sorag",
     "promptPageTitle": "Haýyşlar",
@@ -7552,7 +7559,7 @@
     "onStage": "Sahnada",
     "noSpeakers": "Hiç hili gürleýjiler ýok",
     "voiceEffect": "🎭 Ses effekti",
-    "textToSpeech": "🔊 Başgaça aýdanyňda, \"Hudaýyň ady bilen\"",
+    "textToSpeech": "Başgaça aýdanyňda, \"Hudaýyň ady bilen\"",
     "loadVoices": "Sesleri ýükle",
     "ttsPlaceholder": "Söýgüli habar beriň...",
     "signInToJoin": "Şoňa görä-de, şoňa görä-de, şoňa",
@@ -12764,7 +12771,15 @@
     "priceFreeRateLimited": "Pulsuz · derejeler çäkleri ulanylýar",
     "dialogueFormat": "Sahnany \"Name: Line\" diýip ýazyň, her hat üçin bir gürleýji.",
     "fileTooLarge": "Bu faýl 100 MB-den gowrak. Kiçi ýa-da kiçijik birini ulan.",
-    "signInToGenerate": "Öwrenmek üçin imza atyň."
+    "signInToGenerate": "Öwrenmek üçin imza atyň.",
+    "madeOnDehub": "Riftn-da döredildi",
+    "aiGenerationAlt": "Öňki nesil",
+    "gallery": {
+      "send": "Iberiň",
+      "notifications": {
+        "generation_reply": "{{name}} teswiryňize jogap berdi"
+      }
+    }
   },
   "fractions": {
     "title": "Paýlar",
@@ -13778,7 +13793,7 @@
   "multiPost": {
     "tab": "Köp-posting",
     "title": "Köp-posting",
-    "intro": "X, YouTube, Instagram, TikTok we beýleki platformalara bir wagtda dehub arkaly poçtalaň. Hasaplaryňyzy bir gezek birikdiriň, soňra her poçta nirede görkezerini saýlaň.",
+    "intro": "X, YouTube, Instagram, TikTok we beýleki platformalara bir wagtda Riftn arkaly poçtalaň. Hasaplaryňyzy bir gezek birikdiriň, soňra her poçta nirede görkezerini saýlaň.",
     "creditsHeading": "Poçta kreditleri",
     "credits": "{{count}} post credits",
     "topUpTitle": "Kredit goşuň we tygşytlaň",
@@ -15323,7 +15338,8 @@
       "chrome": "Çarlz Çarlz",
       "orbit": "Orbita",
       "snow": "Ýagyş ýagýar"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Örtük"
@@ -15355,5 +15371,36 @@
     "forward": "Ugrat",
     "deleted_one": "Silinmiş {{count}} mesaj",
     "deleted_other": "Silinmiş {{count}} mesajlar"
+  },
+  "messagesTabs": {
+    "all": "Ehli"
+  },
+  "mentionLinks": {
+    "communities": "Jemgyýetler",
+    "pages": "Sahypalar",
+    "people": "Adamlar"
+  },
+  "resetWallet": {
+    "mismatch": "Parollar gabat gelmeýär",
+    "logOut": "Hasapdan çyk",
+    "confirm": "Paroly tassyklaň",
+    "ack": "Öňki serişdelerimiň öňki gapjykda galýandygyna düşünýärin.",
+    "cancel": "Ýatyr"
+  },
+  "chatTabs": {
+    "all": "Ehli",
+    "alwaysOn": "Hər zaman",
+    "communities": "Jemgyýetler",
+    "direct": "DIREKT",
+    "kindCommunity": "Jemgyýet",
+    "kindDirect": "DIREKT",
+    "kindGroup": "Toparla",
+    "kindPublic": "Açyk",
+    "moveDown": "Ýükle",
+    "moveUp": "Ýokary çyk",
+    "requests": "Haýyşlar",
+    "sCreators": "Döredijiler",
+    "sGaming": "Oýunlar",
+    "sTrading": "Ticaret"
   }
 }

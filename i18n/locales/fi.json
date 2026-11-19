@@ -22,7 +22,7 @@
     "failed": "Yhteyttä ei voitu viimeistellä. Yritä kirjautua sisään uudelleen.",
     "generate": "Luo mediaa käyttämällä krediittejäsi, vahvistettuja maksuja tai kelpuutettuja ilmaisia kuvia",
     "generatePrompt": "Näytä minulle Riftnin kuvamallit ja lainaa muotokuva ennen sen luomista.",
-    "intro": "Selaa Riftnia ChatGPT: ssä tai linkitä oma tilisi päivittääksesi profiilisi, julkaistaksesi julkaisuja ja käyttääksesi Creator Studiota. Lisää https://dehub.io/mcp OAuth-liittimeksi tilin valvontaa varten.",
+    "intro": "Selaa Riftnia ChatGPT: ssä tai linkitä oma tilisi päivittääksesi profiilisi, julkaistaksesi julkaisuja ja käyttääksesi Creator Studiota. Lisää https://riftn.com/mcp OAuth-liittimeksi tilin valvontaa varten.",
     "libraryPrompt": "Näytä uusimmat materiaalit Riftn Creator -kirjastossani.",
     "manage": "Hallinnoi tiliyhteyksiä",
     "profile": "Muokkaa profiiliasi, kuviasi ja yksityisyysasetuksiasi",
@@ -30,7 +30,7 @@
     "read": "Lue tilisi, julkaisusi, ilmoituksesi ja tekijäkirjastosi",
     "signIn": "Kirjaudu sisään Riftniin",
     "social": "Julkaise julkaisuja ja kommentteja, seuraa ihmisiä ja tallenna kirjanmerkkejä",
-    "step": "Tilin hallintaa varten lisää https://dehub.io/mcp OAuth-liittimeksi, kirjaudu sisään Riftniin ja tarkista käyttöoikeudet ennen käytön sallimista.",
+    "step": "Tilin hallintaa varten lisää https://riftn.com/mcp OAuth-liittimeksi, kirjaudu sisään Riftniin ja tarkista käyttöoikeudet ennen käytön sallimista.",
     "title": "Yhdistä Riftn-tilisi",
     "what": "Selaa julkisia julkaisuja ja profiileja. OAuth-tilin avulla voit hallita profiiliasi ja yksityisyyttäsi, julkaista julkaisuja ja kommentteja, seurata ihmisiä, lukea ilmoituksia, tallentaa kirjanmerkkejä ja luoda kuvia, videoita, ääntä ja 3D-resursseja. Generation käyttää Riftnin nykyisiä maksusääntöjä."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profiili",
       "proposal": "ehdotus",
       "stage": "vaihe",
-      "store": "myymälä"
+      "store": "myymälä",
+      "featureRequest": "pyyntö"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Hinnoittelu",
     "reorderHint": "Järjestä uudelleen pitämällä mitä tahansa kuvaketta painettuna ja vetämällä",
-    "reorderReset": "Tyhjennä"
+    "reorderReset": "Tyhjennä",
+    "groups": {
+      "create": "Luo",
+      "discover": "Löydä"
+    }
   },
   "affiliate": {
     "subtitle": "Ansaitse jokaiselta kutsumaltasi henkilöltä – ikuisesti",
@@ -3682,7 +3687,8 @@
     "themeColorBrand": "Brändi",
     "themeColorBrandDesc": "Käytä profiilikuvasi värejä",
     "themeColorBrandNoAvatar": "Lisää profiilikuva käyttääksesi brändivärejä",
-    "themeColorBrandFailed": "Profiilikuvastasi ei saatu luettua värejä"
+    "themeColorBrandFailed": "Profiilikuvastasi ei saatu luettua värejä",
+    "menuLayoutFolders": "Kansiot"
   },
   "common": {
     "refresh": "Päivitä",
@@ -3750,7 +3756,8 @@
     "next": "Seuraava",
     "previous": "Edellinen",
     "redo": "Toista",
-    "remove": "Poista"
+    "remove": "Poista",
+    "loadMore": "Lataa lisää"
   },
   "tip": {
     "payDirect": "Lähetetty suoraan käyttäjälle {{name}}: {{symbol}} verkossa {{chain}}. Ei vaihtoa.",
@@ -4653,7 +4660,7 @@
     "promptHeading": "Mitä seuraavaksi rakennamme?",
     "promptHint": "Kerro siitä. Lähetä näyte. Tee se tapahtumaan.",
     "promptLabel": "Sinun kysymys",
-    "promptMediaError": "Valitse alle 20 Mt: n kokoiset kuvat tai videot.",
+    "promptMediaError": "Valitse alle 50 Mt: n kokoiset kuvat tai videot.",
     "promptMediaLimit": "Jopa {{max}} liitettä.",
     "promptNew": "Uusi kysymys",
     "promptPageTitle": "Pyynnöt",
@@ -7568,7 +7575,7 @@
     "onStage": "Vaiheessa",
     "noSpeakers": "Ei vielä kaiuttimia",
     "voiceEffect": "🎭 Äänitehoste",
-    "textToSpeech": "🔊 Teksti puheeksi",
+    "textToSpeech": "Teksti puheeksi",
     "loadVoices": "Lataa äänet",
     "ttsPlaceholder": "Kirjoita viesti puhuaksesi...",
     "signInToJoin": "Kirjaudu sisään liittyäksesi",
@@ -12792,7 +12799,15 @@
     "loop": "Silmukka",
     "dialogueFormat": "Kirjoita kohtaus muodossa \"Nimi: rivi\", yksi puhuja per rivi.",
     "fileTooLarge": "Tiedosto on yli 100 Mt. Käytä lyhyempää tai pienempää tiedostoa.",
-    "signInToGenerate": "Kirjaudu sisään luodaksesi."
+    "signInToGenerate": "Kirjaudu sisään luodaksesi.",
+    "madeOnDehub": "Tehty Riftnissa",
+    "aiGenerationAlt": "AI-luominen",
+    "gallery": {
+      "send": "Lähetä",
+      "notifications": {
+        "generation_reply": "{{name}} vastasi kommenttiisi"
+      }
+    }
   },
   "fractions": {
     "title": "Fraktiot",
@@ -13806,7 +13821,7 @@
   "multiPost": {
     "tab": "Monijulkaisu",
     "title": "Monijulkaisu",
-    "intro": "Julkaise X:ään, YouTubeen, Instagramiin, TikTokiin ja muihin samanaikaisesti dehubin avulla. Yhdistä tilisi kerran ja valitse, minne kukin julkaisu menee.",
+    "intro": "Julkaise X:ään, YouTubeen, Instagramiin, TikTokiin ja muihin samanaikaisesti Riftnin avulla. Yhdistä tilisi kerran ja valitse, minne kukin julkaisu menee.",
     "creditsHeading": "Julkaisupisteet",
     "credits": "{{count}} julkaisupistettä",
     "topUpTitle": "Lisää ja säästä",
@@ -15368,7 +15383,8 @@
       "chrome": "Nestekromi",
       "orbit": "Kiertorata",
       "snow": "Lumisade"
-    }
+    },
+    "sameAsProfile": "Profiili"
   },
   "articleTile": {
     "cover": "Kansikuva"
@@ -15400,5 +15416,36 @@
     "forward": "Välitä",
     "deleted_one": "Poistettu {{count}} viesti",
     "deleted_other": "Poistettu {{count}} viestiä"
+  },
+  "messagesTabs": {
+    "all": "Kaikki"
+  },
+  "mentionLinks": {
+    "communities": "Yhteisöt",
+    "pages": "Sivut",
+    "people": "Ihmiset"
+  },
+  "resetWallet": {
+    "mismatch": "Salasanat eivät täsmää",
+    "logOut": "Kirjaudu ulos",
+    "confirm": "Vahvista salasana",
+    "ack": "Ymmärrän, että vanhat rahoit pysyvät vanhassa taskussa.",
+    "cancel": "Peruuta"
+  },
+  "chatTabs": {
+    "all": "Kaikki",
+    "alwaysOn": "Pysy aina päällä",
+    "communities": "Yhteisöt",
+    "direct": "Suora",
+    "kindCommunity": "Yhteisö",
+    "kindDirect": "Suora",
+    "kindGroup": "Ryhmittele",
+    "kindPublic": "Julkinen",
+    "moveDown": "Siirrä alas",
+    "moveUp": "Siirrä ylös",
+    "requests": "Ominaisuuspyynnöt",
+    "sCreators": "Tekijät",
+    "sGaming": "Pelit",
+    "sTrading": "Kaupankäynti"
   }
 }

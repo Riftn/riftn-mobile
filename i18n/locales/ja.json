@@ -3813,7 +3813,8 @@
     "apply": "適用",
     "next": "次へ",
     "previous": "前へ",
-    "redo": "やり直す"
+    "redo": "やり直す",
+    "loadMore": "もっと読み込む"
   },
   "tip": {
     "title": "チップを送る",
@@ -4814,7 +4815,7 @@
     "promptDetails": "詳細（任意）",
     "promptDevice": "デバイスとOS（バグの場合）",
     "promptFilters": "カテゴリで絞り込む",
-    "promptMediaError": "各20MB以下の画像または動画を選択してください。",
+    "promptMediaError": "各50MB以下の画像または動画を選択してください。",
     "promptMediaLimit": "最大{{max}}個の添付ファイル。",
     "removePromptAttachment": "{{name}}を削除",
     "promptAttachment": "添付ファイル {{number}}",
@@ -7952,7 +7953,7 @@
     "onStage": "ステージ上",
     "noSpeakers": "スピーカーはまだありません",
     "voiceEffect": "🎭 音声効果",
-    "textToSpeech": "🔊 テキスト読み上げ",
+    "textToSpeech": "テキスト読み上げ",
     "loadVoices": "ボイスを読み込む",
     "ttsPlaceholder": "発言するメッセージを入力してください…",
     "signInToJoin": "サインインして参加",
@@ -13745,7 +13746,15 @@
     "audioFailed": "その音声を処理できませんでした。",
     "libraryFavorites": "お気に入り",
     "libraryFavoriteAdd": "お気に入りに追加",
-    "libraryFavoriteRemove": "お気に入りから削除"
+    "libraryFavoriteRemove": "お気に入りから削除",
+    "madeOnDehub": "Riftnで作成",
+    "aiGenerationAlt": "AI生成",
+    "gallery": {
+      "send": "送信",
+      "notifications": {
+        "generation_reply": "{{name}}があなたのコメントに返信しました"
+      }
+    }
   },
   "fractions": {
     "title": "フラクション",
@@ -14715,7 +14724,7 @@
   "multiPost": {
     "tab": "マルチ投稿",
     "title": "マルチ投稿",
-    "intro": "dehubでX、YouTube、Instagram、TikTokなどに同時に投稿できます。アカウントを一度接続すれば、各投稿をどこに送信するかを選択できます。",
+    "intro": "RiftnでX、YouTube、Instagram、TikTokなどに同時に投稿できます。アカウントを一度接続すれば、各投稿をどこに送信するかを選択できます。",
     "creditsHeading": "投稿クレジット",
     "credits": "{{count}}投稿クレジット",
     "topUpTitle": "チャージして節約",
@@ -15831,10 +15840,10 @@
     "empty": "有効なアカウント接続はありません。",
     "disconnect": "切断",
     "failed": "接続を完了できませんでした。もう一度サインインしてみてください。",
-    "intro": "デハブ（Riftn）をChatGPTで参照するか、プロフィールを更新、投稿を公開、またはCreator Studioを使用するには、https://dehub.io/mcpをOAuth接続器として追加する必要があります。",
+    "intro": "デハブ（Riftn）をChatGPTで参照するか、プロフィールを更新、投稿を公開、またはCreator Studioを使用するには、https://riftn.com/mcpをOAuth接続器として追加する必要があります。",
     "what": "一般公開されている投稿やプロフィールを閲覧しましょう。OAuthアカウント接続を使用すると、プロフィールとプライバシーの管理、投稿とコメントの公開、ユーザーのフォロー、通知の読み取り、ブックマークの保存、画像、ビデオ、オーディオ、3 Dアセットの生成ができます。Generationは、Riftnの既存の支払いルールを使用します。",
     "account": "パブリックブラウジングにアカウントは必要ありません。Riftnアカウントをリンクして、プロフィールを管理し、コンテンツを作成または公開します。",
-    "step": "アカウント制御の場合は、OAuthコネクタとしてhttps://dehub.io/mcpを追加し、Riftnにサインインしてアクセスを許可する前にアクセス許可を確認します。",
+    "step": "アカウント制御の場合は、OAuthコネクタとしてhttps://riftn.com/mcpを追加し、Riftnにサインインしてアクセスを許可する前にアクセス許可を確認します。",
     "profilePrompt": "Riftnのプロフィールを次のように更新します。映画や音楽を制作する独立系クリエイター。",
     "generatePrompt": "Riftnの画像モデルを表示し、生成する前にポートレートを引用してください。",
     "libraryPrompt": "Riftn Creatorライブラリに最新のアセットを表示します。"
@@ -16864,7 +16873,8 @@
     "saveFailed": "背景を保存できませんでした。もう一度お試しください。",
     "base": "ベース",
     "accent2": "アクセント2",
-    "ownColours": "自分の色"
+    "ownColours": "自分の色",
+    "sameAsProfile": "プロフィール"
   },
   "articleTile": {
     "cover": "カバー",
@@ -17048,5 +17058,8 @@
     "saveFailed": "タブを保存できませんでした。もう一度お試しください",
     "show": "タブを表示",
     "tooMany": "タブは最大 10 個までです"
+  },
+  "msgDelete": {
+    "titleMany": "{{count}}件のメッセージを削除しますか？"
   }
 }

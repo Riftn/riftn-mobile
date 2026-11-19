@@ -383,6 +383,12 @@ export default function UploadScreen() {
   const safeBottom = useSafeAreaInsets().bottom;
   const kbLiftValue = useKeyboardLiftValue(Platform.OS === "ios" ? 0 : safeBottom);
   const toolbarLiftStyle = useAnimatedStyle(() => ({ marginBottom: kbLiftValue.value }));
+  // While the title or text is being typed in, the options box below gives
+  // up most of its height so the writing area has room to show (and scroll
+  // through) the title and several lines, not just the last two.
+  const [writing, setWriting] = useState(false);
+  const startWriting = useCallback(() => setWriting(true), []);
+  const stopWriting = useCallback(() => setWriting(false), []);
   const { drafts, saveDraft, deleteDraft } = useDrafts(authUser?.address);
 
   const avatarUri = useMemo(
@@ -497,7 +503,7 @@ export default function UploadScreen() {
   // Who may reply. Anyone, unless the creator narrows it.
   const [replyPolicy, setReplyPolicy] = useState<"public" | "followers" | "following" | "mentioned">("public");
   // Who may see the post. Everyone, unless the creator narrows it; fixed once posted.
-  const [visibility, setVisibility] = useState<"public" | "followers" | "direct">("public");
+  const [visibility, setVisibility] = useState<"public" | "followers" | "direct" | "self">("public");
   // Hold menu on a photo tile (index), or null.
   const [showPreview, setShowPreview] = useState(false);
   const [photoMenu, setPhotoMenu] = useState<number | null>(null);
@@ -2792,6 +2798,8 @@ export default function UploadScreen() {
             {showTitleInput && !articleMode && (
               <TextInput
                 ref={titleRef}
+                onFocus={startWriting}
+                onBlur={stopWriting}
                 value={titleText}
                 onChangeText={setTitleText}
                 placeholder={t("features.titleLabel")}
@@ -2804,6 +2812,8 @@ export default function UploadScreen() {
             )}
             {!articleMode && <GestureDetector gesture={sheet.text}><ComposerBodyInput
               ref={bodyInputRef}
+              onFocus={startWriting}
+              onBlur={stopWriting}
               value={bodyText}
               onChangeText={handleBodyChange}
               onSelectionChange={(e) => {
@@ -2871,21 +2881,6 @@ export default function UploadScreen() {
               onSelect={bodyAssets.selectAsset}
               loading={bodyAssets.loading}
             />
-
-            {/* Character count alone, right-aligned, as web ends this row.
-                Enhance moved down to the action bar beside Post, where web
-                keeps it. */}
-            {!articleMode && <View className="flex-row items-center justify-end mt-1">
-              <Text
-                className={`text-xs ${
-                  bodyText.length >= DESCRIPTION_MAX
-                    ? "text-white/80"
-                    : "text-theme-neutrals-500"
-                }`}
-              >
-                {formatCharCount(bodyText.length)}/{formatCharCount(DESCRIPTION_MAX)}
-              </Text>
-            </View>}
 
             {isLiveMode && (
               <View className="mt-2 flex-row items-center">
@@ -3328,11 +3323,24 @@ export default function UploadScreen() {
         </Pressable>
       </GestureScrollView>
       </GestureDetector>
+      {/* Character count sits under the scrolling editor, not inside it, so it
+          stays in view however many lines the post runs to. */}
+      {!articleMode && <View className="flex-row items-center justify-end px-4 pt-1 pb-1">
+        <Text
+          className={`text-xs ${
+            bodyText.length >= DESCRIPTION_MAX
+              ? "text-white/80"
+              : "text-theme-neutrals-500"
+          }`}
+        >
+          {formatCharCount(bodyText.length)}/{formatCharCount(DESCRIPTION_MAX)}
+        </Text>
+      </View>}
       {/* Options scroll in their own short box, as on web: the tabs and the
           editor stay put while the switches scroll underneath them. */}
       <View className="border-t border-white/10">
         <ScrollView
-          style={{ maxHeight: 180 }}
+          style={{ maxHeight: writing ? 72 : 180 }}
           contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 4 }}
           nestedScrollEnabled
           keyboardShouldPersistTaps="handled"
@@ -3554,6 +3562,8 @@ export default function UploadScreen() {
                   options={[
                     { value: "followers", label: t("postVisibility.followers") },
                     { value: "direct", label: t("postVisibility.direct") },
+                    // Only the author can read it. Same words as the quote setting's "Only me".
+                    { value: "self", label: t("quotePolicy.nobody") },
                   ]}
                   onChange={setVisibility}
                   hint={visibility === "direct" ? t("postVisibility.directHint") : undefined}

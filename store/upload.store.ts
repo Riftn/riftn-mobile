@@ -96,7 +96,7 @@ export interface SerializedUploadPayload {
   /** Who may reply. Absent means anyone. */
   replyPolicy?: "followers" | "following" | "mentioned";
   /** Who may see it. Absent means everyone. */
-  visibility?: "followers" | "direct";
+  visibility?: "followers" | "direct" | "self";
 }
 
 export interface MintParams {

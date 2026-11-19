@@ -35,7 +35,7 @@
     "failed": "Impossibile completare la connessione. Prova a accedere nuovamente.",
     "generate": "Genera media utilizzando i tuoi crediti, pagamenti confermati o immagini gratuite eleggibili",
     "generatePrompt": "Mostrami i modelli di immagini di Riftn e citami un ritratto prima di generare.",
-    "intro": "Esplora Riftn nel ChatGPT, o collega il tuo account per aggiornare il tuo profilo, pubblicare post e utilizzare lo Studio del Creatore. Aggiungi https://dehub.io/mcp come connettore OAuth per le autorizzazioni dell'account.",
+    "intro": "Esplora Riftn nel ChatGPT, o collega il tuo account per aggiornare il tuo profilo, pubblicare post e utilizzare lo Studio del Creatore. Aggiungi https://riftn.com/mcp come connettore OAuth per le autorizzazioni dell'account.",
     "libraryPrompt": "Mostra gli ultimi asset nella mia libreria del Creatore di Riftn.",
     "manage": "Gestisci le connessioni dell'account",
     "profile": "Modifica il tuo profilo, le immagini e le impostazioni di privacy",
@@ -43,7 +43,7 @@
     "read": "Leggi il tuo account, i post, le notifiche e la libreria del Creatore",
     "signIn": "Accedi a Riftn",
     "social": "Pubblica post e commenti, segui le persone e salva i segnalibri",
-    "step": "Per le autorizzazioni dell'account, aggiungi https://dehub.io/mcp come connettore OAuth, accedi a Riftn e revisiona le autorizzazioni prima di consentire l'accesso.",
+    "step": "Per le autorizzazioni dell'account, aggiungi https://riftn.com/mcp come connettore OAuth, accedi a Riftn e revisiona le autorizzazioni prima di consentire l'accesso.",
     "title": "Connetti il tuo account Riftn",
     "what": "Esplora i post e i profili pubblici. Con una connessione di account OAuth, gestisci il tuo profilo e la privacy, pubblica post e commenti, segui le persone, leggi le notifiche, salva i segnalibri e genera immagini, video, audio e asset 3D. La generazione utilizza le regole di pagamento esistenti di Riftn."
   },
@@ -3857,7 +3857,8 @@
     "next": "Avanti",
     "previous": "Indietro",
     "redo": "Rifai",
-    "remove": "Rimuovi"
+    "remove": "Rimuovi",
+    "loadMore": "Carica altro"
   },
   "tip": {
     "title": "Invia mancia",
@@ -4763,7 +4764,7 @@
     "promptHeading": "Cosa dovremmo costruire di nuovo?",
     "promptHint": "Descrivilo. Inserisci una schermata. Fai succedere.",
     "promptLabel": "Il tuo promemoria",
-    "promptMediaError": "Scegli immagini o video fino a 20MB ciascuno.",
+    "promptMediaError": "Scegli immagini o video fino a 50MB ciascuno.",
     "promptMediaLimit": "Fino a {{max}} allegati.",
     "promptNew": "Nuovo promemoria",
     "promptPageTitle": "Richieste",
@@ -7755,7 +7756,7 @@
     "onStage": "Sul palco",
     "noSpeakers": "Ancora nessun altoparlante",
     "voiceEffect": "Effetto 🎭 Voce",
-    "textToSpeech": "🔊 Sintesi vocale",
+    "textToSpeech": "Sintesi vocale",
     "loadVoices": "Carica voci",
     "ttsPlaceholder": "Scrivi un messaggio per parlare...",
     "signInToJoin": "Accedi per partecipare",
@@ -13035,7 +13036,15 @@
     "priceFreeRateLimited": "Gratuito · si applicano limiti tariffari",
     "dialogueFormat": "Scrivi la scena come \"Nome: riga\", un altoparlante per riga.",
     "fileTooLarge": "Quel file supera i 100 MB. Usa uno più breve o più piccolo.",
-    "signInToGenerate": "Accedi per generare."
+    "signInToGenerate": "Accedi per generare.",
+    "madeOnDehub": "Creato su Riftn",
+    "aiGenerationAlt": "Generazione IA",
+    "gallery": {
+      "send": "Invia",
+      "notifications": {
+        "generation_reply": "{{name}} ha risposto al tuo commento"
+      }
+    }
   },
   "fractions": {
     "title": "Frazioni",
@@ -14004,7 +14013,7 @@
   "multiPost": {
     "tab": "Pubblicazione multipla",
     "title": "Pubblicazione multipla",
-    "intro": "Pubblica su X, YouTube, Instagram, TikTok e altro contemporaneamente con dehub. Collega i tuoi account una volta, quindi scegli dove va ogni post.",
+    "intro": "Pubblica su X, YouTube, Instagram, TikTok e altro contemporaneamente con Riftn. Collega i tuoi account una volta, quindi scegli dove va ogni post.",
     "creditsHeading": "Crediti di post",
     "credits": "{{count}} crediti di post",
     "topUpTitle": "Ricarica e risparmia",
@@ -15525,7 +15534,8 @@
       "lava": "Lampada di lava",
       "chrome": "Cromo Liquido",
       "snow": "Nevicata"
-    }
+    },
+    "sameAsProfile": "Profilo"
   },
   "articleTile": {
     "cover": "Copertina"
@@ -15612,5 +15622,15 @@
     "saveFailed": "Impossibile salvare le schede, riprova",
     "show": "Mostra scheda",
     "tooMany": "Puoi avere fino a 10 schede"
+  },
+  "messagesTabs": {
+    "all": "Tutti"
+  },
+  "resetWallet": {
+    "mismatch": "Le password non corrispondono",
+    "logOut": "Esci",
+    "confirm": "Conferma la password",
+    "ack": "Capisco che i miei vecchi fondi rimangono nel vecchio portafoglio.",
+    "cancel": "Annulla"
   }
 }

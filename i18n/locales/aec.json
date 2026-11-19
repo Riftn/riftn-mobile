@@ -17,7 +17,6 @@
     "failed": "تعذر إكمال الاتصال. حاول تسجيل الدخول مجددًا.",
     "generate": "إنشاء الوسائط باستخدام رصيدك أو مدفوعاتك المؤكدة أو الصور المجانية المؤهلة",
     "generatePrompt": "اعرض نماذج الصور في Riftn وسعر صورة شخصية قبل إنشائها.",
-    "intro": "تصفح Riftn في ChatGPT أو اربط حسابك لتعديل ملفك الشخصي والنشر واستخدام Creator Studio. أضف https://dehub.io/mcp كموصل OAuth للتحكم بحسابك.",
     "profilePrompt": "حدّث نبذتي على Riftn إلى: صانع أفلام وموسيقى مستقل.",
     "title": "اربط حساب Riftn الخاص بك",
     "what": "تصفح المنشورات والملفات العامة. يتيح ربط الحساب عبر OAuth إدارة الملف والخصوصية والنشر والتعليق والمتابعة وقراءة الإشعارات وحفظ الإشارات المرجعية وإنشاء الصور والفيديو والصوت والعناصر ثلاثية الأبعاد. تنطبق قواعد الدفع الحالية في Riftn.",
@@ -32,7 +31,7 @@
     "read": "قراءة حسابك، المنشورات، الإشعارات و المكتبة للإنشاءات",
     "signIn": "تسجيل الدخول إلى دي هاب",
     "social": "تُنشر المنشورات والتعليقات، وتتبع الأشخاص وتحفظ المُحفوظات.",
-    "step": "لإدارة الحساب، أضف https://dehub.io/mcp ككونكتر OAuth، سجل دخولك في Riftn واطّلع على الإذنات قبل السماح بالوصول."
+    "step": "لإدارة الحساب، أضف https://riftn.com/mcp ككونكتر OAuth، سجل دخولك في Riftn واطّلع على الإذنات قبل السماح بالوصول."
   },
   "creatorSupport": {
     "campaignLabel": "دعم إعلانات منشئ المحتوى",
@@ -2628,7 +2627,8 @@
       "profile": "الملف الشخصي",
       "proposal": "التوصية",
       "stage": "المرحلة",
-      "store": "المتجر"
+      "store": "المتجر",
+      "featureRequest": "طلب"
     }
   },
   "postGate": {
@@ -2914,7 +2914,12 @@
     "premium": "بريميوم",
     "pricing": "الأسعار",
     "reorderReset": "إعادة تعيين",
-    "reorderHint": "أمسك واسحب أي أيكونة لإعادة ترتيبها"
+    "reorderHint": "أمسك واسحب أي أيكونة لإعادة ترتيبها",
+    "groups": {
+      "create": "انشر",
+      "discover": "اكتشف",
+      "riftn": "دي هاب"
+    }
   },
   "affiliate": {
     "subtitle": "اربح من كل من تدعوه — إلى الأبد",
@@ -3676,7 +3681,8 @@
     "themeColorBrand": "البراند",
     "themeColorBrandDesc": "استخدم ألوان صورة بروفايلك",
     "themeColorBrandNoAvatar": "ضيف صورة بروفايل عشان تستخدم ألوان البراند",
-    "themeColorBrandFailed": "مقدرناش نقرا الألوان من صورة بروفايلك"
+    "themeColorBrandFailed": "مقدرناش نقرا الألوان من صورة بروفايلك",
+    "menuLayoutFolders": "المجلدات"
   },
   "common": {
     "refresh": "تحديث",
@@ -3744,7 +3750,8 @@
     "next": "التالى",
     "previous": "السابق",
     "redo": "إعادة",
-    "remove": "إزالة"
+    "remove": "إزالة",
+    "loadMore": "حمّل أكتر"
   },
   "tip": {
     "payDirect": "تم إرسالها مباشرة إلى {{name}} في {{symbol}} في {{chain}}. لا تبديل.",
@@ -4635,7 +4642,7 @@
     "global": "عالمي"
   },
   "features": {
-    "promptMediaError": "اختر صورًا أو فيديوهات يقل حجم كل منها عن 20 ميغابايت.",
+    "promptMediaError": "اختر صورًا أو فيديوهات يقل حجم كل منها عن 50 ميغابايت.",
     "promptAttach": "إرفق الصور",
     "promptAttachment": "الملحق {{number}}",
     "promptDrop": "ضع أو اسقط الصور هنا",
@@ -7558,7 +7565,7 @@
     "onStage": "على المسرح",
     "noSpeakers": "مفيش متحدثين لسه",
     "voiceEffect": "🎭 تأثير صوتي",
-    "textToSpeech": "🔊 تحويل النص إلى كلام",
+    "textToSpeech": "تحويل النص إلى كلام",
     "loadVoices": "تحميل الأصوات",
     "ttsPlaceholder": "اكتب رسالة عشان تتكلم…",
     "signInToJoin": "سجل دخول عشان تشارك",
@@ -12825,7 +12832,15 @@
     "loop": "لوب",
     "dialogueFormat": "كتب السيناريو ك\"اسم: سطر\"، كل متحدث في سطر",
     "fileTooLarge": "الفايل ده فوق 100 ميغا. استخدم واحد أقصر أو أصغر",
-    "signInToGenerate": "تسجيل دخول ليك لإنشاء"
+    "signInToGenerate": "تسجيل دخول ليك لإنشاء",
+    "madeOnDehub": "صُنع على Riftn",
+    "aiGenerationAlt": "مولد ذكاء اصطناعي",
+    "gallery": {
+      "send": "ابعت",
+      "notifications": {
+        "generation_reply": "{{name}} رد على تعليقك"
+      }
+    }
   },
   "fractions": {
     "title": "الأجزاء",
@@ -15394,7 +15409,8 @@
       "chrome": "كروم سايل",
       "orbit": "اوربيت",
       "snow": "البرد"
-    }
+    },
+    "sameAsProfile": "الملف الشخصي"
   },
   "articleTile": {
     "cover": "الغلاف"
@@ -15426,5 +15442,36 @@
     "forward": "إعادة توجيه",
     "deleted_one": "حذفت رسالة {{count}}",
     "deleted_other": "حذفت {{count}} رسائل"
+  },
+  "messagesTabs": {
+    "all": "الكل"
+  },
+  "mentionLinks": {
+    "communities": "المجتمعات",
+    "pages": "الصفحات",
+    "people": "ناس"
+  },
+  "resetWallet": {
+    "mismatch": "كودكش مفيش متطابق",
+    "logOut": "تسجيل الخروج",
+    "confirm": "تأكيد كلمة السر",
+    "ack": "أنا فاهم إن فلوسي القديمة حتفضل في المحفظة القديمة.",
+    "cancel": "إلغاء"
+  },
+  "chatTabs": {
+    "all": "الكل",
+    "alwaysOn": "دائما",
+    "communities": "المجتمعات",
+    "direct": "مباشر",
+    "kindCommunity": "المجتمع",
+    "kindDirect": "مباشر",
+    "kindGroup": "تجميع",
+    "kindPublic": "عام",
+    "moveDown": "هتتحرك لأسفل",
+    "moveUp": "تحرك للأعلى",
+    "requests": "طلبات الميزات",
+    "sCreators": "المبدعين",
+    "sGaming": "ألعاب",
+    "sTrading": "التداول"
   }
 }

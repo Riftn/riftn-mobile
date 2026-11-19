@@ -39,6 +39,7 @@ import { ChatTextSizePicker, useChatTextSizeLabels } from '../LiveChat/ChatTextS
 import ThemeColorPicker from './ThemeColorPicker';
 import { hasThemeColor } from '../../theme/themeColor';
 import { useAppPrefs, setAppPref } from '../../hooks/useAppPrefs';
+import { isChatDeleteChoice } from '../../libs/chatDeleteChoice';
 import { POST_LANDING_STYLES, isPostLandingStyle, type PostLandingStyle } from '../../libs/postLandingStyle';
 import { MENU_LAYOUTS, MENU_LAYOUT_PREF_KEY, isMenuLayout, type MenuLayout } from '../../libs/menuLayout';
 import { saveAccountPrefs } from '../../libs/feed-interests';
@@ -94,6 +95,7 @@ const AppearancePanel: React.FC = () => {
   const [defaultFeed, setDefaultFeed] = useState<AppFeedTab>(() => getDefaultFeedTab());
   const [feedModalVisible, setFeedModalVisible] = useState(false);
   const [landingModalVisible, setLandingModalVisible] = useState(false);
+  const [deleteChoiceVisible, setDeleteChoiceVisible] = useState(false);
   const [chatTextModalVisible, setChatTextModalVisible] = useState(false);
   const [menuLayoutModalVisible, setMenuLayoutModalVisible] = useState(false);
   const user = useUser() as any;
@@ -108,6 +110,11 @@ const AppearancePanel: React.FC = () => {
     folders: t('settings.menuLayoutFoldersDesc', 'Your main pages, then a folder for each group'),
   })[layout];
   const chatTextLabels = useChatTextSizeLabels();
+  const deleteChoiceOptions = [
+    { value: 'ask', label: t('settings.chatDeleteAsk', 'Ask every time') },
+    { value: 'me', label: t('settings.chatDeleteMe', 'Delete for me'), description: t('settings.chatDeleteMeDesc', 'Gone from your chat, others still see it') },
+    { value: 'everyone', label: t('settings.chatDeleteEveryone', 'Delete for everyone'), description: t('settings.chatDeleteEveryoneDesc', 'When you can. Someone else’s message in a group still goes for you only') },
+  ];
   const landingLabel = (style: PostLandingStyle) => ({
     ghost: t('settings.postLandingGhost', 'Ghost slot'),
     morph: t('settings.postLandingMorph', 'Morph'),
@@ -261,6 +268,18 @@ const AppearancePanel: React.FC = () => {
           />
         </SettingsAnchor>
         <Divider />
+        {/* Saved answer to "Delete message?" (libs/chatDeleteChoice), also the
+            "Remember my choice" tick in the delete sheet. */}
+        <SettingsAnchor id="chat-delete-choice">
+          <SettingsLinkRow
+            icon="Trash2"
+            label={t('settings.chatDeleteChoice', 'When you delete a message')}
+            description={t('settings.chatDeleteChoiceDesc', 'Ask every time, or always delete for you only or for everyone in the chat.')}
+            value={deleteChoiceOptions.find((o) => o.value === prefs.chatDeleteChoice)?.label}
+            onPress={() => setDeleteChoiceVisible(true)}
+          />
+        </SettingsAnchor>
+        <Divider />
         {/* Chat list as glass cards, or a plain list with lines (components/DM/ChatCard). */}
         <SettingsAnchor id="chat-cards">
           <SettingsToggleRow
@@ -360,6 +379,17 @@ const AppearancePanel: React.FC = () => {
       </SettingsSection>
 
       <ChatTextSizePicker visible={chatTextModalVisible} onClose={() => setChatTextModalVisible(false)} />
+
+      <SettingsOptionModal
+        visible={deleteChoiceVisible}
+        onClose={() => setDeleteChoiceVisible(false)}
+        title={t('settings.chatDeleteChoice', 'When you delete a message')}
+        value={prefs.chatDeleteChoice}
+        options={deleteChoiceOptions}
+        onSelect={(value) => {
+          if (isChatDeleteChoice(value)) setAppPref('chatDeleteChoice', value);
+        }}
+      />
 
       <SettingsOptionModal
         visible={landingModalVisible}

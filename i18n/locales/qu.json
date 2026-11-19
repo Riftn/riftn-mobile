@@ -22,7 +22,7 @@
     "failed": "Mana t'inkiyta tukuchiyta atirqanchu. Hukmanta yaykuyta kallpachakuy.",
     "generate": "Mediokuna ruway créditosniyki, takyasqa qullqi quy utaq atikuq mana qullqiyuq siq'ikuna llamk'achispa",
     "generatePrompt": "Riftnpa siq'i modelonkunata qawachiway hinaspa huk retratota cita manaraq paqarichichkaspa.",
-    "intro": "Riftn ChatGPT kaqpi maskay, utaq kikiyki yupayniyki t'inkiy perfilniyki musuqyachinaykipaq, qillqakunata lluqsichinaykipaq chaymanta Creator Studio llamk'achiyta. https://dehub.io/mcp yapay huk OAuth tinkiq hina yupay kamachiykunapaq.",
+    "intro": "Riftn ChatGPT kaqpi maskay, utaq kikiyki yupayniyki t'inkiy perfilniyki musuqyachinaykipaq, qillqakunata lluqsichinaykipaq chaymanta Creator Studio llamk'achiyta. https://riftn.com/mcp yapay huk OAuth tinkiq hina yupay kamachiykunapaq.",
     "libraryPrompt": "Riftn Creator bibliotecaypi qhipa kaqniyuq kaqkunata rikuchiy.",
     "manage": "Yupay tinkiykuna kamachiy",
     "profile": "Perfilniyki, siq'ikuna chaymanta sapalla willayniyki allichay",
@@ -30,7 +30,7 @@
     "read": "Yupayniyki, qillqakuna, willakuykunata chaymanta Ruwaq bibliotecaykita ñawiriy",
     "signIn": "Riftn nisqaman yaykuy",
     "social": "Qillqakunata chaymanta rimaykunata lluqsichiy, runakunata qatiy chaymanta marcadorkunata waqaychay",
-    "step": "Cuenta kamachiykunapaqqa, https://dehub.io/mcp nisqata OAuth t'inkina hina yapay, Riftn nisqaman yaykuy, hinaspataq hayk'a atiyniyuq kananta qhawariy manaraq haykuyta saqishpa.",
+    "step": "Cuenta kamachiykunapaqqa, https://riftn.com/mcp nisqata OAuth t'inkina hina yapay, Riftn nisqaman yaykuy, hinaspataq hayk'a atiyniyuq kananta qhawariy manaraq haykuyta saqishpa.",
     "title": "Riftn yupayniykiwan tinkiy",
     "what": "Llaqtapaq qillqasqakunata, perfilkunatapas maskay. Huk OAuth yupay tinkiywan, perfilniyki chaymanta sapalla willayniyki kamachiy, qillqakuna chaymanta rimaykuna lluqsichiy, runakunata qatiy, willakuykunata ñawiriy, marcadores waqaychay chaymanta siq'ikuna, video, uyarina chaymanta 3D kaqniyuq ruway. Generation Riftn kaqpa kunan kaq qullqi quy kamachiykunata llamk'achin."
   },
@@ -2628,7 +2628,8 @@
       "profile": "runapa kaynin",
       "proposal": "munachiy",
       "stage": "escenario",
-      "store": "qatu"
+      "store": "qatu",
+      "featureRequest": "solicitud"
     }
   },
   "postGate": {
@@ -2918,7 +2919,12 @@
     "premium": "Sami",
     "pricing": "Chaninchaykuna",
     "reorderHint": "Ima iconotapas hap’ispa aysay mosoqmanta churanaykipaq",
-    "reorderReset": "Reset nisqa"
+    "reorderReset": "Reset nisqa",
+    "groups": {
+      "create": "Kamariy",
+      "discover": "Tariy",
+      "riftn": "Riftn sutiyuq runa"
+    }
   },
   "affiliate": {
     "subtitle": "Llapa invitasqaykimanta ganay — wiñaypaq",
@@ -3670,7 +3676,8 @@
     "themeColorBrand": "Marca",
     "themeColorBrandDesc": "Uyachaykipa llimpinkunata apaykachay",
     "themeColorBrandNoAvatar": "Marca llimpikunata apaykachanaykipaq, uyachaykita yapay",
-    "themeColorBrandFailed": "Uyachaykimanta llimpikunata mana ñawinchay atirqanchu"
+    "themeColorBrandFailed": "Uyachaykimanta llimpikunata mana ñawinchay atirqanchu",
+    "menuLayoutFolders": "Carpetakuna"
   },
   "common": {
     "refresh": "Musuqchay",
@@ -3738,7 +3745,8 @@
     "next": "Qatiq",
     "previous": "Ñawpaq",
     "redo": "Kutimuy",
-    "remove": "Qichuy"
+    "remove": "Qichuy",
+    "loadMore": "Astawanta chaskiy"
   },
   "tip": {
     "payDirect": "{{name}}-man {{symbol}}-pi {{chain}}-pi chiqanmanta kachasqa. Manam imatapas tikrachinchu.",
@@ -4639,7 +4647,7 @@
     "promptHeading": "Imatataq qatiqninpi ruwasaqku?",
     "promptHint": "Willay. Pantallamanta rikuchiyta churay. Ruway.",
     "promptLabel": "Mañakuyniyki",
-    "promptMediaError": "20MB uraypi kaq rikch'akunata utaq kuyuq rikch'akunata akllay.",
+    "promptMediaError": "50MB uraypi kaq rikch'akunata utaq kuyuq rikch'akunata akllay.",
     "promptMediaLimit": "{{max}} k'askachiykuna kama.",
     "promptNew": "Musuq mañakuy",
     "promptPageTitle": "Mañakuykuna",
@@ -7585,7 +7593,7 @@
     "onStage": "Escenariopi",
     "noSpeakers": "Mana rimanaqkunapas kachkanchu",
     "voiceEffect": "🎭 Efecto de Voz",
-    "textToSpeech": "🔊 Simi Qillqamanta Rimay",
+    "textToSpeech": "Simi Qillqamanta Rimay",
     "loadVoices": "Voicesta k'umuchiy",
     "ttsPlaceholder": "Action",
     "signInToJoin": "Yayaykuy qatipakuyta",
@@ -12808,7 +12816,15 @@
     "loop": "Kutipayay",
     "dialogueFormat": "Chay escenata \"Suti: chiru\" nispa qillqay, sapa chirupi huk rimaq.",
     "fileTooLarge": "Chay willañiqiqa 100 MB masninmi. Aswan pisi utaq aswan huch’uy kaqwan llamk’achiy.",
-    "signInToGenerate": "Yaykuy paqarichinanpaq."
+    "signInToGenerate": "Yaykuy paqarichinanpaq.",
+    "madeOnDehub": "Riftnpi ruwasqa",
+    "aiGenerationAlt": "AI miray",
+    "gallery": {
+      "send": "Apachiy",
+      "notifications": {
+        "generation_reply": "{{name}} rimayniykita kutichirqa"
+      }
+    }
   },
   "fractions": {
     "title": "Rakikuna",
@@ -13822,7 +13838,7 @@
   "multiPost": {
     "tab": "Múltiple publicación",
     "title": "Múltiple publicación",
-    "intro": "X, YouTube, Instagram, TikTok chaykunaman dehubwan huk tiempo llikan churan. Cuenta-sikunta hukmanta ruwachiy, chaymanta imata post chaykunata ruwan.",
+    "intro": "X, YouTube, Instagram, TikTok chaykunaman Riftnwan huk tiempo llikan churan. Cuenta-sikunta hukmanta ruwachiy, chaymanta imata post chaykunata ruwan.",
     "creditsHeading": "Post creditokuna",
     "credits": "{{count}} post creditokuna",
     "topUpTitle": "Kuska apamuy yuyay",
@@ -15359,7 +15375,8 @@
       "chrome": "Cromo líquido nisqa",
       "orbit": "Orbita nisqa",
       "snow": "Riti"
-    }
+    },
+    "sameAsProfile": "Riqsichiy"
   },
   "articleTile": {
     "cover": "Qatana"
@@ -15391,5 +15408,36 @@
     "forward": "Apachiy",
     "deleted_one": "{{count}} willayta qullupusqani",
     "deleted_other": "{{count}} willaykunata qullupusqani"
+  },
+  "messagesTabs": {
+    "all": "Llapan"
+  },
+  "mentionLinks": {
+    "communities": "Ayllukuna",
+    "pages": "Rapikuna",
+    "people": "Runakuna"
+  },
+  "resetWallet": {
+    "mismatch": "Yaykuna rimaykunaqa manam kikinllachu",
+    "logOut": "Lluqsiy",
+    "confirm": "Contraseñata takyachiy",
+    "ack": "Entiendenim ñawpaq qullqiykuna mawka billeterapi qipasqanmanta.",
+    "cancel": "Chinkachiy"
+  },
+  "chatTabs": {
+    "all": "Llapan",
+    "alwaysOn": "Siempre activado",
+    "communities": "Ayllukuna",
+    "direct": "Mana pantasqa",
+    "kindCommunity": "Ayllu",
+    "kindDirect": "Mana pantasqa",
+    "kindGroup": "Huñu...",
+    "kindPublic": "Tukuypaq",
+    "moveDown": "Urayman kuyuy",
+    "moveUp": "Wichayman kuyuy",
+    "requests": "Mañakuy",
+    "sCreators": "Ruraqkuna",
+    "sGaming": "Pukllana",
+    "sTrading": "Qhatuy"
   }
 }

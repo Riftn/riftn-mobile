@@ -24,13 +24,13 @@
     "generatePrompt": "Më trego modelet e imazheve të Riftn dhe citoni një portret para se ta gjeneroni.",
     "account": "Shfletimi publik nuk ka nevojë për llogari. Lidh llogarinë tënde Riftn për të menaxhuar profilin tënd dhe për të krijuar ose publikuar përmbajtje.",
     "allow": "Lejoni për të lidhur",
-    "body": "Lidh llogarinë tënde për të menaxhuar profilin tënd, për të publikuar postime dhe për të krijuar përmbajtje nga biseda. Lidhjet skadojnë brenda 24 orësh. Mund të shkëputesh në çdo kohë.",
+    "body": "Lidhni llogarinë tuaj për të menaxhuar profilin, publikuar postime dhe krijuar përmbajtje nga biseda. Lidhjet skadojnë brenda 24 orëve. Mund të shkëputeni në çdo kohë.",
     "deny": "Anulo",
     "disconnect": "Shkëputu",
     "empty": "As nuk ka lidhje aktive me konta.",
     "failed": "Lidhja nuk mund të përfundonte. Provo të hysh përsëri.",
     "generate": "Krijo media duke përdorur kreditet e tua, pagesat e konfirmuara ose imazhet e vlefshme falas",
-    "intro": "Shfletu në Riftn në ChatGPT, ose lidh llogarinë tënd me Riftn për të ndryshuar profilin, publikuar posta dhe përdorur Creator Studio. Shto https://dehub.io/mcp si një konektor OAuth për kontrollin e llogarive.",
+    "intro": "Shfletoni Riftn në ChatGPT, ose lidhni llogarinë tuaj për të përditësuar profilin, publikuar postime dhe përdorur Creator Studio. Shtoni https://riftn.com/mcp si një lidhës OAuth për kontrollin e llogarisë.",
     "libraryPrompt": "Shfaq pasuritë më të fundit në bibliotekën time Riftn Creator.",
     "manage": "Menaxho lidhjet e llogarisë",
     "profile": "Modifiko profilin, imazhet dhe cilësimet e privatësisë",
@@ -38,7 +38,7 @@
     "read": "Lexo llogarinë, postimet, njoftimet dhe librarinë e Krijuesit",
     "signIn": "Hyr në Riftn",
     "social": "Publiko postime dhe komente, ndiq njerëzit dhe ruaj faqerojtësit",
-    "step": "Për kontrollet e llogarisë, shtoni https://dehub.io/mcp si një lidhës OAuth, hyni në Riftn dhe rishikoni lejet para se të lejoni hyrjen.",
+    "step": "Për kontrollin e llogarisë, shtoni https://riftn.com/mcp si një lidhës OAuth, hyni në Riftn dhe shqyrtoni lejet përpara se të lejoni aksesin.",
     "title": "Lidh llogarinë tënde Riftn",
     "what": "Shfleto postimet dhe profilet publike. Me një lidhje të llogarisë OAuth, menaxho profilin dhe privatësinë tënde, publiko postime dhe komente, ndiq njerëzit, lexo njoftimet, ruaj faqerojtësit dhe gjenero imazhe, video, audio dhe asete 3D. Gjenerata përdor rregullat ekzistuese të pagesave të Riftn."
   },
@@ -2636,7 +2636,8 @@
       "profile": "profili",
       "proposal": "propozim",
       "stage": "fazë",
-      "store": "dyqan"
+      "store": "dyqan",
+      "featureRequest": "kërkesa"
     }
   },
   "postGate": {
@@ -2926,7 +2927,11 @@
     "premium": "Premium",
     "pricing": "Çmimet",
     "reorderHint": "Mbaj dhe tërhiq çdo ikonë për të riorganizuar",
-    "reorderReset": "Rivendos"
+    "reorderReset": "Rivendos",
+    "groups": {
+      "create": "Krijo",
+      "discover": "Zbulo"
+    }
   },
   "affiliate": {
     "subtitle": "Fito nga çdo person që fton — përgjithmonë",
@@ -3688,7 +3693,8 @@
     "themeColorBrand": "Marka",
     "themeColorBrandDesc": "Përdor ngjyrat e fotos sate të profilit",
     "themeColorBrandNoAvatar": "Shto një foto profili për të përdorur ngjyrat e markës",
-    "themeColorBrandFailed": "Nuk u lexuan dot ngjyrat nga fotoja jote e profilit"
+    "themeColorBrandFailed": "Nuk u lexuan dot ngjyrat nga fotoja jote e profilit",
+    "menuLayoutFolders": "Dosjet"
   },
   "common": {
     "refresh": "Rifresko",
@@ -3756,7 +3762,8 @@
     "next": "Përshkruaj",
     "previous": "Prapa",
     "redo": "Rivizito",
-    "remove": "Fshi"
+    "remove": "Fshi",
+    "loadMore": "Ngarko më shumë"
   },
   "tip": {
     "payDirect": "Dërguar direkt në {{name}} në {{symbol}} në {{chain}}. Nuk ka shkëmbim.",
@@ -4659,7 +4666,7 @@
     "promptHeading": "Çfarë duhet të ndërtojmë më pas?",
     "promptHint": "Përshkruaj. Bëj një screenshot. Bëje të ndodhë.",
     "promptLabel": "Kërkesa jote",
-    "promptMediaError": "Zgjidh imazhe ose video nën 20MB secila.",
+    "promptMediaError": "Zgjidh imazhe ose video nën 50MB secila.",
     "promptMediaLimit": "Deri në {{max}} attachments.",
     "promptNew": "Kërkesë e re",
     "promptPageTitle": "Kërkesa",
@@ -7575,7 +7582,7 @@
     "onStage": "Në skenë",
     "noSpeakers": "Ende nuk ka altoparlantë",
     "voiceEffect": "Efekti 🎭 zanor",
-    "textToSpeech": "🔊 Teksti-për-fjalim",
+    "textToSpeech": "Teksti-për-fjalim",
     "loadVoices": "Ngarko zërat",
     "ttsPlaceholder": "Shkruaj një mesazh për të folur...",
     "signInToJoin": "Hyr për t 'u regjistruar",
@@ -12801,7 +12808,15 @@
     "loop": "Cikël",
     "dialogueFormat": "Shkruani skenën si \"Emri: rresht\", një altoparlant për rresht.",
     "fileTooLarge": "Kjo dosje është mbi 100 MB. Përdorni një më të shkurtër ose më të vogël.",
-    "signInToGenerate": "Hyr për të gjeneruar."
+    "signInToGenerate": "Hyr për të gjeneruar.",
+    "madeOnDehub": "Krijuar në Riftn",
+    "aiGenerationAlt": "Gjenerimi AI",
+    "gallery": {
+      "send": "Dërgoni",
+      "notifications": {
+        "generation_reply": "{{name}} iu përgjigj komentit tuaj"
+      }
+    }
   },
   "fractions": {
     "title": "Pjesë",
@@ -13815,7 +13830,7 @@
   "multiPost": {
     "tab": "Postim i shumëfishtë",
     "title": "Postim i shumëfishtë",
-    "intro": "Postoni në X, YouTube, Instagram, TikTok dhe më shumë në të njëjtën kohë me dehub. Lidhni llogaritë tuaja një herë, pastaj zgjidhni ku shkon çdo postim.",
+    "intro": "Postoni në X, YouTube, Instagram, TikTok dhe më shumë në të njëjtën kohë me Riftn. Lidhni llogaritë tuaja një herë, pastaj zgjidhni ku shkon çdo postim.",
     "creditsHeading": "Kredite për postim",
     "credits": "{{count}} kredite për postim",
     "topUpTitle": "Rregulloni dhe kurseni",
@@ -15340,7 +15355,8 @@
       "chrome": "Krom i lëngshëm",
       "orbit": "Orbitë",
       "snow": "Reshje dëbore"
-    }
+    },
+    "sameAsProfile": "Profili"
   },
   "articleTile": {
     "cover": "Kopertina"
@@ -15372,5 +15388,36 @@
     "forward": "Përcill",
     "deleted_one": "Fshiu {{count}} mesazhin",
     "deleted_other": "Fshiu {{count}} mesazhe"
+  },
+  "messagesTabs": {
+    "all": "Të gjitha"
+  },
+  "mentionLinks": {
+    "communities": "Komunitete",
+    "pages": "Faqet",
+    "people": "Njerëz"
+  },
+  "resetWallet": {
+    "mismatch": "Fjalëkalimet nuk përputhen",
+    "logOut": "Dil nga faqja",
+    "confirm": "Konfirmo fjalëkalimin",
+    "ack": "E kuptoj që fondet e mia të vjetra qëndrojnë në portofolin e vjetër.",
+    "cancel": "Anulo"
+  },
+  "chatTabs": {
+    "all": "Të gjitha",
+    "alwaysOn": "Përgjithmonë aktiv",
+    "communities": "Komunitete",
+    "direct": "Direkt",
+    "kindCommunity": "Komunitet",
+    "kindDirect": "Direkt",
+    "kindGroup": "GRUPI",
+    "kindPublic": "Publik",
+    "moveDown": "Lëviz poshtë",
+    "moveUp": "Lëviz lart",
+    "requests": "Kërkesat",
+    "sCreators": "Krijues",
+    "sGaming": "Lojëra",
+    "sTrading": "Tregtim"
   }
 }

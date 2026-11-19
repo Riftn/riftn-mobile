@@ -26,6 +26,7 @@ import { getSenderUser } from "../../services/dm/dm.types";
 import { ReactionStrip, REACTION_STRIP_HEIGHT } from "./MessageReactions";
 import { saveMessageFile, saveMessageImage } from "../../libs/saveMessageMedia";
 import { saveToLibrary } from "../../libs/assistantMedia";
+import { copyMessageMedia } from "../../libs/copyMessageMedia";
 import { canTranslateDm, getDmTranslation, toggleDmTranslation } from "../../libs/dm-translation-store";
 
 
@@ -49,6 +50,8 @@ interface MessageContextMenuProps {
   onReply?: () => void;
   onEdit?: () => void;
   onForward?: () => void;
+  /** Translate this message and every earlier one. Absent: translate just this one. */
+  onTranslate?: () => void;
   /** Start picking several messages, this one first. */
   onSelect?: () => void;
   onDelete?: () => void;
@@ -415,6 +418,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
   onEdit,
   onForward,
   onSelect,
+  onTranslate,
   onDelete,
   canDeleteAny = false,
   onCopy,
@@ -496,6 +500,28 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     return { url, kind, name: entry.name, mime: mime || undefined };
   }, [message]);
 
+  /** A photo, GIF or video this message can copy as itself (not paid or encrypted). */
+  const copyableMedia = useMemo(() => {
+    if (!message || message.lock || message.encMedia) return null;
+    if (message.msgType === "gif") {
+      const gif = message.mediaUrls?.find((mu) => typeof mu === "object" && /gif/i.test(mu.mimeType || mu.type || ""));
+      const raw = gif && typeof gif === "object" ? gif.url : message.content?.startsWith("http") ? message.content : null;
+      const url = raw ? resolveMediaUrl(raw) : null;
+      return url && /^https?:/.test(url) ? { url, kind: "gif" as const } : null;
+    }
+    if (downloadable && downloadable.kind !== "file") {
+      const kind = downloadable.mime === "image/gif" ? "gif" as const : downloadable.kind;
+      return { url: downloadable.url, kind };
+    }
+    return null;
+  }, [message, downloadable]);
+
+  const handleCopyMedia = useCallback(() => {
+    const target = copyableMedia;
+    onClose();
+    if (target) void copyMessageMedia(target.url, target.kind);
+  }, [copyableMedia, onClose]);
+
   const handleDownload = useCallback(() => {
     const target = downloadable;
     onClose();
@@ -543,6 +569,8 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     if (onUnpin && isPinned && !unsent)
       rows.push({ icon: "Pin", label: t("dm.unpinMessage"), onPress: handleUnpin });
     if (hasContent) rows.push({ icon: "Copy", label: t("common.copy"), onPress: handleCopy });
+    if (copyableMedia && !unsent)
+      rows.push({ icon: "Images", label: t("dm.copyMedia", { defaultValue: "Copy media" }), onPress: handleCopyMedia });
     // Translate the other person's words, the same as web. Shows the
     // translation in the bubble; held again it offers the original back.
     if (!isMine && !unsent && message._id && canTranslateDm(message.content)) {
@@ -554,7 +582,10 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
           const id = message._id;
           const content = message.content;
           onClose();
-          void toggleDmTranslation(id, content);
+          // Translating one line translates the ones above it too; showing
+          // the original back only ever touches this one.
+          if (!shown && onTranslate) onTranslate();
+          else void toggleDmTranslation(id, content);
         },
       });
     }
@@ -603,6 +634,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     onReply,
     onForward,
     onSelect,
+    onTranslate,
     onEdit,
     onPin,
     onUnpin,
@@ -610,6 +642,8 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     canDeleteAny,
     handleReply,
     handleCopy,
+    copyableMedia,
+    handleCopyMedia,
     handleForward,
     handleEdit,
     handlePin,

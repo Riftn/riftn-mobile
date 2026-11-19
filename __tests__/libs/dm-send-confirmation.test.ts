@@ -1,5 +1,5 @@
 
-import { confirmDmSend, type DmSendPayload, type DmSendTransport } from '../../libs/dm-send-confirmation';
+import { confirmDmSend, isUnconfirmedSend, type DmSendPayload, type DmSendTransport } from '../../libs/dm-send-confirmation';
 
 class ChatTransport implements DmSendTransport {
   senderAddress = '0xAlice';
@@ -113,5 +113,40 @@ describe('persisted DM confirmation', () => {
     const saved = { ...echo, msgType: 'gif', mediaUrls: [{ url: gif }] };
     transport.receive('sendMessage', saved);
     await expect(pending).resolves.toEqual(saved);
+  });
+});
+
+describe('send confirmation by the line id', () => {
+  const withId = { ...payload, clientId: 'temp-1' };
+
+  it('confirms by the echoed line id even if the stored text was trimmed', async () => {
+    const transport = new ChatTransport();
+    const pending = confirmDmSend(transport, { ...withId, content: 'reply ' });
+    transport.receive('sendMessage', { ...echo, content: 'reply', clientId: 'temp-1' });
+    await expect(pending).resolves.toMatchObject({ _id: 'saved-1' });
+  });
+
+  it('ignores the echo of another line and errors from other actions', async () => {
+    const transport = new ChatTransport();
+    let done = false;
+    const pending = confirmDmSend(transport, withId).finally(() => { done = true; });
+    transport.receive('sendMessage', { ...echo, _id: 'other', clientId: 'temp-2' });
+    transport.receive('error', { event: 'markAsRead', msg: 'Failed to mark messages as read.' });
+    transport.receive('error', { event: 'sendMessage', clientId: 'temp-2', msg: 'nope' });
+    await jest.advanceTimersByTimeAsync(0);
+    expect(done).toBe(false);
+    transport.receive('sendMessage', { ...echo, clientId: 'temp-1' });
+    await expect(pending).resolves.toMatchObject({ _id: 'saved-1' });
+  });
+
+  it('fails on an error for this line, and marks a lost confirmation as resendable', async () => {
+    const transport = new ChatTransport();
+    const refused = confirmDmSend(transport, withId);
+    transport.receive('error', { event: 'sendMessage', clientId: 'temp-1', msg: 'nope' });
+    await expect(refused).rejects.toThrow('nope');
+
+    const lost = confirmDmSend(new ChatTransport(), withId).catch(e => e);
+    await jest.advanceTimersByTimeAsync(16_000);
+    expect(isUnconfirmedSend(await lost)).toBe(true);
   });
 });

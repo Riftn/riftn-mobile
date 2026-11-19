@@ -15,20 +15,18 @@
   "accountConnect": {
     "account": "无需帐户即可浏览公共内容。链接您的 Riftn 帐户来管理您的资料和创建或发布内容。",
     "allow": "允许连接",
-    "body": "链接您的帐户以管理您的资料、发布帖子和从聊天创建内容。连接有效期为 24 小时。您可以随时断开连接。",
     "generate": "使用您的积分、确认支付或符合条件的免费图片生成媒体",
     "generatePrompt": "显示 Riftn 的图像模型并引用肖像之前生成它。",
     "libraryPrompt": "显示我的 Riftn Creator 库中的最新资产。",
     "profile": "编辑您的资料、图片和隐私设置",
     "profilePrompt": "更新我的 Riftn 个性简介为：独立创作者，制作电影和音乐。",
     "read": "阅读您的帐户、帖子、通知和 Creator 库",
-    "step": "为帐户控制，添加 https://dehub.io/mcp 为 OAuth 连接器，登录 Riftn 并审查权限之前允许访问。",
     "deny": "取消",
     "signIn": "登入Riftn",
     "disconnect": "断开连接",
     "empty": "無活躍帳號連線。",
     "failed": "請重新連接。",
-    "intro": "瀏覽 Riftn 在 ChatGPT 中，或鏈接您的帳戶以更新您的個人檔案、發布文章並使用 Creator Studio。加入 https://dehub.io/mcp 作為 OAuth 連接器以控制帳戶。",
+    "intro": "瀏覽 Riftn 在 ChatGPT 中，或鏈接您的帳戶以更新您的個人檔案、發布文章並使用 Creator Studio。加入 https://riftn.com/mcp 作為 OAuth 連接器以控制帳戶。",
     "manage": "帳號連結管理",
     "social": "發佈文章和留言，跟隨用戶並儲存書籤",
     "title": "連你的 Riftn 帳戶",
@@ -2628,7 +2626,8 @@
       "profile": "個人檔案",
       "proposal": "提案",
       "stage": "舞台",
-      "store": "商店"
+      "store": "商店",
+      "featureRequest": "請求"
     }
   },
   "postGate": {
@@ -2917,7 +2916,12 @@
     "premium": "高级版",
     "pricing": "定价",
     "reorderReset": "重置",
-    "reorderHint": "按住并拖动任意图标来重新排列"
+    "reorderHint": "按住并拖动任意图标来重新排列",
+    "groups": {
+      "create": "创建",
+      "discover": "寻寻看",
+      "riftn": "德赫布"
+    }
   },
   "affiliate": {
     "subtitle": "你邀请的每个人都为你带来收入——永久有效",
@@ -3669,7 +3673,8 @@
     "themeColorBrand": "品牌",
     "themeColorBrandDesc": "用侬头像个颜色",
     "themeColorBrandNoAvatar": "加张头像才好用品牌配色",
-    "themeColorBrandFailed": "读勿出侬头像个颜色"
+    "themeColorBrandFailed": "读勿出侬头像个颜色",
+    "menuLayoutFolders": "文件夹"
   },
   "common": {
     "apply": "套用",
@@ -3737,7 +3742,8 @@
     "allowCameraForQr": "允许相机访问以扫描二维码",
     "paste": "粘贴",
     "undo": "撤销",
-    "redo": "重做"
+    "redo": "重做",
+    "loadMore": "加载更多"
   },
   "tip": {
     "payDirect": "直接發送到{{name}}的{{symbol}}上{{chain}}。無需交換。",
@@ -4638,7 +4644,7 @@
     "promptHeading": "我们下一个应该建什么？",
     "promptHint": "描述一下。放入截图。让它发生。",
     "promptLabel": "您的提示",
-    "promptMediaError": "选择每张小于20MB的图片或视频。",
+    "promptMediaError": "选择每张小于50MB的图片或视频。",
     "promptMediaLimit": "最多{{max}}个附件。",
     "promptNew": "新提示",
     "promptPlaceholder": "描述一个想法、改进或错误……",
@@ -7525,7 +7531,7 @@
     "onStage": "舞台上",
     "noSpeakers": "还没人发言",
     "voiceEffect": "🎭 声音特效",
-    "textToSpeech": "🔊 语音播报",
+    "textToSpeech": "语音播报",
     "loadVoices": "加载声音",
     "ttsPlaceholder": "输入消息来发言…",
     "signInToJoin": "登录加入",
@@ -12761,7 +12767,15 @@
     "loop": "循環",
     "dialogueFormat": "寫下情節為「名字: 句子」，每行一個說話者。",
     "fileTooLarge": "𠊎𠊎個檔案超過100MB，請用比較小或簡短的檔案喔。",
-    "signInToGenerate": "登入產生"
+    "signInToGenerate": "登入產生",
+    "madeOnDehub": "辣 Riftn 上做个",
+    "aiGenerationAlt": "AI 生成",
+    "gallery": {
+      "send": "发送",
+      "notifications": {
+        "generation_reply": "{{name}} 回复了侬个评论"
+      }
+    }
   },
   "fractions": {
     "title": "碎片",
@@ -13775,7 +13789,7 @@
   "multiPost": {
     "tab": "多平台发布",
     "title": "多平台发布",
-    "intro": "用 dehub 同时向 X、YouTube、Instagram、TikTok 等平台发帖。只要一次连好账号，后头挑拣每条内容要发到哪只平台。",
+    "intro": "用 Riftn 同时向 X、YouTube、Instagram、TikTok 等平台发帖。只要一次连好账号，后头挑拣每条内容要发到哪只平台。",
     "creditsHeading": "发帖积分",
     "credits": "{{count}} 发帖积分",
     "topUpTitle": "充值省钱",
@@ -15300,7 +15314,8 @@
       "chrome": "液态铬",
       "orbit": "環繞",
       "snow": "降雪"
-    }
+    },
+    "sameAsProfile": "个人档案"
   },
   "articleTile": {
     "cover": "封面"
@@ -15332,5 +15347,36 @@
     "forward": "转发",
     "deleted_one": "删除 {{count}} 条消息",
     "deleted_other": "删除 {{count}} 条消息"
+  },
+  "messagesTabs": {
+    "all": "全部"
+  },
+  "mentionLinks": {
+    "communities": "社区",
+    "pages": "页面",
+    "people": "用户"
+  },
+  "resetWallet": {
+    "mismatch": "密碼不符",
+    "logOut": "登出",
+    "confirm": "確認密碼",
+    "ack": "我明白我的舊款錢還在舊錢包裡。",
+    "cancel": "取消"
+  },
+  "chatTabs": {
+    "all": "全部",
+    "alwaysOn": "始終啟動",
+    "communities": "社区",
+    "direct": "直接推荐",
+    "kindCommunity": "社区",
+    "kindDirect": "直接推荐",
+    "kindGroup": "分组",
+    "kindPublic": "公开",
+    "moveDown": "下降",
+    "moveUp": "上升",
+    "requests": "功能请求",
+    "sCreators": "创作者",
+    "sGaming": "游戏",
+    "sTrading": "交易"
   }
 }

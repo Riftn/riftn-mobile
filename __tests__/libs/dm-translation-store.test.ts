@@ -13,6 +13,7 @@ import {
   canTranslateDm,
   getDmTranslation,
   toggleDmTranslation,
+  translateDmAndAbove,
   useDmTranslation,
 } from '../../libs/dm-translation-store';
 
@@ -80,4 +81,29 @@ describe('auto-translate for received messages', () => {
     await autoTranslateDm('a3', 'Привет, как дела?');
     expect(mockTranslate).not.toHaveBeenCalled();
   });
+});
+
+it('Translate on one message also translates the earlier ones, quietly and nearest first', async () => {
+  mockTranslate.mockImplementation(async (text: string) => (
+    text === 'ok' ? { translatedText: 'ok', sameLanguage: true } : { translatedText: `EN:${text}`, sameLanguage: false }
+  ));
+  await toggleDmTranslation('done', 'zaten cevrildi');
+  mockTranslate.mockClear();
+  await translateDmAndAbove('tapped', 'Selam reis', [
+    { id: 'old', content: 'nasilsin', at: 1 },
+    { id: 'newer', content: 'iyi misin', at: 2 },
+    { id: 'emoji', content: '👍', at: 3 },
+    { id: 'same', content: 'ok', at: 4 },
+    { id: 'done', content: 'zaten cevrildi', at: 5 },
+    { id: 'tapped', content: 'Selam reis', at: 6 },
+  ]);
+  expect(getDmTranslation('tapped')).toEqual({ status: 'shown', text: 'EN:Selam reis' });
+  expect(getDmTranslation('old')).toEqual({ status: 'shown', text: 'EN:nasilsin' });
+  expect(getDmTranslation('newer')).toEqual({ status: 'shown', text: 'EN:iyi misin' });
+  // Already in the reader's language, emoji-only and already translated lines are left alone.
+  expect(getDmTranslation('same')).toBeUndefined();
+  expect(getDmTranslation('emoji')).toBeUndefined();
+  const asked = mockTranslate.mock.calls.map((call) => call[0]);
+  expect(asked).toContain('Selam reis');
+  expect(asked.filter((text) => text !== 'Selam reis')).toEqual(['ok', 'iyi misin', 'nasilsin']);
 });

@@ -22,7 +22,7 @@
     "failed": "Nepodarilo sa dokončiť pripojenie. Skúsiete sa prihlásiť znova.",
     "generate": "Generujte média pomocou kreditov, potvrdených platobných údajov alebo voľných obrázkov",
     "generatePrompt": "Zobrazte mi modely obrázkov Riftn a citujte portrét pred tým, ako generujete.",
-    "intro": "Prehľadávanie Riftn v ChatGPT, alebo pripojiť vlastný účet, aby ste mohli aktualizovať profil, publikovať články a používať Creator Studio. Pridajte https://dehub.io/mcp ako OAuth connector pre kontrolu účtov.",
+    "intro": "Prehľadávanie Riftn v ChatGPT, alebo pripojiť vlastný účet, aby ste mohli aktualizovať profil, publikovať články a používať Creator Studio. Pridajte https://riftn.com/mcp ako OAuth connector pre kontrolu účtov.",
     "libraryPrompt": "Zobrazte mi najnovšie zdroje v mojej knižnici tvorcov Riftn.",
     "manage": "Spravujte pripojenia účtov",
     "profile": "Upravte profil, obrázky a nastavenia súkromia",
@@ -30,7 +30,7 @@
     "read": "Prečítajte si účet, články, upozornenia a knižnicu tvorcov",
     "signIn": "Prihláste sa do Riftn",
     "social": "Publikujte články a komentáre, sledujte ľudí a ukladajte knižnice",
-    "step": "Pre kontrolu účtov pridajte https://dehub.io/mcp ako OAuth connector, prihláste sa do Riftn a prezrite sa na povolenia pred tým, ako povoľujete prístup.",
+    "step": "Pre kontrolu účtov pridajte https://riftn.com/mcp ako OAuth connector, prihláste sa do Riftn a prezrite sa na povolenia pred tým, ako povoľujete prístup.",
     "title": "Pripojiť účet Riftn",
     "what": "Prehľadávanie verejného obsahu a profilov. S OAuth pripojením účtu môžete spravovať profil a súkromie, publikovať články a komentáre, sledovať ľudí, čítať upozornenia, ukladajte knižnice a generovať obrázky, video, audio a 3D zdroje. Generovanie používa existujúce platobné pravidlá Riftn."
   },
@@ -2627,7 +2627,8 @@
       "profile": "profil",
       "proposal": "návrh",
       "stage": "stupeň",
-      "store": "obchod"
+      "store": "obchod",
+      "featureRequest": "požiadavka"
     }
   },
   "postGate": {
@@ -2917,7 +2918,11 @@
     "premium": "Prémiové",
     "pricing": "Cenník",
     "reorderHint": "Ak chcete zmeniť usporiadanie, podržte a presuňte ľubovoľ",
-    "reorderReset": "Obnoviť"
+    "reorderReset": "Obnoviť",
+    "groups": {
+      "create": "Vytvoriť",
+      "discover": "Objavovať"
+    }
   },
   "affiliate": {
     "subtitle": "Zarábajte z každého, koho pozvete — navždy",
@@ -3685,7 +3690,8 @@
     "themeColorBrand": "Značka",
     "themeColorBrandDesc": "Použiť farby tvojej profilovej fotky",
     "themeColorBrandNoAvatar": "Pridaj profilovú fotku, aby si mohol použiť farby značky",
-    "themeColorBrandFailed": "Nepodarilo sa načítať farby z tvojej profilovej fotky"
+    "themeColorBrandFailed": "Nepodarilo sa načítať farby z tvojej profilovej fotky",
+    "menuLayoutFolders": "Priečinky"
   },
   "common": {
     "refresh": "Obnoviť",
@@ -3769,7 +3775,8 @@
     "undo": "Vrátiť späť",
     "apply": "Použiť",
     "redo": "Znovu",
-    "remove": "Odstrániť"
+    "remove": "Odstrániť",
+    "loadMore": "Načítať viac"
   },
   "tip": {
     "payDirect": "Poslané priamo na {{name}} o {{symbol}} dňa {{chain}}. Žiadna výmena.",
@@ -4505,7 +4512,7 @@
     "removeHistory": "Odstrániť celú históriu upozornení",
     "notificationTypes": "Typy upozornení",
     "likes": "Páči sa mi",
-    "likesDesc": "Keď niekto označí váš obsah páči sa mi",
+    "likesDesc": "Keď sa niekomu páči váš obsah",
     "comments": "Komentáre",
     "commentsDesc": "Keď niekto komentuje alebo odpovedá",
     "follows": "Sledovania",
@@ -4706,7 +4713,7 @@
     "promptHeading": "Čo by sme mali postaviť ďalej?",
     "promptHint": "Popište ho. Zadajte snímku. Urobte to.",
     "promptLabel": "Vaše nápady",
-    "promptMediaError": "Vyberte obrázky alebo videa do 20 MB.",
+    "promptMediaError": "Vyberte obrázky alebo videa do 50 MB.",
     "promptMediaLimit": "Maximálne {{max}} prípony.",
     "promptNew": "Nový nápad",
     "promptPageTitle": "Žiadosti",
@@ -7669,7 +7676,7 @@
     "onStage": "Na pódiu",
     "noSpeakers": "Zatiaľ žiadni rečníci",
     "voiceEffect": "🎭 Hlasový efekt",
-    "textToSpeech": "Prevod 🔊 textu na reč",
+    "textToSpeech": "Prevod  textu na reč",
     "loadVoices": "Načítať hlasy",
     "ttsPlaceholder": "Ak chcete hovoriť, napíšte správu...",
     "signInToJoin": "Ak sa chcete pripojiť, prihláste sa",
@@ -12952,7 +12959,15 @@
     "loop": "Slučka",
     "dialogueFormat": "Napište scénu ako \"Meno: riadok\", každý hovoriaci na riadku.",
     "fileTooLarge": "Tento súbor je väčší ako 100 MB. Použij kratší alebo menší.",
-    "signInToGenerate": "Prihláste sa na generovanie."
+    "signInToGenerate": "Prihláste sa na generovanie.",
+    "madeOnDehub": "Vytvorené na Riftn",
+    "aiGenerationAlt": "AI generácia",
+    "gallery": {
+      "send": "Poslať",
+      "notifications": {
+        "generation_reply": "{{name}} odpovedal na váš komentár"
+      }
+    }
   },
   "fractions": {
     "title": "Podiely",
@@ -13966,7 +13981,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "Uverejňujte na X, YouTube, Instagram, TikTok a ďalšie platformy naraz pomocou dehub. Pripojte svoje účty raz a potom si vyberte, kam každý príspevok pôjde.",
+    "intro": "Uverejňujte na X, YouTube, Instagram, TikTok a ďalšie platformy naraz pomocou Riftn. Pripojte svoje účty raz a potom si vyberte, kam každý príspevok pôjde.",
     "creditsHeading": "Post credits",
     "credits": "{{count}} post credits",
     "topUpTitle": "Doplniť a ušetriť",
@@ -15516,7 +15531,8 @@
       "chrome": "Tekutý chróm",
       "orbit": "Obiehajúci pohľad",
       "snow": "Sneženie"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Obálka"
@@ -15548,5 +15564,36 @@
     "forward": "Preposlať",
     "deleted_one": "Zmazané {{count}} správy",
     "deleted_other": "Zmazané {{count}} správy"
+  },
+  "messagesTabs": {
+    "all": "Všetko"
+  },
+  "mentionLinks": {
+    "communities": "Komunity",
+    "pages": "Strany",
+    "people": "Ľudia"
+  },
+  "resetWallet": {
+    "mismatch": "Súhlasné heslá sa nezhodujú",
+    "logOut": "Odhlásiť sa",
+    "confirm": "Potvrdiť heslo",
+    "ack": "Rozumiem, že môj starý peňažný fond zostáva v starom portfóliu.",
+    "cancel": "Zrušiť"
+  },
+  "chatTabs": {
+    "all": "Všetko",
+    "alwaysOn": "Vždy aktivný",
+    "communities": "Komunity",
+    "direct": "Priame",
+    "kindCommunity": "Komunita",
+    "kindDirect": "Priame",
+    "kindGroup": "Zoskupiť",
+    "kindPublic": "Verejné",
+    "moveDown": "Dol",
+    "moveUp": "Pohori",
+    "requests": "Požiadavky na funkcie",
+    "sCreators": "Tvorcovia",
+    "sGaming": "Hry",
+    "sTrading": "Obchodovanie"
   }
 }
