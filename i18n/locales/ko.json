@@ -3768,6 +3768,8 @@
     "themeColorBrandFailed": "프로필 사진에서 색상을 읽을 수 없습니다",
     "chatTextSize": "채팅 글자 크기",
     "chatTextSizeDesc": "모든 채팅의 메시지를 더 크거나 작게 표시합니다. 휴대폰 글자 크기에 더해집니다.",
+    "chatCards": "채팅을 카드로",
+    "chatCardsDesc": "채팅마다 카드로 표시합니다. 끄면 채팅 사이에 선이 있는 단순한 목록이 됩니다.",
     "showLikes": "내 좋아요를 모두에게 보이기",
     "showLikesDesc": "누구나 내 프로필의 좋아요 탭을 열 수 있어요. 기본값은 꺼짐이라 내가 좋아요한 게시물은 나만 볼 수 있어요.",
     "showFollowersList": "나를 팔로우하는 사람 보이기",

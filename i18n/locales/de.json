@@ -3681,6 +3681,8 @@
     "themeColorBrandFailed": "Farben deines Profilbilds konnten nicht gelesen werden",
     "chatTextSize": "Chat-Textgröße",
     "chatTextSizeDesc": "Größere oder kleinere Nachrichten in allen Chats. Kommt zur Textgröße deines Telefons hinzu.",
+    "chatCards": "Chats als Karten",
+    "chatCardsDesc": "Jeder Chat auf einer eigenen Karte. Aus für eine schlichte Liste mit Linien zwischen den Chats.",
     "showLikes": "Meine Likes allen zeigen",
     "showLikesDesc": "Jeder kann den Likes-Tab in deinem Profil öffnen. Standardmäßig aus, also siehst nur du, was dir gefallen hat.",
     "showFollowersList": "Zeigen, wer mir folgt",

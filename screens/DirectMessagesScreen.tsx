@@ -27,7 +27,7 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import NewDMModal from "../components/DM/NewDMModal";
 import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
-import { ChatCard, CHAT_CARD_GAP, CHAT_CARD_INSET } from "../components/DM/ChatCard";
+import { ChatCard, useChatListSpacing } from "../components/DM/ChatCard";
 import UnreadCountChip from "../components/DM/UnreadCountChip";
 import ReactionAlertBadge, { reactionAlertLine } from "../components/DM/ReactionAlertBadge";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
@@ -76,7 +76,6 @@ import { getAvatarUrl } from "../libs/misc";
 const renderPullScroll = (props: React.ComponentProps<typeof PullRefreshScrollView>) => <PullRefreshScrollView {...props} />;
 
 // Cards sit apart; no divider lines (design B).
-const SEPARATOR = { height: CHAT_CARD_GAP } as const;
 const SEARCH_ACTION = { width: 28, height: 28, borderRadius: 6, alignItems: "center", justifyContent: "center" } as const;
 
 const DirectMessagesInner: React.FC = () => {
@@ -738,6 +737,10 @@ const DirectMessagesInner: React.FC = () => {
     { key: "new", icon: "Plus", label: t("chatTabs.newWith", { defaultValue: "New tab…" }), onPress: () => setTabEditor({ preset: [tabActions.id] }) },
   ];
 
+  // Cards sit 10px apart; the plain list has no gap, a line under each chat (Settings → Appearance).
+  const chatSpacing = useChatListSpacing();
+  const SEPARATOR = useMemo(() => ({ height: chatSpacing.gap }), [chatSpacing.gap]);
+
   const publicChatItem = useMemo(
     () => (
       <>
@@ -864,10 +867,10 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, requestsTabShown],
+    [handleOpenLiveChat, publicUnread, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, requestsTabShown, SEPARATOR],
   );
 
-  const itemSeparator = useCallback(() => <View style={SEPARATOR} />, []);
+  const itemSeparator = useCallback(() => <View style={SEPARATOR} />, [SEPARATOR]);
 
   return (
     <KeyboardAvoidingView
@@ -920,7 +923,7 @@ const DirectMessagesInner: React.FC = () => {
           keyExtractor={keyExtractor}
           renderItem={renderItem}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ paddingHorizontal: CHAT_CARD_INSET, paddingTop: 6, paddingBottom: picking ? 150 : 80 }}
+          contentContainerStyle={{ paddingHorizontal: chatSpacing.inset, paddingTop: 6, paddingBottom: picking ? 150 : 80 }}
           extraData={bulkIds}
           className="flex-1"
           ListHeaderComponent={publicChatItem}

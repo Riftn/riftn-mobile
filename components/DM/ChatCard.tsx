@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_HAIRLINE } from "../../theme/colors";
 import { glassTint } from "../../theme/skins";
+import { useAppPrefs } from "../../hooks/useAppPrefs";
 
 /*
  * Messages: every chat is its own glass card (design B, as on the web,
@@ -42,6 +43,20 @@ function ChatCardComponent({
 }) {
   const { skin, isMinimal, isLight } = useAppTheme();
   const accent = useChatCardAccent();
+  const { chatCards } = useAppPrefs();
+  if (!chatCards) {
+    // Plain list (Settings → Appearance → Chats as cards off): no card, a
+    // hairline under each chat, and the same lit bar for something new.
+    return (
+      <View style={[styles.row, checked && { backgroundColor: "rgba(255,255,255,0.06)" }]} testID={testID}>
+        {children}
+        <View pointerEvents="none" style={[styles.line, isMinimal && { backgroundColor: MINIMAL_HAIRLINE }]} />
+        {unread ? (
+          <View pointerEvents="none" testID="chat-card-unread" style={[styles.unread, { backgroundColor: accent, shadowColor: accent }]} />
+        ) : null}
+      </View>
+    );
+  }
   const fill = isMinimal
     ? "#000000"
     : skin
@@ -125,7 +140,22 @@ export function ChatListTabs({
   );
 }
 
+/** Gap between chats (none in the plain list) and inset from the screen edge. */
+export function useChatListSpacing(): { gap: number; inset: number } {
+  const { chatCards } = useAppPrefs();
+  return { gap: chatCards ? CHAT_CARD_GAP : 0, inset: CHAT_CARD_INSET };
+}
+
 const styles = StyleSheet.create({
+  row: {},
+  line: {
+    position: "absolute",
+    left: 72,
+    right: 0,
+    bottom: 0,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: "rgba(255,255,255,0.12)",
+  },
   card: {
     borderRadius: RADIUS,
     overflow: "hidden",

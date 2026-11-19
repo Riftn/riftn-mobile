@@ -260,6 +260,17 @@ const AppearancePanel: React.FC = () => {
             onPress={() => setChatTextModalVisible(true)}
           />
         </SettingsAnchor>
+        <Divider />
+        {/* Chat list as glass cards, or a plain list with lines (components/DM/ChatCard). */}
+        <SettingsAnchor id="chat-cards">
+          <SettingsToggleRow
+            icon="MessagesSquare"
+            label={t('settings.chatCards', 'Chats as cards')}
+            description={t('settings.chatCardsDesc', 'Each chat on its own card. Turn off for a plain list with a line between chats.')}
+            value={prefs.chatCards}
+            onValueChange={(v) => setAppPref('chatCards', v)}
+          />
+        </SettingsAnchor>
       </SettingsSection>
 
       <SettingsSection label={t('settings.media')} icon="Play" anchor="media">

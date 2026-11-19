@@ -61,6 +61,8 @@ const KEYS = {
   postLanding: 'dehub.postLanding',
   // Chat text size, web's key (lib/chat-text-size).
   chatTextSize: 'riftn.chat.textSize',
+  // Chat list: each chat on its own card (on) or a plain list with lines (off).
+  chatCards: 'riftn.chat.cards',
   // Theme Color per customisable theme, and the Brand palette. Web's keys and
   // value shapes (see theme/themeColor.ts).
   themeHues: 'dehub.themeHues',
@@ -96,6 +98,8 @@ export interface AppPrefs {
   postLanding: PostLandingStyle;
   /** Size of text in every chat (libs/chatTextSize). */
   chatTextSize: ChatTextSize;
+  /** Chat list as cards (true) or a plain list with a line between chats (false). */
+  chatCards: boolean;
   /** How the menu drawer groups its pages (libs/menuLayout). */
   menuLayout: MenuLayout;
   themeHues: Record<string, number>;
@@ -136,6 +140,7 @@ export const DEFAULT_APP_PREFS: AppPrefs = {
   leftHanded: false,
   postLanding: 'ghost',
   chatTextSize: 'default',
+  chatCards: true,
   menuLayout: DEFAULT_MENU_LAYOUT,
   themeHues: {},
   brandColors: [],
@@ -220,6 +225,7 @@ function init() {
         skipSegments: parseBool(get('skipSegments'), DEFAULT_APP_PREFS.skipSegments),
         leftHanded: parseBool(get('leftHanded'), DEFAULT_APP_PREFS.leftHanded),
         halloweenOptOut: parseBool(get('halloweenOptOut'), DEFAULT_APP_PREFS.halloweenOptOut),
+        chatCards: parseBool(get('chatCards'), DEFAULT_APP_PREFS.chatCards),
         postLanding: (() => {
           const stored = get('postLanding');
           return isPostLandingStyle(stored) ? stored : DEFAULT_APP_PREFS.postLanding;

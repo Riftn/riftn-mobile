@@ -961,6 +961,8 @@
     "menuLayoutFolders": "Folders",
     "menuLayoutFoldersDesc": "Your main pages, then a folder for each group",
     "chatTextSizeDesc": "Bigger or smaller messages in every chat. Adds to your phone text size.",
+    "chatCards": "Chats as cards",
+    "chatCardsDesc": "Each chat on its own card. Turn off for a plain list with a line between chats.",
     "contactSupport": "Contact support",
     "shortsSaveFailed": "Failed to save Shorts preference",
     "shortsEnabledDesc": "Show the Shorts feed tab and Shorts carousels on Home.",
