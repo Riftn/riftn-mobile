@@ -22,7 +22,7 @@
     "failed": "Kāore i taea te whakaoti i te hononga. Me ngana ki te waitohu anō.",
     "generate": "Hangaia he pāpāho mā te whakamahi i ō whiwhinga, ngā utu kua whakamanahia, ngā whakaahua kore utu rānei e tika ana",
     "generatePrompt": "Whakaaturia mai ngā tauira whakaahua o Riftn ki ahau me te whakahua i tētahi whakaahua i mua i te hanga.",
-    "intro": "Tirotirohia a Riftn i roto i te ChatGPT, honoa rānei tō ake pūkete hei whakahou i tō kōtaha, hei whakaputa pou me te whakamahi i te Creator Studio. Tāpirihia te https://dehub.io/mcp hei tūhono OAuth mō ngā mana whakahaere pūkete.",
+    "intro": "Tirotirohia a Riftn i roto i te ChatGPT, honoa rānei tō ake pūkete hei whakahou i tō kōtaha, hei whakaputa pou me te whakamahi i te Creator Studio. Tāpirihia te https://riftn.com/mcp hei tūhono OAuth mō ngā mana whakahaere pūkete.",
     "libraryPrompt": "Whakaaturia ngā rawa hou i roto i taku whare pukapuka Kaihanga Riftn.",
     "manage": "Whakahaerehia ngā hononga pūkete",
     "profile": "Whakatikahia tō kōtaha, ngā whakaahua me ngā tautuhinga tūmataiti",
@@ -30,7 +30,7 @@
     "read": "Pānuihia tō pūkete, ngā pou, ngā whakamōhiotanga me te whare pukapuka Kaihanga",
     "signIn": "Waitohu ki Riftn",
     "social": "Whakaputaina ngā pou me ngā tākupu, whāia ngā tāngata me te tiaki tohuwāhi",
-    "step": "Mō ngā mana whakahaere pūkete, tāpirihia te https://dehub.io/mcp hei tūhono OAuth, waitohu ki Riftn me te arotake i ngā whakaaetanga i mua i te tuku urunga.",
+    "step": "Mō ngā mana whakahaere pūkete, tāpirihia te https://riftn.com/mcp hei tūhono OAuth, waitohu ki Riftn me te arotake i ngā whakaaetanga i mua i te tuku urunga.",
     "title": "Whakapāngia tō pūkete Riftn",
     "what": "Tirotirohia ngā pou tūmatanui me ngā kōtaha. Mā te hononga pūkete OAuth, whakahaerehia tō kōtaha me tō tūmataiti, whakaputaina ngā pou me ngā tākupu, whāia ngā tāngata, pānuihia ngā whakamōhiotanga, tiakina ngā tohuwāhi me te hanga whakaahua, ataata, oro me ngā rawa 3D. Ka whakamahia e te hanga ngā ture utu o Riftn."
   },
@@ -2628,7 +2628,8 @@
       "profile": "kōtaha",
       "proposal": "kaupapa",
       "stage": "atamira",
-      "store": "toa"
+      "store": "toa",
+      "featureRequest": "tono"
     }
   },
   "postGate": {
@@ -2918,7 +2919,12 @@
     "premium": "Mōrahi",
     "pricing": "Utu",
     "reorderHint": "Kia mau, me te hopu i tetahi tohu ki te rearrange",
-    "reorderReset": "Whakahokia"
+    "reorderReset": "Whakahokia",
+    "groups": {
+      "create": "Waihanga",
+      "discover": "Kimihia",
+      "riftn": "Ko Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Kia whiwhi mai i te katoa e powhiritia ana e koe — ake tonu atu",
@@ -3670,7 +3676,8 @@
     "themeColorBrand": "Waitohu",
     "themeColorBrandDesc": "Whakamahia ngā tae o tō whakaahua kōtaha",
     "themeColorBrandNoAvatar": "Tāpirihia he whakaahua kōtaha kia whakamahi ai i ngā tae Waitohu",
-    "themeColorBrandFailed": "Kāore i taea te pānui i ngā tae mai i tō whakaahua kōtaha"
+    "themeColorBrandFailed": "Kāore i taea te pānui i ngā tae mai i tō whakaahua kōtaha",
+    "menuLayoutFolders": "Ngā kōpaki"
   },
   "common": {
     "refresh": "Whakahou",
@@ -3738,7 +3745,8 @@
     "next": "Panuku",
     "previous": "O mua",
     "redo": "Mahia anō",
-    "remove": "Tangohia"
+    "remove": "Tangohia",
+    "loadMore": "Utaina anō"
   },
   "tip": {
     "payDirect": "Ka tukuna tika ki a {{name}} i te {{symbol}} i runga i {{chain}}. Kāore he whakawhitinga.",
@@ -4640,7 +4648,7 @@
     "promptHeading": "He aha tātou me waihanga ā muri ake?",
     "promptHint": "Whakaahuatia. Tāpirihia he whakaahua mata. Whakatinanahia.",
     "promptLabel": "Tō hihiri",
-    "promptMediaError": "Kōwhiria ngā whakaahua, ngā ataata rānei i raro i te 20MB ia.",
+    "promptMediaError": "Kōwhiria ngā whakaahua, ngā ataata rānei i raro i te 50MB ia.",
     "promptMediaLimit": "Tae atu ki te {{max}} attachments.",
     "promptNew": "Hihiri hou",
     "promptPageTitle": "Ngā Tono",
@@ -7555,7 +7563,7 @@
     "onStage": "I runga i te atamira",
     "noSpeakers": "Kaore ano nga kaikorero",
     "voiceEffect": "Te pānga o te 🎭 reo",
-    "textToSpeech": "🔊 Tuhinga-to-Speech",
+    "textToSpeech": "Tuhinga-to-Speech",
     "loadVoices": "Ngā reo uta",
     "ttsPlaceholder": "Tuhia he karere ki te korero...",
     "signInToJoin": "Hokona ki te whakauru",
@@ -12778,7 +12786,15 @@
     "priceFreeRateLimited": "Kore utu · ka whai mana ngā rohe reiti",
     "dialogueFormat": "Tuhia te whakaaturanga rite \"Ingoa: raina,\" kotahi kaikorero ia raina.",
     "fileTooLarge": "Ko tenei konae neke atu i te 100 MB. Whakamahia he iti ake, he iti ake ranei.",
-    "signInToGenerate": "Hokona ki roto ki te whakaputa."
+    "signInToGenerate": "Hokona ki roto ki te whakaputa.",
+    "madeOnDehub": "I hangaia ki Riftn",
+    "aiGenerationAlt": "Te whakatipuranga o te AI",
+    "gallery": {
+      "send": "Tuku",
+      "notifications": {
+        "generation_reply": "I whakautu a {{name}} ki tō tākupu"
+      }
+    }
   },
   "fractions": {
     "title": "Wāhanga",
@@ -13792,7 +13808,7 @@
   "multiPost": {
     "tab": "Tukunga maha",
     "title": "Tukunga maha",
-    "intro": "Tukuna ki X, YouTube, Instagram, TikTok me ētahi atu i te wā kotahi me dehub. Whakauruhia ō pūkete kotahi, kātahi ka tīpakohia ko wai ka tukuna ia pou.",
+    "intro": "Tukuna ki X, YouTube, Instagram, TikTok me ētahi atu i te wā kotahi me Riftn. Whakauruhia ō pūkete kotahi, kātahi ka tīpakohia ko wai ka tukuna ia pou.",
     "creditsHeading": "Ngā whiwhinga pou",
     "credits": "{{count}} whiwhinga pou",
     "topUpTitle": "Tāpiri ka penapena",
@@ -15343,7 +15359,8 @@
       "chrome": "Chrome Liquid",
       "orbit": "Āmiomio",
       "snow": "Te hukarere"
-    }
+    },
+    "sameAsProfile": "Kōtaha"
   },
   "articleTile": {
     "cover": "Uhi"
@@ -15375,5 +15392,36 @@
     "forward": "Tukuna atu",
     "deleted_one": "I mukua te karere {{count}}",
     "deleted_other": "I mukua ngā karere {{count}}"
+  },
+  "messagesTabs": {
+    "all": "Katoa"
+  },
+  "mentionLinks": {
+    "communities": "Hapori",
+    "pages": "Ngā whārangi",
+    "people": "Tāngata"
+  },
+  "resetWallet": {
+    "mismatch": "Kāore ngā kupuhipa i te ōrite",
+    "logOut": "Takiputa",
+    "confirm": "Whakaū kupuhipa",
+    "ack": "Ka mārama au ko ā au pūtea tawhito e noho ana i te pokapū tawhito.",
+    "cancel": "Whakakore"
+  },
+  "chatTabs": {
+    "all": "Katoa",
+    "alwaysOn": "Kei te kā tonu",
+    "communities": "Hapori",
+    "direct": "Tika",
+    "kindCommunity": "Hapori",
+    "kindDirect": "Tika",
+    "kindGroup": "Rōpū",
+    "kindPublic": "Tūmatanui",
+    "moveDown": "Neke ki raro",
+    "moveUp": "Neke ki runga",
+    "requests": "Tono Āhuatanga",
+    "sCreators": "Ngā kaihanga",
+    "sGaming": "Kēmu",
+    "sTrading": "Tauhokohoko"
   }
 }

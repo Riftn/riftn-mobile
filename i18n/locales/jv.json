@@ -24,13 +24,13 @@
     "empty": "Gak ada koneksi akun yang aktif.",
     "failed": "Mboten sédané nggih. Coba nglajengak siji.",
     "generate": "Kudu ngarani media nganti kredis kowe, konfirmasi bayar, atau gambar free yén elok.",
-    "intro": "Ngelmu Riftn ing ChatGPT, utawa nambahake akunmu dhéwé kanggo ngupdate profil, ngepublikasakaké postingan lan nggunakaké Creator Studio. Tambahake https://dehub.io/mcp minangka koneksi OAuth kanggo kontrol akun.",
+    "intro": "Ngelmu Riftn ing ChatGPT, utawa nambahake akunmu dhéwé kanggo ngupdate profil, ngepublikasakaké postingan lan nggunakaké Creator Studio. Tambahake https://riftn.com/mcp minangka koneksi OAuth kanggo kontrol akun.",
     "libraryPrompt": "Tampilna aset paling anyar ing perpustakaan Riftn Creator kula.",
     "profile": "Ganti profil, gambar, dan pengaturan privasi mu.",
     "read": "Baca akun, postingan, notifikasi, dan Perpustakaan Pencipta mu.",
     "signIn": "Masuk ke Riftn",
     "social": "Ngrumit post dan komentar, ikut orang-nginep, lan simpen bookmark.",
-    "step": "Kanggo kontrol akun, tambahake https://dehub.io/mcp minangka koneksi OAuth, nulakake Riftn lan nyimpeni izin-izin sadurunge ngrujuk akses.",
+    "step": "Kanggo kontrol akun, tambahake https://riftn.com/mcp minangka koneksi OAuth, nulakake Riftn lan nyimpeni izin-izin sadurunge ngrujuk akses.",
     "title": "Konekin akun Riftn mu",
     "what": "Ngelmu kawruh lan ngelmu wédané. Dengan akun OAuth, ngatur profil lan privasi, nulis status lan komentar, ngikuti wong, baca notifikasi, nyimpen buku tamu lan nggawe gambar, filem, suara lan aset 3D. Pemrosesan nggunakaké aturan pembayaran Riftn."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profil",
       "proposal": "usulan",
       "stage": "tahapan",
-      "store": "toko"
+      "store": "toko",
+      "featureRequest": "permintaan"
     }
   },
   "postGate": {
@@ -2916,7 +2917,11 @@
     "premium": "Premium",
     "pricing": "Rega",
     "reorderReset": "Reset",
-    "reorderHint": "Tahan lan seret lambang apa wae kanggo nata ulang"
+    "reorderHint": "Tahan lan seret lambang apa wae kanggo nata ulang",
+    "groups": {
+      "create": "Gawe",
+      "discover": "Temokake"
+    }
   },
   "affiliate": {
     "subtitle": "Entuk saka saben wong sing kok undang — selawase",
@@ -3668,7 +3673,8 @@
     "themeColorBrand": "Merek",
     "themeColorBrandDesc": "Nganggo warna foto profilmu",
     "themeColorBrandNoAvatar": "Tambah foto profil kanggo nganggo warna Merek",
-    "themeColorBrandFailed": "Ora bisa maca warna saka foto profilmu"
+    "themeColorBrandFailed": "Ora bisa maca warna saka foto profilmu",
+    "menuLayoutFolders": "Folder"
   },
   "common": {
     "refresh": "Segarke",
@@ -3736,7 +3742,8 @@
     "next": "Berikutnya",
     "previous": "Sebelumnya",
     "redo": "Ulangi",
-    "remove": "Hapus"
+    "remove": "Hapus",
+    "loadMore": "Muat Luwih Akeh"
   },
   "tip": {
     "payDirect": "Dikirim langsung ke {{name}} di {{symbol}} pada {{chain}}. Tidak ada tukar.",
@@ -4641,7 +4648,7 @@
     "promptHeading": "Apa sing kudu kita bangun sabanjure?",
     "promptHint": "Kasihin penjelasan. Ngeposin screenshot. Bikin jadi.",
     "promptLabel": "Pitakon panjenengan",
-    "promptMediaError": "Pilih gambar utawa file video ingkang ukurané kurang saking 20 MB.",
+    "promptMediaError": "Pilih gambar utawa file video ingkang ukurané kurang saking 50 MB.",
     "promptPageTitle": "Panjalukan",
     "promptPlaceholder": "Kanggo ngarikan ide, peningkatan, atau bug…",
     "promptPost": "Kirim panyuwun",
@@ -7550,7 +7557,7 @@
     "onStage": "Ing Panggung",
     "noSpeakers": "Durung ana pamicara",
     "voiceEffect": "🎭 Efek Swara",
-    "textToSpeech": "🔊 Teks-kanggo-Swara",
+    "textToSpeech": "Teks-kanggo-Swara",
     "loadVoices": "Muat swara",
     "ttsPlaceholder": "Ketik pesen kanggo diucapaké…",
     "signInToJoin": "Mlebu kanggo gabung",
@@ -12770,7 +12777,15 @@
     "priceFreeRateLimited": "Gratis · watesan tarif lumaku",
     "dialogueFormat": "Tulis adegan sama format \"Nama: baris\", satu penutur per baris.",
     "fileTooLarge": "File iku luwih saka 100 MB. Gunakake sing luwih cendhak utawa luwih cilik.",
-    "signInToGenerate": "Masuk ke dalam untuk ngenerate."
+    "signInToGenerate": "Masuk ke dalam untuk ngenerate.",
+    "madeOnDehub": "Digawe ing Riftn",
+    "aiGenerationAlt": "Generasi AI",
+    "gallery": {
+      "send": "Kirim",
+      "notifications": {
+        "generation_reply": "{{name}} mbalas komentarmu"
+      }
+    }
   },
   "fractions": {
     "title": "Bagean",
@@ -13784,7 +13799,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "Kirim menyang X, YouTube, Instagram, TikTok lan liya-liyane bebarengan karo dehub. Sambungake akun sampeyan sapisan, banjur pilih ngendi saben kiriman bakal dikirim.",
+    "intro": "Kirim menyang X, YouTube, Instagram, TikTok lan liya-liyane bebarengan karo Riftn. Sambungake akun sampeyan sapisan, banjur pilih ngendi saben kiriman bakal dikirim.",
     "creditsHeading": "Kredit kiriman",
     "credits": "{{count}} kredit kiriman",
     "topUpTitle": "Top up lan ngirit",
@@ -15317,7 +15332,8 @@
       "lava": "Lampu lava",
       "drive": "Nganti Malem",
       "snow": "Salju"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Sampul"
@@ -15348,5 +15364,35 @@
     "forward": "Terusaké",
     "deleted_one": "Hapus pesan {{count}}",
     "deleted_other": "Hapus pesan {{count}}"
+  },
+  "messagesTabs": {
+    "all": "Kabèh"
+  },
+  "mentionLinks": {
+    "communities": "Komunitas",
+    "pages": "Kaca",
+    "people": "Wong"
+  },
+  "resetWallet": {
+    "mismatch": "Kata sandi gak cocok",
+    "logOut": "Metu",
+    "confirm": "Konfirmasi sandi",
+    "ack": "Kulah ngerti, uangku lan pinangku lané ngendi waléku lané.",
+    "cancel": "Batal"
+  },
+  "chatTabs": {
+    "all": "Kabèh",
+    "alwaysOn": "Gwé kanggo ngaweni",
+    "communities": "Komunitas",
+    "direct": "langsung",
+    "kindCommunity": "Komunitas",
+    "kindDirect": "langsung",
+    "kindGroup": "Golongan",
+    "kindPublic": "Umum",
+    "moveUp": "Njupuk dhuwur",
+    "requests": "Panjalukan Fitur",
+    "sCreators": "Kreator",
+    "sGaming": "Game",
+    "sTrading": "Perdagangan"
   }
 }

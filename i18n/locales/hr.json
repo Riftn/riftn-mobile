@@ -30,7 +30,7 @@
     "failed": "Veza se ne može dovršiti. Pokušajte se ponovno prijaviti.",
     "generate": "Generirajte medije pomoću svojih kredita, potvrđenih uplata ili besplatnih slika koje ispunjavaju uvjete",
     "generatePrompt": "Pokažite mi Riftnove modele slika i citirajte portret prije nego što ga generirate.",
-    "intro": "Pregledaj Riftn u aplikaciji ChatGPT ili poveži vlastiti račun kako bi ažurirao svoj profil, objavljivao objave i upotrebljavao program Creator Studio. Dodajte https://dehub.io/mcp kao OAuth konektor za kontrole računa.",
+    "intro": "Pregledaj Riftn u aplikaciji ChatGPT ili poveži vlastiti račun kako bi ažurirao svoj profil, objavljivao objave i upotrebljavao program Creator Studio. Dodajte https://riftn.com/mcp kao OAuth konektor za kontrole računa.",
     "libraryPrompt": "Prikaži najnovije sadržaje u mojoj biblioteci kreatora na Riftnu.",
     "manage": "Upravljajte povezanostima računa",
     "profile": "Uredite postavke profila, slika i privatnosti",
@@ -38,7 +38,7 @@
     "read": "Pročitaj svoj račun, objave, obavijesti i biblioteku kreatora",
     "signIn": "Prijavite se na Riftn",
     "social": "Objavljivanje objava i komentara, praćenje osoba i spremanje oznaka",
-    "step": "Za kontrole računa dodajte https://dehub.io/mcp kao OAuth poveznik, prijavite se na Riftn i pregledajte dozvole prije dopuštenja pristupa.",
+    "step": "Za kontrole računa dodajte https://riftn.com/mcp kao OAuth poveznik, prijavite se na Riftn i pregledajte dozvole prije dopuštenja pristupa.",
     "title": "Povežite svoj Riftn račun",
     "what": "Pretresi javne objave i profile. Uz povezan račun OAuth-a, upravljaj s profilom i privatnošću, objavljuj objave i komentare, praći ljude, čitaj obavijesti, čuvaj omiljene i generiraj slike, video, audio i 3D resurse. Generacija koristi postojeće pravila plaćanja Riftn-a."
   },
@@ -2636,7 +2636,8 @@
       "profile": "profil",
       "proposal": "prijedlog",
       "stage": "faza",
-      "store": "trgovina"
+      "store": "trgovina",
+      "featureRequest": "zahtjev"
     }
   },
   "postGate": {
@@ -2926,7 +2927,11 @@
     "premium": "Premium",
     "pricing": "Cijene",
     "reorderHint": "Držite i povucite bilo koju ikonu za promjenu rasporeda",
-    "reorderReset": "Resetiraj"
+    "reorderReset": "Resetiraj",
+    "groups": {
+      "create": "Stvori",
+      "discover": "Otkrij"
+    }
   },
   "affiliate": {
     "subtitle": "Zaradite od svakoga koga pozovete — zauvijek",
@@ -3690,7 +3695,8 @@
     "themeColorBrand": "Brend",
     "themeColorBrandDesc": "Koristi boje tvoje profilne slike",
     "themeColorBrandNoAvatar": "Dodajte profilnu sliku da biste koristili boje brenda",
-    "themeColorBrandFailed": "Nije bilo moguće očitati boje s vaše profilne slike"
+    "themeColorBrandFailed": "Nije bilo moguće očitati boje s vaše profilne slike",
+    "menuLayoutFolders": "Mape"
   },
   "common": {
     "refresh": "Osvježi",
@@ -3758,7 +3764,8 @@
     "next": "Sljedeći",
     "previous": "Prethodni",
     "redo": "Ponovi",
-    "remove": "Ukloni"
+    "remove": "Ukloni",
+    "loadMore": "Učitaj više"
   },
   "tip": {
     "payDirect": "Poslano izravno na {{name}} u {{symbol}} dana {{chain}}. Nema zamjene.",
@@ -4661,7 +4668,7 @@
     "promptHeading": "Što ćemo slijedeći graditi?",
     "promptHint": "Opisite ga. Upustite sliku. Učinite to.",
     "promptLabel": "Vaš potencijal",
-    "promptMediaError": "Odaberite slike ili videozapise ispod 20 MB svaki.",
+    "promptMediaError": "Odaberite slike ili videozapise ispod 50 MB svaki.",
     "promptMediaLimit": "Do {{max}} privitaka.",
     "promptNew": "Novi potencijal",
     "promptPageTitle": "Zahtjevi",
@@ -7575,7 +7582,7 @@
     "onStage": "Na pozornici",
     "noSpeakers": "Još nema zvučnika",
     "voiceEffect": "🎭 Glasovni efekt",
-    "textToSpeech": "🔊 Pretvaranje teksta u govor",
+    "textToSpeech": "Pretvaranje teksta u govor",
     "loadVoices": "Učitaj glasove",
     "ttsPlaceholder": "Napišite poruku da biste progovorili...",
     "signInToJoin": "Prijavite se i pridružite se",
@@ -12798,7 +12805,15 @@
     "loop": "Petlja",
     "dialogueFormat": "Napiši scenu kao \"Ime: replika\", jedan govornik po liniji.",
     "fileTooLarge": "Ta datoteka je veća od 100 MB. Koristi kraću ili manju.",
-    "signInToGenerate": "Prijavi se za generiranje."
+    "signInToGenerate": "Prijavi se za generiranje.",
+    "madeOnDehub": "Izrađeno na Riftn",
+    "aiGenerationAlt": "AI generiranje",
+    "gallery": {
+      "send": "Pošalji",
+      "notifications": {
+        "generation_reply": "{{name}} je odgovorio na vaš komentar"
+      }
+    }
   },
   "fractions": {
     "title": "Frakcije",
@@ -13812,7 +13827,7 @@
   "multiPost": {
     "tab": "Višestruko objavljivanje",
     "title": "Višestruko objavljivanje",
-    "intro": "Objavite na X, YouTube, Instagram, TikTok i više odjednom s dehubom. Povežite svoje račune jednom, a zatim odaberite kamo ide svaka objava.",
+    "intro": "Objavite na X, YouTube, Instagram, TikTok i više odjednom s Riftnom. Povežite svoje račune jednom, a zatim odaberite kamo ide svaka objava.",
     "creditsHeading": "Krediti za objave",
     "credits": "{{count}} kredita za objave",
     "topUpTitle": "Nadopuni i uštedi",
@@ -15336,7 +15351,8 @@
       "drive": "Noćna vožnja",
       "chrome": "Tekući krom",
       "snow": "Snježne padaline"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Naslovnica"
@@ -15368,5 +15384,36 @@
     "forward": "Proslijedi",
     "deleted_one": "Izbrisano {{count}} poruka",
     "deleted_other": "Izbrisano {{count}} poruke"
+  },
+  "messagesTabs": {
+    "all": "Sve"
+  },
+  "mentionLinks": {
+    "communities": "Zajednice",
+    "pages": "Stranice",
+    "people": "Ljudi"
+  },
+  "resetWallet": {
+    "mismatch": "Lozinke se ne podudaraju",
+    "logOut": "Odjava",
+    "confirm": "Potvrdi lozinku",
+    "ack": "Razumijem da moja stara sredstva ostaju u starom novčaniku.",
+    "cancel": "Odustani"
+  },
+  "chatTabs": {
+    "all": "Sve",
+    "alwaysOn": "Uvijek aktivno",
+    "communities": "Zajednice",
+    "direct": "Direkt",
+    "kindCommunity": "Zajednica",
+    "kindDirect": "Direkt",
+    "kindGroup": "Grupiraj",
+    "kindPublic": "Javno",
+    "moveDown": "Pomakni dolje",
+    "moveUp": "Pomakni gore",
+    "requests": "Zahtjevi",
+    "sCreators": "Kreatori",
+    "sGaming": "Igre",
+    "sTrading": "Trgovanje"
   }
 }

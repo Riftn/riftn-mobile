@@ -22,7 +22,7 @@
     "failed": "Nevarēja pabeigt savienojumu. Mēģiniet pierakstīties vēlreiz.",
     "generate": "Izvēlēties mediju, izmantojot savus kredītus, apstiprinātos maksājumus vai pieejamos bezmaksas attēlus.",
     "generatePrompt": "Parādiet man Riftn attēlu modeļus un citējiet portretu pirms tā ģenerēšanas.",
-    "intro": "Pārlūkojiet Riftn ChatGPT vai saistiet savu kontu, lai atjauninātu savu profilu, publicētu ziņas un izmantotu Creator Studio. Pievienojiet https://dehub.io/mcp kā OAuth savienotāju konta kontrolei.",
+    "intro": "Pārlūkojiet Riftn ChatGPT vai saistiet savu kontu, lai atjauninātu savu profilu, publicētu ziņas un izmantotu Creator Studio. Pievienojiet https://riftn.com/mcp kā OAuth savienotāju konta kontrolei.",
     "libraryPrompt": "Rādīt jaunākos materiālus manā Riftn Creator bibliotēkā.",
     "manage": "Pārvaldīt kontu savienojumus",
     "profile": "Profila, attēlu un privātuma iestatījumu rediģēšana",
@@ -30,7 +30,7 @@
     "read": "Lasīt savu kontu, ziņas, paziņojumus un veidotāju bibliotēku",
     "signIn": "Pierakstīties Riftn",
     "social": "Publicējiet ziņas un komentārus, sekojiet cilvēkiem un saglabājiet grāmatzīmes",
-    "step": "Lai veiktu konta kontroli, pievienojiet https://dehub.io/mcp kā OAuth savienotāju, pierakstieties Riftn un pārskatiet atļaujas, pirms atļaujat piekļuvi.",
+    "step": "Lai veiktu konta kontroli, pievienojiet https://riftn.com/mcp kā OAuth savienotāju, pierakstieties Riftn un pārskatiet atļaujas, pirms atļaujat piekļuvi.",
     "title": "Pievienojiet Riftn kontu",
     "what": "Pārlūkojiet publiskās ziņas un profilus. Izmantojot OAuth konta savienojumu, pārvaldiet savu profilu un konfidencialitāti, publicējiet ziņas un komentārus, sekojiet cilvēkiem, lasiet paziņojumus, saglabājiet grāmatzīmes un ģenerējiet attēlus, video, audio un 3D materiālus. Generation izmanto Riftn esošos maksājumu noteikumus."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profils",
       "proposal": "priekšlikums",
       "stage": "posms",
-      "store": "veikals"
+      "store": "veikals",
+      "featureRequest": "Pieprasījums"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Cenas",
     "reorderHint": "Turiet un velciet jebkuru ikonu, lai pārkārtotu",
-    "reorderReset": "Atiestatīt"
+    "reorderReset": "Atiestatīt",
+    "groups": {
+      "create": "Izveidot",
+      "discover": "Atklāj"
+    }
   },
   "affiliate": {
     "subtitle": "Pelniet no ikviena, ko uzaicināt — mūžīgi",
@@ -3680,7 +3685,8 @@
     "themeColorBrand": "Zīmols",
     "themeColorBrandDesc": "Izmantot profila attēla krāsas",
     "themeColorBrandNoAvatar": "Pievienojiet profila attēlu, lai izmantotu zīmola krāsas",
-    "themeColorBrandFailed": "Neizdevās nolasīt krāsas no jūsu profila attēla"
+    "themeColorBrandFailed": "Neizdevās nolasīt krāsas no jūsu profila attēla",
+    "menuLayoutFolders": "Mapes"
   },
   "common": {
     "refresh": "Atsvaidzināt",
@@ -3748,7 +3754,8 @@
     "next": "Nākamais",
     "previous": "Priekšējais",
     "redo": "Atjaunot",
-    "remove": "Nodot"
+    "remove": "Nodot",
+    "loadMore": "Ielādēt vairāk"
   },
   "tip": {
     "payDirect": "Nosūtīts tieši uz {{name}} {{symbol}} {{chain}}. Maiņa nenotiek.",
@@ -4652,7 +4659,7 @@
     "promptHeading": "Kādus nākamos darbus būvēt?",
     "promptHint": "Aprakstiet to. Ieliekiet screenshotu. Padarīt to notiek.",
     "promptLabel": "Jūsu pieprasījums",
-    "promptMediaError": "Izvēlieties attēlus vai videoklipus, kas katrs nepārsniedz 20 MB.",
+    "promptMediaError": "Izvēlieties attēlus vai videoklipus, kas katrs nepārsniedz 50 MB.",
     "promptMediaLimit": "Līdz {{max}} pielikumiem.",
     "promptNew": "Jauna pieprasījuma",
     "promptPageTitle": "Pieprasījumi",
@@ -7567,7 +7574,7 @@
     "onStage": "Uz skatuves",
     "noSpeakers": "Vēl nav skaļruņu",
     "voiceEffect": "🎭 Balss efekts",
-    "textToSpeech": "🔊 Teksta pārveidošana runā",
+    "textToSpeech": "Teksta pārveidošana runā",
     "loadVoices": "Ielādēt balsis",
     "ttsPlaceholder": "Ierakstiet runājamo ziņojumu...",
     "signInToJoin": "Pierakstīties, lai pievienotos",
@@ -12791,7 +12798,15 @@
     "loop": "Cilpa",
     "dialogueFormat": "Uzrakstiet ainu kā \"Vārds: replika\", viens runātājs katrā rindā.",
     "fileTooLarge": "Šis fails ir lielāks par 100 MB. Izmantojiet īsāku vai mazāku.",
-    "signInToGenerate": "Pierakstieties, lai ģenerētu."
+    "signInToGenerate": "Pierakstieties, lai ģenerētu.",
+    "madeOnDehub": "Veidots Riftn",
+    "aiGenerationAlt": "AI ģenerēšana",
+    "gallery": {
+      "send": "Sūtīt",
+      "notifications": {
+        "generation_reply": "{{name}} atbildēja uz jūsu komentāru"
+      }
+    }
   },
   "fractions": {
     "title": "Frakcijas",
@@ -13805,7 +13820,7 @@
   "multiPost": {
     "tab": "Multi-publicēšana",
     "title": "Multi-publicēšana",
-    "intro": "Publicē vienlaicīgi uz X, YouTube, Instagram, TikTok un citām platformām, izmantojot dehub. Savienojiet savus kontus vienreiz, pēc tam izvēlieties, kur katrs publicējums nonāks.",
+    "intro": "Publicē vienlaicīgi uz X, YouTube, Instagram, TikTok un citām platformām, izmantojot Riftn. Savienojiet savus kontus vienreiz, pēc tam izvēlieties, kur katrs publicējums nonāks.",
     "creditsHeading": "Publicēšanas kredīti",
     "credits": "{{count}} publicēšanas kredīti",
     "topUpTitle": "Papildiniet un ietaupiet",
@@ -15356,7 +15371,8 @@
       "chrome": "Šķidrais hroms",
       "orbit": "Orbīta",
       "snow": "Sniegputenis"
-    }
+    },
+    "sameAsProfile": "Profils"
   },
   "articleTile": {
     "cover": "Vāks"
@@ -15388,5 +15404,36 @@
     "forward": "Pārsūtīt",
     "deleted_one": "Izdzēsts {{count}} ziņojums",
     "deleted_other": "Izdzēsti {{count}} ziņojumi"
+  },
+  "messagesTabs": {
+    "all": "Viss"
+  },
+  "mentionLinks": {
+    "communities": "Kopienas",
+    "pages": "Lapas",
+    "people": "Cilvēki"
+  },
+  "resetWallet": {
+    "mismatch": "Atšķirīgi parolēs",
+    "logOut": "Izrakstīties",
+    "confirm": "Apstiprināt paroli",
+    "ack": "Aizvainojos, ka manas vecās naudas paliek vecajā portfelī.",
+    "cancel": "Atcelt"
+  },
+  "chatTabs": {
+    "all": "Viss",
+    "alwaysOn": "Vienmēr ieslēgts",
+    "communities": "Kopienas",
+    "direct": "Tieši",
+    "kindCommunity": "Kopiena",
+    "kindDirect": "Tieši",
+    "kindGroup": "Grupēt",
+    "kindPublic": "Publisks",
+    "moveDown": "Pārvietot uz leju",
+    "moveUp": "Pārvietot uz augšu",
+    "requests": "Funkciju pieprasījumi",
+    "sCreators": "Veidotāji",
+    "sGaming": "Spēles",
+    "sTrading": "Tirdzniecība"
   }
 }

@@ -15,14 +15,14 @@
   "accountConnect": {
     "account": "Avalik vaatamine ei vajasta kontot. Ühendage Riftni konto, et haldada profiili ja loomiseks või avaldada sisu.",
     "allow": "Luba ühendus",
-    "body": "Ühendage oma profiili haldamiseks, postituste avaldamiseks ja sisu loomiseks. Ühendused kestvad 24 tundi. Saate ühenduse katkestada igal ajal.",
+    "body": "Seo oma konto, et hallata oma profiili, avaldada postitusi ja luua vestlusest sisu. Ühendused aeguvad 24 tunni jooksul. Saad ühenduse igal ajal katkestada.",
     "deny": "Tühista",
     "disconnect": "Katkesta",
     "empty": "Ühendusi pole.",
     "failed": "Ühenduse loomine ei õnnestunud. Proovi uuesti sisselogida.",
     "generate": "Genereerige meediavaldiseid kasutades krediite, kinnitatu tehtud makseid või vabade piltide põhjal",
     "generatePrompt": "Näita mulle Riftni piltimudeid ja tsitaadi portree enne, kui genereerite pildi.",
-    "intro": "Vaadake Riftni ChatGPT-s või ühendage oma konto, et uuendada profiili, avaldada postitusi ja kasutada looja stuudiot. Lisa https://dehub.io/mcp kui OAuthi ühendus, et haldada kontot.",
+    "intro": "Sirvi Riftni ChatGPT-s või seo oma konto, et värskendada oma profiili, avaldada postitusi ja kasutada Creator Studiot. Konto kontrollimiseks lisa https://riftn.com/mcp OAuthi konnektoriks.",
     "libraryPrompt": "Näita mulle viimaseid väärtusi minu Riftni looja raamatukogus.",
     "manage": "Haldage ühendusi",
     "profile": "Muuda profiili, pilti ja privaatsusseadeteid",
@@ -30,7 +30,7 @@
     "read": "Lugege oma arvete, postitusi, teatiseid ja loomingu biblioteek",
     "signIn": "Sisene Riftni",
     "social": "Avaldage postitusi ja kommentaare, jälgige inimesi ja salvestage raamatukogusid",
-    "step": "Kontrolli ühenduse puhul lisa https://dehub.io/mcp kui OAuthi ühendus, sisse logige Riftni ja uurke lubamised enne, kui annate luba.",
+    "step": "Konto juhtelementide jaoks lisa https://riftn.com/mcp OAuthi konnektoriks, logi sisse Riftni ja vaata õigused enne juurdepääsu lubamist üle.",
     "title": "Lingi ühendage Riftni",
     "what": "Vaadake avalikke postitusi ja profiile. OAuthi konto ühendusega saate haldada profiili ja privaatsust, avaldada postitusi ja kommentaare, jälgida inimesi, lugea teatiseid, salvestada raamatukogusid ja genereerida pildid, video, audio ja 3D väärtusi. Genereerimine kasutab Riftni olemasolevaid makse reegleid."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profiil",
       "proposal": "ettepanek",
       "stage": "etapp",
-      "store": "pood"
+      "store": "pood",
+      "featureRequest": "päring"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Eelmaine",
     "pricing": "Hinnad",
     "reorderHint": "Hoia ja lohista ükskõik milline ikoon ümberkorraldamiseks",
-    "reorderReset": "Esimene"
+    "reorderReset": "Esimene",
+    "groups": {
+      "create": "Loo",
+      "discover": "Avasta"
+    }
   },
   "affiliate": {
     "subtitle": "Teeni kõigilt, keda kutsud — igavesti",
@@ -3680,7 +3685,8 @@
     "themeColorBrand": "Bränd",
     "themeColorBrandDesc": "Kasuta oma profiilipildi värve",
     "themeColorBrandNoAvatar": "Lisa profiilipilt, et kasutada brändivärve",
-    "themeColorBrandFailed": "Sinu profiilipildilt ei õnnestunud värve lugeda"
+    "themeColorBrandFailed": "Sinu profiilipildilt ei õnnestunud värve lugeda",
+    "menuLayoutFolders": "Kaustad"
   },
   "common": {
     "refresh": "Värskenda",
@@ -3748,7 +3754,8 @@
     "next": "Järgmine",
     "previous": "Eelmine",
     "redo": "Tee uuesti",
-    "remove": "Eemalda"
+    "remove": "Eemalda",
+    "loadMore": "Laadi rohkem"
   },
   "tip": {
     "payDirect": "Süüte saadetakse {{name}} {{symbol}}-le {{chain}}. Vahetamata.",
@@ -4651,7 +4658,7 @@
     "promptHeading": "Mida peaksime järgmiseks ehitama?",
     "promptHint": "Kirjelda seda. Lisa kuvatõmmis. Tee see teoks.",
     "promptLabel": "Sinu viip",
-    "promptMediaError": "Vali pildid või videod mahuga alla 20 MB.",
+    "promptMediaError": "Vali pildid või videod mahuga alla 50 MB.",
     "promptMediaLimit": "Kuni {{max}} manust.",
     "promptNew": "Uus viip",
     "promptPageTitle": "Taotlused",
@@ -7567,7 +7574,7 @@
     "onStage": "Etapis",
     "noSpeakers": "Kõlareid pole veel",
     "voiceEffect": "🎭 Hääleefekt",
-    "textToSpeech": "🔊 Teksti ettelugemine",
+    "textToSpeech": "Teksti ettelugemine",
     "loadVoices": "Laadi hääled",
     "ttsPlaceholder": "Rääkimiseks sisesta sõnum...",
     "signInToJoin": "Liitumiseks logi sisse",
@@ -12794,7 +12801,15 @@
     "loop": "Silmus",
     "dialogueFormat": "Kirjuta stseen kujul \"Nimi: rida\", üks kõneleja rea kohta.",
     "fileTooLarge": "See fail on üle 100 MB. Kasuta lühemat või väiksemat.",
-    "signInToGenerate": "Logi sisse, et genereerida."
+    "signInToGenerate": "Logi sisse, et genereerida.",
+    "madeOnDehub": "Loodud Riftnis",
+    "aiGenerationAlt": "AI-loomine",
+    "gallery": {
+      "send": "Saada",
+      "notifications": {
+        "generation_reply": "{{name}} vastas sinu kommentaarile"
+      }
+    }
   },
   "fractions": {
     "title": "Fraktsioonid",
@@ -13808,7 +13823,7 @@
   "multiPost": {
     "tab": "Mitme postituse tegemine",
     "title": "Mitme postituse tegemine",
-    "intro": "Postita korraga X-i, YouTube'i, Instagrami, TikToki ja mujale dehubiga. Ühenda oma kontod üks kord, seejärel vali, kuhu iga postitus läheb.",
+    "intro": "Postita korraga X-i, YouTube'i, Instagrami, TikToki ja mujale Riftniga. Ühenda oma kontod üks kord, seejärel vali, kuhu iga postitus läheb.",
     "creditsHeading": "Postituse krediidid",
     "credits": "{{count}} postituse krediiti",
     "topUpTitle": "Laadi juurde ja säästa",
@@ -15363,7 +15378,8 @@
       "chrome": "Vedel kroom",
       "orbit": "Orbiit",
       "snow": "Lumi langus"
-    }
+    },
+    "sameAsProfile": "Profiil"
   },
   "articleTile": {
     "cover": "Kaanepilt"
@@ -15395,5 +15411,36 @@
     "forward": "Edasta",
     "deleted_one": "Kustutatud {{count}} sõnum",
     "deleted_other": "Kustutatud {{count}} sõnumit"
+  },
+  "messagesTabs": {
+    "all": "Kõik"
+  },
+  "mentionLinks": {
+    "communities": "Kogukonnad",
+    "pages": "Lehed",
+    "people": "Inimesed"
+  },
+  "resetWallet": {
+    "mismatch": "Salad ei sobi kokku",
+    "logOut": "Logi välja",
+    "confirm": "Kinnita salasõna",
+    "ack": "Ma mõistan, et muudetud fondid jäävad vanasse varukojasse.",
+    "cancel": "Tühista"
+  },
+  "chatTabs": {
+    "all": "Kõik",
+    "alwaysOn": "Alati sisse",
+    "communities": "Kogukonnad",
+    "direct": "Direkt",
+    "kindCommunity": "Kogukond",
+    "kindDirect": "Direkt",
+    "kindGroup": "Grupeeri",
+    "kindPublic": "Avalik",
+    "moveDown": "Liiguta alla",
+    "moveUp": "Liiguta üles",
+    "requests": "Funktsioonisoovid",
+    "sCreators": "Loojad",
+    "sGaming": "Mängimine",
+    "sTrading": "Kauplemine"
   }
 }

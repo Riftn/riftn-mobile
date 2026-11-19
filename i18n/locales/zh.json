@@ -3813,7 +3813,8 @@
     "next": "下一步",
     "previous": "上一个",
     "redo": "重做",
-    "remove": "移除"
+    "remove": "移除",
+    "loadMore": "加载更多"
   },
   "tip": {
     "title": "发送打赏",
@@ -4814,7 +4815,7 @@
     "promptDetails": "选填信息",
     "promptDevice": "设备和操作系统（针对错误）",
     "promptFilters": "按类别筛选",
-    "promptMediaError": "选择每张小于20MB的图片或视频。",
+    "promptMediaError": "选择每张小于50MB的图片或视频。",
     "promptMediaLimit": "最多{{max}}个附件。",
     "removePromptAttachment": "移除{{name}}",
     "promptAttachment": "附件{{number}}",
@@ -7955,7 +7956,7 @@
     "onStage": "在舞台上",
     "noSpeakers": "尚无扬声器",
     "voiceEffect": "🎭 语音效果",
-    "textToSpeech": "🔊 文字转语音",
+    "textToSpeech": "文字转语音",
     "loadVoices": "加载语音",
     "ttsPlaceholder": "键入要发言的消息……",
     "signInToJoin": "登录以加入",
@@ -13751,7 +13752,15 @@
     "audioFailed": "无法处理该音频。",
     "libraryFavorites": "收藏夹",
     "libraryFavoriteAdd": "添加到收藏夹",
-    "libraryFavoriteRemove": "从收藏夹中移除"
+    "libraryFavoriteRemove": "从收藏夹中移除",
+    "madeOnDehub": "创作于 Riftn",
+    "aiGenerationAlt": "AI 生成作品",
+    "gallery": {
+      "send": "发送",
+      "notifications": {
+        "generation_reply": "{{name}}回复了你的评论"
+      }
+    }
   },
   "fractions": {
     "title": "碎片",
@@ -14721,7 +14730,7 @@
   "multiPost": {
     "tab": "多平台发布",
     "title": "多平台发布",
-    "intro": "在 dehub 上同时发布到 X、YouTube、Instagram、TikTok 等平台。一次连接你的账号，然后选择每条帖子发布到哪里。",
+    "intro": "在 Riftn 上同时发布到 X、YouTube、Instagram、TikTok 等平台。一次连接你的账号，然后选择每条帖子发布到哪里。",
     "creditsHeading": "发布积分",
     "credits": "{{count}} 发布积分",
     "topUpTitle": "充值并省钱",
@@ -15825,7 +15834,7 @@
   },
   "accountConnect": {
     "title": "连接您的 Riftn 帐户",
-    "body": "链接您的帐户以管理您的资料、发布帖子和从聊天创建内容。连接有效期为 24 小时。您可以随时断开连接。",
+    "body": "链接您的账户管理您的资料、发布帖子和从聊天创建内容。连接有效期为24小时。您可以随时断开连接。",
     "read": "阅读您的帐户、帖子、通知和 Creator 库",
     "profile": "编辑您的资料、图片和隐私设置",
     "social": "发布帖子和评论、关注人士和保存书签",
@@ -15837,10 +15846,10 @@
     "empty": "无活跃的帐户连接。",
     "disconnect": "断开连接",
     "failed": "无法完成连接。请重新登录。",
-    "intro": "在 ChatGPT 中浏览 Riftn，或者链接您的帐户来更新您的资料、发布帖子并使用 Creator Studio。添加 https://dehub.io/mcp 为 OAuth 连接器来控制帐户。",
+    "intro": "在ChatGPT中浏览Riftn，或者链接自己的账户更新您的资料、发布帖子并使用创作者工作室。添加https://riftn.com/mcp作为OAuth连接器进行账户控制。",
     "what": "浏览公共帖子和资料。使用 OAuth 帐户连接，管理您的资料和隐私、发布帖子和评论、关注人士、阅读通知、保存书签和生成图像、视频、音频和 3D 资产。生成使用 Riftn 的现有支付规则。",
     "account": "无需帐户即可浏览公共内容。链接您的 Riftn 帐户来管理您的资料和创建或发布内容。",
-    "step": "为帐户控制，添加 https://dehub.io/mcp 为 OAuth 连接器，登录 Riftn 并审查权限之前允许访问。",
+    "step": "为账户控制添加https://riftn.com/mcp作为OAuth连接器，登录Riftn并审查权限之前允许访问。",
     "profilePrompt": "更新我的 Riftn 个性简介为：独立创作者，制作电影和音乐。",
     "generatePrompt": "显示 Riftn 的图像模型并引用肖像之前生成它。",
     "libraryPrompt": "显示我的 Riftn Creator 库中的最新资产。"
@@ -16871,7 +16880,8 @@
     "saveFailed": "无法保存你的背景。请重试。",
     "base": "基础",
     "accent2": "强调 2",
-    "ownColours": "自定义颜色"
+    "ownColours": "自定义颜色",
+    "sameAsProfile": "个人资料"
   },
   "articleTile": {
     "cover": "封面",
@@ -17055,5 +17065,8 @@
     "saveFailed": "无法保存标签，请重试",
     "show": "显示标签",
     "tooMany": "最多可以有 10 个标签"
+  },
+  "msgDelete": {
+    "titleMany": "删除 {{count}} 条消息？"
   }
 }

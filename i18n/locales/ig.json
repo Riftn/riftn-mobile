@@ -22,7 +22,7 @@
     "failed": "Agaghị enwenwu ike mezue njikọ ahụ. Gbalịa ịbanye ọzọ.",
     "generate": "N 'ịwa media iji gị Ebe e si nweta, enen ịkwụ ụgwọ ma ọ bụ ruo eru free oyiyi",
     "generatePrompt": "Gosi m ụdị onyonyo Riftn ma kwuo ihe osise tupu imepụta ya.",
-    "intro": "Chọgharịa Riftn na ChatGPT, ma ọ bụ jikọọ akaụntụ nke gị iji melite profaịlụ gị, bipụta posts ma jiri Onye Okike Studio. Tinye https://dehub.io/mcp dị ka njikọ OAuth maka njikwa akaụntụ.",
+    "intro": "Chọgharịa Riftn na ChatGPT, ma ọ bụ jikọọ akaụntụ nke gị iji melite profaịlụ gị, bipụta posts ma jiri Onye Okike Studio. Tinye https://riftn.com/mcp dị ka njikọ OAuth maka njikwa akaụntụ.",
     "libraryPrompt": "Gosi akụ ndị kachasị ọhụrụ n 'ọbá akwụkwọ Riftn Creator m.",
     "manage": "Jikwaa njikọ akaụntụ",
     "profile": "Dezie profaịlụ gị, onyonyo na ntọala nzuzo",
@@ -30,7 +30,7 @@
     "read": "Gụọ akaụntụ gị, posts, Ịma Ọkwa na Onye Okike n 'ọbá akwụkwọ",
     "signIn": "Banye na Riftn",
     "social": "Bipụta posts na comments, na-eso ndị mmadụ na-azọpụta bookmarks",
-    "step": "Maka njikwa akaụntụ, tinye https://dehub.io/mcp dị ka njikọ OAuth, banye na Riftn ma nyochaa ikikere tupu ikwe ka ịnweta.",
+    "step": "Maka njikwa akaụntụ, tinye https://riftn.com/mcp dị ka njikọ OAuth, banye na Riftn ma nyochaa ikikere tupu ikwe ka ịnweta.",
     "title": "Jikọọ akaụntụ Riftn gị",
     "what": "Chọgharịa na ọha posts na profaịlụ. Site na njikọ akaụntụ OAuth, jikwaa profaịlụ gị na nzuzo, bipụta posts na nkwupụta, soro ndị mmadụ, gụọ ọkwa, chekwaa ibe edokọbara ma mepụta ihe oyiyi, vidiyo, ọdịyo na akụ 3D. Ọgbọ na-eji iwu ịkwụ ụgwọ Riftn dị ugbu a."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profaịlụ",
       "proposal": "ngwaahịa",
       "stage": "ogbo",
-      "store": "ụlọ ahịa"
+      "store": "ụlọ ahịa",
+      "featureRequest": "arịrịọ"
     }
   },
   "postGate": {
@@ -2917,7 +2918,11 @@
     "premium": "Nke kacha mma",
     "pricing": "Ọnụahịa",
     "reorderHint": "Jide ma dọrọ aịkọn ọ bụla ka ị hazie ọzọ",
-    "reorderReset": "Tọgharịa"
+    "reorderReset": "Tọgharịa",
+    "groups": {
+      "create": "Mepụta",
+      "discover": "Chọpụta"
+    }
   },
   "affiliate": {
     "subtitle": "Nweta site na onye ọ bụla ị kpọrọ — ruo mgbe ebighị ebi",
@@ -3669,7 +3674,8 @@
     "themeColorBrand": "Ọrụ",
     "themeColorBrandDesc": "Jiri agba foto profaịlụ gị",
     "themeColorBrandNoAvatar": "Tinye foto profaịlụ iji jiri agba Brand",
-    "themeColorBrandFailed": "Enweghị ike ịgụta agba site na foto profaịlụ gị"
+    "themeColorBrandFailed": "Enweghị ike ịgụta agba site na foto profaịlụ gị",
+    "menuLayoutFolders": "Ndị Folda"
   },
   "common": {
     "remove": "Wepụ",
@@ -3737,7 +3743,8 @@
     "apply": "Tinye",
     "next": "Ọzọ",
     "previous": "Nke gara aga",
-    "redo": "Megharịa"
+    "redo": "Megharịa",
+    "loadMore": "Bughachite ọzọ"
   },
   "tip": {
     "payDirect": "Zitere ozugbo na {{name}} na {{symbol}} on {{chain}}. Enweghị mgbanwe.",
@@ -4641,7 +4648,7 @@
     "promptFilters": "Myọcha site na udi",
     "promptHint": "Kọwaa ya. Dobe na nseta ihuenyo. Mee ka ọ na-eme.",
     "promptLabel": "Your ngwa ngwa",
-    "promptMediaError": "Họrọ ihe oyiyi ma ọ bụ vidiyo n 'okpuru 20MB ọ bụla.",
+    "promptMediaError": "Họrọ ihe oyiyi ma ọ bụ vidiyo n 'okpuru 50MB ọ bụla.",
     "promptNew": "New ngwa",
     "promptPlaceholder": "Ihe ọzọ bụ na, you can reach all these destinations by train…",
     "promptPost": "Post ngwa ngwa",
@@ -7553,7 +7560,7 @@
     "onStage": "On ogbo",
     "noSpeakers": "Enweghị ndị ọkà okwu ma",
     "voiceEffect": "Mmetụta 🎭 olu",
-    "textToSpeech": "🔊 Text-na-ekwu okwu",
+    "textToSpeech": "Text-na-ekwu okwu",
     "loadVoices": "Bubata olu",
     "ttsPlaceholder": "Ihe ọzọ bụ na, you can reach all these destinations by train…",
     "signInToJoin": "Banye na isonye na",
@@ -12755,7 +12762,15 @@
     "priceFreeRateLimited": "Free · ọnụego ịgba emetụta",
     "dialogueFormat": "Dee ebe ahụ dịka \"Aha: akara\", otu onye na-ekwu okwu n 'ahịrị ọ bụla.",
     "fileTooLarge": "Faịlụ ahụ karịrị 100 MB. Jiri nke dị mkpụmkpụ ma ọ bụ nke pere mpe.",
-    "signInToGenerate": "Banye n 'ime ka n' ịwa."
+    "signInToGenerate": "Banye n 'ime ka n' ịwa.",
+    "madeOnDehub": "Emere na Riftn",
+    "aiGenerationAlt": "AI ọgbọ",
+    "gallery": {
+      "send": "Ziga",
+      "notifications": {
+        "generation_reply": "{{name}} zaghachiri okwu gị"
+      }
+    }
   },
   "fractions": {
     "title": "Òkè",
@@ -13769,7 +13784,7 @@
   "multiPost": {
     "tab": "Mgbasa ozi ọtụtụ",
     "title": "Mgbasa ozi ọtụtụ",
-    "intro": "Zipụ na X, YouTube, Instagram, TikTok na ihe ndị ọzọ n'otu oge dị ka dehub. Jikọọ akaụntụ gị otu ugbo, wee họrọ ebe ọ bụla nzipu ga-aga.",
+    "intro": "Zipụ na X, YouTube, Instagram, TikTok na ihe ndị ọzọ n'otu oge dị ka Riftn. Jikọọ akaụntụ gị otu ugbo, wee họrọ ebe ọ bụla nzipu ga-aga.",
     "creditsHeading": "Ebe nzipu",
     "credits": "{{count}} ebe nzipu",
     "topUpTitle": "Mee ka elu ma chekwaa",
@@ -15308,7 +15323,8 @@
     "names": {
       "lava": "Lava Oriọna",
       "snow": "Nkpọrụ ụlọ mma"
-    }
+    },
+    "sameAsProfile": "Profaịlụ"
   },
   "articleTile": {
     "cover": "Mkpuchi"
@@ -15340,5 +15356,35 @@
     "forward": "Zigaa",
     "deleted_one": "Ehichapụrụ {{count}} ozi",
     "deleted_other": "Ehichapụrụ {{count}} ozi"
+  },
+  "messagesTabs": {
+    "all": "Ha niile"
+  },
+  "mentionLinks": {
+    "communities": "Obodo",
+    "pages": "Peeji",
+    "people": "Ndị mmadụ"
+  },
+  "resetWallet": {
+    "mismatch": "Paswọọdụ adịghị dakọtara",
+    "logOut": "Pụta",
+    "confirm": "Kwenye okwuntughe",
+    "ack": "Aghọtara m na ego m ochie nọ na akpa akụ ochie.",
+    "cancel": "Kagbuo"
+  },
+  "chatTabs": {
+    "all": "Ha niile",
+    "alwaysOn": "Na-agbanye mgbe niile",
+    "communities": "Obodo",
+    "direct": "Nche",
+    "kindCommunity": "Ụmụmụba",
+    "kindDirect": "Nche",
+    "kindGroup": "Ìgwè",
+    "kindPublic": "Ọha",
+    "moveDown": "Gaa n'okpuru",
+    "moveUp": "Gaa n'elu",
+    "requests": "Arịrịọ",
+    "sCreators": "Ndị Okike",
+    "sGaming": "Egwuregwu"
   }
 }

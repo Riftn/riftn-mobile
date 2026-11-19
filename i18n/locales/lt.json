@@ -30,7 +30,7 @@
     "failed": "Nepavyko užbaigti ryšio. Bandykite prisijungti dar kartą.",
     "generate": "Sukurti mediją naudodami savo kreditus, patvirtintusius mokėjimus ar galimybes naudoti nemokamus vaizdus.",
     "generatePrompt": "Parodykite man „Riftn“ vaizdo modelius ir pacituokite portretą prieš jį kurdami.",
-    "intro": "Naršyk „Riftn“ „ChatGPT“ arba susiek savo paskyrą, kad atnaujintum savo profilį, paskelbtum įrašus ir naudotum „Creator Studio“. Pridėkite https://dehub.io/mcp kaip OAuth jungtį paskyros valdymui.",
+    "intro": "Naršyk „Riftn“ „ChatGPT“ arba susiek savo paskyrą, kad atnaujintum savo profilį, paskelbtum įrašus ir naudotum „Creator Studio“. Pridėkite https://riftn.com/mcp kaip OAuth jungtį paskyros valdymui.",
     "libraryPrompt": "Rodyti naujausius išteklius mano Riftn Creator bibliotekoje.",
     "manage": "Tvarkyti paskyros ryšius",
     "profile": "Redaguokite profilio, vaizdų ir privatumo nustatymus",
@@ -38,7 +38,7 @@
     "read": "Skaityk savo paskyrą, įrašus, pranešimus ir kūrėjų biblioteką",
     "signIn": "Prisijungti prie „Riftn“",
     "social": "Skelbkite įrašus ir komentarus, sekite žmones ir išsaugokite žymes",
-    "step": "Norėdami valdyti paskyrą, pridėkite https://dehub.io/mcp kaip „OAuth“ jungtį, prisijunkite prie „Riftn“ ir peržiūrėkite leidimus prieš suteikdami prieigą.",
+    "step": "Norėdami valdyti paskyrą, pridėkite https://riftn.com/mcp kaip „OAuth“ jungtį, prisijunkite prie „Riftn“ ir peržiūrėkite leidimus prieš suteikdami prieigą.",
     "title": "Susiekite savo „Riftn“ paskyrą",
     "what": "Naršyti viešus įrašus ir profilius. Naudodami „OAuth“ paskyros ryšį, tvarkykite savo profilį ir privatumą, skelbkite įrašus ir komentarus, sekite žmones, skaitykite pranešimus, išsaugokite žymes ir generuokite vaizdus, vaizdo, garso ir 3D išteklius. Generation naudoja esamas Riftn mokėjimo taisykles."
   },
@@ -2636,7 +2636,8 @@
       "profile": "profilis",
       "proposal": "pasiūlymas",
       "stage": "etapas",
-      "store": "parduotuvė"
+      "store": "parduotuvė",
+      "featureRequest": "užklausa"
     }
   },
   "postGate": {
@@ -2926,7 +2927,11 @@
     "premium": "Premium",
     "pricing": "Kainos",
     "reorderHint": "Laikykite ir vilkite bet kurią piktogramą, kad pertvarkytumėte",
-    "reorderReset": "Nustatyti iš naujo"
+    "reorderReset": "Nustatyti iš naujo",
+    "groups": {
+      "create": "Kurti",
+      "discover": "Atrasti"
+    }
   },
   "affiliate": {
     "subtitle": "Uždirbkite iš kiekvieno pakviesto asmens – visam laikui",
@@ -3688,7 +3693,8 @@
     "themeColorBrand": "Prekės ženklas",
     "themeColorBrandDesc": "Naudoti profilio nuotraukos spalvas",
     "themeColorBrandNoAvatar": "Pridėkite profilio nuotrauką, kad naudotumėte prekės ženklo spalvas",
-    "themeColorBrandFailed": "Nepavyko nuskaityti spalvų iš jūsų profilio nuotraukos"
+    "themeColorBrandFailed": "Nepavyko nuskaityti spalvų iš jūsų profilio nuotraukos",
+    "menuLayoutFolders": "Aplankai"
   },
   "common": {
     "refresh": "Atnaujinti",
@@ -3756,7 +3762,8 @@
     "next": "Eiti toliau",
     "previous": "Grįžti atgal",
     "redo": "Atlikti",
-    "remove": "Ištrinti"
+    "remove": "Ištrinti",
+    "loadMore": "Įkelti daugiau"
   },
   "tip": {
     "payDirect": "Išsiųsta tiesiai {{name}} {{symbol}} {{chain}}. Keitimas neatliekamas.",
@@ -4659,7 +4666,7 @@
     "promptHeading": "Ką mes turėtume sukurti kitą kartą?",
     "promptHint": "Aprašykite jį. Pridėkite ekrano nuotrauką. Padarykite tai.",
     "promptLabel": "Jūsų prašymas",
-    "promptMediaError": "Pasirinkite vaizdus arba vaizdo įrašus, kurių kiekvienas yra mažesnis nei 20 MB.",
+    "promptMediaError": "Pasirinkite vaizdus arba vaizdo įrašus, kurių kiekvienas yra mažesnis nei 50 MB.",
     "promptMediaLimit": "Iki {{max}} priedų.",
     "promptNew": "Naujas prašymas",
     "promptPageTitle": "Prašymai",
@@ -7576,7 +7583,7 @@
     "onStage": "Scenoje",
     "noSpeakers": "Dar nėra garsiakalbių",
     "voiceEffect": "🎭 Balso efektas",
-    "textToSpeech": "🔊 Teksto vertimas į kalbą",
+    "textToSpeech": "Teksto vertimas į kalbą",
     "loadVoices": "Įkelti balsus",
     "ttsPlaceholder": "Įveskite žinutę, kad galėtumėte kalbėti...",
     "signInToJoin": "Prisijunkite ir prisijunkite",
@@ -12802,7 +12809,15 @@
     "loop": "Ciklas",
     "dialogueFormat": "Aprašykite sceną kaip \"Vardas: tekstas\", vienas kalbėtojas kiekvienoje eilutėje.",
     "fileTooLarge": "Šis failas yra didesnis nei 100 MB. Naudokite trumpesnį arba mažesnį.",
-    "signInToGenerate": "Prisijunkite, kad sukurtumėte."
+    "signInToGenerate": "Prisijunkite, kad sukurtumėte.",
+    "madeOnDehub": "Sukurta Riftn",
+    "aiGenerationAlt": "Dirbtinio intelekto generavimas",
+    "gallery": {
+      "send": "Siųsti",
+      "notifications": {
+        "generation_reply": "{{name}} atsakė į jūsų komentarą"
+      }
+    }
   },
   "fractions": {
     "title": "Dalys",
@@ -13816,7 +13831,7 @@
   "multiPost": {
     "tab": "Daugkartinis skelbimas",
     "title": "Daugkartinis skelbimas",
-    "intro": "Skelbkite į X, YouTube, Instagram, TikTok ir kitas platformas vienu metu su dehub. Prijunkite savo paskyras vieną kartą, tada pasirinkite, kur bus skelbiamas kiekvienas įrašas.",
+    "intro": "Skelbkite į X, YouTube, Instagram, TikTok ir kitas platformas vienu metu su Riftn. Prijunkite savo paskyras vieną kartą, tada pasirinkite, kur bus skelbiamas kiekvienas įrašas.",
     "creditsHeading": "Skelbimų kreditai",
     "credits": "{{count}} skelbimo kreditų",
     "topUpTitle": "Papildykite ir sutaupykite",
@@ -15349,7 +15364,8 @@
       "chrome": "Lietuvinis Chromas",
       "orbit": "Orbitos",
       "snow": "Sniegas"
-    }
+    },
+    "sameAsProfile": "Profilis"
   },
   "articleTile": {
     "cover": "Viršelis"
@@ -15381,5 +15397,36 @@
     "forward": "Persiųsti",
     "deleted_one": "Ištrintas {{count}} pranešimas",
     "deleted_other": "Ištrinti {{count}} pranešimai"
+  },
+  "messagesTabs": {
+    "all": "Visi"
+  },
+  "mentionLinks": {
+    "communities": "Bendruomenės",
+    "pages": "Puslapiai",
+    "people": "Žmonės"
+  },
+  "resetWallet": {
+    "mismatch": "Slaptažodžiai nesutampa",
+    "logOut": "Išjungti prisijungimą",
+    "confirm": "Patvirtinkite slaptažodį",
+    "ack": "Mano senos pinigų liko senojoje žetonėlėje.",
+    "cancel": "Atšaukti"
+  },
+  "chatTabs": {
+    "all": "Visi",
+    "alwaysOn": "Visada įjungta",
+    "communities": "Bendruomenės",
+    "direct": "Direktyva",
+    "kindCommunity": "Bendruomenė",
+    "kindDirect": "Direktyva",
+    "kindGroup": "Grupuoti",
+    "kindPublic": "Viešas",
+    "moveDown": "Perkelti žemyn",
+    "moveUp": "Aukštyn",
+    "requests": "Užklausos",
+    "sCreators": "Kūrėjai",
+    "sGaming": "Žaidimai",
+    "sTrading": "Prekyba"
   }
 }

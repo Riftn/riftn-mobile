@@ -16,21 +16,21 @@
     "profilePrompt": "N ka Riftn biyo yɛlɛma ka kɛ: Kɔrɛatɛri yɛrɛmahɔrɔnya min bɛ filimuw ani fɔli kɛ.",
     "account": "Ka fara o kan, baara kɛbagaw tun tɛ dugu kɔnɔ, u tun tɛ baara kɛ ni naani ye. I ka kan ka sɛbɛri kɛ ka sɔrɔ ka sɛbɛri kɛ.",
     "allow": "Sirili dabila",
-    "body": "I ka kɔnti siri walasa ka i ka profil mara, ka posti kɛ ani ka kɔntɛnu kɛ chat kɔnɔ. Siriliw bɛ ban tile 24 kɔnɔ. I bɛ se ka a filɛ i bɛ min kɛ tuma o tuma.",
+    "body": "I ka kɔntu ka kɛnɛ walasa ka i ka profil kɔlɔsi, ka barokunw daminɛ ani ka kɔntɛnu kɛ chat kɔnɔ. Kɔnɛkisɔnw bɛ ban dɔgɔkun 24 kɔnɔ. I bɛ se ka i ka kɔnɛkisɔn bɔ tuma o tuma.",
     "deny": "A dabila",
     "disconnect": "A filɛ",
     "empty": "Kɔnti sirili tɛ.",
     "failed": "Sirili tɛ se ka kɛ. A ɲini ka don tugun.",
     "generate": "Media kɛ ni i ka krɛdiw, sɔrɔ minnu bɛ kɛ, walima imaji minnu bɛ sɔrɔ fɛn tɛ",
     "generatePrompt": "Riftn ka ɲɛyiraliw yira n' na ani ka ɲɛyirali dɔ yira n' na sanni n' k'u dilan.",
-    "intro": "Riftn kalan ChatGPT kɔnɔ, walima i yɛrɛ ka kɔnti siri walasa ka i ka profil yɛlɛma, ka posti kɛ ani ka Kɔntɛnu Studio kɛ. A https://dehub.io/mcp kɛ OAuth sirila kɔnti mara fɛnw kosɔn.",
+    "intro": "Kalan Riftn ChatGPT kɔnɔ, walima ka i yɛrɛ ka kɔntu kɛnɛ walasa ka i ka profil yɛlɛma, ka barokunw daminɛ ani ka Kɔrɛatɛri Studiyo kɛ. A https://riftn.com/mcp i ka OAuth kɔnɛkɛtɛri ye kɔntu kɔlɔsiw kosɔn.",
     "libraryPrompt": "N' ka gafew be sɔrɔ n' ka gafew kɔnɔ.",
     "manage": "Kɔnti siriliw mara",
     "profile": "I ka profil, imajiw ani siraba kɔnɔna yɛlɛma",
     "read": "I ka kɔnti, posti, notifikasɔnw ani Kɔntɛnu kɛla ka bibliyotɛki kalan",
     "signIn": "Don Riftn kɔnɔ",
     "social": "Posti ani kɔmentɛri kɛ, mɔgɔw tugu ani bukmarkw mara",
-    "step": "N'i b'a fɛ ka kunnafoniw mara, i ka https://dehub.io/mcp fara a kan i n'a fɔ OAuth, ka don Riftn la ani ka sɔnni lajɛ sanni i ka se ka don.",
+    "step": "Kɔntu kɔlɔsiw kosɔn, a https://riftn.com/mcp i ka OAuth kɔnɛkɛtɛri ye, i don Riftn kɔnɔ ani ka yɛlɛmaliw kalan fɔlɔ ka a dɔn.",
     "title": "I ka Riftn kɔnti siri",
     "what": "Posti ani profil minnu bɛ kɛnɛ kan, olu kalan. Ni OAuth kɔnti sirili bɛ, i bɛ se ka i ka profil ani siraba mara, ka posti ani kɔmentɛri kɛ, ka mɔgɔw tugu, ka notifikasɔnw kalan, ka bukmarkw mara ani ka imaji, videwo, odiyo ani 3D fɛnw kɛ. Kɛli bɛ Riftn ka sɔrɔ kɛli sariya kɔrɔw kɛ."
   },
@@ -2625,7 +2625,8 @@
       "profile": "a ka ɲɛyirali",
       "proposal": "k'a ɲini ka koo dɔ kɛ",
       "stage": "o ye ɲɛyirali ɲuman ye",
-      "store": "fɛɛn minw be feere"
+      "store": "fɛɛn minw be feere",
+      "featureRequest": "sɛbɛnna"
     }
   },
   "postGate": {
@@ -2915,7 +2916,12 @@
     "premium": "Premiyɔmu",
     "pricing": "Sɔngɔw",
     "reorderHint": "Bɛɛ kɔ kɔkɔ kɔ kɔkɔ",
-    "reorderReset": "Ka segi ka na"
+    "reorderReset": "Ka segi ka na",
+    "groups": {
+      "create": "Dilan",
+      "discover": "A ɲini",
+      "riftn": "O ye kooba ye."
+    }
   },
   "affiliate": {
     "subtitle": "Wari sɔrɔ i ye mɔgɔ minnu bɛɛ wele — badaa",
@@ -3667,7 +3673,8 @@
     "themeColorBrand": "Marki",
     "themeColorBrandDesc": "I ka ja kulɛriw kɛ",
     "themeColorBrandNoAvatar": "Ja fara walisa ka Marki kulɛriw kɛ",
-    "themeColorBrandFailed": "Kulɛriw ma se ka kalan i ka ja la"
+    "themeColorBrandFailed": "Kulɛriw ma se ka kalan i ka ja la",
+    "menuLayoutFolders": "Dosiyew"
   },
   "common": {
     "refresh": "A kuraya",
@@ -3735,7 +3742,8 @@
     "next": "O kɔ, o kɔ, o",
     "previous": "A tun be yen ka kɔrɔ",
     "redo": "O kɔ, a ye sira ta",
-    "remove": "Ka bɔ"
+    "remove": "Ka bɔ",
+    "loadMore": "Kɔrɔbɔ"
   },
   "tip": {
     "payDirect": "A cira {{name}} ma tilennen {{symbol}} la {{chain}} kan. Falen si tɛ.",
@@ -4448,8 +4456,8 @@
     "clearAll": "Kunnafoniw bɛɛ jɔsi",
     "removeHistory": "Kunnafoniw tariku bɛɛ bɔ",
     "notificationTypes": "Kunnafoni suguyaw",
-    "likes": "Diyanyew",
-    "likesDesc": "Ni mɔgɔ dɔ ye i ka fɛn diyanye",
+    "likes": "Kɔrɔbɔ",
+    "likesDesc": "Kɔrɔbɔ",
     "comments": "Hakilinaw",
     "commentsDesc": "Ni mɔgɔ dɔ ye hakilina di walima ka jaabi di",
     "follows": "Tugulenw",
@@ -4470,7 +4478,7 @@
     "markAsRead": "A taamasiyɛn ko kalanna",
     "clearNotification": "Kunnafoni jɔsi",
     "loginDescription": "Don walasa ka i ka kunnafoniw lajɛ ani ka to kunnafoni na i teriw ko la Riftn kan.",
-    "likedPost": "{{name}} ye i ka post diya",
+    "likedPost": "{{name}} i bɛɛ kɔrɔbɔ",
     "likedPosts": "{{name}} i bɛɛ {{count}} kɔrɔbɔw",
     "commentedPost": "{{name}} ye hakilina fɔ i ka post kan",
     "commentedPosts": "{{name}} i bɛɛ {{count}} kɔrɔbɔw",
@@ -4635,7 +4643,7 @@
     "promptHeading": "Mun de ka kan ka kɛ tuma nata la?",
     "promptHint": "A kofɔ. A kɛ screenshot ye. A kɛ ka kɛ.",
     "promptLabel": "I ka prompt",
-    "promptMediaError": "Sɛbɛn ni videwo dɔw sugandi minw tɛ se 20MB ma kelen-kelen.",
+    "promptMediaError": "Sɛbɛn ni videwo dɔw sugandi minw tɛ se 50MB ma kelen-kelen.",
     "promptMediaLimit": "Hali ni {{max}} kɔnɔko dɔw.",
     "promptNew": "Prompt kura",
     "promptPageTitle": "Ɲininiw",
@@ -7544,7 +7552,7 @@
     "onStage": "A be dan na",
     "noSpeakers": "Mɔgɔ si ma deli ka kuma",
     "voiceEffect": "O ye sababu ye mɔgɔ be se ka 🎭 kuma",
-    "textToSpeech": "Sɛbɛri kɛ ka 🔊 kuma",
+    "textToSpeech": "Sɛbɛri kɛ ka  kuma",
     "loadVoices": "VOABAMBARA lasigiden",
     "ttsPlaceholder": "O kama, n' tun b'a fɛ ka kuma n' fɛ.",
     "signInToJoin": "I be se ka don",
@@ -12761,7 +12769,15 @@
     "loop": "O ye n' ka miiriya ye.",
     "dialogueFormat": "O kama, a ka ɲi ka kuma ni mɔgɔ dɔ ye min be kuma ni mɔgɔ dɔ ye.",
     "fileTooLarge": "O filiyɔrɔ ka bon ni MB 100 ye. A ka dɔgɔ: A ka dɔgɔ wala a ka dɔgɔ ka tɛmɛ a ka delilikumaw kan",
-    "signInToGenerate": "I ka sɛbɛri kɛ walisa k'a yira ko i be se ka baara kɛ."
+    "signInToGenerate": "I ka sɛbɛri kɛ walisa k'a yira ko i be se ka baara kɛ.",
+    "madeOnDehub": "Dilanna Riftn kan",
+    "aiGenerationAlt": "O ye kokɛcogo ɲuman ye.",
+    "gallery": {
+      "send": "Sɛbɛ",
+      "notifications": {
+        "generation_reply": "{{name}} ye i ka hakilina jaabi"
+      }
+    }
   },
   "fractions": {
     "offerSubmitted_other": "N'a san fɛn kɛrɛnkɛrɛnnen {{count}} bɛɛ la {{price}} tokens kelen-kelen",
@@ -13774,7 +13790,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "Post to X, YouTube, Instagram, TikTok ni kɛlɛw la ka taa dehub. Kɛlɛw bɛɛ bɛɛ kɛ, i bɛ taa ka fɔlɔ i bɛ taa ka fɔlɔ.",
+    "intro": "Post to X, YouTube, Instagram, TikTok ni kɛlɛw la ka taa Riftn. Kɛlɛw bɛɛ bɛɛ kɛ, i bɛ taa ka fɔlɔ i bɛ taa ka fɔlɔ.",
     "creditsHeading": "Post credits",
     "credits": "{{count}} post credits",
     "topUpTitle": "Kredi fara a kan ka wari mara",
@@ -15280,7 +15296,8 @@
       "drive": "Ka taga dugu la",
       "chrome": "Kɔrɔbɔli min be se ka kɛ mɔgɔ la, o ye ka mɔgɔ lafili",
       "snow": "Sanji be ben"
-    }
+    },
+    "sameAsProfile": "Kɔrɔbɔ"
   },
   "articleTile": {
     "cover": "Kuru"
@@ -15312,5 +15329,35 @@
     "forward": "A ci ka taa",
     "deleted_one": "Cikan {{count}} jɔsira",
     "deleted_other": "Cikan {{count}} jɔsira"
+  },
+  "messagesTabs": {
+    "all": "O bɛɛ n'a ta,"
+  },
+  "mentionLinks": {
+    "communities": "Jɛkuluw",
+    "pages": "Ɲɛw",
+    "people": "Dɔ"
+  },
+  "resetWallet": {
+    "logOut": "Bɔ kɔnɔ",
+    "confirm": "Ka kumaɲɔgɔnya kɛ ni mɔgɔ dɔ ye",
+    "ack": "N'fa fɛ ko n'ka wari kɔrɔw bɛ to walɛti kɔrɔ kɔnɔ.",
+    "cancel": "A dabila"
+  },
+  "chatTabs": {
+    "all": "O bɛɛ n'a ta,",
+    "alwaysOn": "O tɛ se ka kɛ halibi.",
+    "communities": "Jɛkuluw",
+    "direct": "Ɲɛgɛnɛman",
+    "kindCommunity": "Jɛkulu",
+    "kindDirect": "Ɲɛgɛnɛman",
+    "kindGroup": "Jɛnkulu",
+    "kindPublic": "Kɔrɔbɔ",
+    "moveDown": "Ka teli duguma",
+    "moveUp": "Ka teli san fɛ",
+    "requests": "Fɛɛrɛw",
+    "sCreators": "Dilanbagaw",
+    "sGaming": "Kɔrɔbɔ",
+    "sTrading": "Fɛɛn minw be feere"
   }
 }

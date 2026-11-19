@@ -15,14 +15,14 @@
   "accountConnect": {
     "account": "Ommaviy ko'rish uchun hisob kerak emas. Profilingizni boshqarish va kontent yaratish yoki nashr etish uchun Riftn hisobingizni bog'lang.",
     "allow": "Ulanishga ruxsat berish",
-    "body": "Profilingizni boshqarish, postlar joylashtirish va chatdan kontent yaratish uchun hisobingizni bog'lang. Ulanishlar 24 soat ichida tugaydi. Istalgan vaqtda ulanishni uzishingiz mumkin.",
+    "body": "Profilingizni boshqarish, postlar joylashtirish va chatdan kontent yaratish uchun hisobingizni bog&#39;lang. Ulanishlar 24 soat ichida tugaydi. Istalgan vaqtda ulanishni uzishingiz mumkin.",
     "deny": "Bekor qilish",
     "disconnect": "Uzish",
     "empty": "Faol hisob ulanishlari yo'q.",
     "failed": "Ketma-ket aloqa o'rnatishda muvaffaqiyatsizlik ro'y berdi. Qayta kirishni urinib ko'ring.",
     "generate": "Kreditlaringiz, tasdiqlangan to'lovlaringiz yoki bepul rasmlaringiz yordamida media yarating",
     "generatePrompt": "Menga Riftnning tasvir modellarini ko'rsating va uni yaratishdan oldin portretni keltiring.",
-    "intro": "Riftn ni ChatGPT da ko'rish yoki o'zingizga link qo'shish orqali profilni yangilash, maqolalarni e'lon qilish va Creator Studio foydalanish uchun. https://dehub.io/mcp ni hisobni boshqarish uchun OAuth connector qo'shing.",
+    "intro": "Riftn ni ChatGPT da ko'rish yoki o'zingizga link qo'shish orqali profilni yangilash, maqolalarni e'lon qilish va Creator Studio foydalanish uchun. https://riftn.com/mcp ni hisobni boshqarish uchun OAuth connector qo'shing.",
     "libraryPrompt": "Riftn Creator kutubxonamdagi eng so'nggi aktivlarni ko'rsatish.",
     "manage": "Hisob ulanishlarini boshqarish",
     "profile": "Profilingiz, rasmlaringiz va maxfiylik sozlamalaringizni tahrirlang",
@@ -30,7 +30,7 @@
     "read": "Hisobingiz, postlaringiz, bildirishnomalaringiz va Ijodkorlar kutubxonangizni o'qing",
     "signIn": "Riftn’ga kiring",
     "social": "Yozishlar va sharhlarni e'lon qilish, odamlarni kuzatish va kitoblar saqlash.",
-    "step": "Hisobni boshqarish uchun OAuth ulagichi sifatida https://dehub.io/mcp ni qo'shing, Riftn ga kiring va kirishga ruxsat berishdan oldin ruxsatlarni ko'rib chiqing.",
+    "step": "Hisobni boshqarish uchun OAuth ulagichi sifatida https://riftn.com/mcp ni qo&#39;shing, Riftn ga kiring va kirishga ruxsat berishdan oldin ruxsatlarni ko&#39;rib chiqing.",
     "title": "Riftn hisobingizni ulang",
     "what": "Ommaviy postlar va profillarni ko'rib chiqing. OAuth hisob qaydnomasi ulanishi bilan profilingiz va maxfiyligingizni boshqaring, postlar va sharhlarni joylashtiring, odamlarni kuzatib boring, bildirishnomalarni o'qing, xatcho'plarni saqlang va rasmlar, video, audio va 3D aktivlarni yarating. Generation Riftnning mavjud to'lov qoidalaridan foydalanadi."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profil",
       "proposal": "taklif",
       "stage": "sahna",
-      "store": "doʻkon"
+      "store": "doʻkon",
+      "featureRequest": "so'rov"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Yuqori sifat",
     "pricing": "Narxlar",
     "reorderHint": "Qayta tartiblash uchun istalgan belgini ushlab turing va sudrang",
-    "reorderReset": "Qayta tiklash"
+    "reorderReset": "Qayta tiklash",
+    "groups": {
+      "create": "Yaratish",
+      "discover": "Kashf etish"
+    }
   },
   "affiliate": {
     "subtitle": "Taklif qilgan har bir kishidan abadiy daromad oling",
@@ -3680,7 +3685,8 @@
     "themeColorBrand": "Brend",
     "themeColorBrandDesc": "Profil rasmingiz ranglaridan foydalanish",
     "themeColorBrandNoAvatar": "Brend ranglaridan foydalanish uchun profil rasmi qo'shing",
-    "themeColorBrandFailed": "Profil rasmingizdan ranglarni o'qib bo'lmadi"
+    "themeColorBrandFailed": "Profil rasmingizdan ranglarni o'qib bo'lmadi",
+    "menuLayoutFolders": "Papkalar"
   },
   "common": {
     "refresh": "Yangilash",
@@ -3748,7 +3754,8 @@
     "next": "Keyingi",
     "previous": "Oldingi",
     "redo": "Qayta bajarish",
-    "remove": "O'chirish"
+    "remove": "O'chirish",
+    "loadMore": "Koʻproq yuklash"
   },
   "tip": {
     "payDirect": "{{chain}} da {{symbol}} da to'g'ridan-to'g'ri {{name}} ga yuborildi. Almashtirish yo'q.",
@@ -4666,7 +4673,7 @@
     "promptHeading": "Qayta ishlab chiqarishni qanday qilish kerak?",
     "promptHint": "Tasvirlab ber. Ekranni yubor. Qilishni boshlash.",
     "promptLabel": "Sizning boshlangʻich taklifi",
-    "promptMediaError": "Rasm yoki video tanlang, uning hajmi 20 MB dan kam boʻlishi kerak.",
+    "promptMediaError": "Rasm yoki video tanlang, uning hajmi 50 MB dan kam boʻlishi kerak.",
     "promptMediaLimit": "{{max}} gacha qo'shimchalar.",
     "promptNew": "Yangi boshlangʻich taklif qiling",
     "promptPageTitle": "Talablar",
@@ -12828,7 +12835,15 @@
     "loop": "Davr",
     "dialogueFormat": "Sahnani \"Ism: satr\" shaklida yozing, har bir gapiruvchi uchun bir satr.",
     "fileTooLarge": "Bu fayl 100 MB dan katta. Qisqaroq yoki kichikroq birini foydalaning.",
-    "signInToGenerate": "Roʻyxatdan oʻtish uchun tarjima qiling."
+    "signInToGenerate": "Roʻyxatdan oʻtish uchun tarjima qiling.",
+    "madeOnDehub": "Riftn’da yaratilgan",
+    "aiGenerationAlt": "Sun'iy intellekt avlodi",
+    "gallery": {
+      "send": "Yuborish",
+      "notifications": {
+        "generation_reply": "{{name}} izohingizga javob berdi"
+      }
+    }
   },
   "fractions": {
     "title": "Ulushlar",
@@ -13842,7 +13857,7 @@
   "multiPost": {
     "tab": "Ko'p platformali post",
     "title": "Ko'p platformali post",
-    "intro": "X, YouTube, Instagram, TikTok va boshqa platformalarga bir vaqtning o'zida dehub orqali post qiling. Hisoblaringizni bir marta ulashing, keyin har bir post qayerga ketishini tanlang.",
+    "intro": "X, YouTube, Instagram, TikTok va boshqa platformalarga bir vaqtning o'zida Riftn orqali post qiling. Hisoblaringizni bir marta ulashing, keyin har bir post qayerga ketishini tanlang.",
     "creditsHeading": "Post kreditlari",
     "credits": "{{count}} post kreditlari",
     "topUpTitle": "To'ldiring va tejang",
@@ -15393,7 +15408,8 @@
       "chrome": "Suyuq xrom",
       "orbit": "Orbita",
       "snow": "Qor yog&#39;ishi"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Muqova"
@@ -15425,5 +15441,36 @@
     "forward": "Uzatish",
     "deleted_one": "O'chirilgan {{count}} xabarnoma",
     "deleted_other": "O'chirilgan {{count}} xabarlar"
+  },
+  "messagesTabs": {
+    "all": "Hammasi"
+  },
+  "mentionLinks": {
+    "communities": "Hamjamiyatlar",
+    "pages": "Sahifalar",
+    "people": "Odamlar"
+  },
+  "resetWallet": {
+    "mismatch": "Parollar mos kelmaydi",
+    "logOut": "Chiqish",
+    "confirm": "Parolni tasdiqlash",
+    "ack": "Men eski mablaglarim eski hamyonda qolishini tushundim.",
+    "cancel": "Bekor qilish"
+  },
+  "chatTabs": {
+    "all": "Hammasi",
+    "alwaysOn": "Hamma vaqt",
+    "communities": "Hamjamiyatlar",
+    "direct": "To&#39;g&#39;ridan-to&#39;g&#39;ri",
+    "kindCommunity": "Hamjamiyat",
+    "kindDirect": "To&#39;g&#39;ridan-to&#39;g&#39;ri",
+    "kindGroup": "Guruhlash",
+    "kindPublic": "Ommaviy",
+    "moveDown": "Pastga siljiting",
+    "moveUp": "Yuqoriga siljiting",
+    "requests": "Soʻrovlar",
+    "sCreators": "Ijodkorlar",
+    "sGaming": "Oʻyinlar",
+    "sTrading": "Savdo"
   }
 }

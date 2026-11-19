@@ -15,14 +15,14 @@
   "accountConnect": {
     "account": "Explorarea publică nu necesită un cont. Legați contul Riftn pentru a gestiona profilul și crea sau publica conținut.",
     "allow": "Permiteți conexiunea",
-    "body": "Legați contul pentru a gestiona profilul, publica postări și crea conținut din chat. Conexiunile expiră în 24 de ore. Puteți dezactiva oricând.",
+    "body": "Legați contul pentru a gestiona profilul, publica postări și crea conținut din chat. Conexiunile expiră în 30 de zile. Puteți dezactiva oricând.",
     "deny": "Anulați",
     "disconnect": "Deconectați",
     "empty": "Nu există conexiuni active de cont.",
     "failed": "Nu s-a putut completa conexiunea. Încercați să vă autentificați din nou.",
     "generate": "Generează media folosind creditele, plățile confirmate sau imaginile eligibile gratuite",
     "generatePrompt": "Arătați-mi modelele de imagine Riftn și citați un portret înainte de a genera-o.",
-    "intro": "Explorați Riftn în ChatGPT, sau legați contul propriu pentru a actualiza profilul, publica postări și utiliza Creator Studio. Adăugați https://dehub.io/mcp ca un connector OAuth pentru controlul contului.",
+    "intro": "Explorați Riftn în ChatGPT, sau legați contul propriu pentru a actualiza profilul, publica postări și utiliza Creator Studio. Adăugați https://riftn.com/mcp ca un connector OAuth pentru controlul contului.",
     "libraryPrompt": "Arătați-mi ultimele active din biblioteca Creator Riftn.",
     "manage": "Gestionați conexiunile contului",
     "profile": "Modificați profilul, imaginile și setările de confidențialitate",
@@ -30,7 +30,7 @@
     "read": "Cititi contul, postările, notificările și biblioteca Creator.",
     "signIn": "Intrați în contul Riftn",
     "social": "Publicați postări și comentarii, urmați oameni și salvați marcările",
-    "step": "Pentru controlul contului, adăugați https://dehub.io/mcp ca un connector OAuth, intrați în contul Riftn și revizuiți permisiunile înainte de a permite accesul.",
+    "step": "Pentru controlul contului, adăugați https://riftn.com/mcp ca un connector OAuth, intrați în contul Riftn și revizuiți permisiunile înainte de a permite accesul.",
     "title": "Conectați contul dvs. Riftn",
     "what": "Explorați postările și profilurile publice. Cu o conexiune OAuth, gestionați profilul și confidențialitatea, publicați postări și comentarii, urmați oameni, citiți notificările, salvați marcările și generați imagini, video, audio și 3D. Generarea folosește regulile de plată existente ale Riftn."
   },
@@ -2627,7 +2627,8 @@
       "profile": "profil",
       "proposal": "propunere",
       "stage": "etapă",
-      "store": "magazin"
+      "store": "magazin",
+      "featureRequest": "cerere"
     }
   },
   "postGate": {
@@ -2917,7 +2918,11 @@
     "premium": "Premium",
     "pricing": "Prețuri",
     "reorderHint": "Țineți apăsată și trageți orice pictogramă pentru a o rearanja",
-    "reorderReset": "Resetează"
+    "reorderReset": "Resetează",
+    "groups": {
+      "create": "Creează",
+      "discover": "Descoperă"
+    }
   },
   "affiliate": {
     "subtitle": "Câștigă de la toți cei pe care îi inviți — pentru totdeauna",
@@ -3681,7 +3686,8 @@
     "themeColorBrand": "Brand",
     "themeColorBrandDesc": "Folosește culorile pozei tale de profil",
     "themeColorBrandNoAvatar": "Adaugă o poză de profil ca să folosești culorile de brand",
-    "themeColorBrandFailed": "Nu am putut citi culorile din poza ta de profil"
+    "themeColorBrandFailed": "Nu am putut citi culorile din poza ta de profil",
+    "menuLayoutFolders": "Dosare"
   },
   "common": {
     "remove": "Ștergere",
@@ -3749,7 +3755,8 @@
     "apply": "Aplică",
     "next": "Înainte",
     "previous": "Înapoi",
-    "redo": "Refă"
+    "redo": "Refă",
+    "loadMore": "Încarcă mai multe"
   },
   "tip": {
     "payDirect": "Trimis direct la {{name}} în {{symbol}} pe {{chain}}. Fără swap.",
@@ -4465,7 +4472,7 @@
     "removeHistory": "Elimină tot istoricul notificărilor",
     "notificationTypes": "Tipuri de notificări",
     "likes": "Aprecieri",
-    "likesDesc": "Când cineva apreciază conținutul tău",
+    "likesDesc": "Când cineva îți apreciază conținutul",
     "comments": "Comentarii",
     "commentsDesc": "Când cineva comentează sau răspunde",
     "follows": "Urmăritori",
@@ -4486,7 +4493,7 @@
     "markAsRead": "Marchează ca citite",
     "clearNotification": "Șterge notificarea",
     "loginDescription": "Conectează-te pentru a vedea notificările tale și a fi la curent cu prietenii tăi pe Riftn.",
-    "likedPost": "{{name}} a apreciat postarea ta",
+    "likedPost": "{{name}} ți-a apreciat postarea",
     "likedPosts": "{{name}} a apreciat {{count}} dintre postările tale",
     "commentedPost": "{{name}} a comentat la postarea ta",
     "commentedPosts": "{{name}} a comentat la {{count}} dintre postările tale",
@@ -4652,7 +4659,7 @@
     "promptHeading": "Ce mai construim?",
     "promptHint": "Descrieți-l. Înlocuiți o captură de ecran. Faceți-l să se întâmple.",
     "promptLabel": "Promptul dvs.",
-    "promptMediaError": "Alegeți imagini sau videoclipuri sub 20 MB fiecare.",
+    "promptMediaError": "Alegeți imagini sau videoclipuri sub 50 MB fiecare.",
     "promptMediaLimit": "Până la {{max}} atașamente.",
     "promptNew": "Nou prompt",
     "promptPageTitle": "Cereri",
@@ -5625,7 +5632,7 @@
     "handlePrompt": "Configurează"
   },
   "loginModal": {
-    "title": "Autentificare",
+    "title": "Log in",
     "continueEmail": "Continuă cu Email",
     "continueSMS": "Continuă cu SMS",
     "continueGoogle": "Continuă cu Google",
@@ -12800,7 +12807,15 @@
     "loop": "Buclă",
     "dialogueFormat": "Scrieți scena ca „Name: line”, câte un vorbitor pe rând.",
     "fileTooLarge": "Acest fișier are peste 100 MB. Utilizați una mai scurtă sau mai mică.",
-    "signInToGenerate": "Conectați-vă pentru a genera."
+    "signInToGenerate": "Conectați-vă pentru a genera.",
+    "madeOnDehub": "Creat pe Riftn",
+    "aiGenerationAlt": "Generare AI",
+    "gallery": {
+      "send": "Trimite",
+      "notifications": {
+        "generation_reply": "{{name}} a răspuns la comentariul tău"
+      }
+    }
   },
   "fractions": {
     "title": "Fracții",
@@ -13814,7 +13829,7 @@
   "multiPost": {
     "tab": "Multi-postare",
     "title": "Multi-postare",
-    "intro": "Publică pe X, YouTube, Instagram, TikTok și altele simultan ca dehub. Conectează-ți conturile o singură dată, apoi alege unde merge fiecare postare.",
+    "intro": "Publică pe X, YouTube, Instagram, TikTok și altele simultan ca Riftn. Conectează-ți conturile o singură dată, apoi alege unde merge fiecare postare.",
     "creditsHeading": "Credite de postare",
     "credits": "{{count}} credite de postare",
     "topUpTitle": "Reîncarcă și economisește",
@@ -15365,7 +15380,8 @@
       "drive": "Unitate nocturnă",
       "chrome": "Lichid Chrome",
       "snow": "Ninsoare"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Copertă"
@@ -15397,5 +15413,33 @@
     "forward": "Redirecționează",
     "deleted_one": "Șters {{count}} mesaj",
     "deleted_other": "Șters {{count}} mesaje"
+  },
+  "messagesTabs": {
+    "all": "Toate"
+  },
+  "mentionLinks": {
+    "communities": "Comunități",
+    "pages": "Pagini",
+    "people": "Oameni"
+  },
+  "resetWallet": {
+    "mismatch": "Parolele nu se potrivesc",
+    "logOut": "Deconectați-vă",
+    "confirm": "Confirmă parola",
+    "ack": "Înțeleg că fondurile mele vechi rămân în vechiul portofel.",
+    "cancel": "Anulează"
+  },
+  "chatTabs": {
+    "all": "Toate",
+    "alwaysOn": "Tot timpul",
+    "communities": "Comunități",
+    "kindCommunity": "Comunitate",
+    "kindGroup": "Grupează",
+    "moveDown": "Deplasare în jos",
+    "moveUp": "Mutare în sus",
+    "requests": "Cereri",
+    "sCreators": "Creatori",
+    "sGaming": "Jocuri",
+    "sTrading": "Tranzacționare"
   }
 }

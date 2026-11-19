@@ -22,7 +22,7 @@
     "failed": "Kunne ikke fullføre forbindelsen. Følg med på å logge inn igjen.",
     "generate": "Generer media ved hjelp av kreditter, bekreftede betalinger eller kvalifiserte gratisbilder",
     "generatePrompt": "Vis meg Riftns bildebilder og sitat før jeg genererer det.",
-    "intro": "Bla gjennom Riftn i ChatGPT, eller kobla din egen konto for å oppdatere din profil, publisere innlegg og bruke Creator Studio. Legg til https://dehub.io/mcp som en OAuth-forbindelse for konto-kontroll.",
+    "intro": "Bla gjennom Riftn i ChatGPT, eller kobla din egen konto for å oppdatere din profil, publisere innlegg og bruke Creator Studio. Legg til https://riftn.com/mcp som en OAuth-forbindelse for konto-kontroll.",
     "libraryPrompt": "Vis de nyeste innholdene i min Riftn-creator-bibliotek.",
     "manage": "Håndtere konto-forbindelser",
     "profile": "Rediger profil, bilder og privatetsinstillinger",
@@ -30,7 +30,7 @@
     "read": "Les din konto, innlegg, varslinger og Creator-bibliotek",
     "signIn": "Logg inn på Riftn",
     "social": "Publisere innlegg og kommentarer, følg folk og lagre bøkermerker",
-    "step": "For konto-kontroll, legg til https://dehub.io/mcp som en OAuth-forbindelse, logg inn på Riftn og gjennomgå tillatelsene før du tillater tilgang.",
+    "step": "For konto-kontroll, legg til https://riftn.com/mcp som en OAuth-forbindelse, logg inn på Riftn og gjennomgå tillatelsene før du tillater tilgang.",
     "title": "Koble til din Riftn-konto",
     "what": "Bla gjennom offentlige innlegg og profiler. Med en OAuth-konto-forbindelse, kan du håndtere din profil og privatetsinstillinger, publisere innlegg og kommentarer, følge folk, lese varslinger, lagre bøkermerker og generere bilder, videoer, lyd og 3D-objekter. Genereringen følger Riftns eksisterende betalingsregler."
   },
@@ -2628,7 +2628,8 @@
       "profile": "profil",
       "proposal": "forslag",
       "stage": "scene",
-      "store": "butikk"
+      "store": "butikk",
+      "featureRequest": "Forespør"
     }
   },
   "postGate": {
@@ -2918,7 +2919,11 @@
     "premium": "Premium",
     "pricing": "Priser",
     "reorderHint": "Hold og dra et hvilket som helst ikon for å omorganisere",
-    "reorderReset": "Tilbakestill"
+    "reorderReset": "Tilbakestill",
+    "groups": {
+      "create": "Opprett",
+      "discover": "Oppdag"
+    }
   },
   "affiliate": {
     "subtitle": "Tjen fra alle du inviterer — for alltid",
@@ -3682,7 +3687,8 @@
     "themeColorBrand": "Merkevare",
     "themeColorBrandDesc": "Bruk fargene fra profilbildet ditt",
     "themeColorBrandNoAvatar": "Legg til et profilbilde for å bruke merkevarefarger",
-    "themeColorBrandFailed": "Klarte ikke å lese farger fra profilbildet ditt"
+    "themeColorBrandFailed": "Klarte ikke å lese farger fra profilbildet ditt",
+    "menuLayoutFolders": "Mapper"
   },
   "common": {
     "refresh": "Oppdater",
@@ -3750,7 +3756,8 @@
     "next": "Neste",
     "previous": "Forrige",
     "redo": "Gjør om",
-    "remove": "Fjern"
+    "remove": "Fjern",
+    "loadMore": "Last mer"
   },
   "tip": {
     "payDirect": "Sendt direkte til {{name}} i {{symbol}} på {{chain}}. Ingen bytte.",
@@ -4652,7 +4659,7 @@
     "promptHeading": "Hva skal vi bygge neste?",
     "promptHint": "Beskriv det. Drop inn en skjermavbild. Få det til å skje.",
     "promptLabel": "Din oppgave",
-    "promptMediaError": "Velg bilder eller videoer under 20 MB hver.",
+    "promptMediaError": "Velg bilder eller videoer under 50 MB hver.",
     "promptMediaLimit": "Inntil {{max}} tillegg.",
     "promptNew": "Ny oppgave",
     "promptPageTitle": "Anmodninger",
@@ -12790,7 +12797,15 @@
     "loop": "Løkke",
     "dialogueFormat": "Skriv scenen som \"Navn: linje\", en talebærer per linje.",
     "fileTooLarge": "Denne filen er over 100 MB. Bruk en kortere eller mindre fil.",
-    "signInToGenerate": "Logg inn for å generere."
+    "signInToGenerate": "Logg inn for å generere.",
+    "madeOnDehub": "Laget på Riftn",
+    "aiGenerationAlt": "AI-generering",
+    "gallery": {
+      "send": "Sende",
+      "notifications": {
+        "generation_reply": "{{name}} svarte på kommentaren din"
+      }
+    }
   },
   "fractions": {
     "title": "Andeler",
@@ -13804,7 +13819,7 @@
   "multiPost": {
     "tab": "Multi-posting",
     "title": "Multi-posting",
-    "intro": "Post til X, YouTube, Instagram, TikTok og mer samtidig med dehub. Koble til kontoene dine én gang, velg deretter hvor hvert innlegg skal.",
+    "intro": "Post til X, YouTube, Instagram, TikTok og mer samtidig med Riftn. Koble til kontoene dine én gang, velg deretter hvor hvert innlegg skal.",
     "creditsHeading": "Post-kreditter",
     "credits": "{{count}} post-kreditter",
     "topUpTitle": "Fyll på og spar",
@@ -15353,7 +15368,8 @@
       "drive": "Nattkjøring",
       "chrome": "Vannkrom",
       "snow": "Snøfall"
-    }
+    },
+    "sameAsProfile": "Profil"
   },
   "articleTile": {
     "cover": "Forsidebilde"
@@ -15385,5 +15401,36 @@
     "forward": "Videresend",
     "deleted_one": "Slettet {{count}} melding",
     "deleted_other": "Slettet {{count}} meldinger"
+  },
+  "messagesTabs": {
+    "all": "Alle"
+  },
+  "mentionLinks": {
+    "communities": "Fellesskap",
+    "pages": "Sider",
+    "people": "Folk"
+  },
+  "resetWallet": {
+    "mismatch": "Passordene matcher ikke",
+    "logOut": "Logg ut",
+    "confirm": "Bekreft passord",
+    "ack": "Jeg forstår at mine gamle midler holder seg i den gamle porteføljen.",
+    "cancel": "Avbryt"
+  },
+  "chatTabs": {
+    "all": "Alle",
+    "alwaysOn": "Altid på",
+    "communities": "Fellesskap",
+    "direct": "Direkte",
+    "kindCommunity": "Fellesskap",
+    "kindDirect": "Direkte",
+    "kindGroup": "Gruppér",
+    "kindPublic": "Offentlig",
+    "moveDown": "Flytt ned",
+    "moveUp": "Flytt opp",
+    "requests": "Funksjonsforespørsler",
+    "sCreators": "Skapere",
+    "sGaming": "Spill",
+    "sTrading": "Handel"
   }
 }

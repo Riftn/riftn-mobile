@@ -15,14 +15,14 @@
   "accountConnect": {
     "account": "Ukuphequlula komphakathi akudingi i-akhawunti. Xhumanisa i-akhawunti yakho ye-Riftn ukuze uphathe iphrofayili yakho futhi udale noma ushicilele okuqukethwe.",
     "allow": "Vumela ukuxhumana",
-    "body": "Xhumanisa i-akhawunti yakho ukuze uphathe iphrofayili yakho, ushicilele okuthunyelwe futhi udale okuqukethwe usuka engxoxweni. Ukuxhumana kuphela phakathi namahora angama-24. Unganqamula ukuxhumana nganoma yisiphi isikhathi.",
+    "body": "Xhumanisa i-akhawunti yakho ukuze umenenje iphrofayili yakho, ushicilele amaphosti futhi usungule okusunguliwe kungxoxo. Uxhumano luphelelwa isikhathi kungakapheli amahora angu-24. Ungayeka ukuxhuma nganoma yisiphi isikhathi.",
     "deny": "Khansela",
     "disconnect": "Nqamula ukuxhumana",
     "empty": "Azikho izixhumanisi ze-akhawunti ezisebenzayo.",
     "failed": "Kuhlulekile ukuqedela ukuxhumana. Zama ukungena ngemvume futhi.",
     "generate": "Khiqiza imidiya usebenzisa izikweletu zakho, izinkokhelo eziqinisekisiwe noma izithombe zamahhala ezifanelekile",
     "generatePrompt": "Ngikhombise amamodeli ezithombe ze-Riftn futhi ucaphune isithombe ngaphambi kokusikhiqiza.",
-    "intro": "Phequlula i-Riftn ku-ChatGPT, noma xhumanisa i-akhawunti yakho ukuze ubuyekeze iphrofayili yakho, ushicilele okuthunyelwe futhi usebenzise i-Creator Studio. Engeza i-https://dehub.io/mcp njengesixhumi se-OAuth sezilawuli ze-akhawunti.",
+    "intro": "Bhrawuza i-Riftn ku-ChatGPT, noma uxhumanise i-akhawunti yakho ukuze ubuyekeze iphrofayili yakho, ushicilele amaphosti bese usebenzisa i-Studio Yomsunguli. Faka https://riftn.com/mcp njengesixhumi se-OAuth sokulawula i-akhawunti.",
     "libraryPrompt": "Ngikhombise izimpahla zakamuva emtatsheni wami wezincwadi woMdali we-Riftn.",
     "manage": "Phatha ukuxhumana kwe-akhawunti",
     "profile": "Hlela iphrofayili yakho, izithombe nezilungiselelo zobumfihlo",
@@ -30,7 +30,7 @@
     "read": "Funda i-akhawunti yakho, okuthunyelwe, izaziso kanye nomtapo wezincwadi woMdali",
     "signIn": "Ngena ngemvume ku-Riftn",
     "social": "Shicilela okuthunyelwe namazwana, landela abantu futhi ulondoloze amabhukumaka",
-    "step": "Ezilawulweni ze-akhawunti, engeza i-https://dehub.io/mcp njengesixhumi se-OAuth, ngena ngemvume ku-Riftn futhi ubuyekeze izimvume ngaphambi kokuvumela ukufinyelela.",
+    "step": "Mayelana nokulawulwa kwe-akhawunti, faka i-https://riftn.com/mcp njengesixhumi se-OAuth, ngena ngemvume ku-Riftn futhi ubuyekeze izimvume ngaphambi kokuvumela ukungena.",
     "title": "Xhuma i-akhawunti yakho ye-Riftn",
     "what": "Phequlula okuthunyelwe komphakathi namaphrofayili. Ngokuxhumeka kwe-akhawunti ye-OAuth, phatha iphrofayili yakho nobumfihlo, shicilela okuthunyelwe namazwana, landela abantu, funda izaziso, londoloza amabhukumaka futhi ukhiqize izithombe, ividiyo, umsindo nezimpahla ze-3D. Ukukhiqiza kusebenzisa imithetho yokukhokha ekhona ye-Riftn."
   },
@@ -2628,7 +2628,8 @@
       "profile": "iphrofayili",
       "proposal": "isiphakamiso",
       "stage": "isiteji",
-      "store": "isitolo"
+      "store": "isitolo",
+      "featureRequest": "isicelo"
     }
   },
   "postGate": {
@@ -2918,7 +2919,12 @@
     "premium": "I-Premium",
     "pricing": "Amanani",
     "reorderHint": "Bamba bese uhudula noma iyiphi i-ayikhoni ukuze uhlele kabusha",
-    "reorderReset": "Setha kabusha"
+    "reorderReset": "Setha kabusha",
+    "groups": {
+      "create": "Dala",
+      "discover": "Thola",
+      "riftn": "I-Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Thola kusuka kuwo wonke umuntu omemayo — kuze kube phakade",
@@ -3680,7 +3686,8 @@
     "themeColorBrand": "Umkhiqizo",
     "themeColorBrandDesc": "Sebenzisa imibala yesithombe sakho sephrofayela",
     "themeColorBrandNoAvatar": "Engeza isithombe sephrofayela ukuze usebenzise imibala yoMkhiqizo",
-    "themeColorBrandFailed": "Ayikwazanga ukufunda imibala esithombeni sakho sephrofayela"
+    "themeColorBrandFailed": "Ayikwazanga ukufunda imibala esithombeni sakho sephrofayela",
+    "menuLayoutFolders": "Amafolda"
   },
   "common": {
     "remove": "Susa",
@@ -3748,7 +3755,8 @@
     "apply": "Bhalisa",
     "next": "Okulandelayo",
     "previous": "Okwedlule",
-    "redo": "Yenza kabusha"
+    "redo": "Yenza kabusha",
+    "loadMore": "Layisha okwengeziwe"
   },
   "tip": {
     "payDirect": "Ithunyelwe ngqo ku-{{name}} ku-{{symbol}} ngo-{{chain}}. Akukho ukushintshana.",
@@ -4648,7 +4656,7 @@
     "promptHeading": "Yini okufanele siyikhe ngokulandelayo?",
     "promptHint": "Ichaze. Faka isithombe-skrini. Kwenze kwenzeke.",
     "promptLabel": "Okufakwayo kwakho",
-    "promptMediaError": "Khetha izithombe noma amavidiyo angaphansi kuka-20MB ngalinye.",
+    "promptMediaError": "Khetha izithombe noma amavidiyo angaphansi kuka-50MB ngalinye.",
     "promptMediaLimit": "Kufika ku-{{max}} okunamathiselwe.",
     "promptNew": "Isikhuthazo esisha",
     "promptPageTitle": "Izicelo",
@@ -7594,7 +7602,7 @@
     "onStage": "Esigabeni",
     "noSpeakers": "Aziphoqwa izipikha okwamanje",
     "voiceEffect": "🎭 Umphumela Wezwi",
-    "textToSpeech": "🔊 Umbhalo-kuya-enkulumeni",
+    "textToSpeech": "Umbhalo-kuya-enkulumeni",
     "loadVoices": "Layisha amazwi",
     "ttsPlaceholder": "Thayipha umlayezo ozowukhuluma…",
     "signInToJoin": "Ngena ukuze ujoyine",
@@ -12808,7 +12816,15 @@
     "loop": "I-loop",
     "dialogueFormat": "Bhala isigcawu ngokuthi \"Igama: umugqa\", isikhulumi esisodwa umugqa ngamunye.",
     "fileTooLarge": "Lelo fayela lingaphezu kuka-100 MB. Sebenzisa okufushane noma okuncane.",
-    "signInToGenerate": "Ngena ngemvume ukuze ukhiqize."
+    "signInToGenerate": "Ngena ngemvume ukuze ukhiqize.",
+    "madeOnDehub": "Kwenziwe ku-Riftn",
+    "aiGenerationAlt": "Isizukulwane se-AI",
+    "gallery": {
+      "send": "Thumela",
+      "notifications": {
+        "generation_reply": "{{name}} uphendule amazwana akho"
+      }
+    }
   },
   "fractions": {
     "title": "Izabelo",
@@ -13822,7 +13838,7 @@
   "multiPost": {
     "tab": "Ukuthumela okuningi",
     "title": "Ukuthumela okuningi",
-    "intro": "Thumela ku-X, YouTube, Instagram, TikTok nakwezinye ngesikhathi esisodwa nge-dehub. Xhuma ama-akhawunti akho kanye, bese ukhetha ukuthi i-post ngayinye iya kuphi.",
+    "intro": "Thumela ku-X, YouTube, Instagram, TikTok nakwezinye ngesikhathi esisodwa nge-Riftn. Xhuma ama-akhawunti akho kanye, bese ukhetha ukuthi i-post ngayinye iya kuphi.",
     "creditsHeading": "Amakhredithi wokuthumela",
     "credits": "{{count}} amakhredithi wokuthumela",
     "topUpTitle": "Gcwalisa futhi wonge",
@@ -15368,7 +15384,8 @@
       "chrome": "I-Chrome Ewuketshezi",
       "orbit": "I-Orbit",
       "snow": "Ukuwa kweqhwa"
-    }
+    },
+    "sameAsProfile": "Iphrofayela"
   },
   "articleTile": {
     "cover": "Ikhava"
@@ -15400,5 +15417,36 @@
     "forward": "Dlulisela",
     "deleted_one": "Umlayezo {{count}} osusiwe",
     "deleted_other": "Imilayezo {{count}} esusiwe"
+  },
+  "messagesTabs": {
+    "all": "Konke"
+  },
+  "mentionLinks": {
+    "communities": "Imiphakathi",
+    "pages": "Amakhasi",
+    "people": "Abantu"
+  },
+  "resetWallet": {
+    "mismatch": "Amaphasiwedi awafani",
+    "logOut": "Phuma",
+    "confirm": "Qinisekeza iphasiwedi",
+    "ack": "Ngiyaqonda ukuthi izimali zami ezindala zihlala esikhwameni esidala.",
+    "cancel": "Khansela"
+  },
+  "chatTabs": {
+    "all": "Konke",
+    "alwaysOn": "Ivuliwe njalo",
+    "communities": "Imiphakathi",
+    "direct": "Kuqondile",
+    "kindCommunity": "Umphakathi",
+    "kindDirect": "Kuqondile",
+    "kindGroup": "Qoqa",
+    "kindPublic": "Umphakathi",
+    "moveDown": "Nyakazela phansi",
+    "moveUp": "Nyakazela phezulu",
+    "requests": "Zicelo",
+    "sCreators": "Abadali",
+    "sGaming": "Imidlalo",
+    "sTrading": "Ukuhweba"
   }
 }
