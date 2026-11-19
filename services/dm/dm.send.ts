@@ -1,4 +1,4 @@
-import { dmActions } from "../../store/dm.store";
+import { dmActions, dmState } from "../../store/dm.store";
 import { lockDhbForUsd } from "../../libs/dmLocked";
 import { DMSocketEvent } from "../enums/dm-socket-events.enum";
 import { uploadDmMedia, tipNotify, forwardDmMessage } from "./dm.api";
@@ -24,7 +24,8 @@ import type { DmVideoOptions } from "../../libs/dm-video-options";
 import { destructFromChoice, type DmDestructChoice } from "../../libs/dm-destruct";
 import { deleteQuietly, encryptFileToCache, encryptedMediaUrl, openEncryptedMedia, rememberLocalPlaintext } from "../../libs/dm-e2ee/media-files";
 import { peerAddressForConversation } from "../../libs/dm-e2ee/peer";
-import { confirmDmSend, type DmSendPayload } from "../../libs/dm-send-confirmation";
+import { confirmDmSend, isUnconfirmedSend, type DmSendPayload, type DmSendTransport } from "../../libs/dm-send-confirmation";
+import { forgetUnsent, loadUnsent, saveUnsent } from "../../libs/dm-unsent-store";
 
 const log = createLogger("DmSendQueue");
 
@@ -33,6 +34,8 @@ const UPLOAD_TIMEOUT_IMAGE = 60_000; // 60s
 const UPLOAD_TIMEOUT_VIDEO = 120_000; // 120s
 const FEE_PAYMENT_TIMEOUT = 30_000; // 30s
 const MAX_UPLOAD_RETRIES = 2;
+/** Extra tries when the server never confirmed a line (weak signal, socket swap). */
+const UNCONFIRMED_RESENDS = 2;
 
 
 /** Minimal WebSocket interface — matches WebSocketContextValue */
@@ -170,6 +173,7 @@ class DmSendQueue {
     if (!failed) return false;
     this.failedJobs.delete(tempId);
     dmActions.retryOptimistic(failed.job.conversationId, tempId);
+    if (failed.lane === "fast") saveUnsent(tempId, failed.job);
     if (failed.lane === "fast") this.enqueueFast(failed.job as FastJob);
     else this.enqueueSlow(failed.job as SlowJob);
     return true;
@@ -178,6 +182,7 @@ class DmSendQueue {
   /** Drop a failed line the sender no longer wants. */
   discard(conversationId: ID, tempId: string): void {
     this.failedJobs.delete(tempId);
+    forgetUnsent(tempId);
     dmActions.removeOptimistic(conversationId, tempId);
   }
 
@@ -189,6 +194,38 @@ class DmSendQueue {
   init(ws: WsRef): void {
     this.ws = ws;
     log.debug("init: ws injected");
+    this.restoreUnsent();
+  }
+
+  private restored = false;
+
+  /**
+   * Bring back lines that never got confirmed before the app was closed, as
+   * "Not sent" with Retry, where they were. Runs once per app launch.
+   */
+  restoreUnsent(): void {
+    if (this.restored) return;
+    this.restored = true;
+    for (const { tempId, job } of loadUnsent<FastJob>()) {
+      if (!job?.conversationId || job.conversationId === "temp" || this.failedJobs.has(tempId)) continue;
+      if (job.kind !== "text" && job.kind !== "gif") continue;
+      this.failedJobs.set(tempId, { job, lane: "fast" });
+      const shown = (dmState?.optimisticByConversation?.[job.conversationId] || []).some(m => m._tempId === tempId);
+      if (shown) continue;
+      const optimistic = this.buildOptimistic({
+        tempId,
+        conversationId: job.conversationId,
+        userId: job.userId,
+        content: job.kind === "text" ? job.content : job.caption || "",
+        msgType: job.kind === "text" ? "msg" : "gif",
+        replyTo: job.replyTo,
+        mediaUrls: job.kind === "gif" ? [{ url: job.gifUrl, type: "gif", mimeType: "image/gif" }] : undefined,
+        uploadStatus: "failed",
+      });
+      const at = Number(tempId.split("-")[1]);
+      if (Number.isFinite(at) && at > 0) optimistic.createdAt = new Date(at).toISOString();
+      dmActions.addOptimistic(job.conversationId, optimistic);
+    }
   }
 
   setFeePayer(fn: FeePayer | null): void {
@@ -486,6 +523,7 @@ class DmSendQueue {
 
 
   private enqueueFast(job: FastJob): void {
+    saveUnsent(job.tempId, job);
     this.fastQueue.push(job);
     this.processFast();
   }
@@ -504,10 +542,12 @@ class DmSendQueue {
       const job = this.fastQueue.shift()!;
       try {
         await this.executeFastJob(job);
+        forgetUnsent(job.tempId);
         this.settleDelivery(job.tempId, true);
       } catch (e: any) {
         log.error(`fast send failed [${job.kind}]:`, e?.message || e);
         this.failedJobs.set(job.tempId, { job, lane: "fast" });
+        saveUnsent(job.tempId, job);
         dmActions.failOptimistic(job.conversationId, job.tempId, e?.message);
         this.settleDelivery(job.tempId, false);
       }
@@ -643,6 +683,31 @@ class DmSendQueue {
     return wire.content;
   }
 
+  /**
+   * Emit and wait for the server's saved copy. When the confirmation is lost
+   * (timeout, socket dropped or swapped) the same line is sent again a couple
+   * of times: it carries its own id, so the server answers a resend of a line
+   * it already saved with that copy instead of storing it twice.
+   */
+  private async sendConfirmed(job: FastJob, payload: DmSendPayload & Record<string, unknown>): Promise<DmMessage> {
+    payload.clientId = job.tempId;
+    const transport: DmSendTransport = {
+      senderAddress: job.address,
+      // `disconnected` is the core socket's event; `disconnect` routes to /dm.
+      on: (event, handler) => event === "disconnected" ? () => {} : this.ws!.on(event, handler),
+      emit: () => this.ws!.emitAuthed(DMSocketEvent.SendMessage, payload),
+    };
+    for (let attempt = 0; ; attempt++) {
+      try {
+        return await confirmDmSend<DmMessage>(transport, payload);
+      } catch (e) {
+        if (!isUnconfirmedSend(e) || attempt >= UNCONFIRMED_RESENDS) throw e;
+        log.warn(`send not confirmed, resending (${attempt + 1}/${UNCONFIRMED_RESENDS})`);
+        await new Promise(resolve => setTimeout(resolve, 1500 * (attempt + 1)));
+      }
+    }
+  }
+
   private async emitText(job: TextSendJob, convId: ID, txHash?: string, tipTxHash?: string): Promise<void> {
     const payload: DmSendPayload & Record<string, unknown> = {
       dmId: convId,
@@ -654,12 +719,7 @@ class DmSendQueue {
     if (txHash) payload.txHash = txHash;
     if (tipTxHash) payload.tipTxHash = tipTxHash;
 
-    const sent = await confirmDmSend<DmMessage>({
-      senderAddress: job.address,
-      // `disconnected` is the core socket's event; `disconnect` routes to /dm.
-      on: (event, handler) => event === "disconnected" ? () => {} : this.ws!.on(event, handler),
-      emit: () => this.ws!.emitAuthed(DMSocketEvent.SendMessage, payload),
-    }, payload);
+    const sent = await this.sendConfirmed(job, payload);
     dmActions.upsertMessages(convId, [{
       ...sent, _clientKey: job.tempId, content: job.content, author: "me", isRead: false,
       ...(sent.content !== job.content ? { encrypted: true } : {}),
@@ -678,11 +738,7 @@ class DmSendQueue {
     if (txHash) payload.txHash = txHash;
     if (tipTxHash) payload.tipTxHash = tipTxHash;
 
-    const sent = await confirmDmSend<DmMessage>({
-      senderAddress: job.address,
-      on: (event, handler) => event === "disconnected" ? () => {} : this.ws!.on(event, handler),
-      emit: () => this.ws!.emitAuthed(DMSocketEvent.SendMessage, payload),
-    }, payload);
+    const sent = await this.sendConfirmed(job, payload);
     dmActions.upsertMessages(convId, [{
       ...sent, _clientKey: job.tempId, content: job.caption || "", author: "me", isRead: false,
       ...(sent.content !== (job.caption || "") ? { encrypted: true } : {}),

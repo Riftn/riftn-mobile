@@ -10,6 +10,8 @@ export interface DmSendPayload {
   content?: string;
   type: string;
   gif?: string;
+  /** The app's own id for this line; the server echoes it and dedupes resends by it. */
+  clientId?: string;
 }
 
 export interface DmSendEcho {
@@ -22,6 +24,16 @@ export interface DmSendEcho {
   content?: string;
   msgType?: string;
   mediaUrls?: Array<{ url: string }>;
+  clientId?: string;
+}
+
+/** Lost confirmation (timeout or socket drop): the line may be resent safely. */
+export class DmSendUnconfirmedError extends Error {
+  readonly unconfirmed = true;
+}
+
+export function isUnconfirmedSend(error: unknown): boolean {
+  return !!(error as { unconfirmed?: boolean })?.unconfirmed;
 }
 
 /** Subscribe before emitting, and never treat transport delivery as a saved message. */
@@ -41,7 +53,7 @@ export function confirmDmSend<T extends DmSendEcho>(
       if (error) reject(error);
       else resolve(message!);
     };
-    const timer = setTimeout(() => finish(undefined, new Error(
+    const timer = setTimeout(() => finish(undefined, new DmSendUnconfirmedError(
       'The server did not confirm this message. Refresh the conversation before trying again.',
     )), timeoutMs);
 
@@ -52,6 +64,11 @@ export function confirmDmSend<T extends DmSendEcho>(
           ? conversation : (conversation as { _id?: string })?._id || message?.dmId || message?.conversationId;
         if (dmId !== payload.dmId || !message?._id) return;
         if (message.author && message.author !== 'me') return;
+        // The server tags the saved line with our own id: that is proof enough.
+        if (payload.clientId && message.clientId) {
+          if (message.clientId === payload.clientId) finish(message);
+          return;
+        }
         // Socket echoes can omit the display-only author field. Confirm those
         // by the authenticated sender instead of timing out a saved message.
         const senderAddress = typeof message.sender === 'string' ? message.sender : message.sender?.address;
@@ -59,15 +76,19 @@ export function confirmDmSend<T extends DmSendEcho>(
             senderAddress?.toLowerCase() !== transport.senderAddress.toLowerCase())) return;
         if ((message.msgType || 'msg') !== payload.type) return;
         // Compare the wire content, including encrypted envelopes, before decryption.
-        if ((message.content || '') !== (payload.content || '')) return;
+        // The server trims what it stores, so compare trimmed.
+        if ((message.content || '').trim() !== (payload.content || '').trim()) return;
         if (payload.gif && !message.mediaUrls?.some(media => media.url === payload.gif)) return;
         finish(message);
       }));
       unsubscribers.push(transport.on('error', (error: any) => {
         if (error?.dmId && error.dmId !== payload.dmId) return;
+        // Errors from other actions (a read receipt, a reaction) are not about this line.
+        if (error?.event && error.event !== 'sendMessage') return;
+        if (error?.clientId && payload.clientId && error.clientId !== payload.clientId) return;
         finish(undefined, new Error(error?.msg || error?.message || 'Failed to send message.'));
       }));
-      const disconnected = () => finish(undefined, new Error(
+      const disconnected = () => finish(undefined, new DmSendUnconfirmedError(
         'Chat disconnected before confirming this message. Refresh the conversation before trying again.',
       ));
       unsubscribers.push(transport.on('disconnect', disconnected));
