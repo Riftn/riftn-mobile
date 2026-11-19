@@ -8,7 +8,7 @@ import { MAX_CHAT_TAB_NAME } from "../../services/dm/dm.api";
 import type { ChatTabView } from "../../hooks/useChatTabs";
 
 /*
- * Tabs above the chat list: All, Direct, Communities, Requests and the tabs
+ * Tabs above the chat list: All, Direct, Groups, Requests and the tabs
  * a person makes. Same tabs as riftn.com/chat (saved to the account).
  * Hold a tab for its options.
  */
