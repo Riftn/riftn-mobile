@@ -239,6 +239,10 @@ export interface ReactionUpdatedPayload {
   dmId: ID;
   messageId: ID;
   reactions: Record<string, string[]>;
+  /** Who changed it (lowercased address). */
+  by?: string;
+  /** The emoji, when this was a new reaction. */
+  added?: string;
 }
 
 

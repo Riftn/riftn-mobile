@@ -841,7 +841,12 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   // for the wallet on its own: older encrypted lines collapse into one row
   // per run, and the banner offers Unlock for anyone who wants to read them.
   const hasUndecryptable = e2eeStatus !== "ready" && messageList.some((m) => m.undecryptable);
-  const { byId: chatPrefsById, update: updateChatPref } = useChatPrefs(!!address);
+  const { byId: chatPrefsById, update: updateChatPref, seeReactions } = useChatPrefs(!!address);
+  // An open chat's reactions are seen, including ones that land while it's open.
+  const openChatHasReactions = !!currentConvId && !!chatPrefsById.get(String(currentConvId))?.reactions;
+  useEffect(() => {
+    if (openChatHasReactions && currentConvId) seeReactions(String(currentConvId));
+  }, [openChatHasReactions, currentConvId, seeReactions]);
   const canToggleEncryption = !!currentConvId && /^[0-9a-f]{24}$/i.test(String(currentConvId));
   const chatEncrypted = canToggleEncryption && !!chatPrefsById.get(String(currentConvId))?.encryptedAt;
   const onToggleEncryption = useCallback(() => {
