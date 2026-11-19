@@ -3,6 +3,7 @@ import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
@@ -15,6 +16,7 @@ import com.facebook.react.defaults.DefaultReactActivityDelegate
 import com.facebook.react.views.modal.ReactModalHostView
 
 import expo.modules.ReactActivityDelegateWrapper
+import io.dehub.mediabridge.VolumeKeyEvents
 
 class MainActivity : ReactActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +33,18 @@ class MainActivity : ReactActivity() {
     }
     WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = false
     window.decorView.viewTreeObserver.addOnWindowFocusChangeListener(matchDialogBars)
+  }
+
+  // The hardware volume-up key unmutes the video on screen (modules/media-bridge).
+  // Reported, never consumed, so the system still raises the volume as usual.
+  override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+    if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
+      when (event.keyCode) {
+        KeyEvent.KEYCODE_VOLUME_UP -> VolumeKeyEvents.emit("up")
+        KeyEvent.KEYCODE_VOLUME_DOWN -> VolumeKeyEvents.emit("down")
+      }
+    }
+    return super.dispatchKeyEvent(event)
   }
 
   // React Native draws every <Modal> (comments, drawers, sheets) in its own

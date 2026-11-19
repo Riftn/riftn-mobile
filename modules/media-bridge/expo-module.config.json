@@ -1,0 +1,7 @@
+{
+  "platforms": ["android", "apple"],
+  "apple": { "modules": ["MediaBridgeModule"] },
+  "android": {
+    "modules": ["io.dehub.mediabridge.MediaBridgeModule"]
+  }
+}

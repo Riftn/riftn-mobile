@@ -70,6 +70,7 @@ import { requestFeedVideoFocus, releaseFeedVideoFocus } from '../../libs/feedVid
 import { stopActivePreview } from '../../libs/previewRegistry';
 import { createLogger } from '../../libs/logger';
 import { getCachedMuted, setMutedState } from '../../libs/videoMutedState';
+import { useVolumeUpUnmute } from '../../libs/volumeKeyUnmute';
 import { trackPlayerWatchTime } from '../../libs/watch-time';
 
 const logger = createLogger('VideoPlayerCore');
@@ -554,6 +555,17 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
     // button writes the shared state.
     if (muted === undefined) setMutedState(nextMuted);
   }, [isMuted, player, muted]);
+
+  // The phone's volume-up key unmutes this player if it is playing. A
+  // controlled surface decides for itself (it follows the shared state).
+  useVolumeUpUnmute(() => {
+    if (muted !== undefined) return;
+    try {
+      if (!player.playing || !player.muted) return;
+      player.muted = false;
+      setIsMuted(false);
+    } catch {}
+  });
 
   // Controlled mute: follow the surface's state whenever it changes.
   useEffect(() => {

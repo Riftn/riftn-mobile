@@ -9633,7 +9633,13 @@
     "justChatting": "Só papo",
     "noLiveStreams": "Nenhuma transmissão ao vivo",
     "noOneStreaming": "Ninguém está transmitindo agora. Volte mais tarde!",
-    "loadStreamsFailed": "Não foi possível carregar as transmissões. Tente novamente."
+    "loadStreamsFailed": "Não foi possível carregar as transmissões. Tente novamente.",
+    "screenShare": {
+      "start": "Compartilhar tela",
+      "stop": "Parar de compartilhar tela",
+      "sharing": "Você está compartilhando sua tela",
+      "hint": "Os espectadores veem sua tela. Toque no botão de tela para voltar à câmera."
+    }
   },
   "liveShop": {
     "title": "Compre nesta transmissão",

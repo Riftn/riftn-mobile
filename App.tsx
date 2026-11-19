@@ -71,6 +71,7 @@ import { MessagingProvider } from "./context/MessagingContext";
 import { PushNotificationsProvider } from "./services/push";
 import { linkingConfig } from "./navigation/linking.config";
 import { loadMutedState } from "./libs/videoMutedState";
+import { useVolumeUpUnmuteRoot } from "./libs/volumeKeyUnmute";
 import { warmVideoPreferences } from "./libs/video-preferences";
 import { loadHueState } from "./libs/audioHueState";
 import { useNavigationPersistence } from "./hooks/useNavigationPersistence";
@@ -210,6 +211,9 @@ export default function App() {
       flushNavigationTiming();
     }, []),
   });
+
+  // Volume up unmutes the video on screen (libs/volumeKeyUnmute).
+  useVolumeUpUnmuteRoot();
 
   React.useEffect(() => {
     // Pre-warm persistent media settings so video/audio players have correct

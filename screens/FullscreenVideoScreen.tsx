@@ -52,6 +52,7 @@ import {
 } from "../libs/feedVideoFocus";
 import { createViewRecorder } from "../services/view.service";
 import { getCachedMuted, setMutedState } from "../libs/videoMutedState";
+import { useVolumeUpUnmute } from "../libs/volumeKeyUnmute";
 import { PLAYER_CONSTANTS } from "../components/VideoPlayerCore/utils";
 import { isBrainrotSwipe } from "../libs/brainrotFeed";
 import { useAppPrefs } from "../hooks/useAppPrefs";
@@ -309,6 +310,14 @@ const FullscreenVideoScreen = () => {
     }
     resetControlsTimer();
   }, [player, resetControlsTimer]);
+
+  // The phone's volume-up key unmutes the video.
+  useVolumeUpUnmute(() => {
+    if (!player || !player.muted) return;
+    player.muted = false;
+    setIsMuted(false);
+    requestAudioFocus(stopPlayback);
+  });
 
   const handleToggleMute = useCallback(() => {
     if (!player) return;

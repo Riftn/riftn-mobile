@@ -9396,7 +9396,13 @@
     "noLiveStreams": "Nessuna diretta",
     "noOneStreaming": "Nessuno sta trasmettendo ora. Torna più tardi!",
     "loadStreamsFailed": "Impossibile caricare le dirette. Riprova.",
-    "liveBadge": "IN DIRETTA"
+    "liveBadge": "IN DIRETTA",
+    "screenShare": {
+      "start": "Condividi schermo",
+      "stop": "Interrompi condivisione schermo",
+      "sharing": "Stai condividendo il tuo schermo",
+      "hint": "Gli spettatori vedono il tuo schermo. Tocca il pulsante schermo per tornare alla fotocamera."
+    }
   },
   "liveShop": {
     "title": "Acquista da questa diretta",

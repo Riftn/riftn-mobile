@@ -9630,7 +9630,13 @@
     "noOneStreaming": "今は誰も配信していません。また後で見てください！",
     "loadStreamsFailed": "配信を読み込めませんでした。もう一度お試しください。",
     "liveBadge": "ライブ",
-    "detailsLivepeerId": "Livepeer ID:"
+    "detailsLivepeerId": "Livepeer ID:",
+    "screenShare": {
+      "start": "画面を共有",
+      "stop": "画面共有を停止",
+      "sharing": "画面を共有しています",
+      "hint": "視聴者にはあなたの画面が表示されています。画面ボタンをタップするとカメラに戻ります。"
+    }
   },
   "liveShop": {
     "title": "この配信でショッピング",

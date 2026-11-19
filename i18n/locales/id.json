@@ -9393,7 +9393,13 @@
     "noLiveStreams": "Tidak ada siaran langsung",
     "noOneStreaming": "Tidak ada yang siaran saat ini. Kembali lagi nanti!",
     "loadStreamsFailed": "Gagal memuat siaran. Coba lagi.",
-    "liveBadge": "LANGSUNG"
+    "liveBadge": "LANGSUNG",
+    "screenShare": {
+      "start": "Bagikan layar",
+      "stop": "Berhenti membagikan layar",
+      "sharing": "Kamu sedang membagikan layar",
+      "hint": "Penonton melihat layarmu. Ketuk tombol layar untuk kembali ke kamera."
+    }
   },
   "liveShop": {
     "title": "Belanja dari siaran ini",

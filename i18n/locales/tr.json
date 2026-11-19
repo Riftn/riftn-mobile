@@ -7402,7 +7402,13 @@
     "justChatting": "Sadece sohbet",
     "noLiveStreams": "Canlı yayın yok",
     "noOneStreaming": "Şu anda kimse yayın yapmıyor. Daha sonra tekrar bak!",
-    "loadStreamsFailed": "Yayınlar yüklenemedi. Lütfen tekrar dene."
+    "loadStreamsFailed": "Yayınlar yüklenemedi. Lütfen tekrar dene.",
+    "screenShare": {
+      "start": "Ekranı paylaş",
+      "stop": "Ekran paylaşımını durdur",
+      "sharing": "Ekranını paylaşıyorsun",
+      "hint": "İzleyiciler ekranını görüyor. Kameraya dönmek için ekran düğmesine dokun."
+    }
   },
   "liveShop": {
     "title": "Bu yayından alışveriş yapın",

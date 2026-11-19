@@ -15,6 +15,7 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint
 
 import expo.modules.ApplicationLifecycleDispatcher
 import expo.modules.ExpoReactHostFactory
+import com.oney.WebRTCModule.WebRTCModuleOptions
 import io.dehub.mobile.studio.Studio
 import io.dehub.mobile.studio.StudioPackage
 import io.dehub.mobile.videolooks.VideoLooks
@@ -35,6 +36,10 @@ class MainApplication : Application(), ReactApplication {
 
   override fun onCreate() {
     super.onCreate()
+    // Screen share while live: Android 10+ only hands out a screen capture to
+    // an app running a mediaProjection foreground service, which
+    // react-native-webrtc starts for getDisplayMedia once this is on.
+    WebRTCModuleOptions.getInstance().enableMediaProjectionService = true
     DefaultNewArchitectureEntryPoint.releaseLevel = try {
       ReleaseLevel.valueOf(BuildConfig.REACT_NATIVE_RELEASE_LEVEL.uppercase())
     } catch (e: IllegalArgumentException) {

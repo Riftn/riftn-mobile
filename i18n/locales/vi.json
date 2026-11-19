@@ -9357,7 +9357,13 @@
     "noLiveStreams": "Không có buổi phát trực tiếp",
     "noOneStreaming": "Hiện không ai phát trực tiếp. Hãy quay lại sau!",
     "loadStreamsFailed": "Không thể tải buổi phát. Vui lòng thử lại.",
-    "liveBadge": "TRỰC TIẾP"
+    "liveBadge": "TRỰC TIẾP",
+    "screenShare": {
+      "start": "Chia sẻ màn hình",
+      "stop": "Dừng chia sẻ màn hình",
+      "sharing": "Bạn đang chia sẻ màn hình",
+      "hint": "Người xem thấy màn hình của bạn. Chạm vào nút màn hình để quay lại camera."
+    }
   },
   "liveShop": {
     "title": "Mua sắm từ buổi phát này",
