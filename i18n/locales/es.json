@@ -7403,7 +7403,13 @@
     "justChatting": "Solo charlando",
     "noLiveStreams": "No hay directos",
     "noOneStreaming": "Nadie está transmitiendo ahora. ¡Vuelve más tarde!",
-    "loadStreamsFailed": "No se pudieron cargar los directos. Inténtalo de nuevo."
+    "loadStreamsFailed": "No se pudieron cargar los directos. Inténtalo de nuevo.",
+    "screenShare": {
+      "start": "Compartir pantalla",
+      "stop": "Dejar de compartir pantalla",
+      "sharing": "Estás compartiendo tu pantalla",
+      "hint": "Los espectadores ven tu pantalla. Toca el botón de pantalla para volver a la cámara."
+    }
   },
   "liveShop": {
     "title": "Compra en esta emisión",

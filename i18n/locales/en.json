@@ -7400,6 +7400,12 @@
     "muteMic": "Mute microphone",
     "cameraOn": "Turn camera on",
     "cameraOffAction": "Turn camera off",
+    "screenShare": {
+      "start": "Share screen",
+      "stop": "Stop sharing screen",
+      "sharing": "You're sharing your screen",
+      "hint": "Viewers see your screen. Tap the screen button to switch back to the camera."
+    },
     "streamFromEncoder": "Stream from OBS or another encoder",
     "ending": "Ending...",
     "settingUp": "Setting Up...",

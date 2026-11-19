@@ -100,6 +100,7 @@ import { useSettledVideoSource } from "../hooks/useSettledVideoSource";
 import { useSettledPagerIndex } from "../hooks/useSettledPagerIndex";
 import PictureInPictureButton from "../components/common/PictureInPictureButton";
 import { configureForBackgroundPlayback, releaseBackgroundPlayback } from "../libs/audioSession";
+import { setPlayerProp } from "../libs/playerProps";
 import { FEED_BUFFER_OPTIONS } from "../libs/videoBuffering";
 import { useScrubGesture } from "../hooks/useScrubGesture";
 import { useDataSaver } from "../hooks/useDataSaver";
@@ -1041,11 +1042,11 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     if (!ownsPlayerRef.current() || postMediaIsTransferring(videoSession) || isPictureInPicturePlayer(player)) return;
     recovery.stop();
     try {
-      player.staysActiveInBackground = false;
-      player.showNowPlayingNotification = false;
       player.pause();
+      setPlayerProp(player, "staysActiveInBackground", false);
+      setPlayerProp(player, "showNowPlayingNotification", false);
       // A short the pager silenced on its way out gets the viewer's setting back.
-      player.muted = isMutedRef.current;
+      setPlayerProp(player, "muted", isMutedRef.current);
     } catch {}
     setIsPlaying(false);
   }, [player, recovery, videoSession]);
@@ -1074,8 +1075,11 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   useEffect(() => {
     if (!player || !ownsPlayerRef.current()) return;
     try {
-      player.staysActiveInBackground = isPictureInPicturePlayer(player);
-      player.showNowPlayingNotification = isPictureInPicturePlayer(player);
+      // Reading throws on a released player; the writes below only happen
+      // when the value changes (see libs/playerProps).
+      void player.playing;
+      setPlayerProp(player, "staysActiveInBackground", isPictureInPicturePlayer(player));
+      setPlayerProp(player, "showNowPlayingNotification", isPictureInPicturePlayer(player));
     } catch {
       // Released between close and reopen: nothing to play on this one.
       return;
@@ -1084,7 +1088,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       // Dragged in already playing (silently): carry on from where it is,
       // with the viewer's sound setting.
       peekingRef.current = false;
-      try { player.muted = isMutedRef.current; } catch {}
+      setPlayerProp(player, "muted", isMutedRef.current);
       // The same callback identity must be used for request and release. The
       // old anonymous callbacks could never release either global focus slot.
       requestFeedVideoFocus(stopPlayback);
@@ -1134,7 +1138,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
           // it later, off screen.
           if (player.status !== "readyToPlay" || player.playing) return;
           peekingRef.current = true;
-          player.muted = true;
+          setPlayerProp(player, "muted", true);
           player.play();
         });
       },
@@ -1147,14 +1151,14 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
           // The next short starts from the top when it is reached for real;
           // one swiped back to keeps its spot.
           if (rewind) player.currentTime = 0;
-          player.muted = isMutedRef.current;
+          setPlayerProp(player, "muted", isMutedRef.current);
         });
       },
       hear: () => {
-        if (peekingRef.current) quiet(() => { player.muted = isMutedRef.current; });
+        if (peekingRef.current) setPlayerProp(player, "muted", isMutedRef.current);
       },
       silence: (on) => {
-        if (isActiveRef.current) quiet(() => { player.muted = on || isMutedRef.current; });
+        if (isActiveRef.current) setPlayerProp(player, "muted", on || isMutedRef.current);
       },
     });
     return () => registerPeek(key, null);
@@ -1301,7 +1305,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
 
   useEffect(() => {
     if (!player) return;
-    try { player.muted = isMuted; } catch {}
+    setPlayerProp(player, "muted", isMuted);
   }, [player, isMuted]);
 
   useEffect(() => {
@@ -1313,8 +1317,15 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   // back to it rather than hardcoding 1x.
   useEffect(() => {
     if (!player) return;
-    try { (player as any).playbackRate = holdRate ?? playbackRate; } catch {}
-  }, [player, playbackRate, holdRate]);
+    // Only the short being watched, and only while it plays: on iOS setting
+    // the rate starts a paused player, so writing it on every preloaded
+    // neighbour as it mounted set them all playing off screen (sound
+    // included) until the pager noticed and paused them again. play() picks
+    // the last rate back up, and this runs again when playback starts.
+    if (!isActive || !isPlaying) return;
+    try { if (!player.playing) return; } catch { return; }
+    setPlayerProp(player, "playbackRate", holdRate ?? playbackRate);
+  }, [player, playbackRate, holdRate, isActive, isPlaying]);
 
   // Players cannot run backwards, so a rewind pauses and steps the clock back.
   useEffect(() => {

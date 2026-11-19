@@ -73,6 +73,7 @@ import { AssetRefCards, MAX_ASSET_CARDS_PER_MESSAGE } from "../common/AssetRefCa
 import { findAssetRefs, stripAssetRefs } from "../../libs/asset-refs";
 import MentionSuggestions from "../common/MentionSuggestions";
 import EmojiSheet from "../Upload/EmojiSheet";
+import WhenOpened from "../ui/WhenOpened";
 import { InlineEmoji, expandEmojiTokens } from "../common/EmojiText";
 import { useMentions } from "../../hooks/useMentions";
 import { useCommunityJoinLines } from "../../hooks/useCommunityJoinLines";
@@ -1509,22 +1510,30 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           </Pressable>
         </Pressable>
       </Modal>
-      <DeleteMessageSheet request={deleteReq} onClose={() => setDeleteReq(null)} />
+      <WhenOpened open={!!deleteReq}>
+        {() => (
+          <DeleteMessageSheet request={deleteReq} onClose={() => setDeleteReq(null)} />
+        )}
+      </WhenOpened>
 
-      <EmojiSheet
-        visible={!!moreFor}
-        onClose={() => setMoreFor(null)}
-        selected={
-          moreFor && myAddress
-            ? Object.entries(moreFor.reactions ?? {})
-                .filter(([, addresses]) => addresses?.some((a) => a.toLowerCase() === myAddress))
-                .map(([emoji]) => emoji)
-            : undefined
-        }
-        onSelect={(emoji) => {
-          if (moreFor) handleToggleReaction(moreFor.id, emoji);
-        }}
-      />
+      <WhenOpened open={!!moreFor}>
+        {() => (
+          <EmojiSheet
+            visible={!!moreFor}
+            onClose={() => setMoreFor(null)}
+            selected={
+              moreFor && myAddress
+                ? Object.entries(moreFor.reactions ?? {})
+                    .filter(([, addresses]) => addresses?.some((a) => a.toLowerCase() === myAddress))
+                    .map(([emoji]) => emoji)
+                : undefined
+            }
+            onSelect={(emoji) => {
+              if (moreFor) handleToggleReaction(moreFor.id, emoji);
+            }}
+          />
+        )}
+      </WhenOpened>
     </View>
   );
 }

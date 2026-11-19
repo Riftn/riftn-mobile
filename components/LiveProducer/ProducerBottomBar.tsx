@@ -10,6 +10,7 @@ import { RefreshCw } from "../ui/cut-icons";
 import Server from "lucide-react-native/dist/esm/icons/server";
 import Palette from "lucide-react-native/dist/esm/icons/palette";
 import Clapperboard from "lucide-react-native/dist/esm/icons/clapperboard";
+import ScreenShare from "lucide-react-native/dist/esm/icons/screen-share";
 
 type Stage =
   | "idle"
@@ -38,6 +39,9 @@ interface ProducerBottomBarProps {
   /** Absent on a build with no phone studio — the button is then not rendered. */
   onOpenStudio?: () => void;
   studioActive?: boolean;
+  /** Absent on a build that cannot share its screen — the button is then not rendered. */
+  onToggleScreenShare?: () => void;
+  screenSharing?: boolean;
 }
 
 const CIRCLE = "w-12 h-12 rounded-xl items-center justify-center";
@@ -58,6 +62,8 @@ const ProducerBottomBar: React.FC<ProducerBottomBarProps> = ({
   looksActive,
   onOpenStudio,
   studioActive,
+  onToggleScreenShare,
+  screenSharing,
 }) => {
   const { t } = useTranslation();
   const isLive = stage === "live";
@@ -158,6 +164,27 @@ const ProducerBottomBar: React.FC<ProducerBottomBarProps> = ({
             accessibilityState={{ selected: !!studioActive }}
           >
             <Clapperboard color="#fff" size={20} />
+          </TouchableOpacity>
+        ) : null}
+
+        {/* Screen share, once live: viewers see the phone's screen instead
+            of the camera until it is tapped again. */}
+        {onToggleScreenShare && isLive ? (
+          <TouchableOpacity
+            onPress={onToggleScreenShare}
+            activeOpacity={0.8}
+            className={`${CIRCLE} ${
+              screenSharing ? "bg-white/20" : "bg-zinc-900/60"
+            }`}
+            accessibilityRole="button"
+            accessibilityLabel={
+              screenSharing
+                ? t("live.screenShare.stop", { defaultValue: "Stop sharing screen" })
+                : t("live.screenShare.start", { defaultValue: "Share screen" })
+            }
+            accessibilityState={{ selected: !!screenSharing }}
+          >
+            <ScreenShare color="#fff" size={20} />
           </TouchableOpacity>
         ) : null}
 

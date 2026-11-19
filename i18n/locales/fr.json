@@ -7407,7 +7407,13 @@
     "justChatting": "Discussion",
     "noLiveStreams": "Aucun live",
     "noOneStreaming": "Personne ne diffuse en ce moment. Revenez plus tard !",
-    "loadStreamsFailed": "Impossible de charger les lives. Veuillez réessayer."
+    "loadStreamsFailed": "Impossible de charger les lives. Veuillez réessayer.",
+    "screenShare": {
+      "start": "Partager l'écran",
+      "stop": "Arrêter le partage d'écran",
+      "sharing": "Vous partagez votre écran",
+      "hint": "Les spectateurs voient votre écran. Touchez le bouton écran pour revenir à la caméra."
+    }
   },
   "liveShop": {
     "title": "Achetez dans ce direct",

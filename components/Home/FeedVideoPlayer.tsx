@@ -73,6 +73,7 @@ import {
 import { createViewRecorder } from "../../services/view.service";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { getCachedMuted, setMutedState } from "../../libs/videoMutedState";
+import { useVolumeUpUnmute } from "../../libs/volumeKeyUnmute";
 import { useDataSaver } from "../../hooks/useDataSaver";
 import { getAppPrefs, useAppPrefs } from "../../hooks/useAppPrefs";
 import { useAutoplayPausePrompt } from "../../hooks/useAutoplayPausePrompt";
@@ -1201,6 +1202,15 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
     
     startHideTimer(); // Reset the timer on paused clips too.
   }, [isMuted, stopPlayback, startHideTimer]);
+
+  // The phone's volume-up key unmutes this card if it is the one playing.
+  useVolumeUpUnmute(() => {
+    const p = playerRef.current;
+    if (!p || !p.playing || !p.muted) return;
+    p.muted = false;
+    setIsMuted(false);
+    requestAudioFocus(stopPlayback);
+  });
 
   // Held-and-dragged on the speaker. The device volume moves everything at
   // once, which is no use when one video is loud and the rest of the phone is

@@ -8,6 +8,7 @@ import React, {
 import { AppState, View, Platform, Text } from "react-native";
 import { useTranslation } from "react-i18next";
 import { mediaDevices, RTCPeerConnection, RTCView } from "react-native-webrtc";
+import { showBroadcastPicker } from "../../modules/media-bridge";
 import { runWithPermissions, type PermissionKind } from "../../libs/permissions.util";
 import {
   whipEndpointFor,
@@ -86,6 +87,14 @@ export interface WebRTCPublisherProps {
     playbackId?: string | null;
     provider?: string | null;
   } | null>;
+  /**
+   * Share the phone's screen instead of the camera. The camera track stays
+   * in the local stream (paused) and the screen track takes its place on the
+   * sender, so viewers see the switch without the connection restarting.
+   */
+  screenSharing?: boolean;
+  /** The share stopped on its own (Control Center, the system dialog, or a refusal). */
+  onScreenShareEnded?: () => void;
   debug?: boolean;
   // New: configurable grace before escalating disconnects (ms)
   disconnectGraceMs?: number;
@@ -156,6 +165,8 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
   onError,
   onStats,
   onSelfHostedUnreachable,
+  screenSharing = false,
+  onScreenShareEnded,
   debug = false,
   disconnectGraceMs,
 }) => {
@@ -245,6 +256,15 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
   // Read from the AppState listener, which is registered once for the mount.
   const cameraOffRef = useRef(cameraOff);
   cameraOffRef.current = cameraOff;
+  const facingRef = useRef(facing);
+  facingRef.current = facing;
+  // The screen track while sharing; camera-only effects leave the sender alone then.
+  const screenTrackRef = useRef<any>(null);
+  const [sharingScreen, setSharingScreen] = useState(false);
+  const onScreenShareEndedRef = useRef(onScreenShareEnded);
+  onScreenShareEndedRef.current = onScreenShareEnded;
+  // Re-acquires the camera; set by the background effect below.
+  const reacquireCameraRef = useRef<() => Promise<void>>(async () => {});
   const localReadyRef = useRef(localReady);
   localReadyRef.current = localReady;
 
@@ -801,7 +821,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
     // Avoid toggling video before camera session is configured on Android
     if (!localReady) return;
     dbg('cameraOff changed -> applying', { cameraOff });
-    const sender: any = videoSenderRef.current;
+    const sender: any = screenTrackRef.current ? null : videoSenderRef.current;
     const s: any = streamRef.current;
     const vLocal: any = s?.getVideoTracks?.()[0];
     const track: any = sender?.track || currentVideoTrackRef.current || vLocal;
@@ -854,6 +874,9 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
     if (!localReady) return;
     // Do nothing if we already are on the requested facing
     if (currentFacingRef.current === facing) return;
+    // The sender carries the screen; the camera is re-acquired facing the
+    // right way when the share stops.
+    if (screenTrackRef.current) return;
     dbg('facing change -> flip requested', { from: currentFacingRef.current, to: facing });
     const flipInPlace = async () => {
       const s: any = streamRef.current;
@@ -974,6 +997,9 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
     const reacquireCamera = async () => {
       const local: any = streamRef.current;
       if (!local || replacingTrackRef.current) return;
+      // Sharing the screen sends the app to the background on purpose; the
+      // camera comes back when the share stops, not on every return.
+      if (screenTrackRef.current) return;
       replacingTrackRef.current = true;
       try {
         const old: any = local.getVideoTracks?.()[0];
@@ -1009,6 +1035,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         replacingTrackRef.current = false;
       }
     };
+    reacquireCameraRef.current = reacquireCamera;
     const sub = AppState.addEventListener("change", (state) => {
       if (state === "background") {
         // Only a preview that was already running counts: the permission
@@ -1025,10 +1052,81 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
     };
   }, []);
 
+  /*
+   * Screen share while live.
+   *
+   * getDisplayMedia gives a screen track: on Android after the system's own
+   * "start recording" consent, on iOS straight away, with frames arriving once
+   * the creator taps Start Broadcast in the picker opened below (the app's
+   * broadcast extension sends them over the app group socket). The track
+   * replaces the camera on the sender; stopping puts a fresh camera track
+   * back, since the camera may have been taken away while the app was in the
+   * background.
+   */
+  useEffect(() => {
+    if (!localReady) return;
+    let cancelled = false;
+
+    const stopShare = async (fromSystem: boolean) => {
+      const screen = screenTrackRef.current;
+      if (!screen) return;
+      screenTrackRef.current = null;
+      setSharingScreen(false);
+      try { screen.stop(); } catch {}
+      currentFacingRef.current = facingRef.current;
+      await reacquireCameraRef.current();
+      const local: any = streamRef.current;
+      const cam: any = local?.getVideoTracks?.()[0];
+      const s2: any = videoSenderRef.current;
+      if (cam && s2 && s2.track !== cam) {
+        try { await s2.replaceTrack(cam); } catch {}
+      }
+      const url = computeStreamURL(local);
+      if (url) setLocalURL(url);
+      if (fromSystem) onScreenShareEndedRef.current?.();
+    };
+
+    const startShare = async () => {
+      if (screenTrackRef.current) return;
+      try {
+        const display: any = await (mediaDevices as any).getDisplayMedia({ video: true });
+        const screen: any = display?.getVideoTracks?.()[0];
+        if (!screen) throw new Error("no screen track");
+        if (cancelled) { try { screen.stop(); } catch {} return; }
+        screenTrackRef.current = screen;
+        setSharingScreen(true);
+        try {
+          screen.addEventListener?.("ended", () => {
+            if (screenTrackRef.current === screen) void stopShare(true);
+          });
+        } catch {}
+        // Pause the camera underneath; it is replaced when the share stops.
+        try { const cam: any = streamRef.current?.getVideoTracks?.()[0]; if (cam) cam.enabled = false; } catch {}
+        const target: any = videoSenderRef.current;
+        if (target) await target.replaceTrack(screen);
+        if (Platform.OS === "ios") {
+          const shown = await showBroadcastPicker();
+          if (!shown) throw new Error("broadcast picker unavailable");
+        }
+        dbg('screen share started');
+      } catch (e) {
+        dbe('screen share failed', e);
+        if (screenTrackRef.current) await stopShare(false);
+        onScreenShareEndedRef.current?.();
+      }
+    };
+
+    if (screenSharing) void startShare();
+    else if (screenTrackRef.current) void stopShare(false);
+    return () => { cancelled = true; };
+  }, [screenSharing, localReady]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       dbg('unmount cleanup start');
+      try { screenTrackRef.current?.stop(); } catch {}
+      screenTrackRef.current = null;
       stopPeer();
       const s = streamRef.current;
       streamRef.current = null;
@@ -1048,7 +1146,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
   // UI
   return (
     <View className="flex-1 dark-surface bg-black">
-      {localURL ? (
+      {localURL && !sharingScreen ? (
         <RTCView
           streamURL={localURL}
           style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }}
@@ -1077,7 +1175,23 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         </View>
       )}
 
-      {localReady && cameraOff && (
+      {sharingScreen ? (
+        <View
+          className="absolute inset-0 items-center justify-center"
+          pointerEvents="none"
+        >
+          <View className="bg-zinc-900/80 px-4 py-3 rounded-xl items-center">
+            <Text className="text-white text-sm font-semibold">
+              {t("live.screenShare.sharing", { defaultValue: "You're sharing your screen" })}
+            </Text>
+            <Text className="text-white/60 text-xs mt-1">
+              {t("live.screenShare.hint", { defaultValue: "Viewers see your screen. Tap the screen button to switch back to the camera." })}
+            </Text>
+          </View>
+        </View>
+      ) : null}
+
+      {localReady && cameraOff && !sharingScreen && (
         <View
           className="absolute inset-0 items-center justify-center"
           pointerEvents="none"

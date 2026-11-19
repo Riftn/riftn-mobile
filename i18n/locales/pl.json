@@ -9256,7 +9256,13 @@
     "noLiveStreams": "Brak transmisji na żywo",
     "noOneStreaming": "Nikt teraz nie nadaje. Zajrzyj później!",
     "loadStreamsFailed": "Nie udało się wczytać transmisji. Spróbuj ponownie.",
-    "liveBadge": "NA ŻYWO"
+    "liveBadge": "NA ŻYWO",
+    "screenShare": {
+      "start": "Udostępnij ekran",
+      "stop": "Zatrzymaj udostępnianie ekranu",
+      "sharing": "Udostępniasz swój ekran",
+      "hint": "Widzowie widzą twój ekran. Dotknij przycisku ekranu, aby wrócić do kamery."
+    }
   },
   "liveShop": {
     "title": "Kupuj w tej transmisji",
