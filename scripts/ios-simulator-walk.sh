@@ -34,16 +34,20 @@ running() {
   xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$BUNDLE"
 }
 
-# The iPhone Duo has two screens, and a plain screenshot can fail there: then
-# try each display by name, and keep the errors so a missing picture is explained.
+# The iPhone Duo has two screens, and a plain screenshot refuses to pick one:
+# it lists them as "--display=N  name WxH". Take every listed screen that is
+# showing (the inner one is <name>.png, the outer one <name>-outer.png), and
+# keep the errors so a missing picture is explained.
 shot() {
-  local f="$OUT/shots/$1.png" d
-  xcrun simctl io "$UDID" screenshot "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" && return 0
-  for d in internal inner main external outer; do
-    xcrun simctl io "$UDID" screenshot --display="$d" "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" && return 0
+  local f="$OUT/shots/$1.png" err="$OUT/.shot-err.txt" id
+  xcrun simctl io "$UDID" screenshot "$f" >/dev/null 2>"$err" && return 0
+  cat "$err" >> "$OUT/logs/shot-errors.txt"
+  for id in $(grep -oE -- '--display=[0-9]+ +[^ ]+.* [0-9]+x[0-9]+' "$err" \
+      | awk '{split($NF, d, "x"); print d[1]*d[2], $1}' | sort -rn | awk '{print $2}' | cut -d= -f2); do
+    xcrun simctl io "$UDID" screenshot --display="$id" "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" \
+      && f="$OUT/shots/$1-outer.png"
   done
-  screencapture -x -o -l"$(osascript -e 'tell application "Simulator" to id of window 1' 2>/dev/null)" "$f" 2>>"$OUT/logs/shot-errors.txt" \
-    || screencapture -x "$f" 2>>"$OUT/logs/shot-errors.txt" || true
+  return 0
 }
 
 launch() {
