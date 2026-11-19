@@ -28,7 +28,7 @@ import { useSurfaceDraft } from '../hooks/useSurfaceDraft';
  * Post-info actions in the shared post ActionBar — none of them have a
  * feature-request row behind them, so they would ship as dead buttons.
  */
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -51,6 +51,7 @@ import { DeHubLoader } from "../components/DeHubLoader";
 import { Image } from "expo-image";
 import { useVideoPlayer, VideoView } from "expo-video";
 import * as ImagePicker from "expo-image-picker";
+import { captureVideoCover } from "../libs/videoCover";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Icon from "../components/ui/Icon";
@@ -62,6 +63,7 @@ import { toastWarning } from "../libs/toast";
 import { localFileSize } from "../libs/storage-upload";
 import { featurePromptFields } from "../libs/feature-prompt";
 import { optionalSkia } from "../libs/skia";
+import type { StudioEdits } from "../components/Upload/studioPaint";
 import { theme } from "../theme";
 import { getAvatarUrl } from "../libs/misc";
 import { formatCompactNumber } from "../libs";
@@ -255,6 +257,31 @@ const RequestVideo: React.FC<{ url: string; badge: number }> = ({ url, badge }) 
 const RequestVideoPlayer: React.FC<{ url: string }> = ({ url }) => {
   const player = useVideoPlayer(url, p => { p.play(); });
   return <VideoView player={player} style={StyleSheet.absoluteFill} contentFit="contain" nativeControls />;
+};
+
+/**
+ * A video picked into the request composer. The image view can't draw a
+ * video, so the tile stayed blank; this shows a real frame from the clip and
+ * plays it in place on tap, so the poster can check what they're sending.
+ */
+const PromptVideoPreview: React.FC<{ uri: string }> = ({ uri }) => {
+  const [cover, setCover] = useState<string | null>(null);
+  const [playing, setPlaying] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    setCover(null);
+    captureVideoCover(uri, 0.5).then((frame) => { if (alive) setCover(frame); }).catch(() => {});
+    return () => { alive = false; };
+  }, [uri]);
+  if (playing) return <RequestVideoPlayer url={uri} />;
+  return (
+    <Pressable onPress={() => setPlaying(true)} style={StyleSheet.absoluteFill} accessibilityRole="button">
+      {cover ? <Image source={{ uri: cover }} style={StyleSheet.absoluteFill} contentFit="cover" /> : <View style={[StyleSheet.absoluteFill, styles.promptVideoBlank]} />}
+      <View className="dark-surface" style={styles.promptPlay}>
+        <Icon name="Play" size={14} color="#FFFFFF" />
+      </View>
+    </Pressable>
+  );
 };
 
 // ── Card ────────────────────────────────────────────────────────────────────
@@ -672,9 +699,13 @@ const FeatureCard: React.FC<{
 
 // ── Submit sheet ────────────────────────────────────────────────────────────
 
-/** Draw & write from the composer, so a screenshot can be marked up before it is sent. Skia, so older installs skip it. */
-const ImageEditSheet = optionalSkia(
-  () => require("../components/Upload/ImageEditSheet").default as typeof import("../components/Upload/ImageEditSheet").default,
+/**
+ * Crop, rotate, draw & write from the composer, so a screenshot can be cut
+ * down and marked up before it is sent. The post composer's photo editor.
+ * Skia, so older installs skip it.
+ */
+const PhotoStudio = optionalSkia(
+  () => require("../components/Upload/PhotoStudio").default as typeof import("../components/Upload/PhotoStudio").default,
 );
 
 const PromptComposer: React.FC<{
@@ -691,6 +722,9 @@ const PromptComposer: React.FC<{
   const [attachments, setAttachments] = useState<FeatureAttachment[]>([]);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [markupIndex, setMarkupIndex] = useState<number | null>(null);
+  // The original picture and the edits behind each edited one, keyed by the
+  // edited file, so opening it again picks up where you left off.
+  const [studioBase, setStudioBase] = useState<Record<string, { baseUri: string; edits: StudioEdits }>>({});
   const inputRef = React.useRef<TextInput>(null);
   React.useEffect(() => { if (focusRequest) inputRef.current?.focus(); }, [focusRequest]);
   const { isSignedIn, needsUsername } = useAuthState();
@@ -747,36 +781,45 @@ const PromptComposer: React.FC<{
       {attachments.length > 0 && <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled" style={styles.promptPreviews}>
         {attachments.map((attachment, index) => <View key={`${attachment.uri}-${index}`} style={styles.promptAttachment}>
           <ThemePanel style={styles.promptThumbnail}>
-            <Image source={{ uri: attachment.uri }} style={StyleSheet.absoluteFill} contentFit="cover" />
+            {attachment.mimeType?.startsWith("video/")
+              ? <PromptVideoPreview uri={attachment.uri} />
+              : <Image source={{ uri: attachment.uri }} style={StyleSheet.absoluteFill} contentFit="cover" />}
             <Pressable className="dark-surface" style={styles.pickRemove} disabled={submitting} hitSlop={8}
               onPress={() => setAttachments(prev => prev.filter((_, i) => i !== index))}
               accessibilityRole="button" accessibilityLabel={t("features.removePromptAttachment", "Remove {{name}}", { name: attachment.fileName || String(index + 1) })}>
               <Icon name="X" size={12} color="#FFFFFF" />
             </Pressable>
-            {ImageEditSheet && !attachment.mimeType?.startsWith("video/") && attachment.mimeType !== "image/gif" && (
+            {PhotoStudio && !attachment.mimeType?.startsWith("video/") && attachment.mimeType !== "image/gif" && (
               <Pressable className="dark-surface" style={styles.pickMarkup} disabled={submitting} hitSlop={8}
-                onPress={() => setMarkupIndex(index)}
-                accessibilityRole="button" accessibilityLabel={t("upload.drawWrite")}>
-                <Icon name="Pencil" size={12} color="#FFFFFF" />
+                onPress={() => setMarkupIndex(index)} testID="request-photo-edit"
+                accessibilityRole="button" accessibilityLabel={t("upload.cropRotate")}>
+                <Icon name="Crop" size={12} color="#FFFFFF" />
               </Pressable>
             )}
           </ThemePanel>
           <Text numberOfLines={1} style={styles.promptFilename}>{attachment.fileName || t("features.promptAttachment", "Attachment {{number}}", { number: index + 1 })}</Text>
         </View>)}
       </ScrollView>}
-      {ImageEditSheet && markupIndex !== null && attachments[markupIndex] && (
-        <ImageEditSheet
-          mode="draw"
-          uri={attachments[markupIndex].uri}
-          mimeType={attachments[markupIndex].mimeType}
-          onClose={() => setMarkupIndex(null)}
-          onApply={(result) => {
-            const index = markupIndex;
-            setAttachments(prev => prev.map((a, i) => (i === index ? { uri: result.uri, mimeType: result.mimeType, fileName: result.fileName } : a)));
-            setMarkupIndex(null);
-          }}
-        />
-      )}
+      {PhotoStudio && markupIndex !== null && attachments[markupIndex] && (() => {
+        const current = attachments[markupIndex];
+        const base = studioBase[current.uri];
+        return (
+          <PhotoStudio
+            photos={[{ baseUri: base?.baseUri ?? current.uri, mimeType: current.mimeType, edits: base?.edits }]}
+            startIndex={0}
+            startTab="crop"
+            onClose={() => setMarkupIndex(null)}
+            onDone={(results) => {
+              const index = markupIndex;
+              const r = results[0];
+              setMarkupIndex(null);
+              if (!r) return;
+              setStudioBase(prev => ({ ...prev, [r.uri]: { baseUri: base?.baseUri ?? current.uri, edits: r.edits } }));
+              setAttachments(prev => prev.map((a, i) => (i === index ? { uri: r.uri, mimeType: r.mimeType, fileName: r.fileName } : a)));
+            }}
+          />
+        );
+      })()}
       <View style={styles.promptToolbar}>
         <Pressable onPress={pickMedia} disabled={submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS}
           accessibilityRole="button" style={[styles.promptAttach, (submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS) && styles.disabled]}>
@@ -1313,6 +1356,18 @@ const styles = StyleSheet.create({
   promptPreviews: { flexGrow: 0, marginTop: 12 },
   promptAttachment: { width: 112, marginRight: 8 },
   promptThumbnail: { height: 80, borderRadius: 10, overflow: "hidden" },
+  promptVideoBlank: { backgroundColor: "#18181B" },
+  promptPlay: {
+    position: "absolute",
+    left: 4,
+    bottom: 4,
+    width: 24,
+    height: 24,
+    borderRadius: 8,
+    backgroundColor: "rgba(0,0,0,0.7)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   promptFilename: { fontSize: 10, color: "#A1A1AA", marginTop: 4 },
   promptToolbar: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 12, gap: 8 },
   promptAttach: { flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 8 },

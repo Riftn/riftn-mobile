@@ -7,7 +7,18 @@ import { setEncryptedChats } from "../libs/dm-e2ee/encrypt-choice";
 
 const KEY = ["dm-chat-prefs"] as const;
 
-type Patch = { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean };
+type Patch = {
+  pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean;
+  /** ISO time, 'forever', or null to unmute. */
+  mutedUntil?: string | null;
+};
+
+const FOREVER = "2999-12-31T00:00:00.000Z";
+
+/** True while this chat's mute is still running. */
+export function isPrefMuted(pref?: ChatPref | null): boolean {
+  return !!pref?.mutedUntil && new Date(pref.mutedUntil).getTime() > Date.now();
+}
 
 /**
  * Your own chat settings, saved on the server so they follow you between
@@ -39,6 +50,7 @@ export function useChatPrefs(enabled = true) {
       ...(patch.unread !== undefined ? { markedUnread: patch.unread } : {}),
       ...(patch.listed !== undefined ? { listedAt: patch.listed ? now : null } : {}),
       ...(patch.encrypted !== undefined ? { encryptedAt: patch.encrypted ? now : null } : {}),
+      ...(patch.mutedUntil !== undefined ? { mutedUntil: patch.mutedUntil === "forever" ? FOREVER : patch.mutedUntil } : {}),
     };
     const after = [...before.filter((p) => p.conversationId !== id), next];
     queryClient.setQueryData<ChatPref[]>(KEY, after);

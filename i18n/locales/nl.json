@@ -1601,7 +1601,15 @@
     "menuLayoutFolders": "Mappen",
     "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep",
     "publicChatInBar": "Openbare chat in de onderste balk",
-    "publicChatInBarDesc": "Met één tik vanuit de balk onderaan het scherm naar de openbare chat"
+    "publicChatInBarDesc": "Met één tik vanuit de balk onderaan het scherm naar de openbare chat",
+    "loginLook": {
+      "title": "Inlogscherm",
+      "desc": "Hoe het Riftn-logo en de slogan bewegen op het inlogscherm op dit apparaat.",
+      "tube": "Buis-tv",
+      "vhs": "VHS-band",
+      "led": "LED-wand",
+      "holo": "Hologram"
+    }
   },
   "common": {
     "loadMore": "Meer laden",
@@ -4636,6 +4644,10 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "muteChat": "Dempen",
+    "mutedChat": "Gedempt",
+    "muteChatHint": "Geen meldingen meer van de chat van deze community. Je kunt hem nog steeds lezen",
+    "unmuteChatHint": "Weer meldingen krijgen van de chat van deze community",
     "newChat": {
       "description": "Waar gaat het over? (optioneel)",
       "groupCreated": "Groep gemaakt",
@@ -7551,6 +7563,8 @@
     "noLiveStreams": "Geen livestreams",
     "noOneStreaming": "Niemand streamt op dit moment. Kom later terug!",
     "loadStreamsFailed": "Streams konden niet worden geladen. Probeer het opnieuw.",
+    "shareLive": "Kijk nu live naar {{name}} op Riftn! \"{{title}}\"",
+    "shareReplay": "Bekijk de herhaling van de livestream van {{name}} op Riftn",
     "screenShare": {
       "start": "Scherm delen",
       "stop": "Stoppen met scherm delen",
@@ -8233,7 +8247,19 @@
     "declined": "Oproep geweigerd",
     "noAnswer": "Geen antwoord",
     "missed": "Gemist gesprek",
-    "callBack": "Terugbellen"
+    "callBack": "Terugbellen",
+    "group": "Groep",
+    "groupVoiceCall": "Groepsspraakoproep",
+    "groupVideoCall": "Groepsvideogesprek",
+    "callingGroup": "Groep wordt gebeld...",
+    "isCalling": "{{name}} belt",
+    "leave": "Verlaten",
+    "joinCall": "Deelnemen",
+    "startGroupVoice": "Groepsspraakoproep starten",
+    "startGroupVideo": "Groepsvideogesprek starten",
+    "subtitles": "Ondertiteling",
+    "subtitleMyVoice": "Mijn stem ondertitelen",
+    "you": "Jij"
   },
   "badgeAscension": {
     "reached": "Je hebt {{tier}} bereikt",
@@ -17355,6 +17381,9 @@
     "tooMany": "Je kunt maximaal 10 tabbladen hebben"
   },
   "msgDelete": {
+    "chatTitle": "Deze chat verwijderen?",
+    "chatBodyBoth": "Verwijder hem alleen uit je chats, of verwijder alle berichten voor jullie allebei. Dit kan niet ongedaan worden gemaakt.",
+    "chatBodyMe": "Hij wordt alleen uit jouw chats verwijderd. Anderen zien hem nog wel.",
     "title": "Bericht verwijderen?",
     "titleMany": "{{count}} berichten verwijderen?",
     "bodyOwn": "Verwijder het alleen uit jouw chat, of voor iedereen.",
@@ -17370,5 +17399,9 @@
     "remember": "Onthoud mijn keuze",
     "rememberHint": "Wijzig dit altijd in Instellingen",
     "failed": "Kon het bericht niet verwijderen"
+  },
+  "roomPreview": {
+    "you": "Jij",
+    "voice": "🎤 Spraakbericht"
   }
 }

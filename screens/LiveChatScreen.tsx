@@ -16,6 +16,7 @@ import {
   AppState,
   BackHandler,
   Keyboard,
+  type GestureResponderEvent,
   Platform,
 } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
@@ -223,6 +224,17 @@ const LiveChatScreen: React.FC = () => {
     onConfirm: () => void;
   }>({ visible: false, title: "", confirmText: "", confirmKind: "primary", onConfirm: () => {} });
   const flatListRef = useRef<FlatList>(null);
+  const listTouchRef = useRef<{ x: number; y: number } | null>(null);
+  const onListTouchStart = useCallback((e: GestureResponderEvent) => {
+    listTouchRef.current = { x: e.nativeEvent.pageX, y: e.nativeEvent.pageY };
+  }, []);
+  const onListTouchEnd = useCallback((e: GestureResponderEvent) => {
+    const start = listTouchRef.current;
+    listTouchRef.current = null;
+    if (!start) return;
+    if (Math.abs(e.nativeEvent.pageX - start.x) > 10 || Math.abs(e.nativeEvent.pageY - start.y) > 10) return;
+    if (Keyboard.isVisible()) Keyboard.dismiss();
+  }, []);
   // Empty space under the last line (a short chat): that much keyboard can
   // rise before the list has to move.
   const listSlack = useSharedValue(0);
@@ -1250,6 +1262,10 @@ const LiveChatScreen: React.FC = () => {
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
           keyboardDismissMode="interactive"
+          // A tap anywhere on the messages closes the keyboard, even on a
+          // line (lines are pressable, so "handled" alone kept it open).
+          onTouchStart={onListTouchStart}
+          onTouchEnd={onListTouchEnd}
           onScrollToIndexFailed={(info) => {
             // Item not yet rendered — scroll to approximate offset then retry
             flatListRef.current?.scrollToOffset({

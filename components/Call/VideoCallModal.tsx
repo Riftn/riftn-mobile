@@ -7,6 +7,7 @@ import Icon from "../ui/Icon";
 import { useCall } from "../../context/CallContext";
 import { CallDuration } from "./CallDuration";
 import { CallStage, CallIdentity, CallControl, CallDock, CallFoot } from "./CallChrome";
+import { CallCaptionsControl, CallCaptionsOverlay } from "./CallCaptions";
 import { usePeerIdentity } from "./usePeerIdentity";
 
 const VideoCallModal: React.FC = () => {
@@ -46,7 +47,9 @@ const VideoCallModal: React.FC = () => {
     : isConnecting
       ? t("calls.connecting")
       : <CallDuration fallback={t("calls.connected")} />;
-  const footClearance = Math.max(22, insets.bottom + 10) + 132;
+  // Own camera sits just above the controls, and rises with them when subtitles show.
+  const [footHeight, setFootHeight] = React.useState(0);
+  const footClearance = footHeight ? footHeight + 12 : Math.max(22, insets.bottom + 10) + 132;
 
   return (
     <CallStage peer={peer} live={live} onRequestClose={() => setMinimized(true)} onCorner={() => setMinimized(true)}>
@@ -84,7 +87,9 @@ const VideoCallModal: React.FC = () => {
         ) : null}
       </View>
 
-      <CallFoot>
+      <CallFoot onHeight={setFootHeight}>
+        {isCallActive ? <CallCaptionsOverlay /> : null}
+        {isCallActive ? <CallCaptionsControl variant="chip" /> : null}
         <CallDock compact>
           <CallControl
             icon={isSpeakerOn ? "Volume2" : "Volume1"}

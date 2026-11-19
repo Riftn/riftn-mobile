@@ -12,5 +12,9 @@ export function inAppDehubUrl(rawUrl: string): string | null {
   const match = parseDehubLink(rawUrl);
   if (match?.kind === 'proposal') return `dehub://app/governance/${match.proposalId}`;
   const own = rawUrl.match(/^(?:https?:\/\/)?(?:www\.)?(?:dehub\.io|riftn\.com)\/(app(?:[/?#].*)?)$/i);
-  return own ? `dehub://${own[1]}` : null;
+  if (own) return `dehub://${own[1]}`;
+  // A post's top-level share links (/newpost/3, /posts/1): the router has a
+  // screen for both, so they open the post instead of the website.
+  const post = rawUrl.match(/^(?:https?:\/\/)?(?:www\.)?(?:dehub\.io|riftn\.com)\/((?:newpost|posts)\/\d+(?:[/?#].*)?)$/i);
+  return post ? `dehub://${post[1]}` : null;
 }

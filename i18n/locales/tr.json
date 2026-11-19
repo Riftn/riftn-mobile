@@ -1601,7 +1601,15 @@
     "menuLayoutFolders": "Klasörler",
     "menuLayoutFoldersDesc": "Ana sayfaların, ardından her grup için bir klasör",
     "publicChatInBar": "Alt çubukta Genel Sohbet",
-    "publicChatInBarDesc": "Ekranın altındaki çubuktan tek dokunuşla Genel Sohbet'e gir"
+    "publicChatInBarDesc": "Ekranın altındaki çubuktan tek dokunuşla Genel Sohbet'e gir",
+    "loginLook": {
+      "title": "Giriş ekranı",
+      "desc": "Bu cihazda giriş ekranında Riftn logosu ve sloganının nasıl hareket ettiği.",
+      "tube": "Tüplü TV",
+      "vhs": "VHS kaset",
+      "led": "LED duvar",
+      "holo": "Hologram"
+    }
   },
   "common": {
     "loadMore": "Daha fazla yükle",
@@ -2433,14 +2441,14 @@
     },
     "tokenAmount": "{{amount}} token",
     "custom": {
-      "featureLikeNamed": "{{name}} beğendiğiniz özelleştirme talebinizi “{{title}}”",
-      "featureLike": "{{name}} beğendiğiniz özelleştirme talebi",
-      "featureCommentNamed": "{{name}} özelleştirme talebiniz “{{title}}” üzerine yorum yaptı",
-      "featureComment": "{{name}} özelleştirme talebiniz üzerine yorum yaptı",
+      "featureLikeNamed": "{{name}} “{{title}}” isteğinizi beğendi",
+      "featureLike": "{{name}} isteğinizi beğendi",
+      "featureCommentNamed": "{{name}} “{{title}}” isteğinize yorum yaptı",
+      "featureComment": "{{name}} isteğinize yorum yaptı",
       "featureReplyNamed": "{{name}} “{{title}}” üzerine size cevap verdi",
       "featureReply": "{{name}} yorumunuza cevap verdi",
       "featureMentionNamed": "{{name}} “{{title}}” üzerinde size atıfta bulundu",
-      "featureMention": "{{name}} bir özelleştirme talebinde size atıfta bulundu",
+      "featureMention": "{{name}} bir istekte sizden bahsetti",
       "featureNewNamed": "{{name}} yeni bir istekte bulundu: “{{title}}”",
       "featureNew": "{{name}} yeni bir istekte bulundu",
       "featureActivityNamed": "{{name}}, “{{title}}” üzerine yorum yaptı",
@@ -4448,6 +4456,10 @@
     "tokenAmount": "{{amount}} jeton"
   },
   "communities": {
+    "muteChat": "Sessize al",
+    "mutedChat": "Sessizde",
+    "muteChatHint": "Bu topluluğun sohbetinden bildirim alma. Sohbeti okumaya devam edebilirsin",
+    "unmuteChatHint": "Bu topluluğun sohbetinden yeniden bildirim al",
     "newChat": {
       "description": "Ne hakkında? (isteğe bağlı)",
       "groupCreated": "Grup oluşturuldu",
@@ -7412,6 +7424,8 @@
     "noLiveStreams": "Canlı yayın yok",
     "noOneStreaming": "Şu anda kimse yayın yapmıyor. Daha sonra tekrar bak!",
     "loadStreamsFailed": "Yayınlar yüklenemedi. Lütfen tekrar dene.",
+    "shareLive": "{{name}} şu anda Riftn'de canlı yayında, hemen izle! \"{{title}}\"",
+    "shareReplay": "{{name}} adlı kişinin canlı yayın tekrarını Riftn'de izle",
     "screenShare": {
       "start": "Ekranı paylaş",
       "stop": "Ekran paylaşımını durdur",
@@ -8094,7 +8108,19 @@
     "declined": "Çağrı reddedildi",
     "noAnswer": "Cevap yok",
     "missed": "Cevapsız arama",
-    "callBack": "Geri ara"
+    "callBack": "Geri ara",
+    "group": "Grup",
+    "groupVoiceCall": "Grup sesli araması",
+    "groupVideoCall": "Grup görüntülü araması",
+    "callingGroup": "Grup aranıyor...",
+    "isCalling": "{{name}} arıyor",
+    "leave": "Ayrıl",
+    "joinCall": "Katıl",
+    "startGroupVoice": "Grup sesli araması başlat",
+    "startGroupVideo": "Grup görüntülü araması başlat",
+    "subtitles": "Altyazı",
+    "subtitleMyVoice": "Sesimi altyazıla",
+    "you": "Sen"
   },
   "badgeAscension": {
     "reached": "{{tier}} seviyesine ulaştınız",
@@ -17103,6 +17129,9 @@
     "tooMany": "En fazla 10 sekmen olabilir"
   },
   "msgDelete": {
+    "chatTitle": "Bu sohbet silinsin mi?",
+    "chatBodyBoth": "Yalnızca sohbetlerinden sil ya da ikiniz için tüm mesajları sil. Bu işlem geri alınamaz.",
+    "chatBodyMe": "Yalnızca senin sohbetlerinden kaldırılır. Diğerleri görmeye devam eder.",
     "title": "Mesaj silinsin mi?",
     "titleMany": "{{count}} mesaj silinsin mi?",
     "bodyOwn": "Yalnızca kendi sohbetinden ya da herkes için kaldır.",
@@ -17118,5 +17147,9 @@
     "remember": "Seçimimi hatırla",
     "rememberHint": "İstediğin zaman Ayarlar'dan değiştir",
     "failed": "Mesaj silinemedi"
+  },
+  "roomPreview": {
+    "you": "Sen",
+    "voice": "🎤 Sesli mesaj"
   }
 }

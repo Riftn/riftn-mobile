@@ -1809,11 +1809,14 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         onEndReachedThreshold={1.5}
         ListEmptyComponent={listEmpty}
         renderItem={renderCommentItem}
-        // The post itself heads the list, so the first screen holds only a
-        // handful of comments; the default ten doubled the first render's rows.
-        initialNumToRender={6}
-        maxToRenderPerBatch={6}
-        windowSize={11}
+        // The post itself heads the list, so the first screen shows two or
+        // three comments at most. A comment row is several hundred elements:
+        // six at once, six more straight after and five screens kept drawn
+        // below held the post frozen while rows nobody could see were built.
+        // Three at a time, two screens each way.
+        initialNumToRender={3}
+        maxToRenderPerBatch={3}
+        windowSize={5}
         contentContainerStyle={listContentStyle}
         keyboardShouldPersistTaps="handled"
         viewabilityConfig={viewabilityConfig}

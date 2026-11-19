@@ -1,5 +1,7 @@
 import { purchaseOfferVisible } from "../../config/storefront";
 import { useTranslation as _useCopy } from 'react-i18next';
+import { useMentions } from "../../hooks/useMentions";
+import MentionSuggestions from "../common/MentionSuggestions";
 import { useDraftState } from '../../hooks/useDraftState';
 /**
  * The live viewer's bottom bar: say something, or do something.
@@ -101,9 +103,15 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const [message, setMessage] = useDraftState(draftScope, "");
+  // @tagging: typing @ offers people, picking one fills in "@username ".
+  const mentions = useMentions(message, setMessage as (t: string) => void, undefined, false);
   const sending = useRef(false);
   const [reactionsOpen, setReactionsOpen] = useState(false);
   const [gifPickerVisible, setGifPickerVisible] = useState(false);
+  // While the box is focused the row stays in its typing layout, so the
+  // first letter (and deleting the last one) no longer swaps the buttons in
+  // and out and makes the box jump under your thumb.
+  const [focused, setFocused] = useState(false);
   const lastTapRef = useRef(0);
   const composerKeyboard = useComposerKeyboard(viewportHeight);
   const inputRef = useRef<TextInput>(null);
@@ -138,12 +146,13 @@ const LiveViewerActionBar: React.FC<Props> = ({
     // back unless something new has been typed since.
     const sent = message;
     setMessage("");
+    mentions.reset();
     try {
       if (!(await onSendMessage(content))) setMessage((current) => (current.trim() ? current : sent));
     } catch {
       setMessage((current) => (current.trim() ? current : sent));
     } finally { sending.current = false; }
-  }, [message, inputDisabled, onSendMessage, setMessage]);
+  }, [message, inputDisabled, onSendMessage, setMessage, mentions]);
 
   const handleReact = useCallback(
     (type: ReactionType) => {
@@ -160,6 +169,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const closeReactions = useCallback(() => setReactionsOpen(false), []);
 
   const canSubmit = !!message.trim() && !inputDisabled;
+  const typing = canSubmit || (focused && !inputDisabled);
 
   return (
     <View ref={composerKeyboard.ref} collapsable={false} onLayout={composerKeyboard.onLayout}
@@ -198,13 +208,25 @@ const LiveViewerActionBar: React.FC<Props> = ({
         </View>
       ) : null}
 
+      {!inputDisabled ? (
+        <View style={styles.mentionWrap}>
+          <MentionSuggestions
+            visible={mentions.showSuggestions}
+            suggestions={mentions.suggestions}
+            onSelect={mentions.selectMention}
+            loading={mentions.loading}
+          />
+        </View>
+      ) : null}
+
       <View style={styles.row} pointerEvents="box-none">
         <View style={styles.inputWrap}>
           <ChromeFill glass />
           <TextInput
             ref={inputRef}
             value={message}
-            onChangeText={setMessage}
+            onChangeText={mentions.handleChangeText}
+            onSelectionChange={mentions.handleSelectionChange}
             placeholder={placeholderText}
             placeholderTextColor="rgba(255,255,255,0.45)"
             style={styles.input}
@@ -216,14 +238,17 @@ const LiveViewerActionBar: React.FC<Props> = ({
             submitBehavior="submit"
             returnKeyType="send"
             onSubmitEditing={handleSend}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
           />
-          {canSubmit ? (
+          {typing ? (
             <Pressable
               onPress={handleSend}
+              disabled={!canSubmit}
               hitSlop={8}
               accessibilityRole="button"
               accessibilityLabel={t("tip.send", { defaultValue: "Send" })}
-              style={styles.sendButton}
+              style={[styles.sendButton, canSubmit ? null : styles.dim]}
             >
               <Icon name="Send" size={17} color="#fff" strokeWidth={1.8} />
             </Pressable>
@@ -234,11 +259,11 @@ const LiveViewerActionBar: React.FC<Props> = ({
             button — the three things you do to a broadcast, where the thumb
             already is.
 
-            They stand down while there is a message in the box: typing hands
-            the whole row to the text and the send button, and the moment it
-            is empty again they come back. Nothing is ever on this row that
+            They stand down while you are typing (box focused or holding a
+            message): the whole row goes to the text and the send button, and
+            they come back when the keyboard closes with the box empty. Nothing is ever on this row that
             the viewer is not about to use. */}
-        {canSubmit ? null : (
+        {typing ? null : (
           <View style={styles.cluster} pointerEvents="box-none">
           {isLive && !inputDisabled ? (
             <Pressable onPress={() => setGifPickerVisible(true)} hitSlop={CHROME_HIT_SLOP}
@@ -303,6 +328,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
 
 
 const styles = StyleSheet.create({
+  mentionWrap: { marginHorizontal: 10, marginBottom: 6 },
   row: {
     flexDirection: "row",
     alignItems: "flex-end",

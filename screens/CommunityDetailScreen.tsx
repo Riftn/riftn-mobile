@@ -70,6 +70,7 @@ import { roomChatId } from "../services/dm/dm.api";
 import CommunityDescription from "../components/Communities/CommunityDescription";
 import { TopHolders } from "../components/Communities/TopHolders";
 import { formatHolderAmount, holderGateMessage, holderGateOf, isDehubToken, runHolderCheck } from "../libs/holder-gate";
+import GroupCallButtons from "../components/Call/GroupCallButtons";
 import { communityKindOf, confirmEntry, entryPriceOf, entryStatus, isPublicChatCommunity } from "../libs/community-kinds";
 import { useWeb3Provider, useERC20Contract } from "../hooks/use-web3";
 import { writeContractAA } from "../libs/aa.write";
@@ -695,6 +696,30 @@ const CommunityDetailScreen: React.FC = () => {
               </TouchableOpacity>
             );
           })()}
+          {isMember && !!walletAddress && !isPublicChat && (() => {
+            // Stops this community's chat alerts on every device; the chat
+            // itself stays readable. Same switch as Mute in the Chat list.
+            const mutedUntil = chatPrefs.get(roomChatId(community.id))?.mutedUntil;
+            const muted = !!mutedUntil && new Date(mutedUntil).getTime() > Date.now();
+            return (
+              <TouchableOpacity
+                style={styles.secondaryBtn}
+                testID="community-mute"
+                accessibilityState={{ checked: muted }}
+                accessibilityHint={muted
+                  ? t("communities.unmuteChatHint", { defaultValue: "Get alerts from this community's chat again" })
+                  : t("communities.muteChatHint", { defaultValue: "Stop alerts from this community's chat. You can still read it" })}
+                onPress={() => void updateChatPref(roomChatId(community.id), { mutedUntil: muted ? null : "forever" })}
+              >
+                <Icon name={muted ? "BellOff" : "Bell"} size={16} color="#fff" />
+                <Text style={styles.secondaryBtnText}>
+                  {muted
+                    ? t("communities.mutedChat", { defaultValue: "Muted" })
+                    : t("communities.muteChat", { defaultValue: "Mute" })}
+                </Text>
+              </TouchableOpacity>
+            );
+          })()}
           <TouchableOpacity style={styles.secondaryBtn} onPress={() => setShareOpen(true)}>
             <Icon name="Share2" size={16} color="#fff" />
             <Text style={styles.secondaryBtnText}>{t("communities.share")}</Text>
@@ -738,7 +763,12 @@ const CommunityDetailScreen: React.FC = () => {
 
   return (
     <View className="flex-1 bg-theme-neutrals-900">
-      <ScreenHeader title={t("communities.title")} />
+      <ScreenHeader
+        title={t("communities.title")}
+        rightContent={isMember && kind === "group" ? (
+          <GroupCallButtons groupId={community.id} groupName={community.name} members={members.map((m) => m.wallet_address)} />
+        ) : undefined}
+      />
       {tab === "posts" ? (
         <View className="flex-1">
           {community.is_private && !isMember ? <ScrollView showsVerticalScrollIndicator={false}>{HeaderBlock}<Text className="text-zinc-400 text-center p-6">{t('communities.joinToSeePosts')}</Text></ScrollView> : <CommunityFeedRoute

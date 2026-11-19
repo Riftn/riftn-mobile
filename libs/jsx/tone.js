@@ -32,6 +32,13 @@ function jsxAny(type, props) {
 }
 
 const KeepDark = React.createContext(false);
+/**
+ * A screen that is a dark room in every theme (the live viewer). Inside it
+ * the app keeps its saved theme, so the screens underneath never redraw, and
+ * this marks the subtree as dark for what reads the theme: useAppTheme hands
+ * System's values out here, and neutral buttons take System's glass.
+ */
+const DarkRoom = React.createContext(false);
 
 function setLightTone(next) {
   const v = !!next;
@@ -235,14 +242,24 @@ const KeepDarkHost = React.forwardRef(function KeepDarkHost(props, ref) {
   return jsxAny(KeepDark.Provider, { value: true, children: jsxAny(type, ref ? { ...rest, ref } : rest) });
 });
 
+let darkControlStyle;
+/** A neutral button in a dark room: System's glass, not System Light's ink wash. */
+function darkRoomProps(props) {
+  if (props.style === undefined) return props;
+  if (!darkControlStyle) darkControlStyle = require("./controls").darkControlStyle;
+  const style = darkControlStyle(props.style);
+  return style === props.style ? props : { ...props, style };
+}
+
 let routeProps;
 const ToneFill = React.forwardRef(function ToneFill(props, ref) {
   const { __toneType: type, __toned: _toned, ...rest } = props;
   const dark = React.useContext(KeepDark);
+  const room = React.useContext(DarkRoom);
   // Toned from the props as they arrive here, not as they were when the
   // element was made: a parent can clone in more (ScrollView hands its
   // refreshControl a `style`), and the earlier copy would drop them.
-  const chosen = dark ? rest : toneProps(rest);
+  const chosen = dark ? (room ? darkRoomProps(rest) : rest) : toneProps(rest);
   // A Pressable's `style={({ pressed }) => ...}` needs `cssInterop: false` to
   // get past NativeWind (./shape.js routeProps). That flag was set on this
   // ToneFill element, and NativeWind deletes it from the props it is handed,
@@ -342,4 +359,4 @@ function KeepDarkScope({ children }) {
   return jsxAny(KeepDark.Provider, { value: true, children });
 }
 
-module.exports = { setLightTone, isLightToneOn, tone, toneColor, KeepDark, KeepDarkScope, KeepDarkHost, ToneFill };
+module.exports = { setLightTone, isLightToneOn, tone, toneColor, KeepDark, DarkRoom, KeepDarkScope, KeepDarkHost, ToneFill };

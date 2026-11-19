@@ -49,7 +49,7 @@ export function useStage(): Stage {
 }
 
 /** A stage button's own fill, drawn inside it so the button itself stays unpainted. */
-const Fill: React.FC<{ color: string; line?: string }> = ({ color, line }) => (
+export const Fill: React.FC<{ color: string; line?: string }> = ({ color, line }) => (
   <View
     pointerEvents="none"
     style={[StyleSheet.absoluteFill, { borderRadius: radius.full, backgroundColor: color }, line ? { borderWidth: 1, borderColor: line } : null]}
@@ -271,9 +271,16 @@ export const CallPill: React.FC<{
 };
 
 /** The bottom of the stage: the dock or the pills, clear of the home bar. */
-export const CallFoot: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CallFoot: React.FC<{ children: React.ReactNode; onHeight?: (height: number) => void }> = ({ children, onHeight }) => {
   const insets = useSafeAreaInsets();
-  return <View style={[styles.foot, { paddingBottom: Math.max(22, insets.bottom + 10) }]}>{children}</View>;
+  return (
+    <View
+      style={[styles.foot, { paddingBottom: Math.max(22, insets.bottom + 10) }]}
+      onLayout={onHeight ? (e) => onHeight(e.nativeEvent.layout.height) : undefined}
+    >
+      {children}
+    </View>
+  );
 };
 
 export const CallRow: React.FC<{ children: React.ReactNode }> = ({ children }) => <View style={styles.row}>{children}</View>;

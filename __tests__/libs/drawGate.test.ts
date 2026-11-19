@@ -46,6 +46,10 @@ describe("pages that keep what they built", () => {
     expect(detail).toContain("ListHeaderComponent={listHeader}");
     expect(detail).toContain("contentContainerStyle={listContentStyle}");
     expect(detail).toContain("keyExtractor={commentKey}");
+    // Comment rows are heavy: a few at a time, two screens kept each way.
+    expect(detail).toContain("initialNumToRender={3}");
+    expect(detail).toContain("maxToRenderPerBatch={3}");
+    expect(detail).toContain("windowSize={5}");
   });
 
   it("gives Explore's list one header while the search box is typed in", () => {

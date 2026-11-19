@@ -29,11 +29,15 @@ import ChatSearchDiscover from "../components/DM/ChatSearchDiscover";
 import GroupChatRow from "../components/DM/GroupChatRow";
 import { ChatCard, useChatListSpacing } from "../components/DM/ChatCard";
 import UnreadCountChip from "../components/DM/UnreadCountChip";
+import DeleteMessageSheet, { type DeleteRequest, type DeleteScope } from "../components/DM/DeleteMessageSheet";
+import { usePublicChatLastLine, useRoomChatSummaries } from "../hooks/useRoomChatSummaries";
+import { roomPreviewLine } from "../libs/room-chat-read";
+import { formatShortAgo } from "../libs/date.util";
 import ReactionAlertBadge, { reactionAlertLine } from "../components/DM/ReactionAlertBadge";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
 import { chatsFromMemberships } from "../libs/community-kinds";
-import { useChatPrefs } from "../hooks/useChatPrefs";
+import { useChatPrefs, isPrefMuted } from "../hooks/useChatPrefs";
 import { PUBLIC_CHAT_PREF_ID, roomChatId } from "../services/dm/dm.api";
 import { useQuery } from "@tanstack/react-query";
 import type { Community } from "../types/community";
@@ -236,10 +240,14 @@ const DirectMessagesInner: React.FC = () => {
     () => (tabFilter === "groups" ? [] : tabFilter === "unread" ? filtered.filter(convHasUnread) : filtered).filter((c) => inRequests || convInTab(c)),
     [filtered, tabFilter, convHasUnread, convInTab, inRequests],
   );
+  // Newest line + unread number for each group row, and General Chat's newest line.
+  const roomSummaries = useRoomChatSummaries(groupChats.map((c) => c.id), isSignedIn ? myAddress : null);
+  const publicLastLine = usePublicChatLastLine(!!isSignedIn);
   const shownGroups = useMemo(
-    () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions) : groupChats).filter(roomInTab),
-    [groupChats, tabFilter, chatPrefs, roomInTab],
+    () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions || (roomSummaries[c.id]?.unread ?? 0) > 0) : groupChats).filter(roomInTab),
+    [groupChats, tabFilter, chatPrefs, roomInTab, roomSummaries],
   );
+  const roomsUnread = groupChats.reduce((n, c) => n + (roomSummaries[c.id]?.unread ?? 0), 0);
   const inboxUnreadChats = useMemo(
     () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id) && convHasUnread(c)).length
       + groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions).length,
@@ -366,13 +374,13 @@ const DirectMessagesInner: React.FC = () => {
   // The row goes at once, with Undo in the toast; the real delete runs when
   // that window closes. A confirm dialog after every swipe defeated the point
   // of swiping, and a mistaken swipe is exactly what Undo is for.
-  const deleteConv = useCallback(
-    (conv: DmConversation | null) => {
+  const deleteConvNow = useCallback(
+    (conv: DmConversation | null, scope: DeleteScope = "me") => {
       if (!conv) return;
       const id = conv._id;
       scheduleDelete(id, async () => {
         try {
-          await deleteConversation(id, myAddress);
+          await deleteConversation(id, myAddress, { forEveryone: scope === "everyone" });
           dmActions.removeConversation(id);
         } catch (e) {
           toastError(e, t("dm.failedToDeleteConversation"));
@@ -390,13 +398,34 @@ const DirectMessagesInner: React.FC = () => {
     [myAddress, t],
   );
 
+  // Deleting a whole chat asks first: Delete for me, Delete for both (1:1
+  // chats), or Cancel. Same sheet as deleting a message. Opened a beat after
+  // the hold menu closes: iOS won't raise a modal over a closing one.
+  const [chatDeleteRequest, setChatDeleteRequest] = useState<DeleteRequest | null>(null);
+  const deleteConv = useCallback(
+    (conv: DmConversation | null, afterMenu = false) => {
+      if (!conv) return;
+      const peer = getOtherParticipant(conv, myUserId, myAddress);
+      const open = () => setChatDeleteRequest({
+        subject: "chat",
+        count: 1,
+        canDeleteForEveryone: (conv.participants?.length ?? 0) <= 2,
+        oneToOne: true,
+        peerName: peer?.displayName || peer?.username || null,
+        onDelete: (scope) => deleteConvNow(conv, scope),
+      });
+      if (afterMenu) setTimeout(open, 250); else open();
+    },
+    [deleteConvNow, myUserId, myAddress],
+  );
+
   const handleCtxBlock = useCallback(
     () => blockConvUser(ctxUser),
     [blockConvUser, ctxUser],
   );
 
   const handleCtxDelete = useCallback(
-    () => deleteConv(ctxConv),
+    () => deleteConv(ctxConv, true),
     [deleteConv, ctxConv],
   );
 
@@ -415,6 +444,13 @@ const DirectMessagesInner: React.FC = () => {
     });
     return () => { clearTimeout(timer); off?.(); };
   }, [ws, myAddress, refreshChatPrefs]);
+  // The other person deleted a 1:1 chat for both of you: it leaves the list.
+  useEffect(() => {
+    const off = ws.on(DMSocketEvent.ConversationDeleted, (payload: { dmId?: string; forEveryone?: boolean }) => {
+      if (payload?.forEveryone && payload.dmId) dmActions.removeConversation(payload.dmId);
+    });
+    return () => { off?.(); };
+  }, [ws]);
   // Only chats still on screen count (one may have been deleted meanwhile).
   const bulkChats = useMemo(
     () => (bulkIds ? filtered.filter((c) => bulkIds.has(c._id)) : []),
@@ -644,10 +680,10 @@ const DirectMessagesInner: React.FC = () => {
   const tabUnread = useMemo(() => {
     const sum = (list: DmConversation[]) => list.reduce((n, c) => n + (c.unreadCount || 0), 0);
     const out: Record<string, number> = {
-      all: sum(inbox) + publicUnread,
-      unread: sum(inbox) + publicUnread,
+      all: sum(inbox) + publicUnread + roomsUnread,
+      unread: sum(inbox) + publicUnread + roomsUnread,
       direct: sum(inbox),
-      communities: 0,
+      communities: roomsUnread,
       requests: requestUnread,
     };
     for (const tab of chatTabs.tabs) {
@@ -655,7 +691,7 @@ const DirectMessagesInner: React.FC = () => {
       out[tab.id] = sum(inbox.filter((c) => tab.chats.includes(c._id))) + (tab.chats.includes(PUBLIC_CHAT_TAB_ID) ? publicUnread : 0);
     }
     return out;
-  }, [inbox, publicUnread, requestUnread, chatTabs.tabs]);
+  }, [inbox, publicUnread, requestUnread, chatTabs.tabs, roomsUnread]);
   // An empty Requests tab stays out of the row.
   const tabRowTabs = requestChats.length
     ? chatTabs.tabs
@@ -789,15 +825,27 @@ const DirectMessagesInner: React.FC = () => {
         {/* Name + preview (matches ConversationItem layout) */}
         <View className="flex-1 justify-center">
           <View className="flex-row items-center gap-1.5">
-            <Text className="text-theme-neutrals-100 text-[15px] font-semibold" numberOfLines={1}>
+            <Text className="text-theme-neutrals-100 text-[15px] font-semibold flex-shrink" numberOfLines={1}>
               {t("publicChat.title")}
             </Text>
+            {publicLastLine && (
+              <Text testID="room-last-at" className="text-[12.5px] text-theme-neutrals-500" style={{ marginLeft: "auto", fontVariant: ["tabular-nums"] }}>
+                {formatShortAgo(publicLastLine.created_at)}
+              </Text>
+            )}
+            <ReactionAlertBadge reactions={publicReactions} />
+            {/* Same white number as a private chat. */}
+            <UnreadCountChip count={publicUnread} />
           </View>
           <View className="flex-row items-center gap-1 mt-0.5">
             {publicReactions ? (
               <Text testID="reaction-alert-line" className="text-white text-[14px] font-bold flex-1" numberOfLines={1}>
                 {reactionAlertLine(t as any, publicReactions, { named: true })}
               </Text>
+            ) : publicLastLine && roomPreviewLine(publicLastLine, myAddress, t as any) ? (
+            <Text testID="room-preview" className={`text-white text-[14px] flex-1 ${publicUnread > 0 ? "font-bold" : "font-normal"}`} numberOfLines={1}>
+              {roomPreviewLine(publicLastLine, myAddress, t as any)}
+            </Text>
             ) : (
             <Text className="text-theme-neutrals-400 text-[14px] flex-1" numberOfLines={1}>
               {t("publicChat.subtitle")}
@@ -805,14 +853,6 @@ const DirectMessagesInner: React.FC = () => {
             )}
           </View>
         </View>
-        <ReactionAlertBadge reactions={publicReactions} />
-        {publicUnread > 0 && (
-          <View style={{ minWidth: 20, height: 20, paddingHorizontal: 6, borderRadius: 10, backgroundColor: "#ef4444", alignItems: "center", justifyContent: "center" }}>
-            <Text style={{ color: "#ffffff", fontSize: 12, fontWeight: "700" }}>
-              {publicUnread > 99 ? "99+" : publicUnread}
-            </Text>
-          </View>
-        )}
       </TouchableOpacity>
       </ChatCard>
       <View style={SEPARATOR} />
@@ -828,6 +868,8 @@ const DirectMessagesInner: React.FC = () => {
             checked={!!bulkIds?.has(roomChatId(c.id))}
             markedUnread={!!chatPrefs.get(roomChatId(c.id))?.markedUnread}
             reactions={chatPrefs.get(roomChatId(c.id))?.reactions}
+            summary={roomSummaries[c.id]}
+            me={myAddress}
           />
           <View style={SEPARATOR} />
         </React.Fragment>
@@ -867,7 +909,7 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, requestsTabShown, SEPARATOR],
+    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, requestsTabShown, SEPARATOR],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, [SEPARATOR]);
@@ -996,6 +1038,8 @@ const DirectMessagesInner: React.FC = () => {
           onCreated={(c) => openGroupChat(c, true)}
         />
 
+        <DeleteMessageSheet request={chatDeleteRequest} onClose={() => setChatDeleteRequest(null)} />
+
         <NewDMModal
           open={newDmVisible}
           onOpenChange={setNewDmVisible}
@@ -1052,6 +1096,8 @@ const DirectMessagesInner: React.FC = () => {
           onDelete={handleCtxDelete}
           onSelectMany={handleCtxSelectMany}
           onAddToTab={ctxConv && !ctxConv.isRequest ? () => setTabActions({ kind: "chat", id: ctxConv._id }) : undefined}
+          muted={!!ctxConv && isPrefMuted(chatPrefs.get(ctxConv._id))}
+          onToggleMute={ctxConv && !ctxConv.isRequest ? () => void updateChatPref(ctxConv._id, { mutedUntil: isPrefMuted(chatPrefs.get(ctxConv._id)) ? null : "forever" }) : undefined}
           onToggleFreeAccess={handleCtxToggleFreeAccess}
           peerHasFreeAccess={
             !!(myDmStatus?.freeAccessUsers?.some(

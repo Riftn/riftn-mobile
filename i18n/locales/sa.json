@@ -3860,7 +3860,9 @@
     "notificationShowCountDesc": "केवलं प्रकाशस्य स्थाने कति सूचनाः अपठिताः इति पश्य",
     "messagesShowCount": "Messages इत्यत्र सङ्ख्यां दर्शय",
     "messagesShowCountDesc": "केवलं प्रकाशस्य स्थाने कति सन्देशाः अपठिताः इति पश्य",
-    "pushNotRegisteredDescIos": "अनुप्रयोगे पिहिते सूचनाः भवन्तं न प्राप्नुवन्ति: इदं iPhone push-कृते कदापि न पञ्जीकृतम्। Settings-मध्ये Riftn-कृते सूचनाः अनुमताः इति परीक्ष्य अनुप्रयोगं पुनः उद्घाटय।"
+    "pushNotRegisteredDescIos": "अनुप्रयोगे पिहिते सूचनाः भवन्तं न प्राप्नुवन्ति: इदं iPhone push-कृते कदापि न पञ्जीकृतम्। Settings-मध्ये Riftn-कृते सूचनाः अनुमताः इति परीक्ष्य अनुप्रयोगं पुनः उद्घाटय।",
+    "publicChatInBar": "अधःपट्टिकायां सार्वजनिकसम्भाषणम्",
+    "publicChatInBarDesc": "पटलस्य अधःपट्टिकातः एकेन स्पर्शेन सार्वजनिकसम्भाषणं प्रविशन्तु"
   },
   "common": {
     "refresh": "नवीकुरुत",
@@ -4781,7 +4783,13 @@
     "addedToLeaderboard": "आपको जोड़ा गया है! शेष: {{balance}} टोकन",
     "balanceTooLow": "शेष बहुत कम है ({{balance}} टोकन)",
     "tokenAmount": "{{amount}} टोकन",
-    "provisional": "अस्थायी"
+    "provisional": "अस्थायी",
+    "ogChallenge": "OG आह्वानम्",
+    "ogHolders_one": "{{count}} OG धारकः",
+    "ogHolders_other": "{{count}} OG धारकाः",
+    "ogChallengeTitle": "OG धारकान् पुनः आनयन्तु",
+    "ogChallengeBody": "ये अद्यापि DHB धारयन्ति तान् आमन्त्रयन्तु। यदा ते भवतः आमन्त्रणसम्पर्केण सम्मिलन्ति स्वं DHB च स्वस्मिन् Riftn कोषे रक्षन्ति, तदा ते अत्र भवतः कृते गण्यन्ते।",
+    "ogChallengeCta": "आमन्त्रणसम्पर्कं प्राप्नुवन्तु"
   },
   "explorePage": {
     "searchPlaceholder": "जनान्, प्रकाशनानि, वा विषयम् अन्विष्यतु...",

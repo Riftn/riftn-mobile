@@ -2612,7 +2612,66 @@
     "57e2faa5ec63": "Bincika Riftn",
     "7db20897053b": "Mutane",
     "96d7bff86b44": "Binciken bai iya lodawa ba",
-    "d8b8392e2c54": "Sake gwadawa"
+    "d8b8392e2c54": "Sake gwadawa",
+    "e587a51bc3ce": "Sabo a Riftn",
+    "d7396f3b8881": "Sabon so ko sharhi a Riftn",
+    "037a2ecd34b0": "Sabon mabiyi a Riftn",
+    "b63561f1b73a": "Sabon tip ko samu a Riftn",
+    "0ae84457a2df": "Wani da kake bi yana kai tsaye a Riftn",
+    "a7bac8dca08b": "Kira mai shigowa a Riftn",
+    "9d309cb4a034": "Sabuntawa game da rubutunka na Riftn",
+    "914be7a9350a": "Saƙo daga Riftn",
+    "2ab63e6ced90": "Ba zai yiwu ba",
+    "79688f176607": "An yi alama Ba zai yiwu ba",
+    "465fe84f18fc": "Yi alama Ba zai yiwu ba",
+    "0d24977e6943": "Gyara dalili",
+    "0a54f1d10336": "Me yasa wannan ba zai yiwu ba? (na zaɓi)",
+    "3d024b567634": "Gajeren dalili da mutane za su gani",
+    "ad389aa4c08e": "Dalili:",
+    "78b3ae9561ee": "Babu abin da aka cire",
+    "89b4d1850766": "Buƙatun da ba za mu iya ginawa yanzu ba suna bayyana a nan, tare da dalili.",
+    "3f9b2c71d0a4": "Sakamako {{n}}",
+    "8c4e1a6b2f57": "don “{{query}}”",
+    "63eb38b938b8": "Yi alama A layi",
+    "2fffca525795": "Yi alama An kammala",
+    "3ee050a08bfa": "Koma zuwa Buƙatu",
+    "ae6a0ffbe609": "An yi alama A layi",
+    "366cb56b38ce": "An yi alama An kammala",
+    "9db7b5ba03bb": "An mayar zuwa Buƙatu",
+    "bb2be752e079": "Ba a iya canza matsayin ba",
+    "1d7234ff1b79": "a cikin {{feed}}",
+    "e122e5c2b563": "Ja sama don rufewa",
+    "1aa9d734f2ee": "Zaɓi abin da za a bincika",
+    "35034aa59bd3": "Babu abin da ya dace a cikin {{feed}}. Gwada wasu kalmomi ko bincika komai.",
+    "415155739590": "Bincika komai",
+    "90f1afe66801": "Ana neman “{{query}}”…",
+    "9e13d826baaf": "Bincika hotuna",
+    "e8756c6865a5": "Bincika gajerun bidiyo",
+    "c7661da99c41": "Bincika bidiyo",
+    "cbf6f228327c": "Bincika kiɗa",
+    "d7b559f2d8c6": "Gwada wasu kalmomi, ko canza matatun.",
+    "ef557404f465": "Babu sakamako don “{{query}}”",
+    "d1a0c7e2f301": "Me ke zuciyarka yau?",
+    "d1a0c7e2f302": "Me kake tunani a kai yau?",
+    "d1a0c7e2f303": "Me ke zuciyarka?",
+    "d1a0c7e2f304": "Akwai wani abu a zuciyarka?",
+    "d1a0c7e2f305": "Me ke zuciyarka yanzu?",
+    "d1a0c7e2f306": "Me muke tunani yau?",
+    "d1a0c7e2f307": "Akwai wani abu a zuciyarka yau?",
+    "d1a0c7e2f308": "Me ke zuciyarka a wannan karon?",
+    "a7c1e0f4b2d9": "Taɓa don magana",
+    "b3e8d1c6f0a2": "Taɓa don aikawa",
+    "c9f2a4e7d1b5": "Ana saurare... taɓa ƙwallon don aikawa",
+    "94cee2c8c1c1": "Bayanan martabarka ya koma",
+    "22577ebd908e": "Ƙirƙiri bidiyo na Wan 3.0 · waƙar asali",
+    "1fa2357ab7e1": "Ƙirƙiri bidiyo na Seedance 720p · waƙar asali",
+    "7f78bdc0762d": "+{{value1}} maki",
+    "f0c8bb34335b": "Ka sami maki +{{value1}}",
+    "0fbe06b679a8": "Maki {{value1}} ga kowace buƙata da aka kammala, ana ƙara su a makin Manyan masu gini naka.",
+    "ebebdc70335b": "Sandunan Gilashi",
+    "5ff272ba7871": "Layukan Siliki",
+    "a941e90ca93d": "Halo na Murfi",
+    "04dbbe4dff7a": "Kalaman Gaskiya"
   },
   "dehubLinks": {
     "kind": {
@@ -2629,7 +2688,8 @@
       "proposal": "shawarwari",
       "stage": "mataki",
       "store": "shagon",
-      "featureRequest": "tambayar"
+      "featureRequest": "tambayar",
+      "page": "shafi"
     }
   },
   "postGate": {
@@ -2865,10 +2925,20 @@
       "numbers": "Lissafin Numbered",
       "link": "Haɗin haɗi",
       "image": "Ƙara hotuna"
-    }
+    },
+    "imageLimit": "Labarai na iya ɗaukar hotuna har {{count}}",
+    "imageFailed": "Ba a iya ƙara wannan hoton ba. Gwada wani.",
+    "imagesUploading": "Ana ƙara hotuna ({{count}})…",
+    "bodyTooLong": "Haruffa {{count}} sun wuce iyaka",
+    "imagesCount": "Hotuna · {{count}}/{{max}}",
+    "captionPlaceholder": "Ƙara taken",
+    "captionLabel": "Taken hoto {{n}}",
+    "removeInlineImage": "Cire hoto {{n}}"
   },
   "storefront": {
-    "unavailable": "Ba a samu a wannan sigar manhajar ba"
+    "unavailable": "Ba a samu a wannan sigar manhajar ba",
+    "continueOnWeb": "Ci gaba a riftn.com",
+    "webOnlyHint": "Kammala wannan a riftn.com. Yana buɗewa a Safari."
   },
   "nav": {
     "launchpad": "Launchpad",
@@ -2922,7 +2992,72 @@
     "reorderReset": "Sake saitawa",
     "groups": {
       "create": "Ƙirƙira",
-      "discover": "Gano"
+      "discover": "Gano",
+      "main": "Babba",
+      "money": "Kuɗi",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "ciyarwa, jadawalin lokaci, sabbin rubuce-rubuce, naka, waɗanda kake bi, shafin farko",
+      "profile": "bayanan martabata, asusuna, shafina, rubuce-rubucena, hoton martaba, tarihin rayuwa, mabiya",
+      "explore": "bincike, gano, nemo, masu tasowa, shahararru, hashtag, mutane, mahalicci",
+      "prompt": "AI, ƙirƙira, hoton AI, bidiyon AI, mai yin hoto, rubutu zuwa hoto, fasahar AI",
+      "editor": "editan bidiyo, gyara bidiyo, datsa, yanke, taken rubutu, fassarar ƙasa, tasiri",
+      "creator": "ƙirƙira, situdiyo, kayan aikin AI, hoto, bidiyo, kiɗa, muryar bayani, 3D",
+      "converter": "shigo da bidiyo, sauke, YouTube, TikTok, Instagram, maida",
+      "migrate": "matsar da tashata, shigo da tasha, shigo da yawa, tashar YouTube",
+      "notifications": "faɗakarwa, ayyuka, ambato, amsoshi, so, ƙararrawa",
+      "messages": "DM, saƙonni kai tsaye, hira, akwatin saƙo, tattaunawa, saƙon sirri",
+      "communities": "ƙungiyoyi, al'umma, ɗakuna, kulob, dandali, mambobi",
+      "assistant": "AI, chatbot, tambaya, taimako, hirar AI, tambayoyi",
+      "settings": "zaɓuɓɓuka, asusu, sirri, tsaro, kalmar sirri, harshe, jigo, yanayin duhu, an toshe, share asusu",
+      "leaderboard": "matsayi, jeri, manyan mahalicci, manyan masu amfani, maki, sakamako",
+      "bookmarks": "an ajiye, abubuwan da aka fi so, kalla daga baya, karanta daga baya, rubuce-rubucen da aka ajiye, ɗakin ajiya",
+      "command": "dashboard, nazari, kuɗin shiga, samu, bayanai, daidaitawa, ƙididdigana",
+      "wallet": "ma'auni, kuɗi, asusu, token, crypto, ajiya, cirewa, aika, karɓa, biya",
+      "events": "kalanda, jadawali, haɗuwa, masu zuwa, tikiti, AMA",
+      "stages": "ɗakunan sauti, hirar murya, spaces, sauti kai tsaye, magana, podcast",
+      "featureRequests": "gina, masu gini, ra'ayoyi, shawarwari, kai rahoton kuskure, kurakurai, gyare-gyare, taswirar hanya, zaɓe, buƙatu, inganta",
+      "feedback": "bita, ƙima, binciken ra'ayi, ra'ayi, ƙorafi, ba da ra'ayi",
+      "staking": "staking, ajiya, riba, lada, samu, raba riba, lamba, matakai, ruwa",
+      "superpowers": "haɓaka, tallata, fa'idodi, iko, fa'idodin lamba, isa, haɓakawa",
+      "governance": "zaɓe, kaɗa ƙuri'a, shawarwari, ƙuri'ar jin ra'ayi, takardar zaɓe, yanke shawara",
+      "dao": "baitulmali, bayarwa, gudummawa, asusun al'umma, ba da gudummawa, tallafi",
+      "bounties": "aiki, ayyuka, ɗawainiya, ƙananan ayyuka, aikin kai, ɗauka aiki, samun kuɗi, aikin biya",
+      "myBounties": "ladana, ayyukana, tarihi, biya, ayyukan da aka kammala",
+      "affiliate": "turawa, gayyato abokai, gayyata, kwamishan, abokin hulɗa, samu",
+      "careers": "ayyuka, ɗaukar ma'aikata, yi aiki tare da mu, shiga ƙungiya, nema, guraben aiki",
+      "stores": "shago, kanti, kasuwa, kayayyaki, saya, sayar, samfura, siyayya",
+      "fractions": "hannun jari, mallaka, saka jari, mallaki rubutu, NFT, NFTs, abubuwan tarawa, ciniki",
+      "usernames": "sunan mai amfani, handle, suna, canza sunana, saya suna, sayar da suna",
+      "accounts": "saya asusu, sayar da asusu, asusun sayarwa, mabiya, canja asusu",
+      "apps": "shagon manhaja, ƙananan manhajoji, gina manhaja, masu haɓakawa, kayan aiki",
+      "arcade": "wasanni, wasa, yi wasa, caca, dara, harbi, nishaɗi",
+      "glossary": "kalmomi, ma'anoni, ƙamus, ma'ana, menene",
+      "compare": "kwatanci, kwatanta, da, madadin, YouTube, X, TikTok",
+      "guide": "farawa, yadda ake, koyarwa, taimako, koyo, mafari, sabo a nan",
+      "stats": "ƙididdiga, nazari, lambobi, jadawalai, farashi, wadata, masu riƙe",
+      "docs": "takardun bayani, taimako, API, whitepaper, masu haɓakawa, littafin jagora",
+      "blog": "labarai, maƙaloli, sabuntawa, sanarwa, abin da ke sabo",
+      "videos": "kalla, bidiyo, gajerun bidiyo, dogayen bidiyo",
+      "shorts": "reels, gajerun bidiyo, bidiyo a tsaye, goge",
+      "music": "sauti, waƙoƙi, waƙa, saurara, rediyo, jerin waƙoƙi",
+      "liveTv": "TV, watsa shirye-shirye, watsawa, kai tsaye, watsa labarai, tashoshi, kalla kai tsaye",
+      "buyTokens": "saya token, sayayya, ƙara kuɗi, kati, katin kiredit, kuɗin fiat",
+      "bridge": "tsakanin chain, matsar da token, chain, canja tsakanin chain",
+      "top100": "manyan 100, coins, kuɗaɗen crypto, darajar kasuwa, farashi",
+      "agents": "wakilan AI, wakilai, bots, sarrafa kai, halaye",
+      "advertising": "tallace-tallace, talla, kamfen, tallata, ɗaukar nauyi, kasuwanci",
+      "premium": "biyan kuɗi, haɓakawa, pro, zama mamba, babu talla, ba talla",
+      "pricing": "tsare-tsare, kuɗi, farashi, nawa ne, biyan kuɗi",
+      "creators": "shirin mahalicci, jakadu, abokan hulɗa, nema a matsayin mahalicci, samun kuɗi",
+      "getTheApp": "sauke manhaja, Android, iPhone, manhajar waya, shigar, APK",
+      "connectAi": "MCP, ChatGPT, Claude, API, haɗawa, haɗa AI",
+      "packs": "emoji, sitika, GIF, fakitin emoji, fakitin sitika, emoji na musamman",
+      "publicChat": "hira, hirar duniya, ɗakin hira, harabar, magana, hirar al'umma",
+      "planned": "tsararru, jadawali, rubuce-rubucen da aka tsara, layi, daga baya",
+      "liveStudio": "fara kai tsaye, watsa, watsa shirye-shirye, OBS, overlays, faɗakarwa, widgets",
+      "launchpad": "ƙaddamar da token, ƙirƙiri coin, yi coin, meme coin, bonding curve, mayar da token"
     }
   },
   "affiliate": {
@@ -3686,7 +3821,47 @@
     "themeColorBrandDesc": "Yi amfani da launukan hoton bayanan martabarka",
     "themeColorBrandNoAvatar": "Ƙara hoton bayanan martaba don amfani da launukan Alama",
     "themeColorBrandFailed": "Ba a iya karanta launuka daga hoton bayanan martabarka ba",
-    "menuLayoutFolders": "Fayiloli"
+    "menuLayoutFolders": "Fayiloli",
+    "chatDeleteChoice": "Lokacin da ka share saƙo",
+    "chatDeleteChoiceDesc": "Tambaya kowane lokaci, ko kullum share don kai kaɗai ko don kowa a cikin hirar.",
+    "chatDeleteAsk": "Tambaya kowane lokaci",
+    "chatDeleteMe": "Share don ni",
+    "chatDeleteMeDesc": "Ya ɓace daga hirarka, wasu suna ganinsa har yanzu",
+    "chatDeleteEveryone": "Share don kowa",
+    "chatDeleteEveryoneDesc": "Idan zai yiwu. Saƙon wani a ƙungiya zai ɓace maka kaɗai",
+    "chatTextSize": "Girman rubutun hira",
+    "menuLayout": "Tsarin menu",
+    "menuLayoutDesc": "Yadda menu ke haɗa shafukansa",
+    "menuLayoutTabs": "Shafuka",
+    "menuLayoutTabsDesc": "Rukuni ɗaya a lokaci guda, da manyan alamu",
+    "menuLayoutSections": "Sassa",
+    "menuLayoutSectionsDesc": "Kowane shafi lokaci guda, ƙarƙashin taken rukuni",
+    "menuLayoutFoldersDesc": "Manyan shafukanka, sannan babban fayil ga kowane rukuni",
+    "publicChatInBar": "Hirar Jama'a a sandar ƙasa",
+    "publicChatInBarDesc": "Taɓa ɗaya zuwa Hirar Jama'a daga sandar da ke ƙasan allo",
+    "chatTextSizeDesc": "Saƙonni masu girma ko ƙanana a kowace hira. Yana ƙaruwa a kan girman rubutun wayarka.",
+    "chatCards": "Hira a matsayin katuna",
+    "chatCardsDesc": "Kowace hira a katinta. Kashe don jeri mai sauƙi tare da layi tsakanin hirarraki.",
+    "contactSupport": "Tuntuɓi tallafi",
+    "showLikes": "Nuna abubuwan da nake so ga kowa",
+    "showLikesDesc": "Kowa zai iya buɗe shafin So a bayanan martabarka. A kashe yake ta asali, don haka kai kaɗai ke ganin abin da ka so.",
+    "showFollowersList": "Nuna waɗanda ke bina",
+    "showFollowersListDesc": "Bari kowa ya buɗe jerin mabiyanka. Idan a kashe yake, kai kaɗai ke iya ganinsa.",
+    "showFollowingList": "Nuna waɗanda nake bi",
+    "showFollowingListDesc": "Bari kowa ya buɗe jerin mutanen da kake bi. Idan a kashe yake, kai kaɗai ke iya ganinsa.",
+    "showFollowCounts": "Nuna adadin mabiyana",
+    "showFollowCountsDesc": "Nuna yawan mabiyanka da yawan mutanen da kake bi. Kashe wannan kuma yana ɓoye jerin biyu.",
+    "defaultProfileView": "Tsarin rubuce-rubucen bayanan martaba",
+    "defaultProfileViewDesc": "Nuna rubuce-rubucenka a matsayin grid ko jeri lokacin da mutane suka buɗe bayanan martabarka",
+    "readerProfileView": "Buɗe sauran bayanan martaba a matsayin",
+    "readerProfileViewDesc": "Zaɓi grid ko jeri ga kowane bayanan martaba da ka buɗe, ko ka bar zaɓin kowane mutum",
+    "readerProfileViewOwner": "Zaɓin kowane mutum",
+    "notificationShowCount": "Nuna adadin a kan ƙararrawa",
+    "notificationShowCountDesc": "Duba adadin sanarwar da ba a karanta ba maimakon haske kawai",
+    "messagesShowCount": "Nuna adadin a kan Saƙonni",
+    "messagesShowCountDesc": "Duba adadin saƙonnin da ba a karanta ba maimakon haske kawai",
+    "pushNotRegisteredDescIos": "Sanarwa ba za ta iya kai maka ba yayin da manhajar ke rufe: wannan iPhone bai taɓa yin rajista don push ba. Duba cewa an bada izinin sanarwa don Riftn a Saituna, sannan sake buɗe manhajar.",
+    "tipsOffNote": "Tip da aika maka a kashe suke yayin da wannan ke kunne. Kashe shi don a sake ba ka tip."
   },
   "common": {
     "refresh": "Sake sabuntawa",
@@ -3812,7 +3987,15 @@
     "addMessage": "Kara sako (na zabi)",
     "messagePublic": "Jama'a",
     "railTitle": "Nasiha",
-    "railTotal": "{{amount}} isassun"
+    "railTotal": "{{amount}} isassun",
+    "messagePlaceholder": "Faɗi wani abu tare da tip ɗinka",
+    "messagePrivate": "{{name}} kaɗai",
+    "theCreator": "mahaliccin",
+    "messageWallNote": "Yana bayyana a bangon tip da zarar tip ya wuce.",
+    "sendWithMessage": "Aika tare da saƙo",
+    "messageFailed": "Ba a iya ƙara saƙonka ba. Ba a aika tip ba.",
+    "wallLabel": "Saƙonnin tip",
+    "messagePrivateNote": "{{name}} ne kawai ke ganin sa, a cikin sanarwarsa."
   },
   "postOptions": {
     "skippableSections": "Skippable sassan",
@@ -3896,7 +4079,17 @@
     "giftBoost": "Kyautata ƙarfafawa",
     "giftBoostDesc": "Kashe ɗaya daga naka a kan wannan saƙon",
     "askAi": "Tambayi AI",
-    "aiOverview": "AI bayyani"
+    "aiOverview": "AI bayyani",
+    "unmuteUser": "Cire shiru ga {{name}}",
+    "unmuteDesc": "Sake ganin rubuce-rubucensu",
+    "unmutedUser": "An cire shiru ga {{name}}",
+    "refreshLinkPreview": "Sabunta samfotin hanyar haɗi",
+    "linkPreviewRefreshed": "An sabunta samfotin hanyar haɗi",
+    "linkPreviewRefreshFailed": "Ba a iya kaiwa ga wannan shafin ba. Sake gwadawa daga baya.",
+    "castToTv": "Tura zuwa TV",
+    "castIosDesc": "AirPlay zuwa Apple TV ko smart TV",
+    "castAndroidDesc": "Madubin allonka da Cast ko Smart View",
+    "castAndroidHelp": "Buɗe saitunan gaggawa kuma taɓa Smart View ko Cast, sannan zaɓi TV ɗinka."
   },
   "filters": {
     "sort": "Tsara",
@@ -4102,7 +4295,8 @@
     "failedToClosePoll": "An kasa rufe ƙuri'a",
     "endsIn": "Zai kare {{time}}",
     "multipleChoice": "Bada damar zaɓuɓɓuka da yawa",
-    "online": "{{count}} a layi"
+    "online": "{{count}} a layi",
+    "onlineHint": "Mutane {{count}} suna cikin wannan hirar yanzu"
   },
   "aiChat": {
     "title": "Mai Taimako",
@@ -4455,7 +4649,9 @@
       "governanceVotedPassed": "Shawarwarin da ka zaɓa ya wuce: “{{title}}”",
       "governanceVotedRejected": "Shawarwarin da ka zaɓa bai wuce ba: “{{title}}”",
       "governancePassed": "Shawarwarinka “{{title}}” ya wuce 🎉",
-      "governanceRejected": "Shawarwarinka “{{title}}” bai wuce ba"
+      "governanceRejected": "Shawarwarinka “{{title}}” bai wuce ba",
+      "featureNewNamed": "{{name}} ya wallafa sabuwar buƙata “{{title}}”",
+      "featureNew": "{{name}} ya wallafa sabuwar buƙata"
     },
     "stores": "Shaguna",
     "features": "Fasaloli",
@@ -4542,7 +4738,11 @@
     "groupNew": "Sabo",
     "groupToday": "Yau",
     "groupThisWeek": "Wannan mako",
-    "searchClose": "Kada ake katsawa"
+    "searchClose": "Kada ake katsawa",
+    "allSettings": "Duk saitunan sanarwa",
+    "groupEarlier": "A baya",
+    "searchPlaceholder": "Nemi sanarwa",
+    "searchEmpty": "Babu sanarwar da ta dace"
   },
   "leaderboard": {
     "title": "Jadawalin Matsayi",
@@ -4582,7 +4782,13 @@
     "addedToLeaderboard": "An ƙara ka! Kuɗi: {{balance}} tokens",
     "balanceTooLow": "Ƙarancin kuɗi ({{balance}} tokens)",
     "tokenAmount": "{{amount}} isassun",
-    "provisional": "na wucin gadi"
+    "provisional": "na wucin gadi",
+    "ogChallenge": "Ƙalubalen OG",
+    "ogHolders_one": "Mai riƙe OG {{count}}",
+    "ogHolders_other": "Masu riƙe OG {{count}}",
+    "ogChallengeTitle": "Dawo da masu riƙe OG",
+    "ogChallengeBody": "Gayyaci mutanen da har yanzu ke riƙe da DHB. Idan suka shiga da hanyar haɗin gayyatarka kuma suka ajiye DHB ɗinsu a walat ɗin Riftn, ana ƙidaya su a gare ka a nan.",
+    "ogChallengeCta": "Samu hanyar haɗin gayyatarka"
   },
   "explorePage": {
     "searchPlaceholder": "Nemo mutane, rubutu ko abun ciki...",
@@ -4744,8 +4950,31 @@
       "comments": "Sharhi",
       "showLess": "Nuna ƙasa da ƙasa",
       "viewProfile": "Duba bayanin martaba",
-      "you": "Kai"
-    }
+      "you": "Kai",
+      "title": "Manyan masu gini",
+      "breakdown": "{{shipped}} an kammala ({{sp}}) · {{votes}} goyon baya ({{vp}}) · {{comments}} sharhi ({{cp}})",
+      "showAll": "Nuna manyan {{n}}",
+      "showEveryone": "Nuna duk masu gini {{n}}",
+      "showMore": "Nuna ƙarin {{n}}",
+      "rule": "Maki 10 ga kowace buƙata da aka kammala, 1 ga kowane goyon baya, 2 ga kowane sharhi a kan buƙatar wani.",
+      "pts": "Maki {{n}}",
+      "gap": "Maki {{n}} don wuce {{name}}",
+      "join": "Buga fadakarwa da aka kammala don shiga allon",
+      "points": "Maki",
+      "infoLabel": "Yadda maki ke aiki",
+      "infoShipped": "ga kowace buƙata da aka kammala",
+      "infoVote": "ga kowane goyon baya a kan buƙatunka",
+      "infoComment": "ga kowane sharhi a kan buƙatar wani",
+      "infoCap": "Sharhi suna ƙidaya har zuwa {{n}} a kowane zango.",
+      "pt": "Maki 1",
+      "infoTitle": "Yadda maki ke aiki"
+    },
+    "deviceInfoNote": "Ana haɗa bayanan na'ura don taimaka mana gyara kurakurai.",
+    "deviceInfo": "Bayanan na'ura",
+    "deviceInfoOwners": "Masu allon kaɗai ke ganin wannan",
+    "deviceInfoError": "Ba a iya loda bayanan na'ura ba",
+    "deviceInfoNone": "Babu bayanan na'ura don wannan buƙata",
+    "deviceInfoErrors": "Kurakurai na kwanan nan"
   },
   "auth": {
     "loginRequired": "Ana buƙatar shiga",
@@ -4802,7 +5031,13 @@
     "importWalletPurpose": "Wannan kayan aiki ne don shigo da data kasance asusun daga Riftn.io.",
     "importSecretPlaceholder": "Kalmomi 12 ko 24, ko maɓallin sirri",
     "invalidImportSecret": "Wannan ba kalmar 12/24 ba ce da ta dace ko maɓallin sirri",
-    "walletSignupBlocked": "Wannan walat sabuwa ce fil. Sababbin walat suna buƙatar ma'auni ko wata ma'amala ta baya don buɗe asusu. Yi rajista da ɗaya daga cikin zaɓuɓɓukan da ke ƙasa, sannan ka haɗa wannan walat daga Saituna."
+    "walletSignupBlocked": "Wannan walat sabuwa ce fil. Sababbin walat suna buƙatar ma'auni ko wata ma'amala ta baya don buɗe asusu. Yi rajista da ɗaya daga cikin zaɓuɓɓukan da ke ƙasa, sannan ka haɗa wannan walat daga Saituna.",
+    "accountDeleted": "An share wannan asusun. Kana iya sake yin rajista a matsayin sabon asusu.",
+    "accountDeletedHours_one": "An share wannan asusun. Kana iya sake yin rajista da imel ko waya ɗaya cikin kusan awa {{count}}.",
+    "accountDeletedHours_other": "An share wannan asusun. Kana iya sake yin rajista da imel ko waya ɗaya cikin kusan awanni {{count}}.",
+    "accountDeletedDays_one": "An share wannan asusun. Kana iya sake yin rajista da imel ko waya ɗaya cikin kusan kwana {{count}}.",
+    "accountDeletedDays_other": "An share wannan asusun. Kana iya sake yin rajista da imel ko waya ɗaya cikin kusan kwanaki {{count}}.",
+    "signInPageWouldNotOpen": "Shafin shiga ya rufe kafin ya buɗe. Sake gwadawa, ko ci gaba da imel."
   },
   "messages": {
     "encryptionSetupFailed": "Saitin Encryption bai yi nasara ba. Da fatan za a sake gwadawa.",
@@ -4827,7 +5062,11 @@
     "title": "Saƙonni",
     "searchConversations": "Bincika tattaunawa...",
     "failedToLoad": "Ba a iya ɗora tattaunawa ba",
-    "tryAgain": "Sake gwadawa"
+    "tryAgain": "Sake gwadawa",
+    "unreadMarkerOne": "Saƙo 1 da ba a karanta ba",
+    "unreadMarkerMany": "Saƙonni {{value}} da ba a karanta ba",
+    "jumpToUnread": "Tsallaka zuwa saƙo na farko da ba a karanta ba",
+    "jumpToLatest": "Tsallaka zuwa sabon saƙo"
   },
   "music": {
     "top50": "Manyan 50",
@@ -5012,14 +5251,51 @@
     "pinnedShort": "An manne",
     "post": "Buga",
     "arrange": {
-      "saving": "Ana ajiyewa..."
+      "saving": "Ana ajiyewa...",
+      "title": "Tsara rubuce-rubucenka",
+      "hint": "Riƙe rubutu kuma ja shi zuwa sabon wurinsa. Baƙi suna ganin wannan tsarin da farko.",
+      "drag": "Ja don motsawa",
+      "toTop": "Matsar zuwa sama",
+      "save": "Ajiye tsari",
+      "saved": "An ajiye tsarinka",
+      "reset": "Koma sabbi da farko",
+      "resetDone": "Koma sabbi da farko",
+      "saveFailed": "Ba a iya ajiye tsarinka ba. Da fatan za a sake gwadawa.",
+      "loadFailed": "Ba a iya loda rubuce-rubucenka ba. Rufe wannan kuma sake gwadawa.",
+      "empty": "Babu abin da za a tsara tukuna. Wallafa wani abu da farko."
     },
     "reserve": {
-      "signIn": "Shiga"
+      "signIn": "Shiga",
+      "available": "Sunan mai amfani yana samuwa",
+      "held": "An riƙe maka",
+      "ended": "Riƙewa ta ƙare",
+      "busy": "Ana ajiyewa",
+      "availableBody": "riftn.com/{{name}} yana samuwa yanzu. Ajiye shi kuma za mu riƙe maka na minti ɗaya yayin da kake rajista.",
+      "heldBody": "Babu wani da zai iya ɗaukar @{{name}} har sai lokacin ya ƙare. Kammala rajista don riƙe shi.",
+      "endedBody": "Mintinka ya ƙare, don haka @{{name}} ya sake buɗe wa kowa. Har yanzu yana samuwa.",
+      "busyBody": "Wani yana yin rajista a matsayin @{{name}} yanzu. Idan bai kammala ba, zai buɗe lokacin da lokacin ya ƙare.",
+      "finish": "Kammala rajista",
+      "again": "Sake ajiyewa",
+      "cta": "Ajiye yanzu",
+      "letGo": "Bar shi",
+      "haveAccount": "Kana da asusu?"
     },
     "tabLikes": "So",
     "likesEmptyTitle": "Babu so tukuna",
-    "likesPrivateTitle": "Masu so a ɓoye suke"
+    "likesPrivateTitle": "Masu so a ɓoye suke",
+    "articleViews": "Kallo {{views}}",
+    "sortBy": "Tsara bisa",
+    "sortCustom": "Tsari na musamman",
+    "arrangeButton": "Tsara rubuce-rubuce",
+    "mutualsOne": "{{count}} na Juna:",
+    "mutualsMany": "{{count}} na Juna:",
+    "tabArticles": "Maƙaloli",
+    "articlesEmptyTitle": "Babu maƙaloli tukuna",
+    "articlesEmptySubtitle": "Maƙaloli za su bayyana a nan",
+    "likesEmptyOwn": "Rubuce-rubucen da kake so suna bayyana a nan. Kai kaɗai ke ganinsu sai dai idan ka kunna Nuna abubuwan da nake so a Saituna.",
+    "likesEmptyOther": "Babu abin da aka so tukuna.",
+    "likesPrivateDesc": "Wannan asusun yana ɓoye abubuwan da yake so.",
+    "unavailable": "Bayanan martaba ba ya samuwa"
   },
   "tv": {
     "title": "Talabijin",
@@ -5537,7 +5813,26 @@
       "filter": "Tace ayyuka"
     },
     "welcome": {
-      "text": "Saƙon maraba"
+      "text": "Saƙon maraba",
+      "title": "Marabtar sabbin mambobi",
+      "help": "Wannan wakili yana bi da/ko aika saƙo ga mutanen da suka shiga Riftn yanzu, kaɗan a kowace rana.",
+      "follow": "Bi sabbin mambobi",
+      "message": "Aika saƙo ga sabbin mambobi",
+      "textHelp": "{name} zai zama @sunan mai amfaninsu. Babu hanyoyin haɗi. Ana aikawa sau ɗaya ga kowane mutum.",
+      "saveText": "Ajiye saƙo",
+      "perDay": "Mutane a rana",
+      "fewer": "Ƙasa a rana",
+      "more": "Ƙari a rana",
+      "today": "Yau: an bi {{follows}} · an aika saƙo {{messages}}",
+      "limits": "Ba mutum ɗaya sau biyu ba. Yana tsallake duk wanda ya toshe ka ko ya yi maka shiru, ya kashe sabbin saƙonni ko ya ɓoye daga Sabbin mambobi.",
+      "showLog": "Duba wanda ya marabta",
+      "hideLog": "Ɓoye marabtar",
+      "empty": "Babu kowa tukuna. Sabbin mambobi suna bayyana a nan yayin da suke shiga.",
+      "followed": "An bi",
+      "messaged": "An aika saƙo",
+      "skipped": "An tsallake",
+      "failed": "Ba a iya kaiwa ba",
+      "defaultText": "Sannu {name}, barka da zuwa Riftn! 👋"
     }
   },
   "hero": {
@@ -5628,7 +5923,43 @@
     "disconnect": "Kashe haɗin kai",
     "payAndRun": "Biyan kuɗi da gudanarwa",
     "run": "Gudanarwa",
-    "handlePrompt": "Fadakarwa"
+    "handlePrompt": "Fadakarwa",
+    "retryFreeTask": "Sake gwada aikin kyauta",
+    "previewSavedMedia": "Duba kafofin da aka ajiye",
+    "audioSavePending": "Sautin ya shirya, amma ajiyarsa a ɗakin sirri tana jira. Ci gaba don karɓar shi.",
+    "freeResultUnknown": "An katse amsar aikin kyauta. Ba za a sake aika shi kai tsaye ba. Zaɓi Sake gwada aikin kyauta, sannan ka ci gaba; ana riƙe biyanka da sauran ayyuka.",
+    "formAuthor": "Gyara tsari",
+    "formAuthorHint": "Gina tsari da shigarwa masu nau'i. Ajiye shi a nan, ko tsara shi a kan zane na yanar gizo.",
+    "chooseSavedMedia": "Zaɓi kafofin da aka ajiye",
+    "formInput": "Shigarwa: {{handle}}",
+    "reviewRun": "Duba gudanarwa",
+    "resumeRun": "Ci gaba da gudanarwa da aka ajiye",
+    "confirmPrice": "Jimilla: alamu {{price}}",
+    "recoveryHint": "Ana ajiye bayanan aiki da biya a wannan na'urar. Ci gaba da aikin da aka katse kafin fara wata gudanarwa.",
+    "newRun": "Fara wata gudanarwa",
+    "loadMoreMedia": "Loda ƙarin kafofi",
+    "invalidGraph": "Duba haɗin: kowace shigarwa tana buƙatar tushe mai dacewa kuma jadawalin ba zai iya ƙunsar zagaye ba.",
+    "unsupportedNode": "Wannan kumburin ba zai iya gudana a cikin tsarin asali tukuna ba. Yi amfani da zanen yanar gizo don wannan tsari.",
+    "missingPrompt": "Haɗa kumburin rubutu tare da fadakarwa.",
+    "invalidSettings": "Samfurin da aka zaɓa bai goyi bayan waɗannan saitunan ba.",
+    "missingCapturedFrame": "Ɗauki firam a kan zanen yanar gizo kafin amfani da wannan bidiyon a matsayin shigarwar hoto.",
+    "missingSavedMedia": "Kafofin tushe da aka ajiye sun ɓace ko ba su samuwa ga wannan asusun.",
+    "nothingToRun": "Ƙara mai ƙirƙira don gudanar da wannan tsari.",
+    "quoteFailed": "Ba a iya ƙididdige farashin wannan tsari ba. Sake gwadawa.",
+    "recoverBeforeEdit": "Ci gaba da gudanarwa da aka ajiye kafin canza jadawalinta ko fara wata gudanarwa.",
+    "runAlreadyComplete": "Wannan gudanarwar ta kammala. Zaɓi Fara wata gudanarwa don sake ƙirƙira.",
+    "recoveryCorrupt": "Ba a iya karanta bayanan farfadowa da aka ajiye ba. Riƙe wannan tsarin kuma tuntuɓi tallafi kafin sake biya.",
+    "paidUnavailable": "Kana iya rubutawa da ajiye tsari a nan. Ba a samun gudanarwa da ake biya a wannan shagon.",
+    "planChanged": "Tsarin ya canza bayan ƙididdige farashi. Sake duba gudanarwar.",
+    "connectOwnerWallet": "Haɗa walat ɗin da ya mallaki wannan tsarin.",
+    "runFailed": "Kumburin bai iya kammalawa ba. Ana riƙe bayanan aikinsa da aka ajiye don farfadowa.",
+    "recoveryPending": "Har yanzu ana jiran ƙirƙirar. Ci gaba da wannan gudanarwa don karɓar ta.",
+    "nodeAudioGen": "Mai ƙirƙirar sauti",
+    "nodeAudioGenDesc": "Magana, tasirin sauti, rubuta magana da ware sauti",
+    "nodeAudioInput": "Sauti da aka ajiye",
+    "nodeAudioInputDesc": "Yi amfani da sauti na sirri daga ɗakinka",
+    "audioVoiceId": "ID na murya",
+    "audioSeconds": "Tsawon sauti a daƙiƙa"
   },
   "loginModal": {
     "title": "Shiga",
@@ -5665,7 +5996,8 @@
     "passkeyNotLinked": "Babu asusu da aka haɗa da wannan alamar yatsa tukuna. Ƙirƙiri sabon asusu a maimakon.",
     "passkeyAlreadyRegistered": "Wannan alamar yatsa tana da asusu a riga. Yi amfani da Shiga a maimakon.",
     "passkeyFailed": "Shiga da alamar yatsa ya kasa. Da fatan za a sake gwadawa.",
-    "passkeyBackupHint": "Asusunka yana zaune a cikin kalmar sirri ta wannan na'urar. A yawancin wayoyi yana haɗawa da asusun Google ko Apple ɗinka, kuma za ka iya ƙara madadin kalmar sirri a Saituna."
+    "passkeyBackupHint": "Asusunka yana zaune a cikin kalmar sirri ta wannan na'urar. A yawancin wayoyi yana haɗawa da asusun Google ko Apple ɗinka, kuma za ka iya ƙara madadin kalmar sirri a Saituna.",
+    "didYouMean": "Kana nufin {{email}}?"
   },
   "careers": {
     "title": "Ayyuka a Riftn",
@@ -5930,7 +6262,13 @@
       "authorChip": "Mawallafi mai gabatarwa"
     },
     "holdTokensToVote": "Rike Riftn tokens don kada kuri'a",
-    "mustHoldTokens": "Dole ne ka rike Riftn tokens don kada kuri'a kan shawarwarin gudanarwa."
+    "mustHoldTokens": "Dole ne ka rike Riftn tokens don kada kuri'a kan shawarwarin gudanarwa.",
+    "optionVoters_one": "Mai zaɓe {{count}}",
+    "optionVoters_other": "Masu zaɓe {{count}}",
+    "optionWinner": "Wanda ya ci: {{option}}",
+    "optionNoWinner": "Babu wanda ya ci a fili",
+    "optionTapToUndo": "Sake taɓa amsarka don janye ƙuri'arka",
+    "optionPickOne": "Zaɓi amsa ɗaya"
   },
   "sidebar": {
     "talkOfTheTown": "Labarin gari",
@@ -5949,7 +6287,16 @@
     "clearSearch": "Share bincike",
     "noMenuMatches": "Babu abin da ya dace a cikin menu",
     "searchDehubFor": "Nemi \"{{query}}\" a Riftn",
-    "requestSend": "Aika buƙata"
+    "requestSend": "Aika buƙata",
+    "requestPrompt": "Babu a nan tukuna? Aika shi a matsayin buƙata",
+    "requestPromptShort": "Babu a nan tukuna?",
+    "requestDraftMenu": "Ƙara {{query}} zuwa Riftn",
+    "requestDraftSettings": "Saiti don {{query}}",
+    "requestPostsTo": "Ana wallafawa zuwa Buƙatu",
+    "requestHint": "Ana wallafawa zuwa Buƙatu da sunanka. Za mu sanar da kai lokacin da aka kammala.",
+    "requestSent": "An aika zuwa Buƙatu",
+    "requestSentHint": "Za mu sanar da kai lokacin da aka kammala.",
+    "requestSeeIt": "Duba shi a Buƙatu"
   },
   "comments": {
     "reportComment": "Rahoto sharhi",
@@ -6038,7 +6385,24 @@
     "tabReplies": "Amsoshi",
     "tabQuotes": "Zance",
     "tabReposts": "Sake bugawa",
-    "tabSearch": "Bincika"
+    "tabSearch": "Bincika",
+    "attachAudioFile": "Fayil ɗin sauti",
+    "attachMedia": "Haɗa hoto, bidiyo ko sauti",
+    "attachPhotoOrVideo": "Hoto ko bidiyo",
+    "attachTooLarge": "Wannan fayil ya wuce iyakar MB {{size}}.",
+    "playVideo": "Kunna bidiyo",
+    "threadParts": {
+      "reorder": "Sake tsarawa",
+      "reorderHint": "Riƙe ka ja wani sashe, ko yi amfani da kibiyoyi, sannan ka ajiye.",
+      "save": "Ajiye tsari",
+      "saved": "An ajiye tsarin zare",
+      "saveFailed": "Ba a iya ajiye tsarin ba. Sake gwadawa.",
+      "moveUp": "Matsar da ɓangare {{n}} sama",
+      "moveDown": "Matsar da ɓangare {{n}} ƙasa",
+      "addPart": "Ƙara zuwa zare",
+      "addPlaceholder": "Ƙara zuwa zarenka...",
+      "label": "Zare · sassa {{count}}"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "Ba za a iya karanta masu mallakar yanzu ba a yanzu.",
@@ -6572,7 +6936,9 @@
       "joined": "{{name}} shiga",
       "reactions": "Ra'ayoyi",
       "photoTooLarge": "Hoto dole ya kasance ƙasa da 10MB",
-      "aiAdminFailed": "Mai gudanarwa na AI ya gaza ba da amsa"
+      "aiAdminFailed": "Mai gudanarwa na AI ya gaza ba da amsa",
+      "addToMessages": "Ƙara zuwa Saƙonni",
+      "inMessages": "A cikin Saƙonni"
     },
     "manage": {
       "dismissAdminTitle": "Cire mai gudanarwa",
@@ -6594,7 +6960,8 @@
         "invites": "Gayyata",
         "rules": "Dokokin",
         "recentActions": "Ayyukan kwanan nan",
-        "danger": "Yankin haɗari"
+        "danger": "Yankin haɗari",
+        "automod": "Auto-mod da bots"
       },
       "title": "Sarrafa",
       "purgeTitle": "Share duk saƙonni?",
@@ -6780,25 +7147,113 @@
       "buyer": "Mai siye:",
       "balance": "Daidaitawa:",
       "price": "Farashin:",
-      "marketCap": "Kasuwa hula:"
+      "marketCap": "Kasuwa hula:",
+      "title": "SAYE {{amount}}",
+      "spent": "An kashe:",
+      "txn": "Txn",
+      "titleToken": "SAYE {{amount}} ${{symbol}}"
     },
     "newChat": {
       "public": "Jama'a",
       "private": "Sirri",
       "free": "Kyauta",
       "paid": "Biyan kuɗi",
-      "group": "Rukunin"
+      "group": "Rukunin",
+      "description": "Game da me? (na zaɓi)",
+      "groupCreated": "An ƙirƙiri ƙungiya",
+      "channelCreated": "An ƙirƙiri tasha",
+      "newGroup": "Sabuwar ƙungiya",
+      "newChannel": "Sabuwar tasha",
+      "groupName": "Sunan ƙungiya",
+      "channelName": "Sunan tasha",
+      "whoCanJoin": "Wanda zai iya shiga",
+      "publicDetail": "Kowa zai iya samun ta kuma ya shiga",
+      "inviteOnly": "Ta gayyata kawai",
+      "privateDetail": "Mutane suna shiga da gayyatarka ko amincewarka",
+      "entry": "Shiga",
+      "freeDetail": "Babu caji don shiga",
+      "paidDetail": "Biya ɗaya da alamu, kai tsaye zuwa gare ka",
+      "price": "Farashi a alamu",
+      "channelNote": "Kai da masu gudanarwarka ne kawai za ku iya bugawa. Membobi suna karantawa da mayar da martani.",
+      "createGroup": "Ƙirƙiri ƙungiya",
+      "createChannel": "Ƙirƙiri tasha",
+      "channel": "Tasha",
+      "adminsOnly": "Masu gudanarwa ne kawai ke bugawa a wannan tashar.",
+      "message": "Sabon saƙo",
+      "messageDetail": "Hira ta sirri da mutum ɗaya",
+      "groupDetail": "Hira da mutane da yawa, a bayyane ko na sirri",
+      "channelDetail": "Watsa ga mabiya, kyauta ko da biya",
+      "title": "Fara wani abu",
+      "channelRow": "Tasha · membobi {{formattedCount}}",
+      "groupRow": "Ƙungiya · membobi {{formattedCount}}"
     },
     "holderGate": {
       "chain": "Sarkar",
       "which": "Alama",
-      "tab": "Masu Mallaka"
+      "tab": "Masu Mallaka",
+      "failed": "Ba a iya karanta ma'auninka yanzu ba. Sake gwadawa nan da ɗan lokaci.",
+      "short": "Masu riƙewa kawai: kana buƙatar {{need}}. Kana riƙe da {{have}}.",
+      "required": "Masu riƙewa kawai: walat ɗinka ba ya riƙe isasshen alamar wannan al'umma don yin hira.",
+      "topHolders": "Manyan masu riƙewa",
+      "noHolders": "Masu riƙewa suna bayyana a nan da zarar sun shiga.",
+      "saved": "An ajiye dokar mai riƙewa",
+      "cleared": "Kowa zai iya sake shiga",
+      "saveFailed": "Ba a iya ajiye dokar mai riƙewa ba",
+      "title": "Masu riƙewa kawai",
+      "explain": "Walat masu riƙe wannan alamar ne kawai za su iya shiga da yin hira. Ana karanta ma'auni daga sarka idan wani ya shiga.",
+      "dehubTokens": "Alamun Riftn",
+      "otherToken": "Wata alama",
+      "token": "Kwangilar alama",
+      "reading": "Ana karanta alama…",
+      "badAddress": "Wannan ba adireshin alama ba ne",
+      "minimum": "Mafi ƙaranci da za a riƙe",
+      "save": "Ajiye dokar mai riƙewa",
+      "chip": "Masu riƙewa kawai · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Kalmomin da aka haramta",
       "floodMax": "Sakon {{count}}",
       "saved": "An adana",
-      "wordCount": "{{count}} kalmomin"
+      "wordCount": "{{count}} kalmomin",
+      "title": "Auto-mod",
+      "hint": "Yana toshe saƙo kafin kowa ya gan shi kuma yana gaya wa mai aikawa dalili. Ba a taɓa toshe masu mallaka da masu gudanarwa ba.",
+      "enabled": "Auto-mod a kunne",
+      "bannedWordsHint": "Ɗaya a kowane layi ko waƙafi. Cikakkun kalmomi kawai, kuma ana kama rubutun da aka raba kamar s.c.a.m.",
+      "bannedWordsPlaceholder": "zamba\nrug pull",
+      "blockLinks": "Toshe hanyoyin haɗi",
+      "blockLinksHint": "Hanyoyin haɗi na waje da gayyatar Telegram/Discord. Hanyoyin haɗin Riftn suna aiki har yanzu.",
+      "repeats": "Toshe maimaitawa",
+      "repeatsHint": "Yana hana wani aika layi ɗaya sake cikin minti 10.",
+      "flood": "Hana ambaliya",
+      "floodHint": "Aƙalla saƙonni {{max}} a kowane {{seconds}}s ga kowane mutum.",
+      "noAccess": "Mai mallaka da masu gudanarwa ne kawai za su iya canza waɗannan saitunan.",
+      "saveFailed": "Ba a iya ajiyewa ba. Sake gwadawa.",
+      "saveWords": "Ajiye kalmomi",
+      "bannedWord": "Wannan saƙon yana da kalmar da wannan ƙungiyar ba ta yarda da ita ba.",
+      "links": "Ba a yarda da hanyoyin haɗi a wannan ƙungiyar ba.",
+      "repeat": "Yanzu ka aika wannan. Gwada faɗin wani sabon abu.",
+      "reserved": "Irin wannan saƙon na iya fitowa ne kawai daga bots na ƙungiyar.",
+      "floodError": "Kana aikawa da sauri sosai. Jira {{value1}}s kuma sake gwadawa."
+    },
+    "entry": {
+      "switchChain": "Canza walat ɗinka zuwa BNB Chain ko Base don biya.",
+      "failed": "Ba mu iya tabbatar da biyanka ba tukuna. Idan alamu sun bar walat ɗinka, sake taɓa Shiga nan da minti ɗaya.",
+      "chip": "{{amount}} don shiga"
+    },
+    "jumpToReply": "Tsallaka zuwa saƙon da aka amsa",
+    "avatarUpdated": "An sabunta hoto",
+    "bannerUpdated": "An sabunta banner",
+    "imageUploadFailed": "Ba a iya ɗora wannan hoton ba. Sake gwadawa.",
+    "changeBanner": "Canza banner",
+    "changeAvatar": "Canza hoto",
+    "buyBot": {
+      "title": "Bot na saye",
+      "any": "Kowane girma",
+      "enabled": "Buga faɗakarwar saye",
+      "hint": "Yana buga kowane sayen ${{symbol}} a cikin wannan hirar, kusan minti ɗaya bayan ya faru.",
+      "minUsd": "Mafi ƙarancin saye da za a buga",
+      "noToken": "Haɗa alama daga kan ƙungiyar (gyara, sannan Ticker) kuma kowane saye zai bayyana a wannan hirar.",
+      "unsupported": "${{symbol}} yana kan sarka ko nau'in pool da bot na saye bai fara kallo ba tukuna. Ana goyon baya: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism da Avalanche (pools irin na Uniswap v2/v3)."
     }
   },
   "work": {
@@ -7737,7 +8192,8 @@
     "ban": "Haramta",
     "banConfirm": "Kuna tabbatar da cewa kuna son haramta {{name}}?",
     "banFailed": "An kasa haramta mai amfani",
-    "attachGif": "GIF"
+    "attachGif": "GIF",
+    "jumpToMentions": "Tsallaka zuwa amsoshi da ambato"
   },
   "promptFeed": {
     "headline": "Me kake son gani?",
@@ -7923,7 +8379,13 @@
     },
     "followBackConfirm": "Biyo baya",
     "followBackNotNow": "Ba yanzu",
-    "followBackDone": "Gama"
+    "followBackDone": "Gama",
+    "followBackConfirmTitle_one": "A bi mutum {{count}} baya?",
+    "followBackConfirmTitle_other": "A bi mutane {{count}} baya?",
+    "followBackConfirmBody": "Sun riga sun bi ka. Asusun sirri za su sami buƙatar bi.",
+    "followedBackCount_one": "An bi mutum {{count}} baya",
+    "followedBackCount_other": "An bi mutane {{count}} baya",
+    "followBackDoneBody": "Za ka iya samun su duka a cikin Ana bi."
   },
   "reactionInfo": {
     "title": "Ra'ayoyi",
@@ -8846,10 +9308,12 @@
     "editFailed": "An kasa amfani da wannan gyaran. Gwada sake.",
     "altPlaceholderVideo": "Bayyana wannan bidiyon",
     "preview": {
-      "title": "Gabatarwa"
+      "title": "Gabatarwa",
+      "hint": "Haka rubutunka zai bayyana a ciyarwa."
     },
     "recent": {
-      "all": "Duka"
+      "all": "Duka",
+      "show": "Nuna hotunan kwanan nan"
     },
     "studio": {
       "crop": "Yanke",
@@ -8867,11 +9331,47 @@
       "textBg": "Bango",
       "font": {
         "bold": "Mai kauri",
-        "mono": "Baki da fari"
-      }
+        "mono": "Baki da fari",
+        "clean": "Mai tsabta",
+        "serif": "Serif"
+      },
+      "looks": "Kallo",
+      "adjust": "Daidaita",
+      "contrast": "Bambanci",
+      "tint": "Launi",
+      "vignette": "Vignette",
+      "prev": "Hoton baya",
+      "count": "{{n}} na {{total}}",
+      "next": "Hoto na gaba",
+      "title": "Gyara hoto",
+      "holdHint": "Riƙe don ganin na asali",
+      "cropCorner": "Yanke kusurwa",
+      "straighten": "Daidaita karkata",
+      "flip": "Juya",
+      "mention": "Ambato",
+      "ticker": "Ticker",
+      "layerHint": "Ja kalmomi da sitika don motsa su. Taɓa sau biyu don canza kalmomin.",
+      "looksAdjust": "Kallo da daidaitawa"
     },
     "edited": "An gyara",
-    "edit": "Gyara"
+    "edit": "Gyara",
+    "altHint": "Faɗi abin da ke ciki ga mutanen da ba sa iya gani.",
+    "altPlaceholder": "Bayyana wannan hoton",
+    "altTab": "Rubutun alt",
+    "editVideo": "Gyara bidiyo",
+    "trim": "Yanke",
+    "trimAndCover": "Yanke da murfi",
+    "trimStart": "Farkon clip",
+    "trimEnd": "Ƙarshen clip",
+    "trimHint": "Ja hannayen farare don yankewa. Taɓa layin don motsawa.",
+    "useFrameAsCover": "Yi amfani da wannan firam a matsayin murfi",
+    "photoHoldHint": "Riƙe don ƙarin zaɓuɓɓuka",
+    "editPhoto": "Gyara hoto {{n}}",
+    "editAltText": "Gyara rubutun alt",
+    "addAltText": "Ƙara rubutun alt",
+    "moveEarlier": "Matsar da gaba",
+    "moveLater": "Matsar da baya",
+    "photoN": "Hoto {{n}} na {{total}}"
   },
   "bounty": {
     "claimed": "An karɓa",
@@ -9166,7 +9666,13 @@
     "reconnecting": "Ana sake haɗawa…",
     "connecting": "Ana haɗawa...",
     "shopPutOnAir": "Saka a kan iska",
-    "liveBadge": "RAYE"
+    "liveBadge": "RAYE",
+    "screenShare": {
+      "start": "Raba allo",
+      "stop": "Daina raba allo",
+      "sharing": "Kana raba allonka",
+      "hint": "Masu kallo suna ganin allonka. Taɓa maɓallin allo don komawa kyamara."
+    }
   },
   "liveShop": {
     "title": "Yi sayayya daga wannan watsawar",
@@ -9481,7 +9987,17 @@
     "planMinTip": "Tip dole ya zama aƙalla {{amount}} tokens ga wannan mahalicci.",
     "feeMustBeNonNegative": "Kudin kowane sako dole ne ya zama adadi mara negative",
     "newDrawer": {
-      "to": "Zuwa"
+      "to": "Zuwa",
+      "placeholder": "Suna ko @sunan mai amfani",
+      "recent": "NA KWANAN NAN",
+      "suggested": "SHAWARWARI",
+      "youFollow": "MUTANEN DA KAKE BI",
+      "chattedBefore": "Kuna magana",
+      "mutual": "Juna",
+      "dmsOff": "DM a kashe",
+      "keepTyping": "Ci gaba da rubutu don neman kowa",
+      "sayHi": "Gaishe wani",
+      "typeAny": "Rubuta kowane suna ko @sunan mai amfani"
     },
     "download": "Sauke",
     "deleteOneTitle": "Share wannan sakon?",
@@ -9494,8 +10010,30 @@
       "communities": "Al'ummomi",
       "members": "{{n}} mambobi",
       "newChat": "Sabuwar hira",
-      "invite": "Gayyata"
-    }
+      "invite": "Gayyata",
+      "noChats": "Babu hira da \"{{q}}\" tukuna. Ga wanda da abin da ya dace.",
+      "nothing": "Babu abin da ya dace da \"{{q}}\" tukuna. Fara wani sabon abu.",
+      "start": "Ko fara wani abu",
+      "newChatSub": "Zaɓi kowa",
+      "newGroup": "Sabuwar ƙungiya",
+      "newGroupSub": "Yi hira tare",
+      "inviteSub": "Raba hanyar haɗi",
+      "inviteMessage": "Shiga tare da ni a Riftn: {{url}}",
+      "searchAll": "Bincika duk Riftn don \"{{q}}\"",
+      "searchAllSub": "Rubuce-rubuce, bidiyo, rafukan kai tsaye"
+    },
+    "copyMedia": "Kwafi kafofi",
+    "reportMessage": "Bayar da rahoton saƙo",
+    "fileSaved": "An ajiye fayil",
+    "fileSaveFailed": "Ba a iya ajiye fayil ɗin ba",
+    "attachAnything": "Haɗa hoto, bidiyo, sauti ko fayil",
+    "attachFileOrAudio": "Fayil ko sauti",
+    "attachPhotoOrVideo": "Hoto ko bidiyo",
+    "attachTooLarge": "Wannan fayil ya wuce iyakar MB {{size}}.",
+    "deleteForBothBody": "Za a cire shi ga ku biyu.",
+    "notSent": "Ba a aika ba",
+    "shareGroups": "Ƙungiyoyi",
+    "shareKindChannel": "Tasha"
   },
   "editPost": {
     "mediaPermission": "Ana buƙatar izinin ɗakin karatu na kafofin watsa labarai",
@@ -9617,7 +10155,9 @@
     "pipUnavailable": "Hoto a hoto ba zai yiwu ba. Duba cewa an ba shi izini ga Riftn a saitunan na'urarka.",
     "noVideo": "Babu bidiyo",
     "rotate": "Juya",
-    "yourDhbBalance": "Cikakken kuɗin isassunka: {{amount}}"
+    "yourDhbBalance": "Cikakken kuɗin isassunka: {{amount}}",
+    "fullscreen": "Cikakken allo",
+    "notAvailableForPost": "Ba ya samuwa don wannan rubutu"
   },
   "liveViewer": {
     "loadingStream": "Ana loda yaɗawa...",
@@ -9933,7 +10473,22 @@
     "didNotRecoverEither": "Wannan shiga bai dawo da ko ɗaya daga cikin bayanan martaba da aka nuna a nan ba. Babu abin da ya canza. Gwada shigar asali na bayanan martaba da kake so.",
     "didNotRecoverThis": "Wannan shiga ya dawo da walat daban da na wannan bayanan martaba. Babu abin da ya canza. Gwada shigar da ya ƙirƙira shi tun farko.",
     "couldNotRetrieve": "Ba a iya samo wannan tsohon walat a wannan na'urar ba. Har yanzu za ka iya dawo da shi a riftn.com a ƙasa.",
-    "matchedWithBalance": "An haɗa, {{balance}} isassun"
+    "matchedWithBalance": "An haɗa, {{balance}} isassun",
+    "methodEmail": "lambar imel",
+    "methodPhone": "lambar waya",
+    "madeWithNamed": "An ƙirƙiri @{{name}} da {{method}}. Ci gaba da asusun {{method}} ɗin don dawo da shi.",
+    "madeWith": "An ƙirƙiri wannan bayanin martaba da {{method}}. Ci gaba da asusun {{method}} ɗin don dawo da shi.",
+    "madeWithEmailNamed": "An ƙirƙiri @{{name}} da lambar imel. Za mu aika ƙarin lamba ɗaya zuwa wannan imel don dawo da shi.",
+    "madeWithEmail": "An ƙirƙiri wannan bayanin martaba da lambar imel. Za mu aika ƙarin lamba ɗaya zuwa wannan imel don dawo da shi.",
+    "madeWithPhoneNamed": "An ƙirƙiri @{{name}} da lambar waya. Za mu tura ƙarin lamba ɗaya ta saƙo zuwa wannan lambar don dawo da shi.",
+    "madeWithPhone": "An ƙirƙiri wannan bayanin martaba da lambar waya. Za mu tura ƙarin lamba ɗaya ta saƙo zuwa wannan lambar don dawo da shi.",
+    "wrongSignInNamed": "Wannan shiga yana buɗe wani walat daban, ba @{{name}} ba. An ƙirƙiri @{{name}} da {{method}}, don haka shi kaɗai ne zai iya dawo da shi.",
+    "wrongSignIn": "Wannan shiga yana buɗe wani walat daban. An ƙirƙiri wannan bayanin martaba da {{method}}, don haka shi kaɗai ne zai iya dawo da shi.",
+    "continueWith": "Ci gaba da {{provider}}",
+    "differentSignIn": "Ka yi amfani da wata hanyar shiga?",
+    "oldAccountPhone": "Lambar wayar tsohon asusu",
+    "recoverFromPhoneA11y": "Dawo da tsohon asusu daga wannan lambar waya",
+    "phoneNeedsCode": "Shigar da lambar tare da lambar ƙasarta, kamar +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Sayi alamomi",
@@ -10715,8 +11270,17 @@
       "noSpeech": "Ba a sami magana a wannan bidiyo ba.",
       "failed": "An kasa ƙirƙirar rubutun ƙasa don wannan bidiyo.",
       "styles": {
-        "bold": "Mai kauri"
-      }
+        "bold": "Mai kauri",
+        "classic": "Classic",
+        "boxed": "Boxed",
+        "wordpop": "Word Pop",
+        "rapid": "Rapid Reveal",
+        "beast": "Beast Mode",
+        "stacked": "Stacked",
+        "serif": "Serif",
+        "bubble": "Bubble"
+      },
+      "style": "Salon take"
     },
     "app": {
       "newDesign": "Sabon zane",
@@ -10786,7 +11350,11 @@
       "moody": "Mai baƙin ciki",
       "vibrant": "Mai armashi",
       "cyber": "Saiba",
-      "invert": "Juya"
+      "invert": "Juya",
+      "fadedFilm": "Fim da ya dushe",
+      "technicolor": "Technicolor",
+      "newsreel": "Labaran fim",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "Yanke",
@@ -10867,14 +11435,18 @@
       "pptx": "Gabatarwar PowerPoint",
       "pptxHint": "Kowane shafi ya zama hoton zamewa guda ɗaya, tare da bayanan mai gabatarwa da hanyoyin haɗi. Shirya rubutun mutum da abubuwa a cikin zane na asali.",
       "section": "Sashe mai suna",
-      "transparent": "Bayanin bayyane"
+      "transparent": "Bayanin bayyane",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "Yana sauke ZIP mai ɗauke da layin lokacinka a matsayin FCPXML da Premiere XML tare da kowane fayil na kafofi, don ka kammala gyaran a Premiere Pro, Final Cut Pro ko DaVinci Resolve. Rubutu ya zama alamomi; tasiri suna nan a Riftn."
     },
     "adjust": {
       "auto": "Inganta kai tsaye",
       "autoFailed": "Ba a iya nazarin wannan hoton ba.",
       "tint": "Launi {{value}}",
       "vignette": "Duhun gefe {{value}}%",
-      "warmth": "Ɗumi {{value}}"
+      "warmth": "Ɗumi {{value}}",
+      "halation": "Halation {{value}}%",
+      "scanlines": "Layukan scan {{value}}%"
     },
     "draw": {
       "colour": "Launin alƙalami",
@@ -10968,7 +11540,45 @@
       "openGenerator": "Duba kuma ƙirƙira",
       "working": "Ana aiki a kai…",
       "stop": "Dakatar",
-      "queue": "Ƙara ga jeri"
+      "queue": "Ƙara ga jeri",
+      "stopped": "An tsaya. Babu wani abu da aka canza.",
+      "queued": "{{count}} a layi",
+      "restore": "Mayar zuwa nan",
+      "restoreHint": "Mayar da aikin yadda yake kafin wannan saƙo. Sokewa yana dawo da shi.",
+      "restored": "An mayar da aikin zuwa kafin wannan saƙo. Danna soke don dawo da sabon sigar.",
+      "rewrite": "Sa buƙatata ta fi bayyana",
+      "rewriteFailed": "Ba a iya sake rubuta wannan ba. Rubutunka bai canza ba.",
+      "feedback": "Wannan ya taimaka?",
+      "good": "Amsa mai kyau",
+      "bad": "Amsa mara kyau",
+      "retryPrefix": "Wannan bai yi daidai ba. Maimakon haka, ",
+      "recipesTitle": "Girke-girke",
+      "recipe": {
+        "podcastClip": {
+          "label": "Clip na podcast",
+          "prompt": "Nemo mafi ƙarfin lokaci na daƙiƙa 30, yanke zuwa gare shi, ƙara taken Word Pop kuma ka mai da shi 9:16."
+        },
+        "talkingHead": {
+          "label": "Mai magana mai tsabta",
+          "prompt": "Yanke dogayen tsaitsayawa, ƙara taken Classic, kuma ba shi kallo mai ɗumi kaɗan."
+        },
+        "productPromo": {
+          "label": "Tallan samfuri",
+          "prompt": "Yi talla na daƙiƙa 15: take mai ƙarfi a farko, sauye-sauyen Zoom in tsakanin clips, taken Bold da kiɗa mai daɗi."
+        },
+        "hypeReel": {
+          "label": "Bidiyon hype",
+          "prompt": "Yanke clips bisa bugun kiɗan, yi amfani da sauye-sauyen Fly up da kallon Technicolor."
+        },
+        "retroEdit": {
+          "label": "Gyaran tsoho",
+          "prompt": "Ba kowane clip kallon VHS, ƙara babban take na serif, kuma yi amfani da sauye-sauyen Fade."
+        },
+        "tutorial": {
+          "label": "Koyarwa",
+          "prompt": "Ƙara take ga kowane mataki, taken Boxed, kuma rage saurin muhimmin lokaci zuwa 0.5x."
+        }
+      }
     },
     "brand": {
       "stylesSaved": "Salon alama da aka adana tare da wannan ƙira",
@@ -10994,7 +11604,10 @@
       "replacePreset": "Sauya tare da halin yanzu",
       "saveNewPreset": "Ajiye sabon",
       "saveStyles": "Ajiye salo tare da zane",
-      "usePreset": "Yi amfani da salo"
+      "usePreset": "Yi amfani da salo",
+      "dehubApplied": "An yi amfani da alamar Riftn a kan layuka {{count}}.",
+      "dehubApply": "Yi amfani da alamar Riftn",
+      "dehubHint": "Launukan Riftn na hukuma, haruffan Exo da Inter, da tambarin Riftn, da danna ɗaya."
     },
     "templates": {
       "announcement": {
@@ -11107,7 +11720,9 @@
       "exportHint": "Bar editan a buɗe yayin da ake shirya bidiyonka.",
       "tooLarge": "Wannan fayil ɗin ya yi girma ga editan. Iyakar ita ce 400 MB.",
       "tZoomIn": "Zuƙowa ciki",
-      "tZoomOut": "Zoom fita"
+      "tZoomOut": "Zoom fita",
+      "tFlyUp": "Tashi sama",
+      "tFlyDown": "Sauka ƙasa"
     },
     "motion": {
       "title": "Motsi",
@@ -12293,21 +12908,141 @@
       "add": "Ƙara",
       "scale": "Girman",
       "color": "Launi",
-      "light": "Haske"
+      "light": "Haske",
+      "create": "Ƙara fagen 3D",
+      "title": "Fagen wurin 3D",
+      "hint": "Tsara harbi da ƙwallaye da akwatuna. Kyamara, wuri da fitilun yanki uku masu zaman kansu suna canza firam ɗin da aka ƙirƙira.",
+      "preview": "Samfotin wurin da aka ƙirƙira",
+      "error": "Ba a iya shirya firam ɗin ba. Duba abubuwan nuni na harbinka kuma sake gwadawa.",
+      "elevation": "Tsayi",
+      "distance": "Nisa",
+      "fov": "Faɗin gani",
+      "object": "Abu",
+      "sphere": "Ƙwallo",
+      "box": "Akwati",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "Cire abu",
+      "intensity": "Ƙarfi",
+      "diffusion": "Yaɗuwa",
+      "saving": "Ana shirya firam…",
+      "useFrame": "Yi amfani da firam ɗin da aka ƙirƙira a matsayin abin nuni na harbi",
+      "frameHint": "Yana ƙirƙirar PNG 320 × 180 kuma yana ƙara shi cikin abubuwan nuni na wannan harbi. Duba iyakar abubuwan nuni da farashin samfuri kafin ƙirƙira.",
+      "frameName": "Firam ɗin fagen wuri"
     },
     "clipFix": {
-      "listening": "Sauraro..."
+      "listening": "Sauraro...",
+      "detach": "Raba sauti",
+      "detached": "An matsar da sauti zuwa clip nasa",
+      "detachFailed": "Ba a iya raba sautin wannan clip ba",
+      "removeBars": "Cire baƙaƙen sanduna",
+      "scanning": "Ana duba firam…",
+      "noBars": "Ba a sami baƙaƙen sanduna ba",
+      "barsRemoved": "An yanke baƙaƙen sanduna",
+      "barsFailed": "Ba a iya duba wannan bidiyon don baƙaƙen sanduna ba",
+      "reframe": "Sake tsara kai tsaye",
+      "reframeHint": "Bidiyon ya riga ya dace da siffar wannan shafi",
+      "reframed": "An sake tsara don bin aikin",
+      "reframeFailed": "Ba a iya sake tsara wannan bidiyon ba",
+      "retakes": "Cire maimaitawa",
+      "noRetakes": "Ba a sami maimaitawa ba",
+      "retakesRemoved": "An cire maimaitawa {{count}}, an riƙe na ƙarshe",
+      "retakesFailed": "Ba a iya cire maimaitawa daga wannan clip ba"
     },
     "voiceClone": {
       "stop": "Dakatar da rikodin",
-      "failed": "Muryar murya cloning bai yi nasara ba."
+      "failed": "Muryar murya cloning bai yi nasara ba.",
+      "pickerLabel": "Kwafi muryarka",
+      "pickerDetail": "Muryoyi da muryarka",
+      "title": "Kwafi muryarka",
+      "description": "Naɗi kanka ko zaɓi clip na kana magana. Kana biya sau ɗaya kuma muryarka taka ce don kowace murya.",
+      "defaultName": "Muryata",
+      "record": "Naɗi samfuri (daƙiƙa 30 zuwa minti 2)",
+      "fromMedia": "Ko yi amfani da clip daga Kafofi",
+      "recorded": "Naɗinka",
+      "sample": "Samfuri: {{name}}",
+      "hint": "Magana bayyananniya ba tare da kiɗa ba ta fi aiki.",
+      "noMic": "Ba a iya amfani da makirufo ba.",
+      "sampleFailed": "Ba a iya karanta sautin daga wannan clip ba.",
+      "pay": "Kwafi da alamu {{amount}}",
+      "useFree": "Kwafi (an riga an biya)",
+      "owned": "Muryarka “{{name}}” an riga an saita ta. Zaɓe ta daga jerin muryoyi.",
+      "useOwned": "Yi amfani da muryata",
+      "ready": "“{{name}}” ta shirya don murya.",
+      "paidFailed": "An ajiye biyanka. Sake buɗe wannan kuma gwaji na gaba kyauta ne.",
+      "consent": "Kwafi muryarka kawai, ko wadda kake da izinin amfani da ita."
     },
     "linkImport": {
       "go": "Shigo da",
-      "downloading": "Saukar {{percent}}%"
+      "downloading": "Saukar {{percent}}%",
+      "open": "Shigo daga hanyar haɗi",
+      "placeholder": "Liƙa hanyar haɗin YouTube, TikTok ko wata",
+      "rights": "Ni ne mamallakin wannan bidiyon ko ina da izinin amfani da shi",
+      "audioOnly": "Sauti kawai",
+      "queued": "A layi…",
+      "waiting": "Ana jiran shafin, za a sake gwadawa nan ba da jimawa ba…",
+      "adding": "Ana ƙarawa zuwa Kafofi…",
+      "added": "An shigo da shi kuma an ƙara shi a layin lokaci.",
+      "failed": "Ba a iya shigo da wannan hanyar haɗin ba."
     },
     "reverse": {
-      "action": "Juya"
+      "action": "Juya",
+      "working": "Ana juyawa {{percent}}%",
+      "done": "An juya clip.",
+      "failed": "Ba a iya juya wannan clip ba.",
+      "unsupported": "Wannan mai binciken ba zai iya juya bidiyo ba. Gwada Chrome ko Edge.",
+      "tooLong": "Clips har zuwa daƙiƙa {{seconds}} ne za a iya juyawa."
+    },
+    "film": {
+      "repairRefs": "Cire hanyoyin haɗin kafofi da suka ɓace",
+      "title": "Aikin fim",
+      "intro": "Tsara harbe-harbe da abubuwan nuni na hoto da za a sake amfani da su. Taƙaitawarka, tsarin harbe-harbe da sakamakon da aka zaɓa ana ajiye su tare da wannan aikin.",
+      "create": "Ƙirƙiri shirin fim",
+      "name": "Sunan fim",
+      "brief": "Taƙaitaccen bayanin fim",
+      "sharedReferences": "Abubuwan nuni na hoto da aka raba (har zuwa 4)",
+      "shot": "Harbi",
+      "addShot": "Ƙara harbi",
+      "shotName": "Sunan harbi",
+      "action": "Aikin harbi da tsari",
+      "seconds": "Daƙiƙun bidiyo da ake buƙata",
+      "shotReferences": "Ƙarin abubuwan nuni na hoto (jimillar iyaka 4)",
+      "frame": "Shirya firam",
+      "video": "Shirya bidiyo",
+      "review": "Duba samfuri, abubuwan nuni, tsawon bidiyo da farashi a cikin studio kafin ƙirƙira.",
+      "result": "Sakamakon harbi da aka karɓa",
+      "noResult": "Ba a zaɓi sakamako ba",
+      "resultHint": "Zaɓi hoto ko bidiyo da aka karɓa daga Abubuwan da aka ɗora. Hanyar haɗinsa tana ajiyewa tare da wannan harbi; yi amfani da layin lokaci don haɗa fim ɗin.",
+      "earlier": "Matsar da gaba",
+      "later": "Matsar da baya",
+      "remove": "Cire harbi",
+      "issue": "Duba bayanin harbi da kafofin nuni, sannan sake gwadawa. Bar aikin a buɗe idan ba a iya ajiye shi ba.",
+      "searchMedia": "Nemo kafofi da suna",
+      "refreshMedia": "Sabunta kafofi"
+    },
+    "speakers": {
+      "find": "Nemo masu magana",
+      "name": "Mai magana {{number}}",
+      "onlyOne": "Mai magana ɗaya kawai aka samu.",
+      "failed": "Ba a iya samun masu maganar ba.",
+      "kept": "An riƙe {{name}} kawai.",
+      "editFailed": "Wannan gyaran bai dace da wannan clip ba.",
+      "split": "An raba zuwa harbe-harben masu magana {{count}}.",
+      "keepOnly": "Riƙe kawai",
+      "splitAction": "Yanke a kowane canjin mai magana"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Bayyana abin 3D da kake so",
+      "queued": "Ana gina abinka na 3D. Zai bayyana a shafin Ƙirƙire-ƙirƙire.",
+      "note": "Abubuwan 3D suna shiga Kafofi a matsayin gajeren clip mai juyawa da bango mai haske."
+    },
+    "behind": {
+      "action": "Rubutu a bayan mutum",
+      "working": "Ana yanke mutumin…",
+      "done": "Rubutu da taken yanzu suna bayan mutumin.",
+      "failed": "Ba a iya sanya rubutu a bayan mutumin ba."
     }
   },
   "creator": {
@@ -12772,7 +13507,47 @@
     "referenceComposeHint": "Kawo halaye, abubuwa da yanayi daga hotuna da yawa zuwa haɗin guda ɗaya.",
     "marketing": {
       "import": {
-        "use": "Yi amfani da waɗannan bayanan"
+        "use": "Yi amfani da waɗannan bayanan",
+        "url": "URL na shafin samfur",
+        "action": "Karanta shafin samfur",
+        "loading": "Ana karanta shafi…",
+        "hint": "Shigo da rubutu daga shafin samfur na jama'a. Duba bayanai kafin amfani da su; haɗa hotunan samfur daban a situdiyo.",
+        "source": "Tushen da aka shigo da shi",
+        "review": "Zaɓi samfur don kwafawa cikin bayaninka mai gyaruwa. Kanun labarinka, muryarka da launukan alamarka ba za su canza ba.",
+        "errors": {
+          "signIn": "Shiga don shigo da shafin samfur.",
+          "url": "Yi amfani da URL na samfur na HTTPS na jama'a.",
+          "empty": "Ba a sami bayanan samfur masu amfani ba. Ƙara su da hannu.",
+          "busy": "Shigo da yawa suna gudana. Sake gwadawa nan ba da jimawa ba.",
+          "unavailable": "Ba a iya shigo da wannan shafi ba. Ƙara bayanan samfur da hannu.",
+          "failed": "Shigo da shi ya gaza. An ajiye bayaninka; sake gwadawa ko shigar da bayanai da hannu."
+        }
+      },
+      "title": "Bayanin kamfen",
+      "intro": "Bayyana samfurka da alamarka, sannan shirya tsarin talla masu dacewa.",
+      "saved": "An ajiye bayaninka a wannan na'urar don wannan asusu.",
+      "preview": "Shirya tsare-tsare",
+      "clear": "Share bayani",
+      "required": "Ƙara sunan samfur da bayaninsa don shirya tsare-tsare.",
+      "variants": "Tsare-tsaren kamfen",
+      "reviewHint": "Duba samfurin, farashi da nassoshin samfur a situdiyo kafin ƙirƙira. Kowane tsari ƙirƙira ce daban.",
+      "open": "Duba a situdiyo",
+      "fields": {
+        "product": "Sunan samfur (dole)",
+        "description": "Bayanan samfur (dole)",
+        "brand": "Sunan alama",
+        "audience": "Masu sauraro da ake nufi",
+        "benefit": "Babban fa'ida",
+        "voice": "Muryar alama",
+        "palette": "Launukan alama",
+        "headline": "Kanun labarai da aka amince",
+        "cta": "Kira zuwa aiki"
+      },
+      "formats": {
+        "square": "Talla mai murabba'i",
+        "portrait": "Talla a tsaye",
+        "story": "Hoton labari",
+        "video": "Bidiyo a tsaye"
       }
     },
     "batchCount": "Hotuna",
@@ -12780,7 +13555,109 @@
     "cinema": {
       "close": "Rufe",
       "performance": {
-        "label": "Aiki"
+        "label": "Aiki",
+        "0": "Mai farin ciki",
+        "1": "Mai baƙin ciki",
+        "2": "Mai damuwa",
+        "3": "Mai ƙarfin gwiwa",
+        "4": "Mai mamaki",
+        "5": "Mai kamewa",
+        "6": "Mai wasa"
+      },
+      "title": "Jagorancin silima",
+      "hint": "Jagoranci salon gani na hotonka ko bidiyonka na gaba. Sakamako ya bambanta bisa samfuri.",
+      "none": "Babu jagoranci",
+      "reset": "Share jagoranci",
+      "camera": {
+        "label": "Kallon kyamara",
+        "0": "Silima na dijital",
+        "1": "Fim na 35mm",
+        "2": "Fim na 16mm",
+        "3": "Babban tsari",
+        "4": "Tsohuwar kyamarar bidiyo"
+      },
+      "lens": {
+        "label": "Kallon ruwan tabarau",
+        "0": "Mai zagaye",
+        "1": "Anamorphic",
+        "2": "Tsohon gilashi mai laushi",
+        "3": "Macro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Tsawon mayar da hankali",
+        "0": "18mm mai faɗi",
+        "1": "24mm mai faɗi",
+        "2": "35mm na halitta",
+        "3": "50mm na yau da kullum",
+        "4": "85mm hoton fuska",
+        "5": "135mm na nesa"
+      },
+      "aperture": {
+        "label": "Zurfin fili",
+        "0": "f/1.4 mara zurfi sosai",
+        "1": "f/2.8 mara zurfi",
+        "2": "f/5.6 matsakaici",
+        "3": "f/11 zurfin mayar da hankali"
+      },
+      "movement": {
+        "label": "Motsin kyamara",
+        "0": "Tripod a tsaye",
+        "1": "Dolly a hankali zuwa ciki",
+        "2": "Dolly a hankali zuwa waje",
+        "3": "Bin gefe",
+        "4": "Zagaya abin da ake ɗauka",
+        "5": "Riƙe da hannu",
+        "6": "Tashin crane",
+        "7": "Juyawa a hankali"
+      },
+      "lighting": {
+        "label": "Haske",
+        "0": "Hasken rana mai laushi",
+        "1": "Lokacin zinariya",
+        "2": "Chiaroscuro mai duhu",
+        "3": "Studio mai haske",
+        "4": "Fitilun neon",
+        "5": "Hasken baya na inuwa",
+        "6": "Haske mai yaɗuwa na gajimare"
+      },
+      "tempo": {
+        "label": "Saurin harbi",
+        "0": "Harbi ɗaya ba tare da tsayawa ba",
+        "1": "Aiki mai natsuwa, ba gaggawa",
+        "2": "Aiki mai kuzari da ƙarfi",
+        "3": "Aiki mai rikici da hargitsi"
+      },
+      "era": {
+        "label": "Zamani",
+        "0": "Shekarun 1920",
+        "1": "Shekarun 1950",
+        "2": "Shekarun 1960",
+        "3": "Shekarun 1970",
+        "4": "Shekarun 1980",
+        "5": "Shekarun 1990",
+        "6": "Zamanin yanzu",
+        "7": "Nan gaba kaɗan"
+      },
+      "genre": {
+        "label": "Nau'i",
+        "0": "Fim na gaskiya",
+        "1": "Wasan kwaikwayo",
+        "2": "Film noir",
+        "3": "Almarar kimiyya",
+        "4": "Tatsuniya",
+        "5": "Barkwancin soyayya",
+        "6": "Mai ban tsoro",
+        "7": "Na yammacin Amurka"
+      },
+      "palette": {
+        "label": "Tsarin launuka",
+        "0": "Amber mai ɗumi",
+        "1": "Shuɗi mai sanyi",
+        "2": "Launukan ƙasa marasa haske",
+        "3": "Pastel",
+        "4": "Baƙi da fari mai bambanci sosai",
+        "5": "Launuka na asali masu ƙarfi"
       }
     },
     "audioNoSpeech": "Ba a sami magana a cikin wannan rikodin ba.",
@@ -12800,9 +13677,139 @@
     "gallery": {
       "send": "Aika",
       "notifications": {
-        "generation_reply": "{{name}} ya amsa sharhinka"
+        "generation_reply": "{{name}} ya amsa sharhinka",
+        "generation_like": "{{name}} ya mayar da martani ga ƙirƙirarka",
+        "generation_comment_like": "{{name}} ya mayar da martani ga sharhinka",
+        "generation_comment": "{{name}} ya yi sharhi kan ƙirƙirarka"
+      },
+      "browse": "Duba abubuwan da aka ƙirƙira",
+      "empty": "Babu ƙirƙire-ƙirƙire tukuna",
+      "fullscreen": "Duba cikakken allo",
+      "missing": "Wannan ƙirƙirar ba ta samuwa."
+    },
+    "layerNewAttempt": "Duba sabon ƙoƙari",
+    "layerTitle": "Raba layukan hoto",
+    "layerPngRequired": "Zaɓi hoton PNG da aka ajiye, har zuwa 12 MiB da megapixels huɗu.",
+    "layerSource": "Hoton asali",
+    "layerDescription": "Layukan PNG huɗu masu bayyanawa. Rubutu yana nan a cikin kowane hoto.",
+    "layerSeparate": "Raba layuka",
+    "layerPending": "Aikin da aka ajiye: {{status}}. Karɓa ko sake gwada ajiyewa ba tare da wani biya ba.",
+    "layerCollect": "Karɓa / sake gwada ajiyewa",
+    "layerOpen": "Buɗe layuka a edita",
+    "layerExport": "Fitar da layukan PNG + ZIP na bayani",
+    "layerNumber": "Layi {{number}}",
+    "priceRetry": "Ba a iya tabbatar da farashin ba. Duba farashin kuma sake gwadawa.",
+    "avatarTitle": "Hoto mai magana",
+    "avatarRequirements": "Hoton PNG murabba'i, pixels 512–2048, har zuwa MB 5. WAV mono 24 kHz 16-bit PCM, daƙiƙa 5–30. Ana cike ɗan ƙarshen daƙiƙa da shiru.",
+    "avatarPortrait": "Zaɓi hoton PNG",
+    "avatarAudio": "Zaɓi WAV na magana",
+    "avatarPermission": "Ina da izinin motsa wannan hoton da amfani da wannan sauti.",
+    "avatarQuote": "Daƙiƙa {{seconds}} har da shiru · token {{amount}}",
+    "avatarPrepare": "Shirya kuma duba farashi",
+    "batchFlowLimit": "Jerin Flow ya cika. Cire Flow da ba a amfani da shi kafin ƙirƙirar wani rukuni.",
+    "batchReviewCampaign": "Duba rukunin kamfen a Flow",
+    "batchReviewFilmImages": "Duba rukunin hotunan allon labari",
+    "batchReviewFilmVideos": "Duba rukunin gajerun fim",
+    "batchReviewHint": "Yana buɗe Flow daban da aka ajiye. Duba kowane abu da cikakken farashi kafin biya. Ana riƙe abubuwan da aka kammala da biyan asali don farfaɗowa. Ana kwafa nassoshi zuwa ɗakin ajiyarka na sirri; amfani da ajiya da hanyar sadarwa ya shafa.",
+    "batchInvalid": "Kammala kowane abu kafin shirya rukunin hotuna ko gajerun bidiyo 1–12.",
+    "batchReferenceLimit": "Wannan rukunin yana tallafa wa hoton nassoshi ɗaya kowane abu. Cire ƙarin nassoshi ko shirya wannan abu shi kaɗai.",
+    "batchVideoSettings": "Don wannan rukunin, gajerun bidiyo suna buƙatar cikakken tsawon daƙiƙa 4–15 da yanayin 16:9, 9:16 ko 1:1.",
+    "batchMissingReference": "Wani nassoshi ya ɓace, ba a tallafa masa ba ko ya fi MB 25. Dawo da shi a edita kafin shirya rukunin.",
+    "batchOwnerChanged": "Asusun ko daftarin ya canza. Sake buɗe wannan rukunin a ƙarƙashin asusunsa na asali.",
+    "batchConflict": "Rukunin da aka ajiye bai dace da hotonsa na asali ba.",
+    "campaignPlanTitle": "Bambance-bambancen kamfen da sassa",
+    "campaignPlanIntro": "Ajiye har zuwa bambance-bambance ko sassa 12. Kowanne yana buɗe situdiyo don dubawa da farashinsa. Bayanai na tare suna jagorantar ci gaba; kamannin samfur, haruffa da muryoyi na iya bambanta tsakanin ƙirƙira.",
+    "campaignTitle": "Sunan kamfen ko jerin shirye-shirye",
+    "campaignContinuity": "Bayanai na tare kan hali, murya da salo",
+    "campaignVariantTitle": "Sunan bambanci ko sashe",
+    "campaignHook": "Ƙugiyar buɗewa",
+    "campaignLanguage": "Harshen fitarwa",
+    "campaignScript": "Rubutun da aka amince ko jerin fage",
+    "campaignAdd": "Ƙara bambanci ko sashe",
+    "campaignClear": "Share tsari",
+    "campaignFormat": "Tsarin fitarwa",
+    "audioExportFormat": "Tsarin fitarwa",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Haɗa gajeren bidiyo ɗaya na asali don tsawaitawa.",
+    "extensionSeconds": "+{{seconds}}s sabon hoton bidiyo",
+    "extensionHelp": "Yana dawo da gajeren bidiyonka na asali da kusan sabbin daƙiƙa huɗu. Ana canza girman fitarwa har zuwa 720p a 24 fps. Ana ƙirƙirar sabon sauti don tsawaitawar.",
+    "extensionForward": "Ƙara kusan daƙiƙa huɗu bayan gajeren bidiyonka na asali",
+    "extensionBackward": "Ƙara kusan daƙiƙa huɗu kafin gajeren bidiyonka na asali",
+    "expandDescription": "Ƙirƙiri sabbin gefunan hoto. Umarnin Turanci na zaɓi ne; hoton asali ɗaya.",
+    "relightDescription": "Sake haskaka hoto ɗaya daga bayaninka na haske da bango.",
+    "expandPromptHint": "Haɗa hoto ɗaya kuma zaɓi sabon yanayinsa. Umarnin Turanci na zaɓi ne.",
+    "expandEnglishOnly": "Wannan samfurin faɗaɗawa yana karɓar umarnin Turanci. Bar umarnin babu komai don faɗaɗawa ta atomatik.",
+    "expandNeedsImage": "Haɗa hoto don faɗaɗawa.",
+    "learn": {
+      "title": "Darussan Mahalicci",
+      "intro": "Gajerun darussa, gwajin ilimi da aikin da za a iya gyarawa ga kowanne. Ana ajiye ci gaba a wannan na'urar don asusunka.",
+      "back": "Koma zuwa Mahalicci",
+      "lessons": "Darussa",
+      "progress": "An wuce gwajin ilimi {{completed}} cikin {{total}}",
+      "check": "Duba amsa",
+      "correct": "An wuce gwajin ilimi",
+      "retry": "Sake gwadawa. Duba darasin da ke sama.",
+      "exerciseTitle": "Aikin hannu",
+      "exerciseHint": "Buɗe misali da za a iya gyarawa a filin aikin situdiyonka. Buɗe daftari kyauta ne; ƙirƙira na buƙatar dubawarka da farashinsa na kansa. Gyara misalin kafin ƙirƙira.",
+      "openExercise": "Buɗe daftarin aiki",
+      "closeExercise": "Rufe aiki",
+      "brief": {
+        "title": "Rubuta bayanin gani a sarari",
+        "body1": "Bayyana takamaiman batu, aikinsa da wurin. Ƙara tsarin hoto ko motsin kyamara idan ya taimaki fage. Ajiye ra'ayoyin da ba su da alaƙa don wani daftari.",
+        "body2": "Umarnin haske, ruwan tabarau da salo suna jagorantar samfurin. Ba su tabbatar da halin kyamara na zahiri ko ainihin hoto ba. Canza sashe ɗaya a lokaci guda don ka iya kwatanta gyare-gyare.",
+        "body3": "Kafin ƙirƙira, duba samfurin da aka zaɓa, abubuwan haɗi da ake tallafawa, girma da farashi. Ajiye daftarin asali don ka iya komawa gare shi.",
+        "question": "Wane bayani ne ya fi sauƙin gyarawa?",
+        "answer0": "Batu, aiki da wuri a sarari",
+        "answer1": "Sunan samfuri kaɗai",
+        "answer2": "Jerin salo masu karo da juna",
+        "exercise": "Tukunyar shayi ta yumbu a kan teburin katako kusa da taga. Hasken safe mai laushi, tsarin hoto na tsakiya, bango mai sauƙi. Bar tukunyar shayin ta zama babban batu a sarari."
+      },
+      "continuity": {
+        "title": "Tsara hotuna kuma duba ci gaba",
+        "body1": "Yi amfani da sashin Fim a edita don ajiye bayani da hotuna a jere. Shirya kowane firam ko gajeren bidiyo daban, duba farashinsa, kuma zaɓi sakamakon da aka karɓa.",
+        "body2": "Haɗa nassoshi da samfurin da ka zaɓa ya karɓa kawai. Sake amfani da nassoshi na iya jagorantar kamanni; ba ya koyar da asali ko tabbatar da dacewa. Haruffa da muryoyi na iya bambanta tsakanin ƙirƙira.",
+        "body3": "Riƙe hotunan da suka yi nasara kuma haɗa su a jadawalin lokaci. Duba motsi, fuskoki, tattaunawa da sauye-sauye kafin fitarwa.",
+        "question": "Me ke tallafa wa ci gaba tsakanin hotuna?",
+        "answer0": "Ƙarin umarni marasa alaƙa",
+        "answer1": "Nassoshin da aka amince da su da bayanan hoto da aka duba",
+        "answer2": "Ɗauka cewa asalin hali yana da tabbaci",
+        "exercise": "Hoto mai faɗi na matafiyi shi kaɗai yana isa gabar teku mai shiru da fitowar rana. Motsin kyamara a hankali zuwa gaba, yanayi mai natsuwa. Hoto ɗaya mai ci gaba."
+      },
+      "campaign": {
+        "title": "Yi amfani da bayanan samfur da aka amince da su",
+        "body1": "Fara da bayanan samfur da za ka iya tabbatarwa. Duba bayanan da aka shigo da su kafin amfani da su. Rubuta kanun labari da kiran aiki a fili; kada ka ƙirƙiri farashi, bita ko iƙirarin aiki.",
+        "body2": "Yi amfani da bambance-bambancen kamfen da aka ajiye don haɗa bayanai na tare da ƙugiya, rubutun, harsuna da tsare-tsare na kowanne. Shirya abu ɗaya da aka duba a lokaci guda kuma duba farashinsa a situdiyo.",
+        "body3": "Duba rubutun da ake gani, kamannin samfur da duk wani iƙirari da aka faɗa a sakamakon. Umarni ba hujja ba ne na daidaiton samfur ko nasarar talla.",
+        "question": "Yaushe ya kamata a saka iƙirarin samfur?",
+        "answer0": "Duk lokacin da ya yi kamar mai gamsarwa",
+        "answer1": "Bayan ƙirƙirar bitar taurari biyar",
+        "answer2": "Idan ya fito daga bayanan samfur da aka amince da su",
+        "exercise": "Ƙirƙiri tallan samfur a tsaye na shayin ganye cikakke da ake sayarwa a cikin gwangwani mai sake amfani. Kanun da aka amince: Ba da lokaci don shayi. CTA da aka amince: Bincika tarin. Yi amfani da waɗannan bayanan kawai; kada ka ƙirƙiri rangwame, bita ko iƙirarin lafiya."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "Wannan hirar tana kunna naɗin sirri da aka ajiye a wannan na'urar. Don wata na'ura, buɗe ɗakin Creator ɗinka bayan ajiyar girgije ta kammala. Idan ka bar yanzu, sake buɗe wannan hirar don kammala ajiyewa.",
+    "batchPaymentHelp": "Ana cajin kowane hoto da aka aika daban. Idan rukuni ya tsaya, alamun da ba a yi amfani da su ba daga biyansa ana sake amfani da su kai tsaye don wani ƙirƙira na gaba da suke rufewa.",
+    "endFrameHelp": "Ƙara hoton farko da maɓallin haɗawa.",
+    "seed": "Seed (na zaɓi, 0–2147483647)",
+    "negativePrompt": "Fadakarwa mara kyau (na zaɓi)",
+    "invalidSeed": "Seed dole ya zama cikakken lamba daga 0 zuwa 2147483647.",
+    "endFrameNeedsStart": "Haɗa hoton farko kafin zaɓar firam na ƙarshe.",
+    "batchStopped": "Rukunin ya tsaya bayan aikawa {{submitted}} na {{quantity}}. Ba a aika {{remaining}} ba. An ajiye hotunan da aka kammala.",
+    "audioInvalidTask": "Zaɓi aikin sauti da ake goyon baya.",
+    "audioNeedsFile": "Haɗa fayil ɗin sauti ko bidiyo da ake goyon baya tukuna.",
+    "audioTextLimit": "Magana da tattaunawa suna ba da haruffa 1–5000; tasirin sauti suna ba da 1–1000.",
+    "audioDurationLimit": "Tsawon sauti dole ya zama Auto (0) ko daƙiƙa 0.5–30.",
+    "audioModels": "Sauran samfuran sauti",
+    "audioAttach": "Haɗa naɗi",
+    "audioAttachFailed": "Ba a iya haɗa wannan naɗin ba.",
+    "audioSeconds": "Daƙiƙa (0 = Auto)",
+    "audioInvalidResponse": "Sabis ɗin sauti ya dawo da sakamako mara inganci.",
+    "audioResultTooLarge": "Sakamakon sautin babu komai ko ya wuce 50 MB.",
+    "audioFailed": "Ba a iya sarrafa wannan sautin ba.",
+    "libraryFavorites": "Waɗanda aka fi so",
+    "libraryFavoriteAdd": "Ƙara zuwa waɗanda aka fi so",
+    "libraryFavoriteRemove": "Cire daga waɗanda aka fi so"
   },
   "fractions": {
     "title": "Rabe-rabe",
@@ -12944,7 +13951,8 @@
     "offerSubmitted_other": "An gabatar da tayin don ɓangarori {{count}} a kowane token {{price}}",
     "yourOfferLabel": "Tayan ku (tokens a kowane ɓangare)",
     "listedToast_one": "An jera ɓangaren {{count}} a kowane token {{price}}",
-    "listedToast_other": "An jera ɓangarori {{count}} a kowane token {{price}}"
+    "listedToast_other": "An jera ɓangarori {{count}} a kowane token {{price}}",
+    "nftsSubtitle": "Kowane NFT, musanya mataki ɗaya"
   },
   "moderation": {
     "appealDuplicate": "Kun riga kun yi kira ga wannan",
@@ -13044,7 +14052,11 @@
     "ended": "Ya ƙare",
     "stage": "Mataki",
     "upcomingStage": "Mataki na gaba",
-    "members": "{{compact}} mambobi"
+    "members": "{{compact}} mambobi",
+    "requestComments_one": "Sharhi {{compact}}",
+    "requestComments_other": "Sharhi {{compact}}",
+    "requestVotes_one": "Ƙuri'a {{compact}}",
+    "requestVotes_other": "Ƙuri'u {{compact}}"
   },
   "report": {
     "whyVideo": "Me yasa kake bayar da rahoton wannan bidiyon?",
@@ -14301,7 +15313,14 @@
     "faqWhatA": "Ta MCP zai iya duba rubuce-rubucen jama'a na Riftn, bincika batutuwa kuma duba bayanan martaba na masu ƙirƙira. Ba ya wallafawa a madadinka.",
     "faqAccountQ": "Ina buƙatar asusun Riftn?",
     "chatgptFaqAccount": "Ba a buƙatar asusu don karanta abubuwan jama'a ta hanyar haɗin gwiwa. Ana buƙatar asusu na Riftn ne kawai idan kana son aika sako, ba da kyauta, ko riƙe token na Riftn.",
-    "claudeFaqAccount": "A'a. Karanta abubuwan jama'a yana aiki ba tare da asusu ba. Kuna buƙatar asusu na Riftn ne kawai don aika sako, ba da kyauta, ko riƙe token na Riftn."
+    "claudeFaqAccount": "A'a. Karanta abubuwan jama'a yana aiki ba tare da asusu ba. Kuna buƙatar asusu na Riftn ne kawai don aika sako, ba da kyauta, ko riƙe token na Riftn.",
+    "subtitleAccount": "Yi amfani da Riftn daga ChatGPT, Claude ko kowace manhajar MCP. Bincika ba tare da asusu ba, ko shiga don ajiye daftarin sirri, buga da tsara rubuce-rubuce, sarrafa hotuna da kuri'u, karanta nazari, amsa da bi.",
+    "agentsTitle": "Gudanar da wakilanka daga mataimakinka",
+    "agentsBody": "Idan ka haɗa, kuma ka bada izinin \"Act as your agents\". Mataimakinka zai iya bugawa, amsa, mayar da martani, sake bugawa, bi ko gyara bayanin martaba a matsayin kowane wakili da ka mallaka. Ba zai taɓa yin aiki a matsayin asusun da ba ka mallaka ba.",
+    "keysTitle": "Maɓallan sirri",
+    "keysBody": "Don rubutun kwamfuta, bots da manhajojin da ba za su iya buɗe shafin shiga ba. Maɓalli yana yin abin da ka bada izini kawai kuma yana tsayawa bayan kwana 30 ba tare da amfani ba.",
+    "keysMake": "Ƙirƙiri maɓallin sirri",
+    "manageLinked": "Sarrafa manhajoji da maɓallai da aka haɗa"
   },
   "credits": {
     "percentUsed": "{{percent}}% amfani",
@@ -14406,7 +15425,10 @@
       "body": "tokens yana zuwa kai tsaye zuwa aljihun kudi na app, {{wallet}}. Ba za a iya janye biyan kuɗi ba.",
       "title": "Biya {{name}}?",
       "confirm": "Biya {{amount}} tokens",
-      "sent": "Biya {{amount}}tokens zuwa {{name}}."
+      "sent": "Biya {{amount}}tokens zuwa {{name}}.",
+      "testBadge": "Yanayin gwaji",
+      "testBody": "Kai ne mamallakin wannan manhajar, don haka wannan gwaji ne: babu alamun da ke motsi kuma an yi wa rasit alamar gwaji.",
+      "testSent": "Biyan gwaji na alamu {{amount}}. Ba a aika komai ba."
     }
   },
   "aiStyles": {
@@ -14515,7 +15537,16 @@
     "level": "Mataki {{level}}",
     "streak_one": "{{count}}-week streak",
     "streak_other": "{{count}}-week streak",
-    "tipJar": "Kyauta jar"
+    "tipJar": "Kyauta jar",
+    "eyebrow": {
+      "follow": "Sabon mabiyi",
+      "subscribe": "Sabon mai biyan kuɗi",
+      "subscribedTo": "An yi rajista · {{plan}}",
+      "gifted_one": "An ba da kyautar rajista",
+      "gifted_other": "An ba da kyautar rajista {{count}}",
+      "share": "Ya raba rafin",
+      "join": "Ya shigo yanzu"
+    }
   },
   "liveStudio": {
     "title": "Situdiyon Kai Tsaye",
@@ -14882,8 +15913,20 @@
         "off": "Kashe",
         "idle": "A shirye",
         "live": "Kai tsaye",
-        "error": "Kuskure"
-      }
+        "error": "Kuskure",
+        "connecting": "Ana haɗawa"
+      },
+      "title": "Wuraren rafi da yawa",
+      "intro": "Fara kai tsaye a Riftn sau ɗaya kuma za mu tura rafinka zuwa kowane dandali da aka kunna a nan, kyauta. Yana farawa cikin 'yan daƙiƙa bayan ka fara kai tsaye.",
+      "add": "Ƙara wuri",
+      "empty": "Babu wurare tukuna. Ƙara Twitch, YouTube, Kick ko kowane sabar RTMP.",
+      "server": "URL na sabar",
+      "findKey": "Nemo sabar {{name}} da maɓallinka",
+      "customHint": "Liƙa sabar RTMP da maɓallin da dandalinka ya ba ka.",
+      "keyNote": "Ana adana maɓallinka a ɓoye a sabobinmu kuma ba za a sake nuna shi ba.",
+      "added": "An ƙara {{name}}",
+      "saveFailed": "Ba a iya ajiye wurin ba",
+      "toggle": "Yi rafi zuwa wannan wuri"
     }
   },
   "liveChatModeration": {
@@ -14964,8 +16007,20 @@
       "coverHint": "Makala 1 ita ce ta kasa",
       "empty": "Kada kowane shafin kasa, zaki sanya hotuna. Kowane shafin yana da rubutun da aka sanya a cikin hotuna.",
       "cover": "Kafada",
-      "caption": "Bayani don wannan shafi"
-    }
+      "caption": "Bayani don wannan shafi",
+      "alt": "Rubutun alt: abin da shafin ke nunawa"
+    },
+    "toComic": "Mai da shi kwamik",
+    "toCarousel": "Nuna a matsayin carousel",
+    "converted": "Yanzu ana nuna shi a matsayin kwamik",
+    "unconverted": "Yanzu ana nuna shi a matsayin carousel",
+    "convertFailed": "Ba a iya canza tsarin ba",
+    "chip": "Kwamik · shafuka {{count}}",
+    "open": "Buɗe kwamik, shafi {{page}} na {{total}}",
+    "flip": "Shafi {{page}} na {{total}}. Taɓa don juyawa",
+    "page": "Shafi {{page}}",
+    "goto": "Shafi {{page}}",
+    "cards": "Koma zuwa katuna"
   },
   "nftMarket": {
     "dehubPostsName": "Riftn Posts",
@@ -15029,7 +16084,66 @@
     "bundleBadge": "Haɗe ×{{n}}",
     "dropBadge": "Farashin ya faɗi",
     "days_one": "{{count}} rana",
-    "days_other": "{{count}} kwanaki"
+    "days_other": "{{count}} kwanaki",
+    "actCollectionOffer": "Tayin tarin",
+    "actListed": "An jera",
+    "actSale": "Sayarwa",
+    "buyAll": "Sayi duka",
+    "buySeveral": "Sayi da yawa",
+    "cartBought": "An sayi {{n}}. Suna cikin walat ɗinka yanzu.",
+    "cartCount": "{{n}} a cikin kwando",
+    "cartFull": "Har zuwa 20 a lokaci ɗaya",
+    "cartOneCoin": "Sarka ɗaya da tsabar kuɗi ɗaya a kowane kwando. Share shi don canzawa.",
+    "cartOwn": "Wannan naka ne",
+    "cartPick": "Taɓa don ƙarawa a kwando",
+    "forSaleHere": "Ana sayarwa a nan",
+    "noActivity": "Babu komai a nan tukuna",
+    "shareMessage": "Saya da sayar da NFTs a Riftn",
+    "loadFailed": "Ba a iya loda kasuwar ba. Ja don sake gwadawa.",
+    "signInTitle": "Shiga don ganin NFTs ɗinka",
+    "walletOn": "NFTs a walat ɗinka a {{chain}}",
+    "listedAt": "An jera",
+    "noneHeld": "Babu NFTs a wannan walat tukuna",
+    "title": "NFTs",
+    "subtitle": "Saya da sayarwa a BNB, Base, Ethereum da Robinhood",
+    "startHint": "Jera NFT daga Naka don zama na farko.",
+    "wrongChain": "Canza walat ɗinka zuwa {{chain}} don yin ciniki da wannan",
+    "failed": "Hakan bai yi nasara ba. Sake gwadawa.",
+    "bought": "Naka ne",
+    "cancelledOrder": "An soke a kan sarka",
+    "notEnough": "Babu isasshen {{symbol}} a walat ɗinka",
+    "offerSent": "An aika tayi",
+    "youGet": "Za ka samu",
+    "holderGets": "Mai riƙewa zai samu",
+    "cancelListing": "Soke jeri",
+    "buyConfirm": "Sayi {{name}}?",
+    "volShort": "Adadi",
+    "salesCount": "An sayar da {{n}}",
+    "bestOffer": "Mafi kyawun tayi",
+    "fromOpenSea": "Manyan tarin a OpenSea",
+    "buyHere": "Saye su a nan",
+    "openSeaNote": "An jera a OpenSea. Kana biyan mai sayarwa kai tsaye a Seaport; Riftn ba ta ƙara kuɗi ba.",
+    "notListed": "Ba a jera shi don sayarwa yanzu ba.",
+    "priceLabel": "Farashin da mai saye zai biya",
+    "offerLabel": "Tayinka",
+    "list": "Jera shi",
+    "listHint": "Sa hannu kyauta ne. Sayarwa ta farko daga tarin tana tambayar ka ka amince da ita sau ɗaya.",
+    "offerHint": "Sa hannu kyauta ne. Alamunka suna zama a walat ɗinka har sai mai riƙewa ya karɓa.",
+    "viewOnly": "Saye da sayar da NFTs ba ya samuwa a wannan manhajar.",
+    "tradeOnWeb": "Yi ciniki a riftn.com",
+    "feesFootnote": "Kuɗi: 2%, ko 1% idan ana biya da alamu. Kowane ciniki musanya ɗaya ne a kan sarka.",
+    "trending": "Tarin da ke tashe",
+    "floor": "Ƙasa",
+    "listedCount": "{{n}} ana sayarwa",
+    "thisCollection": "Wannan tarin",
+    "collectionOffer": "Tayi a kan kowanne",
+    "shortTitle": "NFTs",
+    "openToOffers": "A buɗe ga tayi",
+    "offersOpen": "A buɗe ga tayi",
+    "mintedCount": "{{n}} an ƙirƙira",
+    "thisNft": "Wannan NFT",
+    "alertUnder": "Sanar da ni idan an jera a ko ƙasa da ({{symbol}}, na zaɓi)",
+    "turnOnAlert": "Kunna faɗakarwa"
   },
   "reel": {
     "readAll": "Karanta duk",
@@ -15054,7 +16168,12 @@
     },
     "loading": "Loading...",
     "paused": "An dakatar",
-    "preview": "Gabatarwa"
+    "preview": "Gabatarwa",
+    "popOut": "Fitar da shi",
+    "backInPost": "Kunna a nan maimakon haka",
+    "inCorner": "Ana kunnawa a kusurwa",
+    "seek": "Nema",
+    "tapToStartApp": "Taɓa kunna a cikin na'urar kunnawa ta Spotify"
   },
   "twoFactor": {
     "wrongCode": "Wannan lambar ba ta yi daidai ba. Gwada sabuwa a cikin manhajarka.",
@@ -15136,18 +16255,57 @@
   "chatTextSize": {
     "title": "Girman rubutu",
     "default": "Nakadashi",
-    "larger": "Mafi Girma"
+    "larger": "Mafi Girma",
+    "small": "Ƙarami",
+    "large": "Babba",
+    "largest": "Mafi girma"
   },
   "remix": {
-    "cut": "Yanke"
+    "cut": "Yanke",
+    "title": "Remix",
+    "greenScreen": "Allon kore",
+    "collab": "Haɗin gwiwa",
+    "sound": "Yi amfani da sauti",
+    "unavailable": "Wannan bidiyon ba ya samuwa don remix.",
+    "openFailed": "Ba a iya buɗe remix ɗin ba. Duba haɗinka da izinin kyamara, sannan sake gwadawa.",
+    "tooLarge": "Wannan naɗin ya yi girma sosai. Naɗi gajeren ɗauka.",
+    "invalidRecording": "Ba a iya karanta naɗin ba. Don Allah naɗi wani ɗauka.",
+    "saveFailed": "Ba a iya ajiye remix ɗin ba. Don Allah a sake gwadawa.",
+    "startHint": "Duba kyamararka a kan wannan bidiyon, sannan naɗi remix ɗinka. Barin wannan allon yana tsayar da kyamara.",
+    "openCamera": "Buɗe kyamara"
   },
   "signedFollows": {
     "setUp": "Kunna",
     "turnOff": "Kashe",
-    "efpTurnOff": "Dakatar"
+    "efpTurnOff": "Dakatar",
+    "title": "Masu bin ka, a kan chain",
+    "description": "Walat ɗinka tana sa hannu kan waɗanda kake bi, kuma kowace rana ana buga jerin a kan Base. Kowace manhaja na iya samun waɗanda kake bi daga walat ɗinka, ko da babu Riftn.",
+    "on": "A kunne a wannan na'urar",
+    "off": "A kashe a wannan na'urar",
+    "turnedOn": "Walat ɗinka tana sa hannu kan waɗanda kake bi yanzu",
+    "turnedOff": "An kashe a wannan na'urar",
+    "failed": "Walat ɗinka bai sa hannu ba. Sake gwadawa.",
+    "hiddenNote": "Ɓoyayyun jerin bi da asusun sirri ba a saka su a jerin jama'a ba.",
+    "efpOn": "An kwafa zuwa EFP · bi {{count}}",
+    "efpOff": "Saka su a EFP ma",
+    "efpTurnOn": "Ƙara zuwa EFP",
+    "efpDone": "Waɗanda kake bi suna shiga EFP",
+    "efpStopped": "An dakatar da kwafin EFP. Jerin ya kasance naka.",
+    "efpHasList": "Kana da jerin EFP tuni. Riftn ba zai iya cika wannan ba tukuna.",
+    "efpNoGas": "Walat ɗinka yana buƙatar ETH kaɗan a kan Base don wannan.",
+    "efpFailed": "Hakan bai yi nasara ba. Sake gwadawa.",
+    "efpNote": "EFP jerin bi ne da wasu manhajoji ke karantawa (efp.app). Kyauta da walat ɗin Riftn; sauran walat suna biyan 'yan sisi a kan Base. Jerin naka ne.",
+    "efpUseWeb": "Da walat ɗinka, yi wannan a Saituna a riftn.com."
   },
   "postEditHistory": {
-    "original": "Na asali"
+    "original": "Na asali",
+    "title": "Tarihin gyara",
+    "edited_one": "An gyara sau ɗaya",
+    "edited_other": "An gyara sau {{count}}",
+    "lastEdit": "Gyaran ƙarshe {{time}}",
+    "editN": "Gyara {{n}}",
+    "now": "Yanzu",
+    "showChanges": "Nuna abin da ya canza"
   },
   "studioDeck": {
     "remove": "Cire",
@@ -15156,27 +16314,61 @@
       "modes": {
         "none": "Kashe",
         "blur": "Dishewa",
-        "color": "Launi"
-      }
+        "color": "Launi",
+        "image": "Hoto"
+      },
+      "failed": "Cire bango bai iya farawa a wannan na'urar ba.",
+      "hint": "Yana aiki a na'urarka. A karon farko yana ɗaukar 'yan daƙiƙa kafin ya loda."
     },
     "scenes": {
       "countdown": "Kirga lokaci",
       "names": {
-        "starting": "Zai fara nan ba da jimawa ba"
+        "starting": "Zai fara nan ba da jimawa ba",
+        "chatting": "Hira kawai",
+        "brb": "Zan dawo yanzu",
+        "ending": "Rafi yana ƙarewa"
+      },
+      "title": "Fage",
+      "picture": "Hoto",
+      "noCountdown": "Babu ƙirgawa",
+      "minutes": "Minti {{count}}",
+      "hints": {
+        "starting": "Kati mai ƙirgawa",
+        "chatting": "Kyamara cikakken allo",
+        "brb": "Kati, an kashe makirufo",
+        "ending": "Katin godiya"
+      },
+      "subtitles": {
+        "starting": "Rafin zai fara cikin",
+        "brb": "Zan dawo nan da ɗan lokaci",
+        "ending": "Mun gode da kallo"
       }
     },
     "widgets": {
-      "tab": "Kayan aiki"
+      "tab": "Kayan aiki",
+      "title": "Nuna widgets a bidiyona",
+      "hint": "Faɗakarwa, sandunan buri da hira ana zana su cikin rafinka, don haka masu kallo a Twitch, YouTube da kowane dandali su gan su ma.",
+      "failed": "Ba a iya canza inda widgets ɗinka ke bayyana ba. Sake gwadawa."
     },
     "sources": {
       "image": "Hoto",
       "show": "Nuna a kan rafi",
       "positions": {
-        "center": "Tsakiya"
+        "center": "Tsakiya",
+        "top-left": "Sama hagu",
+        "top-right": "Sama dama",
+        "bottom-left": "Ƙasa hagu",
+        "bottom-right": "Ƙasa dama"
       },
       "sizes": {
-        "medium": "Matsakaici"
-      }
+        "medium": "Matsakaici",
+        "small": "Ƙarami",
+        "large": "Babba"
+      },
+      "title": "Tushe",
+      "addImage": "Hoto ko tambari",
+      "failed": "Ba a iya ƙara wannan tushen ba.",
+      "hint": "Ana zana tushe a kan hotonka ga kowane mai kallo da kowane dandali."
     },
     "phone": {
       "title": "Situdiyo"
@@ -15186,7 +16378,31 @@
     "today": "Yau",
     "tooSoon": "Zaɓi lokaci a nan gaba.",
     "show": "Nuna",
-    "hide": "Ɓoye"
+    "hide": "Ɓoye",
+    "title": "Yaushe?",
+    "tonight": "Yau da dare",
+    "inAnHour": "Nan da awa ɗaya",
+    "tomorrow": "Gobe",
+    "primeTime": "Lokaci mafi kyau",
+    "scheduleFor": "Tsara don {{when}}",
+    "liveTip": "Mabiyanka za su iya saita tunatarwa. Kai ne za ka fara Kai tsaye da kanka idan lokaci ya yi.",
+    "stageTip": "Yana shiga shiryayyen Masu zuwa nan take, don mutane su taɓa Tunatar da ni.",
+    "typePlaceholder": "Rubuta lokaci, kamar \"fri 8pm\" ko \"in 2 hours\"",
+    "typeLabel": "Rubuta lokaci",
+    "typeHelp": "Gwada \"tonight\", \"tomorrow 9am\", \"sat noon\" ko \"30 oct 7pm\".",
+    "orPickDay": "Ko zaɓi rana",
+    "earlier": "Minti 15 kafin",
+    "later": "Minti 15 bayan",
+    "earlierShort": "A baya",
+    "laterShort": "Daga baya",
+    "tooSoonMin": "Zaɓi lokaci aƙalla minti {{count}} daga yanzu.",
+    "zone": "Lokacinka ({{zone}}). Kowa yana ganin sa a lokacinsa.",
+    "remove": "Cire tsari",
+    "startsIn": "Yana farawa cikin {{time}}",
+    "bestTime": "Lokaci mafi kyau",
+    "fansOnline": "Yaushe magoya bayana ke kan layi?",
+    "fansBasis": "Mai haske yana nufin ƙarin mabiyanka suna kallo, kwana {{count}} na ƙarshe.",
+    "everyoneBasis": "Babu isasshen ayyukan mabiya tukuna, don haka wannan kowa ne a Riftn."
   },
   "planned": {
     "title": "An tsara",
@@ -15201,22 +16417,45 @@
     "loading": "Ana lodawa…",
     "startNow": "Fara yanzu",
     "cancel": "Soke",
-    "cancelled": "An soke"
+    "cancelled": "An soke",
+    "subtitle": "Rubuce-rubuce, Kai tsaye da Stages da ka tsara",
+    "seoTitle": "An tsara · Riftn",
+    "seoDescription": "Rubuce-rubucenka da aka tsara, Kai tsaye da Stages a Riftn, duka a wuri ɗaya.",
+    "lives": "Kai tsaye",
+    "signIn": "Shiga don ganin abin da ka tsara",
+    "emptyTitle": "Babu abin da aka tsara tukuna",
+    "emptyBody": "Zaɓi \"Yaushe?\" yayin yin rubutu, Kai tsaye ko Stage kuma zai bayyana a nan.",
+    "move": "Matsar",
+    "postNow": "Buga yanzu",
+    "confirmCancel": "Sake taɓawa don sokewa",
+    "moved": "An matsar zuwa {{when}}",
+    "postingNow": "Ana bugawa cikin ƙasa da minti ɗaya",
+    "moveFailed": "Ba a iya matsar da shi ba. Sake gwadawa.",
+    "seeAll": "Duba duk abin da ka tsara"
   },
   "welcome": {
     "about": {
       "title": "Barka da zuwa Riftn",
       "day": "Rana",
       "month": "Wata",
-      "year": "Shekara"
+      "year": "Shekara",
+      "sub": "Ranar haihuwarka tana zama sirri. Zaɓi kallo, za ka iya canza shi kowane lokaci.",
+      "birthday": "Ranar haihuwa",
+      "pick": "Zaɓi ranar haihuwarka",
+      "invalid": "Shigar da cikakkiyar ranar haihuwarka.",
+      "tooYoung": "Kana buƙatar zama shekara {{age}} ko sama don amfani da Riftn.",
+      "theme": "Kallonka"
     },
     "name": {
       "title": "Sunanka",
-      "placeholder": "Sunanka"
+      "placeholder": "Sunanka",
+      "sub": "Wannan shine sunan da mutane ke gani a rubuce-rubucenka."
     },
     "card": {
       "name": "Sunanka",
-      "followers": "mabiya"
+      "followers": "mabiya",
+      "interests": "Abubuwan da kake so",
+      "following": "ana bi"
     },
     "topic": {
       "music": "Kiɗa",
@@ -15228,11 +16467,47 @@
       "film": "Fim",
       "food": "Abinci",
       "news": "Labarai",
-      "science": "Kimiyya"
+      "science": "Kimiyya",
+      "travel": "Tafiye-tafiye",
+      "anime": "Anime",
+      "cars": "Motoci",
+      "podcast": "Podcast",
+      "animals": "Dabbobi",
+      "tech": "Fasaha"
     },
     "back": "Koma baya",
     "skipPhoto": "Keta yanzu",
-    "preview": "Gabatarwa"
+    "preview": "Gabatarwa",
+    "username": {
+      "title": "@username ɗinka",
+      "sub": "Haruffa, lambobi da layin ƙasa. Za ka iya canza shi daga baya.",
+      "yours": "@{{name}} naka ne"
+    },
+    "photo": {
+      "title": "Hotonka",
+      "sub": "Na zaɓi. Mutane suna bin fuskoki da sauri.",
+      "choose": "Zaɓi hoto",
+      "change": "Zaɓi wani"
+    },
+    "interests": {
+      "title": "Abubuwan da kake so",
+      "sub": "Zaɓi aƙalla 3. Suna zuwa farko a cikin rukunanka."
+    },
+    "people": {
+      "title": "Mutanenka",
+      "sub": "Taɓa don bi. Rubuce-rubucensu suna cika ciyarwarka ta Ana bi.",
+      "empty": "Babu shawarwari yanzu. Bincika yana da ƙarin mutanen da za a samu.",
+      "followers": "Mabiya {{count}}"
+    },
+    "done": {
+      "title": "Kana da kyau, {{name}}",
+      "sub": "Kowa yana ganin wannan katin daga yau.",
+      "eyebrow": "Bayanin martaba yana aiki"
+    },
+    "enter": "Shiga Riftn",
+    "pickMore": "Zaɓi ƙarin {{count}}",
+    "cardHint": "Haka mutane za su gan ka",
+    "followFailed": "Ba a iya bi ba. Sake gwadawa."
   },
   "appTokens": {
     "title": "Tokens ɗinka",
@@ -15243,10 +16518,35 @@
     "amount": "Adadi",
     "notePlaceholder": "Ƙara saƙo (na zaɓi)",
     "sendButton": "Aika",
-    "errorInsufficient": "Ba isassun tokens"
+    "errorInsufficient": "Ba isassun tokens",
+    "rowHint": "Ma'auni a cikin manhaja",
+    "explainer": "Alamunka yanzu suna cikin Riftn. Ka fara da abin da ka riƙe kuma ka saka a kan sarka a lokacin ƙaddamarwa. Aikawa, tip da kashewa suna motsa su nan take, ba tare da kuɗi ba kuma babu komai a kan sarka. Ma'auni suna wucewa zuwa sabon alama a lokacin airdrop.",
+    "kindOpening": "Ma'aunin farko",
+    "kindSent": "An aika zuwa {{name}}",
+    "kindReceived": "Daga {{name}}",
+    "kindSpent": "An kashe a Riftn",
+    "kindRefund": "Maida kuɗi",
+    "kindAdjust": "Gyara daga Riftn",
+    "sendTitle": "Aika alamu",
+    "sendHint": "Yana aika alamu a cikin Riftn zuwa wani asusu. Nan take kuma kyauta, babu abin da ke shiga sarka.",
+    "toPlaceholder": "@username ko adireshin 0x",
+    "looking": "Ana nema…",
+    "available": "Akwai: {{amount}}",
+    "sent": "An aika alamu {{amount}} zuwa {{name}}",
+    "errorRateLimit": "Aikawa da yawa a cikin awa ta ƙarshe. Sake gwadawa daga baya.",
+    "errorNoRecipient": "Ba a sami asusun Riftn ba",
+    "errorSelf": "Ba za ka iya aika wa kanka ba",
+    "errorGeneric": "Ba a iya aikawa ba. Sake gwadawa."
   },
   "avatarPrompt": {
-    "notNow": "Ba yanzu"
+    "notNow": "Ba yanzu",
+    "title": "Ƙara hoton bayanin martaba",
+    "body": "Mutane suna ganinka da sauri a ciyarwa, sharhi da hira idan kana da fuska ko tambari.",
+    "choose": "Zaɓi hoto",
+    "another": "Zaɓi wani",
+    "save": "Yi amfani da wannan hoton",
+    "saved": "Kana da kyau",
+    "failed": "Ba a iya ajiye hotonka ba. Sake gwadawa."
   },
   "postStats": {
     "audience": "Masu sauraro",
@@ -15264,36 +16564,159 @@
     "shares": "Raba",
     "signedOutViewers": "An fita",
     "topSupporters": "Manyan magoya baya",
-    "visitors": "An fita"
+    "visitors": "An fita",
+    "aboutUsual": "game da yadda aka saba",
+    "afterWatching": "sun bi bayan ganin sa",
+    "avg": "matsakaici",
+    "avgWatch": "Matsakaicin kallo",
+    "bestTime": "Lokacin da mutanenka ke kallo",
+    "bigDrop": "Babban faɗuwa",
+    "byBadge": "ta lamba",
+    "devices": "Na'ura (membobi)",
+    "finishedLower": "sun kammala",
+    "finishedPct": "{{pct}}% sun kalla har ƙarshe",
+    "inOut": "Membobi {{in}} · {{out}} ba su shiga ba",
+    "leave": "{{pct}}% sun bar",
+    "linkClicks": "Danna hanyoyin haɗi",
+    "newToYou": "sababbi a gare ka",
+    "noAccount": "babu asusu",
+    "noViewersYet": "Babu wanda ya ga wannan rubutu tukuna.",
+    "noWatchYet": "Lokacin kallo yana bayyana a nan da zarar mutane sun kunna shi. Ya fara ƙirgawa a ranar 31 Oct 2026.",
+    "open": "Duba yadda rubutunka ke tafiya",
+    "otherBadges": "Sauran lambobi",
+    "peak": "Kololuwa {{time}} · {{n}}",
+    "peopleReached": "Mutanen da aka kai",
+    "playsLower": "kunnawa",
+    "playsMembers": "Kunnawa daga membobi",
+    "playsVisitors": "Kunnawa ba tare da shiga ba",
+    "profileTaps": "Taɓawa zuwa bayanin martabarka",
+    "reach": "Kai",
+    "saves": "Ajiyewa",
+    "seeAll": "Duba duk ƙididdiga",
+    "signedIn": "sun shiga",
+    "signedOutLower": "ba su shiga ba",
+    "stillWatching": "Har yanzu suna kallo",
+    "timesUsual": "{{ratio}}× na yadda aka saba",
+    "vsUsualPct": "{{pct}} idan aka kwatanta da rubutunka na yau da kullum",
+    "unavailableBody": "Mai ƙirƙira ne kawai zai iya ganin ƙididdigar wannan rubutu.",
+    "unavailableTitle": "Ƙididdiga ba ta samuwa",
+    "vsUsual": "idan aka kwatanta da rubutunka na yau da kullum",
+    "watching": "Ana kallo",
+    "whoSawIt": "Wanda ya gan shi",
+    "withRepeats": "Maimaitawa {{n}}",
+    "yourFollowers": "mabiyanka",
+    "first48": "Awanni 48 na farko",
+    "howItsDoing": "Yadda yake tafiya",
+    "bestTip": "Yawancin masu kallonka suna bayyana {{day}} wajen {{hour}}:00. Bugawa kafin lokacin yana ba rubutu farawa mafi kyau.",
+    "last30": "kwana 30 na ƙarshe",
+    "day": {
+      "sun": "Lah",
+      "mon": "Lit",
+      "tue": "Tal",
+      "wed": "Lar",
+      "thu": "Alh",
+      "fri": "Jum",
+      "sat": "Asa"
+    }
   },
   "duet": {
     "policyEveryone": "Kowa",
     "policyFollowers": "Mabiya",
     "policyNobody": "Babu wanda",
     "loadMore": "Ɗora ƙari",
-    "video": "Bidiyo"
+    "video": "Bidiyo",
+    "with": "Duet tare da @{{username}}",
+    "withOriginal": "Duet · duba na asali",
+    "unavailable": "Wannan bidiyon ba ya samuwa don duet kuma.",
+    "allowLabel": "Bada damar duet",
+    "allowDescription": "Wanda zai iya yin duet kusa da bidiyonku. Kuna iya canza shi a kowane rubutu ma.",
+    "settingsSection": "Duet",
+    "policyDefault": "Saitin asusu",
+    "saveFailed": "Ba a iya ajiyewa ba. Sake gwadawa.",
+    "count_one": "Duet {{count}}",
+    "count_other": "Duet {{count}}",
+    "pageHeading": "Duet",
+    "pageTitle": "Duet na {{title}} daga @{{creator}}",
+    "pageTitleNoCreator": "Duet na {{title}}",
+    "pageDescription": "Kalli kowane duet na wannan bidiyon a Riftn, ko ka naɗi naka gefe da gefe.",
+    "empty": "Babu duet tukuna. Buɗe zaɓuɓɓukan bidiyon kuma zaɓi Remix → Duet don yin na farko.",
+    "notFound": "Wannan bidiyon ba ya samuwa.",
+    "notFoundTitle": "Ba a sami bidiyo ba — Riftn",
+    "browseShorts": "Duba Shorts"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Kowa",
       "followers": "Mabiya",
-      "nobody": "Babu wanda"
+      "nobody": "Babu wanda",
+      "default": "Tsohon saitina"
+    },
+    "shareFailed": "An aika tip ɗinka, amma rabon mahaliccin asali bai tafi ba.",
+    "notify": {
+      "duet": "{{name}} ya yi duet da bidiyonka",
+      "stitch": "{{name}} ya yi stitch na bidiyonka",
+      "react": "{{name}} ya mayar da martani ga bidiyonka",
+      "reactLive": "{{name}} yana mayar da martani kai tsaye ga bidiyonka"
+    },
+    "linkFailed": "Rubutunka ya hau, amma ba a iya haɗa shi da bidiyon asali ba.",
+    "settingsHeading": "Remix",
+    "stitch": {
+      "allow": "Bada damar stitch",
+      "allowDesc": "Wanda zai iya amfani da har zuwa daƙiƙa 5 na bidiyonka a nasu. Kana iya canza shi a kowane rubutu ma.",
+      "saveFailed": "Ba a iya ajiye saitin stitch ɗinka ba. Sake gwadawa.",
+      "settingFailed": "Rubutunka ya hau, amma ba a ajiye saitin stitch ɗinsa ba. Canza shi daga Gyara rubutu.",
+      "from": "An yi stitch daga {{name}}",
+      "count_one": "Stitch {{count}}",
+      "count_other": "Stitch {{count}}",
+      "listTitle": "Stitch",
+      "listFailed": "Ba a iya loda stitch ba. Sake gwadawa.",
+      "listEmpty": "Babu stitch tukuna.",
+      "unavailable": "Wannan bidiyon ba ya samuwa don stitch kuma."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Kowa",
       "followers": "Mabiya",
-      "nobody": "Babu wanda"
+      "nobody": "Babu wanda",
+      "default": "Tsohon saitin asusu ({{value}})"
     },
     "heading": "Ra'ayoyi",
     "more": "Nuna ƙarin",
     "liveNow": "Kai tsaye",
-    "untitled": "Amsawa"
+    "untitled": "Amsawa",
+    "reactionTo": "Martani ga",
+    "reactingTo": "Ana mayar da martani ga",
+    "count_one": "Martani {{count}}",
+    "count_other": "Martani {{count}}",
+    "allow": "Bada izinin martani",
+    "remixesSection": "Remix",
+    "allowDescription": "Bari sauran masu ƙirƙira su mayar da martani ga bidiyonka, da aka naɗa ko kai tsaye. Har yanzu za ka iya canza shi a kowane rubutu.",
+    "pageTitle": "Martani ga {{title}} — Riftn",
+    "pageDescription": "Kalli masu ƙirƙira suna mayar da martani ga “{{title}}” na {{creator}} a Riftn, da aka naɗa da kai tsaye.",
+    "backToVideo": "Koma zuwa bidiyo",
+    "empty": "Babu martani tukuna. Buɗe menu na Remix na bidiyon kuma zaɓi Martani don zama na farko.",
+    "wasLive": "Ya kasance kai tsaye",
+    "thisVideo": "wannan bidiyon"
   },
   "liveClips": {
     "copyLink": "Kwafin hanyar haɗi",
-    "linkCopied": "An kwafi hanyar sadarwa"
+    "linkCopied": "An kwafi hanyar sadarwa",
+    "button": "Ɗauki clip na wannan lokacin",
+    "capturing": "Ana ɗaukar minti na ƙarshe na rafin…",
+    "failed": "Ba a iya yin wannan clip ba.",
+    "highlightTitle": "Fitaccen lokaci",
+    "length": "Clip na {{seconds}}s",
+    "make": "Yi clip",
+    "postToShorts": "Buga zuwa Shorts",
+    "posted": "An buga clip zuwa Shorts",
+    "postedBody": "Clip ɗinka yana kan Shorts. Raba shi don ƙarin mutane su sami rafin.",
+    "rendering": "Ana yanke clip ɗinka. Wannan yana ɗaukar kusan rabin minti…",
+    "starting": "Ana fara clip ɗinka…",
+    "title": "Clip",
+    "titleLabel": "Taken clip",
+    "titlePlaceholder": "Ba clip ɗinka take",
+    "viewShort": "Duba Short"
   },
   "liveHype": {
     "gift": {
@@ -15305,16 +16728,65 @@
       "stage": {
         "preparing": "Shiri…",
         "confirming": "Ana jiran ma'amalar…",
-        "recording": "Ana kammalawa…"
-      }
+        "recording": "Ana kammalawa…",
+        "wallet": "Tabbatar a walat ɗinka"
+      },
+      "open": "Ba da kyautar rajista",
+      "title": "Ba da kyautar rajista",
+      "mode": {
+        "random": "Masu kallo bazuwar a hira",
+        "user": "Wani takamaimai"
+      },
+      "randomHint": "Yana zuwa ga mutanen da suka yi hira a cikin minti 30 na ƙarshe kuma ba su yi rajista ba tukuna.",
+      "send_one": "Ba da kyautar rajista 1 · ${{price}}",
+      "send_other": "Ba da kyautar rajista {{count}} · ${{price}}",
+      "payHint": "Ana biya da alamu daga walat ɗinka a turawa ɗaya.",
+      "fewer_one": "Mutum 1 ne kawai a hira zai iya karɓar rajista yanzu, don haka kana biyan 1.",
+      "fewer_other": "Mutane {{count}} ne kawai a hira za su iya karɓar rajista yanzu, don haka kana biyan {{count}}.",
+      "done_one": "An ba da kyautar rajista!",
+      "done_other": "An ba da kyautar rajista {{count}}!",
+      "failed": "Ba a iya ba da kyautar rajista ba",
+      "notReady": "Ba da kyauta ba ya samuwa ga wannan shirin tukuna",
+      "noPlan": "Zaɓi shiri tukuna",
+      "noPlans": "{{name}} ba shi da shirye-shiryen rajista da za a bayar tukuna."
+    },
+    "train": {
+      "level": "Jirgin Hype · Mataki {{level}}",
+      "endedLevel": "Jirgin Hype ya kammala mataki {{level}}!",
+      "ended": "Jirgin Hype ya ƙare",
+      "thanks_one": "Godiya ga mai tallafi {{count}}",
+      "thanks_other": "Godiya ga masu tallafi {{count}}",
+      "top": "Mafi girma: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Wani",
-    "confirming": "Tabbatar da biyan kuɗi..."
+    "confirming": "Tabbatar da biyan kuɗi...",
+    "lockPhoto": "Kulle hoto",
+    "lockVideo": "Kulle bidiyo",
+    "lockOnPrice": "An kulle · alamu {{price}}",
+    "lockCustomLabel": "Farashi na musamman a alamu",
+    "lockHint": "Suna ganin sa a dushe har sai sun biya ka. Fayilolin da aka kulle ba a ɓoye su daga ƙarshe zuwa ƙarshe ba.",
+    "dhbNow": "{{dhb}} a farashin yau",
+    "lockCustomUsd": "$ Wani",
+    "lockCustomUsdLabel": "Farashi na musamman a dala",
+    "lockDhbNow": "≈ {{dhb}} yau. Kullum suna biyan {{price}}, ko menene darajar alamu.",
+    "lockOnUsd": "An kulle · {{price}}",
+    "lockedPhoto": "Hoton da aka kulle",
+    "lockedVideo": "Bidiyon da aka kulle",
+    "unlockFor": "Buɗe kan {{price}}",
+    "unlockOnWeb": "Buɗe a riftn.com · {{price}}",
+    "stillConfirming": "An aika biya. Zai buɗe da zarar an tabbatar.",
+    "payFailed": "Ba a iya buɗewa ba",
+    "unlocked": "An buɗe",
+    "unlockedTag": "An buɗe",
+    "notYet": "Ba a buɗe ba tukuna",
+    "uploading": "Ana kullewa…",
+    "unlockedByThem": "An buɗe {{kind}} ɗinka da aka kulle: +{{amount}} alamu"
   },
   "liveShorts": {
-    "live": "RAYE"
+    "live": "RAYE",
+    "join": "Shiga kai tsaye"
   },
   "feedFilters": {
     "clearAllShort": "Share duka",
@@ -15323,7 +16795,20 @@
     "groupDate": "Kwanan wata",
     "groupSort": "Tsara",
     "groupType": "Nau'i",
-    "save": "Ajiye"
+    "save": "Ajiye",
+    "clearAll": "Share duk matatun",
+    "collapse": "Ɓoye matatun",
+    "count": "Matatun {{count}} a kunne",
+    "deletePreset": "Share {{name}}",
+    "groupAccess": "Dama",
+    "groupTag": "Tag",
+    "myPresets": "Saitunana",
+    "presetName": "Sunan saiti",
+    "remove": "Cire {{label}}",
+    "saveCurrent": "+ Ajiye na yanzu",
+    "savePreset": "Ajiye a matsayin saiti",
+    "show": "Nuna matatun",
+    "updatePreset": "Sake sunan saiti"
   },
   "ownKeys": {
     "working": "Aiki",
@@ -15331,7 +16816,21 @@
     "check": "Duba",
     "remove": "Cire",
     "save": "Ajiye",
-    "cancel": "Soke"
+    "cancel": "Soke",
+    "title": "Maɓallanka na AI",
+    "description": "Ƙara maɓalli daga mai samar da AI kuma kayan aikin Creator za su gudana a kan asusunka maimakon haka. Riftn ba ta cajin komai don waɗannan ayyukan. Ana ɓoye maɓallai kuma ba za a sake nuna su ba.",
+    "invalid": "An ƙi, maye gurbinsa",
+    "noCredit": "Kiredit ya ƙare",
+    "disabled": "Riftn ta kashe shi",
+    "saved": "An ajiye maɓallin {{name}}. Kayan aiki a kan {{name}} yanzu suna amfani da asusunka.",
+    "savedNoCredit": "An ajiye maɓallin {{name}}, amma kiredit na asusun ya ƙare.",
+    "removed": "An cire maɓallin {{name}}.",
+    "replaceKey": "Maye gurbin maɓalli",
+    "add": "Ƙara maɓalli",
+    "paste": "Liƙa maɓallinka na {{name}}",
+    "getKey": "Samu maɓallin {{name}}",
+    "showLess": "Nuna maɓallaina kawai",
+    "addAnother": "Ƙara wani mai samarwa"
   },
   "postBg": {
     "addMedia": "Ƙara hoto, GIF ko bidiyo",
@@ -15344,55 +16843,180 @@
       "lava": "Fitilar lava",
       "chrome": "Ruwan ƙarfe",
       "orbit": "Zagayawa",
-      "snow": "Ruwan dusar ƙanƙara"
+      "snow": "Ruwan dusar ƙanƙara",
+      "ink": "Wankin Tawada",
+      "news": "Takardar Jarida",
+      "split": "Rabin Magariba",
+      "blue": "Zane-zanen Gini",
+      "terra": "Terrazzo",
+      "half": "Halftone Pop",
+      "topo": "Layukan Tsawo",
+      "velvet": "Karammiski",
+      "sorbet": "Sorbet",
+      "carbon": "Carbon",
+      "echo": "Amon Bayanin Martaba",
+      "cards": "Katunan Launi",
+      "deck": "Tarin Zane",
+      "aurora": "Aurora",
+      "stars": "Filin Taurari",
+      "rain": "Ruwan Sama a Gilashi",
+      "drive": "Tuƙin Dare",
+      "breathe": "Numfashi",
+      "spin": "Juyin Prism",
+      "tide": "Igiyar Ruwa",
+      "ember": "Garwashi",
+      "holo": "Holo Foil",
+      "rift": "Rift",
+      "mesh": "Raga",
+      "grain": "Ƙwayar Fim",
+      "ripple": "Raƙuman Ruwa",
+      "dotwave": "Kalaman Ɗigo",
+      "scan": "CRT",
+      "silk": "Siliki",
+      "bokeh": "Bokeh",
+      "photo": "Hotonka"
     },
-    "sameAsProfile": "Bayanan kai"
+    "sameAsProfile": "Bayanan kai",
+    "scope": "Yi amfani a kan",
+    "thisPost": "Wannan rubutu",
+    "allPosts": "Duk rubuce-rubuce",
+    "sameAsProfileSub": "Daidai da bayanin martabarka",
+    "title": "Bangon rubutu",
+    "editRow": "Bangon rubutu",
+    "hint": "Goge layin. Rubutunka yana canzawa yayin da kake tafiya. Kai kaɗai ne za ka iya canza wannan.",
+    "moving": "Mai motsi",
+    "still": "A tsaye",
+    "plain": "Rubuce-rubuce marasa ado",
+    "position": "{{n}} na {{total}}",
+    "sample": "Haka rubuce-rubucenka na rubutu ke bayyana a bayanin martabarka.",
+    "saveFailed": "Ba a iya ajiye bangonka ba. Sake gwadawa.",
+    "base": "Tushe",
+    "accent2": "Launi na biyu",
+    "ownColours": "Launukanka"
   },
   "articleTile": {
-    "cover": "Murfi"
+    "cover": "Murfi",
+    "title": "Fale-falen labarai",
+    "dropcap": "Babban harafin farko",
+    "hint": "Yadda labaranka ke bayyana a grid na bayanin martabarka. Kai kaɗai ne za ka iya canza wannan.",
+    "saveFailed": "Ba a iya ajiyewa ba. Sake gwadawa."
   },
   "aiConsent": {
-    "allow": "Bari"
+    "allow": "Bari",
+    "title": "Yi amfani da fasalolin AI?",
+    "body": "Don yin aiki, fasalolin AI suna aika abin da ka ba su (rubutunka, hotuna ko sauti, da rubutu ko hirar da ake magana a kai) zuwa masu samar da AI na waje kamar Google, OpenAI, Groq, OpenRouter, fal da ElevenLabs. Za ka iya canza wannan kowane lokaci a Saituna → Sirri.",
+    "declined": "Fasalolin AI a kashe suke. Za ka iya kunna su a Saituna → Sirri.",
+    "settingLabel": "Fasalolin AI",
+    "settingDesc": "Bari mataimaki, fassara, shawarwarin amsa da taimakon rubutu su aika abin da ka ba su zuwa masu samar da AI na waje."
   },
   "dmRequests": {
     "title": "Buƙatun",
     "accept": "Karɓa",
     "delete": "Share",
-    "block": "Hana"
+    "block": "Hana",
+    "hint": "Saƙonni daga mutanen da ba ka bi ba. Karɓi ɗaya, amsa ko bi su kuma hirar za ta koma akwatin saƙonka.",
+    "rowHint": "{{n}} daga mutanen da ba ka bi ba",
+    "banner": "Ba ka bi {{name}} ba. Karɓi don matsar da wannan hirar zuwa akwatin saƙonka, ko kawai ka amsa.",
+    "accepted": "An matsar zuwa akwatin saƙonka",
+    "acceptFailed": "Ba a iya karɓa ba, sake gwadawa"
   },
   "dmSchedule": {
     "view": "Kalla",
     "edit": "Gyara",
     "editLabel": "Shirya sako",
-    "error": "Wannan bai yi aiki ba. sake gwadawa."
+    "error": "Wannan bai yi aiki ba. sake gwadawa.",
+    "button": "Tsara saƙo",
+    "title": "Saƙonnin da aka tsara",
+    "whenTitle": "Aika yaushe?",
+    "waiting": "{{n}} an tsara",
+    "next": "na gaba {{when}}",
+    "failedCount": "{{n}} ba a aika ba",
+    "notSent": "Ba a aika ba",
+    "emptyTitle": "Babu abin da aka tsara",
+    "emptyBody": "Rubuta saƙo, sannan taɓa agogo don zaɓar lokacin da za a aika shi.",
+    "changeTime": "Canza lokaci",
+    "sendNow": "Aika yanzu",
+    "deleted": "An share saƙon da aka tsara",
+    "unreadable": "An rubuta a wata na'ura. Har yanzu za a aika shi.",
+    "footnote": "Lokuta suna cikin yankin lokacinka. Babu wanda ke ganin saƙo har sai an aika shi.",
+    "footnoteNamed": "Lokuta suna cikin yankin lokacinka. {{name}} yana ganin saƙo ne kawai da zarar an aika shi.",
+    "textOnly": "Saƙonnin rubutu ne kawai za a iya tsarawa a yanzu.",
+    "scheduledToast": "An tsara don {{when}}",
+    "failedToast": "Ba a iya aika saƙon da aka tsara ba"
   },
   "chatBulk": {
     "selected": "{{count}} zaba",
     "cancel": "Soke",
     "reply": "Amsa",
-    "delete": "Share"
+    "delete": "Share",
+    "select": "Zaɓi",
+    "toolbar": "Hirarrakin da aka zaɓa",
+    "pick": "Taɓa hirarraki don zaɓar su",
+    "read": "Yi alama an karanta",
+    "unread": "Yi alama ba a karanta ba",
+    "replyTitle_one": "Amsa wa hira {{count}}",
+    "replyTitle_other": "Amsa wa hirarraki {{count}}",
+    "replyHint": "Kowane mutum yana samun wannan a matsayin saƙo na yau da kullum a cikin hirarsa.",
+    "replyPlaceholder": "Rubuta saƙo…",
+    "sendAll": "Aika zuwa {{count}}",
+    "deleted_one": "An share hira {{count}}",
+    "deleted_other": "An share hirarraki {{count}}",
+    "sent_one": "An aika zuwa hira {{count}}",
+    "sent_other": "An aika zuwa hirarraki {{count}}",
+    "partSent": "An aika zuwa {{ok}} na hirarraki {{total}}",
+    "notSent": "Ba a iya aikawa ba. Sake gwadawa."
   },
   "msgSelect": {
     "selected": "{{count}} zaba",
     "copy": "Kwafa",
     "forward": "Tura gaba",
     "deleted_one": "An goge saƙo {{count}}",
-    "deleted_other": "An goge saƙonni {{count}}"
+    "deleted_other": "An goge saƙonni {{count}}",
+    "toolbar": "Saƙonnin da aka zaɓa",
+    "pick": "Taɓa saƙonni don zaɓar su",
+    "deleteSome": "Share {{count}}",
+    "forwarded_one": "An tura saƙo {{count}}",
+    "forwarded_other": "An tura saƙonni {{count}}",
+    "partForwarded": "An tura {{ok}} na {{total}}",
+    "nothingToCopy": "Babu abin da za a kwafa a cikin saƙonnin da aka zaɓa",
+    "copied_one": "An kwafi saƙo {{count}}",
+    "copied_other": "An kwafi saƙonni {{count}}",
+    "deleteTitle_one": "Share saƙo {{count}}?",
+    "deleteTitle_other": "Share saƙonni {{count}}?",
+    "deleteBody": "Za a cire su ga kowa a wannan hirar.",
+    "deleteForBothBody": "Za a cire su ga ku biyu."
   },
   "messagesTabs": {
-    "all": "Duka"
+    "all": "Duka",
+    "unread": "Ba a karanta ba",
+    "groups": "Ƙungiyoyi"
   },
   "mentionLinks": {
     "communities": "Al'ummomi",
     "pages": "Shafuka",
-    "people": "Mutane"
+    "people": "Mutane",
+    "linkTo": "Haɗa {{name}}"
   },
   "resetWallet": {
     "mismatch": "Kalmomin wucewa ba su daidaita ba",
     "logOut": "Shiga waje",
     "confirm": "Tabbatar da kalmar sirri",
     "ack": "Na fahimci cewa tsoffin kuɗina suna nan a tsohon walat.",
-    "cancel": "Soke"
+    "cancel": "Soke",
+    "tooShort": "Kalmar sirri dole ta zama aƙalla haruffa {{count}}",
+    "breached": "Wannan kalmar sirri ta bayyana a cikin satar bayanai. Zaɓi wata daban",
+    "weak": "Zaɓi kalmar sirri mai ƙarfi (haɗa haruffa, lambobi da alamomi)",
+    "doneTitle": "Asusunka yana kan sabon walat ɗinsa",
+    "twoFactor": "Shigar da lambar daga manhajar tabbatarwarka don matsar da asusunka.",
+    "failed": "Ba a iya sake saita walat ɗinka ba. Ba a matsar da komai ba. Sake gwadawa.",
+    "title": "Sake saita walat",
+    "reloginApp": "Ana tabbatar da sake saitawa da imel, waya ko shiga ta Google na asusunka, ba tsohon walat ba, saboda duk wanda ke riƙe da tsohon maɓalli zai iya sa hannu shi ma. Fita, sake shiga da wannan hanyar shiga, sannan dawo nan. Babu imel na shiga tukuna? Ƙara ɗaya a riftn.com ƙarƙashin Saituna → Shiga tukuna.",
+    "intro": "Yana ƙirƙirar sabon walat na Riftn kuma yana matsar da sunan mai amfaninka, rubuce-rubuce, mabiya da saƙonni zuwa gare shi. Yi amfani da wannan idan walat ɗinka ya ɓace ko wani yana da maɓallinsa. Tsohon walat zai daina aiki don shiga.",
+    "funds": "Alamu, NFTs da sauran ma'auni ba sa matsawa. Suna zama a tsohon adireshi. Idan har yanzu za ka iya buɗe tsohon walat, aika su waje tukuna.",
+    "password": "Kalmar sirrin sabon walat (aƙalla haruffa {{count}})",
+    "twoFactorPlaceholder": "Lambar tabbatarwa",
+    "submit": "Sake saita walat",
+    "rowDesc": "Walat ɗinka ya ɓace, ko wani yana da maɓallinsa? Matsar da asusunka zuwa sabon walat. Sunan mai amfaninka, rubuce-rubuce da mabiya suna zuwa tare da kai."
   },
   "chatTabs": {
     "all": "Duka",
@@ -15408,6 +17032,101 @@
     "requests": "Buƙatun",
     "sCreators": "Masu ƙirƙira",
     "sGaming": "Wasanni",
-    "sTrading": "Ciniki"
+    "sTrading": "Ciniki",
+    "addChats": "Ƙara hirarraki",
+    "addToTab": "Ƙara zuwa shafi",
+    "addedTo": "An ƙara zuwa {{name}}",
+    "builtIn": "Na asali",
+    "chatCount": "Hirarraki {{n}}",
+    "chatsInTab": "Hirarraki a wannan shafin",
+    "create": "Ƙirƙiri shafi",
+    "delete": "Share shafi",
+    "deleteBody": "Shafin zai tafi. Hirarrakinsa suna nan a Duka kuma suna riƙe saƙonninsu.",
+    "deleteTitle": "Share “{{name}}”?",
+    "deleted": "An share {{name}}",
+    "edit": "Gyara shafuka",
+    "editHintApp": "Yi amfani da kibiyoyi don sake tsarawa. Shafukan da aka ɓoye suna riƙe hirarrakinsu.",
+    "editTab": "Gyara shafi",
+    "emoji": "Zaɓi emoji",
+    "emptyBody": "Ƙara hirarraki a nan kuma za su kasance a Duka su ma.",
+    "emptyTitle": "{{name}} babu komai",
+    "hide": "Ɓoye shafi",
+    "kindChannel": "Tasha",
+    "moveLeft": "Matsar hagu",
+    "moveRight": "Matsar dama",
+    "namePlaceholder": "Sunan shafi",
+    "new": "Sabon shafi",
+    "newWith": "Sabon shafi…",
+    "noEmoji": "Babu emoji",
+    "picked": "{{n}} an zaɓa",
+    "removedFrom": "An cire daga {{name}}",
+    "renameEdit": "Sake suna da gyara",
+    "sFriends": "Abokai",
+    "sWork": "Aiki",
+    "saveFailed": "Ba a iya ajiye shafukanka ba, sake gwadawa",
+    "show": "Nuna shafi",
+    "tooMany": "Za ka iya samun har zuwa shafuka 10"
+  },
+  "chatReactions": {
+    "many_one": "Martani {{count}} ga saƙonninka",
+    "many_other": "Martani {{count}} ga saƙonninka",
+    "manySame_one": "{{emoji}} × {{count}} a kan saƙonninka",
+    "manySame_other": "{{emoji}} × {{count}} a kan saƙonninka",
+    "one": "An mayar da martani {{emoji}} ga saƙonka",
+    "oneNamed": "{{name}} ya mayar da martani {{emoji}} ga saƙonka"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Rubutun yana nan.",
+      "onBody": "Rubutun yana share kansa {{value1}} bayan an buga shi."
+    }
+  },
+  "accountDeactivation": {
+    "title": "Kashe asusu na ɗan lokaci",
+    "short": "Ɓoye bayanin martabarka na yanzu. Sake shiga don dawo da shi",
+    "description": "Huta maimakon haka. Bayanin martabarka, rubuce-rubuce da sharhi suna ɓoye kuma an fitar da kai a ko'ina. Babu abin da aka share, kuma sake shiga yana dawo da komai.",
+    "button": "Kashe",
+    "confirmTitle": "Kashe asusunka na ɗan lokaci?",
+    "confirmBody": "Bayanin martabarka, rubuce-rubuce da sharhi za a ɓoye su kuma za a fitar da kai a kowace na'ura. Sake shiga kowane lokaci don soke wannan.",
+    "busy": "Ana kashewa…",
+    "done": "An kashe asusu",
+    "receipt": "Bayanin martabarka, rubuce-rubuce da sharhi suna ɓoye. Sake shiga kowane lokaci don dawo da komai.",
+    "error": "Ba a iya kashe asusunka ba. Don Allah a sake gwadawa.",
+    "acknowledge": "Na fahimci za a ɓoye bayanin martabata kuma za a fitar da ni a ko'ina.",
+    "understand": "Na fahimta"
+  },
+  "halloween": {
+    "title": "Barka da Halloween",
+    "otherThemes": "Ba ka jin tsoro? Nemo wasu jigogi:",
+    "enter": "Shiga kurkuku"
+  },
+  "riftnMove": {
+    "title": "DeHub yanzu Riftn ce",
+    "body": "Manhaja ɗaya, asusu ɗaya, abokai ɗaya. Sabon suna ne kawai.",
+    "continue": "Taɓa don ci gaba"
+  },
+  "dmSafety": {
+    "notReal": "Wannan ba {{name}} na gaske ba ne.",
+    "neverLink": "Ƙungiyar Riftn ba za ta taɓa aiko maka da hanyar haɗi ta saƙon kai tsaye don gyara bayanin martabarka ko walat ɗinka ba. Kada ka buɗe hanyoyin haɗi, haɗa walat ɗinka ko sa hannu a komai. Toshe kuma ka bayar da rahoton wannan asusu."
+  },
+  "profileImage": {
+    "change": "Canza"
+  },
+  "msgDelete": {
+    "title": "Share saƙo?",
+    "titleMany": "Share saƙonni {{count}}?",
+    "bodyOwn": "Cire shi daga hirarka kawai, ko ga kowa.",
+    "bodyOwnMany": "Cire su daga hirarka kawai, ko ga kowa.",
+    "bodyOthers": "Za a cire shi daga hirarka kawai. Ɗayan mutumin zai ci gaba da ganin sa.",
+    "bodyOthersMany": "Za a cire su daga hirarka kawai. Sauran mutane a hirar za su ci gaba da ganin su.",
+    "bodyOwnBoth": "Cire shi daga hirarka kawai, ko ga ku biyu.",
+    "bodyOwnBothMany": "Cire su daga hirarka kawai, ko ga ku biyu.",
+    "forMe": "Share don ni",
+    "forEveryone": "Share don kowa",
+    "forBoth": "Share ga mu biyu",
+    "forMeAndName": "Share gare ni da {{name}}",
+    "remember": "Tuna zaɓina",
+    "rememberHint": "Canza shi kowane lokaci a Saituna",
+    "failed": "Ba a iya share saƙon ba"
   }
 }

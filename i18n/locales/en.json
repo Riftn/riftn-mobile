@@ -951,6 +951,7 @@
     "postCount_other": "{{count}} posts"
   },
   "settings": {
+    "loginLook": {"title":"Sign-in screen","desc":"How the Riftn logo and slogan move on the sign-in screen on this device.","tube":"Tube TV","vhs":"VHS tape","led":"LED wall","holo":"Hologram"},
     "chatDeleteChoice": "When you delete a message",
     "chatDeleteChoiceDesc": "Ask every time, or always delete for you only or for everyone in the chat.",
     "chatDeleteAsk": "Ask every time",
@@ -4497,6 +4498,10 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "communities": {
+    "muteChat": "Mute",
+    "mutedChat": "Muted",
+    "muteChatHint": "Stop alerts from this community's chat. You can still read it",
+    "unmuteChatHint": "Get alerts from this community's chat again",
     "buyAlert": {
       "title": "{{amount}} BUY",
       "spent": "Spent:",
@@ -7461,7 +7466,9 @@
     "justChatting": "Just Chatting",
     "noLiveStreams": "No Live Streams",
     "noOneStreaming": "No one is streaming right now. Check back later!",
-    "loadStreamsFailed": "Unable to load streams. Please try again."
+    "loadStreamsFailed": "Unable to load streams. Please try again.",
+    "shareLive": "Watch {{name}} live on Riftn now! \"{{title}}\"",
+    "shareReplay": "Watch {{name}}'s live replay on Riftn"
   },
   "liveShop": {
     "title": "Shop this stream",
@@ -8119,7 +8126,19 @@
     "declined": "Call declined",
     "noAnswer": "No answer",
     "missed": "Missed call",
-    "callBack": "Call back"
+    "callBack": "Call back",
+    "group": "Group",
+    "groupVoiceCall": "Group voice call",
+    "groupVideoCall": "Group video call",
+    "callingGroup": "Ringing the group...",
+    "isCalling": "{{name}} is calling",
+    "leave": "Leave",
+    "joinCall": "Join call",
+    "startGroupVoice": "Start a group voice call",
+    "startGroupVideo": "Start a group video call",
+    "subtitles": "Subtitles",
+    "subtitleMyVoice": "Subtitle my voice",
+    "you": "You"
   },
   "badgeAscension": {
     "reached": "You reached {{tier}}",
@@ -16897,6 +16916,9 @@
   },
   "chatTabs":{"addChats":"Add chats","addToTab":"Add to tab","addedTo":"Added to {{name}}","all":"All","alwaysOn":"Always on","builtIn":"Built in","chatCount":"{{n}} chats","chatsInTab":"Chats in this tab","communities":"Communities","create":"Create tab","delete":"Delete tab","deleteBody":"The tab goes away. Its chats stay in All and keep their messages.","deleteTitle":"Delete “{{name}}”?","deleted":"Deleted {{name}}","direct":"Direct","edit":"Edit tabs","editHintApp":"Use the arrows to reorder. Hidden tabs keep their chats.","editTab":"Edit tab","emoji":"Pick an emoji","emptyBody":"Add chats here and they stay in All too.","emptyTitle":"{{name}} is empty","hide":"Hide tab","kindChannel":"Channel","kindCommunity":"Community","kindDirect":"Direct","kindGroup":"Group","kindPublic":"Public","moveDown":"Move down","moveLeft":"Move left","moveRight":"Move right","moveUp":"Move up","namePlaceholder":"Tab name","new":"New tab","newWith":"New tab…","noEmoji":"No emoji","picked":"{{n}} picked","removedFrom":"Removed from {{name}}","renameEdit":"Rename and edit","requests":"Requests","sCreators":"Creators","sFriends":"Friends","sGaming":"Gaming","sTrading":"Trading","sWork":"Work","saveFailed":"Couldn't save your tabs, try again","show":"Show tab","tooMany":"You can have up to 10 tabs"},
   "msgDelete": {
+    "chatTitle": "Delete this chat?",
+    "chatBodyBoth": "Delete it from your chats only, or every message for both of you. This can't be undone.",
+    "chatBodyMe": "It will be removed from your chats only. Others will still see it.",
     "title": "Delete message?",
     "titleMany": "Delete {{count}} messages?",
     "bodyOwn": "Remove it from your chat only, or for everyone.",
@@ -16912,5 +16934,9 @@
     "remember": "Remember my choice",
     "rememberHint": "Change it any time in Settings",
     "failed": "Could not delete the message"
+  },
+  "roomPreview": {
+    "you": "You",
+    "voice": "🎤 Voice message"
   }
 }

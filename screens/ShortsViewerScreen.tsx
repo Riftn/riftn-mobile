@@ -197,7 +197,7 @@ import { interleaveLive, isLiveSlide, isVerticalFeedLive, LIVE_SLIDE_EVERY, LIVE
 import { isAuthorBlocked, useBlockedAuthorsVersion } from "../libs/blocked-authors";
 import LiveShortSlide from "../components/Shorts/LiveShortSlide";
 import ReelStillSlide from "../components/Shorts/ReelStillSlide";
-import { isReelSlide, reelStillOf } from "../libs/profileReel";
+import { isReelSlide, isReelVideo, reelStillOf } from "../libs/profileReel";
 import { ShareLinks } from "../navigation/linking.config";
 import { requestAudioFocus, releaseAudioFocus } from "../libs/audioFocus";
 import { requestFeedVideoFocus, releaseFeedVideoFocus } from "../libs/feedVideoFocus";
@@ -3284,7 +3284,8 @@ const ShortsViewerScreen = () => {
           }
           const known = new Set(itemsRef.current.map((i) => String(i.tokenId ?? i.id)));
           // The reel takes every kind of post; the Shorts continuation only videos.
-          const unique = batch.filter((i) => (feedParams.reel ? isReelSlide(i as any) : i.postType === "video" && canOpenPostVideoViewer(i as any)) && !known.has(String(i.tokenId ?? i.id)));
+          // Older videos carry no postType at all, so a video file counts too.
+          const unique = batch.filter((i) => (feedParams.reel ? isReelSlide(i as any) : isReelVideo(i as any) && i.postType !== "short" && canOpenPostVideoViewer(i as any)) && !known.has(String(i.tokenId ?? i.id)));
           if (unique.length) {
             itemsRef.current = [...itemsRef.current, ...unique];
             setItems((prev) => {

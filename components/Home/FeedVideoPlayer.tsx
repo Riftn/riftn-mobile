@@ -56,7 +56,7 @@ import {
 import SmartImage from "../common/SmartImage";
 import { useAppTheme } from "../../context/ThemeContext";
 import { patchPostStage } from "../../libs/postStage";
-import { useFeedBleed } from "./feedBleed";
+import { useFeedBleed, useLightFlatFeed } from "./feedBleed";
 import type { CaptionControls } from "../VideoPlayerCore/CaptionOverlay";
 import Spinner from "../common/Spinner";
 import { useNavigation } from "@react-navigation/native";
@@ -624,7 +624,9 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   // The cinematic system feed runs media edge to edge exactly like minimal,
   // with its own chrome over the top and bottom bands.
   const bleed = useFeedBleed();
-  const isMinimal = minimalTheme || !!bleed;
+  // System Light phones run the feed without bentos, media edge to edge.
+  const lightFlat = useLightFlatFeed();
+  const isMinimal = minimalTheme || !!bleed || lightFlat;
   // Media that reaches the screen edges keeps its controls off them.
   const edgeToEdge = isMinimal || postPage;
   // The post page sits its media in the post's own column, so outside the
@@ -1129,8 +1131,35 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
 
   const handleMediaSurfacePress = useCallback((event: GestureResponderEvent) => {
     if (onOpenViewer && !isContentGated) {
-      preparePostMediaNavigation(videoUrl);
-      onOpenViewer();
+      // Opening the viewer can't be undone, so one tap waits a moment for a
+      // second: two taps like the video, three love it, one opens it.
+      if (!onTapReaction) {
+        preparePostMediaNavigation(videoUrl);
+        onOpenViewer();
+        return;
+      }
+      const { locationX, locationY, pageX, pageY } = event.nativeEvent;
+      if (surfaceTapTimerRef.current) clearTimeout(surfaceTapTimerRef.current);
+      surfaceTapCountRef.current += 1;
+      if (surfaceTapCountRef.current === 1) {
+        preparePostMediaNavigation(videoUrl);
+        surfaceTapTimerRef.current = setTimeout(() => {
+          resetSurfaceTapSequence();
+          onOpenViewer();
+        }, TAP_GESTURE_WINDOW_MS);
+        return;
+      }
+      if (surfaceTapCountRef.current === 2) {
+        showTapReactionAnimation("like", locationX, locationY, pageX, pageY);
+        surfaceTapTimerRef.current = setTimeout(() => {
+          resetSurfaceTapSequence();
+          onTapReaction("like");
+        }, TAP_REACTION_RESOLUTION_MS);
+        return;
+      }
+      resetSurfaceTapSequence();
+      showTapReactionAnimation("love", locationX, locationY, pageX, pageY);
+      onTapReaction("love");
       return;
     }
     if (!onTapReaction) {
@@ -2333,7 +2362,8 @@ const FeedVideoPoster: React.FC<Pick<FeedVideoPlayerProps, "tokenId" | "storedAs
       posterAspect == null ? undefined : measuredAspect);
     const { isMinimal: minimalTheme, isLight } = useAppTheme();
     const bleed = useFeedBleed();
-    const isMinimal = minimalTheme || !!bleed;
+    const lightFlat = useLightFlatFeed();
+    const isMinimal = minimalTheme || !!bleed || lightFlat;
     const edgeToEdge = isMinimal || postPage;
     const windowSize = useWindowDimensions();
     const cropMedia = true;

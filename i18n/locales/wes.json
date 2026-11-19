@@ -3859,7 +3859,9 @@
     "notificationShowCountDesc": "See how many notification you never read, no be only the glow",
     "messagesShowCount": "Show the number for Messages",
     "messagesShowCountDesc": "See how many message you never read, no be only the glow",
-    "pushNotRegisteredDescIos": "Notification no fit reach you when app close: this iPhone never register for push. Check say notification dey allowed for Riftn for Settings, then open the app again."
+    "pushNotRegisteredDescIos": "Notification no fit reach you when app close: this iPhone never register for push. Check say notification dey allowed for Riftn for Settings, then open the app again.",
+    "publicChatInBar": "Chat fo pablik fo di bar fo down",
+    "publicChatInBarDesc": "One tap go Chat fo pablik from di bar fo down fo di screen"
   },
   "common": {
     "refresh": "Lod-am again",
@@ -4780,7 +4782,13 @@
     "balanceTooLow": "Balance too low ({{balance}} tokens)",
     "tokenAmount": "{{amount}} token",
     "provisional": "e never sure",
-    "addedToLeaderboard": "Wetin you get! Balance: {{balance}} token."
+    "addedToLeaderboard": "Wetin you get! Balance: {{balance}} token.",
+    "ogChallenge": "OG Challenge",
+    "ogHolders_one": "{{count}} OG holder",
+    "ogHolders_other": "{{count}} OG holder dem",
+    "ogChallengeTitle": "Bring di OG holder dem come back",
+    "ogChallengeBody": "Invite people wey still di hold DHB. When dem join wit ya invite link and keep dia DHB fo dia Riftn wallet, dem go count fo you fo here.",
+    "ogChallengeCta": "Get ya invite link"
   },
   "explorePage": {
     "searchPlaceholder": "Find pipul, post, or content...",

@@ -1601,7 +1601,15 @@
     "menuLayoutFolders": "Dossiers",
     "menuLayoutFoldersDesc": "Vos pages principales, puis un dossier par groupe",
     "publicChatInBar": "Chat public dans la barre du bas",
-    "publicChatInBarDesc": "Ouvre le Chat public d'un seul geste depuis la barre en bas de l'écran"
+    "publicChatInBarDesc": "Ouvre le Chat public d'un seul geste depuis la barre en bas de l'écran",
+    "loginLook": {
+      "title": "Écran de connexion",
+      "desc": "Comment le logo et le slogan Riftn bougent sur l'écran de connexion sur cet appareil.",
+      "tube": "TV cathodique",
+      "vhs": "Cassette VHS",
+      "led": "Mur LED",
+      "holo": "Hologramme"
+    }
   },
   "common": {
     "loadMore": "Charger plus",
@@ -4452,6 +4460,10 @@
     "tokenAmount": "{{amount}} jetons"
   },
   "communities": {
+    "muteChat": "Couper",
+    "mutedChat": "Coupé",
+    "muteChatHint": "Ne plus recevoir d'alertes du chat de cette communauté. Vous pouvez toujours le lire",
+    "unmuteChatHint": "Recevoir à nouveau les alertes du chat de cette communauté",
     "newChat": {
       "description": "De quoi s’agit-il ? (facultatif)",
       "groupCreated": "Groupe créé",
@@ -7417,6 +7429,8 @@
     "noLiveStreams": "Aucun live",
     "noOneStreaming": "Personne ne diffuse en ce moment. Revenez plus tard !",
     "loadStreamsFailed": "Impossible de charger les lives. Veuillez réessayer.",
+    "shareLive": "Regardez {{name}} en direct sur Riftn maintenant ! « {{title}} »",
+    "shareReplay": "Regardez le replay du live de {{name}} sur Riftn",
     "screenShare": {
       "start": "Partager l'écran",
       "stop": "Arrêter le partage d'écran",
@@ -8099,7 +8113,19 @@
     "declined": "Appel refusé",
     "noAnswer": "Pas de réponse",
     "missed": "Appel manqué",
-    "callBack": "Rappeler"
+    "callBack": "Rappeler",
+    "group": "Groupe",
+    "groupVoiceCall": "Appel vocal de groupe",
+    "groupVideoCall": "Appel vidéo de groupe",
+    "callingGroup": "Appel du groupe...",
+    "isCalling": "{{name}} vous appelle",
+    "leave": "Quitter",
+    "joinCall": "Rejoindre",
+    "startGroupVoice": "Lancer un appel vocal de groupe",
+    "startGroupVideo": "Lancer un appel vidéo de groupe",
+    "subtitles": "Sous-titres",
+    "subtitleMyVoice": "Sous-titrer ma voix",
+    "you": "Vous"
   },
   "badgeAscension": {
     "reached": "Vous avez atteint {{tier}}",
@@ -17108,6 +17134,9 @@
     "tooMany": "Vous pouvez avoir jusqu’à 10 onglets"
   },
   "msgDelete": {
+    "chatTitle": "Supprimer cette discussion ?",
+    "chatBodyBoth": "Supprimez-la seulement de vos discussions, ou supprimez tous les messages pour vous deux. Action irréversible.",
+    "chatBodyMe": "Elle sera retirée de vos discussions uniquement. Les autres la verront toujours.",
     "title": "Supprimer le message ?",
     "titleMany": "Supprimer {{count}} messages ?",
     "bodyOwn": "Retirez-le seulement de votre discussion, ou pour tout le monde.",
@@ -17123,5 +17152,9 @@
     "remember": "Mémoriser mon choix",
     "rememberHint": "Modifiable à tout moment dans les Paramètres",
     "failed": "Impossible de supprimer le message"
+  },
+  "roomPreview": {
+    "you": "Vous",
+    "voice": "🎤 Message vocal"
   }
 }

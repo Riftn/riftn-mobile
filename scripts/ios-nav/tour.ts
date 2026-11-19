@@ -733,6 +733,52 @@ async function runWide(): Promise<void> {
   console.error(`[perf-tour] wide done: opened ${String(extra.opened)}, full screen ${String(extra.fullscreen)}, back on ${String(extra.back)}`);
 }
 
+/**
+ * Leaving a live in System Light: Home has to come back light at once, with
+ * no dark frame and no freeze. Opens a live (one that is on air when there
+ * is one), pictures it, goes Back and pictures Home at 0.3 s, 1.5 s and 5 s,
+ * timing the frames around both switches.
+ */
+async function runLiveTheme(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "livetheme" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  let streamId = "";
+  try {
+    const { getLiveVideos } = require("../../services/live.service") as { getLiveVideos(p: object): Promise<any> };
+    const res = await getLiveVideos({ unit: 50, sortMode: "recent" });
+    const rows: any[] = Array.isArray(res) ? res : Array.isArray(res?.result) ? res.result : [];
+    const onAir = rows.find((r) => r?.status === "live" || r?.isLive) ?? rows[0];
+    streamId = String(onAir?._id ?? onAir?.id ?? "");
+  } catch (error) {
+    console.error(`[perf-tour] live list failed ${String(error)}`);
+  }
+  extra.streamId = streamId;
+  await shot("live-0-home");
+  await sleep(900);
+  for (let round = 1; round <= 2; round++) {
+    await measure(`live open ${round}`, push(ScreenNames.LiveViewer, { streamId }), { watchMs: 2500, restMs: 2500 });
+    await shot(`live-${round}a-open`);
+    await sleep(1500);
+    void measure(`live back ${round}`, () => nav.goBack(), { watchMs: 5500, restMs: 0 });
+    await sleep(200 + 300);
+    await shot(`live-${round}b-back-0.3s`);
+    await sleep(1200);
+    await shot(`live-${round}c-back-1.5s`);
+    await sleep(3500);
+    await shot(`live-${round}d-back-5s`);
+    await sleep(2000);
+  }
+  extra.back = nav.getCurrentRoute()?.name;
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] livetheme done: stream ${streamId || "none"}, back on ${String(extra.back)}`);
+}
+
 type ElementType = string | { displayName?: string; name?: string; render?: ElementType; type?: ElementType } | null;
 
 function typeName(type: ElementType): string {
@@ -1914,7 +1960,7 @@ async function runSpeed(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1932,6 +1978,7 @@ void (async () => {
     else if (mode === "player") await runPlayer();
     else if (mode === "menu") await runMenu();
     else if (mode === "speed") await runSpeed();
+    else if (mode === "livetheme") await runLiveTheme();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

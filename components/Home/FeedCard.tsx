@@ -73,7 +73,7 @@ import ArticleCover from "../article/ArticleCover";
 import ArticleReaderBody from "../article/ArticleReaderBody";
 import { articleLook, articleReadingMinutes } from "../../libs/article";
 import ContainedFeedImage from "./ContainedFeedImage";
-import { FeedBleedContext, type FeedBleed, type MediaTool } from "./feedBleed";
+import { FeedBleedContext, LIGHT_FLAT_TEXT_INSET, useLightFlatFeed, type FeedBleed, type MediaTool } from "./feedBleed";
 import {
   CinematicAuthorChip,
   CinematicIconButton,
@@ -609,6 +609,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   const isPublicPost = !item.visibility || item.visibility === "public";
 
   const { isMinimal, skin, theme, isLight } = useAppTheme();
+  // System Light phones drop the bento like Minimal does: the post spans the
+  // screen, media bleeds edge to edge, text keeps a 12pt inset.
+  const lightFlat = useLightFlatFeed();
+  const edgeFeed = isMinimal || lightFlat;
+  const edgeInset = isMinimal ? MINIMAL_TEXT_INSET : LIGHT_FLAT_TEXT_INSET;
   // The shared frosted wallpaper (components/theme/CardFrost) is up: the card
   // paints its tint over that instead of over the sharp scene.
   const frosted = useCardFrost() && !!skin;
@@ -628,8 +633,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     const width = e.nativeEvent.layout.width;
     // 0 is a hidden pager page, not a column.
     if (width > 0 && SCREEN_WIDTH >= 560 && SCREEN_WIDTH <= 1366) setTabletColumnWidth(width);
-    if (isMinimal && !immersive && !flat) handleMinimalLayout(e);
-  }, [SCREEN_WIDTH, isMinimal, immersive, flat, handleMinimalLayout]);
+    if (edgeFeed && !immersive && !flat) handleMinimalLayout(e);
+  }, [SCREEN_WIDTH, edgeFeed, immersive, flat, handleMinimalLayout]);
 
   const [replacementImages, setReplacementImages] = useState<{ tokenId: string; imageUrls: string[] } | null>(null);
   // Only the owner can replace a post's images, so only the owner's own card
@@ -681,6 +686,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     return getImageUrl(item.imageUrl || item.thumbnailUrl || "", LOCKED_PREVIEW_WIDTH) || galleryImages[0];
   }, [item, rawImageUrls, galleryImages]);
   const hasImages = galleryImages.length > 0;
+  // A post that is only words: its text is the post, so a double tap on the
+  // text likes it the way a double tap on a photo does. Captions under media
+  // open on the first tap; the media above them takes the double tap.
+  const textOnly = !isVideo && !isLive && !hasImages && contentType !== "audio";
   const postImage = contentType === "image" && hasImages;
   const hasMultipleImages = galleryImages.length > 1;
 
@@ -1975,7 +1984,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             active={isVisible}
             descriptions={item.mediaDescriptions}
             title={localTitle}
-            width={edgeMedia || isMinimal ? SCREEN_WIDTH : itemWidth}
+            width={edgeMedia || edgeFeed ? SCREEN_WIDTH : itemWidth}
             // The post page draws its card with presses off: there the comic
             // is the full one (page hand, tap to flip), not a feed teaser.
             full={immersive || disablePress}
@@ -1997,8 +2006,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             active={isVisible}
             uri={galleryImages[0]}
             description={item.mediaDescriptions?.[0]}
-            width={isMinimal || edgeMedia ? SCREEN_WIDTH : undefined}
-            fallbackWidth={isMinimal || edgeMedia ? SCREEN_WIDTH : SINGLE_IMAGE_WIDTH}
+            width={edgeFeed || edgeMedia ? SCREEN_WIDTH : undefined}
+            fallbackWidth={edgeFeed || edgeMedia ? SCREEN_WIDTH : SINGLE_IMAGE_WIDTH}
             priority={prioritizeMedia ? "high" : "normal"}
             postPage={immersive}
           />
@@ -2233,8 +2242,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // Minimal: media runs edge to edge while the text keeps its inset. Only the
   // picture bleeds — an audio post's player stays in the column with the text.
   const bleed = (node: React.ReactNode) =>
-    isMinimal && !immersive && !flat && !desk && node ? (
-      <View style={{ marginHorizontal: -MINIMAL_TEXT_INSET }}>{node}</View>
+    edgeFeed && !immersive && !flat && !desk && node ? (
+      <View style={{ marginHorizontal: -edgeInset }}>{node}</View>
     ) : node;
 
   const renderContent = () => {
@@ -2293,7 +2302,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         const media = renderImageContent();
         if (!soundtrackOnMedia || !media) return bleed(media);
         return bleed(
-          <View style={[{ overflow: "hidden" }, !edgeMedia && !immersive && { borderRadius: FEED_BENTO_RADIUS }]}>
+          <View style={[{ overflow: "hidden" }, !edgeMedia && !immersive && !lightFlat && { borderRadius: FEED_BENTO_RADIUS }]}>
             <SoundDrift playing={soundPlaying}>{media}</SoundDrift>
             <SoundtrackBadge
               key={postKey}
@@ -2638,7 +2647,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                 onBoostPress={DIGITAL_PURCHASES_ENABLED && isOwnerPost && isSignedIn && tokenId != null ? handleBoostPress : undefined}
                 isHidden={isHidden}
               />
-              <PostTapSurface resetKey={postKey} immediatePress onPressIntent={warmPost} onReaction={handleVideoTapReaction} onPress={disablePress ? undefined : handleCaptionPress} onHold={holdMenu}>
+              <PostTapSurface resetKey={postKey} immediatePress={!textOnly} onPressIntent={warmPost} onReaction={handleVideoTapReaction} onPress={disablePress ? undefined : handleCaptionPress} onHold={holdMenu}>
                 <FeedCaption tapExpand={captionTapExpand} resetKey={postKey} statsTokenId={tokenId} title={overlayTitle || undefined} description={displayCaption || undefined}
                   variant="portrait" compactPortrait={SCREEN_WIDTH < 768} maxLines={4} showCategories={false} flagged={item.communityAlertStatus === "pending"}
                   onCategoryPress={onCategorySelect} onCashtagPress={setActiveCashtag} />
@@ -3038,7 +3047,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                 {soundtrackBadge}
                 <PostTapSurface
                   resetKey={postKey}
-                  immediatePress
+                  immediatePress={!textOnly}
                   onReaction={handleVideoTapReaction}
                   onPress={disablePress ? undefined : handleCaptionPress}
                   onHold={holdMenu}
@@ -3098,7 +3107,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             <>
               <PostTapSurface
                 resetKey={postKey}
-                immediatePress
+                immediatePress={!textOnly}
                 onReaction={handleVideoTapReaction}
                 onPress={disablePress ? undefined : handleCaptionPress}
                 onHold={holdMenu}
@@ -3175,11 +3184,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         paddingTop: 12,
         paddingHorizontal: IMMERSIVE_INSET,
         paddingBottom: 12,
-      } : isMinimal ? {
+      } : edgeFeed ? {
         marginHorizontal: -minimalGutter,
-        paddingTop: MINIMAL_TEXT_INSET,
-        paddingHorizontal: MINIMAL_TEXT_INSET,
-        paddingBottom: 18,
+        paddingTop: edgeInset,
+        paddingHorizontal: edgeInset,
+        paddingBottom: isMinimal ? 18 : 14,
         borderBottomWidth: hideDivider ? 0 : 1,
         borderBottomColor: MINIMAL_HAIRLINE,
       } : skin ? [
@@ -3295,7 +3304,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           and the post did not open. */}
       <PostTapSurface
         resetKey={postKey}
-        immediatePress
+        immediatePress={!textOnly}
         onPressIntent={warmPost}
         onReaction={handleVideoTapReaction}
         onPress={disablePress ? undefined : handleCaptionPress}

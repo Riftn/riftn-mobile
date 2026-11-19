@@ -1346,8 +1346,19 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     const postId = streamEntity?.tokenId ?? tokenId ?? streamId;
     const url = postId != null ? `${WEBSITE_LINK}/app/post/${postId}` : null;
     if (!url) return;
-    await shareProfile(url, t("copy.f6f435c8cbc6", { defaultValue: "Check out this stream {{value1}}", value1: url }), "live");
-  }, [streamEntity?.tokenId, streamId, tokenId, t]);
+    // The same words the link preview uses (riftn-web server/live-share-copy.js):
+    // a stream on air invites people to watch it live, a finished one with a
+    // recording points at the replay.
+    const name = String(creator?.displayName || creator?.username || "").trim();
+    const intro = !name ? ""
+      : isLiveEffective ? t("live.shareLive", { name, title: resolvedTitle })
+      : replayUrl ? t("live.shareReplay", { name })
+      : "";
+    const message = intro
+      ? `${intro}\n${url}`
+      : t("copy.f6f435c8cbc6", { defaultValue: "Check out this stream {{value1}}", value1: url });
+    await shareProfile(url, message, "live");
+  }, [streamEntity?.tokenId, streamId, tokenId, t, creator?.displayName, creator?.username, isLiveEffective, replayUrl, resolvedTitle]);
 
   // Sound. A stream is opened on purpose, so it starts audible whether or not
   // the user has silenced the feed. The player used to seed itself from the

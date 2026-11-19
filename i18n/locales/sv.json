@@ -2611,7 +2611,67 @@
     "57e2faa5ec63": "Sök i Riftn",
     "7db20897053b": "Personer",
     "96d7bff86b44": "Sökning kunde inte laddas",
-    "d8b8392e2c54": "Försök igen"
+    "d8b8392e2c54": "Försök igen",
+    "e587a51bc3ce": "Nytt på Riftn",
+    "d7396f3b8881": "Ny gilla-markering eller kommentar på Riftn",
+    "037a2ecd34b0": "Ny följare på Riftn",
+    "b63561f1b73a": "Nytt tips eller ny intäkt på Riftn",
+    "0ae84457a2df": "Någon du följer är live på Riftn",
+    "a7bac8dca08b": "Inkommande samtal på Riftn",
+    "9d309cb4a034": "Uppdatering om ditt Riftn-inlägg",
+    "914be7a9350a": "Meddelande från Riftn",
+    "2ab63e6ced90": "Inte genomförbart",
+    "79688f176607": "Markerad som Inte genomförbart",
+    "465fe84f18fc": "Markera som Inte genomförbart",
+    "0d24977e6943": "Redigera anledning",
+    "0a54f1d10336": "Varför är det här inte genomförbart? (valfritt)",
+    "3d024b567634": "Kort anledning som andra kommer att se",
+    "ad389aa4c08e": "Varför:",
+    "78b3ae9561ee": "Inget uteslutet",
+    "89b4d1850766": "Önskemål vi inte kan bygga just nu visas här, med anledningen.",
+    "71988c4d8e08": "Text",
+    "3f9b2c71d0a4": "{{n}} resultat",
+    "8c4e1a6b2f57": "för ”{{query}}”",
+    "63eb38b938b8": "Markera som I kö",
+    "2fffca525795": "Markera som Levererad",
+    "3ee050a08bfa": "Tillbaka till Önskemål",
+    "ae6a0ffbe609": "Markerad som I kö",
+    "366cb56b38ce": "Markerad som Levererad",
+    "9db7b5ba03bb": "Flyttad tillbaka till Önskemål",
+    "bb2be752e079": "Kunde inte ändra statusen",
+    "1d7234ff1b79": "i {{feed}}",
+    "e122e5c2b563": "Dra uppåt för att stänga",
+    "1aa9d734f2ee": "Välj vad du vill söka",
+    "35034aa59bd3": "Inget i {{feed}} matchade. Prova andra ord eller sök i allt.",
+    "415155739590": "Sök i allt",
+    "90f1afe66801": "Söker efter ”{{query}}”…",
+    "9e13d826baaf": "Sök bilder",
+    "e8756c6865a5": "Sök shorts",
+    "c7661da99c41": "Sök videor",
+    "cbf6f228327c": "Sök musik",
+    "d7b559f2d8c6": "Prova andra ord eller ändra filtren.",
+    "ef557404f465": "Inga resultat för ”{{query}}”",
+    "d1a0c7e2f301": "Vad tänker du på i dag?",
+    "d1a0c7e2f302": "Vad funderar du på i dag?",
+    "d1a0c7e2f303": "Vad tänker du på?",
+    "d1a0c7e2f304": "Har du något på hjärtat?",
+    "d1a0c7e2f305": "Vad tänker du på just nu?",
+    "d1a0c7e2f306": "Vad tänker vi på i dag?",
+    "d1a0c7e2f307": "Något du tänker på i dag?",
+    "d1a0c7e2f308": "Vad tänker du på den här gången?",
+    "a7c1e0f4b2d9": "Tryck för att prata",
+    "b3e8d1c6f0a2": "Tryck för att skicka",
+    "c9f2a4e7d1b5": "Lyssnar... tryck på bollen för att skicka",
+    "94cee2c8c1c1": "Din profil har flyttat",
+    "22577ebd908e": "Generera Wan 3.0-video · originalljudspår",
+    "1fa2357ab7e1": "Generera Seedance 720p-video · originalljudspår",
+    "7f78bdc0762d": "+{{value1}} p",
+    "f0c8bb34335b": "Du tjänade +{{value1}} poäng",
+    "0fbe06b679a8": "{{value1}} poäng för varje levererad förfrågan, läggs till din Toppbyggare-poäng.",
+    "ebebdc70335b": "Glasstaplar",
+    "5ff272ba7871": "Sidenlinjer",
+    "a941e90ca93d": "Omslagsgloria",
+    "04dbbe4dff7a": "Sann våg"
   },
   "dehubLinks": {
     "kind": {
@@ -2628,7 +2688,8 @@
       "proposal": "förslag",
       "stage": "steg",
       "store": "butik",
-      "featureRequest": "begäran"
+      "featureRequest": "begäran",
+      "page": "sida"
     }
   },
   "postGate": {
@@ -2864,10 +2925,20 @@
       "numbers": "Numrerad lista",
       "link": "Länk",
       "image": "Lägg till bilder"
-    }
+    },
+    "imageLimit": "Artiklar kan innehålla upp till {{count}} bilder",
+    "imageFailed": "Bilden kunde inte läggas till. Prova en annan.",
+    "imagesUploading": "Lägger till bilder ({{count}})…",
+    "bodyTooLong": "{{count}} tecken över gränsen",
+    "imagesCount": "Bilder · {{count}}/{{max}}",
+    "captionPlaceholder": "Lägg till en bildtext",
+    "captionLabel": "Bildtext för bild {{n}}",
+    "removeInlineImage": "Ta bort bild {{n}}"
   },
   "storefront": {
-    "unavailable": "Inte tillgängligt i den här versionen av appen"
+    "unavailable": "Inte tillgängligt i den här versionen av appen",
+    "continueOnWeb": "Fortsätt på riftn.com",
+    "webOnlyHint": "Slutför detta på riftn.com. Det öppnas i Safari."
   },
   "nav": {
     "launchpad": "Launchpad",
@@ -2921,7 +2992,72 @@
     "reorderReset": "Återställ",
     "groups": {
       "create": "Skapa",
-      "discover": "Upptäck"
+      "discover": "Upptäck",
+      "main": "Huvud",
+      "money": "Pengar",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "flöde, tidslinje, senaste inlägg, för dig, följer, startsida",
+      "profile": "min profil, mitt konto, min sida, mina inlägg, avatar, bio, följare",
+      "explore": "sök, upptäck, hitta, trendar, populärt, hashtaggar, personer, kreatörer",
+      "prompt": "AI, generera, AI-bild, AI-video, bildskapare, text till bild, AI-konst",
+      "editor": "videoredigerare, redigera video, trimma, klipp, textning, undertexter, effekter",
+      "creator": "skapa, studio, AI-verktyg, bild, video, musik, speakerröst, 3D",
+      "converter": "importera video, ladda ner, YouTube, TikTok, Instagram, konvertera",
+      "migrate": "flytta min kanal, importera kanal, massimport, YouTube-kanal",
+      "notifications": "aviseringar, aktivitet, omnämnanden, svar, gillar, klocka",
+      "messages": "DM, direktmeddelanden, chatt, inkorg, konversationer, privat meddelande",
+      "communities": "grupper, community, rum, klubbar, forum, medlemmar",
+      "assistant": "AI, chattbot, fråga, hjälp, AI-chatt, frågor",
+      "settings": "inställningar, konto, integritet, säkerhet, lösenord, språk, tema, mörkt läge, blockerade, radera konto",
+      "leaderboard": "ranking, rang, toppkreatörer, toppanvändare, poäng, resultat",
+      "bookmarks": "sparat, favoriter, titta senare, läs senare, sparade inlägg, bibliotek",
+      "command": "översikt, statistik, intäkter, inkomst, insikter, moderering, min statistik",
+      "wallet": "saldo, pengar, medel, tokens, krypto, insättning, uttag, skicka, ta emot, betala",
+      "events": "kalender, schema, träff, kommande, biljetter, AMA",
+      "stages": "ljudrum, röstchatt, spaces, live-ljud, prata, podcast",
+      "featureRequests": "bygg, byggare, idéer, förslag, rapportera en bugg, buggar, fixar, färdplan, rösta, önskelista, förbättra",
+      "feedback": "recension, betyg, enkät, åsikt, klagomål, ge feedback",
+      "staking": "staka, insättning, avkastning, belöningar, tjäna, vinstdelning, märke, nivåer, ränta",
+      "superpowers": "boost, marknadsför, förmåner, krafter, märkesförmåner, räckvidd, uppgraderingar",
+      "governance": "rösta, omröstning, förslag, enkät, valsedel, besluta",
+      "dao": "kassa, donera, donation, gemenskapsfond, bidra, anslag",
+      "bounties": "arbete, jobb, uppgifter, gig, frilans, anlita, tjäna pengar, betalt arbete",
+      "myBounties": "mina bounties, mina jobb, historik, utbetalningar, slutfört arbete",
+      "affiliate": "värvning, bjud in vänner, bjud in, provision, partner, tjäna",
+      "careers": "jobb, rekrytering, jobba med oss, gå med i teamet, ansök, lediga tjänster",
+      "stores": "butik, affär, marknadsplats, merch, köp, sälj, produkter, shopping",
+      "fractions": "andelar, ägande, investera, äg ett inlägg, NFT, NFT:er, samlarobjekt, handla",
+      "usernames": "användarnamn, handle, namn, byt namn, köp ett namn, sälj ett namn",
+      "accounts": "köp konto, sälj konto, konton till salu, följare, överför konto",
+      "apps": "appbutik, miniappar, bygg en app, utvecklare, verktyg",
+      "arcade": "spel, spela, gaming, schack, skjutspel, kul",
+      "glossary": "termer, definitioner, ordbok, betydelse, vad är",
+      "compare": "jämförelse, jämför, mot, alternativ, YouTube, X, TikTok",
+      "guide": "kom igång, hur gör man, guide, hjälp, lär dig, nybörjare, ny här",
+      "stats": "statistik, analys, siffror, diagram, pris, utbud, innehavare",
+      "docs": "dokumentation, hjälp, API, whitepaper, utvecklare, manual",
+      "blog": "nyheter, artiklar, uppdateringar, meddelanden, vad är nytt",
+      "videos": "titta, videor, klipp, långa videor",
+      "shorts": "reels, korta videor, vertikala videor, svep",
+      "music": "ljud, låtar, spår, lyssna, radio, spellista",
+      "liveTv": "TV, streams, streaming, live, sändning, kanaler, titta live",
+      "buyTokens": "köp tokens, köp, fyll på, kort, kreditkort, fiat",
+      "bridge": "cross chain, flytta tokens, kedjor, överför mellan kedjor",
+      "top100": "topp 100, mynt, kryptovalutor, börsvärde, priser",
+      "agents": "AI-agenter, agenter, bottar, automatisering, personas",
+      "advertising": "annonser, reklam, kampanj, marknadsför, sponsra, marknadsföring",
+      "premium": "prenumeration, uppgradera, pro, medlemskap, inga annonser, reklamfritt",
+      "pricing": "planer, kostnad, pris, hur mycket, prenumeration",
+      "creators": "kreatörsprogram, ambassadörer, partner, ansök som kreatör, tjäna pengar",
+      "getTheApp": "ladda ner appen, Android, iPhone, mobilapp, installera, APK",
+      "connectAi": "MCP, ChatGPT, Claude, API, integration, anslut AI",
+      "packs": "emoji, klistermärken, GIF:ar, emojipaket, klistermärkespaket, anpassade emojis",
+      "publicChat": "chatt, global chatt, chattrum, lobby, prata, communitychatt",
+      "planned": "schemalagt, schemalägg, schemalagda inlägg, kö, senare",
+      "liveStudio": "gå live, streama, streaming, OBS, overlays, aviseringar, widgets",
+      "launchpad": "lansera en token, skapa ett mynt, gör ett mynt, memecoin, bonding curve, tokenisera"
     }
   },
   "affiliate": {
@@ -3687,7 +3823,45 @@
     "themeColorBrandDesc": "Använd färgerna i din profilbild",
     "themeColorBrandNoAvatar": "Lägg till en profilbild för att använda varumärkesfärger",
     "themeColorBrandFailed": "Kunde inte läsa färger från din profilbild",
-    "menuLayoutFolders": "Mappar"
+    "menuLayoutFolders": "Mappar",
+    "chatDeleteChoice": "När du raderar ett meddelande",
+    "chatDeleteChoiceDesc": "Fråga varje gång, eller radera alltid bara för dig eller för alla i chatten.",
+    "chatDeleteAsk": "Fråga varje gång",
+    "chatDeleteMe": "Radera för mig",
+    "chatDeleteMeDesc": "Borta från din chatt, andra ser det fortfarande",
+    "chatDeleteEveryone": "Radera för alla",
+    "chatDeleteEveryoneDesc": "När det går. Någon annans meddelande i en grupp försvinner fortfarande bara för dig",
+    "chatTextSize": "Textstorlek i chatten",
+    "menuLayout": "Menylayout",
+    "menuLayoutDesc": "Hur menyn grupperar sina sidor",
+    "menuLayoutTabs": "Flikar",
+    "menuLayoutTabsDesc": "En grupp i taget, med stora ikoner",
+    "menuLayoutSections": "Sektioner",
+    "menuLayoutSectionsDesc": "Alla sidor på en gång, under grupprubriker",
+    "menuLayoutFoldersDesc": "Dina huvudsidor, sedan en mapp för varje grupp",
+    "publicChatInBar": "Offentlig chatt i nedre fältet",
+    "publicChatInBarDesc": "Ett tryck till Offentlig chatt från fältet längst ner på skärmen",
+    "chatTextSizeDesc": "Större eller mindre meddelanden i alla chattar. Läggs till telefonens textstorlek.",
+    "chatCards": "Chattar som kort",
+    "chatCardsDesc": "Varje chatt på ett eget kort. Stäng av för en enkel lista med en linje mellan chattarna.",
+    "contactSupport": "Kontakta supporten",
+    "showLikes": "Visa mina gillamarkeringar för alla",
+    "showLikesDesc": "Vem som helst kan öppna fliken Gillar på din profil. Av som standard, så bara du ser vad du har gillat.",
+    "showFollowersList": "Visa vilka som följer mig",
+    "showFollowersListDesc": "Låt vem som helst öppna din följarlista. När detta är av kan bara du se den.",
+    "showFollowingList": "Visa vilka jag följer",
+    "showFollowingListDesc": "Låt vem som helst öppna listan över personer du följer. När detta är av kan bara du se den.",
+    "showFollowCounts": "Visa mina följarsiffror",
+    "showFollowCountsDesc": "Visa hur många följare du har och hur många du följer. Stänger du av detta döljs även båda listorna.",
+    "readerProfileView": "Öppna andras profiler som",
+    "readerProfileViewDesc": "Välj rutnät eller lista för varje profil du öppnar, eller behåll varje persons eget val",
+    "readerProfileViewOwner": "Varje persons val",
+    "notificationShowCount": "Visa antalet på klockan",
+    "notificationShowCountDesc": "Se hur många aviseringar som är olästa i stället för bara ljuspunkten",
+    "messagesShowCount": "Visa antalet på Meddelanden",
+    "messagesShowCountDesc": "Se hur många meddelanden som är olästa i stället för bara ljuspunkten",
+    "pushNotRegisteredDescIos": "Aviseringar kan inte nå dig när appen är stängd: den här iPhonen registrerades aldrig för push. Kontrollera att aviseringar är tillåtna för Riftn i Inställningar och öppna sedan appen igen.",
+    "tipsOffNote": "Dricks och överföringar till dig är avstängda medan detta är på. Stäng av det för att få dricks igen."
   },
   "common": {
     "refresh": "Uppdatera",
@@ -3813,7 +3987,15 @@
     "addMessage": "Lägg till ett meddelande (valfritt)",
     "messagePublic": "Offentlig",
     "railTitle": "Dricks",
-    "railTotal": "{{amount}} polletter"
+    "railTotal": "{{amount}} polletter",
+    "messagePlaceholder": "Säg något med din dricks",
+    "messagePrivate": "Bara {{name}}",
+    "theCreator": "kreatören",
+    "messageWallNote": "Visas på dricksväggen när dricksen gått igenom.",
+    "sendWithMessage": "Skicka med meddelande",
+    "messageFailed": "Ditt meddelande kunde inte läggas till. Ingen dricks skickades.",
+    "wallLabel": "Dricksmeddelanden",
+    "messagePrivateNote": "Bara {{name}} ser det, i sin avisering."
   },
   "postOptions": {
     "skippableSections": "Sektioner som kan hoppas över",
@@ -3897,7 +4079,17 @@
     "giftBoost": "Ge bort en boost",
     "giftBoostDesc": "Använd en av dina på det här inlägget",
     "askAi": "Fråga AI",
-    "aiOverview": "AI-översikt"
+    "aiOverview": "AI-översikt",
+    "unmuteUser": "Slå på ljudet för {{name}}",
+    "unmuteDesc": "Se deras inlägg igen",
+    "unmutedUser": "Ljudet påslaget för {{name}}",
+    "refreshLinkPreview": "Uppdatera länkförhandsvisning",
+    "linkPreviewRefreshed": "Länkförhandsvisningen uppdaterades",
+    "linkPreviewRefreshFailed": "Kunde inte nå den webbplatsen. Försök igen senare.",
+    "castToTv": "Casta till TV",
+    "castIosDesc": "AirPlay till en Apple TV eller smart-TV",
+    "castAndroidDesc": "Spegla din skärm med Cast eller Smart View",
+    "castAndroidHelp": "Öppna snabbinställningarna och tryck på Smart View eller Cast och välj sedan din TV."
   },
   "filters": {
     "sort": "Sortera",
@@ -4103,7 +4295,8 @@
     "failedToClosePoll": "Kunde inte avsluta omröstning",
     "endsIn": "Slutar {{time}}",
     "multipleChoice": "Tillåt flera svar",
-    "online": "{{count}} online"
+    "online": "{{count}} online",
+    "onlineHint": "{{count}} personer är i den här chatten just nu"
   },
   "aiChat": {
     "title": "Assistent",
@@ -4457,7 +4650,8 @@
       "governanceVotedPassed": "Ett förslag du röstade på godkändes: “{{title}}”",
       "governanceVotedRejected": "Ett förslag du röstade på godkändes inte: “{{title}}”",
       "governancePassed": "Ditt förslag “{{title}}” godkändes 🎉",
-      "governanceRejected": "Ditt förslag “{{title}}” godkändes inte"
+      "governanceRejected": "Ditt förslag “{{title}}” godkändes inte",
+      "featureActivity": "{{name}} kommenterade en förfrågan"
     },
     "stores": "Butiker",
     "features": "Funktioner",
@@ -4544,7 +4738,11 @@
     "groupNew": "Nytt",
     "groupToday": "Idag",
     "groupThisWeek": "Denna vecka",
-    "searchClose": "Stäng sökning"
+    "searchClose": "Stäng sökning",
+    "allSettings": "Alla aviseringsinställningar",
+    "groupEarlier": "Tidigare",
+    "searchPlaceholder": "Sök aviseringar",
+    "searchEmpty": "Inga aviseringar matchar"
   },
   "leaderboard": {
     "title": "Topplista",
@@ -4584,7 +4782,13 @@
     "addedToLeaderboard": "Du har lagts till! Saldo: {{balance}} tokens",
     "balanceTooLow": "Saldo för lågt ({{balance}} tokens)",
     "tokenAmount": "{{amount}} polletter",
-    "provisional": "preliminär"
+    "provisional": "preliminär",
+    "ogChallenge": "OG-utmaning",
+    "ogHolders_one": "{{count}} OG-innehavare",
+    "ogHolders_other": "{{count}} OG-innehavare",
+    "ogChallengeTitle": "Ta tillbaka OG-innehavarna",
+    "ogChallengeBody": "Bjud in personer som fortfarande har DHB. När de går med via din inbjudningslänk och behåller sina DHB i sin Riftn-plånbok räknas de för dig här.",
+    "ogChallengeCta": "Hämta din inbjudningslänk"
   },
   "explorePage": {
     "searchPlaceholder": "Sök personer, inlägg eller innehåll...",
@@ -4746,8 +4950,31 @@
       "comments": "Kommentarer",
       "showLess": "Visa mindre",
       "viewProfile": "Visa profil",
-      "you": "Du"
-    }
+      "you": "Du",
+      "title": "Toppbyggare",
+      "breakdown": "{{shipped}} levererade ({{sp}}) · {{votes}} uppröster ({{vp}}) · {{comments}} kommentarer ({{cp}})",
+      "showAll": "Visa topp {{n}}",
+      "showEveryone": "Visa alla {{n}} byggare",
+      "showMore": "Visa {{n}} till",
+      "rule": "10 p per levererad förfrågan, 1 per uppröst, 2 per kommentar på någon annans förfrågan.",
+      "pts": "{{n}} p",
+      "gap": "{{n}} p för att passera {{name}}",
+      "join": "Publicera en prompt som levereras för att komma med på tavlan",
+      "points": "Poäng",
+      "infoLabel": "Så fungerar poängen",
+      "infoShipped": "per levererad förfrågan",
+      "infoVote": "per uppröst på dina förfrågningar",
+      "infoComment": "per kommentar på någon annans förfrågan",
+      "infoCap": "Kommentarer räknas upp till {{n}} per period.",
+      "pt": "1 p",
+      "infoTitle": "Så fungerar poängen"
+    },
+    "deviceInfoNote": "Enhetsinfo bifogas för att hjälpa oss fixa buggar.",
+    "deviceInfo": "Enhetsinfo",
+    "deviceInfoOwners": "Bara tavlans ägare ser detta",
+    "deviceInfoError": "Kunde inte ladda enhetsinfo",
+    "deviceInfoNone": "Ingen enhetsinfo för den här förfrågan",
+    "deviceInfoErrors": "Senaste fel"
   },
   "auth": {
     "loginRequired": "Inloggning krävs",
@@ -4804,7 +5031,13 @@
     "importWalletPurpose": "Det här verktyget är till för att importera befintliga konton från Riftn.io.",
     "importSecretPlaceholder": "12 eller 24 ord, eller en privat nyckel",
     "invalidImportSecret": "Det är inte en giltig 12/24-ordsfras eller privat nyckel",
-    "walletSignupBlocked": "Den här plånboken är helt ny. Nya plånböcker behöver ett saldo eller en tidigare transaktion för att öppna ett konto. Registrera dig med något av alternativen nedan och anslut sedan den här plånboken under Inställningar."
+    "walletSignupBlocked": "Den här plånboken är helt ny. Nya plånböcker behöver ett saldo eller en tidigare transaktion för att öppna ett konto. Registrera dig med något av alternativen nedan och anslut sedan den här plånboken under Inställningar.",
+    "accountDeleted": "Det här kontot raderades. Du kan registrera dig igen som ett nytt konto.",
+    "accountDeletedHours_one": "Det här kontot raderades. Du kan registrera dig igen med samma e-post eller telefon om ungefär {{count}} timme.",
+    "accountDeletedHours_other": "Det här kontot raderades. Du kan registrera dig igen med samma e-post eller telefon om ungefär {{count}} timmar.",
+    "accountDeletedDays_one": "Det här kontot raderades. Du kan registrera dig igen med samma e-post eller telefon om ungefär {{count}} dag.",
+    "accountDeletedDays_other": "Det här kontot raderades. Du kan registrera dig igen med samma e-post eller telefon om ungefär {{count}} dagar.",
+    "signInPageWouldNotOpen": "Inloggningssidan stängdes innan den öppnades. Försök igen eller fortsätt med e-post."
   },
   "messages": {
     "encryptionSetupFailed": "Krypteringsinställningen misslyckades. Försök igen.",
@@ -4829,7 +5062,11 @@
     "title": "Meddelanden",
     "searchConversations": "Sök konversationer...",
     "failedToLoad": "Kunde inte ladda konversationer",
-    "tryAgain": "Försök igen"
+    "tryAgain": "Försök igen",
+    "unreadMarkerOne": "1 oläst meddelande",
+    "unreadMarkerMany": "{{value}} olästa meddelanden",
+    "jumpToUnread": "Hoppa till första olästa meddelandet",
+    "jumpToLatest": "Hoppa till senaste meddelandet"
   },
   "music": {
     "chartOrder": "Ljuddiagramordning",
@@ -5014,14 +5251,51 @@
     "pinnedShort": "Fäst",
     "post": "Inlägg",
     "arrange": {
-      "saving": "Sparar..."
+      "saving": "Sparar...",
+      "title": "Ordna dina inlägg",
+      "hint": "Håll in ett inlägg och dra det till sin nya plats. Besökare ser den här ordningen först.",
+      "drag": "Dra för att flytta",
+      "toTop": "Flytta högst upp",
+      "save": "Spara ordning",
+      "saved": "Din ordning är sparad",
+      "reset": "Tillbaka till nyast först",
+      "resetDone": "Tillbaka till nyast först",
+      "saveFailed": "Kunde inte spara din ordning. Försök igen.",
+      "loadFailed": "Kunde inte ladda dina inlägg. Stäng detta och försök igen.",
+      "empty": "Inget att ordna än. Publicera något först."
     },
     "reserve": {
-      "signIn": "Logga in"
+      "signIn": "Logga in",
+      "available": "Användarnamnet är ledigt",
+      "held": "Reserverat för dig",
+      "ended": "Reservationen har gått ut",
+      "busy": "Håller på att reserveras",
+      "availableBody": "riftn.com/{{name}} är ledigt just nu. Reservera det så håller vi det åt dig i en minut medan du registrerar dig.",
+      "heldBody": "Ingen annan kan ta @{{name}} förrän timern går ut. Slutför registreringen för att behålla det.",
+      "endedBody": "Din minut tog slut, så @{{name}} är öppet för alla igen. Det är fortfarande ledigt.",
+      "busyBody": "Någon registrerar sig som @{{name}} just nu. Om de inte slutför blir det ledigt när timern går ut.",
+      "finish": "Slutför registreringen",
+      "again": "Reservera igen",
+      "cta": "Reservera nu",
+      "letGo": "Släpp det",
+      "haveAccount": "Har du ett konto?"
     },
     "tabLikes": "Gillar",
     "likesEmptyTitle": "Inga gillamarkeringar än",
-    "likesPrivateTitle": "Gillamarkeringar är privata"
+    "likesPrivateTitle": "Gillamarkeringar är privata",
+    "articleViews": "{{views}} visningar",
+    "sortBy": "Sortera efter",
+    "sortCustom": "Egen ordning",
+    "arrangeButton": "Ordna inlägg",
+    "mutualsOne": "{{count}} gemensam:",
+    "mutualsMany": "{{count}} gemensamma:",
+    "tabArticles": "Artiklar",
+    "articlesEmptyTitle": "Inga artiklar än",
+    "articlesEmptySubtitle": "Artiklar visas här",
+    "likesEmptyOwn": "Inlägg du gillar visas här. Bara du kan se dem om du inte slår på Visa mina gillamarkeringar i Inställningar.",
+    "likesEmptyOther": "Inget gillat än.",
+    "likesPrivateDesc": "Det här kontot håller sina gillamarkeringar för sig själv.",
+    "unavailable": "Profilen är inte tillgänglig"
   },
   "tv": {
     "title": "TV",
@@ -5539,7 +5813,26 @@
       "filter": "Filtrera aktivitet"
     },
     "welcome": {
-      "text": "Välkomstmeddelande"
+      "text": "Välkomstmeddelande",
+      "title": "Välkomna nya medlemmar",
+      "help": "Den här agenten följer och/eller skickar meddelanden till personer som precis gått med i Riftn, några om dagen.",
+      "follow": "Följ nya medlemmar",
+      "message": "Skicka meddelande till nya medlemmar",
+      "textHelp": "{name} blir deras @användarnamn. Inga länkar. Skickas en gång per person.",
+      "saveText": "Spara meddelande",
+      "perDay": "Personer per dag",
+      "fewer": "Färre per dag",
+      "more": "Fler per dag",
+      "today": "Idag: {{follows}} följda · {{messages}} meddelade",
+      "limits": "Aldrig samma person två gånger. Hoppar över alla som blockerat eller tystat dig, stängt av nya meddelanden eller dolt sig från Nya medlemmar.",
+      "showLog": "Se vilka den välkomnat",
+      "hideLog": "Dölj välkomnanden",
+      "empty": "Ingen än. Nya medlemmar visas här när de går med.",
+      "followed": "Följd",
+      "messaged": "Meddelad",
+      "skipped": "Överhoppad",
+      "failed": "Kunde inte nås",
+      "defaultText": "Hej {name}, välkommen till Riftn! 👋"
     }
   },
   "hero": {
@@ -5634,7 +5927,43 @@
     "disconnect": "Koppla från",
     "payAndRun": "Betala och kör",
     "run": "Kör",
-    "handlePrompt": "Styr"
+    "handlePrompt": "Styr",
+    "retryFreeTask": "Försök igen med gratis uppgift",
+    "previewSavedMedia": "Förhandsgranska sparad media",
+    "audioSavePending": "Ljudet är klart, men sparandet i ditt privata bibliotek väntar. Återuppta för att hämta det.",
+    "freeResultUnknown": "Svaret från den gratis uppgiften avbröts. Den skickas inte igen automatiskt. Välj Försök igen med gratis uppgift och återuppta sedan; din betalning och andra jobb behålls.",
+    "formAuthor": "Redigera flow",
+    "formAuthorHint": "Bygg ett flow med typade indata. Spara det här, eller ordna det på webbens canvas.",
+    "chooseSavedMedia": "Välj sparad media",
+    "formInput": "Indata: {{handle}}",
+    "reviewRun": "Granska körning",
+    "resumeRun": "Återuppta sparad körning",
+    "confirmPrice": "Totalt: {{price}} tokens",
+    "recoveryHint": "Jobb- och betalningsreferenser sparas på den här enheten. Återuppta avbrutet arbete innan du startar en ny körning.",
+    "newRun": "Starta en ny körning",
+    "loadMoreMedia": "Ladda mer media",
+    "invalidGraph": "Kontrollera kopplingarna: varje indata behöver en kompatibel källa och grafen får inte innehålla cykler.",
+    "unsupportedNode": "Den här noden kan inte köras i det inbyggda formuläret än. Använd webbens canvas för detta flow.",
+    "missingPrompt": "Koppla en textnod med en prompt.",
+    "invalidSettings": "De här inställningarna stöds inte av den valda modellen.",
+    "missingCapturedFrame": "Fånga en bildruta på webbens canvas innan du använder den här videon som bildindata.",
+    "missingSavedMedia": "Sparad källmedia saknas eller är inte längre tillgänglig för det här kontot.",
+    "nothingToRun": "Lägg till en generator för att köra detta flow.",
+    "quoteFailed": "Kunde inte prissätta detta flow. Försök igen.",
+    "recoverBeforeEdit": "Återuppta den sparade körningen innan du ändrar dess graf eller startar en ny körning.",
+    "runAlreadyComplete": "Den här körningen är klar. Välj Starta en ny körning för att generera igen.",
+    "recoveryCorrupt": "Den sparade återställningsposten kunde inte läsas. Behåll detta flow och kontakta supporten innan du betalar igen.",
+    "paidUnavailable": "Du kan skapa och spara flows här. Betalda körningar är inte tillgängliga i den här butiken.",
+    "planChanged": "Detta flow ändrades efter prissättningen. Granska körningen igen.",
+    "connectOwnerWallet": "Anslut plånboken som äger detta flow.",
+    "runFailed": "Noden kunde inte slutföras. Dess sparade jobbreferens behålls för återställning.",
+    "recoveryPending": "Renderingen väntar fortfarande. Återuppta den här körningen för att hämta den.",
+    "nodeAudioGen": "Ljudgenerator",
+    "nodeAudioGenDesc": "Tal, ljudeffekter, transkribering och ljudisolering",
+    "nodeAudioInput": "Sparat ljud",
+    "nodeAudioInputDesc": "Använd privat ljud från ditt bibliotek",
+    "audioVoiceId": "Röst-ID",
+    "audioSeconds": "Ljudlängd i sekunder"
   },
   "loginModal": {
     "title": "Logga in",
@@ -5671,7 +6000,8 @@
     "passkeyNotLinked": "Inget konto är kopplat till det fingeravtrycket ännu. Skapa ett nytt konto istället.",
     "passkeyAlreadyRegistered": "Det fingeravtrycket har redan ett konto. Använd Logga in istället.",
     "passkeyFailed": "Inloggning med fingeravtryck misslyckades. Försök igen.",
-    "passkeyBackupHint": "Ditt konto finns i den här enhetens lösenordsnyckel. På de flesta telefoner synkroniseras den med ditt Google- eller Apple-konto, och du kan lägga till en lösenordsbackup i Inställningar."
+    "passkeyBackupHint": "Ditt konto finns i den här enhetens lösenordsnyckel. På de flesta telefoner synkroniseras den med ditt Google- eller Apple-konto, och du kan lägga till en lösenordsbackup i Inställningar.",
+    "didYouMean": "Menade du {{email}}?"
   },
   "careers": {
     "title": "Karriär på Riftn",
@@ -5936,7 +6266,13 @@
       "authorChip": "Förslagsförfattare"
     },
     "holdTokensToVote": "Håll Riftn-tokens för att rösta",
-    "mustHoldTokens": "Du måste hålla Riftn-tokens för att rösta på styrningsförslag."
+    "mustHoldTokens": "Du måste hålla Riftn-tokens för att rösta på styrningsförslag.",
+    "optionVoters_one": "{{count}} röstande",
+    "optionVoters_other": "{{count}} röstande",
+    "optionWinner": "Vinnare: {{option}}",
+    "optionNoWinner": "Ingen tydlig vinnare",
+    "optionTapToUndo": "Tryck på ditt svar igen för att ta tillbaka din röst",
+    "optionPickOne": "Välj ett svar"
   },
   "sidebar": {
     "talkOfTheTown": "Stadens snackis",
@@ -5955,7 +6291,16 @@
     "clearSearch": "Rensa sökningen",
     "noMenuMatches": "Inget i menyn matchar",
     "searchDehubFor": "Sök efter ”{{query}}” på Riftn",
-    "requestSend": "Skicka begäran"
+    "requestSend": "Skicka begäran",
+    "requestPrompt": "Finns inte här än? Skicka det som en förfrågan",
+    "requestPromptShort": "Finns inte här än?",
+    "requestDraftMenu": "Lägg till {{query}} i Riftn",
+    "requestDraftSettings": "En inställning för {{query}}",
+    "requestPostsTo": "Publiceras i Förfrågningar",
+    "requestHint": "Publiceras i Förfrågningar som du. Vi säger till när det släpps.",
+    "requestSent": "Skickat till Förfrågningar",
+    "requestSentHint": "Vi säger till när det släpps.",
+    "requestSeeIt": "Se det i Förfrågningar"
   },
   "comments": {
     "reportComment": "Rapportera kommentar",
@@ -6044,7 +6389,24 @@
     "tabReplies": "Svar",
     "tabQuotes": "Citat",
     "tabReposts": "Omdelningar",
-    "tabSearch": "Sök"
+    "tabSearch": "Sök",
+    "attachAudioFile": "Ljudfil",
+    "attachMedia": "Bifoga ett foto, en video eller ljud",
+    "attachPhotoOrVideo": "Foto eller video",
+    "attachTooLarge": "Den filen överskrider gränsen på {{size}} MB.",
+    "playVideo": "Spela upp video",
+    "threadParts": {
+      "reorder": "Ändra ordning",
+      "reorderHint": "Håll in och dra en del, eller använd pilarna, och spara sedan.",
+      "save": "Spara ordning",
+      "saved": "Trådens ordning sparad",
+      "saveFailed": "Kunde inte spara ordningen. Försök igen.",
+      "moveUp": "Flytta del {{n}} uppåt",
+      "moveDown": "Flytta del {{n}} nedåt",
+      "addPart": "Lägg till i tråden",
+      "addPlaceholder": "Lägg till i din tråd...",
+      "label": "Tråd · {{count}} delar"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "De nuvarande ägarna kan inte läsas just nu.",
@@ -6578,7 +6940,9 @@
       "joined": "{{name}} gick med",
       "reactions": "Reaktioner",
       "photoTooLarge": "Bilden måste vara under 10MB",
-      "aiAdminFailed": "AI-administratör misslyckades med att svara"
+      "aiAdminFailed": "AI-administratör misslyckades med att svara",
+      "addToMessages": "Lägg till i Meddelanden",
+      "inMessages": "I Meddelanden"
     },
     "manage": {
       "dismissAdminTitle": "Avfärda admin",
@@ -6600,7 +6964,8 @@
         "invites": "Inbjudningar",
         "rules": "Regler",
         "recentActions": "Senaste åtgärderna",
-        "danger": "Farozon"
+        "danger": "Farozon",
+        "automod": "Automoderering och bottar"
       },
       "title": "Hantera",
       "purgeTitle": "Radera alla meddelanden?",
@@ -6787,24 +7152,112 @@
       "buyer": "Köpare:",
       "balance": "Saldo:",
       "price": "Pris:",
-      "marketCap": "Börsvärde:"
+      "marketCap": "Börsvärde:",
+      "title": "{{amount}} KÖP",
+      "txn": "Txn",
+      "titleToken": "{{amount}} ${{symbol}} KÖP"
     },
     "newChat": {
       "public": "Offentlig",
       "private": "Privat",
       "free": "Gratis",
       "paid": "Betald",
-      "group": "Gruppera"
+      "group": "Gruppera",
+      "description": "Vad handlar den om? (valfritt)",
+      "groupCreated": "Grupp skapad",
+      "channelCreated": "Kanal skapad",
+      "newGroup": "Ny grupp",
+      "newChannel": "Ny kanal",
+      "groupName": "Gruppnamn",
+      "channelName": "Kanalnamn",
+      "whoCanJoin": "Vem kan gå med",
+      "publicDetail": "Vem som helst kan hitta och gå med",
+      "inviteOnly": "Endast inbjudna",
+      "privateDetail": "Folk går med via din inbjudan eller ditt godkännande",
+      "entry": "Inträde",
+      "freeDetail": "Kostar inget att gå med",
+      "paidDetail": "En betalning i tokens, direkt till dig",
+      "price": "Pris i tokens",
+      "channelNote": "Bara du och dina administratörer kan publicera. Medlemmar läser och reagerar.",
+      "createGroup": "Skapa grupp",
+      "createChannel": "Skapa kanal",
+      "channel": "Kanal",
+      "adminsOnly": "Bara administratörer publicerar i den här kanalen.",
+      "message": "Nytt meddelande",
+      "messageDetail": "En privat chatt med en person",
+      "groupDetail": "Chatta med många, offentligt eller privat",
+      "channelDetail": "Sänd till följare, gratis eller betalt",
+      "title": "Starta något",
+      "channelRow": "Kanal · {{formattedCount}} medlemmar",
+      "groupRow": "Grupp · {{formattedCount}} medlemmar"
     },
     "holderGate": {
       "chain": "Kedja",
-      "tab": "Hållare"
+      "tab": "Hållare",
+      "failed": "Kunde inte läsa ditt saldo just nu. Försök igen om en stund.",
+      "short": "Endast innehavare: du behöver {{need}}. Du har {{have}}.",
+      "required": "Endast innehavare: din plånbok har inte tillräckligt av den här gemenskapens token för att chatta.",
+      "topHolders": "Största innehavare",
+      "noHolders": "Innehavare visas här när de går med.",
+      "saved": "Innehavarregel sparad",
+      "cleared": "Vem som helst kan gå med igen",
+      "saveFailed": "Kunde inte spara innehavarregeln",
+      "title": "Endast innehavare",
+      "explain": "Bara plånböcker som har den här token kan gå med och chatta. Saldon läses från kedjan när någon går med.",
+      "which": "Token",
+      "dehubTokens": "Riftn-tokens",
+      "otherToken": "En annan token",
+      "token": "Tokenkontrakt",
+      "reading": "Läser token…",
+      "badAddress": "Det är inte en tokenadress",
+      "minimum": "Minsta innehav",
+      "save": "Spara innehavarregel",
+      "chip": "Endast innehavare · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Bannade ord",
       "floodMax": "{{count}} meddelanden",
       "saved": "Sparad",
-      "wordCount": "{{count}} ord"
+      "wordCount": "{{count}} ord",
+      "title": "Automoderering",
+      "hint": "Blockerar ett meddelande innan någon ser det och berättar för avsändaren varför. Ägare och administratörer blockeras aldrig.",
+      "enabled": "Automoderering på",
+      "bannedWordsHint": "Ett per rad eller kommatecken. Bara hela ord, och isärskrivna stavningar som s.c.a.m fångas också.",
+      "bannedWordsPlaceholder": "bedrägeri\nrug pull",
+      "blockLinks": "Blockera länkar",
+      "blockLinksHint": "Externa länkar och inbjudningar till Telegram/Discord. Riftn-länkar fungerar fortfarande.",
+      "repeats": "Blockera upprepningar",
+      "repeatsHint": "Hindrar någon från att skicka samma rad igen inom 10 minuter.",
+      "flood": "Antiflood",
+      "floodHint": "Högst {{max}} meddelanden var {{seconds}}:e sekund per person.",
+      "noAccess": "Bara ägaren och administratörer kan ändra de här inställningarna.",
+      "saveFailed": "Kunde inte spara. Försök igen.",
+      "saveWords": "Spara ord",
+      "bannedWord": "Meddelandet innehåller ett ord som den här gruppen inte tillåter.",
+      "links": "Länkar är inte tillåtna i den här gruppen.",
+      "repeat": "Du skickade just det. Försök säga något nytt.",
+      "reserved": "Den typen av meddelande kan bara komma från gruppens bottar.",
+      "floodError": "Du skickar för snabbt. Vänta {{value1}} s och försök igen."
+    },
+    "entry": {
+      "switchChain": "Byt din plånbok till BNB Chain eller Base för att betala.",
+      "failed": "Vi kunde inte bekräfta din betalning än. Om tokens har lämnat din plånbok, tryck på Gå med igen om en minut.",
+      "chip": "{{amount}} för att gå med"
+    },
+    "jumpToReply": "Hoppa till besvarat meddelande",
+    "avatarUpdated": "Bild uppdaterad",
+    "bannerUpdated": "Banner uppdaterad",
+    "imageUploadFailed": "Kunde inte ladda upp bilden. Försök igen.",
+    "changeBanner": "Byt banner",
+    "changeAvatar": "Byt bild",
+    "buyBot": {
+      "title": "Köpbot",
+      "any": "Valfri storlek",
+      "enabled": "Publicera köpaviseringar",
+      "hint": "Publicerar varje köp av ${{symbol}} i den här chatten, ungefär en minut efter att det sker.",
+      "minUsd": "Minsta köp att publicera",
+      "noToken": "Länka en token från gruppens sidhuvud (redigera, sedan Ticker) så visas varje köp i den här chatten.",
+      "unsupported": "${{symbol}} finns på en kedja eller pooltyp som köpbotten inte bevakar än. Stöds: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism och Avalanche (pooler i Uniswap v2/v3-stil)."
     }
   },
   "work": {
@@ -7743,7 +8196,8 @@
     "jumpToLatest": "Gå till de senaste meddelandena",
     "ban": "Stäng av",
     "banConfirm": "Är du säker på att du vill stänga av {{name}}?",
-    "banFailed": "Det gick inte att stänga av användaren"
+    "banFailed": "Det gick inte att stänga av användaren",
+    "jumpToMentions": "Hoppa till svar och omnämnanden"
   },
   "promptFeed": {
     "headline": "Vad vill du se?",
@@ -7929,7 +8383,13 @@
     },
     "followBackConfirm": "Följ tillbaka",
     "followBackNotNow": "Inte nu",
-    "followBackDone": "Klar"
+    "followBackDone": "Klar",
+    "followBackConfirmTitle_one": "Följa tillbaka {{count}} person?",
+    "followBackConfirmTitle_other": "Följa tillbaka {{count}} personer?",
+    "followBackConfirmBody": "De följer dig redan. Privata konton får en följförfrågan.",
+    "followedBackCount_one": "Följde tillbaka {{count}} person",
+    "followedBackCount_other": "Följde tillbaka {{count}} personer",
+    "followBackDoneBody": "Du hittar dem alla under Följer."
   },
   "reactionInfo": {
     "title": "Reaktioner",
@@ -8852,10 +9312,12 @@
     "editFailed": "Det gick inte att tillämpa ändringen. Försök igen.",
     "altPlaceholderVideo": "Beskriv den här videon",
     "preview": {
-      "title": "Förhandsvisning"
+      "title": "Förhandsvisning",
+      "hint": "Så här kommer ditt inlägg att se ut i flödet."
     },
     "recent": {
-      "all": "Alla"
+      "all": "Alla",
+      "show": "Visa senaste foton"
     },
     "studio": {
       "crop": "Beskär",
@@ -8870,11 +9332,50 @@
       "strength": "Styrka",
       "textBg": "Bakgrund",
       "font": {
-        "bold": "Fet"
-      }
+        "bold": "Fet",
+        "clean": "Ren",
+        "serif": "Serif",
+        "mono": "Mono"
+      },
+      "looks": "Stilar",
+      "adjust": "Justera",
+      "tint": "Färgton",
+      "vignette": "Vinjett",
+      "prev": "Föregående foto",
+      "count": "{{n}} av {{total}}",
+      "next": "Nästa foto",
+      "title": "Redigera foto",
+      "holdHint": "Håll in för att se originalet",
+      "cropCorner": "Beskärningshörn",
+      "original": "Original",
+      "straighten": "Räta upp",
+      "ratioOriginal": "Original",
+      "flip": "Spegelvänd",
+      "stickers": "Klistermärken",
+      "mention": "Omnämnande",
+      "ticker": "Ticker",
+      "layerHint": "Dra ord och klistermärken för att flytta dem. Tryck två gånger för att ändra orden.",
+      "looksAdjust": "Stilar och justering"
     },
     "edited": "Redigerad",
-    "edit": "Redigera"
+    "edit": "Redigera",
+    "altHint": "Beskriv vad som finns i den för personer som inte kan se den.",
+    "altPlaceholder": "Beskriv det här fotot",
+    "altTab": "Alt-text",
+    "editVideo": "Redigera video",
+    "trim": "Trimma",
+    "trimAndCover": "Trimma och omslag",
+    "trimStart": "Klippets början",
+    "trimEnd": "Klippets slut",
+    "trimHint": "Dra i de vita handtagen för att trimma. Tryck på remsan för att flytta.",
+    "useFrameAsCover": "Använd den här bildrutan som omslag",
+    "photoHoldHint": "Håll in för fler alternativ",
+    "editPhoto": "Redigera foto {{n}}",
+    "editAltText": "Redigera alt-text",
+    "addAltText": "Lägg till alt-text",
+    "moveEarlier": "Flytta tidigare",
+    "moveLater": "Flytta senare",
+    "photoN": "Foto {{n}} av {{total}}"
   },
   "bounty": {
     "claimed": "Uttagen",
@@ -9168,7 +9669,14 @@
     "justChatting": "Bara snack",
     "noLiveStreams": "Inga livestreams",
     "noOneStreaming": "Ingen streamar just nu. Kom tillbaka senare!",
-    "loadStreamsFailed": "Det gick inte att läsa in streams. Försök igen."
+    "loadStreamsFailed": "Det gick inte att läsa in streams. Försök igen.",
+    "liveBadge": "LIVE",
+    "screenShare": {
+      "start": "Dela skärm",
+      "stop": "Sluta dela skärm",
+      "sharing": "Du delar din skärm",
+      "hint": "Tittarna ser din skärm. Tryck på skärmknappen för att byta tillbaka till kameran."
+    }
   },
   "liveShop": {
     "title": "Handla från den här sändningen",
@@ -9483,7 +9991,17 @@
     "planTypeNotAllowed": "Den här skaparens plan tillåter inte den här typen av meddelande.",
     "planMinTip": "Dricksen måste vara minst {{amount}} tokens för den här skaparen.",
     "newDrawer": {
-      "to": "Till"
+      "to": "Till",
+      "placeholder": "Namn eller @användarnamn",
+      "recent": "SENASTE",
+      "suggested": "FÖRESLAGNA",
+      "youFollow": "PERSONER DU FÖLJER",
+      "chattedBefore": "Ni pratar",
+      "mutual": "Ömsesidig",
+      "dmsOff": "DM av",
+      "keepTyping": "Fortsätt skriva för att söka bland alla",
+      "sayHi": "Säg hej till någon",
+      "typeAny": "Skriv valfritt namn eller @användarnamn"
     },
     "download": "Ladda ner",
     "deleteOneTitle": "Ta bort det här meddelandet?",
@@ -9496,8 +10014,30 @@
       "communities": "Gemenskaper",
       "members": "{{n}} medlemmar",
       "newChat": "Ny chatt",
-      "invite": "Inbjud"
-    }
+      "invite": "Inbjud",
+      "noChats": "Inga chattar med \"{{q}}\" än. Här är vem och vad som matchar.",
+      "nothing": "Inget matchar \"{{q}}\" än. Starta något nytt.",
+      "start": "Eller starta något",
+      "newChatSub": "Välj vem som helst",
+      "newGroup": "Ny grupp",
+      "newGroupSub": "Chatta tillsammans",
+      "inviteSub": "Dela en länk",
+      "inviteMessage": "Gå med mig på Riftn: {{url}}",
+      "searchAll": "Sök i hela Riftn efter \"{{q}}\"",
+      "searchAllSub": "Inlägg, videor, livesändningar"
+    },
+    "copyMedia": "Kopiera media",
+    "reportMessage": "Rapportera meddelande",
+    "fileSaved": "Filen sparad",
+    "fileSaveFailed": "Kunde inte spara filen",
+    "attachAnything": "Bifoga ett foto, en video, ljud eller en fil",
+    "attachFileOrAudio": "Fil eller ljud",
+    "attachPhotoOrVideo": "Foto eller video",
+    "attachTooLarge": "Den filen överskrider gränsen på {{size}} MB.",
+    "deleteForBothBody": "Det tas bort för er båda.",
+    "notSent": "Inte skickat",
+    "shareGroups": "Grupper",
+    "shareKindChannel": "Kanal"
   },
   "editPost": {
     "mediaPermission": "Behörighet till mediebiblioteket krävs",
@@ -9619,7 +10159,9 @@
     "pipUnavailable": "Bild i bild är inte tillgängligt. Kontrollera att det är tillåtet för Riftn i dina enhetsinställningar.",
     "noVideo": "Ingen video",
     "rotate": "Rotera",
-    "yourDhbBalance": "Ditt token-saldo: {{amount}}"
+    "yourDhbBalance": "Ditt token-saldo: {{amount}}",
+    "fullscreen": "Helskärm",
+    "notAvailableForPost": "Inte tillgängligt för det här inlägget"
   },
   "liveViewer": {
     "loadingStream": "Läser in sändning...",
@@ -9935,7 +10477,22 @@
     "didNotRecoverEither": "Den inloggningen återställde ingen av profilerna som visas här. Inget ändrades. Prova den ursprungliga inloggningen för profilen du vill ha.",
     "didNotRecoverThis": "Den inloggningen återställde en annan plånbok än den här profilens. Inget ändrades. Prova inloggningen som ursprungligen skapade den.",
     "couldNotRetrieve": "Det gick inte att hämta den gamla plånboken på den här enheten. Du kan fortfarande återställa den på riftn.com nedan.",
-    "matchedWithBalance": "Matchat, {{balance}} tokens"
+    "matchedWithBalance": "Matchat, {{balance}} tokens",
+    "methodEmail": "en e-postkod",
+    "methodPhone": "ett telefonnummer",
+    "madeWithNamed": "@{{name}} skapades med {{method}}. Fortsätt med samma {{method}}-konto för att återställa det.",
+    "madeWith": "Den här profilen skapades med {{method}}. Fortsätt med samma {{method}}-konto för att återställa den.",
+    "madeWithEmailNamed": "@{{name}} skapades med en e-postkod. Vi skickar en kod till till den e-postadressen för att återställa den.",
+    "madeWithEmail": "Den här profilen skapades med en e-postkod. Vi skickar en kod till till den e-postadressen för att återställa den.",
+    "madeWithPhoneNamed": "@{{name}} skapades med ett telefonnummer. Vi sms:ar en kod till till det numret för att återställa den.",
+    "madeWithPhone": "Den här profilen skapades med ett telefonnummer. Vi sms:ar en kod till till det numret för att återställa den.",
+    "wrongSignInNamed": "Den inloggningen öppnar en annan plånbok, inte @{{name}}. @{{name}} skapades med {{method}}, så bara det kan återställa den.",
+    "wrongSignIn": "Den inloggningen öppnar en annan plånbok. Den här profilen skapades med {{method}}, så bara det kan återställa den.",
+    "continueWith": "Fortsätt med {{provider}}",
+    "differentSignIn": "Använde du en annan inloggning?",
+    "oldAccountPhone": "Telefonnummer för gammalt konto",
+    "recoverFromPhoneA11y": "Återställ gammalt konto från det här telefonnumret",
+    "phoneNeedsCode": "Ange numret med landskod, till exempel +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Köp tokens",
@@ -10717,8 +11274,17 @@
       "noSpeech": "Inget tal hittades i klippet.",
       "failed": "Det gick inte att skapa undertexter för klippet.",
       "styles": {
-        "bold": "Fetstil"
-      }
+        "bold": "Fetstil",
+        "classic": "Klassisk",
+        "boxed": "Inramad",
+        "wordpop": "Word Pop",
+        "rapid": "Snabb avtäckning",
+        "beast": "Beast Mode",
+        "stacked": "Staplad",
+        "serif": "Serif",
+        "bubble": "Bubbla"
+      },
+      "style": "Textningsstil"
     },
     "app": {
       "newDesign": "Ny design",
@@ -10788,7 +11354,11 @@
       "vibrant": "Livfull",
       "cyber": "Cyber",
       "invert": "Invertera",
-      "strength": "Filterstyrka: {{value}}%"
+      "strength": "Filterstyrka: {{value}}%",
+      "fadedFilm": "Blekt film",
+      "technicolor": "Technicolor",
+      "newsreel": "Journalfilm",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "Beskär",
@@ -10869,14 +11439,18 @@
       "pptx": "PowerPoint-presentation",
       "pptxHint": "Varje sida blir en bildslida med presentatörsanteckningar och länkar. Redigera individuell text och element i det ursprungliga designet.",
       "section": "Namngiven sektion",
-      "transparent": "Transparent bakgrund"
+      "transparent": "Transparent bakgrund",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "Laddar ner en ZIP med din tidslinje som FCPXML och Premiere XML plus alla mediefiler, så att du kan slutföra redigeringen i Premiere Pro, Final Cut Pro eller DaVinci Resolve. Text blir markörer; effekter stannar i Riftn."
     },
     "adjust": {
       "auto": "Autoförbättra",
       "autoFailed": "Kunde inte analysera den här bilden.",
       "tint": "Färgton {{value}}",
       "vignette": "Vinjett {{value}} %",
-      "warmth": "Värme {{value}}"
+      "warmth": "Värme {{value}}",
+      "halation": "Halation {{value}} %",
+      "scanlines": "Scanlines {{value}} %"
     },
     "draw": {
       "colour": "Pennfärg",
@@ -10970,7 +11544,45 @@
       "openGenerator": "Granska och generera",
       "working": "Jobbar på det…",
       "stop": "Stoppa",
-      "queue": "Lägg till i kö"
+      "queue": "Lägg till i kö",
+      "stopped": "Stoppad. Inget annat ändrades.",
+      "queued": "{{count}} i kö",
+      "restore": "Återställ hit",
+      "restoreHint": "Återställ projektet till hur det var före det här meddelandet. Ångra tar tillbaka det.",
+      "restored": "Projektet återställdes till före det meddelandet. Tryck på ångra för att få tillbaka den nyare versionen.",
+      "rewrite": "Gör min förfrågan tydligare",
+      "rewriteFailed": "Kunde inte skriva om det. Din text är oförändrad.",
+      "feedback": "Var detta till hjälp?",
+      "good": "Bra svar",
+      "bad": "Dåligt svar",
+      "retryPrefix": "Det blev inte rätt. Gör i stället så här: ",
+      "recipesTitle": "Recept",
+      "recipe": {
+        "podcastClip": {
+          "label": "Podcastklipp",
+          "prompt": "Hitta det starkaste 30-sekundersögonblicket, trimma till det, lägg till Word Pop-textning och gör det 9:16."
+        },
+        "talkingHead": {
+          "label": "Ren talking head",
+          "prompt": "Klipp bort långa pauser, lägg till Classic-textning och ge det en subtil varm look."
+        },
+        "productPromo": {
+          "label": "Produktpromo",
+          "prompt": "Gör en 15-sekunders promo: slagkraftig titel i början, Zoom in-övergångar mellan klippen, Bold-textning och upplyftande musik."
+        },
+        "hypeReel": {
+          "label": "Hype-reel",
+          "prompt": "Klipp klippen i takt med musiken, använd Fly up-övergångar och Technicolor-looken."
+        },
+        "retroEdit": {
+          "label": "Retroredigering",
+          "prompt": "Ge varje klipp VHS-looken, lägg till en stor seriftitel och använd Fade-övergångar."
+        },
+        "tutorial": {
+          "label": "Guide",
+          "prompt": "Lägg till en titel för varje steg, Boxed-textning och sakta ner nyckelögonblicket till 0,5x."
+        }
+      }
     },
     "brand": {
       "addColor": "Lägg till varumärkesfärg",
@@ -10996,7 +11608,10 @@
       "saveNewPreset": "Spara ny",
       "saveStyles": "Spara stilar med design",
       "stylesSaved": "Märkesstilar sparade med detta design",
-      "usePreset": "Använd stilar"
+      "usePreset": "Använd stilar",
+      "dehubApplied": "Riftn-varumärket tillämpat på {{count}} lager.",
+      "dehubApply": "Använd Riftn-varumärket",
+      "dehubHint": "Officiella Riftn-färger, typsnitten Exo och Inter och Riftn-logotypen, med ett klick."
     },
     "templates": {
       "announcement": {
@@ -11109,7 +11724,9 @@
       "exportHint": "Håll redigeraren öppen medan videon renderas.",
       "tooLarge": "Filen är för stor för redigeraren. Gränsen är 400 MB.",
       "tZoomIn": "Zooma in",
-      "tZoomOut": "Zooma ut"
+      "tZoomOut": "Zooma ut",
+      "tFlyUp": "Flyg upp",
+      "tFlyDown": "Flyg ner"
     },
     "motion": {
       "title": "Rörelse",
@@ -12294,21 +12911,142 @@
       "add": "Lägg till",
       "scale": "Storlek",
       "color": "Färg",
-      "light": "Ljust"
+      "light": "Ljust",
+      "create": "Lägg till en 3D-scen",
+      "title": "3D-scen",
+      "hint": "Blocka en tagning med sfärer och lådor. Kamera, placering och tre oberoende ytljus ändrar den renderade bildrutan.",
+      "preview": "Förhandsvisning av renderad scen",
+      "error": "Kunde inte förbereda bildrutan. Kontrollera dina tagningsreferenser och försök igen.",
+      "yaw": "Rotation",
+      "elevation": "Höjd",
+      "distance": "Avstånd",
+      "fov": "Synfält",
+      "object": "Objekt",
+      "sphere": "Sfär",
+      "box": "Låda",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "Ta bort objekt",
+      "intensity": "Intensitet",
+      "diffusion": "Diffusion",
+      "saving": "Förbereder bildruta…",
+      "useFrame": "Använd renderad bildruta som tagningsreferens",
+      "frameHint": "Skapar en PNG på 320 × 180 och lägger till den i den här tagningens referenser. Granska referensgränsen och modellens offert innan du genererar.",
+      "frameName": "Bildruta från scen"
     },
     "clipFix": {
-      "listening": "Lyssnar…"
+      "listening": "Lyssnar…",
+      "detach": "Koppla loss ljud",
+      "detached": "Ljudet flyttades till ett eget klipp",
+      "detachFailed": "Kunde inte koppla loss ljudet från det här klippet",
+      "removeBars": "Ta bort svarta kanter",
+      "scanning": "Kontrollerar bildrutor…",
+      "noBars": "Inga svarta kanter hittades",
+      "barsRemoved": "Svarta kanter beskurna",
+      "barsFailed": "Kunde inte kontrollera den här videon efter svarta kanter",
+      "reframe": "Automatisk omramning",
+      "reframeHint": "Videon passar redan sidans format",
+      "reframed": "Omramad för att följa handlingen",
+      "reframeFailed": "Kunde inte rama om den här videon",
+      "retakes": "Ta bort omtagningar",
+      "noRetakes": "Inga omtagningar hittades",
+      "retakesRemoved": "Tog bort {{count}} omtagning(ar), behöll den sista tagningen",
+      "retakesFailed": "Kunde inte ta bort omtagningar från det här klippet"
     },
     "voiceClone": {
       "stop": "Stoppa inspelning",
-      "failed": "Stimmen klonades inte."
+      "failed": "Stimmen klonades inte.",
+      "pickerLabel": "Klona din röst",
+      "pickerDetail": "Speakerröst med din egen röst",
+      "title": "Klona din röst",
+      "description": "Spela in dig själv eller välj ett klipp där du pratar. Du betalar en gång och din röst är din för varje speakerröst.",
+      "defaultName": "Min röst",
+      "record": "Spela in ett prov (30 sekunder till 2 minuter)",
+      "fromMedia": "Eller använd ett klipp från Media",
+      "recorded": "Din inspelning",
+      "sample": "Prov: {{name}}",
+      "hint": "Tydligt tal utan musik fungerar bäst.",
+      "noMic": "Kunde inte använda mikrofonen.",
+      "sampleFailed": "Kunde inte läsa ljudet från det klippet.",
+      "pay": "Klona för {{amount}} tokens",
+      "useFree": "Klona (redan betald)",
+      "owned": "Din röst ”{{name}}” är redan konfigurerad. Välj den i röstlistan.",
+      "useOwned": "Använd min röst",
+      "ready": "”{{name}}” är redo för speakerröst.",
+      "paidFailed": "Din betalning är sparad. Öppna detta igen så är nästa försök gratis.",
+      "consent": "Klona bara din egen röst, eller en som du har tillstånd att använda."
     },
     "linkImport": {
       "go": "Importera",
-      "downloading": "Laddar ned {{percent}}%"
+      "downloading": "Laddar ned {{percent}}%",
+      "open": "Importera från en länk",
+      "placeholder": "Klistra in en YouTube-, TikTok- eller annan länk",
+      "rights": "Jag äger den här videon eller har tillstånd att använda den",
+      "audioOnly": "Bara ljud",
+      "queued": "I kö…",
+      "waiting": "Väntar på webbplatsen, försöker igen snart…",
+      "adding": "Lägger till i Media…",
+      "added": "Importerad och tillagd på tidslinjen.",
+      "failed": "Kunde inte importera den länken."
     },
     "reverse": {
-      "action": "Vänd"
+      "action": "Vänd",
+      "working": "Spelar baklänges {{percent}} %",
+      "done": "Klippet spelas baklänges.",
+      "failed": "Kunde inte spela det här klippet baklänges.",
+      "unsupported": "Den här webbläsaren kan inte spela video baklänges. Prova Chrome eller Edge.",
+      "tooLong": "Klipp på upp till {{seconds}} sekunder kan spelas baklänges."
+    },
+    "film": {
+      "repairRefs": "Ta bort saknade medialänkar",
+      "title": "Filmprojekt",
+      "intro": "Planera tagningar med återanvändbara bildreferenser. Din brief, tagningsordning och valda resultat sparas med projektet.",
+      "create": "Skapa filmplan",
+      "name": "Filmnamn",
+      "brief": "Filmbrief",
+      "sharedReferences": "Gemensamma bildreferenser (upp till 4)",
+      "shot": "Tagning",
+      "addShot": "Lägg till tagning",
+      "shotName": "Tagningsnamn",
+      "action": "Tagningens handling och komposition",
+      "seconds": "Begärda videosekunder",
+      "shotReferences": "Extra bildreferenser (sammanlagd gräns 4)",
+      "frame": "Förbered bildruta",
+      "video": "Förbered video",
+      "review": "Granska modell, referenser, videolängd och pris i studion innan du genererar.",
+      "result": "Godkänt tagningsresultat",
+      "noResult": "Inget resultat valt",
+      "resultHint": "Välj en godkänd bild eller video från Uppladdningar. Dess länk sparas med tagningen; använd tidslinjen för att sätta ihop filmen.",
+      "earlier": "Flytta tidigare",
+      "later": "Flytta senare",
+      "remove": "Ta bort tagning",
+      "issue": "Kontrollera tagningsbeskrivningen och referensmedia och försök sedan igen. Håll projektet öppet om det inte kunde sparas.",
+      "searchMedia": "Hitta media efter namn",
+      "refreshMedia": "Uppdatera media"
+    },
+    "speakers": {
+      "find": "Hitta talare",
+      "name": "Talare {{number}}",
+      "onlyOne": "Bara en talare hittades.",
+      "failed": "Kunde inte hitta talarna.",
+      "kept": "Behöll bara {{name}}.",
+      "editFailed": "Den redigeringen passade inte det här klippet.",
+      "split": "Delad i {{count}} talartagningar.",
+      "keepOnly": "Behåll bara",
+      "splitAction": "Klipp vid varje talarbyte"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Beskriv 3D-objektet du vill ha",
+      "queued": "Bygger ditt 3D-objekt. Det hamnar under fliken Genereringar.",
+      "note": "3D-objekt kommer in i Media som ett kort roterande klipp med genomskinlig bakgrund."
+    },
+    "behind": {
+      "action": "Text bakom person",
+      "working": "Klipper ut personen…",
+      "done": "Text och textning ligger nu bakom personen.",
+      "failed": "Kunde inte lägga text bakom personen."
     }
   },
   "creator": {
@@ -12773,7 +13511,47 @@
     "referenceComposeHint": "Förena karaktärer, objekt och miljöer från flera bilder till en sammansättning",
     "marketing": {
       "import": {
-        "use": "Använd dessa uppgifter"
+        "use": "Använd dessa uppgifter",
+        "url": "URL till produktsida",
+        "action": "Läs produktsida",
+        "loading": "Läser sidan…",
+        "hint": "Importera text från en offentlig produktsida. Granska uppgifterna innan du använder dem; bifoga produktbilder separat i studion.",
+        "source": "Importerad källa",
+        "review": "Välj en produkt att kopiera till din redigerbara brief. Din rubrik, röst och dina varumärkesfärger förblir oförändrade.",
+        "errors": {
+          "signIn": "Logga in för att importera en produktsida.",
+          "url": "Använd en offentlig HTTPS-produkt-URL.",
+          "empty": "Inga användbara produktuppgifter hittades. Lägg till dem manuellt.",
+          "busy": "För många importer pågår. Försök igen om en stund.",
+          "unavailable": "Den här sidan kunde inte importeras. Lägg till produktuppgifterna manuellt.",
+          "failed": "Importen misslyckades. Din brief är sparad; försök igen eller ange uppgifterna manuellt."
+        }
+      },
+      "title": "Kampanjbrief",
+      "intro": "Beskriv din produkt och ditt varumärke och förbered sedan matchande annonsformat.",
+      "saved": "Din brief är sparad på den här enheten för det här kontot.",
+      "preview": "Förbered format",
+      "clear": "Rensa brief",
+      "required": "Lägg till ett produktnamn och en beskrivning för att förbereda format.",
+      "variants": "Kampanjformat",
+      "reviewHint": "Granska modell, pris och produktreferens i studion innan du genererar. Varje format är en separat generering.",
+      "open": "Granska i studion",
+      "fields": {
+        "product": "Produktnamn (obligatoriskt)",
+        "description": "Produktfakta (obligatoriskt)",
+        "brand": "Varumärkesnamn",
+        "audience": "Målgrupp",
+        "benefit": "Huvudsaklig fördel",
+        "voice": "Varumärkesröst",
+        "palette": "Varumärkesfärger",
+        "headline": "Godkänd rubrik",
+        "cta": "Uppmaning"
+      },
+      "formats": {
+        "square": "Kvadratisk annons",
+        "portrait": "Porträttannons",
+        "story": "Story-bild",
+        "video": "Vertikal video"
       }
     },
     "batchCount": "Bilder",
@@ -12781,7 +13559,109 @@
     "cinema": {
       "close": "Stäng",
       "performance": {
-        "label": "Prestanda"
+        "label": "Prestanda",
+        "0": "Glad",
+        "1": "Melankolisk",
+        "2": "Ängslig",
+        "3": "Självsäker",
+        "4": "Häpen",
+        "5": "Återhållsam",
+        "6": "Lekfull"
+      },
+      "title": "Filmisk regi",
+      "hint": "Styr den visuella stilen för din nästa bild eller video. Resultaten varierar mellan modeller.",
+      "none": "Ingen regi",
+      "reset": "Rensa regi",
+      "camera": {
+        "label": "Kamerautseende",
+        "0": "Digital film",
+        "1": "35 mm film",
+        "2": "16 mm film",
+        "3": "Storformat",
+        "4": "Vintage-videokamera"
+      },
+      "lens": {
+        "label": "Objektivutseende",
+        "0": "Sfäriskt",
+        "1": "Anamorfiskt",
+        "2": "Mjukt vintageglas",
+        "3": "Makro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Brännvidd",
+        "0": "18 mm vidvinkel",
+        "1": "24 mm vidvinkel",
+        "2": "35 mm naturlig",
+        "3": "50 mm standard",
+        "4": "85 mm porträtt",
+        "5": "135 mm tele"
+      },
+      "aperture": {
+        "label": "Skärpedjup",
+        "0": "f/1.4 mycket grunt",
+        "1": "f/2.8 grunt",
+        "2": "f/5.6 måttligt",
+        "3": "f/11 djup skärpa"
+      },
+      "movement": {
+        "label": "Kamerarörelse",
+        "0": "Låst stativ",
+        "1": "Långsam dolly in",
+        "2": "Långsam dolly ut",
+        "3": "Sidledes åkning",
+        "4": "Kretsa runt motivet",
+        "5": "Handhållen",
+        "6": "Kranlyft",
+        "7": "Långsam panorering"
+      },
+      "lighting": {
+        "label": "Ljussättning",
+        "0": "Mjukt dagsljus",
+        "1": "Gyllene timmen",
+        "2": "Lågnyckel chiaroscuro",
+        "3": "Högnyckel studio",
+        "4": "Neonljus i bild",
+        "5": "Silhuett i motljus",
+        "6": "Mulet och diffust"
+      },
+      "tempo": {
+        "label": "Tagningstempo",
+        "0": "En enda sammanhängande tagning",
+        "1": "Lugn, avspänd handling",
+        "2": "Dynamisk, energisk handling",
+        "3": "Kaotisk, frenetisk handling"
+      },
+      "era": {
+        "label": "Era",
+        "0": "1920-tal",
+        "1": "1950-tal",
+        "2": "1960-tal",
+        "3": "1970-tal",
+        "4": "1980-tal",
+        "5": "1990-tal",
+        "6": "Nutid",
+        "7": "Nära framtid"
+      },
+      "genre": {
+        "label": "Genre",
+        "0": "Dokumentär",
+        "1": "Drama",
+        "2": "Film noir",
+        "3": "Science fiction",
+        "4": "Fantasy",
+        "5": "Romantisk komedi",
+        "6": "Thriller",
+        "7": "Western"
+      },
+      "palette": {
+        "label": "Färgpalett",
+        "0": "Varm bärnsten",
+        "1": "Kall blå",
+        "2": "Dämpade jordtoner",
+        "3": "Pastell",
+        "4": "Monokrom med hög kontrast",
+        "5": "Mättade primärfärger"
       }
     },
     "audioNoSpeech": "Inga tal hittades i den inspelningen.",
@@ -12801,9 +13681,139 @@
     "gallery": {
       "send": "Skicka",
       "notifications": {
-        "generation_reply": "{{name}} svarade på din kommentar"
+        "generation_reply": "{{name}} svarade på din kommentar",
+        "generation_like": "{{name}} reagerade på din generering",
+        "generation_comment_like": "{{name}} reagerade på din kommentar",
+        "generation_comment": "{{name}} kommenterade din generering"
+      },
+      "browse": "Bläddra bland genereringar",
+      "empty": "Inga skapelser än",
+      "fullscreen": "Visa i helskärm",
+      "missing": "Den här genereringen är inte tillgänglig."
+    },
+    "layerNewAttempt": "Granska ett nytt försök",
+    "layerTitle": "Separera bildlager",
+    "layerPngRequired": "Välj en sparad PNG-bild, högst 12 MiB och fyra megapixlar.",
+    "layerSource": "Originalbild",
+    "layerDescription": "Fyra transparenta PNG-lager. Text förblir en del av varje bild.",
+    "layerSeparate": "Separera lager",
+    "layerPending": "Sparat jobb: {{status}}. Hämta eller försök spara igen utan ny betalning.",
+    "layerCollect": "Hämta / försök spara igen",
+    "layerOpen": "Öppna lager i redigeraren",
+    "layerExport": "Exportera PNG-lager + manifest-ZIP",
+    "layerNumber": "Lager {{number}}",
+    "priceRetry": "Priset kunde inte bekräftas. Granska priset och försök igen.",
+    "avatarTitle": "Talande porträtt",
+    "avatarRequirements": "Kvadratiskt PNG-porträtt, 512–2048 pixlar, upp till 5 MB. Mono 24 kHz 16-bitars PCM WAV, 5–30 sekunder. Den sista bråkdelen av en sekund fylls ut med tystnad.",
+    "avatarPortrait": "Välj porträtt-PNG",
+    "avatarAudio": "Välj tal-WAV",
+    "avatarPermission": "Jag har tillstånd att animera det här porträttet och använda det här ljudet.",
+    "avatarQuote": "{{seconds}} sekunder inklusive tystnad · {{amount}} tokens",
+    "avatarPrepare": "Förbered och granska pris",
+    "batchFlowLimit": "Flow-listan är full. Ta bort ett oanvänt Flow innan du skapar en ny batch.",
+    "batchReviewCampaign": "Granska kampanjbatch i Flow",
+    "batchReviewFilmImages": "Granska batch med storyboardbilder",
+    "batchReviewFilmVideos": "Granska batch med filmklipp",
+    "batchReviewHint": "Öppnar ett separat sparat Flow. Granska varje objekt och hela priset innan du betalar. Färdiga objekt och den ursprungliga betalningen behålls för återställning. Referenser kopieras till ditt privata bibliotek; lagring och nätverksanvändning tillkommer.",
+    "batchInvalid": "Fyll i varje objekt innan du förbereder en batch med 1–12 bilder eller klipp.",
+    "batchReferenceLimit": "Den här batchen stöder en bildreferens per objekt. Ta bort extra referenser eller förbered objektet separat.",
+    "batchVideoSettings": "För den här batchen krävs att klippen har en hel längd på 4–15 sekunder och bildförhållandet 16:9, 9:16 eller 1:1.",
+    "batchMissingReference": "En referens saknas, stöds inte eller är större än 25 MB. Återställ den i redigeraren innan du förbereder batchen.",
+    "batchOwnerChanged": "Kontot eller utkastet ändrades. Öppna batchen igen under dess ursprungliga konto.",
+    "batchConflict": "Den sparade batchen matchar inte sin ursprungliga ögonblicksbild.",
+    "campaignPlanTitle": "Kampanjvarianter och avsnitt",
+    "campaignPlanIntro": "Spara upp till 12 varianter eller avsnitt. Var och en öppnar studion för egen granskning och offert. Gemensamma anteckningar styr kontinuiteten; produktens utseende, karaktärer och röster kan variera mellan genereringar.",
+    "campaignTitle": "Kampanj- eller serienamn",
+    "campaignContinuity": "Gemensamma anteckningar om karaktär, röst och stil",
+    "campaignVariantTitle": "Variant- eller avsnittsnamn",
+    "campaignHook": "Inledande hook",
+    "campaignLanguage": "Utdataspråk",
+    "campaignScript": "Godkänt manus eller scenföljd",
+    "campaignAdd": "Lägg till variant eller avsnitt",
+    "campaignClear": "Rensa plan",
+    "campaignFormat": "Utdataformat",
+    "audioExportFormat": "Exportformat",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Bifoga ett källklipp att förlänga.",
+    "extensionSeconds": "+{{seconds}} s nytt material",
+    "extensionHelp": "Returnerar ditt källklipp med ungefär fyra nya sekunder. Utdata skalas upp till 720p i 24 fps. Nytt ljud genereras för förlängningen.",
+    "extensionForward": "Lägg till ungefär fyra sekunder efter ditt källklipp",
+    "extensionBackward": "Lägg till ungefär fyra sekunder före ditt källklipp",
+    "expandDescription": "Generera nya bildkanter. Valfri engelsk prompt; en källbild.",
+    "relightDescription": "Ljussätt om ett foto utifrån din beskrivning av ljus och bakgrund.",
+    "expandPromptHint": "Bifoga en bild och välj dess nya bildförhållande. Engelsk prompt valfri.",
+    "expandEnglishOnly": "Den här expansionsmodellen accepterar engelska promptar. Lämna prompten tom för automatisk expansion.",
+    "expandNeedsImage": "Bifoga en bild att expandera.",
+    "learn": {
+      "title": "Creator-lektioner",
+      "intro": "Korta lektioner, ett kunskapstest och en redigerbar övning för varje. Framstegen sparas på den här enheten för ditt konto.",
+      "back": "Tillbaka till Creator",
+      "lessons": "Lektioner",
+      "progress": "{{completed}} av {{total}} kunskapstest godkända",
+      "check": "Kontrollera svar",
+      "correct": "Kunskapstestet godkänt",
+      "retry": "Försök igen. Gå igenom lektionen ovan.",
+      "exerciseTitle": "Praktisk övning",
+      "exerciseHint": "Öppna ett redigerbart exempel i din egen studioarbetsyta. Att öppna ett utkast är gratis; generering kräver din granskning och en egen offert. Redigera exemplet innan du genererar.",
+      "openExercise": "Öppna övningsutkast",
+      "closeExercise": "Stäng övning",
+      "brief": {
+        "title": "Skriv en tydlig visuell brief",
+        "body1": "Beskriv ett konkret motiv, dess handling och miljön. Lägg till bildutsnitt eller kamerarörelse när det hjälper scenen. Spara orelaterade idéer till ett annat utkast.",
+        "body2": "Anvisningar om ljus, objektiv och stil vägleder modellen. De garanterar inte fysiskt kamerabeteende eller en exakt bild. Ändra en del i taget så att du kan jämföra versioner.",
+        "body3": "Innan du genererar, granska vald modell, bilagor som stöds, dimensioner och pris. Behåll originalutkastet så att du kan gå tillbaka till det.",
+        "question": "Vilken brief är lättast att revidera?",
+        "answer0": "Ett tydligt motiv, handling och miljö",
+        "answer1": "Bara ett modellnamn",
+        "answer2": "En lista med motstridiga stilar",
+        "exercise": "En keramisk tekanna på ett träbord bredvid ett fönster. Mjukt morgonljus, halvbild, enkel bakgrund. Behåll tekannan som det tydliga motivet."
+      },
+      "continuity": {
+        "title": "Planera tagningar och granska kontinuitet",
+        "body1": "Använd Film-panelen i redigeraren för att spara en brief och ordnade tagningar. Förbered varje bildruta eller klipp separat, granska dess offert och välj ett godkänt resultat.",
+        "body2": "Bifoga bara referenser som din valda modell accepterar. Att återanvända en referens kan styra utseendet; det tränar inte en identitet eller garanterar en matchning. Karaktärer och röster kan variera mellan genereringar.",
+        "body3": "Behåll lyckade tagningar och sätt ihop dem på tidslinjen. Granska rörelser, ansikten, dialog och övergångar före export.",
+        "question": "Vad stöder kontinuitet mellan tagningar?",
+        "answer0": "Fler orelaterade promptar",
+        "answer1": "Godkända referenser och granskade tagningsanteckningar",
+        "answer2": "Att anta att karaktärsidentiteten är garanterad",
+        "exercise": "Vidvinkelbild av en ensam resenär som når en stilla kust i soluppgången. Långsam kamerarörelse framåt, lugn stämning. En sammanhängande tagning."
+      },
+      "campaign": {
+        "title": "Använd godkända produktfakta",
+        "body1": "Börja med produktfakta som du kan verifiera. Granska importerad metadata innan du använder den. Skriv rubriken och uppmaningen tydligt; hitta inte på priser, recensioner eller prestandapåståenden.",
+        "body2": "Använd sparade kampanjvarianter för att hålla ihop gemensamma anteckningar och individuella hooks, manus, språk och format. Förbered ett granskat objekt i taget och kontrollera dess offert i studion.",
+        "body3": "Granska synlig text, produktens utseende och eventuella talade påståenden i resultatet. En prompt är inget bevis på produktens riktighet eller marknadsföringens effekt.",
+        "question": "När ska ett produktpåstående tas med?",
+        "answer0": "När det låter övertygande",
+        "answer1": "Efter att ha hittat på en femstjärnig recension",
+        "answer2": "När det kommer från godkända produktfakta",
+        "exercise": "Skapa en porträttannons för helbladste som säljs i en återanvändbar burk. Godkänd rubrik: Ta dig tid för te. Godkänd CTA: Utforska kollektionen. Använd bara dessa fakta; hitta inte på rabatter, recensioner eller hälsopåståenden."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "Den här chatten spelar upp den privata inspelningen som sparats på den här enheten. Öppna ditt Creator-bibliotek när molnsparningen är klar för att lyssna på en annan enhet. Om du lämnar nu, öppna chatten igen för att slutföra sparningen.",
+    "batchPaymentHelp": "Varje skickad bild debiteras separat. Om en batch stoppas återanvänds oanvända tokens från dess betalning automatiskt för en senare generering som den täcker.",
+    "endFrameHelp": "Lägg till en startbild med bifoga-knappen.",
+    "seed": "Seed (valfritt, 0–2147483647)",
+    "negativePrompt": "Negativ prompt (valfritt)",
+    "invalidSeed": "Seed måste vara ett heltal från 0 till 2147483647.",
+    "endFrameNeedsStart": "Bifoga en startbild innan du väljer en slutbild.",
+    "batchStopped": "Batchen stoppades efter {{submitted}} av {{quantity}} inskickningar. {{remaining}} skickades inte. Färdiga bilder har sparats.",
+    "audioInvalidTask": "Välj en ljuduppgift som stöds.",
+    "audioNeedsFile": "Bifoga först en ljud- eller videofil som stöds.",
+    "audioTextLimit": "Tal och dialog tillåter 1–5000 tecken; ljudeffekter tillåter 1–1000.",
+    "audioDurationLimit": "Ljudets längd måste vara Auto (0) eller 0,5–30 sekunder.",
+    "audioModels": "Andra ljudmodeller",
+    "audioAttach": "Bifoga inspelning",
+    "audioAttachFailed": "Kunde inte bifoga inspelningen.",
+    "audioSeconds": "Sekunder (0 = Auto)",
+    "audioInvalidResponse": "Ljudtjänsten returnerade ett ogiltigt resultat.",
+    "audioResultTooLarge": "Ljudresultatet är tomt eller överskrider 50 MB.",
+    "audioFailed": "Kunde inte bearbeta ljudet.",
+    "libraryFavorites": "Favoriter",
+    "libraryFavoriteAdd": "Lägg till i favoriter",
+    "libraryFavoriteRemove": "Ta bort från favoriter"
   },
   "fractions": {
     "title": "Fraktioner",
@@ -12945,7 +13955,8 @@
     "offerSubmitted_other": "Erbjudande inskickat för {{count}} fraktioner till {{price}} tokens vardera",
     "yourOfferLabel": "Din Erbjudande (tokens per Fraktion)",
     "listedToast_one": "Listade {{count}} fraktion till {{price}} tokens vardera",
-    "listedToast_other": "Listade {{count}} fraktioner till {{price}} tokens vardera"
+    "listedToast_other": "Listade {{count}} fraktioner till {{price}} tokens vardera",
+    "nftsSubtitle": "Vilken NFT som helst, byten i ett steg"
   },
   "moderation": {
     "appealDuplicate": "Du har redan överklagat detta",
@@ -13045,7 +14056,11 @@
     "ended": "Avslutad",
     "stage": "Scen",
     "upcomingStage": "Kommande scen",
-    "members": "{{compact}} medlemmar"
+    "members": "{{compact}} medlemmar",
+    "requestComments_one": "{{compact}} kommentar",
+    "requestComments_other": "{{compact}} kommentarer",
+    "requestVotes_one": "{{compact}} röst",
+    "requestVotes_other": "{{compact}} röster"
   },
   "report": {
     "whyVideo": "Varför anmäler du den här videon?",
@@ -14302,7 +15317,14 @@
     "faqWhatA": "Via MCP kan den bläddra bland offentliga Riftn-inlägg, söka efter ämnen och slå upp kreatörsprofiler. Den postar inte åt dig.",
     "faqAccountQ": "Behöver jag ett Riftn-konto?",
     "chatgptFaqAccount": "Ingen konto krävs för att läsa offentligt innehåll via anslutningen. Ett Riftn-konto behövs endast om du vill posta, ge dricks eller hålla Riftn-tokens.",
-    "claudeFaqAccount": "Nej. Att läsa offentligt innehåll fungerar utan konto. Du behöver bara ett Riftn-konto för att posta, ge dricks eller hålla Riftn-tokens."
+    "claudeFaqAccount": "Nej. Att läsa offentligt innehåll fungerar utan konto. Du behöver bara ett Riftn-konto för att posta, ge dricks eller hålla Riftn-tokens.",
+    "subtitleAccount": "Använd Riftn från ChatGPT, Claude eller vilken MCP-app som helst. Bläddra utan konto, eller logga in för att spara privata utkast, publicera och schemalägga inlägg, hantera bilder och omröstningar, läsa statistik, svara och följa.",
+    "agentsTitle": "Kör dina agenter från din assistent",
+    "agentsBody": "När du ansluter, tillåt även \"Agera som dina agenter\". Din assistent kan då publicera, svara, reagera, reposta, följa eller redigera en profil som vilken agent du äger som helst. Den kan aldrig agera som ett konto du inte äger.",
+    "keysTitle": "Personliga nycklar",
+    "keysBody": "För skript, bottar och appar som inte kan öppna en inloggningssida. En nyckel gör bara det du tillåter och slutar fungera efter 30 dagar utan användning.",
+    "keysMake": "Skapa en personlig nyckel",
+    "manageLinked": "Hantera länkade appar och nycklar"
   },
   "credits": {
     "percentUsed": "{{percent}}% används",
@@ -14402,7 +15424,10 @@
       "title": "Betal {{name}}?",
       "body": "tokens:n går direkt till appens plånbok, {{wallet}}. Betalningar kan inte återkallas.",
       "confirm": "Betal {{amount}} tokens",
-      "sent": "Betalat {{amount}} tokens till {{name}}."
+      "sent": "Betalat {{amount}} tokens till {{name}}.",
+      "testBadge": "Testläge",
+      "testBody": "Du äger den här appen, så detta är ett test: inga tokens flyttas och kvittot märks som test.",
+      "testSent": "Testbetalning på {{amount}} tokens. Inget skickades."
     },
     "add": {
       "title": "Lägg till {{name}}?",
@@ -14516,7 +15541,16 @@
     "level": "Nivå {{level}}",
     "streak_one": "{{count}}-veckor",
     "streak_other": "{{count}}-veckor",
-    "tipJar": "Presentburk"
+    "tipJar": "Presentburk",
+    "eyebrow": {
+      "follow": "Ny följare",
+      "subscribe": "Ny prenumerant",
+      "subscribedTo": "Prenumererar · {{plan}}",
+      "gifted_one": "Gav bort en prenumeration",
+      "gifted_other": "Gav bort {{count}} prenumerationer",
+      "share": "Delade streamen",
+      "join": "Gick precis med"
+    }
   },
   "liveStudio": {
     "controls": {
@@ -14883,8 +15917,20 @@
         "off": "Av",
         "idle": "Klar",
         "live": "Liv",
-        "error": "Fel"
-      }
+        "error": "Fel",
+        "connecting": "Ansluter"
+      },
+      "title": "Multistream-destinationer",
+      "intro": "Gå live på Riftn en gång så skickar vi din stream till alla plattformar som är påslagna här, gratis. Det startar inom några sekunder efter att du gått live.",
+      "add": "Lägg till destination",
+      "empty": "Inga destinationer än. Lägg till Twitch, YouTube, Kick eller valfri RTMP-server.",
+      "server": "Server-URL",
+      "findKey": "Hitta din server och nyckel för {{name}}",
+      "customHint": "Klistra in RTMP-servern och nyckeln som din plattform ger dig.",
+      "keyNote": "Din nyckel lagras krypterad på våra servrar och visas aldrig igen.",
+      "added": "{{name}} har lagts till",
+      "saveFailed": "Kunde inte spara destinationen",
+      "toggle": "Streama till den här destinationen"
     }
   },
   "liveChatModeration": {
@@ -15053,7 +16099,55 @@
     "endPrice": "Lägsta pris, uppnått vid slutet ({{symbol}})",
     "dropBadge": "Prisnedgång",
     "days_one": "{{count}} dag",
-    "days_other": "{{count}} dagar"
+    "days_other": "{{count}} dagar",
+    "actCollectionOffer": "Samlingsbud",
+    "actListed": "Listad",
+    "actSale": "Försäljning",
+    "buyAll": "Köp alla",
+    "buySeveral": "Köp flera",
+    "cartBought": "Köpte {{n}}. De finns i din plånbok nu.",
+    "cartCount": "{{n}} i varukorgen",
+    "cartFull": "Upp till 20 åt gången",
+    "cartOneCoin": "En kedja och ett mynt per varukorg. Töm den för att byta.",
+    "cartOwn": "Den är din",
+    "cartPick": "Tryck för att lägga i varukorgen",
+    "forSaleHere": "Till salu här",
+    "noActivity": "Inget här än",
+    "shareMessage": "Köp och sälj NFT:er på Riftn",
+    "loadFailed": "Kunde inte ladda marknaden. Dra för att försöka igen.",
+    "signInTitle": "Logga in för att se dina NFT:er",
+    "walletOn": "NFT:er i din plånbok på {{chain}}",
+    "listedAt": "Listad",
+    "noneHeld": "Inga NFT:er i den här plånboken än",
+    "title": "NFT:er",
+    "subtitle": "Köp och sälj på BNB, Base, Ethereum och Robinhood",
+    "startHint": "Lista en NFT från Dina för att bli först.",
+    "wrongChain": "Byt din plånbok till {{chain}} för att handla med detta",
+    "failed": "Det gick inte igenom. Försök igen.",
+    "bought": "Den är din",
+    "cancelledOrder": "Avbruten på kedjan",
+    "notEnough": "Inte tillräckligt med {{symbol}} i din plånbok",
+    "offerSent": "Bud skickat",
+    "cancelListing": "Avbryt listning",
+    "buyConfirm": "Köpa {{name}}?",
+    "volShort": "Vol",
+    "salesCount": "{{n}} sålda",
+    "bestOffer": "Bästa bud",
+    "fromOpenSea": "Toppsamlingar på OpenSea",
+    "buyHere": "Köp dem här",
+    "openSeaNote": "Listad på OpenSea. Du betalar säljaren direkt på Seaport; Riftn tar ingen avgift.",
+    "notListed": "Inte till salu just nu.",
+    "priceLabel": "Pris som köparen betalar",
+    "offerLabel": "Ditt bud",
+    "list": "Lista den",
+    "listHint": "Att signera är gratis. Den första försäljningen från en samling ber dig godkänna den en gång.",
+    "offerHint": "Att signera är gratis. Dina tokens stannar i din plånbok tills innehavaren accepterar.",
+    "viewOnly": "Köp och försäljning av NFT:er är inte tillgängligt i den här appen.",
+    "tradeOnWeb": "Handla på riftn.com",
+    "feesFootnote": "Avgifter: 2 %, eller 1 % när du betalar med tokens. Varje affär är ett byte på kedjan.",
+    "floor": "Golv",
+    "shortTitle": "NFT:er",
+    "bundleBadge": "Paket ×{{n}}"
   },
   "riftnMove": {
     "title": "DeHub heter nu Riftn",
@@ -15084,7 +16178,11 @@
     "loading": "Laddar…",
     "paused": "Pausad",
     "preview": "Förhandsvisning",
-    "seek": "Sök"
+    "seek": "Sök",
+    "popOut": "Lossa",
+    "backInPost": "Spela här i stället",
+    "inCorner": "Spelas i hörnet",
+    "tapToStartApp": "Tryck på spela i Spotify-spelaren"
   },
   "twoFactor": {
     "wrongCode": "Den koden stämde inte. Prova den senaste i din app.",
@@ -15166,15 +16264,47 @@
   "chatTextSize": {
     "title": "Textstorlek",
     "default": "Standard",
-    "larger": "Större"
+    "larger": "Större",
+    "small": "Liten",
+    "large": "Stor",
+    "largest": "Störst"
   },
   "remix": {
-    "cut": "Klipp ut"
+    "cut": "Klipp ut",
+    "title": "Remix",
+    "greenScreen": "Green screen",
+    "collab": "Collab",
+    "sound": "Använd ljud",
+    "unavailable": "Den här videon är inte tillgänglig för remix.",
+    "openFailed": "Remixen kunde inte öppnas. Kontrollera din anslutning och kamerabehörigheter och försök igen.",
+    "tooLarge": "Inspelningen är för stor. Spela in en kortare tagning.",
+    "invalidRecording": "Inspelningen kunde inte läsas. Spela in en ny tagning.",
+    "saveFailed": "Remixen kunde inte sparas. Försök igen.",
+    "startHint": "Förhandsgranska din kamera över den här videon och spela sedan in din remix. Om du lämnar skärmen stängs kameran av.",
+    "openCamera": "Öppna kameran"
   },
   "signedFollows": {
     "setUp": "Aktivera",
     "turnOff": "Stäng av",
-    "efpTurnOff": "Stoppa"
+    "efpTurnOff": "Stoppa",
+    "title": "Dina följningar, på kedjan",
+    "description": "Din plånbok signerar vilka du följer, och varje dag stämplas listan på Base. Vilken app som helst kan hitta dina följningar via din plånbok, även utan Riftn.",
+    "on": "På för den här enheten",
+    "off": "Av för den här enheten",
+    "turnedOn": "Dina följningar signeras nu av din plånbok",
+    "turnedOff": "Avstängt för den här enheten",
+    "failed": "Din plånbok signerade inte. Försök igen.",
+    "hiddenNote": "Dolda följlistor och privata konton utesluts från den offentliga listan.",
+    "efpOn": "Kopierat till EFP · {{count}} följningar",
+    "efpOff": "Lägg dem också på EFP",
+    "efpTurnOn": "Lägg till i EFP",
+    "efpDone": "Dina följningar läggs in på EFP",
+    "efpStopped": "EFP-kopieringen stoppades. Listan är fortfarande din.",
+    "efpHasList": "Du har redan en EFP-lista. Riftn kan inte fylla den än.",
+    "efpNoGas": "Din plånbok behöver lite ETH på Base för detta.",
+    "efpFailed": "Det gick inte igenom. Försök igen.",
+    "efpNote": "EFP är en följlista som andra appar läser (efp.app). Gratis med din Riftn-plånbok; andra plånböcker betalar några ören på Base. Listan är din.",
+    "efpUseWeb": "Med din egen plånbok gör du detta under Inställningar på riftn.com."
   },
   "studioDeck": {
     "remove": "Ta bort",
@@ -15183,31 +16313,95 @@
       "modes": {
         "none": "Av",
         "blur": "Oskärpa",
-        "color": "Färg"
-      }
+        "color": "Färg",
+        "image": "Bild"
+      },
+      "failed": "Bakgrundsborttagning kunde inte starta på den här enheten.",
+      "hint": "Körs på din enhet. Första gången tar det några sekunder att ladda."
     },
     "scenes": {
       "countdown": "Nedräkning",
       "names": {
-        "starting": "Börjar snart"
+        "starting": "Börjar snart",
+        "chatting": "Bara snack",
+        "brb": "Strax tillbaka",
+        "ending": "Streamen avslutas"
+      },
+      "title": "Scener",
+      "picture": "Bild",
+      "noCountdown": "Ingen nedräkning",
+      "minutes": "{{count}} min",
+      "hints": {
+        "starting": "Kort med nedräkning",
+        "chatting": "Kamera i helskärm",
+        "brb": "Kort, mikrofon avstängd",
+        "ending": "Tackkort"
+      },
+      "subtitles": {
+        "starting": "Streamen börjar om",
+        "brb": "Tillbaka om en stund",
+        "ending": "Tack för att du tittade"
       }
     },
     "widgets": {
-      "tab": "Widgetar"
+      "tab": "Widgetar",
+      "title": "Visa widgets i min video",
+      "hint": "Aviseringar, målstaplar och chatt ritas in i din stream, så tittare på Twitch, YouTube och alla andra plattformar ser dem också.",
+      "failed": "Kunde inte ändra var dina widgets visas. Försök igen."
     },
     "sources": {
       "image": "Bild",
       "show": "Visa i strömmen",
       "positions": {
-        "center": "Centrera"
+        "center": "Centrera",
+        "top-left": "Uppe till vänster",
+        "top-right": "Uppe till höger",
+        "bottom-left": "Nere till vänster",
+        "bottom-right": "Nere till höger"
+      },
+      "title": "Källor",
+      "addImage": "Bild eller logotyp",
+      "failed": "Kunde inte lägga till den källan.",
+      "hint": "Källor ritas över din bild för alla tittare och alla plattformar.",
+      "sizes": {
+        "small": "Liten",
+        "medium": "Mellan",
+        "large": "Stor"
       }
+    },
+    "phone": {
+      "title": "Studio"
     }
   },
   "whenSheet": {
     "today": "Idag",
     "tooSoon": "Välj en tid i framtiden.",
     "show": "Visa",
-    "hide": "Dölj"
+    "hide": "Dölj",
+    "title": "När?",
+    "tonight": "I kväll",
+    "inAnHour": "Om en timme",
+    "tomorrow": "I morgon",
+    "primeTime": "Bästa sändningstid",
+    "scheduleFor": "Schemalägg till {{when}}",
+    "liveTip": "Dina följare kan ställa in en påminnelse. Du startar själv din Live när det är dags.",
+    "stageTip": "Den hamnar direkt på hyllan Kommande, så att folk kan trycka på Påminn mig.",
+    "typePlaceholder": "Skriv en tid, som ”fre 20:00” eller ”om 2 timmar”",
+    "typeLabel": "Skriv en tid",
+    "typeHelp": "Prova ”i kväll”, ”i morgon 9:00”, ”lör 12:00” eller ”30 okt 19:00”.",
+    "orPickDay": "Eller välj en dag",
+    "earlier": "15 minuter tidigare",
+    "later": "15 minuter senare",
+    "earlierShort": "Tidigare",
+    "laterShort": "Senare",
+    "tooSoonMin": "Välj en tid minst {{count}} minuter från nu.",
+    "zone": "Din tid ({{zone}}). Alla andra ser den i sin egen tid.",
+    "remove": "Ta bort schema",
+    "startsIn": "Börjar om {{time}}",
+    "bestTime": "Bästa tid",
+    "fansOnline": "När är mina fans online?",
+    "fansBasis": "Ljusare betyder att fler av dina följare tittade, senaste {{count}} dagarna.",
+    "everyoneBasis": "Inte tillräckligt med följaraktivitet än, så detta gäller alla på Riftn."
   },
   "planned": {
     "title": "Planerad",
@@ -15222,22 +16416,45 @@
     "loading": "Laddar…",
     "startNow": "Börja nu",
     "cancel": "Avbryt",
-    "cancelled": "Avbruten"
+    "cancelled": "Avbruten",
+    "subtitle": "Inlägg, Lives och Stages som du har schemalagt",
+    "seoTitle": "Planerat · Riftn",
+    "seoDescription": "Dina schemalagda inlägg, Lives och Stages på Riftn, samlade på ett ställe.",
+    "lives": "Lives",
+    "signIn": "Logga in för att se vad du har planerat",
+    "emptyTitle": "Inget planerat än",
+    "emptyBody": "Välj ”När?” när du skapar ett inlägg, en Live eller en Stage så visas det här.",
+    "move": "Flytta",
+    "postNow": "Publicera nu",
+    "confirmCancel": "Tryck igen för att avbryta",
+    "moved": "Flyttat till {{when}}",
+    "postingNow": "Publiceras inom en minut",
+    "moveFailed": "Kunde inte flytta det. Försök igen.",
+    "seeAll": "Se allt du har planerat"
   },
   "welcome": {
     "about": {
       "title": "Välkommen till Riftn",
       "day": "Dag",
       "month": "Månad",
-      "year": "År"
+      "year": "År",
+      "sub": "Din födelsedag förblir privat. Välj ett utseende, du kan ändra det när som helst.",
+      "birthday": "Födelsedatum",
+      "pick": "Välj din födelsedag",
+      "invalid": "Ange hela ditt födelsedatum.",
+      "tooYoung": "Du måste vara {{age}} år eller äldre för att använda Riftn.",
+      "theme": "Ditt utseende"
     },
     "name": {
       "title": "Ditt namn",
-      "placeholder": "Ditt namn"
+      "placeholder": "Ditt namn",
+      "sub": "Det här är namnet folk ser på dina inlägg."
     },
     "card": {
       "name": "Ditt namn",
-      "followers": "följare"
+      "followers": "följare",
+      "interests": "Dina intressen",
+      "following": "följer"
     },
     "topic": {
       "music": "Musik",
@@ -15248,11 +16465,48 @@
       "comedy": "Komedi",
       "food": "Mat",
       "news": "Nyheter",
-      "science": "Vetenskap"
+      "science": "Vetenskap",
+      "travel": "Resor",
+      "film": "Film",
+      "anime": "Anime",
+      "cars": "Bilar",
+      "podcast": "Podcast",
+      "animals": "Djur",
+      "tech": "Teknik"
     },
     "back": "Tillbaka",
     "skipPhoto": "Hoppa över för tillfället",
-    "preview": "Förhandsgranska"
+    "preview": "Förhandsgranska",
+    "username": {
+      "title": "Ditt @användarnamn",
+      "sub": "Bokstäver, siffror och understreck. Du kan ändra det senare.",
+      "yours": "@{{name}} är ditt"
+    },
+    "photo": {
+      "title": "Ditt foto",
+      "sub": "Valfritt. Folk följer ansikten snabbare.",
+      "choose": "Välj ett foto",
+      "change": "Välj ett annat"
+    },
+    "interests": {
+      "title": "Dina intressen",
+      "sub": "Välj minst 3. De kommer först i dina kategorier."
+    },
+    "people": {
+      "title": "Dina personer",
+      "sub": "Tryck för att följa. Deras inlägg fyller ditt Följer-flöde.",
+      "empty": "Inga förslag just nu. Utforska har fler personer att hitta.",
+      "followers": "{{count}} följare"
+    },
+    "done": {
+      "title": "Snyggt, {{name}}",
+      "sub": "Alla ser det här kortet från och med i dag.",
+      "eyebrow": "Profilen är live"
+    },
+    "enter": "Gå in i Riftn",
+    "pickMore": "Välj {{count}} till",
+    "cardHint": "Så här kommer folk att se dig",
+    "followFailed": "Kunde inte följa. Försök igen."
   },
   "appTokens": {
     "title": "Dina tokens",
@@ -15263,10 +16517,35 @@
     "amount": "Belopp",
     "notePlaceholder": "Lägg till en notering (valfritt)",
     "sendButton": "Skicka",
-    "errorInsufficient": "Inte tillräckligt med tokens"
+    "errorInsufficient": "Inte tillräckligt med tokens",
+    "rowHint": "Saldo i appen",
+    "explainer": "Dina tokens finns nu inne i Riftn. Du började med det du hade och stakade onchain vid lanseringen. Att skicka, ge dricks och spendera flyttar dem direkt, utan avgifter och utan något onchain. Saldon förs över till den nya token vid airdroppen.",
+    "kindOpening": "Startsaldo",
+    "kindSent": "Skickat till {{name}}",
+    "kindReceived": "Från {{name}}",
+    "kindSpent": "Spenderat i Riftn",
+    "kindRefund": "Återbetalning",
+    "kindAdjust": "Justering av Riftn",
+    "sendTitle": "Skicka tokens",
+    "sendHint": "Skickar tokens inom Riftn till ett annat konto. Direkt och gratis, inget går onchain.",
+    "toPlaceholder": "@användarnamn eller 0x-adress",
+    "looking": "Söker…",
+    "available": "Tillgängligt: {{amount}}",
+    "sent": "Skickade {{amount}} tokens till {{name}}",
+    "errorRateLimit": "För många överföringar den senaste timmen. Försök igen senare.",
+    "errorNoRecipient": "Inget Riftn-konto hittades",
+    "errorSelf": "Du kan inte skicka till dig själv",
+    "errorGeneric": "Kunde inte skicka. Försök igen."
   },
   "avatarPrompt": {
-    "notNow": "Inte nu"
+    "notNow": "Inte nu",
+    "title": "Lägg till en profilbild",
+    "body": "Folk hittar dig snabbare i flöden, kommentarer och chattar när du har ett ansikte eller en logotyp.",
+    "choose": "Välj ett foto",
+    "another": "Välj ett annat",
+    "save": "Använd det här fotot",
+    "saved": "Snyggt",
+    "failed": "Kunde inte spara ditt foto. Försök igen."
   },
   "postStats": {
     "audience": "Publik",
@@ -15284,35 +16563,159 @@
     "shares": "Delningar",
     "signedOutViewers": "Utloggad",
     "topSupporters": "Toppanhängare",
-    "visitors": "Utloggad"
+    "visitors": "Utloggad",
+    "aboutUsual": "ungefär som vanligt",
+    "afterWatching": "följde efter att ha sett det",
+    "avg": "snitt",
+    "avgWatch": "Snittvisning",
+    "bestTime": "När dina personer tittar",
+    "bigDrop": "Stort tapp",
+    "byBadge": "per märke",
+    "devices": "Enhet (medlemmar)",
+    "finishedLower": "avslutade",
+    "finishedPct": "{{pct}} % tittade till slutet",
+    "inOut": "{{in}} medlemmar · {{out}} utloggade",
+    "leave": "{{pct}} % lämnar",
+    "linkClicks": "Länkklick",
+    "newToYou": "nya för dig",
+    "noAccount": "inget konto",
+    "noViewersYet": "Ingen har sett det här inlägget än.",
+    "noWatchYet": "Visningstid visas här när folk spelar upp det. Räkningen startade den 31 okt 2026.",
+    "open": "Se hur ditt inlägg går",
+    "otherBadges": "Andra märken",
+    "peak": "Topp {{time}} · {{n}}",
+    "peopleReached": "Personer som nåtts",
+    "playsLower": "uppspelningar",
+    "playsMembers": "Uppspelningar av medlemmar",
+    "playsVisitors": "Uppspelningar utloggade",
+    "profileTaps": "Tryck till din profil",
+    "reach": "Räckvidd",
+    "saves": "Sparningar",
+    "seeAll": "Se all statistik",
+    "signedIn": "inloggade",
+    "signedOutLower": "utloggade",
+    "stillWatching": "Tittar fortfarande",
+    "timesUsual": "{{ratio}}× det vanliga",
+    "vsUsualPct": "{{pct}} jämfört med ditt vanliga inlägg",
+    "unavailableBody": "Bara kreatören kan se statistik för det här inlägget.",
+    "unavailableTitle": "Statistik inte tillgänglig",
+    "vsUsual": "jämfört med ditt vanliga inlägg",
+    "watching": "Tittar",
+    "whoSawIt": "Vem som såg det",
+    "withRepeats": "{{n}} upprepningar",
+    "yourFollowers": "dina följare",
+    "first48": "Första 48 timmarna",
+    "howItsDoing": "Hur det går",
+    "bestTip": "De flesta av dina tittare dyker upp {{day}} runt {{hour}}:00. Att publicera strax innan ger ett inlägg den bästa starten.",
+    "last30": "senaste 30 dagarna",
+    "day": {
+      "sun": "Sön",
+      "mon": "Mån",
+      "tue": "Tis",
+      "wed": "Ons",
+      "thu": "Tor",
+      "fri": "Fre",
+      "sat": "Lör"
+    }
   },
   "duet": {
     "policyEveryone": "Alla",
     "policyFollowers": "Följare",
     "policyNobody": "Ingen",
-    "loadMore": "Ladda fler"
+    "loadMore": "Ladda fler",
+    "with": "Duett med @{{username}}",
+    "withOriginal": "Duett · se originalet",
+    "unavailable": "Den här videon är inte längre tillgänglig för duetter.",
+    "allowLabel": "Tillåt duetter",
+    "allowDescription": "Vem som kan spela in en duett bredvid dina videor. Du kan också ändra det för varje inlägg.",
+    "settingsSection": "Duetter",
+    "policyDefault": "Kontoinställning",
+    "saveFailed": "Kunde inte spara. Försök igen.",
+    "count_one": "{{count}} duett",
+    "count_other": "{{count}} duetter",
+    "pageHeading": "Duetter",
+    "pageTitle": "Duetter av {{title}} av @{{creator}}",
+    "pageTitleNoCreator": "Duetter av {{title}}",
+    "pageDescription": "Titta på alla duetter av den här videon på Riftn, eller spela in din egen sida vid sida.",
+    "empty": "Inga duetter än. Öppna videons alternativ och välj Remix → Duett för att göra den första.",
+    "video": "Video",
+    "notFound": "Den här videon är inte tillgänglig.",
+    "notFoundTitle": "Videon hittades inte — Riftn",
+    "browseShorts": "Bläddra bland Shorts"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Alla",
       "followers": "Följare",
-      "nobody": "Ingen"
+      "nobody": "Ingen",
+      "default": "Min standard"
+    },
+    "shareFailed": "Din dricks skickades, men originalskaparens andel gick inte igenom.",
+    "notify": {
+      "duet": "{{name}} gjorde en duett med din video",
+      "stitch": "{{name}} gjorde en stitch av din video",
+      "react": "{{name}} reagerade på din video",
+      "reactLive": "{{name}} reagerar live på din video"
+    },
+    "linkFailed": "Ditt inlägg är uppe, men det kunde inte länkas till originalvideon.",
+    "settingsHeading": "Remixar",
+    "stitch": {
+      "allow": "Tillåt stitches",
+      "allowDesc": "Vem som kan använda upp till 5 sekunder av dina videor i sina egna. Du kan också ändra det per inlägg.",
+      "saveFailed": "Kunde inte spara din stitch-inställning. Försök igen.",
+      "settingFailed": "Ditt inlägg är uppe, men dess stitch-inställning sparades inte. Ändra den under Redigera inlägg.",
+      "from": "Stitch från {{name}}",
+      "count_one": "{{count}} stitch",
+      "count_other": "{{count}} stitches",
+      "listTitle": "Stitches",
+      "listFailed": "Kunde inte ladda stitches. Försök igen.",
+      "listEmpty": "Inga stitches än.",
+      "unavailable": "Den här videon är inte längre tillgänglig för stitches."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Alla",
       "followers": "Följare",
-      "nobody": "Ingen"
+      "nobody": "Ingen",
+      "default": "Kontots standard ({{value}})"
     },
     "heading": "Reaktioner",
     "more": "Visa fler",
     "liveNow": "Liv",
-    "untitled": "Reaktion"
+    "untitled": "Reaktion",
+    "reactionTo": "Reaktion på",
+    "reactingTo": "Reagerar på",
+    "count_one": "{{count}} reaktion",
+    "count_other": "{{count}} reaktioner",
+    "allow": "Tillåt reaktioner",
+    "remixesSection": "Remixar",
+    "allowDescription": "Låt andra kreatörer reagera på dina videor, inspelat eller live. Du kan fortfarande ändra det för varje inlägg.",
+    "pageTitle": "Reaktioner på {{title}} — Riftn",
+    "pageDescription": "Se kreatörer reagera på ”{{title}}” av {{creator}} på Riftn, inspelat och live.",
+    "backToVideo": "Tillbaka till videon",
+    "empty": "Inga reaktioner än. Öppna videons Remix-meny och välj Reagera för att bli först.",
+    "wasLive": "Var live",
+    "thisVideo": "den här videon"
   },
   "liveClips": {
     "copyLink": "Kopiera länk",
-    "linkCopied": "Länk kopierad"
+    "linkCopied": "Länk kopierad",
+    "button": "Klipp det här ögonblicket",
+    "capturing": "Hämtar den senaste minuten av sändningen…",
+    "failed": "Det här klippet kunde inte skapas.",
+    "highlightTitle": "Höjdpunkt",
+    "length": "{{seconds}} s klipp",
+    "make": "Skapa klipp",
+    "postToShorts": "Publicera på Shorts",
+    "posted": "Klipp publicerat på Shorts",
+    "postedBody": "Ditt klipp finns på Shorts. Dela det så att fler hittar sändningen.",
+    "rendering": "Klipper ditt klipp. Det tar ungefär en halv minut…",
+    "starting": "Startar ditt klipp…",
+    "title": "Klipp",
+    "titleLabel": "Klippets titel",
+    "titlePlaceholder": "Ge ditt klipp en titel",
+    "viewShort": "Visa Short"
   },
   "liveHype": {
     "gift": {
@@ -15323,13 +16726,62 @@
       "stage": {
         "preparing": "Förbereder…",
         "confirming": "Väntar på transaktionen…",
-        "recording": "Slutför…"
-      }
+        "recording": "Slutför…",
+        "wallet": "Bekräfta i din plånbok"
+      },
+      "open": "Ge bort prenumerationer",
+      "title": "Ge bort prenumerationer",
+      "plan": "Plan",
+      "mode": {
+        "random": "Slumpmässiga tittare i chatten",
+        "user": "En specifik person"
+      },
+      "randomHint": "Går till personer som chattat de senaste 30 minuterna och inte prenumererar än.",
+      "send_one": "Ge bort 1 prenumeration · ${{price}}",
+      "send_other": "Ge bort {{count}} prenumerationer · ${{price}}",
+      "payHint": "Betalas med tokens från din plånbok i en överföring.",
+      "fewer_one": "Bara 1 person i chatten kan ta emot en prenumeration just nu, så du betalar för 1.",
+      "fewer_other": "Bara {{count}} personer i chatten kan ta emot en prenumeration just nu, så du betalar för {{count}}.",
+      "done_one": "Prenumeration bortgiven!",
+      "done_other": "{{count}} prenumerationer bortgivna!",
+      "failed": "Kunde inte ge bort prenumerationer",
+      "notReady": "Att ge bort är inte tillgängligt för den här planen än",
+      "noPlan": "Välj en plan först",
+      "noPlans": "{{name}} har inga prenumerationsplaner att ge bort än."
+    },
+    "train": {
+      "level": "Hype Train · Nivå {{level}}",
+      "endedLevel": "Hype Train klarade nivå {{level}}!",
+      "ended": "Hype Train avslutat",
+      "thanks_one": "Tack till {{count}} supporter",
+      "thanks_other": "Tack till {{count}} supportrar",
+      "top": "Topp: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Övrigt",
-    "confirming": "Bekräftar betalning..."
+    "confirming": "Bekräftar betalning...",
+    "lockPhoto": "Lås foto",
+    "lockVideo": "Lås video",
+    "lockOnPrice": "Låst · {{price}} tokens",
+    "lockCustomLabel": "Eget pris i tokens",
+    "lockHint": "De ser det suddigt tills de betalar dig. Låsta filer är inte end-to-end-krypterade.",
+    "dhbNow": "{{dhb}} till dagens pris",
+    "lockCustomUsd": "$ Annat",
+    "lockCustomUsdLabel": "Eget pris i dollar",
+    "lockDhbNow": "≈ {{dhb}} i dag. De betalar alltid {{price}}, oavsett vad tokens är värda.",
+    "lockOnUsd": "Låst · {{price}}",
+    "lockedPhoto": "Låst foto",
+    "lockedVideo": "Låst video",
+    "unlockFor": "Lås upp för {{price}}",
+    "unlockOnWeb": "Lås upp på riftn.com · {{price}}",
+    "stillConfirming": "Betalningen skickad. Den öppnas så snart den bekräftas.",
+    "payFailed": "Kunde inte låsa upp",
+    "unlocked": "Upplåst",
+    "unlockedTag": "Upplåst",
+    "notYet": "Inte upplåst än",
+    "uploading": "Låser…",
+    "unlockedByThem": "Din låsta {{kind}} låstes upp: +{{amount}} tokens"
   },
   "feedFilters": {
     "clearAllShort": "Rensa alla",
@@ -15338,7 +16790,20 @@
     "groupDate": "Datum",
     "groupSort": "Sortera",
     "groupType": "Typ",
-    "save": "Spara"
+    "save": "Spara",
+    "clearAll": "Rensa alla filter",
+    "collapse": "Dölj filter",
+    "count": "{{count}} filter på",
+    "deletePreset": "Radera {{name}}",
+    "groupAccess": "Åtkomst",
+    "groupTag": "Tagg",
+    "myPresets": "Mina förval",
+    "presetName": "Namn på förval",
+    "remove": "Ta bort {{label}}",
+    "saveCurrent": "+ Spara nuvarande",
+    "savePreset": "Spara som förval",
+    "show": "Visa filter",
+    "updatePreset": "Byt namn på förval"
   },
   "ownKeys": {
     "working": "Arbetar",
@@ -15346,7 +16811,21 @@
     "check": "Kontrollera",
     "remove": "Ta bort",
     "save": "Spara",
-    "cancel": "Avbryt"
+    "cancel": "Avbryt",
+    "title": "Dina egna AI-nycklar",
+    "description": "Lägg till en nyckel från en AI-leverantör så körs Creator-verktygen på ditt konto i stället. Riftn tar inget betalt för de jobben. Nycklar krypteras och visas aldrig igen.",
+    "invalid": "Avvisad, ersätt den",
+    "noCredit": "Slut på kredit",
+    "disabled": "Avstängd av Riftn",
+    "saved": "{{name}}-nyckel sparad. Verktyg på {{name}} använder nu ditt konto.",
+    "savedNoCredit": "{{name}}-nyckel sparad, men kontot har slut på kredit.",
+    "removed": "{{name}}-nyckel borttagen.",
+    "replaceKey": "Ersätt nyckel",
+    "add": "Lägg till nyckel",
+    "paste": "Klistra in din {{name}}-nyckel",
+    "getKey": "Skaffa en {{name}}-nyckel",
+    "showLess": "Visa bara mina nycklar",
+    "addAnother": "Lägg till en annan leverantör"
   },
   "postBg": {
     "addMedia": "Lägg till en bild, GIF eller video",
@@ -15358,55 +16837,181 @@
       "lava": "Lavalampa",
       "drive": "Nattkörning",
       "chrome": "Flytande krom",
-      "snow": "Snöfall"
+      "snow": "Snöfall",
+      "ink": "Tuschlavering",
+      "news": "Tidningspapper",
+      "split": "Skymningsdelning",
+      "blue": "Ritning",
+      "terra": "Terrazzo",
+      "half": "Rasterpop",
+      "topo": "Höjdkurvor",
+      "velvet": "Sammet",
+      "sorbet": "Sorbet",
+      "carbon": "Kol",
+      "echo": "Profileko",
+      "cards": "Färgkort",
+      "deck": "Mönsterlek",
+      "aurora": "Norrsken",
+      "stars": "Stjärnfält",
+      "rain": "Regn på glas",
+      "breathe": "Andas",
+      "spin": "Prismasnurr",
+      "tide": "Tidvatten",
+      "ember": "Glöd",
+      "holo": "Holofolie",
+      "rift": "Rift",
+      "mesh": "Nät",
+      "grain": "Filmkorn",
+      "orbit": "Omlopp",
+      "ripple": "Krusning",
+      "dotwave": "Prickvåg",
+      "scan": "CRT",
+      "silk": "Siden",
+      "bokeh": "Bokeh",
+      "photo": "Din bild"
     },
-    "sameAsProfile": "Profil"
+    "sameAsProfile": "Profil",
+    "scope": "Använd på",
+    "thisPost": "Det här inlägget",
+    "allPosts": "Alla inlägg",
+    "sameAsProfileSub": "Samma som din profil",
+    "title": "Inläggsbakgrund",
+    "editRow": "Inläggsbakgrund",
+    "hint": "Svep på remsan. Ditt inlägg ändras medan du sveper. Bara du kan ändra det här.",
+    "moving": "Rörlig",
+    "still": "Stilla",
+    "plain": "Enkla inlägg",
+    "position": "{{n}} av {{total}}",
+    "sample": "Så här ser dina textinlägg ut på din profil.",
+    "saveFailed": "Kunde inte spara din bakgrund. Försök igen.",
+    "base": "Bas",
+    "accent": "Accent",
+    "accent2": "Accent 2",
+    "ownColours": "Dina egna färger"
   },
   "articleTile": {
-    "cover": "Omslag"
+    "cover": "Omslag",
+    "title": "Artikelrutor",
+    "dropcap": "Anfang",
+    "hint": "Hur dina artiklar ser ut i rutnätet på din profil. Bara du kan ändra det här.",
+    "saveFailed": "Kunde inte spara. Försök igen."
   },
   "aiConsent": {
-    "allow": "Tillåt"
+    "allow": "Tillåt",
+    "title": "Använda AI-funktioner?",
+    "body": "För att fungera skickar AI-funktioner det du ger dem (din text, dina foton eller ditt ljud, och inlägget eller chatten det gäller) till tredjeparts-AI-leverantörer som Google, OpenAI, Groq, OpenRouter, fal och ElevenLabs. Du kan ändra detta när som helst under Inställningar → Integritet.",
+    "declined": "AI-funktioner är avstängda. Du kan slå på dem under Inställningar → Integritet.",
+    "settingLabel": "AI-funktioner",
+    "settingDesc": "Låt assistenten, översättning, föreslagna svar och skrivhjälp skicka det du ger dem till tredjeparts-AI-leverantörer."
   },
   "dmRequests": {
     "title": "Funktionsförfrågningar",
     "accept": "Acceptera",
     "delete": "Radera",
-    "block": "Blockera"
+    "block": "Blockera",
+    "hint": "Meddelanden från personer du inte följer. Acceptera ett, svara eller följ dem så flyttas chatten till din inkorg.",
+    "rowHint": "{{n}} från personer du inte följer",
+    "banner": "Du följer inte {{name}}. Acceptera för att flytta chatten till din inkorg, eller svara bara.",
+    "accepted": "Flyttad till din inkorg",
+    "acceptFailed": "Kunde inte acceptera, försök igen"
   },
   "dmSchedule": {
     "view": "Titta",
     "edit": "Redigera",
     "editLabel": "Redigera meddelande",
-    "error": "Det fungerade inte. Försök igen."
+    "error": "Det fungerade inte. Försök igen.",
+    "button": "Schemalägg meddelande",
+    "title": "Schemalagda meddelanden",
+    "whenTitle": "Skicka när?",
+    "waiting": "{{n}} schemalagda",
+    "next": "nästa {{when}}",
+    "failedCount": "{{n}} inte skickade",
+    "notSent": "Inte skickat",
+    "emptyTitle": "Inget schemalagt",
+    "emptyBody": "Skriv ett meddelande och tryck sedan på klockan för att välja när det skickas.",
+    "changeTime": "Ändra tid",
+    "sendNow": "Skicka nu",
+    "deleted": "Schemalagt meddelande raderat",
+    "unreadable": "Skrivet på en annan enhet. Det skickas ändå.",
+    "footnote": "Tiderna är i din tidszon. Ingen ser ett meddelande förrän det har skickats.",
+    "footnoteNamed": "Tiderna är i din tidszon. {{name}} ser ett meddelande först när det har skickats.",
+    "textOnly": "Bara textmeddelanden kan schemaläggas just nu.",
+    "scheduledToast": "Schemalagt till {{when}}",
+    "failedToast": "Ett schemalagt meddelande kunde inte skickas"
   },
   "chatBulk": {
     "selected": "{{count}} valda",
     "cancel": "Avbryt",
     "reply": "Svar",
-    "delete": "Radera"
+    "delete": "Radera",
+    "select": "Välj",
+    "toolbar": "Valda chattar",
+    "pick": "Tryck på chattar för att välja dem",
+    "read": "Markera som läst",
+    "unread": "Markera som oläst",
+    "replyTitle_one": "Svara på {{count}} chatt",
+    "replyTitle_other": "Svara på {{count}} chattar",
+    "replyHint": "Varje person får detta som ett vanligt meddelande i sin egen chatt.",
+    "replyPlaceholder": "Skriv ett meddelande…",
+    "sendAll": "Skicka till {{count}}",
+    "deleted_one": "{{count}} chatt raderad",
+    "deleted_other": "{{count}} chattar raderade",
+    "sent_one": "Skickat till {{count}} chatt",
+    "sent_other": "Skickat till {{count}} chattar",
+    "partSent": "Skickat till {{ok}} av {{total}} chattar",
+    "notSent": "Kunde inte skicka. Försök igen."
   },
   "msgSelect": {
     "selected": "{{count}} valda",
     "copy": "Kopiera",
     "forward": "Vidarebefordra",
     "deleted_one": "Raderade {{count}} meddelande",
-    "deleted_other": "Raderade {{count}} meddelanden"
+    "deleted_other": "Raderade {{count}} meddelanden",
+    "toolbar": "Valda meddelanden",
+    "pick": "Tryck på meddelanden för att välja dem",
+    "deleteSome": "Radera {{count}}",
+    "forwarded_one": "{{count}} meddelande vidarebefordrat",
+    "forwarded_other": "{{count}} meddelanden vidarebefordrade",
+    "partForwarded": "Vidarebefordrade {{ok}} av {{total}}",
+    "nothingToCopy": "Inget att kopiera i de valda meddelandena",
+    "copied_one": "Kopierade {{count}} meddelande",
+    "copied_other": "Kopierade {{count}} meddelanden",
+    "deleteTitle_one": "Radera {{count}} meddelande?",
+    "deleteTitle_other": "Radera {{count}} meddelanden?",
+    "deleteBody": "De tas bort för alla i den här chatten.",
+    "deleteForBothBody": "De tas bort för er båda."
   },
   "messagesTabs": {
-    "all": "Alla"
+    "all": "Alla",
+    "unread": "Olästa",
+    "groups": "Grupper"
   },
   "mentionLinks": {
     "communities": "Gemenskaper",
     "pages": "Sidor",
-    "people": "Personer"
+    "people": "Personer",
+    "linkTo": "Länka {{name}}"
   },
   "resetWallet": {
     "mismatch": "Lösenorden matchar inte",
     "logOut": "Logga ut",
     "confirm": "Bekräfta lösenord",
     "ack": "Jag förstår att mina gamla medel förblir i det gamla värdes.",
-    "cancel": "Avbryt"
+    "cancel": "Avbryt",
+    "tooShort": "Lösenordet måste vara minst {{count}} tecken",
+    "breached": "Det här lösenordet har förekommit i ett dataintrång. Välj ett annat",
+    "weak": "Välj ett starkare lösenord (blanda bokstäver, siffror och symboler)",
+    "doneTitle": "Ditt konto finns nu på sin nya plånbok",
+    "twoFactor": "Ange koden från din autentiseringsapp för att flytta ditt konto.",
+    "failed": "Kunde inte återställa din plånbok. Inget flyttades. Försök igen.",
+    "title": "Återställ plånbok",
+    "reloginApp": "En återställning bekräftas med ditt kontos e-post, telefon eller Google-inloggning, inte den gamla plånboken, eftersom vem som helst med den gamla nyckeln också kan signera. Logga ut, logga in igen med den inloggningen och kom sedan tillbaka hit. Ingen inloggnings-e-post än? Lägg först till en på riftn.com under Inställningar → Inloggning.",
+    "intro": "Skapar en ny Riftn-plånbok och flyttar ditt användarnamn, dina inlägg, följare och meddelanden dit. Använd detta om din plånbok har försvunnit eller om någon annan har dess nyckel. Den gamla plånboken slutar fungera för inloggning.",
+    "funds": "Tokens, NFT:er och andra saldon flyttas inte. De stannar på den gamla adressen. Om du fortfarande kan öppna den gamla plånboken, skicka ut dem först.",
+    "password": "Nytt plånbokslösenord (minst {{count}} tecken)",
+    "twoFactorPlaceholder": "Autentiseringskod",
+    "submit": "Återställ plånbok",
+    "rowDesc": "Har du förlorat din plånbok, eller har någon annan dess nyckel? Flytta ditt konto till en ny plånbok. Ditt användarnamn, dina inlägg och följare följer med."
   },
   "chatTabs": {
     "all": "Alla",
@@ -15422,6 +17027,110 @@
     "requests": "Funktionsförfrågningar",
     "sCreators": "Kreatörer",
     "sGaming": "Spel",
-    "sTrading": "Handel"
+    "sTrading": "Handel",
+    "addChats": "Lägg till chattar",
+    "addToTab": "Lägg till i flik",
+    "addedTo": "Tillagd i {{name}}",
+    "builtIn": "Inbyggd",
+    "chatCount": "{{n}} chattar",
+    "chatsInTab": "Chattar i den här fliken",
+    "create": "Skapa flik",
+    "delete": "Radera flik",
+    "deleteBody": "Fliken försvinner. Dess chattar finns kvar i Alla och behåller sina meddelanden.",
+    "deleteTitle": "Radera ”{{name}}”?",
+    "deleted": "Raderade {{name}}",
+    "edit": "Redigera flikar",
+    "editHintApp": "Använd pilarna för att ändra ordning. Dolda flikar behåller sina chattar.",
+    "editTab": "Redigera flik",
+    "emoji": "Välj en emoji",
+    "emptyBody": "Lägg till chattar här så finns de kvar i Alla också.",
+    "emptyTitle": "{{name}} är tom",
+    "hide": "Dölj flik",
+    "kindChannel": "Kanal",
+    "moveLeft": "Flytta vänster",
+    "moveRight": "Flytta höger",
+    "namePlaceholder": "Fliknamn",
+    "new": "Ny flik",
+    "newWith": "Ny flik…",
+    "noEmoji": "Ingen emoji",
+    "picked": "{{n}} valda",
+    "removedFrom": "Borttagen från {{name}}",
+    "renameEdit": "Byt namn och redigera",
+    "sFriends": "Vänner",
+    "sWork": "Jobb",
+    "saveFailed": "Kunde inte spara dina flikar, försök igen",
+    "show": "Visa flik",
+    "tooMany": "Du kan ha upp till 10 flikar"
+  },
+  "chatReactions": {
+    "many_one": "{{count}} reaktion på dina meddelanden",
+    "many_other": "{{count}} reaktioner på dina meddelanden",
+    "manySame_one": "{{emoji}} × {{count}} på dina meddelanden",
+    "manySame_other": "{{emoji}} × {{count}} på dina meddelanden",
+    "one": "Reagerade med {{emoji}} på ditt meddelande",
+    "oneNamed": "{{name}} reagerade med {{emoji}} på ditt meddelande"
+  },
+  "postEditHistory": {
+    "title": "Redigeringshistorik",
+    "edited_one": "Redigerad en gång",
+    "edited_other": "Redigerad {{count}} gånger",
+    "lastEdit": "Senast redigerad {{time}}",
+    "original": "Original",
+    "editN": "Redigering {{n}}",
+    "now": "Nu",
+    "showChanges": "Visa vad som ändrats"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Inlägget ligger kvar.",
+      "onBody": "Inlägget raderas automatiskt {{value1}} efter att det publicerats."
+    }
+  },
+  "accountDeactivation": {
+    "title": "Inaktivera konto",
+    "short": "Dölj din profil tills vidare. Logga in igen för att återställa den",
+    "description": "Ta en paus i stället. Din profil, dina inlägg och kommentarer döljs och du loggas ut överallt. Inget raderas, och när du loggar in igen kommer allt tillbaka.",
+    "button": "Inaktivera",
+    "confirmTitle": "Inaktivera ditt konto?",
+    "confirmBody": "Din profil, dina inlägg och kommentarer döljs och du loggas ut på alla enheter. Logga in igen när som helst för att ångra detta.",
+    "busy": "Inaktiverar…",
+    "done": "Kontot inaktiverat",
+    "receipt": "Din profil, dina inlägg och kommentarer är dolda. Logga in igen när som helst för att få tillbaka allt.",
+    "error": "Kunde inte inaktivera ditt konto. Försök igen.",
+    "acknowledge": "Jag förstår att min profil döljs och att jag loggas ut överallt.",
+    "understand": "Jag förstår"
+  },
+  "halloween": {
+    "title": "Glad Halloween",
+    "otherThemes": "Inte på spökhumör? Hitta andra teman:",
+    "enter": "Gå in i fängelsehålan"
+  },
+  "liveShorts": {
+    "live": "LIVE",
+    "join": "Gå med i livesändning"
+  },
+  "dmSafety": {
+    "notReal": "Det här är inte den riktiga {{name}}.",
+    "neverLink": "Riftn-teamet kommer aldrig att skicka dig en länk i DM för att fixa din profil eller plånbok. Öppna inga länkar, anslut inte din plånbok och signera ingenting. Blockera och anmäl det här kontot."
+  },
+  "profileImage": {
+    "change": "Ändra"
+  },
+  "msgDelete": {
+    "title": "Radera meddelande?",
+    "titleMany": "Radera {{count}} meddelanden?",
+    "bodyOwn": "Ta bort det bara från din chatt, eller för alla.",
+    "bodyOwnMany": "Ta bort dem bara från din chatt, eller för alla.",
+    "bodyOthers": "Det tas bara bort från din chatt. Den andra personen ser det fortfarande.",
+    "bodyOthersMany": "De tas bara bort från din chatt. Andra i chatten ser dem fortfarande.",
+    "bodyOwnBoth": "Ta bort det bara från din chatt, eller för er båda.",
+    "bodyOwnBothMany": "Ta bort dem bara från din chatt, eller för er båda.",
+    "forMe": "Radera för mig",
+    "forEveryone": "Radera för alla",
+    "forBoth": "Radera för oss båda",
+    "forMeAndName": "Radera för mig och {{name}}",
+    "remember": "Kom ihåg mitt val",
+    "rememberHint": "Ändra det när som helst i Inställningar",
+    "failed": "Kunde inte radera meddelandet"
   }
 }
