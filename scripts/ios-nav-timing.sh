@@ -423,6 +423,21 @@ if [ "$MODE" = wide ]; then
   exit 0
 fi
 
+if [ "$MODE" = speed ]; then
+  # Chats, typing, search and the busiest switches: main's code and this
+  # checkout's, alternating, after one unmeasured run that fills the caches.
+  run before speed-warmup "" speed
+  for round in $(seq 1 "$ROUNDS"); do
+    run before "speed-before-$round" "" speed
+    run after "speed-after-$round" "" speed
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-600 > "$OUT/logs/tour.txt" || true
+  python3 scripts/ios-nav/speed-summary.py "$OUT/nav" | tee "$OUT/nav/summary.md"
+  [ -n "${GITHUB_STEP_SUMMARY:-}" ] && cat "$OUT/nav/summary.md" >> "$GITHUB_STEP_SUMMARY"
+  exit 0
+fi
+
 if [ "$MODE" = shorts ]; then
   # Shorts swipes, main's code and this checkout's, alternating. The first
   # round of each is filmed.

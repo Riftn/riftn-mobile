@@ -71,6 +71,7 @@ import Avatar from "../components/common/Avatar";
 import OnlineDot from "../components/common/OnlineDot";
 import ChatHeaderMenuButton from "../components/Chat/ChatHeaderMenuButton";
 import ChatMenu from "../components/Chat/ChatMenu";
+import WhenOpened from "../components/ui/WhenOpened";
 import { translateDmAndAbove } from "../libs/dm-translation-store";
 import ConfirmBlockModal from "../components/common/ConfirmBlockModal";
 import PinnedMessageBanner from "../components/DM/PinnedMessageBanner";
@@ -2257,30 +2258,34 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
       {searchVisible ? <MessageSearch messages={messageList} onSelect={highlightAndScroll} onClose={() => setSearchVisible(false)} /> : null}
 
-      <ChatMenu
-          visible={menuVisible}
-          onClose={closeMenu}
-          isBlocked={iBlockedThem}
-          onBlockUser={onBlockUser}
-          onUnblockUser={onUnblockUser}
-          onClearChat={currentConvId ? onClearChat : undefined}
-          onToggleEncryption={canToggleEncryption ? onToggleEncryption : undefined}
-          encrypted={chatEncrypted}
-          onSearchChat={onSearchChat}
-          onToggleFreeAccess={myDmStatus?.perMessageFee && myDmStatus.perMessageFee > 0 ? onToggleFreeAccess : undefined}
-          peerHasFreeAccess={
-            !!(myDmStatus?.freeAccessUsers?.some(
-              (a: string) => a.toLowerCase() === (peer.address || "").toLowerCase(),
-            ))
-          }
-          isCreator={!!(myDmStatus?.perMessageFee && myDmStatus.perMessageFee > 0)}
-          onReportUser={peer.address || peer.username ? () => openMessageReport({
-            userId: String(peer.address || peer.username),
-            userName: peer.displayName || peer.username,
-            where: "Direct message conversation",
-            messageId: currentConvId ? `conversation ${currentConvId}` : undefined,
-          }) : undefined}
-        />
+      <WhenOpened open={menuVisible}>
+        {() => (
+          <ChatMenu
+              visible={menuVisible}
+              onClose={closeMenu}
+              isBlocked={iBlockedThem}
+              onBlockUser={onBlockUser}
+              onUnblockUser={onUnblockUser}
+              onClearChat={currentConvId ? onClearChat : undefined}
+              onToggleEncryption={canToggleEncryption ? onToggleEncryption : undefined}
+              encrypted={chatEncrypted}
+              onSearchChat={onSearchChat}
+              onToggleFreeAccess={myDmStatus?.perMessageFee && myDmStatus.perMessageFee > 0 ? onToggleFreeAccess : undefined}
+              peerHasFreeAccess={
+                !!(myDmStatus?.freeAccessUsers?.some(
+                  (a: string) => a.toLowerCase() === (peer.address || "").toLowerCase(),
+                ))
+              }
+              isCreator={!!(myDmStatus?.perMessageFee && myDmStatus.perMessageFee > 0)}
+              onReportUser={peer.address || peer.username ? () => openMessageReport({
+                userId: String(peer.address || peer.username),
+                userName: peer.displayName || peer.username,
+                where: "Direct message conversation",
+                messageId: currentConvId ? `conversation ${currentConvId}` : undefined,
+              }) : undefined}
+            />
+        )}
+      </WhenOpened>
 
         {/* Per-message fee banner — always visible when fee info exists */}
         {DIGITAL_PURCHASES_ENABLED && <DmFeeBanner dmFee={dmFee} peerDisplayName={peer.displayName} />}
@@ -2491,128 +2496,172 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
           </View>
         </View>
 
-        <DeleteMessageSheet request={deleteReq} onClose={() => setDeleteReq(null)} />
+        <WhenOpened open={!!deleteReq}>
+          {() => (
+            <DeleteMessageSheet request={deleteReq} onClose={() => setDeleteReq(null)} />
+          )}
+        </WhenOpened>
 
         {/* Context menu */}
-        <MessageContextMenu
-          visible={!!contextMessage}
-          message={contextMessage}
-          layout={contextLayout}
-          isMine={contextIsMine}
-          peerUser={{
-            displayName: peer.displayName,
-            username: peer.username,
-            avatarImageUrl: peer.avatarImageUrl,
-          }}
-          myUser={{
-            displayName: (user as any)?.displayName || (user as any)?.username,
-            username: (user as any)?.username,
-            avatarImageUrl: (user as any)?.avatarImageUrl,
-          }}
-          onClose={closeContextMenu}
-          onReply={handleReply}
-          onEdit={handleEdit}
-          onForward={handleForward}
-          onSelect={handleSelect}
-          onTranslate={handleTranslateAbove}
-          onDelete={handleDelete}
-          canDeleteAny
-          onPin={handlePinMessage}
-          onUnpin={handleUnpinMessage}
-          isPinned={contextMessage ? pinnedMessageId === contextMessage._id : false}
-          onReact={handleContextReact}
-          myAddress={address}
-          onShowReactors={handleShowReactors}
-          onMoreEmoji={handleMoreEmoji}
-        />
-        <CommentLikersSheet
-          visible={!!reactorsOf}
-          onClose={() => setReactorsOf(null)}
-          commentId={null}
-          localReactions={reactorsOf}
-        />
-        <EmojiSheet
-          visible={!!emojiFor}
-          onClose={() => setEmojiFor(null)}
-          selected={emojiFor ? Object.entries(emojiFor.reactions ?? {}).filter(([, who]) => who?.some((a) => a.toLowerCase() === (address || "").toLowerCase())).map(([e]) => e) : []}
-          onSelect={(emoji) => { if (emojiFor) toggleReaction(emojiFor, emoji); setEmojiFor(null); }}
-        />
+        <WhenOpened open={!!contextMessage}>
+          {() => (
+            <MessageContextMenu
+              visible={!!contextMessage}
+              message={contextMessage}
+              layout={contextLayout}
+              isMine={contextIsMine}
+              peerUser={{
+                displayName: peer.displayName,
+                username: peer.username,
+                avatarImageUrl: peer.avatarImageUrl,
+              }}
+              myUser={{
+                displayName: (user as any)?.displayName || (user as any)?.username,
+                username: (user as any)?.username,
+                avatarImageUrl: (user as any)?.avatarImageUrl,
+              }}
+              onClose={closeContextMenu}
+              onReply={handleReply}
+              onEdit={handleEdit}
+              onForward={handleForward}
+              onSelect={handleSelect}
+              onTranslate={handleTranslateAbove}
+              onDelete={handleDelete}
+              canDeleteAny
+              onPin={handlePinMessage}
+              onUnpin={handleUnpinMessage}
+              isPinned={contextMessage ? pinnedMessageId === contextMessage._id : false}
+              onReact={handleContextReact}
+              myAddress={address}
+              onShowReactors={handleShowReactors}
+              onMoreEmoji={handleMoreEmoji}
+            />
+          )}
+        </WhenOpened>
+        <WhenOpened open={!!reactorsOf}>
+          {() => (
+            <CommentLikersSheet
+              visible={!!reactorsOf}
+              onClose={() => setReactorsOf(null)}
+              commentId={null}
+              localReactions={reactorsOf}
+            />
+          )}
+        </WhenOpened>
+        <WhenOpened open={!!emojiFor}>
+          {() => (
+            <EmojiSheet
+              visible={!!emojiFor}
+              onClose={() => setEmojiFor(null)}
+              selected={emojiFor ? Object.entries(emojiFor.reactions ?? {}).filter(([, who]) => who?.some((a) => a.toLowerCase() === (address || "").toLowerCase())).map(([e]) => e) : []}
+              onSelect={(emoji) => { if (emojiFor) toggleReaction(emojiFor, emoji); setEmojiFor(null); }}
+            />
+          )}
+        </WhenOpened>
 
         {/* Forward picker */}
-        <ForwardPickerModal
-          visible={forwardVisible}
-          onClose={() => {
-            setForwardVisible(false);
-            setForwardMessage(null);
-            setBulkForward(null);
-          }}
-          onSelect={onForwardSelect}
-          conversations={conversations}
-          myUserId={userId}
-          myAddress={address}
-        />
+        <WhenOpened open={forwardVisible}>
+          {() => (
+            <ForwardPickerModal
+              visible={forwardVisible}
+              onClose={() => {
+                setForwardVisible(false);
+                setForwardMessage(null);
+                setBulkForward(null);
+              }}
+              onSelect={onForwardSelect}
+              conversations={conversations}
+              myUserId={userId}
+              myAddress={address}
+            />
+          )}
+        </WhenOpened>
 
         {/* Block confirmation */}
-        <ConfirmBlockModal
-          visible={confirmVisible}
-          mode={confirmMode}
-          targetLabel={peerLabel}
-          onConfirm={onConfirmBlock}
-          onCancel={() => setConfirmVisible(false)}
-          loading={blockLoading}
-        />
+        <WhenOpened open={confirmVisible}>
+          {() => (
+            <ConfirmBlockModal
+              visible={confirmVisible}
+              mode={confirmMode}
+              targetLabel={peerLabel}
+              onConfirm={onConfirmBlock}
+              onCancel={() => setConfirmVisible(false)}
+              loading={blockLoading}
+            />
+          )}
+        </WhenOpened>
 
         {/* Full-screen video player */}
-        <FullScreenVideoPlayer
-          visible={!!videoPlay}
-          uri={videoPlay?.uri}
-          options={videoPlay?.options}
-          onClose={closeVideo}
-        />
+        <WhenOpened open={!!videoPlay}>
+          {() => (
+            <FullScreenVideoPlayer
+              visible={!!videoPlay}
+              uri={videoPlay?.uri}
+              options={videoPlay?.options}
+              onClose={closeVideo}
+            />
+          )}
+        </WhenOpened>
 
         {/* Tip amount sheet */}
-        <TipAmountSheet
-          visible={tipSheetVisible}
-          onClose={() => setTipSheetVisible(false)}
-          onConfirm={handleTipConfirm}
-          currentAmount={tipAmount}
-          dhbBalance={dhbBalance}
-          minAmount={Math.max(
-            dmFee?.required && !dmFee?.hasFreeAccess ? (dmFee?.fee ?? 1) : 1,
-            planMinTip,
+        <WhenOpened open={tipSheetVisible}>
+          {() => (
+            <TipAmountSheet
+              visible={tipSheetVisible}
+              onClose={() => setTipSheetVisible(false)}
+              onConfirm={handleTipConfirm}
+              currentAmount={tipAmount}
+              dhbBalance={dhbBalance}
+              minAmount={Math.max(
+                dmFee?.required && !dmFee?.hasFreeAccess ? (dmFee?.fee ?? 1) : 1,
+                planMinTip,
+              )}
+            />
           )}
-        />
+        </WhenOpened>
 
         {/* Create poll sheet */}
         {canSchedule && currentConvId ? (
           <>
-            <ScheduleSheet
-              visible={!!scheduleDraft}
-              onClose={() => setScheduleDraft(null)}
-              scheduledDate={null}
-              onSchedule={(date) => { void confirmSchedule(date); }}
-              kind="message"
-              moving
-              title={t("dmSchedule.whenTitle", { defaultValue: "Send when?" })}
-            />
-            <ScheduledMessagesSheet
-              visible={scheduledVisible}
-              onClose={() => setScheduledVisible(false)}
-              dmId={currentConvId}
-              peerAddress={peer.address}
-              peerName={peerLabel}
-              items={scheduled.items}
-              isLoading={scheduled.isLoading}
-            />
+            <WhenOpened open={!!scheduleDraft}>
+              {() => (
+                <ScheduleSheet
+                  visible={!!scheduleDraft}
+                  onClose={() => setScheduleDraft(null)}
+                  scheduledDate={null}
+                  onSchedule={(date) => { void confirmSchedule(date); }}
+                  kind="message"
+                  moving
+                  title={t("dmSchedule.whenTitle", { defaultValue: "Send when?" })}
+                />
+              )}
+            </WhenOpened>
+            <WhenOpened open={scheduledVisible}>
+              {() => (
+                <ScheduledMessagesSheet
+                  visible={scheduledVisible}
+                  onClose={() => setScheduledVisible(false)}
+                  dmId={currentConvId}
+                  peerAddress={peer.address}
+                  peerName={peerLabel}
+                  items={scheduled.items}
+                  isLoading={scheduled.isLoading}
+                />
+              )}
+            </WhenOpened>
           </>
         ) : null}
 
-        <CreatePollSheet
-          visible={pollSheetVisible}
-          onClose={() => setPollSheetVisible(false)}
-          onCreated={handlePollCreated}
-          conversationId={currentConvId ? String(currentConvId) : undefined}
-        />
+        <WhenOpened open={pollSheetVisible}>
+          {() => (
+            <CreatePollSheet
+              visible={pollSheetVisible}
+              onClose={() => setPollSheetVisible(false)}
+              onCreated={handlePollCreated}
+              conversationId={currentConvId ? String(currentConvId) : undefined}
+            />
+          )}
+        </WhenOpened>
     </View>
   );
 };

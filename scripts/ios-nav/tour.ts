@@ -1489,10 +1489,393 @@ async function runMenu(): Promise<void> {
   console.error(`[perf-tour] menu ${JSON.stringify(extra)}`);
 }
 
+
+// --- speed: chats, typing, search and the busiest switches ---------------------
+
+const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+
+/** The page on top, as measureScreen finds it. */
+function topScreenFiber(): Fiber | null {
+  const handle: Fiber | undefined = tourRoot?.__internalInstanceHandle ?? tourRoot?._internalFiberInstanceHandleDEV;
+  if (!handle) return null;
+  let top: Fiber = handle;
+  while (top.return) top = top.return;
+  const committed: Fiber = top.stateNode?.current ?? top;
+  const routeKey = (nav.getCurrentRoute() as { key?: string } | undefined)?.key;
+  if (!routeKey) return null;
+  const queue: Fiber[] = [committed];
+  for (let i = 0; i < queue.length && i < 200000; i++) {
+    const f = queue[i];
+    if (f.memoizedProps && typeof f.memoizedProps === "object" && f.memoizedProps.route?.key === routeKey && f.memoizedProps.navigation) return f;
+    if (f.child) queue.push(f.child);
+    if (f.sibling) queue.push(f.sibling);
+  }
+  return null;
+}
+
+type ListHandle = { scrollToOffset(p: { offset: number; animated?: boolean }): void; scrollToEnd(p?: { animated?: boolean }): void; props: { data?: unknown[]; horizontal?: boolean; inverted?: boolean } };
+
+/** The longest up-and-down list on the page on top. */
+function findList(): ListHandle | null {
+  const screen = topScreenFiber();
+  if (!screen) return null;
+  let best: ListHandle | null = null;
+  const queue: Fiber[] = screen.child ? [screen.child] : [];
+  for (let i = 0; i < queue.length && i < 200000; i++) {
+    const f = queue[i];
+    const inst = f.stateNode;
+    if (f.tag === 1 && inst && typeof inst.scrollToOffset === "function" && typeof inst.scrollToEnd === "function" && !inst.props?.horizontal) {
+      const size = Array.isArray(inst.props?.data) ? inst.props.data.length : 0;
+      const had = best && Array.isArray(best.props?.data) ? best.props.data!.length : -1;
+      if (size > had) best = inst as ListHandle;
+    }
+    if (f.child) queue.push(f.child);
+    if (f.sibling) queue.push(f.sibling);
+  }
+  return best;
+}
+
+/** What typing a character into this box calls, read fresh each time. */
+function changeTextOf(input: unknown): ((text: string) => void) | null {
+  const handle = (input as any)?.__internalInstanceHandle ?? (input as any)?._internalFiberInstanceHandleDEV;
+  for (let f: Fiber | null = handle ?? null, i = 0; f && i < 14; f = f.return, i++) {
+    const fn = f.memoizedProps?.onChangeText;
+    if (typeof fn === "function") return fn as (text: string) => void;
+  }
+  return null;
+}
+
+const middle = (values: number[]): number => {
+  if (!values.length) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  return Math.round(sorted[Math.floor(sorted.length / 2)]);
+};
+
+/**
+ * The things people do most, timed: bottom tabs, the chat list, a direct chat
+ * and the public chat (open, reopen, scroll, type), the assistant's box,
+ * search as you type, notifications, a post and a profile. Typing calls each
+ * box's own change handler one character at a time and times how long the app
+ * takes to draw the next frame; nothing is ever sent.
+ */
+async function runSpeed(): Promise<void> {
+  const { Keyboard } = require("react-native") as typeof import("react-native");
+  extra = { startedAt: Date.now(), mode: "speed" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(14000);
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+
+  // Elements created (how much of the screen is drawn again) and when the last one was.
+  let created = 0;
+  let lastCreatedAt = 0;
+  // The same count by what was created, so a step can name what it drew most.
+  let kinds = new Map<string, number>();
+  const typeName = (type: unknown): string => {
+    if (typeof type === "string") return type;
+    const t = type as { displayName?: string; name?: string; type?: { displayName?: string; name?: string }; render?: { displayName?: string; name?: string } } | null;
+    return t?.displayName || t?.name || t?.type?.displayName || t?.type?.name || t?.render?.displayName || t?.render?.name || "other";
+  };
+  const topKinds = () => [...kinds.entries()].sort((a, b) => b[1] - a[1]).slice(0, 14).map(([name, n]) => `${name} ${n}`);
+  const runtime = require("../../libs/jsx/jsx-runtime") as Record<string, (...args: unknown[]) => unknown>;
+  for (const key of ["jsx", "jsxs"]) {
+    const original = runtime[key];
+    runtime[key] = function counted(...args: unknown[]) {
+      created += 1;
+      lastCreatedAt = now();
+      const name = typeName(args[0]);
+      kinds.set(name, (kinds.get(name) ?? 0) + 1);
+      return original(...args);
+    };
+  }
+  // The app's own render timings (libs/perfTrace), kept instead of logged.
+  let perfLines: string[] = [];
+  const warn = console.warn;
+  console.warn = (...args: unknown[]) => {
+    if (typeof args[0] === "string" && args[0].startsWith("[perf] ")) {
+      perfLines.push(args[0].slice(7));
+      return;
+    }
+    warn(...(args as []));
+  };
+  try {
+    (require("../../libs/perfTrace") as { setPerfTrace(on: boolean): void }).setPerfTrace(true);
+  } catch {
+    // Timings by frame still work without it.
+  }
+  const probes = (lines: string[]) => {
+    const by = new Map<string, { n: number; max: number }>();
+    let tasks = 0;
+    let taskMs = 0;
+    let longest = 0;
+    let stalls = 0;
+    for (const line of lines) {
+      const task = /^task (\d+)ms/.exec(line);
+      if (task) {
+        tasks += 1;
+        taskMs += Number(task[1]);
+        longest = Math.max(longest, Number(task[1]));
+        for (const part of line.split(" | ").slice(1)) {
+          const m = /^(.+) (\d+)x (\d+)ms$/.exec(part);
+          if (!m) continue;
+          const entry = by.get(m[1]) ?? { n: 0, max: 0 };
+          entry.n += Number(m[2]);
+          entry.max = Math.max(entry.max, Number(m[3]));
+          by.set(m[1], entry);
+        }
+      }
+      const stall = /^js blocked (\d+)ms/.exec(line);
+      if (stall) stalls += Number(stall[1]);
+    }
+    return { tasks, taskMs, longest, stalls, top: [...by.entries()].sort((a, b) => b[1].max - a[1].max).slice(0, 8).map(([label, e]) => `${label} ${e.n}x ${e.max}ms`) };
+  };
+
+  const detail: Record<string, unknown> = {};
+  extra.detail = detail;
+  const timed = async (step: string, action: () => void, opts: { watchMs?: number; delayMs?: number; restMs?: number } = {}) => {
+    created = 0;
+    perfLines = [];
+    let origin = 0;
+    await measure(step, () => {
+      origin = now() + (opts.delayMs ?? 0);
+      created = 0;
+      kinds = new Map();
+      action();
+    }, { restMs: 500, ...opts });
+    detail[step] = { elements: created, lastDrawMs: Math.max(0, Math.round(lastCreatedAt - origin)), kinds: topKinds(), ...probes(perfLines) };
+    await save(false);
+  };
+
+  /** One character at a time through the box's own handler; the box is left empty. */
+  const typeInto = async (step: string, input: unknown, text: string) => {
+    if (!changeTextOf(input)) {
+      detail[step] = { error: "no text box found" };
+      return;
+    }
+    perfLines = [];
+    kinds = new Map();
+    const perKey: number[] = [];
+    const perKeyElements: number[] = [];
+    for (let i = 1; i <= text.length; i++) {
+      const change = changeTextOf(input);
+      if (!change) break;
+      await nextFrame();
+      const before = created;
+      const start = now();
+      change(text.slice(0, i));
+      await nextFrame();
+      await nextFrame();
+      perKey.push(now() - start);
+      perKeyElements.push(created - before);
+      await sleep(140);
+    }
+    const lines = perfLines;
+    const drawn = topKinds();
+    await sleep(600);
+    changeTextOf(input)?.("");
+    await sleep(500);
+    detail[step] = {
+      keys: perKey.length,
+      keyMs: middle(perKey),
+      keyWorstMs: Math.round(Math.max(0, ...perKey)),
+      keyElements: middle(perKeyElements),
+      keyElementsWorst: Math.max(0, ...perKeyElements),
+      kinds: drawn,
+      ...probes(lines),
+    };
+    console.error(`[perf-tour] ${step} ${JSON.stringify(detail[step])}`);
+    await save(false);
+  };
+
+  /** The newest text box that was not there before `had`. */
+  const newInput = (had: Set<unknown>) => liveInputs.filter((input) => !had.has(input)).pop();
+
+  /** Down the list and back, drawn by the app as it goes. */
+  const scrollList = async (step: string) => {
+    const list = findList();
+    if (!list) {
+      detail[step] = { error: "no list found" };
+      return;
+    }
+    const rows = Array.isArray(list.props.data) ? list.props.data.length : 0;
+    const inverted = !!list.props.inverted;
+    // The public chat opens at its end with the newest line: up to the oldest
+    // loaded line and back. Every other list goes a few screens down and back.
+    const fromEnd = !inverted && step.startsWith("public chat");
+    await timed(`${step} away`, () => (fromEnd ? list.scrollToOffset({ offset: 0, animated: true }) : list.scrollToOffset({ offset: 2400, animated: true })), { watchMs: 2600 });
+    await timed(`${step} back`, () => (fromEnd ? list.scrollToEnd({ animated: true }) : list.scrollToOffset({ offset: 0, animated: true })), { watchMs: 2600 });
+    (detail[`${step} away`] as Record<string, unknown>).rows = rows;
+  };
+
+  // Everything once first, so a repeat visit is what gets timed afterwards.
+  for (const name of [ScreenNames.Explore, ...(signedIn ? [ScreenNames.DM, ScreenNames.AIChat] : []), ScreenNames.Home]) {
+    tab(name)();
+    await sleep(2500);
+  }
+
+  await timed("idle on Home", () => undefined);
+  await timed("tab Explore", tab(ScreenNames.Explore));
+  await timed("tab Home", tab(ScreenNames.Home));
+  if (signedIn) {
+    await timed("tab Messages", tab(ScreenNames.DM));
+    await scrollList("chat list scroll");
+    await timed("tab Assistant", tab(ScreenNames.AIChat));
+    await timed("tab Messages again", tab(ScreenNames.DM));
+
+    // The direct chat with the most history on this account.
+    const dm = require("../../store/dm.store") as {
+      dmState: { contactsById: Record<string, unknown>; messagesByConversation: Record<string, unknown[]> };
+      dmActions: { addOptimistic: (id: string, line: unknown) => void; removeOptimistic: (id: string, tempId: string) => void };
+    };
+    const ids = Object.keys(dm.dmState.contactsById).sort((a, b) => (dm.dmState.messagesByConversation[b]?.length ?? 0) - (dm.dmState.messagesByConversation[a]?.length ?? 0));
+    extra.chats = ids.length;
+    if (ids.length) {
+      const open = push(ScreenNames.Chat, { conversationId: ids[0], title: "Chat" });
+      let had = new Set(liveInputs);
+      await timed("chat open (first)", open, { watchMs: 2600 });
+      extra.chatLines = dm.dmState.messagesByConversation[ids[0]]?.length ?? 0;
+      await timed("chat back", back());
+      had = new Set(liveInputs);
+      await timed("chat open", open, { watchMs: 2600 });
+      await scrollList("chat scroll");
+      const box = newInput(had);
+      await typeInto("chat typing", box, "hello there, how are you");
+      // The first thing a send does: the line appears in the chat before the
+      // server has it. The same store call, with nothing queued or sent, and
+      // the line is taken away again.
+      const tempId = `temp-tour-${Date.now()}`;
+      const line = { _id: tempId, _optimistic: true, _tempId: tempId, conversation: ids[0], sender: "me", author: "me", content: "hello there, how are you", msgType: "msg", tipAmount: null, paymentStatus: null, createdAt: new Date().toISOString() };
+      await timed("chat own line appears", () => dm.dmActions.addOptimistic(ids[0], line), { watchMs: 1200 });
+      await timed("chat own line removed", () => dm.dmActions.removeOptimistic(ids[0], tempId), { watchMs: 1200 });
+      Keyboard.dismiss();
+      await timed("chat back 2", back());
+    }
+
+    // The public chat: the longest chat there is, and open to everyone.
+    let had = new Set(liveInputs);
+    await timed("public chat open (first)", push(ScreenNames.LiveChat), { watchMs: 3000 });
+    await timed("public chat back", back());
+    had = new Set(liveInputs);
+    await timed("public chat open", push(ScreenNames.LiveChat), { watchMs: 3000 });
+    await shot("speed-public-chat");
+    await scrollList("public chat scroll");
+    await typeInto("public chat typing", newInput(had), "hello there, how are you");
+    Keyboard.dismiss();
+    await timed("public chat back 2", back());
+    await backToTabs();
+
+    // The assistant's box.
+    had = new Set(liveInputs);
+    await timed("tab Assistant 2", tab(ScreenNames.AIChat));
+    await typeInto("assistant typing", newInput(had) ?? liveInputs[liveInputs.length - 1], "hello there, how are you");
+    Keyboard.dismiss();
+    await timed("tab Home from Assistant", tab(ScreenNames.Home));
+  }
+
+  // Search as you type: each key, then how long until the results stop drawing.
+  {
+    const had = new Set(liveInputs);
+    await timed("search open", push(ScreenNames.Search), { watchMs: 2200 });
+    const box = newInput(had);
+    const change = changeTextOf(box);
+    if (change) {
+      perfLines = [];
+      const perKey: number[] = [];
+      const perKeyElements: number[] = [];
+      const word = "riftn";
+      let typedAt = 0;
+      for (let i = 1; i <= word.length; i++) {
+        await nextFrame();
+        const before = created;
+        const start = now();
+        changeTextOf(box)?.(word.slice(0, i));
+        await nextFrame();
+        await nextFrame();
+        perKey.push(now() - start);
+        perKeyElements.push(created - before);
+        typedAt = now();
+        await sleep(140);
+      }
+      // Something is in when nothing new has been drawn for 1.2 seconds:
+      // first the suggestions under the box, then the results of the search
+      // itself (the keyboard's search key).
+      const quietAfter = async (from: number): Promise<number> => {
+        for (let waited = 0; waited < 9000; waited += 100) {
+          await sleep(100);
+          if (lastCreatedAt > from && now() - lastCreatedAt > 1200) return Math.round(lastCreatedAt - from);
+        }
+        return 0;
+      };
+      const suggestionsMs = await quietAfter(typedAt);
+      const typingLines = perfLines;
+      let resultsMs = 0;
+      let submit: ((event: unknown) => void) | null = null;
+      const handle = (box as any)?.__internalInstanceHandle ?? (box as any)?._internalFiberInstanceHandleDEV;
+      for (let f: Fiber | null = handle ?? null, i = 0; f && i < 14 && !submit; f = f.return, i++) {
+        if (typeof f.memoizedProps?.onSubmitEditing === "function") submit = f.memoizedProps.onSubmitEditing;
+      }
+      if (submit) {
+        const submittedAt = now();
+        created = 0;
+        submit({ nativeEvent: { text: word } });
+        resultsMs = await quietAfter(submittedAt);
+        detail["search results"] = { elements: created, resultsMs };
+      }
+      detail["search typing"] = { keys: perKey.length, keyMs: middle(perKey), keyWorstMs: Math.round(Math.max(0, ...perKey)), keyElements: middle(perKeyElements), keyElementsWorst: Math.max(0, ...perKeyElements), suggestionsMs, resultsMs, ...probes(typingLines) };
+      console.error(`[perf-tour] search typing ${JSON.stringify(detail["search typing"])}`);
+      await shot("speed-search-results");
+      await sleep(800);
+      await scrollList("search results scroll");
+      changeTextOf(box)?.("");
+      await sleep(400);
+    } else {
+      detail["search typing"] = { error: "no text box found" };
+    }
+    Keyboard.dismiss();
+    await timed("search back", back());
+    await backToTabs();
+  }
+
+  if (signedIn) {
+    await timed("notifications open (first)", push(ScreenNames.Notifications), { watchMs: 2400 });
+    if (nav.getCurrentRoute()?.name === ScreenNames.Notifications) await timed("notifications back", back());
+    await timed("notifications open", push(ScreenNames.Notifications), { watchMs: 2400 });
+    if (nav.getCurrentRoute()?.name === ScreenNames.Notifications) await timed("notifications back 2", back());
+    await backToTabs();
+  }
+  const post = (await AsyncStorage.getItem(`${FLAG_KEY}.post`)) || "742";
+  await timed("post open (first)", push(ScreenNames.FeedDetail, { tokenId: post }), { watchMs: 2400 });
+  await timed("post back", back());
+  await timed("post open", push(ScreenNames.FeedDetail, { tokenId: post }), { watchMs: 2400 });
+  await timed("post back 2", back());
+  const profileStep = { delayMs: PROFILE_LINK_DELAY_MS, watchMs: 2400 };
+  await timed("profile open (first)", openProfile("riftn"), profileStep);
+  await timed("profile close", closeProfile());
+  await timed("profile open", openProfile("riftn"), profileStep);
+  await timed("profile close 2", closeProfile());
+  await timed("feed Shorts", feedTab("short"));
+  await timed("feed All", feedTab("all"));
+  if (signedIn) {
+    await timed("new post open", push(ScreenNames.Upload), { watchMs: 2400 });
+    Keyboard.dismiss();
+    if (nav.getCurrentRoute()?.name === ScreenNames.Upload) await timed("new post back", back());
+    await backToTabs();
+  }
+
+  console.warn = warn;
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] done");
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1509,6 +1892,7 @@ void (async () => {
     else if (mode === "loginsheet") await runLoginSheet();
     else if (mode === "player") await runPlayer();
     else if (mode === "menu") await runMenu();
+    else if (mode === "speed") await runSpeed();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

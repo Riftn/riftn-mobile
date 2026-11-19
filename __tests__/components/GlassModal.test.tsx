@@ -273,3 +273,16 @@ it('slides an Android drawer in and keeps it up until it has slid away', () => {
     platform.OS = 'ios';
   }
 });
+
+it('draws nothing until it is first opened, then stays mounted through its close', () => {
+  const screen = render(<GlassModal visible={false} onClose={jest.fn()}><View testID="sheet-content" /></GlassModal>);
+  expect(screen.UNSAFE_queryByType('Modal' as any)).toBeNull();
+  expect(screen.queryByTestId('sheet-content')).toBeNull();
+
+  screen.rerender(<GlassModal visible onClose={jest.fn()}><View testID="sheet-content" /></GlassModal>);
+  expect(screen.UNSAFE_getByType('Modal' as any).props.visible).toBe(true);
+  expect(screen.getByTestId('sheet-content')).toBeTruthy();
+
+  screen.rerender(<GlassModal visible={false} onClose={jest.fn()}><View testID="sheet-content" /></GlassModal>);
+  expect(screen.UNSAFE_getByType('Modal' as any).props.visible).toBe(false);
+});
