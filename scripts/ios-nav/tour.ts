@@ -1298,6 +1298,25 @@ async function runLoginSheet(): Promise<void> {
   await sleep(7000);
   await shot("login-3-page");
   await sleep(6000);
+  // A misspelled provider in the email box ("gmail.coms"): the field should
+  // offer "Did you mean ...gmail.com?" instead of sending. Only on a build
+  // that has the check, so main's run never sends a code to a dead address.
+  const i18next = (require("i18next").default ?? require("i18next")) as { exists(key: string): boolean; t(key: string): string };
+  extra.typoCheck = i18next.exists("loginModal.didYouMean");
+  if (extra.typoCheck) {
+    const field = liveInputs[liveInputs.length - 1];
+    if (field) inputState.focusTextInput(field);
+    await sleep(2000);
+    await AsyncStorage.setItem(SWIPE_KEY, "type:email:alex@gmail.coms");
+    await sleep(5000);
+    await AsyncStorage.setItem(SWIPE_KEY, `find:emailgo:${i18next.t("loginModal.sendCode")}`);
+    await sleep(6000);
+    const { Keyboard } = require("react-native") as typeof import("react-native");
+    Keyboard.dismiss();
+    await sleep(2500);
+    await shot("login-4-email-typo");
+    await sleep(6000);
+  }
   await AsyncStorage.removeItem(SWIPE_KEY);
   extra.finishedAt = Date.now();
   await save(true);
