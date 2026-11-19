@@ -42,7 +42,7 @@ interface PostDetailContinuationProps {
 }
 
 /** Ad first, then an explicitly paginated continuation of recent posts. */
-export default function PostDetailContinuation({ currentPostId, profileFeed, loadMoreSignal }: PostDetailContinuationProps) {
+function PostDetailContinuation({ currentPostId, profileFeed, loadMoreSignal }: PostDetailContinuationProps) {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const { isMinimal } = useAppTheme();
@@ -224,3 +224,5 @@ export default function PostDetailContinuation({ currentPostId, profileFeed, loa
     </ProfileFeedOriginContext.Provider>
   );
 }
+
+export default React.memo(PostDetailContinuation);

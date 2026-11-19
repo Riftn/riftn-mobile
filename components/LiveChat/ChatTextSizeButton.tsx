@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 import { SettingsOptionModal } from "../Settings/SettingsPrimitives";
+import WhenOpened from "../ui/WhenOpened";
 import { setAppPref, useAppPrefs } from "../../hooks/useAppPrefs";
 import { CHAT_TEXT_SIZES, isChatTextSize, type ChatTextSize } from "../../libs/chatTextSize";
 
@@ -52,7 +53,9 @@ export default function ChatTextSizeButton() {
         <Text allowFontScaling={false} style={{ color: "#A1A1AA", fontSize: 13, fontWeight: "700" }}>A</Text>
         <Text allowFontScaling={false} style={{ color: "#A1A1AA", fontSize: 18, fontWeight: "700" }}>a</Text>
       </TouchableOpacity>
-      <ChatTextSizePicker visible={open} onClose={() => setOpen(false)} />
+      <WhenOpened open={open}>
+        {() => <ChatTextSizePicker visible={open} onClose={() => setOpen(false)} />}
+      </WhenOpened>
     </>
   );
 }

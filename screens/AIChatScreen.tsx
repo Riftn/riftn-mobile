@@ -1900,6 +1900,10 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
     refreshConversations();
     setHistoryVisible(true);
   }, [refreshConversations]);
+  // Stable, so the header (memoised) is not redrawn on each key typed.
+  const openSettings = useCallback(() => setSettingsVisible(true), []);
+  const openStyle = useCallback(() => setStyleVisible(true), []);
+  const openSupport = useCallback(() => setSupportVisible(true), []);
 
   const handleHistorySelect = useCallback(
     (entry: ConversationEntry) => {
@@ -2063,9 +2067,9 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
       } /> : <AssistantHeader
         onNewChat={handleNewChat}
         onHistoryPress={handleHistoryOpen}
-        onSettingsPress={() => setSettingsVisible(true)}
-        onStylePress={() => setStyleVisible(true)}
-        onSupportPress={() => setSupportVisible(true)}
+        onSettingsPress={openSettings}
+        onStylePress={openStyle}
+        onSupportPress={openSupport}
         openTicketCount={supportTickets?.openCount ?? 0}
         styleEmoji={currentStyle.emoji}
         styleLabel={currentStyle.label}

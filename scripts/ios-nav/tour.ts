@@ -1896,7 +1896,10 @@ async function runSpeed(): Promise<void> {
   await timed("feed Shorts", feedTab("short"));
   await timed("feed All", feedTab("all"));
   if (signedIn) {
+    const beforeUpload = new Set(liveInputs);
     await timed("new post open", push(ScreenNames.Upload), { watchMs: 2400 });
+    // The caption box of a new post. Nothing is posted and the box is left empty.
+    await typeInto("new post typing", newInput(beforeUpload), "hello there, how are you");
     Keyboard.dismiss();
     if (nav.getCurrentRoute()?.name === ScreenNames.Upload) await timed("new post back", back());
     await backToTabs();

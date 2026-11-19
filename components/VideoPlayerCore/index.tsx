@@ -56,6 +56,7 @@ import ProgressBar from './ProgressBar';
 import SeekOverlay from './SeekOverlay';
 import CaptionOverlay from './CaptionOverlay';
 import DubVolumeSheet from './DubVolumeSheet';
+import WhenOpened from '../ui/WhenOpened';
 import { applyVideoVolume } from '../../libs/dub-mix';
 import { getVolume, setVolume, useMediaVolume, getIsLooping, setIsLooping as persistLooping, useMediaLooping } from '../../libs/video-preferences';
 import {
@@ -997,15 +998,19 @@ const VideoPlayerCore: React.FC<VideoPlayerCoreProps> = ({
         isPlaying={isPlaying}
       />
 
-      <DubVolumeSheet visible={dubVolumeOpen && dubAvailable} onClose={() => setDubVolumeOpen(false)}
-        muted={isMuted || volume === 0} onToggleMute={() => {
-          if (volume === 0) { setVolume(0.8); if (isMuted) toggleMute(); }
-          else toggleMute();
-        }}
-        onUnmute={() => {
-          if (volume === 0) setVolume(0.8);
-          if (isMuted) toggleMute();
-        }} />
+      <WhenOpened open={dubVolumeOpen && dubAvailable}>
+        {() => (
+          <DubVolumeSheet visible={dubVolumeOpen && dubAvailable} onClose={() => setDubVolumeOpen(false)}
+            muted={isMuted || volume === 0} onToggleMute={() => {
+              if (volume === 0) { setVolume(0.8); if (isMuted) toggleMute(); }
+              else toggleMute();
+            }}
+            onUnmute={() => {
+              if (volume === 0) setVolume(0.8);
+              if (isMuted) toggleMute();
+            }} />
+        )}
+      </WhenOpened>
 
       {/* Seek Feedback Overlay */}
       {seekFeedback && (
