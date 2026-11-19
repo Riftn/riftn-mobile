@@ -3859,7 +3859,9 @@
     "notificationShowCountDesc": "See how many notifications you never read, no be only the glow",
     "messagesShowCount": "Show the number for Messages",
     "messagesShowCountDesc": "See how many messages you never read, no be only the glow",
-    "pushNotRegisteredDescIos": "Notifications no fit reach you when the app close: this iPhone never register for push. Check say notifications dey allowed for Riftn for Settings, then open the app again."
+    "pushNotRegisteredDescIos": "Notifications no fit reach you when the app close: this iPhone never register for push. Check say notifications dey allowed for Riftn for Settings, then open the app again.",
+    "publicChatInBar": "Public Chat for di bottom bar",
+    "publicChatInBarDesc": "One tap enter Public Chat from di bar for bottom of di screen"
   },
   "common": {
     "refresh": "Refresh",
@@ -4781,7 +4783,13 @@
     "retry": "Try again",
     "balanceTooLow": "Balance too low ({{balance}} tokens)",
     "tokenAmount": "{{amount}} tokens",
-    "provisional": "e never sure"
+    "provisional": "e never sure",
+    "ogChallenge": "OG Challenge",
+    "ogHolders_one": "{{count}} OG holder",
+    "ogHolders_other": "{{count}} OG holders",
+    "ogChallengeTitle": "Bring di OG holders come back",
+    "ogChallengeBody": "Invite people wey still dey hold DHB. When dem join with your invite link and keep dia DHB for dia Riftn wallet, dem go count for you here.",
+    "ogChallengeCta": "Collect your invite link"
   },
   "explorePage": {
     "resultsFor": "Wetin we find for \"{{query}}\"",

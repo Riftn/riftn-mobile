@@ -2612,7 +2612,66 @@
     "57e2faa5ec63": "Rapua a Riftn",
     "7db20897053b": "Ngā tāngata",
     "96d7bff86b44": "Kāore i taea te rapu",
-    "d8b8392e2c54": "Tirohia anō"
+    "d8b8392e2c54": "Tirohia anō",
+    "e587a51bc3ce": "Hou i Riftn",
+    "d7396f3b8881": "Manako, kōrero hou rānei i Riftn",
+    "037a2ecd34b0": "Kaiwhai hou i Riftn",
+    "b63561f1b73a": "Koha, whiwhinga hou rānei i Riftn",
+    "0ae84457a2df": "Kei te ora i Riftn tētahi e whai ana koe",
+    "a7bac8dca08b": "Waea taumai i Riftn",
+    "9d309cb4a034": "Whakahou mō tō pānui Riftn",
+    "914be7a9350a": "Karere mai i Riftn",
+    "2ab63e6ced90": "Kāore e taea",
+    "79688f176607": "Kua tohua Kāore e taea",
+    "465fe84f18fc": "Tohu Kāore e taea",
+    "0d24977e6943": "Whakatika take",
+    "0a54f1d10336": "He aha e kore ai e taea? (kōwhiringa)",
+    "3d024b567634": "He take poto ka kitea e te tangata",
+    "ad389aa4c08e": "Te take:",
+    "78b3ae9561ee": "Kāore he mea i whakakorea",
+    "89b4d1850766": "Ka puta ki konei ngā tono kāore e taea e mātou te hanga ināianei, me te take.",
+    "3f9b2c71d0a4": "{{n}} hua",
+    "8c4e1a6b2f57": "mō “{{query}}”",
+    "63eb38b938b8": "Tohu Kei te tūtira",
+    "2fffca525795": "Tohu Kua puta",
+    "3ee050a08bfa": "Hoki ki ngā Tono",
+    "ae6a0ffbe609": "Kua tohua Kei te tūtira",
+    "366cb56b38ce": "Kua tohua Kua puta",
+    "9db7b5ba03bb": "Kua whakahokia ki ngā Tono",
+    "bb2be752e079": "Kāore i taea te huri i te tūnga",
+    "1d7234ff1b79": "i {{feed}}",
+    "e122e5c2b563": "Tōia ki runga hei kati",
+    "1aa9d734f2ee": "Kōwhiria te mea hei rapu",
+    "35034aa59bd3": "Kāore he mea i {{feed}} i hāngai. Whakamātauria ētahi kupu kē, rapua rānei ngā mea katoa.",
+    "415155739590": "Rapu katoa",
+    "90f1afe66801": "Kei te rapu i “{{query}}”…",
+    "9e13d826baaf": "Rapu whakaahua",
+    "e8756c6865a5": "Rapu poto",
+    "c7661da99c41": "Rapu ataata",
+    "cbf6f228327c": "Rapu puoro",
+    "d7b559f2d8c6": "Whakamātauria ētahi kupu kē, hurihia rānei ngā tātari.",
+    "ef557404f465": "Kāore he hua mō “{{query}}”",
+    "d1a0c7e2f301": "He aha kei tō hinengaro i tēnei rā?",
+    "d1a0c7e2f302": "He aha ō whakaaro i tēnei rā?",
+    "d1a0c7e2f303": "He aha kei tō hinengaro?",
+    "d1a0c7e2f304": "He kōrero kei tō hinengaro?",
+    "d1a0c7e2f305": "He aha kei tō hinengaro ināianei?",
+    "d1a0c7e2f306": "He aha ō tātou whakaaro i tēnei rā?",
+    "d1a0c7e2f307": "He mea kei tō hinengaro i tēnei rā?",
+    "d1a0c7e2f308": "He aha kei tō hinengaro i tēnei wā?",
+    "a7c1e0f4b2d9": "Pāwhiri hei kōrero",
+    "b3e8d1c6f0a2": "Pāwhiri hei tuku",
+    "c9f2a4e7d1b5": "Kei te whakarongo... pāwhiria te pōro hei tuku",
+    "94cee2c8c1c1": "Kua nekehia tō kōtaha",
+    "22577ebd908e": "Waihanga ataata Wan 3.0 · puoro taketake",
+    "1fa2357ab7e1": "Waihanga ataata Seedance 720p · puoro taketake",
+    "7f78bdc0762d": "+{{value1}} piro",
+    "f0c8bb34335b": "Kua whiwhi koe i ngā piro +{{value1}}",
+    "0fbe06b679a8": "{{value1}} piro mō ia tono kua puta, ka tāpirihia ki tō kaute Kaihanga matua.",
+    "ebebdc70335b": "Pae Karaehe",
+    "5ff272ba7871": "Rārangi Hiraka",
+    "a941e90ca93d": "Kōpaki Halo",
+    "04dbbe4dff7a": "Ngaru Pono"
   },
   "dehubLinks": {
     "kind": {
@@ -2629,7 +2688,8 @@
       "proposal": "kaupapa",
       "stage": "atamira",
       "store": "toa",
-      "featureRequest": "tono"
+      "featureRequest": "tono",
+      "page": "whārangi"
     }
   },
   "postGate": {
@@ -2865,10 +2925,20 @@
       "numbers": "Rārangi Numbered",
       "link": "Te taha matau",
       "image": "Tāpirihia ngā whakaahua"
-    }
+    },
+    "imageLimit": "Ka taea e ngā tuhinga te pupuri tae atu ki ngā whakaahua {{count}}",
+    "imageFailed": "Kāore i taea te tāpiri i taua whakaahua. Whakamātauria tētahi atu.",
+    "imagesUploading": "Kei te tāpiri whakaahua ({{count}})…",
+    "bodyTooLong": "{{count}} pūāhua kua hipa i te tepe",
+    "imagesCount": "Whakaahua · {{count}}/{{max}}",
+    "captionPlaceholder": "Tāpiri kupu whakamārama",
+    "captionLabel": "Kupu whakamārama mō te whakaahua {{n}}",
+    "removeInlineImage": "Tango whakaahua {{n}}"
   },
   "storefront": {
-    "unavailable": "Kāore i te wātea i tēnei putanga o te taupānga"
+    "unavailable": "Kāore i te wātea i tēnei putanga o te taupānga",
+    "continueOnWeb": "Haere tonu i riftn.com",
+    "webOnlyHint": "Whakaotia tēnei i riftn.com. Ka huaki i Safari."
   },
   "nav": {
     "launchpad": "Whakatuwherahia",
@@ -2923,7 +2993,71 @@
     "groups": {
       "create": "Waihanga",
       "discover": "Kimihia",
-      "riftn": "Ko Riftn"
+      "riftn": "Ko Riftn",
+      "main": "Matua",
+      "money": "Moni"
+    },
+    "findWords": {
+      "home": "whāngai, rārangi wā, pānui hou, mōu, e whai ana, whārangi matua",
+      "profile": "taku kōtaha, taku pūkete, taku whārangi, aku pānui, whakaahua kōtaha, kōrero mōku, kaiwhai",
+      "explore": "rapu, tūhura, kimi, e rongonui ana, rongonui, tohu pānga, tāngata, kaihanga",
+      "prompt": "AI, waihanga, whakaahua AI, ataata AI, kaihanga pikitia, kupu ki te whakaahua, toi AI",
+      "editor": "ētita ataata, whakatika ataata, kuti, tapahi, kupu hauraro, tātai kupu, pānga",
+      "creator": "waihanga, taiwhanga, utauta AI, whakaahua, ataata, puoro, reo whakamārama, 3D",
+      "converter": "kawe mai ataata, tikiake, YouTube, TikTok, Instagram, tahuri",
+      "migrate": "neke taku hongere, kawe mai hongere, kawe mai nui, hongere YouTube",
+      "notifications": "matohi, mahi, whakahua, whakautu, manako, pere",
+      "messages": "DM, karere tōtika, kōrerorero, pouaka karere, kōrero, karere tūmataiti",
+      "communities": "rōpū, hapori, rūma, karapu, wānanga, mema",
+      "assistant": "AI, karetao kōrero, pātai, āwhina, kōrerorero AI, ngā pātai",
+      "settings": "manakohanga, pūkete, tūmataitinga, haumarutanga, kupuhipa, reo, kaupapa, aratau pōuri, kua aukatia, muku pūkete",
+      "leaderboard": "rārangi, tūranga, kaihanga matua, kaiwhakamahi matua, piro, kaute",
+      "bookmarks": "kua tiakina, makau, mātakitaki ā muri, pānui ā muri, pānui kua tiakina, whare pukapuka",
+      "command": "papatohu, tātaritanga, moni whiwhi, whiwhinga, māramatanga, whakahaere, aku tatauranga",
+      "wallet": "toenga, moni, pūtea, tohu, crypto, tāpui, tango, tuku, whiwhi, utu",
+      "events": "maramataka, hōtaka, hui, e haere ake ana, tīkiti, AMA",
+      "stages": "rūma ororongo, kōrerorero reo, wāhi, ororongo ora, kōrero, pāhorangi",
+      "featureRequests": "hanga, kaihanga, whakaaro, tūtohu, pūrongo hapa, hapa, whakatika, mahere ara, pōti, rārangi hiahia, whakapai",
+      "feedback": "arotake, whakatauranga, uiuinga, whakaaro, amuamu, hoatu urupare",
+      "staking": "tāpui, tuku haumitanga, hua, utu, whiwhi, tiri hua, tohu, taumata, huamoni",
+      "superpowers": "whakatairanga, whakatairanga, painga, mana, painga tohu, toronga, whakapai ake",
+      "governance": "pōti, pōtitanga, tono, pōti tere, pepa pōti, whakatau",
+      "dao": "pūtea, koha, takoha, pūtea hapori, tautoko, karaati",
+      "bounties": "mahi, tūranga mahi, tūmahi, mahi poto, mahi motuhake, utu kaimahi, whiwhi moni, mahi utu",
+      "myBounties": "aku utu tuku, aku mahi, hītori, utunga, mahi kua oti",
+      "affiliate": "tohutoro, pōwhiri hoa, pōwhiri, utu tuku, hoa mahi, whiwhi",
+      "careers": "tūranga mahi, e kimi kaimahi ana, mahi tahi me mātou, uru ki te tīma, tono, tūranga wātea",
+      "stores": "toa, toa hoko, mākete, taonga, hoko, hoko atu, hua, hokohoko",
+      "fractions": "hea, mana pupuri, haumi, pupuri pānui, NFT, NFTs, taonga kohikohi, hokohoko",
+      "usernames": "ingoa kaiwhakamahi, kakau, ingoa, huri taku ingoa, hoko ingoa, hoko atu ingoa",
+      "accounts": "hoko pūkete, hoko atu pūkete, pūkete hei hoko, kaiwhai, whakawhiti pūkete",
+      "apps": "toa taupānga, taupānga iti, hanga taupānga, kaiwhakawhanake, utauta",
+      "arcade": "kēmu, kēmu, tākaro, tākaro kēmu, tākaro mū, kaipupuhi, ngahau",
+      "glossary": "kupu, whakamārama, papakupu, tikanga, he aha",
+      "compare": "whakatairitenga, whakataurite, ki a, kōwhiringa kē, YouTube, X, TikTok",
+      "guide": "tīmatanga, me pēhea, akoranga, āwhina, ako, tauhou, hou ki konei",
+      "stats": "tatauranga, tātaritanga, tau, kauwhata, utu, rahinga, kaipupuri",
+      "docs": "tuhinga, āwhina, API, pepa mā, kaiwhakawhanake, aratohu",
+      "blog": "pūrongo, tuhinga, whakahou, pānuitanga, he aha te mea hou",
+      "videos": "mātakitaki, ataata, topenga, ataata roa",
+      "shorts": "reels, ataata poto, ataata poutū, kōrere",
+      "music": "ororongo, waiata, riu, whakarongo, reo irirangi, rārangi waiata",
+      "liveTv": "pouaka whakaata, rerenga, rere ora, ora, pāho, hongere, mātakitaki ora",
+      "buyTokens": "hoko tohu, hoko, whakakī, kāri, kāri nama, moni tūturu",
+      "bridge": "whakawhiti mekameka, neke tohu, mekameka, whakawhiti i waenga mekameka",
+      "top100": "100 matua, moni, moni matihiko, uara mākete, utu",
+      "agents": "kaihoko AI, kaihoko, karetao, aunoatanga, tuakiri",
+      "advertising": "pānuihoko, whakatairanga, kaupapa whakatairanga, whakatairanga, kaitautoko, hokohoko",
+      "premium": "ohaurunga, whakapai ake, pro, mematanga, kāore he pānuihoko, kore pānuihoko",
+      "pricing": "mahere, utu, utu, e hia, ohaurunga",
+      "creators": "hōtaka kaihanga, māngai, hoa mahi, tono hei kaihanga, whai moni",
+      "getTheApp": "tikiake i te taupānga, Android, iPhone, taupānga waea, tāuta, APK",
+      "connectAi": "MCP, ChatGPT, Claude, API, tūhononga, hono AI",
+      "packs": "emoji, tāpiri, GIFs, kete emoji, kete tāpiri, emoji ritenga",
+      "publicChat": "kōrerorero, kōrerorero ao, rūma kōrerorero, rūma tatari, kōrero, kōrerorero hapori",
+      "planned": "kua whakaritea, whakarite, pānui kua whakaritea, tūtira, ā muri",
+      "liveStudio": "haere ora, rere, rere ora, OBS, paparanga, matohi, wiwheti",
+      "launchpad": "whakarewa tohu, hanga moni, hanga moni, moni meme, ānau hono, whakatohu"
     }
   },
   "affiliate": {
@@ -3677,7 +3811,57 @@
     "themeColorBrandDesc": "Whakamahia ngā tae o tō whakaahua kōtaha",
     "themeColorBrandNoAvatar": "Tāpirihia he whakaahua kōtaha kia whakamahi ai i ngā tae Waitohu",
     "themeColorBrandFailed": "Kāore i taea te pānui i ngā tae mai i tō whakaahua kōtaha",
-    "menuLayoutFolders": "Ngā kōpaki"
+    "menuLayoutFolders": "Ngā kōpaki",
+    "chatDeleteChoice": "Ina muku koe i tētahi karere",
+    "chatDeleteChoiceDesc": "Pātai i ia wā, me muku rānei i ngā wā katoa mōu anake, mō te katoa rānei i te kōrerorero.",
+    "chatDeleteAsk": "Pātai i ia wā",
+    "chatDeleteMe": "Muku mōku",
+    "chatDeleteMeDesc": "Kua ngaro i tō kōrerorero, ka kite tonu ētahi atu",
+    "chatDeleteEveryone": "Muku mō te katoa",
+    "chatDeleteEveryoneDesc": "Ina taea. Ko te karere a tētahi atu i tētahi rōpū ka ngaro mōu anake",
+    "chatTextSize": "Rahi kupu kōrerorero",
+    "menuLayout": "Tahora tahua",
+    "menuLayoutDesc": "Me pēhea te tahua e whakarōpū ai i ōna whārangi",
+    "menuLayoutTabs": "Ripa",
+    "menuLayoutTabsDesc": "Kotahi rōpū i te wā kotahi, me ngā tohu nunui",
+    "menuLayoutSections": "Wāhanga",
+    "menuLayoutSectionsDesc": "Ngā whārangi katoa i te wā kotahi, i raro i ngā upoko rōpū",
+    "menuLayoutFoldersDesc": "Ō whārangi matua, kātahi he kōpaki mō ia rōpū",
+    "publicChatInBar": "Kōrerorero Tūmatanui i te pae o raro",
+    "publicChatInBarDesc": "Kotahi pāwhiri ki Kōrerorero Tūmatanui mai i te pae i raro o te mata",
+    "chatTextSizeDesc": "He karere nui ake, iti iho rānei i ia kōrerorero. Ka tāpiri ki te rahi kupu o tō waea.",
+    "chatCards": "Ngā kōrerorero hei kāri",
+    "chatCardsDesc": "Kei tōna ake kāri ia kōrerorero. Wetohia mō tētahi rārangi māmā me tētahi rārangi i waenga i ngā kōrerorero.",
+    "contactSupport": "Whakapā ki te tautoko",
+    "showLikes": "Whakaatu aku manako ki te katoa",
+    "showLikesDesc": "Ka taea e te katoa te huaki i te ripa Manako i tō kōtaha. Kua wetohia hei taunoa, nō reira ko koe anake ka kite i ō manako.",
+    "showFollowersList": "Whakaatu i te hunga e whai ana i ahau",
+    "showFollowersListDesc": "Tukua te katoa ki te huaki i tō rārangi kaiwhai. Ina wetohia, ko koe anake ka kite.",
+    "showFollowingList": "Whakaatu i te hunga e whai ana ahau",
+    "showFollowingListDesc": "Tukua te katoa ki te huaki i te rārangi o te hunga e whai ana koe. Ina wetohia, ko koe anake ka kite.",
+    "showFollowCounts": "Whakaatu aku tau kaiwhai",
+    "showFollowCountsDesc": "Whakaatu te maha o ō kaiwhai me te maha o te hunga e whai ana koe. Mā te weto ka hunaia hoki ngā rārangi e rua.",
+    "postLanding": "I muri i tō tuku",
+    "postLandingDesc": "Me pēhea tō pānui hou e tau ai ki tō whāngai",
+    "postLandingGhost": "Wāhi kēhua",
+    "postLandingGhostDesc": "Ka whakawātea tō whāngai, ka memeha mai tō pānui ki tōna wāhi",
+    "postLandingMorph": "Panoni",
+    "postLandingMorphDesc": "Ka mimiti te kaitito ki tō pānui",
+    "postLandingPill": "Pire ki te kāri",
+    "postLandingPillDesc": "Ka whānui te pae tuku ake ki tō pānui ina puta",
+    "postLandingDrop": "Taka mai",
+    "postLandingDropDesc": "Ka taka mai tō pānui i runga me tētahi peke iti",
+    "defaultProfileView": "Tahora pānui kōtaha",
+    "defaultProfileViewDesc": "Whakaatu ō pānui hei mātiti, hei rārangi rānei ina huaki te tangata i tō kōtaha",
+    "readerProfileView": "Huaki kōtaha kē hei",
+    "readerProfileViewDesc": "Kōwhiria te mātiti, te rārangi rānei mō ia kōtaha ka huakina e koe, waiho rānei te kōwhiringa a ia tangata",
+    "readerProfileViewOwner": "Te kōwhiringa a ia tangata",
+    "notificationShowCount": "Whakaatu te tau ki te pere",
+    "notificationShowCountDesc": "Tirohia te maha o ngā whakamōhio kāore anō kia pānuitia, kaua ko te kānapanapa anake",
+    "messagesShowCount": "Whakaatu te tau ki ngā Karere",
+    "messagesShowCountDesc": "Tirohia te maha o ngā karere kāore anō kia pānuitia, kaua ko te kānapanapa anake",
+    "pushNotRegisteredDescIos": "Kāore e tae atu ngā whakamōhio ki a koe i te wā e kati ana te taupānga: kāore rawa tēnei iPhone i rēhita mō te pana. Tirohia kua whakaaetia ngā whakamōhio mō Riftn i ngā Tautuhinga, kātahi ka huaki anō i te taupānga.",
+    "tipsOffNote": "Kua weto ngā koha me ngā tuku ki a koe i te wā e kā ana tēnei. Wetohia kia whiwhi koha anō."
   },
   "common": {
     "refresh": "Whakahou",
@@ -3803,7 +3987,15 @@
     "addMessage": "Tāpirihia he karere (kōwhiringa)",
     "messagePublic": "Tūmatanui",
     "railTitle": "Tōtō",
-    "railTotal": "{{amount}} tohu"
+    "railTotal": "{{amount}} tohu",
+    "messagePlaceholder": "Kīia tētahi mea me tō koha",
+    "messagePrivate": "Ko {{name}} anake",
+    "theCreator": "te kaihanga",
+    "messageWallNote": "Ka puta ki te pātū koha ina tutuki te koha.",
+    "sendWithMessage": "Tukua me te karere",
+    "messageFailed": "Kāore i taea te tāpiri i tō karere. Kāore he koha i tukuna.",
+    "wallLabel": "Ngā karere koha",
+    "messagePrivateNote": "Ko {{name}} anake ka kite, i tāna whakamōhio."
   },
   "postOptions": {
     "skippableSections": "Ngā wāhanga Skippable",
@@ -3887,7 +4079,17 @@
     "giftBoost": "Koha he whakapiki",
     "giftBoostDesc": "Whakapaua tētahi o āu ki tēnei pou",
     "askAi": "Pātai ki te AI",
-    "aiOverview": "Te tirohanga whānui o te AI"
+    "aiOverview": "Te tirohanga whānui o te AI",
+    "unmuteUser": "Whakaoho anō i a {{name}}",
+    "unmuteDesc": "Tirohia anō ā rātou pānui",
+    "unmutedUser": "Kua whakaohohia anō a {{name}}",
+    "refreshLinkPreview": "Whakahou arokite hononga",
+    "linkPreviewRefreshed": "Kua whakahoutia te arokite hononga",
+    "linkPreviewRefreshFailed": "Kāore i taea te toro ki taua pae. Whakamātauria anō ā muri ake.",
+    "castToTv": "Whakaata ki te pouaka whakaata",
+    "castIosDesc": "AirPlay ki tētahi Apple TV, pouaka whakaata atamai rānei",
+    "castAndroidDesc": "Whakaata i tō mata mā Cast, Smart View rānei",
+    "castAndroidHelp": "Huakina ō tautuhinga tere, ka pāwhiri i Smart View, Cast rānei, kātahi ka kōwhiri i tō pouaka whakaata."
   },
   "filters": {
     "sort": "Raupapa",
@@ -4093,7 +4295,8 @@
     "failedToClosePoll": "Kua rahua te kapi pōti",
     "endsIn": "Ka mutu {{time}}",
     "multipleChoice": "Tukua kia maha ngā whakautu",
-    "online": "{{count}} kei te ipurangi"
+    "online": "{{count}} kei te ipurangi",
+    "onlineHint": "{{count}} tāngata kei tēnei kōrerorero ināianei"
   },
   "aiChat": {
     "title": "Kaiāwhina",
@@ -4447,7 +4650,8 @@
       "governanceVotedPassed": "I puta ki te pai tētahi whakatakoto i hāngai koe: “{{title}}”",
       "governanceVotedRejected": "Kāore i puta ki te pai tētahi whakatakoto i hāngai koe: “{{title}}”",
       "governancePassed": "I puta ki te pai tō whakatakoto “{{title}}” 🎉",
-      "governanceRejected": "Kāore i puta ki te pai tō whakatakoto “{{title}}”"
+      "governanceRejected": "Kāore i puta ki te pai tō whakatakoto “{{title}}”",
+      "featureNewNamed": "I tuku a {{name}} i tētahi tono hou “{{title}}”"
     },
     "stores": "Ngā toa",
     "features": "Ngā āhuatanga",
@@ -4534,7 +4738,11 @@
     "groupNew": "Hou",
     "groupToday": "Āianei",
     "groupThisWeek": "Tēnei wiki",
-    "searchClose": "Katia te rapu"
+    "searchClose": "Katia te rapu",
+    "allSettings": "Ngā tautuhinga whakamōhio katoa",
+    "groupEarlier": "I mua ake",
+    "searchPlaceholder": "Rapu whakamōhio",
+    "searchEmpty": "Kāore he whakamōhio e hāngai ana"
   },
   "leaderboard": {
     "title": "Rārangi Rangatira",
@@ -4574,7 +4782,13 @@
     "addedToLeaderboard": "Kua tāpirihia koe! Tohu toenga: {{balance}} tohu",
     "balanceTooLow": "He iti rawa te toenga ({{balance}} tohu)",
     "tokenAmount": "{{amount}} tohu",
-    "provisional": "taupua"
+    "provisional": "taupua",
+    "ogChallenge": "Wero OG",
+    "ogHolders_one": "{{count}} kaipupuri OG",
+    "ogHolders_other": "{{count}} kaipupuri OG",
+    "ogChallengeTitle": "Whakahokia mai ngā kaipupuri OG",
+    "ogChallengeBody": "Pōwhiritia ngā tāngata e pupuri tonu ana i te DHB. Ina uru mai rātou mā tō hononga pōwhiri, ā, ka pupuri i tō rātou DHB i tō rātou pūkoro moni Riftn, ka tatauria rātou mōu i konei.",
+    "ogChallengeCta": "Tikina tō hononga pōwhiri"
   },
   "explorePage": {
     "searchPlaceholder": "Rapu tāngata, pānui, ihirangi rānei...",
@@ -4736,8 +4950,31 @@
       "comments": "Tākupu",
       "showLess": "Whakaatu iti iho",
       "viewProfile": "Tirohia te kōtaha",
-      "you": "Tō"
-    }
+      "you": "Tō",
+      "title": "Kaihanga matua",
+      "breakdown": "{{shipped}} kua puta ({{sp}}) · {{votes}} pōti tautoko ({{vp}}) · {{comments}} kōrero ({{cp}})",
+      "showAll": "Whakaatu {{n}} matua",
+      "showEveryone": "Whakaatu ngā kaihanga {{n}} katoa",
+      "showMore": "Whakaatu {{n}} atu anō",
+      "rule": "10 piro mō ia tono kua puta, 1 mō ia pōti tautoko, 2 mō ia kōrero i te tono a tētahi atu.",
+      "pts": "{{n}} piro",
+      "gap": "{{n}} piro hei hipa i a {{name}}",
+      "join": "Tukuna he kupu tohu ka puta hei uru ki te papa",
+      "points": "Piro",
+      "infoLabel": "Te mahi a ngā piro",
+      "infoShipped": "mō ia tono kua puta",
+      "infoVote": "mō ia pōti tautoko i āu tono",
+      "infoComment": "mō ia kōrero i te tono a tētahi atu",
+      "infoCap": "Ka tatauria ngā kōrero tae atu ki te {{n}} ia wā.",
+      "pt": "1 piro",
+      "infoTitle": "Te mahi a ngā piro"
+    },
+    "deviceInfoNote": "Kua tāpirihia ngā mōhiohio pūrere hei āwhina i a mātou ki te whakatika hapa.",
+    "deviceInfo": "Mōhiohio pūrere",
+    "deviceInfoOwners": "Ko ngā rangatira papa anake ka kite i tēnei",
+    "deviceInfoError": "Kāore i taea te uta i ngā mōhiohio pūrere",
+    "deviceInfoNone": "Kāore he mōhiohio pūrere mō tēnei tono",
+    "deviceInfoErrors": "Ngā hapa tata nei"
   },
   "auth": {
     "loginRequired": "Me takiuru",
@@ -4794,7 +5031,13 @@
     "importWalletPurpose": "Ko tenei taputapu mo te kawemai i nga kaute o mua mai i Riftn.io.",
     "importSecretPlaceholder": "12 ranei 24 kupu, ranei te kī tūmataiti",
     "invalidImportSecret": "Ehara i te kupu 12/24 kupu tika, i te kī tūmataiti rānei",
-    "walletSignupBlocked": "He hou katoa tēnei pūkoro. Me whai toenga, he tauwhitinga o mua rānei ngā pūkoro hou kia huaki pūkete. Haina mai mā tētahi o ngā kōwhiringa i raro, kātahi ka hono i tēnei pūkoro mai i ngā Tautuhinga."
+    "walletSignupBlocked": "He hou katoa tēnei pūkoro. Me whai toenga, he tauwhitinga o mua rānei ngā pūkoro hou kia huaki pūkete. Haina mai mā tētahi o ngā kōwhiringa i raro, kātahi ka hono i tēnei pūkoro mai i ngā Tautuhinga.",
+    "accountDeleted": "Kua mukua tēnei pūkete. Ka taea e koe te rēhita anō hei pūkete hou.",
+    "accountDeletedHours_one": "Kua mukua tēnei pūkete. Ka taea e koe te rēhita anō me te īmēra, waea rānei ōrite i roto i te {{count}} haora pea.",
+    "accountDeletedHours_other": "Kua mukua tēnei pūkete. Ka taea e koe te rēhita anō me te īmēra, waea rānei ōrite i roto i ngā {{count}} haora pea.",
+    "accountDeletedDays_one": "Kua mukua tēnei pūkete. Ka taea e koe te rēhita anō me te īmēra, waea rānei ōrite i roto i te {{count}} rā pea.",
+    "accountDeletedDays_other": "Kua mukua tēnei pūkete. Ka taea e koe te rēhita anō me te īmēra, waea rānei ōrite i roto i ngā {{count}} rā pea.",
+    "signInPageWouldNotOpen": "I kati te whārangi takiuru i mua i tōna huakitanga. Whakamātauria anō, haere tonu rānei mā te īmēra."
   },
   "messages": {
     "encryptionSetupFailed": "Kua kore te whakatakotoranga whakamunatanga. tēnā tamata ano.",
@@ -4819,7 +5062,11 @@
     "title": "Karere",
     "searchConversations": "Rapu kōrerorero...",
     "failedToLoad": "Kāore i taea te uta kōrerorero",
-    "tryAgain": "Ngana anō"
+    "tryAgain": "Ngana anō",
+    "unreadMarkerOne": "1 karere kāore anō kia pānuitia",
+    "unreadMarkerMany": "{{value}} karere kāore anō kia pānuitia",
+    "jumpToUnread": "Peke ki te karere tuatahi kāore anō kia pānuitia",
+    "jumpToLatest": "Peke ki te karere hou rawa"
   },
   "music": {
     "top50": "Tokorua 50",
@@ -5004,14 +5251,51 @@
     "pinnedShort": "Kua pīnia",
     "post": "Pānui",
     "arrange": {
-      "saving": "E tiaki ana..."
+      "saving": "E tiaki ana...",
+      "title": "Whakaraupapahia ō pānui",
+      "hint": "Puritia tētahi pānui, ka tō ki tōna wāhi hou. Ka kite tuatahi ngā manuhiri i tēnei raupapa.",
+      "drag": "Tōia kia nekehia",
+      "toTop": "Neke ki runga",
+      "save": "Tiaki raupapa",
+      "saved": "Kua tiakina tō raupapa",
+      "reset": "Hoki ki te hou rawa i te tuatahi",
+      "resetDone": "Hoki ki te hou rawa i te tuatahi",
+      "saveFailed": "Kāore i taea te tiaki i tō raupapa. Whakamātauria anō.",
+      "loadFailed": "Kāore i taea te uta i ō pānui. Katia tēnei, ka whakamātau anō.",
+      "empty": "Kāore anō he mea hei whakaraupapa. Tukuna tētahi mea i te tuatahi."
     },
     "reserve": {
-      "signIn": "Takiuru"
+      "signIn": "Takiuru",
+      "available": "E wātea ana te ingoa kaiwhakamahi",
+      "held": "Kei te puritia mōu",
+      "ended": "Kua mutu te pupuri",
+      "busy": "Kei te rāhuitia",
+      "availableBody": "Kei te wātea a riftn.com/{{name}} ināianei. Rāhuitia, ā, ka puritia e mātou mō te meneti kotahi i a koe e rēhita ana.",
+      "heldBody": "Kāore tētahi atu e taea te tango i a @{{name}} kia pau rā anō te matawā. Whakaotia te rēhita kia mau ai.",
+      "endedBody": "Kua pau tō meneti, nō reira kua tuwhera anō a @{{name}} ki te katoa. Kei te wātea tonu.",
+      "busyBody": "Kei te rēhita tētahi hei @{{name}} ināianei. Ki te kore rātou e whakaoti, ka wātea ina mutu te matawā.",
+      "finish": "Whakaotia te rēhita",
+      "again": "Rāhui anō",
+      "cta": "Rāhuitia ināianei",
+      "letGo": "Tukua",
+      "haveAccount": "He pūkete tōu?"
     },
     "tabLikes": "Pai",
     "likesEmptyTitle": "Kāore anō he pai",
-    "likesPrivateTitle": "He tūmataiti ngā pai"
+    "likesPrivateTitle": "He tūmataiti ngā pai",
+    "articleViews": "{{views}} tirohanga",
+    "sortBy": "Kōmaka mā",
+    "sortCustom": "Raupapa ritenga",
+    "arrangeButton": "Whakaraupapa pānui",
+    "mutualsOne": "{{count}} Tahi:",
+    "mutualsMany": "{{count}} Tahi:",
+    "tabArticles": "Tuhinga",
+    "articlesEmptyTitle": "Kāore anō he tuhinga",
+    "articlesEmptySubtitle": "Ka puta mai ngā tuhinga ki konei",
+    "likesEmptyOwn": "Ka puta mai ki konei ngā pānui e manako ana koe. Ko koe anake ka kite, ki te kore koe e whakakā i Whakaatu aku manako i ngā Tautuhinga.",
+    "likesEmptyOther": "Kāore anō he mea i manakohia.",
+    "likesPrivateDesc": "Ka puritia e tēnei pūkete ōna manako ki a ia anake.",
+    "unavailable": "Kāore e wātea ana te kōtaha"
   },
   "tv": {
     "title": "Pouaka whakaata",
@@ -5529,7 +5813,26 @@
       "filter": "Tātari ngohe"
     },
     "welcome": {
-      "text": "Karere pōwhiri"
+      "text": "Karere pōwhiri",
+      "title": "Pōwhiri i ngā mema hou",
+      "help": "Ka whai, ka karere rānei tēnei kaihoko i ngā tāngata kātahi anō ka uru ki Riftn, he ruarua ia rā.",
+      "follow": "Whai i ngā mema hou",
+      "message": "Karere ki ngā mema hou",
+      "textHelp": "Ka huri a {name} hei @ingoakaiwhakamahi mō rātou. Kāore he hononga. Ka tukuna kotahi te wā mō ia tangata.",
+      "saveText": "Tiaki karere",
+      "perDay": "Tāngata ia rā",
+      "fewer": "Iti iho ia rā",
+      "more": "Nui ake ia rā",
+      "today": "I tēnei rā: {{follows}} kua whāia · {{messages}} kua karerehia",
+      "limits": "Kāore rawa i te tangata kotahi kia rua. Ka pekea te hunga kua aukati, kua whakangū rānei i a koe, kua weto i ngā karere hou, kua huna rānei i ngā Mema hou.",
+      "showLog": "Tirohia ko wai i pōwhiritia",
+      "hideLog": "Huna ngā pōwhiri",
+      "empty": "Kāore anō tētahi. Ka puta mai ngā mema hou ki konei i a rātou e uru ana.",
+      "followed": "Kua whāia",
+      "messaged": "Kua karerehia",
+      "skipped": "Kua pekea",
+      "failed": "Kāore i taea te toro",
+      "defaultText": "Kia ora {name}, nau mai ki Riftn! 👋"
     }
   },
   "hero": {
@@ -5620,7 +5923,43 @@
     "disconnect": "Momotu",
     "payAndRun": "Utua, ka rere",
     "run": "Tukuna",
-    "handlePrompt": "Whakahau"
+    "handlePrompt": "Whakahau",
+    "retryFreeTask": "Whakamātau anō i te mahi utu kore",
+    "previewSavedMedia": "Arokite pāpāho kua tiakina",
+    "audioSavePending": "Kua rite te ororongo, engari e tatari ana tōna tiaki ki te whare pukapuka tūmataiti. Haere tonu hei kohi.",
+    "freeResultUnknown": "I haukotia te whakautu o te mahi utu kore. Kāore e tukuna aunoatia anō. Kōwhiria Whakamātau anō i te mahi utu kore, kātahi ka haere tonu; ka puritia tō utu me ērā atu mahi.",
+    "formAuthor": "Whakatika rerenga mahi",
+    "formAuthorHint": "Hangaia he rerenga mahi me ngā tāuru kua patohia. Tiakina i konei, whakaraupapahia rānei i te kānawehi tukutuku.",
+    "chooseSavedMedia": "Kōwhiri pāpāho kua tiakina",
+    "formInput": "Tāuru: {{handle}}",
+    "reviewRun": "Arotake whakahaere",
+    "resumeRun": "Haere tonu i te whakahaere kua tiakina",
+    "confirmPrice": "Tapeke: {{price}} tohu",
+    "recoveryHint": "Kua tiakina ngā tohutoro mahi me te utu ki tēnei pūrere. Haere tonu i te mahi i haukotia i mua i te tīmata i tētahi whakahaere anō.",
+    "newRun": "Tīmata i tētahi whakahaere anō",
+    "loadMoreMedia": "Uta atu anō ngā pāpāho",
+    "invalidGraph": "Tirohia ngā hononga: me whai pūtake hāngai ia tāuru, ā, kāore e taea e te kauwhata te whai huringa.",
+    "unsupportedNode": "Kāore anō tēnei node e taea te rere i te puka taketake. Whakamahia te kānawehi tukutuku mō tēnei rerenga mahi.",
+    "missingPrompt": "Honoa tētahi node kupu me tētahi kupu tohu.",
+    "invalidSettings": "Kāore ēnei tautuhinga e tautokona ana e te tauira kua kōwhiria.",
+    "missingCapturedFrame": "Hopukina he anga i te kānawehi tukutuku i mua i te whakamahi i tēnei ataata hei tāuru whakaahua.",
+    "missingSavedMedia": "Kei te ngaro te pāpāho pūtake kua tiakina, kua kore rānei e wātea ki tēnei pūkete.",
+    "nothingToRun": "Tāpiria he kaiwaihanga hei whakahaere i tēnei rerenga mahi.",
+    "quoteFailed": "Kāore i taea te utu i tēnei rerenga mahi. Whakamātauria anō.",
+    "recoverBeforeEdit": "Haere tonu i te whakahaere kua tiakina i mua i te huri i tōna kauwhata, i te tīmata rānei i tētahi whakahaere anō.",
+    "runAlreadyComplete": "Kua oti tēnei whakahaere. Kōwhiria Tīmata i tētahi whakahaere anō hei waihanga anō.",
+    "recoveryCorrupt": "Kāore i taea te pānui i te pūkete whakaora kua tiakina. Puritia tēnei rerenga mahi, ka whakapā atu ki te tautoko i mua i te utu anō.",
+    "paidUnavailable": "Ka taea e koe te tito me te tiaki rerenga mahi i konei. Kāore e wātea ana ngā whakahaere utu i tēnei toa.",
+    "planChanged": "I huri te rerenga mahi i muri i te whakatau utu. Arotakehia anō te whakahaere.",
+    "connectOwnerWallet": "Honoa te pūkoro moni nōna tēnei rerenga mahi.",
+    "runFailed": "Kāore i taea te node te whakaoti. Ka puritia tōna tohutoro mahi kua tiakina hei whakaora.",
+    "recoveryPending": "E tatari tonu ana te tuhi. Haere tonu i tēnei whakahaere hei kohi.",
+    "nodeAudioGen": "Kaiwaihanga ororongo",
+    "nodeAudioGenDesc": "Kōrero, pānga oro, tuhi kōrero me te wehe ororongo",
+    "nodeAudioInput": "Ororongo kua tiakina",
+    "nodeAudioInputDesc": "Whakamahia he ororongo tūmataiti mai i tō whare pukapuka",
+    "audioVoiceId": "ID reo",
+    "audioSeconds": "Roanga oro i ngā hēkona"
   },
   "loginModal": {
     "title": "Takiuru",
@@ -5657,7 +5996,8 @@
     "passkeyNotLinked": "Kāore anō kia honoa tētahi pūkete ki taua matimati. Hanga he pūkete hou hei utu.",
     "passkeyAlreadyRegistered": "Kua whai pūkete kē taua matimati. Whakamahia te Takiuru hei utu.",
     "passkeyFailed": "Kua rahua te takiuru mā te matimati. Tēnā ka whakamātau anō.",
-    "passkeyBackupHint": "Kei roto i te kīhōpuku o tēnei pūrere tō pūkete. I te nuinga o ngā waea, ka honoa tēnei ki tō pūkete Google, Apple rānei, ā, ka taea e koe te tāpiri i tētahi pūrua kupuhipa ki ngā Tautuhinga."
+    "passkeyBackupHint": "Kei roto i te kīhōpuku o tēnei pūrere tō pūkete. I te nuinga o ngā waea, ka honoa tēnei ki tō pūkete Google, Apple rānei, ā, ka taea e koe te tāpiri i tētahi pūrua kupuhipa ki ngā Tautuhinga.",
+    "didYouMean": "Ko {{email}} tāu i kōrero ai?"
   },
   "careers": {
     "title": "Mahi i Riftn",
@@ -5922,7 +6262,13 @@
       "authorChip": "Kaihanga kaupapa"
     },
     "holdTokensToVote": "Puritia nga tohu Riftn ki te pooti",
-    "mustHoldTokens": "Me pupuri koe i nga tohu Riftn ki te pooti i nga tono whakahaere."
+    "mustHoldTokens": "Me pupuri koe i nga tohu Riftn ki te pooti i nga tono whakahaere.",
+    "optionVoters_one": "{{count}} kaipōti",
+    "optionVoters_other": "{{count}} kaipōti",
+    "optionWinner": "Toa: {{option}}",
+    "optionNoWinner": "Kāore he toa mārama",
+    "optionTapToUndo": "Pāwhiria anō tō whakautu hei tango i tō pōti",
+    "optionPickOne": "Kōwhiria kotahi te whakautu"
   },
   "sidebar": {
     "talkOfTheTown": "Kōrero o te tāone",
@@ -5941,7 +6287,16 @@
     "clearSearch": "Whakakore rapunga",
     "noMenuMatches": "Kāore he mea e hāngai ana i te tahua",
     "searchDehubFor": "Rapua \"{{query}}\" i Riftn",
-    "requestSend": "Tukua te tono"
+    "requestSend": "Tukua te tono",
+    "requestPrompt": "Kāore anō i konei? Tukuna hei tono",
+    "requestPromptShort": "Kāore anō i konei?",
+    "requestDraftMenu": "Tāpiri {{query}} ki Riftn",
+    "requestDraftSettings": "He tautuhinga mō {{query}}",
+    "requestPostsTo": "Ka tukuna ki ngā Tono",
+    "requestHint": "Ka tukuna ki ngā Tono hei a koe. Ka whakamōhio atu mātou ina puta.",
+    "requestSent": "Kua tukuna ki ngā Tono",
+    "requestSentHint": "Ka whakamōhio atu mātou ina puta.",
+    "requestSeeIt": "Tirohia i ngā Tono"
   },
   "comments": {
     "reportComment": "Ngā kōrero pūrongo",
@@ -6030,7 +6385,24 @@
     "tabReplies": "Ngā whakautu",
     "tabQuotes": "Kōrero tau",
     "tabReposts": "Tukurua",
-    "tabSearch": "Rapu"
+    "tabSearch": "Rapu",
+    "attachAudioFile": "Kōnae ororongo",
+    "attachMedia": "Tāpiri whakaahua, ataata, ororongo rānei",
+    "attachPhotoOrVideo": "Whakaahua, ataata rānei",
+    "attachTooLarge": "Kua nui ake taua kōnae i te tepe {{size}} MB.",
+    "playVideo": "Pūrei ataata",
+    "threadParts": {
+      "reorder": "Whakaraupapa anō",
+      "reorderHint": "Puritia, ka tō i tētahi wāhanga, whakamahia rānei ngā pere, kātahi ka tiaki.",
+      "save": "Tiaki raupapa",
+      "saved": "Kua tiakina te raupapa miro",
+      "saveFailed": "Kāore i taea te tiaki i te raupapa. Whakamātauria anō.",
+      "moveUp": "Neke i te wāhanga {{n}} ki runga",
+      "moveDown": "Neke i te wāhanga {{n}} ki raro",
+      "addPart": "Tāpiri ki te miro",
+      "addPlaceholder": "Tāpiri ki tō miro...",
+      "label": "Miro · {{count}} wāhanga"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "Kāore e taea te pānui i ngā rangatira o nāianei i tēnei wā.",
@@ -6564,7 +6936,9 @@
       "joined": "{{name}} hono",
       "reactions": "Ngā urupare",
       "photoTooLarge": "Me iti ake te whakaahua i te 10MB",
-      "aiAdminFailed": "I rahua te whakautu a te Kaiwhakahaere AI"
+      "aiAdminFailed": "I rahua te whakautu a te Kaiwhakahaere AI",
+      "addToMessages": "Tāpiri ki ngā Karere",
+      "inMessages": "Kei ngā Karere"
     },
     "manage": {
       "slowModeOnHint": "Ka taea e ngā mema te tuku karere kotahi ia {{label}}. E whakawāteatia ana ngā kaiwhakahaere.",
@@ -6587,7 +6961,8 @@
         "invites": "Ngā tono",
         "rules": "Ngā ture",
         "recentActions": "Ngā mahi hou",
-        "danger": "Rohe mōrearea"
+        "danger": "Rohe mōrearea",
+        "automod": "Whakahaere-aunoa me ngā karetao"
       },
       "title": "Whakahaere",
       "purgeTitle": "Whakakorea nga karere katoa?",
@@ -6773,25 +7148,112 @@
       "buyer": "Kaiwhoko:",
       "balance": "Toenga:",
       "price": "Utu:",
-      "marketCap": "Pūmatua mākete:"
+      "marketCap": "Pūmatua mākete:",
+      "title": "HOKO {{amount}}",
+      "txn": "Tauwhitinga",
+      "titleToken": "HOKO {{amount}} ${{symbol}}"
     },
     "newChat": {
       "public": "Tūmatanui",
       "private": "Tūmataiti",
       "free": "Koreutu",
       "paid": "Utu",
-      "group": "Rōpū"
+      "group": "Rōpū",
+      "description": "He aha te kaupapa? (kōwhiringa)",
+      "groupCreated": "Kua hangaia te rōpū",
+      "channelCreated": "Kua hangaia te hongere",
+      "newGroup": "Rōpū hou",
+      "newChannel": "Hongere hou",
+      "groupName": "Ingoa rōpū",
+      "channelName": "Ingoa hongere",
+      "whoCanJoin": "Ko wai ka uru",
+      "publicDetail": "Ka taea e te katoa te kimi me te uru",
+      "inviteOnly": "Mā te pōwhiri anake",
+      "privateDetail": "Ka uru te tangata mā tō pōwhiri, mā tō whakaaetanga rānei",
+      "entry": "Urunga",
+      "freeDetail": "Kāore he utu hei uru",
+      "paidDetail": "Kotahi te utu ki ngā tohu, tōtika ki a koe",
+      "price": "Utu ki ngā tohu",
+      "channelNote": "Ko koe me ō kaiwhakahaere anake ka taea te tuku. Ka pānui, ka tauhohe ngā mema.",
+      "createGroup": "Hanga rōpū",
+      "createChannel": "Hanga hongere",
+      "channel": "Hongere",
+      "adminsOnly": "Ko ngā kaiwhakahaere anake ka tuku i tēnei hongere.",
+      "message": "Karere hou",
+      "messageDetail": "He kōrerorero tūmataiti me te tangata kotahi",
+      "groupDetail": "Kōrerorero me ngā tāngata maha, tūmatanui, tūmataiti rānei",
+      "channelDetail": "Pāho ki ngā kaiwhai, utu kore, utu rānei",
+      "title": "Tīmatahia tētahi mea",
+      "channelRow": "Hongere · {{formattedCount}} mema",
+      "groupRow": "Rōpū · {{formattedCount}} mema"
     },
     "holderGate": {
       "chain": "Mekameka",
       "which": "Tōkena",
-      "tab": "Ngā Kaipupuri"
+      "tab": "Ngā Kaipupuri",
+      "failed": "Kāore i taea te pānui i tō toenga ināianei. Whakamātauria anō ā kō tata nei.",
+      "short": "Kaipupuri anake: me whai koe i te {{need}}. Kei a koe ko {{have}}.",
+      "required": "Kaipupuri anake: kāore i rawaka te tohu o tēnei hapori i tō pūkoro moni hei kōrerorero.",
+      "topHolders": "Kaipupuri matua",
+      "noHolders": "Ka puta mai ngā kaipupuri ki konei ina uru rātou.",
+      "saved": "Kua tiakina te ture kaipupuri",
+      "cleared": "Ka taea anō e te katoa te uru",
+      "saveFailed": "Kāore i taea te tiaki i te ture kaipupuri",
+      "title": "Kaipupuri anake",
+      "explain": "Ko ngā pūkoro moni e pupuri ana i tēnei tohu anake ka taea te uru me te kōrerorero. Ka pānuitia ngā toenga mai i te mekameka ina uru tētahi.",
+      "dehubTokens": "Ngā tohu Riftn",
+      "otherToken": "Tētahi atu tohu",
+      "token": "Kirimana tohu",
+      "reading": "Kei te pānui i te tohu…",
+      "badAddress": "Ehara tēnā i te wāhitau tohu",
+      "minimum": "Iti rawa hei pupuri",
+      "save": "Tiaki ture kaipupuri",
+      "chip": "Kaipupuri anake · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Kupu kua kaipāhekohekotia",
       "floodMax": "Karere o {{count}}",
       "saved": "Tiakina",
-      "wordCount": "{{count}} kupu"
+      "wordCount": "{{count}} kupu",
+      "title": "Whakahaere-aunoa",
+      "hint": "Ka aukati i tētahi karere i mua i te kitenga a tētahi, ā, ka kōrero ki te kaituku te take. Kāore rawa ngā rangatira me ngā kaiwhakahaere e aukatia.",
+      "enabled": "Kua kā te whakahaere-aunoa",
+      "bannedWordsHint": "Kotahi ia rārangi, ia piko rānei. Ko ngā kupu katoa anake, ā, ka mau hoki ngā tuhi mokowā pērā i s.c.a.m.",
+      "bannedWordsPlaceholder": "tinihanga\nrug pull",
+      "blockLinks": "Aukati hononga",
+      "blockLinksHint": "Ngā hononga ki waho me ngā pōwhiri Telegram/Discord. Ka mahi tonu ngā hononga Riftn.",
+      "repeats": "Aukati tāruarua",
+      "repeatsHint": "Ka aukati i tētahi ki te tuku anō i te rārangi kotahi i roto i ngā meneti 10.",
+      "flood": "Ārai waipuke",
+      "floodHint": "Kia {{max}} ngā karere te nui rawa ia {{seconds}}s mō ia tangata.",
+      "noAccess": "Ko te rangatira me ngā kaiwhakahaere anake ka taea te huri i ēnei tautuhinga.",
+      "saveFailed": "Kāore i taea te tiaki. Whakamātauria anō.",
+      "saveWords": "Tiaki kupu",
+      "bannedWord": "He kupu kei taua karere kāore e whakaaetia ana e tēnei rōpū.",
+      "links": "Kāore e whakaaetia ana ngā hononga i tēnei rōpū.",
+      "repeat": "Kātahi anō koe ka tuku i tērā. Whakamātauria te kī i tētahi mea hou.",
+      "reserved": "Ko ngā karetao o te rōpū anake ka tuku i tēnā momo karere.",
+      "floodError": "He tere rawa tō tuku. Tatari kia {{value1}}s, ka whakamātau anō."
+    },
+    "entry": {
+      "switchChain": "Hurihia tō pūkoro moni ki BNB Chain, ki Base rānei hei utu.",
+      "failed": "Kāore anō kia taea e mātou te whakaū i tō utu. Mēnā kua wehe ngā tohu i tō pūkoro moni, pāwhiria anō a Uru ā te meneti kotahi.",
+      "chip": "{{amount}} hei uru"
+    },
+    "jumpToReply": "Peke ki te karere i whakautua",
+    "avatarUpdated": "Kua whakahoutia te pikitia",
+    "bannerUpdated": "Kua whakahoutia te kara",
+    "imageUploadFailed": "Kāore i taea te tukuake i taua whakaahua. Whakamātauria anō.",
+    "changeBanner": "Huri kara",
+    "changeAvatar": "Huri pikitia",
+    "buyBot": {
+      "title": "Karetao hoko",
+      "any": "Ahakoa te rahi",
+      "enabled": "Tuku matohi hoko",
+      "hint": "Ka tukuna ia hoko ${{symbol}} ki tēnei kōrerorero, kotahi meneti pea i muri i tōna pānga.",
+      "minUsd": "Hoko iti rawa hei tuku",
+      "noToken": "Honoa he tohu mai i te upoko rōpū (whakatika, kātahi Ticker), ā, ka puta ia hoko ki tēnei kōrerorero.",
+      "unsupported": "Kei tētahi mekameka, momo puna rānei a ${{symbol}} kāore anō te karetao hoko e mātaki ana. E tautokona ana: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism me Avalanche (ngā puna momo Uniswap v2/v3)."
     }
   },
   "work": {
@@ -7730,7 +8192,8 @@
     "jumpToLatest": "Haere ki ngā karere hou",
     "ban": "Aukatia",
     "banConfirm": "Kei te tino hiahia koe ki te aukati i a {{name}}?",
-    "banFailed": "Kua rahua te aukati i te kaiwhakamahi"
+    "banFailed": "Kua rahua te aukati i te kaiwhakamahi",
+    "jumpToMentions": "Peke ki ngā whakautu me ngā whakahua"
   },
   "promptFeed": {
     "headline": "He aha tāu e hiahia ana kia kite?",
@@ -7916,7 +8379,13 @@
     },
     "followBackConfirm": "Aroha mai anō",
     "followBackNotNow": "Kāore i tēnei wā",
-    "followBackDone": "Kua oti"
+    "followBackDone": "Kua oti",
+    "followBackConfirmTitle_one": "Whai whakamuri i te {{count}} tangata?",
+    "followBackConfirmTitle_other": "Whai whakamuri i ngā {{count}} tāngata?",
+    "followBackConfirmBody": "Kei te whai kē rātou i a koe. Ka whiwhi ngā pūkete tūmataiti i tētahi tono whai.",
+    "followedBackCount_one": "Kua whai whakamuri i te {{count}} tangata",
+    "followedBackCount_other": "Kua whai whakamuri i ngā {{count}} tāngata",
+    "followBackDoneBody": "Ka kitea katoatia rātou i E whai ana."
   },
   "reactionInfo": {
     "title": "Ngā urupare",
@@ -8838,10 +9307,12 @@
     "altPlaceholderVideo": "Whakaahuatia tēnei ataata",
     "landingLive": "Ora",
     "preview": {
-      "title": "Whakaaturanga"
+      "title": "Whakaaturanga",
+      "hint": "Koinei te āhua o tō pānui i te whāngai."
     },
     "recent": {
-      "all": "Katoa"
+      "all": "Katoa",
+      "show": "Whakaatu whakaahua tata nei"
     },
     "studio": {
       "crop": "Tapahia",
@@ -8860,11 +9331,47 @@
       "ticker": "Tūtohu",
       "textBg": "Papamuri",
       "font": {
-        "bold": "Taimaha"
-      }
+        "bold": "Taimaha",
+        "clean": "Mā",
+        "serif": "Serif",
+        "mono": "Mono"
+      },
+      "looks": "Āhua",
+      "adjust": "Whakatika",
+      "tint": "Tae",
+      "vignette": "Taiāwhio pōuri",
+      "prev": "Whakaahua o mua",
+      "count": "{{n}} o {{total}}",
+      "next": "Whakaahua e whai ake",
+      "title": "Whakatika whakaahua",
+      "holdHint": "Puritia kia kite ai i te taketake",
+      "cropCorner": "Kokonga kuti",
+      "straighten": "Whakatika tōtika",
+      "flip": "Huri kōaro",
+      "mention": "Whakahua",
+      "layerHint": "Tōia ngā kupu me ngā tāpiri hei neke. Pāwhiri rua hei huri i ngā kupu.",
+      "looksAdjust": "Āhua me te whakatika"
     },
     "edited": "Whakahōu",
-    "edit": "Whakatika"
+    "edit": "Whakatika",
+    "altHint": "Kīia te mea kei roto mō te hunga kāore e kite.",
+    "altPlaceholder": "Whakaahuatia tēnei whakaahua",
+    "altTab": "Kupu kē",
+    "editVideo": "Whakatika ataata",
+    "landingPosting": "Kei te tuku",
+    "trim": "Kuti",
+    "trimAndCover": "Kuti me te uhi",
+    "trimStart": "Tīmatanga o te topenga",
+    "trimEnd": "Mutunga o te topenga",
+    "trimHint": "Tōia ngā kakau mā hei kuti. Pāwhiria te tīhore hei neke.",
+    "useFrameAsCover": "Whakamahia tēnei anga hei uhi",
+    "photoHoldHint": "Puritia mō ētahi atu kōwhiringa",
+    "editPhoto": "Whakatika whakaahua {{n}}",
+    "editAltText": "Whakatika kupu kē",
+    "addAltText": "Tāpiri kupu kē",
+    "moveEarlier": "Neke ki mua",
+    "moveLater": "Neke ki muri",
+    "photoN": "Whakaahua {{n}} o {{total}}"
   },
   "bounty": {
     "claimed": "Kua tonoa",
@@ -9159,7 +9666,13 @@
     "reconnecting": "Kei te hono anō…",
     "connecting": "Kei te hono…",
     "shopPutOnAir": "Whakanohoia ki runga ki te rangi",
-    "liveBadge": "E ora ana"
+    "liveBadge": "E ora ana",
+    "screenShare": {
+      "start": "Tiri mata",
+      "stop": "Mutu te tiri mata",
+      "sharing": "Kei te tiri koe i tō mata",
+      "hint": "Ka kite ngā kaimātakitaki i tō mata. Pāwhiria te pātene mata hei hoki ki te kāmera."
+    }
   },
   "liveShop": {
     "title": "Hokona mai i tēnei hōtaka",
@@ -9474,7 +9987,17 @@
     "planTypeNotAllowed": "Kāore te mahere a tēnei kaihanga e whakaae ki tēnei momo karere.",
     "planMinTip": "Me {{amount}} tohu te iti rawa o te koha mō tēnei kaihanga.",
     "newDrawer": {
-      "to": "Ki te"
+      "to": "Ki te",
+      "placeholder": "Ingoa, @ingoakaiwhakamahi rānei",
+      "recent": "TATA NEI",
+      "suggested": "KUA TŪTOHUA",
+      "youFollow": "NGĀ TĀNGATA E WHAI ANA KOE",
+      "chattedBefore": "Kua kōrero kōrua",
+      "mutual": "Tahi",
+      "dmsOff": "Kua weto ngā DM",
+      "keepTyping": "Patohia tonu kia rapua te katoa",
+      "sayHi": "Mihi atu ki tētahi",
+      "typeAny": "Patohia tētahi ingoa, @ingoakaiwhakamahi rānei"
     },
     "download": "Tango",
     "deleteOneTitle": "Ka taea e koe te whakakore i tenei karere?",
@@ -9487,8 +10010,30 @@
       "communities": "Ngā Hapori",
       "members": "{{n}} mema",
       "newChat": "Kōrerorero hou",
-      "invite": "Whakapā mai"
-    }
+      "invite": "Whakapā mai",
+      "noChats": "Kāore anō he kōrerorero me “{{q}}”. Anei ngā tāngata me ngā mea e hāngai ana.",
+      "nothing": "Kāore anō he mea e hāngai ana ki “{{q}}”. Tīmatahia tētahi mea hou.",
+      "start": "Tīmatahia rānei tētahi mea",
+      "newChatSub": "Kōwhiri i tētahi",
+      "newGroup": "Rōpū hou",
+      "newGroupSub": "Kōrerorero tahi",
+      "inviteSub": "Tiri hononga",
+      "inviteMessage": "Uru mai ki ahau i Riftn: {{url}}",
+      "searchAll": "Rapua te katoa o Riftn mō “{{q}}”",
+      "searchAllSub": "Pānui, ataata, rerenga ora"
+    },
+    "copyMedia": "Tārua pāpāho",
+    "reportMessage": "Pūrongo karere",
+    "fileSaved": "Kua tiakina te kōnae",
+    "fileSaveFailed": "Kāore i taea te tiaki i te kōnae",
+    "attachAnything": "Tāpiri whakaahua, ataata, ororongo, kōnae rānei",
+    "attachFileOrAudio": "Kōnae, ororongo rānei",
+    "attachPhotoOrVideo": "Whakaahua, ataata rānei",
+    "attachTooLarge": "Kua nui ake taua kōnae i te tepe {{size}} MB.",
+    "deleteForBothBody": "Ka tangohia mō kōrua tahi.",
+    "notSent": "Kāore i tukuna",
+    "shareGroups": "Rōpū",
+    "shareKindChannel": "Hongere"
   },
   "editPost": {
     "mediaPermission": "Me whai whakaaetanga whare pukapuka pāpāho",
@@ -9610,7 +10155,9 @@
     "pipUnavailable": "Kāore e wātea ana te whakaahua i roto i te whakaahua. Tirohia mehemea ka whakaaetia mō Riftn i ngā tautuhinga o tō pūrere.",
     "noVideo": "Kāore he ataata",
     "rotate": "Hurihia",
-    "yourDhbBalance": "Tō toenga tohu: {{amount}}"
+    "yourDhbBalance": "Tō toenga tohu: {{amount}}",
+    "fullscreen": "Mata katoa",
+    "notAvailableForPost": "Kāore e wātea ana mō tēnei pānui"
   },
   "liveViewer": {
     "loadingStream": "E uta ana i te rerenga...",
@@ -9926,7 +10473,22 @@
     "didNotRecoverEither": "Kāore taua takiuru i whakaora i tētahi o ngā kōtaha e whakaatuhia ana i konei. Kāore he mea i panoni. Whakamātauria te takiuru taketake mō te kōtaha e hiahiatia ana e koe.",
     "didNotRecoverThis": "I whakaora taua takiuru i tētahi pūkoro rerekē, ehara i tō tēnei kōtaha. Kāore he mea i panoni. Whakamātauria te takiuru i hanga ai i te tuatahi.",
     "couldNotRetrieve": "Kāore i taea te tiki i taua pūkoro tawhito i tēnei pūrere. Ka taea tonu e koe te whakaora i riftn.com i raro nei.",
-    "matchedWithBalance": "Kua rite, {{balance}} tohu"
+    "matchedWithBalance": "Kua rite, {{balance}} tohu",
+    "methodEmail": "he waehere īmēra",
+    "methodPhone": "he nama waea",
+    "madeWithNamed": "I hangaia a @{{name}} ki {{method}}. Haere tonu me te pūkete {{method}} ōrite hei whakahoki mai.",
+    "madeWith": "I hangaia tēnei kōtaha ki {{method}}. Haere tonu me te pūkete {{method}} ōrite hei whakahoki mai.",
+    "madeWithEmailNamed": "I hangaia a @{{name}} ki tētahi waehere īmēra. Ka tukuna e mātou tētahi atu waehere ki taua īmēra hei whakahoki mai.",
+    "madeWithEmail": "I hangaia tēnei kōtaha ki tētahi waehere īmēra. Ka tukuna e mātou tētahi atu waehere ki taua īmēra hei whakahoki mai.",
+    "madeWithPhoneNamed": "I hangaia a @{{name}} ki tētahi nama waea. Ka tukuna e mātou tētahi atu waehere mā te pātuhi ki taua nama hei whakahoki mai.",
+    "madeWithPhone": "I hangaia tēnei kōtaha ki tētahi nama waea. Ka tukuna e mātou tētahi atu waehere mā te pātuhi ki taua nama hei whakahoki mai.",
+    "wrongSignInNamed": "Ka huaki taua takiuru i tētahi pūkoro moni kē, ehara i a @{{name}}. I hangaia a @{{name}} ki {{method}}, nō reira ko tērā anake ka taea te whakahoki mai.",
+    "wrongSignIn": "Ka huaki taua takiuru i tētahi pūkoro moni kē. I hangaia tēnei kōtaha ki {{method}}, nō reira ko tērā anake ka taea te whakahoki mai.",
+    "continueWith": "Haere tonu mā {{provider}}",
+    "differentSignIn": "I whakamahi koe i tētahi takiuru kē?",
+    "oldAccountPhone": "Nama waea o te pūkete tawhito",
+    "recoverFromPhoneA11y": "Whakaora i te pūkete tawhito mai i tēnei nama waea",
+    "phoneNeedsCode": "Tāurua te nama me tōna waehere whenua, pērā i +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Hokona nga tohu",
@@ -10708,8 +11270,17 @@
       "noSpeech": "Kāore he kōrero i kitea i tēnei topenga.",
       "failed": "Kāore i taea te hanga tapanga mō tēnei topenga.",
       "styles": {
-        "bold": "Kohikohinga"
-      }
+        "bold": "Kohikohinga",
+        "classic": "Classic",
+        "boxed": "Boxed",
+        "wordpop": "Word Pop",
+        "rapid": "Rapid Reveal",
+        "beast": "Beast Mode",
+        "stacked": "Tāpae",
+        "serif": "Serif",
+        "bubble": "Mirumiru"
+      },
+      "style": "Kāhua kupu hauraro"
     },
     "app": {
       "newDesign": "Hoahoa hou",
@@ -10779,7 +11350,11 @@
       "vibrant": "Hihiri",
       "cyber": "Saipa",
       "invert": "Kōaro",
-      "strength": "Te kaha o te taarua: {{value}}%"
+      "strength": "Te kaha o te taarua: {{value}}%",
+      "fadedFilm": "Kiriata memeha",
+      "technicolor": "Technicolor",
+      "newsreel": "Kiriata pūrongo",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "Tapahia",
@@ -10860,14 +11435,18 @@
       "pptx": "Whakaaturanga PowerPoint",
       "pptxHint": "Ka riro ia whārangi he whakaahua kotahi, me ngā pūkete tuku me ngā hononga. Whakatika kuputuhi takitahi me ngā huānga i roto i te hoahoa taketake.",
       "section": "Wāhanga ingoa",
-      "transparent": "Ngā āhuatanga mārama"
+      "transparent": "Ngā āhuatanga mārama",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "Ka tikiake he ZIP me tō rārangi wā hei FCPXML me Premiere XML me ia kōnae pāpāho, kia taea ai te whakaoti i te whakatika i Premiere Pro, Final Cut Pro, DaVinci Resolve rānei. Ka huri ngā kupu hei tohu; ka noho ngā pānga ki Riftn."
     },
     "adjust": {
       "auto": "Whakapai aunoa",
       "autoFailed": "Kāore i taea te tātari i tēnei pikitia.",
       "tint": "Tae {{value}}",
       "vignette": "Pouri tapa {{value}}%",
-      "warmth": "Mahana {{value}}"
+      "warmth": "Mahana {{value}}",
+      "halation": "Hīrahi {{value}}%",
+      "scanlines": "Rārangi matawai {{value}}%"
     },
     "draw": {
       "colour": "Tae o te pene",
@@ -10961,7 +11540,45 @@
       "openGenerator": "Arotake ka waihanga",
       "working": "Kei te mahi…",
       "stop": "Kati",
-      "queue": "Tāpirihia ki te queue"
+      "queue": "Tāpirihia ki te queue",
+      "stopped": "Kua mutu. Kāore he mea kē i hurihia.",
+      "queued": "{{count}} kei te tūtira",
+      "restore": "Whakahoki ki konei",
+      "restoreHint": "Whakahokia te kaupapa ki tōna āhua i mua i tēnei karere. Mā te wetewete e whakahoki mai.",
+      "restored": "Kua whakahokia te kaupapa ki mua i taua karere. Pēhia te wetewete hei whakahoki mai i te putanga hou ake.",
+      "rewrite": "Whakamāramatia ake taku tono",
+      "rewriteFailed": "Kāore i taea te tuhi anō. Kāore i hurihia ō kupu.",
+      "feedback": "I whai hua tēnei?",
+      "good": "Whakautu pai",
+      "bad": "Whakautu kino",
+      "retryPrefix": "Kāore i tika tērā. Engari, ",
+      "recipesTitle": "Ngā tohutao",
+      "recipe": {
+        "podcastClip": {
+          "label": "Topenga pāhorangi",
+          "prompt": "Kimihia te wā 30-hēkona kaha rawa, kutia ki reira, tāpiria ngā kupu hauraro Word Pop, ka hanga kia 9:16."
+        },
+        "talkingHead": {
+          "label": "Upoko kōrero mā",
+          "prompt": "Tapahia ngā tatari roa, tāpiria ngā kupu hauraro Classic, ka hoatu he āhua mahana ngāwari."
+        },
+        "productPromo": {
+          "label": "Whakatairanga hua",
+          "prompt": "Hangaia he whakatairanga 15-hēkona: he taitara kaha i te tīmatanga, ngā whakawhitinga Zoom in i waenga i ngā topenga, ngā kupu hauraro Bold me te puoro koa."
+        },
+        "hypeReel": {
+          "label": "Topenga hīkaka",
+          "prompt": "Tapahia ngā topenga ki te manawataki o te puoro, whakamahia ngā whakawhitinga Fly up me te āhua Technicolor."
+        },
+        "retroEdit": {
+          "label": "Whakatika tawhito",
+          "prompt": "Hoatu te āhua VHS ki ia topenga, tāpiria he taitara serif nui, ka whakamahi i ngā whakawhitinga Fade."
+        },
+        "tutorial": {
+          "label": "Akoranga",
+          "prompt": "Tāpiria he taitara mō ia hīkoi, ngā kupu hauraro Boxed, ka whakapuhoi i te wā matua ki te 0.5x."
+        }
+      }
     },
     "brand": {
       "fileDownloaded": "Kua tikiakehia te kōnae kāhua waitohu",
@@ -10987,7 +11604,10 @@
       "saveNewPreset": "Tiaki i te hou",
       "saveStyles": "Tiaki i ngā kāhua ki te hoahoa",
       "stylesSaved": "Nga momo waitohu kua tiakina me tenei hoahoa",
-      "usePreset": "Whakamahia ngā kāhua"
+      "usePreset": "Whakamahia ngā kāhua",
+      "dehubApplied": "Kua whakahāngaitia te waitohu Riftn ki ngā paparanga {{count}}.",
+      "dehubApply": "Whakamahia te waitohu Riftn",
+      "dehubHint": "Ngā tae ōkawa o Riftn, ngā momotuhi Exo me Inter, me te waitohu Riftn, i te pāwhiri kotahi."
     },
     "templates": {
       "announcement": {
@@ -11100,7 +11720,9 @@
       "exportHint": "Waiho kia tuwhera te ētita i te wā e waihangatia ana tō ataata.",
       "tooLarge": "He nui rawa tēnā kōnae mō te ētita. Ko te tepe he 400 MB.",
       "tZoomIn": "Zoom i roto i",
-      "tZoomOut": "Zoom i waho"
+      "tZoomOut": "Zoom i waho",
+      "tFlyUp": "Rere ki runga",
+      "tFlyDown": "Rere ki raro"
     },
     "motion": {
       "title": "Nekehanga",
@@ -12286,21 +12908,141 @@
       "add": "Tāpiri",
       "scale": "Rahi",
       "color": "Tae",
-      "light": "Mārama"
+      "light": "Mārama",
+      "create": "Tāpiri atamira 3D",
+      "title": "Atamira whakaaturanga 3D",
+      "hint": "Whakaritea he hopuranga ki ngā porotaka me ngā pouaka. Ka huri te anga i tuhia i te kāmera, te tūranga me ngā rama rohe motuhake e toru.",
+      "preview": "Arokite whakaaturanga kua tuhia",
+      "error": "Kāore i taea te whakarite i te anga. Tirohia ō tohutoro hopuranga, ka whakamātau anō.",
+      "elevation": "Teitei",
+      "distance": "Tawhiti",
+      "fov": "Āpure tirohanga",
+      "object": "Mea",
+      "sphere": "Porotaka",
+      "box": "Pouaka",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "Tango mea",
+      "intensity": "Kaha",
+      "diffusion": "Tohatoha",
+      "saving": "Kei te whakarite i te anga…",
+      "useFrame": "Whakamahia te anga kua tuhia hei tohutoro hopuranga",
+      "frameHint": "Ka hangaia he PNG 320 × 180, ka tāpiri ki ngā tohutoro o tēnei hopuranga. Arotakehia te tepe tohutoro me te utu tauira i mua i te waihanga.",
+      "frameName": "Anga atamira whakaaturanga"
     },
     "clipFix": {
-      "listening": "Whakarongo..."
+      "listening": "Whakarongo...",
+      "detach": "Wehe ororongo",
+      "detached": "Kua nekehia te ororongo ki tōna ake topenga",
+      "detachFailed": "Kāore i taea te wehe i te ororongo o tēnei topenga",
+      "removeBars": "Tango pae pango",
+      "scanning": "Kei te tirotiro i ngā anga…",
+      "noBars": "Kāore he pae pango i kitea",
+      "barsRemoved": "Kua kutia ngā pae pango",
+      "barsFailed": "Kāore i taea te tirotiro i tēnei ataata mō ngā pae pango",
+      "reframe": "Whakaanga anō aunoa",
+      "reframeHint": "Kua hāngai kē te ataata ki tēnei āhua whārangi",
+      "reframed": "Kua whakaangaia anō hei whai i te mahi",
+      "reframeFailed": "Kāore i taea te whakaanga anō i tēnei ataata",
+      "retakes": "Tango hopu anō",
+      "noRetakes": "Kāore he hopu anō i kitea",
+      "retakesRemoved": "Kua tangohia ngā hopu anō {{count}}, kua puritia te hopu whakamutunga",
+      "retakesFailed": "Kāore i taea te tango i ngā hopu anō i tēnei topenga"
     },
     "voiceClone": {
       "stop": "Whakatū hopukanga",
-      "failed": "I rahua te tārua reo."
+      "failed": "I rahua te tārua reo.",
+      "pickerLabel": "Tārua i tō reo",
+      "pickerDetail": "Reo whakamārama ki tō ake reo",
+      "title": "Tārua i tō reo",
+      "description": "Hopukina koe, kōwhiria rānei he topenga o koe e kōrero ana. Kotahi te utu, ā, nōu tō reo mō ia reo whakamārama.",
+      "defaultName": "Taku reo",
+      "record": "Hopu tauira (30 hēkona ki te 2 meneti)",
+      "fromMedia": "Whakamahia rānei he topenga mai i Pāpāho",
+      "recorded": "Tō hopukanga",
+      "sample": "Tauira: {{name}}",
+      "hint": "Ko te kōrero mārama kāore he puoro te mea pai rawa.",
+      "noMic": "Kāore i taea te whakamahi i te hopuoro.",
+      "sampleFailed": "Kāore i taea te pānui i te oro mai i taua topenga.",
+      "pay": "Tārua mō ngā tohu {{amount}}",
+      "useFree": "Tārua (kua utua kē)",
+      "owned": "Kua whakaritea kē tō reo “{{name}}”. Kōwhiria mai i te rārangi reo.",
+      "useOwned": "Whakamahia taku reo",
+      "ready": "Kua rite a “{{name}}” mō ngā reo whakamārama.",
+      "paidFailed": "Kua tiakina tō utu. Huakina anō tēnei, ā, he utu kore te whakamātau e whai ake nei.",
+      "consent": "Tāruatia tō ake reo anake, tētahi reo rānei kua whakaaetia koe ki te whakamahi."
     },
     "linkImport": {
       "go": "Kawemai",
-      "downloading": "Tikiake {{percent}}%"
+      "downloading": "Tikiake {{percent}}%",
+      "open": "Kawe mai i tētahi hononga",
+      "placeholder": "Whakapiri he hononga YouTube, TikTok, tētahi atu rānei",
+      "rights": "Nōku tēnei ataata, kua whakaaetia rānei ahau ki te whakamahi",
+      "audioOnly": "Oro anake",
+      "queued": "Kei te tūtira…",
+      "waiting": "E tatari ana ki te pae, ka whakamātau anō ā tōna wā…",
+      "adding": "Kei te tāpiri ki Pāpāho…",
+      "added": "Kua kawea mai, kua tāpirihia ki te rārangi wā.",
+      "failed": "Kāore i taea te kawe mai i taua hononga."
     },
     "reverse": {
-      "action": "Whakahoki"
+      "action": "Whakahoki",
+      "working": "Kei te huri whakamuri {{percent}}%",
+      "done": "Kua hurihia whakamuritia te topenga.",
+      "failed": "Kāore i taea te huri whakamuri i tēnei topenga.",
+      "unsupported": "Kāore e taea e tēnei pūtirotiro te huri whakamuri i te ataata. Whakamātauria a Chrome, Edge rānei.",
+      "tooLong": "Ka taea te huri whakamuri i ngā topenga tae atu ki te {{seconds}} hēkona."
+    },
+    "film": {
+      "repairRefs": "Tango i ngā hononga pāpāho e ngaro ana",
+      "title": "Kaupapa kiriata",
+      "intro": "Whakamaherehia ngā hopuranga me ngā tohutoro whakaahua ka taea te whakamahi anō. Ka tiakina tō whakamārama, te raupapa hopuranga me ngā hua kua kōwhiria ki tēnei kaupapa.",
+      "create": "Hanga mahere kiriata",
+      "name": "Ingoa kiriata",
+      "brief": "Whakamārama kiriata",
+      "sharedReferences": "Ngā tohutoro whakaahua tiritahi (tae atu ki te 4)",
+      "shot": "Hopuranga",
+      "addShot": "Tāpiri hopuranga",
+      "shotName": "Ingoa hopuranga",
+      "action": "Mahi me te hanganga o te hopuranga",
+      "seconds": "Hēkona ataata e tonoa ana",
+      "shotReferences": "Ētahi atu tohutoro whakaahua (tepe tōpū 4)",
+      "frame": "Whakarite anga",
+      "video": "Whakarite ataata",
+      "review": "Arotakehia te tauira, ngā tohutoro, te roanga ataata me te utu i te taiwhanga i mua i te waihanga.",
+      "result": "Hua hopuranga kua whakaaetia",
+      "noResult": "Kāore he hua kua kōwhiria",
+      "resultHint": "Kōwhiria tētahi whakaahua, ataata rānei kua whakaaetia mai i ngā Tukuake. Ka tiakina tōna hononga ki tēnei hopuranga; whakamahia te rārangi wā hei whakahiato i te kiriata.",
+      "earlier": "Neke ki mua",
+      "later": "Neke ki muri",
+      "remove": "Tango hopuranga",
+      "issue": "Tirohia te whakaahuatanga hopuranga me ngā pāpāho tohutoro, ka whakamātau anō. Waiho kia tuwhera te kaupapa mēnā kāore i taea te tiaki.",
+      "searchMedia": "Kimi pāpāho mā te ingoa",
+      "refreshMedia": "Whakahou pāpāho"
+    },
+    "speakers": {
+      "find": "Kimi kaikōrero",
+      "name": "Kaikōrero {{number}}",
+      "onlyOne": "Kotahi anake te kaikōrero i kitea.",
+      "failed": "Kāore i kitea ngā kaikōrero.",
+      "kept": "Ko {{name}} anake i puritia.",
+      "editFailed": "Kāore taua whakatika i hāngai ki tēnei topenga.",
+      "split": "Kua wehea ki ngā hopuranga kaikōrero {{count}}.",
+      "keepOnly": "Pupuri anake",
+      "splitAction": "Tapahi i ia huringa kaikōrero"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Whakaahuatia te mea 3D e hiahia ana koe",
+      "queued": "Kei te hanga i tō mea 3D. Ka tau ki te ripa Waihanga.",
+      "note": "Ka tae mai ngā mea 3D ki Pāpāho hei topenga poto e huri ana me te papamuri kitea-mārama."
+    },
+    "behind": {
+      "action": "Kupu i muri i te tangata",
+      "working": "Kei te tapahi i te tangata…",
+      "done": "Kei muri i te tangata ngā kupu me ngā kupu hauraro ināianei.",
+      "failed": "Kāore i taea te waiho i ngā kupu ki muri i te tangata."
     }
   },
   "creator": {
@@ -12765,7 +13507,47 @@
     "referenceComposeHint": "Kawea ngā pūāhua, ngā mea me ngā tautuhi mai i ngā whakaahua maha ki tētahi whakatūpato kotahi.",
     "marketing": {
       "import": {
-        "use": "Whakamahia ēnei taipitopito"
+        "use": "Whakamahia ēnei taipitopito",
+        "url": "URL whārangi hua",
+        "action": "Pānui whārangi hua",
+        "loading": "Kei te pānui i te whārangi…",
+        "hint": "Kawea mai ngā kupu mai i tētahi whārangi hua tūmatanui. Arotakehia ngā taipitopito i mua i te whakamahi; tāpiritia motuhake ngā whakaahua hua i te taiwhanga.",
+        "source": "Pūtake i kawea mai",
+        "review": "Kōwhiria tētahi hua hei tārua ki tō whakamārama ka taea te whakatika. Ka noho tonu tō upoko, tō reo me ō tae waitohu.",
+        "errors": {
+          "signIn": "Takiuru hei kawe mai i tētahi whārangi hua.",
+          "url": "Whakamahia he URL hua HTTPS tūmatanui.",
+          "empty": "Kāore he taipitopito hua whai hua i kitea. Tāpiritia ā-ringa.",
+          "busy": "He maha rawa ngā kawe mai e haere ana. Whakamātauria anō ā kō tata nei.",
+          "unavailable": "Kāore i taea te kawe mai i tēnei whārangi. Tāpiritia ā-ringa ngā taipitopito hua.",
+          "failed": "I rahua te kawe mai. Kua tiakina tō whakamārama; whakamātauria anō, tāurutia ā-ringa rānei ngā taipitopito."
+        }
+      },
+      "title": "Whakamārama kaupapa",
+      "intro": "Whakaahuatia tō hua me tō waitohu, kātahi ka whakarite i ngā hōputu pānuihoko e hāngai ana.",
+      "saved": "Kua tiakina tō whakamārama ki tēnei pūrere mō tēnei pūkete.",
+      "preview": "Whakarite hōputu",
+      "clear": "Ūkui whakamārama",
+      "required": "Tāpiritia he ingoa hua me tētahi whakaahuatanga hei whakarite hōputu.",
+      "variants": "Ngā hōputu kaupapa",
+      "reviewHint": "Arotakehia te tauira, te utu me te tohutoro hua i te taiwhanga i mua i te waihanga. He waihanga motuhake ia hōputu.",
+      "open": "Arotake i te taiwhanga",
+      "fields": {
+        "product": "Ingoa hua (me whai)",
+        "description": "Ngā meka hua (me whai)",
+        "brand": "Ingoa waitohu",
+        "audience": "Hunga whāinga",
+        "benefit": "Painga matua",
+        "voice": "Reo waitohu",
+        "palette": "Ngā tae waitohu",
+        "headline": "Upoko kua whakaaetia",
+        "cta": "Karanga ki te mahi"
+      },
+      "formats": {
+        "square": "Pānuihoko tapawhā",
+        "portrait": "Pānuihoko poutū",
+        "story": "Whakaahua paki",
+        "video": "Ataata poutū"
       }
     },
     "batchCount": "Whakaahua",
@@ -12773,7 +13555,109 @@
     "cinema": {
       "close": "Kati",
       "performance": {
-        "label": "Mahinga"
+        "label": "Mahinga",
+        "0": "Koa",
+        "1": "Pōuri",
+        "2": "Āmaimai",
+        "3": "Māia",
+        "4": "Mīharo",
+        "5": "Whakaiti",
+        "6": "Hākinakina"
+      },
+      "title": "Ārahi kiriata",
+      "hint": "Ārahina te kāhua ā-kanohi o tō whakaahua, ataata rānei e whai ake nei. Ka rerekē ngā hua i ia tauira.",
+      "none": "Kāore he ārahi",
+      "reset": "Ūkui ārahi",
+      "camera": {
+        "label": "Āhua kāmera",
+        "0": "Kiriata matihiko",
+        "1": "Kiriata 35mm",
+        "2": "Kiriata 16mm",
+        "3": "Hōputu nui",
+        "4": "Kāmera ataata tawhito"
+      },
+      "lens": {
+        "label": "Āhua arotahi",
+        "0": "Porowhita",
+        "1": "Anamorphic",
+        "2": "Karaehe ngāwari tawhito",
+        "3": "Mākoro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Roanga arotahi",
+        "0": "18mm whānui",
+        "1": "24mm whānui",
+        "2": "35mm māori",
+        "3": "50mm paerewa",
+        "4": "85mm whakaahua",
+        "5": "135mm tawhiti"
+      },
+      "aperture": {
+        "label": "Hōhonu o te arotahi",
+        "0": "f/1.4 pāpaku rawa",
+        "1": "f/2.8 pāpaku",
+        "2": "f/5.6 waenga",
+        "3": "f/11 arotahi hōhonu"
+      },
+      "movement": {
+        "label": "Nekehanga kāmera",
+        "0": "Toru-waewae pūmau",
+        "1": "Neke puhoi whakamua",
+        "2": "Neke puhoi whakamuri",
+        "3": "Whai ā-taha",
+        "4": "Āmio i te kaupapa",
+        "5": "Ā-ringa",
+        "6": "Piki wakaneke",
+        "7": "Kōpiko puhoi"
+      },
+      "lighting": {
+        "label": "Rama",
+        "0": "Awatea ngāwari",
+        "1": "Hāora koura",
+        "2": "Atarangi pōuri",
+        "3": "Taiwhanga marama",
+        "4": "Rama neon",
+        "5": "Rama tuarongo whakaata",
+        "6": "Kapua tohatoha"
+      },
+      "tempo": {
+        "label": "Tere hopuranga",
+        "0": "Kotahi te hopuranga haere tonu",
+        "1": "Mahi mārie, kāore e hohoro",
+        "2": "Mahi hihiri, kaha",
+        "3": "Mahi pōrearea, hīkaka"
+      },
+      "era": {
+        "label": "Wā",
+        "0": "1920s",
+        "1": "1950s",
+        "2": "1960s",
+        "3": "1970s",
+        "4": "1980s",
+        "5": "1990s",
+        "6": "Ināianei",
+        "7": "Anamata tata"
+      },
+      "genre": {
+        "label": "Momo",
+        "0": "Pakipūmeka",
+        "1": "Whakaari",
+        "2": "Kiriata pōuri",
+        "3": "Pūtaiao pakimaero",
+        "4": "Wawata",
+        "5": "Pukuhohe aroha",
+        "6": "Whakaohooho",
+        "7": "Kaupoi"
+      },
+      "palette": {
+        "label": "Papatae",
+        "0": "Pākākā mahana",
+        "1": "Kikorangi mātao",
+        "2": "Tae whenua ngāwari",
+        "3": "Tae māmā",
+        "4": "Tae kotahi pārongo nui",
+        "5": "Tae matua kanapa"
       }
     },
     "audioNoSpeech": "Kaore he korero i kitea i roto i tenei tuhinga.",
@@ -12792,9 +13676,140 @@
     "gallery": {
       "send": "Tuku",
       "notifications": {
-        "generation_reply": "I whakautu a {{name}} ki tō tākupu"
+        "generation_reply": "I whakautu a {{name}} ki tō tākupu",
+        "generation_like": "I tauhohe a {{name}} ki tō waihanga",
+        "generation_comment_like": "I tauhohe a {{name}} ki tō kōrero",
+        "generation_comment": "I kōrero a {{name}} mō tō waihanga"
+      },
+      "browse": "Tirotiro waihanga",
+      "empty": "Kāore anō he waihanga",
+      "fullscreen": "Tirohia ki te mata katoa",
+      "missing": "Kāore e wātea ana tēnei waihanga."
+    },
+    "layerNewAttempt": "Arotake i tētahi whakamātau hou",
+    "layerTitle": "Wehe paparanga whakaahua",
+    "layerPngRequired": "Kōwhiria he whakaahua PNG kua tiakina, tae atu ki te 12 MiB me ngā megapika e whā.",
+    "layerSource": "Whakaahua taketake",
+    "layerDescription": "E whā ngā paparanga PNG kitea-mārama. Ka noho tonu ngā kupu hei wāhanga o ia whakaahua.",
+    "layerSeparate": "Wehe paparanga",
+    "layerPending": "Mahi kua tiakina: {{status}}. Kohia, whakamātau anō rānei te tiaki me te kore utu anō.",
+    "layerCollect": "Kohi / whakamātau anō te tiaki",
+    "layerOpen": "Huaki paparanga i te ētita",
+    "layerExport": "Kaweake paparanga PNG + ZIP whakaaturanga",
+    "layerNumber": "Paparanga {{number}}",
+    "priceRetry": "Kāore i taea te whakaū i te utu. Arotakehia te utu, ka whakamātau anō.",
+    "avatarTitle": "Whakaahua kōrero",
+    "avatarRequirements": "Whakaahua PNG tapawhā, 512–2048 pika, tae atu ki te 5 MB. Mono 24 kHz 16-bit PCM WAV, 5–30 hēkona. Ka whakakīa te hautanga whakamutunga o te hēkona ki te wahangū.",
+    "avatarPortrait": "Kōwhiri whakaahua PNG",
+    "avatarAudio": "Kōwhiri reo WAV",
+    "avatarPermission": "Kei a au te whakaaetanga ki te whakakorikori i tēnei whakaahua me te whakamahi i tēnei ororongo.",
+    "avatarQuote": "{{seconds}} hēkona tae atu ki te wahangū · {{amount}} tohu",
+    "avatarPrepare": "Whakarite, arotake hoki i te utu",
+    "batchFlowLimit": "Kua kī te rārangi Flow. Tangohia tētahi Flow kāore i te whakamahia i mua i te hanga i tētahi puranga anō.",
+    "batchReviewCampaign": "Arotake puranga kaupapa i Flow",
+    "batchReviewFilmImages": "Arotake puranga whakaahua papa kōrero",
+    "batchReviewFilmVideos": "Arotake puranga topenga kiriata",
+    "batchReviewHint": "Ka huakina tētahi Flow kua tiakina motuhake. Arotakehia ia tūemi me te utu katoa i mua i te utu. Ka puritia ngā tūemi kua oti me te utu taketake hei whakaora. Ka tāruatia ngā tohutoro ki tō whare pukapuka tūmataiti; ka pā te whakamahi rokiroki me te whatunga.",
+    "batchInvalid": "Whakaotia ia tūemi i mua i te whakarite i tētahi puranga o ngā whakaahua, topenga rānei 1–12.",
+    "batchReferenceLimit": "Kotahi te tohutoro whakaahua mō ia tūemi e tautokona ana e tēnei puranga. Tangohia ngā tohutoro tāpiri, whakaritea takitahitia rānei taua tūemi.",
+    "batchVideoSettings": "Mō tēnei puranga, me whai ngā topenga i te roanga tōpū 4–15 hēkona me te ōwehenga 16:9, 9:16, 1:1 rānei.",
+    "batchMissingReference": "Kei te ngaro tētahi tohutoro, kāore i te tautokona, nui ake rānei i te 25 MB. Whakahokia mai i te ētita i mua i te whakarite i te puranga.",
+    "batchOwnerChanged": "Kua huri te pūkete, te tauira rānei. Huakina anō tēnei puranga i raro i tōna pūkete taketake.",
+    "batchConflict": "Kāore te puranga kua tiakina e ōrite ana ki tōna hopukanga taketake.",
+    "campaignPlanTitle": "Ngā momo kaupapa me ngā wāhanga",
+    "campaignPlanIntro": "Tiakina kia 12 ngā momo, wāhanga rānei. Ka huakina e ia te taiwhanga mō tōna ake arotake me tōna utu. Ka ārahi ngā tuhipoka tiritahi i te haere tonutanga; ka rerekē pea te āhua hua, ngā kiripuaki me ngā reo i waenga i ngā waihanga.",
+    "campaignTitle": "Ingoa kaupapa, raupapa rānei",
+    "campaignContinuity": "Ngā tuhipoka kiripuaki, reo, kāhua tiritahi",
+    "campaignVariantTitle": "Ingoa momo, wāhanga rānei",
+    "campaignHook": "Matau tīmatanga",
+    "campaignLanguage": "Reo putanga",
+    "campaignScript": "Hōtuhi, raupapa whakaaturanga rānei kua whakaaetia",
+    "campaignAdd": "Tāpiri momo, wāhanga rānei",
+    "campaignClear": "Ūkui mahere",
+    "campaignFormat": "Hōputu putanga",
+    "audioExportFormat": "Hōputu kaweake",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Tāpiritia kotahi te topenga pūtake hei whakaroa.",
+    "extensionSeconds": "+{{seconds}}s kiriata hou",
+    "extensionHelp": "Ka whakahokia tō topenga pūtake me ngā hēkona hou e whā pea. Ka panonitia te rahi o te putanga tae atu ki te 720p i te 24 fps. Ka waihangatia he ororongo hou mō te whakaroanga.",
+    "extensionForward": "Tāpiri kia whā hēkona pea i muri i tō topenga pūtake",
+    "extensionBackward": "Tāpiri kia whā hēkona pea i mua i tō topenga pūtake",
+    "expandDescription": "Waihanga taitapa whakaahua hou. He kupu tohu reo Ingarihi kōwhiringa; kotahi te whakaahua pūtake.",
+    "relightDescription": "Whakamarama anō i tētahi whakaahua mai i tō whakaahuatanga o te rama me te papamuri.",
+    "expandPromptHint": "Tāpiritia kotahi te whakaahua, ka kōwhiri i tōna ōwehenga hou. He kōwhiringa te kupu tohu reo Ingarihi.",
+    "expandEnglishOnly": "Ka whakaae tēnei tauira whakawhānui ki ngā kupu tohu reo Ingarihi anake. Waiho kau te kupu tohu mō te whakawhānui aunoa.",
+    "expandNeedsImage": "Tāpiritia he whakaahua hei whakawhānui.",
+    "learn": {
+      "title": "Ngā akoranga kaihanga",
+      "intro": "He akoranga poto, he whakamātautau mōhiotanga me tētahi mahi ka taea te whakatika mō ia akoranga. Ka tiakina te ahunga whakamua ki tēnei pūrere mō tō pūkete.",
+      "back": "Hoki ki te Kaihanga",
+      "lessons": "Ngā akoranga",
+      "progress": "{{completed}} o {{total}} whakamātautau mōhiotanga kua paahitia",
+      "check": "Tirohia te whakautu",
+      "correct": "Kua paahitia te whakamātautau mōhiotanga",
+      "retry": "Whakamātauria anō. Arotakehia te akoranga i runga ake.",
+      "exerciseTitle": "Mahi ā-ringa",
+      "exerciseHint": "Huakina tētahi tauira ka taea te whakatika i tō ake wāhi mahi taiwhanga. He utu kore te huaki tauira; me arotake koe i te waihanga, ā, he utu motuhake tōna. Whakatikahia te tauira i mua i te waihanga.",
+      "openExercise": "Huaki tauira mahi",
+      "closeExercise": "Kati mahi",
+      "brief": {
+        "title": "Tuhia he whakamārama ā-kanohi mārama",
+        "body1": "Whakaahuatia tētahi kaupapa tūturu, tāna mahi me te wāhi. Tāpiritia te anga, te nekehanga kāmera rānei ina āwhina ki te whakaaturanga. Waiho ngā whakaaro kāore e hāngai mō tētahi atu tauira.",
+        "body2": "Ka ārahi ngā tohutohu rama, arotahi, kāhua hoki i te tauira. Kāore e taurangi i te whanonga kāmera tūturu, i tētahi whakaahua tika rānei. Hurihia kotahi te wāhanga i te wā kotahi kia taea ai te whakataurite i ngā putanga.",
+        "body3": "I mua i te waihanga, arotakehia te tauira kua kōwhiria, ngā tāpiritanga e tautokona ana, ngā rahinga me te utu. Puritia te tauira taketake kia hoki ai koe ki reira.",
+        "question": "Ko tēhea whakamārama e māmā ana te whakahou?",
+        "answer0": "He kaupapa, he mahi, he wāhi mārama",
+        "answer1": "He ingoa tauira anake",
+        "answer2": "He rārangi kāhua tauaro",
+        "exercise": "He tīpāta uku i runga i te tēpu rākau i te taha o te matapihi. Rama ngāwari o te ata, anga waenga, papamuri māmā. Waiho te tīpāta hei kaupapa mārama."
+      },
+      "continuity": {
+        "title": "Whakamahere hopuranga, arotake hoki i te haere tonutanga",
+        "body1": "Whakamahia te paewhiri Kiriata i te ētita hei tiaki i tētahi whakamārama me ngā hopuranga raupapa. Whakaritea takitahitia ia anga, topenga rānei, arotakehia tōna utu, ka kōwhiri i tētahi hua kua whakaaetia.",
+        "body2": "Tāpiritia ngā tohutoro anake e whakaaetia ana e tō tauira i kōwhiria. Mā te whakamahi anō i tētahi tohutoro e ārahi te āhua; kāore e whakaako i tētahi tuakiri, e taurangi rānei i te ōritenga. Ka rerekē pea ngā kiripuaki me ngā reo i waenga i ngā waihanga.",
+        "body3": "Puritia ngā hopuranga angitu, ka whakahiato i te rārangi wā. Arotakehia te nekehanga, ngā kanohi, ngā kōrero me ngā whakawhitinga i mua i te kaweake.",
+        "question": "He aha e tautoko ana i te haere tonutanga puta noa i ngā hopuranga?",
+        "answer0": "He maha ake ngā kupu tohu kāore e hāngai",
+        "answer1": "Ngā tohutoro kua whakaaetia me ngā tuhipoka hopuranga kua arotakehia",
+        "answer2": "Te whakapae kua taurangitia te tuakiri kiripuaki",
+        "exercise": "Hopuranga whānui o tētahi manene mokemoke e tae ana ki tētahi takutai mārie i te whitinga o te rā. Nekehanga kāmera puhoi whakamua, wairua mārie. Kotahi te hopuranga haere tonu."
+      },
+      "campaign": {
+        "title": "Whakamahia ngā meka hua kua whakaaetia",
+        "body1": "Tīmata ki ngā meka hua ka taea e koe te manatoko. Arotakehia ngā raraunga meta i kawea mai i mua i te whakamahi. Tuhia mārama te upoko me te karanga ki te mahi; kaua e waihanga utu, arotake, kerēme mahi rānei.",
+        "body2": "Whakamahia ngā momo kaupapa kua tiakina hei pupuri tahi i ngā tuhipoka tiritahi me ngā matau takitahi, ngā hōtuhi, ngā reo me ngā hōputu. Whakaritea kotahi te tūemi kua arotakehia i te wā kotahi, ka tirohia tōna utu i te taiwhanga.",
+        "body3": "Arotakehia ngā kupu e kitea ana, te āhua o te hua me ngā kerēme kōrero i te hua. Ehara te kupu tohu i te tohu o te tika o te hua, o te angitu hokohoko rānei.",
+        "question": "Āhea me whakauru tētahi kerēme hua?",
+        "answer0": "Ina rongo ana he whakapono",
+        "answer1": "I muri i te waihanga i tētahi arotake whetū e rima",
+        "answer2": "Ina ahu mai i ngā meka hua kua whakaaetia",
+        "exercise": "Waihangatia he pānuihoko hua whakaahua poutū mō te tī rau katoa e hokona ana i tētahi tini ka taea te whakamahi anō. Upoko kua whakaaetia: Whakaritea he wā mō te tī. CTA kua whakaaetia: Tūhuratia te kohinga. Whakamahia ēnei meka anake; kaua e waihanga hekenga utu, arotake, kerēme hauora rānei."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "Ka pūrei tēnei kōrerorero i te hopukanga tūmataiti kua tiakina ki tēnei pūrere. Mō tētahi atu pūrere, huakina tō whare pukapuka Kaihanga ina oti te tiaki kapua. Ki te wehe koe ināianei, huakina anō tēnei kōrerorero hei whakaoti i te tiaki.",
+    "batchPaymentHelp": "Ka utua motuhaketia ia whakaahua ka tukuna. Ki te mutu tētahi puranga, ka whakamahia anōtia aunoatia ngā tohu kāore i whakamahia mō tētahi waihanga ā muri ka hipokina e ia.",
+    "endFrameHelp": "Tāpiria he whakaahua tīmatanga mā te pātene tāpiritanga.",
+    "seed": "Kākano (kōwhiringa, 0–2147483647)",
+    "negativePrompt": "Kupu tohu kore (kōwhiringa)",
+    "invalidSeed": "Me tau tōpū te kākano mai i te 0 ki te 2147483647.",
+    "endFrameNeedsStart": "Tāpiria he whakaahua tīmatanga i mua i te kōwhiri i tētahi anga mutunga.",
+    "batchStopped": "I mutu te puranga i muri i ngā tukunga {{submitted}} o {{quantity}}. Kāore i tukuna ngā {{remaining}}. Kua tiakina ngā whakaahua kua oti.",
+    "audioInvalidTask": "Kōwhiria he mahi ororongo e tautokona ana.",
+    "audioNeedsFile": "Tāpiria he kōnae ororongo, ataata rānei e tautokona ana i te tuatahi.",
+    "audioTextLimit": "Ka whakaaetia e te kōrero me te whakawhitiwhiti kōrero ngā pūāhua 1–5000; ka whakaaetia e ngā pānga oro ngā 1–1000.",
+    "audioDurationLimit": "Me Aunoa (0), 0.5–30 hēkona rānei te roanga oro.",
+    "audioModels": "Ētahi atu tauira ororongo",
+    "audioAttach": "Tāpiri hopukanga",
+    "audioAttachFailed": "Kāore i taea te tāpiri i taua hopukanga.",
+    "audioSeconds": "Hēkona (0 = Aunoa)",
+    "audioInvalidResponse": "I whakahokia e te ratonga ororongo he hua muhu.",
+    "audioResultTooLarge": "Kua kau te hua ororongo, kua nui ake rānei i te 50 MB.",
+    "audioFailed": "Kāore i taea te tukatuka i taua ororongo.",
+    "loop": "Koromeke",
+    "libraryFavorites": "Makau",
+    "libraryFavoriteAdd": "Tāpiri ki ngā makau",
+    "libraryFavoriteRemove": "Tango i ngā makau"
   },
   "fractions": {
     "title": "Wāhanga",
@@ -12936,7 +13951,8 @@
     "offerSubmitted_other": "I tukuna he tono mo te {{count}} hautau i te {{price}} tohu ia",
     "yourOfferLabel": "To Tono (tohu mo ia Hautau)",
     "listedToast_one": "I rarangi te {{count}} hautau i te {{price}} tohu ia",
-    "listedToast_other": "I rarangi te {{count}} hautau i te {{price}} tohu ia"
+    "listedToast_other": "I rarangi te {{count}} hautau i te {{price}} tohu ia",
+    "nftsSubtitle": "Tētahi NFT, whakawhitinga hīkoi kotahi"
   },
   "moderation": {
     "appealDuplicate": "Kua oti i a koe te tono i tenei",
@@ -13036,7 +14052,11 @@
     "ended": "Whakamutunga",
     "stage": "Wāhanga",
     "upcomingStage": "Te wāhanga e whai ake nei",
-    "members": "{{compact}} mema"
+    "members": "{{compact}} mema",
+    "requestComments_one": "{{compact}} kōrero",
+    "requestComments_other": "{{compact}} kōrero",
+    "requestVotes_one": "{{compact}} pōti",
+    "requestVotes_other": "{{compact}} pōti"
   },
   "report": {
     "whyVideo": "He aha koe i whakaatu ai i tenei ataata?",
@@ -14293,7 +15313,14 @@
     "faqWhatA": "Mā MCP ka taea e ia te tirotiro i ngā pānui tūmatanui o Riftn, te rapu kaupapa me te tiro i ngā kōtaha kaihanga. Kāore ia e whakairi mōu.",
     "faqAccountQ": "Me whai pūkete Riftn ahau?",
     "chatgptFaqAccount": "Kāore he pūkete e hiahiatia ana hei pānui i ngā kōrero tūmatanui mā te hononga. Me whai pūkete Riftn anake koe ki te hiahia koe ki te whakaputa, ki te hoatu ranei, ki te pupuri rānei i ngā tohu Riftn.",
-    "claudeFaqAccount": "Kāore. Ka taea te pānui i ngā kōrero tūmatanui me te kore he pūkete. Me whai pūkete Riftn anake koe ki te whakaputa, ki te hoatu ranei, ki te pupuri rānei i ngā tohu Riftn."
+    "claudeFaqAccount": "Kāore. Ka taea te pānui i ngā kōrero tūmatanui me te kore he pūkete. Me whai pūkete Riftn anake koe ki te whakaputa, ki te hoatu ranei, ki te pupuri rānei i ngā tohu Riftn.",
+    "subtitleAccount": "Whakamahia a Riftn mai i ChatGPT, Claude, tētahi taupānga MCP rānei. Tirotiro me te kore pūkete, takiuru rānei hei tiaki tauira tūmataiti, whakaputa me te whakarite pānui, whakahaere whakaahua me ngā pōti, pānui tātaritanga, whakautu me te whai.",
+    "agentsTitle": "Whakahaere i ō kaihoko mai i tō kaiāwhina",
+    "agentsBody": "Ina hono koe, tukua hoki a \"Mahi hei ō kaihoko\". Ka taea e tō kaiāwhina te tuku, te whakautu, te tauhohe, te tukurua, te whai, te whakatika kōtaha rānei hei tētahi kaihoko nōu. Kāore rawa e taea te mahi hei pūkete ehara i a koe.",
+    "keysTitle": "Kī whaiaro",
+    "keysBody": "Mō ngā hōtuhi, ngā karetao me ngā taupānga kāore e taea te huaki i tētahi whārangi takiuru. Ka mahi te kī i ngā mea e whakaaetia ana e koe anake, ā, ka mutu i muri i ngā rā 30 kāore i whakamahia.",
+    "keysMake": "Hanga kī whaiaro",
+    "manageLinked": "Whakahaere taupānga me ngā kī kua honoa"
   },
   "credits": {
     "percentUsed": "{{percent}}% used",
@@ -14393,7 +15420,10 @@
       "title": "Tū mai ki te whakapā mai i te {{name}}?",
       "sent": "Tūhono whakapā mai te {{amount}} tohu ki te {{name}}.",
       "body": "Ka haere te tohu tika ki te putea o te taupānga, {{wallet}}. Kaore e taea te whakahoki mai i nga utu.",
-      "confirm": "Utu {{amount}} tohu"
+      "confirm": "Utu {{amount}} tohu",
+      "testBadge": "Aratau whakamātau",
+      "testBody": "Nōu tēnei taupānga, nō reira he whakamātau tēnei: kāore he tohu e neke, ā, ka tohua te rihīti hei whakamātau.",
+      "testSent": "Utu whakamātau o ngā tohu {{amount}}. Kāore he mea i tukuna."
     },
     "add": {
       "title": "Tāpiri {{name}}?",
@@ -14507,7 +15537,16 @@
     "level": "Taumata {{level}}",
     "streak_one": "{{count}} - wiki streak",
     "streak_other": "{{count}} - wiki streak",
-    "tipJar": "Kohikohinga"
+    "tipJar": "Kohikohinga",
+    "eyebrow": {
+      "follow": "Kaiwhai hou",
+      "subscribe": "Kaiohauru hou",
+      "subscribedTo": "Kua ohauru · {{plan}}",
+      "gifted_one": "I koha i tētahi ohaurunga",
+      "gifted_other": "I koha i ngā ohaurunga {{count}}",
+      "share": "I tiri i te rerenga",
+      "join": "Kātahi anō ka uru"
+    }
   },
   "liveStudio": {
     "controls": {
@@ -14874,8 +15913,20 @@
         "off": "Weto",
         "idle": "Kua rite",
         "live": "Ora",
-        "error": "Hapa"
-      }
+        "error": "Hapa",
+        "connecting": "E hono ana"
+      },
+      "title": "Ngā ūnga rerenga maha",
+      "intro": "Haere ora i Riftn kotahi te wā, ā, ka panaia e mātou tō rerenga ki ia pūhara kua whakakāngia i konei, utu kore. Ka tīmata i roto i ētahi hēkona i muri i tō haere ora.",
+      "add": "Tāpiri ūnga",
+      "empty": "Kāore anō he ūnga. Tāpiri Twitch, YouTube, Kick, tētahi tūmau RTMP rānei.",
+      "server": "URL tūmau",
+      "findKey": "Kimihia tō tūmau me tō kī {{name}}",
+      "customHint": "Whakapiria te tūmau RTMP me te kī ka hoatu e tō pūhara.",
+      "keyNote": "Ka penapenatia tō kī kua whakamunatia i ō mātou tūmau, ā, kāore rawa e whakaaturia anō.",
+      "added": "Kua tāpirihia a {{name}}",
+      "saveFailed": "Kāore i taea te tiaki i te ūnga",
+      "toggle": "Rere ki tēnei ūnga"
     }
   },
   "liveChatModeration": {
@@ -14964,7 +16015,12 @@
       "cover": "Āhuatanga",
       "caption": "Kupu whakaaturanga mō tēnei whārangi",
       "alt": "Kupu āhuatanga: he aha te mea e whakaaturia ana e te whārangi"
-    }
+    },
+    "toComic": "Hanga hei pakiwaitara whakaahua",
+    "toCarousel": "Whakaatu hei kōrere",
+    "converted": "Kei te whakaaturia hei pakiwaitara whakaahua ināianei",
+    "unconverted": "Kei te whakaaturia hei kōrere ināianei",
+    "convertFailed": "Kāore i taea te huri i te tahora"
   },
   "nftMarket": {
     "dehubPostsName": "Tēnā koe",
@@ -15039,7 +16095,55 @@
     "bundleBadge": "Pūtea ×{{n}}",
     "dropBadge": "Heke Utu",
     "days_one": "{{count}} ra",
-    "days_other": "{{count}} ra"
+    "days_other": "{{count}} ra",
+    "actCollectionOffer": "Tuku kohinga",
+    "actListed": "Kua rārangitia",
+    "actSale": "Hoko",
+    "buyAll": "Hoko katoa",
+    "buySeveral": "Hoko maha",
+    "cartBought": "Kua hokona {{n}}. Kei tō pūkoro moni ināianei.",
+    "cartCount": "{{n}} i te kete",
+    "cartFull": "Tae atu ki te 20 i te wā kotahi",
+    "cartOneCoin": "Kotahi te mekameka me te moni kotahi mō ia kete. Ūkuia hei huri.",
+    "cartOwn": "Nōu tēnā",
+    "cartPick": "Pāwhiri hei tāpiri ki te kete",
+    "forSaleHere": "Hei hoko i konei",
+    "noActivity": "Kāore anō he mea i konei",
+    "shareMessage": "Hokona, hokona atu ngā NFT i Riftn",
+    "loadFailed": "Kāore i taea te uta i te mākete. Tōia hei whakamātau anō.",
+    "signInTitle": "Takiuru kia kite ai i ō NFT",
+    "walletOn": "Ngā NFT i tō pūkoro moni i {{chain}}",
+    "listedAt": "Kua rārangitia",
+    "noneHeld": "Kāore anō he NFT i tēnei pūkoro moni",
+    "title": "NFT",
+    "subtitle": "Hoko, hoko atu i BNB, Base, Ethereum me Robinhood",
+    "startHint": "Rārangitia he NFT mai i Nōu kia tuatahi ai koe.",
+    "wrongChain": "Hurihia tō pūkoro moni ki {{chain}} hei hokohoko i tēnei",
+    "failed": "Kāore i tutuki. Whakamātauria anō.",
+    "bought": "Nōu tēnei",
+    "cancelledOrder": "Kua whakakorehia i runga i te mekameka",
+    "notEnough": "Kāore i rawaka te {{symbol}} i tō pūkoro moni",
+    "offerSent": "Kua tukuna te tuku",
+    "cancelListing": "Whakakore rārangitanga",
+    "buyConfirm": "Hoko {{name}}?",
+    "volShort": "Rah",
+    "salesCount": "{{n}} kua hokona",
+    "bestOffer": "Tuku pai rawa",
+    "fromOpenSea": "Ngā kohinga matua i OpenSea",
+    "buyHere": "Hokona i konei",
+    "openSeaNote": "Kua rārangitia i OpenSea. Ka utu tōtika koe ki te kaihoko i Seaport; kāore a Riftn e tāpiri utu.",
+    "notListed": "Kāore i te rārangitia hei hoko ināianei.",
+    "priceLabel": "Te utu ka utua e te kaihoko",
+    "offerLabel": "Tō tuku",
+    "list": "Rārangitia",
+    "listHint": "He utu kore te haina. Ko te hoko tuatahi mai i tētahi kohinga ka pātai kia whakaae koe kotahi te wā.",
+    "offerHint": "He utu kore te haina. Ka noho ō tohu ki tō pūkoro moni kia whakaae rā anō te kaipupuri.",
+    "viewOnly": "Kāore e wātea ana te hoko me te hoko atu NFT i tēnei taupānga.",
+    "tradeOnWeb": "Hokohoko i riftn.com",
+    "feesFootnote": "Utu: 2%, 1% rānei ina utu ki ngā tohu. Kotahi te whakawhitinga i runga i te mekameka mō ia hokohoko.",
+    "listedCount": "{{n}} hei hoko",
+    "shortTitle": "NFT",
+    "mintedCount": "{{n}} kua waihangatia"
   },
   "reel": {
     "readAll": "Pānuihia nga mea katoa",
@@ -15118,7 +16222,8 @@
     "offBody": "Tukuna he kōdhi mai i tō tūtohunga kia whakakotahi. Mā te uru ki te pūnaha, ka hiahia anake ki tō takanga tuatahi anō.",
     "newCodesTitle": "Tukua ngā kōnae rongoa hou",
     "newCodesBody": "Tukuna he kōde mai i tō tūtohu. Ka mutu te mahi o ngā kōde rongoā tawhito.",
-    "codeLabel": "Six-digit code"
+    "codeLabel": "Six-digit code",
+    "tip": "He waea hou? Nekehia tō taupānga motuhēhēnga i te tuatahi, takiuru rānei mā tētahi waehere taupua, ka whakarite anō."
   },
   "chatSearch": {
     "placeholder": "Rapua karere, rōpū",
@@ -15150,17 +16255,57 @@
   "chatTextSize": {
     "title": "Rahi kuputuhi",
     "default": "Whakakorea",
-    "larger": "Nui ake"
+    "larger": "Nui ake",
+    "small": "Iti",
+    "large": "Nui",
+    "largest": "Nui rawa"
   },
   "remix": {
-    "cut": "Tapahia"
+    "cut": "Tapahia",
+    "title": "Whakaranu",
+    "greenScreen": "Mata kākāriki",
+    "collab": "Mahi tahi",
+    "sound": "Whakamahia te oro",
+    "unavailable": "Kāore e wātea ana tēnei ataata hei whakaranu.",
+    "openFailed": "Kāore i taea te huaki i te whakaranu. Tirohia tō hononga me ngā whakaaetanga kāmera, ka whakamātau anō.",
+    "tooLarge": "He nui rawa tēnei hopukanga. Hopukina he hopu poto ake.",
+    "invalidRecording": "Kāore i taea te pānui i te hopukanga. Hopukina he hopu anō.",
+    "saveFailed": "Kāore i taea te tiaki i te whakaranu. Whakamātauria anō.",
+    "startHint": "Arokitea tō kāmera ki runga i tēnei ataata, kātahi ka hopu i tō whakaranu. Mā te wehe i tēnei mata ka mutu te kāmera.",
+    "openCamera": "Huaki kāmera"
   },
   "signedFollows": {
     "setUp": "Whakakā",
-    "efpTurnOff": "Kati"
+    "efpTurnOff": "Kati",
+    "title": "Ō whai, kei runga i te mekameka",
+    "description": "Ka hainatia e tō pūkoro moni ngā tāngata e whai ana koe, ā, ia rā ka tohua te rārangi ki Base. Ka kitea e tētahi taupānga ō whai mai i tō pūkoro moni, ahakoa kāore a Riftn.",
+    "on": "Kua whakakāngia mō tēnei pūrere",
+    "off": "Kua wetohia mō tēnei pūrere",
+    "turnOff": "Wetohia",
+    "turnedOn": "Kei te hainatia ō whai e tō pūkoro moni ināianei",
+    "turnedOff": "Kua wetohia mō tēnei pūrere",
+    "failed": "Kāore tō pūkoro moni i haina. Whakamātauria anō.",
+    "hiddenNote": "Ka waiho ngā rārangi whai huna me ngā pūkete tūmataiti i waho o te rārangi tūmatanui.",
+    "efpOn": "Kua tāruatia ki EFP · {{count}} whai",
+    "efpOff": "Waiho hoki ki EFP",
+    "efpTurnOn": "Tāpiri ki EFP",
+    "efpDone": "Kei te haere ō whai ki EFP",
+    "efpStopped": "Kua mutu te tārua EFP. Nōu tonu te rārangi.",
+    "efpHasList": "Kua whai rārangi EFP kē koe. Kāore anō a Riftn e taea te whakakī i tērā.",
+    "efpNoGas": "Me whai ETH iti tō pūkoro moni ki Base mō tēnei.",
+    "efpFailed": "Kāore i tutuki. Whakamātauria anō.",
+    "efpNote": "He rārangi whai a EFP e pānuitia ana e ētahi atu taupānga (efp.app). Utu kore me tō pūkoro moni Riftn; ka utu ētahi atu pūkoro moni i ētahi hēneti ki Base. Nōu te rārangi.",
+    "efpUseWeb": "Me tō ake pūkoro moni, mahia tēnei i ngā Tautuhinga i riftn.com."
   },
   "postEditHistory": {
-    "original": "Taketake"
+    "original": "Taketake",
+    "title": "Hītori whakatika",
+    "edited_one": "Kotahi te whakatika",
+    "edited_other": "{{count}} ngā whakatika",
+    "lastEdit": "Whakatika whakamutunga {{time}}",
+    "editN": "Whakatika {{n}}",
+    "now": "Ināianei",
+    "showChanges": "Whakaatu i ngā panonitanga"
   },
   "studioDeck": {
     "remove": "Tangohia",
@@ -15169,27 +16314,61 @@
       "modes": {
         "none": "Weto",
         "blur": "Whakarehu",
-        "color": "Tae"
-      }
+        "color": "Tae",
+        "image": "Pikitia"
+      },
+      "failed": "Kāore i taea te tīmata te tango papamuri i tēnei pūrere.",
+      "hint": "Ka rere i tō pūrere. I te wā tuatahi, he hēkona torutoru hei uta."
     },
     "scenes": {
       "countdown": "Ngā tatauranga",
       "names": {
-        "starting": "Ka tīmata ākuanei"
+        "starting": "Ka tīmata ākuanei",
+        "chatting": "Kōrerorero noa",
+        "brb": "Ka hoki mai tonu",
+        "ending": "Kua mutu te rerenga"
+      },
+      "title": "Ngā whakaaturanga",
+      "picture": "Pikitia",
+      "noCountdown": "Kāore he tatau whakamuri",
+      "minutes": "{{count}} meneti",
+      "hints": {
+        "starting": "Kāri me te tatau whakamuri",
+        "chatting": "Kāmera mata katoa",
+        "brb": "Kāri, kua whakangūngia te hopuoro",
+        "ending": "Kāri mihi"
+      },
+      "subtitles": {
+        "starting": "Ka tīmata te rerenga ā roto i",
+        "brb": "Ka hoki mai ā tōna wā poto",
+        "ending": "Ngā mihi mō te mātakitaki"
       }
     },
     "widgets": {
-      "tab": "Ngā taputapu"
+      "tab": "Ngā taputapu",
+      "title": "Whakaatu wiwheti i taku ataata",
+      "hint": "Ka tuhia ngā matohi, ngā pae whāinga me te kōrerorero ki tō rerenga, nō reira ka kite hoki ngā kaimātakitaki i Twitch, YouTube me ērā atu pūhara katoa.",
+      "failed": "Kāore i taea te huri i te wāhi e puta ai ō wiwheti. Whakamātauria anō."
     },
     "sources": {
       "image": "Whakaahua",
       "show": "Whakaatu i te haere kaupapa",
       "positions": {
-        "center": "Whakaritea ki waenganui"
+        "center": "Whakaritea ki waenganui",
+        "top-left": "Runga mauī",
+        "top-right": "Runga matau",
+        "bottom-left": "Raro mauī",
+        "bottom-right": "Raro matau"
       },
       "sizes": {
-        "medium": "Waenga"
-      }
+        "medium": "Waenga",
+        "small": "Iti",
+        "large": "Nui"
+      },
+      "title": "Ngā pūtake",
+      "addImage": "Whakaahua, waitohu rānei",
+      "failed": "Kāore i taea te tāpiri i taua pūtake.",
+      "hint": "Ka tuhia ngā pūtake ki runga i tō pikitia mō ia kaimātakitaki me ia pūhara."
     },
     "phone": {
       "title": "Taiwhanga"
@@ -15199,7 +16378,31 @@
     "today": "Āianei",
     "tooSoon": "Tīpakohia tētahi wā kei te heke mai.",
     "show": "Whakaatu",
-    "hide": "Huna"
+    "hide": "Huna",
+    "title": "Āhea?",
+    "tonight": "Ā te pō nei",
+    "inAnHour": "Ā te haora kotahi",
+    "tomorrow": "Āpōpō",
+    "primeTime": "Wā matua",
+    "scheduleFor": "Whakarite mō {{when}}",
+    "liveTip": "Ka taea e ō kaiwhai te whakarite whakamaumahara. Māu anō e tīmata te Ora ina tae te wā.",
+    "stageTip": "Ka tau tonu ki te papa E haere ake ana, kia taea ai e te tangata te pāwhiri i Whakamaumahara mai.",
+    "typePlaceholder": "Patohia he wā, pērā i \"fri 8pm\", \"in 2 hours\" rānei",
+    "typeLabel": "Patohia he wā",
+    "typeHelp": "Whakamātauria \"tonight\", \"tomorrow 9am\", \"sat noon\", \"30 oct 7pm\" rānei.",
+    "orPickDay": "Kōwhiria rānei he rā",
+    "earlier": "15 meneti i mua",
+    "later": "15 meneti i muri",
+    "earlierShort": "I mua ake",
+    "laterShort": "Ā muri",
+    "tooSoonMin": "Kōwhiria he wā kia {{count}} meneti te iti rawa mai i ināianei.",
+    "zone": "Tō wā ({{zone}}). Ka kite ētahi atu i tō rātou ake wā.",
+    "remove": "Tango hōtaka",
+    "startsIn": "Ka tīmata ā te {{time}}",
+    "bestTime": "Wā pai rawa",
+    "fansOnline": "Āhea ōku kaiwhai ai i te ipurangi?",
+    "fansBasis": "Ko te marama ake, ko te nui ake o ō kaiwhai i mātakitaki, ngā rā {{count}} kua pahure.",
+    "everyoneBasis": "Kāore anō kia rawaka ngā mahi kaiwhai, nō reira ko te katoa i Riftn tēnei."
   },
   "planned": {
     "title": "Kua whakamaheretia",
@@ -15214,22 +16417,45 @@
     "loading": "Ko te utanga...",
     "startNow": "Tīmata ināianei",
     "cancel": "Whakakore",
-    "cancelled": "Whakakorea"
+    "cancelled": "Whakakorea",
+    "subtitle": "Ngā pānui, ngā Ora me ngā Atamira kua whakaritea e koe",
+    "seoTitle": "Kua whakamaheretia · Riftn",
+    "seoDescription": "Ō pānui, Ora me ngā Atamira kua whakaritea i Riftn, kei te wāhi kotahi.",
+    "lives": "Ngā Ora",
+    "signIn": "Takiuru kia kite ai i āu mahere",
+    "emptyTitle": "Kāore anō he mea kua whakamaheretia",
+    "emptyBody": "Kōwhiria “Āhea?” i a koe e hanga ana i tētahi pānui, Ora, Atamira rānei, ā, ka puta mai ki konei.",
+    "move": "Neke",
+    "postNow": "Tuku ināianei",
+    "confirmCancel": "Pāwhiri anō hei whakakore",
+    "moved": "Kua nekehia ki {{when}}",
+    "postingNow": "Ka tukuna i roto i te meneti",
+    "moveFailed": "Kāore i taea te neke. Whakamātauria anō.",
+    "seeAll": "Tirohia ngā mea katoa kua whakamaheretia e koe"
   },
   "welcome": {
     "about": {
       "title": "Nau mai ki Riftn",
       "day": "Rā",
       "month": "Marama",
-      "year": "Tau"
+      "year": "Tau",
+      "sub": "Ka noho tūmataiti tō rā whānau. Kōwhiria he āhua, ka taea te huri i tētahi wā.",
+      "birthday": "Rā whānau",
+      "pick": "Kōwhiria tō rā whānau",
+      "invalid": "Tāurua tō rā whānau katoa.",
+      "tooYoung": "Me {{age}} tau neke atu tō pakeke hei whakamahi i a Riftn.",
+      "theme": "Tō āhua"
     },
     "name": {
       "title": "Tō ingoa",
-      "placeholder": "Tō ingoa"
+      "placeholder": "Tō ingoa",
+      "sub": "Koinei te ingoa ka kitea e te tangata i ō pānui."
     },
     "card": {
       "name": "Tō ingoa",
-      "followers": "ngā kaiwhaiwhai"
+      "followers": "ngā kaiwhaiwhai",
+      "interests": "Ō aronga",
+      "following": "e whai ana"
     },
     "topic": {
       "music": "Waiata",
@@ -15241,11 +16467,47 @@
       "podcast": "Kōrero whakarongo",
       "food": "Kai",
       "news": "Rongo",
-      "science": "Pūtaiao"
+      "science": "Pūtaiao",
+      "crypto": "Crypto",
+      "travel": "Haerenga",
+      "anime": "Anime",
+      "cars": "Motokā",
+      "animals": "Kararehe",
+      "tech": "Hangarau"
     },
     "back": "Hoki",
     "skipPhoto": "Tikiake mo tenei wa",
-    "preview": "Whakaaturanga"
+    "preview": "Whakaaturanga",
+    "username": {
+      "title": "Tō @ingoakaiwhakamahi",
+      "sub": "Ngā reta, ngā tau me ngā pāraro. Ka taea te huri ā muri.",
+      "yours": "Nōu a @{{name}}"
+    },
+    "photo": {
+      "title": "Tō whakaahua",
+      "sub": "Kōwhiringa. Ka tere ake te whai a te tangata i ngā kanohi.",
+      "choose": "Kōwhiri whakaahua",
+      "change": "Kōwhiri tētahi atu"
+    },
+    "interests": {
+      "title": "Ō aronga",
+      "sub": "Kōwhiria kia 3 te iti rawa. Ka tuatahi rātou i ō kāwai."
+    },
+    "people": {
+      "title": "Ō tāngata",
+      "sub": "Pāwhiri hei whai. Ka whakakīa e ō rātou pānui tō whāngai E whai ana.",
+      "empty": "Kāore he tūtohu ināianei. He maha atu ngā tāngata hei kimi i Tūhura.",
+      "followers": "{{count}} kaiwhai"
+    },
+    "done": {
+      "title": "He pai te āhua, {{name}}",
+      "sub": "Ka kite te katoa i tēnei kāri mai i tēnei rā.",
+      "eyebrow": "Kua ora te kōtaha"
+    },
+    "enter": "Uru ki Riftn",
+    "pickMore": "Kōwhiria kia {{count}} anō",
+    "cardHint": "Koinei te āhua ka kitea koe e te tangata",
+    "followFailed": "Kāore i taea te whai. Whakamātauria anō."
   },
   "appTokens": {
     "title": "Ō tohu",
@@ -15256,10 +16518,35 @@
     "amount": "Tapeke",
     "notePlaceholder": "Tāpiritia he tuhipoka (kōwhiringa)",
     "sendButton": "Tuku",
-    "errorInsufficient": "Kāore anō kia ranea ngā tohu"
+    "errorInsufficient": "Kāore anō kia ranea ngā tohu",
+    "rowHint": "Toenga i te taupānga",
+    "explainer": "Kei roto i a Riftn ō tohu ināianei. I tīmata koe ki ngā mea i puritia, i tāpuitia rānei e koe i runga i te mekameka i te whakarewatanga. Mā te tuku, te koha me te whakapau e neke tonu ai, kāore he utu, kāore he mea i runga i te mekameka. Ka whakawhitia ngā toenga ki te tohu hou i te tukunga.",
+    "kindOpening": "Toenga tīmatanga",
+    "kindSent": "I tukuna ki {{name}}",
+    "kindReceived": "Nā {{name}}",
+    "kindSpent": "I whakapaua i Riftn",
+    "kindRefund": "Whakahoki moni",
+    "kindAdjust": "Whakatikatika nā Riftn",
+    "sendTitle": "Tuku tohu",
+    "sendHint": "Ka tuku tohu i roto i a Riftn ki tētahi atu pūkete. He tere, he utu kore, kāore he mea e haere ki runga i te mekameka.",
+    "toPlaceholder": "@ingoakaiwhakamahi, wāhitau 0x rānei",
+    "looking": "Kei te rapu…",
+    "available": "E wātea ana: {{amount}}",
+    "sent": "Kua tukuna ngā tohu {{amount}} ki {{name}}",
+    "errorRateLimit": "He maha rawa ngā tuku i te haora kua pahure. Whakamātauria anō ā muri ake.",
+    "errorNoRecipient": "Kāore he pūkete Riftn i kitea",
+    "errorSelf": "Kāore e taea te tuku ki a koe anō",
+    "errorGeneric": "Kāore i taea te tuku. Whakamātauria anō."
   },
   "avatarPrompt": {
-    "notNow": "Kāore i tēnei wā"
+    "notNow": "Kāore i tēnei wā",
+    "title": "Tāpiri whakaahua kōtaha",
+    "body": "Ka tere ake te kite a te tangata i a koe i ngā whāngai, ngā kōrero me ngā kōrerorero ina he kanohi, he waitohu rānei tōu.",
+    "choose": "Kōwhiri whakaahua",
+    "another": "Kōwhiri tētahi atu",
+    "save": "Whakamahia tēnei whakaahua",
+    "saved": "He pai te āhua",
+    "failed": "Kāore i taea te tiaki i tō whakaahua. Whakamātauria anō."
   },
   "postStats": {
     "audience": "Whakarongo",
@@ -15277,36 +16564,159 @@
     "shares": "Tuari",
     "signedOutViewers": "Kua puta",
     "topSupporters": "Ko nga kaitautoko nui",
-    "visitors": "Kua puta"
+    "visitors": "Kua puta",
+    "aboutUsual": "tata ki tōu tikanga",
+    "afterWatching": "i whai i muri i te kite",
+    "avg": "toharite",
+    "avgWatch": "Mātakitaki toharite",
+    "bestTime": "Āhea ō tāngata e mātakitaki ai",
+    "bigDrop": "Heke nui",
+    "byBadge": "mā te tohu",
+    "devices": "Pūrere (mema)",
+    "finishedLower": "kua oti",
+    "finishedPct": "{{pct}}% i mātakitaki tae noa ki te mutunga",
+    "inOut": "{{in}} mema · {{out}} kua takiputa",
+    "leave": "{{pct}}% ka wehe",
+    "linkClicks": "Pāwhiri hononga",
+    "newToYou": "hou ki a koe",
+    "noAccount": "kāore he pūkete",
+    "noViewersYet": "Kāore anō tētahi kia kite i tēnei pānui.",
+    "noWatchYet": "Ka puta te wā mātakitaki ki konei ina pūreitia e te tangata. I tīmata te tatau i te 31 Oct 2026.",
+    "open": "Tirohia te āhua o tō pānui",
+    "otherBadges": "Ētahi atu tohu",
+    "peak": "Teitei {{time}} · {{n}}",
+    "peopleReached": "Tāngata i tae atu",
+    "playsLower": "pūrei",
+    "playsMembers": "Pūrei a ngā mema",
+    "playsVisitors": "Pūrei kua takiputa",
+    "profileTaps": "Pāwhiri ki tō kōtaha",
+    "reach": "Toronga",
+    "saves": "Tiakinga",
+    "seeAll": "Tirohia ngā tatauranga katoa",
+    "signedIn": "kua takiuru",
+    "signedOutLower": "kua takiputa",
+    "stillWatching": "E mātakitaki tonu ana",
+    "timesUsual": "{{ratio}}× te tikanga",
+    "vsUsualPct": "{{pct}} ki tō pānui noa",
+    "unavailableBody": "Ko te kaihanga anake ka kite i ngā tatauranga mō tēnei pānui.",
+    "unavailableTitle": "Kāore e wātea ana ngā tatauranga",
+    "vsUsual": "ki tō pānui noa",
+    "watching": "E mātakitaki ana",
+    "whoSawIt": "Ko wai i kite",
+    "withRepeats": "{{n}} tāruarua",
+    "yourFollowers": "ō kaiwhai",
+    "first48": "Ngā haora 48 tuatahi",
+    "howItsDoing": "Te āhua o tōna haere",
+    "bestTip": "Ka tae mai te nuinga o ō kaimātakitaki i te {{day}} i te {{hour}}:00 pea. Mā te tuku i mua tata atu ka pai rawa te tīmatanga o tētahi pānui.",
+    "last30": "ngā rā 30 kua pahure",
+    "day": {
+      "sun": "Rāt",
+      "mon": "Mān",
+      "tue": "Tūr",
+      "wed": "Wen",
+      "thu": "Tāit",
+      "fri": "Par",
+      "sat": "Rāh"
+    }
   },
   "duet": {
     "policyEveryone": "Te katoa",
     "policyFollowers": "Ngā kaiwhai",
     "policyNobody": "Kāore tētahi",
     "loadMore": "Utaina anō",
-    "video": "ataata"
+    "video": "ataata",
+    "with": "Takirua me @{{username}}",
+    "withOriginal": "Takirua · tirohia te taketake",
+    "unavailable": "Kua kore e wātea tēnei ataata mō ngā takirua.",
+    "allowLabel": "Tukua ngā takirua",
+    "allowDescription": "Ko wai ka taea te hopu takirua i te taha o ō ataata. Ka taea hoki te huri i ia pānui.",
+    "settingsSection": "Ngā takirua",
+    "policyDefault": "Tautuhinga pūkete",
+    "saveFailed": "Kāore i taea te tiaki. Whakamātauria anō.",
+    "count_one": "{{count}} takirua",
+    "count_other": "{{count}} takirua",
+    "pageHeading": "Ngā takirua",
+    "pageTitle": "Ngā takirua o {{title}} nā @{{creator}}",
+    "pageTitleNoCreator": "Ngā takirua o {{title}}",
+    "pageDescription": "Mātakitakihia ia takirua o tēnei ataata i Riftn, hopukina rānei tōu ake i te taha.",
+    "empty": "Kāore anō he takirua. Huakina ngā kōwhiringa o te ataata, ka kōwhiri i Whakaranu → Takirua hei hanga i te tuatahi.",
+    "notFound": "Kāore e wātea ana tēnei ataata.",
+    "notFoundTitle": "Kāore i kitea te ataata — Riftn",
+    "browseShorts": "Tirotiro Poto"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Te katoa",
       "followers": "Ngā kaiwhai",
-      "nobody": "Kāore tētahi"
+      "nobody": "Kāore tētahi",
+      "default": "Taku taunoa"
+    },
+    "shareFailed": "Kua tukuna tō koha, engari kāore i tae te wāhanga o te kaihanga taketake.",
+    "notify": {
+      "duet": "I takirua a {{name}} me tō ataata",
+      "stitch": "I tuitui a {{name}} i tō ataata",
+      "react": "I tauhohe a {{name}} ki tō ataata",
+      "reactLive": "Kei te tauhohe ora a {{name}} ki tō ataata"
+    },
+    "linkFailed": "Kua puta tō pānui, engari kāore i taea te hono ki te ataata taketake.",
+    "settingsHeading": "Ngā whakaranu",
+    "stitch": {
+      "allow": "Tukua ngā tuitui",
+      "allowDesc": "Ko wai ka taea te whakamahi tae atu ki te 5 hēkona o ō ataata i ō rātou ake. Ka taea hoki te huri i ia pānui.",
+      "saveFailed": "Kāore i taea te tiaki i tō tautuhinga tuitui. Whakamātauria anō.",
+      "settingFailed": "Kua puta tō pānui, engari kāore i tiakina tōna tautuhinga tuitui. Hurihia mai i Whakatika pānui.",
+      "from": "I tuituia mai i a {{name}}",
+      "count_one": "{{count}} Tuitui",
+      "count_other": "{{count}} Tuitui",
+      "listTitle": "Ngā tuitui",
+      "listFailed": "Kāore i taea te uta i ngā tuitui. Whakamātauria anō.",
+      "listEmpty": "Kāore anō he tuitui.",
+      "unavailable": "Kua kore e wātea tēnei ataata mō ngā tuitui."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Te katoa",
       "followers": "Ngā kaiwhai",
-      "nobody": "Kāore tētahi"
+      "nobody": "Kāore tētahi",
+      "default": "Taunoa pūkete ({{value}})"
     },
     "heading": "Ngā urupare",
     "more": "Whakaatu atu anō",
     "liveNow": "Ora",
-    "untitled": "Tauhohe"
+    "untitled": "Tauhohe",
+    "reactionTo": "Tauhohe ki",
+    "reactingTo": "E tauhohe ana ki",
+    "count_one": "{{count}} tauhohe",
+    "count_other": "{{count}} tauhohe",
+    "allow": "Tukua ngā tauhohe",
+    "remixesSection": "Ngā whakaranu",
+    "allowDescription": "Tukua ētahi atu kaihanga ki te tauhohe ki ō ataata, kua hopukina, ora rānei. Ka taea tonu te huri i ia pānui.",
+    "pageTitle": "Ngā tauhohe ki {{title}} — Riftn",
+    "pageDescription": "Mātakitakihia ngā kaihanga e tauhohe ana ki “{{title}}” nā {{creator}} i Riftn, kua hopukina, ora hoki.",
+    "backToVideo": "Hoki ki te ataata",
+    "empty": "Kāore anō he tauhohe. Huakina te tahua Whakaranu o te ataata, ka kōwhiri i Tauhohe kia tuatahi ai koe.",
+    "wasLive": "I ora",
+    "thisVideo": "tēnei ataata"
   },
   "liveClips": {
     "copyLink": "Tārua hononga",
-    "linkCopied": "Kei te taha matau"
+    "linkCopied": "Kei te taha matau",
+    "button": "Topenga i tēnei wā",
+    "capturing": "Kei te hopu i te meneti whakamutunga o te rerenga…",
+    "failed": "Kāore i taea te hanga i tēnei topenga.",
+    "highlightTitle": "Wā rongonui",
+    "length": "Topenga {{seconds}}s",
+    "make": "Hanga topenga",
+    "postToShorts": "Tuku ki Poto",
+    "posted": "Kua tukuna te topenga ki Poto",
+    "postedBody": "Kei Poto tō topenga. Tiria kia kitea ai te rerenga e te tokomaha.",
+    "rendering": "Kei te tapahi i tō topenga. Haurua meneti pea te roa…",
+    "starting": "Kei te tīmata i tō topenga…",
+    "title": "Topenga",
+    "titleLabel": "Taitara topenga",
+    "titlePlaceholder": "Hoatu he taitara ki tō topenga",
+    "viewShort": "Tirohia te Poto"
   },
   "liveHype": {
     "gift": {
@@ -15318,16 +16728,65 @@
       "stage": {
         "preparing": "Te whakarite…",
         "confirming": "Kei te tatari mō te whakawhitinga…",
-        "recording": "Kei te whakaoti…"
-      }
+        "recording": "Kei te whakaoti…",
+        "wallet": "Whakaū i tō pūkoro moni"
+      },
+      "open": "Koha ohaurunga",
+      "title": "Koha ohaurunga",
+      "mode": {
+        "random": "Kaimātakitaki matapōkere i te kōrerorero",
+        "user": "He tangata motuhake"
+      },
+      "randomHint": "Ka haere ki te hunga i kōrerorero i ngā meneti 30 kua pahure, kāore anō kia ohauru.",
+      "send_one": "Koha 1 ohaurunga · ${{price}}",
+      "send_other": "Koha {{count}} ohaurunga · ${{price}}",
+      "payHint": "Ka utua ki ngā tohu mai i tō pūkoro moni i te whakawhitinga kotahi.",
+      "fewer_one": "Kotahi anake te tangata i te kōrerorero ka taea te whiwhi ohaurunga ināianei, nō reira ka utu koe mō te 1.",
+      "fewer_other": "Ko ngā tāngata {{count}} anake i te kōrerorero ka taea te whiwhi ohaurunga ināianei, nō reira ka utu koe mō te {{count}}.",
+      "done_one": "Kua kohatia te ohaurunga!",
+      "done_other": "Kua kohatia ngā ohaurunga {{count}}!",
+      "failed": "Kāore i taea te koha i ngā ohaurunga",
+      "notReady": "Kāore anō te koha e wātea ana mō tēnei mahere",
+      "noPlan": "Kōwhiria he mahere i te tuatahi",
+      "noPlans": "Kāore anō he mahere ohaurunga a {{name}} hei koha."
+    },
+    "train": {
+      "level": "Tereina Hīkaka · Taumata {{level}}",
+      "endedLevel": "I oti i te Tereina Hīkaka te taumata {{level}}!",
+      "ended": "Kua mutu te Tereina Hīkaka",
+      "thanks_one": "Ngā mihi ki te {{count}} kaitautoko",
+      "thanks_other": "Ngā mihi ki ngā {{count}} kaitautoko",
+      "top": "Matua: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Ētahi atu",
-    "confirming": "Ka taea e koe te utu..."
+    "confirming": "Ka taea e koe te utu...",
+    "lockPhoto": "Raka whakaahua",
+    "lockVideo": "Raka ataata",
+    "lockOnPrice": "Kua rakaina · {{price}} tohu",
+    "lockCustomLabel": "Utu ritenga ki ngā tohu",
+    "lockHint": "Ka kite rātou he pōkēkē kia utu rā anō ki a koe. Kāore ngā kōnae kua rakaina e whakamunatia mai i tētahi pito ki tētahi pito.",
+    "dhbNow": "{{dhb}} i te utu o te rā nei",
+    "lockCustomUsd": "$ Tētahi atu",
+    "lockCustomUsdLabel": "Utu ritenga ki ngā tāra",
+    "lockDhbNow": "≈ {{dhb}} i tēnei rā. Ka utu tonu rātou i te {{price}}, ahakoa te uara o ngā tohu.",
+    "lockOnUsd": "Kua rakaina · {{price}}",
+    "lockedPhoto": "Whakaahua kua rakaina",
+    "lockedVideo": "Ataata kua rakaina",
+    "unlockFor": "Wewete mō {{price}}",
+    "unlockOnWeb": "Wewete i riftn.com · {{price}}",
+    "stillConfirming": "Kua tukuna te utu. Ka huaki ina whakaūngia.",
+    "payFailed": "Kāore i taea te wewete",
+    "unlocked": "Kua wetekina",
+    "unlockedTag": "Kua wetekina",
+    "notYet": "Kāore anō kia wetekina",
+    "uploading": "Kei te raka…",
+    "unlockedByThem": "I wetekina tō {{kind}} kua rakaina: +{{amount}} tohu"
   },
   "liveShorts": {
-    "live": "E ora ana"
+    "live": "E ora ana",
+    "join": "Uru ki te ora"
   },
   "feedFilters": {
     "clearAllShort": "Ūkui katoa",
@@ -15336,7 +16795,20 @@
     "groupDate": "Rā",
     "groupSort": "Raupapa",
     "groupType": "Momo",
-    "save": "Tiaki"
+    "save": "Tiaki",
+    "clearAll": "Ūkui ngā tātari katoa",
+    "collapse": "Huna ngā tātari",
+    "count": "{{count}} tātari kua kā",
+    "deletePreset": "Muku {{name}}",
+    "groupAccess": "Urunga",
+    "groupTag": "Tūtohu",
+    "myPresets": "Aku tatūnga",
+    "presetName": "Ingoa tatūnga",
+    "remove": "Tango {{label}}",
+    "saveCurrent": "+ Tiaki o nāianei",
+    "savePreset": "Tiaki hei tatūnga",
+    "show": "Whakaatu ngā tātari",
+    "updatePreset": "Whakaingoa anō tatūnga"
   },
   "ownKeys": {
     "working": "Mahi",
@@ -15344,7 +16816,21 @@
     "check": "Tirohia",
     "remove": "Tangohia",
     "save": "Tiaki",
-    "cancel": "Whakakore"
+    "cancel": "Whakakore",
+    "title": "Ō ake kī AI",
+    "description": "Tāpiria he kī mai i tētahi kaiwhakarato AI, ā, ka rere kē ngā utauta Kaihanga i tō pūkete. Kāore a Riftn e utu i ērā mahi. Kua whakamunatia ngā kī, ā, kāore rawa e whakaaturia anō.",
+    "invalid": "Kua whakakāhoretia, whakakapia",
+    "noCredit": "Kua pau te whiwhinga",
+    "disabled": "Kua wetohia e Riftn",
+    "saved": "Kua tiakina te kī {{name}}. Ka whakamahi ngā utauta i {{name}} i tō pūkete ināianei.",
+    "savedNoCredit": "Kua tiakina te kī {{name}}, engari kua pau te whiwhinga o te pūkete.",
+    "removed": "Kua tangohia te kī {{name}}.",
+    "replaceKey": "Whakakapi kī",
+    "add": "Tāpiri kī",
+    "paste": "Whakapiri tō kī {{name}}",
+    "getKey": "Tiki kī {{name}}",
+    "showLess": "Whakaatu aku kī anake",
+    "addAnother": "Tāpiri kaiwhakarato anō"
   },
   "postBg": {
     "addMedia": "Tāpirihia he pikitia, he GIF, he ataata rānei",
@@ -15358,55 +16844,179 @@
       "drive": "Te whakahaere i te po",
       "chrome": "Chrome Liquid",
       "orbit": "Āmiomio",
-      "snow": "Te hukarere"
+      "snow": "Te hukarere",
+      "ink": "Horoi Mangumangu",
+      "news": "Pepa Niupepa",
+      "split": "Wehenga Ahiahi",
+      "blue": "Mahere Kikorangi",
+      "terra": "Terrazzo",
+      "half": "Ira Hīkaka",
+      "topo": "Rārangi Whenua",
+      "velvet": "Wereweti",
+      "sorbet": "Sorbet",
+      "carbon": "Waro",
+      "echo": "Paoro Kōtaha",
+      "cards": "Kāri Tae",
+      "deck": "Kete Tauira",
+      "aurora": "Tahunui-ā-rangi",
+      "stars": "Āpure Whetū",
+      "rain": "Ua ki te Karaehe",
+      "breathe": "Hā",
+      "spin": "Huri Kōtiti",
+      "tide": "Tai",
+      "ember": "Ngārahu",
+      "holo": "Pepa Holo",
+      "rift": "Rift",
+      "mesh": "Kupenga",
+      "grain": "Kirikiri Kiriata",
+      "ripple": "Kare",
+      "dotwave": "Ngaru Ira",
+      "scan": "CRT",
+      "silk": "Hiraka",
+      "bokeh": "Bokeh",
+      "photo": "Tō pikitia"
     },
-    "sameAsProfile": "Kōtaha"
+    "sameAsProfile": "Kōtaha",
+    "scope": "Whakahāngai ki",
+    "thisPost": "Tēnei pānui",
+    "allPosts": "Ngā pānui katoa",
+    "sameAsProfileSub": "He ōrite ki tō kōtaha",
+    "title": "Papamuri pānui",
+    "editRow": "Papamuri pānui",
+    "hint": "Kōrerehia te tīhore. Ka huri tō pānui i a koe e haere ana. Ko koe anake ka taea te huri i tēnei.",
+    "moving": "Nekeneke",
+    "still": "Pūmau",
+    "plain": "Pānui māmā",
+    "position": "{{n}} o {{total}}",
+    "sample": "Koinei te āhua o ō pānui kupu i tō kōtaha.",
+    "saveFailed": "Kāore i taea te tiaki i tō papamuri. Whakamātauria anō.",
+    "base": "Tūāpapa",
+    "accent2": "Tae tāpiri 2",
+    "ownColours": "Ō ake tae"
   },
   "articleTile": {
-    "cover": "Uhi"
+    "cover": "Uhi",
+    "title": "Taera tuhinga",
+    "dropcap": "Pūmatua taka",
+    "hint": "Te āhua o ō tuhinga i tō mātiti kōtaha. Ko koe anake ka taea te huri i tēnei.",
+    "saveFailed": "Kāore i taea te tiaki. Whakamātauria anō."
   },
   "aiConsent": {
-    "allow": "Tukua"
+    "allow": "Tukua",
+    "title": "Whakamahi i ngā āhuatanga AI?",
+    "body": "Kia mahi ai, ka tukuna e ngā āhuatanga AI ngā mea ka hoatu e koe (ō kupu, whakaahua, ororongo rānei, me te pānui, kōrerorero rānei e pā ana) ki ngā kaiwhakarato AI tuatoru pērā i Google, OpenAI, Groq, OpenRouter, fal me ElevenLabs. Ka taea te huri i tētahi wā i Tautuhinga → Tūmataitinga.",
+    "declined": "Kua weto ngā āhuatanga AI. Ka taea te whakakā i Tautuhinga → Tūmataitinga.",
+    "settingLabel": "Ngā āhuatanga AI",
+    "settingDesc": "Tukua te kaiāwhina, te whakamāori, ngā whakautu kua tūtohua me te āwhina tuhituhi ki te tuku i ngā mea ka hoatu e koe ki ngā kaiwhakarato AI tuatoru."
   },
   "dmRequests": {
     "title": "Tono Āhuatanga",
     "accept": "Āe",
     "delete": "Muku",
-    "block": "Poraka"
+    "block": "Poraka",
+    "hint": "Ngā karere mai i ngā tāngata kāore koe e whai ana. Whakaaetia tētahi, whakautu, whai rānei i a rātou, ā, ka neke te kōrerorero ki tō pouaka karere.",
+    "rowHint": "{{n}} mai i ngā tāngata kāore koe e whai ana",
+    "banner": "Kāore koe e whai ana i a {{name}}. Whakaaetia hei neke i tēnei kōrerorero ki tō pouaka karere, whakautu noa rānei.",
+    "accepted": "Kua nekehia ki tō pouaka karere",
+    "acceptFailed": "Kāore i taea te whakaae, whakamātauria anō"
   },
   "dmSchedule": {
     "view": "Tirohia",
     "edit": "Whakatika",
     "editLabel": "Whakahoutia te karere",
-    "error": "Kaore i mahi. Whakamātauria ano."
+    "error": "Kaore i mahi. Whakamātauria ano.",
+    "button": "Whakarite karere",
+    "title": "Ngā karere kua whakaritea",
+    "whenTitle": "Tuku āhea?",
+    "waiting": "{{n}} kua whakaritea",
+    "next": "e whai ake {{when}}",
+    "failedCount": "{{n}} kāore i tukuna",
+    "notSent": "Kāore i tukuna",
+    "emptyTitle": "Kāore he mea kua whakaritea",
+    "emptyBody": "Tuhia he karere, kātahi ka pāwhiri i te karaka hei kōwhiri āhea ka tukuna.",
+    "changeTime": "Huri wā",
+    "sendNow": "Tukuna ināianei",
+    "deleted": "Kua mukua te karere kua whakaritea",
+    "unreadable": "I tuhia ki tētahi atu pūrere. Ka tukuna tonu.",
+    "footnote": "Kei tō rohe wā ngā wā. Kāore tētahi e kite i tētahi karere kia tukuna rā anō.",
+    "footnoteNamed": "Kei tō rohe wā ngā wā. Ka kite a {{name}} i tētahi karere ina tukuna anake.",
+    "textOnly": "Ko ngā karere kupu anake ka taea te whakarite i tēnei wā.",
+    "scheduledToast": "Kua whakaritea mō {{when}}",
+    "failedToast": "Kāore i taea te tuku i tētahi karere kua whakaritea"
   },
   "chatBulk": {
     "selected": "{{count}} tīpakohia",
     "cancel": "Whakakore",
     "reply": "Whakautu",
-    "delete": "Muku"
+    "delete": "Muku",
+    "select": "Tīpako",
+    "toolbar": "Ngā kōrerorero kua tīpakohia",
+    "pick": "Pāwhiria ngā kōrerorero hei tīpako",
+    "read": "Tohu kua pānuitia",
+    "unread": "Tohu kāore anō kia pānuitia",
+    "replyTitle_one": "Whakautu ki te {{count}} kōrerorero",
+    "replyTitle_other": "Whakautu ki ngā kōrerorero {{count}}",
+    "replyHint": "Ka whiwhi ia tangata i tēnei hei karere noa i tōna ake kōrerorero.",
+    "replyPlaceholder": "Tuhia he karere…",
+    "sendAll": "Tuku ki te {{count}}",
+    "deleted_one": "Kua mukua te {{count}} kōrerorero",
+    "deleted_other": "Kua mukua ngā kōrerorero {{count}}",
+    "sent_one": "Kua tukuna ki te {{count}} kōrerorero",
+    "sent_other": "Kua tukuna ki ngā kōrerorero {{count}}",
+    "partSent": "Kua tukuna ki ngā kōrerorero {{ok}} o {{total}}",
+    "notSent": "Kāore i taea te tuku. Whakamātauria anō."
   },
   "msgSelect": {
     "selected": "{{count}} tīpakohia",
     "copy": "Tārua",
     "forward": "Tukuna atu",
     "deleted_one": "I mukua te karere {{count}}",
-    "deleted_other": "I mukua ngā karere {{count}}"
+    "deleted_other": "I mukua ngā karere {{count}}",
+    "toolbar": "Ngā karere kua tīpakohia",
+    "pick": "Pāwhiria ngā karere hei tīpako",
+    "deleteSome": "Muku {{count}}",
+    "forwarded_one": "Kua tukuna atu te {{count}} karere",
+    "forwarded_other": "Kua tukuna atu ngā karere {{count}}",
+    "partForwarded": "Kua tukuna atu {{ok}} o {{total}}",
+    "nothingToCopy": "Kāore he mea hei tārua i ngā karere kua kōwhiria",
+    "copied_one": "Kua tāruatia te {{count}} karere",
+    "copied_other": "Kua tāruatia ngā karere {{count}}",
+    "deleteTitle_one": "Muku te {{count}} karere?",
+    "deleteTitle_other": "Muku ngā karere {{count}}?",
+    "deleteBody": "Ka tangohia mō te katoa i tēnei kōrerorero.",
+    "deleteForBothBody": "Ka tangohia mō kōrua tahi."
   },
   "messagesTabs": {
-    "all": "Katoa"
+    "all": "Katoa",
+    "unread": "Kāore anō kia pānuitia",
+    "groups": "Rōpū"
   },
   "mentionLinks": {
     "communities": "Hapori",
     "pages": "Ngā whārangi",
-    "people": "Tāngata"
+    "people": "Tāngata",
+    "linkTo": "Hono ki a {{name}}"
   },
   "resetWallet": {
     "mismatch": "Kāore ngā kupuhipa i te ōrite",
     "logOut": "Takiputa",
     "confirm": "Whakaū kupuhipa",
     "ack": "Ka mārama au ko ā au pūtea tawhito e noho ana i te pokapū tawhito.",
-    "cancel": "Whakakore"
+    "cancel": "Whakakore",
+    "tooShort": "Me {{count}} pūāhua te iti rawa o te kupuhipa",
+    "breached": "Kua puta tēnei kupuhipa i tētahi pakaru raraunga. Kōwhiria tētahi atu",
+    "weak": "Kōwhiria he kupuhipa kaha ake (ranua ngā reta, ngā tau me ngā tohu)",
+    "doneTitle": "Kei tōna pūkoro moni hou tō pūkete",
+    "twoFactor": "Tāurua te waehere mai i tō taupānga motuhēhēnga hei neke i tō pūkete.",
+    "failed": "Kāore i taea te tautuhi anō i tō pūkoro moni. Kāore he mea i nekehia. Whakamātauria anō.",
+    "title": "Tautuhi anō pūkoro moni",
+    "reloginApp": "Ka whakamanatia te tautuhi anō mā te īmēra, te waea, te takiuru Google rānei o tō pūkete, kaua mā te pūkoro moni tawhito, nā te mea ka taea hoki e te tangata kei a ia te kī tawhito te haina. Takiputa, takiuru anō mā taua takiuru, kātahi ka hoki mai ki konei. Kāore anō he īmēra takiuru? Tāpiria tētahi i riftn.com i raro i Tautuhinga → Takiuru i te tuatahi.",
+    "intro": "Ka hangaia he pūkoro moni Riftn hou, ka nekehia tō ingoa kaiwhakamahi, ō pānui, ō kaiwhai me ō karere ki reira. Whakamahia tēnei mēnā kua ngaro tō pūkoro moni, kei tētahi atu rānei tōna kī. Ka mutu te mahi a te pūkoro moni tawhito mō te takiuru.",
+    "funds": "Kāore ngā tohu, ngā NFT me ētahi atu toenga e neke. Ka noho ki te wāhitau tawhito. Mēnā ka taea tonu e koe te huaki i te pūkoro moni tawhito, tukuna atu i te tuatahi.",
+    "password": "Kupuhipa pūkoro moni hou (iti rawa {{count}} pūāhua)",
+    "twoFactorPlaceholder": "Waehere motuhēhēnga",
+    "submit": "Tautuhi anō pūkoro moni",
+    "rowDesc": "Kua ngaro tō pūkoro moni, kei tētahi atu rānei tōna kī? Nekehia tō pūkete ki tētahi pūkoro moni hou. Ka haere tahi tō ingoa kaiwhakamahi, ō pānui me ō kaiwhai."
   },
   "chatTabs": {
     "all": "Katoa",
@@ -15422,6 +17032,101 @@
     "requests": "Tono Āhuatanga",
     "sCreators": "Ngā kaihanga",
     "sGaming": "Kēmu",
-    "sTrading": "Tauhokohoko"
+    "sTrading": "Tauhokohoko",
+    "addChats": "Tāpiri kōrerorero",
+    "addToTab": "Tāpiri ki te ripa",
+    "addedTo": "Kua tāpirihia ki {{name}}",
+    "builtIn": "Kua hangaia kētia",
+    "chatCount": "{{n}} kōrerorero",
+    "chatsInTab": "Ngā kōrerorero i tēnei ripa",
+    "create": "Hanga ripa",
+    "delete": "Muku ripa",
+    "deleteBody": "Ka ngaro te ripa. Ka noho tonu ōna kōrerorero ki Katoa, ā, ka mau tonu ō rātou karere.",
+    "deleteTitle": "Muku “{{name}}”?",
+    "deleted": "Kua mukua a {{name}}",
+    "edit": "Whakatika ripa",
+    "editHintApp": "Whakamahia ngā pere hei whakaraupapa anō. Ka mau tonu ngā ripa huna i ō rātou kōrerorero.",
+    "editTab": "Whakatika ripa",
+    "emoji": "Kōwhiri emoji",
+    "emptyBody": "Tāpiria ngā kōrerorero ki konei, ā, ka noho tonu hoki ki Katoa.",
+    "emptyTitle": "Kei te kau a {{name}}",
+    "hide": "Huna ripa",
+    "kindChannel": "Hongere",
+    "moveLeft": "Neke ki mauī",
+    "moveRight": "Neke ki matau",
+    "namePlaceholder": "Ingoa ripa",
+    "new": "Ripa hou",
+    "newWith": "Ripa hou…",
+    "noEmoji": "Kāore he emoji",
+    "picked": "{{n}} kua kōwhiria",
+    "removedFrom": "Kua tangohia mai i {{name}}",
+    "renameEdit": "Whakaingoa anō, whakatika hoki",
+    "sFriends": "Hoa",
+    "sWork": "Mahi",
+    "saveFailed": "Kāore i taea te tiaki i ō ripa, whakamātauria anō",
+    "show": "Whakaatu ripa",
+    "tooMany": "Tae atu ki te 10 ngā ripa ka taea e koe"
+  },
+  "chatReactions": {
+    "many_one": "{{count}} tauhohe ki ō karere",
+    "many_other": "{{count}} tauhohe ki ō karere",
+    "manySame_one": "{{emoji}} × {{count}} i ō karere",
+    "manySame_other": "{{emoji}} × {{count}} i ō karere",
+    "one": "I tauhohe {{emoji}} ki tō karere",
+    "oneNamed": "I tauhohe a {{name}} {{emoji}} ki tō karere"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Ka noho tonu te pānui.",
+      "onBody": "Ka muku te pānui i a ia anō {{value1}} i muri i tōna putanga."
+    }
+  },
+  "accountDeactivation": {
+    "title": "Whakakore pūkete mō te wā",
+    "short": "Hunaia tō kōtaha mō te wā nei. Takiuru anō hei whakahoki mai",
+    "description": "Whakatā kē. Ka hunaia tō kōtaha, ō pānui me ō kōrero, ā, ka takiputaina koe i ngā wāhi katoa. Kāore he mea e mukua, ā, mā te takiuru anō ka hoki mai katoa.",
+    "button": "Whakakore mō te wā",
+    "confirmTitle": "Whakakore i tō pūkete mō te wā?",
+    "confirmBody": "Ka hunaia tō kōtaha, ō pānui me ō kōrero, ā, ka takiputaina koe i ia pūrere. Takiuru anō i tētahi wā hei wetewete i tēnei.",
+    "busy": "Kei te whakakore…",
+    "done": "Kua whakakorehia te pūkete mō te wā",
+    "receipt": "Kua hunaia tō kōtaha, ō pānui me ō kōrero. Takiuru anō i tētahi wā hei whakahoki mai i ngā mea katoa.",
+    "error": "Kāore i taea te whakakore i tō pūkete mō te wā. Whakamātauria anō.",
+    "acknowledge": "Kei te mārama ahau ka hunaia taku kōtaha, ā, ka takiputaina ahau i ngā wāhi katoa.",
+    "understand": "Kei te mārama ahau"
+  },
+  "halloween": {
+    "title": "Hari Halloween",
+    "otherThemes": "Kāore koe i te hiahia mataku? Kimihia ētahi atu kaupapa:",
+    "enter": "Uru ki te rua mauhere"
+  },
+  "riftnMove": {
+    "title": "Ko Riftn a DeHub ināianei",
+    "body": "He taupānga ōrite, he pūkete ōrite, he hoa ōrite. He ingoa hou noa iho.",
+    "continue": "Pāwhiri hei haere tonu"
+  },
+  "dmSafety": {
+    "notReal": "Ehara tēnei i te {{name}} tūturu.",
+    "neverLink": "Kāore rawa te tīma Riftn e tuku DM ki a koe me tētahi hononga hei whakatika i tō kōtaha, i tō pūkoro moni rānei. Kaua e huaki hononga, e hono i tō pūkoro moni, e haina rānei i tētahi mea. Aukatia, pūrongotia hoki tēnei pūkete."
+  },
+  "profileImage": {
+    "change": "Huri"
+  },
+  "msgDelete": {
+    "title": "Muku karere?",
+    "titleMany": "Muku ngā karere {{count}}?",
+    "bodyOwn": "Tangohia i tō kōrerorero anake, mō te katoa rānei.",
+    "bodyOwnMany": "Tangohia i tō kōrerorero anake, mō te katoa rānei.",
+    "bodyOthers": "Ka tangohia i tō kōrerorero anake. Ka kite tonu te tangata kē.",
+    "bodyOthersMany": "Ka tangohia i tō kōrerorero anake. Ka kite tonu ētahi atu i te kōrerorero.",
+    "bodyOwnBoth": "Tangohia i tō kōrerorero anake, mō kōrua tahi rānei.",
+    "bodyOwnBothMany": "Tangohia i tō kōrerorero anake, mō kōrua tahi rānei.",
+    "forMe": "Muku mōku",
+    "forEveryone": "Muku mō te katoa",
+    "forBoth": "Muku mō tāua tahi",
+    "forMeAndName": "Muku mōku me {{name}}",
+    "remember": "Maumahara ki taku kōwhiringa",
+    "rememberHint": "Hurihia i tētahi wā i ngā Tautuhinga",
+    "failed": "Kāore i taea te muku i te karere"
   }
 }

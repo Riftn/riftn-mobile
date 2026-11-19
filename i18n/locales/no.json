@@ -2612,7 +2612,66 @@
     "57e2faa5ec63": "Søk i Riftn",
     "7db20897053b": "Mennesker",
     "96d7bff86b44": "Søk kunne ikke lastes",
-    "d8b8392e2c54": "Prøv igjen"
+    "d8b8392e2c54": "Prøv igjen",
+    "e587a51bc3ce": "Nytt på Riftn",
+    "d7396f3b8881": "Ny like eller kommentar på Riftn",
+    "037a2ecd34b0": "Ny følger på Riftn",
+    "b63561f1b73a": "Nytt tips eller ny inntekt på Riftn",
+    "0ae84457a2df": "Noen du følger er direkte på Riftn",
+    "a7bac8dca08b": "Innkommende anrop på Riftn",
+    "9d309cb4a034": "Oppdatering om innlegget ditt på Riftn",
+    "914be7a9350a": "Melding fra Riftn",
+    "2ab63e6ced90": "Ikke gjennomførbart",
+    "79688f176607": "Merket som Ikke gjennomførbart",
+    "465fe84f18fc": "Merk som Ikke gjennomførbart",
+    "0d24977e6943": "Rediger begrunnelse",
+    "0a54f1d10336": "Hvorfor er dette ikke gjennomførbart? (valgfritt)",
+    "3d024b567634": "Kort begrunnelse folk vil se",
+    "ad389aa4c08e": "Hvorfor:",
+    "78b3ae9561ee": "Ingenting avvist",
+    "89b4d1850766": "Forespørsler vi ikke kan bygge nå vises her, med begrunnelsen.",
+    "3f9b2c71d0a4": "{{n}} resultater",
+    "8c4e1a6b2f57": "for «{{query}}»",
+    "63eb38b938b8": "Merk som I kø",
+    "2fffca525795": "Merk som Levert",
+    "3ee050a08bfa": "Tilbake til Forespørsler",
+    "ae6a0ffbe609": "Merket som I kø",
+    "366cb56b38ce": "Merket som Levert",
+    "9db7b5ba03bb": "Flyttet tilbake til Forespørsler",
+    "bb2be752e079": "Kunne ikke endre statusen",
+    "1d7234ff1b79": "i {{feed}}",
+    "e122e5c2b563": "Dra opp for å lukke",
+    "1aa9d734f2ee": "Velg hva du vil søke i",
+    "35034aa59bd3": "Ingenting i {{feed}} samsvarte. Prøv andre ord eller søk i alt.",
+    "415155739590": "Søk i alt",
+    "90f1afe66801": "Søker etter «{{query}}»…",
+    "9e13d826baaf": "Søk etter bilder",
+    "e8756c6865a5": "Søk etter shorts",
+    "c7661da99c41": "Søk etter videoer",
+    "cbf6f228327c": "Søk etter musikk",
+    "d7b559f2d8c6": "Prøv andre ord, eller endre filtrene.",
+    "ef557404f465": "Ingen resultater for «{{query}}»",
+    "d1a0c7e2f301": "Hva tenker du på i dag?",
+    "d1a0c7e2f302": "Hva tenker du på i dag?",
+    "d1a0c7e2f303": "Hva tenker du på?",
+    "d1a0c7e2f304": "Har du noe på hjertet?",
+    "d1a0c7e2f305": "Hva tenker du på akkurat nå?",
+    "d1a0c7e2f306": "Hva tenker vi på i dag?",
+    "d1a0c7e2f307": "Noe du tenker på i dag?",
+    "d1a0c7e2f308": "Hva tenker du på denne gangen?",
+    "a7c1e0f4b2d9": "Trykk for å snakke",
+    "b3e8d1c6f0a2": "Trykk for å sende",
+    "c9f2a4e7d1b5": "Lytter ... trykk på ballen for å sende",
+    "94cee2c8c1c1": "Profilen din har flyttet",
+    "22577ebd908e": "Generer Wan 3.0-video · originalt lydspor",
+    "1fa2357ab7e1": "Generer Seedance 720p-video · originalt lydspor",
+    "7f78bdc0762d": "+{{value1}} poeng",
+    "f0c8bb34335b": "Du fikk +{{value1}} poeng",
+    "0fbe06b679a8": "{{value1}} poeng for hver lansert forespørsel, lagt til Toppbyggere-poengsummen din.",
+    "ebebdc70335b": "Glasstolper",
+    "5ff272ba7871": "Silkelinjer",
+    "a941e90ca93d": "Coverglorie",
+    "04dbbe4dff7a": "Ekte bølge"
   },
   "dehubLinks": {
     "kind": {
@@ -2629,7 +2688,8 @@
       "proposal": "forslag",
       "stage": "scene",
       "store": "butikk",
-      "featureRequest": "Forespør"
+      "featureRequest": "Forespør",
+      "page": "side"
     }
   },
   "postGate": {
@@ -2865,10 +2925,20 @@
       "numbers": "Nummerert liste",
       "link": "Lenke",
       "image": "Legg til bilder"
-    }
+    },
+    "imageLimit": "Artikler kan ha opptil {{count}} bilder",
+    "imageFailed": "Bildet kunne ikke legges til. Prøv et annet.",
+    "imagesUploading": "Legger til bilder ({{count}})…",
+    "bodyTooLong": "{{count}} tegn over grensen",
+    "imagesCount": "Bilder · {{count}}/{{max}}",
+    "captionPlaceholder": "Legg til en bildetekst",
+    "captionLabel": "Bildetekst for bilde {{n}}",
+    "removeInlineImage": "Fjern bilde {{n}}"
   },
   "storefront": {
-    "unavailable": "Ikke tilgjengelig i denne versjonen av appen"
+    "unavailable": "Ikke tilgjengelig i denne versjonen av appen",
+    "continueOnWeb": "Fortsett på riftn.com",
+    "webOnlyHint": "Fullfør dette på riftn.com. Det åpnes i Safari."
   },
   "nav": {
     "launchpad": "Lanseringsplattform",
@@ -2922,7 +2992,72 @@
     "reorderReset": "Tilbakestill",
     "groups": {
       "create": "Opprett",
-      "discover": "Oppdag"
+      "discover": "Oppdag",
+      "main": "Hoved",
+      "money": "Penger",
+      "riftn": "Riftn"
+    },
+    "findWords": {
+      "home": "feed, tidslinje, siste innlegg, for deg, følger, forside",
+      "profile": "min profil, min konto, min side, mine innlegg, profilbilde, bio, følgere",
+      "explore": "søk, oppdag, finn, populært, trender, emneknagger, hashtags, folk, skapere",
+      "prompt": "AI, KI, generer, AI-bilde, AI-video, bildemaker, tekst til bilde, AI-kunst",
+      "editor": "videoredigering, rediger video, trim, klipp, tekster, undertekster, effekter",
+      "creator": "lag, skap, studio, AI-verktøy, bilde, video, musikk, voiceover, 3D",
+      "converter": "importer video, last ned, YouTube, TikTok, Instagram, konverter",
+      "migrate": "flytt kanalen min, importer kanal, masseimport, YouTube-kanal",
+      "notifications": "varsler, aktivitet, omtaler, svar, likerklikk, bjelle",
+      "messages": "DM, direktemeldinger, chat, innboks, samtaler, privat melding",
+      "communities": "grupper, fellesskap, rom, klubber, forum, medlemmer",
+      "assistant": "AI, KI, chatbot, spør, hjelp, AI-chat, spørsmål",
+      "settings": "preferanser, konto, personvern, sikkerhet, passord, språk, tema, mørk modus, blokkert, slett konto",
+      "leaderboard": "rangering, plassering, toppskapere, toppbrukere, poeng, resultater",
+      "bookmarks": "lagret, favoritter, se senere, les senere, lagrede innlegg, bibliotek",
+      "command": "dashbord, analyse, inntjening, inntekt, innsikt, moderering, min statistikk",
+      "wallet": "saldo, penger, midler, tokens, krypto, innskudd, uttak, send, motta, betal",
+      "events": "kalender, timeplan, treff, kommende, billetter, AMA",
+      "stages": "lydrom, talechat, spaces, direkte lyd, prat, podkast",
+      "featureRequests": "bygg, byggere, ideer, forslag, rapporter en feil, feil, rettelser, veikart, stem, ønskeliste, forbedre",
+      "feedback": "anmeldelse, vurdering, undersøkelse, mening, klage, gi tilbakemelding",
+      "staking": "stake, innskudd, avkastning, belønninger, tjen, overskuddsdeling, merke, nivåer, rente",
+      "superpowers": "boost, promoter, fordeler, krefter, merkefordeler, rekkevidde, oppgraderinger",
+      "governance": "stem, avstemning, forslag, meningsmåling, stemmeseddel, bestem",
+      "dao": "skattkammer, doner, donasjon, fellesskapsfond, bidra, tilskudd",
+      "bounties": "arbeid, jobber, oppgaver, oppdrag, frilans, ansett, tjen penger, betalt arbeid",
+      "myBounties": "mine dusører, mine jobber, historikk, utbetalinger, fullført arbeid",
+      "affiliate": "henvisning, inviter venner, inviter, provisjon, partner, tjen",
+      "careers": "jobber, rekruttering, jobb hos oss, bli med i teamet, søk, ledige stillinger",
+      "stores": "butikk, markedsplass, merch, kjøp, selg, produkter, shopping",
+      "fractions": "andeler, eierskap, invester, eie et innlegg, NFT, NFT-er, samleobjekter, handel",
+      "usernames": "brukernavn, handle, navn, endre navnet mitt, kjøp et navn, selg et navn",
+      "accounts": "kjøp konto, selg konto, kontoer til salgs, følgere, overfør konto",
+      "apps": "appbutikk, miniapper, bygg en app, utviklere, verktøy",
+      "arcade": "spill, spille, gaming, sjakk, skytespill, moro",
+      "glossary": "begreper, definisjoner, ordbok, betydning, hva er",
+      "compare": "sammenligning, sammenlign, versus, alternativer, YouTube, X, TikTok",
+      "guide": "kom i gang, hvordan, veiledning, hjelp, lær, nybegynner, ny her",
+      "stats": "statistikk, analyse, tall, diagrammer, pris, forsyning, innehavere",
+      "docs": "dokumentasjon, hjelp, API, whitepaper, utviklere, manual",
+      "blog": "nyheter, artikler, oppdateringer, kunngjøringer, hva er nytt",
+      "videos": "se, videoer, klipp, lange videoer",
+      "shorts": "reels, korte videoer, vertikale videoer, sveip",
+      "music": "lyd, sanger, låter, lytt, radio, spilleliste",
+      "liveTv": "TV, strømmer, strømming, direkte, sending, kanaler, se direkte",
+      "buyTokens": "kjøp tokens, kjøp, fyll på, kort, kredittkort, fiat",
+      "bridge": "kryss-kjede, flytt tokens, kjeder, overfør mellom kjeder",
+      "top100": "topp 100, mynter, kryptovalutaer, markedsverdi, priser",
+      "agents": "AI-agenter, agenter, boter, automatisering, personaer",
+      "advertising": "annonser, reklame, kampanje, promoter, sponsor, markedsføring",
+      "premium": "abonnement, oppgrader, pro, medlemskap, ingen annonser, reklamefri",
+      "pricing": "planer, kostnad, pris, hvor mye, abonnement",
+      "creators": "skaperprogram, ambassadører, partnere, søk som skaper, tjen penger",
+      "getTheApp": "last ned appen, Android, iPhone, mobilapp, installer, APK",
+      "connectAi": "MCP, ChatGPT, Claude, API, integrasjon, koble til AI",
+      "packs": "emoji, klistremerker, GIF-er, emojipakker, klistremerkepakker, egendefinerte emojier",
+      "publicChat": "chat, global chat, chatterom, lobby, prat, fellesskapschat",
+      "planned": "planlagt, planlegg, planlagte innlegg, kø, senere",
+      "liveStudio": "gå direkte, strøm, strømming, OBS, overlegg, varsler, widgeter",
+      "launchpad": "lanser en token, lag en mynt, lag mynt, memecoin, bonding curve, tokeniser"
     }
   },
   "affiliate": {
@@ -3688,7 +3823,45 @@
     "themeColorBrandDesc": "Bruk fargene fra profilbildet ditt",
     "themeColorBrandNoAvatar": "Legg til et profilbilde for å bruke merkevarefarger",
     "themeColorBrandFailed": "Klarte ikke å lese farger fra profilbildet ditt",
-    "menuLayoutFolders": "Mapper"
+    "menuLayoutFolders": "Mapper",
+    "chatDeleteChoice": "Når du sletter en melding",
+    "chatDeleteChoiceDesc": "Spør hver gang, eller slett alltid bare for deg eller for alle i chatten.",
+    "chatDeleteAsk": "Spør hver gang",
+    "chatDeleteMe": "Slett for meg",
+    "chatDeleteMeDesc": "Borte fra chatten din, andre ser den fortsatt",
+    "chatDeleteEveryone": "Slett for alle",
+    "chatDeleteEveryoneDesc": "Når det er mulig. En annens melding i en gruppe forsvinner fortsatt bare for deg",
+    "chatTextSize": "Tekststørrelse i chat",
+    "menuLayout": "Menyoppsett",
+    "menuLayoutDesc": "Hvordan menyen grupperer sidene sine",
+    "menuLayoutTabs": "Faner",
+    "menuLayoutTabsDesc": "Én gruppe om gangen, med store ikoner",
+    "menuLayoutSections": "Seksjoner",
+    "menuLayoutSectionsDesc": "Alle sider samtidig, under gruppeoverskrifter",
+    "menuLayoutFoldersDesc": "Hovedsidene dine, så en mappe for hver gruppe",
+    "publicChatInBar": "Offentlig chat i bunnlinjen",
+    "publicChatInBarDesc": "Ett trykk inn i Offentlig chat fra linjen nederst på skjermen",
+    "chatTextSizeDesc": "Større eller mindre meldinger i alle chatter. Kommer i tillegg til tekststørrelsen på telefonen.",
+    "chatCards": "Chatter som kort",
+    "chatCardsDesc": "Hver chat på sitt eget kort. Slå av for en enkel liste med en linje mellom chattene.",
+    "contactSupport": "Kontakt brukerstøtte",
+    "showLikes": "Vis likerklikkene mine for alle",
+    "showLikesDesc": "Alle kan åpne Liker-fanen på profilen din. Av som standard, så bare du ser hva du har likt.",
+    "showFollowersList": "Vis hvem som følger meg",
+    "showFollowersListDesc": "La hvem som helst åpne følgerlisten din. Når dette er av, ser bare du den.",
+    "showFollowingList": "Vis hvem jeg følger",
+    "showFollowingListDesc": "La hvem som helst åpne listen over folk du følger. Når dette er av, ser bare du den.",
+    "showFollowCounts": "Vis følgertallene mine",
+    "showFollowCountsDesc": "Vis hvor mange følgere du har og hvor mange du følger. Slår du dette av, skjules også begge listene.",
+    "readerProfileView": "Åpne andres profiler som",
+    "readerProfileViewDesc": "Velg rutenett eller liste for hver profil du åpner, eller behold hver persons eget valg",
+    "readerProfileViewOwner": "Hver persons valg",
+    "notificationShowCount": "Vis tallet på bjellen",
+    "notificationShowCountDesc": "Se hvor mange varsler som er uleste i stedet for bare gløden",
+    "messagesShowCount": "Vis tallet på Meldinger",
+    "messagesShowCountDesc": "Se hvor mange meldinger som er uleste i stedet for bare gløden",
+    "pushNotRegisteredDescIos": "Varsler når deg ikke mens appen er lukket: denne iPhonen registrerte seg aldri for push. Sjekk at varsler er tillatt for Riftn i Innstillinger, og åpne appen igjen.",
+    "tipsOffNote": "Tips og overføringer til deg er av mens dette er på. Slå det av for å få tips igjen."
   },
   "common": {
     "refresh": "Oppdater",
@@ -3813,7 +3986,16 @@
     "tokenAmount": "{{amount}} tokens",
     "addMessage": "Legg til en melding (valgfritt)",
     "messagePublic": "Offentlig",
-    "railTitle": "Type"
+    "railTitle": "Type",
+    "messagePlaceholder": "Si noe med tipset ditt",
+    "messagePrivate": "Bare {{name}}",
+    "theCreator": "skaperen",
+    "messageWallNote": "Vises på tipsveggen når tipset har gått gjennom.",
+    "sendWithMessage": "Send med melding",
+    "messageFailed": "Meldingen din kunne ikke legges til. Ingen tips ble sendt.",
+    "wallLabel": "Tipsmeldinger",
+    "railTotal": "{{amount}} tokens",
+    "messagePrivateNote": "Bare {{name}} ser den, i varselet sitt."
   },
   "postOptions": {
     "skippableSections": "Deler som kan hoppes over",
@@ -3897,7 +4079,17 @@
     "giftBoost": "Gi bort et boost",
     "giftBoostDesc": "Bruk en av dine på dette innlegget",
     "askAi": "Spør KI",
-    "aiOverview": "AI-oversikt"
+    "aiOverview": "AI-oversikt",
+    "unmuteUser": "Opphev demping av {{name}}",
+    "unmuteDesc": "Se innleggene deres igjen",
+    "unmutedUser": "Demping av {{name}} opphevet",
+    "refreshLinkPreview": "Oppdater lenkeforhåndsvisning",
+    "linkPreviewRefreshed": "Lenkeforhåndsvisning oppdatert",
+    "linkPreviewRefreshFailed": "Fikk ikke kontakt med nettstedet. Prøv igjen senere.",
+    "castToTv": "Cast til TV",
+    "castIosDesc": "AirPlay til en Apple TV eller smart-TV",
+    "castAndroidDesc": "Speil skjermen med Cast eller Smart View",
+    "castAndroidHelp": "Åpne hurtiginnstillingene og trykk Smart View eller Cast, og velg så TV-en din."
   },
   "filters": {
     "sort": "Sorter",
@@ -4103,7 +4295,8 @@
     "failedToClosePoll": "Kunne ikke avslutte avstemning",
     "endsIn": "Avsluttes {{time}}",
     "multipleChoice": "Tillat flere svar",
-    "online": "{{count}} pålogget"
+    "online": "{{count}} pålogget",
+    "onlineHint": "{{count}} personer er i denne chatten akkurat nå"
   },
   "aiChat": {
     "title": "AI-assistent",
@@ -4545,7 +4738,11 @@
     "groupNew": "Nytt",
     "groupToday": "I dag",
     "groupThisWeek": "Denne uken",
-    "searchClose": "Lukk søket"
+    "searchClose": "Lukk søket",
+    "allSettings": "Alle varslingsinnstillinger",
+    "groupEarlier": "Tidligere",
+    "searchPlaceholder": "Søk i varsler",
+    "searchEmpty": "Ingen varsler samsvarer"
   },
   "leaderboard": {
     "title": "Toppliste",
@@ -4585,7 +4782,13 @@
     "addedToLeaderboard": "Du er lagt til! Balanse: {{balance}} tokens",
     "balanceTooLow": "Balanse for lav ({{balance}} tokens)",
     "tokenAmount": "{{amount}} tokens",
-    "provisional": "foreløpig"
+    "provisional": "foreløpig",
+    "ogChallenge": "OG-utfordring",
+    "ogHolders_one": "{{count}} OG-innehaver",
+    "ogHolders_other": "{{count}} OG-innehavere",
+    "ogChallengeTitle": "Hent tilbake OG-innehaverne",
+    "ogChallengeBody": "Inviter folk som fortsatt har DHB. Når de blir med via invitasjonslenken din og beholder DHB i Riftn-lommeboken, teller de for deg her.",
+    "ogChallengeCta": "Hent invitasjonslenken din"
   },
   "explorePage": {
     "searchPlaceholder": "Søk etter folk, innlegg eller innhold...",
@@ -4747,8 +4950,31 @@
       "comments": "Kommentarer",
       "showLess": "Vis mindre",
       "viewProfile": "Se profil",
-      "you": "Du"
-    }
+      "you": "Du",
+      "title": "Toppbyggere",
+      "breakdown": "{{shipped}} lansert ({{sp}}) · {{votes}} oppstemmer ({{vp}}) · {{comments}} kommentarer ({{cp}})",
+      "showAll": "Vis topp {{n}}",
+      "showEveryone": "Vis alle {{n}} byggere",
+      "showMore": "Vis {{n}} til",
+      "rule": "10 poeng per lansert forespørsel, 1 per oppstemme, 2 per kommentar på andres forespørsel.",
+      "pts": "{{n}} poeng",
+      "gap": "{{n}} poeng for å gå forbi {{name}}",
+      "join": "Publiser en prompt som blir lansert for å komme på tavlen",
+      "points": "Poeng",
+      "infoLabel": "Slik fungerer poeng",
+      "infoShipped": "per lansert forespørsel",
+      "infoVote": "per oppstemme på forespørslene dine",
+      "infoComment": "per kommentar på andres forespørsel",
+      "infoCap": "Kommentarer teller opptil {{n}} per periode.",
+      "pt": "1 poeng",
+      "infoTitle": "Slik fungerer poeng"
+    },
+    "deviceInfoNote": "Enhetsinformasjon legges ved for å hjelpe oss å fikse feil.",
+    "deviceInfo": "Enhetsinformasjon",
+    "deviceInfoOwners": "Bare tavleeiere ser dette",
+    "deviceInfoError": "Kunne ikke laste enhetsinformasjon",
+    "deviceInfoNone": "Ingen enhetsinformasjon for denne forespørselen",
+    "deviceInfoErrors": "Nylige feil"
   },
   "auth": {
     "loginRequired": "Innlogging påkrevd",
@@ -4805,7 +5031,13 @@
     "importWalletPurpose": "Dette verktøyet er for å importere eksisterende kontoer fra Riftn.io.",
     "importSecretPlaceholder": "12 eller 24 ord, eller en privat nøkkel",
     "invalidImportSecret": "Det er ikke en gyldig 12/24-ords fras eller privat nøkkel",
-    "walletSignupBlocked": "Denne lommeboken er helt ny. Nye lommebøker trenger en saldo eller en tidligere transaksjon for å åpne en konto. Registrer deg med ett av alternativene nedenfor, og koble deretter til denne lommeboken under Innstillinger."
+    "walletSignupBlocked": "Denne lommeboken er helt ny. Nye lommebøker trenger en saldo eller en tidligere transaksjon for å åpne en konto. Registrer deg med ett av alternativene nedenfor, og koble deretter til denne lommeboken under Innstillinger.",
+    "accountDeleted": "Denne kontoen ble slettet. Du kan registrere deg på nytt som en ny konto.",
+    "accountDeletedHours_one": "Denne kontoen ble slettet. Du kan registrere deg på nytt med samme e-post eller telefon om omtrent {{count}} time.",
+    "accountDeletedHours_other": "Denne kontoen ble slettet. Du kan registrere deg på nytt med samme e-post eller telefon om omtrent {{count}} timer.",
+    "accountDeletedDays_one": "Denne kontoen ble slettet. Du kan registrere deg på nytt med samme e-post eller telefon om omtrent {{count}} dag.",
+    "accountDeletedDays_other": "Denne kontoen ble slettet. Du kan registrere deg på nytt med samme e-post eller telefon om omtrent {{count}} dager.",
+    "signInPageWouldNotOpen": "Innloggingssiden lukket seg før den åpnet. Prøv igjen, eller fortsett med e-post."
   },
   "messages": {
     "encryptionSetupFailed": "Krypteringsoppsettet mislyktes. Prøv på nytt.",
@@ -4830,7 +5062,11 @@
     "title": "Meldinger",
     "searchConversations": "Søk i samtaler...",
     "failedToLoad": "Kunne ikke laste samtaler",
-    "tryAgain": "Prøv igjen"
+    "tryAgain": "Prøv igjen",
+    "unreadMarkerOne": "1 ulest melding",
+    "unreadMarkerMany": "{{value}} uleste meldinger",
+    "jumpToUnread": "Gå til første uleste melding",
+    "jumpToLatest": "Gå til siste melding"
   },
   "music": {
     "chartOrder": "Lyddiagramrekkefølge",
@@ -5015,14 +5251,51 @@
     "pinnedShort": "Festet",
     "post": "Publiser",
     "arrange": {
-      "saving": "Lagrer..."
+      "saving": "Lagrer...",
+      "title": "Ordne innleggene dine",
+      "hint": "Hold på et innlegg og dra det til den nye plassen. Besøkende ser denne rekkefølgen først.",
+      "drag": "Dra for å flytte",
+      "toTop": "Flytt til toppen",
+      "save": "Lagre rekkefølge",
+      "saved": "Rekkefølgen din er lagret",
+      "reset": "Tilbake til nyeste først",
+      "resetDone": "Tilbake til nyeste først",
+      "saveFailed": "Kunne ikke lagre rekkefølgen. Prøv igjen.",
+      "loadFailed": "Kunne ikke laste innleggene dine. Lukk dette og prøv igjen.",
+      "empty": "Ingenting å ordne ennå. Publiser noe først."
     },
     "reserve": {
-      "signIn": "Logg inn"
+      "signIn": "Logg inn",
+      "available": "Brukernavnet er ledig",
+      "held": "Holdt av for deg",
+      "ended": "Reservasjonen er utløpt",
+      "busy": "Blir reservert",
+      "availableBody": "riftn.com/{{name}} er ledig akkurat nå. Reserver det, så holder vi det av i ett minutt mens du registrerer deg.",
+      "heldBody": "Ingen andre kan ta @{{name}} før tiden går ut. Fullfør registreringen for å beholde det.",
+      "endedBody": "Minuttet ditt gikk ut, så @{{name}} er åpent for alle igjen. Det er fortsatt ledig.",
+      "busyBody": "Noen registrerer seg som @{{name}} akkurat nå. Hvis de ikke fullfører, blir det ledig når tiden går ut.",
+      "finish": "Fullfør registreringen",
+      "again": "Reserver igjen",
+      "cta": "Reserver nå",
+      "letGo": "Gi slipp",
+      "haveAccount": "Har du en konto?"
     },
     "tabLikes": "Liker",
     "likesEmptyTitle": "Ingen likerklikk ennå",
-    "likesPrivateTitle": "Likerklikk er private"
+    "likesPrivateTitle": "Likerklikk er private",
+    "articleViews": "{{views}} visninger",
+    "sortBy": "Sorter etter",
+    "sortCustom": "Egendefinert rekkefølge",
+    "arrangeButton": "Ordne innlegg",
+    "mutualsOne": "{{count}} gjensidig:",
+    "mutualsMany": "{{count}} gjensidige:",
+    "tabArticles": "Artikler",
+    "articlesEmptyTitle": "Ingen artikler ennå",
+    "articlesEmptySubtitle": "Artikler vises her",
+    "likesEmptyOwn": "Innlegg du liker vises her. Bare du kan se dem, med mindre du slår på Vis likerklikkene mine i Innstillinger.",
+    "likesEmptyOther": "Ingenting likt ennå.",
+    "likesPrivateDesc": "Denne kontoen holder likerklikkene sine for seg selv.",
+    "unavailable": "Profilen er ikke tilgjengelig"
   },
   "tv": {
     "title": "TV",
@@ -5540,7 +5813,26 @@
       "filter": "Filtrer aktivitet"
     },
     "welcome": {
-      "text": "Velkomstmelding"
+      "text": "Velkomstmelding",
+      "title": "Ønsk nye medlemmer velkommen",
+      "help": "Denne agenten følger og/eller sender melding til folk som nettopp har blitt med på Riftn, noen få om dagen.",
+      "follow": "Følg nye medlemmer",
+      "message": "Send melding til nye medlemmer",
+      "textHelp": "{name} blir deres @brukernavn. Ingen lenker. Sendes én gang per person.",
+      "saveText": "Lagre melding",
+      "perDay": "Personer per dag",
+      "fewer": "Færre per dag",
+      "more": "Flere per dag",
+      "today": "I dag: {{follows}} fulgt · {{messages}} fått melding",
+      "limits": "Aldri samme person to ganger. Hopper over alle som har blokkert eller dempet deg, slått av nye meldinger eller skjult seg fra Nye medlemmer.",
+      "showLog": "Se hvem den ønsket velkommen",
+      "hideLog": "Skjul velkomster",
+      "empty": "Ingen ennå. Nye medlemmer vises her når de blir med.",
+      "followed": "Fulgt",
+      "messaged": "Fikk melding",
+      "skipped": "Hoppet over",
+      "failed": "Kunne ikke nå",
+      "defaultText": "Hei {name}, velkommen til Riftn! 👋"
     }
   },
   "hero": {
@@ -5631,7 +5923,43 @@
     "disconnect": "Avbryt",
     "payAndRun": "Betal og kjør",
     "run": "Kjør",
-    "handlePrompt": "Fremlegg"
+    "handlePrompt": "Fremlegg",
+    "retryFreeTask": "Prøv gratisoppgaven igjen",
+    "previewSavedMedia": "Forhåndsvis lagrede medier",
+    "audioSavePending": "Lyden er klar, men lagringen i det private biblioteket venter. Fortsett for å hente den.",
+    "freeResultUnknown": "Svaret på gratisoppgaven ble avbrutt. Den sendes ikke inn på nytt automatisk. Velg Prøv gratisoppgaven igjen, og fortsett deretter; betalingen og andre jobber beholdes.",
+    "formAuthor": "Rediger flow",
+    "formAuthorHint": "Bygg en flow med typede inndata. Lagre den her, eller ordne den på nettlerretet.",
+    "chooseSavedMedia": "Velg lagrede medier",
+    "formInput": "Inndata: {{handle}}",
+    "reviewRun": "Se gjennom kjøringen",
+    "resumeRun": "Fortsett lagret kjøring",
+    "confirmPrice": "Totalt: {{price}} tokens",
+    "recoveryHint": "Jobb- og betalingsreferanser lagres på denne enheten. Fortsett avbrutt arbeid før du starter en ny kjøring.",
+    "newRun": "Start en ny kjøring",
+    "loadMoreMedia": "Last inn flere medier",
+    "invalidGraph": "Sjekk koblingene: hver inndata trenger en kompatibel kilde, og grafen kan ikke inneholde sykluser.",
+    "unsupportedNode": "Denne noden kan ikke kjøres i det native skjemaet ennå. Bruk nettlerretet for denne flowen.",
+    "missingPrompt": "Koble til en tekstnode med en prompt.",
+    "invalidSettings": "Disse innstillingene støttes ikke av den valgte modellen.",
+    "missingCapturedFrame": "Ta et bilde fra rammen på nettlerretet før du bruker denne videoen som bildeinndata.",
+    "missingSavedMedia": "Lagrede kildemedier mangler eller er ikke lenger tilgjengelige for denne kontoen.",
+    "nothingToRun": "Legg til en generator for å kjøre denne flowen.",
+    "quoteFailed": "Kunne ikke prise denne flowen. Prøv igjen.",
+    "recoverBeforeEdit": "Fortsett den lagrede kjøringen før du endrer grafen eller starter en ny kjøring.",
+    "runAlreadyComplete": "Denne kjøringen er fullført. Velg Start en ny kjøring for å generere igjen.",
+    "recoveryCorrupt": "Den lagrede gjenopprettingsposten kunne ikke leses. Behold denne flowen og kontakt support før du betaler igjen.",
+    "paidUnavailable": "Du kan lage og lagre flows her. Betalte kjøringer er ikke tilgjengelige i denne butikken.",
+    "planChanged": "Flowen ble endret etter prisingen. Se gjennom kjøringen på nytt.",
+    "connectOwnerWallet": "Koble til lommeboken som eier denne flowen.",
+    "runFailed": "Noden kunne ikke fullføre. Den lagrede jobbreferansen beholdes for gjenoppretting.",
+    "recoveryPending": "Renderingen venter fortsatt. Fortsett denne kjøringen for å hente den.",
+    "nodeAudioGen": "Lydgenerator",
+    "nodeAudioGenDesc": "Tale, lydeffekter, transkripsjon og lydisolering",
+    "nodeAudioInput": "Lagret lyd",
+    "nodeAudioInputDesc": "Bruk privat lyd fra biblioteket ditt",
+    "audioVoiceId": "Stemme-ID",
+    "audioSeconds": "Lydlengde i sekunder"
   },
   "loginModal": {
     "title": "Logg inn",
@@ -5668,7 +5996,8 @@
     "passkeyNotLinked": "Ingen konto er knyttet til det fingeravtrykket ennå. Opprett en ny konto i stedet.",
     "passkeyAlreadyRegistered": "Det fingeravtrykket har allerede en konto. Bruk Logg inn i stedet.",
     "passkeyFailed": "Innlogging med fingeravtrykk mislyktes. Prøv igjen.",
-    "passkeyBackupHint": "Kontoen din ligger i denne enhetens passnøkkel. På de fleste telefoner synkroniseres den med Google- eller Apple-kontoen din, og du kan legge til en passord-sikkerhetskopi i Innstillinger."
+    "passkeyBackupHint": "Kontoen din ligger i denne enhetens passnøkkel. På de fleste telefoner synkroniseres den med Google- eller Apple-kontoen din, og du kan legge til en passord-sikkerhetskopi i Innstillinger.",
+    "didYouMean": "Mente du {{email}}?"
   },
   "careers": {
     "title": "Karriere hos Riftn",
@@ -5933,7 +6262,13 @@
       "showMoreReplies": "Vis {{count}} flere svar"
     },
     "holdTokensToVote": "Hold Riftn-tokens for å stemme",
-    "mustHoldTokens": "Du må holde Riftn-tokens for å stemme over styringsforslag."
+    "mustHoldTokens": "Du må holde Riftn-tokens for å stemme over styringsforslag.",
+    "optionVoters_one": "{{count}} velger",
+    "optionVoters_other": "{{count}} velgere",
+    "optionWinner": "Vinner: {{option}}",
+    "optionNoWinner": "Ingen klar vinner",
+    "optionTapToUndo": "Trykk på svaret ditt igjen for å trekke tilbake stemmen",
+    "optionPickOne": "Velg ett svar"
   },
   "sidebar": {
     "talkOfTheTown": "Snakkisen i byen",
@@ -5952,7 +6287,16 @@
     "clearSearch": "Tøm søket",
     "noMenuMatches": "Ingenting i menyen samsvarer",
     "searchDehubFor": "Søk etter «{{query}}» på Riftn",
-    "requestSend": "Send forespørsel"
+    "requestSend": "Send forespørsel",
+    "requestPrompt": "Ikke her ennå? Send det som en forespørsel",
+    "requestPromptShort": "Ikke her ennå?",
+    "requestDraftMenu": "Legg til {{query}} i Riftn",
+    "requestDraftSettings": "En innstilling for {{query}}",
+    "requestPostsTo": "Publiseres i Forespørsler",
+    "requestHint": "Publiseres i Forespørsler som deg. Vi sier fra når det lanseres.",
+    "requestSent": "Sendt til Forespørsler",
+    "requestSentHint": "Vi sier fra når det lanseres.",
+    "requestSeeIt": "Se den i Forespørsler"
   },
   "comments": {
     "reportComment": "Rapportkommentar",
@@ -6041,7 +6385,24 @@
     "tabReplies": "Svar",
     "tabQuotes": "Sitater",
     "tabReposts": "Delinger",
-    "tabSearch": "Søk"
+    "tabSearch": "Søk",
+    "attachAudioFile": "Lydfil",
+    "attachMedia": "Legg ved et bilde, en video eller lyd",
+    "attachPhotoOrVideo": "Bilde eller video",
+    "attachTooLarge": "Filen er over grensen på {{size}} MB.",
+    "playVideo": "Spill av video",
+    "threadParts": {
+      "reorder": "Endre rekkefølge",
+      "reorderHint": "Hold og dra en del, eller bruk pilene, og lagre deretter.",
+      "save": "Lagre rekkefølge",
+      "saved": "Trådrekkefølge lagret",
+      "saveFailed": "Kunne ikke lagre rekkefølgen. Prøv igjen.",
+      "moveUp": "Flytt del {{n}} opp",
+      "moveDown": "Flytt del {{n}} ned",
+      "addPart": "Legg til i tråden",
+      "addPlaceholder": "Legg til i tråden din...",
+      "label": "Tråd · {{count}} deler"
+    }
   },
   "postInfo": {
     "ownersUnavailable": "De nåværende eierne kan ikke leses akkurat nå.",
@@ -6575,7 +6936,9 @@
       "joined": "{{name}} ble med",
       "reactions": "Reaksjoner",
       "photoTooLarge": "Bildet må være under 10 MB",
-      "aiAdminFailed": "AI Admin svarte ikke"
+      "aiAdminFailed": "AI Admin svarte ikke",
+      "addToMessages": "Legg til i Meldinger",
+      "inMessages": "I Meldinger"
     },
     "manage": {
       "dismissAdminTitle": "Avvis administrator",
@@ -6597,7 +6960,8 @@
         "invites": "Invitasjoner",
         "rules": "Regel",
         "recentActions": "Siste handlinger",
-        "danger": "Faresone"
+        "danger": "Faresone",
+        "automod": "Automoderering og boter"
       },
       "title": "Administrer",
       "purgeTitle": "Slette alle meldinger?",
@@ -6784,25 +7148,112 @@
       "buyer": "Kjøper:",
       "balance": "Balans:",
       "price": "Pris:",
-      "marketCap": "Markedsverdi:"
+      "marketCap": "Markedsverdi:",
+      "title": "{{amount}} KJØP",
+      "txn": "Tx",
+      "titleToken": "{{amount}} ${{symbol}} KJØP"
     },
     "newChat": {
       "public": "Offentlig",
       "private": "Privat",
       "free": "Gratis",
       "paid": "Betalt",
-      "group": "Gruppér"
+      "group": "Gruppér",
+      "description": "Hva handler det om? (valgfritt)",
+      "groupCreated": "Gruppe opprettet",
+      "channelCreated": "Kanal opprettet",
+      "newGroup": "Ny gruppe",
+      "newChannel": "Ny kanal",
+      "groupName": "Gruppenavn",
+      "channelName": "Kanalnavn",
+      "whoCanJoin": "Hvem kan bli med",
+      "publicDetail": "Alle kan finne den og bli med",
+      "inviteOnly": "Kun med invitasjon",
+      "privateDetail": "Folk blir med via invitasjonen din eller din godkjenning",
+      "entry": "Inngang",
+      "freeDetail": "Gratis å bli med",
+      "paidDetail": "Én betaling i tokens, rett til deg",
+      "price": "Pris i tokens",
+      "channelNote": "Bare du og administratorene dine kan publisere. Medlemmer leser og reagerer.",
+      "createGroup": "Opprett gruppe",
+      "createChannel": "Opprett kanal",
+      "channel": "Kanal",
+      "adminsOnly": "Bare administratorer publiserer i denne kanalen.",
+      "message": "Ny melding",
+      "messageDetail": "En privat chat med én person",
+      "groupDetail": "Chat med mange, offentlig eller privat",
+      "channelDetail": "Kringkast til følgere, gratis eller betalt",
+      "title": "Start noe",
+      "channelRow": "Kanal · {{formattedCount}} medlemmer",
+      "groupRow": "Gruppe · {{formattedCount}} medlemmer"
     },
     "holderGate": {
       "chain": "Kjede",
       "which": "Tegn",
-      "tab": "Holdere"
+      "tab": "Holdere",
+      "failed": "Kunne ikke lese saldoen din akkurat nå. Prøv igjen om litt.",
+      "short": "Kun for holdere: du trenger {{need}}. Du har {{have}}.",
+      "required": "Kun for holdere: lommeboken din har ikke nok av dette fellesskapets token til å chatte.",
+      "topHolders": "Største holdere",
+      "noHolders": "Holdere vises her når de blir med.",
+      "saved": "Holderregel lagret",
+      "cleared": "Alle kan bli med igjen",
+      "saveFailed": "Kunne ikke lagre holderregelen",
+      "title": "Kun for holdere",
+      "explain": "Bare lommebøker som holder dette tokenet kan bli med og chatte. Saldoer leses fra kjeden når noen blir med.",
+      "dehubTokens": "Riftn-tokens",
+      "otherToken": "Et annet token",
+      "token": "Tokenkontrakt",
+      "reading": "Leser token…",
+      "badAddress": "Det er ikke en tokenadresse",
+      "minimum": "Minimum å holde",
+      "save": "Lagre holderregel",
+      "chip": "Kun for holdere · {{amount}}+"
     },
     "automod": {
       "bannedWords": "Bannede ord",
       "floodMax": "{{count}} meldinger",
       "saved": "Lagret",
-      "wordCount": "{{count}} ord"
+      "wordCount": "{{count}} ord",
+      "title": "Automoderering",
+      "hint": "Blokkerer en melding før noen ser den og forteller avsenderen hvorfor. Eiere og administratorer blokkeres aldri.",
+      "enabled": "Automoderering på",
+      "bannedWordsHint": "Én per linje eller kommaseparert. Bare hele ord, og oppstykkede stavemåter som s.c.a.m fanges også.",
+      "bannedWordsPlaceholder": "svindel\nrug pull",
+      "blockLinks": "Blokker lenker",
+      "blockLinksHint": "Eksterne lenker og Telegram/Discord-invitasjoner. Riftn-lenker fungerer fortsatt.",
+      "repeats": "Blokker gjentakelser",
+      "repeatsHint": "Hindrer at noen sender samme linje igjen innen 10 minutter.",
+      "flood": "Anti-flood",
+      "floodHint": "Maks {{max}} meldinger per {{seconds}} s per person.",
+      "noAccess": "Bare eieren og administratorer kan endre disse innstillingene.",
+      "saveFailed": "Kunne ikke lagre. Prøv igjen.",
+      "saveWords": "Lagre ord",
+      "bannedWord": "Meldingen inneholder et ord denne gruppen ikke tillater.",
+      "links": "Lenker er ikke tillatt i denne gruppen.",
+      "repeat": "Du sendte nettopp det. Prøv å si noe nytt.",
+      "reserved": "Den typen melding kan bare komme fra gruppens boter.",
+      "floodError": "Du sender for fort. Vent {{value1}} s og prøv igjen."
+    },
+    "entry": {
+      "switchChain": "Bytt lommeboken til BNB Chain eller Base for å betale.",
+      "failed": "Vi kunne ikke bekrefte betalingen ennå. Hvis tokens har forlatt lommeboken din, trykk Bli med igjen om et minutt.",
+      "chip": "{{amount}} for å bli med"
+    },
+    "jumpToReply": "Gå til besvart melding",
+    "avatarUpdated": "Bilde oppdatert",
+    "bannerUpdated": "Banner oppdatert",
+    "imageUploadFailed": "Kunne ikke laste opp bildet. Prøv igjen.",
+    "changeBanner": "Endre banner",
+    "changeAvatar": "Endre bilde",
+    "buyBot": {
+      "title": "Kjøpsbot",
+      "any": "Alle størrelser",
+      "enabled": "Publiser kjøpsvarsler",
+      "hint": "Publiserer hvert ${{symbol}}-kjøp i denne chatten, omtrent et minutt etter at det skjer.",
+      "minUsd": "Minste kjøp som publiseres",
+      "noToken": "Koble et token fra gruppeoverskriften (rediger, deretter Ticker), så vises hvert kjøp i denne chatten.",
+      "unsupported": "${{symbol}} er på en kjede eller pooltype kjøpsboten ikke følger ennå. Støttet: Base, Ethereum, BNB Chain, Arbitrum, Polygon, Optimism og Avalanche (pooler i Uniswap v2/v3-stil)."
     }
   },
   "work": {
@@ -7741,7 +8192,8 @@
     "jumpToLatest": "Hopp til siste meldinger",
     "ban": "Utesteng",
     "banConfirm": "Er du sikker på at du vil utestenge {{name}}?",
-    "banFailed": "Kunne ikke utestenge brukeren"
+    "banFailed": "Kunne ikke utestenge brukeren",
+    "jumpToMentions": "Gå til svar og omtaler"
   },
   "promptFeed": {
     "headline": "Hva vil du se?",
@@ -7927,7 +8379,13 @@
     },
     "followBackConfirm": "Følg tilbake",
     "followBackNotNow": "Ikke nå",
-    "followBackDone": "Ferdig"
+    "followBackDone": "Ferdig",
+    "followBackConfirmTitle_one": "Følge tilbake {{count}} person?",
+    "followBackConfirmTitle_other": "Følge tilbake {{count}} personer?",
+    "followBackConfirmBody": "De følger deg allerede. Private kontoer får en følgeforespørsel.",
+    "followedBackCount_one": "Fulgte tilbake {{count}} person",
+    "followedBackCount_other": "Fulgte tilbake {{count}} personer",
+    "followBackDoneBody": "Du finner dem alle under Følger."
   },
   "reactionInfo": {
     "title": "Reaksjon",
@@ -8850,10 +9308,12 @@
     "editFailed": "Kunne ikke bruke endringen. Prøv igjen.",
     "altPlaceholderVideo": "Beskriv denne videoen",
     "preview": {
-      "title": "Forhåndsvisning"
+      "title": "Forhåndsvisning",
+      "hint": "Slik vil innlegget ditt se ut i feeden."
     },
     "recent": {
-      "all": "Alle"
+      "all": "Alle",
+      "show": "Vis nylige bilder"
     },
     "studio": {
       "crop": "Beskjær",
@@ -8870,11 +9330,48 @@
       "textBg": "Bakgrunn",
       "font": {
         "bold": "Fet",
-        "mono": "Enhet"
-      }
+        "mono": "Enhet",
+        "clean": "Ren",
+        "serif": "Serif"
+      },
+      "looks": "Looks",
+      "adjust": "Juster",
+      "tint": "Fargetone",
+      "vignette": "Vignett",
+      "prev": "Forrige bilde",
+      "count": "{{n}} av {{total}}",
+      "next": "Neste bilde",
+      "title": "Rediger bilde",
+      "holdHint": "Hold for å se originalen",
+      "cropCorner": "Beskjæringshjørne",
+      "original": "Original",
+      "straighten": "Rett opp",
+      "ratioOriginal": "Original",
+      "flip": "Speilvend",
+      "mention": "Omtale",
+      "ticker": "Ticker",
+      "layerHint": "Dra ord og klistremerker for å flytte dem. Trykk to ganger for å endre ordene.",
+      "looksAdjust": "Looks og justering"
     },
     "edited": "Redigert",
-    "edit": "Rediger"
+    "edit": "Rediger",
+    "altHint": "Beskriv innholdet for dem som ikke kan se det.",
+    "altPlaceholder": "Beskriv dette bildet",
+    "altTab": "Alternativ tekst",
+    "editVideo": "Rediger video",
+    "trim": "Trim",
+    "trimAndCover": "Trim og omslag",
+    "trimStart": "Start på klipp",
+    "trimEnd": "Slutt på klipp",
+    "trimHint": "Dra de hvite håndtakene for å trimme. Trykk på stripen for å flytte.",
+    "useFrameAsCover": "Bruk denne rammen som omslag",
+    "photoHoldHint": "Hold for flere valg",
+    "editPhoto": "Rediger bilde {{n}}",
+    "editAltText": "Rediger alternativ tekst",
+    "addAltText": "Legg til alternativ tekst",
+    "moveEarlier": "Flytt tidligere",
+    "moveLater": "Flytt senere",
+    "photoN": "Bilde {{n}} av {{total}}"
   },
   "bounty": {
     "claimed": "Innløst",
@@ -9169,7 +9666,13 @@
     "noLiveStreams": "Ingen direktesendinger",
     "noOneStreaming": "Ingen strømmer akkurat nå. Kom tilbake senere!",
     "loadStreamsFailed": "Kunne ikke laste inn strømmer. Prøv igjen.",
-    "liveBadge": "DIREKTE"
+    "liveBadge": "DIREKTE",
+    "screenShare": {
+      "start": "Del skjerm",
+      "stop": "Slutt å dele skjermen",
+      "sharing": "Du deler skjermen din",
+      "hint": "Seerne ser skjermen din. Trykk på skjermknappen for å bytte tilbake til kameraet."
+    }
   },
   "liveShop": {
     "title": "Handle fra denne sendingen",
@@ -9484,7 +9987,17 @@
     "planTypeNotAllowed": "Denne skaperens plan tillater ikke denne typen melding.",
     "planMinTip": "Tipset må være minst {{amount}} tokens for denne skaperen.",
     "newDrawer": {
-      "to": "Til"
+      "to": "Til",
+      "placeholder": "Navn eller @brukernavn",
+      "recent": "NYLIGE",
+      "suggested": "FORESLÅTT",
+      "youFollow": "FOLK DU FØLGER",
+      "chattedBefore": "Dere prater",
+      "mutual": "Gjensidig",
+      "dmsOff": "DM av",
+      "keepTyping": "Fortsett å skrive for å søke blant alle",
+      "sayHi": "Si hei til noen",
+      "typeAny": "Skriv et navn eller @brukernavn"
     },
     "download": "Last ned",
     "deleteOneTitle": "Slette denne meldingen?",
@@ -9497,8 +10010,30 @@
       "communities": "Fellesskap",
       "members": "{{n}} medlemmer",
       "newChat": "Ny prat",
-      "invite": "Invitere"
-    }
+      "invite": "Invitere",
+      "noChats": "Ingen chatter med «{{q}}» ennå. Her er hvem og hva som passer.",
+      "nothing": "Ingenting passer «{{q}}» ennå. Start noe nytt.",
+      "start": "Eller start noe",
+      "newChatSub": "Velg hvem som helst",
+      "newGroup": "Ny gruppe",
+      "newGroupSub": "Chat sammen",
+      "inviteSub": "Del en lenke",
+      "inviteMessage": "Bli med meg på Riftn: {{url}}",
+      "searchAll": "Søk i hele Riftn etter «{{q}}»",
+      "searchAllSub": "Innlegg, videoer, direktesendinger"
+    },
+    "copyMedia": "Kopier media",
+    "reportMessage": "Rapporter melding",
+    "fileSaved": "Fil lagret",
+    "fileSaveFailed": "Kunne ikke lagre filen",
+    "attachAnything": "Legg ved et bilde, en video, lyd eller en fil",
+    "attachFileOrAudio": "Fil eller lyd",
+    "attachPhotoOrVideo": "Bilde eller video",
+    "attachTooLarge": "Filen er over grensen på {{size}} MB.",
+    "deleteForBothBody": "Den fjernes for dere begge.",
+    "notSent": "Ikke sendt",
+    "shareGroups": "Grupper",
+    "shareKindChannel": "Kanal"
   },
   "editPost": {
     "mediaPermission": "Tillatelse til mediebiblioteket kreves",
@@ -9620,7 +10155,9 @@
     "pipUnavailable": "Bilde i bilde er utilgjengelig. Sjekk at det er tillatt for Riftn i enhetsinnstillingene dine.",
     "noVideo": "Ingen video",
     "rotate": "Roter",
-    "yourDhbBalance": "Din token-saldo: {{amount}}"
+    "yourDhbBalance": "Din token-saldo: {{amount}}",
+    "fullscreen": "Fullskjerm",
+    "notAvailableForPost": "Ikke tilgjengelig for dette innlegget"
   },
   "liveViewer": {
     "loadingStream": "Laster strøm...",
@@ -9936,7 +10473,22 @@
     "didNotRecoverEither": "Den innloggingen gjenopprettet ingen av profilene som vises her. Ingenting ble endret. Prøv den opprinnelige innloggingen for profilen du vil ha.",
     "didNotRecoverThis": "Den innloggingen gjenopprettet en annen lommebok enn denne profilens. Ingenting ble endret. Prøv innloggingen som opprinnelig opprettet den.",
     "couldNotRetrieve": "Fikk ikke hentet den gamle lommeboken på denne enheten. Du kan fortsatt gjenopprette den på riftn.com nedenfor.",
-    "matchedWithBalance": "Matchet, {{balance}} tokens"
+    "matchedWithBalance": "Matchet, {{balance}} tokens",
+    "methodEmail": "en e-postkode",
+    "methodPhone": "et telefonnummer",
+    "madeWithNamed": "@{{name}} ble opprettet med {{method}}. Fortsett med samme {{method}}-konto for å få den tilbake.",
+    "madeWith": "Denne profilen ble opprettet med {{method}}. Fortsett med samme {{method}}-konto for å få den tilbake.",
+    "madeWithEmailNamed": "@{{name}} ble opprettet med en e-postkode. Vi sender én kode til til den e-posten for å få den tilbake.",
+    "madeWithEmail": "Denne profilen ble opprettet med en e-postkode. Vi sender én kode til til den e-posten for å få den tilbake.",
+    "madeWithPhoneNamed": "@{{name}} ble opprettet med et telefonnummer. Vi sender én kode til på SMS til det nummeret for å få den tilbake.",
+    "madeWithPhone": "Denne profilen ble opprettet med et telefonnummer. Vi sender én kode til på SMS til det nummeret for å få den tilbake.",
+    "wrongSignInNamed": "Den innloggingen åpner en annen lommebok, ikke @{{name}}. @{{name}} ble opprettet med {{method}}, så bare den kan få den tilbake.",
+    "wrongSignIn": "Den innloggingen åpner en annen lommebok. Denne profilen ble opprettet med {{method}}, så bare den kan få den tilbake.",
+    "continueWith": "Fortsett med {{provider}}",
+    "differentSignIn": "Brukte du en annen innlogging?",
+    "oldAccountPhone": "Telefonnummer for gammel konto",
+    "recoverFromPhoneA11y": "Gjenopprett gammel konto fra dette telefonnummeret",
+    "phoneNeedsCode": "Skriv inn nummeret med landskode, for eksempel +90 532 123 4567."
   },
   "liveGift": {
     "buyTokens": "Kjøp tokens",
@@ -10718,8 +11270,17 @@
       "noSpeech": "Fant ingen tale i dette klippet.",
       "failed": "Kunne ikke lage teksting for dette klippet.",
       "styles": {
-        "bold": "Fet tekst"
-      }
+        "bold": "Fet tekst",
+        "classic": "Klassisk",
+        "boxed": "Boks",
+        "wordpop": "Word Pop",
+        "rapid": "Rask avsløring",
+        "beast": "Beast Mode",
+        "stacked": "Stablet",
+        "serif": "Serif",
+        "bubble": "Boble"
+      },
+      "style": "Tekstingsstil"
     },
     "app": {
       "newDesign": "Nytt design",
@@ -10789,7 +11350,11 @@
       "vibrant": "Levende",
       "cyber": "Cyber",
       "invert": "Inverter",
-      "strength": "Filterstyrke: {{value}}%"
+      "strength": "Filterstyrke: {{value}}%",
+      "fadedFilm": "Falmet film",
+      "technicolor": "Technicolor",
+      "newsreel": "Filmavis",
+      "vhs": "VHS"
     },
     "layer": {
       "crop": "Beskjær",
@@ -10870,14 +11435,18 @@
       "pptx": "PowerPoint-presentasjon",
       "pptxHint": "Hver side blir en slide-bilde, med presentatørnotater og lenker. Rediger individuell tekst og elementer i det opprinnelige designet.",
       "section": "Navnlig seksjon",
-      "transparent": "Gjennomsiktig bakgrunn"
+      "transparent": "Gjennomsiktig bakgrunn",
+      "nle": "Premiere / Final Cut / Resolve (XML)",
+      "nleHint": "Laster ned en ZIP med tidslinjen som FCPXML og Premiere XML pluss alle mediefiler, så du kan fullføre redigeringen i Premiere Pro, Final Cut Pro eller DaVinci Resolve. Tekst blir markører; effekter blir værende i Riftn."
     },
     "adjust": {
       "auto": "Autoforbedring",
       "autoFailed": "Kunne ikke analysere dette bildet.",
       "tint": "Fargetone {{value}}",
       "vignette": "Vignett {{value}} %",
-      "warmth": "Varme {{value}}"
+      "warmth": "Varme {{value}}",
+      "halation": "Halasjon {{value}}%",
+      "scanlines": "Skannelinjer {{value}}%"
     },
     "draw": {
       "colour": "Pennefarge",
@@ -10971,7 +11540,45 @@
       "openGenerator": "Se over og generer",
       "working": "Jobber med det…",
       "stop": "Stopp",
-      "queue": "Legg til i kø"
+      "queue": "Legg til i kø",
+      "stopped": "Stoppet. Ingenting annet ble endret.",
+      "queued": "{{count}} i kø",
+      "restore": "Gjenopprett hit",
+      "restoreHint": "Sett prosjektet tilbake slik det var før denne meldingen. Angre henter det tilbake.",
+      "restored": "Prosjektet ble gjenopprettet til før den meldingen. Trykk angre for å hente den nyere versjonen tilbake.",
+      "rewrite": "Gjør forespørselen min tydeligere",
+      "rewriteFailed": "Kunne ikke omskrive det. Teksten din er uendret.",
+      "feedback": "Var dette nyttig?",
+      "good": "Godt svar",
+      "bad": "Dårlig svar",
+      "retryPrefix": "Det var ikke riktig. Gjør heller dette: ",
+      "recipesTitle": "Oppskrifter",
+      "recipe": {
+        "podcastClip": {
+          "label": "Podkastklipp",
+          "prompt": "Finn det sterkeste 30-sekunders øyeblikket, trim til det, legg til Word Pop-teksting og gjør det 9:16."
+        },
+        "talkingHead": {
+          "label": "Ren talking head",
+          "prompt": "Klipp bort lange pauser, legg til Klassisk teksting og gi det et subtilt varmt preg."
+        },
+        "productPromo": {
+          "label": "Produktpromo",
+          "prompt": "Lag en 15-sekunders promo: slagkraftig tittel i starten, Zoom inn-overganger mellom klippene, Fet tekst-teksting og opplivende musikk."
+        },
+        "hypeReel": {
+          "label": "Hype-reel",
+          "prompt": "Klipp klippene i takt med musikken, bruk Fly opp-overganger og Technicolor-looken."
+        },
+        "retroEdit": {
+          "label": "Retroredigering",
+          "prompt": "Gi hvert klipp VHS-looken, legg til en stor seriftittel og bruk Krysstoning-overganger."
+        },
+        "tutorial": {
+          "label": "Veiledning",
+          "prompt": "Legg til en tittel for hvert steg, Boks-teksting, og senk farten på nøkkeløyeblikket til 0,5x."
+        }
+      }
     },
     "brand": {
       "addColor": "Legg til en merkevarefarge",
@@ -10997,7 +11604,10 @@
       "saveNewPreset": "Lagre nytt",
       "saveStyles": "Lagre stiler med design",
       "stylesSaved": "Merkevarestiler lagret med dette designet",
-      "usePreset": "Bruk stiler"
+      "usePreset": "Bruk stiler",
+      "dehubApplied": "Riftn-profilen er brukt på {{count}} lag.",
+      "dehubApply": "Bruk Riftn-profilen",
+      "dehubHint": "Offisielle Riftn-farger, skrifttypene Exo og Inter og Riftn-logoen, med ett klikk."
     },
     "templates": {
       "announcement": {
@@ -11110,7 +11720,9 @@
       "exportHint": "Hold redigeringsverktøyet åpent mens videoen renderes.",
       "tooLarge": "Filen er for stor for redigeringsverktøyet. Grensen er 400 MB.",
       "tZoomIn": "Zoom inn",
-      "tZoomOut": "Zoom ut"
+      "tZoomOut": "Zoom ut",
+      "tFlyUp": "Fly opp",
+      "tFlyDown": "Fly ned"
     },
     "motion": {
       "title": "Bevegelse",
@@ -12296,21 +12908,141 @@
       "add": "Legg til",
       "scale": "Størrelse",
       "color": "Farge",
-      "light": "Lys"
+      "light": "Lys",
+      "create": "Legg til en 3D-scene",
+      "title": "3D-scene",
+      "hint": "Sett opp et opptak med kuler og bokser. Kamera, plassering og tre uavhengige flatelys endrer det renderte bildet.",
+      "preview": "Forhåndsvisning av rendret scene",
+      "error": "Kunne ikke klargjøre bildet. Sjekk opptaksreferansene og prøv igjen.",
+      "elevation": "Høyde",
+      "distance": "Avstand",
+      "fov": "Synsfelt",
+      "object": "Objekt",
+      "sphere": "Kule",
+      "box": "Boks",
+      "x": "X",
+      "y": "Y",
+      "z": "Z",
+      "remove": "Fjern objekt",
+      "intensity": "Intensitet",
+      "diffusion": "Diffusjon",
+      "saving": "Klargjør bildet…",
+      "useFrame": "Bruk rendret bilde som opptaksreferanse",
+      "frameHint": "Lager en PNG på 320 × 180 og legger den til i opptakets referanser. Sjekk referansegrensen og modellens pristilbud før du genererer.",
+      "frameName": "Scenebilde"
     },
     "clipFix": {
-      "listening": "Lytter…"
+      "listening": "Lytter…",
+      "detach": "Skill ut lyden",
+      "detached": "Lyden ble flyttet til sitt eget klipp",
+      "detachFailed": "Kunne ikke skille ut lyden fra dette klippet",
+      "removeBars": "Fjern svarte striper",
+      "scanning": "Sjekker bilder…",
+      "noBars": "Fant ingen svarte striper",
+      "barsRemoved": "Svarte striper beskåret",
+      "barsFailed": "Kunne ikke sjekke denne videoen for svarte striper",
+      "reframe": "Automatisk innramming",
+      "reframeHint": "Videoen passer allerede til denne sideformen",
+      "reframed": "Rammet inn på nytt for å følge handlingen",
+      "reframeFailed": "Kunne ikke ramme inn denne videoen på nytt",
+      "retakes": "Fjern nye opptak",
+      "noRetakes": "Fant ingen nye opptak",
+      "retakesRemoved": "Fjernet {{count}} nytt/nye opptak, beholdt det siste opptaket",
+      "retakesFailed": "Kunne ikke fjerne nye opptak fra dette klippet"
     },
     "voiceClone": {
       "stop": "Stopp opptak",
-      "failed": "Stemmekloning mislyktes."
+      "failed": "Stemmekloning mislyktes.",
+      "pickerLabel": "Klon stemmen din",
+      "pickerDetail": "Voiceover med din egen stemme",
+      "title": "Klon stemmen din",
+      "description": "Ta opp deg selv eller velg et klipp der du snakker. Du betaler én gang, og stemmen er din for alle voiceovere.",
+      "defaultName": "Min stemme",
+      "record": "Ta opp en prøve (30 sekunder til 2 minutter)",
+      "fromMedia": "Eller bruk et klipp fra Medier",
+      "recorded": "Opptaket ditt",
+      "sample": "Prøve: {{name}}",
+      "hint": "Tydelig tale uten musikk fungerer best.",
+      "noMic": "Kunne ikke bruke mikrofonen.",
+      "sampleFailed": "Kunne ikke lese lyden fra det klippet.",
+      "pay": "Klon for {{amount}} tokens",
+      "useFree": "Klon (allerede betalt)",
+      "owned": "Stemmen din «{{name}}» er allerede satt opp. Velg den fra stemmelisten.",
+      "useOwned": "Bruk stemmen min",
+      "ready": "«{{name}}» er klar for voiceover.",
+      "paidFailed": "Betalingen din er lagret. Åpne dette igjen, så er neste forsøk gratis.",
+      "consent": "Klon bare din egen stemme, eller en du har tillatelse til å bruke."
     },
     "linkImport": {
       "go": "Importer",
-      "downloading": "Laster ned {{percent}}%"
+      "downloading": "Laster ned {{percent}}%",
+      "open": "Importer fra en lenke",
+      "placeholder": "Lim inn en lenke fra YouTube, TikTok eller andre",
+      "rights": "Jeg eier denne videoen eller har tillatelse til å bruke den",
+      "audioOnly": "Bare lyd",
+      "queued": "I kø…",
+      "waiting": "Venter på nettstedet, prøver igjen snart…",
+      "adding": "Legger til i Medier…",
+      "added": "Importert og lagt til i tidslinjen.",
+      "failed": "Kunne ikke importere den lenken."
     },
     "reverse": {
-      "action": "Omsett"
+      "action": "Omsett",
+      "working": "Reverserer {{percent}}%",
+      "done": "Klippet er reversert.",
+      "failed": "Kunne ikke reversere dette klippet.",
+      "unsupported": "Denne nettleseren kan ikke reversere video. Prøv Chrome eller Edge.",
+      "tooLong": "Klipp på opptil {{seconds}} sekunder kan reverseres."
+    },
+    "film": {
+      "repairRefs": "Fjern manglende medielenker",
+      "title": "Filmprosjekt",
+      "intro": "Planlegg opptak med gjenbrukbare bildereferanser. Briefen, opptaksrekkefølgen og valgte resultater lagres med prosjektet.",
+      "create": "Lag filmplan",
+      "name": "Filmnavn",
+      "brief": "Filmbrief",
+      "sharedReferences": "Felles bildereferanser (opptil 4)",
+      "shot": "Opptak",
+      "addShot": "Legg til opptak",
+      "shotName": "Opptaksnavn",
+      "action": "Handling og komposisjon i opptaket",
+      "seconds": "Ønskede videosekunder",
+      "shotReferences": "Ekstra bildereferanser (samlet grense 4)",
+      "frame": "Klargjør bilde",
+      "video": "Klargjør video",
+      "review": "Se gjennom modellen, referansene, videolengden og prisen i studioet før du genererer.",
+      "result": "Godkjent opptaksresultat",
+      "noResult": "Ingen resultat valgt",
+      "resultHint": "Velg et godkjent bilde eller en video fra Opplastinger. Lenken lagres med dette opptaket; bruk tidslinjen til å sette sammen filmen.",
+      "earlier": "Flytt tidligere",
+      "later": "Flytt senere",
+      "remove": "Fjern opptak",
+      "issue": "Sjekk opptaksbeskrivelsen og referansemediene, og prøv igjen. Hold prosjektet åpent hvis det ikke kunne lagres.",
+      "searchMedia": "Finn medier etter navn",
+      "refreshMedia": "Oppdater medier"
+    },
+    "speakers": {
+      "find": "Finn talere",
+      "name": "Taler {{number}}",
+      "onlyOne": "Fant bare én taler.",
+      "failed": "Kunne ikke finne talerne.",
+      "kept": "Beholdt bare {{name}}.",
+      "editFailed": "Den redigeringen passet ikke til dette klippet.",
+      "split": "Delt inn i {{count}} taleropptak.",
+      "keepOnly": "Behold bare",
+      "splitAction": "Klipp ved hvert talerbytte"
+    },
+    "generate3d": {
+      "label": "3D",
+      "placeholder": "Beskriv 3D-objektet du vil ha",
+      "queued": "Bygger 3D-objektet ditt. Det havner i fanen Genereringer.",
+      "note": "3D-objekter kommer inn i Medier som et kort roterende klipp med gjennomsiktig bakgrunn."
+    },
+    "behind": {
+      "action": "Tekst bak personen",
+      "working": "Klipper ut personen…",
+      "done": "Tekst og teksting ligger nå bak personen.",
+      "failed": "Kunne ikke legge teksten bak personen."
     }
   },
   "creator": {
@@ -12775,7 +13507,47 @@
     "referenceComposeHint": "Få karakterer, gjenstander og settinger fra flere bilder inn i en sammensetning",
     "marketing": {
       "import": {
-        "use": "Bruk disse detaljene"
+        "use": "Bruk disse detaljene",
+        "url": "URL til produktside",
+        "action": "Les produktsiden",
+        "loading": "Leser siden…",
+        "hint": "Importer tekst fra en offentlig produktside. Se gjennom detaljene før du bruker dem; legg ved produktbilder separat i studioet.",
+        "source": "Importert kilde",
+        "review": "Velg et produkt som skal kopieres inn i den redigerbare briefen. Overskriften, tonen og merkevarefargene dine forblir uendret.",
+        "errors": {
+          "signIn": "Logg inn for å importere en produktside.",
+          "url": "Bruk en offentlig HTTPS-produkt-URL.",
+          "empty": "Fant ingen brukbare produktdetaljer. Legg dem til manuelt.",
+          "busy": "For mange importer kjører. Prøv igjen om litt.",
+          "unavailable": "Denne siden kunne ikke importeres. Legg til produktdetaljene manuelt.",
+          "failed": "Importen mislyktes. Briefen din er lagret; prøv igjen eller skriv inn detaljene manuelt."
+        }
+      },
+      "title": "Kampanjebrief",
+      "intro": "Beskriv produktet og merkevaren din, og forbered deretter passende annonseformater.",
+      "saved": "Briefen din er lagret på denne enheten for denne kontoen.",
+      "preview": "Forbered formater",
+      "clear": "Tøm briefen",
+      "required": "Legg til et produktnavn og en beskrivelse for å forberede formater.",
+      "variants": "Kampanjeformater",
+      "reviewHint": "Se gjennom modellen, prisen og produktreferansen i studioet før du genererer. Hvert format er en egen generering.",
+      "open": "Se gjennom i studio",
+      "fields": {
+        "product": "Produktnavn (påkrevd)",
+        "description": "Produktfakta (påkrevd)",
+        "brand": "Merkenavn",
+        "audience": "Målgruppe",
+        "benefit": "Hovedfordel",
+        "voice": "Merkevarens tone",
+        "palette": "Merkevarefarger",
+        "headline": "Godkjent overskrift",
+        "cta": "Handlingsoppfordring"
+      },
+      "formats": {
+        "square": "Kvadratisk annonse",
+        "portrait": "Stående annonse",
+        "story": "Story-bilde",
+        "video": "Vertikal video"
       }
     },
     "batchCount": "Bilder",
@@ -12783,7 +13555,109 @@
     "cinema": {
       "close": "Lukk",
       "performance": {
-        "label": "Ytelse"
+        "label": "Ytelse",
+        "0": "Glad",
+        "1": "Melankolsk",
+        "2": "Engstelig",
+        "3": "Selvsikker",
+        "4": "Ærefryktig",
+        "5": "Behersket",
+        "6": "Leken"
+      },
+      "title": "Filmregi",
+      "hint": "Styr den visuelle stilen på ditt neste bilde eller video. Resultatene varierer etter modell.",
+      "none": "Ingen regi",
+      "reset": "Fjern regi",
+      "camera": {
+        "label": "Kamerautseende",
+        "0": "Digital kino",
+        "1": "35 mm film",
+        "2": "16 mm film",
+        "3": "Storformat",
+        "4": "Retro-videokamera"
+      },
+      "lens": {
+        "label": "Objektivpreg",
+        "0": "Sfærisk",
+        "1": "Anamorfisk",
+        "2": "Mykt vintageglass",
+        "3": "Makro",
+        "4": "Tilt-shift"
+      },
+      "focalLength": {
+        "label": "Brennvidde",
+        "0": "18 mm vidvinkel",
+        "1": "24 mm vidvinkel",
+        "2": "35 mm naturlig",
+        "3": "50 mm standard",
+        "4": "85 mm portrett",
+        "5": "135 mm tele"
+      },
+      "aperture": {
+        "label": "Dybdeskarphet",
+        "0": "f/1.4 svært grunn",
+        "1": "f/2.8 grunn",
+        "2": "f/5.6 moderat",
+        "3": "f/11 dyp fokus"
+      },
+      "movement": {
+        "label": "Kamerabevegelse",
+        "0": "Fast stativ",
+        "1": "Langsom dolly inn",
+        "2": "Langsom dolly ut",
+        "3": "Sidelengs sporing",
+        "4": "Kretse rundt motivet",
+        "5": "Håndholdt",
+        "6": "Kranløft",
+        "7": "Langsom panorering"
+      },
+      "lighting": {
+        "label": "Lys",
+        "0": "Mykt dagslys",
+        "1": "Gyllen time",
+        "2": "Mørk chiaroscuro",
+        "3": "Lyst studio",
+        "4": "Neonlys i bildet",
+        "5": "Silhuett i motlys",
+        "6": "Diffust overskyet"
+      },
+      "tempo": {
+        "label": "Opptakstempo",
+        "0": "Ett sammenhengende opptak",
+        "1": "Rolig, avslappet handling",
+        "2": "Dynamisk, energisk handling",
+        "3": "Kaotisk, hektisk handling"
+      },
+      "era": {
+        "label": "Epoke",
+        "0": "1920-tallet",
+        "1": "1950-tallet",
+        "2": "1960-tallet",
+        "3": "1970-tallet",
+        "4": "1980-tallet",
+        "5": "1990-tallet",
+        "6": "I dag",
+        "7": "Nær fremtid"
+      },
+      "genre": {
+        "label": "Sjanger",
+        "0": "Dokumentar",
+        "1": "Drama",
+        "2": "Film noir",
+        "3": "Science fiction",
+        "4": "Fantasy",
+        "5": "Romantisk komedie",
+        "6": "Thriller",
+        "7": "Western"
+      },
+      "palette": {
+        "label": "Fargepalett",
+        "0": "Varm rav",
+        "1": "Kjølig blå",
+        "2": "Dempede jordfarger",
+        "3": "Pastell",
+        "4": "Monokrom med høy kontrast",
+        "5": "Mettede primærfarger"
       }
     },
     "audioNoSpeech": "Ingen tale ble funnet i denne opptaket.",
@@ -12803,9 +13677,139 @@
     "gallery": {
       "send": "Sende",
       "notifications": {
-        "generation_reply": "{{name}} svarte på kommentaren din"
+        "generation_reply": "{{name}} svarte på kommentaren din",
+        "generation_like": "{{name}} reagerte på genereringen din",
+        "generation_comment_like": "{{name}} reagerte på kommentaren din",
+        "generation_comment": "{{name}} kommenterte genereringen din"
+      },
+      "browse": "Bla gjennom genereringer",
+      "empty": "Ingen kreasjoner ennå",
+      "fullscreen": "Vis i fullskjerm",
+      "missing": "Denne genereringen er ikke tilgjengelig."
+    },
+    "layerNewAttempt": "Se gjennom et nytt forsøk",
+    "layerTitle": "Skill bildelag",
+    "layerPngRequired": "Velg et lagret PNG-bilde, opptil 12 MiB og fire megapiksler.",
+    "layerSource": "Originalbilde",
+    "layerDescription": "Fire gjennomsiktige PNG-lag. Tekst forblir en del av hvert bilde.",
+    "layerSeparate": "Skill lag",
+    "layerPending": "Lagret jobb: {{status}}. Hent eller prøv å lagre på nytt uten ny betaling.",
+    "layerCollect": "Hent / prøv lagring igjen",
+    "layerOpen": "Åpne lag i redigeringsverktøyet",
+    "layerExport": "Eksporter PNG-lag + manifest-ZIP",
+    "layerNumber": "Lag {{number}}",
+    "priceRetry": "Prisen kunne ikke bekreftes. Se over prisen og prøv igjen.",
+    "avatarTitle": "Snakkende portrett",
+    "avatarRequirements": "Kvadratisk PNG-portrett, 512–2048 piksler, opptil 5 MB. Mono 24 kHz 16-bit PCM WAV, 5–30 sekunder. Den siste brøkdelen av et sekund fylles ut med stillhet.",
+    "avatarPortrait": "Velg portrett-PNG",
+    "avatarAudio": "Velg tale-WAV",
+    "avatarPermission": "Jeg har tillatelse til å animere dette portrettet og bruke denne lyden.",
+    "avatarQuote": "{{seconds}} sekunder inkludert stillhet · {{amount}} tokens",
+    "avatarPrepare": "Forbered og se gjennom prisen",
+    "batchFlowLimit": "Flow-listen er full. Fjern en ubrukt Flow før du lager en ny batch.",
+    "batchReviewCampaign": "Se gjennom kampanjebatch i Flow",
+    "batchReviewFilmImages": "Se gjennom batch med storyboardbilder",
+    "batchReviewFilmVideos": "Se gjennom batch med filmklipp",
+    "batchReviewHint": "Åpner en egen lagret Flow. Se gjennom hvert element og hele prisen før du betaler. Fullførte elementer og den opprinnelige betalingen beholdes for gjenoppretting. Referanser kopieres til ditt private bibliotek; lagrings- og nettverksbruk gjelder.",
+    "batchInvalid": "Fullfør hvert element før du forbereder en batch med 1–12 bilder eller klipp.",
+    "batchReferenceLimit": "Denne batchen støtter én bildereferanse per element. Fjern ekstra referanser eller forbered det elementet enkeltvis.",
+    "batchVideoSettings": "I denne batchen må klipp ha en hel varighet på 4–15 sekunder og sideforhold 16:9, 9:16 eller 1:1.",
+    "batchMissingReference": "En referanse mangler, støttes ikke eller er større enn 25 MB. Gjenopprett den i redigeringsverktøyet før du forbereder batchen.",
+    "batchOwnerChanged": "Kontoen eller utkastet er endret. Åpne denne batchen på nytt under den opprinnelige kontoen.",
+    "batchConflict": "Den lagrede batchen samsvarer ikke med det opprinnelige øyeblikksbildet.",
+    "campaignPlanTitle": "Kampanjevarianter og episoder",
+    "campaignPlanIntro": "Lagre opptil 12 varianter eller episoder. Hver åpner studioet for egen gjennomgang og eget pristilbud. Felles notater styrer kontinuiteten; produktets utseende, karakterer og stemmer kan variere mellom genereringer.",
+    "campaignTitle": "Navn på kampanje eller serie",
+    "campaignContinuity": "Felles notater om karakter, stemme og stil",
+    "campaignVariantTitle": "Navn på variant eller episode",
+    "campaignHook": "Åpningshook",
+    "campaignLanguage": "Utdataspråk",
+    "campaignScript": "Godkjent manus eller scenerekkefølge",
+    "campaignAdd": "Legg til variant eller episode",
+    "campaignClear": "Tøm planen",
+    "campaignFormat": "Utdataformat",
+    "audioExportFormat": "Eksportformat",
+    "audioExportMp3": "MP3 · 128 kbps",
+    "audioExportWav": "WAV · 24 kHz · mono",
+    "extensionNeedsClip": "Legg ved ett kildeklipp som skal forlenges.",
+    "extensionSeconds": "+{{seconds}}s nytt opptak",
+    "extensionHelp": "Returnerer kildeklippet ditt med omtrent fire nye sekunder. Resultatet skaleres opptil 720p i 24 fps. Ny lyd genereres for forlengelsen.",
+    "extensionForward": "Legg til omtrent fire sekunder etter kildeklippet",
+    "extensionBackward": "Legg til omtrent fire sekunder før kildeklippet",
+    "expandDescription": "Generer nye bildekanter. Valgfri engelsk prompt; ett kildebilde.",
+    "relightDescription": "Belys ett bilde på nytt ut fra din beskrivelse av lys og bakgrunn.",
+    "expandPromptHint": "Legg ved ett bilde og velg nytt sideforhold. Engelsk prompt er valgfritt.",
+    "expandEnglishOnly": "Denne utvidelsesmodellen godtar engelske prompter. La prompten stå tom for automatisk utvidelse.",
+    "expandNeedsImage": "Legg ved et bilde som skal utvides.",
+    "learn": {
+      "title": "Creator-leksjoner",
+      "intro": "Korte leksjoner, en kunnskapstest og en redigerbar øvelse for hver. Fremgangen lagres på denne enheten for kontoen din.",
+      "back": "Tilbake til Creator",
+      "lessons": "Leksjoner",
+      "progress": "{{completed}} av {{total}} kunnskapstester bestått",
+      "check": "Sjekk svaret",
+      "correct": "Kunnskapstest bestått",
+      "retry": "Prøv igjen. Les leksjonen ovenfor på nytt.",
+      "exerciseTitle": "Praktisk øvelse",
+      "exerciseHint": "Åpne et redigerbart eksempel i ditt eget studioarbeidsområde. Å åpne et utkast er gratis; generering krever din gjennomgang og et eget pristilbud. Rediger eksempelet før du genererer.",
+      "openExercise": "Åpne øvelsesutkast",
+      "closeExercise": "Lukk øvelsen",
+      "brief": {
+        "title": "Skriv en tydelig visuell brief",
+        "body1": "Beskriv et konkret motiv, hva det gjør og omgivelsene. Legg til utsnitt eller kamerabevegelse når det hjelper scenen. Spar urelaterte ideer til et annet utkast.",
+        "body2": "Instruksjoner om lys, objektiv og stil veileder modellen. De garanterer ikke fysisk kameraoppførsel eller et eksakt bilde. Endre én del om gangen så du kan sammenligne versjoner.",
+        "body3": "Før du genererer, se gjennom valgt modell, støttede vedlegg, dimensjoner og pris. Behold det opprinnelige utkastet så du kan gå tilbake til det.",
+        "question": "Hvilken brief er enklest å revidere?",
+        "answer0": "Et tydelig motiv, handling og omgivelser",
+        "answer1": "Bare et modellnavn",
+        "answer2": "En liste med motstridende stiler",
+        "exercise": "En keramisk tekanne på et trebord ved et vindu. Mykt morgenlys, middels utsnitt, enkel bakgrunn. Behold tekannen som det tydelige motivet."
+      },
+      "continuity": {
+        "title": "Planlegg bilder og sjekk kontinuitet",
+        "body1": "Bruk Film-panelet i redigeringsverktøyet for å lagre en brief og ordnede opptak. Forbered hvert bilde eller klipp separat, se gjennom pristilbudet og velg et godkjent resultat.",
+        "body2": "Legg bare ved referanser som den valgte modellen godtar. Gjenbruk av en referanse kan styre utseendet; det trener ikke en identitet eller garanterer likhet. Karakterer og stemmer kan variere mellom genereringer.",
+        "body3": "Behold vellykkede opptak og sett dem sammen i tidslinjen. Se gjennom bevegelse, ansikter, dialog og overganger før eksport.",
+        "question": "Hva støtter kontinuitet på tvers av opptak?",
+        "answer0": "Flere urelaterte prompter",
+        "answer1": "Godkjente referanser og gjennomgåtte opptaksnotater",
+        "answer2": "Å anta at karakterens identitet er garantert",
+        "exercise": "Totalbilde av en ensom reisende som når en stille kyst ved soloppgang. Langsom kamerabevegelse forover, rolig stemning. Ett sammenhengende opptak."
+      },
+      "campaign": {
+        "title": "Bruk godkjente produktfakta",
+        "body1": "Start med produktfakta du kan bekrefte. Se gjennom importerte metadata før du bruker dem. Skriv overskriften og handlingsoppfordringen eksplisitt; ikke dikt opp priser, anmeldelser eller påstander om ytelse.",
+        "body2": "Bruk lagrede kampanjevarianter for å holde felles notater og individuelle hooks, manus, språk og formater samlet. Forbered ett gjennomgått element om gangen og sjekk pristilbudet i studioet.",
+        "body3": "Se gjennom synlig tekst, produktets utseende og eventuelle muntlige påstander i resultatet. En prompt er ikke bevis på produktnøyaktighet eller markedsføringseffekt.",
+        "question": "Når bør en produktpåstand tas med?",
+        "answer0": "Når den høres overbevisende ut",
+        "answer1": "Etter å ha diktet opp en femstjerners anmeldelse",
+        "answer2": "Når den kommer fra godkjente produktfakta",
+        "exercise": "Lag en stående produktannonse for helbladste solgt i en gjenbrukbar boks. Godkjent overskrift: Ta deg tid til te. Godkjent CTA: Utforsk kolleksjonen. Bruk bare disse faktaene; ikke dikt opp rabatter, anmeldelser eller helsepåstander."
       }
-    }
+    },
+    "audioLibraryPlaybackHint": "Denne chatten spiller av det private opptaket som er lagret på denne enheten. På en annen enhet åpner du Creator-biblioteket ditt etter at skylagringen er ferdig. Hvis du går nå, åpne denne chatten igjen for å fullføre lagringen.",
+    "batchPaymentHelp": "Hvert innsendte bilde belastes separat. Hvis en batch stopper, brukes ubrukte tokens fra betalingen automatisk på nytt til en senere generering den dekker.",
+    "endFrameHelp": "Legg til et startbilde med vedleggsknappen.",
+    "seed": "Seed (valgfritt, 0–2147483647)",
+    "negativePrompt": "Negativ prompt (valgfritt)",
+    "invalidSeed": "Seed må være et heltall fra 0 til 2147483647.",
+    "endFrameNeedsStart": "Legg ved et startbilde før du velger en sluttramme.",
+    "batchStopped": "Batchen stoppet etter {{submitted}} av {{quantity}} innsendinger. {{remaining}} ble ikke sendt inn. Ferdige bilder er lagret.",
+    "audioInvalidTask": "Velg en støttet lydoppgave.",
+    "audioNeedsFile": "Legg ved en støttet lyd- eller videofil først.",
+    "audioTextLimit": "Tale og dialog tillater 1–5000 tegn; lydeffekter tillater 1–1000.",
+    "audioDurationLimit": "Lydvarigheten må være Auto (0) eller 0,5–30 sekunder.",
+    "audioModels": "Andre lydmodeller",
+    "audioAttach": "Legg ved opptak",
+    "audioAttachFailed": "Kunne ikke legge ved det opptaket.",
+    "audioSeconds": "Sekunder (0 = Auto)",
+    "audioInvalidResponse": "Lydtjenesten returnerte et ugyldig resultat.",
+    "audioResultTooLarge": "Lydresultatet er tomt eller over 50 MB.",
+    "audioFailed": "Kunne ikke behandle den lyden.",
+    "libraryFavorites": "Favoritter",
+    "libraryFavoriteAdd": "Legg til i favoritter",
+    "libraryFavoriteRemove": "Fjern fra favoritter"
   },
   "fractions": {
     "title": "Andeler",
@@ -12947,7 +13951,8 @@
     "offerSubmitted_other": "Tilbud innsendt for {{count}} brøkdeler til {{price}} tokens hver",
     "yourOfferLabel": "Ditt tilbud (tokens per brøkdel)",
     "listedToast_one": "Listet {{count}} brøkdel til {{price}} tokens hver",
-    "listedToast_other": "Listet {{count}} brøkdeler til {{price}} tokens hver"
+    "listedToast_other": "Listet {{count}} brøkdeler til {{price}} tokens hver",
+    "nftsSubtitle": "Alle NFT-er, bytte i ett steg"
   },
   "moderation": {
     "appealDuplicate": "Du har allerede anket dette",
@@ -13047,7 +14052,11 @@
     "ended": "Avsluttet",
     "stage": "Scene",
     "upcomingStage": "Kommende scene",
-    "members": "{{compact}} medlemmer"
+    "members": "{{compact}} medlemmer",
+    "requestComments_one": "{{compact}} kommentar",
+    "requestComments_other": "{{compact}} kommentarer",
+    "requestVotes_one": "{{compact}} stemme",
+    "requestVotes_other": "{{compact}} stemmer"
   },
   "report": {
     "whyVideo": "Hvorfor rapporterer du denne videoen?",
@@ -14304,7 +15313,14 @@
     "faqWhatA": "Via MCP kan den bla gjennom offentlige Riftn-innlegg, søke i emner og slå opp skaperprofiler. Den poster ikke på dine vegne.",
     "faqAccountQ": "Trenger jeg en Riftn-konto?",
     "chatgptFaqAccount": "Det kreves ingen konto for å lese offentlig innhold gjennom koblingen. En Riftn-konto er bare nødvendig hvis du vil legge ut, gi tips eller oppbevare Riftn-tokens.",
-    "claudeFaqAccount": "Nei. Det er mulig å lese offentlig innhold uten en konto. Du trenger bare en Riftn-konto for å legge ut, gi tips eller oppbevare Riftn-tokens."
+    "claudeFaqAccount": "Nei. Det er mulig å lese offentlig innhold uten en konto. Du trenger bare en Riftn-konto for å legge ut, gi tips eller oppbevare Riftn-tokens.",
+    "subtitleAccount": "Bruk Riftn fra ChatGPT, Claude eller en hvilken som helst MCP-app. Bla uten konto, eller logg inn for å lagre private utkast, publisere og planlegge innlegg, administrere bilder og avstemninger, lese statistikk, svare og følge.",
+    "agentsTitle": "Styr agentene dine fra assistenten",
+    "agentsBody": "Når du kobler til, tillat også «Handle som agentene dine». Assistenten kan da publisere, svare, reagere, dele på nytt, følge eller redigere en profil som en hvilken som helst agent du eier. Den kan aldri handle som en konto du ikke eier.",
+    "keysTitle": "Personlige nøkler",
+    "keysBody": "For skript, boter og apper som ikke kan åpne en innloggingsside. En nøkkel gjør bare det du tillater og slutter å virke etter 30 dager uten bruk.",
+    "keysMake": "Lag en personlig nøkkel",
+    "manageLinked": "Administrer tilkoblede apper og nøkler"
   },
   "credits": {
     "percentUsed": "{{percent}}% brukt",
@@ -14404,7 +15420,10 @@
       "title": "Betale {{name}}?",
       "body": "tokens-en går direkte til appens lommebok, {{wallet}}. Betalinger kan ikke trekkes tilbake.",
       "confirm": "Betale {{amount}} tokens",
-      "sent": "Betalt {{amount}} tokens til {{name}}."
+      "sent": "Betalt {{amount}} tokens til {{name}}.",
+      "testBadge": "Testmodus",
+      "testBody": "Du eier denne appen, så dette er en test: ingen tokens flyttes, og kvitteringen merkes som test.",
+      "testSent": "Testbetaling på {{amount}} tokens. Ingenting ble sendt."
     },
     "add": {
       "title": "Legg til {{name}}?",
@@ -14518,7 +15537,16 @@
     "level": "Nivå {{level}}",
     "streak_one": "{{count}}-ukers rekke",
     "streak_other": "{{count}}-ukers rekke",
-    "tipJar": "Gavekrukke"
+    "tipJar": "Gavekrukke",
+    "eyebrow": {
+      "follow": "Ny følger",
+      "subscribe": "Ny abonnent",
+      "subscribedTo": "Abonnerer · {{plan}}",
+      "gifted_one": "Ga bort et abonnement",
+      "gifted_other": "Ga bort {{count}} abonnementer",
+      "share": "Delte strømmen",
+      "join": "Ble nettopp med"
+    }
   },
   "liveStudio": {
     "controls": {
@@ -14885,8 +15913,20 @@
         "off": "Av",
         "idle": "Klar",
         "live": "Direkte",
-        "error": "Feil"
-      }
+        "error": "Feil",
+        "connecting": "Kobler til"
+      },
+      "title": "Multistream-mål",
+      "intro": "Gå direkte på Riftn én gang, så sender vi strømmen din gratis til alle plattformer som er slått på her. Den starter innen noen sekunder etter at du går direkte.",
+      "add": "Legg til mål",
+      "empty": "Ingen mål ennå. Legg til Twitch, YouTube, Kick eller en hvilken som helst RTMP-server.",
+      "server": "Server-URL",
+      "findKey": "Finn {{name}}-serveren og -nøkkelen din",
+      "customHint": "Lim inn RTMP-serveren og nøkkelen plattformen din gir deg.",
+      "keyNote": "Nøkkelen din lagres kryptert på serverne våre og vises aldri igjen.",
+      "added": "{{name}} lagt til",
+      "saveFailed": "Kunne ikke lagre målet",
+      "toggle": "Strøm til dette målet"
     }
   },
   "liveChatModeration": {
@@ -14940,7 +15980,9 @@
     "joinedBody": "Vi vil sende en epost til {{email}} når tokenet går i salg.",
     "joinedBodyNoEmail": "Vi vil sende deg en e-post når tokenet går på markedet.",
     "failed": "Kunne ikke lagre det. Prøv igjen.",
-    "privacy": "Bare for å fortelle deg om lanseringen."
+    "privacy": "Bare for å fortelle deg om lanseringen.",
+    "title": "Token lanseres snart",
+    "emailPlaceholder": "E-postadressen din"
   },
   "githubLink": {
     "hint": "Logg inn på GitHub for å bekrefte at kontoen er din. Riftn ser kun din offentlige GitHub-profil.",
@@ -15057,7 +16099,51 @@
     "bundleBadge": "Pakke ×{{n}}",
     "dropBadge": "Prisfall",
     "days_one": "{{count}} dag",
-    "days_other": "{{count}} dager"
+    "days_other": "{{count}} dager",
+    "actCollectionOffer": "Samlingstilbud",
+    "actListed": "Lagt ut",
+    "actSale": "Salg",
+    "buyAll": "Kjøp alle",
+    "buySeveral": "Kjøp flere",
+    "cartBought": "Kjøpte {{n}}. De ligger i lommeboken din nå.",
+    "cartCount": "{{n}} i handlekurven",
+    "cartFull": "Opptil 20 om gangen",
+    "cartOneCoin": "Én kjede og én mynt per handlekurv. Tøm den for å bytte.",
+    "cartOwn": "Den er din",
+    "cartPick": "Trykk for å legge i handlekurven",
+    "forSaleHere": "Til salgs her",
+    "noActivity": "Ingenting her ennå",
+    "shareMessage": "Kjøp og selg NFT-er på Riftn",
+    "loadFailed": "Kunne ikke laste markedet. Dra ned for å prøve igjen.",
+    "signInTitle": "Logg inn for å se NFT-ene dine",
+    "walletOn": "NFT-er i lommeboken din på {{chain}}",
+    "listedAt": "Lagt ut",
+    "noneHeld": "Ingen NFT-er i denne lommeboken ennå",
+    "subtitle": "Kjøp og selg på BNB, Base, Ethereum og Robinhood",
+    "startHint": "Legg ut en NFT fra Dine for å være først.",
+    "wrongChain": "Bytt lommeboken til {{chain}} for å handle denne",
+    "failed": "Det gikk ikke gjennom. Prøv igjen.",
+    "bought": "Den er din",
+    "cancelledOrder": "Kansellert på kjeden",
+    "notEnough": "Ikke nok {{symbol}} i lommeboken din",
+    "offerSent": "Tilbud sendt",
+    "cancelListing": "Avbryt utlegging",
+    "buyConfirm": "Kjøpe {{name}}?",
+    "volShort": "Vol.",
+    "salesCount": "{{n}} solgt",
+    "bestOffer": "Beste tilbud",
+    "fromOpenSea": "Toppsamlinger på OpenSea",
+    "buyHere": "Kjøp dem her",
+    "openSeaNote": "Lagt ut på OpenSea. Du betaler selgeren direkte på Seaport; Riftn legger ikke til noe gebyr.",
+    "notListed": "Ikke lagt ut for salg akkurat nå.",
+    "priceLabel": "Pris kjøperen betaler",
+    "offerLabel": "Ditt tilbud",
+    "list": "Legg ut",
+    "listHint": "Signering er gratis. Det første salget fra en samling ber deg godkjenne det én gang.",
+    "offerHint": "Signering er gratis. Tokenene dine blir i lommeboken til innehaveren godtar.",
+    "viewOnly": "Kjøp og salg av NFT-er er ikke tilgjengelig i denne appen.",
+    "tradeOnWeb": "Handle på riftn.com",
+    "feesFootnote": "Gebyrer: 2 %, eller 1 % når du betaler med tokens. Hver handel er ett bytte på kjeden."
   },
   "riftnMove": {
     "title": "DeHub heter nå Riftn",
@@ -15088,7 +16174,11 @@
     "loading": "Laster…",
     "paused": "Pausert",
     "preview": "Forhåndsvisning",
-    "seek": "Søk"
+    "seek": "Søk",
+    "popOut": "Løsne",
+    "backInPost": "Spill av her i stedet",
+    "inCorner": "Spilles av i hjørnet",
+    "tapToStartApp": "Trykk på spill av i Spotify-spilleren"
   },
   "twoFactor": {
     "wrongCode": "Den koden stemte ikke. Prøv den nyeste i appen din.",
@@ -15170,15 +16260,47 @@
   "chatTextSize": {
     "title": "Tekststørrelse",
     "default": "Misligholde",
-    "larger": "Større"
+    "larger": "Større",
+    "small": "Liten",
+    "large": "Stor",
+    "largest": "Størst"
   },
   "remix": {
-    "cut": "Klipp ut"
+    "cut": "Klipp ut",
+    "title": "Remiks",
+    "greenScreen": "Green screen",
+    "collab": "Samarbeid",
+    "sound": "Bruk lyden",
+    "unavailable": "Denne videoen er ikke tilgjengelig for remiks.",
+    "openFailed": "Remiksen kunne ikke åpnes. Sjekk tilkoblingen og kameratillatelsene, og prøv igjen.",
+    "tooLarge": "Dette opptaket er for stort. Ta et kortere opptak.",
+    "invalidRecording": "Opptaket kunne ikke leses. Ta et nytt opptak.",
+    "saveFailed": "Remiksen kunne ikke lagres. Prøv igjen.",
+    "startHint": "Forhåndsvis kameraet ditt over denne videoen, og spill så inn remiksen. Forlater du denne skjermen, stopper kameraet.",
+    "openCamera": "Åpne kameraet"
   },
   "signedFollows": {
     "setUp": "Slå på",
     "turnOff": "Slå av",
-    "efpTurnOff": "Stopp"
+    "efpTurnOff": "Stopp",
+    "title": "Følgingene dine, på kjeden",
+    "description": "Lommeboken din signerer hvem du følger, og hver dag stemples listen på Base. Enhver app kan finne følgingene dine fra lommeboken din, selv uten Riftn.",
+    "on": "På for denne enheten",
+    "off": "Av for denne enheten",
+    "turnedOn": "Følgingene dine signeres nå av lommeboken din",
+    "turnedOff": "Slått av for denne enheten",
+    "failed": "Lommeboken din signerte ikke. Prøv igjen.",
+    "hiddenNote": "Skjulte følgelister og private kontoer holdes utenfor den offentlige listen.",
+    "efpOn": "Kopiert til EFP · {{count}} følginger",
+    "efpOff": "Legg dem også på EFP",
+    "efpTurnOn": "Legg til på EFP",
+    "efpDone": "Følgingene dine legges på EFP",
+    "efpStopped": "EFP-kopiering stoppet. Listen forblir din.",
+    "efpHasList": "Du har allerede en EFP-liste. Riftn kan ikke fylle den ennå.",
+    "efpNoGas": "Lommeboken din trenger litt ETH på Base for dette.",
+    "efpFailed": "Det gikk ikke gjennom. Prøv igjen.",
+    "efpNote": "EFP er en følgeliste som andre apper leser (efp.app). Gratis med Riftn-lommeboken din; andre lommebøker betaler noen øre på Base. Listen er din.",
+    "efpUseWeb": "Med din egen lommebok gjør du dette i Innstillinger på riftn.com."
   },
   "studioDeck": {
     "remove": "Fjern",
@@ -15187,31 +16309,95 @@
       "modes": {
         "none": "Av",
         "blur": "Uskarphet",
-        "color": "Farge"
-      }
+        "color": "Farge",
+        "image": "Bilde"
+      },
+      "failed": "Fjerning av bakgrunn kunne ikke starte på denne enheten.",
+      "hint": "Kjører på enheten din. Første gang tar det noen sekunder å laste."
     },
     "scenes": {
       "countdown": "Nedtelling",
       "names": {
-        "starting": "Starter snart"
+        "starting": "Starter snart",
+        "chatting": "Bare prat",
+        "brb": "Straks tilbake",
+        "ending": "Strømmen avsluttes"
+      },
+      "title": "Scener",
+      "picture": "Bilde",
+      "noCountdown": "Ingen nedtelling",
+      "minutes": "{{count}} min",
+      "hints": {
+        "starting": "Kort med nedtelling",
+        "chatting": "Kamera i fullskjerm",
+        "brb": "Kort, mikrofon dempet",
+        "ending": "Takkekort"
+      },
+      "subtitles": {
+        "starting": "Strømmen starter om",
+        "brb": "Tilbake om et øyeblikk",
+        "ending": "Takk for at du så på"
       }
     },
     "widgets": {
-      "tab": "Widgeter"
+      "tab": "Widgeter",
+      "title": "Vis widgeter i videoen min",
+      "hint": "Varsler, målstolper og chat tegnes inn i strømmen din, så seere på Twitch, YouTube og alle andre plattformer ser dem også.",
+      "failed": "Kunne ikke endre hvor widgetene vises. Prøv igjen."
     },
     "sources": {
       "image": "Bilde",
       "show": "Vis på strømming",
       "positions": {
-        "center": "Sentre"
+        "center": "Sentre",
+        "top-left": "Øverst til venstre",
+        "top-right": "Øverst til høyre",
+        "bottom-left": "Nederst til venstre",
+        "bottom-right": "Nederst til høyre"
+      },
+      "title": "Kilder",
+      "addImage": "Bilde eller logo",
+      "failed": "Kunne ikke legge til den kilden.",
+      "hint": "Kilder tegnes over bildet ditt for alle seere og alle plattformer.",
+      "sizes": {
+        "small": "Liten",
+        "medium": "Middels",
+        "large": "Stor"
       }
+    },
+    "phone": {
+      "title": "Studio"
     }
   },
   "whenSheet": {
     "today": "I dag",
     "tooSoon": "Velg et tidspunkt i fremtiden.",
     "show": "Vis",
-    "hide": "Skjul"
+    "hide": "Skjul",
+    "title": "Når?",
+    "tonight": "I kveld",
+    "inAnHour": "Om en time",
+    "tomorrow": "I morgen",
+    "primeTime": "Beste sendetid",
+    "scheduleFor": "Planlegg til {{when}}",
+    "liveTip": "Følgerne dine kan sette en påminnelse. Du starter Live selv når det er tid.",
+    "stageTip": "Den havner på Kommende-hyllen med en gang, så folk kan trykke Påminn meg.",
+    "typePlaceholder": "Skriv et tidspunkt, som «fre 20» eller «om 2 timer»",
+    "typeLabel": "Skriv et tidspunkt",
+    "typeHelp": "Prøv «i kveld», «i morgen 9», «lør 12» eller «30. okt 19».",
+    "orPickDay": "Eller velg en dag",
+    "earlier": "15 minutter tidligere",
+    "later": "15 minutter senere",
+    "earlierShort": "Tidligere",
+    "laterShort": "Senere",
+    "tooSoonMin": "Velg et tidspunkt minst {{count}} minutter fra nå.",
+    "zone": "Din tid ({{zone}}). Alle andre ser det i sin egen tid.",
+    "remove": "Fjern planlegging",
+    "startsIn": "Starter om {{time}}",
+    "bestTime": "Beste tidspunkt",
+    "fansOnline": "Når er fansen min pålogget?",
+    "fansBasis": "Lysere betyr at flere av følgerne dine så på, siste {{count}} dager.",
+    "everyoneBasis": "Ikke nok følgeraktivitet ennå, så dette er alle på Riftn."
   },
   "planned": {
     "title": "Planlagt",
@@ -15226,22 +16412,45 @@
     "loading": "Laster inn…",
     "startNow": "Start nå",
     "cancel": "Avbryt",
-    "cancelled": "Avlyst"
+    "cancelled": "Avlyst",
+    "subtitle": "Innlegg, Lives og Stages du har planlagt",
+    "seoTitle": "Planlagt · Riftn",
+    "seoDescription": "Dine planlagte innlegg, Lives og Stages på Riftn, samlet på ett sted.",
+    "lives": "Lives",
+    "signIn": "Logg inn for å se hva du har planlagt",
+    "emptyTitle": "Ingenting planlagt ennå",
+    "emptyBody": "Velg «Når?» mens du lager et innlegg, en Live eller en Stage, så vises det her.",
+    "move": "Flytt",
+    "postNow": "Publiser nå",
+    "confirmCancel": "Trykk igjen for å avbryte",
+    "moved": "Flyttet til {{when}}",
+    "postingNow": "Publiseres om under et minutt",
+    "moveFailed": "Kunne ikke flytte det. Prøv igjen.",
+    "seeAll": "Se alt du har planlagt"
   },
   "welcome": {
     "about": {
       "title": "Velkommen til Riftn",
       "day": "Dag",
       "month": "Måned",
-      "year": "År"
+      "year": "År",
+      "sub": "Bursdagen din forblir privat. Velg et utseende, du kan endre det når som helst.",
+      "birthday": "Fødselsdato",
+      "pick": "Velg bursdagen din",
+      "invalid": "Skriv inn hele fødselsdatoen din.",
+      "tooYoung": "Du må være {{age}} år eller eldre for å bruke Riftn.",
+      "theme": "Ditt utseende"
     },
     "name": {
       "title": "Navnet ditt",
-      "placeholder": "Navnet ditt"
+      "placeholder": "Navnet ditt",
+      "sub": "Dette er navnet folk ser på innleggene dine."
     },
     "card": {
       "name": "Navnet ditt",
-      "followers": "følgere"
+      "followers": "følgere",
+      "interests": "Interessene dine",
+      "following": "følger"
     },
     "topic": {
       "music": "Musikk",
@@ -15253,11 +16462,47 @@
       "podcast": "Podkast",
       "food": "Maten",
       "news": "Nyheter",
-      "science": "Vitenskap"
+      "science": "Vitenskap",
+      "travel": "Reise",
+      "film": "Film",
+      "anime": "Anime",
+      "cars": "Biler",
+      "animals": "Dyr",
+      "tech": "Teknologi"
     },
     "back": "Tilbake",
     "skipPhoto": "Hopp over for nå",
-    "preview": "Forhåndsvis"
+    "preview": "Forhåndsvis",
+    "username": {
+      "title": "Ditt @brukernavn",
+      "sub": "Bokstaver, tall og understreker. Du kan endre det senere.",
+      "yours": "@{{name}} er ditt"
+    },
+    "photo": {
+      "title": "Bildet ditt",
+      "sub": "Valgfritt. Folk følger ansikter raskere.",
+      "choose": "Velg et bilde",
+      "change": "Velg et annet"
+    },
+    "interests": {
+      "title": "Interessene dine",
+      "sub": "Velg minst 3. De kommer først i kategoriene dine."
+    },
+    "people": {
+      "title": "Folkene dine",
+      "sub": "Trykk for å følge. Innleggene deres fyller Følger-feeden din.",
+      "empty": "Ingen forslag akkurat nå. Utforsk har flere folk å finne.",
+      "followers": "{{count}} følgere"
+    },
+    "done": {
+      "title": "Ser bra ut, {{name}}",
+      "sub": "Alle ser dette kortet fra i dag.",
+      "eyebrow": "Profilen er aktiv"
+    },
+    "enter": "Gå inn i Riftn",
+    "pickMore": "Velg {{count}} til",
+    "cardHint": "Slik vil folk se deg",
+    "followFailed": "Kunne ikke følge. Prøv igjen."
   },
   "appTokens": {
     "title": "Dine tokens",
@@ -15268,10 +16513,35 @@
     "amount": "Beløp",
     "notePlaceholder": "Legg til et notat (valgfritt)",
     "sendButton": "Sende",
-    "errorInsufficient": "Ikke nok tokens"
+    "errorInsufficient": "Ikke nok tokens",
+    "rowHint": "Saldo i appen",
+    "explainer": "Tokenene dine ligger nå inne i Riftn. Du startet med det du hadde og hadde staket på kjeden ved lanseringen. Sending, tips og forbruk flytter dem umiddelbart, uten gebyrer og uten noe på kjeden. Saldoene overføres til den nye tokenen ved airdropen.",
+    "kindOpening": "Startsaldo",
+    "kindSent": "Sendt til {{name}}",
+    "kindReceived": "Fra {{name}}",
+    "kindSpent": "Brukt i Riftn",
+    "kindRefund": "Refusjon",
+    "kindAdjust": "Justering fra Riftn",
+    "sendTitle": "Send tokens",
+    "sendHint": "Sender tokens inne i Riftn til en annen konto. Umiddelbart og gratis, ingenting går på kjeden.",
+    "toPlaceholder": "@brukernavn eller 0x-adresse",
+    "looking": "Slår opp…",
+    "available": "Tilgjengelig: {{amount}}",
+    "sent": "Sendte {{amount}} tokens til {{name}}",
+    "errorRateLimit": "For mange sendinger den siste timen. Prøv igjen senere.",
+    "errorNoRecipient": "Fant ingen Riftn-konto",
+    "errorSelf": "Du kan ikke sende til deg selv",
+    "errorGeneric": "Kunne ikke sende. Prøv igjen."
   },
   "avatarPrompt": {
-    "notNow": "Ikke nå"
+    "notNow": "Ikke nå",
+    "title": "Legg til et profilbilde",
+    "body": "Folk legger raskere merke til deg i feeder, kommentarer og chatter når du har et ansikt eller en logo.",
+    "choose": "Velg et bilde",
+    "another": "Velg et annet",
+    "save": "Bruk dette bildet",
+    "saved": "Ser bra ut",
+    "failed": "Kunne ikke lagre bildet ditt. Prøv igjen."
   },
   "postStats": {
     "audience": "Målgruppe",
@@ -15289,35 +16559,159 @@
     "shares": "Delinger",
     "signedOutViewers": "Logget ut",
     "topSupporters": "Toppstøttespillere",
-    "visitors": "Logget ut"
+    "visitors": "Logget ut",
+    "aboutUsual": "omtrent som vanlig",
+    "afterWatching": "fulgte etter å ha sett det",
+    "avg": "snitt",
+    "avgWatch": "Snittlig visningstid",
+    "bestTime": "Når folkene dine ser på",
+    "bigDrop": "Stort frafall",
+    "byBadge": "etter merke",
+    "devices": "Enhet (medlemmer)",
+    "finishedLower": "fullført",
+    "finishedPct": "{{pct}}% så til slutten",
+    "inOut": "{{in}} medlemmer · {{out}} utlogget",
+    "leave": "{{pct}}% forlater",
+    "linkClicks": "Lenkeklikk",
+    "newToYou": "nye for deg",
+    "noAccount": "ingen konto",
+    "noViewersYet": "Ingen har sett dette innlegget ennå.",
+    "noWatchYet": "Visningstid vises her når folk spiller det av. Tellingen startet 31. okt. 2026.",
+    "open": "Se hvordan innlegget ditt gjør det",
+    "otherBadges": "Andre merker",
+    "peak": "Topp {{time}} · {{n}}",
+    "peopleReached": "Personer nådd",
+    "playsLower": "avspillinger",
+    "playsMembers": "Avspillinger av medlemmer",
+    "playsVisitors": "Avspillinger utlogget",
+    "profileTaps": "Trykk til profilen din",
+    "reach": "Rekkevidde",
+    "saves": "Lagringer",
+    "seeAll": "Se all statistikk",
+    "signedIn": "innlogget",
+    "signedOutLower": "utlogget",
+    "stillWatching": "Ser fortsatt",
+    "timesUsual": "{{ratio}}× vanlig",
+    "vsUsualPct": "{{pct}} mot ditt vanlige innlegg",
+    "unavailableBody": "Bare skaperen kan se statistikk for dette innlegget.",
+    "unavailableTitle": "Statistikk ikke tilgjengelig",
+    "vsUsual": "mot ditt vanlige innlegg",
+    "watching": "Ser på",
+    "whoSawIt": "Hvem som så det",
+    "withRepeats": "{{n}} gjentakelser",
+    "yourFollowers": "følgerne dine",
+    "first48": "Første 48 timer",
+    "howItsDoing": "Hvordan det går",
+    "bestTip": "De fleste seerne dine dukker opp {{day}} rundt {{hour}}:00. Å publisere like før gir et innlegg den beste starten.",
+    "last30": "siste 30 dager",
+    "day": {
+      "sun": "søn",
+      "mon": "man",
+      "tue": "tir",
+      "wed": "ons",
+      "thu": "tor",
+      "fri": "fre",
+      "sat": "lør"
+    }
   },
   "duet": {
     "policyEveryone": "Alle",
     "policyFollowers": "Følgere",
     "policyNobody": "Ingen",
-    "loadMore": "Last mer"
+    "loadMore": "Last mer",
+    "with": "Duett med @{{username}}",
+    "withOriginal": "Duett · se originalen",
+    "unavailable": "Denne videoen er ikke lenger tilgjengelig for duetter.",
+    "allowLabel": "Tillat duetter",
+    "allowDescription": "Hvem som kan spille inn en duett ved siden av videoene dine. Du kan også endre det på hvert innlegg.",
+    "settingsSection": "Duetter",
+    "policyDefault": "Kontoinnstilling",
+    "saveFailed": "Kunne ikke lagre. Prøv igjen.",
+    "count_one": "{{count}} duett",
+    "count_other": "{{count}} duetter",
+    "pageHeading": "Duetter",
+    "pageTitle": "Duetter av {{title}} av @{{creator}}",
+    "pageTitleNoCreator": "Duetter av {{title}}",
+    "pageDescription": "Se alle duetter av denne videoen på Riftn, eller spill inn din egen side om side.",
+    "empty": "Ingen duetter ennå. Åpne videoens alternativer og velg Remiks → Duett for å lage den første.",
+    "video": "Video",
+    "notFound": "Denne videoen er ikke tilgjengelig.",
+    "notFoundTitle": "Fant ikke videoen — Riftn",
+    "browseShorts": "Bla i Shorts"
   },
   "remixLinks": {
     "policy": {
       "everyone": "Alle",
       "followers": "Følgere",
-      "nobody": "Ingen"
+      "nobody": "Ingen",
+      "default": "Min standard"
+    },
+    "shareFailed": "Tipset ditt ble sendt, men andelen til den opprinnelige skaperen gikk ikke gjennom.",
+    "notify": {
+      "duet": "{{name}} lagde en duett med videoen din",
+      "stitch": "{{name}} stitchet videoen din",
+      "react": "{{name}} reagerte på videoen din",
+      "reactLive": "{{name}} reagerer direkte på videoen din"
+    },
+    "linkFailed": "Innlegget ditt er publisert, men det kunne ikke kobles til originalvideoen.",
+    "settingsHeading": "Remikser",
+    "stitch": {
+      "allow": "Tillat stitcher",
+      "allowDesc": "Hvem som kan bruke opptil 5 sekunder av videoene dine i sine egne. Du kan også endre det per innlegg.",
+      "saveFailed": "Kunne ikke lagre stitch-innstillingen. Prøv igjen.",
+      "settingFailed": "Innlegget ditt er publisert, men stitch-innstillingen ble ikke lagret. Endre den fra Rediger innlegg.",
+      "from": "Stitchet fra {{name}}",
+      "count_one": "{{count}} stitch",
+      "count_other": "{{count}} stitcher",
+      "listTitle": "Stitcher",
+      "listFailed": "Kunne ikke laste stitcher. Prøv igjen.",
+      "listEmpty": "Ingen stitcher ennå.",
+      "unavailable": "Denne videoen er ikke lenger tilgjengelig for stitcher."
     }
   },
   "reactions": {
     "policy": {
       "everyone": "Alle",
       "followers": "Følgere",
-      "nobody": "Ingen"
+      "nobody": "Ingen",
+      "default": "Kontostandard ({{value}})"
     },
     "heading": "Reaksjon",
     "more": "Vis flere",
     "liveNow": "Direkte",
-    "untitled": "Reaksjon"
+    "untitled": "Reaksjon",
+    "reactionTo": "Reaksjon på",
+    "reactingTo": "Reagerer på",
+    "count_one": "{{count}} reaksjon",
+    "count_other": "{{count}} reaksjoner",
+    "allow": "Tillat reaksjoner",
+    "remixesSection": "Remikser",
+    "allowDescription": "La andre skapere reagere på videoene dine, innspilt eller direkte. Du kan fortsatt endre det på hvert innlegg.",
+    "pageTitle": "Reaksjoner på {{title}} — Riftn",
+    "pageDescription": "Se skapere reagere på «{{title}}» av {{creator}} på Riftn, innspilt og direkte.",
+    "backToVideo": "Tilbake til videoen",
+    "empty": "Ingen reaksjoner ennå. Åpne videoens Remiks-meny og velg Reager for å bli den første.",
+    "wasLive": "Var direkte",
+    "thisVideo": "denne videoen"
   },
   "liveClips": {
     "copyLink": "Kopier lenke",
-    "linkCopied": "Link kopiert"
+    "linkCopied": "Link kopiert",
+    "button": "Klipp dette øyeblikket",
+    "capturing": "Henter siste minutt av sendingen…",
+    "failed": "Dette klippet kunne ikke lages.",
+    "highlightTitle": "Høydepunkt",
+    "length": "{{seconds}} s klipp",
+    "make": "Lag klipp",
+    "postToShorts": "Publiser til Kortfilmer",
+    "posted": "Klipp publisert til Kortfilmer",
+    "postedBody": "Klippet ditt er på Kortfilmer. Del det så flere finner sendingen.",
+    "rendering": "Klipper klippet ditt. Dette tar omtrent et halvt minutt…",
+    "starting": "Starter klippet ditt…",
+    "title": "Klipp",
+    "titleLabel": "Klipptittel",
+    "titlePlaceholder": "Gi klippet ditt en tittel",
+    "viewShort": "Se kortfilm"
   },
   "liveHype": {
     "gift": {
@@ -15328,16 +16722,66 @@
       "stage": {
         "preparing": "Forbereder…",
         "confirming": "Venter på transaksjonen…",
-        "recording": "Fullfører…"
-      }
+        "recording": "Fullfører…",
+        "wallet": "Bekreft i lommeboken"
+      },
+      "open": "Gi bort abonnementer",
+      "title": "Gi bort abonnementer",
+      "plan": "Plan",
+      "mode": {
+        "random": "Tilfeldige seere i chatten",
+        "user": "En bestemt person"
+      },
+      "randomHint": "Går til folk som har chattet de siste 30 minuttene og som ikke abonnerer ennå.",
+      "send_one": "Gi bort 1 abonnement · ${{price}}",
+      "send_other": "Gi bort {{count}} abonnementer · ${{price}}",
+      "payHint": "Betales i tokens fra lommeboken din i én overføring.",
+      "fewer_one": "Bare 1 person i chatten kan motta et abonnement akkurat nå, så du betaler for 1.",
+      "fewer_other": "Bare {{count}} personer i chatten kan motta et abonnement akkurat nå, så du betaler for {{count}}.",
+      "done_one": "Abonnement gitt bort!",
+      "done_other": "{{count}} abonnementer gitt bort!",
+      "failed": "Kunne ikke gi bort abonnementer",
+      "notReady": "Gaver er ikke tilgjengelig for denne planen ennå",
+      "noPlan": "Velg en plan først",
+      "noPlans": "{{name}} har ingen abonnementsplaner å gi bort ennå."
+    },
+    "train": {
+      "level": "Hype-tog · Nivå {{level}}",
+      "endedLevel": "Hype-toget fullførte nivå {{level}}!",
+      "ended": "Hype-toget er over",
+      "thanks_one": "Takk til {{count}} støttespiller",
+      "thanks_other": "Takk til {{count}} støttespillere",
+      "top": "Topp: {{name}}"
     }
   },
   "dmPaidLock": {
     "lockCustom": "Annet",
-    "confirming": "Bekrefter betaling…"
+    "confirming": "Bekrefter betaling…",
+    "lockPhoto": "Lås bilde",
+    "lockVideo": "Lås video",
+    "lockOnPrice": "Låst · {{price}} tokens",
+    "lockCustomLabel": "Egendefinert pris i tokens",
+    "lockHint": "De ser det uskarpt til de betaler deg. Låste filer er ikke ende-til-ende-kryptert.",
+    "dhbNow": "{{dhb}} til dagens pris",
+    "lockCustomUsd": "$ Annet",
+    "lockCustomUsdLabel": "Egendefinert pris i dollar",
+    "lockDhbNow": "≈ {{dhb}} i dag. De betaler alltid {{price}}, uansett hva tokens er verdt.",
+    "lockOnUsd": "Låst · {{price}}",
+    "lockedPhoto": "Låst bilde",
+    "lockedVideo": "Låst video",
+    "unlockFor": "Lås opp for {{price}}",
+    "unlockOnWeb": "Lås opp på riftn.com · {{price}}",
+    "stillConfirming": "Betaling sendt. Den åpnes så snart den bekreftes.",
+    "payFailed": "Kunne ikke låse opp",
+    "unlocked": "Låst opp",
+    "unlockedTag": "Låst opp",
+    "notYet": "Ikke låst opp ennå",
+    "uploading": "Låser…",
+    "unlockedByThem": "Din låste {{kind}} ble låst opp: +{{amount}} tokens"
   },
   "liveShorts": {
-    "live": "DIREKTE"
+    "live": "DIREKTE",
+    "join": "Bli med direkte"
   },
   "feedFilters": {
     "clearAllShort": "Fjern alle",
@@ -15345,7 +16789,21 @@
     "edit": "Rediger",
     "groupDate": "Dato",
     "groupSort": "Sorter",
-    "save": "Lagre"
+    "save": "Lagre",
+    "clearAll": "Fjern alle filtre",
+    "collapse": "Skjul filtre",
+    "count": "{{count}} filtre på",
+    "deletePreset": "Slett {{name}}",
+    "groupAccess": "Tilgang",
+    "groupTag": "Tagg",
+    "groupType": "Type",
+    "myPresets": "Mine forhåndsinnstillinger",
+    "presetName": "Navn på forhåndsinnstilling",
+    "remove": "Fjern {{label}}",
+    "saveCurrent": "+ Lagre gjeldende",
+    "savePreset": "Lagre som forhåndsinnstilling",
+    "show": "Vis filtre",
+    "updatePreset": "Gi nytt navn til forhåndsinnstilling"
   },
   "ownKeys": {
     "working": "Arbeider",
@@ -15353,7 +16811,21 @@
     "check": "Sjekke",
     "remove": "Fjern",
     "save": "Lagre",
-    "cancel": "Avbryt"
+    "cancel": "Avbryt",
+    "title": "Dine egne AI-nøkler",
+    "description": "Legg til en nøkkel fra en AI-leverandør, så kjører Creator-verktøyene på kontoen din i stedet. Riftn tar ingenting for disse jobbene. Nøkler krypteres og vises aldri igjen.",
+    "invalid": "Avvist, erstatt den",
+    "noCredit": "Tom for kreditt",
+    "disabled": "Slått av av Riftn",
+    "saved": "{{name}}-nøkkel lagret. Verktøy på {{name}} bruker nå kontoen din.",
+    "savedNoCredit": "{{name}}-nøkkel lagret, men kontoen er tom for kreditt.",
+    "removed": "{{name}}-nøkkel fjernet.",
+    "replaceKey": "Erstatt nøkkel",
+    "add": "Legg til nøkkel",
+    "paste": "Lim inn {{name}}-nøkkelen din",
+    "getKey": "Skaff en {{name}}-nøkkel",
+    "showLess": "Vis bare mine nøkler",
+    "addAnother": "Legg til en annen leverandør"
   },
   "postBg": {
     "addMedia": "Legg til et bilde, en GIF eller en video",
@@ -15367,55 +16839,179 @@
       "lava": "Lavalampe",
       "drive": "Nattkjøring",
       "chrome": "Vannkrom",
-      "snow": "Snøfall"
+      "snow": "Snøfall",
+      "ink": "Tuschvask",
+      "news": "Avispapir",
+      "split": "Skumringsdeling",
+      "blue": "Blåkopi",
+      "terra": "Terrazzo",
+      "half": "Halvtone-pop",
+      "topo": "Kontur",
+      "velvet": "Fløyel",
+      "sorbet": "Sorbet",
+      "carbon": "Karbon",
+      "echo": "Profilekko",
+      "cards": "Fargekort",
+      "deck": "Mønsterkortstokk",
+      "stars": "Stjernehimmel",
+      "rain": "Regn på glass",
+      "breathe": "Pust",
+      "spin": "Prismespinn",
+      "tide": "Tidevann",
+      "ember": "Glør",
+      "holo": "Holofolie",
+      "rift": "Rift",
+      "mesh": "Mesh",
+      "grain": "Filmkorn",
+      "orbit": "Bane",
+      "ripple": "Krusning",
+      "dotwave": "Prikkebølge",
+      "scan": "CRT",
+      "silk": "Silke",
+      "bokeh": "Bokeh",
+      "photo": "Ditt bilde"
     },
-    "sameAsProfile": "Profil"
+    "sameAsProfile": "Profil",
+    "scope": "Bruk på",
+    "thisPost": "Dette innlegget",
+    "allPosts": "Alle innlegg",
+    "sameAsProfileSub": "Samme som profilen din",
+    "title": "Innleggsbakgrunn",
+    "editRow": "Innleggsbakgrunn",
+    "hint": "Sveip stripen. Innlegget endres mens du går. Bare du kan endre dette.",
+    "moving": "Bevegelig",
+    "still": "Stille",
+    "plain": "Vanlige innlegg",
+    "position": "{{n}} av {{total}}",
+    "sample": "Slik ser tekstinnleggene dine ut på profilen din.",
+    "saveFailed": "Kunne ikke lagre bakgrunnen din. Prøv igjen.",
+    "base": "Grunnfarge",
+    "accent2": "Aksent 2",
+    "ownColours": "Dine egne farger"
   },
   "articleTile": {
-    "cover": "Forsidebilde"
+    "cover": "Forsidebilde",
+    "title": "Artikkelfliser",
+    "dropcap": "Initial",
+    "hint": "Slik ser artiklene dine ut i profilrutenettet. Bare du kan endre dette.",
+    "saveFailed": "Kunne ikke lagre. Prøv igjen."
   },
   "aiConsent": {
-    "allow": "Tillat"
+    "allow": "Tillat",
+    "title": "Bruke AI-funksjoner?",
+    "body": "For å fungere sender AI-funksjoner det du gir dem (teksten, bildene eller lyden din, og innlegget eller chatten det gjelder) til tredjeparts AI-leverandører som Google, OpenAI, Groq, OpenRouter, fal og ElevenLabs. Du kan endre dette når som helst i Innstillinger → Personvern.",
+    "declined": "AI-funksjoner er av. Du kan slå dem på i Innstillinger → Personvern.",
+    "settingLabel": "AI-funksjoner",
+    "settingDesc": "La assistenten, oversettelse, foreslåtte svar og skrivehjelp sende det du gir dem til tredjeparts AI-leverandører."
   },
   "dmRequests": {
     "title": "Funksjonsforespørsler",
     "accept": "Godta",
     "delete": "Slett",
-    "block": "Blokker"
+    "block": "Blokker",
+    "hint": "Meldinger fra folk du ikke følger. Godta en, svar eller følg dem, så flyttes chatten til innboksen din.",
+    "rowHint": "{{n}} fra folk du ikke følger",
+    "banner": "Du følger ikke {{name}}. Godta for å flytte denne chatten til innboksen din, eller bare svar.",
+    "accepted": "Flyttet til innboksen din",
+    "acceptFailed": "Kunne ikke godta, prøv igjen"
   },
   "dmSchedule": {
     "view": "Se",
     "edit": "Rediger",
     "editLabel": "Rediger melding",
-    "error": "Det fungerte ikke. Prøv igjen."
+    "error": "Det fungerte ikke. Prøv igjen.",
+    "button": "Planlegg melding",
+    "title": "Planlagte meldinger",
+    "whenTitle": "Sende når?",
+    "waiting": "{{n}} planlagt",
+    "next": "neste {{when}}",
+    "failedCount": "{{n}} ikke sendt",
+    "notSent": "Ikke sendt",
+    "emptyTitle": "Ingenting planlagt",
+    "emptyBody": "Skriv en melding, og trykk så på klokken for å velge når den sendes.",
+    "changeTime": "Endre tidspunkt",
+    "sendNow": "Send nå",
+    "deleted": "Planlagt melding slettet",
+    "unreadable": "Skrevet på en annen enhet. Den blir fortsatt sendt.",
+    "footnote": "Tidspunktene er i din tidssone. Ingen ser en melding før den er sendt.",
+    "footnoteNamed": "Tidspunktene er i din tidssone. {{name}} ser en melding først når den er sendt.",
+    "textOnly": "Foreløpig kan bare tekstmeldinger planlegges.",
+    "scheduledToast": "Planlagt til {{when}}",
+    "failedToast": "En planlagt melding kunne ikke sendes"
   },
   "chatBulk": {
     "selected": "{{count}} valgt",
     "cancel": "Avbryt",
     "reply": "Svar",
-    "delete": "Slett"
+    "delete": "Slett",
+    "select": "Velg",
+    "toolbar": "Valgte chatter",
+    "pick": "Trykk på chatter for å velge dem",
+    "read": "Merk som lest",
+    "unread": "Merk som ulest",
+    "replyTitle_one": "Svar på {{count}} chat",
+    "replyTitle_other": "Svar på {{count}} chatter",
+    "replyHint": "Hver person får dette som en vanlig melding i sin egen chat.",
+    "replyPlaceholder": "Skriv en melding…",
+    "sendAll": "Send til {{count}}",
+    "deleted_one": "{{count}} chat slettet",
+    "deleted_other": "{{count}} chatter slettet",
+    "sent_one": "Sendt til {{count}} chat",
+    "sent_other": "Sendt til {{count}} chatter",
+    "partSent": "Sendt til {{ok}} av {{total}} chatter",
+    "notSent": "Kunne ikke sende. Prøv igjen."
   },
   "msgSelect": {
     "selected": "{{count}} valgt",
     "copy": "Kopier",
     "forward": "Videresend",
     "deleted_one": "Slettet {{count}} melding",
-    "deleted_other": "Slettet {{count}} meldinger"
+    "deleted_other": "Slettet {{count}} meldinger",
+    "toolbar": "Valgte meldinger",
+    "pick": "Trykk på meldinger for å velge dem",
+    "deleteSome": "Slett {{count}}",
+    "forwarded_one": "{{count}} melding videresendt",
+    "forwarded_other": "{{count}} meldinger videresendt",
+    "partForwarded": "Videresendte {{ok}} av {{total}}",
+    "nothingToCopy": "Ingenting å kopiere i de valgte meldingene",
+    "copied_one": "Kopierte {{count}} melding",
+    "copied_other": "Kopierte {{count}} meldinger",
+    "deleteTitle_one": "Slette {{count}} melding?",
+    "deleteTitle_other": "Slette {{count}} meldinger?",
+    "deleteBody": "De fjernes for alle i denne chatten.",
+    "deleteForBothBody": "De fjernes for dere begge."
   },
   "messagesTabs": {
-    "all": "Alle"
+    "all": "Alle",
+    "unread": "Uleste",
+    "groups": "Grupper"
   },
   "mentionLinks": {
     "communities": "Fellesskap",
     "pages": "Sider",
-    "people": "Folk"
+    "people": "Folk",
+    "linkTo": "Lenke til {{name}}"
   },
   "resetWallet": {
     "mismatch": "Passordene matcher ikke",
     "logOut": "Logg ut",
     "confirm": "Bekreft passord",
     "ack": "Jeg forstår at mine gamle midler holder seg i den gamle porteføljen.",
-    "cancel": "Avbryt"
+    "cancel": "Avbryt",
+    "tooShort": "Passordet må ha minst {{count}} tegn",
+    "breached": "Dette passordet har dukket opp i et datainnbrudd. Velg et annet",
+    "weak": "Velg et sterkere passord (bland bokstaver, tall og symboler)",
+    "doneTitle": "Kontoen din er på den nye lommeboken",
+    "twoFactor": "Skriv inn koden fra autentiseringsappen din for å flytte kontoen.",
+    "failed": "Kunne ikke tilbakestille lommeboken. Ingenting ble flyttet. Prøv igjen.",
+    "title": "Tilbakestill lommebok",
+    "reloginApp": "En tilbakestilling bekreftes med kontoens e-post, telefon eller Google-innlogging, ikke den gamle lommeboken, fordi alle som har den gamle nøkkelen også kan signere. Logg ut, logg inn igjen med den innloggingen og kom deretter tilbake hit. Ingen innloggings-e-post ennå? Legg til en på riftn.com under Innstillinger → Innlogging først.",
+    "intro": "Lager en ny Riftn-lommebok og flytter brukernavnet, innleggene, følgerne og meldingene dine dit. Bruk dette hvis lommeboken er mistet eller noen andre har nøkkelen. Den gamle lommeboken slutter å fungere for innlogging.",
+    "funds": "Tokens, NFT-er og andre saldoer flyttes ikke. De blir værende på den gamle adressen. Hvis du fortsatt kan åpne den gamle lommeboken, send dem ut først.",
+    "password": "Nytt lommebokpassord (min. {{count}} tegn)",
+    "twoFactorPlaceholder": "Autentiseringskode",
+    "submit": "Tilbakestill lommebok",
+    "rowDesc": "Mistet lommeboken, eller har noen andre nøkkelen? Flytt kontoen din til en ny lommebok. Brukernavnet, innleggene og følgerne dine blir med."
   },
   "chatTabs": {
     "all": "Alle",
@@ -15431,6 +17027,106 @@
     "requests": "Funksjonsforespørsler",
     "sCreators": "Skapere",
     "sGaming": "Spill",
-    "sTrading": "Handel"
+    "sTrading": "Handel",
+    "addChats": "Legg til chatter",
+    "addToTab": "Legg til i fane",
+    "addedTo": "Lagt til i {{name}}",
+    "builtIn": "Innebygd",
+    "chatCount": "{{n}} chatter",
+    "chatsInTab": "Chatter i denne fanen",
+    "create": "Opprett fane",
+    "delete": "Slett fane",
+    "deleteBody": "Fanen forsvinner. Chattene blir i Alle og beholder meldingene sine.",
+    "deleteTitle": "Slette «{{name}}»?",
+    "deleted": "Slettet {{name}}",
+    "edit": "Rediger faner",
+    "editHintApp": "Bruk pilene til å endre rekkefølgen. Skjulte faner beholder chattene sine.",
+    "editTab": "Rediger fane",
+    "emoji": "Velg en emoji",
+    "emptyBody": "Legg til chatter her, så blir de også i Alle.",
+    "emptyTitle": "{{name}} er tom",
+    "hide": "Skjul fane",
+    "kindChannel": "Kanal",
+    "moveLeft": "Flytt til venstre",
+    "moveRight": "Flytt til høyre",
+    "namePlaceholder": "Fanenavn",
+    "new": "Ny fane",
+    "newWith": "Ny fane…",
+    "noEmoji": "Ingen emoji",
+    "picked": "{{n}} valgt",
+    "removedFrom": "Fjernet fra {{name}}",
+    "renameEdit": "Gi nytt navn og rediger",
+    "sFriends": "Venner",
+    "sWork": "Jobb",
+    "saveFailed": "Kunne ikke lagre fanene dine, prøv igjen",
+    "show": "Vis fane",
+    "tooMany": "Du kan ha opptil 10 faner"
+  },
+  "chatReactions": {
+    "many_one": "{{count}} reaksjon på meldingene dine",
+    "many_other": "{{count}} reaksjoner på meldingene dine",
+    "manySame_one": "{{emoji}} × {{count}} på meldingene dine",
+    "manySame_other": "{{emoji}} × {{count}} på meldingene dine",
+    "one": "Reagerte {{emoji}} på meldingen din",
+    "oneNamed": "{{name}} reagerte {{emoji}} på meldingen din"
+  },
+  "postEditHistory": {
+    "title": "Redigeringshistorikk",
+    "edited_one": "Redigert én gang",
+    "edited_other": "Redigert {{count}} ganger",
+    "lastEdit": "Sist redigert {{time}}",
+    "original": "Original",
+    "editN": "Redigering {{n}}",
+    "now": "Nå",
+    "showChanges": "Vis hva som ble endret"
+  },
+  "post": {
+    "destruct": {
+      "offBody": "Innlegget blir liggende.",
+      "onBody": "Innlegget sletter seg selv {{value1}} etter at det publiseres."
+    }
+  },
+  "accountDeactivation": {
+    "title": "Deaktiver konto",
+    "short": "Skjul profilen din inntil videre. Logg inn igjen for å gjenopprette den",
+    "description": "Ta en pause i stedet. Profilen, innleggene og kommentarene dine skjules, og du logges ut overalt. Ingenting slettes, og når du logger inn igjen, kommer alt tilbake.",
+    "button": "Deaktiver",
+    "confirmTitle": "Deaktivere kontoen din?",
+    "confirmBody": "Profilen, innleggene og kommentarene dine blir skjult, og du blir logget ut på alle enheter. Logg inn igjen når som helst for å angre dette.",
+    "busy": "Deaktiverer…",
+    "done": "Kontoen er deaktivert",
+    "receipt": "Profilen, innleggene og kommentarene dine er skjult. Logg inn igjen når som helst for å hente alt tilbake.",
+    "error": "Kunne ikke deaktivere kontoen din. Prøv igjen.",
+    "acknowledge": "Jeg forstår at profilen min blir skjult og at jeg blir logget ut overalt.",
+    "understand": "Jeg forstår"
+  },
+  "halloween": {
+    "title": "God halloween",
+    "otherThemes": "Ikke i skrekkhumør? Finn andre temaer:",
+    "enter": "Gå inn i fangehullet"
+  },
+  "dmSafety": {
+    "notReal": "Dette er ikke den ekte {{name}}.",
+    "neverLink": "Riftn-teamet vil aldri sende deg en DM med en lenke for å fikse profilen eller lommeboken din. Ikke åpne lenker, koble til lommeboken eller signer noe. Blokker og rapporter denne kontoen."
+  },
+  "profileImage": {
+    "change": "Endre"
+  },
+  "msgDelete": {
+    "title": "Slette meldingen?",
+    "titleMany": "Slette {{count}} meldinger?",
+    "bodyOwn": "Fjern den bare fra chatten din, eller for alle.",
+    "bodyOwnMany": "Fjern dem bare fra chatten din, eller for alle.",
+    "bodyOthers": "Den fjernes bare fra chatten din. Den andre personen ser den fortsatt.",
+    "bodyOthersMany": "De fjernes bare fra chatten din. Andre i chatten ser dem fortsatt.",
+    "bodyOwnBoth": "Fjern den bare fra chatten din, eller for dere begge.",
+    "bodyOwnBothMany": "Fjern dem bare fra chatten din, eller for dere begge.",
+    "forMe": "Slett for meg",
+    "forEveryone": "Slett for alle",
+    "forBoth": "Slett for oss begge",
+    "forMeAndName": "Slett for meg og {{name}}",
+    "remember": "Husk valget mitt",
+    "rememberHint": "Endre det når som helst i Innstillinger",
+    "failed": "Kunne ikke slette meldingen"
   }
 }
