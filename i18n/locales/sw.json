@@ -3171,6 +3171,8 @@
     "feedTogglesCleared": "Vichujio vya mlisho vimewekwa upya",
     "defaultProfileTab": "Kichupo chaguo-msingi cha wasifu",
     "defaultProfileTabDesc": "Chagua kichupo ambacho wageni huona kwanza kwenye wasifu wako",
+    "defaultProfileView": "Mpangilio wa machapisho ya wasifu",
+    "defaultProfileViewDesc": "Onyesha machapisho yako kama gridi au orodha watu wanapofungua wasifu wako",
     "defaultPostVisibilityDesc": "Inatumika kwa machapisho yote ya sasa na ya baadaye",
     "public": "Umma",
     "publicDesc": "Mtu yeyote anaweza kuona machapisho yako",

@@ -41,6 +41,7 @@ import { useProfileContentCounts } from "./useProfileContentCounts";
 import { useProfileDislikesCount, useProfileLikesCount } from "./useProfileDislikesCount";
 import { useTabBarScrollHide } from "../../hooks/useTabBarScrollHide";
 import { getDefaultProfileTab } from "../../libs/profile-default-tab";
+import { ProfileViewModeContext, getProfileViewDefault, useProfileViewState } from "../../libs/profileViewMode";
 
 type ProfileRoute = { key: string; title: string; icon: IconName };
 
@@ -58,6 +59,9 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     () => user?.walletAddress || user?.address || undefined,
     [user],
   );
+  // Grid or list on the All tab: your saved default (Settings), unless you
+  // flipped the toggle since the app opened.
+  const profileView = useProfileViewState(address, getProfileViewDefault(user));
   // Your text-post backdrop on your own tiles (customs.postBg).
   const postBg = useResolvedPostBg(address, user?.customs);
   const rawArt = user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) : "";
@@ -299,7 +303,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     }
   };
 
-  return <ProfilePostBgContext.Provider value={postBg}><ProfilePostBgArtContext.Provider value={postBgArt}><ProfileArticleTileContext.Provider value={articleTile}><View className="flex-1 bg-theme-neutrals-900">
+  return <ProfileViewModeContext.Provider value={profileView}><ProfilePostBgContext.Provider value={postBg}><ProfilePostBgArtContext.Provider value={postBgArt}><ProfileArticleTileContext.Provider value={articleTile}><View className="flex-1 bg-theme-neutrals-900">
     <ProfilePullFrame pull={pull} cover={pullCover}>
     <ProfileScrollViewport {...collapse}>
       {paneKeys.map((key) => (
@@ -317,7 +321,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     <CollapsingProfileHeader {...collapse} name={user?.displayName} handle={user?.username}
       cover={user?.coverImageUrl ? { uri: getCoverUrl(user.coverImageUrl) } : getDefaultBanner(address || '')}
       canGoBack={canGoBack} onBackPress={onBackPress} />
-  </View></ProfileArticleTileContext.Provider></ProfilePostBgArtContext.Provider></ProfilePostBgContext.Provider>;
+  </View></ProfileArticleTileContext.Provider></ProfilePostBgArtContext.Provider></ProfilePostBgContext.Provider></ProfileViewModeContext.Provider>;
 };
 
 export default ProfileTabs;
