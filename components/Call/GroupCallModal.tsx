@@ -163,7 +163,7 @@ function Tile({ width, height, name, avatarUrl, muted, speaking, children }: {
       ]}
     >
       <View style={styles.face} pointerEvents="none">
-        <Avatar uri={avatarUrl} size={face} radius={Math.round(face * 0.26)} name={name} />
+        <Avatar uri={avatarUrl} size={face} radius={Math.round(face * 0.26)} name={name.replace(/^@/, "")} />
       </View>
       {children}
       <View style={styles.nameChip} pointerEvents="none">
