@@ -72,7 +72,7 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
-elif [ "$MODE" = touch ] || [ "$MODE" = keys ] || [ "$MODE" = player ] || [ "$MODE" = shells ] || [ "$MODE" = bones ]; then
+elif [ "$MODE" = touch ] || [ "$MODE" = keys ] || [ "$MODE" = player ] || [ "$MODE" = menu ] || [ "$MODE" = shells ] || [ "$MODE" = bones ]; then
   bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
@@ -371,6 +371,16 @@ if [ "$MODE" = wallet ]; then
     python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print(sys.argv[2], {k: d.get(k) for k in ("route", "openByTap", "pickerOpen", "error")})' "$OUT/nav/wallet-$theme.json" "$theme" 2>/dev/null || true
   done
   python3 -c 'import json,sys; d=json.load(open(sys.argv[1])); print("main", {k: d.get(k) for k in ("route", "openByTap", "pickerOpen", "error")})' "$OUT/nav/wallet-main-system.json" 2>/dev/null || true
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = menu ]; then
+  # The phone menu in each layout, in several themes.
+  for theme in ${WALLET_THEMES:-system hazy system-light}; do
+    run after "menu-$theme" "" menu "$theme"
+  done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
   exit 0

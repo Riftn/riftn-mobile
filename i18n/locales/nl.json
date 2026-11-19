@@ -791,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Prijzen",
     "reorderHint": "Houd een pictogram ingedrukt en sleep het om de volgorde te wijzigen",
-    "reorderReset": "Resetten"
+    "reorderReset": "Resetten",
+    "groups": {
+      "main": "Hoofd",
+      "create": "Maken",
+      "discover": "Ontdekken",
+      "money": "Geld",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Verdien aan iedereen die je uitnodigt — voor altijd",
@@ -1572,7 +1579,15 @@
     "showFollowingList": "Tonen wie ik volg",
     "showFollowingListDesc": "Laat iedereen de lijst openen van mensen die je volgt. Als dit uit staat, kun alleen jij die zien.",
     "showFollowCounts": "Mijn volgersaantallen tonen",
-    "showFollowCountsDesc": "Toont hoeveel volgers je hebt en hoeveel mensen je volgt. Uitzetten verbergt ook beide lijsten."
+    "showFollowCountsDesc": "Toont hoeveel volgers je hebt en hoeveel mensen je volgt. Uitzetten verbergt ook beide lijsten.",
+    "menuLayout": "Menu-indeling",
+    "menuLayoutDesc": "Hoe het menu zijn pagina's groepeert",
+    "menuLayoutTabs": "Tabbladen",
+    "menuLayoutTabsDesc": "Eén groep tegelijk, met grote iconen",
+    "menuLayoutSections": "Secties",
+    "menuLayoutSectionsDesc": "Alle pagina's tegelijk, onder kopjes",
+    "menuLayoutFolders": "Mappen",
+    "menuLayoutFoldersDesc": "Je hoofdpagina's, dan een map per groep"
   },
   "common": {
     "refresh": "Vernieuwen",

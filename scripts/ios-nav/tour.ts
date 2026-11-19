@@ -1441,10 +1441,58 @@ async function runPlayer(): Promise<void> {
   console.error(`[perf-tour] player ${JSON.stringify({ ...extra, calls: calls.length })}`);
 }
 
+/**
+ * The phone menu: Tabs (the default) on Main, another tab, the search row,
+ * then the Sections and Folders layouts from Settings. A picture of each.
+ */
+async function runMenu(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "menu" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
+  prefs.setAppPref("menuLayout", "tabs");
+  await AsyncStorage.setItem(SWIPE_KEY, "find:open:Open menu");
+  await sleep(7000);
+  await shot("menu-1-tabs-main");
+  await sleep(4000);
+  await AsyncStorage.setItem(SWIPE_KEY, "find:money:Money");
+  await sleep(6000);
+  await shot("menu-2-tabs-money");
+  await sleep(4000);
+  await AsyncStorage.setItem(SWIPE_KEY, "find:search:Search menu");
+  await sleep(6000);
+  await shot("menu-3-search");
+  await sleep(4000);
+  await AsyncStorage.setItem(SWIPE_KEY, "find:close:Clear search");
+  await sleep(6000);
+  await shot("menu-4-tabs-back");
+  await sleep(3000);
+  prefs.setAppPref("menuLayout", "sections");
+  await sleep(4000);
+  await shot("menu-5-sections");
+  await sleep(4000);
+  prefs.setAppPref("menuLayout", "folders");
+  await sleep(4000);
+  await shot("menu-6-folders");
+  await sleep(4000);
+  await AsyncStorage.setItem(SWIPE_KEY, "find:folder:Money");
+  await sleep(6000);
+  await shot("menu-7-folder-open");
+  await sleep(6000);
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] menu ${JSON.stringify(extra)}`);
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -1460,6 +1508,7 @@ void (async () => {
     else if (mode === "wallet") await runWallet();
     else if (mode === "loginsheet") await runLoginSheet();
     else if (mode === "player") await runPlayer();
+    else if (mode === "menu") await runMenu();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

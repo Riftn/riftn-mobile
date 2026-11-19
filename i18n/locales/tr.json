@@ -791,7 +791,14 @@
     "premium": "Premium",
     "pricing": "Fiyatlandırma",
     "reorderHint": "Yeniden düzenlemek için herhangi bir simgeyi basılı tutun ve sürükleyin",
-    "reorderReset": "Sıfırla"
+    "reorderReset": "Sıfırla",
+    "groups": {
+      "main": "Ana",
+      "create": "Oluştur",
+      "discover": "Keşfet",
+      "money": "Para",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Davet ettiğin herkesten sonsuza dek kazan",
@@ -1572,7 +1579,15 @@
     "showFollowingList": "Kimleri takip ettiğimi göster",
     "showFollowingListDesc": "Herkesin takip ettiğin kişilerin listesini açmasına izin ver. Kapalıyken yalnızca sen görebilirsin.",
     "showFollowCounts": "Takipçi sayılarımı göster",
-    "showFollowCountsDesc": "Kaç takipçin olduğunu ve kaç kişiyi takip ettiğini gösterir. Kapatmak iki listeyi de gizler."
+    "showFollowCountsDesc": "Kaç takipçin olduğunu ve kaç kişiyi takip ettiğini gösterir. Kapatmak iki listeyi de gizler.",
+    "menuLayout": "Menü düzeni",
+    "menuLayoutDesc": "Menünün sayfaları nasıl grupladığı",
+    "menuLayoutTabs": "Sekmeler",
+    "menuLayoutTabsDesc": "Her seferinde bir grup, büyük simgelerle",
+    "menuLayoutSections": "Bölümler",
+    "menuLayoutSectionsDesc": "Tüm sayfalar bir arada, başlıklar altında",
+    "menuLayoutFolders": "Klasörler",
+    "menuLayoutFoldersDesc": "Ana sayfaların, ardından her grup için bir klasör"
   },
   "common": {
     "refresh": "Yenile",

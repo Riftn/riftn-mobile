@@ -3073,7 +3073,14 @@
     "pricing": "Тарифы",
     "reorderHint": "Удерживайте и перетаскивайте любой значок, чтобы изменить порядок",
     "reorderReset": "Сбросить",
-    "nfts": "NFT"
+    "nfts": "NFT",
+    "groups": {
+      "main": "Главное",
+      "create": "Создать",
+      "discover": "Обзор",
+      "money": "Деньги",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Зарабатывайте на всех, кого пригласили, — навсегда",
@@ -3854,7 +3861,15 @@
     "messagesShowCountDesc": "Смотрите количество непрочитанных сообщений вместо простого свечения",
     "pushNotRegisteredDescIos": "Уведомления не могут приходить, пока приложение закрыто: этот iPhone не зарегистрировался для получения push-уведомлений. Убедитесь, что уведомления для Riftn разрешены в настройках, а затем снова откройте приложение.",
     "tipsOffNote": "Пока эта функция включена, чаевые и переводы вам недоступны. Отключите её, чтобы снова получать чаевые.",
-    "socialLinksDesc": "X, Instagram, TikTok, YouTube, Discord, Telegram"
+    "socialLinksDesc": "X, Instagram, TikTok, YouTube, Discord, Telegram",
+    "menuLayout": "Вид меню",
+    "menuLayoutDesc": "Как меню группирует страницы",
+    "menuLayoutTabs": "Вкладки",
+    "menuLayoutTabsDesc": "По одной группе, с крупными значками",
+    "menuLayoutSections": "Разделы",
+    "menuLayoutSectionsDesc": "Все страницы сразу, под заголовками",
+    "menuLayoutFolders": "Папки",
+    "menuLayoutFoldersDesc": "Главные страницы, затем папка для каждой группы"
   },
   "common": {
     "refresh": "Обновить",
