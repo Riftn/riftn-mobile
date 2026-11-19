@@ -7429,6 +7429,8 @@
     "noLiveStreams": "Aucun live",
     "noOneStreaming": "Personne ne diffuse en ce moment. Revenez plus tard !",
     "loadStreamsFailed": "Impossible de charger les lives. Veuillez réessayer.",
+    "shareLive": "Regardez {{name}} en direct sur Riftn maintenant ! « {{title}} »",
+    "shareReplay": "Regardez le replay du live de {{name}} sur Riftn",
     "screenShare": {
       "start": "Partager l'écran",
       "stop": "Arrêter le partage d'écran",
@@ -17130,6 +17132,9 @@
     "tooMany": "Vous pouvez avoir jusqu’à 10 onglets"
   },
   "msgDelete": {
+    "chatTitle": "Supprimer cette discussion ?",
+    "chatBodyBoth": "Supprimez-la seulement de vos discussions, ou supprimez tous les messages pour vous deux. Action irréversible.",
+    "chatBodyMe": "Elle sera retirée de vos discussions uniquement. Les autres la verront toujours.",
     "title": "Supprimer le message ?",
     "titleMany": "Supprimer {{count}} messages ?",
     "bodyOwn": "Retirez-le seulement de votre discussion, ou pour tout le monde.",
@@ -17145,5 +17150,9 @@
     "remember": "Mémoriser mon choix",
     "rememberHint": "Modifiable à tout moment dans les Paramètres",
     "failed": "Impossible de supprimer le message"
+  },
+  "roomPreview": {
+    "you": "Vous",
+    "voice": "🎤 Message vocal"
   }
 }

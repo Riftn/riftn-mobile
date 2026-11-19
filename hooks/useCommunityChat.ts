@@ -38,6 +38,7 @@ import type { CommunityChatMessage } from "../types/community";
 import { useCommunityChatHistory } from "./useCommunityChatHistory";
 import { updateCommunityChatCache, type CommunityChatHistory, type CommunityChatCursor, type CommunityChatPage } from "../libs/community-chat-history";
 import { useIsScreenFocused } from "./useFocusedInterval";
+import { useRoomChatReading } from "./useRoomChatSummaries";
 
 const log = createLogger("useCommunityChat");
 
@@ -86,6 +87,9 @@ export function useCommunityChat(
     const hidden = new Set(hiddenIds);
     return storedMessages.filter((m) => !hidden.has(m.id));
   }, [storedMessages, hiddenIds]);
+
+  // Clears this chat's unread number in the Messages list.
+  useRoomChatReading(communityId, walletAddress, active);
 
   // While the chat is on screen its notification is cleared and new pings are
   // held (libs/community-chat-notify). Re-sent every minute, and it stops when
