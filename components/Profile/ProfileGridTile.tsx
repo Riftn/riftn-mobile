@@ -13,7 +13,8 @@ import { secondsToHMMSS } from "../../libs/date.util";
 import { isStreamLive } from "../../libs/live-status";
 import { useEngagement } from "../../libs/engagementCache";
 import { POST_BG_INK, PostBgLayer, SoftLightLayer, usePostBgFor } from "./PostBackground";
-import { usePostBgHoldProps } from "./PostBgPicker";
+import { openPostBgPicker, usePostBgHoldProps } from "./PostBgPicker";
+import type { PostLookRow } from "../common/PostOptionsMenu";
 import { ArticleTileFace, openArticleTilePicker, useProfileArticleTile } from "./ArticleTile";
 import { articleReadMinutes } from "../../libs/articleTile";
 import { mediaCardOf, textCardOf, wordsWithoutLinks } from "../../libs/gridCard";
@@ -78,8 +79,11 @@ interface ProfileGridTileProps {
    * a grip in its bottom right corner: hold it to move the post.
    */
   index?: number;
-  /** Somebody else's post: a hold opens the post's full menu. */
-  onHold?: (item: UnifiedFeedItem) => void;
+  /**
+   * A hold opens the post's full menu. On your own text post or article the
+   * menu also carries its look picker (`look`).
+   */
+  onHold?: (item: UnifiedFeedItem, look?: PostLookRow) => void;
 }
 
 const noPress = () => {};
@@ -148,17 +152,26 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
     views: views ? formatCompactNumber(views) : undefined,
   }), [cover, item.title, item.name, item.description, item.articleBody, views]);
   const ownArticle = !!ownerHold && kind === "article" && !(item as any).isRepost;
-  const holdProps = ownArticle
+  const ownText = !!ownerHold && kind === "text" && !(item as any).isRepost;
+  const openArticleLook = () => openArticleTilePicker({
+    ...articleSample,
+    cover: item.articleImageUrl ? buildFeedImageUrls([item.articleImageUrl], 640)[0] : articleSample.cover,
+  });
+  // With a menu to open, a hold opens the post's full menu and the look
+  // picker is one row in it. Without one, the hold opens the picker itself.
+  const holdProps = onHold
     ? {
-        onLongPress: () => openArticleTilePicker({
-          ...articleSample,
-          cover: item.articleImageUrl ? buildFeedImageUrls([item.articleImageUrl], 640)[0] : articleSample.cover,
-        }),
+        onLongPress: () => onHold(
+          item,
+          ownArticle ? { label: t("articleTile.title", "Article tiles"), onPress: openArticleLook }
+            : ownText ? { label: t("postBg.title", "Post background"), onPress: () => openPostBgPicker(holdSample, item as any) }
+            : undefined,
+        ),
         delayLongPress: 450,
       }
-    : ownerHold || !onHold
-      ? postBgHold
-      : { onLongPress: () => onHold(item), delayLongPress: 450 };
+    : ownArticle
+      ? { onLongPress: openArticleLook, delayLongPress: 450 }
+      : postBgHold;
 
   const pinChip = pinned ? (
     <View style={[styles.chip, { backgroundColor: solid }]}>

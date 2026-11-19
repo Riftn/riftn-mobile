@@ -56,7 +56,7 @@ import { markContentWarningSeen } from '../../libs/contentWarningSeen';
 import ReactionInfoSheet from "./ReactionInfoSheet";
 import { useFeedSplitComments } from "./feedSplitComments";
 import PostStatsSheet from "../Post/stats/PostStatsSheet";
-import PostOptionsMenu from "../common/PostOptionsMenu";
+import PostOptionsMenu, { type PostLookRow } from "../common/PostOptionsMenu";
 import ImageTranslationSheet from "../common/ImageTranslationSheet";
 import QuotedPostEmbed from "../common/QuotedPostEmbed";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
@@ -298,7 +298,7 @@ interface FeedCardProps {
    * opens the ⋯ menu at once, and calls onDone once it and every sheet it
    * led to have closed.
    */
-  menuHost?: { onDone: () => void };
+  menuHost?: { onDone: () => void; look?: PostLookRow };
   onCommentPress?: () => void;
   isVisible?: boolean;
   /** True on the one card the list has handed autoplay to. A card that is
@@ -2500,6 +2500,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             onQuote: isPublicPost && ((edits.quotePolicy ?? item.quotePolicy) !== "nobody" || !!isOwnerPost) ? handleQuotePress : undefined,
             onTip: !isOwnerPost && DIGITAL_PURCHASES_ENABLED && !minterUser?.hideBadgeAndBalance ? handleTipPress : undefined,
             text: [localTitle, captionText].filter(Boolean).join("\n\n"),
+            look: menuHost?.look,
           } : undefined}
           // The sheet is mounted below rather than inside the menu: the menu is
           // conditionally rendered, so onClose unmounts it and any state set in
