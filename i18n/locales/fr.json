@@ -16709,6 +16709,11 @@
     "addAnother": "Ajouter un autre fournisseur"
   },
   "postBg": {
+    "scope": "Appliquer à",
+    "thisPost": "Cette publication",
+    "allPosts": "Toutes les publications",
+    "sameAsProfile": "Profil",
+    "sameAsProfileSub": "Comme ton profil",
     "addMedia": "Ajouter une image, un GIF ou une vidéo",
     "changeMedia": "Changer l'image, le GIF ou la vidéo",
     "videoSize": "Cette vidéo dépasse {{n}} Mo. Choisissez-en une plus petite.",

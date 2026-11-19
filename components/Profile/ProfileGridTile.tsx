@@ -12,7 +12,7 @@ import { formatCompactNumber, resolveViewCount } from "../../libs/numbers.util";
 import { secondsToHMMSS } from "../../libs/date.util";
 import { isStreamLive } from "../../libs/live-status";
 import { useEngagement } from "../../libs/engagementCache";
-import { POST_BG_INK, PostBgLayer, SoftLightLayer, useProfilePostBg } from "./PostBackground";
+import { POST_BG_INK, PostBgLayer, SoftLightLayer, usePostBgFor } from "./PostBackground";
 import { usePostBgHoldProps } from "./PostBgPicker";
 import { ArticleTileFace, openArticleTilePicker, useProfileArticleTile } from "./ArticleTile";
 import { articleReadMinutes } from "../../libs/articleTile";
@@ -132,11 +132,12 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
   const locked = !!(item as any).isLocked && !(item as any).isUnlocked;
   const card = kind === "text" && !locked ? textCardOf(item as any) : null;
   // The owner's text-post backdrop (customs.postBg) on their own words only.
-  const profileBg = useProfilePostBg();
-  const postBg = kind === "text" && !card && !(item as any).isRepost ? profileBg : null;
+  const ownOrProfileBg = usePostBgFor(item as any);
+  const postBg = kind === "text" && !card && !(item as any).isRepost ? ownOrProfileBg : null;
   const ink = postBg ? POST_BG_INK[postBg.tone].ink : lightPoster ? "#17161B" : "#FFFFFF";
   const sub = postBg ? POST_BG_INK[postBg.tone].sub : lightPoster ? "rgba(23,22,27,0.62)" : "rgba(255,255,255,0.6)";
-  const postBgHold = usePostBgHoldProps(!!ownerHold && kind === "text" && !(item as any).isRepost);
+  const holdSample = useMemo(() => plainText(item.description || item.name || item.title) || undefined, [item.description, item.name, item.title]);
+  const postBgHold = usePostBgHoldProps(!!ownerHold && kind === "text" && !(item as any).isRepost, holdSample, item as any);
   // Articles: the owner's chosen look (customs.articleTile); holding one of
   // your own opens the picker, like holding a text post opens backdrops.
   const articleLook = useProfileArticleTile();

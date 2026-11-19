@@ -16704,6 +16704,11 @@
     "addAnother": "Başka sağlayıcı ekle"
   },
   "postBg": {
+    "scope": "Uygula",
+    "thisPost": "Bu gönderi",
+    "allPosts": "Tüm gönderiler",
+    "sameAsProfile": "Profil",
+    "sameAsProfileSub": "Profilinle aynı",
     "addMedia": "Resim, GIF veya video ekle",
     "changeMedia": "Resmi, GIF'i veya videoyu değiştir",
     "videoSize": "Bu video {{n}} MB'tan büyük. Daha küçük bir tane seç.",

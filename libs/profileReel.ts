@@ -19,6 +19,8 @@ export interface ReelStill {
   alts?: string[];
   border?: string;
   cover?: string;
+  /** A text post's own backdrop (Token.postBg), over the profile's. */
+  postBg?: string;
 }
 
 type Row = Record<string, any>;
@@ -84,7 +86,7 @@ export function reelStillOf(row: Row | null | undefined): ReelStill | null {
     return null; // the photo pager
   }
   const words = text || title;
-  return words ? { kind: "text", text: words } : null;
+  return words ? { kind: "text", text: words, postBg: typeof row.postBg === "string" && row.postBg ? row.postBg : undefined } : null;
 }
 
 /** Whether a row can be a slide in the reel at all. */

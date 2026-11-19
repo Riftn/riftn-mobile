@@ -36,7 +36,8 @@ const noopScroll = () => {};
 
 const PAGE_SIZE = 20;
 // Stable, and drops the press event a Pressable hands its onLongPress.
-const holdForBackground = () => openPostBgPicker();
+const holdForBackground = (post: Record<string, any>) => () =>
+  openPostBgPicker(typeof post.description === "string" ? post.description : undefined, post);
 const MAX_REPLY_PAGES = 10;
 
 type ProfilePostRow =
@@ -278,7 +279,7 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
             isAutoplayActive={isItemAutoplayActive(item.key)}
             onBeforeNavigate={onBeforeNavigate}
             // Hold one of your own text posts to pick its profile background.
-            onHold={isOwnProfile && !(item.item as any).isRepost && gridTileKind(item.item) === "text" ? holdForBackground : undefined}
+            onHold={isOwnProfile && !(item.item as any).isRepost && gridTileKind(item.item) === "text" ? holdForBackground(item.item as any) : undefined}
           />
         </View>
       );

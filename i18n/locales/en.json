@@ -16647,6 +16647,11 @@
   },
   "postBg": {
     "addMedia": "Add a picture, GIF or video",
+    "scope": "Apply to",
+    "thisPost": "This post",
+    "allPosts": "All posts",
+    "sameAsProfile": "Profile",
+    "sameAsProfileSub": "Same as your profile",
     "changeMedia": "Change picture, GIF or video",
     "videoSize": "That video is over {{n}} MB. Pick a smaller one.",
     "title": "Post background",
