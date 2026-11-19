@@ -8,6 +8,7 @@ jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('reac
 jest.mock('react-native', () => ({
   View: 'View', Text: 'Text', ScrollView: 'ScrollView', Pressable: 'Pressable',
   ActivityIndicator: 'ActivityIndicator', Image: 'Image',
+  useWindowDimensions: () => ({ width: 390, height: 844 }),
   StyleSheet: { create: (s: unknown) => s, flatten: (s: unknown) => s },
 }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string) => key, i18n: { language: 'en' } }) }));
@@ -24,6 +25,7 @@ jest.mock('../../hooks/useSuperpowers', () => ({
 }));
 jest.mock('../../components/ui/Icon', () => 'Icon');
 jest.mock('../../components/ScreenHeader', () => 'ScreenHeader');
+jest.mock('react-native-svg', () => ({ __esModule: true, default: 'Svg', Circle: 'Circle', Defs: 'Defs', LinearGradient: 'LinearGradient', Path: 'Path', Stop: 'Stop' }));
 jest.mock('../../components/page/PageKit', () => {
   const h = require('react').createElement;
   return {
@@ -58,7 +60,9 @@ it('lets a granted badge spend its server allowance without an iOS purchase cont
     { key: 'boost', label: 'Boost', summary: 'Boost a post', tier: 'Crab', unlocked: true, available: true },
   ] };
   const view = render(<SuperPowersScreen />);
-  fireEvent.press(view.getByText('Boost'));
+  // The panel opens on the first power this badge can spend.
+  expect(view.getByText('Boost')).toBeTruthy();
+  fireEvent.press(view.getByText('auth.use'));
   expect(view.getByTestId('spend-power').props.children).toBe('boost');
   expect(view.queryByText('superpowers.getDhb')).toBeNull();
   expect(view.queryByTestId('token-purchase')).toBeNull();
@@ -66,7 +70,8 @@ it('lets a granted badge spend its server allowance without an iOS purchase cont
 
 it('keeps Team up accessible without a badge or a purchase', () => {
   const view = render(<SuperPowersScreen />);
-  fireEvent.press(view.getByText('Team up'));
+  // Signed out, only Team up is live, so the panel opens on it.
+  fireEvent.press(view.getAllByText('Team up').slice(-1)[0]);
   expect(view.getByTestId('team-up')).toBeTruthy();
   expect(view.queryByText('superpowers.getDhb')).toBeNull();
   expect(view.queryByTestId('token-purchase')).toBeNull();

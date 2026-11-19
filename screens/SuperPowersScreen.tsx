@@ -24,11 +24,12 @@ import {
   Pressable,
   ActivityIndicator,
   Image,
+  useWindowDimensions,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import Icon from "../components/ui/Icon";
 import ScreenHeader from "../components/ScreenHeader";
-import { KitButton, PageEmpty, PageSection } from "../components/page/PageKit";
+import { KitButton, PageEmpty, PageSection, ThemeIcon } from "../components/page/PageKit";
 import { badgeImage } from "../libs";
 import { BadgeProgress } from "../components/Badge/BadgeProgress";
 import {
@@ -45,7 +46,7 @@ import {
   type SuperPowerInfo,
 } from "../services/superpower.service";
 import SuperPowerIcon from "../components/common/SuperPowerIcon";
-import { ExploreSection, exploreRowStyles as row } from "../components/Search/ExploreSection";
+import SuperPowersOrbit, { type OrbitPower } from "../components/superpowers/SuperPowersOrbit";
 import BuyDhbSheet from "../components/Dpay/BuyDhbSheet";
 import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
 
@@ -90,6 +91,29 @@ export default function SuperPowersScreen() {
   const [teamUpOpen, setTeamUpOpen] = useState(false);
   const [buyOpen, setBuyOpen] = useState(false);
 
+  const { width } = useWindowDimensions();
+  const orbitSize = Math.min(width - 24, 440);
+
+  // Team up is public; every other power is held when the account's tier
+  // reaches it. The public ladder has no `unlocked`, so signed out it is dim.
+  const orbitPowers: OrbitPower[] = powers.map(power => ({
+    power,
+    unlocked: power.key === "team_up" || !!power.unlocked,
+  }));
+  const [selectedKey, setSelectedKey] = useState<string | null>(null);
+  // Until a power is tapped, open on the first one this account can spend now,
+  // so the panel starts on an action rather than a lock.
+  const selected =
+    orbitPowers.find(entry => entry.power.key === selectedKey) ??
+    orbitPowers.find(entry => entry.unlocked && entry.power.available && entry.power.key !== "team_up") ??
+    orbitPowers[0] ??
+    null;
+
+  const ladderTiers = (ladder?.tiers ?? []).filter(
+    (tier): tier is typeof tier & { name: string } => !!tier.name,
+  );
+  const myTierIndex = ladderTiers.findIndex(tier => tier.name === status?.tier);
+
   const historyBookings = historyPower
     ? (status?.bookings.filter(booking => booking.power === historyPower.key) ?? [])
     : [];
@@ -116,21 +140,111 @@ export default function SuperPowersScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.intro}>{t("superpowers.intro")}</Text>
 
+        {/* ── The orbit ────────────────────────────────────────────────── */}
+        <SuperPowersOrbit
+          size={orbitSize}
+          powers={orbitPowers}
+          selectedKey={selected?.power.key ?? null}
+          onSelect={power => setSelectedKey(power.key)}
+          core={
+            loadingStatus ? (
+              <ActivityIndicator color="#fff" />
+            ) : status?.tier ? (
+              <>
+                {badgeImage(status.tier) ? (
+                  <Image source={badgeImage(status.tier)} style={{ width: orbitSize * 0.2, height: orbitSize * 0.2 }} resizeMode="contain" />
+                ) : null}
+                <Text style={styles.coreTier} numberOfLines={1}>{status.tier}</Text>
+                <Text style={styles.coreBig} numberOfLines={1} adjustsFontSizeToFit>
+                  {status.boostsLeft}
+                </Text>
+                <Text style={styles.coreSub} numberOfLines={2}>
+                  {t("superpowers.boostsLeftOf", { left: status.boostsLeft, total: status.boostsPerCycle })}
+                  {refillsOn ? ` · ${t("superpowers.refillsShort", { date: refillsOn })}` : ""}
+                </Text>
+              </>
+            ) : (
+              <>
+                <ThemeIcon icon="superpowers" size={orbitSize * 0.17} />
+                <Text style={styles.coreBig} numberOfLines={1}>12</Text>
+                <Text style={styles.coreSub} numberOfLines={1}>{t("superpowers.twelvePowers")}</Text>
+                <Text style={styles.coreSub} numberOfLines={2}>{t("superpowers.teamUpOpenToAll")}</Text>
+              </>
+            )
+          }
+        />
+
+        {selected ? (() => {
+          const { power, unlocked } = selected;
+          const isTeamUp = power.key === "team_up";
+          const usable = unlocked && power.available;
+          const unlockBadge = badgeImage(power.tier);
+          const allowance =
+            power.key === "signal_flare" || power.key === "harpoon"
+              ? (status?.signalsLeft ?? status?.boostsLeft)
+              : status?.boostsLeft;
+          return (
+            <View style={styles.detail}>
+              <View style={styles.detailTop}>
+                <SuperPowerIcon power={power.key} style={[styles.detailIcon, !unlocked && styles.powerIconOff]} />
+                <View style={styles.detailText}>
+                  <Text style={[styles.detailName, !unlocked && styles.detailNameOff]}>{power.label}</Text>
+                  <View style={styles.detailTag}>
+                    {isTeamUp ? (
+                      <Text style={styles.detailTagText}>{t("superpowers.openToEveryone")}</Text>
+                    ) : !power.available ? (
+                      <Text style={styles.detailTagText}>{t("screens.comingSoon")}</Text>
+                    ) : (
+                      <>
+                        <Icon name={unlocked ? "Check" : "Lock"} size={11} color={unlocked ? "#D4D4D8" : "#71717A"} />
+                        <Text style={styles.detailTagText}>{`${t("superpowers.unlocksAt")} ${power.tier}`}</Text>
+                        {unlockBadge ? <Image source={unlockBadge} style={styles.detailBadge} resizeMode="contain" /> : null}
+                      </>
+                    )}
+                  </View>
+                </View>
+              </View>
+              <Text style={styles.detailSummary}>{power.summary}</Text>
+              {!isTeamUp && usable && allowance !== undefined ? (
+                <Text style={styles.detailUses}>{t("superpowers.usesLeft", { count: allowance })}</Text>
+              ) : null}
+              <View style={styles.detailActions}>
+                {!isTeamUp && status?.tier ? (
+                  <Pressable
+                    onPress={() => { setHistoryPower(power); void refetchStatus(); }}
+                    accessibilityRole="button"
+                    accessibilityHint={t("superpowers.showPastUsage", { power: power.label })}
+                    style={({ pressed }) => [styles.ghostBtn, pressed && styles.pressed]}
+                  >
+                    <Text style={styles.ghostBtnText}>{t("superpowers.pastUsage")}</Text>
+                  </Pressable>
+                ) : null}
+                {isTeamUp ? (
+                  <Pressable
+                    onPress={() => setTeamUpOpen(true)}
+                    accessibilityRole="button"
+                    style={({ pressed }) => [styles.solidBtn, pressed && styles.pressed]}
+                  >
+                    <Text style={styles.solidBtnText}>{power.label}</Text>
+                  </Pressable>
+                ) : usable ? (
+                  <Pressable
+                    onPress={() => setSpending(power)}
+                    accessibilityRole="button"
+                    style={({ pressed }) => [styles.solidBtn, pressed && styles.pressed]}
+                  >
+                    <Text style={styles.solidBtnText}>{t("auth.use")}</Text>
+                  </Pressable>
+                ) : null}
+              </View>
+            </View>
+          );
+        })() : null}
+
         {/* ── Your allowance ───────────────────────────────────────────── */}
         <PageSection>
-        {loadingStatus ? (
-          <View style={styles.loading}>
-            <ActivityIndicator color="#fff" />
-          </View>
-        ) : status?.tier ? (
-          <>
-            <BadgeProgress balance={status.badgeBalance} compact />
-            {!!refillsOn && (
-              <Text style={styles.footnote}>
-                {t("superpowers.refillsOn", { date: refillsOn })}
-              </Text>
-            )}
-          </>
+        {loadingStatus ? null : status?.tier ? (
+          <BadgeProgress balance={status.badgeBalance} compact />
         ) : statusFailed && !status ? (
           // A failed request is not "no badge". The panel below would show a
           // holder a zero badge balance, and offer DHB where purchases are on.
@@ -139,9 +253,7 @@ export default function SuperPowersScreen() {
             action={<KitButton label={t("common.tryAgain")} onPress={() => void refetchStatus()} />}
           />
         ) : (
-          // Team up is available without buying tokens or holding a badge.
           <View style={styles.panel}>
-            <Text style={styles.muted}>{t("superpowers.teamUpOpenToAll")}</Text>
             <BadgeProgress balance={status?.badgeBalance ?? 0} compact />
             {DIGITAL_PURCHASES_ENABLED && <KitButton
               onPress={() => setBuyOpen(true)}
@@ -152,61 +264,6 @@ export default function SuperPowersScreen() {
         )}
         </PageSection>
 
-        {/* ── The twelve powers ────────────────────────────────────────── */}
-        {/* One clean line per power, like Explore: icon, name over its
-            summary, and what you have on the right. Tap to use, hold for
-            past usage. */}
-        <ExploreSection icon="superpowers" title={t("superpowers.twelvePowers")}>
-          {powers.map((power) => {
-            // Held AND built. A locked row stays inert rather than opening a
-            // picker for something the server would refuse.
-            const isTeamUp = power.key === "team_up";
-            const unlockBadge = badgeImage(power.tier);
-            // Team up itself is public. Opening it while signed out leads
-            // straight to the sign-in action in the sheet.
-            const unlocked = (isTeamUp || !!power.unlocked) && power.available;
-            const allowance =
-              power.key === "signal_flare" || power.key === "harpoon"
-                ? (status?.signalsLeft ?? status?.boostsLeft)
-                : status?.boostsLeft;
-            return (
-              <Pressable
-                key={power.key}
-                disabled={!unlocked && !(status?.tier && !isTeamUp)}
-                onPress={unlocked ? () => (isTeamUp ? setTeamUpOpen(true) : setSpending(power)) : undefined}
-                onLongPress={!isTeamUp && status?.tier ? () => { setHistoryPower(power); void refetchStatus(); } : undefined}
-                accessibilityRole="button"
-                accessibilityHint={!isTeamUp && status?.tier ? t("superpowers.showPastUsage", { power: power.label }) : undefined}
-                style={({ pressed }) => [row.row, pressed && unlocked && styles.powerRowPressed]}
-              >
-                <SuperPowerIcon power={power.key} style={[styles.powerIcon, !unlocked && styles.powerIconOff]} />
-                <View style={row.flex}>
-                  <Text className={unlocked ? "text-white" : "text-theme-neutrals-400"} style={row.name} numberOfLines={1}>
-                    {power.label}
-                  </Text>
-                  <Text className="text-theme-neutrals-500" style={row.sub} numberOfLines={1}>
-                    {power.summary}
-                  </Text>
-                </View>
-                {isTeamUp && unlocked ? (
-                  <Text style={styles.powerTrail}>{t("superpowers.openToEveryone")}</Text>
-                ) : unlocked && allowance !== undefined ? (
-                  <Text style={styles.powerCount}>{allowance}</Text>
-                ) : !power.available ? (
-                  <Text style={styles.powerTrailOff}>{t("screens.comingSoon")}</Text>
-                ) : unlockBadge ? (
-                  <View style={styles.unlockTier}>
-                    <Icon name="Lock" size={12} color="#71717A" />
-                    <Image source={unlockBadge} style={styles.unlockBadge} resizeMode="contain" />
-                  </View>
-                ) : (
-                  <Icon name="Lock" size={14} color="#52525B" />
-                )}
-              </Pressable>
-            );
-          })}
-        </ExploreSection>
-
         {/* ── The ladder ───────────────────────────────────────────────── */}
         <PageSection title={t("superpowers.whatEachTierGrants")}>
         {loadingLadder ? (
@@ -214,35 +271,23 @@ export default function SuperPowersScreen() {
             <ActivityIndicator color="#fff" />
           </View>
         ) : (
-          <View style={styles.table}>
-            <View style={styles.tableHead}>
-              <Text numberOfLines={2} style={[styles.th, styles.colTier]}>{t("superpowers.thTier")}</Text>
-              <Text numberOfLines={2} style={[styles.th, styles.colNum]}>{t("superpowers.thBoosts")}</Text>
-              <Text numberOfLines={2} style={[styles.th, styles.colNum]}>{t("superpowers.thEach")}</Text>
-              <Text numberOfLines={2} style={[styles.th, styles.colNum]}>{t("superpowers.thPerCycle")}</Text>
-            </View>
-            {(ladder?.tiers ?? [])
-              .filter(tier => tier.name)
-              .map(tier => {
-                const mine = status?.tier === tier.name;
-                return (
-                  <View key={tier.name} style={[styles.tr, mine && styles.trMine]}>
-                    <Text style={[styles.td, styles.colTier, mine && styles.tdMine]}>
-                      {tier.name}
-                    </Text>
-                    <Text style={[styles.td, styles.colNum, mine && styles.tdMine]}>
-                      {tier.boostsPerCycle}
-                    </Text>
-                    <Text style={[styles.td, styles.colNum, mine && styles.tdMine]}>
-                      {tier.minutesPerBoost}m
-                    </Text>
-                    <Text style={[styles.td, styles.colNum, mine && styles.tdMine]}>
-                      {formatMinutes(tier.boostsPerCycle * tier.minutesPerBoost)}
-                    </Text>
-                  </View>
-                );
-              })}
-          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.rail}>
+            {ladderTiers.map((tier, index) => {
+              const mine = index === myTierIndex;
+              const above = myTierIndex >= 0 && index > myTierIndex;
+              const badge = badgeImage(tier.name);
+              return (
+                <View key={tier.name} style={[styles.rung, mine && styles.rungMine]}>
+                  {badge ? <Image source={badge} style={[styles.rungBadge, above && styles.rungBadgeOff]} resizeMode="contain" /> : null}
+                  <Text style={[styles.rungName, mine && styles.rungTextMine]} numberOfLines={1}>{tier.name}</Text>
+                  <Text style={[styles.rungTotal, mine && styles.rungTextMine]}>
+                    {formatMinutes(tier.boostsPerCycle * tier.minutesPerBoost)}
+                  </Text>
+                  <Text style={styles.rungSplit}>{tier.boostsPerCycle} × {tier.minutesPerBoost}m</Text>
+                </View>
+              );
+            })}
+          </ScrollView>
         )}
 
         {/* The honest sentence, once, where the numbers are. */}
@@ -406,7 +451,47 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
 
-  powerRowPressed: { opacity: 0.7 },
+  pressed: { opacity: 0.7 },
+  coreTier: { color: "#fff", fontSize: 17, fontWeight: "800", marginTop: 4 },
+  coreBig: { color: "#fff", fontSize: 32, fontWeight: "800", letterSpacing: -1, marginTop: 2, textShadowColor: "rgba(255,255,255,0.25)", textShadowRadius: 12 },
+  coreSub: { color: "#71717A", fontSize: 10.5, textAlign: "center", marginTop: 4, lineHeight: 14 },
+
+  detail: {
+    marginHorizontal: 16,
+    marginTop: 8,
+    marginBottom: 12,
+    padding: 16,
+    gap: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.1)",
+    backgroundColor: "rgba(255,255,255,0.03)",
+  },
+  detailTop: { flexDirection: "row", alignItems: "center", gap: 12 },
+  detailIcon: { width: 52, height: 52 },
+  detailText: { flex: 1, minWidth: 0, gap: 4 },
+  detailName: { color: "#fff", fontSize: 18, fontWeight: "700" },
+  detailNameOff: { color: "#D4D4D8" },
+  detailTag: { flexDirection: "row", alignItems: "center", gap: 5, flexWrap: "wrap" },
+  detailTagText: { color: "#808089", fontSize: 10.5, fontWeight: "600", letterSpacing: 1, textTransform: "uppercase" },
+  detailBadge: { width: 18, height: 18 },
+  detailSummary: { color: "#A1A1AA", fontSize: 13.5, lineHeight: 19 },
+  detailUses: { color: "#71717A", fontSize: 11.5, fontVariant: ["tabular-nums"] },
+  detailActions: { flexDirection: "row", gap: 8, marginTop: 2 },
+  solidBtn: { flex: 1, height: 44, borderRadius: 22, backgroundColor: "#fff", alignItems: "center", justifyContent: "center" },
+  solidBtnText: { color: "#000", fontSize: 14, fontWeight: "800" },
+  ghostBtn: { flex: 1, height: 44, borderRadius: 22, borderWidth: 1, borderColor: "rgba(255,255,255,0.18)", alignItems: "center", justifyContent: "center" },
+  ghostBtnText: { color: "#D4D4D8", fontSize: 13, fontWeight: "600" },
+
+  rail: { gap: 8, paddingRight: 4 },
+  rung: { width: 78, alignItems: "center", gap: 3, paddingVertical: 10, paddingHorizontal: 6, borderRadius: 14, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)" },
+  rungMine: { borderColor: "#fff", backgroundColor: "rgba(255,255,255,0.06)" },
+  rungBadge: { width: 32, height: 32 },
+  rungBadgeOff: { opacity: 0.35 },
+  rungName: { color: "#A1A1AA", fontSize: 10, fontWeight: "600" },
+  rungTotal: { color: "#A1A1AA", fontSize: 12, fontVariant: ["tabular-nums"] },
+  rungTextMine: { color: "#fff" },
+  rungSplit: { color: "#52525B", fontSize: 9.5, fontVariant: ["tabular-nums"] },
   powerIcon: { width: 36, height: 36 },
   powerIconOff: { opacity: 0.6 },
   unlockTier: { flexDirection: "row", alignItems: "center", gap: 4 },
