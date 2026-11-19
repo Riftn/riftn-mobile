@@ -21,6 +21,7 @@ import {
   useMarkShippedNotified,
   useUnnotifiedShippedFeatures,
 } from "../../hooks/useFeatureRequests";
+import { SHIPPED_POINTS } from "../../libs/top-builders";
 
 /** Lets launch, onboarding and the username step settle before it appears. */
 const SHOW_DELAY_MS = 2500;
@@ -60,6 +61,7 @@ export default function ShippedFeatureNotice() {
   if (!items || items.length === 0) return null;
 
   const isPlural = items.length > 1;
+  const totalPoints = items.length * SHIPPED_POINTS;
 
   const dismiss = () => {
     setShow(false);
@@ -97,6 +99,21 @@ export default function ShippedFeatureNotice() {
             : _copy("copy.2971f9103f78", { defaultValue: "Thanks for helping make Riftn better — something you asked for is now live:" })}
         </Text>
 
+        <View
+          className="flex-row items-center rounded-xl border px-3.5 py-3 mb-4"
+          style={{ gap: 12, backgroundColor: tileFill, borderColor: tileBorder }}
+        >
+          <Text className="text-2xl font-bold" style={{ color: ink, fontVariant: ["tabular-nums"] }}>+{totalPoints}</Text>
+          <View className="flex-1">
+            <Text className="text-sm font-semibold" style={{ color: ink }}>
+              {_copy("copy.f0c8bb34335b", { defaultValue: "You earned +{{value1}} points", value1: totalPoints })}
+            </Text>
+            <Text className="text-xs leading-4 mt-0.5" style={{ color: muted }}>
+              {_copy("copy.0fbe06b679a8", { defaultValue: "{{value1}} points for each shipped request, added to your Top builders score.", value1: SHIPPED_POINTS })}
+            </Text>
+          </View>
+        </View>
+
         <ScrollView style={{ maxHeight: 192 }} contentContainerStyle={{ gap: 8 }} className="mb-5">
           {items.map((item) => (
             <TouchableOpacity
@@ -110,6 +127,9 @@ export default function ShippedFeatureNotice() {
               <Text className="text-sm font-medium flex-1" numberOfLines={2} style={{ color: ink }}>{item.title}</Text>
               <Text className="text-[10px] font-medium px-2 py-0.5 rounded-lg overflow-hidden" style={{ backgroundColor: chipFill, color: muted }}>
                 {CATEGORY_LABELS[item.category] ?? CATEGORY_LABELS.other}
+              </Text>
+              <Text className="text-[11px] font-semibold" style={{ color: ink, fontVariant: ["tabular-nums"] }}>
+                {_copy("copy.7f78bdc0762d", { defaultValue: "+{{value1}} pts", value1: SHIPPED_POINTS })}
               </Text>
               <Icon name="ArrowUpRight" size={16} color={muted} />
             </TouchableOpacity>
