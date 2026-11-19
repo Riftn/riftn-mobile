@@ -276,7 +276,10 @@ export const SettingsOptionModal: React.FC<{
     blurIntensity={30}
   >
     <View className="pb-4 pt-2" style={rootStyle}>
-      <Text className="text-theme-neutrals-400 text-xs text-center py-3 font-semibold uppercase tracking-widest">
+      {/* Inline dark values on purpose: the colour pass (libs/jsx/tone.js)
+          turns them for System Light, which class colours missed on Android
+          (labels came out white on the pale sheet in Global Chat). */}
+      <Text className="text-xs text-center py-3 font-semibold uppercase tracking-widest" style={{ color: '#A1A1AA' }}>
         {title}
       </Text>
       {options.map((opt) => (
@@ -290,9 +293,9 @@ export const SettingsOptionModal: React.FC<{
           className="flex-row items-center px-5 py-3.5"
         >
           <View className="flex-1">
-            <Text className="text-white text-[15px] font-medium">{opt.label}</Text>
+            <Text className="text-[15px] font-medium" style={{ color: '#FFFFFF' }}>{opt.label}</Text>
             {opt.description ? (
-              <Text className="text-theme-neutrals-500 text-xs mt-0.5">{opt.description}</Text>
+              <Text className="text-xs mt-0.5" style={{ color: '#71717A' }}>{opt.description}</Text>
             ) : null}
           </View>
           {value === opt.value ? <Icon name="Check" size={18} color="#D4D4D8" /> : null}

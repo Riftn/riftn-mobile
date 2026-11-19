@@ -390,6 +390,22 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
 
   const listRef = useRef<FlatList<CommunityChatMessage>>(null);
   const atBottomRef = useRef(true);
+  // While the keyboard opens or closes the list shrinks under the reader and
+  // its scroll reports read as "scrolled up", so the latest message stayed
+  // hidden under the reply box. A reader at the bottom when the keys start
+  // moving is held on the latest message until they settle.
+  const liftGuardUntilRef = useRef(0);
+  const lastLiftRef = useRef(keyboardLift);
+  useEffect(() => {
+    if (lastLiftRef.current === keyboardLift) return;
+    lastLiftRef.current = keyboardLift;
+    if (!atBottomRef.current) return;
+    liftGuardUntilRef.current = Date.now() + 1200;
+    const timers = [0, 120, 350, 700, 1000].map((ms) =>
+      setTimeout(() => listRef.current?.scrollToEnd({ animated: false }), ms),
+    );
+    return () => timers.forEach(clearTimeout);
+  }, [keyboardLift]);
   // "Jump to latest", as web's CommunityChat draws it: shown once the reader
   // has scrolled up, with a count of the messages that arrived since.
   const [showJump, setShowJump] = useState(false);
@@ -1035,6 +1051,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           onScroll={(e) => {
             const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
             const fromBottom = contentSize.height - contentOffset.y - layoutMeasurement.height;
+            if (fromBottom >= 80 && Date.now() < liftGuardUntilRef.current) return;
             atBottomRef.current = fromBottom < 80;
             const farUp = fromBottom > 240;
             setShowJump((was) => (was === farUp ? was : farUp));
