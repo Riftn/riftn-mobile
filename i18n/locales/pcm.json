@@ -2597,7 +2597,8 @@
     "481859b689b0": "Check your wi-fi or network and try again.",
     "7db20897053b": "Pipo",
     "96d7bff86b44": "Search no fit load.",
-    "d8b8392e2c54": "Try am again"
+    "d8b8392e2c54": "Try am again",
+    "94cee2c8c1c1": "Your profile don move"
   },
   "dehubLinks": {
     "kind": {
@@ -2668,7 +2669,8 @@
       "pronouns": "Pronouns",
       "location": "Location",
       "custom": "Custom",
-      "customOption": "Custom label"
+      "customOption": "Custom label",
+      "shop": "Shop"
     }
   },
   "notificationFilters": {
@@ -2895,7 +2897,75 @@
     "premium": "Premium",
     "pricing": "Price",
     "reorderHint": "Hold and drag any icon wey you like so you can rearrange dem.",
-    "reorderReset": "Reset"
+    "reorderReset": "Reset",
+    "findWords": {
+      "home": "feed, timeline, latest posts, for you, people wey I dey follow, front page",
+      "profile": "my profile, my account, my page, my posts, avatar, bio, people wey dey follow me",
+      "explore": "search, find, look for, wetin dey trend, popular, hashtags, people, creators",
+      "prompt": "AI, generate, AI image, AI video, picture maker, turn text to picture, AI art",
+      "editor": "video editor, edit video, trim, cut am, captions, subtitles, effects",
+      "creator": "create, make something, studio, AI tools, picture, video, music, voiceover, 3D",
+      "converter": "import video, download, YouTube, TikTok, Instagram, change am, convert",
+      "migrate": "move my channel, carry my channel come, bulk import, YouTube channel",
+      "notifications": "alerts, activity, who mention me, replies, likes, bell",
+      "messages": "DM, direct messages, chat, inbox, gist, private message",
+      "communities": "groups, community, rooms, clubs, forums, members, people for group",
+      "assistant": "AI, chatbot, ask question, help me, AI chat, questions",
+      "settings": "preferences, account, privacy, security, password, language, theme, dark mode, people wey I block, delete account",
+      "leaderboard": "ranking, rank, top creators, top users, points, scores, who dey lead",
+      "bookmarks": "saved, wetin I save, favourites, watch later, read later, saved posts, library",
+      "command": "dashboard, analytics, earnings, how much I make, insights, moderation, my stats",
+      "wallet": "balance, money, moni, funds, tokens, crypto, deposit, withdraw, send, receive, pay",
+      "events": "calendar, schedule, meetup, wetin dey come, tickets, AMA",
+      "stages": "audio rooms, voice chat, spaces, live audio, talk, gist, podcast",
+      "featureRequests": "build, builders, ideas, suggestions, report bug, bugs, fixes, roadmap, vote, wetin I want, improve",
+      "feedback": "review, rating, survey, wetin I think, complain, give feedback",
+      "staking": "stake, deposit, yield, rewards, earn, profit share, badge, tiers, interest, make money",
+      "superpowers": "boost, promote, perks, powers, badge perks, reach more people, upgrades",
+      "governance": "vote, voting, proposals, poll, ballot, decide, make we decide",
+      "dao": "treasury, donate, dash money, community fund, contribute, grants",
+      "bounties": "work, jobs, tasks, gigs, freelance, hire, make money, work wey dey pay",
+      "myBounties": "my bounties, my jobs, history, payouts, work wey I don finish",
+      "affiliate": "referral, invite friends, invite, commission, partner, earn, bring people come",
+      "careers": "jobs, hiring, work with us, join the team, apply, work wey dey",
+      "stores": "shop, store, market, merch, buy, sell, products, shopping",
+      "fractions": "shares, ownership, invest, own post, NFT, NFTs, collectibles, trade, buy share",
+      "usernames": "username, handle, name, change my name, buy name, sell name",
+      "accounts": "buy account, sell account, account wey dey for sale, followers, transfer account",
+      "apps": "app store, mini apps, build app, developers, tools",
+      "arcade": "games, game, play, gaming, chess, shooter, fun, play game",
+      "glossary": "terms, wetin e mean, dictionary, meaning, wetin be",
+      "compare": "comparison, compare, versus, which one better, YouTube, X, TikTok",
+      "guide": "how to start, how to, tutorial, help, learn, beginner, I just come",
+      "stats": "statistics, analytics, numbers, charts, price, supply, who hold am",
+      "docs": "documentation, help, API, whitepaper, developers, manual, how e dey work",
+      "blog": "news, articles, updates, announcements, wetin dey new",
+      "videos": "watch, videos, clips, long videos, make I watch",
+      "shorts": "reels, short videos, standing videos, swipe",
+      "music": "audio, songs, tracks, listen, radio, playlist, jams",
+      "liveTv": "TV, streams, streaming, live, broadcast, channels, watch am live",
+      "buyTokens": "buy tokens, purchase, top up, card, credit card, fiat, pay with card",
+      "bridge": "cross chain, move tokens, chains, move am from one chain go another",
+      "top100": "top 100, coins, cryptocurrencies, market cap, prices, how much coin cost",
+      "agents": "AI agents, agents, bots, automation, personas, bots wey dey work",
+      "advertising": "ads, adverts, campaign, promote, sponsor, marketing, advertise my thing",
+      "premium": "subscription, upgrade, pro, membership, no ads, no adverts",
+      "pricing": "plans, cost, price, how much, how much e be, subscription",
+      "creators": "creator programme, ambassadors, partners, apply as creator, monetise, make money from content",
+      "connectAi": "MCP, ChatGPT, Claude, API, integration, connect AI, join AI",
+      "packs": "emoji, stickers, GIFs, emoji packs, sticker packs, my own emoji",
+      "publicChat": "chat, global chat, chat room, lobby, talk, community chat, gist",
+      "planned": "scheduled, schedule, scheduled posts, queue, later, post am later",
+      "liveStudio": "go live, stream, streaming, OBS, overlays, alerts, widgets, start live",
+      "launchpad": "launch token, create coin, make coin, meme coin, bonding curve, tokenise"
+    },
+    "groups": {
+      "main": "Main",
+      "create": "Create",
+      "discover": "Discover",
+      "money": "Moni",
+      "riftn": "Riftn"
+    }
   },
   "affiliate": {
     "subtitle": "Earn from everybody wey you invite — forever",
@@ -3771,7 +3841,16 @@
     "payViaBridge": "Swap to Riftn tokens for Uniswap, arrive for ~{{seconds}}s",
     "payFailed": "Wey no dey convert {{symbol}} to Riftn tokens.",
     "addMessage": "Wen yu wan add message, yu go do am.",
-    "messagePublic": "Everybody"
+    "messagePublic": "Everybody",
+    "messagePlaceholder": "Talk something with your tip",
+    "messagePrivate": "Na only {{name}}",
+    "theCreator": "the creator",
+    "messageWallNote": "E go show for tip wall once the tip don go.",
+    "sendWithMessage": "Send am with message",
+    "messageFailed": "We no fit add your message. No tip comot.",
+    "wallLabel": "Tip messages",
+    "railTitle": "Tips",
+    "railTotal": "{{amount}} tokens"
   },
   "postOptions": {
     "skippableSections": "Skippable sections",
@@ -3855,7 +3934,11 @@
     "postUnpinned": "E don unpin from your profile",
     "pinFailed": "We no fit pin or unpin this post",
     "askAi": "Ask AI",
-    "aiOverview": "AI overview"
+    "aiOverview": "AI overview",
+    "refreshLinkPreview": "Refresh the link preview",
+    "linkPreviewRefreshed": "Link preview don refresh",
+    "linkPreviewRefreshFailed": "We no fit reach that site. Try again later.",
+    "castToTv": "Cast am to TV"
   },
   "filters": {
     "sort": "Arrange Am",
@@ -4406,7 +4489,18 @@
       "featureShipped": "Your request “{{title}}” don complete 🎉",
       "featureShippedLiked": "One request wey you like don complete: “{{title}}” 🎉",
       "governanceVotedPassed": "One proposal wey you vote on pass: “{{title}}”",
-      "governanceVotedRejected": "One proposal you vote on no pass: “{{title}}”"
+      "governanceVotedRejected": "One proposal you vote on no pass: “{{title}}”",
+      "featureNewNamed": "{{name}} post new request “{{title}}”",
+      "featureNew": "{{name}} post new request",
+      "featureActivityNamed": "{{name}} comment for “{{title}}”",
+      "featureActivity": "{{name}} comment for one request",
+      "featureCommentLikeNamed": "{{name}} like your comment for “{{title}}”",
+      "featureCommentLike": "{{name}} like your comment for one request",
+      "governanceCommentLikeNamed": "{{name}} like your comment for proposal “{{title}}”",
+      "governanceCommentLike": "{{name}} like your comment for one proposal",
+      "featureQueued": "Your request “{{title}}” don enter line make dem build am",
+      "governancePassed": "Your proposal “{{title}}” don pass 🎉",
+      "governanceRejected": "Your proposal “{{title}}” no pass"
     },
     "stores": "Stores",
     "features": "Features",
@@ -4491,7 +4585,12 @@
     "badgeLoanRetiered": "{{name}} dey borrow you {{tier}} badge now",
     "tokenAmount": "{{amount}} tokens",
     "groupToday": "Dis day",
-    "groupThisWeek": "Dis week"
+    "groupThisWeek": "Dis week",
+    "groupNew": "New",
+    "groupEarlier": "Before",
+    "searchPlaceholder": "Find notifications",
+    "searchClose": "Close the search",
+    "searchEmpty": "No notification match"
   },
   "leaderboard": {
     "addedToLeaderboard": "We don add you! Balance: {{balance}} tokens",
@@ -4746,7 +4845,12 @@
     "exploreWithoutSignIn": "Look around without sign in",
     "exploreWithoutSignInA11y": "Look around Riftn without sign in",
     "invalidImportSecret": "Dat one no be correct 12/24-word phrase or private key",
-    "walletSignupBlocked": "Dis wallet na brand new. New wallet need balance or one transaction wey e don do before to open account. Sign up with one of di options wey dey below, den connect dis wallet from Settings."
+    "walletSignupBlocked": "Dis wallet na brand new. New wallet need balance or one transaction wey e don do before to open account. Sign up with one of di options wey dey below, den connect dis wallet from Settings.",
+    "accountDeleted": "Dem don delete this account. You fit sign up again as new account.",
+    "accountDeletedHours_one": "Dem don delete this account. You fit sign up again with the same email or phone after like {{count}} hour.",
+    "accountDeletedHours_other": "Dem don delete this account. You fit sign up again with the same email or phone after like {{count}} hours.",
+    "accountDeletedDays_one": "Dem don delete this account. You fit sign up again with the same email or phone after like {{count}} day.",
+    "accountDeletedDays_other": "Dem don delete this account. You fit sign up again with the same email or phone after like {{count}} days."
   },
   "messages": {
     "encryptionSetupFailed": "Encryption setup no work. Abeg try again.",
@@ -4945,16 +5049,58 @@
       "listening_other": "{{value}} dey listen",
       "listens_one": "{{value}} hear word",
       "votes_other": "{{value}} votes",
-      "members_other": "{{value}} members"
+      "members_other": "{{value}} members",
+      "shop": "Shop",
+      "listens_other": "{{value}} listen",
+      "votes_one": "{{value}} vote",
+      "members_one": "{{value}} member"
     },
     "pinnedShort": "E Don Pin",
     "post": "Post Am",
     "arrange": {
-      "saving": "E dey save..."
+      "saving": "E dey save...",
+      "title": "Set how your posts go arrange",
+      "hint": "Hold one post and drag am go im new place. Visitors go see this arrangement first.",
+      "drag": "Drag am to move",
+      "toTop": "Move am go top",
+      "save": "Save arrangement",
+      "saved": "Your arrangement don save",
+      "reset": "E don go back to newest first",
+      "resetDone": "E don go back to newest first",
+      "saveFailed": "We no fit save your arrangement. Abeg try again.",
+      "loadFailed": "We no fit load your posts. Close this one and try again.",
+      "empty": "Nothing dey to arrange yet. Post something first."
     },
     "tabLikes": "Like Dem",
     "likesEmptyTitle": "Nobody never like am yet",
-    "likesPrivateTitle": "Likes na private"
+    "likesPrivateTitle": "Likes na private",
+    "sortCustom": "Your own arrangement",
+    "arrangeButton": "Arrange the posts",
+    "mutualsOne": "{{count}} Mutual:",
+    "mutualsMany": "{{count}} Mutuals:",
+    "reserve": {
+      "available": "Username dey available",
+      "held": "We hold am for you",
+      "ended": "Hold don end",
+      "busy": "Person dey reserve am",
+      "availableBody": "riftn.com/{{name}} dey free now now. Reserve am and we go hold am for you for one minute while you dey sign up.",
+      "heldBody": "Nobody fit take @{{name}} until the timer finish. Finish sign up make e be your own.",
+      "endedBody": "Your one minute don finish, so @{{name}} don open for everybody again. E still dey free.",
+      "busyBody": "Somebody dey sign up as @{{name}} now now. If dem no finish, e go free when the timer end.",
+      "finish": "Finish your sign up",
+      "again": "Reserve am again",
+      "cta": "Reserve am now",
+      "letGo": "Leave am",
+      "haveAccount": "You get account?",
+      "signIn": "Sign in"
+    },
+    "tabArticles": "Articles",
+    "articlesEmptyTitle": "No article dey yet",
+    "articlesEmptySubtitle": "Articles go show for here",
+    "likesEmptyOwn": "Posts wey you like go show for here. Na only you fit see dem unless you on Show my likes for Settings.",
+    "likesEmptyOther": "E never like anything yet.",
+    "likesPrivateDesc": "This account no dey show wetin e like.",
+    "unavailable": "Profile no dey available"
   },
   "tv": {
     "title": "TV",
@@ -5589,7 +5735,8 @@
     "passkeyNotLinked": "No account dey join to dat fingerprint yet. Open new account instead.",
     "passkeyAlreadyRegistered": "Dat fingerprint don get account already. Use Sign in instead.",
     "passkeyFailed": "Fingerprint sign-in no work. Abeg try am again.",
-    "passkeyBackupHint": "Your account dey inside dis device passkey. For most phones e dey sync with your Google or Apple account, and you fit add password backup for Settings."
+    "passkeyBackupHint": "Your account dey inside dis device passkey. For most phones e dey sync with your Google or Apple account, and you fit add password backup for Settings.",
+    "didYouMean": "Na {{email}} you mean?"
   },
   "careers": {
     "title": "Work for Riftn",
@@ -5872,7 +6019,17 @@
     "searchMenu": "Search menu",
     "clearSearch": "Clear search",
     "noMenuMatches": "Nothing for di menu match",
-    "searchDehubFor": "Search \"{{query}}\" for Riftn"
+    "searchDehubFor": "Search \"{{query}}\" for Riftn",
+    "requestPrompt": "E never dey here? Send am as request",
+    "requestPromptShort": "E never dey here?",
+    "requestDraftMenu": "Make una add {{query}} to Riftn",
+    "requestDraftSettings": "One setting for {{query}}",
+    "requestSend": "Send the request",
+    "requestPostsTo": "E go enter Requests",
+    "requestHint": "E go enter Requests with your name. We go tell you when e land.",
+    "requestSent": "E don enter Requests",
+    "requestSentHint": "We go tell you when e land.",
+    "requestSeeIt": "See am for Requests"
   },
   "comments": {
     "editPlaceholder": "Change your comment...",
@@ -5961,7 +6118,18 @@
     "tabReplies": "Replies",
     "tabQuotes": "Quotes",
     "tabReposts": "Reposts",
-    "tabSearch": "Find Am"
+    "tabSearch": "Find Am",
+    "attachMedia": "Attach photo, video or audio",
+    "attachTooLarge": "That file pass the {{size}} MB limit.",
+    "threadParts": {
+      "reorder": "Arrange am again",
+      "save": "Save arrangement",
+      "saved": "Thread arrangement don save",
+      "saveFailed": "We no fit save the arrangement. Try again.",
+      "addPart": "Add am to thread",
+      "addPlaceholder": "Add something to your thread...",
+      "label": "Thread · {{count}} part"
+    }
   },
   "postInfo": {
     "unavailable": "E no dey available",
@@ -7811,10 +7979,26 @@
       "close": "Close",
       "doneTitle": "All cleared",
       "doneAll": "Unfollowed {{done}} accounts wey no dey follow you back.",
-      "doneToast": "Unfollowed {{done}} accounts wey no dey follow you back"
+      "doneToast": "Unfollowed {{done}} accounts wey no dey follow you back",
+      "title": "You wan clean who you dey follow?",
+      "body": "{{count}} accounts wey you dey follow no dey follow you back.",
+      "cta": "Unfollow all {{count}} of dem",
+      "working": "Dey unfollow {{done}} out of {{total}}...",
+      "doneSome": "You don unfollow {{done}} accounts. We no fit unfollow {{failed}}."
     },
     "followBackNotNow": "No be now",
-    "followBackDone": "Don finish"
+    "followBackDone": "Don finish",
+    "followBackAllFailed": "We no fit follow anybody back",
+    "followBackAll": "Follow everybody back",
+    "followingBackProgress": "Dey follow back {{completed}} out of {{total}}",
+    "followedBackSome": "You don follow {{followed}} people back; {{failed}} fail",
+    "followBackConfirmTitle_one": "Follow {{count}} person back?",
+    "followBackConfirmTitle_other": "Follow {{count}} people back?",
+    "followBackConfirmBody": "Dem don dey follow you already. Private accounts go get follow request.",
+    "followBackConfirm": "Follow dem back",
+    "followedBackCount_one": "You don follow {{count}} person back",
+    "followedBackCount_other": "You don follow {{count}} people back",
+    "followBackDoneBody": "You fit find all of dem for Following."
   },
   "reactionInfo": {
     "mentionedYouLiveChat": "{{name}} mention you for live chat",
@@ -9333,7 +9517,8 @@
     "shareKindCommunity": "Gburugburu",
     "searchDiscover": {
       "people": "Pipo"
-    }
+    },
+    "attachTooLarge": "That file pass the {{size}} MB limit."
   },
   "editPost": {
     "mediaPermission": "You need media library permission",
@@ -9455,7 +9640,8 @@
     "tapShowControls": "Tap make controls show",
     "doubleTapRewind": "Double tap make e go back",
     "doubleTapForward": "Double tap make e skip front",
-    "pipUnavailable": "Picture in picture no dey available. Check sey dem allow am for Riftn for your device settings."
+    "pipUnavailable": "Picture in picture no dey available. Check sey dem allow am for Riftn for your device settings.",
+    "notAvailableForPost": "E no dey available for this post"
   },
   "liveViewer": {
     "loadingStream": "Stream dey load...",
@@ -14755,7 +14941,11 @@
     "emailPlaceholder": "Your email",
     "joinedBody": "We go send email to {{email}} when token dey launch.",
     "failed": "No go save dat. Try again.",
-    "privacy": "Wahala na me go tell you about the launch."
+    "privacy": "Wahala na me go tell you about the launch.",
+    "body": "Buying don close while the new token dey get ready. Get email the moment wey e go live.",
+    "invalidEmail": "Put correct email",
+    "joinedTitle": "You don dey the list",
+    "joinedBodyNoEmail": "We go email you when the token launch."
   },
   "githubLink": {
     "hint": "Sign in to GitHub wey go prove account be yours. Riftn no dey see any other thing like your private profile, only your public GitHub profile dey.",
@@ -14765,7 +14955,9 @@
     "disconnect": "Disconnect",
     "connected": "GitHub connected",
     "disconnected": "GitHub disconnected",
-    "failed": "Couldn't connect GitHub. Try again."
+    "failed": "Couldn't connect GitHub. Try again.",
+    "taken": "That GitHub account don already dey another Riftn profile.",
+    "unavailable": "GitHub verification dey come soon."
   },
   "comic": {
     "showAll": "Show all {{count}} pages",
@@ -14804,7 +14996,8 @@
     "listForSale": "Put for sale",
     "makeOffer": "Make offer",
     "back": "Go back",
-    "showAll": "Show all of dem"
+    "showAll": "Show all of dem",
+    "signIn": "Sign in"
   },
   "reel": {
     "readAll": "Read all",
@@ -14907,7 +15100,8 @@
   },
   "whenSheet": {
     "today": "Dis day",
-    "tooSoon": "Pick time wey never reach."
+    "tooSoon": "Pick time wey never reach.",
+    "earlierShort": "Before"
   },
   "planned": {
     "title": "Dem don plan am",
@@ -15057,6 +15251,8 @@
     "alwaysOn": "Always on.",
     "kindCommunity": "Gburugburu",
     "kindPublic": "Everybody",
-    "requests": "Request Dem"
+    "requests": "Request Dem",
+    "moveDown": "Move am down",
+    "moveUp": "Move am up"
   }
 }
