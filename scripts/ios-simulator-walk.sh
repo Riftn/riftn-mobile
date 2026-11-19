@@ -41,6 +41,10 @@ launch() {
 # When the prompt's blue Open button is on screen, tap it (needs idb).
 confirm_open() {
   command -v idb >/dev/null 2>&1 || return 0
+  if [ "${DEVICE:-iphone}" = "ipad" ]; then
+    confirm_open_anywhere
+    return 0
+  fi
   local i
   for i in 1 2 3 4; do
     xcrun simctl io "$UDID" screenshot "$OUT/.prompt.png" >/dev/null 2>&1 || return 0
@@ -63,6 +67,53 @@ PY
     fi
     sleep 1
   done
+}
+
+# The same prompt on an iPad sits somewhere else, and moves when the iPad is
+# turned: find its Open button by name, or failing that by its blue fill.
+confirm_open_anywhere() {
+  local i pos
+  for i in 1 2 3 4; do
+    idb ui describe-all --udid "$UDID" > "$OUT/.ax.json" 2>/dev/null || echo "[]" > "$OUT/.ax.json"
+    pos="$(python3 scripts/ios-nav/ax-find.py "$OUT/.ax.json" Open "$OUT/logs/open-prompt.txt" open)"
+    if [ -z "$pos" ]; then
+      xcrun simctl io "$UDID" screenshot "$OUT/.prompt.png" >/dev/null 2>&1 || return 0
+      pos="$(python3 - "$OUT/.prompt.png" <<'PY'
+import sys
+from PIL import Image
+im = Image.open(sys.argv[1]).convert("RGB")
+w, h = im.size
+scale = 2
+xs, ys = [], []
+for y in range(h // 4, h * 3 // 4, 4):
+    for x in range(w // 4, w * 3 // 4, 4):
+        r, g, b = im.getpixel((x, y))
+        if b > 200 and r < 60 and 90 < g < 170:
+            xs.append(x); ys.append(y)
+if len(xs) > 150:
+    bw, bh = (max(xs) - min(xs)) / scale, (max(ys) - min(ys)) / scale
+    if 60 <= bw <= 400 and 24 <= bh <= 80:
+        print(round((min(xs) + max(xs)) / 2 / scale), round((min(ys) + max(ys)) / 2 / scale))
+PY
+)"
+    fi
+    if [ -n "$pos" ]; then
+      # shellcheck disable=SC2086
+      idb ui tap --udid "$UDID" $pos >/dev/null 2>&1 || true
+      return 0
+    fi
+    sleep 1
+  done
+}
+
+# Turns the simulator on its side through the Simulator app's Device menu.
+turn_sideways() {
+  open -a Simulator --args -CurrentDeviceUDID "$UDID" || return 1
+  sleep 15
+  osascript -e 'tell application "Simulator" to activate' \
+    -e 'tell application "System Events" to tell process "Simulator" to click menu item "Rotate Left" of menu "Device" of menu bar 1' \
+    >> "$OUT/logs/rotate.txt" 2>&1 || return 1
+  sleep 4
 }
 
 PAGES=(
@@ -130,9 +181,25 @@ json.dump(manifest, open(path, "w"))
 PY
 }
 
-# walk <phone appearance> <app theme> <label>
+SIDEWAYS_PAGES=(
+  "app/post/742"
+  "app/post/5799"
+  "maldoteth"
+  "app/features"
+  "app/leaderboard"
+  "app/wallet"
+  "app/messages"
+  "arcade"
+  "pricing"
+  "signin"
+)
+
+# walk <phone appearance> <app theme> <label> [sideways]
 walk() {
   local appearance="$1" app_theme="$2" theme="$3"
+  if [ "${4:-}" = "sideways" ]; then
+    PAGES=("${SIDEWAYS_PAGES[@]}")
+  fi
   xcrun simctl ui "$UDID" appearance "$appearance"
   xcrun simctl terminate "$UDID" "$BUNDLE" >/dev/null 2>&1 || true
   set_app_theme "$app_theme"
@@ -167,6 +234,14 @@ for t in ${THEMES:-dark light syslight}; do
   esac
 done
 
+if [ "${DEVICE:-iphone}" = "ipad" ]; then
+  if turn_sideways; then
+    walk dark system side-dark sideways
+  else
+    echo "could not turn the simulator on its side" >> "$OUT/crashes.txt"
+  fi
+fi
+
 sleep 3
 kill "$LOG_PID" 2>/dev/null
 cp ~/Library/Logs/DiagnosticReports/"$EXE"*.ips "$OUT/logs/" 2>/dev/null || true
@@ -190,4 +265,4 @@ echo "JS restarts: $(grep -c 'state = restarting' "$OUT/logs/app.log")"
 echo "Keychain failures: $(grep -c 'ERR_KEY_CHAIN' "$OUT/logs/app.log")"
 echo "JS faults (first lines):"
 sed -n '/^----$/,$p' "$OUT/logs/js-faults.txt" | head -15
-rm -f "$OUT/.prompt.png"
+rm -f "$OUT/.prompt.png" "$OUT/.ax.json"

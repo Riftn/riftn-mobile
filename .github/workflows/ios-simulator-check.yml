@@ -31,6 +31,10 @@ on:
         description: 'nav and speed: how many before/after rounds'
         required: false
         default: '2'
+      device:
+        description: 'walk only: iphone or ipad (an iPad simulator, upright then on its side)'
+        required: false
+        default: 'iphone'
       account:
         description: "nav, probe and speed: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
         required: false
@@ -45,7 +49,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-simulator-check-${{ github.ref }}-${{ inputs.task || 'walk' }}
+  group: ios-simulator-check-${{ github.ref }}-${{ inputs.task || 'walk' }}-${{ inputs.device || 'iphone' }}
   cancel-in-progress: true
 
 jobs:
@@ -90,9 +94,12 @@ jobs:
           TYPE="$(xcrun simctl list devicetypes -j | python3 -c '
           import json, sys
           names = [d["name"] for d in json.load(sys.stdin)["devicetypes"]]
-          for want in ["iPhone 17 Pro", "iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro"]:
+          wants = ["iPhone 17 Pro", "iPhone 16 Pro", "iPhone 16", "iPhone 15 Pro"]
+          if sys.argv[1] == "ipad":
+              wants = [n for n in names if n.startswith("iPad Air 11-inch")][::-1] + [n for n in names if n.startswith("iPad Pro 11-inch")][::-1] + [n for n in names if n.startswith("iPad")][::-1]
+          for want in wants:
               if want in names:
-                  print(want); break')"
+                  print(want); break' "${{ inputs.device || 'iphone' }}")"
           UDID="$(xcrun simctl create riftn-check "$TYPE" "$RUNTIME")"
           xcrun simctl boot "$UDID"
           xcrun simctl bootstatus "$UDID" -b
@@ -179,6 +186,7 @@ jobs:
           scripts/ios-simulator-walk.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
         env:
           THEMES: ${{ inputs.themes || 'dark light syslight' }}
+          DEVICE: ${{ inputs.device || 'iphone' }}
       - name: Time page switches, main against this branch
         if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'keys' || inputs.task == 'wide' || inputs.task == 'shells' || inputs.task == 'bones' || inputs.task == 'wallet' || inputs.task == 'loginsheet' || inputs.task == 'player' || inputs.task == 'menu' || inputs.task == 'speed'
         env:
