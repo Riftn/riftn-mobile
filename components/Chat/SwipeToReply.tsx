@@ -1,15 +1,13 @@
-import React, { memo, useCallback, useMemo } from "react";
+import React, { memo, useCallback, useMemo, useState } from "react";
 import { View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  Extrapolation,
-  interpolate,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
-import Icon from "../ui/Icon";
+import SwipeReplyArrows from "./SwipeReplyArrows";
 import { haptic } from "../../libs/haptics";
 
 const THRESHOLD = 60;
@@ -18,22 +16,29 @@ const MAX = 80;
 /**
  * Swipe a chat line left or right to reply to it, like the DM bubbles.
  * The arrow shows on the side the line moves away from.
+ *
+ * `onReply` gets `payload` back, so a list can pass one stable handler and
+ * the line itself instead of a new closure per row.
  */
-function SwipeToReply({
+function SwipeToReply<T>({
   onReply,
+  payload,
   enabled = true,
   children,
 }: {
-  onReply: () => void;
+  onReply: (payload: T) => void;
+  payload: T;
   enabled?: boolean;
   children: React.ReactNode;
 }) {
   const x = useSharedValue(0);
+  // The arrows are built on the first swipe, not for every row on screen.
+  const [armed, setArmed] = useState(false);
 
   const fire = useCallback(() => {
     haptic.select();
-    onReply();
-  }, [onReply]);
+    onReply(payload);
+  }, [onReply, payload]);
 
   const pan = useMemo(
     () =>
@@ -41,6 +46,9 @@ function SwipeToReply({
         .enabled(enabled)
         .activeOffsetX([-14, 14])
         .failOffsetY([-15, 15])
+        .onStart(() => {
+          runOnJS(setArmed)(true);
+        })
         .onUpdate((e) => {
           x.value = Math.min(Math.max(e.translationX, -MAX), MAX);
         })
@@ -52,35 +60,10 @@ function SwipeToReply({
   );
 
   const rowStyle = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
-  const leftIcon = useAnimatedStyle(() => ({
-    opacity: interpolate(x.value, [0, THRESHOLD], [0, 1], Extrapolation.CLAMP),
-    transform: [{ scale: interpolate(x.value, [0, THRESHOLD], [0.5, 1], Extrapolation.CLAMP) }],
-  }));
-  const rightIcon = useAnimatedStyle(() => ({
-    opacity: interpolate(-x.value, [0, THRESHOLD], [0, 1], Extrapolation.CLAMP),
-    transform: [{ scale: interpolate(-x.value, [0, THRESHOLD], [0.5, 1], Extrapolation.CLAMP) }],
-  }));
-
-  const arrow = (
-    <View className="w-8 h-8 rounded-xl bg-theme-neutrals-800 items-center justify-center">
-      <Icon name="Undo2" size={18} color="#F4F4F5" />
-    </View>
-  );
 
   return (
     <View>
-      <Animated.View
-        pointerEvents="none"
-        style={[leftIcon, { position: "absolute", left: 8, top: 0, bottom: 0, justifyContent: "center" }]}
-      >
-        {arrow}
-      </Animated.View>
-      <Animated.View
-        pointerEvents="none"
-        style={[rightIcon, { position: "absolute", right: 8, top: 0, bottom: 0, justifyContent: "center" }]}
-      >
-        {arrow}
-      </Animated.View>
+      {armed ? <SwipeReplyArrows x={x} threshold={THRESHOLD} /> : null}
       <GestureDetector gesture={pan}>
         <Animated.View style={rowStyle}>{children}</Animated.View>
       </GestureDetector>
@@ -88,4 +71,4 @@ function SwipeToReply({
   );
 }
 
-export default memo(SwipeToReply);
+export default memo(SwipeToReply) as typeof SwipeToReply;

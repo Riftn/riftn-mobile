@@ -239,21 +239,23 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
           }}
         />
       ) : null}
-      <Animated.View
-        style={[
-          {
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: "rgba(255,255,255, 0.12)",
-            borderRadius: 10,
-          },
-          highlightStyle,
-        ]}
-        pointerEvents="none"
-      />
+      {highlighted ? (
+        <Animated.View
+          style={[
+            {
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: "rgba(255,255,255, 0.12)",
+              borderRadius: 10,
+            },
+            highlightStyle,
+          ]}
+          pointerEvents="none"
+        />
+      ) : null}
 
       <TouchableOpacity onPress={handleAvatar} onLongPress={handleLongPress} delayLongPress={350} activeOpacity={0.7}>
         <Avatar uri={avatarUrl} size={36} name={displayName} />
