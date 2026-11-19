@@ -1,4 +1,5 @@
 import { PROFILE_BAR_HEIGHT, PROFILE_TABS_TOP_GAP, PINNED_PROFILE_TABS_HEIGHT } from '../Profile/useProfileCollapse';
+import { ProfileViewModeContext, useProfileViewState, type ProfileViewMode } from "../../libs/profileViewMode";
 import type { SharedValue } from 'react-native-reanimated';
 import { translateCopy as _translateCopy } from '../../i18n/copy';
 import React, {
@@ -96,6 +97,8 @@ interface UserProfileBottomContentTabsProps {
   onPendingTabConsumed?: () => void;
   /** The tab the owner chose for visitors to land on (`customs.defaultProfileTab`). */
   defaultTab?: ProfileDefaultTab;
+  /** Grid or list the owner chose for the All tab (`customs.defaultProfileView`). */
+  defaultView?: ProfileViewMode;
   /** Someone else's profile whose owner made their Dislikes tab public. */
   showDislikesTab?: boolean;
   /** Someone else's profile whose owner made their Likes tab public (private by default). */
@@ -147,7 +150,7 @@ const BASE_TAB_ITEMS: ProfileTabItem<ContentTab>[] = [
   { key: "articles", get label() { return _translateCopy("profile.tabArticles", { defaultValue: "Articles" }); }, icon: "Blog" },
 ];
 
-const UserProfileBottomContentTabs: React.FC<
+const UserProfileBottomContentTabsInner: React.FC<
   UserProfileBottomContentTabsProps
 > = ({
   pinnedIdentity,
@@ -864,6 +867,19 @@ const UserProfileBottomContentTabs: React.FC<
         </Animated.View>
       )}
     </View>
+  );
+};
+
+/**
+ * Grid or list on the All tab: the owner's saved default, unless the visitor
+ * flipped the toggle on this profile since the app opened.
+ */
+const UserProfileBottomContentTabs: React.FC<UserProfileBottomContentTabsProps> = (props) => {
+  const profileView = useProfileViewState(props.address, props.defaultView ?? "grid");
+  return (
+    <ProfileViewModeContext.Provider value={profileView}>
+      <UserProfileBottomContentTabsInner {...props} />
+    </ProfileViewModeContext.Provider>
   );
 };
 

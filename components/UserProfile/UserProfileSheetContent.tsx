@@ -33,6 +33,7 @@ import { apiClient } from "../../libs/api.client";
 import { useAuthActions, useUser } from "../../context/AuthContext";
 import { isReservedUsername } from "../../libs/reserved-usernames";
 import { getDefaultProfileTab } from "../../libs/profile-default-tab";
+import { getProfileViewDefault } from "../../libs/profileViewMode";
 import { dislikesArePublic } from '../../libs/disliked-posts-store';
 import { likesArePublic } from '../../libs/profile-privacy';
 
@@ -488,6 +489,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
         blockedYou={blockedYou}
         pendingTab={pendingTab}
         defaultTab={getDefaultProfileTab(data)}
+        defaultView={getProfileViewDefault(data)}
         showDislikesTab={dislikesArePublic((data as any)?.customs)}
         showLikesTab={likesArePublic((data as any)?.customs)}
         hasCustomOrder={!!(data as any)?.profileOrderAt}
