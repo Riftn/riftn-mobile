@@ -293,6 +293,12 @@ interface FeedCardProps {
   disablePress?: boolean;
   /** Held press on the card (450 ms): own profile text posts open the background picker. */
   onHold?: () => void;
+  /**
+   * Mounted out of sight to show only this post's menu (a held grid tile):
+   * opens the ⋯ menu at once, and calls onDone once it and every sheet it
+   * led to have closed.
+   */
+  menuHost?: { onDone: () => void };
   onCommentPress?: () => void;
   isVisible?: boolean;
   /** True on the one card the list has handed autoplay to. A card that is
@@ -464,6 +470,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   fullContent = false,
   disablePress = false,
   onHold,
+  menuHost,
   onCommentPress: onCommentPressProp,
   isVisible = true,
   isAutoplayActive = true,
@@ -1541,6 +1548,29 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     setShowOptionsMenu(true);
   }, [setShowOptionsMenu]);
 
+  // Holding somebody else's post opens the full menu: reactions, comment,
+  // repost, quote, tip, copy text, then everything the ⋯ menu has. A host's
+  // own hold (your text posts on your profile: pick a background) wins.
+  const holdMenu = onHold ?? (!isOwnerPost && tokenId != null ? handleOpenOptions : undefined);
+
+  const menuHostDone = useRef(menuHost?.onDone);
+  menuHostDone.current = menuHost?.onDone;
+  const isMenuHost = !!menuHost;
+  useEffect(() => {
+    if (isMenuHost) handleOpenOptions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMenuHost]);
+  const anySheetOpen = Object.values(open).some(Boolean);
+  const sheetWasOpen = useRef(false);
+  useEffect(() => {
+    if (!isMenuHost) return;
+    if (anySheetOpen) { sheetWasOpen.current = true; return; }
+    if (!sheetWasOpen.current) return;
+    // A menu row closes the menu, then opens its sheet a beat later.
+    const timer = setTimeout(() => menuHostDone.current?.(), 700);
+    return () => clearTimeout(timer);
+  }, [isMenuHost, anySheetOpen]);
+
   // The menu calls these after its request resolves. Each one writes under
   // the key it was created with, so a result that arrives after the card has
   // moved on lands on the post it was for, never the one now showing.
@@ -2460,6 +2490,17 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           onEditSuccess={handleEditSuccess}
           onDeleteSuccess={handleDeleteSuccess}
           onSendToDm={isSignedIn ? () => setShowShareToDm(true) : undefined}
+          quick={tokenId != null && !isLive ? {
+            myReaction,
+            onReact: handleReaction,
+            onComment: handleCommentPress,
+            reposted,
+            onRepost: isPublicPost ? handleConfirmRepost : undefined,
+            onUndoRepost: handleUndoRepost,
+            onQuote: isPublicPost && ((edits.quotePolicy ?? item.quotePolicy) !== "nobody" || !!isOwnerPost) ? handleQuotePress : undefined,
+            onTip: !isOwnerPost && DIGITAL_PURCHASES_ENABLED && !minterUser?.hideBadgeAndBalance ? handleTipPress : undefined,
+            text: [localTitle, captionText].filter(Boolean).join("\n\n"),
+          } : undefined}
           // The sheet is mounted below rather than inside the menu: the menu is
           // conditionally rendered, so onClose unmounts it and any state set in
           // the same handler goes with it.
@@ -2563,8 +2604,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           testID="tablet-portrait-feed-card"
           onLayout={e => { if (e.nativeEvent.layout.width > 0) setTabletColumnWidth(e.nativeEvent.layout.width); }}
           onPress={disablePress ? undefined : handleCardPress}
-          onLongPress={onHold}
-          delayLongPress={onHold ? 450 : undefined}
+          onLongPress={holdMenu}
+          delayLongPress={holdMenu ? 450 : undefined}
           disabled={disablePress}
           style={isMinimal || cinematicFeed ? {
             padding: 12, marginVertical: 6,
@@ -2588,7 +2629,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                 onBoostPress={DIGITAL_PURCHASES_ENABLED && isOwnerPost && isSignedIn && tokenId != null ? handleBoostPress : undefined}
                 isHidden={isHidden}
               />
-              <PostTapSurface resetKey={postKey} immediatePress onPressIntent={warmPost} onReaction={handleVideoTapReaction} onPress={disablePress ? undefined : handleCaptionPress} onHold={onHold}>
+              <PostTapSurface resetKey={postKey} immediatePress onPressIntent={warmPost} onReaction={handleVideoTapReaction} onPress={disablePress ? undefined : handleCaptionPress} onHold={holdMenu}>
                 <FeedCaption tapExpand={captionTapExpand} resetKey={postKey} statsTokenId={tokenId} title={overlayTitle || undefined} description={displayCaption || undefined}
                   variant="portrait" compactPortrait={SCREEN_WIDTH < 768} maxLines={4} showCategories={false} flagged={item.communityAlertStatus === "pending"}
                   onCategoryPress={onCategorySelect} onCashtagPress={setActiveCashtag} />
@@ -2882,8 +2923,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       <Pressable
         collapsable={false}
         onPress={disablePress ? undefined : handleCardPress}
-        onLongPress={onHold}
-        delayLongPress={onHold ? 450 : undefined}
+        onLongPress={holdMenu}
+        delayLongPress={holdMenu ? 450 : undefined}
         disabled={disablePress}
         // No bento: the post steps out over the list's side padding so its
         // media spans the screen, and posts are split by a hairline across
@@ -2991,7 +3032,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                   immediatePress
                   onReaction={handleVideoTapReaction}
                   onPress={disablePress ? undefined : handleCaptionPress}
-                  onHold={onHold}
+                  onHold={holdMenu}
                 >
                   {!!localArticleBody && (
                     <View className="mb-3">
@@ -3051,7 +3092,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
                 immediatePress
                 onReaction={handleVideoTapReaction}
                 onPress={disablePress ? undefined : handleCaptionPress}
-                onHold={onHold}
+                onHold={holdMenu}
               >
                 <View style={[{ paddingTop: 10 }, chipOverMedia && !firstVideoHeaderBelow && [styles.captionBesideOptions, (contentType === "video" || contentType === "short") && isOwnerPost && isSignedIn && tokenId != null && { paddingRight: 64 }]]}>
                   <FeedCaption
@@ -3100,8 +3141,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     <Pressable
       collapsable={false}
       onPress={disablePress ? undefined : handleCardPress}
-      onLongPress={onHold}
-      delayLongPress={onHold ? 450 : undefined}
+      onLongPress={holdMenu}
+      delayLongPress={holdMenu ? 450 : undefined}
       disabled={disablePress}
       // Matches the web feed tile (dehubweb HomeFeed.tsx:1066 + index.css:1264):
       // a hairline over the page, with no fill in System on either platform,
@@ -3249,7 +3290,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         onPressIntent={warmPost}
         onReaction={handleVideoTapReaction}
         onPress={disablePress ? undefined : handleCaptionPress}
-        onHold={onHold}
+        onHold={holdMenu}
       >
       {!!localArticleBody && (
         <View className="mx-4 mb-3">

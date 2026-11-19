@@ -78,11 +78,13 @@ interface ProfileGridTileProps {
    * a grip in its bottom right corner: hold it to move the post.
    */
   index?: number;
+  /** Somebody else's post: a hold opens the post's full menu. */
+  onHold?: (item: UnifiedFeedItem) => void;
 }
 
 const noPress = () => {};
 
-const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress, ownerHold, index }) => {
+const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress, ownerHold, index, onHold }) => {
   const { t } = useTranslation();
   const drag = useGridDrag();
   const hasGrip = !!drag && index != null && !pinned && !(item as any).isRepost;
@@ -153,7 +155,9 @@ const ProfileGridTile: React.FC<ProfileGridTileProps> = ({ item, pinned, onPress
         }),
         delayLongPress: 450,
       }
-    : postBgHold;
+    : ownerHold || !onHold
+      ? postBgHold
+      : { onLongPress: () => onHold(item), delayLongPress: 450 };
 
   const pinChip = pinned ? (
     <View style={[styles.chip, { backgroundColor: solid }]}>
