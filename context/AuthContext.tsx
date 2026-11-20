@@ -12,6 +12,7 @@ import React, {
 import { AuthAdapter } from "../services/auth/authAdapter";
 import { AppStateStatus } from "react-native";
 import SignInGatewayModal from "../components/auth/SignInGatewayHost";
+import { onSignInPageClosed, openSignInPage } from "../libs/signInPage";
 import {
   hasSeenAuth,
   setHasSeenAuth,
@@ -396,11 +397,27 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => { isSignedInRef.current = isSignedIn; }, [isSignedIn]);
   const needsUsernameRef = useRef(needsUsername);
   useEffect(() => { needsUsernameRef.current = needsUsername; }, [needsUsername]);
+  // A guest signs in on the full sign-in page (the one log out lands on), not
+  // the gateway sheet. The sheet is the fallback while navigation is not up,
+  // and stays for finishing a username and for Add profile.
+  const showSignIn = useCallback(() => {
+    if (!needsUsernameRef.current && openSignInPage()) return;
+    setShowSignInModal(true);
+  }, []);
+  const showSignInFromSession = useCallback((open: boolean) => {
+    if (open) showSignIn();
+    else setShowSignInModal(false);
+  }, [showSignIn]);
+  // Leaving the page without signing in drops the action that opened it, as
+  // closing the sheet does, so a later sign-in does not replay a stale tap.
+  useEffect(() => onSignInPageClosed(() => {
+    if (!isSignedInRef.current) setPendingAction(null);
+  }), []);
   // Signed-out reading reached the end of what the API shows without an
   // account (libs/sign-in-wall): ask them to sign in to keep scrolling.
   useEffect(() => onSignInWall(() => {
-    if (!isSignedInRef.current) setShowSignInModal(true);
-  }), []);
+    if (!isSignedInRef.current) showSignIn();
+  }), [showSignIn]);
   const chainIdRef = useRef<number | undefined>(undefined);
   const providerStatusRef = useRef<ProviderStatus>('idle' as ProviderStatus);
   // Logging handled via createLogger; set DEBUG env var to enable debug-level logs.
@@ -512,7 +529,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setAuthUser,
     setBalancesLoading,
     setChainId: (id) => {}, // chainId is controlled by provider lifecycle; keep no-op here
-    setShowSignInModal,
+    setShowSignInModal: showSignInFromSession,
     getSigningProvider,
     ensureProvider,
     forceReinitProvider,
@@ -543,8 +560,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     clearEoaSigningProvider();
     clearSigningProvider();
     clearPersistedNavigationState();
-    setShowSignInModal(true);
-  }), [resetProviderState]);
+    showSignIn();
+  }), [resetProviderState, showSignIn]);
 
   // Boot hydration
   useAuthBoot<User>({
@@ -724,9 +741,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
     } else {
       setPendingAction(() => action);
-      setShowSignInModal(true);
+      showSignIn();
     }
-  }, [log]);
+  }, [log, showSignIn]);
 
   // ── Multi-account (profiles) ──────────────────────────────────────────────
   // Rehydrate React state from the session keys currently on disk. Mobile has

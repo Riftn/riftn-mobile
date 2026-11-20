@@ -136,8 +136,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ onLogoPress, onMenuPress, onBac
           <NotificationBell unread={unreadCount} size={29.75} color={colors.foreground} />
         </TouchableOpacity>
       ) : (
-        // Signed out: a plain "Sign in" pill where the bell sits, so someone
-        // who logged out can see how to get back in.
+        // Signed out: a solid "Log in" pill where the bell sits (the main
+        // button of the sign-in page in miniature), opening that page.
         <TouchableOpacity
           onPress={() => openSignIn()}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -146,8 +146,8 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ onLogoPress, onMenuPress, onBac
           accessibilityLabel={t("common.signIn")}
           className="h-11 items-end justify-center"
         >
-          <View style={{ paddingHorizontal: 12, height: 28, borderRadius: 14, justifyContent: "center", backgroundColor: "rgba(127,127,127,0.22)" }}>
-            <Text style={{ color: colors.foreground, fontSize: 13, fontWeight: "600" }} numberOfLines={1}>
+          <View style={{ paddingHorizontal: 14, height: 30, borderRadius: 15, justifyContent: "center", backgroundColor: colors.foreground }}>
+            <Text style={{ color: colors.background, fontSize: 13, fontWeight: "700" }} numberOfLines={1}>
               {t("common.signIn")}
             </Text>
           </View>
