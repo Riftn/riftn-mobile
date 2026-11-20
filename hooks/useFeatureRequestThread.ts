@@ -126,6 +126,12 @@ export function useFeatureRequestThread(featureRequestId: string | null) {
     queryKey: queryKey(featureRequestId, viewer),
     enabled: !!featureRequestId,
     staleTime: 30_000,
+    // A copy saved to disk by an older build has its rows Map turned into a
+    // plain object; show nothing from it until the fresh fetch lands.
+    select: (data: FeatureThreadData): FeatureThreadData =>
+      data && data.rows instanceof Map && Array.isArray(data.threads)
+        ? data
+        : { threads: [], rows: new Map(), total: 0 },
     queryFn: async (): Promise<FeatureThreadData> => {
       const empty: FeatureThreadData = { threads: [], rows: new Map(), total: 0 };
       if (!featureRequestId) return empty;

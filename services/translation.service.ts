@@ -263,6 +263,22 @@ export interface TranslateTextResult {
    * unchanged. Distinct from a failure: the answer is correct and final.
    */
   sameLanguage: boolean;
+  /**
+   * Came back unchanged although nothing says it is in the target language
+   * (slang, a stretched word, a name). Readers get "couldn't translate this"
+   * instead of being told it is already in their language.
+   */
+  untranslated?: boolean;
+}
+
+function baseCode(lang: string | null | undefined): string {
+  return (lang || '').split(/[-_]/)[0].toLowerCase();
+}
+
+function looksUntranslated(sameLanguage: boolean, detected: string | null, targetLang: string): boolean {
+  if (!sameLanguage) return false;
+  const code = baseCode(detected);
+  return !code || code === 'auto' || code === 'und' || code !== baseCode(targetLang);
 }
 
 // A translation that came back as the text it was given did not translate
@@ -287,10 +303,12 @@ export async function translateText(
   const cached = getCached(text, targetLang);
   if (cached) {
     log.debug('Cache hit for translation');
+    const cachedSame = cached.sameLanguage ?? isNoOpTranslation(cached.translatedText, text);
     return {
       translatedText: cached.translatedText,
       sourceLang: cached.sourceLang,
-      sameLanguage: cached.sameLanguage ?? isNoOpTranslation(cached.translatedText, text),
+      sameLanguage: cachedSame,
+      untranslated: looksUntranslated(cachedSame, cached.sourceLang, targetLang),
     };
   }
 
@@ -314,7 +332,14 @@ export async function translateText(
     sameLanguage,
   });
 
-  return { translatedText: data.translatedText, sourceLang: detectedLang, sameLanguage };
+  return {
+    translatedText: data.translatedText,
+    sourceLang: detectedLang,
+    sameLanguage,
+    // The server's own "same language" answer is trusted; an unchanged echo
+    // with no matching detection is not.
+    untranslated: data.sameLanguage === true ? false : looksUntranslated(sameLanguage, detectedLang, targetLang),
+  };
 }
 
 export interface ImageTranslateResponse {
