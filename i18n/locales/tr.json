@@ -5610,6 +5610,7 @@
     "dubbed": "Dublajlı ses",
     "preparing": "Dublajlı ses hazırlanıyor…",
     "unavailable": "Bu video için dublajlı ses mevcut değil.",
+    "creatorVoiceSoon": "Şimdilik cihazınızın sesi. İçerik üreticisinin kendi sesi hazırlanıyor.",
     "menuLabel": "Dublaj",
     "menuDesc": "Bu videoyu kendi dilinde dinle",
     "menuOn": "Açık · orijinal ses için dokun",

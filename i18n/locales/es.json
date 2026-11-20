@@ -5611,6 +5611,7 @@
     "dubbed": "Audio doblado",
     "preparing": "Preparando audio doblado...",
     "unavailable": "El audio doblado no está disponible para este vídeo.",
+    "creatorVoiceSoon": "Por ahora, la voz de tu dispositivo. Se está preparando la voz del creador.",
     "menuLabel": "Doblaje",
     "menuDesc": "Escucha este video en tu idioma",
     "menuOn": "Activado · toca para el audio original",

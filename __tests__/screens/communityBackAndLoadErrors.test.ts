@@ -41,9 +41,9 @@ describe("community page back navigation and load errors", () => {
   it("lets the roster and pin reads fail without failing the page, but not membership", () => {
     expect(loadBody).toContain("getCommunityMembers(c.id, walletAddress || null).catch(() => null)");
     expect(loadBody).toContain("getPinnedCommunities(walletAddress).catch(() => null)");
-    expect(loadBody).toContain(
-      "walletAddress ? getCommunityMembership(c.id, walletAddress) : Promise.resolve(null)",
-    );
+    expect(loadBody).toContain("? getCommunityMembership(c.id, walletAddress)");
+    // No wallet while the saved sign-in is still loading is "unknown", not "not a member".
+    expect(loadBody).toContain(": Promise.resolve(isBootLoading ? undefined : null)");
     expect(loadBody).toContain("if (m) setMembers(m);");
     expect(loadBody).toContain("if (pins) setIsPinned(");
   });
