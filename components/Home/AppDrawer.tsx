@@ -1038,7 +1038,8 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                     style={[styles.balanceChip, square && styles.square]}
                   >
                     <DhbCoin size={16} />
-                    <Text style={styles.balanceText}>{dhbBalance.toLocaleString()}</Text>
+                    {/* Compact from 10k up, so the chip never squeezes the counts line (Requests eaf824e2). */}
+                    <Text style={styles.balanceText}>{dhbBalance >= 10_000 ? formatCompactNumber(dhbBalance) : dhbBalance.toLocaleString()}</Text>
                   </TouchableOpacity>
                 )}
                 <MenuAccountSwitcher

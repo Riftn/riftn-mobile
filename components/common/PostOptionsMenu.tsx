@@ -325,12 +325,8 @@ const QuickBlock: React.FC<{ quick: QuickActions; onClose: () => void }> = memo(
           })}
         </View>
       )}
-      {!!quick.onComment && <OptionRow icon="MessageSquare" label={t("copy.44f5e3fbec57", { defaultValue: "Comment" })} onPress={run(quick.onComment)} />}
-      {quick.reposted
-        ? (!!quick.onUndoRepost && <OptionRow icon="Repeat2" filled label={t("feedCard.undoRepost")} onPress={run(quick.onUndoRepost)} />)
-        : (!!quick.onRepost && <OptionRow icon="Repeat2" label={t("feedCard.repost")} onPress={run(quick.onRepost)} />)}
-      {!!quick.onQuote && <OptionRow icon="Quote" label={t("copy.eb4cdebd82bf", { defaultValue: "Quote" })} onPress={run(quick.onQuote)} />}
-      {!!quick.onTip && <OptionRow icon="Gem" label={t("postOptions.sendTip")} onPress={run(quick.onTip)} />}
+      {/* Comment, repost, quote and tip sit on the post's action bar right
+          under the post, so the menu leaves them out (Requests 7399dd7d). */}
       {!!quick.look && <OptionRow icon="Palette" label={quick.look.label} onPress={run(quick.look.onPress)} />}
       {!!words && (
         <OptionRow
@@ -797,7 +793,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
             <OptionRow icon="Music" label={t("remix.sound", { defaultValue: "Use sound" })} onPress={() => { onClose(); onRemix('sound'); }} />
             <OptionRow icon="Scissors" label={t("remix.cut", { defaultValue: "Cut" })} onPress={() => { onClose(); onRemix('cut'); }} />
           </>}
-          {!!onToggleSave && (
+          {!!onToggleSave && !quick && (
             <OptionRow
               icon="Bookmark"
               filled={isSaved}
@@ -865,7 +861,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
             />
           )}
 
-          {!!onInfoPress && (
+          {!!onInfoPress && !quick && (
             <OptionRow
               icon="Info"
               label={t("postInfo.title", "Post info")}
@@ -873,13 +869,15 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
             />
           )}
 
-          {/* Share */}
-          <OptionRow
-            icon="Share2"
-            label={t("postOptions.share")}
-            sublabel={t("postOptions.shareDesc")}
-            onPress={handleShare}
-          />
+          {/* Share: a feed card has it on its action bar already. */}
+          {!quick && (
+            <OptionRow
+              icon="Share2"
+              label={t("postOptions.share")}
+              sublabel={t("postOptions.shareDesc")}
+              onPress={handleShare}
+            />
+          )}
 
           {/* Send to DM */}
           {!!onSendToDm && (

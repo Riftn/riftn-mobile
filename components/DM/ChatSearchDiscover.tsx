@@ -72,7 +72,8 @@ export default function ChatSearchDiscover({ query, myAddress, knownAddresses, o
       const { data, error } = await supabase
         .from("communities")
         .select("*")
-        .ilike("name", `%${term}%`)
+        // Name or @name (the slug in the group's link).
+        .or(`name.ilike.%${term}%,slug.ilike.%${term}%`)
         .order("member_count", { ascending: false })
         .limit(4);
       if (error) throw error;

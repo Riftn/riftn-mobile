@@ -127,9 +127,11 @@ const DirectMessagesInner: React.FC = () => {
   const { byId: chatPrefs, update: updateChatPref, seeReactions, refresh: refreshChatPrefs } = useChatPrefs(!!myAddress);
   const publicReactions = chatPrefs.get(PUBLIC_CHAT_PREF_ID)?.reactions ?? null;
   const groupChats = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    // A group is found by its name or its @name (the slug in its link), so
+    // "riftn-turkiye" or "@riftn-turkiye" finds Riftn Türkiye (Requests 483e1e5f).
+    const q = query.trim().toLowerCase().replace(/^@/, "");
     return chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt)
-      .filter((c) => !q || c.name.toLowerCase().includes(q));
+      .filter((c) => !q || c.name.toLowerCase().includes(q) || (c.slug || "").toLowerCase().includes(q));
   }, [memberships, query, chatPrefs]);
   const openGroupChat = useCallback((c: Community, invite = false) => {
     if (chatPrefs.get(roomChatId(c.id))?.markedUnread) void updateChatPref(roomChatId(c.id), { unread: false });
