@@ -721,16 +721,38 @@ async function runWide(): Promise<void> {
   await shot("wide-3-fullscreen");
   await sleep(700);
   if (extra.fullscreen === ScreenNames.FullscreenVideo) {
-    nav.goBack();
-    await sleep(5000);
+    // Minimise closes full screen (it used to turn the clip upright and stay).
+    await AsyncStorage.setItem(SWIPE_KEY, "find:wide-minimise:Close video");
+    await sleep(8000);
+    extra.minimiseClosed = nav.getCurrentRoute()?.name !== ScreenNames.FullscreenVideo;
+    if (!extra.minimiseClosed) nav.goBack();
+    await sleep(1500);
   }
   extra.back = nav.getCurrentRoute()?.name;
   await shot("wide-4-back");
   await sleep(700);
+  // The same clip on its post page: full screen grows out of the player's
+  // box and turns sideways; Minimise turns back and shrinks into the box.
+  nav.navigate(ScreenNames.PostInfo, { tokenId: String(tokenId) });
+  await sleep(9000);
+  await shot("wide-5-post");
+  await sleep(700);
+  await AsyncStorage.setItem(SWIPE_KEY, "find:post-fullscreen:Fullscreen");
+  await sleep(8000);
+  extra.postFullscreen = nav.getCurrentRoute()?.name;
+  await shot("wide-6-post-fullscreen");
+  await sleep(700);
+  if (extra.postFullscreen === ScreenNames.FullscreenVideo) {
+    await AsyncStorage.setItem(SWIPE_KEY, "find:post-minimise:Close video");
+    await sleep(8000);
+  }
+  extra.postBack = nav.getCurrentRoute()?.name;
+  await shot("wide-7-post-back");
+  await sleep(700);
   await AsyncStorage.removeItem(SWIPE_KEY);
   extra.finishedAt = Date.now();
   await save(true);
-  console.error(`[perf-tour] wide done: opened ${String(extra.opened)}, full screen ${String(extra.fullscreen)}, back on ${String(extra.back)}`);
+  console.error(`[perf-tour] wide done: opened ${String(extra.opened)}, full screen ${String(extra.fullscreen)}, minimise closed ${String(extra.minimiseClosed)}, back on ${String(extra.back)}, post full screen ${String(extra.postFullscreen)}, post back on ${String(extra.postBack)}`);
 }
 
 /**
