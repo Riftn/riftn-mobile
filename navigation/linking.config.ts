@@ -572,6 +572,12 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
           [ScreenNames.Root]: {
             screens: {
               [ScreenNames.DM]: DeepLinkPaths.MESSAGES,
+              // riftn.com/app/assistant?action=<id>: a card the assistant
+              // offered in a DM, opened here so it can be confirmed.
+              [ScreenNames.AIChat]: {
+                path: 'app/assistant',
+                parse: { action: (action: string) => action },
+              },
             },
           },
         },
