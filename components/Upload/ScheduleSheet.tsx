@@ -29,6 +29,8 @@ interface ScheduleSheetProps {
   kind?: ScheduleKind;
   /** Moving something already planned: no "Remove schedule", no Planned link. */
   moving?: boolean;
+  /** Messages only: offer "When they're next online" above the clock. */
+  onWhenOnline?: () => void;
 }
 
 const STEP = 15;
@@ -52,7 +54,7 @@ const firstSlot = (minAhead: number) => {
  * pick, or choose a day from the strip and step the time. Page-kit chips and
  * buttons so every theme draws it like the rest of the app.
  */
-export default function ScheduleSheet({ visible, onClose, scheduledDate, onSchedule, title, minimumMinutes = 0, kind = "post", moving = false }: ScheduleSheetProps) {
+export default function ScheduleSheet({ visible, onClose, scheduledDate, onSchedule, title, minimumMinutes = 0, kind = "post", moving = false, onWhenOnline }: ScheduleSheetProps) {
   const { t } = useTranslation();
   // Optional: the sheet also opens from modals that sit outside a navigator.
   const navigation = useContext(NavigationContext);
@@ -183,6 +185,22 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" contentContainerStyle={styles.body}>
+        {kind === "message" && onWhenOnline ? (
+          <Pressable
+            onPress={() => { onWhenOnline(); onClose(); }}
+            accessibilityRole="button"
+            testID="when-online-pick"
+            style={({ pressed }) => ({ opacity: pressed ? 0.8 : 1 })}
+          >
+            <View style={[chip(false), styles.whenOnline]}>
+              <Icon name="Hourglass" size={16} color="#FFFFFF" />
+              <View style={styles.whenOnlineText}>
+                <Text style={[styles.pickTitle, ink(false)]}>{t("dmSchedule.whenOnline", { defaultValue: "When they're next online" })}</Text>
+                <Text style={[styles.pickSub, ink(false)]}>{t("dmSchedule.whenOnlineHint", { defaultValue: "Shows as sent now. It reaches them the next time they open Riftn, and the tick turns double when they read it." })}</Text>
+              </View>
+            </View>
+          </Pressable>
+        ) : null}
         <View style={[styles.typeBox, field.surface]}>
           <Icon name="Clock" size={16} color="rgba(255,255,255,0.6)" />
           <TextInput
@@ -371,6 +389,8 @@ const styles = StyleSheet.create({
   pickTitleRow: { flexDirection: "row", alignItems: "center", gap: 4 },
   pickTitle: { fontSize: 14, fontWeight: "600" },
   pickSub: { fontSize: 12, fontWeight: "500", opacity: 0.7 },
+  whenOnline: { flexDirection: "row", alignItems: "center", gap: 12 },
+  whenOnlineText: { flex: 1, gap: 2 },
   eyebrow: { color: "rgba(255,255,255,0.5)", fontSize: 11, fontWeight: "600", letterSpacing: 1.3, marginBottom: -6 },
   strip: { gap: 4 },
   day: { width: DAY_WIDTH - 4, alignItems: "center", paddingTop: 6, paddingBottom: 10, gap: 2 },
