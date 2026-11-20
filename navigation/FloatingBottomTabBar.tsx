@@ -17,6 +17,7 @@ import {
 } from "react-native";
 import NavPillSurface, { NAV_PILL_RADIUS } from "../components/ui/NavPillSurface";
 import { LIGHT_BOTTOM_PILL_SHADOW } from "../components/ui/FrostedPill";
+import { glowIcon } from "../components/ui/glow";
 import { KeepDarkScope } from "../libs/jsx/tone";
 import Reanimated, {
   useSharedValue,
@@ -245,22 +246,9 @@ const KIDS_MODE_SCREENS = new Set([
 
 
 // A canvas theme's coloured halo (War cyan, Osaka pink) on the active tab and
-// the centre button — web's drop-shadow glow. One object per colour.
-const glowCache = new Map<string, ViewStyle>();
+// the centre button — web's drop-shadow glow, drawn the same way on Android.
 function glowStyle(color: string): ViewStyle {
-  let s = glowCache.get(color);
-  if (!s) {
-    s = {
-      shadowColor: color,
-      shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 0.7,
-      shadowRadius: 8,
-      // Android draws a coloured shadow only behind a non-transparent fill.
-      ...(Platform.OS === "android" ? { backgroundColor: "rgba(255,255,255,0.01)", elevation: 0 } : null),
-    };
-    glowCache.set(color, s);
-  }
-  return s;
+  return glowIcon(color, 8, 0.7);
 }
 const NativeAnimatedPressable = NativeAnimated.createAnimatedComponent(Pressable);
 
@@ -1071,27 +1059,8 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     boxShadow: "0px 2px 8px rgba(0,0,0,0.18)",
   },
-  activeGlow: {
-    // Web: drop-shadow only on the active icon — inactive tabs stay flat/dim.
-    ...Platform.select({
-      ios: {
-        shadowColor: "#FFFFFF",
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.55,
-        shadowRadius: 8,
-      },
-      android: {
-        // RN shadow needs a non-transparent backdrop on Android; a hairline
-        // fill lets the white halo render only on the active tab wrapper.
-        backgroundColor: "rgba(255, 255, 255, 0.01)",
-        shadowColor: "#FFFFFF",
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.45,
-        shadowRadius: 6,
-        elevation: 0,
-      },
-    }),
-  },
+  // Web: drop-shadow only on the active icon — inactive tabs stay flat/dim.
+  activeGlow: glowIcon("#FFFFFF", 8, 0.55),
   // A drag lifts the icon off the pill: give it a fill so it reads as held,
   // inset like the pill's own padding so the pill's edge never cuts it off.
   liftedFill: {

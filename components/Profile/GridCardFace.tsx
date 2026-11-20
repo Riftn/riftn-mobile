@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     borderWidth: 2.5,
     borderColor: "rgba(0,0,0,0.35)",
   },
-  spotifyPlayOn: { shadowColor: "#1ED760", shadowOpacity: 0.7, shadowRadius: 10, shadowOffset: { width: 0, height: 0 }, elevation: 4 },
+  spotifyPlayOn: { boxShadow: "0px 0px 10px rgba(30,215,96,0.7)" },
   spotifyText: { position: "absolute", left: 7, right: 7, bottom: 9, gap: 1 },
   spotifyTitleRow: { flexDirection: "row", alignItems: "center", gap: 4 },
   spotifyTitle: { flexShrink: 1, color: "#FFFFFF", fontSize: 10, fontWeight: "800" },

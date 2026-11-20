@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { glowLine } from "../ui/glow";
 import { NavigationContext } from "@react-navigation/native";
 import { useQuery } from "@tanstack/react-query";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -328,7 +329,7 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
                 <Text style={styles.dayName}>{i === 0 ? t("whenSheet.today", { defaultValue: "Today" }) : d.toLocaleDateString(locale, { weekday: "short" })}</Text>
                 <Text style={[styles.dayNum, active && styles.dayNumActive]}>{d.getDate()}</Text>
                 {/* "Beam", as on profile tabs: a short glowing line under the pick. */}
-                {active ? <View pointerEvents="none" style={styles.beam} /> : null}
+                {active ? <View pointerEvents="none" style={[styles.beam, glowLine("#fff")]} /> : null}
               </Pressable>
             );
           })}
@@ -398,7 +399,7 @@ const styles = StyleSheet.create({
   dayName: { color: "#FFFFFF", fontSize: 11, fontWeight: "500" },
   dayNum: { color: "#FFFFFF", fontSize: 18, fontWeight: "600" },
   dayNumActive: { fontWeight: "800" },
-  beam: { position: "absolute", bottom: 2, left: "30%", right: "30%", height: 3, borderRadius: 3, backgroundColor: "#fff", shadowColor: "#fff", shadowOpacity: 0.9, shadowRadius: 6, shadowOffset: { width: 0, height: 0 } },
+  beam: { position: "absolute", bottom: 2, left: "30%", right: "30%", height: 3, borderRadius: 3 },
   note: { color: "rgba(255,255,255,0.6)", fontSize: 12, textAlign: "center", marginTop: -6 },
   actions: { gap: 8, marginTop: 4 },
   fansToggle: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", paddingVertical: 4 },

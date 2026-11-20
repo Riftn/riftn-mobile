@@ -139,11 +139,7 @@ export function BadgeProgress({ balance, lock, compact = false }: BadgeProgressP
               height: "100%",
               borderRadius: 999,
               backgroundColor: "#FFFFFF",
-              shadowColor: "#FFFFFF",
-              shadowOpacity: 0.6,
-              shadowRadius: 8,
-              shadowOffset: { width: 0, height: 0 },
-              elevation: 6,
+              boxShadow: "0px 0px 8px rgba(255,255,255,0.6)",
             },
           ]}
         />

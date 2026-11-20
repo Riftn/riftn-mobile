@@ -64,11 +64,7 @@ function LitDot({ pulsing }: { pulsing: boolean }) {
           height: 8,
           borderRadius: 4,
           backgroundColor: GREEN,
-          shadowColor: GREEN,
-          shadowOpacity: 0.9,
-          shadowRadius: 4,
-          shadowOffset: { width: 0, height: 0 },
-          elevation: 3,
+          boxShadow: `0px 0px 4px ${GREEN}`,
         }}
       />
     </View>
