@@ -34,16 +34,20 @@ running() {
   xcrun simctl spawn "$UDID" launchctl list 2>/dev/null | grep -q "UIKitApplication:$BUNDLE"
 }
 
-# The iPhone Duo has two screens, and a plain screenshot can fail there: then
-# try each display by name, and keep the errors so a missing picture is explained.
+# The iPhone Duo has two screens, and a plain screenshot refuses to pick one:
+# it lists them as "--display=N  name WxH". Take every listed screen that is
+# showing (the inner one is <name>.png, the outer one <name>-outer.png), and
+# keep the errors so a missing picture is explained.
 shot() {
-  local f="$OUT/shots/$1.png" d
-  xcrun simctl io "$UDID" screenshot "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" && return 0
-  for d in internal inner main external outer; do
-    xcrun simctl io "$UDID" screenshot --display="$d" "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" && return 0
+  local f="$OUT/shots/$1.png" err="$OUT/.shot-err.txt" id
+  xcrun simctl io "$UDID" screenshot "$f" >/dev/null 2>"$err" && return 0
+  cat "$err" >> "$OUT/logs/shot-errors.txt"
+  for id in $(grep -oE -- '--display=[0-9]+ +[^ ]+.* [0-9]+x[0-9]+' "$err" \
+      | awk '{split($NF, d, "x"); print d[1]*d[2], $1}' | sort -rn | awk '{print $2}' | cut -d= -f2); do
+    xcrun simctl io "$UDID" screenshot --display="$id" "$f" >/dev/null 2>>"$OUT/logs/shot-errors.txt" \
+      && f="$OUT/shots/$1-outer.png"
   done
-  screencapture -x -o -l"$(osascript -e 'tell application "Simulator" to id of window 1' 2>/dev/null)" "$f" 2>>"$OUT/logs/shot-errors.txt" \
-    || screencapture -x "$f" 2>>"$OUT/logs/shot-errors.txt" || true
+  return 0
 }
 
 launch() {
@@ -126,12 +130,91 @@ PY
 
 # Turns the simulator on its side through the Simulator app's Device menu.
 turn_sideways() {
-  limit 30 open -a Simulator --args -CurrentDeviceUDID "$UDID" || return 1
+  limit 30 open "$(xcode-select -p)/Applications/Simulator.app" --args -CurrentDeviceUDID "$UDID" || return 1
   sleep 15
   limit 30 osascript -e 'tell application "Simulator" to activate' \
     -e 'tell application "System Events" to tell process "Simulator" to click menu item "Rotate Left" of menu "Device" of menu bar 1' \
     >> "$OUT/logs/rotate.txt" 2>&1 || return 1
   sleep 4
+}
+
+# The iPhone Duo simulator boots folded, so only the small outer screen is
+# lit. Open it from the Simulator's Device menu (the item's name is looked up,
+# not fixed), and write every Device menu item to logs/device-menu.txt.
+unfold_duo() {
+  local log="$OUT/logs/device-menu.txt"
+  {
+    echo "== simctl ui / io help (looking for a fold command)"
+    xcrun simctl help ui 2>&1
+    xcrun simctl help io 2>&1 | sed -n '/screenConfig/,$p'
+    xcrun simctl io "$UDID" screenConfig --display=3 help 2>&1 | head -40
+  } > "$log"
+  if xcrun simctl help ui 2>&1 | grep -qiE "fold|posture"; then
+    for arg in "fold open" "posture open" "posture flat" "unfold"; do
+      # shellcheck disable=SC2086
+      if xcrun simctl ui "$UDID" $arg >> "$log" 2>&1; then echo "simctl ui $arg: ok" >> "$log"; sleep 5; return 0; fi
+    done
+  fi
+  # The Xcode 27 runner has no Simulator app, so there is no Device menu to
+  # unfold from: power the biggest screen on and the others off instead.
+  if [ ! -d "$(xcode-select -p)/Applications/Simulator.app" ]; then
+    echo "== no Simulator app; screens:" >> "$log"
+    xcrun simctl io "$UDID" enumerate >> "$log" 2>&1 || true
+    local err ids big
+    err="$(xcrun simctl io "$UDID" screenshot "$OUT/.probe.png" 2>&1 >/dev/null || true)"
+    ids="$(echo "$err" | grep -oE -- '--display=[0-9]+ +[^ ]+.* [0-9]+x[0-9]+' \
+      | awk '{split($NF, d, "x"); print d[1]*d[2], $1}' | sort -rn | awk '{print $2}' | cut -d= -f2)"
+    big="$(echo "$ids" | head -1)"
+    [ -n "$big" ] || return 1
+    xcrun simctl io "$UDID" screenConfig --display="$big" power on >> "$log" 2>&1 || return 1
+    for id in $(echo "$ids" | tail -n +2); do
+      xcrun simctl io "$UDID" screenConfig --display="$id" power off >> "$log" 2>&1 || true
+    done
+    sleep 5
+    return 0
+  fi
+  echo "== open Simulator" >> "$log"
+  limit 90 open "$(xcode-select -p)/Applications/Simulator.app" --args -CurrentDeviceUDID "$UDID" >> "$log" 2>&1 || { echo "open failed: $?" >> "$log"; return 1; }
+  sleep 20
+  limit 60 osascript >> "$log" 2>&1 <<'AS' || return 1
+tell application "Simulator" to activate
+delay 2
+tell application "System Events" to tell process "Simulator"
+  set out to ""
+  set done to "none"
+  set m to menu "Device" of menu bar 1
+  repeat with mi in menu items of m
+    set n to (name of mi) as text
+    set out to out & n & linefeed
+    try
+      repeat with si in menu items of menu 1 of mi
+        set out to out & "  > " & ((name of si) as text) & linefeed
+      end repeat
+    end try
+  end repeat
+  repeat with mi in menu items of m
+    set n to (name of mi) as text
+    if done is "none" and (n contains "Unfold" or n contains "Open Device") then
+      click mi
+      set done to n
+    end if
+    if done is "none" then
+      try
+        repeat with si in menu items of menu 1 of mi
+          set sn to (name of si) as text
+          if done is "none" and (sn contains "Unfold" or sn is "Open" or sn is "Opened") then
+            click si
+            set done to n & " > " & sn
+          end if
+        end repeat
+      end try
+    end if
+  end repeat
+  return out & "clicked: " & done
+end tell
+AS
+  grep -q "clicked: none" "$log" && return 1
+  sleep 5
 }
 
 PAGES=(
@@ -243,6 +326,10 @@ walk() {
     i=$((i + 1))
   done
 }
+
+if [ "${DEVICE:-iphone}" = "duo" ]; then
+  unfold_duo || echo "could not open the folded Duo (see logs/device-menu.txt)" >> "$OUT/crashes.txt"
+fi
 
 # THEMES picks which walks run (default all three): dark and light are the
 # phone's setting under the app's System theme; syslight is the app's own
