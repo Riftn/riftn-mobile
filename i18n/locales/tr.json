@@ -2944,8 +2944,8 @@
     "enterOfferAmount": "Bu kullanıcı adı için vermek istediğin dolar tutarını gir.",
     "submitOffer": "Teklifi Gönder",
     "validOfferAmount": "Lütfen geçerli bir teklif tutarı girin",
-    "followers": "Takipçiler",
-    "following": "Takip Edilenler",
+    "followers": "Takipçi",
+    "following": "Takip Edilen",
     "joined": "Katıldı",
     "reach": {
       "total": "Toplam erişim",
