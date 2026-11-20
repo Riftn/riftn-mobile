@@ -96,6 +96,9 @@ import ViewerScrubBar from "../common/ViewerScrubBar";
 import LiveClipSheet from "../LiveViewer/LiveClipSheet";
 import HypeTrainBar from "../LiveViewer/HypeTrainBar";
 import GiftSubsSheet from "../LiveViewer/GiftSubsSheet";
+import RewardsSheet from "../LiveViewer/RewardsSheet";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMyStreamPoints, getStreamRewards } from "../../services/live-rewards.service";
 import { captureLiveClip, type LiveClip } from "../../services/live-clips.service";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
@@ -1663,6 +1666,55 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       }
     });
   }, [streamEntity?.tokenId, tokenId, requireAuth, t]);
+  // Channel points: the viewer's balance with this creator, and the rewards
+  // they can spend it on. Only for a signed-in viewer of a stream on air.
+  const pointsEnabled = !!streamId && isSignedIn && ownerStatus === "viewer" && isLiveEffective;
+  const pointsQuery = useQuery({
+    queryKey: ["live-points", streamId],
+    queryFn: () => getMyStreamPoints(streamId!),
+    enabled: pointsEnabled,
+    refetchInterval: pointsEnabled ? 60_000 : false,
+    staleTime: 30_000,
+    retry: false,
+  });
+  const rewardsQuery = useQuery({
+    queryKey: ["live-rewards", streamId],
+    queryFn: () => getStreamRewards(streamId!),
+    enabled: pointsEnabled,
+    staleTime: 60_000,
+  });
+  const queryClient = useQueryClient();
+  const [rewardsOpen, setRewardsOpen] = useState(false);
+  const pointsBalance = pointsEnabled && pointsQuery.data?.live ? pointsQuery.data.balance : null;
+  const openRewards = useCallback(() => {
+    void rewardsQuery.refetch();
+    setRewardsOpen(true);
+  }, [rewardsQuery]);
+  // A redemption is a line in the room; a creator editing rewards mid-stream refetches them.
+  useEffect(() => {
+    if (!streamId) return;
+    const offReward = socketOn("stream.reward", (data: any) => {
+      if (String(data?.streamId || "") !== String(streamId)) return;
+      const r = data?.redemption;
+      if (!r || typeof r.title !== "string") return;
+      addActivity({
+        status: "SYSTEM",
+        address: String(r.viewer?.address || "").toLowerCase(),
+        user: r.viewer,
+        meta: {
+          kind: "reward",
+          rewardTitle: String(r.title).slice(0, 60),
+          content: String(r.text || "").slice(0, 200),
+          username: r.viewer?.displayName || r.viewer?.username,
+          avatarImageUrl: r.viewer?.avatarImageUrl,
+        },
+      });
+    }) || (() => {});
+    const offRewards = socketOn("stream.rewards.updated", (data: any) => {
+      if (String(data?.streamId || "") === String(streamId)) void queryClient.invalidateQueries({ queryKey: ["live-rewards", streamId] });
+    }) || (() => {});
+    return () => { offReward(); offRewards(); };
+  }, [streamId, socketOn, addActivity, queryClient]);
   const [giftOpen, setGiftOpen] = useState(false);
   const handleGiftPress = useCallback(() => {
     if (!isLiveEffective) return;
@@ -2139,6 +2191,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   likeCount={postReactions.likeCount}
                   isLiked={postReactions.isLiked}
                   actionsDisabled={!isSignedIn || !isLiveEffective}
+                  pointsBalance={pointsBalance}
+                  onPointsPress={openRewards}
                 />
               </View>
             </View>
@@ -2289,6 +2343,16 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         }}
         onGiftSubs={ownerStatus === "viewer" && giftCreatorAddress ? () => setGiftSubsOpen(true) : undefined}
       />
+      {rewardsOpen && streamId && pointsQuery.data ? (
+        <RewardsSheet
+          visible={rewardsOpen}
+          onClose={() => setRewardsOpen(false)}
+          streamId={streamId}
+          balance={pointsQuery.data}
+          rewards={rewardsQuery.data?.rewards ?? []}
+          loading={rewardsQuery.isLoading}
+        />
+      ) : null}
       {giftSubsOpen && giftCreatorAddress ? (
         <GiftSubsSheet
           visible={giftSubsOpen}
