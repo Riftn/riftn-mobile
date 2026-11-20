@@ -7,6 +7,7 @@
  */
 import type { View } from 'react-native';
 import type { RefObject } from 'react';
+import { getBadgeUrlFor } from './misc';
 
 let waitingUntil = 0;
 
@@ -26,15 +27,22 @@ export function signInWasWaiting(ms: number): boolean {
  * that follows. Only log-ins note one: a new account picking its username is
  * a sign-up, and gets no arrival.
  */
-export type ArrivingAccount = { avatarImageUrl: string | null; name: string; at: number };
+export type ArrivingAccount = {
+  avatarImageUrl: string | null;
+  name: string;
+  /** The staking badge drawn after the name, as on the profile (an image asset). */
+  badge?: number;
+  at: number;
+};
 let arriving: ArrivingAccount | null = null;
 const arrivingListeners = new Set<() => void>();
 
-export function noteSignInAccount(user: { avatarImageUrl?: string | null; displayName?: string | null; username?: string | null } | null | undefined): void {
+export function noteSignInAccount(user: ({ avatarImageUrl?: string | null; displayName?: string | null; username?: string | null } & Record<string, any>) | null | undefined): void {
   if (!user) return;
   arriving = {
     avatarImageUrl: user.avatarImageUrl || null,
     name: user.displayName || user.username || '',
+    badge: user.hideBadgeAndBalance ? undefined : getBadgeUrlFor(user),
     at: Date.now(),
   };
   arrivingListeners.forEach((l) => l());

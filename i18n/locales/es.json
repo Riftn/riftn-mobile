@@ -903,7 +903,7 @@
     "postCount_other": "{{count}} publicaciones"
   },
   "settings": {
-    "arrivalLook": {"title": "Al iniciar sesión", "desc": "Lo que se ve mientras carga tu cuenta, antes de que tu foto llegue a la página. En este dispositivo.", "rift": "Grieta", "trace": "Trazo", "frame": "Marco de foto", "orbit": "Órbita"},
+    "arrivalLook": {"title": "Al iniciar sesión", "desc": "Lo que se ve mientras carga tu cuenta, antes de que tu foto llegue a la página. En este dispositivo.", "trace": "Trazo", "tune": "Sintonizar", "rift": "Grieta", "deck": "Baraja", "glass": "Gota de cristal"},
     "chatDeleteChoice": "Al eliminar un mensaje",
     "chatDeleteChoiceDesc": "Preguntar siempre, o eliminar siempre solo para ti o para todos en el chat.",
     "chatDeleteAsk": "Preguntar siempre",
