@@ -219,9 +219,47 @@ AS
 
 PAGES=(
   "app/post/742"
-  "app/post/2149"
-  "app/post/8092"
+  "app"
   "app/post/5799"
+  "app/post/742/info"
+  "maldoteth"
+  "app/features"
+  "app/leaderboard"
+  "dao"
+  "app/governance"
+  "app/superpowers"
+  "app/wallet"
+  "app/fractions"
+  "nfts"
+  "app/agents"
+  "packs"
+  "creators"
+  "raffle"
+  "builder"
+  "app/launchpad"
+  "premium"
+  "pricing"
+  "depin"
+  "app/bridge"
+  "apps"
+  "arcade"
+  "arcade/gods-eye"
+  "arcade/kings-gambit"
+  "app/notifications"
+  "app/messages"
+  "compare"
+  "app/planned"
+  "live-studio"
+  "accounts"
+  "usernames"
+  "converter"
+  "creator/maboroshi"
+  "creator/flow"
+  "connect"
+  "work/history"
+  "feedback"
+  "welcome"
+  "signin"
 )
 
 # The app's own theme pick (Settings > Appearance), written where the app's
@@ -280,9 +318,6 @@ walk() {
     sleep 6
     shot "$name"
     echo "$(date +%H:%M:%S) $name"
-    idb ui swipe --udid "$UDID" 196 700 196 250 >/dev/null 2>&1 || true
-    sleep 3
-    shot "$name-scrolled"
     if ! running; then
       echo "$theme: app not running after opening $page" >> "$OUT/crashes.txt"
       launch
