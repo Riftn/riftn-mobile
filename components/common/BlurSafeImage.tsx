@@ -1,6 +1,12 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Image as ExpoImage, type ImageProps } from "expo-image";
-import { Platform, View, type LayoutChangeEvent } from "react-native";
+import { Platform, StyleSheet, View, type LayoutChangeEvent } from "react-native";
+import { optionalSkia } from "../../libs/skia";
+import { storageImage } from "../../libs/cdnImage";
+
+const Bake = Platform.OS === "android"
+  ? optionalSkia(() => require("../../libs/skiaBlurBake") as typeof import("../../libs/skiaBlurBake"))
+  : null;
 
 /**
  * Blurred pictures that can't crash Android.
@@ -15,7 +21,18 @@ import { Platform, View, type LayoutChangeEvent } from "react-native";
  * comes straight from the cache the feed already filled: a first try that
  * re-fetched through React Native's Image left the Shorts backdrop empty for
  * the first frames of every open. iOS and unblurred pictures are unchanged.
+ *
+ * That stretched copy is only the first frame: on builds with Skia, a real
+ * Gaussian blur is baked once (libs/skiaBlurBake) and replaces it, because
+ * the stretch alone showed blocks and creases instead of a soft blur.
  */
+
+/** The remote or file address of an image source, when it has one. */
+export function sourceUri(source: ImageProps["source"]): string | null {
+  const one = Array.isArray(source) ? source[0] : source;
+  const uri = typeof one === "string" ? one : one && typeof one === "object" && "uri" in one ? (one as { uri?: string }).uri : null;
+  return typeof uri === "string" && /^(https?|file|data):/i.test(uri) ? uri : null;
+}
 
 /** Width in dp of the small copy: a stronger blur draws it smaller. */
 export function blurSampleWidth(boxWidth: number, radius: number): number {
@@ -41,6 +58,24 @@ export function AndroidBlurredImage({ source, style, contentFit = "cover", blurR
   // Never fall back to the full picture: blur also hides locked media.
   const sample = box && box.w > 0 && box.h > 0 ? blurSampleWidth(box.w, blurRadius ?? 0) : 0;
   const sampleH = sample && box ? (sample * box.h) / box.w : 0;
+  const uri = sourceUri(source);
+  const fit = contentFit === "contain" ? "contain" : "cover";
+  const [baked, setBaked] = useState<{ key: string; uri: string } | null>(null);
+  const bakeKey = Bake && uri && box && box.w > 0 && box.h > 0 ? `${uri}|${box.w}|${box.h}|${blurRadius}|${fit}` : null;
+  useEffect(() => {
+    if (!Bake || !bakeKey || !uri || !box) return;
+    let alive = true;
+    // A blurred copy needs only a small picture: ask the storage resizer for
+    // about twice the baked size instead of decoding the full photo.
+    const small = storageImage(uri, Math.max(48, Math.round(box.w * Bake.bakeScale(blurRadius ?? 0) * 2)));
+    void Bake.bakeBlur(small, box.w, box.h, blurRadius ?? 0, fit).then((out) => {
+      if (alive && out) setBaked({ key: bakeKey, uri: out });
+    });
+    return () => { alive = false; };
+    // bakeKey already carries every input.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bakeKey]);
+  const ready = baked && baked.key === bakeKey ? baked.uri : null;
   return (
     <View
       style={[style as any, { overflow: "hidden" }]}
@@ -67,6 +102,9 @@ export function AndroidBlurredImage({ source, style, contentFit = "cover", blurR
             transform: [{ scale: box.w / sample }],
           }}
         />
+      ) : null}
+      {ready ? (
+        <ExpoImage source={{ uri: ready }} contentFit="fill" transition={0} cachePolicy="none" style={StyleSheet.absoluteFill} />
       ) : null}
     </View>
   );
