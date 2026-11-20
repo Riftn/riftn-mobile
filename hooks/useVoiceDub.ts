@@ -37,14 +37,23 @@ try {
 export const speechAvailable = Speech !== null;
 export const getSpeechEngine = () => Speech;
 
-/** Faster than this and a synthetic voice stops being intelligible. */
-const MAX_RATE = 1.3;
-/** Roughly what a device voice gets through per second at rate 1. */
+/** Past this a synthetic voice gets hard to follow. */
+const MAX_RATE = 1.5;
+/** What a device voice gets through per second at rate 1, until this voice has been timed. */
 const CHARS_PER_SECOND = 14;
+/** How far past its own end a line may run, or start, before the picture wins. */
+const MAX_LAG_S = 2.5;
+/** A line may use this much of the silence after it. */
+const BORROW_S = 1;
 /** A jump larger than this between ticks is a seek or a loop, not playback. */
 const SEEK_JUMP_S = 1.5;
-/** Landing this close to the end of a line, skip it and wait for the next. */
+/** With less than this to speak in, a line is not worth starting. */
 const MIN_REMAINING_S = 0.8;
+
+// How fast each voice really reads, timed on the lines it has finished. The
+// guess above is wrong by a third for some voices, and a wrong guess is a
+// line that does not fit.
+const measuredCps = new Map<string, number>();
 
 /** "pt-BR", "pt_BR" and "pt" are the same language to a voice picker. */
 export function baseLang(code: string | null | undefined): string {
@@ -56,15 +65,23 @@ export function segmentIndexAt(segments: TranscriptSegment[], t: number): number
   return segments.findIndex((s) => t >= s.start && t < s.end);
 }
 
+/** Seconds a line starting at `t` has: the rest of its span plus some of the silence after it. */
+export function lineRoom(segments: TranscriptSegment[], i: number, t: number): number {
+  const seg = segments[i];
+  if (t - seg.end > MAX_LAG_S) return 0;
+  const next = i + 1 < segments.length ? segments[i + 1].start : Infinity;
+  return Math.max(0, seg.end - t) + Math.min(BORROW_S, Math.max(0, next - Math.max(seg.end, t)));
+}
+
 /**
  * How fast to speak `text` so it fits the `seconds` left of its line. Never
  * slower than normal, never past MAX_RATE: a line that still does not fit
- * overruns a little and is cut by the next one, which beats drifting.
+ * runs on, and the next one waits for it.
  */
-export function speechRate(text: string, seconds: number, playbackRate = 1): number {
+export function speechRate(text: string, seconds: number, playbackRate = 1, charsPerSecond = CHARS_PER_SECOND): number {
   const window = seconds / Math.max(0.25, playbackRate || 1);
   if (window <= 0) return MAX_RATE;
-  const needed = text.length / CHARS_PER_SECOND / window;
+  const needed = text.length / charsPerSecond / window;
   return Math.min(MAX_RATE, Math.max(1, needed));
 }
 
@@ -139,6 +156,8 @@ export function useVoiceDub({ player, segments, lang, enabled, onFailed }: Voice
     // The line most recently started. Reset to -1 whenever speech is cut, so
     // playback resumes with whatever line the playhead is on.
     let spoken = -1;
+    // The line the picture reached while an earlier one was still being read.
+    let pending = -1;
     let lastT = -1;
     let alive = true;
     let failed = false;
@@ -160,6 +179,15 @@ export function useVoiceDub({ player, segments, lang, enabled, onFailed }: Voice
       utterance++;
       stopIfMine(owner);
       spoken = -1;
+      pending = -1;
+    };
+    const voiceKey = () => `${lang}:${voice ?? ""}`;
+    const learn = (chars: number, seconds: number, rate: number) => {
+      if (chars < 20 || seconds < 1) return;
+      const seen = chars / (seconds * rate);
+      if (!(seen > 6 && seen < 30)) return;
+      const known = measuredCps.get(voiceKey());
+      measuredCps.set(voiceKey(), known ? known * 0.6 + seen * 0.4 : seen);
     };
     const fail = () => {
       failed = true;
@@ -168,19 +196,16 @@ export function useVoiceDub({ player, segments, lang, enabled, onFailed }: Voice
       failedRef.current?.();
     };
 
-    const speakAt = (t: number, charOffset = 0) => {
+    const speakLine = (i: number, t: number, charOffset = 0) => {
       if (!alive || failed || !voiceReady || !Speech || restartTimer !== null || dubVoiceVolume(getVolume()) === 0) return;
-      const i = segmentIndexAt(segments, t);
       if (i < 0 || i === spoken) return;
       const seg = segments[i];
-      const remaining = seg.end - t;
-      if (remaining < MIN_REMAINING_S) return;
+      if (lineRoom(segments, i, t) < MIN_REMAINING_S) return;
       spoken = i;
+      pending = -1;
       spokenChar = charOffset;
       const text = (seg.text ?? "").slice(charOffset).trim();
       if (!text) return;
-      // Never queue. An utterance still running from the last line is cut
-      // here, or the dub falls behind the picture and never catches up.
       const id = ++utterance;
       speaker = owner;
       const current = () => alive && utterance === id;
@@ -190,22 +215,60 @@ export function useVoiceDub({ player, segments, lang, enabled, onFailed }: Voice
       };
       void Speech.stop().then(() => {
         if (!current() || speaker !== owner || !player.playing || player.muted) return;
+        // Aim to end with the line's own span; a line starting after its span
+        // aims for the silence it was given.
+        const now = player.currentTime;
+        const left = seg.end - now;
+        const rate = speechRate(text, left > 0 ? left : lineRoom(segments, i, now), player.playbackRate, measuredCps.get(voiceKey()));
+        let startedAt = 0;
         Speech?.speak(text, {
           language: lang,
           voice,
           volume: dubVoiceVolume(getVolume()),
           useApplicationAudioSession: true,
-          rate: speechRate(text, seg.end - player.currentTime, player.playbackRate),
+          rate,
           onStart: () => {
             if (!current()) return;
             if (!player.playing || player.muted || dubVoiceVolume(getVolume()) === 0) { silence(); return; }
+            startedAt = Date.now();
           },
           onBoundary: (event) => { if (current()) spokenChar = charOffset + event.charIndex; },
-          onDone: finish,
+          onDone: () => {
+            if (!current()) return;
+            if (startedAt) learn(text.length, (Date.now() - startedAt) / 1000, rate);
+            finish();
+            // Whatever the picture reached meanwhile starts now.
+            if (player.playing && !player.muted) advance(player.currentTime);
+          },
           onStopped: finish,
           onError: () => { if (current()) fail(); },
         });
       }).catch(() => { if (current()) fail(); });
+    };
+    const speakAt = (t: number, charOffset = 0) => speakLine(segmentIndexAt(segments, t), t, charOffset);
+
+    // A line still being read when the next begins is left to finish: the
+    // next one waits its turn and reads faster to catch up. Only a voice that
+    // has fallen well behind the picture is cut, and a line with no time left
+    // is dropped whole rather than chopped mid-word.
+    const advance = (t: number) => {
+      const i = segmentIndexAt(segments, t);
+      if (speaker === owner && spoken >= 0) {
+        if (i === spoken) return;
+        if (t - segments[spoken].end <= MAX_LAG_S) {
+          if (i >= 0) pending = i;
+          return;
+        }
+        silence();
+      }
+      if (i >= 0) { speakLine(i, t); return; }
+      // Between lines: a line whose span passed while the last one was being
+      // finished is read now if the silence leaves room for it.
+      if (pending >= 0 && pending !== spoken) {
+        const late = pending;
+        pending = -1;
+        speakLine(late, t);
+      }
     };
 
     const onTime = ({ currentTime }: { currentTime: number }) => {
@@ -218,14 +281,13 @@ export function useVoiceDub({ player, segments, lang, enabled, onFailed }: Voice
         if (speaker === owner) silence();
         return;
       }
-      if (segmentIndexAt(segments, currentTime) < 0 && speaker === owner) silence();
-      speakAt(currentTime);
+      advance(currentTime);
     };
 
     const timeSub = player.addListener("timeUpdate", onTime);
     const playSub = player.addListener("playingChange", ({ isPlaying }: { isPlaying: boolean }) => {
       if (!isPlaying) silence();
-      else if (!player.muted) speakAt(player.currentTime);
+      else if (!player.muted) advance(player.currentTime);
     });
     const muteSub = player.addListener("mutedChange", ({ muted }: { muted: boolean }) => {
       if (muted) silence();
@@ -261,7 +323,7 @@ export function useVoiceDub({ player, segments, lang, enabled, onFailed }: Voice
       voice = found?.identifier;
       voiceReady = true;
       syncVolume();
-      if (player.playing && !player.muted) speakAt(player.currentTime);
+      if (player.playing && !player.muted) advance(player.currentTime);
     }).catch(() => { if (alive) fail(); });
 
     return () => {

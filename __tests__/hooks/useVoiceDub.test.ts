@@ -30,12 +30,29 @@ describe('hooks/useVoiceDub', () => {
       expect(load().speechRate('Hola', 3)).toBe(1);
     });
 
-    it('speeds up for a long line in a short window, but never past 1.3', () => {
+    it('speeds up for a long line in a short window, but never past 1.5', () => {
       const { speechRate } = load();
       const rate = speechRate('a'.repeat(30), 2);
       expect(rate).toBeGreaterThan(1);
-      expect(rate).toBeLessThanOrEqual(1.3);
-      expect(speechRate('a'.repeat(300), 1)).toBe(1.3);
+      expect(rate).toBeLessThanOrEqual(1.5);
+      expect(speechRate('a'.repeat(300), 1)).toBe(1.5);
+    });
+
+    it('reads slower voices faster once they have been timed', () => {
+      const { speechRate } = load();
+      expect(speechRate('a'.repeat(30), 2, 1, 10)).toBeGreaterThan(speechRate('a'.repeat(30), 2));
+    });
+  });
+
+  describe('lineRoom', () => {
+    it('counts the silence after a line as room, up to a second, and none once it is long past', () => {
+      const { lineRoom } = load();
+      const lines = [{ start: 0, end: 3, text: 'a' }, { start: 3.4, end: 5, text: 'b' }, { start: 9, end: 10, text: 'c' }];
+      expect(lineRoom(lines, 0, 1)).toBeCloseTo(2.4);
+      expect(lineRoom(lines, 1, 4.5)).toBeCloseTo(1.5);
+      expect(lineRoom(lines, 1, 5.5)).toBeCloseTo(1);
+      expect(lineRoom(lines, 1, 8.5)).toBeCloseTo(0);
+      expect(lineRoom(lines, 2, 9.5)).toBeCloseTo(1.5);
     });
   });
 
