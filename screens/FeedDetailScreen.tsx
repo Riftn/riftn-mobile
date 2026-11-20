@@ -1,4 +1,6 @@
 import SkeletonBlock from '../components/Feed/SkeletonBlock';
+import { useCoAuthorState } from "../libs/coAuthors";
+import { CoAuthorInviteCard } from "../components/common/CoAuthorSheet";
 import { RouteBusyMark } from '../context/RouteBusyContext';
 import { useCommentCount, updateCommentCount } from '../libs/comment-count-store';
 import { deliverReply, replyIdOf } from '../libs/reply-delivery';
@@ -1626,6 +1628,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
 
   const renderHeader = useCallback(() => (
     <View>
+      {item && tokenId != null ? <PostCoAuthorInvite tokenId={tokenId} item={item} /> : null}
       {item && stage ? (
         // Every post opens as the same bento it is on the feed, video too,
         // inside the feed's gutter and as far under the pill as the feed's
@@ -2268,4 +2271,10 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
       </View>
     </View>
   );
+}
+
+/** The co-author ask above a post the reader was invited onto. */
+function PostCoAuthorInvite({ tokenId, item }: { tokenId: string | number; item: any }) {
+  const { invited } = useCoAuthorState(tokenId, item);
+  return <CoAuthorInviteCard tokenId={tokenId} invited={!!invited} creatorName={item?.minterDisplayName || item?.minterUsername} />;
 }

@@ -138,6 +138,7 @@ import { useUser, useAuthActions, useAuthState } from "../../context/AuthContext
 import { useEngagementWeight } from "../../hooks/useEngagementWeight";
 import { appliedEngagementWeight } from "../../libs/engagement-weight";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
+import { useCoAuthorState } from "../../libs/coAuthors";
 import PollCard from "../DM/PollCard";
 // Direct module imports, not the `libs` barrel — it `export *`s the axios
 // client and auth utils into every card module.
@@ -527,6 +528,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   const stream = (item as any).stream;
   const streamInfo = (item as any).streamInfo || stream?.streamInfo;
   const tokenId = item.tokenId ?? (item as any).id ?? stream?.tokenId;
+  const coAuthorState = useCoAuthorState(tokenId, item);
   // The HLS ladder when the post has one, else the MP4. The player and every
   // hand-off to the shorts viewer or post page key the native player on this
   // exact string (via postVideoUrl below). Downloads use postFileUrl: they
@@ -2640,6 +2642,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           <View style={{ flexDirection: 'row', gap: SCREEN_WIDTH < 768 ? 16 : 24, alignItems: 'stretch' }}>
             <View style={{ flex: 1, minWidth: 0 }}>
               <FeedCardHeader
+                coAuthors={coAuthorState.users}
                 boosted={isBoosted}
                 onBoostedPress={openSuperPowers}
                 avatarUrl={avatar} displayName={displayName} username={username} address={minterAddress}
@@ -2900,6 +2903,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     const photoHeader = cinematicMedia && !chipOverMedia ? (
       <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: firstImageHeaderBelow ? 10 : leadInset }}>
               <FeedCardHeader
+                coAuthors={coAuthorState.users}
                 boosted={isBoosted}
                 onBoostedPress={openSuperPowers}
                 avatarUrl={avatar}
@@ -3018,6 +3022,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         ) : (
           <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: leadInset }}>
             <FeedCardHeader
+                coAuthors={coAuthorState.users}
               boosted={isBoosted}
               onBoostedPress={openSuperPowers}
               avatarUrl={avatar}
@@ -3242,6 +3247,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           card is ~100 native views, each one paid for at mount mid-fling. */}
       {!retainFeedNav && postVideo && matureGate.isGated && <PostStageChrome overMedia={false} />}
       {!desk && <FeedCardHeader
+                coAuthors={coAuthorState.users}
         boosted={isBoosted}
         onBoostedPress={openSuperPowers}
         avatarUrl={avatar}
