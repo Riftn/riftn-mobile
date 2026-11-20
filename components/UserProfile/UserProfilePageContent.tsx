@@ -99,6 +99,13 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
     handleMessage(onClose);
   }, [handleMessage, onClose]);
 
+  // Ask AI (profile ⋮ menu): get the profile out of the way, then the
+  // Assistant opens a fresh chat and sends the ask (askId makes a repeat count).
+  const handleAskAi = useCallback((prompt: string) => {
+    onClose();
+    (navigation as any).navigate(ScreenNames.AIChat, { initialPrompt: prompt, autoSend: true, askId: Date.now() });
+  }, [onClose, navigation]);
+
   const followLists = useMemo(
     () => parseFollowLists((data as any)?.customs, data?.hideFollowers),
     [data],
@@ -172,6 +179,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
           onFollow={handleFollow}
           onOpenUnfollow={openUnfollowSheet}
           onMessage={handleMessageWrapper}
+          onAskAi={handleAskAi}
           onShare={handleShare}
           onOpenImage={handleOpenImage}
           onClose={onClose}
@@ -244,6 +252,7 @@ const UserProfilePageContent: React.FC<UserProfileBottomSheetProps> = ({
             onFollow={handleFollow}
             onOpenUnfollow={openUnfollowSheet}
             onMessage={handleMessageWrapper}
+          onAskAi={handleAskAi}
             onShare={handleShare}
             onOpenImage={handleOpenImage}
             onClose={onClose}

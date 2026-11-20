@@ -340,7 +340,8 @@ export type BottomTabParamList = {
   [ScreenNames.DM]: undefined;
   [ScreenNames.UploadTab]: undefined;
   /** `initialPrompt` seeds the composer — used by the Prompt entry screen. */
-  [ScreenNames.AIChat]: { initialPrompt?: string } | undefined;
+  /** `autoSend` (profile Ask AI) starts a fresh chat and sends it; `askId` makes a repeat ask count. */
+  [ScreenNames.AIChat]: { initialPrompt?: string; autoSend?: boolean; askId?: number } | undefined;
   /** `section: "newMembers"` is the Live Stats heading's deep link to the rail. */
   [ScreenNames.Explore]: { section?: "newMembers" } | undefined;
   [ScreenNames.ProfileTab]: undefined;
