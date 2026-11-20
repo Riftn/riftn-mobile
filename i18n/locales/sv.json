@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Omslag", "trim": "Trimma", "mirror": "Spegla", "rotate": "Rotera", "hide": "Dölj", "timer": "Timer", "close": "Stäng", "photo": "Foto", "remove": "Ta bort", "pause": "Pausa", "play": "Spela upp video", "hiddenUntilTap": "Dold tills de trycker på den", "scrub": "Skrubba genom videon", "addMore": "Lägg till foton eller videor", "coverAria": "Tryck på en bildruta för att välja omslag", "trimHint": "Dra i ändarna för att trimma", "coverHint": "Tryck på en bildruta för att göra den till omslag", "uploadCover": "Ladda upp en omslagsbild", "mirrored": "Spegvänd", "original": "Original", "rotate90": "Rotera 90°", "timerOff": "Av", "showNormally": "Visa normalt", "showNormallyBody": "De ser den direkt", "hideUntilTap": "Dölj tills den trycks på", "hideUntilTapBody": "Oskarp tills de trycker på den", "hidePrice": "Dölj bakom ett pris", "hidePriceBody": "Oskarp tills de betalar dig", "priceUnavailable": "Inte i den här chatten", "priceLabelUsd": "Pris", "priceHint": "De ser den suddig tills de betalar dig. Låsta objekt är inte ändpunkt-till-ändpunkt-krypterade.", "timerOffBody": "Den stannar i chatten.", "timerViewBody": "Borta för er båda när de har sett den.", "confirm": "Bekräfta", "editItem": "Redigera objekt {{value1}}", "coverSet": "Omslag vid {{value1}}", "lockedForUsd": "Lås upp för {{value1}}", "timerTimeBody": "Borta för er båda {{value1}} efter att du har skickat den."},
   "comicBorder": {
     "title": "Kant",
     "theme": "Tema",
@@ -142,6 +143,11 @@
     "useNamed": "Använd {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Endast video",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Endast låt",
+    "4bf9a522a0de": "Videoljud",
+    "fea4b5ceffa8": "Låt",
     "a039dfb9628b": "Tokens",
     "chatSlowDown": "Ta det lugnt! För många meddelanden i rad. Försök igen om {{wait}}, eller vänta på att någon annan svarar.",
     "eabb5c136be4": "Misslyckades med att uppdatera plan",
@@ -3162,7 +3168,7 @@
     "postCount_other": "{{count}} inlägg"
   },
   "settings": {
-    "loginLook": {"title": "Inloggningsskärm", "desc": "Hur Riftn-logotypen och sloganen rör sig på inloggningsskärmen på den här enheten.", "tube": "Tjock-tv", "vhs": "VHS-band", "led": "LED-vägg", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Platt"}, "arrivalLook": {"title": "Efter inloggning", "desc": "Det som spelas medan ditt konto laddas, innan din bild landar på sidan. På den här enheten.", "rift": "Spricka", "trace": "Spår", "frame": "Bildram", "orbit": "Omlopp"},
+    "loginLook": {"title": "Inloggningsskärm", "desc": "Hur Riftn-logotypen och sloganen rör sig på inloggningsskärmen på den här enheten.", "tube": "Tjock-tv", "vhs": "VHS-band", "led": "LED-vägg", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Platt"}, "arrivalLook": {"title": "Efter inloggning", "desc": "Det som spelas medan ditt konto laddas, innan din bild landar på sidan. På den här enheten.", "trace": "Spår", "tune": "Ställ in", "rift": "Spricka", "deck": "Kortlek", "glass": "Glasdroppe"},
     "glass": "Glasartad",
     "shortsEnabled": "Korta filmer",
     "shortsEnabledDesc": "Visa fliken Shorts feed och Shorts carousels på Home.",

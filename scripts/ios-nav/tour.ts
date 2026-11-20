@@ -734,6 +734,63 @@ async function runWide(): Promise<void> {
 }
 
 /**
+ * A short left and come back to: two wide clips in the swipe player, the
+ * first one playing, a real swipe to the second and one back. The first
+ * short then has to show its moving picture again, not its poster over a
+ * clip that plays on underneath. Pictured twice, two seconds apart, after
+ * landing back on it (the picture must differ), and the same once more after
+ * a sheet-like pause (the app made inactive and active again).
+ */
+async function runFreeze(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "freeze" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const first = Number(await AsyncStorage.getItem(`${FLAG_KEY}.token`)) || 7467;
+  const items = [first, 8052, 7444].map((tokenId) => ({ tokenId, id: tokenId, postType: "video" }));
+  nav.navigate(ScreenNames.ShortsViewer, { initialItems: items, initialIndex: 0 });
+  await sleep(7000);
+  extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
+  await shot("freeze-1a-first");
+  await sleep(2000);
+  await shot("freeze-1b-first-2s");
+  await sleep(700);
+  await AsyncStorage.setItem(SWIPE_KEY, "vswipe:freeze-next");
+  await sleep(6000);
+  await shot("freeze-2-second");
+  await sleep(700);
+  await AsyncStorage.setItem(SWIPE_KEY, "vback:freeze-back");
+  await sleep(5000);
+  await shot("freeze-3a-back");
+  await sleep(2000);
+  await shot("freeze-3b-back-2s");
+  await sleep(700);
+  // The app set aside without leaving the screen (Control Center, a call
+  // banner): every short is told playback is not allowed, then allowed again.
+  try {
+    const { visualActivity } = require("../../libs/visualActivity") as { visualActivity?: { setForeground(v: boolean): void } };
+    visualActivity?.setForeground(false);
+    await sleep(1500);
+    visualActivity?.setForeground(true);
+    extra.inactive = !!visualActivity;
+  } catch (error) {
+    extra.inactive = String(error);
+  }
+  await sleep(4000);
+  await shot("freeze-4a-after-inactive");
+  await sleep(2000);
+  await shot("freeze-4b-after-inactive-2s");
+  await sleep(700);
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] freeze done: opened ${String(extra.opened)}, inactive ${String(extra.inactive)}`);
+}
+
+/**
  * Leaving a live in System Light: Home has to come back light at once, with
  * no dark frame and no freeze. Opens a live (one that is on air when there
  * is one), pictures it, goes Back and pictures Home at 0.3 s, 1.5 s and 5 s,
@@ -2108,7 +2165,7 @@ async function runRowReactions(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -2129,6 +2186,7 @@ void (async () => {
     else if (mode === "livetheme") await runLiveTheme();
     else if (mode === "reactions") await runReactions();
     else if (mode === "rowreactions") await runRowReactions();
+    else if (mode === "freeze") await runFreeze();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "الغطاء", "trim": "قص", "mirror": "انعكاس", "rotate": "تدوير", "hide": "إخفاء", "timer": "المؤقت", "close": "إغلاق", "photo": "صورة", "remove": "إزالة", "pause": "إيقاف مؤقت", "play": "تشغيل الفيديو", "hiddenUntilTap": "مخفي حتى يتم النقر عليه", "scrub": "التنقل عبر الفيديو", "addMore": "إضافة صور أو مقاطع فيديو", "coverAria": "اضغط على إطار لتعيين الصورة الرئيسية", "trimHint": "اسحب الطرفين لقص الفيديو", "coverHint": "اضغط على إطار لجعله الغلاف", "uploadCover": "تحميل صورة غلاف", "mirrored": "منعكس", "original": "الأصلية", "rotate90": "تدوير 90 درجة", "timerOff": "إيقاف التشغيل", "showNormally": "إظهار بشكل طبيعي", "showNormallyBody": "يرونه على الفور", "hideUntilTap": "إخفاء حتى يتم النقر عليه", "hideUntilTapBody": "مشوش حتى يتم النقر عليه", "hidePrice": "إخفاء خلف سعر", "hidePriceBody": "سيظهر ضبابيًا حتى يدفعوا لك", "priceUnavailable": "ليس في هذه الدردشة", "priceLabelUsd": "السعر", "priceHint": "سيشاهدونها ضبابية حتى يدفعوا لك. العناصر المقفلة غير مشفرة من طرف إلى طرف.", "timerOffBody": "يبقى في الدردشة.", "timerViewBody": "سيختفي لكليكما بمجرد أن يراه.", "confirm": "تأكيد", "editItem": "تعديل العنصر {{value1}}", "coverSet": "الغلاف في {{value1}}", "lockedForUsd": "إلغاء القفل مقابل {{value1}}", "timerTimeBody": "سيختفي لكليكما {{value1}} بعد إرساله."},
   "comicBorder": {
     "title": "الإطار",
     "theme": "الثيم",
@@ -142,6 +143,11 @@
     "useNamed": "استخدم {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "فيديو فقط",
+    "dce6eb4447ef": "مزيج",
+    "5405fb40dded": "الأغنية فقط",
+    "4bf9a522a0de": "صوت الفيديو",
+    "fea4b5ceffa8": "أغنية",
     "a039dfb9628b": "الرموز",
     "chatSlowDown": "تمهّل! رسائل كثيرة متتالية. حاول مرة أخرى بعد {{wait}}، أو انتظر حتى يرد شخص آخر.",
     "eabb5c136be4": "فشل في تحديث الخطة",

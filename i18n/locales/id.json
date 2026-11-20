@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cover", "trim": "Potong", "mirror": "Cermin", "rotate": "Putar", "hide": "Sembunyikan", "timer": "Timer", "close": "Tutup", "photo": "Foto", "remove": "Hapus", "pause": "Jeda", "play": "Main video", "hiddenUntilTap": "Tersembunyi sampai mereka sentuhnya", "scrub": "Gesek melalui video", "addMore": "Tambahkan foto atau video", "coverAria": "Sentuh frame untuk menetapkan cover", "trimHint": "Seret ujung untuk memotong", "coverHint": "Sentuh frame untuk menjadikannya cover", "uploadCover": "Unggah gambar cover", "mirrored": "Dicerminkan", "original": "Asli", "rotate90": "Putar 90°", "timerOff": "Mati", "showNormally": "Tampilkan secara normal", "showNormallyBody": "Mereka melihatnya langsung", "hideUntilTap": "Sembunyikan sampai disentuh", "hideUntilTapBody": "Kabur sampai mereka sentuh", "hidePrice": "Sembunyikan di belakang harga", "hidePriceBody": "Kabur sampai mereka membayar Anda", "priceUnavailable": "Bukan di obrolan ini", "priceLabelUsd": "Harga", "priceHint": "Mereka melihatnya buram sampai mereka membayar Anda. Item yang dikunci tidak dienkripsi secara end-to-end.", "timerOffBody": "Itu tetap ada di obrolan.", "timerViewBody": "Habis untuk kalian berdua begitu mereka melihatnya.", "confirm": "Konfirmasi", "editItem": "Edit item {{value1}}", "coverSet": "Sampul di {{value1}}", "lockedForUsd": "Buka kunci untuk {{value1}}", "timerTimeBody": "Hilang untuk kalian berdua {{value1}} setelah kamu mengirimnya."},
   "comic": {
     "toComic": "Jadikan komik",
     "toCarousel": "Tampilkan sebagai carousel",
@@ -168,6 +169,11 @@
     "useNamed": "Gunakan {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Video saja",
+    "dce6eb4447ef": "Campur",
+    "5405fb40dded": "Lagu saja",
+    "4bf9a522a0de": "Suara video",
+    "fea4b5ceffa8": "Lagu",
     "a039dfb9628b": "Token",
     "chatSlowDown": "Pelan-pelan! Terlalu banyak pesan berturut-turut. Coba lagi dalam {{wait}}, atau tunggu orang lain membalas.",
     "eabb5c136be4": "Gagal memperbarui rencana",
@@ -3188,7 +3194,7 @@
     "postCount_other": "{{count}} postingan"
   },
   "settings": {
-    "loginLook": {"title": "Layar masuk", "desc": "Cara logo dan slogan Riftn bergerak di layar masuk pada perangkat ini.", "tube": "TV tabung", "vhs": "Kaset VHS", "led": "Dinding LED", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Datar"}, "arrivalLook": {"title": "Setelah masuk", "desc": "Yang tampil saat akunmu dimuat, sebelum fotomu mendarat di halaman. Di perangkat ini.", "rift": "Celah", "trace": "Jejak", "frame": "Bingkai foto", "orbit": "Orbit"},
+    "loginLook": {"title": "Layar masuk", "desc": "Cara logo dan slogan Riftn bergerak di layar masuk pada perangkat ini.", "tube": "TV tabung", "vhs": "Kaset VHS", "led": "Dinding LED", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Datar"}, "arrivalLook": {"title": "Setelah masuk", "desc": "Yang tampil saat akunmu dimuat, sebelum fotomu mendarat di halaman. Di perangkat ini.", "trace": "Jejak", "tune": "Sintonisasi", "rift": "Celah", "deck": "Tumpukan kartu", "glass": "Tetes kaca"},
     "glass": "Berkaca - kaca",
     "shortsEnabled": "Celana pendek",
     "shortsEnabledDesc": "Tampilkan tab umpan Celana Pendek dan korsel Celana Pendek di Beranda.",

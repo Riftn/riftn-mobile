@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Qapaq", "trim": "Kəsin", "mirror": "Güzgü", "rotate": "Fırlat", "hide": "Gizlət", "timer": "Taimer", "close": "Bağla", "photo": "Foto", "remove": "Sil", "pause": "Fasilə ver", "play": "Videonu göstər", "hiddenUntilTap": "Üzərinə toxunana qədər gizli qalır", "scrub": "Videonu sürüşdürün", "addMore": "Fotolar və ya videolar əlavə edin", "coverAria": "Kapağı təyin etmək üçün kadra basın", "trimHint": "Kəsmək üçün ucları sürüşdürün", "coverHint": "Kadrı üz qapağı etmək üçün ona basın", "uploadCover": "Əsas foto yükləyin", "mirrored": "Güzgülü", "original": "Orijinal", "rotate90": "90° fırladın", "timerOff": "Qeyri-aktiv", "showNormally": "Normal şəkildə göstər", "showNormallyBody": "Onlar bunu dərhal görürlər", "hideUntilTap": "Üzərinə toxunulana qədər gizlət", "hideUntilTapBody": "Üzərinə toxunana qədər bulanıq olacaq", "hidePrice": "Qiymətin arxasında gizlədin", "hidePriceBody": "Sizə ödəniş edənə qədər bulanıq olacaq", "priceUnavailable": "Bu söhbətdə deyil", "priceLabelUsd": "Qiymət", "priceHint": "Onlar sizə ödəniş edənə qədər onu bulanıq görürlər. Kilidli elementlər ucdan uca şifrələnmir.", "timerOffBody": "Söhbətdə qalır.", "timerViewBody": "O, bunu gördükdən sonra hər ikiniz üçün silinəcək.", "confirm": "Təsdiqlə", "editItem": "{{value1}} elementini redaktə et", "coverSet": "{{value1}} tarixində örtülür", "lockedForUsd": "{{value1}} üçün kilidi aç", "timerTimeBody": "Siz onu göndərdikdən sonra hər ikiniz üçün {{value1}} yox olacaq."},
   "comicBorder": {
     "title": "Haşiyə",
     "theme": "Mövzu",
@@ -142,6 +143,11 @@
     "useNamed": "{{name}} istifadə edin"
   },
   "copy": {
+    "0f8fed0dc99b": "Yalnız video",
+    "dce6eb4447ef": "Miks",
+    "5405fb40dded": "Yalnız mahnı",
+    "4bf9a522a0de": "Video səsi",
+    "fea4b5ceffa8": "Mahnı",
     "a039dfb9628b": "Tokenlər",
     "chatSlowDown": "Yavaş! Ardıcıl çox mesaj. {{wait}} sonra yenidən cəhd edin və ya başqasının cavab verməsini gözləyin.",
     "eabb5c136be4": "Planı yeniləmək mümkün olmadı",

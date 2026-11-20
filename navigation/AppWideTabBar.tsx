@@ -12,6 +12,13 @@ import { usePerfProbe } from "../libs/perfTrace";
  * message box, and sign-in. Everywhere else, the bar stays.
  */
 const NO_BAR = new Set<string>([
+  // The stacks themselves: the current route is one of these for a frame
+  // while a stack mounts (after a log-in or log-out), before its first page
+  // is set, and a bar drawn then flashed over Home.
+  ScreenNames.App,
+  ScreenNames.Auth,
+  ScreenNames.Maintenance,
+  ScreenNames.Root,
   ScreenNames.Home,
   ScreenNames.DM,
   ScreenNames.UploadTab,

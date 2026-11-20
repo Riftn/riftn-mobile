@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "カバー", "trim": "トリミング", "mirror": "ミラー", "rotate": "回転", "hide": "非表示", "timer": "タイマー", "close": "閉じる", "photo": "写真", "remove": "削除", "pause": "一時停止", "play": "動画を再生", "hiddenUntilTap": "タップされるまで非表示", "scrub": "動画をスクラブ", "addMore": "写真または動画を追加", "coverAria": "フレームをタップしてカバーに設定", "trimHint": "端をドラッグしてトリミング", "coverHint": "フレームをタップしてカバーにする", "uploadCover": "カバー写真をアップロード", "mirrored": "ミラー", "original": "オリジナル", "rotate90": "90°回転", "timerOff": "オフ", "showNormally": "通常表示", "showNormallyBody": "すぐに表示", "hideUntilTap": "タップされるまで非表示", "hideUntilTapBody": "タップされるまでぼかし", "hidePrice": "価格の裏に隠す", "hidePriceBody": "支払われるまでぼかし", "priceUnavailable": "このチャットにはありません", "priceLabelUsd": "価格", "priceHint": "彼らは支払うまでぼやけたままです。ロックされたアイテムはエンドツーエンド暗号化されていません。", "timerOffBody": "チャットに残ります。", "timerViewBody": "行方不明になった二人とも、それを見た後には。", "confirm": "確認", "editItem": "アイテム {{value1}} を編集", "coverSet": "{{value1}}でカバー", "lockedForUsd": "{{value1}}のためにロックを解除", "timerTimeBody": "あなたたちが送った後、二人とも {{value1}} になるよ。"},
   "comic": {
     "toComic": "コミックにする",
     "toCarousel": "カルーセルで表示",
@@ -39,6 +40,11 @@
     "failed": "フチを保存できませんでした"
   },
   "copy": {
+    "0f8fed0dc99b": "動画のみ",
+    "dce6eb4447ef": "ミックス",
+    "5405fb40dded": "曲のみ",
+    "4bf9a522a0de": "動画の音",
+    "fea4b5ceffa8": "歌",
     "a039dfb9628b": "トークン",
     "chatSlowDown": "ペースを落としてください！連続投稿が多すぎます。{{wait}}後にもう一度試すか、他の人の返信を待ってください。",
     "eabb5c136be4": "プランの更新に失敗しました",
@@ -3059,7 +3065,7 @@
     "postCount_other": "{{count}} 件の投稿"
   },
   "settings": {
-    "loginLook": {"title": "サインイン画面", "desc": "この端末のサインイン画面で、Riftn のロゴとスローガンがどう動くか。", "tube": "ブラウン管テレビ", "vhs": "VHSテープ", "led": "LEDウォール", "holo": "ホログラム", "neon": "ネオン", "3d": "3D", "flat": "フラット"}, "arrivalLook": {"title": "サインイン後", "desc": "アカウントの読み込み中、写真がページに届くまでに流れる演出。この端末のみ。", "rift": "リフト", "trace": "トレース", "frame": "フォトフレーム", "orbit": "オービット"},
+    "loginLook": {"title": "サインイン画面", "desc": "この端末のサインイン画面で、Riftn のロゴとスローガンがどう動くか。", "tube": "ブラウン管テレビ", "vhs": "VHSテープ", "led": "LEDウォール", "holo": "ホログラム", "neon": "ネオン", "3d": "3D", "flat": "フラット"}, "arrivalLook": {"title": "サインイン後", "desc": "アカウントの読み込み中、写真がページに届くまでに流れる演出。この端末のみ。", "trace": "トレース", "tune": "チューニング", "rift": "リフト", "deck": "デッキ", "glass": "ガラスドロップ"},
     "glass": "ガラス張り",
     "shortsEnabled": "ショートパンツ",
     "shortsEnabledDesc": "ショートフィードタブとショートカルーセルをホームに表示します。",

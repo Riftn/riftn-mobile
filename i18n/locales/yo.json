@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Iboju", "trim": "Ge", "mirror": "Iro", "rotate": "Yiyi", "hide": "Fipamọ", "timer": "Akoko", "close": "Pa", "photo": "Fọto", "remove": "Yọkuro", "pause": "Duro", "play": "Ṣe fidio", "hiddenUntilTap": "Titi di igba ti wọn ba tẹ e", "scrub": "Ṣiṣan fidio naa", "addMore": "Fi awọn fọto tabi awọn fidio kun", "coverAria": "Tẹ fireemu kan lati ṣeto iboju", "trimHint": "Fa awọn opin lati ge", "coverHint": "Tẹ fireemu kan lati jẹ ki o jẹ iboju", "uploadCover": "Po si aworan iboju", "mirrored": "Ti a ṣe afẹfẹ", "original": "Atilẹba", "rotate90": "Yiyi 90°", "timerOff": "Pa", "showNormally": "Ṣe afihan ni deede", "showNormallyBody": "Wọn ri i lẹsẹkẹsẹ", "hideUntilTap": "Fipamọ titi ti wọn yoo tẹ", "hideUntilTapBody": "Ti a fi blur titi ti wọn yoo tẹ", "hidePrice": "Fipamọ lẹyin owo kan", "hidePriceBody": "Ti a fi blur titi ti wọn yoo sanwo fun ọ", "priceUnavailable": "Kò sí nínú ibaraẹnisọrọ yìí", "priceLabelUsd": "Owo", "priceHint": "Wọ́n á máa rí i ní ìrìrí títí tí wọ́n fi máa san owó fún ọ. Àwọn nǹkan tó wà lábẹ́ àtìpà kò ní ìdáàbòbò ìfìkọ̀ríkọ̀ (end-to-end encryption).", "timerOffBody": "Ó máa wà nínú ì tánràn náà.", "timerViewBody": "Ó máa parẹ́ fún ẹ̀yin méjèèjì ní kété tí wọ́n bá ti rí i.", "confirm": "Ìmúdájú", "editItem": "Ṣàtúnṣe nǹkan {{value1}}", "coverSet": "Ìbòrí ní {{value1}}", "lockedForUsd": "Ṣí àtìpà fún {{value1}}", "timerTimeBody": "Ó máa parẹ́ fún ẹ̀yin méjèèjì {{value1}} lẹ́yìn tí o bá ti rán an."},
   "comicBorder": {
     "title": "Ìlà etí",
     "theme": "Àkòrí",
@@ -142,6 +143,11 @@
     "useNamed": "Lo {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Fídíò nìkan",
+    "dce6eb4447ef": "Àdàpọ̀",
+    "5405fb40dded": "Orin nìkan",
+    "4bf9a522a0de": "Ohùn fídíò",
+    "fea4b5ceffa8": "Orin",
     "a039dfb9628b": "Àwọn Token",
     "chatSlowDown": "Rọra! Ìfiránṣẹ́ pọ̀ jù lọ ní ìtẹ̀léra. Gbìyànjú lẹ́ẹ̀kan sí i lẹ́yìn {{wait}}, tàbí dúró kí ẹlòmíràn fèsì.",
     "eabb5c136be4": "Ìgbìyànjú láti sọ ètò di tuntun kùnà",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Acoperire", "trim": "Tăiere", "mirror": "Oglindit", "rotate": "Rotație", "hide": "Ascunde", "timer": "Timer", "close": "Închide", "photo": "Fotografie", "remove": "Șterge", "pause": "Pauză", "play": "Redau video", "hiddenUntilTap": "Ascuns până când îl ating", "scrub": "Scrolă prin video", "addMore": "Adaugă fotografii sau videoclipuri", "coverAria": "Atinge un cadru pentru a-l seta ca acoperire", "trimHint": "Trage capetele pentru a tăia", "coverHint": "Atinge un cadru pentru a-l face acoperire", "uploadCover": "Încarca o imagine de acoperire", "mirrored": "Oglindit", "original": "Original", "rotate90": "Rotație 90°", "timerOff": "Oprit", "showNormally": "Arată normal", "showNormallyBody": "O văd imediat", "hideUntilTap": "Ascunde până la atingere", "hideUntilTapBody": "Abuzit până când îl atingi", "hidePrice": "Ascuns în spatele unui preț", "hidePriceBody": "Abuzit până când plătești", "priceUnavailable": "Nu în această conversație", "priceLabelUsd": "Preț", "priceHint": "Vedeți-l neclar până când plătiți. Obiectele blocate nu sunt criptate de la capăt la capăt.", "timerOffBody": "Rămâne în știre.", "timerViewBody": "Dispar pentru ambii după ce l-au văzut.", "confirm": "Confirmă", "editItem": "Editează obiectul {{value1}}", "coverSet": "Acoperire la {{value1}}", "lockedForUsd": "Dezblochează pentru {{value1}}", "timerTimeBody": "Dispar pentru ambii {{value1}} după ce îl trimiți."},
   "comicBorder": {
     "title": "Chenar",
     "theme": "Temă",
@@ -142,6 +143,11 @@
     "useNamed": "Folosește {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Doar video",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Doar melodie",
+    "4bf9a522a0de": "Sunet video",
+    "fea4b5ceffa8": "Melodie",
     "a039dfb9628b": "Jetoane",
     "chatSlowDown": "Mai încet! Prea multe mesaje la rând. Încearcă din nou peste {{wait}} sau așteaptă să răspundă altcineva.",
     "eabb5c136be4": "Erat actualizarea planului",
@@ -3162,7 +3168,7 @@
     "postCount_other": "{{count}} postări"
   },
   "settings": {
-    "loginLook": {"title": "Ecranul de conectare", "desc": "Cum se mișcă logoul și sloganul Riftn pe ecranul de conectare de pe acest dispozitiv.", "tube": "TV cu tub", "vhs": "Casetă VHS", "led": "Perete LED", "holo": "Hologramă", "neon": "Neon", "3d": "3D", "flat": "Plat"}, "arrivalLook": {"title": "După conectare", "desc": "Ce rulează cât se încarcă contul, înainte ca poza ta să ajungă pe pagină. Pe acest dispozitiv.", "rift": "Fisură", "trace": "Urmă", "frame": "Ramă foto", "orbit": "Orbită"},
+    "loginLook": {"title": "Ecranul de conectare", "desc": "Cum se mișcă logoul și sloganul Riftn pe ecranul de conectare de pe acest dispozitiv.", "tube": "TV cu tub", "vhs": "Casetă VHS", "led": "Perete LED", "holo": "Hologramă", "neon": "Neon", "3d": "3D", "flat": "Plat"}, "arrivalLook": {"title": "După conectare", "desc": "Ce rulează cât se încarcă contul, înainte ca poza ta să ajungă pe pagină. Pe acest dispozitiv.", "trace": "Urmă", "tune": "Acord", "rift": "Fisură", "deck": "Pachet", "glass": "Picătură de sticlă"},
     "glass": "Sticlos",
     "shortsEnabled": "Pantaloni scurți",
     "shortsEnabledDesc": "Afișează fila Scurtmetraje și caruselele Scurtmetraje pe pagina de pornire.",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "封面", "trim": "裁剪", "mirror": "鏡像", "rotate": "旋轉", "hide": "隱藏", "timer": "計時器", "close": "關閉", "photo": "相片", "remove": "移除", "pause": "暫停", "play": "播放影片", "hiddenUntilTap": "點擊前隱藏", "scrub": "拖動影片進度條", "addMore": "加入相片或影片", "coverAria": "點擊影格以設定封面", "trimHint": "拖動兩端以裁剪", "coverHint": "點擊影格將其設為封面", "uploadCover": "上傳封面圖片", "mirrored": "已鏡像", "original": "原始", "rotate90": "旋轉 90°", "timerOff": "關閉", "showNormally": "正常顯示", "showNormallyBody": "立即顯示", "hideUntilTap": "點擊前隱藏", "hideUntilTapBody": "點擊前模糊顯示", "hidePrice": "隱藏於價格後", "hidePriceBody": "付款前模糊顯示", "priceUnavailable": "不在本對話中", "priceLabelUsd": "價格", "priceHint": "佢哋畀錢你之前睇到嘅係模糊嘅。已鎖定項目並非端對端加密。", "timerOffBody": "佢會留喺對話入面。", "timerViewBody": "佢哋睇完之後，對你哋雙方嚟講都會消失。", "confirm": "確認", "editItem": "編輯項目 {{value1}}", "coverSet": "封面 {{value1}}", "lockedForUsd": "解鎖 {{value1}}", "timerTimeBody": "你發送之後 {{value1}}，對你哋雙方嚟講都會消失。"},
   "comicBorder": {
     "title": "邊框",
     "theme": "主題",
@@ -142,6 +143,11 @@
     "use": "使用這個模板"
   },
   "copy": {
+    "0f8fed0dc99b": "只限影片",
+    "dce6eb4447ef": "混合",
+    "5405fb40dded": "只限歌曲",
+    "4bf9a522a0de": "影片聲音",
+    "fea4b5ceffa8": "歌曲",
     "a039dfb9628b": "代幣",
     "chatSlowDown": "慢啲！連續發咗太多訊息。{{wait}} 後再試，或者等其他人回覆。",
     "eabb5c136be4": "更新計劃失敗",
@@ -3162,7 +3168,7 @@
     "postCount_other": "{{count}} 個帖子"
   },
   "settings": {
-    "loginLook": {"title": "登入畫面", "desc": "呢部裝置登入畫面入面 Riftn 標誌同標語點樣郁。", "tube": "映像管電視", "vhs": "VHS 錄影帶", "led": "LED 牆", "holo": "全息投影", "neon": "霓虹", "3d": "3D", "flat": "扁平"}, "arrivalLook": {"title": "登入之後", "desc": "帳戶載入緊、頭像落到頁面之前播嘅效果。只限呢部裝置。", "rift": "裂縫", "trace": "描邊", "frame": "相框", "orbit": "軌道"},
+    "loginLook": {"title": "登入畫面", "desc": "呢部裝置登入畫面入面 Riftn 標誌同標語點樣郁。", "tube": "映像管電視", "vhs": "VHS 錄影帶", "led": "LED 牆", "holo": "全息投影", "neon": "霓虹", "3d": "3D", "flat": "扁平"}, "arrivalLook": {"title": "登入之後", "desc": "帳戶載入緊、頭像落到頁面之前播嘅效果。只限呢部裝置。", "trace": "描邊", "tune": "調台", "rift": "裂縫", "deck": "一副牌", "glass": "玻璃水滴"},
     "glass": "玻璃般嘅",
     "shortsEnabled": "短褲",
     "shortsEnabledDesc": "喺主頁顯示「短褲」資訊提供標籤同「短褲」旋轉木馬。",

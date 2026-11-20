@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Couverture", "trim": "Découper", "mirror": "Miroir", "rotate": "Faire pivoter", "hide": "Masquer", "timer": "Minuterie", "close": "Fermer", "photo": "Photo", "remove": "Supprimer", "pause": "Pause", "play": "Lire la vidéo", "hiddenUntilTap": "Caché jusqu’à ce qu’ils le tapent", "scrub": "Faire défiler la vidéo", "addMore": "Ajouter des photos ou des vidéos", "coverAria": "Appuyez sur un cadre pour définir la couverture", "trimHint": "Faites glisser les extrémités pour découper", "coverHint": "Appuyez sur un cadre pour le mettre comme couverture", "uploadCover": "Télécharger une image de couverture", "mirrored": "Miroir", "original": "Original", "rotate90": "Faire pivoter de 90°", "timerOff": "Arrêté", "showNormally": "Afficher normalement", "showNormallyBody": "Ils le voient immédiatement", "hideUntilTap": "Masquer jusqu’à ce qu’on tape", "hideUntilTapBody": "Flou jusqu’à ce qu’ils tapent", "hidePrice": "Masquer derrière un prix", "hidePriceBody": "Flou jusqu’à ce que vous payiez", "priceUnavailable": "Pas dans cette discussion", "priceLabelUsd": "Prix", "priceHint": "Ils le voient flou jusqu’à ce que vous payiez. Les éléments verrouillés ne sont pas chiffrés de bout en bout.", "timerOffBody": "Il reste dans le chat.", "timerViewBody": "Parti pour vous deux une fois qu’ils l’ont vu.", "confirm": "Confirmer", "editItem": "Modifier l’élément {{value1}}", "coverSet": "Couverture à {{value1}}", "lockedForUsd": "Déverrouiller pour {{value1}}", "timerTimeBody": "Parti pour vous deux {{value1}} après l’avoir envoyé."},
   "assistantCards": {"fitting": "Adaptée", "loadFailed": "Impossible de charger cette carte. Connecte-toi ou redemande.", "failed": "Ça n'a pas marché. Réessaie.", "reactOne": "Réagir à 1 publication", "reactMany": "Réagir à {{count}} publications", "follow": "Suivre {{count}}", "unfollow": "Ne plus suivre {{count}}", "allowChats": "Laisser l'assistant lire tes discussions ?", "stopChats": "Empêcher l'assistant de lire tes discussions ?", "confirmReact": "Réagir", "confirmFollow": "Suivre", "confirmUnfollow": "Ne plus suivre", "confirmAllow": "Autoriser", "confirmStop": "Arrêter", "skipsAlready": "Ignore {{count}} auxquelles tu as déjà réagi", "allowChatsWhy": "Toi seul vois ce qu'il lit. Discussions privées uniquement, et celles chiffrées de bout en bout restent privées. Demande-lui d'arrêter quand tu veux.", "pickReaction": "Choisis une réaction", "progress": "{{done}} sur {{total}}", "doneReact": "Réaction ajoutée à {{count}} publications", "doneAllow": "Autorisé. Repose ta question.", "doneStop": "Arrêté. Il ne peut plus lire tes discussions.", "doneFollow": "Fait pour {{count}}", "expired": "Cette carte a expiré. Redemande.", "cancelled": "Annulé", "cancel": "Pas maintenant"},
   "chatReactions": {
     "many_one": "{{count}} réaction à vos messages",
@@ -903,7 +904,7 @@
     "postCount_other": "{{count}} publications"
   },
   "settings": {
-    "arrivalLook": {"title": "Après la connexion", "desc": "Ce qui s'affiche pendant le chargement de ton compte, avant que ta photo arrive sur la page. Sur cet appareil.", "rift": "Faille", "trace": "Tracé", "frame": "Cadre photo", "orbit": "Orbite"},
+    "arrivalLook": {"title": "Après la connexion", "desc": "Ce qui s'affiche pendant le chargement de ton compte, avant que ta photo arrive sur la page. Sur cet appareil.", "trace": "Tracé", "tune": "Syntonisation", "rift": "Faille", "deck": "Jeu de cartes", "glass": "Goutte de verre"},
     "chatDeleteChoice": "Quand vous supprimez un message",
     "chatDeleteChoiceDesc": "Demander à chaque fois, ou toujours supprimer pour vous seul ou pour tout le monde dans la discussion.",
     "chatDeleteAsk": "Demander à chaque fois",
@@ -13242,6 +13243,11 @@
     "watch": "Regarder une publicité pour soutenir ce créateur"
   },
   "copy": {
+    "0f8fed0dc99b": "Vidéo uniquement",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Chanson uniquement",
+    "4bf9a522a0de": "Son vidéo",
+    "fea4b5ceffa8": "Chanson",
     "e587a51bc3ce": "Du nouveau sur Riftn",
     "d7396f3b8881": "Nouveau j'aime ou commentaire sur Riftn",
     "037a2ecd34b0": "Nouvel abonné sur Riftn",

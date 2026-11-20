@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Coberta", "trim": "Retalla", "mirror": "Reflecteix", "rotate": "Gira", "hide": "Amaga", "timer": "Temporitzador", "close": "Tanca", "photo": "Foto", "remove": "Elimina", "pause": "Pausa", "play": "Reprodueix el vídeo", "hiddenUntilTap": "Ocult fins que hi toquin", "scrub": "Fes un recorregut pel vídeo", "addMore": "Afegeix fotos o vídeos", "coverAria": "Toca un fotograma per establir-lo com a portada", "trimHint": "Arrossega els extrems per retallar", "coverHint": "Toca un fotograma per fer-lo servir com a portada", "uploadCover": "Puja una imatge de portada", "mirrored": "Reflectit", "original": "Original", "rotate90": "Gira 90°", "timerOff": "Desactivat", "showNormally": "Mostra normalment", "showNormallyBody": "Ho veuen de seguida", "hideUntilTap": "Amaga fins que s’hi toqui", "hideUntilTapBody": "Es veurà borrosa fins que hi toquin", "hidePrice": "Amaga-ho darrere d'un preu", "hidePriceBody": "Es mostra borrosa fins que et paguin", "priceUnavailable": "No en aquest xat", "priceLabelUsd": "Preu", "priceHint": "Ho veuran desenfocat fins que et paguin. Els elements bloquejats no estan xifrats de punt a punt.", "timerOffBody": "Es queda al xat.", "timerViewBody": "Desapareixerà per a tots dos un cop l'hagin vist.", "confirm": "Confirma", "editItem": "Modifica l'element {{value1}}", "coverSet": "Cobreix a les {{value1}}", "lockedForUsd": "Desbloqueja per a {{value1}}", "timerTimeBody": "Desapareixerà per a tots dos {{value1}} després d'enviar-ho."},
   "comicBorder": {
     "title": "Vora",
     "theme": "Tema",
@@ -142,6 +143,11 @@
     "useNamed": "Utilitza {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Només vídeo",
+    "dce6eb4447ef": "Barreja",
+    "5405fb40dded": "Només la cançó",
+    "4bf9a522a0de": "So del vídeo",
+    "fea4b5ceffa8": "Cançó",
     "a039dfb9628b": "Tokens",
     "chatSlowDown": "Més a poc a poc! Massa missatges seguits. Torna-ho a provar d'aquí a {{wait}} o espera que algú altre respongui.",
     "eabb5c136be4": "No s'ha pogut actualitzar el pla",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Ikhava", "trim": "Sika", "mirror": "Isibuko", "rotate": "Phendula", "hide": "Fihla", "timer": "Isikhathi", "close": "Vala", "photo": "Isithombe", "remove": "Susa", "pause": "Misa isikhashana", "play": "Dlala ividiyo", "hiddenUntilTap": "Ifihliwe kuze kube yilapho beyithinta", "scrub": "Skrola kuvidiyo", "addMore": "Engeza izithombe noma amavidiyo", "coverAria": "Thinta ifreyimu ukuze usethe ikhava", "trimHint": "Hudula imiphetho ukuze usike", "coverHint": "Thinta ifreyimu ukuze uyenze ibe yikhava", "uploadCover": "Layisha isithombe sekhava", "mirrored": "Isibuko", "original": "Okokuqala", "rotate90": "Phendula ngo-90°", "timerOff": "Valiwe", "showNormally": "Bonisa ngokujwayelekile", "showNormallyBody": "Bayibona ngokushesha", "hideUntilTap": "Fihla kuze kube yilapho ithintiwe", "hideUntilTapBody": "Ifiphele kuze kube yilapho beyithinta", "hidePrice": "Fihla ngemuva kwentengo", "hidePriceBody": "Ifiphele kuze kube yilapho bakukhokhela", "priceUnavailable": "Akukho kule ngxoxo", "priceLabelUsd": "Intengo", "priceHint": "Bayibona ifiphele kuze kube yilapho bekukhokhela. Izinto ezikhiyiwe azibhalwanga ngendlela yokuthi umuntu wesithathu angakwazi ukuzifunda (end-to-end encrypted).", "timerOffBody": "Ihlala engxoxweni.", "timerViewBody": "Iyanyamalala kini nobabili uma beyibonile.", "confirm": "Qinisekisa", "editItem": "Hlela into {{value1}}", "coverSet": "Ikhava ku-{{value1}}", "lockedForUsd": "Vula ukuze uthole {{value1}}", "timerTimeBody": "Iyanyamalala kini nobabili {{value1}} ngemva kokuba uyithumile."},
   "comicBorder": {
     "title": "Umngcele",
     "theme": "Itimu",
@@ -142,6 +143,11 @@
     "useNamed": "Sebenzisa {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Ividiyo kuphela",
+    "dce6eb4447ef": "Ingxube",
+    "5405fb40dded": "Ingoma kuphela",
+    "4bf9a522a0de": "Umsindo wevidiyo",
+    "fea4b5ceffa8": "Ingoma",
     "a039dfb9628b": "Amathokheni",
     "chatSlowDown": "Phola! Imilayezo eminingi kakhulu ilandelana. Zama futhi ngemuva kwe-{{wait}}, noma ulinde omunye aphendule.",
     "eabb5c136be4": "Ukubuyekeza uhlelo kwehlulekile",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Muqova", "trim": "Qirqish", "mirror": "Oyna", "rotate": "Aylantirish", "hide": "Yashirish", "timer": "Taymer", "close": "Yopish", "photo": "Foto", "remove": "O‘chirish", "pause": "Pauza", "play": "Videoni ijro etish", "hiddenUntilTap": "Ular bosmaguncha yashirin", "scrub": "Video bo‘ylab harakatlanish", "addMore": "Foto yoki videolar qo‘shish", "coverAria": "Muqovani belgilash uchun kadrni bosing", "trimHint": "Qirqish uchun chetlarini torting", "coverHint": "Muqova qilish uchun kadrni bosing", "uploadCover": "Muqova rasmini yuklash", "mirrored": "Oynalangan", "original": "Asl", "rotate90": "90° ga aylantirish", "timerOff": "O‘chirilgan", "showNormally": "Oddiy ko‘rinish", "showNormallyBody": "Ular uni darhol ko‘rishadi", "hideUntilTap": "Bosilguncha yashirish", "hideUntilTapBody": "Ular bosmaguncha xiralashtirilgan", "hidePrice": "Narx ortiga yashirish", "hidePriceBody": "Ular to‘lamaguncha xiralashtirilgan", "priceUnavailable": "Bu chatda emas", "priceLabelUsd": "Narx", "priceHint": "Ular sizga to‘lov qilmaguncha buni xira holda ko‘rishadi. Qulflangan elementlar oxirigacha shifrlanmagan.", "timerOffBody": "U chatda qoladi.", "timerViewBody": "Ular ko‘rib bo‘lgach, ikkingiz uchun ham yo‘qoladi.", "confirm": "Tasdiqlash", "editItem": "Elementni tahrirlash {{value1}}", "coverSet": "Muqova {{value1}}", "lockedForUsd": "{{value1}} uchun qulfdan chiqarish", "timerTimeBody": "Siz yuborganingizdan so‘ng {{value1}} o‘tib, ikkingiz uchun ham yo‘qoladi."},
   "comicBorder": {
     "title": "Hoshiya",
     "theme": "Mavzu",
@@ -142,6 +143,11 @@
     "useNamed": "{{name}} dan foydalaning"
   },
   "copy": {
+    "0f8fed0dc99b": "Faqat video",
+    "dce6eb4447ef": "Miksh",
+    "5405fb40dded": "Faqat qo‘shiq",
+    "4bf9a522a0de": "Video ovozi",
+    "fea4b5ceffa8": "Qo‘shiq",
     "a039dfb9628b": "Tokenlar",
     "chatSlowDown": "Sekinroq! Ketma-ket juda koʻp xabar. {{wait}} dan keyin qayta urinib koʻring yoki boshqa birov javob berishini kuting.",
     "eabb5c136be4": "Planni yangilashda muammolarni koʻrdik",
