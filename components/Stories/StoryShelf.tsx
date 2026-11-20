@@ -236,9 +236,9 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
           </View>
         ) : null}
         <Text style={styles.name} numberOfLines={1}>
-          {nameOf(entry.author)}
+          {entry.author.username ? `@${entry.author.username}` : nameOf(entry.author)}
         </Text>
-        {fresh && !ring ? <View style={styles.smokeLine} pointerEvents="none" /> : null}
+        {!fresh || !ring ? <View style={styles.smokeLine} pointerEvents="none" /> : null}
       </View>
     </TouchableOpacity>
   );
