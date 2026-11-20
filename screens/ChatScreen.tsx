@@ -71,6 +71,8 @@ import type { VoiceNoteResult } from "../components/Comments/VoiceNoteRecorder";
 import Avatar from "../components/common/Avatar";
 import OnlineDot from "../components/common/OnlineDot";
 import ChatHeaderMenuButton from "../components/Chat/ChatHeaderMenuButton";
+import AssistantDmButtons from "../components/DM/AssistantDmButtons";
+import { isAssistantAddress } from "../libs/assistant";
 import ChatMenu from "../components/Chat/ChatMenu";
 import WhenOpened from "../components/ui/WhenOpened";
 import { translateDmAndAbove } from "../libs/dm-translation-store";
@@ -2149,7 +2151,11 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const RightHeader = useMemo(
     () => (
       <View className="flex-row items-center">
-        {peer.address ? <CallButton recipientAddress={peer.address} /> : null}
+        {isAssistantAddress(peer.address) ? (
+          <AssistantDmButtons />
+        ) : peer.address ? (
+          <CallButton recipientAddress={peer.address} />
+        ) : null}
         <ChatHeaderMenuButton onPress={openMenu} />
       </View>
     ),
