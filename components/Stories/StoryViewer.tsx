@@ -591,7 +591,7 @@ function ViewerSheet({
       <View style={[styles.sheet, { paddingBottom: bottom + 16 }]} accessibilityViewIsModal>
         {kind === "share" ? (
           <>
-            {onShareToDm && <SheetRow icon="Send" label={t("copy.20e392c29da3", { defaultValue: "Send in a message" })} onPress={onShareToDm} />}
+            {onShareToDm && <SheetRow icon="Send" label={t("feedCard.sendInMessage")} onPress={onShareToDm} />}
             {onCopyLink && <SheetRow icon="Link2" label={t("postOptions.copyLink", { defaultValue: "Copy link" })} onPress={onCopyLink} />}
             {onShareOutside && <SheetRow icon="Share2" label={t("stories.share", { defaultValue: "Share" })} onPress={onShareOutside} />}
             {onRemix && <SheetRow icon="Repeat2" label={t("stories.addToMoment", { defaultValue: "Add to your Moment" })} onPress={onRemix} />}
