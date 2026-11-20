@@ -30,9 +30,14 @@ import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBad
 import BadgeArtwork from '../common/BadgeArtwork';
 import {
   measureOwnAvatar,
+  noteSignInWaitStarted,
   noteSignInWaiting,
   peekArrivingAccount,
+  rootSignInWaiting,
+  setRootSignInWait,
+  signInWaitStartedAt,
   signInWasWaiting,
+  subscribeRootSignInWait,
   subscribeArrivingAccount,
   takeArrivingAccount,
   noteArrivalPlaying,
@@ -77,13 +82,30 @@ const PICTURE_CAP_MS = 650;
 const NO_PICTURE_WAIT_MS = 1500;
 /** A noted log-in older than this is not this sign-in's. */
 const ACCOUNT_MAX_AGE_MS = 15_000;
+/** A wait that ended this long ago without an account was not a log-in. */
+const WAIT_GRACE_MS = 1200;
+/** The veil behind the rift: the sign-in page dims to near black. */
+const VEIL = 'rgba(6,7,9,0.92)';
+const VEIL_IN_MS = 220;
+const VEIL_OUT_MS = 260;
+/** The spin's ease, cubic-bezier(0.12, 0.7, 0.3, 1), as points (native-driven interpolation takes no easing). */
+const SPIN_EASE = Easing.bezier(0.12, 0.7, 0.3, 1);
+const SPIN_IN = Array.from({ length: 25 }, (_, i) => i / 24);
+const SPIN_OUT = SPIN_IN.map((x) => SPIN_EASE(x));
 
-/** Specks drifting in: [start x, start y, ms, delay ms]. */
-const SPECKS: Array<[number, number, number, number]> = [
-  [-92, -70, 2100, 0], [86, -96, 2600, 400], [-70, 104, 2300, 900], [104, 62, 2000, 1300],
-  [-118, 18, 2800, 200], [64, 120, 2400, 1600], [-40, -126, 2200, 1100], [124, -20, 2700, 700],
-  [-104, 88, 2500, 1900], [30, -118, 2900, 2200], [96, 100, 2600, 500], [118, -78, 2400, 1800],
-];
+/**
+ * Specks drifting in: [start x, start y, ms, delay ms, size]. A cloud around
+ * the line, taller than wide, as in the concept.
+ */
+const SPECKS: Array<[number, number, number, number, number]> = (() => {
+  let seed = 42;
+  const r = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+  return Array.from({ length: 26 }, () => {
+    const ang = r() * Math.PI * 2;
+    const rad = 70 + r() * 110;
+    return [Math.cos(ang) * rad * 0.55, Math.sin(ang) * rad, 1700 + r() * 1300, r() * 2400, 1.5 + r() * 2] as [number, number, number, number, number];
+  });
+})();
 
 type Rgb = [number, number, number];
 const NEUTRAL_THEMES = new Set(['system', 'light', 'minimal', 'immersive']);
@@ -115,7 +137,7 @@ const styles = StyleSheet.create({
   window: { height: FRAME, overflow: 'hidden', backgroundColor: '#16181d', alignItems: 'center', justifyContent: 'center' },
   picture: { position: 'absolute', width: FRAME, height: FRAME },
   initial: { color: 'rgba(255,255,255,0.85)', fontSize: 52, fontWeight: '700' },
-  speck: { position: 'absolute', width: 3, height: 3, borderRadius: 1.5, backgroundColor: '#fff' },
+  speck: { position: 'absolute', borderRadius: 2, backgroundColor: '#fff' },
   arrival: { ...StyleSheet.absoluteFillObject, zIndex: 9999, elevation: 9999, alignItems: 'center', justifyContent: 'center' },
   nameRow: {
     position: 'absolute', alignSelf: 'center', maxWidth: 320, flexDirection: 'row', alignItems: 'center', gap: 6,
@@ -128,7 +150,7 @@ const styles = StyleSheet.create({
 });
 
 /** One speck drifting into the stroke, on its own loop. */
-const Speck: React.FC<{ x: number; y: number; ms: number; delay: number; color: string; burst: Animated.Value }> = ({ x, y, ms, delay, color, burst }) => {
+const Speck: React.FC<{ x: number; y: number; ms: number; delay: number; size: number; color: string; burst: Animated.Value }> = ({ x, y, ms, delay, size, color, burst }) => {
   const t = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     const loop = Animated.loop(
@@ -141,6 +163,8 @@ const Speck: React.FC<{ x: number; y: number; ms: number; delay: number; color: 
   return (
     <Animated.View
       style={[styles.speck, {
+        width: size,
+        height: size,
         backgroundColor: color,
         opacity: Animated.multiply(
           t.interpolate({ inputRange: [0, 0.25, 0.9, 1], outputRange: [0, 0.9, 0.7, 0] }),
@@ -167,10 +191,15 @@ const Rift: React.FC<{
   instantOpen?: boolean;
   /** Start on the line: the spin already played on the veil. */
   skipIntro?: boolean;
-}> = ({ picture, name, opened, instantOpen, skipIntro }) => {
-  const noIntro = !!(instantOpen || skipIntro);
+  /** How much of the spin already played (on the sheet's veil): carry on from there. */
+  introElapsed?: number;
+}> = ({ picture, name, opened, instantOpen, skipIntro, introElapsed = 0 }) => {
+  const from = Math.min(1, Math.max(0, introElapsed / INTRO_MS));
+  const noIntro = !!(instantOpen || skipIntro) || from >= 1;
   const colors = useRiftColors();
-  const spin = useRef(new Animated.Value(noIntro ? 1 : 0)).current;
+  // A linear clock, eased below, so a spin that started on the sheet carries on mid-turn.
+  const clock = useRef(new Animated.Value(noIntro ? 1 : from)).current;
+  const spin = useMemo(() => clock.interpolate({ inputRange: SPIN_IN, outputRange: SPIN_OUT }), [clock]);
   const breathe = useRef(new Animated.Value(0)).current;
   const tear = useRef(new Animated.Value(instantOpen ? 1 : 0)).current; // native: line + halo + specks
   const widen = useRef(new Animated.Value(instantOpen ? 1 : 0)).current; // JS: the window's size
@@ -188,9 +217,11 @@ const Rift: React.FC<{
       loop.start();
     };
     if (noIntro) startBreathing();
-    else Animated.timing(spin, { toValue: 1, duration: INTRO_MS, easing: Easing.bezier(0.12, 0.7, 0.3, 1), useNativeDriver: true }).start(startBreathing);
-    return () => { spin.stopAnimation(); loop?.stop(); };
-  }, [spin, breathe, noIntro]);
+    else Animated.timing(clock, { toValue: 1, duration: INTRO_MS * (1 - from), easing: Easing.linear, useNativeDriver: true }).start(({ finished }) => { if (finished) startBreathing(); });
+    return () => { clock.stopAnimation(); loop?.stop(); };
+    // `from` is read once: the spin is not restarted by a later prop.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clock, breathe, noIntro]);
 
   useEffect(() => {
     if (!opened || instantOpen) return;
@@ -247,8 +278,25 @@ const Rift: React.FC<{
         </Svg>
       </Animated.View>
 
-      {settled && SPECKS.map(([x, y, ms, delay], i) => (
-        <Speck key={i} x={x} y={y} ms={ms} delay={delay} color={i % 2 ? colors.b : '#fff'} burst={tear} />
+      {/* the bloom right around the line */}
+      <Animated.View style={[styles.abs, {
+        opacity: Animated.multiply(lineIn, tear.interpolate({ inputRange: [0, 0.6, 1], outputRange: [1, 0.3, 0] })),
+        transform: [{ scaleY: breathe.interpolate({ inputRange: [0, 1], outputRange: [0.9, 1.06] }) }],
+      }]}>
+        <Svg width={60} height={170}>
+          <Defs>
+            <RadialGradient id="riftBloom" cx="50%" cy="50%" rx="50%" ry="50%">
+              <Stop offset="0" stopColor="#ffffff" stopOpacity={0.75} />
+              <Stop offset="0.35" stopColor={colors.a} stopOpacity={0.45} />
+              <Stop offset="1" stopColor={colors.a} stopOpacity={0} />
+            </RadialGradient>
+          </Defs>
+          <Ellipse cx={30} cy={85} rx={30} ry={85} fill="url(#riftBloom)" />
+        </Svg>
+      </Animated.View>
+
+      {settled && SPECKS.map(([x, y, ms, delay, size], i) => (
+        <Speck key={i} x={x} y={y} ms={ms} delay={delay} size={size} color={i % 2 ? colors.b : '#fff'} burst={tear} />
       ))}
 
       {!noIntro && [2, 1, 0].map(mark)}
@@ -305,13 +353,14 @@ const Rift: React.FC<{
 };
 
 
-type MarkProps = { picture: string | null; name: string; opened: boolean; instantOpen?: boolean; skipIntro?: boolean };
+type MarkProps = { picture: string | null; name: string; opened: boolean; instantOpen?: boolean; skipIntro?: boolean; introElapsed?: number };
 
 /** Trace, Tune in, Deck and Glass drop (ArrivalConcepts), in the theme's colours. */
 const Concept: React.FC<MarkProps & { look: ConceptLook }> = (props) => {
   const colors = useRiftColors();
   if (!ConceptArrival) return <Rift {...props} />;
-  return <ConceptArrival {...props} colors={colors} />;
+  const { introElapsed: _introElapsed, ...rest } = props;
+  return <ConceptArrival {...rest} colors={colors} />;
 };
 
 export const isConceptLook = (look: ArrivalLook): look is ConceptLook => !!ConceptArrival && isConceptName(look);
@@ -353,7 +402,38 @@ function openWhenReady(picture: string | null, notBefore: number, open: () => vo
   return () => { cancelled = true; if (timer) clearTimeout(timer); };
 }
 
-export const SignInWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
+/**
+ * The wait. On the sign-in page (`atRoot`) the app root draws it
+ * (SignInArrival), so the veil and the rift carry on unbroken while the page
+ * under them is swapped for the app; here only a still layer takes the touches.
+ * Inside a sheet (a native modal, which the root can't draw over) it is drawn
+ * here, and the root carries on from wherever the spin had got to.
+ */
+export const SignInWaitVeil: React.FC<{ label?: string; atRoot?: boolean }> = ({ label, atRoot }) => {
+  useEffect(() => {
+    if (!atRoot) return;
+    noteSignInWaiting();
+    setRootSignInWait(true);
+    return () => {
+      noteSignInWaiting();
+      setRootSignInWait(false);
+    };
+  }, [atRoot]);
+  if (atRoot) {
+    return (
+      <View
+        style={styles.veilHost}
+        accessible
+        accessibilityRole="progressbar"
+        accessibilityLabel={label}
+        testID="signin-wait-veil"
+      />
+    );
+  }
+  return <SheetWaitVeil label={label} />;
+};
+
+const SheetWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
   const fade = useRef(new Animated.Value(0)).current;
   const look = useArrivalLook();
   const arriving = useArriving();
@@ -361,9 +441,10 @@ export const SignInWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
   const picture = arriving?.avatarImageUrl ? getAvatarUrl(arriving.avatarImageUrl, FRAME) : null;
 
   useEffect(() => {
+    noteSignInWaitStarted();
     noteSignInWaiting();
     const tick = setInterval(noteSignInWaiting, 250);
-    Animated.timing(fade, { toValue: 1, duration: 220, useNativeDriver: true }).start();
+    Animated.timing(fade, { toValue: 1, duration: VEIL_IN_MS, useNativeDriver: true }).start();
     return () => {
       clearInterval(tick);
       noteSignInWaiting();
@@ -410,19 +491,60 @@ export const SignInWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
   );
 };
 
+type Session = {
+  /** When this session's rift went on screen. */
+  at: number;
+  /** How much of the spin had played before it (on a sheet's veil). */
+  introElapsed: number;
+  /** The log-in's account, once signed in. Until then the noted one is peeked. */
+  taken: ArrivingAccount | null;
+  takenAt: number;
+  /** The sheet's veil already opened on the picture. */
+  instant: boolean;
+  skipIntro: boolean;
+};
+
+/**
+ * At the app root, above every screen: the wait the sign-in page asked for,
+ * then the arrival. The veil stays until the picture flies home, so the app
+ * swapping in under it is never seen; it clears as the picture flies.
+ */
 export const SignInArrival: React.FC = () => {
   const { isSignedIn, needsUsername } = useAuthState();
   const user = useUser();
   const { width, height } = useWindowDimensions();
   const look = useArrivalLook();
-  const { isLight } = useAppTheme();
-  const [shown, setShown] = useState<{ picture: string | null; name: string; badge?: number; instant: boolean; skipIntro: boolean; at: number } | null>(null);
+  const rootWait = useSyncExternalStore(subscribeRootSignInWait, rootSignInWaiting);
+  const peeked = useArriving();
+  const [session, setSessionState] = useState<Session | null>(null);
+  const sessionRef = useRef<Session | null>(null);
+  const setSession = (s: Session | null) => { sessionRef.current = s; setSessionState(s); };
   const [opened, setOpened] = useState(false);
   const wasIn = useRef(isSignedIn && !needsUsername);
+  const veil = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(1)).current;
   const nameOpacity = useRef(new Animated.Value(0)).current;
   const move = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const scale = useRef(new Animated.Value(1)).current;
+
+  const begin = (s: Session, veilUp: boolean) => {
+    veil.stopAnimation();
+    opacity.setValue(1);
+    nameOpacity.setValue(0);
+    move.setValue({ x: 0, y: 0 });
+    scale.setValue(1);
+    veil.setValue(veilUp ? 1 : 0);
+    if (!veilUp) Animated.timing(veil, { toValue: 1, duration: VEIL_IN_MS, useNativeDriver: true }).start();
+    setOpened(s.instant);
+    setSession(s);
+  };
+
+  // The sign-in page is waiting: the veil and the spin, from here.
+  useEffect(() => {
+    if (!rootWait || sessionRef.current) return;
+    begin({ at: Date.now(), introElapsed: 0, taken: null, takenAt: 0, instant: false, skipIntro: false }, false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rootWait]);
 
   const signedIn = isSignedIn && !needsUsername;
   useEffect(() => {
@@ -434,52 +556,80 @@ export const SignInArrival: React.FC = () => {
     const account = takeArrivingAccount(ACCOUNT_MAX_AGE_MS);
     if (!account) return;
     noteArrivalPlaying(6000);
-    const avatar = account.avatarImageUrl || user?.avatarImageUrl || null;
-    const picture = avatar ? getAvatarUrl(avatar, FRAME) : null;
+    const current = sessionRef.current;
+    if (current && !current.taken) {
+      // The wait drawn here carries on into the arrival, unbroken.
+      setSession({ ...current, taken: account, takenAt: Date.now() });
+      return;
+    }
     const veilWasUp = signInWasWaiting(1500);
     const instant = veilWasUp && Date.now() - veilOpenedAt < 4000;
-    opacity.setValue(1);
-    nameOpacity.setValue(0);
-    move.setValue({ x: 0, y: 0 });
-    scale.setValue(1);
-    setOpened(instant);
-    setShown({ picture, name: account.name || user?.displayName || user?.username || '', badge: account.badge, instant, skipIntro: veilWasUp, at: Date.now() });
-    // `user` is read, not followed: it is usually still the old value here.
+    const introElapsed = veilWasUp ? Date.now() - signInWaitStartedAt() : 0;
+    begin({
+      at: Date.now(), introElapsed, taken: account, takenAt: Date.now(), instant,
+      skipIntro: veilWasUp && introElapsed >= ARRIVAL_INTRO_MS[look],
+    }, veilWasUp);
+    // `user` and `look` are read, not followed.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [signedIn]);
 
+  // The wait ended without a log-in (cancelled, failed, or a new account
+  // going on to pick its name): let it go.
+  useEffect(() => {
+    if (rootWait || !session || session.taken) return;
+    const timer = setTimeout(() => {
+      if (sessionRef.current !== session) return;
+      Animated.parallel([
+        Animated.timing(veil, { toValue: 0, duration: VEIL_OUT_MS, useNativeDriver: true }),
+        Animated.timing(opacity, { toValue: 0, duration: VEIL_OUT_MS, useNativeDriver: true }),
+      ]).start(() => { if (sessionRef.current === session) { setSession(null); setOpened(false); } });
+    }, WAIT_GRACE_MS);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rootWait, session]);
+
   // The log-in response may not carry the picture, name or badge: the
   // profile that loads right after it fills them in, never a "?".
-  const picture = shown?.picture ?? (user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, FRAME) : null);
-  const name = shown?.name || user?.displayName || user?.username || '';
-  const badge = shown?.badge ?? (user && !(user as any).hideBadgeAndBalance ? getBadgeUrlFor(user) : undefined);
+  const account = session ? (session.taken ?? peeked) : null;
+  const signedInNow = !!session?.taken;
+  const picture = account?.avatarImageUrl
+    ? getAvatarUrl(account.avatarImageUrl, FRAME)
+    : signedInNow && user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, FRAME) : null;
+  const name = account?.name || (signedInNow ? user?.displayName || user?.username || '' : '');
+  const badge = account?.badge ?? (signedInNow && user && !(user as any).hideBadgeAndBalance ? getBadgeUrlFor(user) : undefined);
 
-  // Open on the picture, or after the cap without it. With no picture known
-  // yet, give the profile a moment to bring it before opening on the frame.
+  // Open on the picture, or after the cap without it, never before the spin
+  // has landed on the line. With no picture known yet, give the profile a
+  // moment to bring it before opening on the frame.
   useEffect(() => {
-    if (!shown || opened) return;
-    const notBefore = shown.skipIntro ? 0 : shown.at + ARRIVAL_INTRO_MS[look];
+    if (!session || opened || !account) return;
+    const notBefore = session.skipIntro || session.instant
+      ? 0
+      : session.at + Math.max(0, ARRIVAL_INTRO_MS[look] - session.introElapsed);
     if (!picture) {
-      const timer = setTimeout(() => setOpened(true), Math.max(0, Math.max(notBefore, shown.at + NO_PICTURE_WAIT_MS) - Date.now()));
+      if (!session.taken) return;
+      const timer = setTimeout(() => setOpened(true), Math.max(0, Math.max(notBefore, session.takenAt + NO_PICTURE_WAIT_MS) - Date.now()));
       return () => clearTimeout(timer);
     }
     return openWhenReady(picture, notBefore, () => setOpened(true));
     // `look` is read, not followed: a change mid-arrival waits for the next one.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shown, opened, picture]);
+  }, [session, opened, picture, !!account]);
 
-  // Open: show the name, hold, then send the picture home.
+  // Open and signed in: show the name, hold, then send the picture home as
+  // the veil clears.
   useEffect(() => {
-    if (!shown || !opened) return;
+    if (!session || !opened || !session.taken) return;
     let cancelled = false;
-    const end = () => { if (!cancelled) setShown(null); };
+    const end = () => { if (!cancelled) { setSession(null); setOpened(false); } };
     const concept = isConceptLook(look);
-    const nameDelay = shown.instant ? 0 : concept ? CONCEPT_NAME_MS[look as ConceptLook] : 200;
+    const nameDelay = session.instant ? 0 : concept ? CONCEPT_NAME_MS[look as ConceptLook] : 200;
     Animated.timing(nameOpacity, { toValue: 1, duration: 240, delay: nameDelay, useNativeDriver: true }).start();
     const timer = setTimeout(async () => {
       const to = await measureOwnAvatar();
       if (cancelled) return;
       Animated.timing(nameOpacity, { toValue: 0, duration: 140, useNativeDriver: true }).start();
+      Animated.timing(veil, { toValue: 0, duration: VEIL_OUT_MS, useNativeDriver: true }).start();
       if (!to) {
         Animated.parallel([
           Animated.timing(opacity, { toValue: 0, duration: 240, useNativeDriver: true }),
@@ -496,20 +646,31 @@ export const SignInArrival: React.FC = () => {
         Animated.timing(scale, { toValue: to.width / FRAME, duration: FLY_MS, easing: ease, useNativeDriver: true }),
         Animated.timing(opacity, { toValue: 0, duration: 160, delay: FLY_MS - 80, useNativeDriver: true }),
       ]).start(end);
-    }, shown.instant ? HOLD_MS : concept ? CONCEPT_HOLD_MS : OPEN_MS + HOLD_MS);
+    }, session.instant ? HOLD_MS : concept ? CONCEPT_HOLD_MS : OPEN_MS + HOLD_MS);
     return () => { cancelled = true; clearTimeout(timer); };
     // `look` is read, not followed, as above.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shown, opened, width, height, opacity, nameOpacity, move, scale]);
+  }, [session?.taken, session?.at, opened, width, height]);
 
-  if (!shown) return null;
+  if (!session) return null;
   return (
     <View className="dark-surface" style={styles.arrival} pointerEvents="none" testID="signin-arrival">
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: VEIL, opacity: veil }]} />
       <Animated.View style={[styles.frame, { opacity, transform: [...move.getTranslateTransform(), { scale }] }]}>
-        <ArrivalMarks look={look} picture={picture} name={name} opened={opened} instantOpen={shown.instant} skipIntro={shown.skipIntro} />
+        <ArrivalMarks
+          key={session.at}
+          look={look}
+          picture={picture}
+          name={name}
+          opened={opened}
+          instantOpen={session.instant}
+          skipIntro={session.skipIntro}
+          introElapsed={session.introElapsed}
+        />
       </Animated.View>
-      {name ? (
-        <ArrivalName name={name} badge={badge} color={isLight ? '#0B0B0D' : '#ffffff'} style={{ opacity: nameOpacity, top: height / 2 + FRAME / 2 + 12 }} />
+      {name && opened ? (
+        // White on the veil, which is up for as long as the name shows.
+        <ArrivalName name={name} badge={badge} color="#ffffff" style={{ opacity: nameOpacity, top: height / 2 + FRAME / 2 + 12 }} />
       ) : null}
     </View>
   );

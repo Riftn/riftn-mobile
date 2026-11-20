@@ -91,6 +91,10 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   // up to 44pt on SE/8-class iPhones and iPads.
   const keyboardOffset = useKeyboardOffset(0);
   const [isLocalLoading, setIsLocalLoading] = useState(false);
+  // The account is being opened: the person has done their part (Google's own
+  // screen has closed, the code is in). Only this shows the wait, so the spin
+  // is never spent behind Google's account picker or on sending a code.
+  const [sessionWait, setSessionWait] = useState(false);
   const [currentProvider, setCurrentProvider] = useState("");
   const { t } = useTranslation();
   const [passkeyError, setPasskeyError] = useState<string | null>(null);
@@ -338,13 +342,19 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
 
   const runProvisionAndSignIn = useCallback(
     async (supabaseUserId: string) => {
-      const outcome = await provisionAndSignIn(supabaseUserId, {
-        getSupabaseAccessToken,
-        signInWithSupabaseSession,
-        completeLocalSignIn,
-        getSupabaseAuthMeta,
-        provisionSolanaAddressForWallet,
-      });
+      setSessionWait(true);
+      let outcome: Awaited<ReturnType<typeof provisionAndSignIn>>;
+      try {
+        outcome = await provisionAndSignIn(supabaseUserId, {
+          getSupabaseAccessToken,
+          signInWithSupabaseSession,
+          completeLocalSignIn,
+          getSupabaseAuthMeta,
+          provisionSolanaAddressForWallet,
+        });
+      } finally {
+        if (isMountedRef.current) setSessionWait(false);
+      }
 
       switch (outcome.kind) {
         case "signed-in":
@@ -784,11 +794,11 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
   }, [authStep, loginViewportHeight, loginContentHeight]);
 
   const isLoading = authLoading || isLocalLoading || isWalletLoading;
-  const showLoader = isLoading && !needsUsername;
+  const showLoader = (sessionWait || isWalletLoading) && !needsUsername;
   const content = (
     <SafeAreaView className="flex-1 bg-theme-background">
       {showLoader && (
-        <SignInWaitVeil label={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
+        <SignInWaitVeil atRoot label={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
       )}
 
       {/* "padding" on BOTH platforms, deliberately. The manifest still says
