@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, memo } from "react";
-import { View, TouchableOpacity, I18nManager } from "react-native";
+import { View, Text, TouchableOpacity, I18nManager } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ElectricLogo from "./common/ElectricLogo";
@@ -10,7 +10,7 @@ import NotificationBell from "./common/NotificationBell";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { ScreenNames } from "../navigation/ScreenNames";
-import { useUser, useAuthState } from "../context/AuthContext";
+import { useUser, useAuthState, useAuthActions } from "../context/AuthContext";
 import { getAvatarUrl } from "../libs/misc";
 import { registerOwnAvatar } from "../libs/signInHandoff";
 import { useAppTheme } from "../context/ThemeContext";
@@ -37,6 +37,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ onLogoPress, onMenuPress, onBac
   const refreshing = useFeedPillRefreshing();
   const navigation = useNavigation<any>();
   const { isSignedIn } = useAuthState();
+  const { requireAuth } = useAuthActions();
   const user = useUser();
   const { colors, isMinimal } = useAppTheme();
   // A hair inside the pill below. Minimal's tab strip runs edge to edge.
@@ -134,9 +135,26 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ onLogoPress, onMenuPress, onBac
           <NotificationBell unread={unreadCount} size={29.75} color={colors.foreground} />
         </TouchableOpacity>
       ) : (
-        // Holds the right edge so the left control cannot drift into the
-        // centre under justify-between when there is no bell.
-        <View className="w-11 h-11" />
+        // Signed out: someone who logged out (or reinstalled) had no visible
+        // way back in from Home. Sits where the bell goes once signed in.
+        <TouchableOpacity
+          onPress={() => requireAuth(() => {})}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={t("common.signIn")}
+          className="h-11 items-end justify-center"
+        >
+          <View
+            className="rounded-full px-3.5 py-1.5"
+            // Written in the dark palette: System Light flips it to an ink pill.
+            style={{ backgroundColor: "#FFFFFF" }}
+          >
+            <Text numberOfLines={1} style={{ color: "#09090B", fontSize: 13, fontWeight: "600" }}>
+              {t("common.signIn")}
+            </Text>
+          </View>
+        </TouchableOpacity>
       )}
     </View>
   );
