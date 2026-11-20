@@ -4945,7 +4945,7 @@
     "edit": "Whakatika",
     "deleteRequestTitle": "Mukua tēnei tono?",
     "deleteRequestDescription": "Kāore e taea te whakakore i tēnei.",
-    "attachmentTooLarge": "Me iti iho i te 50MB ia kōnae",
+    "attachmentTooLarge": "Me iti iho i te 200MB ia kōnae",
     "deleteCommentA11y": "Whakakorea ngā kōrero",
     "sendCommentA11y": "Tukuna mai he korero",
     "requestOptions": "Kōwhiringa tono",

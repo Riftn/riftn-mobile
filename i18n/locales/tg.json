@@ -4945,7 +4945,7 @@
     "edit": "Таҳрир кардан",
     "deleteRequestTitle": "Ин дархост нест карда шавад?",
     "deleteRequestDescription": "Инро баргардонидан мумкин нест.",
-    "attachmentTooLarge": "Ҳар як файл бояд аз 50MB камтар бошад",
+    "attachmentTooLarge": "Ҳар як файл бояд аз 200MB камтар бошад",
     "deleteCommentA11y": "Нест кардани шарҳ",
     "sendCommentA11y": "Фиристодани шарҳ",
     "requestOptions": "Имконоти дархост",

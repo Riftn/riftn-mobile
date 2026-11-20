@@ -4822,7 +4822,7 @@
     "edit": "編集",
     "deleteRequestTitle": "このリクエストを削除しますか？",
     "deleteRequestDescription": "これは取り消せません。",
-    "attachmentTooLarge": "1ファイルあたり 50MB 未満にしてください",
+    "attachmentTooLarge": "1ファイルあたり 200MB 未満にしてください",
     "deleteCommentA11y": "コメントの削除",
     "sendCommentA11y": "コメントを送信",
     "requestOptions": "リクエストオプション",

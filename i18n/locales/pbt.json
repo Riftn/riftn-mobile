@@ -4945,7 +4945,7 @@
     "edit": "سمول",
     "deleteRequestTitle": "دا غوښتنه ړنګه کړئ؟",
     "deleteRequestDescription": "دا بیرته نشي کیدای.",
-    "attachmentTooLarge": "هره فایل باید له 50MB څخه کم وي",
+    "attachmentTooLarge": "هره فایل باید له 200MB څخه کم وي",
     "deleteCommentA11y": "د نظرونو لرې کول",
     "sendCommentA11y": "نظرات ياداشت په نه په",
     "requestOptions": "د غوښتنې انتخابونه",

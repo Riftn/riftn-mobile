@@ -4945,7 +4945,7 @@
     "edit": "ايڊٽ ڪريو",
     "deleteRequestTitle": "هي درخواست ڊليٽ ڪجي؟",
     "deleteRequestDescription": "هي واپس نه ٿي سگهندو.",
-    "attachmentTooLarge": "هر فائل 50MB کان گهٽ هجڻ گهرجي",
+    "attachmentTooLarge": "هر فائل 200MB کان گهٽ هجڻ گهرجي",
     "deleteCommentA11y": "تبصرو ختم ڪريو",
     "sendCommentA11y": "تبصرو موڪليو",
     "requestOptions": "درخواست جا اختيار",

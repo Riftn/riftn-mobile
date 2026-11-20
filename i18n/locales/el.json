@@ -4946,7 +4946,7 @@
     "edit": "Επεξεργασία",
     "deleteRequestTitle": "Διαγραφή αυτού του αιτήματος;",
     "deleteRequestDescription": "Αυτό δεν αναιρείται.",
-    "attachmentTooLarge": "Κάθε αρχείο πρέπει να είναι κάτω από 50MB",
+    "attachmentTooLarge": "Κάθε αρχείο πρέπει να είναι κάτω από 200MB",
     "deleteCommentA11y": "Διαγραφή σχολίου",
     "sendCommentA11y": "Αποστολή σχολίου",
     "requestOptions": "Επιλογές αιτήματος",

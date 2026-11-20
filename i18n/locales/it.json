@@ -4972,7 +4972,7 @@
     "edit": "Modifica",
     "deleteRequestTitle": "Eliminare questa richiesta?",
     "deleteRequestDescription": "Non si può annullare.",
-    "attachmentTooLarge": "Ogni file deve essere sotto i 50 MB",
+    "attachmentTooLarge": "Ogni file deve essere sotto i 200 MB",
     "deleteCommentA11y": "Elimina il commento",
     "sendCommentA11y": "Invia commento",
     "requestOptions": "Opzioni richiesta",

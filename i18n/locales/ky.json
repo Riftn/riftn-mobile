@@ -4945,7 +4945,7 @@
     "edit": "Түзөтүү",
     "deleteRequestTitle": "Бул суроо-талап өчүрүлсүнбү?",
     "deleteRequestDescription": "Муну кайтарууга болбойт.",
-    "attachmentTooLarge": "Ар бир файл 50 МБ'дан кичине болушу керек",
+    "attachmentTooLarge": "Ар бир файл 200 МБ'дан кичине болушу керек",
     "deleteCommentA11y": "Комментарийди өчүрүү",
     "sendCommentA11y": "Комментарий жөнөтүү",
     "requestOptions": "Параметрлерди суроо",

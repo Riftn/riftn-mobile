@@ -4822,7 +4822,7 @@
     "edit": "Editar",
     "deleteRequestTitle": "Eliminar este pedido?",
     "deleteRequestDescription": "Isto não pode ser desfeito.",
-    "attachmentTooLarge": "Cada ficheiro deve ter menos de 50 MB",
+    "attachmentTooLarge": "Cada ficheiro deve ter menos de 200 MB",
     "deleteCommentA11y": "Eliminar comentário",
     "sendCommentA11y": "Enviar comentário",
     "requestOptions": "Opções de solicitação",

@@ -4946,7 +4946,7 @@
     "edit": "Redigera",
     "deleteRequestTitle": "Radera den här förfrågan?",
     "deleteRequestDescription": "Det här går inte att ångra.",
-    "attachmentTooLarge": "Varje fil måste vara under 50 MB",
+    "attachmentTooLarge": "Varje fil måste vara under 200 MB",
     "deleteCommentA11y": "Ta bort kommentar",
     "sendCommentA11y": "Sádde kommeantta",
     "requestOptions": "Alternativ för förfrågan",

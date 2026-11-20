@@ -4945,7 +4945,7 @@
     "edit": "تەھرىرلەش",
     "deleteRequestTitle": "بۇ تەلەپنى ئۆچۈرەمسىز؟",
     "deleteRequestDescription": "بۇنى قايتۇرغىلى بولمايدۇ.",
-    "attachmentTooLarge": "ھەر بىر ھۆججەت 50MB دىن كىچىك بولۇشى كېرەك",
+    "attachmentTooLarge": "ھەر بىر ھۆججەت 200MB دىن كىچىك بولۇشى كېرەك",
     "deleteCommentA11y": "ئىنكاسنى ئۆچۈرۈش",
     "sendCommentA11y": "ئىنكاس يوللاش",
     "requestOptions": "تاللانمىلارنى سوراش",

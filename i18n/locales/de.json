@@ -4866,7 +4866,7 @@
     "edit": "Bearbeiten",
     "deleteRequestTitle": "Diese Anfrage löschen?",
     "deleteRequestDescription": "Das lässt sich nicht rückgängig machen.",
-    "attachmentTooLarge": "Jede Datei muss unter 50 MB sein",
+    "attachmentTooLarge": "Jede Datei muss unter 200 MB sein",
     "deleteCommentA11y": "Kommentar löschen",
     "sendCommentA11y": "Kommentar senden",
     "requestOptions": "Anforderungsoptionen",

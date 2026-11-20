@@ -2706,7 +2706,7 @@
     "edit": "تعديل",
     "deleteRequestTitle": "حذف هذا الطلب؟",
     "deleteRequestDescription": "لا يمكن التراجع عن هذا.",
-    "attachmentTooLarge": "يجب أن يكون كل ملف أقل من 50 ميغابايت",
+    "attachmentTooLarge": "يجب أن يكون كل ملف أقل من 200 ميغابايت",
     "deleteCommentA11y": "احذف التعليق",
     "sendCommentA11y": "ارسل التعليق",
     "requestOptions": "خيارات الطلب",

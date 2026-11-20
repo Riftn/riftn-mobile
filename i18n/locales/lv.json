@@ -4945,7 +4945,7 @@
     "edit": "Rediģēt",
     "deleteRequestTitle": "Vai dzēst šo pieprasījumu?",
     "deleteRequestDescription": "To nevar atsaukt.",
-    "attachmentTooLarge": "Katram failam jābūt mazākam par 50 MB",
+    "attachmentTooLarge": "Katram failam jābūt mazākam par 200 MB",
     "deleteCommentA11y": "Dzēst Komentāru",
     "sendCommentA11y": "Nosūtīt komentāru",
     "requestOptions": "Pieprasījuma iespējas",

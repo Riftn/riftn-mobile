@@ -4992,7 +4992,7 @@
     "edit": "I-edit",
     "deleteRequestTitle": "Burahin ang kahilingang ito?",
     "deleteRequestDescription": "Hindi ito mababawi.",
-    "attachmentTooLarge": "Dapat wala pang 50MB ang bawat file",
+    "attachmentTooLarge": "Dapat wala pang 200MB ang bawat file",
     "deleteCommentA11y": "I-delete ang komento",
     "sendCommentA11y": "Magpadala ng komento",
     "requestOptions": "Mga opsyon sa kahilingan",

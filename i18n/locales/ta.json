@@ -4945,7 +4945,7 @@
     "edit": "திருத்து",
     "deleteRequestTitle": "இந்தக் கோரிக்கையை நீக்கவா?",
     "deleteRequestDescription": "இதைத் திரும்பப் பெற முடியாது.",
-    "attachmentTooLarge": "ஒவ்வொரு கோப்பும் 50MB க்கும் குறைவாக இருக்க வேண்டும்",
+    "attachmentTooLarge": "ஒவ்வொரு கோப்பும் 200MB க்கும் குறைவாக இருக்க வேண்டும்",
     "deleteCommentA11y": "கருத்தை நீக்கவும்",
     "sendCommentA11y": "கருத்துரை அனுப்பவும்",
     "requestOptions": "கோரிக்கை விருப்பங்கள்",

@@ -4971,7 +4971,7 @@
     "edit": "Redaguoti",
     "deleteRequestTitle": "Ištrinti šį pageidavimą?",
     "deleteRequestDescription": "To atšaukti nepavyks.",
-    "attachmentTooLarge": "Kiekvienas failas turi būti mažesnis nei 50 MB",
+    "attachmentTooLarge": "Kiekvienas failas turi būti mažesnis nei 200 MB",
     "deleteCommentA11y": "Ištrinti Komentarą",
     "sendCommentA11y": "Siųsti komentarą",
     "requestOptions": "Prašymo parinktys",

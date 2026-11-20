@@ -4958,7 +4958,7 @@
     "edit": "တည်းဖြတ်ရန်",
     "deleteRequestTitle": "ဤတောင်းဆိုချက်ကို ဖျက်မလား။",
     "deleteRequestDescription": "ဤအရာကို ပြန်ပြင်၍ မရပါ။",
-    "attachmentTooLarge": "ဖိုင်တစ်ခုစီ 50MB အောက် ဖြစ်ရမည်",
+    "attachmentTooLarge": "ဖိုင်တစ်ခုစီ 200MB အောက် ဖြစ်ရမည်",
     "deleteCommentA11y": "မှတ်ချက်ကို ဖျက်ပါ",
     "sendCommentA11y": "မှတ်ချက်ပေးပို့ပါ",
     "requestOptions": "တောင်းဆိုရန် ရွေးချယ်စရာများ",

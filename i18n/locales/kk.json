@@ -4963,7 +4963,7 @@
     "edit": "Өңдеу",
     "deleteRequestTitle": "Бұл сұрау жойылсын ба?",
     "deleteRequestDescription": "Мұны қайтару мүмкін емес.",
-    "attachmentTooLarge": "Әр файл 50 МБ-тан кем болуы керек",
+    "attachmentTooLarge": "Әр файл 200 МБ-тан кем болуы керек",
     "deleteCommentA11y": "Пікірді жою",
     "sendCommentA11y": "Пікір жіберу",
     "requestOptions": "Сұрау параметрлері",

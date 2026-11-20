@@ -4945,7 +4945,7 @@
     "edit": "Rediger",
     "deleteRequestTitle": "Slet denne anmodning?",
     "deleteRequestDescription": "Det kan ikke fortrydes.",
-    "attachmentTooLarge": "Hver fil skal være under 50 MB",
+    "attachmentTooLarge": "Hver fil skal være under 200 MB",
     "deleteCommentA11y": "Slet kommentar",
     "sendCommentA11y": "Send besked",
     "requestOptions": "Anmodningsmuligheder",

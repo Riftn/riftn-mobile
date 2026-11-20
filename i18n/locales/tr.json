@@ -2702,7 +2702,7 @@
     "edit": "Düzenle",
     "deleteRequestTitle": "Bu istek silinsin mi?",
     "deleteRequestDescription": "Bu işlem geri alınamaz.",
-    "attachmentTooLarge": "Her dosya 50MB’den küçük olmalı",
+    "attachmentTooLarge": "Her dosya 200MB’den küçük olmalı",
     "deleteCommentA11y": "Yorum silme",
     "sendCommentA11y": "Yorum gönder",
     "requestOptions": "İstek seçenekleri",

@@ -4972,7 +4972,7 @@
     "edit": "편집",
     "deleteRequestTitle": "이 요청을 삭제할까요?",
     "deleteRequestDescription": "되돌릴 수 없습니다.",
-    "attachmentTooLarge": "파일당 50MB 미만이어야 합니다",
+    "attachmentTooLarge": "파일당 200MB 미만이어야 합니다",
     "deleteCommentA11y": "설명 삭제",
     "sendCommentA11y": "댓글 보내기",
     "requestOptions": "요청 옵션",
