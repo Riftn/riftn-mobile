@@ -58,6 +58,7 @@ import type { IconName } from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBadgeUrl, resolveBadgeBalance } from "../../libs/misc";
 import { copyToClipboard } from "../../libs/clipboard.utils";
+import { canLinkMessage, copyChatMessageLink, copyLinkLabel, useLinkedMessage } from "../../libs/chatMessageLink";
 import { toastSuccess } from "../../libs/toast";
 import { useUser } from "../../context/AuthContext";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
@@ -682,6 +683,19 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     }
     decide(found.kind === "anchor" ? found.anchor : null);
   }, [readDecided, isLoading, messages, readSpot.ready, readSpot.opening, isHistoryWindow, hasOlderMessages, isLoadingOlder, loadOlder, myAddress]);
+
+  // A copied message link to this community's chat: open on that line.
+  useLinkedMessage(
+    community.slug ? `community:${community.slug.toLowerCase()}` : null,
+    !isLoading && messages.length > 0 && readDecided,
+    async (id) => {
+      unreadPlacedRef.current = true;
+      setUnreadAnchor(null);
+      await jumpRef.current(id);
+      return true;
+    },
+  );
+
 
   // Land on the marker once its row is in the list: it sits at the top.
   useEffect(() => {
@@ -1457,6 +1471,19 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
                     <Text style={styles.sheetRowText}>
                       {t("communities.chatPanel.copyText", { defaultValue: "Copy text" })}
                     </Text>
+                  </Pressable>
+                )}
+
+                {!!community.slug && canLinkMessage(sheetFor.id) && (
+                  <Pressable
+                    style={styles.sheetRow}
+                    onPress={() => {
+                      copyChatMessageLink({ kind: "community", slug: community.slug }, sheetFor.id);
+                      setSheetFor(null);
+                    }}
+                  >
+                    <Icon name="Link" size={16} color="#FFFFFF" />
+                    <Text style={styles.sheetRowText}>{copyLinkLabel()}</Text>
                   </Pressable>
                 )}
 

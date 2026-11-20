@@ -149,6 +149,7 @@ import { createLogger } from "../libs/logger";
 import { useDmPin } from "../hooks/useDmPin";
 import { useCallActions } from "../context/CallContext";
 import { useDmHeadRecovery } from "../hooks/useDmHeadRecovery";
+import { clearPendingChatLink, copyChatMessageLink, peekPendingChatLink, toastNotInLinkedChat, useLinkedMessage } from "../libs/chatMessageLink";
 import EmojiSheet from "../components/Upload/EmojiSheet";
 import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
 
@@ -807,6 +808,44 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     [highlightAndScroll],
   );
 
+  // A copied message link to this chat: read back until the line is held,
+  // then scroll to it and light it up.
+  const linkStateRef = useRef({ messageList, hasMore, loadingMore, loadMore: async () => {}, highlightAndScroll });
+  const conversationsRef = useRef(conversations);
+  conversationsRef.current = conversations;
+  const linkKey = convId ? `dm:${convId}` : null;
+  useLinkedMessage(
+    linkKey,
+    !initialLoading && messageList.length > 0,
+    async (id) => {
+      for (let round = 0; round < 25; round += 1) {
+        const state = linkStateRef.current;
+        if (state.messageList.some((m) => m._id === id)) {
+          setTimeout(() => linkStateRef.current.highlightAndScroll(id), 350);
+          return true;
+        }
+        if (!state.hasMore) return false;
+        if (!state.loadingMore) await state.loadMore();
+        await new Promise((r) => setTimeout(r, 150));
+      }
+      return false;
+    },
+  );
+  // Someone who is not in the chat has no messages and no contact for it.
+  useEffect(() => {
+    if (!linkKey || !peekPendingChatLink(linkKey)) return;
+    const timer = setTimeout(() => {
+      const link = peekPendingChatLink(linkKey);
+      if (!link) return;
+      if (linkStateRef.current.messageList.length || conversationsRef.current.some((c) => c._id === convId)) return;
+      clearPendingChatLink(link.nonce);
+      toastNotInLinkedChat();
+      if (navigation.canGoBack()) navigation.goBack();
+    }, 6000);
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [linkKey]);
+
   const onContentSizeChange = useCallback(() => {
     if (isAtBottomRef.current) scrollToBottom();
   }, [scrollToBottom]);
@@ -1094,6 +1133,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       setLoadingMore(false);
     }
   }, [currentConvId, address, storeMessages.length, loadingMore, hasMore]);
+  linkStateRef.current = { messageList, hasMore, loadingMore, loadMore, highlightAndScroll };
 
   // Decide once where the chat opens from the saved spot: pull in older pages
   // until the spot is loaded (up to MAX_READ_SPOT_PAGES), then fix the marker.
@@ -1751,6 +1791,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     // Let the hold menu finish leaving: iOS won't raise a sheet over a closing one.
     setTimeout(() => askDelete(convId, [target], () => {}), 250);
   }, [contextMessage, currentConvId, closeContextMenu, askDelete]);
+
+  // "Copy link" on a message. A chat still being set up has no id a link
+  // could name yet.
+  const linkableConv = !!currentConvId && /^[A-Za-z0-9_-]{1,64}$/.test(String(currentConvId))
+    && !String(currentConvId).startsWith("new_") && !/^0x[0-9a-f]{40}$/i.test(String(currentConvId));
+  const handleCopyLink = useCallback(() => {
+    if (contextMessage?._id && currentConvId) {
+      copyChatMessageLink({ kind: "dm", conversationId: String(currentConvId) }, String(contextMessage._id));
+    }
+  }, [contextMessage, currentConvId]);
 
   const handleForward = useCallback(() => {
     if (contextMessage) setForwardMessage(contextMessage);
@@ -2547,6 +2597,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               onReply={handleReply}
               onEdit={handleEdit}
               onForward={handleForward}
+              onCopyLink={linkableConv ? handleCopyLink : undefined}
               onSelect={handleSelect}
               onTranslate={handleTranslateAbove}
               onDelete={handleDelete}

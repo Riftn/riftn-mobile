@@ -1,4 +1,5 @@
 import { hasStreamEnded, OFFLINE_CONFIRM_MS } from '../../libs/live-status';
+import { canLinkMessage, copyChatMessageLink, copyLinkLabel, useLinkHighlight, useLinkedMessage } from "../../libs/chatMessageLink";
 import React, {
   useCallback,
   useEffect,
@@ -1730,6 +1731,19 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const chatRoomId = postTokenId != null ? `stream:${postTokenId}` : undefined;
   const liveChat = useLiveChat(chatRoomId, { requireRoom: true });
 
+  // A copied message link to this stream's chat: light the line up when it is
+  // among the lines the room holds.
+  const [linkLitId, flashLinkLine] = useLinkHighlight();
+  useLinkedMessage(
+    postTokenId != null ? `stream:${postTokenId}` : null,
+    liveChat.messages.length > 0,
+    (id) => {
+      if (!liveChat.messages.some((m) => m._id === id)) return false;
+      flashLinkLine(id);
+      return true;
+    },
+  );
+
   // One list for the chat overlay: the room's messages, plus the join/gift/
   // system moments the livestream socket still carries.
   const chatActivities = useMemo<Activity[]>(() => {
@@ -1890,6 +1904,10 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     if (heldText && !held.activity.meta?.gifUrl) holdTiles.push({
       key: "copy", icon: "Copy", label: t("common.copy"),
       onPress: () => { copyToClipboard(heldText); setHeld(null); },
+    });
+    if (postTokenId != null && canLinkMessage(heldId)) holdTiles.push({
+      key: "copy-link", icon: "Link", label: copyLinkLabel(),
+      onPress: () => { copyChatMessageLink({ kind: "stream", tokenId: postTokenId }, heldId!); setHeld(null); },
     });
     if (held.translate) {
       const tr = held.translate;
@@ -2160,7 +2178,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   
                 {/* The room. Read-only now — saying something is the bar's job. */}
                 <Animated.View style={holdLiftStyle} pointerEvents="box-none">
-                  <LiveViewerChat activities={chatActivities} onHold={openLineMenu} holding={!!held} myAddress={me} onShowReactors={setReactorsFor} />
+                  <LiveViewerChat activities={chatActivities} onHold={openLineMenu} holding={!!held} myAddress={me} onShowReactors={setReactorsFor} highlightId={linkLitId} />
                 </Animated.View>
                 <SettingsOptionModal
                   visible={!!lineMenu}

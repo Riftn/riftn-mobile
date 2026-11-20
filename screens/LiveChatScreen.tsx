@@ -1,4 +1,5 @@
 import LiveChatSearch, { LiveChatSearchPill, chatSearchPerson, rememberChatSearch, useChatSearch, type ChatSearchPerson } from "../components/LiveChat/LiveChatSearch";
+import { copyChatMessageLink, useLinkedMessage } from "../libs/chatMessageLink";
 import { useDraftState } from "../hooks/useDraftState";
 import { FlatList } from "react-native-gesture-handler";
 import SwipeToReply from "../components/Chat/SwipeToReply";
@@ -1015,6 +1016,19 @@ const LiveChatScreen: React.FC = () => {
     setPendingFocus(target._id);
   }, [search.results, searchText, jumpToMessage, t]);
 
+  // A copied message link to the public chat: open the room on that line
+  // and light it up. The app reads the main room only.
+  useLinkedMessage("public", messages.length > 0, async (id) => {
+    isAtBottomRef.current = false;
+    setAtBottom(false);
+    const found = await jumpToMessage(id);
+    if (found) setPendingFocus(id);
+    return !!found;
+  });
+  const handleContextCopyLink = useCallback((msg: LiveChatMessageData) => {
+    copyChatMessageLink({ kind: "public" }, msg._id);
+  }, []);
+
   const openOlderHit = useCallback(async () => {
     const next = activeHit + 1;
     if (next < search.results.length) return openHit(next);
@@ -1404,6 +1418,7 @@ const LiveChatScreen: React.FC = () => {
             onDelete={handleContextDelete}
             onPin={handleContextPin}
             onSeeMessages={handleContextSeeMessages}
+            onCopyLink={handleContextCopyLink}
             isSenderBanned={
               !!contextMenuMessage?.senderAddress &&
               (room?.bannedUsers || []).some(
