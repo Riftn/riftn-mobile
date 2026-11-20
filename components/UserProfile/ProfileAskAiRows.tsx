@@ -12,6 +12,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import AssistantNavIcon from '../ui/AssistantNavIcon';
+import { formatCount } from '../../libs/format-count';
 
 export function AskAiMenuRow({ onPress }: { onPress: () => void }) {
   const { t } = useTranslation();
@@ -148,7 +149,7 @@ export default function ProfileAskAiRows({ username, avatarUrl, isFollowing, pos
             </View>
             {a.count != null && (
               <View className="ml-2 px-2 py-0.5 rounded-full" style={{ backgroundColor: primary ? '#000' : 'rgba(255,255,255,0.1)' }}>
-                <Text className="text-white text-xs font-bold">{a.count}</Text>
+                <Text className="text-white text-xs font-bold">{formatCount(a.count)}</Text>
               </View>
             )}
           </TouchableOpacity>
