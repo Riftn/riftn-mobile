@@ -81,6 +81,9 @@ const getDateLabel = (iso: string, t: TFunction, lang?: string): string => {
 
 /** Insert date separators between messages from different days */
 /** Older pages Public Chat may pull in at open to reach where you left off. */
+/** Holds the line being read when older history is added above it. */
+const MAINTAIN_POSITION = { minIndexForVisible: 0 } as const;
+
 const MAX_READ_SPOT_PAGES = 10;
 
 type ListItem =
@@ -275,7 +278,6 @@ const LiveChatScreen: React.FC = () => {
   useEffect(() => () => clearTimeout(initialRevealTimer.current), []);
 
   const handleContentSizeChange = useCallback((_w: number, h: number) => {
-    const prevH = contentHeightRef.current;
     contentHeightRef.current = h;
     listSlack.value = Math.max(0, layoutHeightRef.current - h);
     const firstId = messagesRef.current[0]?._id;
@@ -315,13 +317,12 @@ const LiveChatScreen: React.FC = () => {
       applyComposerGrowth();
       return;
     }
-    const delta = h - prevH;
-    if (!isAtBottomRef.current && prepended && delta !== 0 && prevH > layoutHeightRef.current) {
-      // Content changed while user is scrolled up — adjust offset to maintain visual position
-      const adjusted = Math.max(0, scrollOffsetRef.current + delta);
-      flatListRef.current?.scrollToOffset({ offset: adjusted, animated: false });
-      scrollOffsetRef.current = adjusted;
-    } else if (isAtBottomRef.current) {
+    // Older lines loaded above a reader who scrolled up are held in place by
+    // the list itself (maintainVisibleContentPosition). Correcting the offset
+    // here as well only caught the first measure: the rest of the page was
+    // drawn in later batches, so on Android the view still jumped to the top.
+    if (prepended && !isAtBottomRef.current) return;
+    if (isAtBottomRef.current) {
       scrollToBottom(false);
     }
   }, [scrollToBottom]);
@@ -1234,6 +1235,9 @@ const LiveChatScreen: React.FC = () => {
         <ReactionArrivalScope style={{ flex: 1 }}>
         <FlatList
           ref={flatListRef}
+          // Older lines arrive above the reader: keep the line they were
+          // reading where it is instead of jumping to the top of the new page.
+          maintainVisibleContentPosition={MAINTAIN_POSITION}
           data={listItems}
           // Held line: the list slides up under a finger that is still down,
           // and Android scrolled it back by the whole slide, burying the
