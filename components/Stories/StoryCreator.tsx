@@ -27,16 +27,15 @@ import * as ImagePicker from "expo-image-picker";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
 import { DarkRoomProvider } from "../../context/ThemeContext";
 import { optionalSkia } from "../../libs/skia";
 import { toastError } from "../../libs/toast";
-import { STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
+import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
 import { shareMoment } from "./story-upload";
-import { useStoryShelf } from "./StoryShelf";
 import type { TextLayer } from "./story-compose";
 
 const AUDIENCE_KEY = "riftn.stories.audience";
@@ -51,7 +50,12 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [picked, setPicked] = useState<Picked | null>(null);
-  const customLifetime = useStoryShelf().data?.supportsCustomLifetime === true;
+  const { data: customLifetime = false } = useQuery({
+    queryKey: ["story-custom-lifetime"],
+    queryFn: async () => (await getStoryShelf(false, "")).supportsCustomLifetime === true,
+    staleTime: 60_000,
+    retry: false,
+  });
   const remixLabel = remixSource ? t("stories.remixing", { name: remixSource.name, defaultValue: "Remixing {{name}}'s moment" }) : undefined;
 
   const take = useCallback(
