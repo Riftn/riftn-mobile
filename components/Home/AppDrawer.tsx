@@ -39,6 +39,7 @@ import Avatar from "../common/Avatar";
 import MenuAccountSwitcher from "./MenuAccountSwitcher";
 import { DhbCoin } from "../common/DhbCoin";
 import Icon, { type IconName } from "../ui/Icon";
+import { formatCompactNumber } from "../../libs/numbers.util";
 import { filterNavRows } from "../../libs/navSearch";
 import { useUser, useAuthState, useAuthActions } from "../../context/AuthContext";
 import { canManageAgents } from '../../libs/agent-access';
@@ -984,7 +985,19 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                         />
                       )}
                     </View>
-                    {handle ? <Text style={styles.headerHandle} numberOfLines={1}>{handle}</Text> : null}
+                    {typeof user.followers === "number" || typeof user.followings === "number" ? (
+                      <View style={styles.headerCounts} testID="drawer-follow-counts">
+                        <Icon name="Users" size={13} color="#A1A1AA" />
+                        <Text style={styles.headerCountText} numberOfLines={1}>
+                          {formatCompactNumber(user.followers ?? 0)} {t("profile.followers")}
+                        </Text>
+                        <View style={styles.headerCountsDivider} />
+                        <Icon name="Users" size={13} color="#A1A1AA" />
+                        <Text style={styles.headerCountText} numberOfLines={1}>
+                          {formatCompactNumber(user.followings ?? 0)} {t("profile.following")}
+                        </Text>
+                      </View>
+                    ) : handle ? <Text style={styles.headerHandle} numberOfLines={1}>{handle}</Text> : null}
                   </View>
                 </TouchableOpacity>
                 {DIGITAL_PURCHASES_ENABLED && dhbBalance > 0 && (
@@ -1314,6 +1327,24 @@ const styles = StyleSheet.create({
     color: "#A1A1AA",
     fontSize: 13,
     marginTop: 1,
+  },
+  headerCounts: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    marginTop: 3,
+    minWidth: 0,
+  },
+  headerCountText: {
+    color: "#A1A1AA",
+    fontSize: 13,
+    flexShrink: 1,
+  },
+  headerCountsDivider: {
+    width: StyleSheet.hairlineWidth,
+    height: 12,
+    backgroundColor: "rgba(161,161,170,0.5)",
+    marginHorizontal: 6,
   },
   signInIcon: {
     width: 44,

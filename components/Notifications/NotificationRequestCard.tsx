@@ -8,6 +8,7 @@
  * The arrow opens the board at the request (the row's own tap).
  */
 import React, { memo, useEffect, useRef, useState } from "react";
+import { useOnDemandTranslate } from "../../hooks/useOnDemandTranslate";
 import { ActivityIndicator, Pressable, Text, TextInput, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
@@ -38,9 +39,11 @@ interface Props {
   onOpen: (item: NotificationItem) => void;
   /** Marks the row read the first time the reader acts on it. */
   onEngaged?: (item: NotificationItem) => void;
+  /** Show the text in the reader's language (row long press → Translate). */
+  translate?: boolean;
 }
 
-function NotificationRequestCardBase({ item, onOpen, onEngaged }: Props) {
+function NotificationRequestCardBase({ item, onOpen, onEngaged, translate = false }: Props) {
   const { t } = useTranslation();
   const { skin, accent } = useAppTheme();
   const user = useUser() as { walletAddress?: string; address?: string } | null;
@@ -106,12 +109,14 @@ function NotificationRequestCardBase({ item, onOpen, onEngaged }: Props) {
     }
   }, [replyOpen]);
 
+  const shown = useOnDemandTranslate((isNew ? request?.description : comment?.content)?.trim(), translate);
+
   if (isNew ? !request : !comment) return null;
 
   const author = isNew ? request!.authorAddress : comment!.walletAddress;
   const isOwn = !!viewer && author === viewer;
   const canReply = !!viewer && (isNew || (REQUEST_COMMENT_ACTIONABLE.has(type) && !isOwn));
-  const text = (isNew ? request!.description : comment!.content).trim();
+  const text = shown.text;
   const mediaUrl = isNew ? request!.imageUrl : comment!.mediaUrl;
   const mediaType = isNew ? (request!.imageUrl ? "image" : null) : comment!.mediaType;
   const isPicture = !!mediaUrl && (mediaType === "image" || mediaType === "gif");

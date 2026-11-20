@@ -5,6 +5,7 @@
  * seconds while the list is on screen.
  */
 import { useEffect, useSyncExternalStore } from "react";
+import { AppState } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../services/supabase";
 import { withWalletHeader } from "../libs/supabase-wallet-client";
@@ -12,6 +13,7 @@ import { storage } from "../libs/storage";
 import { createRoomReadStore, type RoomLastLine } from "../libs/room-chat-read";
 import { getLiveChatMessages } from "../services/livechat.service";
 import { useIsScreenFocused } from "./useFocusedInterval";
+import { publicChatUnread } from "./usePublicChatUnread";
 
 export const roomRead = createRoomReadStore({
   read: (key) => storage.getString(key),
@@ -92,7 +94,7 @@ export function useRoomChatReading(roomId: string | undefined, walletAddress: st
 /** The newest line in General Chat, for its row in the Messages list. */
 export function usePublicChatLastLine(enabled: boolean): RoomLastLine | null {
   const focused = useIsScreenFocused();
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ["public-chat-last-line"],
     enabled,
     staleTime: 15_000,
@@ -114,5 +116,28 @@ export function usePublicChatLastLine(enabled: boolean): RoomLastLine | null {
       } as RoomLastLine;
     },
   });
+  // The 30 second timer stops while the app is in the background or another
+  // screen is on top, and nothing asked again on the way back, so the row kept
+  // showing your own last line long after others had written. Ask again when
+  // the list comes back into view, when the app comes back, and shortly after
+  // the room socket reports a new line.
+  useEffect(() => {
+    if (enabled && focused) void refetch();
+  }, [enabled, focused, refetch]);
+  useEffect(() => {
+    if (!enabled) return;
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const soon = () => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => { timer = null; void refetch(); }, 1500);
+    };
+    const off = publicChatUnread.subscribe(soon);
+    const app = AppState.addEventListener("change", (s) => { if (s === "active") soon(); });
+    return () => {
+      off();
+      app.remove();
+      if (timer) clearTimeout(timer);
+    };
+  }, [enabled, refetch]);
   return data ?? null;
 }
