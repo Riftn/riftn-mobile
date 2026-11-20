@@ -47,8 +47,6 @@ import { POST_LANDING_STYLES, isPostLandingStyle, type PostLandingStyle } from '
 import { isFeedSeparator } from '../../libs/feedSeparator';
 import { MENU_LAYOUTS, MENU_LAYOUT_PREF_KEY, isMenuLayout, type MenuLayout } from '../../libs/menuLayout';
 import { saveAccountPrefs } from '../../libs/feed-interests';
-import { applyNavOrder, publicChatInBar, saveNavOrder, useNavOrder, withPublicChatInBar } from '../../libs/navOrder';
-import { DEFAULT_BAR_IDS } from '../../navigation/FloatingBottomTabBar';
 import { useUser } from '../../context/AuthContext';
 import { useDataSaver, setDataSaverPref } from '../../hooks/useDataSaver';
 import { useShortsEnabled } from '../../hooks/useShortsEnabled';
@@ -107,9 +105,6 @@ const AppearancePanel: React.FC = () => {
   const [chatTextModalVisible, setChatTextModalVisible] = useState(false);
   const [menuLayoutModalVisible, setMenuLayoutModalVisible] = useState(false);
   const user = useUser() as any;
-  const savedBarOrder = useNavOrder('bar');
-  const barOrder = React.useMemo(() => applyNavOrder(DEFAULT_BAR_IDS, savedBarOrder, (id) => id), [savedBarOrder]);
-  const barWallet = (user?.walletAddress || user?.address || '').toLowerCase() || null;
   const menuLayoutLabel = (layout: MenuLayout) => ({
     tabs: t('settings.menuLayoutTabs', 'Tabs'),
     sections: t('settings.menuLayoutSections', 'Sections'),
@@ -258,18 +253,6 @@ const AppearancePanel: React.FC = () => {
             description={t('settings.menuLayoutDesc', 'How the menu groups its pages')}
             value={menuLayoutLabel(prefs.menuLayout)}
             onPress={() => setMenuLayoutModalVisible(true)}
-          />
-        </SettingsAnchor>
-        <Divider />
-        {/* Public Chat on the bottom bar's first screen (libs/navOrder
-            withPublicChatInBar); the bar order syncs with web. */}
-        <SettingsAnchor id="public-chat-bar">
-          <SettingsToggleRow
-            icon="MessagesSquare"
-            label={t('settings.publicChatInBar', 'Public Chat in the bottom bar')}
-            description={t('settings.publicChatInBarDesc', 'One tap into Public Chat from the bar at the bottom of the screen')}
-            value={publicChatInBar(barOrder)}
-            onValueChange={(on) => saveNavOrder('bar', withPublicChatInBar(barOrder, on), DEFAULT_BAR_IDS, barWallet)}
           />
         </SettingsAnchor>
         <Divider />
