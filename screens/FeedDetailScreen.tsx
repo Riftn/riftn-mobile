@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { View, Text, FlatList, Pressable, TextInput, TouchableOpacity, ActivityIndicator, Keyboard, Platform, StyleSheet, Alert, Animated, useWindowDimensions, type LayoutChangeEvent, type NativeScrollEvent, type NativeSyntheticEvent } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useRoute, useNavigation, CommonActions } from "@react-navigation/native";
 import PostFeedNav from "../components/Home/PostFeedNav";
 import { FEED_SIDE, FEED_TOP } from "../components/Home/feedLayout";
 import { getNFT, type Comment, likeComment, type LikeCommentResult, dislikeComment, type DislikeCommentResult, reactComment, type ReactCommentResult, postComment, editComment, deleteComment, pinComment, postImageComment, postGifComment, postAudioComment, postMediaComment, recordCommentViews, setThreadOrder } from "../services/nft.service";
@@ -49,7 +49,7 @@ import { useKeyboardLift } from "../hooks/useKeyboardLayout";
 import { useSelfLiftingComposer } from "../hooks/useComposerKeyboard";
 import { useMentions } from "../hooks/useMentions";
 import { useCommentTipTotals } from "../hooks/useCommentTipTotals";
-import { useUserProfileSheet } from "../context/UserProfileSheetContext";
+import { ProfileOpenOverride, useUserProfileSheet } from "../context/UserProfileSheetContext";
 import type { UnifiedFeedItem } from "../services/feed.unified.service";
 import { getAvatarUrl, toastError, toastSuccess } from "../libs";
 import { selfBadgeFields } from "../libs/misc";
@@ -146,7 +146,47 @@ const threadLineStyles = StyleSheet.create({
 export default function FeedDetailScreen() {
   const user = useUser();
   const route = useRoute<any>();
-  return <FeedDetailContent key={`${user?.walletAddress || user?.address || 'guest'}:${route.params?.tokenId ?? route.params?.id ?? route.params?.postId ?? route.params?.videoId ?? route.params?.nft?.tokenId ?? route.params?.nft?.id}`} />;
+  const content = <FeedDetailContent key={`${user?.walletAddress || user?.address || 'guest'}:${route.params?.tokenId ?? route.params?.id ?? route.params?.postId ?? route.params?.videoId ?? route.params?.nft?.tokenId ?? route.params?.nft?.id}`} />;
+  if (Platform.OS === "ios" && route.params?.overDrawer) {
+    return <OverDrawerProfileOpen>{content}</OverDrawerProfileOpen>;
+  }
+  return content;
+}
+
+/** Matches the comments drawer: long enough for the closing modals to leave. */
+const IOS_PROFILE_AFTER_PAGE_MS = 420;
+
+/**
+ * A post opened from the notifications drawer on iPhone is a native modal on
+ * top of the drawer's own modal, and the profile sheet (a Modal at the app's
+ * root) can't present over them: tapping a commenter or the author did
+ * nothing, and on Back the screen went black for seconds before the profile
+ * finally showed (Requests board). So a name tapped here first turns the post
+ * into an ordinary page (drawer and modal gone, same post, same params) and
+ * then opens the profile over it, as everywhere else. Back from the profile
+ * returns to the post.
+ */
+function OverDrawerProfileOpen({ children }: { children: React.ReactNode }) {
+  const route = useRoute<any>();
+  const navigation = useNavigation<any>();
+  const { showUserProfile } = useUserProfileSheet();
+  const leftRef = useRef(false);
+  const open = useCallback((id: string, opts?: { initialHeightPct?: number; source?: string }) => {
+    if (leftRef.current) return;
+    leftRef.current = true;
+    Keyboard.dismiss();
+    const { overDrawer: _drop, ...params } = route.params ?? {};
+    navigation.dispatch((state: any) => {
+      const routes = state.routes.filter((r: any) => r.key !== route.key && r.name !== ScreenNames.Notifications);
+      return CommonActions.reset({
+        ...state,
+        routes: [...routes, { key: `${route.key}-page`, name: ScreenNames.FeedDetail, params }],
+        index: routes.length,
+      });
+    });
+    setTimeout(() => showUserProfile(id, opts), IOS_PROFILE_AFTER_PAGE_MS);
+  }, [navigation, route.key, route.params, showUserProfile]);
+  return <ProfileOpenOverride showUserProfile={open}>{children}</ProfileOpenOverride>;
 }
 
 type EmbeddedProps = {

@@ -2120,6 +2120,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             {unreadMarker}
             <PollCard
               tokenId={item.poll.tokenId}
+              autoTranslate={false}
               pollOwnerAddress={
                 typeof item.sender === "object"
                   ? item.sender?.address ?? ""

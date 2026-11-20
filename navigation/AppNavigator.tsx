@@ -229,6 +229,11 @@ function AppNavigatorContent() {
             : reducedMotion ? 'default' : 'simple_push',
           animationDuration: IOS_PAGE_OPEN_MS,
           animationMatchesGesture: Platform.OS === 'ios' && !reducedMotion,
+          // iPhone: a left-to-right swipe anywhere on a page goes back, not
+          // only one starting on the screen's very edge. Pages that use a
+          // sideways drag themselves (photo viewer, video scrubbing) turn it
+          // off below and keep the edge swipe.
+          fullScreenGestureEnabled: Platform.OS === 'ios',
           // An options object, but react-native-screens is compiled from
           // source with the app's JSX runtime and hands this to a View, so
           // System Light's colour pass DOES see it: a plain white turned into
@@ -579,11 +584,12 @@ function AppNavigatorContent() {
           // A photo the reader tapped is already decoded in the feed: open on
           // it at once with a short fade, not the page slide-up that held a
           // grey page sketch for the whole entrance.
-          options={{ animation: 'fade', animationDuration: 150 }}
+          options={{ animation: 'fade', animationDuration: 150, fullScreenGestureEnabled: false }}
         />
         <Stack.Screen
           name={ScreenNames.FullscreenVideo}
           getComponent={() => deferredScreen('../screens/FullscreenVideoScreen#default', () => require("../screens/FullscreenVideoScreen").default)}
+          options={{ fullScreenGestureEnabled: false }}
         />
         <Stack.Screen
           name={ScreenNames.ShortsViewer}
