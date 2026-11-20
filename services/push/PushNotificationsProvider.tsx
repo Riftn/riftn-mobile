@@ -5,7 +5,7 @@ import { AppState, AppStateStatus, Linking } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useUser, useAuthState, useAuthActions } from '../../context/AuthContext';
 import { usePublicChatAlerts } from '../../hooks/usePublicChatAlerts';
-import { usePublicChatReadSync } from '../../hooks/usePublicChatUnread';
+import { usePublicChatReadSync } from '../../hooks/usePublicChatReadSync';
 import { ScreenNames } from '../../navigation/ScreenNames';
 import {
   registerForPushNotifications,
