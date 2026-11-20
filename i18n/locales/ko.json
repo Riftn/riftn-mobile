@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "커버", "trim": "자르기", "mirror": "좌우 반전", "rotate": "회전", "hide": "숨기기", "timer": "타이머", "close": "닫기", "photo": "사진", "remove": "제거", "pause": "일시 정지", "play": "동영상 재생", "hiddenUntilTap": "탭할 때까지 숨김", "scrub": "동영상 탐색", "addMore": "사진 또는 동영상 추가", "coverAria": "프레임을 탭하여 커버로 설정", "trimHint": "양 끝을 드래그하여 자르기", "coverHint": "프레임을 탭하여 커버로 지정", "uploadCover": "커버 사진 업로드", "mirrored": "좌우 반전됨", "original": "원본", "rotate90": "90° 회전", "timerOff": "끄기", "showNormally": "일반적으로 표시", "showNormallyBody": "즉시 표시", "hideUntilTap": "탭할 때까지 숨김", "hideUntilTapBody": "탭할 때까지 흐리게 표시", "hidePrice": "가격 뒤에 숨기기", "hidePriceBody": "결제할 때까지 흐리게 표시", "priceUnavailable": "이 채팅에는 없음", "priceLabelUsd": "가격", "priceHint": "상대방이 결제하기 전까지는 흐릿하게 보입니다. 잠긴 항목은 종단간 암호화되지 않습니다.", "timerOffBody": "채팅에 그대로 유지됩니다.", "timerViewBody": "상대방이 확인하면 양쪽 모두에게서 사라집니다.", "confirm": "확인", "editItem": "항목 편집 {{value1}}", "coverSet": "커버 {{value1}}", "lockedForUsd": "잠금 해제 {{value1}}", "timerTimeBody": "전송 후 {{value1}} 지나면 양쪽 모두에게서 사라집니다."},
   "comic": {
     "toComic": "만화로 바꾸기",
     "toCarousel": "캐러셀로 보기",
@@ -168,6 +169,11 @@
     "useNamed": "{{name}} 을 (를) 사용하세요"
   },
   "copy": {
+    "0f8fed0dc99b": "동영상만",
+    "dce6eb4447ef": "믹스",
+    "5405fb40dded": "노래만",
+    "4bf9a522a0de": "동영상 소리",
+    "fea4b5ceffa8": "노래",
     "a039dfb9628b": "토큰",
     "chatSlowDown": "천천히! 연속으로 보낸 메시지가 너무 많아요. {{wait}} 후에 다시 시도하거나 다른 사람이 답할 때까지 기다려 주세요.",
     "eabb5c136be4": "계획 업데이트 실패",

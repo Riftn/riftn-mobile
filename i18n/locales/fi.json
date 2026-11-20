@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Kansikuva", "trim": "Leikkaa", "mirror": "Peili", "rotate": "Käännä", "hide": "Piilota", "timer": "Ajastin", "close": "Sulje", "photo": "Valokuva", "remove": "Poista", "pause": "Tauko", "play": "Toista video", "hiddenUntilTap": "Piilotettu, kunnes he napauttavat sitä", "scrub": "Selaa videota", "addMore": "Lisää valokuvia tai videoita", "coverAria": "Napauta kuvaa asettaaksesi sen kansikuvaksi", "trimHint": "Vedä päät leikkääksesi", "coverHint": "Napauta kuvaa tehdäksesi siitä kansikuvan", "uploadCover": "Lataa kansikuva", "mirrored": "Peilattu", "original": "Alkuperäinen", "rotate90": "Käännä 90°", "timerOff": "Pois", "showNormally": "Näytä normaalisti", "showNormallyBody": "He näkevät sen heti", "hideUntilTap": "Piilota, kunnes napautetaan", "hideUntilTapBody": "Sumennettu, kunnes he napauttavat sitä", "hidePrice": "Piilota hintan takana", "hidePriceBody": "Sumennettu, kunnes maksat", "priceUnavailable": "Ei tässä keskustelussa", "priceLabelUsd": "Hinta", "priceHint": "He näkevät sen sumennettuna, kunnes maksat. Lokeatut kohteet eivät ole päästä päähän salattuja.", "timerOffBody": "Se pysyy chatissa.", "timerViewBody": "Kuin pois molemmille teille, kun he ovat nähneet sen.", "confirm": "Vahvista", "editItem": "Muokkaa kohdetta {{value1}}", "coverSet": "Kansio osoitteessa {{value1}}", "lockedForUsd": "Avaa lukitus käyttäjälle {{value1}}", "timerTimeBody": "Poistunut molemmille teille {{value1}} lähettämisen jälkeen."},
   "comicBorder": {
     "title": "Reunus",
     "theme": "Teema",
@@ -142,6 +143,11 @@
     "useNamed": "Käytä {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Video only",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Kappale vain",
+    "4bf9a522a0de": "Videon ääni",
+    "fea4b5ceffa8": "Laulu",
     "a039dfb9628b": "Poletit",
     "chatSlowDown": "Hidasta! Liian monta viestiä peräkkäin. Yritä uudelleen {{wait}} kuluttua tai odota, että joku muu vastaa.",
     "eabb5c136be4": "Epäonnistui päivityksen tekeminen",

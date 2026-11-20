@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "כיסוי", "trim": "חיתוך", "mirror": "שיקוף", "rotate": "סיבוב", "hide": "הסתרה", "timer": "טיימר", "close": "סגירה", "photo": "תמונה", "remove": "הסרה", "pause": "השהיה", "play": "הפעל סרטון", "hiddenUntilTap": "מוסתר עד להקשה", "scrub": "גלילה בסרטון", "addMore": "הוספת תמונות או סרטונים", "coverAria": "הקש על פריים כדי לקבוע ככיסוי", "trimHint": "גרור את הקצוות כדי לחתוך", "coverHint": "הקש על פריים כדי להפוך אותו לכיסוי", "uploadCover": "העלאת תמונת כיסוי", "mirrored": "משוקף", "original": "מקור", "rotate90": "סיבוב 90°", "timerOff": "כבוי", "showNormally": "הצג כרגיל", "showNormallyBody": "הם רואים את זה מיד", "hideUntilTap": "הסתר עד להקשה", "hideUntilTapBody": "מטושטש עד להקשה", "hidePrice": "הסתר מאחורי מחיר", "hidePriceBody": "מטושטש עד לתשלום", "priceUnavailable": "לא בצ'אט הזה", "priceLabelUsd": "מחיר", "priceHint": "הם רואים את זה מטושטש עד שתקבלו את התשלום. פריטים נעולים אינם מוצפנים end-to-end.", "timerOffBody": "הוא נשאר בצ'אט.", "timerViewBody": "אחרי שהם ראו את זה, הוא נעלם לשניכם.", "confirm": "אשר", "editItem": "ערוך פריט {{value1}}", "coverSet": "כיסוי ב-{{value1}}", "lockedForUsd": "פתח נעילה ל-{{value1}}", "timerTimeBody": "אחרי שתשלחו אותו, הוא נעלם לשניכם {{value1}}"},
   "comic": {
     "toComic": "הפוך לקומיקס",
     "toCarousel": "הצג כקרוסלה",
@@ -168,6 +169,11 @@
     "useNamed": "שימוש ב -{{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "וידאו בלבד",
+    "dce6eb4447ef": "מיקס",
+    "5405fb40dded": "שיר בלבד",
+    "4bf9a522a0de": "צליל וידאו",
+    "fea4b5ceffa8": "שיר",
     "a039dfb9628b": "אסימונים",
     "chatSlowDown": "לאט! יותר מדי הודעות ברצף. נסו שוב בעוד {{wait}}, או חכו שמישהו אחר יגיב.",
     "eabb5c136be4": "לא הצליחתי לעדכן את התוכנית",

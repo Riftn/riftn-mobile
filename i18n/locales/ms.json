@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Kulit", "trim": "Potong", "mirror": "Cermin", "rotate": "Putar", "hide": "Sembunyi", "timer": "Pemasa", "close": "Tutup", "photo": "Foto", "remove": "Buang", "pause": "Jeda", "play": "Mainkan video", "hiddenUntilTap": "Disembunyikan sehingga mereka mengetuknya", "scrub": "Tatal video", "addMore": "Tambah foto atau video", "coverAria": "Ketuk bingkai untuk menetapkan kulit", "trimHint": "Seret hujung untuk memotong", "coverHint": "Ketuk bingkai untuk menjadikannya kulit", "uploadCover": "Muat naik gambar kulit", "mirrored": "Dicerminkan", "original": "Asal", "rotate90": "Putar 90°", "timerOff": "Mati", "showNormally": "Tunjuk seperti biasa", "showNormallyBody": "Mereka melihatnya serta-merta", "hideUntilTap": "Sembunyi sehingga diketuk", "hideUntilTapBody": "Dikaburkan sehingga mereka mengetuknya", "hidePrice": "Sembunyi di sebalik harga", "hidePriceBody": "Dikaburkan sehingga mereka membayar anda", "priceUnavailable": "Tiada dalam sembang ini", "priceLabelUsd": "Harga", "priceHint": "Mereka melihatnya kabur sehingga mereka membayar anda. Item yang dikunci tidak disulitkan secara hujung-ke-hujung.", "timerOffBody": "Ia kekal dalam sembang.", "timerViewBody": "Hilang untuk anda berdua sebaik sahaja mereka melihatnya.", "confirm": "Sahkan", "editItem": "Edit item {{value1}}", "coverSet": "Kulit pada {{value1}}", "lockedForUsd": "Buka kunci untuk {{value1}}", "timerTimeBody": "Hilang untuk anda berdua {{value1}} selepas anda menghantarnya."},
   "comicBorder": {
     "title": "Bingkai",
     "theme": "Tema",
@@ -142,6 +143,11 @@
     "useNamed": "Gunakan {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Video sahaja",
+    "dce6eb4447ef": "Campuran",
+    "5405fb40dded": "Lagu sahaja",
+    "4bf9a522a0de": "Bunyi video",
+    "fea4b5ceffa8": "Lagu",
     "a039dfb9628b": "Token",
     "chatSlowDown": "Perlahan sikit! Terlalu banyak mesej berturut-turut. Cuba lagi dalam {{wait}}, atau tunggu orang lain membalas.",
     "eabb5c136be4": "Gagal memperbarui rencana",

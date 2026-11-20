@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Qallariy", "trim": "Kuchuy", "mirror": "Espejo", "rotate": "Muyuchiy", "hide": "Pakay", "timer": "Pacha tupuy", "close": "Wichqay", "photo": "Foto", "remove": "Qichuy", "pause": "Sayachiy", "play": "Videota pukllachiy", "hiddenUntilTap": "Taqaykama pakay", "scrub": "Videota qhawariy", "addMore": "Fotokunata utaq videokunata yapay", "coverAria": "Qallariynin kananpaq huk fotota akllay", "trimHint": "Kuchunankupaq qillqata aysay", "coverHint": "Qallariynin kananpaq huk fotota akllay", "uploadCover": "Qallariynin fotota churay", "mirrored": "Espejoman tikrasqa", "original": "Kikin", "rotate90": "90° muyuchiy", "timerOff": "Paskay", "showNormally": "Sapaqllata rikuchiy", "showNormallyBody": "Chaylla rikunkuman", "hideUntilTap": "Taqaykama pakay", "hideUntilTapBody": "Taqaykama llimp'iy", "hidePrice": "Qullqillawan rikuy", "hidePriceBody": "Qullqita qunankukama llimp'iy", "priceUnavailable": "Kay rimanakuypiqa manan", "priceLabelUsd": "Qullqi", "priceHint": "Paykunaman mana qullqita quptiykiqa, llullu rikch'ayllatan rikunku. Wichq'asqa kaqkunaqa manan tukuy k'uchu k'uchukama k'uyuchisqachu kashan.", "timerOffBody": "Chayqa rimanakuy ukhupin qepan.", "timerViewBody": "Paykuna rikuqtinkuqa iskayniykichismantan chinkanqa.", "confirm": "Aswan allin", "editItem": "Imatapas allichay {{value1}}", "coverSet": "P'achalliy {{value1}}", "lockedForUsd": "Kichay {{value1}}", "timerTimeBody": "Kachasqayki qhepaman {{value1}} iskayniykichismantan chinkanqa."},
   "comicBorder": {
     "title": "Patan",
     "theme": "Rikchay",
@@ -142,6 +143,11 @@
     "useNamed": "{{name}} nisqawan yanapachikuy."
   },
   "copy": {
+    "0f8fed0dc99b": "Video sapallan",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Takiy sapallan",
+    "4bf9a522a0de": "Videoq kunkun",
+    "fea4b5ceffa8": "Takiy",
     "a039dfb9628b": "Fichas nisqakuna",
     "chatSlowDown": "Allillamanta! Achka willakuykuna qatinlla. {{wait}} qhipaman kaqmanta ruway, utaq huk runa kutichinankama suyay.",
     "eabb5c136be4": "Plan musuqyachiyqa manam atikunchu",

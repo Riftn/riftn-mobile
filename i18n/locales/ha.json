@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "An ɓoye har sai sun danna shi", "scrub": "Duba bidiyon gaba-gaba", "addMore": "Ƙara hoto ko bidiyo", "coverAria": "Danna fuskoki don saita rufin", "trimHint": "Ja ƙarshe don yanke", "coverHint": "Danna wani frame don sanya shi a matsayin rufin", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "Suna ganin shi nan da nan", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "An ɓoye har sai sun danna shi", "hidePrice": "Boye a bayan farashi", "hidePriceBody": "An ɓata hoton har sai sun biya ka", "priceUnavailable": "Ba a cikin wannan hira ba", "priceLabelUsd": "Price", "priceHint": "Suna ganin sa a hargitse har sai sun biya ka. Abubuwan da aka kulle ba su da tsarin ɓoye saƙonni na ƙarshe zuwa ƙarshe (end-to-end encryption).", "timerOffBody": "Yana nan a cikin hira.", "timerViewBody": "Zai ɓace ga ku duka biyun da zarar sun gani.", "confirm": "Tabbatar", "editItem": "Gyara abu {{value1}}", "coverSet": "Murfin a {{value1}}", "lockedForUsd": "Buɗe don {{value1}}", "timerTimeBody": "Zai ɓace ga ku duka biyun {{value1}} bayan ka tura shi."},
   "comicBorder": {
     "title": "Iyaka",
     "theme": "Jigo",
@@ -142,6 +143,11 @@
     "use": "Yi amfani da wannan samfurin"
   },
   "copy": {
+    "0f8fed0dc99b": "Bidiyo kawai",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Waƙa kawai",
+    "4bf9a522a0de": "Sautin bidiyo",
+    "fea4b5ceffa8": "Waƙa",
     "a039dfb9628b": "Tokens",
     "chatSlowDown": "A hankali! Saƙonni da yawa a jere. Sake gwadawa bayan {{wait}}, ko jira wani ya amsa.",
     "eabb5c136be4": "An kasa sabunta shirin",

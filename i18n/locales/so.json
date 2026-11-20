@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Dabool", "mirror": "Muraayad", "rotate": "Wareeji", "hide": "Qari", "timer": "Saacad-joojiyaha", "close": "Xir", "photo": "Sawir", "remove": "Ka saar", "pause": "Jooji", "play": "Daar muuqaalka", "hiddenUntilTap": "Qari ilaa ay taabtaan", "scrub": "Soo rog muuqaalka", "addMore": "Ku dar sawirro ama muuqaallo", "coverAria": "Taabo qaab si aad u dejiso daboolka", "trimHint": "Jiid darafyada si aad u gooyso", "coverHint": "Taabo qaab si aad uga dhigto daboolka", "uploadCover": "Soo geli sawirka daboolka", "mirrored": "Muraayadaysan", "original": "Asalka", "timerOff": "Ka bax", "showNormally": "Muuji si caadi ah", "showNormallyBody": "Waxay u arkaan isla markiiba", "hideUntilTap": "Qari ilaa laga taabto", "hideUntilTapBody": "Waa la qariyey ilaa ay taabtaan", "hidePrice": "Ka dhuumo qiimo", "hidePriceBody": "Waa la qariyay ilaa ay ku siiyaan lacagta", "priceUnavailable": "Chat-kan kuma jiro", "priceLabelUsd": "Qiimo", "priceHint": "Waxay u arkaan mid qoran ilaa ay kuu bixiyaan lacagta. Waxyaabaha xiran ma aha kuwo leh sir-galin dhamaad-ilaa-dhamaad ah (end-to-end encrypted).", "timerOffBody": "Waxay ku sii jiraysaa wada-hadalka.", "timerViewBody": "Way ka tirtirmaysaa labadiinaba marka ay arkaan.", "confirm": "Xaqiiji", "editItem": "Wax ka beddel shayga {{value1}}", "coverSet": "Daboolka {{value1}}", "lockedForUsd": "Fur {{value1}}", "timerTimeBody": "Way ka tirtirmaysaa labadiinaba {{value1}} marka aad dirto ka dib."},
   "comicBorder": {
     "title": "Xuduud",
     "theme": "Muuqaal",
@@ -142,6 +143,11 @@
     "useNamed": "Isticmaal {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Muuqaal oo kaliya",
+    "dce6eb4447ef": "Isku-dar",
+    "5405fb40dded": "Hees oo kaliya",
+    "4bf9a522a0de": "Codka muuqaalka",
+    "fea4b5ceffa8": "Hees",
     "a039dfb9628b": "Calaamadaha",
     "chatSlowDown": "Tartiib! Fariimo aad u badan oo isku xiga. Mar kale isku day {{wait}} kadib, ama sug inta qof kale ka jawaabayo.",
     "eabb5c136be4": "Waa ku guuldareystay in la cusbooneysiiyo qorshaha",

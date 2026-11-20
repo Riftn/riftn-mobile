@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Jalada", "trim": "Punguza", "mirror": "Kioo", "rotate": "Zungusha", "hide": "Ficha", "timer": "Kipima muda", "close": "Funga", "photo": "Picha", "remove": "Ondoa", "pause": "Sitisha", "play": "Cheza video", "hiddenUntilTap": "Imefichwa hadi watakapogonga", "scrub": "Sogeza video", "addMore": "Ongeza picha au video", "coverAria": "Gonga fremu ili kuweka jalada", "trimHint": "Buruta ncha ili kupunguza", "coverHint": "Gonga fremu ili kuifanya kuwa jalada", "uploadCover": "Pakia picha ya jalada", "mirrored": "Imeakisiwa", "original": "Asilia", "rotate90": "Zungusha 90°", "timerOff": "Zima", "showNormally": "Onyesha kawaida", "showNormallyBody": "Wanaiona mara moja", "hideUntilTap": "Ficha hadi igongwe", "hideUntilTapBody": "Imefifishwa hadi watakapogonga", "hidePrice": "Ficha nyuma ya bei", "hidePriceBody": "Imefifishwa hadi wakulipe", "priceUnavailable": "Si katika gumzo hili", "priceLabelUsd": "Bei", "priceHint": "Wanaiona ikiwa na ukungu hadi pale wanapokulipa. Vipengee vilivyofungwa havijasimbwa kwa njia fiche kutoka mwisho hadi mwisho.", "timerOffBody": "Inabaki kwenye gumzo.", "timerViewBody": "Imekwisha kwa nyinyi wawili pindi tu watakapokiona.", "confirm": "Thibitisha", "editItem": "Hariri kipengee {{value1}}", "coverSet": "Kifuniko kwa {{value1}}", "lockedForUsd": "Fungua kwa ajili ya {{value1}}", "timerTimeBody": "Imeondoka kwa ajili yenu nyote wawili {{value1}} baada ya kuituma."},
   "comic": {
     "toComic": "Geuza kuwa katuni",
     "toCarousel": "Onyesha kama jukwa",
@@ -168,6 +169,11 @@
     "useNamed": "Tumia {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Video pekee",
+    "dce6eb4447ef": "Changanya",
+    "5405fb40dded": "Wimbo pekee",
+    "4bf9a522a0de": "Sauti ya video",
+    "fea4b5ceffa8": "Wimbo",
     "a039dfb9628b": "Tokeni",
     "chatSlowDown": "Polepole! Ujumbe mwingi mfululizo. Jaribu tena baada ya {{wait}}, au subiri mtu mwingine ajibu.",
     "eabb5c136be4": "Imeshindwa kusasisha mpango",

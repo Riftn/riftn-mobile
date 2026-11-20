@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Nakatago hanggang sa i-tap nila ito", "scrub": "Mag-scrub sa video", "addMore": "Magdagdag ng mga larawan o video", "coverAria": "I-tap ang frame para gawing cover", "trimHint": "I-drag ang mga dulo para i-trim", "coverHint": "I-tap ang frame para gawin itong cover", "uploadCover": "Mag-upload ng cover picture", "mirrored": "Naka-mirror", "original": "Orihinal", "rotate90": "I-rotate nang 90°", "timerOff": "Off", "showNormally": "Ipakita nang normal", "showNormallyBody": "Nakikita nila ito agad", "hideUntilTap": "Itago hanggang sa i-tap", "hideUntilTapBody": "Blurred hanggang sa i-tap nila ito", "hidePrice": "Itago sa likod ng presyo", "hidePriceBody": "Blurred hanggang sa magbayad sila sa iyo", "priceUnavailable": "Hindi sa chat na ito", "priceLabelUsd": "Presyo", "priceHint": "Malabo ang nakikita nila hanggang sa magbayad sila sa iyo. Ang mga naka-lock na item ay hindi end-to-end encrypted.", "timerOffBody": "Mananatili ito sa chat.", "timerViewBody": "Mawawala para sa inyong dalawa kapag nakita na nila ito.", "confirm": "Kumpirmahin", "editItem": "I-edit ang item {{value1}}", "coverSet": "Cover sa {{value1}}", "lockedForUsd": "I-unlock para sa {{value1}}", "timerTimeBody": "Mawawala para sa inyong dalawa {{value1}} pagkatapos mong ipadala ito."},
   "comicBorder": {
     "title": "Border",
     "theme": "Tema",
@@ -142,6 +143,11 @@
     "useNamed": "Gamitin ang {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Video lang",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Kanta lang",
+    "4bf9a522a0de": "Tunog ng video",
+    "fea4b5ceffa8": "Kanta",
     "a039dfb9628b": "Mga Token",
     "chatSlowDown": "Dahan-dahan! Sobrang daming sunod-sunod na mensahe. Subukan ulit pagkalipas ng {{wait}}, o hintaying may ibang sumagot.",
     "eabb5c136be4": "Nakaligtaan ang pag-upgrade ng plano",

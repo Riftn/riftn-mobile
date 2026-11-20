@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Kapak", "trim": "Kırp", "mirror": "Yansıt", "rotate": "Döndür", "hide": "Gizle", "timer": "Zamanlayıcı", "close": "Kapat", "photo": "Fotoğraf", "remove": "Kaldır", "pause": "Duraklat", "play": "Videoyu oynat", "hiddenUntilTap": "Dokunana kadar gizli", "scrub": "Videoda ileri geri sar", "addMore": "Fotoğraf veya video ekle", "coverAria": "Kapak yapmak için bir kareye dokun", "trimHint": "Kırpmak için uçları sürükle", "coverHint": "Kapak yapmak için bir kareye dokun", "uploadCover": "Kapak resmi yükle", "mirrored": "Yansıtılmış", "original": "Orijinal", "rotate90": "90° döndür", "timerOff": "Kapalı", "showNormally": "Normal göster", "showNormallyBody": "Hemen görürler", "hideUntilTap": "Dokunulana kadar gizle", "hideUntilTapBody": "Dokunana kadar bulanıklaştır", "hidePrice": "Bir fiyatın arkasına gizle", "hidePriceBody": "Ödeme yapana kadar bulanıklaştır", "priceUnavailable": "Bu sohbette değil", "priceLabelUsd": "Fiyat", "priceHint": "Siz ödeme alana kadar bulanık görürler. Kilitli öğeler uçtan uca şifreli değildir.", "timerOffBody": "Sohbette kalır.", "timerViewBody": "Gördükten sonra her ikiniz için de silinir.", "confirm": "Onayla", "editItem": "Öğeyi düzenle {{value1}}", "coverSet": "Kapak {{value1}}", "lockedForUsd": "{{value1}} için kilidi aç", "timerTimeBody": "Gönderdikten {{value1}} sonra her ikiniz için de silinir."},
   "assistantCards": {"fitting": "Uygun", "loadFailed": "Bu kart yüklenemedi. Giriş yap veya tekrar sor.", "failed": "Olmadı. Tekrar dene.", "reactOne": "1 gönderiye tepki ver", "reactMany": "{{count}} gönderiye tepki ver", "follow": "{{count}} kişiyi takip et", "unfollow": "{{count}} kişiyi takipten çık", "allowChats": "Asistan sohbetlerini okuyabilsin mi?", "stopChats": "Asistan sohbetlerini okumayı bıraksın mı?", "confirmReact": "Tepki ver", "confirmFollow": "Takip et", "confirmUnfollow": "Takipten çık", "confirmAllow": "İzin ver", "confirmStop": "Durdur", "skipsAlready": "Zaten tepki verdiğin {{count}} gönderiyi atlar", "allowChatsWhy": "Okuduklarını yalnızca sen görürsün. Sadece özel sohbetler; uçtan uca şifreli olanlar gizli kalır. İstediğin zaman durdurmasını iste.", "pickReaction": "Bir tepki seç", "progress": "{{done}} / {{total}}", "doneReact": "{{count}} gönderiye tepki verildi", "doneAllow": "İzin verildi. Sorunu tekrar sor.", "doneStop": "Durduruldu. Artık sohbetlerini okuyamaz.", "doneFollow": "{{count}} için tamam", "expired": "Bu kartın süresi doldu. Tekrar sor.", "cancelled": "İptal edildi", "cancel": "Şimdi değil"},
   "chatReactions": {
     "many_one": "Mesajlarına {{count}} tepki",
@@ -13222,6 +13223,11 @@
     "update": "Şimdi güncelle"
   },
   "copy": {
+    "0f8fed0dc99b": "Sadece video",
+    "dce6eb4447ef": "Miks",
+    "5405fb40dded": "Sadece şarkı",
+    "4bf9a522a0de": "Video sesi",
+    "fea4b5ceffa8": "Şarkı",
     "e587a51bc3ce": "Riftn'de yeni bildirim",
     "d7396f3b8881": "Riftn'de yeni beğeni veya yorum",
     "037a2ecd34b0": "Riftn'de yeni takipçi",

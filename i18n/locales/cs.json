@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Kryt", "trim": "Oříznout", "mirror": "Zrcadlit", "rotate": "Otočit", "hide": "Skrýt", "timer": "Časovač", "close": "Zavřít", "photo": "Fotografie", "remove": "Odebrat", "pause": "Pozastavit", "play": "Přehrát video", "hiddenUntilTap": "Skryté, dokud na to neklepnou", "scrub": "Procházet video", "addMore": "Přidat fotky nebo videa", "coverAria": "Klepnutím na snímek nastavíš titulní obrázek", "trimHint": "Přetažením konců video zkrať", "coverHint": "Klepnutím na snímek jej nastavíš jako obal", "uploadCover": "Nahrát úvodní obrázek", "mirrored": "Zrcadlově obrácené", "original": "Původní", "rotate90": "Otočit o 90°", "timerOff": "Vypnuto", "showNormally": "Zobrazit normálně", "showNormallyBody": "Uvidí to hned", "hideUntilTap": "Skrýt, dokud se na něj neklepne", "hideUntilTapBody": "Rozmazané, dokud na něj neklepnou", "hidePrice": "Skrýt za cenou", "hidePriceBody": "Rozmazané, dokud ti nezaplatí", "priceUnavailable": "Ne v tomto chatu", "priceLabelUsd": "Cena", "priceHint": "Dokud vám nezaplatí, uvidí ho rozmazaně. Uzamčené položky nejsou šifrovány end-to-end.", "timerOffBody": "Zůstane v chatu.", "timerViewBody": "Jakmile si to prohlédnou, zmizí to pro vás oba.", "confirm": "Potvrdit", "editItem": "Upravit položku {{value1}}", "coverSet": "Zakrýt v {{value1}}", "lockedForUsd": "Odemknout pro {{value1}}", "timerTimeBody": "Po odeslání zmizí pro vás oba {{value1}}."},
   "comicBorder": {
     "title": "Okraj",
     "theme": "Motiv",
@@ -142,6 +143,11 @@
     "useNamed": "Použijte {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Pouze video",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Pouze skladba",
+    "4bf9a522a0de": "Zvuk videa",
+    "fea4b5ceffa8": "Skladba",
     "a039dfb9628b": "Žetony",
     "chatSlowDown": "Zpomal! Příliš mnoho zpráv za sebou. Zkus to znovu za {{wait}} nebo počkej, až odpoví někdo jiný.",
     "eabb5c136be4": "Neúspěšné aktualizace plánu",
