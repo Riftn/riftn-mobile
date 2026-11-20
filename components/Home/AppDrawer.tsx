@@ -36,6 +36,7 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import Avatar from "../common/Avatar";
+import MenuAccountSwitcher from "./MenuAccountSwitcher";
 import { DhbCoin } from "../common/DhbCoin";
 import Icon, { type IconName } from "../ui/Icon";
 import { formatCompactNumber } from "../../libs/numbers.util";
@@ -1011,6 +1012,14 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                     <Text style={styles.balanceText}>{dhbBalance.toLocaleString()}</Text>
                   </TouchableOpacity>
                 )}
+                <MenuAccountSwitcher
+                  avatarUrl={avatarUrl}
+                  name={displayName || handle}
+                  activeAddress={user.walletAddress || user.address}
+                  ringColor={skin?.page ?? "#0B0B0E"}
+                  square={square}
+                  onPicked={onClose}
+                />
               </View>
             ) : (
               <View style={styles.header}>

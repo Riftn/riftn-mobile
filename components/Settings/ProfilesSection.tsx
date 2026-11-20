@@ -108,8 +108,8 @@ export function ProfilesSection({ onSelect }: { onSelect?: () => void } = {}) {
                   {profile.name || profile.username || shortAddress(profile.address)}
                 </Text>
                 <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5" numberOfLines={1}>
-                  {shortAddress(profile.address)}
-                  {!profile.session
+                  {profile.username ? `@${profile.username}` : shortAddress(profile.address)}
+                  {!profile.session && !isActive
                     ? ` · ${t('settings.profileSignedOut', 'sign in to switch')}`
                     : ''}
                 </Text>
