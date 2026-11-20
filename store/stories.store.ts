@@ -16,13 +16,18 @@ export interface PendingMoment {
   retry?: () => void;
 }
 
+export interface StoryRemixSource {
+  id: string;
+  name: string;
+}
+
 interface StoriesState {
   viewer: { entries: ShelfEntry[]; index: number; standalone: boolean } | null;
-  creatorOpen: boolean;
+  creator: { remixSource?: StoryRemixSource } | null;
   pending: PendingMoment | null;
 }
 
-export const storiesState = proxy<StoriesState>({ viewer: null, creatorOpen: false, pending: null });
+export const storiesState = proxy<StoriesState>({ viewer: null, creator: null, pending: null });
 
 export function openStoryViewer(entries: ShelfEntry[], index: number, standalone = false) {
   storiesState.viewer = ref({ entries, index, standalone });
@@ -32,12 +37,12 @@ export function closeStoryViewer() {
   storiesState.viewer = null;
 }
 
-export function openStoryCreator() {
-  storiesState.creatorOpen = true;
+export function openStoryCreator(remixSource?: StoryRemixSource) {
+  storiesState.creator = { remixSource };
 }
 
 export function closeStoryCreator() {
-  storiesState.creatorOpen = false;
+  storiesState.creator = null;
 }
 
 export function setPendingMoment(next: PendingMoment | null | ((p: PendingMoment | null) => PendingMoment | null)) {
