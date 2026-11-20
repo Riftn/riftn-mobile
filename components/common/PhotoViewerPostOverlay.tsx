@@ -7,7 +7,7 @@
  * card underneath, so the viewer closes first; Post info is a page and opens
  * over the viewer.
  */
-import React, { memo, useCallback, useState } from "react";
+import React, { memo, useCallback, useRef, useState } from "react";
 import { View, Text, Pressable, StyleSheet, LayoutChangeEvent } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
@@ -25,13 +25,20 @@ const NOT_FOLLOWING = { isFollowing: false, isFollowRequestPending: false };
 const FollowPill = memo(({ address }: { address: string }) => {
   const { t } = useTranslation();
   const { isFollowing, isPending, isLoading, toggle } = useSearchFollowState(address, NOT_FOLLOWING);
+  // Only a Follow button: accounts you already follow get none. Once you tap
+  // Follow here it stays as "Following" so a mis-tap can be undone.
+  const tapped = useRef(false);
   // Nothing until the state is known, so a followed account never flashes "Follow".
   if (isLoading) return null;
+  if ((isFollowing || isPending) && !tapped.current) return null;
   const on = isFollowing || isPending;
   const label = isPending ? t("follow.requested") : isFollowing ? t("follow.following") : t("follow.follow");
   return (
     <Pressable
-      onPress={() => void toggle().catch(() => {})}
+      onPress={() => {
+        tapped.current = true;
+        void toggle().catch(() => {});
+      }}
       hitSlop={8}
       accessibilityRole="button"
       accessibilityLabel={label}
@@ -173,14 +180,14 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   author: {
-    flex: 1,
+    flexShrink: 1,
     minWidth: 0,
     flexDirection: "row",
     alignItems: "center",
     gap: 10,
   },
   names: {
-    flex: 1,
+    flexShrink: 1,
     minWidth: 0,
   },
   displayName: {
@@ -197,8 +204,8 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   followPill: {
-    height: 32,
-    paddingHorizontal: 16,
+    height: 30,
+    paddingHorizontal: 14,
     borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",

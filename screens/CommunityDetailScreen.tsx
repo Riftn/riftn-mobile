@@ -71,6 +71,8 @@ import CommunityDescription from "../components/Communities/CommunityDescription
 import { TopHolders } from "../components/Communities/TopHolders";
 import { formatHolderAmount, holderGateMessage, holderGateOf, isDehubToken, runHolderCheck } from "../libs/holder-gate";
 import GroupCallButtons from "../components/Call/GroupCallButtons";
+import LiveChatSearch, { rememberChatSearch, useChatSearch, type ChatSearchPerson, type ChatSearchSource } from "../components/LiveChat/LiveChatSearch";
+import { searchCommunityChat } from "../services/community-chat-search";
 import { communityKindOf, confirmEntry, entryPriceOf, entryStatus, isPublicChatCommunity } from "../libs/community-kinds";
 import { useWeb3Provider, useERC20Contract } from "../hooks/use-web3";
 import { writeContractAA } from "../libs/aa.write";
@@ -112,6 +114,23 @@ const CommunityDetailScreen: React.FC = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
   const [tab, setTab] = useState<Tab>(route.params?.tab === "chat" ? "chat" : "posts");
+  // Search inside the chat tab: the public chat's search box, reading this
+  // community's messages. Picking a result opens the chat on that message.
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [searchPerson, setSearchPerson] = useState<ChatSearchPerson | null>(null);
+  const [chatJump, setChatJump] = useState<{ id: string; n: number } | null>(null);
+  const searchCommunityId = community?.id ?? "";
+  const searchSource = useCallback<ChatSearchSource>(
+    (params) => searchCommunityChat(searchCommunityId, params, walletAddress),
+    [searchCommunityId, walletAddress],
+  );
+  const chatSearch = useChatSearch(searchOpen && !!searchCommunityId, searchText, searchPerson?.address ?? null, searchSource);
+  const closeChatSearch = useCallback(() => {
+    setSearchOpen(false);
+    setSearchText("");
+    setSearchPerson(null);
+  }, []);
   // The chat tab has its own message box at the bottom: the app-wide bar
   // would sit on top of it (and its Send button), so it stands down there.
   useRegisterOwnTabBar(tab === "chat");
@@ -772,8 +791,24 @@ const CommunityDetailScreen: React.FC = () => {
     <View className="flex-1 bg-theme-neutrals-900">
       <ScreenHeader
         title={t("communities.title")}
-        rightContent={isMember && kind === "group" ? (
-          <GroupCallButtons groupId={community.id} groupName={community.name} members={members.map((m) => m.wallet_address)} />
+        rightContent={(isMember && kind === "group") || (tab === "chat" && (isMember || !community.is_private)) ? (
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+            {tab === "chat" && (isMember || !community.is_private) ? (
+              <TouchableOpacity
+                onPress={() => setSearchOpen(true)}
+                style={{ width: 36, height: 36, borderRadius: 12, alignItems: "center", justifyContent: "center" }}
+                activeOpacity={0.6}
+                hitSlop={4}
+                accessibilityRole="button"
+                accessibilityLabel={t("publicChat.searchMessages")}
+              >
+                <Icon name="Search" size={18} color="#FFFFFF" />
+              </TouchableOpacity>
+            ) : null}
+            {isMember && kind === "group" ? (
+              <GroupCallButtons groupId={community.id} groupName={community.name} members={members.map((m) => m.wallet_address)} />
+            ) : null}
+          </View>
         ) : undefined}
       />
       {tab === "posts" ? (
@@ -797,6 +832,7 @@ const CommunityDetailScreen: React.FC = () => {
             isMember={isMember}
             onJoin={handleJoinLeave}
             joining={actionLoading}
+            jumpTo={chatJump}
           />
         </View>
       ) : tab === "events" ? (
@@ -958,6 +994,24 @@ const CommunityDetailScreen: React.FC = () => {
           }}
         />
       )}
+      {searchOpen && tab === "chat" ? (
+        <LiveChatSearch
+          text={searchText}
+          person={searchPerson}
+          search={chatSearch}
+          activeId={chatJump?.id ?? null}
+          onText={setSearchText}
+          onPickPerson={(person) => { setSearchPerson(person); setSearchText(""); }}
+          onOpenResult={(index) => {
+            const hit = chatSearch.results[index];
+            if (!hit) return;
+            rememberChatSearch(searchText);
+            setChatJump((prev) => ({ id: hit._id, n: (prev?.n ?? 0) + 1 }));
+            closeChatSearch();
+          }}
+          onClose={closeChatSearch}
+        />
+      ) : null}
       <DeHubRefreshMark refreshing={refreshing} />
       <CommunityShareMenu open={shareOpen} onClose={() => setShareOpen(false)} community={community} wallet={walletAddress} canInvite={abilities.can('add_members')} isMember={isMember} />
     </View>

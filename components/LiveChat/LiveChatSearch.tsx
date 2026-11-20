@@ -11,7 +11,11 @@ import {
   searchLiveChat,
   type LiveChatMessageData,
   type LiveChatSearchPerson,
+  type LiveChatSearchResponse,
 } from "../../services/livechat.service";
+
+/** Where a chat's search reads from: the public chat by default, or a group's table. */
+export type ChatSearchSource = (params: { q?: string; from?: string; before?: string }) => Promise<LiveChatSearchResponse>;
 
 /*
  * Search inside the public chat, in one box.
@@ -80,7 +84,7 @@ interface SearchState {
 const EMPTY: SearchState = { results: [], people: [], total: null, hasMore: false, loading: false, loadingMore: false, failed: false };
 
 /** The room's matches for what is in the box, re-read as it changes. */
-export function useChatSearch(enabled: boolean, text: string, from: string | null) {
+export function useChatSearch(enabled: boolean, text: string, from: string | null, source: ChatSearchSource = searchLiveChat) {
   const [state, setState] = useState<SearchState>(EMPTY);
   const run = useRef(0);
   const q = text.trim();
@@ -96,7 +100,7 @@ export function useChatSearch(enabled: boolean, text: string, from: string | nul
     // Typing waits a beat; opening the box or picking a person does not.
     const timer = setTimeout(async () => {
       try {
-        const page = await searchLiveChat({ q, from: from ?? undefined });
+        const page = await source({ q, from: from ?? undefined });
         if (run.current !== mine) return;
         setState({
           results: (page.messages || []).map(normalizeMsg),
@@ -112,7 +116,7 @@ export function useChatSearch(enabled: boolean, text: string, from: string | nul
       }
     }, q ? 260 : 0);
     return () => clearTimeout(timer);
-  }, [enabled, q, from]);
+  }, [enabled, q, from, source]);
 
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -123,7 +127,7 @@ export function useChatSearch(enabled: boolean, text: string, from: string | nul
     const mine = run.current;
     setState((s) => ({ ...s, loadingMore: true }));
     try {
-      const page = await searchLiveChat({ q, from: from ?? undefined, before: last._id });
+      const page = await source({ q, from: from ?? undefined, before: last._id });
       if (run.current !== mine) return [];
       const rows = (page.messages || []).map(normalizeMsg);
       setState((s) => ({ ...s, results: [...s.results, ...rows], hasMore: !!page.hasMore, loadingMore: false }));
@@ -132,7 +136,7 @@ export function useChatSearch(enabled: boolean, text: string, from: string | nul
       if (run.current === mine) setState((s) => ({ ...s, loadingMore: false }));
       return [];
     }
-  }, [q, from]);
+  }, [q, from, source]);
 
   return { ...state, loadMore };
 }

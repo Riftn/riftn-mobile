@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
+import { KeepDark } from "../../libs/jsx/tone";
 import { useAuth } from "../../context/AuthContext";
 import { CallControl, Fill, useStage } from "./CallChrome";
 import { usePeerIdentity } from "./usePeerIdentity";
@@ -98,6 +99,10 @@ function CallCaptionsSheet({ visible, onClose }: { visible: boolean; onClose: ()
   const { show, send, language } = useCallCaptionPrefs();
   return (
     <GlassModal visible={visible} onClose={onClose} presentation="bottom">
+      {/* The sheet opens from the call's video area, which keeps its colours
+          dark; the sheet itself is the theme's glass, so its rows follow the
+          theme (in System Light they were white on the pale sheet). */}
+      <KeepDark.Provider value={false}>
       <ScrollView style={styles.sheet} contentContainerStyle={styles.sheetBody}>
         <Row label={t("stages.showSubtitles", { defaultValue: "Show subtitles" })} checked={show} onPress={() => setShowCallCaptions(!show)} />
         <Row label={t("calls.subtitleMyVoice", { defaultValue: "Subtitle my voice" })} checked={send} onPress={() => setSendCallCaptions(!send)} />
@@ -116,6 +121,7 @@ function CallCaptionsSheet({ visible, onClose }: { visible: boolean; onClose: ()
           />
         ))}
       </ScrollView>
+      </KeepDark.Provider>
     </GlassModal>
   );
 }
