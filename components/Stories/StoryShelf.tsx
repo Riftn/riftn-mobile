@@ -45,8 +45,8 @@ export function useStoryShelf() {
   });
 }
 
-/** The ring colours for something new, per theme. Written dark: System Light's pass turns white to ink. */
-function useRing(): [string, string] {
+/** Themes with a colored outline use a gradient behind the story tile. */
+function useRingGradient(): [string, string] | null {
   const { theme } = useAppTheme();
   switch (theme) {
     case "hazy":
@@ -58,7 +58,7 @@ function useRing(): [string, string] {
     case "war":
       return ["#E8B04A", "#E8B04A"];
     default:
-      return ["#FFFFFF", "#FFFFFF"];
+      return null;
   }
 }
 
@@ -218,13 +218,13 @@ function Face({ uri, name }: { uri: string | null; name: string }) {
 }
 
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
-  const ring = useRing();
+  const ring = useRingGradient();
   const face = avatarOf(entry.author, 96);
   const latest = entry.items[entry.items.length - 1];
   const fresh = !entry.seen;
   return (
     <TouchableOpacity activeOpacity={0.85} onPress={onOpen} accessibilityLabel={nameOf(entry.author)} style={styles.tileBox}>
-      {fresh ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
+      {fresh && ring ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
       <View style={[styles.tile, fresh ? styles.inRing : styles.seen]}>
         <Face uri={face} name={entry.author.username || entry.author.address} />
         <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.62)"]} style={styles.shade} pointerEvents="none" />
@@ -236,6 +236,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
         <Text style={styles.name} numberOfLines={1}>
           {nameOf(entry.author)}
         </Text>
+        {fresh && !ring ? <View style={styles.smokeLine} pointerEvents="none" /> : null}
       </View>
     </TouchableOpacity>
   );
@@ -260,6 +261,12 @@ const styles = StyleSheet.create({
     width: TILE_W - 4,
     height: TILE_H - 4,
     borderRadius: 14,
+  },
+  smokeLine: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#66686DBA",
   },
   seen: { opacity: 0.55 },
   liveTile: { borderWidth: 2 },
