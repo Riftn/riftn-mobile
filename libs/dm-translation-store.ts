@@ -71,7 +71,8 @@ export async function toggleDmTranslation(id: string, content?: string | null): 
     const result = await translateText(text, getUserLanguage(), 'auto', { isPublic: false });
     if (result.sameLanguage || !result.translatedText?.trim()) {
       set(id, undefined);
-      toastSuccess(i18n.t('copy.caac88c81c38', { defaultValue: 'Already in your language' }));
+      if (result.untranslated) toastError(i18n.t('copy.noTranslationFound', { defaultValue: "Couldn't translate this one. It may be slang or a name." }));
+      else toastSuccess(i18n.t('copy.caac88c81c38', { defaultValue: 'Already in your language' }));
       return;
     }
     set(id, { status: 'shown', text: result.translatedText });
