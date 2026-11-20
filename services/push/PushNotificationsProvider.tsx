@@ -5,6 +5,7 @@ import { AppState, AppStateStatus, Linking } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useUser, useAuthState, useAuthActions } from '../../context/AuthContext';
 import { usePublicChatAlerts } from '../../hooks/usePublicChatAlerts';
+import { usePublicChatReadSync } from '../../hooks/usePublicChatReadSync';
 import { ScreenNames } from '../../navigation/ScreenNames';
 import {
   registerForPushNotifications,
@@ -234,6 +235,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   // here rather than on the chat screen because the whole point is being told
   // while you are somewhere else.
   usePublicChatAlerts();
+  usePublicChatReadSync();
   const navigation = useNavigation<NavigationProp<any>>();
   const user = useUser();
   const { isSignedIn, needsUsername } = useAuthState();

@@ -8,9 +8,13 @@ export const publicChatUnread = createPublicChatUnreadStore({
   write: (key, value) => storage.set(key, value),
 });
 
-export function usePublicChatUnreadCount() {
+export function usePublicChatAccount() {
   const user = useUser();
   const { isSignedIn } = useAuthState();
-  const account = isSignedIn ? user?.walletAddress || user?.address || '' : '';
+  return isSignedIn ? user?.walletAddress || user?.address || '' : '';
+}
+
+export function usePublicChatUnreadCount() {
+  const account = usePublicChatAccount();
   return useSyncExternalStore(publicChatUnread.subscribe, () => publicChatUnread.count(account), () => 0);
 }
