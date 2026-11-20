@@ -7,11 +7,13 @@ import { useUser } from "../../context/AuthContext";
 import { getAvatarUrl } from "../../libs/misc";
 import { ARRIVAL_INTRO_MS, AVAILABLE_ARRIVAL_LOOKS, setArrivalLook, useArrivalLook, type ArrivalLook } from "../../libs/arrival-look";
 import { ArrivalMarks, isConceptLook } from "../auth/SignInHandoff";
+import LookCarousel from "./LookCarousel";
 
 /**
  * Settings → Appearance → After you sign in: what plays between logging in
- * and the app (Trace, Tune in, the Rift, Deck or Glass drop). Each card plays its
- * arrival with your own picture, shrunk. Same choice and key as web's
+ * and the app (Trace, Tune in, the Rift, Deck or Glass drop). A side-swipe
+ * carousel: each card plays its arrival with your own picture, shrunk, only
+ * once swiped into view and only while in view. Same choice and key as web's
  * ArrivalLookSetting.
  */
 const LABELS: Record<ArrivalLook, [string, string]> = {
@@ -22,14 +24,14 @@ const LABELS: Record<ArrivalLook, [string, string]> = {
   glass: ["settings.arrivalLook.glass", "Glass drop"],
 };
 
-const SCALE = 0.5;
-const CARD_H = 110;
+const SCALE = 0.55;
+const CARD_H = 124;
 const WAIT_MS = 900;
 /** The drawn arrivals loop a little longer before they open. */
 const CONCEPT_WAIT_MS = 1500;
 const SHOW_MS = 1600;
 
-/** The picked one plays through on a loop; the others wait on their marks. */
+/** A card in view plays through on a loop; one out of view waits on its marks. */
 function Preview({ look, picture, name, playing, still }: { look: ArrivalLook; picture: string | null; name: string; playing: boolean; still: boolean }) {
   const [round, setRound] = useState(0);
   const [opened, setOpened] = useState(false);
@@ -56,26 +58,27 @@ export default function ArrivalLookPicker() {
   const user = useUser();
   const picture = user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 120) : null;
   const name = user?.displayName || user?.username || "R";
+  const looks = AVAILABLE_ARRIVAL_LOOKS;
   return (
-    <View className="px-4" accessibilityRole="radiogroup">
+    <View>
       <Text className="text-theme-neutrals-500 text-xs mb-3">
         {t("settings.arrivalLook.desc", "What plays while your account loads, before your picture lands on the page. On this device.")}
       </Text>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
-        {AVAILABLE_ARRIVAL_LOOKS.map((look) => {
+      <LookCarousel
+        count={looks.length}
+        activeIndex={Math.max(0, looks.indexOf(current))}
+        renderCard={(i, { seen, inView }) => {
+          const look = looks[i];
           const active = current === look;
           const [key, fallback] = LABELS[look];
           return (
             <Pressable
-              key={look}
               testID={`arrival-look-${look}`}
               accessibilityRole="radio"
               accessibilityState={{ checked: active }}
               accessibilityLabel={t(key, fallback)}
               onPress={() => setArrivalLook(look)}
               style={{
-                width: "47%",
-                flexGrow: 1,
                 borderRadius: 16,
                 padding: 6,
                 borderWidth: active ? 2 : 1,
@@ -90,13 +93,13 @@ export default function ArrivalLookPicker() {
                 className="dark-surface"
                 style={{ height: CARD_H, borderRadius: 12, overflow: "hidden", backgroundColor: "#060709", alignItems: "center", justifyContent: "center" }}
               >
-                <Preview look={look} picture={picture} name={name} playing={active} still={still} />
+                {seen ? <Preview look={look} picture={picture} name={name} playing={inView} still={still} /> : null}
               </View>
               <Text className="text-theme-neutrals-100 text-sm font-medium mt-2 mx-1 mb-1">{t(key, fallback)}</Text>
             </Pressable>
           );
-        })}
-      </View>
+        }}
+      />
     </View>
   );
 }
