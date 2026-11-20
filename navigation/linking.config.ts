@@ -587,7 +587,7 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
               // offered in a DM, opened here so it can be confirmed.
               [ScreenNames.AIChat]: {
                 path: 'app/assistant',
-                parse: { action: (action: string) => action },
+                parse: { action: (action: string) => action, requestDraft: (id: string) => id },
               },
             },
           },

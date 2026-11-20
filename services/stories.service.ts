@@ -50,7 +50,10 @@ export interface StoryItem {
   height: number | null;
   durationMs: number;
   muted: boolean;
+  isMature?: boolean;
   caption: string | null;
+  remixSourceId?: string | null;
+  shareable?: boolean;
   mentions: StoryMention[];
   song: StorySong | null;
   audience: StoryAudience;
@@ -86,9 +89,13 @@ export interface StoryViewer {
 
 const enc = encodeURIComponent;
 
-export function getStoryShelf(signedIn: boolean): Promise<{ shelf: ShelfEntry[]; signedIn: boolean }> {
+export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; liveHosts?: string[] }> {
   // Signed out still gets public moments; the token is only sent when there is one.
-  return apiClient.get("/stories/shelf", { isAuthRequired: signedIn, quiet: true });
+  return apiClient.get("/stories/shelf", {
+    isAuthRequired: signedIn,
+    quiet: true,
+    params: liveHosts ? { liveHosts } : undefined,
+  });
 }
 
 export function getStory(id: string, signedIn: boolean): Promise<{ author: StoryAuthor | null; item: StoryItem }> {
@@ -125,6 +132,7 @@ export interface CreateStoryFields {
   allowReplies?: boolean;
   muted?: boolean;
   caption?: string;
+  remixSourceId?: string;
   mentions?: StoryMention[];
   song?: StorySong | null;
   draftVideoId?: string;
@@ -145,6 +153,7 @@ export function createStory(
   fd.append("allowReplies", String(fields.allowReplies !== false));
   fd.append("muted", String(!!fields.muted));
   if (fields.caption) fd.append("caption", fields.caption);
+  if (fields.remixSourceId) fd.append("remixSourceId", fields.remixSourceId);
   if (fields.mentions?.length) fd.append("mentions", JSON.stringify(fields.mentions));
   if (fields.song) fd.append("song", JSON.stringify(fields.song));
   if (fields.draftVideoId) {

@@ -11,7 +11,6 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
-  Modal,
   PanResponder,
   Platform,
   Pressable,
@@ -35,6 +34,7 @@ import { DarkRoomProvider } from "../../context/ThemeContext";
 import { optionalSkia } from "../../libs/skia";
 import { toastError } from "../../libs/toast";
 import type { StoryAudience } from "../../services/stories.service";
+import type { StoryRemixSource } from "../../store/stories.store";
 import { shareMoment } from "./story-upload";
 import type { TextLayer } from "./story-compose";
 
@@ -46,10 +46,11 @@ type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: n
 
 const compose = optionalSkia(() => require("./story-compose") as typeof import("./story-compose"));
 
-export default function StoryCreator({ onClose }: { onClose: () => void }) {
+export default function StoryCreator({ onClose, remixSource }: { onClose: () => void; remixSource?: StoryRemixSource }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [picked, setPicked] = useState<Picked | null>(null);
+  const remixLabel = remixSource ? t("stories.remixing", { name: remixSource.name, defaultValue: "Remixing {{name}}'s moment" }) : undefined;
 
   const take = useCallback(
     async (from: "camera" | "library") => {
@@ -90,7 +91,7 @@ export default function StoryCreator({ onClose }: { onClose: () => void }) {
     <DarkRoomProvider>
       <View className="dark-surface" style={styles.root}>
         {picked ? (
-          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} />
+          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} />
         ) : (
           <View style={[styles.start, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 24 }]}>
             <View style={styles.topRow}>
@@ -99,7 +100,7 @@ export default function StoryCreator({ onClose }: { onClose: () => void }) {
               </TouchableOpacity>
             </View>
             <View style={styles.startBody}>
-              <Text style={styles.startTitle}>{t("stories.newMoment", { defaultValue: "New moment" })}</Text>
+              <Text style={styles.startTitle}>{remixLabel ?? t("stories.newMoment", { defaultValue: "New moment" })}</Text>
               <Text style={styles.startSub}>{t("stories.startSub", { defaultValue: "A photo or a clip up to 60 seconds. It stays up for 24 hours." })}</Text>
               <TouchableOpacity style={[styles.bigBtn, styles.bigBtnMain]} onPress={() => void take("camera")}>
                 <Icon name="Camera" size={22} color="#000" />
@@ -117,7 +118,13 @@ export default function StoryCreator({ onClose }: { onClose: () => void }) {
   );
 }
 
-function Editor({ picked, onBack, onClose }: { picked: Picked; onBack: () => void; onClose: () => void }) {
+function Editor({ picked, onBack, onClose, remixSourceId, remixLabel }: {
+  picked: Picked;
+  onBack: () => void;
+  onClose: () => void;
+  remixSourceId?: string;
+  remixLabel?: string;
+}) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const queryClient = useQueryClient();
@@ -199,6 +206,7 @@ function Editor({ picked, onBack, onClose }: { picked: Picked; onBack: () => voi
             audience,
             muted: picked.kind === "video" ? muted : false,
             caption,
+            remixSourceId,
             ...(picked.kind === "video" && picked.duration > MAX_SECONDS ? { trimStart: 0, trimEnd: MAX_SECONDS } : {}),
           },
         },
@@ -238,7 +246,9 @@ function Editor({ picked, onBack, onClose }: { picked: Picked; onBack: () => voi
           <TouchableOpacity onPress={onBack} style={styles.iconBtn} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
             <Icon name="ChevronLeft" size={22} color="#fff" />
           </TouchableOpacity>
-          <View style={{ flex: 1 }} />
+          <View style={{ flex: 1 }}>
+            {remixLabel ? <Text style={styles.remixLabel} numberOfLines={1}>{remixLabel}</Text> : null}
+          </View>
           <View style={styles.tools}>
             <TouchableOpacity onPress={startText} style={styles.iconBtn} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
               <Icon name="Type" size={20} color="#fff" />
@@ -402,15 +412,6 @@ function TextSheet({
   );
 }
 
-/** The creator as a full-screen modal. */
-export function StoryCreatorModal({ onClose }: { onClose: () => void }) {
-  return (
-    <Modal visible animationType="slide" presentationStyle="fullScreen" statusBarTranslucent onRequestClose={onClose}>
-      <StoryCreator onClose={onClose} />
-    </Modal>
-  );
-}
-
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#000" },
   start: { flex: 1, paddingHorizontal: 20 },
@@ -418,6 +419,7 @@ const styles = StyleSheet.create({
   startBody: { flex: 1, justifyContent: "center", gap: 12 },
   startTitle: { color: "#fff", fontSize: 26, fontWeight: "800" },
   startSub: { color: "rgba(255,255,255,0.7)", fontSize: 15, marginBottom: 18 },
+  remixLabel: { color: "#fff", fontSize: 13, fontWeight: "600", marginHorizontal: 6, textShadowColor: "#000", textShadowRadius: 5 },
   bigBtn: {
     height: 58,
     borderRadius: 29,

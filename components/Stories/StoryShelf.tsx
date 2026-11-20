@@ -10,6 +10,7 @@
  */
 import React, { useCallback, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
@@ -19,7 +20,10 @@ import { useSnapshot } from "valtio";
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { useUser, useAuthActions } from "../../context/AuthContext";
+import { useHorizontalScrollGuard, useHorizontalSectionGuard } from "../../context/PagerGestureContext";
 import { useAppTheme } from "../../context/ThemeContext";
+import { MATURE_CONTENT_ENABLED } from "../../config/storefront";
+import { useKidsModeLock } from "../../hooks/useKidsModeLock";
 import { useLiveNowItems, pictureOf, type LiveNowItem } from "../Home/LiveNowBar";
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } from "../../store/stories.store";
@@ -29,23 +33,19 @@ import { getAvatarUrl } from "../../libs/misc";
 const TILE_W = 86;
 const TILE_H = 118;
 
-export const storyShelfQueryKey = (me: string) => ["story-shelf", me] as const;
-
 /** Moments on the shelf, refreshed every minute while Home is up. */
-export function useStoryShelf() {
-  const user = useUser();
-  const me = (user?.walletAddress || user?.address || "").toLowerCase();
+function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean) {
   return useQuery({
-    queryKey: storyShelfQueryKey(me),
-    queryFn: () => getStoryShelf(!!me),
+    queryKey: ["story-shelf", me, canSeeMature, liveHosts],
+    queryFn: () => getStoryShelf(!!me, liveHosts),
     staleTime: 30_000,
     refetchInterval: 60_000,
   });
 }
 
-/** The ring colours for something new, per theme. */
-function useRing(): [string, string] {
-  const { theme, isLight } = useAppTheme();
+/** Themes with a colored outline use a gradient behind the story tile. */
+function useRingGradient(): [string, string] | null {
+  const { theme } = useAppTheme();
   switch (theme) {
     case "hazy":
       return ["#A391FC", "#F39BFF"];
@@ -56,7 +56,7 @@ function useRing(): [string, string] {
     case "war":
       return ["#E8B04A", "#E8B04A"];
     default:
-      return isLight ? ["#7351D9", "#7351D9"] : ["#A391FC", "#A391FC"];
+      return null;
   }
 }
 
@@ -65,14 +65,20 @@ function StoryShelf() {
   const user = useUser();
   const { requireAuth } = useAuthActions();
   const me = (user?.walletAddress || user?.address || "").toLowerCase();
-  const { data } = useStoryShelf();
   const { items: live, open: openLive } = useLiveNowItems();
+  const kidsMode = useKidsModeLock();
+  const canSeeMature = MATURE_CONTENT_ENABLED && user?.showMatureContent === true && !kidsMode;
+  const liveHosts = [...new Set(live.map(item => (item.wallet || "").toLowerCase()).filter(Boolean))].sort().slice(0, 100).join(",");
+  const { data } = useStoryShelf(me, liveHosts, canSeeMature);
+  const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
+  const scrollGuard = useHorizontalScrollGuard();
+  const shelfGuard = useHorizontalSectionGuard(scrollGuard);
 
   const shelf = useMemo(() => data?.shelf ?? [], [data]);
   const watchable = useMemo(
-    () => shelf.map((e) => ({ ...e, items: playable(e.items) })).filter((e) => e.items.length > 0),
-    [shelf],
+    () => shelf.map((e) => ({ ...e, items: playable(e.items).filter(item => canSeeMature || !item.isMature) })).filter((e) => e.items.length > 0),
+    [shelf, canSeeMature],
   );
   const own = shelf.find((e) => e.own) ?? null;
   const ownWatchable = watchable.find((e) => e.own) ?? null;
@@ -87,11 +93,12 @@ function StoryShelf() {
   );
   const add = useCallback(() => requireAuth(() => openStoryCreator()), [requireAuth]);
 
-  if (!me && others.length === 0 && live.length === 0) return null;
+  if (!me && others.length === 0 && eligibleLive.length === 0) return null;
 
-  return (
+  const shelfScroll = (
     <ScrollView
       horizontal
+      nestedScrollEnabled
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.row}
       style={styles.wrap}
@@ -107,13 +114,22 @@ function StoryShelf() {
           onAdd={add}
         />
       ) : null}
-      {live.map((item) => (
+      {eligibleLive.map((item) => (
         <LiveTile key={`${item.kind}-${item.id}`} item={item} onOpen={() => openLive(item)} />
       ))}
       {others.map((entry) => (
         <PersonTile key={entry.author.address} entry={entry} onOpen={() => openEntry(entry)} />
       ))}
     </ScrollView>
+  );
+
+  if (!scrollGuard || !shelfGuard) return shelfScroll;
+  return (
+    <GestureDetector gesture={shelfGuard}>
+      <View collapsable={false}>
+        <GestureDetector gesture={scrollGuard}>{shelfScroll}</GestureDetector>
+      </View>
+    </GestureDetector>
   );
 }
 
@@ -204,13 +220,13 @@ function Face({ uri, name }: { uri: string | null; name: string }) {
 }
 
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
-  const ring = useRing();
+  const ring = useRingGradient();
   const face = avatarOf(entry.author, 96);
   const latest = entry.items[entry.items.length - 1];
   const fresh = !entry.seen;
   return (
     <TouchableOpacity activeOpacity={0.85} onPress={onOpen} accessibilityLabel={nameOf(entry.author)} style={styles.tileBox}>
-      {fresh ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
+      {fresh && ring ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
       <View style={[styles.tile, fresh ? styles.inRing : styles.seen]}>
         <Face uri={face} name={entry.author.username || entry.author.address} />
         <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.62)"]} style={styles.shade} pointerEvents="none" />
@@ -222,6 +238,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
         <Text style={styles.name} numberOfLines={1}>
           {entry.author.username ? `@${entry.author.username}` : nameOf(entry.author)}
         </Text>
+        {!fresh || !ring ? <View style={styles.smokeLine} pointerEvents="none" /> : null}
       </View>
     </TouchableOpacity>
   );
@@ -247,7 +264,13 @@ const styles = StyleSheet.create({
     height: TILE_H - 4,
     borderRadius: 14,
   },
-  seen: { opacity: 0.55, borderWidth: 1, borderColor: "rgba(127,127,127,0.8)" },
+  smokeLine: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#66686DBA",
+  },
+  seen: { opacity: 0.55 },
   liveTile: { borderWidth: 2 },
   shade: { position: "absolute", left: 0, right: 0, bottom: 0, height: "60%" },
   name: {

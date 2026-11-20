@@ -41,6 +41,7 @@ import AssistantHeader from '../components/Assistant/AssistantHeader';
 import AssistantBubble from '../components/Assistant/AssistantBubble';
 import AssistantInputBar from '../components/Assistant/AssistantInputBar';
 import AssistantActionCard from '../components/Assistant/AssistantActionCard';
+import { isRequestBoardCommand } from '../libs/feature-prompt';
 import { type QuickAction } from '../components/Assistant/QuickActionChips';
 import AssistantStage from '../components/Assistant/AssistantStage';
 import ThinkingDots from '../components/Assistant/ThinkingDots';
@@ -253,6 +254,7 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
   const { t: _copy } = _useCopy();
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
+  const linkedAction = route.params?.requestDraft ?? route.params?.action;
   const user = useUser();
   const downloadVideo = useVideoDownload();
   const [editingMediaUrl, setEditingMediaUrl] = useState<string | null>(null);
@@ -1388,6 +1390,11 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
         return;
       }
 
+      if (isRequestBoardCommand(text)) {
+        await doSendChat(text, history);
+        return;
+      }
+
       /* Logo requests: show the bundled asset rather than paying to redraw it. */
       const wantsBrand = isDeHubBrandedImageRequest(text);
       const wantsLogo = wantsBrand || requiresLogoAsset(text);
@@ -2238,10 +2245,9 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
             </TouchableOpacity>
           </View>
         )}
-        {/* riftn.com/app/assistant?action=<id> from a DM: the offered card, ready to confirm. */}
-        {!studio && typeof route.params?.action === 'string' && /^[a-f0-9]{24}$/i.test(route.params.action) && (
+        {!studio && typeof linkedAction === 'string' && /^[a-f0-9]{24}$/i.test(linkedAction) && (
           <View style={{ marginHorizontal: 16, marginBottom: 8 }}>
-            <AssistantActionCard key={route.params.action} actionId={route.params.action.toLowerCase()} />
+            <AssistantActionCard key={linkedAction} actionId={linkedAction.toLowerCase()} />
           </View>
         )}
         {!voice.isVoiceMode && <AssistantInputBar

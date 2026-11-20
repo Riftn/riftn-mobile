@@ -11,7 +11,6 @@ import {
   ActivityIndicator,
   Dimensions,
   KeyboardAvoidingView,
-  Modal,
   PanResponder,
   Platform,
   Pressable,
@@ -23,6 +22,7 @@ import {
   View,
 } from "react-native";
 import { Image } from "expo-image";
+import * as Clipboard from "expo-clipboard";
 import { LinearGradient } from "expo-linear-gradient";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { useAudioPlayer } from "expo-audio";
@@ -43,6 +43,7 @@ import { toastError, toastSuccess } from "../../libs/toast";
 import {
   checkStoryReply,
   deleteStory,
+  getStory,
   getStoryViewers,
   likeStory,
   markStoryViewed,
@@ -51,6 +52,7 @@ import {
   type StoryItem,
   type StoryViewer as Viewer,
 } from "../../services/stories.service";
+import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
 import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
 
 const PHOTO_MS = 5000;
@@ -92,7 +94,11 @@ export default function StoryViewer({
   const [muted, setMuted] = useState(false);
   const [reply, setReply] = useState("");
   const [liked, setLiked] = useState<Record<string, boolean>>({});
-  const paused = held || typing || sheet !== null || !loaded;
+  const [openingOriginal, setOpeningOriginal] = useState(false);
+  const originalRequest = useRef<symbol | null>(null);
+  const paused = held || typing || sheet !== null || openingOriginal || !loaded;
+  const pausedRef = useRef(paused);
+  pausedRef.current = paused;
 
   // ── Moving through moments ──
   const goAuthor = useCallback(
@@ -123,6 +129,8 @@ export default function StoryViewer({
     elapsed.current = 0;
     setProgress(0);
     setReply("");
+    setOpeningOriginal(false);
+    return () => { originalRequest.current = null; };
   }, [authorIdx, itemIdx]);
 
   // Photo clock.
@@ -159,7 +167,7 @@ export default function StoryViewer({
         const d = player.duration || item.durationMs / 1000;
         if (d > 0) setProgress(Math.min(1, currentTime / d));
       }),
-      player.addListener("playToEnd", () => goItemRef.current(1)),
+      player.addListener("playToEnd", () => { if (!pausedRef.current) goItemRef.current(1); }),
     ];
     return () => subs.forEach((s) => s.remove());
   }, [player, videoUri, item]);
@@ -220,7 +228,7 @@ export default function StoryViewer({
   const pan = useMemo(
     () =>
       PanResponder.create({
-        onMoveShouldSetPanResponder: (_e, g) => Math.abs(g.dy) > 14 || Math.abs(g.dx) > 14,
+        onMoveShouldSetPanResponder: (_e, g) => !sheet && !openingOriginal && (Math.abs(g.dy) > 14 || Math.abs(g.dx) > 14),
         onPanResponderGrant: () => setHeld(true),
         onPanResponderRelease: (_e, g) => {
           setHeld(false);
@@ -230,12 +238,59 @@ export default function StoryViewer({
         },
         onPanResponderTerminate: () => setHeld(false),
       }),
-    [onClose, goAuthor],
+    [onClose, goAuthor, sheet, openingOriginal],
   );
 
   if (!entry || !item) return null;
   const width = Dimensions.get("window").width;
   const isLiked = liked[item.id] ?? item.liked;
+  const shareable = item.shareable && Date.parse(item.expiresAt) > Date.now();
+
+  const remix = () => {
+    const source = { id: item.id, name: nameOf(entry.author) };
+    if (!me) onClose();
+    requireAuth(() => {
+      openStoryCreator(source);
+      onClose();
+    });
+  };
+
+  const copyLink = async () => {
+    try {
+      const copied = await Clipboard.setStringAsync(`${WEBSITE_LINK}/app/moment/${encodeURIComponent(item.id)}`);
+      if (!copied) throw new Error("Clipboard unavailable");
+      setSheet(null);
+      toastSuccess(t("stories.linkCopied", { defaultValue: "Link copied" }));
+    } catch {
+      toastError(t("stories.copyLinkFailed", { defaultValue: "Couldn't copy the moment link." }));
+    }
+  };
+
+  const openOriginal = async () => {
+    if (!item.remixSourceId || originalRequest.current) return;
+    const request = Symbol();
+    originalRequest.current = request;
+    setOpeningOriginal(true);
+    try {
+      const { author, item: original } = await getStory(item.remixSourceId, !!me);
+      if (originalRequest.current !== request) return;
+      if (!author || !original.shareable || Date.parse(original.expiresAt) <= Date.now()) {
+        throw new Error("Original moment unavailable");
+      }
+      openStoryViewer(
+        [{ author, own: author.address.toLowerCase() === me, following: false, seen: original.viewed, latestAt: original.createdAt, items: [original] }],
+        0,
+        true,
+      );
+    } catch {
+      if (originalRequest.current === request) toastError(t("stories.originalUnavailable", { defaultValue: "The original moment is no longer available." }));
+    } finally {
+      if (originalRequest.current === request) {
+        originalRequest.current = null;
+        setOpeningOriginal(false);
+      }
+    }
+  };
 
   const toggleLike = () =>
     requireAuth(() => {
@@ -284,7 +339,7 @@ export default function StoryViewer({
     <DarkRoomProvider>
       <View className="dark-surface" style={styles.root} {...pan.panHandlers}>
         {item.type === "video" && videoUri ? (
-          <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={fit} nativeControls={false} />
+          <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={fit} nativeControls={false} surfaceType="textureView" />
         ) : (
           <Image
             key={item.id}
@@ -305,7 +360,7 @@ export default function StoryViewer({
         ) : null}
 
         {/* Tap zones: left third back, the rest forward; hold anywhere pauses. */}
-        <View style={styles.zones}>
+        <View style={styles.zones} pointerEvents={sheet || openingOriginal ? "none" : "auto"}>
           <Pressable style={{ width: width / 3 }} onPress={() => goItem(-1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
           <Pressable style={{ flex: 1 }} onPress={() => goItem(1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
         </View>
@@ -346,10 +401,10 @@ export default function StoryViewer({
               <Icon name={muted ? "VolumeX" : "Volume2"} size={18} color="#fff" />
             </TouchableOpacity>
           ) : null}
-          <TouchableOpacity onPress={() => setSheet("more")} hitSlop={8} style={styles.capBtn} accessibilityLabel={t("stories.more", { defaultValue: "More" })}>
+          <TouchableOpacity onPress={() => setSheet("more")} hitSlop={4} style={styles.capBtn} accessibilityRole="button" accessibilityLabel={t("stories.moreActions", { defaultValue: "Moment options" })} accessibilityState={{ expanded: sheet === "more" }}>
             <Icon name="Ellipsis" size={18} color="#fff" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={onClose} hitSlop={8} style={styles.capBtn} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+          <TouchableOpacity onPress={onClose} hitSlop={4} style={styles.capBtn} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
             <Icon name="X" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
@@ -358,6 +413,12 @@ export default function StoryViewer({
         {/* The keyboard view sets its own bottom padding on iPhone, so the safe-area gap lives on an inner view. */}
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.bottom}>
           <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 18 }]}>
+          {item.remixSourceId ? (
+            <TouchableOpacity style={styles.song} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
+              <Icon name="Repeat2" size={14} color="#fff" />
+              <Text style={styles.songText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
+            </TouchableOpacity>
+          ) : null}
           {item.caption ? (
             <Text style={styles.caption} numberOfLines={3}>
               {item.caption}
@@ -429,11 +490,20 @@ export default function StoryViewer({
             onClose={() => setSheet(null)}
             onPick={setSheet}
             onDelete={remove}
+            onRemix={shareable ? remix : undefined}
+            onCopyLink={shareable ? copyLink : undefined}
+            onViewProfile={() => {
+              onClose();
+              showUserProfile(entry.author.address, { source: "moment" });
+            }}
             onReport={(reason) => {
-              reportStory(item.id, reason)
-                .then(() => toastSuccess(t("stories.reported", { defaultValue: "Thanks. We'll take a look." })))
-                .catch(() => toastError(t("stories.reportFailed", { defaultValue: "Couldn't send the report." })));
               setSheet(null);
+              if (!me) onClose();
+              requireAuth(() => {
+                void reportStory(item.id, reason)
+                  .then(() => toastSuccess(t("stories.reported", { defaultValue: "Thanks. We'll take a look." })))
+                  .catch(() => toastError(t("stories.reportFailed", { defaultValue: "Couldn't send the report." })));
+              });
             }}
             bottom={insets.bottom}
           />
@@ -443,13 +513,13 @@ export default function StoryViewer({
   );
 }
 
-const REPORT_REASONS: { key: string; label: string }[] = [
-  { key: "spam", label: "Spam" },
-  { key: "nudity", label: "Nudity or sexual content" },
-  { key: "harassment", label: "Bullying or harassment" },
-  { key: "violence", label: "Violence or dangerous acts" },
-  { key: "hate", label: "Hate speech" },
-  { key: "other", label: "Something else" },
+const REPORT_REASONS = [
+  { key: "spam", reason: "spam_misleading", label: "Spam" },
+  { key: "nudity", reason: "sexual_content", label: "Nudity or sexual content" },
+  { key: "harassment", reason: "harassment_bullying", label: "Bullying or harassment" },
+  { key: "violence", reason: "violent_content", label: "Violence or dangerous acts" },
+  { key: "hate", reason: "hateful_content", label: "Hate speech" },
+  { key: "other", reason: "other", label: "Something else" },
 ];
 
 function ViewerSheet({
@@ -459,6 +529,9 @@ function ViewerSheet({
   onClose,
   onPick,
   onDelete,
+  onRemix,
+  onCopyLink,
+  onViewProfile,
   onReport,
   bottom,
 }: {
@@ -468,6 +541,9 @@ function ViewerSheet({
   onClose: () => void;
   onPick: (s: Sheet) => void;
   onDelete: () => void;
+  onRemix?: () => void;
+  onCopyLink?: () => void;
+  onViewProfile: () => void;
   onReport: (reason: string) => void;
   bottom: number;
 }) {
@@ -481,17 +557,26 @@ function ViewerSheet({
   }, [kind, item.id]);
 
   return (
-    <Pressable style={styles.sheetBack} onPress={onClose}>
-      <Pressable style={[styles.sheet, { paddingBottom: bottom + 16 }]} onPress={() => {}}>
+    <View style={styles.sheetBack}>
+      <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessible={false} />
+      <View style={[styles.sheet, { paddingBottom: bottom + 16 }]} accessibilityViewIsModal>
         {kind === "more" ? (
-          own ? (
-            <>
-              <SheetRow icon="Eye" label={t("stories.whoWatched", { defaultValue: "Who watched" })} onPress={() => onPick("viewers")} />
-              <SheetRow icon="Trash2" label={t("stories.delete", { defaultValue: "Delete moment" })} danger onPress={() => onPick("delete")} />
-            </>
-          ) : (
-            <SheetRow icon="Flag" label={t("stories.report", { defaultValue: "Report" })} onPress={() => onPick("report")} />
-          )
+          <>
+            {onRemix ? <SheetRow icon="Repeat2" label={t("remix.title", { defaultValue: "Remix" })} onPress={onRemix} /> : null}
+            {onCopyLink ? <SheetRow icon="Link2" label={t("postOptions.copyLink", { defaultValue: "Copy link" })} onPress={onCopyLink} /> : null}
+            {own ? (
+              <>
+                <SheetRow icon="Eye" label={t("stories.whoWatched", { defaultValue: "Who watched" })} onPress={() => onPick("viewers")} />
+                <SheetRow icon="Trash2" label={t("stories.delete", { defaultValue: "Delete moment" })} danger onPress={() => onPick("delete")} />
+              </>
+            ) : (
+              <>
+                <SheetRow icon="User" label={t("stories.viewProfile", { defaultValue: "View profile" })} onPress={onViewProfile} />
+                <SheetRow icon="Flag" label={t("stories.report", { defaultValue: "Report" })} danger onPress={() => onPick("report")} />
+              </>
+            )}
+            <SheetRow icon="X" label={t("common.cancel", { defaultValue: "Cancel" })} onPress={onClose} />
+          </>
         ) : null}
         {kind === "delete" ? (
           <>
@@ -504,7 +589,7 @@ function ViewerSheet({
           <>
             <Text style={styles.sheetTitle}>{t("stories.reportWhy", { defaultValue: "Why are you reporting this?" })}</Text>
             {REPORT_REASONS.map((r) => (
-              <SheetRow key={r.key} label={t(`stories.reason.${r.key}`, { defaultValue: r.label })} onPress={() => onReport(r.key)} />
+              <SheetRow key={r.key} label={t(`stories.reason.${r.key}`, { defaultValue: r.label })} onPress={() => onReport(r.reason)} />
             ))}
           </>
         ) : null}
@@ -532,26 +617,17 @@ function ViewerSheet({
             )}
           </>
         ) : null}
-      </Pressable>
-    </Pressable>
+      </View>
+    </View>
   );
 }
 
 function SheetRow({ icon, label, onPress, danger }: { icon?: React.ComponentProps<typeof Icon>["name"]; label: string; onPress: () => void; danger?: boolean }) {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.sheetRow}>
+    <TouchableOpacity onPress={onPress} style={styles.sheetRow} accessibilityRole="button">
       {icon ? <Icon name={icon} size={18} color={danger ? "#FF5C78" : "#fff"} /> : null}
       <Text style={[styles.sheetRowText, danger && { color: "#FF5C78" }]}>{label}</Text>
     </TouchableOpacity>
-  );
-}
-
-/** The viewer as a full-screen modal over whatever is open. */
-export function StoryViewerModal({ entries, index, onClose }: { entries: ShelfEntry[]; index: number; onClose: () => void }) {
-  return (
-    <Modal visible animationType="fade" presentationStyle="fullScreen" statusBarTranslucent onRequestClose={onClose}>
-      <StoryViewer entries={entries} index={index} onClose={onClose} />
-    </Modal>
   );
 }
 
@@ -581,7 +657,7 @@ const styles = StyleSheet.create({
   capText: { flex: 1, minWidth: 0 },
   capName: { color: "#fff", fontSize: 14, fontWeight: "700" },
   capSub: { color: "rgba(255,255,255,0.72)", fontSize: 11.5, marginTop: 1 },
-  capBtn: { width: 32, height: 32, alignItems: "center", justifyContent: "center" },
+  capBtn: { width: 36, height: 44, alignItems: "center", justifyContent: "center" },
   dots: { flexDirection: "row", gap: 4, marginRight: 2 },
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.35)" },
   dotOn: { backgroundColor: "#fff" },
@@ -636,7 +712,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
   },
   statText: { color: "#fff", fontSize: 14, fontWeight: "600", marginRight: 6 },
-  sheetBack: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.45)", justifyContent: "flex-end" },
+  sheetBack: { ...StyleSheet.absoluteFillObject, zIndex: 10, backgroundColor: "rgba(0,0,0,0.45)", justifyContent: "flex-end" },
   sheet: {
     backgroundColor: "#16161A",
     borderTopLeftRadius: 22,

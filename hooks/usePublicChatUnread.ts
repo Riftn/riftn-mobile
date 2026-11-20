@@ -16,5 +16,9 @@ export function usePublicChatAccount() {
 
 export function usePublicChatUnreadCount() {
   const account = usePublicChatAccount();
-  return useSyncExternalStore(publicChatUnread.subscribe, () => publicChatUnread.count(account), () => 0);
+  return useSyncExternalStore(
+    publicChatUnread.subscribe,
+    () => publicChatUnread.hasSynced(account) ? publicChatUnread.count(account) : 0,
+    () => 0,
+  );
 }
