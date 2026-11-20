@@ -4,6 +4,7 @@ import { PageSection } from '../../components/page/PageKit';
 import { getThemeSkin } from '../../theme/skins';
 
 let mockTheme: any;
+jest.mock('../../components/theme/CardFrost', () => ({ CardFrost: () => null, useCardFrost: () => false }));
 jest.mock('dehub-jsx/jsx-runtime', () => require('react/jsx-runtime'));
 jest.mock('react-native', () => ({
   Platform: { OS: 'android' },

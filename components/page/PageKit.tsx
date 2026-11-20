@@ -21,6 +21,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_HAIRLINE } from "../../theme/minimal";
 import { themeIconUrl } from "../../theme/icons";
 import { PageHeaderContext } from './PageHeaderContext';
+import { CardFrost, useCardFrost } from "../theme/CardFrost";
 
 type Rgb = [number, number, number];
 
@@ -168,11 +169,15 @@ export function PageSection({
   style?: StyleProp<ViewStyle>;
 }) {
   const c = useKitColors();
+  // Canvas themes: the blurred wallpaper behind the card, like a feed bento,
+  // instead of its tint over the sharp moving scene.
+  const frosted = useCardFrost() && !c.flat && !!c.cardMaterial;
   const frame: ViewStyle = c.flat
     ? { backgroundColor: 'transparent', borderRadius: 0, marginHorizontal: 0, marginBottom: 0, borderWidth: 0, borderBottomWidth: 1, borderBottomColor: c.hairline, paddingVertical: flush ? 0 : 18, paddingHorizontal: flush ? 0 : 16 }
     : { backgroundColor: c.card, borderRadius: 12, marginHorizontal: 8, marginBottom: 10, padding: flush ? 0 : 16, overflow: "hidden" };
   return (
-    <View style={c.flat ? [style as object, frame] : [frame, style as object, c.cardMaterial]}>
+    <View style={c.flat ? [style as object, frame] : [frame, style as object, c.cardMaterial, frosted && { backgroundColor: 'transparent' }]}>
+      {frosted ? <CardFrost radius={Number(c.cardMaterial?.borderRadius ?? 12)} tint={c.cardMaterial?.backgroundColor} /> : null}
       {title || eyebrow || action ? (
         <View style={[styles.sectionHead, flush && { paddingHorizontal: 16, paddingTop: 16 }]}>
           <View style={{ flexShrink: 1 }}>

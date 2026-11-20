@@ -5,6 +5,7 @@ import { getThemeSkin } from '../../theme/skins';
 import { themeAccent, tintSkin } from '../../theme/themeColor';
 
 let mockTheme: AppThemeName = 'system';
+jest.mock('../../components/theme/CardFrost', () => ({ CardFrost: () => null, useCardFrost: () => false }));
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
   Platform: { OS: 'android' },

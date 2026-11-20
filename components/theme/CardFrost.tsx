@@ -4,8 +4,9 @@ import Animated, { measure, useAnimatedRef, useAnimatedStyle } from 'react-nativ
 import { frostClock, scaleAlpha, useBackdropFrost } from '../../libs/backdropFrost';
 
 /** How much of the card's own tint stays over the frost. Web's phone cards
- *  sit near 45% smoke over a 24px blur; the app's tints run 70-86%. */
-const VEIL = 0.72;
+ *  sit near 45% smoke over a 24px blur; the app's tints run 70-86%, so this
+ *  lands them around 50%: the blurred wallpaper reads through as glass. */
+const VEIL = 0.62;
 /** measure() runs on the UI runtime on phones; on web everything is one thread. */
 const IS_WEB = Platform.OS === 'web';
 
