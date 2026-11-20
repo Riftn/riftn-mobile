@@ -2681,6 +2681,7 @@ export default function UploadScreen() {
           <Text className={articleMode ? "text-white text-xs font-medium" : "text-white/55 text-xs font-medium"}>{t("articles.label")}</Text>
         </TouchableOpacity>
       </View>}
+      <View style={{ flex: 1 }}>
       <GestureDetector gesture={sheet.scroll}>
       <GestureScrollView
         style={{ flex: 1 }}
@@ -2874,23 +2875,6 @@ export default function UploadScreen() {
 
             {!articleMode && <DraftAssetCards text={previewText} hidden={hideAssetCards} onHiddenChange={setHideAssetCards} />}
             {!articleMode && <LinkPreviewCard text={previewText} hidden={hiddenLinkPreviews} onRemove={closeLinkPreview} />}
-
-            <MentionSuggestions
-              visible={bodyMentions.showSuggestions}
-              suggestions={bodyMentions.suggestions}
-              onSelect={bodyMentions.selectMention}
-              loading={bodyMentions.loading}
-            />
-
-            {/* Ticker picker — `$` opens tokens and stocks. Cannot be open at
-                the same time as the mention list: `@` and `$` are different
-                triggers at the same caret. */}
-            <AssetSuggestions
-              visible={bodyAssets.showSuggestions}
-              suggestions={bodyAssets.suggestions}
-              onSelect={bodyAssets.selectAsset}
-              loading={bodyAssets.loading}
-            />
 
             {isLiveMode && (
               <View className="mt-2 flex-row items-center">
@@ -3338,6 +3322,28 @@ export default function UploadScreen() {
         </Pressable>
       </GestureScrollView>
       </GestureDetector>
+      {/* The @ and $ pickers float at the bottom of the editor, just above
+          the options, and open upward like the comment box's. Inside the
+          scrolling editor they sat under the text, below the keyboard. */}
+      <View pointerEvents="box-none" style={{ position: "absolute", left: 16, right: 16, bottom: 4 }}>
+        <MentionSuggestions
+          visible={bodyMentions.showSuggestions}
+          suggestions={bodyMentions.suggestions}
+          onSelect={bodyMentions.selectMention}
+          loading={bodyMentions.loading}
+        />
+
+        {/* Ticker picker — `$` opens tokens and stocks. Cannot be open at
+            the same time as the mention list: `@` and `$` are different
+            triggers at the same caret. */}
+        <AssetSuggestions
+          visible={bodyAssets.showSuggestions}
+          suggestions={bodyAssets.suggestions}
+          onSelect={bodyAssets.selectAsset}
+          loading={bodyAssets.loading}
+        />
+      </View>
+      </View>
       {/* Character count sits under the scrolling editor, not inside it, so it
           stays in view however many lines the post runs to. */}
       {!articleMode && <View className="flex-row items-center justify-end px-4 pt-1 pb-1">
