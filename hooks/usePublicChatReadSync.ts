@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { getChatReadPosition, type ChatReadPosition } from '../services/dm/dm.api';
 import { publicChatUnread, usePublicChatAccount } from './usePublicChatUnread';
 
-/** Same chat id and query key as the room's own read spot (useChatReadPosition). */
+/** Same chat id as the room's own read spot. */
 const PUBLIC_CHAT_ID = 'live:global';
 
 /**
@@ -13,18 +13,21 @@ const PUBLIC_CHAT_ID = 'live:global';
  */
 export function usePublicChatReadSync() {
   const account = usePublicChatAccount();
-  const { data } = useQuery({
-    queryKey: ['chat-read-position', PUBLIC_CHAT_ID],
+  const startedAt = useMemo(() => Date.now(), [account]);
+  const { data, isSuccess, isError } = useQuery({
+    queryKey: ['public-chat-badge-read-position', account.toLowerCase()],
     queryFn: () => getChatReadPosition(PUBLIC_CHAT_ID),
     enabled: !!account,
     staleTime: 30_000,
     refetchInterval: 60_000,
     gcTime: 30 * 60_000,
-    retry: 0,
+    retry: 1,
   });
-  const spotAt = Date.parse((data as ChatReadPosition | null | undefined)?.at || '');
+  const spot = data as ChatReadPosition | null | undefined;
   useEffect(() => {
-    if (account && Number.isFinite(spotAt)) publicChatUnread.catchUp(account, spotAt);
-  }, [account, spotAt]);
+    if (!isSuccess && !isError) return;
+    const at = spot ? Date.parse(spot.at) : spot;
+    publicChatUnread.syncReadPosition(account, at, startedAt);
+  }, [account, spot, isSuccess, isError, startedAt]);
 }
 
