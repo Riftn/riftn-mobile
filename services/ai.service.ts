@@ -70,6 +70,8 @@ export interface AIChatMessage {
   id?: string;
   role: 'user' | 'assistant';
   content: string;
+  /** Set on the reply that is still streaming in (never saved). */
+  isStreaming?: boolean;
   imageUrl?: string;
   videoUrl?: string;
   audioUrl?: string;
