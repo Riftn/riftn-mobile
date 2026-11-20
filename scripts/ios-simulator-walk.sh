@@ -327,6 +327,31 @@ walk() {
   done
 }
 
+# App Store screenshots (device ipad13): only the pages the store listing
+# shows, under a clean status bar (9:41, full battery and signal).
+STORE_PAGES=(
+  "app"
+  "explore"
+  "shorts"
+  "app/post/742"
+  "app/post/5799"
+  "maldoteth"
+  "app/leaderboard"
+  "creators"
+  "music"
+  "tv"
+  "arcade"
+  "app/agents"
+  "app/features"
+  "live-studio"
+)
+if [ "${DEVICE:-iphone}" = "ipad13" ]; then
+  PAGES=("${STORE_PAGES[@]}")
+  xcrun simctl status_bar "$UDID" override --time 9:41 --dataNetwork wifi --wifiMode active --wifiBars 3 \
+    --cellularMode active --cellularBars 4 --batteryState charged --batteryLevel 100 \
+    || echo "could not set the clean status bar" >> "$OUT/crashes.txt"
+fi
+
 if [ "${DEVICE:-iphone}" = "duo" ]; then
   unfold_duo || echo "could not open the folded Duo (see logs/device-menu.txt)" >> "$OUT/crashes.txt"
 fi
@@ -339,10 +364,12 @@ for t in ${THEMES:-dark light syslight}; do
     dark) walk dark system dark ;;
     light) walk light system light ;;
     syslight) walk light system-light syslight ;;
+    # Any other name is an app theme (Settings > Appearance), e.g. hazy.
+    *) walk dark "$t" "$t" ;;
   esac
 done
 
-if [ "${DEVICE:-iphone}" != "iphone" ]; then
+if [ "${DEVICE:-iphone}" = "ipad" ] || [ "${DEVICE:-iphone}" = "duo" ]; then
   if turn_sideways; then
     walk dark system side-dark sideways
   else
