@@ -24,6 +24,7 @@ import { navigationRef } from "../../App";
 import { postLandingState, uploadPillRect } from "../../libs/postLanding";
 import { ScreenNames } from "../../navigation/ScreenNames";
 
+import { formatCount } from '../../libs/format-count';
 const PILL_BOTTOM_OFFSET = 80;
 const DISMISS_DELAY = 3000;
 
@@ -264,7 +265,7 @@ const UploadProgressPill: React.FC = () => {
                 </Text>
                 {activeCount > 1 && (
                   <View style={styles.countBadge}>
-                    <Text style={styles.countText}>{activeCount}</Text>
+                    <Text style={styles.countText}>{formatCount(activeCount)}</Text>
                   </View>
                 )}
               </View>

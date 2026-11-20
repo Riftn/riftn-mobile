@@ -52,6 +52,7 @@ import { compactCount } from "../Music/CinematicMusic";
 import { watchingNow } from "../../libs/viewers.util";
 import type { InfiniteVideoFeedHandle } from "./InfiniteVideoFeed";
 
+import { formatCount } from '../../libs/format-count';
 const AnimatedFlatList = Animated.FlatList as unknown as typeof FlatList;
 
 /** Same request, and so the same cache entry, as useLiveStreams. */
@@ -205,7 +206,7 @@ const StreamTile: React.FC<{ stream: Stream; width: number; onPress: () => void 
         {stream.viewers ? (
           <View style={styles.viewers}>
             <Icon name="Eye" size={10} color="#FFFFFF" />
-            <Text style={styles.viewersText}>{stream.viewers}</Text>
+            <Text style={styles.viewersText}>{formatCount(stream.viewers)}</Text>
           </View>
         ) : null}
       </View>

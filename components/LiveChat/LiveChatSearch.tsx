@@ -14,6 +14,7 @@ import {
   type LiveChatSearchResponse,
 } from "../../services/livechat.service";
 
+import { formatCount } from '../../libs/format-count';
 /** Where a chat's search reads from: the public chat by default, or a group's table. */
 export type ChatSearchSource = (params: { q?: string; from?: string; before?: string }) => Promise<LiveChatSearchResponse>;
 
@@ -177,7 +178,7 @@ const shortDate = (iso: string, lang?: string) => {
 const SectionLabel = ({ children, count }: { children: React.ReactNode; count?: React.ReactNode }) => (
   <View className="flex-row items-center justify-between px-4 pt-3 pb-1">
     <Text className="text-white/50 text-[11px] font-semibold uppercase" style={{ letterSpacing: 0.6 }}>{children}</Text>
-    {count != null ? <Text className="text-white/50 text-[11px] font-semibold">{count}</Text> : null}
+    {count != null ? <Text className="text-white/50 text-[11px] font-semibold">{typeof count === "number" || typeof count === "string" ? formatCount(count) : count}</Text> : null}
   </View>
 );
 

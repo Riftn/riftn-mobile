@@ -12,6 +12,7 @@ import Icon from "../ui/Icon";
 import { KeepDarkScope } from '../../libs/jsx/tone';
 import { optionalSkia } from '../../libs/skia';
 
+import { formatCount } from '../../libs/format-count';
 // A real blur on every phone. Builds without Skia keep the older look below.
 const SkiaArt = optionalSkia(() => require('./PinnedArtCanvas') as typeof import('./PinnedArtCanvas'));
 
@@ -68,7 +69,7 @@ export function PinnedCommunityStrip({ community, onOpen, onManagePins, onMore }
           <View style={styles.meta}>
             {onManagePins && <Icon name="Pin" size={12} color="#fff" />}
             <Text numberOfLines={1} style={styles.members}>
-              {onManagePins && `${t("comments.pinnedBadge")} · `}{community.member_count.toLocaleString()} {t("communities.members")}
+              {onManagePins && `${t("comments.pinnedBadge")} · `}{formatCount(community.member_count)} {t("communities.members")}
             </Text>
           </View>
         </View>

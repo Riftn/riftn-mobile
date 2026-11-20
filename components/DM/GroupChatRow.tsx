@@ -18,6 +18,7 @@ import { formatShortAgo } from "../../libs/date.util";
 import { roomPreviewLine } from "../../libs/room-chat-read";
 import type { RoomSummary } from "../../hooks/useRoomChatSummaries";
 
+import { formatCount } from '../../libs/format-count';
 const DEHUB_COIN = require("../../assets/web-icons/dehub-coin.png");
 
 export default function GroupChatRow({ community, onPress, onLongPress, selecting = false, checked = false, markedUnread = false, reactions = null, summary, me = "" }: {
@@ -42,7 +43,7 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
   const kind = communityKindOf(community);
   const kindIcon = kind === "channel" ? "Megaphone" : "Users";
   const price = entryPriceOf(community);
-  const formattedCount = (community.member_count ?? 0).toLocaleString("en-US");
+  const formattedCount = formatCount(community.member_count ?? 0);
   const subtitle = kind === "channel"
     ? t("communities.newChat.channelRow", { defaultValue: "Channel · {{formattedCount}} members", count: community.member_count ?? 0, formattedCount })
     : t("communities.newChat.groupRow", { defaultValue: "Group · {{formattedCount}} members", count: community.member_count ?? 0, formattedCount });

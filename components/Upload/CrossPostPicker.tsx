@@ -10,6 +10,7 @@ import { PLATFORM_NAMES, getMultipostStatus } from "../../services/multipost.ser
 import { creditsFor } from "../../libs/social-pricing";
 import { multipostQueryKey, platformIcon, useMultipostWallet } from "../Settings/MultiPostPanel";
 
+import { formatCount } from '../../libs/format-count';
 function useCrossPostAccounts() {
   const wallet = useMultipostWallet();
   const { selected } = useSnapshot(crossPostState);
@@ -70,7 +71,7 @@ export const CrossPostButton: React.FC<{ open: boolean; onToggle: () => void; on
           style={menuItem ? undefined : { top: -4, right: -4 }}
         >
           <Text className="text-black font-bold" style={{ fontSize: 10 }}>
-            {count}
+            {formatCount(count)}
           </Text>
         </View>
       )}

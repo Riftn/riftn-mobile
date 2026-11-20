@@ -57,6 +57,7 @@ import {
 } from "../../libs/reactions";
 import { ReactionEmoji } from "./ReactionEmoji";
 
+import { formatCount } from '../../libs/format-count';
 /** Wash over the iOS blur — dark enough that the white counts stay legible. */
 const IOS_GLASS_TINT = "rgba(8,8,10,0.55)";
 const SELECTED_BG = "#FFFFFF14";
@@ -270,7 +271,7 @@ const ReactionSheet: React.FC<ReactionPickerProps & { onClosed: () => void }> = 
                 <Pressable
                   key={reaction.key}
                   accessibilityRole="menuitem"
-                  accessibilityLabel={`${t(`reactionInfo.labels.${reaction.key}`, { defaultValue: reaction.label })}, ${count}`}
+                  accessibilityLabel={`${t(`reactionInfo.labels.${reaction.key}`, { defaultValue: reaction.label })}, ${formatCount(count)}`}
                   accessibilityState={{ selected }}
                   onPress={() => onSelect(reaction.key)}
                   style={({ pressed }) => [

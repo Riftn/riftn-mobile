@@ -42,6 +42,7 @@ import { useStageReminderFaces } from "../../hooks/useStageReminder";
 import { useAppTheme } from '../../context/ThemeContext';
 import GlassBackdrop from '../theme/GlassBackdrop';
 
+import { formatCount } from '../../libs/format-count';
 /**
  * Ceiling for a shared screen inside the sheet. A 16:9 box off the full width
  * is fine held upright, but the same box on a phone turned landscape is taller
@@ -777,7 +778,7 @@ const LiveStageModal: React.FC = () => {
               </View>
               {moreListeners > 0 && (
                 <Text style={{ color: "rgba(255,255,255,0.45)", fontSize: 12, marginLeft: 4 }}>
-                  +{moreListeners}
+                  +{formatCount(moreListeners)}
                 </Text>
               )}
               {/* Reminder holders who haven't arrived: dimmed, with a bell, so

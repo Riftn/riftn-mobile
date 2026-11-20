@@ -78,6 +78,7 @@ import { TipGemIcon } from "../Home/TipGemIcon";
 import { TipAmountChip } from "./TipWall";
 import { subscribePostTipped, commentTipKey } from "../../libs/tip-events";
 
+import { formatCount } from '../../libs/format-count';
 const ICON_MUTED = "#6F7174";
 const ICON_ACTIVE = "#F9FBFF";
 
@@ -968,7 +969,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
                   )}
                 </Animated.View>
                 {thumbCount > 0 && (
-                  <Text style={{ fontSize: 12, color: "#8B8D90" }}>{thumbCount}</Text>
+                  <Text style={{ fontSize: 12, color: "#8B8D90" }}>{formatCount(thumbCount)}</Text>
                 )}
               </Pressable>
             </View>

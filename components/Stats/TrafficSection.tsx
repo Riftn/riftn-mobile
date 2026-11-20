@@ -16,6 +16,7 @@ import { PageSection } from "../page/PageKit";
 import { getCountryFlag } from "../../libs/radio-browser";
 import { correctVisitors, smoothToday, summarizeTraffic, type SiteStatsBreakdownDay, type SiteStatsDay, type SiteStatsZone } from "../../libs/site-traffic";
 
+import { formatCount } from '../../libs/format-count';
 const ENDPOINT = "https://riftn.com/api/stats";
 
 type SiteStats =
@@ -29,8 +30,7 @@ async function fetchSiteStats(): Promise<SiteStats> {
   return body;
 }
 
-const compact = (n: number) =>
-  n < 1000 ? String(n) : n < 1_000_000 ? `${(n / 1000).toFixed(n < 10_000 ? 1 : 0)}K` : `${(n / 1_000_000).toFixed(1)}M`;
+const compact = (n: number) => formatCount(n);
 
 function VisitorsChart({ rows }: { rows: SiteStatsDay[] }) {
   const { width } = useWindowDimensions();

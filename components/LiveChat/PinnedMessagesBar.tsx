@@ -6,6 +6,7 @@ import ConfirmModal from "../common/ConfirmModal";
 import { resolveChatGif, gifCaption } from "../../libs/chat-gif";
 import type { LiveChatMessageData } from "../../services/livechat.service";
 
+import { formatCount } from '../../libs/format-count';
 interface PinnedMessagesBarProps {
   pinnedMessages: LiveChatMessageData[];
   onPinnedPress?: (msg: LiveChatMessageData) => void;
@@ -116,7 +117,7 @@ const PinnedMessagesBar: React.FC<PinnedMessagesBarProps> = ({
           </Text>
           {count > 1 && (
             <Text className="text-white/40 text-[11px]">
-              {safeIndex + 1}/{count}
+              {safeIndex + 1}/{formatCount(count)}
             </Text>
           )}
         </View>

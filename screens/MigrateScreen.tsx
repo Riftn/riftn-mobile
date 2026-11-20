@@ -65,6 +65,7 @@ import {
   type MigrationVideo,
 } from '../services/migration.service';
 
+import { formatCount } from '../libs/format-count';
 /** The last profile address pasted, so coming back does not mean typing a
  * channel URL on a phone keyboard again. */
 const PROFILE_URL_KEY = 'dehub:migrate:profile-url';
@@ -87,9 +88,7 @@ function formatDuration(seconds?: number): string | null {
 
 function formatViews(views?: number): string | null {
   if (!views || views <= 0) return null;
-  if (views >= 1_000_000) return `${(views / 1_000_000).toFixed(1)}M`;
-  if (views >= 1_000) return `${(views / 1_000).toFixed(1)}K`;
-  return String(views);
+  return formatCount(views);
 }
 
 /**
@@ -400,7 +399,7 @@ export default function MigrateScreen() {
               {!v.alreadyImported && hasOverride(v.youtubeVideoId) && (
                 <Text className="text-theme-neutrals-500 text-xs">{t('migrate.edited')}</Text>
               )}
-              {views && <Text className="text-theme-neutrals-400 text-xs">{views}</Text>}
+              {views && <Text className="text-theme-neutrals-400 text-xs">{formatCount(views)}</Text>}
             </View>
           </View>
 
@@ -621,7 +620,7 @@ export default function MigrateScreen() {
               return (
                 <View key={count} className="flex-row items-center justify-between py-2 border-b border-white/5">
                   <Text className="text-theme-neutrals-400 text-sm">
-                    {t('migrate.videosCount', { videos: count.toLocaleString() })}
+                    {t('migrate.videosCount', { videos: formatCount(count) })}
                   </Text>
                   <Text className="text-theme-neutrals-50 text-sm">
                     {tier.priceUsd === 0 ? t('migrate.free') : <>{tier.priceDhb.toLocaleString()} <DhbCoin size={14} /></>}

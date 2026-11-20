@@ -28,6 +28,7 @@ import { FEED_SIDE } from "../Home/feedLayout";
 import SectionHeader from "./SectionHeader";
 import StageCoverArt from "../Stages/StageCoverArt";
 
+import { formatCount } from '../../libs/format-count';
 export const StageCard: React.FC<{ space: AudioSpace; onPress: () => void; wide?: boolean }> = ({ space, onPress, wide = false }) => {
   const { t } = useTranslation();
   const heads = Math.max(1, (space.speaker_count || 1) + (space.listener_count || 0));
@@ -45,7 +46,7 @@ export const StageCard: React.FC<{ space: AudioSpace; onPress: () => void; wide?
         </View>
         <View style={styles.headRow}>
           <Icon name="Users" size={13} color="rgba(255,255,255,0.5)" />
-          <Text style={styles.headText}>{heads}</Text>
+          <Text style={styles.headText}>{formatCount(heads)}</Text>
         </View>
       </View>
 

@@ -40,6 +40,7 @@ import { supabase } from "../services/supabase";
 import { radius } from "../theme/radius";
 import type { AudioSpace } from "../hooks/useStages";
 
+import { formatCount } from '../libs/format-count';
 type Route = RouteProp<AppStackParamList, ScreenNames.StageRecording>;
 
 export default function StageRecordingScreen() {
@@ -124,12 +125,12 @@ export default function StageRecordingScreen() {
             <View style={styles.stats}>
               <View style={styles.stat}>
                 <Icon name="Users" size={15} color="rgba(255,255,255,0.5)" />
-                <Text style={styles.statValue}>{heads}</Text>
+                <Text style={styles.statValue}>{formatCount(heads)}</Text>
               </View>
               {typeof space.total_listens === "number" && (
                 <View style={styles.stat}>
                   <Icon name="Headphones" size={15} color="rgba(255,255,255,0.5)" />
-                  <Text style={styles.statValue}>{space.total_listens}</Text>
+                  <Text style={styles.statValue}>{formatCount(space.total_listens)}</Text>
                 </View>
               )}
               {!!duration && (

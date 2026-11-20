@@ -28,6 +28,7 @@ import { getThemeSkin, MONO_TEXT } from "../../theme/skins";
 import { useViewerTippedPost } from "../../hooks/useViewerTippedPost";
 import { useCellState } from "../../hooks/useCellState";
 
+import { formatCount as formatShortCount } from '../../libs/format-count';
 const ICON_ACTIVE = "#F9FBFF";
 const COUNT_COLOR = "#8B8D90";
 
@@ -193,7 +194,7 @@ const AnimatedActionButton: React.FC<{
       // announced, so "Comments" alone would lose the number entirely.
       accessibilityLabel={
         accessibilityLabel !== undefined && count !== undefined
-          ? `${accessibilityLabel}, ${count}`
+          ? `${accessibilityLabel}, ${formatShortCount(count)}`
           : accessibilityLabel
       }
       // `active` means reacted / reposted / saved depending on the
@@ -222,7 +223,8 @@ const AnimatedActionButton: React.FC<{
       )}
       {count !== undefined && (
         <Text style={[{ fontSize: 12, color: countColor || COUNT_COLOR }, mono]}>
-          {formatCount ? formatCompactNumber(count) : count}
+          {/* Always short (1.2K), whatever formatCount says. */}
+          {formatCompactNumber(count)}
         </Text>
       )}
     </AnimatedPressable>

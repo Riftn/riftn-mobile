@@ -125,7 +125,7 @@ describe('libs/numbers.util', () => {
     it('formats thousands with K suffix', () => {
       expect(formatCompactNumber(1000)).toBe('1K');
       expect(formatCompactNumber(1500)).toBe('1.5K');
-      expect(formatCompactNumber(999_999)).toBe('1000.0K');
+      expect(formatCompactNumber(999_999)).toBe('1M');
     });
 
     it('formats millions with M suffix', () => {

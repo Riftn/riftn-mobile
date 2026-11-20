@@ -24,6 +24,7 @@ import { isPositiveReaction, type PostReaction } from "../../libs/reactions";
 import { loadRequest, loadRequestComment, REQUEST_COMMENT_ACTIONABLE } from "../../libs/notification-request";
 import type { NotificationItem } from "../../services/user.service";
 
+import { formatCount } from '../../libs/format-count';
 const MUTED = "#8B8D90";
 
 type Row = NotificationItem & { customReferenceId?: string; customReferenceTitle?: string; customCommentId?: string };
@@ -235,7 +236,7 @@ function NotificationRequestCardBase({ item, onOpen, onEngaged, translate = fals
               style={{ flexDirection: "row", alignItems: "center", gap: 5, height: 32, paddingHorizontal: 8 }}
             >
               <Icon name="MessageSquare" size={17} color={replyOpen ? activeInk : MUTED} strokeWidth={1.8} />
-              {replyCount > 0 && <Text style={{ fontSize: 13, color: MUTED }}>{replyCount}</Text>}
+              {replyCount > 0 && <Text style={{ fontSize: 13, color: MUTED }}>{formatCount(replyCount)}</Text>}
             </Pressable>
           )}
           {isNew ? (
@@ -248,7 +249,7 @@ function NotificationRequestCardBase({ item, onOpen, onEngaged, translate = fals
               style={{ flexDirection: "row", alignItems: "center", gap: 4, height: 32, paddingHorizontal: 8 }}
             >
               <Icon name="ArrowUp" size={18} color={upvoted ? activeInk : MUTED} strokeWidth={upvoted ? 2.4 : 1.8} />
-              {voteCount > 0 && <Text style={{ fontSize: 13, color: upvoted ? activeInk : MUTED }}>{voteCount}</Text>}
+              {voteCount > 0 && <Text style={{ fontSize: 13, color: upvoted ? activeInk : MUTED }}>{formatCount(voteCount)}</Text>}
             </Pressable>
           ) : (
             !isOwn && (
@@ -261,7 +262,7 @@ function NotificationRequestCardBase({ item, onOpen, onEngaged, translate = fals
                 style={{ flexDirection: "row", alignItems: "center", gap: 5, height: 32, paddingHorizontal: 8 }}
               >
                 <Icon name="ThumbsUp" size={17} color={liked ? activeInk : MUTED} fill={liked ? activeInk : undefined} strokeWidth={1.8} />
-                {likes > 0 && <Text style={{ fontSize: 13, color: liked ? activeInk : MUTED }}>{likes}</Text>}
+                {likes > 0 && <Text style={{ fontSize: 13, color: liked ? activeInk : MUTED }}>{formatCount(likes)}</Text>}
               </Pressable>
             )
           )}

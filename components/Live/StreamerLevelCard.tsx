@@ -26,6 +26,7 @@ import { STREAMER_BADGE_IDS, badgeMaterial, streamerBadgeSvg } from "../../libs/
 import type { StreamerCardId, StreamerProgress } from "../../services/live.service";
 import { openStreamerShowcase } from "../../libs/badgeShowcase";
 
+import { formatCount } from '../../libs/format-count';
 /** How long the cards sheet takes to leave before the showcase takes the screen. */
 const SHEET_EXIT_MS = 320;
 
@@ -107,7 +108,7 @@ const StreamerLevelCard: React.FC<Props> = ({ address, className }) => {
               </Text>
             </View>
             <Text className="text-white/50 text-[11px] mt-1 leading-4">
-              {t("live.progress.xp", { xp: data.xp.toLocaleString() })}
+              {t("live.progress.xp", { xp: formatCount(data.xp) })}
               {" · "}
               {t("live.progress.hours", { hours: formatHours(data.qualifyingMinutes) })}
             </Text>
@@ -120,7 +121,7 @@ const StreamerLevelCard: React.FC<Props> = ({ address, className }) => {
             <Icon name="Layers" size={13} color="#ffffff" />
             <Text className="text-white text-xs ml-1.5">{t("live.progress.viewCards")}</Text>
             <Text className="text-white/50 text-xs ml-1.5">
-              {earnedCount}/{STREAMER_BADGE_IDS.length}
+              {formatCount(earnedCount)}/{STREAMER_BADGE_IDS.length}
             </Text>
           </TouchableOpacity>
         </View>

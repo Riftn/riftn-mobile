@@ -10,6 +10,7 @@ import Avatar from "../common/Avatar";
 import { getAvatarUrl } from "../../libs/misc";
 import { getPointsBoard } from "../../services/live.service";
 
+import { formatCount } from '../../libs/format-count';
 export function PointsSection({ address }: { address: string | null | undefined }) {
   const { t } = useTranslation();
   const { data, isLoading } = useQuery({
@@ -33,7 +34,7 @@ export function PointsSection({ address }: { address: string | null | undefined 
             <Text className="text-white text-sm flex-1" numberOfLines={1}>
               {r.displayName || r.username || `${r.address.slice(0, 6)}…`}
             </Text>
-            <Text className="text-theme-neutrals-300 text-sm">{t("liveOverlay.points", { count: r.points, formatted: r.points.toLocaleString() })}</Text>
+            <Text className="text-theme-neutrals-300 text-sm">{t("liveOverlay.points", { count: r.points, formatted: formatCount(r.points) })}</Text>
           </View>
         ))
       )}
