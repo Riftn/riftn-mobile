@@ -274,6 +274,22 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
   // The ad and the more-posts list under the comments are up to seven more
   // feed cards; mounting them in the first render held the push back.
   const transitionSettled = useTransitionSettled();
+  // A post seeded from the tapped card keeps that card through the push. The
+  // fresh copy from the fetch (new counts, same post) used to land mid-slide
+  // and rebuild the whole card under the animation; it now swaps in once the
+  // slide is over, together with the comments.
+  const restReady = transitionSettled || embedded;
+  const restReadyRef = useRef(restReady);
+  restReadyRef.current = restReady;
+  const hasItemRef = useRef(item != null);
+  hasItemRef.current = item != null;
+  const pendingItemRef = useRef<UnifiedFeedItem | null>(null);
+  useEffect(() => {
+    if (!restReady || !pendingItemRef.current) return;
+    const next = pendingItemRef.current;
+    pendingItemRef.current = null;
+    setItem(next);
+  }, [restReady]);
   const displayCommentCount = useCommentCount(tokenId, item?.commentCount ?? 0);
   const [comments, setComments] = useState<ThreadedComment[]>([]);
   // Whatever was left unsent last time, restored whole: the text and the reply
@@ -576,8 +592,9 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
       setPrivateError(false);
       setLoadError(null);
       
-      // Set the feed item
-      setItem(payload as UnifiedFeedItem);
+      // Set the feed item (after the push when the tapped card is already up)
+      if (hasItemRef.current && !restReadyRef.current) pendingItemRef.current = payload as UnifiedFeedItem;
+      else setItem(payload as UnifiedFeedItem);
       
       // Extract comments — backend now populates a nested `user` object
       // matching the Comment interface (user.username, user.displayName, etc.)
@@ -1723,7 +1740,10 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
           )}
         </View>
       ) : null}
-      {!!item && !leanPost && (
+      {/* The author's thread is comment rows: it joins the post once the push
+          has finished, with the rest of the comments, even when the comments
+          arrived during the slide. */}
+      {!!item && !leanPost && (transitionSettled || embedded) && (
         <AuthorThreadBlock
           entries={authorThreadEntries}
           renderRow={(c) => renderCommentItem({ item: c })}
@@ -1749,7 +1769,7 @@ function FeedDetailContent({ embeddedTokenId, onEmbeddedClose, bottomInset = 0 }
         </View>
       )}
     </View>
-  ), [item, authorThreadEntries, authorThreadTools, renderCommentItem, immersive, stage, loading, privateError, loadError, postUnavailable, fetchData, openCommentSheet, isMinimal, t, renderCommentTabs, handleTabRowLayout, handleStageAnchor, handleStageComment, handlePostBack, commentSort, commentSearchOpen, commentQuery, toggleCommentSearch, comments.length, setCommentQuery, noComments, leanPost]);
+  ), [item, authorThreadEntries, authorThreadTools, renderCommentItem, immersive, stage, loading, privateError, loadError, postUnavailable, fetchData, openCommentSheet, isMinimal, t, renderCommentTabs, handleTabRowLayout, handleStageAnchor, handleStageComment, handlePostBack, commentSort, commentSearchOpen, commentQuery, toggleCommentSearch, comments.length, setCommentQuery, noComments, leanPost, transitionSettled, embedded]);
 
   // The list is a pure component: it redraws its rows whenever one of its
   // props is a new object. Built inline, the header, footer, empty state and
