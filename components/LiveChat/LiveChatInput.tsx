@@ -472,7 +472,7 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
                 <ActivityIndicator size={18} color={composerActiveColor} />
               ) : (
                 <Icon
-                  name="Send"
+                  name={editingMessage ? "Check" : "Send"}
                   size={22}
                   color={canSubmit && !disabled && !cooldown && !isOverLimit ? composerActiveColor : "#52525B"}
                 />

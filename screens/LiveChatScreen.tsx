@@ -635,7 +635,10 @@ const LiveChatScreen: React.FC = () => {
   const handleSend = useCallback(
     async (content: string, replyTo?: string, audioUrl?: string, audioDuration?: number) => {
       if (editingMessage) {
-        if (!(await editMessage(editingMessage._id, content))) return false;
+        if (!(await editMessage(editingMessage._id, content))) {
+          toastError(t("liveChat.editFailed"));
+          return false;
+        }
         setEditingMessage(null);
         return true;
       }
@@ -673,7 +676,7 @@ const LiveChatScreen: React.FC = () => {
       setTimeout(() => scrollToBottom(true), 300);
       return true;
     },
-    [sendMessage, scrollToBottom, editingMessage, editMessage, attachment, replyingTo, setReplyingTo, hasNewer, goToLatest]
+    [sendMessage, scrollToBottom, editingMessage, editMessage, attachment, replyingTo, setReplyingTo, hasNewer, goToLatest, t]
   );
 
   const handleGifPicked = useCallback(
