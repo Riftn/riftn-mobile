@@ -39,6 +39,10 @@ const VideoCallModal: React.FC = () => {
   const isVideoCall = currentCall?.call_type === "video";
   const isVisible = (isCallActive || isConnecting) && isVideoCall && !!currentCall;
 
+  // Own camera sits just above the controls, and rises with them when subtitles show.
+  // Kept above the early return so the hook order never changes between renders.
+  const [footHeight, setFootHeight] = React.useState(0);
+
   if (!isVisible || isMinimized) return null;
 
   const live = !!remoteUid;
@@ -47,8 +51,6 @@ const VideoCallModal: React.FC = () => {
     : isConnecting
       ? t("calls.connecting")
       : <CallDuration fallback={t("calls.connected")} />;
-  // Own camera sits just above the controls, and rises with them when subtitles show.
-  const [footHeight, setFootHeight] = React.useState(0);
   const footClearance = footHeight ? footHeight + 12 : Math.max(22, insets.bottom + 10) + 132;
 
   return (

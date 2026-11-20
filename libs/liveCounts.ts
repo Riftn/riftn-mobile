@@ -41,6 +41,12 @@ export type RawFeedRow = Record<string, any>;
 const FEED_ROOTS = ["home-feed", "home-images", "home-shorts", "infinite-feed"];
 
 /**
+ * Query-key roots that hold ONE post as `{ result: row }` (the getNFT shape):
+ * the boosted posts at the top of Home and down it.
+ */
+export const SINGLE_POST_ROOTS = ["boosted-post"];
+
+/**
  * The only fields a background refresh may overwrite on a card already on
  * screen. Order, media and the viewer's own flags are left exactly as the
  * reader found them.
@@ -106,19 +112,9 @@ export function mergeLiveCounts(
 
         let pageChanged = false;
         const result = page.result.map((item) => {
-          const row = fresh.get(idOf(item));
-          if (!row) return item;
-
-          const patch: Record<string, unknown> = {};
-          for (const field of LIVE_COUNT_FIELDS) {
-            if (!(field in row)) continue;
-            if (sameCount(item[field], row[field])) continue;
-            patch[field] = row[field];
-          }
-          if (!Object.keys(patch).length) return item;
-
-          pageChanged = true;
-          return { ...item, ...patch };
+          const next = patchCounts(item, fresh);
+          if (next !== item) pageChanged = true;
+          return next;
         });
 
         if (!pageChanged) return page;
@@ -136,6 +132,38 @@ export function mergeLiveCounts(
       });
     }
   }
+
+  // The boosted posts Home deals in sit in caches of their own, one post each,
+  // and the organic copy is filtered out of the list so it never shows twice.
+  // Left out of this, the card at the top of Home kept the views and reactions
+  // it was first fetched with for as long as the app stayed open.
+  for (const root of SINGLE_POST_ROOTS) {
+    for (const query of queryClient.getQueryCache().findAll({ queryKey: [root] })) {
+      const data = query.state.data as { result?: RawFeedRow } | undefined;
+      const item = data?.result;
+      if (!item || typeof item !== "object") continue;
+      const next = patchCounts(item, fresh);
+      if (next === item) continue;
+      queryClient.setQueryData(query.queryKey, { ...data, result: next }, {
+        updatedAt: query.state.dataUpdatedAt,
+      });
+    }
+  }
+}
+
+/** Only the count fields that moved; the same object back when none did. */
+function patchCounts(item: RawFeedRow, fresh: Map<string, RawFeedRow>): RawFeedRow {
+  const row = fresh.get(idOf(item));
+  if (!row) return item;
+
+  const patch: Record<string, unknown> = {};
+  for (const field of LIVE_COUNT_FIELDS) {
+    if (!(field in row)) continue;
+    if (sameCount(item[field], row[field])) continue;
+    patch[field] = row[field];
+  }
+  if (!Object.keys(patch).length) return item;
+  return { ...item, ...patch };
 }
 
 export default mergeLiveCounts;

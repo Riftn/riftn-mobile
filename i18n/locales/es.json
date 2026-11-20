@@ -903,6 +903,7 @@
     "postCount_other": "{{count}} publicaciones"
   },
   "settings": {
+    "arrivalLook": {"title": "Al iniciar sesión", "desc": "Lo que se ve mientras carga tu cuenta, antes de que tu foto llegue a la página. En este dispositivo.", "rift": "Grieta", "trace": "Trazo", "frame": "Marco de foto", "orbit": "Órbita"},
     "chatDeleteChoice": "Al eliminar un mensaje",
     "chatDeleteChoiceDesc": "Preguntar siempre, o eliminar siempre solo para ti o para todos en el chat.",
     "chatDeleteAsk": "Preguntar siempre",
@@ -1621,8 +1622,7 @@
       "tube": "TV de tubo",
       "vhs": "Cinta VHS",
       "led": "Pantalla LED",
-      "holo": "Holograma"
-    }
+      "holo": "Holograma", "neon": "Neón", "3d": "3D", "flat": "Plano"}
   },
   "common": {
     "loadMore": "Cargar más",

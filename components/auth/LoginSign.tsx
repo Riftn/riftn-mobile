@@ -7,7 +7,7 @@ import { KeepDarkScope } from "../../libs/jsx/tone";
 import type { LoginLook } from "../../libs/login-look";
 
 /**
- * The Riftn wordmark and the sign-in headline as one lit sign, in one of four
+ * The Riftn wordmark and the sign-in headline as one lit sign, in one of seven
  * looks (picked in Settings → Appearance, libs/login-look). Same looks, timings
  * and colours as web's `.login-stack__title[data-look]` (src/styles/login-stack.css):
  *
@@ -18,6 +18,9 @@ import type { LoginLook } from "../../libs/login-look";
  * - led: letters built from light dots, slogan in capitals, dark lines rolling up.
  * - holo: thin wide capitals, cool lines racing up, a bright scan line climbing,
  *   and the sign leaning and snapping back in short glitches.
+ * - neon: a solid bright tube with a wide coloured glow, buzzing now and then.
+ * - 3d: chunky letters lit from above with a solid side, slowly turning.
+ * - flat: plain solid letters, nothing moving.
  *
  * Everything moves on the native driver. Every loop climbs a whole number of
  * lines, so it never jumps. Reduced motion holds a still frame.
@@ -112,11 +115,36 @@ function Lines({ pitch, height, colors, locations }: { pitch: number; height: nu
   );
 }
 
-const ROLL_MS: Record<LoginLook, number> = { tube: 6000, vhs: 3000, led: 2400, holo: 2000 };
+const ROLL_MS: Partial<Record<LoginLook, number>> = { tube: 6000, vhs: 3000, led: 2400, holo: 2000 };
+
+/** The colours of the three solid looks (neon, 3d, flat), as on web. */
+type Solid = { face: [string, string]; glow: string | null; side: [string, string] | null };
+function solidColors(look: LoginLook, theme: string, isLight: boolean, p: Palette): Solid {
+  if (look === "neon") {
+    const neon = isLight ? "#E0249A" : theme === "hazy" ? "#B48CFF" : theme === "osaka" ? "#FF5FAE" : "#FF4FD8";
+    const core = isLight ? mix(neon, "#FFFFFF", 0.7) : mix(neon, "#FFFFFF", 0.22);
+    return { face: [core, core], glow: neon, side: null };
+  }
+  if (look === "3d") {
+    if (isLight) return { face: ["#2A2B33", "#0B0B0D"], glow: null, side: ["#9A9BA6", "#C8C9D1"] };
+    const [low, side, sideLow] =
+      theme === "hazy" ? ["#D9C8FF", "#5B3E98", "#2A1A4C"]
+      : theme === "osaka" ? ["#FFD0E7", "#9C2F66", "#4A1230"]
+      : ["#C9CCD6", "#4A4C57", "#23242B"];
+    return { face: ["#FFFFFF", low], glow: null, side: [side, sideLow] };
+  }
+  return { face: [p.ink, p.ink], glow: null, side: null };
+}
+const SOLID: LoginLook[] = ["neon", "3d", "flat"];
+/** How deep the 3D letters are, in 1pt steps. */
+const DEPTH = 5;
 
 /** What shows inside the letters, for an area `height` tall. */
-function Fill({ look, p, height, roll, small }: { look: LoginLook; p: Palette; height: number; roll: Animated.Value; small: boolean }) {
+function Fill({ look, p, height, roll, small, solid }: { look: LoginLook; p: Palette; height: number; roll: Animated.Value; small: boolean; solid?: Solid }) {
   const move = (from: number, to: number) => ({ transform: [{ translateY: roll.interpolate({ inputRange: [0, 1], outputRange: [from, to] }) }] });
+  if (solid) {
+    return <LinearGradient colors={solid.face} locations={[0.3, 1]} style={StyleSheet.absoluteFill} />;
+  }
   if (look === "tube") {
     const pitch = small ? 8 : 6;
     return (
@@ -168,24 +196,33 @@ function Fill({ look, p, height, roll, small }: { look: LoginLook; p: Palette; h
 function headlineStyle(look: LoginLook): TextStyle {
   if (look === "led") return { fontSize: 24, lineHeight: 27, fontWeight: "800", letterSpacing: 0.24, textTransform: "uppercase" };
   if (look === "holo") return { fontSize: 20, lineHeight: 30, fontWeight: "600", letterSpacing: 2.6, textTransform: "uppercase" };
+  if (look === "neon" || look === "flat") return { fontSize: 30, lineHeight: 32, fontWeight: "800", letterSpacing: 0 };
+  if (look === "3d") return { fontSize: 30, lineHeight: 32, fontWeight: "900", letterSpacing: -0.3 };
   return { fontSize: 30, lineHeight: 32, fontWeight: "900", letterSpacing: -0.6 };
 }
 
 /** The sign itself: wordmark above the headline. Drawn twice for the VHS tear. */
-function SignBody({ look, p, text, roll, copy }: { look: LoginLook; p: Palette; text: string; roll: Animated.Value; copy?: boolean }) {
+function SignBody({ look, p, text, roll, copy, solid }: { look: LoginLook; p: Palette; text: string; roll: Animated.Value; copy?: boolean; solid?: Solid }) {
   const { t } = useTranslation();
   const hl = headlineStyle(look);
   const lines = text.split("\n").length;
   const textH = (hl.lineHeight ?? 32) * lines;
   const edges = look === "vhs";
-  const halo = p.halo && !edges;
+  // Neon has its own glow; 3D and Flat have none.
+  const glow = solid ? solid.glow : p.halo && !edges ? p.halo : null;
+  const halo = !!glow;
+  const depth = solid?.side ? Array.from({ length: DEPTH }, (_, i) => DEPTH - i) : [];
+  const sideAt = (step: number) => (step > 2 ? solid!.side![1] : solid!.side![0]);
   const hidden = { accessibilityElementsHidden: true, importantForAccessibility: "no-hide-descendants" as const };
   return (
     <View>
       <View style={styles.mark} pointerEvents="none" {...(copy ? hidden : { accessible: true, accessibilityRole: "image" as const, accessibilityLabel: t("maintenance.brand") })}>
         {halo && (
-          <Image source={HALO} resizeMode="contain" style={[styles.halo, { tintColor: p.halo!, opacity: look === "holo" ? 0.42 : 0.3 }]} {...hidden} />
+          <Image source={HALO} resizeMode="contain" style={[styles.halo, { tintColor: glow!, opacity: look === "neon" ? 0.95 : look === "holo" ? 0.42 : 0.3 }]} {...hidden} />
         )}
+        {depth.map((step) => (
+          <Image key={step} source={WORDMARK} resizeMode="contain" style={[styles.markImg, { tintColor: sideAt(step), transform: [{ translateX: step }, { translateY: step }] }]} {...hidden} />
+        ))}
         {edges && (
           <>
             <Image source={WORDMARK} resizeMode="contain" style={[styles.markImg, { tintColor: TV_RED, transform: [{ translateX: -1.5 }] }]} {...hidden} />
@@ -193,10 +230,13 @@ function SignBody({ look, p, text, roll, copy }: { look: LoginLook; p: Palette; 
           </>
         )}
         <MaskedView style={StyleSheet.absoluteFill} maskElement={<Image source={WORDMARK} resizeMode="contain" style={styles.markImg} />} {...hidden}>
-          <Fill look={look} p={p} height={MARK_H} roll={roll} small={false} />
+          <Fill look={look} p={p} height={MARK_H} roll={roll} small={false} solid={solid} />
         </MaskedView>
       </View>
       <View>
+        {depth.map((step) => (
+          <Text key={step} style={[styles.text, hl, styles.edge, { color: sideAt(step), transform: [{ translateX: step }, { translateY: step }] }]} {...hidden}>{text}</Text>
+        ))}
         {edges && (
           <>
             <Text style={[styles.text, hl, styles.edge, { color: TV_RED, transform: [{ translateX: -1.5 }] }]} {...hidden}>{text}</Text>
@@ -211,15 +251,15 @@ function SignBody({ look, p, text, roll, copy }: { look: LoginLook; p: Palette; 
             styles.text,
             hl,
             styles.glowRoom,
-            { color: look === "holo" ? p.holoLow : p.low },
-            halo ? { textShadowColor: p.halo!, textShadowOffset: { width: 0, height: 0 }, textShadowRadius: 6 } : null,
+            { color: solid ? solid.face[1] : look === "holo" ? p.holoLow : p.low },
+            halo ? { textShadowColor: glow!, textShadowOffset: { width: 0, height: 0 }, textShadowRadius: look === "neon" ? 14 : 6 } : null,
           ]}
           {...(copy ? hidden : { accessibilityRole: "header" as const })}
         >
           {text}
         </Text>
         <MaskedView style={StyleSheet.absoluteFill} maskElement={<Text style={[styles.text, hl, styles.maskText]}>{text}</Text>} pointerEvents="none" {...hidden}>
-          <Fill look={look} p={p} height={textH} roll={roll} small />
+          <Fill look={look} p={p} height={textH} roll={roll} small solid={solid} />
         </MaskedView>
       </View>
     </View>
@@ -240,10 +280,16 @@ const TV_STEPS: [number, number, number][] = [
 const HOLO_LOOP_MS = 4200;
 const HOLO_STEPS: [number, number, number][] = [[84, -10, 4], [85.5, 6, -3], [87, 0, 0], [93, -4, 2], [94, 0, 0]];
 
+/** Neon buzz on a 5.2s loop: [percent, opacity, x], as web's ls-neon-buzz. */
+const NEON_LOOP_MS = 5200;
+const NEON_STEPS: [number, number, number][] = [[61, 0.55, 0], [62, 1, 0], [64, 0.4, 0], [65.5, 1, 0], [88, 0.86, 0], [89, 1, 0]];
+
 function useSteps(steps: [number, number, number][], loopMs: number, still: boolean) {
-  const a = useRef(new Animated.Value(steps === TV_STEPS ? 1 : 0)).current;
+  const a = useRef(new Animated.Value(steps === HOLO_STEPS ? 0 : 1)).current;
   const x = useRef(new Animated.Value(0)).current;
   useEffect(() => {
+    a.setValue(steps === HOLO_STEPS ? 0 : 1);
+    x.setValue(0);
     if (still) return;
     let at = 0;
     const beats: Animated.CompositeAnimation[] = [];
@@ -292,6 +338,23 @@ function useTear(on: boolean) {
   return { y, shift, shown };
 }
 
+/** 3D: the sign turns slowly side to side, 7s each way, eased, as web's ls-3d-turn. */
+function useTurn(on: boolean) {
+  const v = useRef(new Animated.Value(0.5)).current;
+  useEffect(() => {
+    v.setValue(on ? 0 : 0.5);
+    if (!on) return;
+    const ease = Easing.inOut(Easing.quad);
+    const anim = Animated.loop(Animated.sequence([
+      Animated.timing(v, { toValue: 1, duration: 7000, easing: ease, useNativeDriver: true }),
+      Animated.timing(v, { toValue: 0, duration: 7000, easing: ease, useNativeDriver: true }),
+    ]));
+    anim.start();
+    return () => anim.stop();
+  }, [on, v]);
+  return v;
+}
+
 export default function LoginSign({ look, text, theme, isLight, still, style }: {
   look: LoginLook;
   /** Both headline lines, joined with "\n". */
@@ -302,8 +365,12 @@ export default function LoginSign({ look, text, theme, isLight, still, style }: 
   style?: object;
 }) {
   const p = signPalette(theme, isLight);
-  const roll = useLoop(ROLL_MS[look], still);
-  const [opacity, twitch] = useSteps(TV_STEPS, TV_LOOP_MS, still);
+  const solid = SOLID.includes(look) ? solidColors(look, theme, isLight, p) : undefined;
+  const roll = useLoop(ROLL_MS[look] ?? 1000, still || !!solid);
+  const neon = look === "neon";
+  // The TV flicker (or the neon buzz); 3D and Flat hold steady.
+  const [opacity, twitch] = useSteps(neon ? NEON_STEPS : TV_STEPS, neon ? NEON_LOOP_MS : TV_LOOP_MS, still || look === "3d" || look === "flat");
+  const turn = useTurn(look === "3d" && !still);
   const [skew, glitchX] = useSteps(HOLO_STEPS, HOLO_LOOP_MS, still || look !== "holo");
   const tear = useTear(look === "vhs" && !still);
   return (
@@ -311,9 +378,13 @@ export default function LoginSign({ look, text, theme, isLight, still, style }: 
       {/* Colours are written for the final tone already. */}
       <KeepDarkScope>
         <Animated.View
-          style={look === "holo" ? { transform: [{ translateX: glitchX }, { skewX: skew.interpolate({ inputRange: [-10, 10], outputRange: ["-10deg", "10deg"] }) }] } : null}
+          style={
+            look === "holo" ? { transform: [{ translateX: glitchX }, { skewX: skew.interpolate({ inputRange: [-10, 10], outputRange: ["-10deg", "10deg"] }) }] }
+            : look === "3d" ? { transform: [{ perspective: 700 }, { rotateX: "12deg" }, { rotateY: turn.interpolate({ inputRange: [0, 1], outputRange: ["-16deg", "16deg"] }) }] }
+            : null
+          }
         >
-          <SignBody look={look} p={p} text={text} roll={roll} />
+          <SignBody look={look} p={p} text={text} roll={roll} solid={solid} />
           {look === "vhs" && !still && (
             <Animated.View pointerEvents="none" style={[styles.tearClip, { opacity: tear.shown, transform: [{ translateY: tear.y }] }]}>
               <Animated.View style={[styles.tearCopy, { transform: [{ translateY: Animated.multiply(tear.y, -1) }, { translateX: tear.shift }] }]}>

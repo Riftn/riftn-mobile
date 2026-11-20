@@ -3188,6 +3188,7 @@
     "postCount_other": "{{count}} post"
   },
   "settings": {
+    "loginLook": {"title": "Schermata di accesso", "desc": "Come si muovono il logo e lo slogan di Riftn nella schermata di accesso su questo dispositivo.", "tube": "TV a tubo", "vhs": "Cassetta VHS", "led": "Parete LED", "holo": "Ologramma", "neon": "Neon", "3d": "3D", "flat": "Piatto"}, "arrivalLook": {"title": "Dopo l'accesso", "desc": "Cosa vedi mentre il tuo account si carica, prima che la tua foto arrivi sulla pagina. Su questo dispositivo.", "rift": "Squarcio", "trace": "Traccia", "frame": "Cornice", "orbit": "Orbita"},
     "glass": "Glassy",
     "shortsEnabled": "Pantaloncini",
     "shortsEnabledDesc": "Mostra la scheda Feed dei pantaloncini e i caroselli dei pantaloncini su Home.",

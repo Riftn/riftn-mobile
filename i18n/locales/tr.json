@@ -903,6 +903,7 @@
     "postCount_other": "{{count}} gönderi"
   },
   "settings": {
+    "arrivalLook": {"title": "Giriş yaptıktan sonra", "desc": "Hesabın yüklenirken, fotoğrafın sayfaya inmeden önce oynayan animasyon. Bu cihazda.", "rift": "Yarık", "trace": "İz", "frame": "Fotoğraf çerçevesi", "orbit": "Yörünge"},
     "chatDeleteChoice": "Bir mesajı sildiğinde",
     "chatDeleteChoiceDesc": "Her seferinde sor ya da her zaman yalnızca senin için veya sohbetteki herkes için sil.",
     "chatDeleteAsk": "Her seferinde sor",
@@ -1621,8 +1622,7 @@
       "tube": "Tüplü TV",
       "vhs": "VHS kaset",
       "led": "LED duvar",
-      "holo": "Hologram"
-    }
+      "holo": "Hologram", "neon": "Neon ışık", "3d": "3D", "flat": "Düz"}
   },
   "common": {
     "loadMore": "Daha fazla yükle",
