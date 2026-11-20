@@ -4995,7 +4995,7 @@
     "edit": "แก้ไข",
     "deleteRequestTitle": "ลบคำขอนี้ไหม",
     "deleteRequestDescription": "การกระทำนี้ย้อนกลับไม่ได้",
-    "attachmentTooLarge": "แต่ละไฟล์ต้องเล็กกว่า 50MB",
+    "attachmentTooLarge": "แต่ละไฟล์ต้องเล็กกว่า 200MB",
     "deleteCommentA11y": "ลบความคิดเห็น",
     "sendCommentA11y": "ส่งความคิดเห็น",
     "requestOptions": "ตัวเลือกคำขอ",

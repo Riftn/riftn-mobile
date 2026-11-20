@@ -4983,7 +4983,7 @@
     "edit": "Sửa",
     "deleteRequestTitle": "Xóa yêu cầu này?",
     "deleteRequestDescription": "Không thể hoàn tác.",
-    "attachmentTooLarge": "Mỗi tệp phải nhỏ hơn 50MB",
+    "attachmentTooLarge": "Mỗi tệp phải nhỏ hơn 200MB",
     "deleteCommentA11y": "Xóa nhận xét",
     "sendCommentA11y": "Gửi bình luận",
     "requestOptions": "Tùy chọn yêu cầu",

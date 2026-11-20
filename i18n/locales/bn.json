@@ -4946,7 +4946,7 @@
     "edit": "সম্পাদনা",
     "deleteRequestTitle": "এই অনুরোধ মুছবেন?",
     "deleteRequestDescription": "এটি ফেরানো যাবে না।",
-    "attachmentTooLarge": "প্রতিটি ফাইল 50MB-এর কম হতে হবে",
+    "attachmentTooLarge": "প্রতিটি ফাইল 200MB-এর কম হতে হবে",
     "deleteCommentA11y": "মন্তব্য মুছুন",
     "sendCommentA11y": "একটি মন্তব্য করুন",
     "requestOptions": "বিকল্পগুলি অনুরোধ করুন",

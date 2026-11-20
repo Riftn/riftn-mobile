@@ -4945,7 +4945,7 @@
     "edit": "Засах",
     "deleteRequestTitle": "Энэ хүсэлтийг устгах уу?",
     "deleteRequestDescription": "Үүнийг буцаах боломжгүй.",
-    "attachmentTooLarge": "Файл бүр 50MB-аас бага байх ёстой",
+    "attachmentTooLarge": "Файл бүр 200MB-аас бага байх ёстой",
     "sendCommentA11y": "Сэтгэгдэл илгээх",
     "requestOptions": "Хүсэлтийн сонголтууд",
     "deleteCommentA11y": "Сэтгэгдэл устгах",

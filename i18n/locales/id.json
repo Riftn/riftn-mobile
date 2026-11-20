@@ -4972,7 +4972,7 @@
     "edit": "Ubah",
     "deleteRequestTitle": "Hapus permintaan ini?",
     "deleteRequestDescription": "Ini tidak bisa dibatalkan.",
-    "attachmentTooLarge": "Setiap berkas harus di bawah 50MB",
+    "attachmentTooLarge": "Setiap berkas harus di bawah 200MB",
     "deleteCommentA11y": "Hapus Komentar",
     "sendCommentA11y": "Kirim komentar",
     "requestOptions": "Opsi permintaan",

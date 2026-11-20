@@ -4946,7 +4946,7 @@
     "edit": "Editează",
     "deleteRequestTitle": "Ștergi această cerere?",
     "deleteRequestDescription": "Asta nu se poate anula.",
-    "attachmentTooLarge": "Fiecare fișier trebuie să fie sub 50 MB",
+    "attachmentTooLarge": "Fiecare fișier trebuie să fie sub 200 MB",
     "deleteCommentA11y": "Ștergere comentariu",
     "sendCommentA11y": "Trimite comentariu",
     "requestOptions": "Opțiuni de solicitare",

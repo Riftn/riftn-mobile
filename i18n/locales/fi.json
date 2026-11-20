@@ -4945,7 +4945,7 @@
     "edit": "Muokkaa",
     "deleteRequestTitle": "Poistetaanko tämä pyyntö?",
     "deleteRequestDescription": "Tätä ei voi perua.",
-    "attachmentTooLarge": "Jokaisen tiedoston on oltava alle 50 Mt",
+    "attachmentTooLarge": "Jokaisen tiedoston on oltava alle 200 Mt",
     "deleteCommentA11y": "Poista kommentti",
     "sendCommentA11y": "Lähetä kommentti",
     "requestOptions": "Pyyntövaihtoehdot",

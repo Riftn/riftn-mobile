@@ -4945,7 +4945,7 @@
     "edit": "Rediger",
     "deleteRequestTitle": "Slette denne forespørselen?",
     "deleteRequestDescription": "Dette kan ikke angres.",
-    "attachmentTooLarge": "Hver fil må være under 50 MB",
+    "attachmentTooLarge": "Hver fil må være under 200 MB",
     "deleteCommentA11y": "Slett kommentar",
     "sendCommentA11y": "send kommentar",
     "requestOptions": "Forespørselsalternativer",

@@ -4972,7 +4972,7 @@
     "edit": "עריכה",
     "deleteRequestTitle": "למחוק את הבקשה הזו?",
     "deleteRequestDescription": "אי אפשר לבטל את זה.",
-    "attachmentTooLarge": "כל קובץ חייב להיות מתחת ל-50MB",
+    "attachmentTooLarge": "כל קובץ חייב להיות מתחת ל-200MB",
     "deleteCommentA11y": "מחק הערה",
     "sendCommentA11y": "שלח תגובה",
     "requestOptions": "אפשרויות בקשה",

@@ -4946,7 +4946,7 @@
     "edit": "Upravit",
     "deleteRequestTitle": "Smazat tento požadavek?",
     "deleteRequestDescription": "Tohle nejde vrátit.",
-    "attachmentTooLarge": "Každý soubor musí mít méně než 50 MB",
+    "attachmentTooLarge": "Každý soubor musí mít méně než 200 MB",
     "deleteCommentA11y": "Odstranit komentář",
     "sendCommentA11y": "Odeslat komentář",
     "requestOptions": "Možnosti žádosti",

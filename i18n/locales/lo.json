@@ -4945,7 +4945,7 @@
     "edit": "ແກ້ໄຂ",
     "deleteRequestTitle": "ລຶບຄຳຂໍນີ້ບໍ?",
     "deleteRequestDescription": "ບໍ່ສາມາດຍົກເລີກໄດ້.",
-    "attachmentTooLarge": "ແຕ່ລະໄຟລ໌ຕ້ອງນ້ອຍກວ່າ 50MB",
+    "attachmentTooLarge": "ແຕ່ລະໄຟລ໌ຕ້ອງນ້ອຍກວ່າ 200MB",
     "deleteCommentA11y": "ລົບຄຳຄິດເຫັນ",
     "sendCommentA11y": "ສົ່ງຄຳຄິດເຫັນ",
     "requestOptions": "ທາງເລືອກການຮ້ອງຂໍ",

@@ -4822,7 +4822,7 @@
     "edit": "编辑",
     "deleteRequestTitle": "删除该需求？",
     "deleteRequestDescription": "此操作无法撤销。",
-    "attachmentTooLarge": "每个文件需小于 50MB",
+    "attachmentTooLarge": "每个文件需小于 200MB",
     "deleteCommentA11y": "删除评论",
     "sendCommentA11y": "发送",
     "requestOptions": "请求选项",

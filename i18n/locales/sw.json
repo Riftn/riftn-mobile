@@ -4973,7 +4973,7 @@
     "edit": "Hariri",
     "deleteRequestTitle": "Futa ombi hili?",
     "deleteRequestDescription": "Hili haliwezi kutenduliwa.",
-    "attachmentTooLarge": "Kila faili lazima liwe chini ya MB 50",
+    "attachmentTooLarge": "Kila faili lazima liwe chini ya MB 200",
     "deleteCommentA11y": "Futa maoni",
     "sendCommentA11y": "Tuma maoni",
     "requestOptions": "Omba machaguo",

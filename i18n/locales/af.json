@@ -4968,7 +4968,7 @@
     "edit": "Wysig",
     "deleteRequestTitle": "Vee hierdie versoek uit?",
     "deleteRequestDescription": "Dit kan nie ongedaan gemaak word nie.",
-    "attachmentTooLarge": "Elke lêer moet kleiner as 50MB wees",
+    "attachmentTooLarge": "Elke lêer moet kleiner as 200MB wees",
     "deleteCommentA11y": "Skrap kommentaar",
     "sendCommentA11y": "Stuur kommentaar",
     "requestOptions": "Versoek opsies",

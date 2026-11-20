@@ -4971,7 +4971,7 @@
     "edit": "સંપાદિત કરો",
     "deleteRequestTitle": "આ વિનંતી કાઢી નાખવી?",
     "deleteRequestDescription": "આ પાછું લઈ શકાશે નહીં.",
-    "attachmentTooLarge": "દરેક ફાઇલ 50MB થી ઓછી હોવી જોઈએ",
+    "attachmentTooLarge": "દરેક ફાઇલ 200MB થી ઓછી હોવી જોઈએ",
     "deleteCommentA11y": "ટિપ્પણી કાઢી નાખો",
     "sendCommentA11y": "ટિપ્પણી મોકલો",
     "requestOptions": "વિનંતી વિકલ્પો",

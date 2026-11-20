@@ -4978,7 +4978,7 @@
     "edit": "संपादित करें",
     "deleteRequestTitle": "यह अनुरोध हटाएँ?",
     "deleteRequestDescription": "इसे पलटा नहीं जा सकता।",
-    "attachmentTooLarge": "हर फ़ाइल 50MB से कम होनी चाहिए",
+    "attachmentTooLarge": "हर फ़ाइल 200MB से कम होनी चाहिए",
     "deleteCommentA11y": "इस टिप्पणी को हटाना",
     "sendCommentA11y": "टिप्पणी भेजें",
     "requestOptions": "अनुरोध के विकल्प",

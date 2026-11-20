@@ -240,14 +240,16 @@ const Attachments: React.FC<{ feature: FeatureRequest }> = ({ feature }) => {
 
 /**
  * A video attached to a request. It used to be handed to the image view,
- * which can't draw a video, so it showed black and never played. The player
- * is only made on tap, so a long board doesn't open one per video.
+ * which can't draw a video, so it showed black and never played. No player
+ * is made on the board itself, so a long board doesn't open one per video.
  */
 const RequestVideo: React.FC<{ url: string; badge: number }> = ({ url, badge }) => {
-  const [playing, setPlaying] = useState(false);
-  if (playing) return <RequestVideoPlayer url={url} />;
+  const navigation = useNavigation<any>();
+  // Tiles are small, so a tap opens the clip full screen with the normal
+  // player controls; closing it lands back on the same card.
+  const open = () => navigation.navigate(ScreenNames.FullscreenVideo, { videoUrl: url, downloadUrl: url, startTime: 0, noShorts: true });
   return (
-    <Pressable onPress={() => setPlaying(true)} style={StyleSheet.absoluteFill} accessibilityRole="button">
+    <Pressable onPress={open} style={StyleSheet.absoluteFill} accessibilityRole="button">
       <View className="dark-surface" style={styles.playBadge}>
         <Icon name="Play" size={badge} color="#FFFFFF" />
       </View>
@@ -749,7 +751,7 @@ const PromptComposer: React.FC<{
         if (size !== null && size > MAX_FEATURE_ATTACHMENT_BYTES) continue;
         accepted.push({ uri: asset.uri, mimeType: asset.mimeType, fileName: asset.fileName });
       }
-      if (accepted.length < assets.length) toastWarning(t("features.attachmentTooLarge", "Each file must be under 50MB"));
+      if (accepted.length < assets.length) toastWarning(t("features.attachmentTooLarge", "Each file must be under 200MB"));
       setAttachments(prev => [...prev, ...accepted].slice(0, MAX_FEATURE_ATTACHMENTS));
     });
   }, [attachments.length, submitting, t]);

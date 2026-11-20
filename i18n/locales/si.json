@@ -4958,7 +4958,7 @@
     "edit": "සංස්කරණය",
     "deleteRequestTitle": "මෙම ඉල්ලීම මකන්නද?",
     "deleteRequestDescription": "මෙය ආපසු හැරවිය නොහැක.",
-    "attachmentTooLarge": "එක් ගොනුවක් 50MB ට අඩු විය යුතුය",
+    "attachmentTooLarge": "එක් ගොනුවක් 200MB ට අඩු විය යුතුය",
     "deleteCommentA11y": "අදහස මකන්න",
     "sendCommentA11y": "පණිවිඩයක් යවන්න",
     "requestOptions": "විකල්ප ඉල්ලන්න",

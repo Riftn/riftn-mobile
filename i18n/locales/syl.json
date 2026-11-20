@@ -5042,7 +5042,7 @@
     "edit": "সম্পাদনা করউক্কা",
     "deleteRequestTitle": "এই অনুরোধ মুছবা নি?",
     "deleteRequestDescription": "ইটা ফিরানো যাইতো না।",
-    "attachmentTooLarge": "প্রত্যেক ফাইল ৫০MB-র কম অইতে অইবো",
+    "attachmentTooLarge": "প্রত্যেক ফাইল ২০০MB-র কম অইতে অইবো",
     "decentralized": "বিকেন্দ্রীকৃত",
     "encrypted": "এনক্রিপ্টেড",
     "openSource": "ওপেন সোর্স",
