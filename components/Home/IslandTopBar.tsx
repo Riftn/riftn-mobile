@@ -17,6 +17,7 @@ import { getAvatarUrl } from "../../libs/misc";
 import { useFeedNavItems } from "./FeedNavBar";
 import FeedPillPullEffect from './FeedPillPullEffect';
 import type { HomePullMotion } from '../../context/HomePullRefreshContext';
+import { HeaderAccountButton } from "./HeaderAccountButton";
 
 // Use the same padded artwork and image box as the web capsule.
 const MARK = require("../../assets/web-icons/dehub-island-logo.png");
@@ -95,14 +96,13 @@ export const IslandCapsule = memo(function IslandCapsule({
   const feedNavItems = useFeedNavItems();
   const tab = feedNavItems[activeIndex] ?? feedNavItems[0];
   const label = t(TAB_LABEL_KEYS[tab.postType] ?? "feed.home");
-  // Both controls have a fixed 28pt box. Avoid feeding Android layout
-  // measurements back into their parent width on every layout pass.
-  const side = AVATAR_SIZE;
+  const side = isSignedIn ? AVATAR_SIZE : 44;
+  const capsuleWidth = ISLAND_CAPSULE_WIDTH + 2 * (side - AVATAR_SIZE);
   return (
     <View pointerEvents="box-none" style={styles.wrap}>
-      <View style={[styles.capsule, { maxWidth: screenWidth - 32, opacity: side ? 1 : 0 }]}>
+      <View style={[styles.capsule, { width: capsuleWidth, maxWidth: screenWidth - 32 }]}>
         <NavPillSurface />
-        <View style={[styles.left, { width: side || undefined }]}>
+        <View style={[styles.left, { width: side }]}>
           <View style={styles.sideInner}>
             {isSignedIn && <Pressable
               onPress={onLeftPress}
@@ -119,6 +119,7 @@ export const IslandCapsule = memo(function IslandCapsule({
                 />
               </View>
             </Pressable>}
+            {!isSignedIn && <HeaderAccountButton action="signup" color="#FFFFFF" />}
           </View>
         </View>
         <DockLogoTarget tint="#FFFFFF" style={styles.mark}>
@@ -127,9 +128,9 @@ export const IslandCapsule = memo(function IslandCapsule({
           expanded={isSignedIn ? menuOpen : undefined} style={styles.mark}
           hitSlop={{ top: 8, bottom: 8, left: 2, right: 2 }} />
         </DockLogoTarget>
-        <View style={[styles.right, { width: side || undefined }]}>
+        <View style={[styles.right, { width: side }]}>
           <View style={styles.sideInner}>
-            <Pressable
+            {isSignedIn ? <Pressable
               onPress={onBellPress}
               hitSlop={HIT}
               accessibilityRole="button"
@@ -137,10 +138,10 @@ export const IslandCapsule = memo(function IslandCapsule({
               style={styles.bell}
             >
               <NotificationBell unread={unread} color="#FFFFFF" active={!menuOpen} />
-            </Pressable>
+            </Pressable> : <HeaderAccountButton action="signin" color="#FFFFFF" />}
           </View>
         </View>
-        {pullMotion && !menuOpen ? <FeedPillPullEffect motion={pullMotion} refreshing={refreshing} width={ISLAND_CAPSULE_WIDTH} /> : null}
+        {pullMotion && !menuOpen ? <FeedPillPullEffect motion={pullMotion} refreshing={refreshing} width={capsuleWidth} /> : null}
       </View>
     </View>
   );
@@ -221,7 +222,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 10,
-    width: ISLAND_CAPSULE_WIDTH,
     zIndex: 2,
     ...NAV_PILL_SHADOW,
   },
