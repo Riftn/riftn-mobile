@@ -185,6 +185,10 @@ import { storedVideoAspect } from "../../libs/video-aspect";
 import { reportPostEvent } from "../../services/post-stats.service";
 import { maxImageDensity } from "../../libs/deviceTier";
 
+/** System Light post bento outline: a thin, subtle grey line (web --sl-bento-line).
+ *  Written as hsla so the light-tone colour pass (libs/jsx/tone.js) leaves it as is. */
+const LIGHT_BENTO_LINE = 'hsla(240,8%,5%,0.11)';
+
 // Pre-measurement fallback only. The gallery measures its own box on layout
 // (handleGalleryLayout) because the true content width is the screen minus the
 // feed list's padding (8/side) *and* the card's own (12/side) — a hardcoded
@@ -2672,7 +2676,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             padding: 12, marginVertical: 6,
             borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: MINIMAL_HAIRLINE,
           } : skin ? [skin.card, { padding: 12, marginVertical: 6 }, frosted && { backgroundColor: 'transparent' }] : {
-            borderWidth: theme === 'system' && isLight ? 0 : 1, borderColor: 'rgba(255,255,255,0.12)', borderRadius: FEED_BENTO_RADIUS,
+            borderWidth: 1, borderColor: isLight ? LIGHT_BENTO_LINE : 'rgba(255,255,255,0.12)', borderRadius: FEED_BENTO_RADIUS,
             backgroundColor: theme === 'system' ? 'transparent' : 'rgba(255,255,255,0.03)',
             padding: 12, marginVertical: 6,
           }}
@@ -3244,10 +3248,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         { paddingTop: 12, paddingHorizontal: 12, paddingBottom: 12, marginVertical: 6 },
         frosted && { backgroundColor: 'transparent' },
       ] : {
-        // System keeps only the thin outline; System Light drops it too (it
-        // read as a grey box on white).
-        borderWidth: theme === 'system' && isLight ? 0 : 1,
-        borderColor: 'rgba(255,255,255,0.12)',
+        // System keeps only the thin outline; in System Light it is a thin
+        // grey line (white on white made the card edge disappear).
+        borderWidth: 1,
+        borderColor: isLight ? LIGHT_BENTO_LINE : 'rgba(255,255,255,0.12)',
         // Transparent also keeps the
         // control-material pass from repainting this card as a grey button.
         backgroundColor: theme === 'system'
