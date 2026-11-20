@@ -72,6 +72,10 @@ interface Props {
   /** The chat line a held Reply answers, shown over the box until sent or cleared. */
   replyingTo?: { id: string; name: string; content: string } | null;
   onCancelReply?: () => void;
+  /** Your own line being edited: the box holds its words until saved or closed. */
+  editing?: { id: string; content: string } | null;
+  onSaveEdit?: (content: string) => Promise<boolean>;
+  onCancelEdit?: () => void;
   /** Actions */
   onReact: (type: ReactionType) => void;
   onLike: () => void;
@@ -101,6 +105,9 @@ const LiveViewerActionBar: React.FC<Props> = ({
   onSendGif,
   replyingTo,
   onCancelReply,
+  editing = null,
+  onSaveEdit,
+  onCancelEdit,
   onReact,
   onLike,
   onShare,
@@ -113,7 +120,12 @@ const LiveViewerActionBar: React.FC<Props> = ({
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
-  const [message, setMessage] = useDraftState(draftScope, "");
+  const [draft, setDraft] = useDraftState(draftScope, "");
+  // Editing your own line (like a Requests comment): the box holds that line's
+  // words under their own draft, so a half-typed new message is not lost.
+  const [editText, setEditText] = useDraftState(editing && draftScope ? `${draftScope}:edit:${editing.id}` : null, editing?.content ?? "");
+  const message = editing ? editText : draft;
+  const setMessage = (editing ? setEditText : setDraft) as typeof setDraft;
   // @tagging: typing @ offers people, picking one fills in "@username ".
   const mentions = useMentions(message, setMessage as (t: string) => void, undefined, false);
   const sending = useRef(false);
@@ -133,6 +145,15 @@ const LiveViewerActionBar: React.FC<Props> = ({
     const id = setTimeout(() => inputRef.current?.focus(), 250);
     return () => clearTimeout(id);
   }, [replyId]);
+  // Edit does the same, with the line's words already in the box.
+  const editId = editing?.id;
+  useEffect(() => {
+    if (!editId) return;
+    setEditText.initialize(editing?.content ?? "");
+    const id = setTimeout(() => inputRef.current?.focus(), 250);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [editId]);
 
   const inputDisabled = !canSend || !chatEnabled || isScheduled;
 
@@ -151,6 +172,17 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const handleSend = useCallback(async () => {
     const content = message.trim();
     if (sending.current || !content || inputDisabled) return;
+    if (editing) {
+      if (content === editing.content.trim()) { setEditText.clear(); onCancelEdit?.(); return; }
+      sending.current = true;
+      // The words stay in the box until the edit is confirmed.
+      let ok = false;
+      try { ok = !!(await onSaveEdit?.(content)); } catch { ok = false; } finally { sending.current = false; }
+      if (!ok || !setEditText.complete(message, "")) return;
+      mentions.reset();
+      onCancelEdit?.();
+      return;
+    }
     sending.current = true;
     // Empty the box as the line goes out; waiting for the server's echo left
     // the sent words in it for the whole round trip. A failed send puts them
@@ -163,7 +195,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
     } catch {
       setMessage((current) => (current.trim() ? current : sent));
     } finally { sending.current = false; }
-  }, [message, inputDisabled, onSendMessage, setMessage, mentions]);
+  }, [message, inputDisabled, onSendMessage, setMessage, mentions, editing, onSaveEdit, onCancelEdit, setEditText]);
 
   const handleReact = useCallback(
     (type: ReactionType) => {
@@ -217,7 +249,24 @@ const LiveViewerActionBar: React.FC<Props> = ({
         </Pressable>
       ) : null}
 
-      {replyingTo && !inputDisabled ? (
+      {editing && !inputDisabled ? (
+        <View style={styles.replyStrip}>
+          <ChromeFill glass />
+          <Icon name="Pencil" size={14} color="rgba(255,255,255,0.8)" strokeWidth={1.8} />
+          <Text numberOfLines={1} style={styles.replyText}>
+            <Text style={{ fontWeight: "700" }}>{t("liveChat.editingMessage")}</Text>
+            {`  ${editing.content}`}
+          </Text>
+          <Pressable
+            onPress={() => { setEditText.clear(); onCancelEdit?.(); }}
+            hitSlop={10}
+            accessibilityRole="button"
+            accessibilityLabel={t("common.cancel")}
+          >
+            <Icon name="X" size={16} color="rgba(255,255,255,0.8)" />
+          </Pressable>
+        </View>
+      ) : replyingTo && !inputDisabled ? (
         <View style={styles.replyStrip}>
           <ChromeFill glass />
           <Icon name="Reply" size={14} color="rgba(255,255,255,0.8)" strokeWidth={1.8} />
@@ -286,7 +335,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
               accessibilityLabel={t("tip.send", { defaultValue: "Send" })}
               style={[styles.sendButton, canSubmit ? null : styles.dim]}
             >
-              <Icon name="Send" size={17} color="#fff" strokeWidth={1.8} />
+              <Icon name={editing ? "Check" : "Send"} size={17} color="#fff" strokeWidth={1.8} />
             </Pressable>
           ) : null}
         </View>
