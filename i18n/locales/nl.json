@@ -2896,7 +2896,7 @@
     "edit": "Bewerken",
     "deleteRequestTitle": "Dit verzoek verwijderen?",
     "deleteRequestDescription": "Dit kan niet ongedaan worden gemaakt.",
-    "attachmentTooLarge": "Elk bestand moet kleiner zijn dan 50 MB",
+    "attachmentTooLarge": "Elk bestand moet kleiner zijn dan 200 MB",
     "deleteCommentA11y": "Verwijder reactie",
     "sendCommentA11y": "Opmerking verzenden",
     "requestOptions": "Aanvraagopties",

@@ -2708,7 +2708,7 @@
     "edit": "Editar",
     "deleteRequestTitle": "¿Eliminar esta solicitud?",
     "deleteRequestDescription": "No se puede deshacer.",
-    "attachmentTooLarge": "Cada archivo debe pesar menos de 50 MB",
+    "attachmentTooLarge": "Cada archivo debe pesar menos de 200 MB",
     "deleteCommentA11y": "Eliminar comentario",
     "sendCommentA11y": "Enviar comentario",
     "requestOptions": "Opciones de solicitud",

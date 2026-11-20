@@ -4945,7 +4945,7 @@
     "edit": "Edita",
     "deleteRequestTitle": "Vols suprimir aquesta sol·licitud?",
     "deleteRequestDescription": "Això no es pot desfer.",
-    "attachmentTooLarge": "Cada fitxer ha de pesar menys de 50 MB",
+    "attachmentTooLarge": "Cada fitxer ha de pesar menys de 200 MB",
     "deleteCommentA11y": "Suprimeix el comentari",
     "sendCommentA11y": "Enviar comentari",
     "requestOptions": "Opcions de sol·licitud",

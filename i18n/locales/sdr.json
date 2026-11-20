@@ -4673,7 +4673,7 @@
     "clickToUpload": "अपलोड करे ले दबावा",
     "deleteRequestTitle": "ई अनुरोध मेटाबा?",
     "deleteRequestDescription": "ई वापस नी होय सकेला।",
-    "attachmentTooLarge": "हर फाइल 50MB से कम होवेक चाही",
+    "attachmentTooLarge": "हर फाइल 200MB से कम होवेक चाही",
     "deleteCommentA11y": "कमेंट मेटावा",
     "requestOptions": "अनुरोध कर विकल्प"
   },

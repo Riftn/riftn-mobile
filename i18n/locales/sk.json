@@ -5000,7 +5000,7 @@
     "edit": "Upraviť",
     "deleteRequestTitle": "Zmazať túto požiadavku?",
     "deleteRequestDescription": "Toto sa nedá vrátiť.",
-    "attachmentTooLarge": "Každý súbor musí mať menej než 50 MB",
+    "attachmentTooLarge": "Každý súbor musí mať menej než 200 MB",
     "deleteCommentA11y": "Odstrániť komentár",
     "sendCommentA11y": "Odoslať komentár",
     "requestOptions": "Možnosti žiadosti",

@@ -4945,7 +4945,7 @@
     "edit": "Redaktə et",
     "deleteRequestTitle": "Bu sorğu silinsin?",
     "deleteRequestDescription": "Bunu geri qaytarmaq olmaz.",
-    "attachmentTooLarge": "Hər fayl 50 MB-dan kiçik olmalıdır",
+    "attachmentTooLarge": "Hər fayl 200 MB-dan kiçik olmalıdır",
     "deleteCommentA11y": "Şərhinizi silin",
     "sendCommentA11y": "Göndər",
     "requestOptions": "Seçimlər üçün sorğu göndər",

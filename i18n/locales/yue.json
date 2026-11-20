@@ -4946,7 +4946,7 @@
     "edit": "編輯",
     "deleteRequestTitle": "刪除呢個要求？",
     "deleteRequestDescription": "呢個係唔可以還原㗎。",
-    "attachmentTooLarge": "每個檔案要細過 50MB",
+    "attachmentTooLarge": "每個檔案要細過 200MB",
     "deleteCommentA11y": "刪除留言",
     "sendCommentA11y": "發送留言",
     "requestOptions": "要求選項",

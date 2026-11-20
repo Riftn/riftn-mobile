@@ -91,6 +91,8 @@ const FullscreenVideoScreen = () => {
     soundtrackUrl,
     landscape: opensSideways = false,
     turned = false,
+    // Clips that are not posts (a Requests attachment) don't lead on to Shorts.
+    noShorts = false,
   } = (route?.params as any) || {};
   const storyboard = useMemo(() => toStoryboard(rawStoryboard), [rawStoryboard]);
   /** The storyboard tile shows while a finger is dragging the timeline. */
@@ -364,7 +366,8 @@ const FullscreenVideoScreen = () => {
   // short-video app: this one closes into the brainrot shorts feed
   // (libs/brainrotFeed). Replaced rather than pushed, so Back from the shorts
   // lands where the video was opened from. Off for anyone who hid Shorts.
-  const shortsEnabled = useAppPrefs().shorts;
+  const shortsPref = useAppPrefs().shorts;
+  const shortsEnabled = shortsPref && !noShorts;
   // One swipe away: have the next clips loading before it.
   useEffect(() => {
     if (!shortsEnabled) return;

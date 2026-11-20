@@ -4945,7 +4945,7 @@
     "edit": "አርትዕ",
     "deleteRequestTitle": "ይህን ጥያቄ መሰረዝ?",
     "deleteRequestDescription": "ይህ መቀልበስ አይችልም።",
-    "attachmentTooLarge": "እያንዳንዱ ፋይል ከ50MB በታች መሆን አለበት",
+    "attachmentTooLarge": "እያንዳንዱ ፋይል ከ200MB በታች መሆን አለበት",
     "deleteCommentA11y": "አስተያየት ሰርዝ",
     "sendCommentA11y": "አስተያየት ይላኩ",
     "requestOptions": "የጥያቄ አማራጮች",

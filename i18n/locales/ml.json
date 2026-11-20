@@ -4945,7 +4945,7 @@
     "edit": "തിരുത്തുക",
     "deleteRequestTitle": "ഈ അഭ്യർത്ഥന ഇല്ലാതാക്കണോ?",
     "deleteRequestDescription": "ഇത് പഴയപടിയാക്കാൻ കഴിയില്ല.",
-    "attachmentTooLarge": "ഓരോ ഫയലും 50MB-യിൽ താഴെയായിരിക്കണം",
+    "attachmentTooLarge": "ഓരോ ഫയലും 200MB-യിൽ താഴെയായിരിക്കണം",
     "deleteCommentA11y": "അഭിപ്രായം ഇല്ലാതാക്കണോ?",
     "sendCommentA11y": "അഭിപ്രായം അയയ്ക്കുക",
     "requestOptions": "ഓപ്ഷനുകൾ അഭ്യർത്ഥിക്കുക",

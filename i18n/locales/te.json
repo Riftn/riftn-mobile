@@ -4945,7 +4945,7 @@
     "edit": "సవరించండి",
     "deleteRequestTitle": "ఈ అభ్యర్థనను తొలగించాలా?",
     "deleteRequestDescription": "దీన్ని తిరిగి మార్చలేరు.",
-    "attachmentTooLarge": "ప్రతి ఫైల్ 50MB కంటే తక్కువ ఉండాలి",
+    "attachmentTooLarge": "ప్రతి ఫైల్ 200MB కంటే తక్కువ ఉండాలి",
     "deleteCommentA11y": "వ్యాఖ్యను తొలగించండి",
     "sendCommentA11y": "వ్యాఖ్యను పంపండి",
     "requestOptions": "అభ్యర్థన ఎంపికలు",

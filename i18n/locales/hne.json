@@ -4945,7 +4945,7 @@
     "edit": "संपादित करव",
     "deleteRequestTitle": "ये अनुरोध मिटावन?",
     "deleteRequestDescription": "ये ह वापस नइ हो सके।",
-    "attachmentTooLarge": "हर फाइल 50MB ले कम होना चाही",
+    "attachmentTooLarge": "हर फाइल 200MB ले कम होना चाही",
     "deleteCommentA11y": "टिप्पनी मेटाव",
     "sendCommentA11y": "टिप्पणी भेजें",
     "requestOptions": "विकल्प निवेदित करव",

@@ -4946,7 +4946,7 @@
     "edit": "Edit am",
     "deleteRequestTitle": "You wan delete dis request?",
     "deleteRequestDescription": "You no fit undo dis one.",
-    "attachmentTooLarge": "Every file must dey under 50MB",
+    "attachmentTooLarge": "Every file must dey under 200MB",
     "deleteCommentA11y": "Delete comment",
     "sendCommentA11y": "Send comment",
     "requestOptions": "Request options",

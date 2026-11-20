@@ -1,6 +1,6 @@
 import { usePerfProbe } from "../../libs/perfTrace";
 import { outsideImage } from "../../libs/outside-image";
-import { ReactionChips } from "./MessageReactions";
+import { ReactionChips, hasReacted } from "./MessageReactions";
 import { useReactionHost } from "../ChatReactions/ReactionArrival";
 import CallNoteCard from "./CallNoteCard";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
@@ -406,6 +406,26 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     [fireSwipeReply],
   );
 
+  // Double tap someone else's message to heart it, as in Instagram DMs. It
+  // only ever adds the heart; taking it off stays on the chip or the menu.
+  const heartOnDoubleTap = useCallback(() => {
+    if (!onToggleReaction || isMine) return;
+    if (hasReacted(message.reactions, "❤️", myAddress)) return;
+    haptic.select();
+    onToggleReaction(message, "❤️");
+  }, [onToggleReaction, isMine, message, myAddress]);
+  const bubbleGesture = useMemo(() => {
+    const base = onSwipeToReply ? panGesture : noSwipe;
+    if (!onToggleReaction || isMine) return base;
+    const doubleTap = Gesture.Tap()
+      .numberOfTaps(2)
+      .maxDelay(280)
+      .onEnd((_e, ok) => {
+        if (ok) runOnJS(heartOnDoubleTap)();
+      });
+    return Gesture.Simultaneous(base, doubleTap);
+  }, [onSwipeToReply, panGesture, noSwipe, onToggleReaction, isMine, heartOnDoubleTap]);
+
   const swipeAnimStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
   }));
@@ -750,7 +770,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
       {/* Reply arrows — sit behind the message */}
       {swipeArmed ? <SwipeReplyArrows x={translateX} threshold={REPLY_THRESHOLD} /> : null}
 
-      <GestureDetector gesture={onSwipeToReply ? panGesture : noSwipe}>
+      <GestureDetector gesture={bubbleGesture}>
         <Animated.View style={swipeAnimStyle}>
           <Pressable
             onLongPress={handleLongPress}
