@@ -346,7 +346,7 @@ export default function StoryViewer({
               <Icon name={muted ? "VolumeX" : "Volume2"} size={18} color="#fff" />
             </TouchableOpacity>
           ) : null}
-          <TouchableOpacity onPress={() => setSheet("more")} hitSlop={8} style={styles.capBtn} accessibilityLabel={t("common.more", { defaultValue: "More" })}>
+          <TouchableOpacity onPress={() => setSheet("more")} hitSlop={8} style={styles.capBtn} accessibilityLabel={t("stories.more", { defaultValue: "More" })}>
             <Icon name="Ellipsis" size={18} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity onPress={onClose} hitSlop={8} style={styles.capBtn} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
@@ -508,7 +508,7 @@ function ViewerSheet({
         {kind === "viewers" ? (
           <>
             <Text style={styles.sheetTitle}>
-              {t("stories.viewsCount", { defaultValue: "{{count}} views", count: item.viewCount ?? 0, formatted: formatCount(item.viewCount ?? 0) })}
+              {t("stories.viewsCount", { defaultValue: "{{formatted}} views", formatted: formatCount(item.viewCount ?? 0) })}
             </Text>
             {viewers === null ? (
               <ActivityIndicator color="#fff" style={{ marginVertical: 20 }} />

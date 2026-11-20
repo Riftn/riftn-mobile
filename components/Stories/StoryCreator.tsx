@@ -235,7 +235,7 @@ function Editor({ picked, onBack, onClose }: { picked: Picked; onBack: () => voi
           ))}
 
         <View style={styles.stageTop}>
-          <TouchableOpacity onPress={onBack} style={styles.iconBtn} accessibilityLabel={t("common.back", { defaultValue: "Back" })}>
+          <TouchableOpacity onPress={onBack} style={styles.iconBtn} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
             <Icon name="ChevronLeft" size={22} color="#fff" />
           </TouchableOpacity>
           <View style={{ flex: 1 }} />
