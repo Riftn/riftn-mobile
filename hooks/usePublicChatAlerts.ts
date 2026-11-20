@@ -196,8 +196,11 @@ export function usePublicChatAlerts() {
       const track = (raw: LiveChatMessageData) => {
         if (!raw) return false;
         const from = (raw.sender?.address || raw.senderAddress || '').toLowerCase();
+        // The API names the message `id`; `_id` only exists on lines that
+        // went through normalizeMsg. Reading `_id` alone counted nothing,
+        // so the badge never lit and no alert ever fired.
         return publicChatUnread.record(me, {
-          id: raw._id,
+          id: raw._id || (raw as { id?: string }).id || '',
           createdAt: raw.createdAt,
           sender: from,
           excluded: raw.isDeleted || raw.messageType === 'system' || isAssistantAddress(from),
