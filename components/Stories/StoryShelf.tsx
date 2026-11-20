@@ -5,7 +5,8 @@
  * "Your day" first (+ to share a moment, or watch your own), then everyone
  * live right now (it replaces the Live now row), then people's moments: new
  * ones carry a ring in the theme's colours, watched ones go grey and move to
- * the end. A tile opens the full-screen viewer.
+ * the end. A moment's picture stays hidden until it is tapped: each tile shows
+ * the person's face on frosted glass. A tile opens the full-screen viewer.
  */
 import React, { useCallback, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -22,7 +23,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { useLiveNowItems, pictureOf, type LiveNowItem } from "../Home/LiveNowBar";
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } from "../../store/stories.store";
-import { ageLabel, avatarOf, coverOf, nameOf, playable } from "./story-utils";
+import { ageLabel, avatarOf, nameOf, playable } from "./story-utils";
 import { getAvatarUrl } from "../../libs/misc";
 
 const TILE_W = 86;
@@ -98,7 +99,7 @@ function StoryShelf() {
       {me ? (
         <MeTile
           pending={pending as PendingMoment | null}
-          avatar={user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 48) ?? null : avatarOf(own?.author ?? { address: me, username: null, displayName: null, avatarImageUrl: null })}
+          avatar={user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) ?? null : avatarOf(own?.author ?? { address: me, username: null, displayName: null, avatarImageUrl: null }, 96)}
           name={t("stories.yourDay", { defaultValue: "Your day" })}
           entry={ownWatchable}
           processing={!!own?.items.some((i) => i.status === "processing")}
@@ -134,7 +135,6 @@ function MeTile({
   onAdd: () => void;
 }) {
   const { t } = useTranslation();
-  const cover = pending?.preview || (entry ? coverOf(entry) : null) || avatar;
   const failed = pending?.state === "failed";
   return (
     <TouchableOpacity
@@ -143,7 +143,7 @@ function MeTile({
       accessibilityLabel={name}
       style={styles.tile}
     >
-      {cover ? <Image source={{ uri: cover }} style={StyleSheet.absoluteFill} contentFit="cover" blurRadius={entry || pending ? 0 : 14} cachePolicy="memory-disk" /> : null}
+      <Face uri={avatar} name={name} />
       <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.6)"]} style={styles.shade} pointerEvents="none" />
       {pending && !failed ? (
         <View style={styles.progressTrack} pointerEvents="none">
@@ -190,29 +190,38 @@ function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
   );
 }
 
+/** The person's face on frosted glass. The moment itself only shows once the tile is tapped. */
+function Face({ uri, name }: { uri: string | null; name: string }) {
+  return (
+    <>
+      {uri ? <Image source={{ uri }} style={StyleSheet.absoluteFill} contentFit="cover" blurRadius={22} cachePolicy="memory-disk" /> : null}
+      <View style={styles.frost} pointerEvents="none" />
+      <View style={styles.face} pointerEvents="none">
+        <Avatar uri={uri} size={52} radius={26} name={name} />
+      </View>
+    </>
+  );
+}
+
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
   const ring = useRing();
-  const cover = coverOf(entry);
-  const face = avatarOf(entry.author, 32);
+  const face = avatarOf(entry.author, 96);
   const latest = entry.items[entry.items.length - 1];
   const fresh = !entry.seen;
   return (
     <TouchableOpacity activeOpacity={0.85} onPress={onOpen} accessibilityLabel={nameOf(entry.author)} style={styles.tileBox}>
       {fresh ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
       <View style={[styles.tile, fresh ? styles.inRing : styles.seen]}>
-        {cover ? <Image source={{ uri: cover }} style={StyleSheet.absoluteFill} contentFit="cover" cachePolicy="memory-disk" transition={150} /> : null}
+        <Face uri={face} name={entry.author.username || entry.author.address} />
         <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.62)"]} style={styles.shade} pointerEvents="none" />
         {latest ? (
           <View style={styles.age}>
             <Text style={styles.ageText}>{ageLabel(latest.createdAt)}</Text>
           </View>
         ) : null}
-        <View style={styles.who}>
-          <Avatar uri={face} size={18} radius={9} name={entry.author.username || entry.author.address} />
-          <Text style={[styles.name, styles.whoName]} numberOfLines={1}>
-            {nameOf(entry.author)}
-          </Text>
-        </View>
+        <Text style={styles.name} numberOfLines={1}>
+          {nameOf(entry.author)}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -252,8 +261,8 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0,0,0,0.5)",
     textShadowRadius: 4,
   },
-  who: { position: "absolute", left: 6, right: 6, bottom: 6, flexDirection: "row", alignItems: "center", gap: 5 },
-  whoName: { position: "relative", left: 0, right: 0, bottom: 0, flex: 1 },
+  frost: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.18)" },
+  face: { position: "absolute", top: 30, left: 0, right: 0, alignItems: "center" },
   age: {
     position: "absolute",
     top: 6,

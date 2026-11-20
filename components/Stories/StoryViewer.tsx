@@ -355,7 +355,9 @@ export default function StoryViewer({
         </View>
 
         {/* Bottom: caption, then reply + like, or the owner's counts. */}
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={[styles.bottom, { paddingBottom: insets.bottom + 12 }]}>
+        {/* The keyboard view sets its own bottom padding on iPhone, so the safe-area gap lives on an inner view. */}
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.bottom}>
+          <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 18 }]}>
           {item.caption ? (
             <Text style={styles.caption} numberOfLines={3}>
               {item.caption}
@@ -415,6 +417,7 @@ export default function StoryViewer({
                 <Icon name="Heart" size={20} color={isLiked ? "#FF5C78" : "#fff"} fill={isLiked ? "#FF5C78" : undefined} />
               </TouchableOpacity>
             ) : null}
+          </View>
           </View>
         </KeyboardAvoidingView>
 
@@ -582,7 +585,8 @@ const styles = StyleSheet.create({
   dots: { flexDirection: "row", gap: 4, marginRight: 2 },
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.35)" },
   dotOn: { backgroundColor: "#fff" },
-  bottom: { position: "absolute", left: 0, right: 0, bottom: 0, paddingHorizontal: 12, gap: 8 },
+  bottom: { position: "absolute", left: 0, right: 0, bottom: 0 },
+  bottomInner: { paddingHorizontal: 12, gap: 8 },
   caption: { color: "#fff", fontSize: 15, textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6, paddingHorizontal: 4 },
   song: {
     flexDirection: "row",
