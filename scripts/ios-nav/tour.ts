@@ -2084,13 +2084,14 @@ async function runReactions(): Promise<void> {
     }));
   };
   const beats: Array<[number, number, string, string]> = [
-    [800, 0, "🔥", fake(3)],
-    [2000, 1, "❤️", fake(4)],
-    [3300, 2, "😂", fake(5)],
-    [3650, 2, "😂", fake(6)],
-    [4000, 2, "😂", fake(1)],
-    [5300, 1, "🚀", fake(2)],
-    [6600, 0, "💯", fake(4)],
+    // The 100 first: it draws itself out and back in, so a play cut short shows.
+    [800, 0, "💯", fake(3)],
+    [3000, 1, "❤️", fake(4)],
+    [5000, 2, "😂", fake(5)],
+    [5350, 2, "😂", fake(6)],
+    [5700, 2, "😂", fake(1)],
+    [7600, 1, "🚀", fake(2)],
+    [8600, 0, "🔥", fake(4)],
   ];
   const t0 = Date.now();
   for (const [ms, line, emoji, who] of beats) {
@@ -2141,10 +2142,10 @@ async function runRowReactions(): Promise<void> {
     ]);
   };
   const beats: Array<[number, number, Array<[string, number]>, string]> = [
-    [0, 1, [["❤️", 1]], "❤️"],
-    [2500, 2, [["❤️", 2]], "❤️"],
-    [5000, 3, [["😂", 1], ["❤️", 2]], "😂"],
-    [7500, 5, [["🔥", 2], ["😂", 1], ["❤️", 2]], "🔥"],
+    [0, 1, [["💯", 1]], "💯"],
+    [3000, 2, [["💯", 2]], "💯"],
+    [6000, 3, [["😂", 1], ["💯", 2]], "😂"],
+    [9000, 5, [["🔥", 2], ["😂", 1], ["💯", 2]], "🔥"],
   ];
   const t0 = Date.now();
   for (const [ms, total, emojis, last] of beats) {

@@ -6,8 +6,9 @@
  * They move like reactions inside a chat (Settings > Appearance > "Reactions
  * in chat"): the Noto animated emoji keeps playing while the reaction is
  * unread, and a new one landing while the list is open arrives with the
- * picked motion (fly in by default, pop, burst). Off, or reduced motion,
- * shows still emojis. Mirrors web ReactionAlertBadge.tsx.
+ * picked motion (fly in by default, pop, burst), its loop starting over from
+ * the first frame as it lands. Off, or reduced motion, shows still emojis.
+ * Mirrors web ReactionAlertBadge.tsx.
  */
 import React, { memo, useEffect, useRef, useState } from "react";
 import { Animated, Easing, Text, View } from "react-native";
@@ -30,20 +31,34 @@ export function markChatRow(rowKey: string | undefined | null) {
 
 const SIZE = 20;
 
-/** The animated file, looping, once it has loaded; the plain emoji until then (and when motion is off). */
-const MovingEmoji = memo(function MovingEmoji({ emoji, uri }: { emoji: string; uri: string | null }) {
-  const [loaded, setLoaded] = useState(false);
+let loopKeys = 0;
+
+/**
+ * The animated file, looping, once it has loaded; the plain emoji until then
+ * (and when motion is off). `restart` going up starts the loop again from its
+ * first frame: the one already showing stays until the new one is drawn, so
+ * the swap is never blank.
+ */
+const MovingEmoji = memo(function MovingEmoji({ emoji, uri, restart }: { emoji: string; uri: string | null; restart: number }) {
+  const [loops, setLoops] = useState<number[]>([]);
+  const [drawn, setDrawn] = useState(0);
+  useEffect(() => {
+    if (!uri) { setLoops([]); return; }
+    setLoops((list) => [...list.slice(-1), ++loopKeys]);
+  }, [uri, restart]);
+  const showing = !!uri && loops.some((key) => key <= drawn);
   return (
     <>
-      {(!uri || !loaded) && <Text style={{ fontSize: 15, lineHeight: 19, includeFontPadding: false }}>{emoji}</Text>}
-      {uri ? (
+      {!showing && <Text style={{ fontSize: 15, lineHeight: 19, includeFontPadding: false }}>{emoji}</Text>}
+      {uri ? loops.map((key) => (
         <SmartImage
+          key={key}
           source={{ uri }}
-          style={{ position: "absolute", width: SIZE, height: SIZE, opacity: loaded ? 1 : 0 }}
+          style={{ position: "absolute", width: SIZE, height: SIZE, opacity: key <= drawn ? 1 : 0 }}
           contentFit="contain"
-          onLoad={() => setLoaded(true)}
+          onLoad={() => { setDrawn((d) => Math.max(d, key)); setLoops((list) => list.filter((k) => k >= key)); }}
         />
-      ) : null}
+      )) : null}
     </>
   );
 });
@@ -55,12 +70,18 @@ export default memo(function ReactionAlertBadge({ reactions, rowKey }: { reactio
   const lead = useRef<View>(null);
   const scale = useRef(new Animated.Value(1)).current;
   const shown = useRef(new Animated.Value(1)).current;
+  const [restarts, setRestarts] = useState<Record<string, number>>({});
+  const shownBefore = useRef<string[]>([]);
+  const alive = useRef(true);
+  useEffect(() => () => { alive.current = false; }, []);
   markChatRow(rowKey);
   const total = reactions?.total ?? 0;
   const lastEmoji = reactions?.last?.emoji ?? reactions?.emojis[0]?.emoji ?? "";
   const moving = style !== "off" && !reduceMotion;
 
   useEffect(() => {
+    const before = shownBefore.current;
+    shownBefore.current = reactions?.emojis.map((e) => e.emoji) ?? [];
     if (!rowKey || !(total > 0)) return;
     const seen = totalSeen.get(rowKey);
     totalSeen.set(rowKey, total);
@@ -81,24 +102,37 @@ export default memo(function ReactionAlertBadge({ reactions, rowKey }: { reactio
     if (style === "burst") {
       // Someone else's reaction: a small ring and sparks round the badge.
       lead.current?.measureInWindow((x, y, w, h) => {
-        scope.launch({ kind: "ring", emoji: lastEmoji, uri: null, mine: false, toWindow: { x: x + w / 2, y: y + h / 2 } });
+        scope.launch({ kind: "ring", emoji: lastEmoji, art: null, mine: false, toWindow: { x: x + w / 2, y: y + h / 2 } });
       });
       bump(0.9);
       return;
     }
-    shown.setValue(0);
+    const art = animatedChatEmoji(lastEmoji);
+    // An emoji that was not in the badge before stays out of sight until its flying copy lands.
+    const fresh = !before.includes(lastEmoji);
+    if (fresh) shown.setValue(0);
+    let landed = false;
+    const land = () => {
+      if (landed || !alive.current) return;
+      landed = true;
+      shown.setValue(1);
+      bump(0.7);
+      // The row's own emoji starts its loop over as the flying copy lands on it, so the two line up.
+      if (art) setRestarts((r) => ({ ...r, [lastEmoji]: (r[lastEmoji] ?? 0) + 1 }));
+    };
     lead.current?.measureInWindow((x, y, w, h) => {
       scope.launch({
         kind: "fly",
         emoji: lastEmoji,
-        uri: animatedChatEmoji(lastEmoji)?.uri ?? null,
+        art,
+        landSize: art ? SIZE : 15 / 0.8,
         mine: false,
         toWindow: { x: x + w / 2, y: y + h / 2 },
-        onLand: () => { shown.setValue(1); bump(0.7); },
+        onLand: land,
       });
     });
     // A lost flight must never leave the badge blank.
-    const t = setTimeout(() => shown.setValue(1), 1600);
+    const t = setTimeout(() => { if (!landed) { landed = true; shown.setValue(1); } }, 1600);
     return () => clearTimeout(t);
     // Only a change in the waiting total can be an arrival.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -123,7 +157,7 @@ export default memo(function ReactionAlertBadge({ reactions, rowKey }: { reactio
             testID={`reaction-alert-emoji-${i}`}
             style={{ width: SIZE, height: SIZE, alignItems: "center", justifyContent: "center", marginLeft: i > 0 ? -4 : 0, zIndex: list.length - i }}
           >
-            <MovingEmoji emoji={e.emoji} uri={art?.uri ?? null} />
+            <MovingEmoji emoji={e.emoji} uri={art?.uri ?? null} restart={restarts[e.emoji] ?? 0} />
           </View>
         );
       })}
