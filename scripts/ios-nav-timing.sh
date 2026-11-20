@@ -418,6 +418,22 @@ if [ "$MODE" = reactions ]; then
   exit 0
 fi
 
+if [ "$MODE" = rowreactions ]; then
+  # Reactions waiting in the Messages list (bare moving emojis, no pill),
+  # filmed: Fly in (the default) on three themes, then Burst and Off once.
+  for theme in ${WALLET_THEMES:-system hazy system-light}; do
+    run after "rowreactions-fly-$theme" record rowreactions "$theme"
+  done
+  storage set dehub.perfTour.reactStyle burst
+  run after "rowreactions-burst-system" record rowreactions system
+  storage set dehub.perfTour.reactStyle off
+  run after "rowreactions-off-system" record rowreactions system
+  storage drop dehub.perfTour.reactStyle
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
 if [ "$MODE" = livetheme ]; then
   # Leaving a live in System Light, main's code then this checkout's, both
   # filmed; then this checkout's on two dark themes.

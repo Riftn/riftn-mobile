@@ -2050,10 +2050,65 @@ async function runReactions(): Promise<void> {
   console.error(`[perf-tour] reactions done: style ${style}, stream ${streamId || "none"}, taps ${chatTaps.size}`);
 }
 
+/**
+ * Reactions waiting in the Messages list: opens Messages, then puts unread
+ * reactions on the Public Chat row through the list's own settings cache (the
+ * same data a real reaction brings), adding more so the arrival plays on the
+ * row. Filmed by the harness. Style from dehub.perfTour.reactStyle (fly when unset).
+ */
+async function runRowReactions(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "rowreactions" };
+  const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
+  const { queryClient } = require("../../config/queryClient") as typeof import("../../config/queryClient");
+  const { PUBLIC_CHAT_PREF_ID } = require("../../services/dm/dm.api") as typeof import("../../services/dm/dm.api");
+  type Pref = import("../../services/dm/dm.api").ChatPref;
+  const style = (await AsyncStorage.getItem("dehub.perfTour.reactStyle")) || "fly";
+  prefs.setAppPref("chatReactionStyle", style as never);
+  extra.style = style;
+  extra.signedIn = await hasSession();
+  await sleep(6000);
+  await tab(ScreenNames.DM)();
+  await sleep(6000);
+  extra.route = nav.getCurrentRoute()?.name;
+  await shot("rowreactions-0-list");
+  const KEY = ["dm-chat-prefs"];
+  const put = (total: number, emojis: Array<[string, number]>, last: string) => {
+    const reactions = {
+      total,
+      emojis: emojis.map(([emoji, count]) => ({ emoji, count })),
+      last: { emoji: last, by: "0x7777777777777777777777777777777777777777", name: "Luna", messageId: "tour-row", at: new Date().toISOString() },
+    };
+    queryClient.setQueryData<Pref[]>(KEY, (cur = []) => [
+      ...cur.filter((p) => p.conversationId !== PUBLIC_CHAT_PREF_ID),
+      { conversationId: PUBLIC_CHAT_PREF_ID, pinnedAt: null, archivedAt: null, mutedUntil: null, markedUnread: false, reactions } as Pref,
+    ]);
+  };
+  const beats: Array<[number, number, Array<[string, number]>, string]> = [
+    [0, 1, [["❤️", 1]], "❤️"],
+    [2500, 2, [["❤️", 2]], "❤️"],
+    [5000, 3, [["😂", 1], ["❤️", 2]], "😂"],
+    [7500, 5, [["🔥", 2], ["😂", 1], ["❤️", 2]], "🔥"],
+  ];
+  const t0 = Date.now();
+  for (const [ms, total, emojis, last] of beats) {
+    const wait = t0 + ms - Date.now();
+    if (wait > 0) await sleep(wait);
+    put(total, emojis, last);
+    await sleep(400);
+    await shot(`rowreactions-${ms}-landing`);
+  }
+  await sleep(3000);
+  await shot("rowreactions-9-after");
+  queryClient.setQueryData<Pref[]>(KEY, (cur = []) => cur.filter((p) => p.conversationId !== PUBLIC_CHAT_PREF_ID));
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] rowreactions done: style ${style}, route ${String(extra.route)}`);
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -2073,6 +2128,7 @@ void (async () => {
     else if (mode === "speed") await runSpeed();
     else if (mode === "livetheme") await runLiveTheme();
     else if (mode === "reactions") await runReactions();
+    else if (mode === "rowreactions") await runRowReactions();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);
