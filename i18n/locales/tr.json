@@ -904,7 +904,7 @@
     "postCount_other": "{{count}} gönderi"
   },
   "settings": {
-    "arrivalLook": {"title": "Giriş yaptıktan sonra", "desc": "Hesabın yüklenirken, fotoğrafın sayfaya inmeden önce oynayan animasyon. Bu cihazda.", "rift": "Yarık", "trace": "İz", "frame": "Fotoğraf çerçevesi", "orbit": "Yörünge"},
+    "arrivalLook": {"title": "Giriş yaptıktan sonra", "desc": "Hesabın yüklenirken, fotoğrafın sayfaya inmeden önce oynayan animasyon. Bu cihazda.", "trace": "İz", "tune": "Kanal ayarı", "rift": "Yarık", "deck": "Deste", "glass": "Cam damla"},
     "chatDeleteChoice": "Bir mesajı sildiğinde",
     "chatDeleteChoiceDesc": "Her seferinde sor ya da her zaman yalnızca senin için veya sohbetteki herkes için sil.",
     "chatDeleteAsk": "Her seferinde sor",

@@ -904,7 +904,7 @@
     "postCount_other": "{{count}} berichten"
   },
   "settings": {
-    "arrivalLook": {"title": "Na het inloggen", "desc": "Wat je ziet terwijl je account laadt, voordat je foto op de pagina landt. Op dit apparaat.", "rift": "Scheur", "trace": "Spoor", "frame": "Fotolijst", "orbit": "Baan"},
+    "arrivalLook": {"title": "Na het inloggen", "desc": "Wat je ziet terwijl je account laadt, voordat je foto op de pagina landt. Op dit apparaat.", "trace": "Spoor", "tune": "Afstemmen", "rift": "Scheur", "deck": "Kaartspel", "glass": "Glazen druppel"},
     "chatDeleteChoice": "Als je een bericht verwijdert",
     "chatDeleteChoiceDesc": "Elke keer vragen, of altijd alleen voor jou of voor iedereen in de chat verwijderen.",
     "chatDeleteAsk": "Elke keer vragen",

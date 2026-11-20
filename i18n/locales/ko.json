@@ -3194,7 +3194,7 @@
     "postCount_other": "{{count}}개의 게시물"
   },
   "settings": {
-    "loginLook": {"title": "로그인 화면", "desc": "이 기기의 로그인 화면에서 Riftn 로고와 슬로건이 움직이는 방식.", "tube": "브라운관 TV", "vhs": "VHS 테이프", "led": "LED 월", "holo": "홀로그램", "neon": "네온", "3d": "3D", "flat": "플랫"}, "arrivalLook": {"title": "로그인 후", "desc": "계정을 불러오는 동안, 사진이 페이지에 도착하기 전에 재생되는 효과. 이 기기에서만.", "rift": "균열", "trace": "트레이스", "frame": "액자", "orbit": "궤도"},
+    "loginLook": {"title": "로그인 화면", "desc": "이 기기의 로그인 화면에서 Riftn 로고와 슬로건이 움직이는 방식.", "tube": "브라운관 TV", "vhs": "VHS 테이프", "led": "LED 월", "holo": "홀로그램", "neon": "네온", "3d": "3D", "flat": "플랫"}, "arrivalLook": {"title": "로그인 후", "desc": "계정을 불러오는 동안, 사진이 페이지에 도착하기 전에 재생되는 효과. 이 기기에서만.", "trace": "트레이스", "tune": "채널 맞추기", "rift": "균열", "deck": "카드 덱", "glass": "유리 방울"},
     "glass": "유리",
     "shortsEnabled": "반바지",
     "shortsEnabledDesc": "홈에서 반바지 피드 탭과 반바지 회전 목마를 표시합니다.",
