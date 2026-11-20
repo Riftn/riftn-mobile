@@ -138,6 +138,53 @@ turn_sideways() {
   sleep 4
 }
 
+# The iPhone Duo simulator boots folded, so only the small outer screen is
+# lit. Open it from the Simulator's Device menu (the item's name is looked up,
+# not fixed), and write every Device menu item to logs/device-menu.txt.
+unfold_duo() {
+  limit 30 open -a Simulator --args -CurrentDeviceUDID "$UDID" || return 1
+  sleep 15
+  limit 40 osascript > "$OUT/logs/device-menu.txt" 2>&1 <<'AS' || return 1
+tell application "Simulator" to activate
+delay 2
+tell application "System Events" to tell process "Simulator"
+  set out to ""
+  set done to "none"
+  set m to menu "Device" of menu bar 1
+  repeat with mi in menu items of m
+    set n to (name of mi) as text
+    set out to out & n & linefeed
+    try
+      repeat with si in menu items of menu 1 of mi
+        set out to out & "  > " & ((name of si) as text) & linefeed
+      end repeat
+    end try
+  end repeat
+  repeat with mi in menu items of m
+    set n to (name of mi) as text
+    if done is "none" and (n contains "Unfold" or n contains "Open Device") then
+      click mi
+      set done to n
+    end if
+    if done is "none" then
+      try
+        repeat with si in menu items of menu 1 of mi
+          set sn to (name of si) as text
+          if done is "none" and (sn contains "Unfold" or sn is "Open" or sn is "Opened") then
+            click si
+            set done to n & " > " & sn
+          end if
+        end repeat
+      end try
+    end if
+  end repeat
+  return out & "clicked: " & done
+end tell
+AS
+  grep -q "clicked: none" "$OUT/logs/device-menu.txt" && return 1
+  sleep 5
+}
+
 PAGES=(
   "app/post/742"
   "app"
@@ -247,6 +294,10 @@ walk() {
     i=$((i + 1))
   done
 }
+
+if [ "${DEVICE:-iphone}" = "duo" ]; then
+  unfold_duo || echo "could not open the folded Duo (see logs/device-menu.txt)" >> "$OUT/crashes.txt"
+fi
 
 # THEMES picks which walks run (default all three): dark and light are the
 # phone's setting under the app's System theme; syslight is the app's own
