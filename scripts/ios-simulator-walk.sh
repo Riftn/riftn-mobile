@@ -155,6 +155,24 @@ unfold_duo() {
       if xcrun simctl ui "$UDID" $arg >> "$log" 2>&1; then echo "simctl ui $arg: ok" >> "$log"; sleep 5; return 0; fi
     done
   fi
+  # The Xcode 27 runner has no Simulator app, so there is no Device menu to
+  # unfold from: power the biggest screen on and the others off instead.
+  if [ ! -d "$(xcode-select -p)/Applications/Simulator.app" ]; then
+    echo "== no Simulator app; screens:" >> "$log"
+    xcrun simctl io "$UDID" enumerate >> "$log" 2>&1 || true
+    local err ids big
+    err="$(xcrun simctl io "$UDID" screenshot "$OUT/.probe.png" 2>&1 >/dev/null || true)"
+    ids="$(echo "$err" | grep -oE -- '--display=[0-9]+ +[^ ]+.* [0-9]+x[0-9]+' \
+      | awk '{split($NF, d, "x"); print d[1]*d[2], $1}' | sort -rn | awk '{print $2}' | cut -d= -f2)"
+    big="$(echo "$ids" | head -1)"
+    [ -n "$big" ] || return 1
+    xcrun simctl io "$UDID" screenConfig --display="$big" power on >> "$log" 2>&1 || return 1
+    for id in $(echo "$ids" | tail -n +2); do
+      xcrun simctl io "$UDID" screenConfig --display="$id" power off >> "$log" 2>&1 || true
+    done
+    sleep 5
+    return 0
+  fi
   echo "== open Simulator" >> "$log"
   limit 90 open "$(xcode-select -p)/Applications/Simulator.app" --args -CurrentDeviceUDID "$UDID" >> "$log" 2>&1 || { echo "open failed: $?" >> "$log"; return 1; }
   sleep 20
