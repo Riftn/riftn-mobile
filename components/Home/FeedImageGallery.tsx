@@ -7,7 +7,7 @@ import { InteractionManager, ScrollView, View, useWindowDimensions, type LayoutC
 import { knownImageAspect, rememberImageAspect } from '../../hooks/useImageAspect';
 import { FEED_BENTO_RADIUS, fitFeedImageWithin } from '../../libs/feed-image-layout';
 import { useAppTheme } from '../../context/ThemeContext';
-import { useFeedBleed, useLightFlatFeed } from './feedBleed';
+import { useFeedBleed } from './feedBleed';
 import { GestureDetector, type NativeGesture } from 'react-native-gesture-handler';
 import ContainedFeedImage from './ContainedFeedImage';
 import { galleryDrawnSlides } from '../../libs/gallery-window';
@@ -77,8 +77,7 @@ function FeedImageGallery({ images, width, fallbackWidth, active, prioritizeMedi
   const { liteMode } = useDataSaver();
   const { height: screenHeight } = useWindowDimensions();
   const { isMinimal } = useAppTheme();
-  const lightFlat = useLightFlatFeed();
-  const edgeToEdge = isMinimal || lightFlat || !!useFeedBleed();
+  const edgeToEdge = isMinimal || !!useFeedBleed();
   const aspects = useGalleryAspects(images);
   // The strip is as tall as its tallest photo, in a thin frame. Shorter
   // photos are cropped to fill it, so no post shows blank space inside. Photos not measured yet borrow the tallest

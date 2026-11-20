@@ -52,7 +52,7 @@ describe('post media presentation', () => {
     // Square in the minimal theme and the cinematic system feed, where the
     // bento it matches is gone too.
     expect(containedImage).toContain('borderRadius: edgeToEdge || postPage ? 0 : FEED_BENTO_RADIUS');
-    expect(containedImage).toContain('const edgeToEdge = isMinimal || lightFlat || bleed;');
+    expect(containedImage).toContain('const edgeToEdge = isMinimal || bleed;');
     expect(containedImage).toContain('overflow: "hidden"');
     expect(containedImage).toContain('style={{ width: "100%", height: "100%" }}');
   });
