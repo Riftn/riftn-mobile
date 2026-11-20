@@ -22,6 +22,7 @@ import { maybeShowReactionTip } from "../../libs/reaction-tip";
 import { useAppPrefs } from "../../hooks/useAppPrefs";
 import { subscribePostTipped } from "../../libs/tip-events";
 import { TipGemIcon } from "./TipGemIcon";
+import { DistributeIcon } from "../ui/DistributeIcon";
 import { getActiveTheme } from "../../theme/colors";
 import { useMetaGrey } from "../../theme/metaGrey";
 import { getThemeSkin, MONO_TEXT } from "../../theme/skins";
@@ -264,7 +265,7 @@ const FeedActionBarComponent: React.FC<FeedActionBarProps> = ({
   // (tipped, reposted, liked, saved) keeps its full ink.
   const grey = useMetaGrey();
   // Left-handed mode mirrors the whole row so the thumb lands on the left.
-  const { leftHanded } = useAppPrefs();
+  const { leftHanded, shareIconStyle } = useAppPrefs();
   // One tray, behind the thumbs-up: every positive face, a divider, then 👎.
   // Closed again whenever the bar is handed another post, so a pick can never
   // go to the wrong one.
@@ -328,6 +329,7 @@ const FeedActionBarComponent: React.FC<FeedActionBarProps> = ({
         onPress={onShare}
         accessibilityLabel={t("feedCard.shareAndRepost")}
         iconName="Share2"
+        iconNode={shareIconStyle === "distribute" ? <DistributeIcon size={FEED_ICON_SIZE.share} color={reposted ? ICON_ACTIVE : grey} strokeWidth={reposted ? 2.6 : 2} /> : undefined}
         active={reposted}
         activeColor={ICON_ACTIVE}
         activeStrokeWidth={2.6}
