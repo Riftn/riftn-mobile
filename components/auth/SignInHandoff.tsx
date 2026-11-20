@@ -103,7 +103,7 @@ const SPECKS: Array<[number, number, number, number, number]> = (() => {
   return Array.from({ length: 26 }, () => {
     const ang = r() * Math.PI * 2;
     const rad = 70 + r() * 110;
-    return [Math.cos(ang) * rad * 0.55, Math.sin(ang) * rad, 1700 + r() * 1300, r() * 2400, 1.5 + r() * 2] as [number, number, number, number, number];
+    return [Math.cos(ang) * rad * 0.55, Math.sin(ang) * rad, 1700 + r() * 1300, r() * 600, 1.5 + r() * 2] as [number, number, number, number, number];
   });
 })();
 
@@ -262,9 +262,9 @@ const Rift: React.FC<{
     <View style={styles.stage} pointerEvents="none">
       {/* halo */}
       <Animated.View style={[styles.abs, {
-        opacity: Animated.multiply(lineIn, gone),
+        opacity: Animated.multiply(Animated.multiply(lineIn, gone), tear.interpolate({ inputRange: [0, 0.5, 1], outputRange: [1, 0.35, 0] })),
         transform: [
-          { scaleX: tear.interpolate({ inputRange: [0, 1], outputRange: [1, 2.2] }) },
+          { scaleX: tear.interpolate({ inputRange: [0, 1], outputRange: [1, 1.4] }) },
           { scale: breathe.interpolate({ inputRange: [0, 1], outputRange: [0.94, 1.04] }) },
         ],
       }]}>
@@ -328,9 +328,9 @@ const Rift: React.FC<{
 
       {/* the line of light */}
       <Animated.View style={[styles.abs, {
-        opacity: Animated.multiply(lineIn, tear.interpolate({ inputRange: [0, 0.45, 1], outputRange: [1, 0.45, 0] })),
+        opacity: Animated.multiply(lineIn, tear.interpolate({ inputRange: [0, 0.35, 1], outputRange: [1, 0, 0] })),
         transform: [
-          { scaleX: tear.interpolate({ inputRange: [0, 1], outputRange: [1, 20] }) },
+          { scaleX: tear.interpolate({ inputRange: [0, 0.35, 1], outputRange: [1, 4, 4] }) },
           { scaleY: Animated.add(
             breathe.interpolate({ inputRange: [0, 1], outputRange: [0.9, 1.05] }),
             tear.interpolate({ inputRange: [0, 1], outputRange: [0, 0.05] }),
@@ -525,6 +525,8 @@ export const SignInArrival: React.FC = () => {
   const setSession = (s: Session | null) => { sessionRef.current = s; setSessionState(s); };
   const [opened, setOpened] = useState(false);
   const wasIn = useRef(isSignedIn && !needsUsername);
+  const address = String(user?.address || (user as any)?.walletAddress || '').toLowerCase();
+  const wasAddress = useRef(address);
   const veil = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(1)).current;
   const nameOpacity = useRef(new Animated.Value(0)).current;
@@ -552,8 +554,11 @@ export const SignInArrival: React.FC = () => {
 
   const signedIn = isSignedIn && !needsUsername;
   useEffect(() => {
-    const arrived = signedIn && !wasIn.current;
+    // A log-in, or a switch to another account (Add profile) while signed in.
+    const switched = signedIn && wasIn.current && !!address && !!wasAddress.current && address !== wasAddress.current;
+    const arrived = (signedIn && !wasIn.current) || switched;
     wasIn.current = signedIn;
+    if (address) wasAddress.current = address;
     if (!arrived) return;
     // Only a log-in: the account was noted by the log-in itself. A session
     // restored at launch, or a new account finishing its sign-up, has none.
@@ -567,7 +572,7 @@ export const SignInArrival: React.FC = () => {
       return;
     }
     const veilWasUp = signInWasWaiting(1500);
-    const instant = veilWasUp && Date.now() - veilOpenedAt < 4000;
+    const instant = veilWasUp && Date.now() - veilOpenedAt < 8000;
     const introElapsed = veilWasUp ? Date.now() - signInWaitStartedAt() : 0;
     begin({
       at: Date.now(), introElapsed, taken: account, takenAt: Date.now(), instant,
@@ -575,7 +580,7 @@ export const SignInArrival: React.FC = () => {
     }, veilWasUp);
     // `user` and `look` are read, not followed.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signedIn]);
+  }, [signedIn, address]);
 
   // The wait ended without a log-in (cancelled, failed, or a new account
   // going on to pick its name): let it go.
