@@ -40,8 +40,9 @@ const StandaloneTabBar: React.FC<{ onBeforeNavigate?: () => void; appWide?: bool
       if (name === ScreenNames.UploadTab) {
         const creatingBounty = navigationRef.getCurrentRoute()?.name.startsWith('Work');
         const target = (creatingBounty ? ScreenNames.WorkPost : ScreenNames.Upload) as never;
-        // Signed out: the same sign-in sheet as everywhere else, then on.
-        if (!creatingBounty && !isAuthed) requireAuth(() => navigationRef.navigate(target));
+        // Signed out: the same sign-in sheet as everywhere else; the log-in
+        // then lands on its arrival, not in the composer.
+        if (!creatingBounty && !isAuthed) requireAuth(() => {});
         else navigationRef.navigate(target);
       } else if (name === ScreenNames.Profile && isAuthed) {
         // Your profile is a kept-loaded tab; pop back to it rather than

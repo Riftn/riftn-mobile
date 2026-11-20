@@ -166,6 +166,7 @@ export const IslandFeedMenu = memo(function IslandFeedMenu({
 }) {
   const { t } = useTranslation();
   const { requireAuth } = useAuthActions();
+  const { isSignedIn: isAuthed } = useAuthState();
   const navigation = useNavigation<any>();
   const feedNavItems = useFeedNavItems();
   return (
@@ -198,7 +199,7 @@ export const IslandFeedMenu = memo(function IslandFeedMenu({
           <Pressable onPress={onMenu} accessibilityRole="menuitem" accessibilityLabel={t("common.openMenu")} style={styles.footerButton}>
             <Icon name="LayoutGrid" size={16} color="#FFFFFF" />
           </Pressable>
-          <Pressable onPress={() => { onClose(); requireAuth(() => navigation.navigate(ScreenNames.Upload)); }} accessibilityRole="menuitem" accessibilityLabel={t("sidebar.post")} style={styles.footerButton}>
+          <Pressable onPress={() => { onClose(); if (isAuthed) navigation.navigate(ScreenNames.Upload); else requireAuth(() => {}); }} accessibilityRole="menuitem" accessibilityLabel={t("sidebar.post")} style={styles.footerButton}>
             <Icon name="Plus" size={16} color="#FFFFFF" />
           </Pressable>
         </View>
