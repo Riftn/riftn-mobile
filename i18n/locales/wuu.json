@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "封面", "trim": "裁剪", "mirror": "镜像", "rotate": "旋转", "hide": "隐藏", "timer": "计时器", "close": "关闭", "photo": "照片", "remove": "移除", "pause": "暂停", "play": "播放视频", "hiddenUntilTap": "点击前隐藏", "scrub": "拖动进度条浏览视频", "addMore": "添加照片或视频", "coverAria": "点击一帧作为封面", "trimHint": "拖动两端进行裁剪", "coverHint": "点击一帧设为封面", "uploadCover": "上传封面图片", "mirrored": "已镜像", "original": "原图", "rotate90": "旋转90°", "timerOff": "关闭", "showNormally": "正常显示", "showNormallyBody": "立即显示", "hideUntilTap": "点击前隐藏", "hideUntilTapBody": "点击前模糊", "hidePrice": "隐藏在价格后", "hidePriceBody": "支付前模糊", "priceUnavailable": "不在本聊天中", "priceLabelUsd": "价格", "priceHint": "伊拉看过去是模糊个，直到伊拉付钞票拨侬。锁牢个项目弗是端到端加密个。", "timerOffBody": "伊会得留勒聊天记录里向。", "timerViewBody": "等伊拉看过之后，对侬搭伊拉来讲侪会得消失。", "confirm": "确认", "editItem": "编辑项目 {{value1}}", "coverSet": "封面勒 {{value1}}", "lockedForUsd": "解锁需要 {{value1}}", "timerTimeBody": "侬发出去 {{value1}} 之后，对侬搭伊拉来讲侪会得消失。"},
   "comicBorder": {
     "title": "边框",
     "theme": "主题",
@@ -142,6 +143,11 @@
     "useNamed": "使用{{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "单视频",
+    "dce6eb4447ef": "混合",
+    "5405fb40dded": "单歌曲",
+    "4bf9a522a0de": "视频声音",
+    "fea4b5ceffa8": "歌曲",
     "a039dfb9628b": "令牌",
     "chatSlowDown": "慢一点！连续发送的消息太多了。请在 {{wait}} 后重试，或等其他人回复。",
     "eabb5c136be4": "更新計畫失敗",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cubierta", "trim": "Recortar", "mirror": "Espejo", "rotate": "Rotar", "hide": "Ocultar", "timer": "Temporizador", "close": "Cerrar", "photo": "Foto", "remove": "Eliminar", "pause": "Pausar", "play": "Reproducir video", "hiddenUntilTap": "Oculto hasta que lo toquen", "scrub": "Avanzar por el video", "addMore": "Agregar fotos o videos", "coverAria": "Toca un fotograma para establecer la cubierta", "trimHint": "Arrastra los extremos para recortar", "coverHint": "Toca un fotograma para hacerlo la cubierta", "uploadCover": "Subir una imagen de cubierta", "mirrored": "Espejado", "original": "Original", "rotate90": "Rotar 90°", "timerOff": "Apagado", "showNormally": "Mostrar normalmente", "showNormallyBody": "Lo ven de inmediato", "hideUntilTap": "Ocultar hasta que se toque", "hideUntilTapBody": "Desenfocado hasta que lo toquen", "hidePrice": "Ocultar detrás de un precio", "hidePriceBody": "Desenfocado hasta que te paguen", "priceUnavailable": "No en este chat", "priceLabelUsd": "Precio", "priceHint": "Lo ven borroso hasta que te pagas. Los artículos bloqueados no están cifrados de extremo a extremo.", "timerOffBody": "Se queda en el chat.", "timerViewBody": "Se va para ambos una vez que lo han visto.", "confirm": "Confirmar", "editItem": "Editar artículo {{value1}}", "coverSet": "Cubrir en {{value1}}", "lockedForUsd": "Desbloquear para {{value1}}", "timerTimeBody": "Se va para ambos {{value1}} después de que lo envíes."},
   "assistantCards": {"fitting": "Adecuada", "loadFailed": "No se pudo cargar esta tarjeta. Inicia sesión o pregunta de nuevo.", "failed": "No funcionó. Inténtalo de nuevo.", "reactOne": "Reaccionar a 1 publicación", "reactMany": "Reaccionar a {{count}} publicaciones", "follow": "Seguir a {{count}}", "unfollow": "Dejar de seguir a {{count}}", "allowChats": "¿Dejar que el asistente lea tus chats?", "stopChats": "¿Impedir que el asistente lea tus chats?", "confirmReact": "Reaccionar", "confirmFollow": "Seguir", "confirmUnfollow": "Dejar de seguir", "confirmAllow": "Permitir", "confirmStop": "Detener", "skipsAlready": "Omite {{count}} a las que ya reaccionaste", "allowChatsWhy": "Solo tú ves lo que lee. Solo chats directos, y los cifrados de extremo a extremo siguen privados. Pídele que pare cuando quieras.", "pickReaction": "Elige una reacción", "progress": "{{done}} de {{total}}", "doneReact": "Reaccionaste a {{count}} publicaciones", "doneAllow": "Permitido. Vuelve a hacer tu pregunta.", "doneStop": "Detenido. Ya no puede leer tus chats.", "doneFollow": "Hecho para {{count}}", "expired": "Esta tarjeta caducó. Pregunta de nuevo.", "cancelled": "Cancelado", "cancel": "Ahora no"},
   "chatReactions": {
     "many_one": "{{count}} reacción a tus mensajes",
@@ -903,7 +904,7 @@
     "postCount_other": "{{count}} publicaciones"
   },
   "settings": {
-    "arrivalLook": {"title": "Al iniciar sesión", "desc": "Lo que se ve mientras carga tu cuenta, antes de que tu foto llegue a la página. En este dispositivo.", "rift": "Grieta", "trace": "Trazo", "frame": "Marco de foto", "orbit": "Órbita"},
+    "arrivalLook": {"title": "Al iniciar sesión", "desc": "Lo que se ve mientras carga tu cuenta, antes de que tu foto llegue a la página. En este dispositivo.", "trace": "Trazo", "tune": "Sintonizar", "rift": "Grieta", "deck": "Baraja", "glass": "Gota de cristal"},
     "chatDeleteChoice": "Al eliminar un mensaje",
     "chatDeleteChoiceDesc": "Preguntar siempre, o eliminar siempre solo para ti o para todos en el chat.",
     "chatDeleteAsk": "Preguntar siempre",
@@ -971,6 +972,7 @@
     "manageAccount": "Administra tu cuenta y preferencias",
     "logOut": "Cerrar sesión",
     "loggedOut": "Sesión cerrada",
+    "loggedOutNowUsing": "Sesión cerrada. Ahora usas {{name}}",
     "logoutFailed": "Error al cerrar sesión",
     "profile": "Perfil",
     "notifications": "Notificaciones",
@@ -13237,6 +13239,11 @@
     "watch": "Ver un anuncio para apoyar a este creador"
   },
   "copy": {
+    "0f8fed0dc99b": "Solo video",
+    "dce6eb4447ef": "Mezcla",
+    "5405fb40dded": "Solo canción",
+    "4bf9a522a0de": "Sonido de video",
+    "fea4b5ceffa8": "Canción",
     "e587a51bc3ce": "Novedades en Riftn",
     "d7396f3b8881": "Nuevo me gusta o comentario en Riftn",
     "037a2ecd34b0": "Nuevo seguidor en Riftn",

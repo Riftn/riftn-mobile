@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "ሽፋን", "trim": "ቁረጽ", "mirror": "መስትያት", "rotate": "አዙር", "hide": "ኽደን", "timer": "ሰዓት መቁጠሪ", "close": "ዕጸው", "photo": "ስእሊ", "remove": "ኣልግስ", "pause": "ኣቋርጽ", "play": "ቪድዮ ኣጻውት", "hiddenUntilTap": "ክሳብ ዝተንክፍዎ ተኸዲኑ ይጸንሕ", "scrub": "ኣብ ውሽጢ ቪድዮ ተመላለስ", "addMore": "ስእልታት ወይ ቪድዮታት ወስኽ", "coverAria": "ሽፋን ንምግባር ፍሬም ተንክፍ", "trimHint": "ንኽትቁርጾ መወዳእታታቱ ሰሓብ", "coverHint": "ከም ሽፋን ንምግባር ፍሬም ተንክፍ", "uploadCover": "ሽፋን ስእሊ ኣውርድ", "mirrored": "ተመሰለ", "original": "ኦሪጅናል", "rotate90": "90° ኣዙር", "timerOff": "ኣጥፍእ", "showNormally": "ብቡሩህ ኣርኢ", "showNormallyBody": "ብኡንብኡ ይርእይዎ", "hideUntilTap": "ክሳብ ዝተንክፍዎ ተኸዲኑ ይጸንሕ", "hideUntilTapBody": "ክሳብ ዝተንክፍዎ ብድብዘዛ ይጸንሕ", "hidePrice": "ብዋጋ ተኸዲኑ ይጸንሕ", "hidePriceBody": "ክሳብ ዝኸፍሉልካ ብድብዘዛ ይጸንሕ", "priceUnavailable": "ኣብዚ ቻት የለን", "priceLabelUsd": "ዋጋ", "priceHint": "ክሳብ ዝኸፍሉኻ ብድብዘዛ እዮም ዝርእይዎ። ተዓጽዮም ዘለዉ ነገራት ብምሉእ ምስጢራዊ ኣይኮኑን።", "timerOffBody": "ኣብቲ ቻት ይጸንሕ።", "timerViewBody": "ምስ ረኣይዎ ንኽልቴኹም ይጠፍእ።", "confirm": "ኣረጋግጽ", "editItem": "ንብረት ኣስተኻኽል {{value1}}", "coverSet": "ሽፋን ኣብ {{value1}}", "lockedForUsd": "ክፈቶ ን {{value1}}", "timerTimeBody": "ካብ ዝለኣኽካዮ ንደሓር ንኽልቴኹም ይጠፍእ {{value1}}።"},
   "comicBorder": {
     "title": "ደረት",
     "theme": "ገጽታ",
@@ -142,6 +143,11 @@
     "use": "ነዚ ቅጥዒ እዚ ተጠቐም"
   },
   "copy": {
+    "0f8fed0dc99b": "ቪድዮ ጥራይ",
+    "dce6eb4447ef": "ምሕዋስ",
+    "5405fb40dded": "መዝሙር ጥራይ",
+    "4bf9a522a0de": "ድምጺ ቪድዮ",
+    "fea4b5ceffa8": "መዝሙር",
     "a039dfb9628b": "ምልክታት",
     "chatSlowDown": "ቀስ በል! ተኸታታሊ ብዙሕ መልእኽትታት። ድሕሪ {{wait}} እንደገና ፈትን፣ ወይ ካልእ ሰብ ክሳብ ዝምልስ ተጸበ።",
     "eabb5c136be4": "ፕላን ንምምሕያሽ ተሳኒዩ",

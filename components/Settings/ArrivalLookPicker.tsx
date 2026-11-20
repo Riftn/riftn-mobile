@@ -5,25 +5,28 @@ import { useReducedMotion } from "react-native-reanimated";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/AuthContext";
 import { getAvatarUrl } from "../../libs/misc";
-import { ARRIVAL_INTRO_MS, ARRIVAL_LOOKS, setArrivalLook, useArrivalLook, type ArrivalLook } from "../../libs/arrival-look";
-import { ArrivalMarks } from "../auth/SignInHandoff";
+import { ARRIVAL_INTRO_MS, AVAILABLE_ARRIVAL_LOOKS, setArrivalLook, useArrivalLook, type ArrivalLook } from "../../libs/arrival-look";
+import { ArrivalMarks, isConceptLook } from "../auth/SignInHandoff";
 
 /**
  * Settings → Appearance → After you sign in: what plays between logging in
- * and the app (the Rift, Trace, Picture frame or Orbit). Each card plays its
+ * and the app (Trace, Tune in, the Rift, Deck or Glass drop). Each card plays its
  * arrival with your own picture, shrunk. Same choice and key as web's
  * ArrivalLookSetting.
  */
 const LABELS: Record<ArrivalLook, [string, string]> = {
-  rift: ["settings.arrivalLook.rift", "Rift"],
   trace: ["settings.arrivalLook.trace", "Trace"],
-  frame: ["settings.arrivalLook.frame", "Picture frame"],
-  orbit: ["settings.arrivalLook.orbit", "Orbit"],
+  tune: ["settings.arrivalLook.tune", "Tune in"],
+  rift: ["settings.arrivalLook.rift", "Rift"],
+  deck: ["settings.arrivalLook.deck", "Deck"],
+  glass: ["settings.arrivalLook.glass", "Glass drop"],
 };
 
 const SCALE = 0.5;
 const CARD_H = 110;
 const WAIT_MS = 900;
+/** The drawn arrivals loop a little longer before they open. */
+const CONCEPT_WAIT_MS = 1500;
 const SHOW_MS = 1600;
 
 /** The picked one plays through on a loop; the others wait on their marks. */
@@ -33,8 +36,9 @@ function Preview({ look, picture, name, playing, still }: { look: ArrivalLook; p
   useEffect(() => {
     setOpened(false);
     if (still || !playing) return;
-    const open = setTimeout(() => setOpened(true), ARRIVAL_INTRO_MS[look] + WAIT_MS);
-    const again = setTimeout(() => { setOpened(false); setRound((r) => r + 1); }, ARRIVAL_INTRO_MS[look] + WAIT_MS + SHOW_MS);
+    const wait = ARRIVAL_INTRO_MS[look] + (isConceptLook(look) ? CONCEPT_WAIT_MS : WAIT_MS);
+    const open = setTimeout(() => setOpened(true), wait);
+    const again = setTimeout(() => { setOpened(false); setRound((r) => r + 1); }, wait + SHOW_MS);
     return () => { clearTimeout(open); clearTimeout(again); };
   }, [look, round, still, playing]);
   return (
@@ -58,7 +62,7 @@ export default function ArrivalLookPicker() {
         {t("settings.arrivalLook.desc", "What plays while your account loads, before your picture lands on the page. On this device.")}
       </Text>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
-        {ARRIVAL_LOOKS.map((look) => {
+        {AVAILABLE_ARRIVAL_LOOKS.map((look) => {
           const active = current === look;
           const [key, fallback] = LABELS[look];
           return (

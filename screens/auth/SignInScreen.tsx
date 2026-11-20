@@ -69,6 +69,7 @@ import { setSigningProvider, setEoaSigningProvider, clearSigningProvider } from 
 import { setupAAProvider } from "../../libs/wallet-core/smart-account";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import { useScrollFieldIntoView } from "../../hooks/useScrollFieldIntoView";
+import { steadyHeight } from "../../libs/steady-height";
 
 const log = createLogger("SignInScreen");
 
@@ -816,7 +817,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
           }}
           onLayout={(event) => {
             scrollViewProps.onLayout(event);
-            setLoginViewportHeight(event.nativeEvent.layout.height);
+            setLoginViewportHeight(steadyHeight(event.nativeEvent.layout.height));
           }}
           contentContainerStyle={{ flexGrow: 1 }}
           className="px-6"
@@ -834,7 +835,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
           {/* Sign-in options: Email, Phone, Google, Apple, and Connect Wallet
               are all live. */}
           {authStep === "main" ? (
-            <View onLayout={(event) => setLoginFormHeight(event.nativeEvent.layout.height)}>
+            <View onLayout={(event) => setLoginFormHeight(steadyHeight(event.nativeEvent.layout.height))}>
             {/* Accounts still saved on this phone (logging out of one keeps
                 the others), same rows as the sign-in sheet. */}
             {built ? <SignInSavedProfiles disabled={isLoading} /> : null}
@@ -894,9 +895,9 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
               clips above take the spare height. */}
           <View style={authStep === "main" ? { paddingTop: 12, paddingBottom: 12 } : { paddingVertical: 24 }} onLayout={(event) => {
             const { y, height } = event.nativeEvent.layout;
-            setLoginLegalHeight(height);
+            setLoginLegalHeight(steadyHeight(height));
             // The legal line is the last thing on the page: its bottom is how tall the content really is.
-            setLoginContentHeight(y + height);
+            setLoginContentHeight(steadyHeight(y + height));
           }}>
             <Text style={[authText.caption, { textAlign: "center" }]}>
               {/* The links travel with the sentence so languages that reorder

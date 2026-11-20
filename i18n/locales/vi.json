@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Ảnh bìa", "trim": "Cắt", "mirror": "Phản chiếu", "rotate": "Xoay", "hide": "Ẩn", "timer": "Hẹn giờ", "close": "Đóng", "photo": "Ảnh", "remove": "Xóa", "pause": "Tạm dừng", "play": "Phát video", "hiddenUntilTap": "Ẩn cho đến khi họ nhấn vào", "scrub": "Tua video", "addMore": "Thêm ảnh hoặc video", "coverAria": "Nhấn vào một khung hình để đặt làm ảnh bìa", "trimHint": "Kéo các đầu để cắt", "coverHint": "Nhấn vào một khung hình để đặt làm ảnh bìa", "uploadCover": "Tải lên ảnh bìa", "mirrored": "Đã phản chiếu", "original": "Gốc", "rotate90": "Xoay 90°", "timerOff": "Tắt", "showNormally": "Hiển thị bình thường", "showNormallyBody": "Họ nhìn thấy ngay lập tức", "hideUntilTap": "Ẩn cho đến khi được nhấn", "hideUntilTapBody": "Làm mờ cho đến khi họ nhấn vào", "hidePrice": "Ẩn sau một mức giá", "hidePriceBody": "Làm mờ cho đến khi họ thanh toán cho bạn", "priceUnavailable": "Không có trong cuộc trò chuyện này", "priceLabelUsd": "Giá", "priceHint": "Họ thấy nó bị làm mờ cho đến khi họ trả tiền cho bạn. Các mục bị khóa không được mã hóa đầu cuối.", "timerOffBody": "Nó vẫn nằm trong cuộc trò chuyện.", "timerViewBody": "Biến mất đối với cả hai người sau khi họ đã xem nó.", "confirm": "Xác nhận", "editItem": "Chỉnh sửa mục {{value1}}", "coverSet": "Ảnh bìa tại {{value1}}", "lockedForUsd": "Mở khóa với giá {{value1}}", "timerTimeBody": "Biến mất đối với cả hai người {{value1}} sau khi bạn gửi nó."},
   "comic": {
     "toComic": "Chuyển thành truyện tranh",
     "toCarousel": "Hiển thị dạng băng chuyền",
@@ -168,6 +169,11 @@
     "useNamed": "Sử dụng {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Chỉ video",
+    "dce6eb4447ef": "Kết hợp",
+    "5405fb40dded": "Chỉ bài hát",
+    "4bf9a522a0de": "Âm thanh video",
+    "fea4b5ceffa8": "Bài hát",
     "a039dfb9628b": "Token",
     "chatSlowDown": "Chậm lại nào! Quá nhiều tin nhắn liên tiếp. Thử lại sau {{wait}}, hoặc đợi người khác trả lời.",
     "eabb5c136be4": "Không thể cập nhật kế hoạch",
@@ -3188,7 +3194,7 @@
     "postCount_other": "{{count}} bài đăng"
   },
   "settings": {
-    "loginLook": {"title": "Màn hình đăng nhập", "desc": "Cách logo và khẩu hiệu Riftn chuyển động trên màn hình đăng nhập của thiết bị này.", "tube": "TV ống", "vhs": "Băng VHS", "led": "Tường LED", "holo": "Ảnh ba chiều", "neon": "Neon", "3d": "3D", "flat": "Phẳng"}, "arrivalLook": {"title": "Sau khi đăng nhập", "desc": "Hiệu ứng phát khi tài khoản đang tải, trước khi ảnh của bạn hiện trên trang. Trên thiết bị này.", "rift": "Khe nứt", "trace": "Vệt sáng", "frame": "Khung ảnh", "orbit": "Quỹ đạo"},
+    "loginLook": {"title": "Màn hình đăng nhập", "desc": "Cách logo và khẩu hiệu Riftn chuyển động trên màn hình đăng nhập của thiết bị này.", "tube": "TV ống", "vhs": "Băng VHS", "led": "Tường LED", "holo": "Ảnh ba chiều", "neon": "Neon", "3d": "3D", "flat": "Phẳng"}, "arrivalLook": {"title": "Sau khi đăng nhập", "desc": "Hiệu ứng phát khi tài khoản đang tải, trước khi ảnh của bạn hiện trên trang. Trên thiết bị này.", "trace": "Vệt sáng", "tune": "Dò sóng", "rift": "Khe nứt", "deck": "Bộ bài", "glass": "Giọt kính"},
     "importPartial": "Không thể theo dõi {{count}} tài khoản — hãy chạy lại quá trình nhập để thử lại.",
     "glass": "Thủy tinh",
     "shortsEnabled": "Quần short",

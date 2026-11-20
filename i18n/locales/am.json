@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "መሸፈኛ", "trim": "ቁረጥ", "mirror": "አንጸባራቂ", "rotate": "አሽከርክር", "hide": "ይደብቁ", "timer": "ቆጣሪ", "close": "ይዝጉ", "photo": "ፎቶ", "remove": "አስወግድ", "pause": "አቁም", "play": "ቪዲዮን አጫውት", "hiddenUntilTap": "እስከሚነኩት ድረስ የተደበቀ", "scrub": "በቪዲዮው ውስጥ ይሸብልሉ", "addMore": "ፎቶዎችን ወይም ቪዲዮዎችን ያክሉ", "coverAria": "ሽፋኑን ለማዘጋጀት አንድ ክፈፍን መታ ያድርጉ", "trimHint": "ለመቁረጥ ጫፎቹን ይጎትቱ", "coverHint": "ክፈፍን መታ በማድረግ ሽፋን ያድርጉት", "uploadCover": "የሽፋን ምስል ይስቀሉ", "mirrored": "ተንጸባርቋል", "original": "ዋናው", "rotate90": "በ90° ያዙሩ", "timerOff": "አጥፋ", "showNormally": "በተለመደው መንገድ ያሳዩ", "showNormallyBody": "ወዲያውኑ ያዩታል", "hideUntilTap": "እስኪታተም ድረስ ይደበቅ", "hidePrice": "በዋጋ ጀርባ ይደበቅ", "priceUnavailable": "በዚህ ውይይት ውስጥ የለም", "priceLabelUsd": "ዋጋ", "priceHint": "እስከሚከፍሉዎት ድረስ እነሱ የሚመለከቱት በደበዘዘ መልኩ ነው። የተቆለፉ ንጥል ነገሮች ከጫፍ እስከ ጫፍ የተመሰጠሩ አይደሉም።", "timerOffBody": "በቻት ውስጥ ይቆያል።", "timerViewBody": "አንዴ ካዩት በኋላ ለሁለታችሁም ይጠፋል።", "confirm": "ያረጋግጡ", "editItem": "ንጥል ነገርን ያርትዑ {{value1}}", "coverSet": "በ{{value1}} ላይ ይሸፍኑ", "lockedForUsd": "ለ{{value1}} ይክፈቱ", "timerTimeBody": "ከላኩት በኋላ ለሁለታችሁም {{value1}} ይጠፋል።"},
   "comicBorder": {
     "title": "ጠርዝ",
     "theme": "ገጽታ",
@@ -142,6 +143,11 @@
     "useNamed": "ይጠቀሙ {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "ቪዲዮ ብቻ",
+    "dce6eb4447ef": "አጣምር",
+    "5405fb40dded": "መዝሙር ብቻ",
+    "4bf9a522a0de": "የቪዲዮ ድምጽ",
+    "fea4b5ceffa8": "መዝሙር",
     "a039dfb9628b": "ቶከኖች",
     "chatSlowDown": "ቀስ ይበሉ! በተከታታይ በጣም ብዙ መልዕክቶች። በ{{wait}} ውስጥ እንደገና ይሞክሩ፣ ወይም ሌላ ሰው እስኪመልስ ይጠብቁ።",
     "eabb5c136be4": "እቅዱን ማዘመን አልተሳካም",

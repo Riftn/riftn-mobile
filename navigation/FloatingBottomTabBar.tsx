@@ -49,6 +49,7 @@ import { usePublicChatUnreadCount } from "../hooks/usePublicChatUnread";
 import { storage } from "../libs/storage";
 import { mirrorDurable, restoreDurable } from "../libs/durable-setting";
 import { bootRevealed } from "../libs/bootReveal";
+import { arrivalPlaying } from "../libs/signInHandoff";
 import { TAB_BAR_PILL_HEIGHT } from "./tabBarLayout";
 import type { TabPressIntent } from "./tabPressIntent";
 import { useTranslation } from "react-i18next";
@@ -656,7 +657,9 @@ const FloatingBottomTabBar: React.FC<BottomTabBarProps & { noEntrance?: boolean 
   });
 
   useEffect(() => {
-    if (hasAnimated.current || !bootRevealed || noEntrance) return;
+    // Under a log-in arrival the bar is simply there: its slide-up and icon
+    // stagger beneath the flying picture read as the bar flashing.
+    if (hasAnimated.current || !bootRevealed || noEntrance || arrivalPlaying()) return;
     hasAnimated.current = true;
     animProgress.setValue(0);
     containerAnim.value = 0;

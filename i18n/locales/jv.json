@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Sampul", "trim": "Potong", "mirror": "Cermin", "rotate": "Rotasi", "hide": "Singidake", "timer": "Timer", "close": "Tutup", "photo": "Foto", "remove": "Busak", "pause": "Jeda", "play": "Puter video", "hiddenUntilTap": "Singidake nganti diklik", "scrub": "Geser video", "addMore": "Tambah foto utawa video", "coverAria": "Klik pigura kanggo nyetel sampul", "trimHint": "Seret pucuk kanggo motong", "coverHint": "Klik pigura kanggo dadi sampul", "uploadCover": "Unggah gambar sampul", "mirrored": "Dicermin", "original": "Asli", "rotate90": "Rotasi 90°", "timerOff": "Mati", "showNormally": "Tampilake kaya biasane", "showNormallyBody": "Langsung katon", "hideUntilTap": "Singidake nganti diklik", "hideUntilTapBody": "Blur nganti diklik", "hidePrice": "Singidake ing mburi rega", "hidePriceBody": "Blur nganti mbayar", "priceUnavailable": "Ora ing obrolan iki", "priceLabelUsd": "Rega", "priceHint": "Dheweke ndeleng iku burem nganti mbayar sampeyan. Barang sing dikunci ora nganggo enkripsi end-to-end.", "timerOffBody": "Tetep ana ing obrolan.", "timerViewBody": "Ilang kanggo sampeyan sakloron sawise dideleng.", "confirm": "Konfirmasi", "editItem": "Sunting barang {{value1}}", "coverSet": "Sampul ing {{value1}}", "lockedForUsd": "Bukak kunci kanggo {{value1}}", "timerTimeBody": "Ilang kanggo sampeyan sakloron {{value1}} sawise dikirim."},
   "comicBorder": {
     "title": "Pinggiran",
     "theme": "Tema",
@@ -142,6 +143,11 @@
     "useNamed": "{{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Video wae",
+    "dce6eb4447ef": "Campuran",
+    "5405fb40dded": "Lagu wae",
+    "4bf9a522a0de": "Swara video",
+    "fea4b5ceffa8": "Lagu",
     "a039dfb9628b": "Token",
     "chatSlowDown": "Alon-alon! Kakehan pesen terus-terusan. Coba maneh ing {{wait}}, utawa enteni wong liya mbales.",
     "eabb5c136be4": "Gagal update rencana",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "غلاف", "trim": "قص", "mirror": "مرآة", "rotate": "دوران", "hide": "إخفاء", "timer": "مؤقت", "close": "قفل", "photo": "صورة", "remove": "إزالة", "pause": "إيقاف مؤقت", "play": "تشغيل الفيديو", "hiddenUntilTap": "مخفي لحد ما يضغطوا عليه", "scrub": "تسحب الفيديو", "addMore": "أضف صور أو فيديوهات", "coverAria": "اضغط على إطار لتعيينه كغلاف", "trimHint": "اسحب الأطراف للقص", "coverHint": "اضغط على إطار عشان يكون هو الغلاف", "uploadCover": "حمّل صورة غلاف", "mirrored": "معكوس", "original": "أصلي", "rotate90": "دور 90°", "timerOff": "إيقاف", "showNormally": "عرض طبيعي", "showNormallyBody": "بيشوفوها فوراً", "hideUntilTap": "إخفاء لحد ما يضغطوا", "hideUntilTapBody": "مضبّب لحد ما يضغطوا", "hidePrice": "إخفاء خلف سعر", "hidePriceBody": "مضبّب لحد ما يدفعوا", "priceUnavailable": "ما في الدردشة دي", "priceLabelUsd": "سعر", "priceHint": "هم شايفينها مشوشة لحد ما يدفعوا ليك. العناصر المقفولة ما مشفرة من الطرف للطرف.", "timerOffBody": "بتظل في الشات.", "timerViewBody": "بتختفي ليكم الاتنين بمجرد ما يشوفوها.", "confirm": "أكد", "editItem": "عدل العنصر {{value1}}", "coverSet": "غلاف في {{value1}}", "lockedForUsd": "افتح لـ {{value1}}", "timerTimeBody": "بتختفي ليكم الاتنين {{value1}} بعد ما تبعتها."},
   "comicBorder": {
     "title": "الإطار",
     "theme": "الثيم",
@@ -142,6 +143,11 @@
     "title": "ألقى نظرة على ترندك الجاي."
   },
   "copy": {
+    "0f8fed0dc99b": "فيديو بس",
+    "dce6eb4447ef": "مكس",
+    "5405fb40dded": "أغنية بس",
+    "4bf9a522a0de": "صوت الفيديو",
+    "fea4b5ceffa8": "أغنية",
     "a039dfb9628b": "توكنز",
     "chatSlowDown": "تمهّل! رسائل كثيرة متتالية. حاول مرة أخرى بعد {{wait}}، أو انتظر حتى يرد شخص آخر.",
     "eabb5c136be4": "لا تمكن من تحديث الخطة",

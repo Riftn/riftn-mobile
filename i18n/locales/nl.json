@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Omslag", "trim": "Bijsnijden", "mirror": "Spiegelen", "rotate": "Draaien", "hide": "Verbergen", "timer": "Timer", "close": "Sluiten", "photo": "Foto", "remove": "Verwijderen", "pause": "Pauze", "play": "Video afspelen", "hiddenUntilTap": "Verborgen totdat ze erop tikken", "scrub": "Door de video scrollen", "addMore": "Foto's of video's toevoegen", "coverAria": "Tik op een frame om de omslag in te stellen", "trimHint": "Sleep de uiteinden om bij te snijden", "coverHint": "Tik op een frame om dit de omslag te maken", "uploadCover": "Een omslagfoto uploaden", "mirrored": "Gespiegeld", "original": "Origineel", "rotate90": "90° draaien", "timerOff": "Uit", "showNormally": "Normaal weergeven", "showNormallyBody": "Ze zien het meteen", "hideUntilTap": "Verbergen totdat er wordt getikt", "hideUntilTapBody": "Vervaagd totdat ze erop tikken", "hidePrice": "Verbergen achter een prijs", "hidePriceBody": "Vervaagd totdat ze je betalen", "priceUnavailable": "Niet in deze chat", "priceLabelUsd": "Prijs", "priceHint": "Ze zien het wazig totdat ze je betalen. Vergrendelde items zijn niet end-to-end versleuteld.", "timerOffBody": "Het blijft in de chat.", "timerViewBody": "Weg voor jullie beiden zodra ze het hebben gezien.", "confirm": "Bevestigen", "editItem": "Item bewerken {{value1}}", "coverSet": "Omslag op {{value1}}", "lockedForUsd": "Ontgrendelen voor {{value1}}", "timerTimeBody": "Weg voor jullie beiden {{value1}} nadat je het hebt verzonden."},
   "assistantCards": {"fitting": "Passend", "loadFailed": "Deze kaart kon niet laden. Log in of vraag het opnieuw.", "failed": "Dat lukte niet. Probeer het opnieuw.", "reactOne": "Reageer op 1 bericht", "reactMany": "Reageer op {{count}} berichten", "follow": "Volg {{count}}", "unfollow": "Ontvolg {{count}}", "allowChats": "Mag de assistent je chats lezen?", "stopChats": "Stoppen met het lezen van je chats?", "confirmReact": "Reageer", "confirmFollow": "Volgen", "confirmUnfollow": "Ontvolgen", "confirmAllow": "Toestaan", "confirmStop": "Stoppen", "skipsAlready": "Slaat {{count}} over waarop je al reageerde", "allowChatsWhy": "Alleen jij ziet wat hij leest. Alleen privéchats, en end-to-end versleutelde blijven privé. Vraag hem altijd om te stoppen.", "pickReaction": "Kies een reactie", "progress": "{{done}} van {{total}}", "doneReact": "Gereageerd op {{count}} berichten", "doneAllow": "Toegestaan. Stel je vraag opnieuw.", "doneStop": "Gestopt. Hij kan je chats niet meer lezen.", "doneFollow": "Klaar voor {{count}}", "expired": "Deze kaart is verlopen. Vraag het opnieuw.", "cancelled": "Geannuleerd", "cancel": "Niet nu"},
   "chatReactions": {
     "many_one": "{{count}} reactie op je berichten",
@@ -903,7 +904,7 @@
     "postCount_other": "{{count}} berichten"
   },
   "settings": {
-    "arrivalLook": {"title": "Na het inloggen", "desc": "Wat je ziet terwijl je account laadt, voordat je foto op de pagina landt. Op dit apparaat.", "rift": "Scheur", "trace": "Spoor", "frame": "Fotolijst", "orbit": "Baan"},
+    "arrivalLook": {"title": "Na het inloggen", "desc": "Wat je ziet terwijl je account laadt, voordat je foto op de pagina landt. Op dit apparaat.", "trace": "Spoor", "tune": "Afstemmen", "rift": "Scheur", "deck": "Kaartspel", "glass": "Glazen druppel"},
     "chatDeleteChoice": "Als je een bericht verwijdert",
     "chatDeleteChoiceDesc": "Elke keer vragen, of altijd alleen voor jou of voor iedereen in de chat verwijderen.",
     "chatDeleteAsk": "Elke keer vragen",
@@ -971,6 +972,7 @@
     "manageAccount": "Beheer je account en voorkeuren",
     "logOut": "Uitloggen",
     "loggedOut": "Uitgelogd",
+    "loggedOutNowUsing": "Uitgelogd. Je gebruikt nu {{name}}",
     "logoutFailed": "Uitloggen mislukt",
     "profile": "Profiel",
     "notifications": "Meldingen",
@@ -13473,6 +13475,11 @@
     "update": "Nu bijwerken"
   },
   "copy": {
+    "0f8fed0dc99b": "Alleen video",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Alleen nummer",
+    "4bf9a522a0de": "Videogeluid",
+    "fea4b5ceffa8": "Nummer",
     "e587a51bc3ce": "Nieuw op Riftn",
     "d7396f3b8881": "Nieuwe like of reactie op Riftn",
     "037a2ecd34b0": "Nieuwe volger op Riftn",

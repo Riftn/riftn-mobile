@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Borító", "trim": "Vágás", "mirror": "Tükrözés", "rotate": "Forgatás", "hide": "Elrejtés", "timer": "Időzítő", "close": "Bezárás", "photo": "Fotó", "remove": "Eltávolítás", "pause": "Szünet", "play": "Videó lejátszása", "hiddenUntilTap": "Elrejtve, amíg rá nem koppintanak", "scrub": "Léptetés a videóban", "addMore": "Fotók vagy videók hozzáadása", "coverAria": "Koppints egy kockára a borító beállításához", "trimHint": "Húzd a végeket a vágáshoz", "coverHint": "Koppints egy kockára, hogy az legyen a borító", "uploadCover": "Borítókép feltöltése", "mirrored": "Tükrözött", "original": "Eredeti", "rotate90": "90°-os forgatás", "timerOff": "Ki", "showNormally": "Normál megjelenítés", "showNormallyBody": "Azonnal látják", "hideUntilTap": "Elrejtés koppintásig", "hideUntilTapBody": "Elhomályosítva, amíg rá nem koppintanak", "hidePrice": "Elrejtés ár mögé", "hidePriceBody": "Elhomályosítva, amíg nem fizetnek neked", "priceUnavailable": "Nem ebben a csevegésben", "priceLabelUsd": "Ár", "priceHint": "Homályosan látják, amíg nem fizetnek neked. A zárolt elemek nem végpontok között titkosítottak.", "timerOffBody": "A csevegésben marad.", "timerViewBody": "Mindkettőtök számára eltűnik, miután megnézték.", "confirm": "Megerősítés", "editItem": "Elem szerkesztése {{value1}}", "coverSet": "Borítókép: {{value1}}", "lockedForUsd": "Feloldás ezért: {{value1}}", "timerTimeBody": "Mindkettőtök számára eltűnik {{value1}} az elküldés után."},
   "comic": {
     "toComic": "Legyen képregény",
     "toCarousel": "Megjelenítés körhintaként",
@@ -168,6 +169,11 @@
     "useNamed": "{{name}} használata"
   },
   "copy": {
+    "0f8fed0dc99b": "Csak videó",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Csak dal",
+    "4bf9a522a0de": "Videó hangja",
+    "fea4b5ceffa8": "Dal",
     "a039dfb9628b": "Tokenek",
     "chatSlowDown": "Lassabban! Túl sok üzenet egymás után. Próbáld újra {{wait}} múlva, vagy várd meg, hogy más is válaszoljon.",
     "eabb5c136be4": "Sikertelen a tervek frissítése",

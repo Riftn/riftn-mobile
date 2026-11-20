@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Omslag", "trim": "Trim", "mirror": "Speilvend", "rotate": "Roter", "hide": "Skjul", "timer": "Tidtaker", "close": "Lukk", "photo": "Bilde", "remove": "Fjern", "pause": "Pause", "play": "Spill av video", "hiddenUntilTap": "Skjult til de trykker på den", "scrub": "Skroll gjennom videoen", "addMore": "Legg til bilder eller videoer", "coverAria": "Trykk på en ramme for å velge omslag", "trimHint": "Dra i endene for å trimme", "coverHint": "Trykk på en ramme for å gjøre det til omslag", "uploadCover": "Last opp et omslagsbilde", "mirrored": "Speilvendt", "original": "Original", "rotate90": "Roter 90°", "timerOff": "Av", "showNormally": "Vis normalt", "showNormallyBody": "De ser det med en gang", "hideUntilTap": "Skjul til det trykkes på", "hideUntilTapBody": "Uskarpt til de trykker på det", "hidePrice": "Skjul bak en pris", "hidePriceBody": "Uskarpt til de betaler deg", "priceUnavailable": "Ikke i denne chatten", "priceLabelUsd": "Pris", "priceHint": "De ser det uskarpt helt til de betaler deg. Låste elementer er ikke ende-til-ende-kryptert.", "timerOffBody": "Det blir værende i chatten.", "timerViewBody": "Borte for dere begge når de har sett det.", "confirm": "Bekreft", "editItem": "Rediger element {{value1}}", "coverSet": "Omslag på {{value1}}", "lockedForUsd": "Lås opp for {{value1}}", "timerTimeBody": "Borte for dere begge {{value1}} etter at du har sendt det."},
   "comicBorder": {
     "title": "Kant",
     "theme": "Tema",
@@ -142,6 +143,11 @@
     "useNamed": "Bruk {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Kun video",
+    "dce6eb4447ef": "Miks",
+    "5405fb40dded": "Kun sang",
+    "4bf9a522a0de": "Videolyd",
+    "fea4b5ceffa8": "Sang",
     "a039dfb9628b": "Tokener",
     "chatSlowDown": "Ro ned! For mange meldinger på rad. Prøv igjen om {{wait}}, eller vent til noen andre svarer.",
     "eabb5c136be4": "Feilet å oppdatere plan",

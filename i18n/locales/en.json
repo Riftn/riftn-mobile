@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Hidden until they tap it", "scrub": "Scrub through the video", "addMore": "Add photos or videos", "coverAria": "Tap a frame to set the cover", "trimHint": "Drag the ends to trim", "coverHint": "Tap a frame to make it the cover", "uploadCover": "Upload a cover picture", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "They see it right away", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "Blurred until they tap it", "hidePrice": "Hide behind a price", "hidePriceBody": "Blurred until they pay you", "priceUnavailable": "Not in this chat", "priceLabelUsd": "Price", "priceHint": "They see it blurred until they pay you. Locked items are not end-to-end encrypted.", "timerOffBody": "It stays in the chat.", "timerViewBody": "Gone for both of you once they have seen it.", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover at {{value1}}", "lockedForUsd": "Unlock for {{value1}}", "timerTimeBody": "Gone for both of you {{value1}} after you send it."},
   "assistantCards": {"fitting": "Fitting", "loadFailed": "This card could not be loaded. Sign in, or ask again.", "failed": "That did not work. Try again.", "reactOne": "React to 1 post", "reactMany": "React to {{count}} posts", "follow": "Follow {{count}}", "unfollow": "Unfollow {{count}}", "allowChats": "Let the assistant read your chats?", "stopChats": "Stop the assistant reading your chats?", "confirmReact": "React", "confirmFollow": "Follow", "confirmUnfollow": "Unfollow", "confirmAllow": "Allow", "confirmStop": "Stop", "skipsAlready": "Skips {{count}} you already reacted to", "allowChatsWhy": "Only you see what it reads. Direct chats only, and end-to-end encrypted ones stay private. Ask it to stop any time.", "pickReaction": "Pick a reaction", "progress": "{{done}} of {{total}}", "doneReact": "Reacted to {{count}} posts", "doneAllow": "Allowed. Ask your question again.", "doneStop": "Stopped. It can no longer read your chats.", "doneFollow": "Done for {{count}}", "expired": "This card expired. Ask again.", "cancelled": "Cancelled", "cancel": "Not now"},
   "chatReactions": {
     "many_one": "{{count}} reaction to your messages",
@@ -954,7 +955,7 @@
     "postCount_other": "{{count}} posts"
   },
   "settings": {
-    "arrivalLook": {"title": "After you sign in", "desc": "What plays while your account loads, before your picture lands on the page. On this device.", "rift": "Rift", "trace": "Trace", "frame": "Picture frame", "orbit": "Orbit"},
+    "arrivalLook": {"title": "After you sign in", "desc": "What plays while your account loads, before your picture lands on the page. On this device.", "trace": "Trace", "tune": "Tune in", "rift": "Rift", "deck": "Deck", "glass": "Glass drop"},
     "loginLook": {"title":"Sign-in screen","desc":"How the Riftn logo and slogan move on the sign-in screen on this device.","tube":"Tube TV","vhs":"VHS tape","led":"LED wall","holo":"Hologram", "neon": "Neon glow", "3d": "3D", "flat": "Flat"},
     "chatDeleteChoice": "When you delete a message",
     "chatDeleteChoiceDesc": "Ask every time, or always delete for you only or for everyone in the chat.",
@@ -1044,6 +1045,7 @@
     "manageAccount": "Manage your account and preferences",
     "logOut": "Log out",
     "loggedOut": "Logged out",
+    "loggedOutNowUsing": "Logged out. Now using {{name}}",
     "logoutFailed": "Logout failed",
     "profile": "Profile",
     "notifications": "Notifications",
@@ -13624,6 +13626,11 @@
     "openToUnlock": "Open to unlock"
   },
   "copy": {
+    "0f8fed0dc99b": "Video only",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Song only",
+    "4bf9a522a0de": "Video sound",
+    "fea4b5ceffa8": "Song",
     "e587a51bc3ce": "New on Riftn",
     "d7396f3b8881": "New like or comment on Riftn",
     "037a2ecd34b0": "New follower on Riftn",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Viršelis", "trim": "Apkirpti", "mirror": "Veidrodinis vaizdas", "rotate": "Pasukti", "hide": "Slėpti", "timer": "Laikmatis", "close": "Uždaryti", "photo": "Nuotrauka", "remove": "Pašalinti", "pause": "Pristabdyti", "play": "Leisti vaizdo įrašą", "hiddenUntilTap": "Paslėpta, kol palies", "scrub": "Slinkti per vaizdo įrašą", "addMore": "Pridėti nuotraukų ar vaizdo įrašų", "coverAria": "Palieskite kadrą, kad nustatytumėte viršelį", "trimHint": "Tempkite galus, kad apkirptumėte", "coverHint": "Palieskite kadrą, kad padarytumėte jį viršeliu", "uploadCover": "Įkelti viršelio nuotrauką", "mirrored": "Veidrodinis", "original": "Originalas", "rotate90": "Pasukti 90°", "timerOff": "Išjungta", "showNormally": "Rodyti įprastai", "showNormallyBody": "Jie mato iškart", "hideUntilTap": "Slėpti, kol palies", "hideUntilTapBody": "Sulietas, kol palies", "hidePrice": "Slėpti už kainos", "hidePriceBody": "Sulietas, kol sumokės", "priceUnavailable": "Ne šiame pokalbyje", "priceLabelUsd": "Kaina", "priceHint": "Jie mato tai neryškiai, kol nesumoka tau. Užrakinti elementai nėra šifruojami nuo galo iki galo.", "timerOffBody": "Tai lieka pokalbyje.", "timerViewBody": "Išnyksta abiem pusėms, kai jie tai pamato.", "confirm": "Patvirtinti", "editItem": "Redaguoti elementą {{value1}}", "coverSet": "Viršelis ties {{value1}}", "lockedForUsd": "Atrakinti už {{value1}}", "timerTimeBody": "Išnyksta abiem pusėms {{value1}} po to, kai išsiunčiate."},
   "comic": {
     "showAll": "Rodyti visus {{count}} puslapius",
     "tab": "Komiškas",
@@ -168,6 +169,11 @@
     "useNamed": "Naudoti {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Tik vaizdo įrašas",
+    "dce6eb4447ef": "Mišrus",
+    "5405fb40dded": "Tik daina",
+    "4bf9a522a0de": "Vaizdo įrašo garsas",
+    "fea4b5ceffa8": "Daina",
     "a039dfb9628b": "Žetonai",
     "chatSlowDown": "Lėčiau! Per daug žinučių iš eilės. Bandyk dar kartą po {{wait}} arba palauk, kol atsakys kas nors kitas.",
     "eabb5c136be4": "Neįmanoma atnaujinti plano",

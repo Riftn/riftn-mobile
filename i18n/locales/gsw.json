@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Versteckt bis sie es antippen.", "scrub": "Durch das Video wische", "addMore": "Bilder oder Videos hänge", "coverAria": "Tippe e Frame, um d'Cover z'stelle", "trimHint": "Zieht d'Ende zum trimme", "coverHint": "Tippe e Frame, um es als Deckblatt z'mache", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "Sie merke es gleich.", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "Verschwumme bis sie druf tippid", "hidePrice": "Hinder emene Priis verstecke", "hidePriceBody": "Verschwumme bis sie dich zahle", "priceUnavailable": "Nöd in däm Chat", "priceLabelUsd": "Price", "priceHint": "Si sehne es verschwummert bis sie dir bezahle. Gschlosse Gschäft sind nöd end-to-end verschlüsslet.", "timerOffBody": "Es blibt im Chat.", "timerViewBody": "Es isch für beidi vo dir verglügt, sobald sie es gseh händ.", "confirm": "Bestätige", "editItem": "Bearbeite Gschäft {{value1}}", "coverSet": "Deckig bi {{value1}}", "lockedForUsd": "Entsperre für {{value1}}", "timerTimeBody": "Verglügt für beidi vo dir {{value1}} nach em Versand."},
   "comicBorder": {
     "title": "Rahme",
     "theme": "Theme",
@@ -142,6 +143,11 @@
     "useNamed": "Use {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Video nume",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Song nume",
+    "4bf9a522a0de": "Video Sound",
+    "fea4b5ceffa8": "Song",
     "a039dfb9628b": "Token",
     "chatSlowDown": "Langsamer! Z vill Nachrichte hinteränand. Probier s i {{wait}} nomol oder wart, bis öpper anders antwortet.",
     "eabb5c136be4": "Plan konnte nicht aktualisiert werden",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Kà kɛ̀ bɛ̀ nɛ̀ kɔ̀", "scrub": "Fɔlɔ video la", "addMore": "Kɛ foto kɛ video", "coverAria": "Kɔ̀nɲi kɛ̀nɛ kɔ̀nɔ̀ kɛ̀nɛ", "coverHint": "Kɔ̀lɔ̀ kɛ̀nɛ bɛɛ nɛ̀ kɛ́ bɔ̀ kɛ̀nɛ", "uploadCover": "Sɔrɔ kɛlɛ fɔlɔ", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "A yi kaŋ", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "Bɔ̀lɔ kɔ̀n bɛ̀ kɔ̀n kɔ̀n", "priceUnavailable": "ma ni kɔ̀", "priceLabelUsd": "Price", "timerOffBody": "E nɔ kɔ̀ŋ kɔ̀ŋ", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover at {{value1}}"},
   "comicBorder": {
     "title": "Dan",
     "theme": "Tɛmu",
@@ -142,6 +143,11 @@
     "useNamed": "Fɛɛrɛ kɛ ni {{name}} ye"
   },
   "copy": {
+    "0f8fed0dc99b": "Video only",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Song only",
+    "4bf9a522a0de": "Video sound",
+    "fea4b5ceffa8": "Song",
     "a039dfb9628b": "O ye tulogwerenw ye",
     "chatSlowDown": "Doucement ! Trop de messages d'affilée. Réessaie dans {{wait}}, ou attends que quelqu'un d'autre réponde.",
     "eabb5c136be4": "A ka kan ka kɛ ni kunnafoni ye min be se k'a dɛmɛ ka koo dɔw",

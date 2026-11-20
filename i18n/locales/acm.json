@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "غلاف", "trim": "قَصّ", "mirror": "مِرآة", "rotate": "دَوّر", "hide": "خفي", "timer": "مؤقّت", "close": "قفل", "photo": "صورة", "remove": "احذف", "pause": "وقّف", "play": "شغّل الفيديو", "hiddenUntilTap": "مخفي لحد ما يضغط عليه", "scrub": "امسح الفيديو", "addMore": "ضيف صور أو فيديوهات", "coverAria": "إضغط على إطار لتعيينه كغلاف", "trimHint": "اسحب الأطراف للتقليص", "coverHint": "إضغط على إطار ليصير غلاف", "uploadCover": "حمّل صورة غلاف", "mirrored": "معكوس", "original": "الأصلي", "rotate90": "دَوّر 90°", "timerOff": "إيقاف", "showNormally": "أظهر طبيعيًا", "showNormallyBody": "هم يشوفوه فورًا", "hideUntilTap": "خفي لحد ما يضغط", "hideUntilTapBody": "مُطمّس لحد ما يضغط", "hidePrice": "خفي خلف سعر", "hidePriceBody": "مُطمّس لحد ما يدفعونك", "priceUnavailable": "مو بهذا الشات", "priceLabelUsd": "سعر", "priceHint": "هم يشوفوها مشوشة لين يدفعونك. العناصر المقفولة مو مشفرة من الطرف للطرف.", "timerOffBody": "تبقى بالدردشة.", "timerViewBody": "تروح لكما الاثنين بمجرد ما يشوفوها.", "confirm": "تأكيد", "editItem": "تعديل العنصر {{value1}}", "coverSet": "غلاف على {{value1}}", "lockedForUsd": "فتح لـ {{value1}}", "timerTimeBody": "تروح لكما الاثنين {{value1}} بعد ما ترسلها."},
   "comicBorder": {
     "title": "الإطار",
     "theme": "الثيم",
@@ -142,6 +143,11 @@
     "sports": "رياضة"
   },
   "copy": {
+    "0f8fed0dc99b": "فيديو فقط",
+    "dce6eb4447ef": "مزيج",
+    "5405fb40dded": "أغنية فقط",
+    "4bf9a522a0de": "صوت الفيديو",
+    "fea4b5ceffa8": "أغنية",
     "a039dfb9628b": "توقيعات",
     "chatSlowDown": "تمهّل! رسائل كثيرة متتالية. حاول مرة أخرى بعد {{wait}}، أو انتظر حتى يرد شخص آخر.",
     "eabb5c136be4": "فشل تحديث الخطة",
