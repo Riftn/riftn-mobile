@@ -142,9 +142,22 @@ turn_sideways() {
 # lit. Open it from the Simulator's Device menu (the item's name is looked up,
 # not fixed), and write every Device menu item to logs/device-menu.txt.
 unfold_duo() {
-  limit 30 open -a Simulator --args -CurrentDeviceUDID "$UDID" || return 1
-  sleep 15
-  limit 40 osascript > "$OUT/logs/device-menu.txt" 2>&1 <<'AS' || return 1
+  local log="$OUT/logs/device-menu.txt"
+  {
+    echo "== simctl ui / io help (looking for a fold command)"
+    xcrun simctl help ui 2>&1
+    xcrun simctl help io 2>&1 | grep -iE "fold|posture|hinge|display" || true
+  } > "$log"
+  if xcrun simctl help ui 2>&1 | grep -qiE "fold|posture"; then
+    for arg in "fold open" "posture open" "posture flat" "unfold"; do
+      # shellcheck disable=SC2086
+      if xcrun simctl ui "$UDID" $arg >> "$log" 2>&1; then echo "simctl ui $arg: ok" >> "$log"; sleep 5; return 0; fi
+    done
+  fi
+  echo "== open Simulator" >> "$log"
+  limit 90 open -a Simulator --args -CurrentDeviceUDID "$UDID" >> "$log" 2>&1 || { echo "open failed: $?" >> "$log"; return 1; }
+  sleep 20
+  limit 60 osascript >> "$log" 2>&1 <<'AS' || return 1
 tell application "Simulator" to activate
 delay 2
 tell application "System Events" to tell process "Simulator"
@@ -181,7 +194,7 @@ tell application "System Events" to tell process "Simulator"
   return out & "clicked: " & done
 end tell
 AS
-  grep -q "clicked: none" "$OUT/logs/device-menu.txt" && return 1
+  grep -q "clicked: none" "$log" && return 1
   sleep 5
 }
 
