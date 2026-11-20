@@ -21,7 +21,7 @@ const BEAM = { position: "absolute" as const, left: 12, right: 12, bottom: 0, he
 const HALO = { position: "absolute" as const, left: 8, right: 8, bottom: -2, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.16)" };
 const SHEET_BG = "#0e0e10";
 
-export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, onHold }: {
+export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, onHold, bare }: {
   tabs: ChatTabView[];
   active: string;
   unread: Record<string, number>;
@@ -29,6 +29,8 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
   onNew: () => void;
   onManage: () => void;
   onHold: (tab: ChatTabView) => void;
+  /** Only the chips: new tab and edit tabs live in the Messages menu, pinned beside the row. */
+  bare?: boolean;
 }) {
   const { t } = useTranslation();
   const scroller = useRef<ScrollView>(null);
@@ -43,8 +45,10 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
       horizontal
       showsHorizontalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 4, paddingBottom: 8, gap: 4, alignItems: "center" }}
-      style={{ flexGrow: 0 }}
+      contentContainerStyle={bare
+        ? { paddingLeft: 12, paddingRight: 18, gap: 4, alignItems: "center" }
+        : { paddingHorizontal: 12, paddingTop: 4, paddingBottom: 8, gap: 4, alignItems: "center" }}
+      style={bare ? { flex: 1 } : { flexGrow: 0 }}
       testID="chat-tabs"
     >
       {tabs.filter((x) => !x.hidden).map((tab) => {
@@ -74,6 +78,7 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
           </Pressable>
         );
       })}
+      {!bare && (<>
       <TouchableOpacity testID="chat-tab-new" onPress={onNew} accessibilityRole="button" accessibilityLabel={t("chatTabs.new", { defaultValue: "New tab" })}
         style={[CHIP, { width: 32, paddingHorizontal: 0, justifyContent: "center" }]}>
         <Icon name="Plus" size={16} color="#71717A" />
@@ -82,6 +87,7 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
         style={[CHIP, { width: 32, paddingHorizontal: 0, justifyContent: "center" }]}>
         <Icon name="SlidersHorizontal" size={16} color="#71717A" />
       </TouchableOpacity>
+      </>)}
     </ScrollView>
   );
 }
