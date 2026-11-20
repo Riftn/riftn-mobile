@@ -200,11 +200,16 @@ const CaptionOverlay: React.FC<Props> = ({
     isReady && (hasCachedDubLanguage(preferredLanguage) || (dubLang === preferredLanguage && voiceSupported === true)),
     dubOn, () => setPickerOpen(true));
   const remoteUnavailable = audioFailed || !hasCachedDubLanguage(dubLang) || cachedDub?.status === 'failed' || cachedDub?.status === 'unavailable';
+  // The device voice reads the lines until the creator-voice track lands.
+  const deviceVoicePlaying = dubTranslation?.status === 'ready' && voiceSupported && !dubFailed;
+  const creatorVoiceComing = !cachedUrl && !audioFailed && (cachedDub?.status === 'pending' || cachedDub?.status === 'processing');
   const dubHint = !dubOn || !audible || !dubLang
     ? null
     : ((dubFailed || voiceSupported === false) && remoteUnavailable) || dubTranslation?.status === 'failed'
     ? t('dub.unavailable')
-    : cachedUrl || (dubTranslation?.status === 'ready' && voiceSupported && !dubFailed) ? null : t('dub.preparing');
+    : cachedUrl ? null
+    : deviceVoicePlaying ? (creatorVoiceComing ? t('dub.creatorVoiceSoon') : null)
+    : t('dub.preparing');
 
   // Captions on a language pick that; captions on Original borrow the app's
   // language. Either way it has to differ from what was spoken — an English

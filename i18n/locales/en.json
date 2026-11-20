@@ -5651,6 +5651,7 @@
     "dubbed": "Dubbed audio",
     "preparing": "Preparing dubbed audio…",
     "unavailable": "Dubbed audio is not available for this video.",
+    "creatorVoiceSoon": "Your device's voice for now. The creator's own voice is being prepared.",
     "menuLabel": "Dub",
     "menuDesc": "Hear this video in your language",
     "menuOn": "On · tap for the original audio",
