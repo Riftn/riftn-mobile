@@ -9,7 +9,15 @@ import { useAppTheme } from '../../context/ThemeContext';
 export type DMSettingsMenuProps = {
   visible: boolean;
   onClose: () => void;
-  onNewDM: () => void;
+  /** Left out where a + button already starts a chat. */
+  onNewDM?: () => void;
+  /** Messages screen: the one menu also holds tabs, select and refresh. */
+  onNewTab?: () => void;
+  onEditTabs?: () => void;
+  onSelect?: () => void;
+  onRefresh?: () => void;
+  /** Distance from the safe area top to the menu. */
+  offsetTop?: number;
   onOpenDmSettings: () => void;
   dnd: boolean;
   onToggleDnd: () => void;
@@ -22,6 +30,11 @@ const DMSettingsMenu: React.FC<DMSettingsMenuProps> = ({
   onOpenDmSettings,
   dnd,
   onToggleDnd,
+  onNewTab,
+  onEditTabs,
+  onSelect,
+  onRefresh,
+  offsetTop = 56,
 }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -38,19 +51,30 @@ const DMSettingsMenu: React.FC<DMSettingsMenuProps> = ({
         style={Platform.OS === 'android' ? undefined : { backgroundColor: 'rgba(0,0,0,0.4)' }}
       >
         <View
-          style={[{ top: insets.top + 56 }, Platform.OS === 'android' && skin && { ...skin.card, backgroundColor: skin.page }]}
-          className="absolute right-3 w-44 rounded-xl overflow-hidden"
+          style={[{ top: insets.top + offsetTop }, Platform.OS === 'android' && skin && { ...skin.card, backgroundColor: skin.page }]}
+          className="absolute right-3 w-52 rounded-xl overflow-hidden"
         >
           <MessageSurface radius={12} />
-          <TouchableOpacity
-            className="flex-row items-center px-3 py-3 active:opacity-70"
-            onPress={onNewDM}
-            accessibilityRole="button"
-          >
-            <Ionicons name="chatbox-ellipses-outline" size={18} color="#E5E7EB" />
-            <Text className="ml-2 text-theme-neutrals-100 text-sm">{t('dm.newDm')}</Text>
-          </TouchableOpacity>
-          <View className="h-[1px] bg-theme-neutrals-700/60" />
+          {([
+            onNewDM && { key: 'dm', icon: 'chatbox-ellipses-outline', label: t('dm.newDm'), onPress: onNewDM },
+            onNewTab && { key: 'tab', icon: 'add', label: t('chatTabs.new', { defaultValue: 'New tab' }), onPress: onNewTab },
+            onEditTabs && { key: 'tabs', icon: 'albums-outline', label: t('chatTabs.edit', { defaultValue: 'Edit tabs' }), onPress: onEditTabs },
+            onSelect && { key: 'select', icon: 'checkmark-done-outline', label: t('chatBulk.select', { defaultValue: 'Select chats' }), onPress: onSelect },
+            onRefresh && { key: 'refresh', icon: 'refresh', label: t('dao.refresh'), onPress: onRefresh },
+          ].filter(Boolean) as { key: string; icon: React.ComponentProps<typeof Ionicons>['name']; label: string; onPress: () => void }[]).map((row) => (
+            <React.Fragment key={row.key}>
+              <TouchableOpacity
+                testID={`dm-menu-${row.key}`}
+                className="flex-row items-center px-3 py-3 active:opacity-70"
+                onPress={row.onPress}
+                accessibilityRole="button"
+              >
+                <Ionicons name={row.icon} size={18} color="#E5E7EB" />
+                <Text className="ml-2 text-theme-neutrals-100 text-sm">{row.label}</Text>
+              </TouchableOpacity>
+              <View className="h-[1px] bg-theme-neutrals-700/60" />
+            </React.Fragment>
+          ))}
           <TouchableOpacity
             className="flex-row items-center px-3 py-3 active:opacity-70"
             onPress={onOpenDmSettings}
