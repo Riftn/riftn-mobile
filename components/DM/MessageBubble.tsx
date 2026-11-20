@@ -65,6 +65,9 @@ import { autoTranslateEnabled, subscribeAutoTranslate } from "../../libs/auto-tr
 import { queueAutoTranslate } from "../../libs/auto-translate-queue";
 import { getUserLanguage } from "../../services/translation.service";
 import TranslateButton from "../ui/TranslateButton";
+import { isAssistantAddress } from "../../libs/assistant";
+import { assistantActionIds, withoutAssistantActionLinks } from "../../libs/assistantActionLinks";
+import AssistantActionCard from "../Assistant/AssistantActionCard";
 
 /**
  * A line of yours that did not go out: it stays where it was sent, with
@@ -489,9 +492,23 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   // This recognised `…/post/<id>` and nothing else, so a shop item, a
   // community, an event or a profile — all of which the web app renders as a
   // card when you send them — landed here as a bare URL.
+  // @assistant offers to do things (react, follow, read your chats) with a
+  // link in its reply. In its DM, as on the Assistant screen, that link is a
+  // confirm card and is left out of the text.
+  const assistantActions = useMemo(
+    () =>
+      !isMine && msgType === "msg" && isAssistantAddress(callPeerAddress)
+        ? assistantActionIds(message.content)
+        : [],
+    [isMine, msgType, callPeerAddress, message.content],
+  );
+  const bodyContent = assistantActions.length
+    ? withoutAssistantActionLinks(message.content ?? "")
+    : message.content;
+
   const sharedLink = useMemo(() => {
     if (isVoice || isGif || encMedia || mediaItems.length > 0) return null;
-    const link = findDehubLink(message.content ?? "");
+    const link = findDehubLink(bodyContent ?? "");
     if (!link) return null;
     // Everything except the carded link itself is the caption.
     //
@@ -500,9 +517,9 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     // together and the article was simply not there on arrival. The web app
     // never did this; whatever survives stripping now renders as a tappable
     // link instead of as debris.
-    const caption = stripDehubLinkMatches(message.content ?? "", [link]).trim();
+    const caption = stripDehubLinkMatches(bodyContent ?? "", [link]).trim();
     return { link, caption };
-  }, [message.content, isVoice, isGif, encMedia, mediaItems.length]);
+  }, [bodyContent, isVoice, isGif, encMedia, mediaItems.length]);
 
   // Market references in a plain message. Skipped when the message is an entity
   // share, which has its own card.
@@ -510,12 +527,12 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     () =>
       sharedLink
         ? []
-        : findAssetRefs(message.content ?? "").slice(0, MAX_ASSET_CARDS_PER_MESSAGE),
-    [message.content, sharedLink],
+        : findAssetRefs(bodyContent ?? "").slice(0, MAX_ASSET_CARDS_PER_MESSAGE),
+    [bodyContent, sharedLink],
   );
   const assetDisplayText = useMemo(
-    () => (assetRefs.length ? stripAssetRefs(message.content ?? "", assetRefs) : message.content),
-    [message.content, assetRefs],
+    () => (assetRefs.length ? stripAssetRefs(bodyContent ?? "", assetRefs) : bodyContent),
+    [bodyContent, assetRefs],
   );
 
   // Translate from the hold menu: the bubble swaps in the translation and
@@ -1142,6 +1159,11 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       <AssetRefCards refs={assetRefs} />
                     </View>
                   )}
+                  {assistantActions.map((id) => (
+                    <View key={id} className="px-2 pb-2" style={{ width: 300 }}>
+                      <AssistantActionCard actionId={id} />
+                    </View>
+                  ))}
                   {/* An outside link gets the OG card the web bubble already
                       shows. Fixed width for the same reason the asset card has
                       one, and it renders nothing at all when the message holds

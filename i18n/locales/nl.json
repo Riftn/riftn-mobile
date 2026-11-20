@@ -1,4 +1,5 @@
 {
+  "stories": {"back": "Terug", "more": "Meer", "addMoment": "Moment toevoegen", "boxOff": "Zonder vlak", "boxOn": "Met vlak", "cameraOff": "Cameratoegang staat uit. Zet het aan in Instellingen of kies uit Foto's.", "delete": "Moment verwijderen", "deleteConfirm": "Dit moment verwijderen?", "deleteFailed": "Verwijderen lukte niet. Probeer het opnieuw.", "deleted": "Moment verwijderd", "everyone": "Iedereen", "followersOnly": "Volgers", "like": "Vind ik leuk", "mute": "Geluid", "newMoment": "Nieuw moment", "noViewsYet": "Nog niemand heeft gekeken.", "openCamera": "Camera", "pick": "Kies van apparaat", "pickFailed": "Openen lukte niet. Probeer een ander bestand.", "repliedTo": "Reageerde op je moment", "replyFailed": "Je reactie kon niet worden verstuurd.", "replyTo": "Reageer op {{name}}", "report": "Melden", "reportFailed": "Melding kon niet worden verstuurd.", "reportWhy": "Waarom meld je dit?", "reported": "Bedankt. We kijken ernaar.", "share": "Delen", "shareFailed": "Je moment is niet geplaatst. Tik op je tegel om het opnieuw te proberen.", "sharing": "Delen…", "signInToReply": "Log in om te reageren", "startSub": "Een foto of clip tot 60 seconden. Hij blijft 24 uur staan.", "tapRetry": "Tik om opnieuw te proberen", "text": "Tekst", "typeSomething": "Typ iets", "viewsCount": "{{formatted}} weergaven", "whoWatched": "Wie keek", "yourDay": "Jouw dag", "momentUp": "Je moment staat 24 uur online", "tooLarge": "Dat bestand is te groot.", "reason": {"spam": "Spam", "nudity": "Naakt of seksuele inhoud", "harassment": "Pesten of intimidatie", "violence": "Geweld of gevaarlijke handelingen", "hate": "Haatzaaien", "other": "Iets anders"}},
   "dmVideo": {"cover": "Omslag", "trim": "Bijsnijden", "mirror": "Spiegelen", "rotate": "Draaien", "hide": "Verbergen", "timer": "Timer", "close": "Sluiten", "photo": "Foto", "remove": "Verwijderen", "pause": "Pauze", "play": "Video afspelen", "hiddenUntilTap": "Verborgen totdat ze erop tikken", "scrub": "Door de video scrollen", "addMore": "Foto's of video's toevoegen", "coverAria": "Tik op een frame om de omslag in te stellen", "trimHint": "Sleep de uiteinden om bij te snijden", "coverHint": "Tik op een frame om dit de omslag te maken", "uploadCover": "Een omslagfoto uploaden", "mirrored": "Gespiegeld", "original": "Origineel", "rotate90": "90° draaien", "timerOff": "Uit", "showNormally": "Normaal weergeven", "showNormallyBody": "Ze zien het meteen", "hideUntilTap": "Verbergen totdat er wordt getikt", "hideUntilTapBody": "Vervaagd totdat ze erop tikken", "hidePrice": "Verbergen achter een prijs", "hidePriceBody": "Vervaagd totdat ze je betalen", "priceUnavailable": "Niet in deze chat", "priceLabelUsd": "Prijs", "priceHint": "Ze zien het wazig totdat ze je betalen. Vergrendelde items zijn niet end-to-end versleuteld.", "timerOffBody": "Het blijft in de chat.", "timerViewBody": "Weg voor jullie beiden zodra ze het hebben gezien.", "confirm": "Bevestigen", "editItem": "Item bewerken {{value1}}", "coverSet": "Omslag op {{value1}}", "lockedForUsd": "Ontgrendelen voor {{value1}}", "timerTimeBody": "Weg voor jullie beiden {{value1}} nadat je het hebt verzonden."},
   "assistantCards": {"fitting": "Passend", "loadFailed": "Deze kaart kon niet laden. Log in of vraag het opnieuw.", "failed": "Dat lukte niet. Probeer het opnieuw.", "reactOne": "Reageer op 1 bericht", "reactMany": "Reageer op {{count}} berichten", "follow": "Volg {{count}}", "unfollow": "Ontvolg {{count}}", "allowChats": "Mag de assistent je chats lezen?", "stopChats": "Stoppen met het lezen van je chats?", "confirmReact": "Reageer", "confirmFollow": "Volgen", "confirmUnfollow": "Ontvolgen", "confirmAllow": "Toestaan", "confirmStop": "Stoppen", "skipsAlready": "Slaat {{count}} over waarop je al reageerde", "allowChatsWhy": "Alleen jij ziet wat hij leest. Alleen privéchats, en end-to-end versleutelde blijven privé. Vraag hem altijd om te stoppen.", "pickReaction": "Kies een reactie", "progress": "{{done}} van {{total}}", "doneReact": "Gereageerd op {{count}} berichten", "doneAllow": "Toegestaan. Stel je vraag opnieuw.", "doneStop": "Gestopt. Hij kan je chats niet meer lezen.", "doneFollow": "Klaar voor {{count}}", "expired": "Deze kaart is verlopen. Vraag het opnieuw.", "cancelled": "Geannuleerd", "cancel": "Niet nu"},
   "chatReactions": {
@@ -1054,6 +1055,12 @@
     "feedSeparatorBentoDesc": "Elk bericht in een eigen afgeronde kaart",
     "feedSeparatorLine": "Dunne lijn",
     "feedSeparatorLineDesc": "Geen kaarten. Een dunne lijn tussen berichten en iets meer ruimte per bericht",
+    "shareIcon": "Deelpictogram",
+    "shareIconDesc": "Het pictogram op de knop Delen onder berichten",
+    "shareIconClassic": "Klassiek",
+    "shareIconClassicDesc": "Drie verbonden stippen",
+    "shareIconDistribute": "Verspreiden",
+    "shareIconDistributeDesc": "Een persoon in een cirkel met pijlen naar buiten",
     "postLandingDesc": "Hoe je nieuwe bericht in je feed verschijnt",
     "postLandingGhost": "Spookplek",
     "postLandingGhostDesc": "Je feed maakt ruimte en je bericht vervaagt op zijn plek",
@@ -16080,6 +16087,44 @@
     "tipJar": "Geschenkpot"
   },
   "liveStudio": {
+    "bot": {
+      "title": "Chatbot",
+      "intro": "Een co-host voor de chat van je stream. Hij begroet nieuwe mensen, beantwoordt vragen over jou en de stream, vertelt laatkomers wat ze gemist hebben en maakt een stille chat weer levendig. Hij praat alleen in je eigen streams, terwijl je live bent.",
+      "enabled": "Chatbot",
+      "enabledHint": "Uit tot je hem aanzet. Uitzetten maakt hem meteen stil.",
+      "about": "Wat hij over je weet",
+      "aboutPlaceholder": "Wie je bent, wat je streamt, je schema, waar je te vinden bent. Voorbeeld: Abstract kunstenaar en metalfan. Live di/do/za 20:00 ET. De Discord-link staat in mijn profiel.",
+      "aboutHint": "Hij antwoordt op basis hiervan, je streamtitel en de chat. Weet hij het niet, dan zegt hij niets",
+      "personality": "Persoonlijkheid",
+      "personalities": {
+        "chill": "Relaxed",
+        "hype": "Hype",
+        "funny": "Grappig",
+        "formal": "Formeel"
+      },
+      "chattiness": "Hoe spraakzaam",
+      "chattinessLevels": {
+        "quiet": "Alleen als je het vraagt",
+        "normal": "Normaal",
+        "lots": "Veel"
+      },
+      "greet": "Nieuwe chatters begroeten",
+      "greetHint": "Eén welkom per persoon per stream",
+      "answer": "Vragen beantwoorden",
+      "answerHint": "\"Wat maak je?\", \"Wanneer is de volgende stream?\"",
+      "catchUp": "Laatkomers bijpraten",
+      "catchUpHint": "\"Wat heb ik gemist?\" krijgt een korte samenvatting van de stream",
+      "wakeQuiet": "Een stille chat wakker maken",
+      "wakeQuietHint": "Na een paar stille minuten stelt hij de chat een vraag",
+      "commandButtons": "Mijn commando's als knoppen tonen",
+      "commandButtonsHint": "Je !commando's uit Streamregels staan boven het chatvak zodat kijkers erop kunnen tikken",
+      "commandsLabel": "Chatcommando's",
+      "safety": "Hij post als @assistant, praat nooit over geld of tokens en belooft nooit iets namens jou.",
+      "save": "Chatbot opslaan",
+      "saved": "Chatbot opgeslagen",
+      "saveFailed": "Chatbot opslaan is mislukt",
+      "loadFailed": "Chatbotinstellingen laden is mislukt"
+    },
     "destinations": {
       "title": "Multistream-bestemmingen",
       "intro": "Ga één keer live op Riftn en wij sturen je stream gratis door naar elk platform dat hier aanstaat. Het start binnen een paar seconden nadat je live gaat.",

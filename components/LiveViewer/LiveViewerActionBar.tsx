@@ -25,6 +25,7 @@ import {
   Text,
   TextInput,
   Pressable,
+  ScrollView,
   StyleSheet,
 } from "react-native";
 import { useTranslation } from "react-i18next";
@@ -91,6 +92,8 @@ interface Props {
    */
   pointsBalance?: number | null;
   onPointsPress?: () => void;
+  /** The creator's !commands, as tap buttons over the box when their chat bot is on. */
+  commands?: string[];
 }
 
 const LiveViewerActionBar: React.FC<Props> = ({
@@ -117,6 +120,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
   actionsDisabled,
   pointsBalance = null,
   onPointsPress,
+  commands,
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
@@ -291,6 +295,30 @@ const LiveViewerActionBar: React.FC<Props> = ({
         </View>
       ) : null}
 
+      {commands && commands.length > 0 && !inputDisabled && !editing && !typing ? (
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+          accessibilityLabel={t("liveStudio.bot.commandsLabel")}
+          style={styles.commandStrip}
+          contentContainerStyle={styles.commandStripContent}
+        >
+          {commands.map((command) => (
+            <Pressable
+              key={command}
+              onPress={() => void onSendMessage(command)}
+              accessibilityRole="button"
+              accessibilityLabel={command}
+              style={styles.commandChip}
+            >
+              <ChromeFill glass />
+              <Text style={styles.commandText}>{command}</Text>
+            </Pressable>
+          ))}
+        </ScrollView>
+      ) : null}
+
       <View style={styles.row} pointerEvents="box-none">
         <View style={styles.inputWrap}>
           <ChromeFill glass />
@@ -414,6 +442,18 @@ const LiveViewerActionBar: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   mentionWrap: { marginHorizontal: 10, marginBottom: 6 },
+  commandStrip: { flexGrow: 0, marginBottom: 8 },
+  commandStripContent: { paddingHorizontal: EDGE, gap: 6 },
+  commandChip: {
+    height: 30,
+    paddingHorizontal: 12,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: CHROME_HAIRLINE,
+    overflow: "hidden",
+    justifyContent: "center",
+  },
+  commandText: { color: "#fff", fontSize: 12, fontWeight: "600", ...TEXT_SHADOW },
   row: {
     flexDirection: "row",
     alignItems: "flex-end",

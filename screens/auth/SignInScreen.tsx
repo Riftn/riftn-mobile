@@ -565,9 +565,11 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     setIsLocalLoading(true);
     setCurrentProvider("google");
     try {
-      const supabaseUserId = await signInWithGoogle();
+      // The wait comes up the moment Google's page closes.
+      const supabaseUserId = await signInWithGoogle({ onReturned: () => { if (isMountedRef.current) setSessionWait(true); } });
       await runProvisionAndSignIn(supabaseUserId);
     } catch (e: any) {
+      if (isMountedRef.current) setSessionWait(false);
       log.error("Google login error", e?.stack || e);
       if (!isSignInCancelled(e)) toastError(e, t("auth.loginFailedRetry"));
       hasNavigatedRef.current = false;

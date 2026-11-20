@@ -2236,10 +2236,89 @@ async function runRowReactions(): Promise<void> {
   console.error(`[perf-tour] rowreactions done: style ${style}, route ${String(extra.route)}`);
 }
 
+/**
+ * Moments (24-hour stories): the Glass Shelf on Home with sample moments
+ * put in through the shelf's own query cache, then the viewer on the first
+ * person, then the creator's first screen. Pictured per theme by the harness.
+ */
+async function runMoments(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "moments" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const { queryClient } = require("../../config/queryClient") as typeof import("../../config/queryClient");
+  const store = require("../../store/stories.store") as typeof import("../../store/stories.store");
+  const now = Date.now();
+  const iso = (min: number) => new Date(now - min * 60000).toISOString();
+  const pic = (n: number) => `https://picsum.photos/id/${n}/1080/1920`;
+  const people: Array<[string, string, number[]]> = [
+    ["araf", "Araf", [1018, 1015]],
+    ["aaron", "Aaron", [1025]],
+    ["jesse", "Jesse C", [1036, 1043]],
+    ["moggel", "Moggel", [1050]],
+    ["nova", "Nova", [1062]],
+  ];
+  let id = 1;
+  const shelf = people.map(([username, displayName, pics], i) => {
+    const address = `0x${String(i + 1).repeat(40).slice(0, 40)}`;
+    return {
+      author: { address, username, displayName, avatarImageUrl: pic(64 + i) },
+      own: false,
+      following: true,
+      seen: i >= 3,
+      latestAt: iso((i + 1) * 30),
+      items: pics.map((n, k) => ({
+        id: String(id++).padStart(24, "0"),
+        address,
+        type: "photo" as const,
+        status: "ready" as const,
+        mediaUrl: pic(n),
+        posterUrl: pic(n),
+        overlayUrl: null,
+        width: 1080,
+        height: 1920,
+        durationMs: 5000,
+        muted: false,
+        caption: i === 0 && k === 0 ? "Sunset run" : null,
+        mentions: [],
+        song: null,
+        audience: "everyone" as const,
+        allowReplies: true,
+        createdAt: iso((i + 1) * 30 + k * 5),
+        expiresAt: new Date(now + 20 * 3600000).toISOString(),
+        viewed: i >= 3,
+        liked: false,
+      })),
+    };
+  });
+  queryClient.setQueriesData({ queryKey: ["story-shelf"] }, { shelf, signedIn: false });
+  queryClient.setQueryData(["story-shelf", ""], { shelf, signedIn: false });
+  await sleep(4000);
+  await shot("moments-0-shelf");
+  await sleep(3000);
+  store.openStoryViewer(shelf as never, 0);
+  await sleep(3500);
+  await shot("moments-1-viewer");
+  await sleep(3000);
+  store.closeStoryViewer();
+  await sleep(1500);
+  store.openStoryCreator();
+  await sleep(3000);
+  await shot("moments-2-creator");
+  await sleep(3000);
+  store.closeStoryCreator();
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] moments done");
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "sharelink") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments" && mode !== "sharelink") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -2263,6 +2342,7 @@ void (async () => {
     else if (mode === "freeze") await runFreeze();
     else if (mode === "feedline") await runFeedLine();
     else if (mode === "sharelink") await runShareLink();
+    else if (mode === "moments") await runMoments();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);
