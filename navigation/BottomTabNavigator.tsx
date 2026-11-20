@@ -72,10 +72,11 @@ function BottomTabNavigator() {
               const onLiveFeed =
                 tabs.routes[tabs.index]?.name === ScreenNames.Home && homeTabEvents.visibleTab() === "live";
               const openComposer = () => navigation.navigate(ScreenNames.Upload, onLiveFeed ? { live: true } : undefined);
-              // Signed out: the same sign-in sheet a like or a follow opens,
-              // and the composer opens once signed in.
+              // Signed out: the same sign-in sheet a like or a follow opens.
+              // After it the log-in lands on its arrival like any other, not
+              // in the composer.
               if (!isAuthed) {
-                requireAuth(openComposer);
+                requireAuth(() => {});
                 return;
               }
               openComposer();
