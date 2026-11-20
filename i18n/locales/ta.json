@@ -10040,6 +10040,7 @@
     "fileSaveFailed": "கோப்பைச் சேமிக்க முடியவில்லை",
     "attachAnything": "புகைப்படம், வீடியோ, ஆடியோ அல்லது கோப்பை இணைக்கவும்",
     "attachFileOrAudio": "கோப்பு அல்லது ஆடியோ",
+    "pasteImage": "படத்தை ஒட்டு",
     "attachPhotoOrVideo": "புகைப்படம் அல்லது வீடியோ",
     "attachTooLarge": "அந்தக் கோப்பு {{size}} MB வரம்பை மீறுகிறது.",
     "deleteForBothBody": "இது உங்கள் இருவருக்கும் நீக்கப்படும்.",

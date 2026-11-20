@@ -10049,6 +10049,7 @@
     "fileSaveFailed": "មិនអាចរក្សាទុកឯកសារបានទេ",
     "attachAnything": "ភ្ជាប់រូបថត វីដេអូ សំឡេង ឬឯកសារ",
     "attachFileOrAudio": "ឯកសារ ឬសំឡេង",
+    "pasteImage": "បិទភ្ជាប់រូបភាព",
     "attachPhotoOrVideo": "រូបថត ឬវីដេអូ",
     "attachTooLarge": "ឯកសារនោះលើសដែនកំណត់ {{size}} MB។",
     "deleteForBothBody": "វានឹងត្រូវបានលុបសម្រាប់អ្នកទាំងពីរ។",

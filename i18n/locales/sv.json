@@ -10041,6 +10041,7 @@
     "fileSaveFailed": "Kunde inte spara filen",
     "attachAnything": "Bifoga ett foto, en video, ljud eller en fil",
     "attachFileOrAudio": "Fil eller ljud",
+    "pasteImage": "Klistra in bild",
     "attachPhotoOrVideo": "Foto eller video",
     "attachTooLarge": "Den filen överskrider gränsen på {{size}} MB.",
     "deleteForBothBody": "Det tas bort för er båda.",

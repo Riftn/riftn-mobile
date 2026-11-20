@@ -10142,6 +10142,7 @@
     "fileSaveFailed": "Súbor sa nepodarilo uložiť",
     "attachAnything": "Priložiť fotku, video, zvuk alebo súbor",
     "attachFileOrAudio": "Súbor alebo zvuk",
+    "pasteImage": "Vložiť obrázok",
     "attachPhotoOrVideo": "Fotka alebo video",
     "attachTooLarge": "Súbor presahuje limit {{size}} MB.",
     "deleteForBothBody": "Odstráni sa pre vás oboch.",

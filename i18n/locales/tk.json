@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Faýly ýatda saklap bolmady",
     "attachAnything": "Surat, wideo, ses ýa-da faýl goş",
     "attachFileOrAudio": "Faýl ýa-da ses",
+    "pasteImage": "Suraty goý",
     "attachPhotoOrVideo": "Surat ýa-da wideo",
     "attachTooLarge": "Bu faýl {{size}} MB çäkden uly.",
     "deleteForBothBody": "Ol ikiňiz üçin hem aýrylar.",

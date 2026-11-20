@@ -10059,6 +10059,7 @@
     "fileSaveFailed": "Tsy voatahiry ny rakitra",
     "attachAnything": "Ampiarao sary, horonan-tsary, feo na rakitra",
     "attachFileOrAudio": "Rakitra na feo",
+    "pasteImage": "Apetaho ny sary",
     "attachPhotoOrVideo": "Sary na horonan-tsary",
     "attachTooLarge": "Mihoatra ny fetra {{size}} MB io rakitra io.",
     "deleteForBothBody": "Hesorina ho anareo roa izy.",

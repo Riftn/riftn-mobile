@@ -10040,6 +10040,7 @@
     "fileSaveFailed": "फाइल सेव्ह करता आली नाही",
     "attachAnything": "फोटो, व्हिडिओ, ऑडिओ किंवा फाइल जोडा",
     "attachFileOrAudio": "फाइल किंवा ऑडिओ",
+    "pasteImage": "प्रतिमा पेस्ट करा",
     "attachPhotoOrVideo": "फोटो किंवा व्हिडिओ",
     "attachTooLarge": "ती फाइल {{size}} MB मर्यादेपेक्षा मोठी आहे.",
     "deleteForBothBody": "ते तुम्हा दोघांसाठी काढले जाईल.",

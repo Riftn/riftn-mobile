@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Kunne ikke lagre filen",
     "attachAnything": "Legg ved et bilde, en video, lyd eller en fil",
     "attachFileOrAudio": "Fil eller lyd",
+    "pasteImage": "Lim inn bilde",
     "attachPhotoOrVideo": "Bilde eller video",
     "attachTooLarge": "Filen er over grensen på {{size}} MB.",
     "deleteForBothBody": "Den fjernes for dere begge.",

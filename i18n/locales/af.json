@@ -10070,6 +10070,7 @@
     "fileSaveFailed": "Kon nie die lêer stoor nie",
     "attachAnything": "Heg 'n foto, video, klank of lêer aan",
     "attachFileOrAudio": "Lêer of klank",
+    "pasteImage": "Plak prent",
     "attachPhotoOrVideo": "Foto of video",
     "attachTooLarge": "Daardie lêer is oor die limiet van {{size}} MB.",
     "deleteForBothBody": "Dit sal vir julle albei verwyder word.",

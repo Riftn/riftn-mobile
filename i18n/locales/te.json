@@ -10040,6 +10040,7 @@
     "fileSaveFailed": "ఫైల్‌ను సేవ్ చేయలేకపోయాము",
     "attachAnything": "ఫోటో, వీడియో, ఆడియో లేదా ఫైల్‌ను జోడించండి",
     "attachFileOrAudio": "ఫైల్ లేదా ఆడియో",
+    "pasteImage": "చిత్రాన్ని అతికించండి",
     "attachPhotoOrVideo": "ఫోటో లేదా వీడియో",
     "attachTooLarge": "ఆ ఫైల్ {{size}} MB పరిమితిని మించింది.",
     "deleteForBothBody": "ఇది మీ ఇద్దరికీ తీసివేయబడుతుంది.",

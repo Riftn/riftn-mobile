@@ -10066,6 +10066,7 @@
     "fileSaveFailed": "Nem sikerült menteni a fájlt",
     "attachAnything": "Fotó, videó, hang vagy fájl csatolása",
     "attachFileOrAudio": "Fájl vagy hang",
+    "pasteImage": "Kép beillesztése",
     "attachPhotoOrVideo": "Fotó vagy videó",
     "attachTooLarge": "Ez a fájl meghaladja a {{size}} MB-os korlátot.",
     "deleteForBothBody": "Mindkettőtöknél törlődik.",

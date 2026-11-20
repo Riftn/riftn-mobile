@@ -7812,6 +7812,7 @@
     "planMinTip": "يجب أن تكون الإكرامية {{amount}} رموز على الأقل لهذا المنشئ.",
     "attachAnything": "إرفاق صورة أو فيديو أو صوت أو ملف",
     "attachFileOrAudio": "ملف أو صوت",
+    "pasteImage": "لصق صورة",
     "attachPhotoOrVideo": "صورة أو فيديو",
     "attachTooLarge": "هذا الملف أكبر من حد {{size}} ميغابايت.",
     "searchDiscover": {

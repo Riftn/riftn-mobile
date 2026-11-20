@@ -10049,6 +10049,7 @@
     "fileSaveFailed": "ගොනුව සුරැකිය නොහැකි විය",
     "attachAnything": "ඡායාරූපයක්, වීඩියෝවක්, ශ්‍රව්‍යයක් හෝ ගොනුවක් අමුණන්න",
     "attachFileOrAudio": "ගොනුව හෝ ශ්‍රව්‍ය",
+    "pasteImage": "රූපය අලවන්න",
     "attachPhotoOrVideo": "ඡායාරූපය හෝ වීඩියෝව",
     "attachTooLarge": "එම ගොනුව {{size}} MB සීමාව ඉක්මවයි.",
     "deleteForBothBody": "එය ඔබ දෙදෙනාටම ඉවත් කෙරේ.",

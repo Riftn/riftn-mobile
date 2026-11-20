@@ -7787,6 +7787,7 @@
     "planMinTip": "Bu içerik üreticisi için bahşiş en az {{amount}} token olmalı.",
     "attachAnything": "Fotoğraf, video, ses veya dosya ekle",
     "attachFileOrAudio": "Dosya veya ses",
+    "pasteImage": "Görseli yapıştır",
     "attachPhotoOrVideo": "Fotoğraf veya video",
     "attachTooLarge": "Bu dosya {{size}} MB sınırını aşıyor.",
     "searchDiscover": {

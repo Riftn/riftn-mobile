@@ -10192,6 +10192,7 @@
     "fileSaveFailed": "ফাইল সেভ করা গেইল না",
     "attachAnything": "ছবি, ভিডিও, অডিও বা ফাইল জুড়ি দেন",
     "attachFileOrAudio": "ফাইল বা অডিও",
+    "pasteImage": "ছবি পেস্ট করো",
     "attachPhotoOrVideo": "ছবি বা ভিডিও",
     "attachTooLarge": "ওই ফাইলটা {{size}} MB সীমার বেশি।",
     "deleteForBothBody": "এটা দুইজনের জইন্যে সরানো হইবে।",

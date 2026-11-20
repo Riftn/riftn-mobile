@@ -10068,6 +10068,7 @@
     "fileSaveFailed": "Datei konnte nicht gespeichert werden",
     "attachAnything": "Foto, Video, Audio oder Datei anhängen",
     "attachFileOrAudio": "Datei oder Audio",
+    "pasteImage": "Bild einfügen",
     "attachPhotoOrVideo": "Foto oder Video",
     "attachTooLarge": "Diese Datei überschreitet das Limit von {{size}} MB.",
     "deleteForBothBody": "Sie wird für euch beide entfernt."

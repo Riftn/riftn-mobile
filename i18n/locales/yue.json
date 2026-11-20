@@ -10037,6 +10037,7 @@
     "fileSaveFailed": "儲存唔到檔案",
     "attachAnything": "附加相片、影片、音訊或者檔案",
     "attachFileOrAudio": "檔案或者音訊",
+    "pasteImage": "貼上圖片",
     "attachPhotoOrVideo": "相片或者影片",
     "attachTooLarge": "呢個檔案超過咗 {{size}} MB 上限。",
     "deleteForBothBody": "會為你哋兩個移除。",

@@ -10062,6 +10062,7 @@
     "fileSaveFailed": "Nepavyko išsaugoti failo",
     "attachAnything": "Pridėti nuotrauką, vaizdo ar garso įrašą arba failą",
     "attachFileOrAudio": "Failas ar garso įrašas",
+    "pasteImage": "Įklijuoti vaizdą",
     "attachPhotoOrVideo": "Nuotrauka ar vaizdo įrašas",
     "attachTooLarge": "Šis failas viršija {{size}} MB ribą.",
     "deleteForBothBody": "Ji bus pašalinta jums abiem.",

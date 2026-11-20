@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Faili ei õnnestunud salvestada",
     "attachAnything": "Lisa foto, video, heli või fail",
     "attachFileOrAudio": "Fail või heli",
+    "pasteImage": "Kleebi pilt",
     "attachPhotoOrVideo": "Foto või video",
     "attachTooLarge": "See fail ületab {{size}} MB piiri.",
     "deleteForBothBody": "See eemaldatakse teie mõlema jaoks.",

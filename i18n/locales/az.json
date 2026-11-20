@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Fayl saxlanıla bilmədi",
     "attachAnything": "Şəkil, video, audio və ya fayl əlavə et",
     "attachFileOrAudio": "Fayl və ya audio",
+    "pasteImage": "Şəkli yapışdır",
     "attachPhotoOrVideo": "Şəkil və ya video",
     "attachTooLarge": "Bu fayl {{size}} MB limitini keçir.",
     "deleteForBothBody": "O, hər ikiniz üçün silinəcək.",

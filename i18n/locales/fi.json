@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Tiedostoa ei voitu tallentaa",
     "attachAnything": "Liitä kuva, video, ääni tai tiedosto",
     "attachFileOrAudio": "Tiedosto tai ääni",
+    "pasteImage": "Liitä kuva",
     "attachPhotoOrVideo": "Kuva tai video",
     "attachTooLarge": "Tiedosto ylittää {{size}} Mt:n rajan.",
     "deleteForBothBody": "Se poistetaan teiltä molemmilta.",

@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "No s'ha pogut desar el fitxer",
     "attachAnything": "Adjunta una foto, un vídeo, un àudio o un fitxer",
     "attachFileOrAudio": "Fitxer o àudio",
+    "pasteImage": "Enganxa la imatge",
     "attachPhotoOrVideo": "Foto o vídeo",
     "attachTooLarge": "Aquest fitxer supera el límit de {{size}} MB.",
     "deleteForBothBody": "S'eliminarà per a tots dos.",

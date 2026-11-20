@@ -10066,6 +10066,7 @@
     "fileSaveFailed": "ما قدرناش نسجلو الملف",
     "attachAnything": "زيد تصويرة، فيديو، أوديو ولا ملف",
     "attachFileOrAudio": "ملف ولا أوديو",
+    "pasteImage": "لصق تصويرة",
     "attachPhotoOrVideo": "تصويرة ولا فيديو",
     "attachTooLarge": "هاد الملف فايت الحد ديال {{size}} MB.",
     "deleteForBothBody": "غادي يتمسح عندكم بجوج.",

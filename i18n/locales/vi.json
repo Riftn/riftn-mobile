@@ -10114,6 +10114,7 @@
     "fileSaveFailed": "Không lưu được tệp",
     "attachAnything": "Đính kèm ảnh, video, âm thanh hoặc tệp",
     "attachFileOrAudio": "Tệp hoặc âm thanh",
+    "pasteImage": "Dán hình ảnh",
     "attachPhotoOrVideo": "Ảnh hoặc video",
     "attachTooLarge": "Tệp đó vượt quá giới hạn {{size}} MB.",
     "deleteForBothBody": "Tin nhắn sẽ bị xóa với cả hai bạn.",

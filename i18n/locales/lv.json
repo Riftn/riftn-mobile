@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Neizdevās saglabāt failu",
     "attachAnything": "Pievienot foto, video, audio vai failu",
     "attachFileOrAudio": "Fails vai audio",
+    "pasteImage": "Ielīmēt attēlu",
     "attachPhotoOrVideo": "Foto vai video",
     "attachTooLarge": "Šis fails pārsniedz {{size}} MB ierobežojumu.",
     "deleteForBothBody": "Tā tiks noņemta jums abiem.",

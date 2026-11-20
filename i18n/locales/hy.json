@@ -10062,6 +10062,7 @@
     "fileSaveFailed": "Չհաջողվեց պահպանել ֆայլը",
     "attachAnything": "Կցել լուսանկար, տեսանյութ, աուդիո կամ ֆայլ",
     "attachFileOrAudio": "Ֆայլ կամ աուդիո",
+    "pasteImage": "Տեղադրել նկարը",
     "attachPhotoOrVideo": "Լուսանկար կամ տեսանյութ",
     "attachTooLarge": "Այդ ֆայլը գերազանցում է {{size}} ՄԲ սահմանաչափը։",
     "deleteForBothBody": "Այն կհեռացվի երկուսիդ համար։",

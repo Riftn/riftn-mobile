@@ -10054,6 +10054,7 @@
     "fileSaveFailed": "Faylni saqlab bo'lmadi",
     "attachAnything": "Rasm, video, audio yoki fayl biriktiring",
     "attachFileOrAudio": "Fayl yoki audio",
+    "pasteImage": "Rasmni qo‘yish",
     "attachPhotoOrVideo": "Rasm yoki video",
     "attachTooLarge": "Bu fayl {{size}} MB chegarasidan katta.",
     "deleteForBothBody": "U ikkalangiz uchun o'chiriladi.",

@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Ba a iya ajiye fayil ɗin ba",
     "attachAnything": "Haɗa hoto, bidiyo, sauti ko fayil",
     "attachFileOrAudio": "Fayil ko sauti",
+    "pasteImage": "Liƙa hoto",
     "attachPhotoOrVideo": "Hoto ko bidiyo",
     "attachTooLarge": "Wannan fayil ya wuce iyakar MB {{size}}.",
     "deleteForBothBody": "Za a cire shi ga ku biyu.",

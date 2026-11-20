@@ -10031,6 +10031,7 @@
     "fileSaveFailed": "Није успело чување фајла",
     "attachAnything": "Приложи фотографију, видео, аудио или фајл",
     "attachFileOrAudio": "Фајл или аудио",
+    "pasteImage": "Налепи слику",
     "attachPhotoOrVideo": "Фотографија или видео",
     "attachTooLarge": "Тај фајл прелази ограничење од {{size}} MB.",
     "deleteForBothBody": "Биће уклоњено за обоје.",

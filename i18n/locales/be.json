@@ -10049,6 +10049,7 @@
     "fileSaveFailed": "Не ўдалося захаваць файл",
     "attachAnything": "Далучыць фота, відэа, аўдыя або файл",
     "attachFileOrAudio": "Файл або аўдыя",
+    "pasteImage": "Уставіць выяву",
     "attachPhotoOrVideo": "Фота або відэа",
     "attachTooLarge": "Гэты файл перавышае ліміт {{size}} МБ.",
     "deleteForBothBody": "Яно будзе выдалена для вас абодвух.",

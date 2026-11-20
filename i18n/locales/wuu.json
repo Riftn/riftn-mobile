@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "文件保存勿了",
     "attachAnything": "附加照片、视频、音频或者文件",
     "attachFileOrAudio": "文件或者音频",
+    "pasteImage": "粘贴图片",
     "attachPhotoOrVideo": "照片或者视频",
     "attachTooLarge": "此文件超过了 {{size}} MB 的上限。",
     "deleteForBothBody": "会对你俩都删脱。",

@@ -10067,6 +10067,7 @@
     "fileSaveFailed": "Δεν ήταν δυνατή η αποθήκευση του αρχείου",
     "attachAnything": "Επισυνάψτε φωτογραφία, βίντεο, ήχο ή αρχείο",
     "attachFileOrAudio": "Αρχείο ή ήχος",
+    "pasteImage": "Επικόλληση εικόνας",
     "attachPhotoOrVideo": "Φωτογραφία ή βίντεο",
     "attachTooLarge": "Αυτό το αρχείο ξεπερνά το όριο των {{size}} MB.",
     "deleteForBothBody": "Θα αφαιρεθεί και για τους δύο.",

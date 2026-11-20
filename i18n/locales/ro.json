@@ -10037,6 +10037,7 @@
     "fileSaveFailed": "Fișierul nu a putut fi salvat",
     "attachAnything": "Atașează o fotografie, un video, audio sau un fișier",
     "attachFileOrAudio": "Fișier sau audio",
+    "pasteImage": "Lipește imaginea",
     "attachPhotoOrVideo": "Fotografie sau video",
     "attachTooLarge": "Fișierul depășește limita de {{size}} MB.",
     "deleteForBothBody": "Va fi șters pentru amândoi.",
