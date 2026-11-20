@@ -169,9 +169,11 @@ export function playableSoundUrl(url: string): string {
 /**
  * Where a player at `currentTime` should jump to stay inside the part, or
  * null when it is fine: before the start (a fresh load or a loop back to 0)
- * or past the end.
+ * or past the end. `wholeSong`: the listener scrubbed through the song
+ * themselves, so it plays in full and is never pulled back.
  */
-export function soundWindowCorrection(url: string | null | undefined, currentTime: number): number | null {
+export function soundWindowCorrection(url: string | null | undefined, currentTime: number, wholeSong = false): number | null {
+  if (wholeSong) return null;
   const window = soundWindow(url);
   if (!window) return null;
   if (currentTime < window.start - 0.75) return window.start;
