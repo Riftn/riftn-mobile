@@ -2751,8 +2751,10 @@
       "pronouns": "ସର୍ବନାମ",
       "location": "ଅବସ୍ଥାନ",
       "custom": "କଷ୍ଟମ",
-      "customOption": "କଷ୍ଟମ ଲେବଲ"
-    }
+      "customOption": "କଷ୍ଟମ ଲେବଲ",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "ଏମାନଙ୍କ ସୂଚନା ଫିଲ୍ଟର କରନ୍ତୁ",

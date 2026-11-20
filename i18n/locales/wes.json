@@ -2749,10 +2749,12 @@
       "podcast": "Podcast",
       "portfolio": "Portfolio",
       "shop": "Shop",
-      "newsletter": "Newsletter"
+      "newsletter": "Newsletter",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "Add website, pronoun or any oda ting. Link dem go show wit ya social dem.",
-    "needsLabel": "Give each custom field yi label"
+    "needsLabel": "Give each custom field yi label",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filter notifications from",

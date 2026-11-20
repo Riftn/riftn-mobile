@@ -2749,10 +2749,12 @@
       "pronouns": "ስም",
       "location": "ቦታ",
       "custom": "ሙላዊ",
-      "customOption": "ሙላዊ ምልክት"
+      "customOption": "ሙላዊ ምልክት",
+      "cashapp": "Cash App"
     },
     "placeholderPronouns": "ንሳቶም/ንሳቶም",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "ምልክታት ካብዚኦም ኣጻሪ",

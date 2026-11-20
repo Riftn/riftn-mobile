@@ -29,6 +29,8 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
+import { PointsIcon } from "./PointsIcon";
+import { compactPoints } from "../../services/live-rewards.service";
 import type { ReactionType } from "../LiveProducer/ReactionOverlay";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
@@ -78,6 +80,13 @@ interface Props {
   likeCount: number;
   isLiked: boolean;
   actionsDisabled: boolean;
+  /**
+   * The viewer's channel points with this creator, drawn at the end of the
+   * empty box (where the thumb is). Null hides it: signed out, own stream,
+   * or not on air.
+   */
+  pointsBalance?: number | null;
+  onPointsPress?: () => void;
 }
 
 const LiveViewerActionBar: React.FC<Props> = ({
@@ -99,6 +108,8 @@ const LiveViewerActionBar: React.FC<Props> = ({
   likeCount,
   isLiked,
   actionsDisabled,
+  pointsBalance = null,
+  onPointsPress,
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
@@ -175,6 +186,18 @@ const LiveViewerActionBar: React.FC<Props> = ({
     <View ref={composerKeyboard.ref} collapsable={false} onLayout={composerKeyboard.onLayout}
       style={{ marginBottom: composerKeyboard.lift }} pointerEvents="box-none">
       {reactionsOpen && isLive ? (
+        /* A tap anywhere else closes the strip, like the keyboard. It sits
+           first so the strip and the bar draw over it; it reaches up over
+           the whole player (overflow is visible, so it still takes touches). */
+        <Pressable
+          testID="live-reactions-dismiss"
+          accessibilityRole="button"
+          accessibilityLabel={t("common.close")}
+          onPress={closeReactions}
+          style={{ position: "absolute", left: -2000, right: -2000, bottom: -400, top: -Math.max(viewportHeight, 2000) }}
+        />
+      ) : null}
+      {reactionsOpen && isLive ? (
         <Pressable style={styles.reactionStrip} onPress={closeReactions}>
           <ChromeFill glass />
           {REACTION_OPTIONS.map((opt) => (
@@ -238,9 +261,22 @@ const LiveViewerActionBar: React.FC<Props> = ({
             submitBehavior="submit"
             returnKeyType="send"
             onSubmitEditing={handleSend}
-            onFocus={() => setFocused(true)}
+            onFocus={() => { setFocused(true); setReactionsOpen(false); }}
             onBlur={() => setFocused(false)}
           />
+          {!typing && pointsBalance != null && onPointsPress ? (
+            <Pressable
+              onPress={onPointsPress}
+              hitSlop={8}
+              accessibilityRole="button"
+              accessibilityLabel={t("livePoints.buttonLabel", { count: pointsBalance, formatted: pointsBalance.toLocaleString() })}
+              testID="live-points-button"
+              style={styles.pointsButton}
+            >
+              <PointsIcon size={16} color="rgba(255,255,255,0.92)" />
+              <Text style={styles.pointsText}>{compactPoints(pointsBalance)}</Text>
+            </Pressable>
+          ) : null}
           {typing ? (
             <Pressable
               onPress={handleSend}
@@ -370,6 +406,14 @@ const styles = StyleSheet.create({
     maxHeight: 19 * 4 + 8,
     textAlignVertical: "center",
   },
+  pointsButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    height: 30,
+    paddingHorizontal: 6,
+  },
+  pointsText: { color: "rgba(255,255,255,0.92)", fontSize: 12, fontWeight: "700", fontVariant: ["tabular-nums"] },
   sendButton: {
     width: 30,
     height: 30,

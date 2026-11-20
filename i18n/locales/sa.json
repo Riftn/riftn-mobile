@@ -2751,8 +2751,10 @@
       "pronouns": "लिंगशब्द",
       "location": "स्थान",
       "custom": "कस्टम",
-      "customOption": "कस्टम लेबल"
-    }
+      "customOption": "कस्टम लेबल",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "एतेभ्यः सूचनाः छानयतु",

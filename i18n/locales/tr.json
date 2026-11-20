@@ -358,10 +358,12 @@
       "pronouns": "İsim zamirleri",
       "location": "Konum",
       "custom": "Özel",
-      "customOption": "Özel etiket"
+      "customOption": "Özel etiket",
+      "cashapp": "Cash App"
     },
     "add": "Eklentiyi ekle",
-    "remove": "Alanı kaldır"
+    "remove": "Alanı kaldır",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Bildirimleri filtrele",
@@ -2357,6 +2359,8 @@
     }
   },
   "notifications": {
+    "coAuthorInvite": "{{name}} seni gönderisinin ortak yazarı olmaya davet etti",
+    "coAuthorAccepted": "{{name}} artık gönderinin ortak yazarı",
     "stores": "Mağazalar",
     "features": "Özellikler",
     "title": "Bildirimler",
@@ -15744,7 +15748,8 @@
     "cbade2afaee2": "Bu hafta Audius'ta trend olanlar. Kullanımı ücretsizdir, sanatçı gönderinizde belirtilir.",
     "d2e45b7406fc": "Wikimedia Commons'tan kamuya açık ve Creative Commons lisanslı müzikler. Sanatçı, gönderinizde belirtilir.",
     "d0c1a3684775": "Şarkılar yüklenmedi. Kısa bir süre sonra tekrar deneyin.",
-    "d14064f80f52": "Ses ekle"
+    "d14064f80f52": "Ses ekle",
+    "noTranslationFound": "Bu çevrilemedi. Argo ya da bir isim olabilir."
   },
   "creatorSupport": {
     "sponsoredBy": "{{advertiser}} sponsorluğunda",
@@ -17161,5 +17166,81 @@
   "roomPreview": {
     "you": "Sen",
     "voice": "🎤 Sesli mesaj"
+  },
+  "coAuthors": {
+    "invite": "Ortak yazar davet et",
+    "manage": "Ortak yazarlar",
+    "answerInvite": "Ortak yazar daveti",
+    "andMore": "+{{count}}",
+    "creatorHint": "Bu gönderiyi birlikte yapın. Kabul ettiğinde gönderi iki isimle birlikte onun profilinde de görünür.",
+    "inviteHint": "Bu gönderinin ortak yazarı olman istendi. Kabul edersen gönderi iki isimle birlikte senin profilinde de görünür.",
+    "coAuthorHint": "Bu gönderinin ortak yazarısın. Gönderi profilinde iki isimle görünür.",
+    "searchPlaceholder": "Davet edilecek kişileri ara",
+    "inviteButton": "Davet et",
+    "invited": "{{name}} kişisine davet gönderildi",
+    "alreadyOn": "Bu gönderide",
+    "full": "Bir gönderide en fazla {{count}} ortak yazar olabilir.",
+    "accept": "Kabul et",
+    "decline": "Reddet",
+    "accepted": "Artık ortak yazarsın",
+    "remove": "Kaldır",
+    "leave": "Beni kaldır",
+    "waiting": "Davet edildi",
+    "cancelInvite": "İptal",
+    "nothing": "Burada yapılacak bir şey yok.",
+    "failed": "Bu yapılamadı. Tekrar dene.",
+    "banner": "Bu gönderinin ortak yazarı olmaya davet edildin.",
+    "bannerNamed": "{{name}} seni bu gönderinin ortak yazarı olmaya davet etti."
+  },
+  "livePoints": {
+    "title": "Kanal puanları",
+    "yourPoints": "Puanların",
+    "rewards": "Ödüller",
+    "noRewards": "Henüz ödül yok. İzlerken puan kazanmaya devam ediyorsun.",
+    "messageLabel": "Mesajın",
+    "messagePlaceholder": "Yayıncı neyi bilmeli?",
+    "redeemFor": "{{cost}} karşılığında kullan",
+    "needMore_one": "{{formatted}} puan daha gerekli",
+    "needMore_other": "{{formatted}} puan daha gerekli",
+    "howToEarn": "Giriş yapmışken izlediğin her dakika için bir puan, hediye ettiğin her 100 token için de bir puan kazanırsın. Puanların parasal değeri yoktur; satılamaz, gönderilemez ve nakde çevrilemez.",
+    "redeemed": "{{title}} kullanıldı",
+    "notEnough": "Henüz yeterli puan yok",
+    "notLive": "Ödüller yayın canlıyken açılır",
+    "tooFast": "Birkaç saniye bekle",
+    "gone": "Bu ödül artık mevcut değil",
+    "needsText": "Bu ödül için bir mesaj ekle",
+    "redeemFailed": "Kullanılamadı. Tekrar dene.",
+    "buttonLabel_one": "Kanal puanları: {{formatted}} puan",
+    "buttonLabel_other": "Kanal puanları: {{formatted}} puan",
+    "chatRedeemed": "{{title}} ödülünü kullandı",
+    "chatRedeemedShort": "ödül kullandı:",
+    "starter": {
+      "hi": "Yayında bana selam ver",
+      "hydrate": "Su iç!",
+      "song": "Sıradaki şarkıyı seç"
+    },
+    "studio": {
+      "title": "Kanal puanı ödülleri",
+      "intro": "İzleyiciler seni izleyerek kazandıkları puanları burada harcar. Her kullanım sohbetinde ve aşağıdaki listede görünür. Puanların parasal değeri yoktur.",
+      "empty": "Henüz ödül yok.",
+      "addStarters": "Başlangıç ödüllerini ekle",
+      "name": "Ödül adı",
+      "namePlaceholder": "örn. Sıradaki oyunu seç",
+      "cost": "Puan cinsinden bedel",
+      "remove": "Ödülü kaldır",
+      "needsText": "İzleyici mesaj ekler",
+      "enabled": "Açık",
+      "add": "Ödül ekle",
+      "save": "Ödülleri kaydet",
+      "saved": "Ödüller kaydedildi",
+      "saveFailed": "Ödüller kaydedilemedi",
+      "queue": "Kullanılanlar",
+      "queueEmpty": "Henüz kullanılan yok.",
+      "markDone": "Yapıldı olarak işaretle",
+      "refund": "Puanları geri ver",
+      "done": "Yapıldı",
+      "refunded": "Puanlar geri verildi",
+      "settleFailed": "Güncellenemedi"
+    }
   }
 }

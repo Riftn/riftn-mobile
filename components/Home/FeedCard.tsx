@@ -43,6 +43,7 @@ import ContentWarningGate, { useContentWarning } from "./ContentWarningGate";
 import AudioPostPlayer from "./ProtectedAudioPostPlayer";
 import FeedVideoPlayer from "./FeedVideoPlayer";
 import { rememberGalleryIndex } from "../../libs/media-presentation";
+import { nextPhotoViewerKey, pingPhotoViewerHost, registerPhotoViewerHost, type PhotoViewerPost } from "../../libs/photoViewerPost";
 import StatusBadge from "./StatusBadge";
 import { CommentBottomSheet } from "../Comments";
 import { warmCommentThread } from "../Comments/CommentSection";
@@ -138,6 +139,7 @@ import { useUser, useAuthActions, useAuthState } from "../../context/AuthContext
 import { useEngagementWeight } from "../../hooks/useEngagementWeight";
 import { appliedEngagementWeight } from "../../libs/engagement-weight";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
+import { useCoAuthorState } from "../../libs/coAuthors";
 import PollCard from "../DM/PollCard";
 // Direct module imports, not the `libs` barrel — it `export *`s the axios
 // client and auth utils into every card module.
@@ -527,6 +529,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   const stream = (item as any).stream;
   const streamInfo = (item as any).streamInfo || stream?.streamInfo;
   const tokenId = item.tokenId ?? (item as any).id ?? stream?.tokenId;
+  const coAuthorState = useCoAuthorState(tokenId, item);
   // The HLS ladder when the post has one, else the MP4. The player and every
   // hand-off to the shorts viewer or post page key the native player on this
   // exact string (via postVideoUrl below). Downloads use postFileUrl: they
@@ -1156,6 +1159,15 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     openLive();
   }, [disablePress, handleCardPress, scrubBoundary.claimed, onBeforeNavigate, hideUserProfile, openLive]);
 
+  // The photo viewer shows this post's author, caption and action bar over
+  // the picture; it reads them from here (libs/photoViewerPost).
+  const photoViewerKey = useMemo(() => nextPhotoViewerKey(), []);
+  const photoViewerPostRef = useRef<() => PhotoViewerPost | null>(() => null);
+  useEffect(() => registerPhotoViewerHost(photoViewerKey, () => photoViewerPostRef.current()), [photoViewerKey]);
+  useEffect(() => {
+    pingPhotoViewerHost(photoViewerKey);
+  });
+
   const handleImagePress = useCallback((index: number = 0) => {
     if (!hasImages) return;
     // Only photos with a song continue in the shorts viewer; plain photos open the image viewer.
@@ -1179,8 +1191,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       galleryKey: String(tokenId),
       initialIndex: index,
       soundtrack: !isActuallyGated && !matureGate.isGated ? soundtrack : undefined,
+      postKey: tokenId != null ? photoViewerKey : undefined,
     });
-  }, [navigation, galleryImages, hasImages, hideUserProfile, onBeforeNavigate, isActuallyGated, matureGate.isGated, soundtrack, tokenId, item]);
+  }, [navigation, galleryImages, hasImages, hideUserProfile, onBeforeNavigate, isActuallyGated, matureGate.isGated, soundtrack, tokenId, item, photoViewerKey]);
 
   const handleTranslateImage = useCallback(() => {
     const imageUrl = galleryImages[0];
@@ -2332,6 +2345,41 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
 
   // Duet / stitch / reaction credit and counts, as on web's video card.
   const remixCredits = isVideo && !isLive && tokenId != null ? <RemixCredits tokenId={tokenId} /> : null;
+  photoViewerPostRef.current = () =>
+    tokenId == null
+      ? null
+      : {
+          tokenId,
+          avatarUrl: avatar && avatar !== "default-avatar" ? avatar : undefined,
+          displayName,
+          username,
+          address: minterAddress,
+          isOwnPost: !!isOwnerPost,
+          caption: [overlayTitle, displayCaption].filter((part) => part && part.trim()).join("\n"),
+          liked,
+          disliked,
+          saved,
+          reposted,
+          likeCount,
+          dislikeCount,
+          commentCount,
+          repostCount,
+          shareCount,
+          tipCount: totalTips,
+          myReaction,
+          reactionCounts,
+          viewerAddress: userAddress,
+          onLike: handleLikePress,
+          onReact: handleReaction,
+          onSave: handleSavePress,
+          onInfo: handleInfoPress,
+          onComment: handleCommentPress,
+          onShare: handleOpenShare,
+          onTip: DIGITAL_PURCHASES_ENABLED && !minterUser?.hideBadgeAndBalance ? handleTipPress : undefined,
+          onShowReactionInfo: isOwnerPost ? handleShowReactionInfo : undefined,
+          onUserPress: handleUserPress,
+        };
+
   const actionBar = showActionBar ? (
     <FeedActionBar
       liked={liked}
@@ -2640,6 +2688,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           <View style={{ flexDirection: 'row', gap: SCREEN_WIDTH < 768 ? 16 : 24, alignItems: 'stretch' }}>
             <View style={{ flex: 1, minWidth: 0 }}>
               <FeedCardHeader
+                coAuthors={coAuthorState.users}
                 boosted={isBoosted}
                 onBoostedPress={openSuperPowers}
                 avatarUrl={avatar} displayName={displayName} username={username} address={minterAddress}
@@ -2900,6 +2949,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     const photoHeader = cinematicMedia && !chipOverMedia ? (
       <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: firstImageHeaderBelow ? 10 : leadInset }}>
               <FeedCardHeader
+                coAuthors={coAuthorState.users}
                 boosted={isBoosted}
                 onBoostedPress={openSuperPowers}
                 avatarUrl={avatar}
@@ -3018,6 +3068,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         ) : (
           <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: leadInset }}>
             <FeedCardHeader
+                coAuthors={coAuthorState.users}
               boosted={isBoosted}
               onBoostedPress={openSuperPowers}
               avatarUrl={avatar}
@@ -3242,6 +3293,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           card is ~100 native views, each one paid for at mount mid-fling. */}
       {!retainFeedNav && postVideo && matureGate.isGated && <PostStageChrome overMedia={false} />}
       {!desk && <FeedCardHeader
+                coAuthors={coAuthorState.users}
         boosted={isBoosted}
         onBoostedPress={openSuperPowers}
         avatarUrl={avatar}

@@ -2751,8 +2751,10 @@
       "pronouns": "Personiskās vārdas",
       "location": "Atrodas",
       "custom": "Personīgais",
-      "customOption": "Personīgais nosaukums"
-    }
+      "customOption": "Personīgais nosaukums",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtrēt paziņojumus no",

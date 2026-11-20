@@ -2751,8 +2751,10 @@
       "pronouns": "Pronomen",
       "location": "Plassering",
       "custom": "Tilpasset",
-      "customOption": "Tilpasset etikett"
-    }
+      "customOption": "Tilpasset etikett",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtrer varsler fra",

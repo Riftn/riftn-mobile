@@ -2751,8 +2751,10 @@
       "pronouns": "Jecha ofii",
       "location": "Bakka jiraachuu",
       "custom": "Custom",
-      "customOption": "Libaa custom"
-    }
+      "customOption": "Libaa custom",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Beeksisa irraa calali",

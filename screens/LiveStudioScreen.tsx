@@ -31,6 +31,7 @@ import { QuickControls } from "../components/LiveStudio/QuickControls";
 import { DestinationsSection } from "../components/LiveStudio/DestinationsSection";
 import { SubathonEditor } from "../components/LiveStudio/SubathonEditor";
 import { PointsSection } from "../components/LiveStudio/PointsSection";
+import { RewardsSection } from "../components/LiveStudio/RewardsSection";
 import { OverlayCreatorContext, SubathonContext } from "../components/LiveOverlay/subathon";
 import { PollContext } from "../components/LiveOverlay/poll";
 import { samplePoll, type LivePoll } from "../libs/live-overlay/polls";
@@ -372,6 +373,10 @@ export default function LiveStudioScreen() {
 
         <Section title={t("liveStudio.subathon.title")}>
           <SubathonEditor subathon={subathon} onChange={setSubathon} />
+        </Section>
+
+        <Section title={t("livePoints.studio.title")}>
+          <RewardsSection />
         </Section>
 
         <Section title={t("liveStudio.points.title")}>

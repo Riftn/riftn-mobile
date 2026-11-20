@@ -2777,8 +2777,10 @@
       "pronouns": "Zamjenice",
       "location": "Lokacija",
       "custom": "Prilagođeno",
-      "customOption": "Prilagođeni naziv"
-    }
+      "customOption": "Prilagođeni naziv",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtriraj obavijesti od",

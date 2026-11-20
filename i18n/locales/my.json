@@ -2749,10 +2749,12 @@
       "pronouns": "အခေါ်အဝေါ်များ",
       "location": "နေရာ",
       "customOption": "Custom label မှတ်တမ်းစာ",
-      "custom": "စိတ်ကြိုက်"
+      "custom": "စိတ်ကြိုက်",
+      "cashapp": "Cash App"
     },
     "remove": "အကွက်ကို ဖယ်ရှားရန်",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "ဤသူတို့ထံမှ အသိပေးချက်များကို စစ်ထုတ်ရန်",

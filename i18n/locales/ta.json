@@ -2750,9 +2750,11 @@
       "pronouns": "பெயர்ச்சொற்கள்",
       "location": "இடம்",
       "custom": "தனிப்பயன்",
-      "customOption": "தனிப்பயன் லேபிள்"
+      "customOption": "தனிப்பயன் லேபிள்",
+      "cashapp": "Cash App"
     },
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "இவர்களிடமிருந்து அறிவிப்புகளை வடிகட்டு",

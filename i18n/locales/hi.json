@@ -2777,8 +2777,10 @@
       "pronouns": "सर्वनाम",
       "location": "स्थान",
       "custom": "विशिष्ट",
-      "customOption": "कस्टम लेबल"
-    }
+      "customOption": "कस्टम लेबल",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "इनकी सूचनाएँ फ़िल्टर करें",

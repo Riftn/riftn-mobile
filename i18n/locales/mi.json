@@ -2751,8 +2751,10 @@
       "pronouns": "Ingoa tūturu",
       "location": "Wāhi",
       "custom": "Āhuatanga",
-      "customOption": "Ingoa āhuatanga"
-    }
+      "customOption": "Ingoa āhuatanga",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Tātari pānui mai i",

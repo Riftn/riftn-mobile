@@ -2776,9 +2776,11 @@
       "pronouns": "คำสรรพนาม",
       "location": "ตำแหน่ง",
       "custom": "กำหนดเอง",
-      "customOption": "ชื่อฟิลด์กำหนดเอง"
+      "customOption": "ชื่อฟิลด์กำหนดเอง",
+      "cashapp": "Cash App"
     },
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "กรองการแจ้งเตือนจาก",

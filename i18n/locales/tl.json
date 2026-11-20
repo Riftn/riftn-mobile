@@ -2751,8 +2751,10 @@
       "pronouns": "Pangalang panlalakay",
       "location": "Lokasyon",
       "custom": "Custom",
-      "customOption": "Custom label"
-    }
+      "customOption": "Custom label",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "I-filter ang mga notification mula sa",

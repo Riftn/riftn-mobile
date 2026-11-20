@@ -2751,8 +2751,10 @@
       "pronouns": "Jinjina",
       "location": "Wuri",
       "custom": "Custom",
-      "customOption": "Lakabi na jiya"
-    }
+      "customOption": "Lakabi na jiya",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Tace sanarwa daga",

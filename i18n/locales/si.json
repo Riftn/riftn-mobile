@@ -2749,10 +2749,12 @@
       "pronouns": "ඉඩඩුන්",
       "location": "ස්ථානය",
       "custom": "අභිරුචි",
-      "customOption": "අභිරුචි ලේබල්"
+      "customOption": "අභිරුචි ලේබල්",
+      "cashapp": "Cash App"
     },
     "placeholderPronouns": "ඔවුන්/ඔවුන්",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "මොවුන්ගෙන් දැනුම්දීම් පෙරන්න",

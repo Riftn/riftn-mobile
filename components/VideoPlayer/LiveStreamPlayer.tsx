@@ -75,6 +75,12 @@ import LiveWebRtcView from "../LiveViewer/LiveWebRtcView";
 import { DeHubLoader } from "../DeHubLoader";
 import { extractReplayUrl } from "../../libs/live-replay";
 import PostOptionsMenu from "../common/PostOptionsMenu";
+import ShareSheet from "../Home/ShareSheet";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
+import { toggleRepost } from "../../services/repost.service";
+import { applyEngagement, isFailedResponse, revertEngagement } from "../../libs/engagementCache";
+import { usePostLinkCopyCount, useTrackPostLinkCopy } from "../../libs/link-copy-count";
+import { ShareLinks } from "../../navigation/linking.config";
 import LiveWhosHereSheet from "../LiveViewer/LiveWhosHereSheet";
 import LiveRotateButton from "../LiveViewer/LiveRotateButton";
 import { useLiveAudience } from "../../hooks/useLiveAudience";
@@ -90,6 +96,9 @@ import ViewerScrubBar from "../common/ViewerScrubBar";
 import LiveClipSheet from "../LiveViewer/LiveClipSheet";
 import HypeTrainBar from "../LiveViewer/HypeTrainBar";
 import GiftSubsSheet from "../LiveViewer/GiftSubsSheet";
+import RewardsSheet from "../LiveViewer/RewardsSheet";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMyStreamPoints, getStreamRewards } from "../../services/live-rewards.service";
 import { captureLiveClip, type LiveClip } from "../../services/live-clips.service";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
@@ -1341,8 +1350,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     if (post && postReactions.myReaction !== post) postReactions.react(post);
   }, [postReactions, requireAuth, handleSendReaction, addReaction, liveReactionWeight]);
 
-  // Share handler
-  const handleShare = useCallback(async () => {
+  // The phone's own share sheet, now the "Share link" row of the drawer below.
+  const handleNativeShare = useCallback(async () => {
     const postId = streamEntity?.tokenId ?? tokenId ?? streamId;
     const url = postId != null ? `${WEBSITE_LINK}/app/post/${postId}` : null;
     if (!url) return;
@@ -1359,6 +1368,77 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       : t("copy.f6f435c8cbc6", { defaultValue: "Check out this stream {{value1}}", value1: url });
     await shareProfile(url, message, "live");
   }, [streamEntity?.tokenId, streamId, tokenId, t, creator?.displayName, creator?.username, isLiveEffective, replayUrl, resolvedTitle]);
+
+  // Share opens the post's share drawer, as on a feed card: repost to your
+  // profile, quote, send it in a message, copy the link, or the phone's own
+  // sheet. Watching carries on underneath. A stream with no post id yet (just
+  // started, details still loading) has nothing to repost, so it goes
+  // straight to the phone's sheet as before.
+  const [showShareSheet, setShowShareSheet] = useState(false);
+  const [showShareToDm, setShowShareToDm] = useState(false);
+  const sharePostId = postTokenId != null && /^\d+$/.test(String(postTokenId)) ? Number(postTokenId) : null;
+  const handleShare = useCallback(() => {
+    if (sharePostId == null) {
+      void handleNativeShare();
+      return;
+    }
+    setShowShareSheet(true);
+  }, [sharePostId, handleNativeShare]);
+
+  const viewerAddress = (user?.walletAddress || user?.address || "").toLowerCase();
+  const sharePost = postReactions.post as Record<string, any>;
+  const sharePublic = !sharePost?.visibility || sharePost.visibility === "public";
+  const shareIsOwn = !!viewerAddress && String(sharePost?.minter || "").toLowerCase() === viewerAddress;
+  const { data: linkCopyCount = 0 } = usePostLinkCopyCount(sharePostId);
+  const trackLinkCopy = useTrackPostLinkCopy();
+
+  const handleRepost = useCallback((next: boolean) => {
+    if (sharePostId == null) return;
+    const key = postReactions.engagementKey;
+    const wasReposted = !!postReactions.isReposted;
+    const prevCount = Number(postReactions.repostCount) || 0;
+    const run = () => {
+      applyEngagement(key, {
+        isReposted: next,
+        repostCount: next ? prevCount + 1 : Math.max(0, prevCount - 1),
+      });
+      if (next) toastSuccess(t("toasts.reposted"));
+      const rollback = () => {
+        revertEngagement(key, { isReposted: wasReposted, repostCount: prevCount });
+        toastError(next ? t("copy.7527dc6722fc", { defaultValue: "Failed to repost" }) : t("copy.06f3a3e5ca20", { defaultValue: "Failed to remove repost" }));
+      };
+      toggleRepost(sharePostId)
+        .then((res) => {
+          if (isFailedResponse(res)) {
+            rollback();
+            return;
+          }
+          if (typeof res?.reposted === "boolean" && res.reposted !== next) {
+            applyEngagement(key, { isReposted: res.reposted, repostCount: prevCount });
+          }
+        })
+        .catch(rollback);
+    };
+    requireAuth(run);
+  }, [sharePostId, postReactions.engagementKey, postReactions.isReposted, postReactions.repostCount, requireAuth, t]);
+
+  const handleQuote = useCallback(() => {
+    if (sharePostId == null) return;
+    requireAuth(() => {
+      navigation.navigate(ScreenNames.Upload as any, {
+        quotedTokenId: sharePostId,
+        quotedPost: { tokenId: sharePostId, ...(sharePost || {}) } as any,
+      });
+    });
+  }, [sharePostId, sharePost, requireAuth, navigation]);
+
+  const handleCopyLink = useCallback(() => {
+    if (sharePostId == null) return;
+    copyToClipboard(ShareLinks.post(String(sharePostId)));
+    toastSuccess(t("postOptions.linkCopied"));
+    // A copy is a share: it counts once per actor per post, next to reposts.
+    trackLinkCopy(sharePostId, viewerAddress, linkCopyCount);
+  }, [sharePostId, t, trackLinkCopy, viewerAddress, linkCopyCount]);
 
   // Sound. A stream is opened on purpose, so it starts audible whether or not
   // the user has silenced the feed. The player used to seed itself from the
@@ -1586,6 +1666,55 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       }
     });
   }, [streamEntity?.tokenId, tokenId, requireAuth, t]);
+  // Channel points: the viewer's balance with this creator, and the rewards
+  // they can spend it on. Only for a signed-in viewer of a stream on air.
+  const pointsEnabled = !!streamId && isSignedIn && ownerStatus === "viewer" && isLiveEffective;
+  const pointsQuery = useQuery({
+    queryKey: ["live-points", streamId],
+    queryFn: () => getMyStreamPoints(streamId!),
+    enabled: pointsEnabled,
+    refetchInterval: pointsEnabled ? 60_000 : false,
+    staleTime: 30_000,
+    retry: false,
+  });
+  const rewardsQuery = useQuery({
+    queryKey: ["live-rewards", streamId],
+    queryFn: () => getStreamRewards(streamId!),
+    enabled: pointsEnabled,
+    staleTime: 60_000,
+  });
+  const queryClient = useQueryClient();
+  const [rewardsOpen, setRewardsOpen] = useState(false);
+  const pointsBalance = pointsEnabled && pointsQuery.data?.live ? pointsQuery.data.balance : null;
+  const openRewards = useCallback(() => {
+    void rewardsQuery.refetch();
+    setRewardsOpen(true);
+  }, [rewardsQuery]);
+  // A redemption is a line in the room; a creator editing rewards mid-stream refetches them.
+  useEffect(() => {
+    if (!streamId) return;
+    const offReward = socketOn("stream.reward", (data: any) => {
+      if (String(data?.streamId || "") !== String(streamId)) return;
+      const r = data?.redemption;
+      if (!r || typeof r.title !== "string") return;
+      addActivity({
+        status: "SYSTEM",
+        address: String(r.viewer?.address || "").toLowerCase(),
+        user: r.viewer,
+        meta: {
+          kind: "reward",
+          rewardTitle: String(r.title).slice(0, 60),
+          content: String(r.text || "").slice(0, 200),
+          username: r.viewer?.displayName || r.viewer?.username,
+          avatarImageUrl: r.viewer?.avatarImageUrl,
+        },
+      });
+    }) || (() => {});
+    const offRewards = socketOn("stream.rewards.updated", (data: any) => {
+      if (String(data?.streamId || "") === String(streamId)) void queryClient.invalidateQueries({ queryKey: ["live-rewards", streamId] });
+    }) || (() => {});
+    return () => { offReward(); offRewards(); };
+  }, [streamId, socketOn, addActivity, queryClient]);
   const [giftOpen, setGiftOpen] = useState(false);
   const handleGiftPress = useCallback(() => {
     if (!isLiveEffective) return;
@@ -2062,6 +2191,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   likeCount={postReactions.likeCount}
                   isLiked={postReactions.isLiked}
                   actionsDisabled={!isSignedIn || !isLiveEffective}
+                  pointsBalance={pointsBalance}
+                  onPointsPress={openRewards}
                 />
               </View>
             </View>
@@ -2164,6 +2295,32 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         />
       )}
 
+      {showShareSheet && sharePostId != null && (
+        <ShareSheet
+          visible={showShareSheet}
+          onClose={() => setShowShareSheet(false)}
+          isReposted={!!postReactions.isReposted}
+          onRepost={() => handleRepost(true)}
+          onUndoRepost={() => handleRepost(false)}
+          onQuote={handleQuote}
+          canQuote={sharePublic && (sharePost?.quotePolicy !== "nobody" || shareIsOwn)}
+          canRepost={sharePublic}
+          onCopyLink={handleCopyLink}
+          onSendToDm={sharePublic ? () => requireAuth(() => setShowShareToDm(true)) : undefined}
+          onShareLink={() => { void handleNativeShare(); }}
+          embedTokenId={sharePublic ? sharePostId : undefined}
+        />
+      )}
+
+      {showShareToDm && sharePostId != null && (
+        <ShareToDmSheet
+          visible={showShareToDm}
+          onClose={() => setShowShareToDm(false)}
+          tokenId={sharePostId}
+          postTitle={resolvedTitle || undefined}
+        />
+      )}
+
       <LiveClipSheet
         visible={clipOpen}
         onClose={() => setClipOpen(false)}
@@ -2186,6 +2343,16 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         }}
         onGiftSubs={ownerStatus === "viewer" && giftCreatorAddress ? () => setGiftSubsOpen(true) : undefined}
       />
+      {rewardsOpen && streamId && pointsQuery.data ? (
+        <RewardsSheet
+          visible={rewardsOpen}
+          onClose={() => setRewardsOpen(false)}
+          streamId={streamId}
+          balance={pointsQuery.data}
+          rewards={rewardsQuery.data?.rewards ?? []}
+          loading={rewardsQuery.isLoading}
+        />
+      ) : null}
       {giftSubsOpen && giftCreatorAddress ? (
         <GiftSubsSheet
           visible={giftSubsOpen}

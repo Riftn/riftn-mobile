@@ -27,6 +27,9 @@ import Icon from "../components/ui/Icon";
 import { toastError } from "../libs";
 import { cdnImageSource } from "../libs/cdnImage";
 import { rememberGalleryIndex } from "../libs/media-presentation";
+import { usePhotoViewerPost } from "../libs/photoViewerPost";
+import PhotoViewerPostOverlay from "../components/common/PhotoViewerPostOverlay";
+import { DarkRoomProvider } from "../context/ThemeContext";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -320,7 +323,12 @@ export const ImageViewer = ({ params, onClose }: { params: any; onClose: () => v
     allowDownload,
     soundtrack,
     galleryKey,
+    postKey,
   } = params || {};
+
+  // Opened from a post: its author, caption and action bar sit over the photo.
+  const post = usePhotoViewerPost(postKey);
+  const [overlayHeight, setOverlayHeight] = useState(0);
 
   const startIndex = paramInitialIndex ?? paramIndex ?? 0;
 
@@ -514,7 +522,10 @@ export const ImageViewer = ({ params, onClose }: { params: any; onClose: () => v
   const showDots = images.length > 1;
 
   return (
-    <View style={styles.root} onLayout={onRootLayout}>
+    // A dark room in every theme: System Light's colour pass would otherwise
+    // turn the buttons and the text over the photo light.
+    <DarkRoomProvider>
+    <View className="dark-surface" style={styles.root} onLayout={onRootLayout}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       <Animated.View
         style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }, animatedBg]}
@@ -604,9 +615,27 @@ export const ImageViewer = ({ params, onClose }: { params: any; onClose: () => v
           <SoundtrackBadge title={soundtrack.title} creator={soundtrack.creator} url={soundtrack.url} />
         </Animated.View>
       )}
+      {post && (
+        <Animated.View
+          style={[StyleSheet.absoluteFill, chromeStyle]}
+          pointerEvents={chromeHidden ? "none" : "box-none"}
+        >
+          <PhotoViewerPostOverlay
+            post={post}
+            bottomInset={insets.bottom}
+            closeViewer={closeViewer}
+            onHeight={setOverlayHeight}
+          />
+        </Animated.View>
+      )}
       {showDots && (
         <Animated.View
-          style={[styles.dotsRow, { bottom: insets.bottom + 20 }, chromeStyle]}
+          style={[
+            styles.dotsRow,
+            // Above the author row when the post's details are showing.
+            { bottom: post && overlayHeight ? overlayHeight - 40 : insets.bottom + 20 },
+            chromeStyle,
+          ]}
           pointerEvents={chromeHidden ? "none" : "box-none"}
         >
           {images.map((_, idx) => (
@@ -628,6 +657,7 @@ export const ImageViewer = ({ params, onClose }: { params: any; onClose: () => v
         </Animated.View>
       )}
     </View>
+    </DarkRoomProvider>
   );
 };
 

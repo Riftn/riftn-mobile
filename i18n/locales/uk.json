@@ -2775,10 +2775,12 @@
       "pronouns": "Займенники",
       "location": "Місцезнаходження",
       "custom": "Навички",
-      "customOption": "Назва для індивідуального поля"
+      "customOption": "Назва для індивідуального поля",
+      "cashapp": "Cash App"
     },
     "placeholderLink": "yoursite.com",
-    "placeholderPronouns": "він/його"
+    "placeholderPronouns": "він/його",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Фільтрувати сповіщення від",

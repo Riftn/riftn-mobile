@@ -46,6 +46,10 @@ export enum NotificationType {
   BADGE_TIER_UP = 'badge_tier_up',
   /** Your balance fell far enough that the badge you wear changed */
   BADGE_TIER_DOWN = 'badge_tier_down',
+  /** A creator asked you to be a co-author on their post */
+  COAUTHOR_INVITE = 'coauthor_invite',
+  /** Someone you invited is now a co-author on your post */
+  COAUTHOR_ACCEPTED = 'coauthor_accepted',
 }
 
 export enum NotificationCategory {
@@ -72,6 +76,8 @@ export const CONTENT_NAVIGABLE_TYPES = new Set([
   NotificationType.BOUNTY_AVAILABLE,
   NotificationType.BOUNTY_CLAIMED,
   NotificationType.VIDEO_MILESTONE,
+  NotificationType.COAUTHOR_INVITE,
+  NotificationType.COAUTHOR_ACCEPTED,
 ]);
 
 export const PROFILE_NAVIGABLE_TYPES = new Set([
@@ -134,6 +140,10 @@ export const getNotificationIconConfig = (type: NotificationType | string): {
     case NotificationType.FOLLOW_REQUEST:
       return { name: 'UserPlus', color: '#D4D4D8' };
     case NotificationType.FOLLOW_REQUEST_ACCEPTED:
+      return { name: 'UserCheck', color: '#F4F4F5' };
+    case NotificationType.COAUTHOR_INVITE:
+      return { name: 'UserPlus', color: '#F4F4F5' };
+    case NotificationType.COAUTHOR_ACCEPTED:
       return { name: 'UserCheck', color: '#F4F4F5' };
     case NotificationType.MENTION:
       return { name: 'AtSign', color: '#D4D4D8' };

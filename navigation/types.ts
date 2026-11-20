@@ -133,6 +133,8 @@ export type AppStackParamList = {
     initialIndex?: number;
     index?: number;
     allowDownload?: boolean;
+    /** The card that opened it (libs/photoViewerPost): author, caption and actions over the photo. */
+    postKey?: string;
   };
   [ScreenNames.Chat]: {
     conversationId?: string;

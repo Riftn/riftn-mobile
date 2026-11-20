@@ -2749,10 +2749,12 @@
       "pronouns": "الموقع",
       "location": "الخصائص",
       "custom": "الخصائص المخصصة",
-      "customOption": "تسمية الخصائص المخصصة"
+      "customOption": "تسمية الخصائص المخصصة",
+      "cashapp": "Cash App"
     },
     "placeholderLink": "yoursite.com",
-    "placeholderPronouns": "هو/هي"
+    "placeholderPronouns": "هو/هي",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "فلترة الإشعارات من",

@@ -438,6 +438,7 @@
     "placeholderLink": "yoursite.com",
     "placeholderPronouns": "they/them",
     "placeholderLocation": "City, country",
+    "placeholderCashtag": "$cashtag",
     "presets": {
       "website": "Website",
       "blog": "Blog",
@@ -448,7 +449,8 @@
       "pronouns": "Pronouns",
       "location": "Location",
       "custom": "Custom",
-      "customOption": "Custom label"
+      "customOption": "Custom label",
+      "cashapp": "Cash App"
     }
   },
   "notificationFilters": {
@@ -2402,6 +2404,8 @@
     }
   },
   "notifications": {
+    "coAuthorInvite": "{{name}} invited you to co-author their post",
+    "coAuthorAccepted": "{{name}} is now a co-author on your post",
     "stores": "Stores",
     "features": "Features",
     "title": "Notifications",
@@ -15536,6 +15540,7 @@
     "4118fb4fed0e": "Removed",
     "b9725da1e57f": "Translation failed. Please try again.",
     "caac88c81c38": "Already in your language",
+    "noTranslationFound": "Couldn't translate this one. It may be slang or a name.",
     "31198ffcdcba": "Some text could not be translated.",
     "bfd4303ae4e5": "Post translated",
     "66b8e077d85f": "Failed to send message",
@@ -16948,5 +16953,81 @@
   "roomPreview": {
     "you": "You",
     "voice": "🎤 Voice message"
+  },
+  "coAuthors": {
+    "invite": "Invite a co-author",
+    "manage": "Co-authors",
+    "answerInvite": "Co-author invite",
+    "andMore": "+{{count}}",
+    "creatorHint": "Make this post together. Once they say yes, it shows on their profile too, with both names.",
+    "inviteHint": "You've been asked to co-author this post. Say yes and it shows on your profile too, with both names.",
+    "coAuthorHint": "You're a co-author on this post. It shows on your profile with both names.",
+    "searchPlaceholder": "Search people to invite",
+    "inviteButton": "Invite",
+    "invited": "Invite sent to {{name}}",
+    "alreadyOn": "On this post",
+    "full": "A post can have up to {{count}} co-authors.",
+    "accept": "Accept",
+    "decline": "Decline",
+    "accepted": "You're now a co-author",
+    "remove": "Remove",
+    "leave": "Remove me",
+    "waiting": "Invited",
+    "cancelInvite": "Cancel",
+    "nothing": "Nothing to do here.",
+    "failed": "Couldn't do that. Try again.",
+    "banner": "You were invited to co-author this post.",
+    "bannerNamed": "{{name}} invited you to co-author this post."
+  },
+  "livePoints": {
+    "title": "Channel points",
+    "yourPoints": "Your points",
+    "rewards": "Rewards",
+    "noRewards": "No rewards here yet. You're still earning points while you watch.",
+    "messageLabel": "Your message",
+    "messagePlaceholder": "What should the streamer know?",
+    "redeemFor": "Redeem for {{cost}}",
+    "needMore_one": "{{formatted}} more point needed",
+    "needMore_other": "{{formatted}} more points needed",
+    "howToEarn": "You earn a point for every minute you watch while signed in, plus one for every 100 tokens you gift. Points have no cash value and can't be sold, sent or cashed out.",
+    "redeemed": "Redeemed {{title}}",
+    "notEnough": "Not enough points yet",
+    "notLive": "Rewards open while the stream is live",
+    "tooFast": "Give it a few seconds",
+    "gone": "This reward is no longer available",
+    "needsText": "Add a message for this reward",
+    "redeemFailed": "Couldn't redeem that. Try again.",
+    "buttonLabel_one": "Channel points: {{formatted}} point",
+    "buttonLabel_other": "Channel points: {{formatted}} points",
+    "chatRedeemed": "redeemed {{title}}",
+    "chatRedeemedShort": "redeemed",
+    "starter": {
+      "hi": "Say hi to me on stream",
+      "hydrate": "Hydrate!",
+      "song": "Pick the next song"
+    },
+    "studio": {
+      "title": "Channel points rewards",
+      "intro": "Viewers spend the points they earn watching you on these. Each one shows up in your chat and in the list below. Points have no cash value.",
+      "empty": "No rewards yet.",
+      "addStarters": "Add starter rewards",
+      "name": "Reward name",
+      "namePlaceholder": "e.g. Pick the next game",
+      "cost": "Cost in points",
+      "remove": "Remove reward",
+      "needsText": "Viewer adds a message",
+      "enabled": "On",
+      "add": "Add reward",
+      "save": "Save rewards",
+      "saved": "Rewards saved",
+      "saveFailed": "Couldn't save rewards",
+      "queue": "Redeemed",
+      "queueEmpty": "Nothing redeemed yet.",
+      "markDone": "Mark done",
+      "refund": "Give points back",
+      "done": "Done",
+      "refunded": "Points given back",
+      "settleFailed": "Couldn't update that"
+    }
   }
 }

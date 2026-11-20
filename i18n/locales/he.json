@@ -2776,9 +2776,11 @@
       "pronouns": "זהויות",
       "location": "מיקום",
       "custom": "מותאם",
-      "customOption": "תווית מותאמת"
+      "customOption": "תווית מותאמת",
+      "cashapp": "Cash App"
     },
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "סינון התראות מ־",

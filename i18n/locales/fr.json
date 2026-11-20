@@ -360,8 +360,10 @@
       "pronouns": "Pronoms",
       "location": "Emplacement",
       "custom": "Personnalisé",
-      "customOption": "Étiquette personnalisée"
-    }
+      "customOption": "Étiquette personnalisée",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtrer les notifications de",
@@ -2357,6 +2359,8 @@
     }
   },
   "notifications": {
+    "coAuthorInvite": "{{name}} vous a invité à co-écrire sa publication",
+    "coAuthorAccepted": "{{name}} est maintenant co-auteur de votre publication",
     "stores": "Boutiques",
     "features": "Fonctionnalités",
     "title": "Notifications",
@@ -15764,7 +15768,8 @@
     "cbade2afaee2": "Tendance cette semaine sur Audius. Utilisation gratuite ; l'artiste est crédité sur votre publication.",
     "d2e45b7406fc": "Musique du domaine public et sous licence Creative Commons provenant de Wikimedia Commons. L'artiste est crédité sur votre publication.",
     "d0c1a3684775": "Les chansons n'ont pas été chargées. Réessayez dans un instant.",
-    "d14064f80f52": "Ajouter un son"
+    "d14064f80f52": "Ajouter un son",
+    "noTranslationFound": "Impossible de traduire ce message. C'est peut-être de l'argot ou un nom."
   },
   "liveOverlay": {
     "eyebrow": {
@@ -17166,5 +17171,81 @@
   "roomPreview": {
     "you": "Vous",
     "voice": "🎤 Message vocal"
+  },
+  "coAuthors": {
+    "invite": "Inviter un co-auteur",
+    "manage": "Co-auteurs",
+    "answerInvite": "Invitation de co-auteur",
+    "andMore": "+{{count}}",
+    "creatorHint": "Créez cette publication ensemble. Dès qu’il accepte, elle apparaît aussi sur son profil, avec vos deux noms.",
+    "inviteHint": "On vous propose d’être co-auteur de cette publication. Acceptez et elle apparaîtra aussi sur votre profil, avec les deux noms.",
+    "coAuthorHint": "Vous êtes co-auteur de cette publication. Elle apparaît sur votre profil avec les deux noms.",
+    "searchPlaceholder": "Rechercher des personnes à inviter",
+    "inviteButton": "Inviter",
+    "invited": "Invitation envoyée à {{name}}",
+    "alreadyOn": "Sur cette publication",
+    "full": "Une publication peut avoir jusqu’à {{count}} co-auteurs.",
+    "accept": "Accepter",
+    "decline": "Refuser",
+    "accepted": "Vous êtes maintenant co-auteur",
+    "remove": "Retirer",
+    "leave": "Me retirer",
+    "waiting": "Invité",
+    "cancelInvite": "Annuler",
+    "nothing": "Rien à faire ici.",
+    "failed": "Impossible pour le moment. Réessayez.",
+    "banner": "Vous avez été invité à co-écrire cette publication.",
+    "bannerNamed": "{{name}} vous a invité à co-écrire cette publication."
+  },
+  "livePoints": {
+    "title": "Points de chaîne",
+    "yourPoints": "Tes points",
+    "rewards": "Récompenses",
+    "noRewards": "Pas encore de récompenses. Tu gagnes quand même des points en regardant.",
+    "messageLabel": "Ton message",
+    "messagePlaceholder": "Que doit savoir le streamer ?",
+    "redeemFor": "Échanger pour {{cost}}",
+    "needMore_one": "Encore {{formatted}} point nécessaire",
+    "needMore_other": "Encore {{formatted}} points nécessaires",
+    "howToEarn": "Tu gagnes un point par minute de visionnage connecté, plus un pour chaque tranche de 100 jetons offerts. Les points n'ont aucune valeur en argent et ne peuvent être ni vendus, ni envoyés, ni encaissés.",
+    "redeemed": "{{title}} échangé",
+    "notEnough": "Pas encore assez de points",
+    "notLive": "Les récompenses sont ouvertes pendant le direct",
+    "tooFast": "Attends quelques secondes",
+    "gone": "Cette récompense n'est plus disponible",
+    "needsText": "Ajoute un message pour cette récompense",
+    "redeemFailed": "Échange impossible. Réessaie.",
+    "buttonLabel_one": "Points de chaîne : {{formatted}} point",
+    "buttonLabel_other": "Points de chaîne : {{formatted}} points",
+    "chatRedeemed": "a échangé {{title}}",
+    "chatRedeemedShort": "a échangé",
+    "starter": {
+      "hi": "Dis-moi bonjour en direct",
+      "hydrate": "Hydrate-toi !",
+      "song": "Choisis la prochaine chanson"
+    },
+    "studio": {
+      "title": "Récompenses de points de chaîne",
+      "intro": "Tes spectateurs dépensent ici les points gagnés en te regardant. Chaque échange s'affiche dans ton chat et dans la liste ci-dessous. Les points n'ont aucune valeur en argent.",
+      "empty": "Aucune récompense pour le moment.",
+      "addStarters": "Ajouter des récompenses de départ",
+      "name": "Nom de la récompense",
+      "namePlaceholder": "ex. Choisis le prochain jeu",
+      "cost": "Coût en points",
+      "remove": "Retirer la récompense",
+      "needsText": "Le spectateur ajoute un message",
+      "enabled": "Active",
+      "add": "Ajouter une récompense",
+      "save": "Enregistrer les récompenses",
+      "saved": "Récompenses enregistrées",
+      "saveFailed": "Impossible d'enregistrer les récompenses",
+      "queue": "Échangées",
+      "queueEmpty": "Rien d’échangé pour le moment.",
+      "markDone": "Marquer comme fait",
+      "refund": "Rendre les points",
+      "done": "Fait",
+      "refunded": "Points rendus",
+      "settleFailed": "Mise à jour impossible"
+    }
   }
 }

@@ -2747,12 +2747,14 @@
       "newsletter": "نيوز ليٽر",
       "pronouns": "ڪائنات",
       "location": "جڳھ",
-      "customOption": "ڪسٽم ليبل"
+      "customOption": "ڪسٽم ليبل",
+      "cashapp": "Cash App"
     },
     "type": "فيلڊ جو قسم",
     "needsLabel": "هر ڪسٽم فيلڊ کي هڪ ليبل ڏيو",
     "placeholderPronouns": "انهن/انهن",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "انهن کان اطلاعون فلٽر ڪريو",

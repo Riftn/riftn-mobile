@@ -1923,7 +1923,7 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
 
   const renderedMessages = useMemo(() => {
     if (streamingContent === null) return messages;
-    return [...messages, { role: 'assistant' as const, content: streamingContent }];
+    return [...messages, { role: 'assistant' as const, content: streamingContent, isStreaming: true }];
   }, [messages, streamingContent]);
 
   const renderMessage = useCallback(

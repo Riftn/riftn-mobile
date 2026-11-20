@@ -2777,8 +2777,10 @@
       "pronouns": "Pronouns",
       "location": "Location",
       "custom": "Custom",
-      "customOption": "Custom label"
-    }
+      "customOption": "Custom label",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Chuja arifa kutoka kwa",

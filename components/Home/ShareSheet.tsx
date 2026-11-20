@@ -67,6 +67,8 @@ interface ShareSheetProps {
   onShareAsImage?: () => void | Promise<void>;
   /** The post to offer embed code for; omit to leave the row out. */
   embedTokenId?: string | number;
+  /** The phone's own share sheet, as a "Share link" row; omit to leave it out. */
+  onShareLink?: () => void;
 }
 
 const ShareSheetComponent: React.FC<ShareSheetProps> = ({
@@ -82,6 +84,7 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
   onSendToDm,
   onShareAsImage,
   embedTokenId,
+  onShareLink,
 }) => {
   const { t } = useTranslation();
   const [sharingImage, setSharingImage] = useState(false);
@@ -179,6 +182,18 @@ const ShareSheetComponent: React.FC<ShareSheetProps> = ({
             onClose();
           }}
         />
+
+        {!!onShareLink && (
+          <ShareRow
+            icon="Share2"
+            label={t("communities.shareLink")}
+            onPress={() => {
+              onClose();
+              // The system sheet needs this one gone first.
+              setTimeout(() => onShareLink(), 300);
+            }}
+          />
+        )}
 
         {embedTokenId != null && (
           <ShareRow
