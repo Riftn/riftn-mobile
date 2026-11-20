@@ -11,7 +11,7 @@ import { communityKindOf, entryPriceOf } from "../../libs/community-kinds";
 import type { Community } from "../../types/community";
 import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
 import { ChatCard } from "./ChatCard";
-import ReactionAlertBadge, { reactionAlertLine } from "./ReactionAlertBadge";
+import ReactionAlertBadge, { markChatRow, reactionAlertLine } from "./ReactionAlertBadge";
 import type { ChatReactionSummary } from "../../services/dm/dm.api";
 import UnreadCountChip from "./UnreadCountChip";
 import { formatShortAgo } from "../../libs/date.util";
@@ -37,6 +37,7 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
   /** Reactions to your messages here that you haven't seen yet. */
   reactions?: ChatReactionSummary | null;
 }) {
+  markChatRow(`room:${community.id}`);
   const { t } = useTranslation();
   const kind = communityKindOf(community);
   const kindIcon = kind === "channel" ? "Megaphone" : "Users";
@@ -78,7 +79,7 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
             <Text testID="room-last-at" className="text-[12.5px] text-theme-neutrals-500" style={{ marginLeft: "auto", fontVariant: ["tabular-nums"] }}>{lastAt}</Text>
           )}
           {markedUnread && !reactions && !(unread > 0) && <View style={lastAt ? undefined : { marginLeft: "auto" }}><MarkedUnreadDot /></View>}
-          {reactions && <View style={lastAt ? undefined : { marginLeft: "auto" }}><ReactionAlertBadge reactions={reactions} /></View>}
+          {reactions && <View style={lastAt ? undefined : { marginLeft: "auto" }}><ReactionAlertBadge reactions={reactions} rowKey={`room:${community.id}`} /></View>}
           {unread > 0 && <View style={lastAt || reactions ? undefined : { marginLeft: "auto" }}><UnreadCountChip count={unread} /></View>}
         </View>
         {reactions ? (
