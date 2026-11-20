@@ -216,6 +216,9 @@ export interface DmMessage {
   paymentStatus?: "pending" | "confirmed" | null;
   paymentTxHash?: string | null;
 
+  /** Sent "when they're next online": the sender's bubble shows an hourglass until it is read. */
+  whenOnline?: boolean;
+
   // Tip message metadata (only populated when msgType === 'tip')
   tipAmount?: number | null;
   tipSymbol?: string | null;

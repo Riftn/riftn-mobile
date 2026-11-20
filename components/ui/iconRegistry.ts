@@ -143,6 +143,7 @@ import HeartOffIcon from "lucide-react-native/dist/esm/icons/heart-off";
 import HexagonIcon from "lucide-react-native/dist/esm/icons/hexagon";
 import HighlighterIcon from "lucide-react-native/dist/esm/icons/highlighter";
 import HistoryIcon from "lucide-react-native/dist/esm/icons/history";
+import HourglassIcon from "lucide-react-native/dist/esm/icons/hourglass";
 import HouseIcon from "lucide-react-native/dist/esm/icons/house";
 import IdCardIcon from "lucide-react-native/dist/esm/icons/id-card";
 import ImageIcon from "lucide-react-native/dist/esm/icons/image";
@@ -475,6 +476,7 @@ export const iconRegistry = {
   Hexagon: HexagonIcon,
   Highlighter: HighlighterIcon,
   History: HistoryIcon,
+  Hourglass: HourglassIcon,
   House: HouseIcon,
   IdCard: IdCardIcon,
   Image: ImageIcon,

@@ -355,6 +355,9 @@ const FloatingMessage: React.FC<{
               <Text className="text-[10px] text-white/80">
                 {formatChatTimeSmart(message.createdAt, 0).split(",").pop()?.trim() || ""}
               </Text>
+              {isMine && message.whenOnline && !message.isRead ? (
+                <Icon name="Hourglass" size={11} color="rgba(255,255,255,0.55)" />
+              ) : null}
               {isMine && (
                 <Icon
                   name={message.isRead ? "CheckCheck" : "Check"}
@@ -377,6 +380,9 @@ const FloatingMessage: React.FC<{
             >
               {formatChatTimeSmart(message.createdAt, 0).split(",").pop()?.trim() || ""}
             </Text>
+            {isMine && message.whenOnline && !message.isRead ? (
+              <Icon name="Hourglass" size={11} color="rgba(255,255,255,0.45)" />
+            ) : null}
             {isMine && (
               <Icon
                 name={message.isRead ? "CheckCheck" : "Check"}

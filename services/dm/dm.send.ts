@@ -67,6 +67,8 @@ interface BaseSendJob {
 interface TextSendJob extends BaseSendJob {
   kind: "text";
   content: string;
+  /** Held by the server until the other person next comes online (free one-to-one text). */
+  whenOnline?: boolean;
   /** Client-side forward of an encrypted message: cite the original, re-encrypt the text. */
   forwardedFrom?: { messageId: ID };
 }
@@ -246,9 +248,10 @@ class DmSendQueue {
     dmFee?: DmFee | null;
     tipAmount?: number;
     forwardedFrom?: { messageId: ID };
+    whenOnline?: boolean;
   }): string {
     const tempId = this.makeTempId();
-    const { conversationId, userId, content, replyTo, dmFee, address, tipAmount, forwardedFrom } = params;
+    const { conversationId, userId, content, replyTo, dmFee, address, tipAmount, forwardedFrom, whenOnline } = params;
 
     const feeRequired = !!dmFee?.required && !dmFee?.hasFreeAccess;
     const paymentAmount = tipAmount || (feeRequired ? dmFee?.fee : undefined) || undefined;
@@ -263,6 +266,7 @@ class DmSendQueue {
       paymentStatus: paymentAmount ? "pending" : undefined,
     });
     if (forwardedFrom) optimistic.isForwarded = true;
+    if (whenOnline) optimistic.whenOnline = true;
     dmActions.addOptimistic(conversationId, optimistic);
 
     this.enqueueFast({
@@ -276,6 +280,7 @@ class DmSendQueue {
       dmFee,
       tipAmount,
       forwardedFrom,
+      ...(whenOnline ? { whenOnline: true } : {}),
     });
 
     return tempId;
@@ -716,12 +721,14 @@ class DmSendQueue {
     };
     if (job.replyTo) payload.replyTo = job.replyTo._id;
     if (job.forwardedFrom) payload.forwardedFrom = job.forwardedFrom;
+    if (job.whenOnline) payload.whenOnline = true;
     if (txHash) payload.txHash = txHash;
     if (tipTxHash) payload.tipTxHash = tipTxHash;
 
     const sent = await this.sendConfirmed(job, payload);
     dmActions.upsertMessages(convId, [{
       ...sent, _clientKey: job.tempId, content: job.content, author: "me", isRead: false,
+      ...(job.whenOnline ? { whenOnline: true } : {}),
       ...(sent.content !== job.content ? { encrypted: true } : {}),
     }]);
     log.debug("emitText sent:", convId);

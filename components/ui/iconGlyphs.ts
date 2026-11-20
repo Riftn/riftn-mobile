@@ -143,6 +143,7 @@ export const iconGlyphs: Partial<Record<string, string>> = {
   Hexagon: "\ue0f7",
   Highlighter: "\ue0f8",
   History: "\ue1f5",
+  Hourglass: "\ue296",
   House: "\ue0f9",
   IdCard: "\ue61c",
   Image: "\ue0fa",

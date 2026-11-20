@@ -647,6 +647,11 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
       {isMine && isUploadFailed && (
         <SendFailedRow message={message as OptimisticMessage} />
       )}
+      {isMine && !isUploadFailed && message.whenOnline && !message.isRead && !(message as OptimisticMessage)._optimistic && (
+        // Sent for when they're next online. Stays until it is read, never
+        // changes on delivery, so it says nothing about when they were online.
+        <Icon name="Hourglass" size={11} color="rgba(255,255,255,0.55)" accessibilityLabel={t("dmSchedule.whenOnlineTick", { defaultValue: "Waiting for them to come online. Turns into two ticks when read." })} />
+      )}
       {isMine && !isUploadFailed && (
         // One fixed 12px slot: a small spinner while the line is going out,
         // the tick once it lands. Same box either way, so nothing moves.
@@ -1198,6 +1203,9 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                   {message.encrypted && (
                     <Icon name="Lock" size={10} color="rgba(255,255,255,0.6)" />
                   )}
+                  {isMine && message.whenOnline && !message.isRead ? (
+                    <Icon name="Hourglass" size={11} color="rgba(255,255,255,0.6)" />
+                  ) : null}
                   {isMine && (
                     <Icon
                       name={message.isRead ? "CheckCheck" : "Check"}

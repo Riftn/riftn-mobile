@@ -514,6 +514,25 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     }
   };
 
+  // "When they're next online": sent now as a normal line (one tick and an
+  // hourglass for the sender), held by the server until they next open the
+  // app or site. Same rules as scheduling: free one-to-one text.
+  const sendWhenOnline = () => {
+    const draft = scheduleDraft;
+    if (!draft || !currentConvId) return;
+    draft.clear();
+    dmSendQueue.sendText({
+      conversationId: currentConvId,
+      userId: userId || "me",
+      address,
+      content: draft.text,
+      replyTo,
+      whenOnline: true,
+    });
+    if (replyTo) setReplyTo.complete(replyTo, null);
+    scrollToBottom();
+  };
+
   const iBlockedThem = useMemo(() => !!(target as any)?.youBlocked, [target]);
 
   const title =
@@ -2634,6 +2653,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                   onClose={() => setScheduleDraft(null)}
                   scheduledDate={null}
                   onSchedule={(date) => { void confirmSchedule(date); }}
+                  onWhenOnline={sendWhenOnline}
                   kind="message"
                   moving
                   title={t("dmSchedule.whenTitle", { defaultValue: "Send when?" })}
