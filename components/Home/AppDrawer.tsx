@@ -1008,12 +1008,11 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                           accessibilityRole="button"
                           testID="drawer-followers"
                         >
-                          <Icon name="Users" size={13} color="#A1A1AA" />
                           <Text style={styles.headerCountText} numberOfLines={1}>
-                            {formatCompactNumber(user.followers ?? 0)} {t("profile.followers")}
+                            <Text style={styles.headerCountNumber}>{formatCompactNumber(user.followers ?? 0)}</Text> {t("profile.followers")}
                           </Text>
                         </TouchableOpacity>
-                        <View style={styles.headerCountsDivider} />
+                        <Text style={styles.headerCountsDot}>·</Text>
                         <TouchableOpacity
                           style={styles.headerCount}
                           onPress={() => openFollowList("following")}
@@ -1022,9 +1021,8 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                           accessibilityRole="button"
                           testID="drawer-following"
                         >
-                          <Icon name="Users" size={13} color="#A1A1AA" />
                           <Text style={styles.headerCountText} numberOfLines={1}>
-                            {formatCompactNumber(user.followings ?? 0)} {t("profile.following")}
+                            <Text style={styles.headerCountNumber}>{formatCompactNumber(user.followings ?? 0)}</Text> {t("profile.following")}
                           </Text>
                         </TouchableOpacity>
                       </View>
@@ -1376,13 +1374,18 @@ const styles = StyleSheet.create({
   headerCountText: {
     color: "#A1A1AA",
     fontSize: 13,
+    fontWeight: "600",
     flexShrink: 1,
   },
-  headerCountsDivider: {
-    width: StyleSheet.hairlineWidth,
-    height: 12,
-    backgroundColor: "rgba(161,161,170,0.5)",
-    marginHorizontal: 6,
+  headerCountNumber: {
+    color: "#E4E4E7",
+    fontWeight: "700",
+  },
+  headerCountsDot: {
+    color: "#A1A1AA",
+    fontSize: 13,
+    fontWeight: "700",
+    marginHorizontal: 4,
   },
   signInIcon: {
     width: 44,

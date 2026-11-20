@@ -119,7 +119,7 @@ export default function MenuAccountSwitcher({
                 key={face.key}
                 style={[
                   styles.face,
-                  { borderColor: ringColor, marginLeft: index === 0 ? 0 : -7, zIndex: index },
+                  { borderColor: ringColor, marginLeft: index === 0 ? 0 : -9, zIndex: index },
                   square && styles.faceSquare,
                 ]}
               >

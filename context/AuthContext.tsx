@@ -807,6 +807,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (!(await getAuthToken())) throw new Error('Saved session was refused');
         await rehydrateFromStorage();
         await completeProfileSwitch(id);
+        // Boot only trusts the cached profile when the verified marker names it.
+        // The marker still described the account switched away from, so the next
+        // launch fell back to the Supabase session and could land on that one.
+        try {
+          const { rememberVerifiedProfile } = await import('../libs/auth.utils');
+          const { readStoredSessionUserId } = await import('../libs/supabase-session');
+          const { resilientAsyncStorage } = await import('../libs/storage-full');
+          const { supabase } = await import('../services/supabase');
+          const uid = await readStoredSessionUserId(resilientAsyncStorage, (supabase.auth as any).storageKey);
+          const token = await getAuthToken();
+          const switched = await getAuthUser<User>();
+          const address = switched?.address || switched?.walletAddress;
+          if (uid && token && address) await rememberVerifiedProfile(uid, address, token);
+        } catch {}
         if (!prevId) setShowSignInModal(false);
         toastSuccess(_copy("copy.d6dad8f19561", { defaultValue: "Switched account" }));
         return true;
