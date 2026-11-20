@@ -90,7 +90,7 @@ export interface StoryViewer {
 
 const enc = encodeURIComponent;
 
-export function getStoryShelf(signedIn: boolean): Promise<{ shelf: ShelfEntry[]; signedIn: boolean }> {
+export function getStoryShelf(signedIn: boolean): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; supportsCustomLifetime?: boolean }> {
   // Signed out still gets public moments; the token is only sent when there is one.
   return apiClient.get("/stories/shelf", { isAuthRequired: signedIn, quiet: true });
 }

@@ -36,6 +36,7 @@ import { toastError } from "../../libs/toast";
 import { STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
 import { shareMoment } from "./story-upload";
+import { useStoryShelf } from "./StoryShelf";
 import type { TextLayer } from "./story-compose";
 
 const AUDIENCE_KEY = "riftn.stories.audience";
@@ -50,6 +51,7 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [picked, setPicked] = useState<Picked | null>(null);
+  const customLifetime = useStoryShelf().data?.supportsCustomLifetime === true;
   const remixLabel = remixSource ? t("stories.remixing", { name: remixSource.name, defaultValue: "Remixing {{name}}'s moment" }) : undefined;
 
   const take = useCallback(
@@ -91,7 +93,7 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
     <DarkRoomProvider>
       <View className="dark-surface" style={styles.root}>
         {picked ? (
-          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} />
+          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={customLifetime} />
         ) : (
           <View style={[styles.start, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 24 }]}>
             <View style={styles.topRow}>
@@ -118,12 +120,13 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
   );
 }
 
-function Editor({ picked, onBack, onClose, remixSourceId, remixLabel }: {
+function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLifetime }: {
   picked: Picked;
   onBack: () => void;
   onClose: () => void;
   remixSourceId?: string;
   remixLabel?: string;
+  customLifetime: boolean;
 }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -207,7 +210,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel }: {
           preview: picked.uri,
           fields: {
             audience,
-            expiresInHours: lifetime,
+            expiresInHours: customLifetime ? lifetime : undefined,
             muted: picked.kind === "video" ? muted : false,
             caption,
             remixSourceId,
@@ -273,9 +276,13 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel }: {
             {audience === "everyone" ? t("stories.everyone", { defaultValue: "Everyone" }) : t("stories.followersOnly", { defaultValue: "Followers" })}
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => setChoosingLifetime(true)} style={styles.chip} accessibilityRole="button" accessibilityLabel={`${lifetimeLabel}, ${lifetime}h`}>
-          <Text style={styles.chipText}>{lifetime}h</Text>
-        </TouchableOpacity>
+        {customLifetime ? (
+          <TouchableOpacity onPress={() => setChoosingLifetime(true)} style={styles.chip} accessibilityRole="button" accessibilityLabel={`${lifetimeLabel}, ${lifetime}h`}>
+            <Text style={styles.chipText}>{lifetime}h</Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.chip}><Text style={styles.chipText}>24h</Text></View>
+        )}
         <View style={{ flex: 1 }} />
         <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy}>
           <Text style={styles.shareText}>{t("stories.share", { defaultValue: "Share" })}</Text>
