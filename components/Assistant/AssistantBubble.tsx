@@ -1,7 +1,8 @@
 import { DIGITAL_PURCHASES_ENABLED } from '../../config/storefront';
 import SwapActionCard from '../SwapActionCard';
 import { useTranslation as _useCopy } from 'react-i18next';
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import * as Clipboard from 'expo-clipboard';
 import {
   View,
   Text,
@@ -223,6 +224,10 @@ const AssistantBubble: React.FC<AssistantBubbleProps> = ({
           </View>
         )}
 
+        {displayText.length > 0 && !message.isError && !message.isStreaming && (
+          <CopyTextButton text={displayText} label={t('common.copy')} copiedLabel={t('postInfo.copied')} />
+        )}
+
         {message.videoUrl && (
           <GeneratedVideo
             url={message.videoUrl}
@@ -310,6 +315,25 @@ const AssistantBubble: React.FC<AssistantBubbleProps> = ({
   );
 };
 
+/** Copy button under an assistant text reply (Requests 1a783503). */
+const CopyTextButton = ({ text, label, copiedLabel }: { text: string; label: string; copiedLabel: string }) => {
+  const [copied, setCopied] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
+  const onPress = useCallback(() => {
+    void Clipboard.setStringAsync(text);
+    setCopied(true);
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => setCopied(false), 1500);
+  }, [text]);
+  return (
+    <TouchableOpacity onPress={onPress} activeOpacity={0.7} style={s.copyBtn} accessibilityRole="button" accessibilityLabel={label} hitSlop={8}>
+      <Icon name={copied ? 'Check' : 'Copy'} size={14} color="#A6A9AC" />
+      <Text style={s.copyText}>{copied ? copiedLabel : label}</Text>
+    </TouchableOpacity>
+  );
+};
+
 const s = StyleSheet.create({
   bubble: {
     flexDirection: 'row',
@@ -390,6 +414,8 @@ const s = StyleSheet.create({
     borderColor: 'rgba(255,255,255,0.28)',
   },
   retry: { paddingVertical: 4 },
+  copyBtn: { flexDirection: 'row', alignItems: 'center', gap: 6, paddingVertical: 4, paddingHorizontal: 2, marginTop: -2 },
+  copyText: { color: '#A6A9AC', fontSize: 12 },
   retryText: {
     color: '#A6A9AC',
     fontSize: 12,
