@@ -104,9 +104,6 @@ const BUTTON_ROW = {
   marginVertical: -GLYPH_ROOM,
 } as const;
 
-const GLYPH_BADGE_STYLE = { position: "absolute", top: GLYPH_ROOM - 4, right: -7, width: 12, height: 12, alignItems: "center", justifyContent: "center" } as const;
-const GLYPH_BADGE_TEXT = { fontSize: 9, width: 14, textAlign: "center", includeFontPadding: false, textShadowColor: "rgba(0,0,0,0.55)", textShadowRadius: 1.5 } as const;
-
 const AnimatedActionButton: React.FC<{
   onPress: () => void;
   onPressIn?: () => void;
@@ -128,14 +125,12 @@ const AnimatedActionButton: React.FC<{
   glyphAnimated?: boolean;
   /** Its card is on screen; off screen the animation holds its frame. */
   glyphPlaying?: boolean;
-  /** A small copy of the viewer's own reaction sits on the glyph's corner. */
-  glyphBadge?: boolean;
   /** Renders in place of the icon — a custom, self-animating one. */
   iconNode?: React.ReactNode;
   /** The icon is your own 👍 / 👎: it nods once every 5 seconds. */
   nod?: "up" | "down";
   accessibilityLabel?: string;
-}> = ({ onPress, onPressIn, onLongPress, iconName, iconNameActive, active, activeColor, activeFill, activeStrokeWidth, inactiveColor, iconSize = 20, count, countColor, formatCount, glyph, glyphAnimated, glyphPlaying = true, glyphBadge, iconNode, nod, accessibilityLabel }) => {
+}> = ({ onPress, onPressIn, onLongPress, iconName, iconNameActive, active, activeColor, activeFill, activeStrokeWidth, inactiveColor, iconSize = 20, count, countColor, formatCount, glyph, glyphAnimated, glyphPlaying = true, iconNode, nod, accessibilityLabel }) => {
   const scale = useRef(new Animated.Value(1)).current;
   useEffect(() => () => scale.stopAnimation(), [scale]);
   // Seven buttons per retained card only animate when tapped. Native-driver
@@ -217,12 +212,6 @@ const AnimatedActionButton: React.FC<{
         // every post below it.
         <View style={{ width: iconSize, height: iconSize + GLYPH_ROOM * 2, marginVertical: -GLYPH_ROOM, alignItems: "center", justifyContent: "center" }}>
           {glyphEmoji}
-          {glyphBadge ? (
-            // So a 🔥 you cast reads differently from a 🔥 that only leads the post.
-            <View pointerEvents="none" style={GLYPH_BADGE_STYLE}>
-              <ReactionEmoji reaction={glyph} size={11} textStyle={GLYPH_BADGE_TEXT} />
-            </View>
-          ) : null}
         </View>
       ) : nod ? (
         <ThumbNod down={nod === "down"} playing={glyphPlaying}>
@@ -392,7 +381,6 @@ const FeedActionBarComponent: React.FC<FeedActionBarProps> = ({
           glyph={thumbGlyph}
           glyphAnimated={!!thumbGlyph && thumbGlyph === myReaction}
           glyphPlaying={isVisible}
-          glyphBadge={!!thumbGlyph && thumbGlyph === myReaction}
           nod={thumbMine ? (thumbDown ? "down" : "up") : undefined}
           active={thumbMine}
           activeFill={ICON_ACTIVE}
