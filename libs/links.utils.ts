@@ -85,6 +85,10 @@ export async function openInApp(rawUrl?: string) {
       await WebBrowser.openBrowserAsync(url, {
         enableBarCollapsing: true,
         dismissButtonStyle: 'done',
+        // Android: open the browser tab inside Riftn's own task. A new task
+        // left a second, black Riftn card in Recents whenever another app
+        // (YouTube, X...) took the link over.
+        createTask: false,
       } as any);
     } catch (e) {
       // Fallback to system browser

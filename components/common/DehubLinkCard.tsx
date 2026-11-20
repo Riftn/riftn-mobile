@@ -750,7 +750,7 @@ export function useOpenDehubLink() {
       switch (link.kind) {
         case 'skill':
           // The web skill runner retains its prompt, model and reference assets.
-          void WebBrowser.openBrowserAsync(`https://riftn.com${link.path}`);
+          void WebBrowser.openBrowserAsync(`https://riftn.com${link.path}`, { createTask: false });
           return;
         case 'post':
           // A readable slug link goes through the resolver, which finds its tokenId.
@@ -851,7 +851,7 @@ export function useOpenDehubLink() {
           try {
             linkTo(link.path.startsWith('/') ? link.path : `/${link.path}`);
           } catch {
-            void WebBrowser.openBrowserAsync(`https://riftn.com${link.path}`);
+            void WebBrowser.openBrowserAsync(`https://riftn.com${link.path}`, { createTask: false });
           }
           return;
         case 'film':
