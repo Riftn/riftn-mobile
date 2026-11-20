@@ -104,8 +104,11 @@ export const UnreadJumpButton = memo(function UnreadJumpButton({
       >
         <Animated.View
           layout={reduce ? undefined : COUNT_SLIDE}
-          className="dark-surface h-11 flex-row items-center rounded-full"
+          className="dark-surface"
           style={{
+            height: 44,
+            flexDirection: "row",
+            alignItems: "center",
             backgroundColor: c.fill,
             borderRadius: 22,
             borderWidth: 1,
