@@ -50,6 +50,7 @@ export interface StoryItem {
   height: number | null;
   durationMs: number;
   muted: boolean;
+  isMature?: boolean;
   caption: string | null;
   remixSourceId?: string | null;
   shareable?: boolean;
@@ -88,9 +89,13 @@ export interface StoryViewer {
 
 const enc = encodeURIComponent;
 
-export function getStoryShelf(signedIn: boolean): Promise<{ shelf: ShelfEntry[]; signedIn: boolean }> {
+export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; liveHosts?: string[] }> {
   // Signed out still gets public moments; the token is only sent when there is one.
-  return apiClient.get("/stories/shelf", { isAuthRequired: signedIn, quiet: true });
+  return apiClient.get("/stories/shelf", {
+    isAuthRequired: signedIn,
+    quiet: true,
+    params: liveHosts ? { liveHosts } : undefined,
+  });
 }
 
 export function getStory(id: string, signedIn: boolean): Promise<{ author: StoryAuthor | null; item: StoryItem }> {
