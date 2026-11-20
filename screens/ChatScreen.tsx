@@ -65,6 +65,7 @@ import { scheduleDm } from "../services/dm/dm.scheduled";
 import { useQueryClient } from "@tanstack/react-query";
 import FullScreenVideoPlayer from "../components/common/FullScreenVideoPlayer";
 import type { DmVideoPlayExtra } from "../components/DM/MessageBubble";
+import { haptic } from "../libs/haptics";
 import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../components/Comments/VoiceNoteRecorder";
 import type { VoiceNoteResult } from "../components/Comments/VoiceNoteRecorder";
 import Avatar from "../components/common/Avatar";
@@ -1737,11 +1738,15 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
    * socket error leaves the server's map in place on the next echo or fetch.
    */
   const toggleReaction = useCallback(
-    (message: DmMessage, emoji: string) => {
+    (message: DmMessage, emoji: string, addOnly = false) => {
       if (!currentConvId || !address || !message?._id) return;
-      const current = message.reactions || {};
+      const liveMessage = dmState.messagesByConversation[currentConvId]?.find((row) => row._id === message._id);
+      if (!liveMessage) return;
+      const current = liveMessage.reactions || {};
       const others = (current[emoji] || []).filter((a) => a.toLowerCase() !== address);
       const mine = others.length !== (current[emoji] || []).length;
+      if (addOnly && mine) return;
+      if (addOnly) haptic.select();
       const next = { ...current };
       if (mine) {
         if (others.length) next[emoji] = others;

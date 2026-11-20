@@ -224,21 +224,22 @@ export default function StoryViewer({
     void queryClient.invalidateQueries({ queryKey: ["story-shelf"] });
   }, [queryClient]);
 
-  // ── Gestures: swipe down closes, sideways changes person ──
+  // Swipe up on your moment for viewers, down to close, or sideways to change person.
   const pan = useMemo(
     () =>
       PanResponder.create({
-        onMoveShouldSetPanResponder: (_e, g) => !sheet && !openingOriginal && (Math.abs(g.dy) > 14 || Math.abs(g.dx) > 14),
+        onMoveShouldSetPanResponder: (_e, g) => !sheet && !typing && !openingOriginal && (Math.abs(g.dy) > 14 || Math.abs(g.dx) > 14),
         onPanResponderGrant: () => setHeld(true),
         onPanResponderRelease: (_e, g) => {
           setHeld(false);
           if (g.dy > 90 && Math.abs(g.dy) > Math.abs(g.dx)) onClose();
+          else if (own && g.dy < -90 && Math.abs(g.dy) > Math.abs(g.dx)) setSheet("viewers");
           else if (g.dx < -70 && Math.abs(g.dx) > Math.abs(g.dy)) goAuthor(1);
           else if (g.dx > 70 && Math.abs(g.dx) > Math.abs(g.dy)) goAuthor(-1);
         },
         onPanResponderTerminate: () => setHeld(false),
       }),
-    [onClose, goAuthor, sheet, openingOriginal],
+    [onClose, goAuthor, own, sheet, typing, openingOriginal],
   );
 
   if (!entry || !item) return null;
@@ -411,7 +412,13 @@ export default function StoryViewer({
 
         {/* Bottom: caption, then reply + like, or the owner's counts. */}
         {/* The keyboard view sets its own bottom padding on iPhone, so the safe-area gap lives on an inner view. */}
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.bottom}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          style={[styles.bottom, sheet && styles.hidden]}
+          pointerEvents={sheet ? "none" : "auto"}
+          accessibilityElementsHidden={!!sheet}
+          importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
+        >
           <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 18 }]}>
           {item.remixSourceId ? (
             <TouchableOpacity style={styles.song} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
@@ -435,7 +442,7 @@ export default function StoryViewer({
           ) : null}
           <View style={styles.replyRow}>
             {own ? (
-              <TouchableOpacity style={styles.ownStats} onPress={() => setSheet("viewers")}>
+              <TouchableOpacity style={styles.ownStats} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
                 <Icon name="Eye" size={16} color="#fff" />
                 <Text style={styles.statText}>{formatCount(item.viewCount ?? 0)}</Text>
                 {(item.likeCount ?? 0) > 0 ? (
@@ -662,6 +669,7 @@ const styles = StyleSheet.create({
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.35)" },
   dotOn: { backgroundColor: "#fff" },
   bottom: { position: "absolute", left: 0, right: 0, bottom: 0 },
+  hidden: { opacity: 0 },
   bottomInner: { paddingHorizontal: 12, gap: 8 },
   caption: { color: "#fff", fontSize: 15, textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6, paddingHorizontal: 4 },
   song: {

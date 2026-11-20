@@ -1,7 +1,6 @@
 import { pollHasEnded, pollVotePercent, pollOptionWins } from '../../libs/pollResults';
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { TFunction } from "i18next";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
@@ -27,39 +26,24 @@ interface PollCardProps {
   autoTranslate?: boolean;
 }
 
-const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress, autoTranslate = true }) => {
+const PollCard: React.FC<PollCardProps> = (props) => {
+  const user = useUser();
+  const myAddress = (user?.walletAddress || user?.address || "").toLowerCase();
+  return <PollCardForViewer key={`${myAddress}:${props.tokenId}`} {...props} myAddress={myAddress} />;
+};
+
+const PollCardForViewer: React.FC<PollCardProps & { myAddress: string }> = ({ tokenId, pollOwnerAddress, autoTranslate = true, myAddress }) => {
   const { t } = useTranslation();
   const { poll, loading, refetch } = usePoll(tokenId);
   const { vote, loading: voting } = useVoteOnPoll();
   const { removeVote, loading: removing } = useRemovePollVote();
   const { closePoll, loading: closing } = useClosePoll();
   const translatedPoll = usePollTranslation(tokenId, poll?.question, poll?.options, autoTranslate && !!poll);
-  const user = useUser();
 
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
   const [localVotedIndexes, setLocalVotedIndexes] = useState<number[] | null>(null);
   const [localVoteCounts, setLocalVoteCounts] = useState<Record<number, number> | null>(null);
 
-  useEffect(() => {
-    const loadStoredVote = async () => {
-      try {
-        const stored = await AsyncStorage.getItem(`dehub-poll-vote-${tokenId}`);
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed)) {
-            setLocalVotedIndexes(parsed);
-          }
-        } else {
-          setLocalVotedIndexes(null);
-        }
-      } catch (e) {
-        console.error("Failed to load poll vote:", e);
-      }
-    };
-    loadStoredVote();
-  }, [tokenId]);
-
-  const myAddress = ((user as any)?.walletAddress || (user as any)?.address || "").toLowerCase();
   const isOwner = !!(myAddress && pollOwnerAddress?.toLowerCase() === myAddress);
 
   // No skeleton while loading. Most posts have no poll, and a 120px block that
@@ -105,9 +89,6 @@ const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress, autoTran
     });
     setLocalVotedIndexes(indexes);
     setLocalVoteCounts(counts);
-    AsyncStorage.setItem(`dehub-poll-vote-${tokenId}`, JSON.stringify(indexes)).catch((err) => {
-      console.error("Failed to save poll vote to AsyncStorage:", err);
-    });
   };
 
   const handleOptionClick = (idx: number) => {
@@ -122,7 +103,6 @@ const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress, autoTran
         refetch();
         setLocalVotedIndexes(null);
         setLocalVoteCounts(null);
-        AsyncStorage.removeItem(`dehub-poll-vote-${tokenId}`).catch(() => {});
       });
     }
   };
@@ -134,16 +114,16 @@ const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress, autoTran
       refetch();
       setLocalVotedIndexes(null);
       setLocalVoteCounts(null);
-      AsyncStorage.removeItem(`dehub-poll-vote-${tokenId}`).catch(() => {});
     });
     setSelectedIndexes([]);
   };
 
   const handleRemoveVote = () => {
-    setLocalVotedIndexes(null);
-    setLocalVoteCounts(null);
-    AsyncStorage.removeItem(`dehub-poll-vote-${tokenId}`).catch(() => {});
-    removeVote(tokenId).catch(() => {});
+    removeVote(tokenId).then(async () => {
+      await refetch();
+      setLocalVotedIndexes(null);
+      setLocalVoteCounts(null);
+    }).catch(() => {});
   };
 
   const endedByTime = !!poll.expiresAt && new Date(poll.expiresAt).getTime() <= Date.now();

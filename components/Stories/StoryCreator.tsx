@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
   shareBtn: { height: 44, paddingHorizontal: 22, borderRadius: 22, backgroundColor: "#fff", alignItems: "center", justifyContent: "center" },
   shareText: { color: "#000", fontSize: 15, fontWeight: "800" },
   textBack: { flex: 1, backgroundColor: "rgba(0,0,0,0.55)" },
-  textTools: { paddingHorizontal: 14, paddingTop: 10, gap: 10, backgroundColor: "rgba(0,0,0,0.6)" },
+  textTools: { paddingHorizontal: 14, paddingTop: 12, gap: 10, backgroundColor: "#16161A", borderTopLeftRadius: 22, borderTopRightRadius: 22, borderTopWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.18)" },
   swatches: { flexDirection: "row", gap: 8 },
   swatch: { width: 28, height: 28, borderRadius: 14, borderWidth: 2, borderColor: "rgba(255,255,255,0.4)" },
   swatchOn: { borderColor: "#fff", transform: [{ scale: 1.15 }] },

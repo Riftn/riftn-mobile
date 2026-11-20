@@ -13,6 +13,9 @@ import {
 import type { DmPoll } from "../services/dm/dm.types";
 import { toastError, toastSuccess } from "../libs/toast";
 import { storage } from "../libs/storage";
+import { useUser } from "../context/AuthContext";
+import { getAuthToken, isTokenForCachedUser } from "../libs/auth.utils";
+import { tokenRefreshManager } from "../libs/token-refresh";
 
 // Feed cards mount and unmount constantly while scrolling, and every card asks
 // whether its post has a poll — the feed payload does not say. That used to be
@@ -41,12 +44,12 @@ const BATCH_WINDOW_MS = 50;
 // rate limiter, and retrying into it immediately is what made a bad moment last.
 const FAILURE_BACKOFF_MS = 10_000;
 
-const NO_POLL_KEY = "dehub-posts-without-polls";
+const NO_POLL_KEY = "dehub-anonymous-posts-without-polls-v2";
 // The negative set only grows, so it is capped and trimmed oldest-first. 4000
 // ids is far more than anyone scrolls in a session and costs a few tens of KB.
 const NO_POLL_LIMIT = 4000;
 
-const pollCache = new Map<number, { data: DmPoll | null; ts: number }>();
+const pollCache = new Map<string, Map<number, { data: DmPoll | null; ts: number }>>();
 
 /** Ids known to have no poll, restored from disk on first use. */
 let noPollIds: number[] | null = null;
@@ -99,40 +102,57 @@ function isCacheFresh(cached: { data: DmPoll | null; ts: number }): boolean {
 }
 
 // Ids waiting for the next flush, and everyone waiting on each of them.
-const queued = new Map<number, Array<(poll: DmPoll | null) => void>>();
+type PollWaiter = (poll: DmPoll | null) => void;
+const queued = new Map<string, Map<number, PollWaiter[]>>();
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
 let backoffUntil = 0;
 
-function settle(tokenId: number, data: DmPoll | null, cache: boolean) {
-  if (cache) pollCache.set(tokenId, { data, ts: Date.now() });
-  const waiters = queued.get(tokenId);
-  queued.delete(tokenId);
-  waiters?.forEach((resolve) => resolve(data));
+function cachePoll(viewer: string, tokenId: number, data: DmPoll | null) {
+  let cache = pollCache.get(viewer);
+  if (!cache) pollCache.set(viewer, (cache = new Map()));
+  cache.set(tokenId, { data, ts: Date.now() });
 }
 
 async function flush() {
   flushTimer = null;
-  const ids = [...queued.keys()].slice(0, POLL_BATCH_LIMIT);
-  if (ids.length === 0) return;
+  const next = queued.entries().next();
+  if (next.done) return;
+  const [viewer, pending] = next.value;
+  const batch = [...pending.keys()].slice(0, POLL_BATCH_LIMIT).map((id) => {
+    const waiters = pending.get(id)!;
+    pending.delete(id);
+    return { id, waiters };
+  });
+  if (!pending.size) queued.delete(viewer);
 
   try {
-    const res = await getPolls(ids);
-    const found = res?.status ? res.result ?? {} : {};
-    const empties: number[] = [];
-    for (const id of ids) {
-      const poll = (found as Record<string, DmPoll>)[String(id)] ?? null;
-      if (poll === null) empties.push(id);
-      settle(id, poll, true);
+    if (viewer) await tokenRefreshManager.ensureFreshToken();
+    const token = viewer ? await getAuthToken() : null;
+    // Pin the request to the wallet that scheduled it. During an account
+    // switch a queued card can outlive the session that created it.
+    if (viewer && (!token || !isTokenForCachedUser({ address: viewer }, token))) {
+      for (const { waiters } of batch) waiters.forEach((resolve) => resolve(null));
+    } else {
+      const res = await getPolls(batch.map(({ id }) => id), token);
+      if (!res.status) throw new Error("Poll lookup failed");
+      const emptyPublicIds: number[] = [];
+      for (const { id, waiters } of batch) {
+        const poll = res.result?.[String(id)] ?? null;
+        // A private chat poll can be absent for this viewer and visible for
+        // another. Only an anonymous miss on a public feed lookup is shared.
+        cachePoll(viewer, id, poll);
+        if (!poll && !viewer && id > 0) emptyPublicIds.push(id);
+        waiters.forEach((resolve) => resolve(poll));
+      }
+      rememberEmpty(emptyPublicIds);
     }
-    // The server answered: these posts have no poll, and never will.
-    rememberEmpty(empties);
   } catch {
     // Transient — a 429, a dropped socket, a timeout. Resolve so no card hangs
     // on a spinner, but do NOT cache: writing `null` here would record "this
     // post has no poll" forever on the strength of a rate limit, and the poll
     // would stay invisible for the rest of the session.
     backoffUntil = Date.now() + FAILURE_BACKOFF_MS;
-    for (const id of ids) settle(id, null, false);
+    for (const { waiters } of batch) waiters.forEach((resolve) => resolve(null));
   }
 
   // Anything that arrived while the request was in flight, or was cut by the
@@ -146,10 +166,10 @@ function scheduleFlush() {
   flushTimer = setTimeout(flush, wait);
 }
 
-function fetchPollCached(tokenId: number, force = false): Promise<DmPoll | null> {
+function fetchPollCached(tokenId: number, viewer: string, force = false): Promise<DmPoll | null> {
   if (!force) {
-    if (knownEmpty().has(tokenId)) return Promise.resolve(null);
-    const cached = pollCache.get(tokenId);
+    if (!viewer && knownEmpty().has(tokenId)) return Promise.resolve(null);
+    const cached = pollCache.get(viewer)?.get(tokenId);
     if (cached && isCacheFresh(cached)) {
       return Promise.resolve(cached.data);
     }
@@ -157,18 +177,20 @@ function fetchPollCached(tokenId: number, force = false): Promise<DmPoll | null>
     forgetEmpty(tokenId);
   }
   return new Promise<DmPoll | null>((resolve) => {
-    const waiters = queued.get(tokenId);
+    let pending = queued.get(viewer);
+    if (!pending) queued.set(viewer, (pending = new Map()));
+    const waiters = pending.get(tokenId);
     if (waiters) {
       waiters.push(resolve);
     } else {
-      queued.set(tokenId, [resolve]);
+      pending.set(tokenId, [resolve]);
     }
     scheduleFlush();
   });
 }
 
 export function invalidatePoll(tokenId: number) {
-  pollCache.delete(tokenId);
+  for (const cache of pollCache.values()) cache.delete(tokenId);
   forgetEmpty(tokenId);
 }
 
@@ -182,9 +204,12 @@ function pollCreated(tokenId: number) {
 }
 
 export function usePoll(tokenId: number | null) {
-  const [poll, setPoll] = useState<DmPoll | null>(() =>
-    tokenId != null ? pollCache.get(tokenId)?.data ?? null : null,
-  );
+  const user = useUser();
+  const viewer = (user?.walletAddress || user?.address || "").toLowerCase();
+  const [response, setResponse] = useState<{ tokenId: number; viewer: string; data: DmPoll | null }>();
+  const current = response?.tokenId === tokenId && response.viewer === viewer;
+  const cached = tokenId == null ? undefined : pollCache.get(viewer)?.get(tokenId);
+  const poll = current ? response.data : cached && isCacheFresh(cached) ? cached.data : null;
   const [loading, setLoading] = useState(false);
   const mountedRef = useRef(true);
 
@@ -195,12 +220,13 @@ export function usePoll(tokenId: number | null) {
 
   useEffect(() => {
     if (tokenId == null) {
-      setPoll(null);
+      setLoading(false);
       return;
     }
-    const cached = pollCache.get(tokenId);
+    const cached = pollCache.get(viewer)?.get(tokenId);
     if (cached && isCacheFresh(cached)) {
-      setPoll(cached.data);
+      setResponse({ tokenId, viewer, data: cached.data });
+      setLoading(false);
       return;
     }
     setLoading(true);
@@ -208,9 +234,9 @@ export function usePoll(tokenId: number | null) {
     // fetch and its state updates off a fling; cached answers above were sync.
     let cancelled = false;
     const cancel = runWhenSettled(() => {
-      fetchPollCached(tokenId).then((data) => {
+      fetchPollCached(tokenId, viewer).then((data) => {
         if (cancelled || !mountedRef.current) return;
-        setPoll(data);
+        setResponse({ tokenId, viewer, data });
         setLoading(false);
       });
     });
@@ -218,13 +244,17 @@ export function usePoll(tokenId: number | null) {
       cancelled = true;
       cancel();
     };
-  }, [tokenId]);
+  }, [tokenId, viewer]);
 
+  const active = useRef({ tokenId, viewer });
+  active.current = { tokenId, viewer };
   const refetch = useCallback(async () => {
     if (tokenId == null) return;
-    const data = await fetchPollCached(tokenId, true);
-    if (mountedRef.current) setPoll(data);
-  }, [tokenId]);
+    const data = await fetchPollCached(tokenId, viewer, true);
+    if (mountedRef.current && active.current.tokenId === tokenId && active.current.viewer === viewer) {
+      setResponse({ tokenId, viewer, data });
+    }
+  }, [tokenId, viewer]);
 
   useEffect(() => {
     if (tokenId == null) return;
