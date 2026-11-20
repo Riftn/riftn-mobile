@@ -1898,6 +1898,27 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
     setIsLoading(false);
   }, [startNewConversation]);
 
+  // Ask AI from a profile's ⋮ menu: a fresh chat, the ask sent straight away,
+  // so the Assistant's confirm cards are the first thing on screen.
+  const autoAskId = !studio && route.params?.autoSend ? route.params?.askId : undefined;
+  const handledAsk = useRef<number | undefined>(undefined);
+  const [autoSendText, setAutoSendText] = useState<string | null>(null);
+  useEffect(() => {
+    const prompt = route.params?.initialPrompt;
+    if (!autoAskId || !prompt || handledAsk.current === autoAskId) return;
+    handledAsk.current = autoAskId;
+    handleNewChat();
+    setAutoSendText(prompt);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoAskId]);
+  useEffect(() => {
+    if (!autoSendText || isLoading || restoring) return;
+    // The new chat's draft can land after the prompt: put it back, send next pass.
+    if (input.trim() !== autoSendText.trim()) { setInput(autoSendText); return; }
+    setAutoSendText(null);
+    void handleSend();
+  }, [autoSendText, isLoading, restoring, input, setInput, handleSend]);
+
   const handleHistoryOpen = useCallback(() => {
     refreshConversations();
     setHistoryVisible(true);

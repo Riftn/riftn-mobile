@@ -19,6 +19,7 @@ import ConfirmBlockModal from "../common/ConfirmBlockModal";
 import WhenOpened from "../ui/WhenOpened";
 import ReportModal from "../common/ReportModal";
 import LendBadgeSheet from "./LendBadgeSheet";
+import ProfileAskAiRows, { AskAiMenuRow } from "./ProfileAskAiRows";
 import Icon from "../ui/Icon";
 import { copyToClipboard } from "../../libs";
 import { shareProfile, getBadgeHoverOpticalStyle } from "../../libs/misc";
@@ -84,6 +85,8 @@ interface UserProfileSheetContentProps {
   onRetry?: () => void;
   /** The handle that was looked up, so a free name can be offered. */
   lookupName?: string | null;
+  /** Ask AI rows in the ⋮ menu: closes the profile and sends this to the Assistant. */
+  onAskAi?: (prompt: string) => void;
 }
 
 const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
@@ -126,6 +129,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
   error = null,
   onRetry,
   lookupName,
+  onAskAi,
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
@@ -133,6 +137,8 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
   const { requireAuth } = useAuthActions();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showLendBadge, setShowLendBadge] = useState(false);
+  const [menuAskAi, setMenuAskAi] = useState(false);
+  useEffect(() => { if (!showProfileMenu) setMenuAskAi(false); }, [showProfileMenu]);
   const [showBlockConfirm, setShowBlockConfirm] = useState(false);
   const [showReportUser, setShowReportUser] = useState(false);
   const [showRemoveFollowerConfirm, setShowRemoveFollowerConfirm] = useState(false);
@@ -221,6 +227,11 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
     if (paymentsHidden) return;
     closeMenuThen(() => setShowTip(true));
   }, [closeMenuThen, paymentsHidden]);
+
+  const handleAskAi = useCallback((prompt: string) => {
+    if (!onAskAi) return;
+    closeMenuThen(() => onAskAi(prompt));
+  }, [closeMenuThen, onAskAi]);
 
   const handleMenuLendBadge = useCallback(() => {
     closeMenuThen(() => setShowLendBadge(true));
@@ -508,6 +519,20 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           blurIntensity={50}
         >
           <View className="pb-4 pt-2" style={{ backgroundColor: "rgba(10,10,12,0.85)" }}>
+            {menuAskAi && onAskAi ? (
+              <ProfileAskAiRows
+                username={profileData?.username || ""}
+                avatarUrl={avatarUrl}
+                isFollowing={isFollowing}
+                postsCount={(data as any)?.post_count ?? (data as any)?.uploads ?? null}
+                onBack={() => setMenuAskAi(false)}
+                onAsk={handleAskAi}
+              />
+            ) : (
+            <>
+            {onAskAi && !isOwnProfile && !isBlocked && profileData?.hasUsername && (
+              <AskAiMenuRow onPress={() => setMenuAskAi(true)} />
+            )}
             <TouchableOpacity
               onPress={handleMenuMessage}
               activeOpacity={0.7}
@@ -695,6 +720,8 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
                 </Text>
               </View>
             </TouchableOpacity>
+            </>
+            )}
           </View>
         </GlassModal>
       )}</WhenOpened>
