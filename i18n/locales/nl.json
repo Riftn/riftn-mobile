@@ -971,6 +971,7 @@
     "manageAccount": "Beheer je account en voorkeuren",
     "logOut": "Uitloggen",
     "loggedOut": "Uitgelogd",
+    "loggedOutNowUsing": "Uitgelogd. Je gebruikt nu {{name}}",
     "logoutFailed": "Uitloggen mislukt",
     "profile": "Profiel",
     "notifications": "Meldingen",

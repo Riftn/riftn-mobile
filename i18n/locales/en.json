@@ -1044,6 +1044,7 @@
     "manageAccount": "Manage your account and preferences",
     "logOut": "Log out",
     "loggedOut": "Logged out",
+    "loggedOutNowUsing": "Logged out. Now using {{name}}",
     "logoutFailed": "Logout failed",
     "profile": "Profile",
     "notifications": "Notifications",

@@ -971,6 +971,7 @@
     "manageAccount": "Gérez votre compte et vos préférences",
     "logOut": "Déconnexion",
     "loggedOut": "Déconnecté",
+    "loggedOutNowUsing": "Déconnecté. Vous utilisez maintenant {{name}}",
     "logoutFailed": "Échec de la déconnexion",
     "profile": "Profil",
     "notifications": "Notifications",
