@@ -82,7 +82,7 @@ const openOnWeb = (url: string) => {
   Promise.resolve()
     .then(() => {
       const WebBrowser: typeof import('expo-web-browser') = require('expo-web-browser');
-      return WebBrowser.openBrowserAsync(url, { enableBarCollapsing: true, dismissButtonStyle: 'done' });
+      return WebBrowser.openBrowserAsync(url, { enableBarCollapsing: true, dismissButtonStyle: 'done', createTask: false });
     })
     .catch((error) => logger.warn('Could not open unrouted link in the browser', { url, error }));
 };
