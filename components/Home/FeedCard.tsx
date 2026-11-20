@@ -2314,9 +2314,14 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       default: {
         const media = renderImageContent();
         if (!soundtrackOnMedia || !media) return bleed(media);
+        // The badge sits beside the photo's clip, not inside it: idle it floats
+        // on the photo's corner, playing it docks as a bar under the photo.
+        const bleeds = isMinimal && !immersive && !flat && !desk;
         return bleed(
-          <View style={[{ overflow: "hidden" }, !edgeMedia && !immersive && { borderRadius: FEED_BENTO_RADIUS }]}>
-            <SoundDrift playing={soundPlaying}>{media}</SoundDrift>
+          <View>
+            <View style={[{ overflow: "hidden" }, !edgeMedia && !immersive && { borderRadius: FEED_BENTO_RADIUS }]}>
+              <SoundDrift playing={soundPlaying}>{media}</SoundDrift>
+            </View>
             <SoundtrackBadge
               key={postKey}
               variant="overlay"
@@ -2325,6 +2330,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               url={soundtrack!.url}
               isVisible={isVisible}
               onPlayingChange={setSoundPlaying}
+              barInset={edgeMedia ? CINEMATIC_TEXT_INSET : bleeds ? MINIMAL_TEXT_INSET : 0}
+              isLight={isLight}
             />
           </View>
         );
