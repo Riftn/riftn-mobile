@@ -74,6 +74,8 @@ const MARK_PATH = 'M868.0 1411.1C865.0 1410.1 850.4 1405.3 835.5 1400.5C805.2 13
 /** The mark spins in fast, slows and stops edge-on, which is the line. */
 const INTRO_MS = 1100;
 const OPEN_MS = 480;
+/** How long after a sheet's veil closes its log-in may still land. */
+const SHEET_GRACE_MS = 2500;
 const HOLD_MS = 450;
 const FLY_MS = 520;
 /** The rift opens by then whether or not the picture is in; it fades in late. */
@@ -123,6 +125,15 @@ function useRiftColors(): { a: string; b: string } {
 
 /** When the veil last opened on a picture: the arrival then starts already open. */
 let veilOpenedAt = 0;
+/**
+ * Bumped when a sheet's veil opens on the picture: the root arrival then
+ * draws the same open picture underneath, so when the sheet closes the
+ * picture is already there (no frame of the app, no empty frame).
+ */
+let sheetOpenTick = 0;
+const sheetOpenListeners = new Set<() => void>();
+const subscribeSheetOpen = (l: () => void) => { sheetOpenListeners.add(l); return () => { sheetOpenListeners.delete(l); }; };
+const readSheetOpen = () => sheetOpenTick;
 
 function useArriving(): ArrivingAccount | null {
   return useSyncExternalStore(subscribeArrivingAccount, () => peekArrivingAccount(ACCOUNT_MAX_AGE_MS));
@@ -150,16 +161,31 @@ const styles = StyleSheet.create({
 });
 
 /** One speck drifting into the stroke, on its own loop. */
-const Speck: React.FC<{ x: number; y: number; ms: number; delay: number; size: number; color: string; burst: Animated.Value }> = ({ x, y, ms, delay, size, color, burst }) => {
-  const t = useRef(new Animated.Value(0)).current;
+const Speck: React.FC<{ x: number; y: number; ms: number; delay: number; phase: number; size: number; color: string; burst: Animated.Value }> = ({ x, y, ms, delay, phase, size, color, burst }) => {
+  // The first drift starts part-way in, so the cloud is there with the line
+  // rather than building up over a few seconds.
+  const t = useRef(new Animated.Value(phase)).current;
   useEffect(() => {
-    const loop = Animated.loop(
-      Animated.timing(t, { toValue: 1, duration: ms, easing: Easing.in(Easing.quad), useNativeDriver: true }),
-    );
-    const start = setTimeout(() => loop.start(), delay);
-    return () => { clearTimeout(start); loop.stop(); };
-  }, [t, ms, delay]);
+    let loop: Animated.CompositeAnimation | null = null;
+    const ease = Easing.in(Easing.quad);
+    const start = setTimeout(() => {
+      Animated.timing(t, { toValue: 1, duration: ms * (1 - phase), easing: ease, useNativeDriver: true }).start(({ finished }) => {
+        if (!finished) return;
+        t.setValue(0);
+        loop = Animated.loop(Animated.timing(t, { toValue: 1, duration: ms, easing: ease, useNativeDriver: true }));
+        loop.start();
+      });
+    }, delay);
+    return () => { clearTimeout(start); t.stopAnimation(); loop?.stop(); };
+  }, [t, ms, delay, phase]);
   const along = t.interpolate({ inputRange: [0, 1], outputRange: [1, 0] });
+  // A speck that starts mid-flight fades in instead of popping on.
+  const appear = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const a = Animated.timing(appear, { toValue: 1, duration: 260, delay, useNativeDriver: true });
+    a.start();
+    return () => a.stop();
+  }, [appear, delay]);
   return (
     <Animated.View
       style={[styles.speck, {
@@ -167,8 +193,11 @@ const Speck: React.FC<{ x: number; y: number; ms: number; delay: number; size: n
         height: size,
         backgroundColor: color,
         opacity: Animated.multiply(
-          t.interpolate({ inputRange: [0, 0.25, 0.9, 1], outputRange: [0, 0.9, 0.7, 0] }),
-          burst.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }),
+          Animated.multiply(
+            t.interpolate({ inputRange: [0, 0.12, 0.9, 1], outputRange: [0, 0.9, 0.7, 0] }),
+            burst.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }),
+          ),
+          appear,
         ),
         transform: [
           { translateX: Animated.multiply(along, Animated.add(x, burst.interpolate({ inputRange: [0, 1], outputRange: [0, x * 1.5] }))) },
@@ -209,12 +238,12 @@ const Rift: React.FC<{
   const unX = useMemo(() => Animated.divide(1, winX), [winX]);
   const unY = useMemo(() => Animated.divide(1, winY), [winY]);
   const [ready, setReady] = useState(false);
-  const [settled, setSettled] = useState(noIntro);
+  // When the line shows, from this mount: the spin is 85% done then.
+  const lineAt = useRef(noIntro ? 0 : Math.max(0, Math.round(INTRO_MS * (0.85 - from)))).current;
 
   useEffect(() => {
     let loop: Animated.CompositeAnimation | null = null;
     const startBreathing = () => {
-      setSettled(true);
       loop = Animated.loop(Animated.sequence([
         Animated.timing(breathe, { toValue: 1, duration: 800, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
         Animated.timing(breathe, { toValue: 0, duration: 800, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
@@ -297,8 +326,14 @@ const Rift: React.FC<{
         </Svg>
       </Animated.View>
 
-      {settled && SPECKS.map(([x, y, ms, delay, size], i) => (
-        <Speck key={i} x={x} y={y} ms={ms} delay={delay} size={size} color={i % 2 ? colors.b : '#fff'} burst={tear} />
+      {SPECKS.map(([x, y, ms, delay, size], i) => (
+        <Speck
+          key={i} x={x} y={y} ms={ms} size={size}
+          // From when the spin lands on the line, staggered a little.
+          delay={lineAt + delay}
+          phase={0.2 + ((i * 0.37) % 0.5)}
+          color={i % 2 ? colors.b : '#fff'} burst={tear}
+        />
       ))}
 
       {!noIntro && [2, 1, 0].map(mark)}
@@ -460,7 +495,12 @@ const SheetWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
   // Never before the spin has landed on the line.
   const mountedAt = useRef(Date.now()).current;
   useEffect(() => {
-    if (opened) { veilOpenedAt = Date.now(); return; }
+    if (opened) {
+      veilOpenedAt = Date.now();
+      sheetOpenTick += 1;
+      sheetOpenListeners.forEach((l) => l());
+      return;
+    }
     // Nothing to open on yet (no picture, no name): the arrival opens once
     // the profile has them, instead of a blank frame or a "?" here.
     if (!arriving || (!picture && !arriving.name)) return;
@@ -506,6 +546,8 @@ type Session = {
   /** The sheet's veil already opened on the picture. */
   instant: boolean;
   skipIntro: boolean;
+  /** Drawn under a sheet whose veil already opened on the picture. */
+  fromSheet?: boolean;
 };
 
 /**
@@ -536,7 +578,8 @@ export const SignInArrival: React.FC = () => {
   const begin = (s: Session, veilUp: boolean) => {
     veil.stopAnimation();
     opacity.setValue(1);
-    nameOpacity.setValue(0);
+    // Under a sheet the name is already showing: keep it, no fade.
+    nameOpacity.setValue(s.fromSheet ? 1 : 0);
     move.setValue({ x: 0, y: 0 });
     scale.setValue(1);
     veil.setValue(veilUp ? 1 : 0);
@@ -544,6 +587,15 @@ export const SignInArrival: React.FC = () => {
     setOpened(s.instant);
     setSession(s);
   };
+
+  // A sheet's veil opened on the picture: draw it open underneath now, so it
+  // is already there the moment the sheet goes.
+  const sheetOpen = useSyncExternalStore(subscribeSheetOpen, readSheetOpen);
+  useEffect(() => {
+    if (!sheetOpen || sessionRef.current) return;
+    begin({ at: Date.now(), introElapsed: 0, taken: null, takenAt: 0, instant: true, skipIntro: true, fromSheet: true }, true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sheetOpen]);
 
   // The sign-in page is waiting: the veil and the spin, from here.
   useEffect(() => {
@@ -586,13 +638,20 @@ export const SignInArrival: React.FC = () => {
   // going on to pick its name): let it go.
   useEffect(() => {
     if (rootWait || !session || session.taken) return;
-    const timer = setTimeout(() => {
+    const letGo = () => {
       if (sessionRef.current !== session) return;
       Animated.parallel([
         Animated.timing(veil, { toValue: 0, duration: VEIL_OUT_MS, useNativeDriver: true }),
         Animated.timing(opacity, { toValue: 0, duration: VEIL_OUT_MS, useNativeDriver: true }),
       ]).start(() => { if (sessionRef.current === session) { setSession(null); setOpened(false); } });
-    }, WAIT_GRACE_MS);
+    };
+    if (session.fromSheet) {
+      // Kept while the sheet is up, and a little after it closes for the
+      // log-in to land; let go if it never does.
+      const poll = setInterval(() => { if (!signInWasWaiting(SHEET_GRACE_MS)) { clearInterval(poll); letGo(); } }, 250);
+      return () => clearInterval(poll);
+    }
+    const timer = setTimeout(letGo, WAIT_GRACE_MS);
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rootWait, session]);
