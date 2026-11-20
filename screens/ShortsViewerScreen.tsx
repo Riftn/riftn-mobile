@@ -84,6 +84,7 @@ import {
   Easing,
   PanResponder,
   AppState,
+  Keyboard,
 } from "react-native";
 import useKeyboard from "../hooks/useKeyboard";
 import { knownVideoAspect, rememberVideoAspect } from "../hooks/useMediaAspect";
@@ -632,9 +633,20 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   const isLooping = useMediaLooping();
   useEffect(() => { try { player.loop = !!photoMedia || isLooping; } catch {} }, [player, photoMedia, isLooping]);
   // Loop off (the default): the short that ends moves the viewer on to the next one.
+  // Not while the person is typing or reading (comments, a DM or tip note, the
+  // opened caption, the keyboard up): it plays again instead, and the next end
+  // checks again, so the viewer carries on by itself once they are done.
+  const engagedRef = useRef(false);
   useEffect(() => {
     if (!player || !isActive || photoMedia || !onPlayToEnd) return;
-    const sub = player.addListener("playToEnd", () => { if (!getIsLooping()) onPlayToEnd(); });
+    const sub = player.addListener("playToEnd", () => {
+      if (getIsLooping()) return;
+      if (engagedRef.current || Keyboard.isVisible()) {
+        try { player.currentTime = 0; player.play(); } catch {}
+        return;
+      }
+      onPlayToEnd();
+    });
     return () => sub.remove();
   }, [player, isActive, photoMedia, onPlayToEnd]);
   // Watch time for the creator's stats. A photo short's soundtrack is not a watch.
@@ -908,6 +920,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     if (!ownsVideo) setFirstFrameRendered(false);
   }, [ownsVideo]);
   const [captionExpanded, setCaptionExpanded] = useState(false);
+  engagedRef.current = showComments || showShareToDm || showTipModal || captionExpanded;
   const [screenshotMode, setScreenshotMode] = useState(false);
   /** A hold on the right: the rate it plays at until let go (or unlocked). */
   const [holdRate, setHoldRate] = useState<number | null>(null);
