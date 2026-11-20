@@ -1038,6 +1038,31 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   useEffect(() => {
     if (!viewMounted) setFirstFrameRendered(false);
   }, [viewMounted]);
+  // The poster sits over the video until the native view says a frame is up,
+  // and it says so once per view. A view that stayed mounted while its short
+  // was set aside (swiped to a neighbour, a sheet or Control Center over the
+  // app) already has its frame and never says it again, so the short played
+  // on under its own poster: a still picture with the sound and progress bar
+  // running, through pause, play and seeking. If the clock is moving while the
+  // poster is still up, the picture is there: show it.
+  useEffect(() => {
+    if (!viewMounted || !isActive || firstFrameRendered) return;
+    let startAt: number | null = null;
+    const timer = setInterval(() => {
+      let at = 0;
+      let playing = false;
+      try { at = player.currentTime ?? 0; playing = player.playing; } catch { return; }
+      if (!playing) { startAt = null; return; }
+      if (startAt == null) { startAt = at; return; }
+      if (Math.abs(at - startAt) < 0.75) return;
+      clearInterval(timer);
+      setFirstFrameRendered(true);
+      require('../libs/errorReporter').reportError('ShortsViewer', ['poster lifted without first frame event'], {
+        level: 'info', metadata: { postId: tokenId },
+      });
+    }, 400);
+    return () => clearInterval(timer);
+  }, [viewMounted, isActive, firstFrameRendered, player, tokenId]);
   const { recovery, phase: playbackPhase } = usePlaybackRecovery(player, videoUrl, {
     component: 'ShortsViewer', postId: tokenId, lateStallHandover: true,
     allowed: () => ownsPlayerRef.current() && (isActiveRef.current && itemNavigation.isFocused() || isPictureInPicturePlayer(player)) && canStartVideo(player),
@@ -2224,10 +2249,11 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     }), [handleUserPress, pagerGesture]);
 
   // Swiping to another short brings the chrome back with it, so a cleared
-  // frame never carries over to the next one.
+  // frame never carries over to the next one. The picture is left alone: a
+  // neighbour keeps its view (and its frame) mounted, and that view only
+  // reports its first frame once (see the poster check above).
   useEffect(() => {
     if (isActive) return;
-    setFirstFrameRendered(false);
     resetTapSequence();
     tapAnimProgress.stopAnimation();
     setTapAnimReaction(null);
