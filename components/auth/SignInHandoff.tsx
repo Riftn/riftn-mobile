@@ -35,6 +35,7 @@ import {
   signInWasWaiting,
   subscribeArrivingAccount,
   takeArrivingAccount,
+  noteArrivalPlaying,
   type ArrivingAccount,
 } from '../../libs/signInHandoff';
 import { ARRIVAL_INTRO_MS, useArrivalLook, type ArrivalLook } from '../../libs/arrival-look';
@@ -419,6 +420,7 @@ export const SignInArrival: React.FC = () => {
     // restored at launch, or a new account finishing its sign-up, has none.
     const account = takeArrivingAccount(ACCOUNT_MAX_AGE_MS);
     if (!account) return;
+    noteArrivalPlaying(6000);
     const avatar = account.avatarImageUrl || user?.avatarImageUrl || null;
     const picture = avatar ? getAvatarUrl(avatar, FRAME) : null;
     const veilWasUp = signInWasWaiting(1500);

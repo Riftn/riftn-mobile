@@ -16,6 +16,22 @@ export function noteSignInWaiting(): void {
   waitingUntil = Date.now();
 }
 
+let arrivalUntil = 0;
+
+/** The arrival is about to play for about `ms` (SignInArrival). */
+export function noteArrivalPlaying(ms: number): void {
+  arrivalUntil = Date.now() + ms;
+}
+
+/**
+ * True while a log-in arrival is on screen. The app mounts under it after a
+ * log-in from the sign-in page, and the bottom bar must already be settled
+ * there: its slide-up under the flying picture read as the bar flashing.
+ */
+export function arrivalPlaying(): boolean {
+  return Date.now() < arrivalUntil;
+}
+
 /** True when the waiting frame was on screen within the last `ms`. */
 export function signInWasWaiting(ms: number): boolean {
   return Date.now() - waitingUntil < ms;
