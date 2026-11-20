@@ -59,7 +59,7 @@ import type { UnreadAnchor } from "../libs/chatUnreadAnchor";
 import { anchorFromReadSpot } from "../libs/chatReadPosition";
 import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import { ScreenNames } from "../navigation/ScreenNames";
-import { isPublicChatOpen, setPublicChatOpen } from "../libs/public-chat-alerts";
+import { setPublicChatOpen } from "../libs/public-chat-alerts";
 import { publicChatUnread } from "../hooks/usePublicChatUnread";
 import { HOLD_LIFT_TIMING, HOLD_SETTLE_TIMING } from "../components/ui/HoldSheet";
 
@@ -146,7 +146,6 @@ const LiveChatScreen: React.FC = () => {
       const sync = () => {
         const reading = AppState.currentState === "active";
         setPublicChatOpen(reading);
-        if (reading) publicChatUnread.markRead(account);
       };
       sync();
       const subscription = AppState.addEventListener("change", sync);
@@ -154,7 +153,7 @@ const LiveChatScreen: React.FC = () => {
         subscription.remove();
         setPublicChatOpen(false);
       };
-    }, [account]),
+    }, []),
   );
 
   const {
@@ -183,13 +182,6 @@ const LiveChatScreen: React.FC = () => {
     reconnect,
     updateBannedList,
   } = useLiveChat();
-
-  useEffect(() => {
-    if (isPublicChatOpen()) {
-      const newest = messages.reduce((at, message) => Math.max(at, Date.parse(message.createdAt) || 0), Date.now());
-      publicChatUnread.markRead(account, newest);
-    }
-  }, [messages, account]);
 
   const [replyingTo, setReplyingTo] = useDraftState<LiveChatMessageData | null>("public:reply", null);
   const [showReactionPicker, setShowReactionPicker] = useState<string | null>(null);
@@ -473,11 +465,12 @@ const LiveChatScreen: React.FC = () => {
   const reportReadSpotRef = useRef(() => {});
   reportReadSpotRef.current = () => {
     const range = visibleRangeRef.current;
-    if (!range || !readTrackingRef.current) return;
+    if (!range || !readTrackingRef.current || AppState.currentState !== "active") return;
     const list = listItemsRef.current;
     for (let i = range.max; i >= range.min; i--) {
       const item = list[i];
       if (!item || item.type !== "message") continue;
+      publicChatUnread.catchUp(account, Date.parse(item.data.createdAt));
       readSpot.report(item.data._id, item.data.createdAt);
       return;
     }
