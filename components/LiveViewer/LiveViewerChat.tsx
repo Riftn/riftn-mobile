@@ -8,6 +8,7 @@ import { ReactionArrivalScope, ReactionGlyph, RollingCount, useReactionHost } fr
 import { Image } from "expo-image";
 import { StreamActivityType } from "../../services/enums/livestream.enum";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
+import { PointsIcon } from "./PointsIcon";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeUrlFor, getInlineBadgeOpticalStyle } from "../../libs/misc";
 import BadgeArtwork from "../common/BadgeArtwork";
@@ -334,6 +335,33 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
         </View>
       );
 
+    case "SYSTEM": {
+      // A viewer spent channel points on one of the creator's rewards.
+      if (a.meta?.kind !== "reward") return null;
+      return (
+        <View className="mb-1.5 bg-white/10 rounded-2xl px-2.5 py-2 self-start max-w-[85%] flex-row items-start" testID="live-chat-reward">
+          <TouchableOpacity onPress={handlePress} activeOpacity={0.7} className="mr-1.5 mt-0.5">
+            <Avatar uri={avatarUrl} size={20} name={displayName} />
+          </TouchableOpacity>
+          <View className="flex-1 flex-shrink">
+            <View className="flex-row items-center flex-wrap" style={{ gap: 4 }}>
+              <PointsIcon size={12} color="rgba(255,255,255,0.8)" />
+              <Text className="text-white text-[12px]">
+                <Text onPress={handlePress} className="font-semibold">{displayName}</Text>{" "}
+                <Text style={{ color: "rgba(255,255,255,0.7)" }}>{t("livePoints.chatRedeemedShort")}</Text>{" "}
+                <Text className="font-semibold">{a.meta?.rewardTitle}</Text>
+              </Text>
+            </View>
+            {a.meta?.content ? (
+              <Text style={{ color: "rgba(255,255,255,0.7)" }} className="text-[11px] mt-0.5">
+                {a.meta.content}
+              </Text>
+            ) : null}
+          </View>
+        </View>
+      );
+    }
+
     default:
       return null;
   }
@@ -388,6 +416,7 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
       return (
         a.status === StreamActivityType.MESSAGE ||
         a.status === StreamActivityType.TIP ||
+        (a.status === "SYSTEM" && a.meta?.kind === "reward") ||
         a.status === StreamActivityType.START ||
         a.status === StreamActivityType.END
       );

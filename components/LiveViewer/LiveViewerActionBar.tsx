@@ -29,6 +29,8 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
+import { PointsIcon } from "./PointsIcon";
+import { compactPoints } from "../../services/live-rewards.service";
 import type { ReactionType } from "../LiveProducer/ReactionOverlay";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
@@ -78,6 +80,13 @@ interface Props {
   likeCount: number;
   isLiked: boolean;
   actionsDisabled: boolean;
+  /**
+   * The viewer's channel points with this creator, drawn at the end of the
+   * empty box (where the thumb is). Null hides it: signed out, own stream,
+   * or not on air.
+   */
+  pointsBalance?: number | null;
+  onPointsPress?: () => void;
 }
 
 const LiveViewerActionBar: React.FC<Props> = ({
@@ -99,6 +108,8 @@ const LiveViewerActionBar: React.FC<Props> = ({
   likeCount,
   isLiked,
   actionsDisabled,
+  pointsBalance = null,
+  onPointsPress,
 }) => {
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
@@ -253,6 +264,19 @@ const LiveViewerActionBar: React.FC<Props> = ({
             onFocus={() => { setFocused(true); setReactionsOpen(false); }}
             onBlur={() => setFocused(false)}
           />
+          {!typing && pointsBalance != null && onPointsPress ? (
+            <Pressable
+              onPress={onPointsPress}
+              hitSlop={8}
+              accessibilityRole="button"
+              accessibilityLabel={t("livePoints.buttonLabel", { count: pointsBalance, formatted: pointsBalance.toLocaleString() })}
+              testID="live-points-button"
+              style={styles.pointsButton}
+            >
+              <PointsIcon size={16} color="rgba(255,255,255,0.92)" />
+              <Text style={styles.pointsText}>{compactPoints(pointsBalance)}</Text>
+            </Pressable>
+          ) : null}
           {typing ? (
             <Pressable
               onPress={handleSend}
@@ -382,6 +406,14 @@ const styles = StyleSheet.create({
     maxHeight: 19 * 4 + 8,
     textAlignVertical: "center",
   },
+  pointsButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    height: 30,
+    paddingHorizontal: 6,
+  },
+  pointsText: { color: "rgba(255,255,255,0.92)", fontSize: 12, fontWeight: "700", fontVariant: ["tabular-nums"] },
   sendButton: {
     width: 30,
     height: 30,

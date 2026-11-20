@@ -601,6 +601,31 @@ const LiveProducerScreen: React.FC = () => {
     };
   }, [streamId, socketOn]);
 
+  // A viewer spending channel points on one of your rewards: a line in your
+  // chat, so you see it without leaving the stream. The queue is in Live Studio.
+  useEffect(() => {
+    if (!streamId) return;
+    const off = socketOn("stream.reward", (data: any) => {
+      if (String(data?.streamId || "") !== String(streamId)) return;
+      const r = data?.redemption;
+      if (!r || typeof r.title !== "string") return;
+      addChatActivity({
+        status: "SYSTEM",
+        address: String(r.viewer?.address || "").toLowerCase(),
+        user: r.viewer,
+        createdAt: Date.now(),
+        meta: {
+          kind: "reward",
+          rewardTitle: String(r.title).slice(0, 60),
+          content: String(r.text || "").slice(0, 200),
+          username: r.viewer?.displayName || r.viewer?.username,
+          avatarImageUrl: r.viewer?.avatarImageUrl,
+        },
+      });
+    }) || (() => {});
+    return () => off();
+  }, [streamId, socketOn, addChatActivity]);
+
   // Seed initial viewers/peak from stream details once per stream
   const seededViewersRef = useRef<string | null>(null);
   useEffect(() => {

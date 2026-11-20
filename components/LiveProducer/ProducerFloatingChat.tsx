@@ -22,6 +22,7 @@ import Avatar from "../common/Avatar";
 import { getAvatarUrl } from "../../libs/misc";
 import { useComposerKeyboard } from "../../hooks/useComposerKeyboard";
 import type { UserReference } from "../LiveViewer/LiveViewerChat";
+import { PointsIcon } from "../LiveViewer/PointsIcon";
 
 export interface ProducerChatActivity {
   status: StreamActivityType | "SYSTEM";
@@ -143,7 +144,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
   );
 
   const filteredActivities = useMemo(() => {
-    return activities.filter((a) => VISIBLE_TYPES.has(a.status as string));
+    return activities.filter((a) => VISIBLE_TYPES.has(a.status as string) || (a.status === "SYSTEM" && a.meta?.kind === "reward"));
   }, [activities]);
 
   const dataReversed = useMemo(
@@ -352,6 +353,30 @@ const ChatBubble: React.FC<{ item: ProducerChatActivity; onUserPress: (id: strin
             </Text>
           </View>
         );
+      case "SYSTEM": {
+        // A viewer spent channel points on one of your rewards.
+        if (item.meta?.kind !== "reward") return null;
+        return (
+          <View className="flex-row items-start mb-1.5 bg-white/10 rounded-xl px-2.5 py-1.5 self-start max-w-[88%] border border-white/20" testID="producer-chat-reward">
+            <TouchableOpacity onPress={handlePress} activeOpacity={0.7} className="mr-1.5">
+              <Avatar uri={avatarUrl} size={18} name={displayName} />
+            </TouchableOpacity>
+            <View className="flex-1 flex-shrink">
+              <View className="flex-row items-center" style={{ gap: 4 }}>
+                <PointsIcon size={12} color="rgba(255,255,255,0.85)" />
+                <Text className="text-white text-[11px] flex-shrink" numberOfLines={2}>
+                  <Text className="font-semibold" onPress={handlePress}>{displayName}</Text>{" "}
+                  <Text style={{ color: "rgba(255,255,255,0.7)" }}>{t("livePoints.chatRedeemedShort")}</Text>{" "}
+                  <Text className="font-semibold">{item.meta?.rewardTitle}</Text>
+                </Text>
+              </View>
+              {item.meta?.content ? (
+                <Text className="text-white/80 text-[11px] mt-0.5" numberOfLines={3}>{item.meta.content}</Text>
+              ) : null}
+            </View>
+          </View>
+        );
+      }
       default:
         return null;
     }
