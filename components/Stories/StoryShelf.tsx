@@ -10,6 +10,7 @@
  */
 import React, { useCallback, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
@@ -19,6 +20,7 @@ import { useSnapshot } from "valtio";
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { useUser, useAuthActions } from "../../context/AuthContext";
+import { useHorizontalScrollGuard, useHorizontalSectionGuard } from "../../context/PagerGestureContext";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useLiveNowItems, pictureOf, type LiveNowItem } from "../Home/LiveNowBar";
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
@@ -68,6 +70,8 @@ function StoryShelf() {
   const { data } = useStoryShelf();
   const { items: live, open: openLive } = useLiveNowItems();
   const { pending } = useSnapshot(storiesState);
+  const scrollGuard = useHorizontalScrollGuard();
+  const shelfGuard = useHorizontalSectionGuard(scrollGuard);
 
   const shelf = useMemo(() => data?.shelf ?? [], [data]);
   const watchable = useMemo(
@@ -89,9 +93,10 @@ function StoryShelf() {
 
   if (!me && others.length === 0 && live.length === 0) return null;
 
-  return (
+  const shelfScroll = (
     <ScrollView
       horizontal
+      nestedScrollEnabled
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={styles.row}
       style={styles.wrap}
@@ -114,6 +119,15 @@ function StoryShelf() {
         <PersonTile key={entry.author.address} entry={entry} onOpen={() => openEntry(entry)} />
       ))}
     </ScrollView>
+  );
+
+  if (!scrollGuard || !shelfGuard) return shelfScroll;
+  return (
+    <GestureDetector gesture={shelfGuard}>
+      <View collapsable={false}>
+        <GestureDetector gesture={scrollGuard}>{shelfScroll}</GestureDetector>
+      </View>
+    </GestureDetector>
   );
 }
 
