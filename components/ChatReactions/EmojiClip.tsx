@@ -57,6 +57,40 @@ const ImageEmojiClip = memo(function ImageEmojiClip({ uri, ms, size, play, onRea
   );
 });
 
+/**
+ * The emoji's first frame, held still. This is what flies to the chip: an
+ * image view shows it the moment the file is in memory, where a drawing
+ * surface made mid-flight can come up a few frames late and leave a gap.
+ */
+export const EmojiPoster = memo(function EmojiPoster({ uri, size, onReady }: { uri: string; size: number; onReady?: () => void }) {
+  return (
+    <Image
+      source={{ uri }}
+      autoplay={false}
+      cachePolicy="memory-disk"
+      contentFit="contain"
+      style={{ width: size, height: size }}
+      onLoad={() => onReady?.()}
+    />
+  );
+});
+
+/**
+ * Builds the drawing machinery once, out of sight, so the first reaction in a
+ * chat does not pay for it while its emoji is in the air.
+ */
+export const EmojiClipWarmUp = memo(function EmojiClipWarmUp() {
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    if (!skia) return;
+    const t = setTimeout(() => setOn(true), 600);
+    return () => clearTimeout(t);
+  }, []);
+  if (!skia || !on) return null;
+  const { SkiaWarmUp } = skia;
+  return <SkiaWarmUp />;
+});
+
 export const EmojiClip = memo(function EmojiClip(props: EmojiClipProps) {
   const [plain, setPlain] = useState(!skia);
   if (skia && !plain) {

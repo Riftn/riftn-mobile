@@ -45,6 +45,14 @@ export function warmSkiaEmojiClip(uri: string): void {
   void loadFile(uri);
 }
 
+/** An empty surface, one pixel, never seen: mounting it sets drawing up ahead of the first emoji. */
+export const SkiaWarmUp = memo(function SkiaWarmUp() {
+  return <Canvas style={{ position: "absolute", width: 1, height: 1, opacity: 0 }} pointerEvents="none" />;
+});
+
+/** A new surface gets this long to put its first picture up before it is called ready. */
+const READY_SETTLE_MS = 90;
+
 /** Frames kept alive behind the one on screen, so one still being drawn is never freed under it. */
 const KEEP_FRAMES = 3;
 const MIN_FRAME_MS = 10;
@@ -75,12 +83,15 @@ export const SkiaEmojiClip = memo(function SkiaEmojiClip({ uri, size, play, onRe
     return () => { live = false; };
   }, [uri]);
 
-  // Ready once the canvas has had a frame or two to draw the first picture.
+  // Ready once the canvas has had a moment to draw the first picture.
   useEffect(() => {
     if (!anim) return;
     let second = 0;
-    const first = requestAnimationFrame(() => { second = requestAnimationFrame(() => calls.current.onReady?.()); });
-    return () => { cancelAnimationFrame(first); cancelAnimationFrame(second); };
+    let settle: ReturnType<typeof setTimeout> | undefined;
+    const first = requestAnimationFrame(() => {
+      second = requestAnimationFrame(() => { settle = setTimeout(() => calls.current.onReady?.(), READY_SETTLE_MS); });
+    });
+    return () => { cancelAnimationFrame(first); cancelAnimationFrame(second); if (settle) clearTimeout(settle); };
   }, [anim]);
 
   useEffect(() => {

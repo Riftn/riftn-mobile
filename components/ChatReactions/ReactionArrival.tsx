@@ -26,7 +26,7 @@ import { useReducedMotion } from "react-native-reanimated";
 import { getAppPrefs } from "../../hooks/useAppPrefs";
 import { animatedChatEmoji } from "../../libs/chatReactionEmoji";
 import { useAppTheme } from "../../context/ThemeContext";
-import { EmojiClip } from "./EmojiClip";
+import { EmojiClip, EmojiClipWarmUp, EmojiPoster } from "./EmojiClip";
 import { useClipPlayer, type ClipArt } from "./useClipPlayer";
 
 const HOST_SETTLE_MS = 700;
@@ -111,6 +111,7 @@ export function ReactionArrivalScope({ style, pointerEvents, children }: { style
       <View style={style} pointerEvents={pointerEvents}>
         {children}
         <View ref={overlay} collapsable={false} pointerEvents="none" style={[StyleSheet.absoluteFill, { zIndex: 50, elevation: 50 }]}>
+          <EmojiClipWarmUp />
           {flights.map((f) => <FlightView key={f.id} flight={f} onDone={done} />)}
         </View>
       </View>
@@ -125,8 +126,9 @@ function useTint() {
 
 /**
  * Emoji drawn in flight: the character until the moving file is ready, then
- * the file. It holds its first frame (nothing plays out of sight on the way
- * to the chip) unless `play`, which runs it once and rests on the last.
+ * the file. It is the file's first frame held still (nothing plays out of
+ * sight on the way to the chip) unless `play`, which runs it once and rests
+ * on the last.
  */
 const FlyingEmoji = memo(function FlyingEmoji({ emoji, art, size, play, onEnd }: { emoji: string; art: Art | null; size: number; play?: boolean; onEnd?: () => void }) {
   const [ready, setReady] = useState(false);
@@ -135,7 +137,9 @@ const FlyingEmoji = memo(function FlyingEmoji({ emoji, art, size, play, onEnd }:
       {!ready && <Text style={{ fontSize: size * TEXT_FILL, includeFontPadding: false, textAlignVertical: "center" }}>{emoji}</Text>}
       {art ? (
         <View style={[StyleSheet.absoluteFill, { opacity: ready ? 1 : 0 }]}>
-          <EmojiClip uri={art.uri} ms={art.ms} size={size} play={!!play && ready} onReady={() => setReady(true)} onEnd={onEnd} />
+          {play
+            ? <EmojiClip uri={art.uri} ms={art.ms} size={size} play={ready} onReady={() => setReady(true)} onEnd={onEnd} />
+            : <EmojiPoster uri={art.uri} size={size} onReady={() => setReady(true)} />}
         </View>
       ) : null}
     </View>
