@@ -1,4 +1,5 @@
 import SkeletonBlock from '../Feed/SkeletonBlock';
+import { glowLine } from "../ui/glow";
 /**
  * ChartShelf — one chart on the Music feed
  * ========================================
@@ -128,7 +129,7 @@ function ChartShelf<S extends string>({
           >
             <Text style={styles.chipText}>{option.label}</Text>
             {/* "Beam", as on profile tabs: a short glowing line under the pick. */}
-            {current && <View pointerEvents="none" style={styles.beam} />}
+            {current && <View pointerEvents="none" style={[styles.beam, glowLine("#fff", 8)]} />}
           </TouchableOpacity>
         );
       })}
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
   chip: { paddingHorizontal: 10, paddingTop: 8, paddingBottom: 11 },
   chipIdle: { opacity: 0.6 },
   chipText: { color: "#fff", fontSize: 13, lineHeight: 19, fontWeight: "600" },
-  beam: { position: "absolute", bottom: 2, left: "50%", marginLeft: -9, width: 18, height: 2, borderRadius: 99, backgroundColor: "#fff", boxShadow: "0px 0px 8px #fff, 0px 0px 2px #fff" },
+  beam: { position: "absolute", bottom: 2, left: "50%", marginLeft: -9, width: 18, height: 2, borderRadius: 99 },
   body: { paddingHorizontal: FEED_SIDE, gap: 12 },
   empty: { paddingHorizontal: FEED_SIDE, paddingVertical: 24, alignItems: "center" },
   emptyText: { color: "rgba(255,255,255,0.6)", fontSize: 14 },

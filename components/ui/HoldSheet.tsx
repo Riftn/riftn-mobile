@@ -236,7 +236,7 @@ export default function HoldSheet(props: HoldSheetProps) {
                   position: "absolute", left: FRAME_INSET, right: FRAME_INSET, top: rowTop, height: rowH,
                   borderRadius: 18, borderWidth: 1, borderColor: rgba(ink, 0.16),
                   backgroundColor: rgba(ink, 0.06),
-                  shadowColor: "#ffffff", shadowOpacity: 0.18, shadowRadius: 14, shadowOffset: { width: 0, height: 0 },
+                  boxShadow: "0px 0px 14px rgba(255,255,255,0.18)",
                 }, fadeStyle]}
               />
             ) : null}

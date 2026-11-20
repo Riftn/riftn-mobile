@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_HAIRLINE } from "../../theme/colors";
 import { glassTint } from "../../theme/skins";
+import { glowLine } from "../ui/glow";
 import { useAppPrefs } from "../../hooks/useAppPrefs";
 
 /*
@@ -52,7 +53,7 @@ function ChatCardComponent({
         {children}
         <View pointerEvents="none" style={[styles.line, isMinimal && { backgroundColor: MINIMAL_HAIRLINE }]} />
         {unread ? (
-          <View pointerEvents="none" testID="chat-card-unread" style={[styles.unread, { backgroundColor: accent, shadowColor: accent }]} />
+          <View pointerEvents="none" testID="chat-card-unread" style={[styles.unread, glowLine(accent, 6)]} />
         ) : null}
       </View>
     );
@@ -83,7 +84,7 @@ function ChatCardComponent({
         ]}
       />
       {unread ? (
-        <View pointerEvents="none" testID="chat-card-unread" style={[styles.unread, { backgroundColor: accent, shadowColor: accent }]} />
+        <View pointerEvents="none" testID="chat-card-unread" style={[styles.unread, glowLine(accent, 6)]} />
       ) : null}
     </View>
   );
@@ -132,7 +133,7 @@ export function ChatListTabs({
                 <Text style={[styles.countText, { color: accentInk }]}>{tab.count > 99 ? "99+" : tab.count}</Text>
               </View>
             ) : null}
-            {on ? <View style={[styles.beam, { backgroundColor: accent, shadowColor: accent }]} /> : null}
+            {on ? <View style={[styles.beam, glowLine(accent)]} /> : null}
           </TouchableOpacity>
         );
       })}
@@ -175,9 +176,6 @@ const styles = StyleSheet.create({
     marginTop: -14,
     borderTopRightRadius: 3,
     borderBottomRightRadius: 3,
-    shadowOpacity: 0.8,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 0 },
   },
   tabsScroll: { flexGrow: 0, marginHorizontal: -CHAT_CARD_INSET },
   tabs: { paddingHorizontal: CHAT_CARD_INSET, paddingTop: 2, paddingBottom: 4, gap: 4 },
@@ -208,8 +206,5 @@ const styles = StyleSheet.create({
     bottom: -1,
     height: 2,
     borderRadius: 2,
-    shadowOpacity: 0.9,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 0 },
   },
 });

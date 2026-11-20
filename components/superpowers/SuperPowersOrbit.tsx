@@ -127,10 +127,6 @@ const styles = StyleSheet.create({
   nodeSelected: {
     borderColor: "#ffffff",
     borderWidth: 1.5,
-    shadowColor: "#ffffff",
-    shadowOpacity: 0.35,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 0 },
-    elevation: 8,
+    boxShadow: "0px 0px 14px rgba(255,255,255,0.35)",
   },
 });
