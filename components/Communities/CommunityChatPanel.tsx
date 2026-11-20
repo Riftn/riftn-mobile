@@ -371,9 +371,11 @@ interface CommunityChatPanelProps {
   /** Joins the community: makes the "join to chat" bar a button. */
   onJoin?: () => void;
   joining?: boolean;
+  /** A search result to open the chat on; `n` changes on every pick. */
+  jumpTo?: { id: string; n: number } | null;
 }
 
-export function CommunityChatPanel({ community, membership, isMember, onJoin, joining }: CommunityChatPanelProps) {
+export function CommunityChatPanel({ community, membership, isMember, onJoin, joining, jumpTo }: CommunityChatPanelProps) {
   const { t } = useTranslation();
   const user = useUser() as any;
   const { showUserProfile } = useUserProfileSheet();
@@ -584,6 +586,13 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     },
     [showMessage, messages.length, t],
   );
+
+  // A message picked in the chat search (CommunityDetailScreen's header).
+  const jumpRef = useRef(jumpToMessage);
+  jumpRef.current = jumpToMessage;
+  useEffect(() => {
+    if (jumpTo?.id) void jumpRef.current(jumpTo.id);
+  }, [jumpTo?.id, jumpTo?.n]);
 
   const loadEarlier = useCallback(async () => {
     if (isLoadingOlder) return;
