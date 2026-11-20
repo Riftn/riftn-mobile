@@ -791,6 +791,44 @@ async function runFreeze(): Promise<void> {
 }
 
 /**
+ * Post separator: Home pictured with bento cards and with the thin line, the
+ * same posts each time (the pref flips in place), at the top and after two
+ * real flicks down the feed.
+ */
+async function runFeedLine(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "feedline" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(14000);
+  const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
+  for (let step = 0; step < 3; step++) {
+    if (step > 0) {
+      await AsyncStorage.setItem(SWIPE_KEY, `vswipe:feedline-${step}`);
+      await sleep(8000);
+    }
+    const first = step % 2 === 0 ? "bento" : "line";
+    const second = first === "bento" ? "line" : "bento";
+    // The script polls for a shot request every 2 s, so each picture gets
+    // 5 s before the look flips again.
+    prefs.setAppPref("feedSeparator", first);
+    await sleep(3500);
+    await shot(`feedline-${step}-${first}`);
+    await sleep(5000);
+    prefs.setAppPref("feedSeparator", second);
+    await sleep(3500);
+    await shot(`feedline-${step}-${second}`);
+    await sleep(5000);
+  }
+  prefs.setAppPref("feedSeparator", "bento");
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] feedline done");
+}
+
+/**
  * Leaving a live in System Light: Home has to come back light at once, with
  * no dark frame and no freeze. Opens a live (one that is on air when there
  * is one), pictures it, goes Back and pictures Home at 0.3 s, 1.5 s and 5 s,
@@ -2166,7 +2204,7 @@ async function runRowReactions(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -2188,6 +2226,7 @@ void (async () => {
     else if (mode === "reactions") await runReactions();
     else if (mode === "rowreactions") await runRowReactions();
     else if (mode === "freeze") await runFreeze();
+    else if (mode === "feedline") await runFeedLine();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

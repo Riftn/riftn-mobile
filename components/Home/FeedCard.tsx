@@ -186,6 +186,8 @@ import { reportPostEvent } from "../../services/post-stats.service";
 import { maxImageDensity } from "../../libs/deviceTier";
 
 import { formatCount } from '../../libs/format-count';
+import { useAppPrefs } from "../../hooks/useAppPrefs";
+import { FEED_LINE_SIDE_GAIN, FeedLineContext } from "../../libs/feedSeparator";
 /** System Light post bento outline: a thin, subtle grey line (web --sl-bento-line).
  *  Written as hsla so the light-tone colour pass (libs/jsx/tone.js) leaves it as is. */
 const LIGHT_BENTO_LINE = 'hsla(240,8%,5%,0.11)';
@@ -510,11 +512,19 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // Live window width, so split-screen and unfolding resize the card instead
   // of keeping the width the app started with.
   const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
-  const IMAGE_WIDTH = imageWidthFor(SCREEN_WIDTH);
+  const { isMinimal, skin, theme, isLight } = useAppTheme();
+  // Settings > Post separator > Thin line: no bento, one line between posts,
+  // and the content moves out to where the bento's edge was. Only where the
+  // card would otherwise be a bento.
+  const lineSep = useAppPrefs().feedSeparator === 'line'
+    && !desk && !immersive && !flat && !isMinimal && theme !== 'immersive';
+  const lineGain = lineSep ? 2 * FEED_LINE_SIDE_GAIN : 0;
+  const IMAGE_WIDTH = imageWidthFor(SCREEN_WIDTH) + lineGain;
   // What feed pictures are fetched at (see feedFetchWidth). Layout still uses
   // IMAGE_WIDTH; only the requested pixel size is capped.
   const FETCH_WIDTH = feedFetchWidth(IMAGE_WIDTH);
-  const SINGLE_IMAGE_WIDTH = singleImageWidthFor(SCREEN_WIDTH);
+  // Line mode also loses the bento's 1pt border on each side.
+  const SINGLE_IMAGE_WIDTH = singleImageWidthFor(SCREEN_WIDTH) + (lineSep ? lineGain + 2 : 0);
 
   // Deep Current is the one power spent on somebody ELSE's post, so it is the
   // one row that belongs in the non-owner half of the options menu.
@@ -616,7 +626,6 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // sent in a message — each would hand it to people it was not written for.
   const isPublicPost = !item.visibility || item.visibility === "public";
 
-  const { isMinimal, skin, theme, isLight } = useAppTheme();
   // The shared frosted wallpaper (components/theme/CardFrost) is up: the card
   // paints its tint over that instead of over the sharp scene.
   const frosted = useCardFrost() && !!skin;
@@ -2676,14 +2685,17 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           style={isMinimal || cinematicFeed ? {
             padding: 12, marginVertical: 6,
             borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: MINIMAL_HAIRLINE,
+          } : lineSep ? {
+            paddingVertical: 18, paddingHorizontal: 0,
+            borderBottomWidth: hideDivider ? 0 : 1, borderBottomColor: isLight ? LIGHT_BENTO_LINE : 'rgba(255,255,255,0.12)',
           } : skin ? [skin.card, { padding: 12, marginVertical: 6 }, frosted && { backgroundColor: 'transparent' }] : {
             borderWidth: 1, borderColor: isLight ? LIGHT_BENTO_LINE : 'rgba(255,255,255,0.12)', borderRadius: FEED_BENTO_RADIUS,
             backgroundColor: theme === 'system' ? 'transparent' : 'rgba(255,255,255,0.03)',
             padding: 12, marginVertical: 6,
           }}
         >
-          {frosted && !isMinimal && !cinematicFeed ? <CardFrost radius={Number(skin!.card.borderRadius ?? 0)} tint={skin!.card.backgroundColor} /> : null}
-          {skin?.grain ? <Image source={GRAIN} resizeMode="repeat" style={[StyleSheet.absoluteFill, { borderRadius: skin.card.borderRadius }]} /> : null}
+          {frosted && !isMinimal && !cinematicFeed && !lineSep ? <CardFrost radius={Number(skin!.card.borderRadius ?? 0)} tint={skin!.card.backgroundColor} /> : null}
+          {skin?.grain && !lineSep ? <Image source={GRAIN} resizeMode="repeat" style={[StyleSheet.absoluteFill, { borderRadius: skin.card.borderRadius }]} /> : null}
           {showRepostLabel && <View className="flex-row items-center gap-1.5 mb-2"><Icon name="Repeat2" size={14} color="#9CA3AF" /><Text className="text-xs text-theme-neutrals-400">{t("feedCard.reposted")}</Text></View>}
           <View style={{ flexDirection: 'row', gap: SCREEN_WIDTH < 768 ? 16 : 24, alignItems: 'stretch' }}>
             <View style={{ flex: 1, minWidth: 0 }}>
@@ -3206,6 +3218,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   }
 
   return (
+    <FeedLineContext.Provider value={lineSep}>
     <GestureDetector gesture={scrubBoundary.gesture}>
     <Pressable
       collapsable={false}
@@ -3242,6 +3255,16 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         paddingBottom: 18,
         borderBottomWidth: hideDivider ? 0 : 1,
         borderBottomColor: MINIMAL_HAIRLINE,
+      } : lineSep ? {
+        // Thin line mode: no bento in any theme. The card keeps the bento's
+        // outer box (the width of the feed's top pill), drops its 12pt side
+        // inset so the content reaches where the bento edge was, and draws one
+        // line along its bottom with 18pt of room either side.
+        paddingTop: 18,
+        paddingHorizontal: 0,
+        paddingBottom: 18,
+        borderBottomWidth: hideDivider ? 0 : 1,
+        borderBottomColor: isLight ? LIGHT_BENTO_LINE : 'rgba(255,255,255,0.12)',
       } : skin ? [
         // A canvas theme's bento (theme/skins.ts): smoked glass, War's cyan
         // frame, Osaka's slate with a pink edge, Jungle's plank.
@@ -3265,10 +3288,10 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         marginVertical: 6,
       }}
     >
-      {frosted && !desk && !immersive && !flat && !isMinimal ? (
+      {frosted && !desk && !immersive && !flat && !isMinimal && !lineSep ? (
         <CardFrost radius={Number(skin!.card.borderRadius ?? 0)} tint={skin!.card.backgroundColor} />
       ) : null}
-      {skin?.grain && !flat && !desk ? (
+      {skin?.grain && !flat && !desk && !lineSep ? (
         <Image
           source={GRAIN}
           resizeMode="repeat"
@@ -3479,6 +3502,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       {sheets}
     </Pressable>
     </GestureDetector>
+    </FeedLineContext.Provider>
   );
 };
 

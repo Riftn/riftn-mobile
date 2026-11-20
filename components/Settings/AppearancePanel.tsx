@@ -44,6 +44,7 @@ import { useAppPrefs, setAppPref } from '../../hooks/useAppPrefs';
 import { isChatDeleteChoice } from '../../libs/chatDeleteChoice';
 import { isChatReactionStyle } from '../../libs/chatReactionStyle';
 import { POST_LANDING_STYLES, isPostLandingStyle, type PostLandingStyle } from '../../libs/postLandingStyle';
+import { isFeedSeparator } from '../../libs/feedSeparator';
 import { MENU_LAYOUTS, MENU_LAYOUT_PREF_KEY, isMenuLayout, type MenuLayout } from '../../libs/menuLayout';
 import { saveAccountPrefs } from '../../libs/feed-interests';
 import { applyNavOrder, publicChatInBar, saveNavOrder, useNavOrder, withPublicChatInBar } from '../../libs/navOrder';
@@ -100,6 +101,7 @@ const AppearancePanel: React.FC = () => {
   const [defaultFeed, setDefaultFeed] = useState<AppFeedTab>(() => getDefaultFeedTab());
   const [feedModalVisible, setFeedModalVisible] = useState(false);
   const [landingModalVisible, setLandingModalVisible] = useState(false);
+  const [separatorModalVisible, setSeparatorModalVisible] = useState(false);
   const [deleteChoiceVisible, setDeleteChoiceVisible] = useState(false);
   const [reactionStyleVisible, setReactionStyleVisible] = useState(false);
   const [chatTextModalVisible, setChatTextModalVisible] = useState(false);
@@ -129,6 +131,10 @@ const AppearancePanel: React.FC = () => {
     { value: 'pop', label: t('settings.chatReactionPop', 'Pop'), description: t('settings.chatReactionPopDesc', 'It springs in place, small and calm') },
     { value: 'burst', label: t('settings.chatReactionBurst', 'Burst'), description: t('settings.chatReactionBurstDesc', 'Yours blooms big with sparks') },
     { value: 'off', label: t('settings.chatReactionOff', 'Off'), description: t('settings.chatReactionOffDesc', 'No motion, the number just changes') },
+  ];
+  const separatorOptions = [
+    { value: 'bento', label: t('settings.feedSeparatorBento', 'Bento cards'), description: t('settings.feedSeparatorBentoDesc', 'Each post sits in its own rounded card') },
+    { value: 'line', label: t('settings.feedSeparatorLine', 'Thin line'), description: t('settings.feedSeparatorLineDesc', 'No cards. A thin line between posts and a little more room for each post') },
   ];
   const landingLabel = (style: PostLandingStyle) => ({
     ghost: t('settings.postLandingGhost', 'Ghost slot'),
@@ -286,6 +292,17 @@ const AppearancePanel: React.FC = () => {
               resetFeedToggles();
               toastSuccess(t('settings.feedTogglesCleared', 'Feed toggles reset'));
             }}
+          />
+        </SettingsAnchor>
+        <Divider />
+        {/* Bento cards or a thin line between feed posts (libs/feedSeparator). */}
+        <SettingsAnchor id="feed-separator">
+          <SettingsLinkRow
+            icon="Minus"
+            label={t('settings.feedSeparator', 'Post separator')}
+            description={t('settings.feedSeparatorDesc', 'Cards around each post, or a thin line between them')}
+            value={separatorOptions.find((o) => o.value === prefs.feedSeparator)?.label}
+            onPress={() => setSeparatorModalVisible(true)}
           />
         </SettingsAnchor>
         <Divider />
@@ -453,6 +470,17 @@ const AppearancePanel: React.FC = () => {
         options={reactionStyleOptions}
         onSelect={(value) => {
           if (isChatReactionStyle(value)) setAppPref('chatReactionStyle', value);
+        }}
+      />
+
+      <SettingsOptionModal
+        visible={separatorModalVisible}
+        onClose={() => setSeparatorModalVisible(false)}
+        title={t('settings.feedSeparator', 'Post separator')}
+        value={prefs.feedSeparator}
+        options={separatorOptions}
+        onSelect={(value) => {
+          if (isFeedSeparator(value)) setAppPref('feedSeparator', value);
         }}
       />
 
