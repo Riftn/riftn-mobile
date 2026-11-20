@@ -23,6 +23,7 @@ import {
 } from "../../hooks/useFeatureRequests";
 import { SHIPPED_POINTS } from "../../libs/top-builders";
 
+import { formatCount } from '../../libs/format-count';
 /** Lets launch, onboarding and the username step settle before it appears. */
 const SHOW_DELAY_MS = 2500;
 
@@ -103,7 +104,7 @@ export default function ShippedFeatureNotice() {
           className="flex-row items-center rounded-xl border px-3.5 py-3 mb-4"
           style={{ gap: 12, backgroundColor: tileFill, borderColor: tileBorder }}
         >
-          <Text className="text-2xl font-bold" style={{ color: ink, fontVariant: ["tabular-nums"] }}>+{totalPoints}</Text>
+          <Text className="text-2xl font-bold" style={{ color: ink, fontVariant: ["tabular-nums"] }}>+{formatCount(totalPoints)}</Text>
           <View className="flex-1">
             <Text className="text-sm font-semibold" style={{ color: ink }}>
               {_copy("copy.f0c8bb34335b", { defaultValue: "You earned +{{value1}} points", value1: totalPoints })}

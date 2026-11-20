@@ -42,7 +42,7 @@ function deadline(iso: string, closed: string): string {
   try {
     return new Intl.RelativeTimeFormat(appLocale(), { numeric: "always", style: "short" }).format(count, unit);
   } catch {
-    return `${count}${unit === "hour" ? "h" : "d"}`;
+    return `${count}${unit === "hour" ? "h" : "d"}`; // exact-number
   }
 }
 

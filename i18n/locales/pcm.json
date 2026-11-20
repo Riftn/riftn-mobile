@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "coverAria": "Tap one frame make you set di cover", "trimHint": "Drag the ends make you trim am", "coverHint": "Tap one frame make e bi di cover", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "Dem see am sharp sharp", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "E go blur until dem tap am", "priceUnavailable": "No bi for dis chat", "priceLabelUsd": "Price", "priceHint": "Dem dey see am blur until dem pay you. Locked items no dey end-to-end encrypted.", "timerOffBody": "E dey stay for di chat.", "timerViewBody": "E go comot for una two once dem don see am.", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover for {{value1}}", "timerTimeBody": "E go comot for una two {{value1}} after you send am."},
   "comicBorder": {
     "title": "Border",
     "theme": "Theme",
@@ -142,6 +143,11 @@
     "featured": "Back to featured"
   },
   "copy": {
+    "0f8fed0dc99b": "Video only",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Song only",
+    "4bf9a522a0de": "Video sound",
+    "fea4b5ceffa8": "Song",
     "a039dfb9628b": "Tokens",
     "chatSlowDown": "Slow down small! You don send too many message back to back. Try again for {{wait}}, or wait make another person reply.",
     "eabb5c136be4": "Plan no dey update.",

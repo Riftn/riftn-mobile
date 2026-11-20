@@ -29,6 +29,7 @@ import { getBadgeHoverOpticalStyle as getBadgeOpticalStyle } from "../../libs/mi
 import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_INSET, minimalRow } from "../../theme/minimal";
 
+import { formatCount } from '../../libs/format-count';
 /** Matches the thumbnail's own box below (`width: 150`). */
 const COMPACT_THUMB_PT = 150;
 
@@ -292,7 +293,7 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
 
           <View className="flex-row items-center mt-1">
             <Text className="text-theme-neutrals-300 text-xs">
-              {views}{_copy("copy.46e244a50f70", { defaultValue: " views" })}</Text>
+              {formatCount(views)}{_copy("copy.46e244a50f70", { defaultValue: " views" })}</Text>
             <Ionicons
               name="ellipse"
               size={4}
@@ -343,14 +344,14 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
             <View className={pillClass}>
               <Ionicons name="heart" size={8} color="#D1D5DB" />
               <Text className={pillTextClass}>
-                {likes}
+                {formatCount(likes)}
               </Text>
             </View>
             {commentCount > 0 && (
               <View className={pillClass}>
                 <Ionicons name="chatbubble-outline" size={8} color="#D1D5DB" />
                 <Text className={pillTextClass}>
-                  {commentCount}
+                  {formatCount(commentCount)}
                 </Text>
               </View>
             )}

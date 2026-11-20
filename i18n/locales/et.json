@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Kaane", "trim": "Lõikamine", "mirror": "Peegel", "rotate": "Pööra", "hide": "Peida", "timer": "Taimer", "close": "Sulge", "photo": "Foto", "remove": "Eemalda", "pause": "Paus", "play": "Mängi video", "hiddenUntilTap": "Peidetud kuni nad selle puudutavad", "scrub": "Käi läbi video", "addMore": "Lisa fotosid või videoid", "coverAria": "Puuduta kaadrit kaane määramiseks", "trimHint": "Lõhenda lõpusid lõikamiseks", "coverHint": "Puuduta kaadrit, et teha see kaaneks", "uploadCover": "Laadi üles kaanepilt", "mirrored": "Peegeldatud", "original": "Algne", "rotate90": "Pööra 90°", "timerOff": "Lülita välja", "showNormally": "Näita tavaliselt", "showNormallyBody": "Nad näevad seda kohe", "hideUntilTap": "Peida kuni puudutatakse", "hideUntilTapBody": "Sume kuni nad seda puudutavad", "hidePrice": "Peida hinna taga", "hidePriceBody": "Sume kuni nad maksavad", "priceUnavailable": "Ei ole selles vestluses", "priceLabelUsd": "Hind", "priceHint": "Nad näevad seda ebaselge, kuni teid tasustate. Lukustatud üksused ei ole lõpust lõpuni krüpteeritud.", "timerOffBody": "See jääb vestlusesse.", "timerViewBody": "See on kaotanud mõlemale, kui nad seda näevad.", "confirm": "Kinnita", "editItem": "Muuda üksus {{value1}}", "coverSet": "Kaanna {{value1}}", "lockedForUsd": "Lukustamata {{value1}}", "timerTimeBody": "Kaotanud mõlemale {{value1}} pärast saatmist."},
   "comicBorder": {
     "title": "Ääris",
     "theme": "Teema",
@@ -142,6 +143,11 @@
     "useNamed": "Kasuta {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Ainult video",
+    "dce6eb4447ef": "Segamine",
+    "5405fb40dded": "Ainult laul",
+    "4bf9a522a0de": "Video heli",
+    "fea4b5ceffa8": "Laul",
     "a039dfb9628b": "Žetoonid",
     "chatSlowDown": "Rahulikumalt! Liiga palju sõnumeid järjest. Proovi uuesti {{wait}} pärast või oota, kuni keegi teine vastab.",
     "eabb5c136be4": "Plaani ei õnnestunud uuendada",

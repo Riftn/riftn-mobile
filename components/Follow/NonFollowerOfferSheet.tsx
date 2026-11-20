@@ -5,6 +5,7 @@ import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import PrimaryButton from "../ui/PrimaryButton";
 
+import { formatCount } from '../../libs/format-count';
 export type NonFollowerOfferStage = "offer" | "confirm" | "working" | "done" | "error";
 
 export interface NonFollowerOfferSheetProps {
@@ -62,7 +63,7 @@ export function NonFollowerOfferSheet({ visible, onClose, stage, count, done = 0
         <View style={s.tile}>
           <Icon name={stage === "done" ? "Check" : "UserMinus"} size={36} color="#FFFFFF" />
         </View>
-        {stage === "offer" && <Text style={s.count}>{count}</Text>}
+        {stage === "offer" && <Text style={s.count}>{formatCount(count)}</Text>}
         <Text style={s.copy} accessibilityLiveRegion="polite">{body}</Text>
         {stage === "working" && (
           <View style={s.track}>

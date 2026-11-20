@@ -64,6 +64,7 @@ import { SHEET_GLASS_FILL } from "../../theme/sheetGlass";
 import { SheetGlassFill } from "../ui/SheetGlass";
 import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
 
+import { formatCount } from '../../libs/format-count';
 const AI_AVATAR = require("../../assets/web-icons/profile-icon.png");
 
 const STORAGE_PREFIX = "ai_chat_";
@@ -307,13 +308,13 @@ const AskAISheetComponent: React.FC<AskAISheetProps> = ({
     if (postContext.categories?.length) parts.push(`Categories: ${postContext.categories.join(", ")}`);
     if (postContext.createdAt) parts.push(`Posted: ${postContext.createdAt}`);
     if (postContext.duration) parts.push(`Duration: ${postContext.duration}`);
-    if (postContext.views) parts.push(`Views: ${postContext.views}`);
-    if (postContext.likes) parts.push(`Likes: ${postContext.likes}`);
-    if (postContext.dislikes) parts.push(`Dislikes: ${postContext.dislikes}`);
+    if (postContext.views) parts.push(`Views: ${formatCount(postContext.views)}`);
+    if (postContext.likes) parts.push(`Likes: ${formatCount(postContext.likes)}`);
+    if (postContext.dislikes) parts.push(`Dislikes: ${formatCount(postContext.dislikes)}`);
     if (postContext.comments) parts.push(`Comments: ${postContext.comments}`);
     if (postContext.tips) parts.push(`Tips received: ${postContext.tips}`);
-    if (postContext.reposts) parts.push(`Reposts: ${postContext.reposts}`);
-    if (postContext.imageCount) parts.push(`Images: ${postContext.imageCount} photos`);
+    if (postContext.reposts) parts.push(`Reposts: ${formatCount(postContext.reposts)}`);
+    if (postContext.imageCount) parts.push(`Images: ${formatCount(postContext.imageCount)} photos`);
     if (postContext.isLive) parts.push("Status: Currently LIVE");
     if (postContext.isPayPerView) parts.push(`Pay-per-view: ${postContext.ppvAmount} ${postContext.ppvCurrency}`);
     if (isHoldGated(postContext.isLockContent, postContext.lockAmount)) parts.push(`Lock content: Hold ${postContext.lockAmount} ${postContext.lockCurrency} to unlock`);

@@ -27,12 +27,13 @@ import {
   type LiveReward,
 } from "../../services/live-rewards.service";
 
+import { formatCount } from '../../libs/format-count';
 const draftId = () => Math.random().toString(36).slice(2, 10);
 
 export function RewardsSection() {
   const { t } = useTranslation();
   const qc = useQueryClient();
-  const fmt = (n: number) => n.toLocaleString();
+  const fmt = (n: number) => formatCount(n);
 
   const saved = useQuery({ queryKey: ["my-live-rewards"], queryFn: getMyRewards, staleTime: 60_000 });
   const [draft, setDraft] = useState<LiveReward[] | null>(null);

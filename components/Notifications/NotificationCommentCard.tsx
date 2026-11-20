@@ -24,6 +24,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
 import type { NotificationItem } from "../../services/user.service";
 
+import { formatCount } from '../../libs/format-count';
 /** Rows about somebody else's comment: those get Reply / Like / Tip. */
 const ACTIONABLE = new Set(["comment", "comment_reply", "creator_comment_reply", "mention"]);
 
@@ -186,7 +187,7 @@ function NotificationCommentCardBase({ item, viewerAddress, onOpen, onEngaged, t
             style={{ flexDirection: "row", alignItems: "center", gap: 5, height: 32, paddingHorizontal: 8 }}
           >
             <Icon name="MessageSquare" size={17} color={replyOpen ? activeInk : MUTED} strokeWidth={1.8} />
-            {replies > 0 && <Text style={{ fontSize: 13, color: MUTED }}>{replies}</Text>}
+            {replies > 0 && <Text style={{ fontSize: 13, color: MUTED }}>{formatCount(replies)}</Text>}
           </Pressable>
           <Pressable
             onPress={toggleLike}
@@ -197,7 +198,7 @@ function NotificationCommentCardBase({ item, viewerAddress, onOpen, onEngaged, t
             style={{ flexDirection: "row", alignItems: "center", gap: 5, height: 32, paddingHorizontal: 8 }}
           >
             <Icon name="ThumbsUp" size={17} color={liked ? activeInk : MUTED} fill={liked ? activeInk : undefined} strokeWidth={1.8} />
-            {likes > 0 && <Text style={{ fontSize: 13, color: liked ? activeInk : MUTED }}>{likes}</Text>}
+            {likes > 0 && <Text style={{ fontSize: 13, color: liked ? activeInk : MUTED }}>{formatCount(likes)}</Text>}
           </Pressable>
           {DIGITAL_PURCHASES_ENABLED && !!author && (
             <Pressable

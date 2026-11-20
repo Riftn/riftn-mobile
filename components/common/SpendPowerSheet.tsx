@@ -56,6 +56,7 @@ import { getImageUrl, toastError, toastPromise, toastSuccess } from "../../libs"
 import SuperPowerIcon from "./SuperPowerIcon";
 import { appLocale } from "../../libs/date.util";
 
+import { formatCount } from '../../libs/format-count';
 interface SpendPowerSheetProps {
   /** The power being spent. Null keeps the sheet closed. */
   power: SuperPowerInfo | null;
@@ -553,7 +554,7 @@ export default function SpendPowerSheet({ power, address, onClose }: SpendPowerS
                 : signals
                   ? isMegalodon
                     ? _copy("copy.8e4b97ca7c6e", { defaultValue: "Signal Flare to everyone" })
-                    : _copy("copy.8ae18739e3f7", { defaultValue: "Signal Flare to {{value1}} people", value1: (signalFlarePeople ?? 0).toLocaleString() })
+                    : _copy("copy.8ae18739e3f7", { defaultValue: "Signal Flare to {{value1}} people", value1: formatCount(signalFlarePeople ?? 0) })
                   : t("superpowers.spendFor", {
                       power: power?.label ?? "",
                       minutes: status?.minutesPerBoost ?? 0,

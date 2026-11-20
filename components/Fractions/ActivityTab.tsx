@@ -18,6 +18,7 @@ import { fmt, relativeTime, shortAddress, OK, WARN } from "./fractionFormat";
 import { useTokenPrices } from "../../hooks/useStores";
 import { useRecentTrades, type FractionTrade } from "../../hooks/useFractionMarket";
 
+import { formatCount } from '../../libs/format-count';
 const STATUS: Record<string, { key: string; color: string }> = {
   settled: { key: "fractions.statusSettled", color: OK },
   awaiting_delivery: { key: "fractions.statusAwaitingFractions", color: WARN },
@@ -86,7 +87,7 @@ const ActivityTab: React.FC<Props> = ({ onOpenPost }) => {
     <View style={styles.stats}>
       <View style={styles.stat}>
         <Text style={styles.statLabel}>{t("fractions.trades")}</Text>
-        <Text style={styles.statValue}>{summary.count}</Text>
+        <Text style={styles.statValue}>{formatCount(summary.count)}</Text>
       </View>
       <View style={styles.stat}>
         <Text style={styles.statLabel}>{t("fractions.volume")}</Text>

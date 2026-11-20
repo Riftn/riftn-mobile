@@ -213,6 +213,9 @@ run() {
             # moment it was sent is what the next short's start is timed from.
             python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.swipes"
             idb ui swipe --udid "$UDID" --duration 0.25 196 640 196 260 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+          vback:*)
+            # Shorts: a quick downward flick, back to the short before.
+            idb ui swipe --udid "$UDID" --duration 0.25 196 260 196 640 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           tap:*)
             IFS=: read -r _ _ tap_x tap_y <<< "$touch"
             idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;
@@ -468,6 +471,18 @@ if [ "$MODE" = player ]; then
   done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-600 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = freeze ]; then
+  # A short swiped away from and back to, and the app set aside and back:
+  # main's code, then this checkout's, each filmed and pictured.
+  for theme in ${FREEZE_THEMES:-system}; do
+    run before "freeze-main-$theme" record freeze "$theme"
+    run after "freeze-$theme" record freeze "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]|poster lifted' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
   exit 0
 fi
 

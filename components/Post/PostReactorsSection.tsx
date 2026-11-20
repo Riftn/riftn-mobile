@@ -20,6 +20,7 @@ import { engagementWeight } from "../../libs/engagement-weight";
 import { getAvatarUrl, getBadgeUrlFor, getBadgeHoverOpticalStyle } from "../../libs/misc";
 import { truncate } from "../../libs/strings.util";
 
+import { formatCount } from '../../libs/format-count';
 const PREVIEW_COUNT = 5;
 const EMOJI = new Map(REACTION_LIST.map((meta) => [meta.key, meta.emoji]));
 
@@ -45,7 +46,7 @@ const PostReactorsSection: React.FC<{ tokenId: number | string }> = ({ tokenId }
     <View style={styles.section}>
       <Text style={styles.title}>
         {t("reactionInfo.title")}
-        {totalCount > 0 && <Text style={styles.count}> · {totalCount}</Text>}
+        {totalCount > 0 && <Text style={styles.count}> · {formatCount(totalCount)}</Text>}
       </Text>
 
       {isLoading ? (

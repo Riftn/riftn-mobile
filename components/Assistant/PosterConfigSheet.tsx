@@ -47,6 +47,7 @@ import { SheetGlassFill } from "../ui/SheetGlass";
 import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
 
 
+import { formatCount } from '../../libs/format-count';
 export type LogoVariant = 'primary' | 'icon' | 'both';
 
 export interface PosterConfig {
@@ -573,7 +574,7 @@ const PosterConfigSheetComponent: React.FC<PosterConfigSheetProps> = ({
                   >
                     <Text style={s.groupTitle}>
                       {group.displayGroup}
-                      {selectedCount > 0 ? ` · ${selectedCount}` : ''}
+                      {selectedCount > 0 ? ` · ${formatCount(selectedCount)}` : ''}
                     </Text>
                     <Icon name={isOpen ? 'ChevronUp' : 'ChevronDown'} size={16} color="#6F7174" />
                   </TouchableOpacity>

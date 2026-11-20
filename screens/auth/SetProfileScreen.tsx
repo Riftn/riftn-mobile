@@ -63,6 +63,7 @@ import { SUPPORTED_LANGUAGES } from "../../i18n";
 import { useKeyboardOffset } from "../../hooks/useKeyboardLayout";
 import { isLightToneOn } from "../../libs/jsx/tone";
 
+import { formatCount } from '../../libs/format-count';
 const log = createLogger("SetProfileScreen");
 
 type Step = "about" | "name" | "username" | "photo" | "interests" | "people" | "done";
@@ -768,7 +769,7 @@ const WelcomeCard: React.FC<{
             : <View style={[cardStyles.tag, { borderWidth: 1, borderStyle: "dashed", borderColor: line }]}><Text style={{ color: muted, fontSize: 11 }}>{t("welcome.card.interests", "Your interests")}</Text></View>}
         </View>
         <View style={{ flexDirection: "row", gap: 16, marginTop: 10 }}>
-          <Text style={{ color: muted, fontSize: 13 }}><Text key={following} style={{ color: ink, fontWeight: "700" }}>{following}</Text> {t("welcome.card.following", "following")}</Text>
+          <Text style={{ color: muted, fontSize: 13 }}><Text key={following} style={{ color: ink, fontWeight: "700" }}>{formatCount(following)}</Text> {t("welcome.card.following", "following")}</Text>
           <Text style={{ color: muted, fontSize: 13 }}><Text style={{ color: ink, fontWeight: "700" }}>0</Text> {t("welcome.card.followers", "followers")}</Text>
         </View>
       </View>

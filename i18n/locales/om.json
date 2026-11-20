@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Qola", "trim": "Murii", "mirror": "Ilaalii", "rotate": "Naannessi", "hide": "Dhoksi", "timer": "Yeroo", "close": "Cufi", "photo": "Suuraa", "remove": "Haqi", "pause": "Dhaabi", "play": "Viidiyoo taphachiisi", "hiddenUntilTap": "Hanga isaan tuqanitti dhokataa dha", "scrub": "Viidiyoo keessa darbi", "addMore": "Suuraa ykn viidiyoo itti dabali", "coverAria": "Qola ta'uuf firaamee tokko tuqi", "trimHint": "Muruf qarqara isaa harkisi", "coverHint": "Qola akka ta'uuf firaamee tokko tuqi", "uploadCover": "Suuraa qolaa fe'i", "mirrored": "Ilaalii (Mirror)", "original": "Asli", "rotate90": "Digrii 90 naannessi", "timerOff": "Hojiin ala", "showNormally": "Akkuma idileetti argisiisi", "showNormallyBody": "Isaan battalumatti argu", "hideUntilTap": "Hanga tuqamutti dhoksi", "hideUntilTapBody": "Hanga isaan tuqanitti hafuuraa (blurred) ta'a", "hidePrice": "Gatii duuba dhoksi", "hidePriceBody": "Hanga isaan siif kaffalanitti hafuuraa (blurred) ta'a", "priceUnavailable": "Chat kana keessa miti", "priceLabelUsd": "Gatii", "priceHint": "Hanga si kaffalanitti ifa hin ta'in isaanitti mul'ata. Wantoonni cufaman dhuma-haga-dhumaatti hin sirreessine (end-to-end encrypted).", "timerOffBody": "Chat keessatti hafa.", "timerViewBody": "Erga isaan ilaalanii booda isin lamaanuuf ni bada.", "confirm": "Mirkaneessi", "editItem": "Wanticha gulaali {{value1}}", "coverSet": "Qubannoo {{value1}} irratti", "lockedForUsd": "{{value1}}f bani", "timerTimeBody": "Erga ergitee booda {{value1}} isin lamaanuuf ni bada."},
   "comicBorder": {
     "title": "Daangaa",
     "theme": "Mata duree",
@@ -142,6 +143,11 @@
     "useNamed": "{{name}} fayyadamaa."
   },
   "copy": {
+    "0f8fed0dc99b": "Viidiyoo qofa",
+    "dce6eb4447ef": "Walitti makuu",
+    "5405fb40dded": "Sirba qofa",
+    "4bf9a522a0de": "Sagalee viidiyoo",
+    "fea4b5ceffa8": "Sirba",
     "chatSlowDown": "Suuta! Ergaawwan baay'een walitti aanan. {{wait}} booda irra deebi'ii yaali, ykn hanga namni biraa deebisutti eegi.",
     "eabb5c136be4": "Planin akkaa fiiraa qabu qofaa",
     "801658c8e591": "Karoorichi hin uumamne — maaloo irra deebi'ii yaali",

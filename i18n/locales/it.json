@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Copertina", "trim": "Ritaglia", "mirror": "Specchia", "rotate": "Ruota", "hide": "Nascondi", "timer": "Timer", "close": "Chiudi", "photo": "Foto", "remove": "Rimuovi", "pause": "Pausa", "play": "Riproduci video", "hiddenUntilTap": "Nascosto finché non ci toccano sopra", "scrub": "Scorri il video", "addMore": "Aggiungi foto o video", "coverAria": "Tocca un fotogramma per impostare la copertina", "trimHint": "Trascina le estremità per ritagliare", "coverHint": "Tocca un fotogramma per renderlo la copertina", "uploadCover": "Carica un'immagine di copertina", "mirrored": "Specchiato", "original": "Originale", "rotate90": "Ruota di 90°", "timerOff": "Disattivato", "showNormally": "Mostra normalmente", "showNormallyBody": "Lo vedono subito", "hideUntilTap": "Nascondi finché non viene toccato", "hideUntilTapBody": "Sfocato finché non ci toccano sopra", "hidePrice": "Nascondi dietro un prezzo", "hidePriceBody": "Sfocato finché non ti pagano", "priceUnavailable": "Non in questa chat", "priceLabelUsd": "Prezzo", "priceHint": "Lo vedono sfocato finché non ti pagano. Gli elementi bloccati non sono crittografati end-to-end.", "timerOffBody": "Resta nella chat.", "timerViewBody": "Scompare per entrambi una volta visualizzato.", "confirm": "Conferma", "editItem": "Modifica elemento {{value1}}", "coverSet": "Copertina a {{value1}}", "lockedForUsd": "Sblocca per {{value1}}", "timerTimeBody": "Scompare per entrambi {{value1}} dopo l'invio."},
   "comic": {
     "toComic": "Trasforma in fumetto",
     "toCarousel": "Mostra come carosello",
@@ -168,6 +169,11 @@
     "useNamed": "Usa {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Solo video",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Solo brano",
+    "4bf9a522a0de": "Audio video",
+    "fea4b5ceffa8": "Brano",
     "a039dfb9628b": "Gettoni",
     "chatSlowDown": "Rallenta! Troppi messaggi di fila. Riprova tra {{wait}} o aspetta che qualcun altro risponda.",
     "eabb5c136be4": "Aggiornamento del piano fallito",
@@ -3188,7 +3194,7 @@
     "postCount_other": "{{count}} post"
   },
   "settings": {
-    "loginLook": {"title": "Schermata di accesso", "desc": "Come si muovono il logo e lo slogan di Riftn nella schermata di accesso su questo dispositivo.", "tube": "TV a tubo", "vhs": "Cassetta VHS", "led": "Parete LED", "holo": "Ologramma", "neon": "Neon", "3d": "3D", "flat": "Piatto"}, "arrivalLook": {"title": "Dopo l'accesso", "desc": "Cosa vedi mentre il tuo account si carica, prima che la tua foto arrivi sulla pagina. Su questo dispositivo.", "rift": "Squarcio", "trace": "Traccia", "frame": "Cornice", "orbit": "Orbita"},
+    "loginLook": {"title": "Schermata di accesso", "desc": "Come si muovono il logo e lo slogan di Riftn nella schermata di accesso su questo dispositivo.", "tube": "TV a tubo", "vhs": "Cassetta VHS", "led": "Parete LED", "holo": "Ologramma", "neon": "Neon", "3d": "3D", "flat": "Piatto"}, "arrivalLook": {"title": "Dopo l'accesso", "desc": "Cosa vedi mentre il tuo account si carica, prima che la tua foto arrivi sulla pagina. Su questo dispositivo.", "trace": "Traccia", "tune": "Sintonizza", "rift": "Squarcio", "deck": "Mazzo", "glass": "Goccia di vetro"},
     "glass": "Glassy",
     "shortsEnabled": "Pantaloncini",
     "shortsEnabledDesc": "Mostra la scheda Feed dei pantaloncini e i caroselli dei pantaloncini su Home.",

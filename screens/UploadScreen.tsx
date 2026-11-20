@@ -157,6 +157,7 @@ import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
 import { uploadLocalFileToBucket, fileExtension, contentTypeForExtension } from "../libs/storage-upload";
 
+import { formatCount } from '../libs/format-count';
 /** Same key web writes to localStorage — see hooks/useAppPrefs.ts on naming. */
 const SHOULD_MINT_KEY = "post_should_mint";
 
@@ -3823,7 +3824,7 @@ export default function UploadScreen() {
               <Icon name="Ellipsis" size={20} color="#fff" />
               {crossPostCount > 0 && (
                 <View className="absolute h-4 min-w-4 rounded-full bg-white items-center justify-center px-1" style={{ top: -2, right: -2 }}>
-                  <Text className="text-black font-bold" style={{ fontSize: 10 }}>{crossPostCount}</Text>
+                  <Text className="text-black font-bold" style={{ fontSize: 10 }}>{formatCount(crossPostCount)}</Text>
                 </View>
               )}
             </TouchableOpacity>

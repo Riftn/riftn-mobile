@@ -10,6 +10,7 @@ import GlassModal from "../ui/GlassModal";
 import { useProfileViewMode, useSetProfileViewMode } from "../../libs/profileViewMode";
 
 
+import { formatCount } from '../../libs/format-count';
 /**
  * Sort, search and filter over one creator's own posts.
  *
@@ -208,7 +209,7 @@ const ProfileContentToolbar: React.FC<ProfileContentToolbarProps> = ({
             <Icon name="SlidersHorizontal" size={18} color={ink} />
             {activeFilterCount > 0 && (
               <View style={[styles.count, { backgroundColor: solid }]}>
-                <Text style={[styles.countText, { color: solidInk }]}>{activeFilterCount}</Text>
+                <Text style={[styles.countText, { color: solidInk }]}>{formatCount(activeFilterCount)}</Text>
               </View>
             )}
           </Pressable>

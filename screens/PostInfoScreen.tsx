@@ -53,6 +53,7 @@ import { Image } from "expo-image";
 import { getTokenHolders } from "../libs/token-holders";
 import { peekPostDetailSeed, takeWarmRequest } from "../libs/navPrefetch";
 
+import { formatCount } from '../libs/format-count';
 const MEDALS: Record<number, number> = {
   1: require("../assets/badges/1-medal.png"),
   2: require("../assets/badges/2-medal.png"),
@@ -497,9 +498,9 @@ export default function PostInfoScreen() {
             <View style={styles.bar}><View style={[styles.barFill, { width: `${likeRatio}%` }]} /></View>
           </View>
           <View style={styles.grid}>
-            <Stat icon="ThumbsUp" value={likes.toLocaleString()} label={t("postInfo.likes")} />
-            <Stat icon="ThumbsDown" value={dislikes.toLocaleString()} label={t("postInfo.dislikes")} />
-            <Stat icon="Eye" value={views.toLocaleString()} label={t("postInfo.views")} />
+            <Stat icon="ThumbsUp" value={formatCount(likes)} label={t("postInfo.likes")} />
+            <Stat icon="ThumbsDown" value={formatCount(dislikes)} label={t("postInfo.dislikes")} />
+            <Stat icon="Eye" value={formatCount(views)} label={t("postInfo.views")} />
             <Stat icon="MessageSquare" value={Number(comments).toLocaleString()} label={t("postInfo.comments")} />
             {DIGITAL_PURCHASES_ENABLED && (
               <>

@@ -23,6 +23,7 @@ import { themeIconUrl } from "../../theme/icons";
 import { PageHeaderContext } from './PageHeaderContext';
 import { CardFrost, useCardFrost } from "../theme/CardFrost";
 
+import { formatCount } from '../../libs/format-count';
 type Rgb = [number, number, number];
 
 const HAIRLINE = "rgba(255,255,255,0.08)";
@@ -141,7 +142,7 @@ export function PageTabs<T extends string>({
                   </Text>
                 )}
                 {typeof tab.count === "number" ? (
-                  <Text style={[styles.chipLabel, { opacity: 0.6, fontSize: 12, color: active ? c.activeInk : c.chipInk }]}>{tab.count}</Text>
+                  <Text style={[styles.chipLabel, { opacity: 0.6, fontSize: 12, color: active ? c.activeInk : c.chipInk }]}>{formatCount(tab.count)}</Text>
                 ) : null}
               </View>
             </Pressable>

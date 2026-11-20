@@ -49,6 +49,7 @@ import { PollWidget } from "./poll";
 import { PointsBoard, SubathonTimer } from "./subathon";
 import { StreamerLevel, TipJar } from "./levelAndJar";
 
+import { formatCount } from '../../libs/format-count';
 export interface WidgetProps {
   settings: Record<string, unknown>;
   streamId: string;
@@ -370,7 +371,7 @@ function ViewerCount({ initialViewers, box }: WidgetProps) {
       <IconDisc size={font * 0.8}>
         <Eye color="#fff" size={font * 0.8} />
       </IconDisc>
-      <Text style={{ color: "#fff", fontWeight: "800", fontSize: font, fontVariant: ["tabular-nums"] }}>{count.toLocaleString()}</Text>
+      <Text style={{ color: "#fff", fontWeight: "800", fontSize: font, fontVariant: ["tabular-nums"] }}>{formatCount(count)}</Text>
     </Pill>
   );
 }
@@ -523,7 +524,7 @@ function ReactionCounter({ settings, stats, box }: WidgetProps) {
         <ThumbsUp color={accent(settings)} size={font * 0.8} />
       </IconDisc>
       <Text style={{ color: "#fff", fontWeight: "800", fontSize: font, fontVariant: ["tabular-nums"] }}>
-        {(base + delta).toLocaleString()}
+        {formatCount(base + delta)}
       </Text>
     </Pill>
   );

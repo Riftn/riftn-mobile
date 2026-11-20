@@ -48,6 +48,7 @@ import { PageSection } from "../page/PageKit";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 
+import { formatCount } from '../../libs/format-count';
 /** How long the stage ran, from its own timestamps. Mirrors web's row. */
 export function stageDuration(space: AudioSpace): string | null {
   if (!space.started_at || !space.ended_at) return null;
@@ -264,7 +265,7 @@ export const LiveStageCard: React.FC<{
               ) : (
                 <Icon name="Users" size={13} color="rgba(255,255,255,0.5)" />
               )}
-              <Text style={styles.countText}>{heads}</Text>
+              <Text style={styles.countText}>{formatCount(heads)}</Text>
             </View>
             <TouchableOpacity
               onPress={() => shareStage(space)}
@@ -467,7 +468,7 @@ export const RecordedStageCard: React.FC<{
             <View style={styles.topActions}>
               <View style={styles.countRow}>
                 <Icon name="Users" size={13} color="rgba(255,255,255,0.5)" />
-                <Text style={styles.countText}>{heads}</Text>
+                <Text style={styles.countText}>{formatCount(heads)}</Text>
               </View>
               <Icon name="ChevronRight" size={16} color="rgba(255,255,255,0.45)" />
             </View>

@@ -30,6 +30,7 @@ import { getAccountSummaries } from "../services/user.service";
 import { DhbCoin } from "../components/common/DhbCoin";
 import { IS_APP_STORE_BUILD } from "../config/storefront";
 
+import { formatCount } from '../libs/format-count';
 /* ─── Types ─────────────────────────────────────────────────── */
 
 interface RouteParams {
@@ -54,7 +55,7 @@ const SectionHeader: React.FC<{
     </Text>
     {count != null && (
       <View className="bg-white/10 rounded-full px-2 py-0.5 ml-auto">
-        <Text className="text-white/40 text-[11px]">{count}</Text>
+        <Text className="text-white/40 text-[11px]">{formatCount(count)}</Text>
       </View>
     )}
   </View>
@@ -317,7 +318,7 @@ const LiveChatInfoScreen: React.FC = () => {
           <InfoRow
             icon="chatbubble-outline"
             label={t("liveChat.totalMessages")}
-            value={`${room?.messageCount?.toLocaleString() || "0"}`}
+            value={`${formatCount(room?.messageCount) || "0"}`}
           />
           <View className="h-px bg-white/5 mx-4" />
           <InfoRow

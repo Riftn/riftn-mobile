@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "E hide tey dem tap am", "scrub": "Push the video go front or back", "addMore": "Put photo or video", "coverAria": "Tap one frame make you set am as cover", "trimHint": "Pull the side dem make you cut am", "coverHint": "Tap one frame make e be cover", "uploadCover": "Put one cover picture", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "Dem see e go straight away", "hideUntilTap": "Hide until tapped", "hidePrice": "Hide for back of price", "hidePriceBody": "E blur tey make dem pay you", "priceUnavailable": "No bi for dis chat", "priceLabelUsd": "Price", "priceHint": "Dèm di si am blur until dèm pay you. Locked items no bi end-to-end encrypted.", "timerOffBody": "I di stay for inside chat.", "timerViewBody": "I di komot for una two once dèm don si am.", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover for {{value1}}", "lockedForUsd": "Open am for {{value1}}", "timerTimeBody": "I di komot for una two {{value1}} after you send am."},
   "comicBorder": {
     "title": "Border",
     "theme": "Theme",
@@ -142,6 +143,11 @@
     "useNamed": "Use {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Video only",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Song only",
+    "4bf9a522a0de": "Video sound",
+    "fea4b5ceffa8": "Song",
     "a039dfb9628b": "Tokens",
     "chatSlowDown": "Slow down small! You don send too many message back to back. Try again for {{wait}}, or wait make another person reply.",
     "eabb5c136be4": "Plan no update.",
