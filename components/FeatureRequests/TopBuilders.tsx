@@ -151,6 +151,8 @@ export function TopBuildersProvider({ children }: { children: React.ReactNode })
 
 function Row({ b, rank, max, open, onToggle }: { b: TopBuilder; rank: number; max: number; open: boolean; onToggle: () => void }) {
   const { t } = useTranslation();
+  // exact-number: the expanded leaderboard row shows the full score.
+  const exactScore = b.points.toLocaleString();
   const shippedColor = useShippedColor();
   const { showUserProfile } = useUserProfileSheet();
   const pct = (n: number) => `${(n / b.points) * 100}%` as const;
@@ -164,7 +166,7 @@ function Row({ b, rank, max, open, onToggle }: { b: TopBuilder; rank: number; ma
             <Text style={styles.name} numberOfLines={1}>{name(b)}</Text>
             {!!b.username && <AccountBadge lookupId={b.username} size={13} lineHeight={18} />}
           </View>
-          <Text style={styles.points}>{open ? b.points.toLocaleString() : formatCount(b.points)}</Text>
+          <Text style={styles.points}>{open ? exactScore : formatCount(b.points)}</Text>
         </View>
         <View style={[styles.bar, { width: `${Math.max(12, (b.points / max) * 100)}%` }]}>
           <View style={{ width: pct(b.shippedPoints), backgroundColor: shippedColor }} />
