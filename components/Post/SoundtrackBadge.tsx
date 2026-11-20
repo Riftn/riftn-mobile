@@ -231,7 +231,7 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
           ) : !!creator && <Text style={[styles.barSub, { color: soft }]} numberOfLines={1}>{creator}</Text>}
           <View style={styles.barTimeRow}>
             <Text style={[styles.barTime, { color: soft }]}>{clock(time.current)}</Text>
-            <ScrubBar current={time.current} duration={time.duration} onSeek={seek} isLight={isLight} label={t("copy.67ae3405bcd4", { defaultValue: "Seek" })} />
+            <ScrubBar current={time.current} duration={time.duration} onSeek={seek} isLight={isLight} label={t("spotify.seek")} />
             <Text style={[styles.barTime, styles.barTimeEnd, { color: soft }]}>{time.duration ? clock(time.duration) : "–:––"}</Text>
           </View>
         </View>
