@@ -73,8 +73,10 @@ const PollCard: React.FC<PollCardProps> = ({ tokenId, pollOwnerAddress, autoTran
   const isEnded = pollHasEnded(poll);
   const isOpen = !isEnded;
   const hasVoted = localVotedIndexes !== null || !!poll.userVote;
-  // Results show once you've voted, and to everyone once the poll is over.
-  const showResults = hasVoted || isEnded;
+  // The poll's creator always sees how it is going (a creator asking their
+  // audience often doesn't vote). Everyone else sees results once they've
+  // voted, and everyone once the poll is over.
+  const showResults = hasVoted || isEnded || isOwner;
   const votedIndexes = localVotedIndexes ?? poll.userVote?.optionIndexes ?? [];
 
   const getCount = (index: number) => {
