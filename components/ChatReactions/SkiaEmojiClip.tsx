@@ -10,7 +10,7 @@
  * after the last frame has had its full time on screen.
  */
 import React, { memo, useEffect, useRef, useState } from "react";
-import { Canvas, Image, Skia, type SkAnimatedImage, type SkData, type SkImage } from "@shopify/react-native-skia";
+import { AlphaType, Canvas, ColorType, Image, Skia, type SkAnimatedImage, type SkData, type SkImage } from "@shopify/react-native-skia";
 
 export interface SkiaEmojiClipProps {
   uri: string;
@@ -45,9 +45,27 @@ export function warmSkiaEmojiClip(uri: string): void {
   void loadFile(uri);
 }
 
-/** An empty surface, one pixel, never seen: mounting it sets drawing up ahead of the first emoji. */
+/** One clear pixel, drawn the way an emoji frame is, so the first real one finds everything built. */
+function clearPixel(): SkImage | null {
+  try {
+    return Skia.Image.MakeImage(
+      { width: 1, height: 1, alphaType: AlphaType.Premul, colorType: ColorType.RGBA_8888 },
+      Skia.Data.fromBytes(new Uint8Array(4)),
+      4,
+    );
+  } catch {
+    return null;
+  }
+}
+
+/** A two-point surface nobody can see: mounting it sets drawing up ahead of the first emoji. */
 export const SkiaWarmUp = memo(function SkiaWarmUp() {
-  return <Canvas style={{ position: "absolute", width: 1, height: 1, opacity: 0 }} pointerEvents="none" />;
+  const [pixel] = useState(clearPixel);
+  return (
+    <Canvas style={{ position: "absolute", width: 2, height: 2 }} pointerEvents="none">
+      {pixel ? <Image image={pixel} x={0} y={0} width={2} height={2} fit="contain" /> : null}
+    </Canvas>
+  );
 });
 
 /** A new surface gets this long to put its first picture up before it is called ready. */
