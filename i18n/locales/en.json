@@ -15540,6 +15540,7 @@
     "4118fb4fed0e": "Removed",
     "b9725da1e57f": "Translation failed. Please try again.",
     "caac88c81c38": "Already in your language",
+    "noTranslationFound": "Couldn't translate this one. It may be slang or a name.",
     "31198ffcdcba": "Some text could not be translated.",
     "bfd4303ae4e5": "Post translated",
     "66b8e077d85f": "Failed to send message",

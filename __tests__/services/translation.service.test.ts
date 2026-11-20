@@ -90,6 +90,24 @@ describe('services/translation.service', () => {
       expect(result.sameLanguage).toBe(true);
     });
 
+    it('flags an unchanged answer with no matching detection as untranslated', async () => {
+      mockInvoke.mockResolvedValue({ data: { translatedText: 'who be riftn', detectedLanguage: { language: 'auto', confidence: 1 } }, error: null });
+
+      const { translateText } = loadService();
+      const result = await translateText('who be riftn', 'tr');
+
+      expect(result.sameLanguage).toBe(true);
+      expect(result.untranslated).toBe(true);
+    });
+
+    it('does not flag text the server says is already in the target language', async () => {
+      mockInvoke.mockResolvedValue({ data: { translatedText: 'Hello there', sameLanguage: true }, error: null });
+
+      const { translateText } = loadService();
+      expect((await translateText('Hello there', 'en')).untranslated).toBeUndefined();
+      expect((await translateText('Hello there', 'en')).untranslated).toBeUndefined();
+    });
+
     it('serves a repeat request from cache without calling the function again', async () => {
       mockInvoke.mockResolvedValue({
         data: { translatedText: 'Merhaba', detectedLanguage: { language: 'es', confidence: 1 } },

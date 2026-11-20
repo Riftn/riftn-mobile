@@ -616,6 +616,19 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
     },
     [navigation, onClose],
   );
+  // The Followers / Following counts open the same lists as on the profile.
+  const openFollowList = useCallback((tab: "followers" | "following") => {
+    const address = ((user as any)?.walletAddress || (user as any)?.address || "") as string;
+    if (!address) return;
+    navigate(ScreenNames.FollowList, {
+      address,
+      username: (user as any)?.username,
+      initialTab: tab,
+      hideFollowers: (user as any)?.hideFollowers,
+      isOwnProfile: true,
+    });
+  }, [navigate, user]);
+
 
   // Menu search (libs/navSearch, same matching as the web menu): the row's
   // name in the reader's language and in English, its search words ("build"
@@ -987,15 +1000,33 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                     </View>
                     {typeof user.followers === "number" || typeof user.followings === "number" ? (
                       <View style={styles.headerCounts} testID="drawer-follow-counts">
-                        <Icon name="Users" size={13} color="#A1A1AA" />
-                        <Text style={styles.headerCountText} numberOfLines={1}>
-                          {formatCompactNumber(user.followers ?? 0)} {t("profile.followers")}
-                        </Text>
+                        <TouchableOpacity
+                          style={styles.headerCount}
+                          onPress={() => openFollowList("followers")}
+                          activeOpacity={0.6}
+                          hitSlop={{ top: 8, bottom: 8 }}
+                          accessibilityRole="button"
+                          testID="drawer-followers"
+                        >
+                          <Icon name="Users" size={13} color="#A1A1AA" />
+                          <Text style={styles.headerCountText} numberOfLines={1}>
+                            {formatCompactNumber(user.followers ?? 0)} {t("profile.followers")}
+                          </Text>
+                        </TouchableOpacity>
                         <View style={styles.headerCountsDivider} />
-                        <Icon name="Users" size={13} color="#A1A1AA" />
-                        <Text style={styles.headerCountText} numberOfLines={1}>
-                          {formatCompactNumber(user.followings ?? 0)} {t("profile.following")}
-                        </Text>
+                        <TouchableOpacity
+                          style={styles.headerCount}
+                          onPress={() => openFollowList("following")}
+                          activeOpacity={0.6}
+                          hitSlop={{ top: 8, bottom: 8 }}
+                          accessibilityRole="button"
+                          testID="drawer-following"
+                        >
+                          <Icon name="Users" size={13} color="#A1A1AA" />
+                          <Text style={styles.headerCountText} numberOfLines={1}>
+                            {formatCompactNumber(user.followings ?? 0)} {t("profile.following")}
+                          </Text>
+                        </TouchableOpacity>
                       </View>
                     ) : handle ? <Text style={styles.headerHandle} numberOfLines={1}>{handle}</Text> : null}
                   </View>
@@ -1333,6 +1364,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 4,
     marginTop: 3,
+    minWidth: 0,
+  },
+  headerCount: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    flexShrink: 1,
     minWidth: 0,
   },
   headerCountText: {

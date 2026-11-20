@@ -53,12 +53,21 @@ export const queryClient = new QueryClient({
 // feature-requests board, which were persisted whole on every throttle tick.
 type InfiniteData = { pages?: unknown[]; pageParams?: unknown[] };
 
+// JSON writes a Map or Set as {}, so an entry holding one comes back from
+// disk as a plain object and crashes the screen that iterates it (the
+// Requests comment thread keeps its rows in a Map). Such entries are not saved.
+function holdsMapOrSet(data: unknown): boolean {
+  if (!data || typeof data !== "object") return false;
+  if (data instanceof Map || data instanceof Set) return true;
+  return Object.values(data as Record<string, unknown>).some((value) => value instanceof Map || value instanceof Set);
+}
+
 function trimPersistedClient(client: PersistedClient): PersistedClient {
   return {
     ...client,
     clientState: {
       ...client.clientState,
-      queries: client.clientState.queries.map((q) => {
+      queries: client.clientState.queries.filter((q) => !holdsMapOrSet(q.state?.data)).map((q) => {
         const data = q.state?.data as InfiniteData | undefined;
         if (
           data &&
