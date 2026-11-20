@@ -28,7 +28,7 @@ import { useSurfaceDraft } from '../hooks/useSurfaceDraft';
  * Post-info actions in the shared post ActionBar — none of them have a
  * feature-request row behind them, so they would ship as dead buttons.
  */
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -257,7 +257,16 @@ const RequestVideo: React.FC<{ url: string; badge: number }> = ({ url, badge }) 
 
 const RequestVideoPlayer: React.FC<{ url: string }> = ({ url }) => {
   const player = useVideoPlayer(url, p => { p.play(); });
-  return <VideoView player={player} style={StyleSheet.absoluteFill} contentFit="contain" nativeControls />;
+  const viewRef = useRef<VideoView>(null);
+  // Tiles are small, so a tap opens the clip full screen; closing it leaves
+  // it playing in the tile with its controls.
+  useEffect(() => {
+    const id = setTimeout(() => {
+      try { Promise.resolve(viewRef.current?.enterFullscreen()).catch(() => {}); } catch {}
+    }, 120);
+    return () => clearTimeout(id);
+  }, []);
+  return <VideoView ref={viewRef} player={player} style={StyleSheet.absoluteFill} contentFit="contain" nativeControls />;
 };
 
 /**
