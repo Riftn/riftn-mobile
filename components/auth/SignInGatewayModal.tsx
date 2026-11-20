@@ -406,9 +406,11 @@ const SignInGatewayModal: React.FC<SignInGatewayModalProps> = ({
     setCurrentProvider("google");
     setInlineError(null);
     try {
-      const supabaseUserId = await signInWithGoogle();
+      // The wait comes up the moment Google's page closes.
+      const supabaseUserId = await signInWithGoogle({ onReturned: () => setSessionWait(true) });
       await runProvisionAndSignIn(supabaseUserId);
     } catch (e: any) {
+      setSessionWait(false);
       console.error("[SignInGatewayModal] Google login error", e);
       if (!isSignInCancelled(e)) {
         setInlineError(e?.message || t("copy.0b8b01ae8783", { defaultValue: "Login failed. Please retry." }));

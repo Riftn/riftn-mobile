@@ -225,7 +225,8 @@ export async function verifyPhoneOtp(phone: string, token: string): Promise<stri
 /** Opens an OAuth browser flow for the given provider and returns the Supabase user id. */
 async function signInWithOAuthProvider(
   provider: "google" | "apple",
-  queryParams?: Record<string, string>
+  queryParams?: Record<string, string>,
+  onReturned?: () => void
 ): Promise<string> {
   beginAuthTrace(provider);
   log.trace?.('identity-start');
@@ -248,6 +249,9 @@ async function signInWithOAuthProvider(
   if (result.type !== "success" || !result.url) {
     throw new Error(`${provider} sign-in was cancelled`);
   }
+  // The provider's page has closed: the caller can show its wait now, not
+  // after the session exchange below.
+  onReturned?.();
   return sessionFromRedirect(result.url, provider);
 }
 
@@ -279,12 +283,12 @@ async function sessionFromRedirect(url: string, provider: string): Promise<strin
   return sessionData.user.id;
 }
 
-export async function signInWithGoogle(): Promise<string> {
+export async function signInWithGoogle(opts?: { onReturned?: () => void }): Promise<string> {
   // The system browser keeps Google's cookies across app sign-outs, so
   // without this Google silently reuses the last-chosen account —
   // "signing in with a different account" would quietly re-authenticate
   // the previous identity instead of showing the account picker.
-  return signInWithOAuthProvider("google", { prompt: "select_account" });
+  return signInWithOAuthProvider("google", { prompt: "select_account" }, opts?.onReturned);
 }
 
 export async function signInWithApple(): Promise<string> {
