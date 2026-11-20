@@ -36,6 +36,7 @@ import { OverlayCreatorContext, SubathonContext } from "../components/LiveOverla
 import { PollContext } from "../components/LiveOverlay/poll";
 import { samplePoll, type LivePoll } from "../libs/live-overlay/polls";
 import { ModerationEditor } from "../components/LiveStudio/ModerationEditor";
+import { StreamBotEditor } from "../components/LiveStudio/StreamBotEditor";
 import { useOverlayControlRoom } from "../hooks/useOverlayControlRoom";
 import { copyToClipboard, toastError, toastSuccess } from "../libs";
 import { OVERLAY_LINK_BASE } from "../config/links";
@@ -381,6 +382,10 @@ export default function LiveStudioScreen() {
 
         <Section title={t("liveStudio.points.title")}>
           <PointsSection address={myAddress} />
+        </Section>
+
+        <Section title={t("liveStudio.bot.title")}>
+          <StreamBotEditor />
         </Section>
 
         <Section title={t("liveStudio.rules.title")}>
