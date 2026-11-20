@@ -60,6 +60,7 @@ import { setShareRefCode } from "../libs/shareRef";
 import { onSignInWall } from "../libs/sign-in-wall";
 import {
   currentProfileId,
+  listProfiles,
   beginAddProfileAttempt,
   restoreDisplacedProfileIfAny,
   beginProfileSwitch,
@@ -309,12 +310,22 @@ interface AuthProviderProps {
   children: React.ReactNode;
 }
 
+/** How the account that takes over after a log out is named in the toast. */
+function switchedName(user: User | null): string | null {
+  if (!user) return null;
+  if (user.username) return `@${user.username}`;
+  return user.displayName || null;
+}
+
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const { t: _copy } = _useCopy();
   const log = useMemo(() => createLogger("AuthContext"), []);
   const [user, setUser] = useState<User | null>(null);
   // Runtime operation loading (sign in/out). Starts false so UI (SignInScreen) remains mounted.
   const [isLoading, setIsLoading] = useState(false);
+  // Log out is handing over to the next saved account. Reported as loading so
+  // nothing treats the moment between the two accounts as a sign-out.
+  const [isLeavingAccount, setIsLeavingAccount] = useState(false);
   // Boot loading (initial secure storage hydration)
   const [isBootLoading, setIsBootLoading] = useState(true);
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -765,8 +776,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    * completing it lands on that account.
    */
   const switchToProfile = useCallback(
-    async (id: string): Promise<boolean> => {
+    async (id: string, options?: { afterLogOut?: boolean }): Promise<boolean> => {
       if (!id) return false;
+      const afterLogOut = options?.afterLogOut === true;
       const prevId = await currentProfileId();
       // No live account is the signed-out sheet's "Continue as": there is nothing
       // to switch away from, but the saved session still has to be restored.
@@ -779,7 +791,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       log.info('switchToProfile:start', { from: prevId ? `${prevId.slice(0, 12)}...` : null, to: `${id.slice(0, 12)}...` });
       const plan = await beginProfileSwitch(id);
       if (!plan) {
-        openAddProfile();
+        // Log out tries the next saved account instead of asking to sign in.
+        if (!afterLogOut) openAddProfile();
         return false;
       }
       try {
@@ -822,7 +835,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           if (uid && token && address) await rememberVerifiedProfile(uid, address, token);
         } catch {}
         if (!prevId) setShowSignInModal(false);
-        toastSuccess(_copy("copy.d6dad8f19561", { defaultValue: "Switched account" }));
+        if (afterLogOut) {
+          const name = switchedName(await getAuthUser<User>());
+          toastSuccess(
+            name
+              ? _copy("settings.loggedOutNowUsing", { defaultValue: "Logged out. Now using {{name}}", name })
+              : _copy("copy.d6dad8f19561", { defaultValue: "Switched account" })
+          );
+        } else {
+          toastSuccess(_copy("copy.d6dad8f19561", { defaultValue: "Switched account" }));
+        }
         return true;
       } catch (e) {
         log.warn('switchToProfile:failed', e as any);
@@ -831,12 +853,43 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // A refused session also asks for sign-in; someone who was signed in
         // before the switch is still signed in as that account.
         if (prevId) setShowSignInModal(false);
-        toastError?.(_copy("copy.9e046e5e5d10", { defaultValue: "Could not switch account" }));
+        // After a log out the next saved account is tried instead.
+        if (!afterLogOut) toastError?.(_copy("copy.9e046e5e5d10", { defaultValue: "Could not switch account" }));
         return false;
       }
     },
     [log, openAddProfile, rehydrateFromStorage, _copy]
   );
+
+  /**
+   * "Log out" from anywhere in the app. Signs out only the account on screen:
+   * its session, saved row and this phone's push registration go. When other
+   * accounts are saved on this phone, the most recently used one that still
+   * restores takes over. Only the last account lands on the sign-in screen.
+   */
+  const logOut = useCallback(async () => {
+    let others: string[] = [];
+    try {
+      const leaving = await currentProfileId();
+      others = (await listProfiles())
+        .filter((p) => p.id !== leaving && !!p.session)
+        .map((p) => p.id);
+    } catch {}
+    if (others.length === 0) {
+      await signOut();
+      return;
+    }
+    setIsLeavingAccount(true);
+    try {
+      await signOut();
+      for (const id of others) {
+        if (await switchToProfile(id, { afterLogOut: true })) return;
+      }
+      log.warn('logOut:no-saved-account-restored', { tried: others.length });
+    } finally {
+      setIsLeavingAccount(false);
+    }
+  }, [log, signOut, switchToProfile]);
 
   useEffect(() => {
     // Keep the live account's registry copy fresh across background refreshes.
@@ -885,7 +938,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Auth state context - updates on auth state changes
   const authStateContextValue = useMemo<AuthStateContextType>(() => ({
-    isLoading,
+    isLoading: isLoading || isLeavingAccount,
     isBootLoading,
     isSignedIn,
     isFirstTimeUser,
@@ -893,7 +946,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     provisionalUser,
     provisionalToken,
     balancesLoading,
-  }), [isLoading, isBootLoading, isSignedIn, isFirstTimeUser, needsUsername, provisionalUser, provisionalToken, balancesLoading]);
+  }), [isLoading, isLeavingAccount, isBootLoading, isSignedIn, isFirstTimeUser, needsUsername, provisionalUser, provisionalToken, balancesLoading]);
 
   // Provider context - updates on wallet/chain changes
   const providerContextValue = useMemo<ProviderContextType>(() => ({
@@ -911,7 +964,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Actions context - stable function references (rarely if ever changes)
   const authActionsContextValue = useMemo<AuthActionsContextType>(() => ({
-    signOut,
+    signOut: logOut,
     skipAuth: skipAuthLocal,
     signInWithWallet,
     signInWithSupabaseSession,
@@ -924,17 +977,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     switchChain,
     openAddProfile,
     switchToProfile,
-  }), [signOut, skipAuthLocal, signInWithWallet, signInWithSupabaseSession, completeUsername, refreshUserStable, requireAuth, patchUser, ensureProvider, ensureFreshProvider, switchChain, openAddProfile, switchToProfile]);
+  }), [logOut, skipAuthLocal, signInWithWallet, signInWithSupabaseSession, completeUsername, refreshUserStable, requireAuth, patchUser, ensureProvider, ensureFreshProvider, switchChain, openAddProfile, switchToProfile]);
 
   // Legacy combined context value (for backward compatibility with useAuth)
   const authContextValue: AuthContextType = useMemo(() => ({
     user,
-    isLoading,
+    isLoading: isLoading || isLeavingAccount,
     isBootLoading,
     balancesLoading,
     isSignedIn,
     isFirstTimeUser,
-    signOut,
+    signOut: logOut,
     skipAuth: skipAuthLocal,
     signInWithWallet,
     signInWithSupabaseSession,
@@ -958,11 +1011,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }), [
     user,
     isLoading,
+    isLeavingAccount,
     isBootLoading,
     balancesLoading,
     isSignedIn,
     isFirstTimeUser,
-    signOut,
+    logOut,
     skipAuthLocal,
     signInWithWallet,
     signInWithSupabaseSession,
@@ -994,6 +1048,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               {children}
               {isSwitchingChain && (
                 <FullScreenLoader message={_copy("copy.72381872350b", { defaultValue: "Switching network…" })} />
+              )}
+              {/* Covers the moment between the account logging out and the
+                  next saved one taking over, so the guest Home never flashes. */}
+              {isLeavingAccount && (
+                <FullScreenLoader message={_copy("settings.signingOut", { defaultValue: "Signing out…" })} />
               )}
               {/* Keep one native window through signup. Swapping modals on a
                   timer can lose the profile step while iOS is dismissing. */}
