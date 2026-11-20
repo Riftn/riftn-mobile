@@ -54,6 +54,7 @@ import { beginAuthTrace, readAuthTrace } from "../../libs/auth-trace";
 import { isSignInCancelled } from "../../libs/auth-error-text";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import { useScrollFieldIntoView } from "../../hooks/useScrollFieldIntoView";
+import { steadyHeight } from "../../libs/steady-height";
 import { Trans, useTranslation } from "react-i18next";
 
 const log = createLogger("SignInGatewayModal");
@@ -635,7 +636,7 @@ const SignInGatewayModal: React.FC<SignInGatewayModalProps> = ({
               </Text>
             </View>
           )}
-          <View onLayout={(event) => setFormHeight(event.nativeEvent.layout.height)}>
+          <View onLayout={(event) => setFormHeight(steadyHeight(event.nativeEvent.layout.height))}>
           <AuthErrorNotice message={inlineError ?? (isSignupBlocked && authStep === "main" ? t("auth.walletSignupBlocked") : null)} style={{ marginBottom: 16 }} />
           {authStep === "main" ? (
             <SignInSavedProfiles disabled={isBusy} />
