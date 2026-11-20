@@ -804,21 +804,23 @@ async function runFeedLine(): Promise<void> {
   }
   await sleep(14000);
   const prefs = require("../../hooks/useAppPrefs") as typeof import("../../hooks/useAppPrefs");
-  for (let step = 0; step < 4; step++) {
+  for (let step = 0; step < 3; step++) {
     if (step > 0) {
       await AsyncStorage.setItem(SWIPE_KEY, `vswipe:feedline-${step}`);
-      await sleep(5000);
+      await sleep(8000);
     }
     const first = step % 2 === 0 ? "bento" : "line";
     const second = first === "bento" ? "line" : "bento";
+    // The script polls for a shot request every 2 s, so each picture gets
+    // 5 s before the look flips again.
     prefs.setAppPref("feedSeparator", first);
     await sleep(3500);
     await shot(`feedline-${step}-${first}`);
-    await sleep(1500);
+    await sleep(5000);
     prefs.setAppPref("feedSeparator", second);
     await sleep(3500);
     await shot(`feedline-${step}-${second}`);
-    await sleep(1500);
+    await sleep(5000);
   }
   prefs.setAppPref("feedSeparator", "bento");
   extra.finishedAt = Date.now();
