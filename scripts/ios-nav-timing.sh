@@ -457,6 +457,18 @@ if [ "$MODE" = feedline ]; then
   exit 0
 fi
 
+if [ "$MODE" = sharelink ]; then
+  # A shared video link opened from Home: main's code, then this checkout's
+  # on three themes.
+  run before "sharelink-main-system" "" sharelink system
+  for theme in ${SHARE_THEMES:-system hazy system-light}; do
+    run after "sharelink-$theme" "" sharelink "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
 if [ "$MODE" = livetheme ]; then
   # Leaving a live in System Light, main's code then this checkout's, both
   # filmed; then this checkout's on two dark themes.

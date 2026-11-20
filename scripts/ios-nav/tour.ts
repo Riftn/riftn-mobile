@@ -795,6 +795,41 @@ async function runFreeze(): Promise<void> {
  * same posts each time (the pref flips in place), at the top and after two
  * real flicks down the feed.
  */
+/**
+ * A shared video link: the route a riftn.com/app/post/<id> link resolves to,
+ * opened from Home. It should land in the Shorts viewer on that video; Back
+ * then shows the post page, and Back again Home.
+ */
+async function runShareLink(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "sharelink" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  await shot("sharelink-0-home");
+  const tokenId = Number(await AsyncStorage.getItem(`${FLAG_KEY}.token`)) || 7444;
+  nav.navigate(ScreenNames.App, { screen: ScreenNames.PostResolver, params: { tokenId: String(tokenId) } });
+  await sleep(9000);
+  extra.opened = nav.getCurrentRoute()?.name;
+  await shot("sharelink-1-opened");
+  await sleep(4000);
+  nav.goBack();
+  await sleep(5000);
+  extra.back1 = nav.getCurrentRoute()?.name;
+  await shot("sharelink-2-back");
+  await sleep(4000);
+  nav.goBack();
+  await sleep(5000);
+  extra.back2 = nav.getCurrentRoute()?.name;
+  await shot("sharelink-3-back-again");
+  await sleep(4000);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] sharelink done: opened ${String(extra.opened)}, back ${String(extra.back1)}, back again ${String(extra.back2)}`);
+}
+
 async function runFeedLine(): Promise<void> {
   extra = { startedAt: Date.now(), mode: "feedline" };
   const root = nav.getRootState();
@@ -2283,7 +2318,7 @@ async function runMoments(): Promise<void> {
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments" && mode !== "sharelink") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -2306,6 +2341,7 @@ void (async () => {
     else if (mode === "rowreactions") await runRowReactions();
     else if (mode === "freeze") await runFreeze();
     else if (mode === "feedline") await runFeedLine();
+    else if (mode === "sharelink") await runShareLink();
     else if (mode === "moments") await runMoments();
     else await run();
   } catch (error) {
