@@ -112,7 +112,7 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
     );
     const q = search.trim().toLowerCase();
     return chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt)
-      .filter((c) => canPost.has(c.id) && (!q || c.name.toLowerCase().includes(q)));
+      .filter((c) => canPost.has(c.id) && (!q || c.name.toLowerCase().includes(q) || (c.slug || "").toLowerCase().includes(q.replace(/^@/, ""))));
   }, [memberships, chatPrefs, search]);
 
   const filtered = useMemo(() => {
