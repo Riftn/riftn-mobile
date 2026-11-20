@@ -7,7 +7,7 @@
  *
  * Only load this through `optionalSkia` (libs/skia).
  */
-import { Skia, ImageFormat, BlurStyle, TileMode, matchFont, type SkCanvas, type SkImage } from "@shopify/react-native-skia";
+import { Skia, FontWeight, ImageFormat, TileMode, type SkCanvas, type SkImage } from "@shopify/react-native-skia";
 import { Platform } from "react-native";
 import * as FileSystem from "expo-file-system/legacy";
 
@@ -26,40 +26,46 @@ export interface TextLayer {
   box: boolean;
 }
 
-const FAMILY = Platform.select({ ios: "Helvetica Neue", default: "sans-serif" });
+const FAMILIES = Platform.select({ ios: ["Helvetica Neue"], default: ["sans-serif"] });
 
 function drawText(canvas: SkCanvas, layer: TextLayer) {
   const text = layer.text.trim();
   if (!text) return;
   const px = Math.round(layer.size * OUT_W);
-  const font = matchFont({ fontFamily: FAMILY, fontSize: px, fontWeight: "bold" });
   const lines = text.split("\n");
   const lineH = px * 1.18;
+  const cx = layer.x * OUT_W;
   const top = layer.y * OUT_H - (lines.length * lineH) / 2;
   lines.forEach((line, i) => {
-    const w = font.measureText(line || " ").width;
-    const cx = layer.x * OUT_W;
-    const baseline = top + lineH * (i + 0.5) + px * 0.35;
+    // Paragraph shaping can fall back to the system emoji font and preserves
+    // joined emoji and skin-tone sequences when baking the overlay.
+    const builder = Skia.ParagraphBuilder.Make({ maxLines: 1 });
+    builder.pushStyle({
+      color: Skia.Color(layer.color),
+      fontSize: px,
+      fontFamilies: FAMILIES,
+      fontStyle: { weight: FontWeight.Bold },
+      ...(layer.box ? {} : {
+        shadows: [{ color: Skia.Color("rgba(0,0,0,0.45)"), blurRadius: px * 0.12, offset: { x: 0, y: 0 } }],
+      }),
+    });
+    builder.addText(line || " ");
+    builder.pop();
+    const paragraph = builder.build();
+    paragraph.layout(100_000);
+    const w = paragraph.getLongestLine();
+    const lineTop = top + lineH * i;
     if (layer.box) {
       const pad = px * 0.32;
       const box = Skia.Paint();
       box.setAntiAlias(true);
       box.setColor(Skia.Color(layer.color.toLowerCase() === "#ffffff" ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.92)"));
       canvas.drawRRect(
-        Skia.RRectXY(Skia.XYWHRect(cx - w / 2 - pad, top + lineH * i, w + pad * 2, lineH), px * 0.28, px * 0.28),
+        Skia.RRectXY(Skia.XYWHRect(cx - w / 2 - pad, lineTop, w + pad * 2, lineH), px * 0.28, px * 0.28),
         box,
       );
-    } else {
-      const shadow = Skia.Paint();
-      shadow.setAntiAlias(true);
-      shadow.setColor(Skia.Color("rgba(0,0,0,0.45)"));
-      shadow.setMaskFilter(Skia.MaskFilter.MakeBlur(BlurStyle.Normal, px * 0.12, true));
-      canvas.drawText(line, cx - w / 2, baseline, shadow, font);
     }
-    const fill = Skia.Paint();
-    fill.setAntiAlias(true);
-    fill.setColor(Skia.Color(layer.color));
-    canvas.drawText(line, cx - w / 2, baseline, fill, font);
+    paragraph.paint(canvas, cx - w / 2, lineTop + (lineH - paragraph.getHeight()) / 2);
   });
 }
 
