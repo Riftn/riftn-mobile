@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, memo } from "react";
-import { View, TouchableOpacity, I18nManager } from "react-native";
+import { View, TouchableOpacity, I18nManager, Text } from "react-native";
 import type { SharedValue } from "react-native-reanimated";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import ElectricLogo from "./common/ElectricLogo";
@@ -15,6 +15,7 @@ import { getAvatarUrl } from "../libs/misc";
 import { registerOwnAvatar } from "../libs/signInHandoff";
 import { useAppTheme } from "../context/ThemeContext";
 import { NAV_PILL_SIDE_INSET } from "./Home/FeedNavBar";
+import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 /** Drawn height of the avatar, bell and mark, so the three read as one row. */
 const ICON = 26;
@@ -42,6 +43,7 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ onLogoPress, onMenuPress, onBac
   // A hair inside the pill below. Minimal's tab strip runs edge to edge.
   const edge = (isMinimal ? 0 : NAV_PILL_SIDE_INSET) + PILL_INSET;
   const { t } = useTranslation();
+  const openSignIn = useOpenSignIn();
 
   const hasUnread = (user?.notificationCount || 0) > 0;
   const unreadCount = user?.notificationCount || 0;
@@ -134,9 +136,22 @@ const HomeHeader: React.FC<HomeHeaderProps> = ({ onLogoPress, onMenuPress, onBac
           <NotificationBell unread={unreadCount} size={29.75} color={colors.foreground} />
         </TouchableOpacity>
       ) : (
-        // Holds the right edge so the left control cannot drift into the
-        // centre under justify-between when there is no bell.
-        <View className="w-11 h-11" />
+        // Signed out: a plain "Sign in" pill where the bell sits, so someone
+        // who logged out can see how to get back in.
+        <TouchableOpacity
+          onPress={() => openSignIn()}
+          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+          activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel={t("common.signIn")}
+          className="h-11 items-end justify-center"
+        >
+          <View style={{ paddingHorizontal: 12, height: 28, borderRadius: 14, justifyContent: "center", backgroundColor: "rgba(127,127,127,0.22)" }}>
+            <Text style={{ color: colors.foreground, fontSize: 13, fontWeight: "600" }} numberOfLines={1}>
+              {t("common.signIn")}
+            </Text>
+          </View>
+        </TouchableOpacity>
       )}
     </View>
   );
