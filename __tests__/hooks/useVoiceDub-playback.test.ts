@@ -32,9 +32,9 @@ function makePlayer() {
 const line = () => (Speech.speak as jest.Mock).mock.calls.at(-1)![1] as {
   onStart: () => void; onDone: () => void; onError: () => void; onBoundary: (event: { charIndex: number }) => void; volume: number; useApplicationAudioSession: boolean;
 };
-async function setup() {
+async function setup(lines = segments) {
   const player = makePlayer();
-  const hook = renderHook(() => useVoiceDub({ player: player as unknown as VideoPlayer, segments, lang: 'es', enabled: true }));
+  const hook = renderHook(() => useVoiceDub({ player: player as unknown as VideoPlayer, segments: lines, lang: 'es', enabled: true }));
   await act(async () => {});
   return { player, ...hook };
 }
@@ -85,16 +85,57 @@ describe('voice dub playback', () => {
     expect(Speech.speak).toHaveBeenCalledTimes(1);
   });
 
-  it('ignores old speech callbacks and restores audio on unmount', async () => {
+  it('lets a line finish when the next one begins, then reads the one that waited', async () => {
+    const { player } = await setup();
+    const first = line();
+    act(() => first.onStart());
+    (Speech.stop as jest.Mock).mockClear();
+    await act(async () => { player.currentTime = 4.1; player.emit('timeUpdate', { currentTime: 4.1 }); });
+    expect(Speech.stop).not.toHaveBeenCalled();
+    expect(Speech.speak).toHaveBeenCalledTimes(1);
+    await act(async () => first.onDone());
+    expect(Speech.speak).toHaveBeenCalledTimes(2);
+    expect((Speech.speak as jest.Mock).mock.calls.at(-1)![0]).toBe('Adiós');
+    expect(player.volume).toBeCloseTo(0.008);
+  });
+
+  it('cuts a line only once it is far behind, ignores its late completion and restores audio on unmount', async () => {
     const { player, unmount } = await setup();
     const first = line();
     act(() => first.onStart());
-    await act(async () => { player.currentTime = 4.1; player.emit('timeUpdate', { currentTime: 4.1 }); });
+    await act(async () => { player.currentTime = 5.6; player.emit('timeUpdate', { currentTime: 5.6 }); });
+    expect((Speech.speak as jest.Mock).mock.calls.at(-1)![0]).toBe('Adiós');
     act(() => line().onStart());
-    act(() => first.onDone());
+    await act(async () => first.onDone());
+    expect(Speech.speak).toHaveBeenCalledTimes(2);
     expect(player.volume).toBeCloseTo(0.008);
     unmount();
     expect(player.volume).toBe(0.8);
+  });
+
+  it('reads a line that waited in the silence after it, at full speed', async () => {
+    const long = 'Una frase bastante larga para un segundo';
+    const { player } = await setup([{ start: 0, end: 3, text: 'Hola' }, { start: 3, end: 4, text: long }, { start: 6, end: 9, text: 'Tres' }]);
+    const first = line();
+    act(() => first.onStart());
+    await act(async () => { player.currentTime = 3.5; player.emit('timeUpdate', { currentTime: 3.5 }); });
+    await act(async () => { player.currentTime = 4.2; player.emit('timeUpdate', { currentTime: 4.2 }); });
+    expect(Speech.speak).toHaveBeenCalledTimes(1);
+    await act(async () => first.onDone());
+    expect((Speech.speak as jest.Mock).mock.calls.at(-1)![0]).toBe(long);
+    expect((line() as unknown as { rate: number }).rate).toBe(1.5);
+  });
+
+  it('drops a line that waited when there is no room left, instead of cutting the next', async () => {
+    const { player } = await setup([{ start: 0, end: 3, text: 'Hola' }, { start: 3, end: 4, text: 'Dos' }, { start: 4.3, end: 7, text: 'Tres' }]);
+    const first = line();
+    act(() => first.onStart());
+    await act(async () => { player.currentTime = 3.5; player.emit('timeUpdate', { currentTime: 3.5 }); });
+    await act(async () => { player.currentTime = 4.1; player.emit('timeUpdate', { currentTime: 4.1 }); });
+    await act(async () => first.onDone());
+    expect(Speech.speak).toHaveBeenCalledTimes(1);
+    await act(async () => { player.currentTime = 4.4; player.emit('timeUpdate', { currentTime: 4.4 }); });
+    expect((Speech.speak as jest.Mock).mock.calls.at(-1)![0]).toBe('Tres');
   });
 
   it('keeps the original quiet through seeking and restores it when dubbing is disabled', async () => {
