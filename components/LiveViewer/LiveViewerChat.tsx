@@ -44,6 +44,8 @@ export interface UserReference {
   badgeBalance?: number;
   badgeLock?: { tier: string; requirement: number } | null;
   hideBadgeAndBalance?: boolean;
+  /** Badges from this stream's creator: hype, event, watch-time and chat milestones. */
+  creatorBadges?: { id: string; name: string; emoji: string }[];
 }
 
 export interface ChatActivity {
@@ -159,6 +161,11 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
     () => (a.user && !a.user.hideBadgeAndBalance ? getBadgeUrlFor(a.user) : undefined),
     [a.user],
   );
+  // Earned from this stream's creator (at most three): emoji beside the name.
+  const creatorBadges = useMemo(() => {
+    const list = (a.user?.creatorBadges ?? []).filter((b) => b && typeof b.emoji === "string" && b.emoji).slice(0, 3);
+    return list.length ? { emojis: list.map((b) => b.emoji.slice(0, 16)).join(""), label: list.map((b) => b.name).join(", ") } : null;
+  }, [a.user?.creatorBadges]);
   const texts = useMemo(() => ({ content: a.status === StreamActivityType.MESSAGE && !a.meta?.gifUrl ? a.meta?.content || '' : '' }), [a.status, a.meta?.gifUrl, a.meta?.content]);
   const translation = useTranslation(texts, undefined, 'chat', true);
 
@@ -223,7 +230,8 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
               {displayName}
               {badgeImg ? (
                 <BadgeArtwork source={badgeImg} style={getInlineBadgeOpticalStyle(badgeImg, 13)} contentFit="contain" />
-              ) : null}{" "}
+              ) : null}
+              {creatorBadges ? <Text accessibilityLabel={creatorBadges.label} style={{ fontSize: 12 }}>{" "}{creatorBadges.emojis}</Text> : null}{" "}
             </Text>
             {!a.meta?.gifUrl ? <Text style={{ color: '#FFFFFF' }}>{translation.isTranslated ? translation.translatedTexts.content : a.meta?.content}</Text> : null}
           </Text>

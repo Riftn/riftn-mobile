@@ -18,6 +18,17 @@ export interface LiveChatUser {
   /** Grandfathered tier; most holders' badge comes from this, not the balance. */
   badgeLock?: { tier: string; requirement: number } | null;
   accountCreatedAt?: string;
+  /** In a stream's chat: badges earned from that creator, and watch-time / chat milestones. */
+  creatorBadges?: ChatCreatorBadge[];
+}
+
+/** A badge beside a name in one creator's stream chat. */
+export interface ChatCreatorBadge {
+  id: string;
+  name: string;
+  emoji: string;
+  kind?: string;
+  level?: number;
 }
 
 export interface LiveChatMessageReaction {
