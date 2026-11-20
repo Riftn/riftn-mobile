@@ -971,6 +971,7 @@
     "manageAccount": "Administra tu cuenta y preferencias",
     "logOut": "Cerrar sesión",
     "loggedOut": "Sesión cerrada",
+    "loggedOutNowUsing": "Sesión cerrada. Ahora usas {{name}}",
     "logoutFailed": "Error al cerrar sesión",
     "profile": "Perfil",
     "notifications": "Notificaciones",

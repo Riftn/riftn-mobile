@@ -971,6 +971,7 @@
     "manageAccount": "Hesabınızı ve tercihlerinizi yönetin",
     "logOut": "Çıkış yap",
     "loggedOut": "Çıkış yapıldı",
+    "loggedOutNowUsing": "Çıkış yapıldı. Şimdi {{name}} kullanılıyor",
     "logoutFailed": "Çıkış başarısız",
     "profile": "Profil",
     "notifications": "Bildirimler",

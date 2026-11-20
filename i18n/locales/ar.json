@@ -971,6 +971,7 @@
     "manageAccount": "إدارة حسابك وتفضيلاتك",
     "logOut": "تسجيل الخروج",
     "loggedOut": "تم تسجيل الخروج",
+    "loggedOutNowUsing": "تم تسجيل الخروج. الحساب الحالي: {{name}}",
     "logoutFailed": "فشل تسجيل الخروج",
     "profile": "الملف الشخصي",
     "notifications": "الإشعارات",
