@@ -59,6 +59,7 @@ interface HoldSheetProps {
   tiles: HoldTile[];
   /** Who reacted: a row between the emoji and the tiles ("👍🔥 3 reactions  >"). */
   summary?: { emojis: string[]; label: string; onPress: () => void } | null;
+  meta?: string;
   /** How far the host should slide its list up so the row clears the sheet (0 to settle back). */
   onLift?: (px: number) => void;
   /** Window y the lifted row must stay below (top of a half-height sheet). Defaults to under the top bar. */
@@ -118,7 +119,7 @@ export default function HoldSheet(props: HoldSheetProps) {
   const snap = useRef(props);
   if (visible) snap.current = props;
   const shown = visible ? props : snap.current;
-  const { onReaction, onMore, tiles, reactions, summary } = shown;
+  const { onReaction, onMore, tiles, reactions, summary, meta } = shown;
   let layout = shown.layout;
   // A row that could not be measured comes in as an empty box: treat it as unknown.
   if (layout && !(layout.height > 0)) layout = null;
@@ -307,6 +308,7 @@ export default function HoldSheet(props: HoldSheetProps) {
               </TouchableOpacity>
             )}
 
+            {meta ? <Text style={{ color: rgba(ink, 0.7), fontSize: 12, paddingHorizontal: 8, paddingTop: 8 }}>{meta}</Text> : null}
             {mainTiles.length > 0 && (
               <View style={{ flexDirection: "row", flexWrap: "wrap", marginHorizontal: -4, paddingTop: summary ? 6 : reactions && onReaction ? 10 : 0 }}>
                 {mainTiles.map((tile) => {

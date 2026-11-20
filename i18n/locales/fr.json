@@ -2913,6 +2913,9 @@
     "returnHome": "Retour à l'accueil"
   },
   "profile": {
+    "localTime": "Heure locale {{time}}",
+    "shareLocalTime": "Afficher mon heure locale",
+    "shareLocalTimeHint": "Affichez votre fuseau horaire et votre heure locale sur votre profil public et dans le chat.",
     "articleShort": "Article",
     "pinnedShort": "Épinglé",
     "post": "Publication",
