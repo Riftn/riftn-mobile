@@ -5,7 +5,7 @@ import { useReducedMotion } from "react-native-reanimated";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/AuthContext";
 import { getAvatarUrl } from "../../libs/misc";
-import { ARRIVAL_INTRO_MS, ARRIVAL_LOOKS, setArrivalLook, useArrivalLook, type ArrivalLook } from "../../libs/arrival-look";
+import { ARRIVAL_INTRO_MS, AVAILABLE_ARRIVAL_LOOKS, setArrivalLook, useArrivalLook, type ArrivalLook } from "../../libs/arrival-look";
 import { ArrivalMarks, isConceptLook } from "../auth/SignInHandoff";
 
 /**
@@ -62,7 +62,7 @@ export default function ArrivalLookPicker() {
         {t("settings.arrivalLook.desc", "What plays while your account loads, before your picture lands on the page. On this device.")}
       </Text>
       <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 12 }}>
-        {ARRIVAL_LOOKS.map((look) => {
+        {AVAILABLE_ARRIVAL_LOOKS.map((look) => {
           const active = current === look;
           const [key, fallback] = LABELS[look];
           return (

@@ -38,8 +38,21 @@ import {
   noteArrivalPlaying,
   type ArrivingAccount,
 } from '../../libs/signInHandoff';
-import { ARRIVAL_INTRO_MS, useArrivalLook, type ArrivalLook } from '../../libs/arrival-look';
-import { CONCEPT_HOLD_MS, CONCEPT_LOOKS, CONCEPT_NAME_MS, ConceptArrival, type ConceptLook } from './ArrivalConcepts';
+import {
+  ARRIVAL_INTRO_MS,
+  CONCEPT_HOLD_MS,
+  CONCEPT_NAME_MS,
+  isConceptLook as isConceptName,
+  useArrivalLook,
+  type ArrivalLook,
+  type ConceptLook,
+} from '../../libs/arrival-look';
+import { optionalSkia } from '../../libs/skia';
+
+// Skia is only in the newer binaries; on older ones the concepts play as the Rift.
+const ConceptArrival = optionalSkia(
+  () => (require('./ArrivalConcepts') as typeof import('./ArrivalConcepts')).ConceptArrival,
+);
 
 const FRAME = 120;
 /** The profile picture's curve (96pt with a 12pt corner), scaled to the frame. */
@@ -297,11 +310,11 @@ type MarkProps = { picture: string | null; name: string; opened: boolean; instan
 /** Trace, Tune in, Deck and Glass drop (ArrivalConcepts), in the theme's colours. */
 const Concept: React.FC<MarkProps & { look: ConceptLook }> = (props) => {
   const colors = useRiftColors();
+  if (!ConceptArrival) return <Rift {...props} />;
   return <ConceptArrival {...props} colors={colors} />;
 };
 
-export const isConceptLook = (look: ArrivalLook): look is ConceptLook =>
-  (CONCEPT_LOOKS as readonly string[]).includes(look);
+export const isConceptLook = (look: ArrivalLook): look is ConceptLook => !!ConceptArrival && isConceptName(look);
 
 /**
  * The name under the picture, as on the profile: bold 24pt with the badge

@@ -42,15 +42,9 @@ import {
 import { useDerivedValue, useFrameCallback, useSharedValue } from 'react-native-reanimated';
 import { LOGIN_CLIPS } from './login-clip-assets';
 
-export const CONCEPT_LOOKS = ['trace', 'tune', 'deck', 'glass'] as const;
-export type ConceptLook = (typeof CONCEPT_LOOKS)[number];
+import { CONCEPT_HOLD_MS, CONCEPT_LOOKS, CONCEPT_NAME_MS, CONCEPT_REVEAL_MS, type ConceptLook } from '../../libs/arrival-look';
 
-/** From the account landing until the picture stands still. */
-export const CONCEPT_REVEAL_MS: Record<ConceptLook, number> = { trace: 700, tune: 900, deck: 640, glass: 830 };
-/** When the name comes in under the picture, after the account landed. */
-export const CONCEPT_NAME_MS: Record<ConceptLook, number> = { trace: 650, tune: 600, deck: 600, glass: 600 };
-/** From the account landing until the picture flies home. */
-export const CONCEPT_HOLD_MS = 1300;
+export { CONCEPT_HOLD_MS, CONCEPT_LOOKS, CONCEPT_NAME_MS, CONCEPT_REVEAL_MS, type ConceptLook };
 
 /** The canvas around the 0×0 middle: room for the deck's sweep and the droplets. */
 const HALF = 230;
