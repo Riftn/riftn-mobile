@@ -61,6 +61,7 @@ import BadgeShowcaseHost from "./components/Badge/BadgeShowcaseHost";
 import { WebSocketProvider } from "./context/WebSocketContext";
 import { DMProvider } from "./context/DMContext";
 import { OnboardingChecklistProvider } from "./context/OnboardingChecklistContext";
+import StoriesHost from "./components/Stories/StoriesHost";
 import { UserProfileSheetProvider } from "./context/UserProfileSheetContext";
 import NewMemberRegistrar from "./components/common/NewMemberRegistrar";
 import ShippedFeatureNotice from "./components/FeatureRequests/ShippedFeatureNotice";
@@ -664,6 +665,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
                         <CallModalsHost />
                         <CallMiniPlayer />
                         <StagesModalsHost />
+                        <StoriesHost />
                         <StageNavFallback navigationRef={navigationRef} />
                         <StageRecordingMiniPlayer />
                         <RadioMiniPlayer />
