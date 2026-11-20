@@ -3,6 +3,7 @@ import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import HoldSheet, { type HoldReactionChip, type HoldTile } from "../ui/HoldSheet";
 import { useTranslation } from "react-i18next";
 import { copyToClipboard } from "../../libs/clipboard.utils";
+import { canLinkMessage, copyLinkLabel } from "../../libs/chatMessageLink";
 import { copyMessageMedia } from "../../libs/copyMessageMedia";
 import { buildCdnPath } from "../../libs/misc";
 import type { LiveChatMessageData } from "../../services/livechat.service";
@@ -33,6 +34,8 @@ interface LiveChatContextMenuProps {
   onPin?: (msg: LiveChatMessageData) => void;
   /** Open the chat search on everything this message's author has said. */
   onSeeMessages?: (msg: LiveChatMessageData) => void;
+  /** "Copy link": a riftn.com link that opens this chat on this line. */
+  onCopyLink?: (msg: LiveChatMessageData) => void;
   /** Whether this message's author is on the room's ban list, so a moderator is offered Unban instead. */
   isSenderBanned?: boolean;
   onBan?: (msg: LiveChatMessageData) => void;
@@ -70,6 +73,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
   onDelete,
   onPin,
   onSeeMessages,
+  onCopyLink,
   isSenderBanned,
   onBan,
   onUnban,
@@ -141,6 +145,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
   // sheet slides away, instead of the list dropping back and then jumping up.
   if (onReply) tiles.push({ key: "reply", icon: "Reply", label: t("liveChat.reply"), prime: true, onPress: () => { onReply(message); onClose(); } });
   if (hasContent) tiles.push({ key: "copy", icon: "Copy", label: t("common.copy"), onPress: () => { copyToClipboard(message.content); onClose(); } });
+  if (onCopyLink && canLinkMessage(message._id)) tiles.push({ key: "copy-link", icon: "Link", label: copyLinkLabel(), onPress: () => { onCopyLink(message); onClose(); } });
   // A photo or GIF can be copied as itself, not just its caption.
   const firstMedia = message.media?.[0];
   const rawMedia = message.messageType === "gif" ? (message.gif?.url || firstMedia?.url) : message.messageType === "media" ? firstMedia?.url : undefined;

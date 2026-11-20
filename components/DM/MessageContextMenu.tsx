@@ -19,6 +19,7 @@ import Avatar from "../common/Avatar";
 import Icon from "../ui/Icon";
 import PaymentBadge from "./PaymentBadge";
 import { getAvatarUrl, buildCdnPath } from "../../libs/misc";
+import { canLinkMessage, copyLinkLabel } from "../../libs/chatMessageLink";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import { formatChatTimeSmart } from "../../libs/date.util";
 import type { DmMessage, DmUser, OptimisticMessage } from "../../services/dm/dm.types";
@@ -58,6 +59,8 @@ interface MessageContextMenuProps {
   /** One-to-one chat: delete the other person's messages too, for both of you. */
   canDeleteAny?: boolean;
   onCopy?: () => void;
+  /** "Copy link": a riftn.com link that opens this chat on this message, for people in it. */
+  onCopyLink?: () => void;
   onPin?: () => void;
   onUnpin?: () => void;
   isPinned?: boolean;
@@ -423,6 +426,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
   onReply,
   onEdit,
   onForward,
+  onCopyLink,
   onSelect,
   onTranslate,
   onDelete,
@@ -575,6 +579,8 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     if (onUnpin && isPinned && !unsent)
       rows.push({ icon: "Pin", label: t("dm.unpinMessage"), onPress: handleUnpin });
     if (hasContent) rows.push({ icon: "Copy", label: t("common.copy"), onPress: handleCopy });
+    if (onCopyLink && !unsent && canLinkMessage(message._id))
+      rows.push({ icon: "Link", label: copyLinkLabel(), onPress: () => { onClose(); onCopyLink(); } });
     if (copyableMedia && !unsent)
       rows.push({ icon: "Images", label: t("dm.copyMedia", { defaultValue: "Copy media" }), onPress: handleCopyMedia });
     // Translate the other person's words, the same as web. Shows the
@@ -639,6 +645,7 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
     isPinned,
     onReply,
     onForward,
+    onCopyLink,
     onSelect,
     onTranslate,
     onEdit,
