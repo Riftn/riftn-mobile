@@ -1,4 +1,5 @@
 import { usePerfProbe } from "../libs/perfTrace";
+import { getAssistantPrefs, saveAssistantPrefs } from '../services/assistantActions.service';
 import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD } from '../config/storefront';
 import { translateCopy as _translateCopy } from '../i18n/copy';
 import { useTranslation as _useCopy } from 'react-i18next';
@@ -479,13 +480,29 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
       });
   }, []);
 
+  // The account copy wins: it is what the @assistant DM answers with, and
+  // what the website saved if they picked there.
+  useEffect(() => {
+    if (!walletAddress) return;
+    let live = true;
+    getAssistantPrefs()
+      .then((p) => {
+        if (!live || !p) return;
+        if (p.style && AI_ASSISTANT_STYLE_OPTIONS.some((s) => s.id === p.style)) setSelectedStyle(p.style);
+        if (p.model) setSettings((prev) => ({ ...prev, chatModel: currentChatModel(p.model) }));
+      })
+      .catch(() => {});
+    return () => { live = false; };
+  }, [walletAddress]);
+
   const persistSettings = useCallback(
     (next: AssistantSettings, style: string) => {
       AsyncStorage.setItem(SETTINGS_KEY, JSON.stringify({ settings: next, style })).catch(
         () => {},
       );
+      if (walletAddress) saveAssistantPrefs({ style, model: next.chatModel }).catch(() => {});
     },
-    [],
+    [walletAddress],
   );
 
   const updateSettings = useCallback(

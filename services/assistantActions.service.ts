@@ -45,3 +45,17 @@ export const confirmAssistantAction = async (id: string, reaction?: string) =>
 
 export const cancelAssistantAction = async (id: string) =>
   unwrap(await apiClient.post(`${path(id)}/cancel`, {}, { isAuthRequired: true }));
+
+/** Personality + chat model, shared by the Assistant screen and the @assistant DM. */
+export interface AssistantPrefs {
+  style: string;
+  model: string;
+}
+
+const unwrapPrefs = (res: any): AssistantPrefs => (res?.data?.style ? res.data : res);
+
+export const getAssistantPrefs = async (): Promise<AssistantPrefs> =>
+  unwrapPrefs(await apiClient.get("/assistant-actions/prefs", { isAuthRequired: true }));
+
+export const saveAssistantPrefs = async (prefs: Partial<AssistantPrefs>): Promise<AssistantPrefs> =>
+  unwrapPrefs(await apiClient.post("/assistant-actions/prefs", prefs, { isAuthRequired: true }));
