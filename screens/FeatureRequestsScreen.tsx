@@ -61,7 +61,7 @@ import GlassModal from "../components/ui/GlassModal";
 import { runWithPermissions } from "../libs/permissions.util";
 import { toastWarning } from "../libs/toast";
 import { localFileSize } from "../libs/storage-upload";
-import { featurePromptFields } from "../libs/feature-prompt";
+import { featurePromptFields, FEATURE_PROMPT_MAX_LENGTH as DESC_MAX } from "../libs/feature-prompt";
 import { optionalSkia } from "../libs/skia";
 import type { StudioEdits } from "../components/Upload/studioPaint";
 import { theme } from "../theme";
@@ -119,7 +119,6 @@ import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 import { formatCount } from '../libs/format-count';
 const TITLE_MAX = 100;
-const DESC_MAX = 1000;
 const DEVICE_MAX = 300;
 
 type PageTab = "requests" | "shipping" | "shipped";
@@ -357,6 +356,8 @@ const FeatureCard: React.FC<{
 
   const [editTitle, setEditTitle] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:editTitle", feature.title, feature.id);
   const [editDescription, setEditDescription] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:editDescription", feature.description, feature.id);
+  // A saved request may also include the optional Device & OS line.
+  const editDescriptionLimit = Math.max(DESC_MAX, feature.description.length);
   const [editCategory, setEditCategory] = useState<FeatureCategory>(feature.category);
 
   // Same auto-translate as posts: a request in another language reads in the
@@ -551,7 +552,8 @@ const FeatureCard: React.FC<{
             <Text style={styles.editLabel}>{t("features.descriptionLabel")}</Text>
             <TextInput
               value={editDescription}
-              onChangeText={(v) => setEditDescription(v.slice(0, DESC_MAX))}
+              onChangeText={setEditDescription}
+              maxLength={editDescriptionLimit}
               style={[styles.input, styles.textarea]}
               multiline
               placeholderTextColor="#52525B"
@@ -593,7 +595,7 @@ const FeatureCard: React.FC<{
                   { onSuccess: () => setEditing(false) },
                 )
               }
-              disabled={!editTitle.trim() || !editDescription.trim() || editMutation.isPending}
+              disabled={!editTitle.trim() || !editDescription.trim() || editDescription.length > editDescriptionLimit || editMutation.isPending}
               style={[
                 styles.glassBtnSm,
                 (!editTitle.trim() || !editDescription.trim()) && styles.disabled,
@@ -733,7 +735,7 @@ const PromptComposer: React.FC<{
   const { isSignedIn, needsUsername } = useAuthState();
   const navigation = useNavigation<any>();
   const openSignIn = useOpenSignIn();
-  const valid = description.trim().length > 0;
+  const valid = description.trim().length > 0 && description.length <= DESC_MAX;
 
   const pickMedia = useCallback(async () => {
     if (submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS) return;
