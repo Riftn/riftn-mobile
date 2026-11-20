@@ -3,8 +3,8 @@
  * ===============================================================================
  * A reaction landing on a chat line, yours or somebody else's, now moves:
  *
- *   - the emoji itself plays once (Noto animated emoji, libs/chatReactionEmoji)
- *     and settles back to the still glyph;
+ *   - the emoji itself plays once (Noto animated emoji, libs/chatReactionEmoji),
+ *     all the way to its last frame, and melts back into the still glyph;
  *   - the chip answers with the look picked in Settings → Appearance →
  *     "Reactions in chat" (libs/chatReactionStyle): Fly in by default, Pop,
  *     Burst, or Off;
@@ -23,13 +23,21 @@
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { Animated, Easing, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from "react-native";
 import { useReducedMotion } from "react-native-reanimated";
-import SmartImage from "../common/SmartImage";
 import { getAppPrefs } from "../../hooks/useAppPrefs";
 import { animatedChatEmoji } from "../../libs/chatReactionEmoji";
 import { useAppTheme } from "../../context/ThemeContext";
+import { EmojiClip } from "./EmojiClip";
+import { useClipPlayer, type ClipArt } from "./useClipPlayer";
 
 const HOST_SETTLE_MS = 700;
-const PLAY_CAP_MS = 2600;
+/** A flying copy fades out over this long once it is sitting on the chip. */
+const LAND_COVER_MS = 80;
+/** The moving emoji is drawn in a box this many times the still one's font size. */
+export const CLIP_BOX = 1.35;
+/** A flying emoji with no moving file is text at this share of its box. */
+const TEXT_FILL = 0.8;
+
+type Art = ClipArt;
 
 const hostSeenAt = new Map<string, number>();
 const chipsSeen = new Set<string>();
@@ -55,7 +63,10 @@ interface Flight {
   id: number;
   kind: "fly" | "bloom" | "ring";
   emoji: string;
-  uri: string | null;
+  /** The moving file for this emoji, when it has one. */
+  art: Art | null;
+  /** How big the emoji is where it lands, so the flying copy ends at that size. */
+  landSize?: number;
   mine: boolean;
   to: Point;
   from: Point;
@@ -112,14 +123,20 @@ function useTint() {
   return isLight ? "rgba(24,24,27,0.55)" : "rgba(244,244,245,0.8)";
 }
 
-/** Emoji drawn in flight: the moving file once it has loaded, the character until then. */
-const FlyingEmoji = memo(function FlyingEmoji({ emoji, uri, size }: { emoji: string; uri: string | null; size: number }) {
-  const [loaded, setLoaded] = useState(false);
+/**
+ * Emoji drawn in flight: the character until the moving file is ready, then
+ * the file. It holds its first frame (nothing plays out of sight on the way
+ * to the chip) unless `play`, which runs it once and rests on the last.
+ */
+const FlyingEmoji = memo(function FlyingEmoji({ emoji, art, size, play, onEnd }: { emoji: string; art: Art | null; size: number; play?: boolean; onEnd?: () => void }) {
+  const [ready, setReady] = useState(false);
   return (
     <View style={{ width: size, height: size, alignItems: "center", justifyContent: "center" }}>
-      {!loaded && <Text style={{ fontSize: size * 0.8, includeFontPadding: false, textAlignVertical: "center" }}>{emoji}</Text>}
-      {uri ? (
-        <SmartImage source={{ uri }} style={[StyleSheet.absoluteFill, { opacity: loaded ? 1 : 0 }]} contentFit="contain" onLoad={() => setLoaded(true)} />
+      {!ready && <Text style={{ fontSize: size * TEXT_FILL, includeFontPadding: false, textAlignVertical: "center" }}>{emoji}</Text>}
+      {art ? (
+        <View style={[StyleSheet.absoluteFill, { opacity: ready ? 1 : 0 }]}>
+          <EmojiClip uri={art.uri} ms={art.ms} size={size} play={!!play && ready} onReady={() => setReady(true)} onEnd={onEnd} />
+        </View>
       ) : null}
     </View>
   );
@@ -144,39 +161,71 @@ const SPARKS = [0, 1, 2, 3, 4, 5];
 const FlightView = memo(function FlightView({ flight, onDone }: { flight: Flight; onDone: (id: number) => void }) {
   const t = useRef(new Animated.Value(0)).current;
   const spark = useRef(new Animated.Value(0)).current;
+  /** Bloom only: the drop from over the line into the chip (started when its emoji has played), then the melt. */
+  const drop = useRef(new Animated.Value(0)).current;
+  const melt = useRef(new Animated.Value(0)).current;
+  const dropping = useRef(false);
+  const startedAt = useRef(Date.now()).current;
   const tint = useTint();
-  const { kind, mine, to, from } = flight;
+  const { kind, mine, to, from, art } = flight;
   const size = kind === "bloom" ? 58 : mine ? 34 : 26;
-  const total = kind === "bloom" ? 1250 : kind === "ring" ? 520 : mine ? 640 : 760;
+  const total = kind === "bloom" ? 400 : kind === "ring" ? 520 : mine ? 640 : 760;
   const sparkCenter = kind === "bloom" ? { x: to.x, y: Math.max(size, to.y - 44) } : to;
+  // The size it shrinks to so it lands exactly on the chip's emoji.
+  const end = (flight.landSize ?? 16) / size;
+  const tail = kind === "fly" ? 640 : kind === "bloom" ? 0 : 120;
+
+  /** Bloom: fall into the chip, land, melt away. Runs once, when the emoji has played (or straight away without one). */
+  const startDrop = useCallback(() => {
+    if (dropping.current) return;
+    dropping.current = true;
+    const run = () => {
+      Animated.sequence([
+        Animated.timing(drop, { toValue: 1, duration: 400, easing: Easing.bezier(0.5, 0, 0.3, 1), useNativeDriver: true }),
+        Animated.timing(melt, { toValue: 1, duration: LAND_COVER_MS, easing: Easing.linear, useNativeDriver: true }),
+      ]).start(() => onDone(flight.id));
+      setTimeout(() => flight.onLand?.(), 370);
+    };
+    // It always gets its moment over the line first.
+    const wait = startedAt + 850 - Date.now();
+    if (wait > 0) setTimeout(run, wait);
+    else run();
+  }, [drop, melt, flight, onDone, startedAt]);
 
   useEffect(() => {
-    const landAt = kind === "ring" ? 0 : total - 30;
-    const land = setTimeout(() => {
+    const timers: ReturnType<typeof setTimeout>[] = [];
+    if (kind === "bloom") {
+      timers.push(setTimeout(() => Animated.timing(spark, { toValue: 1, duration: 650, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start(), 220));
+      Animated.timing(t, { toValue: 1, duration: total, easing: Easing.linear, useNativeDriver: true }).start();
+      // With a moving file the drop waits for it to finish (FlyingEmoji onEnd); this is the backstop.
+      timers.push(setTimeout(startDrop, art ? art.ms + 1500 : 850));
+      return () => timers.forEach(clearTimeout);
+    }
+    timers.push(setTimeout(() => {
       flight.onLand?.();
       if (kind === "fly") Animated.timing(spark, { toValue: 1, duration: 620, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
-    }, landAt);
-    const sparkStart = kind === "bloom" ? setTimeout(() => Animated.timing(spark, { toValue: 1, duration: 650, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start(), 220) : null;
+    }, kind === "ring" ? 0 : total - 30));
     if (kind === "ring") Animated.timing(spark, { toValue: 1, duration: total, easing: Easing.out(Easing.cubic), useNativeDriver: true }).start();
-    Animated.timing(t, { toValue: 1, duration: kind === "fly" ? total + 640 : total + 120, easing: Easing.linear, useNativeDriver: true }).start(() => onDone(flight.id));
-    return () => { clearTimeout(land); if (sparkStart) clearTimeout(sparkStart); };
+    Animated.timing(t, { toValue: 1, duration: total + tail, easing: Easing.linear, useNativeDriver: true }).start(() => onDone(flight.id));
+    return () => timers.forEach(clearTimeout);
     // One run per flight.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // The flight itself occupies the first `share` of t; the rest lets sparks finish.
-  const share = kind === "fly" ? total / (total + 640) : total / (total + 120);
+  const share = total / (total + tail);
   let body: React.ReactNode = null;
   if (kind === "fly") {
     const ctrl = { x: (from.x + to.x) / 2 + (mine ? -30 : 0), y: Math.min(from.y, to.y) - (mine ? 60 : 40) };
     const { ts, xs, ys } = arcStops(from, ctrl, to);
     const input = ts.map((v) => v * share);
-    const end = 16 / size;
+    // It stays whole until it is sitting on the chip, then melts into the emoji under it.
+    const gone = share + LAND_COVER_MS / (total + tail);
     body = (
       <Animated.View
         style={{
           position: "absolute", left: -size / 2, top: -size / 2,
-          opacity: t.interpolate({ inputRange: [0, 0.1 * share, share, share + 0.001, 1], outputRange: [0, 1, 1, 0, 0] }),
+          opacity: t.interpolate({ inputRange: [0, 0.1 * share, share, gone, 1], outputRange: [0, 1, 1, 0, 0] }),
           transform: [
             { translateX: t.interpolate({ inputRange: input, outputRange: xs, extrapolate: "clamp" }) },
             { translateY: t.interpolate({ inputRange: input, outputRange: ys, extrapolate: "clamp" }) },
@@ -184,25 +233,30 @@ const FlightView = memo(function FlightView({ flight, onDone }: { flight: Flight
           ],
         }}
       >
-        <FlyingEmoji emoji={flight.emoji} uri={flight.uri} size={size} />
+        <FlyingEmoji emoji={flight.emoji} art={art} size={size} />
       </Animated.View>
     );
   } else if (kind === "bloom") {
-    const end = 16 / size;
-    const s = share;
+    // t: the bloom (0..1 over 400 ms). drop: the fall into the chip. melt: it fades onto the chip's own emoji.
     body = (
       <Animated.View
         style={{
           position: "absolute", left: -size / 2, top: -size / 2,
-          opacity: t.interpolate({ inputRange: [0, 0.2 * s, s, s + 0.001, 1], outputRange: [0, 1, 1, 0, 0] }),
+          opacity: Animated.multiply(
+            t.interpolate({ inputRange: [0, 0.45], outputRange: [0, 1], extrapolate: "clamp" }),
+            melt.interpolate({ inputRange: [0, 1], outputRange: [1, 0] }),
+          ),
           transform: [
-            { translateX: t.interpolate({ inputRange: [0, 0.68 * s, s], outputRange: [sparkCenter.x, sparkCenter.x, to.x], extrapolate: "clamp" }) },
-            { translateY: t.interpolate({ inputRange: [0, 0.68 * s, s], outputRange: [sparkCenter.y, sparkCenter.y, to.y], extrapolate: "clamp" }) },
-            { scale: t.interpolate({ inputRange: [0, 0.2 * s, 0.32 * s, 0.68 * s, s], outputRange: [0.2, 1.18, 1, 1, end], extrapolate: "clamp" }) },
+            { translateX: drop.interpolate({ inputRange: [0, 1], outputRange: [sparkCenter.x, to.x] }) },
+            { translateY: drop.interpolate({ inputRange: [0, 1], outputRange: [sparkCenter.y, to.y] }) },
+            { scale: Animated.multiply(
+              t.interpolate({ inputRange: [0, 0.62, 1], outputRange: [0.2, 1.18, 1] }),
+              drop.interpolate({ inputRange: [0, 1], outputRange: [1, end] }),
+            ) },
           ],
         }}
       >
-        <FlyingEmoji emoji={flight.emoji} uri={flight.uri} size={size} />
+        <FlyingEmoji emoji={flight.emoji} art={art} size={size} play onEnd={startDrop} />
       </Animated.View>
     );
   }
@@ -267,11 +321,8 @@ export const ReactionGlyph = memo(function ReactionGlyph({ messageId, emoji, add
   const scale = useRef(new Animated.Value(1)).current;
   const shown = useRef(new Animated.Value(1)).current;
   const before = useRef<readonly string[] | null>(null);
-  const [play, setPlay] = useState<{ uri: string; key: number } | null>(null);
-  const [loaded, setLoaded] = useState(false);
-  const token = useRef(0);
-  const mounted = useRef(true);
-  useEffect(() => () => { mounted.current = false; }, []);
+  const player = useClipPlayer();
+  const box = Math.round(size * CLIP_BOX);
 
   const bump = useCallback((strength = 1) => {
     const s = 1 + 0.24 * strength;
@@ -303,65 +354,72 @@ export const ReactionGlyph = memo(function ReactionGlyph({ messageId, emoji, add
     if (!arrived || reduceMotion || style === "off") return;
 
     const art = animatedChatEmoji(emoji);
-    const run = ++token.current;
-    if (art) {
-      setLoaded(false);
-      setPlay({ uri: art.uri, key: Date.now() });
-      setTimeout(() => { if (mounted.current && run === token.current) setPlay(null); }, Math.min(PLAY_CAP_MS, art.ms) + (style === "pop" ? 0 : 700));
-    }
+    // A chip that was not there before keeps its emoji out of sight until the flying copy lands.
+    const fresh = prev === null;
+    const flies = !!scope && (style === "fly" || (style === "burst" && mine));
+    const bloom = flies && style === "burst";
+    // Burst plays your own reaction big over the line, so its chip does not play it a second time.
+    const armed = art && !bloom ? player.prepare(art) : false;
 
-    const flies = style === "fly" || (style === "burst" && mine);
     if (style === "pop" || !scope) {
       scale.setValue(0.35);
       Animated.spring(scale, { toValue: 1, friction: 4, tension: 140, useNativeDriver: true }).start();
+      if (armed) player.begin(false);
       return;
     }
     if (!flies) {
       // Burst, someone else's: a small ring and sparks round the chip.
       ref.current?.measureInWindow((x, y, w, h) => {
-        scope.launch({ kind: "ring", emoji, uri: null, mine, toWindow: { x: x + w / 2, y: y + h / 2 } });
+        scope.launch({ kind: "ring", emoji, art: null, mine, toWindow: { x: x + w / 2, y: y + h / 2 } });
       });
       bump(0.9);
+      if (armed) player.begin(false);
       return;
     }
-    shown.setValue(0);
+    if (fresh) shown.setValue(0);
+    let landed = false;
+    const land = () => {
+      if (landed) return;
+      landed = true;
+      shown.setValue(1);
+      bump(mine ? 1 : 0.7);
+      if (armed) player.begin(true);
+    };
     ref.current?.measureInWindow((x, y, w, h) => {
       scope.launch({
-        kind: style === "burst" ? "bloom" : "fly",
+        kind: bloom ? "bloom" : "fly",
         emoji,
-        uri: art?.uri ?? null,
+        art,
+        landSize: art ? box : size / TEXT_FILL,
         mine,
         toWindow: { x: x + w / 2, y: y + h / 2 },
-        onLand: () => {
-          shown.setValue(1);
-          bump(mine ? 1 : 0.7);
-        },
+        onLand: land,
       });
     });
     // A lost flight must never leave the chip blank.
-    setTimeout(() => shown.setValue(1), 1600);
+    setTimeout(() => { if (!landed) { landed = true; shown.setValue(1); if (armed) player.begin(false); } }, bloom ? (art?.ms ?? 0) + 3000 : 1600);
     // Only a change in who reacted can be an arrival.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [addresses]);
 
-  const box = Math.round(size * 1.35);
+  const clip = player.clip;
   return (
     <Animated.View ref={ref} collapsable={false} style={{ opacity: shown, transform: [{ scale }], alignItems: "center", justifyContent: "center" }}>
-      {still ? (
-        <View style={play && loaded ? { opacity: 0 } : null}>{still}</View>
-      ) : (
-        <Text style={[{ fontSize: size, includeFontPadding: false, textAlignVertical: "center" }, textStyle, play && loaded ? { opacity: 0 } : null]}>{emoji}</Text>
-      )}
-      {play ? (
-        <View pointerEvents="none" style={{ position: "absolute", width: box, height: box }}>
-          <SmartImage
-            key={play.key}
-            source={{ uri: play.uri }}
-            style={[StyleSheet.absoluteFill, { opacity: loaded ? 1 : 0 }]}
-            contentFit="contain"
-            onLoad={() => setLoaded(true)}
+      <Animated.View style={{ opacity: player.stillOpacity }}>
+        {still ?? <Text style={[{ fontSize: size, includeFontPadding: false, textAlignVertical: "center" }, textStyle]}>{emoji}</Text>}
+      </Animated.View>
+      {clip ? (
+        <Animated.View pointerEvents="none" style={{ position: "absolute", width: box, height: box, opacity: player.clipOpacity }}>
+          <EmojiClip
+            key={clip.key}
+            uri={clip.uri}
+            ms={clip.ms}
+            size={box}
+            play={player.playing}
+            onReady={() => player.onReady(clip.key)}
+            onEnd={() => player.onEnd(clip.key)}
           />
-        </View>
+        </Animated.View>
       ) : null}
     </Animated.View>
   );
