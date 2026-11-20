@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "ፋይል ክዕቀብ ኣይከኣለን",
     "attachAnything": "ስእሊ፣ ቪድዮ፣ ድምጺ ወይ ፋይል ኣተሓሒዝ",
     "attachFileOrAudio": "ፋይል ወይ ድምጺ",
+    "pasteImage": "ስእሊ ለጥፍ",
     "attachPhotoOrVideo": "ስእሊ ወይ ቪድዮ",
     "attachTooLarge": "እቲ ፋይል ካብ ደረት {{size}} MB ይበዝሕ።",
     "deleteForBothBody": "ንኽልቴኹም ክወጽእ እዩ።",

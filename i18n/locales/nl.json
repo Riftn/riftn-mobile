@@ -7926,6 +7926,7 @@
     "planMinTip": "De fooi voor deze maker moet minstens {{amount}} tokens zijn.",
     "attachAnything": "Foto, video, audio of bestand toevoegen",
     "attachFileOrAudio": "Bestand of audio",
+    "pasteImage": "Afbeelding plakken",
     "attachPhotoOrVideo": "Foto of video",
     "attachTooLarge": "Dat bestand is groter dan de limiet van {{size}} MB.",
     "searchDiscover": {

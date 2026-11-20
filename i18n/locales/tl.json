@@ -10083,6 +10083,7 @@
     "fileSaveFailed": "Hindi ma-save ang file",
     "attachAnything": "Mag-attach ng larawan, video, audio o file",
     "attachFileOrAudio": "File o audio",
+    "pasteImage": "I-paste ang larawan",
     "attachPhotoOrVideo": "Larawan o video",
     "attachTooLarge": "Lampas ang file na iyon sa limitasyong {{size}} MB.",
     "deleteForBothBody": "Aalisin ito para sa inyong dalawa.",

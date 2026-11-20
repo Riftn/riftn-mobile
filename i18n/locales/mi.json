@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Kāore i taea te tiaki i te kōnae",
     "attachAnything": "Tāpiri whakaahua, ataata, ororongo, kōnae rānei",
     "attachFileOrAudio": "Kōnae, ororongo rānei",
+    "pasteImage": "Whakapiri atahanga",
     "attachPhotoOrVideo": "Whakaahua, ataata rānei",
     "attachTooLarge": "Kua nui ake taua kōnae i te tepe {{size}} MB.",
     "deleteForBothBody": "Ka tangohia mō kōrua tahi.",

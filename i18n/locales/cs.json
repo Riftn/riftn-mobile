@@ -10041,6 +10041,7 @@
     "fileSaveFailed": "Soubor se nepodařilo uložit",
     "attachAnything": "Přiložit fotku, video, audio nebo soubor",
     "attachFileOrAudio": "Soubor nebo audio",
+    "pasteImage": "Vložit obrázek",
     "attachPhotoOrVideo": "Fotka nebo video",
     "attachTooLarge": "Tento soubor překračuje limit {{size}} MB.",
     "deleteForBothBody": "Bude odstraněna pro vás oba.",

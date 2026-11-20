@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Файлды сактоо мүмкүн болгон жок",
     "attachAnything": "Сүрөт, видео, аудио же файл тиркөө",
     "attachFileOrAudio": "Файл же аудио",
+    "pasteImage": "Сүрөттү коюу",
     "attachPhotoOrVideo": "Сүрөт же видео",
     "attachTooLarge": "Бул файл {{size}} МБ чегинен ашат.",
     "deleteForBothBody": "Ал экөөңүз үчүн тең өчүрүлөт.",

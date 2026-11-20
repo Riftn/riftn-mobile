@@ -10156,6 +10156,7 @@
     "fileSaveFailed": "파일을 저장할 수 없습니다",
     "attachAnything": "사진, 동영상, 오디오 또는 파일 첨부",
     "attachFileOrAudio": "파일 또는 오디오",
+    "pasteImage": "이미지 붙여넣기",
     "attachPhotoOrVideo": "사진 또는 동영상",
     "attachTooLarge": "파일이 {{size}}MB 제한을 초과합니다.",
     "deleteForBothBody": "두 사람 모두에게서 삭제됩니다.",

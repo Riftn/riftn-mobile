@@ -10152,6 +10152,7 @@
     "fileSaveFailed": "Tidak dapat menyimpan file",
     "attachAnything": "Lampirkan foto, video, audio, atau file",
     "attachFileOrAudio": "File atau audio",
+    "pasteImage": "Tempel gambar",
     "attachPhotoOrVideo": "Foto atau video",
     "attachTooLarge": "File itu melebihi batas {{size}} MB.",
     "deleteForBothBody": "Pesan akan dihapus untuk kalian berdua.",

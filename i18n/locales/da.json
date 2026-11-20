@@ -10040,6 +10040,7 @@
     "fileSaveFailed": "Kunne ikke gemme filen",
     "attachAnything": "Vedhæft et billede, en video, lyd eller en fil",
     "attachFileOrAudio": "Fil eller lyd",
+    "pasteImage": "Indsæt billede",
     "attachPhotoOrVideo": "Billede eller video",
     "attachTooLarge": "Filen er over grænsen på {{size}} MB.",
     "deleteForBothBody": "Den bliver fjernet for jer begge.",

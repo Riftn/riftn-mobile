@@ -10062,6 +10062,7 @@
     "fileSaveFailed": "Nije moguće spremiti datoteku",
     "attachAnything": "Priložite fotografiju, video, zvuk ili datoteku",
     "attachFileOrAudio": "Datoteka ili zvuk",
+    "pasteImage": "Zalijepi sliku",
     "attachPhotoOrVideo": "Fotografija ili video",
     "attachTooLarge": "Ta datoteka premašuje ograničenje od {{size}} MB.",
     "deleteForBothBody": "Bit će uklonjena za oboje.",

@@ -10080,6 +10080,7 @@
     "fileSaveFailed": "ფაილი ვერ შეინახა",
     "attachAnything": "მიამაგრეთ ფოტო, ვიდეო, აუდიო ან ფაილი",
     "attachFileOrAudio": "ფაილი ან აუდიო",
+    "pasteImage": "სურათის ჩასმა",
     "attachPhotoOrVideo": "ფოტო ან ვიდეო",
     "attachTooLarge": "ეს ფაილი {{size}} MB-ის ლიმიტს აღემატება.",
     "deleteForBothBody": "ის ორივესთვის წაიშლება.",

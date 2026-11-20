@@ -10017,6 +10017,7 @@
     "fileSaveFailed": "فائل محفوظ نئیں ہو سکی",
     "attachAnything": "فوٹو، ویڈیو، آڈیو یا فائل جوڑو",
     "attachFileOrAudio": "فائل یا آڈیو",
+    "pasteImage": "تصویر پیسٹ کرو",
     "attachPhotoOrVideo": "فوٹو یا ویڈیو",
     "attachTooLarge": "یہ فائل {{size}} MB کی حد سے بڑی ہے۔",
     "deleteForBothBody": "یہ آپ دونوں کے لیے ہٹ جائے گا۔",

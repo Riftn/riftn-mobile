@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "ഫയൽ സേവ് ചെയ്യാനായില്ല",
     "attachAnything": "ഫോട്ടോ, വീഡിയോ, ഓഡിയോ അല്ലെങ്കിൽ ഫയൽ അറ്റാച്ച് ചെയ്യുക",
     "attachFileOrAudio": "ഫയൽ അല്ലെങ്കിൽ ഓഡിയോ",
+    "pasteImage": "ചിത്രം ഒട്ടിക്കുക",
     "attachPhotoOrVideo": "ഫോട്ടോ അല്ലെങ്കിൽ വീഡിയോ",
     "attachTooLarge": "ആ ഫയൽ {{size}} MB പരിധിക്ക് മുകളിലാണ്.",
     "deleteForBothBody": "ഇത് നിങ്ങൾ രണ്ടുപേർക്കും നീക്കം ചെയ്യും.",

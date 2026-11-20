@@ -7792,6 +7792,7 @@
     "planMinTip": "Le pourboire doit être d'au moins {{amount}} jetons pour ce créateur.",
     "attachAnything": "Joindre une photo, une vidéo, un audio ou un fichier",
     "attachFileOrAudio": "Fichier ou audio",
+    "pasteImage": "Coller l’image",
     "attachPhotoOrVideo": "Photo ou vidéo",
     "attachTooLarge": "Ce fichier dépasse la limite de {{size}} Mo.",
     "searchDiscover": {

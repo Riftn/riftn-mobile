@@ -10293,6 +10293,7 @@
     "fileSaveFailed": "Tidak dapat menyimpan fail",
     "attachAnything": "Lampirkan foto, video, audio atau fail",
     "attachFileOrAudio": "Fail atau audio",
+    "pasteImage": "Tampal imej",
     "attachPhotoOrVideo": "Foto atau video",
     "attachTooLarge": "Fail itu melebihi had {{size}} MB.",
     "deleteForBothBody": "Ia akan dibuang untuk anda berdua.",

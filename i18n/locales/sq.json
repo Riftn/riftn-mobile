@@ -10062,6 +10062,7 @@
     "fileSaveFailed": "Skedari nuk u ruajt",
     "attachAnything": "Bashkëngjit një foto, video, audio ose skedar",
     "attachFileOrAudio": "Skedar ose audio",
+    "pasteImage": "Ngjit imazhin",
     "attachPhotoOrVideo": "Foto ose video",
     "attachTooLarge": "Ky skedar e kalon kufirin prej {{size}} MB.",
     "deleteForBothBody": "Do të hiqet për të dy ju.",

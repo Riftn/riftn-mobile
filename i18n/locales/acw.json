@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "ما قدرنا نحفظ الملف",
     "attachAnything": "أرفق صورة أو فيديو أو صوت أو ملف",
     "attachFileOrAudio": "ملف أو صوت",
+    "pasteImage": "لصق صورة",
     "attachPhotoOrVideo": "صورة أو فيديو",
     "attachTooLarge": "الملف هذا أكبر من حد {{size}} ميجابايت.",
     "deleteForBothBody": "بتنحذف لكم انتو الاثنين.",

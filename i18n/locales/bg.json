@@ -10040,6 +10040,7 @@
     "fileSaveFailed": "Файлът не можа да се запази",
     "attachAnything": "Прикачете снимка, видео, аудио или файл",
     "attachFileOrAudio": "Файл или аудио",
+    "pasteImage": "Постави изображение",
     "attachPhotoOrVideo": "Снимка или видео",
     "attachTooLarge": "Файлът надвишава лимита от {{size}} MB.",
     "deleteForBothBody": "Ще бъде премахнато и за двамата.",

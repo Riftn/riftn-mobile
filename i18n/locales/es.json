@@ -7788,6 +7788,7 @@
     "planMinTip": "La propina debe ser de al menos {{amount}} tokens para este creador.",
     "attachAnything": "Adjuntar foto, video, audio o archivo",
     "attachFileOrAudio": "Archivo o audio",
+    "pasteImage": "Pegar imagen",
     "attachPhotoOrVideo": "Foto o video",
     "attachTooLarge": "Ese archivo supera el límite de {{size}} MB.",
     "searchDiscover": {

@@ -7655,6 +7655,7 @@
     "fileSaveFailed": "Couldn't save the file",
     "attachAnything": "Attach a photo, video, audio or file",
     "attachFileOrAudio": "File or audio",
+    "pasteImage": "Paste image",
     "attachPhotoOrVideo": "Photo or video",
     "attachTooLarge": "That file is over the {{size}} MB limit.",
     "online": "Online",

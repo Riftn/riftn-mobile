@@ -10066,6 +10066,7 @@
     "fileSaveFailed": "ፋይሉን ማስቀመጥ አልተቻለም",
     "attachAnything": "ፎቶ፣ ቪዲዮ፣ ድምፅ ወይም ፋይል ያያይዙ",
     "attachFileOrAudio": "ፋይል ወይም ድምፅ",
+    "pasteImage": "ምስል ለጥፍ",
     "attachPhotoOrVideo": "ፎቶ ወይም ቪዲዮ",
     "attachTooLarge": "ያ ፋይል ከ{{size}} MB ገደብ በላይ ነው።",
     "deleteForBothBody": "ለሁለታችሁም ይወገዳል።",

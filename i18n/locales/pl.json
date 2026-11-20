@@ -10103,6 +10103,7 @@
     "fileSaveFailed": "Nie można zapisać pliku",
     "attachAnything": "Załącz zdjęcie, wideo, audio lub plik",
     "attachFileOrAudio": "Plik lub audio",
+    "pasteImage": "Wklej obraz",
     "attachPhotoOrVideo": "Zdjęcie lub film",
     "attachTooLarge": "Ten plik przekracza limit {{size}} MB.",
     "deleteForBothBody": "Zostanie usunięta dla was obojga.",

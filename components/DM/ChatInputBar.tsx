@@ -17,6 +17,7 @@ import {
   TextInput,
   TouchableOpacity,
   Keyboard,
+  AppState,
   Platform,
   ActivityIndicator,
   Pressable,
@@ -37,6 +38,7 @@ import {
   validateAttachment,
 } from "../../libs/attachments";
 import { runWithPermissions } from "../../libs/permissions.util";
+import { clipboardHasImage, clipboardImageFile } from "../../libs/clipboard-image";
 import { cleanVideoOptions, type DmVideoOptions } from "../../libs/dm-video-options";
 import { type DmDestructChoice } from "../../libs/dm-destruct";
 import DmVideoStudio from "./DmVideoStudio";
@@ -238,6 +240,17 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   // audio" (anything else on the phone).
   const [clipOpen, setClipOpen] = useState(false);
   const [composerFocused, setComposerFocused] = useState(false);
+  // A copied screenshot or picture: offered as "Paste image" while typing
+  // and in the attach sheet, since iOS text fields can't paste pictures.
+  const [clipImage, setClipImage] = useState(false);
+  const refreshClipImage = useCallback(() => {
+    void clipboardHasImage().then(setClipImage);
+  }, []);
+  // Screenshot taken in another app, then back here with the field still open.
+  useEffect(() => {
+    const sub = AppState.addEventListener("change", (state) => { if (state === "active") refreshClipImage(); });
+    return () => sub.remove();
+  }, [refreshClipImage]);
   const [enhancing, setEnhancing] = useState(false);
   // Down for THIS message only - the send handler drops the tray whose
   // drafts the send just invalidated. Switching the feature off is a
@@ -560,6 +573,22 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     });
   }, [addToStudio]);
 
+  const handlePasteImage = useCallback(async () => {
+    try {
+      const file = await clipboardImageFile();
+      setClipImage(false);
+      if (!file) return;
+      if (file.size && file.size > DM_ATTACH_LIMITS.image) {
+        toastError(t("dm.attachTooLarge", { defaultValue: "That file is over the {{size}} MB limit.", size: DM_ATTACH_LIMITS.image / 1024 / 1024 }));
+        return;
+      }
+      haptic.tap();
+      addToStudio([{ type: "image", uri: file.uri, mimeType: "image/jpeg", width: file.width, height: file.height, size: file.size }]);
+    } catch (e) {
+      console.error("[ChatInputBar] paste image error", e);
+    }
+  }, [addToStudio]);
+
   /** Any file on the phone: audio, video, a photo or a document. */
   const handlePickAnyFile = useCallback(async () => {
     try {
@@ -689,6 +718,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   const handleOpenAttach = () => {
     haptic.tap();
     Keyboard.dismiss();
+    refreshClipImage();
     setAttachOpen(true);
   };
 
@@ -715,6 +745,9 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     // gives up its permanent slot in the row.
     ...(canAddTip && onTipPress
       ? [{ key: "tip", icon: "Gem" as const, label: t("dm.addTip"), onPress: fromSheet(onTipPress) }]
+      : []),
+    ...(clipImage
+      ? [{ key: "paste", icon: "ClipboardPaste" as const, label: t("dm.pasteImage", { defaultValue: "Paste image" }), onPress: fromSheet(handlePasteImage) }]
       : []),
     { key: "gif", icon: "Clapperboard", label: t("dm.chooseGif"), onPress: fromSheet(() => setGifPickerVisible(true)) },
     { key: "gallery", icon: "Image", label: t("dm.attachPhotoOrVideo", { defaultValue: "Photo or video" }), onPress: fromSheet(handlePickGallery) },
@@ -1022,13 +1055,28 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
               />
             </View>
           )}
+          {composerFocused && clipImage && !studio.length && !media && !gifUrl && !editingMessage && (
+            <Animated.View entering={FadeIn.duration(150)} exiting={FadeOut.duration(120)} className="mx-3 mt-2 flex-row">
+              <TouchableOpacity
+                onPress={() => void handlePasteImage()}
+                activeOpacity={0.7}
+                className="flex-row items-center rounded-full px-3 py-1.5 bg-theme-neutrals-800"
+                hitSlop={8}
+                accessibilityRole="button"
+                accessibilityLabel={t("dm.pasteImage", { defaultValue: "Paste image" })}
+              >
+                <Icon name="ClipboardPaste" size={14} color="#D4D4D8" />
+                <Text className="ml-1.5 text-[13px] font-medium text-white">{t("dm.pasteImage", { defaultValue: "Paste image" })}</Text>
+              </TouchableOpacity>
+            </Animated.View>
+          )}
           <View className="mx-3 mt-3" style={INPUT_BOX}>
             <TextInput
               ref={inputRef}
               value={text}
               onChangeText={mentions.handleChangeText}
               onSelectionChange={mentions.handleSelectionChange}
-              onFocus={() => setComposerFocused(true)}
+              onFocus={() => { setComposerFocused(true); refreshClipImage(); }}
               onBlur={() => setComposerFocused(false)}
               placeholder={placeholder}
               placeholderTextColor="#8B8D90"

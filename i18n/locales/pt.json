@@ -10026,6 +10026,7 @@
     "fileSaveFailed": "Não foi possível salvar o arquivo",
     "attachAnything": "Anexe uma foto, vídeo, áudio ou arquivo",
     "attachFileOrAudio": "Arquivo ou áudio",
+    "pasteImage": "Colar imagem",
     "attachPhotoOrVideo": "Foto ou vídeo",
     "attachTooLarge": "Esse arquivo excede o limite de {{size}} MB.",
     "deleteForBothBody": "Ele será removido para ambos.",

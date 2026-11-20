@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "บันทึกไฟล์บ่ได้",
     "attachAnything": "แนบฮูป วิดีโอ เสียง หรือไฟล์",
     "attachFileOrAudio": "ไฟล์หรือเสียง",
+    "pasteImage": "วางรูป",
     "attachPhotoOrVideo": "ฮูปหรือวิดีโอ",
     "attachTooLarge": "ไฟล์นั้นเกินขีดจำกัด {{size}} MB",
     "deleteForBothBody": "มันจะถูกลบสำหรับทั้งสองคน",

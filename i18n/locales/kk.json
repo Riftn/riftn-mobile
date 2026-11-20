@@ -10054,6 +10054,7 @@
     "fileSaveFailed": "Файлды сақтау мүмкін болмады",
     "attachAnything": "Сурет, бейне, аудио не файл тіркеу",
     "attachFileOrAudio": "Файл не аудио",
+    "pasteImage": "Суретті қою",
     "attachPhotoOrVideo": "Сурет не бейне",
     "attachTooLarge": "Бұл файл {{size}} МБ шегінен асады.",
     "deleteForBothBody": "Ол екеуіңіз үшін де жойылады.",

@@ -10067,6 +10067,7 @@
     "fileSaveFailed": "Ayikwazanga ukulondoloza ifayela",
     "attachAnything": "Namathisela isithombe, ividiyo, umsindo noma ifayela",
     "attachFileOrAudio": "Ifayela noma umsindo",
+    "pasteImage": "Namathisela isithombe",
     "attachPhotoOrVideo": "Isithombe noma ividiyo",
     "attachTooLarge": "Lelo fayela lingaphezu komkhawulo we-{{size}} MB.",
     "deleteForBothBody": "Uzosuswa kini nobabili.",

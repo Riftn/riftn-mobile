@@ -10064,6 +10064,7 @@
     "fileSaveFailed": "Imeshindwa kuhifadhi faili",
     "attachAnything": "Ambatisha picha, video, sauti au faili",
     "attachFileOrAudio": "Faili au sauti",
+    "pasteImage": "Bandika picha",
     "attachPhotoOrVideo": "Picha au video",
     "attachTooLarge": "Faili hilo linazidi kikomo cha MB {{size}}.",
     "deleteForBothBody": "Itaondolewa kwa nyote wawili.",

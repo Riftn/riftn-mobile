@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "ھۆججەتنى ساقلىغىلى بولمىدى",
     "attachAnything": "سۈرەت، ۋىدىئو، ئاۋاز ياكى ھۆججەت قوشۇش",
     "attachFileOrAudio": "ھۆججەت ياكى ئاۋاز",
+    "pasteImage": "رەسىم چاپلاش",
     "attachPhotoOrVideo": "سۈرەت ياكى ۋىدىئو",
     "attachTooLarge": "بۇ ھۆججەت {{size}} MB چېكىدىن ئېشىپ كەتتى.",
     "deleteForBothBody": "ئۇ ئىككىڭلار ئۈچۈن ئۆچۈرۈلىدۇ.",

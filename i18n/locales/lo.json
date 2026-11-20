@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "ບັນທຶກໄຟລ໌ບໍ່ໄດ້",
     "attachAnything": "ແນບຮູບ, ວິດີໂອ, ສຽງ ຫຼື ໄຟລ໌",
     "attachFileOrAudio": "ໄຟລ໌ ຫຼື ສຽງ",
+    "pasteImage": "ວາງຮູບ",
     "attachPhotoOrVideo": "ຮູບ ຫຼື ວິດີໂອ",
     "attachTooLarge": "ໄຟລ໌ນັ້ນເກີນຂີດຈຳກັດ {{size}} MB.",
     "deleteForBothBody": "ມັນຈະຖືກລຶບສຳລັບທັງສອງຄົນ.",

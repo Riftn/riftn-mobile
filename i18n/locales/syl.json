@@ -10204,6 +10204,7 @@
     "fileSaveFailed": "ফাইল সেভ করা গেল না",
     "attachAnything": "ছবি, ভিডিও, অডিও বা ফাইল জোড়াও",
     "attachFileOrAudio": "ফাইল বা অডিও",
+    "pasteImage": "ছবি পেস্ট করইন",
     "attachPhotoOrVideo": "ছবি বা ভিডিও",
     "attachTooLarge": "ফাইলটা {{size}} MB সীমার বেশি।",
     "deleteForBothBody": "তোমরা দুইজনর লাগি সরানি অইব।",

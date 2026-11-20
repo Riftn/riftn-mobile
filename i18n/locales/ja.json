@@ -10024,6 +10024,7 @@
     "fileSaveFailed": "ファイルを保存できませんでした",
     "attachAnything": "写真、動画、音声、またはファイルを添付",
     "attachFileOrAudio": "ファイルまたは音声",
+    "pasteImage": "画像をペースト",
     "attachPhotoOrVideo": "写真または動画",
     "attachTooLarge": "そのファイルは {{size}} MBの制限を超えています。",
     "deleteForBothBody": "両方のチャットから削除されます。",

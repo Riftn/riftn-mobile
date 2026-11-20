@@ -10157,6 +10157,7 @@
     "fileSaveFailed": "Не удалось сохранить файл",
     "attachAnything": "Прикрепить фото, видео, аудио или файл",
     "attachFileOrAudio": "Файл или аудио",
+    "pasteImage": "Вставить изображение",
     "attachPhotoOrVideo": "Фото или видео",
     "attachTooLarge": "Размер файла превышает лимит в {{size}} МБ.",
     "deleteForBothBody": "Он будет удален у вас обоих.",

@@ -10067,6 +10067,7 @@
     "fileSaveFailed": "לא ניתן לשמור את הקובץ",
     "attachAnything": "צרף תמונה, סרטון, אודיו או קובץ",
     "attachFileOrAudio": "קובץ או אודיו",
+    "pasteImage": "הדבקת תמונה",
     "attachPhotoOrVideo": "תמונה או סרטון",
     "attachTooLarge": "הקובץ הזה חורג מהמגבלה של {{size}} MB.",
     "deleteForBothBody": "היא תוסר אצל שניכם.",

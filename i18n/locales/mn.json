@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "Файлыг хадгалж чадсангүй",
     "attachAnything": "Зураг, видео, аудио эсвэл файл хавсаргах",
     "attachFileOrAudio": "Файл эсвэл аудио",
+    "pasteImage": "Зураг буулгах",
     "attachPhotoOrVideo": "Зураг эсвэл видео",
     "attachTooLarge": "Энэ файл {{size}} MB-ийн хязгаараас хэтэрсэн байна.",
     "deleteForBothBody": "Энэ нь та хоёуланд устгагдана.",

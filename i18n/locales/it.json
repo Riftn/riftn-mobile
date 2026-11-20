@@ -10152,6 +10152,7 @@
     "fileSaveFailed": "Impossibile salvare il file",
     "attachAnything": "Allega una foto, un video, un audio o un file",
     "attachFileOrAudio": "File o audio",
+    "pasteImage": "Incolla immagine",
     "attachPhotoOrVideo": "Foto o video",
     "attachTooLarge": "Il file supera il limite di {{size}} MB.",
     "deleteForBothBody": "Verrà rimosso per entrambi.",

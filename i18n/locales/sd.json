@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "فائل محفوظ نه ٿي سگهي",
     "attachAnything": "تصوير، وڊيو، آڊيو يا فائل ڳنڍيو",
     "attachFileOrAudio": "فائل يا آڊيو",
+    "pasteImage": "تصوير پيسٽ ڪريو",
     "attachPhotoOrVideo": "تصوير يا وڊيو",
     "attachTooLarge": "اها فائل {{size}} MB جي حد کان وڏي آهي.",
     "deleteForBothBody": "اهو توهان ٻنهي لاءِ هٽايو ويندو.",

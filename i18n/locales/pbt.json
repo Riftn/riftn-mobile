@@ -10036,6 +10036,7 @@
     "fileSaveFailed": "فایل خوندي نه شو",
     "attachAnything": "عکس، ویډیو، غږ یا فایل ضمیمه کړئ",
     "attachFileOrAudio": "فایل یا غږ",
+    "pasteImage": "انځور پېسټ کړئ",
     "attachPhotoOrVideo": "عکس یا ویډیو",
     "attachTooLarge": "دا فایل له {{size}} MB حد څخه لوی دی.",
     "deleteForBothBody": "ستاسو دواړو لپاره به لرې شي.",

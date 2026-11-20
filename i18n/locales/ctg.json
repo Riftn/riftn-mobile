@@ -10143,6 +10143,7 @@
     "fileSaveFailed": "ফাইল সেভ ন অইয়ে",
     "attachAnything": "ছবি, ভিডিও, অডিও বা ফাইল লাগাও",
     "attachFileOrAudio": "ফাইল বা অডিও",
+    "pasteImage": "ছবি পেস্ট গরন",
     "attachPhotoOrVideo": "ছবি বা ভিডিও",
     "attachTooLarge": "ফাইলখান {{size}} MB সীমার চাই বড়।",
     "deleteForBothBody": "তোঁয়ারা দুইজনর লাই এডি মুছি যাইবো।",

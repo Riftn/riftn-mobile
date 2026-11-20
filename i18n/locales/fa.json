@@ -10067,6 +10067,7 @@
     "fileSaveFailed": "ذخیره فایل ممکن نشد",
     "attachAnything": "پیوست عکس، ویدیو، صدا یا فایل",
     "attachFileOrAudio": "فایل یا صدا",
+    "pasteImage": "جای‌گذاری تصویر",
     "attachPhotoOrVideo": "عکس یا ویدیو",
     "attachTooLarge": "این فایل از سقف {{size}} مگابایت بزرگ‌تر است.",
     "deleteForBothBody": "برای هر دوی شما حذف خواهد شد.",
