@@ -36,8 +36,12 @@ export const POLL_BATCH_LIMIT = 50;
  */
 export async function getPolls(
   tokenIds: number[],
+  token: string | null,
 ): Promise<{ status: boolean; result: Record<string, DmPoll> }> {
-  return apiClient.get(`/polls?tokenIds=${tokenIds.join(",")}`);
+  return apiClient.get(`/polls?tokenIds=${tokenIds.join(",")}`, {
+    isAuthRequired: false,
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+  });
 }
 
 export async function voteOnPoll(

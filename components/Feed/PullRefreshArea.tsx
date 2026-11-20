@@ -99,9 +99,13 @@ export default function PullRefreshArea({ refreshing, onRefresh, enabled = true,
   const pan = useMemo(() => Gesture.Pan()
     .enabled(enabled)
     .maxPointers(1)
-    .activeOffsetY([-10, 10])
+    .activeOffsetY(10)
+    .failOffsetY(-10)
     .failOffsetX([-16, 16])
     .simultaneousWithExternalGesture(native)
+    .onTouchesDown((_event, state) => {
+      if (scrollY.value > 1 || busy.value || holding.value) state.fail();
+    })
     .onBegin(() => {
       armed.value = scrollY.value <= 1 && Date.now() - lastScrollAt.value > SCROLL_SETTLE_MS && !busy.value && !holding.value;
       pulling.value = false;

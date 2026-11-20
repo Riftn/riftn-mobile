@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo, useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   runOnJS,
@@ -14,7 +14,8 @@ const THRESHOLD = 60;
 const MAX = 80;
 
 /**
- * Swipe a chat line left or right to reply to it, like the DM bubbles.
+ * Swipe a chat line to reply, like the DM bubbles. iOS reserves rightward
+ * swipes for native back navigation.
  * The arrow shows on the side the line moves away from.
  *
  * `onReply` gets `payload` back, so a list can pass one stable handler and
@@ -44,7 +45,7 @@ function SwipeToReply<T>({
     () =>
       Gesture.Pan()
         .enabled(enabled)
-        .activeOffsetX([-14, 14])
+        .activeOffsetX(Platform.OS === "ios" ? -14 : [-14, 14])
         .failOffsetY([-15, 15])
         .onStart(() => {
           runOnJS(setArmed)(true);
@@ -52,8 +53,10 @@ function SwipeToReply<T>({
         .onUpdate((e) => {
           x.value = Math.min(Math.max(e.translationX, -MAX), MAX);
         })
-        .onEnd(() => {
-          if (Math.abs(x.value) >= THRESHOLD) runOnJS(fire)();
+        .onEnd((_event, success) => {
+          if (success && Math.abs(x.value) >= THRESHOLD) runOnJS(fire)();
+        })
+        .onFinalize(() => {
           x.value = withSpring(0, { damping: 20, stiffness: 200 });
         }),
     [enabled, fire, x],

@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Pressable,
   ActivityIndicator,
+  Platform,
   useWindowDimensions,
   Linking,
 } from "react-native";
@@ -313,7 +314,7 @@ interface MessageBubbleProps {
   /** Lowercase wallet address of the viewer, to mark their own reactions. */
   myAddress?: string;
   /** Toggle the viewer's reaction from a chip under the bubble. */
-  onToggleReaction?: (message: DmMessage, emoji: string) => void;
+  onToggleReaction?: (message: DmMessage, emoji: string, addOnly?: boolean) => void;
   /** The other person in a one-to-one chat, so a call card can call them back. */
   callPeerAddress?: string;
 }
@@ -388,11 +389,9 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
   const panGesture = useMemo(
     () =>
-      // Either way works: right like Android chats, left like iPhone
-      // chats. A short horizontal start (14pt) lets the swipe claim the
-      // touch before the list's own scroll does in a long chat.
+      // iOS keeps rightward swipes for native back navigation.
       Gesture.Pan()
-        .activeOffsetX([-14, 14])
+        .activeOffsetX(Platform.OS === "ios" ? -14 : [-14, 14])
         .failOffsetY([-15, 15])
         .onStart(() => {
           runOnJS(setSwipeArmed)(true);
@@ -400,10 +399,12 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
         .onUpdate((e) => {
           translateX.value = Math.min(Math.max(e.translationX, -80), 80);
         })
-        .onEnd(() => {
-          if (Math.abs(translateX.value) >= REPLY_THRESHOLD) {
+        .onEnd((_event, success) => {
+          if (success && Math.abs(translateX.value) >= REPLY_THRESHOLD) {
             runOnJS(fireSwipeReply)();
           }
+        })
+        .onFinalize(() => {
           translateX.value = withSpring(0, { damping: 20, stiffness: 200 });
         }),
     [fireSwipeReply],
@@ -431,7 +432,21 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   const hasText = !!message.content?.trim() && !isGif;
   const isUploading = message.uploadStatus === "pending";
   const isUploadFailed = message.uploadStatus === "failed";
-
+  const optimistic = message as Partial<OptimisticMessage>;
+  const canDoubleTap = !isMine && !!myAddress && !!onToggleReaction
+    && msgType === "msg" && hasText && !isCallMsg && !message.undecryptable
+    && !optimistic._optimistic && !optimistic._tempId && !isUploading && !isUploadFailed;
+  const addHeart = useCallback(() => {
+    onToggleReaction?.(message, "❤️", true);
+  }, [message, onToggleReaction]);
+  const doubleTap = useMemo(() => Gesture.Tap()
+    .enabled(canDoubleTap)
+    .numberOfTaps(2)
+    .maxDuration(220)
+    .maxDelay(300)
+    .maxDistance(10)
+    .runOnJS(true)
+    .onEnd((_event, success) => { if (success) addHeart(); }), [addHeart, canDoubleTap]);
 
   const mediaItems = useMemo(() => {
     // GIF: prefer URL from mediaUrls, fall back to content for legacy messages
@@ -810,8 +825,10 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             />
           )}
 
-          {/* Bubble */}
+          {/* Only the received text bubble takes the gesture, not the row or avatar. */}
+          <GestureDetector gesture={doubleTap}>
           <View
+            collapsable={false}
             className={`max-w-[75%] ${activeBubbleBg} overflow-hidden`}
           >
             {/* Forwarded tag */}
@@ -1249,6 +1266,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
               )
             )}
           </View>
+          </GestureDetector>
         </View>
       </Pressable>
         </Animated.View>

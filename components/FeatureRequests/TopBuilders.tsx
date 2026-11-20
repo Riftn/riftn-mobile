@@ -151,6 +151,8 @@ export function TopBuildersProvider({ children }: { children: React.ReactNode })
 
 function Row({ b, rank, max, open, onToggle }: { b: TopBuilder; rank: number; max: number; open: boolean; onToggle: () => void }) {
   const { t } = useTranslation();
+  // exact-number: the expanded leaderboard row shows the full score.
+  const exactScore = b.points.toLocaleString();
   const shippedColor = useShippedColor();
   const { showUserProfile } = useUserProfileSheet();
   const pct = (n: number) => `${(n / b.points) * 100}%` as const;
@@ -164,7 +166,7 @@ function Row({ b, rank, max, open, onToggle }: { b: TopBuilder; rank: number; ma
             <Text style={styles.name} numberOfLines={1}>{name(b)}</Text>
             {!!b.username && <AccountBadge lookupId={b.username} size={13} lineHeight={18} />}
           </View>
-          <Text style={styles.points}>{formatCount(b.points)}</Text>
+          <Text style={styles.points}>{open ? exactScore : formatCount(b.points)}</Text>
         </View>
         <View style={[styles.bar, { width: `${Math.max(12, (b.points / max) * 100)}%` }]}>
           <View style={{ width: pct(b.shippedPoints), backgroundColor: shippedColor }} />
@@ -330,7 +332,7 @@ const styles = StyleSheet.create({
   topLine: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", gap: 8 },
   nameWrap: { flexDirection: "row", alignItems: "center", flexShrink: 1 },
   name: { color: "#FAFAFA", fontSize: 13, fontWeight: "600", flexShrink: 1 },
-  points: { color: "#FAFAFA", fontSize: 13, fontWeight: "700", fontVariant: ["tabular-nums"] },
+  points: { color: "#FAFAFA", fontSize: 13, fontWeight: "700", fontVariant: ["tabular-nums"], flexShrink: 0 },
   bar: { flexDirection: "row", height: 6, borderRadius: 3, overflow: "hidden", backgroundColor: "rgba(255,255,255,0.1)", marginTop: 5 },
   openRow: { marginTop: 6, gap: 6, alignItems: "flex-start" },
   breakdown: { color: "#A1A1AA", fontSize: 11.5 },

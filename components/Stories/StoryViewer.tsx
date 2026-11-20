@@ -15,6 +15,7 @@ import {
   Platform,
   Pressable,
   ScrollView,
+  Share,
   StyleSheet,
   Text,
   TextInput,
@@ -33,6 +34,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { DarkRoomProvider } from "../../context/ThemeContext";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { useUser, useAuthActions } from "../../context/AuthContext";
@@ -58,7 +60,7 @@ import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
 const PHOTO_MS = 5000;
 const TICK_MS = 50;
 
-type Sheet = null | "more" | "viewers" | "report" | "delete";
+type Sheet = null | "more" | "viewers" | "report" | "delete" | "share" | "share-dm";
 
 export default function StoryViewer({
   entries,
@@ -224,27 +226,29 @@ export default function StoryViewer({
     void queryClient.invalidateQueries({ queryKey: ["story-shelf"] });
   }, [queryClient]);
 
-  // ── Gestures: swipe down closes, sideways changes person ──
+  // Swipe up on your moment for viewers, down to close, or sideways to change person.
   const pan = useMemo(
     () =>
       PanResponder.create({
-        onMoveShouldSetPanResponder: (_e, g) => !sheet && !openingOriginal && (Math.abs(g.dy) > 14 || Math.abs(g.dx) > 14),
+        onMoveShouldSetPanResponder: (_e, g) => !sheet && !typing && !openingOriginal && (Math.abs(g.dy) > 14 || Math.abs(g.dx) > 14),
         onPanResponderGrant: () => setHeld(true),
         onPanResponderRelease: (_e, g) => {
           setHeld(false);
           if (g.dy > 90 && Math.abs(g.dy) > Math.abs(g.dx)) onClose();
+          else if (own && g.dy < -90 && Math.abs(g.dy) > Math.abs(g.dx)) setSheet("viewers");
           else if (g.dx < -70 && Math.abs(g.dx) > Math.abs(g.dy)) goAuthor(1);
           else if (g.dx > 70 && Math.abs(g.dx) > Math.abs(g.dy)) goAuthor(-1);
         },
         onPanResponderTerminate: () => setHeld(false),
       }),
-    [onClose, goAuthor, sheet, openingOriginal],
+    [onClose, goAuthor, own, sheet, typing, openingOriginal],
   );
 
   if (!entry || !item) return null;
   const width = Dimensions.get("window").width;
   const isLiked = liked[item.id] ?? item.liked;
   const shareable = item.shareable && Date.parse(item.expiresAt) > Date.now();
+  const momentUrl = `${WEBSITE_LINK}/app/moment/${encodeURIComponent(item.id)}`;
 
   const remix = () => {
     const source = { id: item.id, name: nameOf(entry.author) };
@@ -257,13 +261,18 @@ export default function StoryViewer({
 
   const copyLink = async () => {
     try {
-      const copied = await Clipboard.setStringAsync(`${WEBSITE_LINK}/app/moment/${encodeURIComponent(item.id)}`);
+      const copied = await Clipboard.setStringAsync(momentUrl);
       if (!copied) throw new Error("Clipboard unavailable");
       setSheet(null);
       toastSuccess(t("stories.linkCopied", { defaultValue: "Link copied" }));
     } catch {
       toastError(t("stories.copyLinkFailed", { defaultValue: "Couldn't copy the moment link." }));
     }
+  };
+  const shareOutside = () => {
+    void Share.share(Platform.OS === "ios" ? { url: momentUrl } : { message: momentUrl })
+      .then(() => setSheet(null))
+      .catch(() => { void copyLink(); });
   };
 
   const openOriginal = async () => {
@@ -411,7 +420,13 @@ export default function StoryViewer({
 
         {/* Bottom: caption, then reply + like, or the owner's counts. */}
         {/* The keyboard view sets its own bottom padding on iPhone, so the safe-area gap lives on an inner view. */}
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.bottom}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          style={[styles.bottom, sheet && styles.hidden]}
+          pointerEvents={sheet ? "none" : "auto"}
+          accessibilityElementsHidden={!!sheet}
+          importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
+        >
           <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 18 }]}>
           {item.remixSourceId ? (
             <TouchableOpacity style={styles.song} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
@@ -435,7 +450,7 @@ export default function StoryViewer({
           ) : null}
           <View style={styles.replyRow}>
             {own ? (
-              <TouchableOpacity style={styles.ownStats} onPress={() => setSheet("viewers")}>
+              <TouchableOpacity style={styles.ownStats} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
                 <Icon name="Eye" size={16} color="#fff" />
                 <Text style={styles.statText}>{formatCount(item.viewCount ?? 0)}</Text>
                 {(item.likeCount ?? 0) > 0 ? (
@@ -478,11 +493,19 @@ export default function StoryViewer({
                 <Icon name="Heart" size={20} color={isLiked ? "#FF5C78" : "#fff"} fill={isLiked ? "#FF5C78" : undefined} />
               </TouchableOpacity>
             ) : null}
+            {shareable && (
+              <TouchableOpacity onPress={() => setSheet("share")} style={styles.round} accessibilityRole="button" accessibilityLabel={t("stories.share", { defaultValue: "Share" })}>
+                <Icon name="Share2" size={20} color="#fff" />
+              </TouchableOpacity>
+            )}
           </View>
           </View>
         </KeyboardAvoidingView>
 
-        {sheet ? (
+        {sheet === "share-dm" && (
+          <ShareToDmSheet visible url={momentUrl} onClose={() => setSheet("share")} />
+        )}
+        {sheet && sheet !== "share-dm" ? (
           <ViewerSheet
             kind={sheet}
             item={item}
@@ -492,6 +515,8 @@ export default function StoryViewer({
             onDelete={remove}
             onRemix={shareable ? remix : undefined}
             onCopyLink={shareable ? copyLink : undefined}
+            onShareOutside={shareable ? shareOutside : undefined}
+            onShareToDm={shareable && me ? () => setSheet("share-dm") : undefined}
             onViewProfile={() => {
               onClose();
               showUserProfile(entry.author.address, { source: "moment" });
@@ -531,11 +556,13 @@ function ViewerSheet({
   onDelete,
   onRemix,
   onCopyLink,
+  onShareOutside,
+  onShareToDm,
   onViewProfile,
   onReport,
   bottom,
 }: {
-  kind: Exclude<Sheet, null>;
+  kind: Exclude<Sheet, null | "share-dm">;
   item: StoryItem;
   own: boolean;
   onClose: () => void;
@@ -543,6 +570,8 @@ function ViewerSheet({
   onDelete: () => void;
   onRemix?: () => void;
   onCopyLink?: () => void;
+  onShareOutside?: () => void;
+  onShareToDm?: () => void;
   onViewProfile: () => void;
   onReport: (reason: string) => void;
   bottom: number;
@@ -560,6 +589,15 @@ function ViewerSheet({
     <View style={styles.sheetBack}>
       <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessible={false} />
       <View style={[styles.sheet, { paddingBottom: bottom + 16 }]} accessibilityViewIsModal>
+        {kind === "share" ? (
+          <>
+            {onShareToDm && <SheetRow icon="Send" label={t("feedCard.sendInMessage")} onPress={onShareToDm} />}
+            {onCopyLink && <SheetRow icon="Link2" label={t("postOptions.copyLink", { defaultValue: "Copy link" })} onPress={onCopyLink} />}
+            {onShareOutside && <SheetRow icon="Share2" label={t("stories.share", { defaultValue: "Share" })} onPress={onShareOutside} />}
+            {onRemix && <SheetRow icon="Repeat2" label={t("stories.addToMoment", { defaultValue: "Add to your Moment" })} onPress={onRemix} />}
+            <SheetRow icon="X" label={t("common.cancel", { defaultValue: "Cancel" })} onPress={onClose} />
+          </>
+        ) : null}
         {kind === "more" ? (
           <>
             {onRemix ? <SheetRow icon="Repeat2" label={t("remix.title", { defaultValue: "Remix" })} onPress={onRemix} /> : null}
@@ -662,6 +700,7 @@ const styles = StyleSheet.create({
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.35)" },
   dotOn: { backgroundColor: "#fff" },
   bottom: { position: "absolute", left: 0, right: 0, bottom: 0 },
+  hidden: { opacity: 0 },
   bottomInner: { paddingHorizontal: 12, gap: 8 },
   caption: { color: "#fff", fontSize: 15, textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6, paddingHorizontal: 4 },
   song: {
