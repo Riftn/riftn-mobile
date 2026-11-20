@@ -172,7 +172,7 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
           onPress={onUserPress}
           onPressIn={onUserPress ? warmProfile : undefined}
           hitSlop={IDENTITY_HIT_SLOP}
-          style={{ flexDirection: "row", alignItems: "center", minWidth: 0, flexShrink: 1, height: DISPLAY_NAME_LINE_HEIGHT, maxWidth: "100%" }}
+          style={{ flexDirection: "row", alignItems: "center", minWidth: 0, height: DISPLAY_NAME_LINE_HEIGHT, flexShrink: 1, maxWidth: "100%" }}
         >
           <Text
             className="font-semibold"
