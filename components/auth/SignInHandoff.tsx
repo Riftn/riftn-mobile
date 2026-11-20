@@ -202,7 +202,12 @@ const Rift: React.FC<{
   const spin = useMemo(() => clock.interpolate({ inputRange: SPIN_IN, outputRange: SPIN_OUT }), [clock]);
   const breathe = useRef(new Animated.Value(0)).current;
   const tear = useRef(new Animated.Value(instantOpen ? 1 : 0)).current; // native: line + halo + specks
-  const widen = useRef(new Animated.Value(instantOpen ? 1 : 0)).current; // JS: the window's size
+  // The window opens by scale (on the UI thread, so a busy JS thread while the
+  // app mounts underneath can't make it step); its picture is scaled back.
+  const winX = useMemo(() => tear.interpolate({ inputRange: [0, 1], outputRange: [LINE_W / FRAME, 1] }), [tear]);
+  const winY = useMemo(() => tear.interpolate({ inputRange: [0, 1], outputRange: [LINE_H / FRAME, 1] }), [tear]);
+  const unX = useMemo(() => Animated.divide(1, winX), [winX]);
+  const unY = useMemo(() => Animated.divide(1, winY), [winY]);
   const [ready, setReady] = useState(false);
   const [settled, setSettled] = useState(noIntro);
 
@@ -226,11 +231,8 @@ const Rift: React.FC<{
   useEffect(() => {
     if (!opened || instantOpen) return;
     const ease = Easing.bezier(0.2, 0.8, 0.2, 1);
-    Animated.parallel([
-      Animated.timing(tear, { toValue: 1, duration: OPEN_MS, easing: ease, useNativeDriver: true }),
-      Animated.timing(widen, { toValue: 1, duration: OPEN_MS, easing: ease, useNativeDriver: false }),
-    ]).start();
-  }, [opened, instantOpen, tear, widen]);
+    Animated.timing(tear, { toValue: 1, duration: OPEN_MS, easing: ease, useNativeDriver: true }).start();
+  }, [opened, instantOpen, tear]);
 
   const lineIn = spin.interpolate({ inputRange: [0, 0.85, 1], outputRange: [0, 0, 1] });
   const gone = tear.interpolate({ inputRange: [0, 1], outputRange: [1, 0] });
@@ -303,23 +305,25 @@ const Rift: React.FC<{
 
       {/* the window the line tears open into */}
       <Animated.View style={[styles.window, {
+        width: FRAME,
+        borderRadius: RADIUS,
         opacity: opened ? 1 : 0,
-        width: widen.interpolate({ inputRange: [0, 1], outputRange: [LINE_W, FRAME] }),
-        height: widen.interpolate({ inputRange: [0, 1], outputRange: [LINE_H, FRAME] }),
-        borderRadius: widen.interpolate({ inputRange: [0, 1], outputRange: [3, RADIUS] }),
+        transform: [{ scaleX: winX }, { scaleY: winY }],
       }]}>
-        {/* Only an account with no picture shows its initial; one whose
-            picture is on its way shows the dark frame it fades into. */}
-        {!picture ? (initial ? <Text style={styles.initial}>{initial}</Text> : null) : (
-          <Image
-            source={{ uri: picture }}
-            style={[styles.picture, { opacity: ready ? 1 : 0 }]}
-            contentFit="cover"
-            transition={160}
-            onLoad={() => setReady(true)}
-            accessible={false}
-          />
-        )}
+        <Animated.View style={[styles.picture, { alignItems: 'center', justifyContent: 'center', transform: [{ scaleX: unX }, { scaleY: unY }] }]}>
+          {/* Only an account with no picture shows its initial; one whose
+              picture is on its way shows the dark frame it fades into. */}
+          {!picture ? (initial ? <Text style={styles.initial}>{initial}</Text> : null) : (
+            <Image
+              source={{ uri: picture }}
+              style={[styles.picture, { opacity: ready ? 1 : 0 }]}
+              contentFit="cover"
+              transition={160}
+              onLoad={() => setReady(true)}
+              accessible={false}
+            />
+          )}
+        </Animated.View>
       </Animated.View>
 
       {/* the line of light */}
