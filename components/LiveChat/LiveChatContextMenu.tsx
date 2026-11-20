@@ -2,6 +2,9 @@ import { openMessageReport } from "../common/MessageReportHost";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
 import HoldSheet, { type HoldReactionChip, type HoldTile } from "../ui/HoldSheet";
 import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { getAccount } from "../../services/user.service";
+import { useProfileLocalTime } from "../../hooks/useProfileLocalTime";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import { canLinkMessage, copyLinkLabel } from "../../libs/chatMessageLink";
 import { copyMessageMedia } from "../../libs/copyMessageMedia";
@@ -82,6 +85,14 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
   onShowReactors,
 }) => {
   const { t } = useTranslation();
+  const authorAddress = message?.senderAddress;
+  const { data: authorTimeZone } = useQuery({
+    queryKey: ["chat-author-timezone", authorAddress],
+    enabled: visible && !!authorAddress && message?.messageType !== "system",
+    staleTime: 60_000,
+    queryFn: async () => (await getAccount(authorAddress!))?.data?.result?.customs?.publicTimeZone ?? null,
+  });
+  const authorLocalTime = useProfileLocalTime(authorTimeZone);
   // Message whose full emoji picker is open. The menu closes first: iOS will
   // not stack a second modal on one that is still presenting.
   const [moreFor, setMoreFor] = useState<LiveChatMessageData | null>(null);
@@ -241,6 +252,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
         }}
         tiles={tiles}
         summary={summary}
+        meta={authorLocalTime ? t("profile.localTime", { defaultValue: "Local time {{time}}", time: authorLocalTime }) : undefined}
         onLift={onLift}
         frame
         inline

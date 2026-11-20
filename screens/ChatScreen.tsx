@@ -139,6 +139,7 @@ import { ensureDmEncryption, retryDmEncryption, type DmEncryptionStatus } from "
 import { decryptIncoming } from "../libs/dm-e2ee/peer";
 import { onIdentityChange, prepareOutgoing } from "../libs/dm-e2ee/keys";
 import { getAccount, isFollowing as checkIsFollowing } from "../services/user.service";
+import { useProfileLocalTime } from "../hooks/useProfileLocalTime";
 import { blockUser, unblockUser } from "../services/block.service";
 import { truncateAddress } from "../libs/strings.util";
 import { dmDraftKey } from "../libs/draft-cache";
@@ -463,6 +464,13 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     };
   }, [currentConvId, conversations, target, targetAddress, userId, address]);
 
+  const peerLocalTime = useProfileLocalTime(
+    target?.address?.toLowerCase() === peer.address?.toLowerCase() ? target?.customs?.publicTimeZone : undefined,
+  );
+  const peerSubtitle = [
+    peer.username ? `@${peer.username}` : "",
+    peerLocalTime ? t("profile.localTime", { defaultValue: "Local time {{time}}", time: peerLocalTime }) : "",
+  ].filter(Boolean).join(" · ");
   const peerLabel = useMemo(
     () => peer.displayName || peer.username || truncateAddress(peer.address) || t("copy.04f8996da763", { defaultValue: "user" }),
     [peer, t],
@@ -2339,7 +2347,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         title={title}
         leftContent={LeftHeader}
         rightContent={RightHeader}
-        subtitle={remoteTyping ? _copy("copy.30f5934e6249", { defaultValue: "typing…" }) : peer.username ? `@${peer.username}` : undefined}
+        subtitle={remoteTyping ? _copy("copy.30f5934e6249", { defaultValue: "typing…" }) : peerSubtitle || undefined}
         titleBadge={(peer as any).badgeImg ? (
           <BadgeArtwork
             source={(peer as any).badgeImg}

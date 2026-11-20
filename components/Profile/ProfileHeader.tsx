@@ -62,6 +62,7 @@ import { MINIMAL_HAIRLINE } from "../../theme/minimal";
 import type { Community } from "../../types/community";
 import { PinnedCommunityWash } from "../Communities/PinnedCommunityStage";
 import ProfileFieldsList from "./ProfileFieldsList";
+import { useProfileLocalTime } from "../../hooks/useProfileLocalTime";
 
 // Minimal header buttons: no glass slab, just a 1px outline, and a 44pt box so
 // losing the padded pill does not shrink the tap target.
@@ -83,6 +84,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
   // The cover is full-bleed, so it is fetched at the window's own (live) width.
   const { width: COVER_WIDTH_PT } = useWindowDimensions();
   const user = useUser() as any;
+  const localTime = useProfileLocalTime(user?.customs?.publicTimeZone);
   const { refreshUser, patchUser } = useAuthActions();
   const [copyAddressVisible, setCopyAddressVisible] = useState(false);
   // The reader's chosen language, not the handset's: a Turkish reader on an
@@ -519,6 +521,11 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
           )}
 
           <ProfileFieldsList fields={(user as any)?.profileFields} />
+          {localTime ? (
+            <Text className="mt-1 text-sm text-zinc-400">
+              {t("profile.localTime", { defaultValue: "Local time {{time}}", time: localTime })}
+            </Text>
+          ) : null}
 
           {/* Joined */}
           {!!createdAtFormatted && (
