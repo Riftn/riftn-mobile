@@ -27,7 +27,7 @@ import CommunityShareMenu from '../components/Communities/CommunityShareMenu';
 import AddExistingPost from '../components/Communities/AddExistingPost';
 import Icon from "../components/ui/Icon";
 import { theme } from "../theme";
-import { useUser, useAuthActions } from "../context/AuthContext";
+import { useUser, useAuthActions, useAuthState } from "../context/AuthContext";
 import {
   getCommunityBySlug,
   getCommunityMembers,
@@ -96,12 +96,17 @@ const CommunityDetailScreen: React.FC = () => {
   const walletRef = useRef(walletAddress);
   walletRef.current = walletAddress;
   const { requireAuth } = useAuthActions();
+  // While the saved sign-in is still being read there is no wallet yet, and
+  // "no wallet" must not be taken as "not a member".
+  const { isBootLoading } = useAuthState();
   // A community's chat joins the Messages list only when the member adds it.
   const { byId: chatPrefs, update: updateChatPref } = useChatPrefs(!!walletAddress);
 
   const [community, setCommunity] = useState<Community | null>(null);
   const [members, setMembers] = useState<CommunityMember[]>([]);
-  const [membership, setMembership] = useState<CommunityMember | null>(null);
+  // undefined = not known yet. The chat holds back "Join this community"
+  // until it is, so a member never sees it flash.
+  const [membership, setMembership] = useState<CommunityMember | null | undefined>(undefined);
   const [isPinned, setIsPinned] = useState(false);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -199,7 +204,9 @@ const CommunityDetailScreen: React.FC = () => {
         getCommunityMembers(c.id, walletAddress || null).catch(() => null),
         // Membership decides Join/Leave/Owner, Manage and chat access, so a
         // failure here still fails the load rather than showing a wrong role.
-        walletAddress ? getCommunityMembership(c.id, walletAddress) : Promise.resolve(null),
+        walletAddress
+          ? getCommunityMembership(c.id, walletAddress)
+          : Promise.resolve(isBootLoading ? undefined : null),
         walletAddress
           ? getPinnedCommunities(walletAddress).catch(() => null)
           : Promise.resolve([]),
@@ -220,7 +227,7 @@ const CommunityDetailScreen: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  }, [slug, walletAddress]);
+  }, [slug, walletAddress, isBootLoading]);
 
   // Picture and banner. Web edits them by clicking the header; here the same
   // taps open the photo library for anyone holding change_info.
@@ -658,9 +665,9 @@ const CommunityDetailScreen: React.FC = () => {
 
         <View className="flex-row flex-wrap gap-2 mt-4">
           <TouchableOpacity
-            style={[styles.actionBtn, isMember && !isOwner && styles.leaveBtn]}
+            style={[styles.actionBtn, isMember && !isOwner && styles.leaveBtn, membership === undefined && !isOwner && { opacity: 0 }]}
             onPress={handleJoinLeave}
-            disabled={actionLoading || isOwner}
+            disabled={actionLoading || isOwner || (membership === undefined && !isOwner)}
           >
             {actionLoading ? (
               <ActivityIndicator size="small" color="#fff" />
