@@ -16,6 +16,9 @@ const LABELS: Record<LoginLook, [string, string]> = {
   vhs: ["settings.loginLook.vhs", "VHS tape"],
   led: ["settings.loginLook.led", "LED wall"],
   holo: ["settings.loginLook.holo", "Hologram"],
+  neon: ["settings.loginLook.neon", "Neon glow"],
+  "3d": ["settings.loginLook.3d", "3D"],
+  flat: ["settings.loginLook.flat", "Flat"],
 };
 
 const SCALE = 0.4;
@@ -62,7 +65,8 @@ export default function LoginLookPicker() {
                 style={{ height: CARD_H, borderRadius: 12, overflow: "hidden", backgroundColor: isLight ? "#ECECF0" : "#08080B", alignItems: "center", justifyContent: "center" }}
               >
                 <View style={{ width: SIGN_W, paddingTop: 84, transform: [{ scale: SCALE }] }}>
-                  <LoginSign look={look} text={text} theme={theme} isLight={isLight} still={still} />
+                  {/* Only the picked card moves, so seven moving signs never weigh on the page. */}
+                  <LoginSign look={look} text={text} theme={theme} isLight={isLight} still={still || !active} />
                 </View>
               </View>
               <Text className="text-theme-neutrals-100 text-sm font-medium mt-2 mx-1 mb-1">{t(key, fallback)}</Text>

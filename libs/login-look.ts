@@ -1,6 +1,6 @@
 /**
  * How the Riftn logo and headline look on the sign-in screen: Tube TV (the
- * default), VHS tape, LED wall or Hologram. A per-device choice in Settings →
+ * default), VHS tape, LED wall, Hologram, Neon glow, 3D or Flat. A per-device choice in Settings →
  * Appearance, same key and values as web's `src/lib/login-look.ts`. MMKV
  * because the sign-in screen reads it while it renders, with a durable copy
  * so the choice survives signing out and app updates.
@@ -9,7 +9,7 @@ import { useSyncExternalStore } from 'react';
 import { storage } from './storage';
 import { mirrorDurable, restoreDurable } from './durable-setting';
 
-export const LOGIN_LOOKS = ['tube', 'vhs', 'led', 'holo'] as const;
+export const LOGIN_LOOKS = ['tube', 'vhs', 'led', 'holo', 'neon', '3d', 'flat'] as const;
 export type LoginLook = (typeof LOGIN_LOOKS)[number];
 export const DEFAULT_LOGIN_LOOK: LoginLook = 'tube';
 

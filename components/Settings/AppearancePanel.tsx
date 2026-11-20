@@ -36,6 +36,7 @@ import {
 } from '../../libs/feed-defaults';
 import ThemePicker from './ThemePicker';
 import LoginLookPicker from './LoginLookPicker';
+import ArrivalLookPicker from './ArrivalLookPicker';
 import { ChatTextSizePicker, useChatTextSizeLabels } from '../LiveChat/ChatTextSizeButton';
 import ThemeColorPicker from './ThemeColorPicker';
 import { hasThemeColor } from '../../theme/themeColor';
@@ -182,6 +183,14 @@ const AppearancePanel: React.FC = () => {
         <View className="mt-6">
           <SectionLabel label={t('settings.loginLook.title', 'Sign-in screen')} />
           <LoginLookPicker />
+        </View>
+      </SettingsAnchor>
+
+      {/* What plays after logging in: Rift, Trace, Picture frame or Orbit, as on web. */}
+      <SettingsAnchor id="arrival-look">
+        <View className="mt-6">
+          <SectionLabel label={t('settings.arrivalLook.title', 'After you sign in')} />
+          <ArrivalLookPicker />
         </View>
       </SettingsAnchor>
 

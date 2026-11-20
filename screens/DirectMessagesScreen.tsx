@@ -700,7 +700,7 @@ const DirectMessagesInner: React.FC = () => {
     ? chatTabs.tabs
     : chatTabs.tabs.map((x) => (x.id === "requests" && activeTab !== "requests" ? { ...x, hidden: true } : x));
   const tabCandidates = useMemo<TabCandidate[]>(() => [
-    { id: PUBLIC_CHAT_TAB_ID, name: t("publicChat.title"), source: require("../assets/web-icons/dehub-logo-compact.png"), kind: t("chatTabs.kindPublic", { defaultValue: "Public" }) },
+    { id: PUBLIC_CHAT_TAB_ID, name: t("publicChat.title"), source: require("../assets/web-icons/dehub-island-logo.png"), kind: t("chatTabs.kindPublic", { defaultValue: "Public" }) },
     ...chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt).map((c) => ({
       id: roomChatId(c.id),
       name: c.name,
@@ -813,13 +813,15 @@ const DirectMessagesInner: React.FC = () => {
         className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
         style={{ minHeight: 72 }}
       >
-        {/* Logo styled like the chat avatars */}
+        {/* Logo styled like the chat avatars. The mark must be a see-through
+            PNG: Android fades each child on its own while the row is pressed,
+            so an opaque black backdrop showed as a dark square on the tile. */}
         <View
           style={{ width: 44, height: 44, borderRadius: 12 }}
           className="dark-surface bg-black items-center justify-center overflow-hidden"
         >
           <Image
-            source={require("../assets/web-icons/dehub-logo-compact.png")}
+            source={require("../assets/web-icons/dehub-island-logo.png")}
             style={{ width: 30, height: 30 }}
             contentFit="contain"
           />

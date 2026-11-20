@@ -954,7 +954,8 @@
     "postCount_other": "{{count}} posts"
   },
   "settings": {
-    "loginLook": {"title":"Sign-in screen","desc":"How the Riftn logo and slogan move on the sign-in screen on this device.","tube":"Tube TV","vhs":"VHS tape","led":"LED wall","holo":"Hologram"},
+    "arrivalLook": {"title": "After you sign in", "desc": "What plays while your account loads, before your picture lands on the page. On this device.", "rift": "Rift", "trace": "Trace", "frame": "Picture frame", "orbit": "Orbit"},
+    "loginLook": {"title":"Sign-in screen","desc":"How the Riftn logo and slogan move on the sign-in screen on this device.","tube":"Tube TV","vhs":"VHS tape","led":"LED wall","holo":"Hologram", "neon": "Neon glow", "3d": "3D", "flat": "Flat"},
     "chatDeleteChoice": "When you delete a message",
     "chatDeleteChoiceDesc": "Ask every time, or always delete for you only or for everyone in the chat.",
     "chatDeleteAsk": "Ask every time",

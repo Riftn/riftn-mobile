@@ -14,6 +14,12 @@
  * Log-ins only. The picture comes from the log-in response itself (see
  * noteSignInAccount), not from the profile refetch after it, and starts
  * loading at once; the rift opens when it is in or after a short cap.
+ *
+ * The Rift is the default. Settings → Appearance → After you sign in swaps it
+ * for Trace (a light runs round the picture's outline), Picture frame (an
+ * empty frame that fills) or Orbit (a light circles, then the picture grows
+ * out of the middle), libs/arrival-look. Only the marks and the way the
+ * frame opens change; the timing, picture and flight home are shared.
  */
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { Animated, Easing, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
@@ -31,8 +37,16 @@ import {
   takeArrivingAccount,
   type ArrivingAccount,
 } from '../../libs/signInHandoff';
+import { ARRIVAL_INTRO_MS, useArrivalLook, type ArrivalLook } from '../../libs/arrival-look';
 
 const FRAME = 120;
+/** Trace: where a light running round the frame's outline is, for 0 → 1 of a lap. */
+const EDGE = FRAME / 2;
+const LAP = [0, 0.125, 0.375, 0.625, 0.875, 1];
+const LAP_X = [0, EDGE, EDGE, -EDGE, -EDGE, 0];
+const LAP_Y = [-EDGE, -EDGE, EDGE, EDGE, -EDGE, -EDGE];
+/** Orbit's ring. */
+const RING = 148;
 /** The profile picture's curve (96pt with a 12pt corner), scaled to the frame. */
 const RADIUS = 15;
 /**
@@ -92,6 +106,15 @@ const styles = StyleSheet.create({
   picture: { position: 'absolute', width: FRAME, height: FRAME },
   initial: { color: 'rgba(255,255,255,0.85)', fontSize: 52, fontWeight: '700' },
   speck: { position: 'absolute', width: 3, height: 3, borderRadius: 1.5, backgroundColor: '#fff' },
+  square: { width: FRAME, borderRadius: RADIUS },
+  box: { position: 'absolute', width: FRAME, height: FRAME, borderRadius: RADIUS, backgroundColor: '#16181d', borderWidth: 1, borderColor: 'rgba(255,255,255,0.12)' },
+  boxRim: { position: 'absolute', left: -2, top: -2, right: -2, bottom: -2, borderRadius: RADIUS + 1, borderWidth: 1.5 },
+  outline: { width: FRAME, height: FRAME, borderRadius: RADIUS, borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.28)' },
+  dot: { position: 'absolute', left: FRAME / 2 - 3, top: FRAME / 2 - 3, width: 6, height: 6, borderRadius: 3 },
+  ring: { width: RING, height: RING, borderRadius: RING / 2, borderWidth: 1.5, borderColor: 'rgba(255,255,255,0.16)' },
+  orbit: { position: 'absolute', left: 0, top: 0, width: RING, height: RING },
+  orbitDot: { position: 'absolute', left: RING / 2 - 3.5, top: -3.5, width: 7, height: 7, borderRadius: 3.5 },
+  orbitTail: { position: 'absolute', left: RING / 2 - 2.5, top: -2.5, width: 5, height: 5, borderRadius: 2.5 },
   arrival: { ...StyleSheet.absoluteFillObject, zIndex: 9999, elevation: 9999, alignItems: 'center', justifyContent: 'center' },
   // Its own dark chip: the sign-in screen is gone by now and the screen under
   // it can be any theme, light ones included.
@@ -278,6 +301,127 @@ const Rift: React.FC<{
   );
 };
 
+
+type MarkProps = { picture: string | null; name: string; opened: boolean; instantOpen?: boolean; skipIntro?: boolean };
+
+/**
+ * Trace, Picture frame and Orbit: the same frame as the Rift, with their own
+ * marks while the account loads. All on the native driver.
+ */
+const SimpleArrival: React.FC<MarkProps & { look: Exclude<ArrivalLook, 'rift'> }> = ({ look, picture, name, opened, instantOpen, skipIntro }) => {
+  const noIntro = !!(instantOpen || skipIntro);
+  const colors = useRiftColors();
+  const intro = useRef(new Animated.Value(noIntro ? 1 : 0)).current;
+  const run = useRef(new Animated.Value(0)).current;
+  const open = useRef(new Animated.Value(instantOpen ? 1 : 0)).current;
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    const introMs = ARRIVAL_INTRO_MS[look];
+    if (!noIntro) Animated.timing(intro, { toValue: 1, duration: Math.max(260, introMs), easing: Easing.bezier(0.2, 0.8, 0.2, 1), useNativeDriver: true }).start();
+    const loop = look === 'frame'
+      ? Animated.loop(Animated.sequence([
+        Animated.timing(run, { toValue: 1, duration: 800, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(run, { toValue: 0, duration: 800, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ]))
+      : Animated.loop(Animated.timing(run, { toValue: 1, duration: look === 'trace' ? 1300 : 1100, easing: Easing.linear, useNativeDriver: true }));
+    loop.start();
+    return () => { intro.stopAnimation(); loop.stop(); };
+  }, [look, noIntro, intro, run]);
+
+  useEffect(() => {
+    if (!opened || instantOpen) return;
+    Animated.timing(open, { toValue: 1, duration: OPEN_MS, easing: Easing.bezier(0.2, 0.8, 0.2, 1), useNativeDriver: true }).start();
+  }, [opened, instantOpen, open]);
+
+  const marksOut = {
+    opacity: Animated.multiply(intro, open.interpolate({ inputRange: [0, 1], outputRange: [1, 0] })),
+    transform: [{ scale: open.interpolate({ inputRange: [0, 1], outputRange: [1, 1.35] }) }],
+  };
+  const initial = (name || '?').trim().charAt(0).toUpperCase();
+  const lit = { backgroundColor: '#fff', shadowColor: colors.a, shadowOpacity: 1, shadowRadius: 6, shadowOffset: { width: 0, height: 0 } };
+  return (
+    <View style={styles.stage} pointerEvents="none">
+      {look !== 'frame' && (
+        <Animated.View style={[styles.abs, marksOut]}>
+          <Svg width={200} height={200}>
+            <Defs>
+              <RadialGradient id="arrivalHalo" cx="50%" cy="50%" rx="50%" ry="50%">
+                <Stop offset="0" stopColor={colors.a} stopOpacity={0.32} />
+                <Stop offset="1" stopColor={colors.a} stopOpacity={0} />
+              </RadialGradient>
+            </Defs>
+            <Ellipse cx={100} cy={100} rx={100} ry={100} fill="url(#arrivalHalo)" />
+          </Svg>
+        </Animated.View>
+      )}
+
+      {look === 'frame' && (
+        // The empty frame; the picture fills it, then it goes.
+        <Animated.View style={[styles.box, {
+          opacity: Animated.multiply(intro.interpolate({ inputRange: [0, 1], outputRange: [noIntro ? 1 : 0, 1] }), open.interpolate({ inputRange: [0, 0.75, 1], outputRange: [1, 1, 0] })),
+        }]}>
+          <Animated.View style={[styles.boxRim, { borderColor: colors.a, opacity: run.interpolate({ inputRange: [0, 1], outputRange: [0.25, 0.9] }) }]} />
+        </Animated.View>
+      )}
+
+      {look === 'trace' && (
+        <Animated.View style={[styles.abs, marksOut]}>
+          <Animated.View style={[styles.outline, { transform: [{ scale: intro.interpolate({ inputRange: [0, 1], outputRange: [0.9, 1] }) }] }]} />
+          {[0, 0.02, 0.04, 0.06].map((lag, i) => {
+            const at = lag ? Animated.modulo(Animated.add(run, 1 - lag), 1) : run;
+            return (
+              <Animated.View
+                key={lag}
+                style={[styles.dot, i === 0 ? lit : { backgroundColor: colors.b }, {
+                  opacity: (1 - i * 0.24) * (i === 0 ? 1 : 0.8),
+                  transform: [
+                    { translateX: at.interpolate({ inputRange: LAP, outputRange: LAP_X }) },
+                    { translateY: at.interpolate({ inputRange: LAP, outputRange: LAP_Y }) },
+                    { scale: 1 - i * 0.15 },
+                  ],
+                }]}
+              />
+            );
+          })}
+        </Animated.View>
+      )}
+
+      {look === 'orbit' && (
+        <Animated.View style={[styles.abs, marksOut]}>
+          <Animated.View style={[styles.ring, { transform: [{ scale: intro.interpolate({ inputRange: [0, 1], outputRange: [0.6, 1] }) }] }]} />
+          <Animated.View style={[styles.orbit, { transform: [{ rotate: run.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '360deg'] }) }] }]}>
+            <View style={[styles.orbitDot, lit]} />
+            <View style={[styles.orbitTail, { backgroundColor: colors.b, opacity: 0.7, transform: [{ translateX: -10 }, { translateY: 2 }] }]} />
+            <View style={[styles.orbitTail, { backgroundColor: colors.b, opacity: 0.4, transform: [{ translateX: -19 }, { translateY: 5 }, { scale: 0.7 }] }]} />
+          </Animated.View>
+        </Animated.View>
+      )}
+
+      {/* the picture */}
+      <Animated.View style={[styles.window, styles.square, {
+        opacity: open.interpolate({ inputRange: [0, 0.15, 1], outputRange: [0, 1, 1] }),
+        transform: [{ scale: open.interpolate({ inputRange: [0, 1], outputRange: [look === 'orbit' ? 0.2 : look === 'trace' ? 0.86 : 1, 1] }) }],
+      }]}>
+        {!picture ? <Text style={styles.initial}>{initial}</Text> : (
+          <Image
+            source={{ uri: picture }}
+            style={[styles.picture, { opacity: ready ? 1 : 0 }]}
+            contentFit="cover"
+            transition={160}
+            onLoad={() => setReady(true)}
+            accessible={false}
+          />
+        )}
+      </Animated.View>
+    </View>
+  );
+};
+
+/** The picked arrival. */
+export const ArrivalMarks: React.FC<MarkProps & { look: ArrivalLook }> = ({ look, ...props }) =>
+  look === 'rift' ? <Rift {...props} /> : <SimpleArrival look={look} {...props} />;
+
 /**
  * Open once the picture is in (or PICTURE_CAP_MS has passed without it), and
  * not before `notBefore`. Returns the cancel.
@@ -297,6 +441,7 @@ function openWhenReady(picture: string | null, notBefore: number, open: () => vo
 
 export const SignInWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
   const fade = useRef(new Animated.Value(0)).current;
+  const look = useArrivalLook();
   const arriving = useArriving();
   const [opened, setOpened] = useState(false);
   const picture = arriving?.avatarImageUrl ? getAvatarUrl(arriving.avatarImageUrl, FRAME) : null;
@@ -318,8 +463,8 @@ export const SignInWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
   useEffect(() => {
     if (opened) { veilOpenedAt = Date.now(); return; }
     if (!arriving) return;
-    return openWhenReady(picture, mountedAt + INTRO_MS, () => setOpened(true));
-  }, [arriving, opened, picture, mountedAt]);
+    return openWhenReady(picture, mountedAt + ARRIVAL_INTRO_MS[look], () => setOpened(true));
+  }, [arriving, opened, picture, mountedAt, look]);
 
   return (
     // dark-surface: the sign-in screen is dark on every theme, so System Light
@@ -332,7 +477,7 @@ export const SignInWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
         accessibilityLabel={label}
         testID="signin-wait-veil"
       >
-        <Rift picture={picture} name={arriving?.name || ''} opened={opened} />
+        <ArrivalMarks look={look} picture={picture} name={arriving?.name || ''} opened={opened} />
         {opened && arriving?.name ? (
           <View style={[styles.nameChip, { top: '50%', marginTop: FRAME / 2 + 16 }]}>
             <Text numberOfLines={1} style={styles.name}>{arriving.name}</Text>
@@ -347,6 +492,7 @@ export const SignInArrival: React.FC = () => {
   const { isSignedIn, needsUsername } = useAuthState();
   const user = useUser();
   const { width, height } = useWindowDimensions();
+  const look = useArrivalLook();
   const [shown, setShown] = useState<{ picture: string | null; name: string; instant: boolean; skipIntro: boolean } | null>(null);
   const [opened, setOpened] = useState(false);
   const wasIn = useRef(isSignedIn && !needsUsername);
@@ -381,7 +527,9 @@ export const SignInArrival: React.FC = () => {
   // Open on the picture, or after the cap without it.
   useEffect(() => {
     if (!shown || opened) return;
-    return openWhenReady(shown.picture, shown.skipIntro ? 0 : Date.now() + INTRO_MS, () => setOpened(true));
+    return openWhenReady(shown.picture, shown.skipIntro ? 0 : Date.now() + ARRIVAL_INTRO_MS[look], () => setOpened(true));
+    // `look` is read, not followed: a change mid-arrival waits for the next one.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [shown, opened]);
 
   // Open: show the name, hold, then send the picture home.
@@ -418,7 +566,7 @@ export const SignInArrival: React.FC = () => {
   return (
     <View className="dark-surface" style={styles.arrival} pointerEvents="none" testID="signin-arrival">
       <Animated.View style={[styles.frame, { opacity, transform: [...move.getTranslateTransform(), { scale }] }]}>
-        <Rift picture={shown.picture} name={shown.name} opened={opened} instantOpen={shown.instant} skipIntro={shown.skipIntro} />
+        <ArrivalMarks look={look} picture={shown.picture} name={shown.name} opened={opened} instantOpen={shown.instant} skipIntro={shown.skipIntro} />
       </Animated.View>
       {shown.name ? (
         <Animated.View style={[styles.nameChip, { opacity: nameOpacity, top: height / 2 + FRAME / 2 + 16 }]}>
