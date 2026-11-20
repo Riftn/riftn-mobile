@@ -32,7 +32,7 @@ on:
         required: false
         default: '2'
       device:
-        description: 'walk only: iphone, ipad (an iPad simulator, upright then on its side) or duo (the iPhone Duo folding phone, built with Xcode 27)'
+        description: 'walk only: iphone, ipad (an iPad simulator, upright then on its side), ipad13 (App Store screenshots: a 13-inch iPad Pro, clean status bar, full-size pictures of the store pages; themes can also be app themes, e.g. hazy) or duo (the iPhone Duo folding phone, built with Xcode 27)'
         required: false
         default: 'iphone'
       xcode:
@@ -102,6 +102,8 @@ jobs:
           if sys.argv[1] == "duo":
               print("Device types:", ", ".join(names), file=sys.stderr)
               wants = [n for n in names if "Duo" in n or "Fold" in n]
+          if sys.argv[1] == "ipad13":
+              wants = sorted([n for n in names if n.startswith("iPad Pro 13-inch")])[::-1]
           if sys.argv[1] == "ipad":
               wants = [n for n in names if n.startswith("iPad Air 11-inch")][::-1] + [n for n in names if n.startswith("iPad Pro 11-inch")][::-1] + [n for n in names if n.startswith("iPad")][::-1]
           for want in wants:
@@ -224,8 +226,11 @@ jobs:
         if: always() && inputs.device != '' && inputs.device != 'iphone'
         run: |
           shopt -s nullglob
+          # App Store pictures keep their full size (Apple wants 2064x2752).
+          SIZE="-Z 1600"; QUALITY=70
+          if [ "${{ inputs.device }}" = "ipad13" ]; then SIZE=""; QUALITY=92; fi
           for f in sim-check/shots/*.png; do
-            sips -s format jpeg -s formatOptions 70 -Z 1600 "$f" --out "${f%.png}.jpg" >/dev/null && rm "$f"
+            sips -s format jpeg -s formatOptions "$QUALITY" $SIZE "$f" --out "${f%.png}.jpg" >/dev/null && rm "$f"
           done
           if [ -f sim-check/logs/app.log ]; then gzip -f sim-check/logs/app.log; fi
           du -sh sim-check sim-check/* || true

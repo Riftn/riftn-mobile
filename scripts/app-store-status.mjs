@@ -5,10 +5,15 @@
 // is ever changed, apart from the promotional text when PROMOTIONAL_TEXT is
 // given (Apple allows that line to change without a review), and with
 // SUBMIT_VERSION it sends that version's newest processed build to App Review.
+// SCREENSHOTS_DIR + SCREENSHOTS put a 13-inch iPad screenshot set on
+// SCREENSHOTS_VERSION (made if it is not there yet), replacing any iPad set it
+// had; SAVE_SCREENSHOTS_DIR keeps a copy of the newest version's screenshots.
 // Uses the App Store Connect team key stored with the Expo project; the key
 // never leaves this process and is never printed.
 import { createSign } from 'node:crypto';
-import { appendFileSync } from 'node:fs';
+import { appendFileSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { basename, join } from 'node:path';
 
 const APP_ID = '6770382811';
 const PROJECT = '@dehubapp/dehubmobile';
@@ -123,6 +128,34 @@ if (newest) {
   }
 }
 
+// Which screenshot sets the newest version carries, per language. With
+// SAVE_SCREENSHOTS_DIR the pictures themselves are saved there too.
+say('');
+say(`## Screenshots${newest ? ` (${newest.attributes.versionString})` : ''}`);
+const saveDir = (process.env.SAVE_SCREENSHOTS_DIR ?? '').trim();
+for (const l of versionLocales) {
+  const sets = await get(`/v1/appStoreVersionLocalizations/${l.id}/appScreenshotSets?include=appScreenshots&limit=50`);
+  if (sets.error) { say(`- ${l.attributes.locale}: could not read: ${sets.error}`); continue; }
+  if (!sets.data.length) say(`- ${l.attributes.locale}: none`);
+  for (const set of sets.data) {
+    const shots = (set.relationships?.appScreenshots?.data ?? [])
+      .map(d => sets.included.find(i => i.type === 'appScreenshots' && i.id === d.id)).filter(Boolean);
+    const size = shots[0]?.attributes?.imageAsset;
+    say(`- ${l.attributes.locale} ${set.attributes.screenshotDisplayType}: ${shots.length} picture(s)${size ? `, ${size.width}x${size.height}` : ''}`);
+    if (!saveDir) continue;
+    let n = 1;
+    for (const shot of shots) {
+      const asset = shot.attributes?.imageAsset;
+      if (!asset?.templateUrl) continue;
+      const url = asset.templateUrl.replace('{w}', asset.width).replace('{h}', asset.height).replace('{f}', 'png');
+      const res = await fetch(url, { signal: AbortSignal.timeout(60_000) });
+      if (!res.ok) continue;
+      mkdirSync(saveDir, { recursive: true });
+      writeFileSync(join(saveDir, `${l.attributes.locale}-${set.attributes.screenshotDisplayType}-${String(n++).padStart(2, '0')}.png`), Buffer.from(await res.arrayBuffer()));
+    }
+  }
+}
+
 // Promotional text is the one listing line Apple lets us change at any time
 // without a review, so it never touches a version waiting to be released.
 const promo = (process.env.PROMOTIONAL_TEXT ?? '').trim();
@@ -156,6 +189,124 @@ if (process.env.RELEASE_IF_APPROVED === 'true') {
   }
 }
 
+// The App Store version with this number, made (released as soon as Apple
+// approves it) when it is not there yet. Apple copies the last version's
+// listing text and screenshots into a new one.
+async function ensureVersion(versionString) {
+  const found = versions.data.find(v => v.attributes.versionString === versionString);
+  if (found) return { version: found };
+  const made = await get('/v1/appStoreVersions', 'POST', {
+    data: {
+      type: 'appStoreVersions',
+      attributes: { platform: 'IOS', versionString, releaseType: 'AFTER_APPROVAL' },
+      relationships: { app: { data: { type: 'apps', id: APP_ID } } },
+    },
+  });
+  if (made.error) return { error: `could not make the version: ${made.error}` };
+  versions.data.unshift(made.data);
+  say(`- version ${versionString} made`);
+  return { version: made.data };
+}
+
+// Puts a 13-inch iPad screenshot set on a version's main language (other
+// languages show the main language's pictures when they have none). Any iPad
+// set already there is replaced, in the order the files are given.
+const shotsDir = (process.env.SCREENSHOTS_DIR ?? '').trim();
+const shotNames = (process.env.SCREENSHOTS ?? '').split(/[\s,]+/).filter(Boolean);
+if (shotsDir && shotNames.length) {
+  const shotsVersion = (process.env.SCREENSHOTS_VERSION ?? '').trim();
+  const IPAD_13 = 'APP_IPAD_PRO_3GEN_129';
+  say('');
+  say(`## iPad 13-inch screenshots for ${shotsVersion || '?'}`);
+  const fail = (why) => { say(`- stopped: ${why}`); process.exitCode = 1; };
+  await (async () => {
+    if (!shotsVersion) return fail('no version given');
+    if (shotNames.length > 10) return fail('Apple takes at most 10 screenshots per set');
+    const files = shotNames.map(n => join(shotsDir, basename(n)));
+    for (const f of files) {
+      try { statSync(f); } catch { return fail(`${basename(f)} is not in that run's pictures`); }
+    }
+    const { version, error } = await ensureVersion(shotsVersion);
+    if (error) return fail(error);
+    if (!['PREPARE_FOR_SUBMISSION', 'DEVELOPER_REJECTED', 'REJECTED', 'METADATA_REJECTED', 'INVALID_BINARY'].includes(version.attributes.appStoreState)) {
+      return fail(`${shotsVersion} is ${version.attributes.appStoreState}, its screenshots cannot change`);
+    }
+    const app = await get(`/v1/apps/${APP_ID}`);
+    const primary = app.data?.attributes?.primaryLocale;
+    const locs = await get(`/v1/appStoreVersions/${version.id}/appStoreVersionLocalizations?limit=50`);
+    if (locs.error) return fail(locs.error);
+    const loc = locs.data.find(l => l.attributes.locale === primary) ?? locs.data[0];
+    if (!loc) return fail('the version has no language yet');
+
+    const sets = await get(`/v1/appStoreVersionLocalizations/${loc.id}/appScreenshotSets?filter[screenshotDisplayType]=${IPAD_13}&include=appScreenshots`);
+    if (sets.error) return fail(sets.error);
+    let set = sets.data[0];
+    if (!set) {
+      const made = await get('/v1/appScreenshotSets', 'POST', {
+        data: {
+          type: 'appScreenshotSets',
+          attributes: { screenshotDisplayType: IPAD_13 },
+          relationships: { appStoreVersionLocalization: { data: { type: 'appStoreVersionLocalizations', id: loc.id } } },
+        },
+      });
+      if (made.error) return fail(`could not make the iPad set: ${made.error}`);
+      set = made.data;
+    }
+    for (const old of set.relationships?.appScreenshots?.data ?? []) {
+      const gone = await get(`/v1/appScreenshots/${old.id}`, 'DELETE');
+      if (gone.error) return fail(`could not remove an old iPad screenshot: ${gone.error}`);
+    }
+
+    const ids = [];
+    for (const f of files) {
+      const bytes = readFileSync(f);
+      const made = await get('/v1/appScreenshots', 'POST', {
+        data: {
+          type: 'appScreenshots',
+          attributes: { fileName: basename(f), fileSize: bytes.length },
+          relationships: { appScreenshotSet: { data: { type: 'appScreenshotSets', id: set.id } } },
+        },
+      });
+      if (made.error) return fail(`${basename(f)}: ${made.error}`);
+      for (const op of made.data.attributes.uploadOperations ?? []) {
+        const headers = Object.fromEntries((op.requestHeaders ?? []).map(h => [h.name, h.value]));
+        const put = await fetch(op.url, {
+          method: op.method, headers, body: bytes.subarray(op.offset, op.offset + op.length),
+          signal: AbortSignal.timeout(120_000),
+        });
+        if (!put.ok) return fail(`${basename(f)}: upload HTTP ${put.status}`);
+      }
+      const done = await get(`/v1/appScreenshots/${made.data.id}`, 'PATCH', {
+        data: {
+          type: 'appScreenshots', id: made.data.id,
+          attributes: { uploaded: true, sourceFileChecksum: createHash('md5').update(bytes).digest('hex') },
+        },
+      });
+      if (done.error) return fail(`${basename(f)}: ${done.error}`);
+      ids.push(made.data.id);
+    }
+
+    // Apple checks each picture (size, format) after the upload.
+    for (let tries = 0; tries < 40; tries++) {
+      const states = [];
+      for (const id of ids) {
+        const one = await get(`/v1/appScreenshots/${id}`);
+        states.push(one.data?.attributes?.assetDeliveryState ?? {});
+      }
+      const bad = states.find(s => s.state === 'FAILED');
+      if (bad) return fail(`Apple refused a picture: ${(bad.errors ?? []).map(e => e.description ?? e.code).join('; ')}`);
+      if (states.every(s => s.state === 'COMPLETE')) break;
+      if (tries === 39) return fail('Apple is still checking the pictures; run again to see them');
+      await new Promise(r => setTimeout(r, 3000));
+    }
+    const order = await get(`/v1/appScreenshotSets/${set.id}/relationships/appScreenshots`, 'PATCH', {
+      data: ids.map(id => ({ type: 'appScreenshots', id })),
+    });
+    if (order.error) return fail(`could not set the order: ${order.error}`);
+    say(`- ${ids.length} iPad 13-inch screenshot(s) on ${shotsVersion} (${loc.attributes.locale}): ${shotNames.join(', ')}`);
+  })();
+}
+
 // Sends a version to App Review: makes the version if it is not there yet,
 // attaches the newest processed build of it, sets the "What's New" line and
 // submits. Released by Apple as soon as it is approved.
@@ -173,19 +324,8 @@ if (submitVersion) {
     if (!build) return fail(`no processed build of ${submitVersion} yet (still uploading or processing)`);
     say(`- build ${build.attributes.version}, uploaded ${build.attributes.uploadedDate?.slice(0, 16)}`);
 
-    let version = versions.data.find(v => v.attributes.versionString === submitVersion);
-    if (!version) {
-      const made = await get('/v1/appStoreVersions', 'POST', {
-        data: {
-          type: 'appStoreVersions',
-          attributes: { platform: 'IOS', versionString: submitVersion, releaseType: 'AFTER_APPROVAL' },
-          relationships: { app: { data: { type: 'apps', id: APP_ID } } },
-        },
-      });
-      if (made.error) return fail(`could not make the version: ${made.error}`);
-      version = made.data;
-      say('- version made');
-    }
+    const { version, error: versionError } = await ensureVersion(submitVersion);
+    if (versionError) return fail(versionError);
     const state = version.attributes.appStoreState;
     if (!['PREPARE_FOR_SUBMISSION', 'DEVELOPER_REJECTED', 'REJECTED', 'METADATA_REJECTED', 'INVALID_BINARY'].includes(state)) {
       return fail(`${submitVersion} is ${state}, nothing to submit`);

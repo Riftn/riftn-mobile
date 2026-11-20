@@ -19,6 +19,22 @@ on:
         description: The "What's New" text for that version
         type: string
         default: ''
+      screenshots_run_id:
+        description: 'iPad screenshots: the run id of an "iOS simulator check" with device ipad13'
+        type: string
+        default: ''
+      screenshots:
+        description: 'iPad screenshots: picture names from that run, in order, space separated (max 10)'
+        type: string
+        default: ''
+      screenshots_version:
+        description: 'iPad screenshots: the version to put them on (made if not there yet, for example 1.20.0)'
+        type: string
+        default: ''
+      save_screenshots:
+        description: "Keep a copy of the newest version's listing screenshots as a download"
+        type: boolean
+        default: false
       review_login_shape:
         description: Also say what kind of sign-in the review account is (never its values)
         type: boolean
@@ -26,6 +42,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: app-store-status
@@ -35,20 +52,38 @@ jobs:
   status:
     name: Read App Store status
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: actions/download-artifact@v4
+        if: inputs.screenshots_run_id != ''
+        with:
+          name: ios-simulator-shots
+          path: ${{ runner.temp }}/ipad-shots
+          run-id: ${{ inputs.screenshots_run_id }}
+          github-token: ${{ github.token }}
       - name: Print App Store and TestFlight status
         env:
+          SCREENSHOTS_DIR: ${{ inputs.screenshots_run_id != '' && format('{0}/ipad-shots', runner.temp) || '' }}
+          SCREENSHOTS: ${{ inputs.screenshots }}
+          SCREENSHOTS_VERSION: ${{ inputs.screenshots_version }}
+          SAVE_SCREENSHOTS_DIR: ${{ inputs.save_screenshots && format('{0}/listing-shots', runner.temp) || '' }}
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
           RELEASE_IF_APPROVED: ${{ inputs.release_if_approved }}
           PROMOTIONAL_TEXT: ${{ inputs.promotional_text }}
           SUBMIT_VERSION: ${{ inputs.submit_version }}
           WHATS_NEW: ${{ inputs.whats_new }}
         run: node scripts/app-store-status.mjs
+      - uses: actions/upload-artifact@v4
+        if: inputs.save_screenshots
+        with:
+          name: app-store-screenshots
+          path: ${{ runner.temp }}/listing-shots/
+          if-no-files-found: ignore
+          retention-days: 7
       - name: Review sign-in shape
         if: ${{ inputs.review_login_shape }}
         env:
