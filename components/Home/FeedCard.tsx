@@ -43,6 +43,7 @@ import ContentWarningGate, { useContentWarning } from "./ContentWarningGate";
 import AudioPostPlayer from "./ProtectedAudioPostPlayer";
 import FeedVideoPlayer from "./FeedVideoPlayer";
 import { rememberGalleryIndex } from "../../libs/media-presentation";
+import { nextPhotoViewerKey, pingPhotoViewerHost, registerPhotoViewerHost, type PhotoViewerPost } from "../../libs/photoViewerPost";
 import StatusBadge from "./StatusBadge";
 import { CommentBottomSheet } from "../Comments";
 import { warmCommentThread } from "../Comments/CommentSection";
@@ -1158,6 +1159,15 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     openLive();
   }, [disablePress, handleCardPress, scrubBoundary.claimed, onBeforeNavigate, hideUserProfile, openLive]);
 
+  // The photo viewer shows this post's author, caption and action bar over
+  // the picture; it reads them from here (libs/photoViewerPost).
+  const photoViewerKey = useMemo(() => nextPhotoViewerKey(), []);
+  const photoViewerPostRef = useRef<() => PhotoViewerPost | null>(() => null);
+  useEffect(() => registerPhotoViewerHost(photoViewerKey, () => photoViewerPostRef.current()), [photoViewerKey]);
+  useEffect(() => {
+    pingPhotoViewerHost(photoViewerKey);
+  });
+
   const handleImagePress = useCallback((index: number = 0) => {
     if (!hasImages) return;
     // Only photos with a song continue in the shorts viewer; plain photos open the image viewer.
@@ -1181,8 +1191,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       galleryKey: String(tokenId),
       initialIndex: index,
       soundtrack: !isActuallyGated && !matureGate.isGated ? soundtrack : undefined,
+      postKey: tokenId != null ? photoViewerKey : undefined,
     });
-  }, [navigation, galleryImages, hasImages, hideUserProfile, onBeforeNavigate, isActuallyGated, matureGate.isGated, soundtrack, tokenId, item]);
+  }, [navigation, galleryImages, hasImages, hideUserProfile, onBeforeNavigate, isActuallyGated, matureGate.isGated, soundtrack, tokenId, item, photoViewerKey]);
 
   const handleTranslateImage = useCallback(() => {
     const imageUrl = galleryImages[0];
@@ -2334,6 +2345,41 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
 
   // Duet / stitch / reaction credit and counts, as on web's video card.
   const remixCredits = isVideo && !isLive && tokenId != null ? <RemixCredits tokenId={tokenId} /> : null;
+  photoViewerPostRef.current = () =>
+    tokenId == null
+      ? null
+      : {
+          tokenId,
+          avatarUrl: avatar && avatar !== "default-avatar" ? avatar : undefined,
+          displayName,
+          username,
+          address: minterAddress,
+          isOwnPost: !!isOwnerPost,
+          caption: [overlayTitle, displayCaption].filter((part) => part && part.trim()).join("\n"),
+          liked,
+          disliked,
+          saved,
+          reposted,
+          likeCount,
+          dislikeCount,
+          commentCount,
+          repostCount,
+          shareCount,
+          tipCount: totalTips,
+          myReaction,
+          reactionCounts,
+          viewerAddress: userAddress,
+          onLike: handleLikePress,
+          onReact: handleReaction,
+          onSave: handleSavePress,
+          onInfo: handleInfoPress,
+          onComment: handleCommentPress,
+          onShare: handleOpenShare,
+          onTip: DIGITAL_PURCHASES_ENABLED && !minterUser?.hideBadgeAndBalance ? handleTipPress : undefined,
+          onShowReactionInfo: isOwnerPost ? handleShowReactionInfo : undefined,
+          onUserPress: handleUserPress,
+        };
+
   const actionBar = showActionBar ? (
     <FeedActionBar
       liked={liked}
