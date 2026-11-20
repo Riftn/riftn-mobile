@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, AppState, Animated, Easing, Platform, Linking, type StyleProp, type ViewStyle } from "react-native";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { TouchableOpacity, View, Text, StyleSheet, ActivityIndicator, AppState, Animated, Easing, Platform, Linking, type GestureResponderEvent, type StyleProp, type ViewStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import IosGlassPill from "../ui/IosGlassPill";
 import { useIsFocused } from "@react-navigation/native";
@@ -10,22 +10,28 @@ import { postMediaIsTransferring } from "../../libs/post-media-session";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { requestAudioFocus, releaseAudioFocus } from "../../libs/audioFocus";
 import { configureForDuckedPlayback } from "../../libs/audioSession";
-import { playableSoundUrl, soundCredit, soundWindowCorrection, soundWindowProgress } from "../../libs/soundWindow";
+import { clock, playableSoundUrl, soundCredit, soundWindowCorrection } from "../../libs/soundWindow";
 
 interface Props {
   title: string;
   creator: string;
   url: string;
   isVisible?: boolean;
-  /** overlay: a glass capsule on the photo that opens into a wave along its
-   *  bottom edge while the song plays. inline: the capsule alone. */
+  /** overlay: a glass capsule on the photo while idle; while the song plays a
+   *  solid player bar docks under the photo, so nothing covers the picture.
+   *  The parent puts the badge next to the photo, not inside its clip.
+   *  inline: the capsule alone. */
   variant?: "overlay" | "inline";
+  /** Side gutter for the docked bar under edge-to-edge photos. */
+  barInset?: number;
+  /** The app is on a light theme: the docked bar takes dark ink. */
+  isLight?: boolean;
   onPlayingChange?: (playing: boolean) => void;
   /** A video's song plays with the video itself: the badge only credits it. */
   withVideo?: boolean;
 }
 
-const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = true, variant = "inline", onPlayingChange, withVideo = false }) => {
+const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = true, variant = "inline", barInset = 0, isLight = false, onPlayingChange, withVideo = false }) => {
   const { t } = useTranslation();
   const focused = useIsFocused();
   const { session, ownsPlayer, active: ownsAudio } = usePostAudioSession(url);
@@ -41,6 +47,10 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
   const timeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const active = useRef(false);
   active.current = isVisible && focused;
+  // The song the listener scrubbed through themselves: it plays in full from
+  // there. Without this the part's guard pulled every seek past its end back
+  // to the start.
+  const wholeSong = useRef<string | null>(null);
 
   const clearLoadingTimeout = useCallback(() => {
     if (timeout.current) clearTimeout(timeout.current);
@@ -91,7 +101,7 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
       if (status.playbackState === "error" || status.playbackState === "failed") { fail(); return; }
       // A post can use one part of the song: start there and loop it.
       if (status.isLoaded) {
-        const jump = soundWindowCorrection(url, status.currentTime ?? 0);
+        const jump = soundWindowCorrection(url, status.currentTime ?? 0, wholeSong.current === url);
         if (jump != null) { void player.seekTo(jump).catch(() => {}); }
       }
       const buffering = !status.isLoaded || status.isBuffering;
@@ -107,6 +117,7 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
 
   useEffect(() => {
     setError(false);
+    wholeSong.current = null;
   }, [url]);
 
   useEffect(() => { if (!isVisible || !focused) pause(); }, [isVisible, focused, pause]);
@@ -115,18 +126,27 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
     return () => subscription.remove();
   }, [pause]);
 
-  const [progress, setProgress] = useState(0);
+  const [time, setTime] = useState({ current: 0, duration: 0 });
+  const readTime = useCallback(() => {
+    const audio = session.value;
+    const duration = audio && audio.duration > 0 && Number.isFinite(audio.duration) ? audio.duration : 0;
+    const current = duration ? audio!.currentTime : 0;
+    setTime(prev => prev.current === current && prev.duration === duration ? prev : { current, duration });
+  }, [session]);
   useEffect(() => {
-    if (!playing || variant !== "overlay") return;
-    const read = () => {
-      const audio = session.value;
-      const duration = audio?.duration ?? 0;
-      setProgress(audio && duration > 0 ? soundWindowProgress(url, audio.currentTime, duration) : 0);
-    };
-    read();
-    const id = setInterval(read, 250);
+    if (!(playing || loading) || variant !== "overlay") return;
+    readTime();
+    const id = setInterval(readTime, 250);
     return () => clearInterval(id);
-  }, [playing, variant, session, url]);
+  }, [playing, loading, variant, readTime]);
+  const seek = useCallback((seconds: number) => {
+    const audio = session.value;
+    if (!audio || !time.duration || !ownsPlayer()) return;
+    wholeSong.current = url;
+    const to = Math.min(time.duration, Math.max(0, seconds));
+    setTime(prev => ({ ...prev, current: to }));
+    void audio.seekTo(to).catch(() => {});
+  }, [session, time.duration, ownsPlayer, url]);
 
   const toggle = useCallback(async () => {
     if (wanted.current) { pause(); return; }
@@ -193,31 +213,31 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
   }
 
   if (variant === "overlay" && open) {
+    const ink = isLight ? "#0b0b0f" : "#fff";
+    const soft = isLight ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.5)";
     return (
-      <View style={styles.edge} pointerEvents="box-none">
-        <LinearGradient
-          colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.15)", "rgba(0,0,0,0.65)"]}
-          locations={[0, 0.35, 1]}
-          style={StyleSheet.absoluteFill}
-          pointerEvents="none"
-        />
-        <View style={styles.edgeRow} pointerEvents="box-none">
-          <View style={styles.edgeMeta} pointerEvents={creditLine ? "box-none" : "none"}>
-            <View style={styles.edgeTitleRow}>
-              <Ionicons name="musical-note" size={13} color="#fff" />
-              <Text style={[styles.edgeTitle, styles.shadow]} numberOfLines={1}>{name}</Text>
-            </View>
-            {!!creator && <Text style={[styles.edgeCreator, styles.shadow]} numberOfLines={1}>{creator}</Text>}
-            {!!creditLine && (
-              <Text onPress={openCredit} style={[styles.edgeCredit, styles.shadow]} numberOfLines={1} accessibilityRole="link">{creditLine}</Text>
-            )}
-          </View>
-          <TouchableOpacity onPress={onPress} activeOpacity={0.75} accessibilityRole="button" accessibilityLabel={label} style={styles.edgeButton}>
-            <GlassFill radius={20} />
-            {loading ? <ActivityIndicator size="small" color="#fff" /> : <Ionicons name={playing ? "pause" : "play"} size={17} color="#fff" style={playing ? undefined : { marginLeft: 2 }} />}
-          </TouchableOpacity>
+      <View
+        style={[styles.bar, { marginHorizontal: barInset }, isLight ? styles.barLight : styles.barDark]}
+        onStartShouldSetResponder={() => true}
+        onResponderRelease={(event) => event.stopPropagation?.()}
+      >
+        <View style={[styles.barArt, { backgroundColor: isLight ? "rgba(0,0,0,0.06)" : "rgba(255,255,255,0.1)" }]}>
+          <SoundEq playing={playing} color={soft} />
         </View>
-        <SoundWave seed={`${name}|${creator}`} playing={playing} progress={progress} />
+        <View style={styles.barMeta}>
+          <Text style={[styles.barTitle, { color: ink }]} numberOfLines={1}>{name}</Text>
+          {creditLine ? (
+            <Text onPress={credit?.page ? openCredit : undefined} style={[styles.barSub, { color: soft }]} numberOfLines={1} accessibilityRole={credit?.page ? "link" : "text"}>{creditLine}</Text>
+          ) : !!creator && <Text style={[styles.barSub, { color: soft }]} numberOfLines={1}>{creator}</Text>}
+          <View style={styles.barTimeRow}>
+            <Text style={[styles.barTime, { color: soft }]}>{clock(time.current)}</Text>
+            <ScrubBar current={time.current} duration={time.duration} onSeek={seek} isLight={isLight} label={t("copy.67ae3405bcd4", { defaultValue: "Seek" })} />
+            <Text style={[styles.barTime, styles.barTimeEnd, { color: soft }]}>{time.duration ? clock(time.duration) : "–:––"}</Text>
+          </View>
+        </View>
+        <TouchableOpacity onPress={onPress} activeOpacity={0.75} accessibilityRole="button" accessibilityLabel={label} style={[styles.barButton, { backgroundColor: ink }]}>
+          {loading ? <ActivityIndicator size="small" color={isLight ? "#fff" : "#000"} /> : <Ionicons name={playing ? "pause" : "play"} size={17} color={isLight ? "#fff" : "#000"} style={playing ? undefined : { marginLeft: 2 }} />}
+        </TouchableOpacity>
       </View>
     );
   }
@@ -306,20 +326,7 @@ function ChipGlass() {
   );
 }
 
-const BAR_COUNT = 40;
 const BEAT_MS = 508; // 118 BPM
-
-/** Stable bar heights per song, so the same song always draws the same wave. */
-function waveFor(seed: string): number[] {
-  let h = 2166136261;
-  for (let i = 0; i < seed.length; i++) h = Math.imul(h ^ seed.charCodeAt(i), 16777619);
-  return Array.from({ length: BAR_COUNT }, (_, i) => {
-    h = Math.imul(h ^ (h >>> 15), 2246822507) + i;
-    const noise = ((h >>> 0) % 1000) / 1000;
-    const shape = Math.abs(Math.sin(i * 0.55)) * 0.5 + 0.5;
-    return 0.3 + 0.7 * noise * shape;
-  });
-}
 
 /** One looping beat drives every bar; each bar maps it to its own range and
  *  half of them run against it, so the wave ripples instead of pumping. */
@@ -337,34 +344,63 @@ function useBeat(playing: boolean, period = BEAT_MS) {
   return beat;
 }
 
-function SoundWave({ seed, playing, progress }: { seed: string; playing: boolean; progress: number }) {
-  const bars = useMemo(() => waveFor(seed), [seed]);
-  const beat = useBeat(playing);
+/**
+ * The song's seek bar, 0 to the whole song. It holds its own touch, so a drag
+ * along it neither scrolls the feed nor opens the post; the song jumps where
+ * the finger lifts.
+ */
+function ScrubBar({ current, duration, onSeek, isLight, label }: {
+  current: number;
+  duration: number;
+  onSeek: (seconds: number) => void;
+  isLight: boolean;
+  label: string;
+}) {
+  const track = useRef<View>(null);
+  const box = useRef({ x: 0, width: 0 });
+  const [drag, setDrag] = useState<number | null>(null);
+  const measure = () => track.current?.measureInWindow((x, _y, width) => { box.current = { x, width }; });
+  const fractionAt = (event: GestureResponderEvent) => {
+    const { x, width } = box.current;
+    return width > 0 ? Math.min(1, Math.max(0, (event.nativeEvent.pageX - x) / width)) : 0;
+  };
+  const progress = drag ?? (duration ? current / duration : 0);
+  const fill = isLight ? "#0b0b0f" : "#fff";
   return (
-    <View style={styles.wave} pointerEvents="none">
-      {bars.map((h, i) => {
-        const low = h * 0.35;
-        const scaleY = playing
-          ? beat.interpolate({ inputRange: [0, 1], outputRange: i % 2 ? [h, low] : [low, h] })
-          : 0.15;
-        return (
-          <Animated.View
-            key={i}
-            style={[styles.bar, i / BAR_COUNT < progress && styles.barPlayed, { transform: [{ scaleY }] }]}
-          />
-        );
-      })}
+    <View
+      ref={track}
+      onLayout={measure}
+      style={styles.scrub}
+      hitSlop={{ top: 12, bottom: 12 }}
+      accessible
+      accessibilityRole="adjustable"
+      accessibilityLabel={label}
+      accessibilityValue={{ min: 0, max: Math.round(duration), now: Math.round(current), text: `${clock(current)} / ${clock(duration)}` }}
+      accessibilityActions={[{ name: "increment" }, { name: "decrement" }]}
+      onAccessibilityAction={(event) => { if (duration) onSeek(current + (event.nativeEvent.actionName === "increment" ? 5 : -5)); }}
+      onStartShouldSetResponder={() => duration > 0}
+      onMoveShouldSetResponder={() => duration > 0}
+      onResponderTerminationRequest={() => false}
+      onResponderGrant={(event) => { measure(); setDrag(fractionAt(event)); }}
+      onResponderMove={(event) => setDrag(fractionAt(event))}
+      onResponderRelease={(event) => { const f = fractionAt(event); setDrag(null); onSeek(f * duration); }}
+      onResponderTerminate={() => setDrag(null)}
+    >
+      <View style={[styles.scrubTrack, { backgroundColor: isLight ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.15)" }]}>
+        <View style={[styles.scrubFill, { width: `${progress * 100}%`, backgroundColor: fill }]} />
+      </View>
+      <View style={[styles.scrubThumb, { left: `${progress * 100}%`, backgroundColor: fill, opacity: drag === null ? 0 : 1 }]} />
     </View>
   );
 }
 
-function SoundEq() {
-  const beat = useBeat(true, 300);
+function SoundEq({ playing = true, color = "#fff" }: { playing?: boolean; color?: string }) {
+  const beat = useBeat(playing, 300);
   const ranges: [number, number][] = [[0.25, 1], [1, 0.3], [0.4, 0.9], [0.9, 0.2]];
   return (
     <View style={styles.eq}>
       {ranges.map((range, i) => (
-        <Animated.View key={i} style={[styles.eqBar, { transform: [{ scaleY: beat.interpolate({ inputRange: [0, 1], outputRange: range }) }] }]} />
+        <Animated.View key={i} style={[styles.eqBar, { backgroundColor: color, transform: [{ scaleY: beat.interpolate({ inputRange: [0, 1], outputRange: range }) }] }]} />
       ))}
     </View>
   );
@@ -396,18 +432,21 @@ const styles = StyleSheet.create({
   chip: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8, maxWidth: "60%", alignSelf: "flex-start" },
   chipText: { color: "#fff", fontSize: 10, flexShrink: 1 },
   capsuleTitle: { color: "#fff", fontSize: 12, fontWeight: "600", flexShrink: 1, textShadowColor: "rgba(0,0,0,0.35)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
-  edgeCredit: { color: "rgba(255,255,255,0.7)", fontSize: 10, marginTop: 2 },
-  edge: { position: "absolute", left: 0, right: 0, bottom: 0, paddingTop: 40, paddingBottom: 8 },
-  edgeRow: { flexDirection: "row", alignItems: "flex-end", gap: 12, paddingHorizontal: 12 },
-  edgeMeta: { flex: 1, minWidth: 0 },
-  edgeTitleRow: { flexDirection: "row", alignItems: "center", gap: 6 },
-  edgeTitle: { color: "#fff", fontSize: 14, fontWeight: "700", flexShrink: 1 },
-  edgeCreator: { color: "rgba(255,255,255,0.82)", fontSize: 12, marginTop: 1 },
-  shadow: { textShadowColor: "rgba(0,0,0,0.6)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 8 },
-  edgeButton: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center", overflow: "hidden" },
-  wave: { flexDirection: "row", alignItems: "center", gap: 2, height: 14, marginTop: 8, marginHorizontal: 12 },
-  bar: { flex: 1, height: "100%", borderRadius: 2, backgroundColor: "rgba(255,255,255,0.4)" },
-  barPlayed: { backgroundColor: "rgba(255,255,255,0.95)" },
+  bar: { flexDirection: "row", alignItems: "center", gap: 12, marginTop: 8, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth },
+  barDark: { backgroundColor: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" },
+  barLight: { backgroundColor: "rgba(0,0,0,0.03)", borderColor: "rgba(0,0,0,0.1)" },
+  barArt: { width: 44, height: 44, borderRadius: 8, alignItems: "center", justifyContent: "center" },
+  barMeta: { flex: 1, minWidth: 0 },
+  barTitle: { fontSize: 14, fontWeight: "600" },
+  barSub: { fontSize: 12, marginTop: 1 },
+  barTimeRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: 6 },
+  barTime: { width: 36, fontSize: 11, fontVariant: ["tabular-nums"] },
+  barTimeEnd: { textAlign: "right" },
+  barButton: { width: 40, height: 40, borderRadius: 20, alignItems: "center", justifyContent: "center" },
+  scrub: { flex: 1, height: 20, justifyContent: "center" },
+  scrubTrack: { height: 4, borderRadius: 2, overflow: "hidden" },
+  scrubFill: { height: 4, borderRadius: 2 },
+  scrubThumb: { position: "absolute", top: 4, width: 12, height: 12, borderRadius: 6, marginLeft: -6 },
   eq: { flexDirection: "row", alignItems: "flex-end", gap: 2, height: 12 },
   eqBar: { width: 2.5, height: "100%", borderRadius: 2, backgroundColor: "#fff" },
 });
