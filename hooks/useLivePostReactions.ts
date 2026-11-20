@@ -120,7 +120,9 @@ export function useLivePostReactions({ tokenId, userAddress, requireAuth, onErro
     [react, engagement.myReaction, engagement.reactionCounts],
   );
 
-  return { ...engagement, react, toggle };
+  // The post itself and its overlay key ride along for the share sheet, which
+  // reposts through the same overlay and reads visibility / quote policy.
+  return { ...engagement, react, toggle, engagementKey, post: item as Record<string, unknown> };
 }
 
 export default useLivePostReactions;
