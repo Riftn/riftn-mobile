@@ -25,7 +25,6 @@ import {
   BackHandler,
   Pressable,
 } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { setOpenConversation, clearOpenConversation } from "../libs/activeChat";
 import Icon from "../components/ui/Icon";
@@ -655,16 +654,29 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   );
 
 
+  // Where the list sits and how tall it is, for a smooth trip to the bottom.
+  const scrollYRef = useRef(0);
+  const viewportHRef = useRef(0);
   const scrollToBottom = useCallback(() => {
     requestAnimationFrame(() => {
       try {
-        listRef.current?.scrollToOffset({ offset: 0, animated: true });
+        // From far up an animated scroll crawls through unmeasured rows and
+        // stutters: hop to just over a screen above the end, then glide.
+        const lead = Math.round((viewportHRef.current || 700) * 1.25);
+        if (scrollYRef.current > lead) {
+          listRef.current?.scrollToOffset({ offset: lead, animated: false });
+          requestAnimationFrame(() => listRef.current?.scrollToOffset({ offset: 0, animated: true }));
+        } else {
+          listRef.current?.scrollToOffset({ offset: 0, animated: true });
+        }
       } catch {}
     });
   }, []);
 
   const onScroll = useCallback((e: any) => {
-    const { contentOffset } = e.nativeEvent || {};
+    const { contentOffset, layoutMeasurement } = e.nativeEvent || {};
+    scrollYRef.current = contentOffset?.y || 0;
+    if (layoutMeasurement?.height) viewportHRef.current = layoutMeasurement.height;
     const atBottom = (contentOffset?.y || 0) <= 40;
     isAtBottomRef.current = atBottom;
     setShowJumpBtn(!atBottom);
@@ -717,6 +729,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   // is still above it. Driven by which rows are on screen (list is inverted:
   // index 0 is the newest line at the bottom).
   const [unreadBelow, setUnreadBelow] = useState(0);
+  // Every line below the screen: the number on the scroll-down button.
+  const [linesBelow, setLinesBelow] = useState(0);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
   const visibleRangeRef = useRef<{ min: number; max: number } | null>(null);
@@ -757,6 +771,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    // Inverted list: index 0 is the newest line, so everything under the
+    // lowest visible index is below the screen.
+    setLinesBelow(idx.length ? Math.min(...idx) : 0);
     refreshUnreadJump();
     reportReadSpotRef.current();
   }).current;
@@ -2460,10 +2477,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
           {/* Jump capsule: up to the unread marker until it has been on
               screen, then down to the newest line; count = unread below. */}
-          {(showJumpBtn || (!!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove)) && !dmDisabled && !showNewChatIntro && (
-            <Animated.View
-              entering={FadeIn.duration(200)}
-              exiting={FadeOut.duration(150)}
+          {!dmDisabled && !showNewChatIntro && (
+            <View
+              pointerEvents="box-none"
               className="absolute right-4"
               // Sit on the measured composer, not a fixed 100pt: with the
               // suggested-replies tray or a reply strip the composer is ~200pt
@@ -2474,13 +2490,14 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 const up = !!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove;
                 return (
                   <UnreadJumpButton
+                    show={showJumpBtn || up}
                     up={up}
-                    count={unreadBelow}
+                    count={showJumpBtn || up ? Math.max(linesBelow, unreadBelow) : 0}
                     onPress={up ? () => scrollToUnreadMarker(true) : scrollToBottom}
                   />
                 );
               })()}
-            </Animated.View>
+            </View>
           )}
 
           {/* Input or disabled banner — absolutely positioned, lifts with keyboard */}

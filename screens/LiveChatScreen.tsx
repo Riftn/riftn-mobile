@@ -270,8 +270,17 @@ const LiveChatScreen: React.FC = () => {
   const scrollToBottom = useCallback((animated = true) => {
     const maxOffset = contentHeightRef.current - layoutHeightRef.current;
     if (maxOffset > 0) {
+      // From far up an animated scroll crawls through unmeasured rows and
+      // stutters: hop to just over a screen above the end, then glide.
+      const lead = Math.round(layoutHeightRef.current * 1.25);
+      if (animated && maxOffset - scrollOffsetRef.current > lead) {
+        flatListRef.current?.scrollToOffset({ offset: maxOffset - lead, animated: false });
+        requestAnimationFrame(() => flatListRef.current?.scrollToOffset({ offset: maxOffset, animated: true }));
+        return;
+      }
       flatListRef.current?.scrollToOffset({ offset: maxOffset, animated });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Content measurement owns following the tail. A second delayed animated
@@ -401,6 +410,8 @@ const LiveChatScreen: React.FC = () => {
   const readTrackingRef = useRef(false);
   const unreadPlacedRef = useRef(false);
   const [unreadBelow, setUnreadBelow] = useState(0);
+  // Every message below the screen: the number on the scroll-down button.
+  const [linesBelow, setLinesBelow] = useState(0);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
   useEffect(() => {
@@ -536,6 +547,15 @@ const LiveChatScreen: React.FC = () => {
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null; item?: any }> }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    // Oldest at the top: every message row after the last visible one is below.
+    if (idx.length) {
+      const list = listItemsRef.current;
+      let below = 0;
+      for (let i = Math.max(...idx) + 1; i < list.length; i++) if (list[i]?.type === "message") below++;
+      setLinesBelow(below);
+    } else {
+      setLinesBelow(0);
+    }
     markPingsSeen(
       viewableItems
         .map((v) => v.item)
@@ -1311,12 +1331,13 @@ const LiveChatScreen: React.FC = () => {
           // Same control as DMs: up to the unread line until it has been seen,
           // then down to the newest, with the unread lines still below.
           const up = !!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove;
-          if (!(up || hasNewer || unreadBelow > 0 || (!atBottom && messages.length > 10))) return null;
+          const show = up || hasNewer || unreadBelow > 0 || (!atBottom && messages.length > 10);
           return (
-            <Animated.View style={[{ position: "absolute", right: 16, bottom: composerHeight + 12 }, composerRideStyle]}>
+            <Animated.View pointerEvents="box-none" style={[{ position: "absolute", right: 16, bottom: composerHeight + 12 }, composerRideStyle]}>
               <UnreadJumpButton
+                show={show}
                 up={up}
-                count={unreadBelow}
+                count={Math.max(linesBelow, unreadBelow)}
                 onPress={up ? scrollToUnreadMarker : () => (hasNewer ? void goToLatest() : scrollToBottom())}
               />
             </Animated.View>
