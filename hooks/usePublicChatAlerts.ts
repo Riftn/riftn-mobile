@@ -163,6 +163,7 @@ export function usePublicChatAlerts() {
 
     let cancelled = false;
     let socket: Socket | null = null;
+    let catchUp: (() => void) | null = null;
 
     const me = (user?.walletAddress || user?.address || '').toLowerCase();
     if (!me) return;
@@ -250,9 +251,16 @@ export function usePublicChatAlerts() {
           timerRef.current = setTimeout(() => flushRef.current(), FLUSH_DELAY_MS);
         }
       });
-      void getLiveChatMessages({ limit: 100 }).then((history) => {
-        if (!cancelled) history.messages.forEach(track);
-      }).catch(() => { /* socket history can still catch up */ });
+      // The newest window of the room, counted against the last read time.
+      // Run on connect and again every time the app comes back: a phone
+      // suspends the socket in the background and it can give up
+      // reconnecting, which left the badge at 0 while the room kept talking.
+      catchUp = () => {
+        void getLiveChatMessages({ limit: 100 }).then((history) => {
+          if (!cancelled) history.messages?.forEach(track);
+        }).catch(() => { /* socket history can still catch up */ });
+      };
+      catchUp();
     };
 
     void connect();
@@ -260,7 +268,10 @@ export function usePublicChatAlerts() {
     // Coming back to the app is the reader catching up for themselves — a card
     // fired seconds after they returned is noise, and the room is one tap away.
     const appStateSub = AppState.addEventListener('change', (state) => {
-      if (state === 'active') discard();
+      if (state !== 'active') return;
+      discard();
+      if (socket && !socket.connected) socket.connect();
+      catchUp?.();
     });
 
     return () => {

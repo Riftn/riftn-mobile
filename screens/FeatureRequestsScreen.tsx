@@ -787,13 +787,13 @@ const PromptComposer: React.FC<{
             <Pressable className="dark-surface" style={styles.pickRemove} disabled={submitting} hitSlop={8}
               onPress={() => setAttachments(prev => prev.filter((_, i) => i !== index))}
               accessibilityRole="button" accessibilityLabel={t("features.removePromptAttachment", "Remove {{name}}", { name: attachment.fileName || String(index + 1) })}>
-              <Icon name="X" size={12} color="#FFFFFF" />
+              <View style={styles.pickChip}><Icon name="X" size={13} color="#FFFFFF" strokeWidth={2.4} /></View>
             </Pressable>
             {PhotoStudio && !attachment.mimeType?.startsWith("video/") && attachment.mimeType !== "image/gif" && (
               <Pressable className="dark-surface" style={styles.pickMarkup} disabled={submitting} hitSlop={8}
                 onPress={() => setMarkupIndex(index)} testID="request-photo-edit"
                 accessibilityRole="button" accessibilityLabel={t("upload.cropRotate")}>
-                <Icon name="Crop" size={12} color="#FFFFFF" />
+                <View style={styles.pickChip}><Icon name="Crop" size={13} color="#FFFFFF" strokeWidth={2.2} /></View>
               </Pressable>
             )}
           </ThemePanel>
@@ -1697,25 +1697,28 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.10)",
     backgroundColor: "#18181B",
   },
+  // The buttons only place the chip: a dark-surface Pressable's own fill is
+  // turned into see-through glass, which vanished over light screenshots.
   pickMarkup: {
     position: "absolute",
     top: 4,
     left: 4,
-    width: 22,
-    height: 22,
-    borderRadius: 8,
-    backgroundColor: "rgba(0,0,0,0.7)",
-    alignItems: "center",
-    justifyContent: "center",
+    width: 26,
+    height: 26,
   },
   pickRemove: {
     position: "absolute",
     top: 4,
     right: 4,
-    width: 22,
-    height: 22,
-    borderRadius: 8,
-    backgroundColor: "rgba(0,0,0,0.7)",
+    width: 26,
+    height: 26,
+  },
+  pickChip: {
+    flex: 1,
+    borderRadius: 13,
+    backgroundColor: "hsla(0,0%,0%,0.78)",
+    borderWidth: 1,
+    borderColor: "hsla(0,0%,100%,0.55)",
     alignItems: "center",
     justifyContent: "center",
   },

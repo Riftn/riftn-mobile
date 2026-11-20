@@ -6,7 +6,7 @@ import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
  * Unified report flow with type-specific reason codes.
  * Supports "content" (video/post) and "user" report types.
  */
-import React, { memo, useCallback, useMemo, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -99,6 +99,19 @@ const ReportModalComponent: React.FC<ReportModalProps> = ({
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const { height: kbHeight, isVisible: kbVisible } = useKeyboard();
+  // The details box sits under the reason list, so on a phone the keyboard
+  // covers it. While it has focus, scroll it to the top of the sheet once the
+  // keyboard is up so what you type stays in view (submit sits right under it).
+  const scrollRef = useRef<ScrollView>(null);
+  const detailsY = useRef(0);
+  const detailsFocused = useRef(false);
+  const revealDetails = useCallback(() => {
+    if (!detailsFocused.current) return;
+    requestAnimationFrame(() => scrollRef.current?.scrollTo({ y: Math.max(0, detailsY.current - 8), animated: true }));
+  }, []);
+  useEffect(() => {
+    if (kbVisible) revealDetails();
+  }, [kbVisible, kbHeight, revealDetails]);
 
   const reasons = useMemo(
     () =>
@@ -251,6 +264,7 @@ const ReportModalComponent: React.FC<ReportModalProps> = ({
       </View>
 
       <ScrollView
+        ref={scrollRef}
         className="px-5"
         contentContainerStyle={{ paddingBottom: kbVisible ? kbHeight + 16 : 32 }}
         showsVerticalScrollIndicator={false}
@@ -333,13 +347,15 @@ const ReportModalComponent: React.FC<ReportModalProps> = ({
 
         {/* Additional details */}
         {selectedReason && (
-          <View className="mb-4">
+          <View className="mb-4" onLayout={(e) => { detailsY.current = e.nativeEvent.layout.y; }}>
             <Text className="text-theme-neutrals-400 text-xs font-semibold uppercase tracking-wider mb-1.5">
               {t("report.additionalDetails")}
             </Text>
             <TextInput
               value={additionalInfo}
               onChangeText={setAdditionalInfo}
+              onFocus={() => { detailsFocused.current = true; if (kbVisible) revealDetails(); }}
+              onBlur={() => { detailsFocused.current = false; }}
               maxLength={500}
               placeholder={
                 type === "comment"

@@ -175,6 +175,18 @@ const LiveViewerActionBar: React.FC<Props> = ({
     <View ref={composerKeyboard.ref} collapsable={false} onLayout={composerKeyboard.onLayout}
       style={{ marginBottom: composerKeyboard.lift }} pointerEvents="box-none">
       {reactionsOpen && isLive ? (
+        /* A tap anywhere else closes the strip, like the keyboard. It sits
+           first so the strip and the bar draw over it; it reaches up over
+           the whole player (overflow is visible, so it still takes touches). */
+        <Pressable
+          testID="live-reactions-dismiss"
+          accessibilityRole="button"
+          accessibilityLabel={t("common.close")}
+          onPress={closeReactions}
+          style={{ position: "absolute", left: -2000, right: -2000, bottom: -400, top: -Math.max(viewportHeight, 2000) }}
+        />
+      ) : null}
+      {reactionsOpen && isLive ? (
         <Pressable style={styles.reactionStrip} onPress={closeReactions}>
           <ChromeFill glass />
           {REACTION_OPTIONS.map((opt) => (
@@ -238,7 +250,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
             submitBehavior="submit"
             returnKeyType="send"
             onSubmitEditing={handleSend}
-            onFocus={() => setFocused(true)}
+            onFocus={() => { setFocused(true); setReactionsOpen(false); }}
             onBlur={() => setFocused(false)}
           />
           {typing ? (
