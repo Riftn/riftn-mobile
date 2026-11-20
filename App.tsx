@@ -117,6 +117,7 @@ import OnboardingChoicesApplier from "./components/Onboarding/OnboardingChoicesA
 import AvatarPromptHost from "./components/Onboarding/AvatarPromptHost";
 import NonFollowerOfferHost from "./components/Follow/NonFollowerOfferHost";
 import PostBgPickerHost from "./components/Profile/PostBgPicker";
+import CoAuthorSheetHost from "./components/common/CoAuthorSheet";
 import ArticleTilePickerHost from "./components/Profile/ArticleTile";
 import HalloweenGhostHost from "./components/Halloween/HalloweenGhostHost";
 import { FrostedBackdropProvider } from "./components/ui/FrostedBackdrop";
@@ -288,6 +289,7 @@ export default function App() {
               <NonFollowerOfferHost />
               {/* Your profile's text-post background, opened by holding your profile. */}
               <PostBgPickerHost />
+              <CoAuthorSheetHost />
               <ArticleTilePickerHost />
               {/* Halloween 2026 only: once per device while Horror is on. */}
               <HalloweenGhostHost />

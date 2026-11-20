@@ -57,6 +57,7 @@ import MintChainSheet from "./MintChainSheet";
 import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
 import { openWebPurchase } from "./WebPurchaseLink";
 import { useIsPostPinned, useTogglePin } from "../../hooks/usePinnedPosts";
+import { openCoAuthorSheet, useCoAuthorState } from "../../libs/coAuthors";
 import { useDubSettings, setDubSettings, checkDubbable } from "../../hooks/useVideoDub";
 import { baseLang } from "../../hooks/useVoiceDub";
 import { defaultChainId } from "../../config/constants";
@@ -434,6 +435,12 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,  quick,}) => {
   usePerfProbe("PostOptionsMenu");
   const user = useUser();
+  const coAuthors = useCoAuthorState(tokenId, post);
+  const viewerAddress = String((user as any)?.walletAddress || (user as any)?.address || "").toLowerCase();
+  const isCoAuthor = !!viewerAddress && coAuthors.users.some(u => u.address === viewerAddress);
+  // The creator invites and manages; a co-author or an invited person
+  // answers or steps off. Nobody else has anything to do here.
+  const showCoAuthors = tokenId != null && (isOwner || isCoAuthor || !!coAuthors.invited);
   const { requireAuth } = useAuthActions();
   const { t, i18n } = useTranslation();
   const linkUrl = firstExternalUrl(linkText);
@@ -819,6 +826,18 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
                 if (togglePinMutation.isPending) return;
                 togglePinMutation.mutate({ tokenId: numericTokenId, post });
               }}
+            />
+          )}
+
+          {showCoAuthors && (
+            <OptionRow
+              icon="UserPlus"
+              label={isOwner
+                ? (coAuthors.users.length ? t("coAuthors.manage", "Co-authors") : t("coAuthors.invite", "Invite a co-author"))
+                : coAuthors.invited
+                  ? t("coAuthors.answerInvite", "Co-author invite")
+                  : t("coAuthors.manage", "Co-authors")}
+              onPress={() => { onClose(); setTimeout(() => openCoAuthorSheet(tokenId!), 300); }}
             />
           )}
 

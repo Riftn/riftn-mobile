@@ -15,6 +15,8 @@ import { useTranslation } from "react-i18next";
 import { useLiveTarget } from "../../hooks/useIsUserLive";
 import { openLiveTarget } from "../../libs/openLiveTarget";
 import { prefetchUserProfile } from "../../hooks/useUserProfileData";
+import { CoAuthorAvatarBadge, CoAuthorNames } from "../common/CoAuthorBits";
+import type { CoAuthorUser } from "../../libs/coAuthors";
 
 const ICON_MUTED = "#6F7174";
 // Cancel the buttons' padding so their artwork starts at the card's inset.
@@ -54,6 +56,8 @@ export interface FeedCardHeaderProps {
   /** Where the lit bolt goes for a viewer who cannot boost this post. */
   onBoostedPress?: () => void;
   isHidden?: boolean;
+  /** People who made the post with its creator and said yes to it. */
+  coAuthors?: CoAuthorUser[];
 }
 
 // Written as hsla() so the readability and System Light colour passes leave
@@ -116,6 +120,7 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
   boosted,
   onBoostedPress,
   isHidden,
+  coAuthors,
 }) => {
   usePerfProbe("CardHeader");
   const { t } = useTranslation();
@@ -150,6 +155,7 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
           name={displayName || username}
           live={live}
         />
+        {coAuthors?.length ? <CoAuthorAvatarBadge users={coAuthors} size={avatarSize} /> : null}
       </Pressable>
 
       {/* Only the name row and the @handle open the profile, each sized to
@@ -161,11 +167,12 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
           avatar. Now the name's tallest letters meet the avatar's top and the
           handle's tails meet its bottom. */}
       <View style={{ flex: 1, minWidth: 0, marginRight: 8, alignItems: "flex-start", top: -TEXT_LIFT }}>
+        <View style={{ flexDirection: "row", alignItems: "center", minWidth: 0, maxWidth: "100%" }}>
         <Pressable
           onPress={onUserPress}
           onPressIn={onUserPress ? warmProfile : undefined}
           hitSlop={IDENTITY_HIT_SLOP}
-          style={{ flexDirection: "row", alignItems: "center", minWidth: 0, height: DISPLAY_NAME_LINE_HEIGHT, maxWidth: "100%" }}
+          style={{ flexDirection: "row", alignItems: "center", minWidth: 0, flexShrink: 1, height: DISPLAY_NAME_LINE_HEIGHT, maxWidth: "100%" }}
         >
           <Text
             className="font-semibold"
@@ -215,6 +222,8 @@ const FeedCardHeaderComponent: React.FC<FeedCardHeaderProps> = ({
             </View>
           )}
         </Pressable>
+        {coAuthors?.length ? <CoAuthorNames users={coAuthors} fontSize={DISPLAY_NAME_FONT_SIZE} lineHeight={DISPLAY_NAME_LINE_HEIGHT} /> : null}
+        </View>
         {username ? (
           <Pressable onPress={onUserPress} onPressIn={onUserPress ? warmProfile : undefined} hitSlop={IDENTITY_HIT_SLOP} style={{ maxWidth: "100%" }}>
             <Text
