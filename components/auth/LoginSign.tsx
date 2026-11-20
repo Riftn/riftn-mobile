@@ -140,11 +140,8 @@ const SOLID: LoginLook[] = ["neon", "3d", "flat"];
 const DEPTH = 5;
 
 /** What shows inside the letters, for an area `height` tall. */
-function Fill({ look, p, height, roll, small, solid }: { look: LoginLook; p: Palette; height: number; roll: Animated.Value; small: boolean; solid?: Solid }) {
+function Fill({ look, p, height, roll, small }: { look: LoginLook; p: Palette; height: number; roll: Animated.Value; small: boolean }) {
   const move = (from: number, to: number) => ({ transform: [{ translateY: roll.interpolate({ inputRange: [0, 1], outputRange: [from, to] }) }] });
-  if (solid) {
-    return <LinearGradient colors={solid.face} locations={[0.3, 1]} style={StyleSheet.absoluteFill} />;
-  }
   if (look === "tube") {
     const pitch = small ? 8 : 6;
     return (
@@ -229,9 +226,17 @@ function SignBody({ look, p, text, roll, copy, solid }: { look: LoginLook; p: Pa
             <Image source={WORDMARK} resizeMode="contain" style={[styles.markImg, { tintColor: TV_BLUE, transform: [{ translateX: 1.5 }] }]} {...hidden} />
           </>
         )}
-        <MaskedView style={StyleSheet.absoluteFill} maskElement={<Image source={WORDMARK} resizeMode="contain" style={styles.markImg} />} {...hidden}>
-          <Fill look={look} p={p} height={MARK_H} roll={roll} small={false} solid={solid} />
-        </MaskedView>
+        {solid ? (
+          // Solid looks paint the letters straight from the tinted wordmark.
+          // Android's MaskedView only redraws when its content changes, so with
+          // nothing moving inside it the mask stayed blank once the wordmark
+          // image finished loading and Flat (the default) showed no logo.
+          <Image source={WORDMARK} resizeMode="contain" style={[styles.markImg, { tintColor: solid.face[0] }]} {...hidden} />
+        ) : (
+          <MaskedView style={StyleSheet.absoluteFill} maskElement={<Image source={WORDMARK} resizeMode="contain" style={styles.markImg} />} {...hidden}>
+            <Fill look={look} p={p} height={MARK_H} roll={roll} small={false} />
+          </MaskedView>
+        )}
       </View>
       <View>
         {depth.map((step) => (
@@ -251,16 +256,18 @@ function SignBody({ look, p, text, roll, copy, solid }: { look: LoginLook; p: Pa
             styles.text,
             hl,
             styles.glowRoom,
-            { color: solid ? solid.face[1] : look === "holo" ? p.holoLow : p.low },
+            { color: solid ? solid.face[0] : look === "holo" ? p.holoLow : p.low },
             halo ? { textShadowColor: glow!, textShadowOffset: { width: 0, height: 0 }, textShadowRadius: look === "neon" ? 14 : 6 } : null,
           ]}
           {...(copy ? hidden : { accessibilityRole: "header" as const })}
         >
           {text}
         </Text>
-        <MaskedView style={StyleSheet.absoluteFill} maskElement={<Text style={[styles.text, hl, styles.maskText]}>{text}</Text>} pointerEvents="none" {...hidden}>
-          <Fill look={look} p={p} height={textH} roll={roll} small solid={solid} />
-        </MaskedView>
+        {!solid && (
+          <MaskedView style={StyleSheet.absoluteFill} maskElement={<Text style={[styles.text, hl, styles.maskText]}>{text}</Text>} pointerEvents="none" {...hidden}>
+            <Fill look={look} p={p} height={textH} roll={roll} small />
+          </MaskedView>
+        )}
       </View>
     </View>
   );

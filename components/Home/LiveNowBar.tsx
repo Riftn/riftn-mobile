@@ -192,7 +192,7 @@ export function LiveFace({ item, size, live = true, radius }: { item: LiveNowIte
 }
 
 /** What the glass shows: the broadcast when there is a picture, else the host's face. */
-function pictureOf(item: LiveNowItem): string | undefined {
+export function pictureOf(item: LiveNowItem): string | undefined {
   return item.cover || faceSources(item, 96).uri || undefined;
 }
 

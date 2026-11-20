@@ -1,4 +1,5 @@
 {
+  "stories": {"back": "Atrás", "more": "Más", "addMoment": "Añadir un momento", "boxOff": "Sin fondo", "boxOn": "Con fondo", "cameraOff": "El acceso a la cámara está desactivado. Actívalo en Ajustes o elige de Fotos.", "delete": "Eliminar momento", "deleteConfirm": "¿Eliminar este momento?", "deleteFailed": "No se pudo eliminar. Inténtalo de nuevo.", "deleted": "Momento eliminado", "everyone": "Todos", "followersOnly": "Seguidores", "like": "Me gusta", "mute": "Sonido", "newMoment": "Nuevo momento", "noViewsYet": "Nadie lo ha visto todavía.", "openCamera": "Cámara", "pick": "Elegir del dispositivo", "pickFailed": "No se pudo abrir. Prueba con otro.", "repliedTo": "Respondió a tu momento", "replyFailed": "No se pudo enviar tu respuesta.", "replyTo": "Responder a {{name}}", "report": "Denunciar", "reportFailed": "No se pudo enviar la denuncia.", "reportWhy": "¿Por qué lo denuncias?", "reported": "Gracias. Lo revisaremos.", "share": "Compartir", "shareFailed": "Tu momento no se publicó. Toca tu recuadro para reintentarlo.", "sharing": "Compartiendo…", "signInToReply": "Inicia sesión para responder", "startSub": "Una foto o un clip de hasta 60 segundos. Se queda 24 horas.", "tapRetry": "Toca para reintentar", "text": "Texto", "typeSomething": "Escribe algo", "viewsCount": "{{formatted}} vistas", "whoWatched": "Quién lo vio", "yourDay": "Tu día", "momentUp": "Tu momento estará visible 24 horas", "tooLarge": "Ese archivo es demasiado grande.", "reason": {"spam": "Spam", "nudity": "Desnudos o contenido sexual", "harassment": "Acoso o intimidación", "violence": "Violencia o actos peligrosos", "hate": "Discurso de odio", "other": "Otra cosa"}},
   "dmVideo": {"cover": "Cubierta", "trim": "Recortar", "mirror": "Espejo", "rotate": "Rotar", "hide": "Ocultar", "timer": "Temporizador", "close": "Cerrar", "photo": "Foto", "remove": "Eliminar", "pause": "Pausar", "play": "Reproducir video", "hiddenUntilTap": "Oculto hasta que lo toquen", "scrub": "Avanzar por el video", "addMore": "Agregar fotos o videos", "coverAria": "Toca un fotograma para establecer la cubierta", "trimHint": "Arrastra los extremos para recortar", "coverHint": "Toca un fotograma para hacerlo la cubierta", "uploadCover": "Subir una imagen de cubierta", "mirrored": "Espejado", "original": "Original", "rotate90": "Rotar 90°", "timerOff": "Apagado", "showNormally": "Mostrar normalmente", "showNormallyBody": "Lo ven de inmediato", "hideUntilTap": "Ocultar hasta que se toque", "hideUntilTapBody": "Desenfocado hasta que lo toquen", "hidePrice": "Ocultar detrás de un precio", "hidePriceBody": "Desenfocado hasta que te paguen", "priceUnavailable": "No en este chat", "priceLabelUsd": "Precio", "priceHint": "Lo ven borroso hasta que te pagas. Los artículos bloqueados no están cifrados de extremo a extremo.", "timerOffBody": "Se queda en el chat.", "timerViewBody": "Se va para ambos una vez que lo han visto.", "confirm": "Confirmar", "editItem": "Editar artículo {{value1}}", "coverSet": "Cubrir en {{value1}}", "lockedForUsd": "Desbloquear para {{value1}}", "timerTimeBody": "Se va para ambos {{value1}} después de que lo envíes."},
   "assistantCards": {"fitting": "Adecuada", "loadFailed": "No se pudo cargar esta tarjeta. Inicia sesión o pregunta de nuevo.", "failed": "No funcionó. Inténtalo de nuevo.", "reactOne": "Reaccionar a 1 publicación", "reactMany": "Reaccionar a {{count}} publicaciones", "follow": "Seguir a {{count}}", "unfollow": "Dejar de seguir a {{count}}", "allowChats": "¿Dejar que el asistente lea tus chats?", "stopChats": "¿Impedir que el asistente lea tus chats?", "confirmReact": "Reaccionar", "confirmFollow": "Seguir", "confirmUnfollow": "Dejar de seguir", "confirmAllow": "Permitir", "confirmStop": "Detener", "skipsAlready": "Omite {{count}} a las que ya reaccionaste", "allowChatsWhy": "Solo tú ves lo que lee. Solo chats directos, y los cifrados de extremo a extremo siguen privados. Pídele que pare cuando quieras.", "pickReaction": "Elige una reacción", "progress": "{{done}} de {{total}}", "doneReact": "Reaccionaste a {{count}} publicaciones", "doneAllow": "Permitido. Vuelve a hacer tu pregunta.", "doneStop": "Detenido. Ya no puede leer tus chats.", "doneFollow": "Hecho para {{count}}", "expired": "Esta tarjeta caducó. Pregunta de nuevo.", "cancelled": "Cancelado", "cancel": "Ahora no"},
   "chatReactions": {
@@ -1054,6 +1055,12 @@
     "feedSeparatorBentoDesc": "Cada publicación va en su propia tarjeta redondeada",
     "feedSeparatorLine": "Línea fina",
     "feedSeparatorLineDesc": "Sin tarjetas. Una línea fina entre publicaciones y un poco más de espacio para cada una",
+    "shareIcon": "Icono de compartir",
+    "shareIconDesc": "El icono del botón Compartir bajo las publicaciones",
+    "shareIconClassic": "Clásico",
+    "shareIconClassicDesc": "Tres puntos unidos",
+    "shareIconDistribute": "Distribuir",
+    "shareIconDistributeDesc": "Una persona en un círculo con flechas hacia fuera",
     "postLandingDesc": "Cómo aparece tu nueva publicación en tu feed",
     "postLandingGhost": "Hueco fantasma",
     "postLandingGhostDesc": "Tu feed hace espacio y tu publicación aparece suavemente en su lugar",
@@ -15829,6 +15836,44 @@
     "tipJar": "Tarro de regalo"
   },
   "liveStudio": {
+    "bot": {
+      "title": "Bot del chat",
+      "intro": "Un copresentador para el chat de tu directo. Saluda a los nuevos, responde preguntas sobre ti y el directo, cuenta a quien llega tarde lo que se perdió y anima un chat callado. Solo habla en tus directos, mientras estás en vivo.",
+      "enabled": "Bot del chat",
+      "enabledHint": "Apagado hasta que lo actives. Al apagarlo se calla al instante.",
+      "about": "Lo que sabe de ti",
+      "aboutPlaceholder": "Quién eres, qué transmites, tu horario, dónde encontrarte. Ejemplo: Artista abstracto y fan del metal. En vivo mar/jue/sáb 20:00 ET. El enlace de Discord está en mi perfil.",
+      "aboutHint": "Responde con esto, el título del directo y el chat. Si no lo sabe, no dice nada",
+      "personality": "Personalidad",
+      "personalities": {
+        "chill": "Tranquilo",
+        "hype": "Animado",
+        "funny": "Gracioso",
+        "formal": "Formal"
+      },
+      "chattiness": "Cuánto habla",
+      "chattinessLevels": {
+        "quiet": "Solo si le preguntan",
+        "normal": "Normal",
+        "lots": "Mucho"
+      },
+      "greet": "Saludar a quien escribe por primera vez",
+      "greetHint": "Una bienvenida por persona en cada directo",
+      "answer": "Responder preguntas",
+      "answerHint": "\"¿Qué estás haciendo?\", \"¿Cuándo es el próximo directo?\"",
+      "catchUp": "Poner al día a quien llega tarde",
+      "catchUpHint": "\"¿Qué me perdí?\" recibe un resumen corto del directo",
+      "wakeQuiet": "Animar un chat callado",
+      "wakeQuietHint": "Tras unos minutos de silencio, hace una pregunta al chat",
+      "commandButtons": "Mostrar mis comandos como botones",
+      "commandButtonsHint": "Tus !comandos de las reglas del directo aparecen sobre el chat para que los espectadores los toquen",
+      "commandsLabel": "Comandos del chat",
+      "safety": "Publica como @assistant, nunca habla de dinero ni tokens y nunca promete nada por ti.",
+      "save": "Guardar bot del chat",
+      "saved": "Bot del chat guardado",
+      "saveFailed": "No se pudo guardar el bot del chat",
+      "loadFailed": "No se pudieron cargar los ajustes del bot del chat"
+    },
     "destinations": {
       "title": "Destinos de multistream",
       "intro": "Transmite en Riftn una sola vez y enviamos tu directo gratis a cada plataforma activada aquí. Empieza a los pocos segundos de salir en vivo.",
