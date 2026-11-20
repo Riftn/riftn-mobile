@@ -10,10 +10,45 @@ import type { RefObject } from 'react';
 import { getBadgeUrlFor } from './misc';
 
 let waitingUntil = 0;
+let waitingSince = 0;
 
 /** The waiting frame is on screen now (called while it is mounted and as it leaves). */
 export function noteSignInWaiting(): void {
   waitingUntil = Date.now();
+}
+
+/** The waiting frame inside a sheet went on screen (its spin started then). */
+export function noteSignInWaitStarted(): void {
+  waitingSince = Date.now();
+}
+
+/** When the sheet's waiting frame went on screen. */
+export function signInWaitStartedAt(): number {
+  return waitingSince;
+}
+
+/**
+ * The sign-in page asks the app root to draw the wait (SignInArrival), so the
+ * veil and the rift are one thing from the tap until the picture has flown
+ * home: the page under them is swapped for the app midway, and a wait drawn
+ * inside the page went with it.
+ */
+let rootWait = false;
+const rootWaitListeners = new Set<() => void>();
+
+export function setRootSignInWait(on: boolean): void {
+  if (rootWait === on) return;
+  rootWait = on;
+  rootWaitListeners.forEach((l) => l());
+}
+
+export function rootSignInWaiting(): boolean {
+  return rootWait;
+}
+
+export function subscribeRootSignInWait(listener: () => void): () => void {
+  rootWaitListeners.add(listener);
+  return () => { rootWaitListeners.delete(listener); };
 }
 
 let arrivalUntil = 0;

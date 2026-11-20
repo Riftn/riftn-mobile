@@ -75,6 +75,9 @@ const SignInGatewayModal: React.FC<SignInGatewayModalProps> = ({
   const { needsUsername, provisionalUser, isLoading: authLoading } = useAuthState();
   const { isWalletLoading, isWalletSheetOpen, isSignupBlocked, handleWalletConnect } = useWalletAuth();
   const [isLocalLoading, setIsLocalLoading] = useState(false);
+  // Only the wait for the account itself shows the rift, never Google's own
+  // account picker or the sending of a code (see SignInScreen).
+  const [sessionWait, setSessionWait] = useState(false);
   const [currentProvider, setCurrentProvider] = useState("");
   const [authStep, setAuthStep] = useState<"main" | "email-code" | "phone-code">("main");
   const [pendingEmail, setPendingEmail] = useState("");
@@ -191,13 +194,19 @@ const SignInGatewayModal: React.FC<SignInGatewayModalProps> = ({
   const runProvisionAndSignIn = useCallback(
     async (supabaseUserId: string) => {
       setInlineError(null);
-      const outcome = await provisionAndSignIn(supabaseUserId, {
-        getSupabaseAccessToken,
-        signInWithSupabaseSession,
-        completeLocalSignIn,
-        getSupabaseAuthMeta,
-        provisionSolanaAddressForWallet,
-      });
+      setSessionWait(true);
+      let outcome: Awaited<ReturnType<typeof provisionAndSignIn>>;
+      try {
+        outcome = await provisionAndSignIn(supabaseUserId, {
+          getSupabaseAccessToken,
+          signInWithSupabaseSession,
+          completeLocalSignIn,
+          getSupabaseAuthMeta,
+          provisionSolanaAddressForWallet,
+        });
+      } finally {
+        setSessionWait(false);
+      }
 
       switch (outcome.kind) {
         case "signed-in":
@@ -606,7 +615,7 @@ const SignInGatewayModal: React.FC<SignInGatewayModalProps> = ({
         </ScrollView>
       ) : (
       <View style={{ flexShrink: 1 }}>
-        {isBusy && (
+        {(sessionWait || isWalletLoading) && !needsUsername && (
           <SignInWaitVeil label={t("copy.afc99407f777", { defaultValue: "Signing you in…" })} />
         )}
         <ScrollView
