@@ -43,9 +43,9 @@ export function useStoryShelf() {
   });
 }
 
-/** The ring colours for something new, per theme. Written dark: System Light's pass turns white to ink. */
+/** The ring colours for something new, per theme. */
 function useRing(): [string, string] {
-  const { theme } = useAppTheme();
+  const { theme, isLight } = useAppTheme();
   switch (theme) {
     case "hazy":
       return ["#A391FC", "#F39BFF"];
@@ -56,7 +56,7 @@ function useRing(): [string, string] {
     case "war":
       return ["#E8B04A", "#E8B04A"];
     default:
-      return ["#FFFFFF", "#FFFFFF"];
+      return isLight ? ["#7351D9", "#7351D9"] : ["#A391FC", "#A391FC"];
   }
 }
 
@@ -220,7 +220,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
           </View>
         ) : null}
         <Text style={styles.name} numberOfLines={1}>
-          {nameOf(entry.author)}
+          {entry.author.username ? `@${entry.author.username}` : nameOf(entry.author)}
         </Text>
       </View>
     </TouchableOpacity>
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     height: TILE_H - 4,
     borderRadius: 14,
   },
-  seen: { opacity: 0.55 },
+  seen: { opacity: 0.55, borderWidth: 1, borderColor: "rgba(127,127,127,0.8)" },
   liveTile: { borderWidth: 2 },
   shade: { position: "absolute", left: 0, right: 0, bottom: 0, height: "60%" },
   name: {
