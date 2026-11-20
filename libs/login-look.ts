@@ -1,6 +1,6 @@
 /**
- * How the Riftn logo and headline look on the sign-in screen: Tube TV (the
- * default), VHS tape, LED wall, Hologram, Neon glow, 3D or Flat. A per-device choice in Settings →
+ * How the Riftn logo and headline look on the sign-in screen: Flat (the
+ * default, nothing moves), Tube TV, VHS tape, LED wall, Hologram, Neon glow or 3D. A per-device choice in Settings →
  * Appearance, same key and values as web's `src/lib/login-look.ts`. MMKV
  * because the sign-in screen reads it while it renders, with a durable copy
  * so the choice survives signing out and app updates.
@@ -11,7 +11,7 @@ import { mirrorDurable, restoreDurable } from './durable-setting';
 
 export const LOGIN_LOOKS = ['tube', 'vhs', 'led', 'holo', 'neon', '3d', 'flat'] as const;
 export type LoginLook = (typeof LOGIN_LOOKS)[number];
-export const DEFAULT_LOGIN_LOOK: LoginLook = 'tube';
+export const DEFAULT_LOGIN_LOOK: LoginLook = 'flat';
 
 const KEY = 'riftn.login.look';
 const listeners = new Set<() => void>();
