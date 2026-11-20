@@ -9,9 +9,11 @@
 import React, { useEffect, useCallback } from "react";
 import { View } from "react-native";
 import { DeHubLoader } from "../components/DeHubLoader";
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { CommonActions, useRoute, useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../navigation/ScreenNames";
-import { resolveArticleSlug, resolveNewPost } from "../services/nft.service";
+import { getNFT, resolveArticleSlug, resolveNewPost } from "../services/nft.service";
+import { canOpenPostVideoViewer, postVideoViewerParams } from "../navigation/postVideoViewerParams";
+import { seedPostDetail } from "../libs/navPrefetch";
 import { resolveClip } from "../services/remix-links.service";
 import { createLogger } from "../libs/logger";
 import { toastError } from "../libs/toast";
@@ -42,6 +44,44 @@ const PostResolverScreen: React.FC = () => {
     else navigation.replace(ScreenNames.Root);
   }, [navigation]);
 
+  /**
+   * The post page, and for a playable video the Shorts viewer on top of it,
+   * the same player a feed tap opens. Back (or closing the viewer) lands on
+   * the post page, and Back again on whatever was under the link (Home for a
+   * link that started the app). A link to a comment keeps the post page, which
+   * is where that comment is.
+   */
+  const openPost = useCallback(async (target: string, focusComment?: string) => {
+    if (focusComment) {
+      navigation.replace(ScreenNames.FeedDetail, { tokenId: target, commentId: focusComment });
+      return;
+    }
+    let post: any = null;
+    try {
+      const res = await getNFT(target);
+      post = (res as any)?.result ?? res ?? null;
+    } catch {
+      post = null;
+    }
+    if (post && typeof post === "object") seedPostDetail(target, post);
+    const isVideo = post?.postType === "video" || post?.postType === "short";
+    if (!isVideo || !canOpenPostVideoViewer(post)) {
+      navigation.replace(ScreenNames.FeedDetail, { tokenId: target });
+      return;
+    }
+    logger.info("Opening shared video in the Shorts viewer", { tokenId: target });
+    // One step, so the post page is always the screen under the viewer.
+    navigation.dispatch((state: any) => {
+      const below = state.routes.slice(0, state.index);
+      const routes = [
+        ...below,
+        { name: ScreenNames.FeedDetail, params: { tokenId: target } },
+        { name: ScreenNames.ShortsViewer, params: postVideoViewerParams(post, target) },
+      ];
+      return CommonActions.reset({ index: routes.length - 1, routes });
+    });
+  }, [navigation]);
+
   const resolve = useCallback(async () => {
     // The slug carries no tokenId, and everything downstream keys on one.
     // Resolving also survives the post minting later, since the server keeps
@@ -50,7 +90,7 @@ const PostResolverScreen: React.FC = () => {
       const clip = await resolveClip(clipId);
       const target = clip?.postTokenId ?? clip?.streamTokenId;
       if (target != null) {
-        navigation.replace(ScreenNames.FeedDetail, { tokenId: String(target) });
+        await openPost(String(target));
       } else {
         toastError(t("common.postNotFound"));
         goHome();
@@ -62,10 +102,7 @@ const PostResolverScreen: React.FC = () => {
       logger.info("Resolving /newpost slug", { newPostId });
       const resolved = await resolveNewPost(newPostId);
       if (resolved) {
-        navigation.replace(ScreenNames.FeedDetail, {
-          tokenId: String(resolved.tokenId),
-          commentId,
-        });
+        await openPost(String(resolved.tokenId), commentId);
       } else {
         logger.warn("Slug did not resolve — going home", { newPostId });
         // Say why the link landed on Home instead of the post it promised.
@@ -96,11 +133,8 @@ const PostResolverScreen: React.FC = () => {
     }
 
     logger.info("Resolving to FeedDetail", { tokenId });
-    navigation.replace(ScreenNames.FeedDetail, {
-      tokenId,
-      commentId,
-    });
-  }, [tokenId, newPostId, clipId, commentId, navigation, goHome, t]);
+    await openPost(tokenId, commentId);
+  }, [tokenId, newPostId, clipId, commentId, navigation, goHome, t, openPost]);
 
   useEffect(() => {
     resolve();
