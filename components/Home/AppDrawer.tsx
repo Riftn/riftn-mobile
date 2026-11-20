@@ -1012,7 +1012,6 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                             <Text style={styles.headerCountNumber}>{formatCompactNumber(user.followers ?? 0)}</Text> {t("profile.followers")}
                           </Text>
                         </TouchableOpacity>
-                        <Text style={styles.headerCountsDot}>·</Text>
                         <TouchableOpacity
                           style={styles.headerCount}
                           onPress={() => openFollowList("following")}
@@ -1358,10 +1357,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     marginTop: 1,
   },
+  // Wraps rather than squeezing: on a narrow phone Following drops to its own
+  // line next to the balance chip (Requests eaf824e2).
   headerCounts: {
     flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
-    gap: 4,
+    columnGap: 12,
     marginTop: 3,
     minWidth: 0,
   },
@@ -1381,12 +1383,6 @@ const styles = StyleSheet.create({
   headerCountNumber: {
     color: "#E4E4E7",
     fontWeight: "700",
-  },
-  headerCountsDot: {
-    color: "#A1A1AA",
-    fontSize: 13,
-    fontWeight: "700",
-    marginHorizontal: 4,
   },
   signInIcon: {
     width: 44,
