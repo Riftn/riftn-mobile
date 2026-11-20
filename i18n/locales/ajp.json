@@ -2745,14 +2745,16 @@
       "podcast": "بودكاست",
       "newsletter": "نشرة إخبارية",
       "pronouns": "ضمائر",
-      "custom": "مخصص"
+      "custom": "مخصص",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "ضيف موقع، ضمائر أو أي شي تاني. الروابط بتظهر مع حساباتك الاجتماعية.",
     "type": "نوع الحقل",
     "needsLabel": "عطي كل حقل مخصص اسم",
     "add": "ضيف حقل",
     "remove": "شيل الحقل",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "فلترة الإشعارات من",

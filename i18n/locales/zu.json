@@ -2751,8 +2751,10 @@
       "pronouns": "Izinombolo zesayithi",
       "location": "Indawo",
       "custom": "Yesigubhu",
-      "customOption": "Ilebula lesigubhu"
-    }
+      "customOption": "Ilebula lesigubhu",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Hlunga izaziso ezivela ku-",

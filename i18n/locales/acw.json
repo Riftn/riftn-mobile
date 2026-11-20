@@ -2744,7 +2744,8 @@
       "location": "الموقع",
       "custom": "مخصص",
       "customOption": "الوسم المخصص",
-      "website": "موقع إلكتروني"
+      "website": "موقع إلكتروني",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "أضف موقع إلكتروني، ضمائر أو أي شيء ثاني. الروابط تظهر مع حساباتك الاجتماعية.",
     "type": "نوع الحقل",
@@ -2752,7 +2753,8 @@
     "add": "أضف حقل",
     "remove": "شيل الحقل",
     "placeholderLink": "yoursite.com",
-    "placeholderPronouns": "هو/هي"
+    "placeholderPronouns": "هو/هي",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "فلترة الإشعارات من",

@@ -2777,8 +2777,10 @@
       "pronouns": "Asmeniniai žodžiai",
       "location": "Vieta",
       "custom": "Papildomas",
-      "customOption": "Papildomas pavadinimas"
-    }
+      "customOption": "Papildomas pavadinimas",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtruoti pranešimus iš",

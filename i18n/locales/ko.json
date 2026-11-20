@@ -2776,9 +2776,11 @@
       "pronouns": "대명사",
       "location": "위치",
       "custom": "커스텀",
-      "customOption": "커스텀 레이블"
+      "customOption": "커스텀 레이블",
+      "cashapp": "Cash App"
     },
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "알림 필터 대상",

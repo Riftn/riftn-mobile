@@ -2786,13 +2786,15 @@
       "pronouns": "Pronouns",
       "location": "Location",
       "custom": "Custom",
-      "customOption": "Nirxa standard"
+      "customOption": "Nirxa standard",
+      "cashapp": "Cash App"
     },
     "add": "Qadê zêde bike",
     "remove": "Qadê rake",
     "descriptionPresets": "Malperek, cînav an her tiştekî din zêde bike. Girêdan bi torên te yên civakî re xuya dibin.",
     "type": "Cureyê qadê",
-    "needsLabel": "Navekî bide her qada taybet"
+    "needsLabel": "Navekî bide her qada taybet",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Agahdariyan parzûn bike ji",

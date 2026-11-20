@@ -2748,11 +2748,13 @@
       "podcast": "البودكاست",
       "newsletter": "النشرة الإخبارية",
       "location": "الموقع",
-      "customOption": "تسمية مخصصة"
+      "customOption": "تسمية مخصصة",
+      "cashapp": "Cash App"
     },
     "add": "ضيف حقل",
     "placeholderLink": "yoursite.com",
-    "placeholderPronouns": "هو/هي"
+    "placeholderPronouns": "هو/هي",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "فلترة الإشعارات من",

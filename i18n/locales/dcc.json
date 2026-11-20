@@ -2746,13 +2746,15 @@
       "pronouns": "ضمائر",
       "location": "مکان",
       "custom": "کاسٹم",
-      "customOption": "لابل کا نام"
+      "customOption": "لابل کا نام",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "ایک ویب سائٹ، ضمیر یا کوئی اور چیز شامل کریں۔ لنکس آپ کے سوشل کے ساتھ دکھائی دیں۔",
     "needsLabel": "ہر کسٹم فیلڈ کو ایک لیبل دیں",
     "add": "فیلڈ جوڑو",
     "remove": "فیلڈ ہٹاؤ",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "ان لوگاں کے نوٹیفکیشن فلٹر کرو",

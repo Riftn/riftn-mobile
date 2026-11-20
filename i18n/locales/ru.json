@@ -2776,9 +2776,11 @@
       "pronouns": "Местоимения",
       "location": "Локация",
       "custom": "Пользовательское",
-      "customOption": "Пользовательская метка"
+      "customOption": "Пользовательская метка",
+      "cashapp": "Cash App"
     },
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Фильтровать уведомления от",

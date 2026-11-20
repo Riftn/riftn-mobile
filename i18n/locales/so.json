@@ -2746,13 +2746,15 @@
       "location": "Goobta",
       "customOption": "Calaamad Custom",
       "blog": "Blog",
-      "pronouns": "Magac-u-yaallada"
+      "pronouns": "Magac-u-yaallada",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "Ku dar websaydh, ku dhawaaqid ama wax kale. Xiriirada waxay muujinayaan bulshadaada.",
     "type": "Nooca goobta",
     "needsLabel": "Siiya beer kasta oo caadada ah calaamad",
     "add": "Ku dar goob",
-    "remove": "Ka saar goobta"
+    "remove": "Ka saar goobta",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Ka sifee ogeysiisyada",

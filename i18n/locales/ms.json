@@ -2751,8 +2751,10 @@
       "pronouns": "Kata Ganti",
       "location": "Lokasi",
       "custom": "Tersuai",
-      "customOption": "Label tersuai"
-    }
+      "customOption": "Label tersuai",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Tapis pemberitahuan daripada",

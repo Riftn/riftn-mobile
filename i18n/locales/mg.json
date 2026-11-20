@@ -2750,9 +2750,11 @@
       "pronouns": "Fehezanteny",
       "location": "Toerana",
       "custom": "Safidy:",
-      "customOption": "Marika voafaritra"
+      "customOption": "Marika voafaritra",
+      "cashapp": "Cash App"
     },
-    "add": "Ampio saha"
+    "add": "Ampio saha",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Sivano ny fampandrenesana avy amin'ny",

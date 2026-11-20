@@ -2644,8 +2644,10 @@
       "pronouns": "Pronomes",
       "location": "Localização",
       "custom": "Personalizado",
-      "customOption": "Rótulo personalizado"
-    }
+      "customOption": "Rótulo personalizado",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtrar notificações de",

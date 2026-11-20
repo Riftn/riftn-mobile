@@ -2749,10 +2749,12 @@
       "pronouns": "सर्वनाम",
       "location": "स्थान",
       "custom": "कस्टम",
-      "customOption": "कस्टम लेबल"
+      "customOption": "कस्टम लेबल",
+      "cashapp": "Cash App"
     },
     "placeholderPronouns": "त्यांनी/त्यांनी",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "यांच्याकडील सूचना फिल्टर करा",

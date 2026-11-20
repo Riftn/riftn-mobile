@@ -2751,8 +2751,10 @@
       "pronouns": "Pronouns",
       "location": "Mövqe",
       "custom": "Fərdi",
-      "customOption": "Fərdi etiket"
-    }
+      "customOption": "Fərdi etiket",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Bildirişləri süz",

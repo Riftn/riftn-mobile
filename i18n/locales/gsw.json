@@ -2751,8 +2751,10 @@
       "pronouns": "Pronomen",
       "location": "Ort",
       "custom": "Benutzerdefiniert",
-      "customOption": "Benutzerdefiniertes Label"
-    }
+      "customOption": "Benutzerdefiniertes Label",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Benachrichtigunge filtere vo",

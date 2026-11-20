@@ -2751,8 +2751,10 @@
       "pronouns": "Sözlemeçilik",
       "location": "Ýerleşişi",
       "custom": "Adaty",
-      "customOption": "Adaty belgi"
-    }
+      "customOption": "Adaty belgi",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Bildirişleri süz",

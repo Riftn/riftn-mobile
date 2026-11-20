@@ -2749,10 +2749,12 @@
       "pronouns": "Заминҳои шахсӣ",
       "location": "Ҷойгиршавӣ",
       "custom": "Фармоишӣ",
-      "customOption": "Ярлиқи фармоишӣ"
+      "customOption": "Ярлиқи фармоишӣ",
+      "cashapp": "Cash App"
     },
     "placeholderLink": "yourite.com",
-    "placeholderPronouns": "онҳо/онҳо"
+    "placeholderPronouns": "онҳо/онҳо",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Филтри огоҳиномаҳо аз",

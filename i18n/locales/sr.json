@@ -2777,8 +2777,10 @@
       "pronouns": "Придеви",
       "location": "Локација",
       "custom": "Кастом",
-      "customOption": "Кастом ознака"
-    }
+      "customOption": "Кастом ознака",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Филтрирај обавештења од",

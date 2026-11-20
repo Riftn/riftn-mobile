@@ -2777,8 +2777,10 @@
       "pronouns": "Pronomet",
       "location": "Përbërja",
       "custom": "Personalizuar",
-      "customOption": "Etiketa personalizuar"
-    }
+      "customOption": "Etiketa personalizuar",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtro njoftimet nga",

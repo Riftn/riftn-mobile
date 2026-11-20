@@ -2747,12 +2747,14 @@
       "newsletter": "নিউজলেটার",
       "pronouns": "প্রোনাউন",
       "custom": "কাস্টম",
-      "customOption": "কাস্টম লেবেল"
+      "customOption": "কাস্টম লেবেল",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "একটা ওয়েবসাইট, প্রোনাউন বা আর কিছু যোগ করো। লিংক গুলা তুমার সোশ্যালসের সাথে দেখাইব।",
     "add": "ফিল্ড যোগ করো",
     "remove": "ফিল্ড সরাও",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "এইতানর নোটিফিকেশন ফিল্টার করো",

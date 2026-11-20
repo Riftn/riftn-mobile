@@ -2751,8 +2751,10 @@
       "pronouns": "Unvonlar",
       "location": "Manzil",
       "custom": "Maxsus",
-      "customOption": "Maxsus etiket"
-    }
+      "customOption": "Maxsus etiket",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Bildirishnomalarni filtrlash",

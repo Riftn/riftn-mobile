@@ -2747,12 +2747,14 @@
       "pronouns": "نومونه",
       "location": "مکان",
       "custom": "خپل ډول",
-      "customOption": "خپل نوم"
+      "customOption": "خپل نوم",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "یوه ویب پا، ه، ضمیمه یا کوم بل څه اضافه کړئ. ستاسو د ټولنیزو رسنیو چینلونو سره لینکونه شریک کړئ.",
     "add": "ساحه ورزیاته کړئ",
     "remove": "ساحه لرې کړئ",
-    "needsLabel": "هرې ځانګړې ساحې ته یو لېبل ورکړئ"
+    "needsLabel": "هرې ځانګړې ساحې ته یو لېبل ورکړئ",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "له دې خلکو خبرتیاوې فلټر کړئ",

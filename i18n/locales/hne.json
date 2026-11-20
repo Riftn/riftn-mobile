@@ -2751,8 +2751,10 @@
       "pronouns": "प्रनाउन्स",
       "location": "लोकेशन",
       "custom": "कस्टम",
-      "customOption": "कस्टम लेबल"
-    }
+      "customOption": "कस्टम लेबल",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "एमन के सूचना फिल्टर करव",
