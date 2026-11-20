@@ -25,6 +25,39 @@ let releaseTimer: ReturnType<typeof setTimeout> | null = null;
  */
 const RELEASE_AFTER_MS = 4000;
 
+/**
+ * How long a player that went quiet stays the app's "now playing" one.
+ *
+ * iOS decides from that flag whether this app's sound may mix with other
+ * apps'. Dropping it the moment a video stalled, or the viewer swiped to the
+ * next short, switched the whole audio session over to mixing, and the next
+ * frame of sound switched it straight back: twice per stall, twice per swipe.
+ * Each switch cuts the sound for a moment and can stall the player again,
+ * which is how one hiccup turned into sound chopped into bursts over a
+ * stuttering picture until the short was left. Held this long, a stall or a
+ * swipe changes nothing.
+ */
+const NOW_PLAYING_HOLD_MS = 4000;
+const nowPlayingOff = new Map<VideoPlayer, ReturnType<typeof setTimeout>>();
+
+function keepNowPlaying(player: VideoPlayer) {
+  const pending = nowPlayingOff.get(player);
+  if (pending) { clearTimeout(pending); nowPlayingOff.delete(player); }
+  if (!player.showNowPlayingNotification) player.showNowPlayingNotification = true;
+}
+
+function dropNowPlayingLater(player: VideoPlayer) {
+  if (!player.showNowPlayingNotification || nowPlayingOff.has(player)) return;
+  nowPlayingOff.set(player, setTimeout(() => {
+    nowPlayingOff.delete(player);
+    try {
+      if (!isAudible(player) && player.showNowPlayingNotification) player.showNowPlayingNotification = false;
+    } catch {
+      // Released meanwhile: nothing left to switch off.
+    }
+  }, NOW_PLAYING_HOLD_MS));
+}
+
 function applySession(want: boolean) {
   if (want === sessionHeld) return;
   sessionHeld = want;
@@ -61,9 +94,12 @@ function update(player: VideoPlayer) {
   const on = isAudible(player);
   try {
     if (player.staysActiveInBackground !== on) player.staysActiveInBackground = on;
-    if (player.showNowPlayingNotification !== on) player.showNowPlayingNotification = on;
+    if (on) keepNowPlaying(player);
+    else dropNowPlayingLater(player);
   } catch {
     // Released player: nothing to keep alive.
+    const pending = nowPlayingOff.get(player);
+    if (pending) { clearTimeout(pending); nowPlayingOff.delete(player); }
     audible.delete(player);
     syncSession();
     return;

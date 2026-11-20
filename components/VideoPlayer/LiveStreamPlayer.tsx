@@ -1809,6 +1809,18 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   // The line a held "Reply" answers; shown over the composer until sent or cleared.
   const [replyingTo, setReplyingTo] = useState<{ id: string; name: string; content: string } | null>(null);
   useEffect(() => { setReplyingTo(null); }, [chatRoomId]);
+  // Your own line being edited in the composer, the way a Requests comment is.
+  const [editingLine, setEditingLine] = useState<{ id: string; content: string } | null>(null);
+  useEffect(() => { setEditingLine(null); }, [chatRoomId]);
+  const handleSaveEdit = useCallback(
+    async (content: string): Promise<boolean> => {
+      if (!editingLine || !content.trim()) return false;
+      const ok = await liveChat.editMessage(editingLine.id, content.trim());
+      if (!ok) toastError(t("liveChat.editFailed"));
+      return ok;
+    },
+    [editingLine, liveChat, t]
+  );
   const handleSendMessage = useCallback(
     async (content: string): Promise<boolean> => {
       if (!content.trim() || !chatRoomId || !isSignedIn) return false;
@@ -1878,6 +1890,14 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       key: "reply", icon: "Reply", prime: true, label: t("liveChat.reply"),
       onPress: () => {
         setReplyingTo({ id: heldId!, name: heldName, content: held.activity.meta?.gifUrl ? "GIF" : heldText });
+        setHeld(null);
+      },
+    });
+    if (canInteract && heldAddress === me && heldText && !held.activity.meta?.gifUrl && !liveChat.isBanned && !muted) holdTiles.push({
+      key: "edit", icon: "Pencil", label: t("common.edit"),
+      onPress: () => {
+        setReplyingTo(null);
+        setEditingLine({ id: heldId!, content: heldText });
         setHeld(null);
       },
     });
@@ -2203,6 +2223,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   onSendGif={handleSendGif}
                   replyingTo={replyingTo}
                   onCancelReply={() => setReplyingTo(null)}
+                  editing={editingLine}
+                  onSaveEdit={handleSaveEdit}
+                  onCancelEdit={() => setEditingLine(null)}
                   onReact={handleStripReaction}
                   onLike={handleLiveLike}
                   onShare={handleShare}

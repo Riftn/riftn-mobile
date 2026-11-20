@@ -1082,8 +1082,10 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
     recovery.stop();
     try {
       player.pause();
+      // "Now playing" is not dropped here: doing it on every swipe switched
+      // the phone's audio session to mixing and back as the next short
+      // started (libs/backgroundVideoAudio lets it go once things are quiet).
       setPlayerProp(player, "staysActiveInBackground", false);
-      setPlayerProp(player, "showNowPlayingNotification", false);
       // A short the pager silenced on its way out gets the viewer's setting back.
       setPlayerProp(player, "muted", isMutedRef.current);
     } catch {}
@@ -1118,7 +1120,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
       // when the value changes (see libs/playerProps).
       void player.playing;
       setPlayerProp(player, "staysActiveInBackground", isPictureInPicturePlayer(player));
-      setPlayerProp(player, "showNowPlayingNotification", isPictureInPicturePlayer(player));
+      if (isPictureInPicturePlayer(player)) setPlayerProp(player, "showNowPlayingNotification", true);
     } catch {
       // Released between close and reopen: nothing to play on this one.
       return;
