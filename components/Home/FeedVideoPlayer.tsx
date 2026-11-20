@@ -56,7 +56,7 @@ import {
 import SmartImage from "../common/SmartImage";
 import { useAppTheme } from "../../context/ThemeContext";
 import { patchPostStage } from "../../libs/postStage";
-import { useFeedBleed, useLightFlatFeed } from "./feedBleed";
+import { useFeedBleed } from "./feedBleed";
 import type { CaptionControls } from "../VideoPlayerCore/CaptionOverlay";
 import Spinner from "../common/Spinner";
 import { useNavigation } from "@react-navigation/native";
@@ -624,9 +624,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   // The cinematic system feed runs media edge to edge exactly like minimal,
   // with its own chrome over the top and bottom bands.
   const bleed = useFeedBleed();
-  // System Light phones run the feed without bentos, media edge to edge.
-  const lightFlat = useLightFlatFeed();
-  const isMinimal = minimalTheme || !!bleed || lightFlat;
+  const isMinimal = minimalTheme || !!bleed;
   // Media that reaches the screen edges keeps its controls off them.
   const edgeToEdge = isMinimal || postPage;
   // The post page sits its media in the post's own column, so outside the
@@ -2362,8 +2360,7 @@ const FeedVideoPoster: React.FC<Pick<FeedVideoPlayerProps, "tokenId" | "storedAs
       posterAspect == null ? undefined : measuredAspect);
     const { isMinimal: minimalTheme, isLight } = useAppTheme();
     const bleed = useFeedBleed();
-    const lightFlat = useLightFlatFeed();
-    const isMinimal = minimalTheme || !!bleed || lightFlat;
+    const isMinimal = minimalTheme || !!bleed;
     const edgeToEdge = isMinimal || postPage;
     const windowSize = useWindowDimensions();
     const cropMedia = true;

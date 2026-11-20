@@ -74,7 +74,7 @@ import ArticleCover from "../article/ArticleCover";
 import ArticleReaderBody from "../article/ArticleReaderBody";
 import { articleLook, articleReadingMinutes } from "../../libs/article";
 import ContainedFeedImage from "./ContainedFeedImage";
-import { FeedBleedContext, LIGHT_FLAT_TEXT_INSET, useLightFlatFeed, type FeedBleed, type MediaTool } from "./feedBleed";
+import { FeedBleedContext, type FeedBleed, type MediaTool } from "./feedBleed";
 import {
   CinematicAuthorChip,
   CinematicIconButton,
@@ -612,11 +612,6 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   const isPublicPost = !item.visibility || item.visibility === "public";
 
   const { isMinimal, skin, theme, isLight } = useAppTheme();
-  // System Light phones drop the bento like Minimal does: the post spans the
-  // screen, media bleeds edge to edge, text keeps a 12pt inset.
-  const lightFlat = useLightFlatFeed();
-  const edgeFeed = isMinimal || lightFlat;
-  const edgeInset = isMinimal ? MINIMAL_TEXT_INSET : LIGHT_FLAT_TEXT_INSET;
   // The shared frosted wallpaper (components/theme/CardFrost) is up: the card
   // paints its tint over that instead of over the sharp scene.
   const frosted = useCardFrost() && !!skin;
@@ -636,8 +631,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     const width = e.nativeEvent.layout.width;
     // 0 is a hidden pager page, not a column.
     if (width > 0 && SCREEN_WIDTH >= 560 && SCREEN_WIDTH <= 1366) setTabletColumnWidth(width);
-    if (edgeFeed && !immersive && !flat) handleMinimalLayout(e);
-  }, [SCREEN_WIDTH, edgeFeed, immersive, flat, handleMinimalLayout]);
+    if (isMinimal && !immersive && !flat) handleMinimalLayout(e);
+  }, [SCREEN_WIDTH, isMinimal, immersive, flat, handleMinimalLayout]);
 
   const [replacementImages, setReplacementImages] = useState<{ tokenId: string; imageUrls: string[] } | null>(null);
   // Only the owner can replace a post's images, so only the owner's own card
@@ -1997,7 +1992,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             active={isVisible}
             descriptions={item.mediaDescriptions}
             title={localTitle}
-            width={edgeMedia || edgeFeed ? SCREEN_WIDTH : itemWidth}
+            width={edgeMedia || isMinimal ? SCREEN_WIDTH : itemWidth}
             // The post page draws its card with presses off: there the comic
             // is the full one (page hand, tap to flip), not a feed teaser.
             full={immersive || disablePress}
@@ -2019,8 +2014,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             active={isVisible}
             uri={galleryImages[0]}
             description={item.mediaDescriptions?.[0]}
-            width={edgeFeed || edgeMedia ? SCREEN_WIDTH : undefined}
-            fallbackWidth={edgeFeed || edgeMedia ? SCREEN_WIDTH : SINGLE_IMAGE_WIDTH}
+            width={isMinimal || edgeMedia ? SCREEN_WIDTH : undefined}
+            fallbackWidth={isMinimal || edgeMedia ? SCREEN_WIDTH : SINGLE_IMAGE_WIDTH}
             priority={prioritizeMedia ? "high" : "normal"}
             postPage={immersive}
           />
@@ -2255,8 +2250,8 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // Minimal: media runs edge to edge while the text keeps its inset. Only the
   // picture bleeds — an audio post's player stays in the column with the text.
   const bleed = (node: React.ReactNode) =>
-    edgeFeed && !immersive && !flat && !desk && node ? (
-      <View style={{ marginHorizontal: -edgeInset }}>{node}</View>
+    isMinimal && !immersive && !flat && !desk && node ? (
+      <View style={{ marginHorizontal: -MINIMAL_TEXT_INSET }}>{node}</View>
     ) : node;
 
   const renderContent = () => {
@@ -2315,7 +2310,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         const media = renderImageContent();
         if (!soundtrackOnMedia || !media) return bleed(media);
         return bleed(
-          <View style={[{ overflow: "hidden" }, !edgeMedia && !immersive && !lightFlat && { borderRadius: FEED_BENTO_RADIUS }]}>
+          <View style={[{ overflow: "hidden" }, !edgeMedia && !immersive && { borderRadius: FEED_BENTO_RADIUS }]}>
             <SoundDrift playing={soundPlaying}>{media}</SoundDrift>
             <SoundtrackBadge
               key={postKey}
@@ -3235,11 +3230,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         paddingTop: 12,
         paddingHorizontal: IMMERSIVE_INSET,
         paddingBottom: 12,
-      } : edgeFeed ? {
+      } : isMinimal ? {
         marginHorizontal: -minimalGutter,
-        paddingTop: edgeInset,
-        paddingHorizontal: edgeInset,
-        paddingBottom: isMinimal ? 18 : 14,
+        paddingTop: MINIMAL_TEXT_INSET,
+        paddingHorizontal: MINIMAL_TEXT_INSET,
+        paddingBottom: 18,
         borderBottomWidth: hideDivider ? 0 : 1,
         borderBottomColor: MINIMAL_HAIRLINE,
       } : skin ? [

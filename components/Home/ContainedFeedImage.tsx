@@ -9,7 +9,7 @@ import { useFeedFrameAspect } from "../../hooks/useFeedFrameAspect";
 import SmartImage from "../common/SmartImage";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useSettledAutoplay } from "../../hooks/useSettledAutoplay";
-import { useFeedBleed, useLightFlatFeed } from "./feedBleed";
+import { useFeedBleed } from "./feedBleed";
 import AltTextBadge from "./AltTextBadge";
 
 interface ContainedFeedImageProps {
@@ -92,8 +92,7 @@ const ContainedFeedImage: React.FC<ContainedFeedImageProps> = ({
   const { isMinimal } = useAppTheme();
   // Minimal and the cinematic system feed both run the image edge to edge.
   const bleed = !!useFeedBleed();
-  const lightFlat = useLightFlatFeed();
-  const edgeToEdge = isMinimal || lightFlat || bleed;
+  const edgeToEdge = isMinimal || bleed;
   const [measuredWidth, setMeasuredWidth] = useState(fallbackWidth);
   const availableWidth = width ?? measuredWidth;
   const fitted = useMemo(
