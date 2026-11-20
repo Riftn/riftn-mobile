@@ -57,7 +57,7 @@ export function shareMoment(moment: MomentToShare, onDone: () => void) {
       }
       setPendingMoment((p) => (p && p.key === key ? null : p));
       onDone();
-      toastSuccess(_translateCopy("stories.momentUp", { defaultValue: "Your moment is up for 24 hours" }));
+      toastSuccess(_translateCopy("stories.momentPublished", { defaultValue: "Your moment is up" }));
     } catch (err) {
       const e = err as { status?: number; message?: string } | null;
       const message =

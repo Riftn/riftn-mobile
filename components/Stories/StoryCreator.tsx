@@ -33,7 +33,7 @@ import Icon from "../ui/Icon";
 import { DarkRoomProvider } from "../../context/ThemeContext";
 import { optionalSkia } from "../../libs/skia";
 import { toastError } from "../../libs/toast";
-import type { StoryAudience } from "../../services/stories.service";
+import { STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
 import { shareMoment } from "./story-upload";
 import type { TextLayer } from "./story-compose";
@@ -137,6 +137,9 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel }: {
   const [editing, setEditing] = useState<TextLayer | null>(null);
   const [muted, setMuted] = useState(false);
   const [audience, setAudience] = useState<StoryAudience>("everyone");
+  const [lifetime, setLifetime] = useState<StoryLifetime>(24);
+  const [choosingLifetime, setChoosingLifetime] = useState(false);
+  const lifetimeLabel = t("stories.lifetime", { defaultValue: "Story duration" });
   const [busy, setBusy] = useState(false);
 
   React.useEffect(() => {
@@ -204,6 +207,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel }: {
           preview: picked.uri,
           fields: {
             audience,
+            expiresInHours: lifetime,
             muted: picked.kind === "video" ? muted : false,
             caption,
             remixSourceId,
@@ -269,14 +273,37 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel }: {
             {audience === "everyone" ? t("stories.everyone", { defaultValue: "Everyone" }) : t("stories.followersOnly", { defaultValue: "Followers" })}
           </Text>
         </TouchableOpacity>
-        <View style={styles.chip}>
-          <Text style={styles.chipText}>24h</Text>
-        </View>
+        <TouchableOpacity onPress={() => setChoosingLifetime(true)} style={styles.chip} accessibilityRole="button" accessibilityLabel={`${lifetimeLabel}, ${lifetime}h`}>
+          <Text style={styles.chipText}>{lifetime}h</Text>
+        </TouchableOpacity>
         <View style={{ flex: 1 }} />
         <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy}>
           <Text style={styles.shareText}>{t("stories.share", { defaultValue: "Share" })}</Text>
         </TouchableOpacity>
       </View>
+
+      {choosingLifetime && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setChoosingLifetime(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{lifetimeLabel}</Text>
+              <TouchableOpacity style={styles.iconBtn} onPress={() => setChoosingLifetime(false)} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+                <Icon name="X" size={20} color="#fff" />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.textRow}>
+              {STORY_LIFETIMES.map((hours) => (
+                <TouchableOpacity key={hours} style={[styles.chip, lifetime === hours && styles.chipOn]}
+                  accessibilityRole="button" accessibilityState={{ selected: lifetime === hours }}
+                  onPress={() => { setLifetime(hours); setChoosingLifetime(false); }}>
+                  <Text style={styles.chipText}>{hours}h</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        </View>
+      )}
 
       {editing ? (
         <TextSheet
@@ -461,6 +488,7 @@ const styles = StyleSheet.create({
   shareBtn: { height: 44, paddingHorizontal: 22, borderRadius: 22, backgroundColor: "#fff", alignItems: "center", justifyContent: "center" },
   shareText: { color: "#000", fontSize: 15, fontWeight: "800" },
   textBack: { flex: 1, backgroundColor: "rgba(0,0,0,0.55)" },
+  lifetimeOverlay: { ...StyleSheet.absoluteFillObject, justifyContent: "flex-end", backgroundColor: "rgba(0,0,0,0.42)" },
   textTools: { paddingHorizontal: 14, paddingTop: 12, gap: 10, backgroundColor: "#16161A", borderTopLeftRadius: 22, borderTopRightRadius: 22, borderTopWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.18)" },
   swatches: { flexDirection: "row", gap: 8 },
   swatch: { width: 28, height: 28, borderRadius: 14, borderWidth: 2, borderColor: "rgba(255,255,255,0.4)" },

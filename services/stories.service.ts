@@ -13,6 +13,8 @@ import { xhrUploadFormData } from "../libs/xhr-upload";
 import { ResumableUnsupportedError, resumableUploadFile } from "../libs/resumable-upload";
 
 export type StoryAudience = "everyone" | "followers";
+export const STORY_LIFETIMES = [6, 12, 24] as const;
+export type StoryLifetime = (typeof STORY_LIFETIMES)[number];
 
 export interface StoryMention {
   address: string;
@@ -124,6 +126,7 @@ export function reportStory(id: string, reason: string): Promise<unknown> {
 
 export interface CreateStoryFields {
   audience: StoryAudience;
+  expiresInHours?: StoryLifetime;
   allowReplies?: boolean;
   muted?: boolean;
   caption?: string;
@@ -145,6 +148,7 @@ export function createStory(
   const fd = new FormData();
   fd.append("type", fields.draftVideoId ? "video" : "photo");
   fd.append("audience", fields.audience);
+  if (fields.expiresInHours != null) fd.append("expiresInHours", String(fields.expiresInHours));
   fd.append("allowReplies", String(fields.allowReplies !== false));
   fd.append("muted", String(!!fields.muted));
   if (fields.caption) fd.append("caption", fields.caption);

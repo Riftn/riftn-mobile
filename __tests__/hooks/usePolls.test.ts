@@ -21,7 +21,19 @@
  */
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 
-const NO_POLL_KEY = 'dehub-posts-without-polls';
+const NO_POLL_KEY = 'dehub-anonymous-posts-without-polls-v2';
+let mockWallet: string | undefined;
+
+jest.mock('../../context/AuthContext', () => ({
+  useUser: () => mockWallet ? { walletAddress: mockWallet } : null,
+}));
+jest.mock('../../libs/auth.utils', () => ({
+  getAuthToken: async () => mockWallet ?? null,
+  isTokenForCachedUser: (user: { address: string }, token: string) => user.address === token,
+}));
+jest.mock('../../libs/token-refresh', () => ({
+  tokenRefreshManager: { ensureFreshToken: async () => {} },
+}));
 
 // Seeded before the first render so the hook's one-time read of the persisted
 // set picks it up — this is the "app was killed and reopened" path.
@@ -64,6 +76,7 @@ function emptied(): number[] {
 }
 
 beforeEach(() => {
+  mockWallet = undefined;
   mockGetPolls.mockReset();
 });
 
@@ -96,7 +109,7 @@ describe('usePoll', () => {
     // The failure being pinned: this used to be one request per card, and a
     // feed page is ten to twenty cards.
     expect(mockGetPolls).toHaveBeenCalledTimes(1);
-    expect(mockGetPolls).toHaveBeenCalledWith([1, 2, 3]);
+    expect(mockGetPolls).toHaveBeenCalledWith([1, 2, 3], null);
     expect(b.result.current.poll?.tokenId).toBe(2);
     expect(c.result.current.poll).toBeNull();
   });
@@ -141,6 +154,25 @@ describe('usePoll', () => {
     });
 
     expect(mockGetPolls).toHaveBeenCalledTimes(2);
-    expect(mockGetPolls).toHaveBeenLastCalledWith([9]);
+    expect(mockGetPolls).toHaveBeenLastCalledWith([9], null);
+  });
+
+  it('fetches the second wallet’s vote after an account switch', async () => {
+    jest.useFakeTimers();
+    mockWallet = 'first';
+    mockGetPolls.mockImplementation(async (ids: number[], token: string) => ({
+      status: true,
+      result: { [ids[0]]: { ...poll(ids[0]), userVote: token === 'first' ? { optionIndexes: [0] } : null } },
+    }));
+    const { result, rerender } = renderHook(() => usePoll(250));
+    await act(async () => { await jest.advanceTimersByTimeAsync(11_000); });
+    expect(result.current.poll?.userVote?.optionIndexes).toEqual([0]);
+
+    mockWallet = 'second';
+    rerender({});
+    expect(result.current.poll).toBeNull();
+    await act(async () => { await jest.advanceTimersByTimeAsync(100); });
+    expect(mockGetPolls.mock.calls).toEqual([[[250], 'first'], [[250], 'second']]);
+    expect(result.current.poll?.userVote).toBeNull();
   });
 });
