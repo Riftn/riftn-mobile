@@ -130,7 +130,7 @@ PY
 
 # Turns the simulator on its side through the Simulator app's Device menu.
 turn_sideways() {
-  limit 30 open -a Simulator --args -CurrentDeviceUDID "$UDID" || return 1
+  limit 30 open "$(xcode-select -p)/Applications/Simulator.app" --args -CurrentDeviceUDID "$UDID" || return 1
   sleep 15
   limit 30 osascript -e 'tell application "Simulator" to activate' \
     -e 'tell application "System Events" to tell process "Simulator" to click menu item "Rotate Left" of menu "Device" of menu bar 1' \
@@ -146,7 +146,8 @@ unfold_duo() {
   {
     echo "== simctl ui / io help (looking for a fold command)"
     xcrun simctl help ui 2>&1
-    xcrun simctl help io 2>&1 | grep -iE "fold|posture|hinge|display" || true
+    xcrun simctl help io 2>&1 | sed -n '/screenConfig/,$p'
+    xcrun simctl io "$UDID" screenConfig --display=3 help 2>&1 | head -40
   } > "$log"
   if xcrun simctl help ui 2>&1 | grep -qiE "fold|posture"; then
     for arg in "fold open" "posture open" "posture flat" "unfold"; do
@@ -155,7 +156,7 @@ unfold_duo() {
     done
   fi
   echo "== open Simulator" >> "$log"
-  limit 90 open -a Simulator --args -CurrentDeviceUDID "$UDID" >> "$log" 2>&1 || { echo "open failed: $?" >> "$log"; return 1; }
+  limit 90 open "$(xcode-select -p)/Applications/Simulator.app" --args -CurrentDeviceUDID "$UDID" >> "$log" 2>&1 || { echo "open failed: $?" >> "$log"; return 1; }
   sleep 20
   limit 60 osascript >> "$log" 2>&1 <<'AS' || return 1
 tell application "Simulator" to activate
