@@ -2,6 +2,8 @@ import SkeletonBlock from '../components/Feed/SkeletonBlock';
 import { RouteBusyMark } from '../context/RouteBusyContext';
 import { openChatMention } from "../libs/openChatMention";
 import React, { useState, useCallback, useMemo, useEffect, useLayoutEffect, useRef } from "react";
+import { useOnDemandTranslate } from "../hooks/useOnDemandTranslate";
+import { ensureAiConsent } from "../libs/ai-consent";
 import { useTranslation } from "react-i18next";
 import {
   View,
@@ -611,6 +613,23 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
     item.type !== NotificationType.SYSTEM &&
     item.type !== NotificationType.ACCOUNT_WARNING;
   const sentence = localizedNotificationContent(item, t, i18n.language) ?? item.content;
+  // Press and hold a row to offer Translate; it then shows the row and its
+  // comment or request in the reader's language until Show original.
+  const [translateOffer, setTranslateOffer] = useState(false);
+  const [translateOn, setTranslateOn] = useState(false);
+  useEffect(() => {
+    setTranslateOffer(false);
+    setTranslateOn(false);
+  }, [item._id]);
+  const sentenceShown = useOnDemandTranslate(sentence, translateOn);
+  const toggleTranslate = useCallback(async () => {
+    if (translateOn) {
+      setTranslateOn(false);
+      return;
+    }
+    if (!(await ensureAiConsent())) return;
+    setTranslateOn(true);
+  }, [translateOn]);
   const actorName = item.actor?.displayName || item.actor?.username || item.actorUsername;
   const actorBadge = item.actor && !item.actor.hideBadgeAndBalance && !(item.aggregatedCount && item.aggregatedCount > 1)
     ? getBadgeUrlFor(item.actor)
@@ -757,9 +776,10 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
       }}
     >
       <TouchableOpacity
-        onPress={() => onPress(item)}
-        disabled={!clickable}
-        activeOpacity={0.5}
+        onPress={clickable ? () => onPress(item) : undefined}
+        onLongPress={() => setTranslateOffer(true)}
+        delayLongPress={350}
+        activeOpacity={clickable ? 0.5 : 1}
         // Clean feed: no fill and no separator. Unread is the dot on the left.
         style={{
           flexDirection: 'row',
@@ -842,11 +862,39 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
             style={{ fontSize: 14.5, lineHeight: 20 }}
             numberOfLines={3}
           >
-            {showActorBadge ? <>{sentence.slice(0, actorNameAt)}{actorName}<SmartImage source={actorBadge!} style={getInlineBadgeOpticalStyle(actorBadge!, 14.5, false)} />{sentence.slice(actorNameAt + actorName!.length)}</> : sentence}
+            {translateOn && sentenceShown.text !== sentence ? sentenceShown.text : showActorBadge ? <>{sentence.slice(0, actorNameAt)}{actorName}<SmartImage source={actorBadge!} style={getInlineBadgeOpticalStyle(actorBadge!, 14.5, false)} />{sentence.slice(actorNameAt + actorName!.length)}</> : sentence}
             <Text className="text-theme-neutrals-500" style={{ fontSize: 13 }}>
               {' · '}{formatShortAgo(item.updatedAt || item.createdAt)}
             </Text>
           </Text>
+
+          {(translateOffer || translateOn) && (
+            <TouchableOpacity
+              onPress={() => void toggleTranslate()}
+              accessibilityRole="button"
+              testID="notification-translate"
+              activeOpacity={0.7}
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 6,
+                marginTop: 6,
+                alignSelf: 'flex-start',
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                borderRadius: 999,
+                borderWidth: 1,
+                borderColor: 'rgba(255,255,255,0.16)',
+              }}
+            >
+              {sentenceShown.loading
+                ? <ActivityIndicator size="small" color="#A1A1AA" />
+                : <Icon name="Languages" size={14} color="#A1A1AA" />}
+              <Text style={{ color: '#D4D4D8', fontSize: 13, fontWeight: '600' }}>
+                {translateOn ? t('common.showOriginal') : t('common.translate')}
+              </Text>
+            </TouchableOpacity>
+          )}
 
           {/* The comment itself, whole, with Reply / Like / Tip right here. */}
           {notificationHasComment(item) && (
@@ -854,6 +902,7 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
               item={item}
               onOpen={onPress}
               onEngaged={item.read ? undefined : onMarkRead}
+              translate={translateOn}
             />
           )}
 
@@ -864,6 +913,7 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
               item={item}
               onOpen={onPress}
               onEngaged={item.read ? undefined : onMarkRead}
+              translate={translateOn}
             />
           )}
 

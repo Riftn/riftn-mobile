@@ -10,6 +10,7 @@
  * voice note shows as a tile that opens the post, where it plays.
  */
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useOnDemandTranslate } from "../../hooks/useOnDemandTranslate";
 import { Pressable, Text, TextInput, View, ActivityIndicator } from "react-native";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
@@ -46,9 +47,11 @@ interface Props {
   onOpen: (item: NotificationItem) => void;
   /** Marks the row read the first time the reader acts on it. */
   onEngaged?: (item: NotificationItem) => void;
+  /** Show the text in the reader's language (row long press → Translate). */
+  translate?: boolean;
 }
 
-function NotificationCommentCardBase({ item, viewerAddress, onOpen, onEngaged }: Props) {
+function NotificationCommentCardBase({ item, viewerAddress, onOpen, onEngaged, translate = false }: Props) {
   const { t } = useTranslation();
   const { skin, accent } = useAppTheme();
   const comment = item.comment!;
@@ -62,6 +65,7 @@ function NotificationCommentCardBase({ item, viewerAddress, onOpen, onEngaged }:
   // System Light's tone pass flips both, as it does for the Accept pill.
   const sendInk = "#000000";
 
+  const shown = useOnDemandTranslate((comment.content || "").trim(), translate);
   const [liked, setLiked] = useState(comment.myReaction ? comment.myReaction !== "dislike" : !!comment.isLiked);
   const [likes, setLikes] = useState(comment.likeCount ?? 0);
   const [liking, setLiking] = useState(false);
@@ -134,7 +138,7 @@ function NotificationCommentCardBase({ item, viewerAddress, onOpen, onEngaged }:
     }
   }, [draft, sending, tokenId, replyTo, commentId, t]);
 
-  const text = (comment.content || "").trim();
+  const text = shown.text;
   const image = media(comment.imageUrl || comment.gifUrl);
   const hasClip = !!comment.videoUrl;
   const hasVoice = !!comment.audioUrl;
