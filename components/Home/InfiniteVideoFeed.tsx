@@ -1144,6 +1144,10 @@ export const InfiniteVideoFeed: React.FC<InfiniteVideoFeedProps> = ({
           ? { ...old, pages: old.pages.slice(0, 1), pageParams: old.pageParams.slice(0, 1) }
           : old,
       );
+      // The boosted posts are each a query of their own, kept out of the list
+      // above. Without this a refresh left the top card on whatever views and
+      // reactions it was first fetched with, while the opened post was current.
+      void queryClient.invalidateQueries({ queryKey: ["boosted-post"] });
       await refetch();
     } finally {
       setRefreshing(false);

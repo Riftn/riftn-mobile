@@ -138,3 +138,33 @@ describe("mergeLiveCounts", () => {
     expect(() => mergeLiveCounts(queryClient, [])).not.toThrow();
   });
 });
+
+describe("mergeLiveCounts on the boosted post", () => {
+  it("lifts counts onto the boosted card, which lives outside the feed pages", () => {
+    const queryClient = new QueryClient();
+    const key = ["boosted-post", "8052"];
+    queryClient.setQueryData(key, { result: { tokenId: 8052, name: "builders", totalViews: 417, totalVotes: { for: 127, against: 0 } } });
+    const before = queryClient.getQueryState(key)!.dataUpdatedAt;
+
+    mergeLiveCounts(queryClient, [{ tokenId: 8052, totalViews: 858, totalVotes: { for: 207, against: 0 } }]);
+
+    expect((queryClient.getQueryData(key) as any).result).toMatchObject({
+      name: "builders",
+      totalViews: 858,
+      totalVotes: { for: 207, against: 0 },
+    });
+    // A count patch, not a refetch.
+    expect(queryClient.getQueryState(key)!.dataUpdatedAt).toBe(before);
+  });
+
+  it("leaves a boosted card with unchanged counts as the same object", () => {
+    const queryClient = new QueryClient();
+    const key = ["boosted-post", "8052"];
+    const data = { result: { tokenId: 8052, totalViews: 858 } };
+    queryClient.setQueryData(key, data);
+
+    mergeLiveCounts(queryClient, [{ tokenId: 8052, totalViews: 858 }]);
+
+    expect(queryClient.getQueryData(key)).toBe(data);
+  });
+});
