@@ -22,6 +22,8 @@ import Avatar from "../common/Avatar";
 import { useUser, useAuthActions } from "../../context/AuthContext";
 import { useHorizontalScrollGuard, useHorizontalSectionGuard } from "../../context/PagerGestureContext";
 import { useAppTheme } from "../../context/ThemeContext";
+import { MATURE_CONTENT_ENABLED } from "../../config/storefront";
+import { useKidsModeLock } from "../../hooks/useKidsModeLock";
 import { useLiveNowItems, pictureOf, type LiveNowItem } from "../Home/LiveNowBar";
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } from "../../store/stories.store";
@@ -31,15 +33,11 @@ import { getAvatarUrl } from "../../libs/misc";
 const TILE_W = 86;
 const TILE_H = 118;
 
-export const storyShelfQueryKey = (me: string) => ["story-shelf", me] as const;
-
 /** Moments on the shelf, refreshed every minute while Home is up. */
-export function useStoryShelf() {
-  const user = useUser();
-  const me = (user?.walletAddress || user?.address || "").toLowerCase();
+function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean) {
   return useQuery({
-    queryKey: storyShelfQueryKey(me),
-    queryFn: () => getStoryShelf(!!me),
+    queryKey: ["story-shelf", me, canSeeMature, liveHosts],
+    queryFn: () => getStoryShelf(!!me, liveHosts),
     staleTime: 30_000,
     refetchInterval: 60_000,
   });
@@ -67,16 +65,20 @@ function StoryShelf() {
   const user = useUser();
   const { requireAuth } = useAuthActions();
   const me = (user?.walletAddress || user?.address || "").toLowerCase();
-  const { data } = useStoryShelf();
   const { items: live, open: openLive } = useLiveNowItems();
+  const kidsMode = useKidsModeLock();
+  const canSeeMature = MATURE_CONTENT_ENABLED && user?.showMatureContent === true && !kidsMode;
+  const liveHosts = [...new Set(live.map(item => (item.wallet || "").toLowerCase()).filter(Boolean))].sort().slice(0, 100).join(",");
+  const { data } = useStoryShelf(me, liveHosts, canSeeMature);
+  const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
   const scrollGuard = useHorizontalScrollGuard();
   const shelfGuard = useHorizontalSectionGuard(scrollGuard);
 
   const shelf = useMemo(() => data?.shelf ?? [], [data]);
   const watchable = useMemo(
-    () => shelf.map((e) => ({ ...e, items: playable(e.items) })).filter((e) => e.items.length > 0),
-    [shelf],
+    () => shelf.map((e) => ({ ...e, items: playable(e.items).filter(item => canSeeMature || !item.isMature) })).filter((e) => e.items.length > 0),
+    [shelf, canSeeMature],
   );
   const own = shelf.find((e) => e.own) ?? null;
   const ownWatchable = watchable.find((e) => e.own) ?? null;
@@ -91,7 +93,7 @@ function StoryShelf() {
   );
   const add = useCallback(() => requireAuth(() => openStoryCreator()), [requireAuth]);
 
-  if (!me && others.length === 0 && live.length === 0) return null;
+  if (!me && others.length === 0 && eligibleLive.length === 0) return null;
 
   const shelfScroll = (
     <ScrollView
@@ -112,7 +114,7 @@ function StoryShelf() {
           onAdd={add}
         />
       ) : null}
-      {live.map((item) => (
+      {eligibleLive.map((item) => (
         <LiveTile key={`${item.kind}-${item.id}`} item={item} onOpen={() => openLive(item)} />
       ))}
       {others.map((entry) => (
