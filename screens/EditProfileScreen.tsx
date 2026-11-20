@@ -28,6 +28,9 @@ import Icon from "../components/ui/Icon";
 import { openCroppedImagePicker, resizeAndCompress, createRNImageFile, AVATAR_UPLOAD_SIDE } from "../libs/assets.util";
 import { runWithPermissions } from "../libs/permissions.util";
 import { AuthService } from "../services/auth.service";
+import { getAccount } from "../services/user.service";
+import CustomSwitch from "../components/ui/CustomSwitch";
+import { readPublicTimeZone } from "../hooks/useProfileLocalTime";
 import { toastError, toastSuccess } from "../libs/toast";
 import ScreenHeader from "../components/ScreenHeader";
 import { useKeyboardOffset } from "../hooks/useKeyboardLayout";
@@ -102,6 +105,11 @@ const EditProfileScreen = () => {
   const [discordLink, setDiscordLink] = useSurfaceDraft<string>("screens/EditProfileScreen.tsx:discordLink", user?.discordLink || "");
   const [telegramLink, setTelegramLink] = useSurfaceDraft<string>("screens/EditProfileScreen.tsx:telegramLink", user?.telegramLink || "");
   const [facebookLink, setFacebookLink] = useSurfaceDraft<string>("screens/EditProfileScreen.tsx:facebookLink", user?.facebookLink || "");
+  const storedTimeZone = readPublicTimeZone(user?.customs?.publicTimeZone);
+  const [publicTimeZone, setPublicTimeZone] = useState<string | null>(null);
+  const selectedTimeZone = publicTimeZone ?? storedTimeZone;
+  const timeZoneChanged = selectedTimeZone !== storedTimeZone;
+  const deviceTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   // Self-reported follower counts for the linked socials, feeding the profile's
   // total reach. They live in `customs`, which the API replaces wholesale, so
   // a save resends the whole blob around the counts.
@@ -164,6 +172,7 @@ const EditProfileScreen = () => {
   const isDirty = useMemo(() => {
     return (
       fieldsChanged ||
+      timeZoneChanged ||
       displayName.trim() !== initial.displayName.trim() ||
       username.trim() !== initial.username.trim() ||
       aboutMe.trim() !== initial.aboutMe.trim() ||
@@ -183,7 +192,7 @@ const EditProfileScreen = () => {
   }, [
     displayName, username, aboutMe,
     twitterLink, instagramLink, tiktokLink, youtubeLink, discordLink, telegramLink, facebookLink,
-    socialFollowers, localAvatar, localCover, removeAvatar, removeCover, initial, fieldsChanged,
+    socialFollowers, localAvatar, localCover, removeAvatar, removeCover, initial, fieldsChanged, timeZoneChanged,
   ]);
 
   const runUsernameCheck = useDebounceCallback(async (name: string) => {
@@ -350,9 +359,16 @@ const EditProfileScreen = () => {
       // and posts as JSON over FormData (see PrivacySettingsScreen). Sent only
       // when a count changed, so an unrelated save cannot overwrite a blob
       // another screen has since written.
-      const mergedCustoms = sameSocialFollowerInputs(socialFollowers, initial.socialFollowers)
+      let customsBase = user?.customs;
+      if (timeZoneChanged && user?.address) {
+        const response = await getAccount(user.address);
+        const account = response?.data?.result;
+        if (!account) throw new Error(t("settings.updateFailed"));
+        customsBase = account.customs;
+      }
+      const socialCustoms = sameSocialFollowerInputs(socialFollowers, initial.socialFollowers)
         ? undefined
-        : mergeSocialFollowers((user as any)?.customs, socialFollowers, {
+        : mergeSocialFollowers(customsBase, socialFollowers, {
             twitter: tw.normalized,
             instagram: ig.normalized,
             tiktok: tk.normalized,
@@ -361,6 +377,9 @@ const EditProfileScreen = () => {
             telegram: tg.normalized,
             facebook: fb.normalized,
           });
+      const mergedCustoms = timeZoneChanged
+        ? { ...(socialCustoms ?? customsBase), publicTimeZone: selectedTimeZone || false }
+        : socialCustoms;
       if (mergedCustoms) payload.customs = JSON.stringify(mergedCustoms);
       await patchUser?.({
         ...(mergedCustoms ? { customs: mergedCustoms as any } : {}),
@@ -426,7 +445,7 @@ const EditProfileScreen = () => {
     }
   }, [displayName, username, aboutMe,
     twitterLink, instagramLink, tiktokLink, youtubeLink, discordLink, telegramLink, facebookLink,
-    socialFollowers, localAvatar, localCover, removeAvatar, removeCover, user, patchUser, refreshUser, navigation, initial, fieldsChanged, fieldRows, setAboutMe, setDiscordLink, setDisplayName, setFacebookLink, setInstagramLink, setSocialFollowers, setTelegramLink, setTiktokLink, setTwitterLink, setUsername, setYoutubeLink]);
+    socialFollowers, localAvatar, localCover, removeAvatar, removeCover, user, patchUser, refreshUser, navigation, initial, fieldsChanged, fieldRows, selectedTimeZone, timeZoneChanged, setAboutMe, setDiscordLink, setDisplayName, setFacebookLink, setInstagramLink, setSocialFollowers, setTelegramLink, setTiktokLink, setTwitterLink, setUsername, setYoutubeLink]);
 
   const socialFields: SocialField[] = useMemo(
     () => [
@@ -622,6 +641,23 @@ const EditProfileScreen = () => {
                   })}
                 </Text>
               ) : null}
+            </View>
+
+            <View className="flex-row items-center gap-4 py-2">
+              <View className="flex-1">
+                <Text className="text-white text-sm">
+                  {t("profile.shareLocalTime", { defaultValue: "Show my local time" })}
+                </Text>
+                <Text className="text-neutral-400 text-xs mt-1">
+                  {t("profile.shareLocalTimeHint", { defaultValue: "Show your timezone and local time on your public profile and in chat." })}
+                </Text>
+              </View>
+              <CustomSwitch
+                accessibilityLabel={t("profile.shareLocalTime", { defaultValue: "Show my local time" })}
+                value={!!selectedTimeZone}
+                disabled={!deviceTimeZone && !selectedTimeZone}
+                onValueChange={enabled => setPublicTimeZone(enabled ? deviceTimeZone || "" : "")}
+              />
             </View>
 
             {/* Backdrop behind your text posts on your profile (also: hold your profile). */}

@@ -1,4 +1,5 @@
 import { useMediaVolume, setVolume } from '../../libs/video-preferences';
+import { glowLine } from "../ui/glow";
 import { useMediaMuted, setMutedState as setSelfMuted } from '../../libs/videoMutedState';
 import React, { memo, useCallback, useEffect, useRef, useState, useMemo } from "react";
 import {
@@ -283,7 +284,7 @@ const StylePicker: React.FC<StylePickerProps> = memo(({ style: activeStyle, onSt
         >
           {/* "Beam", like the profile tabs: a short glowing line under the
               selected style instead of a filled pill. */}
-          {isActive && <View pointerEvents="none" style={pickerStyles.beam} />}
+          {isActive && <View pointerEvents="none" style={[pickerStyles.beam, glowLine("#fff")]} />}
           <Text
             style={{
               color: "#fff",
@@ -317,11 +318,6 @@ const pickerStyles = StyleSheet.create({
     right: "30%",
     height: 2,
     borderRadius: 2,
-    backgroundColor: "#fff",
-    shadowColor: "#fff",
-    shadowOpacity: 0.9,
-    shadowRadius: 5,
-    shadowOffset: { width: 0, height: 0 },
   },
 });
 
@@ -457,7 +453,7 @@ const StylePreviewTile = memo(({ style, label, active, onPick }: { style: Visual
         {picture != null && <Image source={picture} fadeDuration={0} resizeMode="cover" style={pickerStyles.previewPicture} />}
       </View>
       <Text numberOfLines={1} style={[pickerStyles.studioLabel, { textAlign: "center", marginTop: 4 }]}>{label}</Text>
-      {active && <View pointerEvents="none" style={[pickerStyles.beam, { bottom: 3 }]} />}
+      {active && <View pointerEvents="none" style={[pickerStyles.beam, glowLine("#fff"), { bottom: 3 }]} />}
     </Pressable>
   );
 });

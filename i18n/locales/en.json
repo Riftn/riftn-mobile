@@ -1,6 +1,7 @@
 {
+  "stories": {"moreActions":"Moment options","remixing":"Remixing {{name}}'s moment","watchOriginal":"Watch original moment","originalUnavailable":"The original moment is no longer available.","linkCopied":"Link copied","copyLinkFailed":"Couldn't copy the moment link.","viewProfile":"View profile", "back": "Back", "more": "More", "addMoment": "Add a moment", "boxOff": "Box off", "boxOn": "Box on", "cameraOff": "Camera access is off. Turn it on in Settings, or pick from Photos.", "delete": "Delete moment", "deleteConfirm": "Delete this moment?", "deleteFailed": "Couldn't delete it. Try again.", "deleted": "Moment deleted", "everyone": "Everyone", "followersOnly": "Followers", "like": "Like", "mute": "Sound", "newMoment": "New moment", "noViewsYet": "No one has watched yet.", "openCamera": "Camera", "pick": "Pick from device", "pickFailed": "Couldn't open that. Try another.", "repliedTo": "Replied to your moment", "replyFailed": "Couldn't send your reply.", "replyTo": "Reply to {{name}}", "report": "Report", "reportFailed": "Couldn't send the report.", "reportWhy": "Why are you reporting this?", "reported": "Thanks. We'll take a look.", "share": "Share", "shareFailed": "Your moment didn't go up. Tap your tile to try again.", "sharing": "Sharing…", "signInToReply": "Sign in to reply", "startSub": "A photo or a clip up to 60 seconds. It stays up for 24 hours.", "tapRetry": "Tap to retry", "text": "Text", "typeSomething": "Type something", "viewsCount": "{{formatted}} views", "whoWatched": "Who watched", "yourDay": "Your day", "momentUp": "Your moment is up for 24 hours", "tooLarge": "That file is too large.", "reason": {"spam": "Spam", "nudity": "Nudity or sexual content", "harassment": "Bullying or harassment", "violence": "Violence or dangerous acts", "hate": "Hate speech", "other": "Something else"}},
   "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Hidden until they tap it", "scrub": "Scrub through the video", "addMore": "Add photos or videos", "coverAria": "Tap a frame to set the cover", "trimHint": "Drag the ends to trim", "coverHint": "Tap a frame to make it the cover", "uploadCover": "Upload a cover picture", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "They see it right away", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "Blurred until they tap it", "hidePrice": "Hide behind a price", "hidePriceBody": "Blurred until they pay you", "priceUnavailable": "Not in this chat", "priceLabelUsd": "Price", "priceHint": "They see it blurred until they pay you. Locked items are not end-to-end encrypted.", "timerOffBody": "It stays in the chat.", "timerViewBody": "Gone for both of you once they have seen it.", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover at {{value1}}", "lockedForUsd": "Unlock for {{value1}}", "timerTimeBody": "Gone for both of you {{value1}} after you send it."},
-  "assistantCards": {"fitting": "Fitting", "loadFailed": "This card could not be loaded. Sign in, or ask again.", "failed": "That did not work. Try again.", "reactOne": "React to 1 post", "reactMany": "React to {{count}} posts", "follow": "Follow {{count}}", "unfollow": "Unfollow {{count}}", "allowChats": "Let the assistant read your chats?", "stopChats": "Stop the assistant reading your chats?", "confirmReact": "React", "confirmFollow": "Follow", "confirmUnfollow": "Unfollow", "confirmAllow": "Allow", "confirmStop": "Stop", "skipsAlready": "Skips {{count}} you already reacted to", "allowChatsWhy": "Only you see what it reads. Direct chats only, and end-to-end encrypted ones stay private. Ask it to stop any time.", "pickReaction": "Pick a reaction", "progress": "{{done}} of {{total}}", "doneReact": "Reacted to {{count}} posts", "doneAllow": "Allowed. Ask your question again.", "doneStop": "Stopped. It can no longer read your chats.", "doneFollow": "Done for {{count}}", "expired": "This card expired. Ask again.", "cancelled": "Cancelled", "cancel": "Not now"},
+  "assistantCards": {"requestDraft": "Public request draft", "postRequest": "Post to Requests", "possibleDuplicates": "Possible duplicates", "viewPostedRequest": "View posted request", "fitting": "Fitting", "loadFailed": "This card could not be loaded. Sign in, or ask again.", "failed": "That did not work. Try again.", "reactOne": "React to 1 post", "reactMany": "React to {{count}} posts", "follow": "Follow {{count}}", "unfollow": "Unfollow {{count}}", "allowChats": "Let the assistant read your chats?", "stopChats": "Stop the assistant reading your chats?", "confirmReact": "React", "confirmFollow": "Follow", "confirmUnfollow": "Unfollow", "confirmAllow": "Allow", "confirmStop": "Stop", "skipsAlready": "Skips {{count}} you already reacted to", "allowChatsWhy": "Only you see what it reads. Direct chats only, and end-to-end encrypted ones stay private. Ask it to stop any time.", "pickReaction": "Pick a reaction", "progress": "{{done}} of {{total}}", "doneReact": "Reacted to {{count}} posts", "doneAllow": "Allowed. Ask your question again.", "doneStop": "Stopped. It can no longer read your chats.", "doneFollow": "Done for {{count}}", "expired": "This card expired. Ask again.", "cancelled": "Cancelled", "cancel": "Not now"},
   "chatReactions": {
     "many_one": "{{count}} reaction to your messages",
     "many_other": "{{count}} reactions to your messages",
@@ -1127,6 +1128,12 @@
     "feedSeparatorBentoDesc": "Each post sits in its own rounded card",
     "feedSeparatorLine": "Thin line",
     "feedSeparatorLineDesc": "No cards. A thin line between posts and a little more room for each post",
+    "shareIcon": "Share icon",
+    "shareIconDesc": "The icon on the Share button under posts",
+    "shareIconClassic": "Classic",
+    "shareIconClassicDesc": "Three linked dots",
+    "shareIconDistribute": "Distribute",
+    "shareIconDistributeDesc": "A person in a circle with arrows pointing out",
     "postLandingDesc": "How your new post lands in your feed",
     "postLandingGhost": "Ghost slot",
     "postLandingGhostDesc": "Your feed makes room and your post fades into place",
@@ -2952,6 +2959,9 @@
     "returnHome": "Return Home"
   },
   "profile": {
+    "localTime": "Local time {{time}}",
+    "shareLocalTime": "Show my local time",
+    "shareLocalTimeHint": "Show your timezone and local time on your public profile and in chat.",
     "gridCard": {
       "stage": "Stage",
       "liveStage": "Live stage",
@@ -8656,6 +8666,44 @@
         "magic-spell": "Magic spell",
         "shhh": "Shhh"
       }
+    },
+    "bot": {
+      "title": "Chat bot",
+      "intro": "A co-host for your stream chat. It says hi to new people, answers questions about you and the stream, tells late joiners what they missed, and gets a quiet chat talking. It only talks on your own streams, while you're live.",
+      "enabled": "Chat bot",
+      "enabledHint": "Off until you switch it on. Switching it off makes it go silent straight away.",
+      "about": "What it knows about you",
+      "aboutPlaceholder": "Who you are, what you stream, your schedule, where to find you. Example: Abstract artist and metal fan. Live Tue/Thu/Sat 8pm ET. Discord link is in my profile.",
+      "aboutHint": "It answers from this, your stream title and the chat. If it doesn't know, it stays quiet",
+      "personality": "Personality",
+      "personalities": {
+        "chill": "Chill",
+        "hype": "Hype",
+        "funny": "Funny",
+        "formal": "Formal"
+      },
+      "chattiness": "How chatty",
+      "chattinessLevels": {
+        "quiet": "Only when asked",
+        "normal": "Normal",
+        "lots": "Lots"
+      },
+      "greet": "Say hi to first-time chatters",
+      "greetHint": "One welcome per person per stream",
+      "answer": "Answer questions",
+      "answerHint": "\"What are you making?\", \"When's the next stream?\"",
+      "catchUp": "Catch up late joiners",
+      "catchUpHint": "\"What did I miss?\" gets a short recap of the stream so far",
+      "wakeQuiet": "Wake up a quiet chat",
+      "wakeQuietHint": "After a few quiet minutes it asks chat a question",
+      "commandButtons": "Show my commands as buttons",
+      "commandButtonsHint": "Your !commands from Stream rules show above the chat box so viewers can tap them",
+      "commandsLabel": "Chat commands",
+      "safety": "It posts as @assistant, never talks about money or tokens, and never makes promises for you.",
+      "save": "Save chat bot",
+      "saved": "Chat bot saved",
+      "saveFailed": "Couldn't save the chat bot",
+      "loadFailed": "Couldn't load the chat bot settings"
     },
     "moderation": {
       "title": "Chat moderation",

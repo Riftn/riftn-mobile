@@ -45,10 +45,9 @@ import { isChatDeleteChoice } from '../../libs/chatDeleteChoice';
 import { isChatReactionStyle } from '../../libs/chatReactionStyle';
 import { POST_LANDING_STYLES, isPostLandingStyle, type PostLandingStyle } from '../../libs/postLandingStyle';
 import { isFeedSeparator } from '../../libs/feedSeparator';
+import { isShareIconStyle } from '../../libs/shareIconStyle';
 import { MENU_LAYOUTS, MENU_LAYOUT_PREF_KEY, isMenuLayout, type MenuLayout } from '../../libs/menuLayout';
 import { saveAccountPrefs } from '../../libs/feed-interests';
-import { applyNavOrder, publicChatInBar, saveNavOrder, useNavOrder, withPublicChatInBar } from '../../libs/navOrder';
-import { DEFAULT_BAR_IDS } from '../../navigation/FloatingBottomTabBar';
 import { useUser } from '../../context/AuthContext';
 import { useDataSaver, setDataSaverPref } from '../../hooks/useDataSaver';
 import { useShortsEnabled } from '../../hooks/useShortsEnabled';
@@ -102,14 +101,12 @@ const AppearancePanel: React.FC = () => {
   const [feedModalVisible, setFeedModalVisible] = useState(false);
   const [landingModalVisible, setLandingModalVisible] = useState(false);
   const [separatorModalVisible, setSeparatorModalVisible] = useState(false);
+  const [shareIconModalVisible, setShareIconModalVisible] = useState(false);
   const [deleteChoiceVisible, setDeleteChoiceVisible] = useState(false);
   const [reactionStyleVisible, setReactionStyleVisible] = useState(false);
   const [chatTextModalVisible, setChatTextModalVisible] = useState(false);
   const [menuLayoutModalVisible, setMenuLayoutModalVisible] = useState(false);
   const user = useUser() as any;
-  const savedBarOrder = useNavOrder('bar');
-  const barOrder = React.useMemo(() => applyNavOrder(DEFAULT_BAR_IDS, savedBarOrder, (id) => id), [savedBarOrder]);
-  const barWallet = (user?.walletAddress || user?.address || '').toLowerCase() || null;
   const menuLayoutLabel = (layout: MenuLayout) => ({
     tabs: t('settings.menuLayoutTabs', 'Tabs'),
     sections: t('settings.menuLayoutSections', 'Sections'),
@@ -131,6 +128,10 @@ const AppearancePanel: React.FC = () => {
     { value: 'pop', label: t('settings.chatReactionPop', 'Pop'), description: t('settings.chatReactionPopDesc', 'It springs in place, small and calm') },
     { value: 'burst', label: t('settings.chatReactionBurst', 'Burst'), description: t('settings.chatReactionBurstDesc', 'Yours blooms big with sparks') },
     { value: 'off', label: t('settings.chatReactionOff', 'Off'), description: t('settings.chatReactionOffDesc', 'No motion, the number just changes') },
+  ];
+  const shareIconOptions = [
+    { value: 'classic', label: t('settings.shareIconClassic', 'Classic'), description: t('settings.shareIconClassicDesc', 'Three linked dots') },
+    { value: 'distribute', label: t('settings.shareIconDistribute', 'Distribute'), description: t('settings.shareIconDistributeDesc', 'A person in a circle with arrows pointing out') },
   ];
   const separatorOptions = [
     { value: 'bento', label: t('settings.feedSeparatorBento', 'Bento cards'), description: t('settings.feedSeparatorBentoDesc', 'Each post sits in its own rounded card') },
@@ -261,18 +262,6 @@ const AppearancePanel: React.FC = () => {
           />
         </SettingsAnchor>
         <Divider />
-        {/* Public Chat on the bottom bar's first screen (libs/navOrder
-            withPublicChatInBar); the bar order syncs with web. */}
-        <SettingsAnchor id="public-chat-bar">
-          <SettingsToggleRow
-            icon="MessagesSquare"
-            label={t('settings.publicChatInBar', 'Public Chat in the bottom bar')}
-            description={t('settings.publicChatInBarDesc', 'One tap into Public Chat from the bar at the bottom of the screen')}
-            value={publicChatInBar(barOrder)}
-            onValueChange={(on) => saveNavOrder('bar', withPublicChatInBar(barOrder, on), DEFAULT_BAR_IDS, barWallet)}
-          />
-        </SettingsAnchor>
-        <Divider />
         <SettingsLinkRow
           icon="House"
           label={t('settings.defaultFeed', 'Default feed')}
@@ -303,6 +292,17 @@ const AppearancePanel: React.FC = () => {
             description={t('settings.feedSeparatorDesc', 'Cards around each post, or a thin line between them')}
             value={separatorOptions.find((o) => o.value === prefs.feedSeparator)?.label}
             onPress={() => setSeparatorModalVisible(true)}
+          />
+        </SettingsAnchor>
+        <Divider />
+        {/* Post Share button glyph (libs/shareIconStyle). */}
+        <SettingsAnchor id="share-icon">
+          <SettingsLinkRow
+            icon="Share2"
+            label={t('settings.shareIcon', 'Share icon')}
+            description={t('settings.shareIconDesc', 'The icon on the Share button under posts')}
+            value={shareIconOptions.find((o) => o.value === prefs.shareIconStyle)?.label}
+            onPress={() => setShareIconModalVisible(true)}
           />
         </SettingsAnchor>
         <Divider />
@@ -481,6 +481,17 @@ const AppearancePanel: React.FC = () => {
         options={separatorOptions}
         onSelect={(value) => {
           if (isFeedSeparator(value)) setAppPref('feedSeparator', value);
+        }}
+      />
+
+      <SettingsOptionModal
+        visible={shareIconModalVisible}
+        onClose={() => setShareIconModalVisible(false)}
+        title={t('settings.shareIcon', 'Share icon')}
+        value={prefs.shareIconStyle}
+        options={shareIconOptions}
+        onSelect={(value) => {
+          if (isShareIconStyle(value)) setAppPref('shareIconStyle', value);
         }}
       />
 

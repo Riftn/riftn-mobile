@@ -28,7 +28,7 @@ import CommentContextMenu from "./CommentContextMenu";
 import CommentLikersSheet from "./CommentLikersSheet";
 import type { CommentHoldExtra, CommentLayout } from "./CommentContextMenu";
 import { useHoldLift } from "../ui/HoldSheet";
-import Animated from "react-native-reanimated";
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import CommentMediaPreview from "./CommentMediaPreview";
 import type { MediaAttachment } from "./CommentMediaPreview";
 import {
@@ -214,6 +214,10 @@ const threadLineStyles = StyleSheet.create({
   aboveDense: { height: 22 },
   belowDense: { top: 22 },
 });
+
+// Translate / AI fade in once you start typing and out when the box empties.
+const TOOL_FADE_IN = FadeIn.duration(220);
+const TOOL_FADE_OUT = FadeOut.duration(160);
 
 const CommentSectionComponent: React.FC<CommentSectionProps> = ({
   tokenId,
@@ -2130,6 +2134,7 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
               </Pressable>
                   <View style={{ flex: 1 }} />
                 {inputText.trim().length > 0 && (
+                  <Animated.View entering={TOOL_FADE_IN} exiting={TOOL_FADE_OUT}>
                   <Pressable
                     onPress={() => void translator.translate()}
                     onLongPress={translator.openPicker}
@@ -2142,8 +2147,10 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
                   >
                     {translator.busy ? <ActivityIndicator size="small" color="#A6A9AC" /> : <Icon name="Languages" size={19} color="#8B8D90" />}
                   </Pressable>
+                  </Animated.View>
                 )}
                 {!editingComment && inputText.trim().length > 0 && (
+                  <Animated.View entering={TOOL_FADE_IN} exiting={TOOL_FADE_OUT}>
                   <Pressable
                     onPress={() => setAiMenu(aiMenu === "closed" ? "open" : "closed")}
                     disabled={aiRewriting}
@@ -2156,6 +2163,7 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
                   >
                     {aiRewriting ? <ActivityIndicator size="small" color="#A6A9AC" /> : <Icon name={aiMenu === "closed" ? "Sparkles" : "X"} size={18} color="#8B8D90" />}
                   </Pressable>
+                  </Animated.View>
                 )}
               <Pressable
                 onPress={handlePostPress}

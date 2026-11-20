@@ -1,4 +1,5 @@
 import { useTranslation as _useCopy } from 'react-i18next';
+import { glowLine } from "../ui/glow";
 import React from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import Icon from "../ui/Icon";
@@ -146,8 +147,8 @@ const ProfileContentToolbar: React.FC<ProfileContentToolbarProps> = ({
             style={[
               styles.beam,
               isMinimal
-                ? { backgroundColor: MINIMAL_HAIRLINE, height: 1, shadowOpacity: 0 }
-                : { backgroundColor: ink, shadowColor: ink },
+                ? { backgroundColor: MINIMAL_HAIRLINE, height: 1 }
+                : glowLine(ink, 9),
             ]}
           />
         </View>
@@ -260,7 +261,7 @@ const styles = StyleSheet.create({
   viewButton: { width: 32, height: 40, alignItems: "center", justifyContent: "center" },
   count: { position: "absolute", top: 4, right: 3, minWidth: 16, height: 16, borderRadius: 8, paddingHorizontal: 4, alignItems: "center", justifyContent: "center" },
   countText: { fontSize: 10, fontWeight: "700" },
-  beam: { position: "absolute", left: 0, right: 0, bottom: 0, height: 2, borderRadius: 2, shadowOffset: { width: 0, height: 0 }, shadowOpacity: 0.9, shadowRadius: 6, elevation: 0 },
+  beam: { position: "absolute", left: 0, right: 0, bottom: 0, height: 2, borderRadius: 2 },
 });
 
 export default React.memo(ProfileContentToolbar);

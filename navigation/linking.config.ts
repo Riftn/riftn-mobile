@@ -82,7 +82,7 @@ const openOnWeb = (url: string) => {
   Promise.resolve()
     .then(() => {
       const WebBrowser: typeof import('expo-web-browser') = require('expo-web-browser');
-      return WebBrowser.openBrowserAsync(url, { enableBarCollapsing: true, dismissButtonStyle: 'done' });
+      return WebBrowser.openBrowserAsync(url, { enableBarCollapsing: true, dismissButtonStyle: 'done', createTask: false });
     })
     .catch((error) => logger.warn('Could not open unrouted link in the browser', { url, error }));
 };
@@ -587,7 +587,7 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
               // offered in a DM, opened here so it can be confirmed.
               [ScreenNames.AIChat]: {
                 path: 'app/assistant',
-                parse: { action: (action: string) => action },
+                parse: { action: (action: string) => action, requestDraft: (id: string) => id },
               },
             },
           },

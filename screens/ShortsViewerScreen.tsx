@@ -114,6 +114,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Image } from "expo-image";
 import BlurSafeImage from "../components/common/BlurSafeImage";
 import Icon from "../components/ui/Icon";
+import { DistributeIcon } from "../components/ui/DistributeIcon";
+import { useAppPrefs } from "../hooks/useAppPrefs";
 import type { IconName } from "../components/ui/Icon";
 import {
   ChromeFill,
@@ -327,6 +329,8 @@ const LOVE_BLOOM = [
 
 interface ActionButtonProps {
   icon: IconName;
+  /** Drawn in place of the icon (the optional Distribute share glyph). */
+  iconNode?: React.ReactNode;
   /** Renders in place of the icon — used to show a reaction emoji. */
   /** The reaction whose emoji replaces the icon. */
   glyph?: PostReaction;
@@ -358,6 +362,7 @@ interface ActionButtonProps {
  */
 const ActionButton: React.FC<ActionButtonProps> = ({
   icon,
+  iconNode,
   glyph,
   glyphAnimated,
   glyphPlaying = true,
@@ -423,7 +428,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       style={style ?? styles.actionCell}
     >
       <Animated.View style={{ transform: [{ scale }] }}>
-        {glyph ? (
+        {iconNode ? iconNode : glyph ? (
           <ReactionEmoji reaction={glyph} animate={glyphAnimated} playing={glyphPlaying} size={22} textStyle={styles.actionGlyph} />
         ) : (
           <ThumbNodIf nod={nod} playing={glyphPlaying}>
@@ -532,6 +537,7 @@ interface ShortItemProps {
 }
 
 const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId, onPlayToEnd }) => {
+  const { shareIconStyle } = useAppPrefs();
   const { t: _copy } = _useCopy();
   const feedPlaybackAllowed = useFeedPlaybackAllowed();
   const surfaceActive = useFeedSurfaceActive();
@@ -2860,6 +2866,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
               {/* Share — carries the repost count, and opens the share sheet. */}
               <ActionButton
                 icon="Share2"
+                iconNode={shareIconStyle === "distribute" ? <DistributeIcon size={20} color={ICON_COLOR} strokeWidth={reposted ? 2.6 : 1.8} /> : undefined}
                 active={reposted}
                 label={formatCompactNumber(shareCount)}
                 onPress={() => setShowShareSheet(true)}

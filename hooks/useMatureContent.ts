@@ -15,6 +15,7 @@ import { useTranslation as _useCopy } from 'react-i18next';
  * API can read it, and it follows the reader onto web and onto a new phone.
  */
 import { useCallback, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 import { useUser, useAuthActions } from '../context/AuthContext';
 import { AuthService } from '../services/auth.service';
 import { toastError } from '../libs';
@@ -26,6 +27,7 @@ export function useMatureContent() {
   const { t: _copy } = _useCopy();
   const user = useUser() as any;
   const { patchUser } = useAuthActions() as any;
+  const queryClient = useQueryClient();
   const [saving, setSaving] = useState(false);
 
   const showMatureContent = user?.showMatureContent === true;
@@ -40,6 +42,7 @@ export function useMatureContent() {
         // until the next refresh.
         await patchUser({ showMatureContent: enabled });
         await AuthService.updateProfile({ showMatureContent: enabled });
+        void queryClient.invalidateQueries({ queryKey: ['story-shelf'] });
       } catch (error) {
         logger.error('Failed to update mature content setting', error);
         await patchUser({ showMatureContent: !enabled }).catch(() => {});
@@ -48,7 +51,7 @@ export function useMatureContent() {
         setSaving(false);
       }
     },
-    [patchUser, _copy],
+    [patchUser, queryClient, _copy],
   );
 
   return { showMatureContent, setShowMatureContent, saving };
