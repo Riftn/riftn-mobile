@@ -1,5 +1,7 @@
 import { DIGITAL_PURCHASES_ENABLED } from '../../config/storefront';
 import SwapActionCard from '../SwapActionCard';
+import AssistantActionCard from './AssistantActionCard';
+import { assistantActionIds, withoutAssistantActionLinks } from '../../libs/assistantActionLinks';
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as Clipboard from 'expo-clipboard';
@@ -157,9 +159,12 @@ const AssistantBubble: React.FC<AssistantBubbleProps> = ({
   }, [message.content, message.imageUrl, message.modelUrl, isUser]);
 
   const displayText = useMemo(() => {
-    if (isUser || imageUrls.length === 0) return message.content;
-    return stripImageMarkdown(message.content);
+    if (isUser) return message.content;
+    // Card links show as confirm cards below, not as text.
+    const text = withoutAssistantActionLinks(message.content || '');
+    return imageUrls.length === 0 ? text : stripImageMarkdown(text);
   }, [message.content, imageUrls, isUser]);
+  const actionIds = useMemo(() => (isUser ? [] : assistantActionIds(message.content)), [message.content, isUser]);
 
   const handlePress = useCallback(
     (url: string) => {
@@ -301,6 +306,8 @@ const AssistantBubble: React.FC<AssistantBubbleProps> = ({
             />
           </View>
         ))}
+
+        {actionIds.map((id) => <AssistantActionCard key={id} actionId={id} />)}
 
         {/* Swapping tokens is exchange functionality the App Store build leaves out (3.1.5). */}
         {!!message.swapAction && DIGITAL_PURCHASES_ENABLED && <SwapActionCard action={message.swapAction} />}

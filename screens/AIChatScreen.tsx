@@ -39,6 +39,7 @@ import { useIsScreenFocused } from '../hooks/useFocusedInterval';
 import AssistantHeader from '../components/Assistant/AssistantHeader';
 import AssistantBubble from '../components/Assistant/AssistantBubble';
 import AssistantInputBar from '../components/Assistant/AssistantInputBar';
+import AssistantActionCard from '../components/Assistant/AssistantActionCard';
 import { type QuickAction } from '../components/Assistant/QuickActionChips';
 import AssistantStage from '../components/Assistant/AssistantStage';
 import ThinkingDots from '../components/Assistant/ThinkingDots';
@@ -2197,6 +2198,12 @@ function AIChatScreenInner({ studio = false, embedded = false, editorDraft: requ
             >
               <Icon name="X" size={16} color="#A1A1AA" />
             </TouchableOpacity>
+          </View>
+        )}
+        {/* riftn.com/app/assistant?action=<id> from a DM: the offered card, ready to confirm. */}
+        {!studio && typeof route.params?.action === 'string' && /^[a-f0-9]{24}$/i.test(route.params.action) && (
+          <View style={{ marginHorizontal: 16, marginBottom: 8 }}>
+            <AssistantActionCard key={route.params.action} actionId={route.params.action.toLowerCase()} />
           </View>
         )}
         {!voice.isVoiceMode && <AssistantInputBar
