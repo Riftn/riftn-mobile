@@ -18,6 +18,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { isAppThemeName, type AppThemeName } from '../theme/colors';
 import { isPostLandingStyle, type PostLandingStyle } from '../libs/postLandingStyle';
 import { isFeedSeparator, type FeedSeparator } from '../libs/feedSeparator';
+import { isShareIconStyle, type ShareIconStyle } from '../libs/shareIconStyle';
 import { DEFAULT_MENU_LAYOUT, isMenuLayout, type MenuLayout } from '../libs/menuLayout';
 import { CHAT_TEXT_SCALE, isChatTextSize, type ChatTextSize } from '../libs/chatTextSize';
 import { isChatDeleteChoice, type ChatDeleteChoice } from '../libs/chatDeleteChoice';
@@ -64,6 +65,8 @@ const KEYS = {
   postLanding: 'dehub.postLanding',
   // Feed posts in bento cards or split by a thin line (libs/feedSeparator), web's key.
   feedSeparator: 'dehub.feedSeparator',
+  // Post Share button glyph (libs/shareIconStyle), web's key.
+  shareIconStyle: 'dehub.shareIconStyle',
   // Chat text size, web's key (lib/chat-text-size).
   chatTextSize: 'riftn.chat.textSize',
   // Chat list: each chat on its own card (on) or a plain list with lines (off).
@@ -108,6 +111,8 @@ export interface AppPrefs {
   postLanding: PostLandingStyle;
   /** Feed posts in bento cards or split by a thin line (libs/feedSeparator). */
   feedSeparator: FeedSeparator;
+  /** Post Share button glyph (libs/shareIconStyle). */
+  shareIconStyle: ShareIconStyle;
   /** Size of text in every chat (libs/chatTextSize). */
   chatTextSize: ChatTextSize;
   /** Chat list as cards (true) or a plain list with a line between chats (false). */
@@ -156,6 +161,7 @@ export const DEFAULT_APP_PREFS: AppPrefs = {
   leftHanded: false,
   postLanding: 'ghost',
   feedSeparator: 'bento',
+  shareIconStyle: 'classic',
   chatTextSize: 'default',
   chatCards: true,
   chatDeleteChoice: 'ask',
@@ -252,6 +258,10 @@ function init() {
         feedSeparator: (() => {
           const stored = get('feedSeparator');
           return isFeedSeparator(stored) ? stored : DEFAULT_APP_PREFS.feedSeparator;
+        })(),
+        shareIconStyle: (() => {
+          const stored = get('shareIconStyle');
+          return isShareIconStyle(stored) ? stored : DEFAULT_APP_PREFS.shareIconStyle;
         })(),
         chatDeleteChoice: (() => {
           const stored = get('chatDeleteChoice');
