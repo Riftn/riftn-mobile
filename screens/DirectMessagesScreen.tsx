@@ -34,6 +34,7 @@ import { usePublicChatLastLine, useRoomChatSummaries } from "../hooks/useRoomCha
 import { roomPreviewLine } from "../libs/room-chat-read";
 import { formatShortAgo } from "../libs/date.util";
 import ReactionAlertBadge, { reactionAlertLine } from "../components/DM/ReactionAlertBadge";
+import { ReactionArrivalScope } from "../components/ChatReactions/ReactionArrival";
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
 import { chatsFromMemberships } from "../libs/community-kinds";
@@ -835,7 +836,7 @@ const DirectMessagesInner: React.FC = () => {
                 {formatShortAgo(publicLastLine.created_at)}
               </Text>
             )}
-            <ReactionAlertBadge reactions={publicReactions} />
+            <ReactionAlertBadge reactions={publicReactions} rowKey="public" />
             {/* Same white number as a private chat. */}
             <UnreadCountChip count={publicUnread} />
           </View>
@@ -961,6 +962,8 @@ const DirectMessagesInner: React.FC = () => {
 
         {/* A pull at the top of the list lowers it and refreshes (PullRefreshArea):
             the hidden native spinner showed nothing and needed a very long pull. */}
+        {/* New reactions fly onto a row's badge over the list (ReactionAlertBadge). */}
+        <ReactionArrivalScope style={{ flex: 1 }}>
         <PullRefreshArea refreshing={!!contactsLoading} onRefresh={refreshContacts}>
         <FlatList
           data={shown}
@@ -1021,6 +1024,7 @@ const DirectMessagesInner: React.FC = () => {
           showsVerticalScrollIndicator={false}
         />
         </PullRefreshArea>
+        </ReactionArrivalScope>
 
         <DMSettingsMenu
           visible={menuVisible}

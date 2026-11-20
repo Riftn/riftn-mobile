@@ -300,7 +300,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
             </View>
             <Text className="text-[12.5px] text-theme-neutrals-500" style={{ fontVariant: ["tabular-nums"] }}>{timeStr}</Text>
             {markedUnread && !(unreadCount > 0) && !reactions && <MarkedUnreadDot />}
-            <ReactionAlertBadge reactions={reactions} />
+            <ReactionAlertBadge reactions={reactions} rowKey={`dm:${conversation._id}`} />
             <UnreadCountChip count={unreadCount} />
           </View>
           <View className="flex-row items-center gap-1 mt-0.5">

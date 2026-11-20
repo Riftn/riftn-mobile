@@ -67,6 +67,11 @@ interface ScopeApi {
 }
 const ScopeContext = createContext<ScopeApi | null>(null);
 
+/** The nearest ReactionArrivalScope, for things outside a chat chip that land reactions (the Messages list badge). */
+export function useReactionArrivalScope(): ScopeApi | null {
+  return useContext(ScopeContext);
+}
+
 /**
  * Wrap a chat list (or the whole chat body) in this so reactions can fly over
  * it. It is a plain View: pass the style the wrapped container had.
