@@ -1,0 +1,86 @@
+import React from "react";
+import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import StoryCreator from "../../components/Stories/StoryCreator";
+import { shareMoment } from "../../components/Stories/story-upload";
+import { mentionSearch, type MentionUser } from "../../services/mention.service";
+
+jest.mock("react-native-css-interop/jsx-runtime", () => jest.requireActual("react/jsx-runtime"));
+jest.mock("react-native", () => ({
+  View: "View",
+  Text: "Text",
+  TextInput: "TextInput",
+  Pressable: "Pressable",
+  TouchableOpacity: "TouchableOpacity",
+  KeyboardAvoidingView: "KeyboardAvoidingView",
+  PanResponder: { create: () => ({ panHandlers: {} }) },
+  Platform: { OS: "ios", select: (options: any) => options.ios },
+  StyleSheet: { create: (value: object) => value, flatten: (value: object) => value, hairlineWidth: 1 },
+  useWindowDimensions: () => ({ width: 390, height: 844 }),
+}));
+jest.mock("react-native-safe-area-context", () => ({ useSafeAreaInsets: () => ({ top: 40, bottom: 30 }) }));
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({ t: (key: string, options?: { defaultValue?: string }) => options?.defaultValue ?? key }),
+}));
+jest.mock("expo-image", () => ({ Image: "Image" }));
+jest.mock("expo-video", () => ({ useVideoPlayer: () => ({}), VideoView: "VideoView" }));
+jest.mock("expo-image-picker", () => ({
+  launchImageLibraryAsync: async () => ({ assets: [{ uri: "file:///photo.jpg", type: "image" }], canceled: false }),
+}));
+jest.mock("expo-file-system/legacy", () => ({}));
+jest.mock("../../components/ui/Icon", () => "Icon");
+jest.mock("../../components/common/MentionSuggestions", () => {
+  const { createElement } = jest.requireActual("react");
+  return ({ suggestions, onSelect }: { suggestions: MentionUser[]; onSelect: (user: MentionUser) => void }) =>
+    suggestions.map((user) => createElement("Pressable", {
+      key: user.address, accessibilityLabel: user.username, onPress: () => onSelect(user),
+    }));
+});
+jest.mock("../../context/ThemeContext", () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children }));
+jest.mock("../../libs/skia", () => ({ optionalSkia: (load: () => unknown) => load() }));
+jest.mock("../../libs/toast", () => ({ toastError: jest.fn() }));
+jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => ({ shelf: [] }) }));
+jest.mock("../../services/mention.service", () => ({ mentionSearch: jest.fn() }));
+jest.mock("../../components/Stories/story-upload", () => ({ shareMoment: jest.fn() }));
+jest.mock("@shopify/react-native-skia", () => ({
+  FontWeight: { Bold: 700 },
+  ImageFormat: { JPEG: 0 },
+  Skia: {
+    Color: (color: string) => color,
+    ParagraphBuilder: { Make: () => ({
+      pushStyle: () => {},
+      addText: () => {},
+      pop: () => {},
+      build: () => ({ layout: () => {}, getLongestLine: () => 216 }),
+    }) },
+  },
+}));
+jest.mock("../../components/Stories/story-compose", () => ({
+  ...jest.requireActual("../../components/Stories/story-compose"),
+  composePhoto: async () => "file:///moment.jpg",
+}));
+
+const address = "0x0000000000000000000000000000000000000001";
+
+it("exports a person selected in the Moment editor as a linked label", async () => {
+  jest.mocked(mentionSearch).mockResolvedValue([
+    { address, username: "alice", displayName: "Alice", avatarImageUrl: "", isFollowing: false },
+  ]);
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByLabelText("Mention"));
+  fireEvent.changeText(editor.getByPlaceholderText("Search"), "@ali");
+  fireEvent.press(await editor.findByLabelText("alice"));
+  expect(editor.getByText("@alice")).toBeTruthy();
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
+  const [draft] = jest.mocked(shareMoment).mock.calls[0];
+  expect(draft.uri).toBe("file:///moment.jpg");
+  expect(draft.fields.mentions).toHaveLength(1);
+  const target = draft.fields.mentions![0];
+  expect(target.address).toBe(address);
+  expect(target.x + target.w / 2).toBeCloseTo(0.5);
+  expect(target.y + target.h / 2).toBeCloseTo(0.6);
+  expect(target.w).toBeGreaterThan(0.2);
+});
