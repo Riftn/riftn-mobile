@@ -73,6 +73,21 @@ export async function openExternalLink(rawUrl?: string) {
   }
 }
 
+/**
+ * Sites people almost always have their own app for. The in-app browser hands
+ * these straight to that app, which on Android left an empty browser card
+ * behind in recents (a second, black Riftn). Open them directly instead.
+ */
+const OWN_APP_HOSTS = /(^|\.)(youtube\.com|youtu\.be|youtube-nocookie\.com|tiktok\.com|instagram\.com|spotify\.com|music\.apple\.com|twitch\.tv)$/i;
+
+export function opensInOwnApp(url: string): boolean {
+  try {
+    return OWN_APP_HOSTS.test(new URL(url).hostname);
+  } catch {
+    return false;
+  }
+}
+
 /** Open a URL inside the in-app browser (Expo WebBrowser), falling back to OS if needed. */
 export async function openInApp(rawUrl?: string) {
   if (!rawUrl) return;
@@ -81,10 +96,16 @@ export async function openInApp(rawUrl?: string) {
     if (!/^https?:\/\//i.test(url)) url = `https://${url}`;
     if (openDehubLinkInApp(url)) return;
     url = withDeHubLanguage(url.replace(/\s/g, '%20'), i18n.language || 'en');
+    if (opensInOwnApp(url)) {
+      await Linking.openURL(url);
+      return;
+    }
     try {
       await WebBrowser.openBrowserAsync(url, {
         enableBarCollapsing: true,
         dismissButtonStyle: 'done',
+        // Android: keep the browser inside Riftn's own card in recents.
+        createTask: false,
       } as any);
     } catch (e) {
       // Fallback to system browser
