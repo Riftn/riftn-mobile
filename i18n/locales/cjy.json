@@ -4945,7 +4945,7 @@
     "edit": "编辑",
     "deleteRequestTitle": "删咾这个请求？",
     "deleteRequestDescription": "这个退不回来。",
-    "attachmentTooLarge": "每个文件得小于 50MB",
+    "attachmentTooLarge": "每个文件得小于 200MB",
     "deleteCommentA11y": "删除评论",
     "sendCommentA11y": "发送评论",
     "requestOptions": "请求选项",

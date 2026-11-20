@@ -4946,7 +4946,7 @@
     "edit": "ویرایش",
     "deleteRequestTitle": "این درخواست حذف شود؟",
     "deleteRequestDescription": "این کار برگشت‌پذیر نیست.",
-    "attachmentTooLarge": "هر فایل باید کمتر از ۵۰ مگابایت باشد",
+    "attachmentTooLarge": "هر فایل باید کمتر از ۲۰۰ مگابایت باشد",
     "deleteCommentA11y": "حذف نظر",
     "sendCommentA11y": "ارسال نظر",
     "requestOptions": "گزینه‌های درخواست",

@@ -11,8 +11,8 @@ import {
   View,
   Text,
   Pressable,
-  Dimensions,
   StatusBar,
+  useWindowDimensions,
   StyleSheet,
   ActivityIndicator,
 } from "react-native";
@@ -39,6 +39,8 @@ import Animated, {
   interpolate,
   Extrapolation,
   runOnJS,
+  withDelay,
+  Easing,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Icon from "../components/ui/Icon";
@@ -62,6 +64,13 @@ import { toStoryboard } from '../libs/storyboard';
 import StoryboardPreview from '../components/VideoPlayerCore/StoryboardPreview';
 
 const DISMISS_THRESHOLD = 150;
+/** The clip growing out of its box into full screen, and back. */
+const GROW_MS = 260;
+const SHRINK_MS = 240;
+const FADE_MS = 180;
+
+const isRect = (value: any): value is { x: number; y: number; width: number; height: number } =>
+  !!value && [value.x, value.y, value.width, value.height].every((n) => typeof n === 'number' && Number.isFinite(n)) && value.width > 0 && value.height > 0;
 const CONTROLS_TIMEOUT = PLAYER_CONSTANTS.HIDE_CONTROLS_DELAY;
 
 const formatTime = (seconds: number) => {
@@ -91,6 +100,11 @@ const FullscreenVideoScreen = () => {
     soundtrackUrl,
     landscape: opensSideways = false,
     turned = false,
+    // Where the clip sat on the page it was opened from. Full screen grows out
+    // of that box and shrinks back into it on the way out.
+    from,
+    // Clips that are not posts (a Requests attachment) don't lead on to Shorts.
+    noShorts = false,
   } = (route?.params as any) || {};
   const storyboard = useMemo(() => toStoryboard(rawStoryboard), [rawStoryboard]);
   /** The storyboard tile shows while a finger is dragging the timeline. */
@@ -108,18 +122,23 @@ const FullscreenVideoScreen = () => {
   const [videoDuration, setVideoDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [isBuffering, setIsBuffering] = useState(false);
-  const [isLandscape, setIsLandscape] = useState(!!opensSideways);
   // Opened from a wide clip's full screen button: the picture turns to fill
   // the screen straight away, either way up.
   // Opened by turning the phone: it keeps following the phone, and turning it
   // upright again closes full screen.
   const closeScreenRef = useRef<() => void>(() => {});
   const closing = useRef(false);
+  const origin = isRect(from) ? from : null;
   useEffect(() => {
     if (!opensSideways) return;
     if (!turned) {
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE).catch(() => {});
-      return;
+      // The picture grows out of its box first, then the screen turns with
+      // it, so the turn never lands on a half-drawn page.
+      const timer = setTimeout(() => {
+        if (closing.current) return;
+        ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE).catch(() => {});
+      }, origin ? GROW_MS : 0);
+      return () => clearTimeout(timer);
     }
     let sub: { remove(): void } | null = null;
     try {
@@ -168,7 +187,26 @@ const FullscreenVideoScreen = () => {
     };
   }, []);
 
-  const { width: screenW, height: screenH } = Dimensions.get("window");
+  const { width: screenW, height: screenH } = useWindowDimensions();
+  const winW = useSharedValue(screenW);
+  const winH = useSharedValue(screenH);
+  useEffect(() => { winW.value = screenW; winH.value = screenH; }, [screenW, screenH, winW, winH]);
+  const isLandscape = screenW > screenH;
+  const fade = useSharedValue(1);
+
+  // 0 = the clip in its box on the page behind, 1 = filling the screen.
+  const grow = useSharedValue(origin ? 0 : 1);
+  // Controls and backdrop fade rather than pop.
+  const chrome = useSharedValue(0);
+  const fromX = useSharedValue(origin?.x ?? 0);
+  const fromY = useSharedValue(origin?.y ?? 0);
+  const fromW = useSharedValue(origin?.width ?? screenW);
+  const fromH = useSharedValue(origin?.height ?? screenH);
+  useEffect(() => {
+    const ease = Easing.bezier(0.2, 0, 0, 1);
+    if (origin) grow.value = withTiming(1, { duration: GROW_MS, easing: ease });
+    chrome.value = withDelay(origin ? GROW_MS * 0.6 : 0, withTiming(1, { duration: FADE_MS }));
+  }, []);
 
   const { player, session, ownsPlayer, active: ownsVideo } = usePostVideoPlayer(videoUrl || null, (p) => {
     p.loop = getIsLooping();
@@ -271,15 +309,40 @@ const FullscreenVideoScreen = () => {
     };
   }, []);
 
-  const closeScreen = useCallback(() => {
-    closing.current = true;
-    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP).catch(() => {});
-    StatusBar.setHidden(false);
+  const leave = useCallback(() => {
     if (navigation.canGoBack()) navigation.goBack();
   }, [navigation]);
 
+  // One way out, whichever way up: turn upright first, then shrink back into
+  // the box the clip came from (or fade, when there is none), then go.
+  const closeScreen = useCallback((alreadyGone = false) => {
+    if (closing.current && !alreadyGone) return;
+    closing.current = true;
+    StatusBar.setHidden(false);
+    chrome.value = withTiming(0, { duration: FADE_MS });
+    const sideways = (winW.value > winH.value);
+    ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP).catch(() => {});
+    if (alreadyGone) { leave(); return; }
+    const shrink = () => {
+      const ease = Easing.bezier(0.2, 0, 0, 1);
+      if (origin) {
+        grow.value = withTiming(0, { duration: SHRINK_MS, easing: ease }, (done) => { if (done) runOnJS(leave)(); });
+      } else {
+        opacity.value = withTiming(0, { duration: FADE_MS });
+        fade.value = withTiming(0, { duration: FADE_MS }, (done) => { if (done) runOnJS(leave)(); });
+      }
+    };
+    if (!sideways) { shrink(); return; }
+    // Wait for the phone's turn to land, so the shrink runs upright.
+    let done = false;
+    const go = () => { if (done) return; done = true; try { sub?.remove(); } catch {} ; clearTimeout(timer); shrink(); };
+    let sub: { remove(): void } | null = null;
+    try { sub = ScreenOrientation.addOrientationChangeListener(() => setTimeout(go, 60)); } catch {}
+    const timer = setTimeout(go, 500);
+  }, [leave, origin, chrome, grow, opacity, fade, winW, winH]);
+
   closeScreenRef.current = closeScreen;
-  useBackPress(closeScreen);
+  useBackPress(useCallback(() => closeScreen(), [closeScreen]));
 
   const resetControlsTimer = useCallback(() => {
     if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
@@ -330,21 +393,9 @@ const FullscreenVideoScreen = () => {
     resetControlsTimer();
   }, [player, isMuted, resetControlsTimer, stopPlayback]);
 
-  const handleToggleRotation = useCallback(async () => {
-    try {
-      // Opened by a turn of the phone, there is no upright full screen to
-      // drop back to: the button closes it.
-      if (isLandscape && turned) { closeScreen(); return; }
-      if (isLandscape) {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
-        setIsLandscape(false);
-      } else {
-        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE_RIGHT);
-        setIsLandscape(true);
-      }
-    } catch {}
-    resetControlsTimer();
-  }, [isLandscape, resetControlsTimer, turned, closeScreen]);
+  // Minimise always leaves full screen. It used to turn a sideways clip
+  // upright and stay in full screen, which read as the screen flipping.
+  const handleMinimise = useCallback(() => closeScreen(), [closeScreen]);
 
   const handleSeek = useCallback(
     (locationX: number) => {
@@ -364,7 +415,8 @@ const FullscreenVideoScreen = () => {
   // short-video app: this one closes into the brainrot shorts feed
   // (libs/brainrotFeed). Replaced rather than pushed, so Back from the shorts
   // lands where the video was opened from. Off for anyone who hid Shorts.
-  const shortsEnabled = useAppPrefs().shorts;
+  const shortsPref = useAppPrefs().shorts;
+  const shortsEnabled = shortsPref && !noShorts;
   // One swipe away: have the next clips loading before it.
   useEffect(() => {
     if (!shortsEnabled) return;
@@ -380,10 +432,10 @@ const FullscreenVideoScreen = () => {
   const panGesture = Gesture.Pan()
     .activeOffsetY(shortsEnabled ? [-15, 15] : 15)
     .failOffsetX([-10, 10])
-    .enabled(!isLandscape)
     .onUpdate((e) => {
       if (isDismissing.current) return;
       if (e.translationY < 0) {
+        if (isLandscape) return;
         // Follows the finger up with some resistance, as a hint of what's next.
         translateY.value = shortsEnabled ? e.translationY * 0.35 : 0;
         return;
@@ -394,7 +446,7 @@ const FullscreenVideoScreen = () => {
     })
     .onEnd((e) => {
       if (isDismissing.current) return;
-      if (shortsEnabled && isBrainrotSwipe(e.translationY, e.velocityY)) {
+      if (shortsEnabled && !isLandscape && isBrainrotSwipe(e.translationY, e.velocityY)) {
         isDismissing.current = true;
         translateY.value = withTiming(-screenH, { duration: 200 }, () => {
           runOnJS(openShorts)();
@@ -405,7 +457,7 @@ const FullscreenVideoScreen = () => {
         isDismissing.current = true;
         translateY.value = withTiming(screenH, { duration: 200 });
         opacity.value = withTiming(0, { duration: 200 }, () => {
-          runOnJS(closeScreen)();
+          runOnJS(closeScreen)(true);
         });
       } else {
         translateY.value = withSpring(0, { damping: 20, stiffness: 200 });
@@ -435,8 +487,27 @@ const FullscreenVideoScreen = () => {
   }));
 
   const animBg = useAnimatedStyle(() => ({
-    opacity: opacity.value,
+    opacity: opacity.value * grow.value,
   }));
+
+  // The picture's box: from the clip's box on the page to the whole screen.
+  const animVideo = useAnimatedStyle(() => {
+    const g = grow.value;
+    if (g >= 1) return { opacity: fade.value, left: 0, top: 0, width: winW.value, height: winH.value - VIDEO_CONTROL_STRIP_HEIGHT };
+    return {
+      opacity: fade.value,
+      left: fromX.value * (1 - g),
+      top: fromY.value * (1 - g),
+      width: fromW.value + (winW.value - fromW.value) * g,
+      height: fromH.value + (winH.value - VIDEO_CONTROL_STRIP_HEIGHT - fromH.value) * g,
+    };
+  });
+  const animChrome = useAnimatedStyle(() => ({ opacity: chrome.value }));
+  const controlsShown = useSharedValue(1);
+  const animTopClose = useAnimatedStyle(() => ({ opacity: chrome.value * controlsShown.value }));
+  useEffect(() => {
+    controlsShown.value = withTiming(showControls ? 1 : 0, { duration: FADE_MS });
+  }, [showControls, controlsShown]);
 
   return (
     <View style={styles.root}>
@@ -444,7 +515,8 @@ const FullscreenVideoScreen = () => {
 
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[{ flex: 1 }, animContainer]}>
-          <Pressable onPress={handleScreenTap} style={styles.videoWrap}>
+          <Pressable onPress={handleScreenTap} style={StyleSheet.absoluteFill} />
+          <Animated.View style={[styles.videoWrap, animVideo]} pointerEvents="none">
             {player && (
               <PersistentVideoView
                 ref={videoViewRef}
@@ -467,17 +539,17 @@ const FullscreenVideoScreen = () => {
                 style={{ width: "100%", height: "100%" }}
               />
             )}
-          </Pressable>
+          </Animated.View>
         </Animated.View>
       </GestureDetector>
 
-      {showControls && <View style={styles.topClose} pointerEvents="box-none">
-        <Pressable onPress={closeScreen} style={styles.plainButton} hitSlop={8}
+      <Animated.View style={[styles.topClose, animTopClose]} pointerEvents={showControls ? 'box-none' : 'none'}>
+        <Pressable onPress={handleMinimise} style={styles.plainButton} hitSlop={8}
           accessibilityRole="button" accessibilityLabel={t('player.closeVideo')}>
           <MediaControlIcon name="X" />
         </Pressable>
-      </View>}
-      <View style={styles.splitStrip}>
+      </Animated.View>
+      <Animated.View style={[styles.splitStrip, animChrome]}>
         <GestureDetector gesture={scrubGesture}>
           <Animated.View style={styles.bottomSeek}>
             <Pressable style={styles.progressTrackPress}
@@ -511,13 +583,13 @@ const FullscreenVideoScreen = () => {
               onPress={() => { player.pause(); void downloadVideo({ url: downloadUrl ?? videoUrl, title: downloadTitle || 'video', username: creatorUsername }); }}>
               <MediaControlIcon name="Download" plain />
             </Pressable>}
-            <Pressable onPress={handleToggleRotation} style={styles.plainButton}
-              accessibilityRole="button" accessibilityLabel={t('player.rotateOrientation')}>
-              <MediaControlIcon name={isLandscape ? 'Minimize' : 'Maximize'} plain />
+            <Pressable onPress={handleMinimise} style={styles.plainButton}
+              accessibilityRole="button" accessibilityLabel={t('player.closeVideo')}>
+              <MediaControlIcon name="Minimize" plain />
             </Pressable>
           </View>
         </View>
-      </View>
+      </Animated.View>
 
       {/* A sibling of the strip rather than its child, so Android cannot clip it. */}
       <StoryboardPreview
@@ -541,12 +613,12 @@ const FullscreenVideoScreen = () => {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#000",
+    // See-through while the clip grows out of its box on the page behind.
+    backgroundColor: "transparent",
   },
   videoWrap: {
-    flex: 1,
-    marginBottom: VIDEO_CONTROL_STRIP_HEIGHT,
-    backgroundColor: "#000",
+    position: "absolute",
+    overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
   },

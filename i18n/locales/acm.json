@@ -4945,7 +4945,7 @@
     "edit": "عدّل",
     "deleteRequestTitle": "تمحي هذا الطلب؟",
     "deleteRequestDescription": "هذا ما يرجع.",
-    "attachmentTooLarge": "كل ملف لازم يكون أقل من 50MB",
+    "attachmentTooLarge": "كل ملف لازم يكون أقل من 200MB",
     "deleteCommentA11y": "احذف التعليق",
     "sendCommentA11y": "دز تعليق",
     "requestOptions": "خيارات الطلب",

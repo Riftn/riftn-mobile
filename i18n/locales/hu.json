@@ -4971,7 +4971,7 @@
     "edit": "Szerkesztés",
     "deleteRequestTitle": "Törlöd ezt a kérést?",
     "deleteRequestDescription": "Ez nem vonható vissza.",
-    "attachmentTooLarge": "Minden fájl legyen 50 MB alatt",
+    "attachmentTooLarge": "Minden fájl legyen 200 MB alatt",
     "deleteCommentA11y": "Hozzászólás törlése",
     "sendCommentA11y": "Megjegyzés küldése",
     "requestOptions": "Igénylési lehetőségek",

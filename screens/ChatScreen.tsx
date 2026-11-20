@@ -25,7 +25,6 @@ import {
   BackHandler,
   Pressable,
 } from "react-native";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { setOpenConversation, clearOpenConversation } from "../libs/activeChat";
 import Icon from "../components/ui/Icon";
@@ -71,6 +70,8 @@ import type { VoiceNoteResult } from "../components/Comments/VoiceNoteRecorder";
 import Avatar from "../components/common/Avatar";
 import OnlineDot from "../components/common/OnlineDot";
 import ChatHeaderMenuButton from "../components/Chat/ChatHeaderMenuButton";
+import AssistantDmButtons from "../components/DM/AssistantDmButtons";
+import { isAssistantAddress } from "../libs/assistant";
 import ChatMenu from "../components/Chat/ChatMenu";
 import WhenOpened from "../components/ui/WhenOpened";
 import { translateDmAndAbove } from "../libs/dm-translation-store";
@@ -138,6 +139,7 @@ import { ensureDmEncryption, retryDmEncryption, type DmEncryptionStatus } from "
 import { decryptIncoming } from "../libs/dm-e2ee/peer";
 import { onIdentityChange, prepareOutgoing } from "../libs/dm-e2ee/keys";
 import { getAccount, isFollowing as checkIsFollowing } from "../services/user.service";
+import { useProfileLocalTime } from "../hooks/useProfileLocalTime";
 import { blockUser, unblockUser } from "../services/block.service";
 import { truncateAddress } from "../libs/strings.util";
 import { dmDraftKey } from "../libs/draft-cache";
@@ -149,6 +151,7 @@ import { createLogger } from "../libs/logger";
 import { useDmPin } from "../hooks/useDmPin";
 import { useCallActions } from "../context/CallContext";
 import { useDmHeadRecovery } from "../hooks/useDmHeadRecovery";
+import { clearPendingChatLink, copyChatMessageLink, peekPendingChatLink, toastNotInLinkedChat, useLinkedMessage } from "../libs/chatMessageLink";
 import EmojiSheet from "../components/Upload/EmojiSheet";
 import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
 
@@ -461,6 +464,13 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     };
   }, [currentConvId, conversations, target, targetAddress, userId, address]);
 
+  const peerLocalTime = useProfileLocalTime(
+    target?.address?.toLowerCase() === peer.address?.toLowerCase() ? target?.customs?.publicTimeZone : undefined,
+  );
+  const peerSubtitle = [
+    peer.username ? `@${peer.username}` : "",
+    peerLocalTime ? t("profile.localTime", { defaultValue: "Local time {{time}}", time: peerLocalTime }) : "",
+  ].filter(Boolean).join(" · ");
   const peerLabel = useMemo(
     () => peer.displayName || peer.username || truncateAddress(peer.address) || t("copy.04f8996da763", { defaultValue: "user" }),
     [peer, t],
@@ -654,16 +664,29 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   );
 
 
+  // Where the list sits and how tall it is, for a smooth trip to the bottom.
+  const scrollYRef = useRef(0);
+  const viewportHRef = useRef(0);
   const scrollToBottom = useCallback(() => {
     requestAnimationFrame(() => {
       try {
-        listRef.current?.scrollToOffset({ offset: 0, animated: true });
+        // From far up an animated scroll crawls through unmeasured rows and
+        // stutters: hop to just over a screen above the end, then glide.
+        const lead = Math.round((viewportHRef.current || 700) * 1.25);
+        if (scrollYRef.current > lead) {
+          listRef.current?.scrollToOffset({ offset: lead, animated: false });
+          requestAnimationFrame(() => listRef.current?.scrollToOffset({ offset: 0, animated: true }));
+        } else {
+          listRef.current?.scrollToOffset({ offset: 0, animated: true });
+        }
       } catch {}
     });
   }, []);
 
   const onScroll = useCallback((e: any) => {
-    const { contentOffset } = e.nativeEvent || {};
+    const { contentOffset, layoutMeasurement } = e.nativeEvent || {};
+    scrollYRef.current = contentOffset?.y || 0;
+    if (layoutMeasurement?.height) viewportHRef.current = layoutMeasurement.height;
     const atBottom = (contentOffset?.y || 0) <= 40;
     isAtBottomRef.current = atBottom;
     setShowJumpBtn(!atBottom);
@@ -716,6 +739,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   // is still above it. Driven by which rows are on screen (list is inverted:
   // index 0 is the newest line at the bottom).
   const [unreadBelow, setUnreadBelow] = useState(0);
+  // Every line below the screen: the number on the scroll-down button.
+  const [linesBelow, setLinesBelow] = useState(0);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
   const visibleRangeRef = useRef<{ min: number; max: number } | null>(null);
@@ -756,6 +781,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    // Inverted list: index 0 is the newest line, so everything under the
+    // lowest visible index is below the screen.
+    setLinesBelow(idx.length ? Math.min(...idx) : 0);
     refreshUnreadJump();
     reportReadSpotRef.current();
   }).current;
@@ -806,6 +834,44 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     },
     [highlightAndScroll],
   );
+
+  // A copied message link to this chat: read back until the line is held,
+  // then scroll to it and light it up.
+  const linkStateRef = useRef({ messageList, hasMore, loadingMore, loadMore: async () => {}, highlightAndScroll });
+  const conversationsRef = useRef(conversations);
+  conversationsRef.current = conversations;
+  const linkKey = convId ? `dm:${convId}` : null;
+  useLinkedMessage(
+    linkKey,
+    !initialLoading && messageList.length > 0,
+    async (id) => {
+      for (let round = 0; round < 25; round += 1) {
+        const state = linkStateRef.current;
+        if (state.messageList.some((m) => m._id === id)) {
+          setTimeout(() => linkStateRef.current.highlightAndScroll(id), 350);
+          return true;
+        }
+        if (!state.hasMore) return false;
+        if (!state.loadingMore) await state.loadMore();
+        await new Promise((r) => setTimeout(r, 150));
+      }
+      return false;
+    },
+  );
+  // Someone who is not in the chat has no messages and no contact for it.
+  useEffect(() => {
+    if (!linkKey || !peekPendingChatLink(linkKey)) return;
+    const timer = setTimeout(() => {
+      const link = peekPendingChatLink(linkKey);
+      if (!link) return;
+      if (linkStateRef.current.messageList.length || conversationsRef.current.some((c) => c._id === convId)) return;
+      clearPendingChatLink(link.nonce);
+      toastNotInLinkedChat();
+      if (navigation.canGoBack()) navigation.goBack();
+    }, 6000);
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [linkKey]);
 
   const onContentSizeChange = useCallback(() => {
     if (isAtBottomRef.current) scrollToBottom();
@@ -1094,6 +1160,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       setLoadingMore(false);
     }
   }, [currentConvId, address, storeMessages.length, loadingMore, hasMore]);
+  linkStateRef.current = { messageList, hasMore, loadingMore, loadMore, highlightAndScroll };
 
   // Decide once where the chat opens from the saved spot: pull in older pages
   // until the spot is loaded (up to MAX_READ_SPOT_PAGES), then fix the marker.
@@ -1752,6 +1819,16 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     setTimeout(() => askDelete(convId, [target], () => {}), 250);
   }, [contextMessage, currentConvId, closeContextMenu, askDelete]);
 
+  // "Copy link" on a message. A chat still being set up has no id a link
+  // could name yet.
+  const linkableConv = !!currentConvId && /^[A-Za-z0-9_-]{1,64}$/.test(String(currentConvId))
+    && !String(currentConvId).startsWith("new_") && !/^0x[0-9a-f]{40}$/i.test(String(currentConvId));
+  const handleCopyLink = useCallback(() => {
+    if (contextMessage?._id && currentConvId) {
+      copyChatMessageLink({ kind: "dm", conversationId: String(currentConvId) }, String(contextMessage._id));
+    }
+  }, [contextMessage, currentConvId]);
+
   const handleForward = useCallback(() => {
     if (contextMessage) setForwardMessage(contextMessage);
     setForwardVisible(true);
@@ -2099,7 +2176,11 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const RightHeader = useMemo(
     () => (
       <View className="flex-row items-center">
-        {peer.address ? <CallButton recipientAddress={peer.address} /> : null}
+        {isAssistantAddress(peer.address) ? (
+          <AssistantDmButtons />
+        ) : peer.address ? (
+          <CallButton recipientAddress={peer.address} />
+        ) : null}
         <ChatHeaderMenuButton onPress={openMenu} />
       </View>
     ),
@@ -2266,7 +2347,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         title={title}
         leftContent={LeftHeader}
         rightContent={RightHeader}
-        subtitle={remoteTyping ? _copy("copy.30f5934e6249", { defaultValue: "typing…" }) : peer.username ? `@${peer.username}` : undefined}
+        subtitle={remoteTyping ? _copy("copy.30f5934e6249", { defaultValue: "typing…" }) : peerSubtitle || undefined}
         titleBadge={(peer as any).badgeImg ? (
           <BadgeArtwork
             source={(peer as any).badgeImg}
@@ -2410,10 +2491,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
           {/* Jump capsule: up to the unread marker until it has been on
               screen, then down to the newest line; count = unread below. */}
-          {(showJumpBtn || (!!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove)) && !dmDisabled && !showNewChatIntro && (
-            <Animated.View
-              entering={FadeIn.duration(200)}
-              exiting={FadeOut.duration(150)}
+          {!dmDisabled && !showNewChatIntro && (
+            <View
+              pointerEvents="box-none"
               className="absolute right-4"
               // Sit on the measured composer, not a fixed 100pt: with the
               // suggested-replies tray or a reply strip the composer is ~200pt
@@ -2424,13 +2504,14 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 const up = !!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove;
                 return (
                   <UnreadJumpButton
+                    show={showJumpBtn || up}
                     up={up}
-                    count={unreadBelow}
+                    count={showJumpBtn || up ? Math.max(linesBelow, unreadBelow) : 0}
                     onPress={up ? () => scrollToUnreadMarker(true) : scrollToBottom}
                   />
                 );
               })()}
-            </Animated.View>
+            </View>
           )}
 
           {/* Input or disabled banner — absolutely positioned, lifts with keyboard */}
@@ -2547,6 +2628,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               onReply={handleReply}
               onEdit={handleEdit}
               onForward={handleForward}
+              onCopyLink={linkableConv ? handleCopyLink : undefined}
               onSelect={handleSelect}
               onTranslate={handleTranslateAbove}
               onDelete={handleDelete}

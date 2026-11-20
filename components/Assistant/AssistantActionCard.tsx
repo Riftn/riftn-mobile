@@ -8,6 +8,7 @@ import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } fr
 import { useTranslation } from 'react-i18next';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { getAvatarUrl } from '../../libs/misc';
+import { openInApp } from '../../libs/links.utils';
 import { POST_REACTIONS, reactionMeta, type PostReaction } from '../../libs/reactions';
 import {
   cancelAssistantAction,
@@ -18,6 +19,15 @@ import {
 } from '../../services/assistantActions.service';
 
 type Choice = PostReaction | 'fitting';
+
+const REQUEST_CATEGORY_KEYS = {
+  ui_ux: 'features.uiUx',
+  performance: 'features.performance',
+  new_feature: 'features.newFeature',
+  bug_fix: 'features.bugFix',
+  integration: 'features.integration',
+  other: 'features.other',
+} as const;
 
 function Person({ person }: { person: AssistantActionPerson }) {
   const url = person.avatar ? getAvatarUrl(person.avatar, 64) : undefined;
@@ -65,13 +75,19 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
   if (!action) return <View style={[s.card, s.loading]}><ActivityIndicator color="rgba(255,255,255,0.6)" /></View>;
 
   const { kind, status, preview, result } = action;
+  const draft = kind === 'request_post' ? preview.draft : undefined;
+  const postedRequestId = result?.requestId;
   const count = preview.count ?? 0;
   const picked: Choice = choice || ((preview.choice as Choice) ?? 'like');
 
   const confirm = async () => {
     setBusy(true);
+    setError(null);
     try {
-      const next = await confirmAssistantAction(action.id, kind === 'react' ? picked : undefined);
+      const next = await confirmAssistantAction(
+        action.id,
+        kind === 'request_post' ? { requestPost: true } : kind === 'react' ? { reaction: picked } : {},
+      );
       setAction(next);
       if (next?.status === 'running') poll.current = setTimeout(load, 1200);
     } catch (e: any) {
@@ -100,7 +116,9 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
         ? t('assistantCards.follow', { count, defaultValue: 'Follow {{count}}' })
         : kind === 'unfollow'
           ? t('assistantCards.unfollow', { count, defaultValue: 'Unfollow {{count}}' })
-          : preview.allow
+          : kind === 'request_post'
+            ? t('assistantCards.requestDraft', { defaultValue: 'Public request draft' })
+            : preview.allow
             ? t('assistantCards.allowChats', { defaultValue: 'Let the assistant read your chats?' })
             : t('assistantCards.stopChats', { defaultValue: 'Stop the assistant reading your chats?' });
   const confirmLabel =
@@ -110,7 +128,9 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
         ? t('assistantCards.confirmFollow', { defaultValue: 'Follow' })
         : kind === 'unfollow'
           ? t('assistantCards.confirmUnfollow', { defaultValue: 'Unfollow' })
-          : preview.allow
+          : kind === 'request_post'
+            ? t('assistantCards.postRequest', { defaultValue: 'Post to Requests' })
+            : preview.allow
             ? t('assistantCards.confirmAllow', { defaultValue: 'Allow' })
             : t('assistantCards.confirmStop', { defaultValue: 'Stop' });
   const total = result?.total ?? count;
@@ -119,6 +139,25 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
   return (
     <View style={s.card} testID={`assistant-card-${kind}`}>
       <Text style={s.title}>{title}</Text>
+
+      {draft && (
+        <View style={s.draft}>
+          <Text style={s.muted}>{t(REQUEST_CATEGORY_KEYS[draft.category])}</Text>
+          <Text style={s.name}>{draft.title}</Text>
+          <Text style={s.body}>{draft.description}</Text>
+          {!!preview.duplicates?.length && status === 'pending' && (
+            <View style={s.draft}>
+              <Text style={s.muted}>{t('assistantCards.possibleDuplicates', { defaultValue: 'Possible duplicates' })}</Text>
+              {preview.duplicates.map((request) => (
+                <Text key={request.id} accessibilityRole="link" style={s.link}
+                  onPress={() => void openInApp(`https://riftn.com/app/features?request=${encodeURIComponent(request.id)}`)}>
+                  {request.title}
+                </Text>
+              ))}
+            </View>
+          )}
+        </View>
+      )}
 
       {kind === 'react' && !!preview.author && <Person person={preview.author} />}
       {kind === 'react' && !!preview.alreadyReacted && (
@@ -166,7 +205,16 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
           <Text style={s.muted}>{t('assistantCards.progress', { done, total, defaultValue: '{{done}} of {{total}}' })}</Text>
         </View>
       )}
-      {status === 'done' && (
+      {status === 'done' && kind === 'request_post' && postedRequestId && (
+        <View style={s.doneRow}>
+          <Ionicons name="checkmark" size={14} color="rgba(255,255,255,0.85)" />
+          <Text accessibilityRole="link" style={s.link}
+            onPress={() => void openInApp(`https://riftn.com/app/features?request=${encodeURIComponent(postedRequestId)}`)}>
+            {t('assistantCards.viewPostedRequest', { defaultValue: 'View posted request' })}
+          </Text>
+        </View>
+      )}
+      {status === 'done' && kind !== 'request_post' && (
         <View style={s.doneRow}>
           <Ionicons name="checkmark" size={14} color="rgba(255,255,255,0.85)" />
           <Text style={s.body}>
@@ -205,6 +253,8 @@ const s = StyleSheet.create({
   loading: { height: 96, alignItems: 'center', justifyContent: 'center' },
   title: { color: '#FFFFFF', fontSize: 15, fontWeight: '600' },
   body: { color: 'rgba(255,255,255,0.75)', fontSize: 12, lineHeight: 17, flexShrink: 1 },
+  draft: { gap: 6 },
+  link: { color: '#FFFFFF', fontSize: 12, textDecorationLine: 'underline' },
   muted: { color: 'rgba(255,255,255,0.55)', fontSize: 12 },
   person: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   avatar: { width: 28, height: 28, borderRadius: 14 },

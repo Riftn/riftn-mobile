@@ -34,6 +34,7 @@ import { MINIMAL_HAIRLINE } from "../../theme/minimal";
 import type { Community } from "../../types/community";
 import { PinnedCommunityWash } from "../Communities/PinnedCommunityStage";
 import ProfileFieldsList, { type ProfileField } from "../Profile/ProfileFieldsList";
+import { useProfileLocalTime } from "../../hooks/useProfileLocalTime";
 
 const GLASS_GRADIENT: [string, string, string] = [
   "rgba(255,255,255,0.20)",
@@ -70,6 +71,7 @@ export interface UserProfileHeaderProps {
   bioLanguage?: string | null;
   /** Label/value lines under the bio — see ProfileFieldsList. */
   profileFields?: ProfileField[] | null;
+  publicTimeZone?: string;
   isFollowing?: boolean;
   isFollowRequestPending?: boolean;
   followLoading?: boolean;
@@ -120,6 +122,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
   bio,
   bioLanguage,
   profileFields,
+  publicTimeZone,
   isFollowing = false,
   isFollowRequestPending = false,
   followLoading = false,
@@ -169,6 +172,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
     shouldShow: showBioTranslate,
   } = useTranslation(bioTexts, bioLanguage, true, true);
   const displayBio = isBioTranslated ? translatedBioTexts.bio || bio : bio;
+  const localTime = useProfileLocalTime(publicTimeZone);
 
   const handleCopyUsername = useCallback(() => {
     if (username) copyToClipboard(username);
@@ -430,6 +434,11 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
           )}
 
           <ProfileFieldsList fields={profileFields} />
+          {localTime ? (
+            <Text className="mt-1 text-sm text-zinc-400">
+              {t("profile.localTime", { defaultValue: "Local time {{time}}", time: localTime })}
+            </Text>
+          ) : null}
 
           {/* Joined, with the bio's translate control beside it, as on web. */}
           {(!!joinedDate || (!!bio && showBioTranslate)) && (

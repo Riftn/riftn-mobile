@@ -61,7 +61,7 @@ import GlassModal from "../components/ui/GlassModal";
 import { runWithPermissions } from "../libs/permissions.util";
 import { toastWarning } from "../libs/toast";
 import { localFileSize } from "../libs/storage-upload";
-import { featurePromptFields } from "../libs/feature-prompt";
+import { featurePromptFields, FEATURE_PROMPT_MAX_LENGTH as DESC_MAX } from "../libs/feature-prompt";
 import { optionalSkia } from "../libs/skia";
 import type { StudioEdits } from "../components/Upload/studioPaint";
 import { theme } from "../theme";
@@ -119,7 +119,6 @@ import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 import { formatCount } from '../libs/format-count';
 const TITLE_MAX = 100;
-const DESC_MAX = 1000;
 const DEVICE_MAX = 300;
 
 type PageTab = "requests" | "shipping" | "shipped";
@@ -240,14 +239,16 @@ const Attachments: React.FC<{ feature: FeatureRequest }> = ({ feature }) => {
 
 /**
  * A video attached to a request. It used to be handed to the image view,
- * which can't draw a video, so it showed black and never played. The player
- * is only made on tap, so a long board doesn't open one per video.
+ * which can't draw a video, so it showed black and never played. No player
+ * is made on the board itself, so a long board doesn't open one per video.
  */
 const RequestVideo: React.FC<{ url: string; badge: number }> = ({ url, badge }) => {
-  const [playing, setPlaying] = useState(false);
-  if (playing) return <RequestVideoPlayer url={url} />;
+  const navigation = useNavigation<any>();
+  // Tiles are small, so a tap opens the clip full screen with the normal
+  // player controls; closing it lands back on the same card.
+  const open = () => navigation.navigate(ScreenNames.FullscreenVideo, { videoUrl: url, downloadUrl: url, startTime: 0, noShorts: true });
   return (
-    <Pressable onPress={() => setPlaying(true)} style={StyleSheet.absoluteFill} accessibilityRole="button">
+    <Pressable onPress={open} style={StyleSheet.absoluteFill} accessibilityRole="button">
       <View className="dark-surface" style={styles.playBadge}>
         <Icon name="Play" size={badge} color="#FFFFFF" />
       </View>
@@ -355,6 +356,8 @@ const FeatureCard: React.FC<{
 
   const [editTitle, setEditTitle] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:editTitle", feature.title, feature.id);
   const [editDescription, setEditDescription] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:editDescription", feature.description, feature.id);
+  // A saved request may also include the optional Device & OS line.
+  const editDescriptionLimit = Math.max(DESC_MAX, feature.description.length);
   const [editCategory, setEditCategory] = useState<FeatureCategory>(feature.category);
 
   // Same auto-translate as posts: a request in another language reads in the
@@ -549,7 +552,8 @@ const FeatureCard: React.FC<{
             <Text style={styles.editLabel}>{t("features.descriptionLabel")}</Text>
             <TextInput
               value={editDescription}
-              onChangeText={(v) => setEditDescription(v.slice(0, DESC_MAX))}
+              onChangeText={setEditDescription}
+              maxLength={editDescriptionLimit}
               style={[styles.input, styles.textarea]}
               multiline
               placeholderTextColor="#52525B"
@@ -591,7 +595,7 @@ const FeatureCard: React.FC<{
                   { onSuccess: () => setEditing(false) },
                 )
               }
-              disabled={!editTitle.trim() || !editDescription.trim() || editMutation.isPending}
+              disabled={!editTitle.trim() || !editDescription.trim() || editDescription.length > editDescriptionLimit || editMutation.isPending}
               style={[
                 styles.glassBtnSm,
                 (!editTitle.trim() || !editDescription.trim()) && styles.disabled,
@@ -731,7 +735,7 @@ const PromptComposer: React.FC<{
   const { isSignedIn, needsUsername } = useAuthState();
   const navigation = useNavigation<any>();
   const openSignIn = useOpenSignIn();
-  const valid = description.trim().length > 0;
+  const valid = description.trim().length > 0 && description.length <= DESC_MAX;
 
   const pickMedia = useCallback(async () => {
     if (submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS) return;
@@ -749,7 +753,7 @@ const PromptComposer: React.FC<{
         if (size !== null && size > MAX_FEATURE_ATTACHMENT_BYTES) continue;
         accepted.push({ uri: asset.uri, mimeType: asset.mimeType, fileName: asset.fileName });
       }
-      if (accepted.length < assets.length) toastWarning(t("features.attachmentTooLarge", "Each file must be under 50MB"));
+      if (accepted.length < assets.length) toastWarning(t("features.attachmentTooLarge", "Each file must be under 200MB"));
       setAttachments(prev => [...prev, ...accepted].slice(0, MAX_FEATURE_ATTACHMENTS));
     });
   }, [attachments.length, submitting, t]);

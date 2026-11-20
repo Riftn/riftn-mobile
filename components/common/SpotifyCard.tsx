@@ -465,7 +465,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     elevation: 3,
   },
-  playBtnOn: { shadowColor: SPOTIFY_GREEN, shadowOpacity: 0.6, shadowRadius: 12 },
+  playBtnOn: { boxShadow: `0px 0px 12px ${SPOTIFY_GREEN}99`, shadowOpacity: 0, elevation: 0 },
   progressRow: { flexDirection: 'row', alignItems: 'center', gap: 8, minWidth: 0 },
   time: { color: '#a1a1aa', fontSize: 10, fontVariant: ['tabular-nums'], width: 30 },
   timeEnd: { textAlign: 'right' },

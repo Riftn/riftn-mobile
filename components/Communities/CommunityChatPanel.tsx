@@ -58,6 +58,7 @@ import type { IconName } from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBadgeUrl, resolveBadgeBalance } from "../../libs/misc";
 import { copyToClipboard } from "../../libs/clipboard.utils";
+import { canLinkMessage, copyChatMessageLink, copyLinkLabel, useLinkedMessage } from "../../libs/chatMessageLink";
 import { toastSuccess } from "../../libs/toast";
 import { useUser } from "../../context/AuthContext";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
@@ -603,8 +604,22 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     } catch { toastError(t("common.failedToLoad")); }
   }, [isLoadingOlder, visibleCount, messages.length, loadOlder, t]);
 
+  // Distance from the end and viewport height, for a smooth trip down.
+  const fromBottomRef = useRef(0);
+  const viewportHRef = useRef(0);
+  const contentHRef = useRef(0);
   const scrollToBottom = useCallback(() => {
-    requestAnimationFrame(() => listRef.current?.scrollToEnd({ animated: true }));
+    requestAnimationFrame(() => {
+      // From far up an animated scroll crawls through unmeasured rows and
+      // stutters: hop to just over a screen above the end, then glide.
+      const lead = Math.round((viewportHRef.current || 600) * 1.25);
+      if (fromBottomRef.current > lead && contentHRef.current) {
+        listRef.current?.scrollToOffset({ offset: Math.max(0, contentHRef.current - viewportHRef.current - lead), animated: false });
+        requestAnimationFrame(() => listRef.current?.scrollToEnd({ animated: true }));
+      } else {
+        listRef.current?.scrollToEnd({ animated: true });
+      }
+    });
   }, []);
 
   // Counted from the old tail, not the length: the list is capped at 200, so
@@ -626,13 +641,15 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   const jumpToLatest = useCallback(async () => {
     try {
       await showLatest();
-      setVisibleCount(PAGE);
+      // Folding the list back to one page mid-glide made it snap; only fold
+      // when leaving an old history window.
+      if (isHistoryWindow) setVisibleCount(PAGE);
       atBottomRef.current = true;
       setUnseen(0);
       setShowJump(false);
       scrollToBottom();
     } catch { toastError(t("common.failedToLoad")); }
-  }, [showLatest, scrollToBottom, t]);
+  }, [showLatest, scrollToBottom, t, isHistoryWindow]);
 
   // ─── Where you left off ──────────────────────────────────────────────────
   // Saved on the server per chat (same spot as the website). The chat opens
@@ -645,6 +662,8 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   const readTrackingRef = useRef(false);
   const unreadPlacedRef = useRef(false);
   const [unreadBelow, setUnreadBelow] = useState(0);
+  // Every line below the screen: the number on the scroll-down button.
+  const [linesBelow, setLinesBelow] = useState(0);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
   useEffect(() => {
@@ -682,6 +701,19 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
     }
     decide(found.kind === "anchor" ? found.anchor : null);
   }, [readDecided, isLoading, messages, readSpot.ready, readSpot.opening, isHistoryWindow, hasOlderMessages, isLoadingOlder, loadOlder, myAddress]);
+
+  // A copied message link to this community's chat: open on that line.
+  useLinkedMessage(
+    community.slug ? `community:${community.slug.toLowerCase()}` : null,
+    !isLoading && messages.length > 0 && readDecided,
+    async (id) => {
+      unreadPlacedRef.current = true;
+      setUnreadAnchor(null);
+      await jumpRef.current(id);
+      return true;
+    },
+  );
+
 
   // Land on the marker once its row is in the list: it sits at the top.
   useEffect(() => {
@@ -734,6 +766,15 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    // Oldest at the top: every line after the last visible one is below.
+    if (idx.length) {
+      const list = listItemsRef.current;
+      let below = 0;
+      for (let i = Math.max(...idx) + 1; i < list.length; i++) if (list[i]?.message_type !== JOIN_LINE_TYPE) below++;
+      setLinesBelow(below);
+    } else {
+      setLinesBelow(0);
+    }
     refreshUnreadJump();
     reportReadSpotRef.current();
   }).current;
@@ -1072,6 +1113,9 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           onScroll={(e) => {
             const { contentOffset, contentSize, layoutMeasurement } = e.nativeEvent;
             const fromBottom = contentSize.height - contentOffset.y - layoutMeasurement.height;
+            fromBottomRef.current = fromBottom;
+            viewportHRef.current = layoutMeasurement.height;
+            contentHRef.current = contentSize.height;
             if (fromBottom >= 80 && Date.now() < liftGuardUntilRef.current) return;
             atBottomRef.current = fromBottom < 80;
             const farUp = fromBottom > 240;
@@ -1121,12 +1165,13 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
           // Same control as DMs: up to the unread line until it has been seen,
           // then down to the newest, with the unread lines still below.
           const up = !!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove;
-          if (!(up || showJump || unseen > 0 || isHistoryWindow)) return null;
+          const show = up || showJump || unseen > 0 || isHistoryWindow;
           return (
-            <View style={styles.jumpWrap}>
+            <View style={styles.jumpWrap} pointerEvents="box-none">
               <UnreadJumpButton
+                show={show}
                 up={up}
-                count={unreadBelow + unseen}
+                count={Math.max(linesBelow, unreadBelow + unseen)}
                 onPress={up ? scrollToUnreadMarker : () => void jumpToLatest()}
               />
             </View>
@@ -1457,6 +1502,19 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
                     <Text style={styles.sheetRowText}>
                       {t("communities.chatPanel.copyText", { defaultValue: "Copy text" })}
                     </Text>
+                  </Pressable>
+                )}
+
+                {!!community.slug && canLinkMessage(sheetFor.id) && (
+                  <Pressable
+                    style={styles.sheetRow}
+                    onPress={() => {
+                      copyChatMessageLink({ kind: "community", slug: community.slug }, sheetFor.id);
+                      setSheetFor(null);
+                    }}
+                  >
+                    <Icon name="Link" size={16} color="#FFFFFF" />
+                    <Text style={styles.sheetRowText}>{copyLinkLabel()}</Text>
                   </Pressable>
                 )}
 

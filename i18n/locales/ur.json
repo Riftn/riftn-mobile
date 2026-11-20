@@ -4946,7 +4946,7 @@
     "edit": "ترمیم",
     "deleteRequestTitle": "یہ درخواست حذف کریں؟",
     "deleteRequestDescription": "یہ واپس نہیں ہو سکتا۔",
-    "attachmentTooLarge": "ہر فائل 50MB سے کم ہونی چاہیے",
+    "attachmentTooLarge": "ہر فائل 200MB سے کم ہونی چاہیے",
     "deleteCommentA11y": "تبصرہ حذف کریں",
     "sendCommentA11y": "تبصرہ بھیجیں",
     "requestOptions": "آپشنز کی درخواست کریں",

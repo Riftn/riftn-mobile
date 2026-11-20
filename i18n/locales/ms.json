@@ -5202,7 +5202,7 @@
     "edit": "Sunting",
     "deleteRequestTitle": "Padam permintaan ini?",
     "deleteRequestDescription": "Ini tidak boleh dibatalkan.",
-    "attachmentTooLarge": "Setiap fail mesti di bawah 50MB",
+    "attachmentTooLarge": "Setiap fail mesti di bawah 200MB",
     "deleteCommentA11y": "Padam komen",
     "sendCommentA11y": "Hantar komen",
     "requestOptions": "Pilihan permohonan",

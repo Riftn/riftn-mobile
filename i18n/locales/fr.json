@@ -1,6 +1,7 @@
 {
+  "stories": {"moreActions":"Options de la story","remixing":"Remix de la story de {{name}}","watchOriginal":"Voir la story originale","originalUnavailable":"La story originale n'est plus disponible.","copyLinkFailed":"Impossible de copier le lien de la story.","linkCopied":"Lien copié","viewProfile":"Voir le profil", "back": "Retour", "more": "Plus", "addMoment": "Ajouter un moment", "boxOff": "Sans fond", "boxOn": "Avec fond", "cameraOff": "L'accès à la caméra est désactivé. Activez-le dans Réglages ou choisissez dans Photos.", "delete": "Supprimer le moment", "deleteConfirm": "Supprimer ce moment ?", "deleteFailed": "Impossible de le supprimer. Réessayez.", "deleted": "Moment supprimé", "everyone": "Tout le monde", "followersOnly": "Abonnés", "like": "J'aime", "mute": "Son", "newMoment": "Nouveau moment", "noViewsYet": "Personne ne l'a encore vu.", "openCamera": "Caméra", "pick": "Choisir sur l'appareil", "pickFailed": "Impossible d'ouvrir ce fichier. Essayez-en un autre.", "repliedTo": "A répondu à votre moment", "replyFailed": "Impossible d'envoyer votre réponse.", "replyTo": "Répondre à {{name}}", "report": "Signaler", "reportFailed": "Impossible d'envoyer le signalement.", "reportWhy": "Pourquoi signalez-vous ceci ?", "reported": "Merci. Nous allons vérifier.", "share": "Partager", "shareFailed": "Votre moment n'a pas été publié. Touchez votre vignette pour réessayer.", "sharing": "Partage…", "signInToReply": "Connectez-vous pour répondre", "startSub": "Une photo ou un clip de 60 secondes maximum. Il reste 24 heures.", "tapRetry": "Touchez pour réessayer", "text": "Texte", "typeSomething": "Écrivez quelque chose", "viewsCount": "{{formatted}} vues", "whoWatched": "Qui l'a vu", "yourDay": "Votre journée", "momentUp": "Votre moment est en ligne pour 24 heures", "tooLarge": "Ce fichier est trop volumineux.", "reason": {"spam": "Spam", "nudity": "Nudité ou contenu sexuel", "harassment": "Harcèlement ou intimidation", "violence": "Violence ou actes dangereux", "hate": "Discours haineux", "other": "Autre chose"}},
   "dmVideo": {"cover": "Couverture", "trim": "Découper", "mirror": "Miroir", "rotate": "Faire pivoter", "hide": "Masquer", "timer": "Minuterie", "close": "Fermer", "photo": "Photo", "remove": "Supprimer", "pause": "Pause", "play": "Lire la vidéo", "hiddenUntilTap": "Caché jusqu’à ce qu’ils le tapent", "scrub": "Faire défiler la vidéo", "addMore": "Ajouter des photos ou des vidéos", "coverAria": "Appuyez sur un cadre pour définir la couverture", "trimHint": "Faites glisser les extrémités pour découper", "coverHint": "Appuyez sur un cadre pour le mettre comme couverture", "uploadCover": "Télécharger une image de couverture", "mirrored": "Miroir", "original": "Original", "rotate90": "Faire pivoter de 90°", "timerOff": "Arrêté", "showNormally": "Afficher normalement", "showNormallyBody": "Ils le voient immédiatement", "hideUntilTap": "Masquer jusqu’à ce qu’on tape", "hideUntilTapBody": "Flou jusqu’à ce qu’ils tapent", "hidePrice": "Masquer derrière un prix", "hidePriceBody": "Flou jusqu’à ce que vous payiez", "priceUnavailable": "Pas dans cette discussion", "priceLabelUsd": "Prix", "priceHint": "Ils le voient flou jusqu’à ce que vous payiez. Les éléments verrouillés ne sont pas chiffrés de bout en bout.", "timerOffBody": "Il reste dans le chat.", "timerViewBody": "Parti pour vous deux une fois qu’ils l’ont vu.", "confirm": "Confirmer", "editItem": "Modifier l’élément {{value1}}", "coverSet": "Couverture à {{value1}}", "lockedForUsd": "Déverrouiller pour {{value1}}", "timerTimeBody": "Parti pour vous deux {{value1}} après l’avoir envoyé."},
-  "assistantCards": {"fitting": "Adaptée", "loadFailed": "Impossible de charger cette carte. Connecte-toi ou redemande.", "failed": "Ça n'a pas marché. Réessaie.", "reactOne": "Réagir à 1 publication", "reactMany": "Réagir à {{count}} publications", "follow": "Suivre {{count}}", "unfollow": "Ne plus suivre {{count}}", "allowChats": "Laisser l'assistant lire tes discussions ?", "stopChats": "Empêcher l'assistant de lire tes discussions ?", "confirmReact": "Réagir", "confirmFollow": "Suivre", "confirmUnfollow": "Ne plus suivre", "confirmAllow": "Autoriser", "confirmStop": "Arrêter", "skipsAlready": "Ignore {{count}} auxquelles tu as déjà réagi", "allowChatsWhy": "Toi seul vois ce qu'il lit. Discussions privées uniquement, et celles chiffrées de bout en bout restent privées. Demande-lui d'arrêter quand tu veux.", "pickReaction": "Choisis une réaction", "progress": "{{done}} sur {{total}}", "doneReact": "Réaction ajoutée à {{count}} publications", "doneAllow": "Autorisé. Repose ta question.", "doneStop": "Arrêté. Il ne peut plus lire tes discussions.", "doneFollow": "Fait pour {{count}}", "expired": "Cette carte a expiré. Redemande.", "cancelled": "Annulé", "cancel": "Pas maintenant"},
+  "assistantCards": {"requestDraft": "Brouillon de demande publique", "postRequest": "Publier dans Demandes", "possibleDuplicates": "Doublons possibles", "viewPostedRequest": "Voir la demande publiée", "fitting": "Adaptée", "loadFailed": "Impossible de charger cette carte. Connecte-toi ou redemande.", "failed": "Ça n'a pas marché. Réessaie.", "reactOne": "Réagir à 1 publication", "reactMany": "Réagir à {{count}} publications", "follow": "Suivre {{count}}", "unfollow": "Ne plus suivre {{count}}", "allowChats": "Laisser l'assistant lire tes discussions ?", "stopChats": "Empêcher l'assistant de lire tes discussions ?", "confirmReact": "Réagir", "confirmFollow": "Suivre", "confirmUnfollow": "Ne plus suivre", "confirmAllow": "Autoriser", "confirmStop": "Arrêter", "skipsAlready": "Ignore {{count}} auxquelles tu as déjà réagi", "allowChatsWhy": "Toi seul vois ce qu'il lit. Discussions privées uniquement, et celles chiffrées de bout en bout restent privées. Demande-lui d'arrêter quand tu veux.", "pickReaction": "Choisis une réaction", "progress": "{{done}} sur {{total}}", "doneReact": "Réaction ajoutée à {{count}} publications", "doneAllow": "Autorisé. Repose ta question.", "doneStop": "Arrêté. Il ne peut plus lire tes discussions.", "doneFollow": "Fait pour {{count}}", "expired": "Cette carte a expiré. Redemande.", "cancelled": "Annulé", "cancel": "Pas maintenant"},
   "chatReactions": {
     "many_one": "{{count}} réaction à vos messages",
     "many_other": "{{count}} réactions à vos messages",
@@ -1048,6 +1049,18 @@
     "defaultFeed": "Fil par défaut",
     "defaultFeedDesc": "Choisissez le fil qui s'ouvre chaque fois que vous ouvrez Riftn",
     "postLanding": "Après la publication",
+    "feedSeparator": "Séparateur de publications",
+    "feedSeparatorDesc": "Des cartes autour de chaque publication, ou une fine ligne entre elles",
+    "feedSeparatorBento": "Cartes bento",
+    "feedSeparatorBentoDesc": "Chaque publication dans sa propre carte arrondie",
+    "feedSeparatorLine": "Ligne fine",
+    "feedSeparatorLineDesc": "Sans cartes. Une fine ligne entre les publications et un peu plus de place pour chacune",
+    "shareIcon": "Icône de partage",
+    "shareIconDesc": "L'icône du bouton Partager sous les publications",
+    "shareIconClassic": "Classique",
+    "shareIconClassicDesc": "Trois points reliés",
+    "shareIconDistribute": "Diffuser",
+    "shareIconDistributeDesc": "Une personne dans un cercle avec des flèches vers l'extérieur",
     "postLandingDesc": "Comment votre nouvelle publication arrive dans votre fil",
     "postLandingGhost": "Emplacement fantôme",
     "postLandingGhostDesc": "Votre fil fait de la place et votre publication apparaît en fondu",
@@ -2702,7 +2715,7 @@
     "edit": "Modifier",
     "deleteRequestTitle": "Supprimer cette demande ?",
     "deleteRequestDescription": "Action irréversible.",
-    "attachmentTooLarge": "Chaque fichier doit faire moins de 50 Mo",
+    "attachmentTooLarge": "Chaque fichier doit faire moins de 200 Mo",
     "deleteCommentA11y": "Supprimer le commentaire",
     "sendCommentA11y": "Envoyez un commentaire",
     "requestOptions": "Options de la demande",
@@ -2900,6 +2913,9 @@
     "returnHome": "Retour à l'accueil"
   },
   "profile": {
+    "localTime": "Heure locale {{time}}",
+    "shareLocalTime": "Afficher mon heure locale",
+    "shareLocalTimeHint": "Affichez votre fuseau horaire et votre heure locale sur votre profil public et dans le chat.",
     "articleShort": "Article",
     "pinnedShort": "Épinglé",
     "post": "Publication",
@@ -15827,6 +15843,44 @@
     "tipJar": "Pot cadeau"
   },
   "liveStudio": {
+    "bot": {
+      "title": "Bot du chat",
+      "intro": "Un coanimateur pour le chat de ton live. Il salue les nouveaux, répond aux questions sur toi et le live, raconte aux retardataires ce qu'ils ont manqué et relance un chat silencieux. Il ne parle que sur tes lives, pendant que tu es en direct.",
+      "enabled": "Bot du chat",
+      "enabledHint": "Désactivé tant que tu ne l'actives pas. Le désactiver le rend muet tout de suite.",
+      "about": "Ce qu'il sait de toi",
+      "aboutPlaceholder": "Qui tu es, ce que tu diffuses, ton planning, où te trouver. Exemple : Artiste abstrait et fan de metal. En direct mar/jeu/sam 20h ET. Le lien Discord est sur mon profil.",
+      "aboutHint": "Il répond à partir de ceci, du titre du live et du chat. S'il ne sait pas, il ne dit rien",
+      "personality": "Personnalité",
+      "personalities": {
+        "chill": "Cool",
+        "hype": "Survolté",
+        "funny": "Drôle",
+        "formal": "Formel"
+      },
+      "chattiness": "Bavardage",
+      "chattinessLevels": {
+        "quiet": "Seulement si on lui demande",
+        "normal": "Normal",
+        "lots": "Beaucoup"
+      },
+      "greet": "Saluer ceux qui écrivent pour la première fois",
+      "greetHint": "Un accueil par personne et par live",
+      "answer": "Répondre aux questions",
+      "answerHint": "« Tu fais quoi ? », « C'est quand le prochain live ? »",
+      "catchUp": "Résumer pour les retardataires",
+      "catchUpHint": "« J'ai raté quoi ? » reçoit un court résumé du live",
+      "wakeQuiet": "Relancer un chat silencieux",
+      "wakeQuietHint": "Après quelques minutes de silence, il pose une question au chat",
+      "commandButtons": "Afficher mes commandes en boutons",
+      "commandButtonsHint": "Tes !commandes des règles du live s'affichent au-dessus du chat pour que les spectateurs les touchent",
+      "commandsLabel": "Commandes du chat",
+      "safety": "Il publie en tant que @assistant, ne parle jamais d'argent ni de tokens et ne promet jamais rien à ta place.",
+      "save": "Enregistrer le bot du chat",
+      "saved": "Bot du chat enregistré",
+      "saveFailed": "Impossible d'enregistrer le bot du chat",
+      "loadFailed": "Impossible de charger les réglages du bot du chat"
+    },
     "destinations": {
       "title": "Destinations multistream",
       "intro": "Lancez votre live une seule fois sur Riftn et nous le diffusons gratuitement sur chaque plateforme activée ici. Cela démarre quelques secondes après le début du live.",
@@ -17285,5 +17339,9 @@
     "promptCatchUp": "Résume-moi ce que {{handle}} a publié récemment",
     "promptMessage": "Aide-moi à écrire un message à {{handle}}",
     "promptAbout": "À propos de {{handle}} : {{question}}"
+  },
+  "chatLink": {
+    "gone": "Ce message a été supprimé, ou il est trop ancien pour être ouvert.",
+    "notInChat": "Ce lien mène à une discussion privée dont vous ne faites pas partie."
   }
 }

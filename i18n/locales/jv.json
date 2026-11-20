@@ -4945,7 +4945,7 @@
     "edit": "Owahi",
     "deleteRequestTitle": "Busak panjaluk iki?",
     "deleteRequestDescription": "Iki ora bisa dibatalake.",
-    "attachmentTooLarge": "Saben berkas kudu kurang saka 50MB",
+    "attachmentTooLarge": "Saben berkas kudu kurang saka 200MB",
     "deleteCommentA11y": "Busak komentar",
     "sendCommentA11y": "Kirim komentar",
     "requestOptions": "Pilihan panjaluk",

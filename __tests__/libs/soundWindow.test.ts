@@ -16,6 +16,12 @@ describe("sound window", () => {
     expect(playableSoundUrl(parsed.url)).toBe(AUDIUS);
   });
 
+  it("lets a listener who scrubbed play the whole song", () => {
+    const url = withSoundWindow(AUDIUS, { start: 0, end: 30 }, null);
+    expect(soundWindowCorrection(url, 600)).toBe(0);
+    expect(soundWindowCorrection(url, 600, true)).toBeNull();
+  });
+
   it("keeps a player inside the part", () => {
     const url = withSoundWindow(AUDIUS, { start: 30, end: 45 }, null);
     expect(soundWindowCorrection(url, 0)).toBe(30);

@@ -1,4 +1,5 @@
 import * as Linking from 'expo-linking';
+import { parseChatMessageLink, setPendingChatLink } from '../libs/chatMessageLink';
 import { LinkingOptions, getStateFromPath } from '@react-navigation/native';
 import { ScreenNames } from './ScreenNames';
 import type { RootStackParamList } from './types';
@@ -81,7 +82,7 @@ const openOnWeb = (url: string) => {
   Promise.resolve()
     .then(() => {
       const WebBrowser: typeof import('expo-web-browser') = require('expo-web-browser');
-      return WebBrowser.openBrowserAsync(url, { enableBarCollapsing: true, dismissButtonStyle: 'done' });
+      return WebBrowser.openBrowserAsync(url, { enableBarCollapsing: true, dismissButtonStyle: 'done', createTask: false });
     })
     .catch((error) => logger.warn('Could not open unrouted link in the browser', { url, error }));
 };
@@ -475,6 +476,16 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
             parse: { slug: (slug: string) => slug },
           },
 
+          // Where a copied chat message link lands (libs/chatMessageLink).
+          // Web has no such pages: getStateFromPath rewrites
+          // /app/messages?conversation=<id>&msg=… and ?chat=public&msg=…
+          // onto these.
+          [ScreenNames.Chat]: {
+            path: 'app/messages/:conversationId',
+            parse: { conversationId: (id: string) => id },
+          },
+          [ScreenNames.LiveChat]: 'app/public-chat',
+
           [ScreenNames.Converter]: DeepLinkPaths.CONVERTER,
           [ScreenNames.Migrate]: DeepLinkPaths.MIGRATE,
 
@@ -576,7 +587,7 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
               // offered in a DM, opened here so it can be confirmed.
               [ScreenNames.AIChat]: {
                 path: 'app/assistant',
-                parse: { action: (action: string) => action },
+                parse: { action: (action: string) => action, requestDraft: (id: string) => id },
               },
             },
           },
@@ -638,6 +649,18 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
       openOnWeb(url);
       return undefined;
     };
+
+    // A copied chat message link: note which line, then open its chat. The
+    // chat scrolls to the line and lights it up once its history is in.
+    // Stream and community links carry on to their own pages below.
+    const chatLink = parseChatMessageLink(pathOnly, queryString);
+    if (chatLink) {
+      setPendingChatLink(chatLink.target, chatLink.messageId);
+      if (chatLink.target.kind === 'public') return getStateFromPath('/app/public-chat', options);
+      if (chatLink.target.kind === 'dm') {
+        return getStateFromPath(`/app/messages/${encodeURIComponent(chatLink.target.conversationId)}`, options);
+      }
+    }
 
     // Feature requests, at /features or /app/features. The app's own Share
     // button hands out ?feature=<id>, web's notifications ?request=<id> and

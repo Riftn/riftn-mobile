@@ -4974,7 +4974,7 @@
     "edit": "Edytuj",
     "deleteRequestTitle": "Usunąć to zgłoszenie?",
     "deleteRequestDescription": "Tego nie da się cofnąć.",
-    "attachmentTooLarge": "Każdy plik musi mieć poniżej 50 MB",
+    "attachmentTooLarge": "Każdy plik musi mieć poniżej 200 MB",
     "deleteCommentA11y": "Usuń komentarz",
     "sendCommentA11y": "Wyślij komentarz",
     "requestOptions": "Opcje żądania",

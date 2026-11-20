@@ -4971,7 +4971,7 @@
     "edit": "Խմբագրել",
     "deleteRequestTitle": "Ջնջե՞լ այս հայտը։",
     "deleteRequestDescription": "Սա հնարավոր չէ հետ շրջել։",
-    "attachmentTooLarge": "Յուրաքանչյուր ֆայլ պետք է լինի 50ՄԲ-ից փոքր",
+    "attachmentTooLarge": "Յուրաքանչյուր ֆայլ պետք է լինի 200ՄԲ-ից փոքր",
     "deleteCommentA11y": "Ջնջել մեկնաբանությունը",
     "sendCommentA11y": "Ուղարկել Մեկնաբանություն",
     "requestOptions": "Հայտի տարբերակներ",

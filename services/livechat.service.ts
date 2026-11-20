@@ -434,3 +434,68 @@ export function getChatReactors(params: {
     { isAuthRequired: true },
   );
 }
+
+// ── Stream chat bot (a creator's co-host in their own stream chat) ─────────
+
+export type StreamBotPersonality = "chill" | "hype" | "funny" | "formal";
+export type StreamBotChattiness = "quiet" | "normal" | "lots";
+
+export interface StreamBotSettings {
+  enabled: boolean;
+  about: string;
+  personality: StreamBotPersonality;
+  chattiness: StreamBotChattiness;
+  greet: boolean;
+  answer: boolean;
+  catchUp: boolean;
+  wakeQuiet: boolean;
+  commandButtons: boolean;
+}
+
+export interface StreamBotPublic {
+  enabled: boolean;
+  commandButtons: boolean;
+  commands: Array<{ command: string; name: string }>;
+}
+
+export const STREAM_BOT_ABOUT_MAX = 600;
+
+function streamBotSettings(res: any): StreamBotSettings {
+  const s = (res?.result ?? res?.data ?? res)?.settings ?? {};
+  const one = <T extends string>(v: unknown, allowed: readonly T[], fallback: T): T =>
+    typeof v === "string" && (allowed as readonly string[]).includes(v) ? (v as T) : fallback;
+  return {
+    enabled: !!s.enabled,
+    about: typeof s.about === "string" ? s.about : "",
+    personality: one(s.personality, ["chill", "hype", "funny", "formal"] as const, "chill"),
+    chattiness: one(s.chattiness, ["quiet", "normal", "lots"] as const, "normal"),
+    greet: s.greet !== false,
+    answer: s.answer !== false,
+    catchUp: s.catchUp !== false,
+    wakeQuiet: s.wakeQuiet !== false,
+    commandButtons: s.commandButtons !== false,
+  };
+}
+
+export async function getMyStreamBot(): Promise<StreamBotSettings> {
+  return streamBotSettings(await apiClient.get<any>("/livechat/stream-bot/mine", { isAuthRequired: true }));
+}
+
+export async function saveMyStreamBot(settings: StreamBotSettings): Promise<StreamBotSettings> {
+  return streamBotSettings(await apiClient.put<any>("/livechat/stream-bot/mine", { settings }, { isAuthRequired: true }));
+}
+
+/** Public: is this stream's bot on, and the creator's !commands for tap buttons above chat. */
+export async function getStreamBot(tokenId: string | number): Promise<StreamBotPublic> {
+  const res: any = await apiClient.get<any>(`/livechat/stream-bot/stream/${encodeURIComponent(String(tokenId))}`);
+  const body = res?.result ?? res?.data ?? res;
+  return {
+    enabled: !!body?.enabled,
+    commandButtons: !!body?.commandButtons,
+    commands: Array.isArray(body?.commands)
+      ? body.commands
+          .filter((c: any) => typeof c?.command === "string" && c.command.startsWith("!"))
+          .map((c: any) => ({ command: String(c.command).slice(0, 32), name: String(c.name || "") }))
+      : [],
+  };
+}

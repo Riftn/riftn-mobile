@@ -143,9 +143,9 @@ describe('post media presentation', () => {
     expect(video).toContain('screenHeight * INLINE_MAX_SCREEN');
     expect(video).toContain('return fullWidth;');
     expect(video.match(/const cropMedia = true;/g)).toHaveLength(2);
-    expect(video).toContain('const frameWidth = inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls)');
+    expect(video).toContain('const frameWidth = inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls, lineGain)');
     expect(video).toContain('width: frameWidth');
-    expect(video).toContain('width: inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls)');
+    expect(video).toContain('width: inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls, lineGain)');
     expect(video).toContain('alignSelf: "flex-start"');
     // Explicit dimensions keep the reserved transport strip inside the cap.
     expect(video).not.toMatch(/container: \{[^}]*aspectRatio/);

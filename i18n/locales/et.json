@@ -4945,7 +4945,7 @@
     "edit": "Muuda",
     "deleteRequestTitle": "Kas kustutada see taotlus?",
     "deleteRequestDescription": "Seda ei saa tagasi võtta.",
-    "attachmentTooLarge": "Iga fail peab olema alla 50 MB",
+    "attachmentTooLarge": "Iga fail peab olema alla 200 MB",
     "deleteCommentA11y": "Kustuta kommentaar",
     "sendCommentA11y": "Saada kommentaar",
     "requestOptions": "Tellimuse valikud",

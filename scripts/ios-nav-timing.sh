@@ -72,7 +72,7 @@ echo "Patches only in this checkout: ${NEW_PATCHES:-none}"
 if [ "$MODE" = probe ]; then
   # One bundle, of this checkout, with its function names kept.
   MINIFY=false bundle after || exit 1
-elif [ "$MODE" = touch ] || [ "$MODE" = keys ] || [ "$MODE" = player ] || [ "$MODE" = menu ] || [ "$MODE" = shells ] || [ "$MODE" = bones ]; then
+elif [ "$MODE" = touch ] || [ "$MODE" = keys ] || [ "$MODE" = player ] || [ "$MODE" = menu ] || [ "$MODE" = shells ] || [ "$MODE" = bones ] || [ "$MODE" = feedline ] || [ "$MODE" = moments ]; then
   bundle after || exit 1
 else
   for p in $NEW_PATCHES; do patch -R -p1 -s --no-backup-if-mismatch < "$p" || { echo "Cannot take $p off"; exit 1; }; done
@@ -432,6 +432,38 @@ if [ "$MODE" = rowreactions ]; then
   storage set dehub.perfTour.reactStyle off
   run after "rowreactions-off-system" record rowreactions system
   storage drop dehub.perfTour.reactStyle
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = moments ]; then
+  # Moments: the Glass Shelf, the viewer and the creator, per theme.
+  for theme in ${FEED_THEMES:-system system-light hazy osaka}; do
+    run after "moments-$theme" "" moments "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = feedline ]; then
+  # Post separator: Home with bento cards and with the thin line, same posts.
+  for theme in ${FEED_THEMES:-system system-light hazy osaka}; do
+    run after "feedline-$theme" "" feedline "$theme"
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = sharelink ]; then
+  # A shared video link opened from Home: main's code, then this checkout's
+  # on three themes.
+  run before "sharelink-main-system" "" sharelink system
+  for theme in ${SHARE_THEMES:-system hazy system-light}; do
+    run after "sharelink-$theme" "" sharelink "$theme"
+  done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
   exit 0

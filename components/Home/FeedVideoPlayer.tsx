@@ -102,6 +102,7 @@ import {
 } from "../../libs/tap-gesture";
 import { showTapBurst } from "../../libs/tap-reaction-layer";
 import { trackPlayerWatchTime } from "../../libs/watch-time";
+import { FEED_LINE_SIDE_GAIN, useFeedLineMode } from "../../libs/feedSeparator";
 
 /** Card content width — mirrors FeedCard, which lays this player out. */
 const cardWidthFor = (screenWidth: number) => screenWidth - 40;
@@ -125,9 +126,11 @@ const mediaBoxWidth = (
   _mediaAspect: number,
   postPage = false,
   _strip = false,
+  lineGain = 0,
 ) => {
-  // The post page runs its media edge to edge, whatever the theme.
-  const fullWidth = isMinimal || postPage ? win.width : cardWidthFor(win.width);
+  // The post page runs its media edge to edge, whatever the theme. A post in
+  // Thin line mode (libs/feedSeparator) has no bento inset to sit inside.
+  const fullWidth = isMinimal || postPage ? win.width : cardWidthFor(win.width) + lineGain;
   return fullWidth;
 };
 
@@ -633,6 +636,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   const roundPage = postPage && !isMinimal;
   const pictureRound = roundPage && isLight ? PAGE_PICTURE_ROUND : null;
   const windowSize = useWindowDimensions();
+  const lineGain = useFeedLineMode() ? 2 * FEED_LINE_SIDE_GAIN : 0;
   // The frame takes the clip's own shape, so the whole picture fills it.
   const cropMedia = true;
   // Feed preview: the clip plays muted as it is, with only an unmute button
@@ -641,7 +645,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
   const feedPreview = !postPage && !!onOpenViewer && !isContentGated;
   const bareControls = !feedPreview;
   const splitControls = !hideControls && !isContentGated && !feedPreview;
-  const frameWidth = inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls);
+  const frameWidth = inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls, lineGain);
   const stripHeight = controlStripHeight(frameWidth);
   // The seek-preview sheet, fetched once this card has played: prefetching it
   // for every card the feed mounts would download sheets nobody scrubs.
@@ -1364,11 +1368,25 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
     const time = currentTimeRef.current;
     const muted = isMuted;
     preparePostMediaNavigation(videoUrl);
-    navigation.navigate(ScreenNames.FullscreenVideo as never, {
-      videoUrl, downloadUrl: mp4Url, startTime: time, isMuted: muted, thumbnail,
-      tokenId, isSignedIn, creatorUsername, downloadTitle, storyboard, soundtrackUrl,
-    } as never);
-  }, [isMuted, videoUrl, mp4Url, thumbnail, tokenId, isSignedIn, stopPlayback, navigation, creatorUsername, downloadTitle, storyboard, soundtrackUrl]);
+    // Wide clips open sideways; full screen grows out of this box.
+    const ratio = videoAspect ?? measuredAspect;
+    const open = (from?: { x: number; y: number; width: number; height: number }) =>
+      navigation.navigate(ScreenNames.FullscreenVideo as never, {
+        videoUrl, downloadUrl: mp4Url, startTime: time, isMuted: muted, thumbnail,
+        tokenId, isSignedIn, creatorUsername, downloadTitle, storyboard, soundtrackUrl,
+        landscape: !!ratio && ratio > 1.05, from,
+      } as never);
+    const frame = videoFrameRef.current;
+    if (!frame) { open(); return; }
+    let sent = false;
+    const fallback = setTimeout(() => { if (!sent) { sent = true; open(); } }, 120);
+    frame.measureInWindow((x, y, width, height) => {
+      if (sent) return;
+      sent = true;
+      clearTimeout(fallback);
+      open(width > 0 && height > 0 ? { x, y, width, height } : undefined);
+    });
+  }, [isMuted, videoUrl, mp4Url, thumbnail, tokenId, isSignedIn, stopPlayback, navigation, creatorUsername, downloadTitle, storyboard, soundtrackUrl, videoAspect, measuredAspect]);
 
   // Video posts: the player's buttons are bare icons with a soft shadow,
   // mute in the top corner, with subtitles, speed, loop and picture in picture
@@ -2363,17 +2381,18 @@ const FeedVideoPoster: React.FC<Pick<FeedVideoPlayerProps, "tokenId" | "storedAs
     const isMinimal = minimalTheme || !!bleed;
     const edgeToEdge = isMinimal || postPage;
     const windowSize = useWindowDimensions();
+    const lineGain = useFeedLineMode() ? 2 * FEED_LINE_SIDE_GAIN : 0;
     const cropMedia = true;
     const splitControls = !hideControls && !feedPreview;
-    const stripHeight = controlStripHeight(mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls));
+    const stripHeight = controlStripHeight(mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls, lineGain));
     const mediaTap = useTapOnlyPress(() => onPress());
     return (
       <View
         style={[
           styles.container,
           {
-            height: inlineWidth ? inlineWidth / mediaAspect : mediaBoxHeight(windowSize, mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls), mediaAspect, postPage, splitControls),
-            width: inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls),
+            height: inlineWidth ? inlineWidth / mediaAspect : mediaBoxHeight(windowSize, mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls, lineGain), mediaAspect, postPage, splitControls),
+            width: inlineWidth ?? mediaBoxWidth(windowSize, isMinimal, mediaAspect, postPage, splitControls, lineGain),
             maxWidth: "100%",
             alignSelf: "flex-start",
           },

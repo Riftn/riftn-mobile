@@ -1,6 +1,6 @@
 import { apiClient } from "../libs/api.client";
 
-export type AssistantActionKind = "react" | "follow" | "unfollow" | "chat_access";
+export type AssistantActionKind = "react" | "follow" | "unfollow" | "chat_access" | "request_post";
 export type AssistantActionStatus = "pending" | "running" | "done" | "cancelled" | "failed" | "expired";
 
 export interface AssistantActionPerson {
@@ -22,6 +22,12 @@ export interface AssistantAction {
     author?: AssistantActionPerson | null;
     people?: AssistantActionPerson[];
     allow?: boolean;
+    draft?: {
+      title: string;
+      description: string;
+      category: 'ui_ux' | 'performance' | 'new_feature' | 'bug_fix' | 'integration' | 'other';
+    };
+    duplicates?: { id: string; title: string }[];
   };
   result: {
     done?: number;
@@ -29,6 +35,7 @@ export interface AssistantAction {
     added?: number;
     ok?: number;
     allowed?: boolean;
+    requestId?: string;
     used?: Record<string, number>;
   } | null;
   confirmBy: string;
@@ -40,8 +47,22 @@ const unwrap = (res: any): AssistantAction => res?.data?.id ? res.data : res;
 export const getAssistantAction = async (id: string) =>
   unwrap(await apiClient.get(path(id), { isAuthRequired: true }));
 
-export const confirmAssistantAction = async (id: string, reaction?: string) =>
-  unwrap(await apiClient.post(`${path(id)}/confirm`, reaction ? { reaction } : {}, { isAuthRequired: true }));
+export const confirmAssistantAction = async (id: string, options: { reaction?: string; requestPost?: true } = {}) =>
+  unwrap(await apiClient.post(`${path(id)}/confirm`, options, { isAuthRequired: true }));
 
 export const cancelAssistantAction = async (id: string) =>
   unwrap(await apiClient.post(`${path(id)}/cancel`, {}, { isAuthRequired: true }));
+
+/** Personality + chat model, shared by the Assistant screen and the @assistant DM. */
+export interface AssistantPrefs {
+  style: string;
+  model: string;
+}
+
+const unwrapPrefs = (res: any): AssistantPrefs => (res?.data?.style ? res.data : res);
+
+export const getAssistantPrefs = async (): Promise<AssistantPrefs> =>
+  unwrapPrefs(await apiClient.get("/assistant-actions/prefs", { isAuthRequired: true }));
+
+export const saveAssistantPrefs = async (prefs: Partial<AssistantPrefs>): Promise<AssistantPrefs> =>
+  unwrapPrefs(await apiClient.post("/assistant-actions/prefs", prefs, { isAuthRequired: true }));

@@ -2875,23 +2875,6 @@ export default function UploadScreen() {
             {!articleMode && <DraftAssetCards text={previewText} hidden={hideAssetCards} onHiddenChange={setHideAssetCards} />}
             {!articleMode && <LinkPreviewCard text={previewText} hidden={hiddenLinkPreviews} onRemove={closeLinkPreview} />}
 
-            <MentionSuggestions
-              visible={bodyMentions.showSuggestions}
-              suggestions={bodyMentions.suggestions}
-              onSelect={bodyMentions.selectMention}
-              loading={bodyMentions.loading}
-            />
-
-            {/* Ticker picker — `$` opens tokens and stocks. Cannot be open at
-                the same time as the mention list: `@` and `$` are different
-                triggers at the same caret. */}
-            <AssetSuggestions
-              visible={bodyAssets.showSuggestions}
-              suggestions={bodyAssets.suggestions}
-              onSelect={bodyAssets.selectAsset}
-              loading={bodyAssets.loading}
-            />
-
             {isLiveMode && (
               <View className="mt-2 flex-row items-center">
                 <View className="w-2.5 h-2.5 rounded-full bg-white mr-2" />
@@ -3642,6 +3625,30 @@ export default function UploadScreen() {
         </Animated.View>
       )}
 
+
+      {/* People (@) and ticker ($) picks sit just above the toolbar, so they
+          ride on top of the keyboard like the comment box's list does.
+          Inside the writing area they landed below the fold, under the keys. */}
+      {(bodyMentions.showSuggestions || bodyAssets.showSuggestions) && (
+        <View className="px-3 pt-1">
+          <MentionSuggestions
+            visible={bodyMentions.showSuggestions}
+            suggestions={bodyMentions.suggestions}
+            onSelect={bodyMentions.selectMention}
+            loading={bodyMentions.loading}
+          />
+
+          {/* Ticker picker — `$` opens tokens and stocks. Cannot be open at
+              the same time as the mention list: `@` and `$` are different
+              triggers at the same caret. */}
+          <AssetSuggestions
+            visible={bodyAssets.showSuggestions}
+            suggestions={bodyAssets.suggestions}
+            onSelect={bodyAssets.selectAsset}
+            loading={bodyAssets.loading}
+          />
+        </View>
+      )}
 
       <View className="h-px bg-white/10" />
 

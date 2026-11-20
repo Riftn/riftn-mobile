@@ -29,6 +29,7 @@ jest.mock('../../libs/haptics', () => ({ haptic: { tap: jest.fn(), press: jest.f
 jest.mock('../../libs/reaction-tip', () => ({ maybeShowReactionTip: jest.fn(), markReactionTipSeen: jest.fn() }));
 jest.mock('../../hooks/useViewerTippedPost', () => ({ useViewerTippedPost: () => false }));
 jest.mock('../../components/Home/TipGemIcon', () => ({ TipGemIcon: () => null }));
+jest.mock('../../components/ui/DistributeIcon', () => ({ DistributeIcon: () => null }));
 
 function props() {
   return {

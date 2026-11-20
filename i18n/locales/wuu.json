@@ -4945,7 +4945,7 @@
     "edit": "编辑",
     "deleteRequestTitle": "删脱搿只请求？",
     "deleteRequestDescription": "搿个是转勿转来个。",
-    "attachmentTooLarge": "每只文件要小于 50MB",
+    "attachmentTooLarge": "每只文件要小于 200MB",
     "deleteCommentA11y": "删脱评论",
     "sendCommentA11y": "发评论",
     "requestOptions": "请求选项",

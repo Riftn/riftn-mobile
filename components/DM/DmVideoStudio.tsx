@@ -446,7 +446,8 @@ export default function DmVideoStudio({
           </View>
 
           <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <View style={{ width: boxW, height: boxH, borderRadius: 12, overflow: "hidden", backgroundColor: "#000" }}>
+            <View style={{ width: boxW, height: boxH }}>
+            <View style={{ position: "absolute", left: 0, top: 0, width: boxW, height: boxH, borderRadius: 12, overflow: "hidden", backgroundColor: "#000" }}>
               {!isVideo && (
                 <SmartImage source={{ uri }} recyclingKey={uri} blurRadius={lockPrice != null ? 28 : undefined} contentFit="cover" style={{ position: "absolute", inset: 0 }} />
               )}
@@ -465,16 +466,6 @@ export default function DmVideoStudio({
                 <View pointerEvents="none" style={{ position: "absolute", width: innerW, height: innerH, left: vidLeft, top: vidTop, transform: videoTransform(options) }}>
                   <VideoLookFrame uri={still} width={innerW} height={innerH} matrix={colourMatrix} vignette={adjust.vignette} />
                 </View>
-              )}
-              {isVideo && tab === "crop" && (
-                <VideoCropOverlay
-                  width={boxW}
-                  height={boxH}
-                  rect={cropRect ?? { x: 0, y: 0, w: 1, h: 1 }}
-                  ratio={cropRatioValue(cropRatio, frameAspect)}
-                  frameAspect={frameAspect}
-                  onChange={(r) => onCropChange?.({ ratio: cropRatio, rect: isFullCrop(r) ? undefined : r })}
-                />
               )}
               {isVideo && !colourTab && tab !== "crop" && (
                 <Pressable onPress={togglePlay} accessibilityRole="button"
@@ -515,6 +506,18 @@ export default function DmVideoStudio({
                   <Icon name="Timer" size={12} color={WHITE} />
                   <Text style={{ color: WHITE, fontSize: 11, fontWeight: "600" }}>{_copy(`dmVideo.destruct.${destruct}`, { defaultValue: destructLabel(destruct) })}</Text>
                 </View>
+              )}
+            </View>
+              {/* Outside the rounded clip, so the handles that hang past the edge can still be grabbed. */}
+              {isVideo && tab === "crop" && (
+                <VideoCropOverlay
+                  width={boxW}
+                  height={boxH}
+                  rect={cropRect ?? { x: 0, y: 0, w: 1, h: 1 }}
+                  ratio={cropRatioValue(cropRatio, frameAspect)}
+                  frameAspect={frameAspect}
+                  onChange={(r) => onCropChange?.({ ratio: cropRatio, rect: isFullCrop(r) ? undefined : r })}
+                />
               )}
             </View>
           </View>
@@ -900,7 +903,15 @@ export default function DmVideoStudio({
   );
 }
 
-/** The photo editor's crop box over the playing video: shade outside, thirds, corner dots. */
+/**
+ * The photo editor's crop box over the playing video: shade outside, thirds,
+ * corner dots, and edge bars in Free.
+ *
+ * The box follows the finger from its own state and only hands the result to
+ * the studio when the finger lifts. Sending every move up re-drew the whole
+ * studio (player, strips, tabs) dozens of times a second, so on the phone the
+ * box lagged behind and jumped. Handles are 44 pt to grab on a small preview.
+ */
 function VideoCropOverlay({ width, height, rect, ratio, frameAspect, onChange }: {
   width: number;
   height: number;
@@ -909,37 +920,70 @@ function VideoCropOverlay({ width, height, rect, ratio, frameAspect, onChange }:
   frameAspect: number;
   onChange: (r: VideoCropRect) => void;
 }) {
+  const [draft, setDraft] = useState<VideoCropRect | null>(null);
+  const shown = draft ?? rect;
   const live = useRef({ rect, ratio, frameAspect, width, height, onChange });
   live.current = { rect, ratio, frameAspect, width, height, onChange };
   const start = useRef<VideoCropRect>(rect);
+  const latest = useRef<VideoCropRect | null>(null);
   const make = (handle: CropHandle) =>
     PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onMoveShouldSetPanResponder: () => true,
       onPanResponderTerminationRequest: () => false,
-      onPanResponderGrant: () => { start.current = { ...live.current.rect }; },
+      onPanResponderGrant: () => {
+        start.current = { ...live.current.rect };
+        latest.current = null;
+      },
       onPanResponderMove: (_, g) => {
         const L = live.current;
         const next = dragCropRect(start.current, handle, g.dx / Math.max(1, L.width), g.dy / Math.max(1, L.height), L.ratio, L.frameAspect);
-        if (next) L.onChange(next);
+        if (next) { latest.current = next; setDraft(next); }
+      },
+      onPanResponderRelease: () => {
+        if (latest.current) live.current.onChange(latest.current);
+        latest.current = null;
+        setDraft(null);
+      },
+      onPanResponderTerminate: () => {
+        if (latest.current) live.current.onChange(latest.current);
+        latest.current = null;
+        setDraft(null);
       },
     });
   // Built once: the handlers read the latest box from `live`.
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const pans = useMemo(() => ({ move: make("move"), tl: make("tl"), tr: make("tr"), bl: make("bl"), br: make("br") }), []);
-  const x = rect.x * width;
-  const y = rect.y * height;
-  const w = rect.w * width;
-  const h = rect.h * height;
+  const pans = useMemo(() => ({
+    move: make("move"), tl: make("tl"), tr: make("tr"), bl: make("bl"), br: make("br"),
+    t: make("t"), b: make("b"), l: make("l"), r: make("r"),
+  }), []);
+  const x = shown.x * width;
+  const y = shown.y * height;
+  const w = shown.w * width;
+  const h = shown.h * height;
   const shade = "rgba(0,0,0,0.6)";
+  const HIT = 44;
   const corner = (c: "tl" | "tr" | "bl" | "br") => (
     <View key={c} {...pans[c].panHandlers}
-      style={{ position: "absolute", width: 32, height: 32, alignItems: "center", justifyContent: "center",
-        left: c === "tl" || c === "bl" ? -16 : undefined, right: c === "tr" || c === "br" ? -16 : undefined,
-        top: c === "tl" || c === "tr" ? -16 : undefined, bottom: c === "bl" || c === "br" ? -16 : undefined }}>
-      <View style={{ width: 12, height: 12, borderRadius: 3, backgroundColor: WHITE }} />
+      style={{ position: "absolute", width: HIT, height: HIT, alignItems: "center", justifyContent: "center", zIndex: 2,
+        left: c === "tl" || c === "bl" ? -HIT / 2 : undefined, right: c === "tr" || c === "br" ? -HIT / 2 : undefined,
+        top: c === "tl" || c === "tr" ? -HIT / 2 : undefined, bottom: c === "bl" || c === "br" ? -HIT / 2 : undefined }}>
+      <View style={{ width: 14, height: 14, borderRadius: 3, backgroundColor: WHITE }} />
     </View>
   );
+  // Edge bars sit between the corners so they never steal a corner grab.
+  const edge = (e: "t" | "b" | "l" | "r") => {
+    const across = e === "t" || e === "b";
+    return (
+      <View key={e} {...pans[e].panHandlers}
+        style={{ position: "absolute", alignItems: "center", justifyContent: "center", zIndex: 1,
+          ...(across
+            ? { left: HIT / 2, right: HIT / 2, height: HIT, top: e === "t" ? -HIT / 2 : undefined, bottom: e === "b" ? -HIT / 2 : undefined }
+            : { top: HIT / 2, bottom: HIT / 2, width: HIT, left: e === "l" ? -HIT / 2 : undefined, right: e === "r" ? -HIT / 2 : undefined }) }}>
+        <View style={{ width: across ? 22 : 4, height: across ? 4 : 22, borderRadius: 2, backgroundColor: WHITE }} />
+      </View>
+    );
+  };
   return (
     <View style={{ position: "absolute", left: 0, top: 0, width, height }}>
       <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: 0, height: y, backgroundColor: shade }} />
@@ -951,6 +995,7 @@ function VideoCropOverlay({ width, height, rect, ratio, frameAspect, onChange }:
         <View pointerEvents="none" style={{ position: "absolute", top: 0, bottom: 0, left: "66.66%", width: 1, backgroundColor: "rgba(255,255,255,0.35)" }} />
         <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: "33.33%", height: 1, backgroundColor: "rgba(255,255,255,0.35)" }} />
         <View pointerEvents="none" style={{ position: "absolute", left: 0, right: 0, top: "66.66%", height: 1, backgroundColor: "rgba(255,255,255,0.35)" }} />
+        {ratio == null && (["t", "b", "l", "r"] as const).map(edge)}
         {(["tl", "tr", "bl", "br"] as const).map(corner)}
       </View>
     </View>

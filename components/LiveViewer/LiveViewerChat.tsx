@@ -86,6 +86,8 @@ interface LiveViewerChatProps {
   /** The reader's wallet, lower case. With `onShowReactors`, a reaction on their own line opens who left it. */
   myAddress?: string;
   onShowReactors?: (messageId: string) => void;
+  /** A line a copied message link opened on: scrolled to and lit for a few seconds. */
+  highlightId?: string | null;
 }
 
 /** Deterministic color palette for usernames (monochrome neutrals ramp) */
@@ -397,7 +399,7 @@ const LandIn = memo(function LandIn({ glow, children }: { glow: boolean; childre
   return <Animated.View style={style}>{children}</Animated.View>;
 });
 
-const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, holding = false, myAddress, onShowReactors }) => {
+const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, holding = false, myAddress, onShowReactors, highlightId = null }) => {
   const listRef = useRef<FlatList<ChatActivity> | null>(null);
   const { showUserProfile } = useUserProfileSheet();
 
@@ -455,13 +457,28 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
   const renderItem = useCallback(
     ({ item, index }: { item: ChatActivity; index: number }) => {
       const mine = !!myAddress && String(item.user?.address || item.address || "").toLowerCase() === myAddress;
-      const bubble = <ChatBubble a={item} onUserPress={handleUserPress} onHold={onHold} onShowReactors={mine ? onShowReactors : undefined} me={myAddress} />;
+      const plain = <ChatBubble a={item} onUserPress={handleUserPress} onHold={onHold} onShowReactors={mine ? onShowReactors : undefined} me={myAddress} />;
+      const bubble = highlightId && item.id === highlightId
+        ? <View style={{ backgroundColor: "rgba(255,213,74,0.22)", borderRadius: 10, borderLeftWidth: 3, borderLeftColor: "rgba(255,213,74,0.9)" }}>{plain}</View>
+        : plain;
       const key = keyExtractor(item, index);
       if (seen.current!.has(key)) return bubble;
       return <LandIn glow={item.status === StreamActivityType.TIP}>{bubble}</LandIn>;
     },
-    [handleUserPress, onHold, keyExtractor, myAddress, onShowReactors]
+    [handleUserPress, onHold, keyExtractor, myAddress, onShowReactors, highlightId]
   );
+
+  // Bring the linked line into view.
+  useEffect(() => {
+    if (!highlightId) return;
+    const index = reversed.findIndex((a) => a.id === highlightId);
+    if (index < 0) return;
+    const timer = setTimeout(() => {
+      try { listRef.current?.scrollToIndex({ index, animated: true, viewPosition: 0.5 }); } catch { /* not measured yet */ }
+    }, 250);
+    return () => clearTimeout(timer);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [highlightId]);
 
   return (
     /* The room, floating over the picture. 220 rather than 260: the bar
@@ -482,6 +499,7 @@ const LiveViewerChat: React.FC<LiveViewerChatProps> = ({ activities, onHold, hol
         windowSize={5}
         removeClippedSubviews={false}
         inverted
+        onScrollToIndexFailed={() => {}}
         scrollEnabled={!holding}
         showsVerticalScrollIndicator={false}
       />

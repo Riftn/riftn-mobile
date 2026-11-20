@@ -4958,7 +4958,7 @@
     "edit": "Рэдагаваць",
     "deleteRequestTitle": "Выдаліць гэты запыт?",
     "deleteRequestDescription": "Гэта нельга адмяніць.",
-    "attachmentTooLarge": "Кожны файл павінен быць меншы за 50 МБ",
+    "attachmentTooLarge": "Кожны файл павінен быць меншы за 200 МБ",
     "deleteCommentA11y": "Выдаліць каментарый",
     "sendCommentA11y": "Даслаць каментар",
     "requestOptions": "Параметры запыту",

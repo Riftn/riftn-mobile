@@ -1,4 +1,5 @@
 import { useTranslation as _useCopy } from 'react-i18next';
+import { withAlpha } from "../ui/glow";
 import React, { memo, useEffect, useRef, useState } from "react";
 import { Keyboard, Platform, Pressable, StyleSheet, Text, TextInput, View, useWindowDimensions } from "react-native";
 import Reanimated, { Easing, ReduceMotion, cancelAnimation, runOnJS, useAnimatedProps, useAnimatedStyle, useSharedValue, withRepeat, withSpring, withTiming } from "react-native-reanimated";
@@ -208,7 +209,9 @@ const FeedSearchLens: React.FC<FeedSearchLensProps> = ({
           <View
             style={[
               styles.rim,
-              { borderColor: accent, shadowColor: accent },
+              // Web: a 22px glow in the tab colour and a soft drop shadow.
+              // boxShadow draws on Android too; elevation drew a grey ring there.
+              { borderColor: accent, boxShadow: `0px 0px 22px ${withAlpha(accent, 0.35)}, 0px 10px 30px rgba(0,0,0,0.45)` },
             ]}
             onLayout={(e) => setRimWidth(e.nativeEvent.layout.width)}
           >
@@ -295,10 +298,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 6,
     gap: 4,
-    shadowOpacity: 0.55,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 0 },
-    elevation: 10,
   },
   spinner: { position: "absolute", left: -2.75, top: -2.75 },
   halo: { margin: -5, borderRadius: LENS_HEIGHT / 2 + 5, borderWidth: 4, opacity: 0.16 },

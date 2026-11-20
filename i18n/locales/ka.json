@@ -4989,7 +4989,7 @@
     "edit": "რედაქტირება",
     "deleteRequestTitle": "წაიშალოს ეს მოთხოვნა?",
     "deleteRequestDescription": "ამის დაბრუნება შეუძლებელია.",
-    "attachmentTooLarge": "თითოეული ფაილი უნდა იყოს 50 მბ-ზე ნაკლები",
+    "attachmentTooLarge": "თითოეული ფაილი უნდა იყოს 200 მბ-ზე ნაკლები",
     "deleteCommentA11y": "კომენტარის წაშლა",
     "sendCommentA11y": "კომენტარი",
     "requestOptions": "მოთხოვნის ვარიანტები",

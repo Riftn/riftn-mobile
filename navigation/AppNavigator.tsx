@@ -588,8 +588,10 @@ function AppNavigatorContent() {
         />
         <Stack.Screen
           name={ScreenNames.FullscreenVideo}
-          getComponent={() => deferredScreen('../screens/FullscreenVideoScreen#default', () => require("../screens/FullscreenVideoScreen").default)}
-          options={{ fullScreenGestureEnabled: false }}
+          // No loading sketch and no page slide: the screen draws over the page
+          // it came from and grows the clip out of its own box.
+          getComponent={() => require("../screens/FullscreenVideoScreen").default}
+          options={{ presentation: 'transparentModal', animation: 'none', gestureEnabled: false, fullScreenGestureEnabled: false, contentStyle: { backgroundColor: 'transparent' } }}
         />
         <Stack.Screen
           name={ScreenNames.ShortsViewer}

@@ -1,4 +1,5 @@
 import LiveChatSearch, { LiveChatSearchPill, chatSearchPerson, rememberChatSearch, useChatSearch, type ChatSearchPerson } from "../components/LiveChat/LiveChatSearch";
+import { copyChatMessageLink, useLinkedMessage } from "../libs/chatMessageLink";
 import { useDraftState } from "../hooks/useDraftState";
 import { FlatList } from "react-native-gesture-handler";
 import SwipeToReply from "../components/Chat/SwipeToReply";
@@ -58,7 +59,7 @@ import type { UnreadAnchor } from "../libs/chatUnreadAnchor";
 import { anchorFromReadSpot } from "../libs/chatReadPosition";
 import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import { ScreenNames } from "../navigation/ScreenNames";
-import { isPublicChatOpen, setPublicChatOpen } from "../libs/public-chat-alerts";
+import { setPublicChatOpen } from "../libs/public-chat-alerts";
 import { publicChatUnread } from "../hooks/usePublicChatUnread";
 import { HOLD_LIFT_TIMING, HOLD_SETTLE_TIMING } from "../components/ui/HoldSheet";
 
@@ -145,7 +146,6 @@ const LiveChatScreen: React.FC = () => {
       const sync = () => {
         const reading = AppState.currentState === "active";
         setPublicChatOpen(reading);
-        if (reading) publicChatUnread.markRead(account);
       };
       sync();
       const subscription = AppState.addEventListener("change", sync);
@@ -153,7 +153,7 @@ const LiveChatScreen: React.FC = () => {
         subscription.remove();
         setPublicChatOpen(false);
       };
-    }, [account]),
+    }, []),
   );
 
   const {
@@ -182,13 +182,6 @@ const LiveChatScreen: React.FC = () => {
     reconnect,
     updateBannedList,
   } = useLiveChat();
-
-  useEffect(() => {
-    if (isPublicChatOpen()) {
-      const newest = messages.reduce((at, message) => Math.max(at, Date.parse(message.createdAt) || 0), Date.now());
-      publicChatUnread.markRead(account, newest);
-    }
-  }, [messages, account]);
 
   const [replyingTo, setReplyingTo] = useDraftState<LiveChatMessageData | null>("public:reply", null);
   const [showReactionPicker, setShowReactionPicker] = useState<string | null>(null);
@@ -269,8 +262,17 @@ const LiveChatScreen: React.FC = () => {
   const scrollToBottom = useCallback((animated = true) => {
     const maxOffset = contentHeightRef.current - layoutHeightRef.current;
     if (maxOffset > 0) {
+      // From far up an animated scroll crawls through unmeasured rows and
+      // stutters: hop to just over a screen above the end, then glide.
+      const lead = Math.round(layoutHeightRef.current * 1.25);
+      if (animated && maxOffset - scrollOffsetRef.current > lead) {
+        flatListRef.current?.scrollToOffset({ offset: maxOffset - lead, animated: false });
+        requestAnimationFrame(() => flatListRef.current?.scrollToOffset({ offset: maxOffset, animated: true }));
+        return;
+      }
       flatListRef.current?.scrollToOffset({ offset: maxOffset, animated });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Content measurement owns following the tail. A second delayed animated
@@ -400,6 +402,8 @@ const LiveChatScreen: React.FC = () => {
   const readTrackingRef = useRef(false);
   const unreadPlacedRef = useRef(false);
   const [unreadBelow, setUnreadBelow] = useState(0);
+  // Every message below the screen: the number on the scroll-down button.
+  const [linesBelow, setLinesBelow] = useState(0);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
   useEffect(() => {
@@ -461,11 +465,12 @@ const LiveChatScreen: React.FC = () => {
   const reportReadSpotRef = useRef(() => {});
   reportReadSpotRef.current = () => {
     const range = visibleRangeRef.current;
-    if (!range || !readTrackingRef.current) return;
+    if (!range || !readTrackingRef.current || AppState.currentState !== "active") return;
     const list = listItemsRef.current;
     for (let i = range.max; i >= range.min; i--) {
       const item = list[i];
       if (!item || item.type !== "message") continue;
+      publicChatUnread.catchUp(account, Date.parse(item.data.createdAt));
       readSpot.report(item.data._id, item.data.createdAt);
       return;
     }
@@ -535,6 +540,15 @@ const LiveChatScreen: React.FC = () => {
   const onViewableItemsChanged = useRef(({ viewableItems }: { viewableItems: Array<{ index: number | null; item?: any }> }) => {
     const idx = viewableItems.map((v) => v.index).filter((i): i is number => typeof i === "number");
     visibleRangeRef.current = idx.length ? { min: Math.min(...idx), max: Math.max(...idx) } : null;
+    // Oldest at the top: every message row after the last visible one is below.
+    if (idx.length) {
+      const list = listItemsRef.current;
+      let below = 0;
+      for (let i = Math.max(...idx) + 1; i < list.length; i++) if (list[i]?.type === "message") below++;
+      setLinesBelow(below);
+    } else {
+      setLinesBelow(0);
+    }
     markPingsSeen(
       viewableItems
         .map((v) => v.item)
@@ -1015,6 +1029,19 @@ const LiveChatScreen: React.FC = () => {
     setPendingFocus(target._id);
   }, [search.results, searchText, jumpToMessage, t]);
 
+  // A copied message link to the public chat: open the room on that line
+  // and light it up. The app reads the main room only.
+  useLinkedMessage("public", messages.length > 0, async (id) => {
+    isAtBottomRef.current = false;
+    setAtBottom(false);
+    const found = await jumpToMessage(id);
+    if (found) setPendingFocus(id);
+    return !!found;
+  });
+  const handleContextCopyLink = useCallback((msg: LiveChatMessageData) => {
+    copyChatMessageLink({ kind: "public" }, msg._id);
+  }, []);
+
   const openOlderHit = useCallback(async () => {
     const next = activeHit + 1;
     if (next < search.results.length) return openHit(next);
@@ -1297,12 +1324,13 @@ const LiveChatScreen: React.FC = () => {
           // Same control as DMs: up to the unread line until it has been seen,
           // then down to the newest, with the unread lines still below.
           const up = !!unreadAnchor && !unreadMarkerSeen && unreadMarkerAbove;
-          if (!(up || hasNewer || unreadBelow > 0 || (!atBottom && messages.length > 10))) return null;
+          const show = up || hasNewer || unreadBelow > 0 || (!atBottom && messages.length > 10);
           return (
-            <Animated.View style={[{ position: "absolute", right: 16, bottom: composerHeight + 12 }, composerRideStyle]}>
+            <Animated.View pointerEvents="box-none" style={[{ position: "absolute", right: 16, bottom: composerHeight + 12 }, composerRideStyle]}>
               <UnreadJumpButton
+                show={show}
                 up={up}
-                count={unreadBelow}
+                count={Math.max(linesBelow, unreadBelow)}
                 onPress={up ? scrollToUnreadMarker : () => (hasNewer ? void goToLatest() : scrollToBottom())}
               />
             </Animated.View>
@@ -1404,6 +1432,7 @@ const LiveChatScreen: React.FC = () => {
             onDelete={handleContextDelete}
             onPin={handleContextPin}
             onSeeMessages={handleContextSeeMessages}
+            onCopyLink={handleContextCopyLink}
             isSenderBanned={
               !!contextMenuMessage?.senderAddress &&
               (room?.bannedUsers || []).some(

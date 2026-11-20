@@ -4,6 +4,8 @@ import { Image } from "expo-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
+import { glowLine } from "../ui/glow";
+import { useChatCardAccent } from "./ChatCard";
 import { MAX_CHAT_TAB_NAME } from "../../services/dm/dm.api";
 import type { ChatTabView } from "../../hooks/useChatTabs";
 
@@ -14,14 +16,12 @@ import type { ChatTabView } from "../../hooks/useChatTabs";
  */
 
 const CHIP = { height: 32, borderRadius: 16, paddingHorizontal: 12, flexDirection: "row" as const, alignItems: "center" as const, gap: 6 };
-// The open tab gets a glowing white line under its label, same as the web
-// tabs on Messages and /chat (no filled pill).
-const BEAM = { position: "absolute" as const, left: 12, right: 12, bottom: 0, height: 2, borderRadius: 2, backgroundColor: "#fff", shadowColor: "#fff", shadowOpacity: 0.9, shadowRadius: 5, shadowOffset: { width: 0, height: 0 } };
-// Android has no coloured shadows, so a soft wider band fakes the glow.
-const HALO = { position: "absolute" as const, left: 8, right: 8, bottom: -2, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.16)" };
+// The open tab gets a glowing line under its label in the theme's colour,
+// same as the web tabs on Messages and /chat (no filled pill).
+const BEAM = { position: "absolute" as const, left: 12, right: 12, bottom: 0, height: 2, borderRadius: 2 };
 const SHEET_BG = "#0e0e10";
 
-export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, onHold }: {
+export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, onHold, bare }: {
   tabs: ChatTabView[];
   active: string;
   unread: Record<string, number>;
@@ -29,8 +29,12 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
   onNew: () => void;
   onManage: () => void;
   onHold: (tab: ChatTabView) => void;
+  /** Only the chips: new tab and edit tabs live in the Messages menu, pinned beside the row. */
+  bare?: boolean;
 }) {
   const { t } = useTranslation();
+  const accent = useChatCardAccent();
+  const accentInk = accent === "#FFFFFF" ? "#0b0b0c" : "#fff";
   const scroller = useRef<ScrollView>(null);
   const xs = useRef<Record<string, number>>({});
   useEffect(() => {
@@ -43,8 +47,10 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
       horizontal
       showsHorizontalScrollIndicator={false}
       keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 4, paddingBottom: 8, gap: 4, alignItems: "center" }}
-      style={{ flexGrow: 0 }}
+      contentContainerStyle={bare
+        ? { paddingLeft: 12, paddingRight: 18, gap: 4, alignItems: "center" }
+        : { paddingHorizontal: 12, paddingTop: 4, paddingBottom: 8, gap: 4, alignItems: "center" }}
+      style={bare ? { flex: 1 } : { flexGrow: 0 }}
       testID="chat-tabs"
     >
       {tabs.filter((x) => !x.hidden).map((tab) => {
@@ -62,18 +68,18 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
             delayLongPress={350}
             style={CHIP}
           >
-            {on && Platform.OS === "android" && <View pointerEvents="none" style={HALO} />}
-            {on && <View pointerEvents="none" testID="chat-tab-beam" style={BEAM} />}
+            {on && <View pointerEvents="none" testID="chat-tab-beam" style={[BEAM, glowLine(accent)]} />}
             {!!tab.emoji && <Text style={{ fontSize: 13 }}>{tab.emoji}</Text>}
             <Text style={{ color: on ? "#fff" : "#A1A1AA", fontSize: 13, fontWeight: "600" }} numberOfLines={1}>{tab.name}</Text>
             {n > 0 && (
-              <View style={{ minWidth: 18, height: 18, borderRadius: 6, paddingHorizontal: 5, alignItems: "center", justifyContent: "center", backgroundColor: on ? "#fff" : "rgba(255,255,255,0.09)" }}>
-                <Text style={{ color: on ? "#0b0b0c" : "#D4D4D8", fontSize: 11, fontWeight: "700", fontVariant: ["tabular-nums"] }}>{n > 99 ? "99+" : String(n)}</Text>
+              <View style={{ minWidth: 18, height: 18, borderRadius: 6, paddingHorizontal: 5, alignItems: "center", justifyContent: "center", backgroundColor: on ? accent : "rgba(255,255,255,0.09)" }}>
+                <Text style={{ color: on ? accentInk : "#D4D4D8", fontSize: 11, fontWeight: "700", fontVariant: ["tabular-nums"] }}>{n > 99 ? "99+" : String(n)}</Text>
               </View>
             )}
           </Pressable>
         );
       })}
+      {!bare && (<>
       <TouchableOpacity testID="chat-tab-new" onPress={onNew} accessibilityRole="button" accessibilityLabel={t("chatTabs.new", { defaultValue: "New tab" })}
         style={[CHIP, { width: 32, paddingHorizontal: 0, justifyContent: "center" }]}>
         <Icon name="Plus" size={16} color="#71717A" />
@@ -82,6 +88,7 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
         style={[CHIP, { width: 32, paddingHorizontal: 0, justifyContent: "center" }]}>
         <Icon name="SlidersHorizontal" size={16} color="#71717A" />
       </TouchableOpacity>
+      </>)}
     </ScrollView>
   );
 }

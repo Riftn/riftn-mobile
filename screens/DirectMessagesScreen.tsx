@@ -17,8 +17,6 @@ import { DeHubRefreshMark } from "../components/Feed/DeHubRefreshControl";
 import PullRefreshArea, { PullRefreshScrollView } from "../components/Feed/PullRefreshArea";
 
 import { Image } from "expo-image";
-import { PillDrawerAutoFocus } from "../components/page/PillHeader";
-import ScreenHeader from "../components/ScreenHeader";
 import Icon from "../components/ui/Icon";
 import DeferredTextInput from "../components/ui/DeferredTextInput";
 import LoadErrorState from "../components/ui/LoadErrorState";
@@ -82,6 +80,8 @@ const renderPullScroll = (props: React.ComponentProps<typeof PullRefreshScrollVi
 
 // Cards sit apart; no divider lines (design B).
 const SEARCH_ACTION = { width: 28, height: 28, borderRadius: 6, alignItems: "center", justifyContent: "center" } as const;
+const TOOL_INK = "#D4D4D8";
+const TOOL = { width: 38, height: 38, borderRadius: 19, alignItems: "center", justifyContent: "center" } as const;
 
 const DirectMessagesInner: React.FC = () => {
   usePerfProbe("DirectMessages");
@@ -116,6 +116,8 @@ const DirectMessagesInner: React.FC = () => {
 
   const [query, setQuery] = useSurfaceDraft("screens/DirectMessagesScreen.tsx:query", "");
   const [menuVisible, setMenuVisible] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(() => !!query.trim());
+  const closeSearch = useCallback(() => { setQuery(""); setSearchOpen(false); }, [setQuery]);
   const [newChatKind, setNewChatKind] = useState<"group" | "channel" | null>(null);
   const { data: memberships } = useQuery({
     queryKey: ["communities", "user", myAddress],
@@ -634,9 +636,6 @@ const DirectMessagesInner: React.FC = () => {
     navigation.navigate(ScreenNames.LiveChat as any);
   }, [navigation, seeReactions]);
 
-  const openSettings = useCallback(() => {
-    openMenu();
-  }, [openMenu]);
 
   const renderItem = useCallback(
     ({ item }: { item: DmConversation }) => (
@@ -783,17 +782,6 @@ const DirectMessagesInner: React.FC = () => {
   const publicChatItem = useMemo(
     () => (
       <>
-      {tabsOn && (
-        <ChatTabBar
-          tabs={tabRowTabs}
-          active={activeTab}
-          unread={tabUnread}
-          onSelect={(id) => { setShowRequests(false); setActiveTab(id); }}
-          onNew={() => setTabEditor({})}
-          onManage={() => setTabManager(true)}
-          onHold={(tab) => setTabActions({ kind: "tab", id: tab.id })}
-        />
-      )}
       <View style={SEPARATOR} />
       {inRequests ? (
         <>
@@ -926,41 +914,54 @@ const DirectMessagesInner: React.FC = () => {
       style={{ flex: 1 }}
     >
       <View className="flex-1 bg-theme-neutrals-900">
-        <ScreenHeader
-          appearance="island"
-          icon="messages"
-          title={t("messages.title")}
-          canGoBack={false}
-          rightContent={
-            <>
-              <TouchableOpacity onPress={openNewDM} style={SEARCH_ACTION} hitSlop={4}
-                accessibilityRole="button" accessibilityLabel={t("dm.newDm")}>
-                <Icon name="Plus" size={16} color="#A1A1AA" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={openSettings} style={SEARCH_ACTION} hitSlop={4}
+        {/* No pill: one row with the filter chips scrolling sideways and the
+            menu, new chat and search pinned at its right end. Search swaps
+            the row for a field. */}
+        {searchOpen ? (
+          <View testID="dm-search-row" style={{ flexDirection: "row", alignItems: "center", gap: 6, paddingLeft: 12, paddingRight: 8, paddingTop: 8, paddingBottom: 6 }}>
+            <View className="flex-1 flex-row items-center" style={[{ height: 40, borderRadius: 12 }, searchField.surface]}>
+              <View className="pl-3 pr-2"><Icon name="Search" size={16} color="#71717A" /></View>
+              <DeferredTextInput ref={searchInputRef} value={query} onChangeText={setQuery} autoFocus
+                placeholder={t("messages.searchConversations")} placeholderTextColor="#71717A"
+                className="flex-1 text-white text-sm" returnKeyType="search" style={[FIELD_TEXT, SEARCH_INPUT_CLEAR]} onFocus={searchField.onFocus} onBlur={searchField.onBlur} />
+            </View>
+            <TouchableOpacity testID="dm-search-close" onPress={closeSearch} style={TOOL} hitSlop={4}
+              accessibilityRole="button" accessibilityLabel={t("common.close")}>
+              <Icon name="X" size={20} color={TOOL_INK} />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <View testID="dm-top-row" style={{ flexDirection: "row", alignItems: "center", paddingTop: 8, paddingBottom: 6 }}>
+            {tabsOn ? (
+              <ChatTabBar
+                bare
+                tabs={tabRowTabs}
+                active={activeTab}
+                unread={tabUnread}
+                onSelect={(id) => { setShowRequests(false); setActiveTab(id); }}
+                onNew={() => setTabEditor({})}
+                onManage={() => setTabManager(true)}
+                onHold={(tab) => setTabActions({ kind: "tab", id: tab.id })}
+              />
+            ) : (
+              <Text className="flex-1 text-theme-neutrals-100 font-semibold" style={{ fontSize: 17, paddingLeft: 16 }} numberOfLines={1}>{t("messages.title")}</Text>
+            )}
+            <View testID="dm-top-tools" style={{ flexDirection: "row", alignItems: "center", gap: 2, paddingLeft: 4, paddingRight: 8 }}>
+              <TouchableOpacity testID="dm-tool-menu" onPress={openMenu} style={[TOOL, picking && { backgroundColor: "rgba(255,255,255,0.12)" }]} hitSlop={4}
                 accessibilityRole="button" accessibilityLabel={t("settings.title")}>
-                <Icon name="Settings" size={16} color="#A1A1AA" />
+                <Icon name="SlidersHorizontal" size={20} color={TOOL_INK} />
               </TouchableOpacity>
-            </>
-          }
-        >
-          <PillDrawerAutoFocus inputRef={searchInputRef} />
-          <View className="flex-row items-center" style={[{ height: 36, borderRadius: 8 }, searchField.surface]}>
-            <View className="pl-3 pr-2"><Icon name="Search" size={16} color="#71717A" /></View>
-            <DeferredTextInput ref={searchInputRef} value={query} onChangeText={setQuery}
-              placeholder={t("messages.searchConversations")} placeholderTextColor="#71717A"
-              className="flex-1 text-white text-sm" returnKeyType="search" style={[FIELD_TEXT, SEARCH_INPUT_CLEAR]} onFocus={searchField.onFocus} onBlur={searchField.onBlur} />
-            {/* Refresh sits quietly inside the search field; new message and
-                settings are on the pill. */}
-            <View className="flex-row items-center pr-1">
-              <TouchableOpacity onPress={refreshContacts} disabled={!!contactsLoading}
-                style={[SEARCH_ACTION, { opacity: contactsLoading ? 0.5 : 1 }]} hitSlop={4}
-                accessibilityRole="button" accessibilityLabel={t("dao.refresh")}>
-                <Icon name="RefreshCw" size={16} color="#71717A" />
+              <TouchableOpacity testID="dm-tool-new" onPress={openNewDM} style={TOOL} hitSlop={4}
+                accessibilityRole="button" accessibilityLabel={t("dm.newDm")}>
+                <Icon name="Plus" size={21} color={TOOL_INK} />
+              </TouchableOpacity>
+              <TouchableOpacity testID="dm-tool-search" onPress={() => setSearchOpen(true)} style={TOOL} hitSlop={4}
+                accessibilityRole="button" accessibilityLabel={t("messages.searchConversations")}>
+                <Icon name="Search" size={20} color={TOOL_INK} />
               </TouchableOpacity>
             </View>
           </View>
-        </ScreenHeader>
+        )}
 
         {/* A pull at the top of the list lowers it and refreshes (PullRefreshArea):
             the hidden native spinner showed nothing and needed a very long pull. */}
@@ -1031,7 +1032,11 @@ const DirectMessagesInner: React.FC = () => {
         <DMSettingsMenu
           visible={menuVisible}
           onClose={closeMenu}
-          onNewDM={openNewDM}
+          offsetTop={52}
+          onNewTab={myAddress ? () => { closeMenu(); setTabEditor({}); } : undefined}
+          onEditTabs={myAddress ? () => { closeMenu(); setTabManager(true); } : undefined}
+          onSelect={myAddress ? () => { closeMenu(); setBulkIds((prev) => (prev ? null : new Set())); } : undefined}
+          onRefresh={() => { closeMenu(); void refreshContacts(); }}
           onOpenDmSettings={openDmSettings}
           dnd={dnd}
           onToggleDnd={toggleDnd}

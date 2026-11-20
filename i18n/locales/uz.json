@@ -4963,7 +4963,7 @@
     "edit": "Tahrirlash",
     "deleteRequestTitle": "Bu so'rov o'chirilsinmi?",
     "deleteRequestDescription": "Buni ortga qaytarib bo'lmaydi.",
-    "attachmentTooLarge": "Har bir fayl 50 MB dan kichik bo'lishi kerak",
+    "attachmentTooLarge": "Har bir fayl 200 MB dan kichik bo'lishi kerak",
     "deleteCommentA11y": "Sharhingizni o'chirish",
     "sendCommentA11y": "Izoh jo'natish",
     "requestOptions": "So'rov variantlari",
