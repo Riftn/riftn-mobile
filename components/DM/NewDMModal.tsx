@@ -30,9 +30,11 @@ import { truncateAddress } from "../../libs/strings.util";
 import GlassModal from "../ui/GlassModal";
 import { useDM } from "../../hooks/useDM";
 import { toastInfo } from "../../libs/toast";
+import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-authors";
+import { rankNewMessageSuggestions } from "../../libs/new-message-suggestions";
 import { useTranslation } from "react-i18next";
 
-type Person = Partial<User> & { address?: string; followsYou?: boolean };
+type Person = Partial<User> & { address?: string; followsYou?: boolean; followedAt?: string; followers?: number };
 
 const addrOf = (u: Person | undefined | null) =>
   String((u as any)?.walletAddress || (u as any)?.address || "").toLowerCase();
@@ -108,13 +110,15 @@ const NewDMModal: React.FC<NewDMModalProps> = ({ open, onOpenChange, onSelect, o
     return () => { cancelAnimationFrame(raf); clearTimeout(late); };
   }, [open]);
 
-  const recents = useMemo(() => {
+  const blockedVersion = useBlockedAuthorsVersion();
+  // Everyone you have chatted with, most recent chat first.
+  const chatted = useMemo(() => {
     const out: Person[] = [];
     const seen = new Set<string>();
     for (const c of conversations as any[]) {
       const other = c?.participants?.[0]?.participant;
       const a = String(other?.address || "").toLowerCase();
-      if (!a || a === me || seen.has(a)) continue;
+      if (!a || a === me || seen.has(a) || isAuthorBlocked(a)) continue;
       seen.add(a);
       out.push({
         username: other?.username,
@@ -123,10 +127,11 @@ const NewDMModal: React.FC<NewDMModalProps> = ({ open, onOpenChange, onSelect, o
         address: other?.address,
         avatarImageUrl: other?.avatarImageUrl,
       } as Person);
-      if (out.length >= 12) break;
     }
     return out;
-  }, [conversations, me]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [conversations, me, blockedVersion]);
+  const recents = useMemo(() => chatted.slice(0, 12), [chatted]);
   const recentSet = useMemo(() => new Set(recents.map(addrOf)), [recents]);
 
   const { data: following = [] } = useQuery({
@@ -134,7 +139,8 @@ const NewDMModal: React.FC<NewDMModalProps> = ({ open, onOpenChange, onSelect, o
     enabled: open && !!me,
     staleTime: 5 * 60 * 1000,
     queryFn: async () => {
-      const res = await getFollowList({ address: me, type: "following", limit: 24 });
+      // Newest follows first from the server; the list is re-ordered below.
+      const res = await getFollowList({ address: me, type: "following", limit: 100 });
       return (res?.result?.items || []).map((i) => ({
         username: i.user?.username,
         displayName: i.user?.displayName,
@@ -142,12 +148,21 @@ const NewDMModal: React.FC<NewDMModalProps> = ({ open, onOpenChange, onSelect, o
         address: i.user?.address,
         avatarImageUrl: i.user?.avatarImageUrl,
         followsYou: !!i.user?.followsYou,
+        followedAt: i.followedAt,
+        followers: i.user?.followers,
       } as Person));
     },
   });
+  // Newest follows, then people you have messaged, then most followers.
   const suggested = useMemo(
-    () => following.filter((u) => addrOf(u) && addrOf(u) !== me && !recentSet.has(addrOf(u))).slice(0, 8),
-    [following, recentSet, me],
+    () => rankNewMessageSuggestions({
+      following: following.filter((u) => !isAuthorBlocked(addrOf(u))),
+      messaged: chatted,
+      me,
+      exclude: recentSet,
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [following, chatted, recentSet, me, blockedVersion],
   );
 
   const q = query.trim().replace(/^@/, "").toLowerCase();
@@ -183,6 +198,7 @@ const NewDMModal: React.FC<NewDMModalProps> = ({ open, onOpenChange, onSelect, o
       out.push(u);
     };
     for (const u of [...recents, ...following]) {
+      if (isAuthorBlocked(addrOf(u))) continue;
       const hay = `${(u as any).username || ""} ${(u as any).displayName || ""}`.toLowerCase();
       if (hay.includes(q)) add(u);
     }
