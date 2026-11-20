@@ -360,8 +360,10 @@
       "pronouns": "Voornaamwoorden",
       "location": "Locatie",
       "custom": "Aangepast",
-      "customOption": "Aangepast label"
-    }
+      "customOption": "Aangepast label",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Meldingen filteren van",

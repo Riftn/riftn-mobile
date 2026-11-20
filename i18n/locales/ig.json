@@ -2749,10 +2749,12 @@
       "newsletter": "Akwụkwọ akụkọ",
       "pronouns": "Kpọtụrụ anyị",
       "customOption": "Akara emeredịkachọrọ",
-      "podcast": "Podcast"
+      "podcast": "Podcast",
+      "cashapp": "Cash App"
     },
     "placeholderPronouns": "ha/ha",
-    "placeholderLocation": "Obodo, obodo"
+    "placeholderLocation": "Obodo, obodo",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Zachaa ọkwa sitere n'aka",

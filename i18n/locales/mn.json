@@ -2747,12 +2747,14 @@
       "location": "Байршил",
       "custom": "Хэрэглэгчийн хувьд хөтөлбөр хийсэн",
       "customOption": "Хэвлэх хуудас",
-      "portfolio": "Зургийн сан"
+      "portfolio": "Зургийн сан",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "Вэбсайт, төлөөний сан эсвэл бусад зүйлсийг нэмнэ үү. Нийгмийн холболтуудтайгаа харуулна.",
     "add": "Талбар нэмэх",
     "remove": "Талбар хасах",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Мэдэгдлийг шүүх",

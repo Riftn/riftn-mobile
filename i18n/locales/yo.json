@@ -2751,8 +2751,10 @@
       "pronouns": "Awọn ọrọ-ara",
       "location": "Ipo",
       "custom": "Custom",
-      "customOption": "Ibadandun custom"
-    }
+      "customOption": "Ibadandun custom",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Ṣàlẹ̀mọ́ àwọn ìfitónilétí láti ọ̀dọ̀",

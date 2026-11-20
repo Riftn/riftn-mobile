@@ -2751,8 +2751,10 @@
       "pronouns": "Znenie",
       "location": "Lokácia",
       "custom": "Vlastné",
-      "customOption": "Vlastný názov"
-    }
+      "customOption": "Vlastný názov",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtrovať upozornenia od",

@@ -10,6 +10,7 @@ import {
   normalizeFieldValue,
   presetById,
   presetOf,
+  editableFieldValue,
   type ProfileFieldPresetId,
 } from "../../libs/profile-field-presets";
 import type { ProfileField } from "./ProfileFieldsList";
@@ -26,6 +27,7 @@ export const PROFILE_FIELD_ICONS: Record<ProfileFieldPresetId, IconName> = {
   newsletter: "MessageEnvelope",
   pronouns: "User",
   location: "MapPin",
+  cashapp: "Wallet",
   custom: "Link",
 };
 
@@ -41,7 +43,7 @@ export function rowsOf(fields: ProfileField[] | null | undefined): FieldRow[] {
       preset,
       name: preset === "custom" ? field.name || "" : presetById(preset)!.name,
       // Shown without https://, which is put back on save.
-    value: isLinkPreset(preset) ? (field.value || "").replace(/^https:\/\//i, "") : field.value || "",
+    value: editableFieldValue(preset, field.value),
       verifiedAt: field.verifiedAt ?? null,
     };
   });
@@ -114,6 +116,7 @@ export default function ProfileFieldsEditor({
     onChange((prev) => prev.map((r) => (r.key === key ? { ...r, ...next, verifiedAt: null } : r)));
 
   const placeholder = (preset: ProfileFieldPresetId) => {
+    if (preset === "cashapp") return t("profileFields.placeholderCashtag", { defaultValue: "$cashtag" });
     if (isLinkPreset(preset)) return t("profileFields.placeholderLink", { defaultValue: "yoursite.com" });
     if (preset === "pronouns") return t("profileFields.placeholderPronouns", { defaultValue: "they/them" });
     if (preset === "location") return t("profileFields.placeholderLocation", { defaultValue: "City, country" });
@@ -246,5 +249,5 @@ export default function ProfileFieldsEditor({
 
 /** Whether any row holds a link that has not been proven yet: only then is the rel="me" tip worth showing. */
 export function hasUnverifiedLink(rows: FieldRow[]): boolean {
-  return rows.some((r) => !r.verifiedAt && !!fieldLink(normalizeFieldValue(r.preset, r.value)));
+  return rows.some((r) => r.preset !== "cashapp" && !r.verifiedAt && !!fieldLink(normalizeFieldValue(r.preset, r.value)));
 }

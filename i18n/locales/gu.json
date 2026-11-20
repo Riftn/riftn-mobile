@@ -2775,10 +2775,12 @@
       "pronouns": "વ્યક્તિગત સંબોધન",
       "location": "સ્થાન",
       "custom": "કસ્ટમ",
-      "customOption": "કસ્ટમ લેબલ"
+      "customOption": "કસ્ટમ લેબલ",
+      "cashapp": "Cash App"
     },
     "placeholderPronouns": "તેઓ/તેમને",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "આમની સૂચનાઓ ફિલ્ટર કરો",

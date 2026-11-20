@@ -2777,8 +2777,10 @@
       "pronouns": "Zaimka",
       "location": "Lokalizacja",
       "custom": "Niestandardowe",
-      "customOption": "Niestandardowa etykieta"
-    }
+      "customOption": "Niestandardowa etykieta",
+      "cashapp": "Cash App"
+    },
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filtruj powiadomienia od",

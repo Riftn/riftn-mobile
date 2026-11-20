@@ -2749,10 +2749,12 @@
       "pronouns": "ສັນຍາລັກ",
       "location": "ສະຖານທີ່",
       "custom": "ກຳນົດເອງ",
-      "customOption": "ປ້າຍກຳກັບທີ່ກຳນົດເອງ"
+      "customOption": "ປ້າຍກຳກັບທີ່ກຳນົດເອງ",
+      "cashapp": "Cash App"
     },
     "placeholderPronouns": "ພວກເຂົາ",
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "ກັ່ນຕອງການແຈ້ງເຕືອນຈາກ",

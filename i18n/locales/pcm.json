@@ -2748,11 +2748,13 @@
       "shop": "Shop",
       "website": "Website",
       "blog": "Blog",
-      "portfolio": "Portfolio"
+      "portfolio": "Portfolio",
+      "cashapp": "Cash App"
     },
     "descriptionPresets": "Add website, pronouns or anything else. Links go show with your socials.",
     "needsLabel": "Give each custom field one label",
-    "type": "Field type"
+    "type": "Field type",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Filter notifications from",

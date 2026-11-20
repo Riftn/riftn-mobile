@@ -2776,9 +2776,11 @@
       "pronouns": "Pronouns",
       "location": "Location",
       "custom": "Custom",
-      "customOption": "Custom label"
+      "customOption": "Custom label",
+      "cashapp": "Cash App"
     },
-    "needsLabel": "Adj minden egyéni mezőnek egy címkét"
+    "needsLabel": "Adj minden egyéni mezőnek egy címkét",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Értesítések szűrése tőlük",

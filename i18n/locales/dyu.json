@@ -2750,9 +2750,11 @@
       "pronouns": "O kɔrɔ ko:",
       "location": "Yɔrɔ",
       "custom": "Fɛɛn minw ka teli ka kɛ",
-      "customOption": "Tɔgɔdafɛ tagamasiɲɛ"
+      "customOption": "Tɔgɔdafɛ tagamasiɲɛ",
+      "cashapp": "Cash App"
     },
-    "descriptionPresets": "I be se ka site web dɔ fara a kan, ka kumacogo dɔ fara a kan, ka kumacogo dɔ fara a kan. N'a sɔrɔ i be se k'a fɔ ko i ye mɔgɔ dɔ ye min be se ka kɛ i ka"
+    "descriptionPresets": "I be se ka site web dɔ fara a kan, ka kumacogo dɔ fara a kan, ka kumacogo dɔ fara a kan. N'a sɔrɔ i be se k'a fɔ ko i ye mɔgɔ dɔ ye min be se ka kɛ i ka",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Kunnafoniw sɛgɛsɛgɛ ka bɔ",

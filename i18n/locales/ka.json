@@ -2776,9 +2776,11 @@
       "pronouns": "პრონუნსი",
       "location": "მდებარეობა",
       "custom": "პირადი",
-      "customOption": "პირადი ეტიკეტი"
+      "customOption": "პირადი ეტიკეტი",
+      "cashapp": "Cash App"
     },
-    "placeholderLink": "yoursite.com"
+    "placeholderLink": "yoursite.com",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "შეტყობინებების გაფილტვრა",

@@ -358,10 +358,12 @@
       "pronouns": "İsim zamirleri",
       "location": "Konum",
       "custom": "Özel",
-      "customOption": "Özel etiket"
+      "customOption": "Özel etiket",
+      "cashapp": "Cash App"
     },
     "add": "Eklentiyi ekle",
-    "remove": "Alanı kaldır"
+    "remove": "Alanı kaldır",
+    "placeholderCashtag": "$cashtag"
   },
   "notificationFilters": {
     "title": "Bildirimleri filtrele",
