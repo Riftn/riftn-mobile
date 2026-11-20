@@ -2913,6 +2913,9 @@
     "returnHome": "Ana Sayfaya Dön"
   },
   "profile": {
+    "localTime": "Yerel saat {{time}}",
+    "shareLocalTime": "Yerel saatimi göster",
+    "shareLocalTimeHint": "Herkese açık profilinde ve sohbette saat dilimini ve yerel saatini göster.",
     "articleShort": "Makale",
     "pinnedShort": "Sabitlendi",
     "post": "Gönderi",

@@ -2929,6 +2929,9 @@
     "returnHome": "العودة للرئيسية"
   },
   "profile": {
+    "localTime": "التوقيت المحلي {{time}}",
+    "shareLocalTime": "إظهار توقيتي المحلي",
+    "shareLocalTimeHint": "اعرض منطقتك الزمنية وتوقيتك المحلي في ملفك الشخصي العام وفي الدردشة.",
     "articleShort": "مقال",
     "pinnedShort": "مثبّت",
     "post": "منشور",
