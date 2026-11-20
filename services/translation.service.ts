@@ -308,7 +308,7 @@ export async function translateText(
       translatedText: cached.translatedText,
       sourceLang: cached.sourceLang,
       sameLanguage: cachedSame,
-      untranslated: looksUntranslated(cachedSame, cached.sourceLang, targetLang),
+      ...(looksUntranslated(cachedSame, cached.sourceLang, targetLang) ? { untranslated: true } : {}),
     };
   }
 
@@ -328,7 +328,9 @@ export async function translateText(
   // that remounts.
   setCache(text, targetLang, {
     translatedText: data.translatedText,
-    sourceLang: detectedLang,
+    // The server's "already in that language" answer has no detection; keep
+    // the target so a cache hit is not mistaken for an untranslatable line.
+    sourceLang: data.sameLanguage === true ? (detectedLang ?? targetLang) : detectedLang,
     sameLanguage,
   });
 
@@ -338,7 +340,7 @@ export async function translateText(
     sameLanguage,
     // The server's own "same language" answer is trusted; an unchanged echo
     // with no matching detection is not.
-    untranslated: data.sameLanguage === true ? false : looksUntranslated(sameLanguage, detectedLang, targetLang),
+    ...(data.sameLanguage !== true && looksUntranslated(sameLanguage, detectedLang, targetLang) ? { untranslated: true } : {}),
   };
 }
 
