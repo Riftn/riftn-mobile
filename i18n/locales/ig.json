@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Kpuchie", "trim": "Bee", "mirror": "Tụgharịa", "rotate": "Gbanwee akụkụ", "hide": "Zoo", "timer": "Oge", "close": "Mechie", "photo": "Foto", "remove": "Wepụ", "pause": "Kwụsịtụ", "play": "Kpọọ vidiyo", "hiddenUntilTap": "Zoro ezo ruo mgbe ha pịrị ya", "scrub": "Gagharịa na vidiyo ahụ", "addMore": "Tinye foto ma ọ bụ vidiyo", "coverAria": "Pịa okpokoro iji tọọ mkpuchi", "trimHint": "Dọrọ nsọtụ ya iji bee ya", "coverHint": "Pịa okpokoro iji mee ya mkpuchi", "uploadCover": "Bulite foto mkpuchi", "mirrored": "Tụgharịrị", "original": "Nke mbụ", "rotate90": "Tụgharịa 90°", "timerOff": "Gbanyụọ", "showNormally": "Gosi n'ụzọ nkịtị", "showNormallyBody": "Ha na-ahụ ya ozugbo", "hideUntilTap": "Zoo ruo mgbe a pịrị ya", "hideUntilTapBody": "Gbagwojuru anya ruo mgbe ha pịrị ya", "hidePrice": "Zoo n'azụ ọnụahịa", "hidePriceBody": "Gbagwojuru anya ruo mgbe ha kwụrụ gị ụgwọ", "priceUnavailable": "Ọ bụghị na nkata a", "priceLabelUsd": "Ọnụahịa", "priceHint": "Ha na-ahụ ya ka ọ gbarụrụ agbarụ ruo mgbe ha kwụrụ gị ụgwọ. Ihe ndị e kpọchiri akpọchi abụghị ndị e zoro ezo site na mmalite ruo na njedebe.", "timerOffBody": "Ọ na-anọ na mkparịta ụka ahụ.", "timerViewBody": "Ọ na-apụ n'anya maka unu abụọ ozugbo ha hụchara ya.", "confirm": "Kwenye", "editItem": "Dezie ihe {{value1}}", "coverSet": "Ihe mkpuchi na {{value1}}", "lockedForUsd": "Kpọghe maka {{value1}}", "timerTimeBody": "Ọ na-apụ n'anya maka unu abụọ {{value1}} mgbe ị zigasịrị ya."},
   "comicBorder": {
     "title": "Ọnụ ọnụ",
     "theme": "Isiokwu",
@@ -142,6 +143,11 @@
     "useNamed": "Jiri {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Vidio naanị",
+    "dce6eb4447ef": "Ngwakọta",
+    "5405fb40dded": "Abụ naanị",
+    "4bf9a522a0de": "Ụda vidio",
+    "fea4b5ceffa8": "Abụ",
     "a039dfb9628b": "Token",
     "chatSlowDown": "Jiri nwayọ! Ozi dị ukwuu n'usoro. Nwalee ọzọ n'ime {{wait}}, ma ọ bụ chere ka onye ọzọ zaa.",
     "eabb5c136be4": "Emelitere atụmatụ ahụ adaala",

@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "कवर", "trim": "काट-छाँट (ट्रिम)", "mirror": "आईना (मिरर)", "rotate": "घुमाएँ (रोटेट)", "hide": "लुकाएँ (हाइड)", "timer": "टाइमर", "close": "बंद करें", "photo": "फोटो", "remove": "हटाएँ", "pause": "रोकें (पॉज)", "play": "वीडियो चलाएँ", "hiddenUntilTap": "जब तक वे टैप न करें तब तक छिपा हुआ", "scrub": "वीडियो को आगे-पीछे करें", "addMore": "फोटो या वीडियो जोड़ें", "coverAria": "कवर सेट करने के लिए एक फ्रेम पर टैप करें", "trimHint": "काट-छाँट करने के लिए किनारों को खींचें", "coverHint": "कवर बनाने के लिए एक फ्रेम पर टैप करें", "uploadCover": "कवर फोटो अपलोड करें", "mirrored": "आईने जैसा (मिरर्ड)", "original": "असली (ओरिजिनल)", "rotate90": "90° घुमाएँ", "timerOff": "बंद", "showNormally": "सामान्य रूप से दिखाएँ", "showNormallyBody": "वे इसे तुरंत देख सकते हैं", "hideUntilTap": "टैप करने तक छिपाएँ", "hideUntilTapBody": "टैप करने तक धुंधला रखें", "hidePrice": "कीमत के पीछे छिपाएँ", "hidePriceBody": "भुगतान करने तक धुंधला रखें", "priceUnavailable": "इस चैट में नहीं", "priceLabelUsd": "कीमत", "priceHint": "उमन के धुंधला दिखेला जब तक उमन तोके पइसा न देवे। लॉक करल आइटम सब एंड-टू-एंड एन्क्रिप्टेड नइखे।", "timerOffBody": "ई चैट में रहेला।", "timerViewBody": "दुयो जने देख लेवे के बाद ई हट जाला।", "confirm": "कन्फर्म", "editItem": "आइटम एडिट कर {{value1}}", "coverSet": "{{value1}} पर कवर", "lockedForUsd": "{{value1}} के लिए अनलॉक कर", "timerTimeBody": "भेजे के बाद {{value1}} दुयो जने के लिए हट जाला।"},
   "accountConnect": {
     "allow": "Allow connection",
     "generatePrompt": "Riftn ker image models ke dekhau aur portrait generate kare se pehle okar quote batau.",
@@ -114,6 +115,11 @@
     "back": "टेम्पलेट में वापस"
   },
   "copy": {
+    "0f8fed0dc99b": "खाली वीडियो",
+    "dce6eb4447ef": "मिक्स",
+    "5405fb40dded": "खाली गाना",
+    "4bf9a522a0de": "वीडियो साउंड",
+    "fea4b5ceffa8": "गाना",
     "a039dfb9628b": "Tokens",
     "chatSlowDown": "धीरे चलें! लगातार बहुत ज़्यादा संदेश। {{wait}} में फिर से कोशिश करें, या किसी और के जवाब देने का इंतज़ार करें।",
     "dd2108f1cda8": "वॉइस चैट बंद करो",

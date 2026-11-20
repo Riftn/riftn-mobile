@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Naslovna", "trim": "Skrati", "mirror": "Zrcali", "rotate": "Rotiraj", "hide": "Sakrij", "timer": "Mjerač vremena", "close": "Zatvori", "photo": "Fotografija", "remove": "Ukloni", "pause": "Pauziraj", "play": "Reproduciraj videozapis", "hiddenUntilTap": "Skriveno dok ne dodirnu", "scrub": "Premotaj videozapis", "addMore": "Dodaj fotografije ili videozapise", "coverAria": "Dodirni okvir za postavljanje naslovne", "trimHint": "Povuci krajeve za skraćivanje", "coverHint": "Dodirni okvir da postane naslovna", "uploadCover": "Učitaj naslovnu sliku", "mirrored": "Zrcaljeno", "original": "Izvorno", "rotate90": "Rotiraj za 90°", "timerOff": "Isključeno", "showNormally": "Prikaži normalno", "showNormallyBody": "Vide odmah", "hideUntilTap": "Sakrij dok se ne dodirne", "hideUntilTapBody": "Zamućeno dok ne dodirnu", "hidePrice": "Sakrij iza cijene", "hidePriceBody": "Zamućeno dok ti ne plate", "priceUnavailable": "Nije u ovom chatu", "priceLabelUsd": "Cijena", "priceHint": "Vide ga zamućeno dok ti ne plate. Zaključane stavke nisu end-to-end šifrirane.", "timerOffBody": "Ostaje u chatu.", "timerViewBody": "Nestaje za oboje čim ga vide.", "confirm": "Potvrdi", "editItem": "Uredi stavku {{value1}}", "coverSet": "Naslovnica na {{value1}}", "lockedForUsd": "Otključaj za {{value1}}", "timerTimeBody": "Nestaje za oboje {{value1}} nakon što ga pošalješ."},
   "comic": {
     "showAll": "Prikaži svih {{count}} stranica",
     "tab": "Komičar",
@@ -168,6 +169,11 @@
     "useNamed": "Koristi {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Samo video",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Samo pjesma",
+    "4bf9a522a0de": "Zvuk videa",
+    "fea4b5ceffa8": "Pjesma",
     "a039dfb9628b": "Žetoni",
     "chatSlowDown": "Polako! Previše poruka zaredom. Pokušaj ponovno za {{wait}} ili pričekaj da netko drugi odgovori.",
     "eabb5c136be4": "Nije uspio ažurirati plan",

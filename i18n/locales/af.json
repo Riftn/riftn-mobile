@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Deksel", "trim": "Sny", "mirror": "Spieël", "rotate": "Draai", "hide": "Versteek", "timer": "Timer", "close": "Maak toe", "photo": "Foto", "remove": "Verwyder", "pause": "Pouseer", "play": "Speel video af", "hiddenUntilTap": "Verborge totdat hulle daarop tik", "scrub": "Blaai deur die video", "addMore": "Voeg foto's of video's by", "coverAria": "Tik op 'n raam om die voorblad te stel", "trimHint": "Sleep die punte om te snoei", "coverHint": "Tik op 'n raam om dit die voorblad te maak", "uploadCover": "Laai 'n voorbladfoto op", "mirrored": "Gespieël", "original": "Oorspronklik", "rotate90": "Draai 90°", "timerOff": "Af", "showNormally": "Wys normaalweg", "showNormallyBody": "Hulle sien dit dadelik", "hideUntilTap": "Versteek totdat daar op dit getik word", "hideUntilTapBody": "Vervaag totdat hulle daarop tik", "hidePrice": "Versteek agter 'n prys", "hidePriceBody": "Vervaag totdat hulle jou betaal", "priceUnavailable": "Nie in hierdie gesels nie", "priceLabelUsd": "Prys", "priceHint": "Hulle sien dit vaag totdat hulle jou betaal. Geslote items is nie end-tot-end geënkripteer nie.", "timerOffBody": "Dit bly in die gesels.", "timerViewBody": "Weg vir julle albei sodra hulle dit gesien het.", "confirm": "Bevestig", "editItem": "Wysig item {{value1}}", "coverSet": "Dekking by {{value1}}", "lockedForUsd": "Ontsluit vir {{value1}}", "timerTimeBody": "Weg vir julle albei {{value1}} nadat jy dit gestuur het."},
   "comicBorder": {
     "title": "Rand",
     "theme": "Tema",
@@ -142,6 +143,11 @@
     "useNamed": "Gebruik {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Slegs video",
+    "dce6eb4447ef": "Mengsel",
+    "5405fb40dded": "Slegs liedjie",
+    "4bf9a522a0de": "Videoklank",
+    "fea4b5ceffa8": "Liedjie",
     "a039dfb9628b": "Tekens",
     "chatSlowDown": "Stadig! Te veel boodskappe agter mekaar. Probeer weer oor {{wait}}, of wag dat iemand anders antwoord.",
     "eabb5c136be4": "Mislukte om plan by te werk",

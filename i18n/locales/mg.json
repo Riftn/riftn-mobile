@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Sarony", "trim": "Hetezo", "mirror": "Fitaratra", "rotate": "Ahodino", "hide": "Afeno", "timer": "Fanamariham-potoana", "close": "Akaro", "photo": "Sary", "remove": "Esory", "pause": "Atsaharo", "play": "Alefaso ny horonan-tsary", "hiddenUntilTap": "Afenina mandra-kitikiny azy", "scrub": "Hetezo ny horonan-tsary", "addMore": "Manampy sary na horonan-tsary", "coverAria": "Kitiho ny sary iray mba hanaovana azy ho sarony", "trimHint": "Tariho ny sisiny mba hanetezana azy", "coverHint": "Kitiho ny sary iray mba hanaovana azy ho sarony", "uploadCover": "Ampidiro ny sary ho sarony", "mirrored": "Fitaratra", "original": "Tany am-boalohany", "rotate90": "Ahodino 90°", "timerOff": "Vonoina", "showNormally": "Asehoy ara-dalàna", "showNormallyBody": "Hitany avy hatrany izany", "hideUntilTap": "Afeno mandra-kitika", "hideUntilTapBody": "Manjavozavo mandra-kitikiny azy", "hidePrice": "Afeno ao ambadiky ny vidiny", "hidePriceBody": "Manjavozavo mandra-pandoany vola anao", "priceUnavailable": "Tsy ato amin'ity chat ity", "priceLabelUsd": "Vidiny", "priceHint": "Hitan'izy ireo manjavozavo izany mandra-pandoany vola anao. Tsy voaaro amin'ny alalan'ny fanafenana angona (end-to-end encryption) ireo zavatra mihidy.", "timerOffBody": "Mijanona ao anatin'ny chat izany.", "timerViewBody": "Lasa ho anareo roa rehefa avy hitan'izy ireo izany.", "confirm": "Hamafisina", "editItem": "Hanova ny zavatra {{value1}}", "coverSet": "Sarony amin'ny {{value1}}", "lockedForUsd": "Hamohana amin'ny {{value1}}", "timerTimeBody": "Lasa ho anareo roa {{value1}} aorian'ny fandefasanao azy."},
   "comicBorder": {
     "title": "Sisiny",
     "theme": "Lohahevitra",
@@ -142,6 +143,11 @@
     "use": "Ampiasao ity môdely ity"
   },
   "copy": {
+    "0f8fed0dc99b": "Video ihany",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Hira ihany",
+    "4bf9a522a0de": "Feon-tsary",
+    "fea4b5ceffa8": "Hira",
     "a039dfb9628b": "Fapaynazaiky",
     "chatSlowDown": "Moramora! Hafatra be loatra misesy. Andramo indray afaka {{wait}}, na miandrasa olon-kafa hamaly.",
     "eabb5c136be4": "Nahafahalana tsy nisy natao",

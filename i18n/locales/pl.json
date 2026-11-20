@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Okładka", "trim": "Przytnij", "mirror": "Odbicie lustrzane", "rotate": "Obróć", "hide": "Ukryj", "timer": "Minutnik", "close": "Zamknij", "photo": "Zdjęcie", "remove": "Usuń", "pause": "Wstrzymaj", "play": "Odtwórz wideo", "hiddenUntilTap": "Ukryte do momentu kliknięcia", "scrub": "Przewijaj wideo", "addMore": "Dodaj zdjęcia lub filmy", "coverAria": "Kliknij klatkę, aby ustawić okładkę", "trimHint": "Przeciągnij końce, aby przyciąć", "coverHint": "Kliknij klatkę, aby ustawić ją jako okładkę", "uploadCover": "Prześlij zdjęcie okładki", "mirrored": "Odbicie lustrzane", "original": "Oryginał", "rotate90": "Obróć o 90°", "timerOff": "Wył.", "showNormally": "Pokaż normalnie", "showNormallyBody": "Widzą to od razu", "hideUntilTap": "Ukryj do momentu kliknięcia", "hideUntilTapBody": "Rozmyte do momentu kliknięcia", "hidePrice": "Ukryj za ceną", "hidePriceBody": "Rozmyte do momentu zapłaty", "priceUnavailable": "Nie w tym czacie", "priceLabelUsd": "Cena", "priceHint": "Widzą to rozmazane, dopóki Ci nie zapłacą. Zablokowane elementy nie są szyfrowane metodą end-to-end.", "timerOffBody": "Zostaje na czacie.", "timerViewBody": "Znika dla obu stron, gdy tylko to zobaczą.", "confirm": "Potwierdź", "editItem": "Edytuj element {{value1}}", "coverSet": "Okładka przy {{value1}}", "lockedForUsd": "Odblokuj za {{value1}}", "timerTimeBody": "Znika dla obu stron {{value1}} po wysłaniu."},
   "comic": {
     "toComic": "Zrób z tego komiks",
     "toCarousel": "Pokaż jako karuzelę",
@@ -168,6 +169,11 @@
     "useNamed": "Użyj {{name}}"
   },
   "copy": {
+    "0f8fed0dc99b": "Tylko wideo",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Tylko utwór",
+    "4bf9a522a0de": "Dźwięk wideo",
+    "fea4b5ceffa8": "Utwór",
     "a039dfb9628b": "Żetony",
     "chatSlowDown": "Zwolnij! Za dużo wiadomości z rzędu. Spróbuj ponownie za {{wait}} albo poczekaj, aż ktoś inny odpowie.",
     "eabb5c136be4": "Nie udało się zaktualizować planu",

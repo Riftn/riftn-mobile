@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"trim": "Kesmek", "mirror": "Aýna", "rotate": "Öwüriň", "hide": "Gizle", "timer": "Sagat", "photo": "Surat", "remove": "Aýyrmak", "pause": "Pauza", "play": "Wideo oýnat", "hiddenUntilTap": "Üstüne basylýança gizlin", "scrub": "Wideo boýunça öňe-yza geçiň", "addMore": "Suratlary ýa-da wideolary goşuň", "coverAria": "Daşlygy bellemek üçin çarçuwa basyň", "trimHint": "Kesmek üçin uçlary süýşüriň", "coverHint": "Munuň daşlygy bolmagy üçin çarçuwa basyň", "uploadCover": "Mugap suratyny ýükle", "original": "Original", "rotate90": "90° döwreňde döwretmek", "timerOff": "Çyk", "showNormally": "Show normally", "showNormallyBody": "Olarak görürler, anında bilerler.", "hideUntilTap": "Basylýança gizle", "hideUntilTapBody": "Basylýança bulanyk görkezilýär", "hidePrice": "Bahanyň arkasyna gizlenmek", "hidePriceBody": "Olar saňa töleg edýänçä bulanyk", "priceUnavailable": "Bu söhbetde däl", "priceLabelUsd": "Baha", "priceHint": "Olar töleg tölänçäler çenli ony bulaňyk görýärler. Gulplanan elementler uçdan-uja şifrlenen däldir.", "timerOffBody": "Ol çatda galýar.", "timerViewBody": "Olar ony görenden soň, ikisiňiz üçin hem ýok bolýar.", "confirm": "Tassykla", "editItem": "Elementi redaktirle {{value1}}", "coverSet": "Mugap {{value1}}", "lockedForUsd": "{{value1}} üçin gulpuny aç", "timerTimeBody": "Ibereniňizden soň {{value1}} ikisiňiz üçin hem ýok bolýar."},
   "comicBorder": {
     "title": "Serhet",
     "theme": "Tema",
@@ -142,6 +143,11 @@
     "useNamed": "{{name}}ullan"
   },
   "copy": {
+    "0f8fed0dc99b": "Diňe wideo",
+    "dce6eb4447ef": "Gatyşyk",
+    "5405fb40dded": "Diňe aýdym",
+    "4bf9a522a0de": "Wideo sesi",
+    "fea4b5ceffa8": "Aýdym",
     "a039dfb9628b": "Tokenler",
     "chatSlowDown": "Haýal! Yzygiderli gaty köp habar. {{wait}} soň gaýtadan synanyşyň ýa-da başga biriniň jogap bermegine garaşyň.",
     "eabb5c136be4": "Meýilnamany täzelemek başartmady",

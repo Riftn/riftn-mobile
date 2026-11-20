@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "封面", "trim": "修剪", "mirror": "镜像", "rotate": "旋转", "hide": "隐藏", "timer": "定时器", "close": "关闭", "photo": "照片", "remove": "删除", "pause": "暂停", "play": "播放视频", "hiddenUntilTap": "隐藏，直到他们点击", "scrub": "在视频中快速浏览", "addMore": "添加照片或视频", "coverAria": "点击帧以设置封面", "trimHint": "拖动两端进行修剪", "coverHint": "点击帧将其设为封面", "uploadCover": "上传封面图片", "mirrored": "已镜像", "original": "原始", "rotate90": "旋转90°", "timerOff": "关闭", "showNormally": "正常显示", "showNormallyBody": "他们会立即看到", "hideUntilTap": "隐藏，直到点击", "hideUntilTapBody": "模糊，直到他们点击", "hidePrice": "隐藏在价格后面", "hidePriceBody": "模糊，直到他们付费", "priceUnavailable": "不在此聊天中", "priceLabelUsd": "价格", "priceHint": "他们看到的内容是模糊的，直到他们付费给你。锁定的项目不是端到端加密的。", "timerOffBody": "它会保留在聊天中。", "timerViewBody": "一旦他们看到后，你们双方都会失去它。", "confirm": "确认", "editItem": "编辑项目 {{value1}}", "coverSet": "封面于 {{value1}}", "lockedForUsd": "解锁给 {{value1}}", "timerTimeBody": "发送后，你们双方都会失去 {{value1}}。"},
   "comicBorder": {
     "title": "边框",
     "theme": "主题",
@@ -142,6 +143,11 @@
     "use": "使用此模板"
   },
   "copy": {
+    "0f8fed0dc99b": "仅视频",
+    "dce6eb4447ef": "混合",
+    "5405fb40dded": "仅歌曲",
+    "4bf9a522a0de": "视频声音",
+    "fea4b5ceffa8": "歌曲",
     "a039dfb9628b": "令牌",
     "chatSlowDown": "慢一点！连续发送的消息太多了。请在 {{wait}} 后重试，或等其他人回复。",
     "eabb5c136be4": "更新计划失败",

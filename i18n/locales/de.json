@@ -1,4 +1,5 @@
 {
+  "dmVideo": {"cover": "Titelbild", "trim": "Zuschneiden", "mirror": "Spiegeln", "rotate": "Drehen", "hide": "Ausblenden", "timer": "Timer", "close": "Schließen", "photo": "Foto", "remove": "Entfernen", "pause": "Pause", "play": "Video abspielen", "hiddenUntilTap": "Versteckt, bis sie tippen", "scrub": "Durch das Video scrubbing", "addMore": "Fotos oder Videos hinzufügen", "coverAria": "Tippe einen Frame, um das Titelbild festzulegen", "trimHint": "Ziehe die Enden, um zuzuschneiden", "coverHint": "Tippe einen Frame, um ihn zum Titelbild zu machen", "uploadCover": "Titelbild hochladen", "mirrored": "Gespiegelt", "original": "Original", "rotate90": "90° drehen", "timerOff": "Aus", "showNormally": "Normal anzeigen", "showNormallyBody": "Sie sehen es sofort", "hideUntilTap": "Ausblenden bis angetippt", "hideUntilTapBody": "Verschwommen, bis sie tippen", "hidePrice": "Hinter einem Preis ausblenden", "hidePriceBody": "Verschwommen, bis sie bezahlen", "priceUnavailable": "Nicht in diesem Chat", "priceLabelUsd": "Preis", "priceHint": "Sie sehen es verschwommen, bis sie dich bezahlen. Gesperrte Elemente sind nicht Ende-zu-Ende verschlüsselt.", "timerOffBody": "Es bleibt im Chat.", "timerViewBody": "Weg für euch beide, sobald sie es gesehen haben.", "confirm": "Bestätigen", "editItem": "Element bearbeiten {{value1}}", "coverSet": "Cover bei {{value1}}", "lockedForUsd": "Entsperren für {{value1}}", "timerTimeBody": "Weg für euch beide {{value1}}, nachdem du es gesendet hast."},
   "comic": {
     "toComic": "Als Comic zeigen",
     "toCarousel": "Als Karussell zeigen",
@@ -39,6 +40,11 @@
     "failed": "Rahmen konnte nicht gespeichert werden"
   },
   "copy": {
+    "0f8fed0dc99b": "Nur Video",
+    "dce6eb4447ef": "Mix",
+    "5405fb40dded": "Nur Song",
+    "4bf9a522a0de": "Video‑Ton",
+    "fea4b5ceffa8": "Song",
     "a039dfb9628b": "Token",
     "chatSlowDown": "Langsamer! Zu viele Nachrichten hintereinander. Versuch es in {{wait}} erneut oder warte, bis jemand anderes antwortet.",
     "eabb5c136be4": "Aktualisierungsversuch gescheitert",
