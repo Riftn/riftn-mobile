@@ -979,6 +979,7 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
         date: abilities.mutedUntil ? formatWhen(abilities.mutedUntil) : "",
       });
 
+  const membershipPending = !isMember && membership === undefined;
   const readOnlyChannel = communityKindOf(community) === "channel" && !abilities.isOwner && !abilities.isAdmin;
   const composerNotice = !isMember
     ? t("communities.joinToChat", { defaultValue: "Join this community to chat" })
@@ -1209,7 +1210,13 @@ export function CommunityChatPanel({ community, membership, isMember, onJoin, jo
         onLayout={composerKeyboard.onLayout}
         style={[styles.composer, { paddingBottom: 8 }]}
       >
-        {composerNotice ? (
+        {membershipPending ? (
+          // Same height as the join row, empty: shown only while we still
+          // don't know if you're in, so "Join" never flashes at a member.
+          <View style={[styles.noticeRow, styles.noticePending]} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+            <Text style={[styles.noticeText, { opacity: 0 }]}> </Text>
+          </View>
+        ) : composerNotice ? (
           !isMember && onJoin && membership?.status !== "pending" ? (
             <Pressable
               style={[styles.noticeRow, joining && { opacity: 0.5 }]}
@@ -1733,6 +1740,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.1)",
   },
   noticeText: { color: "#A1A1AA", fontSize: 12, flexShrink: 1, textAlign: "center" },
+  noticePending: { backgroundColor: "transparent", borderColor: "transparent" },
 
   overlay: { flex: 1, backgroundColor: "rgba(0,0,0,0.6)", justifyContent: "flex-end" },
   sheet: {
