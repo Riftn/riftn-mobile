@@ -19,6 +19,7 @@ import {
   type PointsBalance,
 } from "../../services/live-rewards.service";
 
+import { formatCount } from '../../libs/format-count';
 interface Props {
   visible: boolean;
   onClose: () => void;
@@ -33,7 +34,7 @@ export default function RewardsSheet({ visible, onClose, streamId, balance, rewa
   const qc = useQueryClient();
   const [picked, setPicked] = useState<string | null>(null);
   const [text, setText] = useState("");
-  const fmt = (n: number) => n.toLocaleString();
+  const fmt = (n: number) => formatCount(n);
 
   useEffect(() => {
     if (!visible) {

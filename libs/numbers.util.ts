@@ -1,3 +1,4 @@
+import { formatCount } from './format-count';
 // Numeric helper utilities
 // Central place for small reusable numeric helpers
 
@@ -97,14 +98,8 @@ export function formatCompactNumber(value: number | undefined | null): string {
     }
     return sign + fixed;
   }
-  const fmt = (num: number) => (num % 1 === 0 ? num.toString() : num.toFixed(1));
-  if (abs < 1_000_000) return sign + fmt(abs / 1_000) + 'K';
-  if (abs < 1_000_000_000) return sign + fmt(abs / 1_000_000) + 'M';
-  if (abs < 1_000_000_000_000) return sign + fmt(abs / 1_000_000_000) + 'B';
-  if (abs < 1_000_000_000_000_000) return sign + fmt(abs / 1_000_000_000_000) + 'T';
-  if (abs < 1_000_000_000_000_000_000) return sign + fmt(abs / 1_000_000_000_000_000) + 'Q';
-  // For extremely large numbers (quintillion+), use scientific notation
-  return sign + abs.toExponential(1);
+  // 1.2K, 3.4M: the one counter style shared with the website.
+  return formatCount(value);
 }
 
 // Plain number formatter with thousand separators and up to 2-4 decimals depending on magnitude

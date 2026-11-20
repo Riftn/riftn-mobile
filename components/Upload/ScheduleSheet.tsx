@@ -16,6 +16,7 @@ import { KitButton, useKitColors } from "../page/PageKit";
 import { SEARCH_INPUT_CLEAR, useSearchFieldMaterial } from "../../hooks/useSearchFieldMaterial";
 import TimeWheel from "./TimeWheel";
 
+import { formatCount } from '../../libs/format-count';
 export type ScheduleKind = "post" | "live" | "stage" | "message";
 
 interface ScheduleSheetProps {
@@ -283,7 +284,7 @@ export default function ScheduleSheet({ visible, onClose, scheduledDate, onSched
                               disabled={past}
                               onPress={() => choose(at)}
                               accessibilityRole="button"
-                              accessibilityLabel={`${dayLabel(at)} ${timeLabel(at)}: ${count}`}
+                              accessibilityLabel={`${dayLabel(at)} ${timeLabel(at)}: ${formatCount(count)}`}
                               hitSlop={{ top: 2, bottom: 2 }}
                               style={[
                                 styles.fansCell,

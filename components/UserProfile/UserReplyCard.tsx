@@ -38,6 +38,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_INSET, minimalRow } from "../../theme/minimal";
 import { expandEmojiTokens } from "../common/EmojiText";
 
+import { formatCount } from '../../libs/format-count';
 // A reply is shown as the thread it belongs to, the way the comments section
 // draws one: the post on top, the comment being answered when there is one,
 // then this user's reply, with a line running through the avatars. Every row
@@ -562,7 +563,7 @@ const UserReplyCardComponent: React.FC<UserReplyCardProps> = ({
               </Animated.View>
               {likeCount > 0 && (
                 <Text style={{ fontSize: 11, color: "#8B8D90" }}>
-                  {likeCount}
+                  {formatCount(likeCount)}
                 </Text>
               )}
             </TouchableOpacity>
@@ -576,7 +577,7 @@ const UserReplyCardComponent: React.FC<UserReplyCardProps> = ({
                 <Icon name="MessageSquare" size={15} color="#6F7174" />
                 {replyCount > 0 && (
                   <Text style={{ fontSize: 11, color: "#8B8D90" }}>
-                    {replyCount}
+                    {formatCount(replyCount)}
                   </Text>
                 )}
               </TouchableOpacity>

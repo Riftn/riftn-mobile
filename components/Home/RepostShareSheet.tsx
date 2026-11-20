@@ -13,6 +13,7 @@ import { toastSuccess } from "../../libs/toast";
 import { postEmbedCode } from "../../libs/embed-code";
 import { reportPostEvent } from "../../services/post-stats.service";
 
+import { formatCount } from '../../libs/format-count';
 const TEXT = "#F4F4F5";
 const MUTED = "#9A9AA2";
 const CHIP = "rgba(255,255,255,0.08)";
@@ -206,7 +207,7 @@ function RepostShareSheetComponent({
           <Pressable
             onPress={() => later(onViewQuotes)}
             accessibilityRole="button"
-            accessibilityLabel={`${t("feedCard.viewQuotes")}, ${quoteCount}`}
+            accessibilityLabel={`${t("feedCard.viewQuotes")}, ${formatCount(quoteCount)}`}
             style={styles.listRow}
           >
             <Icon name="Quote" size={18} color={TEXT} />
@@ -218,7 +219,7 @@ function RepostShareSheetComponent({
           <Pressable
             onPress={() => later(onViewReposts)}
             accessibilityRole="button"
-            accessibilityLabel={`${t("feedCard.viewReposts")}, ${repostCount}`}
+            accessibilityLabel={`${t("feedCard.viewReposts")}, ${formatCount(repostCount)}`}
             style={styles.listRow}
           >
             <Icon name="Repeat2" size={18} color={TEXT} />

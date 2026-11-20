@@ -9,6 +9,7 @@ import { agentTaskRequest } from '../services/agents.service';
 import type { GrowthReport } from '../libs/agent-workspace';
 import { PERMISSIONS, NEWS_TOPICS, BUILDER_ACTIONS, buildAgentPrompt, workspaceCounts, workspaceAvailable, type BuilderAction, type AgentSettings, type WorkspaceOverview, type PlanPreview } from '../libs/agent-workspace';
 
+import { formatCount } from '../libs/format-count';
 function Settings({ wallet, agentId }: { wallet: string; agentId: string }) {
   const { t } = useTranslation();
   const [draft, setDraft] = useState<AgentSettings | null>(null);
@@ -85,7 +86,7 @@ function AgentWorkspaceContent({ wallet }: { wallet: string }) {
   return <PageSection><View style={styles.panel}>
     <Text style={styles.title}>{t('agents.workspace.title', 'Agent workspace')}</Text>
     <KitButton variant="quiet" label={t('agents.tasks.refresh')} disabled={overview.isFetching} onPress={refresh} />
-    <View style={styles.row}>{Object.entries(counts).map(([key, count]) => <View key={key} style={styles.metric}><Text style={styles.title}>{count}</Text><Text style={styles.muted}>{t(`agents.workspace.count.${key}`, { defaultValue: key === 'pending' ? 'Drafts to review' : key === 'succeeded' ? 'Recent successes' : key === 'scheduled' ? 'Scheduled tasks' : 'Active agents' })}</Text></View>)}</View>
+    <View style={styles.row}>{Object.entries(counts).map(([key, count]) => <View key={key} style={styles.metric}><Text style={styles.title}>{formatCount(count)}</Text><Text style={styles.muted}>{t(`agents.workspace.count.${key}`, { defaultValue: key === 'pending' ? 'Drafts to review' : key === 'succeeded' ? 'Recent successes' : key === 'scheduled' ? 'Scheduled tasks' : 'Active agents' })}</Text></View>)}</View>
     <Text style={styles.muted}>{t('agents.workspace.sample', 'Activity and alerts cover the latest 100 actions and 200 tasks. Counts are not lifetime totals or billing usage.')}</Text>
     {overview.data?.alerts.map(alert => <Text key={alert.id} accessibilityRole="alert" style={styles.error}>{alert.message}</Text>)}
     <View style={styles.row}>{overview.data?.agents.map(agent => <KitButton key={agent.id} label={`@${agent.name}`} variant={agentId === agent.id ? 'primary' : 'quiet'} onPress={() => { setSelected(agent.id); preview.reset(); run.reset(); report.reset(); setRequestId(randomUUID()); }} />)}</View>

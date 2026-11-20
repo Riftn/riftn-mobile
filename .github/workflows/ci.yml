@@ -69,6 +69,9 @@ jobs:
       - name: Badge asset resource names
         run: node scripts/check-badge-resource-names.mjs
 
+      - name: Counters read short (1.2K, not 1200)
+        run: node scripts/check-counters.mjs
+
       - name: i18n coverage
         run: |
           node scripts/build-locale-packs.mjs --metadata-only

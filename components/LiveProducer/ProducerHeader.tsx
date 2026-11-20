@@ -18,6 +18,7 @@ import { Video } from "../ui/cut-icons";
 import { VideoOff } from "../ui/cut-icons";
 import Zap from "lucide-react-native/dist/esm/icons/zap";
 
+import { formatCount } from '../../libs/format-count';
 type Stage =
   | "idle"
   | "creating"
@@ -204,7 +205,7 @@ const ProducerHeader: React.FC<ProducerHeaderProps> = ({
             <View className="flex-row items-center ml-1 bg-zinc-900/60 rounded-xl px-2.5 py-1">
               <Eye color="#A6A9AC" size={12} />
               <Text className="text-white/80 text-[11px] ml-1 font-medium">
-                {viewers}
+                {formatCount(viewers)}
               </Text>
             </View>
           ) : null}

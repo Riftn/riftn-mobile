@@ -117,6 +117,7 @@ import { Collapsible, CollapsibleChevron } from "../components/ui/Collapsible";
 import DeviceInfoPanel from "../components/FeatureRequests/DeviceInfoPanel";
 import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
+import { formatCount } from '../libs/format-count';
 const TITLE_MAX = 100;
 const DESC_MAX = 1000;
 const DEVICE_MAX = 300;
@@ -296,7 +297,7 @@ const ActionButton: React.FC<{
   <Pressable
     onPress={onPress}
     accessibilityRole="button"
-    accessibilityLabel={count === undefined ? label : `${label}, ${count}`}
+    accessibilityLabel={count === undefined ? label : `${label}, ${formatCount(count)}`}
     accessibilityState={active === undefined ? undefined : { selected: active }}
     // Vertical slop takes the 18pt icon to a 44pt tap height without changing
     // layout; horizontal stays small so neighbouring buttons don't steal taps.

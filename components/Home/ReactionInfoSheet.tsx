@@ -58,6 +58,7 @@ import { SHEET_GLASS_FILL, SHEET_GLASS_BORDER } from "../../theme/sheetGlass";
 import { SheetGlassFill } from "../ui/SheetGlass";
 import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
 
+import { formatCount } from '../../libs/format-count';
 const SHEET_FRACTION = 0.7;
 const PAGE_LIMIT = 50;
 
@@ -289,7 +290,7 @@ const ReactionInfoSheetComponent: React.FC<ReactionInfoSheetProps> = ({
               <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.2)" }} />
               <Text style={{ color: "#F9FBFF", fontSize: 15, fontWeight: "600", marginTop: 8 }}>
                 {t("reactionInfo.title")}
-                {totalReactions > 0 && <Text style={{ color: "#8B8D90", fontWeight: "400" }}> · {totalReactions}</Text>}
+                {totalReactions > 0 && <Text style={{ color: "#8B8D90", fontWeight: "400" }}> · {formatCount(totalReactions)}</Text>}
               </Text>
             </Animated.View>
           </GestureDetector>

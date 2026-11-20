@@ -19,6 +19,7 @@ import { PageSection } from "../page/PageKit";
 import { getMyPosts } from "../../services/user.service";
 import { getDHBPrice } from "../../services/ai.service";
 
+import { formatCount } from '../../libs/format-count';
 /**
  * Side-by-side: what this creator actually earned on Riftn, against what the
  * same view count would have paid on YouTube, Twitch, TikTok or Reels.
@@ -83,9 +84,7 @@ function usd(n: number): string {
 }
 
 function compact(n: number): string {
-  if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M`;
-  if (n >= 1e3) return `${(n / 1e3).toFixed(1)}K`;
-  return n.toLocaleString();
+  return formatCount(n);
 }
 
 const EarningsComparisonCard: React.FC = () => {

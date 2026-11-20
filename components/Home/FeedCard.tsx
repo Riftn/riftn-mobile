@@ -185,6 +185,7 @@ import { storedVideoAspect } from "../../libs/video-aspect";
 import { reportPostEvent } from "../../services/post-stats.service";
 import { maxImageDensity } from "../../libs/deviceTier";
 
+import { formatCount } from '../../libs/format-count';
 /** System Light post bento outline: a thin, subtle grey line (web --sl-bento-line).
  *  Written as hsla so the light-tone colour pass (libs/jsx/tone.js) leaves it as is. */
 const LIGHT_BENTO_LINE = 'hsla(240,8%,5%,0.11)';
@@ -412,13 +413,13 @@ function PostMetaItems({ createdAt, icon, count, visibility, boosted, onStatsPre
           style={({ pressed }) => [META_PILL, pressed && { opacity: 0.7 }]}
         >
           <Icon name={icon} size={13} color={iconColor} />
-          <Text style={[META_TEXT, { color: iconColor }]}>{count}</Text>
+          <Text style={[META_TEXT, { color: iconColor }]}>{formatCount(count)}</Text>
           <Icon name="ChartColumn" size={12} color={iconColor} />
         </Pressable>
       ) : (
         <>
           <Icon name={icon} size={13} color={iconColor} />
-          <Text style={label}>{count}</Text>
+          <Text style={label}>{formatCount(count)}</Text>
         </>
       )}
       {restricted ? (

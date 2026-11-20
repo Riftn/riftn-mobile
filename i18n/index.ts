@@ -44,6 +44,7 @@ export function applyLayoutDirection(lang: string): boolean {
 import en from './locales/en.json';
 import { fillMissingPluralForms } from './plural-fallback';
 
+import { shortenCounterPlaceholder } from '../libs/format-count';
 const STORAGE_KEY = 'user-preferred-language';
 
 // All supported languages (mirrors web app exactly)
@@ -340,9 +341,25 @@ i18n.use(initReactI18next).init({
   fallbackLng: 'en',
   postProcess: ['featurePacks'],
   react: { bindI18nStore: 'added' },
-  interpolation: { escapeValue: false },
+  interpolation: {
+    escapeValue: false,
+    // Every placeholder goes through the formatter below, so counters can be shortened.
+    alwaysFormat: true,
+  },
   compatibilityJSON: 'v4',
 });
+
+// Counters in copy ({{count}} listens, {{views}} views...) read short, 1.2K not
+// 1200, the same as everywhere else in the app. Named formats ({{x, number}})
+// still go to i18next's own formatter.
+{
+  const interpolator = (i18n.services as any)?.interpolator;
+  const baseFormat = interpolator?.format;
+  if (interpolator && typeof baseFormat === 'function') {
+    interpolator.format = (value: unknown, format: string | undefined, lng: string | undefined, options: Record<string, unknown> | undefined) =>
+      format ? baseFormat(value, format, lng, options) : shortenCounterPlaceholder(value, format, lng, options);
+  }
+}
 
 applyDateLocale(i18n.language || 'en');
 i18n.on('languageChanged', applyDateLocale);

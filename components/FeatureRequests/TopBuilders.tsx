@@ -28,6 +28,7 @@ import {
   type BuilderPeriod, type BuilderRequestRow, type BuilderCommentRow, type TopBuilder,
 } from "../../libs/top-builders";
 
+import { formatCount } from '../../libs/format-count';
 const SHOWN = 8;
 /** Extra rows added per "Show more" tap once the full list is open. */
 const PAGE = 20;
@@ -163,7 +164,7 @@ function Row({ b, rank, max, open, onToggle }: { b: TopBuilder; rank: number; ma
             <Text style={styles.name} numberOfLines={1}>{name(b)}</Text>
             {!!b.username && <AccountBadge lookupId={b.username} size={13} lineHeight={18} />}
           </View>
-          <Text style={styles.points}>{b.points}</Text>
+          <Text style={styles.points}>{formatCount(b.points)}</Text>
         </View>
         <View style={[styles.bar, { width: `${Math.max(12, (b.points / max) * 100)}%` }]}>
           <View style={{ width: pct(b.shippedPoints), backgroundColor: shippedColor }} />

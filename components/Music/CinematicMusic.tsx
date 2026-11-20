@@ -62,6 +62,7 @@ import { TAB_BAR_CONTENT_INSET } from "../../navigation/tabBarLayout";
 import { ISLAND_BAR_HEIGHT } from "../Home/IslandTopBar";
 import type { MusicFeedHandle } from "./MusicFeed";
 
+import { formatCount } from '../../libs/format-count';
 const AnimatedFlatList = Animated.FlatList as unknown as typeof FlatList;
 
 type Chip = "top" | "radio" | "stages" | "new";
@@ -97,10 +98,7 @@ function readLikedStations(): string[] {
 
 /** Web's formatViews without the word: 950, 1.2K, 3.4M. */
 export function compactCount(count?: number): string {
-  if (!count) return "0";
-  if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M`;
-  if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
-  return String(count);
+  return formatCount(count ?? 0);
 }
 
 // ── White buttons ───────────────────────────────────────────────────────────

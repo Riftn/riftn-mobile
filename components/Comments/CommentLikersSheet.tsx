@@ -54,6 +54,7 @@ import { SHEET_GLASS_FILL, SHEET_GLASS_BORDER } from "../../theme/sheetGlass";
 import { SheetGlassFill } from "../ui/SheetGlass";
 import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
 
+import { formatCount } from '../../libs/format-count';
 const SHEET_FRACTION = 0.6;
 const PAGE_LIMIT = 50;
 
@@ -302,7 +303,7 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
           <GestureDetector gesture={gesture}>
             <Animated.View className="items-center py-2.5">
               <View style={{ width: 36, height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.2)" }} />
-              <Text style={{ color: "#F9FBFF", fontSize: 15, fontWeight: "600", marginTop: 8 }}>{forChat ? t("reactionInfo.title") : _copy("copy.1aa9573705bf", { defaultValue: "Comment likes" })}{totalCount > 0 && <Text style={{ color: "#8B8D90", fontWeight: "400" }}> · {totalCount}</Text>}
+              <Text style={{ color: "#F9FBFF", fontSize: 15, fontWeight: "600", marginTop: 8 }}>{forChat ? t("reactionInfo.title") : _copy("copy.1aa9573705bf", { defaultValue: "Comment likes" })}{totalCount > 0 && <Text style={{ color: "#8B8D90", fontWeight: "400" }}> · {formatCount(totalCount)}</Text>}
               </Text>
             </Animated.View>
           </GestureDetector>
@@ -311,7 +312,7 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
             <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ flexGrow: 0 }} contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 8, gap: 8 }}>
               <Pressable onPress={() => setEmoji(null)} style={[glassStyles.filter, emoji === null && glassStyles.filterOn]}>
                 <Text style={{ color: "#F9FBFF", fontSize: 13 }}>{t("filters.all")}</Text>
-                <Text style={glassStyles.filterCount}>{totalCount}</Text>
+                <Text style={glassStyles.filterCount}>{formatCount(totalCount)}</Text>
               </Pressable>
               {filterKeys.map((key) => (
                 <Pressable key={key} onPress={() => setEmoji(key)} style={[glassStyles.filter, emoji === key && glassStyles.filterOn]}>
@@ -345,7 +346,7 @@ const CommentLikersSheetComponent: React.FC<CommentLikersSheetProps> = ({
                 <View style={glassStyles.anonymousRow}>
                   <Icon name="EyeOff" size={16} color="#A1A1AA" />
                   <Text style={{ color: "#D4D4D8", fontSize: 13, marginLeft: 8 }}>
-                    {anonymousCount} {anonymousCount === 1 ? _copy("copy.cab2644828bc", { defaultValue: "like" }) : _copy("copy.b0aa8a6c35b4", { defaultValue: "likes" })}{_copy("copy.57383cdc46dd", { defaultValue: " from anonymous badge " })}{anonymousCount === 1 ? _copy("copy.6e45386daeb0", { defaultValue: "holder" }) : _copy("copy.b550c1397de2", { defaultValue: "holders" })}
+                    {formatCount(anonymousCount)} {anonymousCount === 1 ? _copy("copy.cab2644828bc", { defaultValue: "like" }) : _copy("copy.b0aa8a6c35b4", { defaultValue: "likes" })}{_copy("copy.57383cdc46dd", { defaultValue: " from anonymous badge " })}{anonymousCount === 1 ? _copy("copy.6e45386daeb0", { defaultValue: "holder" }) : _copy("copy.b550c1397de2", { defaultValue: "holders" })}
                   </Text>
                 </View>
               ) : null}

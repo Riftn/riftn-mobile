@@ -15,6 +15,7 @@ import Icon from "../ui/Icon";
 import { getAvatarUrl } from "../../libs/misc";
 import { formatStreamDuration, getLastEndedStreamId, getStreamRecap, type StreamRecap } from "../../services/live.service";
 
+import { formatCount } from '../../libs/format-count';
 interface Props {
   address: string | null | undefined;
   /** A stream to recap instead, e.g. the one just ended. */
@@ -60,8 +61,8 @@ export function RecapSection({ address, streamId }: Props) {
     const text = t("liveRecap.shareText", {
       title: r.title || t("liveRecap.untitled"),
       duration: formatStreamDuration(r.durationSec),
-      peak: whole(r.peakViewers),
-      followers: whole(r.newFollowers),
+      peak: formatCount(r.peakViewers),
+      followers: formatCount(r.newFollowers),
     });
     Share.share({ message: `${text} ${url}`, url }).catch(() => undefined);
   };
@@ -91,13 +92,13 @@ export function RecapSection({ address, streamId }: Props) {
 
       <View className="flex-row flex-wrap justify-between" style={{ rowGap: 8 }}>
         <Stat label={t("liveRecap.duration")} value={formatStreamDuration(r.durationSec)} />
-        <Stat label={t("liveRecap.peakViewers")} value={whole(r.peakViewers)} />
+        <Stat label={t("liveRecap.peakViewers")} value={formatCount(r.peakViewers)} />
         <Stat label={t("liveRecap.gifts", { count: r.tips.count })} value={`${whole(r.tips.total)} DHB`} />
-        <Stat label={t("liveRecap.newFollowers")} value={whole(r.newFollowers)} />
-        <Stat label={t("liveRecap.chatMessages")} value={whole(r.chat.messages)} />
-        <Stat label={t("liveRecap.chatters")} value={whole(r.chat.chatters)} />
-        <Stat label={t("liveRecap.reactions")} value={whole(r.reactions)} />
-        {r.shares != null ? <Stat label={t("liveRecap.shares")} value={whole(r.shares)} /> : null}
+        <Stat label={t("liveRecap.newFollowers")} value={formatCount(r.newFollowers)} />
+        <Stat label={t("liveRecap.chatMessages")} value={formatCount(r.chat.messages)} />
+        <Stat label={t("liveRecap.chatters")} value={formatCount(r.chat.chatters)} />
+        <Stat label={t("liveRecap.reactions")} value={formatCount(r.reactions)} />
+        {r.shares != null ? <Stat label={t("liveRecap.shares")} value={formatCount(r.shares)} /> : null}
       </View>
 
       {r.topTippers.length ? (
@@ -126,7 +127,7 @@ export function RecapSection({ address, streamId }: Props) {
               <View key={i}>
                 <Text className="text-white text-sm">{p.question}</Text>
                 <Text className="text-theme-neutrals-400 text-xs">
-                  {p.options.map((o) => `${o.text} ${o.votes}`).join(" · ")}
+                  {p.options.map((o) => `${o.text} ${formatCount(o.votes)}`).join(" · ")}
                   {winner ? ` — ${t("liveRecap.pollWinner", { option: winner })}` : ""}
                 </Text>
               </View>

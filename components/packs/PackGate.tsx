@@ -28,6 +28,7 @@ import {
   type PackKind,
 } from "../../libs/creator-packs/api";
 
+import { formatCount } from '../../libs/format-count';
 /** The signed-in wallet, lowercased, or null. */
 export function usePackWallet(): string | null {
   const user = useUser() as { walletAddress?: string; address?: string } | null;
@@ -192,7 +193,7 @@ export function PackTargetField({ target, kind }: { target: PackTarget; kind: Pa
     <View style={{ gap: 6 }}>
       <Text className="text-[11px] text-theme-neutrals-500">{t("creatorPacks.pack")}</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }}>
-        {target.packs.map((p) => chip(p.id, `${p.name} (${p.item_count}/${target.limits?.items[kind] ?? "–"})`))}
+        {target.packs.map((p) => chip(p.id, `${p.name} (${formatCount(p.item_count)}/${target.limits?.items[kind] ?? "–"})`))}
         {target.canCreate && chip(NEW, t("creatorPacks.newPackOption"))}
       </ScrollView>
       {target.creating && (

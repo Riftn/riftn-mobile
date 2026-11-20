@@ -13,6 +13,7 @@ import { getPointsBoard } from "../../services/live.service";
 import { setting } from "../../libs/live-overlay/registry";
 import type { OverlaySubathon } from "../../libs/live-overlay/types";
 
+import { formatCount } from '../../libs/format-count';
 export interface SubathonState {
   running: boolean;
   endsAt: string | null;
@@ -149,7 +150,7 @@ export function PointsBoard({ settings, box }: { settings: Record<string, unknow
             {r.displayName || r.username || `${r.address.slice(0, 6)}…`}
           </Text>
           <Text style={{ color: "#fff", fontWeight: "800", fontSize: row * 0.4, fontVariant: ["tabular-nums"] }}>
-            {t("liveOverlay.points", { count: r.points, formatted: r.points.toLocaleString() })}
+            {t("liveOverlay.points", { count: r.points, formatted: formatCount(r.points) })}
           </Text>
         </ListRow>
       ))}

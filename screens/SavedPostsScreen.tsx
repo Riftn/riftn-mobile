@@ -46,6 +46,7 @@ import {
   minimalFlat,
 } from "../theme/minimal";
 
+import { formatCount } from '../libs/format-count';
 type ActiveTab = "all" | "folders";
 
 // Web's bookmark filters (BookmarksPage): search plus Recent / Images /
@@ -275,7 +276,7 @@ const SavedPostsScreen: React.FC = () => {
             )}
           </View>
           <Text style={styles.folderCount} numberOfLines={1}>
-            {item.itemCount} {item.itemCount === 1 ? _copy("copy.72231043bc18", { defaultValue: "post" }) : _copy("copy.a44f1b975171", { defaultValue: "posts" })}
+            {formatCount(item.itemCount)} {item.itemCount === 1 ? _copy("copy.72231043bc18", { defaultValue: "post" }) : _copy("copy.a44f1b975171", { defaultValue: "posts" })}
           </Text>
           {!!item.description && (
             <Text style={styles.folderDescription} numberOfLines={2}>
