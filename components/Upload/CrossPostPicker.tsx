@@ -1,11 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSnapshot } from "valtio";
 import { useQuery } from "@tanstack/react-query";
 import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
-import { crossPostState, toggleCrossPostAccount } from "../../libs/crosspost-store";
+import { selectCrossPostAccount, useSelectedCrossPosts } from "../../libs/crosspost-store";
 import { PLATFORM_NAMES, getMultipostStatus } from "../../services/multipost.service";
 import { creditsFor } from "../../libs/social-pricing";
 import { multipostQueryKey, platformIcon, useMultipostWallet } from "../Settings/MultiPostPanel";
@@ -13,7 +12,6 @@ import { multipostQueryKey, platformIcon, useMultipostWallet } from "../Settings
 import { formatCount } from '../../libs/format-count';
 function useCrossPostAccounts() {
   const wallet = useMultipostWallet();
-  const { selected } = useSnapshot(crossPostState);
   const status = useQuery({
     queryKey: multipostQueryKey(wallet),
     queryFn: () => getMultipostStatus(wallet),
@@ -22,12 +20,12 @@ function useCrossPostAccounts() {
   });
   const hidden = !wallet;
   const accounts = status.isError ? [] : (status.data?.accounts ?? []).filter((a) => !a.pending);
-  return { hidden, accounts, selected, failed: status.isError, credits: status.data?.credits ?? 0 };
+  const selected = useSelectedCrossPosts(wallet, status.isError ? undefined : status.data?.accounts);
+  return { hidden, wallet, accounts, selected, failed: status.isError, credits: status.data?.credits ?? 0 };
 }
 
-export function useCrossPostAccountCount() {
-  const { hidden, accounts, selected } = useCrossPostAccounts();
-  return hidden ? 0 : accounts.filter(account => selected.includes(account.id)).length;
+export function useCrossPostDestinations() {
+  return useCrossPostAccounts().selected;
 }
 
 /**
@@ -81,7 +79,7 @@ export const CrossPostButton: React.FC<{ open: boolean; onToggle: () => void; on
 
 const CrossPostPicker: React.FC<{ onManage: () => void }> = ({ onManage }) => {
   const { t } = useTranslation();
-  const { hidden, accounts, selected, credits } = useCrossPostAccounts();
+  const { hidden, wallet, accounts, selected, credits } = useCrossPostAccounts();
 
   if (hidden || !accounts.length) return null;
   const active = accounts.filter((a) => selected.includes(a.id)).reduce((sum, a) => sum + creditsFor(a.platform), 0);
@@ -102,7 +100,7 @@ const CrossPostPicker: React.FC<{ onManage: () => void }> = ({ onManage }) => {
           return (
             <TouchableOpacity
               key={a.id}
-              onPress={() => toggleCrossPostAccount(a.id)}
+              onPress={() => selectCrossPostAccount(wallet, a.id, !on)}
               accessibilityRole="button"
               accessibilityState={{ selected: on }}
               className="flex-row items-center gap-1.5 px-2.5 py-1 rounded-full"

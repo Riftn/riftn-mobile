@@ -138,9 +138,8 @@ import { ScreenNames } from "../navigation/ScreenNames";
 import { uploadState } from "../store/upload.store";
 import { postLandingActions } from "../libs/postLanding";
 import type { PostLandingStyle } from "../libs/postLandingStyle";
-import CrossPostPicker, { CrossPostButton, useCrossPostAccountCount } from "../components/Upload/CrossPostPicker";
+import CrossPostPicker, { CrossPostButton, useCrossPostDestinations } from "../components/Upload/CrossPostPicker";
 import MultiPostSheet from "../components/Upload/MultiPostSheet";
-import { crossPostState } from "../libs/crosspost-store";
 import QuotedPostEmbed from "../components/common/QuotedPostEmbed";
 import { enhanceText } from "../services/ai.service";
 import type { EnhanceMode } from "../services/ai.service";
@@ -545,7 +544,18 @@ export default function UploadScreen() {
   // The plain frame the cover was taken from, so edits are painted on it only once.
   const rawThumbRef = useRef<string | null>(null);
   const bakedThumbs = useRef(new Set<string>());
+  const restoringVideo = useRef<Draft | null>(null);
   useEffect(() => {
+    const saved = restoringVideo.current;
+    if (saved && saved.videoUri === pickedVideo?.uri) {
+      restoringVideo.current = null;
+      setVideoTrim(saved.videoTrim ?? null);
+      setVideoEdits(saved.videoEdits ?? null);
+      setVideoDestruct(saved.videoDestruct ?? null);
+      setVideoCoverAt(saved.videoCoverAt);
+      return;
+    }
+    setVideoCoverAt(undefined);
     setVideoTrim(null);
     setVideoEdits(null);
     setVideoDestruct(null);
@@ -566,7 +576,7 @@ export default function UploadScreen() {
   const audioMeterBarsRef = useRef<number[]>([]);
   const [showAudioMenu, setShowAudioMenu] = useState(false);
   const [showPostOptions, setShowPostOptions] = useState(false);
-  const selectedCrossPostCount = useCrossPostAccountCount();
+  const crossPostDestinations = useCrossPostDestinations();
   const audioPreviewRef = useRef<AudioPlayer | null>(null);
   const audioPreviewListenerRef = useRef<{ remove: () => void } | null>(null);
   const [isAudioPreviewPlaying, setIsAudioPreviewPlaying] = useState(false);
@@ -595,7 +605,7 @@ export default function UploadScreen() {
 
   const [isLiveMode, setIsLiveMode] = useState(!!route.params?.live);
   const [isStageMode, setIsStageMode] = useState(false);
-  const crossPostCount = visibility === "public" && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode ? selectedCrossPostCount : 0;
+  const crossPostCount = visibility === "public" && !isLiveMode && !isStageMode && !articleMode && !isQuoteMode ? crossPostDestinations.length : 0;
   const [showLiveOptions, setShowLiveOptions] = useState(false);
   const [liveSettings, setLiveSettings] = useState<LiveSettingsState>(INITIAL_LIVE_SETTINGS);
   const [showLiveSettings, setShowLiveSettings] = useState(false);
@@ -1060,12 +1070,15 @@ export default function UploadScreen() {
       skipPhotoAutoEdit.current = true;
       setPickedImages(assets);
     }
+    if (incomingDraft.audio) setPickedAudio(incomingDraft.audio);
     // Restore video
     if (incomingDraft.videoUri) {
+      restoringVideo.current = incomingDraft;
       setPickedVideo({
         uri: incomingDraft.videoUri,
-        width: 0,
-        height: 0,
+        duration: incomingDraft.videoDuration,
+        width: incomingDraft.videoWidth ?? 0,
+        height: incomingDraft.videoHeight ?? 0,
         assetId: undefined,
         description: incomingDraft.videoAlt ?? undefined,
       } as any);
@@ -1410,7 +1423,8 @@ export default function UploadScreen() {
       pollData: pollIsValid ? {
         question: pollQuestion.trim(),
         options: pollOptions.filter(o => o.trim()).map(o => o.trim()),
-        expiresAt: new Date(Date.now() + pollDurationHours * 3600 * 1000).toISOString(),
+        durationHours: pollDurationHours,
+        expiresAt: new Date(Math.max(Date.now(), scheduledDate?.getTime() ?? 0) + pollDurationHours * 3600 * 1000).toISOString(),
         isMultipleChoice: pollIsMultiple,
       } : undefined,
       scheduledAt: scheduledDate ?? undefined,
@@ -1425,7 +1439,7 @@ export default function UploadScreen() {
       shopListingIds,
       // Never for a followers-only or direct post: another network would
       // publish it to everyone there.
-      crossPostAccountIds: articleMode || visibility !== "public" ? [] : [...crossPostState.selected],
+      crossPostAccountIds: crossPostCount ? crossPostDestinations : [],
       mediaDescriptions: mediaDescriptionsOf(pickedVideo, pickedImages),
       layout: comicLayout,
       mediaCaptions: comicLayout && pickedImages.some(img => img.caption?.trim()) ? pickedImages.map(img => img.caption?.trim() || "") : undefined,
@@ -1438,7 +1452,7 @@ export default function UploadScreen() {
       // A livestream is always public.
       visibility: visibility !== "public" && !isLiveMode ? visibility : undefined,
     };
-  }, [bodyText, titleText, showTitle, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, videoTrim, videoEdits, videoDestruct, pickedAudio, thumbnailUri, coverUri, monetization, attachedSound, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, effectivePostChainId, solanaAddress, shouldMint, isMature, isForKids, shopLinks, shopListingIds, contentWarning, hideAssetCards, hiddenLinkPreviews, quotePolicy, replyPolicy, visibility, isLiveMode, comicLayout, comicBorder]);
+  }, [bodyText, titleText, showTitle, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, videoTrim, videoEdits, videoDestruct, pickedAudio, thumbnailUri, coverUri, monetization, attachedSound, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, effectivePostChainId, solanaAddress, shouldMint, isMature, isForKids, shopLinks, shopListingIds, contentWarning, hideAssetCards, hiddenLinkPreviews, quotePolicy, replyPolicy, visibility, crossPostCount, crossPostDestinations, isLiveMode, comicLayout, comicBorder]);
 
   const handleTogglePoll = useCallback(() => {
     if (pollEnabled) {
@@ -1867,6 +1881,11 @@ export default function UploadScreen() {
     categories,
     imageUris: pickedImages.map((img) => img.uri),
     videoUri: pickedVideo?.uri ?? null,
+    videoDuration: pickedVideo?.duration,
+    videoWidth: pickedVideo?.width,
+    videoHeight: pickedVideo?.height,
+    audio: pickedAudio,
+    videoTrim, videoEdits, videoDestruct, videoCoverAt,
     thumbnailUri,
     coverUri,
     monetization,
@@ -1893,7 +1912,7 @@ export default function UploadScreen() {
     replyPolicy,
     imageAlts: pickedImages.map((img) => img.description ?? null),
     videoAlt: pickedVideo?.description ?? null,
-  }), [bodyText, titleText, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, thumbnailUri, coverUri, monetization, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, isMature, isForKids, visibility, contentWarning, quotePolicy, replyPolicy]);
+  }), [bodyText, titleText, articleMode, articleBody, articleImageUri, socialImageUri, categories, pickedImages, pickedVideo, pickedAudio, videoTrim, videoEdits, videoDestruct, videoCoverAt, thumbnailUri, coverUri, monetization, pollIsValid, pollQuestion, pollOptions, pollDurationHours, pollIsMultiple, scheduledDate, isMature, isForKids, visibility, contentWarning, quotePolicy, replyPolicy]);
 
   /** "Draft" button in top bar */
   const handleDraftButton = useCallback(() => {

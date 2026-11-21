@@ -1,3 +1,5 @@
+import { confirmTransfer } from "../libs/confirmed-transfer";
+import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
 import i18n from "i18next";
 import * as FileSystem from "expo-file-system/legacy";
 import { supabase } from "./supabase";
@@ -48,20 +50,32 @@ export const startConnect = async (wallet: string | null, platform: string) =>
 
 /** Pay DHB for `credits` and have them credited. Returns the new balance. */
 export async function buyCredits(wallet: string | null, credits: number): Promise<number> {
-  const quote = await call<{ dhb: number; treasury: string }>(wallet, { action: "quote", credits });
-  const { payPostQuota } = await import("./post-quota-payment");
-  const payment = await payPostQuota(quote.dhb, quote.treasury, i18n.t("multiPost.payContext"));
-  let lastError: unknown;
-  for (let attempt = 0; attempt < 5; attempt++) {
+  if (!wallet) throw new Error(i18n.t("multiPost.signIn"));
+  return confirmTransfer(["multipost", wallet.toLowerCase(), credits], async (remember, forgetReverted) => {
+    if (!DIGITAL_PURCHASES_ENABLED) throw new Error(i18n.t("storefront.unavailable"));
+    const quote = await call<{ dhb: number; treasury: string }>(wallet, { action: "quote", credits });
+    const { payPostQuota } = require("./post-quota-payment") as typeof import("./post-quota-payment");
+    const payment = await payPostQuota(quote.dhb, quote.treasury, i18n.t("multiPost.payContext"),
+      ({ txHash }) => remember(txHash), forgetReverted, wallet);
+    return payment.txHash;
+  }, txHash => confirmCredits(wallet, credits, txHash));
+}
+
+export function recoverCreditTransfer(wallet: string, credits: number) {
+  return confirmTransfer(["multipost", wallet.toLowerCase(), credits],
+    () => Promise.reject(new Error("No pending receipt")),
+    txHash => confirmCredits(wallet, credits, txHash));
+}
+
+async function confirmCredits(wallet: string, credits: number, txHash: string) {
+  for (let attempt = 1; ; attempt++) {
     try {
-      return (await call<{ credits: number }>(wallet, { action: "topup", credits, txHash: payment.txHash })).credits;
+      return (await call<{ credits: number }>(wallet, { action: "topup", credits, txHash })).credits;
     } catch (err) {
-      lastError = err;
-      if (!(err instanceof MultipostError) || err.status !== 402) throw err;
-      await new Promise((r) => setTimeout(r, 3000));
+      if (attempt === 5 || !(err instanceof MultipostError) || err.status !== 402) throw err;
+      await new Promise(resolve => setTimeout(resolve, 3000));
     }
   }
-  throw lastError;
 }
 
 export interface CrossPostMedia { uri: string; mimeType: string; name?: string }
@@ -99,6 +113,7 @@ export async function crossPost(input: {
   wallet: string | null;
   text: string;
   media: CrossPostMedia[];
+  editedVideo?: boolean;
   accountIds: string[];
   scheduledAt?: Date | string | null;
   tokenId?: string | number;
@@ -106,11 +121,34 @@ export async function crossPost(input: {
   if (!input.accountIds.length) return;
   const toastId = toastLoading(i18n.t("multiPost.postingToast", { count: input.accountIds.length }));
   try {
-    const mediaItems = input.media.length ? await uploadMedia(input.wallet, input.media) : [];
+    const status = await getMultipostStatus(input.wallet);
+    const accountIds = status.accounts.filter(a => !a.pending && input.accountIds.includes(a.id)).map(a => a.id);
+    if (!accountIds.length) {
+      dismissToast(toastId);
+      return;
+    }
+    let mediaItems: { url: string; type: "image" | "video" }[];
+    if (input.editedVideo && input.tokenId != null) {
+      const { getNFT } = require("./nft.service") as typeof import("./nft.service");
+      const { fetchVideoAccess } = require("../libs/video-access") as typeof import("../libs/video-access");
+      for (let attempt = 0; ; attempt++) {
+        const { result } = await getNFT(input.tokenId);
+        if (result.transcodingStatus === "done") break;
+        if (result.transcodingStatus === "failed" || attempt >= 60) throw new Error(i18n.t("multiPost.uploadFailed"));
+        await new Promise(resolve => setTimeout(resolve, 5000));
+      }
+      const published = await fetchVideoAccess(input.tokenId);
+      if (published.private || !published.url?.startsWith("https://")) throw new Error(i18n.t("multiPost.uploadFailed"));
+      mediaItems = [{ url: published.url, type: "video" }];
+    } else if (input.editedVideo) {
+      throw new Error(i18n.t("multiPost.uploadFailed"));
+    } else {
+      mediaItems = input.media.length ? await uploadMedia(input.wallet, input.media) : [];
+    }
     const body = {
       action: "publish",
       content: input.text.replace(/\[soundtrack:[^\]]*\]\s*/g, "").trim(),
-      accountIds: input.accountIds,
+      accountIds,
       mediaItems,
       scheduledAt: input.scheduledAt ? new Date(input.scheduledAt).toISOString() : undefined,
       link: input.tokenId !== undefined ? `https://riftn.com/app/post/${input.tokenId}` : undefined,
@@ -122,7 +160,7 @@ export async function crossPost(input: {
     } catch (err) {
       if (!(err instanceof MultipostError) || err.data?.code !== "INSUFFICIENT_CREDITS") throw err;
       const shortfall = Math.max(1, Number(err.data.needed) - Number(err.data.credits ?? 0));
-      toastInfo(i18n.t("multiPost.payingToast", { count: shortfall }));
+      if (DIGITAL_PURCHASES_ENABLED) toastInfo(i18n.t("multiPost.payingToast", { count: shortfall }));
       await buyCredits(input.wallet, shortfall);
       result = await call<PublishResult>(input.wallet, body);
     }

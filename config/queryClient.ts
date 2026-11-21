@@ -15,11 +15,6 @@ import { dropSavedQueryCache, readSavedQueryCache, savedQueryCacheExists, writeS
 // Android reports for a notification shade, a permission dialog or the recents
 // preview; the app is still on screen and its requests must keep running. See
 // useAppLifecycle: those transitions fire constantly.
-AppState.addEventListener("change", (status) => {
-  if (status === "inactive") return;
-  focusManager.setFocused(status === "active");
-});
-
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -241,14 +236,17 @@ export function saveQueryCacheNow(reason: string): void {
   }
 }
 
-// Leaving the app is the last sure moment to save, and the first feed is worth
-// saving as soon as it has settled.
-AppState.addEventListener("change", (status) => {
-  if (status === "background") saveQueryCacheNow("background");
-});
-const launchSave = setTimeout(() => saveQueryCacheNow("launch"), 10_000);
-// Never the reason a test run stays open.
-(launchSave as { unref?: () => void }).unref?.();
+export function startQueryCachePersistence(): () => void {
+  const subscription = AppState.addEventListener("change", status => {
+    if (status !== "inactive") focusManager.setFocused(status === "active");
+    if (status === "background") saveQueryCacheNow("background");
+  });
+  const launchSave = setTimeout(() => saveQueryCacheNow("launch"), 10_000);
+  return () => {
+    clearTimeout(launchSave);
+    subscription.remove();
+  };
+}
 
 /** When this JS context started. Anything fetched since is this session's own. */
 const SESSION_START = Date.now();

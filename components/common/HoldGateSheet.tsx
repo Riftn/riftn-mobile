@@ -8,7 +8,7 @@
  * reading the gate again. Falling short offers the DHB top-up.
  */
 import { openWebPurchase } from "./WebPurchaseLink";
-import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -31,6 +31,7 @@ interface Props {
 }
 
 export default function HoldGateSheet({ visible, onClose, post }: Props) {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useTranslation();
   const rootStyle = useThemeRootStyle();
   const navigation = useNavigation<any>();
@@ -141,7 +142,7 @@ export default function HoldGateSheet({ visible, onClose, post }: Props) {
                   })
                 : t("postGate.holdShortUnknown", { needed: formatCompactNumber(needed), symbol })}
             </Text>
-            {isDhb && purchaseOfferVisible() && (
+            {isDhb && showPurchaseOffer && (
               <Pressable
                 onPress={() => {
                   onClose();

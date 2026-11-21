@@ -6,9 +6,9 @@
 
 | Stack | Version |
 |-------|---------|
-| React Native | 0.81.4 |
-| Expo SDK | 54 |
-| React | 19.1.0 |
+| React Native | 0.83.10 |
+| Expo SDK | 55 |
+| React | 19.2.0 |
 | TypeScript | 5.x |
 | Node | 20+ |
 
@@ -16,6 +16,7 @@
 
 - **Node.js 20+** and **npm**
 - **Xcode 16+** (iOS) or **Android Studio** (Android)
+- **JDK 17** for Android. Set JAVA_HOME and Android Studio’s Gradle JDK to a local JDK 17 installation before running Gradle.
 - **EAS CLI** — `npm i -g eas-cli` (>= 16.19.0)
 - **CocoaPods** — `gem install cocoapods` (iOS only)
 
@@ -23,13 +24,13 @@
 
 ```bash
 # 1. Clone the repo
-git clone <repo-url> && cd dhb-mobile
+git clone https://github.com/Riftn/riftn-mobile.git && cd riftn-mobile
 
 # 2. Install dependencies
-npm install --legacy-peer-deps
+npm ci
 
 # 3. Create environment file
-cp .env.example .env
+cp .env.sample .env
 # Fill in the required values (see Environment Variables below)
 
 # 4. Install iOS pods

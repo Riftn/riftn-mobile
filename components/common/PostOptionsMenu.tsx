@@ -54,7 +54,7 @@ import { WEBSITE_LINK } from "../../config";
 import { markPostDeleted } from "../../libs/deleted-posts-store";
 import { useMintExistingPost } from "../../hooks/useMintExistingPost";
 import MintChainSheet from "./MintChainSheet";
-import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import { openWebPurchase } from "./WebPurchaseLink";
 import { useIsPostPinned, useTogglePin } from "../../hooks/usePinnedPosts";
 import { openCoAuthorSheet, useCoAuthorState } from "../../libs/coAuthors";
@@ -429,6 +429,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   onAskAi,
   linkText,
   hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,  quick,}) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   usePerfProbe("PostOptionsMenu");
   const user = useUser();
   const coAuthors = useCoAuthorState(tokenId, post);
@@ -982,7 +983,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
               )}
               {/* Only for posts published off-chain — 'signed' is the status
                   the backend keeps them at for life. */}
-              {postStatus === "signed" && tokenId != null && purchaseOfferVisible() && (
+              {postStatus === "signed" && tokenId != null && showPurchaseOffer && (
                 <OptionRow
                   icon="Gem"
                   label={t("upload.mintPost")}

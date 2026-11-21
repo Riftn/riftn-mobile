@@ -64,6 +64,7 @@ export interface UseCallReturn {
   acceptCallById: (sessionId: string) => Promise<void>;
   /** Decline from the phone's call screen. */
   declineCallById: (sessionId: string) => Promise<void>;
+  setNativeMute: (sessionId: string, muted: boolean) => boolean;
   toggleMute: () => void; toggleSpeaker: () => void; toggleCamera: () => void; switchCamera: () => void;
   setCallMessageHandler: (handler: ((content: string) => void) | null) => void;
   isMinimized: boolean; setMinimized: (minimized: boolean) => void;
@@ -607,6 +608,15 @@ export function useCall(): UseCallReturn {
     }
   }, [userAddress, callClient, finishCall]);
 
+  const setNativeMute = useCallback((sessionId: string, muted: boolean) => {
+    const engine = mediaRef.current?.engine;
+    if (currentCallRef.current?.id !== sessionId || !engine) return false;
+    try {
+      if (engine.muteLocalAudioStream(muted) !== 0) return false;
+      setIsMuted(muted);
+      return true;
+    } catch { return false; }
+  }, []);
   const toggleMute = useCallback(() => {
     const engine = mediaRef.current?.engine;
     if (engine) setIsMuted(previous => { engine.muteLocalAudioStream(!previous); return !previous; });
@@ -673,10 +683,10 @@ export function useCall(): UseCallReturn {
     isRinging, callSummary, dismissCallSummary,
     isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas,
-    startCall, endCall, acceptCall, rejectCall: endCall, acceptCallById, declineCallById, toggleMute, toggleSpeaker, toggleCamera,
+    startCall, endCall, acceptCall, rejectCall: endCall, acceptCallById, declineCallById, setNativeMute, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
   }), [captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, remoteCanvas, startCall, endCall, acceptCall, acceptCallById, declineCallById,
-    toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);
+    setNativeMute, toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);
 }

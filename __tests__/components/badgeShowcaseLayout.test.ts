@@ -21,7 +21,7 @@ describe("badge showcase layout", () => {
     // Every build keeps the holder footer; Buy inside it hides where
     // purchases are not offered.
     expect(holder).toMatch(/footer=\{\(api\) => <HolderActions api=\{api\} \/>\}/);
-    expect(holder).toMatch(/purchaseOfferVisible\(\) && <GlassButton active label=\{t\("badgeShowcase\.buyTokens"\)\}/);
+    expect(holder).toMatch(/showPurchaseOffer && <GlassButton active label=\{t\("badgeShowcase\.buyTokens"\)\}/);
     expect(streamer).toMatch(/footer=\{\(api\) => <StreamerActions /);
     expect(holder).not.toMatch(/ui\.actions/);
     expect(streamer).not.toMatch(/ui\.actions/);

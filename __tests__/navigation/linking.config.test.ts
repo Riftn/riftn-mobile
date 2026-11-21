@@ -281,6 +281,7 @@ describe('ShareLinks', () => {
     // .eth name is a claim on something that can be sold or expire.
     expect(ShareLinks.profile('mal')).toBe('https://riftn.com/@mal');
     expect(ShareLinks.profile('@mal')).toBe('https://riftn.com/@mal');
+    expect(ShareLinks.ensProfile('sub.mal.eth')).toBe('https://riftn.com/@sub.mal.eth');
     expect(ShareLinks.ensProfile('mal.eth')).toBe('https://riftn.com/mal.eth');
   });
 });

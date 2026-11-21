@@ -1,3 +1,4 @@
+import { confirmTransfer } from "../libs/confirmed-transfer";
 /**
  * Fraction checkout
  * =================
@@ -123,6 +124,18 @@ async function confirmWithRetry<T>(
   throw new Error(`${lastError}. ${strandedMessage}: ${txHash}`);
 }
 
+/** Confirmation-only replay after relaunch, including listings that can no longer be quoted. */
+export async function recoverFractionTransfer(wallet: string, operation: readonly (string | number)[]) {
+  const [kind, owner, action, , id, quantity] = operation;
+  if (kind !== "fraction" || owner !== wallet.toLowerCase() || typeof id !== "string") return;
+  const body = action === "confirm" ? { action, listingId: id, quantity }
+    : action === "accept-offer" ? { action, offerId: id }
+    : action === "deliver" || action === "pay-trade" ? { action, tradeId: id } : null;
+  if (!body) return;
+  return confirmTransfer(operation, () => Promise.reject(new Error("No pending receipt")),
+    txHash => callFraction<TradeResult>({ ...body, txHash }, wallet));
+}
+
 /** The hash off a write, waiting one block for it when the AA path returns none. */
 async function hashOf(res: { hash?: string; wait?: (n?: number) => Promise<any> } | undefined) {
   let hash = res?.hash ?? "";
@@ -230,13 +243,18 @@ export function useFractionPurchase() {
 
   const buy = useMutation({
     mutationFn: async (quote: FractionQuote) => {
-      if (quote.paymentsFrozen) throw new Error(t("fractions.paymentsFrozen"));
-      const hash = await signer.sendDhb(quote.sellerAddress, quote.dhbAmount, quote.chainId);
-      return confirmWithRetry<TradeResult>(
-        { action: "confirm", listingId: quote.listingId, quantity: quote.quantity },
-        wallet,
-        hash,
-        t("fractions.strandedPayment"),
+      return confirmTransfer(
+        ["fraction", wallet.toLowerCase(), "confirm", quote.chainId, quote.listingId, quote.quantity],
+        () => {
+          if (quote.paymentsFrozen) throw new Error(t("fractions.paymentsFrozen"));
+          return signer.sendDhb(quote.sellerAddress, quote.dhbAmount, quote.chainId);
+        },
+        hash => confirmWithRetry<TradeResult>(
+          { action: "confirm", listingId: quote.listingId, quantity: quote.quantity },
+          wallet,
+          hash,
+          t("fractions.strandedPayment"),
+        ),
       );
     },
     onSuccess: (data) => {
@@ -264,12 +282,15 @@ export function useSettleTrade() {
   const deliver = useMutation({
     mutationFn: async (trade: FractionTrade) => {
       if (!wallet) throw new Error(t("fractions.signInFirst"));
-      const hash = await signer.sendFractions(wallet, trade.buyer_address, trade.token_id, trade.quantity, trade.chain_id);
-      return confirmWithRetry<TradeResult>(
-        { action: "deliver", tradeId: trade.id },
-        wallet,
-        hash,
-        t("fractions.strandedDelivery"),
+      return confirmTransfer(
+        ["fraction", wallet.toLowerCase(), "deliver", trade.chain_id, trade.id],
+        () => signer.sendFractions(wallet, trade.buyer_address, trade.token_id, trade.quantity, trade.chain_id),
+        hash => confirmWithRetry<TradeResult>(
+          { action: "deliver", tradeId: trade.id },
+          wallet,
+          hash,
+          t("fractions.strandedDelivery"),
+        ),
       );
     },
     onSuccess: (data) => {
@@ -282,16 +303,19 @@ export function useSettleTrade() {
   /** Buyer side: pay for fractions a seller has already delivered. */
   const pay = useMutation({
     mutationFn: async (trade: FractionTrade) => {
-      const hash = await signer.sendDhb(
-        trade.seller_address,
-        trade.quantity * trade.price_per_fraction,
-        trade.chain_id,
-      );
-      return confirmWithRetry<TradeResult>(
-        { action: "pay-trade", tradeId: trade.id },
-        wallet,
-        hash,
-        t("fractions.strandedPayment"),
+      return confirmTransfer(
+        ["fraction", wallet.toLowerCase(), "pay-trade", trade.chain_id, trade.id],
+        () => signer.sendDhb(
+          trade.seller_address,
+          trade.quantity * trade.price_per_fraction,
+          trade.chain_id,
+        ),
+        hash => confirmWithRetry<TradeResult>(
+          { action: "pay-trade", tradeId: trade.id },
+          wallet,
+          hash,
+          t("fractions.strandedPayment"),
+        ),
       );
     },
     onSuccess: (data) => {
@@ -318,12 +342,15 @@ export function useOfferResponse() {
   const accept = useMutation({
     mutationFn: async (offer: FractionOffer) => {
       if (!wallet) throw new Error(t("fractions.signInFirst"));
-      const hash = await signer.sendFractions(wallet, offer.buyer_address, offer.token_id, offer.quantity, offer.chain_id);
-      return confirmWithRetry<TradeResult>(
-        { action: "accept-offer", offerId: offer.id },
-        wallet,
-        hash,
-        t("fractions.strandedDelivery"),
+      return confirmTransfer(
+        ["fraction", wallet.toLowerCase(), "accept-offer", offer.chain_id, offer.id],
+        () => signer.sendFractions(wallet, offer.buyer_address, offer.token_id, offer.quantity, offer.chain_id),
+        hash => confirmWithRetry<TradeResult>(
+          { action: "accept-offer", offerId: offer.id },
+          wallet,
+          hash,
+          t("fractions.strandedDelivery"),
+        ),
       );
     },
     onSuccess: (data) => {

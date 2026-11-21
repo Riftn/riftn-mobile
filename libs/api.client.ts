@@ -257,10 +257,11 @@ export const apiClient = {
         try {
           data = await response.json();
         } catch (jsonErr: any) {
-          // Fallback to text to inspect unexpected HTML or error pages
-            rawBody = await response.text();
-            console.warn('[apiClient] JSON parse failed, raw body snippet:', rawBody.slice(0, 200));
-            throw new Error(`Invalid JSON response (status ${status}): ${jsonErr?.message}`);
+          if (response.ok) {
+            throw Object.assign(new Error("Invalid JSON response (status " + status + "): " + jsonErr?.message), { status });
+          }
+          // The HTTP status still drives recovery when a gateway returns invalid JSON.
+          data = {};
         }
       } else {
         rawBody = await response.text();

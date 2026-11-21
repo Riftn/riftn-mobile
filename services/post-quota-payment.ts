@@ -17,6 +17,7 @@
  * replaying one costs nothing.
  */
 
+import { storage } from "../libs/storage";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "i18next";
 import { ethers } from "ethers";
@@ -90,6 +91,9 @@ export async function payPostQuota(
   // post because that is every existing caller; "Migrate all" passes its own,
   // since telling someone a batch of 300 videos is "this post" is nonsense.
   subjectLabel = _translateCopy("copy.6b8b2992d430", { defaultValue: "This post" }),
+  onBroadcast?: (payment: QuotaPaymentResult) => void,
+  onReverted?: (payment: QuotaPaymentResult) => void,
+  expectedWallet?: string,
 ): Promise<QuotaPaymentResult> {
   const amount = Math.ceil(amountDhb);
   if (!Number.isFinite(amount) || amount <= 0) throw new Error(_translateCopy("copy.99c7a77baaf9", { defaultValue: "Nothing to pay." }));
@@ -143,14 +147,23 @@ export async function payPostQuota(
     true,
   );
 
+  if (expectedWallet && (address.toLowerCase() !== expectedWallet.toLowerCase()
+      || (await getAuthMethod()).address?.toLowerCase() !== expectedWallet.toLowerCase())) {
+    throw new Error(i18n.t("multiPost.signIn"));
+  }
   const tx = await writeContractAA(tokenContract, "transfer", [treasury, amountWei], {
     context: "Post allowance",
   });
 
   // wait() resolves with status 0 for a REVERTED transaction rather than
   // throwing, so ignoring the receipt would report a failed transfer as paid.
-  const receipt = await tx.wait(1);
+  if (tx.hash) onBroadcast?.({ txHash: tx.hash, chainId: payable.chainId });
+  const receipt = await tx.wait(1).catch(error => {
+    if (tx.hash && error?.receipt?.status === 0) onReverted?.({ txHash: tx.hash, chainId: payable.chainId });
+    throw error;
+  });
   if (receipt && receipt.status !== undefined && receipt.status !== 1) {
+    if (tx.hash) onReverted?.({ txHash: tx.hash, chainId: payable.chainId });
     throw new Error(_translateCopy("copy.f22b5983f90d", { defaultValue: "The DHB transfer did not go through. Nothing has been charged." }));
   }
 
@@ -159,6 +172,7 @@ export async function payPostQuota(
     throw new Error(_translateCopy("copy.19193d550a1f", { defaultValue: "The transfer went through but its hash is unknown — contact support." }));
   }
 
+  if (txHash !== tx.hash) onBroadcast?.({ txHash, chainId: payable.chainId });
   return { txHash, chainId: payable.chainId };
 }
 
@@ -215,6 +229,7 @@ export async function settleWithRetry(
   // Injectable for the same reason persistPayout takes a `sleep`: otherwise a
   // test of the retry ladder has to sit through 8.5 seconds of real waiting.
   delaysMs: number[] = [0, 2500, 6000],
+  receiptKey?: string,
 ): Promise<SettleOutcome> {
   // Three immediate goes with a widening gap. A transfer that is mined but
   // not yet visible to the read RPC answers `pending` and clears in seconds;
@@ -226,7 +241,8 @@ export async function settleWithRetry(
     try {
       const result = await settlePostCharge(txHash, chainId);
       if (result?.settled) {
-        await writePending((await readPending()).filter((r) => r.txHash !== txHash));
+        if (receiptKey) storage.delete(receiptKey);
+        else await writePending((await readPending()).filter((r) => r.txHash !== txHash));
         return "settled";
       }
     } catch (e) {
@@ -235,20 +251,24 @@ export async function settleWithRetry(
   }
 
   const attempts = startingAttempts + delays.length;
-  const rows = (await readPending()).filter((r) => r.txHash !== txHash);
+  const rows = receiptKey ? [] : (await readPending()).filter((r) => r.txHash !== txHash);
 
   if (attempts >= MAX_ATTEMPTS) {
     console.warn(`[PostQuota] giving up on settling ${txHash} after ${attempts} attempts`);
     // Stop retrying, but do not lose the hash. The DHB is gone and the charge
     // is still open server-side, which is what will block the next paid post,
     // so the creator needs the reference to get it reconciled.
-    await writePending(rows);
-    await recordAbandoned({ txHash, chainId, attempts });
+    if (!await recordAbandoned({ txHash, chainId, attempts })) return "pending";
+    if (!receiptKey) await writePending(rows);
+    if (receiptKey) storage.delete(receiptKey);
     return "abandoned";
   }
 
-  rows.push({ txHash, chainId, attempts });
-  await writePending(rows);
+  if (receiptKey) storage.set(receiptKey, JSON.stringify({ txHash, chainId, attempts }));
+  else {
+    rows.push({ txHash, chainId, attempts });
+    await writePending(rows);
+  }
   return "pending";
 }
 
@@ -273,7 +293,7 @@ export async function readAbandonedSettlements(): Promise<PendingSettlement[]> {
   }
 }
 
-async function recordAbandoned(row: PendingSettlement): Promise<void> {
+async function recordAbandoned(row: PendingSettlement): Promise<boolean> {
   try {
     const rows = (await readAbandonedSettlements()).filter(
       (r) => r.txHash !== row.txHash,
@@ -283,8 +303,9 @@ async function recordAbandoned(row: PendingSettlement): Promise<void> {
       ABANDONED_KEY,
       JSON.stringify(rows.slice(-MAX_ABANDONED)),
     );
+    return true;
   } catch {
-    // Storage failing here costs the reference, not the payment.
+    return false;
   }
 }
 
@@ -294,7 +315,37 @@ async function recordAbandoned(row: PendingSettlement): Promise<void> {
  * Called when the composer opens — the moment the creator is about to need a
  * clear tab. Costs one request per stranded hash, which is normally none.
  */
+const receiptKeyFor = (wallet: string, hash: string) => "quota-receipt:" + wallet.toLowerCase() + ":" + hash;
+const settling = new Map<string, Promise<SettleOutcome>>();
+
+export function rememberPostPayment(wallet: string, payment: QuotaPaymentResult): void {
+  storage.set(receiptKeyFor(wallet, payment.txHash), JSON.stringify({ ...payment, attempts: 0 }));
+}
+
+export function forgetRevertedPostPayment(wallet: string, payment: QuotaPaymentResult): void {
+  storage.delete(receiptKeyFor(wallet, payment.txHash));
+}
+
+export function settlePostPayment(wallet: string, payment: QuotaPaymentResult, attempts = 0): Promise<SettleOutcome> {
+  const key = receiptKeyFor(wallet, payment.txHash);
+  const existing = settling.get(key);
+  if (existing) return existing;
+  const run = settleWithRetry(payment.txHash, payment.chainId, attempts, undefined, key)
+    .finally(() => settling.delete(key));
+  settling.set(key, run);
+  return run;
+}
+
 export async function flushPendingSettlements(): Promise<void> {
+  const { address } = await getAuthMethod();
+  if (!address) return;
+  const prefix = "quota-receipt:" + address.toLowerCase() + ":";
+  for (const key of storage.getAllKeys().filter(key => key.startsWith(prefix))) {
+    const raw = storage.getString(key);
+    if (!raw) continue;
+    const payment: PendingSettlement = JSON.parse(raw);
+    await settlePostPayment(address, payment, payment.attempts);
+  }
   const rows = await readPending();
   for (const row of rows) {
     await settleWithRetry(row.txHash, row.chainId, row.attempts);

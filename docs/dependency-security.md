@@ -5,6 +5,8 @@ The lockfiles pin published security releases where compatible releases exist. T
 | Package | Protection |
 | --- | --- |
 | decode-uri-component 0.2.2 | Uses the upstream 0.5.1 linear decoder, exported as CommonJS for query-string. |
+| glob 13.0.6 | Stops queued directory walks as soon as cancellation is observed, in both module formats. [Upstream fix](https://github.com/isaacs/node-glob/commit/4682e8c9babee1b385202ede36389634e12076d7) |
+| minimatch 10.2.4 and 10.2.6 | Bounds pattern expansion and skips pairwise optimization for large sets. [Upstream fix](https://github.com/isaacs/minimatch/commit/77a0f5c4b80bdc641c3c930a1d9edf5ad2db57f8) |
 | deepmerge 4.3.1 | Defines own data properties rather than invoking inherited setters when copying target/source keys. |
 | elliptic 6.6.1 | Preserves the full generated nonce width when truncating RFC6979 output; P-521 edge-case vectors check the signature bytes. |
 | stream-json 1.9.1 | Defines own parsed properties and caps nesting at 128 levels before quadratic path processing. This major has no JSONC parser. |

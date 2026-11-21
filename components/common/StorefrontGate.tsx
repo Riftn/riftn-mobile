@@ -15,11 +15,11 @@ import { useTranslation } from "react-i18next";
 import GlassModal from "../ui/GlassModal";
 import ScreenHeader from "../ScreenHeader";
 import WebPurchaseLink from "./WebPurchaseLink";
-import { DIGITAL_PURCHASES_ENABLED, iosWebPurchaseLinkAllowed } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, useWebPurchaseLinkAllowed } from "../../config/storefront";
 
 function WebOnlyBody({ path, onOpened }: { path: string; onOpened?: () => void }) {
+  const linkOut = useWebPurchaseLinkAllowed();
   const { t } = useTranslation();
-  const linkOut = iosWebPurchaseLinkAllowed();
   return (
     <View style={styles.body}>
       <Text style={styles.title}>{t("storefront.unavailable")}</Text>

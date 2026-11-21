@@ -1,5 +1,6 @@
 import AVFoundation
 import ExpoModulesCore
+import StoreKit
 import ReplayKit
 import UIKit
 
@@ -17,12 +18,17 @@ import UIKit
  *   (modules/screen-capture/ios/BroadcastUpload/LiveShareUploader.swift).
  */
 public class MediaBridgeModule: Module {
+  private var storefrontUpdates: Task<Void, Never>?
   private var observation: NSKeyValueObservation?
   private var activeObserver: NSObjectProtocol?
 
   public func definition() -> ModuleDefinition {
     Name("RiftnMediaBridge")
-    Events("onVolumeKey")
+    Events("onVolumeKey", "onStorefrontChange")
+
+    Function("storefrontCountry") {
+      SKPaymentQueue.default().storefront?.countryCode
+    }
 
     Constant("liveScreenShare") {
       Bundle.main.object(forInfoDictionaryKey: "RTCScreenSharingExtension") is String
@@ -42,6 +48,12 @@ public class MediaBridgeModule: Module {
     // Watched from the moment the module loads, not only once JS subscribes,
     // so the first press after launch is not missed.
     OnCreate {
+      self.storefrontUpdates = Task { [weak self] in
+        for await _ in Storefront.updates {
+          if Task.isCancelled { return }
+          self?.sendEvent("onStorefrontChange")
+        }
+      }
       self.startObserving()
     }
 
@@ -50,6 +62,7 @@ public class MediaBridgeModule: Module {
     }
 
     OnDestroy {
+      self.storefrontUpdates?.cancel()
       self.stopObserving()
     }
   }

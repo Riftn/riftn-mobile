@@ -4,6 +4,7 @@ import type { UseCallReturn } from "./useCall";
 import {
   addCallScreenListener,
   callScreenSupported,
+  completeNativeMute,
   endNativeCall,
   requestUnlock,
   takePendingCallActions,
@@ -34,6 +35,13 @@ export function useNativeCallScreen(call: UseCallReturn): void {
           break;
         case "hangup":
           if (sessionId && current.currentCall?.id === sessionId) current.endCall();
+          break;
+        case "mute":
+          if (event.requestId) {
+            const applied = !!sessionId && (event.muted === "true" || event.muted === "false")
+              && current.setNativeMute(sessionId, event.muted === "true");
+            completeNativeMute(event.requestId, applied);
+          }
           break;
         case "token":
           void refreshPushRegistration();

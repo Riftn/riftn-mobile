@@ -80,6 +80,8 @@ const row = (tokenId: number) => ({ token_id: tokenId, chain_id: 8453 });
 const bn = (n: number) => ({ toNumber: () => n });
 
 function runQuery() {
+  // The mocked query hook exposes its options so the query function can run in isolation.
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const options: any = useFractionPortfolio(HOLDER);
   return options.queryFn();
 }

@@ -949,7 +949,12 @@ export const ShareLinks = {
    * sold or left to expire. Web's profile header offers both for the same
    * reason, and its canonical still points at /username.
    */
-  ensProfile: (ensName: string) => `${SHARE_BASE}/${encodeURIComponent(ensName)}`,
+  // Android's legacy pathPattern matches through the first dot. The @ route
+  // also opens multi-label and mixed-case names on earlier Android releases.
+  ensProfile: (ensName: string) => {
+    const prefix = /^[^.]+\.eth$/.test(ensName) ? "/" : "/@";
+    return SHARE_BASE + prefix + encodeURIComponent(ensName);
+  },
   /** Comment on a post — dehub.io/app/post/:tokenId?c=commentId */
   comment: (tokenId: string | number, commentId: string | number) =>
     `${SHARE_BASE}/app/post/${encodeURIComponent(String(tokenId))}?c=${encodeURIComponent(String(commentId))}`,

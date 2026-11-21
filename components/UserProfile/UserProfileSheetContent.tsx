@@ -3,7 +3,7 @@ import type { useProfileCollapse } from '../Profile/useProfileCollapse';
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Platform, View, Text, TouchableOpacity, type NativeSyntheticEvent, type NativeScrollEvent } from "react-native";
-import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, IS_APP_STORE_BUILD, usePurchaseOfferVisible } from "../../config/storefront";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useTranslation } from "react-i18next";
 import UserProfileSkeleton from "./UserProfileSkeleton";
@@ -131,6 +131,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
   lookupName,
   onAskAi,
 }) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t: _copy } = _useCopy();
   const { t } = useTranslation();
   const viewer = useUser();
@@ -318,8 +319,8 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           socials={data}
           mutuals={mutuals}
           mutualsTotal={mutualsTotal}
-          hasPlans={purchaseOfferVisible() && hasPlans}
-          plansLoading={purchaseOfferVisible() && plansLoading}
+          hasPlans={showPurchaseOffer && hasPlans}
+          plansLoading={showPurchaseOffer && plansLoading}
           onSubscribe={DIGITAL_PURCHASES_ENABLED
             ? handleSubscribePress
             : () => { openWebPurchase(`/${profileData?.username || profileData?.address || ""}`); }}
@@ -552,7 +553,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
 
             <View className="mx-5 my-1 h-px bg-white/10" />
 
-            {purchaseOfferVisible() && (
+            {showPurchaseOffer && (
             <TouchableOpacity
               onPress={handleMenuTip}
               disabled={paymentsHidden}
@@ -573,7 +574,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
 
             {/* Lending a badge is not offered in the App Store build: its slots
                 come from staking. Its divider goes with it unless a tip row sits above. */}
-            {(!IS_APP_STORE_BUILD || purchaseOfferVisible()) && <View className="mx-5 my-1 h-px bg-white/10" />}
+            {(!IS_APP_STORE_BUILD || showPurchaseOffer) && <View className="mx-5 my-1 h-px bg-white/10" />}
 
             {!IS_APP_STORE_BUILD && (
             <>

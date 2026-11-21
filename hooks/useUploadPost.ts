@@ -146,7 +146,7 @@ export function useUploadPost() {
   const user = useUser() as any;
   const { authMethod } = useProvider();
   // Gating a post on subscribers means gating it on the creator’s own plans.
-  const { planIds: myPlanIds } = useCreatorPlans(user?.address);
+  const { planIds: myPlanIds, isSuccess: plansReady } = useCreatorPlans(user?.walletAddress || user?.address);
   const tokenBalances = user?.tokenBalances;
   const { chainId } = useWeb3Provider();
 
@@ -315,10 +315,11 @@ export function useUploadPost() {
       // bought, so gating on one ships a post nobody can ever open — which is
       // exactly what happened when this counted drafts. Empty stays undefined
       // rather than [] so a gate is never stored with nothing behind it.
-      const subscriberPlanIds =
-        p.monetization.subscribersEnabled && !isSolanaChain(p.postChainId) && myPlanIds.length
-          ? myPlanIds
-          : undefined;
+      if (p.monetization.subscribersEnabled && (!plansReady || !myPlanIds.length || isSolanaChain(p.postChainId))) {
+        toastError(_copy("monetization.publishPlanFirst"));
+        return false;
+      }
+      const subscriberPlanIds = p.monetization.subscribersEnabled ? myPlanIds : undefined;
       const thumb = p.coverUri || p.thumbnailUri || null;
 
       const mergedCategories = mergeHashtagCategories(p.bodyText, p.description, p.categories);
@@ -418,7 +419,7 @@ export function useUploadPost() {
 
       return true;
     },
-    [buildStreamInfo, user?.walletAddress, user?.address, activeChainId, myPlanIds, _copy],
+    [buildStreamInfo, user?.walletAddress, user?.address, activeChainId, myPlanIds, plansReady, _copy],
   );
 
   const enqueueQuoteJob = useCallback(

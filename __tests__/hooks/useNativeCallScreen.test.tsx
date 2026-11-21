@@ -2,10 +2,12 @@ import { act, renderHook } from '@testing-library/react-native';
 
 let mockListener: ((e: any) => void) | null = null;
 const mockPending: any[] = [];
+const mockCompleteMute = jest.fn();
 const mockEnd = jest.fn();
 const mockUnlock = jest.fn();
 
 jest.mock('../../modules/call-screen', () => ({
+  completeNativeMute: (id: string, applied: boolean) => mockCompleteMute(id, applied),
   callScreenSupported: () => true,
   addCallScreenListener: (fn: (e: any) => void) => { mockListener = fn; return () => { mockListener = null; }; },
   takePendingCallActions: () => Promise.resolve(mockPending.splice(0)),
@@ -41,6 +43,17 @@ describe('useNativeCallScreen', () => {
     expect(call.acceptCallById).toHaveBeenCalledWith('s1');
     act(() => mockListener?.({ action: 'decline', sessionId: 's2' }));
     expect(call.declineCallById).toHaveBeenCalledWith('s2');
+  });
+
+  it('acknowledges the requested mute state only when the matching call applies it', async () => {
+    const setNativeMute = jest.fn((session: string) => session === 'current');
+    renderHook(() => useNativeCallScreen(fakeCall({ setNativeMute })));
+    await flush();
+    for (const [id, sessionId, muted] of [['1', 'current', 'true'], ['2', 'current', 'false'], ['3', 'stale', 'true']]) {
+      act(() => mockListener?.({ action: 'mute', requestId: id, sessionId, muted }));
+    }
+    expect(setNativeMute.mock.calls).toEqual([['current', true], ['current', false], ['stale', true]]);
+    expect(mockCompleteMute.mock.calls).toEqual([['1', true], ['2', true], ['3', false]]);
   });
 
   it('takes actions made before the app was listening', async () => {

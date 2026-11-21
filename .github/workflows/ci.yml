@@ -52,6 +52,9 @@ jobs:
       # other language: fallbackLng swallows it, so nothing throws and nobody
       # notices. orphan-baseline.json is the backlog being worked through — a
       # key outside it is a feature that shipped English-only, and fails here.
+      - name: Lint mobile code
+        run: npm run lint
+
       - name: TypeScript check
         # The project outgrew Node's default ~2 GB heap; tsc ran out of memory.
         env:

@@ -24,7 +24,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import { Modal, Pressable } from "react-native";
-import { DIGITAL_PURCHASES_ENABLED, iosWebPurchaseLinkAllowed } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, useWebPurchaseLinkAllowed } from "../../config/storefront";
 import Svg, { Path, Defs, LinearGradient, Stop, Rect } from "react-native-svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Icon from "../ui/Icon";
@@ -125,6 +125,7 @@ function StatRow({ label, value }: { label: string; value: string }) {
 
 // ── Main component ────────────────────────────────────────────────────────────
 const CashtagSheetComponent: React.FC<CashtagSheetProps> = ({ visible, symbol, onClose }) => {
+  const webCheckoutAllowed = useWebPurchaseLinkAllowed();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const translateY = useSharedValue(SHEET_HEIGHT);
@@ -321,7 +322,7 @@ const CashtagSheetComponent: React.FC<CashtagSheetProps> = ({ visible, symbol, o
 
                 {/* DexScreener link: a trading page, so on the App Store
                     build only where an outside purchase link is allowed. */}
-                {(DIGITAL_PURCHASES_ENABLED || iosWebPurchaseLinkAllowed()) && (
+                {(DIGITAL_PURCHASES_ENABLED || webCheckoutAllowed) && (
                   <TouchableOpacity
                     onPress={() => Linking.openURL(pair.url)}
                     style={styles.dexLink}

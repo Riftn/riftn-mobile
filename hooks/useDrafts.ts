@@ -57,6 +57,14 @@ export interface Draft {
   categories: string[];
   imageUris: string[];
   videoUri: string | null;
+  audio?: import("./useUploadPost").PickedAudio | null;
+  videoTrim?: import("../components/Upload/VideoTrimSheet").VideoTrim | null;
+  videoEdits?: import("../libs/post-video-edits").PostVideoEdits | null;
+  videoDestruct?: number | null;
+  videoCoverAt?: number;
+  videoDuration?: number | null;
+  videoWidth?: number;
+  videoHeight?: number;
   thumbnailUri: string | null;
   coverUri: string | null;
   monetization: MonetizationState;

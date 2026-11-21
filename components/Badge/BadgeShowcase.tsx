@@ -8,7 +8,7 @@
  * size, colour and gap here is its Tailwind class.
  */
 import { openWebPurchase } from "../common/WebPurchaseLink";
-import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Image, StyleSheet, Text, View, useWindowDimensions, type ImageSourcePropType } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -392,6 +392,7 @@ function HolderDetails({
 
 /** Buy and the full breakdown, under the dock. */
 function HolderActions({ api }: { api: ShowcaseApi }) {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useTranslation();
   const buy = () =>
     api.close(() => {
@@ -400,7 +401,7 @@ function HolderActions({ api }: { api: ShowcaseApi }) {
     });
   return (
     <View style={ui.footerActions}>
-      {purchaseOfferVisible() && <GlassButton active label={t("badgeShowcase.buyTokens")} onPress={buy} />}
+      {showPurchaseOffer && <GlassButton active label={t("badgeShowcase.buyTokens")} onPress={buy} />}
       <GlassButton label={t("badgeShowcase.details")} onPress={() => api.close(() => void openInApp(BADGE_DOCS_URL))} />
     </View>
   );

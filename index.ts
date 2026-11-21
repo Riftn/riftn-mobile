@@ -22,6 +22,7 @@ import "./libs/globalFont";
 //   LogBox.ignoreLogs(["SafeAreaView has been deprecated", "Failed to obtain view for PanGestureHandler"]);
 // LogBox.ignoreLogs(["Failed to obtain view for PanGestureHandler"]);
 
+import { AppRegistry, Platform } from "react-native";
 import { registerRootComponent } from "expo";
 import { applyHardwareImageDecode } from "./libs/hardwareImageDecode";
 
@@ -46,4 +47,33 @@ reportProcessExits();
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
+if (Platform.OS === "android") {
+  AppRegistry.registerHeadlessTask("RiftnDeclineCall", () => async ({ sessionId, workId }) => {
+    const { completeNativeDecline } = await import("./modules/call-screen");
+    let success = false;
+    try {
+      const { getAuthUser } = await import("./libs/auth.utils");
+      const user = await getAuthUser();
+      const wallet = (user?.walletAddress || user?.address)?.toLowerCase();
+      if (wallet) {
+        const { walletScopedClient } = await import("./services/supabase");
+        const client = walletScopedClient(wallet);
+        const { data, error } = await client.from("call_sessions")
+          .update({ status: "ended" }).eq("id", sessionId).eq("recipient_address", wallet).eq("status", "ringing")
+          .select("id").maybeSingle();
+        if (!error && data) success = true;
+        else if (!error) {
+          // The live handler may already have ended this call. A different
+          // wallet sees no row and must leave the request queued for its owner.
+          const previous = await client.from("call_sessions").select("status")
+            .eq("id", sessionId).eq("recipient_address", wallet).maybeSingle();
+          success = !previous.error && !!previous.data && previous.data.status !== "ringing";
+        }
+      }
+    } finally {
+      await completeNativeDecline(workId, success);
+    }
+  });
+}
+
 registerRootComponent(App);

@@ -1,4 +1,4 @@
-import { purchaseOfferVisible } from "../config/storefront";
+import { usePurchaseOfferVisible } from "../config/storefront";
 import { useCommentCount } from '../libs/comment-count-store';
 import RemixCredits from "../components/Post/RemixCredits";
 import { useTranslation as _useCopy } from 'react-i18next';
@@ -537,6 +537,7 @@ interface ShortItemProps {
 }
 
 const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId, onPlayToEnd }) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { shareIconStyle } = useAppPrefs();
   const { t: _copy } = _useCopy();
   const feedPlaybackAllowed = useFeedPlaybackAllowed();
@@ -2853,7 +2854,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
                 </Text>
               </View>
 
-              {purchaseOfferVisible() && (
+              {showPurchaseOffer && (
               <ActionButton
                 icon="Gem"
                 label={formatCompactNumber(tipCount)}

@@ -14,6 +14,10 @@ class CallScreenModule : Module() {
 
     AsyncFunction("getVoipToken") { null as String? }
 
+    AsyncFunction("completeDecline") { workId: String, success: Boolean ->
+      DeclineCallWorker.acknowledge(workId, success)
+    }
+
     AsyncFunction("takePendingActions") {
       val context = appContext.reactContext?.applicationContext ?: return@AsyncFunction emptyList<Map<String, String>>()
       CallNotifier.takePending(context)
@@ -50,7 +54,7 @@ class CallScreenModule : Module() {
           // Fall through and keep it for later.
         }
       }
-      CallNotifier.remember(context, action, sessionId, type)
+      if (action != "decline") CallNotifier.remember(context, action, sessionId, type)
     }
   }
 }

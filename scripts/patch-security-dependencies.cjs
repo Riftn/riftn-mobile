@@ -53,6 +53,33 @@ function version(pkg, expected) {
 function patch(pkg) {
   const dir = pkg.dir;
   switch (pkg.name) {
+    case 'glob':
+      if (pkg.version.startsWith('7.') || pkg.version === '13.0.7') return false;
+      if (pkg.version !== '13.0.6') throw new Error('Review glob cancellation patch: ' + pkg.version);
+      for (const format of ['commonjs', 'esm']) {
+        edit(dir, 'dist/' + format + '/walker.js', s => {
+          if (s.includes('/* GHSA-3g3m-2fjr-6pw4 */')) return s;
+          const abort = 'if (this.signal?.aborted)\n            cb();';
+          if (s.split(abort).length !== 5) throw new Error('Review glob abort callbacks');
+          return replace(s.split(abort).join(abort.replace('cb();', 'return cb();')),
+            'onResume(fn) {\n        if (this.signal?.aborted)\n            return;',
+            'onResume(fn) { /* GHSA-3g3m-2fjr-6pw4 */');
+        });
+      }
+      return true;
+    case 'minimatch':
+      if (!pkg.version.startsWith('10.')) return false;
+      if (!['10.2.4', '10.2.6'].includes(pkg.version)) throw new Error('Review minimatch preprocessing patch: ' + pkg.version);
+      for (const format of ['commonjs', 'esm']) {
+        edit(dir, 'dist/' + format + '/index.js', s => {
+          const start = 'firstPhasePreProcess(globParts) {';
+          const second = 'secondPhasePreProcess(globParts) {';
+          s = replace(s, start, start + '\n        const { braceExpandMax = 100_000 } = this.options;');
+          s = replace(s, "p2 === '..') {", "p2 === '..' || globParts.length >= braceExpandMax) {");
+          return replace(s, second, second + '\n        if (globParts.length > 1000) return globParts;');
+        });
+      }
+      return true;
     case 'deepmerge':
       version(pkg, '4.3.1');
       for (const file of ['index.js', 'dist/cjs.js', 'dist/umd.js']) {

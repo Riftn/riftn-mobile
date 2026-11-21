@@ -6,6 +6,7 @@ import i18n from "i18next";
 import {
   uploadState,
   uploadActions,
+  ownsUploadJob,
   type UploadJob,
   type MintParams,
 } from "../store/upload.store";
@@ -25,7 +26,7 @@ import type { MintNftResponse } from "../services/nft.service";
 import type { CreateQuotePostResponse } from "../services/repost.service";
 import { createPoll } from "../services/polls.service";
 import { prepareWalletForQueuedMint } from "../libs/wallet-signing-preflight";
-import { getDraftVideo, releaseDraftVideo, waitForDraftVideo } from "./draftVideo";
+import { getDraftVideo, releaseDraftVideo, waitForDraftVideo, sendDraftFile } from "./draftVideo";
 import { forgetDraftImages, resolveDraftImages } from "./draftImage";
 import { watchPostVideo } from "./post-video-watch";
 import { notePostPublished } from "../libs/review-prompt";
@@ -334,13 +335,26 @@ async function processJob(job: UploadJob): Promise<void> {
   }
 
   // Upload phase (skip if we already have mintParams from a previous attempt)
+  if (!ownsUploadJob(job)) return;
   if (!mintParams) {
     uploadActions.updateStage(job.id, "uploading");
 
     const endpoint = job.isQuote ? "/quote_post" : "/user_mint";
     const onProgress = (frac: number) => uploadActions.updateProgress(job.id, frac * 0.8);
 
-    const draftVideoId = await resolveDraftVideo(job, abortRef);
+    const uploadEditedDraft = async () => {
+      if (!job.payload.video || !ownsUploadJob(job) || abortRef.current) throw new Error(i18n.t("multiPost.uploadFailed"));
+      const type = job.payload.postType === "short" ? "short" : "video";
+      const result = await sendDraftFile(job.payload.video, type, abortRef, onProgress);
+      if (!result?.draftId || !ownsUploadJob(job) || abortRef.current) throw new Error(i18n.t("multiPost.uploadFailed"));
+      const draftId = String(result.draftId);
+      uploadActions.setDraftVideo(job.id, { draftId });
+      return draftId;
+    };
+    const edited = !!(job.payload.videoTrim || job.payload.videoEdits);
+    let draftVideoId = await resolveDraftVideo(job, abortRef);
+    if (!draftVideoId && edited) draftVideoId = await uploadEditedDraft();
+    if (!ownsUploadJob(job) || abortRef.current) return;
     let res: any;
     if (draftVideoId) {
       // The video went up while the post was being written; what is left is
@@ -355,7 +369,8 @@ async function processJob(job: UploadJob): Promise<void> {
         console.warn("[upload.processor] draft video unavailable — uploading the file instead");
         uploadActions.setDraftVideo(job.id, {});
         uploadActions.updateProgress(job.id, 0, true);
-        res = await uploadMintFormData(job, rebuildFormData(job), endpoint, abortRef, onProgress);
+        const replacement = edited ? await uploadEditedDraft() : null;
+        res = await uploadMintFormData(job, rebuildFormData(job, replacement), endpoint, abortRef, onProgress);
       }
     } else {
       const imageUris = !job.isQuote && job.payload.postType === "feed-images" ? job.payload.images.map((i) => i.uri) : [];
@@ -390,6 +405,7 @@ async function processJob(job: UploadJob): Promise<void> {
       throw new Error(result?.error_msg || result?.msg || result?.message || _translateCopy("copy.6efc5d27f30b", { defaultValue: "Upload failed" }));
     }
 
+    if (!ownsUploadJob(job)) return;
     const createdTokenId = Number(result?.createdTokenId);
 
     // This post ran past the daily free allowance and the server has opened a
@@ -658,11 +674,14 @@ async function processJob(job: UploadJob): Promise<void> {
   // be a lie. Declining leaves the bill open, which is what blocks the NEXT
   // paid post — that is the collection lever, not an oversight.
   const quotaBill = uploadState.jobs.find((j) => j.id === job.id)?.quotaBill ?? job.quotaBill;
+  if (!ownsUploadJob(job)) return;
   if (quotaBill?.amountDhb && quotaBill.recipient) {
     try {
-      const { payPostQuota, settleWithRetry } = await import("./post-quota-payment");
-      const payment = await payPostQuota(quotaBill.amountDhb, quotaBill.recipient);
-      const settled = await settleWithRetry(payment.txHash, payment.chainId);
+      const { payPostQuota, settlePostPayment, rememberPostPayment, forgetRevertedPostPayment } = await import("./post-quota-payment");
+      const payment = await payPostQuota(quotaBill.amountDhb, quotaBill.recipient, undefined,
+        receipt => rememberPostPayment(job.walletAddress, receipt),
+        receipt => forgetRevertedPostPayment(job.walletAddress, receipt), job.walletAddress);
+      const settled = await settlePostPayment(job.walletAddress, payment);
       if (settled === "settled") {
         toastSuccess(i18n.t("postQuota.paidForPost", { amount: quotaBill.amountDhb.toLocaleString() }));
       } else if (settled === "pending") {
@@ -709,6 +728,7 @@ async function processJob(job: UploadJob): Promise<void> {
         wallet: job.walletAddress ?? null,
         text: [p.bodyText, p.description].filter(Boolean).join("\n\n"),
         media,
+        editedVideo: !!(p.video && (p.videoTrim || p.videoEdits)),
         accountIds: crossPostIds,
         scheduledAt: mintParams.scheduled ? (mintParams.scheduledAt ?? p.scheduledAt ?? null) : null,
         tokenId: mintParams.createdTokenId,
@@ -734,7 +754,13 @@ export function useUploadProcessor() {
   const snap = useSnapshot(uploadState);
   const processingRef = useRef(false);
 
-  const processNext = useCallback(async () => {
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; };
+  }, []);
+
+  const processNext = useCallback(async function drainQueue() {
     if (processingRef.current) return;
 
     const next = uploadActions.getNextJob();
@@ -761,6 +787,7 @@ export function useUploadProcessor() {
       processingRef.current = false;
       // Clean up abort ref
       delete abortFlags[next.id];
+      if (mounted.current && uploadActions.getNextJob()) void drainQueue();
     }
   }, []);
 

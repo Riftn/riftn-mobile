@@ -5,7 +5,7 @@
  * Supabase with Upcoming / Past / Mine filters and going/interested RSVP.
  */
 import React, { useCallback, useEffect, useMemo, useState, useRef } from "react";
-import { purchaseOfferVisible } from "../config/storefront";
+import { usePurchaseOfferVisible } from "../config/storefront";
 import { View, Text, StyleSheet, Pressable, FlatList, useWindowDimensions } from "react-native";
 import { DeHubRefreshControl, DeHubRefreshMark } from "../components/Feed/DeHubRefreshControl";
 import { DeHubLoader } from "../components/DeHubLoader";
@@ -60,6 +60,7 @@ interface EventCardProps {
 }
 
 export const EventCard: React.FC<EventCardProps> = ({ event, rsvp, onRsvp, onOpen }) => {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useTranslation();
   const { width: windowWidth } = useWindowDimensions();
   const going = rsvp === "going";
@@ -93,7 +94,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, rsvp, onRsvp, onOpe
             <Text style={styles.metaText}>{t("events.goingCount", { count: event.going_count || 0 })}</Text>
             <Text style={styles.metaDot}>·</Text>
             <Text style={styles.metaText}>{t("events.interestedCount", { count: event.interested_count || 0 })}</Text>
-            {(event.gate_fee ?? 0) > 0 && purchaseOfferVisible() && (
+            {(event.gate_fee ?? 0) > 0 && showPurchaseOffer && (
               <>
                 <Text style={styles.metaDot}>·</Text>
                 <Text style={styles.gateFee}>{event.gate_fee} <DhbCoin size={12} /></Text>

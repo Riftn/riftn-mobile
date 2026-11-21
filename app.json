@@ -22,7 +22,7 @@
       "fallbackToCacheTimeout": 0,
       "url": "https://u.expo.dev/734211bf-5261-4dce-9e61-2bfc51c339b9"
     },
-    "runtimeVersion": "sdk55-screen-capture-1",
+    "runtimeVersion": "sdk55-call-storefront-2",
     "ios": {
       "supportsTablet": true,
       "jsEngine": "hermes",
@@ -278,6 +278,11 @@
               "scheme": "https",
               "host": "dehub.io",
               "pathPrefix": "/@"
+            },
+            {
+              "scheme": "https",
+              "host": "dehub.io",
+              "pathPattern": "/.*\\\\.eth"
             },
             {
               "scheme": "https",

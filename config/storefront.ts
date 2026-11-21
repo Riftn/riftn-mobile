@@ -1,3 +1,4 @@
+import { useSyncExternalStore } from "react";
 /**
  * What the App Store build leaves out.
  *
@@ -51,9 +52,7 @@ export const DIGITAL_PURCHASES_ENABLED = !IS_APP_STORE_BUILD;
 export function iosWebPurchaseLinkAllowed(): boolean {
   if (!IS_APP_STORE_BUILD) return false;
   try {
-    // Required lazily so this flags-only module stays free of native imports.
-    const Localization = require("expo-localization") as typeof import("expo-localization");
-    return Localization.getLocales()?.[0]?.regionCode === "US";
+    return storefrontModule()?.storefrontCountry?.() === "USA";
   } catch {
     return false;
   }
@@ -65,4 +64,30 @@ export function iosWebPurchaseLinkAllowed(): boolean {
  */
 export function purchaseOfferVisible(): boolean {
   return DIGITAL_PURCHASES_ENABLED || iosWebPurchaseLinkAllowed();
+}
+
+
+type StorefrontBridge = {
+  storefrontCountry?: () => string | null;
+  addListener: (name: string, callback: () => void) => { remove(): void };
+};
+
+function storefrontModule(): StorefrontBridge | null {
+  if (!IS_APP_STORE_BUILD) return null;
+  return require("expo-modules-core").requireOptionalNativeModule("RiftnMediaBridge");
+}
+
+function watchStorefront(refresh: () => void) {
+  const bridge = storefrontModule();
+  if (!bridge?.storefrontCountry) return () => {};
+  const sub = bridge.addListener("onStorefrontChange", refresh);
+  return () => sub.remove();
+}
+
+export function usePurchaseOfferVisible(): boolean {
+  return useSyncExternalStore(watchStorefront, purchaseOfferVisible, purchaseOfferVisible);
+}
+
+export function useWebPurchaseLinkAllowed(): boolean {
+  return useSyncExternalStore(watchStorefront, iosWebPurchaseLinkAllowed, iosWebPurchaseLinkAllowed);
 }

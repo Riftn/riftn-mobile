@@ -19,6 +19,8 @@ import {
   useDmMessages,
   clearDmStore,
   clearDmStorage,
+  dmGeneration,
+  isDmAccount,
   setDmCacheKey,
 } from "../store/dm.store";
 import { getContactsByAddress, getMessages } from "../services/dm/dm.api";
@@ -83,7 +85,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
   const [contactsLoading, setContactsLoading] = useState(false);
   const [contactsError, setContactsError] = useState<string | null>(null);
-  const fetchingRef = useRef(false);
+  const fetchingRef = useRef<number | null>(null);
   const socketBoundRef = useRef(false);
 
   // Refs for stable socket closure access
@@ -107,11 +109,14 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
   useEffect(() => {
     if (!isSignedIn || !address) {
+      setContactsLoading(false);
+      setContactsError(null);
       setDmCacheKey(null);
       clearDmStore();
       return;
     }
     setDmCacheKey(address);
+    const owner = dmGeneration();
     (async () => {
       try {
         clearDmStore();
@@ -123,7 +128,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
       // Silent: only loads a key already in the keychain. The first-time
       // signature prompt belongs to the chat screen, not app start.
       try {
-        if (await loadIdentity(address)) syncPublishedKey().catch(() => {});
+        if (owner === dmGeneration() && await loadIdentity(address) && owner === dmGeneration()) syncPublishedKey().catch(() => {});
       } catch (e) {
         log.warn("e2ee:load", e);
       }
@@ -132,8 +137,9 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
 
   useEffect(() => {
-    if (socketBoundRef.current) return;
+    if (!isSignedIn || !address || socketBoundRef.current) return;
     socketBoundRef.current = true;
+    const owner = dmGeneration();
     const unsubs: Array<() => void> = [];
 
     /** Infer author for any incoming message payload. */
@@ -149,6 +155,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
     unsubs.push(
       ws.on(DMSocketEvent.SendMessage, (payload: any) => {
+        if (owner !== dmGeneration()) return;
         try {
           const cId = resolveConvId(payload?.conversation, payload?.dmId);
           if (!cId) return;
@@ -166,7 +173,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
           // Decrypt before the store sees it — bubbles, previews and the
           // optimistic reconcile all read `content` straight from the store.
           void decryptIncoming(cId, addressRef.current, [{ ...payload, author, isRead }])
-            .then((msgs) => dmActions.upsertMessages(cId, msgs))
+            .then((msgs) => { if (owner === dmGeneration()) dmActions.upsertMessages(cId, msgs); })
             .catch((err) => log.error("SendMessage decrypt", err));
         } catch (err) {
           log.error("SendMessage handler", err);
@@ -176,6 +183,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
     unsubs.push(
       ws.on(DMSocketEvent.CreateAndStart, (resp: any) => {
+        if (owner !== dmGeneration()) return;
         try {
           const data = resp?.data || resp;
           if (data) dmActions.upsertContacts([data as DmConversation]);
@@ -187,11 +195,13 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
     unsubs.push(
       ws.on(DMSocketEvent.EditMessage, (payload: EditMessageResponse) => {
+        if (owner !== dmGeneration()) return;
         try {
           if (isEncryptedContent(payload?.content)) {
             const peer = peerAddressForConversation(payload.dmId, addressRef.current);
             void (peer ? decryptFromPeer(peer, payload.content) : Promise.resolve(null)).then((plain) => {
               // An edit never carries an attachment's descriptor; never show one.
+              if (owner !== dmGeneration()) return;
               dmActions.applyEdit({ ...payload, content: plain === null ? "" : splitOpenedContent(plain).content });
             });
             return;
@@ -206,6 +216,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
     unsubs.push(
       ws.on(DMSocketEvent.DeleteMessage, (payload: DeleteMessageResponse) => {
+        if (owner !== dmGeneration()) return;
         try {
           dmActions.removeMessage(payload);
           log.debug("DeleteMessage applied", payload);
@@ -217,11 +228,12 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
     unsubs.push(
       ws.on(DMSocketEvent.ForwardMessage, (payload: any) => {
+        if (owner !== dmGeneration()) return;
         try {
           const cId = resolveConvId(payload?.conversation, payload?.targetDmId, payload?.dmId);
           if (cId) {
             void decryptIncoming(cId, addressRef.current, [{ ...payload, author: inferAuthor(payload) }])
-              .then((msgs) => dmActions.upsertMessages(cId, msgs));
+              .then((msgs) => { if (owner === dmGeneration()) dmActions.upsertMessages(cId, msgs); });
           }
           log.debug("ForwardMessage", { cId });
         } catch (err) {
@@ -232,6 +244,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
     unsubs.push(
       ws.on(DMSocketEvent.readReceipt, (payload: ReadReceiptResponse) => {
+        if (owner !== dmGeneration()) return;
         try {
           const meId = userIdRef.current;
           log.info("[TICK_DEBUG] DMContext readReceipt", {
@@ -251,6 +264,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
     unsubs.push(
       ws.on(DMSocketEvent.downloadReceipt, (payload: DownloadReceiptResponse) => {
+        if (owner !== dmGeneration()) return;
         try {
           dmActions.applyDownloadReceipt(payload);
         } catch (err) {
@@ -261,13 +275,14 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
     unsubs.push(
       ws.on(DMSocketEvent.JobMessageId, (payload: any) => {
+        if (owner !== dmGeneration()) return;
         try {
           const raw = payload?.message || payload;
           const cId = resolveConvId(raw?.conversation, payload?.dmId);
           const msgId = String(raw?._id || "");
           if (!cId || !msgId) return;
           void decryptIncoming(cId, addressRef.current, [{ ...raw, author: inferAuthor(raw) }])
-            .then((msgs) => dmActions.upsertMessages(cId, msgs));
+            .then((msgs) => { if (owner === dmGeneration()) dmActions.upsertMessages(cId, msgs); });
         } catch (err) {
           log.error("JobMessageId handler", err);
         }
@@ -291,16 +306,18 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
       unsubs.forEach((u) => { try { u(); } catch {} });
       socketBoundRef.current = false;
     };
-  }, [ws, log]);
+  }, [ws, log, address, isSignedIn]);
 
 
   const refreshContacts = useCallback(async () => {
-    if (!isSignedIn || !address || fetchingRef.current) return;
-    fetchingRef.current = true;
+    const owner = dmGeneration();
+    if (!isSignedIn || !address || !isDmAccount(address) || fetchingRef.current === owner) return;
+    fetchingRef.current = owner;
     setContactsLoading(true);
     setContactsError(null);
     try {
       const contacts = await getContactsByAddress(address);
+      if (owner !== dmGeneration()) return;
       if (Array.isArray(contacts)) {
         dmActions.upsertContacts(contacts);
         // The embedded previews are the newest lines of each thread; open the
@@ -309,17 +326,19 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
           contacts.map(async (c) => {
             if (!Array.isArray(c.messages) || !c.messages.length) return;
             const msgs = await decryptIncoming(c._id, address, c.messages);
-            if (msgs !== c.messages) dmActions.upsertMessages(c._id, msgs);
+            if (owner === dmGeneration() && msgs !== c.messages) dmActions.upsertMessages(c._id, msgs);
           }),
         );
       }
       log.info("contacts:fetched", { count: contacts?.length || 0 });
     } catch (e: any) {
       log.error("contacts:error", e);
-      setContactsError(e?.message || "Failed to fetch contacts");
+      if (owner === dmGeneration()) setContactsError(e?.message || "Failed to fetch contacts");
     } finally {
-      setContactsLoading(false);
-      fetchingRef.current = false;
+      if (owner === dmGeneration()) {
+        setContactsLoading(false);
+        fetchingRef.current = null;
+      }
     }
   }, [isSignedIn, address, log]);
 
@@ -335,7 +354,8 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
 
   const loadMessages = useCallback(
     async (conversationId: ID, opts: LoadMessagesOptions = {}): Promise<DmMessage[]> => {
-      if (!isSignedIn || !address) return [];
+      if (!isSignedIn || !address || !isDmAccount(address)) return [];
+      const owner = dmGeneration();
       try {
         const resp = await getMessages(conversationId, {
           address,
@@ -343,6 +363,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
           skip: opts.skip,
           limit: opts.limit,
         });
+        if (owner !== dmGeneration()) return [];
         const msgs = resp?.messages || [];
         if (msgs.length) {
           const normalized = msgs.map((m: any) => {
@@ -355,6 +376,7 @@ export const DMProvider: React.FC<{ children: React.ReactNode }> = ({ children }
             return { ...m, author: mine ? "me" : "other" };
           });
           const opened = await decryptIncoming(conversationId, address, normalized);
+          if (owner !== dmGeneration()) return [];
           dmActions.upsertMessages(conversationId, opened);
           return opened;
         }

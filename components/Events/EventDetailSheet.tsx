@@ -8,7 +8,7 @@
  * manage events right, can edit or delete.
  */
 import { openWebPurchase } from "../common/WebPurchaseLink";
-import { DIGITAL_PURCHASES_ENABLED, purchaseOfferVisible } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, usePurchaseOfferVisible } from "../../config/storefront";
 import React, { useMemo, useState } from "react";
 import { ActivityIndicator, Alert, Modal, Pressable, ScrollView, Share, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
@@ -55,6 +55,7 @@ function short(addr: string) {
 }
 
 export default function EventDetailSheet({ event, visible, onClose }: Props) {
+  const showPurchaseOffer = usePurchaseOfferVisible();
   const { t } = useTranslation();
   const rootStyle = useThemeRootStyle();
   const { width } = useWindowDimensions();
@@ -253,7 +254,7 @@ export default function EventDetailSheet({ event, visible, onClose }: Props) {
                       <Icon name="CircleCheck" size={14} color="#4ADE80" />
                       <Text style={styles.okText}>{t("copy.93cb6b12aa06", { defaultValue: " Paid" }).trim()}</Text>
                     </View>
-                  ) : !purchaseOfferVisible() ? (
+                  ) : !showPurchaseOffer ? (
                     <Text style={styles.faint}>{t("storefront.unavailable")}</Text>
                   ) : (
                     <Pressable

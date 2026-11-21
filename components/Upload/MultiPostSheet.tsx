@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, ActivityIndicator, Linking } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useSnapshot } from "valtio";
 import Slider from "@react-native-community/slider";
 import GlassModal from "../ui/GlassModal";
 import CustomSwitch from "../ui/CustomSwitch";
@@ -9,7 +8,7 @@ import Icon from "../ui/Icon";
 import WebPurchaseLink from "../common/WebPurchaseLink";
 import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
 import { useAppTheme } from "../../context/ThemeContext";
-import { crossPostState, toggleCrossPostAccount } from "../../libs/crosspost-store";
+import { useSelectedCrossPosts, selectCrossPostAccount } from "../../libs/crosspost-store";
 import { MULTIPOST_PLATFORMS, PLATFORM_NAMES, type SocialAccount } from "../../services/multipost.service";
 import {
   BUNDLE_STOPS, CREDIT_PRICE_USD, DEFAULT_PLATFORM_CREDITS, bundleDiscount, bundlePriceUsd, creditsFor,
@@ -39,8 +38,8 @@ interface MultiPostSheetViewProps {
  * exactly as it was. Settings keeps the same controls as a page.
  */
 const MultiPostSheet: React.FC<{ visible: boolean; onClose: () => void }> = ({ visible, onClose }) => {
-  const { selected } = useSnapshot(crossPostState);
   const { wallet, status, buying, connecting, handleConnect, handleBuy } = useMultipostSetup({ inPost: true });
+  const selected = useSelectedCrossPosts(wallet, status.data?.accounts);
   if (!wallet) return null;
   return (
     <MultiPostSheetView
@@ -51,7 +50,7 @@ const MultiPostSheet: React.FC<{ visible: boolean; onClose: () => void }> = ({ v
       loading={status.isLoading}
       failed={status.isError}
       selected={selected}
-      onToggle={toggleCrossPostAccount}
+      onToggle={id => selectCrossPostAccount(wallet, id, !selected.includes(id))}
       connecting={connecting}
       onConnect={handleConnect}
       buying={buying}

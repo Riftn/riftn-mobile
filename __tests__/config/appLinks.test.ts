@@ -18,7 +18,7 @@ import { join } from 'path';
 const root = join(__dirname, '..', '..');
 const read = (...p: string[]) => readFileSync(join(root, ...p), 'utf8');
 
-type LinkData = { scheme?: string; host?: string; path?: string; pathPrefix?: string };
+type LinkData = { scheme?: string; host?: string; path?: string; pathPrefix?: string; pathPattern?: string };
 const appJson = JSON.parse(read('app.json')) as {
   expo: {
     android: { intentFilters: { autoVerify?: boolean; data: LinkData[] }[] };
@@ -31,12 +31,12 @@ const fromAppJson = appJson.expo.android.intentFilters
   .filter((f) => f.autoVerify)
   .flatMap((f) => f.data)
   .filter((d) => d.scheme === 'https' && d.host === 'dehub.io')
-  .map((d) => (d.path != null ? `path ${d.path}` : `pathPrefix ${d.pathPrefix}`))
+  .map((d) => (d.path != null ? `path ${d.path}` : d.pathPattern ? `pathPattern ${d.pathPattern}` : `pathPrefix ${d.pathPrefix}`))
   .sort();
 
 const verifiedFilter = manifest.match(/<intent-filter android:autoVerify="true"[\s\S]*?<\/intent-filter>/)?.[0] ?? '';
 const fromManifest = [
-  ...verifiedFilter.matchAll(/android:host="dehub\.io" android:(path|pathPrefix)="([^"]*)"/g),
+  ...verifiedFilter.matchAll(/android:host="dehub\.io" android:(path|pathPrefix|pathPattern)="([^"]*)"/g),
 ]
   .map((m) => `${m[1]} ${m[2]}`)
   .sort();
@@ -55,6 +55,7 @@ describe('App Links agree across app.json and the committed Android manifest', (
       'pathPrefix /bounty/',
       'pathPrefix /communities/',
       'pathPrefix /@',
+      'pathPattern /.*\\\\.eth',
     ]) {
       expect(fromManifest).toContain(entry);
     }
