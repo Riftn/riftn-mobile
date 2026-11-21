@@ -278,9 +278,10 @@ export function useCallCaptionEngine(selfName: string) {
 
     const handleResults = (msg: any) => {
       const text = String(msg?.channel?.alternatives?.[0]?.transcript ?? "").trim();
-      if (!text) return;
-      if (msg.is_final) finalised = finalised ? `${finalised} ${text}` : text;
-      const display = msg.is_final ? finalised : finalised ? `${finalised} ${text}` : text;
+      // The pause can arrive after the last finalized words in a separate result.
+      if (!text && !(msg.speech_final && finalised)) return;
+      const display = finalised && text ? `${finalised} ${text}` : finalised || text;
+      if (msg.is_final) finalised = display;
       if (msg.speech_final) {
         emitLine(display, true);
         finalised = "";

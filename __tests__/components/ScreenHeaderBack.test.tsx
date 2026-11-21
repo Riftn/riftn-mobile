@@ -228,3 +228,22 @@ it('keeps explicit media controls free of title and island chrome', () => {
   expect(backButtons(tree)).toHaveLength(1);
   act(() => tree.unmount());
 });
+
+it('lets the localized profile Save action grow beyond the icon slot', () => {
+  const { TouchableOpacity, Text } = jest.requireMock('react-native');
+  const save = jest.fn();
+  let tree!: ReactTestRenderer;
+  act(() => {
+    tree = create(<ScreenHeader title="Profili Düzenle" rightContent={
+      <TouchableOpacity onPress={save}><Text>Kaydet</Text></TouchableOpacity>
+    } />);
+  });
+  const action = tree.root.findByType(TouchableOpacity);
+  const style = Object.assign({}, ...[action.props.style].flat(Infinity));
+  expect(style.width).toBe('auto');
+  expect(style.minWidth).toBe(34);
+  expect(action.findByType(Text).props.children).toBe('Kaydet');
+  act(() => action.props.onPress());
+  expect(save).toHaveBeenCalledTimes(1);
+  act(() => tree.unmount());
+});
