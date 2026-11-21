@@ -1414,6 +1414,8 @@
     "channelSpeedResetConfirm": "Elk kanaal gaat terug naar je normale snelheid. Je normale snelheid verandert niet.",
     "reset": "Herstellen",
     "channelSpeedNone": "Wijzig de snelheid terwijl je iemand kijkt en die blijft zo voor hun video's.",
+    "showStories": "Verhalen op de startpagina tonen",
+    "storiesSaveFailed": "Je instelling voor verhalen kon niet worden opgeslagen.",
     "hideWatched": "Bekeken video's verbergen",
     "hideWatchedDesc": "Houd video's die je al hebt afgespeeld uit je feeds. Standaard uit.",
     "skipSegments": "Sponsors en intro's overslaan",

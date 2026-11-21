@@ -18,6 +18,7 @@ import {
   Divider,
 } from './SettingsPrimitives';
 import { SettingsScrollView } from './SettingsAnchor';
+import { useStoriesEnabled } from '../../hooks/useStoriesEnabled';
 import { useAppPrefs, setAppPref } from '../../hooks/useAppPrefs';
 import { useMatureContent } from '../../hooks/useMatureContent';
 import { MATURE_CONTENT_ENABLED } from '../../config/storefront';
@@ -30,6 +31,7 @@ const ContentPanel: React.FC<{ onOpenPrivacy: () => void; defaultPostVisibility:
   defaultPostVisibility,
 }) => {
   const { t } = useTranslation();
+  const { storiesEnabled, canChange, setStoriesEnabled } = useStoriesEnabled();
   const prefs = useAppPrefs();
   const { showMatureContent, setShowMatureContent, saving: savingMature } = useMatureContent();
   const { isKidsMode, enable: enableKids, disable: disableKids, saving: savingKids } = useKidsMode();
@@ -117,6 +119,14 @@ const ContentPanel: React.FC<{ onOpenPrivacy: () => void; defaultPostVisibility:
             someone who never asked for it. Only videos and shorts are ever
             hidden — hooks/useWatchedVideos explains why a watch record on an
             image means something else entirely. */}
+        <SettingsToggleRow
+          icon="Eye"
+          label={t('settings.showStories', 'Show Stories on Home')}
+          value={storiesEnabled}
+          disabled={!canChange}
+          onValueChange={setStoriesEnabled}
+        />
+        <Divider />
         <SettingsToggleRow
           icon="EyeOff"
           label={t('settings.hideWatched', 'Hide Watched Videos')}
