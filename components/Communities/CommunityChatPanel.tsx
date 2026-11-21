@@ -1,3 +1,4 @@
+import { formatCommentTime } from "../../libs/comment-time";
 import { useChatTextScale } from "../../hooks/useAppPrefs";
 import { openMessageReport } from "../common/MessageReportHost";
 import { IS_APP_STORE_BUILD } from "../../config/storefront";
@@ -249,7 +250,7 @@ const ChatRow: React.FC<{
           )}
           {!!message.pinned_at && <Icon name="Pin" size={10} color="#A1A1AA" />}
           <Text className="text-zinc-400 text-xs ml-auto">
-            {formatClock(new Date(message.created_at))}
+            {message.reply_to ? formatCommentTime(message.created_at, t) : formatClock(new Date(message.created_at))}
           </Text>
         </View>
 

@@ -43,6 +43,8 @@ import {
 
 // One row's subscription to the store, so a swipe re-renders the card that
 // left the screen and the card that arrived, and nothing else.
+const PhotoPostSeparator = () => <View style={styles.postSeparator} />;
+
 const VisibleImageCard = memo(function VisibleImageCard({
   item,
   rowKey,
@@ -447,6 +449,7 @@ const ImageFeedDrawer = forwardRef<ImageFeedDrawerHandle, ImageFeedDrawerProps>(
                 data={orderedItems}
                 keyExtractor={keyExtractor}
                 renderItem={renderItem}
+                ItemSeparatorComponent={fullscreen ? PhotoPostSeparator : undefined}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={contentContainerStyle}
                 onScroll={scrollHandler}
@@ -529,6 +532,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   fill: { flex: 1 },
+  postSeparator: { height: 12 },
   grabRow: {
     position: "absolute",
     top: 0,
