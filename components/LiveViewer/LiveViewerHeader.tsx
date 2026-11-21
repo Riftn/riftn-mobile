@@ -24,7 +24,8 @@ import Avatar from "../common/Avatar";
 import { formatDistance } from "date-fns";
 import Icon from "../ui/Icon";
 import { LinearGradient } from "expo-linear-gradient";
-import { CHROME_HIT_SLOP, EDGE, TEXT_SHADOW } from "../common/ViewerChrome";
+import { EDGE, VIEWER_AUTHOR_AVATAR_SIZE, viewerChromeStyles } from "../common/ViewerChrome";
+import ViewerHeaderButton from "../common/ViewerHeaderButton";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 import { truncateAddress } from "../../libs/strings.util";
 import { useNavigation } from "@react-navigation/native";
@@ -147,16 +148,16 @@ const LiveViewerHeader: React.FC<LiveViewerHeaderProps> = ({
   }, [startedAt, t, minuteTick]);
 
   return (
-    <View style={styles.bar} pointerEvents="box-none">
+    <View style={[viewerChromeStyles.header, styles.bar]} pointerEvents="box-none">
       {/* Who started this, straight on the picture: the face with the live
           ripple and Follow as a small glass + on it, then name, badge and
           when they went live. No capsule, so nothing boxes the top left,
           and phone web draws the same thing. */}
-      <View style={styles.creator}>
+      <View style={viewerChromeStyles.author}>
         <View style={styles.avatarSlot}>
           <Avatar
             uri={avatarUrl}
-            size={36}
+            size={VIEWER_AUTHOR_AVATAR_SIZE}
             onPress={handleOpenProfile}
             name={displayName}
             live={!!isLive}
@@ -189,12 +190,12 @@ const LiveViewerHeader: React.FC<LiveViewerHeaderProps> = ({
         </View>
         <Pressable
           onPress={handleOpenProfile}
-          style={styles.creatorText}
+          style={viewerChromeStyles.authorText}
           accessibilityRole="button"
           accessibilityLabel={t("liveViewer.openProfileOf", { name: displayName })}
         >
           <View style={styles.nameRow}>
-            <Text style={styles.name} numberOfLines={1}>
+            <Text style={viewerChromeStyles.authorName} numberOfLines={1}>
               {displayName}
             </Text>
             {badgeImage ? (
@@ -202,118 +203,41 @@ const LiveViewerHeader: React.FC<LiveViewerHeaderProps> = ({
             ) : null}
           </View>
           {startedLabel ? (
-            <Text style={styles.meta} numberOfLines={1}>
+            <Text style={viewerChromeStyles.authorMeta} numberOfLines={1}>
               {startedLabel}
             </Text>
           ) : null}
         </Pressable>
       </View>
 
-      {/* Bare icons, no box: the top scrim and a shadow carry the contrast. */}
-      <View style={styles.controls}>
-        <Pressable onPress={onToggleMute} hitSlop={CHROME_HIT_SLOP} style={styles.chromeButton}
-          accessibilityRole="button" accessibilityLabel={isMuted ? t("common.unmute") : t("common.mute")}>
-          <ShadowedIcon name={isMuted ? "VolumeX" : "Volume2"} size={21} />
-        </Pressable>
+      <View style={viewerChromeStyles.headerActions}>
+        <ViewerHeaderButton
+          onPress={onToggleMute}
+          accessibilityLabel={isMuted ? t("common.unmute") : t("common.mute")}
+          icon={isMuted ? "VolumeX" : "Volume2"}
+        />
         {onOptionsPress ? (
-          <Pressable
+          <ViewerHeaderButton
             onPress={onOptionsPress}
-            hitSlop={CHROME_HIT_SLOP}
-            style={styles.chromeButton}
-            accessibilityRole="button"
             accessibilityLabel={t("postOptions.options", { defaultValue: "Options" })}
-          >
-            <ShadowedIcon name="EllipsisVertical" size={21} />
-          </Pressable>
+            icon="EllipsisVertical"
+          />
         ) : null}
-        <Pressable
+        <ViewerHeaderButton
           onPress={handleClose}
-          hitSlop={CHROME_HIT_SLOP}
-          style={styles.chromeButton}
-          accessibilityRole="button"
           accessibilityLabel={t("common.close", { defaultValue: "Close" })}
-        >
-          <ShadowedIcon name="X" size={22} />
-        </Pressable>
+          icon="X"
+          size={22}
+        />
       </View>
     </View>
   );
 };
 
-/**
- * A white icon with a soft shadow under it. RN draws no shadow from an SVG on
- * Android, so the shadow is the same glyph in black, one point lower.
- */
-const ShadowedIcon: React.FC<{ name: React.ComponentProps<typeof Icon>["name"]; size: number }> = ({ name, size }) => (
-  <View style={{ width: size, height: size }}>
-    <View pointerEvents="none" style={styles.iconShadow}>
-      <Icon name={name} size={size} color="rgba(0,0,0,0.45)" />
-    </View>
-    <Icon name={name} size={size} color="#fff" />
-  </View>
-);
-
 const styles = StyleSheet.create({
-  bar: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: EDGE - 4,
-    paddingTop: EDGE,
-    gap: 6,
-  },
-  /** Takes the row's spare width; the name truncates before the controls move. */
-  creator: {
-    flex: 1,
-    flexShrink: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    minHeight: 48,
-    paddingLeft: 4,
-    gap: 10,
-  },
-  avatarSlot: {
-    margin: 2,
-  },
-  creatorText: {
-    flex: 1,
-    minWidth: 0,
-  },
-  nameRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-  },
-  name: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "800",
-    flexShrink: 1,
-    ...TEXT_SHADOW,
-  },
-  meta: {
-    color: "rgba(255,255,255,0.8)",
-    fontSize: 11,
-    fontWeight: "600",
-    marginTop: 1,
-    ...TEXT_SHADOW,
-  },
-  controls: {
-    flexShrink: 0,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 2,
-  },
-  chromeButton: {
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  iconShadow: {
-    position: "absolute",
-    top: 1,
-    left: 0,
-  },
+  bar: { paddingTop: EDGE },
+  avatarSlot: { margin: 2 },
+  nameRow: { flexDirection: "row", alignItems: "center", gap: 4 },
   followBadge: {
     position: "absolute",
     right: -6,

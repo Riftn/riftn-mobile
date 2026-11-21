@@ -90,7 +90,7 @@ import { useLiveChat } from "../../hooks/useLiveChat";
 import { useLivePostReactions } from "../../hooks/useLivePostReactions";
 import { useTranslation as useCopy } from "react-i18next";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
-import { EDGE } from "../common/ViewerChrome";
+import { EDGE, VIEWER_BOTTOM_SCRIM, VIEWER_TOP_SCRIM } from "../common/ViewerChrome";
 import { speakTipMessage, setTipTtsEnabled } from "../../libs/tipTts";
 import { tierFromAmount } from "../../config/gift-tiers";
 import ViewerScrubBar from "../common/ViewerScrubBar";
@@ -2108,14 +2108,14 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         >
           {/* Top gradient for readability */}
           <LinearGradient
-            colors={["rgba(0,0,0,0.7)", "rgba(0,0,0,0)"]}
+            colors={VIEWER_TOP_SCRIM}
             style={{ height: 120, position: "absolute", top: 0, left: 0, right: 0 }}
             pointerEvents="none"
           />
   
           {/* Bottom gradient for readability */}
           <LinearGradient
-            colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.85)"]}
+            colors={VIEWER_BOTTOM_SCRIM}
             style={{ height: 320, position: "absolute", bottom: 0, left: 0, right: 0 }}
             pointerEvents="none"
           />

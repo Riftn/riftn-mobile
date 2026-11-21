@@ -42,6 +42,10 @@ import {
   CHROME_HAIRLINE,
   EDGE,
   TEXT_SHADOW,
+  VIEWER_ACTION_SIZE,
+  VIEWER_ACTION_ICON_SIZE,
+  VIEWER_PLACEHOLDER_COLOR,
+  viewerChromeStyles,
 } from "../common/ViewerChrome";
 
 const REACTION_OPTIONS: { type: ReactionType; emoji: string }[] = [
@@ -53,9 +57,6 @@ const REACTION_OPTIONS: { type: ReactionType; emoji: string }[] = [
 ];
 
 const COOLDOWN_MS = 400;
-
-/** The height of everything on the bottom row, and on the header above it. */
-const BAR_SIZE = 48;
 
 interface Props {
   viewportHeight: number;
@@ -309,8 +310,8 @@ const LiveViewerActionBar: React.FC<Props> = ({
         </ScrollView>
       ) : null}
 
-      <View style={styles.row} pointerEvents="box-none">
-        <View style={styles.inputWrap}>
+      <View style={[viewerChromeStyles.actionRow, styles.row]} pointerEvents="box-none">
+        <View style={viewerChromeStyles.composer}>
           <ChromeFill glass />
           <TextInput
             ref={inputRef}
@@ -318,8 +319,8 @@ const LiveViewerActionBar: React.FC<Props> = ({
             onChangeText={mentions.handleChangeText}
             onSelectionChange={mentions.handleSelectionChange}
             placeholder={placeholderText}
-            placeholderTextColor="rgba(255,255,255,0.45)"
-            style={styles.input}
+            placeholderTextColor={VIEWER_PLACEHOLDER_COLOR}
+            style={[viewerChromeStyles.input, styles.input]}
             editable={!inputDisabled}
             maxLength={500}
             // Grows to four lines so the whole message stays readable; a
@@ -338,7 +339,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
               hitSlop={8}
               accessibilityRole="button"
               accessibilityLabel={t("tip.send", { defaultValue: "Send" })}
-              style={[styles.sendButton, canSubmit ? null : styles.dim]}
+              style={[viewerChromeStyles.sendButton, canSubmit ? null : styles.dim]}
             >
               <Icon name={editing ? "Check" : "Send"} size={17} color="#fff" strokeWidth={1.8} />
             </Pressable>
@@ -357,7 +358,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
           <View style={styles.cluster} pointerEvents="box-none">
           {isLive && !inputDisabled ? (
             <Pressable onPress={() => setGifPickerVisible(true)} hitSlop={CHROME_HIT_SLOP}
-              accessibilityRole="button" accessibilityLabel={t("comments.addGif")} style={styles.circle}>
+              accessibilityRole="button" accessibilityLabel={t("comments.addGif")} style={viewerChromeStyles.actionButton}>
               <ChromeFill glass />
               <Text style={styles.gifLabel}>GIF</Text>
             </Pressable>
@@ -368,10 +369,10 @@ const LiveViewerActionBar: React.FC<Props> = ({
               hitSlop={CHROME_HIT_SLOP}
               accessibilityRole="button"
               accessibilityLabel={t("postOptions.sendTip", { defaultValue: "Send Tip" })}
-              style={styles.circle}
+              style={viewerChromeStyles.actionButton}
             >
               <ChromeFill glass />
-              <Icon name="Gem" size={19} color="#fff" strokeWidth={1.8} />
+              <Icon name="Gem" size={VIEWER_ACTION_ICON_SIZE} color="#fff" strokeWidth={1.8} />
             </Pressable>
           ) : null}
 
@@ -380,10 +381,10 @@ const LiveViewerActionBar: React.FC<Props> = ({
             hitSlop={CHROME_HIT_SLOP}
             accessibilityRole="button"
             accessibilityLabel={t("postOptions.share", { defaultValue: "Share" })}
-            style={styles.circle}
+            style={viewerChromeStyles.actionButton}
           >
             <ChromeFill glass />
-            <Icon name="Share2" size={19} color="#fff" strokeWidth={1.8} />
+            <Icon name="Share2" size={VIEWER_ACTION_ICON_SIZE} color="#fff" strokeWidth={1.8} />
           </Pressable>
 
           <Pressable
@@ -393,12 +394,12 @@ const LiveViewerActionBar: React.FC<Props> = ({
             hitSlop={CHROME_HIT_SLOP}
             accessibilityRole="button"
             accessibilityLabel={isLiked ? _copy("copy.eaa881c359cf", { defaultValue: "Unlike" }) : _copy("copy.64f915cb8bfc", { defaultValue: "Like" })}
-            style={styles.circle}
+            style={viewerChromeStyles.actionButton}
           >
             <ChromeFill glass />
             <Icon
               name="ThumbsUp"
-              size={19}
+              size={VIEWER_ACTION_ICON_SIZE}
               color="#fff"
               strokeWidth={1.8}
               fill={isLiked ? "#fff" : "none"}
@@ -431,61 +432,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   commandText: { color: "#fff", fontSize: 12, fontWeight: "600", ...TEXT_SHADOW },
-  row: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-    paddingHorizontal: EDGE,
-    gap: 8,
-  },
-  cluster: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  /**
-   * 48 with a hairline, matching the buttons beside it and the header
-   * above it. This row sits on the picture rather than on the bottom
-   * scrim, so unlike the header's chrome it carries its own contrast —
-   * the same black/40 and white/15 the web viewer gives the composer.
-   */
-  inputWrap: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    minHeight: BAR_SIZE,
-    borderWidth: 1,
-    borderColor: CHROME_HAIRLINE,
-    borderRadius: CHROME_RADIUS,
-
-    paddingVertical: 6,
-    paddingLeft: 16,
-    paddingRight: 6,
-    gap: 4,
-    overflow: "hidden",
-  },
+  row: { paddingHorizontal: EDGE },
+  cluster: { flexDirection: "row", alignItems: "center", gap: 8 },
   input: {
-    flex: 1,
-    color: "#fff",
-    fontSize: 14,
-    lineHeight: 19,
-    paddingVertical: 4,
     maxHeight: 19 * 4 + 8,
     textAlignVertical: "center",
-  },
-  sendButton: {
-    width: 30,
-    height: 30,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  circle: {
-    width: 42,
-    height: BAR_SIZE,
-    borderWidth: 1,
-    borderColor: CHROME_HAIRLINE,
-    borderRadius: CHROME_RADIUS,
-    alignItems: "center",
-    justifyContent: "center",
   },
   gifLabel: { color: "#fff", fontSize: 12, fontWeight: "800" },
   /**
@@ -518,7 +469,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     flexDirection: "row",
     alignItems: "center",
-    height: BAR_SIZE,
+    height: VIEWER_ACTION_SIZE,
     borderWidth: 1,
     borderColor: CHROME_HAIRLINE,
     borderRadius: CHROME_RADIUS,
@@ -529,7 +480,7 @@ const styles = StyleSheet.create({
   },
   reactionCell: {
     width: 38,
-    height: BAR_SIZE,
+    height: VIEWER_ACTION_SIZE,
     alignItems: "center",
     justifyContent: "center",
   },

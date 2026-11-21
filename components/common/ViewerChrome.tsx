@@ -1,5 +1,5 @@
 /**
- * The chrome shared by every fullscreen viewer — shorts, and the live stream.
+ * The chrome shared by fullscreen viewers, including shorts, live streams and Stories.
  *
  * These numbers were derived once, in ShortsViewerScreen, from web's viewer:
  * one 16px frame margin, `w-10 h-10 rounded-xl` buttons filled with
@@ -27,6 +27,13 @@ export const CHROME_GAP = 12;
 /** Web `w-10 h-10` / `rounded-xl` on every chrome button. */
 export const CHROME_SIZE = 40;
 export const CHROME_RADIUS = 12;
+export const VIEWER_AUTHOR_AVATAR_SIZE = 36;
+export const VIEWER_ACTION_SIZE = 48;
+export const VIEWER_ACTION_ICON_SIZE = 19;
+export const VIEWER_PLACEHOLDER_COLOR = "rgba(255,255,255,0.7)";
+export const VIEWER_TOP_SCRIM = ["rgba(0,0,0,0.7)", "rgba(0,0,0,0)"] as const;
+export const VIEWER_BOTTOM_SCRIM = ["rgba(0,0,0,0)", "rgba(0,0,0,0.85)"] as const;
+
 /**
  * Web is `bg-zinc-900/60 backdrop-blur-sm`; this is the same zinc-900 at full
  * opacity, because there is no blur here to carry the contrast. No hairline.
@@ -104,6 +111,71 @@ export const TEXT_SHADOW = {
   textShadowOffset: { width: 0, height: 1 },
   textShadowRadius: 4,
 } as const;
+
+export const viewerChromeStyles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: EDGE - 4,
+    gap: 6,
+  },
+  author: {
+    flex: 1,
+    minWidth: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    minHeight: 48,
+    paddingLeft: 4,
+    gap: 10,
+  },
+  authorText: { flex: 1, minWidth: 0 },
+  authorName: {
+    color: ICON_COLOR,
+    fontSize: 14,
+    fontWeight: "800",
+    flexShrink: 1,
+    ...TEXT_SHADOW,
+  },
+  authorMeta: {
+    color: "rgba(255,255,255,0.8)",
+    fontSize: 11,
+    fontWeight: "600",
+    marginTop: 1,
+    ...TEXT_SHADOW,
+  },
+  headerActions: {
+    flexShrink: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+  },
+  actionRow: { flexDirection: "row", alignItems: "flex-end", gap: 8 },
+  composer: {
+    flex: 1,
+    minHeight: VIEWER_ACTION_SIZE,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 6,
+    paddingLeft: 16,
+    paddingRight: 6,
+    gap: 4,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: CHROME_HAIRLINE,
+    borderRadius: CHROME_RADIUS,
+  },
+  input: { flex: 1, color: ICON_COLOR, fontSize: 14, lineHeight: 19, paddingVertical: 4 },
+  sendButton: { width: 30, height: 30, alignItems: "center", justifyContent: "center" },
+  actionButton: {
+    width: 42,
+    height: VIEWER_ACTION_SIZE,
+    borderWidth: 1,
+    borderColor: CHROME_HAIRLINE,
+    borderRadius: CHROME_RADIUS,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
 /**
  * The glass behind a chrome button, as an absolutely-positioned sibling rather

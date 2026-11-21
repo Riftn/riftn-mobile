@@ -34,6 +34,20 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
+import ViewerHeaderButton from "../common/ViewerHeaderButton";
+import {
+  ChromeFill,
+  CHROME_HIT_SLOP,
+  EDGE,
+  ICON_COLOR,
+  TEXT_SHADOW,
+  VIEWER_ACTION_ICON_SIZE,
+  VIEWER_AUTHOR_AVATAR_SIZE,
+  VIEWER_BOTTOM_SCRIM,
+  VIEWER_PLACEHOLDER_COLOR,
+  VIEWER_TOP_SCRIM,
+  viewerChromeStyles,
+} from "../common/ViewerChrome";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { DarkRoomProvider } from "../../context/ThemeContext";
 import { useUser, useAuthActions } from "../../context/AuthContext";
@@ -369,8 +383,8 @@ export default function StoryViewer({
             />
           )}
           {item.overlayUrl ? <Image source={{ uri: item.overlayUrl }} style={StyleSheet.absoluteFill} contentFit="cover" pointerEvents="none" /> : null}
-          <LinearGradient colors={["rgba(0,0,0,0.45)", "rgba(0,0,0,0)"]} style={styles.topShade} pointerEvents="none" />
-          <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.55)"]} style={styles.bottomShade} pointerEvents="none" />
+          <LinearGradient colors={VIEWER_TOP_SCRIM} style={styles.topShade} pointerEvents="none" />
+          <LinearGradient colors={VIEWER_BOTTOM_SCRIM} style={styles.bottomShade} pointerEvents="none" />
           {!loaded ? (
             <View style={styles.center} pointerEvents="none">
               <ActivityIndicator color="#fff" />
@@ -405,39 +419,46 @@ export default function StoryViewer({
 
         </View>
 
-        {/* Capsule: who, when, how far along, and the actions. */}
-        <View style={[styles.cap, { top: insets.top + 8 }]}>
-          <View style={[styles.capFill, { width: `${Math.round(progress * 100)}%` }]} pointerEvents="none" />
-          <TouchableOpacity style={styles.authorLink} accessibilityRole="link" accessibilityLabel={nameOf(entry.author)} onPress={() => onOpenProfile(entry.author.address)}>
-            <Avatar uri={avatarOf(entry.author, 32)} size={30} radius={15} name={entry.author.username || entry.author.address} />
-            <View style={styles.capText}>
-              <Text style={styles.capName} numberOfLines={1}>
-                {nameOf(entry.author)}
-              </Text>
-              <Text style={styles.capSub} numberOfLines={1}>
-                {ageLabel(item.createdAt)}
-                {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
-              </Text>
+        <View pointerEvents="box-none" style={[styles.header, { top: insets.top + 8 }]}>
+          <View style={styles.progress} pointerEvents="none">
+            {entry.items.map((story, index) => (
+              <View key={story.id} style={styles.progressTrack}>
+                {index <= itemIdx ? (
+                  <View style={[styles.progressFill, { width: index < itemIdx ? "100%" : `${Math.round(progress * 100)}%` }]} />
+                ) : null}
+              </View>
+            ))}
+          </View>
+          <View pointerEvents="box-none" style={viewerChromeStyles.header}>
+            <Pressable accessibilityRole="link" accessibilityLabel={nameOf(entry.author)}
+              style={viewerChromeStyles.author} onPress={() => onOpenProfile(entry.author.address)}>
+              <View style={styles.avatarSlot}>
+                <Avatar uri={avatarOf(entry.author, VIEWER_AUTHOR_AVATAR_SIZE)} size={VIEWER_AUTHOR_AVATAR_SIZE}
+                  name={entry.author.username || entry.author.address} />
+              </View>
+              <View style={viewerChromeStyles.authorText}>
+                <Text style={viewerChromeStyles.authorName} numberOfLines={1}>
+                  {nameOf(entry.author)}
+                </Text>
+                <Text style={viewerChromeStyles.authorMeta} numberOfLines={1}>
+                  {ageLabel(item.createdAt)}
+                  {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
+                </Text>
+              </View>
+            </Pressable>
+            <View style={viewerChromeStyles.headerActions}>
+              {item.type === "video" || item.song ? (
+                <ViewerHeaderButton onPress={() => setMuted((m) => !m)}
+                  accessibilityLabel={muted ? t("common.unmute") : t("common.mute")}
+                  icon={muted ? "VolumeX" : "Volume2"} />
+              ) : null}
+              <ViewerHeaderButton onPress={() => setSheet("more")} icon="EllipsisVertical"
+                accessibilityLabel={t("stories.moreActions", { defaultValue: "Moment options" })}
+                accessibilityState={{ expanded: sheet === "more" }} />
+              <ViewerHeaderButton onPress={onClose} icon="X" size={22}
+                accessibilityLabel={t("common.close", { defaultValue: "Close" })} />
             </View>
-          </TouchableOpacity>
-          {entry.items.length > 1 ? (
-            <View style={styles.dots}>
-              {entry.items.map((x, i) => (
-                <View key={x.id} style={[styles.dot, i === itemIdx && styles.dotOn]} />
-              ))}
-            </View>
-          ) : null}
-          {item.type === "video" || item.song ? (
-            <TouchableOpacity onPress={() => setMuted((m) => !m)} hitSlop={8} style={styles.capBtn}>
-              <Icon name={muted ? "VolumeX" : "Volume2"} size={18} color="#fff" />
-            </TouchableOpacity>
-          ) : null}
-          <TouchableOpacity onPress={() => setSheet("more")} hitSlop={4} style={styles.capBtn} accessibilityRole="button" accessibilityLabel={t("stories.moreActions", { defaultValue: "Moment options" })} accessibilityState={{ expanded: sheet === "more" }}>
-            <Icon name="Ellipsis" size={18} color="#fff" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={onClose} hitSlop={4} style={styles.capBtn} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
-            <Icon name="X" size={20} color="#fff" />
-          </TouchableOpacity>
+          </View>
         </View>
 
         {/* Bottom: caption, then reply + like, or the owner's counts. */}
@@ -450,77 +471,86 @@ export default function StoryViewer({
           importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
         >
           <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 18 }]}>
-          {item.remixSourceId ? (
-            <TouchableOpacity style={styles.song} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
-              <Icon name="Repeat2" size={14} color="#fff" />
-              <Text style={styles.songText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
-            </TouchableOpacity>
-          ) : null}
-          {item.caption ? (
-            <Text style={styles.caption} numberOfLines={3}>
-              {item.caption}
-            </Text>
-          ) : null}
-          {item.song ? (
-            <View style={styles.song}>
-              <Icon name="Music" size={12} color="#fff" />
-              <Text style={styles.songText} numberOfLines={1}>
-                {item.song.title}
-                {item.song.artist ? ` · ${item.song.artist}` : ""}
-              </Text>
-            </View>
-          ) : null}
-          <View style={styles.replyRow}>
-            {own ? (
-              <TouchableOpacity style={styles.ownStats} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
-                <Icon name="Eye" size={16} color="#fff" />
-                <Text style={styles.statText}>{formatCount(item.viewCount ?? 0)}</Text>
-                {(item.likeCount ?? 0) > 0 ? (
-                  <>
-                    <Icon name="Heart" size={15} color="#FF5C78" />
-                    <Text style={styles.statText}>{formatCount(item.likeCount ?? 0)}</Text>
-                  </>
-                ) : null}
-              </TouchableOpacity>
-            ) : !me ? (
-              <TouchableOpacity style={styles.replyBox} onPress={() => requireAuth(() => {})}>
-                <Text style={styles.replyPlaceholder}>{t("stories.signInToReply", { defaultValue: "Sign in to reply" })}</Text>
-              </TouchableOpacity>
-            ) : item.allowReplies ? (
-              <View style={styles.replyBox}>
-                <TextInput
-                  value={reply}
-                  onChangeText={setReply}
-                  onFocus={() => setTyping(true)}
-                  onBlur={() => setTyping(false)}
-                  placeholder={t("stories.replyTo", { defaultValue: "Reply to {{name}}", name: nameOf(entry.author) })}
-                  placeholderTextColor="rgba(255,255,255,0.7)"
-                  style={styles.replyInput}
-                  keyboardAppearance="dark"
-                  returnKeyType="send"
-                  onSubmitEditing={() => void sendReply()}
-                  maxLength={500}
-                />
-                {reply.trim() ? (
-                  <TouchableOpacity onPress={() => void sendReply()} hitSlop={8}>
-                    <Icon name="Send" size={18} color="#fff" />
-                  </TouchableOpacity>
-                ) : null}
-              </View>
-            ) : (
-              <View style={{ flex: 1 }} />
-            )}
-            {!own ? (
-              <TouchableOpacity onPress={toggleLike} style={styles.round} accessibilityLabel={t("stories.like", { defaultValue: "Like" })}>
-                <Icon name="Heart" size={20} color={isLiked ? "#FF5C78" : "#fff"} fill={isLiked ? "#FF5C78" : undefined} />
+            {item.remixSourceId ? (
+              <TouchableOpacity style={styles.song} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
+                <Icon name="Repeat2" size={14} color="#fff" />
+                <Text style={styles.songText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
               </TouchableOpacity>
             ) : null}
-            {shareable && (
-              <TouchableOpacity onPress={() => setSheet("share")} style={styles.round} accessibilityRole="button" accessibilityLabel={t("stories.share", { defaultValue: "Share" })}>
-                <Icon name="Share2" size={20} color="#fff" />
-              </TouchableOpacity>
-            )}
-          </View>
+            {item.caption ? (
+              <Text style={styles.caption} numberOfLines={3}>
+                {item.caption}
+              </Text>
+            ) : null}
+            {item.song ? (
+              <View style={styles.song}>
+                <Icon name="Music" size={12} color="#fff" />
+                <Text style={styles.songText} numberOfLines={1}>
+                  {item.song.title}
+                  {item.song.artist ? ` · ${item.song.artist}` : ""}
+                </Text>
+              </View>
+            ) : null}
+            <View style={viewerChromeStyles.actionRow}>
+              {own ? (
+                <TouchableOpacity style={[viewerChromeStyles.composer, styles.ownStats]} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
+                  <ChromeFill glass />
+                  <Icon name="Eye" size={16} color={ICON_COLOR} />
+                  <Text style={styles.statText}>{formatCount(item.viewCount ?? 0)}</Text>
+                  {(item.likeCount ?? 0) > 0 ? (
+                    <>
+                      <Icon name="Heart" size={15} color={ICON_COLOR} />
+                      <Text style={styles.statText}>{formatCount(item.likeCount ?? 0)}</Text>
+                    </>
+                  ) : null}
+                </TouchableOpacity>
+              ) : !me ? (
+                <Pressable style={viewerChromeStyles.composer} onPress={() => requireAuth(() => {})} accessibilityRole="button">
+                  <ChromeFill glass />
+                  <Text style={styles.replyPlaceholder}>{t("stories.signInToReply", { defaultValue: "Sign in to reply" })}</Text>
+                </Pressable>
+              ) : item.allowReplies ? (
+                <View style={viewerChromeStyles.composer}>
+                  <ChromeFill glass />
+                  <TextInput
+                    value={reply}
+                    onChangeText={setReply}
+                    onFocus={() => setTyping(true)}
+                    onBlur={() => setTyping(false)}
+                    placeholder={t("stories.replyTo", { defaultValue: "Reply to {{name}}", name: nameOf(entry.author) })}
+                    placeholderTextColor={VIEWER_PLACEHOLDER_COLOR}
+                    style={viewerChromeStyles.input}
+                    keyboardAppearance="dark"
+                    returnKeyType="send"
+                    onSubmitEditing={() => void sendReply()}
+                    maxLength={500}
+                  />
+                  {reply.trim() ? (
+                    <Pressable onPress={() => void sendReply()} hitSlop={8} style={viewerChromeStyles.sendButton}
+                      accessibilityRole="button" accessibilityLabel={t("tip.send", { defaultValue: "Send" })}>
+                      <Icon name="Send" size={17} color={ICON_COLOR} strokeWidth={1.8} />
+                    </Pressable>
+                  ) : null}
+                </View>
+              ) : (
+                <View style={{ flex: 1 }} />
+              )}
+              {!own ? (
+                <Pressable onPress={toggleLike} style={viewerChromeStyles.actionButton} hitSlop={CHROME_HIT_SLOP}
+                  accessibilityRole="button" accessibilityLabel={t("stories.like", { defaultValue: "Like" })}
+                  accessibilityState={{ selected: isLiked }}>
+                  <ChromeFill glass />
+                  <Icon name="Heart" size={VIEWER_ACTION_ICON_SIZE} color={ICON_COLOR} strokeWidth={1.8} fill={isLiked ? ICON_COLOR : "none"} />
+                </Pressable>
+              ) : null}
+              {shareable && (
+                <Pressable onPress={() => setSheet("share")} style={viewerChromeStyles.actionButton} hitSlop={CHROME_HIT_SLOP}
+                  accessibilityRole="button" accessibilityLabel={t("stories.share", { defaultValue: "Share" })}>
+                  <ChromeFill glass />
+                  <Icon name="Share2" size={VIEWER_ACTION_ICON_SIZE} color={ICON_COLOR} strokeWidth={1.8} />
+                </Pressable>
+              )}
+            </View>
           </View>
         </KeyboardAvoidingView>
 
@@ -698,34 +728,14 @@ const styles = StyleSheet.create({
   topShade: { position: "absolute", top: 0, left: 0, right: 0, height: 140 },
   bottomShade: { position: "absolute", bottom: 0, left: 0, right: 0, height: 220 },
   zones: { ...StyleSheet.absoluteFillObject, flexDirection: "row" },
-  cap: {
-    position: "absolute",
-    left: 10,
-    right: 10,
-    height: 50,
-    borderRadius: 25,
-    paddingLeft: 8,
-    paddingRight: 6,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    overflow: "hidden",
-    backgroundColor: "#242427",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.14)",
-  },
-  capFill: { position: "absolute", left: 0, top: 0, bottom: 0, backgroundColor: "rgba(255,255,255,0.14)" },
-  authorLink: { flex: 1, minWidth: 0, minHeight: 44, flexDirection: "row", alignItems: "center", gap: 8 },
-  capText: { flex: 1, minWidth: 0 },
-  capName: { color: "#fff", fontSize: 14, fontWeight: "700" },
-  capSub: { color: "#fff", fontSize: 11.5, marginTop: 1 },
-  capBtn: { width: 36, height: 44, alignItems: "center", justifyContent: "center" },
-  dots: { flexDirection: "row", gap: 4, marginRight: 2 },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.35)" },
-  dotOn: { backgroundColor: "#fff" },
+  header: { position: "absolute", left: 0, right: 0, gap: 4 },
+  avatarSlot: { margin: 2 },
+  progress: { flexDirection: "row", marginHorizontal: EDGE, gap: 4 },
+  progressTrack: { flex: 1, height: 2, borderRadius: 1, backgroundColor: "rgba(255,255,255,0.35)", overflow: "hidden" },
+  progressFill: { height: "100%", backgroundColor: ICON_COLOR },
   hidden: { opacity: 0 },
-  bottomInner: { paddingHorizontal: 12, gap: 8 },
-  caption: { color: "#fff", fontSize: 15, textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6, paddingHorizontal: 4 },
+  bottomInner: { paddingHorizontal: EDGE, gap: 8 },
+  caption: { color: ICON_COLOR, fontSize: 15, ...TEXT_SHADOW, paddingHorizontal: 4 },
   song: {
     flexDirection: "row",
     alignItems: "center",
@@ -737,42 +747,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.38)",
   },
   songText: { color: "#fff", fontSize: 12, maxWidth: 240 },
-  replyRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  replyBox: {
-    flex: 1,
-    height: 44,
-    borderRadius: 22,
-    paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    backgroundColor: "rgba(20,20,24,0.55)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.18)",
-  },
-  replyInput: { flex: 1, color: "#fff", fontSize: 15, paddingVertical: 0 },
-  replyPlaceholder: { color: "rgba(255,255,255,0.8)", fontSize: 14 },
-  round: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(20,20,24,0.55)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.18)",
-  },
-  ownStats: {
-    flex: 1,
-    height: 44,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: 14,
-    borderRadius: 22,
-    backgroundColor: "rgba(20,20,24,0.55)",
-    alignSelf: "flex-start",
-  },
+  replyPlaceholder: { color: VIEWER_PLACEHOLDER_COLOR, fontSize: 14 },
+  ownStats: { gap: 6 },
   statText: { color: "#fff", fontSize: 14, fontWeight: "600", marginRight: 6 },
   sheetBack: { ...StyleSheet.absoluteFillObject, zIndex: 10, backgroundColor: "rgba(0,0,0,0.45)", justifyContent: "flex-end" },
   sheet: {
