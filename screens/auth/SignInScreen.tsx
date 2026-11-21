@@ -70,6 +70,7 @@ import { setupAAProvider } from "../../libs/wallet-core/smart-account";
 import { useWalletAuth } from "../../hooks/useWalletAuth";
 import { useScrollFieldIntoView } from "../../hooks/useScrollFieldIntoView";
 import { steadyHeight } from "../../libs/steady-height";
+import { noteSignInPageClosed } from "../../libs/signInPage";
 
 const log = createLogger("SignInScreen");
 
@@ -202,7 +203,15 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
     if (!isMountedRef.current) return;
     
     log.info("Navigating to App");
-    
+
+    // Opened over a page (a guest tapped Log in, like or follow): close back
+    // onto that page, as the old sign-in sheet did, so the action that opened
+    // it carries on there instead of the app restarting on Home.
+    if (asSheet && navigation.canGoBack()) {
+      navigation.goBack();
+      return;
+    }
+
     // Reset to App stack, clearing auth from history
     navigation.dispatch(
       CommonActions.reset({
@@ -210,7 +219,14 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ navigation }) => {
         routes: [{ name: ScreenNames.App }],
       })
     );
-  }, [navigation]);
+  }, [navigation, asSheet]);
+
+  // Opened over a page: tell the auth layer when it goes, so an action that
+  // was waiting on a sign-in that never came is dropped.
+  useEffect(() => {
+    if (!asSheet) return;
+    return () => noteSignInPageClosed();
+  }, [asSheet]);
 
   /**
    * Navigate to SetProfile screen
