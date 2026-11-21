@@ -1414,6 +1414,8 @@
     "channelSpeedResetConfirm": "Cada canal vuelve a tu velocidad normal. Tu velocidad normal no cambia.",
     "reset": "Restablecer",
     "channelSpeedNone": "Cambia la velocidad mientras ves a alguien y se mantiene así para sus videos.",
+    "showStories": "Mostrar historias en Inicio",
+    "storiesSaveFailed": "No se pudo guardar tu preferencia de historias.",
     "hideWatched": "Ocultar videos vistos",
     "hideWatchedDesc": "Mantén fuera de tus feeds los videos que ya reprodujiste. Desactivado por defecto.",
     "skipSegments": "Saltar patrocinadores e intros",
