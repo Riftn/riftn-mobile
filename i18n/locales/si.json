@@ -7120,7 +7120,7 @@
       "defaultPermissions": "පෙරනි සාමාජික අවසර",
       "defaultPermissionsHint": "පරිපාලක අයිතියක් වෙනත් ආකාරයකින් පවසන තුරු මෙහි සෑම කෙනෙකුටම කළ හැකි දේ.",
       "slowModeTitle": "මන්දගාමී මාදිලිය",
-      "log": {
+      "log": {"verbs":{"promote_admin":"ප්‍රොමෝට් කරන ලදී","demote_admin":"විමධ්‍යගත කර ඇත","transfer_ownership":"වෙත හිමිකාරිත්වය මාරු කරන ලදී","ban_member":"තහනම් කර ඇත","unban_member":"තහනම ඉවත් කරන ලදී","kick_member":"ඉවත් කරන ලදී","mute_member":"නිශ්ශබ්දයි","unmute_member":"නිශ්ශබ්ද","approve_member":"අනුමත කර ඇත","reject_member":"ප්‍රතික්ෂේපිතයි","delete_message":"පණිවිඩයක් මකා දමන ලදී","purge_messages":"වෙතින් සියලු පණිවිඩ මකා දමන ලදි","pin_message":"වෙතින් පණිවුඩයක් ලබා ගන්න","unpin_message":"unpinned මෙසින් එක පණිවිඩය අල්ල දුන්නා","update_settings":"ප්‍රජා සැකසුම් යාවත්කාලීන කරන ලදී","create_invite":"ආරාධනා සබැඳියක් නිර්මාණය කරන ලදී","revoke_invite":"ආරාධනා සබැඳියක් අවලංගු කරන ලදි","invite_used":"ආරාධනා කරන ලදී"},
         "justNow": "දැන්ම",
         "minutesAgo": "{{value}}m පෙර",
         "hoursAgo": "{{value}}h පෙර",

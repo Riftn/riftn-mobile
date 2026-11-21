@@ -4892,7 +4892,7 @@
       "defaultPermissions": "Varsayılan üye izinleri",
       "defaultPermissionsHint": "Burada herkes yapabilir, bir yönetici yetkisi yoksa.",
       "slowModeTitle": "Yavaş mod",
-      "log": {
+      "log": {"verbs":{"promote_admin":"terfi ettirildi","demote_admin":"Demote","transfer_ownership":"mülkiyeti şuraya devret","ban_member":"Engellenmiş","unban_member":"engellenmedi","kick_member":"kaldırıldı","mute_member":"sesli","unmute_member":"sessizleştirildi","approve_member":"Onaylandı","reject_member":"reddedildi","delete_message":"şuradan bir mesaj sildi:","purge_messages":"şuradan tüm mesajları sildi:","pin_message":"bir mesajı sabitledi","unpin_message":"şuradan bir mesajın sabitlemesini kaldırdı:","update_settings":"Topluluk ayarlarını güncelledim","create_invite":"davet linki oluşturdu","revoke_invite":"Davetiye linkini iptal etti","invite_used":"Davet edildi"},
         "justNow": "şimdi",
         "minutesAgo": "{{value}} dakika önce",
         "hoursAgo": "{{value}} saat önce",

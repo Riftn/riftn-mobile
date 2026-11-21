@@ -7151,7 +7151,7 @@
       "defaultPermissions": "წევრის ნაგულისხმევი ნებართვები",
       "defaultPermissionsHint": "ის, რისი გაკეთებაც აქ ყველას შეუძლია, თუ ადმინისტრატორის უფლება სხვა რამეს არ ამბობს.",
       "slowModeTitle": "ნელი რეჟიმი",
-      "log": {
+      "log": {"verbs":{"promote_admin":"პრომოწერილი","demote_admin":"დემოტირებული","transfer_ownership":"გამოაცილა საკუთრება","ban_member":"აკრძალულია","unban_member":"გამოხსნა აკრძალულია","kick_member":"წაშლილია","mute_member":"დადუმებული","unmute_member":"გაუქმებული","approve_member":"დამტკიცებული","reject_member":"გამორჩეული","delete_message":"წაშალა შეტყობინება","purge_messages":"წაშლილია ყველა შეტყობინება","pin_message":"დამაგრებულია შეტყობინება","unpin_message":"გამოშალა შეტყობინება","update_settings":"საზოგადოების პარამეტრები განახლდა","create_invite":"გამოიქმნა ინვიტი ლინკი","revoke_invite":"მოწვევის ბმული გაუქმდა","invite_used":"გამიწვეული"},
         "justNow": "ახლახანს",
         "minutesAgo": "{{value}}m წინ",
         "hoursAgo": "{{value}}h წინ",

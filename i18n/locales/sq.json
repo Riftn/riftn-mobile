@@ -7133,7 +7133,7 @@
       "defaultPermissions": "Lejet standarde të anëtarëve",
       "defaultPermissionsHint": "Çfarë mund të bëjnë të gjithë këtu, përveç nëse një e drejtë e administratorit thotë ndryshe.",
       "slowModeTitle": "Modaliteti i ngadaltë",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Promovuar","demote_admin":"Demotuar","transfer_ownership":"Transferoi pronën në","ban_member":"i ndaluar","unban_member":"pa mbyllur","kick_member":"u hoq","mute_member":"memec","unmute_member":"I është aktivuar","approve_member":"aprova","reject_member":"refuzuar","delete_message":"U hoqën një mesazh","purge_messages":"fshiu të gjitha mesazhet nga","pin_message":"mesazh i pinuar nga","unpin_message":"shkoi një mesazh nga","update_settings":"përditësoi cilësimet e komunitetit","create_invite":"krijua një lidhje të invitetit","revoke_invite":"shkeli një lidhje të ftuar","invite_used":"futur"},
         "justNow": "pikërisht tani",
         "minutesAgo": "{{value}}m më parë",
         "hoursAgo": "{{value}}orë më parë",

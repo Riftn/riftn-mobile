@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Permesos de membre per defecte",
       "defaultPermissionsHint": "Allò que tothom pot fer aquí, a menys que un dret d'administrador digui el contrari.",
       "slowModeTitle": "Mod de velocitat",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promocionat","demote_admin":"degradat","transfer_ownership":"ha transferit la propietat a","ban_member":"prohibit","unban_member":"desbanyat","kick_member":"esborrat","mute_member":"silenciat","unmute_member":"Sense silenci","approve_member":"aprovat","reject_member":"rebutjat","delete_message":"s’ha eliminat un missatge de","purge_messages":"esborrat tots els missatges de","pin_message":"un missatge fixat per","unpin_message":"Despinat un missatge de","update_settings":"Actualitzat les configuracions de la comunitat","create_invite":"s'ha creat un enllaç d'invitació","revoke_invite":"s'ha revocat un enllaç d'invitació","invite_used":"invitat"},
         "justNow": "fa justament ara",
         "minutesAgo": "{{value}}m fa",
         "hoursAgo": "{{value}}h fa",

@@ -7364,7 +7364,7 @@
       "defaultPermissions": "Kebenaran ahli lalai",
       "defaultPermissionsHint": "Apa yang boleh dilakukan semua orang di sini kecuali ada hak pentadbir yang menyatakan sebaliknya.",
       "slowModeTitle": "Mod perlahan",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Promoted","demote_admin":"didegradasikan","transfer_ownership":"menukarkan kepemilikan kepada","ban_member":"diharamkan","unban_member":"dibatalkan sekatan","kick_member":"dibuang","mute_member":"diamkan","unmute_member":"dinyahbisukan","approve_member":"diluluskan","reject_member":"ditolak","delete_message":"menghapus pesanan daripada","purge_messages":"menghapus semua mesej daripada","pin_message":"menyepadukan pesanan daripada","unpin_message":"mesej yang tidak disematkan daripada","update_settings":"memperbarui tetapan komuniti","create_invite":"mencipta pautan undangan","revoke_invite":"membatalkan pautan undangan","invite_used":"Undangan diterima"},
         "justNow": "baru saja",
         "minutesAgo": "{{value}}m yang lalu",
         "hoursAgo": "{{value}}h yang lalu",

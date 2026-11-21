@@ -7134,7 +7134,7 @@
       "defaultPermissions": "Autorizzazioni membro predefinite",
       "defaultPermissionsHint": "Cosa possono fare tutti qui a meno che un amministratore non dica diversamente.",
       "slowModeTitle": "Modalità lenta",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promosso","demote_admin":"declassato","transfer_ownership":"ha trasferito la proprietà","ban_member":"vietato","unban_member":"sbandierato","kick_member":"rimosso","mute_member":"silenziato","unmute_member":"senza filtri","approve_member":"approvato","reject_member":"rifiutato","delete_message":"ho eliminato un messaggio da","purge_messages":"eliminati tutti i messaggi da","pin_message":"ha appuntato un messaggio da","unpin_message":"Un messaggio è stato rimosso da","update_settings":"Aggiornati le impostazioni della community","create_invite":"ha creato un link di invito","revoke_invite":"revoked un invito link","invite_used":"invitato"},
         "justNow": "proprio ora",
         "minutesAgo": "{{value}}m fa",
         "hoursAgo": "{{value}}h fa",

@@ -7107,7 +7107,7 @@
       "defaultPermissions": "ການອະນຸຍາດສະມາຊິກຄ່າເລີ່ມຕົ້ນ",
       "defaultPermissionsHint": "ສິ່ງທີ່ທຸກຄົນສາມາດເຮັດໄດ້ຢູ່ທີ່ນີ້ ເວັ້ນເສຍແຕ່ວ່າສິດທິຂອງຜູ້ບໍລິຫານບອກທາງອື່ນ.",
       "slowModeTitle": "ໂໝດຊ້າ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"ສົ່ງເສີມ","demote_admin":"ຖືກປົດປ່ອຍ","transfer_ownership":"ການໂອນຊັບສິນ","ban_member":"ຫ້າມ","unban_member":"ບໍ່ຖືກຫ້າມ","kick_member":"ເອົາອອກແລ້ວ","mute_member":"ຫງຸດຫງິດ","unmute_member":"ເປີດສຽງແລ້ວ","approve_member":"ໄດ້ຮັບການອະນຸມັດ","reject_member":"ປະຕິເສດ","delete_message":"ລຶບຂໍ້ຄວາມຈາກ","purge_messages":"ລຶບຂໍ້ຄວາມທັງ ຫມົດ ຈາກ","pin_message":"ສົ່ງຂໍ້ຄວາມຈາກ","unpin_message":"ໄດ້ເລີກປັກໝຸດຂໍ້ຄວາມຈາກ","update_settings":"ອັບເດດການຕັ້ງຄ່າຊຸມຊົນ","create_invite":"ໄດ້ສ້າງລິ້ງເຊີນ","revoke_invite":"ໄດ້ຍົກເລີກລິ້ງຄຳເຊີນແລ້ວ","invite_used":"ໄດ້ຮັບເຊີນແລ້ວ"},
         "justNow": "ແຕ່ໃນປັດຈຸບັນ",
         "minutesAgo": "{{value}}m ກ່ອນຫນ້ານີ້",
         "hoursAgo": "{{value}} ຊົ່ວໂມງທີ່ຜ່ານມາ",

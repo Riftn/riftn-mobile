@@ -7130,7 +7130,7 @@
       "defaultPermissions": "Fahazoan-dàlana default ho an'ny mpikambana",
       "defaultPermissionsHint": "Izay azon’ny rehetra atao eto raha tsy misy lalàna hafa milaza hafa avy amin’ny admin.",
       "slowModeTitle": "Fomba miadana",
-      "log": {
+      "log": {"verbs":{"promote_admin":"nampiroboroboina","demote_admin":"nahena ny laharana","transfer_ownership":"namindra ny fananana tamin'ny","ban_member":"voarara","unban_member":"nesorina ny fandrarana","kick_member":"nesorina","mute_member":"avy sctot","unmute_member":"tsy moana","approve_member":"ankatoavina","reject_member":"nolavina","delete_message":"nanafoana hafatra avy amin'ny","purge_messages":"nanaisotra ny hafatra rehetra avy amin'ny","pin_message":"nametraka hafatra an-tsoratra","unpin_message":"nanala ny fanindriana hafatra iray avy amin'ny","update_settings":"nanavao ny toe-javatra ho an'ny vondrom-piarahamonina","create_invite":"namorona rohy fanasana","revoke_invite":"manafoana ny rohy fanasana","invite_used":"nasaina"},
         "justNow": "tamim-potoana",
         "minutesAgo": "{{value}} minitra lasa",
         "hoursAgo": "{{value}} ora lasa",

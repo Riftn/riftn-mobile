@@ -7108,7 +7108,7 @@
       "defaultPermissions": "Иҷозатҳои пешфарзии аъзо",
       "defaultPermissionsHint": "Он чизе, ки ҳама дар ин ҷо карда метавонанд, агар иҷозати администратор баръакс нагӯяд.",
       "slowModeTitle": "Ҳолати суст",
-      "log": {
+      "log": {"verbs":{"promote_admin":"таблиғшуда","demote_admin":"паст карда шуд","transfer_ownership":"моликиятро интиқол дод ба","ban_member":"манъ карда шудааст","unban_member":"аз банди манъкунӣ озод шуд","kick_member":"хориҷ карда шуд","mute_member":"хомӯш карда шуд","unmute_member":"овоз кушода шуд","approve_member":"тасдиқ шуд","reject_member":"рад карда шуд","delete_message":"паёмеро аз ... нест кард","purge_messages":"ҳамаи паёмҳоро аз нест кард","pin_message":"паёмеро аз ҷониби","unpin_message":"Қисми яке аз хабарҳои пинн шуд.","update_settings":"танзимоти ҷомеа нав карда шуд","create_invite":"истиноди даъватнома эҷод кард","revoke_invite":"истиноди даъватномаро бекор кард","invite_used":"даъватшуда"},
         "justNow": "ҳозир",
         "minutesAgo": "{{value}}д қабл",
         "hoursAgo": "{{value}}с қабл",

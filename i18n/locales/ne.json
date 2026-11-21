@@ -7119,7 +7119,7 @@
       "defaultPermissions": "सामान्य सदस्य अधिकार",
       "defaultPermissionsHint": "यस समुदायमा सबै कुरा जुन कुरा कुनै प्रशासकको अधिकार नभएको छ।",
       "slowModeTitle": "धीमो मोड",
-      "log": {
+      "log": {"verbs":{"promote_admin":"प्रमोट गरिएको","demote_admin":"निम्न स्तरमा पुग्यो","transfer_ownership":"मालिकाना हक हस्तान्तरण गरेको छ","ban_member":"प्रतिबन्धित","unban_member":"अनब्यान्ड","kick_member":"हटाइयो","mute_member":"मौन","unmute_member":"अनम्यटेड","approve_member":"स्वीकृत","reject_member":"अस्वीकृत","delete_message":"एक संदेश मेटाएको छ","purge_messages":"यसबाट सबै सन्देशहरू मेट्नुहोस्","pin_message":"कसैले एक सन्देश पिन गरेको छ","unpin_message":"कुनै पोस्टबाट अनपिन भएको थियो:","update_settings":"समुदायको सेटिङ्स अपडेट गरिएको","create_invite":"एक इनभाइट लिंक बनायो","revoke_invite":"एक आमन्त्रण लिंक रद्द गरिएको छ","invite_used":"आमन्त्रित"},
         "justNow": "जस्तै",
         "minutesAgo": "{{value}}मा पहिले",
         "hoursAgo": "{{value}}घन्टा अघि",

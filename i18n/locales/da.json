@@ -7111,7 +7111,7 @@
       "defaultPermissions": "Standardmedlemstilladelser",
       "defaultPermissionsHint": "Hvad alle kan gøre her, medmindre en administrator har sagt andet.",
       "slowModeTitle": "Langsom modus",
-      "log": {
+      "log": {"verbs":{"promote_admin":"forfremmet","demote_admin":"demoteret","transfer_ownership":"overførte ejerskab til","ban_member":"forbudt","unban_member":"uforbannet","kick_member":"Fjernet","mute_member":"dæmpet","unmute_member":"ulåst","approve_member":"godkendt","reject_member":"afvist","delete_message":"Slettede en besked fra","purge_messages":"slettet alle beskeder fra","pin_message":"fastnagede en besked fra","unpin_message":"fjernede en besked fra","update_settings":"Opdaterede community-indstillinger","create_invite":"oprettede en inviteringslink","revoke_invite":"trukket tilbage en invitationslink","invite_used":"Inviteret"},
         "justNow": "lige nu",
         "minutesAgo": "{{value}}m siden",
         "hoursAgo": "{{value}}h siden",

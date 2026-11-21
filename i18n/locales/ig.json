@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Ikike ndị otu ndabere",
       "defaultPermissionsHint": "Ihe onye ọ bụla nwere ike ime ebe a ma ọ bụrụ na ikike onye nchịkwa ekwughị ihe ọzọ.",
       "slowModeTitle": "Ọnọdụ nwayọọ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"nkwalite","demote_admin":"Ọgụgụ n'ọchịchịrịọ","transfer_ownership":"nyefere nwe ya na","ban_member":"mmachibido iwu","unban_member":"ewepụrụ mmachibido iwu","kick_member":"ewepụrụ","mute_member":"mbadamba ụrọ","unmute_member":"ewepụrụ ogbi","approve_member":"akwadoro","reject_member":"ajụrụ","delete_message":"ehichapụ a ozi si","purge_messages":"ehichapụla ozi niile sitere na","pin_message":"pinned a ozi si","unpin_message":"ewepụla ozi na ntụtụ","update_settings":"emelitela ntọala obodo","create_invite":"mepụtara njikọ òkù","revoke_invite":"kagburu njikọ ịkpọ òkù","invite_used":"òkù"},
         "justNow": "ugbu a",
         "minutesAgo": "{{value}}m gara aga",
         "hoursAgo": "{{value}}h gara aga",

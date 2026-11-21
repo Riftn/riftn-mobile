@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Standard medlemstillatelse",
       "defaultPermissionsHint": "Det som alle kan gjøre her, med mindre en administratørstillatelse sier noe annet.",
       "slowModeTitle": "Sakte modus",
-      "log": {
+      "log": {"verbs":{"promote_admin":"forfremmet","demote_admin":"nedgradert","transfer_ownership":"overførte eierskap til","ban_member":"utestengt","unban_member":"ikke-bant","kick_member":"Fjernet","mute_member":"dempet","unmute_member":"dempet","approve_member":"godkjent","reject_member":"avvist","delete_message":"slettet en melding fra","purge_messages":"slettet alle meldinger fra","pin_message":"pinned en melding fra","unpin_message":"Uppinned en melding fra","update_settings":"oppdatert fellesinnstillinger","create_invite":"opprettet en invitasjonsside","revoke_invite":"opphevet en invitasjonslenke","invite_used":"Invitert"},
         "justNow": "nå",
         "minutesAgo": "{{value}}m siden",
         "hoursAgo": "{{value}}h siden",

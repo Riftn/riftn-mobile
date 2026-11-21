@@ -7106,7 +7106,7 @@
       "defaultPermissions": "ڊفالٽ ميمبر جي اجازتون",
       "defaultPermissionsHint": "هرڪو هتي ڇا ڪري سگهي ٿو جيستائين هڪ انتظامي حق ٻي صورت ۾ نه چوي.",
       "slowModeTitle": "سست موڊ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"پروموٹ ٿيل","demote_admin":"ڊيموٽ ٿيل","transfer_ownership":"ملڪيت منتقل ڪئي","ban_member":"منع ٿيل","unban_member":"بين ختم ڪيو ويو","kick_member":"حذف کیا گیا","mute_member":"ميوٽ ٿيل","unmute_member":"مٽي ڪيل","approve_member":"منظور ٿيل","reject_member":"رد ڪيو ويو","delete_message":"ڪوئي ميسيج ڇڏيو","purge_messages":"سڀ پيغام ڊليٽ ڪيا ويا","pin_message":"هڪ پيغام پن ڪيو","unpin_message":"هڪ پيغام تان پن هٽايو","update_settings":"ڪميونٽي سيٽنگون اپڊيٽ ڪيون","create_invite":"هڪ انوائيٽ لنڪ ٺاهيو","revoke_invite":"هڪ دعوت واري لنڪ کي رد ڪيو","invite_used":"دعوت ڏني وئي"},
         "justNow": "صرف ھاڻي ئي",
         "minutesAgo": "{{value}}ايم کان اڳ",
         "hoursAgo": "{{value}}h اڳ",

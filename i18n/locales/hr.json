@@ -7133,7 +7133,7 @@
       "defaultPermissions": "Standardni članovi",
       "defaultPermissionsHint": "Što sve može učiniti svaki član osim ako ne postoji administratorski pristup koji kaže drugačije.",
       "slowModeTitle": "Brzina",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demovano","transfer_ownership":"predao vlasništvo nad","ban_member":"zabranjeno","unban_member":"razblokiran","kick_member":"uklonjeno","mute_member":"isključen zvuk","unmute_member":"uključen zvuk","approve_member":"odobreno","reject_member":"odbijeno","delete_message":"obrisao sam poruku od","purge_messages":"Brisano sve poruke iz","pin_message":"priložio je poruku od","unpin_message":"odpinuo je poruku od","update_settings":"Ažurirano zajedničke postavke","create_invite":"stvorio je pozivni link","revoke_invite":"uklonjen je link za pozivnicu","invite_used":"pozvan"},
         "justNow": "prije nekoliko sekundi",
         "minutesAgo": "prije {{value}} minuta",
         "hoursAgo": "prije {{value}} sati",

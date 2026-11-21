@@ -7138,7 +7138,7 @@
       "defaultPermissions": "Προεπιλεγμένες άδειες μέλους",
       "defaultPermissionsHint": "Ότι μπορεί να κάνει każαν εδώ εκτός από τα δικαιώματα που ορίζονται από τον διαχειριστή.",
       "slowModeTitle": "Κυβερνητική καθυστέρηση",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Επιβραβεύτηκε","demote_admin":"κατέβηκε σε χαμηλότερη θέση","transfer_ownership":"μεταβίβασε την ιδιοκτησία σε","ban_member":"αποκλεισμένος","unban_member":"απαγορευμένος πλέον","kick_member":"διαγράφηκε","mute_member":"σε σίγαση","unmute_member":"ακούγεται χωρίς φίλτρο","approve_member":"επιβεβαίωσε","reject_member":"απορρίφθηκε","delete_message":"διαγράφηκα ένα μήνυμα από","purge_messages":"Σβήσαμε όλα τα μηνύματα από","pin_message":"παρατηρητήριο από","unpin_message":"Αποπιναράμε ένα μήνυμα από","update_settings":"Ανανέωσε τις ρυθμίσεις της κοινότητας","create_invite":"δημιούργησε σύνδεσμο προσκλήσεως","revoke_invite":"αναιρέθηκε ένα σύνδεσμο προσκλήσεως","invite_used":"Καλωσορίσατε (invited)"},
         "justNow": "πριν λίγα δευτερόλεπτα",
         "minutesAgo": "{{value}} λεπτά πριν",
         "hoursAgo": "{{value}}πριν από",

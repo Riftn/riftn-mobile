@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Oggolaanshaha xubnaha caadiga ah",
       "defaultPermissionsHint": "Wax kasta oo qof walba halkan ka samayn karo haddii aanay oggolaansho maamul ka reebin.",
       "slowModeTitle": "Habka gaabiska ah",
-      "log": {
+      "log": {"verbs":{"promote_admin":"la dallacsiiyay","demote_admin":"demoted","transfer_ownership":"ayaa u wareejiyay lahaanshaha","ban_member":"la mamnuucay","unban_member":"laga qaaday xayiraaddii","kick_member":"la saaray","mute_member":"badiyadka to muted","unmute_member":"codka la furay","approve_member":"approved","reject_member":"la diiday","delete_message":"tirtiray fariin ka timid","purge_messages":"tirtiray dhammaan fariimaha ka","pin_message":"Waxaa la xidhiidhaabtay abuurin","unpin_message":"ka soo saaray farriin ka timid","update_settings":"ayaa cusboonaysiiyay goobaha bulshada","create_invite":"ayaa abuuray xiriiriye casuumaad","revoke_invite":"ayaa buriyay xiriiriyaha casumaadda","invite_used":"la casuumay"},
         "justNow": "hada",
         "minutesAgo": "{{value}}m ka hor",
         "hoursAgo": "{{value}}h ka hor",

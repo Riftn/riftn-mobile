@@ -7105,7 +7105,7 @@
       "defaultPermissions": "صلاحيات الأعضاء الأساسية",
       "defaultPermissionsHint": "كل واحد بيعرف يفعل هنا إلا لو كان admin يقول غير كده.",
       "slowModeTitle": "النمط السريع",
-      "log": {
+      "log": {"verbs":{"promote_admin":"مُروَّج","demote_admin":"نزل رتبة","transfer_ownership":"انتقل ملكية إلى","ban_member":"ممنوع","unban_member":"غير محظور","kick_member":"اتحذفت","mute_member":"مغلف","unmute_member":"الغاء الحظر","approve_member":"تم التأكيد","reject_member":"رفض","delete_message":"حذفت رسالة من","purge_messages":"حذف جميع الرسائل من","pin_message":"أرفق رسالة من","unpin_message":"أزال رسالة من","update_settings":"تم تحديث إعدادات المجتمع","create_invite":"تم إنشاء رابط الدعوة","revoke_invite":"ألغيت رابط الدعوة","invite_used":"دعوة"},
         "justNow": "هسّة",
         "minutesAgo": "{{value}} ماقبل 0 ساعة",
         "weeksAgo": "{{value}} ساعة",
