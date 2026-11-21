@@ -362,17 +362,18 @@ const FeatureCard: React.FC<{
 
   // Same auto-translate as posts: a request in another language reads in the
   // reader's own, with the usual "Translated from ... / Show original" line.
-  const translationTexts = useMemo(() => ({ title: feature.title || "", description: feature.description || "" }),
-    [feature.title, feature.description]);
+  const translationTexts = useMemo(() => ({ title: feature.title || "", description: feature.description || "", statusNote: feature.status_note?.trim() || "" }),
+    [feature.title, feature.description, feature.status_note]);
   const translation = useAutoTranslate(translationTexts, undefined, true, true, feature.id);
   const shownTitle = translation.isTranslated ? (translation.translatedTexts.title || feature.title) : feature.title;
   const shownDescription = translation.isTranslated
     ? (translation.translatedTexts.description || feature.description)
     : feature.description;
 
+  const statusNote = (translation.isTranslated && translation.translatedTexts.statusNote) || feature.status_note?.trim() || "";
   const badge = STATUS_BADGE[feature.status];
   const isNotFeasible = feature.status === "declined";
-  const notFeasibleReason = isNotFeasible ? feature.status_note?.trim() || "" : "";
+  const notFeasibleReason = isNotFeasible ? statusNote : "";
   // Owner typing the optional Not feasible reason; null when closed.
   const [reasonDraft, setReasonDraft] = useState<string | null>(null);
   const saveNotFeasible = () =>
@@ -642,9 +643,9 @@ const FeatureCard: React.FC<{
               </View>
             )}
             {/* A short tag on a live request, e.g. "Future review" on Queued. */}
-            {feature.status !== "declined" && !!feature.status_note?.trim() && (
+            {feature.status !== "declined" && !!statusNote && (
               <View style={[styles.statusBadge, { backgroundColor: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.25)" }]}>
-                <Text style={[styles.statusBadgeText, { color: "#D4D4D8" }]}>{feature.status_note.trim()}</Text>
+                <Text style={[styles.statusBadgeText, { color: "#D4D4D8" }]}>{statusNote}</Text>
               </View>
             )}
           </View>
