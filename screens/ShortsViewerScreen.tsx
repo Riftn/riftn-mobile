@@ -6,7 +6,7 @@ import { useVideoDownload } from "../context/VideoDownloadContext";
 import { soundWindowCorrection } from "../libs/soundWindow";
 import { isHoldGated, cheapestSubscriberQuote, formatSubscriberTokens } from "../libs/content-gate";
 import { useStreamAccessInfo } from "../libs/validators.util";
-import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, MATURE_CONTENT_ENABLED } from "../config/storefront";
 import { useBackPress } from "../hooks/useBackPress";
 import { fetchVideoAccess, isVideoAccessExpiring, useVideoAccess, videoNeedsAccess } from "../libs/video-access";
 import { usePostVideoPlayer } from '../hooks/usePostVideoPlayer';
@@ -189,6 +189,8 @@ import { getShortsFeed, getUnifiedFeed } from "../services/feed.unified.service"
 import { createBrainrotSource } from "../libs/brainrotFeed";
 import { shortsFeedFetchers } from "../navigation/warmShortsFeed";
 import { isContentWarningSeen, markContentWarningSeen } from "../libs/contentWarningSeen";
+import MatureContentGate from "../components/Home/MatureContentGate";
+import { useKidsModeLock } from "../hooks/useKidsModeLock";
 import WarningShortSlide from "../components/Shorts/WarningShortSlide";
 import { profileFeedParams } from "../libs/profileFeedOrigin";
 import { canOpenPostVideoViewer } from "../navigation/postVideoViewerParams";
@@ -3004,6 +3006,7 @@ const ShortsViewerScreen = () => {
   const navigation = useNavigation<any>();
   const user = useUser();
   const { requireAuth } = useAuthActions();
+  const kidsMode = useKidsModeLock();
   const {
     initialIndex = 0,
     initialItems = [],
@@ -3751,6 +3754,18 @@ const ShortsViewerScreen = () => {
   const renderItem = useCallback(
     ({ item, index }: { item: UnifiedFeedItem; index: number }) => {
       if (isLiveSlide(item)) return <LiveShortSlide slide={item} isActive={index === activeIndex} height={containerHeight} />;
+      if (item.contentRating === "mature") {
+        const postId = item.tokenId ?? item.id;
+        return (
+          <View className="dark-surface" style={[styles.matureSlide, { height: containerHeight }]}>
+            <MatureContentGate
+              actionLabel={t("reel.openPost")}
+              canReveal={MATURE_CONTENT_ENABLED && !kidsMode && postId != null}
+              onReveal={() => navigation.navigate(ScreenNames.FeedDetail, { postId: String(postId) })}
+            />
+          </View>
+        );
+      }
       const warning = String((item as any).spoilerText ?? "").trim();
       const id = String(item.tokenId ?? item.id ?? "");
       if (warning && !revealedWarnings.has(id) && !isContentWarningSeen(id)) {
@@ -3798,7 +3813,7 @@ const ShortsViewerScreen = () => {
       />
       );
     },
-    [activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek, handlePlayToEnd],
+    [kidsMode, navigation, t, activeIndex, showOptionsMenu, containerHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, captureViewerState, isMuted, volume, playbackRate, pagerGesture, setChromeVisible, chromeRevealTick, fullscreenTick, handleWideChange, initialIndex, initialThumbnail, feedParams.reelBgId, revealedWarnings, revealWarning, registerPeek, handlePlayToEnd],
   );
 
   const keyExtractor = useCallback(
@@ -3821,7 +3836,7 @@ const ShortsViewerScreen = () => {
 
       {/* Keep the tapped picture visible while native layout establishes the
           pager's exact viewport. Its geometry still waits for measurement. */}
-      {!hasMeasuredViewport && initialThumbnail ? <Image
+      {!hasMeasuredViewport && initialThumbnail && initialItems[initialIndex] && initialItems[initialIndex].contentRating !== "mature" ? <Image
         source={{ uri: initialThumbnail }} style={StyleSheet.absoluteFill}
         contentFit="contain" transition={0} pointerEvents="none"
       /> : null}
@@ -3903,7 +3918,7 @@ const ShortsViewerScreen = () => {
         </View>
 
         {/* The player's buttons, on the bottom row under the scrubber. */}
-        {!isLiveSlide(activeItem) && <View className="dark-surface" style={styles.toolsBar} pointerEvents="box-none">
+        {!isLiveSlide(activeItem) && activeItem?.contentRating !== "mature" && <View className="dark-surface" style={styles.toolsBar} pointerEvents="box-none">
           {/* These two stay on every post so the row never reshuffles
               between slides; where one cannot work it says so. */}
           <ChromeTouchTarget><PictureInPictureButton videoRef={activeVideoRef} size={CHROME_SIZE} unavailable={items[activeIndex]?.postType === "feed-images"} /></ChromeTouchTarget>
@@ -4005,7 +4020,7 @@ const ShortsViewerScreen = () => {
 
       {/* Options menu — bookmark, follow, report, block and the owner actions,
           matching the web viewer's options drawer. */}
-      {showOptionsMenu && !!activeItem && !isLiveSlide(activeItem) && (
+      {showOptionsMenu && !!activeItem && !isLiveSlide(activeItem) && activeItem.contentRating !== "mature" && (
         <PostOptionsMenu
           visible={showOptionsMenu}
           onClose={() => setShowOptionsMenu(false)}
@@ -4081,6 +4096,7 @@ export default ShortsViewerScreen;
 
 const styles = StyleSheet.create({
   playerFrame: { position: "absolute", top: 0, left: 0, right: 0 },
+  matureSlide: { width: "100%", backgroundColor: "#000", justifyContent: "center", paddingHorizontal: 20 },
   container: {
     flex: 1,
     backgroundColor: "transparent",

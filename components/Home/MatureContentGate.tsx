@@ -56,6 +56,7 @@ const MatureContentGate: React.FC<{
   onReveal: () => void;
   /** False hides the tap-through — the App Store build. */
   canReveal?: boolean;
+  actionLabel?: string;
   /** Short copy under the heading. */
   description?: string;
   /** Spans the screen in place of the media: square, no frame, 16:9. */
@@ -63,6 +64,7 @@ const MatureContentGate: React.FC<{
 }> = ({
   onReveal,
   canReveal = MATURE_CONTENT_ENABLED,
+  actionLabel,
   description,
   edgeToEdge = false,
 }) => {
@@ -109,7 +111,7 @@ const MatureContentGate: React.FC<{
         borderColor: 'rgba(255,255,255,0.20)',
       }}
     >
-      <Text className="text-white text-xs font-medium">{t('feedCard.viewAnyway')}</Text>
+      <Text className="text-white text-xs font-medium">{actionLabel ?? t('feedCard.viewAnyway')}</Text>
     </TouchableOpacity>
     )}
   </View>
