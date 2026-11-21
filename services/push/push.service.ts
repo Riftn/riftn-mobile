@@ -452,7 +452,8 @@ async function setupAndroidChannels(): Promise<void> {
 
 // Track the last token registered with backend to avoid duplicates
 let lastBackendRegisteredToken: string | null = null;
-let backendRegistrationInProgress = false;
+let backendRegistration = Promise.resolve(false);
+let registrationGeneration = 0;
 
 /**
  * Register push token with backend for the authenticated user.
@@ -467,29 +468,26 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
     throw new Error('Invalid Expo push token format');
   }
 
-  const voipToken = Platform.OS === 'ios' ? await getVoipToken() : null;
-  const registrationKey = `${token}|${voipToken ?? ''}`;
+  // PushKit can deliver its token while the initial Expo registration is in flight.
+  // Read the latest native token once the preceding write has settled.
+  const generation = registrationGeneration;
+  const register = () => savePushRegistration(token, generation);
+  backendRegistration = backendRegistration.then(register, register);
+  return backendRegistration;
+}
 
-  // Skip if same token already registered
-  if (lastBackendRegisteredToken === registrationKey) {
-    logger.debug('Token already registered with backend, skipping');
-    return true;
-  }
-
-  // Skip if registration already in progress
-  if (backendRegistrationInProgress) {
-    logger.debug('Backend registration already in progress, skipping');
-    return false;
-  }
-
-  backendRegistrationInProgress = true;
-
+async function savePushRegistration(token: string, generation: number): Promise<boolean> {
+  if (generation !== registrationGeneration) return false;
   try {
+    const voipToken = Platform.OS === 'ios' ? await getVoipToken() : null;
+    const registrationKey = `${token}|${voipToken ?? ''}`;
+    if (lastBackendRegisteredToken === registrationKey) return true;
     // Use the same persisted native identifier as auth sessions and request
     // headers. A display name is neither unique nor stable, and changing it
     // while Expo keeps the same token creates two rows for one token.
     const deviceId = await getDeviceId();
-    
+    if (generation !== registrationGeneration) return false;
+
     const payload: PushTokenPayload = {
       token,
       platform: Platform.OS as 'ios' | 'android',
@@ -502,6 +500,7 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
 
     const response = await apiClient.post('/push/token', payload, { isAuthRequired: true });
     
+    if (generation !== registrationGeneration) return false;
     if (response?.success) {
       logger.info('Push token registered with backend');
       lastBackendRegisteredToken = registrationKey;
@@ -513,8 +512,6 @@ export async function registerPushTokenWithBackend(token: string): Promise<boole
   } catch (error) {
     logger.error('Failed to register push token with backend', error);
     return false;
-  } finally {
-    backendRegistrationInProgress = false;
   }
 }
 
@@ -532,6 +529,7 @@ export async function refreshPushRegistration(): Promise<boolean> {
  * Clear the cached registration state (call on logout).
  */
 export function clearPushTokenCache(): void {
+  registrationGeneration += 1;
   cachedExpoPushToken = null;
   lastBackendRegisteredToken = null;
   androidChannelsConfigured = false;
