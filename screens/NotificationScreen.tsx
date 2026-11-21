@@ -95,6 +95,7 @@ import {
   BADGE_LADDER_TYPES,
 } from "../services/enums/notification.enums";
 import { useAppTheme } from "../context/ThemeContext";
+import { notificationAccentFill } from "../components/Notifications/notificationAccent";
 import { DhbCoin } from "../components/common/DhbCoin";
 import { DIGITAL_PURCHASES_ENABLED } from "../config/storefront";
 import {
@@ -590,10 +591,11 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
   groupFirst,
 }) => {
   const { t, i18n } = useTranslation();
-  const { isMinimal, skin, accent, pageColors } = useAppTheme();
+  const { isMinimal, skin, accent, colors } = useAppTheme();
   // Unread dot and primary pill: the theme's own colour on the canvas skins,
   // the page ink (white on System, black on System Light) everywhere else.
-  const accentFill = skin ? `rgb(${accent.join(',')})` : undefined;
+  const accentFill = skin ? notificationAccentFill(accent) : undefined;
+  const accentInk = '#09090B';
   // Written in dark-theme colours; System Light's tone pass turns them to ink.
   const dotColor = accentFill ?? '#F4F4F5';
   const badgeInk = '#F4F4F5';
@@ -843,7 +845,7 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
                 alignItems: 'center',
                 justifyContent: 'center',
                 borderWidth: 2,
-                borderColor: pageColors.background,
+                borderColor: colors.background,
               }}
               className="bg-theme-neutrals-800"
             >
@@ -960,9 +962,9 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
                   style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, height: 30, paddingHorizontal: 14, borderRadius: 15 }, accentFill ? { backgroundColor: accentFill } : null]}
                 >
                   {followState === 'busy'
-                    ? <ActivityIndicator size="small" color={accentFill ? '#FFFFFF' : '#000000'} />
-                    : <Icon name="UserPlus" size={13} color={accentFill ? '#FFFFFF' : '#000000'} />}
-                  <Text className="text-theme-accent-foreground" style={[{ fontSize: 13, fontWeight: '600' }, accentFill ? { color: '#FFFFFF' } : null]}>
+                    ? <ActivityIndicator size="small" color={accentInk} />
+                    : <Icon name="UserPlus" size={13} color={accentInk} />}
+                  <Text style={{ fontSize: 13, fontWeight: '600', color: accentInk }}>
                     {t('follow.followBack')}
                   </Text>
                 </TouchableOpacity>
@@ -975,8 +977,8 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
                   className={accentFill ? undefined : 'bg-theme-accent'}
                   style={[{ flexDirection: 'row', alignItems: 'center', gap: 5, height: 30, paddingHorizontal: 14, borderRadius: 15 }, accentFill ? { backgroundColor: accentFill } : null]}
                 >
-                  <Icon name="Radio" size={13} color={accentFill ? '#FFFFFF' : '#000000'} />
-                  <Text className="text-theme-accent-foreground" style={[{ fontSize: 13, fontWeight: '600' }, accentFill ? { color: '#FFFFFF' } : null]}>
+                  <Icon name="Radio" size={13} color={accentInk} />
+                  <Text style={{ fontSize: 13, fontWeight: '600', color: accentInk }}>
                     {t('cinema.watchNow')}
                   </Text>
                 </TouchableOpacity>
@@ -1059,7 +1061,7 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
                 className={accentFill ? undefined : 'bg-theme-accent'}
                 style={[{ height: 30, justifyContent: 'center', paddingHorizontal: 14, borderRadius: 15 }, accentFill ? { backgroundColor: accentFill } : null]}
               >
-                <Text className="text-theme-accent-foreground" style={[{ fontSize: 13, fontWeight: '600' }, accentFill ? { color: '#FFFFFF' } : null]}>
+                <Text style={{ fontSize: 13, fontWeight: '600', color: accentInk }}>
                   {t('settings.accept')}
                 </Text>
               </TouchableOpacity>
@@ -1167,7 +1169,7 @@ function tabStoreFor(wallet: string | null): TabStore {
 
 const NotificationScreen = () => {
   const { t, i18n } = useTranslation();
-  const { isMinimal, pageColors } = useAppTheme();
+  const { isMinimal } = useAppTheme();
   const insets = useSafeAreaInsets();
   const { patchUser } = useAuthActions();
   const user = useUser();
