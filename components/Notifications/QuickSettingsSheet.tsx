@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import GlassModal from "../ui/GlassModal";
 import CustomSwitch from "../ui/CustomSwitch";
 import Icon, { type IconName } from "../ui/Icon";
+import { notificationAccentFill } from "./notificationAccent";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useAuthActions, useUser } from "../../context/AuthContext";
 import {
@@ -67,8 +68,8 @@ const QuickSettingsSheet: React.FC<QuickSettingsSheetProps> = ({
   // Colours are written for the dark theme: the sheet is a Modal, outside the
   // themed root's class variables, and System Light's tone pass inverts these.
   const { skin, accent } = useAppTheme();
-  const accentFill = skin ? `rgb(${accent.join(',')})` : FG;
-  const accentInk = skin ? '#FFFFFF' : '#09090B';
+  const accentFill = skin ? notificationAccentFill(accent) : FG;
+  const accentInk = '#09090B';
   const user = useUser();
   const { patchUser } = useAuthActions();
   const [prefs, setPrefs] = useState<NotificationPreferences>(() => readPrefs(user));
