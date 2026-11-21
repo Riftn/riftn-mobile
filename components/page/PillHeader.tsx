@@ -57,7 +57,9 @@ export function PillDrawerAutoFocus({ inputRef }: { inputRef: React.RefObject<Te
 const PILL_ACTION = {
   backgroundColor: "transparent",
   borderWidth: 0,
-  width: 34,
+  width: "auto",
+  minWidth: 34,
+  paddingHorizontal: 6,
   height: 34,
   borderRadius: 10,
   alignItems: "center",

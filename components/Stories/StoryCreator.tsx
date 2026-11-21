@@ -274,27 +274,27 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           ))}
 
         <View style={styles.stageTop}>
-          <TouchableOpacity onPress={onBack} style={styles.iconBtn} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
+          <TouchableOpacity className="dark-surface" onPress={onBack} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
             <Icon name="ChevronLeft" size={22} color="#fff" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={onClose} style={[styles.iconBtn, styles.dismissBtn]} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+          <TouchableOpacity className="dark-surface" onPress={onClose} style={[styles.iconBtn, styles.mediaBtn, styles.dismissBtn]} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
             <Icon name="X" size={22} color="#fff" />
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
             {remixLabel ? <Text style={styles.remixLabel} numberOfLines={1}>{remixLabel}</Text> : null}
           </View>
           <View style={styles.tools}>
-            <TouchableOpacity onPress={startText} style={styles.iconBtn} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
+            <TouchableOpacity className="dark-surface" onPress={startText} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
               <Icon name="Type" size={20} color="#fff" />
             </TouchableOpacity>
             {compose && layers.filter((layer) => layer.mentionAddress).length < MAX_MENTIONS ? (
-              <TouchableOpacity onPress={() => setMentionTarget({})} style={styles.iconBtn} accessibilityRole="button"
+              <TouchableOpacity className="dark-surface" onPress={() => setMentionTarget({})} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button"
                 accessibilityLabel={t("upload.studio.mention", { defaultValue: "Mention" })}>
                 <Icon name="AtSign" size={20} color="#fff" />
               </TouchableOpacity>
             ) : null}
             {picked.kind === "video" ? (
-              <TouchableOpacity onPress={() => setMuted((m) => !m)} style={styles.iconBtn} accessibilityLabel={t("stories.mute", { defaultValue: "Sound" })}>
+              <TouchableOpacity className="dark-surface" onPress={() => setMuted((m) => !m)} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.mute", { defaultValue: "Sound" })}>
                 <Icon name={muted ? "VolumeX" : "Volume2"} size={20} color="#fff" />
               </TouchableOpacity>
             ) : null}
@@ -574,7 +574,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(0,0,0,0.38)",
   },
-  dismissBtn: { backgroundColor: "#242427", marginLeft: 8 },
+  mediaBtn: { backgroundColor: "#242427" },
+  dismissBtn: { marginLeft: 8 },
   stage: { alignSelf: "center", borderRadius: 18, overflow: "hidden", backgroundColor: "#111" },
   stageTop: { position: "absolute", top: 10, left: 10, right: 10, flexDirection: "row", alignItems: "flex-start" },
   tools: { gap: 10 },
