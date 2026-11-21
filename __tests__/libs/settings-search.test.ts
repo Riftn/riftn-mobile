@@ -12,9 +12,11 @@
  * phrased the way a reader would actually type it.
  */
 
+import { createInstance } from 'i18next';
 import { readdirSync, readFileSync, statSync } from 'fs';
 import { join, resolve } from 'path';
 
+import tr from '../../i18n/locales/tr.json';
 import { SETTINGS_SEARCH_INDEX, searchSettings } from '../../libs/settings-search';
 
 /** Stand-in for i18next's `t` — returns the fallback, as English does. */
@@ -94,6 +96,14 @@ describe('searchSettings', () => {
     expect(top('2fa')?.anchor).toBe('account-security');
     expect(top('dnd')?.anchor).toBe('dm-access');
     expect(top('country')?.anchor).toBe('geo-blocking');
+  });
+
+  it('finds the badge visibility control by its translated prefix', async () => {
+    const i18n = createInstance();
+    await i18n.init({ lng: 'tr', resources: { tr: { translation: tr } } });
+    expect(searchSettings('roze', i18n.t)[0]).toMatchObject({
+      tab: 'privacy', anchor: 'account-visibility', labelKey: 'settings.hideBadgeAndBalance',
+    });
   });
 
   it('requires every word typed to match something', () => {
