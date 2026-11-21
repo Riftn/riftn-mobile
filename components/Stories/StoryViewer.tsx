@@ -97,6 +97,7 @@ export default function StoryViewer({
   const [reply, setReply] = useState("");
   const [liked, setLiked] = useState<Record<string, boolean>>({});
   const [openingOriginal, setOpeningOriginal] = useState(false);
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
   const originalRequest = useRef<symbol | null>(null);
   const paused = held || typing || sheet !== null || openingOriginal || !loaded;
   const pausedRef = useRef(paused);
@@ -343,10 +344,16 @@ export default function StoryViewer({
   };
 
   const fit = item.width && item.height && item.width > item.height ? "contain" : "cover";
+  // Mentions are positioned within the exported 9:16 image. Cover may crop
+  // that image on a taller phone, so apply the same crop to the tap targets.
+  const mentionFrameWidth = Math.max(viewport.width, viewport.height * 9 / 16);
+  const mentionFrameHeight = mentionFrameWidth * 16 / 9;
 
   return (
     <DarkRoomProvider>
-      <View className="dark-surface" style={styles.root} {...pan.panHandlers}>
+      <View className="dark-surface" style={styles.root} onLayout={({ nativeEvent: { layout: { width, height } } }) => {
+        setViewport((previous) => previous.width === width && previous.height === height ? previous : { width, height });
+      }} {...pan.panHandlers}>
         {item.type === "video" && videoUri ? (
           <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={fit} nativeControls={false} surfaceType="textureView" />
         ) : (
@@ -374,16 +381,28 @@ export default function StoryViewer({
           <Pressable style={{ flex: 1 }} onPress={() => goItem(1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
         </View>
 
-        {item.mentions.map((m) => (
-          <Pressable
-            key={`${m.address}-${m.x}`}
-            onPress={() => {
-              onClose();
-              showUserProfile(m.address, { source: "moment" });
-            }}
-            style={{ position: "absolute", left: `${m.x * 100}%`, top: `${m.y * 100}%`, width: `${m.w * 100}%`, height: `${m.h * 100}%` }}
-          />
-        ))}
+        {!sheet && !openingOriginal && item.mentions.length > 0 && mentionFrameWidth > 0 ? (
+          <View pointerEvents="box-none" style={{
+            position: "absolute",
+            left: (viewport.width - mentionFrameWidth) / 2,
+            top: (viewport.height - mentionFrameHeight) / 2,
+            width: mentionFrameWidth,
+            height: mentionFrameHeight,
+          }}>
+            {item.mentions.map((m) => (
+              <Pressable
+                key={`${m.address}-${m.x}`}
+                accessibilityRole="link"
+                accessibilityLabel={t("upload.studio.mention", { defaultValue: "Mention" })}
+                onPress={() => {
+                  onClose();
+                  showUserProfile(m.address, { source: "moment" });
+                }}
+                style={{ position: "absolute", left: `${m.x * 100}%`, top: `${m.y * 100}%`, width: `${m.w * 100}%`, height: `${m.h * 100}%` }}
+              />
+            ))}
+          </View>
+        ) : null}
 
         {/* Capsule: who, when, how far along, and the actions. */}
         <View style={[styles.cap, { top: insets.top + 8 }]}>

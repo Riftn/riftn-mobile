@@ -30,9 +30,12 @@ import { useTranslation } from "react-i18next";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
+import MentionSuggestions from "../common/MentionSuggestions";
 import { DarkRoomProvider } from "../../context/ThemeContext";
+import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { optionalSkia } from "../../libs/skia";
 import { toastError } from "../../libs/toast";
+import { mentionSearch, type MentionUser } from "../../services/mention.service";
 import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
 import { shareMoment } from "./story-upload";
@@ -41,6 +44,7 @@ import type { TextLayer } from "./story-compose";
 const AUDIENCE_KEY = "riftn.stories.audience";
 const COLORS = ["#ffffff", "#000000", "#ff5c7a", "#ffb34d", "#ffe14d", "#5ce08a", "#4dc3ff", "#a391fc"];
 const MAX_SECONDS = 60;
+const MAX_MENTIONS = 10;
 
 type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number };
 
@@ -142,6 +146,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
 
   const [layers, setLayers] = useState<TextLayer[]>([]);
   const [editing, setEditing] = useState<TextLayer | null>(null);
+  const [mentionTarget, setMentionTarget] = useState<{ layer?: TextLayer } | null>(null);
   const [muted, setMuted] = useState(false);
   const [audience, setAudience] = useState<StoryAudience>("everyone");
   const [lifetime, setLifetime] = useState<StoryLifetime>(24);
@@ -184,6 +189,17 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
     });
     setEditing(null);
   };
+  const selectMention = (user: MentionUser) => {
+    const address = user.address.toLowerCase();
+    const layer = mentionTarget?.layer ?? {
+      id: `mention-${address}`, x: 0.5, y: 0.6, size: 0.06, color: "#ffffff", box: true,
+    };
+    setLayers((current) => {
+      if (current.some((l) => l.id !== layer.id && l.mentionAddress === address)) return current;
+      return [...current.filter((l) => l.id !== layer.id), { ...layer, text: `@${user.username}`, mentionAddress: address }];
+    });
+    setMentionTarget(null);
+  };
 
   const share = async () => {
     if (busy) return;
@@ -218,6 +234,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             muted: picked.kind === "video" ? muted : false,
             caption,
             remixSourceId,
+            mentions: picked.kind === "photo" || overlayUri ? compose?.mentionBoxes(visible) : undefined,
             ...(picked.kind === "video" && picked.duration > MAX_SECONDS ? { trimStart: 0, trimEnd: MAX_SECONDS } : {}),
           },
         },
@@ -249,7 +266,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
               stageW={stageW}
               stageH={stageH}
               onMove={(x, y) => setLayers((ls) => ls.map((x0) => (x0.id === l.id ? { ...x0, x, y } : x0)))}
-              onTap={() => setEditing(l)}
+              onTap={() => l.mentionAddress ? setMentionTarget({ layer: l }) : setEditing(l)}
             />
           ))}
 
@@ -264,6 +281,12 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             <TouchableOpacity onPress={startText} style={styles.iconBtn} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
               <Icon name="Type" size={20} color="#fff" />
             </TouchableOpacity>
+            {compose && layers.filter((layer) => layer.mentionAddress).length < MAX_MENTIONS ? (
+              <TouchableOpacity onPress={() => setMentionTarget({})} style={styles.iconBtn} accessibilityRole="button"
+                accessibilityLabel={t("upload.studio.mention", { defaultValue: "Mention" })}>
+                <Icon name="AtSign" size={20} color="#fff" />
+              </TouchableOpacity>
+            ) : null}
             {picked.kind === "video" ? (
               <TouchableOpacity onPress={() => setMuted((m) => !m)} style={styles.iconBtn} accessibilityLabel={t("stories.mute", { defaultValue: "Sound" })}>
                 <Icon name={muted ? "VolumeX" : "Volume2"} size={20} color="#fff" />
@@ -325,7 +348,69 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           bottom={insets.bottom}
         />
       ) : null}
+      {mentionTarget ? (
+        <MentionSheet
+          layer={mentionTarget.layer}
+          excluded={layers.flatMap((layer) => layer.mentionAddress && layer.id !== mentionTarget.layer?.id ? [layer.mentionAddress] : [])}
+          onSelect={selectMention}
+          onClose={() => setMentionTarget(null)}
+          onRemove={() => {
+            setLayers((current) => current.filter((layer) => layer.id !== mentionTarget.layer?.id));
+            setMentionTarget(null);
+          }}
+          bottom={insets.bottom}
+        />
+      ) : null}
     </View>
+  );
+}
+
+function MentionSheet({ layer, excluded, onSelect, onClose, onRemove, bottom }: {
+  layer?: TextLayer;
+  excluded: string[];
+  onSelect: (user: MentionUser) => void;
+  onClose: () => void;
+  onRemove: () => void;
+  bottom: number;
+}) {
+  const { t } = useTranslation();
+  const [input, setInput] = useState("");
+  const query = input.trim().replace(/^@/, "");
+  const debounced = useDebouncedValue(query, 220);
+  const { data: users = [], isFetching } = useQuery({
+    queryKey: ["story-mention-people", debounced],
+    queryFn: () => mentionSearch(debounced),
+    enabled: query === debounced && debounced.length > 0,
+    staleTime: 30_000,
+  });
+  const suggestions = users.filter((user) => user.username && /^0x[0-9a-f]{40}$/i.test(user.address) && !excluded.includes(user.address.toLowerCase()));
+  const loading = query !== debounced || isFetching;
+  return (
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.lifetimeOverlay}>
+      <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessible={false} />
+      <View style={[styles.textTools, { paddingBottom: bottom + 16 }]} accessibilityViewIsModal>
+        <View style={styles.textRow}>
+          <Text style={[styles.chipText, { flex: 1 }]}>{layer?.text ?? t("upload.studio.mention", { defaultValue: "Mention" })}</Text>
+          {layer ? (
+            <TouchableOpacity style={styles.chip} onPress={onRemove} accessibilityRole="button">
+              <Text style={styles.chipText}>{t("common.remove", { defaultValue: "Remove" })}</Text>
+            </TouchableOpacity>
+          ) : null}
+          <TouchableOpacity style={styles.iconBtn} onPress={onClose} accessibilityRole="button"
+            accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+            <Icon name="X" size={20} color="#fff" />
+          </TouchableOpacity>
+        </View>
+        <TextInput autoFocus value={input} onChangeText={setInput} autoCapitalize="none" autoCorrect={false}
+          placeholder={t("common.search", { defaultValue: "Search" })} placeholderTextColor="rgba(255,255,255,0.55)"
+          keyboardAppearance="dark" style={styles.mentionInput} />
+        <MentionSuggestions visible={!!query && (loading || suggestions.length > 0)}
+          suggestions={loading ? [] : suggestions} loading={loading} onSelect={onSelect} />
+        {query && !loading && suggestions.length === 0 ? (
+          <Text style={styles.chipText}>{t("follow.noResults", { defaultValue: "No results found" })}</Text>
+        ) : null}
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -366,10 +451,12 @@ function DraggableText({
   const fontSize = layer.size * stageW;
   return (
     <View
-      {...pan.panHandlers}
-      style={{ position: "absolute", left: 0, width: stageW, top: layer.y * stageH - fontSize, alignItems: "center", transform: [{ translateX: (layer.x - 0.5) * stageW }] }}
+      pointerEvents="box-none"
+      style={{ position: "absolute", left: 0, width: stageW, top: layer.y * stageH - fontSize * 0.59, alignItems: "center", transform: [{ translateX: (layer.x - 0.5) * stageW }] }}
     >
-      <Text style={textStyle(layer, fontSize)}>{layer.text}</Text>
+      <View {...pan.panHandlers} accessible accessibilityRole="button" accessibilityLabel={layer.text} onAccessibilityTap={onTap}>
+        <Text style={textStyle(layer, fontSize)}>{layer.text}</Text>
+      </View>
     </View>
   );
 }
@@ -500,6 +587,7 @@ const styles = StyleSheet.create({
   shareText: { color: "#000", fontSize: 15, fontWeight: "800" },
   textBack: { flex: 1, backgroundColor: "rgba(0,0,0,0.55)" },
   lifetimeOverlay: { ...StyleSheet.absoluteFillObject, justifyContent: "flex-end", backgroundColor: "rgba(0,0,0,0.42)" },
+  mentionInput: { minHeight: 44, borderRadius: 22, paddingHorizontal: 16, color: "#fff", backgroundColor: "rgba(255,255,255,0.1)" },
   textTools: { paddingHorizontal: 14, paddingTop: 12, gap: 10, backgroundColor: "#16161A", borderTopLeftRadius: 22, borderTopRightRadius: 22, borderTopWidth: StyleSheet.hairlineWidth, borderColor: "rgba(255,255,255,0.18)" },
   swatches: { flexDirection: "row", gap: 8 },
   swatch: { width: 28, height: 28, borderRadius: 14, borderWidth: 2, borderColor: "rgba(255,255,255,0.4)" },

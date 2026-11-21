@@ -10,6 +10,7 @@
 import { Skia, FontWeight, ImageFormat, TileMode, type SkCanvas, type SkImage } from "@shopify/react-native-skia";
 import { Platform } from "react-native";
 import * as FileSystem from "expo-file-system/legacy";
+import type { StoryMention } from "../../services/stories.service";
 
 export const OUT_W = 1080;
 export const OUT_H = 1920;
@@ -24,9 +25,29 @@ export interface TextLayer {
   size: number;
   color: string;
   box: boolean;
+  mentionAddress?: string;
 }
 
 const FAMILIES = Platform.select({ ios: ["Helvetica Neue"], default: ["sans-serif"] });
+
+function layoutLine(line: string, px: number, layer: TextLayer) {
+  // Paragraph shaping falls back to the system emoji font for joined sequences.
+  const builder = Skia.ParagraphBuilder.Make({ maxLines: 1 });
+  builder.pushStyle({
+    color: Skia.Color(layer.color),
+    fontSize: px,
+    fontFamilies: FAMILIES,
+    fontStyle: { weight: FontWeight.Bold },
+    ...(layer.box ? {} : {
+      shadows: [{ color: Skia.Color("rgba(0,0,0,0.45)"), blurRadius: px * 0.12, offset: { x: 0, y: 0 } }],
+    }),
+  });
+  builder.addText(line || " ");
+  builder.pop();
+  const paragraph = builder.build();
+  paragraph.layout(100_000);
+  return paragraph;
+}
 
 function drawText(canvas: SkCanvas, layer: TextLayer) {
   const text = layer.text.trim();
@@ -37,22 +58,7 @@ function drawText(canvas: SkCanvas, layer: TextLayer) {
   const cx = layer.x * OUT_W;
   const top = layer.y * OUT_H - (lines.length * lineH) / 2;
   lines.forEach((line, i) => {
-    // Paragraph shaping can fall back to the system emoji font and preserves
-    // joined emoji and skin-tone sequences when baking the overlay.
-    const builder = Skia.ParagraphBuilder.Make({ maxLines: 1 });
-    builder.pushStyle({
-      color: Skia.Color(layer.color),
-      fontSize: px,
-      fontFamilies: FAMILIES,
-      fontStyle: { weight: FontWeight.Bold },
-      ...(layer.box ? {} : {
-        shadows: [{ color: Skia.Color("rgba(0,0,0,0.45)"), blurRadius: px * 0.12, offset: { x: 0, y: 0 } }],
-      }),
-    });
-    builder.addText(line || " ");
-    builder.pop();
-    const paragraph = builder.build();
-    paragraph.layout(100_000);
+    const paragraph = layoutLine(line, px, layer);
     const w = paragraph.getLongestLine();
     const lineTop = top + lineH * i;
     if (layer.box) {
@@ -66,6 +72,21 @@ function drawText(canvas: SkCanvas, layer: TextLayer) {
       );
     }
     paragraph.paint(canvas, cx - w / 2, lineTop + (lineH - paragraph.getHeight()) / 2);
+  });
+}
+
+/** Tap targets use the same paragraph and padding as the exported labels. */
+export function mentionBoxes(layers: TextLayer[]): StoryMention[] {
+  const clamp = (value: number) => Math.min(1, Math.max(0, value));
+  return layers.flatMap((layer) => {
+    if (!layer.mentionAddress) return [];
+    const px = Math.round(layer.size * OUT_W);
+    const paragraph = layoutLine(layer.text, px, layer);
+    const halfW = (paragraph.getLongestLine() + px * 0.64) / (2 * OUT_W);
+    const halfH = (px * 1.18) / (2 * OUT_H);
+    const x = clamp(layer.x - halfW);
+    const y = clamp(layer.y - halfH);
+    return [{ address: layer.mentionAddress, x, y, w: clamp(layer.x + halfW) - x, h: clamp(layer.y + halfH) - y }];
   });
 }
 
