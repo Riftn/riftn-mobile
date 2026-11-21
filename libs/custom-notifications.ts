@@ -304,17 +304,19 @@ const toNotificationItem = (row: CustomNotificationRow): CustomNotificationItem 
  */
 export async function fetchCustomNotifications(
   walletAddress: string | null | undefined,
+  unreadOnly = false,
 ): Promise<CustomNotificationItem[]> {
   if (!walletAddress) return [];
   try {
-    const { data, error } = await withWalletHeader(
-      supabase
+    const query = supabase
         .from("custom_notifications")
         .select("*")
         // The header drives RLS; this filter is belt-and-braces alongside it.
         .eq("recipient_address", walletAddress.toLowerCase())
         .order("created_at", { ascending: false })
-        .limit(CUSTOM_NOTIFICATION_LIMIT),
+        .limit(CUSTOM_NOTIFICATION_LIMIT);
+    const { data, error } = await withWalletHeader(
+      unreadOnly ? query.eq("read", false) : query,
       walletAddress,
     );
     if (error) throw error;
@@ -323,6 +325,7 @@ export async function fetchCustomNotifications(
     return rows.map(toNotificationItem);
   } catch (e) {
     console.warn("[custom-notifications] fetch failed", e);
+    if (unreadOnly) throw e;
     return [];
   }
 }
@@ -337,7 +340,8 @@ export async function markCustomNotificationRead(
     supabase
       .from("custom_notifications")
       .update({ read: true })
-      .eq("id", customRowId(notificationId)),
+      .eq("id", customRowId(notificationId))
+      .eq("recipient_address", walletAddress.toLowerCase()),
     walletAddress,
   );
   if (error) throw error;
