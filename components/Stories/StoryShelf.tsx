@@ -5,7 +5,7 @@
  * "Your day" first (+ to share a moment, or watch your own), then everyone
  * live right now (it replaces the Live now row), then people's moments: new
  * ones carry a ring in the theme's colours, watched ones go grey and move to
- * the end. Each tile blurs the story cover behind the avatar.
+ * the end. Light tiles keep the avatar on a solid surface.
  */
 import React, { useCallback, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -28,7 +28,8 @@ import { useLiveNowItems, pictureOf, type LiveNowItem } from "../Home/LiveNowBar
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } from "../../store/stories.store";
 import { ageLabel, avatarOf, coverOf, nameOf, playable } from "./story-utils";
-import { getAvatarUrl } from "../../libs/misc";
+import { useBadgeAccount } from "../../hooks/useAccountBadge";
+import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 
 const TILE_W = 86;
 const TILE_H = 118;
@@ -153,19 +154,21 @@ function MeTile({
   onAdd: () => void;
 }) {
   const { t } = useTranslation();
+  const { isLight } = useAppTheme();
   const failed = pending?.state === "failed";
   return (
     <TouchableOpacity
       activeOpacity={0.85}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
       accessibilityLabel={name}
-      style={styles.tile}
+      className="dark-surface"
+      style={[styles.tile, isLight && styles.lightTile]}
     >
       <Face uri={avatar} name={name} cover={pending ? pending.preview : entry && coverOf(entry)} />
-      <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.6)"]} style={styles.shade} pointerEvents="none" />
+      {!isLight && <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.6)"]} style={styles.shade} pointerEvents="none" />}
       {pending && !failed ? (
         <View style={styles.progressTrack} pointerEvents="none">
-          <View style={[styles.progressFill, { width: `${Math.max(4, Math.round(pending.progress * 100))}%` }]} />
+          <View style={[styles.progressFill, isLight && styles.lightProgress, { width: `${Math.max(4, Math.round(pending.progress * 100))}%` }]} />
         </View>
       ) : null}
       {failed ? (
@@ -178,13 +181,15 @@ function MeTile({
       <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plus} accessibilityLabel={t("stories.addMoment", { defaultValue: "Add a moment" })}>
         <Icon name="Plus" size={16} color="#000" strokeWidth={2.6} />
       </TouchableOpacity>
-      <Text style={styles.name} numberOfLines={1}>
-        {failed
-          ? t("stories.tapRetry", { defaultValue: "Tap to retry" })
-          : pending || processing
-            ? t("stories.sharing", { defaultValue: "Sharing…" })
-            : name}
-      </Text>
+      <View style={styles.label}>
+        <Text style={[styles.name, isLight && styles.lightName]} numberOfLines={1}>
+          {failed
+            ? t("stories.tapRetry", { defaultValue: "Tap to retry" })
+            : pending || processing
+              ? t("stories.sharing", { defaultValue: "Sharing…" })
+              : name}
+        </Text>
+      </View>
     </TouchableOpacity>
   );
 }
@@ -195,25 +200,49 @@ function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
   const tone = theme === "osaka" ? "#FFB05C" : isLight ? "#E04046" : "#FF6363";
   const pic = pictureOf(item);
   return (
-    <TouchableOpacity activeOpacity={0.85} onPress={onOpen} accessibilityLabel={item.title} style={[styles.tile, styles.liveTile, { borderColor: tone }]}>
+    <TouchableOpacity className="dark-surface" activeOpacity={0.85} onPress={onOpen} accessibilityLabel={item.title} style={[styles.tile, styles.liveTile, { borderColor: tone }]}>
       {pic ? <Image source={{ uri: pic }} style={StyleSheet.absoluteFill} contentFit="cover" cachePolicy="memory-disk" /> : null}
       <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.65)"]} style={styles.shade} pointerEvents="none" />
       <View style={[styles.livePill, { backgroundColor: tone }]}>
         <Text style={styles.livePillText}>{t("stages.live")}</Text>
       </View>
-      <Text style={styles.name} numberOfLines={1}>
-        {item.displayName || item.username || item.title}
-      </Text>
+      <TileIdentity
+        displayName={item.displayName}
+        fallback={item.username || item.title}
+        lookup={item.kind === "stage" ? item.wallet : undefined}
+        badge={item.badge}
+      />
     </TouchableOpacity>
   );
 }
 
-/** Keep the creator visible over the blurred opening frame. */
+function TileIdentity({ displayName, fallback, lookup, badge, light = false }: {
+  displayName?: string | null;
+  fallback: string;
+  lookup?: string;
+  badge?: number;
+  light?: boolean;
+}) {
+  const account = useBadgeAccount(lookup);
+  const artwork = badge ?? (account && !account.hideBadgeAndBalance ? getBadgeUrlFor(account) : undefined);
+  return (
+    <View style={styles.label}>
+      <Text style={[styles.name, light && styles.lightName]} numberOfLines={1}>
+        {displayName?.trim() || account?.displayName?.trim() || fallback}
+      </Text>
+      {artwork != null && (
+        <Image source={artwork} style={styles.badge} contentFit="contain" />
+      )}
+    </View>
+  );
+}
+
 function Face({ uri, name, cover }: { uri: string | null; name: string; cover: string | null }) {
+  const { isLight } = useAppTheme();
   return (
     <>
-      {cover ? <Image source={{ uri: cover }} recyclingKey={cover} style={styles.coverBlur} contentFit="cover" blurRadius={80} cachePolicy="memory-disk" /> : null}
-      <View style={styles.frost} pointerEvents="none" />
+      {!isLight && cover ? <Image source={{ uri: cover }} recyclingKey={cover} style={styles.coverBlur} contentFit="cover" blurRadius={80} cachePolicy="memory-disk" /> : null}
+      {!isLight && <View style={styles.frost} pointerEvents="none" />}
       <View style={styles.face} pointerEvents="none">
         <Avatar uri={uri} size={52} radius={26} name={name} />
       </View>
@@ -222,6 +251,7 @@ function Face({ uri, name, cover }: { uri: string | null; name: string; cover: s
 }
 
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
+  const { isLight } = useAppTheme();
   const ring = useRingGradient();
   const face = avatarOf(entry.author, 96);
   const latest = entry.items[entry.items.length - 1];
@@ -229,19 +259,17 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
   return (
     <TouchableOpacity activeOpacity={0.85} onPress={onOpen} accessibilityLabel={nameOf(entry.author)} style={styles.tileBox}>
       {fresh && ring ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
-      <View className="dark-surface" style={[styles.tile, fresh && styles.inRing]}>
+      <View className="dark-surface" style={[styles.tile, isLight && styles.lightTile, fresh && (!isLight || ring) && styles.inRing]}>
         <View style={[StyleSheet.absoluteFill, !fresh && styles.seen]} pointerEvents="none">
-          <Face uri={face} cover={coverOf(entry)} name={entry.author.username || entry.author.address} />
+          <Face uri={face} cover={coverOf(entry)} name={nameOf(entry.author)} />
         </View>
-        <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.62)"]} style={styles.shade} pointerEvents="none" />
+        {!isLight && <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.62)"]} style={styles.shade} pointerEvents="none" />}
         {latest ? (
           <View style={styles.age}>
             <Text style={styles.ageText}>{ageLabel(latest.createdAt)}</Text>
           </View>
         ) : null}
-        <Text style={styles.name} numberOfLines={1}>
-          {entry.author.username ? `@${entry.author.username}` : nameOf(entry.author)}
-        </Text>
+        <TileIdentity displayName={entry.author.displayName} fallback={entry.author.username || `${entry.author.address.slice(0, 6)}…`} lookup={entry.author.address} light={isLight} />
         {!fresh || !ring ? <View style={styles.smokeLine} pointerEvents="none" /> : null}
       </View>
     </TouchableOpacity>
@@ -277,16 +305,27 @@ const styles = StyleSheet.create({
   seen: { opacity: 0.55 },
   liveTile: { borderWidth: 2 },
   shade: { position: "absolute", left: 0, right: 0, bottom: 0, height: "60%" },
-  name: {
+  label: {
     position: "absolute",
-    left: 8,
-    right: 8,
+    left: 4,
+    right: 4,
     bottom: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 2,
+  },
+  lightTile: { backgroundColor: "#f4f5f7", borderColor: "#d6d9df", borderWidth: 1 },
+  badge: { width: 14, height: 14 },
+  lightName: { color: "#20242b" },
+  lightProgress: { backgroundColor: "#343a44" },
+  name: {
+    flexShrink: 1,
+    textAlign: "center",
+    lineHeight: 16,
     color: "#fff",
     fontSize: 11.5,
     fontWeight: "600",
-    textShadowColor: "rgba(0,0,0,0.5)",
-    textShadowRadius: 4,
   },
   // Android caps the native blur radius. Render a small cover and scale it to the tile.
   coverBlur: { position: "absolute", left: "50%", top: "50%", width: TILE_W / 4, height: TILE_H / 4, marginLeft: -TILE_W / 8, marginTop: -TILE_H / 8, transform: [{ scale: 4.2 }] },
