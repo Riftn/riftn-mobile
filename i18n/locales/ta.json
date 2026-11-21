@@ -7111,7 +7111,7 @@
       "defaultPermissions": "இயல்புநிலை உறுப்பினர் அனுமதிகள்",
       "defaultPermissionsHint": "நிர்வாகி உரிமை வேறுவிதமாக கூறாவிட்டால் அனைவரும் இங்கே செய்யக்கூடியவை.",
       "slowModeTitle": "மந்த முறை",
-      "log": {
+      "log": {"verbs":{"promote_admin":"விளம்பரப்படுத்தப்பட்டது","demote_admin":"பணிநீக்கம் செய்யப்பட்டார்","transfer_ownership":"உரிமையாளருக்கு மாற்றப்பட்டது","ban_member":"தடை செய்யப்பட்டவர்கள்","unban_member":"தடை நீக்கப்பட்டது","kick_member":"நீக்கப்பட்டது","mute_member":"முடக்கப்பட்டது","unmute_member":"முடக்கப்படவில்லை","approve_member":"அங்கீகரிக்கப்பட்டது","reject_member":"நிராகரிக்கப்பட்டது","delete_message":"ஒரு செய்தியை நீக்கியது","purge_messages":"அனைத்து செய்திகளையும் நீக்கியது","pin_message":"ஒரு செய்தியைப் பின் (pin) செய்தது","unpin_message":"ஒரு பதிவை தள்ளி வைத்தார்","update_settings":"சமூக அமைப்புகளைப் புதுப்பித்தது","create_invite":"அழைப்பு இணைப்பை உருவாக்கியது","revoke_invite":"அழைப்பு இணைப்பை ரத்து செய்தது","invite_used":"அழைக்கப்பட்டுள்ளார்"},
         "forDays": "{{value}} நாட்களுக்கு",
         "forHours": "{{value}} மணிநேரத்திற்கு",
         "justNow": "இப்பொழுது",

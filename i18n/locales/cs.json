@@ -7112,7 +7112,7 @@
       "defaultPermissions": "Výchozí oprávnění členů",
       "defaultPermissionsHint": "Co může každý dělat zde, pokud správce neříká jinak.",
       "slowModeTitle": "Pomalý režim",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demotován","transfer_ownership":"převzal vlastnictví","ban_member":"zakázáno","unban_member":"neblokováno","kick_member":"odebráno","mute_member":"ztlumeno","unmute_member":"neomezené","approve_member":"schváleno","reject_member":"odmítnuto","delete_message":"smazal jsem zprávu od","purge_messages":"smazal jsem všechny zprávy od","pin_message":"připevnil zprávu od","unpin_message":"odpínač zprávy od","update_settings":"aktualizoval/a nastavení komunity","create_invite":"vytvořil pozvánkový odkaz","revoke_invite":"zrušeno pozvánkové odkazy","invite_used":"zváno"},
         "justNow": "právě teď",
         "minutesAgo": "{{value}}m zpět",
         "hoursAgo": "{{value}}h zpět",

@@ -7108,7 +7108,7 @@
       "defaultPermissions": "Ìmúlò àṣẹ ọmọ ẹgbẹ́ àtẹ̀jáde",
       "defaultPermissionsHint": "Ohun tí gbogbo ènìyàn lè ṣe nibi bí kò bá sí àṣẹ alákóso tó sọ pé kì í ṣe bẹ́ẹ̀.",
       "slowModeTitle": "Ìmúlò àkúnya",
-      "log": {
+      "log": {"verbs":{"promote_admin":"tí a gbé lárugẹ","demote_admin":"ti a ti kọ silẹ","transfer_ownership":"gbe nini rẹ lọ si","ban_member":"ti a ti fi ofin de","unban_member":"ti yọkuro idinamọ","kick_member":"a ti yọ ọ́ kúrò","mute_member":"Ọjọ","unmute_member":"tí a ṣí ohùn rẹ̀","approve_member":"approved","reject_member":"kọ̀","delete_message":"pa àtẹ̀jísẹ́ kan kúrò","purge_messages":"pa gbogbo ìránṣẹ́ rẹ́ láti ọ̀dọ̀","pin_message":"ti fi àtẹ̀jíṣẹ́ kan sínú àkọsílẹ̀","unpin_message":"unpinned a ifiranṣẹ lati","update_settings":"ti ṣe imudojuiwọn awọn eto agbegbe","create_invite":"ṣẹ̀dá ọ̀nà ìsopọ̀ ìkésíni","revoke_invite":"ti fagilé ọ̀nà àsopọ̀ ìkésíni","invite_used":"invited"},
         "justNow": "lónìí",
         "minutesAgo": "{{value}}m ṣáájú",
         "hoursAgo": "{{value}}h ṣáájú",

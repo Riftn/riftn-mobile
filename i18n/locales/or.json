@@ -7105,7 +7105,7 @@
       "slowMode":{"off":"ଅଫ୍","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 ମିନିଟ","fiveMinutes":"5 ମିନିଟ","fifteenMinutes":"15 ମିନିଟ","oneHour":"1 ଘଣ୍ଟା"},"slowModeOffHint": "ସଦସ୍ୟମାନେ ବିନା ବିଳମ୍ବରେ ମେସେଜ ପଠାଇପାରିବେ ।",
       "slowModeOnHint": "ସଦସ୍ୟମାନେ {{label}} ପ୍ରତ୍ୟେକ ଗୋଟିଏ ମେସେଜ ପଠାଇ ପାରିବେ । ପ୍ରଶାସକମାନେ ଏଥିରୁ ବାଦ ପଡ଼ିଛନ୍ତି ।",
       "defaultPermissionsHint": "ଜଣେ ପ୍ରଶାସକ ଅନ୍ୟ କିଛି ନ କହିଲେ ସମସ୍ତେ ଏଠି କ 'ଣ କରିପାରିବେ?",
-      "log": {
+      "log": {"verbs":{"promote_admin":"ପ୍ରମୋଟ୍ କରାଯାଇଛି","demote_admin":"ବିଖଣ୍ଡିତ","transfer_ownership":"ଟ୍ରାନ୍ସଫର ହୋଇଥିବା ମାଲିକାନା","ban_member":"ନିଷିଦ୍ଧ","unban_member":"ନିଷିଦ୍ଧ","kick_member":"ଅପସାରଣ କରାଯାଇଛି","mute_member":"ମ୍ୟୁଟେଡ","unmute_member":"ନିରବଚ୍ଛିନ୍ନ","approve_member":"ଅନୁମୋଦିତ","reject_member":"ପ୍ରତ୍ୟାଖ୍ୟାନ କରାଯାଇଛି","delete_message":"ଗୋଟିଏ ସନ୍ଦେଶକୁ ଅପସାରଣ କରାଯାଇଛି","purge_messages":"ସମସ୍ତ ବାର୍ତ୍ତା ଡିଲିଟ୍ କରିଦିଆଯାଇଛି","pin_message":"ରୁ ଗୋଟିଏ ସନ୍ଦେଶ ପିନ କରିଅଛି","unpin_message":"ଏକ ପୋସ୍ଟ ଅ-ପିନ୍ କରି ଦିଆ ହୋଇଛି","update_settings":"ସମ୍ପ୍ରଦାୟ ସେଟିଙ୍ଗଗୁଡ଼ିକୁ ଅଦ୍ୟତନ କରନ୍ତୁ","create_invite":"ଏକ ଇନଭାଇଟ୍ ଲିଙ୍କ୍ ତିଆରି କଲେ","revoke_invite":"ନିମନ୍ତ୍ରଣ ଲିଙ୍କକୁ ବାତିଲ କରାଯାଇଛି","invite_used":"ଆମନ୍ତ୍ରିତ"},
         "justNow": "ବର୍ତ୍ତମାନ",
         "minutesAgo": "{{value}}m ପୂର୍ବରୁ",
         "hoursAgo": "{{value}}h ପୂର୍ବରୁ",

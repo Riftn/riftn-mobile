@@ -7140,7 +7140,7 @@
       "defaultPermissions": "Standaard lidtoestemminge",
       "defaultPermissionsHint": "Wat almal kan doen hier, ten minste totdat 'n administrateur se reg het dit anders gestel het.",
       "slowModeTitle": "Gangbaan",
-      "log": {
+      "log": {"verbs":{"promote_admin":"bevorder","demote_admin":"gedemoteer","transfer_ownership":"Oorheersing van eienaarskap oorgedra","ban_member":"verbode","unban_member":"ontban","kick_member":"Verwyder","mute_member":"gedempte","unmute_member":"onverhinder","approve_member":"Goedgekeur","reject_member":"verwerp","delete_message":"het ’n berig van afgemaak","purge_messages":"verwyder alle boodskappe van","pin_message":"'n Geheue boodskap van","unpin_message":"ongeëvenaarde Boodskap van","update_settings":"Die gemeenskapsinstellings is bygewerk","create_invite":"het 'n uitnodigingskakel geskep","revoke_invite":"het 'n uitnodigingskoppelstuk ingetrek","invite_used":"Gelê"},
         "justNow": "net nou",
         "minutesAgo": "{{value}}m gelede",
         "hoursAgo": "{{value}}h gelede",

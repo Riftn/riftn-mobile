@@ -7108,7 +7108,7 @@
       "defaultPermissions": "मानक सदस्य अधिकार",
       "defaultPermissionsHint": "यहाँ सब कुछ कर सकते हैं जब तक कि एक प्रशासक अधिकार न कहे नहीं।",
       "slowModeTitle": "धीमी गति मोड",
-      "log": {
+      "log": {"verbs":{"promote_admin":"प्रवर्धितम्","demote_admin":"नीचा किया गया","transfer_ownership":"अधिकृत स्थानाधिकारी कृत","ban_member":"निषिद्धम्","unban_member":"निषिद्धम्","kick_member":"निष्कासितम्","mute_member":"उत्परिवर्तितम्","unmute_member":"अनम्य","approve_member":"स्वीकृत","reject_member":"अस्वीकृतम्","delete_message":"संदेशं निर्मूल्यं कृतवान्","purge_messages":"कोई प्राप्त संदेश खोलना","pin_message":"एक संदेश पिन किया गया है","unpin_message":"कोई सन्देश दे","update_settings":"अद्यत्वे तु समुदायार्थे","create_invite":"निमंत्रण लिंक बनाया गया","revoke_invite":"निमन्त्रणा लिंक","invite_used":"प्रशंसित"},
         "justNow": "कुछ ही समय पहले",
         "minutesAgo": "{{value}}m पूर्व",
         "hoursAgo": "{{value}}h पूर्व",

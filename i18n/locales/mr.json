@@ -7111,7 +7111,7 @@
       "defaultPermissions": "डिफॉल्ट सदस्य परवानग्या",
       "defaultPermissionsHint": "इथे प्रत्येकजण काय करू शकतो, जोपर्यंत प्रशासकाचा अधिकार वेगळा सांगत नाही.",
       "slowModeTitle": "स्लो मोड",
-      "log": {
+      "log": {"verbs":{"promote_admin":"प्रमोशन झालेलं","demote_admin":"निम्नस्थानित","transfer_ownership":"मालकपणा हस्तांतरित केला","ban_member":"निष्कासित","unban_member":"निषिद्ध","kick_member":"हटवले","mute_member":"निःशब्द केले","unmute_member":"अनम्य","approve_member":"अप्रूवल केले","reject_member":"रिजेक्ट","delete_message":"एक संदेश काढून टाकला","purge_messages":"पासून सर्व संदेश हटविले","pin_message":"com वरून एक संदेश पाठवा","unpin_message":"एक संदेश अनपिन केला गेला:","update_settings":"समुदाय सेटिंग्ज अपडेट करा","create_invite":"आमंत्रण लिंक तयार केली","revoke_invite":"निमंत्रणाचा लिंक रद्द केला","invite_used":"निमंत्रित"},
         "justNow": "आत्ताच",
         "minutesAgo": "{{value}}m पूर्वी",
         "hoursAgo": "{{value}}h पूर्वी",

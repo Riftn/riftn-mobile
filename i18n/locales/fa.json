@@ -7137,7 +7137,7 @@
       "defaultPermissions": "مجوزهای پیش‌فرض اعضا",
       "defaultPermissionsHint": "کاری که همه می‌توانند اینجا انجام دهند، مگر اینکه مدیر خلاف آن را بگوید.",
       "slowModeTitle": "حالت آهسته",
-      "log": {
+      "log": {"verbs":{"promote_admin":"پشتیبانی شده","demote_admin":"کاهش درجه","transfer_ownership":"مالکیت منتقل شد به","ban_member":"ممنوع","unban_member":"از لیست سیاه خارج شد","kick_member":"حذف شده","mute_member":"خاموش","unmute_member":"صوت غیرمuted","approve_member":"تایید شد","reject_member":"رد شد","delete_message":"پیام حذف شد از","purge_messages":"تمام پیام‌ها را از [نام شرکت] حذف کرد","pin_message":"پیوند داده شده از یک پیام توسط","unpin_message":"پیام‌ای از","update_settings":"تنظیمات جامعه به روز شد","create_invite":"یک لینک دعوت ایجاد کرد","revoke_invite":"یک لینک دعوت لغو شد","invite_used":"داخلی شده"},
         "justNow": "همین الان",
         "minutesAgo": "{{value}}چند ماه پیش",
         "hoursAgo": "{{value}}ساعت پیش",

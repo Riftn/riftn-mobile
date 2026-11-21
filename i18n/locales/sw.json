@@ -7135,7 +7135,7 @@
       "defaultPermissions": "Ruhusa chaguo-msingi za mwanachama",
       "defaultPermissionsHint": "Kile ambacho kila mtu anaweza kufanya hapa isipokuwa haki ya msimamizi inasema vinginevyo.",
       "slowModeTitle": "Hali ya polepole",
-      "log": {
+      "log": {"verbs":{"promote_admin":"zimepandishwa cheo","demote_admin":"kutengwa","transfer_ownership":"Imetoa ushawishi kwa mwenye nafasi","ban_member":"imepigwa marufuku","unban_member":"haijapigwa marufuku","kick_member":"iliyotolewa","mute_member":"imebadilishwa","unmute_member":"bila kuumwa","approve_member":"Imetambuliwa","reject_member":"imekataliwa","delete_message":"amefuta ujumbe kutoka kwa","purge_messages":"ilifuta ujumbe wote kutoka","pin_message":"yaliyopigwa kisanduku kutoka","unpin_message":"kutokana na","update_settings":"Imetoongezwa maadili ya jumuiya","create_invite":"iliwezesha linki ya kuwapa kujieleza","revoke_invite":"ulipitisha linki ya kuwahamisha","invite_used":"inatambulika"},
         "justNow": "sasa hivi",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h ago",

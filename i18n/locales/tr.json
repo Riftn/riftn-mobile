@@ -4892,7 +4892,7 @@
       "defaultPermissions": "Varsayılan üye izinleri",
       "defaultPermissionsHint": "Burada herkes yapabilir, bir yönetici yetkisi yoksa.",
       "slowModeTitle": "Yavaş mod",
-      "log": {
+      "log": {"verbs":{"promote_admin":"şu üyeyi yönetici yaptı:","demote_admin":"şu üyenin yöneticiliğini kaldırdı:","transfer_ownership":"topluluk sahipliğini şu üyeye devretti:","ban_member":"şu üyeyi yasakladı:","unban_member":"şu üyenin yasağını kaldırdı:","kick_member":"şu üyeyi topluluktan çıkardı:","mute_member":"şu üyeyi susturdu:","unmute_member":"şu üyenin susturmasını kaldırdı:","approve_member":"şu üyenin katılma isteğini onayladı:","reject_member":"şu üyenin katılma isteğini reddetti:","delete_message":"şu üyeye ait bir mesajı sildi:","purge_messages":"şu üyeye ait tüm mesajları sildi:","pin_message":"şu üyeye ait bir mesajı sabitledi:","unpin_message":"şu üyeye ait bir mesajın sabitlemesini kaldırdı:","update_settings":"topluluk ayarlarını güncelledi","create_invite":"bir davet bağlantısı oluşturdu","revoke_invite":"bir davet bağlantısını iptal etti","invite_used":"şu üyeyi davet etti:"},
         "justNow": "şimdi",
         "minutesAgo": "{{value}} dakika önce",
         "hoursAgo": "{{value}} saat önce",

@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Vaikimisi liikmeõigused",
       "defaultPermissionsHint": "Mida igaüks siin teha saab, välja arvatud juhul, kui administraatori õigus ütleb teisiti.",
       "slowModeTitle": "Aeglane režiim",
-      "log": {
+      "log": {"verbs":{"promote_admin":"edutatud","demote_admin":"alandatud","transfer_ownership":"üleandas omanikuse","ban_member":"keelatud","unban_member":"vabastatud","kick_member":"Eemaldatud","mute_member":"vaigistatud","unmute_member":"mõlemas suunas","approve_member":"Kinnitanud","reject_member":"tagasi lülitatud","delete_message":"kustutasin sõnumit","purge_messages":"Kõik sõnumid kustutati","pin_message":"pinnis sõnumit","unpin_message":"väljapinnanud ülesande","update_settings":"värskendas kogukonna seadeid","create_invite":"loodi kutsuvink","revoke_invite":"tühistati kutsevõte","invite_used":"kutsutud"},
         "justNow": "just nüüd",
         "minutesAgo": "{{value}}m tagasi",
         "hoursAgo": "{{value}}h tagasi",

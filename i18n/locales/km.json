@@ -7120,7 +7120,7 @@
       "defaultPermissions": "ការអនុញ្ញាតសមាជិកលំនាំដើម",
       "defaultPermissionsHint": "អ្វីគ្រប់គ្នាអាចធ្វើបាននៅទីនេះ លុះត្រាតែសិទ្ធិអ្នកគ្រប់គ្រងនិយាយផ្ទុយពីនេះ។",
       "slowModeTitle": "របៀបយឺត",
-      "log": {
+      "log": {"verbs":{"promote_admin":"បានផ្សព្វផ្សាយ","demote_admin":"បានបោះបង់ចោល","transfer_ownership":"កម្មសិទ្ធិត្រូវបានផ្ទេរទៅ","ban_member":"ហាមឃាត់","unban_member":"បានដកបម្រាម","kick_member":"បានលុបចេញ","mute_member":"បានបិទសំឡេង","unmute_member":"បើកសំឡេង","approve_member":"បានអនុម័ត","reject_member":"ត្រូវបានបដិសេធ","delete_message":"បានលុបសារមួយចេញពី","purge_messages":"បានលុបសារទាំងអស់ពី","pin_message":"សូមចុចលើ","unpin_message":"បានដកការខ្ទាស់សារពី","update_settings":"បានធ្វើបច្ចុប្បន្នភាពការកំណត់សហគមន៍","create_invite":"បានបង្កើតតំណភ្ជាប់អញ្ជើញ","revoke_invite":"បានលុបចោលតំណភ្ជាប់អញ្ជើញ","invite_used":"បានបញ្ជូនសារស្នើសុំ"},
         "justNow": "ឥឡូវនេះ",
         "minutesAgo": "{{value}}m មុន",
         "hoursAgo": "{{value}}ម៉ោង មុន",

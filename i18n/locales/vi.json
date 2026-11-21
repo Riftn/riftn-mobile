@@ -7145,7 +7145,7 @@
       "defaultPermissions": "Quyền mặc định của thành viên",
       "defaultPermissionsHint": "Những gì mọi người có thể làm ở đây trừ khi quyền quản trị viên nói khác.",
       "slowModeTitle": "Chế độ chậm",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Được quảng cáo","demote_admin":"xuống hạng","transfer_ownership":"Chuyển quyền sở hữu cho","ban_member":"cấm","unban_member":"không bị cấm","kick_member":"đã xóa","mute_member":"đã tắt tiếng","unmute_member":"Bật âm thanh","approve_member":"được chấp thuận","reject_member":"bị từ chối","delete_message":"Xóa tin nhắn từ","purge_messages":"đã xóa tất cả tin nhắn từ","pin_message":"thêm một tin nhắn được gắn lên","unpin_message":"xóa một tin nhắn từ","update_settings":"Cập nhật cài đặt cộng đồng","create_invite":"đã tạo một liên kết mời","revoke_invite":"đã thu hồi liên kết mời","invite_used":"được mời"},
         "justNow": "vừa mới",
         "minutesAgo": "{{value}} phút trước",
         "hoursAgo": "{{value}} giờ trước",

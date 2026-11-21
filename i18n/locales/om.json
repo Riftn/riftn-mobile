@@ -7120,7 +7120,7 @@
       "defaultPermissions": "Hayyamootni miseensotaa bu'uuraa",
       "defaultPermissionsHint": "Namootni hundi as irratti maal gochuu danda'an hayyamootni admin yoo itti hin jenne.",
       "slowModeTitle": "Akkamiin bilisummaa",
-      "log": {
+      "log": {"verbs":{"promote_admin":"beeksifame","demote_admin":"sadarkaan gadi bu'e","transfer_ownership":"abbummaa gara","ban_member":"dhorkamee jira","unban_member":"unbanned","kick_member":"haqameera","mute_member":"dubbii dhabe","unmute_member":"sagalee baname","approve_member":"mirkanaa'eera","reject_member":"didame","delete_message":"ergaa tokko haqeera","purge_messages":"ergaawwan hunda haqeera","pin_message":"ergaa tokko pin godhe","unpin_message":"ergaa tokko gadi hiikeera","update_settings":"qindiiwwan hawaasaa haaromseera","create_invite":"geessituu affeerraa uume","revoke_invite":"geejjiba affeerraa haqeera","invite_used":"affeerameera"},
         "justNow": "Akkamii",
         "minutesAgo": "{{value}}m dura",
         "hoursAgo": "{{value}}h dura",

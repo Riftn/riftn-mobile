@@ -7108,7 +7108,7 @@
       "defaultPermissions": "預設成員權限",
       "defaultPermissionsHint": "除非管理員權限說明，否則任何人都可以在這裡做的東西。",
       "slowModeTitle": "慢模式",
-      "log": {
+      "log": {"verbs":{"promote_admin":"升咗職","demote_admin":"被降級","transfer_ownership":"已轉讓擁有權給","ban_member":"已封鎖","unban_member":"解禁","kick_member":"移除咗","mute_member":"靜音咗","unmute_member":"取消靜音","approve_member":"批准","reject_member":"已拒絕","delete_message":"刪除咗一條訊息由","purge_messages":"已刪除所有來自","pin_message":"釘住咗一條訊息","unpin_message":"未釘住嘅一則訊息","update_settings":"已更新社群設定","create_invite":"建立咗一條邀請連結","revoke_invite":"撤銷邀請鏈接","invite_used":"被邀請"},
         "justNow": "剛剛",
         "minutesAgo": "{{value}}分鐘前",
         "hoursAgo": "{{value}}小時前",

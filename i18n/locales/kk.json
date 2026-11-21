@@ -7125,7 +7125,7 @@
       "defaultPermissions": "Әдепкі мүше рұқсаттары",
       "defaultPermissionsHint": "Әкімші құқығында басқаша айтылмаса, мұнда әркім не істей алады.",
       "slowModeTitle": "Баяу режим",
-      "log": {
+      "log": {"verbs":{"promote_admin":"жарнамаланған","demote_admin":"төмендетілген","transfer_ownership":"Құқық иегерілігін беріп берді","ban_member":"тыйым салынған","unban_member":"блоктан шығарылды","kick_member":"Жазылған","mute_member":"өзгертілген","unmute_member":"үндестірілмеген","approve_member":"мақұлданды","reject_member":"отклонено","delete_message":"аптауыздан бір месседжі жойдым","purge_messages":"удалён все сообщения из","pin_message":"келесіден хабарлама бекітілді","unpin_message":"дайындалмаған хабарлама","update_settings":"қоғамдық параметрлерді жаңарту","create_invite":"шақыру сілтемесін жасады","revoke_invite":"шақыру сілтемесін жойды","invite_used":"шақырылды"},
         "justNow": "дәл қазір",
         "daysAgo": "{{value}} жыл бұрын",
         "weeksAgo": "{{value}} сағат бұрын",

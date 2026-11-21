@@ -7275,7 +7275,7 @@
       "defaultPermissions": "স্বাভাবিক সদস্য অনুমতি",
       "defaultPermissionsHint": "সকল লোক এখানে কি করতে পারে যদি একজন প্রশাসক নির্দেশ না দেয়।",
       "slowModeTitle": "ধীর গতি",
-      "log": {
+      "log": {"verbs":{"promote_admin":"প্ৰমোত কৰা হৈছে","demote_admin":"কমিত","transfer_ownership":"মালিকানা হস্তান্তর করা হয়েছে","ban_member":"বাতিল","unban_member":"আনব্যান করা হইছে","kick_member":"মুছে ফেলা হয়েছে","mute_member":"মুক্ত","unmute_member":"অনমুখী","approve_member":"অ্যাপ্রুভড","reject_member":"রিজেক্টেড","delete_message":"একটা মেসেজ ডিলিট করছে","purge_messages":"ডিলিটেড অল মেসেজেস ফ্রম","pin_message":"আপনার পাসওয়ার্ড ব্যবহার করে চেষ্টা করুন","unpin_message":"মেসেজটা আনপিন করা হইছে","update_settings":"কমিউনিটির সেটিংস আপডেট করা হইছে","create_invite":"একটা ইনভাইট লিংক তৈরি করছে","revoke_invite":"আমন্ত্রণ লিংক বাতিল করেছে","invite_used":"ইনভাইটেড"},
         "forDays": "{{value}} দিনের জন্য",
         "forHours": "{{value}} ঘন্টার জন্য",
         "forWeeks": "{{value}} সপ্তাহের জন্য",

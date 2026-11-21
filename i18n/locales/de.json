@@ -7022,7 +7022,7 @@
       "defaultPermissions": "Standardmäßige Mitgliedsberechtigungen",
       "defaultPermissionsHint": "Alles, was jeder hier tun kann, es sei denn, ein Administrator sagt etwas anderes.",
       "slowModeTitle": "Slow Mode",
-      "log": {
+      "log": {"verbs":{"promote_admin":"befördert","demote_admin":"abgestuft","transfer_ownership":"hat die Eigentümerschaft übertragen","ban_member":"gesperrt","unban_member":"unverbannt","kick_member":"entfernt","mute_member":"stummgeschaltet","unmute_member":"ungemütigt","approve_member":"genehmigt","reject_member":"abgelehnt","delete_message":"hat eine Nachricht gelöscht von","purge_messages":"alle Nachrichten von gelöscht","pin_message":"hat eine Nachricht angeheftet von","unpin_message":"ungepinnte Nachricht von","update_settings":"Aktualisierte Community-Einstellungen","create_invite":"hat einen Einladungslink erstellt","revoke_invite":"Einladungslink wurde zurückgezogen","invite_used":"eingeladen"},
         "justNow": "vor wenigen Sekunden",
         "minutesAgo": "{{value}}m vor",
         "hoursAgo": "{{value}}h vor",

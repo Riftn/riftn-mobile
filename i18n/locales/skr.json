@@ -7100,7 +7100,7 @@
       "slowMode":{"off":"بند","tenSeconds":"10","thirtySeconds":"30s","oneMinute":"1 منٹ","fiveMinutes":"5 منٹ","fifteenMinutes":"پندرہ منٹ","oneHour":"1 غنٹہ"},"slowModeOffHint": "عضوین کو مسیج بھیج سکنے کے لئے کوئی ویلہ نہیں لگتا ہے۔",
       "defaultPermissionsHint": "اچھا ہر کوئی یہاں یہاں کیا کر سکتا ہے جب تک کہ ایڈمن نے نہیں کہا ہو۔",
       "slowModeTitle": "سلو موڈ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"پروموٹڈ","demote_admin":"خونے گئے","transfer_ownership":"مالکیت منتقل کر دی گئی ہے","ban_member":"پابندی","unban_member":"غیر منع","kick_member":"ہٹا دیا","mute_member":"مٹیٹ","unmute_member":"غیر منقطع","approve_member":"معتمد","reject_member":"مسترد شدہ","delete_message":"مہسوس پیغام کو ڈیلیٹ کر دیا","purge_messages":"ہر ایک کی ہٹا دیا ہے","pin_message":"نے ہک پیغام پن کیتے","unpin_message":"پیغام ان پن کیتے","update_settings":"ڳالھوں کو اپ ڈیٹ کیا گیا ہے","create_invite":"ایک انویٹ لینک بنایا","revoke_invite":"ایک انویٹ لینک منسوخ کر دیا","invite_used":"ایکشن لئے ہوئے"},
         "justNow": "اچھا ہو",
         "minutesAgo": "{{value}}مہینے پہلے",
         "daysAgo": "{{value}}دہاں",
