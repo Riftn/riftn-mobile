@@ -194,7 +194,7 @@ describe('services/translation.service', () => {
       jest.advanceTimersByTime(1000);
       jest.useRealTimers();
 
-      expect(storage.getString('dehub-translation-cache-v3')).toBeTruthy();
+      expect(storage.getString('dehub-translation-cache-v4')).toBeTruthy();
 
       // A relaunch: fresh module state, same storage.
       const relaunched = loadService();
@@ -204,8 +204,21 @@ describe('services/translation.service', () => {
       expect(result.translatedText).toBe('Merhaba');
     });
 
+    it('refetches a translation stored by the old provider policy', async () => {
+      const legacyKey = 'dehub-translation-cache-v3';
+      storage.set(legacyKey, JSON.stringify([
+        ['Hola::tr', { translatedText: 'Stale answer', sourceLang: 'es' }],
+      ]));
+      mockInvoke.mockResolvedValue({ data: { translatedText: 'Merhaba' }, error: null });
+
+      const { translateText } = loadService();
+      expect((await translateText('Hola', 'tr', 'es')).translatedText).toBe('Merhaba');
+      expect(mockInvoke).toHaveBeenCalledTimes(1);
+      expect(storage.getString(legacyKey)).toBeUndefined();
+    });
+
     it('starts empty rather than throwing on a corrupt blob', async () => {
-      storage.set('dehub-translation-cache-v3', '{not json');
+      storage.set('dehub-translation-cache-v4', '{not json');
       mockInvoke.mockResolvedValue({ data: { translatedText: 'Merhaba' }, error: null });
 
       const { translateText } = loadService();
