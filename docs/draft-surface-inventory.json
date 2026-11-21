@@ -325,7 +325,7 @@
       "owner": "Selected persisted fields below, controlled parent state, or existing composer/project store"
     },
     {
-      "file": "components/auth/UsernameRequiredModal.tsx",
+      "file": "components/auth/UsernameRequiredForm.tsx",
       "inputs": [
         {
           "line": 100,
@@ -3838,7 +3838,7 @@
       "declaration": "const [raw, setRaw] = useSurfaceDraft(\"components/auth/PhoneLoginFlow.tsx:raw\", \"\");"
     },
     {
-      "file": "components/auth/UsernameRequiredModal.tsx",
+      "file": "components/auth/UsernameRequiredForm.tsx",
       "line": 27,
       "field": "username",
       "setter": "setUsername",
@@ -3846,7 +3846,7 @@
       "declaration": "const [username, setUsername] = useSurfaceDraft(\"components/auth/UsernameRequiredModal.tsx:username\", '');"
     },
     {
-      "file": "components/auth/UsernameRequiredModal.tsx",
+      "file": "components/auth/UsernameRequiredForm.tsx",
       "line": 28,
       "field": "displayName",
       "setter": "setDisplayName",

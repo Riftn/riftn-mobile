@@ -8,7 +8,7 @@
  */
 import React from 'react';
 import { act, render } from '@testing-library/react-native';
-import SignInGatewayModal from '../../components/auth/SignInGatewayModal';
+import { SignInOverlay } from '../../screens/auth/SignInScreen';
 import { useAuthActions, useAuthState } from '../../context/AuthContext';
 import { sendEmailOtp, verifyEmailOtp } from '../../services/auth/supabaseAuth.service';
 import { createAndSaveEvmWalletForIdentity, resolveEvmWalletForIdentity } from '../../libs/identity-wallet';
@@ -21,16 +21,24 @@ const mockInvokeFunction = jest.fn();
 
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
-  View: 'View', Text: 'Text', ScrollView: 'ScrollView', useWindowDimensions: () => ({ width: 390, height: 844 }),
+  View: 'View', Text: 'Text', Modal: 'NativeSheet', KeyboardAvoidingView: 'KeyboardAvoidingView', Platform: { OS: 'android' },
   StyleSheet: { create: (styles: unknown) => styles },
 }));
 jest.mock('../../context/AuthContext', () => ({ useAuthActions: jest.fn(), useAuthState: jest.fn() }));
-jest.mock('../../components/ui/GlassModal', () => ({ __esModule: true, default: 'NativeSheet' }));
-jest.mock('../../components/auth/UsernameRequiredModal', () => ({ UsernameRequiredForm: 'ProfileForm' }));
+jest.mock('react-native-gesture-handler', () => ({
+  GestureDetector: 'GestureDetector', GestureHandlerRootView: 'GestureRoot', ScrollView: 'ScrollView',
+}));
+jest.mock('react-native-reanimated', () => ({ __esModule: true, default: { View: 'AnimatedView' } }));
+jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
+jest.mock('@react-navigation/native', () => ({}));
+jest.mock('../../hooks/useComposerSheet', () => ({ useComposerSheet: () => ({}) }));
+jest.mock('../../hooks/useKeyboardLayout', () => ({ useKeyboardOffset: () => 0 }));
+jest.mock('../../components/auth/WalletRuntimeHost', () => ({ ScreenWalletPicker: 'WalletPicker' }));
+jest.mock('../../libs/oauth-cold-start', () => ({ takeHeldCallback: () => null }));
+jest.mock('../../components/auth/UsernameRequiredForm', () => ({ UsernameRequiredForm: 'ProfileForm' }));
 jest.mock('../../components/auth/AuthControls', () => ({ AuthButton: 'Button', AuthErrorNotice: 'Error', authColors: {}, authText: {} }));
 jest.mock('../../components/auth/SocialLoginIcons', () => 'SocialLogin');
 jest.mock('../../components/auth/EmailCodeEntry', () => 'EmailCode');
-jest.mock('../../components/auth/ImportWallet', () => 'ImportWallet');
 jest.mock('../../components/auth/SignInSavedProfiles', () => 'SavedProfiles');
 jest.mock('../../components/auth/LoginShortsStack', () => 'LoginShortsStack');
 jest.mock('../../components/auth/WalletSetupScreen', () => 'WalletSetup');
@@ -91,7 +99,7 @@ it('takes a new email sign-in straight into a new wallet, with nothing in betwee
   jest.mocked(fetchWalletReliably).mockResolvedValue({ wallet: null, failed: false });
   jest.mocked(createAndSaveEvmWalletForIdentity).mockResolvedValue({ address: NEW_ADDRESS, privateKey: NEW_KEY, secret: 'words' });
 
-  const screen = render(<SignInGatewayModal visible onClose={jest.fn()} />);
+  const screen = render(<SignInOverlay onClose={jest.fn()} />);
   await act(async () => {
     await screen.UNSAFE_getByType('SocialLogin' as any).props.onEmailSubmit('new@example.com');
   });

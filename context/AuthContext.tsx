@@ -11,7 +11,7 @@ import React, {
 } from "react";
 import { AuthAdapter } from "../services/auth/authAdapter";
 import { AppStateStatus } from "react-native";
-import SignInGatewayModal from "../components/auth/SignInGatewayHost";
+import type { SignInOverlay as SignInOverlayComponent } from "../screens/auth/SignInScreen";
 import { onSignInPageClosed, openSignInPage } from "../libs/signInPage";
 import {
   hasSeenAuth,
@@ -397,9 +397,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => { isSignedInRef.current = isSignedIn; }, [isSignedIn]);
   const needsUsernameRef = useRef(needsUsername);
   useEffect(() => { needsUsernameRef.current = needsUsername; }, [needsUsername]);
-  // A guest signs in on the full sign-in page (the one log out lands on), not
-  // the gateway sheet. The sheet is the fallback while navigation is not up,
-  // and stays for finishing a username and for Add profile.
+  // Guests usually open the sign-in route. Account setup and Add profile can
+  // also present the same screen without changing the navigation stack.
   const showSignIn = useCallback(() => {
     if (!needsUsernameRef.current && openSignInPage()) return;
     setShowSignInModal(true);
@@ -777,6 +776,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
    */
   const addProfileFromRef = useRef<string | null>(null);
 
+  const dismissSignIn = useCallback(() => {
+    setShowSignInModal(false);
+    setPendingAction(null);
+    setAddProfileIntent(false);
+    addProfileFromRef.current = null;
+    // A sign-in attempt may have displaced the active account before it closed.
+    restoreDisplacedProfileIfAny()
+      .then(async (restored) => {
+        if (!restored) return;
+        if (restored.supabase) {
+          try {
+            const { supabase } = await import('../services/supabase');
+            await supabase.auth.setSession({
+              access_token: restored.supabase.access_token,
+              refresh_token: restored.supabase.refresh_token,
+            });
+          } catch {}
+        }
+        await rehydrateFromStorage();
+      })
+      .catch(() => {});
+  }, [rehydrateFromStorage]);
+
   const openAddProfile = useCallback(() => {
     // Record who is live before anything in the sheet can displace them, so
     // abandoning the attempt can put everything back exactly as it was.
@@ -926,7 +948,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // anyone could type anything. Multi-account sign-in was unreachable.
   const currentAddress = (user?.walletAddress || user?.address || null)?.toLowerCase() ?? null;
   useEffect(() => {
-    if (!isSignedIn || !addProfileIntent) return;
+    if (!isSignedIn || needsUsername || !addProfileIntent) return;
     // Nothing concrete to compare yet — the user object repopulates in stages
     // during a sign-in, and a momentarily absent address is not a new account.
     if (!currentAddress) return;
@@ -935,7 +957,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     addProfileFromRef.current = null;
     setAddProfileIntent(false);
     setShowSignInModal(false);
-  }, [isSignedIn, addProfileIntent, currentAddress]);
+  }, [isSignedIn, needsUsername, addProfileIntent, currentAddress]);
 
   // Skip auth method - allows users to use the app without signing in
   const skipAuthLocal = useCallback(async () => {
@@ -1056,6 +1078,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     switchToProfile,
   ]);
 
+  const SignInOverlay: typeof SignInOverlayComponent | null =
+    showSignInModal && (needsUsername || addProfileIntent || !isSignedIn)
+      ? require("../screens/auth/SignInScreen").SignInOverlay
+      : null;
+
   return (
     <UserContext.Provider value={userContextValue}>
       <AuthStateContext.Provider value={authStateContextValue}>
@@ -1071,47 +1098,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               {isLeavingAccount && (
                 <FullScreenLoader message={_copy("settings.signingOut", { defaultValue: "Signing out…" })} />
               )}
-              {/* Keep one native window through signup. Swapping modals on a
-                  timer can lose the profile step while iOS is dismissing. */}
-              {(showSignInModal && (needsUsername || addProfileIntent || !isSignedIn)) && (
-                <SignInGatewayModal
-                  visible={showSignInModal}
-                  onClose={() => {
-                    setShowSignInModal(false);
-                    setPendingAction(null);
-                    // An abandoned Add profile attempt gets undone, not just
-                    // closed: if the flow already displaced the live account
-                    // (staging ran, or the exchange started writing), the
-                    // previous account's snapshot goes back on disk, state
-                    // rehydrates into it, and closing the sheet costs nothing.
-                    //
-                    // Not gated on addProfileIntent any more: an ordinary
-                    // sign-in as somebody else displaces the live account just
-                    // as thoroughly, and abandoning it there used to leave the
-                    // phone signed in as nobody. The call itself no-ops when
-                    // nothing was displaced.
-                    setAddProfileIntent(false);
-                    {
-                      restoreDisplacedProfileIfAny()
-                        .then(async (restored) => {
-                          if (restored) {
-                            if (restored.supabase) {
-                              try {
-                                const { supabase } = await import('../services/supabase');
-                                await supabase.auth.setSession({
-                                  access_token: restored.supabase.access_token,
-                                  refresh_token: restored.supabase.refresh_token,
-                                });
-                              } catch {}
-                            }
-                            await rehydrateFromStorage();
-                          }
-                        })
-                        .catch(() => {});
-                    }
-                  }}
-                />
-              )}
+              {SignInOverlay && <SignInOverlay onClose={dismissSignIn} />}
             </AuthContext.Provider>
           </AuthActionsContext.Provider>
         </ProviderContext.Provider>
