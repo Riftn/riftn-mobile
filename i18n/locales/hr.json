@@ -1192,7 +1192,7 @@
     "23e2e7fc9b2d": "Poštovanje",
     "247641921c80": "listovi se lagano klone dok se oblak sporo pomiče",
     "2493f427a7d1": "Kino 3D šah. Tri civilizacije, jedna tabla.",
-    "24ccaa3af430": "Pogledaj ovaj DHB profil {{value1}}",
+    "24ccaa3af430": "Pogledaj ovaj Riftn profil {{value1}}",
     "24ee478fc4ee": "Nije uspjelo spasiti post",
     "25038f9d0520": "Verifikacija sesije trenutno nije dostupna. Molimo pokušajte ponovno.",
     "25085aff20ef": "To nije datoteka izvoza Riftn.",
@@ -4821,7 +4821,7 @@
     "ogHolders_one": "{{count}} OG vlasnik",
     "ogHolders_other": "{{count}} OG vlasnika",
     "ogChallengeTitle": "Vratite OG vlasnike",
-    "ogChallengeBody": "Pozovite ljude koji još drže DHB. Kad se pridruže preko vaše pozivne poveznice i zadrže svoj DHB u Riftn novčaniku, ovdje se broje vama.",
+    "ogChallengeBody": "Pozovite ljude koji još drže tokena. Kad se pridruže preko vaše pozivne poveznice i zadrže svoj tokena u Riftn novčaniku, ovdje se broje vama.",
     "ogChallengeCta": "Preuzmite svoju pozivnu poveznicu"
   },
   "explorePage": {
@@ -14331,7 +14331,7 @@
           "4": "Da biste snimili glasovnu bilješku, kliknite ikonu mikrofona.",
           "5": "Da biste dodali GIF, kliknite ikonu GIF i potražite ga.",
           "6": "Upotrijebite #hashtags za kategorizaciju svoje objave (npr. #crypto, #defi).",
-          "7": "Upotrijebite $cashtags za upućivanje na tokene (npr. $RIFT, $ETH).",
+          "7": "Upotrijebite $cashtags za upućivanje na tokene (npr. $BTC, $ETH).",
           "8": "Upotrijebite @mentions za označavanje drugih korisnika (npr. @username).",
           "9": "Kliknite 'Objava' za objavljivanje. Vaša objava odmah se pojavljuje u prikazu."
         },

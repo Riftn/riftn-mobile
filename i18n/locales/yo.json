@@ -4796,7 +4796,7 @@
     "ogHolders_one": "Olùní OG {{count}}",
     "ogHolders_other": "Olùní OG {{count}}",
     "ogChallengeTitle": "Mú àwọn olùní OG padà wá",
-    "ogChallengeBody": "Pe àwọn ènìyàn tí wọ́n ṣì ní DHB. Nígbà tí wọ́n bá darapọ̀ pẹ̀lú ìjápọ̀ ìpè rẹ tí wọ́n sì tọ́jú DHB wọn sínú àpò owó Riftn wọn, wọ́n á kà fún ọ níbí.",
+    "ogChallengeBody": "Pe àwọn ènìyàn tí wọ́n ṣì ní awọn ami-ami. Nígbà tí wọ́n bá darapọ̀ pẹ̀lú ìjápọ̀ ìpè rẹ tí wọ́n sì tọ́jú awọn ami-ami wọn sínú àpò owó Riftn wọn, wọ́n á kà fún ọ níbí.",
     "ogChallengeCta": "Gba ìjápọ̀ ìpè rẹ"
   },
   "explorePage": {
@@ -14306,7 +14306,7 @@
           "4": "Láti gba àkíyèsí ohùn sílẹ̀, tẹ àmì gbohungbohun náà.",
           "5": "Láti fi GIF kún un, tẹ àmì GIF kí o sì wá ọ̀kan.",
           "6": "Lo #hashtags láti ṣètò iṣẹ́ rẹ (bí àpẹẹrẹ, #crypto, #defi).",
-          "7": "Lo $cashtags sí àwọn àmì ìtọ́kasí (bí àpẹẹrẹ, $RIFT, $ETH).",
+          "7": "Lo $cashtags sí àwọn àmì ìtọ́kasí (bí àpẹẹrẹ, $BTC, $ETH).",
           "8": "Lo @ mẹ́nu kan láti fi àmì sí àwọn olùṣàmúlò mìíràn (bí àpẹẹrẹ, @lorúkọ oníṣe).",
           "9": "Tẹ 'Post' láti ṣe ìtẹ̀jáde. Ifiweranṣẹ rẹ farahàn nínú oúnjẹ lẹ́sẹ̀kẹsẹ̀."
         },

@@ -151,7 +151,7 @@ export async function payPostQuota(
   // throwing, so ignoring the receipt would report a failed transfer as paid.
   const receipt = await tx.wait(1);
   if (receipt && receipt.status !== undefined && receipt.status !== 1) {
-    throw new Error(_translateCopy("copy.f22b5983f90d", { defaultValue: "The DHB transfer did not go through. Nothing has been charged." }));
+    throw new Error(_translateCopy("copy.f22b5983f90d", { defaultValue: "The token transfer did not go through. Nothing has been charged." }));
   }
 
   const txHash: string | undefined = receipt?.transactionHash || receipt?.hash || tx.hash;

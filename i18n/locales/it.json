@@ -4813,7 +4813,7 @@
     "ogHolders_one": "{{count}} holder OG",
     "ogHolders_other": "{{count}} holder OG",
     "ogChallengeTitle": "Riporta indietro gli holder OG",
-    "ogChallengeBody": "Invita chi possiede ancora DHB. Quando si uniscono con il tuo link di invito e tengono i DHB nel wallet Riftn, contano per te qui.",
+    "ogChallengeBody": "Invita chi possiede ancora token. Se si iscrivono tramite il tuo link di invito e conservano i loro token nel portafoglio Riftn, verranno conteggiati qui per te.",
     "ogChallengeCta": "Ottieni il tuo link di invito",
     "directReferrals_one": "{{count}} diretti",
     "directReferrals_other": "{{count}} diretti",
@@ -14370,7 +14370,7 @@
           "4": "Per registrare una nota vocale, fai clic sull'icona del microfono.",
           "5": "Per aggiungere una GIF, fai clic sull'icona GIF e cercane una.",
           "6": "Usa gli #hashtag per categorizzare il tuo post (es. #crypto, #defi).",
-          "7": "Usa i $cashtag per fare riferimento ai token (es. $RIFT, $ETH).",
+          "7": "Usa i $cashtag per fare riferimento ai token (es. $BTC, $ETH).",
           "8": "Usa le @menzioni per taggare altri utenti (es. @username).",
           "9": "Fai clic su 'Post' per pubblicare. Il tuo post appare immediatamente nel feed."
         },

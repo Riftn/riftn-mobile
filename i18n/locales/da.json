@@ -4795,7 +4795,7 @@
     "ogHolders_one": "{{count}} OG-indehaver",
     "ogHolders_other": "{{count}} OG-indehavere",
     "ogChallengeTitle": "Få OG-indehaverne tilbage",
-    "ogChallengeBody": "Inviter folk, der stadig har DHB. Når de tilmelder sig med dit invitationslink og beholder deres DHB i deres Riftn-tegnebog, tæller de for dig her.",
+    "ogChallengeBody": "Inviter folk, der stadig har tokens. Når de tilmelder sig med dit invitationslink og beholder deres tokens i deres Riftn-tegnebog, tæller de for dig her.",
     "ogChallengeCta": "Få dit invitationslink"
   },
   "explorePage": {
@@ -14309,7 +14309,7 @@
           "4": "For å ta opp en talemelding, klikk på mikrofonikonet.",
           "5": "For å legge til en GIF, klikk på GIF-ikonet og søk etter en.",
           "6": "Bruk #hashtags for å kategorisere innlegget ditt (f.eks. #crypto, #defi).",
-          "7": "Bruk $cashtags for å referere til tokens (f.eks. $RIFT, $ETH).",
+          "7": "Bruk $cashtags for å referere til tokens (f.eks. $BTC, $ETH).",
           "8": "Bruk @mentions for å tagge andre brukere (f.eks. @brukernavn).",
           "9": "Klikk 'Innlegg' for å publisere. Innlegget ditt vises i feedet umiddelbart."
         },

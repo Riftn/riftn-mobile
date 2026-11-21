@@ -4795,7 +4795,7 @@
     "ogHolders_one": "OG marabaga {{count}}",
     "ogHolders_other": "OG marabagaw {{count}}",
     "ogChallengeTitle": "OG marabagaw lasegin",
-    "ogChallengeBody": "Mɔgɔ minnu bɛ DHB mara hali bi, olu wele. Ni u donna ni i ka weleli sira ye ka u ka DHB to u ka Riftn wari bɔrɔ kɔnɔ, u bɛ jate i ye yan.",
+    "ogChallengeBody": "Mɔgɔ minnu bɛ o ye koo ɲuman ye. mara hali bi, olu wele. Ni u donna ni i ka weleli sira ye ka u ka o ye koo ɲuman ye. to u ka Riftn wari bɔrɔ kɔnɔ, u bɛ jate i ye yan.",
     "ogChallengeCta": "I ka weleli sira sɔrɔ"
   },
   "explorePage": {
@@ -7861,7 +7861,7 @@
     "glossaryGovernanceDesc": "O kama, a ka ɲi ka kuma ni mɔgɔ wɛrɛw ye. I be se ka min kɛ, o b'a to i be se ka dɔ fara i ka fanga kan.",
     "glossaryStakingBadgesDesc": "I ka batɛmu minw be yira i ka tɔgɔ gɛrɛfɛ, u basiginin be i ka Riftn ka siginidenw bɛɛ kan (wallet + staked). I be se ka batɛmu ta cogo min na, o be se ka kɛ i ka batɛmu ta cogo min na, o be se ka kɛ i ta ye. O kama, a ka ɲi ka kɛ ni fanga ye ka tɛmɛ sanga ni wagati bɛɛ kan.",
     "glossaryLeaderboardDesc": "O la, a ka ɲi ka kɛ ni Riftn ka wari ye min be se ka kɛ a ka baara ye. O la, a ka ɲi ka kɛ ni miiriya ɲuman ye. I be se ka ladiliw ci, ladiliw sɔrɔ, i ka kalandenw, i ka mɔgɔ minw koo ka di i ye, wala i ka sɛbɛw.",
-    "glossaryDhbTokenDesc": "$RIFT ye Riftn tokenw ka ticker taamasiyɛn ye, Riftn yɛrɛ ka baara token. A bɛ kɛ tip la, sarali ka filɛli kɛ, gouvernance kalata la ani staking la."
+    "glossaryDhbTokenDesc": "Riftn yɛrɛ ka baara token. A bɛ kɛ tip la, sarali ka filɛli kɛ, gouvernance kalata la ani staking la."
   },
   "arcade": {
     "submitAccessibility": "Tulon dɔ ci arcade ma",
@@ -14305,7 +14305,7 @@
           "4": "N'i b'a fɛ ka kumakan dɔ sɛbɛ, i ka mikrofɔni tagamasiɲɛ kan.",
           "5": "N'i b'a fɛ ka GIF dɔ fara a kan, i ka GIF taamasiɲɛ lajɛ ka dɔ ɲini.",
           "6": "Jɛnɛ ka #hashtags ɲɛma i ka sigi la (ka di #crypto, #defi).",
-          "7": "I ka $ cashtags kɛ ka tagamasiɲɛw kofɔ (i.e. $RIFT, $ETH).",
+          "7": "I ka $ cashtags kɛ ka tagamasiɲɛw kofɔ (i.e. $BTC, $ETH).",
           "8": "N'i ye mɔgɔ dɔ weele ka na i ka site web kan, i ka kan k'a fɔ a ye ko: \"I ye mɔgɔ dɔ weele ka na i ka site web kan\".",
           "9": "I ka ɲi ka \"Siga\" tuguni kan ka sɛbɛri kɛ. I ka barokun be sɔrɔ gafe nin kɔnɔ joona joona."
         },

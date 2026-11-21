@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 import { usePerfProbe } from "../../libs/perfTrace";
 import { PersistentVideoView } from '../common/PersistentVideoView';
 import { isPictureInPicturePlayer, canStartVideo } from '../../libs/pictureInPicture';
@@ -1664,7 +1665,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
             resizeMode="contain"
           />
           <Text style={styles.bountyPillText}>
-            {formatCompactNumber(bountyAmount)} {bountyCurrency}
+            {formatCompactNumber(bountyAmount)} {tokenLabel(bountyCurrency)}
           </Text>
         </TouchableOpacity>
       )}

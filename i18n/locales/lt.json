@@ -4821,7 +4821,7 @@
     "ogHolders_one": "{{count}} OG turėtojas",
     "ogHolders_other": "OG turėtojų: {{count}}",
     "ogChallengeTitle": "Sugrąžinkite OG turėtojus",
-    "ogChallengeBody": "Pakvieskite žmones, kurie vis dar turi DHB. Kai jie prisijungs per jūsų pakvietimo nuorodą ir laikys DHB savo „Riftn“ piniginėje, jie čia bus įskaityti jums.",
+    "ogChallengeBody": "Pakvieskite žmones, kurie vis dar turi ženklai. Kai jie prisijungs per jūsų pakvietimo nuorodą ir laikys ženklai savo „Riftn“ piniginėje, jie čia bus įskaityti jums.",
     "ogChallengeCta": "Gauti pakvietimo nuorodą"
   },
   "explorePage": {
@@ -14331,7 +14331,7 @@
           "4": "Norėdami įrašyti balso įrašą, spustelėkite mikrofono piktogramą.",
           "5": "Norėdami pridėti GIF, spustelėkite GIF piktogramą ir ieškokite jo.",
           "6": "Naudokite #Hashtagus, kad suskirstytumėte savo įrašą į kategorijas (pvz., #crypto, #defi).",
-          "7": "Naudokite $cashtagus, kad nurodytumėte žetonus (pvz., $RIFT, $ETH).",
+          "7": "Naudokite $cashtagus, kad nurodytumėte žetonus (pvz., $BTC, $ETH).",
           "8": "Naudokite @paminėjimus, kad pažymėtumėte kitus vartotojus (pvz., @vartotojo vardas).",
           "9": "Spustelėkite „Įrašas“, kad paskelbtumėte. Jūsų įrašas iškart pasirodys kanale."
         },

@@ -4795,7 +4795,7 @@
     "ogHolders_one": "{{count}} OG omanik",
     "ogHolders_other": "{{count}} OG omanikku",
     "ogChallengeTitle": "Too OG omanikud tagasi",
-    "ogChallengeBody": "Kutsu inimesi, kellel on endiselt DHB. Kui nad liituvad sinu kutselingiga ja hoiavad oma DHB-d Riftni rahakotis, loetakse nad siin sinu arvele.",
+    "ogChallengeBody": "Kutsu inimesi, kellel on endiselt märki. Kui nad liituvad sinu kutselingiga ja hoiavad oma märki-d Riftni rahakotis, loetakse nad siin sinu arvele.",
     "ogChallengeCta": "Hangi oma kutselink"
   },
   "explorePage": {
@@ -14305,7 +14305,7 @@
           "4": "Helimärkmiku salvestamiseks klõpsake mikrofoniikooni.",
           "5": "GIF-i lisamiseks klõpsake GIF-i ikooni ja otsige seda.",
           "6": "Kasutage oma postituse kategoriseerimiseks #hashtage (nt #crypto, #defi).",
-          "7": "Tokenite viitamiseks kasutage $cashtage (nt $RIFT, $ETH).",
+          "7": "Tokenite viitamiseks kasutage $cashtage (nt $BTC, $ETH).",
           "8": "Teiste kasutajate märkimiseks kasutage @mainimisi (nt @kasutajanimi).",
           "9": "Klõpsake avaldamiseks nuppu \"Postita\". Teie postitus ilmub kohe voogu."
         },

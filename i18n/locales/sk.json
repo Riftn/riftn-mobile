@@ -4850,7 +4850,7 @@
     "ogHolders_one": "{{count}} OG držiteľ",
     "ogHolders_other": "{{count}} OG držiteľov",
     "ogChallengeTitle": "Priveďte späť OG držiteľov",
-    "ogChallengeBody": "Pozvite ľudí, ktorí stále držia DHB. Keď sa pripoja cez váš pozývací odkaz a ponechajú si DHB vo svojej peňaženke Riftn, započítajú sa vám tu.",
+    "ogChallengeBody": "Pozvite ľudí, ktorí stále držia tokenov. Keď sa pripoja cez váš pozývací odkaz a ponechajú si tokenov vo svojej peňaženke Riftn, započítajú sa vám tu.",
     "ogChallengeCta": "Získať pozývací odkaz"
   },
   "explorePage": {
@@ -14472,7 +14472,7 @@
           "4": "Ak chcete nahrať hlasovú poznámku, kliknite na ikonu mikrofónu.",
           "5": "Ak chcete pridať GIF, kliknite na ikonu GIF a vyhľadajte ho.",
           "6": "Použite #hashtagy na kategorizáciu svojho príspevku (napr. #crypto, #defi).",
-          "7": "Použite $cashtagy na odkazovanie na tokeny (napr. $RIFT, $ETH).",
+          "7": "Použite $cashtagy na odkazovanie na tokeny (napr. $BTC, $ETH).",
           "8": "Použite @zmienky na označenie iných používateľov (napr. @používateľské meno).",
           "9": "Kliknite na „Príspevok“ na publikovanie. Váš príspevok sa okamžite zobrazí v informačnom kanáli."
         },

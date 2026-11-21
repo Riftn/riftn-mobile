@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 /**
  * Hold-gated post sheet: shows what the post needs and re-reads the viewer's
  * balances on "Verify & Unlock". Port of web's locked drawer +
@@ -107,7 +108,7 @@ export default function HoldGateSheet({ visible, onClose, post }: Props) {
           >
             <Text className="text-white text-sm">{t("drawers.mustHoldToView", { defaultValue: "Must hold to view" })}</Text>
             <Text className="text-white text-lg font-bold">
-              {formatCompactNumber(needed)} {symbol}
+              {formatCompactNumber(needed)} {tokenLabel(symbol)}
             </Text>
           </View>
         )}

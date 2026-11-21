@@ -79,7 +79,7 @@ it('offers retry for failed networks without hiding the action buttons', () => {
 it('sends app tokens only, never onchain, once app tokens are on', () => {
   mockAppTokens.enabled = true; let tree!: ReactTestRenderer;
   act(() => { tree = create(<WalletOverview onBuy={jest.fn()} onStake={jest.fn()} />); });
-  expect(tree.root.findAll(node => node.type === 'Pressable' && node.props.accessibilityLabel === 'DHB, 1,500')).toHaveLength(1);
+  expect(tree.root.findAll(node => node.type === 'Pressable' && node.props.accessibilityLabel === 'tokens, 1,500')).toHaveLength(1);
   press(tree, 'wallet.send');
   expect(tree.root.findByType('AppTokenSendSheet' as any).props.open).toBe(true);
   expect(tree.root.findAll(node => (node.type as any) === 'SendTokenSheet')).toHaveLength(0);

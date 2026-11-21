@@ -4796,7 +4796,7 @@
     "ogHolders_one": "{{count}} OG kapuq",
     "ogHolders_other": "{{count}} OG kapuqkuna",
     "ogChallengeTitle": "OG kapuqkunata kutichimuy",
-    "ogChallengeBody": "DHB kapuqraq runakunata qayay. Qayana t'inkiykiwan yaykuptinku, DHB-nkuta Riftn qullqi wasinkupi waqaychaptinku, kaypi qampaq yupakunku.",
+    "ogChallengeBody": "simikuna kapuqraq runakunata qayay. Qayana t'inkiykiwan yaykuptinku, simikuna-nkuta Riftn qullqi wasinkupi waqaychaptinku, kaypi qampaq yupakunku.",
     "ogChallengeCta": "Qayana t'inkiykita hap'iy"
   },
   "explorePage": {
@@ -14336,7 +14336,7 @@
           "4": "Nota de voz grabanaykipaqqa micrófono nisqapi ñit’iy.",
           "5": "GIF yapanaykipaqqa GIF nisqapi ñitiy hinaspa hukninta maskay.",
           "6": "#hashtags nisqawan qillqasqaykita categorizanaykipaq (kayhina, #crypto, #defi).",
-          "7": "$cashtags llamk'achiy tokenkunata riqsichinapaq (kayhina, $RIFT, $ETH).",
+          "7": "$cashtags llamk'achiy tokenkunata riqsichinapaq (kayhina, $BTC, $ETH).",
           "8": "@mentions nisqawan llamk'achiy huk ruraqkunata etiquetanaykipaq (ahinataq, @username).",
           "9": "'Post' nisqapi ñit'iy qillqanaykipaq. Qillqasqaykiqa chaylla feed nisqapi rikurin."
         },

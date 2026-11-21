@@ -4795,7 +4795,7 @@
     "ogHolders_one": "{{count}} kaipupuri OG",
     "ogHolders_other": "{{count}} kaipupuri OG",
     "ogChallengeTitle": "Whakahokia mai ngā kaipupuri OG",
-    "ogChallengeBody": "Pōwhiritia ngā tāngata e pupuri tonu ana i te DHB. Ina uru mai rātou mā tō hononga pōwhiri, ā, ka pupuri i tō rātou DHB i tō rātou pūkoro moni Riftn, ka tatauria rātou mōu i konei.",
+    "ogChallengeBody": "Pōwhiritia ngā tāngata e pupuri tonu ana i te tohu. Ina uru mai rātou mā tō hononga pōwhiri, ā, ka pupuri i tō rātou tohu i tō rātou pūkoro moni Riftn, ka tatauria rātou mōu i konei.",
     "ogChallengeCta": "Tikina tō hononga pōwhiri"
   },
   "explorePage": {
@@ -14305,7 +14305,7 @@
           "4": "Hei tuhi i tētahi reo-rongo, pāwhiritia te ata hopuoro.",
           "5": "Hei tāpiri i tētahi GIF, pāwhiritia te ata GIF ka rapu i tētahi.",
           "6": "Whakamahia ngā #hashtags hei whakarōpū i tō whakairinga (hei tauira, #crypto, #defi).",
-          "7": "Whakamahia ngā $cashtags hei tohutoro i ngā tohu (hei tauira, $RIFT, $ETH).",
+          "7": "Whakamahia ngā $cashtags hei tohutoro i ngā tohu (hei tauira, $BTC, $ETH).",
           "8": "Whakamahia ngā @mentions hei tohu i ētahi atu kaiwhakamahi (hei tauira, @username).",
           "9": "Pāwhiritia te 'Whakairinga' hei whakaputa. Ka puta tō whakairinga ki te pātaka tonu."
         },

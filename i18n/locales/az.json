@@ -4795,7 +4795,7 @@
     "ogHolders_one": "{{count}} OG sahibi",
     "ogHolders_other": "{{count}} OG sahibi",
     "ogChallengeTitle": "OG sahiblərini geri qaytarın",
-    "ogChallengeBody": "Hələ də DHB saxlayan insanları dəvət edin. Onlar sizin dəvət keçidinizlə qoşulub DHB-lərini Riftn cüzdanında saxlayanda burada sizin hesabınıza sayılırlar.",
+    "ogChallengeBody": "Hələ də token saxlayan insanları dəvət edin. Onlar sizin dəvət keçidinizlə qoşulub token-lərini Riftn cüzdanında saxlayanda burada sizin hesabınıza sayılırlar.",
     "ogChallengeCta": "Dəvət keçidinizi alın"
   },
   "explorePage": {
@@ -14305,7 +14305,7 @@
           "4": "Səsli qeyd yazmaq üçün mikrofon ikonunu klikləyin.",
           "5": "GIF əlavə etmək üçün GIF ikonunu klikləyin və birini axtarın.",
           "6": "Postunuzu kateqoriyalara ayırmaq üçün #hashtaglarından istifadə edin (məsələn, #crypto, #defi).",
-          "7": "Tokenlara istinad etmək üçün $cashtaglarından istifadə edin (məsələn, $RIFT, $ETH).",
+          "7": "Tokenlara istinad etmək üçün $cashtaglarından istifadə edin (məsələn, $BTC, $ETH).",
           "8": "Digər istifadəçiləri etiketləmək üçün @mentionlarından istifadə edin (məsələn, @username).",
           "9": "Yayınlamaq üçün 'Post' düyməsini klikləyin. Postunuz dərhal yeməkdə görünür."
         },
