@@ -2419,7 +2419,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
         {/* A clip that doesn't fill the screen sits on a blurred, dimmed copy
             of its own poster, so its edges blend out rather than cutting a
             hard line across the caption and action row. */}
-        {cleanStage ? (
+        {!surfaceActive || !isNearby ? null : cleanStage ? (
           <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none" />
         ) : wideStage && WideVideoFill && !showComments ? (
           <View style={[StyleSheet.absoluteFill, { backgroundColor: "#000" }]} pointerEvents="none">
