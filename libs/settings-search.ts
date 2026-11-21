@@ -82,6 +82,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
 
   // Privacy
   { tab: 'privacy', anchor: 'account-visibility', label: 'Account Visibility', labelKey: 'settings.accountVisibility', keywords: 'private account lock approve requests' },
+  { tab: 'privacy', anchor: 'account-visibility', label: 'Hide badge and balance', labelKey: 'settings.hideBadgeAndBalance' },
   { tab: 'privacy', anchor: 'post-visibility', label: 'Post Visibility', labelKey: 'settings.postVisibility', keywords: 'default public private posts' },
   { tab: 'privacy', anchor: 'default-profile-tab', label: 'Default profile tab', labelKey: 'settings.defaultProfileTab', keywords: 'landing tab visitors profile open first' },
   { tab: 'privacy', anchor: 'default-profile-view', label: 'Profile posts layout', labelKey: 'settings.defaultProfileView', keywords: 'grid list view layout profile posts tiles visitors' },

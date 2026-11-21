@@ -171,12 +171,53 @@ export async function getLeaderboard(params?: GetLeaderboardParams): Promise<Lea
   const { sort = 'holdings', period = 'all', force = false } = params || {};
   const now = Date.now();
   const key = memoryKey(sort, period);
-  const cached = sortCaches.get(key);
+  if (sort === 'followers' && period !== 'all') {
+    const { data, error } = await supabase.functions.invoke<LeaderboardData>('follower-rankings', { body: { period } });
+    if (data && !error) return { success: true, data };
+    // Support the interval before the separate Supabase deployment seals the cache.
+    const board = await fetchServerCache(sort, period, force);
+    if (!board) return { success: false, error: 'Follower rankings are unavailable' };
+    const { getAccountSummaries } = await import('./user.service');
+    const rows = board.result.byWalletBalance;
+    const profiles = await getAccountSummaries(rows.map(row => row.account));
+    const visible = new Set(profiles.filter(p => p.followerCountVisible === true && !p.isBanned).map(p => p.address.toLowerCase()));
+    // Older API versions expose this preference on profiles, before it was
+    // included in account summaries. The current follower board covers most
+    // rows in one request. Period-only entrants use a bounded profile lookup.
+    const legacy = profiles.filter(p => p.followerCountVisible === undefined && !p.isBanned);
+    if (legacy.length) {
+      const current = (await getLeaderboard({ sort: 'followers', period: 'all' })).data?.result.byWalletBalance ?? [];
+      const ranked = new Set(current.map(row => row.account.toLowerCase()));
+      const remaining: string[] = [];
+      for (const profile of legacy) {
+        const address = profile.address.toLowerCase();
+        if (ranked.has(address)) visible.add(address);
+        else remaining.push(address);
+      }
+      for (let i = 0; i < remaining.length; i += 4) {
+        const details = await Promise.allSettled(remaining.slice(i, i + 4).map(async address => {
+          const response = await apiClient.get<{ result?: { address?: string; isBanned?: boolean; customs?: { followVisibility?: string } } }>(
+            `/account_info/${address}`, { isAuthRequired: false },
+          );
+          return response?.result;
+        }));
+        for (const [offset, result] of details.entries()) {
+          const profile = result.status === 'fulfilled' ? result.value : undefined;
+          const address = remaining[i + offset];
+          if (profile?.address?.toLowerCase() === address && !profile.isBanned && profile.customs?.followVisibility !== 'hidden') {
+            visible.add(address);
+          }
+        }
+      }
+    }
+    return { success: true, data: { ...board, result: { byWalletBalance: rows.filter(row => visible.has(row.account.toLowerCase())) } } };
+  }
+  const cached = sort === 'followers' ? undefined : sortCaches.get(key);
   if (!force && cached && now - cached.timestamp < CACHE_DURATION) {
     return { success: true, data: cached.data };
   }
 
-  const fromServerCache = await fetchServerCache(sort, period, force);
+  const fromServerCache = sort === 'followers' ? null : await fetchServerCache(sort, period, force);
   if (fromServerCache) {
     remember(key, fromServerCache, now);
     return { success: true, data: fromServerCache };
@@ -200,7 +241,7 @@ export async function getLeaderboard(params?: GetLeaderboardParams): Promise<Lea
       result: { byWalletBalance: normaliseEntries(res) },
       hasHistoricalData: true,
     };
-    remember(key, data, now);
+    if (sort !== 'followers') remember(key, data, now);
     return { success: true, data };
   } catch (error) {
     console.error('Error fetching leaderboard:', error);

@@ -265,6 +265,7 @@ export interface AccountSummary {
   displayName?: string | null;
   avatarImageUrl?: string | null;
   badgeBalance?: number | null;
+  followerCountVisible?: boolean;
   isBanned?: boolean;
 }
 

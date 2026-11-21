@@ -84,11 +84,22 @@ export function ownsPostMedia<T>(session: PostMediaSession<T>, token: object): b
   return (session.priorityOwner ?? session.claims[session.claims.length - 1]) === token;
 }
 
-export function preparePostMediaNavigation(url: string | null | undefined): void {
+export function preparePostMediaNavigation(url: string | null | undefined, options?: { replayEndingVideo?: boolean }): void {
   if (!url) return;
   for (const kind of ['video', 'audio']) {
     const session = sessions.get(`${kind}:${url}`);
-    if (session) session.transferUntil = Date.now() + GRACE_MS;
+    if (!session) continue;
+    session.transferUntil = Date.now() + GRACE_MS;
+    if (kind === 'video' && options?.replayEndingVideo && session.value) {
+      const player: VideoPlayer = session.value;
+      try {
+        // A feed preview can end during navigation. Opening it explicitly
+        // should play that clip before the viewer advances to its neighbour.
+        const { duration, currentTime } = player;
+        if (Number.isFinite(duration) && duration > 0 && currentTime > 0 &&
+          duration - currentTime <= Math.min(GRACE_MS / 1000, duration / 4)) player.currentTime = 0;
+      } catch { /* a released preview will be recreated by the viewer */ }
+    }
   }
 }
 

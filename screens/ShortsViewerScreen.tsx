@@ -533,7 +533,7 @@ interface ShortItemProps {
   /** Profile reel: the creator's post background, behind text posts. */
   reelBgId?: string | null;
   /** The playing short reached its end with loop off: the viewer moves on. */
-  onPlayToEnd?: () => void;
+  onPlayToEnd?: (endedId: string) => void;
 }
 
 const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOverride, isActive: activeItem, isNearby, activeVideoRef, itemHeight, viewportHeight, miniReveal, backDrag, backLeaving, onSwipeBackSettled, dismissY, isFirst, onHoldActiveChange, captureViewerState, isMuted, volume, playbackRate, pagerGesture, onChromeVisibilityChange, onChromeLiveChange, chromeRevealTick, fullscreenTick, onWideChange, onCommentsVisibilityChange, optionsMenuOpen = false, reelBgId, onPlayToEnd }) => {
@@ -646,15 +646,15 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   useEffect(() => {
     if (!player || !isActive || photoMedia || !onPlayToEnd) return;
     const sub = player.addListener("playToEnd", () => {
-      if (getIsLooping()) return;
+      if (getIsLooping() || !ownsPlayerRef.current() || !navigation.isFocused()) return;
       if (engagedRef.current || Keyboard.isVisible()) {
         try { player.currentTime = 0; player.play(); } catch {}
         return;
       }
-      onPlayToEnd();
+      onPlayToEnd(String(tokenId));
     });
     return () => sub.remove();
-  }, [player, isActive, photoMedia, onPlayToEnd]);
+  }, [player, isActive, photoMedia, onPlayToEnd, navigation, tokenId]);
   // Watch time for the creator's stats. A photo short's soundtrack is not a watch.
   useEffect(() => trackPlayerWatchTime(player, noVideo ? null : tokenId), [player, noVideo, tokenId]);
   const itemThumbnail = item.postType === 'short' ? getShortsThumbnailUrl(tokenId) : resolveThumbnail(item);
@@ -3721,7 +3721,9 @@ const ShortsViewerScreen = () => {
   // Not while comments or the options menu are open over it.
   const showOptionsMenuRef = useRef(showOptionsMenu);
   showOptionsMenuRef.current = showOptionsMenu;
-  const handlePlayToEnd = useCallback(() => {
+  const handlePlayToEnd = useCallback((endedId: string) => {
+    const active = itemsRef.current[activeIndexRef.current];
+    if (!active || String(active.tokenId ?? active.id) !== endedId) return;
     if (commentsVisibleRef.current || showOptionsMenuRef.current || pagerTouchedRef.current || getIsLooping()) return;
     const next = activeIndexRef.current + 1;
     const height = containerHeight;

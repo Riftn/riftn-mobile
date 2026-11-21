@@ -351,58 +351,61 @@ export default function StoryViewer({
 
   return (
     <DarkRoomProvider>
-      <View className="dark-surface" style={styles.root} onLayout={({ nativeEvent: { layout: { width, height } } }) => {
-        setViewport((previous) => previous.width === width && previous.height === height ? previous : { width, height });
-      }} {...pan.panHandlers}>
-        {item.type === "video" && videoUri ? (
-          <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={fit} nativeControls={false} surfaceType="textureView" />
-        ) : (
-          <Image
-            key={item.id}
-            source={{ uri: item.mediaUrl || item.posterUrl || undefined }}
-            style={StyleSheet.absoluteFill}
-            contentFit={fit}
-            onLoad={() => setLoadedId(item.id)}
-            onError={() => setLoadedId(item.id)}
-          />
-        )}
-        {item.overlayUrl ? <Image source={{ uri: item.overlayUrl }} style={StyleSheet.absoluteFill} contentFit="cover" pointerEvents="none" /> : null}
-        <LinearGradient colors={["rgba(0,0,0,0.45)", "rgba(0,0,0,0)"]} style={styles.topShade} pointerEvents="none" />
-        <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.55)"]} style={styles.bottomShade} pointerEvents="none" />
-        {!loaded ? (
-          <View style={styles.center} pointerEvents="none">
-            <ActivityIndicator color="#fff" />
-          </View>
-        ) : null}
+      <View className="dark-surface" style={styles.root} {...pan.panHandlers}>
+        <View style={styles.mediaFrame} onLayout={({ nativeEvent: { layout: { width, height } } }) => {
+          setViewport((previous) => previous.width === width && previous.height === height ? previous : { width, height });
+        }}>
+          {item.type === "video" && videoUri ? (
+            <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={fit} nativeControls={false} surfaceType="textureView" />
+          ) : (
+            <Image
+              key={item.id}
+              source={{ uri: item.mediaUrl || item.posterUrl || undefined }}
+              style={StyleSheet.absoluteFill}
+              contentFit={fit}
+              onLoad={() => setLoadedId(item.id)}
+              onError={() => setLoadedId(item.id)}
+            />
+          )}
+          {item.overlayUrl ? <Image source={{ uri: item.overlayUrl }} style={StyleSheet.absoluteFill} contentFit="cover" pointerEvents="none" /> : null}
+          <LinearGradient colors={["rgba(0,0,0,0.45)", "rgba(0,0,0,0)"]} style={styles.topShade} pointerEvents="none" />
+          <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.55)"]} style={styles.bottomShade} pointerEvents="none" />
+          {!loaded ? (
+            <View style={styles.center} pointerEvents="none">
+              <ActivityIndicator color="#fff" />
+            </View>
+          ) : null}
 
-        {/* Tap zones: left third back, the rest forward; hold anywhere pauses. */}
-        <View style={styles.zones} pointerEvents={sheet || openingOriginal ? "none" : "auto"}>
-          <Pressable style={{ width: width / 3 }} onPress={() => goItem(-1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
-          <Pressable style={{ flex: 1 }} onPress={() => goItem(1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
+          {/* Tap zones: left third back, the rest forward; hold anywhere pauses. */}
+          <View style={styles.zones} pointerEvents={sheet || openingOriginal ? "none" : "auto"}>
+            <Pressable style={{ width: width / 3 }} onPress={() => goItem(-1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
+            <Pressable style={{ flex: 1 }} onPress={() => goItem(1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
+          </View>
+
+          {!sheet && !openingOriginal && item.mentions.length > 0 && mentionFrameWidth > 0 ? (
+            <View pointerEvents="box-none" style={{
+              position: "absolute",
+              left: (viewport.width - mentionFrameWidth) / 2,
+              top: (viewport.height - mentionFrameHeight) / 2,
+              width: mentionFrameWidth,
+              height: mentionFrameHeight,
+            }}>
+              {item.mentions.map((m) => (
+                <Pressable
+                  key={`${m.address}-${m.x}`}
+                  accessibilityRole="link"
+                  accessibilityLabel={t("upload.studio.mention", { defaultValue: "Mention" })}
+                  onPress={() => {
+                    onClose();
+                    showUserProfile(m.address, { source: "moment" });
+                  }}
+                  style={{ position: "absolute", left: `${m.x * 100}%`, top: `${m.y * 100}%`, width: `${m.w * 100}%`, height: `${m.h * 100}%` }}
+                />
+              ))}
+            </View>
+          ) : null}
+
         </View>
-
-        {!sheet && !openingOriginal && item.mentions.length > 0 && mentionFrameWidth > 0 ? (
-          <View pointerEvents="box-none" style={{
-            position: "absolute",
-            left: (viewport.width - mentionFrameWidth) / 2,
-            top: (viewport.height - mentionFrameHeight) / 2,
-            width: mentionFrameWidth,
-            height: mentionFrameHeight,
-          }}>
-            {item.mentions.map((m) => (
-              <Pressable
-                key={`${m.address}-${m.x}`}
-                accessibilityRole="link"
-                accessibilityLabel={t("upload.studio.mention", { defaultValue: "Mention" })}
-                onPress={() => {
-                  onClose();
-                  showUserProfile(m.address, { source: "moment" });
-                }}
-                style={{ position: "absolute", left: `${m.x * 100}%`, top: `${m.y * 100}%`, width: `${m.w * 100}%`, height: `${m.h * 100}%` }}
-              />
-            ))}
-          </View>
-        ) : null}
 
         {/* Capsule: who, when, how far along, and the actions. */}
         <View style={[styles.cap, { top: insets.top + 8 }]}>
@@ -441,7 +444,7 @@ export default function StoryViewer({
         {/* The keyboard view sets its own bottom padding on iPhone, so the safe-area gap lives on an inner view. */}
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
-          style={[styles.bottom, sheet && styles.hidden]}
+          style={sheet ? styles.hidden : undefined}
           pointerEvents={sheet ? "none" : "auto"}
           accessibilityElementsHidden={!!sheet}
           importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
@@ -690,6 +693,7 @@ function SheetRow({ icon, label, onPress, danger }: { icon?: React.ComponentProp
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#000" },
+  mediaFrame: { flex: 1, overflow: "hidden" },
   center: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center" },
   topShade: { position: "absolute", top: 0, left: 0, right: 0, height: 140 },
   bottomShade: { position: "absolute", bottom: 0, left: 0, right: 0, height: 220 },
@@ -718,7 +722,6 @@ const styles = StyleSheet.create({
   dots: { flexDirection: "row", gap: 4, marginRight: 2 },
   dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.35)" },
   dotOn: { backgroundColor: "#fff" },
-  bottom: { position: "absolute", left: 0, right: 0, bottom: 0 },
   hidden: { opacity: 0 },
   bottomInner: { paddingHorizontal: 12, gap: 8 },
   caption: { color: "#fff", fontSize: 15, textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6, paddingHorizontal: 4 },
@@ -785,5 +788,5 @@ const styles = StyleSheet.create({
   sheetRowText: { color: "#fff", fontSize: 15 },
   empty: { color: "rgba(255,255,255,0.65)", paddingHorizontal: 8, paddingVertical: 16 },
   viewerRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8, paddingHorizontal: 8 },
-  viewerName: { flex: 1, color: "#fff", fontSize: 14 },
+  viewerName: { flex: 1, minWidth: 0, overflow: "hidden", color: "#fff", fontSize: 14 },
 });
