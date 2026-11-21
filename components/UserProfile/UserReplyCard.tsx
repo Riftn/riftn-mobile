@@ -38,6 +38,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { MINIMAL_INSET, minimalRow } from "../../theme/minimal";
 import { expandEmojiTokens } from "../common/EmojiText";
 
+import { formatCommentTime } from '../../libs/comment-time';
 import { formatCount } from '../../libs/format-count';
 // A reply is shown as the thread it belongs to, the way the comments section
 // draws one: the post on top, the comment being answered when there is one,
@@ -62,23 +63,6 @@ const resolveMediaUrl = (path: string): string => {
     return path;
   }
   return buildCdnPath(path) ?? path;
-};
-
-/** Short-form elapsed time. */
-const formatShortTime = (date: string | undefined): string => {
-  if (!date) return "";
-  const diff = Date.now() - new Date(date).getTime();
-  const s = Math.floor(diff / 1000);
-  const m = Math.floor(s / 60);
-  const h = Math.floor(m / 60);
-  const d = Math.floor(h / 24);
-  if (d >= 365) return `${Math.floor(d / 365)}y`;
-  if (d >= 30) return `${Math.floor(d / 30)}mo`;
-  if (d >= 7) return `${Math.floor(d / 7)}w`;
-  if (d > 0) return `${d}d`;
-  if (h > 0) return `${h}h`;
-  if (m > 0) return `${m}m`;
-  return `${Math.max(1, s)}s`;
 };
 
 /** Parse @mentions and bold them. */
@@ -238,6 +222,7 @@ const ThreadPostRow: React.FC<{ post: UserReplyPost; tokenId: number; onUserPres
   tokenId,
   onUserPress,
 }) => {
+  const { t } = useTranslation();
   const author = describeAuthor(
     post.minterUser ?? {
       address: post.minter || "",
@@ -253,7 +238,7 @@ const ThreadPostRow: React.FC<{ post: UserReplyPost; tokenId: number; onUserPres
   const isVideo = post.postType === "video" || post.postType === "short";
   return (
     <>
-      <AuthorHeader {...author} time={formatShortTime(post.createdAt)} onPress={() => onUserPress(author.profileId)} />
+      <AuthorHeader {...author} time={formatCommentTime(post.createdAt, t)} onPress={() => onUserPress(author.profileId)} />
       <View style={{ paddingLeft: THREAD_INDENT, paddingBottom: 14 }}>
         {title ? (
           <Text className="text-sm font-semibold text-white mt-2 leading-5" numberOfLines={2}>
@@ -304,11 +289,12 @@ const ThreadParentCommentRow: React.FC<{ parent: UserReplyParentComment; onUserP
   parent,
   onUserPress,
 }) => {
+  const { t } = useTranslation();
   const author = describeAuthor(parent.author, parent.address);
   const image = parent.imageUrl || parent.gifUrl;
   return (
     <>
-      <AuthorHeader {...author} time={formatShortTime(parent.createdAt)} onPress={() => onUserPress(author.profileId)} />
+      <AuthorHeader {...author} time={formatCommentTime(parent.createdAt, t)} onPress={() => onUserPress(author.profileId)} />
       <View style={{ paddingLeft: THREAD_INDENT, paddingBottom: 14 }}>
         {parent.content ? (
           <Text className="text-sm text-white/90 mt-2 leading-5" numberOfLines={6}>
@@ -360,7 +346,7 @@ const UserReplyCardComponent: React.FC<UserReplyCardProps> = ({
   const [isLiking, setIsLiking] = useState(false);
   const likeScale = useRef(new Animated.Value(1)).current;
 
-  const timeAgo = useMemo(() => formatShortTime(item.createdAt), [item.createdAt]);
+  const timeAgo = formatCommentTime(item.createdAt, t);
   const parsedContent = useMemo(() => parseMentions(item.content || ""), [item.content]);
 
   const author = useMemo(() => describeAuthor(item.author, item.address), [item.author, item.address]);

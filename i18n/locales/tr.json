@@ -4704,7 +4704,7 @@
     "time": {
       "today": "bugün",
       "yesterday": "dün",
-      "days": "{{count}} gün",
+      "days": "{{count}}G",
       "weeks": "{{count}} hf.",
       "months": "{{count}} ay",
       "years": "{{count}} yıl"
