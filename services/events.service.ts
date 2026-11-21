@@ -5,6 +5,7 @@
  * mirroring the web app's use-events hooks. Public reads need no auth; RSVP
  * writes attach the wallet header used by Supabase RLS.
  */
+import type { GateReply } from '../libs/event-checkout';
 import { supabase } from "./supabase";
 import { withWalletHeader } from "../libs/supabase-wallet-client";
 
@@ -211,6 +212,7 @@ export async function hasPaidEventGate(eventId: string, walletAddress: string): 
   const { data, error } = await supabase
     .from("event_gate_payments" as any)
     .select("id")
+    .not("verified_at", "is", null)
     .eq("event_id", eventId)
     .eq("payer_wallet_address", walletAddress.toLowerCase())
     .limit(1);
@@ -218,25 +220,12 @@ export async function hasPaidEventGate(eventId: string, walletAddress: string): 
   return ((data as any[]) ?? []).length > 0;
 }
 
-/** Recorded after the entry fee tip confirms, same row web writes. */
-export async function recordEventGatePayment(params: {
-  eventId: string;
-  payer: string;
-  creator: string;
-  amount: number;
-  txHash: string;
-  chainId: number;
-}): Promise<void> {
-  const { error } = await withWalletHeader(
-    supabase.from("event_gate_payments" as any).insert({
-      event_id: params.eventId,
-      payer_wallet_address: params.payer.toLowerCase(),
-      creator_wallet_address: params.creator.toLowerCase(),
-      amount: params.amount,
-      tx_hash: params.txHash,
-      chain_id: params.chainId,
-    } as any),
-    params.payer,
-  );
-  if (error) throw error;
+export async function eventGateRequest(eventId: string, wallet: string, action: string, claim: string, hash?: string): Promise<GateReply> {
+  const { data, error } = await withWalletHeader(supabase.rpc('event_gate_checkout' as any, {
+    p_event: eventId, p_action: action, p_claim: claim, p_hash: hash ?? null,
+  } as any), wallet);
+  if (error) throw new Error(error.message);
+  const result = data as GateReply | null;
+  if (!result || result.error) throw new Error(result?.error || 'Missing event payment response.');
+  return result;
 }
