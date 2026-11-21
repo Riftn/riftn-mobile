@@ -13,14 +13,11 @@ import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
 import Icon from '../ui/Icon';
 import Avatar from '../common/Avatar';
+import SavedProfileName from '../common/SavedProfileName';
 import GlassModal from '../ui/GlassModal';
 import { useAuthActions } from '../../context/AuthContext';
 import { getAvatarUrl } from '../../libs/misc';
 import { listProfiles, subscribeProfilesChanged, type StoredProfile } from '../../libs/profiles';
-
-function shortAddress(address: string): string {
-  return address.length > 12 ? `${address.slice(0, 6)}…${address.slice(-4)}` : address;
-}
 
 /** Faces shown in the pill besides your own. */
 const MAX_OTHERS = 2;
@@ -136,7 +133,7 @@ export default function MenuAccountSwitcher({
           <Text style={styles.title}>{t('settings.switchAccount')}</Text>
           {rows.map((profile) => {
             const isActive = profile === me;
-            const label = profile.name || profile.username || shortAddress(profile.address);
+            const label = profile.name || profile.username || undefined;
             return (
               <TouchableOpacity
                 key={profile.id}
@@ -154,11 +151,15 @@ export default function MenuAccountSwitcher({
                   name={label}
                 />
                 <View style={styles.rowText}>
-                  <Text style={styles.rowName} numberOfLines={1}>{label}</Text>
-                  <Text style={styles.rowSub} numberOfLines={1}>
-                    {profile.username ? `@${profile.username}` : shortAddress(profile.address)}
-                    {!profile.session && !isActive ? ` · ${t('settings.profileSignedOut')}` : ''}
-                  </Text>
+                  <SavedProfileName profile={profile} style={styles.rowName} />
+                  {(profile.username || (!profile.session && !isActive)) && (
+                    <Text style={styles.rowSub} numberOfLines={1}>
+                      {[
+                        profile.username && `@${profile.username}`,
+                        !profile.session && !isActive && t('settings.profileSignedOut'),
+                      ].filter(Boolean).join(' · ')}
+                    </Text>
+                  )}
                 </View>
                 {switchingId === profile.id ? (
                   <ActivityIndicator size="small" color="#A1A1AA" />

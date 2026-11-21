@@ -23,23 +23,7 @@ export interface GlassToastProps {
   children?: React.ReactNode;
 }
 
-/**
- * The one toast body on mobile — every toast in the app is raised through
- * libs/toast, which renders this.
- *
- * It matches the web toaster (web's components/ui/toast-classes) rather than
- * being its own thing: a stacked glass card, bold heading, copy at 70% white
- * under it, a full-width pill for the action, and the close X in the top
- * corner. The two apps show the same toast for the same event, so a reader
- * moving between them should not have to learn it twice.
- *
- * There is no type icon, on either platform. The five types used to each get a
- * tinted disc — a tick, a cross, an exclamation mark — which said nothing the
- * copy did not already say and, once the card stacked, hung beside a paragraph
- * it had no baseline to sit against. `loading` is the exception, and the reason
- * the slot still exists at all: there the spinner is the only thing on screen
- * saying the work is still running.
- */
+/** Shared card for app toasts and their actions. */
 const GlassToast: React.FC<GlassToastProps> = ({
   type = "info",
   title,
@@ -53,115 +37,43 @@ const GlassToast: React.FC<GlassToastProps> = ({
   const { t } = useTranslation();
   if (!title) return null;
 
-  // A one-line message with one action ("Conversation deleted · Undo") sits on
-  // a single row: text, action, close, all on one centre line. Stacked, the
-  // short line floated over a full-width pill with the X hanging off the
-  // corner, which read as three unrelated pieces.
-  const inline =
-    !!actionLabel && !!onActionPress && !description && !children && type !== "loading";
-  if (inline) {
-    return (
-      <View
-        className="w-[92%] self-center overflow-hidden rounded-2xl my-2"
-        style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", backgroundColor: "#101014" }}
-      >
-        <View className="flex-row items-center pl-4 pr-2 py-2 gap-2" style={{ minHeight: 52 }}>
-          <Text className="flex-1 text-white text-[15px] font-semibold" numberOfLines={2}>
-            {title}
-          </Text>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={onActionPress}
-            accessibilityRole="button"
-            className="h-9 px-4 items-center justify-center rounded-xl bg-white/10"
-            style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
-          >
-            <Text className="text-sm font-semibold text-white">{actionLabel}</Text>
-          </TouchableOpacity>
-          {onClose && (
-            <TouchableOpacity
-              className="h-9 w-9 items-center justify-center"
-              accessibilityLabel={t("common.close")}
-              accessibilityRole="button"
-              hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-              onPress={onClose}
-            >
-              <Ionicons name="close" size={20} color="rgba(255,255,255,0.6)" />
-            </TouchableOpacity>
-          )}
-        </View>
-      </View>
-    );
-  }
-
   return (
     <View
-      className="w-[92%] self-center overflow-hidden rounded-2xl my-2"
-      style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.2)" }}
+      className="w-[92%] self-center rounded-2xl my-2 p-4"
+      style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", backgroundColor: "#101014" }}
     >
-      {/* Toast copy must remain legible over every feed and media surface. */}
-      <View
-        className="absolute inset-0"
-        style={{ backgroundColor: "#101014" }}
-      />
-
-      <View
-        className={`flex-row p-4 gap-3 z-10 ${type === "loading" ? "items-center" : "items-start"}`}
-      >
-        {type === "loading" && (
-          <ButtonLoader size={18} />
-        )}
-
+      <View className={`flex-row gap-3 ${type === "loading" ? "items-center" : "items-start"}`}>
+        {type === "loading" && <ButtonLoader size={18} />}
         <View className="flex-1 min-w-0">
-          <Text
-            className="text-white text-base leading-5 font-bold"
-            numberOfLines={type === "loading" ? 1 : undefined}
-          >
+          <Text className="text-white text-base leading-5 font-bold" numberOfLines={type === "loading" ? 1 : undefined}>
             {title}
           </Text>
-
-          {description && (
-            <Text className="text-white/70 text-[13px] leading-5 mt-1.5">
-              {description}
-            </Text>
-          )}
-
-          {children}
-
-          {actionLabel && onActionPress && (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={onActionPress}
-              // Web's pill, minus the gradient: expo-linear-gradient would mean
-              // another view behind the label for a shift this size, and flat
-              // white/10 on the blur reads the same at a glance.
-              className="mt-3 h-9 w-full items-center justify-center rounded-xl bg-white/10"
-              style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
-            >
-              <View className="flex-row items-center justify-center gap-2">
-                {actionIcon ? (
-                  <Image source={actionIcon} className="h-5 w-5" resizeMode="contain" />
-                ) : null}
-                <Text className="text-sm font-medium text-white">
-                  {actionLabel}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
+          {description && <Text className="text-white/70 text-[13px] leading-5 mt-1.5">{description}</Text>}
         </View>
-
         {onClose && (
           <TouchableOpacity
-            className="self-start"
             accessibilityLabel={t("common.close")}
             accessibilityRole="button"
-            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            hitSlop={{ top: 10, bottom: 6, left: 8, right: 8 }}
             onPress={onClose}
           >
             <Ionicons name="close" size={20} color="rgba(255,255,255,0.6)" />
           </TouchableOpacity>
         )}
       </View>
+      {children}
+      {actionLabel && onActionPress && (
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={onActionPress}
+          accessibilityRole="button"
+          className="mt-3 min-h-10 w-full flex-row items-center justify-center gap-2 rounded-xl bg-white/10 px-4 py-2"
+          style={{ borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" }}
+        >
+          {actionIcon && <Image source={actionIcon} className="h-5 w-5" resizeMode="contain" />}
+          <Text className="shrink text-center text-sm font-medium text-white">{actionLabel}</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

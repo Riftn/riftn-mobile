@@ -18,6 +18,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Avatar from '../common/Avatar';
+import SavedProfileName from '../common/SavedProfileName';
 import { getAvatarUrl } from '../../libs/misc';
 import { useAuthActions, useUser } from '../../context/AuthContext';
 import {
@@ -28,10 +29,6 @@ import {
 
 /** Keeps the sheet a sheet — the sign-in options must stay reachable. */
 const MAX_ROWS = 3;
-
-function shortAddress(address: string): string {
-  return address.length > 12 ? `${address.slice(0, 6)}…${address.slice(-4)}` : address;
-}
 
 interface SignInSavedProfilesProps {
   disabled?: boolean;
@@ -100,12 +97,10 @@ export function SignInSavedProfiles({ disabled }: SignInSavedProfilesProps) {
             />
           </View>
           <View className="flex-1 mr-2">
-            <Text className="text-white text-sm font-medium" numberOfLines={1}>
-              {profile.name || profile.username || shortAddress(profile.address)}
-            </Text>
-            <Text className="text-theme-neutrals-500 text-xs mt-0.5" numberOfLines={1}>
-              {shortAddress(profile.address)}
-            </Text>
+            <SavedProfileName profile={profile} className="text-white text-sm font-medium" />
+            {profile.username && (
+              <Text className="text-theme-neutrals-500 text-xs mt-0.5" numberOfLines={1}>@{profile.username}</Text>
+            )}
           </View>
           {switchingId === profile.id ? <ActivityIndicator size="small" color="#9ca3af" /> : null}
         </TouchableOpacity>
