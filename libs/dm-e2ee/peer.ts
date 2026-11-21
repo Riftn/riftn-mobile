@@ -52,10 +52,17 @@ export async function decryptIncoming(
   if (!peer && hasIdentityFor(myAddress) && /^[0-9a-f]{24}$/i.test(conversationId)) {
     // A push or deep link may arrive before contacts and open an outgoing-only page.
     const { queryClient } = await import("../../config/queryClient");
-    const { getConversation } = await import("../../services/dm/dm.api");
+    const { getConversation, getContactsByAddress } = await import("../../services/dm/dm.api");
     const thread = await queryClient.fetchQuery({
       queryKey: ["dm-participants", myAddress.toLowerCase(), conversationId],
-      queryFn: () => getConversation(conversationId),
+      queryFn: async () => {
+        try {
+          return await getConversation(conversationId);
+        } catch {
+          const contacts = await getContactsByAddress(myAddress);
+          return contacts.find(contact => contact._id === conversationId) ?? null;
+        }
+      },
       staleTime: 60_000,
       retry: false,
     }).catch(() => null);
