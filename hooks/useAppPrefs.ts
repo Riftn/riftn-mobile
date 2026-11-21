@@ -69,8 +69,6 @@ const KEYS = {
   shareIconStyle: 'dehub.shareIconStyle',
   // Chat text size, web's key (lib/chat-text-size).
   chatTextSize: 'riftn.chat.textSize',
-  // Chat list: each chat on its own card (on) or a plain list with lines (off).
-  chatCards: 'riftn.chat.cards',
   // Saved answer to "Delete message?" (ask / me / everyone), web's key
   // (lib/chat-delete-choice).
   chatDeleteChoice: 'riftn.chat.deleteChoice',
@@ -115,8 +113,6 @@ export interface AppPrefs {
   shareIconStyle: ShareIconStyle;
   /** Size of text in every chat (libs/chatTextSize). */
   chatTextSize: ChatTextSize;
-  /** Chat list as cards (true) or a plain list with a line between chats (false). */
-  chatCards: boolean;
   /** Saved answer to "Delete message?": ask every time, or always for me / for everyone. */
   chatDeleteChoice: ChatDeleteChoice;
   /** How a reaction moves when it lands in a chat (libs/chatReactionStyle). */
@@ -163,7 +159,6 @@ export const DEFAULT_APP_PREFS: AppPrefs = {
   feedSeparator: 'bento',
   shareIconStyle: 'classic',
   chatTextSize: 'default',
-  chatCards: true,
   chatDeleteChoice: 'ask',
   chatReactionStyle: 'fly',
   menuLayout: DEFAULT_MENU_LAYOUT,
@@ -208,7 +203,7 @@ function init() {
   subscribeDefaultChain(followDefaultChain);
   void loadDefaultChains();
 
-  AsyncStorage.multiGet(Object.values(KEYS))
+  AsyncStorage.multiGet([...Object.values(KEYS), 'riftn.chat.cards'])
     .then((entries) => {
       const map = new Map(entries);
       const get = (k: AppPrefKey) => map.get(KEYS[k]) ?? null;
@@ -250,14 +245,14 @@ function init() {
         skipSegments: parseBool(get('skipSegments'), DEFAULT_APP_PREFS.skipSegments),
         leftHanded: parseBool(get('leftHanded'), DEFAULT_APP_PREFS.leftHanded),
         halloweenOptOut: parseBool(get('halloweenOptOut'), DEFAULT_APP_PREFS.halloweenOptOut),
-        chatCards: parseBool(get('chatCards'), DEFAULT_APP_PREFS.chatCards),
         postLanding: (() => {
           const stored = get('postLanding');
           return isPostLandingStyle(stored) ? stored : DEFAULT_APP_PREFS.postLanding;
         })(),
         feedSeparator: (() => {
           const stored = get('feedSeparator');
-          return isFeedSeparator(stored) ? stored : DEFAULT_APP_PREFS.feedSeparator;
+          if (isFeedSeparator(stored)) return stored;
+          return map.get('riftn.chat.cards') === 'false' ? 'line' : DEFAULT_APP_PREFS.feedSeparator;
         })(),
         shareIconStyle: (() => {
           const stored = get('shareIconStyle');

@@ -83,6 +83,12 @@ export const toastError = (
     error === null || error === undefined
       ? fallback
       : (extractMessage(error) || fallback);
+  if (error?.code === 'E_PICKER_CANCELLED' || /^user cancel(?:l)?ed image selection[.!]?$/i.test(message)) {
+    return toastInfo(_translateCopy('profile.photoSelectionCancelled', {
+      fallbackLng: false,
+      defaultValue: '$t(dm.photo) · $t(planned.cancelled)',
+    }), options);
+  }
   // Never show "database or disk is full (code 13 SQLITE_FULL)". Free what we
   // can straight away and offer the rest behind one button.
   if (isStorageFullError(message)) {
