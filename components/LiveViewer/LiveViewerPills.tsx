@@ -4,9 +4,7 @@
  * Every live app on a phone puts a scrolling row of small tags here, and the
  * stream page had nowhere to put its own: state, elapsed time and title were
  * competing for the header, which is why the header had grown two lines.
- * They are facts about the stream, they are all short, and they belong on one
- * scrollable line that can overflow off the right edge without pushing
- * anything around.
+ * Stream details scroll beside the fixed coin and channel points counters.
  *
  * Monochrome, like the rest of the chrome: state is carried by the dot's
  * opacity and the word, never by a hue.
@@ -17,6 +15,8 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Avatar from "../common/Avatar";
 import { DhbCoin } from "../common/DhbCoin";
 import Icon from "../ui/Icon";
+import { PointsIcon } from "./PointsIcon";
+import { compactPoints } from "../../services/live-rewards.service";
 import { formatCompactNumber } from "../../libs/numbers.util";
 import { EDGE, TEXT_SHADOW } from "../common/ViewerChrome";
 
@@ -33,6 +33,8 @@ interface Props {
   title?: string;
   /** DHB gifted to this stream, all told. */
   giftTotal?: number;
+  pointsBalance?: number | null;
+  onPointsPress?: () => void;
   /** The latest faces in the room, newest first, for the "who's here" pill. */
   faces?: { uri?: string; name: string }[];
   /** Opens the Who's here sheet. */
@@ -77,6 +79,8 @@ const LiveViewerPills: React.FC<Props> = ({
   viewerCount,
   title,
   giftTotal,
+  pointsBalance,
+  onPointsPress,
   faces,
   onOpenAudience,
 }) => {
@@ -89,77 +93,105 @@ const LiveViewerPills: React.FC<Props> = ({
   const running = isLive && !isPaused && !!startedAt;
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      style={styles.strip}
-      contentContainerStyle={styles.content}
-      keyboardShouldPersistTaps="handled"
-    >
-      {/* Live and how long, in one tag: red is the only hue on the frame. */}
-      {isLive && !isEnded ? (
-        <Pill>
-          <View style={styles.liveTag}>
-            <Text style={styles.liveText}>{isPaused ? t("ads.statuses.paused") : t("live.statusLive")}</Text>
-          </View>
-          {running && startedAt ? <ElapsedClock startedAt={startedAt} /> : null}
-        </Pill>
-      ) : null}
-
-      {/* Who's here: the newest faces and the head count. Tap for the sheet
-          with the host, top tippers, most active and everyone watching. */}
-      {onOpenAudience ? (
-        <Pressable
-          onPress={onOpenAudience}
-          accessibilityRole="button"
-          accessibilityLabel={t("liveViewer.whosHere")}
-          hitSlop={{ top: 8, bottom: 8 }}
-        >
+    <View style={styles.strip}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.scroller}
+        contentContainerStyle={styles.content}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* Live and how long, in one tag: red is the only hue on the frame. */}
+        {isLive && !isEnded ? (
           <Pill>
-            {faces && faces.length ? (
-              <View style={styles.faces}>
-                {faces.slice(0, 3).map((f, i) => (
-                  <View key={i} style={[styles.face, i > 0 ? styles.faceOverlap : null]}>
-                    <Avatar uri={f.uri} size={18} name={f.name} />
-                  </View>
-                ))}
-              </View>
-            ) : (
-              <Icon name="Users" size={12} color="rgba(255,255,255,0.85)" strokeWidth={2} />
-            )}
-            <Text style={styles.value}>
-              {t("liveViewer.hereCount", { formatted: formatCompactNumber(Math.max(0, viewerCount ?? 0)) })}
-            </Text>
-            <Icon name="ChevronRight" size={11} color="rgba(255,255,255,0.6)" strokeWidth={2.4} />
+            <View style={styles.liveTag}>
+              <Text style={styles.liveText}>{isPaused ? t("ads.statuses.paused") : t("live.statusLive")}</Text>
+            </View>
+            {running && startedAt ? <ElapsedClock startedAt={startedAt} /> : null}
           </Pill>
-        </Pressable>
-      ) : null}
+        ) : null}
 
-      {giftTotal != null ? (
-        <Pill>
-          <DhbCoin size={11} />
-          <Text style={styles.value}>{formatCompactNumber(Math.max(0, giftTotal))}</Text>
-        </Pill>
-      ) : null}
+        {/* Who's here: the newest faces and the head count. Tap for the sheet
+            with the host, top tippers, most active and everyone watching. */}
+        {onOpenAudience ? (
+          <Pressable
+            onPress={onOpenAudience}
+            accessibilityRole="button"
+            accessibilityLabel={t("liveViewer.whosHere")}
+            hitSlop={{ top: 8, bottom: 8 }}
+          >
+            <Pill>
+              {faces && faces.length ? (
+                <View style={styles.faces}>
+                  {faces.slice(0, 3).map((f, i) => (
+                    <View key={i} style={[styles.face, i > 0 ? styles.faceOverlap : null]}>
+                      <Avatar uri={f.uri} size={18} name={f.name} />
+                    </View>
+                  ))}
+                </View>
+              ) : (
+                <Icon name="Users" size={12} color="rgba(255,255,255,0.85)" strokeWidth={2} />
+              )}
+              <Text style={styles.value}>
+                {t("liveViewer.hereCount", { formatted: formatCompactNumber(Math.max(0, viewerCount ?? 0)) })}
+              </Text>
+              <Icon name="ChevronRight" size={11} color="rgba(255,255,255,0.6)" strokeWidth={2.4} />
+            </Pill>
+          </Pressable>
+        ) : null}
 
-      {title ? (
-        <Pill>
-          <Text style={styles.value} numberOfLines={1}>
-            {title}
-          </Text>
-        </Pill>
-      ) : null}
-    </ScrollView>
+        {title ? (
+          <Pill>
+            <Text style={styles.value} numberOfLines={1}>
+              {title}
+            </Text>
+          </Pill>
+        ) : null}
+      </ScrollView>
+      <View style={styles.counters}>
+        {giftTotal != null ? (
+          <Pill>
+            <DhbCoin size={11} />
+            <Text style={styles.value}>{formatCompactNumber(Math.max(0, giftTotal))}</Text>
+          </Pill>
+        ) : null}
+        {pointsBalance != null && onPointsPress ? (
+          <Pressable
+            onPress={onPointsPress}
+            hitSlop={8}
+            accessibilityRole="button"
+            accessibilityLabel={t("livePoints.buttonLabel", { count: pointsBalance, formatted: pointsBalance.toLocaleString() })}
+            testID="live-points-button"
+          >
+            <Pill>
+              <PointsIcon size={14} color="rgba(255,255,255,0.92)" />
+              <Text style={styles.value}>{compactPoints(pointsBalance)}</Text>
+            </Pill>
+          </Pressable>
+        ) : null}
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   strip: {
-    flexGrow: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: EDGE,
+    gap: 8,
     marginTop: 8,
   },
+  scroller: {
+    flex: 1,
+    minWidth: 0,
+  },
+  counters: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
   content: {
-    paddingHorizontal: EDGE,
     gap: 12,
     alignItems: "center",
   },

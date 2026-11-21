@@ -8016,6 +8016,7 @@
     "volume": "Volume level"
   },
   "liveViewer": {
+    "chatPlaceholder": "type...",
     "loadingStream": "Loading stream...",
     "streamPaused": "Stream Paused",
     "connectionDropped": "The streamer's connection dropped.\nWaiting for them to reconnect...",

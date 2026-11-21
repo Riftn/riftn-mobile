@@ -2153,6 +2153,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 // A viewer watching a live is one of its audience, so never "0 here".
                 viewerCount={Math.max(liveViewers ?? 0, audience?.watching ?? 0, ownerStatus === "viewer" && isLiveEffective ? 1 : 0)}
                 giftTotal={resolvedTotalTips}
+                pointsBalance={pointsBalance}
+                onPointsPress={openRewards}
                 faces={audienceFaces}
                 onOpenAudience={() => setAudienceOpen(true)}
               />
@@ -2246,8 +2248,6 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   likeCount={postReactions.likeCount}
                   isLiked={postReactions.isLiked}
                   actionsDisabled={!isSignedIn || !isLiveEffective}
-                  pointsBalance={pointsBalance}
-                  onPointsPress={openRewards}
                   commands={streamBotCommands}
                 />
               </View>
