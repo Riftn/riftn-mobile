@@ -83,6 +83,7 @@ export interface UnifiedFeedItem {
   id?: string;
   
   // Content
+  contentRating?: string;
   name?: string;
   title?: string;
   description?: string;
