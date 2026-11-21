@@ -44,9 +44,9 @@ function ChatCardComponent({
 }) {
   const { skin, isMinimal, isLight } = useAppTheme();
   const accent = useChatCardAccent();
-  const { chatCards } = useAppPrefs();
-  if (!chatCards) {
-    // Plain list (Settings → Appearance → Chats as cards off): no card, a
+  const { feedSeparator } = useAppPrefs();
+  if (feedSeparator === 'line') {
+    // Plain list (Settings → Appearance → Thin line): no card, a
     // hairline under each chat, and the same lit bar for something new.
     return (
       <View style={[styles.row, checked && { backgroundColor: "rgba(255,255,255,0.06)" }]} testID={testID}>
@@ -143,8 +143,8 @@ export function ChatListTabs({
 
 /** Gap between chats (none in the plain list) and inset from the screen edge. */
 export function useChatListSpacing(): { gap: number; inset: number } {
-  const { chatCards } = useAppPrefs();
-  return { gap: chatCards ? CHAT_CARD_GAP : 0, inset: CHAT_CARD_INSET };
+  const { feedSeparator } = useAppPrefs();
+  return { gap: feedSeparator === 'bento' ? CHAT_CARD_GAP : 0, inset: CHAT_CARD_INSET };
 }
 
 const styles = StyleSheet.create({

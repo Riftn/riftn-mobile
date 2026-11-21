@@ -19,7 +19,7 @@ import Icon from "../ui/Icon";
 import TranslateButton, { type TranslateToggle } from "../ui/TranslateButton";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useCopy } from "react-i18next";
-import type { TFunction } from "i18next";
+import { formatCommentTime } from "../../libs/comment-time";
 import Avatar from "../common/Avatar";
 import NewMemberChip from "../common/NewMemberChip";
 import VoiceNotePlayer from "./VoiceNotePlayer";
@@ -86,30 +86,6 @@ function formatTipTotal(n: number): string {
   if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M`;
   if (n >= 1e3) return `${(n / 1e3).toFixed(1)}K`;
   return String(Math.round(n));
-}
-
-// The units come from the locale: "3h" and "2w" were typed into this function,
-// so every language read the age of a comment in English letters.
-function formatShortTime(date: Date | string | undefined, t: TFunction): string {
-  if (!date) return "";
-  const now = new Date();
-  const then = new Date(date);
-  const diffMs = now.getTime() - then.getTime();
-  const diffSec = Math.floor(diffMs / 1000);
-  const diffMin = Math.floor(diffSec / 60);
-  const diffHour = Math.floor(diffMin / 60);
-  const diffDay = Math.floor(diffHour / 24);
-  const diffWeek = Math.floor(diffDay / 7);
-  const diffMonth = Math.floor(diffDay / 30);
-  const diffYear = Math.floor(diffDay / 365);
-
-  if (diffYear > 0) return t("communities.time.years", { count: diffYear });
-  if (diffMonth > 0) return t("communities.time.months", { count: diffMonth });
-  if (diffWeek > 0) return t("communities.time.weeks", { count: diffWeek });
-  if (diffDay > 0) return t("communities.time.days", { count: diffDay });
-  if (diffHour > 0) return t("comments.timeHours", { count: diffHour });
-  if (diffMin > 0) return t("comments.timeMinutes", { count: diffMin });
-  return t("comments.timeSeconds", { count: Math.max(1, diffSec) });
 }
 
 interface CommentItemProps {
@@ -356,7 +332,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
     [user?.address, user?.displayName, user?.username, comment.address, postCreator],
   );
 
-  const timeAgo = formatShortTime(comment.createdAt, t);
+  const timeAgo = formatCommentTime(comment.createdAt, t);
 
   const translationTexts = useMemo(() => ({ content: comment.content || '' }), [comment.content]);
   const { isTranslated, translatedTexts, isLoading: translating, handleTranslate, handleShowOriginal, shouldShow: showTranslate, sourceLang: translationSourceLang } =
