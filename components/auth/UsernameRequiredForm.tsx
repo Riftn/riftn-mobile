@@ -3,7 +3,6 @@ import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ActivityIndicator, type ViewStyle } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import GlassModal from '../ui/GlassModal';
 import { AuthButton, AuthErrorNotice, AuthField, authColors, authText } from './AuthControls';
 import { AuthService } from '../../services/auth.service';
 import { getSignInDisplayName } from '../../services/auth/supabaseAuth.service';
@@ -199,9 +198,3 @@ export const UsernameRequiredForm: React.FC<Props> = ({ visible, provisionalUser
       </View>
   );
 };
-
-export const UsernameRequiredModal: React.FC<Props> = (props) => (
-  <GlassModal visible={props.visible} onClose={() => {}} dismissible={false} presentation="center" blurIntensity={50}>
-    <UsernameRequiredForm {...props} />
-  </GlassModal>
-);

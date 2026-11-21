@@ -45,7 +45,7 @@ const MIN_EXIT_SPEED = 1800;
 const EXIT_SAFETY_MS = 2500;
 
 type Options = {
-  navigation: any;
+  navigation?: any;
   /** False while a Post is in flight: the sheet stays put. */
   enabled: boolean;
   /** Called once the drag is let go past half way. Runs the same path as the
@@ -107,7 +107,7 @@ export function useComposerSheet({ navigation, enabled, onDismiss, willPrompt, o
 
   // Every way out slides the sheet down first, from wherever it is.
   useEffect(() => {
-    if (!active) return;
+    if (!active || !navigation) return;
     return navigation.addListener("beforeRemove", (e: any) => {
       if (leaving.current) return;
       leaving.current = true;

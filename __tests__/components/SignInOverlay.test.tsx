@@ -1,20 +1,28 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
-import SignInGatewayModal from '../../components/auth/SignInGatewayModal';
+import { SignInOverlay } from '../../screens/auth/SignInScreen';
 import { useAuthActions, useAuthState } from '../../context/AuthContext';
 
 jest.mock('react-native-css-interop/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
-  View: 'View', Text: 'Text', ScrollView: 'ScrollView', useWindowDimensions: () => ({ width: 390, height: 844 }),
+  View: 'View', Text: 'Text', Modal: 'NativeSheet', KeyboardAvoidingView: 'KeyboardAvoidingView', Platform: { OS: 'android' },
   StyleSheet: { create: (styles: unknown) => styles },
 }));
 jest.mock('../../context/AuthContext', () => ({ useAuthActions: jest.fn(), useAuthState: jest.fn() }));
-jest.mock('../../components/ui/GlassModal', () => ({ __esModule: true, default: 'NativeSheet' }));
-jest.mock('../../components/auth/UsernameRequiredModal', () => ({ UsernameRequiredForm: 'ProfileForm' }));
+jest.mock('react-native-gesture-handler', () => ({
+  GestureDetector: 'GestureDetector', GestureHandlerRootView: 'GestureRoot', ScrollView: 'ScrollView',
+}));
+jest.mock('react-native-reanimated', () => ({ __esModule: true, default: { View: 'AnimatedView' } }));
+jest.mock('react-native-safe-area-context', () => ({ SafeAreaView: 'SafeAreaView' }));
+jest.mock('@react-navigation/native', () => ({}));
+jest.mock('../../hooks/useComposerSheet', () => ({ useComposerSheet: () => ({}) }));
+jest.mock('../../hooks/useKeyboardLayout', () => ({ useKeyboardOffset: () => 0 }));
+jest.mock('../../components/auth/WalletRuntimeHost', () => ({ ScreenWalletPicker: 'WalletPicker' }));
+jest.mock('../../libs/oauth-cold-start', () => ({ takeHeldCallback: () => null }));
+jest.mock('../../components/auth/UsernameRequiredForm', () => ({ UsernameRequiredForm: 'ProfileForm' }));
 jest.mock('../../components/auth/AuthControls', () => ({ AuthButton: 'Button', AuthErrorNotice: 'Error', authColors: {}, authText: {} }));
 jest.mock('../../components/auth/SocialLoginIcons', () => 'SocialLogin');
 jest.mock('../../components/auth/EmailCodeEntry', () => 'EmailCode');
-jest.mock('../../components/auth/ImportWallet', () => 'ImportWallet');
 jest.mock('../../components/auth/SignInSavedProfiles', () => 'SavedProfiles');
 jest.mock('../../components/auth/LoginShortsStack', () => 'LoginShortsStack');
 jest.mock('../../components/auth/WalletSetupScreen', () => 'WalletSetup');
@@ -44,17 +52,24 @@ it('keeps the same native sheet open through signup and locks backdrop dismissal
   const onClose = jest.fn();
   (useAuthActions as jest.Mock).mockReturnValue({ completeUsername, signOut });
   (useAuthState as jest.Mock).mockReturnValue({ needsUsername: false, isLoading: false });
-  const screen = render(<SignInGatewayModal visible onClose={onClose} />);
+  const screen = render(<SignInOverlay onClose={onClose} />);
   const sheet = screen.UNSAFE_getByType('NativeSheet' as any);
   expect(sheet.props.visible).toBe(true);
+  expect(sheet.props.allowSwipeDismissal).toBe(true);
   expect(screen.UNSAFE_queryAllByType('SocialLogin' as any)).toHaveLength(1);
+  expect(screen.queryByText('common.cancel')).toBeNull();
+  fireEvent(sheet, 'requestClose');
+  expect(onClose).toHaveBeenCalledTimes(1);
+  onClose.mockClear();
 
   const provisionalUser = { address: 'new-account' };
   (useAuthState as jest.Mock).mockReturnValue({ needsUsername: true, provisionalUser, isLoading: false });
-  screen.rerender(<SignInGatewayModal visible onClose={onClose} />);
+  screen.rerender(<SignInOverlay onClose={onClose} />);
   expect(screen.UNSAFE_getByType('NativeSheet' as any)).toBe(sheet);
   expect(sheet.props.visible).toBe(true);
-  expect(sheet.props.dismissible).toBe(false);
+  expect(sheet.props.allowSwipeDismissal).toBe(false);
+  fireEvent(sheet, 'requestClose');
+  expect(onClose).not.toHaveBeenCalled();
   expect(screen.UNSAFE_queryAllByType('SocialLogin' as any)).toHaveLength(0);
   const form = screen.UNSAFE_getByType('ProfileForm' as any);
   expect(form.props.provisionalUser).toBe(provisionalUser);

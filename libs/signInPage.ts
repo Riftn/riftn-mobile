@@ -2,9 +2,8 @@ import { ScreenNames } from "../navigation/ScreenNames";
 
 /**
  * Guests sign in on the full sign-in page (the one log out lands on), opened
- * over whatever they were looking at. The old gateway sheet (grey glass, an
- * "Import wallet" row) stays only for flows the page cannot hold: finishing a
- * username and adding a second profile.
+ * over whatever they were looking at. The same UI can run above the
+ * navigator while it is starting or when adding a profile.
  *
  * Imperative because the callers (AuthContext, the session hooks) sit above
  * the navigator. App is required lazily so tests of those modules don't pull
