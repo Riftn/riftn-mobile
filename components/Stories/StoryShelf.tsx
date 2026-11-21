@@ -229,8 +229,10 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
   return (
     <TouchableOpacity activeOpacity={0.85} onPress={onOpen} accessibilityLabel={nameOf(entry.author)} style={styles.tileBox}>
       {fresh && ring ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
-      <View style={[styles.tile, fresh ? styles.inRing : styles.seen]}>
-        <Face uri={face} cover={coverOf(entry)} name={entry.author.username || entry.author.address} />
+      <View className="dark-surface" style={[styles.tile, fresh && styles.inRing]}>
+        <View style={[StyleSheet.absoluteFill, !fresh && styles.seen]} pointerEvents="none">
+          <Face uri={face} cover={coverOf(entry)} name={entry.author.username || entry.author.address} />
+        </View>
         <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.62)"]} style={styles.shade} pointerEvents="none" />
         {latest ? (
           <View style={styles.age}>
@@ -297,9 +299,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 9,
-    backgroundColor: "rgba(0,0,0,0.38)",
+    backgroundColor: "#242427",
   },
-  ageText: { color: "#fff", fontSize: 10, fontWeight: "600" },
+  ageText: { color: "#fff", fontSize: 11, fontWeight: "700" },
   plus: {
     position: "absolute",
     top: 6,
