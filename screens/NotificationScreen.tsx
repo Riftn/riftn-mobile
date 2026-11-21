@@ -71,6 +71,7 @@ import NotificationRequestCard from "../components/Notifications/NotificationReq
 import { notificationHasRequestCard } from "../libs/notification-request";
 import QuickSettingsSheet from "../components/Notifications/QuickSettingsSheet";
 import NotificationSearchLine, { notificationMatches } from "../components/Notifications/NotificationSearchLine";
+import NotificationCatchUp from "../components/Notifications/NotificationCatchUp";
 import PageDrawer, { PageDrawerScrollView } from "../components/common/PageDrawer";
 
 // The drawer's scroll view, so the drawer can share the finger with the list.
@@ -2422,6 +2423,10 @@ const NotificationScreen = () => {
       }
     >
       
+      {walletAddress && (
+        <NotificationCatchUp key={walletAddress} wallet={walletAddress} dismissedIds={dismissedIds}
+          onOpenNotification={handleNotificationPress} onRefresh={onRefresh} />
+      )}
       {showLoading ? (
         <FlatList
           data={skeletonData}
