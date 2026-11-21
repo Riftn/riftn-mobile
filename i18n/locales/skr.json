@@ -7025,7 +7025,7 @@
       "moveRuleUp": "قاعدہ اوپر لے جاؤ",
       "moveRuleDown": "قاعدہ نیچے لے جاؤ",
       "deleteRule": "قاعدہ حذف کرو",
-      "rights": {
+      "rights": {"sendMessages":"پیغام بھیجنا","sendMessagesHint":"کمیونٹی چیٹ میں پوسٹ کریں","sendMedia":"میڈیا بھیجنا","sendMediaHint":"تصاویر اور GIFs جوڑیں","embedLinks":"لینک Embed کریں","embedLinksHint":"لینک پریوز شو","addMembers":"عضووں کو شامل کریں","addMembersHint":"ہمیشہ کے لئے اپنے کمیونٹی کو دوسروں کے ساتھ شیئر کریں","createEvents":"ایونٹس بنائیں","createEventsHint":"کمیونٹی ایونٹس دا شیڈول بݨاؤ","changeInfoMemberHint":"ایڈیٹ کمیونٹی کا نام اور وضاحت",
         "changeInfo": "کمیونٹی کی معلومات تبدیل کرو",
         "changeInfoHint": "نام، تفصیل، اوتار اور بینر میں ترمیم کرو",
         "deleteMessages": "پیغام حذف کرو",
@@ -7097,7 +7097,7 @@
       "createLink": "لینک بنانہ",
       "permissionsUpdated": "ہیٹھاں دیاں اجازتہٖں اپ ڈیٹ کی گئیاں ہیں",
       "slowModeUpdated": "سلو موڈ اپ ڈیٹ کیا گیا ہے",
-      "slowModeOffHint": "عضوین کو مسیج بھیج سکنے کے لئے کوئی ویلہ نہیں لگتا ہے۔",
+      "slowMode":{"off":"بند","tenSeconds":"10","thirtySeconds":"30s","oneMinute":"1 منٹ","fiveMinutes":"5 منٹ","fifteenMinutes":"پندرہ منٹ","oneHour":"1 غنٹہ"},"slowModeOffHint": "عضوین کو مسیج بھیج سکنے کے لئے کوئی ویلہ نہیں لگتا ہے۔",
       "defaultPermissionsHint": "اچھا ہر کوئی یہاں یہاں کیا کر سکتا ہے جب تک کہ ایڈمن نے نہیں کہا ہو۔",
       "slowModeTitle": "سلو موڈ",
       "log": {

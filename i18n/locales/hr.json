@@ -7050,7 +7050,7 @@
       "moveRuleUp": "Pomakni pravilo gore",
       "moveRuleDown": "Pomakni pravilo dolje",
       "deleteRule": "Izbriši pravilo",
-      "rights": {
+      "rights": {"sendMessages":"Slati poruke","sendMessagesHint":"Objavi u chatu zajednice","sendMedia":"Pošalji medije","sendMediaHint":"Priloži slike i GIF-ove","embedLinks":"Ugrađujte poveznice","embedLinksHint":"Prikaži preglede poveznica","addMembers":"Dodaj članove","addMembersHint":"Dijeli zajednicu s drugima","createEvents":"Stvori događaje","createEventsHint":"Planiraj zajedničke događaje","changeInfoMemberHint":"Uredi naziv i opis zajednice",
         "changeInfo": "Promijeni informacije o zajednici",
         "changeInfoHint": "Uredi naziv, opis, avatar i banner",
         "deleteMessages": "Izbriši poruke",
@@ -7128,7 +7128,7 @@
       "noInvites": "Još nema pozivnih linkova. Kreiraj jedan za pozive direktno.",
       "permissionsUpdated": "Izmjene pristupa",
       "slowModeUpdated": "Ažurirano brzina",
-      "slowModeOffHint": "Članovi mogu slati poruke bez zamora.",
+      "slowMode":{"off":"Isključeno","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 sat"},"slowModeOffHint": "Članovi mogu slati poruke bez zamora.",
       "slowModeOnHint": "Članovi mogu slati jednu poruku svakih {{label}}. Administratori su izuzeti.",
       "defaultPermissions": "Standardni članovi",
       "defaultPermissionsHint": "Što sve može učiniti svaki član osim ako ne postoji administratorski pristup koji kaže drugačije.",

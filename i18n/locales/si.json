@@ -7037,7 +7037,7 @@
       "moveRuleUp": "නීතිය ඉහළට ගෙන යන්න",
       "moveRuleDown": "නීතිය පහළට ගෙන යන්න",
       "deleteRule": "නීතිය මකන්න",
-      "rights": {
+      "rights": {"sendMessages":"පණිවිඩ යවන්න","sendMessagesHint":"ප්‍රජා කතාබහේ පළ කරන්න","sendMedia":"මාධ්‍ය යවන්න","sendMediaHint":"පිළිඹිබු සහ GIF අමුණන්න","embedLinks":"සබැඳි කාවැද්දන්න","embedLinksHint":"සබැඳි පෙරදසුන් පෙන්වන්න","addMembers":"සාමාජිකයින් එක් කරන්න","addMembersHint":"ප්‍රජාව අන් අය සමඟ බෙදා ගන්න","createEvents":"සිදුවීම් සාදන්න","createEventsHint":"ප්‍රජා ඉසව් කාලසටහන්ගත කරන්න","changeInfoMemberHint":"ප්‍රජා නාමය සහ විස්තරය සංස්කරණය කරන්න",
         "changeInfo": "ප්‍රජා තොරතුරු වෙනස් කරන්න",
         "changeInfoHint": "නම, විස්තරය, ඡායාරූපය සහ බැනරය සංස්කරණය කරන්න",
         "deleteMessages": "පණිවිඩ මකන්න",
@@ -7115,7 +7115,7 @@
       "noInvites": "තව ආරාධනා සබැඳි නැත. පුද්ගලයන් සෘජුවම ආරාධනා කිරීමට එකක් සාදන්න.",
       "permissionsUpdated": "අවසර යාවත්කාලීන කරන ලදී",
       "slowModeUpdated": "මන්දගාමී මාදිලිය යාවත්කාලීන කරන ලදී",
-      "slowModeOffHint": "සාමාජිකයින්ට ප්‍රමාදයකින් තොරව පණිවිඩ යැවිය හැකිය.",
+      "slowMode":{"off":"අක්‍රියයි","tenSeconds":"10s","thirtySeconds":"තත්පර 30","oneMinute":"මිනිත්තු 1","fiveMinutes":"5 මිනිත්තක","fifteenMinutes":"15 මිනිත්තක","oneHour":"පැය 1"},"slowModeOffHint": "සාමාජිකයින්ට ප්‍රමාදයකින් තොරව පණිවිඩ යැවිය හැකිය.",
       "slowModeOnHint": "සාමාජිකයින්ට {{label}} ට එක පණිවිඩයක් යැවිය හැකිය. පරිපාලකයින්ට ව්‍යතිරේඛ වේ.",
       "defaultPermissions": "පෙරනි සාමාජික අවසර",
       "defaultPermissionsHint": "පරිපාලක අයිතියක් වෙනත් ආකාරයකින් පවසන තුරු මෙහි සෑම කෙනෙකුටම කළ හැකි දේ.",

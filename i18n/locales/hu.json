@@ -7054,7 +7054,7 @@
       "moveRuleUp": "Szabály feljebb mozgatása",
       "moveRuleDown": "Szabály lejjebb mozgatása",
       "deleteRule": "Szabály törlése",
-      "rights": {
+      "rights": {"sendMessages":"Üzenetek küldése","sendMessagesHint":"Tessék posztolni a közösségi csatban","sendMedia":"Média küldése","sendMediaHint":"Függessz fel képeket és GIF-eket","embedLinks":"Linkek beágyazása","embedLinksHint":"Mutassa meg a link előnézeteket","addMembers":"Tagok hozzáadása","addMembersHint":"Megosztja a közösséget másokkal","createEvents":"Létrehozza az eseményeket","createEventsHint":"Tervezzen közösségi eseményeket","changeInfoMemberHint":"Módosítsd a közösség nevét és leírását",
         "changeInfo": "Közösségi információk módosítása",
         "changeInfoHint": "Név, leírás, avatar és banner szerkesztése",
         "deleteMessages": "Üzenetek törlése",
@@ -7131,7 +7131,7 @@
       "noInvites": "Még nincsenek meghívólinkek. Hozz létre egyet, amellyel közvetlenül meghívhatod az embereket.",
       "permissionsUpdated": "Engedélyek frissítve",
       "slowModeUpdated": "Lassú üzemmód frissítve",
-      "slowModeOffHint": "A tagok késedelem nélkül küldhetnek üzeneteket.",
+      "slowMode":{"off":"Ki","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 perc","fiveMinutes":"5 perc","fifteenMinutes":"15 perc","oneHour":"1 óra"},"slowModeOffHint": "A tagok késedelem nélkül küldhetnek üzeneteket.",
       "slowModeOnHint": "A tagok minden {{label}} után küldhetnek egy üzenetet. Az adminisztrátorok mentességet élveznek.",
       "defaultPermissions": "Alapértelmezett tagsági engedélyek",
       "defaultPermissionsHint": "Amit itt mindenki megtehet, hacsak egy adminisztrátori jog másként nem rendelkezik.",

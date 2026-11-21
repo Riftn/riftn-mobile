@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Daga sama da doka",
       "moveRuleDown": "Daga ƙasa da doka",
       "deleteRule": "Share doka",
-      "rights": {
+      "rights": {"sendMessages":"Aika saƙonni","sendMessagesHint":"Post a cikin tattaunawar al'umma","sendMedia":"Aika kafofin watsa labarai","sendMediaHint":"Haɗa hotuna da GIFs","embedLinks":"Saka hanyoyin haɗi","embedLinksHint":"Nuna samfotin hanyar haɗi","addMembers":"Add members","addMembersHint":"Raba al'ummar da wasu","createEvents":"Ƙirƙiri abubuwan da suka faru","createEventsHint":"Tsara abubuwan al'umma","changeInfoMemberHint":"Shirya sunan al'umma da bayanin",
         "changeInfo": "Canza bayanin al'umma",
         "changeInfoHint": "Gyara suna, bayani, avatar da banner",
         "deleteMessages": "Share saƙonni",
@@ -7102,7 +7102,7 @@
       "noInvites": "Babu hanyoyin gayyata tukuna. Ƙirƙiri ɗaya don gayyatar mutane kai tsaye.",
       "permissionsUpdated": "An sabunta izini",
       "slowModeUpdated": "An sabunta yanayin jinkiri",
-      "slowModeOffHint": "Membobi za su iya aika saƙonni ba tare da jinkiri ba.",
+      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 minti","fifteenMinutes":"15 minti","oneHour":"1 awa"},"slowModeOffHint": "Membobi za su iya aika saƙonni ba tare da jinkiri ba.",
       "slowModeOnHint": "Membobi za su iya aika saƙo ɗaya kowane {{label}}. Masu gudanarwa ba sa cikin wannan.",
       "defaultPermissions": "Izinin membobi na asali",
       "defaultPermissionsHint": "Abin da kowa zai iya yi a nan sai dai idan dama ta mai gudanarwa ta ce in ba haka ba.",

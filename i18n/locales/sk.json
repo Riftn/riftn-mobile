@@ -7130,7 +7130,7 @@
       "moveRuleUp": "Posunúť pravidlo nahor",
       "moveRuleDown": "Posunúť pravidlo nadol",
       "deleteRule": "Odstrániť pravidlo",
-      "rights": {
+      "rights": {"sendMessages":"Odoslať správy","sendMessagesHint":"Zverejnite v komunitnej diskusii","sendMedia":"Odoslať médiá","sendMediaHint":"Pridajte Obrázky a GIFs","embedLinks":"Vloženie odkazov","embedLinksHint":"Zobraziť ukážky odkazov","addMembers":"Pridaj členov.","addMembersHint":"Zdieľať komunitu s inými","createEvents":"Vytvorte udalosti","createEventsHint":"Nastavujte komunityné udalosti","changeInfoMemberHint":"Upraviť názov a popis spoločnosti",
         "changeInfo": "Zmeniť informácie o komunite",
         "changeInfoHint": "Upraviť názov, popis, avatar a banner",
         "deleteMessages": "Odstrániť správy",
@@ -7208,7 +7208,7 @@
       "noInvites": "Žiadne pozvánkové odkazy. Vytvoriť jeden, aby ste mohli pozvať ľudí priamo.",
       "permissionsUpdated": "Povolenia aktualizované",
       "slowModeUpdated": "Pomalý režim aktualizovaný",
-      "slowModeOffHint": "Členovia môžu poslať správy bez zdržania.",
+      "slowMode":{"off":"Vypnuté","tenSeconds":"10s","thirtySeconds":"Tridsiaté roky","oneMinute":"1 min","fiveMinutes":"5 minút","fifteenMinutes":"15 minút","oneHour":"1 hodina"},"slowModeOffHint": "Členovia môžu poslať správy bez zdržania.",
       "slowModeOnHint": "Členovia môžu poslať jednu správu každých {{label}}. Administrátori sú oslobodení.",
       "defaultPermissions": "Predvstupné povolenia členov",
       "defaultPermissionsHint": "To, čo môže každý urobiť tu, kým nie je niektoré administrátorské právo inak.",

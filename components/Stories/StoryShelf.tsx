@@ -212,7 +212,7 @@ function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
 function Face({ uri, name, cover }: { uri: string | null; name: string; cover: string | null }) {
   return (
     <>
-      {cover ? <Image source={{ uri: cover }} recyclingKey={cover} style={StyleSheet.absoluteFill} contentFit="cover" blurRadius={22} cachePolicy="memory-disk" /> : null}
+      {cover ? <Image source={{ uri: cover }} recyclingKey={cover} style={styles.coverBlur} contentFit="cover" blurRadius={80} cachePolicy="memory-disk" /> : null}
       <View style={styles.frost} pointerEvents="none" />
       <View style={styles.face} pointerEvents="none">
         <Avatar uri={uri} size={52} radius={26} name={name} />
@@ -286,7 +286,9 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0,0,0,0.5)",
     textShadowRadius: 4,
   },
-  frost: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.18)" },
+  // Android caps the native blur radius. Render a small cover and scale it to the tile.
+  coverBlur: { position: "absolute", left: "50%", top: "50%", width: TILE_W / 4, height: TILE_H / 4, marginLeft: -TILE_W / 8, marginTop: -TILE_H / 8, transform: [{ scale: 4.2 }] },
+  frost: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.32)" },
   face: { position: "absolute", top: 30, left: 0, right: 0, alignItems: "center" },
   age: {
     position: "absolute",

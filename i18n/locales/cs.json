@@ -7030,7 +7030,7 @@
       "moveRuleUp": "Přesunout pravidlo nahoru",
       "moveRuleDown": "Přesunout pravidlo dolů",
       "deleteRule": "Smazat pravidlo",
-      "rights": {
+      "rights": {"sendMessages":"Odesílat zprávy","sendMessagesHint":"Postupte do komunity chat","sendMedia":"Odeslat média","sendMediaHint":"Připojte obrázky a GIFy","embedLinks":"Zanořte odkazy","embedLinksHint":"Zobrazit předhledy odkazů","addMembers":"Přidejte členy","addMembersHint":"Sdílejte komunitu s ostatními","createEvents":"Vytvořit události","createEventsHint":"Plánovat komunity události","changeInfoMemberHint":"Upravte název a popis komunity",
         "changeInfo": "Změnit informace o komunitě",
         "changeInfoHint": "Upravit název, popis, avatar a banner",
         "deleteMessages": "Smazat zprávy",
@@ -7107,7 +7107,7 @@
       "noInvites": "Zatím žádné pozvánky. Vytvořte jednu, abyste přímě pozvali lidi.",
       "permissionsUpdated": "Oprávnění aktualizována",
       "slowModeUpdated": "Pomalý režim aktualizován",
-      "slowModeOffHint": "Členové mohou posílat zprávy bez prodlevy.",
+      "slowMode":{"off":"Vypnuto","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hodina"},"slowModeOffHint": "Členové mohou posílat zprávy bez prodlevy.",
       "slowModeOnHint": "Členové mohou posílat jednu zprávu každých {{label}}. Správci jsou osvobozeni.",
       "defaultPermissions": "Výchozí oprávnění členů",
       "defaultPermissionsHint": "Co může každý dělat zde, pokud správce neříká jinak.",

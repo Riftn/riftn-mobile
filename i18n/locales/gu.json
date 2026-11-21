@@ -7050,7 +7050,7 @@
       "moveRuleUp": "નિયમને ઉપર ખસેડો",
       "moveRuleDown": "નિયમને નીચે ખસેડો",
       "deleteRule": "નિયમ કાઢી નાખો",
-      "rights": {
+      "rights": {"sendMessages":"સંદેશ કાઢો","sendMessagesHint":"સમુદાય ચેટમાં પોસ્ટ કરો","sendMedia":"મીડિયા પેઢો","sendMediaHint":"છબીઓ અને જીફ્સ જોડાવો","embedLinks":"લિંક્સ એમ્બેડ કરો","embedLinksHint":"લિંક પ્રિવ્યુઝ દર્શાવો","addMembers":"સભ્યો ઉમેરો","addMembersHint":"કોમ્યુનિટીને અન્ય લોકો સાથે શેર કરો","createEvents":"ઇવેન્ટ્સ બનાવો","createEventsHint":"કમ્યુનિટી ઇવેન્ટ્સનું શેડ્યુલ કરો","changeInfoMemberHint":"કમ્યુનિટીનું નામ અને વર્ણન સુધારો",
         "changeInfo": "સમુદાયની માહિતી બદલો",
         "changeInfoHint": "નામ, વર્ણન, અવતાર અને બેનર સંપાદિત કરો",
         "deleteMessages": "સંદેશાઓ કાઢી નાખો",
@@ -7128,7 +7128,7 @@
       "noInvites": "હજી સુધી કોઈ આમંત્રણ લિંક્સ નથી. લોકોને સીધા જ આમંત્રિત કરવા માટે એક બનાવો.",
       "permissionsUpdated": "પરવાનગીઓ અપડેટ કરવામાં આવી",
       "slowModeUpdated": "ધીમી સ્થિતિ અપડેટ થઈ",
-      "slowModeOffHint": "સભ્યો વિલંબ કર્યા વિના સંદેશા મોકલી શકે છે.",
+      "slowMode":{"off":"બંધ","tenSeconds":"10 સેકન્ડ","thirtySeconds":"30s","oneMinute":"1 મિનિટ","fiveMinutes":"5 મિનિટ","fifteenMinutes":"15 મિનિટ","oneHour":"1 કલાક"},"slowModeOffHint": "સભ્યો વિલંબ કર્યા વિના સંદેશા મોકલી શકે છે.",
       "slowModeOnHint": "સભ્યો દર {{label}} પર એક સંદેશ મોકલી શકે છે. એડમિનને મુક્તિ આપવામાં આવી છે.",
       "defaultPermissions": "ડિફૉલ્ટ સભ્ય પરવાનગીઓ",
       "defaultPermissionsHint": "એડમિન અધિકાર અન્યથા ન કહે ત્યાં સુધી દરેક વ્યક્તિ અહીં શું કરી શકે છે.",

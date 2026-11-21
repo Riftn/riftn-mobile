@@ -7051,7 +7051,7 @@
       "moveRuleUp": "Pindahkan aturan ke atas",
       "moveRuleDown": "Pindahkan aturan ke bawah",
       "deleteRule": "Hapus aturan",
-      "rights": {
+      "rights": {"sendMessages":"Kirim pesan","sendMessagesHint":"Posting di obrolan komunitas","sendMedia":"Kirim media","sendMediaHint":"Lampirkan gambar dan GIF","embedLinks":"Tautkan tautan","embedLinksHint":"Tampilkan pratinjau tautan","addMembers":"Tambahkan anggota","addMembersHint":"Bagikan komunitas dengan orang lain","createEvents":"Buat acara","createEventsHint":"Jadwalkan acara komunitas","changeInfoMemberHint":"Edit nama dan deskripsi komunitas",
         "changeInfo": "Ubah info komunitas",
         "changeInfoHint": "Edit nama, deskripsi, avatar, dan banner",
         "deleteMessages": "Hapus pesan",
@@ -7129,7 +7129,7 @@
       "noInvites": "Belum ada tautan undangan. Buat satu untuk mengundang orang secara langsung.",
       "permissionsUpdated": "Izin diperbarui",
       "slowModeUpdated": "Mode lambat diperbarui",
-      "slowModeOffHint": "Anggota dapat mengirim pesan tanpa penundaan.",
+      "slowMode":{"off":"Mati","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 menit","fiveMinutes":"5 menit","fifteenMinutes":"15 menit","oneHour":"1 jam"},"slowModeOffHint": "Anggota dapat mengirim pesan tanpa penundaan.",
       "slowModeOnHint": "Anggota dapat mengirim satu pesan setiap {{label}}. Admin dikecualikan.",
       "defaultPermissions": "Izin anggota default",
       "defaultPermissionsHint": "Apa yang bisa dilakukan semua orang di sini kecuali hak admin mengatakan sebaliknya.",

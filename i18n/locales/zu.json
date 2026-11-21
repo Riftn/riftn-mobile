@@ -7055,7 +7055,7 @@
       "moveRuleUp": "Hambisa umthetho phezulu",
       "moveRuleDown": "Hambisa umthetho phansi",
       "deleteRule": "Susa umthetho",
-      "rights": {
+      "rights": {"sendMessages":"Thumela imiyalezo","sendMessagesHint":"Thumela engxoxweni yomphakathi","sendMedia":"Thumela imidiya","sendMediaHint":"Namathisela izithombe nama-GIF","embedLinks":"Faka izixhumanisi","embedLinksHint":"Show link previews","addMembers":"Engeza amalungu","addMembersHint":"Ukubuyekeza izinsuku zethu ngena ngothando","createEvents":"Dala imicimbi","createEventsHint":"Hlela imicimbi yomphakathi","changeInfoMemberHint":"Hlela igama lomphakathi nencazelo",
         "changeInfo": "Shintsha ulwazi lomphakathi",
         "changeInfoHint": "Hlela igama, incazelo, isithombe nephaneli",
         "deleteMessages": "Susa imilayezo",
@@ -7133,7 +7133,7 @@
       "noInvites": "Awekho ama-link okumema okwamanje. Dala elilodwa ukuze umeme abantu ngqo.",
       "permissionsUpdated": "Izimvume sezibuyekeziwe",
       "slowModeUpdated": "Imodi yokucasha ibuyekeziwe",
-      "slowModeOffHint": "Amalungu angathumela imiyalezo ngaphandle kokubambezeleka.",
+      "slowMode":{"off":"Valiwe","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 umz","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"Ihora elilodwa"},"slowModeOffHint": "Amalungu angathumela imiyalezo ngaphandle kokubambezeleka.",
       "slowModeOnHint": "Amalungu angathumela umyalezo owodwa njalo nge-{{label}}. Abaphathi bakhululiwe.",
       "defaultPermissions": "Izimvume ezizenzakalelayo zamalungu",
       "defaultPermissionsHint": "Lokho wonke umuntu angakwenza lapha ngaphandle uma ilungelo lomphathi lithi okunye.",

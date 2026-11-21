@@ -7055,7 +7055,7 @@
       "moveRuleUp": "नियम ऊपर ले जाएं",
       "moveRuleDown": "नियम नीचे ले जाएं",
       "deleteRule": "नियम हटाएं",
-      "rights": {
+      "rights": {"sendMessages":"संदेश भेजें","sendMessagesHint":"सामुदायिक चैट में पोस्ट करें","sendMedia":"मीडिया भेजें","sendMediaHint":"चित्र और जीआईएफ्स जोड़ें","embedLinks":"लिंक एम्बेड करें","embedLinksHint":"लिंक की पूर्वावलोकन दिखाएं","addMembers":"सदस्य जोड़ें","addMembersHint":"कम्युनिटी को दूसरों के साथ साझा करें","createEvents":"इवेंट बनाएँ","createEventsHint":"कम्युनिटी इवेंट्स की योजना बनाएं","changeInfoMemberHint":"कम्युनिटी का नाम और विवरण संपादित करें",
         "changeInfo": "समुदाय की जानकारी बदलें",
         "changeInfoHint": "नाम, विवरण, अवतार और बैनर संपादित करें",
         "deleteMessages": "संदेश हटाएं",
@@ -7133,7 +7133,7 @@
       "noInvites": "अभी तक कोई निमंत्रण लिंक नहीं है। सीधे लोगों को आमंत्रित करने के लिए एक बनाएं।",
       "permissionsUpdated": "अनुमतियाँ अपडेट की गईं",
       "slowModeUpdated": "धीमी मोड अपडेट किया गया",
-      "slowModeOffHint": "सदस्य बिना देरी के संदेश भेज सकते हैं।",
+      "slowMode":{"off":"बंद","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 मिनट","fiveMinutes":"5 मिनट","fifteenMinutes":"15 मिनट","oneHour":"1 घंटा"},"slowModeOffHint": "सदस्य बिना देरी के संदेश भेज सकते हैं।",
       "slowModeOnHint": "सदस्य हर {{label}} पर एक संदेश भेज सकते हैं। प्रशासक इससे मुक्त हैं।",
       "defaultPermissions": "डिफ़ॉल्ट सदस्य अनुमतियाँ",
       "defaultPermissionsHint": "यहाँ हर कोई क्या कर सकता है जब तक कि किसी प्रशासक अधिकार से कुछ अलग न कहा गया हो।",

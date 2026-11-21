@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Liiguta reeglit üles",
       "moveRuleDown": "Liiguta reeglit alla",
       "deleteRule": "Kustuta reegel",
-      "rights": {
+      "rights": {"sendMessages":"Saada meile","sendMessagesHint":"Postita kogukonna vestlusesse","sendMedia":"Saada media","sendMediaHint":"Lõigata pildid ja GIF-d","embedLinks":"Seob lingid","embedLinksHint":"Näita linki eeltõmbusi","addMembers":"Lisa liikmeid","addMembersHint":"Jagage ühiskonda teistega","createEvents":"Loo sündmused","createEventsHint":"Planeeri ühiskonnaüritusi","changeInfoMemberHint":"Muuda kogukonna nime ja kirjeldust",
         "changeInfo": "Muuda kogukonna teavet",
         "changeInfoHint": "Muuda nime, kirjeldust, avatari ja bannerit",
         "deleteMessages": "Kustuta sõnumeid",
@@ -7102,7 +7102,7 @@
       "noInvites": "Kutselinke pole veel. Loo üks, et inimesi otse kutsuda.",
       "permissionsUpdated": "Õigused värskendatud",
       "slowModeUpdated": "Aeglane režiim värskendatud",
-      "slowModeOffHint": "Liikmed saavad sõnumeid saata ilma viivituseta.",
+      "slowMode":{"off":"Lülita välja","tenSeconds":"10 s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 tundi"},"slowModeOffHint": "Liikmed saavad sõnumeid saata ilma viivituseta.",
       "slowModeOnHint": "Liikmed saavad saata ühe sõnumi iga {{label}}. Adminid on vabastatud.",
       "defaultPermissions": "Vaikimisi liikmeõigused",
       "defaultPermissionsHint": "Mida igaüks siin teha saab, välja arvatud juhul, kui administraatori õigus ütleb teisiti.",

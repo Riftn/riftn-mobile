@@ -7024,7 +7024,7 @@
       "moveRuleUp": "नियम ऊपर ले जाएँ",
       "moveRuleDown": "नियम नीचे ले जाएँ",
       "deleteRule": "नियम हटाएँ",
-      "rights": {
+      "rights": {"sendMessages":"संदेश भेजें","sendMessagesHint":"सामुदायिक चैटमा पोस्ट करो","sendMedia":"मीडिया प्रेषित करे","sendMediaHint":"इमेज और जीआईएफ अपलोड करें","embedLinks":"लिंक एम्बेड करें","embedLinksHint":"लिंक प्रिव्यूज़ दिखाएं","addMembers":"और शामिल करलो","addMembersHint":"अन्यहरसँग समुदाय साझा गर्नुहोस्","createEvents":"इवेंट बनाओ","createEventsHint":"कम्युनिटी इवेंट्स का स्केड्यूल कर","changeInfoMemberHint":"कम्युनिटी का नाम और विवरण संपादित करें",
         "changeInfo": "समुदाय की जानकारी बदलें",
         "changeInfoHint": "नाम, विवरण, अवतार और बैनर संपादित करें",
         "deleteMessages": "संदेश हटाएँ",
@@ -7095,7 +7095,7 @@
       "noInvites": "ठहर, पत्र अभियो तैयार नयँ हइ । इहां के लोग के सीधे आमंत्रित कैल गेल हई ।",
       "permissionsUpdated": "अनुमति के साथ अद्यतन",
       "slowModeUpdated": "हल्के मॉड्यूल अद्यतन",
-      "slowModeOffHint": "कोई भी छात्र जब भी परीक्षा के लिए तैयार हो तब भी परीक्षा दे सकता है ।",
+      "slowMode":{"off":"बंद","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 मिनट","fiveMinutes":"5 मिनट","fifteenMinutes":"15 मिनट","oneHour":"एक घंटे में सब काम होई जाइये"},"slowModeOffHint": "कोई भी छात्र जब भी परीक्षा के लिए तैयार हो तब भी परीक्षा दे सकता है ।",
       "defaultPermissions": "अनुपस्थिति, नवाचार की ऊर्जा",
       "defaultPermissionsHint": "सब कुछ हल किया जा सकता है, लेकिन कोई भी लोग, युवा लोग हैं,",
       "slowModeTitle": "हल्के ढंग से",

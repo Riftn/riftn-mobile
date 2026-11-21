@@ -7024,7 +7024,7 @@
       "moveRuleUp": "নিয়ম উপরে সরান",
       "moveRuleDown": "নিয়ম নিচে সরান",
       "deleteRule": "নিয়ম মুছুন",
-      "rights": {
+      "rights": {"sendMessages":"বার্তা পাঠান","sendMessagesHint":"কমিউনিটি চ্যাটে পোস্ট করুন","sendMedia":"মিডিয়া পাঠান","sendMediaHint":"ছবি এবং GIF সংযুক্ত করুন","embedLinks":"লিঙ্ক বেড়িয়ে দিন","embedLinksHint":"লিঙ্ক প্রিভিউ দেখান","addMembers":"মেম্বার যোগ করুন","addMembersHint":"অন্যদের সাথে সম্প্রদায় ভাগ করুন","createEvents":"ইভেন্ট তৈরি করুন","createEventsHint":"সম্প্রদায় অনুষ্ঠানের সময়সূচী তৈরি করুন","changeInfoMemberHint":"কমিউনিটি নাম ও বর্ণনা সম্পাদনা করুন",
         "changeInfo": "কমিউনিটির তথ্য পরিবর্তন করুন",
         "changeInfoHint": "নাম, বিবরণ, অবতার এবং ব্যানার সম্পাদনা করুন",
         "deleteMessages": "বার্তা মুছুন",
@@ -7102,7 +7102,7 @@
       "noInvites": "এখনও কোনো আহ্বান লিঙ্ক নেই। সরাসরি মানুষকে আমন্ত্রণ জানাতে একটি তৈরি করুন।",
       "permissionsUpdated": "অনুমতি আপডেট হয়েছে",
       "slowModeUpdated": "স্লো মোড আপডেট হয়েছে",
-      "slowModeOffHint": "সদস্যরা বিলম্ব ছাড়া বার্তা পাঠাতে পারেন।",
+      "slowMode":{"off":"বন্ধ","tenSeconds":"১০সেকেন্ড","thirtySeconds":"৩০সেকেন্ড","oneMinute":"১ মিনিট","fiveMinutes":"৫ মিনিট","fifteenMinutes":"১৫ মিনিট","oneHour":"১ ঘণ্টা"},"slowModeOffHint": "সদস্যরা বিলম্ব ছাড়া বার্তা পাঠাতে পারেন।",
       "slowModeOnHint": "সদস্যরা প্রতি {{label}}-এ একটি বার্তা পাঠাতে পারেন। অ্যাডমিনরা অব্যাহতি পেয়েছেন।",
       "defaultPermissions": "ডিফল্ট সদস্য অনুমতি",
       "defaultPermissionsHint": "এখানে সবাই কী করতে পারে যদি না কোনো অ্যাডমিন অধিকার অন্যথা বলে।",

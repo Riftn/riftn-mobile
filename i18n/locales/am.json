@@ -7054,7 +7054,7 @@
       "moveRuleUp": "ደንቡን ወደ ላይ አንቀሳቅስ",
       "moveRuleDown": "ደንቡን ወደ ታች አንቀሳቅስ",
       "deleteRule": "ደንቡን ሰርዝ",
-      "rights": {
+      "rights": {"sendMessages":"መልዕክቶችን ላክ","sendMessagesHint":"በማህበረሰብ ውይይት ላይ ይለጥፉ","sendMedia":"ሚዲያ ላክ","sendMediaHint":"ምስሎችን እና ጂአይኤፎችን (GIFs) ያያይዙ","embedLinks":"አገናኞችን ይክተቱ","embedLinksHint":"የአገናኝ ቅድመ እይታዎችን አሳይ","addMembers":"አባላትን ያክሉ","addMembersHint":"ማህበረሰቡን ለሌሎች ያጋሩ","createEvents":"ክስተቶችን ይፍጠሩ","createEventsHint":"የማህበረሰብ ዝግጅቶችን ያቅዱ","changeInfoMemberHint":"የማህበረሰብ ስም እና መግለጫ አርትዕ",
         "changeInfo": "የማህበረሰብ መረጃን ቀይር",
         "changeInfoHint": "ስም፣ መግለጫ፣ አምሳያ እና ባነር ያርትዑ",
         "deleteMessages": "መልዕክቶችን ሰርዝ",
@@ -7132,7 +7132,7 @@
       "noInvites": "ገና የግብዣ አገናኞች የሉም። ሰዎችን በቀጥታ ለመጋበዝ አንዱን ፍጠር።",
       "permissionsUpdated": "ፈቃዶች ተዘምነዋል",
       "slowModeUpdated": "ቀርፋፋ ሁነታ ተዘምኗል",
-      "slowModeOffHint": "አባላት ያለ መዘግየት መልዕክቶችን መላክ ይችላሉ።",
+      "slowMode":{"off":"አጥፋ","tenSeconds":"10ሰ","thirtySeconds":"30 ሰከንድ","oneMinute":"1 ደቂቃ","fiveMinutes":"5 ደቂቃ","fifteenMinutes":"15 ደቂቃ","oneHour":"1 ሰዓት"},"slowModeOffHint": "አባላት ያለ መዘግየት መልዕክቶችን መላክ ይችላሉ።",
       "slowModeOnHint": "አባላት በየ {{label}} አንድ መልዕክት መላክ ይችላሉ። አስተዳዳሪዎች ከዚህ የተለየ ነው።",
       "defaultPermissions": "ነባሪ የአባል ፈቃዶች",
       "defaultPermissionsHint": "የአስተዳዳሪ መብት ሌላ እስካልተናገረ ድረስ ሁሉም ሰው እዚህ ምን ማድረግ ይችላል።",

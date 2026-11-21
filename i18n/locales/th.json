@@ -7074,7 +7074,7 @@
       "moveRuleUp": "เลื่อนกฎขึ้น",
       "moveRuleDown": "เลื่อนกฎลง",
       "deleteRule": "ลบกฎ",
-      "rights": {
+      "rights": {"sendMessages":"ส่งข้อความ","sendMessagesHint":"โพสต์ในชุมชนแชท","sendMedia":"ส่งสื่อ","sendMediaHint":"แนบรูปภาพและ GIF","embedLinks":"ฝังลิงก์","embedLinksHint":"แสดงผลลัพธ์เป็นลิงก์","addMembers":"เพิ่มสมาชิก","addMembersHint":"แบ่งปันชุมชนกับคนอื่น","createEvents":"สร้างเหตุการณ์","createEventsHint":"ตั้งกำหนดการกิจกรรมของชุมชน","changeInfoMemberHint":"แก้ไขชื่อชุมชนและคำอธิบาย",
         "changeInfo": "เปลี่ยนข้อมูลชุมชน",
         "changeInfoHint": "แก้ไขชื่อ คำอธิบาย รูปประจำตัว และแบนเนอร์",
         "deleteMessages": "ลบข้อความ",
@@ -7152,7 +7152,7 @@
       "noInvites": "ยังไม่มีลิงก์เชิญใดๆ สร้างลิงก์เพื่อเชิญผู้ใช้โดยตรง",
       "permissionsUpdated": "การอนุญาตที่ได้รับการปรับปรุง",
       "slowModeUpdated": "โหมดช้าปรับปรุง",
-      "slowModeOffHint": "สมาชิกสามารถส่งข้อความได้ไม่มีการล่าช้า",
+      "slowMode":{"off":"ปิด","tenSeconds":"10s","thirtySeconds":"30 วินาที","oneMinute":"1 นาที","fiveMinutes":"5 นาที","fifteenMinutes":"15 นาที","oneHour":"1 ชั่วโมง"},"slowModeOffHint": "สมาชิกสามารถส่งข้อความได้ไม่มีการล่าช้า",
       "slowModeOnHint": "สมาชิกสามารถส่งข้อความได้ 1 ข้อในเวลา {{label}} สมาชิกทุกคนได้รับการยกเว้น",
       "defaultPermissions": "การอนุญาตสมาชิกโดยอัตโนมัติ",
       "defaultPermissionsHint": "สิ่งที่ทุกคนสามารถทำได้ในห้องนี้ ยกเว้นการอนุญาตของผู้ดูแลที่ระบุไว้",
