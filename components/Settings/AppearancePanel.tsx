@@ -134,8 +134,8 @@ const AppearancePanel: React.FC = () => {
     { value: 'distribute', label: t('settings.shareIconDistribute', 'Distribute'), description: t('settings.shareIconDistributeDesc', 'A person in a circle with arrows pointing out') },
   ];
   const separatorOptions = [
-    { value: 'bento', label: t('settings.feedSeparatorBento', 'Bento cards'), description: t('settings.feedSeparatorBentoDesc', 'Each post sits in its own rounded card') },
-    { value: 'line', label: t('settings.feedSeparatorLine', 'Thin line'), description: t('settings.feedSeparatorLineDesc', 'No cards. A thin line between posts and a little more room for each post') },
+    { value: 'bento', label: t('settings.feedSeparatorBento', 'Bento cards') },
+    { value: 'line', label: t('settings.feedSeparatorLine', 'Thin line') },
   ];
   const landingLabel = (style: PostLandingStyle) => ({
     ghost: t('settings.postLandingGhost', 'Ghost slot'),
@@ -288,8 +288,8 @@ const AppearancePanel: React.FC = () => {
         <SettingsAnchor id="feed-separator">
           <SettingsLinkRow
             icon="Minus"
-            label={t('settings.feedSeparator', 'Post separator')}
-            description={t('settings.feedSeparatorDesc', 'Cards around each post, or a thin line between them')}
+            label={`${t('settings.feedSeparatorBento', 'Bento cards')} / ${t('settings.feedSeparatorLine', 'Thin line')}`}
+            description={`${t('nav.home', 'Home')} · ${t('settings.messages', 'Messages')}`}
             value={separatorOptions.find((o) => o.value === prefs.feedSeparator)?.label}
             onPress={() => setSeparatorModalVisible(true)}
           />
@@ -348,17 +348,6 @@ const AppearancePanel: React.FC = () => {
             description={t('settings.chatReactionStyleDesc', 'How a reaction moves when it lands in a chat, yours or someone else’s.')}
             value={reactionStyleOptions.find((o) => o.value === prefs.chatReactionStyle)?.label}
             onPress={() => setReactionStyleVisible(true)}
-          />
-        </SettingsAnchor>
-        <Divider />
-        {/* Chat list as glass cards, or a plain list with lines (components/DM/ChatCard). */}
-        <SettingsAnchor id="chat-cards">
-          <SettingsToggleRow
-            icon="MessagesSquare"
-            label={t('settings.chatCards', 'Chats as cards')}
-            description={t('settings.chatCardsDesc', 'Each chat on its own card. Turn off for a plain list with a line between chats.')}
-            value={prefs.chatCards}
-            onValueChange={(v) => setAppPref('chatCards', v)}
           />
         </SettingsAnchor>
       </SettingsSection>
@@ -476,7 +465,7 @@ const AppearancePanel: React.FC = () => {
       <SettingsOptionModal
         visible={separatorModalVisible}
         onClose={() => setSeparatorModalVisible(false)}
-        title={t('settings.feedSeparator', 'Post separator')}
+        title={`${t('settings.feedSeparatorBento', 'Bento cards')} / ${t('settings.feedSeparatorLine', 'Thin line')}`}
         value={prefs.feedSeparator}
         options={separatorOptions}
         onSelect={(value) => {
