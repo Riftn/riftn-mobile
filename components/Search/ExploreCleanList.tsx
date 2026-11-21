@@ -21,6 +21,7 @@ import { useQuery } from "@tanstack/react-query";
 import Icon from "../ui/Icon";
 import { ExploreSection, EXPLORE_GUTTER, exploreRowStyles as row } from "./ExploreSection";
 import TickerLogo from "./TickerLogo";
+import { isDhbSymbol } from "../../libs/dhb-symbols";
 import { useTrendingCategories } from "../../hooks/useTrendingCategories";
 import { supabase } from "../../services/supabase";
 import { useLiveNowItems, LiveFace } from "../Home/LiveNowBar";
@@ -266,13 +267,16 @@ function ExploreCleanList({
           chevron={!tokensOpen}
         >
           <View style={styles.tokenGrid}>
-            {shownTokens.map((tk, i) => (
-              <Pressable key={tk.symbol} onPress={() => onSearch(`$${tk.symbol}`)} style={styles.token}>
-                <Text className="text-theme-neutrals-500" style={styles.tokenRank}>{i + 1}</Text>
-                <TickerLogo symbol={tk.symbol} size={22} />
-                <Text className="text-white" style={[row.name, row.flex]} numberOfLines={1}>${tk.symbol}</Text>
-              </Pressable>
-            ))}
+            {shownTokens.map((tk, i) => {
+              const symbol = isDhbSymbol(tk.symbol) ? "RIFT" : tk.symbol;
+              return (
+                <Pressable key={tk.symbol} onPress={() => onSearch(`$${symbol}`)} style={styles.token}>
+                  <Text className="text-theme-neutrals-500" style={styles.tokenRank}>{i + 1}</Text>
+                  <TickerLogo symbol={symbol} size={22} />
+                  <Text className="text-white" style={[row.name, row.flex]} numberOfLines={1}>${symbol}</Text>
+                </Pressable>
+              );
+            })}
           </View>
         </ExploreSection>
       )}

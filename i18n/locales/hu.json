@@ -4821,7 +4821,7 @@
     "ogHolders_one": "{{count}} OG tulajdonos",
     "ogHolders_other": "{{count}} OG tulajdonos",
     "ogChallengeTitle": "Hozd vissza az OG tulajdonosokat",
-    "ogChallengeBody": "Hívj meg olyanokat, akiknek még van DHB-juk. Ha a meghívó hivatkozásoddal csatlakoznak, és a DHB-jukat a Riftn pénztárcájukban tartják, itt neked számítanak.",
+    "ogChallengeBody": "Hívj meg olyanokat, akiknek még van tokenek-juk. Ha a meghívó hivatkozásoddal csatlakoznak, és a tokenek-jukat a Riftn pénztárcájukban tartják, itt neked számítanak.",
     "ogChallengeCta": "Szerezd meg a meghívó hivatkozásodat"
   },
   "explorePage": {
@@ -14335,7 +14335,7 @@
           "4": "Hangjegyzet rögzítéséhez kattintson a mikrofon ikonra.",
           "5": "GIF hozzáadásához kattintson a GIF ikonra, és keressen rá.",
           "6": "Használjon #hashtageket a bejegyzés kategorizálásához (pl. #crypto, #defi).",
-          "7": "Használjon $cashtageket tokenekre való hivatkozáshoz (pl. $RIFT, $ETH).",
+          "7": "Használjon $cashtageket tokenekre való hivatkozáshoz (pl. $BTC, $ETH).",
           "8": "Használjon @említéseket más felhasználók megjelöléséhez (pl. @felhasználónév).",
           "9": "Kattintson a 'Bejegyzés' gombra a közzétételhez. A bejegyzés azonnal megjelenik a hírfolyamban."
         },

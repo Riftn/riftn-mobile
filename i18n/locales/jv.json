@@ -4795,7 +4795,7 @@
     "ogHolders_one": "{{count}} pemegang OG",
     "ogHolders_other": "{{count}} pemegang OG",
     "ogChallengeTitle": "Balekake para pemegang OG",
-    "ogChallengeBody": "Undang wong sing isih nyekel DHB. Yen dheweke gabung nganggo link undhangan sampeyan lan nyimpen DHB ing dompet Riftn, dheweke diitung kanggo sampeyan ing kene.",
+    "ogChallengeBody": "Undang wong sing isih nyekel token. Yen dheweke gabung nganggo link undhangan sampeyan lan nyimpen token ing dompet Riftn, dheweke diitung kanggo sampeyan ing kene.",
     "ogChallengeCta": "Entuk link undhangan sampeyan"
   },
   "explorePage": {
@@ -14305,7 +14305,7 @@
           "4": "Kanggo ngrekam cathetan swara, klik ikon mikropon.",
           "5": "Kanggo nambah GIF, klik ikon GIF lan goleki.",
           "6": "Gunakake #hashtag kanggo ngategorikake kiriman sampeyan (contone, #crypto, #defi).",
-          "7": "Gunakake $cashtag kanggo nyebutake token (contone, $RIFT, $ETH).",
+          "7": "Gunakake $cashtag kanggo nyebutake token (contone, $BTC, $ETH).",
           "8": "Gunakake @sebutan kanggo menehi tag pangguna liyane (contone, @username).",
           "9": "Klik 'Kirim' kanggo nerbitake. Kiriman sampeyan katon ing feed langsung."
         },

@@ -4808,7 +4808,7 @@
     "ogHolders_one": "Qabataa OG {{count}}",
     "ogHolders_other": "Qabattoota OG {{count}}",
     "ogChallengeTitle": "Qabattoota OG deebisi",
-    "ogChallengeBody": "Namoota ammas DHB qabatan affeeri. Yeroo isaan linkii affeerraa keetiin makamanii DHB isaanii baallama Riftn isaanii keessa kaa'an, asitti siif lakkaa'amu.",
+    "ogChallengeBody": "Namoota ammas tokkenoota qabatan affeeri. Yeroo isaan linkii affeerraa keetiin makamanii tokkenoota isaanii baallama Riftn isaanii keessa kaa'an, asitti siif lakkaa'amu.",
     "ogChallengeCta": "Linkii affeerraa kee argadhu"
   },
   "explorePage": {
@@ -14355,7 +14355,7 @@
           "4": "Sagalee barreessuuf, balaqqamuu bilbila sagalee irratti cuqaasi.",
           "5": "GIF dabaluuf, balaqqamuu GIF irratti cuqaasiitii barbaadi.",
           "6": "#Hashtagota fayyadamiitii ergoota kee qooduuf (fkn #crypto, #defi).",
-          "7": "$Cashtagota fayyadamiitii meeshaalee barreessuuf (fkn $RIFT, $ETH).",
+          "7": "$Cashtagota fayyadamiitii meeshaalee barreessuuf (fkn $BTC, $ETH).",
           "8": "@Eeramoota fayyadamiitii namoota biroo barreessuuf (fkn @username).",
           "9": "Balaqqamuu 'Ergoota' irratti cuqaasiitii maxxanfamuuf. Ergoon kee maayiiwwan irratti yeroo sanatti muldhata."
         },

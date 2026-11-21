@@ -4795,7 +4795,7 @@
     "ogHolders_one": "{{count}} haystaha OG",
     "ogHolders_other": "{{count}} haystayaal OG",
     "ogChallengeTitle": "Soo celi haystayaasha OG",
-    "ogChallengeBody": "Casuun dadka weli haysta DHB. Markay ku soo biiraan xiriiriyaha martiqaadkaaga oo ay DHB-gooda ku hayaan walletkooda Riftn, halkan adiga ayay kuu tirsanayaan.",
+    "ogChallengeBody": "Casuun dadka weli haysta calaamado. Markay ku soo biiraan xiriiriyaha martiqaadkaaga oo ay calaamado-gooda ku hayaan walletkooda Riftn, halkan adiga ayay kuu tirsanayaan.",
     "ogChallengeCta": "Hel xiriiriyaha martiqaadkaaga"
   },
   "explorePage": {
@@ -14305,7 +14305,7 @@
           "4": "Si aad u duubto qoraal cod ah, guji astaanta makarafoonka.",
           "5": "Si aad ugu darto GIF, guji astaanta GIF oo ka raadi mid.",
           "6": "U isticmaal #hashtags si aad u kala saarto boostadaada (tusaale, #crypto, #defi).",
-          "7": "U isticmaal $cashtags si aad u tixraacdo tokens (tusaale, $RIFT, $ETH).",
+          "7": "U isticmaal $cashtags si aad u tixraacdo tokens (tusaale, $BTC, $ETH).",
           "8": "U isticmaal @mentions si aad u calaamadiso isticmaalayaal kale (tusaale, @username).",
           "9": "Guji 'Boostada' si aad u daabacdo. Boostadaada waxay si toos ah uga soo muuqataa quudinta."
         },

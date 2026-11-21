@@ -4795,7 +4795,7 @@
     "ogHolders_one": "{{count}} OG-haltija",
     "ogHolders_other": "{{count}} OG-haltijaa",
     "ogChallengeTitle": "Tuo OG-haltijat takaisin",
-    "ogChallengeBody": "Kutsu ihmisiä, joilla on yhä DHB:tä. Kun he liittyvät kutsulinkilläsi ja pitävät DHB:nsä Riftn-lompakossaan, heidät lasketaan sinulle täällä.",
+    "ogChallengeBody": "Kutsu ihmisiä, joilla on yhä tokenia:tä. Kun he liittyvät kutsulinkilläsi ja pitävät tokenia:nsä Riftn-lompakossaan, heidät lasketaan sinulle täällä.",
     "ogChallengeCta": "Hanki kutsulinkkisi"
   },
   "explorePage": {
@@ -14305,7 +14305,7 @@
           "4": "Tallentaaksesi äänimuistion, napsauta mikrofonikuvaketta.",
           "5": "Lisätäksesi GIF-tiedoston, napsauta GIF-kuvaketta ja etsi sellainen.",
           "6": "Käytä #hashtageja julkaisusi luokittelemiseen (esim. #crypto, #defi).",
-          "7": "Käytä $cashtageja viitataksesi tokeneihin (esim. $RIFT, $ETH).",
+          "7": "Käytä $cashtageja viitataksesi tokeneihin (esim. $BTC, $ETH).",
           "8": "Käytä @mainintoja merkitäksesi muita käyttäjiä (esim. @käyttäjänimi).",
           "9": "Napsauta 'Julkaise' julkaistaksesi. Julkaisusi ilmestyy syötteeseen välittömästi."
         },

@@ -5052,7 +5052,7 @@
     "ogHolders_one": "{{count}} pemegang OG",
     "ogHolders_other": "{{count}} pemegang OG",
     "ogChallengeTitle": "Bawa kembali pemegang OG",
-    "ogChallengeBody": "Jemput orang yang masih memegang DHB. Apabila mereka menyertai dengan pautan jemputan anda dan menyimpan DHB dalam dompet Riftn mereka, mereka dikira untuk anda di sini.",
+    "ogChallengeBody": "Jemput orang yang masih memegang token. Apabila mereka menyertai dengan pautan jemputan anda dan menyimpan token dalam dompet Riftn mereka, mereka dikira untuk anda di sini.",
     "ogChallengeCta": "Dapatkan pautan jemputan anda"
   },
   "explorePage": {
@@ -14562,7 +14562,7 @@
           "4": "Untuk merakam nota suara, klik ikon mikrofon.",
           "5": "Untuk menambah GIF, klik ikon GIF dan cari satu.",
           "6": "Gunakan #hashtag untuk mengkategorikan siaran anda (cth., #kripto, #defi).",
-          "7": "Gunakan $cashtag untuk merujuk token (cth., $RIFT, $ETH).",
+          "7": "Gunakan $cashtag untuk merujuk token (cth., $BTC, $ETH).",
           "8": "Gunakan @sebutan untuk menandai pengguna lain (cth., @nama pengguna).",
           "9": "Klik 'Siaran' untuk menerbitkan. Siaran anda muncul dalam suapan dengan segera."
         },

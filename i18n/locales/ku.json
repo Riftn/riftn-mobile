@@ -4836,7 +4836,7 @@
     "ogHolders_one": "{{count}} xwediyê OG",
     "ogHolders_other": "{{count}} xwediyên OG",
     "ogChallengeTitle": "Xwediyên OG vegerîne",
-    "ogChallengeBody": "Kesên ku hêj DHB digirin vexwîne. Dema ew bi girêdana vexwendina te tevlî dibin û DHB-ya xwe di berîka xwe ya Riftn de dihêlin, li vir ji bo te tên hejmartin.",
+    "ogChallengeBody": "Kesên ku hêj token digirin vexwîne. Dema ew bi girêdana vexwendina te tevlî dibin û token-ya xwe di berîka xwe ya Riftn de dihêlin, li vir ji bo te tên hejmartin.",
     "ogChallengeCta": "Girêdana xwe ya vexwendinê bistîne"
   },
   "explorePage": {
@@ -14340,7 +14340,7 @@
           "4": "Ji bo tomarkirina nîşeyeke dengî, li ser îkona mîkrofonê bitikîne.",
           "5": "Ji bo zêdekirina GIF-ekê, li îkona GIF bitikîne û li yekê bigere.",
           "6": "#Haştagan bikar bîne da ku şandiya xwe kategorîze bikî (mînak #crypto, #defi).",
-          "7": "$Cashtagan bikar bîne da ku behsa tokenan bikî (mînak $RIFT, $ETH).",
+          "7": "$Cashtagan bikar bîne da ku behsa tokenan bikî (mînak $BTC, $ETH).",
           "8": "@Behskirinan bikar bîne da ku bikarhênerên din etîket bikî (mînak @username).",
           "9": "Ji bo weşandinê li 'Biweşîne' bitikîne. Şandiya te yekser di herikê de xuya dibe."
         },

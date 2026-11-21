@@ -4818,7 +4818,7 @@
     "ogHolders_one": "{{count}} OG-houer",
     "ogHolders_other": "{{count}} OG-houers",
     "ogChallengeTitle": "Bring die OG-houers terug",
-    "ogChallengeBody": "Nooi mense uit wat nog DHB hou. Wanneer hulle met jou uitnodigingskakel aansluit en hul DHB in hul Riftn-beursie hou, tel hulle hier vir jou.",
+    "ogChallengeBody": "Nooi mense uit wat nog tokens hou. Wanneer hulle met jou uitnodigingskakel aansluit en hul tokens in hul Riftn-beursie hou, tel hulle hier vir jou.",
     "ogChallengeCta": "Kry jou uitnodigingskakel"
   },
   "explorePage": {
@@ -14430,7 +14430,7 @@
           "4": "Om 'n stemnota op te neem, klik die mikrofoon-ikoon.",
           "5": "Om 'n GIF by te voeg, klik die GIF-ikoon en soek vir een.",
           "6": "Gebruik #hutsmerke om jou plasing te kategoriseer (bv., #crypto, #defi).",
-          "7": "Gebruik $kontantmerke om tokens te verwys (bv., $RIFT, $ETH).",
+          "7": "Gebruik $kontantmerke om tokens te verwys (bv., $BTC, $ETH).",
           "8": "Gebruik @noem om ander gebruikers te merk (bv., @gebruikersnaam).",
           "9": "Klik 'Plasing' om te publiseer. Jou plasing verskyn onmiddellik in die voer."
         },

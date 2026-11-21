@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 import { usePerfProbe, perfMark, perfPropsEqual } from "../../libs/perfTrace";
 import { useClockLabel } from "../../libs/minuteClock";
 import { useCommentCount } from '../../libs/comment-count-store';
@@ -2095,7 +2096,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       isBountyLocked={false}
       isSubLocked={isActuallySubGated}
       subLine={subQuote
-        ? `${t("feedCard.subscribeFrom")} ${formatSubscriberTokens(subQuote.tokens)} DHB`
+        ? `${t("feedCard.subscribeFrom")} ${formatSubscriberTokens(subQuote.tokens)} ${tokenLabel()}`
         : username ? t("feedCard.subscribeTo", { name: username }) : t("feedCard.subscribeToCreator")}
       onSubscribePress={handleSubscribePress}
       isComboLocked={isActuallyComboLocked}

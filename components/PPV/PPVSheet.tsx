@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 import { useTranslation as _useCopy } from 'react-i18next';
 import { useSheetClosed } from '../../hooks/useSheetClosed';
 import React, {
@@ -423,7 +424,7 @@ const PPVSheetComponent: React.FC<PPVSheetProps> = ({
               <View style={styles.priceRow}>
                 <Text style={styles.priceLabel}>{t("ppv.unlockPrice")}</Text>
                 <Text style={styles.priceValue}>
-                  {formatCompactNumber(numericAmount)} {tokenSymbol}
+                  {formatCompactNumber(numericAmount)} {tokenLabel(tokenSymbol)}
                 </Text>
               </View>
 
@@ -432,7 +433,7 @@ const PPVSheetComponent: React.FC<PPVSheetProps> = ({
                   balance here is the cached one, and the real check happens
                   on-chain and offers a top-up when it comes back short. */}
               {insufficient && phase === "idle" && tokenSymbol === "DHB" && (
-                <Text style={styles.hintText}>{_copy("copy.fefe0a37bf94", { defaultValue: "Low on " })}{tokenSymbol}{_copy("copy.1ee7202b84ad", { defaultValue: "? We'll top you up before unlocking." })}</Text>
+                <Text style={styles.hintText}>{_copy("copy.fefe0a37bf94", { defaultValue: "Low on " })}{tokenLabel(tokenSymbol)}{_copy("copy.1ee7202b84ad", { defaultValue: "? We'll top you up before unlocking." })}</Text>
               )}
               {isSelf && (
                 <Text style={styles.errorText}>{t("ppv.cantPaySelf")}</Text>
@@ -442,7 +443,7 @@ const PPVSheetComponent: React.FC<PPVSheetProps> = ({
               {phase === "approving" && (
                 <View style={styles.statusRow}>
                   <ActivityIndicator size="small" color="#A6A9AC" />
-                  <Text style={styles.statusText}>{_copy("copy.39f4e6134a22", { defaultValue: "Approving " })}{tokenSymbol}…</Text>
+                  <Text style={styles.statusText}>{_copy("copy.39f4e6134a22", { defaultValue: "Approving " })}{tokenLabel(tokenSymbol)}…</Text>
                 </View>
               )}
               {phase === "sending" && (

@@ -4795,7 +4795,7 @@
     "ogHolders_one": "{{count}} OG eýesi",
     "ogHolders_other": "{{count}} OG eýesi",
     "ogChallengeTitle": "OG eýelerini yzyna getiriň",
-    "ogChallengeBody": "Henizem DHB saklaýan adamlary çagyryň. Olar siziň çakylyk baglanyşygyňyz bilen goşulyp, DHB-ni Riftn gapjygynda saklasalar, bu ýerde siziň hasabyňyza sanalýar.",
+    "ogChallengeBody": "Henizem tokenlar saklaýan adamlary çagyryň. Olar siziň çakylyk baglanyşygyňyz bilen goşulyp, tokenlar-ni Riftn gapjygynda saklasalar, bu ýerde siziň hasabyňyza sanalýar.",
     "ogChallengeCta": "Çakylyk baglanyşygyňyzy alyň"
   },
   "explorePage": {
@@ -14305,7 +14305,7 @@
           "4": "Ses ýazgysyny ýazmak üçin mikrofon ikonkasyna basyň.",
           "5": "GIF goşmak üçin GIF ikonkasyna basyň we ony gözläň.",
           "6": "Ýazgyňyzy kategoriýalaşdyrmak üçin #ýazgylaryny ulanyň (mysal üçin, #kripto, #defi).",
-          "7": "Tokenlara salgylanmak üçin $pul ýazgylaryny ulanyň (mysal üçin, $RIFT, $ETH).",
+          "7": "Tokenlara salgylanmak üçin $pul ýazgylaryny ulanyň (mysal üçin, $BTC, $ETH).",
           "8": "Beýleki ulanyjylary bellik etmek üçin @bellikleri ulanyň (mysal üçin, @ulanyjy).",
           "9": "Ýazgyňyzy çap etmek üçin \"Ýazgy\" düwmesine basyň. Ýazgyňyz derrew içeri sahypada peýda bolar."
         },

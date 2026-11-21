@@ -4796,7 +4796,7 @@
     "ogHolders_one": "{{count}} OG holder",
     "ogHolders_other": "{{count}} OG holders",
     "ogChallengeTitle": "Bring di OG holders come back",
-    "ogChallengeBody": "Invite people wey still dey hold DHB. When dem join with your invite link and keep dia DHB for dia Riftn wallet, dem go count for you here.",
+    "ogChallengeBody": "Invite people wey still dey hold tokens. When dem join with your invite link and keep dia tokens for dia Riftn wallet, dem go count for you here.",
     "ogChallengeCta": "Collect your invite link"
   },
   "explorePage": {
@@ -14301,7 +14301,7 @@
           "4": "To record voice note, click di microphone icon.",
           "5": "To add GIF, click di GIF icon and search for one.",
           "6": "Use #hashtags to put your post for category (like #crypto, #defi).",
-          "7": "Use $cashtags to talk about tokens (like $RIFT, $ETH).",
+          "7": "Use $cashtags to talk about tokens (like $BTC, $ETH).",
           "8": "Use @mentions to tag other users (like @username).",
           "9": "Klik 'Post' don publish. Your post don show for feed immediately."
         }

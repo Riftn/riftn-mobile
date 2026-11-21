@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
 import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
 import SkeletonBlock from '../Feed/SkeletonBlock';
@@ -287,7 +288,7 @@ const ProfileAssets = ({ searchable = false }: { searchable?: boolean }) => {
                 source={asset.icon}
                 className="w-8 h-8 rounded-full mr-3"
               />
-              <Text className="text-lg text-white">{asset.name === "DHB" ? "Riftn" : asset.name}</Text>
+              <Text className="text-lg text-white">{tokenLabel(asset.name)}</Text>
               {asset.hasActions && (
                 <Ionicons
                   name={showDHBOptions ? "chevron-down" : "chevron-forward"}
