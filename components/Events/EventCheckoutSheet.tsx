@@ -48,7 +48,7 @@ export default function EventCheckoutSheet({ event, wallet, onClose, onPaid }: {
           const checkSigner = async () => {
             if (!mounted.current || await token.signer.getChainId() !== chain ||
                 (await token.signer.getAddress()).toLowerCase() !== wallet.toLowerCase()) {
-              throw new Error(t('events.entrySigner', { defaultValue: 'Select your signed-in wallet on Base.' }));
+              throw new Error(t('copy.40345a8f538e'));
             }
           };
           await checkSigner();
@@ -66,7 +66,7 @@ export default function EventCheckoutSheet({ event, wallet, onClose, onPaid }: {
       if (outcome.state === 'paid') { onPaid(); return; }
       setResult(outcome);
       if ('hash' in outcome) setHash(outcome.hash ?? '');
-      if (outcome.state === 'reverted') setError(t('events.entryReverted', { defaultValue: 'The entry payment reverted on Base.' }));
+      if (outcome.state === 'reverted') setError(t('bounty.txReverted'));
     } catch (e) {
       if (mounted.current) setError(e instanceof Error ? e.message : t('common.somethingWentWrong'));
     } finally {
@@ -76,8 +76,8 @@ export default function EventCheckoutSheet({ event, wallet, onClose, onPaid }: {
   }
 
   function release(claim: string) {
-    Alert.alert(t('events.clearEntry', { defaultValue: 'Clear unused attempt?' }),
-      t('events.clearEntryHelp', { defaultValue: 'Only clear this attempt after closing the original wallet request and checking that your wallet has no pending or completed payment.' }), [
+    Alert.alert(t('work.integrity.releaseSignature'),
+      t('work.integrity.releaseConfirm'), [
         { text: t('common.cancel'), style: 'cancel' },
         { text: t('common.confirm'), onPress: async () => {
           try { await request('release', claim); setResult(null); setHash(''); setError(''); }
@@ -92,21 +92,21 @@ export default function EventCheckoutSheet({ event, wallet, onClose, onPaid }: {
         <Text style={{ color: colors.foreground, fontSize: 20, fontWeight: '700' }}>{event.title}</Text>
         <Text style={{ color: colors.foreground }}>{t('events.entryFeeCoins', { count: event.gate_fee })} · Base</Text>
         {recovering && <>
-          <Text style={{ color: colors.foreground }}>{t('events.entryReceiptHelp', { defaultValue: 'Check your existing payment using the Base transaction hash from your wallet.' })}</Text>
+          <Text style={{ color: colors.foreground }}>{t('work.integrity.recoverTx')}</Text>
           <TextInput value={hash} onChangeText={setHash} editable={!busy} autoCapitalize="none" autoCorrect={false}
-            accessibilityLabel={t('events.entryHash', { defaultValue: 'Base transaction hash' })} placeholder="0x…"
+            accessibilityLabel={t('work.integrity.hashPlaceholder')} placeholder="0x…"
             style={{ color: colors.foreground, borderColor: colors.border, borderWidth: 1, padding: 10 }} />
         </>}
         {Boolean(error) && <Text accessibilityLiveRegion="polite" style={{ color: colors.foreground }}>{error}</Text>}
         <Pressable accessibilityRole="button" onPress={pay} disabled={disabled}
           style={{ padding: 14, borderRadius: 12, alignItems: 'center', backgroundColor: colors.accent, opacity: disabled ? 0.6 : 1 }}>
           {busy ? <ActivityIndicator color={colors.accentForeground} /> : <Text style={{ color: colors.accentForeground }}>
-            {recovering ? t('events.checkEntry', { defaultValue: 'Check payment' }) : t('events.payToJoin')}
+            {recovering ? t('work.integrity.checkPayment') : t('events.payToJoin')}
           </Text>}
         </Pressable>
         {result?.state === 'recover' && result.staleClaim && !busy &&
           <Text accessibilityRole="button" style={{ color: colors.foreground }} onPress={() => release(result.staleClaim!)}>
-            {t('events.clearEntry', { defaultValue: 'Clear unused attempt?' })}
+            {t('work.integrity.releaseSignature')}
           </Text>}
       </View>
     </GlassModal>
