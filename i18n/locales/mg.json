@@ -7047,7 +7047,7 @@
       "moveRuleUp": "Afindra ambony ny fitsipika",
       "moveRuleDown": "Afindra midina ny fitsipika",
       "deleteRule": "Fafao ny fitsipika",
-      "rights": {
+      "rights": {"sendMessages":"Mandefa hafatra","sendMessagesHint":"Mamoaha hafatra ao amin'ny chat-n'ny vondrom-piarahamonina","sendMedia":"Mandefa media","sendMediaHint":"Ampidiro ny sary sy ny GIF","embedLinks":"Ampidiro ny rohy","embedLinksHint":"Asehoy ny topimason'ny rohy","addMembers":"Mpanoratra mpanoratra","addMembersHint":"Zarao amin'ny hafa ny vondrom-piarahamonina","createEvents":"Mamorona hetsika","createEventsHint":"Handahatra hetsika ho an'ny vondrom-piarahamonina","changeInfoMemberHint":"Ovay ny anaran'ny vondrom-piarahamonina sy ny famaritana",
         "changeInfo": "Ovay ny mombamomba ny vondrom-piarahamonina",
         "changeInfoHint": "Ovay ny anarana, famaritana, avatar ary sora-baventy",
         "deleteMessages": "Fafao ny hafatra",
@@ -7125,7 +7125,7 @@
       "noInvites": "Tsy mbola misy rohy fanasana. Mamoròna iray hanasana mivantana ny olona.",
       "permissionsUpdated": "Nohavaozina ny fahazoan-dàlana",
       "slowModeUpdated": "Nohavaozina ny fomba miadana",
-      "slowModeOffHint": "Afaka mandefa hafatra tsy misy fahatarana ny mpikambana.",
+      "slowMode":{"off":"Vonoina","tenSeconds":"Taona 2010","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 minitra","fifteenMinutes":"15 minitra","oneHour":"1 ora"},"slowModeOffHint": "Afaka mandefa hafatra tsy misy fahatarana ny mpikambana.",
       "slowModeOnHint": "Afaka mandefa hafatra iray isaky ny {{label}} ny mpikambana. Tsy voakasik'ireo admin.",
       "defaultPermissions": "Fahazoan-dàlana default ho an'ny mpikambana",
       "defaultPermissionsHint": "Izay azon’ny rehetra atao eto raha tsy misy lalàna hafa milaza hafa avy amin’ny admin.",

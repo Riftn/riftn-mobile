@@ -7025,7 +7025,7 @@
       "moveRuleUp": "Nekehia te ture ki runga",
       "moveRuleDown": "Nekehia te ture ki raro",
       "deleteRule": "Pāhū te ture",
-      "rights": {
+      "rights": {"sendMessages":"Tukuna ngā karere","sendMessagesHint":"Poutāpeta ki te kōrerorero hapori","sendMedia":"Tukuna he pāpāho","sendMediaHint":"Whakaahua me nga GIF","embedLinks":"Whakaurua ngā hononga","embedLinksHint":"Whakaaturia ngā arokite hononga","addMembers":"Tāpiri mema","addMembersHint":"Tohaina te hapori ki ētahi atu","createEvents":"Waihanga takahanga","createEventsHint":"Whakaritea ngā huihuinga hapori","changeInfoMemberHint":"Whakatikaina te ingoa me te whakaahuatanga o te hapori",
         "changeInfo": "Panoni i ngā mōhiohio o te hapori",
         "changeInfoHint": "Whakatika i te ingoa, te whakaaturanga, te avatar me te kara",
         "deleteMessages": "Pāhū karere",
@@ -7103,7 +7103,7 @@
       "noInvites": "Tangohia rēhita",
       "permissionsUpdated": "Koia te rēhita e whakawhitiwhiti ai ki ngā tāngata.",
       "slowModeUpdated": "Kua whakaputaina ngā ture",
-      "slowModeOffHint": "Kua whakaputaina te rārangi ture",
+      "slowMode":{"off":"Weto","tenSeconds":"10h","thirtySeconds":"30h","oneMinute":"1 munita","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 whakatau"},"slowModeOffHint": "Kua whakaputaina te rārangi ture",
       "defaultPermissions": "Ko ngā mema e taea ai te tuku kōrero i te wā kāore he whakamahere. Ko ngā kaiwhakahaere e whakamahere ana.",
       "defaultPermissionsHint": "Ko ngā ture kāore i whakaputaina",
       "log": {

@@ -7037,7 +7037,7 @@
       "moveRuleUp": "ផ្លាស់ទី​ច្បាប់​ឡើង",
       "moveRuleDown": "ផ្លាស់ទី​ច្បាប់​ចុះ",
       "deleteRule": "លុប​ច្បាប់",
-      "rights": {
+      "rights": {"sendMessages":"ផ្ញើសារ","sendMessagesHint":"បង្ហោះនៅក្នុងការជជែកតាមសហគមន៍","sendMedia":"ផ្ញើមេឌៀ","sendMediaHint":"ភ្ជាប់រូបភាព និង GIF","embedLinks":"តំណភ្ជាប់បង្កប់","embedLinksHint":"បង្ហាញការមើលតំណភ្ជាប់ជាមុន","addMembers":"បន្ថែមសមាជិក","addMembersHint":"ចែករំលែកសហគមន៍ជាមួយអ្នកដទៃ","createEvents":"បង្កើតព្រឹត្តិការណ៍","createEventsHint":"កំណត់កាលវិភាគព្រឹត្តិការណ៍សហគមន៍","changeInfoMemberHint":"កែសម្រួលឈ្មោះ និងការពិពណ៌នារបស់សហគមន៍",
         "changeInfo": "ផ្លាស់ប្តូរ​ព័ត៌មាន​សហគមន៍",
         "changeInfoHint": "កែសម្រួល​ឈ្មោះ ការ​ពិពណ៌នា រូបតំណាង និង​បដា",
         "deleteMessages": "លុប​សារ",
@@ -7115,7 +7115,7 @@
       "noInvites": "មិនទាន់មានតំណភ្ជាប់ការអញ្ជើញទេ។ បង្កើតមួយដើម្បីអញ្ជើញមនុស្សដោយផ្ទាល់។",
       "permissionsUpdated": "បានធ្វើបច្ចុប្បន្នភាពការអនុញ្ញាត",
       "slowModeUpdated": "បានធ្វើបច្ចុប្បន្នភាពរបៀបយឺត",
-      "slowModeOffHint": "សមាជិកអាចផ្ញើសារដោយមិនមានការពន្យាពេល។",
+      "slowMode":{"off":"បិទ","tenSeconds":"10 វិនាទី","thirtySeconds":"30វិនាទី","oneMinute":"1 នាទី","fiveMinutes":"5 ន","fifteenMinutes":"១៥ នាទី","oneHour":"១ ម៉ោង"},"slowModeOffHint": "សមាជិកអាចផ្ញើសារដោយមិនមានការពន្យាពេល។",
       "slowModeOnHint": "សមាជិកអាចផ្ញើសារមួយរៀងរាល់ {{label}} ។ អ្នកគ្រប់គ្រងត្រូវបានលើកលែង។",
       "defaultPermissions": "ការអនុញ្ញាតសមាជិកលំនាំដើម",
       "defaultPermissionsHint": "អ្វីគ្រប់គ្នាអាចធ្វើបាននៅទីនេះ លុះត្រាតែសិទ្ធិអ្នកគ្រប់គ្រងនិយាយផ្ទុយពីនេះ។",

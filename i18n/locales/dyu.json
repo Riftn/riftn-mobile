@@ -7024,7 +7024,7 @@
       "moveRuleUp": "I ka kan ka to ka koo bɛɛ kɛ",
       "moveRuleDown": "Ka to ka to ka kuma",
       "deleteRule": "Fanga min be sɔrɔ a ka sariya la",
-      "rights": {
+      "rights": {"sendMessages":"Ka kumaɲɔgɔnya kɛ ni mɔgɔ dɔ ye","sendMessagesHint":"Sɛbɛn jamana ka chat kɔnɔ","sendMedia":"Send media","sendMediaHint":"O ye ɲɛyirali ɲuman ye.","embedLinks":"Ɛɛn fɔ a wì si kari wa kunwɔ","embedLinksHint":"O ye ɲɛyirali ɲuman ye.","addMembers":"Add members","addMembersHint":"I be se ka jɛn ni mɔgɔ wɛrɛw ye","createEvents":"Ka kɛwalew da","createEventsHint":"Schedule community events","changeInfoMemberHint":"Jamana tɔgɔ n'a ɲɛfɔliModifier",
         "changeInfo": "Ka kunnafoniw yɛlɛma",
         "changeInfoHint": "I tɔgɔ, i ka ɲɛfɔli, i ka avatar ani i ka pankarti yɛlɛma",
         "deleteMessages": "Cikanw jɔsi",
@@ -7098,7 +7098,7 @@
       "noInvites": "Mɔgɔ si tɛ yen Gayɛli gɛrɛfɛ. I yɛrɛ labɛn ka mɔgɔw weele ka na i ka soo.",
       "permissionsUpdated": "Ladili kuraw",
       "slowModeUpdated": "Modɛli kura",
-      "slowModeOffHint": "Mɔgɔ minw be se ka kuma, u be se ka kuma u fɛ joona joona.",
+      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30 Kalaya = 1 Muhur","oneMinute":"Miniti 1","fiveMinutes":"5 Dɔɔni","fifteenMinutes":"miniti 15","oneHour":"1 houru"},"slowModeOffHint": "Mɔgɔ minw be se ka kuma, u be se ka kuma u fɛ joona joona.",
       "defaultPermissions": "Mɔgɔ minw be se ka baara kɛ ni mɔgɔ wɛrɛw ye, olu ka kan ka",
       "defaultPermissionsHint": "Mɔgɔ bɛɛ be se ka mun lo kɛ yan n'a ma fɔ ko a tɛ se ka koo dɔ kɛ min bɛnnin tɛ?",
       "slowModeTitle": "Modɛli min be yɛlɛma dɔɔni dɔɔni",

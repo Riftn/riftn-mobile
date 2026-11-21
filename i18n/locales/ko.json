@@ -7055,7 +7055,7 @@
       "moveRuleUp": "규칙 위로 이동",
       "moveRuleDown": "규칙 아래로 이동",
       "deleteRule": "규칙 삭제",
-      "rights": {
+      "rights": {"sendMessages":"메시지를 보내세요","sendMessagesHint":"커뮤니티 채팅에 게시물 올리기","sendMedia":"미디어 전송","sendMediaHint":"이미지와 GIF를 첨부하세요","embedLinks":"링크 삽입","embedLinksHint":"링크 미리 보기 표시","addMembers":"멤버 추가","addMembersHint":"다른 사람들과 커뮤니티 공유하기","createEvents":"이벤트 만들기","createEventsHint":"커뮤니티 이벤트 일정 관리","changeInfoMemberHint":"커뮤니티 이름을 편집하세요",
         "changeInfo": "커뮤니티 정보 변경",
         "changeInfoHint": "이름, 설명, 아바타 및 배너 편집",
         "deleteMessages": "메시지 삭제",
@@ -7133,7 +7133,7 @@
       "noInvites": "초대 링크가 아직 없습니다. 직접 사람들을 초대할 수 있도록 링크를 만들세요.",
       "permissionsUpdated": "권한 업데이트",
       "slowModeUpdated": "슬로우 모드 업데이트",
-      "slowModeOffHint": "회원은 지연 없이 메시지를 보낼 수 있습니다.",
+      "slowMode":{"off":"끄기","tenSeconds":"10초","thirtySeconds":"30초","oneMinute":"1분","fiveMinutes":"5분","fifteenMinutes":"15분","oneHour":"1시간"},"slowModeOffHint": "회원은 지연 없이 메시지를 보낼 수 있습니다.",
       "slowModeOnHint": "회원은 {{label}}초에 한 번의 메시지만 보낼 수 있습니다. 관리자는 예외입니다.",
       "defaultPermissions": "기본 회원 권한",
       "defaultPermissionsHint": "이곳에서 관리자가 아니라면 누구나 할 수 있는 일입니다.",

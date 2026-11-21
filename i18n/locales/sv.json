@@ -7029,7 +7029,7 @@
       "moveRuleUp": "Flytta regel upp",
       "moveRuleDown": "Flytta regel ner",
       "deleteRule": "Ta bort regel",
-      "rights": {
+      "rights": {"sendMessages":"Skicka meddelanden","sendMessagesHint":"Inlägg i communitychatten","sendMedia":"Skicka media","sendMediaHint":"Lägg till bilder och GIFs","embedLinks":"Inkludera länkar","embedLinksHint":"Visa länk förhandsgranskningar","addMembers":"Lägg till medlemmar","addMembersHint":"Dela communityn med andra","createEvents":"Skapa evenemang","createEventsHint":"Planera gemensamma evenemang","changeInfoMemberHint":"Redigera gemenskapens namn och beskrivning",
         "changeInfo": "Ändra communityinformation",
         "changeInfoHint": "Redigera namn, beskrivning, avatar och banner",
         "deleteMessages": "Ta bort meddelanden",
@@ -7107,7 +7107,7 @@
       "noInvites": "Inga inbjudningslänkar än. Skapa ett för att inbjuda människor direkt.",
       "permissionsUpdated": "Rättigheter uppdaterade",
       "slowModeUpdated": "Långsam modus uppdaterad",
-      "slowModeOffHint": "Medlemmar kan skicka meddelanden utan fördröjning.",
+      "slowMode":{"off":"Av","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 timme"},"slowModeOffHint": "Medlemmar kan skicka meddelanden utan fördröjning.",
       "slowModeOnHint": "Medlemmar kan skicka ett meddelande varje {{label}}. Administratörer är undantagna.",
       "defaultPermissions": "Standardmedlemstillstånd",
       "defaultPermissionsHint": "Vad alla kan göra här förutom om en administratör har sagt annorlunda.",

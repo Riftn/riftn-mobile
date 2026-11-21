@@ -7281,7 +7281,7 @@
       "moveRuleUp": "Gerakkan peraturan ke atas",
       "moveRuleDown": "Gerakkan peraturan ke bawah",
       "deleteRule": "Padam peraturan",
-      "rights": {
+      "rights": {"sendMessages":"Hantar mesej","sendMessagesHint":"Kongsi di perbincangan komuniti","sendMedia":"Hantar media","sendMediaHint":"Sertakan gambar dan GIF","embedLinks":"Benamkan pautan","embedLinksHint":"Tunjukkan rangkaian pautan","addMembers":"Tambah ahli","addMembersHint":"Beri tahu komuniti kepada orang lain","createEvents":"Buat acara","createEventsHint":"Jadualkan acara komuniti","changeInfoMemberHint":"Sunting nama dan deskripsi komuniti",
         "changeInfo": "Tukar maklumat komuniti",
         "changeInfoHint": "Edit nama, penerangan, avatar dan sepanduk",
         "deleteMessages": "Padam mesej",
@@ -7359,7 +7359,7 @@
       "noInvites": "Tiada pautan jemputan lagi. Cipta satu untuk menjemput orang secara terus.",
       "permissionsUpdated": "Kebenaran dikemas kini",
       "slowModeUpdated": "Mod perlahan dikemas kini",
-      "slowModeOffHint": "Ahli boleh menghantar mesej tanpa kelewatan.",
+      "slowMode":{"off":"Mati","tenSeconds":"10-an","thirtySeconds":"30-an","oneMinute":"1 minit","fiveMinutes":"5 minit","fifteenMinutes":"15 minit","oneHour":"1 jam"},"slowModeOffHint": "Ahli boleh menghantar mesej tanpa kelewatan.",
       "slowModeOnHint": "Ahli boleh menghantar satu mesej setiap {{label}}. Pentadbir dikecualikan.",
       "defaultPermissions": "Kebenaran ahli lalai",
       "defaultPermissionsHint": "Apa yang boleh dilakukan semua orang di sini kecuali ada hak pentadbir yang menyatakan sebaliknya.",

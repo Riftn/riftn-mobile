@@ -7062,7 +7062,7 @@
       "moveRuleUp": "Di chuyển quy tắc lên",
       "moveRuleDown": "Di chuyển quy tắc xuống",
       "deleteRule": "Xóa quy tắc",
-      "rights": {
+      "rights": {"sendMessages":"Gửi tin nhắn","sendMessagesHint":"Đăng bài trong cuộc trò chuyện cộng đồng","sendMedia":"Gửi phương tiện","sendMediaHint":"Đính kèm hình ảnh và GIF","embedLinks":"Chèn liên kết","embedLinksHint":"Hiển thị xem trước liên kết","addMembers":"Thêm thành viên","addMembersHint":"Chia sẻ cộng đồng với người khác","createEvents":"Tạo sự kiện","createEventsHint":"Lập lịch sự kiện cộng đồng","changeInfoMemberHint":"Chỉnh sửa tên cộng đồng và mô tả",
         "changeInfo": "Thay đổi thông tin cộng đồng",
         "changeInfoHint": "Chỉnh sửa tên, mô tả, ảnh đại diện và banner",
         "deleteMessages": "Xóa tin nhắn",
@@ -7140,7 +7140,7 @@
       "noInvites": "Chưa có liên kết mời nào. Tạo một liên kết để mời người trực tiếp.",
       "permissionsUpdated": "Quyền đã được cập nhật",
       "slowModeUpdated": "Chế độ chậm đã được cập nhật",
-      "slowModeOffHint": "Thành viên có thể gửi tin nhắn mà không có độ trễ.",
+      "slowMode":{"off":"Tắt","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 phút","fiveMinutes":"5 phút","fifteenMinutes":"15 phút","oneHour":"1 giờ"},"slowModeOffHint": "Thành viên có thể gửi tin nhắn mà không có độ trễ.",
       "slowModeOnHint": "Thành viên có thể gửi một tin nhắn mỗi {{label}}. Quản trị viên được miễn.",
       "defaultPermissions": "Quyền mặc định của thành viên",
       "defaultPermissionsHint": "Những gì mọi người có thể làm ở đây trừ khi quyền quản trị viên nói khác.",

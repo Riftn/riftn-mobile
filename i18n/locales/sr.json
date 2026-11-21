@@ -7054,7 +7054,7 @@
       "moveRuleUp": "Помери правило горе",
       "moveRuleDown": "Помери правило доле",
       "deleteRule": "Избриши правило",
-      "rights": {
+      "rights": {"sendMessages":"Пошаљите поруке","sendMessagesHint":"Објавите у заједничком чату","sendMedia":"Пошаљи медије","sendMediaHint":"Приложите слике и ГИФ-ове","embedLinks":"Укључивање линкова","embedLinksHint":"Приказивање линкова претходно","addMembers":"Додајте чланове","addMembersHint":"Подијели заједницу са другима","createEvents":"Креирајте догађаје","createEventsHint":"Планирај заједничке догађаје","changeInfoMemberHint":"Уреди име и опис заједнице",
         "changeInfo": "Промени информације о заједници",
         "changeInfoHint": "Измени име, опис, аватар и банер",
         "deleteMessages": "Избриши поруке",
@@ -7132,7 +7132,7 @@
       "noInvites": "Још нема линкова за позивнице. Креирајте га да бисте директно позвали људе.",
       "permissionsUpdated": "Дозволе су ажуриране",
       "slowModeUpdated": "Спори режим је ажуриран",
-      "slowModeOffHint": "Чланови могу да пошаљу поруке без чекања.",
+      "slowMode":{"off":"Искључено","tenSeconds":"10с","thirtySeconds":"Тридесетих","oneMinute":"1 мин","fiveMinutes":"5 минута","fifteenMinutes":"15 минута","oneHour":"1 сат"},"slowModeOffHint": "Чланови могу да пошаљу поруке без чекања.",
       "slowModeOnHint": "Чланови могу да пошаљу једну поруку сваких {{label}}.",
       "defaultPermissions": "Подразумевани чланови",
       "defaultPermissionsHint": "Шта све може да уради свако овде, осим ако неки админ правац не каже да није тако.",

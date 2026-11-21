@@ -7028,7 +7028,7 @@
       "moveRuleUp": "Flyt regel op",
       "moveRuleDown": "Flyt regel ned",
       "deleteRule": "Slet regel",
-      "rights": {
+      "rights": {"sendMessages":"Send beskeder","sendMessagesHint":"Post i community chat","sendMedia":"Send medie","sendMediaHint":"Fæst billeder og GIFs","embedLinks":"Indsæt links","embedLinksHint":"Vis link-forhåndsvisninger","addMembers":"Tilføj medlemmer","addMembersHint":"Del fællesskabet med andre","createEvents":"Opret begivenheder","createEventsHint":"Planlæg fællesskabsbegivenheder","changeInfoMemberHint":"Rediger samfundets navn og beskrivelse",
         "changeInfo": "Rediger fællesskabets oplysninger",
         "changeInfoHint": "Rediger navn, beskrivelse, avatar og banner",
         "deleteMessages": "Slet beskeder",
@@ -7106,7 +7106,7 @@
       "noInvites": "Ingen invitationssider endnu. Opret en til at invitere folk direkte.",
       "permissionsUpdated": "Tilladelser opdateret",
       "slowModeUpdated": "Langsom modus opdateret",
-      "slowModeOffHint": "Medlemmer kan sende beskeder uden forsinkelse.",
+      "slowMode":{"off":"Slået fra","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 time"},"slowModeOffHint": "Medlemmer kan sende beskeder uden forsinkelse.",
       "slowModeOnHint": "Medlemmer kan sende en besked hver {{label}}. Administrerende medlemmer er undtaget.",
       "defaultPermissions": "Standardmedlemstilladelser",
       "defaultPermissionsHint": "Hvad alle kan gøre her, medmindre en administrator har sagt andet.",

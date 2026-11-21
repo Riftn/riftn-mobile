@@ -7053,7 +7053,7 @@
       "moveRuleUp": "Przenieś regułę w górę",
       "moveRuleDown": "Przenieś regułę w dół",
       "deleteRule": "Usuń regułę",
-      "rights": {
+      "rights": {"sendMessages":"Wyślij wiadomości","sendMessagesHint":"Wypisz w czacie społecznościowym","sendMedia":"Wyślij media","sendMediaHint":"Załącz zdjęcia i GIF-y","embedLinks":"Wstaw linki","embedLinksHint":"Pokaż podgląd linków","addMembers":"Dodaj członków","addMembersHint":"Dziel się społecznością z innymi","createEvents":"Twórz wydarzenia","createEventsHint":"Planuj wydarzenia społecznościowe","changeInfoMemberHint":"Edytuj nazwę i opis społeczności",
         "changeInfo": "Zmień informacje o społeczności",
         "changeInfoHint": "Edytuj nazwę, opis, awatar i baner",
         "deleteMessages": "Usuń wiadomości",
@@ -7131,7 +7131,7 @@
       "noInvites": "Brak jeszcze zaproszeń. Utwórz jeden, aby zaprosić ludzi bezpośrednio.",
       "permissionsUpdated": "Zaktualizowano uprawnienia",
       "slowModeUpdated": "Zaktualizowano tryb powolny",
-      "slowModeOffHint": "Użytkownicy mogą wysyłać wiadomości bez opóźnień.",
+      "slowMode":{"off":"Wył.","tenSeconds":"10 sekund","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 godzina"},"slowModeOffHint": "Użytkownicy mogą wysyłać wiadomości bez opóźnień.",
       "slowModeOnHint": "Użytkownicy mogą wysyłać jedną wiadomość co {{label}}. Administratorzy są wyłączeni.",
       "defaultPermissions": "Domyślne uprawnienia członka",
       "defaultPermissionsHint": "To, czego każdy może robić tutaj, chyba że nie ma uprawnienia administratora, które mówi inaczej.",

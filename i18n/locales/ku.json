@@ -7066,7 +7066,7 @@
       "moveRuleUp": "Rêgezê ber bi jor ve bibe",
       "moveRuleDown": "Rêgezê ber bi jêr ve bibe",
       "deleteRule": "Qaîdeyê jê bibe",
-      "rights": {
+      "rights": {"sendMessages":"Peyaman bişîne","sendMessagesHint":"Di sohbeta civakê de biweşîne","sendMedia":"Medya bişîne","sendMediaHint":"Wêne û GIF pêve bike","embedLinks":"Girêdanan bi cih bike","embedLinksHint":"Pêşdîtinên girêdanan nîşan bide","addMembers":"Endaman zêde bike","addMembersHint":"Civakê bi yên din re parve bike","createEvents":"Bûyeran çêke","createEventsHint":"Bûyerên civakê demsaz bike","changeInfoMemberHint":"Nav û danasîna civakê biguherîne",
         "changeInfo": "Agahiyên civakê biguherîne",
         "changeInfoHint": "Nav, danasîn, avatar û bannerê biguherîne",
         "deleteMessages": "Peyaman jê bibe",
@@ -7144,7 +7144,7 @@
       "noInvites": "Hîn girêdanên vexwendinê tune ne. Yekê biafirîne da ku mirovan rasterast vexwînî.",
       "permissionsUpdated": "Destûr hatin nûvekirin",
       "slowModeUpdated": "Moda hêdî hat nûkirin",
-      "slowModeOffHint": "Endam dikarin bêyî derengmayînê peyaman bişînin.",
+      "slowMode":{"off":"Girtî","tenSeconds":"10s","thirtySeconds":"30 çirke","oneMinute":"1 xulek","fiveMinutes":"5 xulek","fifteenMinutes":"15 xulek","oneHour":"1 saet"},"slowModeOffHint": "Endam dikarin bêyî derengmayînê peyaman bişînin.",
       "slowModeOnHint": "Endam dikarin her {{label}} peyamekê bişînin. Rêvebir ji vê yekê azad in.",
       "defaultPermissions": "Destûrên xwerû yên endaman",
       "defaultPermissionsHint": "Tiştê ku her kes dikare li vir bike heya ku mafê rêveberiyê tiştekî din nebêje.",

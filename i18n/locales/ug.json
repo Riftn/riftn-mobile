@@ -7024,7 +7024,7 @@
       "moveRuleUp": "قائىدىنى يۇقىرىغا يۆتكىڭ",
       "moveRuleDown": "قائىدىنى تۆۋەنگە يۆتكىڭ",
       "deleteRule": "قائىدىنى ئۆچۈرۈڭ",
-      "rights": {
+      "rights": {"sendMessages":"Xabar yuborish","sendMessagesHint":"جەمئىيەت پاراڭلىشىش رايونىدا يازما قالدۇرۇش","sendMedia":"ۋاسىتىلەرنى ئەۋەتىش پروگراممىسى","sendMediaHint":"Rasimlar va GIFlar qo'shing","embedLinks":"Linklarni joylashtirish","embedLinksHint":"ئۇلىنىشنى ئالدىن كۆرۈش پروگراممىسىنى كۆرسىتىش","addMembers":"A'zolar qo'shish","addMembersHint":"جەمئىيەتنى باشقىلار بىلەن ئورتاقلىشىڭ","createEvents":"پائالىيەت قۇرۇش","createEventsHint":"Jumla jadvali tashkil qilish","changeInfoMemberHint":"جەمئىيەت نامى ۋە تەسۋىرنى تەھرىرلەش پروگراممىسى",
         "changeInfo": "مۇھىت ئۇچۇرلىرىنى ئۆزگەرتىڭ",
         "changeInfoHint": "ئىسىم، تەسۋىر، ئاۋاتار ۋە باننېرنى تەھرىرلەڭ",
         "deleteMessages": "ئۇچۇرلارنى ئۆچۈرۈڭ",
@@ -7102,7 +7102,7 @@
       "noInvites": "تېخىچە ئۇلانمىلارنى چاقىرىپ بولالمىدى. كىشىلەرنى بىۋاستە چاقىرىدىغان بىرىنى قۇرۇڭ.",
       "permissionsUpdated": "ئىجازەتلەر يېڭىلىنىدۇ",
       "slowModeUpdated": "ئاستا يېڭىلىنىش ھالىتى",
-      "slowModeOffHint": "ئەزالار كېچىكتۈرمەيلا ئۇچۇر يوللىيالايدۇ.",
+      "slowMode":{"off":"تاقاش","tenSeconds":"10 سېكۇنت","thirtySeconds":"30s","oneMinute":"1 مىنۇت","fiveMinutes":"5 مىنۇت","fifteenMinutes":"15 مىنۇت","oneHour":"1 سائەت"},"slowModeOffHint": "ئەزالار كېچىكتۈرمەيلا ئۇچۇر يوللىيالايدۇ.",
       "slowModeOnHint": "ئەزالار ھەربىر {{label}} بىر ئۇچۇر يوللىيالايدۇ. باشقۇرغۇچىلار چەكلەنمەيدۇ.",
       "defaultPermissions": "ئادەتتىكى ئەزا ئىجازەتنامىسى",
       "defaultPermissionsHint": "بۇ يەردە ھەممە ئادەم بىر ئىشنى قىلالايدۇ، پەقەت بىر باشقۇرغۇچى باشقىچە دېمىسە.",

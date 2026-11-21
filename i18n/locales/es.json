@@ -4809,7 +4809,7 @@
       "moveRuleUp": "Mover regla arriba",
       "moveRuleDown": "Mover regla abajo",
       "deleteRule": "Eliminar regla",
-      "rights": {
+      "rights": {"sendMessages":"Enviar mensajes","sendMessagesHint":"Publicar en el chat de la comunidad","sendMedia":"Enviar medios","sendMediaHint":"Adjunte imágenes y GIFs","embedLinks":"Incrustar enlaces","embedLinksHint":"Mostrar vistas previas de enlaces","addMembers":"Agregar miembros","addMembersHint":"Comparte la comunidad con los demás.","createEvents":"Crear eventos","createEventsHint":"Programar eventos comunitarios","changeInfoMemberHint":"Editar el nombre y la descripción de la comunidad",
         "changeInfo": "Cambiar información de la comunidad",
         "changeInfoHint": "Editar el nombre, la descripción, el avatar y el banner",
         "deleteMessages": "Eliminar mensajes",
@@ -4887,7 +4887,7 @@
       "noInvites": "Aún no hay enlaces de invitación. Crea uno para invitar a las personas directamente.",
       "permissionsUpdated": "Permisos actualizados",
       "slowModeUpdated": "Modo lento actualizado",
-      "slowModeOffHint": "Los miembros pueden enviar mensajes sin demora.",
+      "slowMode":{"off":"Apagado","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hora"},"slowModeOffHint": "Los miembros pueden enviar mensajes sin demora.",
       "slowModeOnHint": "Los miembros pueden enviar un mensaje cada {{label}}. Los administradores están exentos.",
       "defaultPermissions": "Permisos de miembro por defecto",
       "defaultPermissionsHint": "Lo que todos pueden hacer aquí a menos que un administrador tenga permiso en contrario.",

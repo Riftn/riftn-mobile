@@ -6899,7 +6899,7 @@
       "moveRuleUp": "Mover regra para cima",
       "moveRuleDown": "Mover regra para baixo",
       "deleteRule": "Excluir regra",
-      "rights": {
+      "rights": {"sendMessages":"Enviar mensagens","sendMessagesHint":"Poste na sala de bate-papo da comunidade","sendMedia":"Enviar mídia","sendMediaHint":"Anexe imagens e GIFs","embedLinks":"Incorporar links","embedLinksHint":"Mostrar prévias de links","addMembers":"Adicionar membros","addMembersHint":"Compartilhe a comunidade com outros","createEvents":"Crie eventos","createEventsHint":"Agendar eventos comunitários","changeInfoMemberHint":"Editar o nome e descrição da comunidade",
         "changeInfo": "Alterar informações da comunidade",
         "changeInfoHint": "Editar o nome, descrição, avatar e banner",
         "deleteMessages": "Excluir mensagens",
@@ -6977,7 +6977,7 @@
       "noInvites": "Nenhum link de convite ainda. Crie um para convidar pessoas diretamente.",
       "permissionsUpdated": "Permissões atualizadas",
       "slowModeUpdated": "Modo lento atualizado",
-      "slowModeOffHint": "Membros podem enviar mensagens sem atraso.",
+      "slowMode":{"off":"Desativado","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hora"},"slowModeOffHint": "Membros podem enviar mensagens sem atraso.",
       "slowModeOnHint": "Membros podem enviar uma mensagem a cada {{label}}. Administradores estão isentos.",
       "defaultPermissions": "Permissões de membro padrão",
       "defaultPermissionsHint": "O que todos podem fazer aqui, a menos que um direito de administração diga o contrário.",

@@ -7042,7 +7042,7 @@
       "moveRuleUp": "Qoidani yuqoriga ko'chirish",
       "moveRuleDown": "Qoidani pastga ko'chirish",
       "deleteRule": "Qoidani o'chirish",
-      "rights": {
+      "rights": {"sendMessages":"Xabar yuborish","sendMessagesHint":"Hamjamiyat chatida post qoldiring","sendMedia":"Media yuborish","sendMediaHint":"Rasm va GIFlar qo'shing","embedLinks":"Linklarni joylashtirish","embedLinksHint":"Link koʻrinishini koʻrsatish","addMembers":"A&#39;zolarni qo&#39;shish","addMembersHint":"Jamiyatni boshqalar bilan baham ko&#39;ring","createEvents":"Tadbirlar yarating","createEventsHint":"Jamoa tadbirlarini tuzish","changeInfoMemberHint":"Jamoa nomi va tavsifini tahrirlash",
         "changeInfo": "Jamiyat ma'lumotlarini o'zgartirish",
         "changeInfoHint": "Ismni, tavsifni, avatarni va bannerini tahrirlash",
         "deleteMessages": "Xabarlarni o'chirish",
@@ -7120,7 +7120,7 @@
       "noInvites": "Hali taklifnoma havolalari yo'q. Odamlarni to'g'ridan-to'g'ri taklif qilish uchun bitta havola yarating.",
       "permissionsUpdated": "Ruxsatnomalar yangilandi",
       "slowModeUpdated": "Sekin rejim yangilandi",
-      "slowModeOffHint": "A'zolar kechiktirmasdan xabar yuborishlari mumkin.",
+      "slowMode":{"off":"O‘chirilgan","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 daqiqa","fiveMinutes":"5 daqiqa","fifteenMinutes":"15 daqiqa","oneHour":"1 soat"},"slowModeOffHint": "A'zolar kechiktirmasdan xabar yuborishlari mumkin.",
       "slowModeOnHint": "A'zolar har bir {{label}} ga bitta xabar yuborishlari mumkin. Administratorlar bundan mustasno.",
       "defaultPermissions": "Standart a'zolik ruxsatnomalari",
       "defaultPermissionsHint": "Agar administrator boshqacha ko'rsatmasa, bu yerda hamma nima qila oladi.",

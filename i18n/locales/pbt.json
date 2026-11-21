@@ -7022,7 +7022,7 @@
       "moveRuleUp": "قاعده را بالا ببرید",
       "moveRuleDown": "قاعده را پایین ببرید",
       "deleteRule": "قاعده را حذف کنید",
-      "rights": {
+      "rights": {"sendMessages":"پيغامونه ولېږئ","sendMessagesHint":"په ټولنیز چیټ کې پوسټ کړئ","sendMedia":"میډیا واستوئ","sendMediaHint":"انځورونه او GIFونه ضمیمه کړئ","embedLinks":"په لینکونو کلیک وکړئ","embedLinksHint":"د مخکتنې لینکونه وښایاست","addMembers":"غړي اضافه کړئ","addMembersHint":"ټولنه له نورو سره شریکه کړئ","createEvents":"پیښې جوړې کړئ","createEventsHint":"دې ټولنیزو واقعاتو د پلان جوړولو لپاره","changeInfoMemberHint":"کومونټي د نوم او وړاندې کولو ته بدلون ورکړئ",
         "changeInfo": "اطلاعات انجمن را تغییر دهید",
         "changeInfoHint": "نام، توضیحات، آواتار و بنر را ویرایش کنید",
         "deleteMessages": "پیام ها را حذف کنید",
@@ -7100,7 +7100,7 @@
       "noInvites": "تر اوسه بلنې لینکونه نشته. د خلکو مستقیم بلنې لپاره یو جوړ کړئ.",
       "permissionsUpdated": "اجازې تازه شوې",
       "slowModeUpdated": "سست حالت تازه شو",
-      "slowModeOffHint": "غړي کولی شي پیغامونه پرته له ځنډه واستوي.",
+      "slowMode":{"off":"بند","tenSeconds":"د 10s په اړه","thirtySeconds":"30 ثانیې","oneMinute":"د 1 دقیقې","fiveMinutes":"۵ دقیقې","fifteenMinutes":"۱۵ دقیقې","oneHour":"۱ ساعت"},"slowModeOffHint": "غړي کولی شي پیغامونه پرته له ځنډه واستوي.",
       "slowModeOnHint": "غړي کولی شي هر {{label}} کې یو پیغام واستوي. مدیران مستثنی دي.",
       "defaultPermissions": "د غړو د پیشفرض اجازې",
       "defaultPermissionsHint": "دلته هر څوک څه کولی شي، تر هغه چې د مدیر حق بل ډول نه وي.",

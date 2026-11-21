@@ -7050,7 +7050,7 @@
       "moveRuleUp": "Perkelti taisyklę aukštyn",
       "moveRuleDown": "Perkelti taisyklę žemyn",
       "deleteRule": "Ištrinti taisyklę",
-      "rights": {
+      "rights": {"sendMessages":"Siųsti žinutes","sendMessagesHint":"Išplėsti bendruomenės chatą","sendMedia":"Siųsti mediją","sendMediaHint":"Prisegti nuotraukas ir GIF-us","embedLinks":"Įterpti nuorodas","embedLinksHint":"Rodyti ryšio apžvalgas","addMembers":"Pridėti narius","addMembersHint":"Pasidalinkite bendruomene su kitais","createEvents":"Sukurti įvykius","createEventsHint":"Organizuokite bendruomenės įvykius","changeInfoMemberHint":"Redaguoti bendruomenės pavadinimą ir aprašymą",
         "changeInfo": "Keisti bendruomenės informaciją",
         "changeInfoHint": "Redaguoti pavadinimą, aprašymą, avatarą ir reklamjuostę",
         "deleteMessages": "Ištrinti žinutes",
@@ -7128,7 +7128,7 @@
       "noInvites": "Dar nėra pakvietimo nuorodų. Sukurkite jį, kad pakviestumėte žmones tiesiogiai.",
       "permissionsUpdated": "Leidimai atnaujinti",
       "slowModeUpdated": "Lėtasis režimas atnaujintas",
-      "slowModeOffHint": "Nariai gali siųsti žinutes be delsimo.",
+      "slowMode":{"off":"Išjungta","tenSeconds":"10 sek.","thirtySeconds":"30s","oneMinute":"1 min.","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 valanda"},"slowModeOffHint": "Nariai gali siųsti žinutes be delsimo.",
       "slowModeOnHint": "Nariai gali siųsti po vieną žinutę kas {{label}}. Administratoriai yra išimti.",
       "defaultPermissions": "Numatytieji narių leidimai",
       "defaultPermissionsHint": "Ką čia gali padaryti kiekvienas, nebent administratoriaus teisėje nurodyta kitaip.",

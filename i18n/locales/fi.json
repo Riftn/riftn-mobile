@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Siirrä sääntöä ylöspäin",
       "moveRuleDown": "Siirrä sääntöä alaspäin",
       "deleteRule": "Poista sääntö",
-      "rights": {
+      "rights": {"sendMessages":"Lähetä viestejä","sendMessagesHint":"Jaa yhteisön chatissa","sendMedia":"Lähetä mediaa","sendMediaHint":"Liitä kuvat ja GIFit","embedLinks":"Upota linkit","embedLinksHint":"Näytä linkkiesikatselmat","addMembers":"Lisää jäseniä","addMembersHint":"Jaa yhteisö muille","createEvents":"Luo tapahtumia","createEventsHint":"Suunnittele yhteisötilaisuuksia","changeInfoMemberHint":"Muokkaa yhteisön nimeä ja kuvauksetta",
         "changeInfo": "Muuta yhteisön tietoja",
         "changeInfoHint": "Muokkaa nimeä, kuvausta, avataria ja banneria",
         "deleteMessages": "Poista viestejä",
@@ -7102,7 +7102,7 @@
       "noInvites": "Ei vielä kutsulinkkejä. Luo sellainen kutsuaksesi ihmisiä suoraan.",
       "permissionsUpdated": "Käyttöoikeudet päivitetty",
       "slowModeUpdated": "Hidas tila päivitetty",
-      "slowModeOffHint": "Jäsenet voivat lähettää viestejä viipymättä.",
+      "slowMode":{"off":"Pois","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 tunti"},"slowModeOffHint": "Jäsenet voivat lähettää viestejä viipymättä.",
       "slowModeOnHint": "Jäsenet voivat lähettää yhden viestin {{label}} välein. Ylläpitäjät ovat vapautettuja.",
       "defaultPermissions": "Oletusjäsenten käyttöoikeudet",
       "defaultPermissionsHint": "Mitä kaikki voivat tehdä täällä, ellei ylläpitäjän oikeus toisin määrää.",

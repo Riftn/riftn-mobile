@@ -7055,7 +7055,7 @@
       "moveRuleUp": "Kamachita alturay",
       "moveRuleDown": "Kamachita uraychay",
       "deleteRule": "Kamachita wañuchiy",
-      "rights": {
+      "rights": {"sendMessages":"Willakuykunata kachay","sendMessagesHint":"Ayllu rimanakuypi qillqay","sendMedia":"Willaykunata kachay","sendMediaHint":"Rikch'akunata hinallataq GIF nisqakunata k'askachiy","embedLinks":"T'inkikunata ch'aqchuy (Embed links)","embedLinksHint":"Mostrar previsualizaciones de enlaces","addMembers":"Waqaychaykuna yapay","addMembersHint":"Kamuykuna kawsaykuna q'illaykunata rikusunku","createEvents":"Raymikunata kamay","createEventsHint":"Ayllu huñunakuykunata wakichiy","changeInfoMemberHint":"Ayllu sutita, sut'inchayninwan ima allichay",
         "changeInfo": "Ayllu willayta tikray",
         "changeInfoHint": "Suti, willay, rikchayta, kachariyta allinchay",
         "deleteMessages": "Willakuykunata pakay",
@@ -7133,7 +7133,7 @@
       "noInvites": "Manaraqmi invitacionpa t'inkikuna kanchu. Hukta ruway, runakunata chiqanmanta mink’anaykipaq.",
       "permissionsUpdated": "Permissions updated",
       "slowModeUpdated": "Slow mode updated",
-      "slowModeOffHint": "Miembronkuna mana tardaspa willakuykunata apachiyta atinku.",
+      "slowMode":{"off":"Paskay","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 minutu","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hora"},"slowModeOffHint": "Miembronkuna mana tardaspa willakuykunata apachiyta atinku.",
       "slowModeOnHint": "Miembronkuna sapa {{label}} huk willayta apachiyta atinku. Admins nisqakunaqa kacharisqam kachkanku.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Imatataq kaypi llapa runa ruwayta atinku mana huk derecho admin hukta niptinqa.",

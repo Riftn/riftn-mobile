@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Pindhah aturan munggah",
       "moveRuleDown": "Pindhah aturan mudhun",
       "deleteRule": "Busak aturan",
-      "rights": {
+      "rights": {"sendMessages":"Kirim pesan","sendMessagesHint":"Paké ing obrolan komunitas","sendMedia":"Kirim media","sendMediaHint":"Tambah gambar lan GIF","embedLinks":"Embed tautan","embedLinksHint":"Tampilkan preview link","addMembers":"Tambah anggota","addMembersHint":"Nuduhake komunitas karo wong liya","createEvents":"Kawruh Acara","createEventsHint":"Ngatur acara komunitas","changeInfoMemberHint":"Edit nama lan deskripsi komunitas",
         "changeInfo": "Ganti info komunitas",
         "changeInfoHint": "Sunting jeneng, katrangan, avatar, lan banner",
         "deleteMessages": "Busak pesen",
@@ -7101,7 +7101,7 @@
       "noInvites": "Siji inggih punika link undangan.",
       "permissionsUpdated": "Ijin diupdate",
       "slowModeUpdated": "Mode inggih wis diupdate",
-      "slowModeOffHint": "Anggota bisa nulis pesan tanpa kena tunggu.",
+      "slowMode":{"off":"Mati","tenSeconds":"10 detik","thirtySeconds":"Kita lanjep 30-an","oneMinute":"1 menit","fiveMinutes":"Ngisor 5 menit","fifteenMinutes":"15 menit","oneHour":"1 jam"},"slowModeOffHint": "Anggota bisa nulis pesan tanpa kena tunggu.",
       "defaultPermissionsHint": "Kajaba ana pangaturan saka pamong kang wis diatur, kabeh wong bisa ngelakoni ing ngisor iki.",
       "slowModeTitle": "Sedhèng",
       "log": {

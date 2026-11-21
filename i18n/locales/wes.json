@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Carry di rule go up",
       "moveRuleDown": "Carry di rule come down",
       "deleteRule": "Delete di rule",
-      "rights": {
+      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Post fo di community chat","sendMedia":"Send media","sendMediaHint":"Wen yu wok wit images na GIFs, yu go attach dem to di message, na so yu go send am.","embedLinks":"Embed links","embedLinksHint":"Show link previews","addMembers":"Add members","addMembersHint":"Share community wit' pipo.","createEvents":"Create events","createEventsHint":"Schedule community events","changeInfoMemberHint":"Edit di community name and description",
         "changeInfo": "Change di community info",
         "changeInfoHint": "Change di name, description, avatar and banner",
         "deleteMessages": "Delete messages dem",
@@ -7102,7 +7102,7 @@
       "noInvites": "M no invite link yet, but me go create one to invite pipo directly.",
       "permissionsUpdated": "Permissions updated",
       "slowModeUpdated": "Slow mode updated",
-      "slowModeOffHint": "Members go send message witout delay.",
+      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hour time"},"slowModeOffHint": "Members go send message witout delay.",
       "slowModeOnHint": "Membas go send one mesaji every {{label}}. Admins no dey exempt.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Wen evriwan wan do here, unless admin tok say otherwise.",

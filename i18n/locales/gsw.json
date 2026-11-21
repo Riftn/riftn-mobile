@@ -7054,7 +7054,7 @@
       "moveRuleUp": "Regle uus schiibe",
       "moveRuleDown": "Regle uus schiibe",
       "deleteRule": "Regle lösche",
-      "rights": {
+      "rights": {"sendMessages":"Chünesch Büecher sende","sendMessagesHint":"Poste in den Community-Chat","sendMedia":"Medien sändä","sendMediaHint":"Bilder und GIFs anhängen","embedLinks":"Links einbetten","embedLinksHint":"Link-Vorschau anzeigen","addMembers":"Mitglieder hinzufügen","addMembersHint":"Die Community mit anderen teilen","createEvents":"Veranstaltungen erstellen","createEventsHint":"Planen Sie Gemeinschaftsereignisse","changeInfoMemberHint":"Gemeinschaftsname und -beschreibung bearbeiten",
         "changeInfo": "Community-Infos ändere",
         "changeInfoHint": "Name, Beschriibig, Avatar und Banner bearbeite",
         "deleteMessages": "Nachrichte lösche",
@@ -7131,7 +7131,7 @@
       "noInvites": "Keini Invitations-Link noo. Erstell ene, um Leit direkt einzulade.",
       "permissionsUpdated": "Berechtigunge aktualisiert",
       "slowModeUpdated": "Slow mode aktualisiert",
-      "slowModeOffHint": "Mitgliider chönd ohne Verzögerig Nachrichte sende.",
+      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 Min.","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 Stund"},"slowModeOffHint": "Mitgliider chönd ohne Verzögerig Nachrichte sende.",
       "slowModeOnHint": "Mitgliider chönd ene Nachricht pro {{label}} sende. Verwaltigsmitgliider sind usgnumme.",
       "defaultPermissions": "Standarde Mitgliederberechtigung",
       "defaultPermissionsHint": "Was alli chönd, wenn kai Verwaltigsrechte gsäit händ.",

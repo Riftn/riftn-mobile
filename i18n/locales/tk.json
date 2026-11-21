@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Düzgüni ýokaryk göter",
       "moveRuleDown": "Düzgüni aşak at",
       "deleteRule": "Düzgüni aýyr",
-      "rights": {
+      "rights": {"sendMessages":"Söhbət göndərmək","sendMessagesHint":"Jemgyýetçilik çatynda paýlaşyň","sendMedia":"Media ibermek","sendMediaHint":"Suratlary we GIF-leri goşuň","embedLinks":"Linkləri əsaslandırmaq","embedLinksHint":"Baglaýyş öň seredişlerini görkez","addMembers":"Ähli üýşleri goş","addMembersHint":"Jemgyýeti başgalar bilen paýlaşyň","createEvents":"Çäreleri dörediň","createEventsHint":"Jemgyýetçilik çärelerini meýilleşdiriň","changeInfoMemberHint":"Ýolbaşçylyk maslahatynyň ady we beýan edilmegi",
         "changeInfo": "Jemgyýet maglumatyny üýtget",
         "changeInfoHint": "Ady, düşündirişi, awatary we banneri redaktirlemek",
         "deleteMessages": "Hatary aýyryň",
@@ -7102,7 +7102,7 @@
       "noInvites": "Heniz çakylyk baglanyşygy ýok. Adamlary göni çagyrmak üçin biri dörediň.",
       "permissionsUpdated": "Iýzalar täzelendi",
       "slowModeUpdated": "Täzeleşdirilen Slow mode",
-      "slowModeOffHint": "Agzalar gijikdirmezden hat iberip bilerler.",
+      "slowMode":{"off":"Çyk","tenSeconds":"10","thirtySeconds":"30 ýyllar","oneMinute":"1 min","fiveMinutes":"5 dəqiqə","fifteenMinutes":"15 dəqiqə","oneHour":"1 sagat"},"slowModeOffHint": "Agzalar gijikdirmezden hat iberip bilerler.",
       "slowModeOnHint": "Agzalar her {{label}} bir hat iberip biler. Adminler muňa degişli däl.",
       "defaultPermissions": "Awtomatiki agza iýzalary",
       "defaultPermissionsHint": "Admin hukugy başgaça aýtmasa, hemmeler näme edip bilýär.",
