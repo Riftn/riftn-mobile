@@ -905,13 +905,15 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   // single encrypted line, with nothing on screen to say so.
   const [e2eeStatus, setE2eeStatus] = useState<DmEncryptionStatus | null>(null);
   useEffect(() => {
-    if (!address || !sessionProvider) return;
+    let active = true;
+    setE2eeStatus(null);
+    if (!address) return;
+    // Loading a saved identity needs no signing provider. This also lets a
+    // returning user see Unlock while the provider reconnects.
     ensureDmEncryption(address, sessionProvider, { interactive: false })
-      .then((s) => {
-        setE2eeStatus(s);
-        log.info("e2ee:", s);
-      })
-      .catch(() => {});
+      .then((status) => { if (active) setE2eeStatus(status); })
+      .catch(() => { if (active) setE2eeStatus("error"); });
+    return () => { active = false; };
   }, [address, sessionProvider]);
 
   const [e2eeRetrying, setE2eeRetrying] = useState(false);

@@ -788,5 +788,5 @@ const styles = StyleSheet.create({
   sheetRowText: { color: "#fff", fontSize: 15 },
   empty: { color: "rgba(255,255,255,0.65)", paddingHorizontal: 8, paddingVertical: 16 },
   viewerRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 8, paddingHorizontal: 8 },
-  viewerName: { flex: 1, color: "#fff", fontSize: 14 },
+  viewerName: { flex: 1, minWidth: 0, overflow: "hidden", color: "#fff", fontSize: 14 },
 });

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { openChatMention } from "../../libs/openChatMention";
 import * as Notifications from 'expo-notifications';
+import NetInfo from '@react-native-community/netinfo';
 import { AppState, AppStateStatus, Linking } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useUser, useAuthState, useAuthActions } from '../../context/AuthContext';
@@ -300,10 +301,12 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   const refreshUnreadCount = useCallback(async () => {
     if (!isFullySignedIn) return;
 
+    const address = userAddressRef.current;
     try {
       // The backend defaults to unread-only. Fetch enough rows to support the
       // app's 99+ badge without downloading notification history.
       const response = await getNotifications({ limit: 100 });
+      if (!address || userAddressRef.current !== address || !isFullySignedInRef.current) return;
       const unread = countUnreadNotifications(response);
       // patchUser always builds a new user object, so writing an unchanged
       // count still re-renders every consumer of the auth context.
@@ -950,6 +953,15 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       clearInterval(interval);
       interval = null;
     };
+    let wasOffline = false;
+    const stopNetwork = NetInfo.addEventListener(({ isConnected, isInternetReachable }) => {
+      if (isConnected === false || isInternetReachable === false) {
+        wasOffline = true;
+      } else if (wasOffline && isConnected === true && isInternetReachable === true) {
+        wasOffline = false;
+        if (AppState.currentState === 'active') void refreshUnreadCount();
+      }
+    });
     if (AppState.currentState === 'active') start();
     const sub = AppState.addEventListener('change', (state) => {
       if (state === 'active') start();
@@ -957,6 +969,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     });
     return () => {
       stop();
+      stopNetwork();
       sub.remove();
     };
   }, [isFullySignedIn, refreshUnreadCount]);

@@ -33,6 +33,19 @@ describe('post media sessions', () => {
     expect(hasPostVideoSession('clip')).toBe(false);
   });
 
+  it('replays a tapped preview about to end, preserving an ordinary handoff or mid-clip tap', () => {
+    const session = postMediaSession<any>('video:tapped', jest.fn());
+    const player = { currentTime: 59.8, duration: 60, pause: jest.fn() };
+    session.value = player;
+    preparePostMediaNavigation('tapped');
+    expect(player.currentTime).toBe(59.8);
+    preparePostMediaNavigation('tapped', { replayEndingVideo: true });
+    expect(player.currentTime).toBe(0);
+    player.currentTime = 18;
+    preparePostMediaNavigation('tapped', { replayEndingVideo: true });
+    expect(player.currentTime).toBe(18);
+  });
+
   it('bridges an unmount/mount navigation gap without pausing audio', () => {
     const dispose = jest.fn();
     const session = postMediaSession<any>('audio:track', dispose);

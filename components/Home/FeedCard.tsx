@@ -1093,7 +1093,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   useWarmVideoViewer(isVisible && isVideo && videoViewerReady);
   const handleVideoViewerPress = useCallback(() => {
     if (!videoViewerReady || tokenId == null || scrubBoundary.claimed.value) return;
-    if (postVideoUrl) preparePostMediaNavigation(postVideoUrl);
+    if (postVideoUrl) preparePostMediaNavigation(postVideoUrl, { replayEndingVideo: true });
     if (!profileFeed) warmShortsFeed(isSignedIn);
     onBeforeNavigate?.();
     hideUserProfile();
