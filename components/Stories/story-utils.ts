@@ -21,9 +21,8 @@ export function startIndex(entry: ShelfEntry): number {
 }
 
 export function coverOf(entry: ShelfEntry): string | null {
-  const items = playable(entry.items);
-  const last = items[items.length - 1];
-  return last ? last.posterUrl || last.mediaUrl : null;
+  const item = entry.items[startIndex(entry)];
+  return item?.posterUrl || (item?.type === 'photo' ? item.mediaUrl : null);
 }
 
 export const nameOf = (a: StoryAuthor) => a.displayName || a.username || `${a.address.slice(0, 6)}…`;

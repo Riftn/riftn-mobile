@@ -1490,6 +1490,8 @@
     "channelSpeedResetConfirm": "Every channel goes back to your normal speed. Your normal speed is not changed.",
     "reset": "Reset",
     "channelSpeedNone": "Change the speed while watching someone and it stays that way for their videos.",
+    "showStories": "Show Stories on Home",
+    "storiesSaveFailed": "Could not save your Stories setting.",
     "hideWatched": "Hide watched videos",
     "hideWatchedDesc": "Keep videos you have already played out of your feeds. Off by default.",
     "skipSegments": "Skip sponsors and intros",
