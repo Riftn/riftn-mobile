@@ -1,4 +1,4 @@
-import { parseCommunityMentions, hasCommunityMentions } from '../../libs/community-mentions';
+import { chatMentionSpans, parseCommunityMentions, hasCommunityMentions } from '../../libs/community-mentions';
 
 const parse = parseCommunityMentions;
 
@@ -74,4 +74,11 @@ describe('hasCommunityMentions', () => {
     expect(hasCommunityMentions(parse('@here'))).toBe(true);
     expect(hasCommunityMentions(parse('plain message'))).toBe(false);
   });
+});
+
+it('preserves the text ranges of repeated, punctuated chat links and flags broadcasts', () => {
+  const text = 'Hi @Araf! (@a.b-c), @Araf. @here user@example.com';
+  const spans = [...chatMentionSpans(text)];
+  expect(spans.map(({ start, end }) => text.slice(start, end))).toEqual(['@Araf', '@a.b-c', '@Araf', '@here']);
+  expect(spans.filter(span => !span.broadcast).map(span => span.username)).toEqual(['Araf', 'a.b-c', 'Araf']);
 });
