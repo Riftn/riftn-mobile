@@ -4916,7 +4916,7 @@
       "defaultPermissions": "الإذن الافتراضي",
       "defaultPermissionsHint": "ما يمكن لأي شخص القيام به هنا ما لم يكن هناك إذن إداري يقول خلاف ذلك.",
       "slowModeTitle": "وضع السرعة",
-      "log": {
+      "log": {"verbs":{"promote_admin":"تمت الإشادة بذلك","demote_admin":"نزل إلى درجة أقل","transfer_ownership":"انتقل ملكية إلى","ban_member":"ممنوع","unban_member":"غير محظور","kick_member":"تم إزالة","mute_member":"مستمع","unmute_member":"تم إلغاء كتم الصوت","approve_member":"تم الموافقة","reject_member":"رفض","delete_message":"حذفت رسالة من","purge_messages":"حذف جميع الرسائل من","pin_message":"رسالة مسجلة من","unpin_message":"تم إزالته من رسالة","update_settings":"تم تحديث إعدادات المجتمع","create_invite":"أنشأ رابط دعوة","revoke_invite":"ألغيت رابط الدعوة","invite_used":"دُعيت"},
         "justNow": "الآن",
         "minutesAgo": "{{value}} دقيقة قبل",
         "hoursAgo": "{{value}} ساعة قبل",

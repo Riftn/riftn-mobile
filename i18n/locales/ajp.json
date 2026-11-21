@@ -7106,7 +7106,7 @@
       "defaultPermissions": "صلاحيات الأعضاء الافتراضية",
       "defaultPermissionsHint": "شو كل حدا فيّ يعمل هون إلا إذا حقّ الأدمن بيقول غير هيك.",
       "slowModeTitle": "وضع بطيء",
-      "log": {
+      "log": {"verbs":{"promote_admin":"تمت الإشادة بذلك","demote_admin":"هجوم","transfer_ownership":"تنتقل الملكية","ban_member":"ممنوع","unban_member":"غير محظور","kick_member":"تم الحذف","mute_member":"مستمع","unmute_member":"صوت غير مقطوع","approve_member":"تمت الموافقة","reject_member":"رفض","delete_message":"حذفت رسالة من","purge_messages":"حذفت كل الرسائل من","pin_message":"مرفوع رسالة","unpin_message":"تم إزالته من رسالة","update_settings":"تم تحديث الإعدادات المجتمعية","create_invite":"خَلَقَ رِسَالَةً لِلْدَّخْلِ","revoke_invite":"تم إلغاء رابط دعوة","invite_used":"دُعِيت"},
         "justNow": "مستقبل",
         "hoursAgo": "{{value}} ساعة",
         "weeksAgo": "{{value}} ساعة",

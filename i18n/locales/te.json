@@ -7109,7 +7109,7 @@
       "defaultPermissions": "అన్ని వారు చేయగలిగే విధానం",
       "defaultPermissionsHint": "ఇక్కడ ఏదైనా నిర్వాహకుడు చెప్పిన వరకు చేయగలిగే అన్ని వారు చేయగలిగే విధానం.",
       "slowModeTitle": "స్లో మోడ్",
-      "log": {
+      "log": {"verbs":{"promote_admin":"ప్రోమోటెడ్","demote_admin":"తగ్గించబడింది","transfer_ownership":"యాజమాన్యాన్ని దీనికి బదిలీ చేశారు","ban_member":"నిషేధించబడింది","unban_member":"అన్‌బ్యాన్ చేయబడింది","kick_member":"తీసివేయబడింది","mute_member":"మ్యూట్ చేయబడింది","unmute_member":"ముక్కు తెరిచినది","approve_member":"అంగీకరించారు","reject_member":"తిరస్కరించబడింది","delete_message":"నుండి ఒక సందేశాన్ని తొలగించారు","purge_messages":"నుండి అన్ని సందేశాలను తొలగించారు","pin_message":"పిన్నెడ్ మెసేజ్ నుండి","unpin_message":"నుండి సందేశాన్ని అన్ ‌ పిన్ చేశారు","update_settings":"సమూహం సెట్టింగ్స్‌ను అప్‌డేట్ చేసారు","create_invite":"ఇన్వైట్ లింక్ తయారు చేసింది","revoke_invite":"అన్వేషణ లింక్‌ను రద్దు చేసింది","invite_used":"ఆహ్వానించబడ్డారు"},
         "justNow": "ఇప్పటికీ",
         "minutesAgo": "{{value}}m క్రితం",
         "hoursAgo": "{{value}}h క్రితం",

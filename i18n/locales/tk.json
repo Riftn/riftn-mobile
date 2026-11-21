@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Awtomatiki agza iýzalary",
       "defaultPermissionsHint": "Admin hukugy başgaça aýtmasa, hemmeler näme edip bilýär.",
       "slowModeTitle": "Ýuwaş mod",
-      "log": {
+      "log": {"verbs":{"promote_admin":"mahabatlandyrylan","demote_admin":"demotivasiya","transfer_ownership":"eýeçiligi geçirdi","ban_member":"gadagan edildi","unban_member":"ban açyldy","kick_member":"aýryldy","mute_member":"Sesini kesdirilýan","unmute_member":"öwrenilmedik","approve_member":"təsdiq edildi","reject_member":"ret edildi","delete_message":"bir habar iber","purge_messages":"ähli hatlary pozdy","pin_message":"bir habary berkidip goýdy","unpin_message":"habary berkidilenden aýyrdy","update_settings":"jemgyýetçilik sazlamalary täzelendi","create_invite":"Təqdimat linki yaradıb","revoke_invite":"Təklif linkini qeyd etdi","invite_used":"çagyryldy"},
         "justNow": "häzir",
         "minutesAgo": "{{value}}m ozal",
         "hoursAgo": "{{value}}h ozal",

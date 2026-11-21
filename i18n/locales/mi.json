@@ -7106,7 +7106,7 @@
       "slowMode":{"off":"Weto","tenSeconds":"10h","thirtySeconds":"30h","oneMinute":"1 munita","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 whakatau"},"slowModeOffHint": "Kua whakaputaina te rārangi ture",
       "defaultPermissions": "Ko ngā mema e taea ai te tuku kōrero i te wā kāore he whakamahere. Ko ngā kaiwhakahaere e whakamahere ana.",
       "defaultPermissionsHint": "Ko ngā ture kāore i whakaputaina",
-      "log": {
+      "log": {"verbs":{"promote_admin":"whakatairanga","demote_admin":"i whakahekea","transfer_ownership":"kua whakawhitia te mana rangatira ki","ban_member":"kua aukatihia","unban_member":"unbanned","kick_member":"kua tangohia","mute_member":"muted","unmute_member":"kua wetekina te wahangu","approve_member":"kua whakaaetia","reject_member":"kua whakakāhoretia","delete_message":"i mukua he karere i","purge_messages":"kua mukua ngā karere katoa mai i","pin_message":"i pine i tētahi karere mai i","unpin_message":"kaore i kitea he karere mai i","update_settings":"kua whakahōutia ngā tautuhinga hapori","create_invite":"i waihanga i tētahi hononga pōwhiri","revoke_invite":"i whakakorea he hononga pōwhiri","invite_used":"i pōwhiritia"},
         "justNow": "Ko te rārangi whakamahere",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h i te wiki",

@@ -5080,7 +5080,7 @@
       "defaultPermissions": "Standaard lidrechten",
       "defaultPermissionsHint": "Wat iedereen hier kan doen tenzij een beheerdersrecht anders zegt.",
       "slowModeTitle": "Langzame modus",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"gedemoteerd","transfer_ownership":"heeft eigendom overgedragen aan","ban_member":"verboden","unban_member":"ongebanned","kick_member":"Verwijderd","mute_member":"gemuteerd","unmute_member":"onverstopt","approve_member":"goedgekeurd","reject_member":"geweigerd","delete_message":"bericht verwijderd door","purge_messages":"alle berichten van [deleted] verwijderd","pin_message":"heeft een bericht gepind van","unpin_message":"onpinned een bericht van","update_settings":"heeft de gemeenschapsinstellingen bijgewerkt","create_invite":"Heeft een uitnodigingslink gemaakt","revoke_invite":"heeft een uitnodigingslink ingetrokken","invite_used":"uitgenodigd"},
         "justNow": "zojuist",
         "minutesAgo": "{{value}}m geleden",
         "hoursAgo": "{{value}}h geleden",

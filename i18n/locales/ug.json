@@ -7107,7 +7107,7 @@
       "defaultPermissions": "ئادەتتىكى ئەزا ئىجازەتنامىسى",
       "defaultPermissionsHint": "بۇ يەردە ھەممە ئادەم بىر ئىشنى قىلالايدۇ، پەقەت بىر باشقۇرغۇچى باشقىچە دېمىسە.",
       "slowModeTitle": "ئەسۋال مود",
-      "log": {
+      "log": {"verbs":{"promote_admin":"ئىلگىرى سۈرۈلگەن","demote_admin":"demoted","transfer_ownership":"ئىگىدارلىق ھوقۇقى ئۆتۈنۈپ بېرىلىدۇ","ban_member":"قۇرالغان","unban_member":"چەكلەش ئېلىۋېتىلدى","kick_member":"ئۆچۈرۈلگەن","mute_member":"مۇتەڭ","unmute_member":"Kuchishmas","approve_member":"Ruxsat berildi","reject_member":"Rad etildi","delete_message":"ئۇچۇرنى ئۆچۈرۈۋېتىش پروگراممىسى","purge_messages":"مەسىلەسىز سىڭىشلەر","pin_message":"pinned xabar","unpin_message":"ئۇچۇر يوللانمىدى","update_settings":"جامائەت سەپلىمىلىرى يېڭىلاندى","create_invite":"Tayyorlovchi link yaratildi","revoke_invite":"تەكلىپ ئۇلانمىسىنى بىكار قىلدى","invite_used":"تەكلىپ"},
         "justNow": "ھازىرلا",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h ago",

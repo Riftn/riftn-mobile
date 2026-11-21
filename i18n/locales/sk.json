@@ -7213,7 +7213,7 @@
       "defaultPermissions": "Predvstupné povolenia členov",
       "defaultPermissionsHint": "To, čo môže každý urobiť tu, kým nie je niektoré administrátorské právo inak.",
       "slowModeTitle": "Pomalý režim",
-      "log": {
+      "log": {"verbs":{"promote_admin":"povýšený","demote_admin":"demotvaný","transfer_ownership":"Preložil vlastníctvo","ban_member":"zakázané","unban_member":"neboli zablokovaný","kick_member":"odstránené","mute_member":"stlmené","unmute_member":"neblokovaný","approve_member":"schválené","reject_member":"zamietnuté","delete_message":"zablokovaný správ","purge_messages":"Vymazal všetko odoslané","pin_message":"pripnúť správu od","unpin_message":"odpínal správu z","update_settings":"Aktualizoval si komunikačné nastavenia","create_invite":"vytvoril odkaz na pozvánku","revoke_invite":"zrušila pozvanie","invite_used":"Pozvaný"},
         "justNow": "čo sa stalo teraz",
         "minutesAgo": "{{value}} minút predtým",
         "hoursAgo": "{{value}} hodín predtým",

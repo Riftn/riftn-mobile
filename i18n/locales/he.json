@@ -7138,7 +7138,7 @@
       "defaultPermissions": "הרשאות ברירת מחדל למנויים",
       "defaultPermissionsHint": "מה כל אחד יכול לעשות כאן, אלא אם מנהל מערכת ימני אומר אחרת.",
       "slowModeTitle": "מצב איטי",
-      "log": {
+      "log": {"verbs":{"promote_admin":"קידום","demote_admin":"נפגע בדירוג","transfer_ownership":"העביר בעלות ל-","ban_member":"נאסר","unban_member":"הוסר מהחסימה","kick_member":"מחוק","mute_member":"נאסר","unmute_member":"לא נמוך","approve_member":"אושר","reject_member":"נדחה","delete_message":"מחקתי הודעה מ-","purge_messages":"נמחקו כל ההודעות מ -","pin_message":"הודפסה הודעה חובה מ","unpin_message":"הסר הודעה מאוחסנת מ-","update_settings":"עדכן את הגדרות הקהילה","create_invite":"הציתה קישור להזמנה","revoke_invite":"ביטל קישור הזמנה","invite_used":"נקרא"},
         "justNow": "ממש עכשיו",
         "minutesAgo": "לפני {{value}}דק '",
         "hoursAgo": "לפני {{value}}שע '",

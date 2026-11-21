@@ -7133,7 +7133,7 @@
       "defaultPermissions": "Numatytieji narių leidimai",
       "defaultPermissionsHint": "Ką čia gali padaryti kiekvienas, nebent administratoriaus teisėje nurodyta kitaip.",
       "slowModeTitle": "Lėtasis režimas",
-      "log": {
+      "log": {"verbs":{"promote_admin":"paaukštintas","demote_admin":"Nuleistas","transfer_ownership":"perleido nuosavybę","ban_member":"uždraustas","unban_member":"nebūna uždrausta","kick_member":"pašalinta","mute_member":"nutildytas","unmute_member":"neužblokavus","approve_member":"patvirtinta","reject_member":"atmesta","delete_message":"ištrinta žinutė iš","purge_messages":"ištrynė visas žinutes iš","pin_message":"paskelbė pranešimą","unpin_message":"iššalinęs pranešimą","update_settings":"atnaujino bendruomenės nustatymus","create_invite":"Sukurta sveikinimo nuoroda","revoke_invite":"atšauktas pakviestuvės ryšys","invite_used":"Invituota"},
         "justNow": "ką tik",
         "minutesAgo": "{{value}} prieš m.",
         "hoursAgo": "{{value}} prieš val.",

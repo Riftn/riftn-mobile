@@ -7102,7 +7102,7 @@
       "defaultPermissions": "Mɔgɔ minw be se ka baara kɛ ni mɔgɔ wɛrɛw ye, olu ka kan ka",
       "defaultPermissionsHint": "Mɔgɔ bɛɛ be se ka mun lo kɛ yan n'a ma fɔ ko a tɛ se ka koo dɔ kɛ min bɛnnin tɛ?",
       "slowModeTitle": "Modɛli min be yɛlɛma dɔɔni dɔɔni",
-      "log": {
+      "log": {"verbs":{"promote_admin":"wuli","demote_admin":"o kɔ, a ye n' ka soow lɔ","transfer_ownership":"transferred ownership to","ban_member":"banned","unban_member":"unbanned","kick_member":"bɔra","mute_member":"ka to ka kuma","unmute_member":"fanga tɛ min na","approve_member":"mɔgɔ min sɔnna","reject_member":"Dɛɛ","delete_message":"a ka kuma bɔ","purge_messages":"ka kumaɲɔgɔnya kɛ ni mɔgɔ dɔ ye","pin_message":"a to ne ye kuma dɔ fɔ i ye.","unpin_message":"a y’a fɔ ko a bɛ bɔ a ka laada kɔnɔ","update_settings":"jamana ka laɲinitawModifier","create_invite":"ye weele siri dɔ dabɔ","revoke_invite":"n'i ye mɔgɔ dɔ weele ka na i ka soo","invite_used":"invited"},
         "forMinutes": "miniti {{value}} kama",
         "justNow": "sisan yɛrɛ",
         "minutesAgo": "{{value}} m ka kan ka kɛ",

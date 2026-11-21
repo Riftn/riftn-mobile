@@ -7112,7 +7112,7 @@
       "defaultPermissions": "Standardmedlemstillstånd",
       "defaultPermissionsHint": "Vad alla kan göra här förutom om en administratör har sagt annorlunda.",
       "slowModeTitle": "Långsam modus",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Förstasida","demote_admin":"demoterad","transfer_ownership":"överförde ägarskap till","ban_member":"förbjuden","unban_member":"obannad","kick_member":"raderad","mute_member":"avstängd","unmute_member":"Oavstängd","approve_member":"godkänt","reject_member":"avvisad","delete_message":"raderade ett meddelande från","purge_messages":"togs bort alla meddelanden från","pin_message":"pinnad meddelande från","unpin_message":"avpinnade ett meddelande från","update_settings":"Uppdaterade gemenskapens inställningar","create_invite":"skapade en inbjudningslänk","revoke_invite":"avkallat en inbjudningslänk","invite_used":"inbjuden"},
         "justNow": "just nu",
         "minutesAgo": "{{value}}m sedan",
         "hoursAgo": "{{value}}h sedan",

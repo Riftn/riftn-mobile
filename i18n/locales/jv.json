@@ -7104,7 +7104,7 @@
       "slowMode":{"off":"Mati","tenSeconds":"10 detik","thirtySeconds":"Kita lanjep 30-an","oneMinute":"1 menit","fiveMinutes":"Ngisor 5 menit","fifteenMinutes":"15 menit","oneHour":"1 jam"},"slowModeOffHint": "Anggota bisa nulis pesan tanpa kena tunggu.",
       "defaultPermissionsHint": "Kajaba ana pangaturan saka pamong kang wis diatur, kabeh wong bisa ngelakoni ing ngisor iki.",
       "slowModeTitle": "Sedhèng",
-      "log": {
+      "log": {"verbs":{"promote_admin":"dipromosikake","demote_admin":"diturunkan pangarahan","transfer_ownership":"ngalihake kepemilikan menyang","ban_member":"dilarang","unban_member":"dibebaskan","kick_member":"dipunbusak","mute_member":"muted","unmute_member":"dipungkasi","approve_member":"disetujui","reject_member":"ditujukan","delete_message":"nggaksa message","purge_messages":"Dipunhapus kabèh pesan saka","pin_message":"memencet pesan dari","unpin_message":"Kang ngelanturin pesan ing ngarso.","update_settings":"ngawaruwuh setting komunitas","create_invite":"membuat tautan undangan","revoke_invite":"mengguguraké link undangan","invite_used":"diundang"},
         "justNow": "Sekarang iki",
         "minutesAgo": "{{value}}m wengi",
         "daysAgo": "{{value}}d ago",

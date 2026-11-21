@@ -7138,7 +7138,7 @@
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Imatataq kaypi llapa runa ruwayta atinku mana huk derecho admin hukta niptinqa.",
       "slowModeTitle": "Llaqta modo",
-      "log": {
+      "log": {"verbs":{"promote_admin":"qhawachisqa","demote_admin":"urmachisqa","transfer_ownership":"k'itiyuq kayta qusqa","ban_member":"qarqusqa","unban_member":"unbanned","kick_member":"qullusqa","mute_member":"upallachisqa","unmute_member":"uyarinalla","approve_member":"chiqanchasqa","reject_member":"qarqusqa","delete_message":"willayta qollupurqani","purge_messages":"llapa willaykunata qullurqani kaymanta","pin_message":"willakuyta k’askachirqan","unpin_message":"huk willayta qispichirqan","update_settings":"ayllup allichayninkunata musuqyachirqani","create_invite":"invitación linkta kamarqani","revoke_invite":"qayay t'inkita qichuruni","invite_used":"qayaykusqa"},
         "justNow": "kunanlla",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h ago",

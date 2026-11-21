@@ -7138,7 +7138,7 @@
       "defaultPermissions": "Izimvume ezizenzakalelayo zamalungu",
       "defaultPermissionsHint": "Lokho wonke umuntu angakwenza lapha ngaphandle uma ilungelo lomphathi lithi okunye.",
       "slowModeTitle": "Imodi yokucasha",
-      "log": {
+      "log": {"verbs":{"promote_admin":"kukhuthaziwe","demote_admin":"yehlisiwe esikhundleni","transfer_ownership":"idlulisele ubunikazi ku","ban_member":"uvinjelwe","unban_member":"akuvinjelwe","kick_member":"isusiwe","mute_member":"ithambekile","unmute_member":"ivuliwe umsindo","approve_member":"kuvunyiwe","reject_member":"inqatshiwe","delete_message":"ususe umyalezo ku","purge_messages":"isuse yonke imiyalezo evela ku","pin_message":"iphine umyalezo ovela ku","unpin_message":"umlayezo ongafakwanga ovela","update_settings":"lungisa amasethingi omphakathi","create_invite":"udale isixhumanisi sesimemo","revoke_invite":"ihoxise isixhumanisi sesimemo","invite_used":"umenywe"},
         "justNow": "manje nje",
         "minutesAgo": "{{value}}m edlule",
         "hoursAgo": "{{value}}h edlule",

@@ -7138,7 +7138,7 @@
       "defaultPermissions": "По умолчанию разрешения для участников",
       "defaultPermissionsHint": "Всё, что может сделать каждый, пока администратор не изменит разрешение.",
       "slowModeTitle": "Режим замедления",
-      "log": {
+      "log": {"verbs":{"promote_admin":"промотировано","demote_admin":"понижен в статусе","transfer_ownership":"передал право собственности","ban_member":"запрещено","unban_member":"разбанен","kick_member":"удалено","mute_member":"заглушен","unmute_member":"Отключено","approve_member":"подтверждено","reject_member":"отклонено","delete_message":"удален сообщение от","purge_messages":"удалён все сообщения из","pin_message":"прикрепил сообщение от","unpin_message":"отпиннул сообщение от","update_settings":"Обновил настройки сообщества","create_invite":"Создал пригласительный ссылку","revoke_invite":"отозвал пригласительный ссылку","invite_used":"Приглашено"},
         "justNow": "сейчас",
         "minutesAgo": "{{value}} назад",
         "hoursAgo": "{{value}} часов назад",

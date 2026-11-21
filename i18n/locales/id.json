@@ -7134,7 +7134,7 @@
       "defaultPermissions": "Izin anggota default",
       "defaultPermissionsHint": "Apa yang bisa dilakukan semua orang di sini kecuali hak admin mengatakan sebaliknya.",
       "slowModeTitle": "Mode lambat",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Promoted","demote_admin":"diturunkan","transfer_ownership":"mengalihkan kepemilikan ke","ban_member":"dilarang","unban_member":"tidak dilarang","kick_member":"dihapus","mute_member":"diamkan","unmute_member":"Tidak diam-diam","approve_member":"disetujui","reject_member":"ditolak","delete_message":"menghapus pesan dari","purge_messages":"menghapus semua pesan dari","pin_message":"memampatkan pesan dari","unpin_message":"membatalkan penyematan pesan dari","update_settings":"Memperbarui pengaturan komunitas","create_invite":"membuat tautan undangan","revoke_invite":"membatalkan tautan undangan","invite_used":"Diundang"},
         "justNow": "baru saja",
         "minutesAgo": "{{value}}m yang lalu",
         "hoursAgo": "{{value}}jam yang lalu",

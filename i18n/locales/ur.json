@@ -7110,7 +7110,7 @@
       "defaultPermissions": "ڈیفالٹ رکن کی اجازتیں",
       "defaultPermissionsHint": "یہاں ہر کوئی کیا کر سکتا ہے جب تک کہ ایڈمن کا حق کچھ اور نہ کہے۔",
       "slowModeTitle": "سلو موڈ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"پیشہ ورزی","demote_admin":"تخفیف شدہ","transfer_ownership":"مالکیت Transfer کیا گیا ہے","ban_member":"PPV خریدار","unban_member":"غیر پابندی","kick_member":"ہٹا دیا گیا","mute_member":"خاموش","unmute_member":"مخاطبین کو منقطع کرنا","approve_member":"ممنوع","reject_member":"مسترد شدہ","delete_message":"پیدل آنا","purge_messages":"سے تمام پیغامات حذف کر دیے گئے ہیں","pin_message":"نے ایک پیغام پن کیا","unpin_message":"ایک پیغام کو غیر مندرجہ ذیل کر دیا گیا ہے","update_settings":"کمیونٹی کی ترتیبات کو اپ ڈیٹ کیا","create_invite":"ایک انویٹ لینک بنایا","revoke_invite":"ایک انویٹ لائن کو منسوخ کر دیا","invite_used":"ایکشن میں ہیں"},
         "justNow": "ابھی ابھی",
         "minutesAgo": "{{value}} منٹ پہلے",
         "hoursAgo": "{{value}} گھنٹے پہلے",

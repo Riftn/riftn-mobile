@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Oletusjäsenten käyttöoikeudet",
       "defaultPermissionsHint": "Mitä kaikki voivat tehdä täällä, ellei ylläpitäjän oikeus toisin määrää.",
       "slowModeTitle": "Hidas tila",
-      "log": {
+      "log": {"verbs":{"promote_admin":"yleistetty","demote_admin":"alennettu","transfer_ownership":"siirsi omistuksen","ban_member":"kielletty","unban_member":"ei enää kielletty","kick_member":"Poistettu","mute_member":"mykistetty","unmute_member":"äänettömänä","approve_member":"hyväksytty","reject_member":"hylätty","delete_message":"poisti viestin","purge_messages":"poisti kaikki viestit kohteesta","pin_message":"kiinnitti viestin lähettäjältä","unpin_message":"poistettu viesti","update_settings":"päivitti yhteisön asetukset","create_invite":"loi kutsulinkin","revoke_invite":"perutti kutsulinkin","invite_used":"Kutsu"},
         "justNow": "juuri nyt",
         "minutesAgo": "{{value}}m sitten",
         "hoursAgo": "{{value}}h sitten",

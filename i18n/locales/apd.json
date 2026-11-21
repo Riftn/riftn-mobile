@@ -7105,7 +7105,7 @@
       "defaultPermissions": "صلاحيات الأعضاء الافتراضية",
       "defaultPermissionsHint": "ما كل الناس بيكونوا بيعملوش هنا إلا لو كان هناك أمر من الإدارة يسمح بذلك.",
       "slowModeTitle": "النمو",
-      "log": {
+      "log": {"verbs":{"promote_admin":"تمت الإشادة","demote_admin":"نزل رتبة","transfer_ownership":"تنتقل الملكية","ban_member":"ممنوع","unban_member":"لا محظور","kick_member":"تم إزالة","mute_member":"مخفوف","unmute_member":"تم إلغاء كتم الصوت","approve_member":"تم الموافقة","reject_member":"رفض","delete_message":"حذف رسالة من","purge_messages":"حذف جميع الرسائل من","pin_message":"ألصق رسالة من","unpin_message":"تم إزالته من رسالة","update_settings":"تم تحديث إعدادات المجتمع","create_invite":"تم إنشاء رابط الدعوة","revoke_invite":"تم إلغاء رابط الدعوة","invite_used":"دُعِيت"},
         "justNow": "في الحال",
         "weeksAgo": "{{value}} ساعة",
         "monthsAgo": "{{value}} الساعة الماضية",

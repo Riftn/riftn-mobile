@@ -6978,7 +6978,7 @@
       "defaultPermissions": "デフォルトのメンバー権限",
       "defaultPermissionsHint": "管理者権限に別段の定めがない限り、誰もがここでできること。",
       "slowModeTitle": "スローモード",
-      "log": {
+      "log": {"verbs":{"promote_admin":"昇格","demote_admin":"降格されました","transfer_ownership":"所有権の譲渡先","ban_member":"禁止","unban_member":"無制限","kick_member":"削除済み","mute_member":"ミュートされました","unmute_member":"ミュート解除","approve_member":"承認済み","reject_member":"拒否されました","delete_message":"メッセージを削除しました","purge_messages":"からすべてのメッセージを削除しました","pin_message":"からのメッセージをピン留めしました","unpin_message":"からのメッセージのピン留めを解除しました","update_settings":"コミュニティ設定を更新しました","create_invite":"さんが招待リンクを作成しました","revoke_invite":"招待リンクが取り消されました","invite_used":"招待されました"},
         "justNow": "たった今",
         "minutesAgo": "{{value}}分前",
         "hoursAgo": "{{value}}時間前",

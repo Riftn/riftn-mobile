@@ -7138,7 +7138,7 @@
       "defaultPermissions": "기본 회원 권한",
       "defaultPermissionsHint": "이곳에서 관리자가 아니라면 누구나 할 수 있는 일입니다.",
       "slowModeTitle": "슬로우 모드",
-      "log": {
+      "log": {"verbs":{"promote_admin":"승급됨","demote_admin":"하강","transfer_ownership":"소유권 이전 대상:","ban_member":"금지됨","unban_member":"제제해제됨","kick_member":"삭제됨","mute_member":"음소거됨","unmute_member":"소리 끄기 해제","approve_member":"승인됨","reject_member":"거부됨","delete_message":"메시지를 삭제했습니다","purge_messages":"에서 모든 메시지를 삭제했습니다.","pin_message":"님이 보낸 메시지를 고정했습니다.","unpin_message":"pinned 메시지를 해제했습니다","update_settings":"커뮤니티 설정 업데이트됨","create_invite":"초대 링크 생성","revoke_invite":"초대 링크의 권리를 박탈했습니다.","invite_used":"초대됨"},
         "justNow": "지금",
         "minutesAgo": "{{value}}분 전",
         "hoursAgo": "{{value}}시간 전",

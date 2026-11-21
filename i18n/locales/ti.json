@@ -7107,7 +7107,7 @@
       "defaultPermissions": "ኣባላት መሰል",
       "defaultPermissionsHint": "ንኹሉ ሰብ ኣብዚ ክገብሮ ዝኽእሎ እዩ እዚ ኣብዚ ኣመሓዳሪ መሰል ካልእ እንተዘይበለ።",
       "slowModeTitle": "ምቁጽጻር ግዜ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"ዝተሰምረሉ","demote_admin":"ደረጃኡ ተነኪዩ","transfer_ownership":"ንብረት ናብ","ban_member":"ታግደዋል","unban_member":"ካብ እገዳ ተላዒሉ","kick_member":"ተወጊዱ","mute_member":"ተንቀሳቓሲ","unmute_member":"ድምጺ ተኸፊቱ","approve_member":"ተቐቢሉ","reject_member":"ተነጺጉ","delete_message":"ካብ ዝተሰረዘ መልእኽቲ","purge_messages":"ኩሉ መልእኽትታት ሰሪዙ ካብ","pin_message":"መልእኽቲ ሰንጢቑ","unpin_message":"መልእኽቲ ካብ ተሰካዕቲ (unpinned) ኣልዒሉ","update_settings":"ናይ ማሕበረሰብ መተዓራረዪታት ኣመሓይሹ","create_invite":"ናይ ዕድመ ሊንክ ፈጢርካ","revoke_invite":"ናይ ዕድመ መላገቢ (invite link) ሰሪዙ","invite_used":"ተዓዲሙ"},
         "forDays": "ን{{value}} መዓልቲ",
         "forHours": "ን{{value}} ሰዓት",
         "forMinutes": "ን{{value}} ደቒቕ",

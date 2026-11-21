@@ -7157,7 +7157,7 @@
       "defaultPermissions": "การอนุญาตสมาชิกโดยอัตโนมัติ",
       "defaultPermissionsHint": "สิ่งที่ทุกคนสามารถทำได้ในห้องนี้ ยกเว้นการอนุญาตของผู้ดูแลที่ระบุไว้",
       "slowModeTitle": "โหมดช้า",
-      "log": {
+      "log": {"verbs":{"promote_admin":"โปรโมท","demote_admin":"ลดค่า","transfer_ownership":"โอนความเป็นเจ้าของไปยัง","ban_member":"ถูกแบน","unban_member":"ไม่ถูกห้าม","kick_member":"ลบออกแล้ว","mute_member":"ปิดเสียง","unmute_member":"ไม่ปิดเสียง","approve_member":"อนุมัติแล้ว","reject_member":"ปฏิเสธ","delete_message":"ลบข้อความออก","purge_messages":"ลบข้อความทั้งหมดจาก","pin_message":"โพสต์ที่ถูกติดไว้จาก","unpin_message":"เลิกปักหมุดข้อความจาก","update_settings":"ปรับปรุงการตั้งค่าของชุมชน","create_invite":"สร้างลิงก์เชิญแล้ว","revoke_invite":"ยกเลิกลิงก์เชิญ","invite_used":"ได้รับเชิญ"},
         "justNow": "เมื่อไม่กี่วินาทีที่ผ่านมา",
         "minutesAgo": "{{value}}m ที่แล้ว",
         "hoursAgo": "{{value}}h ที่แล้ว",

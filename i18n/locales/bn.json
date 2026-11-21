@@ -7107,7 +7107,7 @@
       "defaultPermissions": "ডিফল্ট সদস্য অনুমতি",
       "defaultPermissionsHint": "এখানে সবাই কী করতে পারে যদি না কোনো অ্যাডমিন অধিকার অন্যথা বলে।",
       "slowModeTitle": "স্লো মোড",
-      "log": {
+      "log": {"verbs":{"promote_admin":"প্রমোশিত","demote_admin":"ডিমোটেড","transfer_ownership":"মালিকানা হস্তান্তর করা হয়েছে","ban_member":"নিষিদ্ধ","unban_member":"আনব্যানড","kick_member":"মুছে ফেলা হয়েছে","mute_member":"নিঃশব্দ","unmute_member":"অডিও মিউটেড","approve_member":"অনুমোদিত","reject_member":"রিজেক্টেড","delete_message":"থেকে একটি বার্তা মুছে ফেলা হয়েছে","purge_messages":"থেকে সমস্ত বার্তা মুছে ফেলা হয়েছে","pin_message":"একজন ব্যবহারকারী থেকে পিন করা বার্তা","unpin_message":"একটি বার্তা আনপিন করা হয়েছে থেকে","update_settings":"কমিউনিটি সেটিংস আপডেট করা হয়েছে","create_invite":"ইনভাইট লিঙ্ক তৈরি করেছে","revoke_invite":"আমন্ত্রণ লিঙ্ক প্রত্যাহার করা হয়েছে","invite_used":"আমন্ত্রিত"},
         "justNow": "এখনই",
         "minutesAgo": "{{value}}মিনিট আগে",
         "hoursAgo": "{{value}}ঘন্টা আগে",

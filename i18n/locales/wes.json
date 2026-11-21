@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Wen evriwan wan do here, unless admin tok say otherwise.",
       "slowModeTitle": "Slow mode",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Promot","demote_admin":"Demoted","transfer_ownership":"transferred ownership to","ban_member":"banned","unban_member":"unbanned","kick_member":"removed","mute_member":"Mute.","unmute_member":"unmuted","approve_member":"approved","reject_member":"rejected","delete_message":"I no dey translate dat.","purge_messages":"M don dey delete all messeges from.","pin_message":"Pinsim message ya.","unpin_message":"Unpinim message ya","update_settings":"Update komuniti setin","create_invite":"I no get am.","revoke_invite":"Revok am invite link.","invite_used":"invited"},
         "forMinutes": "fo {{value}} min",
         "justNow": "jos nau",
         "minutesAgo": "{{value}}m ago",

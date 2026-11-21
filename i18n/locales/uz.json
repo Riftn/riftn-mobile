@@ -7125,7 +7125,7 @@
       "defaultPermissions": "Standart a'zolik ruxsatnomalari",
       "defaultPermissionsHint": "Agar administrator boshqacha ko'rsatmasa, bu yerda hamma nima qila oladi.",
       "slowModeTitle": "Sekin rejim",
-      "log": {
+      "log": {"verbs":{"promote_admin":"reklama qilingan","demote_admin":"Demotaj","transfer_ownership":"Maliklikni o'zgartirdi","ban_member":"taqiqlangan","unban_member":"blokdan chiqarildi","kick_member":"olib tashlandi","mute_member":"ovozsiz","unmute_member":"Mumkin qilinmagan","approve_member":"tasdiqlangan","reject_member":"rad etildi","delete_message":"xabarni o&#39;chirib tashladi","purge_messages":"barcha xabarlarni o‘chirdi","pin_message":"pinned a xabar","unpin_message":"xabarni olib tashladi","update_settings":"Jamoat toʻgʻriligini yangiladi","create_invite":"taklifnoma havolasi yaratildi","revoke_invite":"taklif havolasini bekor qildi","invite_used":"Majburlangan"},
         "justNow": "hozirgina",
         "minutesAgo": "{{value}}m oldin",
         "hoursAgo": "{{value}} soat oldin",
