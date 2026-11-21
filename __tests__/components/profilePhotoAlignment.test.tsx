@@ -25,3 +25,13 @@ it.each([0.35, 1, 1.8])('centres aspect %s in the full-width photo viewer', aspe
  expect(photo.props.style.width/photo.props.style.height).toBeCloseTo(aspect,2);
  act(()=>ui.unmount());
 });
+
+it('preserves the leading alignment for ordinary feed images', () => {
+  let ui!: ReturnType<typeof create>;
+  act(() => {
+    ui = create(<ContainedFeedImage uri="https://example.com/feed.jpg" width={390} fallbackWidth={390} aspect={0.35} />);
+  });
+  const frame = ui.root.findAll(node => String(node.type) === 'View')[0];
+  expect(frame.props.style.alignItems).toBe('flex-start');
+  act(() => ui.unmount());
+});
