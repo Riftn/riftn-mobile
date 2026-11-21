@@ -3125,6 +3125,7 @@
     "noPostsOrRepliesSub": "They will appear here",
     "avatarUpdated": "Avatar updated",
     "coverUpdated": "Cover updated",
+    "photoSelectionCancelled": "Photo selection cancelled",
     "couldNotPickImage": "Could not pick image",
     "changeCoverImage": "Change cover image",
     "viewCoverImage": "View cover image",
