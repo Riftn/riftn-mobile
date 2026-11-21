@@ -126,6 +126,7 @@ export function useAuthSession({
         cacheBustImages?: boolean;
         force?: boolean; // bypass throttle
         expectedToken?: string; // discard cached-boot work after an account switch
+        deferPublish?: boolean; // sign-in publishes after saving the profile
       }
     ): Promise<User> => {
       const t0 = Date.now();
@@ -141,7 +142,7 @@ export function useAuthSession({
       const sinceLastEnrich = tFetchStart - lastEnrichTsRef.current;
       const throttled = !opts?.force && sinceLastEnrich < ENRICH_THROTTLE_MS;
       const addr = base.walletAddress || base.address;
-      const key = base.username || base.walletAddress || base.address;
+      const key = addr || base.username;
 
       if (shouldRefetch && !throttled && key && addr) {
         lastEnrichTsRef.current = tFetchStart;
@@ -154,7 +155,7 @@ export function useAuthSession({
         if (accountResult.status === "fulfilled") {
           const res: any = accountResult.value;
           const core = res?.data?.result || res?.result || null;
-          if (core) enriched = { ...base, ...core } as User;
+          if (core) enriched = { ...base, ...core, hideBadgeAndBalance: core.hideBadgeAndBalance === true } as User;
           log.debug("enrich:getAccount:done", {
             key,
             merged: !!core,
@@ -214,7 +215,7 @@ export function useAuthSession({
           if (await getAuthToken() !== opts.expectedToken) return base;
         }
         if (isMountedRef.current) {
-          setUser(enriched);
+          if (!opts?.deferPublish) setUser(enriched);
           await setAuthUser(enriched);
         }
         log.debug("enrich:setAuthUser:done", {
@@ -376,6 +377,11 @@ export function useAuthSession({
         const uid = await getSupabaseUserId();
         if (uid) await setStoredSupabaseUserId(uid);
       } catch {}
+      const enriched = needsUsername ? walletUser : await enrichAndStoreUser(walletUser, {
+        refetch: true,
+        force: true,
+        deferPublish: true,
+      });
       // Multi-account bookkeeping: every key this session owns is on disk.
       // An Add profile attempt adopts the new account explicitly; any other
       // login (including same-user session refreshes) only refreshes what is
@@ -418,12 +424,10 @@ export function useAuthSession({
         setNeedsUsername(false);
         setProvisionalUser(null);
         setProvisionalToken(null);
-        setIsSignedIn(true);
-        const enriched = await enrichAndStoreUser(walletUser, {
-          refetch: true,
-        });
         // Prevent the consolidated boot effect from duplicating this enrich
         didBootRefetchRef.current = true;
+        setUser(enriched);
+        setIsSignedIn(true);
         await persistLocalAccountIfPossible(enriched);
         log.trace?.('signed-in');
         clearAuthTrace();
@@ -448,6 +452,7 @@ export function useAuthSession({
       setNeedsUsername,
       setProvisionalToken,
       setProvisionalUser,
+      setUser,
     ]
   );
 
@@ -726,11 +731,11 @@ export function useAuthSession({
       setNeedsUsername(false);
       setProvisionalUser(null);
       setProvisionalToken(null);
-      enrichAndStoreUser(finalUser, { refetch: true })
+      enrichAndStoreUser(finalUser, { refetch: true, force: true })
         .then(async (u) => {
+          const { snapshotCurrentSession } = await import('../libs/profiles');
+          await snapshotCurrentSession().catch(() => {});
           await persistLocalAccountIfPossible(u);
-          try {
-          } catch {}
           try {
             fetchAndStoreBalances(u).catch(() => {});
           } catch {}
