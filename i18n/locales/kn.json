@@ -7107,7 +7107,7 @@
       "defaultPermissions": "ಡೀಫಾಲ್ಟ್ ಸದಸ್ಯರ ಅನುಮತಿಗಳು",
       "defaultPermissionsHint": "ನಿರ್ವಾಹಕರು ಸರಿಯಾಗಿ ಹೇಳದ ಹೊರತು ಪ್ರತಿಯೊಬ್ಬರೂ ಇಲ್ಲಿ ಏನು ಮಾಡಬಹುದು.",
       "slowModeTitle": "ನಿಧಾನ ಮೋಡ್",
-      "log": {
+      "log": {"verbs":{"promote_admin":"ಬಡ್ತಿ ನೀಡಲಾಗಿದೆ","demote_admin":"ನೀಚೆಗಿಳಿಸಲಾಗಿದೆ","transfer_ownership":"ಮಾಲೀಕತ್ವವನ್ನು ವರ್ಗಾವಣೆ ಮಾಡಿದೆ","ban_member":"ನಿಷೇಧಿಸಲಾಗಿದೆ","unban_member":"ಅನ್‌ಬ್ಯಾನ್ಡ್","kick_member":"ಮೋಚೆ ಮಾಡಲಾಗಿದೆ","mute_member":"ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ","unmute_member":"ಅನ್‌ಮ್ಯೂಟ್ ಮಾಡಲಾಗಿದೆ","approve_member":"ಸಮ್ಮತಿಸಿದ","reject_member":"ತಿರಸ್ಕರಿಸಲಾಗಿದೆ","delete_message":"ನಿಂದ ಸಂದೇಶವನ್ನು ಅಳಿಸಲಾಗಿದೆ","purge_messages":"ಇವರಿಂದ ಎಲ್ಲಾ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಲಾಗಿದೆ","pin_message":"ಒಬ್ಬರು ಪಿನ್ ಮಾಡಿದ ಸಂದೇಶವನ್ನು","unpin_message":"ಒಂದು ಸಂದೇಶವನ್ನು ಅಪಿನ್ ಮಾಡಲಾಗಿದೆ:","update_settings":"ಸಮುದಾಯ ಸೆಟ್ಟಿಂಗ್ಸ್ ಅನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಿದ","create_invite":"ಒಂದು ಆಹ್ವಾನ ಲಿಂಕ್ ಸೃಷ್ಟಿಸಿದೆ","revoke_invite":"ಆಹ್ವಾನದ ಲಿಂಕ್ ಅನ್ನು ಹಿಂತೆಗೆದುಕೊಳ್ಳಲಾಗಿದೆ","invite_used":"ನಿಮ್ಮನ್ನು ಆಹ್ವಾನಿಸಲಾಗಿದೆ"},
         "justNow": "ಇದೀಗ",
         "minutesAgo": "{{value}}m ಹಿಂದೆ",
         "hoursAgo": "{{value}}h ಹಿಂದೆ",

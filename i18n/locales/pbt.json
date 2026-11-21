@@ -7105,7 +7105,7 @@
       "defaultPermissions": "د غړو د پیشفرض اجازې",
       "defaultPermissionsHint": "دلته هر څوک څه کولی شي، تر هغه چې د مدیر حق بل ډول نه وي.",
       "slowModeTitle": "سست حالت",
-      "log": {
+      "log": {"verbs":{"promote_admin":"پرموټ شوی","demote_admin":"دستګر شوی","transfer_ownership":"مالکیت ته لیږدول کیږي","ban_member":"ممنوع شوي شوي","unban_member":"بندیز لرې شو","kick_member":"لرې شو","mute_member":"په خفګان سره","unmute_member":"غږ خلاص شو","approve_member":"تصویب شوې","reject_member":"د رد شوي","delete_message":"د یوې پیغامې وړاندې کړه","purge_messages":"له انسټاګرام څخه ټول پیغامونه حذف کړئ","pin_message":"د يو پيغام څخه يو پيغام وليکئ","unpin_message":"یو پیغام له پین څخه لرې کړ","update_settings":"د ټولنې جوړښتونه تازه کړئ","create_invite":"د بلنې لینک جوړ کړ","revoke_invite":"د لیدو لګښت وغوښتل","invite_used":"بلنه ورکړل شوه"},
         "justNow": "همدا اوس",
         "minutesAgo": "{{value}}m مخکې",
         "hoursAgo": "{{value}}h مخکې",

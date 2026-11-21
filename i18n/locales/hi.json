@@ -7138,7 +7138,7 @@
       "defaultPermissions": "डिफ़ॉल्ट सदस्य अनुमतियाँ",
       "defaultPermissionsHint": "यहाँ हर कोई क्या कर सकता है जब तक कि किसी प्रशासक अधिकार से कुछ अलग न कहा गया हो।",
       "slowModeTitle": "धीमी मोड",
-      "log": {
+      "log": {"verbs":{"promote_admin":"प्रोमोट किया गया","demote_admin":"डिमोटेड","transfer_ownership":"मालिकाना हक हस्तांतरित किया","ban_member":"प्रतिबंधित","unban_member":"अबैन नहीं","kick_member":"हटाया गया","mute_member":"म्यूट किया गया","unmute_member":"अनम्यूटेड","approve_member":"मंज़ूर किया गया","reject_member":"रिजेक्टेड","delete_message":"एक संदेश को हटा दिया गया था","purge_messages":"से सभी मैसेज डिलीट कर दिए","pin_message":"से एक संदेश पिन किया","unpin_message":"एक संदेश को अनपिन किया गया था","update_settings":"कम्युनिटी सेटिंग्स अपडेट की गई","create_invite":"आमंत्रण लिंक बनाया","revoke_invite":"आमंत्रण लिंक को रद्द कर दिया","invite_used":"दावत मिली"},
         "justNow": "अभी",
         "minutesAgo": "{{value}}m पहले",
         "hoursAgo": "{{value}}h पहले",

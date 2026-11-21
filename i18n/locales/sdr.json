@@ -6455,7 +6455,7 @@
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Yahan sab kya kar sakte hain jab tak koi admin right iske alawa kuch na kahe.",
       "slowModeTitle": "Slow mode",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demoted","transfer_ownership":"ownership transfer kar delak","ban_member":"banned","unban_member":"unbanned","kick_member":"हटालक","mute_member":"चुप","unmute_member":"unmuted","approve_member":"स्वीकृत","reject_member":"rejected","delete_message":"ekta sandesh delete karlo","purge_messages":"sab message delete kar de gela","pin_message":"एगो मैसेज पिन करलक, जेकर से","unpin_message":"एगो मैसेज कर पिन हटालक, जेकर से","update_settings":"समुदाय सेटिंग अपडेट करलक","create_invite":"न्योता लिंक बनालक","revoke_invite":"invite link ke radd kar delak","invite_used":"आमंत्रित"},
         "justNow": "Abhi",
         "minutesAgo": "{{value}}m pehle",
         "hoursAgo": "{{value}}h pehle",

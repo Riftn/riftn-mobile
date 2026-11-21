@@ -7111,7 +7111,7 @@
       "defaultPermissions": "Права на членове по подразбиране",
       "defaultPermissionsHint": "Всичко, което всеки може да прави тук, освен ако администраторското право не го забранява.",
       "slowModeTitle": "Бавно режим",
-      "log": {
+      "log": {"verbs":{"promote_admin":"промотиран","demote_admin":"деградиран","transfer_ownership":"прехвърли собствеността на","ban_member":"забранен","unban_member":"разблокиран","kick_member":"премахнато","mute_member":"заглушен","unmute_member":"незатишност","approve_member":"одобрено","reject_member":"отхвърлено","delete_message":"изтрих съобщение от","purge_messages":"изтрити всички съобщения от","pin_message":"прикрепил съобщение от","unpin_message":"Отпина се съобщение от","update_settings":"обновихте настройките на общината","create_invite":"създаде връзка за покана","revoke_invite":"откаже покана за влизане","invite_used":"позван"},
         "justNow": "сега",
         "minutesAgo": "{{value}}минали минути",
         "hoursAgo": "{{value}}часа минали",

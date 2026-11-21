@@ -7149,7 +7149,7 @@
       "defaultPermissions": "Destûrên xwerû yên endaman",
       "defaultPermissionsHint": "Tiştê ku her kes dikare li vir bike heya ku mafê rêveberiyê tiştekî din nebêje.",
       "slowModeTitle": "Moda hêdî",
-      "log": {
+      "log": {"verbs":{"promote_admin":"pêşxistî","demote_admin":"hat daxistin","transfer_ownership":"xwedîtî veguhest bo","ban_member":"hat qedexekirin","unban_member":"qedexe jê rakir","kick_member":"hat rakirin","mute_member":"bêdengkirî","unmute_member":"bêdengî hat rakirin","approve_member":"pejirandî","reject_member":"hat redkirin","delete_message":"peyamek jê bir ji","purge_messages":"hemû peyam jê birin ji","pin_message":"peyamek pîn kir ji","unpin_message":"pîna peyamekê rakir ji","update_settings":"mîhengên civakê nû kir","create_invite":"girêdana vexwendinê çêkir","revoke_invite":"girêdaneke vexwendinê betal kir","invite_used":"vexwend"},
         "justNow": "niha",
         "minutesAgo": "{{value}} xulek berê",
         "hoursAgo": "{{value}} saet berê",

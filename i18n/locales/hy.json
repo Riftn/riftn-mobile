@@ -7133,7 +7133,7 @@
       "defaultPermissions": "Նախնական անդամի թույլտվություններ",
       "defaultPermissionsHint": "Այստեղ ամեն ինչ կարող է անել ամեն մեկը, եթե ադմինի իրավունքները այլ կերպ չասեն։",
       "slowModeTitle": "Դանդաղ ռեժիմ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Պրոմովվել է","demote_admin":"դեմոտացված","transfer_ownership":"փոխանցված սեփականության իրավունքը","ban_member":"արգելված է","unban_member":"բանվելուց ազատվել է","kick_member":"Հաջորդը","mute_member":"խլացված","unmute_member":"անմուտք","approve_member":"հաստատված","reject_member":"մերժվել է","delete_message":"հեռացրել եմ մի հաղորդագրություն","purge_messages":"ջնջել է բոլոր հաղորդագրությունները","pin_message":"պինել է հաղորդագրություն","unpin_message":"նախկինում անպինել է մի հաղորդագրություն՝","update_settings":"բարելավեց համայնքի կարգավորումները","create_invite":"ստեղծել հրավերի հղում","revoke_invite":"չեղարկել է հրավերի հղումը","invite_used":"հրավիրված"},
         "justNow": "հիմա",
         "minutesAgo": "{{value}}m առաջ",
         "hoursAgo": "{{value}}h առաջ",

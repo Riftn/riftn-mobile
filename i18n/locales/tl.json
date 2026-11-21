@@ -7153,7 +7153,7 @@
       "defaultPermissions": "Ang mga karapatan ng miyembro ng default",
       "defaultPermissionsHint": "Ang lahat ng mga bagay na ang mga tao ay pwedeng gawin dito maliban kung mayroon kang karapatan ng admin na nagsasabi ng iba.",
       "slowModeTitle": "Ang slow mode",
-      "log": {
+      "log": {"verbs":{"promote_admin":"naka-promote","demote_admin":"na-demote","transfer_ownership":"Nag-transfer ng pagmamay-ari sa","ban_member":"pinagbawalan","unban_member":"unbanned","kick_member":"inalis","mute_member":"na - mute","unmute_member":"walang pinagbawalan","approve_member":"naaprubahan","reject_member":"tinanggihan","delete_message":"nagbura ng mensahe mula sa","purge_messages":"tinanggal ang lahat ng mga mensahe mula sa","pin_message":"nakasabit ang isang mensahe mula","unpin_message":"unpinned ang isang mensahe mula sa","update_settings":"Nag-upgrade ang mga setting ng komunidad","create_invite":"gumawa ng link ng imbitasyon","revoke_invite":"kinuha ang link ng inimbitahan","invite_used":"naiinvited"},
         "justNow": "nang ngayon",
         "minutesAgo": "{{value}}m na ang nakalipas",
         "hoursAgo": "{{value}}h na ang nakalipas",

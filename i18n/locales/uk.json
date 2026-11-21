@@ -7491,7 +7491,7 @@
       "defaultPermissions": "Значення прав за замовчуванням",
       "defaultPermissionsHint": "Що можуть робити всі, якщо інакше не вказано адміністратором.",
       "slowModeTitle": "Режим повільної роботи",
-      "log": {
+      "log": {"verbs":{"promote_admin":"підвищено","demote_admin":"демотивований","transfer_ownership":"Передано власність","ban_member":"заборонений","unban_member":"відсторонений","kick_member":"видалено","mute_member":"Замкнений","unmute_member":"відкритий","approve_member":"підтверджено","reject_member":"відхилено","delete_message":"видала повідомлення від","purge_messages":"видалені всі повідомлення від","pin_message":"підв'язаний повідомлення від","unpin_message":"відкріпив повідомлення від","update_settings":"Оновлено налаштування спільноти","create_invite":"створено запрошувальну посилання","revoke_invite":"відмінено запрошувальний посилання","invite_used":"Приглашений"},
         "justNow": "тільки що",
         "minutesAgo": "{{value}}минуло",
         "hoursAgo": "{{value}}г тому",

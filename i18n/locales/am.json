@@ -7137,7 +7137,7 @@
       "defaultPermissions": "ነባሪ የአባል ፈቃዶች",
       "defaultPermissionsHint": "የአስተዳዳሪ መብት ሌላ እስካልተናገረ ድረስ ሁሉም ሰው እዚህ ምን ማድረግ ይችላል።",
       "slowModeTitle": "ቀርፋፋ ሁነታ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"የተስተዋወቀ","demote_admin":"ደረጃ ዝቅ ተደርጓል","transfer_ownership":"የባለቤትነት ማስተላለፍ ወደ","ban_member":"ታግደዋል","unban_member":"እገዳው ተነስቷል","kick_member":"ተወግዷል","mute_member":"ትግል","unmute_member":"ድምፅ ተከፍቷል","approve_member":"ጸድቋል","reject_member":"ተቀባይነት አላገኘም","delete_message":"መልዕክት ከ ተሰርዟል","purge_messages":"ሁሉንም መልዕክቶች ከ... ሰርዟል","pin_message":"መልእክት ተሰክቷል ከ","unpin_message":"መልእክት ከፒን አውርዷል","update_settings":"የማህበረሰብ ቅንብሮችን አዘምኗል","create_invite":"የመጋበዣ ሊንክ ፈጥሯል","revoke_invite":"የመጋበዣ ሊንክ ተሰርዟል","invite_used":"ተጋብዘዋል"},
         "justNow": "አሁን",
         "minutesAgo": "{{value}}ሜትር በፊት",
         "hoursAgo": "{{value}}ሰዓት በፊት",

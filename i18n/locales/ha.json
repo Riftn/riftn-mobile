@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Izinin membobi na asali",
       "defaultPermissionsHint": "Abin da kowa zai iya yi a nan sai dai idan dama ta mai gudanarwa ta ce in ba haka ba.",
       "slowModeTitle": "Yanayin jinkiri",
-      "log": {
+      "log": {"verbs":{"promote_admin":"an tallata","demote_admin":"aka demoted","transfer_ownership":"ya miƙa mallaka ga","ban_member":"an dakatar da kai","unban_member":"unbanned","kick_member":"an cire","mute_member":"mufatari","unmute_member":"an kunna sauti","approve_member":"an amince","reject_member":"an ƙi amincewa","delete_message":"share sako daga","purge_messages":"ya goge duk saƙonni daga","pin_message":"ya yi pin din sako daga","unpin_message":"uninned wani sako daga","update_settings":"sabunta saitunan al'umma","create_invite":"halitta wani gayyatar mahada","revoke_invite":"an soke hanyar haɗin gayyata","invite_used":"gayyata"},
         "justNow": "yanzu-yanzu",
         "minutesAgo": "{{value}}m da suka wuce",
         "hoursAgo": "{{value}}h da suka wuce",

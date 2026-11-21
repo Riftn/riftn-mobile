@@ -7107,7 +7107,7 @@
       "defaultPermissions": "അധികാരികളുടെ പാരമ്പര്യം",
       "defaultPermissionsHint": "ഇവിടെ എല്ലാവരും ചെയ്യാവുന്നത്, അധികാരികളുടെ അധികാരം പറയുന്നത് വ്യതിരിക്തമാണ്.",
       "slowModeTitle": "പോയിന്റ് മോഡ്",
-      "log": {
+      "log": {"verbs":{"promote_admin":"പ്രോമോട്ടുചെയ്തു","demote_admin":"തരംതാഴ്ത്തി","transfer_ownership":"അതിനുള്ള അവലംബം മാറ്റിവയ്ക്കുക","ban_member":"ബാൻ ചെയ്തിരിക്കുന്നു","unban_member":"അൺബാൻഡ്","kick_member":"നീക്കം ചെയ്തു","mute_member":"നിശബ്ദമാക്കി","unmute_member":"അനമ്യൂട്ടഡ്","approve_member":"അപ്പ്രൂവ് ചെയ്തിട്ടുണ്ട്","reject_member":"നിരസിച്ചു","delete_message":"ഒരു മെസ്സേജ് മാറ്റി","purge_messages":"ഇതിൽ നിന്ന് എല്ലാ സന്ദേശങ്ങളും ഇല്ലാതാക്കി","pin_message":"ഒരു മെസ്സേജ് പിൻ ചെയ്തിട്ടുണ്ട്","unpin_message":"ഒരു മെസ്സേജ് അപിൻ പിൻ ചെയ്തു","update_settings":"കമ്മ്യൂണിറ്റി സെറ്റിങ്ങ്സ് അപ്ഡേറ്റ് ചെയ്തു","create_invite":"ഇൻവൈറ്റ് ലിങ്ക് സൃഷ്ടിച്ചു","revoke_invite":"ഇൻവൈറ്റ് ലിങ്ക് റിവോക്ക് ചെയ്തു","invite_used":"ക്ഷണിച്ചു"},
         "justNow": "ഇപ്പോൾ",
         "minutesAgo": "{{value}}m മിനിറ്റ് മുമ്പ്",
         "hoursAgo": "{{value}}h മുമ്പ്",

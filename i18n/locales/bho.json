@@ -7104,7 +7104,7 @@
       "defaultPermissions": "डिफ़ॉल्ट सदस्य अनुमति बदलें",
       "defaultPermissionsHint": "हर कोई कुछ भी कर सकता, अगर करता कुछ भी, फिर भी निरीक्षण ।",
       "slowModeTitle": "धीरे-धीरे समायोजित करें",
-      "log": {
+      "log": {"verbs":{"promote_admin":"प्रोमोटेड","demote_admin":"डिमोटेड","transfer_ownership":"दान कर दिया है","ban_member":"रोक लगावल गइल","unban_member":"अनबैन्ड","kick_member":"मिटाया गया","mute_member":"माउंट कइल गइल","unmute_member":"अनचाहे, अनचाहे,","approve_member":"मंजूर","reject_member":"रिजेक्टेड","delete_message":"एक संदेश मिटाई","purge_messages":"दूर से देख रहे सभी सन्देश","pin_message":"एक संदेश पिन किया गया था","unpin_message":"एक संदेश को अनपिन किया गया था","update_settings":"कम्युनिटी सेटिंग्स अपडेट की गई","create_invite":"एगो कड़ी जोड़ल गइल","revoke_invite":"एगो कड़ी हटाईं","invite_used":"आमंत्रित कइल गइल"},
         "justNow": "जइसे अभी-अभी",
         "permanently": "रहे सदा, रहे सदा",
         "unknownActor": "कोही त आऊ",

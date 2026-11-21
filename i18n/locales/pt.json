@@ -6982,7 +6982,7 @@
       "defaultPermissions": "Permissões de membro padrão",
       "defaultPermissionsHint": "O que todos podem fazer aqui, a menos que um direito de administração diga o contrário.",
       "slowModeTitle": "Modo lento",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promovido","demote_admin":"rebaixado","transfer_ownership":"transferiu a propriedade para","ban_member":"bloqueado","unban_member":"desbloqueado","kick_member":"removido","mute_member":"silenciado","unmute_member":"sem som","approve_member":"aprovado","reject_member":"rejeitado","delete_message":"apagou uma mensagem de","purge_messages":"apagou todas as mensagens de","pin_message":"fixou uma mensagem de","unpin_message":"despinou uma mensagem de","update_settings":"Atualizou as configurações da comunidade","create_invite":"criou um link de convite","revoke_invite":"revogou um link de convite","invite_used":"convidado"},
         "justNow": "há pouco",
         "minutesAgo": "{{value}}m atrás",
         "hoursAgo": "{{value}}h atrás",

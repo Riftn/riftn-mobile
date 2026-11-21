@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Noklusējuma dalībnieku atļaujas",
       "defaultPermissionsHint": "Ko šeit var darīt ikviens, ja vien administratora tiesības nenosaka citādi.",
       "slowModeTitle": "Lēnais režīms",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promotēts","demote_admin":"pazemināts","transfer_ownership":"nodeva īpašumtiesības","ban_member":"aizliegts","unban_member":"atbrīvots no aizlieguma","kick_member":"Noņemts","mute_member":"izslēgts","unmute_member":"bez šķērsjēdziena","approve_member":"apstiprināts","reject_member":"noraidīts","delete_message":"dzēsa ziņojumu no","purge_messages":"izdzēsa visus ziņojumus no","pin_message":"piedēļoja ziņu no","unpin_message":"Atjaunināts ziņojums no","update_settings":"atjaunoja kopienas iestatījumus","create_invite":"izveidoja uzaicinājuma saiti","revoke_invite":"atcēla uzvērtēšanas saiti","invite_used":"uzsvērts"},
         "justNow": "tikko",
         "minutesAgo": "pirms {{value}}m",
         "hoursAgo": "pirms {{value}}h",

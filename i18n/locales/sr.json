@@ -7137,7 +7137,7 @@
       "defaultPermissions": "Подразумевани чланови",
       "defaultPermissionsHint": "Шта све може да уради свако овде, осим ако неки админ правац не каже да није тако.",
       "slowModeTitle": "Слоw моде",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Промовисан","demote_admin":"Демотивисан","transfer_ownership":"Пребачен власништво на","ban_member":"забрањено","unban_member":"неблокирано","kick_member":"уклоњено","mute_member":"искључен звук","unmute_member":"укључено","approve_member":"одобрено","reject_member":"одбијен","delete_message":"обрисао/ла поруку од","purge_messages":"избрисано све поруке из","pin_message":"заглављени текст са","unpin_message":"одбијен је порука","update_settings":"ажурирао/ла подешавања заједнице","create_invite":"креирао/ла је линк са позивом","revoke_invite":"отказано позивно повезивање","invite_used":"позван"},
         "justNow": "само сад",
         "minutesAgo": "{{value}} минута раније",
         "hoursAgo": "{{value}} сати раније",

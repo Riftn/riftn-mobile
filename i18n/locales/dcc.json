@@ -7067,7 +7067,7 @@
         "deleteAction": "اس مجموعہ کو ہٹا دیں"
       },
       "slowModeTitle": "سلو موڈ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"پیش کشی کیا گیا","demote_admin":"ڈیموٹڈ","transfer_ownership":"ملکیت کی منتقلی","ban_member":"منع شدہ","unban_member":"غیر پابندی","kick_member":"ہٹا دیا","mute_member":"مٹے ہوئے","unmute_member":"غیر منقطع","approve_member":"منظور شدہ","reject_member":"مسترد شدہ","delete_message":"ہٹا دیا گیا ایک پیغام","purge_messages":"ہر ایک کی ڈیلیٹ کیے گئے پیغامات","pin_message":"نے ایک پیغام پن کیا","unpin_message":"ایک پیغام کو غیر مندرجہ ذیل کر دیا گیا ہے","update_settings":"کمیونٹی سٹینگز اپ ڈیٹ کر دیے گئے","create_invite":"ایک انویٹ لینک بنایا","revoke_invite":"ایک انویٹ لینک منسوخ کر دیا","invite_used":"نُمایاں"},
         "justNow": "ابھی ابھی",
         "minutesAgo": "{{value}} منٹ پہلے",
         "hoursAgo": "{{value}} گھنٹے پہلے",

@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Гишүүний өгөгдмөл зөвшөөрөл",
       "defaultPermissionsHint": "Админаас өөрөөр ярихгүй л бол хүн бүр энд юу хийж чадах вэ.",
       "slowModeTitle": "Удаан горим",
-      "log": {
+      "log": {"verbs":{"promote_admin":"сурталчилсан","demote_admin":"бууруулсан","transfer_ownership":"Эзэмшилээ өгчээ","ban_member":"хориглосон","unban_member":"хориг цуцлагдсан","kick_member":"устгасан","mute_member":"гэнэт","unmute_member":"дууг нээсэн","approve_member":"батлагдсан","reject_member":"татгалзсан","delete_message":"Зургаачлал хийсэн мэдээг","purge_messages":"-с бүх мессежийг устгасан","pin_message":"авсан зурвасыг хавсаргасан","unpin_message":"мессежийг тэмдэглэгээнээс гаргалаа","update_settings":"олон нийтийн тохиргоог шинэчилсэн","create_invite":"урилгын холбоос үүсгэсэн","revoke_invite":"Хүлээн авах холбоог цуцлах боломжтой байна","invite_used":"уригдсан"},
         "justNow": "яг одоо",
         "minutesAgo": "{{value}}m өмнө",
         "hoursAgo": "{{value}}h өмнө",

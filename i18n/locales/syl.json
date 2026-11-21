@@ -7274,7 +7274,7 @@
       "defaultPermissions": "সদস্য অনুমতি",
       "defaultPermissionsHint": "এখানে সবাই কি করতে পারে যদি একজন প্রশাসক বলে না তা হলে।",
       "slowModeTitle": "স্লো মোড",
-      "log": {
+      "log": {"verbs":{"promote_admin":"প্রচারিত","demote_admin":"চলছে","transfer_ownership":"মালিকানা হস্তান্তর করা হয়েছে","ban_member":"বান্ড","unban_member":"অবনমিত","kick_member":"অপসারিত","mute_member":"মিউট","unmute_member":"অমুক্ত","approve_member":"অনুমোদিত","reject_member":"রিজেক্টেড","delete_message":"একটি মেসেজ ডিলিট করেছি","purge_messages":"সব মেসেজ মুছে ফেলেছে","pin_message":"পিন্ড করা একটি মেসেজ থেকে","unpin_message":"একটি মেসেজ অনলাইন করা হয়নি","update_settings":"সম্প্রদায় সেটিং আপডেট করা হয়েছে","create_invite":"একটি আমন্ত্রণ লিঙ্ক তৈরি করেছে","revoke_invite":"আমন্ত্রণ লিঙ্ক বাতিল করেছে","invite_used":"আমন্ত্রিত"},
         "justNow": "এক মিনিট আগে",
         "minutesAgo": "{{value}} মিনিট আগে",
         "hoursAgo": "{{value}} আগো",

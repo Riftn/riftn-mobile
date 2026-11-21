@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Демейки мүчө уруксаттары",
       "defaultPermissionsHint": "Эгер администратордун укугу башкача айтпаса, бардыгы эмне кыла алат.",
       "slowModeTitle": "Жай режим",
-      "log": {
+      "log": {"verbs":{"promote_admin":"жарнамаланды","demote_admin":"понижен в статусе","transfer_ownership":"передав власність","ban_member":"тыюу салынган","unban_member":"разбанен","kick_member":"Жок кылдым","mute_member":"өзгөртүлгөн","unmute_member":"undo-type","approve_member":"тастыкталды","reject_member":"четке кагылды","delete_message":"билдирүү өчүрүлдү","purge_messages":"бардык билдирүүлөр өчүрүлдү","pin_message":"билдирүү пиндалды","unpin_message":"билдирүүнү бекитилгенден алып салды","update_settings":"жамаат жөндөөлөрүн жаңыртуу","create_invite":"создал пригласительную ссылку","revoke_invite":"оттеглил инвайт линк","invite_used":"Приглашён"},
         "justNow": "жакында эле",
         "minutesAgo": "{{value}}м мурун",
         "hoursAgo": "{{value}}с мурун",

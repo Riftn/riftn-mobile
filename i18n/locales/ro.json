@@ -7108,7 +7108,7 @@
       "defaultPermissions": "Permissoanele membrilor de bază",
       "defaultPermissionsHint": "Ce poate face oricine aici, cu excepția unei permissoane de administrator.",
       "slowModeTitle": "Modul lent",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promotat","demote_admin":"demontat","transfer_ownership":"a transferat proprietatea la","ban_member":"interzis","unban_member":"neblocat","kick_member":"șters","mute_member":"dezactivat","unmute_member":"fără mutare","approve_member":"aprobat","reject_member":"respinse","delete_message":"șters un mesaj","purge_messages":"Șterse toate mesajele de la","pin_message":"a fixat un mesaj de","unpin_message":"dezlipuit un mesaj din","update_settings":"a actualizat setările comunității","create_invite":"a creat un link de invitație","revoke_invite":"revocarea unui link de invitație","invite_used":"a fost invitat"},
         "justNow": "acum",
         "minutesAgo": "{{value}}m în urmă",
         "hoursAgo": "{{value}}h în urmă",

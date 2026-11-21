@@ -7104,7 +7104,7 @@
       "defaultPermissions": "默认成员权限",
       "defaultPermissionsHint": "除管理员权限外，所有人都可以在这里做的。",
       "slowModeTitle": "慢模式",
-      "log": {
+      "log": {"verbs":{"promote_admin":"晋升","demote_admin":"降级","transfer_ownership":"转让所有权","ban_member":"已禁用","unban_member":"解封","kick_member":"已删除","mute_member":"静音","unmute_member":"解除静音","approve_member":"已確認","reject_member":"被拒绝","delete_message":"删除了来自","purge_messages":"已删除所有来自","pin_message":"釘了一則訊息來自","unpin_message":"取消了一个消息","update_settings":"更新社群設定","create_invite":"创建了邀请链接","revoke_invite":"撤销邀请链接","invite_used":"已邀請"},
         "justNow": "刚刚",
         "minutesAgo": "{{value}}分钟前",
         "hoursAgo": "{{value}}小时前",

@@ -4947,7 +4947,7 @@
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "What everyone can do here unless an admin right says otherwise.",
       "slowModeTitle": "Slow mode",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demoted","transfer_ownership":"transferred ownership to","ban_member":"banned","unban_member":"unbanned","kick_member":"removed","mute_member":"muted","unmute_member":"unmuted","approve_member":"approved","reject_member":"rejected","delete_message":"deleted a message from","purge_messages":"deleted all messages from","pin_message":"pinned a message from","unpin_message":"unpinned a message from","update_settings":"updated the community settings","create_invite":"created an invite link","revoke_invite":"revoked an invite link","invite_used":"invited"},
         "justNow": "just now",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h ago",

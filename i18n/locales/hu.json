@@ -7136,7 +7136,7 @@
       "defaultPermissions": "Alapértelmezett tagsági engedélyek",
       "defaultPermissionsHint": "Amit itt mindenki megtehet, hacsak egy adminisztrátori jog másként nem rendelkezik.",
       "slowModeTitle": "Lassú üzemmód",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"leszámoltatott","transfer_ownership":"tulajdonjogot átruházták","ban_member":"kitiltva","unban_member":"megengedve","kick_member":"törölve","mute_member":"elnémítva","unmute_member":"hangos","approve_member":"jóváhagyva","reject_member":"elutasított","delete_message":"töröltem egy üzenetet","purge_messages":"törölte minden üzenetet","pin_message":"megcímkélt egy üzenetet","unpin_message":"üzenet rögzítésének feloldása innen:","update_settings":"frissítette a közösségi beállításokat","create_invite":"létrehozott meghívólinket","revoke_invite":"megsemmisített egy meghívóláncot","invite_used":"meghívott"},
         "justNow": "éppen most",
         "minutesAgo": "{{value}}perccel ezelőtt",
         "hoursAgo": "{{value}}órával ezelőtt",

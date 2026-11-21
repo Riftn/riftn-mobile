@@ -7120,7 +7120,7 @@
       "defaultPermissions": "Дазволы членаў па змаўчанні",
       "defaultPermissionsHint": "Тое, што кожны можа зрабіць тут, калі права адміністратара не прадугледжвае іншага.",
       "slowModeTitle": "Павольны рэжым",
-      "log": {
+      "log": {"verbs":{"promote_admin":"паспяховаўся","demote_admin":"дэмарытаваны","transfer_ownership":"Перадалі ўласнасць","ban_member":"заблакіраваны","unban_member":"разблокіраваны","kick_member":"выдалена","mute_member":"прыглушаны","unmute_member":"без шума","approve_member":"пацверджана","reject_member":"адхілена","delete_message":"выдалена паведамленне ад","purge_messages":"выдалены ўсе паведамленні ад","pin_message":"прыкрэпіла паведамленне ад","unpin_message":"адпінілі паведамленне ад","update_settings":"абнавіў параметры супольнасці","create_invite":"сфарміраваў пазіцыйны лінк","revoke_invite":"адклікана лічбавую сувязь","invite_used":"Запрошаны"},
         "daysAgo": "{{value}} дзень таму",
         "minutesAgo": "{{value}} тыдзень таму",
         "monthsAgo": "{{value}} месяц таму",

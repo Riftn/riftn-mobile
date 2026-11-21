@@ -7102,7 +7102,7 @@
       "defaultPermissions": "สิทธิ์สมาชิกเริ่มต้น",
       "defaultPermissionsHint": "อีหยังที่ทุกคนเฮ็ดได้ที่นี่ ยกเว้นถ้าผู้ดูแลบอกว่า",
       "slowModeTitle": "โหมดช้า",
-      "log": {
+      "log": {"verbs":{"promote_admin":"โปรโมท","demote_admin":"ถูกตัดลง","transfer_ownership":"โอนความเป็นเจ้าของไปยัง","ban_member":"ห้าม","unban_member":"ไม่ถูกแบน","kick_member":"ลบ","mute_member":"ปิดเสียง","unmute_member":"เปิดเสียง","approve_member":"อนุมัติแล้ว","reject_member":"ปฏิเสธ","delete_message":"ลบข้อความออก","purge_messages":"ลบข้อความทั้งหมดจาก","pin_message":"โพสต์ที่ถูกจับไว้จาก","unpin_message":"ข้อมูลที่ไม่สำคัญถูกยกเลิก","update_settings":"อัปเดตการตั้งค่าของชุมชน","create_invite":"สร้างลิงก์เชิญ","revoke_invite":"ยกเลิกลิงก์เชิญ","invite_used":"ได้รับเชิญ"},
         "justNow": "จ๊ะก่อนล่ะ",
         "minutesAgo": "{{value}}มาก่อน",
         "hoursAgo": "{{value}}ปีก่อน",

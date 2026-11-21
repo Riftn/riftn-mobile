@@ -7133,7 +7133,7 @@
       "defaultPermissions": "ડિફૉલ્ટ સભ્ય પરવાનગીઓ",
       "defaultPermissionsHint": "એડમિન અધિકાર અન્યથા ન કહે ત્યાં સુધી દરેક વ્યક્તિ અહીં શું કરી શકે છે.",
       "slowModeTitle": "ધીમી સ્થિતિ",
-      "log": {
+      "log": {"verbs":{"promote_admin":"પ્રમોટ કરવામાં આવ્યું છે","demote_admin":"ડેમોટેડ","transfer_ownership":"ઓનરશિપ ટ્રાન્સફર્ડ કર્યો","ban_member":"પ્રતિબંધિત","unban_member":"અનબાન્ડ","kick_member":"દૂર કરેલ","mute_member":"મ્યૂટ","unmute_member":"અનમ્યુટેડ","approve_member":"સ્વીકાર્ય","reject_member":"નકારવામાં આવ્યું","delete_message":"તેમાંથી સંદેશ કા deletedી નાખ્યો","purge_messages":"ના તમામ સંદેશાઓ ડિલીટ કર્યા","pin_message":"એક મેસેજ પિન કર્યો છે","unpin_message":"એક પોસ્ટને અનપિન કર્યો","update_settings":"કમ્યુનિટી સેટિંગ્સ અપડેટ કર્યા","create_invite":"એક આમંત્રણ લિંક બનાવી","revoke_invite":"ઇનવાઇટ લિંક રીવોક કરવામાં આવ્યો","invite_used":"આમંત્રિત"},
         "justNow": "હમણાં જ",
         "minutesAgo": "{{value}}m પહેલા",
         "hoursAgo": "{{value}}h પહેલા",

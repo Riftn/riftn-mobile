@@ -7109,7 +7109,7 @@
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Wetin everybody fit do here unless admin say make you no dey do am.",
       "slowModeTitle": "Slow mode",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demoted","transfer_ownership":"transferred ownership to","ban_member":"banned","unban_member":"unbanned","kick_member":"removed","mute_member":"muted","unmute_member":"unmuted","approve_member":"approved","reject_member":"rejected","delete_message":"delete message from","purge_messages":"delete all messages from","pin_message":"pin message from","unpin_message":"unpin one message from","update_settings":"update the community settings","create_invite":"create invite link","revoke_invite":"Revok an invit link.","invite_used":"invited"},
         "empty": "Nothing dey here yet. Moderation actions go show as dem dey happen.",
         "forMinutes": "for {{value}} minutes",
         "restricted": "Na only moderators fit see di moderation log.",

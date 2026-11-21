@@ -7136,7 +7136,7 @@
       "defaultPermissions": "Standarde Mitgliederberechtigung",
       "defaultPermissionsHint": "Was alli chönd, wenn kai Verwaltigsrechte gsäit händ.",
       "slowModeTitle": "Langsammode",
-      "log": {
+      "log": {"verbs":{"promote_admin":"Promovierte","demote_admin":"demotisiert","transfer_ownership":"hat die Eigentümerschaft übertragen","ban_member":"banned","unban_member":"unbanned","kick_member":"entfernt","mute_member":"muted","unmute_member":"ungesperrt","approve_member":"gschpänt","reject_member":"abgelehnt","delete_message":"Habe eine Nachricht gelöscht von","purge_messages":"alle Nachrichten von gelöscht","pin_message":"hat 'ne Nachricht gepinnt von","unpin_message":"unpinned eine Nachricht von","update_settings":"Community-Einstellungen aktualisiert","create_invite":"Een Invite-Link gschaffe","revoke_invite":"Invite-Link widerrufen","invite_used":"eingeladen"},
         "justNow": "jetzt",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h ago",

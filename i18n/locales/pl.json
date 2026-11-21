@@ -7136,7 +7136,7 @@
       "defaultPermissions": "Domyślne uprawnienia członka",
       "defaultPermissionsHint": "To, czego każdy może robić tutaj, chyba że nie ma uprawnienia administratora, które mówi inaczej.",
       "slowModeTitle": "Tryb powolny",
-      "log": {
+      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demonowany","transfer_ownership":"przeniósł własność do","ban_member":"zbanowany","unban_member":"odbanowany","kick_member":"usunięto","mute_member":"przemilczany","unmute_member":"bez cenzury","approve_member":"zatwierdzono","reject_member":"odrzucone","delete_message":"usuwałem wiadomość od","purge_messages":"usuwanie wszystkich wiadomości z","pin_message":"przyczepił komunikat od","unpin_message":"Odpinął wiadomość od","update_settings":"aktualizowano ustawienia społeczności","create_invite":"utworzył link zaproszeniowy","revoke_invite":"odwołano link zaproszeniowy","invite_used":"Zaproszono"},
         "justNow": "teraz",
         "minutesAgo": "{{value}} min temu",
         "hoursAgo": "{{value}}h temu",

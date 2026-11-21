@@ -7099,7 +7099,7 @@
       "defaultPermissions": "अनुपस्थिति, नवाचार की ऊर्जा",
       "defaultPermissionsHint": "सब कुछ हल किया जा सकता है, लेकिन कोई भी लोग, युवा लोग हैं,",
       "slowModeTitle": "हल्के ढंग से",
-      "log": {
+      "log": {"verbs":{"promote_admin":"पदोन्नति, पदोन्नति","demote_admin":"त्याग देल गेल","transfer_ownership":"ने ऑनरशिप ट्रांसफर्ड की","ban_member":"प्रतिबंधित कैल गेल","unban_member":"अबैन नहीं","kick_member":"हटाए गयो","mute_member":"गले लगाना, हस्तमैथुन,","unmute_member":"अनम्यटेड","approve_member":"मंजूर","reject_member":"रिजेक्टेड","delete_message":"एक संदेश को हटा दिया गया था","purge_messages":"डिलीटेड ऑल मेसेजेज़ फ्रॉम","pin_message":"एक संदेश पिन किया गया है","unpin_message":"अपिन ना किया गया एक संदेश से","update_settings":"कम्युनिटी सेटिंग्स अपडेट होई गयो","create_invite":"इनवाइट लिंक बनाई गई","revoke_invite":"एगो कड़ी के रूप में अनुप्रेषित","invite_used":"आमंत्रित कैल गेल"},
         "justNow": "अभी के लिए, हालांकि, नवाचार उनका मार",
         "permanently": "स्थायी रूप से",
         "forMinutes": "कुछ {{value}} मिनट",

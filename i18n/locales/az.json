@@ -7107,7 +7107,7 @@
       "defaultPermissions": "Standart üzv icazələri",
       "defaultPermissionsHint": "Administrator hüququ başqa cür deyilsə, hər kəsin burada edə biləcəyi şeylər.",
       "slowModeTitle": "Yavaş rejim",
-      "log": {
+      "log": {"verbs":{"promote_admin":"təşviq edildi","demote_admin":"Rütbə aşağı salındı","transfer_ownership":"mülkiyyəti köçürdü","ban_member":"Qadağan olunub","unban_member":"qadağanlı deyil","kick_member":"Silindi","mute_member":"Söndürülmüşdür","unmute_member":"Söndürülməyib","approve_member":"təsdiqləndi","reject_member":"rədd edildi","delete_message":"mesaj silindi","purge_messages":"bütün mesajları silindi","pin_message":"bir mesaj yığdı","unpin_message":"bir mesajı əldən çıxarıldı:","update_settings":"Cəmiyyət ayarlarını yenilədik","create_invite":"davət linki yaradıldı","revoke_invite":"təklif linkini ləğv etdi","invite_used":"Davət edildi"},
         "justNow": "indi",
         "minutesAgo": "{{value}} dəqiqə əvvəl",
         "hoursAgo": "{{value}} saat əvvəl",
