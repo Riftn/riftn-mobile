@@ -6939,7 +6939,7 @@
       "moveRuleUp": "Regel nach oben verschieben",
       "moveRuleDown": "Regel nach unten verschieben",
       "deleteRule": "Regel löschen",
-      "rights": {
+      "rights": {"sendMessages":"Nachrichten senden","sendMessagesHint":"Posten Sie in der Community-Chat","sendMedia":"Medien senden","sendMediaHint":"Bilder und GIFs anhängen","embedLinks":"Links einbetten","embedLinksHint":"Anzeige von Linkvorschauen","addMembers":"Mitglieder hinzufügen","addMembersHint":"Die Community mit anderen teilen","createEvents":"Veranstaltungen erstellen","createEventsHint":"Planung von Gemeinschaftsveranstaltungen","changeInfoMemberHint":"Gemeinschaftsname und -beschreibung bearbeiten",
         "changeInfo": "Community-Infos ändern",
         "changeInfoHint": "Namen, Beschreibung, Avatar und Banner bearbeiten",
         "deleteMessages": "Nachrichten löschen",
@@ -7017,7 +7017,7 @@
       "noInvites": "Keine Einladungslinks noch. Erstelle einen, um Personen direkt einzuladen.",
       "permissionsUpdated": "Berechtigungen aktualisiert",
       "slowModeUpdated": "Slow Mode aktualisiert",
-      "slowModeOffHint": "Mitglieder können Nachrichten ohne Verzögerung senden.",
+      "slowMode":{"off":"Aus","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 Stunde"},"slowModeOffHint": "Mitglieder können Nachrichten ohne Verzögerung senden.",
       "slowModeOnHint": "Mitglieder können jede {{label}} Nachricht senden. Administratoren sind befreit.",
       "defaultPermissions": "Standardmäßige Mitgliedsberechtigungen",
       "defaultPermissionsHint": "Alles, was jeder hier tun kann, es sei denn, ein Administrator sagt etwas anderes.",

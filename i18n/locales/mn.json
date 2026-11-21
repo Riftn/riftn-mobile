@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Дүрмийг дээшлүүлэх",
       "moveRuleDown": "Дүрмийг доошлуулах",
       "deleteRule": "Дүрмийг устгах",
-      "rights": {
+      "rights": {"sendMessages":"Зурвас илгээх","sendMessagesHint":"Олон нийтийн чатад бичлэг хийх","sendMedia":"Медиа илгээх","sendMediaHint":"Зургууд болон GIF-ийг хавсаргах","embedLinks":"Холбоосыг оруулах","embedLinksHint":"Холбоосын урьдчилсан харагдацыг харуулах","addMembers":"Гишүүд нэмэх","addMembersHint":"Бүлэгтэй харилцах","createEvents":"Үйл явдал Үүсгэх","createEventsHint":"Олон нийтийн арга хэмжээг төлөвлөх","changeInfoMemberHint":"Олон нийтийн нэр болон тайлбарыг засах",
         "changeInfo": "Группийн мэдээллийг өөрчлөх",
         "changeInfoHint": "Нэр, тодорхойлолт, зураг, баннерийг засах",
         "deleteMessages": "Мессежийг устгах",
@@ -7102,7 +7102,7 @@
       "noInvites": "Урих холбоос хараахан байхгүй байна. Хүмүүсийг шууд урихын тулд нэгийг үүсгээрэй.",
       "permissionsUpdated": "Зөвшөөрлийг шинэчилсэн",
       "slowModeUpdated": "Удаан горим шинэчлэгдлээ",
-      "slowModeOffHint": "Гишүүд хойшлуулахгүйгээр мессеж илгээх боломжтой.",
+      "slowMode":{"off":"Унтраах","tenSeconds":"10 секунд","thirtySeconds":"30 секунд","oneMinute":"1 мин","fiveMinutes":"5 мин","fifteenMinutes":"15 мин","oneHour":"1 цаг"},"slowModeOffHint": "Гишүүд хойшлуулахгүйгээр мессеж илгээх боломжтой.",
       "slowModeOnHint": "Гишүүд {{label}} бүр нэг мессеж илгээх боломжтой. Баптисм хүртэх эрхгүй.",
       "defaultPermissions": "Гишүүний өгөгдмөл зөвшөөрөл",
       "defaultPermissionsHint": "Админаас өөрөөр ярихгүй л бол хүн бүр энд юу хийж чадах вэ.",

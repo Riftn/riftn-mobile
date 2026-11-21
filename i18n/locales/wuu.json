@@ -7024,7 +7024,7 @@
       "moveRuleUp": "向上移动规则",
       "moveRuleDown": "向下移动规则",
       "deleteRule": "删除规则",
-      "rights": {
+      "rights": {"sendMessages":"發送訊息","sendMessagesHint":"社群聊天","sendMedia":"發送媒體","sendMediaHint":"附加圖像和 GIF","embedLinks":"嵌入連結","embedLinksHint":"顯示鏈接預覽","addMembers":"加入成員","addMembersHint":"分享社群給其他人","createEvents":"建立活動","createEventsHint":"安排社群活動","changeInfoMemberHint":"编辑社区名称和描述",
         "changeInfo": "更改社群信息",
         "changeInfoHint": "编辑名称、描述、头像和横幅",
         "deleteMessages": "删除消息",
@@ -7099,7 +7099,7 @@
       "noInvites": "尚無邀請鏈接。直接邀請人加入。",
       "permissionsUpdated": "權限更新",
       "slowModeUpdated": "慢速模式更新",
-      "slowModeOffHint": "成員可以不受延遲發送訊息。",
+      "slowMode":{"off":"关闭","tenSeconds":"10s","thirtySeconds":"30秒","oneMinute":"1分鐘","fiveMinutes":"5 分鐘","fifteenMinutes":"15 分鐘","oneHour":"1小時"},"slowModeOffHint": "成員可以不受延遲發送訊息。",
       "slowModeOnHint": "成員可以在{{label}}內發送一則訊息。管理員除外。",
       "defaultPermissions": "預設成員權限",
       "defaultPermissionsHint": "除非管理員權限另有規定，否則任何人都可以這樣做。",

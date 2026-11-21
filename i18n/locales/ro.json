@@ -7025,7 +7025,7 @@
       "moveRuleUp": "Mută regula în sus",
       "moveRuleDown": "Mută regula în jos",
       "deleteRule": "Șterge regula",
-      "rights": {
+      "rights": {"sendMessages":"Trimiteți mesaje","sendMessagesHint":"Postare în discuția comunității","sendMedia":"Trimiteți media","sendMediaHint":"Adăugați imagini și GIF-uri","embedLinks":"Incorporați link-uri","embedLinksHint":"Arată previuri de link-uri","addMembers":"Adăugați membri","addMembersHint":"Compartășirea comunității cu alții","createEvents":"Creați evenimente","createEventsHint":"Programează evenimente comunitare","changeInfoMemberHint":"Editează numele și descrierea comunității",
         "changeInfo": "Modifică informațiile comunității",
         "changeInfoHint": "Editează numele, descrierea, avatarul și bannerul",
         "deleteMessages": "Șterge mesaje",
@@ -7103,7 +7103,7 @@
       "noInvites": "Nu există încă linkuri de invitație. Creați unul pentru a invita oamenii direct.",
       "permissionsUpdated": "Permissoanele au fost actualizate",
       "slowModeUpdated": "Modul lent a fost actualizat",
-      "slowModeOffHint": "Membrii pot trimite mesaje fără întârziere.",
+      "slowMode":{"off":"Oprit","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 minute","fifteenMinutes":"15 minute","oneHour":"1 oră"},"slowModeOffHint": "Membrii pot trimite mesaje fără întârziere.",
       "slowModeOnHint": "Membrii pot trimite un mesaj la fiecare {{label}}. Administratorii sunt scutiți.",
       "defaultPermissions": "Permissoanele membrilor de bază",
       "defaultPermissionsHint": "Ce poate face oricine aici, cu excepția unei permissoane de administrator.",

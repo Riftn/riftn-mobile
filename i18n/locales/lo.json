@@ -7024,7 +7024,7 @@
       "moveRuleUp": "ຍ້າຍກົດຂຶ້ນ",
       "moveRuleDown": "ຍ້າຍກົດລົງ",
       "deleteRule": "ລຶບກົດ",
-      "rights": {
+      "rights": {"sendMessages":"ສົ່ງຂໍ້ຄວາມ","sendMessagesHint":"ໂພສໃນແຊັດຊຸມຊົນ","sendMedia":"ສົ່ງສື່","sendMediaHint":"ຕິດຕັ້ງຮູບພາບແລະ GIFs","embedLinks":"ຂວາ. ຂວາ.","embedLinksHint":"ສະແດງຕົວຢ່າງລິ້ງ","addMembers":"ເພີ່ມສະມາຊິກ","addMembersHint":"ແບ່ງປັນຊຸມຊົນກັບຄົນອື່ນ","createEvents":"ສ້າງກິດຈະກຳ","createEventsHint":"ກຳນົດເວລາເຫດການຊຸມຊົນ","changeInfoMemberHint":"ແກ້ໄຂຊື່ຊຸມຊົນ ແລະ ລາຍລະອຽດ",
         "changeInfo": "ປ່ຽນຂໍ້ມູນຊຸມຊົນ",
         "changeInfoHint": "ແກ້ໄຂຊື່, ຄຳອະທິບາຍ, ຮູບໂປຣໄຟລ໌ ແລະ ແບນເນີ",
         "deleteMessages": "ລຶບຂໍ້ຄວາມ",
@@ -7102,7 +7102,7 @@
       "noInvites": "ບໍ່ມີການເຊື້ອເຊີນຊ້າຍເທື່ອ. ສ້າງຫນຶ່ງເພື່ອເຊື້ອເຊີນປະຊາຊົນໂດຍກົງ.",
       "permissionsUpdated": "ອະນຸຍາດອັບເດດແລ້ວ",
       "slowModeUpdated": "ອັບເດດໂໝດຊ້າ",
-      "slowModeOffHint": "ສະມາຊິກສາມາດສົ່ງຂໍ້ຄວາມໄດ້ໂດຍບໍ່ຕ້ອງລ່າຊະວັງ.",
+      "slowMode":{"off":"ປິດ","tenSeconds":"10 ວິນາທີ","thirtySeconds":"30ວິ","oneMinute":"1 ນາທີ","fiveMinutes":"5 ນາທີ","fifteenMinutes":"15 ນາທີ","oneHour":"1 ຊົ່ວໂມງ"},"slowModeOffHint": "ສະມາຊິກສາມາດສົ່ງຂໍ້ຄວາມໄດ້ໂດຍບໍ່ຕ້ອງລ່າຊະວັງ.",
       "slowModeOnHint": "ສະມາຊິກສາມາດສົ່ງຂໍ້ຄວາມ ຫນຶ່ງ ທຸກໆ {{label}}. Admins ແມ່ນຍົກເວັ້ນ.",
       "defaultPermissions": "ການອະນຸຍາດສະມາຊິກຄ່າເລີ່ມຕົ້ນ",
       "defaultPermissionsHint": "ສິ່ງທີ່ທຸກຄົນສາມາດເຮັດໄດ້ຢູ່ທີ່ນີ້ ເວັ້ນເສຍແຕ່ວ່າສິດທິຂອງຜູ້ບໍລິຫານບອກທາງອື່ນ.",

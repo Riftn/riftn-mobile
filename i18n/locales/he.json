@@ -7055,7 +7055,7 @@
       "moveRuleUp": "הזז כלל למעלה",
       "moveRuleDown": "הזז כלל למטה",
       "deleteRule": "מחק כלל",
-      "rights": {
+      "rights": {"sendMessages":"שלח הודעות","sendMessagesHint":"פרסום בצ'אט הקהילתי","sendMedia":"שלח מדיה","sendMediaHint":"צור קשר עם תמונות וגיפים","embedLinks":"הכנס קישורים","embedLinksHint":"הצג תצוגות מקדימות של קישורים","addMembers":"הוסף חברים","addMembersHint":"שתף את הקהילה עם אחרים","createEvents":"יצירת אירועים","createEventsHint":"ארגון אירועים קהילתיים","changeInfoMemberHint":"ערוך את שם הקהילה והתיאור",
         "changeInfo": "שנה מידע קהילתי",
         "changeInfoHint": "ערוך את השם, התיאור, האווטאר והבאנר",
         "deleteMessages": "מחק הודעות",
@@ -7133,7 +7133,7 @@
       "noInvites": "עדיין אין קישורי הזמנה. צור אחד כדי להזמין אנשים ישירות.",
       "permissionsUpdated": "ההרשאות עודכנו",
       "slowModeUpdated": "מצב איטי עודכן",
-      "slowModeOffHint": "חברים יכולים לשלוח הודעות ללא דיחוי.",
+      "slowMode":{"off":"כבוי","tenSeconds":"10 שניות","thirtySeconds":"30s","oneMinute":"1 דקה","fiveMinutes":"5 דקות","fifteenMinutes":"15 דקות","oneHour":"שעה אחת"},"slowModeOffHint": "חברים יכולים לשלוח הודעות ללא דיחוי.",
       "slowModeOnHint": "חברים יכולים לשלוח הודעה אחת כל {{label}}. מנהלי מערכת פטורים מרישום.",
       "defaultPermissions": "הרשאות ברירת מחדל למנויים",
       "defaultPermissionsHint": "מה כל אחד יכול לעשות כאן, אלא אם מנהל מערכת ימני אומר אחרת.",

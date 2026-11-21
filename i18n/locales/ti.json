@@ -7024,7 +7024,7 @@
       "moveRuleUp": "ሕጊ ናብ ላዕሊ ኣንቀስቅስ",
       "moveRuleDown": "ሕጊ ናብ ታሕቲ ኣንቀስቅስ",
       "deleteRule": "ሕጊ ስረዝ",
-      "rights": {
+      "rights": {"sendMessages":"መልእኽቲ ለኣኽ","sendMessagesHint":"ኣብ ናይ ማሕበረሰብ ቻት ጽሓፍ","sendMedia":"ሜድያ ለኣኽ","sendMediaHint":"ምስልታትን ጂፍን (GIFs) ኣተሓሕዝ","embedLinks":"ሊንክታት ኣእቱ (Embed)","embedLinksHint":"ናይ ሊንክ ቅድመ-ዕይታ ኣርኢ","addMembers":"ኣባላት ወስኽ","addMembersHint":"ነቲ ማሕበረሰብ ንኻልኦት ኣካፍል","createEvents":"ፍጻሜታት ፍጠር","createEventsHint":"ናይ ማሕበረሰብ ንጥፈታት መደብ","changeInfoMemberHint":"ስም ማሕበረሰብን መግለጺኡን ኣዐሪ",
         "changeInfo": "ሓበሬታ ማሕበረሰብ ለውጥ",
         "changeInfoHint": "ስም፣ መግለጺ፣ ፎቶን ባነርን ለውጥ",
         "deleteMessages": "መልእኽቲታት ስረዝ",
@@ -7102,7 +7102,7 @@
       "noInvites": "ሎሚ ብጻይ መጻሓፍ የለን። ንሰባት ብቐጥታ ንምጻይ ሓደ ፍጠር።",
       "permissionsUpdated": "ፍቓዳት ተሓደሱ",
       "slowModeUpdated": "ምቁጽጻር ግዜ ተሓደሰ",
-      "slowModeOffHint": "ኣባላት ብዘይዘገይት መልእኽቲ ክሰዱ ይኽእሉ እዮም።",
+      "slowMode":{"off":"ኣጥፍእ","tenSeconds":"10 ሰከንድ","thirtySeconds":"30 ሰከንድ","oneMinute":"1 ደቂቃ","fiveMinutes":"5 ደቒቕ","fifteenMinutes":"15 ደቓይቕ","oneHour":"1 ሰዓት"},"slowModeOffHint": "ኣባላት ብዘይዘገይት መልእኽቲ ክሰዱ ይኽእሉ እዮም።",
       "slowModeOnHint": "ኣባላት በየናይ {{label}} ሓደ መልእኽቲ ክሰዱ ይኽእሉ እዮም። ኣመሓዳሪታት ካብኡ ይጽናሕ።",
       "defaultPermissions": "ኣባላት መሰል",
       "defaultPermissionsHint": "ንኹሉ ሰብ ኣብዚ ክገብሮ ዝኽእሎ እዩ እዚ ኣብዚ ኣመሓዳሪ መሰል ካልእ እንተዘይበለ።",

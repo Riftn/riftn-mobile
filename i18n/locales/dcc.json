@@ -7024,7 +7024,7 @@
       "moveRuleUp": "قاعدہ اوپر منتقل کریں",
       "moveRuleDown": "قاعدہ نیچے منتقل کریں",
       "deleteRule": "قاعدہ حذف کریں",
-      "rights": {
+      "rights": {"sendMessages":"میسج بھیجیں","sendMessagesHint":"ہم کمیونٹی چیٹ میں پوسٹ کریں","sendMedia":"میڈیا بھیجنا","sendMediaHint":"تصاویر اور GIFs لگائیں","embedLinks":"لنکس ایمبیڈ کریں","embedLinksHint":"لینک پریوز کا دکھائیں","addMembers":"عضووں کو شامل کریں","addMembersHint":"دوسروں کو کمیونٹی سے سہولت دیں","createEvents":"ایونٹس بناؤ","createEventsHint":"منظم کمیونٹی کے واقعات کا شیڈول کریں","changeInfoMemberHint":"ایڈیٹ کمیونٹی کا نام اور وضاحت",
         "changeInfo": "کمیونٹی کی معلومات تبدیل کریں",
         "changeInfoHint": "نام، تفصیل، اوتار اور بینر میں ترمیم کریں",
         "deleteMessages": "پیغام حذف کریں",
@@ -7122,7 +7122,7 @@
       "noInvites": "اب تک کوئی انویٹ لِنک نہیں ہے۔ ایک بنائیں تاکہ لوگوں کو ہمیشہ کے لیے دعوت دی جا سکے۔",
       "permissionsUpdated": "اجازت دے دی گئی ہے",
       "slowModeUpdated": "سلو موڈ اپ ڈیٹ کیا گیا",
-      "slowModeOffHint": "عضوین کو پیغام بھیجنا بے وقت ہے۔",
+      "slowMode":{"off":"آف","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 منٹ","fiveMinutes":"پانچ منٹ","fifteenMinutes":"پندرہ منٹ","oneHour":"1 گھنٹہ"},"slowModeOffHint": "عضوین کو پیغام بھیجنا بے وقت ہے۔",
       "slowModeOnHint": "عضوین کو {{label}} پیغام بھیجنا ہوتا ہے۔ ایڈمنس سے مستثنیٰ ہیں۔",
       "defaultPermissionsHint": "ہر کوئی یہاں یہاں کیا کر سکتا ہے جب تک کہ ایڈمن کوئی حق نہ دے دے۔",
       "defaultPermissions": "ڈیفالٹ ممبر پرمیشنز",

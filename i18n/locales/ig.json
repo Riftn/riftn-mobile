@@ -7026,7 +7026,7 @@
       "moveRuleUp": "Bugharịa iwu elu",
       "moveRuleDown": "Bugharịa iwu ala",
       "deleteRule": "Hichapụ iwu",
-      "rights": {
+      "rights": {"sendMessages":"Ziga ozi","sendMessagesHint":"Post na obodo chat","sendMedia":"Belarusian","sendMediaHint":"Tinye onyonyo na GIF","embedLinks":"Tinye ụzọ njikọ","embedLinksHint":"Gosi nlele njikọ","addMembers":"Tinye ndị òtù","addMembersHint":"Soro ndị ọzọ kerịta obodo ahụ","createEvents":"Mepụta mmemme","createEventsHint":"Schedule community events","changeInfoMemberHint":"Dezie aha na nkọwa obodo",
         "changeInfo": "Gbanwee ozi obodo",
         "changeInfoHint": "Dezie aha, nkọwa, avatar na ọkọlọtọ",
         "deleteMessages": "Hichapụ ozi",
@@ -7102,7 +7102,7 @@
       "noInvites": "Enweghị njikọ akpọku ọ bụla. Mepụta otu iji kpọku ndị mmadụ ozugbo.",
       "permissionsUpdated": "E meliri ikike",
       "slowModeUpdated": "E meliri ọnọdụ nwayọọ",
-      "slowModeOffHint": "Ndị otu nwere ike izipu ozi na-enweghị igbu oge.",
+      "slowMode":{"off":"Gbanyụọ","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 nkeji","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 awa"},"slowModeOffHint": "Ndị otu nwere ike izipu ozi na-enweghị igbu oge.",
       "slowModeOnHint": "Ndị otu nwere ike izipu otu ozi kwa {{label}}. Ndị nchịkwa agaghị enwe ya.",
       "defaultPermissions": "Ikike ndị otu ndabere",
       "defaultPermissionsHint": "Ihe onye ọ bụla nwere ike ime ebe a ma ọ bụrụ na ikike onye nchịkwa ekwughị ihe ọzọ.",

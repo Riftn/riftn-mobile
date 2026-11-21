@@ -7024,7 +7024,7 @@
       "moveRuleUp": "تحريك القاعدة لفوق",
       "moveRuleDown": "تحريك القاعدة لتحت",
       "deleteRule": "حذف القاعدة",
-      "rights": {
+      "rights": {"sendMessages":"إرسال الرسائل","sendMessagesHint":"نشر في شات المجتمع","sendMedia":"إرسال وسائل الإعلام","sendMediaHint":"اضغط على الصور وال GIFs","embedLinks":"إدراج الروابط","embedLinksHint":"أظهر مقتطفات الروابط","addMembers":"إضافة أعضاء","addMembersHint":"مشاركة المجتمع مع الآخرين","createEvents":"إنشاء أحداث","createEventsHint":"جدول الأحداث المجتمعية","changeInfoMemberHint":"تعديل اسم المجتمع ووصفه",
         "changeInfo": "تغيير معلومات المجتمع",
         "changeInfoHint": "تعديل الاسم، الوصف، الصورة الرمزية، والبانر",
         "deleteMessages": "حذف الرسائل",
@@ -7100,7 +7100,7 @@
       "noInvites": "لا زالو رابط دعوة. بس هقولك إنو هتكون في رابط دعوة.",
       "permissionsUpdated": "تم تحديث الإذن",
       "slowModeUpdated": "النمو المُتأخر",
-      "slowModeOffHint": "يُمكن للمشتركين إرسال الرسائل دون تأخير.",
+      "slowMode":{"off":"إيقاف","tenSeconds":"10 ثواني","thirtySeconds":"ثلاثين","oneMinute":"1 دقيقة","fiveMinutes":"5 دقايق","fifteenMinutes":"15 دقايق","oneHour":"ساعة واحده"},"slowModeOffHint": "يُمكن للمشتركين إرسال الرسائل دون تأخير.",
       "slowModeOnHint": "يمكن للمشتركين إرسال رسالة واحدة كل {{label}}. يتم استثناء المسؤولين.",
       "defaultPermissions": "صلاحيات الأعضاء الافتراضية",
       "defaultPermissionsHint": "ما كل الناس بيكونوا بيعملوش هنا إلا لو كان هناك أمر من الإدارة يسمح بذلك.",

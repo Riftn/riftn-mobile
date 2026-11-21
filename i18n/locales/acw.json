@@ -7024,7 +7024,7 @@
       "moveRuleUp": "نقل القاعدة للأعلى",
       "moveRuleDown": "نقل القاعدة للأسفل",
       "deleteRule": "حذف القاعدة",
-      "rights": {
+      "rights": {"sendMessages":"إرسال الرسائل","sendMessagesHint":"نشر في شات المجتمع","sendMedia":"أرسلي الوسائط","sendMediaHint":"رفق صور و GIFs","embedLinks":"إدراج الروابط","embedLinksHint":"أظهر مقتطفات الروابط","addMembers":"إضافة أعضاء","addMembersHint":"شارك المجتمع مع غيرك","createEvents":"إنشاء أحداث","createEventsHint":"جدول الأحداث المجتمعية","changeInfoMemberHint":"عدّل اسم المجتمع والوصف",
         "changeInfo": "تغيير معلومات المجتمع",
         "changeInfoHint": "تعديل الاسم والوصف والصورة الرمزية واللافتة",
         "deleteMessages": "حذف الرسائل",
@@ -7100,7 +7100,7 @@
       "noInvites": "لا زالت هناك روابط دعوة. قم بإنشاء رابط دعوة مباشر.",
       "permissionsUpdated": "تم تحديث الإذن",
       "slowModeUpdated": "تم تحديث وضع السرعة",
-      "slowModeOffHint": "يمكن للمشتركين إرسال رسائل دون أي تأخير.",
+      "slowMode":{"off":"اطفي","tenSeconds":"10 ثواني","thirtySeconds":"ثلاثين","oneMinute":"دقيقة واحده","fiveMinutes":"5 دقائق","fifteenMinutes":"15 دقيقة","oneHour":"ساعة"},"slowModeOffHint": "يمكن للمشتركين إرسال رسائل دون أي تأخير.",
       "slowModeOnHint": "يمكن للمشتركين إرسال رسالة واحدة كل {{label}}. يتم استثناء المشرفين.",
       "defaultPermissions": "صلاحيات الأعضاء الافتراضية",
       "defaultPermissionsHint": "ما كل الناس بيكونوا بيعملوا اللي بيعملوه اللي بيكون admin بيقول غير.",

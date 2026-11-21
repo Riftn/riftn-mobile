@@ -7024,7 +7024,7 @@
       "moveRuleUp": "U guur qalluumaadka kor",
       "moveRuleDown": "U guur qalluumaadka hoos",
       "deleteRule": "Tirtir qalluumaadka",
-      "rights": {
+      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Post in wada sheekaysiga bulshada","sendMedia":"Dir warbaahinta","sendMediaHint":"Ku lifaaq sawirro iyo GIF-yo","embedLinks":"Embed links","embedLinksHint":"Muuji horudhaca xiriiriyaha","addMembers":"Ku dar xubno","addMembersHint":"La wadaag bulshada dadka kale","createEvents":"Abuur dhacdooyin","createEventsHint":"Qorshee dhacdooyinka bulshada","changeInfoMemberHint":"Ku dambeyso nabadgelyo",
         "changeInfo": "Beddel macluumaadka bulshada",
         "changeInfoHint": "Tifatir magaca, sharaxaada, avatar-ka iyo banner-ka",
         "deleteMessages": "Tirtir fariimaha",
@@ -7102,7 +7102,7 @@
       "noInvites": "Ma jiraan xiriiryo martiqaad ah weli. Samee mid si aad dadka ugu martiqaaddo si toos ah.",
       "permissionsUpdated": "Oggolaanshaha waa la cusbooneysiiyay",
       "slowModeUpdated": "Habka gaabiska ah waa la cusbooneysiiyay",
-      "slowModeOffHint": "Xubnuhu waxay u diri karaan fariimaha iyagoo aan lahayn dib u dhac.",
+      "slowMode":{"off":"Ka bax","tenSeconds":"10ka","thirtySeconds":"30 ilbiriqsi","oneMinute":"1 daqiiqo","fiveMinutes":"5 daqiiqo","fifteenMinutes":"15 daqiiqo","oneHour":"1 saac"},"slowModeOffHint": "Xubnuhu waxay u diri karaan fariimaha iyagoo aan lahayn dib u dhac.",
       "slowModeOnHint": "Xubnuhu waxay u diri karaan hal fariin {{label}} kasta. Maamulayaasha waa laga reebay.",
       "defaultPermissions": "Oggolaanshaha xubnaha caadiga ah",
       "defaultPermissionsHint": "Wax kasta oo qof walba halkan ka samayn karo haddii aanay oggolaansho maamul ka reebin.",

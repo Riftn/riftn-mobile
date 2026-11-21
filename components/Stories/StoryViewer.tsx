@@ -36,7 +36,6 @@ import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { DarkRoomProvider } from "../../context/ThemeContext";
-import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { useUser, useAuthActions } from "../../context/AuthContext";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { WEBSITE_LINK } from "../../config/links";
@@ -65,10 +64,12 @@ type Sheet = null | "more" | "viewers" | "report" | "delete" | "share" | "share-
 export default function StoryViewer({
   entries,
   index: firstIndex,
+  onOpenProfile,
   onClose,
 }: {
   entries: ShelfEntry[];
   index: number;
+  onOpenProfile: (address: string) => void;
   onClose: () => void;
 }) {
   const { t } = useTranslation();
@@ -77,7 +78,6 @@ export default function StoryViewer({
   const queryClient = useQueryClient();
   const user = useUser();
   const { requireAuth } = useAuthActions();
-  const { showUserProfile } = useUserProfileSheet();
   const me = (user?.walletAddress || user?.address || "").toLowerCase();
 
   const [list, setList] = useState(entries);
@@ -396,10 +396,7 @@ export default function StoryViewer({
                   key={`${m.address}-${m.x}`}
                   accessibilityRole="link"
                   accessibilityLabel={t("upload.studio.mention", { defaultValue: "Mention" })}
-                  onPress={() => {
-                    onClose();
-                    showUserProfile(m.address, { source: "moment" });
-                  }}
+                  onPress={() => onOpenProfile(m.address)}
                   style={{ position: "absolute", left: `${m.x * 100}%`, top: `${m.y * 100}%`, width: `${m.w * 100}%`, height: `${m.h * 100}%` }}
                 />
               ))}
@@ -411,16 +408,18 @@ export default function StoryViewer({
         {/* Capsule: who, when, how far along, and the actions. */}
         <View style={[styles.cap, { top: insets.top + 8 }]}>
           <View style={[styles.capFill, { width: `${Math.round(progress * 100)}%` }]} pointerEvents="none" />
-          <Avatar uri={avatarOf(entry.author, 32)} size={30} radius={15} name={entry.author.username || entry.author.address} />
-          <View style={styles.capText}>
-            <Text style={styles.capName} numberOfLines={1}>
-              {nameOf(entry.author)}
-            </Text>
-            <Text style={styles.capSub} numberOfLines={1}>
-              {ageLabel(item.createdAt)}
-              {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
-            </Text>
-          </View>
+          <TouchableOpacity style={styles.authorLink} accessibilityRole="link" accessibilityLabel={nameOf(entry.author)} onPress={() => onOpenProfile(entry.author.address)}>
+            <Avatar uri={avatarOf(entry.author, 32)} size={30} radius={15} name={entry.author.username || entry.author.address} />
+            <View style={styles.capText}>
+              <Text style={styles.capName} numberOfLines={1}>
+                {nameOf(entry.author)}
+              </Text>
+              <Text style={styles.capSub} numberOfLines={1}>
+                {ageLabel(item.createdAt)}
+                {item.audience === "followers" ? ` · ${t("stories.followersOnly", { defaultValue: "Followers" })}` : ""}
+              </Text>
+            </View>
+          </TouchableOpacity>
           {entry.items.length > 1 ? (
             <View style={styles.dots}>
               {entry.items.map((x, i) => (
@@ -540,10 +539,8 @@ export default function StoryViewer({
             onCopyLink={shareable ? copyLink : undefined}
             onShareOutside={shareable ? shareOutside : undefined}
             onShareToDm={shareable && me ? () => setSheet("share-dm") : undefined}
-            onViewProfile={() => {
-              onClose();
-              showUserProfile(entry.author.address, { source: "moment" });
-            }}
+            authorAddress={entry.author.address}
+            onViewProfile={onOpenProfile}
             onReport={(reason) => {
               setSheet(null);
               if (!me) onClose();
@@ -582,6 +579,7 @@ function ViewerSheet({
   onShareOutside,
   onShareToDm,
   onViewProfile,
+  authorAddress,
   onReport,
   bottom,
 }: {
@@ -595,7 +593,8 @@ function ViewerSheet({
   onCopyLink?: () => void;
   onShareOutside?: () => void;
   onShareToDm?: () => void;
-  onViewProfile: () => void;
+  authorAddress: string;
+  onViewProfile: (address: string) => void;
   onReport: (reason: string) => void;
   bottom: number;
 }) {
@@ -632,7 +631,7 @@ function ViewerSheet({
               </>
             ) : (
               <>
-                <SheetRow icon="User" label={t("stories.viewProfile", { defaultValue: "View profile" })} onPress={onViewProfile} />
+                <SheetRow icon="User" label={t("stories.viewProfile", { defaultValue: "View profile" })} onPress={() => onViewProfile(authorAddress)} />
                 <SheetRow icon="Flag" label={t("stories.report", { defaultValue: "Report" })} danger onPress={() => onPick("report")} />
               </>
             )}
@@ -666,13 +665,13 @@ function ViewerSheet({
             ) : (
               <ScrollView style={{ maxHeight: 360 }}>
                 {viewers.map((v) => (
-                  <View key={v.address} style={styles.viewerRow}>
+                  <TouchableOpacity key={v.address} style={styles.viewerRow} accessibilityRole="link" accessibilityLabel={nameOf(v)} onPress={() => onViewProfile(v.address)}>
                     <Avatar uri={avatarOf(v, 36)} size={34} radius={17} name={v.username || v.address} />
                     <Text style={styles.viewerName} numberOfLines={1}>
                       {nameOf(v)}
                     </Text>
                     {v.liked ? <Icon name="Heart" size={16} color="#FF5C78" fill="#FF5C78" /> : null}
-                  </View>
+                  </TouchableOpacity>
                 ))}
               </ScrollView>
             )}
@@ -716,6 +715,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.14)",
   },
   capFill: { position: "absolute", left: 0, top: 0, bottom: 0, backgroundColor: "rgba(255,255,255,0.14)" },
+  authorLink: { flex: 1, minWidth: 0, minHeight: 44, flexDirection: "row", alignItems: "center", gap: 8 },
   capText: { flex: 1, minWidth: 0 },
   capName: { color: "#fff", fontSize: 14, fontWeight: "700" },
   capSub: { color: "rgba(255,255,255,0.72)", fontSize: 11.5, marginTop: 1 },

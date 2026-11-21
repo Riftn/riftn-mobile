@@ -7024,7 +7024,7 @@
       "moveRuleUp": "تحريك القاعدة فوك",
       "moveRuleDown": "تحريك القاعدة جوه",
       "deleteRule": "حذف القاعدة",
-      "rights": {
+      "rights": {"sendMessages":"إرسال الرسائل","sendMessagesHint":"أكتب في محادثة المجتمع","sendMedia":"إرسال الوسائط","sendMediaHint":"اضغط على الصور والصور المقطعية","embedLinks":"تضمين الروابط","embedLinksHint":"إظهار روابط التصفح","addMembers":"اضافة اعضاء","addMembersHint":"شارك المجتمع مع الآخرين","createEvents":"إنشاء أحداث","createEventsHint":"تخطيط أحداث المجتمع","changeInfoMemberHint":"عدّل اسم المجتمع والوصف",
         "changeInfo": "تغيير معلومات الكروب",
         "changeInfoHint": "تعديل الاسم، الوصف، الصورة الرمزية، وصورة الغلاف",
         "deleteMessages": "حذف الرسائل",
@@ -7099,7 +7099,7 @@
       "noInvites": "لا يوجد روابط دعوة بعد. قم بإنشاء واحدة لاستدعاء الأشخاص مباشرة.",
       "permissionsUpdated": "تم تحديث الإذن",
       "slowModeUpdated": "تم تحديث الوضع السريع",
-      "slowModeOffHint": "يمكن للعضوين إرسال الرسائل دون تأخير.",
+      "slowMode":{"off":"إيقاف","tenSeconds":"عشرة","thirtySeconds":"ثلاثين","oneMinute":"دقيقة واحدة","fiveMinutes":"5 دقايق","fifteenMinutes":"15 دقايق","oneHour":"ساعة واحدة"},"slowModeOffHint": "يمكن للعضوين إرسال الرسائل دون تأخير.",
       "slowModeOnHint": "يمكن للعضوين إرسال رسالة واحدة كل {{label}}. يتم استثناء الإداريين.",
       "defaultPermissions": "الإذن الافتراضي للعضو",
       "defaultPermissionsHint": "ما يمكن أن يفعله الجميع هنا ما لم يقول أي إذن إداري خلاف ذلك.",

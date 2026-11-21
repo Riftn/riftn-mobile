@@ -7057,7 +7057,7 @@
       "moveRuleUp": "Skuif reël op",
       "moveRuleDown": "Skuif reël af",
       "deleteRule": "Vee reël uit",
-      "rights": {
+      "rights": {"sendMessages":"Stuur boodskappe","sendMessagesHint":"Plaas in die gemeenskap chat","sendMedia":"Media stuur","sendMediaHint":"Voeg foto’s en GIF’s by.","embedLinks":"Ingebedde skakels","embedLinksHint":"Toon koppelynvoorsneëls","addMembers":"Voeg lede by","addMembersHint":"Deel die gemeenskap met ander","createEvents":"Skep okkasies","createEventsHint":"Plan gemeenskapsgebeure","changeInfoMemberHint":"Bewerk die gemeenskapsnaam en beskrywing",
         "changeInfo": "Verander gemeenskapsinligting",
         "changeInfoHint": "Wysig die naam, beskrywing, avatar en banier",
         "deleteMessages": "Vee boodskappe uit",
@@ -7135,7 +7135,7 @@
       "noInvites": "Geen uitnodigings skakels nog nie. Skep een om mense direk uit te nooi.",
       "permissionsUpdated": "Toestemminge geaktualiseer",
       "slowModeUpdated": "Gangbaan geaktualiseer",
-      "slowModeOffHint": "Lidmate kan boodskappe sonder vertraging stuur.",
+      "slowMode":{"off":"Af","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 uur"},"slowModeOffHint": "Lidmate kan boodskappe sonder vertraging stuur.",
       "slowModeOnHint": "Lidmate kan een boodskap elke {{label}} stuur. Administrateurs is uitgesluit.",
       "defaultPermissions": "Standaard lidtoestemminge",
       "defaultPermissionsHint": "Wat almal kan doen hier, ten minste totdat 'n administrateur se reg het dit anders gestel het.",

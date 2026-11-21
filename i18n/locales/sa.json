@@ -7032,7 +7032,7 @@
       "moveRuleUp": "नियम ऊपर ले जाएं",
       "moveRuleDown": "नियम नीचे ले जाएं",
       "deleteRule": "नियम हटाएं",
-      "rights": {
+      "rights": {"sendMessages":"संदेश भेजें","sendMessagesHint":"Posts tagged 'कम्युनिटी चॅट'","sendMedia":"भेजने के लिए मीडिया","sendMediaHint":"चित्र और GIF जोड़ें","embedLinks":"लिंक एम्बेड करें","embedLinksHint":"लिङ्क् पूर्वावलोकनं दर्शयतु","addMembers":"सदस्यान् योजयतु","addMembersHint":"अन्य लोगों के साथ सामुदायिक समूह साझा करें","createEvents":"घटनां सृज्यताम्","createEventsHint":"समुदाय के कार्यक्रम की योजना बनाएं","changeInfoMemberHint":"सम्पादकीयः समुदाय नाम और परिभाषा",
         "changeInfo": "समुदाय की जानकारी बदलें",
         "changeInfoHint": "नाम, विवरण, अवतार और बैनर संपादित करें",
         "deleteMessages": "संदेश हटाएं",
@@ -7104,7 +7104,7 @@
       "noInvites": "अब तक कोई आमंत्रण लिंक नहीं है। सीधे लोगों को आमंत्रित करने के लिए एक बनाएं।",
       "permissionsUpdated": "अधिकार प्राधिकरण अद्यतन",
       "slowModeUpdated": "धीमी गति मोड अद्यतन",
-      "slowModeOffHint": "सदस्य संदेश भेज सकते हैं बिना किसी विलंब के।",
+      "slowMode":{"off":"पिहितम्","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 मिनिट","fiveMinutes":"५ मिनट","fifteenMinutes":"१५ मिनट","oneHour":"१ तासां"},"slowModeOffHint": "सदस्य संदेश भेज सकते हैं बिना किसी विलंब के।",
       "defaultPermissions": "मानक सदस्य अधिकार",
       "defaultPermissionsHint": "यहाँ सब कुछ कर सकते हैं जब तक कि एक प्रशासक अधिकार न कहे नहीं।",
       "slowModeTitle": "धीमी गति मोड",

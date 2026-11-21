@@ -4813,7 +4813,7 @@
       "moveRuleUp": "Déplacer la règle vers le haut",
       "moveRuleDown": "Déplacer la règle vers le bas",
       "deleteRule": "Supprimer la règle",
-      "rights": {
+      "rights": {"sendMessages":"Envoyer des messages","sendMessagesHint":"Publier dans le chat de la communauté","sendMedia":"Envoyer des médias","sendMediaHint":"Joignez des images et des GIFs","embedLinks":"Intégrer des liens","embedLinksHint":"Afficher les prévisualisations de liens","addMembers":"Ajouter des membres","addMembersHint":"Partager la communauté avec les autres","createEvents":"Créer des événements","createEventsHint":"Planifiez des événements de la communauté","changeInfoMemberHint":"Modifier le nom et la description de la communauté",
         "changeInfo": "Modifier les informations de la communauté",
         "changeInfoHint": "Modifier le nom, la description, l'avatar et la bannière",
         "deleteMessages": "Supprimer des messages",
@@ -4891,7 +4891,7 @@
       "noInvites": "Pas encore de liens d'invitation. Créez-en un pour inviter directement les gens.",
       "permissionsUpdated": "Mises à jour des permissions",
       "slowModeUpdated": "Mode lent mis à jour",
-      "slowModeOffHint": "Les membres peuvent envoyer des messages sans délai.",
+      "slowMode":{"off":"Arrêté","tenSeconds":"10 secondes","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 minutes","fifteenMinutes":"15 min","oneHour":"1 heure"},"slowModeOffHint": "Les membres peuvent envoyer des messages sans délai.",
       "slowModeOnHint": "Les membres peuvent envoyer un message toutes les {{label}}. Les administrateurs sont exemptés.",
       "defaultPermissions": "Permissions membres par défaut",
       "defaultPermissionsHint": "Ce que tout le monde peut faire ici, à moins qu'un administrateur n'ait défini une règle contraire.",

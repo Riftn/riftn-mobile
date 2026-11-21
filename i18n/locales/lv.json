@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Pārvietot noteikumu uz augšu",
       "moveRuleDown": "Pārvietot noteikumu uz leju",
       "deleteRule": "Dzēst noteikumu",
-      "rights": {
+      "rights": {"sendMessages":"Sūtīt ziņas","sendMessagesHint":"Postēt kopienas chatā","sendMedia":"Nosūtīt mediju","sendMediaHint":"Pieliek attēlus un GIFus","embedLinks":"Iekļauk saites","embedLinksHint":"Rādīt saiti priekšskatījumu","addMembers":"Pievienot dalībniekus","addMembersHint":"Dalieties kopienā ar citiem","createEvents":"Izveidot notikumus","createEventsHint":"Plānot kopienas notikumus","changeInfoMemberHint":"Rediģēt kopienas nosaukumu un aprakstu",
         "changeInfo": "Mainīt kopienas informāciju",
         "changeInfoHint": "Rediģēt nosaukumu, aprakstu, iemiesojumu un baneri",
         "deleteMessages": "Dzēst ziņojumus",
@@ -7102,7 +7102,7 @@
       "noInvites": "Pagaidām nav nevienas uzaicinājuma saites. Izveidojiet tādu, lai uzaicinātu cilvēkus tieši.",
       "permissionsUpdated": "Atļaujas atjauninātas",
       "slowModeUpdated": "Lēnais režīms atjaunināts",
-      "slowModeOffHint": "Dalībnieki var nosūtīt ziņojumus bez kavēšanās.",
+      "slowMode":{"off":"Izslēgts","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 stunda"},"slowModeOffHint": "Dalībnieki var nosūtīt ziņojumus bez kavēšanās.",
       "slowModeOnHint": "Dalībnieki var nosūtīt vienu ziņojumu katru {{label}}. Administratori ir atbrīvoti.",
       "defaultPermissions": "Noklusējuma dalībnieku atļaujas",
       "defaultPermissionsHint": "Ko šeit var darīt ikviens, ja vien administratora tiesības nenosaka citādi.",

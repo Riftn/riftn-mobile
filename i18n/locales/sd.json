@@ -7023,7 +7023,7 @@
       "moveRuleUp": "قاعدو مٿي منتقل ڪريو",
       "moveRuleDown": "قاعدو هيٺ منتقل ڪريو",
       "deleteRule": "قاعدو ختم ڪريو",
-      "rights": {
+      "rights": {"sendMessages":"پيغام موڪليو","sendMessagesHint":"ڪميونٽي چيٽ ۾ پوسٽ ڪريو","sendMedia":"ميڊيا بھيجو","sendMediaHint":"تصويرون ۽ GIFs شامل ڪريو","embedLinks":"سرايت ڪريو لنڪ","embedLinksHint":"لنڪ پريويوز ڏيکاريو","addMembers":"ميمبر شامل ڪريو","addMembersHint":"ڪميونٽي کي ٻين سان شيئر ڪريو","createEvents":"ايونٽس ٺاهيو","createEventsHint":"ڪميونٽي جا پروگرام شيڊول ڪريو","changeInfoMemberHint":"ڪميونٽي جو نالو ۽ تفصيل ايڊٽ ڪريو",
         "changeInfo": "ڪميونٽي جي معلومات تبديل ڪريو",
         "changeInfoHint": "نالو، وضاحت، اوتار ۽ بينر ايڊٽ ڪريو",
         "deleteMessages": "پيغام ختم ڪريو",
@@ -7101,7 +7101,7 @@
       "noInvites": "اڃان تائين ڪو به دعوت لنڪ ناهي. هڪ ٺاهيو ماڻهن کي سڌي طرح دعوت ڏيڻ لاء.",
       "permissionsUpdated": "اجازتون اپڊيٽ ڪيون ويون",
       "slowModeUpdated": "سست موڊ اپڊيٽ ڪيو ويو",
-      "slowModeOffHint": "ميمبر بغير دير جي پيغام موڪلي سگھن ٿا.",
+      "slowMode":{"off":"بند","tenSeconds":"10 سيڪنڊ","thirtySeconds":"30 سيڪنڊ","oneMinute":"1 منٹ","fiveMinutes":"5 منٹ","fifteenMinutes":"15 منٹ","oneHour":"1 ڪلاڪ"},"slowModeOffHint": "ميمبر بغير دير جي پيغام موڪلي سگھن ٿا.",
       "slowModeOnHint": "ميمبر هر هڪ پيغام موڪلي سگھن ٿا {{label}}. ايڊمنسٽريٽرن کي آزاد ڪيو ويو آهي.",
       "defaultPermissions": "ڊفالٽ ميمبر جي اجازتون",
       "defaultPermissionsHint": "هرڪو هتي ڇا ڪري سگهي ٿو جيستائين هڪ انتظامي حق ٻي صورت ۾ نه چوي.",

@@ -6450,7 +6450,7 @@
       "noInvites": "Abhi tak koi invite link nahi hai. Logo ko seedhe invite karne ke liye ek banayein.",
       "permissionsUpdated": "Permissions update ho gaye",
       "slowModeUpdated": "Slow mode update ho gaya",
-      "slowModeOffHint": "Members bina delay ke message bhej sakte hain.",
+      "slowMode":{"off":"बंद","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 मिनट","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 ghanta"},"slowModeOffHint": "Members bina delay ke message bhej sakte hain.",
       "slowModeOnHint": "Members {{label}} mein ek message bhej sakte hain. Admins ko chhoot hai.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Yahan sab kya kar sakte hain jab tak koi admin right iske alawa kuch na kahe.",
@@ -6498,7 +6498,7 @@
       "durationLabel": "अवधि",
       "saveRules": "नियम सेव करें",
       "deleteRule": "नियम मिटाएँ",
-      "rights": {
+      "rights": {"sendMessages":"मैसेज भेजें","sendMessagesHint":"Community chat me post karu","sendMedia":"मीडिया भेजा","sendMediaHint":"फोटो और GIF जोड़ूँ","embedLinks":"लिंक एम्बेड करें","embedLinksHint":"Tregoj përdoruesit linket e paraqitur","addMembers":"Üyeleri ekle","addMembersHint":"समुदाय के दूसर मन के साथ शेयर करा","createEvents":"Events banau","createEventsHint":"समुदाय कार्यक्रम तय करा","changeInfoMemberHint":"Community name aur description ke edit karu",
         "changeInfo": "Community info badlu",
         "deleteMessages": "मैसेज डिलीट करा",
         "restrictMembers": "यूजर मन के बैन करीं",

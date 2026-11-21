@@ -7026,7 +7026,7 @@
       "moveRuleUp": "Боло бурдани қоида",
       "moveRuleDown": "Поён бурдани қоида",
       "deleteRule": "Нест кардани қоида",
-      "rights": {
+      "rights": {"sendMessages":"Фиристодани паёмҳо","sendMessagesHint":"Пост дар шабакаи умумӣ","sendMedia":"Фиристодани медиа","sendMediaHint":"Тасвирҳо ва GIF-ҳоро замима кунед","embedLinks":"Пайвандҳои ҷойгиршуда (Embed links)","embedLinksHint":"Ipakita ang mga preview ng link","addMembers":"Омезишгарон мавод.","addMembersHint":"Ҷомеаро бо дигарон мубодила кунед","createEvents":"Мавзӯъҳои иҷрои иштироки шабонаиҳо","createEventsHint":"Нақшаи чорабиниҳои ҷамъиятӣ","changeInfoMemberHint":"Ном ва тавсифи ҷомеаро таҳрир кунед",
         "changeInfo": "Тағйири маълумоти ҷомеа",
         "changeInfoHint": "Тағйир додани ном, тавсиф, аватар ва баннер",
         "deleteMessages": "Нест кардани паёмҳо",
@@ -7103,7 +7103,7 @@
       "noInvites": "Ҳанӯз истинодҳои даъватнома мавҷуд нестанд. Барои даъват кардани одамон бевосита якеро эҷод кунед.",
       "permissionsUpdated": "Иҷозатҳо навсозӣ шуданд",
       "slowModeUpdated": "Ҳолати суст навсозӣ шуд",
-      "slowModeOffHint": "Аъзоён метавонанд паёмҳоро бе таъхир ирсол кунанд.",
+      "slowMode":{"off":"Хомӯш","tenSeconds":"10с","thirtySeconds":"30с","oneMinute":"1 дақиқа","fiveMinutes":"5 дақиқа","fifteenMinutes":"15 дақиқа","oneHour":"1 соат"},"slowModeOffHint": "Аъзоён метавонанд паёмҳоро бе таъхир ирсол кунанд.",
       "slowModeOnHint": "Аъзоён метавонанд ҳар {{label}} як паём ирсол кунанд. Администраторҳо истисно мебошанд.",
       "defaultPermissions": "Иҷозатҳои пешфарзии аъзо",
       "defaultPermissionsHint": "Он чизе, ки ҳама дар ин ҷо карда метавонанд, агар иҷозати администратор баръакс нагӯяд.",

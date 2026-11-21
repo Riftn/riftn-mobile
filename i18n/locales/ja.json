@@ -6896,7 +6896,7 @@
       "moveRuleUp": "ルールを上に移動",
       "moveRuleDown": "ルールを下に移動",
       "deleteRule": "ルールを削除",
-      "rights": {
+      "rights": {"sendMessages":"メッセージを送信","sendMessagesHint":"コミュニティチャットに投稿する","sendMedia":"メディアを送信","sendMediaHint":"画像やGIFを添付してください","embedLinks":"リンクを埋め込む","embedLinksHint":"リンクのプレビューを表示","addMembers":"メンバーを追加","addMembersHint":"コミュニティを他の人に共有する","createEvents":"イベントを作成する","createEventsHint":"コミュニティのイベントをスケジュールする","changeInfoMemberHint":"コミュニティ名と説明を編集する",
         "changeInfo": "コミュニティ情報を変更",
         "changeInfoHint": "名前、説明、アバター、バナーを編集",
         "deleteMessages": "メッセージを削除",
@@ -6973,7 +6973,7 @@
       "noInvites": "招待リンクはまだありません。ユーザーを直接招待するために1つ作成します。",
       "permissionsUpdated": "権限が更新されました",
       "slowModeUpdated": "スローモードが更新されました",
-      "slowModeOffHint": "メンバーは遅滞なくメッセージを送信できます。",
+      "slowMode":{"off":"オフ","tenSeconds":"10秒","thirtySeconds":"30秒","oneMinute":"1分","fiveMinutes":"5 分","fifteenMinutes":"15 分","oneHour":"1時間"},"slowModeOffHint": "メンバーは遅滞なくメッセージを送信できます。",
       "slowModeOnHint": "メンバーは{{label}}ごとに1つのメッセージを送信できます。管理者は免除されます。",
       "defaultPermissions": "デフォルトのメンバー権限",
       "defaultPermissionsHint": "管理者権限に別段の定めがない限り、誰もがここでできること。",
