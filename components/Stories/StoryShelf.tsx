@@ -5,8 +5,7 @@
  * "Your day" first (+ to share a moment, or watch your own), then everyone
  * live right now (it replaces the Live now row), then people's moments: new
  * ones carry a ring in the theme's colours, watched ones go grey and move to
- * the end. A moment's picture stays hidden until it is tapped: each tile shows
- * the person's face on frosted glass. A tile opens the full-screen viewer.
+ * the end. Each tile blurs the story cover behind the avatar.
  */
 import React, { useCallback, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -17,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { useSnapshot } from "valtio";
 
+import { useStoriesEnabled } from "../../hooks/useStoriesEnabled";
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { useUser, useAuthActions } from "../../context/AuthContext";
@@ -27,17 +27,18 @@ import { useKidsModeLock } from "../../hooks/useKidsModeLock";
 import { useLiveNowItems, pictureOf, type LiveNowItem } from "../Home/LiveNowBar";
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } from "../../store/stories.store";
-import { ageLabel, avatarOf, nameOf, playable } from "./story-utils";
+import { ageLabel, avatarOf, coverOf, nameOf, playable } from "./story-utils";
 import { getAvatarUrl } from "../../libs/misc";
 
 const TILE_W = 86;
 const TILE_H = 118;
 
 /** Moments on the shelf, refreshed every minute while Home is up. */
-function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean) {
+function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean, enabled: boolean) {
   return useQuery({
     queryKey: ["story-shelf", me, canSeeMature, liveHosts],
     queryFn: () => getStoryShelf(!!me, liveHosts),
+    enabled,
     staleTime: 30_000,
     refetchInterval: 60_000,
   });
@@ -69,7 +70,8 @@ function StoryShelf() {
   const kidsMode = useKidsModeLock();
   const canSeeMature = MATURE_CONTENT_ENABLED && user?.showMatureContent === true && !kidsMode;
   const liveHosts = [...new Set(live.map(item => (item.wallet || "").toLowerCase()).filter(Boolean))].sort().slice(0, 100).join(",");
-  const { data } = useStoryShelf(me, liveHosts, canSeeMature);
+  const { storiesEnabled } = useStoriesEnabled();
+  const { data } = useStoryShelf(me, liveHosts, canSeeMature, storiesEnabled || !!liveHosts);
   const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
   const scrollGuard = useHorizontalScrollGuard();
@@ -93,7 +95,7 @@ function StoryShelf() {
   );
   const add = useCallback(() => requireAuth(() => openStoryCreator()), [requireAuth]);
 
-  if (!me && others.length === 0 && eligibleLive.length === 0) return null;
+  if ((!storiesEnabled || (!me && others.length === 0)) && eligibleLive.length === 0) return null;
 
   const shelfScroll = (
     <ScrollView
@@ -103,7 +105,7 @@ function StoryShelf() {
       contentContainerStyle={styles.row}
       style={styles.wrap}
     >
-      {me ? (
+      {storiesEnabled && me ? (
         <MeTile
           pending={pending as PendingMoment | null}
           avatar={user?.avatarImageUrl ? getAvatarUrl(user.avatarImageUrl, 96) ?? null : avatarOf(own?.author ?? { address: me, username: null, displayName: null, avatarImageUrl: null }, 96)}
@@ -117,7 +119,7 @@ function StoryShelf() {
       {eligibleLive.map((item) => (
         <LiveTile key={`${item.kind}-${item.id}`} item={item} onOpen={() => openLive(item)} />
       ))}
-      {others.map((entry) => (
+      {storiesEnabled && others.map((entry) => (
         <PersonTile key={entry.author.address} entry={entry} onOpen={() => openEntry(entry)} />
       ))}
     </ScrollView>
@@ -159,7 +161,7 @@ function MeTile({
       accessibilityLabel={name}
       style={styles.tile}
     >
-      <Face uri={avatar} name={name} />
+      <Face uri={avatar} name={name} cover={pending ? pending.preview : entry && coverOf(entry)} />
       <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.6)"]} style={styles.shade} pointerEvents="none" />
       {pending && !failed ? (
         <View style={styles.progressTrack} pointerEvents="none">
@@ -206,11 +208,11 @@ function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
   );
 }
 
-/** The person's face on frosted glass. The moment itself only shows once the tile is tapped. */
-function Face({ uri, name }: { uri: string | null; name: string }) {
+/** Keep the creator visible over the blurred opening frame. */
+function Face({ uri, name, cover }: { uri: string | null; name: string; cover: string | null }) {
   return (
     <>
-      {uri ? <Image source={{ uri }} style={StyleSheet.absoluteFill} contentFit="cover" blurRadius={22} cachePolicy="memory-disk" /> : null}
+      {cover ? <Image source={{ uri: cover }} recyclingKey={cover} style={StyleSheet.absoluteFill} contentFit="cover" blurRadius={22} cachePolicy="memory-disk" /> : null}
       <View style={styles.frost} pointerEvents="none" />
       <View style={styles.face} pointerEvents="none">
         <Avatar uri={uri} size={52} radius={26} name={name} />
@@ -228,7 +230,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
     <TouchableOpacity activeOpacity={0.85} onPress={onOpen} accessibilityLabel={nameOf(entry.author)} style={styles.tileBox}>
       {fresh && ring ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
       <View style={[styles.tile, fresh ? styles.inRing : styles.seen]}>
-        <Face uri={face} name={entry.author.username || entry.author.address} />
+        <Face uri={face} cover={coverOf(entry)} name={entry.author.username || entry.author.address} />
         <LinearGradient colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.62)"]} style={styles.shade} pointerEvents="none" />
         {latest ? (
           <View style={styles.age}>

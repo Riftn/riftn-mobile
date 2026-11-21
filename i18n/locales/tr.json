@@ -1414,6 +1414,8 @@
     "channelSpeedResetConfirm": "Her kanal normal hızınıza döner. Normal hızınız değişmez.",
     "reset": "Sıfırla",
     "channelSpeedNone": "Birini izlerken hızı değiştirin, videoları için öyle kalır.",
+    "showStories": "Ana sayfada hikâyeleri göster",
+    "storiesSaveFailed": "Hikâye ayarınız kaydedilemedi.",
     "hideWatched": "İzlenen videoları gizle",
     "hideWatchedDesc": "Zaten oynattığınız videoları akışlarınızın dışında tutun. Varsayılan olarak kapalı.",
     "skipSegments": "Sponsorları ve introları atla",

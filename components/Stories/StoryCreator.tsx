@@ -227,7 +227,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           uri,
           mimeType,
           overlayUri,
-          preview: picked.uri,
+          preview: picked.kind === "photo" ? uri : "",
           fields: {
             audience,
             expiresInHours: customLifetime ? lifetime : undefined,
