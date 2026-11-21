@@ -108,7 +108,9 @@ export async function getContactsByAddress(
 }
 
 export async function getConversation(id: string): Promise<DmConversation> {
-  return apiClient.get<DmConversation>(`/dm/${id}`);
+  const { result } = await apiClient.get<{ result: DmConversation }>(`/dm/${id}`);
+  if (!Array.isArray(result?.participants)) throw new Error("Conversation participants unavailable");
+  return result;
 }
 
 

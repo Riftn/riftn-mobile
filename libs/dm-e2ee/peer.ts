@@ -9,9 +9,9 @@
  * the server yet).
  */
 import { dmState } from "../../store/dm.store";
-import type { DmMessage } from "../../services/dm/dm.types";
+import { getOtherParticipant, type DmMessage } from "../../services/dm/dm.types";
 import { isEncryptedContent } from "./crypto";
-import { decryptMessageInPlace } from "./keys";
+import { decryptMessageInPlace, hasIdentityFor } from "./keys";
 
 export function peerAddressForConversation(
   conversationId: string,
@@ -48,6 +48,19 @@ export async function decryptIncoming(
     (m) => isEncryptedContent(m?.content) || isEncryptedContent(m?.replyTo?.content),
   );
   if (!needs) return msgs;
-  const peer = peerAddressForConversation(conversationId, myAddress, msgs);
-  return Promise.all(msgs.map((m) => decryptMessageInPlace(m, peer)));
+  let peer = peerAddressForConversation(conversationId, myAddress, msgs);
+  if (!peer && hasIdentityFor(myAddress) && /^[0-9a-f]{24}$/i.test(conversationId)) {
+    // A push or deep link may arrive before contacts and open an outgoing-only page.
+    const { queryClient } = await import("../../config/queryClient");
+    const { getConversation } = await import("../../services/dm/dm.api");
+    const thread = await queryClient.fetchQuery({
+      queryKey: ["dm-participants", myAddress.toLowerCase(), conversationId],
+      queryFn: () => getConversation(conversationId),
+      staleTime: 60_000,
+      retry: false,
+    }).catch(() => null);
+    if (thread) peer = getOtherParticipant(thread, undefined, myAddress)?.address?.toLowerCase() || null;
+  }
+  const activePeer = hasIdentityFor(myAddress) ? peer : null;
+  return Promise.all(msgs.map((m) => decryptMessageInPlace(m, activePeer)));
 }
