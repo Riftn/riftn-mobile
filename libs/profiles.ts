@@ -97,17 +97,30 @@ export interface StoredProfile {
    * simply contributes no tier, exactly as web treats a missing balance.
    */
   badgeBalance: number | string | null;
+  badgeLock?: { tier: string; requirement: number } | null;
+  hideBadgeAndBalance?: boolean;
   /** Null once the session is gone — switching to it asks for sign-in again. */
   session: StoredProfileSession | null;
 }
 
 interface CachedUser {
+  id?: string | number;
+  _id?: string;
   displayName?: string;
   username?: string;
   avatarImageUrl?: string;
   address?: string;
   /** Staking balance, kept so the device allowance can be priced offline. */
   badgeBalance?: number | string | null;
+  badgeLock?: StoredProfile['badgeLock'];
+  hideBadgeAndBalance?: boolean;
+}
+
+function profileName(value: unknown, user: CachedUser | null): string | null {
+  if (typeof value !== 'string') return null;
+  const label = value.trim();
+  if (!label || /^0x[\da-f]{6,}$/i.test(label) || label === String(user?.id ?? user?._id ?? '')) return null;
+  return label;
 }
 
 function emitChanged() {
@@ -377,12 +390,14 @@ async function snapshotSession(adopt: boolean): Promise<void> {
     id: identity.id,
     uid: identity.uid,
     address: identity.address,
-    name: user?.displayName ?? null,
-    username: user?.username ?? null,
-    avatarUrl: user?.avatarImageUrl ?? null,
+    name: profileName(user?.displayName, user) ?? profileName(existing?.name, user),
+    username: profileName(user?.username, user) ?? profileName(existing?.username, user),
+    avatarUrl: user?.avatarImageUrl ?? existing?.avatarUrl ?? null,
     addedAt: existing?.addedAt ?? now,
     lastActiveAt: now,
     badgeBalance: user?.badgeBalance ?? existing?.badgeBalance ?? null,
+    badgeLock: user?.badgeLock,
+    hideBadgeAndBalance: user?.hideBadgeAndBalance ?? existing?.hideBadgeAndBalance,
     session: {
       tokens,
       supabase: await readSupabaseSession(),
