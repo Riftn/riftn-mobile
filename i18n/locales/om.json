@@ -7037,7 +7037,7 @@
       "moveRuleUp": "Labsii ol fudhi",
       "moveRuleDown": "Labsii gadi fudhi",
       "deleteRule": "Labsii balleesi",
-      "rights": {
+      "rights": {"sendMessages":"Ergaawwan ergi","sendMessagesHint":"Chat hawaasaa keessatti maxxansaa","sendMedia":"Miidiyaa ergi","sendMediaHint":"Fakkiiwwanii fi GIFwwan walitti qabsiisi","embedLinks":"Geessituuwwan (links) gadi fageessi","embedLinksHint":"Ilaalcha geessituu agarsiisi","addMembers":"Miseensota dabali","addMembersHint":"Hawaasa namoota biroof qoodaa","createEvents":"Taateewwan uumuu","createEventsHint":"Taateewwan hawaasaa saganteessi","changeInfoMemberHint":"Maqaa fi ibsa hawaasaa gulaali",
         "changeInfo": "Gabaafa waldaa jijjir",
         "changeInfoHint": "Maqaa, ibsa, avatar fi banner jijjir",
         "deleteMessages": "Gabaafota balleesi",
@@ -7115,7 +7115,7 @@
       "noInvites": "Akkamii linki erga hin qabne. Namoota bilisummaa itti waamuuuf tokko uumi.",
       "permissionsUpdated": "Hayyamootni haaromfamaniiru",
       "slowModeUpdated": "Akkamii bilisummaa haaromfame",
-      "slowModeOffHint": "Miseensonni ergaa osoo hin turin erguu danda'u.",
+      "slowMode":{"off":"Hojiin ala","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"Daqiiqaa 1","fiveMinutes":"5 minitti.","fifteenMinutes":"15 min","oneHour":"Sa'aatii 1"},"slowModeOffHint": "Miseensonni ergaa osoo hin turin erguu danda'u.",
       "slowModeOnHint": "Miseensonni ergaa tokko {{label}} booda erguu danda'u. Adminni bilisummaa qabu.",
       "defaultPermissions": "Hayyamootni miseensotaa bu'uuraa",
       "defaultPermissionsHint": "Namootni hundi as irratti maal gochuu danda'an hayyamootni admin yoo itti hin jenne.",

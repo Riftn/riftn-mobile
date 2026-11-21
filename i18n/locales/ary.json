@@ -7054,7 +7054,7 @@
       "moveRuleUp": "نقل القاعدة للأعلى",
       "moveRuleDown": "نقل القاعدة للأسفل",
       "deleteRule": "حذف القاعدة",
-      "rights": {
+      "rights": {"sendMessages":"إرسال الرسائل","sendMessagesHint":"نشر في discussion المجتمع","sendMedia":"إرسال الوسائط","sendMediaHint":"رفع صور و GIFs","embedLinks":"تضمين الروابط","embedLinksHint":"أظهر مقتطفات الروابط","addMembers":"أضف أعضاء","addMembersHint":"شارك المجتمع مع غيرك","createEvents":"إنشاء أحداث","createEventsHint":"تخطيط أحداث المجتمع","changeInfoMemberHint":"تعديل اسم المجتمع ووصفه",
         "changeInfo": "تغيير معلومات المجتمع",
         "changeInfoHint": "تعديل الاسم، الوصف، الصورة الرمزية، والبانر",
         "deleteMessages": "حذف الرسائل",
@@ -7132,7 +7132,7 @@
       "noInvites": "لا توجد روابط دعوة حتى الآن. أنشئ واحدًا لدعوة الأشخاص مباشرةً.",
       "permissionsUpdated": "تم تحديث الأذونات",
       "slowModeUpdated": "تم تحديث الوضع البطيء",
-      "slowModeOffHint": "يمكن للأعضاء إرسال رسائل دون تأخير.",
+      "slowMode":{"off":"إيقاف التشغيل","tenSeconds":"10 ثوانٍ","thirtySeconds":"30 ثانية","oneMinute":"دقيقة واحدة","fiveMinutes":"5 دقايق","fifteenMinutes":"15 دقيقة","oneHour":"ساعة واحدة"},"slowModeOffHint": "يمكن للأعضاء إرسال رسائل دون تأخير.",
       "slowModeOnHint": "الناس كايين يبعثو رسالة واحدة كل {{label}}. المديرين مفيش حتا.",
       "defaultPermissions": "أذونات الأعضاء الافتراضية",
       "defaultPermissionsHint": "ما يمكن للجميع القيام به هنا ما لم ينص حق المسؤول على خلاف ذلك.",

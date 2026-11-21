@@ -7051,7 +7051,7 @@
       "moveRuleUp": "Sposta regola su",
       "moveRuleDown": "Sposta regola giù",
       "deleteRule": "Elimina regola",
-      "rights": {
+      "rights": {"sendMessages":"Invia messaggi","sendMessagesHint":"Pubblica nella chat della community","sendMedia":"Invia media","sendMediaHint":"Allega immagini e GIF","embedLinks":"Incorpora link","embedLinksHint":"Mostra anteprime dei link","addMembers":"Aggiungi membri","addMembersHint":"Condividi la comunità con altri","createEvents":"Crea eventi","createEventsHint":"Programma eventi comunitari","changeInfoMemberHint":"Modifica il nome e la descrizione della comunità",
         "changeInfo": "Modifica informazioni community",
         "changeInfoHint": "Modifica nome, descrizione, avatar e banner",
         "deleteMessages": "Elimina messaggi",
@@ -7129,7 +7129,7 @@
       "noInvites": "Ancora nessun link di invito. Creane uno per invitare direttamente le persone.",
       "permissionsUpdated": "I permessi sono stati aggiornati",
       "slowModeUpdated": "Modalità lenta aggiornata",
-      "slowModeOffHint": "I membri possono inviare messaggi senza indugio.",
+      "slowMode":{"off":"Disattivato","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 ora"},"slowModeOffHint": "I membri possono inviare messaggi senza indugio.",
       "slowModeOnHint": "I membri possono inviare un messaggio ogni {{label}}. Gli amministratori sono esenti.",
       "defaultPermissions": "Autorizzazioni membro predefinite",
       "defaultPermissionsHint": "Cosa possono fare tutti qui a meno che un amministratore non dica diversamente.",

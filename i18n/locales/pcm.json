@@ -7032,7 +7032,7 @@
       "moveRuleUp": "Carry di rule go up",
       "moveRuleDown": "Carry di rule come down",
       "deleteRule": "Delete di rule",
-      "rights": {
+      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Post for the community chat","sendMedia":"Send media","sendMediaHint":"Wetin you wan do? You dey wan attach images and GIFs?","embedLinks":"Embed links","embedLinksHint":"Show link previews","addMembers":"Add members","addMembersHint":"Share the community with other people","createEvents":"Create events","createEventsHint":"Schedule community events","changeInfoMemberHint":"Edit the community name and description",
         "changeInfo": "Change di community info",
         "changeInfoHint": "Change di name, description, avatar and banner",
         "deleteMessages": "Delete messages dem",
@@ -7105,7 +7105,7 @@
       "createLink": "Create link",
       "permissionsUpdated": "Permissions updated",
       "slowModeUpdated": "Slow mode updated",
-      "slowModeOffHint": "Members fit go send message without delay.",
+      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hour time"},"slowModeOffHint": "Members fit go send message without delay.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Wetin everybody fit do here unless admin say make you no dey do am.",
       "slowModeTitle": "Slow mode",

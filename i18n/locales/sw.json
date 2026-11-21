@@ -7052,7 +7052,7 @@
       "moveRuleUp": "Sogeza sheria juu",
       "moveRuleDown": "Sogeza sheria chini",
       "deleteRule": "Futa sheria",
-      "rights": {
+      "rights": {"sendMessages":"Tuma habari","sendMessagesHint":"Posti katika chati ya kijamii","sendMedia":"Tuma vyombo vya habari","sendMediaHint":"Ongeza picha na GIFs","embedLinks":"Weka linki","embedLinksHint":"Onyesha hakiki za kiunganishi","addMembers":"Weka wanachama","addMembersHint":"Shiriki jumuiya na wengine","createEvents":"Kuunda matukio","createEventsHint":"Ratibu matukio ya jumuiya","changeInfoMemberHint":"Hariri jina la jumuiya na maelezo",
         "changeInfo": "Badilisha maelezo ya jumuiya",
         "changeInfoHint": "Hariri jina, maelezo, avatar na bendera",
         "deleteMessages": "Futa jumbe",
@@ -7130,7 +7130,7 @@
       "noInvites": "Hakuna viunganishi vya mwaliko bado. Unda moja ili kuwaalika watu moja kwa moja.",
       "permissionsUpdated": "Ruhusa zimesasishwa",
       "slowModeUpdated": "Hali ya polepole imesasishwa",
-      "slowModeOffHint": "Wanachama wanaweza kutuma ujumbe bila kuchelewa.",
+      "slowMode":{"off":"Zima","tenSeconds":"Miaka ya 10","thirtySeconds":"Miaka ya 30","oneMinute":"Dakika 1","fiveMinutes":"Dakika 5","fifteenMinutes":"Dakika 15","oneHour":"Saa 1"},"slowModeOffHint": "Wanachama wanaweza kutuma ujumbe bila kuchelewa.",
       "slowModeOnHint": "Wanachama wanaweza kutuma ujumbe mmoja kila {{label}}. Wasimamizi wana msamaha.",
       "defaultPermissions": "Ruhusa chaguo-msingi za mwanachama",
       "defaultPermissionsHint": "Kile ambacho kila mtu anaweza kufanya hapa isipokuwa haki ya msimamizi inasema vinginevyo.",

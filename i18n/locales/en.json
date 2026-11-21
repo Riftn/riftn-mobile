@@ -4863,7 +4863,7 @@
       "moveRuleUp": "Move rule up",
       "moveRuleDown": "Move rule down",
       "deleteRule": "Delete rule",
-      "rights": {
+      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Post in the community chat","sendMedia":"Send media","sendMediaHint":"Attach images and GIFs","embedLinks":"Embed links","embedLinksHint":"Show link previews","addMembers":"Add members","addMembersHint":"Share the community with others","createEvents":"Create events","createEventsHint":"Schedule community events","changeInfoMemberHint":"Edit the community name and description",
         "changeInfo": "Change community info",
         "changeInfoHint": "Edit the name, description, avatar and banner",
         "deleteMessages": "Delete messages",
@@ -4942,7 +4942,7 @@
       "noInvites": "No invite links yet. Create one to invite people directly.",
       "permissionsUpdated": "Permissions updated",
       "slowModeUpdated": "Slow mode updated",
-      "slowModeOffHint": "Members can send messages without a delay.",
+      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hour"},"slowModeOffHint": "Members can send messages without a delay.",
       "slowModeOnHint": "Members can send one message every {{label}}. Admins are exempt.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "What everyone can do here unless an admin right says otherwise.",

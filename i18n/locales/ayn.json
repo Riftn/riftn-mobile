@@ -7024,7 +7024,7 @@
       "moveRuleUp": "نقل القاعدة للأعلى",
       "moveRuleDown": "نقل القاعدة للأسفل",
       "deleteRule": "حذف القاعدة",
-      "rights": {
+      "rights": {"sendMessages":"أرسل رسائل","sendMessagesHint":"انشر في دردشة المجتمع","sendMedia":"إرسِلِ المَوادِي","sendMediaHint":"اضغط على الصور وال GIFs","embedLinks":"أدراج الروابط","embedLinksHint":"أظهر مقتطفات الروابط","addMembers":"إضافة أعضاء","addMembersHint":"شارك المجتمع مع غيرك","createEvents":"إنشاء فعاليات","createEventsHint":"جدول الأحداث المجتمعية","changeInfoMemberHint":"عدّل اسم المجتمع والوصف",
         "changeInfo": "تغيير معلومات المجتمع",
         "changeInfoHint": "تعديل الاسم والوصف والصورة الرمزية واللافتة",
         "deleteMessages": "حذف الرسائل",
@@ -7100,7 +7100,7 @@
       "noInvites": "لا توجد روابط دعوة بعد. إنشاء واحدة لاستدعاء الأشخاص بشكل مباشر.",
       "permissionsUpdated": "تم تحديث الصلاحيات",
       "slowModeUpdated": "تم تحديث وضع السرعة",
-      "slowModeOffHint": "يمكن لأعضاء المجموعة ارسال الرسائل دون تأخير.",
+      "slowMode":{"off":"إيقاف","tenSeconds":"10 ثانية","thirtySeconds":"ثلاثين","oneMinute":"1 دقيقة","fiveMinutes":"5 دقيقة","fifteenMinutes":"15 دقيقة","oneHour":"ساعة واحدة"},"slowModeOffHint": "يمكن لأعضاء المجموعة ارسال الرسائل دون تأخير.",
       "slowModeOnHint": "يمكن لأعضاء المجموعة ارسال رسالة واحدة كل {{label}}. يتم استثناء المسؤولين.",
       "defaultPermissions": "الصلاحيات الافتراضية للأعضاء",
       "defaultPermissionsHint": "ما يمكن لأي شخص القيام به هنا ما لم يكن هناك صلاحية مسؤولية تقول خلاف ذلك.",

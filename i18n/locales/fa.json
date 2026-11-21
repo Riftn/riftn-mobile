@@ -7054,7 +7054,7 @@
       "moveRuleUp": "انتقال قانون به بالا",
       "moveRuleDown": "انتقال قانون به پایین",
       "deleteRule": "حذف قانون",
-      "rights": {
+      "rights": {"sendMessages":"پیام‌ها را ارسال کنید","sendMessagesHint":"پست در چت جامعه","sendMedia":"فایل‌های رسانه‌ای را ارسال کنید","sendMediaHint":"تصاویر و GIF‌ها را پیوست کنید","embedLinks":"لینک‌ها را بگنجانید","embedLinksHint":"پیش نمایش لینک‌ها را نمایش دهید","addMembers":"اعضا را اضافه کنید","addMembersHint":"درج جامعه با دیگران","createEvents":"ایجاد رویدادها","createEventsHint":"برنامه‌ریزی رویدادهای جامعه","changeInfoMemberHint":"نام و شرح جامعه را ویرایش کنید",
         "changeInfo": "تغییر اطلاعات انجمن",
         "changeInfoHint": "ویرایش نام، توضیحات، آواتار و بنر",
         "deleteMessages": "حذف پیام‌ها",
@@ -7132,7 +7132,7 @@
       "noInvites": "هنوز لینک دعوتی وجود ندارد. برای دعوت مستقیم افراد، یکی ایجاد کنید.",
       "permissionsUpdated": "مجوزها به‌روزرسانی شدند",
       "slowModeUpdated": "حالت آهسته به‌روزرسانی شد",
-      "slowModeOffHint": "اعضا می‌توانند بدون تأخیر پیام ارسال کنند.",
+      "slowMode":{"off":"خاموش","tenSeconds":"۱۰ ثانیه","thirtySeconds":"۳۰ ثانیه","oneMinute":"۱ دقیقه","fiveMinutes":"۵ دقیقه","fifteenMinutes":"15 دقیقه","oneHour":"یک ساعت"},"slowModeOffHint": "اعضا می‌توانند بدون تأخیر پیام ارسال کنند.",
       "slowModeOnHint": "اعضا می‌توانند به ازای هر {{label}} یک پیام ارسال کنند. مدیران از این قاعده مستثنی هستند.",
       "defaultPermissions": "مجوزهای پیش‌فرض اعضا",
       "defaultPermissionsHint": "کاری که همه می‌توانند اینجا انجام دهند، مگر اینکه مدیر خلاف آن را بگوید.",

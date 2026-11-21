@@ -7028,7 +7028,7 @@
       "moveRuleUp": "ਨਿਯਮ ਉੱਪਰ ਲਿਜਾਓ",
       "moveRuleDown": "ਨਿਯਮ ਹੇਠਾਂ ਲਿਜਾਓ",
       "deleteRule": "ਨਿਯਮ ਮਿਟਾਓ",
-      "rights": {
+      "rights": {"sendMessages":"ਸੁਨੇਹੇ ਭੇਜੋ","sendMessagesHint":"ਕਮਿਊਨਿਟੀ ਚੈਟ ਵਿੱਚ ਪੋਸਟ","sendMedia":"ਮੀਡੀਆ ਭੇਜੋ","sendMediaHint":"ਇਮੇਜਜ਼ ਅਤੇ GIFਜ਼ ਜੋੜੋ","embedLinks":"ਲਿੰਕ ਏਮਬੇਡ ਕਰੋ","embedLinksHint":"ਲਿੰਕ ਝਲਕ ਵੇਖੋ","addMembers":"ਮੈਂਬਰਾਂ ਨੂੰ ਜੋੜੋ","addMembersHint":"ਕਮਿਊਨਿਟੀ ਨੂੰ ਹੋਰਾਂ ਨਾਲ ਸਾਂਝਾ ਕਰੋ","createEvents":"ਇਵੈਂਟਸ ਬਣਾਓ","createEventsHint":"ਸਮੁਦਾਇਕ ਐਵੈਂਟਸ ਦਾ ਸਕੈਡਿਊਲ ਬਣਾਓ","changeInfoMemberHint":"ਕਮਿਊਨਿਟੀ ਦਾ ਨਾਮ ਅਤੇ ਵਰਣਨ ਸੰਪਾਦਿਤ ਕਰੋ",
         "changeInfo": "ਕਮਿਊਨਿਟੀ ਜਾਣਕਾਰੀ ਬਦਲੋ",
         "changeInfoHint": "ਨਾਮ, ਵੇਰਵਾ, ਅਵਤਾਰ ਅਤੇ ਬੈਨਰ ਸੰਪਾਦਿਤ ਕਰੋ",
         "deleteMessages": "ਸੰਦੇਸ਼ ਮਿਟਾਓ",
@@ -7106,7 +7106,7 @@
       "noInvites": "ਅਜੇ ਤੱਕ ਕੋਈ ਸੱਦਾ ਲਿੰਕ ਨਹੀਂ ਹਨ । ਲੋਕਾਂ ਨੂੰ ਸਿੱਧਾ ਸੱਦਾ ਦੇਣ ਲਈ ਇੱਕ ਬਣਾਓ.",
       "permissionsUpdated": "ਅਧਿਕਾਰ ਅੱਪਡੇਟ ਕੀਤੇ ਗਏ",
       "slowModeUpdated": "ਹੌਲੀ ਮੋਡ ਅੱਪਡੇਟ",
-      "slowModeOffHint": "ਸਦੱਸ ਬਿਨਾ ਦੇਰੀ ਸੁਨੇਹੇ ਭੇਜ ਸਕਦੇ ਹੋ.",
+      "slowMode":{"off":"ਬੰਦ","tenSeconds":"10s","thirtySeconds":"30 ਦਾ ਦਹਾਕਾ","oneMinute":"1 ਮਿੰਟ","fiveMinutes":"5 ਮਿੰਟ","fifteenMinutes":"15 ਮਿਨਟ","oneHour":"1 ਘੰਟਾ"},"slowModeOffHint": "ਸਦੱਸ ਬਿਨਾ ਦੇਰੀ ਸੁਨੇਹੇ ਭੇਜ ਸਕਦੇ ਹੋ.",
       "defaultPermissions": "ਮੂਲ ਮੈਂਬਰ ਅਧਿਕਾਰ",
       "defaultPermissionsHint": "ਹਰ ਕੋਈ ਇੱਥੇ ਕੀ ਕਰ ਸਕਦਾ ਹੈ ਜਦੋਂ ਤੱਕ ਕੋਈ ਐਡਮਿਨ ਅਧਿਕਾਰ ਨਹੀਂ ਕਹਿੰਦਾ ।",
       "slowModeTitle": "ਹੌਲੀ ਮੋਡ",

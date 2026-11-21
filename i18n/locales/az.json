@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Qaydanı yuxarı apar",
       "moveRuleDown": "Qaydanı aşağı apar",
       "deleteRule": "Qaydanı sil",
-      "rights": {
+      "rights": {"sendMessages":"Söhbət göndərmək","sendMessagesHint":"Cəmiyyət çatıda mesaj yazın","sendMedia":"Mediayı göndər","sendMediaHint":"Şəkilləri və GIF-ləri əlavə edin","embedLinks":"Linkləri əsaslandırmaq","embedLinksHint":"Link ön görsüllərini göstər","addMembers":"Üzvlər əlavə edin","addMembersHint":"Cəmiyyəti başqalarına paylaşın","createEvents":"Hadisələr yaradın","createEventsHint":"İcma tədbirləri planlaşdırın","changeInfoMemberHint":"İcmanın adını və təsvirini redaktə edin",
         "changeInfo": "İcmanın məlumatlarını dəyişdir",
         "changeInfoHint": "Adı, təsviri, avatarları və banneri redaktə et",
         "deleteMessages": "Mesajları sil",
@@ -7102,7 +7102,7 @@
       "noInvites": "Hələ dəvət linkləri yoxdur. İnsanları birbaşa dəvət etmək üçün bir link yaradın.",
       "permissionsUpdated": "İcazələr yeniləndi",
       "slowModeUpdated": "Yavaş rejim yeniləndi",
-      "slowModeOffHint": "Üzvlər gecikmə olmadan mesaj göndərə bilərlər.",
+      "slowMode":{"off":"Qeyri-aktiv","tenSeconds":"10-lar","thirtySeconds":"30s","oneMinute":"1 dəqiqə","fiveMinutes":"5 dəqiqə","fifteenMinutes":"15 dəqiqə","oneHour":"1 saat"},"slowModeOffHint": "Üzvlər gecikmə olmadan mesaj göndərə bilərlər.",
       "slowModeOnHint": "Üzvlər hər {{label}} də bir mesaj göndərə bilərlər. Administratorlar istisna edilir.",
       "defaultPermissions": "Standart üzv icazələri",
       "defaultPermissionsHint": "Administrator hüququ başqa cür deyilsə, hər kəsin burada edə biləcəyi şeylər.",

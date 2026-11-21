@@ -7029,7 +7029,7 @@
       "moveRuleUp": "नियम वर हलवा",
       "moveRuleDown": "नियम खाली हलवा",
       "deleteRule": "नियम हटवा",
-      "rights": {
+      "rights": {"sendMessages":"संदेश पाठवा","sendMessagesHint":"सामुदायिक चॅटमध्ये पोस्ट करा","sendMedia":"पाठवा मीडिया","sendMediaHint":"चित्रे आणि जीआयएफ्स जोडा","embedLinks":"लिंक्स इंबेड करा","embedLinksHint":"पूर्वावलोकन दाखवा","addMembers":"सदस्य जोडा","addMembersHint":"समुदाय इतरांना शेअर करा","createEvents":"इव्हेंट तयार करा","createEventsHint":"कम्युनिटीचे आयोजन तयार करा","changeInfoMemberHint":"कम्युनिटीचा नाव आणि वर्णन संपादित करा",
         "changeInfo": "समुदाय माहिती बदला",
         "changeInfoHint": "नाव, वर्णन, अवतार आणि बॅनर संपादित करा",
         "deleteMessages": "संदेश हटवा",
@@ -7106,7 +7106,7 @@
       "noInvites": "आता कोणतेही आमंत्रण दुवे नाहीत. लोकांना थेट आमंत्रित करण्यासाठी एक तयार करा.",
       "permissionsUpdated": "परवानग्या अद्ययावत केल्या",
       "slowModeUpdated": "स्लो मोड अद्ययावत केला",
-      "slowModeOffHint": "सदस्यांना विलंब न ठेवता संदेश पाठवता येतील.",
+      "slowMode":{"off":"बंद","tenSeconds":"10s","thirtySeconds":"३०स","oneMinute":"१ मिनिट","fiveMinutes":"5 मिनिट","fifteenMinutes":"15 मिनिट","oneHour":"१ तास"},"slowModeOffHint": "सदस्यांना विलंब न ठेवता संदेश पाठवता येतील.",
       "slowModeOnHint": "सदस्यांना प्रत्येक {{label}} मध्ये एक संदेश पाठवता येईल. प्रशासकांना याचा अपवाद आहे.",
       "defaultPermissions": "डिफॉल्ट सदस्य परवानग्या",
       "defaultPermissionsHint": "इथे प्रत्येकजण काय करू शकतो, जोपर्यंत प्रशासकाचा अधिकार वेगळा सांगत नाही.",

@@ -7028,7 +7028,7 @@
       "moveRuleUp": "నియమాన్ని పైకి తరలించండి",
       "moveRuleDown": "నియమాన్ని క్రిందికి తరలించండి",
       "deleteRule": "నియమాన్ని తొలగించండి",
-      "rights": {
+      "rights": {"sendMessages":"సందేశాలను పంపండి","sendMessagesHint":"కమ్యూనిటీ చాట్‌లో పోస్ట్ చేయండి","sendMedia":"మీడియా పంపండి","sendMediaHint":"చిత్రాలు మరియు జీఫ్‌లను అందించండి","embedLinks":"లింక్‌లను ప్రత్యామ్నాయం చేయండి","embedLinksHint":"లింక్ ప్రదర్శనలను చూపు","addMembers":"సభ్యులను జోడించండి","addMembersHint":"సంఘాన్ని ఇతరులతో పంచుకోండి","createEvents":"సంఘటనలు సృష్టించండి","createEventsHint":"సమాజ సంఘటనలను నిర్వహించు","changeInfoMemberHint":"సమూహ పేరు మరియు వివరణను సవరించండి",
         "changeInfo": "కమ్యూనిటీ సమాచారాన్ని మార్చండి",
         "changeInfoHint": "పేరు, వివరణ, అవతార్ మరియు బ్యానర్‌ను సవరించండి",
         "deleteMessages": "సందేశాలను తొలగించండి",
@@ -7104,7 +7104,7 @@
       "noInvites": "అనుమతులు పునర్నిర్మించబడ్డాయి",
       "permissionsUpdated": "స్లో మోడ్ పునర్నిర్మించబడింది",
       "slowModeUpdated": "సభ్యులు సమయ వ్యవధి లేకుండా సందేశాలు పంపవచ్చు.",
-      "slowModeOffHint": "సభ్యులు ఆలస్యం చేయకుండా సందేశాలను పంపవచ్చు.",
+      "slowMode":{"off":"ఆఫ్","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 నిమిషం","fiveMinutes":"5 నిమిషాలు","fifteenMinutes":"15 నిమిషాలు","oneHour":"1 గంట"},"slowModeOffHint": "సభ్యులు ఆలస్యం చేయకుండా సందేశాలను పంపవచ్చు.",
       "slowModeOnHint": "సభ్యులు ప్రతి {{label}} కు ఒక సందేశాన్ని పంపవచ్చు. నిర్వాహకులకు మినహాయింపు ఉంది.",
       "defaultPermissions": "అన్ని వారు చేయగలిగే విధానం",
       "defaultPermissionsHint": "ఇక్కడ ఏదైనా నిర్వాహకుడు చెప్పిన వరకు చేయగలిగే అన్ని వారు చేయగలిగే విధానం.",

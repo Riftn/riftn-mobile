@@ -7024,7 +7024,7 @@
       "moveRuleUp": "Flytt regel opp",
       "moveRuleDown": "Flytt regel ned",
       "deleteRule": "Slett regel",
-      "rights": {
+      "rights": {"sendMessages":"Send meldinger","sendMessagesHint":"Post i samfunnschatten","sendMedia":"Send media","sendMediaHint":"Bilddokumenter og GIF-er","embedLinks":"Innbygging av lenker","embedLinksHint":"Vis lenke-forevisninger","addMembers":"Legg til medlemmer","addMembersHint":"Del samfunnet med andre","createEvents":"Opprett hendelser","createEventsHint":"Planlegg samfunnsarrangementer","changeInfoMemberHint":"Rediger fellesskapsnavnet og beskrivelsen",
         "changeInfo": "Endre fellesskapsinfo",
         "changeInfoHint": "Rediger navn, beskrivelse, avatar og banner",
         "deleteMessages": "Slett meldinger",
@@ -7102,7 +7102,7 @@
       "noInvites": "Ingen invitasjonslenker ennå. Lag en for å invitere folk direkte.",
       "permissionsUpdated": "Tilleggstillatelse oppdatert",
       "slowModeUpdated": "Sakte modus oppdatert",
-      "slowModeOffHint": "Medlemmer kan sende meldinger uten forsinkelse.",
+      "slowMode":{"off":"Av","tenSeconds":"10s","thirtySeconds":"30-årene","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 time"},"slowModeOffHint": "Medlemmer kan sende meldinger uten forsinkelse.",
       "slowModeOnHint": "Medlemmer kan sende en melding hver {{label}}. Administrere er utesluttet.",
       "defaultPermissions": "Standard medlemstillatelse",
       "defaultPermissionsHint": "Det som alle kan gjøre her, med mindre en administratørstillatelse sier noe annet.",

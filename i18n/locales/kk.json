@@ -7042,7 +7042,7 @@
       "moveRuleUp": "Ережені жоғары жылжыту",
       "moveRuleDown": "Ережені төмен жылжыту",
       "deleteRule": "Ережені жою",
-      "rights": {
+      "rights": {"sendMessages":"Хабарламаларды жіберу","sendMessagesHint":"Қоғамдық чатта хабарлама","sendMedia":"Отправить медиафайлы","sendMediaHint":"Кескіндер мен GIF-терді бекіту","embedLinks":"Кірістірілген сілтемелер","embedLinksHint":"Сілтемелерді көрсету","addMembers":"Жасөспірімдерді қосу","addMembersHint":"Топты басқалармен бөлісу","createEvents":"Оқиғаларды жасау","createEventsHint":"Организуйте мероприятия сообщества","changeInfoMemberHint":"Редактировать название и описание сообщества",
         "changeInfo": "Қауымдастық ақпаратын өзгерту",
         "changeInfoHint": "Атауын, сипаттамасын, аватарын және баннерін өңдеу",
         "deleteMessages": "Хабарламаларды жою",
@@ -7120,7 +7120,7 @@
       "noInvites": "Сілтемелерді әлі шақыру жоқ. Адамдарды тікелей шақыру үшін біреуін жасаңыз.",
       "permissionsUpdated": "Рұқсаттар жаңартылды",
       "slowModeUpdated": "Баяу режим жаңартылды",
-      "slowModeOffHint": "Мүшелер хабарламаларды кідіріссіз жібере алады.",
+      "slowMode":{"off":"Өшіру","tenSeconds":"10с","thirtySeconds":"30-шы жылдар","oneMinute":"1 минут","fiveMinutes":"5 минут","fifteenMinutes":"15 минут","oneHour":"1 сағат"},"slowModeOffHint": "Мүшелер хабарламаларды кідіріссіз жібере алады.",
       "slowModeOnHint": "Мүшелер әрбір {{label}} бір хабарлама жібере алады. Әкімшілер босатылады.",
       "defaultPermissions": "Әдепкі мүше рұқсаттары",
       "defaultPermissionsHint": "Әкімші құқығында басқаша айтылмаса, мұнда әркім не істей алады.",

@@ -7024,7 +7024,7 @@
       "moveRuleUp": "تحريك القاعدة للأعلى",
       "moveRuleDown": "تحريك القاعدة للأسفل",
       "deleteRule": "حذف القاعدة",
-      "rights": {
+      "rights": {"sendMessages":"إرسال رسايل","sendMessagesHint":"كتب في الدردشة العامة","sendMedia":"أرسل الوسائط","sendMediaHint":"اربط صور وGIFs","embedLinks":"تضمين روابط","embedLinksHint":"أظهر مقتطفات الروابط","addMembers":"اضف أعضاء","addMembersHint":"شارك المجتمع مع غيرك","createEvents":"إنشاء أحداث","createEventsHint":"تخطيط أحداث المجتمع","changeInfoMemberHint":"عدّل اسم المجتمع والوصف",
         "changeInfo": "تغيير معلومات المجتمع",
         "changeInfoHint": "تعديل الاسم، الوصف، الصورة الرمزية، والبانر",
         "deleteMessages": "حذف الرسائل",
@@ -7101,7 +7101,7 @@
       "noInvites": "لا زالو رابط دعوة. خليك متابع.",
       "permissionsUpdated": "تم تحديث الإذن",
       "slowModeUpdated": "الطريقة السريعة تحديث",
-      "slowModeOffHint": "المشتركين يمكنهم إرسال الرسائل بلا تأخير.",
+      "slowMode":{"off":"إيقاف","tenSeconds":"10 ثواني","thirtySeconds":"30 ثانية","oneMinute":"دقيقة واحده","fiveMinutes":"5 دقايق","fifteenMinutes":"15 دقيقة","oneHour":"ساعة واحدة"},"slowModeOffHint": "المشتركين يمكنهم إرسال الرسائل بلا تأخير.",
       "slowModeOnHint": "الأعضاء يقدرو يبعثوا رسالة وحدة كل {{label}}. المشرفين معفّين.",
       "defaultPermissions": "صلاحيات الأعضاء الافتراضية",
       "defaultPermissionsHint": "شو كل حدا فيّ يعمل هون إلا إذا حقّ الأدمن بيقول غير هيك.",

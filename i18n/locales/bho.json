@@ -7023,7 +7023,7 @@
       "moveRuleUp": "नियम ऊपर ले जाएं",
       "moveRuleDown": "नियम नीचे ले जाएं",
       "deleteRule": "नियम हटाएं",
-      "rights": {
+      "rights": {"sendMessages":"संदेश भेजें","sendMessagesHint":"कम्युनिटी चैट में डटे रहे लोग","sendMedia":"मीडिया भेजिए","sendMediaHint":"फ़ाइलें और GIF फ़ाइलें जोड़ें","embedLinks":"लिंक एम्बेड करें","embedLinksHint":"पूर्वावलोकन देखें लिंक पे क्लिक करें","addMembers":"सदस्य जोड़ल गइल","addMembersHint":"अन्य लोगों के साथ समुदाय साझा करें","createEvents":"घटना पर उठ रहे सवाल","createEventsHint":"सांप्रदायिक घटनाक्रम से बचें","changeInfoMemberHint":"सामुदायिक नाम और विवरण संपादित करें",
         "changeInfo": "समुदाय की जानकारी बदलें",
         "changeInfoHint": "नाम, विवरण, अवतार और बैनर संपादित करें",
         "deleteMessages": "संदेश हटाएं",
@@ -7100,7 +7100,7 @@
       "noInvites": "अभी तक जारी नइखे भइल कड़ी खास इंस्पेक्टर से, जे आ रहले ह ।",
       "permissionsUpdated": "लाइसेंस अपडेट कइल गइल",
       "slowModeUpdated": "धीरे-धीरे समायोजित करें",
-      "slowModeOffHint": "रउआ लोग से सलाह बा कि कृपया कौनो लेख पर देरी ना करीं ।",
+      "slowMode":{"off":"बंद बा","tenSeconds":"10. उ पचे ओकरे लगे आएन","thirtySeconds":"30s","oneMinute":"1 मिनट","fiveMinutes":"5 मिनिट","fifteenMinutes":"15 मिनिट","oneHour":"1 घंटा"},"slowModeOffHint": "रउआ लोग से सलाह बा कि कृपया कौनो लेख पर देरी ना करीं ।",
       "defaultPermissions": "डिफ़ॉल्ट सदस्य अनुमति बदलें",
       "defaultPermissionsHint": "हर कोई कुछ भी कर सकता, अगर करता कुछ भी, फिर भी निरीक्षण ।",
       "slowModeTitle": "धीरे-धीरे समायोजित करें",

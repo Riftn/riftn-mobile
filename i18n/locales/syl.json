@@ -7192,7 +7192,7 @@
       "moveRuleUp": "নিয়ম উপরে সরান",
       "moveRuleDown": "নিয়ম নিচে সরান",
       "deleteRule": "নিয়ম ডিলিট করুন",
-      "rights": {
+      "rights": {"sendMessages":"মেসেজ পাঠান","sendMessagesHint":"কমিউনিটি চ্যাটে পোস্ট করুন","sendMedia":"মিডিয়া পাঠান","sendMediaHint":"ছবি এবং GIF সংযুক্ত করুন","embedLinks":"লিঙ্ক এমবেড করুন","embedLinksHint":"লিংক প্রিভিউ দেখুন","addMembers":"সদস্য যোগ করুন","addMembersHint":"সম্প্রদায় অন্যদের সাথে ভাগ করে নিন","createEvents":"ইভেন্ট তৈরি করুন","createEventsHint":"সম্প্রদায় অনুষ্ঠানের সময়সূচী তৈরি করুন","changeInfoMemberHint":"কমিউনিটি নাম ও বর্ণনা সম্পাদনা করুন",
         "changeInfo": "কমিউনিটি তথ্য পরিবর্তন করুন",
         "changeInfoHint": "নাম, বিবরণ, অ্যাভাটার এবং ব্যানার সম্পাদনা করুন",
         "deleteMessages": "মেসেজ ডিলিট করুন",
@@ -7269,7 +7269,7 @@
       "noInvites": "এখনও কোনো আমন্ত্রণ লিঙ্ক নেই। সরাসরি লোকদের আমন্ত্রণ জানানোর জন্য একটি তৈরি করুন।",
       "permissionsUpdated": "অনুমতি আপডেট করা হয়েছে",
       "slowModeUpdated": "স্লো মোড আপডেট করা হয়েছে",
-      "slowModeOffHint": "সদস্যরা স্বাভাবিক বিলম্বে মেসেজ পাঠাতে পারবে।",
+      "slowMode":{"off":"বন্ধ","tenSeconds":"10s","thirtySeconds":"৩০সেকেন্ড","oneMinute":"এক মিনিট","fiveMinutes":"৫ মিনিট","fifteenMinutes":"১৫ মিনিট","oneHour":"1 ঘন্টা"},"slowModeOffHint": "সদস্যরা স্বাভাবিক বিলম্বে মেসেজ পাঠাতে পারবে।",
       "slowModeOnHint": "সদস্যরা একটি মেসেজ পাঠাতে পারবে {{label}}। প্রশাসকরা ব্যতীত সকলের বাদ।",
       "defaultPermissions": "সদস্য অনুমতি",
       "defaultPermissionsHint": "এখানে সবাই কি করতে পারে যদি একজন প্রশাসক বলে না তা হলে।",

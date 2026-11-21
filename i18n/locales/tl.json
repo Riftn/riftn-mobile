@@ -7071,7 +7071,7 @@
       "moveRuleUp": "Ilipat ang tuntunin pataas",
       "moveRuleDown": "Ilipat ang tuntunin pababa",
       "deleteRule": "Burahin ang tuntunin",
-      "rights": {
+      "rights": {"sendMessages":"Magpadala ng mensahe","sendMessagesHint":"Ipost sa chat ng komunidad","sendMedia":"Magpadala ng media","sendMediaHint":"Mag-attach ng mga larawan at GIF","embedLinks":"Magdagdag ng mga link","embedLinksHint":"Ipakita ang mga preview ng link","addMembers":"Magdagdag ng mga miyembro","addMembersHint":"I-share ang komunidad sa iba","createEvents":"Makagawa ng mga pangyayari","createEventsHint":"Isagawa ang mga pangyayari ng komunidad","changeInfoMemberHint":"I-edit ang pangalan ng komunidad at deskripsyon",
         "changeInfo": "Baguhin ang impormasyon ng komunidad",
         "changeInfoHint": "I-edit ang pangalan, deskripsyon, avatar, at banner",
         "deleteMessages": "Burahin ang mga mensahe",
@@ -7148,7 +7148,7 @@
       "noInvites": "Walang paunang inaayos na mga link ng inaanyo. Makalikha ng isa para sa direktang pag-iimbita ng mga tao.",
       "permissionsUpdated": "Pinatibay ang mga karapatan",
       "slowModeUpdated": "Pinatibay ang slow mode",
-      "slowModeOffHint": "Ang mga miyembro ay pwedeng magpadala ng mensahe nang walang paghihintay.",
+      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"Tatlumpu't dalawampu","oneMinute":"1 minuto","fiveMinutes":"5 minuto","fifteenMinutes":"15 minuto","oneHour":"1 oras"},"slowModeOffHint": "Ang mga miyembro ay pwedeng magpadala ng mensahe nang walang paghihintay.",
       "slowModeOnHint": "Ang mga miyembro ay pwedeng magpadala ng isang mensahe bawat {{label}}. Ang mga admin ay hindi kasama.",
       "defaultPermissions": "Ang mga karapatan ng miyembro ng default",
       "defaultPermissionsHint": "Ang lahat ng mga bagay na ang mga tao ay pwedeng gawin dito maliban kung mayroon kang karapatan ng admin na nagsasabi ng iba.",

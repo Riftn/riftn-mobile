@@ -7050,7 +7050,7 @@
       "moveRuleUp": "Lëviz rregullin lart",
       "moveRuleDown": "Lëviz rregullin poshtë",
       "deleteRule": "Fshij rregullin",
-      "rights": {
+      "rights": {"sendMessages":"Dërgoni mesazhe","sendMessagesHint":"Posto në bisedën e komunitetit","sendMedia":"Dërgo media","sendMediaHint":"Ngarkoni imazhe dhe GIF","embedLinks":"Ngjitni lidhje","embedLinksHint":"Tregojni paralajmërimet e lidhjeve","addMembers":"Shto anëtarë","addMembersHint":"Përshkruaj komunitetin me të tjerët","createEvents":"Krijo evente","createEventsHint":"Ndalo ngjarjet e komunitetit","changeInfoMemberHint":"Redaktoj emrin dhe përshkrimin e komunitetit",
         "changeInfo": "Ndrysho informacionin e komunitetit",
         "changeInfoHint": "Redakto emrin, përshkrimin, avatarin dhe banerin",
         "deleteMessages": "Fshi mesazhet",
@@ -7128,7 +7128,7 @@
       "noInvites": "Nuk ka ende linqe ftesash. Krijo një për të ftuar njerëzit drejtpërdrejt.",
       "permissionsUpdated": "Lejet u përditësuan",
       "slowModeUpdated": "Modaliteti i ngadaltë u përditësua",
-      "slowModeOffHint": "Anëtarët mund të dërgojnë mesazhe pa vonesë.",
+      "slowMode":{"off":"Fikur","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 orë"},"slowModeOffHint": "Anëtarët mund të dërgojnë mesazhe pa vonesë.",
       "slowModeOnHint": "Anëtarët mund të dërgojnë një mesazh çdo {{label}}. Përjashtohen administratorët.",
       "defaultPermissions": "Lejet standarde të anëtarëve",
       "defaultPermissionsHint": "Çfarë mund të bëjnë të gjithë këtu, përveç nëse një e drejtë e administratorit thotë ndryshe.",

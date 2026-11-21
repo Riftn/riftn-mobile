@@ -7025,7 +7025,7 @@
       "moveRuleUp": "Gbe ofin si oke",
       "moveRuleDown": "Gbe ofin si isalẹ",
       "deleteRule": "Pa ofin rẹ",
-      "rights": {
+      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Fi àtẹ̀jíṣẹ́ sínú ì tán àwùjọ","sendMedia":"Fi àwọn àwòrán tàbí fídíò ránṣẹ́","sendMediaHint":"So àwọn àwòrán àti GIF mọ́","embedLinks":"Embed links","embedLinksHint":"Fi àwọn àkótán ọ̀nà-ìjápọ̀ hàn","addMembers":"Fi àwọn ọmọ ẹgbẹ́ kún un","addMembersHint":"Pín àwùjọ náà pẹ̀lú àwọn ẹlòmíràn","createEvents":"Ṣẹ̀dá àwọn ìṣẹ̀lẹ̀","createEventsHint":"Ṣètò àwọn ìṣẹ̀lẹ̀ ìlú","changeInfoMemberHint":"Ṣàtúnṣe orúkọ àti àpèjúwe àwùjọ náà",
         "changeInfo": "Ṣe ayipada alaye agbegbe",
         "changeInfoHint": "Ṣatunkọ orukọ, apejuwe, avatar ati asia",
         "deleteMessages": "Pa awọn ifiranṣẹ rẹ",
@@ -7103,7 +7103,7 @@
       "noInvites": "Kò sí ìjápọ̀ ìpẹ̀yà tí ó wà. Ṣẹda kan láti pe àwọn ènìyàn taara.",
       "permissionsUpdated": "Ìmúlò àṣẹ ti yípadà",
       "slowModeUpdated": "Ìmúlò àkúnya tó lọ́ọ̀dọ̀ yípadà",
-      "slowModeOffHint": "Àwọn ọmọ ẹgbẹ́ lè fi ifiranṣẹ ranṣẹ́ láì ní ìdákẹ́jẹ̀.",
+      "slowMode":{"off":"Pa","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 miniti","fiveMinutes":"Ìṣẹ́jú 5","fifteenMinutes":"Ìṣẹ́jú 15","oneHour":"1 wakati"},"slowModeOffHint": "Àwọn ọmọ ẹgbẹ́ lè fi ifiranṣẹ ranṣẹ́ láì ní ìdákẹ́jẹ̀.",
       "slowModeOnHint": "Àwọn ọmọ ẹgbẹ́ lè fi ifiranṣẹ kan ranṣẹ́ ní gbogbo {{label}}. Àwọn alákóso kò ní ìdákẹ́jẹ̀.",
       "defaultPermissions": "Ìmúlò àṣẹ ọmọ ẹgbẹ́ àtẹ̀jáde",
       "defaultPermissionsHint": "Ohun tí gbogbo ènìyàn lè ṣe nibi bí kò bá sí àṣẹ alákóso tó sọ pé kì í ṣe bẹ́ẹ̀.",

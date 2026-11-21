@@ -4997,7 +4997,7 @@
       "moveRuleUp": "Regel omhoog verplaatsen",
       "moveRuleDown": "Regel omlaag verplaatsen",
       "deleteRule": "Regel verwijderen",
-      "rights": {
+      "rights": {"sendMessages":"Berichten sturen","sendMessagesHint":"Plaats in de communitychat","sendMedia":"Stuur media","sendMediaHint":"Bevoegel beelden en GIFs","embedLinks":"Linkjes inbedden","embedLinksHint":"Toon linkvoorkijkingen","addMembers":"Leden toevoegen","addMembersHint":"De gemeenschap delen met anderen","createEvents":"Evenementen maken","createEventsHint":"Community-evenementen plannen","changeInfoMemberHint":"Bewerk de naam en beschrijving van de gemeenschap",
         "changeInfo": "Community-info wijzigen",
         "changeInfoHint": "Naam, beschrijving, avatar en banner bewerken",
         "deleteMessages": "Berichten verwijderen",
@@ -5075,7 +5075,7 @@
       "noInvites": "Nog geen uitnodigingslinks. Maak er een om mensen direct uit te nodigen.",
       "permissionsUpdated": "Rechten bijgewerkt",
       "slowModeUpdated": "Langzame modus bijgewerkt",
-      "slowModeOffHint": "Leden kunnen berichten verzenden zonder vertraging.",
+      "slowMode":{"off":"Uit","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min.","fifteenMinutes":"15 min.","oneHour":"1 uur"},"slowModeOffHint": "Leden kunnen berichten verzenden zonder vertraging.",
       "slowModeOnHint": "Leden kunnen één bericht elke {{label}} verzenden. Beheerders zijn vrijgesteld.",
       "defaultPermissions": "Standaard lidrechten",
       "defaultPermissionsHint": "Wat iedereen hier kan doen tenzij een beheerdersrecht anders zegt.",
