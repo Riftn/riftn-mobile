@@ -20,6 +20,8 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useI18n } from "react-i18next";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBadgeUrlFor } from "../../libs/misc";
+import { chatMentionSpans } from "../../libs/community-mentions";
+import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { openInApp } from "../../libs/links.utils";
 import { ASSISTANT_USERNAME, isAssistantAddress } from "../../libs/assistant";
 import { resolveChatGif, gifCaption, gifBox } from "../../libs/chat-gif";
@@ -60,7 +62,7 @@ const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 
 const URL_RE = /(?:https?:\/\/|www\.)[^\s<>)"']+/gi;
 
-const renderLinkedText = (text: string, onHold?: () => void, fontSize = 15) => {
+const renderLinkedText = (text: string, openProfile: (username: string) => void, onHold?: () => void, fontSize = 15) => {
   const parts: React.ReactNode[] = [];
   let lastIndex = 0;
   let match: RegExpExecArray | null;
@@ -83,7 +85,30 @@ const renderLinkedText = (text: string, onHold?: () => void, fontSize = 15) => {
     lastIndex = re.lastIndex;
   }
   if (lastIndex < text.length) parts.push(text.slice(lastIndex));
-  return expandEmojiTokens(parts, { fontSize });
+  const linked = parts.flatMap((part, partIndex): React.ReactNode[] => {
+    if (typeof part !== "string") return [part];
+    const nodes: React.ReactNode[] = [];
+    let offset = 0;
+    for (const { start, end, username, broadcast } of chatMentionSpans(part)) {
+      if (broadcast) continue;
+      if (start > offset) nodes.push(part.slice(offset, start));
+      nodes.push(
+        <Text
+          key={`mention-${partIndex}-${start}`}
+          accessibilityRole="link"
+          style={{ color: "#fff", fontWeight: "600", textDecorationLine: "underline" }}
+          onPress={(event) => { event.stopPropagation(); openProfile(username); }}
+          onLongPress={onHold}
+        >
+          {part.slice(start, end)}
+        </Text>
+      );
+      offset = end;
+    }
+    if (offset < part.length) nodes.push(part.slice(offset));
+    return nodes;
+  });
+  return expandEmojiTokens(linked, { fontSize });
 };
 
 const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
@@ -99,6 +124,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   replying = false,
 }) => {
   const { t: _copy } = _useCopy();
+  const { showUserProfile } = useUserProfileSheet();
   const { t } = useI18n();
   // Reader's chat text size (Settings → Appearance), on top of the phone's own font size.
   const textScale = useChatTextScale();
@@ -343,6 +369,7 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
                   isTranslated
                     ? stripDehubLinkMatches(translatedTexts.content || bodyText, dehubLinks).trim()
                     : shownBody,
+                  showUserProfile,
                   handleLongPress,
                   bodySize,
                 )}
