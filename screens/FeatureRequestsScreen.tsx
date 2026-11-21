@@ -1023,12 +1023,20 @@ function FeatureRequestsBoard() {
     : tab === "shipped" ? shipped.refetch : tab === "shipping" ? inProgress.refetch : refetch;
   const showListError = isError && tab === "requests" && !showNotFeasible;
 
-  const openSheet = () => {
+  const openSheet = useCallback(() => {
     changeTab("requests");
     setCategory((current) => (current === NOT_FEASIBLE ? "all" : current));
     listRef.current?.scrollToOffset({ offset: 0, animated: true });
     setComposerFocus(value => value + 1);
-  };
+  }, [changeTab]);
+
+  const composeRequest = route.params?.composeRequest;
+  React.useEffect(() => {
+    if (composeRequest) {
+      navigation.setParams({ composeRequest: undefined });
+      openSheet();
+    }
+  }, [composeRequest, navigation, openSheet]);
 
   /**
    * One tab's width: screen − 16 page gutter − 32 bento padding − 8 strip
