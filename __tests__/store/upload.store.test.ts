@@ -44,7 +44,7 @@ const stored = async (addr: string) => {
   return raw ? JSON.parse(raw) : null;
 };
 
-/** The store persists on an 800ms debounce; let it land. */
+/** The store checkpoints within 800ms; let it land. */
 const settle = () => new Promise((r) => setTimeout(r, 900));
 
 beforeEach(async () => {
@@ -209,4 +209,33 @@ it("preserves the voting duration of scheduled polls queued by an earlier build"
   setUploadCacheKey(A);
   await hydrateUploadStore();
   expect(uploadState.jobs[0].payload.pollData?.durationHours).toBe(24);
+});
+
+it('checkpoints an active upload while progress keeps arriving', async () => {
+  jest.useFakeTimers();
+  try {
+    clearUploadStore();
+    setUploadCacheKey(A);
+    await hydrateUploadStore();
+    uploadActions.enqueue(job('video', A));
+    uploadActions.updateStage('video', 'uploading');
+    for (let tick = 1; tick <= 8; tick++) {
+      uploadActions.updateProgress('video', tick / 10);
+      await jest.advanceTimersByTimeAsync(200);
+    }
+    const checkpoint = await stored(A);
+    expect(checkpoint?.jobs).toHaveLength(1);
+    expect(checkpoint.jobs[0].id).toBe('video');
+    expect(checkpoint.jobs[0].progress).toBeGreaterThan(0);
+
+    // Reopen from exactly the checkpoint a terminated process left on disk.
+    clearUploadStore();
+    await AsyncStorage.setItem(keyFor(A), JSON.stringify(checkpoint));
+    setUploadCacheKey(A);
+    await hydrateUploadStore();
+    expect(uploadActions.getNextJob()).toMatchObject({ id: 'video', status: 'queued' });
+  } finally {
+    clearUploadStore();
+    jest.useRealTimers();
+  }
 });

@@ -325,8 +325,10 @@ let persistTimer: ReturnType<typeof setTimeout> | null = null;
 subscribe(uploadState, () => {
   // Mid-switch the store is a staging area, not this account's queue.
   if (switchingAccount || (!hydrated && !uploadState.jobs.length)) return;
-  if (persistTimer) clearTimeout(persistTimer);
+  // Frequent progress events must not postpone the disk checkpoint indefinitely.
+  if (persistTimer) return;
   persistTimer = setTimeout(() => {
+    persistTimer = null;
     persist().catch(() => {});
   }, 800);
 });
