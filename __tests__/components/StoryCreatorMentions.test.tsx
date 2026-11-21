@@ -84,3 +84,17 @@ it("exports a person selected in the Moment editor as a linked label", async () 
   expect(target.y + target.h / 2).toBeCloseTo(0.6);
   expect(target.w).toBeGreaterThan(0.2);
 });
+
+it("keeps the full photo visible and lets the author close the editor without sharing", async () => {
+  const onClose = jest.fn();
+  jest.mocked(shareMoment).mockClear();
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={onClose} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  await editor.findByText("Share");
+  const close = editor.getByLabelText("Close");
+  expect(editor.UNSAFE_getAllByType(require("expo-image").Image).at(-1)?.props.contentFit).toBe("contain");
+  fireEvent.press(close);
+  expect(onClose).toHaveBeenCalledTimes(1);
+  expect(shareMoment).not.toHaveBeenCalled();
+});

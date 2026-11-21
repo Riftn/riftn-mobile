@@ -69,7 +69,7 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
           mediaTypes: ["images", "videos"],
           quality: 0.9,
           videoMaxDuration: MAX_SECONDS,
-          allowsEditing: Platform.OS === "ios",
+          allowsEditing: false,
         };
         if (from === "camera") {
           const perm = await ImagePicker.requestCameraPermissionsAsync();
@@ -255,7 +255,10 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
         {picked.kind === "video" ? (
           <VideoView player={player} style={StyleSheet.absoluteFill} contentFit={fit} nativeControls={false} />
         ) : (
-          <Image source={{ uri: picked.uri }} style={StyleSheet.absoluteFill} contentFit={fit} />
+          <>
+            <Image source={{ uri: picked.uri }} style={[StyleSheet.absoluteFill, { opacity: 0.6 }]} contentFit="cover" blurRadius={24} />
+            <Image source={{ uri: picked.uri }} style={StyleSheet.absoluteFill} contentFit="contain" />
+          </>
         )}
         {layers
           .filter((l) => l.id !== editing?.id)
@@ -273,6 +276,9 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
         <View style={styles.stageTop}>
           <TouchableOpacity onPress={onBack} style={styles.iconBtn} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
             <Icon name="ChevronLeft" size={22} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onClose} style={[styles.iconBtn, styles.dismissBtn]} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+            <Icon name="X" size={22} color="#fff" />
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
             {remixLabel ? <Text style={styles.remixLabel} numberOfLines={1}>{remixLabel}</Text> : null}
@@ -566,6 +572,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(0,0,0,0.38)",
   },
+  dismissBtn: { backgroundColor: "#242427", marginLeft: 8 },
   stage: { alignSelf: "center", borderRadius: 18, overflow: "hidden", backgroundColor: "#111" },
   stageTop: { position: "absolute", top: 10, left: 10, right: 10, flexDirection: "row", alignItems: "flex-start" },
   tools: { gap: 10 },
