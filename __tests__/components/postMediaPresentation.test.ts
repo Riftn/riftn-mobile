@@ -137,7 +137,7 @@ describe('post media presentation', () => {
     expect(containedImage).toContain('postPageMaxHeightFor(screenHeight),');
     // Whole photo, never cropped, except a shorter photo filling a framed gallery.
     expect(containedImage).toContain('contentFit={fills ? "cover" : "contain"}');
-    expect(containedImage).toContain('alignItems: "flex-start"');
+    expect(containedImage).toContain('alignItems: postPage ? "center" : "flex-start"');
     expect(containedImage).toContain('screenHeight * 0.55');
     expect(video).toContain('const INLINE_MAX_SCREEN = 0.55;');
     expect(video).toContain('screenHeight * INLINE_MAX_SCREEN');
