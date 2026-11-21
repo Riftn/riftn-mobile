@@ -343,10 +343,11 @@ export default function StoryViewer({
     }
   };
 
-  const fit = item.width && item.height && item.width > item.height ? "contain" : "cover";
-  // Mentions are positioned within the exported 9:16 image. Cover may crop
-  // that image on a taller phone, so apply the same crop to the tap targets.
-  const mentionFrameWidth = Math.max(viewport.width, viewport.height * 9 / 16);
+  const fit = item.type === "photo" || (item.width && item.height && item.width > item.height) ? "contain" : "cover";
+  // Photo mentions are baked into the contained canvas. Video mentions follow the cover-fit overlay.
+  const mentionFrameWidth = item.type === "photo"
+    ? Math.min(viewport.width, viewport.height * 9 / 16)
+    : Math.max(viewport.width, viewport.height * 9 / 16);
   const mentionFrameHeight = mentionFrameWidth * 16 / 9;
 
   return (

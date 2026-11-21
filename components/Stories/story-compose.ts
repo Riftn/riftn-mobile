@@ -93,23 +93,21 @@ export function mentionBoxes(layers: TextLayer[]): StoryMention[] {
 function drawCover(canvas: SkCanvas, image: SkImage) {
   const sw = image.width();
   const sh = image.height();
-  const ratio = sw / sh;
-  const paint = Skia.Paint();
-  const cover = () => {
-    const scale = Math.max(OUT_W / sw, OUT_H / sh);
-    const w = sw * scale;
-    const h = sh * scale;
-    canvas.drawImageRect(image, Skia.XYWHRect(0, 0, sw, sh), Skia.XYWHRect((OUT_W - w) / 2, (OUT_H - h) / 2, w, h), paint);
+  const source = Skia.XYWHRect(0, 0, sw, sh);
+  const centeredRect = (scale: number) => {
+    const width = sw * scale;
+    const height = sh * scale;
+    return Skia.XYWHRect((OUT_W - width) / 2, (OUT_H - height) / 2, width, height);
   };
-  if (ratio <= 0.75) return cover();
-  // Much wider than tall: the whole picture over a dimmed, blurred copy.
-  const blur = Skia.Paint();
-  blur.setImageFilter(Skia.ImageFilter.MakeBlur(40, 40, TileMode.Clamp, null));
-  blur.setColorFilter(Skia.ColorFilter.MakeMatrix([0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 1, 0]));
-  const scale = Math.max(OUT_W / sw, OUT_H / sh);
-  canvas.drawImageRect(image, Skia.XYWHRect(0, 0, sw, sh), Skia.XYWHRect((OUT_W - sw * scale) / 2, (OUT_H - sh * scale) / 2, sw * scale, sh * scale), blur);
-  const h = OUT_W / ratio;
-  canvas.drawImageRect(image, Skia.XYWHRect(0, 0, sw, sh), Skia.XYWHRect(0, (OUT_H - h) / 2, OUT_W, h), paint);
+  const fit = Math.min(OUT_W / sw, OUT_H / sh);
+  const fill = Math.max(OUT_W / sw, OUT_H / sh);
+  if (fill > fit) {
+    const blur = Skia.Paint();
+    blur.setImageFilter(Skia.ImageFilter.MakeBlur(40, 40, TileMode.Clamp, null));
+    blur.setColorFilter(Skia.ColorFilter.MakeMatrix([0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 1, 0]));
+    canvas.drawImageRect(image, source, centeredRect(fill), blur);
+  }
+  canvas.drawImageRect(image, source, centeredRect(fit), Skia.Paint());
 }
 
 async function save(snapshot: SkImage, png: boolean): Promise<string> {
