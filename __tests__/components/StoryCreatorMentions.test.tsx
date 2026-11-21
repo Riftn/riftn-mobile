@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render, waitFor } from "@testing-library/react-native";
+import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import StoryCreator from "../../components/Stories/StoryCreator";
 import { shareMoment } from "../../components/Stories/story-upload";
@@ -13,7 +13,7 @@ jest.mock("react-native", () => ({
   Pressable: "Pressable",
   TouchableOpacity: "TouchableOpacity",
   KeyboardAvoidingView: "KeyboardAvoidingView",
-  PanResponder: { create: () => ({ panHandlers: {} }) },
+  PanResponder: { create: (handlers: Record<string, unknown>) => ({ panHandlers: { onResponderGrant: handlers.onPanResponderGrant, onResponderMove: handlers.onPanResponderMove, onResponderRelease: handlers.onPanResponderRelease } }) },
   Platform: { OS: "ios", select: (options: any) => options.ios },
   StyleSheet: { create: (value: object) => value, flatten: (value: object) => value, hairlineWidth: 1 },
   useWindowDimensions: () => ({ width: 390, height: 844 }),
@@ -97,4 +97,28 @@ it("keeps the full photo visible and lets the author close the editor without sh
   fireEvent.press(close);
   expect(onClose).toHaveBeenCalledTimes(1);
   expect(shareMoment).not.toHaveBeenCalled();
+});
+
+it("tracks one gesture across multiple text position updates and publishes the final position", async () => {
+  jest.mocked(shareMoment).mockClear();
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={() => {}} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByLabelText("Mention"));
+  fireEvent.changeText(editor.getByPlaceholderText("Search"), "@ali");
+  fireEvent.press(await editor.findByLabelText("alice"));
+  const layer = () => editor.getByLabelText("@alice");
+  const move = layer().props.onResponderMove;
+  act(() => layer().props.onResponderGrant());
+  act(() => move({}, { dx: 15, dy: 20 }));
+  expect(layer().props.onResponderMove).toBe(move);
+  act(() => move({}, { dx: 60, dy: 90 }));
+  act(() => layer().props.onResponderRelease({}, { dx: 60, dy: 90 }));
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
+  const box = jest.mocked(shareMoment).mock.calls[0][0].fields.mentions![0];
+  expect(box.x + box.w / 2).toBeGreaterThan(0.6);
+  expect(box.y + box.h / 2).toBeGreaterThan(0.7);
+  editor.unmount();
+  client.clear();
 });

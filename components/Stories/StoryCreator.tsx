@@ -434,25 +434,27 @@ function DraggableText({
   onTap: () => void;
 }) {
   const start = useRef({ x: layer.x, y: layer.y });
-  const latest = useRef(layer);
-  latest.current = layer;
+  // PanResponder keeps cumulative movement for the lifetime of a gesture.
+  // The parent updates the text layer on every move, including its callbacks.
+  const latest = useRef({ layer, onMove, onTap });
+  latest.current = { layer, onMove, onTap };
   const pan = useMemo(
     () =>
       PanResponder.create({
         onStartShouldSetPanResponder: () => true,
         onPanResponderGrant: () => {
-          start.current = { x: latest.current.x, y: latest.current.y };
+          start.current = { x: latest.current.layer.x, y: latest.current.layer.y };
         },
         onPanResponderMove: (_e, g) => {
           const x = Math.min(0.95, Math.max(0.05, start.current.x + g.dx / stageW));
           const y = Math.min(0.95, Math.max(0.05, start.current.y + g.dy / stageH));
-          onMove(x, y);
+          latest.current.onMove(x, y);
         },
         onPanResponderRelease: (_e, g) => {
-          if (Math.abs(g.dx) < 4 && Math.abs(g.dy) < 4) onTap();
+          if (Math.abs(g.dx) < 4 && Math.abs(g.dy) < 4) latest.current.onTap();
         },
       }),
-    [stageW, stageH, onMove, onTap],
+    [stageW, stageH],
   );
   const fontSize = layer.size * stageW;
   return (
