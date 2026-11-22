@@ -121,6 +121,8 @@ export function PinnedCommunityDissolve({ community }: { community: Community })
   );
 }
 
+const LIFT = { textShadowColor: "rgba(0,0,0,0.55)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 } as const;
+
 const styles = StyleSheet.create({
   artBase: { backgroundColor: '#0b0b0d' },
   wash: { ...StyleSheet.absoluteFillObject, overflow: "hidden" },
@@ -131,10 +133,12 @@ const styles = StyleSheet.create({
   community: { flex: 1, minWidth: 0, flexDirection: "row", alignItems: "center", gap: 12, minHeight: 44 },
   avatar: { width: 32, height: 32, borderRadius: 9, overflow: "hidden", alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.4)", borderWidth: 1, borderColor: "rgba(255,255,255,0.3)" },
   body: { flex: 1, minWidth: 0 },
-  name: { fontSize: 14, fontWeight: "600", color: "#fff" },
+  // The strip sits on the community's own banner, which can be a bright sky:
+  // the type carries a soft shadow and the buttons a dark glass, like the pin.
+  name: { fontSize: 14, fontWeight: "600", color: "#fff", ...LIFT },
   meta: { flexDirection: "row", alignItems: "center", gap: 4, opacity: 0.8, marginTop: 2 },
-  members: { flexShrink: 1, fontSize: 12, color: "#fff" },
+  members: { flexShrink: 1, fontSize: 12, color: "#fff", ...LIFT },
   manage: { width: 32, height: 32, borderRadius: 10, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", backgroundColor: "rgba(0,0,0,0.3)" },
-  open: { height: 32, paddingHorizontal: 12, borderRadius: 10, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", backgroundColor: "rgba(255,255,255,0.1)" },
+  open: { height: 32, paddingHorizontal: 12, borderRadius: 10, alignItems: "center", justifyContent: "center", borderWidth: 1, borderColor: "rgba(255,255,255,0.2)", backgroundColor: "rgba(0,0,0,0.3)" },
   openText: { fontSize: 13, fontWeight: "500", color: "#fff" },
 });
