@@ -1,12 +1,4 @@
-/**
- * The Glass Shelf: one row of tall glass tiles at the top of Home. Port of
- * web's `components/app/stories/StoryShelf`.
- *
- * "Your day" first (+ to share a moment, or watch your own), then everyone
- * live right now (it replaces the Live now row), then people's moments: new
- * ones carry a ring in the theme's colours, watched ones go grey and move to
- * the end. The opening frame sits behind the profile photo.
- */
+/** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
 import React, { useCallback, useMemo } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
@@ -21,10 +13,9 @@ import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { useUser, useAuthActions } from "../../context/AuthContext";
 import { useHorizontalScrollGuard, useHorizontalSectionGuard } from "../../context/PagerGestureContext";
-import { useAppTheme } from "../../context/ThemeContext";
 import { MATURE_CONTENT_ENABLED } from "../../config/storefront";
 import { useKidsModeLock } from "../../hooks/useKidsModeLock";
-import { useLiveNowItems, pictureOf, type LiveNowItem } from "../Home/LiveNowBar";
+import { useLiveNowItems, LiveFace, type LiveNowItem } from "../Home/LiveNowBar";
 import { getStoryShelf, type ShelfEntry } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } from "../../store/stories.store";
 import { ageLabel, avatarOf, coverOf, nameOf, playable } from "./story-utils";
@@ -43,23 +34,6 @@ function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean, ena
     staleTime: 30_000,
     refetchInterval: 60_000,
   });
-}
-
-/** Themes with a colored outline use a gradient behind the story tile. */
-function useRingGradient(): [string, string] | null {
-  const { theme } = useAppTheme();
-  switch (theme) {
-    case "hazy":
-      return ["#A391FC", "#F39BFF"];
-    case "osaka":
-      return ["#FF6FB1", "#7FE3E0"];
-    case "jungle":
-      return ["#9BE15D", "#00E3AE"];
-    case "war":
-      return ["#E8B04A", "#E8B04A"];
-    default:
-      return null;
-  }
 }
 
 function StoryShelf() {
@@ -136,6 +110,44 @@ function StoryShelf() {
   );
 }
 
+function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
+  cover?: string | null;
+  avatar: React.ReactNode;
+  label: string;
+  onPress: () => void;
+  badge?: React.ReactNode;
+  action?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <View className="dark-surface" style={styles.tile}>
+      <TouchableOpacity
+        style={StyleSheet.absoluteFill}
+        activeOpacity={0.85}
+        onPress={onPress}
+        accessibilityRole="button"
+        accessibilityLabel={label}
+      >
+        {cover ? (
+          <Image source={{ uri: cover }} recyclingKey={cover} style={StyleSheet.absoluteFill}
+            contentFit="cover" cachePolicy="memory-disk" />
+        ) : null}
+        <LinearGradient
+          colors={["rgba(0,0,0,0.44)", "transparent", "transparent", "rgba(0,0,0,0.83)"]}
+          locations={[0, 0.36, 0.5, 1]}
+          style={StyleSheet.absoluteFill}
+          pointerEvents="none"
+        />
+        <View pointerEvents="none" style={styles.frame} />
+        <View pointerEvents="none" style={styles.avatar}>{avatar}</View>
+        {badge}
+        {children}
+      </TouchableOpacity>
+      {action}
+    </View>
+  );
+}
+
 function MeTile({
   pending,
   avatar,
@@ -154,206 +166,180 @@ function MeTile({
   onAdd: () => void;
 }) {
   const { t } = useTranslation();
-  const { isLight } = useAppTheme();
   const failed = pending?.state === "failed";
+  const caption = failed
+    ? t("stories.tapRetry", { defaultValue: "Tap to retry" })
+    : pending || processing
+      ? t("stories.sharing", { defaultValue: "Sharing…" })
+      : name;
   return (
-    <TouchableOpacity
-      activeOpacity={0.85}
+    <ShelfTile
+      cover={pending?.preview ?? (entry && coverOf(entry))}
+      avatar={<Avatar uri={avatar} size={22} radius={11} name={name} />}
+      label={failed ? caption : name}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
-      accessibilityLabel={name}
-      className="dark-surface"
-      style={[styles.tile, isLight && styles.lightTile]}
+      action={
+        <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plus}
+          accessibilityRole="button" accessibilityLabel={t("stories.addMoment", { defaultValue: "Add a moment" })}>
+          <Icon name="Plus" size={16} color="#111" strokeWidth={2.6} />
+        </TouchableOpacity>
+      }
     >
-      <Face uri={avatar} name={name} cover={pending ? pending.preview : entry && coverOf(entry)} />
       {pending && !failed ? (
         <View style={styles.progressTrack} pointerEvents="none">
-          <View style={[styles.progressFill, isLight && styles.lightProgress, { width: `${Math.max(4, Math.round(pending.progress * 100))}%` }]} />
+          <View style={[styles.progressFill, { width: `${Math.max(4, Math.round(pending.progress * 100))}%` }]} />
         </View>
       ) : null}
       {failed ? (
         <View style={styles.center} pointerEvents="none">
-          <View style={styles.retry}>
-            <Icon name="RotateCcw" size={18} color="#fff" />
-          </View>
+          <View style={styles.retry}><Icon name="RotateCcw" size={18} color="#fff" /></View>
         </View>
       ) : null}
-      <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plus} accessibilityLabel={t("stories.addMoment", { defaultValue: "Add a moment" })}>
-        <Icon name="Plus" size={16} color="#000" strokeWidth={2.6} />
-      </TouchableOpacity>
-      <View style={[styles.label, isLight && styles.lightLabel]}>
-        <Text style={[styles.name, isLight && styles.lightName]} numberOfLines={1}>
-          {failed
-            ? t("stories.tapRetry", { defaultValue: "Tap to retry" })
-            : pending || processing
-              ? t("stories.sharing", { defaultValue: "Sharing…" })
-              : name}
-        </Text>
+      <View style={styles.label} pointerEvents="none">
+        <Text style={styles.name} numberOfLines={1}>{caption}</Text>
       </View>
-    </TouchableOpacity>
+    </ShelfTile>
   );
 }
 
 function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
   const { t } = useTranslation();
-  const { theme, isLight } = useAppTheme();
-  const tone = theme === "osaka" ? "#FFB05C" : isLight ? "#E04046" : "#FF6363";
-  const pic = pictureOf(item);
+  const liveLabel = t("stages.live");
   return (
-    <TouchableOpacity className="dark-surface" activeOpacity={0.85} onPress={onOpen} accessibilityLabel={item.title} style={[styles.tile, styles.liveTile, { borderColor: tone }]}>
-      {pic ? <Image source={{ uri: pic }} style={StyleSheet.absoluteFill} contentFit="cover" cachePolicy="memory-disk" /> : null}
-      <View style={[styles.livePill, { backgroundColor: tone }]}>
-        <Text style={styles.livePillText}>{t("stages.live")}</Text>
-      </View>
+    <ShelfTile
+      cover={item.cover}
+      avatar={<LiveFace item={item} size={22} radius={11} live={false} />}
+      label={`${item.title}, ${liveLabel}`}
+      onPress={onOpen}
+      badge={
+        <View pointerEvents="none" style={[styles.cornerBadge, styles.liveBadge]}>
+          <Text style={[styles.badgeText, styles.liveText]} numberOfLines={1}>{liveLabel}</Text>
+        </View>
+      }
+    >
       <TileIdentity
         displayName={item.displayName}
         fallback={item.username || item.title}
         lookup={item.kind === "stage" ? item.wallet : undefined}
         badge={item.badge}
-        light={isLight}
       />
-    </TouchableOpacity>
+    </ShelfTile>
   );
 }
 
-function TileIdentity({ displayName, fallback, lookup, badge, light = false }: {
+function TileIdentity({ displayName, fallback, lookup, badge }: {
   displayName?: string | null;
   fallback: string;
   lookup?: string;
   badge?: number;
-  light?: boolean;
 }) {
   const account = useBadgeAccount(lookup);
   const artwork = badge ?? (account && !account.hideBadgeAndBalance ? getBadgeUrlFor(account) : undefined);
   return (
-    <View style={[styles.label, light && styles.lightLabel]}>
-      <Text style={[styles.name, light && styles.lightName]} numberOfLines={1}>
+    <View style={styles.label} pointerEvents="none">
+      <Text style={styles.name} numberOfLines={1}>
         {displayName?.trim() || account?.displayName?.trim() || fallback}
       </Text>
-      {artwork != null && (
-        <Image source={artwork} style={styles.badge} contentFit="contain" />
-      )}
+      {artwork != null && <Image source={artwork} style={styles.identityBadge} contentFit="contain" />}
     </View>
   );
 }
 
-function Face({ uri, name, cover }: { uri: string | null; name: string; cover: string | null }) {
-  return (
-    <>
-      {cover ? <Image source={{ uri: cover }} recyclingKey={cover} style={StyleSheet.absoluteFill} contentFit="cover" cachePolicy="memory-disk" /> : null}
-      <View style={styles.face} pointerEvents="none">
-        <Avatar uri={uri} size={60} radius={30} name={name} />
-      </View>
-    </>
-  );
-}
-
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
-  const { isLight } = useAppTheme();
-  const ring = useRingGradient();
-  const face = avatarOf(entry.author, 96);
-  const latest = entry.items[entry.items.length - 1];
-  const fresh = !entry.seen;
+  const name = nameOf(entry.author);
+  const age = ageLabel(entry.items[entry.items.length - 1]?.createdAt);
   return (
-    <TouchableOpacity activeOpacity={0.85} onPress={onOpen} accessibilityLabel={nameOf(entry.author)} style={styles.tileBox}>
-      {fresh && ring ? <LinearGradient colors={ring} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={styles.ring} /> : null}
-      <View className="dark-surface" style={[styles.tile, isLight && styles.lightTile, fresh && (!isLight || ring) && styles.inRing]}>
-        <View style={StyleSheet.absoluteFill} pointerEvents="none">
-          <Face uri={face} cover={coverOf(entry)} name={nameOf(entry.author)} />
+    <ShelfTile
+      cover={coverOf(entry)}
+      avatar={<Avatar uri={avatarOf(entry.author, 48)} size={22} radius={11} name={name} />}
+      label={name}
+      onPress={onOpen}
+      badge={age ? (
+        <View pointerEvents="none" style={[styles.cornerBadge, entry.seen && styles.seenBadge]}>
+          <Text style={styles.badgeText} numberOfLines={1}>{age}</Text>
         </View>
-        {latest ? (
-          <View style={styles.age}>
-            <Text style={styles.ageText}>{ageLabel(latest.createdAt)}</Text>
-          </View>
-        ) : null}
-        <TileIdentity displayName={entry.author.displayName} fallback={entry.author.username || `${entry.author.address.slice(0, 6)}…`} lookup={entry.author.address} light={isLight} />
-        {!fresh || !ring ? <View style={[styles.smokeLine, !fresh && styles.seenLine]} pointerEvents="none" /> : null}
-      </View>
-    </TouchableOpacity>
+      ) : null}
+    >
+      <TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} />
+    </ShelfTile>
   );
 }
 
 const styles = StyleSheet.create({
   wrap: { marginTop: 6, marginBottom: 8, flexGrow: 0 },
   row: { gap: 8, paddingVertical: 2 },
-  tileBox: { width: TILE_W, height: TILE_H },
   tile: {
     width: TILE_W,
     height: TILE_H,
     borderRadius: 16,
     overflow: "hidden",
-    backgroundColor: "rgba(127,127,127,0.18)",
+    backgroundColor: "#292b32",
   },
-  ring: { position: "absolute", top: 0, left: 0, right: 0, bottom: 0, borderRadius: 16 },
-  inRing: {
-    position: "absolute",
-    top: 2,
-    left: 2,
-    width: TILE_W - 4,
-    height: TILE_H - 4,
-    borderRadius: 14,
-  },
-  smokeLine: {
+  frame: {
     ...StyleSheet.absoluteFillObject,
-    borderRadius: 14,
+    borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#66686DBA",
+    borderColor: "rgba(255,255,255,0.18)",
   },
-  seenLine: { borderColor: "#898b905e" },
-  liveTile: { borderWidth: 2 },
+  avatar: {
+    position: "absolute",
+    top: 7,
+    left: 7,
+    borderColor: "rgba(255,255,255,0.7)",
+    borderWidth: 1,
+    borderRadius: 12,
+  },
   label: {
     position: "absolute",
-    left: 0,
-    right: 0,
-    bottom: 0,
-    paddingHorizontal: 4,
-    paddingVertical: 5,
-    backgroundColor: "#242427",
+    left: 7,
+    right: 6,
+    bottom: 8,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
     gap: 2,
   },
-  lightTile: { backgroundColor: "#f4f5f7", borderColor: "#d6d9df", borderWidth: 1 },
-  badge: { width: 14, height: 14 },
-  lightLabel: { backgroundColor: "#f4f5f7" },
-  lightName: { color: "#20242b" },
-  lightProgress: { backgroundColor: "#343a44" },
+  identityBadge: { width: 12, height: 12 },
   name: {
     flexShrink: 1,
-    textAlign: "center",
-    lineHeight: 16,
     color: "#fff",
     fontSize: 11.5,
-    fontWeight: "600",
+    fontWeight: "700",
+    textShadowColor: "rgba(0,0,0,0.7)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 4,
   },
-  face: { position: "absolute", top: 23, alignSelf: "center", borderWidth: 2, borderColor: "#fff", borderRadius: 32 },
-  age: {
+  cornerBadge: {
     position: "absolute",
-    top: 6,
+    top: 7,
     right: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 9,
-    backgroundColor: "#242427",
+    minHeight: 21,
+    maxWidth: 46,
+    justifyContent: "center",
+    paddingHorizontal: 5,
+    borderRadius: 7,
+    backgroundColor: "rgba(23,24,26,0.90)",
+    borderColor: "rgba(255,255,255,0.38)",
+    borderWidth: 1,
   },
-  ageText: { color: "#fff", fontSize: 11, fontWeight: "700" },
+  seenBadge: { borderColor: "rgba(255,255,255,0.18)" },
+  liveBadge: { backgroundColor: "#BF303B", borderColor: "#D56E78" },
+  badgeText: { color: "#fff", fontSize: 10, fontWeight: "700" },
+  liveText: { fontSize: 9.5, fontWeight: "800", letterSpacing: 0.35 },
   plus: {
     position: "absolute",
-    top: 6,
+    top: 7,
     right: 6,
     width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: "#fff",
+    height: 21,
+    borderRadius: 7,
+    backgroundColor: "#f2f2f2",
     alignItems: "center",
     justifyContent: "center",
   },
-  progressTrack: { position: "absolute", left: 8, right: 8, bottom: 28, height: 3, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.3)", overflow: "hidden" },
+  progressTrack: { position: "absolute", left: 7, right: 6, bottom: 28, height: 3, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.3)", overflow: "hidden" },
   progressFill: { height: 3, backgroundColor: "#fff" },
   center: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center" },
   retry: { width: 36, height: 36, borderRadius: 18, backgroundColor: "rgba(0,0,0,0.5)", alignItems: "center", justifyContent: "center" },
-  livePill: { position: "absolute", top: 6, left: 6, paddingHorizontal: 6, paddingVertical: 2, borderRadius: 6 },
-  livePillText: { color: "#fff", fontSize: 9.5, fontWeight: "800", letterSpacing: 0.4 },
 });
 
 export default React.memo(StoryShelf);
