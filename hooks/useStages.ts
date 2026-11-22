@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect, useMemo } from "react";
+import { newStageChannelName } from "../libs/stage-radio-show";
 import { Platform, PermissionsAndroid } from "react-native";
 import * as FileSystem from "expo-file-system/legacy";
 import createAgoraRtcEngine, {
@@ -99,6 +100,8 @@ export interface ScheduleSpaceInput {
   scheduledAt: string;
   /** Public URL of an already-uploaded cover graphic. */
   coverImageUrl?: string | null;
+  /** A radio show: music first, listed in Explore's Radio row. */
+  radio?: boolean;
 }
 
 export type SpaceRole = "host" | "speaker" | "listener";
@@ -229,7 +232,7 @@ export interface UseStagesReturn {
   isTranscriptLoading: boolean;
   openModal: (view?: "browse" | "create" | "live") => void;
   closeModal: () => void;
-  createSpace: (title: string, description?: string, coverImageUrl?: string | null) => Promise<AudioSpace | null>;
+  createSpace: (title: string, description?: string, coverImageUrl?: string | null, options?: { radio?: boolean }) => Promise<AudioSpace | null>;
   scheduleSpace: (input: ScheduleSpaceInput) => Promise<AudioSpace | null>;
   startScheduledSpace: (spaceId: string) => Promise<boolean>;
   cancelScheduledSpace: (spaceId: string) => Promise<boolean>;
@@ -1136,14 +1139,14 @@ export function useStages(): UseStagesReturn {
     return true;
   }, []);
 
-  const createSpace = useCallback(async (title: string, description?: string, coverImageUrl?: string | null): Promise<AudioSpace | null> => {
+  const createSpace = useCallback(async (title: string, description?: string, coverImageUrl?: string | null, options?: { radio?: boolean }): Promise<AudioSpace | null> => {
     if (!userAddress) return null;
     if (roomSwitchInFlightRef.current) return null;
     roomSwitchInFlightRef.current = true;
     setIsLoading(true);
     try {
       if (!(await vacateCurrentRoom(null))) return null;
-      const channelName = `stage_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      const channelName = newStageChannelName(!!options?.radio);
       const { data, error } = await signed(
         supabase
           .from("audio_spaces")
@@ -1220,7 +1223,7 @@ export function useStages(): UseStagesReturn {
     try {
       // Minted now and kept for the whole life of the stage, so the link handed
       // out today is the room people walk into.
-      const channelName = `stage_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+      const channelName = newStageChannelName(!!input.radio);
       const { data, error } = await signed(
         supabase
           .from("audio_spaces")

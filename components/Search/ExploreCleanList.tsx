@@ -27,6 +27,7 @@ import { supabase } from "../../services/supabase";
 import { useLiveNowItems, LiveFace } from "../Home/LiveNowBar";
 import SuggestedAccountsSection from "../Home/SuggestedAccountsSection";
 import NewMembersRail from "../common/NewMembersRail";
+import ExploreRadioShows from "./ExploreRadioShows";
 
 const TOPICS_COLLAPSED = 5;
 const TOPICS_EXPANDED = 10;
@@ -283,6 +284,8 @@ function ExploreCleanList({
           ))}
         </ExploreSection>
       )}
+
+      <ExploreRadioShows first={isFirst()} />
 
       {tickers.length > 0 && (
         <ExploreSection

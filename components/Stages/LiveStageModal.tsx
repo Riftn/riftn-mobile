@@ -35,6 +35,7 @@ import type { SpaceParticipant, RaiseHandRequest, FloatingReaction } from "../..
 import { VOICE_EFFECTS, sameWallet } from "../../hooks/useStages";
 import { ShareLinks } from "../../navigation/linking.config";
 import StageSoundboard from "./StageSoundboard";
+import StageMusicDeck from "./StageMusicDeck";
 import StageScreenShare from "./StageScreenShare";
 import { useBookBoost, useSuperpowers } from "../../hooks/useSuperpowers";
 import { toastError, toastSuccess } from "../../libs";
@@ -936,6 +937,9 @@ const LiveStageModal: React.FC = () => {
 
         {/* Soundboard (host/speaker only) — clips ride the same channel
             injection TTS uses, so listeners hear them even while muted. */}
+        {/* Host's own songs, played to the room (radio shows open with it out). */}
+        {isHostRole && <StageMusicDeck />}
+
         {canSpeak && <StageSoundboard />}
 
         {/* TTS (host/speaker only) */}
