@@ -90,3 +90,15 @@ it('uses a thin grey outline on all three tile types in light mode', () => {
     mockIsLight = false;
   }
 });
+
+it('shows the time on a glass chip the size of the face opposite it', () => {
+  let tree!: ReactTestRenderer;
+  act(() => { tree = create(<StoryShelf />); });
+  const chips = tree.root.findAll(node => Array.isArray(node.props.style) && node.props.style.some(
+    (style: { borderColor?: string } | undefined) => style?.borderColor === 'rgba(255,255,255,0.55)',
+  ));
+  expect(chips.length).toBeGreaterThan(0);
+  const flat = Object.assign({}, ...chips[0].props.style.filter(Boolean));
+  expect(flat).toMatchObject({ height: 24, minWidth: 24, borderRadius: 8, top: 7, right: 7 });
+  act(() => tree.unmount());
+});

@@ -1,5 +1,5 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
@@ -28,6 +28,8 @@ const TILE_H = 118;
 /** Rounded-square faces, as on web: 24 px with the 1 px rim, 8 px corners. */
 const FACE = 22;
 const FACE_R = 7;
+/** Face and corner chips sit this far in from the tile edge. */
+const CHIP_INSET = 7;
 
 /** Moments on the shelf, refreshed every minute while Home is up. */
 function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean, enabled: boolean) {
@@ -191,9 +193,12 @@ function MeTile({
       label={failed ? caption : name}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
       action={failed ? null : (
-        <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plus}
+        // The light key is drawn by an inner view, so the control pass leaves it white.
+        <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plusHit}
           accessibilityRole="button" accessibilityLabel={t("stories.addMoment", { defaultValue: "Add a moment" })}>
-          <Icon name="Plus" size={15} color="#111" strokeWidth={2.6} />
+          <View style={styles.plus}>
+            <Icon name="Plus" size={15} color="#111" strokeWidth={2.6} />
+          </View>
         </TouchableOpacity>
       )}
     >
@@ -257,6 +262,39 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
   );
 }
 
+/**
+ * The time chip, as on web: liquid glass the size of the face opposite it
+ * (24 px, 8 px corners, 7 px in). Web blurs the photo behind it with
+ * backdrop-filter; here the tile's own photo is drawn again inside the chip,
+ * blurred and lined up with the tile, so the chip shows the frosted photo
+ * behind it on Android and iPhone alike without a live blur. Then a pale
+ * sheen, a bright rim and a highlight along the top edge.
+ */
+function GlassTime({ label, seen, cover }: { label: string; seen?: boolean; cover?: string | null }) {
+  const [chipW, setChipW] = useState(0);
+  return (
+    <View
+      pointerEvents="none"
+      style={[styles.cornerBadge, styles.glassChip, cover ? styles.glassChipOverPhoto : null, seen && styles.glassChipSeen]}
+      onLayout={({ nativeEvent }) => setChipW(nativeEvent.layout.width)}
+    >
+      {cover && chipW > 0 ? (
+        <Image
+          source={{ uri: cover }}
+          recyclingKey={`glass-${cover}`}
+          blurRadius={10}
+          contentFit="cover"
+          cachePolicy="memory-disk"
+          style={{ position: "absolute", top: -(CHIP_INSET + 1), left: -(TILE_W - CHIP_INSET - chipW + 1), width: TILE_W, height: TILE_H }}
+        />
+      ) : null}
+      <LinearGradient colors={["rgba(255,255,255,0.3)", "rgba(255,255,255,0.08)"]} style={StyleSheet.absoluteFill} />
+      <View style={styles.glassSheen} />
+      <Text style={[styles.badgeText, styles.glassText]} numberOfLines={1}>{label}</Text>
+    </View>
+  );
+}
+
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
   const name = nameOf(entry.author);
   const age = ageLabel(entry.items[entry.items.length - 1]?.createdAt);
@@ -266,11 +304,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
       avatar={<Avatar uri={avatarOf(entry.author, 48)} size={FACE} radius={FACE_R} name={name} />}
       label={name}
       onPress={onOpen}
-      badge={age ? (
-        <View pointerEvents="none" style={[styles.cornerBadge, entry.seen && styles.seenBadge]}>
-          <Text style={styles.badgeText} numberOfLines={1}>{age}</Text>
-        </View>
-      ) : null}
+      badge={age ? <GlassTime label={age} seen={entry.seen} cover={coverOf(entry)} /> : null}
     >
       <TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} />
     </ShelfTile>
@@ -323,30 +357,39 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 4,
   },
+  /** Corner chips match the face opposite: 24 px, 8 px corners, 7 px in. */
   cornerBadge: {
     position: "absolute",
     top: 7,
-    right: 6,
-    minHeight: 21,
+    right: 7,
+    height: 24,
+    minWidth: 24,
     maxWidth: 46,
+    alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 5,
-    borderRadius: 7,
-    backgroundColor: "rgba(23,24,26,0.90)",
-    borderColor: "rgba(255,255,255,0.38)",
+    borderRadius: 8,
+    overflow: "hidden",
     borderWidth: 1,
   },
-  seenBadge: { borderColor: "rgba(255,255,255,0.18)" },
+  glassChip: {
+    borderColor: "rgba(255,255,255,0.55)",
+    backgroundColor: "rgba(255,255,255,0.12)",
+    boxShadow: "0px 2px 8px rgba(0,0,0,0.22)",
+  },
+  // Over the frosted photo the gradient alone is the fill, as on web.
+  glassChipOverPhoto: { backgroundColor: "transparent" },
+  glassChipSeen: { borderColor: "rgba(255,255,255,0.3)" },
+  glassSheen: { position: "absolute", top: 0, left: 0, right: 0, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
+  glassText: { textShadowColor: "rgba(0,0,0,0.45)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 2 },
   liveBadge: { backgroundColor: "#BF303B", borderColor: "#D56E78" },
   badgeText: { color: "#fff", fontSize: 10, fontWeight: "700" },
   liveText: { fontSize: 9.5, fontWeight: "800", letterSpacing: 0.35 },
+  plusHit: { position: "absolute", top: 7, right: 7 },
   plus: {
-    position: "absolute",
-    top: 7,
-    right: 6,
     width: 24,
-    height: 21,
-    borderRadius: 7,
+    height: 24,
+    borderRadius: 8,
     backgroundColor: "#f2f2f2",
     alignItems: "center",
     justifyContent: "center",
