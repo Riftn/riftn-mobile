@@ -20,6 +20,7 @@ import { navigationRef } from "../../App";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { closeProfileSheetForLink, emitProfileDeepLink } from "../../libs/deeplink.events";
 import { createVideoPlayer } from "expo-video";
+import { getShortsFeed } from "../../services/feed.unified.service";
 
 const FLAG_KEY = "dehub.perfTour";
 const RESULT_KEY = "dehub.perfTour.result";
@@ -655,7 +656,16 @@ async function runShorts(): Promise<void> {
       }
     }
   }, 16);
-  nav.navigate(ScreenNames.ShortsViewer, {});
+  // Opened the way the Home row opens it: on a list of shorts. Opened on
+  // nothing, main's viewer never asked for a list and sat on its wheel.
+  let shorts: unknown[] = [];
+  try {
+    shorts = (await getShortsFeed({ page: 1, limit: 20, sortBy: "views" })).result || [];
+  } catch (error) {
+    extra.feedError = String(error);
+  }
+  extra.shorts = shorts.length;
+  nav.navigate(ScreenNames.ShortsViewer, { initialIndex: 0, initialItems: shorts, initialPage: 1, feedParams: { sortBy: "views" } });
   await sleep(8000);
   extra.opened = nav.getCurrentRoute()?.name === ScreenNames.ShortsViewer;
   await shot("shorts-open");
@@ -663,6 +673,13 @@ async function runShorts(): Promise<void> {
   for (let i = 1; i <= count && extra.opened; i++) {
     await AsyncStorage.setItem(SWIPE_KEY, `vswipe:shorts-${i}`);
     await sleep(5000);
+    await save(false);
+  }
+  // A swipe that starts on the timeline row, sent soon after landing on a
+  // short, while its bar still takes touches: it has to turn the page too.
+  for (let i = 1; i <= 4 && extra.opened; i++) {
+    await AsyncStorage.setItem(SWIPE_KEY, `vpair:shorts-${i}`);
+    await sleep(9000);
     await save(false);
   }
   clearInterval(sampler);

@@ -104,6 +104,24 @@ describe('scrub touch ownership', () => {
     expect(manager.fail).not.toHaveBeenCalled();
   });
 
+  it('lets a swipe up that starts on a pager timeline turn the page, and still takes a sideways drag at once', () => {
+    const { result } = renderHook(() => useScrubGesture({ immediate: true, yieldsVertical: true, onScrub: jest.fn(), onCommit: jest.fn() }));
+    const { pan } = result.current.gesture as unknown as CapturedGestures;
+    const at = (x: number, y: number) => ({ numberOfTouches: 1, allTouches: [{ absoluteX: x, absoluteY: y, y: 20 }] });
+    const up = { activate: jest.fn(), fail: jest.fn() };
+    pan.callbacks.onTouchesDown(at(120, 700), up);
+    pan.callbacks.onTouchesMove(at(121, 698), up);
+    expect(up.activate).not.toHaveBeenCalled();
+    pan.callbacks.onTouchesMove(at(123, 670), up);
+    expect(up.fail).toHaveBeenCalledTimes(1);
+    expect(up.activate).not.toHaveBeenCalled();
+    const along = { activate: jest.fn(), fail: jest.fn() };
+    pan.callbacks.onTouchesDown(at(120, 700), along);
+    pan.callbacks.onTouchesMove(at(125, 701), along);
+    expect(along.activate).toHaveBeenCalledTimes(1);
+    expect(along.fail).not.toHaveBeenCalled();
+  });
+
   it('still yields a vertical scroll starting over the shared button row', () => {
     const onCancel = jest.fn();
     const { result } = renderHook(() => useScrubGesture({ onScrub: jest.fn(), onCommit: jest.fn(), onCancel }));

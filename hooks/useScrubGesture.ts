@@ -7,6 +7,8 @@ import { usePagerGestureRef } from "../context/PagerGestureContext";
 
 /** Sideways travel that turns a touch into a scrub instead of a tap. */
 const ACTIVATE_PX = 6;
+/** The same on a dedicated track that gives way to a vertical pager. */
+const YIELDING_ACTIVATE_PX = 4;
 
 interface ScrubGestureArgs {
   /** Fired once when a drag takes over, before the first ratio. */
@@ -29,6 +31,14 @@ interface ScrubGestureArgs {
   immediate?: boolean;
   /** Dedicated seek strip below the shared button row, in layout points. */
   immediateBottom?: number;
+  /**
+   * For an `immediate` track that sits inside a vertical pager (the Shorts
+   * timeline, a finger tall, right where a thumb starts its swipe): a drag
+   * that sets off up or down is the page turn, and is let go. Sideways travel
+   * still claims at once. Without it a swipe begun on the bar turned no page
+   * and jumped the clip to wherever the finger happened to be.
+   */
+  yieldsVertical?: boolean;
   /**
    * Further gestures the scrub must outrank — the Shorts viewer's own pager,
    * for instance, which is not the Home pager this hook finds through context.
@@ -60,6 +70,7 @@ export const useScrubGesture = ({
   tapEnabled = true,
   immediate = false,
   immediateBottom = 0,
+  yieldsVertical = false,
   blocks,
 }: ScrubGestureArgs) => {
   const widthRef = useRef(1);
@@ -114,7 +125,10 @@ export const useScrubGesture = ({
         if (origin.decided) return;
         const dx = Math.abs(point.absoluteX - origin.x);
         const dy = Math.abs(point.absoluteY - origin.y);
-        if (origin.dedicated || (dx > ACTIVATE_PX && dx > dy)) {
+        const claims = origin.dedicated
+          ? (yieldsVertical ? dx >= YIELDING_ACTIVATE_PX && dx >= dy : true)
+          : dx > ACTIVATE_PX && dx > dy;
+        if (claims) {
           touch.value = { ...origin, decided: true };
           manager.activate();
         } else if (dy > ACTIVATE_PX && dy >= dx) {
@@ -151,7 +165,7 @@ export const useScrubGesture = ({
     }
 
     return tapEnabled ? Gesture.Race(pan, tap) : pan;
-  }, [enabled, immediate, immediateBottom, tapEnabled, pagerRef, blocks, height, touch, start, preview, commit, finish]);
+  }, [enabled, immediate, immediateBottom, yieldsVertical, tapEnabled, pagerRef, blocks, height, touch, start, preview, commit, finish]);
 
   // RNGH runs beside the JS responder system, not inside it, so an ancestor
   // Pressable never learns that the scrub took the touch: the feed card's own
