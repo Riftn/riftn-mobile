@@ -993,6 +993,8 @@
     "chatTextSize": "Chat text size",
     "chatOwnBubble": "Bubbles for my messages in Public Chat",
     "chatOwnBubbleDesc": "Your own messages sit in a bubble, like in private chats",
+    "messagesPills": "Pill tabs in Messages",
+    "messagesPillsDesc": "The open tab is a filled pill and unread counts are round",
     "menuLayout": "Menu layout",
     "menuLayoutDesc": "How the menu groups its pages",
     "menuLayoutTabs": "Tabs",
@@ -2732,6 +2734,14 @@
     "global": "Global"
   },
   "features": {
+    "track": {
+      "label": "Progress",
+      "asked": "Asked",
+      "underReview": "Under review",
+      "planned": "Planned",
+      "inProgress": "In progress",
+      "shipped": "Shipped"
+    },
     "myRequests": "My Requests",
     "sideFeatures": "Feature requests",
     "sideBugs": "Bug reports",

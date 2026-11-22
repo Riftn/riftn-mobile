@@ -1848,6 +1848,8 @@
     "chatTextSize": "Sohbet metin boyutu",
     "chatOwnBubble": "Genel Sohbet'te mesajlarım için baloncuk",
     "chatOwnBubbleDesc": "Kendi mesajların özel sohbetlerdeki gibi bir baloncuk içinde görünür",
+    "messagesPills": "Mesajlarda hap sekmeler",
+    "messagesPillsDesc": "Açık sekme dolu bir hap olur, okunmamış sayılar yuvarlak görünür",
     "chatTextSizeDesc": "Tüm sohbetlerde daha büyük veya küçük mesajlar. Telefonunuzun metin boyutuna eklenir.",
     "chatCards": "Sohbetler kart olarak",
     "chatCardsDesc": "Her sohbet kendi kartında. Kapatınca sohbetler arasında çizgi olan sade bir liste olur.",
@@ -3035,7 +3037,15 @@
     "deviceInfoError": "Cihaz bilgisi yüklenemedi",
     "deviceInfoNone": "Bu istek için cihaz bilgisi yok",
     "deviceInfoErrors": "Son hatalar",
-    "deviceInfoNoErrors": "Yok"
+    "deviceInfoNoErrors": "Yok",
+    "track": {
+      "label": "İlerleme",
+      "asked": "İstendi",
+      "underReview": "İnceleniyor",
+      "planned": "Planlandı",
+      "inProgress": "Yapılıyor",
+      "shipped": "Yayında"
+    }
   },
   "auth": {
     "loginRequired": "Giriş yapılması gerekiyor",

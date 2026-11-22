@@ -1848,6 +1848,8 @@
     "chatTextSize": "Tamaño del texto del chat",
     "chatOwnBubble": "Burbujas para mis mensajes en el Chat público",
     "chatOwnBubbleDesc": "Tus mensajes aparecen en una burbuja, como en los chats privados",
+    "messagesPills": "Pestañas en píldora en Mensajes",
+    "messagesPillsDesc": "La pestaña abierta es una píldora rellena y los no leídos van en círculos",
     "chatTextSizeDesc": "Mensajes más grandes o más pequeños en todos los chats. Se suma al tamaño de texto de tu teléfono.",
     "chatCards": "Chats como tarjetas",
     "chatCardsDesc": "Cada chat en su propia tarjeta. Desactívalo para una lista simple con una línea entre chats.",
@@ -3035,7 +3037,15 @@
     "deviceInfoError": "No se pudo cargar la información del dispositivo",
     "deviceInfoNone": "Esta solicitud no tiene información del dispositivo",
     "deviceInfoErrors": "Errores recientes",
-    "deviceInfoNoErrors": "Ninguno"
+    "deviceInfoNoErrors": "Ninguno",
+    "track": {
+      "label": "Progreso",
+      "asked": "Pedido",
+      "underReview": "En revisión",
+      "planned": "Planeado",
+      "inProgress": "En curso",
+      "shipped": "Lanzado"
+    }
   },
   "auth": {
     "loginRequired": "Inicio de sesión requerido",

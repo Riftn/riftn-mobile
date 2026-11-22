@@ -54,6 +54,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
 
   // Appearance
   { tab: 'appearance', anchor: 'theme', label: 'Theme', labelKey: 'settings.theme', keywords: 'minimal look style dark black square flat cosmic hazy nights swarms lava lamp winter war osaka jungle background animated' },
+  { tab: 'appearance', anchor: 'messages-pills', label: 'Pill tabs in Messages', labelKey: 'settings.messagesPills', keywords: 'messages inbox chat list tabs pills chips filled black white round unread badge count redesign clean' },
   { tab: 'appearance', anchor: 'theme-color', label: 'Theme Color', labelKey: 'settings.themeColor', keywords: 'hue colour color accent brand rainbow tint' },
   { tab: 'appearance', anchor: 'login-look', label: 'Sign-in screen', labelKey: 'settings.loginLook.title', keywords: 'login sign in screen logo animation look tube tv vhs led wall hologram neon glow 3d flat plain retro scan lines slogan' },
   { tab: 'appearance', anchor: 'arrival-look', label: 'After you sign in', labelKey: 'settings.arrivalLook.title', keywords: 'after sign in login welcome animation rift trace picture frame orbit arrival loading profile photo' },
