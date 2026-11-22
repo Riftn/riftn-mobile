@@ -46,7 +46,7 @@ export type ChatTextToken =
   /** Plain text, rendered as-is. */
   | { type: 'text'; value: string }
   /** A link: `value` is what the sender typed, `url` is what to open. */
-  | { type: 'link'; value: string; url: string };
+  | { type: 'link'; value: string; url: string; asText?: boolean };
 
 /**
  * The longest word the matcher is allowed to look at.
@@ -155,6 +155,7 @@ export function tokenizeChatText(text?: string | null): ChatTextToken[] {
     if (!before.value.endsWith('<') || !after.value.startsWith('>')) continue;
     before.value = before.value.slice(0, -1);
     after.value = after.value.slice(1);
+    (tokens[i] as Extract<ChatTextToken, { type: 'link' }>).asText = true;
   }
   const kept = tokens.filter((token) => token.type === 'link' || token.value);
 
