@@ -33,6 +33,7 @@ const PREFETCH_FRESH_MS = 20_000;
 const key = (wallet: string) => `notif-list:v${VERSION}:${wallet.toLowerCase()}`;
 
 let memory: NotificationSnapshot | null = null;
+let markedAll: { wallet: string; cutoff: number; at: number; pending: Promise<unknown> | null } | null = null;
 let inflight: { wallet: string; startedAt: number; promise: Promise<NotificationFirstPage | null> } | null = null;
 
 const sameWallet = (a: string | null | undefined, b: string | null | undefined) =>
@@ -94,6 +95,65 @@ export function writeNotificationSnapshot(
   }, 400);
 }
 
+/**
+ * "Mark all as read" is two writes (API + Supabase) that the screen does not
+ * wait on. A refresh landing before they finish, most often the Supabase ping
+ * the custom-row write itself sends ~150ms later, handed every row back unread
+ * and lit the tab counts again. So the tap is remembered: refreshes wait for
+ * the writes, and any answer that was already on its way still has every row
+ * up to the newest one on screen at the tap shown as read.
+ */
+const MARKED_ALL_KEEP_MS = 5 * 60_000;
+
+const createdMs = (n: NotificationItem) => {
+  const t = new Date(n.createdAt as any).getTime();
+  return Number.isFinite(t) ? t : 0;
+};
+
+export function noteMarkedAllRead(
+  wallet: string | null | undefined,
+  onScreen: NotificationItem[],
+  pending: Promise<unknown> | null,
+): void {
+  if (!wallet) return;
+  // The newest row the reader saw, not the phone clock: a clock running ahead
+  // would otherwise swallow notifications that arrive after the tap.
+  let cutoff = markedAll && sameWallet(markedAll.wallet, wallet) ? markedAll.cutoff : 0;
+  for (const n of onScreen) cutoff = Math.max(cutoff, createdMs(n));
+  const settled = pending ? pending.then(() => undefined, () => undefined) : null;
+  const entry = { wallet, cutoff, at: Date.now(), pending: settled };
+  markedAll = entry;
+  settled?.then(() => {
+    if (markedAll === entry) markedAll = { ...entry, pending: null };
+  });
+  if (memory && sameWallet(memory.wallet, wallet)) {
+    writeNotificationSnapshot(
+      wallet,
+      applyMarkedAllRead(wallet, memory.notifications),
+      applyMarkedAllRead(wallet, memory.countsSource),
+    );
+  }
+}
+
+function activeMarkedAll(wallet: string | null | undefined) {
+  if (!markedAll || !sameWallet(markedAll.wallet, wallet)) return null;
+  if (!markedAll.pending && Date.now() - markedAll.at > MARKED_ALL_KEEP_MS) return null;
+  return markedAll;
+}
+
+/** Resolves once a "mark all as read" still being written has landed (at once if none). */
+export function markAllReadSettled(wallet: string | null | undefined): Promise<void> | null {
+  const entry = activeMarkedAll(wallet);
+  return (entry?.pending as Promise<void> | null) ?? null;
+}
+
+/** Rows as of the last "mark all as read": anything it covered reads as read. */
+export function applyMarkedAllRead<T extends NotificationItem>(wallet: string | null | undefined, rows: T[]): T[] {
+  const entry = activeMarkedAll(wallet);
+  if (!entry || !rows.some((n) => !n.read && createdMs(n) <= entry.cutoff)) return rows;
+  return rows.map((n) => (!n.read && createdMs(n) <= entry.cutoff ? { ...n, read: true } : n));
+}
+
 /** A first-page fetch already on its way for this account, if one started recently. */
 export function takeInflightFirstPage(wallet: string | null | undefined): Promise<NotificationFirstPage | null> | null {
   if (!inflight || !sameWallet(inflight.wallet, wallet)) return null;
@@ -119,15 +179,16 @@ export function prefetchNotifications(
   const startedAt = Date.now();
   const promise: Promise<NotificationFirstPage | null> = (async () => {
     try {
+      await markAllReadSettled(wallet);
       const [res, custom]: any = await Promise.all([
         // Same page size as the screen (15), so its page 2 starts where this ends.
         getNotifications({ unreadOnly: false, page: 1, limit: 15 }),
         fetchCustomNotifications(wallet).catch(() => []),
       ]);
-      const api: NotificationItem[] = res?.data?.result || res?.result || [];
-      const merged = mergeFirstPage(api, custom);
+      const api: NotificationItem[] = applyMarkedAllRead(wallet, res?.data?.result || res?.result || []);
+      const merged = mergeFirstPage(api, applyMarkedAllRead(wallet, custom));
       writeNotificationSnapshot(wallet, merged, merged);
-      return { api, custom };
+      return { api, custom: applyMarkedAllRead(wallet, custom) };
     } catch {
       return null;
     } finally {
@@ -142,6 +203,7 @@ export function prefetchNotifications(
 export function __resetNotificationsCache(): void {
   memory = null;
   inflight = null;
+  markedAll = null;
   if (diskTimer) clearTimeout(diskTimer);
   diskTimer = null;
 }
