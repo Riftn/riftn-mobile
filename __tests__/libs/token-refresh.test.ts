@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
-import { tokenRefreshManager } from '../../libs/token-refresh';
+import { tokenRefreshManager, setRefreshRetryDelaysForTests } from '../../libs/token-refresh';
 import {
   setRefreshToken, setTokenExpiresAt, setAuthToken,
   getAuthToken, getRefreshToken,
@@ -20,6 +20,7 @@ describe('libs/token-refresh', () => {
     mockStore.__clear();
     mockFetch.mockReset();
     jest.clearAllMocks();
+    setRefreshRetryDelaysForTests([]);
   });
 
   describe('attemptRefresh', () => {
@@ -98,6 +99,49 @@ describe('libs/token-refresh', () => {
         expect(await getRefreshToken()).toBe('old-refresh');
         expect(listener).not.toHaveBeenCalled();
       } finally { unsubscribe(); }
+    });
+
+    // A slow server finished the rotation after the phone gave up waiting.
+    // Trying again with the same token gets that pair back; nobody is signed out.
+    it.each([
+      ['a timeout', () => mockFetch.mockRejectedValueOnce(new Error('Aborted'))],
+      ['a 409', () => mockFetch.mockResolvedValueOnce({ ok: false, status: 409,
+        json: async () => ({ message: 'Refresh already completed in another browser. Please retry.' }) })],
+      ['a 502', () => mockFetch.mockResolvedValueOnce({ ok: false, status: 502, json: async () => ({}) })],
+    ])('tries again after %s and keeps the session', async (_label, failOnce) => {
+      setRefreshRetryDelaysForTests([0, 0]);
+      await setAuthToken('old-access');
+      await setRefreshToken('old-refresh');
+      failOnce();
+      mockFetch.mockResolvedValueOnce({ ok: true, json: async () => ({
+        accessToken: 'new-access', refreshToken: 'new-refresh', expiresIn: 900,
+      }) });
+      await expect(tokenRefreshManager.attemptRefresh()).resolves.toBe('new-access');
+      expect(mockFetch).toHaveBeenCalledTimes(2);
+      expect(JSON.parse(mockFetch.mock.calls[1][1].body).refreshToken).toBe('old-refresh');
+      expect(await getRefreshToken()).toBe('new-refresh');
+    });
+
+    it('does not retry a refresh token the server refused', async () => {
+      setRefreshRetryDelaysForTests([0, 0]);
+      await setAuthToken('old-access');
+      await setRefreshToken('old-refresh');
+      mockFetch.mockResolvedValue({ ok: false, status: 401, json: async () => ({ message: 'Invalid refresh token' }) });
+      await expect(tokenRefreshManager.attemptRefresh()).resolves.toBeNull();
+      expect(mockFetch).toHaveBeenCalledTimes(1);
+      mockFetch.mockReset();
+    });
+
+    it('keeps the session when every try fails without an answer', async () => {
+      setRefreshRetryDelaysForTests([0, 0]);
+      await setAuthToken('old-access');
+      await setRefreshToken('old-refresh');
+      mockFetch.mockRejectedValue(new Error('Aborted'));
+      await expect(tokenRefreshManager.attemptRefresh()).resolves.toBeNull();
+      expect(mockFetch).toHaveBeenCalledTimes(3);
+      expect(await getRefreshToken()).toBe('old-refresh');
+      expect(await getAuthToken()).toBe('old-access');
+      mockFetch.mockReset();
     });
 
     it('does not sign out a newer login when an older refresh is rejected', async () => {
@@ -235,7 +279,7 @@ describe('libs/token-refresh', () => {
 
       const realNow = Date.now;
       // Past the point where an in-flight refresh could still be honest.
-      Date.now = () => realNow() + 60_000;
+      Date.now = () => realNow() + 120_000;
       try {
         mockFetch.mockImplementationOnce(() =>
           Promise.resolve({
