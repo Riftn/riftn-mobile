@@ -3023,7 +3023,15 @@
     "deviceInfoError": "تعذّر تحميل معلومات الجهاز",
     "deviceInfoNone": "لا توجد معلومات جهاز لهذا الطلب",
     "deviceInfoErrors": "الأخطاء الأخيرة",
-    "deviceInfoNoErrors": "لا شيء"
+    "deviceInfoNoErrors": "لا شيء",
+    "track": {
+      "label": "التقدم",
+      "asked": "مطلوب",
+      "underReview": "قيد المراجعة",
+      "planned": "مخطط له",
+      "inProgress": "قيد التنفيذ",
+      "shipped": "تم الإطلاق"
+    }
   },
   "auth": {
     "loginRequired": "تسجيل الدخول مطلوب",

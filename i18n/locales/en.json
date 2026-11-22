@@ -2722,6 +2722,14 @@
     "global": "Global"
   },
   "features": {
+    "track": {
+      "label": "Progress",
+      "asked": "Asked",
+      "underReview": "Under review",
+      "planned": "Planned",
+      "inProgress": "In progress",
+      "shipped": "Shipped"
+    },
     "myRequests": "My Requests",
     "prompts": "Prompts",
     "queued": "Queued",

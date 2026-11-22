@@ -3019,7 +3019,15 @@
     "deviceInfoError": "No se pudo cargar la información del dispositivo",
     "deviceInfoNone": "Esta solicitud no tiene información del dispositivo",
     "deviceInfoErrors": "Errores recientes",
-    "deviceInfoNoErrors": "Ninguno"
+    "deviceInfoNoErrors": "Ninguno",
+    "track": {
+      "label": "Progreso",
+      "asked": "Pedido",
+      "underReview": "En revisión",
+      "planned": "Planeado",
+      "inProgress": "En curso",
+      "shipped": "Lanzado"
+    }
   },
   "auth": {
     "loginRequired": "Inicio de sesión requerido",

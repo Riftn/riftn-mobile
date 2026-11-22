@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
+import Animated, {
+  Easing,
+  cancelAnimation,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withDelay,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
-import Icon from "../ui/Icon";
 import { useAppTheme } from "../../context/ThemeContext";
 import { STATUS_LABELS, type FeatureStatus } from "../../hooks/useFeatureRequests";
 
 /**
- * Category, status and the owners' progress note under a request.
- * Concept round: `globalThis.__rqChips = 'a'|'b'|'c'|'d'` picks the look;
- * anything else renders today's grey chips.
+ * Category, where the request is (Asked > In progress > Shipped) and the
+ * owners' progress note. One accent per theme, no status hues; same as web
+ * RequestStatusRow. The line fills once, then the current step breathes and a
+ * soft light runs on toward Shipped while the work goes on.
  */
-export type ChipConcept = "today" | "a" | "b" | "c" | "d";
-
-export function chipConcept(): ChipConcept {
-  const v = String((globalThis as { __rqChips?: string }).__rqChips || "").toLowerCase();
-  return v === "a" || v === "b" || v === "c" || v === "d" ? v : "today";
-}
-
-const SHOWN: FeatureStatus[] = ["under_review", "planned", "in_progress", "declined"];
+const TRACKED: FeatureStatus[] = ["under_review", "planned", "in_progress"];
 
 // Screens are written in the dark palette; System Light flips greys as it
 // renders (libs/jsx/tone.js), so these are the dark-theme colours.
@@ -25,9 +29,12 @@ const INK = "#EDEDEF";
 const MUTED = "rgba(255,255,255,0.68)";
 const FAINT = "rgba(255,255,255,0.5)";
 const LINE = "rgba(255,255,255,0.16)";
-const WASH = "rgba(255,255,255,0.05)";
 
-function mix(rgb: readonly number[], white: number): string {
+const SEG = 20;
+const TRAVEL = Easing.bezier(0.45, 0, 0.1, 1);
+const ARRIVE = Easing.bezier(0.25, 0.8, 0.25, 1);
+
+function lift(rgb: readonly number[], white: number): string {
   const c = rgb.map((v) => Math.round(v + (255 - v) * white));
   return `rgb(${c[0]},${c[1]},${c[2]})`;
 }
@@ -36,142 +43,138 @@ export default function RequestStatusRow({
   status,
   note,
   categoryChip,
-  concept = chipConcept(),
 }: {
   status: FeatureStatus;
   note: string;
   categoryChip: React.ReactNode;
-  concept?: ChipConcept;
 }) {
   const { t } = useTranslation();
-  const { skin, accent } = useAppTheme();
-  // System / Minimal: white. Canvas themes: their own colour, lifted for text.
-  const acc = skin ? mix(accent as unknown as number[], 0.45) : "#FFFFFF";
-  const keyBg = skin ? mix(accent as unknown as number[], 0.4) : "#FFFFFF";
-  const shown = SHOWN.includes(status);
+  const tracked = TRACKED.includes(status);
   const liveNote = status !== "declined" ? note : "";
-  const label =
-    status === "in_progress"
-      ? t("copy.rq.inprogress", { defaultValue: "In progress" })
-      : status === "under_review"
-        ? t("copy.rq.underreview", { defaultValue: "Under review" })
-        : STATUS_LABELS[status];
-
-  const dotLabel = (
-    <View style={s.aStatus}>
-      <View style={[s.dot, { backgroundColor: acc }]} />
-      <Text style={s.aText}>{label}</Text>
+  return (
+    <View style={s.col}>
+      <View style={s.row}>
+        {categoryChip}
+        {status === "declined" && (
+          <View style={s.flat}>
+            <View style={s.dot} />
+            <Text style={s.flatText}>{t("copy.2ab63e6ced90", STATUS_LABELS.declined)}</Text>
+          </View>
+        )}
+      </View>
+      {tracked && <Track status={status} />}
+      {!!liveNote && <Text style={s.note}>{liveNote}</Text>}
     </View>
   );
-  const noteText = (withLabel: boolean) => (
-    <Text style={s.note}>
-      {withLabel && <Text style={s.noteLabel}>{t("copy.rq.update", { defaultValue: "Update" })}  </Text>}
-      {liveNote}
-    </Text>
+}
+
+function Track({ status }: { status: FeatureStatus }) {
+  const { t } = useTranslation();
+  const { skin, accent } = useAppTheme();
+  const reduced = useReducedMotion();
+  // System / Minimal: white (ink on System Light). Canvas themes: their colour, lifted.
+  const acc = skin ? lift(accent as unknown as number[], 0.45) : "#FFFFFF";
+
+  const fill = useSharedValue(reduced ? 1 : 0);
+  const arrive = useSharedValue(reduced ? 1 : 0);
+  const breathe = useSharedValue(1);
+  const run = useSharedValue(-1);
+
+  useEffect(() => {
+    if (reduced) return;
+    fill.value = withDelay(80, withTiming(1, { duration: 520, easing: TRAVEL }));
+    arrive.value = withDelay(420, withTiming(1, { duration: 320, easing: ARRIVE }));
+    breathe.value = withDelay(
+      1200,
+      withRepeat(
+        withSequence(
+          withTiming(0, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+          withTiming(1, { duration: 1200, easing: Easing.inOut(Easing.ease) }),
+        ),
+        -1,
+      ),
+    );
+    run.value = withDelay(
+      1200,
+      withRepeat(
+        withSequence(
+          withTiming(1, { duration: 1440, easing: TRAVEL }),
+          withTiming(1, { duration: 960 }),
+          withTiming(-1, { duration: 0 }),
+        ),
+        -1,
+      ),
+    );
+    return () => {
+      cancelAnimation(fill);
+      cancelAnimation(arrive);
+      cancelAnimation(breathe);
+      cancelAnimation(run);
+    };
+  }, [reduced, fill, arrive, breathe, run]);
+
+  const fillStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: -SEG / 2 + (SEG / 2) * fill.value }, { scaleX: fill.value }],
+  }));
+  const dotStyle = useAnimatedStyle(() => {
+    const b = 0.8 + 0.2 * breathe.value;
+    return {
+      opacity: (0.3 + 0.7 * arrive.value) * (0.55 + 0.45 * breathe.value),
+      transform: [{ scale: (0.4 + 0.6 * arrive.value) * b }],
+    };
+  });
+  const nowTextStyle = useAnimatedStyle(() => ({ opacity: 0.55 + 0.45 * arrive.value }));
+  const runStyle = useAnimatedStyle(() => ({ transform: [{ translateX: run.value * SEG }] }));
+
+  const now =
+    status === "under_review"
+      ? t("features.track.underReview", "Under review")
+      : status === "planned"
+        ? t("features.track.planned", "Planned")
+        : t("features.track.inProgress", "In progress");
+
+  return (
+    <View
+      style={s.track}
+      accessible
+      accessibilityRole="text"
+      accessibilityLabel={`${t("features.track.label", "Progress")}: ${now}`}
+    >
+      <View style={s.step}>
+        <View style={[s.stepDot, { backgroundColor: MUTED, borderColor: MUTED }]} />
+        <Text style={[s.stepText, { color: MUTED }]}>{t("features.track.asked", "Asked")}</Text>
+      </View>
+      <View style={s.seg}>
+        <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: MUTED }, fillStyle]} />
+      </View>
+      <View style={s.step}>
+        <Animated.View style={[s.nowDot, { backgroundColor: acc }, dotStyle]} />
+        <Animated.Text style={[s.stepText, s.nowText, nowTextStyle]}>{now}</Animated.Text>
+      </View>
+      <View style={s.seg}>
+        {!reduced && <Animated.View style={[s.runner, { backgroundColor: acc }, runStyle]} />}
+      </View>
+      <View style={s.step}>
+        <View style={s.stepDot} />
+        <Text style={s.stepText}>{t("features.track.shipped", "Shipped")}</Text>
+      </View>
+    </View>
   );
-
-  if (concept === "a") {
-    return (
-      <View style={s.col}>
-        <View style={s.row}>
-          {categoryChip}
-          {shown && dotLabel}
-        </View>
-        {!!liveNote && noteText(true)}
-      </View>
-    );
-  }
-
-  if (concept === "b") {
-    return (
-      <View style={s.col}>
-        <View style={s.row}>
-          {categoryChip}
-          {shown && (
-            <View style={[s.key, { backgroundColor: keyBg }]}>
-              <Text style={s.keyText}>{label}</Text>
-            </View>
-          )}
-        </View>
-        {!!liveNote && <View style={[s.quote, { borderLeftColor: acc }]}>{noteText(false)}</View>}
-      </View>
-    );
-  }
-
-  if (concept === "c") {
-    const tracked = status === "in_progress" || status === "planned" || status === "under_review";
-    const steps = [t("copy.rq.asked", { defaultValue: "Asked" }), label, t("copy.d332dadf1646", { defaultValue: "Shipped" })];
-    return (
-      <View style={s.col}>
-        <View style={s.row}>
-          {categoryChip}
-          {status === "declined" && dotLabel}
-        </View>
-        {tracked && (
-          <View style={s.track}>
-            {steps.map((step, i) => (
-              <View key={i} style={s.trackPart}>
-                {i > 0 && <View style={[s.seg, i === 1 && { backgroundColor: MUTED }]} />}
-                <View style={s.step}>
-                  <View
-                    style={[
-                      s.stepDot,
-                      i === 0 && { backgroundColor: MUTED, borderColor: MUTED },
-                      i === 1 && { width: 8, height: 8, backgroundColor: acc, borderColor: acc },
-                    ]}
-                  />
-                  <Text style={[s.stepText, i === 0 && { color: MUTED }, i === 1 && { color: INK, fontWeight: "600" }]}>{step}</Text>
-                </View>
-              </View>
-            ))}
-          </View>
-        )}
-        {!!liveNote && noteText(false)}
-      </View>
-    );
-  }
-
-  if (concept === "d") {
-    return (
-      <View style={s.col}>
-        <View style={s.row}>{categoryChip}</View>
-        {shown && status !== "declined" && (
-          <View style={liveNote ? (skin ? s.dBox : s.dRail) : null}>
-            <View style={s.dHead}>
-              <Icon name="Loader" size={14} color={acc} />
-              <Text style={s.aText}>{label}</Text>
-              {!!liveNote && <Text style={s.dBy}>· {t("copy.rq.team", { defaultValue: "Riftn team" })}</Text>}
-            </View>
-            {!!liveNote && noteText(false)}
-          </View>
-        )}
-        {status === "declined" && dotLabel}
-      </View>
-    );
-  }
-
-  return null;
 }
 
 const s = StyleSheet.create({
   col: { gap: 8 },
   row: { flexDirection: "row", alignItems: "center", flexWrap: "wrap", gap: 8 },
-  aStatus: { flexDirection: "row", alignItems: "center", gap: 6 },
-  dot: { width: 6, height: 6, borderRadius: 3 },
-  aText: { color: INK, fontSize: 11, fontWeight: "600" },
+  flat: { flexDirection: "row", alignItems: "center", gap: 6 },
+  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: MUTED },
+  flatText: { color: INK, fontSize: 11, fontWeight: "600" },
   note: { color: MUTED, fontSize: 12, lineHeight: 17 },
-  noteLabel: { color: INK, fontWeight: "600" },
-  key: { paddingHorizontal: 8, paddingVertical: 1, borderRadius: 8 },
-  keyText: { color: "#0B0B0C", fontSize: 10, lineHeight: 16, fontWeight: "600" },
-  quote: { borderLeftWidth: 2, paddingLeft: 10, paddingVertical: 1 },
   track: { flexDirection: "row", alignItems: "center", flexWrap: "wrap", rowGap: 6 },
-  trackPart: { flexDirection: "row", alignItems: "center" },
-  seg: { width: 20, height: 1, marginHorizontal: 8, backgroundColor: LINE },
+  seg: { width: SEG, height: 1, marginHorizontal: 8, backgroundColor: LINE, overflow: "hidden" },
+  runner: { position: "absolute", top: 0, bottom: 0, left: 0, width: SEG / 2, opacity: 0.9, borderRadius: 1 },
   step: { flexDirection: "row", alignItems: "center", gap: 6 },
-  stepDot: { width: 6, height: 6, borderRadius: 4, borderWidth: 1, borderColor: FAINT },
+  stepDot: { width: 6, height: 6, borderRadius: 3, borderWidth: 1, borderColor: FAINT },
+  nowDot: { width: 8, height: 8, borderRadius: 4 },
   stepText: { color: FAINT, fontSize: 11, fontWeight: "500" },
-  dBox: { gap: 4, paddingVertical: 10, paddingHorizontal: 12, borderRadius: 12, borderWidth: 1, borderColor: LINE, backgroundColor: WASH },
-  dRail: { gap: 4, borderLeftWidth: 1, borderLeftColor: LINE, paddingLeft: 12, paddingVertical: 2 },
-  dHead: { flexDirection: "row", alignItems: "center", gap: 6 },
-  dBy: { color: MUTED, fontSize: 11 },
+  nowText: { color: INK, fontWeight: "600" },
 });

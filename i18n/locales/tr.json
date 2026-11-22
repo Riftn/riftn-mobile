@@ -3019,7 +3019,15 @@
     "deviceInfoError": "Cihaz bilgisi yüklenemedi",
     "deviceInfoNone": "Bu istek için cihaz bilgisi yok",
     "deviceInfoErrors": "Son hatalar",
-    "deviceInfoNoErrors": "Yok"
+    "deviceInfoNoErrors": "Yok",
+    "track": {
+      "label": "İlerleme",
+      "asked": "İstendi",
+      "underReview": "İnceleniyor",
+      "planned": "Planlandı",
+      "inProgress": "Yapılıyor",
+      "shipped": "Yayında"
+    }
   },
   "auth": {
     "loginRequired": "Giriş yapılması gerekiyor",
