@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useReducedMotion } from "react-native-reanimated";
-import { useAppTheme } from "../../context/ThemeContext";
 import { useUser } from "../../context/AuthContext";
 import { getAvatarUrl } from "../../libs/misc";
 import { ARRIVAL_INTRO_MS, AVAILABLE_ARRIVAL_LOOKS, setArrivalLook, useArrivalLook, type ArrivalLook } from "../../libs/arrival-look";
@@ -52,7 +51,6 @@ function Preview({ look, picture, name, playing, still }: { look: ArrivalLook; p
 
 export default function ArrivalLookPicker() {
   const { t } = useTranslation();
-  const { isLight } = useAppTheme();
   const still = !!useReducedMotion();
   const current = useArrivalLook();
   const user = useUser();
@@ -82,8 +80,10 @@ export default function ArrivalLookPicker() {
                 borderRadius: 16,
                 padding: 6,
                 borderWidth: active ? 2 : 1,
-                borderColor: active ? (isLight ? "#0B0B0D" : "#FFFFFF") : isLight ? "rgba(11,11,13,0.12)" : "rgba(255,255,255,0.12)",
-                backgroundColor: active ? (isLight ? "rgba(11,11,13,0.06)" : "rgba(255,255,255,0.08)") : "transparent",
+                // Dark values only: System Light turns them to ink on its own, and a
+                // light value written here was turned a second time (white on white).
+                borderColor: active ? "#FFFFFF" : "rgba(255,255,255,0.12)",
+                backgroundColor: active ? "rgba(255,255,255,0.08)" : "transparent",
               }}
             >
               <View

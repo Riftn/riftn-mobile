@@ -116,6 +116,9 @@ export const SettingsAnchor: React.FC<{ id: string; children: React.ReactNode }>
   children,
 }) => {
   const glow = useRef(new Animated.Value(0)).current;
+  // Animated colours skip the light colour pass, so the flash picks its own
+  // ink there (a white flash on a white page showed nothing).
+  const { isLight } = useAppTheme();
 
   const onLayout = useCallback(
     (e: LayoutChangeEvent) => registerSettingsAnchor(id, e.nativeEvent.layout.y),
@@ -153,7 +156,7 @@ export const SettingsAnchor: React.FC<{ id: string; children: React.ReactNode }>
         // designing around.
         backgroundColor: glow.interpolate({
           inputRange: [0, 1],
-          outputRange: ['rgba(255,255,255,0)', 'rgba(255,255,255,0.14)'],
+          outputRange: isLight ? ['rgba(11,11,13,0)', 'rgba(11,11,13,0.08)'] : ['rgba(255,255,255,0)', 'rgba(255,255,255,0.14)'],
         }),
       }}
     >

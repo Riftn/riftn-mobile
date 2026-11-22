@@ -159,7 +159,7 @@ const ArcadeScreen = () => {
                 onPress={() => navigation.navigate(g.screen)}
                 style={({ pressed }) => [{ flex: 1 }, pressed && styles.cardPressed]}
               >
-                <View style={[styles.friendCard, { backgroundColor: g.tint }]}>
+                <View className="dark-surface" style={[styles.friendCard, { backgroundColor: g.tint }]}>
                   <Icon name={g.icon} size={18} color="#FFFFFF" />
                   <Text style={styles.friendTitle} numberOfLines={1}>{t(g.title)}</Text>
                   <Text style={styles.friendBody} numberOfLines={3}>{t(g.body)}</Text>
