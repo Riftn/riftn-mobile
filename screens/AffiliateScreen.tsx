@@ -516,7 +516,7 @@ export default function AffiliateScreen() {
             </View>
           )}
 
-          <View style={styles.preview}>
+          <View className="dark-surface" style={styles.preview}>
             <Text style={styles.previewLabel}>{t("affiliate.livePreview")}</Text>
             <Text style={styles.previewHeadline}>{landing.headline || DEFAULT_AFFILIATE_LANDING.headline}</Text>
             <Text style={styles.previewMessage}>{landing.message || DEFAULT_AFFILIATE_LANDING.message}</Text>
