@@ -168,18 +168,24 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
   const showCounter = remaining <= WARN_THRESHOLD;
   const isOverLimit = remaining < 0;
 
+  const canSubmit = (!!text.trim() || !!attachmentUri) && !attachmentBusy;
+  const sendDisabled = isBanned || !canSend || !canSubmit || cooldown || isOverLimit || enhancing;
   const sendInFlight = useRef(false);
   const handleSend = useCallback(async () => {
     const trimmed = text.trim();
     // A picture on its own is a message; only a wholly empty composer is not.
-    if (sendInFlight.current || (!trimmed && !attachmentUri) || isBanned || !canSend || cooldown || isOverLimit) return;
-    // Tagging @assistant sends the chat to an AI provider.
-    if (mentionsAssistant(trimmed) && !hasAiConsent() && !(await ensureAiConsent())) {
-      toastInfo(aiConsentDeclinedMessage());
-      return;
-    }
-
+    if (sendInFlight.current || sendDisabled) return;
+    // Reserve the send before consent can yield. A keyboard submit and a tap
+    // on Send may arrive while that prompt is still open.
     sendInFlight.current = true;
+    // Tagging @assistant sends the chat to an AI provider.
+    if (mentionsAssistant(trimmed) && !hasAiConsent()) {
+      if (!(await ensureAiConsent().catch(() => false))) {
+        sendInFlight.current = false;
+        toastInfo(aiConsentDeclinedMessage());
+        return;
+      }
+    }
     // A new message leaves the box at once; waiting for the server's echo left
     // the sent words in it for the whole round trip. An edit keeps its text
     // until it is confirmed.
@@ -209,7 +215,7 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
         setCooldown(false);
       }, (slowModeSeconds || 5) * 1000);
     }
-  }, [text, attachmentUri, isBanned, canSend, cooldown, isOverLimit, onSend, replyingTo, onCancelReply, slowMode, slowModeSeconds, editingMessage, onCancelEdit, setText]);
+  }, [text, sendDisabled, onSend, replyingTo, onCancelReply, slowMode, slowModeSeconds, editingMessage, onCancelEdit, setText]);
 
   /**
    * Appended rather than inserted at the caret: the field is multiline with a
@@ -267,8 +273,6 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
     : replyingTo && !editingMessage
     ? t("governance.discussion.writeReply")
     : t("communities.typeMessage");
-
-  const canSubmit = (!!text.trim() || !!attachmentUri) && !attachmentBusy;
 
   // Web posts a GIF with its URL as the body, so quoting the body verbatim puts
   // an address in the composer where a photo or a voice note gets a label.
@@ -386,6 +390,9 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
               placeholder={placeholder}
               placeholderTextColor="#8B8D90"
               multiline
+              returnKeyType={Platform.OS === "ios" ? "send" : undefined}
+              submitBehavior={Platform.OS === "ios" ? "submit" : "newline"}
+              onSubmitEditing={Platform.OS === "ios" ? handleSend : undefined}
               maxLength={MAX_LENGTH}
               editable={!disabled && !enhancing}
               className="text-white text-[14px] leading-5"
@@ -458,14 +465,14 @@ const LiveChatInput: React.FC<LiveChatInputProps> = ({
 
             <TouchableOpacity
               onPress={handleSend}
-              disabled={disabled || !canSubmit || cooldown || isOverLimit || enhancing}
+              disabled={sendDisabled}
               className="items-center justify-center"
               hitSlop={4}
               style={CONTROL_BOX}
               accessibilityRole="button"
               accessibilityLabel={t("liveChat.sendMessage")}
               accessibilityState={{
-                disabled: disabled || !canSubmit || cooldown || isOverLimit || enhancing,
+                disabled: sendDisabled,
               }}
             >
               {attachmentBusy ? (
