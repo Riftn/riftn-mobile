@@ -2807,7 +2807,8 @@
       "governanceVotedPassed": "Oyladığınız bir teklif kabul edildi: “{{title}}”",
       "governanceVotedRejected": "Oyladığınız bir teklif kabul edilmedi: “{{title}}”",
       "governancePassed": "“{{title}}” teklifiniz kabul edildi 🎉",
-      "governanceRejected": "“{{title}}” teklifiniz kabul edilmedi"
+      "governanceRejected": "“{{title}}” teklifiniz kabul edilmedi",
+      "fractionGift": "{{name}} sana parça gönderdi"
     }
   },
   "leaderboard": {
@@ -12172,7 +12173,21 @@
     "offerSubmitted_other": "{{count}} kesirler için {{price}} token karşılığında teklif verildi",
     "yourOfferLabel": "Teklifiniz (Kesir başına token)",
     "listedToast_one": "{{count}} kesir {{price}} token karşılığında listelendi",
-    "listedToast_other": "{{count}} kesirler {{price}} token karşılığında listelendi"
+    "listedToast_other": "{{count}} kesirler {{price}} token karşılığında listelendi",
+    "giftSend": "Gönder",
+    "giftTitle": "Parça gönder",
+    "giftHint": "Doğrudan senin cüzdanından onun cüzdanına gider.",
+    "giftYouOwn": "{{total}} parçanın {{count}} tanesi sende",
+    "giftListedNote": "{{count}} tanesi satışta. Onları göndermek için ilanı iptal et.",
+    "giftTo": "Kime",
+    "giftChange": "Değiştir",
+    "giftSearch": "Kişi ara",
+    "giftNoOne": "Kimse bulunamadı",
+    "giftHowMany": "Kaç tane",
+    "giftAll": "Hepsi",
+    "giftSending": "Gönderiliyor…",
+    "giftButton": "{{name}} kişisine {{count}} gönder",
+    "giftSent": "{{name}} kişisine {{count}} gönderildi"
   },
   "moderation": {
     "appealDuplicate": "Bunu zaten temyize götürdünüz",

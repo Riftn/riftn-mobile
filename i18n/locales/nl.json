@@ -2995,7 +2995,8 @@
       "governanceVotedPassed": "Een voorstel waarop je hebt gestemd is aangenomen: “{{title}}”",
       "governanceVotedRejected": "Een voorstel waarop je hebt gestemd is niet aangenomen: “{{title}}”",
       "governancePassed": "Je voorstel “{{title}}” is aangenomen 🎉",
-      "governanceRejected": "Je voorstel “{{title}}” is niet aangenomen"
+      "governanceRejected": "Je voorstel “{{title}}” is niet aangenomen",
+      "fractionGift": "{{name}} heeft je fracties gestuurd"
     }
   },
   "leaderboard": {
@@ -12375,7 +12376,21 @@
     "offerSubmitted_other": "Bod ingediend voor {{count}} fractie(s) voor {{price}} tokens per stuk",
     "yourOfferLabel": "Uw bod (tokens per fractie)",
     "listedToast_one": "Vermeld {{count}} fractie(s) voor {{price}} tokens per stuk",
-    "listedToast_other": "Vermeld {{count}} fractie(s) voor {{price}} tokens per stuk"
+    "listedToast_other": "Vermeld {{count}} fractie(s) voor {{price}} tokens per stuk",
+    "giftSend": "Versturen",
+    "giftTitle": "Fracties versturen",
+    "giftHint": "Ze gaan rechtstreeks van jouw wallet naar die van hen.",
+    "giftYouOwn": "Je hebt {{count}} van {{total}}",
+    "giftListedNote": "{{count}} staan te koop. Annuleer de aanbieding om die te versturen.",
+    "giftTo": "Aan",
+    "giftChange": "Wijzigen",
+    "giftSearch": "Mensen zoeken",
+    "giftNoOne": "Niemand gevonden",
+    "giftHowMany": "Hoeveel",
+    "giftAll": "Alles",
+    "giftSending": "Versturen…",
+    "giftButton": "{{count}} naar {{name}} versturen",
+    "giftSent": "{{count}} naar {{name}} verstuurd"
   },
   "moderation": {
     "appealDuplicate": "Je hebt al bezwaar gemaakt tegen dit",
