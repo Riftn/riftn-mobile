@@ -38,6 +38,7 @@ export const MEMBER_RIGHTS: { key: MemberRight; labelKey: string; hintKey: strin
   { key: "create_events", labelKey: "createEvents", hintKey: "createEventsHint" },
   { key: "pin_messages", labelKey: "pinMessages", hintKey: "pinMessagesHint" },
   { key: "change_info", labelKey: "changeInfo", hintKey: "changeInfoMemberHint" },
+  { key: "start_calls", labelKey: "startCalls", hintKey: "startCallsHint" },
 ];
 
 /** What a freshly promoted admin gets, matching Telegram's defaults. */
@@ -60,6 +61,7 @@ export const DEFAULT_MEMBER_PERMISSIONS: Record<MemberRight, boolean> = {
   create_events: true,
   pin_messages: false,
   change_info: false,
+  start_calls: false,
 };
 
 const MUTING_RIGHTS: CommunityRight[] = ["send_messages", "send_media", "embed_links"];

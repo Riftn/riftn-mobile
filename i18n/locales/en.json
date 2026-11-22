@@ -4871,7 +4871,7 @@
       "moveRuleUp": "Move rule up",
       "moveRuleDown": "Move rule down",
       "deleteRule": "Delete rule",
-      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Post in the community chat","sendMedia":"Send media","sendMediaHint":"Attach images and GIFs","embedLinks":"Embed links","embedLinksHint":"Show link previews","addMembers":"Add members","addMembersHint":"Share the community with others","createEvents":"Create events","createEventsHint":"Schedule community events","changeInfoMemberHint":"Edit the community name and description",
+      "rights": {"startCalls":"Start group calls","startCallsHint":"Ring everyone in the group. Admins always can.","sendMessages":"Send messages","sendMessagesHint":"Post in the community chat","sendMedia":"Send media","sendMediaHint":"Attach images and GIFs","embedLinks":"Embed links","embedLinksHint":"Show link previews","addMembers":"Add members","addMembersHint":"Share the community with others","createEvents":"Create events","createEventsHint":"Schedule community events","changeInfoMemberHint":"Edit the community name and description",
         "changeInfo": "Change community info",
         "changeInfoHint": "Edit the name, description, avatar and banner",
         "deleteMessages": "Delete messages",

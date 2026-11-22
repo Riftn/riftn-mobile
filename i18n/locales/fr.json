@@ -4818,7 +4818,7 @@
       "moveRuleUp": "Déplacer la règle vers le haut",
       "moveRuleDown": "Déplacer la règle vers le bas",
       "deleteRule": "Supprimer la règle",
-      "rights": {"sendMessages":"Envoyer des messages","sendMessagesHint":"Publier dans le chat de la communauté","sendMedia":"Envoyer des médias","sendMediaHint":"Joignez des images et des GIFs","embedLinks":"Intégrer des liens","embedLinksHint":"Afficher les prévisualisations de liens","addMembers":"Ajouter des membres","addMembersHint":"Partager la communauté avec les autres","createEvents":"Créer des événements","createEventsHint":"Planifiez des événements de la communauté","changeInfoMemberHint":"Modifier le nom et la description de la communauté",
+      "rights": {"startCalls":"Lancer des appels de groupe","startCallsHint":"Faire sonner tout le groupe. Les admins le peuvent toujours.","sendMessages":"Envoyer des messages","sendMessagesHint":"Publier dans le chat de la communauté","sendMedia":"Envoyer des médias","sendMediaHint":"Joignez des images et des GIFs","embedLinks":"Intégrer des liens","embedLinksHint":"Afficher les prévisualisations de liens","addMembers":"Ajouter des membres","addMembersHint":"Partager la communauté avec les autres","createEvents":"Créer des événements","createEventsHint":"Planifiez des événements de la communauté","changeInfoMemberHint":"Modifier le nom et la description de la communauté",
         "changeInfo": "Modifier les informations de la communauté",
         "changeInfoHint": "Modifier le nom, la description, l'avatar et la bannière",
         "deleteMessages": "Supprimer des messages",

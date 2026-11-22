@@ -4838,7 +4838,7 @@
       "moveRuleUp": "نقل القاعدة للأعلى",
       "moveRuleDown": "نقل القاعدة للأسفل",
       "deleteRule": "حذف القاعدة",
-      "rights": {"sendMessages":"إرسال الرسائل","sendMessagesHint":"أكتب في محادثة المجتمع","sendMedia":"إرسال الوسائط","sendMediaHint":"إرفاق الصور والجي إف","embedLinks":"إدراج الروابط","embedLinksHint":"أظهر مقتطفات الروابط","addMembers":"إضافة أعضاء","addMembersHint":"مشاركة المجتمع مع الآخرين","createEvents":"إنشاء أحداث","createEventsHint":"تخطيط أحداث المجتمع","changeInfoMemberHint":"تعديل اسم المجتمع ووصفه",
+      "rights": {"startCalls":"بدء مكالمات جماعية","startCallsHint":"الاتصال بكل أعضاء المجموعة. يمكن للمشرفين دائمًا.","sendMessages":"إرسال الرسائل","sendMessagesHint":"أكتب في محادثة المجتمع","sendMedia":"إرسال الوسائط","sendMediaHint":"إرفاق الصور والجي إف","embedLinks":"إدراج الروابط","embedLinksHint":"أظهر مقتطفات الروابط","addMembers":"إضافة أعضاء","addMembersHint":"مشاركة المجتمع مع الآخرين","createEvents":"إنشاء أحداث","createEventsHint":"تخطيط أحداث المجتمع","changeInfoMemberHint":"تعديل اسم المجتمع ووصفه",
         "changeInfo": "تغيير معلومات المجتمع",
         "changeInfoHint": "تعديل الاسم والوصف والصورة الرمزية واللافتة",
         "deleteMessages": "حذف الرسائل",
