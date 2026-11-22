@@ -148,6 +148,8 @@ interface CommentSectionProps {
    * Must be stable; it is an effect dependency.
    */
   onDirtyChange?: (dirty: boolean) => void;
+  /** Composer hint for a new top-level comment; Shorts says "Say something...". */
+  placeholder?: string;
 }
 
 /**
@@ -230,6 +232,7 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
   postCreator,
   onDirtyChange,
   keyboardHandled = false,
+  placeholder,
 }) => {
   const { t } = useTranslation();
   const user = useUser();
@@ -2086,7 +2089,7 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
                     ? t("comments.editPlaceholder")
                     : replyingTo
                       ? t("comments.replyPlaceholder")
-                      : t("comments.inputPlaceholder")
+                      : placeholder ?? t("comments.inputPlaceholder")
                 }
                 placeholderTextColor="#6F7174"
                 style={{

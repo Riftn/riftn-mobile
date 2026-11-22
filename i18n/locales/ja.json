@@ -2955,6 +2955,8 @@
     "premium": "プレミアム",
     "pricing": "料金",
     "reorderHint": "任意のアイコンを長押ししてドラッグして並べ替えます",
+    "reorderHintGroups": "アイコンを長押ししてドラッグすると並べ替えができます。別のタブにドラッグすると移動できます。",
+    "moveGroupHint": "別のタブにドロップして移動します",
     "reorderReset": "リセット",
     "nfts": "NFT",
     "groups": {

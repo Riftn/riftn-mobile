@@ -328,6 +328,17 @@ const AppearancePanel: React.FC = () => {
           />
         </SettingsAnchor>
         <Divider />
+        {/* Your own lines in Public Chat on a bubble, like private chats. */}
+        <SettingsAnchor id="chat-own-bubble">
+          <SettingsToggleRow
+            icon="MessageSquare"
+            label={t('settings.chatOwnBubble', 'Bubbles for my messages in Public Chat')}
+            description={t('settings.chatOwnBubbleDesc', 'Your own messages sit in a bubble, like in private chats')}
+            value={prefs.chatOwnBubble}
+            onValueChange={(v) => setAppPref('chatOwnBubble', v)}
+          />
+        </SettingsAnchor>
+        <Divider />
         {/* Saved answer to "Delete message?" (libs/chatDeleteChoice), also the
             "Remember my choice" tick in the delete sheet. */}
         <SettingsAnchor id="chat-delete-choice">

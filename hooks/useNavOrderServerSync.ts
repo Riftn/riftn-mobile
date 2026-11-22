@@ -11,6 +11,7 @@ import { useUser } from "../context/AuthContext";
 import { saveAccountPrefs } from "../libs/feed-interests";
 import { setAppPref } from "./useAppPrefs";
 import { MENU_LAYOUT_PREF_KEY, isMenuLayout } from "../libs/menuLayout";
+import { MENU_GROUP_MOVES_PREF_KEY, getMenuGroupMoves, sanitiseMenuGroupMoves, writeMenuGroupMoves } from "../libs/menuGroupMoves";
 import { NAV_ORDER_PREF_KEYS, getNavOrder, sanitiseNavOrder, writeNavOrder, type NavOrderSurface } from "../libs/navOrder";
 
 const SURFACES: NavOrderSurface[] = ["menu", "bar", "home"];
@@ -38,6 +39,10 @@ export function useNavOrderServerSync(): void {
         // The menu layout set on the phone browser or another phone.
         const layout = prefs[MENU_LAYOUT_PREF_KEY];
         if (isMenuLayout(layout)) setAppPref("menuLayout", layout);
+        // Tiles moved to another menu group, on the phone browser or another phone.
+        const moves = prefs[MENU_GROUP_MOVES_PREF_KEY];
+        if (moves && typeof moves === "object") writeMenuGroupMoves(sanitiseMenuGroupMoves(moves));
+        else if (Object.keys(getMenuGroupMoves()).length) (adopt as Record<string, unknown>)[MENU_GROUP_MOVES_PREF_KEY] = getMenuGroupMoves();
         if (Object.keys(adopt).length) await saveAccountPrefs(wallet, adopt);
       } catch {
         /* the device copy stands */

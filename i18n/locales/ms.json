@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Harga",
     "reorderHint": "Tahan dan seret sebarang ikon untuk menyusun semula",
+    "reorderHintGroups": "Tahan dan seret mana-mana ikon untuk menyusun semula, atau ke tab lain untuk mengalihkannya",
+    "moveGroupHint": "Lepaskan pada tab lain untuk memindahkannya ke sana",
     "reorderReset": "Tetapkan semula",
     "groups": {
       "create": "Cipta",

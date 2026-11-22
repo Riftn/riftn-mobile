@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Priser",
     "reorderHint": "Håll och dra valfri ikon för att ordna om",
+    "reorderHintGroups": "Håll och dra ikonen för att omarrangera eller dra den till en annan flik för att flytta den",
+    "moveGroupHint": "Släpp på en annan flik för att flytta den dit",
     "reorderReset": "Återställ",
     "groups": {
       "create": "Skapa",

@@ -3023,6 +3023,8 @@
     "premium": "Ya starehe",
     "pricing": "Bei",
     "reorderHint": "Shikilia na buruta ikoni yoyote ili kupanga upya",
+    "reorderHintGroups": "Shikilia na uburute ikoni yoyote ili kupanga upya, au uipeleke kwenye kichupo kingine ili kuihamisha",
+    "moveGroupHint": "Iburute kwenye kichupo kingine ili kuihamishia huko",
     "reorderReset": "Weka upya",
     "groups": {
       "create": "Unda",

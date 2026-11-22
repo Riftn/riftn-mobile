@@ -3085,6 +3085,8 @@
     "premium": "프리미엄",
     "pricing": "요금제",
     "reorderHint": "아이콘을 길게 누른 상태에서 드래그하여 재정렬",
+    "reorderHintGroups": "아이콘을 길게 눌러 드래그하면 위치를 변경할 수 있고, 다른 탭으로 드래그하면 해당 탭으로 이동할 수 있습니다.",
+    "moveGroupHint": "다른 탭으로 드래그하여 이동하세요",
     "reorderReset": "초기화",
     "groups": {
       "main": "메인",

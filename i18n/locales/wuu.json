@@ -2998,6 +2998,8 @@
     "pricing": "定价",
     "reorderReset": "重置",
     "reorderHint": "按住并拖动任意图标来重新排列",
+    "reorderHintGroups": "按住图标拖动好重新排列，或者拖到别个标签页里向移动。",
+    "moveGroupHint": "拖到另外一个标签页里向，拿伊移过去。",
     "groups": {
       "create": "创建",
       "discover": "寻寻看",

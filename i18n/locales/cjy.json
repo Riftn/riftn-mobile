@@ -2997,6 +2997,8 @@
     "premium": "高级版",
     "pricing": "价钱",
     "reorderHint": "按住并拖动任意图标进行重新排列",
+    "reorderHintGroups": "按住并拖动任意图标即可重新排列，或者将其拖到另一个标签页上以进行移动",
+    "moveGroupHint": "拖到另一个标签页里去移动它",
     "reorderReset": "重置",
     "groups": {
       "create": "发布",

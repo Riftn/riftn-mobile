@@ -3085,6 +3085,8 @@
     "premium": "Premium",
     "pricing": "Harga",
     "reorderHint": "Tahan dan seret ikon apa pun untuk mengatur ulang",
+    "reorderHintGroups": "Tahan dan seret ikon mana pun untuk menyusun ulang, atau ke tab lain untuk memindahkannya",
+    "moveGroupHint": "Jatuhkan di tab lain untuk memindahkannya ke sana",
     "reorderReset": "Atur ulang",
     "groups": {
       "main": "Utama",

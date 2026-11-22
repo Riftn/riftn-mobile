@@ -1,5 +1,5 @@
 import { ReactionGlyph, RollingCount, useReactionHost } from "../ChatReactions/ReactionArrival";
-import { useChatTextScale } from "../../hooks/useAppPrefs";
+import { useAppPrefs, useChatTextScale } from "../../hooks/useAppPrefs";
 import * as Haptics from "expo-haptics";
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 import { useTranslation as _useCopy } from 'react-i18next';
@@ -112,6 +112,8 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   // Both sides can be empty — a signed-out reader has no address, and a
   // message can arrive with no author — and empty must not match empty.
   const isMe = !!myAddress && message.senderAddress?.toLowerCase() === myAddress;
+  // Settings → Appearance: your own lines on a bubble, like private chats.
+  const ownBubble = useAppPrefs().chatOwnBubble && isMe;
   const isSystem = message.messageType === "system";
   // The @assistant bot posts as a real account, so its reply arrives here like
   // any other message — it just gets an AI tag instead of a holder badge.
@@ -234,6 +236,15 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
       className="flex-row px-4 py-2"
       style={{ opacity: message.isDeleted ? 0.4 : 1 }}
     >
+      {ownBubble && !replying ? (
+        <View
+          pointerEvents="none"
+          style={{
+            position: "absolute", top: 2, bottom: 2, left: FRAME_INSET, right: FRAME_INSET, borderRadius: 18,
+            borderWidth: 1, borderColor: "rgba(244,244,245,0.10)", backgroundColor: "rgba(244,244,245,0.08)",
+          }}
+        />
+      ) : null}
       {/* The line being replied to keeps the glowing card it had in the hold sheet. */}
       {replying ? (
         <View

@@ -2997,6 +2997,8 @@
     "premium": "ፕሪሚየም",
     "pricing": "ዋጋ አሰጣጥ",
     "reorderHint": "የተሰጠው አይኮን ይጠየቀው እና ይምረጡ",
+    "reorderHintGroups": "ማንኛውንም ምልክት (icon) እንደያዙ በመጎተት ቦታውን መቀየር፣ ወይም ወደ ሌላ ትር (tab) በመውሰድ ማዛወር ይችላሉ።",
+    "moveGroupHint": "ወደ ሌላ ትር ለማዛወር እዚያ ጣለው",
     "reorderReset": "ዳግም አስጀምር",
     "groups": {
       "create": "ፍጠር",

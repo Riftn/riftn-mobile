@@ -2997,6 +2997,8 @@
     "premium": "प्रीमियम",
     "pricing": "दाम",
     "reorderHint": "Hold aur drag karke koi bhi icon ke rearrange kariं",
+    "reorderHintGroups": "कोनो आइकन के दबा के खींच के ओकरा के फेर से व्यवस्थित करीं, या ओकरा के दोसर टैब पर ले जा के ओकरा के ओहिजा भेज दीं",
+    "moveGroupHint": "ओकरा के ओहिजा ले जाए खातिर दोसर टैब पर छोड़ दीं",
     "reorderReset": "रीसेट करीं",
     "groups": {
       "create": "बनाईं",

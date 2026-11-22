@@ -40,7 +40,7 @@ import {
   videoTransform,
   type DmVideoOptions,
 } from "../../libs/dm-video-options";
-import { DESTRUCT_CHOICES, destructLabel, type DmDestructChoice } from "../../libs/dm-destruct";
+import { DESTRUCT_CHOICES, OPEN_CHOICES, destructLabel, isOpenChoice, type DmDestructChoice } from "../../libs/dm-destruct";
 import { LOCK_QUICK_PRICES } from "./LockPriceRow";
 import { LOCK_DEFAULT_USD, formatLockUsd } from "../../libs/dmLocked";
 import { ADJUST_RANGES, DEFAULT_ADJUST, STUDIO_LOOKS, studioColorMatrix, type StudioAdjust, type StudioAdjustKey } from "../../libs/imageFilters";
@@ -504,7 +504,7 @@ export default function DmVideoStudio({
               {destruct && (
                 <View pointerEvents="none" style={{ position: "absolute", left: 8, top: 8, flexDirection: "row", alignItems: "center", gap: 4, borderRadius: 999, backgroundColor: "rgba(0,0,0,0.6)", paddingHorizontal: 7, paddingVertical: 3 }}>
                   <Icon name="Timer" size={12} color={WHITE} />
-                  <Text style={{ color: WHITE, fontSize: 11, fontWeight: "600" }}>{_copy(`dmVideo.destruct.${destruct}`, { defaultValue: destructLabel(destruct) })}</Text>
+                  <Text style={{ color: WHITE, fontSize: 11, fontWeight: "600" }}>{isOpenChoice(destruct) ? destructLabel(destruct) : _copy(`dmVideo.destruct.${destruct}`, { defaultValue: destructLabel(destruct) })}</Text>
                 </View>
               )}
             </View>
@@ -879,9 +879,26 @@ export default function DmVideoStudio({
                     );
                   })}
                 </ScrollView>
+                {/* Countdown that starts when they first open it, so it can't
+                    run out before they have seen it. */}
+                <Text style={{ color: MUTED, fontSize: 11, fontWeight: "700", letterSpacing: 0.4, textTransform: "uppercase" }}>
+                  {_copy("dmVideo.timerOnOpen", { defaultValue: "Once they open it" })}
+                </Text>
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 6 }} keyboardShouldPersistTaps="handled">
+                  {OPEN_CHOICES.map((c) => {
+                    const on = destruct === c;
+                    return (
+                      <Pressable key={c} onPress={() => onDestructChange(c)} accessibilityRole="button" accessibilityState={{ selected: on }} style={pill(on)}>
+                        <Text style={pillText(on)}>{destructLabel(c)}</Text>
+                      </Pressable>
+                    );
+                  })}
+                </ScrollView>
                 <Text style={{ color: MUTED, fontSize: 11, lineHeight: 15 }}>
                   {destruct == null
                     ? _copy("dmVideo.timerOffBody", { defaultValue: "It stays in the chat." })
+                    : isOpenChoice(destruct)
+                      ? _copy("dmVideo.timerOpenBody", { defaultValue: "Gone for both of you {{value1}} after they first open it.", value1: destructLabel(destruct) })
                     : destruct === "view"
                       ? _copy("dmVideo.timerViewBody", { defaultValue: "Gone for both of you once they have seen it." })
                       : _copy("dmVideo.timerTimeBody", { defaultValue: "Gone for both of you {{value1}} after you send it.", value1: destructLabel(destruct) })}
