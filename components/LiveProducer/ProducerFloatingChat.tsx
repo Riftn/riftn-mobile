@@ -1,3 +1,4 @@
+import { formatCount } from '../../libs/format-count';
 import { translateCopy as _translateCopy } from "../../i18n/copy";
 import { useMentions } from "../../hooks/useMentions";
 import MentionSuggestions from "../common/MentionSuggestions";
@@ -144,7 +145,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
   );
 
   const filteredActivities = useMemo(() => {
-    return activities.filter((a) => VISIBLE_TYPES.has(a.status as string) || (a.status === "SYSTEM" && a.meta?.kind === "reward"));
+    return activities.filter((a) => VISIBLE_TYPES.has(a.status as string) || (a.status === "SYSTEM" && (a.meta?.kind === "reward" || a.meta?.kind === "pointsGift")));
   }, [activities]);
 
   const dataReversed = useMemo(
@@ -354,6 +355,23 @@ const ChatBubble: React.FC<{ item: ProducerChatActivity; onUserPress: (id: strin
           </View>
         );
       case "SYSTEM": {
+        // One viewer gave another channel points.
+        if (item.meta?.kind === "pointsGift") {
+          return (
+            <View className="flex-row items-center mb-1.5 bg-white/10 rounded-xl px-2.5 py-1.5 self-start max-w-[88%] border border-white/20" testID="producer-chat-points-gift">
+              <TouchableOpacity onPress={handlePress} activeOpacity={0.7} className="mr-1.5">
+                <Avatar uri={avatarUrl} size={18} name={displayName} />
+              </TouchableOpacity>
+              <PointsIcon size={12} color="rgba(255,255,255,0.85)" />
+              <Text className="text-white text-[11px] ml-1 flex-shrink" numberOfLines={2}>
+                <Text className="font-semibold" onPress={handlePress}>{displayName}</Text>{" "}
+                <Text style={{ color: "rgba(255,255,255,0.7)" }}>
+                  {t("livePoints.give.chatLine", { amount: formatCount(Number(item.meta?.pointsAmount) || 0), name: String(item.meta?.recipientName || "") })}
+                </Text>
+              </Text>
+            </View>
+          );
+        }
         // A viewer spent channel points on one of your rewards.
         if (item.meta?.kind !== "reward") return null;
         return (

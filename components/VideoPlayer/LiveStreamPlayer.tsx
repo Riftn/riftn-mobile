@@ -102,6 +102,7 @@ import LiveClipSheet from "../LiveViewer/LiveClipSheet";
 import HypeTrainBar from "../LiveViewer/HypeTrainBar";
 import GiftSubsSheet from "../LiveViewer/GiftSubsSheet";
 import RewardsSheet from "../LiveViewer/RewardsSheet";
+import GivePointsSheet, { type GiveTarget } from "../LiveViewer/GivePointsSheet";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMyStreamPoints, getStreamRewards } from "../../services/live-rewards.service";
 import { captureLiveClip, type LiveClip } from "../../services/live-clips.service";
@@ -1729,6 +1730,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     void rewardsQuery.refetch();
     setRewardsOpen(true);
   }, [rewardsQuery]);
+  const myAddress = String(user?.walletAddress || user?.address || "").toLowerCase();
   // A redemption is a line in the room; a creator editing rewards mid-stream refetches them.
   useEffect(() => {
     if (!streamId) return;
@@ -1753,8 +1755,32 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     const offRewards = socketOn("stream.rewards.updated", (data: any) => {
       if (String(data?.streamId || "") === String(streamId)) void queryClient.invalidateQueries({ queryKey: ["live-rewards", streamId] });
     }) || (() => {});
-    return () => { offReward(); offRewards(); };
-  }, [streamId, socketOn, addActivity, queryClient]);
+    // One viewer gave another channel points: a line in the room.
+    const offGift = socketOn("stream.points.gift", (data: any) => {
+      if (String(data?.streamId || "") !== String(streamId)) return;
+      const g = data?.gift;
+      const amount = Math.round(Number(g?.amount) || 0);
+      if (!g || amount <= 0) return;
+      if (String(g.to?.address || "").toLowerCase() === myAddress) void queryClient.invalidateQueries({ queryKey: ["live-points", streamId] });
+      addActivity({
+        status: "SYSTEM",
+        address: String(g.from?.address || "").toLowerCase(),
+        user: g.from,
+        meta: {
+          kind: "pointsGift",
+          pointsAmount: amount,
+          recipientName: g.to?.displayName || g.to?.username || String(g.to?.address || "").slice(0, 6),
+          username: g.from?.displayName || g.from?.username,
+          avatarImageUrl: g.from?.avatarImageUrl,
+        },
+      });
+    }) || (() => {});
+    return () => { offReward(); offRewards(); offGift(); };
+  }, [streamId, socketOn, addActivity, queryClient, myAddress]);
+  const giving = rewardsQuery.data?.live && rewardsQuery.data.giving.enabled ? rewardsQuery.data.giving : null;
+  const givingCreator = (rewardsQuery.data?.creator || "").toLowerCase();
+  const [giveTarget, setGiveTarget] = useState<GiveTarget | null>(null);
+  const [giveOpen, setGiveOpen] = useState(false);
   const [giftOpen, setGiftOpen] = useState(false);
   const handleGiftPress = useCallback(() => {
     if (!isLiveEffective) return;
@@ -1956,6 +1982,16 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     if (heldText && !held.activity.meta?.gifUrl) holdTiles.push({
       key: "copy", icon: "Copy", label: t("common.copy"),
       onPress: () => { copyToClipboard(heldText); setHeld(null); },
+    });
+    // Channel points giving, when the creator has it on.
+    if (giving && pointsEnabled && heldAddress && heldAddress !== me && heldAddress !== givingCreator) holdTiles.push({
+      key: "give-points", icon: "Star", label: t("livePoints.give.title"),
+      onPress: () => {
+        const target = { to: held.activity.user?.username || heldAddress, name: heldName || heldAddress.slice(0, 6) };
+        setHeld(null);
+        if (modTimer.current) clearTimeout(modTimer.current);
+        modTimer.current = setTimeout(() => { setGiveTarget(target); setGiveOpen(true); }, 350);
+      },
     });
     if (postTokenId != null && canLinkMessage(heldId)) holdTiles.push({
       key: "copy-link", icon: "Link", label: copyLinkLabel(),
@@ -2447,6 +2483,21 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
           balance={pointsQuery.data}
           rewards={rewardsQuery.data?.rewards ?? []}
           loading={rewardsQuery.isLoading}
+          onGive={giving ? () => {
+            setRewardsOpen(false);
+            if (modTimer.current) clearTimeout(modTimer.current);
+            modTimer.current = setTimeout(() => { setGiveTarget(null); setGiveOpen(true); }, 350);
+          } : undefined}
+        />
+      ) : null}
+      {giveOpen && streamId && giving ? (
+        <GivePointsSheet
+          visible={giveOpen}
+          onClose={() => setGiveOpen(false)}
+          streamId={streamId}
+          balance={pointsQuery.data?.balance}
+          dailyCap={giving.dailyCap}
+          target={giveTarget}
         />
       ) : null}
       {giftSubsOpen && giftCreatorAddress ? (
