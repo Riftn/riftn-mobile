@@ -31,6 +31,7 @@ import { openCustomPush } from '../../libs/custom-notification-route';
 import { readNotificationData as readTapData } from '../../libs/push-tap-data';
 import { noteNotificationMoment } from '../../libs/review-prompt';
 import { useOnboarding } from '../../context/OnboardingChecklistContext';
+import { listProfiles } from '../../libs/profiles';
 
 const logger = createLogger('PushProvider');
 
@@ -89,6 +90,8 @@ export interface NotificationData {
   type: NotificationType;
   category: NotificationCategory;
   deepLink?: string;
+  /** Address of the account the push was sent to. */
+  recipient?: string;
   // Content-related
   tokenId?: number;
   postType?: 'video' | 'feed-images' | 'feed-simple';
@@ -240,7 +243,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
   const navigation = useNavigation<NavigationProp<any>>();
   const user = useUser();
   const { isSignedIn, needsUsername } = useAuthState();
-  const { patchUser } = useAuthActions();
+  const { patchUser, switchToProfile } = useAuthActions();
+  const switchToProfileRef = useRef(switchToProfile);
+  switchToProfileRef.current = switchToProfile;
   const isFullySignedIn = isSignedIn && !needsUsername;
   const isFullySignedInRef = useRef(isFullySignedIn);
   isFullySignedInRef.current = isFullySignedIn;
@@ -354,7 +359,29 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       return;
     }
 
-    whenNavigatorReady(() => routeNotificationTapRef.current?.(data, !!opts?.coldStart));
+    const route = () => whenNavigatorReady(() => routeNotificationTapRef.current?.(data, !!opts?.coldStart));
+
+    // A push sent to another account saved on this phone opens as that
+    // account: switch first, then open the tap once the switch has settled.
+    const recipient = typeof data.recipient === 'string' ? data.recipient.toLowerCase() : '';
+    const current = (userAddressRef.current || '').toLowerCase();
+    if (recipient && current && recipient !== current) {
+      void (async () => {
+        try {
+          const profile = (await listProfiles()).find((p) => (p.address || '').toLowerCase() === recipient && !!p.session);
+          if (profile && (await switchToProfileRef.current(profile.id))) {
+            setTimeout(route, 600);
+            return;
+          }
+        } catch (error) {
+          logger.warn('Could not switch to the notified account', error as any);
+        }
+        route();
+      })();
+      return;
+    }
+
+    route();
   }, []);
 
   const routeNotificationTap = (data: NotificationData, coldStart: boolean) => {
