@@ -27,7 +27,7 @@ import { useDrawerBlurSource } from "./FrostedBackdrop";
  */
 export const SHEET_BACKDROP_INTENSITY = 30;
 const SCRIM = {
-  blurred: { dark: "rgba(0,0,0,0.3)", light: "rgba(0,0,0,0.12)" },
+  blurred: { dark: "rgba(0,0,0,0.3)", light: "rgba(0,0,0,0.2)" },
   plain: { dark: "rgba(0,0,0,0.55)", light: "rgba(0,0,0,0.35)" },
   minimal: "rgba(0,0,0,0.6)",
 } as const;

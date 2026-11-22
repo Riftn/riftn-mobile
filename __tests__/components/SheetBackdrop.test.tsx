@@ -55,7 +55,7 @@ it('uses the system material on iOS, light in System Light', () => {
   expect(blur.blurTarget).toBeUndefined();
   expect(blur).toMatchObject({ intensity: SHEET_BACKDROP_INTENSITY, tint: 'light' });
   // Pure black, so System Light's colour pass leaves it alone.
-  expect(scrim).toBe('rgba(0,0,0,0.12)');
+  expect(scrim).toBe('rgba(0,0,0,0.2)');
 });
 
 it.each([
