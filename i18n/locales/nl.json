@@ -7956,7 +7956,8 @@
       "start": "Scherm delen",
       "stop": "Stoppen met scherm delen",
       "sharing": "Je deelt je scherm",
-      "hint": "Kijkers zien je scherm. Tik op de schermknop om terug te gaan naar de camera."
+      "hint": "Kijkers zien je scherm. Tik op de schermknop om terug te gaan naar de camera.",
+      "iosHint": "Kijkers zien Riftn zolang het open is. iPhone pauzeert het beeld als je van app wisselt; je stem gaat door."
     }
   },
   "liveShop": {

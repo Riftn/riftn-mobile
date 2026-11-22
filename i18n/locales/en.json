@@ -7515,7 +7515,8 @@
       "start": "Share screen",
       "stop": "Stop sharing screen",
       "sharing": "You're sharing your screen",
-      "hint": "Viewers see your screen. Tap the screen button to switch back to the camera."
+      "hint": "Viewers see your screen. Tap the screen button to switch back to the camera.",
+      "iosHint": "Viewers see Riftn while it's open. iPhone pauses the picture when you switch apps; your voice keeps going."
     },
     "streamFromEncoder": "Stream from OBS or another encoder",
     "ending": "Ending...",

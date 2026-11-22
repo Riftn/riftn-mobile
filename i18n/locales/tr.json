@@ -7817,7 +7817,8 @@
       "start": "Ekranı paylaş",
       "stop": "Ekran paylaşımını durdur",
       "sharing": "Ekranını paylaşıyorsun",
-      "hint": "İzleyiciler ekranını görüyor. Kameraya dönmek için ekran düğmesine dokun."
+      "hint": "İzleyiciler ekranını görüyor. Kameraya dönmek için ekran düğmesine dokun.",
+      "iosHint": "İzleyiciler Riftn açıkken onu görür. Başka bir uygulamaya geçtiğinde iPhone görüntüyü duraklatır; sesin devam eder."
     }
   },
   "liveShop": {
