@@ -2743,12 +2743,6 @@
       "shipped": "Shipped"
     },
     "myRequests": "My Requests",
-    "sideFeatures": "Feature requests",
-    "sideBugs": "Bug reports",
-    "bugHeading": "What's not working?",
-    "bugHint": "Say what happened and what you expected. A screenshot helps.",
-    "sideFeaturesShort": "Features",
-    "sideBugsShort": "Bugs",
     "prompts": "Prompts",
     "queued": "Queued",
     "promptPageTitle": "Requests",

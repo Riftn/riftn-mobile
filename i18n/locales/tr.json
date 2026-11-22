@@ -2920,12 +2920,6 @@
   },
   "features": {
     "myRequests": "Taleplerim",
-    "sideFeatures": "Özellik istekleri",
-    "sideBugs": "Hata bildirimleri",
-    "bugHeading": "Ne çalışmıyor?",
-    "bugHint": "Ne olduğunu ve ne beklediğini yaz. Ekran görüntüsü işe yarar.",
-    "sideFeaturesShort": "Özellikler",
-    "sideBugsShort": "Hatalar",
     "prompts": "İstemler",
     "queued": "Sırada",
     "promptPageTitle": "İstekler",
