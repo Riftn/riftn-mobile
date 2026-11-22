@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import UserProfileSkeleton from "./UserProfileSkeleton";
 import type { ProfileIdentitySeed } from "../../hooks/useUserProfileData";
 import UserProfileHeader from "./UserProfileHeader";
+import { ProfileMuteRow } from "./ProfileMuteRow";
 import PinnedCommunities from "../Communities/PinnedCommunities";
 import UserProfileBottomContentTabs from "./UserProfileBottomContentTabs";
 import { ProfilePostBgArtContext, ProfilePostBgContext, useResolvedPostBg } from "../Profile/PostBackground";
@@ -683,6 +684,10 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
               </>
             )}
 
+            {showProfileMenu && !isOwnProfile && !isBlocked && viewer && profileAddress && (
+              <ProfileMuteRow address={profileAddress} viewerAddress={viewer.walletAddress || viewer.address || ""} />
+            )}
+
             <TouchableOpacity
               onPress={handleBlockPress}
               activeOpacity={0.7}
@@ -697,9 +702,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
               </View>
               <View className="flex-1">
                 <Text style={{ color: "#F4F4F5" }} className="text-[15px] font-medium">
-                  {youBlocked
-                    ? _copy("copy.46785e0aacc9", { defaultValue: "Unblock {{value1}}", value1: profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" }) })
-                    : _copy("copy.8d3f3e35915d", { defaultValue: "Block {{value1}}", value1: profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" }) })}
+                  {youBlocked ? t("profileOptions.unblock") : t("profileOptions.block")}
                 </Text>
                 <Text className="text-theme-neutrals-500 text-xs mt-0.5">
                   {youBlocked
@@ -720,7 +723,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
                 <Ionicons name="flag-outline" size={18} color="#D4D4D8" />
               </View>
               <View className="flex-1">
-                <Text style={{ color: "#D4D4D8" }} className="text-[15px] font-medium">{_copy("copy.83e2982ce44d", { defaultValue: "Report " })}{profileData?.displayName || _copy("copy.04f8996da763", { defaultValue: "user" })}
+                <Text style={{ color: "#D4D4D8" }} className="text-[15px] font-medium">{t("postOptions.report")}
                 </Text>
                 <Text className="text-theme-neutrals-500 text-xs mt-0.5">
                   {t("profileOptions.reportHint")}
