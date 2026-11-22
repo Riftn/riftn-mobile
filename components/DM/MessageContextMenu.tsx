@@ -459,11 +459,15 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
   }, [onClose, onReply]);
 
   const handleCopy = useCallback(() => {
-    if (message?.content) {
-      copyToClipboard(message.content);
-    }
+    // A line sent in their language copies the version on screen.
+    const pair = message?.original?.content ? message.original : null;
+    const shown = pair && message?._id ? getDmTranslation(message._id) : undefined;
+    const text = pair
+      ? (shown?.status === "shown" ? shown.text : isMine ? pair.content : message?.content)
+      : message?.content;
+    if (text) copyToClipboard(text);
     onClose();
-  }, [message, onClose]);
+  }, [message, onClose, isMine]);
 
   const handleEdit = useCallback(() => {
     onClose();
@@ -585,7 +589,26 @@ const MessageContextMenuComponent: React.FC<MessageContextMenuProps> = ({
       rows.push({ icon: "Images", label: t("dm.copyMedia", { defaultValue: "Copy media" }), onPress: handleCopyMedia });
     // Translate the other person's words, the same as web. Shows the
     // translation in the bubble; held again it offers the original back.
-    if (!isMine && !unsent && message._id && canTranslateDm(message.content)) {
+    if (message.original?.content && message._id && !unsent) {
+      // Sent in their language: both versions are already here, so this
+      // only flips between them.
+      const shown = getDmTranslation(message._id)?.status === "shown";
+      rows.push({
+        icon: "Languages",
+        label: isMine
+          ? (shown
+            ? t("dmTranslateOut.showMine", { defaultValue: "Show what I wrote" })
+            : t("dmTranslateOut.showTheirs", { defaultValue: "Show what they see" }))
+          : (shown
+            ? t("dmTranslateOut.showTranslation", { defaultValue: "Show translation" })
+            : t("common.showOriginal")),
+        onPress: () => {
+          const id = message._id;
+          onClose();
+          void toggleDmTranslation(id, message.content);
+        },
+      });
+    } else if (!isMine && !unsent && message._id && canTranslateDm(message.content)) {
       const shown = getDmTranslation(message._id)?.status === "shown";
       rows.push({
         icon: shown ? "RotateCcw" : "Languages",

@@ -219,6 +219,12 @@ export interface DmMessage {
   /** Sent "when they're next online": the sender's bubble shows an hourglass until it is read. */
   whenOnline?: boolean;
 
+  /**
+   * Sent with "Send in their language": `content` is the line in the
+   * recipient's language and this is what the sender typed.
+   */
+  original?: { content: string; lang: string } | null;
+
   // Tip message metadata (only populated when msgType === 'tip')
   tipAmount?: number | null;
   tipSymbol?: string | null;
@@ -293,6 +299,9 @@ export interface EditMessagePayload {
   dmId: ID;
   messageId: ID;
   content: string;
+  /** "Send in their language": what was typed, when `content` is its translation. */
+  original?: string;
+  translatedTo?: string;
 }
 
 /** Server → Client: editMessage */
@@ -303,6 +312,8 @@ export interface EditMessageResponse {
   isEdited: boolean;
   editedAt: string;
   author: "me" | "other";
+  /** Set when the edit went out in their language; null clears an older one. */
+  original?: { content: string; lang: string } | null;
 }
 
 /** Client → Server: forwardMessage */

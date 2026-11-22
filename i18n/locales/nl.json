@@ -8369,7 +8369,9 @@
     "shareKindGroup": "Groep",
     "shareKindChannel": "Kanaal",
     "shareKindCommunity": "Community",
-    "copyMedia": "Media kopiëren"
+    "copyMedia": "Media kopiëren",
+    "translateOut": "Versturen in hun taal",
+    "translateOutOff": "Versturen zoals ik typ"
   },
   "editPost": {
     "mediaPermission": "Toestemming voor de mediabibliotheek is vereist",
@@ -18301,5 +18303,17 @@
     "streak": "Reeks van {{value}} dagen",
     "streakBonus": "Reeksbonus +{{pct}}%",
     "dailyHint": "Eén quiz per dag. Wie je quizzen dagen achter elkaar speelt, bouwt een reeks op en verdient bonuspunten."
+  },
+  "dmTranslateOut": {
+    "showMine": "Toon wat ik schreef",
+    "showTheirs": "Toon wat zij zien",
+    "showTranslation": "Toon vertaling",
+    "asTheySee": "Zoals zij het zien",
+    "sentIn": "Verstuurd in het {{language}}",
+    "original": "Origineel",
+    "translated": "Vertaald",
+    "offToast": "Je berichten hier gaan zoals je ze typt",
+    "onToast": "Je berichten hier gaan nu in het {{language}}",
+    "noLanguage": "Ze hebben nog geen app-taal gekozen, dus je berichten gaan voorlopig zoals je ze typt"
   }
 }

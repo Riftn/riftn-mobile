@@ -239,6 +239,7 @@ export const dmActions = {
       content: edit.content,
       isEdited: edit.isEdited ?? true,
       editedAt: edit.editedAt,
+      ...(edit.original !== undefined ? { original: edit.original } : {}),
     });
 
     const list = dmState.messagesByConversation[edit.dmId];

@@ -144,6 +144,9 @@ import { dmSendQueue } from "../services/dm/dm.send";
 import { ensureDmEncryption, retryDmEncryption, type DmEncryptionStatus } from "../libs/dm-e2ee/setup";
 import { decryptIncoming } from "../libs/dm-e2ee/peer";
 import { onIdentityChange, prepareOutgoing } from "../libs/dm-e2ee/keys";
+import { languageName, peerLanguage, translateOutgoing } from "../libs/dm-translate-out";
+import { ensureAiConsent, hasAiConsent } from "../libs/ai-consent";
+import { getUserLanguage } from "../services/translation.service";
 import { getAccount, isFollowing as checkIsFollowing } from "../services/user.service";
 import { localTimeLine, useProfileLocalTime } from "../hooks/useProfileLocalTime";
 import { blockUser, unblockUser } from "../services/block.service";
@@ -971,6 +974,32 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   }, [openChatHasReactions, currentConvId, seeReactions]);
   const canToggleEncryption = !!currentConvId && /^[0-9a-f]{24}$/i.test(String(currentConvId));
   const chatEncrypted = canToggleEncryption && !!chatPrefsById.get(String(currentConvId))?.encryptedAt;
+  // "Send in their language": your lines go out translated into the language
+  // they read Riftn in. Not offered while the chat is encrypted.
+  const canTranslateOut = canToggleEncryption && !chatEncrypted;
+  const translateOutOn = canTranslateOut && !!chatPrefsById.get(String(currentConvId))?.translateOutAt;
+  const onToggleTranslateOut = useCallback(async () => {
+    if (!currentConvId) return;
+    const on = !translateOutOn;
+    // Translating sends the text to the translator, so it asks once, like Translate does.
+    if (on && !hasAiConsent() && !(await ensureAiConsent())) return;
+    void updateChatPref(String(currentConvId), { translateOut: on });
+    if (!on) {
+      toastSuccess(t("dmTranslateOut.offToast", { defaultValue: "Your messages here go as you type them" }));
+      return;
+    }
+    const lang = await peerLanguage(String(currentConvId));
+    if (lang) {
+      toastSuccess(t("dmTranslateOut.onToast", {
+        defaultValue: "Your messages here now go out in {{language}}",
+        language: languageName(lang, getUserLanguage()),
+      }));
+    } else {
+      toastSuccess(t("dmTranslateOut.noLanguage", {
+        defaultValue: "They haven't picked an app language yet, so your messages go as you type them for now",
+      }));
+    }
+  }, [currentConvId, translateOutOn, updateChatPref, t]);
   const onToggleEncryption = useCallback(() => {
     if (!currentConvId) return;
     const on = !chatEncrypted;
@@ -1560,26 +1589,40 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
       if (editingMessage) {
         const target = editingMessage;
         const previousContent = target.content || "";
-        if (content === previousContent.trim()) {
+        const previousOriginal = target.original ?? null;
+        // A line sent in their language is edited as you typed it.
+        if (content === (previousOriginal?.content ?? previousContent).trim()) {
           setEditingMessage(null);
           return true;
         }
         try {
           const cId = await ensureConversation();
-          const wire = await prepareOutgoing(peer.address, content);
+          // Same rules as a fresh send: in their language when that is on for
+          // this chat, otherwise encrypted when both sides have keys.
+          const translated = await translateOutgoing(String(cId), content);
+          const wire = translated
+            ? { content: translated.content, encrypted: false }
+            : await prepareOutgoing(peer.address, content);
           settlePendingEdit(target._id, false);
           const confirmed = new Promise<boolean>(resolve => {
             const timer = setTimeout(() => {
               settlePendingEdit(target._id, false);
               dmActions.applyEdit({ dmId: cId, messageId: target._id, content: previousContent,
-                isEdited: !!target.isEdited, editedAt: target.editedAt || new Date().toISOString(), author: "me" });
+                isEdited: !!target.isEdited, editedAt: target.editedAt || new Date().toISOString(), author: "me",
+                original: previousOriginal });
               toastError(t("dm.failedToEdit"));
             }, EDIT_CONFIRM_TIMEOUT_MS);
             pendingEditsRef.current.set(target._id, { timer, resolve });
           });
-          dmActions.applyEdit({ dmId: cId, messageId: target._id, content, isEdited: true,
-            editedAt: new Date().toISOString(), author: "me" });
-          ws.emitAuthed(DMSocketEvent.EditMessage, { dmId: cId, messageId: target._id, content: wire.content });
+          dmActions.applyEdit({ dmId: cId, messageId: target._id, content: translated ? translated.content : content, isEdited: true,
+            editedAt: new Date().toISOString(), author: "me",
+            original: translated ? { content: translated.original, lang: translated.lang } : null });
+          ws.emitAuthed(DMSocketEvent.EditMessage, {
+            dmId: cId,
+            messageId: target._id,
+            content: wire.content,
+            ...(translated ? { original: translated.original, translatedTo: translated.lang } : {}),
+          });
           const sent = await confirmed;
           if (sent) setEditingMessage(current => current?._id === target._id ? null : current);
           return sent;
@@ -2411,6 +2454,8 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
               onClearChat={currentConvId ? onClearChat : undefined}
               onToggleEncryption={canToggleEncryption ? onToggleEncryption : undefined}
               encrypted={chatEncrypted}
+              onToggleTranslateOut={canTranslateOut ? () => void onToggleTranslateOut() : undefined}
+              translateOut={translateOutOn}
               onSearchChat={onSearchChat}
               onToggleFreeAccess={myDmStatus?.perMessageFee && myDmStatus.perMessageFee > 0 ? onToggleFreeAccess : undefined}
               peerHasFreeAccess={

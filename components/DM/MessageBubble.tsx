@@ -64,7 +64,9 @@ import type { DmVideoOptions } from "../../libs/dm-video-options";
 import type { DmDestruct } from "../../libs/dm-destruct";
 import { encryptedMediaLabel } from "../../libs/dm-e2ee/media-label";
 import { dmSendQueue } from "../../services/dm/dm.send";
-import { useDmTranslation, toggleDmTranslation, autoTranslateDm, shouldAutoTranslateDm } from "../../libs/dm-translation-store";
+import { useDmTranslation, toggleDmTranslation, autoTranslateDm, shouldAutoTranslateDm, primeDmPair } from "../../libs/dm-translation-store";
+import { languageName } from "../../libs/dm-translate-out";
+import { useMetaGrey } from "../../theme/metaGrey";
 import { autoTranslateEnabled, subscribeAutoTranslate } from "../../libs/auto-translate-setting";
 import { queueAutoTranslate } from "../../libs/auto-translate-queue";
 import { getUserLanguage } from "../../services/translation.service";
@@ -510,9 +512,16 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
         : [],
     [isMine, msgType, callPeerAddress, message.content],
   );
-  const bodyContent = assistantActions.length
-    ? withoutAssistantActionLinks(message.content ?? "")
-    : message.content;
+  // Sent with "Send in their language": `content` is the line in the
+  // recipient's language, `original` what the sender typed. The sender sees
+  // their own words, the recipient sees theirs, and either can flip.
+  const sentPair = msgType === "msg" && message._id && message.original?.content ? message.original : null;
+  if (sentPair) primeDmPair(message._id, isMine ? message.content ?? "" : sentPair.content);
+  const bodyContent = sentPair && isMine
+    ? sentPair.content
+    : assistantActions.length
+      ? withoutAssistantActionLinks(message.content ?? "")
+      : message.content;
 
   const momentReply = useMemo(() => msgType === "msg" && !encMedia && !mediaItems.length
     ? parseMomentReply(bodyContent) ?? parseSharedMoment(bodyContent) : null, [msgType, encMedia, mediaItems.length, bodyContent]);
@@ -556,13 +565,37 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   const autoEnabled = React.useSyncExternalStore(subscribeAutoTranslate, autoTranslateEnabled);
   const { i18n: autoI18n } = useTranslation();
   useEffect(() => {
-    if (isMine || isCallMsg || !autoEnabled || !message._id) return;
+    if (isMine || isCallMsg || !autoEnabled || !message._id || sentPair) return;
     if (msgType !== "msg" && !(msgType === "media" && message.content)) return;
     const readerLang = getUserLanguage();
     if (!shouldAutoTranslateDm(message.content, readerLang)) return;
     return queueAutoTranslate(() => autoTranslateDm(message._id, message.content));
-  }, [isMine, isCallMsg, autoEnabled, message._id, message.content, msgType, autoI18n.language]);
-  const translationStatus = translation ? (
+  }, [isMine, isCallMsg, autoEnabled, message._id, message.content, msgType, autoI18n.language, sentPair]);
+  const metaGrey = useMetaGrey();
+  const pairShown = translation?.status === "shown";
+  // The small note under a line sent in their language: which version this is.
+  const pairNote = !sentPair ? ""
+    : isMine
+      ? (pairShown
+        ? t("dmTranslateOut.asTheySee", { defaultValue: "As they see it" })
+        : t("dmTranslateOut.sentIn", { defaultValue: "Sent in {{language}}", language: languageName(sentPair.lang, getUserLanguage()) }))
+      : (pairShown
+        ? t("dmTranslateOut.original", { defaultValue: "Original" })
+        : t("dmTranslateOut.translated", { defaultValue: "Translated" }));
+  const translationStatus = sentPair ? (
+    <View className="px-3 pt-1">
+      <TouchableOpacity
+        onPress={() => void toggleDmTranslation(message._id, message.content)}
+        activeOpacity={0.7}
+        hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+        accessibilityRole="button"
+        style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
+      >
+        <Icon name="Languages" size={12} color={isMine ? "hsla(0, 0%, 100%, 0.72)" : metaGrey} />
+        <Text style={{ fontSize: 12, color: isMine ? "hsla(0, 0%, 100%, 0.72)" : metaGrey }}>{pairNote}</Text>
+      </TouchableOpacity>
+    </View>
+  ) : translation ? (
     <View className="px-3 pt-1">
       <TranslateButton
         inline

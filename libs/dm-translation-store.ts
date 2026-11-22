@@ -57,6 +57,19 @@ export function useDmTranslation(id: string | undefined): DmTranslation | undefi
   return useSyncExternalStore(subscribe, () => (id ? entries.get(id) : undefined));
 }
 
+/**
+ * A line sent with "Send in their language" carries both versions, so its
+ * "translation" is the other version and flipping needs no translator call.
+ * Seeds the store quietly (it runs while the bubble renders) and keeps the
+ * reader's current side when an edit changes the text.
+ */
+export function primeDmPair(id: string, other: string): void {
+  const cur = entries.get(id);
+  autoTried.add(id);
+  if (cur && cur.status !== 'loading' && cur.text === other) return;
+  entries.set(id, { status: cur?.status === 'shown' ? 'shown' : 'hidden', text: other });
+}
+
 /** Translate, or flip between the translation and the original. */
 export async function toggleDmTranslation(id: string, content?: string | null): Promise<void> {
   const current = entries.get(id);
