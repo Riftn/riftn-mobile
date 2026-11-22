@@ -61,7 +61,7 @@ export interface UseCallReturn {
   isCallActive: boolean; isIncoming: boolean; currentCall: CallSession | null;
   isConnecting: boolean; isMuted: boolean; isSpeakerOn: boolean; isCameraOff: boolean;
   callStartedAt: number | null; remoteUid: number | null; peerAddress: string;
-  localCanvas: VideoCanvas; remoteCanvas: VideoCanvas;
+  localCanvas: VideoCanvas; remoteCanvas: VideoCanvas; remoteVideoEpoch: number;
   startCall: (recipientAddress: string, callType?: "audio" | "video") => Promise<void>;
   endCall: () => void; acceptCall: () => void; rejectCall: () => void;
   /** Answer from the phone's call screen (CallKit / Android call notification), even with the app in the background. */
@@ -111,6 +111,10 @@ export function useCall(): UseCallReturn {
   const [isCameraOff, setIsCameraOff] = useState(true);
   const [callStartedAt, setCallStartedAt] = useState<number | null>(null);
   const [remoteUid, setRemoteUid] = useState<number | null>(null);
+  // Bumped when the other person's video starts decoding. The remote surface
+  // is keyed on it: a surface attached before the first frame could stay black
+  // until the call was minimised and reopened (which remounted it).
+  const [remoteVideoEpoch, setRemoteVideoEpoch] = useState(0);
   const [isMinimized, setMinimized] = useState(false);
   const [callSummary, setCallSummary] = useState<CallSummary | null>(null);
   const [groupParticipants, setGroupParticipants] = useState<GroupParticipant[]>([]);
@@ -368,6 +372,11 @@ export function useCall(): UseCallReturn {
           if (!current()) return;
           setRemoteUid(uid);
           markLive();
+        },
+        // Decoding (2): the first frames are arriving, so redraw the surface.
+        onRemoteVideoStateChanged: (_connection, _uid, state) => {
+          if (!current() || state !== 2) return;
+          setRemoteVideoEpoch(n => n + 1);
         },
         onUserOffline: () => { if (current()) void endCall(); },
       };
@@ -746,12 +755,12 @@ export function useCall(): UseCallReturn {
     isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary,
     isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
-    callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas,
+    callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas, remoteVideoEpoch,
     startCall, endCall, acceptCall, rejectCall: endCall, acceptCallById, declineCallById, setNativeMute, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
     callBackground, callBackgroundSupported, setCallBackground,
   }), [callBackground, callBackgroundSupported, setCallBackground, captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
-    callStartedAt, remoteUid, peerAddress, remoteCanvas, startCall, endCall, acceptCall, acceptCallById, declineCallById,
+    callStartedAt, remoteUid, peerAddress, remoteCanvas, remoteVideoEpoch, startCall, endCall, acceptCall, acceptCallById, declineCallById,
     setNativeMute, toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);
 }

@@ -22,6 +22,7 @@ const VideoCallModal: React.FC = () => {
     isCameraOff,
     localCanvas,
     remoteCanvas,
+    remoteVideoEpoch,
     remoteUid,
     peerAddress,
     isMinimized,
@@ -62,7 +63,7 @@ const VideoCallModal: React.FC = () => {
     <CallStage peer={peer} live={live} onRequestClose={() => setMinimized(true)} onCorner={() => setMinimized(true)}>
       {live ? (
         <>
-          <RtcSurfaceView style={StyleSheet.absoluteFill} canvas={remoteCanvas} />
+          <RtcSurfaceView key={`remote-${remoteUid}-${remoteVideoEpoch}`} style={StyleSheet.absoluteFill} canvas={remoteCanvas} />
           {/* Name and timer ride over the other person's video once it is up. */}
           <View style={[styles.top, { paddingTop: insets.top + 14 }]} pointerEvents="none">
             <View style={styles.chip}>
