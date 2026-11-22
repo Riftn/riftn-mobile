@@ -1,6 +1,6 @@
 import {
   secondsToHMMSS, msToHHMMSS, formatJoinedDate,
-  formatRelativeFromNow, formatChatTimeSmart,
+  formatRelativeFromNow, formatChatTimeSmart, formatMessageTime,
 } from '../../libs/date.util';
 
 describe('libs/date.util', () => {
@@ -111,6 +111,20 @@ describe('libs/date.util', () => {
     });
   });
 
+  describe('formatMessageTime', () => {
+    it.each([[0, 0, '00:00'], [1, 34, '01:34'], [13, 34, '13:34'], [23, 59, '23:59']])(
+      'formats local hour %i and minute %i as %s',
+      (hour, minute, expected) => {
+        expect(formatMessageTime(new Date(2026, 0, 1, hour, minute))).toBe(expected);
+      }
+    );
+
+    it('returns an empty label for missing or invalid timestamps', () => {
+      expect(formatMessageTime()).toBe('');
+      expect(formatMessageTime('invalid')).toBe('');
+    });
+  });
+
   describe('formatChatTimeSmart', () => {
     it('returns "now" for falsy', () => {
       expect(formatChatTimeSmart(null)).toBe('now');
@@ -125,7 +139,7 @@ describe('libs/date.util', () => {
     it('returns absolute time beyond threshold', () => {
       const tenHoursAgo = new Date(Date.now() - 10 * 60 * 60 * 1000);
       const result = formatChatTimeSmart(tenHoursAgo, 6);
-      expect(result).toMatch(/\d+:\d+\s*(AM|PM)/);
+      expect(result.slice(0, 5)).toBe(formatMessageTime(tenHoursAgo));
     });
   });
 });
