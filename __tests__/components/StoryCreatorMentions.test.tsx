@@ -140,7 +140,7 @@ it("keeps a text layer's chosen orientation through editing and export", async (
   fireEvent.press(editor.getByText("Share"));
   await waitFor(() => expect(composePhoto).toHaveBeenCalledWith("file:///photo.jpg", [
     expect.objectContaining({ text: "Upward", rotation: 270, x: 0.5, y: 0.42 }),
-  ]));
+  ], "none", "blur"));
   editor.unmount();
   client.clear();
 });
@@ -205,7 +205,7 @@ it("applies the chosen caption font and size to the placed text and upload", asy
   fireEvent.press(editor.getByText("Share"));
   await waitFor(() => expect(composePhoto).toHaveBeenCalledWith("file:///photo.jpg", [
     expect.objectContaining({ font: "typewriter", size: 0.1, text: "Hello" }),
-  ]));
+  ], "none", "blur"));
   editor.unmount();
   client.clear();
 });

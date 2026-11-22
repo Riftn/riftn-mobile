@@ -37,15 +37,21 @@ import MentionSuggestions from "../common/MentionSuggestions";
 import { DarkRoomProvider } from "../../context/ThemeContext";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { optionalSkia } from "../../libs/skia";
-import { toastError } from "../../libs/toast";
+import { toastError, toastSuccess } from "../../libs/toast";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
 import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
 import { CAPTION_FONTS, captionFonts, captionFontStyle } from "./caption-fonts";
 import { shareMoment } from "./story-upload";
 import type { TextLayer } from "./story-compose";
+import { PHOTO_BACKDROPS, PHOTO_LOOKS, type PhotoBackdrop, type PhotoLook } from "./story-effects";
 
 const AUDIENCE_KEY = "riftn.stories.audience";
+/** The saved Close friends list, reused for "Only selected people". */
+const CLOSE_FRIENDS_KEY = "riftn.stories.closeFriends";
+/** Stickers are big glyph layers: emoji keep their colours, the shapes take the text colour. */
+const STICKER_EMOJI = ["🔥", "😂", "😍", "🥳", "👀", "💯", "🎉", "❤️", "✨", "👏", "🙌", "😎", "🤯", "🫶", "🙏", "💀", "🚀", "⚡", "🌙", "☀️"];
+const STICKER_SHAPES = ["→", "←", "↑", "↓", "↗", "↘", "➜", "○", "✓", "✗", "★", "♥", "!", "?"];
 const COLORS = ["#ffffff", "#000000", "#ff5c7a", "#ffb34d", "#ffe14d", "#5ce08a", "#4dc3ff", "#a391fc"];
 const MAX_SECONDS = 60;
 const MAX_MENTIONS = 10;
@@ -53,6 +59,7 @@ const MAX_MENTIONS = 10;
 type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number };
 
 const compose = optionalSkia(() => require("./story-compose") as typeof import("./story-compose"));
+const PhotoPreview = optionalSkia(() => (require("./StoryPhotoPreview") as typeof import("./StoryPhotoPreview")).default);
 
 export default function StoryCreator({ onClose, remixSource }: { onClose: () => void; remixSource?: StoryRemixSource }) {
   const { t } = useTranslation();
@@ -179,6 +186,19 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [audienceOpen, setAudienceOpen] = useState(false);
   const [pickingAudiencePerson, setPickingAudiencePerson] = useState(false);
   const [audiencePeople, setAudiencePeople] = useState<MentionUser[]>([]);
+  const [closeFriends, setCloseFriends] = useState<MentionUser[]>([]);
+  const [stickersOpen, setStickersOpen] = useState(false);
+  const [effectsOpen, setEffectsOpen] = useState(false);
+  const [look, setLook] = useState<PhotoLook>("none");
+  const [backdrop, setBackdrop] = useState<PhotoBackdrop>("blur");
+  React.useEffect(() => {
+    AsyncStorage.getItem(CLOSE_FRIENDS_KEY)
+      .then((raw) => {
+        const list = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(list)) setCloseFriends(list.filter((u: MentionUser) => u && typeof u.address === "string").slice(0, 50));
+      })
+      .catch(() => {});
+  }, []);
   const restrictPeople = audience === "selected" || audience === "except";
   const audienceLabels = {
     everyone: t("stories.everyone", { defaultValue: "Everyone" }),
@@ -208,6 +228,10 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
     return () => sub.remove();
   }, [player, isPhoto, picked.duration, playbackSeconds]);
 
+  const addSticker = (glyph: string) => {
+    setLayers((ls) => [...ls, { id: `${Date.now()}`, text: glyph, x: 0.5, y: 0.45, size: 0.16, color: "#ffffff", box: false }]);
+    setStickersOpen(false);
+  };
   const startText = () =>
     setEditing({ id: `${Date.now()}`, text: "", x: 0.5, y: 0.42, size: 0.075, color: "#ffffff", box: false });
   const commitText = () => {
@@ -243,7 +267,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       let caption: string | undefined;
       if (compose) {
         if (picked.kind === "photo") {
-          uri = await compose.composePhoto(picked.uri, visible);
+          uri = await compose.composePhoto(picked.uri, visible, look, backdrop);
           mimeType = "image/jpeg";
         } else {
           overlayUri = await compose.composeOverlay(visible);
@@ -289,6 +313,9 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           <>
             <Image source={{ uri: picked.uri }} style={[StyleSheet.absoluteFill, { opacity: 0.6 }]} contentFit="cover" blurRadius={24} />
             <Image source={{ uri: picked.uri }} style={StyleSheet.absoluteFill} contentFit="contain" />
+            {PhotoPreview && (look !== "none" || backdrop !== "blur") ? (
+              <PhotoPreview uri={picked.uri} width={stageW} height={stageH} look={look} backdrop={backdrop} />
+            ) : null}
           </>
         )}
         {layers
@@ -323,6 +350,14 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             )}
             <TouchableOpacity className="dark-surface" onPress={startText} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
               <Icon name="Type" size={20} color="#fff" />
+            </TouchableOpacity>
+            {picked.kind === "photo" && compose && PhotoPreview ? (
+              <TouchableOpacity className="dark-surface" onPress={() => setEffectsOpen(true)} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button" accessibilityLabel={t("stories.effects", { defaultValue: "Effects" })}>
+                <Icon name="Wand" size={20} color="#fff" />
+              </TouchableOpacity>
+            ) : null}
+            <TouchableOpacity className="dark-surface" onPress={() => setStickersOpen(true)} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button" accessibilityLabel={t("stories.stickers", { defaultValue: "Stickers" })}>
+              <Icon name="Smile" size={20} color="#fff" />
             </TouchableOpacity>
             {compose && layers.filter((layer) => layer.mentionAddress).length < MAX_MENTIONS ? (
               <TouchableOpacity className="dark-surface" onPress={() => setMentionTarget({})} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button"
@@ -375,6 +410,24 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
                 <Text style={styles.chipText}>{audienceLabels[mode]}</Text>
               </TouchableOpacity>
             ))}
+            {customAudience && closeFriends.length > 0 && (
+              <TouchableOpacity style={styles.chip} accessibilityRole="button"
+                onPress={() => { audienceChosen.current = true; setAudience("selected"); setAudiencePeople(closeFriends); }}>
+                <Icon name="Users" size={16} color="#fff" />
+                <Text style={styles.chipText}>{t("stories.closeFriends", { defaultValue: "Close friends" })} ({closeFriends.length})</Text>
+              </TouchableOpacity>
+            )}
+            {audience === "selected" && audiencePeople.length > 0 && (
+              <TouchableOpacity style={styles.chip} accessibilityRole="button"
+                onPress={() => {
+                  setCloseFriends(audiencePeople);
+                  AsyncStorage.setItem(CLOSE_FRIENDS_KEY, JSON.stringify(audiencePeople)).catch(() => {});
+                  toastSuccess(t("stories.closeFriendsSaved", { defaultValue: "Saved as your Close friends" }));
+                }}>
+                <Icon name="Check" size={16} color="#fff" />
+                <Text style={styles.chipText}>{t("stories.saveCloseFriends", { defaultValue: "Save as Close friends" })}</Text>
+              </TouchableOpacity>
+            )}
             {restrictPeople && <>
               {audiencePeople.map(user => (
                 <TouchableOpacity key={user.address} style={styles.chip} onPress={() => setAudiencePeople(current => current.filter(item => item.address !== user.address))}>
@@ -389,6 +442,63 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
               <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
             </TouchableOpacity>
           </ScrollView>
+        </View>
+      )}
+      {stickersOpen && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setStickersOpen(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{t("stories.stickers", { defaultValue: "Stickers" })}</Text>
+              <TouchableOpacity onPress={() => setStickersOpen(false)} style={styles.chip} accessibilityRole="button">
+                <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              {[...STICKER_EMOJI, ...STICKER_SHAPES].map((g) => (
+                <TouchableOpacity key={g} onPress={() => addSticker(g)} accessibilityRole="button" accessibilityLabel={g}
+                  style={{ width: "14.28%", height: 48, alignItems: "center", justifyContent: "center" }}>
+                  <Text style={{ fontSize: 26, color: "#fff", fontWeight: "700" }}>{g}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <Text style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>{t("stories.shapes", { defaultValue: "Arrows and shapes. Tap one after adding it to change its colour, size or angle." })}</Text>
+          </View>
+        </View>
+      )}
+      {effectsOpen && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setEffectsOpen(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16, gap: 10 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{t("stories.effects", { defaultValue: "Effects" })}</Text>
+              <TouchableOpacity onPress={() => setEffectsOpen(false)} style={styles.chip} accessibilityRole="button">
+                <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+              {(Object.keys(PHOTO_LOOKS) as PhotoLook[]).map((key) => (
+                <TouchableOpacity key={key} onPress={() => setLook(key)} style={styles.chip} accessibilityRole="radio" accessibilityState={{ checked: look === key }}>
+                  {look === key && <Icon name="Check" size={16} color="#fff" />}
+                  <Text style={styles.chipText}>{t(`stories.looks.${key}`, { defaultValue: key })}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            <Text style={{ color: "hsla(0,0%,100%,0.6)", fontSize: 12 }}>{t("stories.backdrop", { defaultValue: "Background" })}</Text>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              {(Object.keys(PHOTO_BACKDROPS) as PhotoBackdrop[]).map((key) => {
+                const stops = PHOTO_BACKDROPS[key];
+                return (
+                  <TouchableOpacity key={key} onPress={() => setBackdrop(key)} accessibilityRole="radio" accessibilityState={{ checked: backdrop === key }}
+                    accessibilityLabel={t(`stories.backdrops.${key}`, { defaultValue: key })}
+                    style={{ width: 36, height: 36, borderRadius: 18, overflow: "hidden", borderWidth: 2, borderColor: backdrop === key ? "#fff" : "hsla(0,0%,100%,0.25)", alignItems: "center", justifyContent: "center" }}>
+                    <View style={[StyleSheet.absoluteFill, { backgroundColor: stops ? stops[0] : "hsla(0,0%,100%,0.15)" }]} />
+                    {stops ? <View style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "50%", backgroundColor: stops[1] }} /> : <Icon name="Palette" size={16} color="#fff" />}
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          </View>
         </View>
       )}
       {pickingAudiencePerson && (

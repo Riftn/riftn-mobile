@@ -12,6 +12,7 @@ import * as FileSystem from "expo-file-system/legacy";
 import type { StoryMention } from "../../services/stories.service";
 
 import { captionFontStyle, type CaptionFont } from "./caption-fonts";
+import { lookMatrix, PHOTO_BACKDROPS, type PhotoBackdrop, type PhotoLook } from "./story-effects";
 
 export const OUT_W = 1080;
 export const OUT_H = 1920;
@@ -99,7 +100,7 @@ export function mentionBoxes(layers: TextLayer[]): StoryMention[] {
   });
 }
 
-function drawCover(canvas: SkCanvas, image: SkImage) {
+function drawCover(canvas: SkCanvas, image: SkImage, look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur") {
   const sw = image.width();
   const sh = image.height();
   const source = Skia.XYWHRect(0, 0, sw, sh);
@@ -110,13 +111,24 @@ function drawCover(canvas: SkCanvas, image: SkImage) {
   };
   const fit = Math.min(OUT_W / sw, OUT_H / sh);
   const fill = Math.max(OUT_W / sw, OUT_H / sh);
-  if (fill > fit) {
+  const stops = PHOTO_BACKDROPS[backdrop];
+  if (fill > fit && stops) {
+    const bg = Skia.Paint();
+    bg.setShader(Skia.Shader.MakeLinearGradient(
+      { x: 0, y: 0 }, { x: OUT_W * 0.35, y: OUT_H },
+      [Skia.Color(stops[0]), Skia.Color(stops[1])], null, TileMode.Clamp,
+    ));
+    canvas.drawRect(Skia.XYWHRect(0, 0, OUT_W, OUT_H), bg);
+  } else if (fill > fit) {
     const blur = Skia.Paint();
     blur.setImageFilter(Skia.ImageFilter.MakeBlur(40, 40, TileMode.Clamp, null));
     blur.setColorFilter(Skia.ColorFilter.MakeMatrix([0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 0.6, 0, 0, 0, 0, 0, 1, 0]));
     canvas.drawImageRect(image, source, centeredRect(fill), blur);
   }
-  canvas.drawImageRect(image, source, centeredRect(fit), Skia.Paint());
+  const photo = Skia.Paint();
+  const matrix = lookMatrix(look);
+  if (matrix) photo.setColorFilter(Skia.ColorFilter.MakeMatrix(matrix));
+  canvas.drawImageRect(image, source, centeredRect(fit), photo);
 }
 
 async function save(snapshot: SkImage, png: boolean): Promise<string> {
@@ -128,7 +140,7 @@ async function save(snapshot: SkImage, png: boolean): Promise<string> {
 }
 
 /** The photo and its words, flattened into one 1080 x 1920 JPEG. */
-export async function composePhoto(uri: string, layers: TextLayer[]): Promise<string> {
+export async function composePhoto(uri: string, layers: TextLayer[], look: PhotoLook = "none", backdrop: PhotoBackdrop = "blur"): Promise<string> {
   const data = await Skia.Data.fromURI(uri);
   const image = Skia.Image.MakeImageFromEncoded(data);
   if (!image) throw new Error("could not decode image");
@@ -136,7 +148,7 @@ export async function composePhoto(uri: string, layers: TextLayer[]): Promise<st
   if (!surface) throw new Error("could not allocate surface");
   const canvas = surface.getCanvas();
   canvas.clear(Skia.Color("#000000"));
-  drawCover(canvas, image);
+  drawCover(canvas, image, look, backdrop);
   layers.forEach((l) => drawText(canvas, l));
   surface.flush();
   return save(surface.makeImageSnapshot().makeNonTextureImage(), false);
