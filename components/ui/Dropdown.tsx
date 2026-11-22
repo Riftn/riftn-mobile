@@ -17,6 +17,7 @@ type Props = {
   searchable?: boolean;
   disabled?: boolean;
   compact?: boolean;
+  darkMenu?: boolean;
 };
 
 const Dropdown: React.FC<Props> = ({
@@ -27,6 +28,7 @@ const Dropdown: React.FC<Props> = ({
   searchable = false,
   disabled = false,
   compact = false,
+  darkMenu = false,
 }) => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -65,7 +67,7 @@ const Dropdown: React.FC<Props> = ({
       </TouchableOpacity>
 
       <GlassModal visible={open} onClose={() => setOpen(false)} presentation="bottom" maxHeight="70%">
-        <View className="p-3">
+        <View className={darkMenu ? "dark-surface p-3" : "p-3"} style={darkMenu ? { backgroundColor: "#18181B" } : undefined}>
           {searchable && (
             <View className="mb-2">
               <View className="h-11 px-3 rounded-lg bg-theme-neutrals-800 border border-theme-neutrals-700 flex-row items-center">
