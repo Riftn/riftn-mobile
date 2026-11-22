@@ -93,7 +93,8 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import type { GestureType, NativeGesture } from "react-native-gesture-handler";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { VideoView, useVideoPlayer } from "expo-video";
-import { shortsPhotoMedia } from "../libs/shortsPhotos";
+import { downloadGalleryImage } from "../libs/downloadGalleryImage";
+import { isShortsPhoto, shortsPhotoMedia } from "../libs/shortsPhotos";
 import { ShortsPhotoPager } from "../components/Post/ShortsPhotoPager";
 import { useAppTheme } from "../context/ThemeContext";
 import { LIGHT_PAGE_FILL } from "../theme/colors";
@@ -4047,6 +4048,12 @@ const ShortsViewerScreen = () => {
           isSaved={activeEngagement.isSaved}
           canCast={!activeItem.imageUrls?.length && activeItem.postType !== "live" &&
             (isOwnerOfActive || activeItem.isUnlocked || (!activeItem.streamInfo?.isPayPerView && !isHoldGated(activeItem.streamInfo?.isLockContent, activeItem.streamInfo?.lockContentAmount)))}
+          onDownloadImage={activeItem.postType === "feed-images" && !activeItem.spoilerText && !(activeItem as any).is_w2e && !reelStillOf(activeItem) && isShortsPhoto(activeItem, true)
+            ? () => {
+                const media = shortsPhotoMedia(activeItem, true);
+                if (media) void downloadGalleryImage(media.imageUrls, String(activeTokenId));
+              }
+            : undefined}
           onDownloadVideo={activeItem.postType === "short" && !activeItem.imageUrls?.length &&
             (isOwnerOfActive || activeItem.isUnlocked || (!activeItem.streamInfo?.isPayPerView && !isHoldGated(activeItem.streamInfo?.isLockContent, activeItem.streamInfo?.lockContentAmount))) &&
             !(activeItem as { contentRating?: string }).contentRating?.includes("mature")

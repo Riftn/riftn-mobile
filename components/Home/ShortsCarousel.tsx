@@ -106,7 +106,7 @@ export function useHomeShortsCarousel(enabled: boolean, postCount: number, activ
   });
   const candidates = useMemo(() => [
     ...(videos.data?.pages.flatMap(page => page.result) ?? EMPTY_ITEMS).filter(item => !item.streamInfo?.isPayPerView),
-    ...(photos.data?.pages.flatMap(page => page.result) ?? EMPTY_ITEMS).filter(isShortsPhoto),
+    ...(photos.data?.pages.flatMap(page => page.result) ?? EMPTY_ITEMS).filter(photo => isShortsPhoto(photo)),
   ], [videos.data, photos.data]);
   const count = enabled && shortsEnabled ? shortsBatchCount(postCount) : 0;
   const rotation = useShortsRotation(candidates, count, `${viewer}:${visit}`, `home-shorts-recent:${viewer}`,

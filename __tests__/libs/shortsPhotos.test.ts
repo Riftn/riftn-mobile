@@ -18,7 +18,10 @@ it('interleaves without losing the longer source', () => {
   expect(interleaveShorts(['v1'], ['p1', 'p2'])).toEqual(['v1', 'p1', 'p2']);
 });
 it('opens a silent photo directly without inventing a video or soundtrack', () => {
-  const media = shortsPhotoMedia({ ...post, description: 'A photo' }, true);
+  const silent = { ...post, description: 'A photo' };
+  expect(isShortsPhoto(silent, true)).toBe(true);
+  expect(isShortsPhoto({ ...silent, streamInfo: { isPayPerView: true } }, true)).toBe(false);
+  const media = shortsPhotoMedia(silent, true);
   expect(media?.imageUrls).toHaveLength(2);
   expect(media?.videoUrl).toBe('');
   expect(media?.soundtrackUrl).toBeUndefined();

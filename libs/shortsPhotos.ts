@@ -24,8 +24,8 @@ export function shortsPhotoMedia(post: PhotoPost, allowSilent = false) {
 }
 
 /** Shorts has no purchase/reveal gate; only open photo posts enter this viewer. */
-export function isShortsPhoto(post: PhotoPost): boolean {
-  return !!shortsPhotoMedia(post) && !post.is_ppv && !post.isLocked &&
+export function isShortsPhoto(post: PhotoPost, allowSilent = false): boolean {
+  return !!shortsPhotoMedia(post, allowSilent) && !post.is_ppv && !post.isLocked &&
     !post.streamInfo?.isPayPerView &&
     !(post.streamInfo?.isLockContent && Number(post.streamInfo.lockContentAmount) > 0) &&
     !post.streamInfo?.isAddBounty && !post.plansDetails?.length &&

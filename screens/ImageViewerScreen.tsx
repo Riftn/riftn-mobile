@@ -9,10 +9,8 @@ import {
   NativeScrollEvent,
   NativeSyntheticEvent,
   StatusBar,
-  Platform,
   StyleSheet,
   ActivityIndicator,
-  ToastAndroid,
   LayoutChangeEvent,
 } from "react-native";
 import { useBackPress } from "../hooks/useBackPress";
@@ -21,10 +19,8 @@ import SoundtrackBadge from "../components/Post/SoundtrackBadge";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRoute, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import * as FileSystem from "expo-file-system/legacy";
-import * as MediaLibrary from "expo-media-library";
+import { saveToLibrary } from "../libs/assistantMedia";
 import Icon from "../components/ui/Icon";
-import { toastError } from "../libs";
 import { cdnImageSource } from "../libs/cdnImage";
 import { rememberGalleryIndex } from "../libs/media-presentation";
 import { usePhotoViewerPost } from "../libs/photoViewerPost";
@@ -377,46 +373,16 @@ export const ImageViewer = ({ params, onClose }: { params: any; onClose: () => v
 
   const handleDownload = useCallback(async () => {
     const uri = images[indexRef.current];
-    if (!uri || isSaving) return;
+    if (!allowDownload || !uri || isSaving) return;
 
+    setIsSaving(true);
     try {
-      setIsSaving(true);
-      const { status } = await MediaLibrary.requestPermissionsAsync(true);
-      if (status !== "granted") {
-        toastError(t("player.photoAccessToSaveImages"));
-        return;
-      }
-
-      const urlPath = uri.split("?")[0];
-      const ext = urlPath.match(/\.(png|jpe?g|gif|webp)/i)?.[1] || "jpg";
-      const localPath = `${FileSystem.cacheDirectory ?? FileSystem.documentDirectory}dehub_download_${Date.now()}.${ext}`;
-
-      if (uri.startsWith("file://")) {
-        // Already on the device (an opened encrypted attachment).
-        await MediaLibrary.saveToLibraryAsync(uri);
-      } else if (uri.startsWith("data:")) {
-        const base64 = uri.split(",")[1];
-        if (!base64) throw new Error("Invalid data URI");
-        await FileSystem.writeAsStringAsync(localPath, base64, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
-        await MediaLibrary.saveToLibraryAsync(localPath);
-      } else {
-        const { uri: fileUri } = await FileSystem.downloadAsync(uri, localPath);
-        await MediaLibrary.saveToLibraryAsync(fileUri);
-      }
-
-      const isVideo = /\.(mp4|mov|webm|avi)/i.test(urlPath);
-      if (Platform.OS === "android") {
-        ToastAndroid.show(isVideo ? t("copy.55ee4da247b0", { defaultValue: "Video saved" }) : t("copy.c37f27200a86", { defaultValue: "Image downloaded" }), ToastAndroid.SHORT);
-      }
-    } catch (err) {
-      console.error("[ImageViewer] download failed:", err);
-      toastError(t("player.failedToSaveImage"));
+      const isVideo = /^data:video\//i.test(uri) || /\.(mp4|mov|webm|avi)$/i.test(uri.split(/[?#]/)[0]);
+      await saveToLibrary(uri, isVideo ? "video" : "image");
     } finally {
       setIsSaving(false);
     }
-  }, [images, isSaving, t]);
+  }, [allowDownload, images, isSaving]);
 
   const closeViewer = onClose;
 
