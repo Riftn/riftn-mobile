@@ -53,6 +53,7 @@ import { ShareLinks } from "../../navigation/linking.config";
 import NewMemberChip from "../common/NewMemberChip";
 import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
 import TotalReachPill from "./TotalReachPill";
 import ProfileLinksPill from "./ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -162,6 +163,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   const aboutText = (user?.aboutMe || "").trim();
 
+  const [shareDmOpen, setShareDmOpen] = useState(false);
   const handleShare = useCallback(async () => {
     const profileSlug = username || address;
     if (!profileSlug) return;
@@ -295,6 +297,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   return (
     <View ref={profileRef} collapsable={false} onLayout={measureIdentity} className="w-full">
+      {shareDmOpen && (username || address) && (
+        <ShareToDmSheet visible url={ShareLinks.profile(username || address)} onClose={() => setShareDmOpen(false)} onSystemShare={handleShare} />
+      )}
       {/* Cover */}
       <TouchableOpacity
         activeOpacity={0.9}
@@ -394,7 +399,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                 <Text className="text-white font-semibold text-[13px]">{t("screens.editProfile")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={handleShare}
+                onPress={() => setShareDmOpen(true)}
                 accessibilityLabel={t("profileOptions.shareProfile")}
                 activeOpacity={0.85}
                 className="items-center justify-center"
@@ -418,7 +423,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               </TouchableOpacity>
             </LiquidGlass>
             <TouchableOpacity
-              onPress={handleShare}
+              onPress={() => setShareDmOpen(true)}
               accessibilityLabel={t("profileOptions.shareProfile")}
               activeOpacity={0.85}
             >
