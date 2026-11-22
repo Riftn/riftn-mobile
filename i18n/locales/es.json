@@ -18142,5 +18142,15 @@
       "rules": "Cada espectador puede darle hasta 20 bocados al día. Los puntos no tienen valor en dinero.",
       "feeders": "Quién más la alimentó"
     }
+  },
+  "quickReply": {
+    "reply": "Responder",
+    "send": "Enviar",
+    "placeholder": "Escribe una respuesta…",
+    "hiddenPreview": "Nuevo mensaje en Riftn",
+    "failedTitle": "Tu respuesta no se envió",
+    "failedBody": "Toca para abrir el chat y enviarla allí.",
+    "sent": "Respuesta enviada",
+    "open": "Abrir chat"
   }
 }

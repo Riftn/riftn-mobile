@@ -18393,5 +18393,15 @@
       "rules": "Elke kijker kan het tot 20 snacks per dag geven. Punten hebben geen geldwaarde.",
       "feeders": "Heeft het het meest gevoerd"
     }
+  },
+  "quickReply": {
+    "reply": "Beantwoorden",
+    "send": "Versturen",
+    "placeholder": "Schrijf een antwoord…",
+    "hiddenPreview": "Nieuw bericht op Riftn",
+    "failedTitle": "Je antwoord is niet verstuurd",
+    "failedBody": "Tik om de chat te openen en het daar te versturen.",
+    "sent": "Antwoord verstuurd",
+    "open": "Chat openen"
   }
 }

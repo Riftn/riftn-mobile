@@ -18146,5 +18146,15 @@
       "rules": "Chaque spectateur peut lui donner jusqu'à 20 en-cas par jour. Les points n'ont aucune valeur en argent.",
       "feeders": "L'ont le plus nourri"
     }
+  },
+  "quickReply": {
+    "reply": "Répondre",
+    "send": "Envoyer",
+    "placeholder": "Écris une réponse…",
+    "hiddenPreview": "Nouveau message sur Riftn",
+    "failedTitle": "Ta réponse n'a pas été envoyée",
+    "failedBody": "Touche pour ouvrir le chat et l'envoyer là-bas.",
+    "sent": "Réponse envoyée",
+    "open": "Ouvrir le chat"
   }
 }

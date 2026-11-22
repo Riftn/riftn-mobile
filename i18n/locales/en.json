@@ -17596,5 +17596,15 @@
     "streak": "{{value}}-day streak",
     "streakBonus": "Streak bonus +{{pct}}%",
     "dailyHint": "One quiz a day. People who play your quizzes days in a row build a streak and earn bonus points."
+  },
+  "quickReply": {
+    "reply": "Reply",
+    "send": "Send",
+    "placeholder": "Write a reply…",
+    "hiddenPreview": "New message on Riftn",
+    "failedTitle": "Your reply wasn't sent",
+    "failedBody": "Tap to open the chat and send it there.",
+    "sent": "Reply sent",
+    "open": "Open chat"
   }
 }

@@ -67,6 +67,7 @@ import StoriesHost from "./components/Stories/StoriesHost";
 import { UserProfileSheetProvider } from "./context/UserProfileSheetContext";
 import NewMemberRegistrar from "./components/common/NewMemberRegistrar";
 import ShippedFeatureNotice from "./components/FeatureRequests/ShippedFeatureNotice";
+import MessageBannerHost from "./components/Notifications/MessageBannerHost";
 import OnlinePresenceHost from "./components/common/OnlinePresenceHost";
 import RootNavigator from "./navigation/RootNavigator";
 import StageNavFallback from "./components/Stages/StageNavFallback";
@@ -683,6 +684,8 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
                         <OnlinePresenceHost />
                         <CallModalsHost />
                         <CallMiniPlayer />
+                        {/* New messages while the app is open: pull down to reply. */}
+                        <MessageBannerHost />
                         <StagesModalsHost />
                         <StoriesHost />
                         <StageNavFallback navigationRef={navigationRef} />
