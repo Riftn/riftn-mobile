@@ -31,6 +31,7 @@ const log = createLogger("DmSendQueue");
 
 
 const UPLOAD_TIMEOUT_IMAGE = 60_000; // 60s
+const UPLOAD_TIMEOUT_FILE = 8 * 60_000;
 const UPLOAD_TIMEOUT_VIDEO = 120_000; // 120s
 const FEE_PAYMENT_TIMEOUT = 30_000; // 30s
 const MAX_UPLOAD_RETRIES = 2;
@@ -807,9 +808,7 @@ class DmSendQueue {
       type: job.mimeType,
     };
 
-    // Documents share the video budget: both are large and both go straight to
-    // S3 without a transcode step.
-    const timeout = job.mediaType === "image" ? UPLOAD_TIMEOUT_IMAGE : UPLOAD_TIMEOUT_VIDEO;
+    const timeout = job.mediaType === "file" ? UPLOAD_TIMEOUT_FILE : job.mediaType === "image" ? UPLOAD_TIMEOUT_IMAGE : UPLOAD_TIMEOUT_VIDEO;
 
     // Only the caption is encrypted; the file itself goes to the CDN as-is.
     const wireCaption = await this.wireContent(convId, job.address, job.caption || "");
@@ -822,6 +821,7 @@ class DmSendQueue {
             conversationId: convId,
             senderId: job.address,
             files: [file],
+            timeoutMs: timeout,
             msgType: job.msgType || "media",
             voiceDuration: job.voiceDuration,
             content: wireCaption || undefined,
@@ -913,7 +913,7 @@ class DmSendQueue {
       return false;
     }
 
-    const timeout = job.mediaType === "image" && !isVoice ? UPLOAD_TIMEOUT_IMAGE : UPLOAD_TIMEOUT_VIDEO;
+    const timeout = kind === "file" ? UPLOAD_TIMEOUT_FILE : job.mediaType === "image" && !isVoice ? UPLOAD_TIMEOUT_IMAGE : UPLOAD_TIMEOUT_VIDEO;
     let serverMsg: DmMessage;
     try {
       serverMsg = await withRetry(
@@ -930,6 +930,7 @@ class DmSendQueue {
               txHash,
               tipTxHash,
               encryptedKind: kind,
+              timeoutMs: timeout,
               destruct: job.destruct,
             }),
             timeout,
