@@ -72,7 +72,9 @@ export default function ScreenBones({ entry }: { entry: ScreenBonesEntry }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [insets.top]);
   const shift = insets.top - measuredTop - originY;
-  const ink = isLight ? '11,11,13' : skin && accent ? accent.join(',') : '255,255,255';
+  // White under System Light too: its colour pass turns this wash to ink, and
+  // an ink value written here was turned back to white (no shapes on white).
+  const ink = !isLight && skin && accent ? accent.join(',') : '255,255,255';
   const fill = `rgba(${ink},${isMinimal ? 0.05 : 0.09})`;
   const panel = `rgba(${ink},0.035)`;
   const square = !!skin?.square || isMinimal;
