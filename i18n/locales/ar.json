@@ -128,7 +128,17 @@
       "violence": "عنف أو أفعال خطيرة",
       "hate": "خطاب كراهية",
       "other": "شيء آخر"
-    }
+    },
+    "agoLabel": "منذ {{time}}",
+    "momentTag": "لحظة",
+    "hoursLeft": "يتبقى {{n}} س",
+    "minutesLeft": "يتبقى {{n}} د",
+    "watchedCount": "{{n}} مشاهدة",
+    "nOfM": "{{n}} من {{m}}",
+    "toEveryone": "الجميع",
+    "toOnly": "{{name}} فقط",
+    "signInToSay": "سجّل الدخول لتكتب شيئًا",
+    "saySomething": "قل شيئًا…"
   },
   "dmVideo": {
     "cover": "الغطاء",
