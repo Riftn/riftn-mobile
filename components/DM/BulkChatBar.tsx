@@ -29,6 +29,8 @@ interface Props {
   /** Every selected chat is already unread, so the button reads "Mark read". */
   allUnread: boolean;
   onToggleUnread: () => void;
+  onToggleArchive?: () => void;
+  allArchived?: boolean;
   onDelete: () => void;
   /** Resolves with how many chats the reply reached. */
   onReply: (text: string) => Promise<number>;
@@ -66,7 +68,7 @@ function BarButton({ icon, label, onPress, disabled, color = INK, testID }: {
   );
 }
 
-function BulkChatBarComponent({ count, deletableCount, allUnread, onToggleUnread, onDelete, onReply, onCancel }: Props) {
+function BulkChatBarComponent({ count, deletableCount, allUnread, onToggleUnread, onToggleArchive, allArchived, onDelete, onReply, onCancel }: Props) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [replyOpen, setReplyOpen] = useState(false);
@@ -109,6 +111,12 @@ function BulkChatBarComponent({ count, deletableCount, allUnread, onToggleUnread
               disabled={none}
               testID="chat-bulk-unread"
             />
+            {onToggleArchive && (
+              <BarButton icon="Archive"
+                label={allArchived ? t("editor.cloud.restore", { defaultValue: "Restore" }) : t("stores.archive", { defaultValue: "Archive" })}
+                onPress={onToggleArchive} disabled={none} testID="chat-bulk-archive"
+              />
+            )}
             <BarButton
               icon="Reply"
               label={t("chatBulk.reply", { defaultValue: "Reply" })}
