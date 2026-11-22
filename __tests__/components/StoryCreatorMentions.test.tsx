@@ -24,6 +24,7 @@ jest.mock("react-native-safe-area-context", () => ({ useSafeAreaInsets: () => ({
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string, options?: { defaultValue?: string }) => options?.defaultValue ?? key }),
 }));
+jest.mock("@react-native-community/slider", () => "Slider");
 jest.mock("expo-image", () => ({ Image: "Image" }));
 jest.mock("expo-video", () => ({ useVideoPlayer: () => ({}), VideoView: "VideoView" }));
 jest.mock("expo-image-picker", () => ({
