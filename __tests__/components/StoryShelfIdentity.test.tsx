@@ -10,12 +10,13 @@ let mockIsLight = false;
 const mockAccount = { hideBadgeAndBalance: false };
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
-  ScrollView: 'ScrollView', Text: 'Text', TouchableOpacity: 'TouchableOpacity', View: 'View',
+  ScrollView: 'ScrollView', Text: 'Text', TouchableOpacity: 'TouchableOpacity', View: 'View', Platform: { OS: 'android' },
   StyleSheet: { create: (styles: unknown) => styles, absoluteFill: {}, absoluteFillObject: {}, hairlineWidth: 0.5 },
 }));
 jest.mock('react-native-gesture-handler', () => ({ GestureDetector: 'GestureDetector' }));
 jest.mock('expo-image', () => ({ Image: 'Image' }));
 jest.mock('expo-linear-gradient', () => ({ LinearGradient: 'Gradient' }));
+jest.mock('expo-blur', () => ({ BlurView: 'BlurView' }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, options?: { defaultValue: string }) => options?.defaultValue || key }) }));
 jest.mock('valtio', () => ({ useSnapshot: () => ({}) }));
 jest.mock('@tanstack/react-query', () => ({ useQuery: () => ({ data: { liveHosts: ['host'], shelf: [{
@@ -89,4 +90,16 @@ it('uses a thin grey outline on all three tile types in light mode', () => {
     act(() => tree?.unmount());
     mockIsLight = false;
   }
+});
+
+it('shows the time on a glass chip the size of the face opposite it', () => {
+  let tree!: ReactTestRenderer;
+  act(() => { tree = create(<StoryShelf />); });
+  const chips = tree.root.findAll(node => Array.isArray(node.props.style) && node.props.style.some(
+    (style: { borderColor?: string } | undefined) => style?.borderColor === 'rgba(255,255,255,0.55)',
+  ));
+  expect(chips.length).toBeGreaterThan(0);
+  const flat = Object.assign({}, ...chips[0].props.style.filter(Boolean));
+  expect(flat).toMatchObject({ height: 24, minWidth: 24, borderRadius: 8, top: 7, right: 7 });
+  act(() => tree.unmount());
 });

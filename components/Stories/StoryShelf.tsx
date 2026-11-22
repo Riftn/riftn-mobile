@@ -1,6 +1,7 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
 import React, { useCallback, useMemo } from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { BlurView } from "expo-blur";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -257,6 +258,22 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
   );
 }
 
+/**
+ * The time chip, as on web: liquid glass the size of the face opposite it
+ * (24 px, 8 px corners). The photo shows through (blurred on iPhone), with a
+ * bright rim and a sheen on top.
+ */
+function GlassTime({ label, seen }: { label: string; seen?: boolean }) {
+  return (
+    <View pointerEvents="none" style={[styles.cornerBadge, styles.glassChip, seen && styles.glassChipSeen]}>
+      {Platform.OS === "ios" ? <BlurView intensity={22} tint="light" style={StyleSheet.absoluteFill} /> : null}
+      <LinearGradient colors={["rgba(255,255,255,0.32)", "rgba(255,255,255,0.08)"]} style={StyleSheet.absoluteFill} />
+      <View style={styles.glassSheen} />
+      <Text style={[styles.badgeText, styles.glassText]} numberOfLines={1}>{label}</Text>
+    </View>
+  );
+}
+
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
   const name = nameOf(entry.author);
   const age = ageLabel(entry.items[entry.items.length - 1]?.createdAt);
@@ -266,11 +283,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
       avatar={<Avatar uri={avatarOf(entry.author, 48)} size={FACE} radius={FACE_R} name={name} />}
       label={name}
       onPress={onOpen}
-      badge={age ? (
-        <View pointerEvents="none" style={[styles.cornerBadge, entry.seen && styles.seenBadge]}>
-          <Text style={styles.badgeText} numberOfLines={1}>{age}</Text>
-        </View>
-      ) : null}
+      badge={age ? <GlassTime label={age} seen={entry.seen} /> : null}
     >
       <TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} />
     </ShelfTile>
@@ -323,30 +336,38 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 4,
   },
+  /** Corner chips match the face opposite: 24 px, 8 px corners, 7 px in. */
   cornerBadge: {
     position: "absolute",
     top: 7,
-    right: 6,
-    minHeight: 21,
+    right: 7,
+    height: 24,
+    minWidth: 24,
     maxWidth: 46,
+    alignItems: "center",
     justifyContent: "center",
     paddingHorizontal: 5,
-    borderRadius: 7,
-    backgroundColor: "rgba(23,24,26,0.90)",
-    borderColor: "rgba(255,255,255,0.38)",
+    borderRadius: 8,
+    overflow: "hidden",
     borderWidth: 1,
   },
-  seenBadge: { borderColor: "rgba(255,255,255,0.18)" },
+  glassChip: {
+    borderColor: "rgba(255,255,255,0.55)",
+    backgroundColor: Platform.OS === "ios" ? "transparent" : "rgba(255,255,255,0.1)",
+  },
+  glassChipSeen: { borderColor: "rgba(255,255,255,0.3)" },
+  glassSheen: { position: "absolute", top: 0, left: 0, right: 0, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
+  glassText: { textShadowColor: "rgba(0,0,0,0.45)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 2 },
   liveBadge: { backgroundColor: "#BF303B", borderColor: "#D56E78" },
   badgeText: { color: "#fff", fontSize: 10, fontWeight: "700" },
   liveText: { fontSize: 9.5, fontWeight: "800", letterSpacing: 0.35 },
   plus: {
     position: "absolute",
     top: 7,
-    right: 6,
+    right: 7,
     width: 24,
-    height: 21,
-    borderRadius: 7,
+    height: 24,
+    borderRadius: 8,
     backgroundColor: "#f2f2f2",
     alignItems: "center",
     justifyContent: "center",
