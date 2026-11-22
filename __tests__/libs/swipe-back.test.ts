@@ -1,4 +1,4 @@
-import { completesSwipeBack, pageSwipeAllowed, settlesSwipeBack, swipeBackProgress, SWIPE_BACK_SPRING } from '../../libs/swipe-back';
+import { completesHomeMenuSwipe, completesSwipeBack, pageSwipeAllowed, settlesSwipeBack, swipeBackProgress, SWIPE_BACK_SPRING } from '../../libs/swipe-back';
 
 test('a deliberate swipe or short fast flick completes back', () => {
   expect(completesSwipeBack(64, 8, 0)).toBe(true);
@@ -8,6 +8,16 @@ test('scrolling, taps, cancelled drags and forward swipes do not go back', () =>
   for (const [x, y, velocity] of [[20, 0, 900], [50, 0, 0], [90, 40, 800], [64, 32, 800], [-90, 0, -800]]) {
     expect(completesSwipeBack(x, y, velocity)).toBe(false);
   }
+});
+
+test('Home opens its menu for deliberate rightward edge drags and flicks', () => {
+  expect(completesHomeMenuSwipe(4, 85, 7, 40)).toBe(true);
+  expect(completesHomeMenuSwipe(40, 32, 2, 700)).toBe(true);
+  expect(completesHomeMenuSwipe(120, 85, 7, 40)).toBe(false);
+  expect(completesHomeMenuSwipe(4, 25, 3, 0)).toBe(false);
+  expect(completesHomeMenuSwipe(4, -85, 7, -40)).toBe(false);
+  expect(completesHomeMenuSwipe(4, 72, 75, 300)).toBe(false);
+  expect(completesHomeMenuSwipe(4, 85, 7, -500)).toBe(false);
 });
 
 test('a drag across the page needs a longer pull than the edge', () => {
