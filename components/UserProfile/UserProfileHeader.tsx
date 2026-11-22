@@ -35,7 +35,7 @@ import { MINIMAL_HAIRLINE } from "../../theme/minimal";
 import type { Community } from "../../types/community";
 import { PinnedCommunityWash } from "../Communities/PinnedCommunityStage";
 import ProfileFieldsList, { type ProfileField } from "../Profile/ProfileFieldsList";
-import { useProfileLocalTime } from "../../hooks/useProfileLocalTime";
+import { localTimeLine, useProfileLocalTime } from "../../hooks/useProfileLocalTime";
 
 const GLASS_GRADIENT: [string, string, string] = [
   "rgba(255,255,255,0.20)",
@@ -437,7 +437,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
           <ProfileFieldsList fields={profileFields} />
           {localTime ? (
             <Text className="mt-1 text-sm text-zinc-400">
-              {t("profile.localTime", { defaultValue: "Local time {{time}}", time: localTime })}
+              {localTimeLine(t as never, localTime, publicTimeZone)}
             </Text>
           ) : null}
 

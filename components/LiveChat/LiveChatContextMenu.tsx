@@ -4,7 +4,7 @@ import HoldSheet, { type HoldReactionChip, type HoldTile } from "../ui/HoldSheet
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { getAccountProfile } from "../../services/user.service";
-import { useProfileLocalTime } from "../../hooks/useProfileLocalTime";
+import { localTimeLine, useProfileLocalTime } from "../../hooks/useProfileLocalTime";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import { canLinkMessage, copyLinkLabel } from "../../libs/chatMessageLink";
 import { copyMessageMedia } from "../../libs/copyMessageMedia";
@@ -253,7 +253,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
         tiles={tiles}
         scrollActions
         summary={summary}
-        meta={authorLocalTime ? t("profile.localTime", { defaultValue: "Local time {{time}}", time: authorLocalTime }) : undefined}
+        meta={localTimeLine(t as never, authorLocalTime, authorTimeZone) || undefined}
         onLift={onLift}
         frame
         inline
