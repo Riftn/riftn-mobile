@@ -64,8 +64,8 @@ const SKIP_DIRS = new Set([
   "dehub-stream-backend",
   "cosmic-echo-hero",
 ]);
-// These data files contain names for content, font styles and effects.
-const SKIP_PATHS = new Set(["components/messages", "components/ui/iconRegistry.ts", "config/viral-effects.ts", "libs/cinemaDirection.ts", "libs/platform-comparison.ts", "components/Stories/caption-fonts.ts"]);
+// These files contain display labels that can coincide with Lucide names.
+const SKIP_PATHS = new Set(["components/messages", "components/ui/iconRegistry.ts", "components/Stories/caption-fonts.ts", "config/viral-effects.ts", "libs/cinemaDirection.ts", "libs/platform-comparison.ts"]);
 
 /** Canonical lucide name -> file slug, e.g. CircleAlert -> circle-alert. */
 function loadLucideNames() {
