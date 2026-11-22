@@ -70,6 +70,7 @@ import type { CommentHoldExtra, CommentLayout } from "./CommentContextMenu";
 import { WEBSITE_LINK } from "../../config";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
 import LinkPreviewCard from "../common/LinkPreviewCard";
+import { renderLinkEmojis } from "../common/LinkEmoji";
 import { findDehubLinks, stripDehubLinkMatches } from "../../libs/dehub-links";
 import { AssetRefCards, MAX_ASSET_CARDS_PER_MESSAGE } from "../common/AssetRefCard";
 import { findAssetRefs, stripAssetRefs } from "../../libs/asset-refs";
@@ -793,7 +794,7 @@ const CommentItemComponent: React.FC<CommentItemProps> = ({
                     {part.text}
                   </Text>
                 ) : (
-                  <Text key={idx}>{expandEmojiTokens(part.text, { fontSize: 16, keyPrefix: `em-${idx}`, glued: idx > 0 })}</Text>
+                  <Text key={idx}>{expandEmojiTokens(renderLinkEmojis(part.text, { keyPrefix: `lk-${idx}` }), { fontSize: 16, keyPrefix: `em-${idx}`, glued: idx > 0 })}</Text>
                 )
               )}
             </Animated.Text>

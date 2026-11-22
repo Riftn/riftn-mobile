@@ -22,7 +22,6 @@ import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBadgeUrlFor } from "../../libs/misc";
 import { chatMentionSpans } from "../../libs/community-mentions";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
-import { openInApp } from "../../libs/links.utils";
 import { ASSISTANT_USERNAME, isAssistantAddress } from "../../libs/assistant";
 import { resolveChatGif, gifCaption, gifBox } from "../../libs/chat-gif";
 import { replyQuoteText } from "../../libs/livechat-cache";
@@ -33,6 +32,8 @@ import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
 import ImageViewerModal from "../common/ImageViewerModal";
 import { InlineEmoji, expandEmojiTokens } from "../common/EmojiText";
 import { DehubLinkCards, MAX_CARDS_PER_MESSAGE } from "../common/DehubLinkCard";
+import LinkPreviewCard from "../common/LinkPreviewCard";
+import { renderLinkEmojis } from "../common/LinkEmoji";
 import { findDehubLinks, stripDehubLinkMatches } from "../../libs/dehub-links";
 
 const formatTime = (iso: string): string => {
@@ -60,31 +61,9 @@ interface LiveChatMessageProps {
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 
-const URL_RE = /(?:https?:\/\/|www\.)[^\s<>)"']+/gi;
-
 const renderLinkedText = (text: string, openProfile: (username: string) => void, onHold?: () => void, fontSize = 15) => {
-  const parts: React.ReactNode[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  const re = new RegExp(URL_RE.source, "gi");
-  while ((match = re.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      parts.push(text.slice(lastIndex, match.index));
-    }
-    const url = match[0];
-    parts.push(
-      <Text
-        key={match.index}
-        style={{ color: "#D4D4D8" }}
-        onPress={() => openInApp(url)}
-        onLongPress={onHold}
-      >
-        {url}
-      </Text>
-    );
-    lastIndex = re.lastIndex;
-  }
-  if (lastIndex < text.length) parts.push(text.slice(lastIndex));
+  // Links read as a tappable 🔗 like web Public Chat; the card below says where it goes.
+  const parts = renderLinkEmojis(text, { onLongPress: onHold, textLinkStyle: { color: "#D4D4D8" } });
   const linked = parts.flatMap((part, partIndex): React.ReactNode[] => {
     if (typeof part !== "string") return [part];
     const nodes: React.ReactNode[] = [];
@@ -379,6 +358,11 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
                 <DehubLinkCards links={dehubLinks} onLongPress={handleLongPress} />
               </View>
             )}
+
+            {/* An outside link gets its share card (image, title, site), as on web. */}
+            <View style={{ width: "100%", maxWidth: 320 }}>
+              <LinkPreviewCard text={bodyText} />
+            </View>
 
             {gif && (
               <View className="mt-1 rounded-xl overflow-hidden bg-white/5" style={{ maxWidth: 240 }}>
