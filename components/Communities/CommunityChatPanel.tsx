@@ -102,6 +102,7 @@ import { anchorFromReadSpot } from "../../libs/chatReadPosition";
 import { useChatReadPosition } from "../../hooks/useChatReadPosition";
 import { roomChatId } from "../../services/dm/dm.api";
 import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../DM/DeleteMessageSheet";
+import { clock24 } from "../../libs/clock";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 const PHOTO_MAX_BYTES = 10 * 1024 * 1024;
@@ -130,6 +131,8 @@ const MONTHS = [
 ];
 
 const formatClock = (date: Date): string => {
+  const c24 = clock24(date);
+  if (c24) return c24;
   const h = date.getHours();
   const m = date.getMinutes().toString().padStart(2, "0");
   const ampm = h >= 12 ? _translateCopy("copy.6b987654a411", { defaultValue: "PM" }) : _translateCopy("copy.c8f48a68649d", { defaultValue: "AM" });

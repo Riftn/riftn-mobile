@@ -35,6 +35,7 @@ import { isMuted, memberLabel, useCommunityModeration, useMemberIdentities, useW
 import { MemberIdentity } from "./MemberIdentity";
 import type { Community, CommunityMember } from "../../../types/community";
 import { translateCopy as _translateCopy } from "../../../i18n/copy";
+import { clock24 } from "../../../libs/clock";
 
 const MONTHS = [
   () => _translateCopy("copy.5c5db120cb11", { defaultValue: "Jan" }),
@@ -59,6 +60,8 @@ export function formatRestrictionDate(iso: string | null): string {
   const h = d.getHours();
   const m = d.getMinutes().toString().padStart(2, "0");
   const ampm = h >= 12 ? _translateCopy("copy.6b987654a411", { defaultValue: "PM" }) : _translateCopy("copy.c8f48a68649d", { defaultValue: "AM" });
+  const c24 = clock24(d);
+  if (c24) return `${MONTHS[d.getMonth()]()} ${d.getDate()}, ${c24}`;
   return `${MONTHS[d.getMonth()]()} ${d.getDate()}, ${h % 12 || 12}:${m} ${ampm}`;
 }
 

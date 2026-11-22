@@ -4,6 +4,7 @@ import { formatRelativeTime } from '../i18n/date-locale';
 
 import i18n from "i18next";
 import { pad } from './numbers.util';
+import { clock24 } from './clock';
 
 /**
  * The locale every date and time in the app should be formatted in.
@@ -64,6 +65,8 @@ export function formatJoinedDate(createdAt?: string | null): string | null {
 }
 
 function formatTime(date: Date) {
+  const c24 = clock24(date);
+  if (c24) return c24;
   if (i18n.language && i18n.language !== 'en') return date.toLocaleTimeString(appLocale(), { hour: 'numeric', minute: '2-digit' });
   const hours = date.getHours();
   const minutes = date.getMinutes();
@@ -178,7 +181,7 @@ export function formatChatTimeSmart(
   const ampm = hh >= 12 ? 'PM' : 'AM';
   const h12 = hh % 12 === 0 ? 12 : hh % 12;
   const mmStr = mm < 10 ? `0${mm}` : String(mm);
-  const timeStr = `${h12}:${mmStr} ${ampm}`;
+  const timeStr = clock24(d) ?? `${h12}:${mmStr} ${ampm}`;
   // Same calendar day → just time
   const sameDay = d.getDate() === now.getDate() && d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
   if (sameDay) return timeStr;

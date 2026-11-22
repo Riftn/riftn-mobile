@@ -42,12 +42,15 @@ import { ReactionArrivalScope, ReactionGlyph, RollingCount, useReactionHost } fr
 import { useTranslation as useTextTranslation } from "../../hooks/useTranslation";
 import TranslateButton from "../ui/TranslateButton";
 import { MessageReportModal, type MessageReport } from "../common/MessageReportHost";
+import { clock24 } from "../../libs/clock";
 
 const REACTION_EMOJIS = ["🔥", "❤️", "😂", "👀", "💯", "🙌"];
 const MAX_LEN = 500;
 
 const formatTime = (iso: string): string => {
   const d = new Date(iso);
+  const c24 = clock24(d);
+  if (c24) return c24;
   const h = d.getHours();
   const m = d.getMinutes().toString().padStart(2, "0");
   const ampm = h >= 12 ? _translateCopy("copy.6b987654a411", { defaultValue: "PM" }) : _translateCopy("copy.c8f48a68649d", { defaultValue: "AM" });

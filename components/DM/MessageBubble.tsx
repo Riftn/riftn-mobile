@@ -71,6 +71,7 @@ import TranslateButton from "../ui/TranslateButton";
 import { isAssistantAddress } from "../../libs/assistant";
 import { assistantActionIds, withoutAssistantActionLinks } from "../../libs/assistantActionLinks";
 import AssistantActionCard from "../Assistant/AssistantActionCard";
+import { clock24 } from "../../libs/clock";
 
 /**
  * A line of yours that did not go out: it stays where it was sent, with
@@ -125,6 +126,8 @@ const resolveUrl = (path: string): string => {
 const formatTime = (date?: string): string => {
   if (!date) return "";
   const d = new Date(date);
+  const c24 = clock24(d);
+  if (c24) return c24;
   const h = d.getHours();
   const m = d.getMinutes().toString().padStart(2, "0");
   const ampm = h >= 12 ? _translateCopy("copy.6b987654a411", { defaultValue: "PM" }) : _translateCopy("copy.c8f48a68649d", { defaultValue: "AM" });
