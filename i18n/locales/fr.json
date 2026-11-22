@@ -7529,7 +7529,7 @@
       "stop": "Arrêter le partage d'écran",
       "sharing": "Vous partagez votre écran",
       "hint": "Les spectateurs voient votre écran. Touchez le bouton écran pour revenir à la caméra.",
-      "iosHint": "Les spectateurs voient Riftn tant qu'il est ouvert. L'iPhone met l'image en pause quand tu changes d'app ; ta voix continue."
+      "iosHint": "Les spectateurs voient Riftn tant qu'il est ouvert. L'iPhone met l'image en pause quand vous changez d'app ; votre voix continue."
     }
   },
   "liveShop": {
