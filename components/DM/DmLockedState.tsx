@@ -8,7 +8,7 @@
  * typed now would go out in the clear) with one place to unlock from.
  */
 import React, { memo } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
+import { View, Text, ActivityIndicator, Pressable } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
@@ -67,16 +67,17 @@ const DmLockedStateComponent: React.FC<DmLockedStateProps> = ({ status, busy, pe
 export default memo(DmLockedStateComponent);
 
 /** One quiet line standing in for a run of lines encrypted for another device. */
-export const DmUndecryptableRun = memo(function DmUndecryptableRun({ count }: { count: number }) {
+export const DmUndecryptableRun = memo(function DmUndecryptableRun({ count, onExpand }: { count: number; onExpand: () => void }) {
   const { t } = useTranslation();
   return (
-    <View className="flex-row items-center px-4 my-3">
+    <Pressable accessibilityRole="button" onPress={onExpand} hitSlop={8} className="flex-row items-center px-4 my-3">
       <View className="flex-1 h-px bg-theme-neutrals-800" />
       <Icon name="Lock" size={11} color="#A6A9AC" />
       <Text className="text-[12px] text-theme-neutrals-400 mx-1.5">
         {t("messages.undecryptableRun", { count, defaultValue: "{{count}} messages can't be opened on this device" })}
       </Text>
+      <Icon name="ChevronDown" size={14} color="#A6A9AC" />
       <View className="flex-1 h-px bg-theme-neutrals-800" />
-    </View>
+    </Pressable>
   );
 });
