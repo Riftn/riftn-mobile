@@ -6,7 +6,7 @@
  * outlives it. This is the little they need to tell each other.
  */
 import type { View } from 'react-native';
-import type { RefObject } from 'react';
+import { useEffect, useSyncExternalStore, type RefObject } from 'react';
 import { getBadgeUrlFor } from './misc';
 
 let waitingUntil = 0;
@@ -115,17 +115,24 @@ export function subscribeArrivingAccount(listener: () => void): () => void {
   return () => { arrivingListeners.delete(listener); };
 }
 
-let ownAvatar: RefObject<View | null> | null = null;
+type OwnAvatarTarget = { ref: RefObject<View | null>; radius: number };
+const ownAvatars = new Set<OwnAvatarTarget>();
 
-/** The signed-in account's own picture on screen (the home header's). */
-export function registerOwnAvatar(ref: RefObject<View | null>): () => void {
-  ownAvatar = ref;
-  return () => { if (ownAvatar === ref) ownAvatar = null; };
+/**
+ * The signed-in account's own picture on screen: the home header's, and the
+ * profile page's while it is the page in front. `radius` is its corner, so the
+ * flying picture lands on the same curve.
+ */
+export function registerOwnAvatar(ref: RefObject<View | null>, radius = 8): () => void {
+  const target = { ref, radius };
+  ownAvatars.add(target);
+  return () => { ownAvatars.delete(target); };
 }
 
-export function measureOwnAvatar(): Promise<{ x: number; y: number; width: number; height: number } | null> {
+export type OwnAvatarRect = { x: number; y: number; width: number; height: number; radius: number };
+
+export function measureInWindowSoon(node: View | null | undefined): Promise<{ x: number; y: number; width: number; height: number } | null> {
   return new Promise((resolve) => {
-    const node = ownAvatar?.current;
     if (!node || typeof node.measureInWindow !== 'function') { resolve(null); return; }
     let settled = false;
     const done = (v: { x: number; y: number; width: number; height: number } | null) => {
@@ -135,11 +142,57 @@ export function measureOwnAvatar(): Promise<{ x: number; y: number; width: numbe
     };
     setTimeout(() => done(null), 250);
     try {
-      node.measureInWindow((x, y, width, height) => {
-        done(width > 8 && height > 8 ? { x, y, width, height } : null);
-      });
+      node.measureInWindow((x, y, width, height) => done({ x, y, width, height }));
     } catch {
       done(null);
     }
   });
+}
+
+/**
+ * Where the picture should fly: the biggest own picture on screen (the
+ * profile page's beats the header's). The page under the arrival can still be
+ * mounting, so it is looked for again for a moment before giving up.
+ */
+export async function measureOwnAvatar(screen: { width: number; height: number }, waitMs = 700): Promise<OwnAvatarRect | null> {
+  const until = Date.now() + waitMs;
+  for (;;) {
+    const found = await Promise.all([...ownAvatars].map(async (t) => {
+      const r = await measureInWindowSoon(t.ref.current);
+      return r ? { ...r, radius: t.radius } : null;
+    }));
+    let best: OwnAvatarRect | null = null;
+    for (const r of found) {
+      if (!r || r.width < 16 || r.height < 16) continue;
+      if (r.x + r.width < 0 || r.y + r.height < 0 || r.x > screen.width || r.y > screen.height) continue;
+      if (!best || r.width * r.height > best.width * best.height) best = r;
+    }
+    if (best || Date.now() >= until) return best;
+    await new Promise((res) => setTimeout(res, 100));
+  }
+}
+
+/**
+ * The page's own picture hides while the arrival's copy flies into its place,
+ * and shows the moment it lands: one picture arriving, never two.
+ */
+let ownAvatarHidden = false;
+const hiddenListeners = new Set<() => void>();
+
+export function setOwnAvatarHidden(on: boolean): void {
+  if (ownAvatarHidden === on) return;
+  ownAvatarHidden = on;
+  hiddenListeners.forEach((l) => l());
+}
+
+function subscribeOwnAvatarHidden(listener: () => void): () => void {
+  hiddenListeners.add(listener);
+  return () => { hiddenListeners.delete(listener); };
+}
+
+/** Register a picture as a landing spot while `active`; true while it should hide. */
+export function useOwnAvatarTarget(ref: RefObject<View | null>, radius: number, active = true): boolean {
+  useEffect(() => (active ? registerOwnAvatar(ref, radius) : undefined), [ref, radius, active]);
+  const hidden = useSyncExternalStore(subscribeOwnAvatarHidden, () => ownAvatarHidden);
+  return active && hidden;
 }

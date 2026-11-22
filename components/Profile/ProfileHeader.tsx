@@ -9,7 +9,8 @@ import Avatar from "../common/Avatar";
 import ProfileImageMenu, { useProfileImageMenu, type ProfileImageKind } from "./ProfileImageMenu";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import LiquidGlass from "../ui/LiquidGlass";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useOwnAvatarTarget } from "../../libs/signInHandoff";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { openBadgePromotion, openBadgeShowcase } from "../../libs/badgeShowcase";
 import { useTranslation } from "react-i18next";
@@ -276,6 +277,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   // Hold the picture or banner: Change, Paste, Copy, Delete.
   const imageMenu = useProfileImageMenu();
+  // A log-in landing here sends the account's picture into this one.
+  const ownAvatarRef = useRef<View>(null);
+  const ownAvatarHidden = useOwnAvatarTarget(ownAvatarRef, Math.round(96 * 0.16), useIsFocused());
   const removeImage = useCallback(
     async (kind: ProfileImageKind) => {
       const isAvatar = kind === "avatar";
@@ -360,6 +364,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
         <View className="flex-row items-start justify-between" style={{ marginTop: -48 }}>
           <Animated.View ref={imageMenu.avatarRef as any} collapsable={false} style={avatarPop}>
             <ProfilePullRing size={96} radius={Math.round(96 * 0.16)} color={colors.accent} />
+            <View ref={ownAvatarRef} collapsable={false} style={ownAvatarHidden ? { opacity: 0 } : undefined}>
             <Avatar
               uri={avatarUrl === "default-avatar" ? undefined : avatarUrl}
               name={displayName}
@@ -374,6 +379,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                 )
               }
             />
+            </View>
             <TouchableOpacity
               onPress={startChangeAvatar}
               className="absolute right-0 bottom-0 dark-surface bg-black/60 rounded-lg p-1.5 border border-white/20"
