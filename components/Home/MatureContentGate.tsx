@@ -29,7 +29,7 @@ import { useRecyclingState } from '../../hooks/useCellState';
  * reveal goes back to hidden when it changes, so tapping through one mature
  * post never uncovers the next.
  */
-export function useMatureGate(contentRating?: string, resetKey?: string) {
+export function useMatureGate(contentRating?: string, resetKey?: string, requireReveal = false) {
   const { showMatureContent } = useMatureContent();
   // Reset in the same render as the post changes. The reveal swaps the gate
   // for the full post, which changes the row's height, so the list relayout
@@ -46,7 +46,7 @@ export function useMatureGate(contentRating?: string, resetKey?: string) {
   }
 
   return {
-    isGated: contentRating === 'mature' && !showMatureContent && !revealed,
+    isGated: contentRating === 'mature' && (requireReveal || !showMatureContent) && !revealed,
     reveal,
     canReveal: true,
   };

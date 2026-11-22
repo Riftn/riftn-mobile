@@ -2,7 +2,7 @@ import { useCommentCount } from '../../libs/comment-count-store';
 import { useTranslation as _useCopy } from 'react-i18next';
 import BadgeArtwork from "../common/BadgeArtwork";
 import { isHoldGated, isSubscriberGated } from "../../libs/content-gate";
-import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
+import { DIGITAL_PURCHASES_ENABLED, MATURE_CONTENT_ENABLED } from "../../config/storefront";
 import React, { memo, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
@@ -52,6 +52,7 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
   const { t } = useTranslation();
   const streamInfo = nft.streamInfo || (nft as any).stream?.streamInfo;
   const tokenId = nft.tokenId || (nft as any).stream?.tokenId;
+  const isMature = (nft.contentRating ?? nft.stream?.contentRating) === "mature";
   // The HLS ladder when the post has one; VideoPreview retires it for the MP4
   // if it will not play.
   const playbackUrl = useHlsFallback(() => getPlaybackUrl({ tokenId, hlsUrl: nft.hlsUrl }));
@@ -172,12 +173,12 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
   const hasThumbnail =
     typeof thumbnail === "string" && thumbnail.trim().length > 0;
   const accessInfo = useStreamAccessInfo(nft);
-  useWarmVideoViewer(!isLive && canOpenPostVideoViewer(nft));
+  useWarmVideoViewer(!isMature && !isLive && canOpenPostVideoViewer(nft));
   const handlePressVideo = useCallback(() => {
-    if (tokenId == null) return;
+    if (tokenId == null || (isMature && !MATURE_CONTENT_ENABLED)) return;
     onBeforeNavigate?.();
     hideUserProfile();
-    if (!isLive && canOpenPostVideoViewer(nft)) {
+    if (!isMature && !isLive && canOpenPostVideoViewer(nft)) {
       preparePostMediaNavigation(playbackUrl);
       navigation.navigate(ScreenNames.ShortsViewer, postVideoViewerParams(nft, tokenId, thumbnail, noteProfileFeedOpen(profileFeed, tokenId)));
       return;
@@ -201,7 +202,7 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
         });
       }
     });
-  }, [navigation, tokenId, isLive, nft, accessInfo, hideUserProfile, onBeforeNavigate, playbackUrl, thumbnail, profileFeed]);
+  }, [navigation, tokenId, isLive, isMature, nft, accessInfo, hideUserProfile, onBeforeNavigate, playbackUrl, thumbnail, profileFeed]);
   const cover = (
     <View
       className="rounded-xl overflow-hidden bg-theme-neutrals-800 justify-center items-center"
@@ -209,7 +210,12 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
         ? { width: 150, aspectRatio: 16 / 9, backgroundColor: "rgba(255,255,255,0.04)" }
         : { width: 150, aspectRatio: 16 / 9 }}
     >
-      {hasThumbnail ? (
+      {isMature ? (
+        <View className="items-center justify-center px-2">
+          <Ionicons name="eye-off-outline" size={20} color="#a1a1aa" />
+          <Text className="mt-1 text-center text-xs text-theme-neutrals-300">{t("upload.matureContent")}</Text>
+        </View>
+      ) : hasThumbnail ? (
         <SmartImage
           source={{ uri: thumbnail }}
           recyclingKey={thumbnail}
@@ -223,7 +229,7 @@ const CompactVideoCardComponent: React.FC<CompactVideoCardProps> = ({
           <Ionicons name="videocam-off" size={28} color="#666" />
         </View>
       )}
-      {enablePreview && !isLive && tokenId && hasThumbnail && (
+      {enablePreview && !isMature && !isLive && tokenId && hasThumbnail && (
         <View className="absolute inset-0">
           <VideoPreview
             previewUrl={playbackUrl || ""}

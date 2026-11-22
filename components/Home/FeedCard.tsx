@@ -972,7 +972,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // Independent of the monetisation gates above: a post can be both mature and
   // pay-per-view, and the creator's own post is warned about too — the warning
   // is for whoever is holding the phone.
-  const matureGate = useMatureGate(localContentRating, postKey);
+  const matureGate = useMatureGate(localContentRating, postKey, isVideo || isLive);
   const contentWarning = useContentWarning(edits.spoilerText ?? item.spoilerText, postKey);
   const canDownloadImage = postImage && !isActuallyGated && (!isBounty || isOwnerPost) && !matureGate.isGated && !contentWarning.hidden;
   const isHidden = edits.hidden ?? !!(item as any).isHidden;
