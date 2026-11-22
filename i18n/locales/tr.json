@@ -1192,6 +1192,7 @@
     "enableContentWarningsDesc": "Hassas içerikten önce uyarıları göster",
     "matureContent": "Yetişkin İçeriğini Göster",
     "matureContentDesc": "Akışlarınıza yetişkin ve sert içerikli gönderileri dahil eder ve zaten gördüklerinizdeki uyarıyı kaldırır. Varsayılan olarak kapalı.",
+    "matureContentPlaybackDesc": "Akışlarında yetişkinlere yönelik ve rahatsız edici gönderileri gösterir. Yetişkinlere yönelik videolar oynatılmadan önce onay ister. Varsayılan olarak kapalı.",
     "feedPreferences": "Akış Tercihleri",
     "showReposts": "Yeniden Paylaşımları Göster",
     "showRepostsDesc": "Takip ettiğiniz kişilerin paylaştığı gönderileri göster",
