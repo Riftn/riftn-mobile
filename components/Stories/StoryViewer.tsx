@@ -430,16 +430,39 @@ export default function StoryViewer({
             </View>
           ) : null}
 
+          {item.caption || item.remixSourceId ? (
+            <View style={styles.captionWrap} pointerEvents="box-none">
+              {item.remixSourceId ? (
+                <TouchableOpacity style={[styles.original, styles.darkGlass]} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
+                  <Icon name="Repeat2" size={16} color="#fff" />
+                  <Text style={styles.originalText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
+                </TouchableOpacity>
+              ) : null}
+              {item.caption ? (
+                <Text style={styles.caption} numberOfLines={3}>
+                  {item.caption}
+                </Text>
+              ) : null}
+            </View>
+          ) : null}
         </View>
 
-        {/* Capsule: who, when, how far along, and the actions. */}
-        <View style={[styles.cap, { top: insets.top + 8 }]}>
-          <View style={[styles.capFill, { width: `${Math.round(progress * 100)}%` }]} pointerEvents="none" />
+        {/* One thin bar per moment, the current one filling as it plays (as on web). */}
+        <View style={[styles.timing, { top: insets.top + 5 }]} pointerEvents="none">
+          {entry.items.map((x, i) => (
+            <View key={x.id} style={[styles.timingBar, i < itemIdx && styles.timingPlayed]}>
+              {i === itemIdx ? <View style={[styles.timingFill, { width: `${Math.min(100, Math.round(progress * 100))}%` }]} /> : null}
+            </View>
+          ))}
+        </View>
+
+        {/* Capsule: who and when, then sound, options and close. */}
+        <View style={[styles.cap, styles.darkGlass, { top: insets.top + 12 }]}>
           <TouchableOpacity style={styles.authorLink} accessibilityRole="link" accessibilityLabel={nameOf(entry.author)} onPress={() => onOpenProfile(entry.author.address)}>
-            <Avatar uri={avatarOf(entry.author, 32)} size={30} radius={15} name={entry.author.username || entry.author.address} />
+            <Avatar uri={avatarOf(entry.author, 32)} size={32} radius={16} name={entry.author.username || entry.author.address} />
             <View style={styles.capText}>
               <Text style={styles.capName} numberOfLines={1}>
-                {nameOf(entry.author)}
+                {own ? t("stories.yourDay", { defaultValue: "Your day" }) : nameOf(entry.author)}
               </Text>
               <Text style={styles.capSub} numberOfLines={1}>
                 {ageLabel(item.createdAt)}
@@ -447,27 +470,30 @@ export default function StoryViewer({
               </Text>
             </View>
           </TouchableOpacity>
-          {entry.items.length > 1 ? (
-            <View style={styles.dots}>
-              {entry.items.map((x, i) => (
-                <View key={x.id} style={[styles.dot, i === itemIdx && styles.dotOn]} />
-              ))}
-            </View>
-          ) : null}
-          {item.type === "video" || item.song ? (
+          {(item.type === "video" && !item.muted) || item.song ? (
             <TouchableOpacity onPress={() => setMuted((m) => !m)} hitSlop={8} style={styles.capBtn}>
               <Icon name={muted ? "VolumeX" : "Volume2"} size={18} color="#fff" />
             </TouchableOpacity>
           ) : null}
           <TouchableOpacity onPress={() => setSheet("more")} hitSlop={4} style={styles.capBtn} accessibilityRole="button" accessibilityLabel={t("stories.moreActions", { defaultValue: "Moment options" })} accessibilityState={{ expanded: sheet === "more" }}>
-            <Icon name="Ellipsis" size={18} color="#fff" />
+            <Icon name="Ellipsis" size={20} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity onPress={onClose} hitSlop={4} style={styles.capBtn} accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
             <Icon name="X" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
 
-        {/* Bottom: caption, then reply + like, or the owner's counts. */}
+        {item.song ? (
+          <View style={[styles.song, styles.darkGlass, { top: insets.top + 68 }]} pointerEvents="none">
+            {item.song.artworkUrl ? <Image source={{ uri: item.song.artworkUrl }} style={styles.songArt} /> : <Icon name="Music" size={14} color="#fff" />}
+            <Text style={styles.songText} numberOfLines={1}>
+              {item.song.title}
+              {item.song.artist ? ` · ${item.song.artist}` : ""}
+            </Text>
+          </View>
+        ) : null}
+
+        {/* Bottom: reply + like, comment, share, or the owner's counts. */}
         {/* The keyboard view sets its own bottom padding on iPhone, so the safe-area gap lives on an inner view. */}
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -476,31 +502,11 @@ export default function StoryViewer({
           accessibilityElementsHidden={!!sheet}
           importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
         >
-          <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 18 }]}>
-          {item.remixSourceId ? (
-            <TouchableOpacity style={styles.song} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
-              <Icon name="Repeat2" size={14} color="#fff" />
-              <Text style={styles.songText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
-            </TouchableOpacity>
-          ) : null}
-          {item.caption ? (
-            <Text style={styles.caption} numberOfLines={3}>
-              {item.caption}
-            </Text>
-          ) : null}
-          {item.song ? (
-            <View style={styles.song}>
-              <Icon name="Music" size={12} color="#fff" />
-              <Text style={styles.songText} numberOfLines={1}>
-                {item.song.title}
-                {item.song.artist ? ` · ${item.song.artist}` : ""}
-              </Text>
-            </View>
-          ) : null}
+          <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 26 }]}>
           <View style={styles.replyRow}>
             {own ? (
-              <TouchableOpacity style={styles.ownStats} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
-                <Icon name="Eye" size={16} color="#fff" />
+              <TouchableOpacity style={[styles.ownStats, styles.darkGlass]} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
+                <Icon name="Eye" size={18} color="#fff" />
                 <Text style={styles.statText}>{formatCount(item.viewCount ?? 0)}</Text>
                 {(item.likeCount ?? 0) > 0 ? (
                   <>
@@ -510,11 +516,11 @@ export default function StoryViewer({
                 ) : null}
               </TouchableOpacity>
             ) : !me ? (
-              <TouchableOpacity style={styles.replyBox} onPress={() => requireAuth(() => {})}>
+              <TouchableOpacity style={[styles.replyBox, styles.darkGlass]} onPress={() => requireAuth(() => {})}>
                 <Text style={styles.replyPlaceholder}>{t("stories.signInToReply", { defaultValue: "Sign in to reply" })}</Text>
               </TouchableOpacity>
             ) : item.allowReplies ? (
-              <View style={styles.replyBox}>
+              <View style={[styles.replyBox, styles.darkGlass]}>
                 <TextInput
                   value={reply}
                   onChangeText={setReply}
@@ -528,21 +534,16 @@ export default function StoryViewer({
                   onSubmitEditing={() => void sendReply()}
                   maxLength={500}
                 />
-                {reply.trim() ? (
-                  <TouchableOpacity onPress={() => void sendReply()} hitSlop={8}>
-                    <Icon name="Send" size={18} color="#fff" />
-                  </TouchableOpacity>
-                ) : null}
               </View>
             ) : (
-              <View style={{ flex: 1 }} />
+              <Text style={styles.repliesOff} numberOfLines={1}>{t("stories.repliesOff", { defaultValue: "Replies are off" })}</Text>
             )}
             {!own ? (
-              <TouchableOpacity onPress={toggleLike} style={styles.round} accessibilityLabel={t("stories.like", { defaultValue: "Like" })}>
+              <TouchableOpacity onPress={toggleLike} style={[styles.round, styles.darkGlass]} accessibilityLabel={t("stories.like", { defaultValue: "Like" })}>
                 <MomentHeart size={22} filled={isLiked} />
               </TouchableOpacity>
             ) : null}
-            <TouchableOpacity onPress={() => setSheet("comments")} style={styles.round} accessibilityRole="button" accessibilityLabel={t("stories.comments", { defaultValue: "Comments" })}>
+            <TouchableOpacity onPress={() => setSheet("comments")} style={[styles.round, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={t("stories.comments", { defaultValue: "Comments" })}>
               <MomentComment size={22} />
               {(item.commentCount ?? 0) > 0 ? (
                 <View style={styles.countBadge} pointerEvents="none">
@@ -551,10 +552,15 @@ export default function StoryViewer({
               ) : null}
             </TouchableOpacity>
             {shareable && (
-              <TouchableOpacity onPress={() => setSheet("share")} style={styles.round} accessibilityRole="button" accessibilityLabel={t("stories.share", { defaultValue: "Share" })}>
+              <TouchableOpacity onPress={() => setSheet("share")} style={[styles.round, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={t("stories.share", { defaultValue: "Share" })}>
                 <MomentShare size={22} />
               </TouchableOpacity>
             )}
+            {!own && me && item.allowReplies && reply.trim() ? (
+              <TouchableOpacity onPress={() => void sendReply()} style={[styles.round, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={t("common.send", { defaultValue: "Send" })}>
+                <Icon name="Send" size={20} color="#fff" />
+              </TouchableOpacity>
+            ) : null}
           </View>
           </View>
         </KeyboardAvoidingView>
@@ -773,45 +779,62 @@ const styles = StyleSheet.create({
   topShade: { position: "absolute", top: 0, left: 0, right: 0, height: 140 },
   bottomShade: { position: "absolute", bottom: 0, left: 0, right: 0, height: 220 },
   zones: { ...StyleSheet.absoluteFillObject, flexDirection: "row" },
+  /** Web's dark glass over a photo: see-through dark, thin light rim. */
+  darkGlass: {
+    backgroundColor: "rgba(20,20,24,0.5)",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(255,255,255,0.16)",
+  },
+  timing: { position: "absolute", left: 16, right: 16, height: 3, flexDirection: "row", gap: 3 },
+  timingBar: {
+    flex: 1,
+    minWidth: 0,
+    height: 3,
+    borderRadius: 2,
+    overflow: "hidden",
+    backgroundColor: "rgba(255,255,255,0.4)",
+  },
+  timingPlayed: { backgroundColor: "#fff" },
+  timingFill: { height: 3, backgroundColor: "#fff" },
   cap: {
     position: "absolute",
-    left: 10,
-    right: 10,
-    height: 50,
-    borderRadius: 25,
+    left: 12,
+    right: 12,
+    height: 48,
+    borderRadius: 24,
     paddingLeft: 8,
     paddingRight: 6,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 4,
     overflow: "hidden",
-    backgroundColor: "#242427",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.14)",
   },
-  capFill: { position: "absolute", left: 0, top: 0, bottom: 0, backgroundColor: "rgba(255,255,255,0.14)" },
-  authorLink: { flex: 1, minWidth: 0, minHeight: 44, flexDirection: "row", alignItems: "center", gap: 8 },
+  authorLink: { flex: 1, minWidth: 0, minHeight: 44, flexDirection: "row", alignItems: "center", gap: 10 },
   capText: { flex: 1, minWidth: 0 },
-  capName: { color: "#fff", fontSize: 14, fontWeight: "700" },
-  capSub: { color: "#fff", fontSize: 11.5, marginTop: 1 },
+  capName: { color: "#fff", fontSize: 14, fontWeight: "600" },
+  capSub: { color: "rgba(255,255,255,0.7)", fontSize: 11.5, marginTop: 2 },
   capBtn: { width: 36, height: 44, alignItems: "center", justifyContent: "center" },
-  dots: { flexDirection: "row", gap: 4, marginRight: 2 },
-  dot: { width: 6, height: 6, borderRadius: 3, backgroundColor: "rgba(255,255,255,0.35)" },
-  dotOn: { backgroundColor: "#fff" },
   hidden: { opacity: 0 },
-  bottomInner: { paddingHorizontal: 12, gap: 8 },
-  caption: { color: "#fff", fontSize: 15, textShadowColor: "rgba(0,0,0,0.5)", textShadowRadius: 6, paddingHorizontal: 4 },
+  bottomInner: { paddingHorizontal: 12, paddingTop: 8 },
+  captionWrap: { position: "absolute", left: 16, right: 16, bottom: 6, alignItems: "flex-start" },
+  caption: { color: "#fff", fontSize: 14, lineHeight: 19, textShadowColor: "rgba(0,0,0,0.6)", textShadowRadius: 8, textShadowOffset: { width: 0, height: 1 } },
+  original: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 11, paddingVertical: 7, borderRadius: 18, marginBottom: 6 },
+  originalText: { color: "#fff", fontSize: 14 },
   song: {
+    position: "absolute",
+    left: 12,
+    maxWidth: "70%",
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    alignSelf: "flex-start",
-    paddingHorizontal: 10,
+    paddingLeft: 6,
+    paddingRight: 10,
     paddingVertical: 5,
     borderRadius: 14,
-    backgroundColor: "rgba(0,0,0,0.38)",
   },
-  songText: { color: "#fff", fontSize: 12, maxWidth: 240 },
+  songArt: { width: 18, height: 18, borderRadius: 5 },
+  songText: { flexShrink: 1, color: "#fff", fontSize: 12 },
+  repliesOff: { flex: 1, color: "rgba(255,255,255,0.6)", fontSize: 13, paddingHorizontal: 8 },
   replyRow: { flexDirection: "row", alignItems: "center", gap: 8 },
   replyBox: {
     flex: 1,
@@ -821,9 +844,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: "rgba(20,20,24,0.55)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.18)",
   },
   replyInput: { flex: 1, color: "#fff", fontSize: 15, paddingVertical: 0 },
   replyPlaceholder: { color: "rgba(255,255,255,0.8)", fontSize: 14 },
@@ -833,9 +853,6 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(20,20,24,0.55)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,255,255,0.18)",
   },
   countBadge: {
     position: "absolute",
@@ -851,15 +868,12 @@ const styles = StyleSheet.create({
   },
   countText: { color: "#000", fontSize: 11, fontWeight: "700" },
   ownStats: {
-    flex: 1,
     height: 44,
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    paddingHorizontal: 14,
+    paddingHorizontal: 16,
     borderRadius: 22,
-    backgroundColor: "rgba(20,20,24,0.55)",
-    alignSelf: "flex-start",
   },
   statText: { color: "#fff", fontSize: 14, fontWeight: "600", marginRight: 6 },
   sheetBack: { ...StyleSheet.absoluteFillObject, zIndex: 10, backgroundColor: "rgba(0,0,0,0.45)", justifyContent: "flex-end" },
