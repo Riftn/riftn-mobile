@@ -741,6 +741,9 @@ export const SignInArrival: React.FC = () => {
     const concept = isConceptLook(look);
     const nameDelay = session.instant ? 0 : concept ? CONCEPT_NAME_MS[look as ConceptLook] : 200;
     Animated.timing(nameOpacity, { toValue: 1, duration: 240, delay: nameDelay, useNativeDriver: true }).start();
+    // The page's own picture stays hidden while the arrival shows its copy:
+    // one picture on screen, which then flies into its place.
+    setOwnAvatarHidden(true);
     let safety: ReturnType<typeof setTimeout> | undefined;
     const timer = setTimeout(async () => {
       const [to, from] = await Promise.all([measureOwnAvatar({ width, height }), measureInWindowSoon(frameRef.current)]);
@@ -748,6 +751,7 @@ export const SignInArrival: React.FC = () => {
       Animated.timing(nameOpacity, { toValue: 0, duration: 140, useNativeDriver: true }).start();
       Animated.timing(veil, { toValue: 0, duration: VEIL_OUT_MS, useNativeDriver: true }).start();
       if (!to) {
+        setOwnAvatarHidden(false);
         Animated.parallel([
           Animated.timing(opacity, { toValue: 0, duration: 240, useNativeDriver: true }),
           Animated.timing(scale, { toValue: 0.92, duration: 240, useNativeDriver: true }),
@@ -760,8 +764,6 @@ export const SignInArrival: React.FC = () => {
       const fromY = from && from.height > 8 ? from.y + from.height / 2 : height / 2;
       const k = to.width / FRAME;
       if (picture) setLanding({ radius: to.radius / k });
-      // The page's own picture steps aside; the flying one becomes it.
-      setOwnAvatarHidden(true);
       const ease = Easing.bezier(0.2, 0.8, 0.2, 1);
       Animated.parallel([
         Animated.timing(move, {
@@ -777,7 +779,7 @@ export const SignInArrival: React.FC = () => {
       });
       safety = setTimeout(() => setOwnAvatarHidden(false), FLY_MS + 600);
     }, session.instant ? HOLD_MS : concept ? CONCEPT_HOLD_MS : OPEN_MS + HOLD_MS);
-    return () => { cancelled = true; clearTimeout(timer); if (safety) clearTimeout(safety); };
+    return () => { cancelled = true; clearTimeout(timer); if (safety) clearTimeout(safety); setOwnAvatarHidden(false); };
     // `look` is read, not followed, as above.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.taken, session?.at, opened, width, height]);
@@ -800,7 +802,7 @@ export const SignInArrival: React.FC = () => {
         />
         </Animated.View>
         {landing && picture ? (
-          <Animated.View style={[styles.frame, { borderRadius: landing.radius, overflow: 'hidden', opacity: landIn }]}>
+          <Animated.View style={[styles.frame, { borderRadius: landing.radius, overflow: 'hidden', backgroundColor: '#16181d', opacity: landIn }]}>
             <Image source={{ uri: picture }} style={styles.picture} contentFit="cover" accessible={false} />
           </Animated.View>
         ) : null}
