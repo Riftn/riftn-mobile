@@ -203,7 +203,8 @@ const open = { isAuthRequired: false, quiet: true } as const;
  */
 async function asViewer() {
   const token = await getAuthToken().catch(() => null);
-  return { ...open, headers: token ? { Authorization: `Bearer ${token}` } : {} };
+  const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+  return { ...open, headers };
 }
 
 export const nftMarket = {
