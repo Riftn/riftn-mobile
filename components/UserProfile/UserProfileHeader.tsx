@@ -20,6 +20,7 @@ import { useTranslation } from "../../hooks/useTranslation";
 import { TranslateButton } from "../ui/TranslateButton";
 import MutualFollowers from "./MutualFollowers";
 import StreamerLevelCard from "../Live/StreamerLevelCard";
+import ProfilePetCard from "../Pet/PetCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import BadgePatronChip from "../common/BadgePatronChip";
 import EarlySupporterChip from "../common/EarlySupporterChip";
@@ -540,6 +541,9 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
         {/* The streamer ladder. Renders nothing until a stream has ended,
             so a non-streamer's profile is unchanged. */}
         {isOwnProfile && !isBlocked && <StreamerLevelCard address={address} className="mt-3" />}
+
+        {/* The creator's stream pet, for everyone. Nothing for someone without one. */}
+        {!isBlocked && <ProfilePetCard address={address} own={isOwnProfile} className="mt-3" />}
 
         {/* Followers can subscribe to the creator's pinned plans. */}
         {!isOwnProfile && !isBlocked && isFollowing && plansLoading && !hasPlans ? (

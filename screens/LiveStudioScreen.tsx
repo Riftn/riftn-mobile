@@ -32,6 +32,7 @@ import { DestinationsSection } from "../components/LiveStudio/DestinationsSectio
 import { SubathonEditor } from "../components/LiveStudio/SubathonEditor";
 import { PointsSection } from "../components/LiveStudio/PointsSection";
 import { RewardsSection } from "../components/LiveStudio/RewardsSection";
+import { PetSection } from "../components/LiveStudio/PetSection";
 import { OverlayCreatorContext, SubathonContext } from "../components/LiveOverlay/subathon";
 import { PollContext } from "../components/LiveOverlay/poll";
 import { samplePoll, type LivePoll } from "../libs/live-overlay/polls";
@@ -382,6 +383,10 @@ export default function LiveStudioScreen() {
 
         <Section title={t("liveStudio.points.title")}>
           <PointsSection address={myAddress} />
+        </Section>
+
+        <Section title={t("streamPet.studio.title")}>
+          <PetSection />
         </Section>
 
         <Section title={t("liveStudio.bot.title")}>
