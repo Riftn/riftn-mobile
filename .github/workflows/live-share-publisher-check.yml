@@ -82,7 +82,7 @@ jobs:
           echo
           # RTSP: decode everything for 14 s (portrait), across the still spell.
           ffmpeg -nostdin -v error -rtsp_transport tcp -i rtsp://127.0.0.1:8554/abc123-rtmp -t 14 -f null - 2> rtsp-errors.txt
-          ffmpeg -nostdin -v info -rtsp_transport tcp -i rtsp://127.0.0.1:8554/abc123-rtmp -t 4 -c copy -f mpegts sample.ts 2> sample.log || true
+          ffmpeg -nostdin -v info -rtsp_transport tcp -i rtsp://127.0.0.1:8554/abc123-rtmp -t 6 -c copy -f mpegts sample.ts 2> sample.log || true
           # HLS across the turn to landscape at 26 s.
           ffmpeg -nostdin -v error -i http://127.0.0.1:8888/abc123-rtmp/index.m3u8 -t 14 -f null - 2> hls-errors.txt || echo "hls read exited $?"
           ffmpeg -nostdin -v info -rtsp_transport tcp -i rtsp://127.0.0.1:8554/abc123-rtmp -t 3 -c copy -f mpegts landscape.ts 2> landscape.log || true
@@ -104,12 +104,14 @@ jobs:
           grep -q 'H264' path.json || { echo "no H264 track"; exit 1; }
           grep -q 'MPEG-4 Audio' path.json || { echo "no AAC track"; exit 1; }
           [ ! -s rtsp-errors.txt ] || { echo "decode errors over RTSP"; exit 1; }
-          v=$(ffprobe -v error -show_entries stream=codec_name,width,height -of csv=p=0 sample.ts)
+          # ffprobe prints a program and a stream line per track; one copy is enough.
+          v=$(ffprobe -v error -show_entries stream=codec_name,width,height -of csv=p=0 sample.ts | sort -u | tr '\n' ' ')
           echo "$v" | grep -q 'h264,590,1280' || { echo "portrait stream not 590x1280: $v"; exit 1; }
           echo "$v" | grep -q 'aac' || { echo "no audio in stream: $v"; exit 1; }
-          l=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 landscape.ts)
+          l=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 landscape.ts | grep . | head -1)
           [ "$l" = "1280,590" ] || { echo "landscape stream not 1280x590: $l"; exit 1; }
-          frames=$(ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of csv=p=0 sample.ts)
-          [ "${frames:-0}" -ge 80 ] || { echo "only $frames frames in 4 s"; exit 1; }
+          # A 6 s copy starts at the next keyframe (up to 2 s in), so at 30 fps expect 4+ s of frames.
+          frames=$(ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of csv=p=0 sample.ts | grep . | head -1)
+          [ "${frames:-0}" -ge 100 ] || { echo "only $frames frames in the 6 s sample"; exit 1; }
           grep -q 'state live' probe.log || { echo "probe never went live"; exit 1; }
-          echo "OK: portrait $v, landscape $l, $frames frames in 4 s"
+          echo "OK: portrait $v, landscape $l, $frames frames in the 6 s sample"
