@@ -21,13 +21,14 @@
  * flight home are shared.
  */
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import { Animated, Easing, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { Animated, Easing, Platform, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Image } from 'expo-image';
 import Svg, { Defs, Ellipse, LinearGradient, Path, RadialGradient, Stop } from 'react-native-svg';
 import { useAuthState, useUser } from '../../context/AuthContext';
 import { useAppTheme } from '../../context/ThemeContext';
 import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBadgeUrlFor } from '../../libs/misc';
 import BadgeArtwork from '../common/BadgeArtwork';
+import { withAlpha } from '../ui/glow';
 import {
   measureOwnAvatar,
   noteSignInWaitStarted,
@@ -161,6 +162,34 @@ const styles = StyleSheet.create({
 });
 
 /** One speck drifting into the stroke, on its own loop. */
+/**
+ * A soft glow that follows what is drawn inside, like web's stacked
+ * `drop-shadow(0 0 Npx c)`: [blur px, colour, alpha], innermost first.
+ * Android draws the same drop-shadow filter as web; iPhone a layer shadow per
+ * glow. Padded so the glow is never clipped at the view's edge. No stroked
+ * bands: those read as outlines, not light.
+ */
+const Glow: React.FC<{ layers: Array<[number, string, number]>; pad: number; children: React.ReactNode }> = ({ layers, pad, children }) => {
+  const box = { padding: pad, alignItems: 'center' as const, justifyContent: 'center' as const };
+  if (!layers.length) return <View style={box}>{children}</View>;
+  if (Platform.OS === 'web') {
+    const filter = layers.map(([blur, color, a]) => `drop-shadow(0 0 ${blur}px ${withAlpha(color, a)})`).join(' ');
+    return <View style={[box, { filter } as any]}>{children}</View>;
+  }
+  if (Platform.OS === 'android') {
+    const filter = layers.map(([blur, color, a]) => ({
+      dropShadow: { offsetX: 0, offsetY: 0, standardDeviation: blur / 2, color: withAlpha(color, a) },
+    }));
+    return <View style={[box, { filter } as any]}>{children}</View>;
+  }
+  // iPhone: each layer's shadow follows everything inside it, so nesting stacks them.
+  return layers.reduce<React.ReactNode>((inner, [blur, color, a], i) => (
+    <View style={[i === layers.length - 1 ? box : null, { shadowColor: color, shadowOpacity: a, shadowRadius: blur / 2, shadowOffset: { width: 0, height: 0 } }]}>
+      {inner}
+    </View>
+  ), children) as React.ReactElement;
+};
+
 const Speck: React.FC<{ x: number; y: number; ms: number; delay: number; phase: number; size: number; color: string; burst: Animated.Value }> = ({ x, y, ms, delay, phase, size, color, burst }) => {
   // The first drift starts part-way in, so the cloud is there with the line
   // rather than building up over a few seconds.
@@ -281,10 +310,11 @@ const Rift: React.FC<{
         ],
       }]}
     >
-      <Svg width={110} height={110} viewBox="351 223 1210 1210">
-        {!trail ? <Path d={MARK_PATH} fill={colors.a} fillOpacity={0.35} stroke={colors.a} strokeOpacity={0.35} strokeWidth={60} /> : null}
-        <Path d={MARK_PATH} fill="#ffffff" />
-      </Svg>
+      <Glow layers={trail ? [] : [[10, colors.a, 1]]} pad={24}>
+        <Svg width={110} height={110} viewBox="351 223 1210 1210">
+          <Path d={MARK_PATH} fill="#ffffff" />
+        </Svg>
+      </Glow>
     </Animated.View>
   );
   return (
@@ -372,7 +402,8 @@ const Rift: React.FC<{
           ) },
         ],
       }]}>
-        <Svg width={LINE_W + 16} height={LINE_H + 16} viewBox="-8 -8 22 128">
+        <Glow layers={[[4, '#ffffff', 1], [12, colors.a, 1], [30, colors.a, 0.6]]} pad={40}>
+        <Svg width={LINE_W} height={LINE_H} viewBox="0 0 6 112">
           <Defs>
             <LinearGradient id="riftFill" x1="0" y1="0" x2="1" y2="0">
               <Stop offset="0" stopColor={colors.b} />
@@ -381,11 +412,9 @@ const Rift: React.FC<{
               <Stop offset="1" stopColor={colors.b} />
             </LinearGradient>
           </Defs>
-          {/* a soft edge of the theme colour, standing in for a glow */}
-          <Path d={LINE_PATH} fill="none" stroke={colors.a} strokeOpacity={0.16} strokeWidth={14} strokeLinejoin="round" />
-          <Path d={LINE_PATH} fill="none" stroke={colors.a} strokeOpacity={0.4} strokeWidth={5} strokeLinejoin="round" />
           <Path d={LINE_PATH} fill="url(#riftFill)" />
         </Svg>
+        </Glow>
       </Animated.View>
     </View>
   );
