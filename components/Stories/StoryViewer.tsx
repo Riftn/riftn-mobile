@@ -148,13 +148,15 @@ export default function StoryViewer({
   );
 
   const elapsed = useRef(0);
+  // Deleting a Moment can replace it at the same index. Its successor still
+  // needs a fresh clock and reply, even when neither list index changes.
   useEffect(() => {
     elapsed.current = 0;
     setProgress(0);
     setReply("");
     setOpeningOriginal(false);
     return () => { originalRequest.current = null; };
-  }, [authorIdx, itemIdx]);
+  }, [snapshot?.id]);
 
   // Photo clock.
   const goItemRef = useRef(goItem);
