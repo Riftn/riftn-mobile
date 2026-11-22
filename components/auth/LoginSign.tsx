@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Animated, Easing, Image, StyleSheet, Text, View, type TextStyle } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import MaskedView from "@react-native-masked-view/masked-view";
@@ -201,7 +201,21 @@ function headlineStyle(look: LoginLook): TextStyle {
 /** The sign itself: wordmark above the headline. Drawn twice for the VHS tear. */
 function SignBody({ look, p, text, roll, copy, solid }: { look: LoginLook; p: Palette; text: string; roll: Animated.Value; copy?: boolean; solid?: Solid }) {
   const { t } = useTranslation();
-  const hl = headlineStyle(look);
+  const base = headlineStyle(look);
+  // Each headline line stays on one line: the letters shrink to fit the
+  // width (in every language) instead of a line breaking in two.
+  const [boxW, setBoxW] = useState(0);
+  const [natural, setNatural] = useState(0);
+  const fit = boxW && natural ? Math.min(1, (boxW - 2) / natural) : 1;
+  const hl = fit < 1 ? {
+    ...base,
+    fontSize: (base.fontSize ?? 30) * fit,
+    lineHeight: (base.lineHeight ?? 32) * fit,
+    letterSpacing: (base.letterSpacing ?? 0) * fit,
+  } : base;
+  const [late, setLate] = useState(false);
+  useEffect(() => { const id = setTimeout(() => setLate(true), 250); return () => clearTimeout(id); }, []);
+  const measured = (!!boxW && !!natural) || late;
   const lines = text.split("\n").length;
   const textH = (hl.lineHeight ?? 32) * lines;
   const edges = look === "vhs";
@@ -238,7 +252,20 @@ function SignBody({ look, p, text, roll, copy, solid }: { look: LoginLook; p: Pa
           </MaskedView>
         )}
       </View>
-      <View>
+      <View
+        onLayout={(e) => { const w = Math.round(e.nativeEvent.layout.width); if (w !== boxW) setBoxW(w); }}
+        // Hidden for the one frame before the fit is known, so a line is never seen breaking.
+        style={measured ? null : { opacity: 0 }}
+      >
+        {/* Measures each line at full size, unwrapped. */}
+        <View style={styles.measure} pointerEvents="none" {...hidden}>
+          <Text
+            style={[styles.text, base, { alignSelf: "flex-start" }]}
+            onLayout={(e) => { const w = Math.ceil(e.nativeEvent.layout.width); if (w && w !== natural) setNatural(w); }}
+          >
+            {text}
+          </Text>
+        </View>
         {depth.map((step) => (
           <Text key={step} style={[styles.text, hl, styles.edge, { color: sideAt(step), transform: [{ translateX: step }, { translateY: step }] }]} {...hidden}>{text}</Text>
         ))}
@@ -415,6 +442,7 @@ const styles = StyleSheet.create({
   edge: { position: "absolute", left: 0, right: 0, top: 0 },
   maskText: { color: "#000000" },
   roll: { position: "absolute", left: 0, right: 0, top: 0 },
+  measure: { position: "absolute", left: 0, top: 0, width: 2000, opacity: 0, alignItems: "flex-start" },
   band: { position: "absolute", left: 0, right: 0, top: 0 },
   tearClip: { position: "absolute", left: -40, right: -40, top: 0, height: TEAR_H, overflow: "hidden" },
   tearCopy: { position: "absolute", left: 40, right: 40, top: 0 },
