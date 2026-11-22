@@ -9,6 +9,7 @@ import { mentionSearch, type MentionUser } from "../../services/mention.service"
 jest.mock("react-native-css-interop/jsx-runtime", () => jest.requireActual("react/jsx-runtime"));
 jest.mock("react-native", () => ({
   View: "View",
+  ScrollView: "ScrollView",
   Text: "Text",
   TextInput: "TextInput",
   Pressable: "Pressable",
@@ -40,7 +41,7 @@ jest.mock("../../components/common/MentionSuggestions", () => {
 jest.mock("../../context/ThemeContext", () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children }));
 jest.mock("../../libs/skia", () => ({ optionalSkia: (load: () => unknown) => load() }));
 jest.mock("../../libs/toast", () => ({ toastError: jest.fn() }));
-jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => ({ shelf: [] }) }));
+jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => ({ shelf: [], supportsCustomAudience: true }) }));
 jest.mock("../../services/mention.service", () => ({ mentionSearch: jest.fn() }));
 jest.mock("../../components/Stories/story-upload", () => ({ shareMoment: jest.fn() }));
 jest.mock("@shopify/react-native-skia", () => ({
@@ -137,6 +138,32 @@ it("keeps a text layer's chosen orientation through editing and export", async (
   await waitFor(() => expect(composePhoto).toHaveBeenCalledWith("file:///photo.jpg", [
     expect.objectContaining({ text: "Upward", rotation: 270, x: 0.5, y: 0.42 }),
   ]));
+  editor.unmount();
+  client.clear();
+});
+
+it.each(["Only selected people", "Hide from selected people"])("publishes %s using chosen account addresses", async (mode) => {
+  jest.mocked(shareMoment).mockClear();
+  jest.mocked(mentionSearch).mockResolvedValue([{ address, username: "alice", displayName: "Alice", avatarImageUrl: "", isFollowing: false }]);
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByText("Everyone"));
+  fireEvent.press(await editor.findByText(mode));
+  fireEvent.press(editor.getByText("Done"));
+  fireEvent.press(editor.getByText("Share"));
+  expect(shareMoment).not.toHaveBeenCalled();
+  fireEvent.press(editor.getByText(mode));
+  fireEvent.press(editor.getByText("Search"));
+  fireEvent.changeText(editor.getByPlaceholderText("Search"), "@ali");
+  fireEvent.press(await editor.findByLabelText("alice"));
+  expect(editor.getByText("@alice ×")).toBeTruthy();
+  fireEvent.press(editor.getByText("Done"));
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
+  expect(jest.mocked(shareMoment).mock.calls[0][0].fields).toMatchObject({
+    audience: mode === "Only selected people" ? "selected" : "except", audienceAddresses: [address],
+  });
   editor.unmount();
   client.clear();
 });
