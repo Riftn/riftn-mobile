@@ -1,5 +1,5 @@
 import { useTranslation as _useCopy } from 'react-i18next';
-import React, { memo, useCallback, useState, useRef, useMemo, useEffect } from "react";
+import React, { memo, useCallback, useState, useRef, useMemo, useEffect, useLayoutEffect } from "react";
 import { View, Pressable, StyleSheet, Platform, Image, type LayoutChangeEvent, type ViewStyle } from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Reanimated, {
@@ -237,12 +237,16 @@ const FeedNavBar: React.FC<FeedNavBarProps> = ({
   // Read on the UI thread by the drag worklet, which cannot see React refs.
   const dragStart = useSharedValue(0);
 
-  const handleNavPress = useCallback(
-    (postType: PostTypeOption) => {
-      onPostTypeChange(postType);
-    },
-    [onPostTypeChange],
-  );
+  // Home's callback captures the selected feed/search state and changes on
+  // each switch. Keep button props stable, but invoke the latest committed
+  // callback so tapping the selected tab still opens/closes its search.
+  const onPostTypeChangeRef = useRef(onPostTypeChange);
+  useLayoutEffect(() => {
+    onPostTypeChangeRef.current = onPostTypeChange;
+  }, [onPostTypeChange]);
+  const handleNavPress = useCallback((postType: PostTypeOption) => {
+    onPostTypeChangeRef.current(postType);
+  }, []);
 
   const commitIndex = useCallback(
     (idx: number) => {

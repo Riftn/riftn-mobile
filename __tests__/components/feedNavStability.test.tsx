@@ -56,6 +56,8 @@ describe.each([false, true])('feed navigation stability (minimal=%s)', (minimal)
     const original = tree!.root.findAllByType('Icon' as any).find(node => node.props.name === 'House');
     for (const activeIndex of [1, 2, 0]) {
       mockIconRender.mockClear();
+      // Home supplies a new closure as its selected tab/search state changes.
+      props.onPostTypeChange = jest.fn();
       act(() => tree!.update(<FeedNavBar {...props} activeIndex={activeIndex} />));
       const tabRenders = mockIconRender.mock.calls.map(([p]) => p).filter(p => p.name !== 'Settings2');
       expect(tabRenders).toHaveLength(2);
