@@ -25,6 +25,7 @@ import Animated, {
 import { Gesture, GestureDetector, type GestureType } from "react-native-gesture-handler";
 import { PagerGestureProvider } from "../context/PagerGestureContext";
 import InfiniteVideoFeed, { type InfiniteVideoFeedHandle } from "../components/Home/InfiniteVideoFeed";
+import { HomeShortcuts } from "../components/Home/AppDrawer";
 import StoryShelf from "../components/Stories/StoryShelf";
 import HomeImageGrid, { type HomeImageGridHandle } from "../components/Home/HomeImageGrid";
 import ImageFeedDrawer, { type ImageFeedDrawerHandle } from "../components/Home/ImageFeedDrawer";
@@ -228,7 +229,7 @@ const FEED_LIST_TYPES = ["all", "feed-simple", "live"] as const;
 // The Glass Shelf (your day, everyone live, people's 24-hour moments) sits at the
 // top of every list feed. One element for the life of the app so
 // InfiniteVideoFeed's memoised list header never churns.
-const LIVE_STAGES_HEADER = <StoryShelf />;
+const LIVE_STAGES_HEADER = <><HomeShortcuts /><StoryShelf /></>;
 type FeedListType = (typeof FEED_LIST_TYPES)[number];
 
 // Page-turn animation. Short and front-loaded: the page should be visibly

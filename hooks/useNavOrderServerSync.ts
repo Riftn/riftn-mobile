@@ -13,7 +13,7 @@ import { setAppPref } from "./useAppPrefs";
 import { MENU_LAYOUT_PREF_KEY, isMenuLayout } from "../libs/menuLayout";
 import { NAV_ORDER_PREF_KEYS, getNavOrder, sanitiseNavOrder, writeNavOrder, type NavOrderSurface } from "../libs/navOrder";
 
-const SURFACES: NavOrderSurface[] = ["menu", "bar"];
+const SURFACES: NavOrderSurface[] = ["menu", "bar", "home"];
 
 export function useNavOrderServerSync(): void {
   const user = useUser() as any;

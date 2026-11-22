@@ -14,11 +14,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSyncExternalStore } from "react";
 import { saveAccountPrefs } from "./feed-interests";
 
-export type NavOrderSurface = "menu" | "bar";
+export type NavOrderSurface = "menu" | "bar" | "home";
 
 export const NAV_ORDER_PREF_KEYS: Record<NavOrderSurface, string> = {
   menu: "menuOrder",
   bar: "barOrder",
+  home: "homeShortcuts",
 };
 
 const STORAGE_PREFIX = "dehub.navOrder.";
@@ -55,7 +56,7 @@ export function sanitiseNavOrder(value: unknown): string[] {
   return out;
 }
 
-const state: Record<NavOrderSurface, string[]> = { menu: EMPTY, bar: EMPTY };
+const state: Record<NavOrderSurface, string[]> = { menu: EMPTY, bar: EMPTY, home: EMPTY };
 const listeners = new Set<() => void>();
 let loaded = false;
 
@@ -66,7 +67,7 @@ function emit() {
 function load() {
   if (loaded) return;
   loaded = true;
-  (["menu", "bar"] as NavOrderSurface[]).forEach((surface) => {
+  (["menu", "bar", "home"] as NavOrderSurface[]).forEach((surface) => {
     AsyncStorage.getItem(STORAGE_PREFIX + surface)
       .then((raw) => {
         if (!raw) return;
@@ -118,6 +119,13 @@ export function saveNavOrder(surface: NavOrderSurface, visible: string[], defaul
   if (wallet) {
     saveAccountPrefs(wallet, { [NAV_ORDER_PREF_KEYS[surface]]: next }).catch(() => { /* the device copy stands */ });
   }
+}
+
+export function toggleHomeShortcut(id: string, wallet?: string | null) {
+  const previous = getNavOrder("home");
+  const next = previous.includes(id) ? previous.filter(pin => pin !== id) : [...previous, id];
+  writeNavOrder("home", next);
+  if (wallet) saveAccountPrefs(wallet, { [NAV_ORDER_PREF_KEYS.home]: next }).catch(() => {});
 }
 
 export function resetNavOrder(surface: NavOrderSurface, wallet?: string | null) {

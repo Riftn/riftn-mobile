@@ -1,11 +1,12 @@
 import { storage as draftStorage } from '../../libs/storage';
 import { __resetDraftCacheForTests } from '../../libs/draft-cache';
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react-native';
+import { act, fireEvent, render } from '@testing-library/react-native';
 import { Keyboard } from 'react-native';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import AppDrawer from '../../components/Home/AppDrawer';
+import AppDrawer, { HomeShortcuts } from '../../components/Home/AppDrawer';
+import { toggleHomeShortcut, writeNavOrder } from '../../libs/navOrder';
 
 const mockDispatch = jest.fn();
 let mockSignedIn = true;
@@ -225,4 +226,24 @@ describe('tabs layout (the default)', () => {
     fireEvent.press(view.getByLabelText('sidebar.clearSearch'));
     expect(view.queryByText('nav.groups.main')).not.toBeNull();
   });
+});
+
+
+it('opens pinned Home pages with their original parameters and respects storefront restrictions', () => {
+  writeNavOrder('home', []);
+  toggleHomeShortcut('nav.staking');
+  const view = render(<HomeShortcuts />);
+  fireEvent.press(view.getByText('nav.staking'));
+  expect(mockDispatch).toHaveBeenLastCalledWith({ type: 'NAVIGATE', payload: {
+    name: 'App', params: { screen: 'Dpay', params: { initialTab: 'stake' } },
+  } });
+  mockDigitalPurchasesEnabled = false;
+  mockWallet = '0xother';
+  view.rerender(<HomeShortcuts />);
+  expect(view.queryByText('nav.staking')).toBeNull();
+  act(() => toggleHomeShortcut('nav.staking'));
+  mockDigitalPurchasesEnabled = true;
+  mockWallet = '0xmember';
+  view.rerender(<HomeShortcuts />);
+  expect(view.queryByText('nav.staking')).toBeNull();
 });

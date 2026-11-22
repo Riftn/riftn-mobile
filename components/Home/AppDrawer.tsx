@@ -8,6 +8,8 @@ import {
   View,
   Text,
   TextInput,
+  ScrollView,
+  Alert,
   TouchableOpacity,
   StyleSheet,
   useWindowDimensions,
@@ -56,7 +58,7 @@ import { useAppTheme } from "../../context/ThemeContext";
 import { themeIconUrl } from "../../theme/icons";
 import { ReorderItem, justDropped, useReorder, type ReorderCtx } from "../common/Reorder";
 import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
-import { applyNavOrder, navOrderId, resetNavOrder, saveNavOrder, useNavOrder } from "../../libs/navOrder";
+import { applyNavOrder, navOrderId, resetNavOrder, saveNavOrder, useNavOrder, toggleHomeShortcut } from "../../libs/navOrder";
 import SearchRequestPrompt from "../Search/SearchRequestPrompt";
 import { useAppPrefs } from "../../hooks/useAppPrefs";
 import { groupMenuItems, type MenuGroup } from "../../libs/menuGroups";
@@ -291,12 +293,13 @@ interface TileProps {
   /** Held up by a drag (components/common/Reorder). */
   lifted?: boolean;
   onPress: () => void;
+  onLongPress?: () => void;
 }
 
 /** Tile artwork URLs that have been on screen at least once. */
 const shownTileArt = new Set<string>();
 
-const Tile = memo<TileProps>(({ big = false, label, labelSize, icon, iconUrl, iconColor, width, active, badgeCount = 0, disabled, soonLabel, skin, hud, square, lifted, onPress }) => {
+const Tile = memo<TileProps>(({ big = false, label, labelSize, icon, iconUrl, iconColor, width, active, badgeCount = 0, disabled, soonLabel, skin, hud, square, lifted, onPress, onLongPress }) => {
   const glyphColor = iconColor ?? (hud
     ? skin?.glow ?? "#22D3EE"
     : active ? skin?.tabIconActive ?? "#FFFFFF" : skin?.tabIcon ?? "rgba(255,255,255,0.9)");
@@ -322,6 +325,7 @@ const Tile = memo<TileProps>(({ big = false, label, labelSize, icon, iconUrl, ic
       accessibilityState={{ selected: !!active, disabled: !!disabled }}
       activeOpacity={disabled ? 1 : 0.7}
       onPress={onPress}
+      onLongPress={onLongPress}
       style={[
         styles.tile,
         big && styles.tileBig,
@@ -468,6 +472,54 @@ function MenuTabs({ labels, pos, onChange, square, surface }: {
   );
 }
 
+function useAllowedMenuItems() {
+  const { isSignedIn } = useAuthState();
+  const user = useUser();
+  return useMemo(() => NAV_ITEMS.filter(
+    (item) => (isSignedIn || !item.requiresAuth) && (DIGITAL_PURCHASES_ENABLED || !item.storefrontHidden)
+      && (item.screen !== ScreenNames.Agents || canManageAgents(user?.walletAddress || user?.address)),
+  ), [isSignedIn, user?.walletAddress, user?.address]);
+}
+
+function menuRoute(screen: string, params?: Record<string, any>, tab?: boolean) {
+  return CommonActions.navigate({
+    name: ScreenNames.App,
+    params: tab
+      ? { screen: ScreenNames.Root, params: { screen, params }, pop: true }
+      : { screen, params },
+  });
+}
+
+export function HomeShortcuts() {
+  const pins = useNavOrder("home");
+  const allowed = useAllowedMenuItems();
+  const { colors } = useAppTheme();
+  const navigation = useNavigation();
+  const { t } = useTranslation();
+  const items = pins
+    .map(id => allowed.find(item => navOrderId(item.labelKey) === id && !item.disabled))
+    .filter(item => !!item);
+  if (!items.length) return null;
+  return (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingHorizontal: 12, paddingVertical: 4 }}>
+      {items.map(item => (
+        <TouchableOpacity
+          key={item.labelKey}
+          accessibilityRole="button"
+          style={[styles.homeShortcut, { borderColor: colors.border }]}
+          onPress={() => {
+            if (item.url) openInApp(item.url);
+            else if (item.screen) navigation.dispatch(menuRoute(item.screen, item.params, item.tab));
+          }}
+        >
+          <Icon name={item.icon} color={colors.foreground} size={16} />
+          <Text style={{ color: colors.foreground }}>{t(item.labelKey)}</Text>
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
+  );
+}
+
 interface AppDrawerProps {
   visible: boolean;
   onClose: () => void;
@@ -607,12 +659,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
       // pop sits next to Root, not in the tab params: the menu also opens
       // from Profile, and there the App stack must go back to the Root
       // underneath instead of pushing a second one.
-      navigation.dispatch(CommonActions.navigate({
-        name: ScreenNames.App,
-        params: tab
-          ? { screen: ScreenNames.Root, params: { screen, params }, pop: true }
-          : { screen, params },
-      }));
+      navigation.dispatch(menuRoute(screen, params, tab));
     },
     [navigation, onClose],
   );
@@ -634,10 +681,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   // name in the reader's language and in English, its search words ("build"
   // finds Requests) in English and translated, plurals and small typos. Rows
   // marked searchOnly only appear once something is typed.
-  const allowedItems = useMemo(() => NAV_ITEMS.filter(
-    (item) => (isSignedIn || !item.requiresAuth) && (DIGITAL_PURCHASES_ENABLED || !item.storefrontHidden)
-      && (item.screen !== ScreenNames.Agents || canManageAgents(user?.walletAddress || user?.address)),
-  ), [isSignedIn, user?.walletAddress, user?.address]);
+  const allowedItems = useAllowedMenuItems();
   const visibleItems = useMemo(
     () => filterNavRows(allowedItems, menuQuery, (key, defaultValue) => t(key, defaultValue)),
     [allowedItems, menuQuery, t],
@@ -694,7 +738,16 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
     [isSignedIn, menuWallet],
   );
   const reorderOff = searching || (grouped && menuLayout === "sections");
-  const menuReorder = useReorder({ ids: orderedIds, onCommit: commitMenuOrder, disabled: reorderOff });
+  const pins = useNavOrder("home");
+  const target = useRef<View>(null);
+  const targetBounds = useRef<{ x: number; y: number; w: number; h: number } | null>(null);
+  const onDropOutside = (id: string, x: number, y: number) => {
+    const r = targetBounds.current;
+    if (!r || x < r.x || x > r.x + r.w || y < r.y || y > r.y + r.h) return false;
+    toggleHomeShortcut(id, menuWallet);
+    return true;
+  };
+  const menuReorder = useReorder({ ids: orderedIds, onCommit: commitMenuOrder, disabled: reorderOff, onDropOutside });
   const sortGroup = useCallback(
     (group: MenuGroup<DrawerItem>) => applyNavOrder(group.items, savedMenuOrder, (item) => navOrderId(item.labelKey)),
     [savedMenuOrder],
@@ -895,6 +948,14 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
         hud={hud}
         square={square}
         onPress={() => handleItemPress(item)}
+        onLongPress={() => {
+          const id = navOrderId(item.labelKey);
+          const action = t(pins.includes(id) ? "communities.unpin" : "communities.pin") + " · " + t("nav.home");
+          Alert.alert(t(item.labelKey), undefined, [
+            { text: t("common.cancel"), style: "cancel" },
+            { text: action, onPress: () => toggleHomeShortcut(id, menuWallet) },
+          ]);
+        }}
       />
     );
   };
@@ -943,6 +1004,15 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
         </TouchableOpacity>
       </Animated.View>
 
+      <View ref={target} collapsable={false} pointerEvents="none"
+        onLayout={() => target.current?.measureInWindow((x, y, w, h) => { targetBounds.current = { x, y, w, h }; })}
+        style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: SHEET_HEIGHT, alignItems: "center", justifyContent: "flex-end", paddingBottom: 8 }}>
+        {menuReorder.draggingId && (
+          <Text style={{ color: appTheme.colors.foreground, backgroundColor: appTheme.colors.background, borderRadius: 18, overflow: "hidden", paddingHorizontal: 16, paddingVertical: 8, fontWeight: "600" }}>
+            {t(pins.includes(menuReorder.draggingId) ? "communities.unpin" : "communities.pin")} · {t("nav.home")}
+          </Text>
+        )}
+      </View>
       <Animated.View
         testID="app-menu-sheet"
         style={[
@@ -1293,6 +1363,10 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
 };
 
 const styles = StyleSheet.create({
+  homeShortcut: {
+    flexDirection: "row", alignItems: "center", gap: 6,
+    borderWidth: 1, borderRadius: 24, paddingHorizontal: 12, paddingVertical: 8,
+  },
   sheet: {
     position: "absolute",
     left: 0,
