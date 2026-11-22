@@ -519,6 +519,11 @@ export interface Comment {
    */
   isPinned?: boolean;
   /**
+   * The post's creator hid this reply. Only ever sent to the reply's writer
+   * and the creator; everyone else never gets the row.
+   */
+  hiddenByCreator?: boolean;
+  /**
    * A top-level comment the post's creator has replied to somewhere in its
    * thread. The API sorts these under the pinned, anchored and tipped comments
    * and puts the creator's reply on the same page. Absent otherwise.
@@ -889,6 +894,19 @@ export async function pinComment(commentId: number | string): Promise<PinComment
     console.error('[NFTService] pinComment error', e);
     throw e;
   }
+}
+
+/**
+ * Hide somebody's reply on your own post, or bring it back (toggle). The
+ * post's creator only. Hidden replies are gone for everyone but their writer
+ * (who is not told) and the creator (who sees them faded, to undo).
+ */
+export async function hideReply(commentId: number | string): Promise<{ result: boolean; commentId: number; tokenId: number; hidden: boolean }> {
+  return apiClient.post<{ result: boolean; commentId: number; tokenId: number; hidden: boolean }>(
+    '/hide_reply',
+    { commentId: Number(commentId) },
+    { isAuthRequired: true }
+  );
 }
 
 /**

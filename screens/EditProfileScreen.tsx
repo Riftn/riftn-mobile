@@ -25,6 +25,7 @@ const EDIT_AVATAR_PT = 88;
 
 import Avatar from "../components/common/Avatar";
 import Icon from "../components/ui/Icon";
+import AccountTypeSection from "../components/Profile/AccountTypeSection";
 import { openCroppedImagePicker, resizeAndCompress, createRNImageFile, AVATAR_UPLOAD_SIDE } from "../libs/assets.util";
 import { runWithPermissions } from "../libs/permissions.util";
 import { AuthService } from "../services/auth.service";
@@ -658,6 +659,9 @@ const EditProfileScreen = () => {
                 onValueChange={enabled => setPublicTimeZone(enabled ? deviceTimeZone || "" : "")}
               />
             </View>
+
+            {/* Personal, Creator or Business: a category under the name, a Contact button. */}
+            <AccountTypeSection />
 
             {/* Backdrop behind your text posts on your profile (also: hold your profile). */}
             <View className="mt-2">
