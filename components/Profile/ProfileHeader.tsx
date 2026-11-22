@@ -33,7 +33,8 @@ import { useBadgeCeremony } from "../../hooks/useBadgeCeremony";
 import { ensProfileUrl } from "../../libs/ens-handle";
 import { truncateAddress } from "../../libs/strings.util";
 import { formatJoinedDate } from "../../libs/date.util";
-import { formatNumber, resolveCount } from "../../libs/numbers.util";
+import { resolveCount } from "../../libs/numbers.util";
+import { formatCount } from "../../libs/format-count";
 import { shareProfile } from "../../libs/misc";
 import CopyAddressSheet from "../Wallet/CopyAddressSheet";
 import * as ImagePicker from "expo-image-picker";
@@ -539,13 +540,12 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             <Text className="text-zinc-400 text-sm mt-3">{t("profile.joined")} {createdAtFormatted}</Text>
           )}
 
-          {/* Following / Followers: exact, with separators. "4.1K" left people
-              guessing their own count. */}
+          {/* Following / Followers: short (4.2K), the same as the list they open. */}
           <View className="flex-row flex-wrap items-center gap-4 mt-3">
             <TouchableOpacity onPress={() => goToFollowList("following")} activeOpacity={0.7}>
               <Text style={{ fontSize: 16, lineHeight: 22 }}>
                 <Text className="text-white font-bold">
-                  {formatNumber(followingCount, 0)}
+                  {formatCount(followingCount)}
                 </Text>
                 <Text className="text-zinc-400"> {t("profile.following")}</Text>
               </Text>
@@ -553,7 +553,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             <TouchableOpacity onPress={() => goToFollowList("followers")} activeOpacity={0.7}>
               <Text style={{ fontSize: 16, lineHeight: 22 }}>
                 <Text className="text-white font-bold">
-                  {formatNumber(followersCount, 0)}
+                  {formatCount(followersCount)}
                 </Text>
                 <Text className="text-zinc-400"> {t("profile.followers")}</Text>
               </Text>

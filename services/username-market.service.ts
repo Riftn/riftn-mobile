@@ -181,6 +181,17 @@ interface Envelope<T> {
 
 export type UsernameSort = 'newest' | 'price_asc' | 'price_desc' | 'shortest';
 
+/** Swapping usernames between two accounts you own (riftn-backend src/username-market/username-swap). */
+export interface UsernameSwap {
+  id: string;
+  fromAddress: string;
+  fromUsername: string;
+  toAddress: string;
+  toUsername: string;
+  status: 'pending' | 'done' | 'declined' | 'cancelled';
+  expiresAt: string;
+}
+
 export const usernameMarketService = {
   async config(): Promise<UsernameMarketConfig> {
     const res = await apiClient.fetch<Envelope<UsernameMarketConfig>>(
@@ -242,6 +253,32 @@ export const usernameMarketService = {
       Envelope<{ username: string; previousUsername: string | null; releasedUsername: string | null }>
     >('/username_market/holdings/activate', { method: 'POST', body: { username } });
     return res.result;
+  },
+
+  /** Open swaps between this account and another one you own. */
+  async getSwaps(): Promise<{ incoming: UsernameSwap[]; outgoing: UsernameSwap[] }> {
+    const res = await apiClient.fetch<Envelope<{ incoming: UsernameSwap[]; outgoing: UsernameSwap[] }>>('/username_market/swaps');
+    return res.result ?? { incoming: [], outgoing: [] };
+  },
+
+  /** Ask the account wearing `username` (also yours) to swap names with this one. */
+  async requestSwap(username: string): Promise<UsernameSwap> {
+    const res = await apiClient.fetch<Envelope<UsernameSwap>>('/username_market/swaps', {
+      method: 'POST', body: { username: username.replace(/^@/, '').trim() },
+    });
+    return res.result;
+  },
+
+  /** From the asked account: both names change places now. */
+  async acceptSwap(id: string): Promise<{ fromUsername: string; toUsername: string }> {
+    const res = await apiClient.fetch<Envelope<{ fromUsername: string; toUsername: string }>>(
+      `/username_market/swaps/${encodeURIComponent(id)}/accept`, { method: 'POST' },
+    );
+    return res.result;
+  },
+
+  async cancelSwap(id: string): Promise<void> {
+    await apiClient.fetch<Envelope<unknown>>(`/username_market/swaps/${encodeURIComponent(id)}`, { method: 'DELETE' });
   },
 
   /** Give a held name back to the pool. Irreversible, and never the active one. */

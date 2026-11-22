@@ -150,6 +150,7 @@ export function localizedNotificationContent(
   if (item.type === 'mention') {
     // Where the reader was named, as the web row says it.
     const where = item.metadata?.mentionContext;
+    if (where === 'bio') return t('notifications.custom.bioMention', { name: actor });
     const mentionKey = where === 'live_chat'
       ? 'reactionInfo.mentionedYouLiveChat'
       : where === 'public_chat'

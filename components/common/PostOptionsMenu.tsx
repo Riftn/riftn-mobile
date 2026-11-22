@@ -40,6 +40,8 @@ import {
 import { followUser, unfollowUser } from "../../services/user.service";
 import { blockUser, unblockUser } from "../../services/block.service";
 import { muteUser, unmuteUser } from "../../services/mute.service";
+import { setNotInterested } from "../../services/user.service";
+import { markNotInterested } from "../../libs/not-interested-store";
 
 /**
  * Who this phone muted or blocked from a post menu since the app opened.
@@ -121,7 +123,7 @@ export interface PostOptionsMenuProps {
   /** Who may reply to the post, for the edit sheet. */
   currentReplyPolicy?: "public" | "followers" | "following" | "mentioned";
   /** Who may see the post; the edit sheet can open a narrower one up to everyone. */
-  currentVisibility?: "public" | "followers" | "direct" | null;
+  currentVisibility?: "public" | "followers" | "direct" | "self" | null;
   /** Photo posts: 'comic' when it shows as collector cards. Drives the comic/carousel switch. */
   currentLayout?: "comic" | null;
   /** How many photos the post has; the switch shows for 2+ or for a comic. */
@@ -650,7 +652,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   }, [openSubModal]);
 
   const handleEditDone = useCallback(
-    (data: { name?: string; description?: string; category?: string[]; commentsDisabled?: boolean; contentRating?: string; forKids?: boolean; shopLinks?: ShopLink[]; shopListingCount?: number; visibility?: "public" }) => {
+    (data: { name?: string; description?: string; category?: string[]; commentsDisabled?: boolean; contentRating?: string; forKids?: boolean; shopLinks?: ShopLink[]; shopListingCount?: number; visibility?: "public" | "followers" | "self" }) => {
       setShowEdit(false);
       onEditSuccess?.(data);
     },
@@ -697,6 +699,23 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
       }
     });
   }, [requireAuth, onClose, creatorIdentifier, creatorKey, isMuted, creatorDisplayName, onMuteChange, t]);
+
+  /** "Not interested": the card leaves now, and Home shows fewer like it. */
+  const handleNotInterested = useCallback(() => {
+    requireAuth?.(async () => {
+      const id = Number(tokenId);
+      if (!Number.isFinite(id) || id <= 0) return;
+      onClose();
+      try {
+        await setNotInterested(id);
+        markNotInterested(id);
+        toastSuccess(t("postOptions.notInterestedDone"));
+      } catch (e) {
+        console.error("[PostOptionsMenu] not interested error", e);
+        toastError(t("common.tryAgain"));
+      }
+    });
+  }, [requireAuth, onClose, tokenId, t]);
 
   const handleConfirmBlock = useCallback(async () => {
     if (!creatorIdentifier) return;
@@ -1050,6 +1069,15 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
                   destructive red: it is the one most people actually want, and
                   it severs nothing. Only shown when not already blocked —
                   muting someone you have blocked would change nothing. */}
+              {Number(tokenId) > 0 && (
+                <OptionRow
+                  icon="EyeOff"
+                  label={t("postOptions.notInterested")}
+                  sublabel={t("postOptions.notInterestedHint")}
+                  onPress={handleNotInterested}
+                />
+              )}
+
               {!isBlocked && (
                 <OptionRow
                   icon={isMuted ? "Volume2" : "VolumeX"}

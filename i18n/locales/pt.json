@@ -2707,6 +2707,7 @@
     "failed": "Não foi salvo. Tente de novo."
   },
   "postVisibility": {
+    "self": "Só eu",
     "label": "Quem pode ver isto",
     "public": "Todos",
     "followers": "Só seguidores",
@@ -3904,6 +3905,9 @@
     "messagePrivateNote": "Apenas {{name}} vê, em sua notificação."
   },
   "postOptions": {
+    "notInterestedHint": "Ocultar este post e ver menos como ele",
+    "notInterestedDone": "Entendido. Você verá menos posts como este.",
+    "notInterested": "Não tenho interesse",
     "embed": "Incorporar",
     "copyEmbedCode": "Copiar código de incorporação",
     "embedCodeCopied": "Código de incorporação copiado",
@@ -4596,6 +4600,7 @@
     },
     "tokenAmount": "Tokens {{amount}}",
     "custom": {
+      "bioMention": "{{name}} marcou você na bio",
       "featureLikeNamed": "{{name}} curtiu o seu pedido de recurso \"{{title}}\"",
       "featureLike": "{{name}} curtiu o seu pedido de funcionalidade",
       "featureCommentNamed": "{{name}} comentou o seu pedido de funcionalidade \"{{title}}\"",
@@ -6370,6 +6375,9 @@
     "yourFractions": "Tem {{count}} de {{total}} frações"
   },
   "profileOptions": {
+    "bioTagRemoved": "Você não está mais marcado nesta bio",
+    "removeBioTagHint": "Seu nome fica, sem a marcação",
+    "removeBioTag": "Remover-me da bio",
     "copyRssFeed": "Copiar link do feed RSS",
     "copyRssFeedHint": "Acompanhe estas publicações em qualquer leitor de feeds",
     "copyProfileUrl": "Copiar URL do perfil",
@@ -6398,6 +6406,7 @@
     "copyLinkHint": "Copiar link para a área de transferência",
     "copyAddressHint": "Copiar o endereço da carteira para a área de transferência",
     "removeFollower": "Remover seguidor",
+    "removeFollowerHint": "Remover {{name}} dos seus seguidores",
     "reportHint": "Denuncie esta conta por violar as diretrizes",
     "removeFollowerTitle": "Remover seguidor?",
     "removeFollowerBody": "{{name}} não será notificado de que foi removido dos seus seguidores.",
@@ -7392,6 +7401,7 @@
     "resolveFailed": "Falha ao resolver a disputa"
   },
   "usernames": {
+    "swap": {"start": "Iniciar troca", "placeholder": "@sua_outra_conta", "sent": "Enviado. Mude para @{{name}} e aceite.", "waiting": "Aguardando @{{to}} aceitar. Mude para essa conta para terminar.", "done": "Trocado. Agora você é @{{name}}.", "decline": "Recusar", "accept": "Trocar agora", "incoming": "@{{from}} quer trocar: esta conta vira @{{from}} e aquela vira @{{to}}.", "body": "Tem duas contas? Troque os nomes de usuário em um passo. Comece aqui, mude para a outra conta e aceite. Nenhum nome fica livre para outra pessoa.", "title": "Trocar com sua outra conta"},
     "subtitle": "Nomes à venda, com preço em USD",
     "browse": "Explorar",
     "sell": "Vender",

@@ -1,3 +1,4 @@
+import { useIsNotInterested } from "../../libs/not-interested-store";
 import { usePerfProbe, perfMark, perfPropsEqual } from "../../libs/perfTrace";
 import { useClockLabel } from "../../libs/minuteClock";
 import { useCommentCount } from '../../libs/comment-count-store';
@@ -250,8 +251,8 @@ type PostEdits = {
   hiddenLinkPreviews?: string[];
   quotePolicy?: "public" | "followers" | "nobody";
   replyPolicy?: "public" | "followers" | "following" | "mentioned";
-  /** Opened up to everyone from the edit sheet. */
-  visibility?: "public";
+  /** Who can see it, changed from the edit sheet ("self" = Only me). */
+  visibility?: "public" | "followers" | "self";
   /** Comic or carousel, switched from the menu. null = carousel. */
   layout?: "comic" | null;
 };
@@ -2561,7 +2562,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           currentSpoilerText={edits.spoilerText ?? item.spoilerText}
           currentQuotePolicy={edits.quotePolicy ?? item.quotePolicy}
           currentReplyPolicy={edits.replyPolicy ?? item.replyPolicy}
-          currentVisibility={edits.visibility ?? (item.visibility as any)}
+          currentVisibility={edits.visibility ?? ((item as any).justMe ? "self" : (item.visibility as any))}
           currentLayout={postLayout === "comic" ? "comic" : null}
           photoCount={galleryImages.length}
           onLayoutChange={isOwnerPost ? handleLayoutChange : undefined}
@@ -2735,7 +2736,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               <ShopBoard key={postKey} tokenId={tokenId} links={localShopLinks ?? (item as any).shopLinks} listingCount={localShopListingCount ?? (item as any).shopListingCount} />
               <View style={{ marginTop: 'auto', paddingTop: 16 }}>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
-                  <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility ?? item.visibility} />
+                  <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility === "self" ? "direct" : (edits.visibility ?? item.visibility)} />
                   {showTranslate && <TranslateButton isTranslated={isTranslated} isLoading={translating} detectedLanguage={translationSourceLang} onTranslate={handleTranslate} onShowOriginal={handleShowOriginal} inline />}
                 </View>
                 {actionBar}
@@ -2862,7 +2863,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           />
         )}
         <View className="flex-row flex-wrap items-center gap-3 pt-2" testID="post-stage-meta">
-          <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"} count={formatCompactNumber(views)} visibility={edits.visibility ?? item.visibility} />
+          <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"} count={formatCompactNumber(views)} visibility={edits.visibility === "self" ? "direct" : (edits.visibility ?? item.visibility)} />
           {showTranslate && (
             <TranslateButton
               isTranslated={isTranslated}
@@ -3216,7 +3217,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         </View>
         {(
           <View style={{ paddingHorizontal: CINEMATIC_TEXT_INSET, paddingTop: 8, flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
-            <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility ?? item.visibility} />
+            <PostMetaItems createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats} icon="Eye" count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`} visibility={edits.visibility === "self" ? "direct" : (edits.visibility ?? item.visibility)} />
             {translateButton}
           </View>
         )}
@@ -3488,7 +3489,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
             by an order of magnitude. */}
         <PostMetaItems
           createdAt={createdAt || undefined} boosted={isBoosted} onStatsPress={openStats}
-          visibility={edits.visibility ?? item.visibility}
+          visibility={edits.visibility === "self" ? "direct" : (edits.visibility ?? item.visibility)}
           icon={isAudioPost ? "Headphones" : isLive ? "Radio" : "Eye"}
           count={`${formatCompactNumber(views)}${isWatchedVideo ? watchedLabel(i18n.resolvedLanguage ?? i18n.language) : ""}`}
         />
@@ -3574,7 +3575,9 @@ const FeedCard = memo(function GuardedFeedCard(props: FeedCardProps) {
   const item = props.item as any;
   // Someone the viewer blocked: gone at once, and back if they unblock.
   const authorBlocked = useIsAuthorBlocked(item?.minterUser?.address || item?.minter || item?.owner);
-  if (authorBlocked) return null;
+  // Marked "Not interested" from its menu: gone at once.
+  const notInterested = useIsNotInterested(item?.tokenId);
+  if (authorBlocked || notInterested) return null;
   return (
     <ErrorBoundary scope="feed-card" renderFallback={hideCard}>
       {/* The viewer's muted words — see KeywordFilterGate. */}

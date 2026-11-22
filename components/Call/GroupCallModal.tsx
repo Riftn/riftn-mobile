@@ -11,6 +11,7 @@ import type { GroupParticipant } from "../../hooks/useCall";
 import { CallDuration } from "./CallDuration";
 import { CallStage, CallIdentity, CallControl, CallDock, CallFoot, CallPill, CallRow, useStage } from "./CallChrome";
 import { CallCaptionsControl, CallCaptionsOverlay } from "./CallCaptions";
+import { CallBackgroundPanel, CallFxButton } from "./CallBackgroundPicker";
 import { usePeerIdentity } from "./usePeerIdentity";
 import { startCallRingtone, stopCallRingtone } from "../../libs/call-ringtone";
 
@@ -28,7 +29,9 @@ const GroupCallModal: React.FC = () => {
     isMuted, isSpeakerOn, isCameraOff, selfSpeaking, groupParticipants, localCanvas,
     isMinimized, setMinimized, endCall, acceptCall, rejectCall,
     toggleMute, toggleSpeaker, toggleCamera, switchCamera,
+    callBackground, callBackgroundSupported, setCallBackground,
   } = useCall();
+  const [fxOpen, setFxOpen] = React.useState(false);
   const { user } = useAuth();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -95,8 +98,14 @@ const GroupCallModal: React.FC = () => {
         localCanvas={localCanvas}
         participants={groupParticipants}
       />
+      {isVideo && callBackgroundSupported ? (
+        <CallFxButton open={fxOpen} active={callBackground !== "none"} onToggle={() => setFxOpen(open => !open)} />
+      ) : null}
       <CallFoot>
         <CallCaptionsOverlay />
+        {isVideo && callBackgroundSupported && fxOpen ? (
+          <CallBackgroundPanel value={callBackground} onPick={setCallBackground} onClose={() => setFxOpen(false)} />
+        ) : null}
         {isVideo ? <CallCaptionsControl variant="chip" /> : null}
         <CallDock compact={isVideo}>
           {!isVideo ? (
