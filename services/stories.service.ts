@@ -12,7 +12,7 @@ import { apiClient } from "../libs";
 import { xhrUploadFormData } from "../libs/xhr-upload";
 import { ResumableUnsupportedError, resumableUploadFile } from "../libs/resumable-upload";
 
-export type StoryAudience = "everyone" | "followers";
+export type StoryAudience = "everyone" | "followers" | "selected" | "except";
 export const STORY_LIFETIMES = [6, 12, 24] as const;
 export type StoryLifetime = (typeof STORY_LIFETIMES)[number];
 
@@ -91,7 +91,7 @@ export interface StoryViewer {
 
 const enc = encodeURIComponent;
 
-export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; liveHosts?: string[]; supportsCustomLifetime?: boolean }> {
+export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; liveHosts?: string[]; supportsCustomLifetime?: boolean; supportsCustomAudience?: boolean }> {
   // Signed out still gets public moments; the token is only sent when there is one.
   return apiClient.get("/stories/shelf", {
     isAuthRequired: signedIn,
@@ -131,6 +131,7 @@ export function reportStory(id: string, reason: string): Promise<unknown> {
 
 export interface CreateStoryFields {
   audience: StoryAudience;
+  audienceAddresses?: string[];
   expiresInHours?: StoryLifetime;
   allowReplies?: boolean;
   muted?: boolean;
@@ -153,6 +154,8 @@ export function createStory(
   const fd = new FormData();
   fd.append("type", fields.draftVideoId ? "video" : "photo");
   fd.append("audience", fields.audience);
+  const customAudience = fields.audience === "selected" || fields.audience === "except";
+  if (customAudience) fd.append("audienceAddresses", JSON.stringify(fields.audienceAddresses ?? []));
   if (fields.expiresInHours != null) fd.append("expiresInHours", String(fields.expiresInHours));
   fd.append("allowReplies", String(fields.allowReplies !== false));
   fd.append("muted", String(!!fields.muted));
@@ -169,7 +172,7 @@ export function createStory(
   if (files.photo) fd.append("file", files.photo as any);
   // @ts-ignore React Native FormData file shape
   if (files.overlay) fd.append("overlay", files.overlay as any);
-  return xhrUploadFormData<StoryItem>({ endpoint: "/stories", formData: fd, onProgress });
+  return xhrUploadFormData<StoryItem>({ endpoint: customAudience ? "/stories/custom-audience" : "/stories", formData: fd, onProgress });
 }
 
 /** Send a clip as a short draft; resolves with its draft id. */

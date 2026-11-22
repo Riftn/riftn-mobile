@@ -10,6 +10,7 @@
  */
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
+  ScrollView,
   KeyboardAvoidingView,
   PanResponder,
   Platform,
@@ -54,9 +55,9 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const [picked, setPicked] = useState<Picked | null>(null);
-  const { data: customLifetime = false } = useQuery({
-    queryKey: ["story-custom-lifetime"],
-    queryFn: async () => (await getStoryShelf(false, "")).supportsCustomLifetime === true,
+  const { data: storyCapabilities } = useQuery({
+    queryKey: ["story-posting-capabilities"],
+    queryFn: async () => getStoryShelf(false, "").then(({ supportsCustomAudience, supportsCustomLifetime }) => ({ supportsCustomAudience, supportsCustomLifetime })),
     staleTime: 60_000,
     retry: false,
   });
@@ -101,7 +102,7 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
     <DarkRoomProvider>
       <View className="dark-surface" style={styles.root}>
         {picked ? (
-          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={customLifetime} />
+          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={!!storyCapabilities?.supportsCustomLifetime} customAudience={!!storyCapabilities?.supportsCustomAudience} />
         ) : (
           <View style={[styles.start, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 24 }]}>
             <View style={styles.topRow}>
@@ -128,13 +129,14 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
   );
 }
 
-function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLifetime }: {
+function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLifetime, customAudience }: {
   picked: Picked;
   onBack: () => void;
   onClose: () => void;
   remixSourceId?: string;
   remixLabel?: string;
   customLifetime: boolean;
+  customAudience: boolean;
 }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -159,12 +161,16 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       .then((v) => (v === "followers" || v === "everyone") && setAudience(v))
       .catch(() => {});
   }, []);
-  const flipAudience = () => {
-    const next: StoryAudience = audience === "everyone" ? "followers" : "everyone";
-    setAudience(next);
-    AsyncStorage.setItem(AUDIENCE_KEY, next).catch(() => {});
+  const [audienceOpen, setAudienceOpen] = useState(false);
+  const [pickingAudiencePerson, setPickingAudiencePerson] = useState(false);
+  const [audiencePeople, setAudiencePeople] = useState<MentionUser[]>([]);
+  const restrictPeople = audience === "selected" || audience === "except";
+  const audienceLabels = {
+    everyone: t("stories.everyone", { defaultValue: "Everyone" }),
+    followers: t("stories.followersOnly", { defaultValue: "Followers" }),
+    selected: t("stories.selectedPeople", { defaultValue: "Only selected people" }),
+    except: t("stories.hideFromPeople", { defaultValue: "Hide from selected people" }),
   };
-
   const player = useVideoPlayer(picked.kind === "video" ? picked.uri : null, (p) => {
     p.loop = true;
     p.play();
@@ -202,7 +208,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   };
 
   const share = async () => {
-    if (busy) return;
+    if (busy || (restrictPeople && !audiencePeople.length)) return;
     setBusy(true);
     try {
       const visible = layers.filter((l) => l.text.trim());
@@ -230,6 +236,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           preview: picked.kind === "photo" ? uri : "",
           fields: {
             audience,
+            audienceAddresses: restrictPeople ? audiencePeople.map(user => user.address) : undefined,
             expiresInHours: customLifetime ? lifetime : undefined,
             muted: picked.kind === "video" ? muted : false,
             caption,
@@ -303,10 +310,10 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       </View>
 
       <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={flipAudience} style={styles.chip}>
+        <TouchableOpacity onPress={() => setAudienceOpen(true)} style={styles.chip}>
           <Icon name={audience === "everyone" ? "Globe" : "Users"} size={15} color="#fff" />
           <Text style={styles.chipText}>
-            {audience === "everyone" ? t("stories.everyone", { defaultValue: "Everyone" }) : t("stories.followersOnly", { defaultValue: "Followers" })}
+            {audienceLabels[audience]}
           </Text>
         </TouchableOpacity>
         {customLifetime ? (
@@ -317,11 +324,47 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           <View style={styles.chip}><Text style={styles.chipText}>24h</Text></View>
         )}
         <View style={{ flex: 1 }} />
-        <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy}>
+        <TouchableOpacity onPress={() => void share()} style={[styles.shareBtn, busy && { opacity: 0.6 }]} disabled={busy || (restrictPeople && !audiencePeople.length)}>
           <Text style={styles.shareText}>{t("stories.share", { defaultValue: "Share" })}</Text>
         </TouchableOpacity>
       </View>
 
+      {audienceOpen && !pickingAudiencePerson && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setAudienceOpen(false)} accessible={false} />
+          <ScrollView style={[styles.textTools, { maxHeight: "75%" }]} contentContainerStyle={{ gap: 8, paddingBottom: insets.bottom + 16 }} accessibilityViewIsModal>
+            {(Object.keys(audienceLabels) as StoryAudience[]).filter(mode => customAudience || mode === "everyone" || mode === "followers").map(mode => (
+              <TouchableOpacity key={mode} style={styles.chip} accessibilityRole="radio" accessibilityState={{ checked: mode === audience }}
+                onPress={() => {
+                  if (mode !== audience) setAudiencePeople([]);
+                  setAudience(mode);
+                  if (mode === "followers" || mode === "everyone") AsyncStorage.setItem(AUDIENCE_KEY, mode).catch(() => {});
+                }}>
+                {mode === audience && <Icon name="Check" size={16} color="#fff" />}
+                <Text style={styles.chipText}>{audienceLabels[mode]}</Text>
+              </TouchableOpacity>
+            ))}
+            {restrictPeople && <>
+              {audiencePeople.map(user => (
+                <TouchableOpacity key={user.address} style={styles.chip} onPress={() => setAudiencePeople(current => current.filter(item => item.address !== user.address))}>
+                  <Text style={styles.chipText}>@{user.username} ×</Text>
+                </TouchableOpacity>
+              ))}
+              <TouchableOpacity style={styles.chip} disabled={audiencePeople.length >= 50} onPress={() => setPickingAudiencePerson(true)}>
+                <Icon name="Search" size={16} color="#fff" /><Text style={styles.chipText}>{t("common.search", { defaultValue: "Search" })}</Text>
+              </TouchableOpacity>
+            </>}
+            <TouchableOpacity style={styles.chip} onPress={() => setAudienceOpen(false)}>
+              <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+      )}
+      {pickingAudiencePerson && (
+        <MentionSheet title={audienceLabels[audience]} excluded={audiencePeople.map(user => user.address.toLowerCase())}
+          onSelect={user => { setAudiencePeople(current => [...current, user]); setPickingAudiencePerson(false); }}
+          onClose={() => setPickingAudiencePerson(false)} bottom={insets.bottom} />
+      )}
       {choosingLifetime && (
         <View style={styles.lifetimeOverlay}>
           <Pressable style={StyleSheet.absoluteFill} onPress={() => setChoosingLifetime(false)} accessible={false} />
@@ -371,12 +414,13 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   );
 }
 
-function MentionSheet({ layer, excluded, onSelect, onClose, onRemove, bottom }: {
+function MentionSheet({ title, layer, excluded, onSelect, onClose, onRemove, bottom }: {
+  title?: string;
   layer?: TextLayer;
   excluded: string[];
   onSelect: (user: MentionUser) => void;
   onClose: () => void;
-  onRemove: () => void;
+  onRemove?: () => void;
   bottom: number;
 }) {
   const { t } = useTranslation();
@@ -396,7 +440,7 @@ function MentionSheet({ layer, excluded, onSelect, onClose, onRemove, bottom }: 
       <Pressable style={StyleSheet.absoluteFill} onPress={onClose} accessible={false} />
       <View style={[styles.textTools, { paddingBottom: bottom + 16 }]} accessibilityViewIsModal>
         <View style={styles.textRow}>
-          <Text style={[styles.chipText, { flex: 1 }]}>{layer?.text ?? t("upload.studio.mention", { defaultValue: "Mention" })}</Text>
+          <Text style={[styles.chipText, { flex: 1 }]}>{title ?? layer?.text ?? t("upload.studio.mention", { defaultValue: "Mention" })}</Text>
           {layer ? (
             <TouchableOpacity style={styles.chip} onPress={onRemove} accessibilityRole="button">
               <Text style={styles.chipText}>{t("common.remove", { defaultValue: "Remove" })}</Text>
