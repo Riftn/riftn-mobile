@@ -50,6 +50,12 @@ const FLING_VELOCITY = 600;
 const FLING_MIN_DISTANCE = 24;
 const CANCEL_VELOCITY = 250;
 
+/** Let the Home swipe start just inside Android's system-owned back edge too. */
+export function completesHomeMenuSwipe(startX: number, distance: number, vertical: number, velocity: number): boolean {
+  'worklet';
+  return startX >= 0 && startX <= 44 && velocity > -CANCEL_VELOCITY && completesSwipeBack(distance, vertical, velocity);
+}
+
 export function settlesSwipeBack(distance: number, velocity: number, width: number): boolean {
   'worklet';
   if (!(width > 0) || !(distance > 0)) return false;

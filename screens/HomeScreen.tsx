@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect, useDeferredValue } from "react";
 import { PixelRatio, Platform, Pressable, View, StyleSheet, InteractionManager, useWindowDimensions, type LayoutChangeEvent } from "react-native";
 import { useSwipeBackAction } from '../hooks/useSwipeBack';
+import { completesHomeMenuSwipe } from '../libs/swipe-back';
 import { useBackPress } from "../hooks/useBackPress";
 import { useTranslation } from "react-i18next";
 import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
@@ -708,6 +709,8 @@ export default function HomeScreen() {
   // 1 while a page turn that started on the Images scroll view is in flight:
   // the pager under it shows, and the sheet slides with the Images page.
   const drawerSwipe = useSharedValue(0);
+  const canOpenHomeMenu = isFocused && activeIndex === 0 && !searchOpen && !filterPanelVisible &&
+    !feedProfileVisible && !feedPost && !imageFeed && !islandMenuOpen;
   const buildPageTurn = useCallback(
     (ref: React.MutableRefObject<GestureType | undefined>, fromDrawer: boolean) =>
       Gesture.Pan()
@@ -752,7 +755,7 @@ export default function HomeScreen() {
             progress.value = LAST_INDEX + (raw - LAST_INDEX) * EDGE_RESISTANCE;
           else progress.value = raw;
         })
-        .onEnd((e) => {
+        .onEnd((e, success) => {
           if (pageWidth <= 0) return;
           const from = Math.round(dragStart.value);
           const projected = progress.value - (e.velocityX / pageWidth) * VELOCITY_PROJECTION;
@@ -765,6 +768,10 @@ export default function HomeScreen() {
           if (!fromDrawer) {
             progress.value = withTiming(target, PAGE_ANIM);
             if (target !== from) runOnJS(commitIndex)(target);
+            else if (success && canOpenHomeMenu && from === 0 &&
+              completesHomeMenuSwipe(pagerTouch.value.x, e.translationX, e.translationY, e.velocityX)) {
+              runOnJS(openDrawer)();
+            }
             return;
           }
           // Off the Images scroll view the tab changes once the sheet has slid
@@ -775,7 +782,7 @@ export default function HomeScreen() {
             else drawerSwipe.value = 0;
           });
         }),
-    [pageWidth, commitIndex, progress, dragStart, pagerTouch, showHeader, LAST_INDEX, drawerSwipe],
+    [pageWidth, commitIndex, progress, dragStart, pagerTouch, showHeader, LAST_INDEX, drawerSwipe, canOpenHomeMenu, openDrawer],
   );
   const pagerGesture = useMemo(() => buildPageTurn(pagerGestureRef, false), [buildPageTurn]);
   // Single photos and text on the Images scroll view turn the tab like the
