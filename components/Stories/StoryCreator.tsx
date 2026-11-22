@@ -44,6 +44,7 @@ import type { StoryRemixSource } from "../../store/stories.store";
 import { CAPTION_FONTS, captionFonts, captionFontStyle } from "./caption-fonts";
 import { shareMoment } from "./story-upload";
 import type { TextLayer } from "./story-compose";
+import { PHOTO_BACKDROPS, PHOTO_LOOKS, type PhotoBackdrop, type PhotoLook } from "./story-effects";
 
 const AUDIENCE_KEY = "riftn.stories.audience";
 /** The saved Close friends list, reused for "Only selected people". */
@@ -58,6 +59,7 @@ const MAX_MENTIONS = 10;
 type Picked = { kind: "photo" | "video"; uri: string; mimeType: string; width: number; height: number; duration: number };
 
 const compose = optionalSkia(() => require("./story-compose") as typeof import("./story-compose"));
+const PhotoPreview = optionalSkia(() => (require("./StoryPhotoPreview") as typeof import("./StoryPhotoPreview")).default);
 
 export default function StoryCreator({ onClose, remixSource }: { onClose: () => void; remixSource?: StoryRemixSource }) {
   const { t } = useTranslation();
@@ -186,6 +188,9 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [audiencePeople, setAudiencePeople] = useState<MentionUser[]>([]);
   const [closeFriends, setCloseFriends] = useState<MentionUser[]>([]);
   const [stickersOpen, setStickersOpen] = useState(false);
+  const [effectsOpen, setEffectsOpen] = useState(false);
+  const [look, setLook] = useState<PhotoLook>("none");
+  const [backdrop, setBackdrop] = useState<PhotoBackdrop>("blur");
   React.useEffect(() => {
     AsyncStorage.getItem(CLOSE_FRIENDS_KEY)
       .then((raw) => {
@@ -262,7 +267,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       let caption: string | undefined;
       if (compose) {
         if (picked.kind === "photo") {
-          uri = await compose.composePhoto(picked.uri, visible);
+          uri = await compose.composePhoto(picked.uri, visible, look, backdrop);
           mimeType = "image/jpeg";
         } else {
           overlayUri = await compose.composeOverlay(visible);
@@ -308,6 +313,9 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           <>
             <Image source={{ uri: picked.uri }} style={[StyleSheet.absoluteFill, { opacity: 0.6 }]} contentFit="cover" blurRadius={24} />
             <Image source={{ uri: picked.uri }} style={StyleSheet.absoluteFill} contentFit="contain" />
+            {PhotoPreview && (look !== "none" || backdrop !== "blur") ? (
+              <PhotoPreview uri={picked.uri} width={stageW} height={stageH} look={look} backdrop={backdrop} />
+            ) : null}
           </>
         )}
         {layers
@@ -343,6 +351,11 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             <TouchableOpacity className="dark-surface" onPress={startText} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
               <Icon name="Type" size={20} color="#fff" />
             </TouchableOpacity>
+            {picked.kind === "photo" && compose && PhotoPreview ? (
+              <TouchableOpacity className="dark-surface" onPress={() => setEffectsOpen(true)} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button" accessibilityLabel={t("stories.effects", { defaultValue: "Effects" })}>
+                <Icon name="Wand" size={20} color="#fff" />
+              </TouchableOpacity>
+            ) : null}
             <TouchableOpacity className="dark-surface" onPress={() => setStickersOpen(true)} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button" accessibilityLabel={t("stories.stickers", { defaultValue: "Stickers" })}>
               <Icon name="Smile" size={20} color="#fff" />
             </TouchableOpacity>
@@ -450,6 +463,41 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
               ))}
             </View>
             <Text style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>{t("stories.shapes", { defaultValue: "Arrows and shapes. Tap one after adding it to change its colour, size or angle." })}</Text>
+          </View>
+        </View>
+      )}
+      {effectsOpen && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setEffectsOpen(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16, gap: 10 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{t("stories.effects", { defaultValue: "Effects" })}</Text>
+              <TouchableOpacity onPress={() => setEffectsOpen(false)} style={styles.chip} accessibilityRole="button">
+                <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8 }}>
+              {(Object.keys(PHOTO_LOOKS) as PhotoLook[]).map((key) => (
+                <TouchableOpacity key={key} onPress={() => setLook(key)} style={styles.chip} accessibilityRole="radio" accessibilityState={{ checked: look === key }}>
+                  {look === key && <Icon name="Check" size={16} color="#fff" />}
+                  <Text style={styles.chipText}>{t(`stories.looks.${key}`, { defaultValue: key })}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            <Text style={{ color: "hsla(0,0%,100%,0.6)", fontSize: 12 }}>{t("stories.backdrop", { defaultValue: "Background" })}</Text>
+            <View style={{ flexDirection: "row", gap: 10 }}>
+              {(Object.keys(PHOTO_BACKDROPS) as PhotoBackdrop[]).map((key) => {
+                const stops = PHOTO_BACKDROPS[key];
+                return (
+                  <TouchableOpacity key={key} onPress={() => setBackdrop(key)} accessibilityRole="radio" accessibilityState={{ checked: backdrop === key }}
+                    accessibilityLabel={t(`stories.backdrops.${key}`, { defaultValue: key })}
+                    style={{ width: 36, height: 36, borderRadius: 18, overflow: "hidden", borderWidth: 2, borderColor: backdrop === key ? "#fff" : "hsla(0,0%,100%,0.25)", alignItems: "center", justifyContent: "center" }}>
+                    <View style={[StyleSheet.absoluteFill, { backgroundColor: stops ? stops[0] : "hsla(0,0%,100%,0.15)" }]} />
+                    {stops ? <View style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "50%", backgroundColor: stops[1] }} /> : <Icon name="Palette" size={16} color="#fff" />}
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
           </View>
         </View>
       )}
