@@ -3057,7 +3057,11 @@
     "earlyAccess": {
       "mine": "Lo tienes un día antes. Los demás lo tendrán en {{hours}} h.",
       "others": "Quien lo pidió lo está probando primero. Para todos en {{hours}} h."
-    }
+    },
+    "voiceHold": "Mantén para hablar",
+    "voiceLetGo": "Suelta para añadir",
+    "voiceTapDone": "Toca al terminar",
+    "voiceWorking": "Escribiéndolo…"
   },
   "auth": {
     "loginRequired": "Inicio de sesión requerido",

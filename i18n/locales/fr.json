@@ -3057,7 +3057,11 @@
     "earlyAccess": {
       "mine": "Tu l’as un jour avant tout le monde. Les autres l’auront dans {{hours}} h.",
       "others": "La personne qui l’a demandé l’essaie en premier. Pour tout le monde dans {{hours}} h."
-    }
+    },
+    "voiceHold": "Maintenir pour parler",
+    "voiceLetGo": "Relâcher pour ajouter",
+    "voiceTapDone": "Touchez pour finir",
+    "voiceWorking": "Rédaction…"
   },
   "auth": {
     "loginRequired": "Connexion requise",
