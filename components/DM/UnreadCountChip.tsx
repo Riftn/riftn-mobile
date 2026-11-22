@@ -5,6 +5,7 @@ import Animated, {
   type SharedValue,
 } from 'react-native-reanimated';
 import { useAppTheme } from '../../context/ThemeContext';
+import { useAppPrefs } from '../../hooks/useAppPrefs';
 
 const RING_MS = 1500;
 
@@ -33,6 +34,7 @@ function SideLine({ progress, side, echo, color }: { progress: SharedValue<numbe
  */
 export default memo(function UnreadCountChip({ count }: { count: number }) {
   const { isLight } = useAppTheme();
+  const { messagesPills: pills } = useAppPrefs();
   const reduced = useReducedMotion();
   const progress = useSharedValue(1);
   const last = useRef(0);
@@ -60,7 +62,7 @@ export default memo(function UnreadCountChip({ count }: { count: number }) {
       <Animated.View pointerEvents="none" style={[{
         position: 'absolute', left: -2, right: -2, top: -2, bottom: -2, borderRadius: 8, backgroundColor: red,
       }, rim]} />
-      <View className="bg-white rounded-[6px] min-w-[18px] h-[18px] items-center justify-center px-1">
+      <View className="bg-white rounded-[6px] min-w-[18px] h-[18px] items-center justify-center px-1" style={pills ? { borderRadius: 9, minWidth: 20, height: 20 } : undefined}>
         <Text className="text-[10px] text-black font-bold">{label}</Text>
       </View>
       <Animated.View pointerEvents="none" style={[{

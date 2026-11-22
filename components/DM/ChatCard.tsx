@@ -44,7 +44,9 @@ function ChatCardComponent({
 }) {
   const { skin, isMinimal, isLight } = useAppTheme();
   const accent = useChatCardAccent();
-  const { feedSeparator } = useAppPrefs();
+  const { feedSeparator, messagesPills } = useAppPrefs();
+  // Pill look: the round count says it, no lit bar on the card's edge.
+  if (messagesPills) unread = false;
   if (feedSeparator === 'line') {
     // Plain list (Settings → Appearance → Thin line): no card, a
     // hairline under each chat, and the same lit bar for something new.

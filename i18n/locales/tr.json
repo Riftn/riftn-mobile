@@ -1840,6 +1840,8 @@
     "chatTextSize": "Sohbet metin boyutu",
     "chatOwnBubble": "Genel Sohbet'te mesajlarım için baloncuk",
     "chatOwnBubbleDesc": "Kendi mesajların özel sohbetlerdeki gibi bir baloncuk içinde görünür",
+    "messagesPills": "Mesajlarda hap sekmeler",
+    "messagesPillsDesc": "Açık sekme dolu bir hap olur, okunmamış sayılar yuvarlak görünür",
     "chatTextSizeDesc": "Tüm sohbetlerde daha büyük veya küçük mesajlar. Telefonunuzun metin boyutuna eklenir.",
     "chatCards": "Sohbetler kart olarak",
     "chatCardsDesc": "Her sohbet kendi kartında. Kapatınca sohbetler arasında çizgi olan sade bir liste olur.",
