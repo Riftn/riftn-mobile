@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Copertina", "trim": "Ritaglia", "mirror": "Specchia", "rotate": "Ruota", "hide": "Nascondi", "timer": "Timer", "close": "Chiudi", "photo": "Foto", "remove": "Rimuovi", "pause": "Pausa", "play": "Riproduci video", "hiddenUntilTap": "Nascosto finché non ci toccano sopra", "scrub": "Scorri il video", "addMore": "Aggiungi foto o video", "coverAria": "Tocca un fotogramma per impostare la copertina", "trimHint": "Trascina le estremità per ritagliare", "coverHint": "Tocca un fotogramma per renderlo la copertina", "uploadCover": "Carica un'immagine di copertina", "mirrored": "Specchiato", "original": "Originale", "rotate90": "Ruota di 90°", "timerOff": "Disattivato", "showNormally": "Mostra normalmente", "showNormallyBody": "Lo vedono subito", "hideUntilTap": "Nascondi finché non viene toccato", "hideUntilTapBody": "Sfocato finché non ci toccano sopra", "hidePrice": "Nascondi dietro un prezzo", "hidePriceBody": "Sfocato finché non ti pagano", "priceUnavailable": "Non in questa chat", "priceLabelUsd": "Prezzo", "priceHint": "Lo vedono sfocato finché non ti pagano. Gli elementi bloccati non sono crittografati end-to-end.", "timerOffBody": "Resta nella chat.", "timerViewBody": "Scompare per entrambi una volta visualizzato.", "confirm": "Conferma", "editItem": "Modifica elemento {{value1}}", "coverSet": "Copertina a {{value1}}", "lockedForUsd": "Sblocca per {{value1}}", "timerTimeBody": "Scompare per entrambi {{value1}} dopo l'invio."},
+  "dmVideo": {
+    "cover": "Copertina",
+    "trim": "Ritaglia",
+    "mirror": "Specchia",
+    "rotate": "Ruota",
+    "hide": "Nascondi",
+    "timer": "Timer",
+    "close": "Chiudi",
+    "photo": "Foto",
+    "remove": "Rimuovi",
+    "pause": "Pausa",
+    "play": "Riproduci video",
+    "hiddenUntilTap": "Nascosto finché non ci toccano sopra",
+    "scrub": "Scorri il video",
+    "addMore": "Aggiungi foto o video",
+    "coverAria": "Tocca un fotogramma per impostare la copertina",
+    "trimHint": "Trascina le estremità per ritagliare",
+    "coverHint": "Tocca un fotogramma per renderlo la copertina",
+    "uploadCover": "Carica un'immagine di copertina",
+    "mirrored": "Specchiato",
+    "original": "Originale",
+    "rotate90": "Ruota di 90°",
+    "timerOff": "Disattivato",
+    "showNormally": "Mostra normalmente",
+    "showNormallyBody": "Lo vedono subito",
+    "hideUntilTap": "Nascondi finché non viene toccato",
+    "hideUntilTapBody": "Sfocato finché non ci toccano sopra",
+    "hidePrice": "Nascondi dietro un prezzo",
+    "hidePriceBody": "Sfocato finché non ti pagano",
+    "priceUnavailable": "Non in questa chat",
+    "priceLabelUsd": "Prezzo",
+    "priceHint": "Lo vedono sfocato finché non ti pagano. Gli elementi bloccati non sono crittografati end-to-end.",
+    "timerOffBody": "Resta nella chat.",
+    "timerViewBody": "Scompare per entrambi una volta visualizzato.",
+    "confirm": "Conferma",
+    "editItem": "Modifica elemento {{value1}}",
+    "coverSet": "Copertina a {{value1}}",
+    "lockedForUsd": "Sblocca per {{value1}}",
+    "timerTimeBody": "Scompare per entrambi {{value1}} dopo l'invio.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 ora",
+      "43200": "12 ore",
+      "86400": "1 giorno",
+      "604800": "1 settimana",
+      "31536000": "1 anno",
+      "view": "1 visualizzazione"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1g",
+      "604800": "1s",
+      "31536000": "1a",
+      "view": "1 visualizzazione"
+    },
+    "destructSecs": "{{n}} sec",
+    "destructShortSecs": "{{n}}s"
+  },
   "comic": {
     "toComic": "Trasforma in fumetto",
     "toCarousel": "Mostra come carosello",
@@ -3196,7 +3255,26 @@
     "postCount_other": "{{count}} post"
   },
   "settings": {
-    "loginLook": {"title": "Schermata di accesso", "desc": "Come si muovono il logo e lo slogan di Riftn nella schermata di accesso su questo dispositivo.", "tube": "TV a tubo", "vhs": "Cassetta VHS", "led": "Parete LED", "holo": "Ologramma", "neon": "Neon", "3d": "3D", "flat": "Piatto"}, "arrivalLook": {"title": "Dopo l'accesso", "desc": "Cosa vedi mentre il tuo account si carica, prima che la tua foto arrivi sulla pagina. Su questo dispositivo.", "trace": "Traccia", "tune": "Sintonizza", "rift": "Squarcio", "deck": "Mazzo", "glass": "Goccia di vetro"},
+    "loginLook": {
+      "title": "Schermata di accesso",
+      "desc": "Come si muovono il logo e lo slogan di Riftn nella schermata di accesso su questo dispositivo.",
+      "tube": "TV a tubo",
+      "vhs": "Cassetta VHS",
+      "led": "Parete LED",
+      "holo": "Ologramma",
+      "neon": "Neon",
+      "3d": "3D",
+      "flat": "Piatto"
+    },
+    "arrivalLook": {
+      "title": "Dopo l'accesso",
+      "desc": "Cosa vedi mentre il tuo account si carica, prima che la tua foto arrivi sulla pagina. Su questo dispositivo.",
+      "trace": "Traccia",
+      "tune": "Sintonizza",
+      "rift": "Squarcio",
+      "deck": "Mazzo",
+      "glass": "Goccia di vetro"
+    },
     "glass": "Glassy",
     "shortsEnabled": "Pantaloncini",
     "shortsEnabledDesc": "Mostra la scheda Feed dei pantaloncini e i caroselli dei pantaloncini su Home.",
@@ -7053,7 +7131,18 @@
       "moveRuleUp": "Sposta regola su",
       "moveRuleDown": "Sposta regola giù",
       "deleteRule": "Elimina regola",
-      "rights": {"sendMessages":"Invia messaggi","sendMessagesHint":"Pubblica nella chat della community","sendMedia":"Invia media","sendMediaHint":"Allega immagini e GIF","embedLinks":"Incorpora link","embedLinksHint":"Mostra anteprime dei link","addMembers":"Aggiungi membri","addMembersHint":"Condividi la comunità con altri","createEvents":"Crea eventi","createEventsHint":"Programma eventi comunitari","changeInfoMemberHint":"Modifica il nome e la descrizione della comunità",
+      "rights": {
+        "sendMessages": "Invia messaggi",
+        "sendMessagesHint": "Pubblica nella chat della community",
+        "sendMedia": "Invia media",
+        "sendMediaHint": "Allega immagini e GIF",
+        "embedLinks": "Incorpora link",
+        "embedLinksHint": "Mostra anteprime dei link",
+        "addMembers": "Aggiungi membri",
+        "addMembersHint": "Condividi la comunità con altri",
+        "createEvents": "Crea eventi",
+        "createEventsHint": "Programma eventi comunitari",
+        "changeInfoMemberHint": "Modifica il nome e la descrizione della comunità",
         "changeInfo": "Modifica informazioni community",
         "changeInfoHint": "Modifica nome, descrizione, avatar e banner",
         "deleteMessages": "Elimina messaggi",
@@ -7131,12 +7220,41 @@
       "noInvites": "Ancora nessun link di invito. Creane uno per invitare direttamente le persone.",
       "permissionsUpdated": "I permessi sono stati aggiornati",
       "slowModeUpdated": "Modalità lenta aggiornata",
-      "slowMode":{"off":"Disattivato","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 ora"},"slowModeOffHint": "I membri possono inviare messaggi senza indugio.",
+      "slowMode": {
+        "off": "Disattivato",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 ora"
+      },
+      "slowModeOffHint": "I membri possono inviare messaggi senza indugio.",
       "slowModeOnHint": "I membri possono inviare un messaggio ogni {{label}}. Gli amministratori sono esenti.",
       "defaultPermissions": "Autorizzazioni membro predefinite",
       "defaultPermissionsHint": "Cosa possono fare tutti qui a meno che un amministratore non dica diversamente.",
       "slowModeTitle": "Modalità lenta",
-      "log": {"verbs":{"promote_admin":"promosso","demote_admin":"declassato","transfer_ownership":"ha trasferito la proprietà","ban_member":"vietato","unban_member":"sbandierato","kick_member":"rimosso","mute_member":"silenziato","unmute_member":"senza filtri","approve_member":"approvato","reject_member":"rifiutato","delete_message":"ho eliminato un messaggio da","purge_messages":"eliminati tutti i messaggi da","pin_message":"ha appuntato un messaggio da","unpin_message":"Un messaggio è stato rimosso da","update_settings":"Aggiornati le impostazioni della community","create_invite":"ha creato un link di invito","revoke_invite":"revoked un invito link","invite_used":"invitato"},
+      "log": {
+        "verbs": {
+          "promote_admin": "promosso",
+          "demote_admin": "declassato",
+          "transfer_ownership": "ha trasferito la proprietà",
+          "ban_member": "vietato",
+          "unban_member": "sbandierato",
+          "kick_member": "rimosso",
+          "mute_member": "silenziato",
+          "unmute_member": "senza filtri",
+          "approve_member": "approvato",
+          "reject_member": "rifiutato",
+          "delete_message": "ho eliminato un messaggio da",
+          "purge_messages": "eliminati tutti i messaggi da",
+          "pin_message": "ha appuntato un messaggio da",
+          "unpin_message": "Un messaggio è stato rimosso da",
+          "update_settings": "Aggiornati le impostazioni della community",
+          "create_invite": "ha creato un link di invito",
+          "revoke_invite": "revoked un invito link",
+          "invite_used": "invitato"
+        },
         "justNow": "proprio ora",
         "minutesAgo": "{{value}}m fa",
         "hoursAgo": "{{value}}h fa",
@@ -13680,53 +13798,52 @@
     "cinema": {
       "close": "Chiudi",
       "performance": {
-        "label": "Prestazioni",
         "0": "Gioioso",
         "1": "Malinconico",
         "2": "Ansioso",
         "3": "Sicuro di sé",
         "4": "Meravigliato",
         "5": "Contenuto",
-        "6": "Giocoso"
+        "6": "Giocoso",
+        "label": "Prestazioni"
       },
       "title": "Regia cinematografica",
       "hint": "Guida lo stile visivo della tua prossima immagine o video. I risultati variano in base al modello.",
       "none": "Nessuna regia",
       "reset": "Cancella regia",
       "camera": {
-        "label": "Look della camera",
         "0": "Cinema digitale",
         "1": "Pellicola 35mm",
         "2": "Pellicola 16mm",
         "3": "Grande formato",
-        "4": "Videocamera vintage"
+        "4": "Videocamera vintage",
+        "label": "Look della camera"
       },
       "lens": {
-        "label": "Look dell'obiettivo",
         "0": "Sferico",
         "1": "Anamorfico",
         "2": "Vetro morbido vintage",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Look dell'obiettivo"
       },
       "focalLength": {
-        "label": "Lunghezza focale",
         "0": "18mm grandangolo",
         "1": "24mm grandangolo",
         "2": "35mm naturale",
         "3": "50mm standard",
         "4": "85mm ritratto",
-        "5": "135mm teleobiettivo"
+        "5": "135mm teleobiettivo",
+        "label": "Lunghezza focale"
       },
       "aperture": {
-        "label": "Profondità di campo",
         "0": "f/1.4 molto ridotta",
         "1": "f/2.8 ridotta",
         "2": "f/5.6 moderata",
-        "3": "f/11 fuoco profondo"
+        "3": "f/11 fuoco profondo",
+        "label": "Profondità di campo"
       },
       "movement": {
-        "label": "Movimento di camera",
         "0": "Cavalletto fisso",
         "1": "Carrellata lenta in avanti",
         "2": "Carrellata lenta indietro",
@@ -13734,27 +13851,27 @@
         "4": "Orbita attorno al soggetto",
         "5": "Camera a mano",
         "6": "Salita con gru",
-        "7": "Panoramica lenta"
+        "7": "Panoramica lenta",
+        "label": "Movimento di camera"
       },
       "lighting": {
-        "label": "Illuminazione",
         "0": "Luce diurna morbida",
         "1": "Ora d'oro",
         "2": "Chiaroscuro low-key",
         "3": "Studio high-key",
         "4": "Luci al neon in scena",
         "5": "Controluce a silhouette",
-        "6": "Luce diffusa nuvolosa"
+        "6": "Luce diffusa nuvolosa",
+        "label": "Illuminazione"
       },
       "tempo": {
-        "label": "Ritmo dell'inquadratura",
         "0": "Unica inquadratura continua",
         "1": "Azione calma e senza fretta",
         "2": "Azione dinamica ed energica",
-        "3": "Azione caotica e frenetica"
+        "3": "Azione caotica e frenetica",
+        "label": "Ritmo dell'inquadratura"
       },
       "era": {
-        "label": "Epoca",
         "0": "Anni '20",
         "1": "Anni '50",
         "2": "Anni '60",
@@ -13762,10 +13879,10 @@
         "4": "Anni '80",
         "5": "Anni '90",
         "6": "Oggi",
-        "7": "Futuro prossimo"
+        "7": "Futuro prossimo",
+        "label": "Epoca"
       },
       "genre": {
-        "label": "Genere",
         "0": "Documentario",
         "1": "Dramma",
         "2": "Film noir",
@@ -13773,16 +13890,17 @@
         "4": "Fantasy",
         "5": "Commedia romantica",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genere"
       },
       "palette": {
-        "label": "Palette di colori",
         "0": "Ambra calda",
         "1": "Blu freddo",
         "2": "Toni terrosi tenui",
         "3": "Pastello",
         "4": "Monocromatico ad alto contrasto",
-        "5": "Colori primari saturi"
+        "5": "Colori primari saturi",
+        "label": "Palette di colori"
       }
     },
     "audioNoSpeech": "Non è stato trovato alcun discorso in quella registrazione.",

@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Acoperire", "trim": "Tăiere", "mirror": "Oglindit", "rotate": "Rotație", "hide": "Ascunde", "timer": "Timer", "close": "Închide", "photo": "Fotografie", "remove": "Șterge", "pause": "Pauză", "play": "Redau video", "hiddenUntilTap": "Ascuns până când îl ating", "scrub": "Scrolă prin video", "addMore": "Adaugă fotografii sau videoclipuri", "coverAria": "Atinge un cadru pentru a-l seta ca acoperire", "trimHint": "Trage capetele pentru a tăia", "coverHint": "Atinge un cadru pentru a-l face acoperire", "uploadCover": "Încarca o imagine de acoperire", "mirrored": "Oglindit", "original": "Original", "rotate90": "Rotație 90°", "timerOff": "Oprit", "showNormally": "Arată normal", "showNormallyBody": "O văd imediat", "hideUntilTap": "Ascunde până la atingere", "hideUntilTapBody": "Abuzit până când îl atingi", "hidePrice": "Ascuns în spatele unui preț", "hidePriceBody": "Abuzit până când plătești", "priceUnavailable": "Nu în această conversație", "priceLabelUsd": "Preț", "priceHint": "Vedeți-l neclar până când plătiți. Obiectele blocate nu sunt criptate de la capăt la capăt.", "timerOffBody": "Rămâne în știre.", "timerViewBody": "Dispar pentru ambii după ce l-au văzut.", "confirm": "Confirmă", "editItem": "Editează obiectul {{value1}}", "coverSet": "Acoperire la {{value1}}", "lockedForUsd": "Dezblochează pentru {{value1}}", "timerTimeBody": "Dispar pentru ambii {{value1}} după ce îl trimiți."},
+  "dmVideo": {
+    "cover": "Acoperire",
+    "trim": "Tăiere",
+    "mirror": "Oglindit",
+    "rotate": "Rotație",
+    "hide": "Ascunde",
+    "timer": "Timer",
+    "close": "Închide",
+    "photo": "Fotografie",
+    "remove": "Șterge",
+    "pause": "Pauză",
+    "play": "Redau video",
+    "hiddenUntilTap": "Ascuns până când îl ating",
+    "scrub": "Scrolă prin video",
+    "addMore": "Adaugă fotografii sau videoclipuri",
+    "coverAria": "Atinge un cadru pentru a-l seta ca acoperire",
+    "trimHint": "Trage capetele pentru a tăia",
+    "coverHint": "Atinge un cadru pentru a-l face acoperire",
+    "uploadCover": "Încarca o imagine de acoperire",
+    "mirrored": "Oglindit",
+    "original": "Original",
+    "rotate90": "Rotație 90°",
+    "timerOff": "Oprit",
+    "showNormally": "Arată normal",
+    "showNormallyBody": "O văd imediat",
+    "hideUntilTap": "Ascunde până la atingere",
+    "hideUntilTapBody": "Abuzit până când îl atingi",
+    "hidePrice": "Ascuns în spatele unui preț",
+    "hidePriceBody": "Abuzit până când plătești",
+    "priceUnavailable": "Nu în această conversație",
+    "priceLabelUsd": "Preț",
+    "priceHint": "Vedeți-l neclar până când plătiți. Obiectele blocate nu sunt criptate de la capăt la capăt.",
+    "timerOffBody": "Rămâne în știre.",
+    "timerViewBody": "Dispar pentru ambii după ce l-au văzut.",
+    "confirm": "Confirmă",
+    "editItem": "Editează obiectul {{value1}}",
+    "coverSet": "Acoperire la {{value1}}",
+    "lockedForUsd": "Dezblochează pentru {{value1}}",
+    "timerTimeBody": "Dispar pentru ambii {{value1}} după ce îl trimiți.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 oră",
+      "43200": "12 ore",
+      "86400": "1 zi",
+      "604800": "1 săptămână",
+      "31536000": "1 an",
+      "view": "1 vizionare"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1z",
+      "604800": "1s",
+      "31536000": "1a",
+      "view": "1 vizionare"
+    },
+    "destructSecs": "{{n}} sec",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Chenar",
     "theme": "Temă",
@@ -3170,7 +3229,26 @@
     "postCount_other": "{{count}} postări"
   },
   "settings": {
-    "loginLook": {"title": "Ecranul de conectare", "desc": "Cum se mișcă logoul și sloganul Riftn pe ecranul de conectare de pe acest dispozitiv.", "tube": "TV cu tub", "vhs": "Casetă VHS", "led": "Perete LED", "holo": "Hologramă", "neon": "Neon", "3d": "3D", "flat": "Plat"}, "arrivalLook": {"title": "După conectare", "desc": "Ce rulează cât se încarcă contul, înainte ca poza ta să ajungă pe pagină. Pe acest dispozitiv.", "trace": "Urmă", "tune": "Acord", "rift": "Fisură", "deck": "Pachet", "glass": "Picătură de sticlă"},
+    "loginLook": {
+      "title": "Ecranul de conectare",
+      "desc": "Cum se mișcă logoul și sloganul Riftn pe ecranul de conectare de pe acest dispozitiv.",
+      "tube": "TV cu tub",
+      "vhs": "Casetă VHS",
+      "led": "Perete LED",
+      "holo": "Hologramă",
+      "neon": "Neon",
+      "3d": "3D",
+      "flat": "Plat"
+    },
+    "arrivalLook": {
+      "title": "După conectare",
+      "desc": "Ce rulează cât se încarcă contul, înainte ca poza ta să ajungă pe pagină. Pe acest dispozitiv.",
+      "trace": "Urmă",
+      "tune": "Acord",
+      "rift": "Fisură",
+      "deck": "Pachet",
+      "glass": "Picătură de sticlă"
+    },
     "glass": "Sticlos",
     "shortsEnabled": "Pantaloni scurți",
     "shortsEnabledDesc": "Afișează fila Scurtmetraje și caruselele Scurtmetraje pe pagina de pornire.",
@@ -7027,7 +7105,18 @@
       "moveRuleUp": "Mută regula în sus",
       "moveRuleDown": "Mută regula în jos",
       "deleteRule": "Șterge regula",
-      "rights": {"sendMessages":"Trimiteți mesaje","sendMessagesHint":"Postare în discuția comunității","sendMedia":"Trimiteți media","sendMediaHint":"Adăugați imagini și GIF-uri","embedLinks":"Incorporați link-uri","embedLinksHint":"Arată previuri de link-uri","addMembers":"Adăugați membri","addMembersHint":"Compartășirea comunității cu alții","createEvents":"Creați evenimente","createEventsHint":"Programează evenimente comunitare","changeInfoMemberHint":"Editează numele și descrierea comunității",
+      "rights": {
+        "sendMessages": "Trimiteți mesaje",
+        "sendMessagesHint": "Postare în discuția comunității",
+        "sendMedia": "Trimiteți media",
+        "sendMediaHint": "Adăugați imagini și GIF-uri",
+        "embedLinks": "Incorporați link-uri",
+        "embedLinksHint": "Arată previuri de link-uri",
+        "addMembers": "Adăugați membri",
+        "addMembersHint": "Compartășirea comunității cu alții",
+        "createEvents": "Creați evenimente",
+        "createEventsHint": "Programează evenimente comunitare",
+        "changeInfoMemberHint": "Editează numele și descrierea comunității",
         "changeInfo": "Modifică informațiile comunității",
         "changeInfoHint": "Editează numele, descrierea, avatarul și bannerul",
         "deleteMessages": "Șterge mesaje",
@@ -7105,12 +7194,41 @@
       "noInvites": "Nu există încă linkuri de invitație. Creați unul pentru a invita oamenii direct.",
       "permissionsUpdated": "Permissoanele au fost actualizate",
       "slowModeUpdated": "Modul lent a fost actualizat",
-      "slowMode":{"off":"Oprit","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 minute","fifteenMinutes":"15 minute","oneHour":"1 oră"},"slowModeOffHint": "Membrii pot trimite mesaje fără întârziere.",
+      "slowMode": {
+        "off": "Oprit",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 minute",
+        "fifteenMinutes": "15 minute",
+        "oneHour": "1 oră"
+      },
+      "slowModeOffHint": "Membrii pot trimite mesaje fără întârziere.",
       "slowModeOnHint": "Membrii pot trimite un mesaj la fiecare {{label}}. Administratorii sunt scutiți.",
       "defaultPermissions": "Permissoanele membrilor de bază",
       "defaultPermissionsHint": "Ce poate face oricine aici, cu excepția unei permissoane de administrator.",
       "slowModeTitle": "Modul lent",
-      "log": {"verbs":{"promote_admin":"promotat","demote_admin":"demontat","transfer_ownership":"a transferat proprietatea la","ban_member":"interzis","unban_member":"neblocat","kick_member":"șters","mute_member":"dezactivat","unmute_member":"fără mutare","approve_member":"aprobat","reject_member":"respinse","delete_message":"șters un mesaj","purge_messages":"Șterse toate mesajele de la","pin_message":"a fixat un mesaj de","unpin_message":"dezlipuit un mesaj din","update_settings":"a actualizat setările comunității","create_invite":"a creat un link de invitație","revoke_invite":"revocarea unui link de invitație","invite_used":"a fost invitat"},
+      "log": {
+        "verbs": {
+          "promote_admin": "promotat",
+          "demote_admin": "demontat",
+          "transfer_ownership": "a transferat proprietatea la",
+          "ban_member": "interzis",
+          "unban_member": "neblocat",
+          "kick_member": "șters",
+          "mute_member": "dezactivat",
+          "unmute_member": "fără mutare",
+          "approve_member": "aprobat",
+          "reject_member": "respinse",
+          "delete_message": "șters un mesaj",
+          "purge_messages": "Șterse toate mesajele de la",
+          "pin_message": "a fixat un mesaj de",
+          "unpin_message": "dezlipuit un mesaj din",
+          "update_settings": "a actualizat setările comunității",
+          "create_invite": "a creat un link de invitație",
+          "revoke_invite": "revocarea unui link de invitație",
+          "invite_used": "a fost invitat"
+        },
         "justNow": "acum",
         "minutesAgo": "{{value}}m în urmă",
         "hoursAgo": "{{value}}h în urmă",
@@ -13581,53 +13699,52 @@
     "cinema": {
       "close": "Închideți",
       "performance": {
-        "label": "Performanță",
         "0": "Vesel",
         "1": "Melancolic",
         "2": "Anxios",
         "3": "Încrezător",
         "4": "Uimit",
         "5": "Reținut",
-        "6": "Jucăuș"
+        "6": "Jucăuș",
+        "label": "Performanță"
       },
       "title": "Regie cinematografică",
       "hint": "Ghidează stilul vizual al următoarei imagini sau al următorului videoclip. Rezultatele variază în funcție de model.",
       "none": "Fără regie",
       "reset": "Șterge regia",
       "camera": {
-        "label": "Aspectul camerei",
         "0": "Cinema digital",
         "1": "Film de 35 mm",
         "2": "Film de 16 mm",
         "3": "Format mare",
-        "4": "Camcorder vintage"
+        "4": "Camcorder vintage",
+        "label": "Aspectul camerei"
       },
       "lens": {
-        "label": "Aspectul obiectivului",
         "0": "Sferic",
         "1": "Anamorfic",
         "2": "Sticlă moale vintage",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Aspectul obiectivului"
       },
       "focalLength": {
-        "label": "Distanță focală",
         "0": "18 mm larg",
         "1": "24 mm larg",
         "2": "35 mm natural",
         "3": "50 mm standard",
         "4": "85 mm portret",
-        "5": "135 mm teleobiectiv"
+        "5": "135 mm teleobiectiv",
+        "label": "Distanță focală"
       },
       "aperture": {
-        "label": "Profunzimea câmpului",
         "0": "f/1.4 foarte mică",
         "1": "f/2.8 mică",
         "2": "f/5.6 moderată",
-        "3": "f/11 focalizare profundă"
+        "3": "f/11 focalizare profundă",
+        "label": "Profunzimea câmpului"
       },
       "movement": {
-        "label": "Mișcarea camerei",
         "0": "Trepied fix",
         "1": "Dolly lent înainte",
         "2": "Dolly lent înapoi",
@@ -13635,27 +13752,27 @@
         "4": "Orbită în jurul subiectului",
         "5": "Din mână",
         "6": "Ridicare cu macaraua",
-        "7": "Panoramare lentă"
+        "7": "Panoramare lentă",
+        "label": "Mișcarea camerei"
       },
       "lighting": {
-        "label": "Iluminare",
         "0": "Lumină de zi blândă",
         "1": "Ora de aur",
         "2": "Clarobscur low-key",
         "3": "Studio high-key",
         "4": "Surse practice neon",
         "5": "Contralumină siluetă",
-        "6": "Lumină difuză de cer înnorat"
+        "6": "Lumină difuză de cer înnorat",
+        "label": "Iluminare"
       },
       "tempo": {
-        "label": "Ritmul cadrului",
         "0": "Un singur cadru continuu",
         "1": "Acțiune calmă, fără grabă",
         "2": "Acțiune dinamică, energică",
-        "3": "Acțiune haotică, frenetică"
+        "3": "Acțiune haotică, frenetică",
+        "label": "Ritmul cadrului"
       },
       "era": {
-        "label": "Epocă",
         "0": "Anii 1920",
         "1": "Anii 1950",
         "2": "Anii 1960",
@@ -13663,10 +13780,10 @@
         "4": "Anii 1980",
         "5": "Anii 1990",
         "6": "Prezent",
-        "7": "Viitorul apropiat"
+        "7": "Viitorul apropiat",
+        "label": "Epocă"
       },
       "genre": {
-        "label": "Gen",
         "0": "Documentar",
         "1": "Dramă",
         "2": "Film noir",
@@ -13674,16 +13791,17 @@
         "4": "Fantasy",
         "5": "Comedie romantică",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Gen"
       },
       "palette": {
-        "label": "Paletă de culori",
         "0": "Chihlimbar cald",
         "1": "Albastru rece",
         "2": "Tonuri pământii estompate",
         "3": "Pastel",
         "4": "Monocrom cu contrast ridicat",
-        "5": "Culori primare saturate"
+        "5": "Culori primare saturate",
+        "label": "Paletă de culori"
       }
     },
     "audioNoSpeech": "Nu a fost găsită nicio vorbire în acea înregistrare.",

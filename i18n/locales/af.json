@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Deksel", "trim": "Sny", "mirror": "Spieël", "rotate": "Draai", "hide": "Versteek", "timer": "Timer", "close": "Maak toe", "photo": "Foto", "remove": "Verwyder", "pause": "Pouseer", "play": "Speel video af", "hiddenUntilTap": "Verborge totdat hulle daarop tik", "scrub": "Blaai deur die video", "addMore": "Voeg foto's of video's by", "coverAria": "Tik op 'n raam om die voorblad te stel", "trimHint": "Sleep die punte om te snoei", "coverHint": "Tik op 'n raam om dit die voorblad te maak", "uploadCover": "Laai 'n voorbladfoto op", "mirrored": "Gespieël", "original": "Oorspronklik", "rotate90": "Draai 90°", "timerOff": "Af", "showNormally": "Wys normaalweg", "showNormallyBody": "Hulle sien dit dadelik", "hideUntilTap": "Versteek totdat daar op dit getik word", "hideUntilTapBody": "Vervaag totdat hulle daarop tik", "hidePrice": "Versteek agter 'n prys", "hidePriceBody": "Vervaag totdat hulle jou betaal", "priceUnavailable": "Nie in hierdie gesels nie", "priceLabelUsd": "Prys", "priceHint": "Hulle sien dit vaag totdat hulle jou betaal. Geslote items is nie end-tot-end geënkripteer nie.", "timerOffBody": "Dit bly in die gesels.", "timerViewBody": "Weg vir julle albei sodra hulle dit gesien het.", "confirm": "Bevestig", "editItem": "Wysig item {{value1}}", "coverSet": "Dekking by {{value1}}", "lockedForUsd": "Ontsluit vir {{value1}}", "timerTimeBody": "Weg vir julle albei {{value1}} nadat jy dit gestuur het."},
+  "dmVideo": {
+    "cover": "Deksel",
+    "trim": "Sny",
+    "mirror": "Spieël",
+    "rotate": "Draai",
+    "hide": "Versteek",
+    "timer": "Timer",
+    "close": "Maak toe",
+    "photo": "Foto",
+    "remove": "Verwyder",
+    "pause": "Pouseer",
+    "play": "Speel video af",
+    "hiddenUntilTap": "Verborge totdat hulle daarop tik",
+    "scrub": "Blaai deur die video",
+    "addMore": "Voeg foto's of video's by",
+    "coverAria": "Tik op 'n raam om die voorblad te stel",
+    "trimHint": "Sleep die punte om te snoei",
+    "coverHint": "Tik op 'n raam om dit die voorblad te maak",
+    "uploadCover": "Laai 'n voorbladfoto op",
+    "mirrored": "Gespieël",
+    "original": "Oorspronklik",
+    "rotate90": "Draai 90°",
+    "timerOff": "Af",
+    "showNormally": "Wys normaalweg",
+    "showNormallyBody": "Hulle sien dit dadelik",
+    "hideUntilTap": "Versteek totdat daar op dit getik word",
+    "hideUntilTapBody": "Vervaag totdat hulle daarop tik",
+    "hidePrice": "Versteek agter 'n prys",
+    "hidePriceBody": "Vervaag totdat hulle jou betaal",
+    "priceUnavailable": "Nie in hierdie gesels nie",
+    "priceLabelUsd": "Prys",
+    "priceHint": "Hulle sien dit vaag totdat hulle jou betaal. Geslote items is nie end-tot-end geënkripteer nie.",
+    "timerOffBody": "Dit bly in die gesels.",
+    "timerViewBody": "Weg vir julle albei sodra hulle dit gesien het.",
+    "confirm": "Bevestig",
+    "editItem": "Wysig item {{value1}}",
+    "coverSet": "Dekking by {{value1}}",
+    "lockedForUsd": "Ontsluit vir {{value1}}",
+    "timerTimeBody": "Weg vir julle albei {{value1}} nadat jy dit gestuur het.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 uur",
+      "43200": "12 uur",
+      "86400": "1 dag",
+      "604800": "1 week",
+      "31536000": "1 jaar",
+      "view": "1 uitsig"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 uitsig"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Rand",
     "theme": "Tema",
@@ -7059,7 +7118,18 @@
       "moveRuleUp": "Skuif reël op",
       "moveRuleDown": "Skuif reël af",
       "deleteRule": "Vee reël uit",
-      "rights": {"sendMessages":"Stuur boodskappe","sendMessagesHint":"Plaas in die gemeenskap chat","sendMedia":"Media stuur","sendMediaHint":"Voeg foto’s en GIF’s by.","embedLinks":"Ingebedde skakels","embedLinksHint":"Toon koppelynvoorsneëls","addMembers":"Voeg lede by","addMembersHint":"Deel die gemeenskap met ander","createEvents":"Skep okkasies","createEventsHint":"Plan gemeenskapsgebeure","changeInfoMemberHint":"Bewerk die gemeenskapsnaam en beskrywing",
+      "rights": {
+        "sendMessages": "Stuur boodskappe",
+        "sendMessagesHint": "Plaas in die gemeenskap chat",
+        "sendMedia": "Media stuur",
+        "sendMediaHint": "Voeg foto’s en GIF’s by.",
+        "embedLinks": "Ingebedde skakels",
+        "embedLinksHint": "Toon koppelynvoorsneëls",
+        "addMembers": "Voeg lede by",
+        "addMembersHint": "Deel die gemeenskap met ander",
+        "createEvents": "Skep okkasies",
+        "createEventsHint": "Plan gemeenskapsgebeure",
+        "changeInfoMemberHint": "Bewerk die gemeenskapsnaam en beskrywing",
         "changeInfo": "Verander gemeenskapsinligting",
         "changeInfoHint": "Wysig die naam, beskrywing, avatar en banier",
         "deleteMessages": "Vee boodskappe uit",
@@ -7137,12 +7207,41 @@
       "noInvites": "Geen uitnodigings skakels nog nie. Skep een om mense direk uit te nooi.",
       "permissionsUpdated": "Toestemminge geaktualiseer",
       "slowModeUpdated": "Gangbaan geaktualiseer",
-      "slowMode":{"off":"Af","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 uur"},"slowModeOffHint": "Lidmate kan boodskappe sonder vertraging stuur.",
+      "slowMode": {
+        "off": "Af",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 uur"
+      },
+      "slowModeOffHint": "Lidmate kan boodskappe sonder vertraging stuur.",
       "slowModeOnHint": "Lidmate kan een boodskap elke {{label}} stuur. Administrateurs is uitgesluit.",
       "defaultPermissions": "Standaard lidtoestemminge",
       "defaultPermissionsHint": "Wat almal kan doen hier, ten minste totdat 'n administrateur se reg het dit anders gestel het.",
       "slowModeTitle": "Gangbaan",
-      "log": {"verbs":{"promote_admin":"bevorder","demote_admin":"gedemoteer","transfer_ownership":"Oorheersing van eienaarskap oorgedra","ban_member":"verbode","unban_member":"ontban","kick_member":"Verwyder","mute_member":"gedempte","unmute_member":"onverhinder","approve_member":"Goedgekeur","reject_member":"verwerp","delete_message":"het ’n berig van afgemaak","purge_messages":"verwyder alle boodskappe van","pin_message":"'n Geheue boodskap van","unpin_message":"ongeëvenaarde Boodskap van","update_settings":"Die gemeenskapsinstellings is bygewerk","create_invite":"het 'n uitnodigingskakel geskep","revoke_invite":"het 'n uitnodigingskoppelstuk ingetrek","invite_used":"Gelê"},
+      "log": {
+        "verbs": {
+          "promote_admin": "bevorder",
+          "demote_admin": "gedemoteer",
+          "transfer_ownership": "Oorheersing van eienaarskap oorgedra",
+          "ban_member": "verbode",
+          "unban_member": "ontban",
+          "kick_member": "Verwyder",
+          "mute_member": "gedempte",
+          "unmute_member": "onverhinder",
+          "approve_member": "Goedgekeur",
+          "reject_member": "verwerp",
+          "delete_message": "het ’n berig van afgemaak",
+          "purge_messages": "verwyder alle boodskappe van",
+          "pin_message": "'n Geheue boodskap van",
+          "unpin_message": "ongeëvenaarde Boodskap van",
+          "update_settings": "Die gemeenskapsinstellings is bygewerk",
+          "create_invite": "het 'n uitnodigingskakel geskep",
+          "revoke_invite": "het 'n uitnodigingskoppelstuk ingetrek",
+          "invite_used": "Gelê"
+        },
         "justNow": "net nou",
         "minutesAgo": "{{value}}m gelede",
         "hoursAgo": "{{value}}h gelede",
@@ -13691,53 +13790,52 @@
     "cinema": {
       "close": "Maak toe",
       "performance": {
-        "label": "Opvoering",
         "0": "Vreugdevol",
         "1": "Melancholies",
         "2": "Angstig",
         "3": "Selfversekerd",
         "4": "Met ontsag vervul",
         "5": "Ingehoue",
-        "6": "Speels"
+        "6": "Speels",
+        "label": "Opvoering"
       },
       "title": "Filmregie",
       "hint": "Lei die visuele styl van jou volgende beeld of video. Resultate verskil per model.",
       "none": "Geen regie",
       "reset": "Maak regie skoon",
       "camera": {
-        "label": "Kameravoorkoms",
         "0": "Digitale film",
         "1": "35mm-film",
         "2": "16mm-film",
         "3": "Grootformaat",
-        "4": "Outydse videokamera"
+        "4": "Outydse videokamera",
+        "label": "Kameravoorkoms"
       },
       "lens": {
-        "label": "Lensvoorkoms",
         "0": "Sferies",
         "1": "Anamorfies",
         "2": "Outydse sagte glas",
         "3": "Makro",
-        "4": "Kantel-skuif"
+        "4": "Kantel-skuif",
+        "label": "Lensvoorkoms"
       },
       "focalLength": {
-        "label": "Brandpuntsafstand",
         "0": "18mm wyd",
         "1": "24mm wyd",
         "2": "35mm natuurlik",
         "3": "50mm standaard",
         "4": "85mm portret",
-        "5": "135mm telefoto"
+        "5": "135mm telefoto",
+        "label": "Brandpuntsafstand"
       },
       "aperture": {
-        "label": "Velddiepte",
         "0": "f/1.4 baie vlak",
         "1": "f/2.8 vlak",
         "2": "f/5.6 matig",
-        "3": "f/11 diep fokus"
+        "3": "f/11 diep fokus",
+        "label": "Velddiepte"
       },
       "movement": {
-        "label": "Kamerabeweging",
         "0": "Vaste driepoot",
         "1": "Stadige dolly in",
         "2": "Stadige dolly uit",
@@ -13745,27 +13843,27 @@
         "4": "Sirkel om onderwerp",
         "5": "Handgehou",
         "6": "Kraanstyging",
-        "7": "Stadige swenk"
+        "7": "Stadige swenk",
+        "label": "Kamerabeweging"
       },
       "lighting": {
-        "label": "Beligting",
         "0": "Sagte daglig",
         "1": "Goue uur",
         "2": "Donker chiaroscuro",
         "3": "Helder ateljee",
         "4": "Neonligte in skoot",
         "5": "Silhoeët-teenlig",
-        "6": "Bewolkte diffuse lig"
+        "6": "Bewolkte diffuse lig",
+        "label": "Beligting"
       },
       "tempo": {
-        "label": "Skoottempo",
         "0": "Enkele aaneenlopende skoot",
         "1": "Kalm, rustige aksie",
         "2": "Dinamiese, energieke aksie",
-        "3": "Chaotiese, wilde aksie"
+        "3": "Chaotiese, wilde aksie",
+        "label": "Skoottempo"
       },
       "era": {
-        "label": "Era",
         "0": "1920's",
         "1": "1950's",
         "2": "1960's",
@@ -13773,10 +13871,10 @@
         "4": "1980's",
         "5": "1990's",
         "6": "Hede",
-        "7": "Nabye toekoms"
+        "7": "Nabye toekoms",
+        "label": "Era"
       },
       "genre": {
-        "label": "Genre",
         "0": "Dokumentêr",
         "1": "Drama",
         "2": "Film noir",
@@ -13784,16 +13882,17 @@
         "4": "Fantasie",
         "5": "Romantiese komedie",
         "6": "Riller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genre"
       },
       "palette": {
-        "label": "Kleurpalet",
         "0": "Warm amber",
         "1": "Koel blou",
         "2": "Gedempte aardtone",
         "3": "Pastel",
         "4": "Hoëkontras-monochroom",
-        "5": "Versadigde primêre kleure"
+        "5": "Versadigde primêre kleure",
+        "label": "Kleurpalet"
       }
     },
     "audioNoSpeech": "Geen spraak is in dié opname gevind nie.",

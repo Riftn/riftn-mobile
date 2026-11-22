@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Borító", "trim": "Vágás", "mirror": "Tükrözés", "rotate": "Forgatás", "hide": "Elrejtés", "timer": "Időzítő", "close": "Bezárás", "photo": "Fotó", "remove": "Eltávolítás", "pause": "Szünet", "play": "Videó lejátszása", "hiddenUntilTap": "Elrejtve, amíg rá nem koppintanak", "scrub": "Léptetés a videóban", "addMore": "Fotók vagy videók hozzáadása", "coverAria": "Koppints egy kockára a borító beállításához", "trimHint": "Húzd a végeket a vágáshoz", "coverHint": "Koppints egy kockára, hogy az legyen a borító", "uploadCover": "Borítókép feltöltése", "mirrored": "Tükrözött", "original": "Eredeti", "rotate90": "90°-os forgatás", "timerOff": "Ki", "showNormally": "Normál megjelenítés", "showNormallyBody": "Azonnal látják", "hideUntilTap": "Elrejtés koppintásig", "hideUntilTapBody": "Elhomályosítva, amíg rá nem koppintanak", "hidePrice": "Elrejtés ár mögé", "hidePriceBody": "Elhomályosítva, amíg nem fizetnek neked", "priceUnavailable": "Nem ebben a csevegésben", "priceLabelUsd": "Ár", "priceHint": "Homályosan látják, amíg nem fizetnek neked. A zárolt elemek nem végpontok között titkosítottak.", "timerOffBody": "A csevegésben marad.", "timerViewBody": "Mindkettőtök számára eltűnik, miután megnézték.", "confirm": "Megerősítés", "editItem": "Elem szerkesztése {{value1}}", "coverSet": "Borítókép: {{value1}}", "lockedForUsd": "Feloldás ezért: {{value1}}", "timerTimeBody": "Mindkettőtök számára eltűnik {{value1}} az elküldés után."},
+  "dmVideo": {
+    "cover": "Borító",
+    "trim": "Vágás",
+    "mirror": "Tükrözés",
+    "rotate": "Forgatás",
+    "hide": "Elrejtés",
+    "timer": "Időzítő",
+    "close": "Bezárás",
+    "photo": "Fotó",
+    "remove": "Eltávolítás",
+    "pause": "Szünet",
+    "play": "Videó lejátszása",
+    "hiddenUntilTap": "Elrejtve, amíg rá nem koppintanak",
+    "scrub": "Léptetés a videóban",
+    "addMore": "Fotók vagy videók hozzáadása",
+    "coverAria": "Koppints egy kockára a borító beállításához",
+    "trimHint": "Húzd a végeket a vágáshoz",
+    "coverHint": "Koppints egy kockára, hogy az legyen a borító",
+    "uploadCover": "Borítókép feltöltése",
+    "mirrored": "Tükrözött",
+    "original": "Eredeti",
+    "rotate90": "90°-os forgatás",
+    "timerOff": "Ki",
+    "showNormally": "Normál megjelenítés",
+    "showNormallyBody": "Azonnal látják",
+    "hideUntilTap": "Elrejtés koppintásig",
+    "hideUntilTapBody": "Elhomályosítva, amíg rá nem koppintanak",
+    "hidePrice": "Elrejtés ár mögé",
+    "hidePriceBody": "Elhomályosítva, amíg nem fizetnek neked",
+    "priceUnavailable": "Nem ebben a csevegésben",
+    "priceLabelUsd": "Ár",
+    "priceHint": "Homályosan látják, amíg nem fizetnek neked. A zárolt elemek nem végpontok között titkosítottak.",
+    "timerOffBody": "A csevegésben marad.",
+    "timerViewBody": "Mindkettőtök számára eltűnik, miután megnézték.",
+    "confirm": "Megerősítés",
+    "editItem": "Elem szerkesztése {{value1}}",
+    "coverSet": "Borítókép: {{value1}}",
+    "lockedForUsd": "Feloldás ezért: {{value1}}",
+    "timerTimeBody": "Mindkettőtök számára eltűnik {{value1}} az elküldés után.",
+    "destruct": {
+      "60": "1 perc",
+      "3600": "1 óra",
+      "43200": "12 óra",
+      "86400": "1 nap",
+      "604800": "1 hét",
+      "31536000": "1 év",
+      "view": "1 megtekintés"
+    },
+    "destructShort": {
+      "60": "1p",
+      "3600": "1ó",
+      "43200": "12ó",
+      "86400": "1n",
+      "604800": "1h",
+      "31536000": "1é",
+      "view": "1 megtekintés"
+    },
+    "destructSecs": "{{n}} mp",
+    "destructShortSecs": "{{n}}mp"
+  },
   "comic": {
     "toComic": "Legyen képregény",
     "toCarousel": "Megjelenítés körhintaként",
@@ -7056,7 +7115,18 @@
       "moveRuleUp": "Szabály feljebb mozgatása",
       "moveRuleDown": "Szabály lejjebb mozgatása",
       "deleteRule": "Szabály törlése",
-      "rights": {"sendMessages":"Üzenetek küldése","sendMessagesHint":"Tessék posztolni a közösségi csatban","sendMedia":"Média küldése","sendMediaHint":"Függessz fel képeket és GIF-eket","embedLinks":"Linkek beágyazása","embedLinksHint":"Mutassa meg a link előnézeteket","addMembers":"Tagok hozzáadása","addMembersHint":"Megosztja a közösséget másokkal","createEvents":"Létrehozza az eseményeket","createEventsHint":"Tervezzen közösségi eseményeket","changeInfoMemberHint":"Módosítsd a közösség nevét és leírását",
+      "rights": {
+        "sendMessages": "Üzenetek küldése",
+        "sendMessagesHint": "Tessék posztolni a közösségi csatban",
+        "sendMedia": "Média küldése",
+        "sendMediaHint": "Függessz fel képeket és GIF-eket",
+        "embedLinks": "Linkek beágyazása",
+        "embedLinksHint": "Mutassa meg a link előnézeteket",
+        "addMembers": "Tagok hozzáadása",
+        "addMembersHint": "Megosztja a közösséget másokkal",
+        "createEvents": "Létrehozza az eseményeket",
+        "createEventsHint": "Tervezzen közösségi eseményeket",
+        "changeInfoMemberHint": "Módosítsd a közösség nevét és leírását",
         "changeInfo": "Közösségi információk módosítása",
         "changeInfoHint": "Név, leírás, avatar és banner szerkesztése",
         "deleteMessages": "Üzenetek törlése",
@@ -7133,12 +7203,41 @@
       "noInvites": "Még nincsenek meghívólinkek. Hozz létre egyet, amellyel közvetlenül meghívhatod az embereket.",
       "permissionsUpdated": "Engedélyek frissítve",
       "slowModeUpdated": "Lassú üzemmód frissítve",
-      "slowMode":{"off":"Ki","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 perc","fiveMinutes":"5 perc","fifteenMinutes":"15 perc","oneHour":"1 óra"},"slowModeOffHint": "A tagok késedelem nélkül küldhetnek üzeneteket.",
+      "slowMode": {
+        "off": "Ki",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 perc",
+        "fiveMinutes": "5 perc",
+        "fifteenMinutes": "15 perc",
+        "oneHour": "1 óra"
+      },
+      "slowModeOffHint": "A tagok késedelem nélkül küldhetnek üzeneteket.",
       "slowModeOnHint": "A tagok minden {{label}} után küldhetnek egy üzenetet. Az adminisztrátorok mentességet élveznek.",
       "defaultPermissions": "Alapértelmezett tagsági engedélyek",
       "defaultPermissionsHint": "Amit itt mindenki megtehet, hacsak egy adminisztrátori jog másként nem rendelkezik.",
       "slowModeTitle": "Lassú üzemmód",
-      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"leszámoltatott","transfer_ownership":"tulajdonjogot átruházták","ban_member":"kitiltva","unban_member":"megengedve","kick_member":"törölve","mute_member":"elnémítva","unmute_member":"hangos","approve_member":"jóváhagyva","reject_member":"elutasított","delete_message":"töröltem egy üzenetet","purge_messages":"törölte minden üzenetet","pin_message":"megcímkélt egy üzenetet","unpin_message":"üzenet rögzítésének feloldása innen:","update_settings":"frissítette a közösségi beállításokat","create_invite":"létrehozott meghívólinket","revoke_invite":"megsemmisített egy meghívóláncot","invite_used":"meghívott"},
+      "log": {
+        "verbs": {
+          "promote_admin": "promoted",
+          "demote_admin": "leszámoltatott",
+          "transfer_ownership": "tulajdonjogot átruházták",
+          "ban_member": "kitiltva",
+          "unban_member": "megengedve",
+          "kick_member": "törölve",
+          "mute_member": "elnémítva",
+          "unmute_member": "hangos",
+          "approve_member": "jóváhagyva",
+          "reject_member": "elutasított",
+          "delete_message": "töröltem egy üzenetet",
+          "purge_messages": "törölte minden üzenetet",
+          "pin_message": "megcímkélt egy üzenetet",
+          "unpin_message": "üzenet rögzítésének feloldása innen:",
+          "update_settings": "frissítette a közösségi beállításokat",
+          "create_invite": "létrehozott meghívólinket",
+          "revoke_invite": "megsemmisített egy meghívóláncot",
+          "invite_used": "meghívott"
+        },
         "justNow": "éppen most",
         "minutesAgo": "{{value}}perccel ezelőtt",
         "hoursAgo": "{{value}}órával ezelőtt",
@@ -13596,53 +13695,52 @@
     "cinema": {
       "close": "Bezárás",
       "performance": {
-        "label": "Teljesítmény",
         "0": "Vidám",
         "1": "Melankolikus",
         "2": "Szorongó",
         "3": "Magabiztos",
         "4": "Lenyűgözött",
         "5": "Visszafogott",
-        "6": "Játékos"
+        "6": "Játékos",
+        "label": "Teljesítmény"
       },
       "title": "Filmes rendezés",
       "hint": "Irányítsd a következő képed vagy videód vizuális stílusát. Az eredmények modellenként eltérnek.",
       "none": "Nincs rendezés",
       "reset": "Rendezés törlése",
       "camera": {
-        "label": "Kamera kinézete",
         "0": "Digitális mozi",
         "1": "35 mm-es film",
         "2": "16 mm-es film",
         "3": "Nagy formátum",
-        "4": "Régi kamkorder"
+        "4": "Régi kamkorder",
+        "label": "Kamera kinézete"
       },
       "lens": {
-        "label": "Objektív stílus",
         "0": "Szférikus",
         "1": "Anamorf",
         "2": "Régi lágy üveg",
         "3": "Makró",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Objektív stílus"
       },
       "focalLength": {
-        "label": "Fókusztávolság",
         "0": "18 mm széles",
         "1": "24 mm széles",
         "2": "35 mm természetes",
         "3": "50 mm normál",
         "4": "85 mm portré",
-        "5": "135 mm teleobjektív"
+        "5": "135 mm teleobjektív",
+        "label": "Fókusztávolság"
       },
       "aperture": {
-        "label": "Mélységélesség",
         "0": "f/1.4 nagyon sekély",
         "1": "f/2.8 sekély",
         "2": "f/5.6 közepes",
-        "3": "f/11 mély fókusz"
+        "3": "f/11 mély fókusz",
+        "label": "Mélységélesség"
       },
       "movement": {
-        "label": "Kameramozgás",
         "0": "Rögzített állvány",
         "1": "Lassú ráközelítés",
         "2": "Lassú távolodás",
@@ -13650,27 +13748,27 @@
         "4": "Keringés a téma körül",
         "5": "Kézi kamera",
         "6": "Daru emelkedés",
-        "7": "Lassú pásztázás"
+        "7": "Lassú pásztázás",
+        "label": "Kameramozgás"
       },
       "lighting": {
-        "label": "Világítás",
         "0": "Lágy nappali fény",
         "1": "Aranyóra",
         "2": "Sötét tónusú chiaroscuro",
         "3": "Világos tónusú stúdió",
         "4": "Neon fényforrások",
         "5": "Sziluett hátsó fény",
-        "6": "Borult, szórt fény"
+        "6": "Borult, szórt fény",
+        "label": "Világítás"
       },
       "tempo": {
-        "label": "Snitt tempója",
         "0": "Egyetlen folyamatos snitt",
         "1": "Nyugodt, ráérős akció",
         "2": "Dinamikus, energikus akció",
-        "3": "Kaotikus, eszeveszett akció"
+        "3": "Kaotikus, eszeveszett akció",
+        "label": "Snitt tempója"
       },
       "era": {
-        "label": "Korszak",
         "0": "1920-as évek",
         "1": "1950-es évek",
         "2": "1960-as évek",
@@ -13678,10 +13776,10 @@
         "4": "1980-as évek",
         "5": "1990-es évek",
         "6": "Napjaink",
-        "7": "Közeli jövő"
+        "7": "Közeli jövő",
+        "label": "Korszak"
       },
       "genre": {
-        "label": "Műfaj",
         "0": "Dokumentumfilm",
         "1": "Dráma",
         "2": "Film noir",
@@ -13689,16 +13787,17 @@
         "4": "Fantasy",
         "5": "Romantikus vígjáték",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Műfaj"
       },
       "palette": {
-        "label": "Színpaletta",
         "0": "Meleg borostyán",
         "1": "Hideg kék",
         "2": "Tompa földszínek",
         "3": "Pasztell",
         "4": "Nagy kontrasztú fekete-fehér",
-        "5": "Telített alapszínek"
+        "5": "Telített alapszínek",
+        "label": "Színpaletta"
       }
     },
     "audioNoSpeech": "Nem található beszéd a felvételen.",
