@@ -2997,6 +2997,8 @@
     "premium": "Eelmaine",
     "pricing": "Hinnad",
     "reorderHint": "Hoia ja lohista ükskõik milline ikoon ümberkorraldamiseks",
+    "reorderHintGroups": "Hoia ja lohista ikooni selle ümberpaigutamiseks või lohista see teisele vahekaardile selle teisaldamiseks",
+    "moveGroupHint": "Lohista teisele vahekaardile, et see sinna teisaldada",
     "reorderReset": "Esimene",
     "groups": {
       "create": "Loo",

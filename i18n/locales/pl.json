@@ -3023,6 +3023,8 @@
     "premium": "Premium",
     "pricing": "Cennik",
     "reorderHint": "Przytrzymaj i przeciągnij dowolną ikonę, aby zmienić kolejność",
+    "reorderHintGroups": "Przytrzymaj i przeciągnij dowolną ikonę, aby zmienić jej położenie, lub upuść ją na inną kartę, aby ją przenieść",
+    "moveGroupHint": "Upuść na innej karcie, aby przenieść ją tam",
     "reorderReset": "Zresetuj",
     "groups": {
       "create": "Utwórz",

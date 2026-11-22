@@ -3023,6 +3023,8 @@
     "premium": "Premium",
     "pricing": "Cijene",
     "reorderHint": "Držite i povucite bilo koju ikonu za promjenu rasporeda",
+    "reorderHintGroups": "Držite i povucite bilo koju ikonu kako biste je premjestili ili je povucite na drugu karticu kako biste je premjestili tamo",
+    "moveGroupHint": "Povucite na drugu karticu kako biste je premjestili tamo",
     "reorderReset": "Resetiraj",
     "groups": {
       "create": "Stvori",

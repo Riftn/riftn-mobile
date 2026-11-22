@@ -3038,6 +3038,8 @@
     "premium": "Premium",
     "pricing": "Biha",
     "reorderHint": "Hildin û derêjin herîkoka ku we li serê xwe de ye bo ku bi rêza xwe re bi kar bînin.",
+    "reorderHintGroups": "Her îkonê bigire û bikişîne da ku cîhê wê biguherînî, an jî bikişîne ser tabeke din da ku wê veguhezînî.",
+    "moveGroupHint": "Ji bo veguhestina wê, wê bikişîne ser tabeke din",
     "reorderReset": "Vegerîne",
     "groups": {
       "create": "Biafirîne",

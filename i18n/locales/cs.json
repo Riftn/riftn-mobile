@@ -2997,6 +2997,8 @@
     "premium": "Prémiový",
     "pricing": "Ceník",
     "reorderHint": "Držte a přetáhněte libovolnou ikonu pro přeuspořádání",
+    "reorderHintGroups": "Zachyťte a přetáhněte libovolný ikon, abyste ho přehodnotili, nebo na jinou kartu, abyste ho přesunuli.",
+    "moveGroupHint": "Zapni další kartu a přesuň ji tam",
     "reorderReset": "Reset",
     "groups": {
       "create": "Vytvořit",

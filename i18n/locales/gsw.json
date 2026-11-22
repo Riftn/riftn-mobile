@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Priise",
     "reorderHint": "Halb und zieh jede Ikon, um neu anzuordnen.",
+    "reorderHintGroups": "Heb und zieh es Icon zum neu aordne, oder zieh es uf en andere Tab zum verschiebe",
+    "moveGroupHint": "Zieh es uf en andere Tab, zum es dert ane z'verschiebe",
     "reorderReset": "Zrüggsetze",
     "groups": {
       "create": "Erstelle",

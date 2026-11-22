@@ -3059,6 +3059,8 @@
     "premium": "Prysgeverig",
     "pricing": "Pryse",
     "reorderHint": "Hou en sleep enige ikoon vas om dit te herskik",
+    "reorderHintGroups": "Hou en sleep enige ikoon om dit te herrangskik, of na 'n ander oortjie om dit te verskuif",
+    "moveGroupHint": "Los dit op 'n ander oortjie om dit daarheen te skuif",
     "reorderReset": "Herstel",
     "groups": {
       "create": "Skep",

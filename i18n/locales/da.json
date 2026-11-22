@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Priser",
     "reorderHint": "Hold og træk et ikon for at omarrangere",
+    "reorderHintGroups": "Hold og træk et ikon for at omarrangere det, eller slip det på en anden fane for at flytte det",
+    "moveGroupHint": "Slip på en anden fane for at flytte den dertil",
     "reorderReset": "Nulstil",
     "groups": {
       "create": "Opret",

@@ -2997,6 +2997,8 @@
     "premium": "Àlàyé",
     "pricing": "Iye owó",
     "reorderHint": "Duro ki o si fa eyikeyi aami lati tun ṣe atunṣe",
+    "reorderHintGroups": "Di mọ́ kí o sì fa àmì èyíkéyìí láti tún un tò, tàbí kí o fà á sí orí tàbù míràn láti gbé e lọ.",
+    "moveGroupHint": "Fa a sọ́rí tàbù míràn láti gbé e lọ síbẹ̀",
     "reorderReset": "Tun ṣe",
     "groups": {
       "create": "Ṣẹ̀dá",

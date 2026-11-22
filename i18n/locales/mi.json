@@ -2997,6 +2997,8 @@
     "premium": "Mōrahi",
     "pricing": "Utu",
     "reorderHint": "Kia mau, me te hopu i tetahi tohu ki te rearrange",
+    "reorderHintGroups": "Puritia, ā, tōia tētahi ata hei whakarite anō, hei nuku rānei ki tētahi rīpeka kē kia nekehia ai.",
+    "moveGroupHint": "Tōia ki tētahi atu ripa kia nuku ai ki reira",
     "reorderReset": "Whakahokia",
     "groups": {
       "create": "Waihanga",

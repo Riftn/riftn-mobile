@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Qiymətlər",
     "reorderHint": "Dəstək və simvolları yerinə yetirmək üçün tutaraq sırala bilərsiniz.",
+    "reorderHintGroups": "İstənilən ikonu yenidən düzmək üçün basıb saxlayın və sürükləyin, yaxud başqa bir taba keçirmək üçün həmin tabın üzərinə aparın",
+    "moveGroupHint": "Başqa bir sekməyə keçirmək üçün ora buraxın",
     "reorderReset": "Sıfırla",
     "groups": {
       "create": "Yarat",

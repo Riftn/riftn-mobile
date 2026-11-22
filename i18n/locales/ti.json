@@ -2997,6 +2997,8 @@
     "premium": "ፕሪሚየም",
     "pricing": "ዋጋታት",
     "reorderHint": "ንምልዋጥ ዝኾነ ኣዶ ሒዝካ ስዓቦ",
+    "reorderHintGroups": "ዝኾነ ይኹን ምልክት (icon) ንምቕያር ብምሓዝ ኣንቀሳቕሶ፣ ወይ ናብ ካልእ ትርኢት (tab) ንምግዓዝ ናብኡ ኣንቀሳቕሶ።",
+    "moveGroupHint": "ናብ ካልእ ትር (tab) ንምግዓዝ ኣብኡ ኣውርዶ (drop)",
     "reorderReset": "ዳግም ምትካል",
     "groups": {
       "create": "ፍጠር",

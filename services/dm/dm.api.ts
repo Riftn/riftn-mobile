@@ -464,9 +464,14 @@ export async function unlockLockedMedia(messageId: ID, txHash: string): Promise<
   return apiClient.post<DmLockStatus>(`/dm/locked/${messageId}/unlock`, { txHash }, { isAuthRequired: true });
 }
 
-/** The recipient has watched a view-once attachment; the server removes it for both. */
-export async function markDmMessageViewed(messageId: string): Promise<void> {
-  await apiClient.post(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
+/**
+ * The recipient has watched a view-once attachment (the server removes it for
+ * both), or opened an on-open one (its countdown starts; `expiresAt` says when
+ * it goes).
+ */
+export async function markDmMessageViewed(messageId: string): Promise<{ status?: string; expiresAt?: string }> {
+  const res = await apiClient.post<{ status?: string; expiresAt?: string }>(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
+  return res && typeof res === "object" ? res : {};
 }
 
 /** Chat tabs: the person's own tabs, tab order and hidden built-ins. Mirrors web chat-tabs.ts. */

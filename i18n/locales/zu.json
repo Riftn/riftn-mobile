@@ -2997,6 +2997,8 @@
     "premium": "I-Premium",
     "pricing": "Amanani",
     "reorderHint": "Bamba bese uhudula noma iyiphi i-ayikhoni ukuze uhlele kabusha",
+    "reorderHintGroups": "Bamba uhudule noma yisiphi isithonjana ukuze usihlele kabusha, noma usidonsele kwelinye ithebhu ukuze usihambise",
+    "moveGroupHint": "Yehla kwelinye ithebhu ukuze uyihambise lapho",
     "reorderReset": "Setha kabusha",
     "groups": {
       "create": "Dala",

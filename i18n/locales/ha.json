@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Farashi",
     "reorderHint": "Riƙe da jawo kowane icon don sake tsarawa",
+    "reorderHintGroups": "Riƙe kuma ja kowanne alamar don sake tsara, ko a kan wani shafin don motsa shi",
+    "moveGroupHint": "Jefa a wani tab don motsa shi a can",
     "reorderReset": "Sake saitawa",
     "groups": {
       "create": "Ƙirƙira",

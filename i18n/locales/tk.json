@@ -2997,6 +2997,8 @@
     "premium": "Ýokary derejeli",
     "pricing": "Bahalar",
     "reorderHint": "Her bir simgony saklaň we gaýtargylaň",
+    "reorderHintGroups": "Islendik nyşany ýerini üýtgetmek üçin basyp saklaň we süýräň ýa-da başga bir goýmanyň üstüne goýup geçiriň",
+    "moveGroupHint": "Bash öňge tabda açyp, orada köçürmek üçün aç.",
     "reorderReset": "Gaýd Et",
     "groups": {
       "create": "Döret",

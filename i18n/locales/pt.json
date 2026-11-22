@@ -2957,6 +2957,8 @@
     "premium": "Premium",
     "pricing": "Preços",
     "reorderHint": "Segure e arraste qualquer ícone para reorganizar",
+    "reorderHintGroups": "Mantenha pressionado e arraste qualquer ícone para reorganizar, ou solte-o sobre outra aba para movê-lo",
+    "moveGroupHint": "Solte em outra aba para movê-la para lá",
     "reorderReset": "Redefinir",
     "groups": {
       "main": "Principal",

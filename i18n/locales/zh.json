@@ -2954,6 +2954,8 @@
     "premium": "高级版",
     "pricing": "定价",
     "reorderHint": "按住并拖动任意图标以重新排列",
+    "reorderHintGroups": "按住并拖动任意图标即可重新排列，或将其拖动到另一个标签页以进行移动",
+    "moveGroupHint": "拖动到另一个标签页即可将其移至该处",
     "reorderReset": "重置",
     "nfts": "NFT",
     "dao": "DAO",

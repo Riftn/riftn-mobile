@@ -3085,6 +3085,8 @@
     "premium": "Prezioso",
     "pricing": "Prezzi",
     "reorderHint": "Tieni premuto e trascina qualsiasi icona per riorganizzare",
+    "reorderHintGroups": "Tieni premuta e trascina un'icona per riordinarla, oppure trascinala su un'altra scheda per spostarla",
+    "moveGroupHint": "Trascina su un'altra scheda per spostarlo lì",
     "reorderReset": "Ripristina",
     "groups": {
       "main": "Principale",

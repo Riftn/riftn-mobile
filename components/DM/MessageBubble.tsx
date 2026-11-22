@@ -56,6 +56,7 @@ import {
 import { findAssetRefs, stripAssetRefs } from "../../libs/asset-refs";
 import { haptic } from "../../libs/haptics";
 import { TipGemIcon } from "../Home/TipGemIcon";
+import DmOpenTimerMedia from "./DmOpenTimerMedia";
 import EncryptedMedia from "./EncryptedMedia";
 import LockedMedia from "./LockedMedia";
 import DmVideoTile, { useVideoPoster } from "./DmVideoTile";
@@ -984,7 +985,18 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             {mediaItems.length > 0 && !isVoice && !(isMedia && message.lock) && (
               <View>
                 {mediaItems.map((item, idx) =>
-                  item.kind === "audio" ? (
+                  message.destruct?.mode === "open" && (item.kind === "image" || item.kind === "video") ? (
+                    <DmOpenTimerMedia
+                      key={idx}
+                      messageId={message._id}
+                      mine={isMine}
+                      destruct={message.destruct}
+                      kind={item.kind}
+                      src={item.url}
+                      onOpenOwn={() => (item.kind === "video" ? handleVideoTap(item.url) : handleImageTapUrl(item.url))}
+                      onLongPress={handleLongPress}
+                    />
+                  ) : item.kind === "audio" ? (
                     <View key={idx} className="px-2 py-1 min-w-[220px]" style={{ maxWidth: MAX_IMAGE_WIDTH }}>
                       <VoiceNotePlayer audioUrl={item.url} compact />
                       {(item as any).name ? (

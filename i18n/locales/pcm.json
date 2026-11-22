@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Price",
     "reorderHint": "Hold and drag any icon wey you like so you can rearrange dem.",
+    "reorderHintGroups": "Hold and drag any icon make you rearrange am, or put am for another tab make you move am",
+    "moveGroupHint": "Drop am for anoda tab make e move go there",
     "reorderReset": "Reset",
     "findWords": {
       "home": "feed, timeline, latest posts, for you, people wey I dey follow, front page",

@@ -3001,6 +3001,8 @@
     "premium": "Premium",
     "pricing": "Preise",
     "reorderHint": "Halte und ziehe ein beliebiges Symbol, um es neu anzuordnen",
+    "reorderHintGroups": "Halte ein Symbol gedrückt und ziehe es, um die Anordnung zu ändern, oder ziehe es auf einen anderen Tab, um es zu verschieben",
+    "moveGroupHint": "Ziehe es auf einen anderen Tab, um es dorthin zu verschieben",
     "reorderReset": "Reset",
     "groups": {
       "main": "Start",
