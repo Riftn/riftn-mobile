@@ -23,9 +23,9 @@ import { NotificationType, NotificationCategory } from '../enums/notification.en
 import { storage } from '../../libs/storage';
 import { toastWarning } from '../../libs/toast';
 import { t } from 'i18next';
-import { getNotifications } from '../user.service';
+import { getNotifications, markNotificationAsRead } from '../user.service';
 import { prefetchNotifications } from '../../libs/notifications-cache';
-import { countUnreadNotifications, incrementUnreadCount } from '../../libs/notifications.unread';
+import { countUnreadNotifications, extractNotificationItems, incrementUnreadCount, notificationsMatchingTap } from '../../libs/notifications.unread';
 import { emitProfileDeepLink } from '../../libs/deeplink.events';
 import { openCustomPush } from '../../libs/custom-notification-route';
 import { readNotificationData as readTapData } from '../../libs/push-tap-data';
@@ -329,6 +329,27 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     }
   }, [isFullySignedIn, warmNotificationList]);
 
+  // Opening a push means its bell row was seen: mark the matching rows read
+  // and recount, so the red bell badge doesn't stay lit on Home afterwards.
+  const markTappedReadRef = useRef<(data: NotificationData) => void>(() => {});
+  markTappedReadRef.current = (data: NotificationData) => {
+    setTimeout(() => {
+      void (async () => {
+        try {
+          const rows = extractNotificationItems(await getNotifications({ limit: 100 })) as Array<{ _id?: string; id?: string; read?: boolean }>;
+          const hits = notificationsMatchingTap(rows, data as any);
+          await Promise.all(hits.map((row) => {
+            const id = String(row._id ?? row.id ?? '');
+            return id ? markNotificationAsRead(id).catch(() => null) : null;
+          }));
+        } catch (error) {
+          logger.warn('Could not mark tapped notification read', error as any);
+        }
+        void refreshUnreadCount();
+      })();
+    }, 1500);
+  };
+
   // Read through refs so the handler keeps one identity for the whole run. It
   // used to be rebuilt whenever auth or the user changed, and a rebuild in the
   // first moments after launch cancelled the cold-start check below for good:
@@ -362,7 +383,10 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       return;
     }
 
-    const route = () => whenNavigatorReady(() => routeNotificationTapRef.current?.(data, !!opts?.coldStart));
+    const route = () => whenNavigatorReady(() => {
+      routeNotificationTapRef.current?.(data, !!opts?.coldStart);
+      markTappedReadRef.current(data);
+    });
 
     // A push sent to another account saved on this phone opens as that
     // account: switch first, then open the tap once the switch has settled.
