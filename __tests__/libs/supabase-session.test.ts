@@ -1,4 +1,4 @@
-import { readStoredSessionUserId } from "../../libs/supabase-session";
+import { readStoredSessionUserId, restoreSavedSession } from "../../libs/supabase-session";
 
 const store = (value: string | null) => ({ getItem: jest.fn().mockResolvedValue(value) });
 
@@ -14,5 +14,26 @@ describe("readStoredSessionUserId", () => {
     await expect(readStoredSessionUserId(store("{oops"), "k")).resolves.toBeNull();
     await expect(readStoredSessionUserId(store(JSON.stringify({ user: {} })), "k")).resolves.toBeNull();
     await expect(readStoredSessionUserId(store("x"), undefined)).resolves.toBeNull();
+  });
+});
+
+describe("restoring a saved profile", () => {
+  const session = { user: { id: "selected" } };
+
+  it("accepts a confirmed session, including profiles saved before a user ID was recorded", async () => {
+    for (const id of ["selected", null]) {
+      await expect(restoreSavedSession(Promise.resolve({ data: { session }, error: null }), id)).resolves.toBeUndefined();
+    }
+  });
+
+  it("rejects a resolved SDK error so the caller rolls back the account switch", async () => {
+    const error = new Error("Saved session has expired");
+    await expect(restoreSavedSession(Promise.resolve({ data: { session: null }, error }), "selected")).rejects.toBe(error);
+  });
+
+  it("rejects a missing session or a session belonging to a different account", async () => {
+    for (const value of [null, session]) {
+      await expect(restoreSavedSession(Promise.resolve({ data: { session: value }, error: null }), "different")).rejects.toThrow("not restored");
+    }
   });
 });
