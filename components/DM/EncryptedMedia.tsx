@@ -16,6 +16,7 @@ import { View, Text, TouchableOpacity, ActivityIndicator, useWindowDimensions } 
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import SmartImage from "../common/SmartImage";
+import DmOpenTimerMedia from "./DmOpenTimerMedia";
 import Icon from "../ui/Icon";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
 import { toastError } from "../../libs/toast";
@@ -182,6 +183,22 @@ const EncryptedMediaComponent: React.FC<Props> = ({
       ) : null}
     </View>
   );
+
+  // Gone a few seconds after the first open: a tile, not the picture.
+  if (destruct?.mode === "open" && (d.kind === "image" || d.kind === "video")) {
+    return (
+      <DmOpenTimerMedia
+        messageId={messageId}
+        mine={!!isMine}
+        destruct={destruct}
+        kind={d.kind}
+        src={uri}
+        resolveSource={start}
+        onOpenOwn={d.kind === "video" ? () => void openVideo() : openImage}
+        onLongPress={onLongPress}
+      />
+    );
+  }
 
   const placeholder = d.thumb ? (
     <SmartImage
