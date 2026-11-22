@@ -553,7 +553,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             </TouchableOpacity>
             {/* Riftn followers plus the creator's own figures for their linked
                 socials. Absent until a social carries a count. */}
-            <TotalReachPill source={user} followers={followersCount} />
+            <TotalReachPill wallet={address} source={user} followers={followersCount} />
             {/* The links ride at the end of the counts line and only wrap
                 below when the line is genuinely full. */}
             <ProfileLinksPill source={user} style={{ marginLeft: "auto" }} />
