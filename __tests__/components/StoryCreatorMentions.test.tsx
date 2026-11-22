@@ -2,6 +2,7 @@ import React from "react";
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import StoryCreator from "../../components/Stories/StoryCreator";
+import { composePhoto } from "../../components/Stories/story-compose";
 import { shareMoment } from "../../components/Stories/story-upload";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
 
@@ -57,7 +58,7 @@ jest.mock("@shopify/react-native-skia", () => ({
 }));
 jest.mock("../../components/Stories/story-compose", () => ({
   ...jest.requireActual("../../components/Stories/story-compose"),
-  composePhoto: async () => "file:///moment.jpg",
+  composePhoto: jest.fn(async () => "file:///moment.jpg"),
 }));
 
 const address = "0x0000000000000000000000000000000000000001";
@@ -119,6 +120,23 @@ it("tracks one gesture across multiple text position updates and publishes the f
   const box = jest.mocked(shareMoment).mock.calls[0][0].fields.mentions![0];
   expect(box.x + box.w / 2).toBeGreaterThan(0.6);
   expect(box.y + box.h / 2).toBeGreaterThan(0.7);
+  editor.unmount();
+  client.clear();
+});
+
+it("keeps a text layer's chosen orientation through editing and export", async () => {
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={() => {}} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByLabelText("Text"));
+  fireEvent.changeText(editor.getByPlaceholderText("Type something"), "Upward");
+  for (let i = 0; i < 6; i++) fireEvent.press(editor.getByLabelText("Rotate"));
+  fireEvent.press(editor.getByLabelText("Done"));
+  expect(editor.getByLabelText("Upward").props.style.transform).toContainEqual({ rotate: "270deg" });
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(composePhoto).toHaveBeenCalledWith("file:///photo.jpg", [
+    expect.objectContaining({ text: "Upward", rotation: 270, x: 0.5, y: 0.42 }),
+  ]));
   editor.unmount();
   client.clear();
 });

@@ -25,6 +25,8 @@ export interface TextLayer {
   size: number;
   color: string;
   box: boolean;
+  /** Clockwise degrees around the centre. */
+  rotation?: number;
   mentionAddress?: string;
 }
 
@@ -57,6 +59,8 @@ function drawText(canvas: SkCanvas, layer: TextLayer) {
   const lineH = px * 1.18;
   const cx = layer.x * OUT_W;
   const top = layer.y * OUT_H - (lines.length * lineH) / 2;
+  canvas.save();
+  canvas.rotate(layer.rotation ?? 0, cx, layer.y * OUT_H);
   lines.forEach((line, i) => {
     const paragraph = layoutLine(line, px, layer);
     const w = paragraph.getLongestLine();
@@ -73,6 +77,7 @@ function drawText(canvas: SkCanvas, layer: TextLayer) {
     }
     paragraph.paint(canvas, cx - w / 2, lineTop + (lineH - paragraph.getHeight()) / 2);
   });
+  canvas.restore();
 }
 
 /** Tap targets use the same paragraph and padding as the exported labels. */
@@ -138,7 +143,7 @@ export async function composeOverlay(layers: TextLayer[]): Promise<string | null
   const visible = layers.filter((l) => l.text.trim());
   if (!visible.length) return null;
   const surface = Skia.Surface.Make(OUT_W, OUT_H) ?? Skia.Surface.MakeOffscreen(OUT_W, OUT_H);
-  if (!surface) return null;
+  if (!surface) throw new Error("could not allocate overlay surface");
   const canvas = surface.getCanvas();
   canvas.clear(Skia.Color("transparent"));
   visible.forEach((l) => drawText(canvas, l));

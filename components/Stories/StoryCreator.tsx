@@ -460,9 +460,15 @@ function DraggableText({
   return (
     <View
       pointerEvents="box-none"
-      style={{ position: "absolute", left: 0, width: stageW, top: layer.y * stageH - fontSize * 0.59, alignItems: "center", transform: [{ translateX: (layer.x - 0.5) * stageW }] }}
+      style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}
     >
-      <View {...pan.panHandlers} accessible accessibilityRole="button" accessibilityLabel={layer.text} onAccessibilityTap={onTap}>
+      <View {...pan.panHandlers} accessible accessibilityRole="button" accessibilityLabel={layer.text} onAccessibilityTap={onTap}
+        style={{ transform: [
+          { translateX: (layer.x - 0.5) * stageW },
+          { translateY: (layer.y - 0.5) * stageH },
+          { rotate: `${layer.rotation ?? 0}deg` },
+        ] }}
+      >
         <Text style={textStyle(layer, fontSize)}>{layer.text}</Text>
       </View>
     </View>
@@ -512,7 +518,7 @@ function TextSheet({
             placeholder={t("stories.typeSomething", { defaultValue: "Type something" })}
             placeholderTextColor="rgba(255,255,255,0.6)"
             keyboardAppearance="dark"
-            style={[textStyle(layer, layer.size * stageW), { minWidth: 120, maxWidth: stageW }]}
+            style={[textStyle(layer, layer.size * stageW), { minWidth: 120, maxWidth: stageW, transform: [{ rotate: `${layer.rotation ?? 0}deg` }] }]}
           />
         </View>
         <Pressable onPress={() => {}} style={[styles.textTools, { paddingBottom: bottom + 10 }]}>
@@ -525,10 +531,18 @@ function TextSheet({
               />
             ))}
           </View>
-          <View style={styles.textRow}>
+          <View style={[styles.textRow, { flexWrap: "wrap" }]}>
             <TouchableOpacity onPress={() => onChange({ ...layer, box: !layer.box })} style={styles.chip}>
               <Text style={styles.chipText}>{layer.box ? t("stories.boxOn", { defaultValue: "Box on" }) : t("stories.boxOff", { defaultValue: "Box off" })}</Text>
             </TouchableOpacity>
+            {compose && (
+              <TouchableOpacity accessibilityRole="button" accessibilityLabel={t("dmVideo.rotate", { defaultValue: "Rotate" })}
+                accessibilityValue={{ text: `${layer.rotation ?? 0}°` }} style={styles.chip}
+                onPress={() => onChange({ ...layer, rotation: ((layer.rotation ?? 0) + 45) % 360 })}>
+                <Icon name="RotateCw" size={16} color="#fff" />
+                <Text style={styles.chipText}>{layer.rotation ?? 0}°</Text>
+              </TouchableOpacity>
+            )}
             {sizes.map((s, i) => (
               <TouchableOpacity key={s} onPress={() => onChange({ ...layer, size: s })} style={[styles.chip, layer.size === s && styles.chipOn]}>
                 <Text style={[styles.chipText, { fontSize: 12 + i * 3 }]}>Aa</Text>
