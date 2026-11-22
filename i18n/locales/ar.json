@@ -1,4 +1,12 @@
 {
+  "reviewCard": {
+    "title": "هل يعجبك Riftn؟",
+    "body": "تقييم سريع على {{store}} يساعد المزيد من الناس على إيجادنا.",
+    "rate": "قيّم",
+    "notNow": "ليس الآن",
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
   "exploreTopics": {
     "humor": "فكاهة",
     "life": "الحياة"
@@ -2906,6 +2914,12 @@
   },
   "features": {
     "myRequests": "طلباتي",
+    "sideFeatures": "طلبات الميزات",
+    "sideBugs": "بلاغات الأخطاء",
+    "bugHeading": "ما الذي لا يعمل؟",
+    "bugHint": "قل ما حدث وما كنت تتوقعه. لقطة الشاشة تساعد.",
+    "sideFeaturesShort": "الميزات",
+    "sideBugsShort": "الأخطاء",
     "prompts": "المقترحات",
     "queued": "في الانتظار",
     "promptPageTitle": "الطلبات",
