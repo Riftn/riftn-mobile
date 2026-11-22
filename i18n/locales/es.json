@@ -2910,12 +2910,6 @@
   },
   "features": {
     "myRequests": "Mis solicitudes",
-    "sideFeatures": "Ideas nuevas",
-    "sideBugs": "Errores",
-    "bugHeading": "¿Qué no funciona?",
-    "bugHint": "Cuenta qué pasó y qué esperabas. Una captura ayuda.",
-    "sideFeaturesShort": "Ideas",
-    "sideBugsShort": "Errores",
     "prompts": "Propuestas",
     "queued": "En cola",
     "promptPageTitle": "Solicitudes",

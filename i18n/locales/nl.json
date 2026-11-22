@@ -3098,12 +3098,6 @@
   },
   "features": {
     "myRequests": "Mijn verzoeken",
-    "sideFeatures": "Ideeën",
-    "sideBugs": "Bugs",
-    "bugHeading": "Wat werkt er niet?",
-    "bugHint": "Vertel wat er gebeurde en wat je verwachtte. Een screenshot helpt.",
-    "sideFeaturesShort": "Ideeën",
-    "sideBugsShort": "Bugs",
     "prompts": "Voorstellen",
     "queued": "In de wachtrij",
     "promptPageTitle": "Verzoeken",

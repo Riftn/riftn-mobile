@@ -31,12 +31,9 @@ it('uses account-specific keys and limits the queued, shipped and count requests
     await queryFn();
   }
   const urls = mockFetch.mock.calls.map(([url]) => new URL(String(url)));
-  expect(urls).toHaveLength(5);
+  expect(urls).toHaveLength(4);
   expect(urls.map(url => url.searchParams.get('status'))).toEqual([
     'in.(in_progress)', 'in.(completed,shipped)', null, 'not.in.("completed","shipped","declined","in_progress")',
-    'not.in.("completed","shipped","declined","in_progress")',
   ]);
-  // The last count is the open bug reports, for the Features / Bugs switch.
-  expect(urls[4].searchParams.get('category')).toBe('in.(bug_fix,bug)');
   for (const url of urls) expect(url.searchParams.get('author_wallet_address')).toBe('ilike.0xabc');
 });

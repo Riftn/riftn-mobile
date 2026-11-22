@@ -54,8 +54,6 @@ export type FeatureStatus =
   | "declined";
 
 export type FeatureSort = "most_voted" | "newest";
-/** The board's two sides: bug reports (the Bug Fix category) and everything else. */
-export type FeatureKind = "features" | "bugs";
 
 export interface FeatureRequest {
   id: string;
@@ -165,13 +163,6 @@ const SHIPPED_STATUSES: FeatureStatus[] = ["completed", "shipped"];
  * put the same row on two tabs at once.
  */
 const RESOLVED_STATUSES = '("completed","shipped","declined","in_progress")';
-// Bug reports are stored as `bug_fix` (old rows may still say `bug`).
-const BUG_CATEGORY_VALUES = ["bug_fix", "bug"];
-const BUG_CATEGORY_LIST = `(${BUG_CATEGORY_VALUES.join(",")})`;
-
-export function featureKindOf(category: string | null | undefined): FeatureKind {
-  return category === "bug_fix" || category === "bug" ? "bugs" : "features";
-}
 
 /** Matches the cardinality bound on feature_requests.image_urls. */
 export const MAX_FEATURE_ATTACHMENTS = 6;
@@ -236,17 +227,14 @@ export function useFeatureRequests(
   category: FeatureCategory | "all",
   search: string,
   authorWallet?: string,
-  kind?: FeatureKind,
 ) {
   return useInfiniteQuery({
-    queryKey: ["feature-requests", sort, category, search, authorWallet, kind],
+    queryKey: ["feature-requests", sort, category, search, authorWallet],
     queryFn: async ({ pageParam = 0 }) => {
       let query = supabase.from("feature_requests").select("*");
 
       if (authorWallet) query = query.ilike("author_wallet_address", authorWallet);
       if (category !== "all") query = query.eq("category", category);
-      else if (kind === "bugs") query = query.in("category", BUG_CATEGORY_VALUES);
-      else if (kind === "features") query = query.not("category", "in", BUG_CATEGORY_LIST);
 
       const term = search.trim();
       if (term) {
@@ -362,18 +350,13 @@ export function useFeatureCounts(authorWallet?: string) {
         const query = supabase.from("feature_requests").select("*", { count: "exact", head: true });
         return authorWallet ? query.ilike("author_wallet_address", authorWallet) : query;
       };
-      const open = () => count().not("status", "in", RESOLVED_STATUSES);
-      const [totalRes, openRes, openBugsRes] = await Promise.all([
+      const [totalRes, openRes] = await Promise.all([
         count(),
-        open(),
-        open().in("category", BUG_CATEGORY_VALUES),
+        count().not("status", "in", RESOLVED_STATUSES),
       ]);
       if (totalRes.error) throw totalRes.error;
       if (openRes.error) throw openRes.error;
-      // The bug count only feeds the Features / Bugs switch; never blank the board over it.
-      const openBugs = openBugsRes.error ? 0 : openBugsRes.count ?? 0;
-      const openTotal = openRes.count ?? 0;
-      return { total: totalRes.count ?? 0, open: openTotal, openBugs, openFeatures: Math.max(0, openTotal - openBugs) };
+      return { total: totalRes.count ?? 0, open: openRes.count ?? 0 };
     },
     staleTime: 60_000,
     gcTime: 5 * 60_000,

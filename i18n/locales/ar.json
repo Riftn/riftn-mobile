@@ -2914,12 +2914,6 @@
   },
   "features": {
     "myRequests": "طلباتي",
-    "sideFeatures": "طلبات الميزات",
-    "sideBugs": "بلاغات الأخطاء",
-    "bugHeading": "ما الذي لا يعمل؟",
-    "bugHint": "قل ما حدث وما كنت تتوقعه. لقطة الشاشة تساعد.",
-    "sideFeaturesShort": "الميزات",
-    "sideBugsShort": "الأخطاء",
     "prompts": "المقترحات",
     "queued": "في الانتظار",
     "promptPageTitle": "الطلبات",
