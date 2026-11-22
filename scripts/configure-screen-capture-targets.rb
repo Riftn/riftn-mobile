@@ -11,7 +11,7 @@ def configure_screen_capture_targets(ios_directory)
   embed.dst_subfolder_spec = '13'
   definitions = [
     ['DeHubCaptureSetup', 'io.dehub.mobile.screen-capture-setup', 'BroadcastSetup', ['CaptureLedger.swift', 'BroadcastSetup/CaptureSetupViewController.swift']],
-    ['DeHubCaptureUpload', 'io.dehub.mobile.screen-capture-upload', 'BroadcastUpload', ['CaptureLedger.swift', 'Shared/CaptureGeometry.swift', 'Shared/CaptureMovieWriter.swift', 'BroadcastUpload/CaptureSampleHandler.swift', 'BroadcastUpload/LiveShareUploader.swift']]
+    ['DeHubCaptureUpload', 'io.dehub.mobile.screen-capture-upload', 'BroadcastUpload', ['CaptureLedger.swift', 'Shared/CaptureGeometry.swift', 'Shared/CaptureMovieWriter.swift', 'BroadcastUpload/CaptureSampleHandler.swift', 'BroadcastUpload/LiveShareUploader.swift', 'BroadcastUpload/LiveBroadcastSession.swift', 'LivePublish/Amf0.swift', 'LivePublish/RtmpPublisher.swift', 'LivePublish/LiveVideoEncoder.swift', 'LivePublish/LiveFrameRenderer.swift', 'LivePublish/LiveAudioPipeline.swift', 'LivePublish/LiveScreenPublisher.swift']]
   ]
   definitions.each do |name, identifier, folder, sources|
     target = project.targets.find { |item| item.name == name } || project.new_target(:app_extension, name, :ios, '15.1')

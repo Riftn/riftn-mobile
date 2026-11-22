@@ -19,6 +19,28 @@ import { supabase } from "../services/supabase";
 import { useUser } from "../context/AuthContext";
 import { withWalletHeader } from "../libs/supabase-wallet-client";
 import { getAccount } from "../services/user.service";
+import { nftMarket } from "../services/nft-market.service";
+
+/**
+ * Drops rows for posts this viewer must not see: mature posts (and posts of
+ * accounts marked mature) unless Show Mature Content is on, never on iOS. The
+ * same rule as the home feed and the NFT market; the backend decides. A failed
+ * check keeps the rows rather than blanking the market.
+ */
+async function dropHiddenPosts<T extends { token_id: string }>(rows: T[]): Promise<T[]> {
+  const ids = [...new Set(rows.map((r) => String(r.token_id)).filter((id) => /^\d+$/.test(id)))];
+  if (!ids.length) return rows;
+  try {
+    const hidden = new Set<string>();
+    for (let i = 0; i < ids.length; i += 200) {
+      const res = await nftMarket.hiddenPosts(ids.slice(i, i + 200));
+      for (const id of res?.hidden ?? []) hidden.add(String(id));
+    }
+    return hidden.size ? rows.filter((r) => !hidden.has(String(r.token_id))) : rows;
+  } catch {
+    return rows;
+  }
+}
 
 /** Fractions minted per upload. Every token id is 1000 units, always. */
 export const TOTAL_FRACTIONS = 1000;
@@ -239,7 +261,7 @@ export function useMarketListings(sort: MarketSort = "newest", search = "") {
       if (error) throw error;
       // A listing whose whole quantity is reserved is still `active` until the
       // reservation lands; a card quoting "0 available" is noise.
-      return ((data || []) as FractionListing[]).filter((l) => l.quantity - l.filled_quantity > 0);
+      return dropHiddenPosts(((data || []) as FractionListing[]).filter((l) => l.quantity - l.filled_quantity > 0));
     },
     // Typing in the search box keeps the current grid on screen instead of
     // flashing the loader between keystrokes.
@@ -263,7 +285,7 @@ export function useRecentTrades(limit = 40) {
         .order("created_at", { ascending: false })
         .limit(limit);
       if (error) throw error;
-      return (data || []) as FractionTrade[];
+      return dropHiddenPosts((data || []) as FractionTrade[]);
     },
     staleTime: 30_000,
   });

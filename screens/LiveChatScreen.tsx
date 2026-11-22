@@ -19,6 +19,7 @@ import {
   Keyboard,
   type GestureResponderEvent,
   Platform,
+  StyleSheet,
 } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { DeHubLoader } from "../components/DeHubLoader";
@@ -88,6 +89,8 @@ const getDateLabel = (iso: string, t: TFunction, lang?: string): string => {
 const MAINTAIN_POSITION = { minIndexForVisible: 0 } as const;
 
 const MAX_READ_SPOT_PAGES = 10;
+/** Longest the list stays hidden waiting for the unread line before it opens at the newest. */
+const REVEAL_CAP_MS = 1800;
 
 type ListItem =
   | { type: "message"; data: LiveChatMessageData }
@@ -414,13 +417,26 @@ const LiveChatScreen: React.FC = () => {
   const [linesBelow, setLinesBelow] = useState(0);
   const [unreadMarkerAbove, setUnreadMarkerAbove] = useState(false);
   const [unreadMarkerSeen, setUnreadMarkerSeen] = useState(false);
+  // The list stays hidden until it is where it opens: at the newest line, or
+  // on the unread line once that is known. Showing it at the newest line and
+  // then jumping up to the unread line made the chat jolt on every open.
+  // Capped, so a slow read spot still opens at the newest line.
+  const [landed, setLanded] = useState(false);
+  useEffect(() => {
+    if (!initialScrollDone || landed) return;
+    const timer = setTimeout(() => setLanded(true), REVEAL_CAP_MS);
+    return () => clearTimeout(timer);
+  }, [initialScrollDone, landed]);
   useEffect(() => {
     if (readDecided || !initialScrollDone || !messages.length || !readSpot.ready) return;
     const decide = (anchor: UnreadAnchor | null) => {
       setReadDecided(true);
       setUnreadAnchor(anchor);
       if (anchor) isAtBottomRef.current = false;
-      else readTrackingRef.current = true;
+      else {
+        readTrackingRef.current = true;
+        setLanded(true);
+      }
     };
     if (!readSpot.opening || hasNewer) { decide(null); return; }
     const lines = messages.map((m) => ({
@@ -463,6 +479,8 @@ const LiveChatScreen: React.FC = () => {
       try {
         flatListRef.current?.scrollToIndex({ index, animated: false, viewPosition: 0 });
       } catch { /* onScrollToIndexFailed */ }
+      // Shown once the rows at the marker have drawn.
+      requestAnimationFrame(() => requestAnimationFrame(() => setLanded(true)));
       setTimeout(() => { readTrackingRef.current = true; reportReadSpotRef.current(); }, 600);
     }, 150);
     return () => clearTimeout(timer);
@@ -1279,7 +1297,7 @@ const LiveChatScreen: React.FC = () => {
           scrollEnabled={!contextMenuVisible}
           renderItem={renderItem}
           keyExtractor={keyExtractor}
-          style={{ opacity: initialScrollDone || listItems.length === 0 ? 1 : 0 }}
+          style={{ opacity: (initialScrollDone && landed) || listItems.length === 0 ? 1 : 0 }}
           contentContainerStyle={
             listItems.length === 0
               ? { flex: 1 }
@@ -1323,6 +1341,13 @@ const LiveChatScreen: React.FC = () => {
         />
         </ReactionArrivalScope>
         </Animated.View>
+
+        {listItems.length > 0 && !(initialScrollDone && landed) ? (
+          // Same loader as joining, while the list finds where it opens.
+          <View pointerEvents="none" style={[StyleSheet.absoluteFill, { alignItems: "center", justifyContent: "center" }]}>
+            <DeHubLoader size={56} />
+          </View>
+        ) : null}
 
         {(() => {
           // Same control as DMs: up to the unread line until it has been seen,

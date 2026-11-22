@@ -1,4 +1,12 @@
 {
+  "reviewCard": {
+    "title": "Riftn'i sevdin mi?",
+    "body": "{{store}} üzerinde kısa bir puan, daha çok kişinin bizi bulmasına yardım eder.",
+    "rate": "Puan ver",
+    "notNow": "Şimdi değil",
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
   "exploreTopics": {
     "humor": "Mizah",
     "life": "Hayat"
@@ -2902,6 +2910,12 @@
   },
   "features": {
     "myRequests": "Taleplerim",
+    "sideFeatures": "Özellik istekleri",
+    "sideBugs": "Hata bildirimleri",
+    "bugHeading": "Ne çalışmıyor?",
+    "bugHint": "Ne olduğunu ve ne beklediğini yaz. Ekran görüntüsü işe yarar.",
+    "sideFeaturesShort": "Özellikler",
+    "sideBugsShort": "Hatalar",
     "prompts": "İstemler",
     "queued": "Sırada",
     "promptPageTitle": "İstekler",
@@ -7832,7 +7846,14 @@
       "stop": "Ekran paylaşımını durdur",
       "sharing": "Ekranını paylaşıyorsun",
       "hint": "İzleyiciler ekranını görüyor. Kameraya dönmek için ekran düğmesine dokun.",
-      "iosHint": "İzleyiciler Riftn açıkken onu görür. Başka bir uygulamaya geçtiğinde iPhone görüntüyü duraklatır; sesin devam eder."
+      "iosHint": "İzleyiciler Riftn açıkken onu görür. Başka bir uygulamaya geçtiğinde iPhone görüntüyü duraklatır; sesin devam eder.",
+      "tapStart": "Ekranını paylaşmak için Yayını Başlat'a dokun",
+      "connecting": "Ekran paylaşımı başlatılıyor…",
+      "micTip": "İzleyicilerin seni duyması için önce Mikrofon'u aç.",
+      "anyApp": "Paylaşımı durdurana kadar izleyiciler ekranını her uygulamada görür.",
+      "micOn": "Mikrofonun açık",
+      "micOff": "Mikrofonun kapalı. Konuşmak için paylaşımı durdur ve tekrar paylaşırken Mikrofon'u aç.",
+      "failed": "Ekran paylaşımı canlı yayın sunucusuna ulaşamadı. Kameraya geri döndün."
     }
   },
   "liveShop": {

@@ -320,6 +320,23 @@ export function withOpusFec(sdp: string): string {
 }
 
 /**
+ * RTMP publish URL for a broadcast, for an encoder that takes one URL (the
+ * iPhone screen-share extension). The self-hosted ingest takes RTMP on the
+ * `-rtmp` path with the key in the query (its relay turns the AAC into Opus
+ * and republishes on the playbackId, exactly as for OBS); Livepeer takes the
+ * key as the stream name.
+ */
+export function rtmpPublishUrlFor(stream: LiveStreamRef | null | undefined): string | null {
+  const key = stream?.streamKey;
+  if (!key) return null;
+  if (liveProviderOf(stream) === 'mediamtx') {
+    if (!stream?.playbackId) return null;
+    return `rtmp://${MEDIAMTX_HOST}/${stream.playbackId}-rtmp?user=dehub&pass=${key}`;
+  }
+  return `rtmp://rtmp.livepeer.com/live/${key}`;
+}
+
+/**
  * Splits an ingest URL into the two boxes an encoder actually has.
  *
  * OBS offers one Server field and one Stream Key field, and it joins them with

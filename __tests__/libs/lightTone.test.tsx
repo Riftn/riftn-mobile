@@ -56,6 +56,18 @@ it('flips inline greys, except inside a dark surface', () => {
   expect(tree.root.findByType(Text as any).props.style).toEqual({ color: '#fff' });
 });
 
+it('holds muted class text to the readable strength', () => {
+  const soft = { className: 'text-xs text-white/50 uppercase', children: 'hi' };
+  expect(tone(Text, soft)).toEqual([Text, soft]);
+  setLightTone(true);
+  expect(tone(Text, soft)[1].className).toBe('text-xs text-white/70 uppercase');
+  expect(tone(Text, { className: 'text-white/45' })[1].className).toBe('text-white/70');
+  // Stronger text, faint disabled text and state variants stay as written.
+  for (const className of ['text-white/80', 'text-white/30', 'active:text-white/50', 'placeholder:text-white/40', 'bg-white/50']) {
+    expect(tone(Text, { className })[1].className).toBe(className);
+  }
+});
+
 it('keeps LIGHT_PAGE_FILL white, where a plain white fill turns to ink', () => {
   const { LIGHT_PAGE_FILL } = jest.requireActual('../../theme/colors');
   // Navigator options reach a View through react-native-screens' source, so
