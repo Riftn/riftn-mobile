@@ -65,6 +65,7 @@ jest.mock('../../services/ai.service', () => ({ dehubAuthHeaders: jest.fn() }));
 jest.mock('../../libs/supabase-wallet-client', () => ({ withWalletHeader: (q: unknown) => q }));
 jest.mock('../../libs/stage-recording-delete', () => ({ deleteStageRecordings: jest.fn() }));
 jest.mock('../../libs/openStagesHub', () => ({ openStagesHub: jest.fn() }));
+jest.mock('../../libs/ai-consent', () => ({ hasAiConsent: () => true }));
 jest.mock('../../libs/stage-broadcast', () => ({ watchStages: () => () => {} }));
 jest.mock('../../hooks/useSuperpowers', () => ({ useFrontRow: () => ({ data: null }) }));
 const mockAskToEnd = jest.fn();
@@ -72,6 +73,8 @@ jest.mock('../../components/Stages/confirmEndStage', () => ({ askToEndStage: (..
 const mockUpload = jest.fn();
 jest.mock('expo-file-system/legacy', () => ({
   cacheDirectory: 'file:///cache/',
+  EncodingType: { Base64: 'base64' },
+  writeAsStringAsync: jest.fn(async () => {}),
   getInfoAsync: jest.fn(async () => ({ exists: true, size: 2048 })),
   uploadAsync: (...a: unknown[]) => mockUpload(...a),
   deleteAsync: jest.fn(async () => {}),
@@ -95,7 +98,7 @@ const ENGINE_METHODS = [
   'registerEventHandler', 'initialize', 'enableVideo', 'enableLocalVideo', 'muteLocalVideoStream',
   'setRemoteDefaultVideoStreamType', 'setChannelProfile', 'setClientRole', 'enableAudio',
   'enableAudioVolumeIndication', 'muteLocalAudioStream', 'joinChannel', 'leaveChannel',
-  'startAudioRecording', 'stopAudioRecording', 'setAudioEffectPreset', 'stopAudioMixing', 'updateChannelMediaOptions',
+  'startAudioRecording', 'stopAudioRecording', 'setAudioEffectPreset', 'stopAudioMixing', 'startAudioMixing', 'updateChannelMediaOptions',
 ];
 beforeEach(() => {
   for (const m of ENGINE_METHODS) mockEngine[m] = jest.fn(() => 0);
@@ -209,4 +212,34 @@ it('counts a hand already up as raised, and says so when the request never reach
   await act(async () => { await result.current.raiseHand(); });
   expect(result.current.hasRaisedHand).toBe(false);
   expect(mockToastError).toHaveBeenCalledWith(null, 'common.somethingWentWrong');
+});
+
+describe('Stage speech', () => {
+  const originalFetch = global.fetch;
+  afterEach(() => { global.fetch = originalFetch; });
+
+  it('sends on the first tap through the stock voice catalogue when localized voices are unavailable', async () => {
+    const fetcher = jest.fn()
+      .mockResolvedValueOnce({ ok: false, status: 500 })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ voices: [{ voice_id: 'stock' }] }) })
+      .mockResolvedValueOnce({ ok: true, arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer });
+    global.fetch = fetcher;
+    const { result } = renderHook(() => useStages());
+    await enter(result, 'mine');
+    let sent: boolean | undefined;
+    await act(async () => { sent = await result.current.generateTts(' Test '); });
+    expect(sent).toBe(true);
+    expect(fetcher.mock.calls[1][0]).toBe('https://sb.test/functions/v1/elevenlabs-voices?page_size=30');
+    expect(JSON.parse(fetcher.mock.calls[2][1].body)).toEqual({ text: 'Test', voiceId: 'stock' });
+    expect(mockEngine.startAudioMixing).toHaveBeenCalledWith(expect.stringMatching(/tts_.*\.mp3$/), false, 1);
+  });
+
+  it('reports an unsuccessful send when the engine rejects the audio', async () => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: true, arrayBuffer: async () => new Uint8Array([1, 2, 3]).buffer });
+    const { result } = renderHook(() => useStages());
+    await enter(result, 'mine');
+    mockEngine.startAudioMixing.mockReturnValue(-1);
+    await act(async () => { expect(await result.current.generateTts('keep this draft', 'stock')).toBe(false); });
+    expect(mockToastError).toHaveBeenCalled();
+  });
 });
