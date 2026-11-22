@@ -99,3 +99,13 @@ export async function mentionSearch(q: string): Promise<MentionUser[]> {
     return [];
   }
 }
+
+/**
+ * The signed-in person's own short list: people they tagged before, then
+ * people they follow. Kept on the phone (libs/mentionPeople) so the first
+ * letters after an @ are answered without a request. Throws on failure.
+ */
+export async function mentionSeed(): Promise<MentionUser[]> {
+  const res = await apiClient.get<{ result: MentionUser[] }>("/users/mention_seed");
+  return res?.result ?? [];
+}
