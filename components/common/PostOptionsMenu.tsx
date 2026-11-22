@@ -190,6 +190,7 @@ export interface PostOptionsMenuProps {
    */
   onToggleSave?: () => void;
   onDownloadVideo?: () => void;
+  onDownloadImage?: () => void;
   /** Video posts: offers "Cast to TV" (AirPlay on iPhone, screen cast on Android). */
   canCast?: boolean;
   /** Live streams: opens the clip editor on the last minute ("Clip this moment"). */
@@ -422,6 +423,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   isSaved = false,
   onToggleSave,
   onDownloadVideo,
+  onDownloadImage,
   canCast = false,
   onClip,
   onRemix,
@@ -781,6 +783,10 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
           {!!onClip && (
             <OptionRow icon="Scissors" label={t("liveClips.button", { defaultValue: "Clip this moment" })}
               onPress={() => { onClose(); onClip(); }} />
+          )}
+          {!!onDownloadImage && (
+            <OptionRow icon="Download" label={t("player.downloadImage")}
+              onPress={() => { onClose(); onDownloadImage(); }} />
           )}
           {!!onDownloadVideo && (
             <OptionRow icon="Download" label={t("postOptions.download")}

@@ -42,6 +42,7 @@ import MatureContentGate, { useMatureGate } from "./MatureContentGate";
 import ContentWarningGate, { useContentWarning } from "./ContentWarningGate";
 import AudioPostPlayer from "./ProtectedAudioPostPlayer";
 import FeedVideoPlayer from "./FeedVideoPlayer";
+import { downloadGalleryImage } from "../../libs/downloadGalleryImage";
 import { rememberGalleryIndex } from "../../libs/media-presentation";
 import { nextPhotoViewerKey, pingPhotoViewerHost, registerPhotoViewerHost, type PhotoViewerPost } from "../../libs/photoViewerPost";
 import StatusBadge from "./StatusBadge";
@@ -973,6 +974,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // is for whoever is holding the phone.
   const matureGate = useMatureGate(localContentRating, postKey);
   const contentWarning = useContentWarning(edits.spoilerText ?? item.spoilerText, postKey);
+  const canDownloadImage = postImage && !isActuallyGated && (!isBounty || isOwnerPost) && !matureGate.isGated && !contentWarning.hidden;
   const isHidden = edits.hidden ?? !!(item as any).isHidden;
   const [follow, setFollow] = useKeyedState<{ following: boolean; pending: boolean } | null>(followKey, null);
   const isFollowingCreator = follow ? follow.following : !!(item as any).isFollowing;
@@ -1199,10 +1201,11 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       images: galleryImages,
       galleryKey: String(tokenId),
       initialIndex: index,
+      allowDownload: canDownloadImage,
       soundtrack: !isActuallyGated && !matureGate.isGated ? soundtrack : undefined,
       postKey: tokenId != null ? photoViewerKey : undefined,
     });
-  }, [navigation, galleryImages, hasImages, hideUserProfile, onBeforeNavigate, isActuallyGated, matureGate.isGated, soundtrack, tokenId, item, photoViewerKey]);
+  }, [navigation, galleryImages, hasImages, hideUserProfile, onBeforeNavigate, isActuallyGated, matureGate.isGated, soundtrack, tokenId, item, photoViewerKey, canDownloadImage]);
 
   const handleTranslateImage = useCallback(() => {
     const imageUrl = galleryImages[0];
@@ -2000,6 +2003,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       return (
         <View>
           <ComicDeck
+            galleryKey={String(tokenId)}
             images={galleryImages}
             captions={item.mediaCaptions}
             border={item.comicBorder}
@@ -2599,6 +2603,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           onTranslatePress={handleTranslate}
           onTranslateImagePress={hasImages ? handleTranslateImage : undefined}
           canCast={isVideo && !isLive && !isActuallyGated && !matureGate.isGated}
+          onDownloadImage={canDownloadImage ? () => void downloadGalleryImage(galleryImages, String(tokenId)) : undefined}
           onDownloadVideo={isVideo && !isLive && !isActuallyGated && !matureGate.isGated
             ? () => { const url = postFileUrl; if (url) void downloadVideo({ url, title: localTitle || "video", username: minterUser?.username || item.minterUsername }); }
             : undefined}
