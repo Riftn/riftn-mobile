@@ -2,7 +2,7 @@
  * Full-screen moments viewer. Port of web's `components/app/stories/StoryViewer`.
  *
  * Tap right/left for the next or last moment, hold to pause, swipe down to
- * close, swipe sideways for the next person. Photos run 5 s, videos their
+ * close, swipe sideways for the next person. Photos follow the author’s timer, videos their
  * length. Like and reply (a reply is a DM); owners see views and likes and who
  * watched, and can delete. Dark in every theme.
  */
@@ -30,7 +30,7 @@ import { useAudioPlayer } from "expo-audio";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
@@ -56,7 +56,7 @@ import {
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
 import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
 
-const PHOTO_MS = 5000;
+const DEFAULT_PHOTO_MS = 5000;
 const TICK_MS = 50;
 
 type Sheet = null | "more" | "viewers" | "report" | "delete" | "share" | "share-dm";
@@ -84,7 +84,27 @@ export default function StoryViewer({
   const [authorIdx, setAuthorIdx] = useState(firstIndex);
   const [itemIdx, setItemIdx] = useState(() => (entries[firstIndex] ? startIndex(entries[firstIndex]) : 0));
   const entry = list[authorIdx];
-  const item: StoryItem | undefined = entry?.items[itemIdx];
+  const snapshot: StoryItem | undefined = entry?.items[itemIdx];
+  const customAudience = snapshot?.audience === 'selected' || snapshot?.audience === 'except';
+  const delivery = useQuery({
+    queryKey: ['private-story-playback', snapshot?.id, me],
+    queryFn: () => getStory(snapshot!.id, true),
+    enabled: customAudience && !!me,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchInterval: 4 * 60 * 1000,
+    retry: false,
+  });
+  const item = useMemo(() => {
+    if (!customAudience) return snapshot;
+    if (!snapshot || !me || !delivery.isSuccess) return undefined;
+    const { mediaUrl, posterUrl, overlayUrl } = delivery.data.item;
+    return { ...snapshot, mediaUrl, posterUrl, overlayUrl };
+  }, [snapshot, customAudience, me, delivery.data, delivery.isSuccess]);
+  useEffect(() => {
+    if (customAudience && (!me || delivery.isError)) onClose();
+  }, [customAudience, me, delivery.isError, onClose]);
   const own = !!entry && (entry.own || entry.author.address.toLowerCase() === me);
 
   const [progress, setProgress] = useState(0);
@@ -128,13 +148,15 @@ export default function StoryViewer({
   );
 
   const elapsed = useRef(0);
+  // Deleting a Moment can replace it at the same index. Its successor still
+  // needs a fresh clock and reply, even when neither list index changes.
   useEffect(() => {
     elapsed.current = 0;
     setProgress(0);
     setReply("");
     setOpeningOriginal(false);
     return () => { originalRequest.current = null; };
-  }, [authorIdx, itemIdx]);
+  }, [snapshot?.id]);
 
   // Photo clock.
   const goItemRef = useRef(goItem);
@@ -143,7 +165,7 @@ export default function StoryViewer({
     if (!item || item.type === "video" || paused) return;
     const id = setInterval(() => {
       elapsed.current += TICK_MS;
-      const p = Math.min(1, elapsed.current / PHOTO_MS);
+      const p = Math.min(1, elapsed.current / Math.max(1000, item.durationMs || DEFAULT_PHOTO_MS));
       setProgress(p);
       if (p >= 1) {
         clearInterval(id);
