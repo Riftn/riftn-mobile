@@ -186,7 +186,7 @@ final class LiveAacEncoder {
       mFormatFlags: UInt32(MPEG4ObjectID.AAC_LC.rawValue), mBytesPerPacket: 0, mFramesPerPacket: UInt32(LiveAacEncoder.framesPerPacket),
       mBytesPerFrame: 0, mChannelsPerFrame: 2, mBitsPerChannel: 0, mReserved: 0)
     var description = AudioClassDescription(mType: kAudioEncoderComponentType, mSubType: kAudioFormatMPEG4AAC,
-      mManufacturer: kAppleSoftwareAudioCodecManufacturer)
+      mManufacturer: 0x6170_706C)  // 'appl': Apple's software encoder, available in extensions
     var created: AudioConverterRef?
     var status = AudioConverterNewSpecific(&inFormat, &outFormat, 1, &description, &created)
     if status != noErr || created == nil { status = AudioConverterNew(&inFormat, &outFormat, &created) }
