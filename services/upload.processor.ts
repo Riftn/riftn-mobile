@@ -27,6 +27,7 @@ import type { CreateQuotePostResponse } from "../services/repost.service";
 import { createPoll } from "../services/polls.service";
 import { prepareWalletForQueuedMint } from "../libs/wallet-signing-preflight";
 import { getDraftVideo, releaseDraftVideo, waitForDraftVideo, sendDraftFile } from "./draftVideo";
+import { needsResumableUpload } from "../libs/upload-limits";
 import { forgetDraftImages, resolveDraftImages } from "./draftImage";
 import { watchPostVideo } from "./post-video-watch";
 import { notePostPublished } from "../libs/review-prompt";
@@ -351,7 +352,12 @@ async function processJob(job: UploadJob): Promise<void> {
       uploadActions.setDraftVideo(job.id, { draftId });
       return draftId;
     };
-    const edited = !!(job.payload.videoTrim || job.payload.videoEdits);
+    // A video that has to go up as a draft: the server cuts trims and edits
+    // from the draft, and a file over the buffered cap can only go that way.
+    // Sending a big video as one request failed every retry with a size error
+    // (e.g. when the composer's own draft upload died while the server was down).
+    const edited = !!(job.payload.videoTrim || job.payload.videoEdits)
+      || (isVideoPost(job) && !!job.payload.video && await needsResumableUpload(job.payload.video.uri));
     let draftVideoId = await resolveDraftVideo(job, abortRef);
     if (!draftVideoId && edited) draftVideoId = await uploadEditedDraft();
     if (!ownsUploadJob(job) || abortRef.current) return;

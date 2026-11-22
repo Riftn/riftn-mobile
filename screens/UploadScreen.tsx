@@ -29,6 +29,7 @@ import {
 import { Gesture, GestureDetector, ScrollView as GestureScrollView } from "react-native-gesture-handler";
 import { COMPOSER_SHEET, useComposerSheet } from "../hooks/useComposerSheet";
 import { useKeyboardLiftValue } from "../hooks/useKeyboardLiftValue";
+import { selfLiftingComposers } from "../hooks/useComposerKeyboard";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import SmartImage from "../components/common/SmartImage";
 import { useNavigation, useRoute, CommonActions, useFocusEffect } from "@react-navigation/native";
@@ -387,6 +388,16 @@ export default function UploadScreen() {
   const safeBottom = useSafeAreaInsets().bottom;
   const kbLiftValue = useKeyboardLiftValue(Platform.OS === "ios" ? 0 : safeBottom);
   const toolbarLiftStyle = useAnimatedStyle(() => ({ marginBottom: kbLiftValue.value }));
+  // The composer lifts its own bar and its editor scrolls to the caret, so the
+  // app-wide keyboard pan must leave it alone. On a long post the text box runs
+  // past the bottom of the editor, the pan read that as "covered by the keys"
+  // and slid the whole screen up: the header went under the status bar and a
+  // blank band opened between the bar and the keyboard.
+  const composerRootRef = useRef<View>(null);
+  useEffect(() => {
+    selfLiftingComposers.add(composerRootRef);
+    return () => { selfLiftingComposers.delete(composerRootRef); };
+  }, []);
   // While the title or text is being typed in, the options box below gives
   // up most of its height so the writing area has room to show (and scroll
   // through) the title and several lines, not just the last two.
@@ -2665,7 +2676,7 @@ export default function UploadScreen() {
   }
 
   const composer = (
-    <View className="flex-1 bg-theme-background">{/* don't add top inset */}
+    <View ref={composerRootRef} collapsable={false} className="flex-1 bg-theme-background">{/* don't add top inset */}
       <GestureDetector gesture={dismissPan}>
         <View className="flex-row items-center justify-center pt-2 pb-1" collapsable={false}>
           <View className="w-10 h-1 rounded-full bg-white/30" />

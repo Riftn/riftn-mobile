@@ -14,6 +14,27 @@ export function assertBufferedUploadSizes(files: { size: number; type?: string }
   }
 }
 
+/** Bytes on disk for a local file, or null when its provider does not say. */
+export async function localFileSize(uri: string): Promise<number | null> {
+  try {
+    const FileSystem = require("expo-file-system/legacy") as typeof import("expo-file-system/legacy");
+    const info = await FileSystem.getInfoAsync(uri);
+    return info.exists && !info.isDirectory && Number.isFinite(info.size) ? info.size : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * True when a video is too big to send as one buffered request (the thumbnail
+ * rides along, so leave it room). Such a video has to go up through the
+ * resumable draft upload instead, or the post can never be sent.
+ */
+export async function needsResumableUpload(uri: string): Promise<boolean> {
+  const size = await localFileSize(uri);
+  return size != null && size > MAX_BUFFERED_UPLOAD_BYTES - 5_000_000;
+}
+
 /** Check metadata only; never load file contents into JavaScript memory. */
 export async function checkBufferedUploadSize(form: FormData): Promise<void> {
   const files: { size: number; type?: string }[] = [];
