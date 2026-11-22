@@ -30,7 +30,7 @@ import { useAudioPlayer } from "expo-audio";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
@@ -84,7 +84,27 @@ export default function StoryViewer({
   const [authorIdx, setAuthorIdx] = useState(firstIndex);
   const [itemIdx, setItemIdx] = useState(() => (entries[firstIndex] ? startIndex(entries[firstIndex]) : 0));
   const entry = list[authorIdx];
-  const item: StoryItem | undefined = entry?.items[itemIdx];
+  const snapshot: StoryItem | undefined = entry?.items[itemIdx];
+  const customAudience = snapshot?.audience === 'selected' || snapshot?.audience === 'except';
+  const delivery = useQuery({
+    queryKey: ['private-story-playback', snapshot?.id, me],
+    queryFn: () => getStory(snapshot!.id, true),
+    enabled: customAudience && !!me,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchInterval: 4 * 60 * 1000,
+    retry: false,
+  });
+  const item = useMemo(() => {
+    if (!customAudience) return snapshot;
+    if (!snapshot || !me || !delivery.isSuccess) return undefined;
+    const { mediaUrl, posterUrl, overlayUrl } = delivery.data.item;
+    return { ...snapshot, mediaUrl, posterUrl, overlayUrl };
+  }, [snapshot, customAudience, me, delivery.data, delivery.isSuccess]);
+  useEffect(() => {
+    if (customAudience && (!me || delivery.isError)) onClose();
+  }, [customAudience, me, delivery.isError, onClose]);
   const own = !!entry && (entry.own || entry.author.address.toLowerCase() === me);
 
   const [progress, setProgress] = useState(0);
