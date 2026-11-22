@@ -61,7 +61,8 @@ import { usePerfProbe, perfPropsEqual } from "../../libs/perfTrace";
 import { applyNavOrder, navOrderId, resetNavOrder, saveNavOrder, useNavOrder, toggleHomeShortcut } from "../../libs/navOrder";
 import SearchRequestPrompt from "../Search/SearchRequestPrompt";
 import { useAppPrefs } from "../../hooks/useAppPrefs";
-import { groupMenuItems, type MenuGroup } from "../../libs/menuGroups";
+import { defaultMenuGroupOf, groupMenuItems, type MenuGroup } from "../../libs/menuGroups";
+import { moveMenuTile, saveMenuGroupMoves, useMenuGroupMoves } from "../../libs/menuGroupMoves";
 
 // The menu is a bottom sheet: grab handle, who is signed in, the search field,
 // then a four-column grid of the same glossy 3D icons the web menu uses. It
@@ -416,8 +417,10 @@ const MenuSlot = memo(function MenuSlot({
  * The group words beside the search button (Tabs layout). Same 12px corners
  * as the search field; a glass pill slides under the lit word.
  */
-function MenuTabs({ labels, pos, onChange, square, surface }: {
+function MenuTabs({ labels, pos, onChange, square, surface, tabRefs }: {
   labels: string[];
+  /** Each tab's view, so a dragged tile can be dropped on it. */
+  tabRefs?: React.MutableRefObject<Array<View | null>>;
   /** The tab on show; fractional while a finger drags the pages. */
   pos: SharedValue<number>;
   onChange: (index: number) => void;
@@ -450,6 +453,7 @@ function MenuTabs({ labels, pos, onChange, square, surface }: {
       {labels.map((label, i) => (
         <TouchableOpacity
           key={i}
+          ref={(el) => { if (tabRefs) tabRefs.current[i] = el as unknown as View | null; }}
           accessibilityRole="tab"
           accessibilityState={{ selected: i === index }}
           activeOpacity={0.7}
@@ -697,7 +701,8 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
     () => filterNavRows(allowedItems, "", (key, defaultValue) => t(key, defaultValue)),
     [allowedItems, t],
   );
-  const menuGroups = useMemo(() => groupMenuItems(restingItems), [restingItems]);
+  const groupMoves = useMenuGroupMoves();
+  const menuGroups = useMemo(() => groupMenuItems(restingItems, groupMoves, navOrderId), [restingItems, groupMoves]);
   const grouped = menuGroups.length > 1;
   const [menuTab, setMenuTab] = useState(0);
   const tabIndex = Math.min(menuTab, Math.max(0, menuGroups.length - 1));
@@ -741,13 +746,31 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   const pins = useNavOrder("home");
   const target = useRef<View>(null);
   const targetBounds = useRef<{ x: number; y: number; w: number; h: number } | null>(null);
+  // Tab buttons in window coordinates, measured when a drag starts: dropping a
+  // tile on another tab moves it to that group (libs/menuGroupMoves).
+  const tabBounds = useRef<Array<{ x: number; y: number; w: number; h: number } | null>>([]);
+  const tabRefs = useRef<Array<View | null>>([]);
   const onDropOutside = (id: string, x: number, y: number) => {
+    if (tabsHeader && !searching) {
+      const hit = tabBounds.current.findIndex((b) => !!b && x >= b.x && x <= b.x + b.w && y >= b.y - 8 && y <= b.y + b.h + 8);
+      const group = hit >= 0 ? menuGroups[hit] : undefined;
+      const item = itemsById.get(id);
+      if (group && item) {
+        return moveMenuTile(id, group.id, defaultMenuGroupOf(item.labelKey), isSignedIn ? menuWallet : null);
+      }
+    }
     const r = targetBounds.current;
     if (!r || x < r.x || x > r.x + r.w || y < r.y || y > r.y + r.h) return false;
     toggleHomeShortcut(id, menuWallet);
     return true;
   };
   const menuReorder = useReorder({ ids: orderedIds, onCommit: commitMenuOrder, disabled: reorderOff, onDropOutside });
+  useEffect(() => {
+    if (!menuReorder.draggingId) return;
+    tabRefs.current.forEach((ref, i) => {
+      ref?.measureInWindow((x, y, w, h) => { tabBounds.current[i] = { x, y, w, h }; });
+    });
+  }, [menuReorder.draggingId]);
   const sortGroup = useCallback(
     (group: MenuGroup<DrawerItem>) => applyNavOrder(group.items, savedMenuOrder, (item) => navOrderId(item.labelKey)),
     [savedMenuOrder],
@@ -968,12 +991,20 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
   );
   const reorderHint = (
     <View style={styles.reorderHint}>
-      <Text style={styles.reorderHintText}>{t("nav.reorderHint", { defaultValue: "Hold and drag any icon to rearrange" })}</Text>
-      {savedMenuOrder.length > 0 && (
+      <Text style={styles.reorderHintText}>
+        {tabsHeader
+          ? t("nav.reorderHintGroups", { defaultValue: "Hold and drag any icon to rearrange, or onto another tab to move it" })
+          : t("nav.reorderHint", { defaultValue: "Hold and drag any icon to rearrange" })}
+      </Text>
+      {(savedMenuOrder.length > 0 || Object.keys(groupMoves).length > 0) && (
         <TouchableOpacity
           accessibilityRole="button"
           onPress={() => menuReorder.animateChange(
-            () => resetNavOrder("menu", isSignedIn ? menuWallet : null),
+            () => {
+              resetNavOrder("menu", isSignedIn ? menuWallet : null);
+              // Reset also puts every tile back in its own group.
+              if (Object.keys(groupMoves).length) saveMenuGroupMoves({}, isSignedIn ? menuWallet : null);
+            },
             reorderPool.map((item) => navOrderId(item.labelKey)),
           )}
           hitSlop={{ top: 14, bottom: 14, left: 10, right: 10 }}
@@ -1010,6 +1041,11 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
         {menuReorder.draggingId && (
           <Text style={{ color: appTheme.colors.foreground, backgroundColor: appTheme.colors.background, borderRadius: 18, overflow: "hidden", paddingHorizontal: 16, paddingVertical: 8, fontWeight: "600" }}>
             {t(pins.includes(menuReorder.draggingId) ? "communities.unpin" : "communities.pin")} · {t("nav.home")}
+          </Text>
+        )}
+        {menuReorder.draggingId && tabsHeader && (
+          <Text style={{ marginTop: 8, color: appTheme.colors.foreground, backgroundColor: appTheme.colors.background, borderRadius: 18, overflow: "hidden", paddingHorizontal: 14, paddingVertical: 6, fontSize: 13, fontWeight: "600" }}>
+            {t("nav.moveGroupHint", { defaultValue: "Drop on another tab to move it there" })}
           </Text>
         )}
       </View>
@@ -1149,6 +1185,7 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                   <Icon name="Search" size={18} color="#D4D4D8" />
                 </TouchableOpacity>
                 <MenuTabs
+                  tabRefs={tabRefs}
                   labels={menuGroups.map((group) => t(group.labelKey, group.fallback))}
                   pos={tabPos}
                   onChange={setMenuTab}
