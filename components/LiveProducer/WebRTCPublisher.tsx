@@ -9,6 +9,7 @@ import { AppState, View, Platform, Text } from "react-native";
 import { useTranslation } from "react-i18next";
 import { mediaDevices, RTCPeerConnection, RTCView } from "react-native-webrtc";
 import { showBroadcastPicker } from "../../modules/media-bridge";
+import { holdLiveAudioSession } from "../../libs/liveAudioSession";
 import { runWithPermissions, type PermissionKind } from "../../libs/permissions.util";
 import {
   whipEndpointFor,
@@ -261,6 +262,9 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
   // The screen track while sharing; camera-only effects leave the sender alone then.
   const screenTrackRef = useRef<any>(null);
   const [sharingScreen, setSharingScreen] = useState(false);
+  // The shared screen as its own stream, so the creator sees exactly what
+  // viewers get while sharing instead of a blank card.
+  const [screenURL, setScreenURL] = useState<string | null>(null);
   const onScreenShareEndedRef = useRef(onScreenShareEnded);
   onScreenShareEndedRef.current = onScreenShareEnded;
   // Re-acquires the camera; set by the background effect below.
@@ -275,6 +279,15 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
   useEffect(() => {
     dbg('config', { graceMs });
   }, [graceMs]);
+
+  // iPhone: keep the audio session able to record for as long as the
+  // microphone is captured. Any video playing or pausing elsewhere in the app
+  // switches it to playback only, which silences the mic and lets iOS suspend
+  // the app once a screen share takes the creator out of it.
+  useEffect(() => {
+    if (!localReady) return;
+    return holdLiveAudioSession();
+  }, [localReady]);
 
   // Preview acquisition (single capture)
   useEffect(() => {
@@ -1072,6 +1085,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
       if (!screen) return;
       screenTrackRef.current = null;
       setSharingScreen(false);
+      setScreenURL(null);
       try { screen.stop(); } catch {}
       currentFacingRef.current = facingRef.current;
       await reacquireCameraRef.current();
@@ -1095,6 +1109,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         if (cancelled) { try { screen.stop(); } catch {} return; }
         screenTrackRef.current = screen;
         setSharingScreen(true);
+        setScreenURL(computeStreamURL(display));
         try {
           screen.addEventListener?.("ended", () => {
             if (screenTrackRef.current === screen) void stopShare(true);
@@ -1175,16 +1190,33 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         </View>
       )}
 
+      {sharingScreen && screenURL ? (
+        // What viewers get, whole and unmirrored. Inside the app it repeats
+        // itself like facing mirrors; that is the honest picture.
+        <RTCView
+          streamURL={screenURL}
+          style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }}
+          mirror={false}
+          objectFit="contain"
+          // @ts-ignore android z-order props
+          zOrderMediaOverlay={false}
+          // @ts-ignore
+          zOrderOnTop={false}
+        />
+      ) : null}
+
       {sharingScreen ? (
         <View
-          className="absolute inset-0 items-center justify-center"
+          className="absolute inset-x-0 items-center"
+          // Under the header, so the shared picture itself stays in view.
+          style={{ top: 112 }}
           pointerEvents="none"
         >
-          <View className="bg-zinc-900/80 px-4 py-3 rounded-xl items-center">
+          <View className="bg-zinc-900/80 px-4 py-2.5 rounded-xl items-center mx-6">
             <Text className="text-white text-sm font-semibold">
               {t("live.screenShare.sharing", { defaultValue: "You're sharing your screen" })}
             </Text>
-            <Text className="text-white/60 text-xs mt-1">
+            <Text className="text-white/60 text-xs mt-1 text-center">
               {t("live.screenShare.hint", { defaultValue: "Viewers see your screen. Tap the screen button to switch back to the camera." })}
             </Text>
           </View>

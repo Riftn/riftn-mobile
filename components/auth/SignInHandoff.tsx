@@ -294,7 +294,10 @@ const Rift: React.FC<{
     Animated.timing(tear, { toValue: 1, duration: OPEN_MS, easing: ease, useNativeDriver: true }).start();
   }, [opened, instantOpen, tear]);
 
-  const lineIn = spin.interpolate({ inputRange: [0, 0.85, 1], outputRange: [0, 0, 1] });
+  // Fades are timed on the clock (time), as web's keyframes are; only the turn
+  // itself is eased. The logo stays solid until it is nearly edge-on, then
+  // hands over to the line, so the line forms out of the logo's edge.
+  const lineIn = clock.interpolate({ inputRange: [0, 0.855, 1], outputRange: [0, 0, 1] });
   const gone = tear.interpolate({ inputRange: [0, 1], outputRange: [1, 0] });
   // Never a "?": an account with no name yet shows the plain frame.
   const initial = (name || '').trim().charAt(0).toUpperCase();
@@ -303,8 +306,8 @@ const Rift: React.FC<{
       key={trail}
       style={[styles.abs, {
         opacity: trail
-          ? spin.interpolate({ inputRange: [0, 0.2, 0.6, 1], outputRange: [0, 0.22 / trail, 0, 0] })
-          : spin.interpolate({ inputRange: [0, 0.22, 0.88, 1], outputRange: [0, 1, 1, 0] }),
+          ? clock.interpolate({ inputRange: [0, 0.2, 0.6, 1], outputRange: [0, 0.22 / trail, 0, 0] })
+          : clock.interpolate({ inputRange: [0, 0.22, 0.88, 1], outputRange: [0, 1, 1, 0] }),
         transform: [
           { perspective: 600 },
           { rotateY: spin.interpolate({ inputRange: [0, 1], outputRange: [`${-30 * trail}deg`, `${990 - 4 * trail}deg`] }) },
