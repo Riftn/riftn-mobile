@@ -87,6 +87,11 @@ const GameCard = ({
 );
 };
 
+const FRIEND_GAMES = [
+  { screen: ScreenNames.CorrespondenceChess, icon: "Crown", title: "games.chess.title", body: "games.chess.cardBlurb", tint: "hsla(30, 30%, 22%, 1)" },
+  { screen: ScreenNames.Okey, icon: "Users", title: "games.okey.title", body: "games.okey.cardBlurb", tint: "hsla(155, 55%, 20%, 1)" },
+] as const;
+
 const ArcadeScreen = () => {
   const navigation = useNavigation<any>();
   const insets = useSafeAreaInsets();
@@ -121,6 +126,27 @@ const ArcadeScreen = () => {
             <Text style={styles.submitDescription}>{t("arcade.submitDescription")}</Text>
             <Text style={styles.submitAction}>{t("arcade.submitAction")}</Text>
           </Pressable>
+        </PageSection>
+
+        {/* Games with friends: native screens, played over days or at a table. */}
+        <PageSection title={t("games.withFriends")}>
+          <View style={styles.friends}>
+            {FRIEND_GAMES.map((g) => (
+              <Pressable
+                key={g.screen}
+                accessibilityRole="button"
+                accessibilityLabel={t(g.title)}
+                onPress={() => navigation.navigate(g.screen)}
+                style={({ pressed }) => [{ flex: 1 }, pressed && styles.cardPressed]}
+              >
+                <View style={[styles.friendCard, { backgroundColor: g.tint }]}>
+                  <Icon name={g.icon} size={18} color="#FFFFFF" />
+                  <Text style={styles.friendTitle} numberOfLines={1}>{t(g.title)}</Text>
+                  <Text style={styles.friendBody} numberOfLines={3}>{t(g.body)}</Text>
+                </View>
+              </Pressable>
+            ))}
+          </View>
         </PageSection>
 
         {ARCADE_GAMES.map((game) => (
@@ -199,6 +225,10 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.1)",
   },
   onlineLabel: { color: "#FFFFFF", fontSize: 12, fontWeight: "600" },
+  friends: { flexDirection: "row", gap: 8 },
+  friendCard: { flex: 1, gap: 5, borderRadius: 14, padding: 12, borderWidth: 1, borderColor: "rgba(255,255,255,0.1)" },
+  friendTitle: { color: "#FFFFFF", fontSize: 14, fontWeight: "600" },
+  friendBody: { color: "rgba(255,255,255,0.72)", fontSize: 11, lineHeight: 15 },
 });
 
 export default ArcadeScreen;

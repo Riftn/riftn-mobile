@@ -58,6 +58,8 @@ export const PAGE_IDENTITY_ICONS: Partial<Record<ScreenNames, ThemeIconKey>> = {
   [ScreenNames.ConnectClaude]: 'assistant',
   [ScreenNames.Arcade]: 'arcade',
   [ScreenNames.ArcadeChessOnline]: 'arcade',
+  [ScreenNames.CorrespondenceChess]: 'arcade',
+  [ScreenNames.Okey]: 'arcade',
   [ScreenNames.Apps]: 'stores',
   [ScreenNames.Events]: 'events',
   [ScreenNames.Careers]: 'careers',

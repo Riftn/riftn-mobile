@@ -255,6 +255,10 @@ export type AppStackParamList = {
   /** `slug` keys into ARCADE_GAMES; an unknown one renders the "no such game" panel. */
   [ScreenNames.ArcadeGame]: { slug: string; room?: string; symbol?: string; view?: string };
   [ScreenNames.ArcadeChessOnline]: undefined;
+  /** `game` opens one board; without it, the lobby. */
+  [ScreenNames.CorrespondenceChess]: { game?: string } | undefined;
+  /** `table` opens one Okey table; without it, the room list. */
+  [ScreenNames.Okey]: { table?: string } | undefined;
   [ScreenNames.Apps]: undefined;
   /** `slug` keys into miniapp_apps; `from` is the launch source the app sees. */
   [ScreenNames.MiniApp]: { slug: string; from?: string; url?: string; query?: string };

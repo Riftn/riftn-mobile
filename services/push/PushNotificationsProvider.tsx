@@ -124,6 +124,9 @@ export interface NotificationData {
   moderationType?: string;
   // Quote post reference
   quoteTokenId?: number;
+  // Games with friends (game_turn)
+  game?: 'chess' | 'okey';
+  gameId?: string;
 }
 
 /**
@@ -612,6 +615,20 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
             navigation.navigate(ScreenNames.Notifications);
           }
           break;
+
+        // Your move in correspondence chess, or your turn at an Okey table.
+        case 'game_turn' as NotificationType: {
+          const link = typeof data.deepLink === 'string' ? data.deepLink : '';
+          const gameId = typeof data.gameId === 'string' && data.gameId
+            ? data.gameId
+            : link.match(/[?&](?:game|table)=([^&#]+)/)?.[1];
+          if (data.game === 'okey' || link.includes('/arcade/okey')) {
+            navigation.navigate(ScreenNames.Okey, gameId ? { table: gameId } : undefined);
+          } else {
+            navigation.navigate(ScreenNames.CorrespondenceChess, gameId ? { game: gameId } : undefined);
+          }
+          break;
+        }
 
         // Grouped community chat: straight to that community's chat.
         case 'community_chat' as NotificationType:
