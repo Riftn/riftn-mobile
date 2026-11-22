@@ -151,6 +151,7 @@ import { haptic } from "../libs/haptics";
 import { useAppTheme, useThemeRootStyle } from "../context/ThemeContext";
 import LinkPreviewCard from "../components/common/LinkPreviewCard";
 import { extractUrlsFromText } from "../libs/link-preview";
+import { PostDictationButton } from "../components/Upload/PostDictationButton";
 import ComposerBodyInput from "../components/Upload/ComposerBodyInput";
 import { useSettledText } from "../hooks/useSettledText";
 import { minimalFlat } from "../theme/minimal";
@@ -3343,6 +3344,15 @@ export default function UploadScreen() {
       {/* Character count sits under the scrolling editor, not inside it, so it
           stays in view however many lines the post runs to. */}
       {!articleMode && <View className="flex-row items-center justify-end px-4 pt-1 pb-1">
+        {!isLiveMode && !isStageMode && !postInFlight && !isAudioRecording && !showAudioMenu && !!(authUser?.walletAddress || authUser?.address) && (
+          <PostDictationButton
+            key={JSON.stringify([authUser.walletAddress || authUser.address, draftScope])}
+            wallet={(authUser.walletAddress || authUser.address)!}
+            atLimit={bodyText.length >= DESCRIPTION_MAX}
+            setText={setBodyText}
+            maxChars={DESCRIPTION_MAX}
+          />
+        )}
         <Text
           className={`text-xs ${
             bodyText.length >= DESCRIPTION_MAX
