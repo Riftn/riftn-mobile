@@ -134,6 +134,8 @@ interface ChatInputBarProps {
   scheduledCount?: number;
   /** Trigger poll creation sheet. */
   onPollPress?: () => void;
+  /** Opens the Notes sheet (your 24-hour note). */
+  onNotePress?: () => void;
   /** Pre-fill the text input on mount (e.g. shared post URL). */
   initialText?: string;
   /** Take the caret as soon as the box can be typed in (chat opened from New message). */
@@ -199,6 +201,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   onSchedulePress,
   scheduledCount = 0,
   onPollPress,
+  onNotePress,
   initialText,
   autoFocus = false,
   thread,
@@ -754,6 +757,9 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     { key: "any", icon: "Paperclip", label: t("dm.attachFileOrAudio", { defaultValue: "File or audio" }), onPress: fromSheet(handlePickAnyFile) },
     ...(canSchedule
       ? [{ key: "schedule", icon: "Clock" as const, label: t("dmSchedule.button", { defaultValue: "Schedule message" }), onPress: fromSheet(handleSchedule) }]
+      : []),
+    ...(onNotePress
+      ? [{ key: "note", icon: "Quote" as const, label: t("notes.yourNote", { defaultValue: "Your note" }), onPress: fromSheet(onNotePress) }]
       : []),
     ...(onPollPress
       ? [{ key: "poll", icon: "ChartColumn" as const, label: t("postOptions.createPoll"), onPress: fromSheet(onPollPress) }]
