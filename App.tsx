@@ -127,6 +127,7 @@ import { FrostedBackdropProvider } from "./components/ui/FrostedBackdrop";
 import { loadIconFont } from "./libs/iconFont";
 import { watchTransformOrigin } from "./libs/cdnImage";
 import { setEdgeToEdgeMedia as publishEdgeToEdgeMedia } from "./libs/edgeToEdgeMedia";
+import DarkRoomStrips from "./components/DarkRoomStrips";
 import { FIRST_SCREEN_MAX_WAIT_MS, whenFirstScreenReady } from "./libs/firstScreenReady";
 
 const logger = createLogger("App");
@@ -625,6 +626,7 @@ const BootGate: React.FC<{ staged: boolean }> = ({ staged }) => {
 
   return (
     <>
+      <DarkRoomStrips />
       {mountNav ? (
         <SafeAreaView className="flex-1" edges={edgeToEdgeMedia ? ["left", "right", "bottom"] : ["top", "left", "right", "bottom"]}>
           <StatusBar
