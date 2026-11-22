@@ -20,6 +20,12 @@ export function isPrefMuted(pref?: ChatPref | null): boolean {
   return !!pref?.mutedUntil && new Date(pref.mutedUntil).getTime() > Date.now();
 }
 
+/** A newer message restores an unmuted DM to the inbox, as on the website. */
+export function isPrefArchived(pref?: ChatPref, lastMessageAt?: string | null): boolean {
+  if (!pref?.archivedAt) return false;
+  return isPrefMuted(pref) || !lastMessageAt || Date.parse(lastMessageAt) <= Date.parse(pref.archivedAt);
+}
+
 /**
  * Your own chat settings, saved on the server so they follow you between
  * devices (the same store the website uses). Changes show at once and roll
@@ -46,7 +52,7 @@ export function useChatPrefs(enabled = true) {
     const next: ChatPref = {
       ...(prev ?? { conversationId: id, pinnedAt: null, archivedAt: null, mutedUntil: null, markedUnread: false }),
       ...(patch.pinned !== undefined ? { pinnedAt: patch.pinned ? now : null } : {}),
-      ...(patch.archived !== undefined ? { archivedAt: patch.archived ? now : null } : {}),
+      ...(patch.archived !== undefined ? { archivedAt: patch.archived ? now : null, ...(patch.archived ? { pinnedAt: null } : {}) } : {}),
       ...(patch.unread !== undefined ? { markedUnread: patch.unread } : {}),
       ...(patch.listed !== undefined ? { listedAt: patch.listed ? now : null } : {}),
       ...(patch.encrypted !== undefined ? { encryptedAt: patch.encrypted ? now : null } : {}),
