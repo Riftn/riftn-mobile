@@ -68,6 +68,7 @@ type ShareToDmSheetProps = {
   visible: boolean;
   onClose: () => void;
   postTitle?: string;
+  onSystemShare?: () => void;
 } & ({ tokenId: number | string; url?: never } | { url: string; tokenId?: never });
 
 const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
@@ -76,6 +77,7 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
   tokenId,
   url,
   postTitle,
+  onSystemShare,
 }) => {
   const navigation = useNavigation<any>();
   const { t } = useTranslation();
@@ -432,6 +434,12 @@ const ShareToDmSheetComponent: React.FC<ShareToDmSheetProps> = ({
           </TouchableOpacity>
         </View>
 
+        {onSystemShare && (
+          <TouchableOpacity onPress={onSystemShare} accessibilityRole="button" className="mx-4 mb-3 flex-row items-center py-2">
+            <Icon name="Share2" size={18} color="#A6A9AC" />
+            <Text className="ml-2 text-theme-neutrals-100">{t("feedCard.moreShare")}</Text>
+          </TouchableOpacity>
+        )}
         <View className="mx-4 mb-3 bg-theme-neutrals-800 rounded-xl px-3 py-2">
           <TextInput
             value={caption}
