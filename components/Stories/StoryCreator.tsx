@@ -224,7 +224,7 @@ function CameraStart({ onClose, remixLabel, onPick, onPhoto }: {
       </View>
       {on ? (
         <>
-          <View style={[styles.camHint, { bottom: insets.bottom + 112 }]} pointerEvents="none">
+          <View style={[styles.camHint, { bottom: insets.bottom + 132 }]} pointerEvents="none">
             <Text style={styles.camHintText}>{t("stories.shutterHint", { defaultValue: "Tap for photo, hold for video" })}</Text>
           </View>
           {/* The ring is drawn by an inner view: a button with a grey fill of its
