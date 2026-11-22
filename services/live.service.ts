@@ -207,9 +207,8 @@ export interface StreamerProgress {
 }
 
 export async function getStreamerProgress(address: string): Promise<StreamerProgress> {
-  // collection=20 asks for the twenty-card set web shows.
   const res = await apiClient.get<any>(`/live/creator/${encodeURIComponent(address.toLowerCase())}/progress`, {
-    params: { collection: "20" },
+    params: { collection: "21" },
   });
   const body = res && typeof res === "object" && res.result && typeof res.result === "object" && "level" in res.result ? res.result : res;
   return body as StreamerProgress;
