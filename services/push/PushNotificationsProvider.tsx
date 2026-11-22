@@ -345,6 +345,11 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         } catch (error) {
           logger.warn('Could not mark tapped notification read', error as any);
         }
+        // Always write the server's count after a tap: the badge may hold a
+        // local +1 from a push that arrived while the app was open, and the
+        // count itself may not have changed (Requests / stage / community
+        // pushes are not in the API list), which the dedupe below would skip.
+        lastUnreadCountRef.current = null;
         void refreshUnreadCount();
       })();
     }, 1500);
@@ -946,6 +951,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         // in-app badge immediately. The periodic/server refresh below remains
         // authoritative and corrects aggregation or duplicate delivery.
         if (isFullySignedIn) {
+          // The badge now differs from the last count written, so the next
+          // refresh must write again even if the server number is the same.
+          lastUnreadCountRef.current = null;
           void patchUser((current) => ({
             notificationCount: incrementUnreadCount(current.notificationCount),
           }));
