@@ -2778,11 +2778,12 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             <NotesSheet
               visible={notesVisible}
               onClose={() => setNotesVisible(false)}
-              onMessage={(a) => navigation.push(ScreenNames.Chat, {
+              onMessage={(a, reply) => navigation.push(ScreenNames.Chat, {
                 targetAddress: a.address.toLowerCase(),
                 title: a.displayName || a.username || a.address,
                 targetUser: { ...a, walletAddress: a.address },
                 focusComposer: true,
+                ...(reply ? { autoSendText: reply } : {}),
               })}
             />
           )}

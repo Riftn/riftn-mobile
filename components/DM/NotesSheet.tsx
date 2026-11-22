@@ -85,7 +85,7 @@ function NoteTile({ author, note, label, onPress, placeholder }: { author: Story
   );
 }
 
-function SongLine({ song, autoPlay }: { song: StorySong; autoPlay?: boolean }) {
+function SongLine({ song, autoPlay, playToken = 0 }: { song: StorySong; autoPlay?: boolean; playToken?: number }) {
   const player = useAudioPlayer({ uri: song.audioUrl });
   const [playing, setPlaying] = useState(false);
   const start = () => {
@@ -101,6 +101,14 @@ function SongLine({ song, autoPlay }: { song: StorySong; autoPlay?: boolean }) {
     return () => { clearTimeout(timer); try { player.pause(); } catch { /* gone */ } };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoPlay, song.audioUrl]);
+  // A tap on the note's words plays the song: the autoplay above can fire
+  // before the file has loaded, and the words are what people tap.
+  useEffect(() => {
+    if (!playToken) return;
+    try { if (player.playing) { setPlaying(true); return; } } catch { /* not loaded */ }
+    start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playToken]);
   const toggle = () => {
     if (playing) { try { player.pause(); } catch { /* gone */ } setPlaying(false); return; }
     start();
@@ -261,12 +269,61 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
  * the notes of people you follow (tap one to see it, hear the song and
  * message them). Opened from the + in Messages and from a chat's + sheet.
  */
-export default function NotesSheet({ visible, onClose, onMessage }: { visible: boolean; onClose: () => void; onMessage: (a: StoryAuthor) => void }) {
+/** Reply to a note: a message box that sends straight into your chat with them. */
+function NoteReply({ note, name, onSend }: { note: Note; name: string; onSend: (text: string) => void }) {
+  const { t } = useTranslation();
+  const [text, setText] = useState("");
+  const send = () => {
+    const reply = text.trim();
+    if (!reply) return;
+    // The note's words ride along, so the chat shows what was answered.
+    onSend(note.text ? `📝 “${note.text}”\n${reply}` : reply);
+  };
+  const label = t("notes.replyTo", { defaultValue: "Reply to {{name}}…", name });
+  return (
+    <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+      <TextInput
+        value={text}
+        onChangeText={setText}
+        maxLength={1000}
+        placeholder={label}
+        accessibilityLabel={label}
+        placeholderTextColor="hsla(240, 5%, 55%, 1)"
+        returnKeyType="send"
+        onSubmitEditing={send}
+        style={{ flex: 1, minHeight: 44, borderRadius: 22, paddingHorizontal: 16, backgroundColor: FIELD, color: "#fff", fontSize: 15, borderWidth: 1, borderColor: "hsla(0, 0%, 100%, 0.1)" }}
+      />
+      <TouchableOpacity
+        onPress={send}
+        disabled={!text.trim()}
+        accessibilityRole="button"
+        accessibilityLabel={t("notes.send", { defaultValue: "Send" })}
+        style={{ width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: "#fff", opacity: text.trim() ? 1 : 0.4 }}
+      >
+        <Ionicons name="send" size={18} color="#000" />
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+/** The words of a note in a chat bubble; with a song, a tap plays it. */
+function NoteTextBubble({ text, onPress }: { text: string; onPress?: () => void }) {
+  return (
+    <Pressable onPress={onPress} disabled={!onPress} style={{ alignSelf: "center", maxWidth: "100%" }} accessibilityRole={onPress ? "button" : "text"}>
+      <View style={{ backgroundColor: BUBBLE, borderRadius: 20, borderBottomLeftRadius: 6, paddingHorizontal: 16, paddingVertical: 10 }}>
+        <Text className="text-white text-[16px] font-semibold">{text}</Text>
+      </View>
+    </Pressable>
+  );
+}
+
+export default function NotesSheet({ visible, onClose, onMessage }: { visible: boolean; onClose: () => void; onMessage: (a: StoryAuthor, reply?: string) => void }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const backdrop = useSheetBackdrop(visible && Platform.OS !== "android");
   const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, enabled: visible });
   const [viewing, setViewing] = useState<NoteEntry | null>(null);
+  const [playToken, setPlayToken] = useState(0);
   useEffect(() => { if (!visible) setViewing(null); }, [visible]);
   const mine = data?.mine?.note ?? null;
   const notes = data?.notes ?? [];
@@ -284,15 +341,17 @@ export default function NotesSheet({ visible, onClose, onMessage }: { visible: b
           {viewing ? (
             <View style={{ gap: 14 }}>
               {!!viewing.note.gifUrl && <SmartImage source={{ uri: viewing.note.gifUrl }} style={{ width: "100%", height: 200, borderRadius: 12 }} contentFit="contain" />}
-              {!!viewing.note.text && <Text className="text-white text-[17px] font-semibold text-center">{viewing.note.text}</Text>}
-              {!!viewing.note.song && <SongLine song={viewing.note.song} autoPlay />}
+              {!!viewing.note.text && (
+                <NoteTextBubble text={viewing.note.text} onPress={viewing.note.song ? () => setPlayToken((n) => n + 1) : undefined} />
+              )}
+              {!!viewing.note.song && <SongLine song={viewing.note.song} autoPlay playToken={playToken} />}
               {!!viewing.note.location && (
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4 }}>
                   <Ionicons name="location-outline" size={14} color="hsla(240, 5%, 65%, 1)" />
                   <Text className="text-theme-neutrals-400 text-[13px]">{viewing.note.location}</Text>
                 </View>
               )}
-              <PillButton primary label={t("notes.message", { defaultValue: "Message" })} onPress={() => { const a = viewing.author; onClose(); onMessage(a); }} />
+              <NoteReply key={viewing.note.id} note={viewing.note} name={nameOf(viewing.author)} onSend={(reply) => { const a = viewing.author; onClose(); onMessage(a, reply); }} />
               <PillButton label={t("notes.back", { defaultValue: "Back to notes" })} onPress={() => setViewing(null)} />
             </View>
           ) : (
