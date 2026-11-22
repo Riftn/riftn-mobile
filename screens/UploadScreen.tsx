@@ -315,7 +315,6 @@ const DIALOG_INK = { color: "#FFFFFF" };
 const DIALOG_SOFT = { color: "rgba(255,255,255,0.8)" };
 const DIALOG_MUTED = { color: "#A6A9AC" };
 
-const fmtTrim = (sec: number) => `${Math.floor(sec / 60)}:${String(Math.floor(sec % 60)).padStart(2, "0")}`;
 
 export default function UploadScreen() {
   usePerfProbe("UploadScreen");
@@ -3116,11 +3115,7 @@ export default function UploadScreen() {
                   onPress={openVideoEditor}
                   hasSound={!!attachedSound}
                   accessibilityLabel={t("upload.editVideo", { defaultValue: "Edit video" })}
-                  label={videoTrim
-                    ? fmtTrim(videoTrim.end - videoTrim.start)
-                    : (videoEdits || videoDestruct || pickedVideo.description || attachedSound)
-                      ? t("upload.edited", { defaultValue: "Edited" })
-                      : t("upload.edit", { defaultValue: "Edit" })}
+                  label={t("upload.editVideo", { defaultValue: "Edit video" })}
                 />
                 <Pressable onPress={() => setIsMuted((m) => !m)} hitSlop={10} testID="upload-video-sound"
                   accessibilityRole="button" accessibilityLabel={isMuted ? t("common.unmute") : t("common.mute")}
