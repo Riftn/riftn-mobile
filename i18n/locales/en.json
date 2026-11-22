@@ -7965,6 +7965,8 @@
     "coverFailed": "Could not change the cover"
   },
   "player": {
+    "transcoding": "Transcoding",
+    "transcodingOnlyYou": "Only you can see this until it's ready",
     "fullscreen": "Full screen",
     "segmentLabel": {
       "filler": "Filler",

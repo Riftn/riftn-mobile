@@ -8075,6 +8075,8 @@
     "coverFailed": "Kon de omslag niet wijzigen"
   },
   "player": {
+    "transcoding": "Transcoderen",
+    "transcodingOnlyYou": "Alleen jij ziet dit tot het klaar is",
     "fullscreen": "Volledig scherm",
     "segmentLabel": {
       "filler": "Opvulling",

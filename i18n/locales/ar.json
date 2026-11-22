@@ -7961,6 +7961,8 @@
     "coverFailed": "تعذّر تغيير الغلاف"
   },
   "player": {
+    "transcoding": "جارٍ التحويل",
+    "transcodingOnlyYou": "أنت فقط من يرى هذا حتى يصبح جاهزًا",
     "fullscreen": "ملء الشاشة",
     "segmentLabel": {
       "filler": "حشو",
