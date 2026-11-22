@@ -12,7 +12,7 @@ import { toastError } from '../../libs/toast';
 import { nameOf } from '../Stories/story-utils';
 import Icon from '../ui/Icon';
 
-export default function MomentReplyPreview({ id, onLongPress }: { id: string; onLongPress: () => void }) {
+export default function MomentReplyPreview({ id, shared = false, onLongPress }: { id: string; shared?: boolean; onLongPress: () => void }) {
   const { t } = useTranslation();
   const user = useUser();
   const address = (user?.walletAddress || user?.address || '').toLowerCase();
@@ -36,7 +36,7 @@ export default function MomentReplyPreview({ id, onLongPress }: { id: string; on
     }
   }, [expires]);
   const visible = (item: Awaited<ReturnType<typeof getStory>>['item']) =>
-    !item.expired && item.status === 'ready' && Date.parse(item.expiresAt) > Date.now() && (!item.isMature || canSeeMature);
+    (!shared || item.shareable) && !item.expired && item.status === 'ready' && Date.parse(item.expiresAt) > Date.now() && (!item.isMature || canSeeMature);
   const current = query.isSuccess && query.data.author && visible(query.data.item) ? query.data : undefined;
   const thumb = current?.item.posterUrl || (current?.item.type === 'photo' ? current.item.mediaUrl : null);
   const open = async () => {
@@ -56,7 +56,7 @@ export default function MomentReplyPreview({ id, onLongPress }: { id: string; on
   return (
     <TouchableOpacity onPress={open} onLongPress={onLongPress} accessibilityRole="button"
       className="mx-1 mt-1 flex-row items-center gap-2.5 rounded-lg border-l-2 border-white/40 bg-white/10 px-2 py-1.5">
-      <View className="h-11 w-8 items-center justify-center overflow-hidden rounded-md bg-zinc-800">
+      <View className="items-center justify-center overflow-hidden rounded-md bg-zinc-800" style={shared && thumb ? { height: 154, width: 96 } : { height: 44, width: 32 }}>
         {thumb ? <Image source={{ uri: thumb }} recyclingKey={thumb} style={{ width: '100%', height: '100%' }} contentFit="cover" /> : <Icon name="Layers" size={16} color="#fff" />}
       </View>
       <View className="flex-shrink">
