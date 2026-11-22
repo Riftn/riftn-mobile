@@ -15,7 +15,7 @@ import Animated, {
   withDelay,
 } from "react-native-reanimated";
 import Icon from "../ui/Icon";
-import TranslateButton, { type TranslateToggle } from "../ui/TranslateButton";
+import type { TranslateToggle } from "../ui/TranslateButton";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useI18n } from "react-i18next";
 import Avatar from "../common/Avatar";
@@ -201,11 +201,9 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
   const shownBody = useMemo(() => stripDehubLinkMatches(bodyText, dehubLinks).trim(), [bodyText, dehubLinks]);
 
   const translationTexts = useMemo(() => ({ content: bodyText }), [bodyText]);
-  const { isTranslated, translatedTexts, isLoading: translating, handleTranslate, handleShowOriginal, shouldShow: showTranslate, sourceLang: translationSourceLang } =
+  const { isTranslated, translatedTexts, handleTranslate, handleShowOriginal, shouldShow: showTranslate } =
     useTranslation(translationTexts, (message as any).detectedLanguage, 'chat', true);
 
-  // Translate is in the long-press menu and, for lines in another language,
-  // a small button under the line as on web.
   const handleLongPress = useCallback(() => {
     // A light tick the moment the hold lands, so it reads as caught before the sheet arrives.
     void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => undefined);
@@ -380,16 +378,6 @@ const LiveChatMessage: React.FC<LiveChatMessageProps> = ({
               <View style={{ maxWidth: 320 }}>
                 <DehubLinkCards links={dehubLinks} onLongPress={handleLongPress} />
               </View>
-            )}
-
-            {showTranslate && !!bodyText && (
-              <TranslateButton
-                isTranslated={isTranslated}
-                isLoading={translating}
-                detectedLanguage={translationSourceLang}
-                onTranslate={handleTranslate}
-                onShowOriginal={handleShowOriginal}
-              />
             )}
 
             {gif && (

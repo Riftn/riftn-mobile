@@ -157,6 +157,18 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
   if (onReply) tiles.push({ key: "reply", icon: "Reply", label: t("liveChat.reply"), prime: true, onPress: () => { onReply(message); onClose(); } });
   if (hasContent) tiles.push({ key: "copy", icon: "Copy", label: t("common.copy"), onPress: () => { copyToClipboard(message.content); onClose(); } });
   if (onCopyLink && canLinkMessage(message._id)) tiles.push({ key: "copy-link", icon: "Link", label: copyLinkLabel(), onPress: () => { onCopyLink(message); onClose(); } });
+  if (onSeeMessages && message.senderAddress && message.messageType !== "system") tiles.push({
+    key: "their-messages",
+    icon: "Search",
+    label: t("chatSearch.theirMessages", { defaultValue: "Their messages" }),
+    onPress: () => run(() => onSeeMessages(message)),
+  });
+  if (translate) tiles.push({
+    key: "translate",
+    icon: translate.isTranslated ? "RotateCcw" : "Languages",
+    label: translate.isTranslated ? t("common.showOriginal") : t("common.translate"),
+    onPress: () => { onClose(); translate.toggle(); },
+  });
   // A photo or GIF can be copied as itself, not just its caption.
   const firstMedia = message.media?.[0];
   const rawMedia = message.messageType === "gif" ? (message.gif?.url || firstMedia?.url) : message.messageType === "media" ? firstMedia?.url : undefined;
@@ -165,18 +177,6 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
     const kind = message.messageType === "gif" || firstMedia?.type === "gif" || firstMedia?.mimeType === "image/gif" ? "gif" as const : "image" as const;
     tiles.push({ key: "copy-media", icon: "Images", label: t("dm.copyMedia", { defaultValue: "Copy media" }), onPress: () => { onClose(); void copyMessageMedia(mediaUrl, kind); } });
   }
-  if (translate) tiles.push({
-    key: "translate",
-    icon: translate.isTranslated ? "RotateCcw" : "Languages",
-    label: translate.isTranslated ? t("common.showOriginal") : t("common.translate"),
-    onPress: () => { onClose(); translate.toggle(); },
-  });
-  if (onSeeMessages && message.senderAddress && message.messageType !== "system") tiles.push({
-    key: "their-messages",
-    icon: "Search",
-    label: t("chatSearch.theirMessages", { defaultValue: "Their messages" }),
-    onPress: () => run(() => onSeeMessages(message)),
-  });
   if (canEdit && onEdit) tiles.push({ key: "edit", icon: "Pencil", label: t("common.edit"), onPress: () => run(() => onEdit(message)) });
   if (isModerator && onPin) tiles.push({
     key: "pin",
@@ -251,6 +251,7 @@ const LiveChatContextMenuComponent: React.FC<LiveChatContextMenuProps> = ({
           moreTimer.current = setTimeout(() => setMoreFor(msg), 350);
         }}
         tiles={tiles}
+        scrollActions
         summary={summary}
         meta={authorLocalTime ? t("profile.localTime", { defaultValue: "Local time {{time}}", time: authorLocalTime }) : undefined}
         onLift={onLift}
