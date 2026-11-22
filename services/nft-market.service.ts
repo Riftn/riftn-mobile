@@ -8,6 +8,7 @@
  */
 import { ethers } from "ethers";
 import { apiClient } from "../libs/api.client";
+import { getAuthToken } from "../libs/auth.utils";
 import { writeContractAA } from "../libs/aa.write";
 import { receiptRpcUrls } from "../libs/transaction-receipt";
 import { buildContract } from "../hooks/use-web3";
@@ -196,19 +197,32 @@ export interface ShowcaseNft {
 
 const open = { isAuthRequired: false, quiet: true } as const;
 
+/**
+ * Browsing works signed out, but the signed-in account decides whether mature
+ * posts show (Show Mature Content), so send the session when there is one.
+ */
+async function asViewer() {
+  const token = await getAuthToken().catch(() => null);
+  const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
+  return { ...open, headers };
+}
+
 export const nftMarket = {
   config: () => apiClient.fetch<MarketConfig>("/market/config", open),
-  orders: (params: Record<string, string | number | undefined>) =>
-    apiClient.fetch<{ items: MarketOrder[]; hasMore: boolean }>("/market/orders", { ...open, params }),
-  collections: (params: Record<string, string | number | undefined>) =>
-    apiClient.fetch<{ items: MarketCollection[] }>("/market/collections", { ...open, params }),
-  showcase: (params: Record<string, string | number | undefined>) =>
+  orders: async (params: Record<string, string | number | undefined>) =>
+    apiClient.fetch<{ items: MarketOrder[]; hasMore: boolean }>("/market/orders", { ...(await asViewer()), params }),
+  collections: async (params: Record<string, string | number | undefined>) =>
+    apiClient.fetch<{ items: MarketCollection[] }>("/market/collections", { ...(await asViewer()), params }),
+  showcase: async (params: Record<string, string | number | undefined>) =>
     apiClient.fetch<{ items: ShowcaseNft[]; collections: { chainId: number; contract: string; name: string; image: string | null; minted: number }[] }>(
       "/market/showcase",
-      { ...open, params },
+      { ...(await asViewer()), params },
     ),
-  nft: (chainId: number, contract: string, tokenId: string) =>
-    apiClient.fetch<NftDetail>(`/market/nft/${chainId}/${contract}/${tokenId}`, open),
+  nft: async (chainId: number, contract: string, tokenId: string) =>
+    apiClient.fetch<NftDetail>(`/market/nft/${chainId}/${contract}/${tokenId}`, await asViewer()),
+  /** Which of these Riftn posts this viewer must not see (mature setting). */
+  hiddenPosts: async (tokenIds: string[]) =>
+    apiClient.fetch<{ hidden: string[] }>("/market/hidden-posts", { ...(await asViewer()), params: { tokenIds: tokenIds.join(",") } }),
   wallet: (address: string, chainId: number, pageKey?: string) =>
     apiClient.fetch<{ items: WalletNft[]; pageKey: string | null }>(`/market/wallet/${address}`, { ...open, params: { chainId, pageKey } }),
   terms: (params: { chainId: number; contract: string; tokenId: string; price: string; currency: string }) =>
