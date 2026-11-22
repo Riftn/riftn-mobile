@@ -362,6 +362,7 @@ export interface UploadDmMediaParams {
   conversationId: ID;
   senderId: string;
   files: { uri: string; name: string; type: string }[];
+  timeoutMs?: number;
   msgType?: DmMsgType;
   voiceDuration?: number;
   content?: string;

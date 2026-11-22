@@ -5,7 +5,7 @@
  * `src/cdn/cdn.service.ts` (and `src/lib/attachments.ts` on web). The backend is
  * the real gate — it re-validates every upload and stores objects with
  * `Content-Disposition: attachment` — so this copy exists to keep the picker
- * honest and to fail before a 50 MB upload rather than after it. Keep the three
+ * honest and to fail before a 200 MB upload rather than after it. Keep the three
  * in step: an extension added here but not on the server is rejected on upload.
  */
 
@@ -22,7 +22,7 @@ export const ALLOWED_ATTACHMENT_EXTENSIONS = [
 ];
 
 /** Matches the backend's DM_FILE_MAX_SIZE. */
-export const MAX_ATTACHMENT_SIZE = 50 * 1024 * 1024;
+export const MAX_ATTACHMENT_SIZE = 200 * 1024 * 1024;
 
 /** A document attached to a message, as returned by the API. */
 export interface PostAttachment {

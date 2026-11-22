@@ -1,13 +1,16 @@
 import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import StoryCreator from "../../components/Stories/StoryCreator";
+import { composePhoto } from "../../components/Stories/story-compose";
 import { shareMoment } from "../../components/Stories/story-upload";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
 
 jest.mock("react-native-css-interop/jsx-runtime", () => jest.requireActual("react/jsx-runtime"));
 jest.mock("react-native", () => ({
   View: "View",
+  ScrollView: "ScrollView",
   Text: "Text",
   TextInput: "TextInput",
   Pressable: "Pressable",
@@ -22,6 +25,7 @@ jest.mock("react-native-safe-area-context", () => ({ useSafeAreaInsets: () => ({
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({ t: (key: string, options?: { defaultValue?: string }) => options?.defaultValue ?? key }),
 }));
+jest.mock("@react-native-community/slider", () => "Slider");
 jest.mock("expo-image", () => ({ Image: "Image" }));
 jest.mock("expo-video", () => ({ useVideoPlayer: () => ({}), VideoView: "VideoView" }));
 jest.mock("expo-image-picker", () => ({
@@ -39,7 +43,7 @@ jest.mock("../../components/common/MentionSuggestions", () => {
 jest.mock("../../context/ThemeContext", () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children }));
 jest.mock("../../libs/skia", () => ({ optionalSkia: (load: () => unknown) => load() }));
 jest.mock("../../libs/toast", () => ({ toastError: jest.fn() }));
-jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => ({ shelf: [] }) }));
+jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => ({ shelf: [], supportsCustomAudience: true, supportsPhotoDuration: true }) }));
 jest.mock("../../services/mention.service", () => ({ mentionSearch: jest.fn() }));
 jest.mock("../../components/Stories/story-upload", () => ({ shareMoment: jest.fn() }));
 jest.mock("@shopify/react-native-skia", () => ({
@@ -57,7 +61,7 @@ jest.mock("@shopify/react-native-skia", () => ({
 }));
 jest.mock("../../components/Stories/story-compose", () => ({
   ...jest.requireActual("../../components/Stories/story-compose"),
-  composePhoto: async () => "file:///moment.jpg",
+  composePhoto: jest.fn(async () => "file:///moment.jpg"),
 }));
 
 const address = "0x0000000000000000000000000000000000000001";
@@ -119,6 +123,74 @@ it("tracks one gesture across multiple text position updates and publishes the f
   const box = jest.mocked(shareMoment).mock.calls[0][0].fields.mentions![0];
   expect(box.x + box.w / 2).toBeGreaterThan(0.6);
   expect(box.y + box.h / 2).toBeGreaterThan(0.7);
+  editor.unmount();
+  client.clear();
+});
+
+it.each(["Only selected people", "Hide from selected people"])("publishes %s using chosen account addresses", async (mode) => {
+  jest.mocked(shareMoment).mockClear();
+  jest.mocked(mentionSearch).mockResolvedValue([{ address, username: "alice", displayName: "Alice", avatarImageUrl: "", isFollowing: false }]);
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByText("Everyone"));
+  fireEvent.press(await editor.findByText(mode));
+  fireEvent.press(editor.getByText("Done"));
+  fireEvent.press(editor.getByText("Share"));
+  expect(shareMoment).not.toHaveBeenCalled();
+  fireEvent.press(editor.getByText(mode));
+  fireEvent.press(editor.getByText("Search"));
+  fireEvent.changeText(editor.getByPlaceholderText("Search"), "@ali");
+  fireEvent.press(await editor.findByLabelText("alice"));
+  expect(editor.getByText("@alice ×")).toBeTruthy();
+  fireEvent.press(editor.getByText("Done"));
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
+  expect(jest.mocked(shareMoment).mock.calls[0][0].fields).toMatchObject({
+    audience: mode === "Only selected people" ? "selected" : "except", audienceAddresses: [address],
+  });
+  editor.unmount();
+  client.clear();
+});
+
+it("passes a chosen photo playback timer to the upload", async () => {
+  jest.mocked(shareMoment).mockClear();
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByLabelText("Seconds on screen"));
+  const slider = editor.UNSAFE_getByType(require("@react-native-community/slider"));
+  expect(slider.props.value).toBe(5);
+  expect(slider.props.maximumValue).toBe(60);
+  fireEvent(slider, "valueChange", 37);
+  fireEvent.press(editor.getByText("Done"));
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
+  expect(jest.mocked(shareMoment).mock.calls[0][0].fields.photoDurationSeconds).toBe(37);
+  editor.unmount();
+  client.clear();
+});
+
+it.each(["Only selected people", "Hide from selected people"])("keeps %s when the saved audience loads late", async (mode) => {
+  jest.mocked(shareMoment).mockClear();
+  let restore!: (value: string) => void;
+  jest.mocked(AsyncStorage.getItem).mockImplementationOnce(() => new Promise(resolve => { restore = resolve; }));
+  jest.mocked(mentionSearch).mockResolvedValue([{ address, username: "alice", displayName: "Alice", avatarImageUrl: "", isFollowing: false }]);
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByText("Everyone"));
+  fireEvent.press(await editor.findByText(mode));
+  fireEvent.press(editor.getByText("Search"));
+  fireEvent.changeText(editor.getByPlaceholderText("Search"), "@ali");
+  fireEvent.press(await editor.findByLabelText("alice"));
+  fireEvent.press(editor.getByText("Done"));
+  await act(async () => { restore("everyone"); });
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
+  expect(jest.mocked(shareMoment).mock.calls[0][0].fields).toMatchObject({
+    audience: mode === "Only selected people" ? "selected" : "except", audienceAddresses: [address],
+  });
   editor.unmount();
   client.clear();
 });
