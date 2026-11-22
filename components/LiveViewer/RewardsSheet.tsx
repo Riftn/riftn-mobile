@@ -27,9 +27,11 @@ interface Props {
   balance: PointsBalance;
   rewards: LiveReward[];
   loading?: boolean;
+  /** Shown when the creator lets viewers give each other points. */
+  onGive?: () => void;
 }
 
-export default function RewardsSheet({ visible, onClose, streamId, balance, rewards, loading }: Props) {
+export default function RewardsSheet({ visible, onClose, streamId, balance, rewards, loading, onGive }: Props) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const [picked, setPicked] = useState<string | null>(null);
@@ -135,6 +137,18 @@ export default function RewardsSheet({ visible, onClose, streamId, balance, rewa
                 ? t("livePoints.redeemFor", { cost: fmt(reward.cost) })
                 : t("livePoints.needMore", { count: reward.cost - balance.balance, formatted: fmt(reward.cost - balance.balance) })}
             </Text>
+          </TouchableOpacity>
+        ) : null}
+
+        {onGive ? (
+          <TouchableOpacity
+            onPress={onGive}
+            className="rounded-xl border border-theme-neutrals-600 py-3 flex-row items-center justify-center"
+            style={{ gap: 8 }}
+            testID="live-rewards-give"
+          >
+            <PointsIcon size={15} color="#E4E4E7" />
+            <Text className="text-theme-neutrals-100 font-semibold text-[14px]">{t("livePoints.give.open")}</Text>
           </TouchableOpacity>
         ) : null}
 

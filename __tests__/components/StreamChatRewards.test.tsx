@@ -11,6 +11,7 @@ it('shows offers, costs and earlier redemptions below chat, and hides the strip 
   const summary = {
     live: true, creator: 'host', rewards: [{ id: '1', title: 'Choose a track', cost: 150, enabled: true, needsText: true }],
     recentRedemptions: [{ id: 'r1', title: 'Hydrate' }],
+    giving: { enabled: false, dailyCap: 500 },
   };
   let view!: ReactTestRenderer;
   act(() => { view = create(<StreamChatRewards summary={summary} />); });
