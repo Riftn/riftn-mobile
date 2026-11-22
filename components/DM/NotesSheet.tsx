@@ -1,11 +1,8 @@
 /**
- * NotesRow
- * ========
- * The row of notes at the top of Messages: your own ("Your note") first, then
- * the people you follow. A note is a short line with an optional song, GIF or
- * place and stays up for 24 hours. Tap yours to write or change it; tap
- * someone else's to see it in full, hear the song and message them.
- * Same as web's components/app/chat/NotesRow.
+ * Notes
+ * =====
+ * A note is a short line with an optional song, GIF or place that stays up for
+ * 24 hours. Same as web's components/app/chat/NotesRow.
  */
 import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -259,57 +256,62 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
   );
 }
 
-function NoteSheet({ open, mine, onClose, onMessage }: { open: "mine" | NoteEntry | null; mine: Note | null; onClose: () => void; onMessage: (a: StoryAuthor) => void }) {
+/**
+ * The Notes sheet: write, change or delete your note at the top, and below it
+ * the notes of people you follow (tap one to see it, hear the song and
+ * message them). Opened from the + in Messages and from a chat's + sheet.
+ */
+export default function NotesSheet({ visible, onClose, onMessage }: { visible: boolean; onClose: () => void; onMessage: (a: StoryAuthor) => void }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
-  const backdrop = useSheetBackdrop(!!open && Platform.OS !== "android");
+  const backdrop = useSheetBackdrop(visible && Platform.OS !== "android");
+  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, enabled: visible });
+  const [viewing, setViewing] = useState<NoteEntry | null>(null);
+  useEffect(() => { if (!visible) setViewing(null); }, [visible]);
+  const mine = data?.mine?.note ?? null;
+  const notes = data?.notes ?? [];
+  const placeholder = t("notes.add", { defaultValue: "Note" });
   return (
-    <Modal visible={!!open} animationType="slide" onRequestClose={onClose} transparent statusBarTranslucent navigationBarTranslucent>
+    <Modal visible={visible} animationType="slide" onRequestClose={onClose} transparent statusBarTranslucent navigationBarTranslucent>
       <SheetBackdrop backdrop={backdrop} />
       <KeyboardAvoidingView behavior="padding" style={{ flex: 1, justifyContent: "flex-end" }}>
         <TouchableOpacity activeOpacity={1} onPress={onClose} style={{ flex: 1 }} />
-        <View className="overflow-hidden rounded-t-[20px] border-t border-white/10 p-4" style={{ paddingBottom: insets.bottom + 16 }}>
+        <View className="overflow-hidden rounded-t-[20px] border-t border-white/10 p-4" style={{ paddingBottom: insets.bottom + 16, maxHeight: "90%" }}>
           <DrawerSurface backdropBlurred={backdrop.blurred} />
           <Text className="text-white text-[15px] font-semibold text-center mb-3">
-            {open === "mine" ? t("notes.yourNote", { defaultValue: "Your note" }) : open ? nameOf(open.author) : ""}
+            {viewing ? nameOf(viewing.author) : t("notes.title", { defaultValue: "Notes" })}
           </Text>
-          {open === "mine" && <NoteComposer mine={mine} onClose={onClose} />}
-          {!!open && open !== "mine" && (
+          {viewing ? (
             <View style={{ gap: 14 }}>
-              {!!open.note.gifUrl && <SmartImage source={{ uri: open.note.gifUrl }} style={{ width: "100%", height: 200, borderRadius: 12 }} contentFit="contain" />}
-              {!!open.note.text && <Text className="text-white text-[17px] font-semibold text-center">{open.note.text}</Text>}
-              {!!open.note.song && <SongLine song={open.note.song} autoPlay />}
-              {!!open.note.location && (
+              {!!viewing.note.gifUrl && <SmartImage source={{ uri: viewing.note.gifUrl }} style={{ width: "100%", height: 200, borderRadius: 12 }} contentFit="contain" />}
+              {!!viewing.note.text && <Text className="text-white text-[17px] font-semibold text-center">{viewing.note.text}</Text>}
+              {!!viewing.note.song && <SongLine song={viewing.note.song} autoPlay />}
+              {!!viewing.note.location && (
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4 }}>
                   <Ionicons name="location-outline" size={14} color="hsla(240, 5%, 65%, 1)" />
-                  <Text className="text-theme-neutrals-400 text-[13px]">{open.note.location}</Text>
+                  <Text className="text-theme-neutrals-400 text-[13px]">{viewing.note.location}</Text>
                 </View>
               )}
-              <PillButton primary label={t("notes.message", { defaultValue: "Message" })} onPress={() => { const a = open.author; onClose(); onMessage(a); }} />
+              <PillButton primary label={t("notes.message", { defaultValue: "Message" })} onPress={() => { const a = viewing.author; onClose(); onMessage(a); }} />
+              <PillButton label={t("notes.back", { defaultValue: "Back to notes" })} onPress={() => setViewing(null)} />
+            </View>
+          ) : (
+            <View style={{ gap: 16 }}>
+              {visible && <NoteComposer key={mine?.id ?? "new"} mine={mine} onClose={onClose} />}
+              {notes.length > 0 && (
+                <View style={{ gap: 6 }}>
+                  <Text className="text-theme-neutrals-400 text-[12px] font-semibold">{t("notes.fromFollowing", { defaultValue: "From people you follow" })}</Text>
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4 }} keyboardShouldPersistTaps="handled">
+                    {notes.map((entry) => (
+                      <NoteTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} placeholder={placeholder} onPress={() => setViewing(entry)} />
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
             </View>
           )}
         </View>
       </KeyboardAvoidingView>
     </Modal>
-  );
-}
-
-export default function NotesRow({ me, onMessage }: { me: StoryAuthor; onMessage: (author: StoryAuthor) => void }) {
-  const { t } = useTranslation();
-  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, refetchInterval: 5 * 60_000 });
-  const [open, setOpen] = useState<"mine" | NoteEntry | null>(null);
-  const mine = data?.mine?.note ?? null;
-  const notes = data?.notes ?? [];
-  const placeholder = t("notes.add", { defaultValue: "Note" });
-  return (
-    <>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingBottom: 6 }}>
-        <NoteTile author={data?.mine?.author ?? me} note={mine} label={t("notes.yourNote", { defaultValue: "Your note" })} placeholder={placeholder} onPress={() => setOpen("mine")} />
-        {notes.map((entry) => (
-          <NoteTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} placeholder={placeholder} onPress={() => setOpen(entry)} />
-        ))}
-      </ScrollView>
-      <NoteSheet open={open} mine={mine} onClose={() => setOpen(null)} onMessage={onMessage} />
-    </>
   );
 }

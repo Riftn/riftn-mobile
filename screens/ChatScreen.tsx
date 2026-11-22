@@ -60,6 +60,8 @@ import NewChatIntro from "../components/DM/NewChatIntro";
 import TipAmountSheet from "../components/DM/TipAmountSheet";
 import PollCard from "../components/DM/PollCard";
 import CreatePollSheet from "../components/DM/CreatePollSheet";
+import NotesSheet from "../components/DM/NotesSheet";
+import { ScreenNames } from "../navigation/ScreenNames";
 import { ScheduledMessagesSheet, ScheduledStrip, scheduledDmKey, useScheduledDms, useWhenLabel } from "../components/DM/ScheduledMessages";
 import ScheduleSheet from "../components/Upload/ScheduleSheet";
 import { scheduleDm } from "../services/dm/dm.scheduled";
@@ -379,6 +381,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
   // Poll
   const [pollSheetVisible, setPollSheetVisible] = useState(false);
+  const [notesVisible, setNotesVisible] = useState(false);
 
   // Sending state — true while any job in the queue targets this conversation
   // (We keep this simple: the queue processes serially, so any active job = sending)
@@ -2600,6 +2603,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 onClearTip={handleClearTip}
                 dhbBalance={dhbBalance}
                 onPollPress={currentConvId ? () => setPollSheetVisible(true) : undefined}
+                onNotePress={() => setNotesVisible(true)}
                 initialText={route?.params?.sharedText}
                 autoFocus={!!route?.params?.focusComposer}
                 thread={smartReplyThread}
@@ -2768,6 +2772,21 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             </WhenOpened>
           </>
         ) : null}
+
+        <WhenOpened open={notesVisible}>
+          {() => (
+            <NotesSheet
+              visible={notesVisible}
+              onClose={() => setNotesVisible(false)}
+              onMessage={(a) => navigation.push(ScreenNames.Chat, {
+                targetAddress: a.address.toLowerCase(),
+                title: a.displayName || a.username || a.address,
+                targetUser: { ...a, walletAddress: a.address },
+                focusComposer: true,
+              })}
+            />
+          )}
+        </WhenOpened>
 
         <WhenOpened open={pollSheetVisible}>
           {() => (
