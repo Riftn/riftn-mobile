@@ -24,6 +24,7 @@ import BadgePatronChip from "../common/BadgePatronChip";
 import { useTranslation as useI18n } from "react-i18next";
 import { formatNumber } from "../../libs/numbers.util";
 import type { FollowListItem } from "../../services/user.service";
+import ProfileBio from "../Profile/ProfileBio";
 import TotalReachPill from "../Profile/TotalReachPill";
 import ProfileLinksPill from "../Profile/ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -427,9 +428,9 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             <BadgePatronChip lookupId={address || username} />
           </View>
 
-          {!!bio && (
+          {!!displayBio && (
             <View className="mt-3">
-              <Text className="text-white/90" style={{ fontSize: 16, lineHeight: 24 }}>{displayBio}</Text>
+              <ProfileBio text={displayBio} />
             </View>
           )}
 
