@@ -24,6 +24,10 @@ interface MentionSuggestionsProps {
   loading?: boolean;
 }
 
+// Outside the component: an inline one is a new function on every letter,
+// which makes the list throw its rows away and draw them again.
+const rowKey = (item: MentionUser) => item.address || item.username;
+
 const MentionSuggestions: React.FC<MentionSuggestionsProps> = ({
   visible,
   suggestions,
@@ -202,7 +206,7 @@ const MentionSuggestions: React.FC<MentionSuggestionsProps> = ({
         <FlatList
           data={suggestions}
           renderItem={renderItem}
-          keyExtractor={(item) => item.address || item.username}
+          keyExtractor={rowKey}
           keyboardShouldPersistTaps="always"
           showsVerticalScrollIndicator={false}
         />

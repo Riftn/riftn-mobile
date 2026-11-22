@@ -3,19 +3,40 @@ import type {
   NativeSyntheticEvent,
   TextInputSelectionChangeEventData,
 } from "react-native";
-import {
-  mentionSearch,
-  communityMentionSearch,
-  pageMentionSearch,
-  type MentionUser,
-} from "../services/mention.service";
+import { pageMentionSearch, type MentionUser } from "../services/mention.service";
 import { caretFromEdit } from "../libs/caret-from-edit";
+import {
+  fetchCommunities,
+  fetchPeople,
+  guessCommunities,
+  guessPeople,
+  rememberMentionPick,
+  settledCommunities,
+  settledPeople,
+  warmMentionPeople,
+} from "../libs/mentionPeople";
+
+/**
+ * How long after a letter the server is asked. The first letter of a list
+ * goes at once; the wait only spaces out the letters that follow it.
+ */
+const ASK_AFTER_MS = 110;
+
+/** Same rows in the same order: nothing for the list to redraw. */
+function sameList(a: MentionUser[], b: MentionUser[]): boolean {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i] && (a[i].address !== b[i].address || a[i].username !== b[i].username || a[i].isFollowing !== b[i].isFollowing)) return false;
+  }
+  return true;
+}
 
 /**
  * Hook that adds @mention typeahead to any TextInput.
  *
  * Features:
- * - Detects `@query` at cursor → debounced API search
+ * - Detects `@query` at cursor → names the phone already knows at once,
+ *   then the server's answer when it lands
  * - Stays shut inside an email address and while deleting
  * - Also finds public communities and our pages, which insert their
  *   riftn.com link (a card once sent) instead of `@username `
@@ -109,6 +130,8 @@ export function useMentions(
 
       prevTextRef.current = newText;
       setText(newText);
+      // Somebody is writing: have their own people ready before the @.
+      if (newText) warmMentionPeople();
 
       // ── Deleting ──
       // Backspace never opens the list, and shuts it if it was open, so
@@ -129,42 +152,64 @@ export function useMentions(
 
       const local = q != null ? poolMatches(poolRef.current, q) : [];
       if (q != null && (q.length >= 1 || local.length > 0)) {
+        const opening = queryRef.current === "";
         queryRef.current = q;
-        setShowSuggestions(true);
-        // The group's own people show at once; the search fills in after.
-        setSuggestions(local);
         if (timerRef.current) clearTimeout(timerRef.current);
+        const needle = q.toLowerCase();
+
+        // The list as the phone can draw it this instant: the group's own
+        // people, then the server's answer if it already gave one for these
+        // letters, else everyone it knows who fits them. Communities and our
+        // pages follow, which type their riftn.com link instead of an @.
+        const seen = new Set(local.map((u) => u.username.toLowerCase()));
+        const pages = withLinks && needle ? pageMentionSearch(q) : [];
+        const compose = () => {
+          const people = needle ? settledPeople(needle) ?? guessPeople(needle) : [];
+          const communities = withLinks && needle ? settledCommunities(needle) ?? guessCommunities(needle) : [];
+          return [
+            ...local,
+            ...people.filter((u) => !seen.has(u.username.toLowerCase())),
+            ...communities,
+            ...pages,
+          ];
+        };
+        const show = (pending: boolean) => {
+          const next = compose();
+          setSuggestions((current) => (sameList(current, next) ? current : next));
+          // While an answer is still due the list stays up, so it does not
+          // blink shut and open again between two letters.
+          setShowSuggestions(pending || next.length > 0);
+          setLoading(pending);
+        };
+
         if (q.length === 0) {
-          setLoading(false);
+          show(false);
           return;
         }
-        setLoading(true);
+        const needPeople = !settledPeople(needle);
+        const needCommunities = withLinks && !settledCommunities(needle);
+        show(needPeople);
+        if (!needPeople && !needCommunities) return;
 
-        timerRef.current = setTimeout(async () => {
+        timerRef.current = setTimeout(() => {
           if (queryRef.current !== q) return;
-          try {
-            // People first, then communities and our pages, which type their
-            // riftn.com link instead of an @.
-            const [res, communities] = await Promise.all([
-              mentionSearch(q),
-              withLinks ? communityMentionSearch(q) : Promise.resolve([] as MentionUser[]),
-            ]);
-            if (queryRef.current === q) {
-              const seen = new Set(local.map((u) => u.username.toLowerCase()));
-              const pages = withLinks ? pageMentionSearch(q) : [];
-              const merged = [
-                ...local,
-                ...res.filter((u) => !seen.has(u.username.toLowerCase())),
-                ...communities,
-                ...pages,
-              ];
-              setSuggestions(merged);
-              setShowSuggestions(merged.length > 0);
-            }
-          } finally {
-            setLoading(false);
+          let peoplePending = needPeople;
+          // Each shows as it lands: the community lookup is the slower of the
+          // two and no longer holds the people back.
+          if (needPeople) {
+            const landed = () => {
+              peoplePending = false;
+              if (queryRef.current === q) show(false);
+            };
+            fetchPeople(needle).then(landed, landed);
           }
-        }, 250);
+          if (needCommunities) {
+            const landed = () => {
+              if (queryRef.current === q) show(peoplePending);
+            };
+            fetchCommunities(needle).then(landed, landed);
+          }
+        }, opening ? 0 : ASK_AFTER_MS);
       } else {
         queryRef.current = "";
         setShowSuggestions(false);
@@ -198,6 +243,7 @@ export function useMentions(
         cur.slice(0, start) + replacement + cur.slice(start + 1 + q.length);
 
       if (!user.insertText) trackedRef.current.add(user.username);
+      rememberMentionPick(user);
       prevTextRef.current = result;
       setText(result);
       setShowSuggestions(false);
