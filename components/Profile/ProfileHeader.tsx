@@ -54,6 +54,7 @@ import NewMemberChip from "../common/NewMemberChip";
 import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
+import ProfileBio from "./ProfileBio";
 import TotalReachPill from "./TotalReachPill";
 import MomentArchive from "./MomentArchive";
 import ProfileLinksPill from "./ProfileLinksPill";
@@ -522,7 +523,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
           {!!aboutText && (
             <View className="mt-3">
               {/* Your own bio is in your own words: no translate control, as on web. */}
-              <Text className="text-white/90" style={{ fontSize: 16, lineHeight: 24 }}>{aboutText}</Text>
+              <ProfileBio text={aboutText} />
             </View>
           )}
 
