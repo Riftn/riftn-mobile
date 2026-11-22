@@ -16,6 +16,7 @@ import { getAvatarUrl } from "../../libs/misc";
 import { toastError, toastSuccess } from "../../libs";
 import { PointsIcon } from "../LiveViewer/PointsIcon";
 import { FIELD } from "./WidgetSettingsForm";
+import { PointsGivingSection } from "./PointsGivingSection";
 import {
   getMyRedemptions,
   getMyRewards,
@@ -153,6 +154,8 @@ export function RewardsSection() {
           </View>
         </>
       )}
+
+      <PointsGivingSection />
 
       <Text className="text-white text-sm font-semibold mt-2">{t("livePoints.studio.queue")}</Text>
       {queue.isLoading ? (

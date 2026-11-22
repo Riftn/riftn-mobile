@@ -623,7 +623,27 @@ const LiveProducerScreen: React.FC = () => {
         },
       });
     }) || (() => {});
-    return () => off();
+    // One viewer gave another channel points on your channel.
+    const offGift = socketOn("stream.points.gift", (data: any) => {
+      if (String(data?.streamId || "") !== String(streamId)) return;
+      const g = data?.gift;
+      const amount = Math.round(Number(g?.amount) || 0);
+      if (!g || amount <= 0) return;
+      addChatActivity({
+        status: "SYSTEM",
+        address: String(g.from?.address || "").toLowerCase(),
+        user: g.from,
+        createdAt: Date.now(),
+        meta: {
+          kind: "pointsGift",
+          pointsAmount: amount,
+          recipientName: g.to?.displayName || g.to?.username || String(g.to?.address || "").slice(0, 6),
+          username: g.from?.displayName || g.from?.username,
+          avatarImageUrl: g.from?.avatarImageUrl,
+        },
+      });
+    }) || (() => {});
+    return () => { off(); offGift(); };
   }, [streamId, socketOn, addChatActivity]);
 
   // Seed initial viewers/peak from stream details once per stream
