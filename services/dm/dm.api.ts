@@ -176,6 +176,7 @@ export async function uploadDmMedia(
 
   return apiClient.post<DmMessage>("/dm/upload", form, {
     isAuthRequired: true,
+    timeoutMs: params.timeoutMs,
   });
 }
 
