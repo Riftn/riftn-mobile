@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTranslation } from "react-i18next";
 import { translateText } from "../services/translation.service";
@@ -9,11 +9,11 @@ import { SUPPORTED_LANGUAGES } from "../i18n";
 
 /** Same key web uses (lib/compose-translate), so the pick is one setting. */
 const KEY = "riftn.chat.translateTo";
-let target = "en";
+let target: string | null = null;
 const listeners = new Set<(code: string) => void>();
 AsyncStorage.getItem(KEY)
   .then((v) => {
-    if (v && v !== target) {
+    if (v && target === null) {
       target = v;
       listeners.forEach((l) => l(v));
     }
@@ -27,24 +27,29 @@ export function languageLabel(code: string): string {
 
 /**
  * The chat composer's Translate button: rewrites what is typed into the
- * chosen language before it is sent. English until the user picks another
+ * chosen language before it is sent. Uses the composer default until the user picks another
  * (long press, or "Translate to…" in the + sheet); the pick is remembered.
  */
-export function useComposeTranslate(text: string, setText: (v: string) => void) {
+export function useComposeTranslate(text: string, setText: (v: string) => void, defaultLang = "en") {
   const { t } = useTranslation();
-  const [lang, setLang] = useState(target);
+  const [savedLang, setLang] = useState(target);
+  const lang = savedLang ?? defaultLang;
   const [busy, setBusy] = useState(false);
   const [pickerOpen, setPickerOpen] = useState(false);
 
+  const mounted = useRef(false);
   useEffect(() => {
+    mounted.current = true;
+    setLang(target);
     listeners.add(setLang);
     return () => {
+      mounted.current = false;
       listeners.delete(setLang);
     };
   }, []);
 
   const translate = useCallback(
-    async (code: string = target) => {
+    async (code: string = target ?? defaultLang) => {
       const draft = text.trim();
       if (!draft || busy) return;
       if (!(await ensureAiConsent())) return;
@@ -56,7 +61,7 @@ export function useComposeTranslate(text: string, setText: (v: string) => void) 
           // Already in that language: say which, so the tap visibly did something.
           toastInfo(`${t("common.translate")} · ${languageLabel(code)} ✓`);
         } else {
-          setText(res.translatedText);
+          if (mounted.current) setText(res.translatedText);
         }
       } catch {
         toastError(t("copy.b9725da1e57f"));
@@ -64,7 +69,7 @@ export function useComposeTranslate(text: string, setText: (v: string) => void) 
         setBusy(false);
       }
     },
-    [text, busy, setText, t],
+    [text, busy, setText, t, defaultLang],
   );
 
   const choose = useCallback(

@@ -73,9 +73,21 @@ function cacheKey(text: string, targetLang: string): string {
   return `${text}::${targetLang}`;
 }
 
+// A short chat message can never translate into a page of model instructions.
+function isExpandedExample(source: string, output: string): boolean {
+  const original = source.trim();
+  return original.length <= 80 && !original.includes("\n") &&
+    output.length > Math.max(160, original.length * 12) && output.includes("\n");
+}
+
 function getCached(text: string, targetLang: string): CacheEntry | undefined {
   const key = cacheKey(text, targetLang);
   const entry = cache.get(key);
+  if (entry && isExpandedExample(text, entry.translatedText)) {
+    cache.delete(key);
+    schedulePersist();
+    return undefined;
+  }
   if (entry) {
     cache.delete(key);
     cache.set(key, entry);
@@ -316,7 +328,7 @@ export async function translateText(
 
   const data = await requestTranslation(text, targetLang, sourceLang, isPublic);
 
-  if (!data?.translatedText) {
+  if (!data?.translatedText || isExpandedExample(text, data.translatedText)) {
     throw new TranslationServiceError('Translation unavailable', 500);
   }
 

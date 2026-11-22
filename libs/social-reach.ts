@@ -1,20 +1,4 @@
-/**
- * Total reach: Riftn followers plus the follower counts a creator reports for
- * the socials they have linked.
- *
- * The platforms' own APIs need OAuth we do not hold, so every social count is
- * self-reported. It lives in the profile's `customs` blob as a flat numeric
- * key next to the link it belongs to (`twitterLink` -> `twitterFollowers`),
- * which the API persists without a backend release. A count only counts while
- * its link is set: clearing the link is how a creator retires the number, and
- * a stale figure for a platform they no longer show would be a lie on the
- * profile.
- *
- * `customs` has no server-side merge, so a writer must spread the existing
- * blob under its changes — `mergeSocialFollowers` does that and drops the key
- * for a cleared count rather than storing a zero.
- */
-
+/** Total reach combines Riftn and connected social accounts, with linked manual counts as a fallback. */
 export type SocialPlatform =
   | 'twitter'
   | 'instagram'
@@ -55,12 +39,18 @@ export interface SocialReachEntry {
   platform: SocialPlatform;
   label: string;
   count: number;
+  verified: boolean;
+}
+
+export interface ConnectedReachCount {
+  platform: string;
+  followers: number | null;
 }
 
 export interface SocialReach {
   /** Riftn followers, as counted by Riftn. */
   dehub: number;
-  /** Linked platforms with a positive self-reported count, in display order. */
+  /** Social platforms with a positive follower count, in display order. */
   socials: SocialReachEntry[];
   /** `dehub` plus every social count. */
   total: number;
@@ -118,6 +108,7 @@ const readLink = (source: Record<string, unknown>, customs: Record<string, unkno
 export function computeSocialReach(
   source: Record<string, unknown> | null | undefined,
   dehubFollowers: number | null | undefined,
+  connected?: readonly ConnectedReachCount[],
 ): SocialReach {
   const record = isRecord(source) ? source : {};
   const customs = isRecord(record.customs) ? record.customs : {};
@@ -128,10 +119,15 @@ export function computeSocialReach(
 
   const socials: SocialReachEntry[] = [];
   for (const { platform, linkKey, followersKey, label } of SOCIAL_REACH_PLATFORMS) {
+    const verified = connected?.find(account => account.platform === platform)?.followers;
+    if (typeof verified === 'number' && Number.isSafeInteger(verified) && verified > 0) {
+      socials.push({ platform, label, count: verified, verified: true });
+      continue;
+    }
     if (!readLink(record, customs, linkKey)) continue;
     const count = parseFollowerCount(customs[followersKey] ?? record[followersKey]);
     if (count === null || count <= 0) continue;
-    socials.push({ platform, label, count });
+    socials.push({ platform, label, count, verified: false });
   }
 
   return {

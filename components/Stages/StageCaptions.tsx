@@ -66,6 +66,7 @@ const StageCaptions: React.FC<{ spaceId: string; speakerWallets: string[] }> = (
         {show && (
           <View style={{ marginLeft: "auto", width: 150, maxWidth: "100%" }}>
             <Dropdown
+              darkMenu
               options={options}
               value={language ?? AS_SPOKEN}
               onChange={(v) => setCaptionLanguage(v === AS_SPOKEN ? null : v)}
