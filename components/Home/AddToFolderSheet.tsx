@@ -1,4 +1,5 @@
 import { useSurfaceDraft } from '../../hooks/useSurfaceDraft';
+import { isFailedResponse } from "../../libs/engagementCache";
 import { useSheetClosed } from '../../hooks/useSheetClosed';
 import React, { memo, useCallback, useEffect, useState } from "react";
 import {
@@ -203,8 +204,9 @@ const AddToFolderSheetComponent: React.FC<AddToFolderSheetProps> = ({
 
       try {
         if (isAdding) {
-          await addItemToFolder(folderId, Number(tokenId));
-          showNotice(t("addToFolder.addedTo", { name: folder.name }));
+          const result = await addItemToFolder(folderId, Number(tokenId));
+          if (result?.status === false || isFailedResponse(result)) throw new Error(t("savedPosts.updateFolderFailed"));
+          closeSheet();
         } else {
           await removeItemFromFolder(folderId, Number(tokenId));
           showNotice(t("addToFolder.removedFrom", { name: folder.name }));
@@ -225,7 +227,7 @@ const AddToFolderSheetComponent: React.FC<AddToFolderSheetProps> = ({
         );
       }
     },
-    [tokenId, showNotice]
+    [tokenId, showNotice, closeSheet, t]
   );
 
   const handleCreateFolder = useCallback(async () => {
@@ -244,12 +246,13 @@ const AddToFolderSheetComponent: React.FC<AddToFolderSheetProps> = ({
         
         // Add item to newly created folder
         try {
-          await addItemToFolder(newFolder._id, Number(tokenId));
+          const result = await addItemToFolder(newFolder._id, Number(tokenId));
+          if (result?.status === false || isFailedResponse(result)) throw new Error(t("savedPosts.updateFolderFailed"));
           setFolders((prev) => [
             ...prev,
             { ...newFolder, checked: true, updating: false, itemCount: 1 },
           ]);
-          showNotice(t("addToFolder.savedTo", { name: newFolder.name }));
+          closeSheet();
         } catch {
           setFolders((prev) => [
             ...prev,
@@ -264,7 +267,7 @@ const AddToFolderSheetComponent: React.FC<AddToFolderSheetProps> = ({
     } finally {
       setCreating(false);
     }
-  }, [newFolderName, newFolderDesc, creating, tokenId, showNotice, setNewFolderDesc, setNewFolderName]);
+  }, [newFolderName, newFolderDesc, creating, tokenId, showNotice, closeSheet, t, setNewFolderDesc, setNewFolderName]);
 
   const renderFolderItem = ({ item }: { item: FolderWithContainment }) => {
     return (

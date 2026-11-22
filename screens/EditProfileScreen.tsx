@@ -28,7 +28,7 @@ import Icon from "../components/ui/Icon";
 import { openCroppedImagePicker, resizeAndCompress, createRNImageFile, AVATAR_UPLOAD_SIDE } from "../libs/assets.util";
 import { runWithPermissions } from "../libs/permissions.util";
 import { AuthService } from "../services/auth.service";
-import { getAccount } from "../services/user.service";
+import { getAccountProfile } from "../services/user.service";
 import CustomSwitch from "../components/ui/CustomSwitch";
 import { readPublicTimeZone } from "../hooks/useProfileLocalTime";
 import { toastError, toastSuccess } from "../libs/toast";
@@ -361,8 +361,7 @@ const EditProfileScreen = () => {
       // another screen has since written.
       let customsBase = user?.customs;
       if (timeZoneChanged && user?.address) {
-        const response = await getAccount(user.address);
-        const account = response?.data?.result;
+        const account = await getAccountProfile(user.address);
         if (!account) throw new Error(t("settings.updateFailed"));
         customsBase = account.customs;
       }
