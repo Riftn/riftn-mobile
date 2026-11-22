@@ -94,11 +94,15 @@ it('uses a thin grey outline on all three tile types in light mode', () => {
 it('shows the time on a glass chip the size of the face opposite it', () => {
   let tree!: ReactTestRenderer;
   act(() => { tree = create(<StoryShelf />); });
-  const chips = tree.root.findAll(node => Array.isArray(node.props.style) && node.props.style.some(
-    (style: { borderColor?: string } | undefined) => style?.borderColor === 'rgba(255,255,255,0.55)',
-  ));
-  expect(chips.length).toBeGreaterThan(0);
-  const flat = Object.assign({}, ...chips[0].props.style.filter(Boolean));
-  expect(flat).toMatchObject({ height: 24, minWidth: 24, borderRadius: 8, top: 7, right: 7 });
+  const flatten = (style: unknown): Record<string, unknown> =>
+    Array.isArray(style) ? Object.assign({}, ...style.filter(Boolean).map(flatten)) : (style as Record<string, unknown>) ?? {};
+  const rims = tree.root.findAll(node => typeof node.type === 'string'
+    && flatten(node.props.style).borderColor === 'rgba(255,255,255,0.55)');
+  expect(rims.length).toBeGreaterThan(0);
+  // One rim, drawn on top, and no drop shadow under it.
+  expect(flatten(rims[0].props.style)).toMatchObject({ borderRadius: 8, borderWidth: 1 });
+  const chip = flatten(rims[0].parent?.props.style);
+  expect(chip).toMatchObject({ height: 24, minWidth: 24, borderRadius: 8, top: 7, right: 7, borderWidth: 0 });
+  expect(chip.boxShadow).toBeUndefined();
   act(() => tree.unmount());
 });
