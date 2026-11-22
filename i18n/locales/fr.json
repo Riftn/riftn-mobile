@@ -3021,7 +3021,15 @@
     "deviceInfoError": "Impossible de charger les infos de l'appareil",
     "deviceInfoNone": "Aucune info d'appareil pour cette demande",
     "deviceInfoErrors": "Erreurs récentes",
-    "deviceInfoNoErrors": "Aucune"
+    "deviceInfoNoErrors": "Aucune",
+    "track": {
+      "label": "Avancement",
+      "asked": "Demandé",
+      "underReview": "En examen",
+      "planned": "Prévu",
+      "inProgress": "En cours",
+      "shipped": "Livré"
+    }
   },
   "auth": {
     "loginRequired": "Connexion requise",

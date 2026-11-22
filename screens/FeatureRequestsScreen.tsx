@@ -118,6 +118,7 @@ import {
 } from "../hooks/useFeatureRequests";
 import { Collapsible, CollapsibleChevron } from "../components/ui/Collapsible";
 import DeviceInfoPanel from "../components/FeatureRequests/DeviceInfoPanel";
+import RequestStatusRow from "../components/FeatureRequests/RequestStatusRow";
 import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 import { formatCount } from '../libs/format-count';
@@ -161,28 +162,6 @@ function categoryLabel(t: TFunction, category: FeatureCategory): string {
   const key = CATEGORY_I18N[category] ?? CATEGORY_I18N.other;
   return t(key, CATEGORY_LABELS[category] ?? CATEGORY_LABELS.other);
 }
-
-const STATUS_I18N: Record<string, string> = {
-  open: "features.statusOpen",
-  under_review: "features.statusUnderReview",
-  planned: "features.statusPlanned",
-  in_progress: "features.statusInProgress",
-  completed: "features.statusCompleted",
-  shipped: "features.shipped",
-  declined: "copy.2ab63e6ced90",
-};
-
-/**
- * Statuses worth a badge on an open request. `open` is the default and adds
- * nothing; shipped and completed live on their own tab. Same set, same hues as
- * web's STATUS_BADGE_STYLES.
- */
-const STATUS_BADGE: Partial<Record<FeatureStatus, { fg: string; bg: string; bd: string }>> = {
-  under_review: { fg: "#D4D4D8", bg: "rgba(255,255,255,0.15)", bd: "rgba(255,255,255,0.25)" },
-  planned: { fg: "#D4D4D8", bg: "rgba(255,255,255,0.15)", bd: "rgba(255,255,255,0.25)" },
-  in_progress: { fg: "#D4D4D8", bg: "rgba(255,255,255,0.15)", bd: "rgba(255,255,255,0.25)" },
-  declined: { fg: "#F4F4F5", bg: "rgba(255,255,255,0.15)", bd: "rgba(255,255,255,0.25)" },
-};
 
 function timeAgo(iso: string, t: TFunction): string {
   const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
@@ -374,7 +353,6 @@ const FeatureCard: React.FC<{
     : feature.description;
 
   const statusNote = (translation.isTranslated && translation.translatedTexts.statusNote) || feature.status_note?.trim() || "";
-  const badge = STATUS_BADGE[feature.status];
   const isNotFeasible = feature.status === "declined";
   const notFeasibleReason = isNotFeasible ? statusNote : "";
   // Owner typing the optional Not feasible reason; null when closed.
@@ -632,26 +610,15 @@ const FeatureCard: React.FC<{
 
           <Attachments feature={feature} />
 
-          <View style={styles.badgeRow}>
-            <View style={styles.catBadge}>
-              <Text style={styles.catBadgeText}>{categoryLabel(t, feature.category)}</Text>
-            </View>
-            {badge && (
-              <View
-                style={[styles.statusBadge, { backgroundColor: badge.bg, borderColor: badge.bd }]}
-              >
-                <Text style={[styles.statusBadgeText, { color: badge.fg }]}>
-                  {t(STATUS_I18N[feature.status], STATUS_LABELS[feature.status])}
-                </Text>
+          <RequestStatusRow
+            status={feature.status}
+            note={statusNote}
+            categoryChip={
+              <View style={styles.catBadge}>
+                <Text style={styles.catBadgeText}>{categoryLabel(t, feature.category)}</Text>
               </View>
-            )}
-            {/* A short tag on a live request, e.g. "Future review" on Queued. */}
-            {feature.status !== "declined" && !!statusNote && (
-              <View style={[styles.statusBadge, { backgroundColor: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.25)" }]}>
-                <Text style={[styles.statusBadgeText, { color: "#D4D4D8" }]}>{statusNote}</Text>
-              </View>
-            )}
-          </View>
+            }
+          />
 
           {/* The owners' reason for ruling it out. */}
           {!!notFeasibleReason && (
@@ -1597,7 +1564,6 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.6)",
   },
 
-  badgeRow: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", gap: 8 },
   catBadge: {
     paddingHorizontal: 8,
     paddingVertical: 2,
@@ -1607,8 +1573,6 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.20)",
   },
   catBadgeText: { color: "#D4D4D8", fontSize: 10, fontWeight: "500", flexShrink: 0 },
-  statusBadge: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 8, borderWidth: 1 },
-  statusBadgeText: { fontSize: 10, fontWeight: "500", flexShrink: 0 },
 
   actionRow: {
     flexDirection: "row",

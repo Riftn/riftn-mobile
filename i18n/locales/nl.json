@@ -3209,7 +3209,15 @@
     "deviceInfoError": "Apparaatinfo kon niet worden geladen",
     "deviceInfoNone": "Geen apparaatinfo voor dit verzoek",
     "deviceInfoErrors": "Recente fouten",
-    "deviceInfoNoErrors": "Geen"
+    "deviceInfoNoErrors": "Geen",
+    "track": {
+      "label": "Voortgang",
+      "asked": "Gevraagd",
+      "underReview": "In beoordeling",
+      "planned": "Gepland",
+      "inProgress": "Bezig",
+      "shipped": "Live"
+    }
   },
   "auth": {
     "loginRequired": "Inloggen vereist",
