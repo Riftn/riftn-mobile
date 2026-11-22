@@ -28,6 +28,7 @@ import { useRecyclingState } from '../../hooks/useCellState';
  * `resetKey` names the post, for a list that reuses one card for another: the
  * reveal goes back to hidden when it changes, so tapping through one mature
  * post never uncovers the next.
+ * Video cards require that reveal even when mature posts are enabled in feeds.
  */
 export function useMatureGate(contentRating?: string, resetKey?: string, requireReveal = false) {
   const { showMatureContent } = useMatureContent();

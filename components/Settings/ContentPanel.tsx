@@ -79,8 +79,8 @@ const ContentPanel: React.FC<{ onOpenPrivacy: () => void; defaultPostVisibility:
           icon="EyeOff"
           label={t('settings.matureContent', 'Show Mature Content')}
           description={t(
-            'settings.matureContentDesc',
-            'Include adult and graphic posts in your feeds, and drop the warning on ones you already see. Off by default.',
+            'settings.matureContentPlaybackDesc',
+            'Include adult and graphic posts in your feeds. Mature videos still ask before playing. Off by default.',
           )}
           value={showMatureContent}
           onValueChange={setShowMatureContent}
