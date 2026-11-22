@@ -35,6 +35,7 @@ import {
 interface Props {
   onSignIn: () => void;
   onSell: (position: PortfolioPosition) => void;
+  onSend: (position: PortfolioPosition) => void;
   onOpenPost: (tokenId: string) => void;
 }
 
@@ -81,7 +82,7 @@ const OrderRow: React.FC<{
   );
 };
 
-const PortfolioTab: React.FC<Props> = ({ onSignIn, onSell, onOpenPost }) => {
+const PortfolioTab: React.FC<Props> = ({ onSignIn, onSell, onSend, onOpenPost }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const wallet = useFractionWallet();
@@ -166,7 +167,7 @@ const PortfolioTab: React.FC<Props> = ({ onSignIn, onSell, onOpenPost }) => {
         ) : (
           <>
             {positions.length > 0 && (
-              <FractionPositionGrid positions={positions} onOpen={onOpenPost} onSell={onSell} />
+              <FractionPositionGrid positions={positions} onOpen={onOpenPost} onSell={onSell} onSend={onSend} />
             )}
             {deletedPositions.length > 0 && (
               <View style={styles.deletedBlock}>
@@ -182,7 +183,7 @@ const PortfolioTab: React.FC<Props> = ({ onSignIn, onSell, onOpenPost }) => {
                   <Icon name={showDeleted ? "ChevronUp" : "ChevronDown"} size={14} color="#52525B" />
                 </Pressable>
                 {showDeleted && (
-                  <FractionPositionGrid positions={deletedPositions} onOpen={() => {}} onSell={onSell} />
+                  <FractionPositionGrid positions={deletedPositions} onOpen={() => {}} onSell={onSell} onSend={onSend} />
                 )}
               </View>
             )}

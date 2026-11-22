@@ -29,6 +29,7 @@ import {
   resolveBadgeUsername,
 } from "../../libs/misc";
 import StreamerLevelCard from "../Live/StreamerLevelCard";
+import ProfilePetCard from "../Pet/PetCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import { useBadgeCeremony } from "../../hooks/useBadgeCeremony";
 import { ensProfileUrl } from "../../libs/ens-handle";
@@ -55,6 +56,7 @@ import { ShareLinks } from "../../navigation/linking.config";
 import NewMemberChip from "../common/NewMemberChip";
 import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
+import EarlySupporterChip from "../common/EarlySupporterChip";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import ProfileBio from "./ProfileBio";
 import TotalReachPill from "./TotalReachPill";
@@ -505,6 +507,8 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             {/* A lent badge draws like any other badge everywhere else; this
                 is the one place that says whose it is. */}
             <BadgePatronChip lookupId={address} />
+            {/* One of their requests on the Requests board shipped. */}
+            <EarlySupporterChip address={address} username={user?.username} />
             {!!address && (
               <View className="flex-row items-center">
                 <Ionicons
@@ -581,6 +585,8 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               so a non-streamer's profile is unchanged. */}
           <MomentArchive key={address} />
           <StreamerLevelCard address={address} className="mt-4" />
+          {/* The creator's stream pet. Nothing until they hatch one. */}
+          <ProfilePetCard address={address} own className="mt-4" />
         </View>
       </View>
 

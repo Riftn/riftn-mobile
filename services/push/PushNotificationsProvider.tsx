@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { openChatMention } from "../../libs/openChatMention";
 import * as Notifications from 'expo-notifications';
 import NetInfo from '@react-native-community/netinfo';
-import { AppState, AppStateStatus, Linking } from 'react-native';
+import { AppState, AppStateStatus, Linking, Platform } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useUser, useAuthState, useAuthActions } from '../../context/AuthContext';
 import { usePublicChatAlerts } from '../../hooks/usePublicChatAlerts';
@@ -29,6 +29,7 @@ import { countUnreadNotifications, extractNotificationItems, incrementUnreadCoun
 import { emitProfileDeepLink } from '../../libs/deeplink.events';
 import { openCustomPush } from '../../libs/custom-notification-route';
 import { readNotificationData as readTapData } from '../../libs/push-tap-data';
+import { isReplyAction } from './message-reply';
 import { noteNotificationMoment } from '../../libs/review-prompt';
 import { useOnboarding } from '../../context/OnboardingChecklistContext';
 import { listProfiles } from '../../libs/profiles';
@@ -345,6 +346,11 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         } catch (error) {
           logger.warn('Could not mark tapped notification read', error as any);
         }
+        // Always write the server's count after a tap: the badge may hold a
+        // local +1 from a push that arrived while the app was open, and the
+        // count itself may not have changed (Requests / stage / community
+        // pushes are not in the API list), which the dedupe below would skip.
+        lastUnreadCountRef.current = null;
         void refreshUnreadCount();
       })();
     }, 1500);
@@ -587,6 +593,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         case NotificationType.FRACTION_OFFER_ACCEPTED:
         case NotificationType.FRACTION_OFFER_REJECTED:
         case NotificationType.FRACTION_PURCHASED:
+        case NotificationType.FRACTION_GIFT:
           if (tokenId) navigation.navigate(ScreenNames.FeedDetail, { tokenId });
           else navigation.navigate(ScreenNames.Notifications);
           break;
@@ -901,6 +908,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       try {
         const lastResponse = await Notifications.getLastNotificationResponseAsync();
         if (!lastResponse) return;
+        // An iPhone reply from the notification is sent in the background
+        // (message-reply.ts); it does not open the chat.
+        if (isReplyAction(lastResponse) && Platform.OS === 'ios') return;
 
         const data = readTapData(lastResponse.notification) as unknown as NotificationData | null;
         if (!data?.type) return;
@@ -946,6 +956,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         // in-app badge immediately. The periodic/server refresh below remains
         // authoritative and corrects aggregation or duplicate delivery.
         if (isFullySignedIn) {
+          // The badge now differs from the last count written, so the next
+          // refresh must write again even if the server number is the same.
+          lastUnreadCountRef.current = null;
           void patchUser((current) => ({
             notificationCount: incrementUnreadCount(current.notificationCount),
           }));
@@ -959,6 +972,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     // Handle notification tap (foreground and background — but NOT cold-start)
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
+        if (isReplyAction(response) && Platform.OS === 'ios') return;
         const data = readTapData(response.notification) as unknown as NotificationData;
         const responseId = response.notification.request.identifier;
         

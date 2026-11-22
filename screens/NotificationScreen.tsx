@@ -186,7 +186,7 @@ const FILTER_TYPE_MAP: Record<NotificationTypeFilter, NotificationType[]> = {
     ...([
       'store_order',
       'fraction_offer', 'fraction_offer_accepted', 'fraction_offer_rejected',
-      'fraction_purchased', 'fraction_sold', 'fraction_delivered', 'fraction_settled',
+      'fraction_purchased', 'fraction_gift', 'fraction_sold', 'fraction_delivered', 'fraction_settled',
       'username_offer', 'username_offer_accepted', 'username_offer_declined',
     ] as unknown as NotificationType[]),
   ],

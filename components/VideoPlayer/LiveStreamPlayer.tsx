@@ -99,6 +99,7 @@ import { speakTipMessage, setTipTtsEnabled } from "../../libs/tipTts";
 import { tierFromAmount } from "../../config/gift-tiers";
 import ViewerScrubBar from "../common/ViewerScrubBar";
 import LiveClipSheet from "../LiveViewer/LiveClipSheet";
+import StreamPetCorner from "../Pet/StreamPetCorner";
 import HypeTrainBar from "../LiveViewer/HypeTrainBar";
 import GiftSubsSheet from "../LiveViewer/GiftSubsSheet";
 import RewardsSheet from "../LiveViewer/RewardsSheet";
@@ -2237,8 +2238,20 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 <HypeTrainBar streamId={streamId} socketOn={socketOn} style={{ marginHorizontal: EDGE, marginTop: 8 }} />
               ) : null}
 
-              {/* Middle area - transparent, shows video */}
-              <View className="flex-1" pointerEvents="box-none" />
+              {/* Middle area - transparent, shows video. The creator's stream
+                  pet sits at its foot on the right, above the room, for
+                  everyone watching; a tap opens its card and the snack button. */}
+              <View className="flex-1" pointerEvents="box-none" style={{ justifyContent: "flex-end", alignItems: "flex-end", paddingHorizontal: EDGE, paddingBottom: 8 }}>
+                {streamId && isLiveEffective && !isEndedEffective ? (
+                  <StreamPetCorner
+                    streamId={streamId}
+                    socketOn={socketOn}
+                    own={!!myAddress && myAddress === giftCreatorAddress}
+                    signedIn={isSignedIn}
+                    onSignIn={() => requireAuth?.(() => undefined)}
+                  />
+                ) : null}
+              </View>
   
               {/* Bottom section: shop + chat + reactions + input */}
               <View pointerEvents="box-none" style={{ paddingBottom: EDGE + 10, flexShrink: 1, minHeight: 0 }}>

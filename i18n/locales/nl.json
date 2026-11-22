@@ -2995,7 +2995,8 @@
       "governanceVotedPassed": "Een voorstel waarop je hebt gestemd is aangenomen: “{{title}}”",
       "governanceVotedRejected": "Een voorstel waarop je hebt gestemd is niet aangenomen: “{{title}}”",
       "governancePassed": "Je voorstel “{{title}}” is aangenomen 🎉",
-      "governanceRejected": "Je voorstel “{{title}}” is niet aangenomen"
+      "governanceRejected": "Je voorstel “{{title}}” is niet aangenomen",
+      "fractionGift": "{{name}} heeft je fracties gestuurd"
     }
   },
   "leaderboard": {
@@ -3237,7 +3238,19 @@
       "planned": "Gepland",
       "inProgress": "Bezig",
       "shipped": "Live"
-    }
+    },
+    "earlySupporter": {
+      "chip": "Vroege supporter",
+      "title": "Vroege supporter: {{value}} van hun verzoeken zijn live"
+    },
+    "earlyAccess": {
+      "mine": "Je hebt dit een dag eerder. Iedereen krijgt het over {{hours}} u.",
+      "others": "Wie het vroeg, probeert het eerst. Voor iedereen over {{hours}} u."
+    },
+    "voiceHold": "Houd vast om te praten",
+    "voiceLetGo": "Laat los om toe te voegen",
+    "voiceTapDone": "Tik als je klaar bent",
+    "voiceWorking": "Wordt uitgeschreven…"
   },
   "auth": {
     "loginRequired": "Inloggen vereist",
@@ -12377,7 +12390,21 @@
     "offerSubmitted_other": "Bod ingediend voor {{count}} fractie(s) voor {{price}} tokens per stuk",
     "yourOfferLabel": "Uw bod (tokens per fractie)",
     "listedToast_one": "Vermeld {{count}} fractie(s) voor {{price}} tokens per stuk",
-    "listedToast_other": "Vermeld {{count}} fractie(s) voor {{price}} tokens per stuk"
+    "listedToast_other": "Vermeld {{count}} fractie(s) voor {{price}} tokens per stuk",
+    "giftSend": "Versturen",
+    "giftTitle": "Fracties versturen",
+    "giftHint": "Ze gaan rechtstreeks van jouw wallet naar die van hen.",
+    "giftYouOwn": "Je hebt {{count}} van {{total}}",
+    "giftListedNote": "{{count}} staan te koop. Annuleer de aanbieding om die te versturen.",
+    "giftTo": "Aan",
+    "giftChange": "Wijzigen",
+    "giftSearch": "Mensen zoeken",
+    "giftNoOne": "Niemand gevonden",
+    "giftHowMany": "Hoeveel",
+    "giftAll": "Alles",
+    "giftSending": "Versturen…",
+    "giftButton": "{{count}} naar {{name}} versturen",
+    "giftSent": "{{count}} naar {{name}} verstuurd"
   },
   "moderation": {
     "appealDuplicate": "Je hebt al bezwaar gemaakt tegen dit",
@@ -18303,6 +18330,81 @@
     "streak": "Reeks van {{value}} dagen",
     "streakBonus": "Reeksbonus +{{pct}}%",
     "dailyHint": "Eén quiz per dag. Wie je quizzen dagen achter elkaar speelt, bouwt een reeks op en verdient bonuspunten."
+  },
+  "streamPet": {
+    "stage": {
+      "egg": "Ei",
+      "baby": "Baby",
+      "kid": "Kind",
+      "teen": "Tiener",
+      "grown": "Volwassen",
+      "legend": "Legende"
+    },
+    "color": {
+      "violet": "Violet",
+      "pink": "Roze",
+      "mint": "Mint",
+      "sky": "Lucht",
+      "sun": "Zon",
+      "coral": "Koraal"
+    },
+    "mood": {
+      "egg": "Nog een ei. Het komt uit bij de volgende stream.",
+      "eggOwn": "Nog een ei. Stream 5 minuten om het uit te broeden.",
+      "streaming": "Eet terwijl de stream loopt",
+      "happy": "Blij en vol",
+      "hungry": "Krijgt honger. Valt over {{hours}} u in slaap",
+      "asleep": "Slaapt tot de volgende stream",
+      "asleepOwn": "Slaapt. Ga live om het wakker te maken"
+    },
+    "snacks_one": "{{formatted}} snack",
+    "snacks_other": "{{formatted}} snacks",
+    "hoursStreamed_one": "{{formatted}} uur gestreamd",
+    "hoursStreamed_other": "{{formatted}} uur gestreamd",
+    "toNext_one": "Nog {{formatted}} snack tot {{stage}}",
+    "toNext_other": "Nog {{formatted}} snacks tot {{stage}}",
+    "open": "{{pet}} openen",
+    "feed": "Geef een snack",
+    "fed": "{{pet}} heeft je snack opgegeten",
+    "fedBy": "{{name}} gaf {{pet}} te eten",
+    "signIn": "Log in om het te voeren",
+    "pointsHint": "Betaald met je kanaalpunten hier",
+    "balance": "Je hebt hier {{formatted}} punten",
+    "errors": {
+      "notEnough": "Nog niet genoeg punten. Blijf kijken om meer te verdienen.",
+      "notLive": "Je kunt het huisdier voeren terwijl de stream live is",
+      "tooFast": "Wacht een paar seconden",
+      "daily": "Genoeg snacks voor vandaag",
+      "off": "Voeren staat uit op dit kanaal",
+      "failed": "Er ging iets mis. Probeer het opnieuw."
+    },
+    "studio": {
+      "title": "Streamhuisdier",
+      "intro": "Een klein huisdier dat eet terwijl je streamt: één snack per 5 minuten live. Het groeit door te eten, valt in slaap na een dag zonder eten en gaat nooit dood.",
+      "name": "Naam",
+      "namePlaceholder": "Geef je huisdier een naam",
+      "color": "Kleur",
+      "hatch": "Ei uitbroeden",
+      "hatched": "Je ei is klaar. Ga live om het uit te broeden.",
+      "save": "Opslaan",
+      "saved": "Opgeslagen",
+      "showOnProfile": "Tonen op mijn profiel",
+      "showOnStream": "Tonen in de hoek van mijn stream",
+      "feeding": "Kijkers kunnen het voeren met kanaalpunten",
+      "cost": "Punten per snack",
+      "rules": "Elke kijker kan het tot 20 snacks per dag geven. Punten hebben geen geldwaarde.",
+      "feeders": "Heeft het het meest gevoerd"
+    }
+  },
+  "quickReply": {
+    "reply": "Beantwoorden",
+    "send": "Versturen",
+    "placeholder": "Schrijf een antwoord…",
+    "hiddenPreview": "Nieuw bericht op Riftn",
+    "failedTitle": "Je antwoord is niet verstuurd",
+    "failedBody": "Tik om de chat te openen en het daar te versturen.",
+    "sent": "Antwoord verstuurd",
+    "open": "Chat openen"
   },
   "dmTranslateOut": {
     "showMine": "Toon wat ik schreef",

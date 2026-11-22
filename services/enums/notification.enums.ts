@@ -30,6 +30,8 @@ export enum NotificationType {
   FRACTION_OFFER_ACCEPTED = 'fraction_offer_accepted',
   FRACTION_OFFER_REJECTED = 'fraction_offer_rejected',
   FRACTION_PURCHASED = 'fraction_purchased',
+  /** Someone sent you fractions from their portfolio */
+  FRACTION_GIFT = 'fraction_gift',
   /** Someone offered to buy the handle you are wearing */
   USERNAME_OFFER = 'username_offer',
   /** The owner accepted your offer — the handle is yours to pay for */
@@ -193,6 +195,8 @@ export const getNotificationIconConfig = (type: NotificationType | string): {
     case NotificationType.FRACTION_OFFER_ACCEPTED:
     case NotificationType.FRACTION_PURCHASED:
       return { name: 'Store', color: '#F4F4F5' };
+    case NotificationType.FRACTION_GIFT:
+      return { name: 'Gift', color: '#F4F4F5' };
     // Its own glyph rather than the marketplace one: what is being bid for
     // here is the reader's own name, not a thing on a shelf.
     case NotificationType.USERNAME_OFFER:
