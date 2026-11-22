@@ -1,4 +1,4 @@
-import { parseMomentReply } from '../../libs/moment-reply';
+import { parseMomentReply, parseSharedMoment } from '../../libs/moment-reply';
 const id = '6b0099334a6e07719f5908d3';
 const link = `https://riftn.com/moment/${id}`;
 it('keeps the original reply text and resolves old translated app links', () => {
@@ -13,4 +13,13 @@ it('leaves unrelated DM text and lookalike URLs untouched', () => {
     `Replied to your moment: nice\nhttps://riftn.com@evil.test/moment/${id}`, `Replied to your moment: nice\n${link}/another/path`]) {
     expect(parseMomentReply(content)).toBeNull();
   }
+});
+
+it('shows authorized Moment links with optional DM text and excludes unrelated links', () => {
+  const id = '0123456789abcdef01234567';
+  const url = 'https://riftn.com/app/moment/' + id;
+  expect(parseSharedMoment(url)).toEqual({ id, text: '', shared: true });
+  expect(parseSharedMoment('Watch this\n' + url)).toEqual({ id, text: 'Watch this', shared: true });
+  expect(parseSharedMoment(url + '?reply=1')).toBeNull();
+  expect(parseSharedMoment(url.replace('riftn.com', 'external.example'))).toBeNull();
 });

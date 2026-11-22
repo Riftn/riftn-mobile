@@ -1,5 +1,6 @@
 import {
   getAccount,
+  getAccountProfile,
   usersSearch,
   getNotifications,
   markNotificationAsRead,
@@ -44,6 +45,18 @@ const mockPatch = apiClient.patch as jest.Mock;
 
 describe('services/user.service', () => {
   beforeEach(() => jest.clearAllMocks());
+
+  describe('getAccountProfile', () => {
+    const profile = { address: 'alice', customs: { publicTimeZone: 'Europe/Istanbul', keep: true } };
+    it.each([{ result: profile }, { data: { result: profile } }])('reads the saved custom fields', async response => {
+      mockGet.mockResolvedValueOnce(response);
+      expect(await getAccountProfile('alice')).toEqual(profile);
+    });
+    it('leaves a missing account unset', async () => {
+      mockGet.mockResolvedValueOnce({ result: null });
+      expect(await getAccountProfile('missing')).toBeUndefined();
+    });
+  });
 
   describe('getAccount', () => {
     it('falls back to public profile only after rejected credentials', async () => {

@@ -83,7 +83,7 @@ function baseLang(lang: string): string {
 export function useTranslation(
   texts: Record<string, string>,
   detectedLanguage?: string | null,
-  auto: boolean | 'chat' = true,
+  auto: boolean | 'chat' | 'topic' = true,
   isPublic: boolean = false,
   resetKey?: string,
 ): UseTranslationResult {
@@ -281,7 +281,7 @@ export function useTranslation(
     const tooShort = auto === 'chat'
       ? combinedProse.length < MIN_CHAT_AUTO_LETTERS
       : Object.values(texts).join(' ').trim().length < MIN_AUTO_LENGTH;
-    if (!reliableBackendLang && tooShort && /^[\p{Script=Latin}]*$/u.test(combinedProse)) return;
+    if (auto !== 'topic' && !reliableBackendLang && tooShort && /^[\p{Script=Latin}]*$/u.test(combinedProse)) return;
     // A Latin-script chat line translates itself only when its own words say
     // it is in another language than the reader's ("bom dia galera"); slang and
     // names stay as typed. See libs/chat-language-hint.

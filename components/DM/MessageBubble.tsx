@@ -45,7 +45,7 @@ import DehubLinkCard from "../common/DehubLinkCard";
 import LinkedText from "../common/LinkedText";
 import { useChatTextScale } from "../../hooks/useAppPrefs";
 import MomentReplyPreview from "./MomentReplyPreview";
-import { parseMomentReply } from "../../libs/moment-reply";
+import { parseMomentReply, parseSharedMoment } from "../../libs/moment-reply";
 import LinkPreviewCard from "../common/LinkPreviewCard";
 import { findDehubLink, stripDehubLinkMatches } from "../../libs/dehub-links";
 import {
@@ -524,7 +524,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     : message.content;
 
   const momentReply = useMemo(() => msgType === "msg" && !encMedia && !mediaItems.length
-    ? parseMomentReply(bodyContent) : null, [msgType, encMedia, mediaItems.length, bodyContent]);
+    ? parseMomentReply(bodyContent) ?? parseSharedMoment(bodyContent) : null, [msgType, encMedia, mediaItems.length, bodyContent]);
   const sharedLink = useMemo(() => {
     if (momentReply || isVoice || isGif || encMedia || mediaItems.length > 0) return null;
     const link = findDehubLink(bodyContent ?? "");
@@ -1127,7 +1127,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             {/* Shared Riftn link — rich preview card that opens it on tap */}
             {momentReply ? (
               <View style={{ maxWidth: MAX_IMAGE_WIDTH }}>
-                <MomentReplyPreview id={momentReply.id} onLongPress={handleLongPress} />
+                <MomentReplyPreview shared={"shared" in momentReply} id={momentReply.id} onLongPress={handleLongPress} />
                 {!!momentReply.text && <LinkedText text={translated ?? momentReply.text} onLongPress={handleLongPress}
                   className={`px-3 pt-2 text-[15px] ${isMine ? "text-white" : "text-theme-neutrals-100"}`}
                   style={chatTextStyle} fontSize={15 * textScale} />}

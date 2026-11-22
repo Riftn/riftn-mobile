@@ -102,3 +102,17 @@ it('keeps the native soundtrack playing through a second surface and back', asyn
   expect(view.getByLabelText(/^audioPost\.pause:/)).toBeTruthy();
   view.unmount();
 });
+
+it.each([
+  [true, '#F0F0F4', '#0b0b0f', '#41414B'],
+  [false, '#202026', '#fff', '#D0D0D8'],
+] as const)('keeps the docked player readable with light mode %s', async (isLight, surface, ink, secondary) => {
+  const view = render(<SoundtrackBadge {...props} variant="overlay" isLight={isLight} />);
+  await act(async () => press(view));
+  const panel = view.UNSAFE_getAllByProps({ className: 'dark-surface' })[0];
+  expect(panel.props.style).toContainEqual(expect.objectContaining({ backgroundColor: surface }));
+  expect(view.getByText('Song').props.style).toContainEqual({ color: ink });
+  expect(view.getByText('Artist').props.style).toContainEqual({ color: secondary });
+  expect(view.getByRole('adjustable')).toBeTruthy();
+  view.unmount();
+});

@@ -36,8 +36,10 @@ export default function GenerationExample({ kind, model }: { kind: CreatorMode; 
       <Ionicons name={kind === '3d' ? 'cube-outline' : 'play'} size={18} color="#A1A1AA" />
     </Pressable>
     <Modal visible={open} transparent animationType="fade" onRequestClose={() => setOpen(false)}>
-      <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.94)', paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16, paddingHorizontal: 16 }}>
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}><Text style={{ flex: 1, color: '#F9FBFF', fontSize: 16, fontWeight: '600' }}>{label}</Text><Pressable accessibilityRole="button" accessibilityLabel={t('common.close')} hitSlop={12} onPress={() => setOpen(false)}><Ionicons name="close" color="white" size={24} /></Pressable></View>
+      <View className="dark-surface" style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.94)', paddingTop: insets.top + 16, paddingBottom: insets.bottom + 16, paddingHorizontal: 16 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}><Text style={{ flex: 1, color: '#F9FBFF', fontSize: 16, fontWeight: '600' }}>{label}</Text><Pressable accessibilityRole="button" accessibilityLabel={t('common.close')} style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: '#27272A', borderWidth: 1, borderColor: '#A1A1AA', alignItems: 'center', justifyContent: 'center' }} onPress={() => setOpen(false)}>
+          <Ionicons name="close" color="#FFFFFF" size={24} />
+        </Pressable></View>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           {open && (kind === 'image' || kind === '3d') && <SmartImage source={{ uri: posterUrl ?? example.url }} style={{ width: width - 32, height: width - 32 }} contentFit="contain" />}
           {open && kind === 'video' && <ExampleVideo url={example.url} width={width - 32} />}
