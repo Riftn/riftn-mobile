@@ -408,6 +408,16 @@ const LiveStageModal: React.FC = () => {
 
   const [ttsText, setTtsText] = useSurfaceDraft("components/Stages/LiveStageModal.tsx:ttsText", "");
   const [selectedVoiceId, setSelectedVoiceId] = useState("");
+  const speakerTools = useRef<ScrollView>(null);
+  const speechFocused = useRef(false);
+  const revealSpeechInput = () => {
+    if (speechFocused.current) speakerTools.current?.scrollToEnd({ animated: false });
+  };
+  const sendSpeech = async () => {
+    const submitted = ttsText;
+    if (await generateTts(submitted, selectedVoiceId)) setTtsText.complete(submitted, "");
+  };
+
 
   const spaceTitle = currentSpace?.title ?? "";
   const { t } = useTranslation();
@@ -714,6 +724,9 @@ const LiveStageModal: React.FC = () => {
         )}
 
         <ScrollView
+          ref={speakerTools}
+          onLayout={revealSpeechInput}
+          onContentSizeChange={revealSpeechInput}
           style={{ flex: 1, minHeight: 0 }}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{ paddingHorizontal: 12, paddingTop: 20, paddingBottom: 20 }}
@@ -980,6 +993,8 @@ const LiveStageModal: React.FC = () => {
             <View style={{ flexDirection: "row", gap: 8, alignItems: "flex-end" }}>
               <View style={{ flex: 1 }}>
                 <TextInput
+                  onFocus={() => { speechFocused.current = true; revealSpeechInput(); }}
+                  onBlur={() => { speechFocused.current = false; }}
                   value={ttsText}
                   onChangeText={t => setTtsText(t.slice(0, 500))}
                   placeholder={t("stages.ttsPlaceholder")}
@@ -1002,11 +1017,7 @@ const LiveStageModal: React.FC = () => {
                 </Text>
               </View>
               <TouchableOpacity
-                onPress={() => {
-                  if (ttsVoices.length === 0) { fetchTtsVoices(); return; }
-                  const vid = selectedVoiceId || ttsVoices[0]?.voice_id;
-                  if (vid) generateTts(ttsText, vid);
-                }}
+                onPress={sendSpeech}
                 disabled={isTtsGenerating || !ttsText.trim()}
                 style={{
                   width: 44, height: 44, borderRadius: 12,
@@ -1155,11 +1166,11 @@ const LiveStageModal: React.FC = () => {
           </TouchableOpacity>
         </View>
         </KeyboardAvoidingView>
-        {dmStageId === currentSpace.id && (
+      </View>
+      {dmStageId === currentSpace.id && (
           <ShareToDmSheet visible url={ShareLinks.stage(currentSpace)} postTitle={spaceTitle}
             onClose={() => setDmStageId(null)} />
-        )}
-      </View>
+      )}
     </Modal>
   );
 };
