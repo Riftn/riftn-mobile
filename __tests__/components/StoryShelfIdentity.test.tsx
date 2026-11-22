@@ -6,11 +6,12 @@ const mockOpenLive = jest.fn();
 const mockOpenStory = jest.fn();
 const mockOpenCreator = jest.fn();
 const mockLive = { id: 'live-room', kind: 'stream', wallet: 'host', title: 'Trail watch', displayName: 'Maya Chen', cover: 'broadcast.jpg' };
+let mockIsLight = false;
 const mockAccount = { hideBadgeAndBalance: false };
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
   ScrollView: 'ScrollView', Text: 'Text', TouchableOpacity: 'TouchableOpacity', View: 'View',
-  StyleSheet: { create: (styles: unknown) => styles, absoluteFill: {}, absoluteFillObject: {} },
+  StyleSheet: { create: (styles: unknown) => styles, absoluteFill: {}, absoluteFillObject: {}, hairlineWidth: 0.5 },
 }));
 jest.mock('react-native-gesture-handler', () => ({ GestureDetector: 'GestureDetector' }));
 jest.mock('expo-image', () => ({ Image: 'Image' }));
@@ -24,6 +25,7 @@ jest.mock('@tanstack/react-query', () => ({ useQuery: () => ({ data: { liveHosts
 jest.mock('../../hooks/useStoriesEnabled', () => ({ useStoriesEnabled: () => ({ storiesEnabled: true }) }));
 jest.mock('../../context/AuthContext', () => ({ useUser: () => ({ address: 'owner' }), useAuthActions: () => ({ requireAuth: (run: () => void) => run() }) }));
 jest.mock('../../context/PagerGestureContext', () => ({ useHorizontalScrollGuard: () => null, useHorizontalSectionGuard: () => null }));
+jest.mock('../../context/ThemeContext', () => ({ useAppTheme: () => ({ isLight: mockIsLight }) }));
 jest.mock('../../hooks/useKidsModeLock', () => ({ useKidsModeLock: () => false }));
 jest.mock('../../hooks/useAccountBadge', () => ({ useBadgeAccount: () => mockAccount }));
 jest.mock('../../components/Home/LiveNowBar', () => ({ LiveFace: 'LiveFace', useLiveNowItems: () => ({ items: [mockLive], open: mockOpenLive }) }));
@@ -69,4 +71,22 @@ it('keeps Live, Stories and the create button independently tappable', () => {
   expect(mockOpenCreator).toHaveBeenCalledTimes(1);
   expect(mockOpenStory).toHaveBeenCalledTimes(1);
   act(() => tree.unmount());
+});
+
+it('uses a thin grey outline on all three tile types in light mode', () => {
+  let tree!: ReactTestRenderer;
+  mockIsLight = true;
+  try {
+    act(() => { tree = create(<StoryShelf />); });
+    const outlines = tree.root.findAll(node => Array.isArray(node.props.style) && node.props.style.some(
+      (style: { borderColor?: string } | undefined) => style?.borderColor === '#d4d4d8',
+    ));
+    expect(outlines).toHaveLength(3);
+    for (const outline of outlines) {
+      expect(outline.props.style).toContainEqual({ borderColor: '#d4d4d8', borderWidth: 0.5 });
+    }
+  } finally {
+    act(() => tree?.unmount());
+    mockIsLight = false;
+  }
 });

@@ -13,6 +13,7 @@ import Icon from "../ui/Icon";
 import Avatar from "../common/Avatar";
 import { useUser, useAuthActions } from "../../context/AuthContext";
 import { useHorizontalScrollGuard, useHorizontalSectionGuard } from "../../context/PagerGestureContext";
+import { useAppTheme } from "../../context/ThemeContext";
 import { MATURE_CONTENT_ENABLED } from "../../config/storefront";
 import { useKidsModeLock } from "../../hooks/useKidsModeLock";
 import { useLiveNowItems, LiveFace, type LiveNowItem } from "../Home/LiveNowBar";
@@ -119,6 +120,7 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
   action?: React.ReactNode;
   children: React.ReactNode;
 }) {
+  const { isLight } = useAppTheme();
   return (
     <View className="dark-surface" style={styles.tile}>
       <TouchableOpacity
@@ -138,7 +140,7 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
           style={StyleSheet.absoluteFill}
           pointerEvents="none"
         />
-        <View pointerEvents="none" style={styles.frame} />
+        <View pointerEvents="none" style={[styles.frame, isLight && styles.lightFrame]} />
         <View pointerEvents="none" style={styles.avatar}>{avatar}</View>
         {badge}
         {children}
@@ -281,6 +283,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.18)",
   },
+  lightFrame: { borderWidth: StyleSheet.hairlineWidth, borderColor: "#d4d4d8" },
   avatar: {
     position: "absolute",
     top: 7,
