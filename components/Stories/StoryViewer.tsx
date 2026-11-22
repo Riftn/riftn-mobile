@@ -41,6 +41,8 @@ import { ScreenNames } from "../../navigation/ScreenNames";
 import { WEBSITE_LINK } from "../../config/links";
 import { formatCount } from "../../libs/format-count";
 import { toastError, toastSuccess } from "../../libs/toast";
+import { muteUser } from "../../services/mute.service";
+import { unfollowUser } from "../../services/user.service";
 import {
   checkStoryReply,
   deleteStory,
@@ -564,6 +566,29 @@ export default function StoryViewer({
             onShareToDm={shareable && me ? () => setSheet("share-dm") : undefined}
             authorAddress={entry.author.address}
             onViewProfile={onOpenProfile}
+            onMute={me ? () => {
+              setSheet(null);
+              const address = entry.author.address;
+              void muteUser(address)
+                .then((r: any) => {
+                  if (r && r.status === false) throw new Error("mute failed");
+                  void queryClient.invalidateQueries({ queryKey: ["story-shelf"] });
+                  toastSuccess(t("stories.mutedToast", { defaultValue: "Muted. You won't see their Moments or posts." }));
+                  goAuthor(1);
+                })
+                .catch(() => toastError(t("common.tryAgain", { defaultValue: "Try again" })));
+            } : undefined}
+            onUnfollow={me && entry.following ? () => {
+              setSheet(null);
+              const address = entry.author.address;
+              void unfollowUser(me, address)
+                .then(() => {
+                  setList((l) => l.map((e) => (e.author.address === address ? { ...e, following: false } : e)));
+                  void queryClient.invalidateQueries({ queryKey: ["story-shelf"] });
+                  toastSuccess(t("stories.unfollowedToast", { defaultValue: "Unfollowed" }));
+                })
+                .catch(() => toastError(t("common.tryAgain", { defaultValue: "Try again" })));
+            } : undefined}
             onReport={(reason) => {
               setSheet(null);
               if (!me) onClose();
@@ -602,6 +627,8 @@ function ViewerSheet({
   onShareOutside,
   onShareToDm,
   onViewProfile,
+  onMute,
+  onUnfollow,
   authorAddress,
   onReport,
   bottom,
@@ -618,6 +645,8 @@ function ViewerSheet({
   onShareToDm?: () => void;
   authorAddress: string;
   onViewProfile: (address: string) => void;
+  onMute?: () => void;
+  onUnfollow?: () => void;
   onReport: (reason: string) => void;
   bottom: number;
 }) {
@@ -655,6 +684,8 @@ function ViewerSheet({
             ) : (
               <>
                 <SheetRow icon="User" label={t("stories.viewProfile", { defaultValue: "View profile" })} onPress={() => onViewProfile(authorAddress)} />
+                {onUnfollow ? <SheetRow icon="UserMinus" label={t("stories.unfollow", { defaultValue: "Unfollow" })} onPress={onUnfollow} /> : null}
+                {onMute ? <SheetRow icon="VolumeX" label={t("stories.muteAccount", { defaultValue: "Mute" })} onPress={onMute} /> : null}
                 <SheetRow icon="Flag" label={t("stories.report", { defaultValue: "Report" })} danger onPress={() => onPick("report")} />
               </>
             )}
