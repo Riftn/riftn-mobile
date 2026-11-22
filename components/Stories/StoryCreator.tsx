@@ -37,7 +37,7 @@ import MentionSuggestions from "../common/MentionSuggestions";
 import { DarkRoomProvider } from "../../context/ThemeContext";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
 import { optionalSkia } from "../../libs/skia";
-import { toastError } from "../../libs/toast";
+import { toastError, toastSuccess } from "../../libs/toast";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
 import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
@@ -46,6 +46,11 @@ import { shareMoment } from "./story-upload";
 import type { TextLayer } from "./story-compose";
 
 const AUDIENCE_KEY = "riftn.stories.audience";
+/** The saved Close friends list, reused for "Only selected people". */
+const CLOSE_FRIENDS_KEY = "riftn.stories.closeFriends";
+/** Stickers are big glyph layers: emoji keep their colours, the shapes take the text colour. */
+const STICKER_EMOJI = ["🔥", "😂", "😍", "🥳", "👀", "💯", "🎉", "❤️", "✨", "👏", "🙌", "😎", "🤯", "🫶", "🙏", "💀", "🚀", "⚡", "🌙", "☀️"];
+const STICKER_SHAPES = ["→", "←", "↑", "↓", "↗", "↘", "➜", "○", "✓", "✗", "★", "♥", "!", "?"];
 const COLORS = ["#ffffff", "#000000", "#ff5c7a", "#ffb34d", "#ffe14d", "#5ce08a", "#4dc3ff", "#a391fc"];
 const MAX_SECONDS = 60;
 const MAX_MENTIONS = 10;
@@ -179,6 +184,16 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [audienceOpen, setAudienceOpen] = useState(false);
   const [pickingAudiencePerson, setPickingAudiencePerson] = useState(false);
   const [audiencePeople, setAudiencePeople] = useState<MentionUser[]>([]);
+  const [closeFriends, setCloseFriends] = useState<MentionUser[]>([]);
+  const [stickersOpen, setStickersOpen] = useState(false);
+  React.useEffect(() => {
+    AsyncStorage.getItem(CLOSE_FRIENDS_KEY)
+      .then((raw) => {
+        const list = raw ? JSON.parse(raw) : [];
+        if (Array.isArray(list)) setCloseFriends(list.filter((u: MentionUser) => u && typeof u.address === "string").slice(0, 50));
+      })
+      .catch(() => {});
+  }, []);
   const restrictPeople = audience === "selected" || audience === "except";
   const audienceLabels = {
     everyone: t("stories.everyone", { defaultValue: "Everyone" }),
@@ -208,6 +223,10 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
     return () => sub.remove();
   }, [player, isPhoto, picked.duration, playbackSeconds]);
 
+  const addSticker = (glyph: string) => {
+    setLayers((ls) => [...ls, { id: `${Date.now()}`, text: glyph, x: 0.5, y: 0.45, size: 0.16, color: "#ffffff", box: false }]);
+    setStickersOpen(false);
+  };
   const startText = () =>
     setEditing({ id: `${Date.now()}`, text: "", x: 0.5, y: 0.42, size: 0.075, color: "#ffffff", box: false });
   const commitText = () => {
@@ -324,6 +343,9 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             <TouchableOpacity className="dark-surface" onPress={startText} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
               <Icon name="Type" size={20} color="#fff" />
             </TouchableOpacity>
+            <TouchableOpacity className="dark-surface" onPress={() => setStickersOpen(true)} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button" accessibilityLabel={t("stories.stickers", { defaultValue: "Stickers" })}>
+              <Icon name="Smile" size={20} color="#fff" />
+            </TouchableOpacity>
             {compose && layers.filter((layer) => layer.mentionAddress).length < MAX_MENTIONS ? (
               <TouchableOpacity className="dark-surface" onPress={() => setMentionTarget({})} style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button"
                 accessibilityLabel={t("upload.studio.mention", { defaultValue: "Mention" })}>
@@ -375,6 +397,24 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
                 <Text style={styles.chipText}>{audienceLabels[mode]}</Text>
               </TouchableOpacity>
             ))}
+            {customAudience && closeFriends.length > 0 && (
+              <TouchableOpacity style={styles.chip} accessibilityRole="button"
+                onPress={() => { audienceChosen.current = true; setAudience("selected"); setAudiencePeople(closeFriends); }}>
+                <Icon name="Users" size={16} color="#fff" />
+                <Text style={styles.chipText}>{t("stories.closeFriends", { defaultValue: "Close friends" })} ({closeFriends.length})</Text>
+              </TouchableOpacity>
+            )}
+            {audience === "selected" && audiencePeople.length > 0 && (
+              <TouchableOpacity style={styles.chip} accessibilityRole="button"
+                onPress={() => {
+                  setCloseFriends(audiencePeople);
+                  AsyncStorage.setItem(CLOSE_FRIENDS_KEY, JSON.stringify(audiencePeople)).catch(() => {});
+                  toastSuccess(t("stories.closeFriendsSaved", { defaultValue: "Saved as your Close friends" }));
+                }}>
+                <Icon name="Check" size={16} color="#fff" />
+                <Text style={styles.chipText}>{t("stories.saveCloseFriends", { defaultValue: "Save as Close friends" })}</Text>
+              </TouchableOpacity>
+            )}
             {restrictPeople && <>
               {audiencePeople.map(user => (
                 <TouchableOpacity key={user.address} style={styles.chip} onPress={() => setAudiencePeople(current => current.filter(item => item.address !== user.address))}>
@@ -389,6 +429,28 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
               <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
             </TouchableOpacity>
           </ScrollView>
+        </View>
+      )}
+      {stickersOpen && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setStickersOpen(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{t("stories.stickers", { defaultValue: "Stickers" })}</Text>
+              <TouchableOpacity onPress={() => setStickersOpen(false)} style={styles.chip} accessibilityRole="button">
+                <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              {[...STICKER_EMOJI, ...STICKER_SHAPES].map((g) => (
+                <TouchableOpacity key={g} onPress={() => addSticker(g)} accessibilityRole="button" accessibilityLabel={g}
+                  style={{ width: "14.28%", height: 48, alignItems: "center", justifyContent: "center" }}>
+                  <Text style={{ fontSize: 26, color: "#fff", fontWeight: "700" }}>{g}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+            <Text style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>{t("stories.shapes", { defaultValue: "Arrows and shapes. Tap one after adding it to change its colour, size or angle." })}</Text>
+          </View>
         </View>
       )}
       {pickingAudiencePerson && (
