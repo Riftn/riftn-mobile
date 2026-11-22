@@ -557,7 +557,7 @@ export default function StoryViewer({
               </TouchableOpacity>
             )}
             {!own && me && item.allowReplies && reply.trim() ? (
-              <TouchableOpacity onPress={() => void sendReply()} style={[styles.round, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={t("common.send", { defaultValue: "Send" })}>
+              <TouchableOpacity onPress={() => void sendReply()} style={[styles.round, styles.darkGlass]} accessibilityRole="button" accessibilityLabel={t("tip.send", { defaultValue: "Send" })}>
                 <Icon name="Send" size={20} color="#fff" />
               </TouchableOpacity>
             ) : null}
