@@ -10,13 +10,12 @@ let mockIsLight = false;
 const mockAccount = { hideBadgeAndBalance: false };
 jest.mock('dehub-jsx/jsx-runtime', () => jest.requireActual('react/jsx-runtime'));
 jest.mock('react-native', () => ({
-  ScrollView: 'ScrollView', Text: 'Text', TouchableOpacity: 'TouchableOpacity', View: 'View', Platform: { OS: 'android' },
+  ScrollView: 'ScrollView', Text: 'Text', TouchableOpacity: 'TouchableOpacity', View: 'View',
   StyleSheet: { create: (styles: unknown) => styles, absoluteFill: {}, absoluteFillObject: {}, hairlineWidth: 0.5 },
 }));
 jest.mock('react-native-gesture-handler', () => ({ GestureDetector: 'GestureDetector' }));
 jest.mock('expo-image', () => ({ Image: 'Image' }));
 jest.mock('expo-linear-gradient', () => ({ LinearGradient: 'Gradient' }));
-jest.mock('expo-blur', () => ({ BlurView: 'BlurView' }));
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, options?: { defaultValue: string }) => options?.defaultValue || key }) }));
 jest.mock('valtio', () => ({ useSnapshot: () => ({}) }));
 jest.mock('@tanstack/react-query', () => ({ useQuery: () => ({ data: { liveHosts: ['host'], shelf: [{

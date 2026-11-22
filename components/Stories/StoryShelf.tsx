@@ -1,7 +1,6 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
 import React, { useCallback, useMemo } from "react";
-import { Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { BlurView } from "expo-blur";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -260,13 +259,12 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
 
 /**
  * The time chip, as on web: liquid glass the size of the face opposite it
- * (24 px, 8 px corners). The photo shows through (blurred on iPhone), with a
- * bright rim and a sheen on top.
+ * (24 px, 8 px corners). The photo shows through a pale glass fill, with a
+ * bright rim and a sheen on top (no live blur: shelf chips stay cheap to scroll).
  */
 function GlassTime({ label, seen }: { label: string; seen?: boolean }) {
   return (
     <View pointerEvents="none" style={[styles.cornerBadge, styles.glassChip, seen && styles.glassChipSeen]}>
-      {Platform.OS === "ios" ? <BlurView intensity={22} tint="light" style={StyleSheet.absoluteFill} /> : null}
       <LinearGradient colors={["rgba(255,255,255,0.32)", "rgba(255,255,255,0.08)"]} style={StyleSheet.absoluteFill} />
       <View style={styles.glassSheen} />
       <Text style={[styles.badgeText, styles.glassText]} numberOfLines={1}>{label}</Text>
@@ -353,7 +351,7 @@ const styles = StyleSheet.create({
   },
   glassChip: {
     borderColor: "rgba(255,255,255,0.55)",
-    backgroundColor: Platform.OS === "ios" ? "transparent" : "rgba(255,255,255,0.1)",
+    backgroundColor: "rgba(255,255,255,0.1)",
   },
   glassChipSeen: { borderColor: "rgba(255,255,255,0.3)" },
   glassSheen: { position: "absolute", top: 0, left: 0, right: 0, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
