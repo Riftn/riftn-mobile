@@ -12,6 +12,7 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
+  useWindowDimensions,
 } from "react-native";
 import MaskedView from "@react-native-masked-view/masked-view";
 import { LinearGradient } from "expo-linear-gradient";
@@ -136,6 +137,10 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
   // keyboard height ignored where the box sat and, on iPhone, ran alongside
   // the screen's own keyboard pan, which left the box under the keys.
   const composerKeyboard = useComposerKeyboard(0);
+  // About a third of the screen: room to read a busy chat while the picture
+  // stays clear. A fixed 200 pt was four lines on a Pro Max.
+  const { height: windowHeight } = useWindowDimensions();
+  const listMaxHeight = Math.round(Math.min(360, Math.max(200, windowHeight * 0.34)));
 
   const handleUserPress = useCallback(
     (identifier: string) => {
@@ -208,7 +213,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
           list is inverted, so "top" is the far end of the data — the mask is
           still just a gradient over the viewport, opaque at the bottom. */}
       <MaskedView
-        style={{ maxHeight: 200, flexShrink: 1, minHeight: 0 }}
+        style={{ maxHeight: listMaxHeight, flexShrink: 1, minHeight: 0 }}
         // box-none, not none: the mask must stay inert but the list underneath
         // has to receive taps and scrolls, or names, avatars and history are dead.
         pointerEvents="box-none"
@@ -249,8 +254,8 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
         ref={composerKeyboard.ref}
         collapsable={false}
         onLayout={composerKeyboard.onLayout}
-        className="flex-row items-center mt-2 rounded-lg px-3 py-1.5 bg-zinc-900/60"
-        style={{ marginBottom: composerKeyboard.lift }}
+        className="flex-row items-center mt-2 rounded-xl px-3.5 py-2 bg-zinc-900/60"
+        style={{ marginBottom: composerKeyboard.lift, minHeight: 44 }}
       >
         <TextInput
           value={message}
@@ -260,7 +265,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
             isLive && canSend ? t("live.saySomething") : t("live.chatUnavailable")
           }
           placeholderTextColor="#8B8D90"
-          className="flex-1 text-white text-[12px] leading-5"
+          className="flex-1 text-white text-sm leading-5"
           editable={canSend && isLive}
           maxLength={240}
           multiline={false}
@@ -274,7 +279,7 @@ const ProducerFloatingChat: React.FC<ProducerFloatingChatProps> = ({
           className="ml-2"
           style={!message.trim() || !canSend ? { opacity: 0.3 } : undefined}
         >
-          <ArrowUpCircle color="#fff" size={22} />
+          <ArrowUpCircle color="#fff" size={26} />
         </TouchableOpacity>
       </View>
     </View>
