@@ -30,8 +30,10 @@ import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBad
 import BadgeArtwork from '../common/BadgeArtwork';
 import { withAlpha } from '../ui/glow';
 import {
+  measureInWindowSoon,
   measureOwnAvatar,
   noteSignInWaitStarted,
+  setOwnAvatarHidden,
   noteSignInWaiting,
   peekArrivingAccount,
   rootSignInWaiting,
@@ -610,6 +612,13 @@ export const SignInArrival: React.FC = () => {
   const nameOpacity = useRef(new Animated.Value(0)).current;
   const move = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
   const scale = useRef(new Animated.Value(1)).current;
+  // The picture crossfades to the landing spot's own corner on the way.
+  const landIn = useRef(new Animated.Value(0)).current;
+  const marksOut = useMemo(() => landIn.interpolate({ inputRange: [0, 0.4, 1], outputRange: [1, 1, 0] }), [landIn]);
+  const [landing, setLanding] = useState<{ radius: number } | null>(null);
+  const frameRef = useRef<View>(null);
+  // Never leave the page's own picture hidden.
+  useEffect(() => () => setOwnAvatarHidden(false), []);
 
   const begin = (s: Session, veilUp: boolean) => {
     veil.stopAnimation();
@@ -618,6 +627,9 @@ export const SignInArrival: React.FC = () => {
     nameOpacity.setValue(s.fromSheet ? 1 : 0);
     move.setValue({ x: 0, y: 0 });
     scale.setValue(1);
+    landIn.setValue(0);
+    setLanding(null);
+    setOwnAvatarHidden(false);
     veil.setValue(veilUp ? 1 : 0);
     if (!veilUp) Animated.timing(veil, { toValue: 1, duration: VEIL_IN_MS, useNativeDriver: true }).start();
     setOpened(s.instant);
@@ -725,12 +737,13 @@ export const SignInArrival: React.FC = () => {
   useEffect(() => {
     if (!session || !opened || !session.taken) return;
     let cancelled = false;
-    const end = () => { if (!cancelled) { setSession(null); setOpened(false); } };
+    const end = () => { setOwnAvatarHidden(false); if (!cancelled) { setSession(null); setOpened(false); setLanding(null); } };
     const concept = isConceptLook(look);
     const nameDelay = session.instant ? 0 : concept ? CONCEPT_NAME_MS[look as ConceptLook] : 200;
     Animated.timing(nameOpacity, { toValue: 1, duration: 240, delay: nameDelay, useNativeDriver: true }).start();
+    let safety: ReturnType<typeof setTimeout> | undefined;
     const timer = setTimeout(async () => {
-      const to = await measureOwnAvatar();
+      const [to, from] = await Promise.all([measureOwnAvatar({ width, height }), measureInWindowSoon(frameRef.current)]);
       if (cancelled) return;
       Animated.timing(nameOpacity, { toValue: 0, duration: 140, useNativeDriver: true }).start();
       Animated.timing(veil, { toValue: 0, duration: VEIL_OUT_MS, useNativeDriver: true }).start();
@@ -741,17 +754,30 @@ export const SignInArrival: React.FC = () => {
         ]).start(end);
         return;
       }
+      // From where the frame really is: the window's height can leave out the
+      // system bars the overlay covers, which put the landing a bar off.
+      const fromX = from && from.width > 8 ? from.x + from.width / 2 : width / 2;
+      const fromY = from && from.height > 8 ? from.y + from.height / 2 : height / 2;
+      const k = to.width / FRAME;
+      if (picture) setLanding({ radius: to.radius / k });
+      // The page's own picture steps aside; the flying one becomes it.
+      setOwnAvatarHidden(true);
       const ease = Easing.bezier(0.2, 0.8, 0.2, 1);
       Animated.parallel([
         Animated.timing(move, {
-          toValue: { x: to.x + to.width / 2 - width / 2, y: to.y + to.height / 2 - height / 2 },
+          toValue: { x: to.x + to.width / 2 - fromX, y: to.y + to.height / 2 - fromY },
           duration: FLY_MS, easing: ease, useNativeDriver: true,
         }),
-        Animated.timing(scale, { toValue: to.width / FRAME, duration: FLY_MS, easing: ease, useNativeDriver: true }),
-        Animated.timing(opacity, { toValue: 0, duration: 160, delay: FLY_MS - 80, useNativeDriver: true }),
-      ]).start(end);
+        Animated.timing(scale, { toValue: k, duration: FLY_MS, easing: ease, useNativeDriver: true }),
+        Animated.timing(landIn, { toValue: 1, duration: FLY_MS * 0.55, easing: Easing.out(Easing.quad), useNativeDriver: true }),
+      ]).start(() => {
+        // Landed on the spot: show the page's picture under it, then let go.
+        setOwnAvatarHidden(false);
+        Animated.timing(opacity, { toValue: 0, duration: 120, delay: 40, useNativeDriver: true }).start(end);
+      });
+      safety = setTimeout(() => setOwnAvatarHidden(false), FLY_MS + 600);
     }, session.instant ? HOLD_MS : concept ? CONCEPT_HOLD_MS : OPEN_MS + HOLD_MS);
-    return () => { cancelled = true; clearTimeout(timer); };
+    return () => { cancelled = true; clearTimeout(timer); if (safety) clearTimeout(safety); };
     // `look` is read, not followed, as above.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.taken, session?.at, opened, width, height]);
@@ -760,7 +786,8 @@ export const SignInArrival: React.FC = () => {
   return (
     <View className="dark-surface" style={styles.arrival} pointerEvents="none" testID="signin-arrival">
       <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: isLight ? LIGHT_VEIL : VEIL, opacity: veil }]} />
-      {!isLight && <Animated.View style={[styles.frame, { opacity, transform: [...move.getTranslateTransform(), { scale }] }]}>
+      {!isLight && <Animated.View ref={frameRef} collapsable={false} style={[styles.frame, { opacity, transform: [...move.getTranslateTransform(), { scale }] }]}>
+        <Animated.View style={[styles.frame, { opacity: marksOut }]}>
         <ArrivalMarks
           key={session.at}
           look={look}
@@ -771,6 +798,12 @@ export const SignInArrival: React.FC = () => {
           skipIntro={session.skipIntro}
           introElapsed={session.introElapsed}
         />
+        </Animated.View>
+        {landing && picture ? (
+          <Animated.View style={[styles.frame, { borderRadius: landing.radius, overflow: 'hidden', opacity: landIn }]}>
+            <Image source={{ uri: picture }} style={styles.picture} contentFit="cover" accessible={false} />
+          </Animated.View>
+        ) : null}
       </Animated.View>}
       {!isLight && name && opened ? (
         // White on the veil, which is up for as long as the name shows.
