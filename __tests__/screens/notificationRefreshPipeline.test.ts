@@ -21,7 +21,7 @@ it('starts all sources together, paints the API page first, folds in custom rows
     selectedFilterRef: { current: 'likes' }, walletAddressRef: { current: 'viewer' },
     apiTypesForFilter: () => ['like'], getNotifications: api, fetchCustomNotifications: custom,
     log: { error: jest.fn() }, listedUnreadRef: { current: new Map() },
-    takeInflightFirstPage: () => null, mergeFirstPage, customRowsRef: { current: [] }, lastRefreshAtRef: { current: 0 },
+    markAllReadSettled: () => null, applyMarkedAllRead: (_w: unknown, rows: unknown) => rows, takeInflightFirstPage: () => null, mergeFirstPage, customRowsRef: { current: [] }, lastRefreshAtRef: { current: 0 },
     tabFetchedAtRef: { current: new Map() }, rowsFilterRef: { current: 'all' },
   };
   for (const key of ['setLoadError', 'setNotifications', 'setPage', 'setHasMore', 'setCountsSource', 'setRefreshing', 'setLoading', 'setLoadingMore']) scope[key] = jest.fn();
@@ -53,7 +53,7 @@ it('an unfiltered refresh reuses the warm-up fetch instead of asking again', asy
     selectedFilterRef: { current: 'all' }, walletAddressRef: { current: 'viewer' },
     apiTypesForFilter: () => undefined, getNotifications: api, fetchCustomNotifications: custom,
     log: { error: jest.fn() }, listedUnreadRef: { current: new Map() },
-    takeInflightFirstPage: () => Promise.resolve({ api: [{ _id: 'a', createdAt: '2026-01-01' }], custom: [] }),
+    markAllReadSettled: () => null, applyMarkedAllRead: (_w: unknown, rows: unknown) => rows, takeInflightFirstPage: () => Promise.resolve({ api: [{ _id: 'a', createdAt: '2026-01-01' }], custom: [] }),
     mergeFirstPage, customRowsRef: { current: [] }, lastRefreshAtRef: { current: 0 },
     tabFetchedAtRef: { current: new Map() }, rowsFilterRef: { current: 'all' },
   };

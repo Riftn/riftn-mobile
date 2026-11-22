@@ -80,7 +80,10 @@ import { postWarmKey, warmRequest } from "../libs/navPrefetch";
 import { getNFT } from "../services/nft.service";
 import { createLogger } from "../libs/logger";
 import {
+  applyMarkedAllRead,
+  markAllReadSettled,
   mergeFirstPage,
+  noteMarkedAllRead,
   readNotificationSnapshot,
   takeInflightFirstPage,
   writeNotificationSnapshot,
@@ -1202,6 +1205,8 @@ const NotificationScreen = () => {
     cached ? cached.notifications.filter((n) => isCustomNotificationId(n._id)) : [],
   );
   const [notifications, setNotifications] = useState<NotificationItem[]>(() => cached?.notifications ?? []);
+  const notificationsRef = useRef(notifications);
+  notificationsRef.current = notifications;
   /**
    * Rows this device has cleared. The API has no delete endpoint, so a cleared
    * row is remembered here and filtered out — otherwise the next refetch would
@@ -1797,6 +1802,13 @@ const NotificationScreen = () => {
       const gen = ++fetchGenRef.current;
       if (isRefresh) lastRefreshAtRef.current = Date.now();
       try {
+        // A "mark all as read" still being written: asking now would hand
+        // every row back unread and light the tab counts up again.
+        const settling = markAllReadSettled(walletAddressRef.current);
+        if (settling) {
+          await settling;
+          if (gen !== fetchGenRef.current) return;
+        }
         const targetPage = isRefresh ? 1 : pageRef.current;
         const types = apiTypesForFilter(selectedFilterRef.current);
 
@@ -1843,7 +1855,7 @@ const NotificationScreen = () => {
         });
         if (gen !== fetchGenRef.current) return;
 
-        const apiPayload = res?.data?.result || res?.result || [];
+        const apiPayload: NotificationItem[] = applyMarkedAllRead(walletAddressRef.current, res?.data?.result || res?.result || []);
         // Supabase-side rows (bounty applications, store orders, community
         // joins, stage alerts) are merged on refresh only. They are a single
         // recent page, not a paginated source, so folding them in again on
@@ -1877,7 +1889,7 @@ const NotificationScreen = () => {
         setLoadingMore(false);
 
         if (customRequest) {
-          const fresh = await customRequest;
+          const fresh = applyMarkedAllRead(walletAddressRef.current, await customRequest);
           if (gen !== fetchGenRef.current) return;
           custom = fresh;
           const changed =
@@ -1903,8 +1915,9 @@ const NotificationScreen = () => {
           // this: the snapshot is kept honest by every local mark-read/clear,
           // and it re-syncs on focus and pull-to-refresh.
           if (types) {
-            const allPayload = await countsRequest;
+            const counted = await countsRequest;
             if (gen !== fetchGenRef.current) return;
+            const allPayload = counted ? applyMarkedAllRead(walletAddressRef.current, counted) : null;
             // The badge has to count the Supabase rows too, or the Tips tab
             // shows a bounty application it does not admit to having.
             if (allPayload) setCountsSource(custom.length ? [...allPayload, ...custom] : allPayload);
@@ -2054,7 +2067,7 @@ const NotificationScreen = () => {
           .then((res: any) => {
             // Opened meanwhile: its own fetch owns the rows now.
             if (rowsFilterRef.current === key) return;
-            const api: NotificationItem[] = res?.data?.result || res?.result || [];
+            const api: NotificationItem[] = applyMarkedAllRead(walletAddressRef.current, res?.data?.result || res?.result || []);
             const rows = mergeFirstPage(api, customRowsRef.current);
             for (const n of rows) {
               if (!listedUnreadRef.current.has(n._id)) listedUnreadRef.current.set(n._id, !n.read);
@@ -2094,21 +2107,29 @@ const NotificationScreen = () => {
   }, []);
 
   const handleMarkAllRead = useCallback(async () => {
+    const apiWrite = markAllNotificationsAsRead().catch((e) => {
+      log.error("markAllRead error", e);
+    });
+    // Supabase-side rows (stage alerts, community joins, store orders...) live
+    // in their own table; without this they came back unread next launch.
+    const customWrite = markAllCustomNotificationsRead(walletAddressRef.current).catch((e) => {
+      log.error("markAllCustomRead error", e);
+    });
+    // Refreshes wait for both writes, and an answer already on its way keeps
+    // every row the reader saw as read (the custom write's own Supabase ping
+    // used to refetch before the API write landed and bring the counts back).
+    noteMarkedAllRead(
+      walletAddressRef.current,
+      [...countsSourceRef.current, ...notificationsRef.current, ...customRowsRef.current],
+      Promise.all([apiWrite, customWrite]),
+    );
+    customRowsRef.current = customRowsRef.current.map((n) => (n.read ? n : { ...n, read: true }));
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     // Keep the badge source in step, or the tab counts stay lit until the next
     // refresh even though the rows all show as read. The app badge follows from
     // this via the effect above.
     setCountsSource((prev) => prev.map((n) => ({ ...n, read: true })));
     markCachedRead(null);
-
-    markAllNotificationsAsRead().catch((e) => {
-      log.error("markAllRead error", e);
-    });
-    // Supabase-side rows (stage alerts, community joins, store orders...) live
-    // in their own table; without this they came back unread next launch.
-    markAllCustomNotificationsRead(walletAddressRef.current).catch((e) => {
-      log.error("markAllCustomRead error", e);
-    });
   }, [markCachedRead]);
 
   const handleAcceptFollowRequest = useCallback(async (notification: NotificationItem) => {
