@@ -17203,6 +17203,7 @@
   },
   "games": {
     "chess": {
+      "slowButton": "Days per move, vs a friend",
       "notFound": "This game could not be found.",
       "statusInvited": "{{name}} challenged you, {{days}} days a move.",
       "statusWaiting": "Waiting for the challenge to be accepted.",

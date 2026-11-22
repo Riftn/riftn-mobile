@@ -17743,6 +17743,7 @@
   },
   "games": {
     "chess": {
+      "slowButton": "Jours par coup, contre un ami",
       "notFound": "Cette partie est introuvable.",
       "statusInvited": "{{name}} vous a défié, {{days}} jours par coup.",
       "statusWaiting": "En attente de l'acceptation du défi.",

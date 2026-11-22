@@ -17738,6 +17738,7 @@
   },
   "games": {
     "chess": {
+      "slowButton": "Hamle başına günler, arkadaşa karşı",
       "notFound": "Bu oyun bulunamadı.",
       "statusInvited": "{{name}} sana meydan okudu, hamle başına {{days}} gün.",
       "statusWaiting": "Davetin kabul edilmesi bekleniyor.",

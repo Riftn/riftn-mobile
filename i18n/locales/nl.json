@@ -17990,6 +17990,7 @@
   },
   "games": {
     "chess": {
+      "slowButton": "Dagen per zet, tegen een vriend",
       "notFound": "Deze partij is niet gevonden.",
       "statusInvited": "{{name}} daagt je uit, {{days}} dagen per zet.",
       "statusWaiting": "Wachten tot de uitdaging wordt aangenomen.",
