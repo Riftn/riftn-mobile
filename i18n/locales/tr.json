@@ -2663,6 +2663,7 @@
     "global": "Küresel"
   },
   "features": {
+    "myRequests": "Taleplerim",
     "prompts": "İstemler",
     "queued": "Sırada",
     "promptPageTitle": "İstekler",

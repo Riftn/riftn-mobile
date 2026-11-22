@@ -2851,6 +2851,7 @@
     "global": "Wereldwijd"
   },
   "features": {
+    "myRequests": "Mijn verzoeken",
     "prompts": "Voorstellen",
     "queued": "In de wachtrij",
     "promptPageTitle": "Verzoeken",

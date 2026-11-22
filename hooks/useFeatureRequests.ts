@@ -226,12 +226,14 @@ export function useFeatureRequests(
   sort: FeatureSort,
   category: FeatureCategory | "all",
   search: string,
+  authorWallet?: string,
 ) {
   return useInfiniteQuery({
-    queryKey: ["feature-requests", sort, category, search],
+    queryKey: ["feature-requests", sort, category, search, authorWallet],
     queryFn: async ({ pageParam = 0 }) => {
       let query = supabase.from("feature_requests").select("*");
 
+      if (authorWallet) query = query.eq("author_wallet_address", authorWallet);
       if (category !== "all") query = query.eq("category", category);
 
       const term = search.trim();
@@ -327,15 +329,17 @@ export function useInProgressFeatures() {
 }
 
 /** Requests the board owners ruled out (status `declined`), newest first. */
-export function useNotFeasibleFeatures() {
+export function useNotFeasibleFeatures(authorWallet?: string) {
   return useQuery({
-    queryKey: ["feature-requests-not-feasible"],
+    queryKey: ["feature-requests-not-feasible", authorWallet],
     queryFn: async () => {
-      const { data, error } = await supabase
+      let query = supabase
         .from("feature_requests")
         .select("*")
         .eq("status", "declined")
         .order("updated_at", { ascending: false });
+      if (authorWallet) query = query.eq("author_wallet_address", authorWallet);
+      const { data, error } = await query;
       if (error) throw error;
       return (data || []) as FeatureRequest[];
     },

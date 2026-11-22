@@ -877,6 +877,10 @@ function FeatureRequestsBoard() {
   const canPop = useCanGoBack();
   const { isSignedIn, needsUsername } = useAuthState();
   const isAuthed = isSignedIn && !needsUsername;
+  const user = useUser();
+  const wallet = isAuthed ? (user?.walletAddress || user?.address)?.toLowerCase() : undefined;
+  const [mineOnly, setMineOnly] = useState(false);
+  const authorWallet = mineOnly ? wallet : undefined;
 
   const [tab, setTab] = useState<PageTab>("requests");
   const [sort, setSort] = useState<FeatureSort>("newest");
@@ -917,11 +921,11 @@ function FeatureRequestsBoard() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-  } = useFeatureRequests(sort, listCategory, debouncedSearch);
+  } = useFeatureRequests(sort, listCategory, debouncedSearch, authorWallet);
 
   const shipped = useShippedFeatures();
   const inProgress = useInProgressFeatures();
-  const notFeasible = useNotFeasibleFeatures();
+  const notFeasible = useNotFeasibleFeatures(authorWallet);
   const { data: counts } = useFeatureCounts();
   const { data: votes } = useUserVotes();
   const voteMutation = useVoteFeatureRequest();
@@ -934,7 +938,7 @@ function FeatureRequestsBoard() {
   const route = useRoute<any>();
   const focusedRequestId: string | undefined = route.params?.requestId;
   const focusedCommentId: string | undefined = route.params?.commentId;
-  const { data: focusedRequest } = useFeatureRequest(focusedRequestId);
+  const { data: focusedRequest } = useFeatureRequest(authorWallet ? undefined : focusedRequestId);
   // "View shipped requests" on the shipped-feedback notice opens on that tab.
   const initialTab: PageTab | undefined = route.params?.tab;
   React.useEffect(() => {
@@ -956,7 +960,7 @@ function FeatureRequestsBoard() {
     },
     [listCategory, debouncedSearch],
   );
-  const isFiltering = debouncedSearch.trim().length > 0 || listCategory !== "all";
+  const isFiltering = !!authorWallet || debouncedSearch.trim().length > 0 || listCategory !== "all";
   const rawItems = useMemo(
     () =>
       showNotFeasible
@@ -1076,8 +1080,8 @@ function FeatureRequestsBoard() {
               title: t("features.noShippingYet", "Nothing in progress"),
               body: t("features.shippingAppearHere", "Requests being built will appear here."),
             }
-        : debouncedSearch
-          ? { title: t("features.noSearchResults"), body: "" }
+        : isFiltering
+          ? noMatchCopy
           : { title: t("features.noRequestsYet"), body: t("features.beFirstIdea") };
 
   // The root SafeAreaView above the navigator already pays the status bar
@@ -1137,19 +1141,33 @@ function FeatureRequestsBoard() {
         </View>
 
         {/* Search */}
-        <View style={styles.searchWrap}>
-          <Icon name="Search" size={16} color="#808089" />
-          <TextInput
-            value={search}
-            onChangeText={setSearch}
-            placeholder={t("features.promptSearch", "Search prompts…")}
-            placeholderTextColor="#808089"
-            style={styles.searchInput}
-            returnKeyType="search"
-          />
-          {search.length > 0 && (
-            <Pressable onPress={() => setSearch.complete(search, "")} hitSlop={8}>
-              <Icon name="X" size={15} color="#808089" />
+        <View style={styles.searchRow}>
+          <View style={styles.searchWrap}>
+            <Icon name="Search" size={16} color="#808089" />
+            <TextInput
+              value={search}
+              onChangeText={setSearch}
+              placeholder={t("features.promptSearch", "Search prompts…")}
+              placeholderTextColor="#808089"
+              style={styles.searchInput}
+              returnKeyType="search"
+            />
+            {search.length > 0 && (
+              <Pressable onPress={() => setSearch.complete(search, "")} hitSlop={8}>
+                <Icon name="X" size={15} color="#808089" />
+              </Pressable>
+            )}
+          </View>
+          {!!wallet && (
+            <Pressable
+              accessibilityRole="togglebutton"
+              accessibilityState={{ checked: mineOnly }}
+              onPress={() => setMineOnly(previous => !previous)}
+              style={[styles.chip, styles.mineFilter, mineOnly && styles.chipActive]}
+            >
+              <Text numberOfLines={1} style={[styles.chipText, mineOnly && styles.chipTextActive]}>
+                {t("features.myRequests", "My Requests")}
+              </Text>
             </Pressable>
           )}
         </View>
@@ -1306,7 +1324,7 @@ function FeatureRequestsBoard() {
                 return result;
               }} />
             </View>
-            {tab === "requests" && !debouncedSearch && category === "all" && <TopBuildersCard compact />}
+            {tab === "requests" && !isFiltering && !showNotFeasible && <TopBuildersCard compact />}
             {focusedRequest && <FeatureCard feature={focusedRequest} myVote={votes?.[focusedRequest.id]}
               onVote={v => handleVote(focusedRequest, v)} isAuthed={isAuthed} defaultCommentsOpen={!!focusedCommentId} highlightCommentId={focusedCommentId} onHighlightMeasured={scrollToFocusedComment} />}
           </>}
@@ -1431,7 +1449,11 @@ const styles = StyleSheet.create({
   },
 
   // Search — 40pt, zinc-800 on a zinc-700 hairline.
+  searchRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 12 },
+  mineFilter: { maxWidth: "48%", height: 40, borderColor: "#3F3F46" },
   searchWrap: {
+    flex: 1,
+    minWidth: 0,
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
@@ -1441,7 +1463,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#27272A",
     borderWidth: 1,
     borderColor: "#3F3F46",
-    marginBottom: 12,
   },
   searchInput: { flex: 1, minWidth: 0, color: "#FFFFFF", fontSize: 14, padding: 0 },
 

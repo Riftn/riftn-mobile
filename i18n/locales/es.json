@@ -2663,6 +2663,7 @@
     "global": "Global"
   },
   "features": {
+    "myRequests": "Mis solicitudes",
     "prompts": "Propuestas",
     "queued": "En cola",
     "promptPageTitle": "Solicitudes",

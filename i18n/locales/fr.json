@@ -2663,6 +2663,7 @@
     "global": "Mondial"
   },
   "features": {
+    "myRequests": "Mes demandes",
     "prompts": "Propositions",
     "queued": "En attente",
     "promptPageTitle": "Demandes",
