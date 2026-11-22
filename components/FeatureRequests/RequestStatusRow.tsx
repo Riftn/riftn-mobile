@@ -14,6 +14,7 @@ import Animated, {
 import { useTranslation } from "react-i18next";
 import { useAppTheme } from "../../context/ThemeContext";
 import { STATUS_LABELS, type FeatureStatus } from "../../hooks/useFeatureRequests";
+import { earlyAccessHoursLeft } from "../../libs/early-access";
 
 /**
  * Category, where the request is (Asked > In progress > Shipped) and the
@@ -43,12 +44,18 @@ export default function RequestStatusRow({
   status,
   note,
   categoryChip,
+  earlyAccessUntil,
+  isPoster = false,
 }: {
   status: FeatureStatus;
   note: string;
   categoryChip: React.ReactNode;
+  /** Shipped with a head start for its poster until this time. */
+  earlyAccessUntil?: string | null;
+  isPoster?: boolean;
 }) {
   const { t } = useTranslation();
+  const earlyHours = status === "shipped" || status === "completed" ? earlyAccessHoursLeft(earlyAccessUntil) : null;
   const tracked = TRACKED.includes(status);
   const liveNote = status !== "declined" ? note : "";
   return (
@@ -63,6 +70,13 @@ export default function RequestStatusRow({
         )}
       </View>
       {tracked && <Track status={status} />}
+      {earlyHours !== null && (
+        <Text style={s.note}>
+          {isPoster
+            ? t("features.earlyAccess.mine", { defaultValue: "You have this a day early. Everyone else gets it in {{hours}} h.", hours: earlyHours })
+            : t("features.earlyAccess.others", { defaultValue: "Its poster is trying this first. Out for everyone in {{hours}} h.", hours: earlyHours })}
+        </Text>
+      )}
       {!!liveNote && <Text style={s.note}>{liveNote}</Text>}
     </View>
   );

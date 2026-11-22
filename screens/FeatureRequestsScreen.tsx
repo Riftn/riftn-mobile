@@ -613,6 +613,8 @@ const FeatureCard: React.FC<{
           <RequestStatusRow
             status={feature.status}
             note={statusNote}
+            earlyAccessUntil={feature.early_access_until}
+            isPoster={isAuthor}
             categoryChip={
               <View style={styles.catBadge}>
                 <Text style={styles.catBadgeText}>{categoryLabel(t, feature.category)}</Text>
