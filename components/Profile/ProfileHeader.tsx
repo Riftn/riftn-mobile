@@ -53,6 +53,7 @@ import { ShareLinks } from "../../navigation/linking.config";
 import NewMemberChip from "../common/NewMemberChip";
 import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
 import TotalReachPill from "./TotalReachPill";
 import MomentArchive from "./MomentArchive";
 import ProfileLinksPill from "./ProfileLinksPill";
@@ -163,6 +164,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   const aboutText = (user?.aboutMe || "").trim();
 
+  const [shareDmOpen, setShareDmOpen] = useState(false);
   const handleShare = useCallback(async () => {
     const profileSlug = username || address;
     if (!profileSlug) return;
@@ -296,6 +298,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
   return (
     <View ref={profileRef} collapsable={false} onLayout={measureIdentity} className="w-full">
+      {shareDmOpen && (username || address) && (
+        <ShareToDmSheet visible url={ShareLinks.profile(username || address)} onClose={() => setShareDmOpen(false)} onSystemShare={handleShare} />
+      )}
       {/* Cover */}
       <TouchableOpacity
         activeOpacity={0.9}
@@ -395,7 +400,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                 <Text className="text-white font-semibold text-[13px]">{t("screens.editProfile")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={handleShare}
+                onPress={() => setShareDmOpen(true)}
                 accessibilityLabel={t("profileOptions.shareProfile")}
                 activeOpacity={0.85}
                 className="items-center justify-center"
@@ -419,7 +424,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               </TouchableOpacity>
             </LiquidGlass>
             <TouchableOpacity
-              onPress={handleShare}
+              onPress={() => setShareDmOpen(true)}
               accessibilityLabel={t("profileOptions.shareProfile")}
               activeOpacity={0.85}
             >
@@ -554,7 +559,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             </TouchableOpacity>
             {/* Riftn followers plus the creator's own figures for their linked
                 socials. Absent until a social carries a count. */}
-            <TotalReachPill source={user} followers={followersCount} />
+            <TotalReachPill wallet={address} source={user} followers={followersCount} />
             {/* The links ride at the end of the counts line and only wrap
                 below when the line is genuinely full. */}
             <ProfileLinksPill source={user} style={{ marginLeft: "auto" }} />
