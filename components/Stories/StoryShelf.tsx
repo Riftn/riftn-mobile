@@ -193,9 +193,12 @@ function MeTile({
       label={failed ? caption : name}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
       action={failed ? null : (
-        <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plus}
+        // The light key is drawn by an inner view, so the control pass leaves it white.
+        <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plusHit}
           accessibilityRole="button" accessibilityLabel={t("stories.addMoment", { defaultValue: "Add a moment" })}>
-          <Icon name="Plus" size={15} color="#111" strokeWidth={2.6} />
+          <View style={styles.plus}>
+            <Icon name="Plus" size={15} color="#111" strokeWidth={2.6} />
+          </View>
         </TouchableOpacity>
       )}
     >
@@ -380,10 +383,8 @@ const styles = StyleSheet.create({
   liveBadge: { backgroundColor: "#BF303B", borderColor: "#D56E78" },
   badgeText: { color: "#fff", fontSize: 10, fontWeight: "700" },
   liveText: { fontSize: 9.5, fontWeight: "800", letterSpacing: 0.35 },
+  plusHit: { position: "absolute", top: 7, right: 7 },
   plus: {
-    position: "absolute",
-    top: 7,
-    right: 7,
     width: 24,
     height: 24,
     borderRadius: 8,

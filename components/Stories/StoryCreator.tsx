@@ -200,8 +200,10 @@ function CameraStart({ onClose, remixLabel, onPick, onPhoto }: {
       </View>
 
       <View style={[styles.camTop, { top: insets.top + 20 }]}>
-        <TouchableOpacity className="dark-surface" onPress={onClose} style={[styles.iconBtn, styles.closeBtn]} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
-          <Icon name="X" size={20} color="#fff" />
+        <TouchableOpacity onPress={onClose} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+          <View style={[styles.iconBtn, styles.closeBtn]}>
+            <Icon name="X" size={20} color="#fff" />
+          </View>
         </TouchableOpacity>
         {remixLabel ? (
           <View style={[styles.chip, styles.darkGlass, { flexShrink: 1 }]}><Text style={styles.chipText} numberOfLines={1}>{remixLabel}</Text></View>
@@ -225,17 +227,19 @@ function CameraStart({ onClose, remixLabel, onPick, onPhoto }: {
           <View style={[styles.camHint, { bottom: insets.bottom + 112 }]} pointerEvents="none">
             <Text style={styles.camHintText}>{t("stories.shutterHint", { defaultValue: "Tap for photo, hold for video" })}</Text>
           </View>
-          {/* dark-surface: the white ring keeps its own look, not the theme's button box. */}
+          {/* The ring is drawn by an inner view: a button with a grey fill of its
+              own gets the theme's square button box from the control pass. */}
           <TouchableOpacity
-            className="dark-surface"
             activeOpacity={0.7}
             onPress={() => void snap()}
             onLongPress={() => onPick("video")}
             delayLongPress={260}
-            style={[styles.shutter, { bottom: insets.bottom + 26 }, taking && styles.shutterDown]}
+            style={[styles.shutterHit, { bottom: insets.bottom + 26 }]}
             accessibilityRole="button"
             accessibilityLabel={t("stories.shutter", { defaultValue: "Take a photo, or hold to film" })}
-          />
+          >
+            <View style={[styles.shutter, taking && styles.shutterDown]} />
+          </TouchableOpacity>
         </>
       ) : null}
     </View>
@@ -440,8 +444,10 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           <TouchableOpacity className="dark-surface" onPress={onBack} style={[styles.iconBtn, styles.darkGlass]} accessibilityLabel={t("stories.back", { defaultValue: "Back" })}>
             <Icon name="ChevronLeft" size={22} color="#fff" />
           </TouchableOpacity>
-          <TouchableOpacity className="dark-surface" onPress={onClose} style={[styles.iconBtn, styles.closeBtn, styles.dismissBtn]} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
-            <Icon name="X" size={22} color="#fff" />
+          <TouchableOpacity onPress={onClose} style={styles.dismissBtn} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+            <View style={[styles.iconBtn, styles.closeBtn]}>
+              <Icon name="X" size={22} color="#fff" />
+            </View>
           </TouchableOpacity>
           <View style={{ flex: 1 }}>
             {remixLabel ? <Text style={styles.remixLabel} numberOfLines={1}>{remixLabel}</Text> : null}
@@ -919,9 +925,8 @@ const styles = StyleSheet.create({
   camBottom: { position: "absolute", left: 12, right: 12, flexDirection: "row", alignItems: "center" },
   camHint: { position: "absolute", alignSelf: "center", paddingHorizontal: 10, paddingVertical: 4, borderRadius: 999, backgroundColor: "rgba(0,0,0,0.35)" },
   camHintText: { color: "rgba(255,255,255,0.85)", fontSize: 12 },
+  shutterHit: { position: "absolute", alignSelf: "center", width: 76, height: 76 },
   shutter: {
-    position: "absolute",
-    alignSelf: "center",
     width: 76,
     height: 76,
     borderRadius: 38,
