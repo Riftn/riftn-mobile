@@ -372,6 +372,8 @@ const FollowListScreen: React.FC = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
+  // exact-number: show the full count in the follower and following lists.
+  const listTotalLabel = totalCount.toLocaleString();
   const [showFollowBackAll, setShowFollowBackAll] = useState(false);
   const [isFollowingBackAll, setIsFollowingBackAll] = useState(false);
   const [bulkFollowProgress, setBulkFollowProgress] = useState({ completed: 0, total: 0 });
@@ -1409,8 +1411,8 @@ const FollowListScreen: React.FC = () => {
             <View className="px-4 pb-2">
               <Text className="text-gray-500 text-sm font-medium">
                 {activeTab === "followers"
-                  ? t("follow.countFollowers", { compact: totalCount.toLocaleString() })
-                  : t("follow.countFollowing", { compact: totalCount.toLocaleString() })}
+                  ? t("follow.countFollowers", { compact: listTotalLabel })
+                  : t("follow.countFollowing", { compact: listTotalLabel })}
               </Text>
               {isOwnFollowersList && (
                 <Text className="text-theme-neutrals-600 text-xs mt-0.5">
