@@ -23,7 +23,7 @@
 import React, { useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { Animated, Easing, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import { Image } from 'expo-image';
-import Svg, { Defs, Ellipse, LinearGradient, Path, RadialGradient, Stop } from 'react-native-svg';
+import Svg, { Defs, Ellipse, LinearGradient, Mask, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 import { useAuthState, useUser } from '../../context/AuthContext';
 import { useAppTheme } from '../../context/ThemeContext';
 import { getAvatarUrl, getBadgeHoverOpticalStyle as getBadgeOpticalStyle, getBadgeUrlFor } from '../../libs/misc';
@@ -372,7 +372,7 @@ const Rift: React.FC<{
           ) },
         ],
       }]}>
-        <Svg width={LINE_W + 16} height={LINE_H + 16} viewBox="-8 -8 22 128">
+        <Svg width={LINE_W + 48} height={LINE_H + 40} viewBox="-24 -20 54 152">
           <Defs>
             <LinearGradient id="riftFill" x1="0" y1="0" x2="1" y2="0">
               <Stop offset="0" stopColor={colors.b} />
@@ -380,10 +380,33 @@ const Rift: React.FC<{
               <Stop offset="0.7" stopColor="#ffffff" />
               <Stop offset="1" stopColor={colors.b} />
             </LinearGradient>
+            {/* Web's drop-shadow glow (4px white, 12px theme colour) without a
+                blur: a soft horizontal falloff, faded out past the line's ends.
+                Stroked copies of the line read as hard outlines. */}
+            <LinearGradient id="riftGlowX" x1="0" y1="0" x2="1" y2="0">
+              <Stop offset="0" stopColor={colors.a} stopOpacity={0} />
+              <Stop offset="0.2" stopColor={colors.a} stopOpacity={0.08} />
+              <Stop offset="0.33" stopColor={colors.a} stopOpacity={0.28} />
+              <Stop offset="0.41" stopColor="#ffffff" stopOpacity={0.6} />
+              <Stop offset="0.5" stopColor="#ffffff" stopOpacity={0.8} />
+              <Stop offset="0.59" stopColor="#ffffff" stopOpacity={0.6} />
+              <Stop offset="0.67" stopColor={colors.a} stopOpacity={0.28} />
+              <Stop offset="0.8" stopColor={colors.a} stopOpacity={0.08} />
+              <Stop offset="1" stopColor={colors.a} stopOpacity={0} />
+            </LinearGradient>
+            <LinearGradient id="riftGlowY" x1="0" y1="0" x2="0" y2="1">
+              <Stop offset="0" stopColor="#ffffff" stopOpacity={0} />
+              <Stop offset="0.1" stopColor="#ffffff" stopOpacity={0.55} />
+              <Stop offset="0.17" stopColor="#ffffff" stopOpacity={1} />
+              <Stop offset="0.83" stopColor="#ffffff" stopOpacity={1} />
+              <Stop offset="0.9" stopColor="#ffffff" stopOpacity={0.55} />
+              <Stop offset="1" stopColor="#ffffff" stopOpacity={0} />
+            </LinearGradient>
+            <Mask id="riftGlowMask" x="-24" y="-20" width="54" height="152" maskUnits="userSpaceOnUse">
+              <Rect x={-24} y={-20} width={54} height={152} fill="url(#riftGlowY)" />
+            </Mask>
           </Defs>
-          {/* a soft edge of the theme colour, standing in for a glow */}
-          <Path d={LINE_PATH} fill="none" stroke={colors.a} strokeOpacity={0.16} strokeWidth={14} strokeLinejoin="round" />
-          <Path d={LINE_PATH} fill="none" stroke={colors.a} strokeOpacity={0.4} strokeWidth={5} strokeLinejoin="round" />
+          <Rect x={-24} y={-20} width={54} height={152} fill="url(#riftGlowX)" mask="url(#riftGlowMask)" />
           <Path d={LINE_PATH} fill="url(#riftFill)" />
         </Svg>
       </Animated.View>
