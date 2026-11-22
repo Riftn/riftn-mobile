@@ -200,7 +200,7 @@ function CameraStart({ onClose, remixLabel, onPick, onPhoto }: {
       </View>
 
       <View style={[styles.camTop, { top: insets.top + 20 }]}>
-        <TouchableOpacity onPress={onClose} style={[styles.iconBtn, styles.closeBtn]} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
+        <TouchableOpacity className="dark-surface" onPress={onClose} style={[styles.iconBtn, styles.closeBtn]} accessibilityRole="button" accessibilityLabel={t("common.close", { defaultValue: "Close" })}>
           <Icon name="X" size={20} color="#fff" />
         </TouchableOpacity>
         {remixLabel ? (
@@ -225,11 +225,14 @@ function CameraStart({ onClose, remixLabel, onPick, onPhoto }: {
           <View style={[styles.camHint, { bottom: insets.bottom + 112 }]} pointerEvents="none">
             <Text style={styles.camHintText}>{t("stories.shutterHint", { defaultValue: "Tap for photo, hold for video" })}</Text>
           </View>
-          <Pressable
+          {/* dark-surface: the white ring keeps its own look, not the theme's button box. */}
+          <TouchableOpacity
+            className="dark-surface"
+            activeOpacity={0.7}
             onPress={() => void snap()}
             onLongPress={() => onPick("video")}
             delayLongPress={260}
-            style={({ pressed }) => [styles.shutter, { bottom: insets.bottom + 26 }, (pressed || taking) && styles.shutterDown]}
+            style={[styles.shutter, { bottom: insets.bottom + 26 }, taking && styles.shutterDown]}
             accessibilityRole="button"
             accessibilityLabel={t("stories.shutter", { defaultValue: "Take a photo, or hold to film" })}
           />
