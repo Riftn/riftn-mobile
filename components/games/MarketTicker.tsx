@@ -9,6 +9,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { QueryClientContext, useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { marketTicker } from '../../services/games.service';
+import { useAppTheme } from '../../context/ThemeContext';
+import { LIGHT_INK } from '../../theme/colors';
 
 /** "$97,412" or "$4.21": plain grouping, no Intl dependency. */
 function usd(price: number): string {
@@ -24,6 +26,9 @@ export default function MarketTicker() {
 
 function Ticker() {
   const { t } = useTranslation();
+  // Colours are written as hsla, which System Light's colour pass skips, so
+  // the light look is picked here (the price was white on the pale menu).
+  const { isLight } = useAppTheme();
   const { data } = useQuery({
     queryKey: ['market-ticker'],
     queryFn: marketTicker,
@@ -37,12 +42,12 @@ function Ticker() {
       {data.items.map((item) => {
         const up = (item.change24h ?? 0) >= 0;
         return (
-          <View key={item.id} style={styles.cell}>
-            <Text style={styles.label} numberOfLines={1}>{item.id === 'gold' ? t('games.markets.gold') : item.label}</Text>
+          <View key={item.id} style={[styles.cell, isLight && styles.cellLight]}>
+            <Text style={[styles.label, isLight && styles.labelLight]} numberOfLines={1}>{item.id === 'gold' ? t('games.markets.gold') : item.label}</Text>
             <View style={styles.line}>
-              <Text style={styles.price} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>{usd(item.price)}</Text>
+              <Text style={[styles.price, isLight && styles.priceLight]} numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8}>{usd(item.price)}</Text>
               {item.change24h !== null ? (
-                <Text style={[styles.change, { color: up ? 'hsla(152, 69%, 53%, 1)' : 'hsla(0, 91%, 71%, 1)' }]}>
+                <Text style={[styles.change, { color: up ? (isLight ? 'hsla(152, 76%, 30%, 1)' : 'hsla(152, 69%, 53%, 1)') : (isLight ? 'hsla(0, 72%, 45%, 1)' : 'hsla(0, 91%, 71%, 1)') }]}>
                   {up ? '▲' : '▼'}{Math.abs(item.change24h).toFixed(1)}%
                 </Text>
               ) : null}
@@ -66,8 +71,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'hsla(0, 0%, 100%, 0.08)',
   },
+  cellLight: { backgroundColor: 'hsla(240, 6%, 10%, 0.04)', borderColor: 'hsla(240, 6%, 10%, 0.08)' },
   label: { fontSize: 10.5, fontWeight: '600', letterSpacing: 0.5, textTransform: 'uppercase', color: 'hsla(240, 5%, 65%, 1)' },
+  labelLight: { color: 'hsla(240, 4%, 36%, 1)' },
   line: { flexDirection: 'row', alignItems: 'baseline', gap: 4 },
   price: { flexShrink: 1, fontSize: 13, fontWeight: '700', color: 'hsla(0, 0%, 100%, 1)', fontVariant: ['tabular-nums'] },
+  priceLight: { color: LIGHT_INK },
   change: { fontSize: 10, fontWeight: '600', fontVariant: ['tabular-nums'] },
 });
