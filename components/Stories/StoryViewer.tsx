@@ -315,7 +315,7 @@ export default function StoryViewer({
     try {
       const res = await checkStoryReply(item.id);
       const label = t("stories.repliedTo", { defaultValue: "Replied to your moment" });
-      const link = `${WEBSITE_LINK}/moment/${item.id}`;
+      const link = `${WEBSITE_LINK}/moment/${item.id}?reply=1`;
       setReply("");
       onClose();
       navigation.navigate(ScreenNames.Chat as never, {

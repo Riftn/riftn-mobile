@@ -1,6 +1,7 @@
 import { useCallback, useSyncExternalStore } from 'react';
 import i18n from 'i18next';
 import { translateText, getUserLanguage } from '../services/translation.service';
+import { parseMomentReply } from './moment-reply';
 import { toastError, toastSuccess } from './toast';
 import { ensureAiConsent, hasAiConsent } from './ai-consent';
 import { chatLineIsForeign } from './chat-language-hint';
@@ -33,7 +34,7 @@ function set(id: string, next: DmTranslation | undefined) {
 
 /** Text worth translating: links and @/$ handles left out, they don't translate. */
 export function dmTranslatableText(content?: string | null): string {
-  return (content ?? '').replace(/https?:\/\/\S+/g, ' ').replace(/\s+/g, ' ').trim();
+  return (parseMomentReply(content)?.text ?? content ?? '').replace(/https?:\/\/\S+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
 /** Has at least a few letters, so emoji-only or link-only messages get no Translate. */

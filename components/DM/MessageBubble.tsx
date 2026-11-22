@@ -44,6 +44,8 @@ import type { MessageLayout } from "./MessageContextMenu";
 import DehubLinkCard from "../common/DehubLinkCard";
 import LinkedText from "../common/LinkedText";
 import { useChatTextScale } from "../../hooks/useAppPrefs";
+import MomentReplyPreview from "./MomentReplyPreview";
+import { parseMomentReply } from "../../libs/moment-reply";
 import LinkPreviewCard from "../common/LinkPreviewCard";
 import { findDehubLink, stripDehubLinkMatches } from "../../libs/dehub-links";
 import {
@@ -521,8 +523,10 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     ? withoutAssistantActionLinks(message.content ?? "")
     : message.content;
 
+  const momentReply = useMemo(() => msgType === "msg" && !encMedia && !mediaItems.length
+    ? parseMomentReply(bodyContent) : null, [msgType, encMedia, mediaItems.length, bodyContent]);
   const sharedLink = useMemo(() => {
-    if (isVoice || isGif || encMedia || mediaItems.length > 0) return null;
+    if (momentReply || isVoice || isGif || encMedia || mediaItems.length > 0) return null;
     const link = findDehubLink(bodyContent ?? "");
     if (!link) return null;
     // Everything except the carded link itself is the caption.
@@ -534,16 +538,16 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     // link instead of as debris.
     const caption = stripDehubLinkMatches(bodyContent ?? "", [link]).trim();
     return { link, caption };
-  }, [bodyContent, isVoice, isGif, encMedia, mediaItems.length]);
+  }, [momentReply, bodyContent, isVoice, isGif, encMedia, mediaItems.length]);
 
   // Market references in a plain message. Skipped when the message is an entity
   // share, which has its own card.
   const assetRefs = useMemo(
     () =>
-      sharedLink
+      sharedLink || momentReply
         ? []
         : findAssetRefs(bodyContent ?? "").slice(0, MAX_ASSET_CARDS_PER_MESSAGE),
-    [bodyContent, sharedLink],
+    [bodyContent, sharedLink, momentReply],
   );
   const assetDisplayText = useMemo(
     () => (assetRefs.length ? stripAssetRefs(bodyContent ?? "", assetRefs) : bodyContent),
@@ -1121,7 +1125,15 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             })()}
 
             {/* Shared Riftn link — rich preview card that opens it on tap */}
-            {sharedLink ? (
+            {momentReply ? (
+              <View style={{ maxWidth: MAX_IMAGE_WIDTH }}>
+                <MomentReplyPreview id={momentReply.id} onLongPress={handleLongPress} />
+                {!!momentReply.text && <LinkedText text={translated ?? momentReply.text} onLongPress={handleLongPress}
+                  className={`px-3 pt-2 text-[15px] ${isMine ? "text-white" : "text-theme-neutrals-100"}`}
+                  style={chatTextStyle} fontSize={15 * textScale} />}
+                {translationStatus}
+              </View>
+            ) : sharedLink ? (
               <>
                 {/* The card leads the bubble and the caption follows it, the
                     way a photo with a caption reads. The post card folds the
