@@ -3246,7 +3246,11 @@
     "earlyAccess": {
       "mine": "Je hebt dit een dag eerder. Iedereen krijgt het over {{hours}} u.",
       "others": "Wie het vroeg, probeert het eerst. Voor iedereen over {{hours}} u."
-    }
+    },
+    "voiceHold": "Houd vast om te praten",
+    "voiceLetGo": "Laat los om toe te voegen",
+    "voiceTapDone": "Tik als je klaar bent",
+    "voiceWorking": "Wordt uitgeschreven…"
   },
   "auth": {
     "loginRequired": "Inloggen vereist",

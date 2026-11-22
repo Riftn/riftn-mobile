@@ -3058,7 +3058,11 @@
     "earlyAccess": {
       "mine": "Bunu herkesten bir gün önce aldın. Diğerleri {{hours}} sa içinde alacak.",
       "others": "İsteyen kişi önce deniyor. {{hours}} sa içinde herkese açılacak."
-    }
+    },
+    "voiceHold": "Konuşmak için basılı tut",
+    "voiceLetGo": "Eklemek için bırak",
+    "voiceTapDone": "Bitince dokun",
+    "voiceWorking": "Yazıya dökülüyor…"
   },
   "auth": {
     "loginRequired": "Giriş yapılması gerekiyor",
