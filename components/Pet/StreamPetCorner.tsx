@@ -31,14 +31,16 @@ interface Props {
   own?: boolean;
   signedIn?: boolean;
   onSignIn?: () => void;
+  /** Screenshots show the card already open. */
+  initiallyOpen?: boolean;
 }
 
-export default function StreamPetCorner({ streamId, socketOn, own = false, signedIn = false, onSignIn }: Props) {
+export default function StreamPetCorner({ streamId, socketOn, own = false, signedIn = false, onSignIn, initiallyOpen = false }: Props) {
   const { t } = useTranslation();
   const qc = useQueryClient();
   const key = ["stream-pet", streamId];
   const { data: pet } = useQuery({ queryKey: key, queryFn: () => getStreamPet(streamId), staleTime: 60_000, refetchInterval: 5 * 60_000, retry: false });
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(initiallyOpen);
   const [chomp, setChomp] = useState(0);
   const [fedLine, setFedLine] = useState<string | null>(null);
   const rise = useRef(new Animated.Value(0)).current;
