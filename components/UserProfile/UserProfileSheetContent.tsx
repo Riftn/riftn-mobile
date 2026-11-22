@@ -22,7 +22,8 @@ import LendBadgeSheet from "./LendBadgeSheet";
 import ProfileAskAiRows, { AskAiMenuRow } from "./ProfileAskAiRows";
 import Icon from "../ui/Icon";
 import { copyToClipboard } from "../../libs";
-import { shareProfile, getBadgeHoverOpticalStyle } from "../../libs/misc";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
+import { getBadgeHoverOpticalStyle } from "../../libs/misc";
 import BadgeArtwork from "../common/BadgeArtwork";
 import StreamerBadge from "../Live/StreamerBadge";
 import { useMutualFollowers } from "../../hooks/useMutualFollowers";
@@ -237,13 +238,14 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
     closeMenuThen(() => setShowLendBadge(true));
   }, [closeMenuThen]);
 
-  const handleMenuShare = useCallback(() => {
-    const slug = profileData?.username || profileData?.address;
-    if (!slug) return;
-    const url = ShareLinks.profile(slug);
-    const message = t("copy.13de76e4ca28", { defaultValue: "Check out {{value1}} on Riftn {{value2}}", value1: profileData?.displayName || t("copy.0913f7bb109b", { defaultValue: "this user" }), value2: url });
-    closeMenuThen(() => { shareProfile(url, message); });
-  }, [closeMenuThen, profileData, t]);
+  const [shareDmOpen, setShareDmOpen] = useState(false);
+  const shareSlug = profileData?.username || profileData?.address;
+  const shareFromProfile = useCallback(() => {
+    if (!shareSlug) return;
+    if (viewer) setShareDmOpen(true);
+    else onShare();
+  }, [shareSlug, viewer, onShare]);
+  const handleMenuShare = useCallback(() => closeMenuThen(shareFromProfile), [closeMenuThen, shareFromProfile]);
 
   const handleMenuCopyUrl = useCallback(() => {
     const slug = profileData?.username || profileData?.address;
@@ -307,7 +309,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           onFollow={onFollow}
           onOpenUnfollow={onOpenUnfollow}
           onOpenImage={onOpenImage}
-          onShare={onShare}
+          onShare={shareFromProfile}
           onMessage={isOwnProfile || messagesDisabled ? undefined : onMessage}
           onOpenOptions={isOwnProfile ? undefined : handleOpenMenu}
           onEditProfile={onEditProfile}
@@ -372,7 +374,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
     followLoading,
     isOwnProfile,
     onOpenImage,
-    onShare,
+    shareFromProfile,
     onMessage,
     handleOpenMenu,
     onFollow,
@@ -462,6 +464,9 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
     <ProfilePostBgArtContext.Provider value={/^https?:/.test(avatarUrl || "") ? avatarUrl : null}>
     <ProfileArticleTileContext.Provider value={articleTile}>
     <View className="flex-1">
+      {shareDmOpen && shareSlug && (
+        <ShareToDmSheet visible url={ShareLinks.profile(shareSlug)} onClose={() => setShareDmOpen(false)} onSystemShare={onShare} />
+      )}
       {!isFullScreen && ProfileHeader}
       <UserProfileBottomContentTabs
         pinnedIdentity={{
