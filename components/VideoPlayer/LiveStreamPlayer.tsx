@@ -108,6 +108,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getMyStreamPoints, getStreamRewards } from "../../services/live-rewards.service";
 import { captureLiveClip, type LiveClip } from "../../services/live-clips.service";
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
+import EmojiSheet from "../Upload/EmojiSheet";
+import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../DM/DeleteMessageSheet";
+import { hideLineForMe, useHiddenLines } from "../../libs/public-chat-hidden";
 
 /** Swipe-to-clear distances, the shorts viewer's numbers. */
 const LIVE_DRAG_CLAIM = 16;
@@ -1812,6 +1815,8 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
 
   // One list for the chat overlay: the room's messages, plus the join/gift/
   // system moments the livestream socket still carries.
+  // Lines this viewer removed with "Delete for me", as in Public Chat.
+  const hiddenLines = useHiddenLines(String(user?.walletAddress || user?.address || "").toLowerCase() || null);
   const chatActivities = useMemo<Activity[]>(() => {
     // One "joined" per viewer, and it is the FIRST one. The socket re-emits
     // JoinStream on every reconnect and every background/foreground, and
@@ -1832,7 +1837,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
     if ((isLiveEffective || isEndedEffective) && !moments.some((a) => a.status === StreamActivityType.START)) {
       moments.unshift({ status: StreamActivityType.START, createdAt: 0 });
     }
-    const messages: Activity[] = liveChat.messages.map((m) => ({
+    const messages: Activity[] = liveChat.messages.filter((m) => !hiddenLines.has(m._id)).map((m) => ({
       id: m._id,
       status: StreamActivityType.MESSAGE,
       address: (m.senderAddress || m.sender?.address || "").toLowerCase(),
@@ -1870,7 +1875,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       if (b.status === StreamActivityType.START) return 1;
       return a.createdAt - b.createdAt;
     });
-  }, [activities, liveChat.messages, isLiveEffective, isEndedEffective]);
+  }, [activities, liveChat.messages, isLiveEffective, isEndedEffective, hiddenLines]);
 
   // The line a held "Reply" answers; shown over the composer until sent or cleared.
   const [replyingTo, setReplyingTo] = useState<{ id: string; name: string; content: string } | null>(null);
@@ -1956,6 +1961,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const heldId = held?.activity.id;
   // The viewer's own line whose "who reacted" list is open.
   const [reactorsFor, setReactorsFor] = useState<string | null>(null);
+  // Every emoji (the arrow after the quick reactions), and Delete's question.
+  const [moreFor, setMoreFor] = useState<string | null>(null);
+  const [deleteRequest, setDeleteRequest] = useState<DeleteRequest | null>(null);
   const closeReactors = useCallback(() => setReactorsFor(null), []);
   const heldMessage = heldId ? liveChat.messages.find((m) => m._id === heldId) : undefined;
   const heldAddress = String(held?.activity.user?.address || held?.activity.address || "").toLowerCase();
@@ -2015,6 +2023,25 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         setHeld(null);
         if (modTimer.current) clearTimeout(modTimer.current);
         modTimer.current = setTimeout(() => openMessageReport(report), 350);
+      },
+    });
+    // Delete, as in Public Chat: your own line, or any line for the creator
+    // and their moderators, for everyone; anyone can take a line off their own screen.
+    if (isSignedIn && heldId) holdTiles.push({
+      key: "delete", icon: "Trash2", label: t("common.delete"), destructive: true, secondary: true,
+      onPress: () => {
+        const id = heldId;
+        const forEveryone = heldAddress === me || canModerate;
+        setHeld(null);
+        if (modTimer.current) clearTimeout(modTimer.current);
+        modTimer.current = setTimeout(() => setDeleteRequest(resolveDelete({
+          count: 1,
+          canDeleteForEveryone: forEveryone,
+          onDelete: (scope) => {
+            if (scope === "everyone" && forEveryone) liveChat.deleteMessage(id);
+            else hideLineForMe(me, id);
+          },
+        })), 350);
       },
     });
     if (heldCanModerate) holdTiles.push({
@@ -2309,8 +2336,31 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                   onReaction={handleHeldReaction}
                   tiles={holdTiles}
                   summary={heldSummary}
+                  onMore={heldReactions ? () => {
+                    const id = heldId ?? null;
+                    setHeld(null);
+                    if (modTimer.current) clearTimeout(modTimer.current);
+                    modTimer.current = setTimeout(() => setMoreFor(id), 350);
+                  } : undefined}
+                  scrollActions
                   onLift={handleHoldLift}
                 />
+                <EmojiSheet
+                  visible={!!moreFor}
+                  onClose={() => setMoreFor(null)}
+                  selected={moreFor && me
+                    ? Object.entries(liveChat.messages.find((m) => m._id === moreFor)?.reactions ?? {})
+                        .filter(([, who]) => who?.some((a) => a?.toLowerCase() === me))
+                        .map(([emoji]) => emoji)
+                    : undefined}
+                  onSelect={(emoji) => {
+                    if (!moreFor) return;
+                    const mine = !!me && (liveChat.messages.find((m) => m._id === moreFor)?.reactions?.[emoji] ?? []).some((a) => a?.toLowerCase() === me);
+                    if (mine) liveChat.removeReaction(moreFor, emoji);
+                    else liveChat.addReaction(moreFor, emoji);
+                  }}
+                />
+                <DeleteMessageSheet request={deleteRequest} onClose={() => setDeleteRequest(null)} />
 
                 {/* Say something, or do something: one row of it. */}
                 <LiveViewerActionBar
