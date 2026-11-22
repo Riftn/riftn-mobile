@@ -164,11 +164,17 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [choosingLifetime, setChoosingLifetime] = useState(false);
   const lifetimeLabel = t("stories.lifetime", { defaultValue: "Story duration" });
   const [busy, setBusy] = useState(false);
+  const audienceChosen = useRef(false);
 
   React.useEffect(() => {
+    let active = true;
     AsyncStorage.getItem(AUDIENCE_KEY)
-      .then((v) => (v === "followers" || v === "everyone") && setAudience(v))
+      .then((v) => {
+        // Restore a default only until the author makes a choice in this editor.
+        if (active && !audienceChosen.current && (v === "followers" || v === "everyone")) setAudience(v);
+      })
       .catch(() => {});
+    return () => { active = false; };
   }, []);
   const [audienceOpen, setAudienceOpen] = useState(false);
   const [pickingAudiencePerson, setPickingAudiencePerson] = useState(false);
@@ -360,6 +366,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             {(Object.keys(audienceLabels) as StoryAudience[]).filter(mode => customAudience || mode === "everyone" || mode === "followers").map(mode => (
               <TouchableOpacity key={mode} style={styles.chip} accessibilityRole="radio" accessibilityState={{ checked: mode === audience }}
                 onPress={() => {
+                  audienceChosen.current = true;
                   if (mode !== audience) setAudiencePeople([]);
                   setAudience(mode);
                   if (mode === "followers" || mode === "everyone") AsyncStorage.setItem(AUDIENCE_KEY, mode).catch(() => {});

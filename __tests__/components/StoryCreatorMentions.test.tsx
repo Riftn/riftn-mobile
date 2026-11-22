@@ -1,4 +1,5 @@
 import React from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import StoryCreator from "../../components/Stories/StoryCreator";
@@ -205,6 +206,31 @@ it("applies the chosen caption font and size to the placed text and upload", asy
   await waitFor(() => expect(composePhoto).toHaveBeenCalledWith("file:///photo.jpg", [
     expect.objectContaining({ font: "typewriter", size: 0.1, text: "Hello" }),
   ]));
+  editor.unmount();
+  client.clear();
+});
+
+
+it.each(["Only selected people", "Hide from selected people"])("keeps %s when the saved audience loads late", async (mode) => {
+  jest.mocked(shareMoment).mockClear();
+  let restore!: (value: string) => void;
+  jest.mocked(AsyncStorage.getItem).mockImplementationOnce(() => new Promise(resolve => { restore = resolve; }));
+  jest.mocked(mentionSearch).mockResolvedValue([{ address, username: "alice", displayName: "Alice", avatarImageUrl: "", isFollowing: false }]);
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByText("Everyone"));
+  fireEvent.press(await editor.findByText(mode));
+  fireEvent.press(editor.getByText("Search"));
+  fireEvent.changeText(editor.getByPlaceholderText("Search"), "@ali");
+  fireEvent.press(await editor.findByLabelText("alice"));
+  fireEvent.press(editor.getByText("Done"));
+  await act(async () => { restore("everyone"); });
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
+  expect(jest.mocked(shareMoment).mock.calls[0][0].fields).toMatchObject({
+    audience: mode === "Only selected people" ? "selected" : "except", audienceAddresses: [address],
+  });
   editor.unmount();
   client.clear();
 });
