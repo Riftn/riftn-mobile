@@ -33,7 +33,9 @@ export default function Shine() {
     return () => loop.stop();
   }, [reducedMotion, x]);
   if (reducedMotion) return null;
-  const band = isLight ? 'rgba(255,255,255,0.55)' : 'rgba(255,255,255,0.07)';
+  // hsla on light: the colour pass leaves it alone. Written as rgba it came
+  // out as a 55% black band sweeping over the page.
+  const band = isLight ? 'hsla(0,0%,100%,0.55)' : 'rgba(255,255,255,0.07)';
   return (
     <Animated.View pointerEvents="none" accessible={false}
       style={[StyleSheet.absoluteFill, { transform: [{ translateX: x.interpolate({ inputRange: [0, 1], outputRange: [-width, width] }) }] }]}>
