@@ -92,6 +92,8 @@ export interface NotificationData {
   type: string;
   category?: string;
   deepLink?: string;
+  /** Address of the account the push was sent to. */
+  recipient?: string;
   // Content-related
   tokenId?: number;
   postType?: 'video' | 'feed-images' | 'feed-simple';
