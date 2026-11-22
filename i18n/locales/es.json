@@ -7524,7 +7524,8 @@
       "start": "Compartir pantalla",
       "stop": "Dejar de compartir pantalla",
       "sharing": "Estás compartiendo tu pantalla",
-      "hint": "Los espectadores ven tu pantalla. Toca el botón de pantalla para volver a la cámara."
+      "hint": "Los espectadores ven tu pantalla. Toca el botón de pantalla para volver a la cámara.",
+      "iosHint": "Los espectadores ven Riftn mientras está abierto. El iPhone pausa la imagen cuando cambias de app; tu voz sigue."
     }
   },
   "liveShop": {
