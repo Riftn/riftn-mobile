@@ -189,6 +189,7 @@ import { toggleRepost } from "../services/repost.service";
 import { getShortsFeed, getUnifiedFeed } from "../services/feed.unified.service";
 import { createBrainrotSource } from "../libs/brainrotFeed";
 import { shortsFeedFetchers } from "../navigation/warmShortsFeed";
+import { postWarmKey, seedPostDetail, warmRequest } from "../libs/navPrefetch";
 import { isContentWarningSeen, markContentWarningSeen } from "../libs/contentWarningSeen";
 import MatureContentGate from "../components/Home/MatureContentGate";
 import { useKidsModeLock } from "../hooks/useKidsModeLock";
@@ -599,6 +600,15 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   const { t } = useCopy();
   const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = useWindowDimensions();
   const navigation = useNavigation<any>();
+  // A still slide or lock card links on to the post page. Hand it this slide's
+  // post to paint at once and start its fetch now, like a feed card does,
+  // instead of a blank page that waits for the request to leave after the push.
+  const openPostPage = useCallback(() => {
+    if (tokenId == null) return;
+    seedPostDetail(tokenId, item);
+    warmRequest(postWarmKey(tokenId), () => getNFT(tokenId));
+    navigation.navigate(ScreenNames.FeedDetail, { postId: String(tokenId) });
+  }, [navigation, tokenId, item]);
   const frameRef = useRef<View>(null);
   // Only the drag-to-minimize gesture reads this; at rest the picture fills
   // the frame and contentFit="contain" letterboxes it.
@@ -2490,7 +2500,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
             height={itemHeight}
             isActive={isActive}
             bgId={reelBgId}
-            onOpenPost={() => navigation.navigate(ScreenNames.FeedDetail, { postId: String(tokenId) })}
+            onOpenPost={openPostPage}
           />
         )}
         {photoMedia && <ShortsPhotoPager images={photoMedia.imageUrls} galleryKey={String(tokenId)} width={SCREEN_WIDTH} pagerGesture={pagerGesture} />}
@@ -2502,7 +2512,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
               : undefined}
             onPress={subLocked
               ? () => { const id = username || minterAddress; if (id) showUserProfile(id); }
-              : () => navigation.navigate(ScreenNames.FeedDetail, { postId: String(tokenId) })}
+              : openPostPage}
           />
         )}
         {playbackPhase === 'failed' && isActive && <Pressable accessibilityRole="button"
