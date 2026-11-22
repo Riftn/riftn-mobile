@@ -30,6 +30,7 @@ jest.mock('../../hooks/useTrendingCategories', () => ({}));
 jest.mock('../../components/Home/LiveNowBar', () => ({}));
 jest.mock('../../components/Home/SuggestedAccountsSection', () => () => null);
 jest.mock('../../components/common/NewMembersRail', () => () => null);
+jest.mock('../../components/Search/ExploreRadioShows', () => () => null);
 jest.mock('../../components/ui/Icon', () => () => null);
 
 it('localizes the pictured headings and preserves the original category on tap', () => {
