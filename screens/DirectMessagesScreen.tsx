@@ -614,7 +614,7 @@ const DirectMessagesInner: React.FC = () => {
   );
 
   const startDMWith = useCallback(
-    (u: User) => {
+    (u: User, autoSendText?: string) => {
       const addr = (
         (u as any).walletAddress || (u as any).address || ""
       ).toLowerCase();
@@ -637,6 +637,7 @@ const DirectMessagesInner: React.FC = () => {
           conversationId: existing._id,
           title,
           focusComposer: true,
+          ...(autoSendText ? { autoSendText } : {}),
         });
       } else {
         navigation.navigate(ScreenNames.Chat as any, {
@@ -644,6 +645,7 @@ const DirectMessagesInner: React.FC = () => {
           title,
           targetUser: u,
           focusComposer: true,
+          ...(autoSendText ? { autoSendText } : {}),
         });
       }
     },
@@ -1009,7 +1011,7 @@ const DirectMessagesInner: React.FC = () => {
                 query={query}
                 myAddress={myAddress}
                 knownAddresses={knownAddresses}
-                onMessageUser={startDMWith}
+                onMessageUser={(u) => startDMWith(u)}
                 onNewChat={openNewDM}
                 onNewGroup={() => setNewChatKind("group")}
               />
@@ -1081,7 +1083,7 @@ const DirectMessagesInner: React.FC = () => {
         <NewDMModal
           open={newDmVisible}
           onOpenChange={setNewDmVisible}
-          onSelect={startDMWith}
+          onSelect={(u) => startDMWith(u)}
           onNote={() => setNotesVisible(true)}
           onGroup={() => setNewChatKind("group")}
           onChannel={() => setNewChatKind("channel")}
@@ -1090,7 +1092,7 @@ const DirectMessagesInner: React.FC = () => {
         <NotesSheet
           visible={notesVisible}
           onClose={() => setNotesVisible(false)}
-          onMessage={(a) => startDMWith({ ...a, walletAddress: a.address } as unknown as User)}
+          onMessage={(a, reply) => startDMWith({ ...a, walletAddress: a.address } as unknown as User, reply)}
         />
 
         <DMSettingsModal

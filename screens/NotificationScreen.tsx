@@ -808,13 +808,14 @@ const NotificationRow: React.FC<NotificationRowProps> = React.memo(({
             <Animated.View style={[{ width: 7, height: 7, borderRadius: 4, backgroundColor: dotColor }, markButtonStyle]} />
           </TouchableOpacity>
         )}
-        {/* Avatar or Icon — tap to open profile */}
+        {/* Avatar or Icon — tap opens the person shown, also on a grouped
+            row ("X and 4 others liked"): it used to open the post or the
+            followers list there, so the face never led to its profile
+            (Requests 012cbf20). The row itself still opens the group. */}
         <TouchableOpacity
           activeOpacity={0.7}
           disabled={!item.actorUsername && !item.actorAddress}
-          onPress={() => isGrouped(item) && clickable
-            ? onPress(item)
-            : onOpenProfile(item.actorAddress, item.actorUsername, item.actor)}
+          onPress={() => onOpenProfile(item.actorAddress, item.actorUsername, item.actor)}
           style={{ position: 'relative' }}
         >
           {hasAvatar ? (
@@ -1316,6 +1317,9 @@ const NotificationScreen = () => {
     leftDrawerRef.current = true;
     navigation.goBack();
   }, [navigation]);
+  // The drawer can come back without remounting this screen; without this
+  // reset a second profile tap skipped the close and opened out of sight.
+  useFocusEffect(useCallback(() => { leftDrawerRef.current = false; }, []));
   const leaveTo = useCallback(((...args: unknown[]) => {
     leaveDrawerOnIOS();
     (navigation.navigate as (...a: unknown[]) => void)(...args);
