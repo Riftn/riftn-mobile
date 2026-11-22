@@ -22,6 +22,7 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
+import Slider from "@react-native-community/slider";
 import { Image } from "expo-image";
 import { useVideoPlayer, VideoView } from "expo-video";
 import * as ImagePicker from "expo-image-picker";
@@ -57,7 +58,7 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
   const [picked, setPicked] = useState<Picked | null>(null);
   const { data: storyCapabilities } = useQuery({
     queryKey: ["story-posting-capabilities"],
-    queryFn: async () => getStoryShelf(false, "").then(({ supportsCustomAudience, supportsCustomLifetime }) => ({ supportsCustomAudience, supportsCustomLifetime })),
+    queryFn: async () => getStoryShelf(false, "").then(({ supportsCustomAudience, supportsCustomLifetime, supportsPhotoDuration }) => ({ supportsCustomAudience, supportsCustomLifetime, supportsPhotoDuration })),
     staleTime: 60_000,
     retry: false,
   });
@@ -102,7 +103,7 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
     <DarkRoomProvider>
       <View className="dark-surface" style={styles.root}>
         {picked ? (
-          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={!!storyCapabilities?.supportsCustomLifetime} customAudience={!!storyCapabilities?.supportsCustomAudience} />
+          <Editor picked={picked} onBack={() => setPicked(null)} onClose={onClose} remixSourceId={remixSource?.id} remixLabel={remixLabel} customLifetime={!!storyCapabilities?.supportsCustomLifetime} customAudience={!!storyCapabilities?.supportsCustomAudience} customPhotoDuration={!!storyCapabilities?.supportsPhotoDuration} />
         ) : (
           <View style={[styles.start, { paddingTop: insets.top + 12, paddingBottom: insets.bottom + 24 }]}>
             <View style={styles.topRow}>
@@ -129,7 +130,7 @@ export default function StoryCreator({ onClose, remixSource }: { onClose: () => 
   );
 }
 
-function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLifetime, customAudience }: {
+function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLifetime, customAudience, customPhotoDuration }: {
   picked: Picked;
   onBack: () => void;
   onClose: () => void;
@@ -137,6 +138,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   remixLabel?: string;
   customLifetime: boolean;
   customAudience: boolean;
+  customPhotoDuration: boolean;
 }) {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -150,6 +152,11 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   const [editing, setEditing] = useState<TextLayer | null>(null);
   const [mentionTarget, setMentionTarget] = useState<{ layer?: TextLayer } | null>(null);
   const [muted, setMuted] = useState(false);
+  const isPhoto = picked.kind === "photo";
+  const maxSeconds = isPhoto ? MAX_SECONDS : Math.min(MAX_SECONDS, picked.duration || MAX_SECONDS);
+  const [playbackSeconds, setPlaybackSeconds] = useState(isPhoto ? 5 : Math.ceil(maxSeconds));
+  const [choosingPlayback, setChoosingPlayback] = useState(false);
+  const playbackLabel = t("liveStudio.fields.duration", { defaultValue: "Seconds on screen" });
   const [audience, setAudience] = useState<StoryAudience>("everyone");
   const [lifetime, setLifetime] = useState<StoryLifetime>(24);
   const [choosingLifetime, setChoosingLifetime] = useState(false);
@@ -173,6 +180,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
   };
   const player = useVideoPlayer(picked.kind === "video" ? picked.uri : null, (p) => {
     p.loop = true;
+    p.timeUpdateEventInterval = 0.1;
     p.play();
   });
   React.useEffect(() => {
@@ -183,6 +191,14 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
       /* not loaded yet */
     }
   }, [player, muted, picked.kind]);
+
+  React.useEffect(() => {
+    if (isPhoto || (picked.duration > 0 && playbackSeconds >= picked.duration)) return;
+    const sub = player.addListener("timeUpdate", ({ currentTime }) => {
+      if (currentTime >= playbackSeconds) player.currentTime = 0;
+    });
+    return () => sub.remove();
+  }, [player, isPhoto, picked.duration, playbackSeconds]);
 
   const startText = () =>
     setEditing({ id: `${Date.now()}`, text: "", x: 0.5, y: 0.42, size: 0.075, color: "#ffffff", box: false });
@@ -242,7 +258,7 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             caption,
             remixSourceId,
             mentions: picked.kind === "photo" || overlayUri ? compose?.mentionBoxes(visible) : undefined,
-            ...(picked.kind === "video" && picked.duration > MAX_SECONDS ? { trimStart: 0, trimEnd: MAX_SECONDS } : {}),
+            ...(isPhoto ? { photoDurationSeconds: customPhotoDuration ? playbackSeconds : undefined } : { trimStart: 0, trimEnd: Math.min(playbackSeconds, maxSeconds) }),
           },
         },
         () => void queryClient.invalidateQueries({ queryKey: ["story-shelf"] }),
@@ -291,6 +307,12 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
             {remixLabel ? <Text style={styles.remixLabel} numberOfLines={1}>{remixLabel}</Text> : null}
           </View>
           <View style={styles.tools}>
+            {maxSeconds > 1 && (!isPhoto || customPhotoDuration) && (
+              <TouchableOpacity className="dark-surface" onPress={() => setChoosingPlayback(true)}
+                style={[styles.iconBtn, styles.mediaBtn]} accessibilityRole="button" accessibilityLabel={playbackLabel}>
+                <Icon name="Clock" size={20} color="#fff" />
+              </TouchableOpacity>
+            )}
             <TouchableOpacity className="dark-surface" onPress={startText} style={[styles.iconBtn, styles.mediaBtn]} accessibilityLabel={t("stories.text", { defaultValue: "Text" })}>
               <Icon name="Type" size={20} color="#fff" />
             </TouchableOpacity>
@@ -365,6 +387,24 @@ function Editor({ picked, onBack, onClose, remixSourceId, remixLabel, customLife
           onSelect={user => { setAudiencePeople(current => [...current, user]); setPickingAudiencePerson(false); }}
           onClose={() => setPickingAudiencePerson(false)} bottom={insets.bottom} />
       )}
+      {choosingPlayback && (
+        <View style={styles.lifetimeOverlay}>
+          <Pressable style={StyleSheet.absoluteFill} onPress={() => setChoosingPlayback(false)} accessible={false} />
+          <View style={[styles.textTools, { paddingBottom: insets.bottom + 16 }]} accessibilityViewIsModal>
+            <View style={styles.textRow}>
+              <Text style={[styles.chipText, { flex: 1 }]}>{playbackLabel} · {playbackSeconds}s</Text>
+              <TouchableOpacity onPress={() => setChoosingPlayback(false)} style={styles.chip} accessibilityRole="button">
+                <Text style={styles.chipText}>{t("common.done", { defaultValue: "Done" })}</Text>
+              </TouchableOpacity>
+            </View>
+            <Slider style={{ width: "100%", height: 40 }} accessibilityLabel={playbackLabel}
+              minimumValue={1} maximumValue={Math.ceil(maxSeconds)} step={1} value={playbackSeconds}
+              minimumTrackTintColor="#ffffff" maximumTrackTintColor="#888888" thumbTintColor="#ffffff"
+              onValueChange={setPlaybackSeconds} />
+          </View>
+        </View>
+      )}
+
       {choosingLifetime && (
         <View style={styles.lifetimeOverlay}>
           <Pressable style={StyleSheet.absoluteFill} onPress={() => setChoosingLifetime(false)} accessible={false} />

@@ -91,7 +91,7 @@ export interface StoryViewer {
 
 const enc = encodeURIComponent;
 
-export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; liveHosts?: string[]; supportsCustomLifetime?: boolean; supportsCustomAudience?: boolean }> {
+export function getStoryShelf(signedIn: boolean, liveHosts: string): Promise<{ shelf: ShelfEntry[]; signedIn: boolean; liveHosts?: string[]; supportsCustomLifetime?: boolean; supportsPhotoDuration?: boolean; supportsCustomAudience?: boolean }> {
   // Signed out still gets public moments; the token is only sent when there is one.
   return apiClient.get("/stories/shelf", {
     isAuthRequired: signedIn,
@@ -137,6 +137,7 @@ export interface CreateStoryFields {
   audience: StoryAudience;
   audienceAddresses?: string[];
   expiresInHours?: StoryLifetime;
+  photoDurationSeconds?: number;
   allowReplies?: boolean;
   muted?: boolean;
   caption?: string;
@@ -160,6 +161,7 @@ export function createStory(
   fd.append("audience", fields.audience);
   const customAudience = fields.audience === "selected" || fields.audience === "except";
   if (customAudience) fd.append("audienceAddresses", JSON.stringify(fields.audienceAddresses ?? []));
+  if (fields.photoDurationSeconds != null) fd.append("photoDurationSeconds", String(fields.photoDurationSeconds));
   if (fields.expiresInHours != null) fd.append("expiresInHours", String(fields.expiresInHours));
   fd.append("allowReplies", String(fields.allowReplies !== false));
   fd.append("muted", String(!!fields.muted));

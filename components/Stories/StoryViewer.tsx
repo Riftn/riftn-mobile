@@ -2,7 +2,7 @@
  * Full-screen moments viewer. Port of web's `components/app/stories/StoryViewer`.
  *
  * Tap right/left for the next or last moment, hold to pause, swipe down to
- * close, swipe sideways for the next person. Photos run 5 s, videos their
+ * close, swipe sideways for the next person. Photos follow the author’s timer, videos their
  * length. Like and reply (a reply is a DM); owners see views and likes and who
  * watched, and can delete. Dark in every theme.
  */
@@ -56,7 +56,7 @@ import {
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
 import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
 
-const PHOTO_MS = 5000;
+const DEFAULT_PHOTO_MS = 5000;
 const TICK_MS = 50;
 
 type Sheet = null | "more" | "viewers" | "report" | "delete" | "share" | "share-dm";
@@ -143,7 +143,7 @@ export default function StoryViewer({
     if (!item || item.type === "video" || paused) return;
     const id = setInterval(() => {
       elapsed.current += TICK_MS;
-      const p = Math.min(1, elapsed.current / PHOTO_MS);
+      const p = Math.min(1, elapsed.current / Math.max(1000, item.durationMs || DEFAULT_PHOTO_MS));
       setProgress(p);
       if (p >= 1) {
         clearInterval(id);

@@ -41,7 +41,7 @@ jest.mock("../../components/common/MentionSuggestions", () => {
 jest.mock("../../context/ThemeContext", () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children }));
 jest.mock("../../libs/skia", () => ({ optionalSkia: (load: () => unknown) => load() }));
 jest.mock("../../libs/toast", () => ({ toastError: jest.fn() }));
-jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => ({ shelf: [], supportsCustomAudience: true }) }));
+jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => ({ shelf: [], supportsCustomAudience: true, supportsPhotoDuration: true }) }));
 jest.mock("../../services/mention.service", () => ({ mentionSearch: jest.fn() }));
 jest.mock("../../components/Stories/story-upload", () => ({ shareMoment: jest.fn() }));
 jest.mock("@shopify/react-native-skia", () => ({
@@ -164,6 +164,24 @@ it.each(["Only selected people", "Hide from selected people"])("publishes %s usi
   expect(jest.mocked(shareMoment).mock.calls[0][0].fields).toMatchObject({
     audience: mode === "Only selected people" ? "selected" : "except", audienceAddresses: [address],
   });
+  editor.unmount();
+  client.clear();
+});
+
+it("passes a chosen photo playback timer to the upload", async () => {
+  jest.mocked(shareMoment).mockClear();
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByLabelText("Seconds on screen"));
+  const slider = editor.UNSAFE_getByType(require("@react-native-community/slider"));
+  expect(slider.props.value).toBe(5);
+  expect(slider.props.maximumValue).toBe(60);
+  fireEvent(slider, "valueChange", 37);
+  fireEvent.press(editor.getByText("Done"));
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
+  expect(jest.mocked(shareMoment).mock.calls[0][0].fields.photoDurationSeconds).toBe(37);
   editor.unmount();
   client.clear();
 });
