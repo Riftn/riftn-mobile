@@ -5000,7 +5000,7 @@
       "moveRuleUp": "Regel omhoog verplaatsen",
       "moveRuleDown": "Regel omlaag verplaatsen",
       "deleteRule": "Regel verwijderen",
-      "rights": {"sendMessages":"Berichten sturen","sendMessagesHint":"Plaats in de communitychat","sendMedia":"Stuur media","sendMediaHint":"Bevoegel beelden en GIFs","embedLinks":"Linkjes inbedden","embedLinksHint":"Toon linkvoorkijkingen","addMembers":"Leden toevoegen","addMembersHint":"De gemeenschap delen met anderen","createEvents":"Evenementen maken","createEventsHint":"Community-evenementen plannen","changeInfoMemberHint":"Bewerk de naam en beschrijving van de gemeenschap",
+      "rights": {"startCalls":"Groepsgesprekken starten","startCallsHint":"Iedereen in de groep bellen. Beheerders kunnen dit altijd.","sendMessages":"Berichten sturen","sendMessagesHint":"Plaats in de communitychat","sendMedia":"Stuur media","sendMediaHint":"Bevoegel beelden en GIFs","embedLinks":"Linkjes inbedden","embedLinksHint":"Toon linkvoorkijkingen","addMembers":"Leden toevoegen","addMembersHint":"De gemeenschap delen met anderen","createEvents":"Evenementen maken","createEventsHint":"Community-evenementen plannen","changeInfoMemberHint":"Bewerk de naam en beschrijving van de gemeenschap",
         "changeInfo": "Community-info wijzigen",
         "changeInfoHint": "Naam, beschrijving, avatar en banner bewerken",
         "deleteMessages": "Berichten verwijderen",

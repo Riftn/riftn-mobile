@@ -4812,7 +4812,7 @@
       "moveRuleUp": "Mover regla arriba",
       "moveRuleDown": "Mover regla abajo",
       "deleteRule": "Eliminar regla",
-      "rights": {"sendMessages":"Enviar mensajes","sendMessagesHint":"Publicar en el chat de la comunidad","sendMedia":"Enviar medios","sendMediaHint":"Adjunte imágenes y GIFs","embedLinks":"Incrustar enlaces","embedLinksHint":"Mostrar vistas previas de enlaces","addMembers":"Agregar miembros","addMembersHint":"Comparte la comunidad con los demás.","createEvents":"Crear eventos","createEventsHint":"Programar eventos comunitarios","changeInfoMemberHint":"Editar el nombre y la descripción de la comunidad",
+      "rights": {"startCalls":"Iniciar llamadas de grupo","startCallsHint":"Llamar a todo el grupo. Los admins siempre pueden.","sendMessages":"Enviar mensajes","sendMessagesHint":"Publicar en el chat de la comunidad","sendMedia":"Enviar medios","sendMediaHint":"Adjunte imágenes y GIFs","embedLinks":"Incrustar enlaces","embedLinksHint":"Mostrar vistas previas de enlaces","addMembers":"Agregar miembros","addMembersHint":"Comparte la comunidad con los demás.","createEvents":"Crear eventos","createEventsHint":"Programar eventos comunitarios","changeInfoMemberHint":"Editar el nombre y la descripción de la comunidad",
         "changeInfo": "Cambiar información de la comunidad",
         "changeInfoHint": "Editar el nombre, la descripción, el avatar y el banner",
         "deleteMessages": "Eliminar mensajes",

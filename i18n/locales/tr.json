@@ -4815,7 +4815,7 @@
       "moveRuleUp": "Kuralı yukarı taşı",
       "moveRuleDown": "Kuralı aşağı taşı",
       "deleteRule": "Kuralı sil",
-      "rights": {"sendMessages":"Mesaj gönder","sendMessagesHint":"Topluluk sohbetinde gönderi yapın","sendMedia":"Medya gönder","sendMediaHint":"Görüntüleri ve GIF'leri ekleyin","embedLinks":"Bağlantıları yerleştir","embedLinksHint":"Link önizlemelerini göster","addMembers":"Üye ekle","addMembersHint":"Topluluğu başkalarıyla paylaşın","createEvents":"Etkinlik oluştur","createEventsHint":"Topluluk etkinliklerini planla","changeInfoMemberHint":"Topluluk adı ve açıklamasını düzenle",
+      "rights": {"startCalls":"Grup araması başlatma","startCallsHint":"Gruptaki herkesi ara. Yöneticiler her zaman yapabilir.","sendMessages":"Mesaj gönder","sendMessagesHint":"Topluluk sohbetinde gönderi yapın","sendMedia":"Medya gönder","sendMediaHint":"Görüntüleri ve GIF'leri ekleyin","embedLinks":"Bağlantıları yerleştir","embedLinksHint":"Link önizlemelerini göster","addMembers":"Üye ekle","addMembersHint":"Topluluğu başkalarıyla paylaşın","createEvents":"Etkinlik oluştur","createEventsHint":"Topluluk etkinliklerini planla","changeInfoMemberHint":"Topluluk adı ve açıklamasını düzenle",
         "changeInfo": "Topluluk bilgilerini değiştir",
         "changeInfoHint": "Adı, açıklamayı, avatarı ve banner'ı düzenle",
         "deleteMessages": "Mesajları sil",
