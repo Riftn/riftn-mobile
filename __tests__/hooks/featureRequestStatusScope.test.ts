@@ -1,3 +1,4 @@
+import { renderHook } from '@testing-library/react-native';
 import { useFeatureCounts, useInProgressFeatures, useShippedFeatures } from '../../hooks/useFeatureRequests';
 
 const mockUseQuery = jest.fn();
@@ -20,9 +21,12 @@ jest.mock('../../libs/storage-upload', () => ({}));
 
 it('uses account-specific keys and limits the queued, shipped and count requests to that account', async () => {
   mockFetch.mockImplementation(async () => new Response('[]', { headers: { 'content-range': '*/0' } }));
-  for (const useList of [useInProgressFeatures, useShippedFeatures, useFeatureCounts]) {
-    useList('0xabc');
-    const { queryFn, queryKey } = mockUseQuery.mock.lastCall![0];
+  renderHook(() => {
+    useInProgressFeatures('0xabc');
+    useShippedFeatures('0xabc');
+    useFeatureCounts('0xabc');
+  });
+  for (const [{ queryFn, queryKey }] of mockUseQuery.mock.calls) {
     expect(queryKey.at(-1)).toBe('0xabc');
     await queryFn();
   }
