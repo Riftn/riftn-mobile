@@ -22,6 +22,7 @@ import MutualFollowers from "./MutualFollowers";
 import StreamerLevelCard from "../Live/StreamerLevelCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import BadgePatronChip from "../common/BadgePatronChip";
+import EarlySupporterChip from "../common/EarlySupporterChip";
 import { useTranslation as useI18n } from "react-i18next";
 import { formatCount } from "../../libs/format-count";
 import type { FollowListItem } from "../../services/user.service";
@@ -444,6 +445,8 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             {/* A lent badge draws like any other badge everywhere else; this is
                 the one place that says whose it is. */}
             <BadgePatronChip lookupId={address || username} />
+            {/* One of their requests on the Requests board shipped. */}
+            <EarlySupporterChip address={address} username={username} />
           </View>
 
           {!!displayBio && (

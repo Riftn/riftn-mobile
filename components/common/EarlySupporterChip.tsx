@@ -10,10 +10,10 @@
  */
 import React, { FC } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { ScreenNames } from "../../navigation/ScreenNames";
+import Icon from "../ui/Icon";
 import { useEarlyAccess, useEarlySupporter } from "../../hooks/useEarlyAccess";
 import { EARLY_SUPPORTER_OPEN_BY, EARLY_SUPPORTER_REQUEST_ID } from "../../libs/early-access";
 import { formatCount } from "../../libs/format-count";
@@ -63,7 +63,7 @@ const EarlySupporterChip: FC<EarlySupporterChipProps> = ({ address, username }) 
           backgroundColor: "rgba(255,255,255,0.10)",
         }}
       >
-        <Ionicons name="bulb-outline" size={10} color="#FFFFFF" />
+        <Icon name="Lightbulb" size={10} color="#FFFFFF" />
         <Text style={{ color: "#FFFFFF", fontSize: 10, lineHeight: 12, fontWeight: "600" }}>
           {t("features.earlySupporter.chip", "Early supporter")}
         </Text>
