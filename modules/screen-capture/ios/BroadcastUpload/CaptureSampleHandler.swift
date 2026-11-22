@@ -12,11 +12,22 @@ final class CaptureSampleHandler: RPBroadcastSampleHandler {
   private let incoming = DispatchSemaphore(value: 3)
   /// Set when this broadcast is a screen share for a live stream rather than an editor recording.
   private var live: LiveShareUploader?
+  /// A live screen share this extension publishes itself (the app left a ticket).
+  private var publishing: LiveBroadcastSession?
 
   override func broadcastStarted(withSetupInfo setupInfo: [String: NSObject]?) {
     // The editor always starts through the setup extension, which hands over a
     // session; the system picker on the live screen hands over nothing.
     if setupInfo?["sessionId"] == nil {
+      if let session = LiveBroadcastSession.claim() {
+        session.onFinished = { [weak self] message in
+          self?.finishBroadcastWithError(NSError(domain: "io.dehub.screen-capture", code: 0,
+            userInfo: [NSLocalizedDescriptionKey: message]))
+        }
+        publishing = session
+        session.start()
+        return
+      }
       guard let uploader = LiveShareUploader() else {
         finishBroadcastWithError(NSError(domain: "io.dehub.screen-capture", code: 2,
           userInfo: [NSLocalizedDescriptionKey: "Start screen share from your live stream in RIFTN."]))
@@ -59,6 +70,15 @@ final class CaptureSampleHandler: RPBroadcastSampleHandler {
   }
 
   override func processSampleBuffer(_ sampleBuffer: CMSampleBuffer, with type: RPSampleBufferType) {
+    if let publishing {
+      switch type {
+      case .video: publishing.video(sampleBuffer)
+      case .audioApp: publishing.audio(sampleBuffer, fromMic: false)
+      case .audioMic: publishing.audio(sampleBuffer, fromMic: true)
+      @unknown default: break
+      }
+      return
+    }
     if let live {
       if type == .video { live.send(sampleBuffer) }
       return
@@ -79,6 +99,7 @@ final class CaptureSampleHandler: RPBroadcastSampleHandler {
   }
 
   override func broadcastFinished() {
+    if let publishing { publishing.close(); self.publishing = nil; return }
     if let live { live.close(); self.live = nil; return }
     guard let movie else { return }
     // Keep finalization inside the extension's final callback rather than abandoning it.

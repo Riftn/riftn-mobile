@@ -1,0 +1,117 @@
+name: Live screen share publisher check
+# Publishes a synthetic iPhone screen share (420f portrait frames, a turn to
+# landscape, a still spell, big-endian app audio and float mic audio) through
+# the broadcast extension's own publisher into a real MediaMTX, the server the
+# live ingest runs, then reads it back over RTSP and HLS and fails on decode
+# errors, missing tracks or too few frames.
+on:
+  pull_request:
+    paths:
+      - 'modules/screen-capture/ios/LivePublish/**'
+      - '.github/workflows/live-share-publisher-check.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: macos-15
+    timeout-minutes: 30
+    env:
+      HOMEBREW_NO_AUTO_UPDATE: '1'
+      HOMEBREW_NO_INSTALL_CLEANUP: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: |
+          brew install ffmpeg >/dev/null
+          curl -fsSL -o mtx.tgz https://github.com/bluenviron/mediamtx/releases/download/v1.20.1/mediamtx_v1.20.1_darwin_arm64.tar.gz
+          mkdir mtx && tar -xzf mtx.tgz -C mtx
+      - name: Build the publisher
+        run: |
+          swiftc -O -o probe modules/screen-capture/ios/LivePublish/*.swift modules/screen-capture/ios/LivePublish/Probe/main.swift
+          ./probe --selftest
+      - name: Start MediaMTX (same version and RTMP auth shape as the ingest)
+        run: |
+          cat > mtx/mediamtx.yml <<'YML'
+          logLevel: info
+          authMethod: internal
+          authInternalUsers:
+            - user: dehub
+              pass: probe-secret
+              ips: []
+              permissions:
+                - action: publish
+            - user: any
+              pass:
+              ips: []
+              permissions:
+                - action: read
+                - action: playback
+                - action: api
+          api: yes
+          apiAddress: 127.0.0.1:9997
+          rtmp: yes
+          rtmpAddress: :1935
+          rtsp: yes
+          rtspAddress: 127.0.0.1:8554
+          rtspTransports: [tcp]
+          hls: yes
+          hlsAddress: 127.0.0.1:8888
+          hlsVariant: lowLatency
+          webrtc: no
+          srt: no
+          paths:
+            all_others:
+          YML
+          (cd mtx && ./mediamtx mediamtx.yml > ../mediamtx.log 2>&1 &)
+          sleep 2
+          grep -q "RTMP" mediamtx.log || { cat mediamtx.log; exit 1; }
+      - name: Wrong key never goes live
+        run: |
+          set +e
+          ./probe "rtmp://127.0.0.1/abc123-rtmp?user=dehub&pass=wrong" 8
+          code=$?
+          echo "exit $code"
+          [ "$code" != 0 ] || { echo "a wrong key went live"; exit 1; }
+      - name: Publish 50 s and read it back
+        run: |
+          ./probe "rtmp://127.0.0.1/abc123-rtmp?user=dehub&pass=probe-secret" 50 26 > probe.log 2>&1 &
+          PROBE=$!
+          sleep 6
+          curl -fsS http://127.0.0.1:9997/v3/paths/get/abc123-rtmp | tee path.json
+          echo
+          # RTSP: decode everything for 14 s (portrait), across the still spell.
+          ffmpeg -nostdin -v error -rtsp_transport tcp -i rtsp://127.0.0.1:8554/abc123-rtmp -t 14 -f null - 2> rtsp-errors.txt
+          ffmpeg -nostdin -v info -rtsp_transport tcp -i rtsp://127.0.0.1:8554/abc123-rtmp -t 6 -c copy -f mpegts sample.ts 2> sample.log || true
+          # HLS across the turn to landscape at 26 s.
+          ffmpeg -nostdin -v error -i http://127.0.0.1:8888/abc123-rtmp/index.m3u8 -t 14 -f null - 2> hls-errors.txt || echo "hls read exited $?"
+          ffmpeg -nostdin -v info -rtsp_transport tcp -i rtsp://127.0.0.1:8554/abc123-rtmp -t 3 -c copy -f mpegts landscape.ts 2> landscape.log || true
+          wait $PROBE
+          echo "probe exit $?"
+      - name: Results
+        if: always()
+        run: |
+          echo "== probe"; cat probe.log || true
+          echo "== mediamtx"; cat mediamtx.log || true
+          echo "== rtsp decode errors"; cat rtsp-errors.txt || true
+          echo "== hls decode errors"; cat hls-errors.txt || true
+          echo "== portrait sample"; ffprobe -v error -show_entries stream=codec_name,profile,width,height,sample_rate,channels -of compact sample.ts || true
+          echo "== landscape sample"; ffprobe -v error -show_entries stream=codec_name,width,height -of compact landscape.ts || true
+          echo "== frame count (portrait sample)"; ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of csv=p=0 sample.ts || true
+      - name: Verdict
+        run: |
+          grep -q '"ready":true' path.json || { echo "path never became ready"; exit 1; }
+          grep -q 'H264' path.json || { echo "no H264 track"; exit 1; }
+          grep -q 'MPEG-4 Audio' path.json || { echo "no AAC track"; exit 1; }
+          [ ! -s rtsp-errors.txt ] || { echo "decode errors over RTSP"; exit 1; }
+          # ffprobe prints a program and a stream line per track; one copy is enough.
+          v=$(ffprobe -v error -show_entries stream=codec_name,width,height -of csv=p=0 sample.ts | sort -u | tr '\n' ' ')
+          echo "$v" | grep -q 'h264,590,1280' || { echo "portrait stream not 590x1280: $v"; exit 1; }
+          echo "$v" | grep -q 'aac' || { echo "no audio in stream: $v"; exit 1; }
+          l=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 landscape.ts | grep . | head -1)
+          [ "$l" = "1280,590" ] || { echo "landscape stream not 1280x590: $l"; exit 1; }
+          # A 6 s copy starts at the next keyframe (up to 2 s in), so at 30 fps expect 4+ s of frames.
+          frames=$(ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames -of csv=p=0 sample.ts | grep . | head -1)
+          [ "${frames:-0}" -ge 100 ] || { echo "only $frames frames in the 6 s sample"; exit 1; }
+          grep -q 'state live' probe.log || { echo "probe never went live"; exit 1; }
+          echo "OK: portrait $v, landscape $l, $frames frames in the 6 s sample"

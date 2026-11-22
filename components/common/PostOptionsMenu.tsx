@@ -140,6 +140,12 @@ export interface PostOptionsMenuProps {
   onDeleteSuccess?: () => void;
   /** Called when user taps Send to DM */
   onSendToDm?: () => void;
+  /** Owner, photo posts: open the tagger. Same caller-owned sheet rule as onSendToDm. */
+  onTagPeople?: () => void;
+  /** Someone tagged on this post's photos: take their own tag off. */
+  onRemoveMyTag?: () => void;
+  /** Owner: add a quiz to the post. */
+  onAddQuiz?: () => void;
   /**
    * Called when the owner taps Boost.
    *
@@ -414,6 +420,9 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   onEditSuccess,
   onDeleteSuccess,
   onSendToDm,
+  onTagPeople,
+  onRemoveMyTag,
+  onAddQuiz,
   onBoostPress,
   onGiftBoostPress,
   onTranslatePress,
@@ -912,6 +921,32 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
               label={t("postOptions.sendToDm")}
               sublabel={t("postOptions.sendToDmDesc")}
               onPress={() => { onClose(); setTimeout(() => onSendToDm(), 300); }}
+            />
+          )}
+
+          {!!onTagPeople && (
+            <OptionRow
+              icon="UserRound"
+              label={t("photoTags.title")}
+              sublabel={t("photoTags.hint")}
+              onPress={() => { onClose(); setTimeout(() => onTagPeople(), 300); }}
+            />
+          )}
+
+          {!!onAddQuiz && (
+            <OptionRow
+              icon="Trophy"
+              label={t("quiz.add")}
+              sublabel={t("quiz.editorHint")}
+              onPress={() => { onClose(); setTimeout(() => onAddQuiz(), 300); }}
+            />
+          )}
+
+          {!!onRemoveMyTag && (
+            <OptionRow
+              icon="UserMinus"
+              label={t("photoTags.removeMe")}
+              onPress={() => { onClose(); onRemoveMyTag(); }}
             />
           )}
 

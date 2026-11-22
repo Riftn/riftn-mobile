@@ -4,13 +4,14 @@
  * A note is a short line with an optional song, GIF or place that stays up for
  * 24 hours. Same as web's components/app/chat/NotesRow.
  */
-import React, { useEffect, useState } from "react";
-import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAudioPlayer } from "expo-audio";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Svg, { Rect } from "react-native-svg";
 import Avatar from "../common/Avatar";
 import SmartImage from "../common/SmartImage";
 import GifPicker from "./GifPicker";
@@ -74,12 +75,76 @@ function NoteBubble({ note, placeholder }: { note: Note | null; placeholder: str
   );
 }
 
+/** Share of the 24 hours a note has left, 0..1. */
+function useNoteLeft(note: Note | null): number {
+  const calc = () => {
+    if (!note) return 0;
+    const start = Date.parse(note.postedAt);
+    const end = Date.parse(note.expiresAt);
+    if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start) return 1;
+    return Math.min(1, Math.max(0, (end - Date.now()) / (end - start)));
+  };
+  const [left, setLeft] = useState(calc);
+  useEffect(() => {
+    setLeft(calc());
+    const id = setInterval(() => setLeft(calc()), 60_000);
+    return () => clearInterval(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [note?.id, note?.expiresAt]);
+  return left;
+}
+
+const AnimatedRect = Animated.createAnimatedComponent(Rect);
+const FACE = 56;
+const RING = 64;
+const RING_STROKE = 2.5;
+const RING_R = 14;
+
+/**
+ * Countdown ring around a note's face: a rounded-square line that drains as
+ * the 24 hours run out. It sweeps in from empty when the row opens.
+ */
+function NoteRing({ left }: { left: number }) {
+  const side = RING - RING_STROKE;
+  const r = RING_R;
+  const perimeter = 4 * (side - 2 * r) + 2 * Math.PI * r;
+  const sweep = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(sweep, { toValue: left, duration: 700, useNativeDriver: false }).start();
+  }, [left, sweep]);
+  const offset = sweep.interpolate({ inputRange: [0, 1], outputRange: [perimeter, 0] });
+  return (
+    <Svg width={RING} height={RING} style={{ position: "absolute", left: 0, top: 0 }} pointerEvents="none">
+      <Rect x={RING_STROKE / 2} y={RING_STROKE / 2} width={side} height={side} rx={r} ry={r}
+        fill="none" stroke="hsla(0, 0%, 100%, 0.14)" strokeWidth={RING_STROKE} />
+      <AnimatedRect x={RING_STROKE / 2} y={RING_STROKE / 2} width={side} height={side} rx={r} ry={r}
+        fill="none" stroke="hsla(0, 0%, 100%, 0.92)" strokeWidth={RING_STROKE} strokeLinecap="round"
+        strokeDasharray={`${perimeter} ${perimeter}`} strokeDashoffset={offset} />
+    </Svg>
+  );
+}
+
+/**
+ * One note in the row. Every tile is the same size: a bubble slot on top
+ * (empty when there are no words), the face inside its countdown ring, and
+ * the name. A GIF note shows the GIF in place of the face.
+ */
 function NoteTile({ author, note, label, onPress, placeholder }: { author: StoryAuthor; note: Note | null; label: string; onPress: () => void; placeholder: string }) {
   const avatar = getAvatarUrl(author.avatarImageUrl, 56);
+  const left = useNoteLeft(note);
+  const gif = note?.gifUrl || null;
+  const showBubble = !note || !!note.text || (!gif && (!!note.song || !!note.location));
   return (
     <Pressable onPress={onPress} style={{ width: 84, alignItems: "center", gap: 4, paddingTop: 2 }} accessibilityRole="button" accessibilityLabel={label}>
-      <NoteBubble note={note} placeholder={placeholder} />
-      <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={56} name={nameOf(author)} />
+      <View style={{ height: 36, justifyContent: "flex-end", alignItems: "center" }}>
+        {showBubble ? <NoteBubble note={note && gif ? { ...note, gifUrl: null } : note} placeholder={placeholder} /> : null}
+      </View>
+      <View style={{ width: RING, height: RING, alignItems: "center", justifyContent: "center" }}>
+        {gif
+          ? <SmartImage source={{ uri: gif }} style={{ width: FACE, height: FACE, borderRadius: 12 }} contentFit="cover" />
+          : <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={FACE} radius={12} name={nameOf(author)} />}
+        {note ? <NoteRing left={left} /> : null}
+      </View>
       <Text className="text-theme-neutrals-400 text-[11px]" numberOfLines={1} style={{ maxWidth: 80 }}>{label}</Text>
     </Pressable>
   );

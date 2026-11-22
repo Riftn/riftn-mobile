@@ -82,6 +82,7 @@ import { usePerfProbe, usePerfWhy } from "../libs/perfTrace";
 import { recallLayout, recalledSize, rememberLayout } from "../libs/launchLayoutMemo";
 import UserProfileBottomSheet from "../components/UserProfile/UserProfileBottomSheet";
 import GettingStartedCard from "../components/Onboarding/GettingStartedCard";
+import ReviewPromptCard from "../components/Home/ReviewPromptCard";
 import { pagerPageIntersectsViewport } from "../libs/pagerVisibility";
 import { useAppTheme } from "../context/ThemeContext";
 import { FrostedBackground, FrostedContent } from "../components/ui/FrostedBackdrop";
@@ -1740,6 +1741,8 @@ export default function HomeScreen() {
           just been offered one. Outside the pager so it is the same card on
           every tab rather than a header in one of six lists. */}
       <GettingStartedCard />
+      {/* "Enjoying Riftn?" Shows rarely (see libs/review-prompt), never with the card above. */}
+      <ReviewPromptCard />
     </View>
   );
 }

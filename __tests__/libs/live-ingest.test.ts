@@ -391,3 +391,23 @@ describe("encoderCredentials", () => {
     expect(encoderCredentials("", null)).toEqual({ server: null, key: null });
   });
 });
+
+describe("rtmpPublishUrlFor", () => {
+  const { rtmpPublishUrlFor } = require("../../libs/live-ingest");
+
+  it("puts a self-hosted stream on its -rtmp path with the key as credentials", () => {
+    expect(rtmpPublishUrlFor({ provider: "mediamtx", playbackId: "abc123", streamKey: "k3y" }))
+      .toBe("rtmp://live.dehub.io/abc123-rtmp?user=dehub&pass=k3y");
+  });
+
+  it("names a Livepeer stream by its key", () => {
+    expect(rtmpPublishUrlFor({ provider: "livepeer", playbackId: "p", streamKey: "k3y" }))
+      .toBe("rtmp://rtmp.livepeer.com/live/k3y");
+  });
+
+  it("needs a key, and a playbackId for the self-hosted ingest", () => {
+    expect(rtmpPublishUrlFor({ provider: "mediamtx", playbackId: "abc" })).toBeNull();
+    expect(rtmpPublishUrlFor({ provider: "mediamtx", streamKey: "k" })).toBeNull();
+    expect(rtmpPublishUrlFor(null)).toBeNull();
+  });
+});
