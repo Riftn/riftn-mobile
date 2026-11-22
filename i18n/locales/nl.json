@@ -1,4 +1,12 @@
 {
+  "reviewCard": {
+    "title": "Vind je Riftn leuk?",
+    "body": "Een snelle beoordeling in {{store}} helpt meer mensen ons te vinden.",
+    "rate": "Beoordelen",
+    "notNow": "Niet nu",
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
+  },
   "exploreTopics": {
     "humor": "Humor",
     "life": "Leven"
@@ -3086,6 +3094,12 @@
   },
   "features": {
     "myRequests": "Mijn verzoeken",
+    "sideFeatures": "Ideeën",
+    "sideBugs": "Bugs",
+    "bugHeading": "Wat werkt er niet?",
+    "bugHint": "Vertel wat er gebeurde en wat je verwachtte. Een screenshot helpt.",
+    "sideFeaturesShort": "Ideeën",
+    "sideBugsShort": "Bugs",
     "prompts": "Voorstellen",
     "queued": "In de wachtrij",
     "promptPageTitle": "Verzoeken",

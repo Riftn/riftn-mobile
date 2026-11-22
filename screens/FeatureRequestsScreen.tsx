@@ -103,6 +103,7 @@ import {
   useDeleteFeatureRequest,
   useSetFeatureStatus,
   isFeatureStatusEditor,
+  featureKindOf,
   useFeatureDeviceInfoIds,
   featureAttachments,
   isVideoAttachment,
@@ -112,6 +113,7 @@ import {
   CATEGORY_LABELS,
   STATUS_LABELS,
   type FeatureCategory,
+  type FeatureKind,
   type FeatureRequest,
   type FeatureSort,
   type FeatureStatus,
@@ -151,6 +153,9 @@ const CATEGORY_I18N: Record<FeatureCategory, string> = {
 };
 
 const CATEGORY_KEYS = Object.keys(CATEGORY_LABELS) as FeatureCategory[];
+// Bugs is one category, so its side of the board has no category chips; the
+// Features side keeps every category but Bug Fix. Mirrors web.
+const FEATURE_CATEGORY_KEYS = CATEGORY_KEYS.filter((key) => key !== "bug_fix");
 
 /**
  * Rows predate the current category set, so a stored value can be one this
@@ -747,15 +752,18 @@ function TranslateRequestField({ text, setText, limit, disabled }: {
 
 const PromptComposer: React.FC<{
   focusRequest: number;
+  /** The category a new prompt starts on: Bug Fix on the Bugs side. */
+  defaultCategory?: FeatureCategory;
   onSubmit: (v: { title: string; description: string; category: FeatureCategory; attachments: FeatureAttachment[] }) => Promise<unknown>;
   submitting: boolean;
-}> = ({ focusRequest, onSubmit, submitting }) => {
+}> = ({ focusRequest, defaultCategory = "new_feature", onSubmit, submitting }) => {
   const { t } = useTranslation();
   const { skin, isMinimal } = useAppTheme();
   const [title, setTitle] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:title", "");
   const [description, setDescription] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:description", "");
   const [device, setDevice] = useSurfaceDraft("screens/FeatureRequestsScreen.tsx:device", "");
-  const [category, setCategory] = useState<FeatureCategory>("new_feature");
+  const [category, setCategory] = useState<FeatureCategory>(defaultCategory);
+  React.useEffect(() => setCategory(defaultCategory), [defaultCategory]);
   const [attachments, setAttachments] = useState<FeatureAttachment[]>([]);
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [markupIndex, setMarkupIndex] = useState<number | null>(null);
@@ -802,14 +810,14 @@ const PromptComposer: React.FC<{
       setTitle.complete(title, "");
       setDescription.complete(description, "");
       setDevice.complete(device, "");
-      setAttachments([]); setCategory("new_feature");
+      setAttachments([]); setCategory(defaultCategory);
     } catch { /* Keep the prompt and attachments available for retry. */ }
   };
 
   return (
     <ThemePanel style={[styles.promptPanel, Platform.OS === "android" && skin?.card, isMinimal && minimalFlat]}>
-      <Text style={styles.promptHeading}>{t("features.promptHeading", "What should we build next?")}</Text>
-      <Text style={styles.promptHint}>{t("features.promptHint", "Describe it. Drop in a screenshot. Make it happen.")}</Text>
+      <Text style={styles.promptHeading}>{category === "bug_fix" ? t("features.bugHeading", "What's not working?") : t("features.promptHeading", "What should we build next?")}</Text>
+      <Text style={styles.promptHint}>{category === "bug_fix" ? t("features.bugHint", "Say what happened and what you expected. A screenshot helps.") : t("features.promptHint", "Describe it. Drop in a screenshot. Make it happen.")}</Text>
       <TextInput ref={inputRef} value={description} onChangeText={setDescription}
         accessibilityLabel={t("features.promptLabel", "Your prompt")}
         placeholder={t("features.promptPlaceholder", "Describe an idea, improvement, or bug…")}
@@ -918,6 +926,14 @@ function FeatureRequestsBoard() {
   const [tab, setTab] = useState<PageTab>("requests");
   const [sort, setSort] = useState<FeatureSort>("newest");
   const [category, setCategory] = useState<CategoryChip>("all");
+  // Feature requests or bug reports: the two sides of the board.
+  const [kind, setKindState] = useState<FeatureKind>("features");
+  const setKind = useCallback((next: FeatureKind) => {
+    setKindState(next);
+    // A category chip from the other side would match nothing here.
+    setCategory((current) => (current === NOT_FEASIBLE ? current : "all"));
+  }, []);
+  const categoryKeys = kind === "bugs" ? [] : FEATURE_CATEGORY_KEYS;
   const showNotFeasible = tab === "requests" && category === NOT_FEASIBLE;
   // A real category for the queries: the Not feasible chip filters by status.
   const listCategory: FeatureCategory | "all" = category === NOT_FEASIBLE ? "all" : category;
@@ -945,7 +961,7 @@ function FeatureRequestsBoard() {
     return () => clearTimeout(id);
   }, [search]);
 
-  const requests = useFeatureRequests(sort, listCategory, debouncedSearch, authorWallet);
+  const requests = useFeatureRequests(sort, listCategory, debouncedSearch, authorWallet, kind);
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = requests;
 
 
@@ -965,11 +981,19 @@ function FeatureRequestsBoard() {
   const focusedRequestId: string | undefined = route.params?.requestId;
   const focusedCommentId: string | undefined = route.params?.commentId;
   const { data: focusedRequest } = useFeatureRequest(authorWallet ? undefined : focusedRequestId);
+  // A link to one request opens the side of the board it belongs to.
+  const focusedKind = focusedRequest ? featureKindOf(focusedRequest.category) : null;
+  React.useEffect(() => { if (focusedKind) setKind(focusedKind); }, [focusedKind, setKind]);
   // "View shipped requests" on the shipped-feedback notice opens on that tab.
   const initialTab: PageTab | undefined = route.params?.tab;
   React.useEffect(() => {
     if (initialTab) changeTab(initialTab);
   }, [initialTab, changeTab]);
+  // Links can open straight on one side (kind: "bugs" for "Report a bug").
+  const initialKind: FeatureKind | undefined = route.params?.kind;
+  React.useEffect(() => {
+    if (initialKind === "bugs" || initialKind === "features") setKind(initialKind);
+  }, [initialKind, setKind]);
 
   const requestItems = useMemo(() => data?.pages.flat() ?? [], [data]);
   // Shipped and Shipping arrive as whole arrays rather than a paged query, so
@@ -979,12 +1003,13 @@ function FeatureRequestsBoard() {
   // what this screen's own list query does.
   const matchesFilters = useCallback(
     (row: FeatureRequest) => {
+      if (featureKindOf(row.category) !== kind) return false;
       if (listCategory !== "all" && row.category !== listCategory) return false;
       const q = debouncedSearch.trim().toLowerCase();
       if (!q) return true;
       return row.title.toLowerCase().includes(q) || row.description.toLowerCase().includes(q);
     },
-    [listCategory, debouncedSearch],
+    [kind, listCategory, debouncedSearch],
   );
   const isFiltering = !!authorWallet || debouncedSearch.trim().length > 0 || listCategory !== "all";
   const rawItems = useMemo(
@@ -1004,10 +1029,11 @@ function FeatureRequestsBoard() {
   );
 
 
-  const openCount = counts?.open ?? requestItems.length;
-  const shippedCount = shipped.data?.length ?? 0;
-  const inProgressCount = inProgress.data?.length ?? 0;
-  const notFeasibleCount = notFeasible.data?.length ?? 0;
+  const openCount = (kind === "bugs" ? counts?.openBugs : counts?.openFeatures) ?? requestItems.length;
+  const ofKind = useCallback((rows: FeatureRequest[] | undefined) => (rows ?? []).filter((row) => featureKindOf(row.category) === kind).length, [kind]);
+  const shippedCount = useMemo(() => ofKind(shipped.data), [ofKind, shipped.data]);
+  const inProgressCount = useMemo(() => ofKind(inProgress.data), [ofKind, inProgress.data]);
+  const notFeasibleCount = useMemo(() => ofKind(notFeasible.data), [ofKind, notFeasible.data]);
 
   const handleVote = useCallback(
     (feature: FeatureRequest, voteType: 1 | -1) => {
@@ -1187,6 +1213,37 @@ function FeatureRequestsBoard() {
           )}
         </View>
 
+        {/* Feature requests / Bug reports: two sides of the board, so a bug
+            never gets lost between ideas. Counts are what is still open. */}
+        <View style={styles.sideRow} accessibilityRole="tablist">
+          {([
+            { key: "features", label: t("features.sideFeaturesShort", "Features"), icon: "Lightbulb", count: counts?.openFeatures ?? 0 },
+            { key: "bugs", label: t("features.sideBugsShort", "Bugs"), icon: "Bug", count: counts?.openBugs ?? 0 },
+          ] as const).map((side) => {
+            const active = kind === side.key;
+            return (
+              <Pressable
+                key={side.key}
+                onPress={() => setKind(side.key)}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: active }}
+                accessibilityLabel={side.key === "bugs" ? t("features.sideBugs", "Bug reports") : t("features.sideFeatures", "Feature requests")}
+                style={[styles.chip, styles.sideChip, active && styles.chipActive]}
+              >
+                <Icon name={side.icon} size={14} color={active ? "#FFFFFF" : "#A1A1AA"} />
+                <Text numberOfLines={1} style={[styles.chipText, styles.sideChipText, active && styles.chipTextActive]}>
+                  {side.label}
+                </Text>
+                {side.count > 0 && (
+                  <View style={styles.tabBadge}>
+                    <Text style={styles.tabBadgeText}>{formatCompactNumber(side.count)}</Text>
+                  </View>
+                )}
+              </Pressable>
+            );
+          })}
+        </View>
+
         {/* Requests / Shipping / Shipped */}
         <View style={[styles.tabStrip, isMinimal && styles.minimalTabStrip]}>
           {TABS.map((tabDef) => {
@@ -1267,7 +1324,7 @@ function FeatureRequestsBoard() {
               {t("features.all")}
             </Text>
           </Pressable>
-          {CATEGORY_KEYS.map((key) => (
+          {categoryKeys.map((key) => (
             <Pressable
               key={key}
               onPress={() => setCategory(key)}
@@ -1333,8 +1390,9 @@ function FeatureRequestsBoard() {
           }}
           ListHeaderComponent={<>
             <View style={tab !== "requests" || showNotFeasible ? { display: "none" } : undefined}>
-              <PromptComposer focusRequest={composerFocus} submitting={submitMutation.isPending} onSubmit={async v => {
+              <PromptComposer focusRequest={composerFocus} defaultCategory={kind === "bugs" ? "bug_fix" : "new_feature"} submitting={submitMutation.isPending} onSubmit={async v => {
                 const result = await submitMutation.mutateAsync(v);
+                setKind(featureKindOf(v.category));
                 setCategory("all"); setSearch.complete(search, ""); setSort("newest");
                 return result;
               }} />
@@ -1466,6 +1524,9 @@ const styles = StyleSheet.create({
   // Search — 40pt, zinc-800 on a zinc-700 hairline.
   searchRow: { flexDirection: "row", alignItems: "center", gap: 6, marginBottom: 12 },
   mineFilter: { maxWidth: "48%", height: 40, borderColor: "#3F3F46" },
+  sideRow: { flexDirection: "row", gap: 8, marginBottom: 12 },
+  sideChip: { flex: 1, flexShrink: 1, height: 38, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, borderColor: "#3F3F46" },
+  sideChipText: { flexShrink: 1, fontWeight: "600" },
   searchWrap: {
     flex: 1,
     minWidth: 0,
