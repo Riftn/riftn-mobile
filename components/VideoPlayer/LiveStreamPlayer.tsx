@@ -60,6 +60,7 @@ import { getAvatarUrl, shareProfile } from "../../libs/misc";
 import { WEBSITE_LINK } from "../../config";
 import LiveViewerHeader from "../LiveViewer/LiveViewerHeader";
 import type { TranslateToggle } from "../ui/TranslateButton";
+import { StreamChatRewards } from "../LiveViewer/StreamChatRewards";
 import LiveViewerChat, { type ChatActivity, type ChatHoldLayout } from "../LiveViewer/LiveViewerChat";
 import CommentLikersSheet from "../Comments/CommentLikersSheet";
 import HoldSheet, { HOLD_LIFT_TIMING, HOLD_SETTLE_TIMING, type HoldTile } from "../ui/HoldSheet";
@@ -1681,8 +1682,9 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   const rewardsQuery = useQuery({
     queryKey: ["live-rewards", streamId],
     queryFn: () => getStreamRewards(streamId!),
-    enabled: pointsEnabled,
+    enabled: !!streamId && isLiveEffective,
     staleTime: 60_000,
+    refetchInterval: isLiveEffective ? 60_000 : false,
   });
   const queryClient = useQueryClient();
   const [rewardsOpen, setRewardsOpen] = useState(false);
@@ -1698,6 +1700,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
       if (String(data?.streamId || "") !== String(streamId)) return;
       const r = data?.redemption;
       if (!r || typeof r.title !== "string") return;
+      void queryClient.invalidateQueries({ queryKey: ["live-rewards", streamId] });
       addActivity({
         status: "SYSTEM",
         address: String(r.viewer?.address || "").toLowerCase(),
@@ -2193,6 +2196,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
                 <Animated.View style={holdLiftStyle} pointerEvents="box-none">
                   <LiveViewerChat activities={chatActivities} onHold={openLineMenu} holding={!!held} myAddress={me} onShowReactors={setReactorsFor} highlightId={linkLitId} />
                 </Animated.View>
+                {isLiveEffective && rewardsQuery.data?.live && <StreamChatRewards summary={rewardsQuery.data} />}
                 <SettingsOptionModal
                   visible={!!lineMenu}
                   onClose={() => setLineMenu(null)}
