@@ -1,5 +1,61 @@
 {
-  "dmVideo": {"trim": "Kesmek", "mirror": "Aýna", "rotate": "Öwüriň", "hide": "Gizle", "timer": "Sagat", "photo": "Surat", "remove": "Aýyrmak", "pause": "Pauza", "play": "Wideo oýnat", "hiddenUntilTap": "Üstüne basylýança gizlin", "scrub": "Wideo boýunça öňe-yza geçiň", "addMore": "Suratlary ýa-da wideolary goşuň", "coverAria": "Daşlygy bellemek üçin çarçuwa basyň", "trimHint": "Kesmek üçin uçlary süýşüriň", "coverHint": "Munuň daşlygy bolmagy üçin çarçuwa basyň", "uploadCover": "Mugap suratyny ýükle", "original": "Original", "rotate90": "90° döwreňde döwretmek", "timerOff": "Çyk", "showNormally": "Show normally", "showNormallyBody": "Olarak görürler, anında bilerler.", "hideUntilTap": "Basylýança gizle", "hideUntilTapBody": "Basylýança bulanyk görkezilýär", "hidePrice": "Bahanyň arkasyna gizlenmek", "hidePriceBody": "Olar saňa töleg edýänçä bulanyk", "priceUnavailable": "Bu söhbetde däl", "priceLabelUsd": "Baha", "priceHint": "Olar töleg tölänçäler çenli ony bulaňyk görýärler. Gulplanan elementler uçdan-uja şifrlenen däldir.", "timerOffBody": "Ol çatda galýar.", "timerViewBody": "Olar ony görenden soň, ikisiňiz üçin hem ýok bolýar.", "confirm": "Tassykla", "editItem": "Elementi redaktirle {{value1}}", "coverSet": "Mugap {{value1}}", "lockedForUsd": "{{value1}} üçin gulpuny aç", "timerTimeBody": "Ibereniňizden soň {{value1}} ikisiňiz üçin hem ýok bolýar."},
+  "dmVideo": {
+    "trim": "Kesmek",
+    "mirror": "Aýna",
+    "rotate": "Öwüriň",
+    "hide": "Gizle",
+    "timer": "Sagat",
+    "photo": "Surat",
+    "remove": "Aýyrmak",
+    "pause": "Pauza",
+    "play": "Wideo oýnat",
+    "hiddenUntilTap": "Üstüne basylýança gizlin",
+    "scrub": "Wideo boýunça öňe-yza geçiň",
+    "addMore": "Suratlary ýa-da wideolary goşuň",
+    "coverAria": "Daşlygy bellemek üçin çarçuwa basyň",
+    "trimHint": "Kesmek üçin uçlary süýşüriň",
+    "coverHint": "Munuň daşlygy bolmagy üçin çarçuwa basyň",
+    "uploadCover": "Mugap suratyny ýükle",
+    "original": "Original",
+    "rotate90": "90° döwreňde döwretmek",
+    "timerOff": "Çyk",
+    "showNormally": "Show normally",
+    "showNormallyBody": "Olarak görürler, anında bilerler.",
+    "hideUntilTap": "Basylýança gizle",
+    "hideUntilTapBody": "Basylýança bulanyk görkezilýär",
+    "hidePrice": "Bahanyň arkasyna gizlenmek",
+    "hidePriceBody": "Olar saňa töleg edýänçä bulanyk",
+    "priceUnavailable": "Bu söhbetde däl",
+    "priceLabelUsd": "Baha",
+    "priceHint": "Olar töleg tölänçäler çenli ony bulaňyk görýärler. Gulplanan elementler uçdan-uja şifrlenen däldir.",
+    "timerOffBody": "Ol çatda galýar.",
+    "timerViewBody": "Olar ony görenden soň, ikisiňiz üçin hem ýok bolýar.",
+    "confirm": "Tassykla",
+    "editItem": "Elementi redaktirle {{value1}}",
+    "coverSet": "Mugap {{value1}}",
+    "lockedForUsd": "{{value1}} üçin gulpuny aç",
+    "timerTimeBody": "Ibereniňizden soň {{value1}} ikisiňiz üçin hem ýok bolýar.",
+    "destruct": {
+      "60": "1 minut",
+      "3600": "1 sagat",
+      "43200": "12 sagat",
+      "86400": "1 gün",
+      "604800": "1 hepde",
+      "31536000": "1 ýyl",
+      "view": "1 görlüş"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1s",
+      "43200": "12s",
+      "86400": "1g",
+      "604800": "1h",
+      "31536000": "1ý",
+      "view": "1 görlüş"
+    },
+    "destructSecs": "{{n}} sekunt",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Serhet",
     "theme": "Tema",
@@ -7026,7 +7082,18 @@
       "moveRuleUp": "Düzgüni ýokaryk göter",
       "moveRuleDown": "Düzgüni aşak at",
       "deleteRule": "Düzgüni aýyr",
-      "rights": {"sendMessages":"Söhbət göndərmək","sendMessagesHint":"Jemgyýetçilik çatynda paýlaşyň","sendMedia":"Media ibermek","sendMediaHint":"Suratlary we GIF-leri goşuň","embedLinks":"Linkləri əsaslandırmaq","embedLinksHint":"Baglaýyş öň seredişlerini görkez","addMembers":"Ähli üýşleri goş","addMembersHint":"Jemgyýeti başgalar bilen paýlaşyň","createEvents":"Çäreleri dörediň","createEventsHint":"Jemgyýetçilik çärelerini meýilleşdiriň","changeInfoMemberHint":"Ýolbaşçylyk maslahatynyň ady we beýan edilmegi",
+      "rights": {
+        "sendMessages": "Söhbət göndərmək",
+        "sendMessagesHint": "Jemgyýetçilik çatynda paýlaşyň",
+        "sendMedia": "Media ibermek",
+        "sendMediaHint": "Suratlary we GIF-leri goşuň",
+        "embedLinks": "Linkləri əsaslandırmaq",
+        "embedLinksHint": "Baglaýyş öň seredişlerini görkez",
+        "addMembers": "Ähli üýşleri goş",
+        "addMembersHint": "Jemgyýeti başgalar bilen paýlaşyň",
+        "createEvents": "Çäreleri dörediň",
+        "createEventsHint": "Jemgyýetçilik çärelerini meýilleşdiriň",
+        "changeInfoMemberHint": "Ýolbaşçylyk maslahatynyň ady we beýan edilmegi",
         "changeInfo": "Jemgyýet maglumatyny üýtget",
         "changeInfoHint": "Ady, düşündirişi, awatary we banneri redaktirlemek",
         "deleteMessages": "Hatary aýyryň",
@@ -7104,12 +7171,41 @@
       "noInvites": "Heniz çakylyk baglanyşygy ýok. Adamlary göni çagyrmak üçin biri dörediň.",
       "permissionsUpdated": "Iýzalar täzelendi",
       "slowModeUpdated": "Täzeleşdirilen Slow mode",
-      "slowMode":{"off":"Çyk","tenSeconds":"10","thirtySeconds":"30 ýyllar","oneMinute":"1 min","fiveMinutes":"5 dəqiqə","fifteenMinutes":"15 dəqiqə","oneHour":"1 sagat"},"slowModeOffHint": "Agzalar gijikdirmezden hat iberip bilerler.",
+      "slowMode": {
+        "off": "Çyk",
+        "tenSeconds": "10",
+        "thirtySeconds": "30 ýyllar",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 dəqiqə",
+        "fifteenMinutes": "15 dəqiqə",
+        "oneHour": "1 sagat"
+      },
+      "slowModeOffHint": "Agzalar gijikdirmezden hat iberip bilerler.",
       "slowModeOnHint": "Agzalar her {{label}} bir hat iberip biler. Adminler muňa degişli däl.",
       "defaultPermissions": "Awtomatiki agza iýzalary",
       "defaultPermissionsHint": "Admin hukugy başgaça aýtmasa, hemmeler näme edip bilýär.",
       "slowModeTitle": "Ýuwaş mod",
-      "log": {"verbs":{"promote_admin":"mahabatlandyrylan","demote_admin":"demotivasiya","transfer_ownership":"eýeçiligi geçirdi","ban_member":"gadagan edildi","unban_member":"ban açyldy","kick_member":"aýryldy","mute_member":"Sesini kesdirilýan","unmute_member":"öwrenilmedik","approve_member":"təsdiq edildi","reject_member":"ret edildi","delete_message":"bir habar iber","purge_messages":"ähli hatlary pozdy","pin_message":"bir habary berkidip goýdy","unpin_message":"habary berkidilenden aýyrdy","update_settings":"jemgyýetçilik sazlamalary täzelendi","create_invite":"Təqdimat linki yaradıb","revoke_invite":"Təklif linkini qeyd etdi","invite_used":"çagyryldy"},
+      "log": {
+        "verbs": {
+          "promote_admin": "mahabatlandyrylan",
+          "demote_admin": "demotivasiya",
+          "transfer_ownership": "eýeçiligi geçirdi",
+          "ban_member": "gadagan edildi",
+          "unban_member": "ban açyldy",
+          "kick_member": "aýryldy",
+          "mute_member": "Sesini kesdirilýan",
+          "unmute_member": "öwrenilmedik",
+          "approve_member": "təsdiq edildi",
+          "reject_member": "ret edildi",
+          "delete_message": "bir habar iber",
+          "purge_messages": "ähli hatlary pozdy",
+          "pin_message": "bir habary berkidip goýdy",
+          "unpin_message": "habary berkidilenden aýyrdy",
+          "update_settings": "jemgyýetçilik sazlamalary täzelendi",
+          "create_invite": "Təqdimat linki yaradıb",
+          "revoke_invite": "Təklif linkini qeyd etdi",
+          "invite_used": "çagyryldy"
+        },
         "justNow": "häzir",
         "minutesAgo": "{{value}}m ozal",
         "hoursAgo": "{{value}}h ozal",
@@ -13566,53 +13662,52 @@
     "cinema": {
       "close": "Ýap",
       "performance": {
-        "label": "Öndürijilik",
         "0": "Şatlykly",
         "1": "Gussaly",
         "2": "Aladaly",
         "3": "Ynamly",
         "4": "Haýran galan",
         "5": "Sabyrly",
-        "6": "Oýunjyl"
+        "6": "Oýunjyl",
+        "label": "Öndürijilik"
       },
       "title": "Kino ugrukdyrmasy",
       "hint": "Indiki suratyňyzyň ýa-da wideoňyzyň wizual stilini kesgitläň. Netijeler modele görä üýtgeýär.",
       "none": "Ugrukdyrma ýok",
       "reset": "Ugrukdyrmany arassala",
       "camera": {
-        "label": "Kamera görnüşi",
         "0": "Sanly kino",
         "1": "35mm plýonka",
         "2": "16mm plýonka",
         "3": "Uly format",
-        "4": "Köne kamkorder"
+        "4": "Köne kamkorder",
+        "label": "Kamera görnüşi"
       },
       "lens": {
-        "label": "Linza görnüşi",
         "0": "Sferik",
         "1": "Anamorfik",
         "2": "Köne ýumşak aýna",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Linza görnüşi"
       },
       "focalLength": {
-        "label": "Fokus aralygy",
         "0": "18mm giň",
         "1": "24mm giň",
         "2": "35mm tebigy",
         "3": "50mm standart",
         "4": "85mm portret",
-        "5": "135mm telefoto"
+        "5": "135mm telefoto",
+        "label": "Fokus aralygy"
       },
       "aperture": {
-        "label": "Meýdan çuňlugy",
         "0": "f/1.4 örän ýuka",
         "1": "f/2.8 ýuka",
         "2": "f/5.6 orta",
-        "3": "f/11 çuň fokus"
+        "3": "f/11 çuň fokus",
+        "label": "Meýdan çuňlugy"
       },
       "movement": {
-        "label": "Kamera hereketi",
         "0": "Berkidilen ştatiw",
         "1": "Haýal ýakynlaşma",
         "2": "Haýal daşlaşma",
@@ -13620,27 +13715,27 @@
         "4": "Obýektiň daşynda aýlanma",
         "5": "Elde",
         "6": "Kran bilen galdyrma",
-        "7": "Haýal panorama"
+        "7": "Haýal panorama",
+        "label": "Kamera hereketi"
       },
       "lighting": {
-        "label": "Yşyklandyryş",
         "0": "Ýumşak gündiz yşygy",
         "1": "Altyn sagat",
         "2": "Garaňky kýaroskuro",
         "3": "Ýagty studiýa",
         "4": "Neon yşyklar",
         "5": "Siluet arka yşygy",
-        "6": "Bulutly ýaýran yşyk"
+        "6": "Bulutly ýaýran yşyk",
+        "label": "Yşyklandyryş"
       },
       "tempo": {
-        "label": "Kadr tempi",
         "0": "Ýeke üznüksiz kadr",
         "1": "Asuda, howlukmaýan hereket",
         "2": "Dinamiki, joşgunly hereket",
-        "3": "Bulam-bujar, çalt hereket"
+        "3": "Bulam-bujar, çalt hereket",
+        "label": "Kadr tempi"
       },
       "era": {
-        "label": "Döwür",
         "0": "1920-nji ýyllar",
         "1": "1950-nji ýyllar",
         "2": "1960-njy ýyllar",
@@ -13648,10 +13743,10 @@
         "4": "1980-nji ýyllar",
         "5": "1990-njy ýyllar",
         "6": "Häzirki döwür",
-        "7": "Ýakyn geljek"
+        "7": "Ýakyn geljek",
+        "label": "Döwür"
       },
       "genre": {
-        "label": "Žanr",
         "0": "Dokumental",
         "1": "Drama",
         "2": "Nuar filmi",
@@ -13659,16 +13754,17 @@
         "4": "Fantaziýa",
         "5": "Romantik komediýa",
         "6": "Triller",
-        "7": "Wester"
+        "7": "Wester",
+        "label": "Žanr"
       },
       "palette": {
-        "label": "Reňk palitrasy",
         "0": "Ýyly gyrmyzy",
         "1": "Sowuk gök",
         "2": "Ümür ýer reňkleri",
         "3": "Pastel",
         "4": "Ýokary kontrastly monohrom",
-        "5": "Doýgun esasy reňkler"
+        "5": "Doýgun esasy reňkler",
+        "label": "Reňk palitrasy"
       }
     },
     "audioNoSpeech": "Şol ýazgyda hiç hili ses tapylmady.",

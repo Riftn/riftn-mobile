@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Ikhava", "trim": "Sika", "mirror": "Isibuko", "rotate": "Phendula", "hide": "Fihla", "timer": "Isikhathi", "close": "Vala", "photo": "Isithombe", "remove": "Susa", "pause": "Misa isikhashana", "play": "Dlala ividiyo", "hiddenUntilTap": "Ifihliwe kuze kube yilapho beyithinta", "scrub": "Skrola kuvidiyo", "addMore": "Engeza izithombe noma amavidiyo", "coverAria": "Thinta ifreyimu ukuze usethe ikhava", "trimHint": "Hudula imiphetho ukuze usike", "coverHint": "Thinta ifreyimu ukuze uyenze ibe yikhava", "uploadCover": "Layisha isithombe sekhava", "mirrored": "Isibuko", "original": "Okokuqala", "rotate90": "Phendula ngo-90°", "timerOff": "Valiwe", "showNormally": "Bonisa ngokujwayelekile", "showNormallyBody": "Bayibona ngokushesha", "hideUntilTap": "Fihla kuze kube yilapho ithintiwe", "hideUntilTapBody": "Ifiphele kuze kube yilapho beyithinta", "hidePrice": "Fihla ngemuva kwentengo", "hidePriceBody": "Ifiphele kuze kube yilapho bakukhokhela", "priceUnavailable": "Akukho kule ngxoxo", "priceLabelUsd": "Intengo", "priceHint": "Bayibona ifiphele kuze kube yilapho bekukhokhela. Izinto ezikhiyiwe azibhalwanga ngendlela yokuthi umuntu wesithathu angakwazi ukuzifunda (end-to-end encrypted).", "timerOffBody": "Ihlala engxoxweni.", "timerViewBody": "Iyanyamalala kini nobabili uma beyibonile.", "confirm": "Qinisekisa", "editItem": "Hlela into {{value1}}", "coverSet": "Ikhava ku-{{value1}}", "lockedForUsd": "Vula ukuze uthole {{value1}}", "timerTimeBody": "Iyanyamalala kini nobabili {{value1}} ngemva kokuba uyithumile."},
+  "dmVideo": {
+    "cover": "Ikhava",
+    "trim": "Sika",
+    "mirror": "Isibuko",
+    "rotate": "Phendula",
+    "hide": "Fihla",
+    "timer": "Isikhathi",
+    "close": "Vala",
+    "photo": "Isithombe",
+    "remove": "Susa",
+    "pause": "Misa isikhashana",
+    "play": "Dlala ividiyo",
+    "hiddenUntilTap": "Ifihliwe kuze kube yilapho beyithinta",
+    "scrub": "Skrola kuvidiyo",
+    "addMore": "Engeza izithombe noma amavidiyo",
+    "coverAria": "Thinta ifreyimu ukuze usethe ikhava",
+    "trimHint": "Hudula imiphetho ukuze usike",
+    "coverHint": "Thinta ifreyimu ukuze uyenze ibe yikhava",
+    "uploadCover": "Layisha isithombe sekhava",
+    "mirrored": "Isibuko",
+    "original": "Okokuqala",
+    "rotate90": "Phendula ngo-90°",
+    "timerOff": "Valiwe",
+    "showNormally": "Bonisa ngokujwayelekile",
+    "showNormallyBody": "Bayibona ngokushesha",
+    "hideUntilTap": "Fihla kuze kube yilapho ithintiwe",
+    "hideUntilTapBody": "Ifiphele kuze kube yilapho beyithinta",
+    "hidePrice": "Fihla ngemuva kwentengo",
+    "hidePriceBody": "Ifiphele kuze kube yilapho bakukhokhela",
+    "priceUnavailable": "Akukho kule ngxoxo",
+    "priceLabelUsd": "Intengo",
+    "priceHint": "Bayibona ifiphele kuze kube yilapho bekukhokhela. Izinto ezikhiyiwe azibhalwanga ngendlela yokuthi umuntu wesithathu angakwazi ukuzifunda (end-to-end encrypted).",
+    "timerOffBody": "Ihlala engxoxweni.",
+    "timerViewBody": "Iyanyamalala kini nobabili uma beyibonile.",
+    "confirm": "Qinisekisa",
+    "editItem": "Hlela into {{value1}}",
+    "coverSet": "Ikhava ku-{{value1}}",
+    "lockedForUsd": "Vula ukuze uthole {{value1}}",
+    "timerTimeBody": "Iyanyamalala kini nobabili {{value1}} ngemva kokuba uyithumile.",
+    "destruct": {
+      "60": "1 umzuzu",
+      "3600": "1 ihora",
+      "43200": "12 amahora",
+      "86400": "1 usuku",
+      "604800": "1 iviki",
+      "31536000": "1 unyaka",
+      "view": "1 ukubukwa"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 ukubukwa"
+    },
+    "destructSecs": "{{n}} imizuzwana",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Umngcele",
     "theme": "Itimu",
@@ -7057,7 +7116,18 @@
       "moveRuleUp": "Hambisa umthetho phezulu",
       "moveRuleDown": "Hambisa umthetho phansi",
       "deleteRule": "Susa umthetho",
-      "rights": {"sendMessages":"Thumela imiyalezo","sendMessagesHint":"Thumela engxoxweni yomphakathi","sendMedia":"Thumela imidiya","sendMediaHint":"Namathisela izithombe nama-GIF","embedLinks":"Faka izixhumanisi","embedLinksHint":"Show link previews","addMembers":"Engeza amalungu","addMembersHint":"Ukubuyekeza izinsuku zethu ngena ngothando","createEvents":"Dala imicimbi","createEventsHint":"Hlela imicimbi yomphakathi","changeInfoMemberHint":"Hlela igama lomphakathi nencazelo",
+      "rights": {
+        "sendMessages": "Thumela imiyalezo",
+        "sendMessagesHint": "Thumela engxoxweni yomphakathi",
+        "sendMedia": "Thumela imidiya",
+        "sendMediaHint": "Namathisela izithombe nama-GIF",
+        "embedLinks": "Faka izixhumanisi",
+        "embedLinksHint": "Show link previews",
+        "addMembers": "Engeza amalungu",
+        "addMembersHint": "Ukubuyekeza izinsuku zethu ngena ngothando",
+        "createEvents": "Dala imicimbi",
+        "createEventsHint": "Hlela imicimbi yomphakathi",
+        "changeInfoMemberHint": "Hlela igama lomphakathi nencazelo",
         "changeInfo": "Shintsha ulwazi lomphakathi",
         "changeInfoHint": "Hlela igama, incazelo, isithombe nephaneli",
         "deleteMessages": "Susa imilayezo",
@@ -7135,12 +7205,41 @@
       "noInvites": "Awekho ama-link okumema okwamanje. Dala elilodwa ukuze umeme abantu ngqo.",
       "permissionsUpdated": "Izimvume sezibuyekeziwe",
       "slowModeUpdated": "Imodi yokucasha ibuyekeziwe",
-      "slowMode":{"off":"Valiwe","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 umz","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"Ihora elilodwa"},"slowModeOffHint": "Amalungu angathumela imiyalezo ngaphandle kokubambezeleka.",
+      "slowMode": {
+        "off": "Valiwe",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 umz",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "Ihora elilodwa"
+      },
+      "slowModeOffHint": "Amalungu angathumela imiyalezo ngaphandle kokubambezeleka.",
       "slowModeOnHint": "Amalungu angathumela umyalezo owodwa njalo nge-{{label}}. Abaphathi bakhululiwe.",
       "defaultPermissions": "Izimvume ezizenzakalelayo zamalungu",
       "defaultPermissionsHint": "Lokho wonke umuntu angakwenza lapha ngaphandle uma ilungelo lomphathi lithi okunye.",
       "slowModeTitle": "Imodi yokucasha",
-      "log": {"verbs":{"promote_admin":"kukhuthaziwe","demote_admin":"yehlisiwe esikhundleni","transfer_ownership":"idlulisele ubunikazi ku","ban_member":"uvinjelwe","unban_member":"akuvinjelwe","kick_member":"isusiwe","mute_member":"ithambekile","unmute_member":"ivuliwe umsindo","approve_member":"kuvunyiwe","reject_member":"inqatshiwe","delete_message":"ususe umyalezo ku","purge_messages":"isuse yonke imiyalezo evela ku","pin_message":"iphine umyalezo ovela ku","unpin_message":"umlayezo ongafakwanga ovela","update_settings":"lungisa amasethingi omphakathi","create_invite":"udale isixhumanisi sesimemo","revoke_invite":"ihoxise isixhumanisi sesimemo","invite_used":"umenywe"},
+      "log": {
+        "verbs": {
+          "promote_admin": "kukhuthaziwe",
+          "demote_admin": "yehlisiwe esikhundleni",
+          "transfer_ownership": "idlulisele ubunikazi ku",
+          "ban_member": "uvinjelwe",
+          "unban_member": "akuvinjelwe",
+          "kick_member": "isusiwe",
+          "mute_member": "ithambekile",
+          "unmute_member": "ivuliwe umsindo",
+          "approve_member": "kuvunyiwe",
+          "reject_member": "inqatshiwe",
+          "delete_message": "ususe umyalezo ku",
+          "purge_messages": "isuse yonke imiyalezo evela ku",
+          "pin_message": "iphine umyalezo ovela ku",
+          "unpin_message": "umlayezo ongafakwanga ovela",
+          "update_settings": "lungisa amasethingi omphakathi",
+          "create_invite": "udale isixhumanisi sesimemo",
+          "revoke_invite": "ihoxise isixhumanisi sesimemo",
+          "invite_used": "umenywe"
+        },
         "justNow": "manje nje",
         "minutesAgo": "{{value}}m edlule",
         "hoursAgo": "{{value}}h edlule",
@@ -13597,53 +13696,52 @@
     "cinema": {
       "close": "Vala",
       "performance": {
-        "label": "Ukusebenza",
         "0": "Okujabulisayo",
         "1": "Okudabukisayo",
         "2": "Okukhathazekile",
         "3": "Okuzethembayo",
         "4": "Okumangalisiwe",
         "5": "Okuzibambile",
-        "6": "Okudlalayo"
+        "6": "Okudlalayo",
+        "label": "Ukusebenza"
       },
       "title": "Ukuqondisa kwe-cinema",
       "hint": "Qondisa isitayela esibonakalayo sesithombe noma ividiyo yakho elandelayo. Imiphumela iyahluka ngemodeli.",
       "none": "Asikho isiqondiso",
       "reset": "Sula isiqondiso",
       "camera": {
-        "label": "Ukubukeka kwekhamera",
         "0": "I-cinema yedijithali",
         "1": "Ifilimu ye-35mm",
         "2": "Ifilimu ye-16mm",
         "3": "Ifomethi enkulu",
-        "4": "I-camcorder yakudala"
+        "4": "I-camcorder yakudala",
+        "label": "Ukubukeka kwekhamera"
       },
       "lens": {
-        "label": "Ukubukeka kwelensi",
         "0": "I-Spherical",
         "1": "I-Anamorphic",
         "2": "Ingilazi ethambile yakudala",
         "3": "I-Macro",
-        "4": "I-Tilt-shift"
+        "4": "I-Tilt-shift",
+        "label": "Ukubukeka kwelensi"
       },
       "focalLength": {
-        "label": "Ubude be-focal",
         "0": "18mm ebanzi",
         "1": "24mm ebanzi",
         "2": "35mm yemvelo",
         "3": "50mm evamile",
         "4": "85mm yesithombe somuntu",
-        "5": "135mm ye-telephoto"
+        "5": "135mm ye-telephoto",
+        "label": "Ubude be-focal"
       },
       "aperture": {
-        "label": "Ukujula kwe-field",
         "0": "f/1.4 kungajulile kakhulu",
         "1": "f/2.8 kungajulile",
         "2": "f/5.6 kumaphakathi",
-        "3": "f/11 ukugxila okujulile"
+        "3": "f/11 ukugxila okujulile",
+        "label": "Ukujula kwe-field"
       },
       "movement": {
-        "label": "Ukunyakaza kwekhamera",
         "0": "Isitendi esingagudluki",
         "1": "I-dolly engena kancane",
         "2": "I-dolly ephuma kancane",
@@ -13651,27 +13749,27 @@
         "4": "Zungeza isihloko",
         "5": "Ngesandla",
         "6": "Ukuphakama kwe-crane",
-        "7": "I-pan ehamba kancane"
+        "7": "I-pan ehamba kancane",
+        "label": "Ukunyakaza kwekhamera"
       },
       "lighting": {
-        "label": "Ukukhanya",
         "0": "Ukukhanya kwemini okuthambile",
         "1": "Ihora legolide",
         "2": "I-chiaroscuro emnyama",
         "3": "Isitudiyo esikhanyayo",
         "4": "Amalambu e-neon",
         "5": "Ukukhanya kwangemuva kwesithunzi",
-        "6": "Ukukhanya kwamafu okusabalele"
+        "6": "Ukukhanya kwamafu okusabalele",
+        "label": "Ukukhanya"
       },
       "tempo": {
-        "label": "Isivinini sesithombe",
         "0": "Isithombe esisodwa esiqhubekayo",
         "1": "Isenzo esizolile, esingajahile",
         "2": "Isenzo esinamandla, esinomdlandla",
-        "3": "Isenzo esiyisiphithiphithi, esinamandla amakhulu"
+        "3": "Isenzo esiyisiphithiphithi, esinamandla amakhulu",
+        "label": "Isivinini sesithombe"
       },
       "era": {
-        "label": "Inkathi",
         "0": "Ama-1920s",
         "1": "Ama-1950s",
         "2": "Ama-1960s",
@@ -13679,10 +13777,10 @@
         "4": "Ama-1980s",
         "5": "Ama-1990s",
         "6": "Namuhla",
-        "7": "Ikusasa eliseduze"
+        "7": "Ikusasa eliseduze",
+        "label": "Inkathi"
       },
       "genre": {
-        "label": "Uhlobo",
         "0": "I-documentary",
         "1": "Idrama",
         "2": "I-Film noir",
@@ -13690,16 +13788,17 @@
         "4": "I-Fantasy",
         "5": "Inhlekisa yothando",
         "6": "I-Thriller",
-        "7": "I-Western"
+        "7": "I-Western",
+        "label": "Uhlobo"
       },
       "palette": {
-        "label": "Iphalethi yemibala",
         "0": "I-amber efudumele",
         "1": "Okuluhlaza okwesibhakabhaka okupholile",
         "2": "Imibala yomhlaba ethulile",
         "3": "I-Pastel",
         "4": "I-monochrome enokwehluka okukhulu",
-        "5": "Imibala eyinhloko egcwele"
+        "5": "Imibala eyinhloko egcwele",
+        "label": "Iphalethi yemibala"
       }
     },
     "audioNoSpeech": "Haikuwa na mawazo yoyote katika rekodi hiyo.",

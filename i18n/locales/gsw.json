@@ -1,5 +1,63 @@
 {
-  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Versteckt bis sie es antippen.", "scrub": "Durch das Video wische", "addMore": "Bilder oder Videos hänge", "coverAria": "Tippe e Frame, um d'Cover z'stelle", "trimHint": "Zieht d'Ende zum trimme", "coverHint": "Tippe e Frame, um es als Deckblatt z'mache", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "Sie merke es gleich.", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "Verschwumme bis sie druf tippid", "hidePrice": "Hinder emene Priis verstecke", "hidePriceBody": "Verschwumme bis sie dich zahle", "priceUnavailable": "Nöd in däm Chat", "priceLabelUsd": "Price", "priceHint": "Si sehne es verschwummert bis sie dir bezahle. Gschlosse Gschäft sind nöd end-to-end verschlüsslet.", "timerOffBody": "Es blibt im Chat.", "timerViewBody": "Es isch für beidi vo dir verglügt, sobald sie es gseh händ.", "confirm": "Bestätige", "editItem": "Bearbeite Gschäft {{value1}}", "coverSet": "Deckig bi {{value1}}", "lockedForUsd": "Entsperre für {{value1}}", "timerTimeBody": "Verglügt für beidi vo dir {{value1}} nach em Versand."},
+  "dmVideo": {
+    "cover": "Cover",
+    "trim": "Trim",
+    "mirror": "Mirror",
+    "rotate": "Rotate",
+    "hide": "Hide",
+    "timer": "Timer",
+    "close": "Close",
+    "photo": "Photo",
+    "remove": "Remove",
+    "pause": "Pause",
+    "play": "Play video",
+    "hiddenUntilTap": "Versteckt bis sie es antippen.",
+    "scrub": "Durch das Video wische",
+    "addMore": "Bilder oder Videos hänge",
+    "coverAria": "Tippe e Frame, um d'Cover z'stelle",
+    "trimHint": "Zieht d'Ende zum trimme",
+    "coverHint": "Tippe e Frame, um es als Deckblatt z'mache",
+    "mirrored": "Mirrored",
+    "original": "Original",
+    "rotate90": "Rotate 90°",
+    "timerOff": "Off",
+    "showNormally": "Show normally",
+    "showNormallyBody": "Sie merke es gleich.",
+    "hideUntilTap": "Hide until tapped",
+    "hideUntilTapBody": "Verschwumme bis sie druf tippid",
+    "hidePrice": "Hinder emene Priis verstecke",
+    "hidePriceBody": "Verschwumme bis sie dich zahle",
+    "priceUnavailable": "Nöd in däm Chat",
+    "priceLabelUsd": "Price",
+    "priceHint": "Si sehne es verschwummert bis sie dir bezahle. Gschlosse Gschäft sind nöd end-to-end verschlüsslet.",
+    "timerOffBody": "Es blibt im Chat.",
+    "timerViewBody": "Es isch für beidi vo dir verglügt, sobald sie es gseh händ.",
+    "confirm": "Bestätige",
+    "editItem": "Bearbeite Gschäft {{value1}}",
+    "coverSet": "Deckig bi {{value1}}",
+    "lockedForUsd": "Entsperre für {{value1}}",
+    "timerTimeBody": "Verglügt für beidi vo dir {{value1}} nach em Versand.",
+    "destruct": {
+      "60": "1 Minutä",
+      "3600": "1 Stund",
+      "43200": "12 Stunde",
+      "86400": "1 Tag",
+      "604800": "1 Wuche",
+      "31536000": "1 Jahr",
+      "view": "1 Aasicht"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 Aasicht"
+    },
+    "destructSecs": "{{n}} Sekundä",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Rahme",
     "theme": "Theme",
@@ -7056,7 +7114,18 @@
       "moveRuleUp": "Regle uus schiibe",
       "moveRuleDown": "Regle uus schiibe",
       "deleteRule": "Regle lösche",
-      "rights": {"sendMessages":"Chünesch Büecher sende","sendMessagesHint":"Poste in den Community-Chat","sendMedia":"Medien sändä","sendMediaHint":"Bilder und GIFs anhängen","embedLinks":"Links einbetten","embedLinksHint":"Link-Vorschau anzeigen","addMembers":"Mitglieder hinzufügen","addMembersHint":"Die Community mit anderen teilen","createEvents":"Veranstaltungen erstellen","createEventsHint":"Planen Sie Gemeinschaftsereignisse","changeInfoMemberHint":"Gemeinschaftsname und -beschreibung bearbeiten",
+      "rights": {
+        "sendMessages": "Chünesch Büecher sende",
+        "sendMessagesHint": "Poste in den Community-Chat",
+        "sendMedia": "Medien sändä",
+        "sendMediaHint": "Bilder und GIFs anhängen",
+        "embedLinks": "Links einbetten",
+        "embedLinksHint": "Link-Vorschau anzeigen",
+        "addMembers": "Mitglieder hinzufügen",
+        "addMembersHint": "Die Community mit anderen teilen",
+        "createEvents": "Veranstaltungen erstellen",
+        "createEventsHint": "Planen Sie Gemeinschaftsereignisse",
+        "changeInfoMemberHint": "Gemeinschaftsname und -beschreibung bearbeiten",
         "changeInfo": "Community-Infos ändere",
         "changeInfoHint": "Name, Beschriibig, Avatar und Banner bearbeite",
         "deleteMessages": "Nachrichte lösche",
@@ -7133,12 +7202,41 @@
       "noInvites": "Keini Invitations-Link noo. Erstell ene, um Leit direkt einzulade.",
       "permissionsUpdated": "Berechtigunge aktualisiert",
       "slowModeUpdated": "Slow mode aktualisiert",
-      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 Min.","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 Stund"},"slowModeOffHint": "Mitgliider chönd ohne Verzögerig Nachrichte sende.",
+      "slowMode": {
+        "off": "Off",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 Min.",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 Stund"
+      },
+      "slowModeOffHint": "Mitgliider chönd ohne Verzögerig Nachrichte sende.",
       "slowModeOnHint": "Mitgliider chönd ene Nachricht pro {{label}} sende. Verwaltigsmitgliider sind usgnumme.",
       "defaultPermissions": "Standarde Mitgliederberechtigung",
       "defaultPermissionsHint": "Was alli chönd, wenn kai Verwaltigsrechte gsäit händ.",
       "slowModeTitle": "Langsammode",
-      "log": {"verbs":{"promote_admin":"Promovierte","demote_admin":"demotisiert","transfer_ownership":"hat die Eigentümerschaft übertragen","ban_member":"banned","unban_member":"unbanned","kick_member":"entfernt","mute_member":"muted","unmute_member":"ungesperrt","approve_member":"gschpänt","reject_member":"abgelehnt","delete_message":"Habe eine Nachricht gelöscht von","purge_messages":"alle Nachrichten von gelöscht","pin_message":"hat 'ne Nachricht gepinnt von","unpin_message":"unpinned eine Nachricht von","update_settings":"Community-Einstellungen aktualisiert","create_invite":"Een Invite-Link gschaffe","revoke_invite":"Invite-Link widerrufen","invite_used":"eingeladen"},
+      "log": {
+        "verbs": {
+          "promote_admin": "Promovierte",
+          "demote_admin": "demotisiert",
+          "transfer_ownership": "hat die Eigentümerschaft übertragen",
+          "ban_member": "banned",
+          "unban_member": "unbanned",
+          "kick_member": "entfernt",
+          "mute_member": "muted",
+          "unmute_member": "ungesperrt",
+          "approve_member": "gschpänt",
+          "reject_member": "abgelehnt",
+          "delete_message": "Habe eine Nachricht gelöscht von",
+          "purge_messages": "alle Nachrichten von gelöscht",
+          "pin_message": "hat 'ne Nachricht gepinnt von",
+          "unpin_message": "unpinned eine Nachricht von",
+          "update_settings": "Community-Einstellungen aktualisiert",
+          "create_invite": "Een Invite-Link gschaffe",
+          "revoke_invite": "Invite-Link widerrufen",
+          "invite_used": "eingeladen"
+        },
         "justNow": "jetzt",
         "minutesAgo": "{{value}}m ago",
         "hoursAgo": "{{value}}h ago",
@@ -13596,53 +13694,52 @@
     "cinema": {
       "close": "Schliesse",
       "performance": {
-        "label": "Leischtig",
         "0": "Fröhlich",
         "1": "Melancholisch",
         "2": "Ängschtlich",
         "3": "Sälbschtsicher",
         "4": "Ehrfürchtig",
         "5": "Zrugghaltend",
-        "6": "Verspielt"
+        "6": "Verspielt",
+        "label": "Leischtig"
       },
       "title": "Kino-Regie",
       "hint": "Leit de visuelle Stil vo dim nächschte Bild oder Video. D Resultat sind je nach Modell andersch.",
       "none": "Kei Regie",
       "reset": "Regie lösche",
       "camera": {
-        "label": "Kamera-Look",
         "0": "Digitals Kino",
         "1": "35mm-Film",
         "2": "16mm-Film",
         "3": "Grossformat",
-        "4": "Alte Camcorder"
+        "4": "Alte Camcorder",
+        "label": "Kamera-Look"
       },
       "lens": {
-        "label": "Objektiv-Look",
         "0": "Sphärisch",
         "1": "Anamorphotisch",
         "2": "Weichs Vintage-Glas",
         "3": "Makro",
-        "4": "Tilt-Shift"
+        "4": "Tilt-Shift",
+        "label": "Objektiv-Look"
       },
       "focalLength": {
-        "label": "Brennwiti",
         "0": "18mm wit",
         "1": "24mm wit",
         "2": "35mm natürlich",
         "3": "50mm Standard",
         "4": "85mm Porträt",
-        "5": "135mm Tele"
+        "5": "135mm Tele",
+        "label": "Brennwiti"
       },
       "aperture": {
-        "label": "Schärfetüüfi",
         "0": "f/1.4 sehr flach",
         "1": "f/2.8 flach",
         "2": "f/5.6 mittel",
-        "3": "f/11 tüüfi Schärfi"
+        "3": "f/11 tüüfi Schärfi",
+        "label": "Schärfetüüfi"
       },
       "movement": {
-        "label": "Kamerabewegig",
         "0": "Fix uf em Stativ",
         "1": "Langsams Dolly-in",
         "2": "Langsams Dolly-out",
@@ -13650,27 +13747,27 @@
         "4": "Um s Motiv kreise",
         "5": "Us de Hand",
         "6": "Kran-Fahrt ufe",
-        "7": "Langsame Schwenk"
+        "7": "Langsame Schwenk",
+        "label": "Kamerabewegig"
       },
       "lighting": {
-        "label": "Beleuchtig",
         "0": "Weichs Tagesliecht",
         "1": "Goldigi Stund",
         "2": "Low-Key Hell-Dunkel",
         "3": "High-Key Studio",
         "4": "Neon im Bild",
         "5": "Silhouette im Gägeliecht",
-        "6": "Diffus, bedeckt"
+        "6": "Diffus, bedeckt",
+        "label": "Beleuchtig"
       },
       "tempo": {
-        "label": "Shot-Tempo",
         "0": "Ei durchgehende Shot",
         "1": "Ruhigi, gmüetlichi Handlig",
         "2": "Dynamischi, energischi Handlig",
-        "3": "Chaotischi, hektischi Handlig"
+        "3": "Chaotischi, hektischi Handlig",
+        "label": "Shot-Tempo"
       },
       "era": {
-        "label": "Epoche",
         "0": "1920er",
         "1": "1950er",
         "2": "1960er",
@@ -13678,10 +13775,10 @@
         "4": "1980er",
         "5": "1990er",
         "6": "Hüt",
-        "7": "Nöchi Zuekunft"
+        "7": "Nöchi Zuekunft",
+        "label": "Epoche"
       },
       "genre": {
-        "label": "Genre",
         "0": "Dokumentarfilm",
         "1": "Drama",
         "2": "Film noir",
@@ -13689,16 +13786,17 @@
         "4": "Fantasy",
         "5": "Romantischi Komödie",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genre"
       },
       "palette": {
-        "label": "Farbpalette",
         "0": "Warms Bernstei",
         "1": "Kühls Blau",
         "2": "Gedämpfti Erdtön",
         "3": "Pastell",
         "4": "Kontraschtriichs Schwarz-Wiiss",
-        "5": "Gsättigti Primärfarbe"
+        "5": "Gsättigti Primärfarbe",
+        "label": "Farbpalette"
       }
     },
     "audioNoSpeech": "Keini Sprächi war in der Aufzeichnung gfunde gsi.",

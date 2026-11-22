@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Iboju", "trim": "Ge", "mirror": "Iro", "rotate": "Yiyi", "hide": "Fipamọ", "timer": "Akoko", "close": "Pa", "photo": "Fọto", "remove": "Yọkuro", "pause": "Duro", "play": "Ṣe fidio", "hiddenUntilTap": "Titi di igba ti wọn ba tẹ e", "scrub": "Ṣiṣan fidio naa", "addMore": "Fi awọn fọto tabi awọn fidio kun", "coverAria": "Tẹ fireemu kan lati ṣeto iboju", "trimHint": "Fa awọn opin lati ge", "coverHint": "Tẹ fireemu kan lati jẹ ki o jẹ iboju", "uploadCover": "Po si aworan iboju", "mirrored": "Ti a ṣe afẹfẹ", "original": "Atilẹba", "rotate90": "Yiyi 90°", "timerOff": "Pa", "showNormally": "Ṣe afihan ni deede", "showNormallyBody": "Wọn ri i lẹsẹkẹsẹ", "hideUntilTap": "Fipamọ titi ti wọn yoo tẹ", "hideUntilTapBody": "Ti a fi blur titi ti wọn yoo tẹ", "hidePrice": "Fipamọ lẹyin owo kan", "hidePriceBody": "Ti a fi blur titi ti wọn yoo sanwo fun ọ", "priceUnavailable": "Kò sí nínú ibaraẹnisọrọ yìí", "priceLabelUsd": "Owo", "priceHint": "Wọ́n á máa rí i ní ìrìrí títí tí wọ́n fi máa san owó fún ọ. Àwọn nǹkan tó wà lábẹ́ àtìpà kò ní ìdáàbòbò ìfìkọ̀ríkọ̀ (end-to-end encryption).", "timerOffBody": "Ó máa wà nínú ì tánràn náà.", "timerViewBody": "Ó máa parẹ́ fún ẹ̀yin méjèèjì ní kété tí wọ́n bá ti rí i.", "confirm": "Ìmúdájú", "editItem": "Ṣàtúnṣe nǹkan {{value1}}", "coverSet": "Ìbòrí ní {{value1}}", "lockedForUsd": "Ṣí àtìpà fún {{value1}}", "timerTimeBody": "Ó máa parẹ́ fún ẹ̀yin méjèèjì {{value1}} lẹ́yìn tí o bá ti rán an."},
+  "dmVideo": {
+    "cover": "Iboju",
+    "trim": "Ge",
+    "mirror": "Iro",
+    "rotate": "Yiyi",
+    "hide": "Fipamọ",
+    "timer": "Akoko",
+    "close": "Pa",
+    "photo": "Fọto",
+    "remove": "Yọkuro",
+    "pause": "Duro",
+    "play": "Ṣe fidio",
+    "hiddenUntilTap": "Titi di igba ti wọn ba tẹ e",
+    "scrub": "Ṣiṣan fidio naa",
+    "addMore": "Fi awọn fọto tabi awọn fidio kun",
+    "coverAria": "Tẹ fireemu kan lati ṣeto iboju",
+    "trimHint": "Fa awọn opin lati ge",
+    "coverHint": "Tẹ fireemu kan lati jẹ ki o jẹ iboju",
+    "uploadCover": "Po si aworan iboju",
+    "mirrored": "Ti a ṣe afẹfẹ",
+    "original": "Atilẹba",
+    "rotate90": "Yiyi 90°",
+    "timerOff": "Pa",
+    "showNormally": "Ṣe afihan ni deede",
+    "showNormallyBody": "Wọn ri i lẹsẹkẹsẹ",
+    "hideUntilTap": "Fipamọ titi ti wọn yoo tẹ",
+    "hideUntilTapBody": "Ti a fi blur titi ti wọn yoo tẹ",
+    "hidePrice": "Fipamọ lẹyin owo kan",
+    "hidePriceBody": "Ti a fi blur titi ti wọn yoo sanwo fun ọ",
+    "priceUnavailable": "Kò sí nínú ibaraẹnisọrọ yìí",
+    "priceLabelUsd": "Owo",
+    "priceHint": "Wọ́n á máa rí i ní ìrìrí títí tí wọ́n fi máa san owó fún ọ. Àwọn nǹkan tó wà lábẹ́ àtìpà kò ní ìdáàbòbò ìfìkọ̀ríkọ̀ (end-to-end encryption).",
+    "timerOffBody": "Ó máa wà nínú ì tánràn náà.",
+    "timerViewBody": "Ó máa parẹ́ fún ẹ̀yin méjèèjì ní kété tí wọ́n bá ti rí i.",
+    "confirm": "Ìmúdájú",
+    "editItem": "Ṣàtúnṣe nǹkan {{value1}}",
+    "coverSet": "Ìbòrí ní {{value1}}",
+    "lockedForUsd": "Ṣí àtìpà fún {{value1}}",
+    "timerTimeBody": "Ó máa parẹ́ fún ẹ̀yin méjèèjì {{value1}} lẹ́yìn tí o bá ti rán an.",
+    "destruct": {
+      "60": "Ìṣẹ́jú 1",
+      "3600": "Wákàtí 1",
+      "43200": "Wákàtí 12",
+      "86400": "Ọjọ́ 1",
+      "604800": "Ọ̀sẹ̀ 1",
+      "31536000": "Ọdún 1",
+      "view": "Ìwò 1"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "Ìwò 1"
+    },
+    "destructSecs": "{{n}} ìṣẹ́jú àáyá",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Ìlà etí",
     "theme": "Àkòrí",
@@ -7027,7 +7086,18 @@
       "moveRuleUp": "Gbe ofin si oke",
       "moveRuleDown": "Gbe ofin si isalẹ",
       "deleteRule": "Pa ofin rẹ",
-      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Fi àtẹ̀jíṣẹ́ sínú ì tán àwùjọ","sendMedia":"Fi àwọn àwòrán tàbí fídíò ránṣẹ́","sendMediaHint":"So àwọn àwòrán àti GIF mọ́","embedLinks":"Embed links","embedLinksHint":"Fi àwọn àkótán ọ̀nà-ìjápọ̀ hàn","addMembers":"Fi àwọn ọmọ ẹgbẹ́ kún un","addMembersHint":"Pín àwùjọ náà pẹ̀lú àwọn ẹlòmíràn","createEvents":"Ṣẹ̀dá àwọn ìṣẹ̀lẹ̀","createEventsHint":"Ṣètò àwọn ìṣẹ̀lẹ̀ ìlú","changeInfoMemberHint":"Ṣàtúnṣe orúkọ àti àpèjúwe àwùjọ náà",
+      "rights": {
+        "sendMessages": "Send messages",
+        "sendMessagesHint": "Fi àtẹ̀jíṣẹ́ sínú ì tán àwùjọ",
+        "sendMedia": "Fi àwọn àwòrán tàbí fídíò ránṣẹ́",
+        "sendMediaHint": "So àwọn àwòrán àti GIF mọ́",
+        "embedLinks": "Embed links",
+        "embedLinksHint": "Fi àwọn àkótán ọ̀nà-ìjápọ̀ hàn",
+        "addMembers": "Fi àwọn ọmọ ẹgbẹ́ kún un",
+        "addMembersHint": "Pín àwùjọ náà pẹ̀lú àwọn ẹlòmíràn",
+        "createEvents": "Ṣẹ̀dá àwọn ìṣẹ̀lẹ̀",
+        "createEventsHint": "Ṣètò àwọn ìṣẹ̀lẹ̀ ìlú",
+        "changeInfoMemberHint": "Ṣàtúnṣe orúkọ àti àpèjúwe àwùjọ náà",
         "changeInfo": "Ṣe ayipada alaye agbegbe",
         "changeInfoHint": "Ṣatunkọ orukọ, apejuwe, avatar ati asia",
         "deleteMessages": "Pa awọn ifiranṣẹ rẹ",
@@ -7105,12 +7175,41 @@
       "noInvites": "Kò sí ìjápọ̀ ìpẹ̀yà tí ó wà. Ṣẹda kan láti pe àwọn ènìyàn taara.",
       "permissionsUpdated": "Ìmúlò àṣẹ ti yípadà",
       "slowModeUpdated": "Ìmúlò àkúnya tó lọ́ọ̀dọ̀ yípadà",
-      "slowMode":{"off":"Pa","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 miniti","fiveMinutes":"Ìṣẹ́jú 5","fifteenMinutes":"Ìṣẹ́jú 15","oneHour":"1 wakati"},"slowModeOffHint": "Àwọn ọmọ ẹgbẹ́ lè fi ifiranṣẹ ranṣẹ́ láì ní ìdákẹ́jẹ̀.",
+      "slowMode": {
+        "off": "Pa",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 miniti",
+        "fiveMinutes": "Ìṣẹ́jú 5",
+        "fifteenMinutes": "Ìṣẹ́jú 15",
+        "oneHour": "1 wakati"
+      },
+      "slowModeOffHint": "Àwọn ọmọ ẹgbẹ́ lè fi ifiranṣẹ ranṣẹ́ láì ní ìdákẹ́jẹ̀.",
       "slowModeOnHint": "Àwọn ọmọ ẹgbẹ́ lè fi ifiranṣẹ kan ranṣẹ́ ní gbogbo {{label}}. Àwọn alákóso kò ní ìdákẹ́jẹ̀.",
       "defaultPermissions": "Ìmúlò àṣẹ ọmọ ẹgbẹ́ àtẹ̀jáde",
       "defaultPermissionsHint": "Ohun tí gbogbo ènìyàn lè ṣe nibi bí kò bá sí àṣẹ alákóso tó sọ pé kì í ṣe bẹ́ẹ̀.",
       "slowModeTitle": "Ìmúlò àkúnya",
-      "log": {"verbs":{"promote_admin":"tí a gbé lárugẹ","demote_admin":"ti a ti kọ silẹ","transfer_ownership":"gbe nini rẹ lọ si","ban_member":"ti a ti fi ofin de","unban_member":"ti yọkuro idinamọ","kick_member":"a ti yọ ọ́ kúrò","mute_member":"Ọjọ","unmute_member":"tí a ṣí ohùn rẹ̀","approve_member":"approved","reject_member":"kọ̀","delete_message":"pa àtẹ̀jísẹ́ kan kúrò","purge_messages":"pa gbogbo ìránṣẹ́ rẹ́ láti ọ̀dọ̀","pin_message":"ti fi àtẹ̀jíṣẹ́ kan sínú àkọsílẹ̀","unpin_message":"unpinned a ifiranṣẹ lati","update_settings":"ti ṣe imudojuiwọn awọn eto agbegbe","create_invite":"ṣẹ̀dá ọ̀nà ìsopọ̀ ìkésíni","revoke_invite":"ti fagilé ọ̀nà àsopọ̀ ìkésíni","invite_used":"invited"},
+      "log": {
+        "verbs": {
+          "promote_admin": "tí a gbé lárugẹ",
+          "demote_admin": "ti a ti kọ silẹ",
+          "transfer_ownership": "gbe nini rẹ lọ si",
+          "ban_member": "ti a ti fi ofin de",
+          "unban_member": "ti yọkuro idinamọ",
+          "kick_member": "a ti yọ ọ́ kúrò",
+          "mute_member": "Ọjọ",
+          "unmute_member": "tí a ṣí ohùn rẹ̀",
+          "approve_member": "approved",
+          "reject_member": "kọ̀",
+          "delete_message": "pa àtẹ̀jísẹ́ kan kúrò",
+          "purge_messages": "pa gbogbo ìránṣẹ́ rẹ́ láti ọ̀dọ̀",
+          "pin_message": "ti fi àtẹ̀jíṣẹ́ kan sínú àkọsílẹ̀",
+          "unpin_message": "unpinned a ifiranṣẹ lati",
+          "update_settings": "ti ṣe imudojuiwọn awọn eto agbegbe",
+          "create_invite": "ṣẹ̀dá ọ̀nà ìsopọ̀ ìkésíni",
+          "revoke_invite": "ti fagilé ọ̀nà àsopọ̀ ìkésíni",
+          "invite_used": "invited"
+        },
         "justNow": "lónìí",
         "minutesAgo": "{{value}}m ṣáájú",
         "hoursAgo": "{{value}}h ṣáájú",
@@ -13567,53 +13666,52 @@
     "cinema": {
       "close": "Pàdé",
       "performance": {
-        "label": "Ìṣẹ́",
         "0": "Ayọ̀",
         "1": "Ìbànújẹ́",
         "2": "Àníyàn",
         "3": "Ìgboyà",
         "4": "Ìyàlẹ́nu",
         "5": "Ìkóraẹnimú",
-        "6": "Ẹ̀fẹ̀"
+        "6": "Ẹ̀fẹ̀",
+        "label": "Ìṣẹ́"
       },
       "title": "Ìtọ́sọ́nà sinimá",
       "hint": "Tọ́ àṣà ìrísí àwòrán tàbí fídíò rẹ tó kàn sọ́nà. Àbájáde yàtọ̀ ní ìbámu pẹ̀lú àwòṣe.",
       "none": "Kò sí ìtọ́sọ́nà",
       "reset": "Pa ìtọ́sọ́nà rẹ́",
       "camera": {
-        "label": "Ìrísí kámẹ́rà",
         "0": "Sinimá oní-nọ́ńbà",
         "1": "Fíìmù 35mm",
         "2": "Fíìmù 16mm",
         "3": "Ọ̀nà ńlá",
-        "4": "Camcorder àtijọ́"
+        "4": "Camcorder àtijọ́",
+        "label": "Ìrísí kámẹ́rà"
       },
       "lens": {
-        "label": "Ìrísí lẹ́ńsì",
         "0": "Ròbótó",
         "1": "Anamorphic",
         "2": "Gíláàsì rírọ̀ àtijọ́",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Ìrísí lẹ́ńsì"
       },
       "focalLength": {
-        "label": "Gígùn ìfojúsùn",
         "0": "18mm fífẹ̀",
         "1": "24mm fífẹ̀",
         "2": "35mm àdánidá",
         "3": "50mm àṣà",
         "4": "85mm àwòrán ojú",
-        "5": "135mm ìwòjìnnà"
+        "5": "135mm ìwòjìnnà",
+        "label": "Gígùn ìfojúsùn"
       },
       "aperture": {
-        "label": "Ìjìnlẹ̀ ìfojúsùn",
         "0": "f/1.4 kò jìn rárá",
         "1": "f/2.8 kò jìn",
         "2": "f/5.6 ààrin",
-        "3": "f/11 ìfojúsùn jíjìn"
+        "3": "f/11 ìfojúsùn jíjìn",
+        "label": "Ìjìnlẹ̀ ìfojúsùn"
       },
       "movement": {
-        "label": "Ìrìn kámẹ́rà",
         "0": "Lórí ẹsẹ̀ mẹ́ta láìmì",
         "1": "Dolly wọlé díẹ̀díẹ̀",
         "2": "Dolly jáde díẹ̀díẹ̀",
@@ -13621,27 +13719,27 @@
         "4": "Yí ká kókó",
         "5": "Ní ọwọ́",
         "6": "Gíga crane",
-        "7": "Pan díẹ̀díẹ̀"
+        "7": "Pan díẹ̀díẹ̀",
+        "label": "Ìrìn kámẹ́rà"
       },
       "lighting": {
-        "label": "Ìmọ́lẹ̀",
         "0": "Ìmọ́lẹ̀ ọ̀sán rírọ̀",
         "1": "Wákàtí wúrà",
         "2": "Chiaroscuro òkùnkùn",
         "3": "Studio onímọ́lẹ̀ gíga",
         "4": "Ìmọ́lẹ̀ neon",
         "5": "Ìmọ́lẹ̀ ẹ̀yìn òjìji",
-        "6": "Ìkùukùu tí ó tàn ká"
+        "6": "Ìkùukùu tí ó tàn ká",
+        "label": "Ìmọ́lẹ̀"
       },
       "tempo": {
-        "label": "Ìyára ìyàwòrán",
         "0": "Ìyàwòrán kan tí kò dúró",
         "1": "Ìṣe tó parọ́rọ́, láìkánjú",
         "2": "Ìṣe alágbára, tó kún fún agbára",
-        "3": "Ìṣe rúdurùdu, oníwàdùwàdù"
+        "3": "Ìṣe rúdurùdu, oníwàdùwàdù",
+        "label": "Ìyára ìyàwòrán"
       },
       "era": {
-        "label": "Àsìkò",
         "0": "Ọdún 1920",
         "1": "Ọdún 1950",
         "2": "Ọdún 1960",
@@ -13649,10 +13747,10 @@
         "4": "Ọdún 1980",
         "5": "Ọdún 1990",
         "6": "Àsìkò yìí",
-        "7": "Ọjọ́ iwájú tó súnmọ́"
+        "7": "Ọjọ́ iwájú tó súnmọ́",
+        "label": "Àsìkò"
       },
       "genre": {
-        "label": "Irú",
         "0": "Àkọsílẹ̀ òtítọ́",
         "1": "Eré onítàn",
         "2": "Film noir",
@@ -13660,16 +13758,17 @@
         "4": "Ìtàn àròsọ",
         "5": "Eré ìfẹ́ apanilẹ́rìn-ín",
         "6": "Eré ìbẹ̀rù",
-        "7": "Eré Western"
+        "7": "Eré Western",
+        "label": "Irú"
       },
       "palette": {
-        "label": "Àkójọ àwọ̀",
         "0": "Amber gbígbóná",
         "1": "Búlúù tútù",
         "2": "Àwọ̀ ilẹ̀ tí kò tàn",
         "3": "Pastel",
         "4": "Àwọ̀ kan ṣoṣo oníyàtọ̀ gíga",
-        "5": "Àwọ̀ ìpìlẹ̀ tó kún"
+        "5": "Àwọ̀ ìpìlẹ̀ tó kún",
+        "label": "Àkójọ àwọ̀"
       }
     },
     "audioNoSpeech": "A kò rí ọ̀rọ̀ kankan nínú àkọsílẹ̀ náà.",

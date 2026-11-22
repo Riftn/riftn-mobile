@@ -1,5 +1,60 @@
 {
-  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "An ɓoye har sai sun danna shi", "scrub": "Duba bidiyon gaba-gaba", "addMore": "Ƙara hoto ko bidiyo", "coverAria": "Danna fuskoki don saita rufin", "trimHint": "Ja ƙarshe don yanke", "coverHint": "Danna wani frame don sanya shi a matsayin rufin", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "Suna ganin shi nan da nan", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "An ɓoye har sai sun danna shi", "hidePrice": "Boye a bayan farashi", "hidePriceBody": "An ɓata hoton har sai sun biya ka", "priceUnavailable": "Ba a cikin wannan hira ba", "priceLabelUsd": "Price", "priceHint": "Suna ganin sa a hargitse har sai sun biya ka. Abubuwan da aka kulle ba su da tsarin ɓoye saƙonni na ƙarshe zuwa ƙarshe (end-to-end encryption).", "timerOffBody": "Yana nan a cikin hira.", "timerViewBody": "Zai ɓace ga ku duka biyun da zarar sun gani.", "confirm": "Tabbatar", "editItem": "Gyara abu {{value1}}", "coverSet": "Murfin a {{value1}}", "lockedForUsd": "Buɗe don {{value1}}", "timerTimeBody": "Zai ɓace ga ku duka biyun {{value1}} bayan ka tura shi."},
+  "dmVideo": {
+    "cover": "Cover",
+    "trim": "Trim",
+    "mirror": "Mirror",
+    "rotate": "Rotate",
+    "hide": "Hide",
+    "timer": "Timer",
+    "close": "Close",
+    "photo": "Photo",
+    "remove": "Remove",
+    "pause": "Pause",
+    "play": "Play video",
+    "hiddenUntilTap": "An ɓoye har sai sun danna shi",
+    "scrub": "Duba bidiyon gaba-gaba",
+    "addMore": "Ƙara hoto ko bidiyo",
+    "coverAria": "Danna fuskoki don saita rufin",
+    "trimHint": "Ja ƙarshe don yanke",
+    "coverHint": "Danna wani frame don sanya shi a matsayin rufin",
+    "mirrored": "Mirrored",
+    "original": "Original",
+    "rotate90": "Rotate 90°",
+    "timerOff": "Off",
+    "showNormally": "Show normally",
+    "showNormallyBody": "Suna ganin shi nan da nan",
+    "hideUntilTap": "Hide until tapped",
+    "hideUntilTapBody": "An ɓoye har sai sun danna shi",
+    "hidePrice": "Boye a bayan farashi",
+    "hidePriceBody": "An ɓata hoton har sai sun biya ka",
+    "priceUnavailable": "Ba a cikin wannan hira ba",
+    "priceLabelUsd": "Price",
+    "priceHint": "Suna ganin sa a hargitse har sai sun biya ka. Abubuwan da aka kulle ba su da tsarin ɓoye saƙonni na ƙarshe zuwa ƙarshe (end-to-end encryption).",
+    "timerOffBody": "Yana nan a cikin hira.",
+    "timerViewBody": "Zai ɓace ga ku duka biyun da zarar sun gani.",
+    "confirm": "Tabbatar",
+    "editItem": "Gyara abu {{value1}}",
+    "coverSet": "Murfin a {{value1}}",
+    "lockedForUsd": "Buɗe don {{value1}}",
+    "timerTimeBody": "Zai ɓace ga ku duka biyun {{value1}} bayan ka tura shi.",
+    "destruct": {
+      "3600": "1 awa",
+      "43200": "Sa'o'i 12",
+      "31536000": "1 shekara",
+      "view": "kallo 1"
+    },
+    "destructShort": {
+      "60": "miliyan 1",
+      "3600": "awa 1",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "shekara 1",
+      "view": "kallo 1"
+    },
+    "destructSecs": "{{n}} daƙiƙa",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Iyaka",
     "theme": "Jigo",
@@ -7026,7 +7081,18 @@
       "moveRuleUp": "Daga sama da doka",
       "moveRuleDown": "Daga ƙasa da doka",
       "deleteRule": "Share doka",
-      "rights": {"sendMessages":"Aika saƙonni","sendMessagesHint":"Post a cikin tattaunawar al'umma","sendMedia":"Aika kafofin watsa labarai","sendMediaHint":"Haɗa hotuna da GIFs","embedLinks":"Saka hanyoyin haɗi","embedLinksHint":"Nuna samfotin hanyar haɗi","addMembers":"Add members","addMembersHint":"Raba al'ummar da wasu","createEvents":"Ƙirƙiri abubuwan da suka faru","createEventsHint":"Tsara abubuwan al'umma","changeInfoMemberHint":"Shirya sunan al'umma da bayanin",
+      "rights": {
+        "sendMessages": "Aika saƙonni",
+        "sendMessagesHint": "Post a cikin tattaunawar al'umma",
+        "sendMedia": "Aika kafofin watsa labarai",
+        "sendMediaHint": "Haɗa hotuna da GIFs",
+        "embedLinks": "Saka hanyoyin haɗi",
+        "embedLinksHint": "Nuna samfotin hanyar haɗi",
+        "addMembers": "Add members",
+        "addMembersHint": "Raba al'ummar da wasu",
+        "createEvents": "Ƙirƙiri abubuwan da suka faru",
+        "createEventsHint": "Tsara abubuwan al'umma",
+        "changeInfoMemberHint": "Shirya sunan al'umma da bayanin",
         "changeInfo": "Canza bayanin al'umma",
         "changeInfoHint": "Gyara suna, bayani, avatar da banner",
         "deleteMessages": "Share saƙonni",
@@ -7104,12 +7170,41 @@
       "noInvites": "Babu hanyoyin gayyata tukuna. Ƙirƙiri ɗaya don gayyatar mutane kai tsaye.",
       "permissionsUpdated": "An sabunta izini",
       "slowModeUpdated": "An sabunta yanayin jinkiri",
-      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 minti","fifteenMinutes":"15 minti","oneHour":"1 awa"},"slowModeOffHint": "Membobi za su iya aika saƙonni ba tare da jinkiri ba.",
+      "slowMode": {
+        "off": "Off",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 minti",
+        "fifteenMinutes": "15 minti",
+        "oneHour": "1 awa"
+      },
+      "slowModeOffHint": "Membobi za su iya aika saƙonni ba tare da jinkiri ba.",
       "slowModeOnHint": "Membobi za su iya aika saƙo ɗaya kowane {{label}}. Masu gudanarwa ba sa cikin wannan.",
       "defaultPermissions": "Izinin membobi na asali",
       "defaultPermissionsHint": "Abin da kowa zai iya yi a nan sai dai idan dama ta mai gudanarwa ta ce in ba haka ba.",
       "slowModeTitle": "Yanayin jinkiri",
-      "log": {"verbs":{"promote_admin":"an tallata","demote_admin":"aka demoted","transfer_ownership":"ya miƙa mallaka ga","ban_member":"an dakatar da kai","unban_member":"unbanned","kick_member":"an cire","mute_member":"mufatari","unmute_member":"an kunna sauti","approve_member":"an amince","reject_member":"an ƙi amincewa","delete_message":"share sako daga","purge_messages":"ya goge duk saƙonni daga","pin_message":"ya yi pin din sako daga","unpin_message":"uninned wani sako daga","update_settings":"sabunta saitunan al'umma","create_invite":"halitta wani gayyatar mahada","revoke_invite":"an soke hanyar haɗin gayyata","invite_used":"gayyata"},
+      "log": {
+        "verbs": {
+          "promote_admin": "an tallata",
+          "demote_admin": "aka demoted",
+          "transfer_ownership": "ya miƙa mallaka ga",
+          "ban_member": "an dakatar da kai",
+          "unban_member": "unbanned",
+          "kick_member": "an cire",
+          "mute_member": "mufatari",
+          "unmute_member": "an kunna sauti",
+          "approve_member": "an amince",
+          "reject_member": "an ƙi amincewa",
+          "delete_message": "share sako daga",
+          "purge_messages": "ya goge duk saƙonni daga",
+          "pin_message": "ya yi pin din sako daga",
+          "unpin_message": "uninned wani sako daga",
+          "update_settings": "sabunta saitunan al'umma",
+          "create_invite": "halitta wani gayyatar mahada",
+          "revoke_invite": "an soke hanyar haɗin gayyata",
+          "invite_used": "gayyata"
+        },
         "justNow": "yanzu-yanzu",
         "minutesAgo": "{{value}}m da suka wuce",
         "hoursAgo": "{{value}}h da suka wuce",
@@ -13566,53 +13661,52 @@
     "cinema": {
       "close": "Rufe",
       "performance": {
-        "label": "Aiki",
         "0": "Mai farin ciki",
         "1": "Mai baƙin ciki",
         "2": "Mai damuwa",
         "3": "Mai ƙarfin gwiwa",
         "4": "Mai mamaki",
         "5": "Mai kamewa",
-        "6": "Mai wasa"
+        "6": "Mai wasa",
+        "label": "Aiki"
       },
       "title": "Jagorancin silima",
       "hint": "Jagoranci salon gani na hotonka ko bidiyonka na gaba. Sakamako ya bambanta bisa samfuri.",
       "none": "Babu jagoranci",
       "reset": "Share jagoranci",
       "camera": {
-        "label": "Kallon kyamara",
         "0": "Silima na dijital",
         "1": "Fim na 35mm",
         "2": "Fim na 16mm",
         "3": "Babban tsari",
-        "4": "Tsohuwar kyamarar bidiyo"
+        "4": "Tsohuwar kyamarar bidiyo",
+        "label": "Kallon kyamara"
       },
       "lens": {
-        "label": "Kallon ruwan tabarau",
         "0": "Mai zagaye",
         "1": "Anamorphic",
         "2": "Tsohon gilashi mai laushi",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Kallon ruwan tabarau"
       },
       "focalLength": {
-        "label": "Tsawon mayar da hankali",
         "0": "18mm mai faɗi",
         "1": "24mm mai faɗi",
         "2": "35mm na halitta",
         "3": "50mm na yau da kullum",
         "4": "85mm hoton fuska",
-        "5": "135mm na nesa"
+        "5": "135mm na nesa",
+        "label": "Tsawon mayar da hankali"
       },
       "aperture": {
-        "label": "Zurfin fili",
         "0": "f/1.4 mara zurfi sosai",
         "1": "f/2.8 mara zurfi",
         "2": "f/5.6 matsakaici",
-        "3": "f/11 zurfin mayar da hankali"
+        "3": "f/11 zurfin mayar da hankali",
+        "label": "Zurfin fili"
       },
       "movement": {
-        "label": "Motsin kyamara",
         "0": "Tripod a tsaye",
         "1": "Dolly a hankali zuwa ciki",
         "2": "Dolly a hankali zuwa waje",
@@ -13620,27 +13714,27 @@
         "4": "Zagaya abin da ake ɗauka",
         "5": "Riƙe da hannu",
         "6": "Tashin crane",
-        "7": "Juyawa a hankali"
+        "7": "Juyawa a hankali",
+        "label": "Motsin kyamara"
       },
       "lighting": {
-        "label": "Haske",
         "0": "Hasken rana mai laushi",
         "1": "Lokacin zinariya",
         "2": "Chiaroscuro mai duhu",
         "3": "Studio mai haske",
         "4": "Fitilun neon",
         "5": "Hasken baya na inuwa",
-        "6": "Haske mai yaɗuwa na gajimare"
+        "6": "Haske mai yaɗuwa na gajimare",
+        "label": "Haske"
       },
       "tempo": {
-        "label": "Saurin harbi",
         "0": "Harbi ɗaya ba tare da tsayawa ba",
         "1": "Aiki mai natsuwa, ba gaggawa",
         "2": "Aiki mai kuzari da ƙarfi",
-        "3": "Aiki mai rikici da hargitsi"
+        "3": "Aiki mai rikici da hargitsi",
+        "label": "Saurin harbi"
       },
       "era": {
-        "label": "Zamani",
         "0": "Shekarun 1920",
         "1": "Shekarun 1950",
         "2": "Shekarun 1960",
@@ -13648,10 +13742,10 @@
         "4": "Shekarun 1980",
         "5": "Shekarun 1990",
         "6": "Zamanin yanzu",
-        "7": "Nan gaba kaɗan"
+        "7": "Nan gaba kaɗan",
+        "label": "Zamani"
       },
       "genre": {
-        "label": "Nau'i",
         "0": "Fim na gaskiya",
         "1": "Wasan kwaikwayo",
         "2": "Film noir",
@@ -13659,16 +13753,17 @@
         "4": "Tatsuniya",
         "5": "Barkwancin soyayya",
         "6": "Mai ban tsoro",
-        "7": "Na yammacin Amurka"
+        "7": "Na yammacin Amurka",
+        "label": "Nau'i"
       },
       "palette": {
-        "label": "Tsarin launuka",
         "0": "Amber mai ɗumi",
         "1": "Shuɗi mai sanyi",
         "2": "Launukan ƙasa marasa haske",
         "3": "Pastel",
         "4": "Baƙi da fari mai bambanci sosai",
-        "5": "Launuka na asali masu ƙarfi"
+        "5": "Launuka na asali masu ƙarfi",
+        "label": "Tsarin launuka"
       }
     },
     "audioNoSpeech": "Ba a sami magana a cikin wannan rikodin ba.",

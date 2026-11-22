@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Qola", "trim": "Murii", "mirror": "Ilaalii", "rotate": "Naannessi", "hide": "Dhoksi", "timer": "Yeroo", "close": "Cufi", "photo": "Suuraa", "remove": "Haqi", "pause": "Dhaabi", "play": "Viidiyoo taphachiisi", "hiddenUntilTap": "Hanga isaan tuqanitti dhokataa dha", "scrub": "Viidiyoo keessa darbi", "addMore": "Suuraa ykn viidiyoo itti dabali", "coverAria": "Qola ta'uuf firaamee tokko tuqi", "trimHint": "Muruf qarqara isaa harkisi", "coverHint": "Qola akka ta'uuf firaamee tokko tuqi", "uploadCover": "Suuraa qolaa fe'i", "mirrored": "Ilaalii (Mirror)", "original": "Asli", "rotate90": "Digrii 90 naannessi", "timerOff": "Hojiin ala", "showNormally": "Akkuma idileetti argisiisi", "showNormallyBody": "Isaan battalumatti argu", "hideUntilTap": "Hanga tuqamutti dhoksi", "hideUntilTapBody": "Hanga isaan tuqanitti hafuuraa (blurred) ta'a", "hidePrice": "Gatii duuba dhoksi", "hidePriceBody": "Hanga isaan siif kaffalanitti hafuuraa (blurred) ta'a", "priceUnavailable": "Chat kana keessa miti", "priceLabelUsd": "Gatii", "priceHint": "Hanga si kaffalanitti ifa hin ta'in isaanitti mul'ata. Wantoonni cufaman dhuma-haga-dhumaatti hin sirreessine (end-to-end encrypted).", "timerOffBody": "Chat keessatti hafa.", "timerViewBody": "Erga isaan ilaalanii booda isin lamaanuuf ni bada.", "confirm": "Mirkaneessi", "editItem": "Wanticha gulaali {{value1}}", "coverSet": "Qubannoo {{value1}} irratti", "lockedForUsd": "{{value1}}f bani", "timerTimeBody": "Erga ergitee booda {{value1}} isin lamaanuuf ni bada."},
+  "dmVideo": {
+    "cover": "Qola",
+    "trim": "Murii",
+    "mirror": "Ilaalii",
+    "rotate": "Naannessi",
+    "hide": "Dhoksi",
+    "timer": "Yeroo",
+    "close": "Cufi",
+    "photo": "Suuraa",
+    "remove": "Haqi",
+    "pause": "Dhaabi",
+    "play": "Viidiyoo taphachiisi",
+    "hiddenUntilTap": "Hanga isaan tuqanitti dhokataa dha",
+    "scrub": "Viidiyoo keessa darbi",
+    "addMore": "Suuraa ykn viidiyoo itti dabali",
+    "coverAria": "Qola ta'uuf firaamee tokko tuqi",
+    "trimHint": "Muruf qarqara isaa harkisi",
+    "coverHint": "Qola akka ta'uuf firaamee tokko tuqi",
+    "uploadCover": "Suuraa qolaa fe'i",
+    "mirrored": "Ilaalii (Mirror)",
+    "original": "Asli",
+    "rotate90": "Digrii 90 naannessi",
+    "timerOff": "Hojiin ala",
+    "showNormally": "Akkuma idileetti argisiisi",
+    "showNormallyBody": "Isaan battalumatti argu",
+    "hideUntilTap": "Hanga tuqamutti dhoksi",
+    "hideUntilTapBody": "Hanga isaan tuqanitti hafuuraa (blurred) ta'a",
+    "hidePrice": "Gatii duuba dhoksi",
+    "hidePriceBody": "Hanga isaan siif kaffalanitti hafuuraa (blurred) ta'a",
+    "priceUnavailable": "Chat kana keessa miti",
+    "priceLabelUsd": "Gatii",
+    "priceHint": "Hanga si kaffalanitti ifa hin ta'in isaanitti mul'ata. Wantoonni cufaman dhuma-haga-dhumaatti hin sirreessine (end-to-end encrypted).",
+    "timerOffBody": "Chat keessatti hafa.",
+    "timerViewBody": "Erga isaan ilaalanii booda isin lamaanuuf ni bada.",
+    "confirm": "Mirkaneessi",
+    "editItem": "Wanticha gulaali {{value1}}",
+    "coverSet": "Qubannoo {{value1}} irratti",
+    "lockedForUsd": "{{value1}}f bani",
+    "timerTimeBody": "Erga ergitee booda {{value1}} isin lamaanuuf ni bada.",
+    "destruct": {
+      "60": "daqiiqaa 1",
+      "3600": "sa'aatii 1",
+      "43200": "sa'aatii 12",
+      "86400": "guyyaa 1",
+      "604800": "torban 1",
+      "31536000": "waggaa 1",
+      "view": "ilaallii 1"
+    },
+    "destructShort": {
+      "60": "daq 1",
+      "3600": "sa' 1",
+      "43200": "sa' 12",
+      "86400": "guy 1",
+      "604800": "tor 1",
+      "31536000": "wag 1",
+      "view": "ilaallii 1"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Daangaa",
     "theme": "Mata duree",
@@ -7039,7 +7098,18 @@
       "moveRuleUp": "Labsii ol fudhi",
       "moveRuleDown": "Labsii gadi fudhi",
       "deleteRule": "Labsii balleesi",
-      "rights": {"sendMessages":"Ergaawwan ergi","sendMessagesHint":"Chat hawaasaa keessatti maxxansaa","sendMedia":"Miidiyaa ergi","sendMediaHint":"Fakkiiwwanii fi GIFwwan walitti qabsiisi","embedLinks":"Geessituuwwan (links) gadi fageessi","embedLinksHint":"Ilaalcha geessituu agarsiisi","addMembers":"Miseensota dabali","addMembersHint":"Hawaasa namoota biroof qoodaa","createEvents":"Taateewwan uumuu","createEventsHint":"Taateewwan hawaasaa saganteessi","changeInfoMemberHint":"Maqaa fi ibsa hawaasaa gulaali",
+      "rights": {
+        "sendMessages": "Ergaawwan ergi",
+        "sendMessagesHint": "Chat hawaasaa keessatti maxxansaa",
+        "sendMedia": "Miidiyaa ergi",
+        "sendMediaHint": "Fakkiiwwanii fi GIFwwan walitti qabsiisi",
+        "embedLinks": "Geessituuwwan (links) gadi fageessi",
+        "embedLinksHint": "Ilaalcha geessituu agarsiisi",
+        "addMembers": "Miseensota dabali",
+        "addMembersHint": "Hawaasa namoota biroof qoodaa",
+        "createEvents": "Taateewwan uumuu",
+        "createEventsHint": "Taateewwan hawaasaa saganteessi",
+        "changeInfoMemberHint": "Maqaa fi ibsa hawaasaa gulaali",
         "changeInfo": "Gabaafa waldaa jijjir",
         "changeInfoHint": "Maqaa, ibsa, avatar fi banner jijjir",
         "deleteMessages": "Gabaafota balleesi",
@@ -7117,12 +7187,41 @@
       "noInvites": "Akkamii linki erga hin qabne. Namoota bilisummaa itti waamuuuf tokko uumi.",
       "permissionsUpdated": "Hayyamootni haaromfamaniiru",
       "slowModeUpdated": "Akkamii bilisummaa haaromfame",
-      "slowMode":{"off":"Hojiin ala","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"Daqiiqaa 1","fiveMinutes":"5 minitti.","fifteenMinutes":"15 min","oneHour":"Sa'aatii 1"},"slowModeOffHint": "Miseensonni ergaa osoo hin turin erguu danda'u.",
+      "slowMode": {
+        "off": "Hojiin ala",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "Daqiiqaa 1",
+        "fiveMinutes": "5 minitti.",
+        "fifteenMinutes": "15 min",
+        "oneHour": "Sa'aatii 1"
+      },
+      "slowModeOffHint": "Miseensonni ergaa osoo hin turin erguu danda'u.",
       "slowModeOnHint": "Miseensonni ergaa tokko {{label}} booda erguu danda'u. Adminni bilisummaa qabu.",
       "defaultPermissions": "Hayyamootni miseensotaa bu'uuraa",
       "defaultPermissionsHint": "Namootni hundi as irratti maal gochuu danda'an hayyamootni admin yoo itti hin jenne.",
       "slowModeTitle": "Akkamiin bilisummaa",
-      "log": {"verbs":{"promote_admin":"beeksifame","demote_admin":"sadarkaan gadi bu'e","transfer_ownership":"abbummaa gara","ban_member":"dhorkamee jira","unban_member":"unbanned","kick_member":"haqameera","mute_member":"dubbii dhabe","unmute_member":"sagalee baname","approve_member":"mirkanaa'eera","reject_member":"didame","delete_message":"ergaa tokko haqeera","purge_messages":"ergaawwan hunda haqeera","pin_message":"ergaa tokko pin godhe","unpin_message":"ergaa tokko gadi hiikeera","update_settings":"qindiiwwan hawaasaa haaromseera","create_invite":"geessituu affeerraa uume","revoke_invite":"geejjiba affeerraa haqeera","invite_used":"affeerameera"},
+      "log": {
+        "verbs": {
+          "promote_admin": "beeksifame",
+          "demote_admin": "sadarkaan gadi bu'e",
+          "transfer_ownership": "abbummaa gara",
+          "ban_member": "dhorkamee jira",
+          "unban_member": "unbanned",
+          "kick_member": "haqameera",
+          "mute_member": "dubbii dhabe",
+          "unmute_member": "sagalee baname",
+          "approve_member": "mirkanaa'eera",
+          "reject_member": "didame",
+          "delete_message": "ergaa tokko haqeera",
+          "purge_messages": "ergaawwan hunda haqeera",
+          "pin_message": "ergaa tokko pin godhe",
+          "unpin_message": "ergaa tokko gadi hiikeera",
+          "update_settings": "qindiiwwan hawaasaa haaromseera",
+          "create_invite": "geessituu affeerraa uume",
+          "revoke_invite": "geejjiba affeerraa haqeera",
+          "invite_used": "affeerameera"
+        },
         "justNow": "Akkamii",
         "minutesAgo": "{{value}}m dura",
         "hoursAgo": "{{value}}h dura",
@@ -13616,53 +13715,52 @@
     "cinema": {
       "close": "Cufi",
       "performance": {
-        "label": "Ga'umsa",
         "0": "Gammachuu",
         "1": "Gaddaa",
         "2": "Yaaddoo",
         "3": "Ofitti amanamummaa",
         "4": "Dinqisiifannaa",
         "5": "Of qusachuu",
-        "6": "Taphataa"
+        "6": "Taphataa",
+        "label": "Ga'umsa"
       },
       "title": "Qajeelfama fiilmii",
       "hint": "Akkaataa mul'ataa suuraa ykn viidiyoo kee itti aanuu qajeelchi. Bu'aan moodeelaan adda adda.",
       "none": "Qajeelfama malee",
       "reset": "Qajeelfama qulqulleessi",
       "camera": {
-        "label": "Bifa kaameraa",
         "0": "Fiilmii dijitaalaa",
         "1": "Fiilmii 35mm",
         "2": "Fiilmii 16mm",
         "3": "Bifa guddaa",
-        "4": "Kaamkoordarii durii"
+        "4": "Kaamkoordarii durii",
+        "label": "Bifa kaameraa"
       },
       "lens": {
-        "label": "Bifa leensii",
         "0": "Geengoo",
         "1": "Anamorphic",
         "2": "Galaasa lallaafaa durii",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Bifa leensii"
       },
       "focalLength": {
-        "label": "Dheerina fookasii",
         "0": "18mm bal'aa",
         "1": "24mm bal'aa",
         "2": "35mm uumamaa",
         "3": "50mm idilee",
         "4": "85mm suuraa fuulaa",
-        "5": "135mm fagoo"
+        "5": "135mm fagoo",
+        "label": "Dheerina fookasii"
       },
       "aperture": {
-        "label": "Gadi fageenya ijaa",
         "0": "f/1.4 baay'ee gadi hin fagaanne",
         "1": "f/2.8 gadi hin fagaanne",
         "2": "f/5.6 giddugaleessa",
-        "3": "f/11 fookasii gadi fagoo"
+        "3": "f/11 fookasii gadi fagoo",
+        "label": "Gadi fageenya ijaa"
       },
       "movement": {
-        "label": "Sochii kaameraa",
         "0": "Tripodii dhaabbataa",
         "1": "Suuta gara keessaatti dhiyaachuu",
         "2": "Suuta gara alaatti fagaachuu",
@@ -13670,27 +13768,27 @@
         "4": "Wanta naanna'uu",
         "5": "Harkaan qabame",
         "6": "Ol ka'iinsa kireenii",
-        "7": "Suuta naanna'uu"
+        "7": "Suuta naanna'uu",
+        "label": "Sochii kaameraa"
       },
       "lighting": {
-        "label": "Ifa",
         "0": "Ifa guyyaa lallaafaa",
         "1": "Sa'aatii warqee",
         "2": "Ifa gadaanaa chiaroscuro",
         "3": "Istuudiyoo ifa olaanaa",
         "4": "Ifa niyoonii",
         "5": "Ifa duubaa siluweetii",
-        "6": "Duumessaan faca'e"
+        "6": "Duumessaan faca'e",
+        "label": "Ifa"
       },
       "tempo": {
-        "label": "Saffisa suuraa",
         "0": "Suuraa walitti fufaa tokko",
         "1": "Gocha tasgabbaa'aa, hin ariifanne",
         "2": "Gocha jabaa, humna qabu",
-        "3": "Gocha jeequmsaa, ariifataa"
+        "3": "Gocha jeequmsaa, ariifataa",
+        "label": "Saffisa suuraa"
       },
       "era": {
-        "label": "Bara",
         "0": "1920moota",
         "1": "1950moota",
         "2": "1960moota",
@@ -13698,10 +13796,10 @@
         "4": "1980moota",
         "5": "1990moota",
         "6": "Har'a",
-        "7": "Fuula dura dhiyoo"
+        "7": "Fuula dura dhiyoo",
+        "label": "Bara"
       },
       "genre": {
-        "label": "Gosa",
         "0": "Dookumentarii",
         "1": "Diraamaa",
         "2": "Film noir",
@@ -13709,16 +13807,17 @@
         "4": "Fantasii",
         "5": "Komedii jaalalaa",
         "6": "Sodaachisaa",
-        "7": "Western"
+        "7": "Western",
+        "label": "Gosa"
       },
       "palette": {
-        "label": "Halluuwwan",
         "0": "Amber ho'aa",
         "1": "Cuquliisa qorraa",
         "2": "Halluu biyyee laafaa",
         "3": "Pastel",
         "4": "Adii fi gurraacha garaagarummaa olaanaa",
-        "5": "Halluuwwan ijoo cimoo"
+        "5": "Halluuwwan ijoo cimoo",
+        "label": "Halluuwwan"
       }
     },
     "audioNoSpeech": "Waraabicha keessatti sagaleen tokkollee hin argamne.",
