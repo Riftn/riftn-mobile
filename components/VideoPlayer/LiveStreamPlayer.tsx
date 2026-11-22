@@ -51,6 +51,9 @@ import {
 import { toastError, toastSuccess } from "../../libs";
 import { SettingsOptionModal } from "../Settings/SettingsPrimitives";
 import { addStreamModerator, banFromStreams, getStreamBot, timeOutInStream } from "../../services/livechat.service";
+import { liveStreamRows, liveStreamsQuery } from "../../hooks/useLiveStreams";
+import { isAuthorBlocked, useBlockedAuthorsVersion } from "../../libs/blocked-authors";
+import { swipeRooms } from "../../libs/live-swipe-rooms";
 import { useStreamDetails } from "../../hooks/useStreamDetails";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { ScreenNames } from "../../navigation/ScreenNames";
@@ -1568,17 +1571,50 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
         }),
     [hideStart, clearOrCloseKeys],
   );
-  const hideTap = useMemo(
-    () =>
-      Gesture.Tap()
-        .maxDistance(10)
-        .onEnd((_e, success) => {
-          "worklet";
-          if (success) runOnJS(clearOrCloseKeys)();
-        }),
-    [clearOrCloseKeys],
+  // Only the upper, unobstructed picture switches broadcasts. Chat owns its
+  // scroll gestures, and a downward swipe below the picture still clears it.
+  const browseLive = ownerStatus === "viewer" && isLiveEffective && !isEndedEffective && isPlayable;
+  const { data: broadcasts } = useQuery({
+    ...liveStreamsQuery,
+    enabled: browseLive,
+    refetchInterval: browseLive ? 60_000 : false,
+  });
+  const blocksVersion = useBlockedAuthorsVersion();
+  const rooms = useMemo(
+    () => swipeRooms(liveStreamRows(broadcasts), isAuthorBlocked),
+    [broadcasts, blocksVersion],
   );
-  const hideGesture = useMemo(() => Gesture.Race(hidePan, hideTap), [hidePan, hideTap]);
+  const roomIndex = rooms.findIndex((room) => room.streamId === streamId);
+  const canSwitch = browseLive && rooms.length > 1 && roomIndex >= 0;
+  const switching = useRef(false);
+  const switchRoom = useCallback((direction: 1 | -1) => {
+    if (!canSwitch || switching.current || !navigation.isFocused()) return;
+    const index = (roomIndex + direction + rooms.length) % rooms.length;
+    switching.current = true;
+    navigation.replace(ScreenNames.LiveViewer, rooms[index]);
+  }, [canSwitch, navigation, roomIndex, rooms]);
+
+  const makeClearTap = useCallback(() => Gesture.Tap().maxDistance(10)
+    .onEnd((_e, success) => {
+      "worklet";
+      if (success) runOnJS(clearOrCloseKeys)();
+    }), [clearOrCloseKeys]);
+  const pictureGesture = useMemo(() => {
+    const tap = makeClearTap();
+    if (!canSwitch) return tap;
+    const pan = Gesture.Pan().maxPointers(1)
+      .activeOffsetY([-LIVE_DRAG_CLAIM, LIVE_DRAG_CLAIM])
+      .failOffsetX([-LIVE_DRAG_CLAIM, LIVE_DRAG_CLAIM])
+      .onEnd((e, success) => {
+        "worklet";
+        const distance = Math.abs(e.translationY);
+        if (success && distance > LIVE_HIDE_SWIPE && distance > Math.abs(e.translationX)) {
+          runOnJS(switchRoom)(e.translationY < 0 ? 1 : -1);
+        }
+      });
+    return Gesture.Race(pan, tap);
+  }, [canSwitch, makeClearTap, switchRoom]);
+  const hideGesture = useMemo(() => Gesture.Race(hidePan, makeClearTap()), [hidePan, makeClearTap]);
 
   // Rotate, only while cleared. The binary already ships expo-screen-orientation
   // (the old immersive mode used it); a failed lock just leaves the layout as is.
@@ -2090,7 +2126,7 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             picture, so the chat and buttons above keep their own touches. */}
         {!chromeHidden && (
           <>
-            <GestureDetector gesture={hideTap}>
+            <GestureDetector gesture={pictureGesture}>
               <View
                 collapsable={false}
                 style={{ position: "absolute", left: 0, right: 0, top: 0, height: "45%" }}
