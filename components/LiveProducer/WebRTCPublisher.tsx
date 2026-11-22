@@ -1136,6 +1136,40 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
     return () => { cancelled = true; };
   }, [screenSharing, localReady]);
 
+  /*
+   * iPhone: an app in the background cannot use the hardware video encoder.
+   * While a screen share has taken the creator into another app the encoder
+   * keeps being fed frames and emits broken video, which tears down the
+   * viewers' players and the recording (seen 2026-11-22: clean while Riftn was
+   * open, corrupt from the moment it was not). So the picture is taken off the
+   * sender while Riftn is in the background and put back on return; viewers
+   * keep the last frame and the voice carries on.
+   */
+  useEffect(() => {
+    if (Platform.OS !== "ios" || !sharingScreen) return;
+    let paused = false;
+    const sub = AppState.addEventListener("change", (state) => {
+      const sender: any = videoSenderRef.current;
+      const screen: any = screenTrackRef.current;
+      if (!sender || !screen) return;
+      if (state === "background" && !paused) {
+        paused = true;
+        sender.replaceTrack(null).catch(() => {});
+        dbg('screen share: video paused while in background');
+      } else if (state === "active" && paused) {
+        paused = false;
+        sender.replaceTrack(screen).catch(() => {});
+        dbg('screen share: video resumed');
+      }
+    });
+    return () => {
+      sub.remove();
+      if (paused && screenTrackRef.current) {
+        try { videoSenderRef.current?.replaceTrack(screenTrackRef.current).catch(() => {}); } catch {}
+      }
+    };
+  }, [sharingScreen]);
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
@@ -1217,7 +1251,9 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
               {t("live.screenShare.sharing", { defaultValue: "You're sharing your screen" })}
             </Text>
             <Text className="text-white/60 text-xs mt-1 text-center">
-              {t("live.screenShare.hint", { defaultValue: "Viewers see your screen. Tap the screen button to switch back to the camera." })}
+              {Platform.OS === "ios"
+                ? t("live.screenShare.iosHint", { defaultValue: "Viewers see Riftn while it's open. iPhone pauses the picture when you switch apps; your voice keeps going." })
+                : t("live.screenShare.hint", { defaultValue: "Viewers see your screen. Tap the screen button to switch back to the camera." })}
             </Text>
           </View>
         </View>
