@@ -912,21 +912,14 @@ function FeatureRequestsBoard() {
     return () => clearTimeout(id);
   }, [search]);
 
-  const {
-    data,
-    isLoading,
-    isError,
-    refetch,
-    isRefetching,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useFeatureRequests(sort, listCategory, debouncedSearch, authorWallet);
+  const requests = useFeatureRequests(sort, listCategory, debouncedSearch, authorWallet);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = requests;
 
-  const shipped = useShippedFeatures();
-  const inProgress = useInProgressFeatures();
+
+  const shipped = useShippedFeatures(authorWallet);
+  const inProgress = useInProgressFeatures(authorWallet);
   const notFeasible = useNotFeasibleFeatures(authorWallet);
-  const { data: counts } = useFeatureCounts();
+  const { data: counts } = useFeatureCounts(authorWallet);
   const { data: votes } = useUserVotes();
   const voteMutation = useVoteFeatureRequest();
   const submitMutation = useSubmitFeatureRequest();
@@ -1012,20 +1005,9 @@ function FeatureRequestsBoard() {
 
   const keyExtractor = useCallback((f: FeatureRequest) => f.id, []);
 
-  const loading = showNotFeasible
-    ? notFeasible.isLoading
-    : tab === "shipped" ? shipped.isLoading : tab === "shipping" ? inProgress.isLoading : isLoading;
-  const refreshing = showNotFeasible
-    ? notFeasible.isRefetching
-    : tab === "shipped"
-      ? shipped.isRefetching
-      : tab === "shipping"
-        ? inProgress.isRefetching
-        : isRefetching;
-  const onRefresh = showNotFeasible
-    ? notFeasible.refetch
-    : tab === "shipped" ? shipped.refetch : tab === "shipping" ? inProgress.refetch : refetch;
-  const showListError = isError && tab === "requests" && !showNotFeasible;
+  const activeList = showNotFeasible ? notFeasible
+    : tab === "shipped" ? shipped : tab === "shipping" ? inProgress : requests;
+  const { isLoading: loading, isRefetching: refreshing, refetch: onRefresh, isError: showListError } = activeList;
 
   const openSheet = useCallback(() => {
     changeTab("requests");
@@ -1349,7 +1331,7 @@ function FeatureRequestsBoard() {
           ListEmptyComponent={loading ? <View style={styles.center}><DeHubLoader size={56} /></View> : showListError ? (
             <ThemePanel style={[styles.emptyBento, Platform.OS === "android" && skin?.card, isMinimal && minimalFlat]}>
               <Text style={styles.emptyTitle}>{t("features.loadFailed")}</Text>
-              <Pressable onPress={() => refetch()} style={styles.glassBtnSm}>
+              <Pressable onPress={() => onRefresh()} style={styles.glassBtnSm}>
                 <Text style={styles.glassBtnText}>{t("common.retry")}</Text>
               </Pressable>
             </ThemePanel>

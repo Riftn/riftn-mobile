@@ -153,7 +153,7 @@ function invalidateFeatureRows(queryClient: ReturnType<typeof useQueryClient>) {
 }
 
 /** Shipped items are pulled out into their own section, as on web. */
-const SHIPPED_STATUSES = ["completed", "shipped"];
+const SHIPPED_STATUSES: FeatureStatus[] = ["completed", "shipped"];
 
 /**
  * Statuses the Requests list must not show: shipped ones have their own tab,
@@ -233,7 +233,7 @@ export function useFeatureRequests(
     queryFn: async ({ pageParam = 0 }) => {
       let query = supabase.from("feature_requests").select("*");
 
-      if (authorWallet) query = query.eq("author_wallet_address", authorWallet);
+      if (authorWallet) query = query.ilike("author_wallet_address", authorWallet);
       if (category !== "all") query = query.eq("category", category);
 
       const term = search.trim();
@@ -293,36 +293,35 @@ export function useFeatureRequest(id: string | null | undefined) {
   });
 }
 
-export function useShippedFeatures() {
+async function fetchStatusRows(statuses: FeatureStatus[], authorWallet?: string): Promise<FeatureRequest[]> {
+  const rows: FeatureRequest[] = [];
+  const pageSize = 500;
+  // The REST API caps each response. Apply status and author on every page.
+  for (let offset = 0; ; offset += pageSize) {
+    let query = supabase.from("feature_requests").select("*").in("status", statuses);
+    if (authorWallet) query = query.ilike("author_wallet_address", authorWallet);
+    const { data, error } = await query.order("updated_at", { ascending: false })
+      .order("id", { ascending: false }).range(offset, offset + pageSize - 1);
+    if (error) throw error;
+    const page = (data ?? []) as FeatureRequest[];
+    rows.push(...page);
+    if (page.length < pageSize) return rows;
+  }
+}
+
+export function useShippedFeatures(authorWallet?: string) {
   return useQuery({
-    queryKey: ["feature-requests-shipped"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("feature_requests")
-        .select("*")
-        .in("status", SHIPPED_STATUSES)
-        .order("updated_at", { ascending: false });
-      if (error) throw error;
-      return (data || []) as FeatureRequest[];
-    },
+    queryKey: ["feature-requests-shipped", authorWallet],
+    queryFn: () => fetchStatusRows(SHIPPED_STATUSES, authorWallet),
     staleTime: 60_000,
     gcTime: 5 * 60_000,
   });
 }
 
-/** Requests currently being built — the Shipping tab. */
-export function useInProgressFeatures() {
+export function useInProgressFeatures(authorWallet?: string) {
   return useQuery({
-    queryKey: ["feature-requests-in-progress"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("feature_requests")
-        .select("*")
-        .eq("status", "in_progress")
-        .order("updated_at", { ascending: false });
-      if (error) throw error;
-      return (data || []) as FeatureRequest[];
-    },
+    queryKey: ["feature-requests-in-progress", authorWallet],
+    queryFn: () => fetchStatusRows(["in_progress"], authorWallet),
     staleTime: 60_000,
     gcTime: 5 * 60_000,
   });
@@ -332,17 +331,7 @@ export function useInProgressFeatures() {
 export function useNotFeasibleFeatures(authorWallet?: string) {
   return useQuery({
     queryKey: ["feature-requests-not-feasible", authorWallet],
-    queryFn: async () => {
-      let query = supabase
-        .from("feature_requests")
-        .select("*")
-        .eq("status", "declined")
-        .order("updated_at", { ascending: false });
-      if (authorWallet) query = query.eq("author_wallet_address", authorWallet);
-      const { data, error } = await query;
-      if (error) throw error;
-      return (data || []) as FeatureRequest[];
-    },
+    queryFn: () => fetchStatusRows(["declined"], authorWallet),
     staleTime: 60_000,
     gcTime: 5 * 60_000,
   });
@@ -353,16 +342,17 @@ export function useNotFeasibleFeatures(authorWallet?: string) {
  * with the same status filter the list uses, so the badge can never disagree
  * with the rows underneath it.
  */
-export function useFeatureCounts() {
+export function useFeatureCounts(authorWallet?: string) {
   return useQuery({
-    queryKey: ["feature-requests-total-count"],
+    queryKey: ["feature-requests-total-count", authorWallet],
     queryFn: async () => {
+      const count = () => {
+        const query = supabase.from("feature_requests").select("*", { count: "exact", head: true });
+        return authorWallet ? query.ilike("author_wallet_address", authorWallet) : query;
+      };
       const [totalRes, openRes] = await Promise.all([
-        supabase.from("feature_requests").select("*", { count: "exact", head: true }),
-        supabase
-          .from("feature_requests")
-          .select("*", { count: "exact", head: true })
-          .not("status", "in", RESOLVED_STATUSES),
+        count(),
+        count().not("status", "in", RESOLVED_STATUSES),
       ]);
       if (totalRes.error) throw totalRes.error;
       if (openRes.error) throw openRes.error;
