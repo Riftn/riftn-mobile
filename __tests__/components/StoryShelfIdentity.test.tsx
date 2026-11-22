@@ -32,7 +32,7 @@ jest.mock('../../services/stories.service', () => ({}));
 jest.mock('../../store/stories.store', () => ({}));
 jest.mock('../../config/storefront', () => ({}));
 
-it('renders light captions, suppresses the cover blur and respects badge visibility', () => {
+it('renders light captions, shows a sharp opening frame and respects badge visibility', () => {
   let tree!: ReactTestRenderer;
   act(() => { tree = create(<StoryShelf />); });
   const nodes = () => tree.root.findAll(node => typeof node.type === 'string');
@@ -41,12 +41,14 @@ it('renders light captions, suppresses the cover blur and respects badge visibil
     expect(text?.props.style).toContainEqual({ color: '#20242b' });
   }
   expect(nodes().some(node => node.props.source === 42)).toBe(true);
+  expect(nodes().some(node => node.props.source?.uri === 'opening.jpg')).toBe(true);
   expect(nodes().some(node => node.props.blurRadius)).toBe(false);
   act(() => tree.unmount());
   mockAccount.hideBadgeAndBalance = true;
   mockTheme.isLight = false;
   act(() => { tree = create(<StoryShelf />); });
   expect(nodes().some(node => node.props.source === 42)).toBe(false);
-  expect(nodes().some(node => node.props.blurRadius)).toBe(true);
+  expect(nodes().some(node => node.props.source?.uri === 'opening.jpg')).toBe(true);
+  expect(nodes().some(node => node.props.blurRadius)).toBe(false);
   act(() => tree.unmount());
 });
