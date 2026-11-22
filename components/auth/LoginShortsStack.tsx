@@ -227,5 +227,7 @@ const styles = StyleSheet.create({
     borderColor: "rgba(255,255,255,0.25)",
   },
   aiText: { color: "#FFFFFF", fontSize: 10, fontWeight: "800", letterSpacing: 0.2 },
-  headline: { marginTop: -64 },
+  // The headline is two lines (each fits on one), so the sign sits a line lower
+  // than when the first line used to break in two.
+  headline: { marginTop: -32 },
 });
