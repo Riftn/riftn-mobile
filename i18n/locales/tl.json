@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Presyo",
     "reorderHint": "I - hold at i - drag ang anumang icon upang muling ayusin",
+    "reorderHintGroups": "Pindutin at hilain ang anumang icon upang ayusin muli, o ilipat ito sa ibang tab",
+    "moveGroupHint": "I-save sa tab na ibang para ma-move doon.",
     "reorderReset": "I - reset",
     "groups": {
       "create": "Gumawa",

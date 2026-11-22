@@ -2997,6 +2997,8 @@
     "premium": "高級版",
     "pricing": "定價",
     "reorderHint": "按住同拖曳任何圖示嚟重新排列",
+    "reorderHintGroups": "撳住任何圖示並拖曳嚟重新排列，或者拖去另一個分頁嚟移動佢",
+    "moveGroupHint": "拖去另一個分頁就可以將佢移過去",
     "reorderReset": "重設",
     "groups": {
       "create": "建立",

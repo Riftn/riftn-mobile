@@ -2997,6 +2997,8 @@
     "premium": "Yuqori sifat",
     "pricing": "Narxlar",
     "reorderHint": "Qayta tartiblash uchun istalgan belgini ushlab turing va sudrang",
+    "reorderHintGroups": "Istalgan belgini qayta tartiblash uchun ushlab turing va suring yoki boshqa yorliqqa o‘tkazish uchun uning ustiga torting",
+    "moveGroupHint": "Uni boshqa joyga ko‘chirish uchun boshqa tabga tashlang",
     "reorderReset": "Qayta tiklash",
     "groups": {
       "create": "Yaratish",

@@ -2997,6 +2997,8 @@
     "premium": "Sami",
     "pricing": "Chaninchaykuna",
     "reorderHint": "Ima iconotapas hap’ispa aysay mosoqmanta churanaykipaq",
+    "reorderHintGroups": "Mayllataq aysay ima llikachaqtapas wakmanta churaykunaykipaq, icha huk kichasqaman aysay apanaykipaq.",
+    "moveGroupHint": "Huk tabman aysay chayman apanaykipaq",
     "reorderReset": "Reset nisqa",
     "groups": {
       "create": "Kamariy",

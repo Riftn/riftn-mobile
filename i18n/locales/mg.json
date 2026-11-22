@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Vidiny",
     "reorderHint": "Tazony ary zarao izay kisary hanamboarana",
+    "reorderHintGroups": "Tazomy ary tariho ny kisary rehetra mba handamina azy indray, na apetraho eo amin'ny kiheba hafa mba hamindrana azy",
+    "moveGroupHint": "Apetraho amin'ny kiheba hafa mba hamindrana azy any",
     "reorderReset": "Averina",
     "groups": {
       "create": "Mamorona",

@@ -3023,6 +3023,8 @@
     "premium": "Premium",
     "pricing": "Kainos",
     "reorderHint": "Laikykite ir vilkite bet kurią piktogramą, kad pertvarkytumėte",
+    "reorderHintGroups": "Palaikykite ir tempkite bet kurią piktogramą, kad pakeistumėte jos vietą, arba užtempkite ant kito skirtuko, kad perkeltumėte.",
+    "moveGroupHint": "Išleiskite į kitą kortelę, kad perkelti ją ten",
     "reorderReset": "Nustatyti iš naujo",
     "groups": {
       "create": "Kurti",

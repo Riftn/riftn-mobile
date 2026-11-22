@@ -2997,6 +2997,8 @@
     "premium": "Nke kacha mma",
     "pricing": "Ọnụahịa",
     "reorderHint": "Jide ma dọrọ aịkọn ọ bụla ka ị hazie ọzọ",
+    "reorderHintGroups": "Jide ma dọrọ akara ngosi ọ bụla iji hazie ya, ma ọ bụ dọrọ ya gaa na taabụ ọzọ iji bugharịa ya",
+    "moveGroupHint": "Dọrọ ya gaa na taabụ ọzọ iji bufee ya ebe ahụ",
     "reorderReset": "Tọgharịa",
     "groups": {
       "create": "Mepụta",

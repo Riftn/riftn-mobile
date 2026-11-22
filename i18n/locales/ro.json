@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Prețuri",
     "reorderHint": "Țineți apăsată și trageți orice pictogramă pentru a o rearanja",
+    "reorderHintGroups": "Ține apăsat și trage orice pictogramă pentru a o rearanja sau peste o altă filă pentru a o muta",
+    "moveGroupHint": "Plasează într-o altă filă pentru a o muta acolo",
     "reorderReset": "Resetează",
     "groups": {
       "create": "Creează",
