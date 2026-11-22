@@ -980,6 +980,8 @@
     "chatReactionOff": "Off",
     "chatReactionOffDesc": "No motion, the number just changes",
     "chatTextSize": "Chat text size",
+    "chatOwnBubble": "Bubbles for my messages in Public Chat",
+    "chatOwnBubbleDesc": "Your own messages sit in a bubble, like in private chats",
     "menuLayout": "Menu layout",
     "menuLayoutDesc": "How the menu groups its pages",
     "menuLayoutTabs": "Tabs",
