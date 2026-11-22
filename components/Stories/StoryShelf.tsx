@@ -275,7 +275,7 @@ function GlassTime({ label, seen, cover }: { label: string; seen?: boolean; cove
   return (
     <View
       pointerEvents="none"
-      style={[styles.cornerBadge, styles.glassChip, seen && styles.glassChipSeen]}
+      style={[styles.cornerBadge, styles.glassChip, cover ? styles.glassChipOverPhoto : null, seen && styles.glassChipSeen]}
       onLayout={({ nativeEvent }) => setChipW(nativeEvent.layout.width)}
     >
       {cover && chipW > 0 ? (
@@ -377,6 +377,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.12)",
     boxShadow: "0px 2px 8px rgba(0,0,0,0.22)",
   },
+  // Over the frosted photo the gradient alone is the fill, as on web.
+  glassChipOverPhoto: { backgroundColor: "transparent" },
   glassChipSeen: { borderColor: "rgba(255,255,255,0.3)" },
   glassSheen: { position: "absolute", top: 0, left: 0, right: 0, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
   glassText: { textShadowColor: "rgba(0,0,0,0.45)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 2 },
