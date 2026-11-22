@@ -31,6 +31,7 @@ import Icon from '../ui/Icon';
 import { KitButton, PageEmpty, PageSection } from '../page/PageKit';
 import { DhbCoin } from '../common/DhbCoin';
 import { DeHubLoader } from '../DeHubLoader';
+import { UsernameSwapSection } from './UsernameSwapSection';
 import {
   useActivateUsernameHolding,
   useReleaseUsernameHolding,
@@ -85,6 +86,8 @@ const UsernameVaultPanel: React.FC<Props> = ({ isAuthed, onSignIn, onSell }) => 
       {names.map(holding => (
         <VaultRow key={holding.username} holding={holding} onSell={onSell} />
       ))}
+
+      <UsernameSwapSection />
     </ScrollView>
   );
 };

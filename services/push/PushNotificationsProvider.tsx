@@ -502,6 +502,11 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
           break;
 
         case NotificationType.MENTION:
+          // Tagged in a bio: open that profile.
+          if ((data as any).mentionContext === 'bio' && (actorUsername || actorAddress)) {
+            emitProfileDeepLink((actorUsername || actorAddress) as string);
+            break;
+          }
           // A tag in live or public chat opens that chat, not a post page.
           if (openChatMention(navigation.navigate as any, { mentionContext: (data as any).mentionContext, tokenId })) break;
           if (tokenId) {

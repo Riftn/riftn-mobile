@@ -10,6 +10,7 @@ import UserProfileSkeleton from "./UserProfileSkeleton";
 import type { ProfileIdentitySeed } from "../../hooks/useUserProfileData";
 import UserProfileHeader from "./UserProfileHeader";
 import { ProfileMuteRow } from "./ProfileMuteRow";
+import { BioTagRemoveRow } from "./BioTagRemoveRow";
 import PinnedCommunities from "../Communities/PinnedCommunities";
 import UserProfileBottomContentTabs from "./UserProfileBottomContentTabs";
 import { ProfilePostBgArtContext, ProfilePostBgContext, useResolvedPostBg } from "../Profile/PostBackground";
@@ -676,7 +677,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
                     <Text className="text-white text-[15px] font-medium">
                       {t("profileOptions.removeFollower")}
                     </Text>
-                    <Text className="text-theme-neutrals-500 text-xs mt-0.5">{_copy("copy.5948954e3b49", { defaultValue: "Remove " })}{profileData?.displayName || _copy("copy.0913f7bb109b", { defaultValue: "this user" })}{_copy("copy.3ff441f1f484", { defaultValue: " from your followers" })}</Text>
+                    <Text className="text-theme-neutrals-500 text-xs mt-0.5">{t("profileOptions.removeFollowerHint", { name: profileData?.displayName || t("profileOptions.thisUser") })}</Text>
                   </View>
                 </TouchableOpacity>
 
@@ -686,6 +687,15 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
 
             {showProfileMenu && !isOwnProfile && !isBlocked && viewer && profileAddress && (
               <ProfileMuteRow address={profileAddress} viewerAddress={viewer.walletAddress || viewer.address || ""} />
+            )}
+
+            {showProfileMenu && !isOwnProfile && viewer && profileAddress && (
+              <BioTagRemoveRow
+                ownerAddress={profileAddress}
+                bio={data?.aboutMe}
+                viewerUsername={viewer.username}
+                onDone={() => setShowProfileMenu(false)}
+              />
             )}
 
             <TouchableOpacity

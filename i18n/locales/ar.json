@@ -421,6 +421,7 @@
     "failed": "لم يتم الحفظ. حاول مرة أخرى."
   },
   "postVisibility": {
+    "self": "أنا فقط",
     "label": "من يمكنه رؤية هذا",
     "public": "الجميع",
     "followers": "المتابعون فقط",
@@ -1777,6 +1778,9 @@
     "tokenAmount": "{{amount}} رموز"
   },
   "postOptions": {
+    "notInterestedHint": "إخفاء هذا المنشور ورؤية عدد أقل مثله",
+    "notInterestedDone": "تم. سترى منشورات أقل مثل هذا.",
+    "notInterested": "غير مهتم",
     "embed": "تضمين",
     "copyEmbedCode": "نسخ رمز التضمين",
     "embedCodeCopied": "تم نسخ رمز التضمين",
@@ -2504,6 +2508,7 @@
     },
     "tokenAmount": "{{amount}} رمز مميز",
     "custom": {
+      "bioMention": "{{name}} أشار إليك في نبذته",
       "featureLikeNamed": "{{name}} أعجبته طلبتك الخاص “{{title}}”",
       "featureLike": "{{name}} أعجبته طلبتك الخاص",
       "featureCommentNamed": "{{name}} ترك تعليق على طلبتك الخاص “{{title}}”",
@@ -4214,6 +4219,9 @@
     "yourFractions": "تمتلك {{count}} من كسور {{total}}"
   },
   "profileOptions": {
+    "bioTagRemoved": "لم تعد مُشارًا إليك في هذه النبذة",
+    "removeBioTagHint": "يبقى اسمك بدون الإشارة",
+    "removeBioTag": "أزلني من نبذته",
     "copyRssFeed": "نسخ رابط خلاصة RSS",
     "copyRssFeedHint": "تابع هذه المنشورات في أي قارئ خلاصات",
     "copyProfileUrl": "نسخ رابط الملف الشخصي",
@@ -4242,6 +4250,7 @@
     "copyLinkHint": "نسخ الرابط إلى الحافظة",
     "copyAddressHint": "نسخ عنوان المحفظة إلى الحافظة",
     "removeFollower": "إزالة المتابع",
+    "removeFollowerHint": "إزالة {{name}} من متابعيك",
     "reportHint": "الإبلاغ عن هذا الحساب لمخالفته الإرشادات",
     "removeFollowerTitle": "إزالة المتابع؟",
     "removeFollowerBody": "لن يتم إبلاغ {{name}} بأنه أُزيل من متابعيك.",
@@ -5242,6 +5251,7 @@
     "resolveFailed": "فشل حل النزاع"
   },
   "usernames": {
+    "swap": {"start": "ابدأ التبديل", "placeholder": "@حسابك_الآخر", "sent": "تم الإرسال. انتقل إلى @{{name}} ووافق.", "waiting": "بانتظار موافقة @{{to}}. انتقل إلى ذلك الحساب للإنهاء.", "done": "تم التبديل. أنت الآن @{{name}}.", "decline": "رفض", "accept": "بدّل الآن", "incoming": "@{{from}} يريد التبديل: يصبح هذا الحساب @{{from}} ويصبح ذلك @{{to}}.", "body": "لديك حسابان؟ بدّل اسمي المستخدم بخطوة واحدة. ابدأ هنا ثم انتقل إلى الحساب الآخر ووافق. لن يكون أي اسم متاحًا لغيرك في أي لحظة.", "title": "بدّل مع حسابك الآخر"},
     "subtitle": "أسماء معروضة للبيع، بسعر بالـ USD",
     "browse": "تصفح",
     "sell": "بيع",

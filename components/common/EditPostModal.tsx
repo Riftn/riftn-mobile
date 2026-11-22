@@ -62,8 +62,8 @@ interface EditPostModalProps {
   initialQuotePolicy?: "public" | "followers" | "nobody";
   /** Who may reply to the post; absent means anyone. */
   initialReplyPolicy?: "public" | "followers" | "following" | "mentioned";
-  /** Who may see the post; absent means everyone. Only a narrower one shows a row. */
-  initialVisibility?: "public" | "followers" | "direct" | null;
+  /** Who may see the post; absent means everyone. "self" = Only me. */
+  initialVisibility?: "public" | "followers" | "direct" | "self" | null;
   /** Offer the "replace the file" row — creator, video post, not live. */
   canReplaceVideo?: boolean;
   /** Offer the title even when the post has none — audio tracks can be named later. */
@@ -79,8 +79,8 @@ interface EditPostModalProps {
     spoilerText?: string;
     quotePolicy?: "public" | "followers" | "nobody";
     replyPolicy?: "public" | "followers" | "following" | "mentioned";
-    /** Set when the edit opened a followers-only or mentioned-only post up to everyone. */
-    visibility?: "public";
+    /** Set when the edit changed who can see the post. */
+    visibility?: "public" | "followers" | "self";
     shopLinks?: ShopLink[];
     shopListingCount?: number;
   }) => void;
@@ -113,11 +113,14 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
   const [spoilerText, setSpoilerText] = useState(initialSpoilerText);
   const [quotePolicy, setQuotePolicy] = useState(initialQuotePolicy);
   const [replyPolicy, setReplyPolicy] = useState(initialReplyPolicy);
-  // A followers-only or mentioned-only post can be opened up to everyone (not
-  // narrowed: it may already have been seen outside the smaller audience).
-  const narrowVisibility = initialVisibility === "followers" || initialVisibility === "direct" ? initialVisibility : null;
-  const [visibility, setVisibility] = useState<"public" | "followers" | "direct">(narrowVisibility ?? "public");
-  const openedUp = !!narrowVisibility && visibility === "public";
+  // Who can see it, changeable after posting: Everyone, Followers only, or
+  // Only me (hides it without deleting it). Mentioned-only stays a choice for
+  // new posts, so it is only listed for a post that already has it.
+  type Audience = "public" | "followers" | "direct" | "self";
+  const startVisibility: Audience = initialVisibility === "followers" || initialVisibility === "direct" || initialVisibility === "self" ? initialVisibility : "public";
+  const [visibility, setVisibility] = useState<Audience>(startVisibility);
+  const audienceChanged = visibility !== startVisibility && visibility !== "direct";
+  const audienceOptions: Audience[] = startVisibility === "direct" ? ["public", "followers", "direct", "self"] : ["public", "followers", "self"];
   const [shopLinks, setShopLinks] = useDraftState<ShopLink[]>(`post:edit:${tokenId}` + ":shopLinks", initialShopLinks ?? []);
   const [shopSheetVisible, setShopSheetVisible] = useState(false);
   /**
@@ -335,8 +338,8 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
       if (replyPolicy !== initialReplyPolicy) {
         payload.replyPolicy = replyPolicy;
       }
-      if (openedUp) {
-        payload.visibility = "public";
+      if (audienceChanged) {
+        payload.visibility = visibility;
       }
       const nextRating = isMature ? "mature" : "safe";
       if (nextRating !== (initialContentRating ?? "safe")) {
@@ -397,7 +400,7 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
         spoilerText: payload.spoilerText,
         quotePolicy: payload.quotePolicy,
         replyPolicy: payload.replyPolicy,
-        visibility: openedUp ? "public" : undefined,
+        visibility: audienceChanged ? (visibility as "public" | "followers" | "self") : undefined,
         shopLinks: payload.shopLinks,
         shopListingCount: payload.shopListingCount as number | undefined,
       });
@@ -439,7 +442,8 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
     quotePolicy,
     initialReplyPolicy,
     replyPolicy,
-    openedUp,
+    audienceChanged,
+    visibility,
     onSuccess,
     onClose, setArticleBody, setDescription, setSelectedCategories, setShopLinks, setTitle]);
 
@@ -451,7 +455,7 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
     spoilerText.trim() !== initialSpoilerText.trim() ||
     quotePolicy !== initialQuotePolicy ||
     replyPolicy !== initialReplyPolicy ||
-    openedUp ||
+    audienceChanged ||
     commonGroundChanged ||
     (isMature ? "mature" : "safe") !== (initialContentRating ?? "safe") ||
     isForKids !== (initialForKids === true) ||
@@ -540,15 +544,14 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
           className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm mb-3"
         />
 
-        {/* Who can see it. Only a followers-only or mentioned-only post gets
-            this row, and it can only be opened up to everyone. */}
-        {narrowVisibility ? (
+        {/* Who can see it: Everyone, Followers only or Only me. */}
+        {true ? (
           <>
             <Text className="text-theme-neutrals-300 text-xs font-semibold uppercase tracking-wider mb-1.5">
               {t("postVisibility.label")}
             </Text>
             <View className="flex-row flex-wrap mb-3">
-              {([narrowVisibility, "public"] as const).map((option) => (
+              {audienceOptions.map((option) => (
                 <TouchableOpacity
                   key={option}
                   onPress={() => setVisibility(option)}
@@ -557,7 +560,7 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
                   className={`mr-2 mb-2 rounded-xl px-3 py-2 ${visibility === option ? "bg-white" : "bg-white/5 border border-white/10"}`}
                 >
                   <Text className={`text-sm ${visibility === option ? "text-black font-semibold" : "text-white"}`}>
-                    {t(`postVisibility.${option}`)}
+                    {option === "self" ? t("postVisibility.self") : t(`postVisibility.${option}`)}
                   </Text>
                 </TouchableOpacity>
               ))}

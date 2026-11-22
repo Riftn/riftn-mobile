@@ -421,6 +421,7 @@
     "failed": "Dat is niet opgeslagen. Probeer het opnieuw."
   },
   "postVisibility": {
+    "self": "Alleen ik",
     "label": "Wie kan dit zien",
     "public": "Iedereen",
     "followers": "Alleen volgers",
@@ -1965,6 +1966,9 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "postOptions": {
+    "notInterestedHint": "Verberg dit bericht en zie er minder zoals dit",
+    "notInterestedDone": "Begrepen. Je ziet minder berichten zoals deze.",
+    "notInterested": "Niet geïnteresseerd",
     "embed": "Insluiten",
     "copyEmbedCode": "Insluitcode kopiëren",
     "embedCodeCopied": "Insluitcode gekopieerd",
@@ -2692,6 +2696,7 @@
     },
     "tokenAmount": "{{amount}} tokens",
     "custom": {
+      "bioMention": "{{name}} heeft je getagd in hun bio",
       "featureLikeNamed": "{{name}} heeft uw featureverzoek “{{title}}” gelikt",
       "featureLike": "{{name}} heeft uw featureverzoek gelikt",
       "featureCommentNamed": "{{name}} heeft gereageerd op uw featureverzoek “{{title}}”",
@@ -4378,6 +4383,9 @@
     "yourFractions": "Je bezit {{count}} van {{total}} fracties"
   },
   "profileOptions": {
+    "bioTagRemoved": "Je bent niet meer getagd in deze bio",
+    "removeBioTagHint": "Je naam blijft staan, zonder tag",
+    "removeBioTag": "Haal me uit hun bio",
     "copyRssFeed": "RSS-feedlink kopiëren",
     "copyRssFeedHint": "Volg deze berichten in elke feedlezer",
     "copyProfileUrl": "Profiel-URL kopiëren",
@@ -4406,6 +4414,7 @@
     "copyLinkHint": "Link naar klembord kopiëren",
     "copyAddressHint": "Walletadres naar klembord kopiëren",
     "removeFollower": "Volger verwijderen",
+    "removeFollowerHint": "{{name}} verwijderen uit je volgers",
     "reportHint": "Meld dit account wegens schending van de richtlijnen",
     "removeFollowerTitle": "Volger verwijderen?",
     "removeFollowerBody": "{{name}} krijgt geen melding dat hij uit je volgers is verwijderd.",
@@ -5405,6 +5414,7 @@
     "resolveFailed": "Oplossen van geschil mislukt"
   },
   "usernames": {
+    "swap": {"start": "Start wissel", "placeholder": "@je_andere_account", "sent": "Verstuurd. Schakel naar @{{name}} en accepteer.", "waiting": "Wacht op @{{to}}. Schakel naar dat account om af te ronden.", "done": "Gewisseld. Je bent nu @{{name}}.", "decline": "Weigeren", "accept": "Nu wisselen", "incoming": "@{{from}} wil wisselen: dit account wordt @{{from}} en dat account @{{to}}.", "body": "Twee accounts? Wissel hun gebruikersnamen in één stap. Begin hier, schakel naar het andere account en accepteer. Geen van beide namen komt ooit vrij voor iemand anders.", "title": "Wissel met je andere account"},
     "subtitle": "Handles te koop, geprijsd in USD",
     "browse": "Bladeren",
     "sell": "Verkopen",

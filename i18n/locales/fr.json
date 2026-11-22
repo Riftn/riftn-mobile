@@ -421,6 +421,7 @@
     "failed": "Ça n'a pas été enregistré. Réessayez."
   },
   "postVisibility": {
+    "self": "Moi uniquement",
     "label": "Qui peut voir ceci",
     "public": "Tout le monde",
     "followers": "Abonnés uniquement",
@@ -1777,6 +1778,9 @@
     "tokenAmount": "{{amount}} jetons"
   },
   "postOptions": {
+    "notInterestedHint": "Masquer cette publication et en voir moins comme elle",
+    "notInterestedDone": "Compris. Vous verrez moins de publications comme celle-ci.",
+    "notInterested": "Pas intéressé",
     "embed": "Intégrer",
     "copyEmbedCode": "Copier le code d'intégration",
     "embedCodeCopied": "Code d'intégration copié",
@@ -2504,6 +2508,7 @@
     },
     "tokenAmount": "{{amount}} jetons",
     "custom": {
+      "bioMention": "{{name}} vous a identifié dans sa bio",
       "featureLikeNamed": "{{name}} a aimé votre demande de fonctionnalité « {{title}} »",
       "featureLike": "{{name}} a aimé votre demande de fonctionnalité",
       "featureCommentNamed": "{{name}} a commenté votre demande de fonctionnalité « {{title}} »",
@@ -4194,6 +4199,9 @@
     "yourFractions": "Vous détenez {{count}} fractions sur {{total}}"
   },
   "profileOptions": {
+    "bioTagRemoved": "Vous n'êtes plus identifié dans cette bio",
+    "removeBioTagHint": "Votre nom reste, sans l'identification",
+    "removeBioTag": "Me retirer de sa bio",
     "copyRssFeed": "Copier le lien du flux RSS",
     "copyRssFeedHint": "Suivez ces publications dans n'importe quel lecteur de flux",
     "copyProfileUrl": "Copier l'URL du profil",
@@ -4222,6 +4230,7 @@
     "copyLinkHint": "Copier le lien dans le presse-papiers",
     "copyAddressHint": "Copier l'adresse du portefeuille dans le presse-papiers",
     "removeFollower": "Retirer l'abonné",
+    "removeFollowerHint": "Retirer {{name}} de vos abonnés",
     "reportHint": "Signalez ce compte pour non-respect des règles",
     "removeFollowerTitle": "Retirer l'abonné ?",
     "removeFollowerBody": "{{name}} ne sera pas informé de son retrait de vos abonnés.",
@@ -5222,6 +5231,7 @@
     "resolveFailed": "Échec de la résolution du litige"
   },
   "usernames": {
+    "swap": {"start": "Lancer l'échange", "placeholder": "@votre_autre_compte", "sent": "Envoyé. Passez sur @{{name}} et acceptez.", "waiting": "En attente de @{{to}}. Passez sur ce compte pour terminer.", "done": "Échangé. Vous êtes maintenant @{{name}}.", "decline": "Refuser", "accept": "Échanger maintenant", "incoming": "@{{from}} veut échanger : ce compte devient @{{from}} et l'autre @{{to}}.", "body": "Deux comptes ? Échangez leurs noms d'utilisateur en une étape. Commencez ici, passez à l'autre compte et acceptez. Aucun nom n'est jamais libre pour quelqu'un d'autre.", "title": "Échanger avec votre autre compte"},
     "subtitle": "Pseudos à vendre, en USD",
     "browse": "Parcourir",
     "sell": "Vendre",
