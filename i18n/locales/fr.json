@@ -1840,6 +1840,8 @@
     "chatTextSize": "Taille du texte du chat",
     "chatOwnBubble": "Bulles pour mes messages dans le Chat public",
     "chatOwnBubbleDesc": "Vos messages s’affichent dans une bulle, comme dans les discussions privées",
+    "messagesPills": "Onglets en pastilles dans Messages",
+    "messagesPillsDesc": "L'onglet ouvert est une pastille pleine et les non lus sont ronds",
     "chatTextSizeDesc": "Messages plus grands ou plus petits dans tous les chats. S'ajoute à la taille du texte de votre téléphone.",
     "chatCards": "Chats en cartes",
     "chatCardsDesc": "Chaque chat sur sa propre carte. Désactivez pour une liste simple avec une ligne entre les chats.",

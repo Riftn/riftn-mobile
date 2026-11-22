@@ -1840,6 +1840,8 @@
     "chatTextSize": "Tekstgrootte in chat",
     "chatOwnBubble": "Ballonnen voor mijn berichten in de Openbare chat",
     "chatOwnBubbleDesc": "Je eigen berichten staan in een ballon, zoals in privéchats",
+    "messagesPills": "Pilvormige tabbladen in Berichten",
+    "messagesPillsDesc": "Het open tabblad is een gevulde pil en ongelezen aantallen zijn rond",
     "chatTextSizeDesc": "Grotere of kleinere berichten in elke chat. Bovenop de tekstgrootte van je telefoon.",
     "chatCards": "Chats als kaarten",
     "chatCardsDesc": "Elke chat op een eigen kaart. Zet uit voor een gewone lijst met een lijn tussen chats.",

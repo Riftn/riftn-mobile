@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { glowLine } from "../ui/glow";
 import { useChatCardAccent } from "./ChatCard";
+import { useAppPrefs } from "../../hooks/useAppPrefs";
 import { MAX_CHAT_TAB_NAME } from "../../services/dm/dm.api";
 import type { ChatTabView } from "../../hooks/useChatTabs";
 
@@ -16,6 +17,7 @@ import type { ChatTabView } from "../../hooks/useChatTabs";
  */
 
 const CHIP = { height: 32, borderRadius: 16, paddingHorizontal: 12, flexDirection: "row" as const, alignItems: "center" as const, gap: 6 };
+const PILL = { ...CHIP, height: 34, borderRadius: 17, paddingHorizontal: 16, marginRight: 4 };
 // The open tab gets a glowing line under its label in the theme's colour,
 // same as the web tabs on Messages and /chat (no filled pill).
 const BEAM = { position: "absolute" as const, left: 12, right: 12, bottom: 0, height: 2, borderRadius: 2 };
@@ -35,6 +37,9 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
   const { t } = useTranslation();
   const accent = useChatCardAccent();
   const accentInk = accent === "#FFFFFF" ? "#0b0b0c" : "#fff";
+  // Settings → Appearance → "Pill tabs in Messages": the open tab is a filled
+  // pill (white on dark, black on light), the others a soft grey pill.
+  const { messagesPills: pills } = useAppPrefs();
   const scroller = useRef<ScrollView>(null);
   const xs = useRef<Record<string, number>>({});
   useEffect(() => {
@@ -66,14 +71,15 @@ export function ChatTabBar({ tabs, active, unread, onSelect, onNew, onManage, on
             onPress={() => onSelect(tab.id)}
             onLongPress={() => onHold(tab)}
             delayLongPress={350}
-            style={CHIP}
+            style={pills ? PILL : CHIP}
           >
-            {on && <View pointerEvents="none" testID="chat-tab-beam" style={[BEAM, glowLine(accent)]} />}
+            {pills && <View pointerEvents="none" testID="chat-tab-pill" style={[StyleSheet.absoluteFill, { borderRadius: 17, backgroundColor: on ? "#FFFFFF" : "rgba(255,255,255,0.09)" }]} />}
+            {on && !pills && <View pointerEvents="none" testID="chat-tab-beam" style={[BEAM, glowLine(accent)]} />}
             {!!tab.emoji && <Text style={{ fontSize: 13 }}>{tab.emoji}</Text>}
-            <Text style={{ color: on ? "#fff" : "#A1A1AA", fontSize: 13, fontWeight: "600" }} numberOfLines={1}>{tab.name}</Text>
+            <Text style={{ color: pills ? (on ? "#0b0b0c" : "#FFFFFF") : on ? "#fff" : "#A1A1AA", fontSize: 13, fontWeight: "600" }} numberOfLines={1}>{tab.name}</Text>
             {n > 0 && (
-              <View style={{ minWidth: 18, height: 18, borderRadius: 6, paddingHorizontal: 5, alignItems: "center", justifyContent: "center", backgroundColor: on ? accent : "rgba(255,255,255,0.09)" }}>
-                <Text style={{ color: on ? accentInk : "#D4D4D8", fontSize: 11, fontWeight: "700", fontVariant: ["tabular-nums"] }}>{n > 99 ? "99+" : String(n)}</Text>
+              <View style={{ minWidth: 18, height: 18, borderRadius: pills ? 9 : 6, paddingHorizontal: 5, alignItems: "center", justifyContent: "center", backgroundColor: pills ? (on ? "#0b0b0c" : "#FFFFFF") : on ? accent : "rgba(255,255,255,0.09)" }}>
+                <Text style={{ color: pills ? (on ? "#FFFFFF" : "#0b0b0c") : on ? accentInk : "#D4D4D8", fontSize: 11, fontWeight: "700", fontVariant: ["tabular-nums"] }}>{n > 99 ? "99+" : String(n)}</Text>
               </View>
             )}
           </Pressable>
