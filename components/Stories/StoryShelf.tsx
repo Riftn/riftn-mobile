@@ -1,5 +1,5 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
@@ -28,6 +28,8 @@ const TILE_H = 118;
 /** Rounded-square faces, as on web: 24 px with the 1 px rim, 8 px corners. */
 const FACE = 22;
 const FACE_R = 7;
+/** Face and corner chips sit this far in from the tile edge. */
+const CHIP_INSET = 7;
 
 /** Moments on the shelf, refreshed every minute while Home is up. */
 function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean, enabled: boolean) {
@@ -259,13 +261,31 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
 
 /**
  * The time chip, as on web: liquid glass the size of the face opposite it
- * (24 px, 8 px corners). The photo shows through a pale glass fill, with a
- * bright rim and a sheen on top (no live blur: shelf chips stay cheap to scroll).
+ * (24 px, 8 px corners, 7 px in). Web blurs the photo behind it with
+ * backdrop-filter; here the tile's own photo is drawn again inside the chip,
+ * blurred and lined up with the tile, so the chip shows the frosted photo
+ * behind it on Android and iPhone alike without a live blur. Then a pale
+ * sheen, a bright rim and a highlight along the top edge.
  */
-function GlassTime({ label, seen }: { label: string; seen?: boolean }) {
+function GlassTime({ label, seen, cover }: { label: string; seen?: boolean; cover?: string | null }) {
+  const [chipW, setChipW] = useState(0);
   return (
-    <View pointerEvents="none" style={[styles.cornerBadge, styles.glassChip, seen && styles.glassChipSeen]}>
-      <LinearGradient colors={["rgba(255,255,255,0.32)", "rgba(255,255,255,0.08)"]} style={StyleSheet.absoluteFill} />
+    <View
+      pointerEvents="none"
+      style={[styles.cornerBadge, styles.glassChip, seen && styles.glassChipSeen]}
+      onLayout={({ nativeEvent }) => setChipW(nativeEvent.layout.width)}
+    >
+      {cover && chipW > 0 ? (
+        <Image
+          source={{ uri: cover }}
+          recyclingKey={`glass-${cover}`}
+          blurRadius={10}
+          contentFit="cover"
+          cachePolicy="memory-disk"
+          style={{ position: "absolute", top: -(CHIP_INSET + 1), left: -(TILE_W - CHIP_INSET - chipW + 1), width: TILE_W, height: TILE_H }}
+        />
+      ) : null}
+      <LinearGradient colors={["rgba(255,255,255,0.3)", "rgba(255,255,255,0.08)"]} style={StyleSheet.absoluteFill} />
       <View style={styles.glassSheen} />
       <Text style={[styles.badgeText, styles.glassText]} numberOfLines={1}>{label}</Text>
     </View>
@@ -281,7 +301,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
       avatar={<Avatar uri={avatarOf(entry.author, 48)} size={FACE} radius={FACE_R} name={name} />}
       label={name}
       onPress={onOpen}
-      badge={age ? <GlassTime label={age} seen={entry.seen} /> : null}
+      badge={age ? <GlassTime label={age} seen={entry.seen} cover={coverOf(entry)} /> : null}
     >
       <TileIdentity displayName={entry.author.displayName} fallback={name} lookup={entry.author.address} />
     </ShelfTile>
@@ -351,7 +371,8 @@ const styles = StyleSheet.create({
   },
   glassChip: {
     borderColor: "rgba(255,255,255,0.55)",
-    backgroundColor: "rgba(255,255,255,0.1)",
+    backgroundColor: "rgba(255,255,255,0.12)",
+    boxShadow: "0px 2px 8px rgba(0,0,0,0.22)",
   },
   glassChipSeen: { borderColor: "rgba(255,255,255,0.3)" },
   glassSheen: { position: "absolute", top: 0, left: 0, right: 0, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
