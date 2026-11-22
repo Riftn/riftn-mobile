@@ -1165,6 +1165,8 @@
     "postingChain": "شبكة النشر",
     "showOnline": "اعرض عندما أكون متصلاً بالإنترنت",
     "showOnlineDesc": "يرى الأشخاص الذين تراسلهم نقطة خضراء بجوار اسمك أثناء استخدام Riftn",
+    "showLastSeen": "إظهار آخر ظهور لي",
+    "showLastSeenDesc": "يرى من تتحدث معهم آخر مرة كنت فيها على Riftn، مثل \"آخر ظهور قبل 5 دقائق\"",
     "smartReplies": "الردود المقترحة",
     "smartRepliesDesc": "يصوغ ردَّين يمكنك النقر عليهما في المحادثة. علامة × على الاقتراحات توقف هذه الميزة.",
     "signIn": "تسجيل الدخول",
@@ -3211,6 +3213,8 @@
   },
   "profile": {
     "localTime": "التوقيت المحلي {{time}}",
+    "lastSeen": "آخر ظهور {{when}}",
+    "lastSeenJustNow": "آخر ظهور الآن",
     "localTimeAhead": "متقدم {{hours}} ساعة",
     "localTimeBehind": "متأخر {{hours}} ساعة",
     "shareLocalTime": "إظهار توقيتي المحلي",

@@ -60,6 +60,8 @@ import { anchorFromReadSpot } from "../libs/chatReadPosition";
 import { useChatReadPosition } from "../hooks/useChatReadPosition";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { setPublicChatOpen } from "../libs/public-chat-alerts";
+import { hideLineForMe, useHiddenLines } from "../libs/public-chat-hidden";
+import DeleteMessageSheet, { resolveDelete, type DeleteRequest } from "../components/DM/DeleteMessageSheet";
 import { publicChatUnread } from "../hooks/usePublicChatUnread";
 import { HOLD_LIFT_TIMING, HOLD_SETTLE_TIMING } from "../components/ui/HoldSheet";
 
@@ -254,9 +256,15 @@ const LiveChatScreen: React.FC = () => {
     [user]
   );
 
+  // Lines deleted "for me" only (libs/public-chat-hidden).
+  const hiddenLines = useHiddenLines(myAddress);
+  const shownMessages = useMemo(
+    () => (hiddenLines.size ? messages.filter((m) => !hiddenLines.has(m._id)) : messages),
+    [messages, hiddenLines],
+  );
   const listItems = useMemo(
-    () => buildListItems(messages, t, i18n.language, room?.pinnedMessages),
-    [messages, room?.pinnedMessages, t, i18n.language],
+    () => buildListItems(shownMessages, t, i18n.language, room?.pinnedMessages),
+    [shownMessages, room?.pinnedMessages, t, i18n.language],
   );
 
   const scrollToBottom = useCallback((animated = true) => {
@@ -765,20 +773,27 @@ const LiveChatScreen: React.FC = () => {
     setConfirmModal((prev) => ({ ...prev, visible: false }));
   }, []);
 
-  const handleDelete = useCallback(
+  // "Delete for everyone" (yours, or any line for a moderator) or "Delete for
+  // me", the same sheet and saved choice as DMs and community chats.
+  const [deleteRequest, setDeleteRequest] = useState<DeleteRequest | null>(null);
+  const askDelete = useCallback(
     (msg: LiveChatMessageData) => {
-      showConfirm({
-        title: t("liveChat.deleteMessage"),
-        description: t("liveChat.deleteConfirm"),
-        confirmText: t("common.delete"),
-        confirmKind: "danger",
-        onConfirm: () => {
-          deleteMessage(msg._id);
-          dismissConfirm();
+      const mine = !!myAddress && (msg.senderAddress || msg.sender?.address || "").toLowerCase() === myAddress;
+      setDeleteRequest(resolveDelete({
+        count: 1,
+        canDeleteForEveryone: mine || isModerator,
+        onDelete: (scope) => {
+          if (scope === "everyone" && (mine || isModerator)) deleteMessage(msg._id);
+          else hideLineForMe(myAddress, msg._id);
         },
-      });
+      }));
     },
-    [deleteMessage, showConfirm, dismissConfirm]
+    [myAddress, isModerator, deleteMessage]
+  );
+
+  const handleDelete = useCallback(
+    (msg: LiveChatMessageData) => askDelete(msg),
+    [askDelete]
   );
 
   const handleAvatarPress = useCallback(
@@ -844,19 +859,8 @@ const LiveChatScreen: React.FC = () => {
   }, []);
 
   const handleContextDelete = useCallback(
-    (msg: LiveChatMessageData) => {
-      showConfirm({
-        title: t("liveChat.deleteMessage"),
-        description: t("liveChat.deleteConfirm"),
-        confirmText: t("common.delete"),
-        confirmKind: "danger",
-        onConfirm: () => {
-          deleteMessage(msg._id);
-          dismissConfirm();
-        },
-      });
-    },
-    [deleteMessage, showConfirm, dismissConfirm]
+    (msg: LiveChatMessageData) => askDelete(msg),
+    [askDelete]
   );
 
   const handleContextPin = useCallback(
@@ -1461,6 +1465,7 @@ const LiveChatScreen: React.FC = () => {
         />
       ) : null}
 
+      <DeleteMessageSheet request={deleteRequest} onClose={() => setDeleteRequest(null)} />
       <WhenOpened open={confirmModal.visible}>
         {() => (
           <ConfirmModal
