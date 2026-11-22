@@ -18072,5 +18072,15 @@
     "streak": "{{value}} günlük seri",
     "streakBonus": "Seri bonusu +%{{pct}}",
     "dailyHint": "Günde bir bilgi yarışması. Yarışmalarına art arda günlerde katılanlar seri yapar ve bonus puan kazanır."
+  },
+  "quickReply": {
+    "reply": "Yanıtla",
+    "send": "Gönder",
+    "placeholder": "Yanıt yaz…",
+    "hiddenPreview": "Riftn'de yeni mesaj",
+    "failedTitle": "Yanıtın gönderilmedi",
+    "failedBody": "Sohbeti açıp oradan göndermek için dokun.",
+    "sent": "Yanıt gönderildi",
+    "open": "Sohbeti aç"
   }
 }

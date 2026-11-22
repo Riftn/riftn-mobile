@@ -71,3 +71,10 @@ export async function wantsEncryptionTo(peerAddress: string | null | undefined):
 export function isChatEncrypted(conversationId: string | null | undefined): boolean {
   return !!conversationId && !!encrypted?.has(conversationId);
 }
+
+/** True when this chat, or any chat with this person, has "Encrypt chat" on. Loads the settings if needed. */
+export async function chatWantsEncryption(conversationId: string, peerAddress: string | null | undefined): Promise<boolean> {
+  const ids = await load();
+  if (ids.has(conversationId)) return true;
+  return wantsEncryptionTo(peerAddress);
+}

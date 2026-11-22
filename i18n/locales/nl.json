@@ -18324,5 +18324,15 @@
     "streak": "Reeks van {{value}} dagen",
     "streakBonus": "Reeksbonus +{{pct}}%",
     "dailyHint": "Eén quiz per dag. Wie je quizzen dagen achter elkaar speelt, bouwt een reeks op en verdient bonuspunten."
+  },
+  "quickReply": {
+    "reply": "Beantwoorden",
+    "send": "Versturen",
+    "placeholder": "Schrijf een antwoord…",
+    "hiddenPreview": "Nieuw bericht op Riftn",
+    "failedTitle": "Je antwoord is niet verstuurd",
+    "failedBody": "Tik om de chat te openen en het daar te versturen.",
+    "sent": "Antwoord verstuurd",
+    "open": "Chat openen"
   }
 }

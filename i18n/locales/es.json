@@ -18073,5 +18073,15 @@
     "streak": "Racha de {{value}} días",
     "streakBonus": "Bonus de racha +{{pct}}%",
     "dailyHint": "Un quiz al día. Quien juegue tus quizzes varios días seguidos hace una racha y gana puntos extra."
+  },
+  "quickReply": {
+    "reply": "Responder",
+    "send": "Enviar",
+    "placeholder": "Escribe una respuesta…",
+    "hiddenPreview": "Nuevo mensaje en Riftn",
+    "failedTitle": "Tu respuesta no se envió",
+    "failedBody": "Toca para abrir el chat y enviarla allí.",
+    "sent": "Respuesta enviada",
+    "open": "Abrir chat"
   }
 }

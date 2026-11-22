@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { openChatMention } from "../../libs/openChatMention";
 import * as Notifications from 'expo-notifications';
 import NetInfo from '@react-native-community/netinfo';
-import { AppState, AppStateStatus, Linking } from 'react-native';
+import { AppState, AppStateStatus, Linking, Platform } from 'react-native';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useUser, useAuthState, useAuthActions } from '../../context/AuthContext';
 import { usePublicChatAlerts } from '../../hooks/usePublicChatAlerts';
@@ -29,6 +29,7 @@ import { countUnreadNotifications, extractNotificationItems, incrementUnreadCoun
 import { emitProfileDeepLink } from '../../libs/deeplink.events';
 import { openCustomPush } from '../../libs/custom-notification-route';
 import { readNotificationData as readTapData } from '../../libs/push-tap-data';
+import { isReplyAction } from './message-reply';
 import { noteNotificationMoment } from '../../libs/review-prompt';
 import { useOnboarding } from '../../context/OnboardingChecklistContext';
 import { listProfiles } from '../../libs/profiles';
@@ -907,6 +908,9 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       try {
         const lastResponse = await Notifications.getLastNotificationResponseAsync();
         if (!lastResponse) return;
+        // An iPhone reply from the notification is sent in the background
+        // (message-reply.ts); it does not open the chat.
+        if (isReplyAction(lastResponse) && Platform.OS === 'ios') return;
 
         const data = readTapData(lastResponse.notification) as unknown as NotificationData | null;
         if (!data?.type) return;
@@ -968,6 +972,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
     // Handle notification tap (foreground and background — but NOT cold-start)
     responseListener.current = Notifications.addNotificationResponseReceivedListener(
       (response) => {
+        if (isReplyAction(response) && Platform.OS === 'ios') return;
         const data = readTapData(response.notification) as unknown as NotificationData;
         const responseId = response.notification.request.identifier;
         
