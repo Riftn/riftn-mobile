@@ -109,3 +109,15 @@ describe('mergeSocialFollowers', () => {
     expect(merged).toEqual({});
   });
 });
+
+it('includes connected counts without a manual link and uses each platform once', () => {
+  const source = { instagramLink: 'creator', customs: { instagramFollowers: 8 } };
+  const reach = computeSocialReach(source, 10, [
+    { platform: 'twitter', followers: 42 }, { platform: 'instagram', followers: 12 },
+  ]);
+  expect(reach.total).toBe(64);
+  expect(reach.socials.map(s => [s.platform, s.count, s.verified])).toEqual([
+    ['twitter', 42, true], ['instagram', 12, true],
+  ]);
+  expect(computeSocialReach(source, 10, [{ platform: 'instagram', followers: null }]).total).toBe(18);
+});

@@ -484,6 +484,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
                   counts under its `customs` come along with the links. */}
               {followersItem && (
                 <TotalReachPill
+                  wallet={address}
                   source={socials as Record<string, unknown> | undefined}
                   followers={followersItem.value}
                 />
