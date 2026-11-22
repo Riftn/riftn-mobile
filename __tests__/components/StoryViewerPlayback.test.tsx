@@ -35,11 +35,17 @@ jest.mock('../../services/stories.service', () => ({ deleteStory: jest.fn(async 
 jest.mock('../../store/stories.store', () => ({}));
 
 function mount(durations: number[]) {
-  const items = durations.map((durationMs, index) => ({
+  const items: StoryItem[] = durations.map((durationMs, index) => ({
     id: `moment-${index}`, type: 'photo', durationMs, mediaUrl: `https://example.com/${index}.jpg`,
     mentions: [], audience: 'everyone', createdAt: new Date().toISOString(), viewed: false,
-  } as StoryItem));
-  const entries = [{ author: { address: 'owner', username: 'owner' }, own: true, items } as ShelfEntry];
+    address: 'owner', status: 'ready', posterUrl: null, overlayUrl: null, width: 1080, height: 1920,
+    muted: false, caption: null, song: null, allowReplies: true, liked: false,
+    expiresAt: new Date(Date.now() + 86_400_000).toISOString(),
+  }));
+  const entries: ShelfEntry[] = [{
+    author: { address: 'owner', username: 'owner', displayName: null, avatarImageUrl: null },
+    own: true, following: false, seen: false, latestAt: items[0].createdAt, items,
+  }];
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const onClose = jest.fn();
   const viewer = render(<QueryClientProvider client={client}><StoryViewer entries={entries} index={0} onOpenProfile={jest.fn()} onClose={onClose} /></QueryClientProvider>);
