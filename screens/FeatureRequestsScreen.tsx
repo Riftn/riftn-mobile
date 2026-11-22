@@ -118,6 +118,7 @@ import {
 } from "../hooks/useFeatureRequests";
 import { Collapsible, CollapsibleChevron } from "../components/ui/Collapsible";
 import DeviceInfoPanel from "../components/FeatureRequests/DeviceInfoPanel";
+import RequestStatusRow, { chipConcept } from "../components/FeatureRequests/RequestStatusRow";
 import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
 import { formatCount } from '../libs/format-count';
@@ -632,26 +633,38 @@ const FeatureCard: React.FC<{
 
           <Attachments feature={feature} />
 
-          <View style={styles.badgeRow}>
-            <View style={styles.catBadge}>
-              <Text style={styles.catBadgeText}>{categoryLabel(t, feature.category)}</Text>
+          {chipConcept() !== "today" ? (
+            <RequestStatusRow
+              status={feature.status}
+              note={statusNote}
+              categoryChip={
+                <View style={styles.catBadge}>
+                  <Text style={styles.catBadgeText}>{categoryLabel(t, feature.category)}</Text>
+                </View>
+              }
+            />
+          ) : (
+            <View style={styles.badgeRow}>
+              <View style={styles.catBadge}>
+                <Text style={styles.catBadgeText}>{categoryLabel(t, feature.category)}</Text>
+              </View>
+              {badge && (
+                <View
+                  style={[styles.statusBadge, { backgroundColor: badge.bg, borderColor: badge.bd }]}
+                >
+                  <Text style={[styles.statusBadgeText, { color: badge.fg }]}>
+                    {t(STATUS_I18N[feature.status], STATUS_LABELS[feature.status])}
+                  </Text>
+                </View>
+              )}
+              {/* A short tag on a live request, e.g. "Future review" on Queued. */}
+              {feature.status !== "declined" && !!statusNote && (
+                <View style={[styles.statusBadge, { backgroundColor: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.25)" }]}>
+                  <Text style={[styles.statusBadgeText, { color: "#D4D4D8" }]}>{statusNote}</Text>
+                </View>
+              )}
             </View>
-            {badge && (
-              <View
-                style={[styles.statusBadge, { backgroundColor: badge.bg, borderColor: badge.bd }]}
-              >
-                <Text style={[styles.statusBadgeText, { color: badge.fg }]}>
-                  {t(STATUS_I18N[feature.status], STATUS_LABELS[feature.status])}
-                </Text>
-              </View>
-            )}
-            {/* A short tag on a live request, e.g. "Future review" on Queued. */}
-            {feature.status !== "declined" && !!statusNote && (
-              <View style={[styles.statusBadge, { backgroundColor: "rgba(255,255,255,0.08)", borderColor: "rgba(255,255,255,0.25)" }]}>
-                <Text style={[styles.statusBadgeText, { color: "#D4D4D8" }]}>{statusNote}</Text>
-              </View>
-            )}
-          </View>
+          )}
 
           {/* The owners' reason for ruling it out. */}
           {!!notFeasibleReason && (
