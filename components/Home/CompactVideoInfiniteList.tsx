@@ -38,6 +38,7 @@ interface CompactVideoInfiniteListProps {
   ListHeaderComponent?: React.ReactElement | null;
   showCreator?: boolean; // forward to CompactVideoCard
   cinematic?: boolean;
+  grid?: boolean;
   onScroll?: (e: NativeSyntheticEvent<NativeScrollEvent>) => void;
   onBeforeNavigate?: () => void;
   /** Ordering, threaded from the profile toolbar. Presets cannot express "oldest". */
@@ -68,6 +69,7 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
   ListHeaderComponent = null,
   showCreator = true,
   cinematic = false,
+  grid = false,
   onScroll,
   sortBy,
   sortOrder,
@@ -190,7 +192,7 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
 
   const renderItem = useCallback(
     ({ item, index }: ListRenderItemInfo<VideoItem>) => {
-      if (cinematic) {
+      if (cinematic && !grid) {
         const key = keyExtractor(item, index);
         return (
           <View className="px-2">
@@ -207,13 +209,14 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
       return (
         <CompactVideoCard
           nft={item as any}
+          grid={grid}
           enablePreview={resolvedEnablePreview}
           showCreator={showCreator}
           onBeforeNavigate={onBeforeNavigate}
         />
       );
     },
-    [cinematic, keyExtractor, isItemVisible, isItemAutoplayActive, resolvedEnablePreview, showCreator, onBeforeNavigate]
+    [cinematic, grid, keyExtractor, isItemVisible, isItemAutoplayActive, resolvedEnablePreview, showCreator, onBeforeNavigate]
   );
 
   const ListFooter = useMemo(() => {
@@ -228,6 +231,8 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
   return (
     <View className="flex-1">
       <Animated.FlatList
+        key={grid ? "grid" : "list"}
+        numColumns={grid ? 3 : 1}
         ref={listRef}
       className="flex-1 bg-theme-background"
       data={items}

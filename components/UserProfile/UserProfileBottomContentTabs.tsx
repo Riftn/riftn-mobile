@@ -345,13 +345,6 @@ const UserProfileBottomContentTabsInner: React.FC<
   const [imagesLoading, setImagesLoading] = useState(false);
   /** Guards against a slow early request landing after a faster later one. */
   const imagesRequestRef = useRef(0);
-  // ProfileImageGrid requires a defined id per item (used as the React key);
-  // UnifiedFeedItem's id is optional, so fall back to tokenId — always present
-  // for real posts — rather than widening ProfileImageGrid's contract.
-  const gridImages = useMemo(
-    () => images.map((img) => ({ ...img, id: img.id ?? img.tokenId ?? "" })),
-    [images],
-  );
 
   // Subscribers tab state
   const [plans, setPlans] = useState<SubscriptionPlan[]>([]);
@@ -604,7 +597,7 @@ const UserProfileBottomContentTabsInner: React.FC<
     if (!isFullScreen || !CONTENT_BACKED_TABS.includes(activeTab)) return null;
     return (
       <>
-        <ProfileContentToolbar {...toolbar} showViewToggle={activeTab === "home"} onArrange={isOwnProfile && address ? openArrange : undefined} />
+        <ProfileContentToolbar {...toolbar} showViewToggle onArrange={isOwnProfile && address ? openArrange : undefined} />
         <ProfileFilterDrawer {...panel} onClose={toolbar.onFiltersClose} />
         {arrangeOpen && !!address && (
           <ProfileArrangeSheet visible onClose={closeArrange} address={address} hasCustomOrder={customOrder} onSaved={handleOrderSaved} />
@@ -718,8 +711,9 @@ const UserProfileBottomContentTabsInner: React.FC<
               // onScroll was previously omitted here, so this tab alone never
               // drove the sticky bar / back-to-top button.
               <ProfileImageGrid
-              listRef={listRefFor(tab)}
-              images={gridImages}
+                listRef={listRefFor(tab)}
+                images={images}
+                onBeforeNavigate={onClose}
                 scrollEnabled={scrollEnabled}
                 onImagePress={handleImagePress}
                 onScroll={scrollHandler}
@@ -872,18 +866,15 @@ const UserProfileBottomContentTabsInner: React.FC<
   );
 };
 
-/**
- * Grid or list on the All tab: the reader's own "Open other profiles as"
- * choice, else the owner's saved default, unless the visitor flipped the
- * toggle on this profile since the app opened.
- */
+/** Content tabs share the layout this reader last picked for this profile. */
 const UserProfileBottomContentTabs: React.FC<UserProfileBottomContentTabsProps> = (props) => {
   const me = useUser() as { address?: string; walletAddress?: string; customs?: Record<string, unknown> } | null;
-  const mine = (me?.address || me?.walletAddress || "").toLowerCase();
+  const mine = (me?.walletAddress || me?.address || "").toLowerCase();
   const isOwn = !!mine && !!props.address && props.address.toLowerCase() === mine;
   const profileView = useSaveOwnProfileView(useProfileViewState(
     props.address,
     startingProfileView(props.defaultView ?? "grid", getProfileViewReaderPref(me), isOwn),
+    mine,
   ), isOwn);
   return (
     <ProfileViewModeContext.Provider value={profileView}>

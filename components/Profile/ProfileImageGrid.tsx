@@ -2,6 +2,10 @@ import React, { memo, useCallback, useMemo } from "react";
 import { View, TouchableOpacity, StyleSheet, useWindowDimensions, type NativeSyntheticEvent, type NativeScrollEvent } from "react-native";
 import Animated from "react-native-reanimated";
 import { Image } from "expo-image";
+import FeedCard from "../Home/FeedCard";
+import { useFeedCardVisibility } from "../../hooks/useFeedCardVisibility";
+import { useProfileViewMode } from "../../libs/profileViewMode";
+import type { UnifiedFeedItem as ImagePost } from "../../services/feed.unified.service";
 import Icon from "../ui/Icon";
 import { getImageUrlApiSimple } from "../../libs/misc";
 import { useAppTheme } from "../../context/ThemeContext";
@@ -28,19 +32,11 @@ const makeGridMetrics = (screenWidth: number, gap: number, padding: number, plac
 };
 type GridMetrics = ReturnType<typeof makeGridMetrics>;
 
-interface ImagePost {
-  id?: string | number;
-  tokenId?: string | number;
-  imageUrls?: string[];
-  imageUrl?: string;
-  thumbnailUrl?: string;
-  [key: string]: any;
-}
-
 interface ProfileImageGridProps {
   images: ImagePost[];
   listRef?: React.RefObject<import("react-native").FlatList<any> | null>;
   onImagePress?: (index: number) => void;
+  onBeforeNavigate?: () => void;
   scrollEnabled?: boolean;
   /** Either a plain callback, or a Reanimated worklet scroll handler. */
   onScroll?: ((e: NativeSyntheticEvent<NativeScrollEvent>) => void) | any;
@@ -142,7 +138,8 @@ const GridRow = memo<{ row: GridRowData; data: ImagePost[]; m: GridMetrics; onPr
   },
 );
 
-const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, onImagePress, scrollEnabled = true, onScroll, ListHeaderComponent }) => {
+const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, onImagePress, onBeforeNavigate, scrollEnabled = true, onScroll, ListHeaderComponent }) => {
+  const viewMode = useProfileViewMode();
   const { isMinimal } = useAppTheme();
   const cinematicPhone = useCinematicPhone();
   const cinematic = cinematicPhone && !!ListHeaderComponent;
@@ -152,6 +149,8 @@ const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, on
     [isMinimal, cinematic, screenWidth],
   );
   const rows = useMemo(() => buildRows(images.length), [images.length]);
+  const imageKey = useCallback((item: ImagePost, index: number) => String(item.tokenId ?? item.id ?? index), []);
+  const visibility = useFeedCardVisibility(imageKey as (item: unknown, index: number) => string);
 
   const renderRow = useCallback(
     ({ item: row }: { item: GridRowData }) => (
@@ -175,6 +174,37 @@ const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, on
   );
 
   if (images.length === 0) return ListHeaderComponent ?? null;
+
+  if (viewMode === "list") {
+    return (
+      <Animated.FlatList
+        key="image-list"
+        ref={listRef}
+        data={images}
+        keyExtractor={imageKey}
+        viewabilityConfig={visibility.viewabilityConfig}
+        onViewableItemsChanged={visibility.onViewableItemsChanged}
+        extraData={visibility.visibilityExtraData}
+        renderItem={({ item, index }) => (
+          <View className="px-2">
+            <FeedCard
+              item={item}
+              cinematic={cinematic}
+              isVisible={visibility.isItemVisible(imageKey(item, index))}
+              isAutoplayActive={false}
+              onBeforeNavigate={onBeforeNavigate}
+            />
+          </View>
+        )}
+        ListHeaderComponent={ListHeaderComponent}
+        contentContainerStyle={{ paddingBottom: TAB_BAR_CONTENT_INSET }}
+        scrollEnabled={scrollEnabled}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
+        showsVerticalScrollIndicator={false}
+      />
+    );
+  }
 
   if (images.length < 4) {
     return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import type { NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import CompactVideoInfiniteList from '../Home/CompactVideoInfiniteList';
+import { useProfileViewMode } from '../../libs/profileViewMode';
 import { useCinematicPhone } from '../../hooks/useCinematicPhone';
 import { ProfileFeedOriginContext, useProvidedProfileFeed } from '../../libs/profileFeedOrigin';
 import type { FeedRange, FeedSortBy } from '../../services/feed.unified.service';
@@ -43,6 +44,7 @@ const VideosRoute: React.FC<VideosRouteProps> = ({
   isLocked,
 }) => {
   const cinematicPhone = useCinematicPhone();
+  const viewMode = useProfileViewMode();
   // A video opened here plays on through this creator's videos in Shorts.
   const feedSource = useProvidedProfileFeed(address ? {
     minter: address,
@@ -59,6 +61,7 @@ const VideosRoute: React.FC<VideosRouteProps> = ({
   return (
     <ProfileFeedOriginContext.Provider value={feedSource}>
     <CompactVideoInfiniteList
+      grid={viewMode === "grid"}
       cinematic={cinematicPhone && !!listHeader}
       listRef={listRef}
       address={address || FALLBACK_ADDRESS}
