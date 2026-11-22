@@ -17739,6 +17739,7 @@
   },
   "games": {
     "chess": {
+      "slowButton": "Días por jugada, contra un amigo",
       "notFound": "No se encontró esta partida.",
       "statusInvited": "{{name}} te ha retado, {{days}} días por jugada.",
       "statusWaiting": "Esperando a que acepten el reto.",
