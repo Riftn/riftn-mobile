@@ -29,6 +29,8 @@ jest.mock("react-i18next", () => ({
 jest.mock("@react-native-community/slider", () => "Slider");
 jest.mock("expo-image", () => ({ Image: "Image" }));
 jest.mock("expo-video", () => ({ useVideoPlayer: () => ({}), VideoView: "VideoView" }));
+jest.mock("expo-camera", () => ({ CameraView: "CameraView", useCameraPermissions: () => [{ granted: true, canAskAgain: true }, jest.fn()] }));
+jest.mock("expo-linear-gradient", () => ({ LinearGradient: "LinearGradient" }));
 jest.mock("expo-image-picker", () => ({
   launchImageLibraryAsync: async () => ({ assets: [{ uri: "file:///photo.jpg", type: "image" }], canceled: false }),
 }));
@@ -41,7 +43,7 @@ jest.mock("../../components/common/MentionSuggestions", () => {
       key: user.address, accessibilityLabel: user.username, onPress: () => onSelect(user),
     }));
 });
-jest.mock("../../context/ThemeContext", () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children }));
+jest.mock("../../context/ThemeContext", () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children, useAppTheme: () => ({ theme: "hazy", isLight: false }) }));
 jest.mock("../../libs/skia", () => ({ optionalSkia: (load: () => unknown) => load() }));
 jest.mock("../../libs/toast", () => ({ toastError: jest.fn() }));
 jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => ({ shelf: [], supportsCustomAudience: true, supportsPhotoDuration: true }) }));
@@ -73,7 +75,7 @@ it("exports a person selected in the Moment editor as a linked label", async () 
   ]);
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
-  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(editor.getByLabelText("Pick from device"));
   fireEvent.press(await editor.findByLabelText("Mention"));
   fireEvent.changeText(editor.getByPlaceholderText("Search"), "@ali");
   fireEvent.press(await editor.findByLabelText("alice"));
@@ -95,7 +97,7 @@ it("keeps the full photo visible and lets the author close the editor without sh
   jest.mocked(shareMoment).mockClear();
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={onClose} /></QueryClientProvider>);
-  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(editor.getByLabelText("Pick from device"));
   await editor.findByText("Share");
   const close = editor.getByLabelText("Close");
   expect(editor.UNSAFE_getAllByType(require("expo-image").Image).at(-1)?.props.contentFit).toBe("contain");
@@ -108,7 +110,7 @@ it("tracks one gesture across multiple text position updates and publishes the f
   jest.mocked(shareMoment).mockClear();
   const client = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={() => {}} /></QueryClientProvider>);
-  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(editor.getByLabelText("Pick from device"));
   fireEvent.press(await editor.findByLabelText("Mention"));
   fireEvent.changeText(editor.getByPlaceholderText("Search"), "@ali");
   fireEvent.press(await editor.findByLabelText("alice"));
@@ -131,7 +133,7 @@ it("tracks one gesture across multiple text position updates and publishes the f
 it("keeps a text layer's chosen orientation through editing and export", async () => {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={() => {}} /></QueryClientProvider>);
-  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(editor.getByLabelText("Pick from device"));
   fireEvent.press(await editor.findByLabelText("Text"));
   fireEvent.changeText(editor.getByPlaceholderText("Type something"), "Upward");
   for (let i = 0; i < 6; i++) fireEvent.press(editor.getByLabelText("Rotate"));
@@ -150,7 +152,7 @@ it.each(["Only selected people", "Hide from selected people"])("publishes %s usi
   jest.mocked(mentionSearch).mockResolvedValue([{ address, username: "alice", displayName: "Alice", avatarImageUrl: "", isFollowing: false }]);
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
-  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(editor.getByLabelText("Pick from device"));
   fireEvent.press(await editor.findByText("Everyone"));
   fireEvent.press(await editor.findByText(mode));
   fireEvent.press(editor.getByText("Done"));
@@ -175,7 +177,7 @@ it("passes a chosen photo playback timer to the upload", async () => {
   jest.mocked(shareMoment).mockClear();
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
-  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(editor.getByLabelText("Pick from device"));
   fireEvent.press(await editor.findByLabelText("Seconds on screen"));
   const slider = editor.UNSAFE_getByType(require("@react-native-community/slider"));
   expect(slider.props.value).toBe(5);
@@ -192,7 +194,7 @@ it("passes a chosen photo playback timer to the upload", async () => {
 it("applies the chosen caption font and size to the placed text and upload", async () => {
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
-  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(editor.getByLabelText("Pick from device"));
   fireEvent.press(await editor.findByLabelText("Text"));
   fireEvent.changeText(editor.getByPlaceholderText("Type something"), "Hello");
   fireEvent.press(editor.getByLabelText("Caption font"));
@@ -218,7 +220,7 @@ it.each(["Only selected people", "Hide from selected people"])("keeps %s when th
   jest.mocked(mentionSearch).mockResolvedValue([{ address, username: "alice", displayName: "Alice", avatarImageUrl: "", isFollowing: false }]);
   const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
-  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(editor.getByLabelText("Pick from device"));
   fireEvent.press(await editor.findByText("Everyone"));
   fireEvent.press(await editor.findByText(mode));
   fireEvent.press(editor.getByText("Search"));

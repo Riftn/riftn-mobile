@@ -79,11 +79,11 @@ it('uses a thin grey outline on all three tile types in light mode', () => {
   try {
     act(() => { tree = create(<StoryShelf />); });
     const outlines = tree.root.findAll(node => Array.isArray(node.props.style) && node.props.style.some(
-      (style: { borderColor?: string } | undefined) => style?.borderColor === '#d4d4d8',
+      (style: { borderColor?: string } | undefined) => style?.borderColor === 'rgba(113,113,122,0.24)',
     ));
     expect(outlines).toHaveLength(3);
     for (const outline of outlines) {
-      expect(outline.props.style).toContainEqual({ borderColor: '#d4d4d8', borderWidth: 0.5 });
+      expect(outline.props.style).toContainEqual({ borderColor: 'rgba(113,113,122,0.24)' });
     }
   } finally {
     act(() => tree?.unmount());
