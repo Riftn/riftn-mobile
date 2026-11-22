@@ -880,6 +880,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return true;
       } catch (e) {
         log.warn('switchToProfile:failed', e as any);
+        // Release builds only keep errors in the device log; the reason is what
+        // a failed switch has to be diagnosed from.
+        console.error('[switchToProfile] failed:', String((e as any)?.message ?? e));
         await abortProfileSwitch(prevId);
         await rehydrateFromStorage();
         // A refused session also asks for sign-in; someone who was signed in
