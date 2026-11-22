@@ -4096,6 +4096,7 @@
     "editPlaceholder": "Yorumunuzu düzenleyin...",
     "replyPlaceholder": "Yanıt yazın...",
     "inputPlaceholder": "Buraya yazın",
+    "shortsPlaceholder": "Bir şey söyle...",
     "cancelReply": "Yanıtı iptal et",
     "cancelEdit": "Düzenlemeyi iptal et",
     "countLabel_one": "{{count}} Yorum",

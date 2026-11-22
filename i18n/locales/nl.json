@@ -4281,6 +4281,7 @@
     "editPlaceholder": "Bewerk je reactie...",
     "replyPlaceholder": "Schrijf een antwoord...",
     "inputPlaceholder": "Typ hier",
+    "shortsPlaceholder": "Zeg iets...",
     "cancelReply": "Antwoord annuleren",
     "cancelEdit": "Bewerken annuleren",
     "countLabel_one": "{{count}} reactie",

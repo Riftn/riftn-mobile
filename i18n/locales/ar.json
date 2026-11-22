@@ -4113,6 +4113,7 @@
     "editPlaceholder": "عدّل تعليقك...",
     "replyPlaceholder": "اكتب ردًا...",
     "inputPlaceholder": "اكتب هنا",
+    "shortsPlaceholder": "قل شيئًا...",
     "cancelReply": "إلغاء الرد",
     "cancelEdit": "إلغاء التعديل",
     "countLabel_one": "{{count}} تعليق",

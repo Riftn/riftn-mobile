@@ -4129,6 +4129,7 @@
     "editPlaceholder": "Edit your comment...",
     "replyPlaceholder": "Write a reply...",
     "inputPlaceholder": "Type here",
+    "shortsPlaceholder": "Say something...",
     "threadParts": {
       "reorder": "Reorder",
       "reorderHint": "Hold and drag a part, or use the arrows, then save.",

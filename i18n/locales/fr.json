@@ -4097,6 +4097,7 @@
     "editPlaceholder": "Modifiez votre commentaire...",
     "replyPlaceholder": "Écrire une réponse...",
     "inputPlaceholder": "Écrivez ici",
+    "shortsPlaceholder": "Dites quelque chose...",
     "cancelReply": "Annuler la réponse",
     "cancelEdit": "Annuler la modification",
     "countLabel_one": "{{count}} commentaire",
