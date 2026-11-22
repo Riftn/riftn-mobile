@@ -64,6 +64,8 @@ export interface StoryItem {
   expiresAt: string;
   viewed: boolean;
   liked: boolean;
+  /** Public comments (older servers leave it out). */
+  commentCount?: number;
   viewCount?: number;
   likeCount?: number;
   replyCount?: number;
@@ -207,4 +209,24 @@ export async function uploadStoryClip(
   const draftId = res?.draftId ?? res?.result?.draftId;
   if (!draftId) throw new Error("upload failed");
   return String(draftId);
+}
+
+export interface StoryComment {
+  id: string;
+  text: string;
+  createdAt: string;
+  author: StoryAuthor;
+  canDelete: boolean;
+}
+
+export function getStoryComments(id: string, signedIn: boolean, cursor?: string): Promise<{ commentCount: number; allowComments: boolean; comments: StoryComment[]; next: string | null }> {
+  return apiClient.get(`/stories/${enc(id)}/comments`, { isAuthRequired: signedIn, quiet: true, ...(cursor ? { params: { cursor } } : {}) });
+}
+
+export function addStoryComment(id: string, text: string): Promise<StoryComment> {
+  return apiClient.post(`/stories/${enc(id)}/comments`, { text });
+}
+
+export function deleteStoryComment(id: string, commentId: string): Promise<{ ok: boolean }> {
+  return apiClient.delete(`/stories/${enc(id)}/comments/${enc(commentId)}`);
 }

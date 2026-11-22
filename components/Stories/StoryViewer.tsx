@@ -57,11 +57,13 @@ import {
 } from "../../services/stories.service";
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
 import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
+import StoryComments from "./StoryComments";
+import { MomentComment, MomentHeart, MomentShare } from "./MomentIcons";
 
 const DEFAULT_PHOTO_MS = 5000;
 const TICK_MS = 50;
 
-type Sheet = null | "more" | "viewers" | "report" | "delete" | "share" | "share-dm";
+type Sheet = null | "more" | "viewers" | "comments" | "report" | "delete" | "share" | "share-dm";
 
 export default function StoryViewer({
   entries,
@@ -537,12 +539,20 @@ export default function StoryViewer({
             )}
             {!own ? (
               <TouchableOpacity onPress={toggleLike} style={styles.round} accessibilityLabel={t("stories.like", { defaultValue: "Like" })}>
-                <Icon name="Heart" size={20} color={isLiked ? "#FF5C78" : "#fff"} fill={isLiked ? "#FF5C78" : undefined} />
+                <MomentHeart size={22} filled={isLiked} />
               </TouchableOpacity>
             ) : null}
+            <TouchableOpacity onPress={() => setSheet("comments")} style={styles.round} accessibilityRole="button" accessibilityLabel={t("stories.comments", { defaultValue: "Comments" })}>
+              <MomentComment size={22} />
+              {(item.commentCount ?? 0) > 0 ? (
+                <View style={styles.countBadge} pointerEvents="none">
+                  <Text style={styles.countText}>{formatCount(item.commentCount ?? 0)}</Text>
+                </View>
+              ) : null}
+            </TouchableOpacity>
             {shareable && (
               <TouchableOpacity onPress={() => setSheet("share")} style={styles.round} accessibilityRole="button" accessibilityLabel={t("stories.share", { defaultValue: "Share" })}>
-                <Icon name="Share2" size={20} color="#fff" />
+                <MomentShare size={22} />
               </TouchableOpacity>
             )}
           </View>
@@ -552,7 +562,18 @@ export default function StoryViewer({
         {sheet === "share-dm" && (
           <ShareToDmSheet visible url={momentUrl} onClose={() => setSheet("share")} />
         )}
-        {sheet && sheet !== "share-dm" ? (
+        {sheet === "comments" && (
+          <StoryComments
+            item={item}
+            signedIn={!!me}
+            bottom={insets.bottom}
+            onClose={() => setSheet(null)}
+            onOpenProfile={onOpenProfile}
+            onSignIn={() => { setSheet(null); requireAuth(() => {}); }}
+            onCount={(n) => setList((l) => l.map((e, i) => (i === authorIdx ? { ...e, items: e.items.map((it) => (it.id === item.id ? { ...it, commentCount: n } : it)) } : e)))}
+          />
+        )}
+        {sheet && sheet !== "share-dm" && sheet !== "comments" ? (
           <ViewerSheet
             kind={sheet}
             item={item}
@@ -816,6 +837,19 @@ const styles = StyleSheet.create({
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: "rgba(255,255,255,0.18)",
   },
+  countBadge: {
+    position: "absolute",
+    top: -4,
+    right: -4,
+    minWidth: 18,
+    height: 18,
+    paddingHorizontal: 5,
+    borderRadius: 9,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  countText: { color: "#000", fontSize: 11, fontWeight: "700" },
   ownStats: {
     flex: 1,
     height: 44,

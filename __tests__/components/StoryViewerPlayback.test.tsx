@@ -29,6 +29,8 @@ jest.mock('../../context/ThemeContext', () => ({ DarkRoomProvider: ({ children }
 jest.mock('../../components/ui/Icon', () => 'Icon');
 jest.mock('../../components/common/Avatar', () => 'Avatar');
 jest.mock('../../components/DM/ShareToDmSheet', () => () => null);
+jest.mock('../../components/Stories/MomentIcons', () => ({ MomentHeart: 'MomentHeart', MomentComment: 'MomentComment', MomentShare: 'MomentShare' }));
+jest.mock('../../components/Stories/StoryComments', () => () => null);
 jest.mock('../../libs/toast', () => ({ toastError: jest.fn(), toastSuccess: jest.fn() }));
 jest.mock('../../libs/misc', () => ({ getAvatarUrl: () => null }));
 jest.mock('../../services/stories.service', () => ({ deleteStory: jest.fn(async () => ({ ok: true })) }));
