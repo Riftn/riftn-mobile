@@ -18,6 +18,7 @@ import { DM_VIDEO_MAX_SIZE } from "./dm.types";
 import * as FileSystem from "expo-file-system/legacy";
 import { prepareOutgoing, prepareSession } from "../../libs/dm-e2ee/keys";
 import { wantsEncryptionTo } from "../../libs/dm-e2ee/encrypt-choice";
+import { isTranslateOutOn, translateOutgoing } from "../../libs/dm-translate-out";
 import { encodeMediaDescriptor, type MediaDescriptor, type MediaKind } from "../../libs/dm-e2ee/media";
 import { prepareMediaDescriptor } from "../../libs/dm-e2ee/media-send";
 import type { DmVideoOptions } from "../../libs/dm-video-options";
@@ -715,11 +716,21 @@ class DmSendQueue {
   }
 
   private async emitText(job: TextSendJob, convId: ID, txHash?: string, tipTxHash?: string): Promise<void> {
+    // "Send in their language": translated before it would be sealed, so the
+    // line they get (and their push) reads in their language. Forwards go as
+    // they were.
+    const translated = !job.forwardedFrom && isTranslateOutOn(String(convId))
+      ? await translateOutgoing(String(convId), job.content)
+      : null;
     const payload: DmSendPayload & Record<string, unknown> = {
       dmId: convId,
-      content: await this.wireContent(convId, job.address, job.content),
+      content: translated ? translated.content : await this.wireContent(convId, job.address, job.content),
       type: "msg",
     };
+    if (translated) {
+      payload.original = translated.original;
+      payload.translatedTo = translated.lang;
+    }
     if (job.replyTo) payload.replyTo = job.replyTo._id;
     if (job.forwardedFrom) payload.forwardedFrom = job.forwardedFrom;
     if (job.whenOnline) payload.whenOnline = true;
@@ -727,7 +738,11 @@ class DmSendQueue {
     if (tipTxHash) payload.tipTxHash = tipTxHash;
 
     const sent = await this.sendConfirmed(job, payload);
-    dmActions.upsertMessages(convId, [{
+    dmActions.upsertMessages(convId, [translated ? {
+      ...sent, _clientKey: job.tempId, content: translated.content, author: "me", isRead: false,
+      original: { content: translated.original, lang: translated.lang },
+      ...(job.whenOnline ? { whenOnline: true } : {}),
+    } : {
       ...sent, _clientKey: job.tempId, content: job.content, author: "me", isRead: false,
       ...(job.whenOnline ? { whenOnline: true } : {}),
       ...(sent.content !== job.content ? { encrypted: true } : {}),

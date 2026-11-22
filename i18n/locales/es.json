@@ -8244,7 +8244,9 @@
     "shareKindGroup": "Grupo",
     "shareKindChannel": "Canal",
     "shareKindCommunity": "Comunidad",
-    "copyMedia": "Copiar contenido"
+    "copyMedia": "Copiar contenido",
+    "translateOut": "Enviar en su idioma",
+    "translateOutOff": "Enviar tal como escribo"
   },
   "editPost": {
     "mediaPermission": "Se necesita permiso para la biblioteca multimedia",
@@ -18152,5 +18154,17 @@
     "failedBody": "Toca para abrir el chat y enviarla allí.",
     "sent": "Respuesta enviada",
     "open": "Abrir chat"
+  },
+  "dmTranslateOut": {
+    "showMine": "Mostrar lo que escribí",
+    "showTheirs": "Mostrar lo que ven",
+    "showTranslation": "Mostrar traducción",
+    "asTheySee": "Como lo ven",
+    "sentIn": "Enviado en {{language}}",
+    "original": "Original",
+    "translated": "Traducido",
+    "offToast": "Tus mensajes aquí se envían tal como los escribes",
+    "onToast": "Tus mensajes aquí ahora se envían en {{language}}",
+    "noLanguage": "Aún no han elegido un idioma en la app, así que por ahora tus mensajes se envían tal como los escribes"
   }
 }

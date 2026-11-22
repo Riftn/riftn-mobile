@@ -222,7 +222,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
     requestAnimationFrame(() => inputRef.current?.focus());
   }, [autoFocus, disabled]);
   const [ordinaryText, setOrdinaryText] = useDraft(draftKey);
-  const [editText, setEditText] = useDraftState(editingMessage && draftKey ? `${draftKey}:edit:${editingMessage._id}` : null, editingMessage?.content || "");
+  const [editText, setEditText] = useDraftState(editingMessage && draftKey ? `${draftKey}:edit:${editingMessage._id}` : null, editingMessage?.original?.content || editingMessage?.content || "");
   const text = editingMessage ? editText : ordinaryText;
   const setText = editingMessage ? setEditText : setOrdinaryText;
   const [media, setMedia] = useState<ChatMediaAttachment | null>(null);
@@ -357,7 +357,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
   // Pre-fill when editing
   useEffect(() => {
     if (editingMessage) {
-      setEditText.initialize(editingMessage.content || "");
+      setEditText.initialize(editingMessage.original?.content || editingMessage.content || "");
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [editingMessage, setEditText]);
@@ -835,7 +835,7 @@ const ChatInputBarComponent: React.FC<ChatInputBarProps> = ({
                 className="text-[13px] text-theme-neutrals-400 mt-0.5"
                 numberOfLines={1}
               >
-                {editingMessage.content}
+                {editingMessage.original?.content || editingMessage.content}
               </Text>
             </View>
             <TouchableOpacity onPress={handleCancelEdit} hitSlop={8}>

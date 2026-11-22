@@ -7833,6 +7833,8 @@
     "originalText": "Original Text"
   },
   "dm": {
+    "translateOut": "Send in their language",
+    "translateOutOff": "Send as I type",
     "newDrawer": {"to": "To", "placeholder": "Name or @username", "recent": "RECENT", "suggested": "SUGGESTED", "youFollow": "PEOPLE YOU FOLLOW", "chattedBefore": "You talk", "mutual": "Mutual", "dmsOff": "DMs off", "keepTyping": "Keep typing to search everyone", "sayHi": "Say hi to someone", "typeAny": "Type any name or @username"},
     "openTimer": {"secs": "{{n}} sec", "oneMin": "1 min", "chip": "{{time}} once opened", "opened": "Opened", "tapPhoto": "Tap to view", "tapVideo": "Tap to watch", "goneAfter": "Disappears {{time}} after you open it"},
     "copyMedia": "Copy media",
@@ -17606,5 +17608,17 @@
     "failedBody": "Tap to open the chat and send it there.",
     "sent": "Reply sent",
     "open": "Open chat"
+  },
+  "dmTranslateOut": {
+    "showMine": "Show what I wrote",
+    "showTheirs": "Show what they see",
+    "showTranslation": "Show translation",
+    "asTheySee": "As they see it",
+    "sentIn": "Sent in {{language}}",
+    "original": "Original",
+    "translated": "Translated",
+    "offToast": "Your messages here go as you type them",
+    "onToast": "Your messages here now go out in {{language}}",
+    "noLanguage": "They haven't picked an app language yet, so your messages go as you type them for now"
   }
 }

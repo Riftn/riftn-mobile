@@ -19,6 +19,7 @@ import { prepareWalletRelay, waitForWalletSignature } from "../wallet-relay";
 import { getEoaSigningProvider, getSigningProvider, OPEN_WALLET_METHOD } from "../provider.registry";
 import { WalletLockedError } from "../wallet-lock";
 import { clearEncryptedChats, wantsEncryptionTo } from "./encrypt-choice";
+import { clearTranslateOutChats } from "../dm-translate-out";
 import {
   decryptText,
   deriveIdentityFromSignature,
@@ -164,6 +165,7 @@ export async function loadIdentity(address: string): Promise<boolean> {
 /** Forget the in-memory identity (sign-out). The stored copy stays for the next sign-in. */
 export function unloadIdentity(): void {
   clearEncryptedChats();
+  clearTranslateOutChats();
   current = null;
   previousIdentities = [];
   historicalPublicKeys.clear();

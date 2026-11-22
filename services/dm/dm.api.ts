@@ -375,6 +375,8 @@ export interface ChatPref {
   listedAt?: string | null;
   /** DMs: your messages in this chat are end-to-end encrypted since then. */
   encryptedAt?: string | null;
+  /** DMs: your messages here go out in the other person's language since then. */
+  translateOutAt?: string | null;
   /** Reactions to your messages you haven't seen; cleared when you open the chat. */
   reactions?: ChatReactionSummary | null;
 }
@@ -406,7 +408,7 @@ export async function getChatPrefs(): Promise<ChatPref[]> {
 
 export async function setChatPref(
   conversationId: string,
-  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean; seenReactions?: true; mutedUntil?: string | null },
+  patch: { pinned?: boolean; archived?: boolean; unread?: boolean; listed?: boolean; encrypted?: boolean; translateOut?: boolean; seenReactions?: true; mutedUntil?: string | null },
 ): Promise<void> {
   await apiClient.post(`/dm/chat-prefs/${encodeURIComponent(conversationId)}`, patch, { isAuthRequired: true });
 }
