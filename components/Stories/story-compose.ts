@@ -7,10 +7,11 @@
  *
  * Only load this through `optionalSkia` (libs/skia).
  */
-import { Skia, FontWeight, ImageFormat, TileMode, type SkCanvas, type SkImage } from "@shopify/react-native-skia";
-import { Platform } from "react-native";
+import { Skia, FontSlant, ImageFormat, TileMode, type SkCanvas, type SkImage } from "@shopify/react-native-skia";
 import * as FileSystem from "expo-file-system/legacy";
 import type { StoryMention } from "../../services/stories.service";
+
+import { captionFontStyle, type CaptionFont } from "./caption-fonts";
 
 export const OUT_W = 1080;
 export const OUT_H = 1920;
@@ -23,6 +24,7 @@ export interface TextLayer {
   y: number;
   /** Font size as a fraction of the stage width. */
   size: number;
+  font?: CaptionFont;
   color: string;
   box: boolean;
   /** Clockwise degrees around the centre. */
@@ -30,16 +32,18 @@ export interface TextLayer {
   mentionAddress?: string;
 }
 
-const FAMILIES = Platform.select({ ios: ["Helvetica Neue"], default: ["sans-serif"] });
-
 function layoutLine(line: string, px: number, layer: TextLayer) {
   // Paragraph shaping falls back to the system emoji font for joined sequences.
   const builder = Skia.ParagraphBuilder.Make({ maxLines: 1 });
+  const font = captionFontStyle(layer.font);
   builder.pushStyle({
     color: Skia.Color(layer.color),
     fontSize: px,
-    fontFamilies: FAMILIES,
-    fontStyle: { weight: FontWeight.Bold },
+    fontFamilies: [font.fontFamily],
+    fontStyle: {
+      weight: Number(font.fontWeight),
+      slant: font.fontStyle === "italic" ? FontSlant.Italic : FontSlant.Upright,
+    },
     ...(layer.box ? {} : {
       shadows: [{ color: Skia.Color("rgba(0,0,0,0.45)"), blurRadius: px * 0.12, offset: { x: 0, y: 0 } }],
     }),

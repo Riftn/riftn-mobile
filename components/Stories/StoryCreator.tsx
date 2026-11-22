@@ -11,6 +11,7 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
 import {
   ScrollView,
+  Keyboard,
   KeyboardAvoidingView,
   PanResponder,
   Platform,
@@ -40,6 +41,7 @@ import { toastError } from "../../libs/toast";
 import { mentionSearch, type MentionUser } from "../../services/mention.service";
 import { getStoryShelf, STORY_LIFETIMES, type StoryAudience, type StoryLifetime } from "../../services/stories.service";
 import type { StoryRemixSource } from "../../store/stories.store";
+import { CAPTION_FONTS, captionFonts, captionFontStyle } from "./caption-fonts";
 import { shareMoment } from "./story-upload";
 import type { TextLayer } from "./story-compose";
 
@@ -564,7 +566,7 @@ function textStyle(layer: TextLayer, fontSize: number) {
     color: layer.color,
     fontSize,
     lineHeight: fontSize * 1.18,
-    fontWeight: "700" as const,
+    ...captionFontStyle(layer.font),
     textAlign: "center" as const,
     paddingHorizontal: fontSize * 0.32,
     borderRadius: fontSize * 0.28,
@@ -589,7 +591,8 @@ function TextSheet({
   bottom: number;
 }) {
   const { t } = useTranslation();
-  const sizes = [0.055, 0.075, 0.1];
+  const [fontsOpen, setFontsOpen] = useState(false);
+  const font = layer.font ?? "classic";
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={StyleSheet.absoluteFill}>
       <Pressable style={styles.textBack} onPress={onDone}>
@@ -627,16 +630,44 @@ function TextSheet({
                 <Text style={styles.chipText}>{layer.rotation ?? 0}°</Text>
               </TouchableOpacity>
             )}
-            {sizes.map((s, i) => (
-              <TouchableOpacity key={s} onPress={() => onChange({ ...layer, size: s })} style={[styles.chip, layer.size === s && styles.chipOn]}>
-                <Text style={[styles.chipText, { fontSize: 12 + i * 3 }]}>Aa</Text>
+            {compose && (
+              <TouchableOpacity
+                accessibilityRole="button" accessibilityLabel={t("stories.captionFont", { defaultValue: "Caption font" })}
+                accessibilityState={{ expanded: fontsOpen }} style={styles.chip}
+                onPress={() => { Keyboard.dismiss(); setFontsOpen(open => !open); }}
+              >
+                <Text style={[styles.chipText, captionFontStyle(font)]}>{t(`stories.captionStyles.${font}`, { defaultValue: CAPTION_FONTS[font].label })}</Text>
+                <Icon name="ChevronDown" size={14} color="#fff" />
               </TouchableOpacity>
-            ))}
+            )}
             <View style={{ flex: 1 }} />
             <TouchableOpacity onPress={onDone} style={styles.doneBtn} accessibilityLabel={t("common.done", { defaultValue: "Done" })}>
               <Icon name="Check" size={20} color="#000" />
             </TouchableOpacity>
           </View>
+          {compose && fontsOpen && (
+            <ScrollView style={{ maxHeight: Math.min(168, stageW / 2) }} keyboardShouldPersistTaps="always" nestedScrollEnabled>
+              {captionFonts.map(id => (
+                <TouchableOpacity
+                  key={id} accessible accessibilityRole="radio" accessibilityState={{ checked: font === id }}
+                  style={[styles.fontOption, font === id && styles.chipOn]}
+                  onPress={() => { onChange({ ...layer, font: id }); setFontsOpen(false); }}
+                >
+                  <Text style={[styles.chipText, captionFontStyle(id)]}>{t(`stories.captionStyles.${id}`, { defaultValue: CAPTION_FONTS[id].label })}</Text>
+                  {font === id && <Icon name="Check" size={16} color="#fff" />}
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          )}
+          {compose && (
+            <View style={styles.textRow}>
+              <Text style={styles.chipText}>{t("articles.textSize", { defaultValue: "Text size" })}</Text>
+              <Slider style={{ flex: 1 }} minimumValue={0.045} maximumValue={0.14} step={0.005} value={layer.size}
+                accessibilityLabel={t("articles.textSize", { defaultValue: "Text size" })}
+                minimumTrackTintColor="#fff" maximumTrackTintColor="#777" thumbTintColor="#fff"
+                onValueChange={size => onChange({ ...layer, size })} />
+            </View>
+          )}
         </Pressable>
       </Pressable>
     </KeyboardAvoidingView>
@@ -700,6 +731,7 @@ const styles = StyleSheet.create({
   swatches: { flexDirection: "row", gap: 8 },
   swatch: { width: 28, height: 28, borderRadius: 14, borderWidth: 2, borderColor: "rgba(255,255,255,0.4)" },
   swatchOn: { borderColor: "#fff", transform: [{ scale: 1.15 }] },
+  fontOption: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", minHeight: 44, paddingHorizontal: 12, borderRadius: 10 },
   textRow: { flexDirection: "row", alignItems: "center", gap: 8 },
   doneBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: "#fff", alignItems: "center", justifyContent: "center" },
 });

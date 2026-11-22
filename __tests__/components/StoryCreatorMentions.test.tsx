@@ -15,9 +15,10 @@ jest.mock("react-native", () => ({
   Pressable: "Pressable",
   TouchableOpacity: "TouchableOpacity",
   KeyboardAvoidingView: "KeyboardAvoidingView",
+  Keyboard: { dismiss: jest.fn() },
   PanResponder: { create: (handlers: Record<string, unknown>) => ({ panHandlers: { onResponderGrant: handlers.onPanResponderGrant, onResponderMove: handlers.onPanResponderMove, onResponderRelease: handlers.onPanResponderRelease } }) },
   Platform: { OS: "ios", select: (options: any) => options.ios },
-  StyleSheet: { create: (value: object) => value, flatten: (value: object) => value, hairlineWidth: 1 },
+  StyleSheet: { create: (value: object) => value, flatten: (value: object) => Array.isArray(value) ? Object.assign({}, ...value) : value, hairlineWidth: 1 },
   useWindowDimensions: () => ({ width: 390, height: 844 }),
 }));
 jest.mock("react-native-safe-area-context", () => ({ useSafeAreaInsets: () => ({ top: 40, bottom: 30 }) }));
@@ -46,7 +47,7 @@ jest.mock("../../services/stories.service", () => ({ getStoryShelf: async () => 
 jest.mock("../../services/mention.service", () => ({ mentionSearch: jest.fn() }));
 jest.mock("../../components/Stories/story-upload", () => ({ shareMoment: jest.fn() }));
 jest.mock("@shopify/react-native-skia", () => ({
-  FontWeight: { Bold: 700 },
+  FontSlant: { Upright: 0, Italic: 1 },
   ImageFormat: { JPEG: 0 },
   Skia: {
     Color: (color: string) => color,
@@ -183,6 +184,27 @@ it("passes a chosen photo playback timer to the upload", async () => {
   fireEvent.press(editor.getByText("Share"));
   await waitFor(() => expect(shareMoment).toHaveBeenCalledTimes(1));
   expect(jest.mocked(shareMoment).mock.calls[0][0].fields.photoDurationSeconds).toBe(37);
+  editor.unmount();
+  client.clear();
+});
+
+it("applies the chosen caption font and size to the placed text and upload", async () => {
+  const client = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
+  const editor = render(<QueryClientProvider client={client}><StoryCreator onClose={jest.fn()} /></QueryClientProvider>);
+  fireEvent.press(editor.getByText("Pick from device"));
+  fireEvent.press(await editor.findByLabelText("Text"));
+  fireEvent.changeText(editor.getByPlaceholderText("Type something"), "Hello");
+  fireEvent.press(editor.getByLabelText("Caption font"));
+  expect(editor.getAllByRole("radio")).toHaveLength(12);
+  fireEvent.press(editor.getByText("Typewriter"));
+  fireEvent(editor.getByLabelText("Text size"), "valueChange", 0.1);
+  expect(editor.getByPlaceholderText("Type something")).toHaveStyle({ fontStyle: "italic" });
+  fireEvent.press(editor.getByLabelText("Done"));
+  expect(editor.getByText("Hello")).toHaveStyle({ fontStyle: "italic" });
+  fireEvent.press(editor.getByText("Share"));
+  await waitFor(() => expect(composePhoto).toHaveBeenCalledWith("file:///photo.jpg", [
+    expect.objectContaining({ font: "typewriter", size: 0.1, text: "Hello" }),
+  ]));
   editor.unmount();
   client.clear();
 });
