@@ -7927,6 +7927,8 @@
     "coverFailed": "No se pudo cambiar la portada"
   },
   "player": {
+    "transcoding": "Transcodificando",
+    "transcodingOnlyYou": "Solo tú puedes verlo hasta que esté listo",
     "fullscreen": "Pantalla completa",
     "segmentLabel": {
       "filler": "Relleno",

@@ -7,6 +7,20 @@ import { onSocketEvent } from "../libs/socket-events";
 export type VideoProcessingStatus = "pending" | "on" | "done" | "failed";
 const POLL_MS = 5_000;
 const processingKey = (tokenId: number | string | undefined) => ["video-processing", String(tokenId)] as const;
+const progressKey = (tokenId: number | string | undefined) => ["video-processing-progress", String(tokenId)] as const;
+
+/**
+ * How far a video still encoding has got, 0-100, or undefined before the
+ * first figure. Fed by the status poll and socket below, no requests of its own.
+ */
+export function useVideoProcessingProgress(tokenId: number | string | undefined): number | undefined {
+  const { data } = useQuery<number>({
+    queryKey: progressKey(tokenId),
+    queryFn: () => Promise.resolve(0),
+    enabled: false,
+  });
+  return data;
+}
 const isPending = (status: VideoProcessingStatus | undefined) => status === "pending" || status === "on";
 
 export function markVideoProcessing(client: QueryClient, tokenId: number | string) {
@@ -37,6 +51,9 @@ export function useVideoProcessingStatus(
   useEffect(() => {
     if (!waiting) return;
     return onSocketEvent(String(tokenId), (data) => {
+      if (data?.stage === "transcoding" && typeof data?.progress === "number" && data.progress > 0) {
+        client.setQueryData(progressKey(tokenId), data.progress);
+      }
       if (data?.stage === "done") client.setQueryData(processingKey(tokenId), "done");
       else if (data?.stage === "failed") client.setQueryData(processingKey(tokenId), "failed");
     });
@@ -46,6 +63,8 @@ export function useVideoProcessingStatus(
     queryFn: async () => {
       const { result } = await getNFT(tokenId!);
       const status = result.transcodingStatus;
+      const progress = Number((result as { progress?: unknown }).progress);
+      if (Number.isFinite(progress) && progress > 0) client.setQueryData(progressKey(tokenId), progress);
       if (!["pending", "on", "done", "failed"].includes(status)) throw new Error("Missing video processing status");
       return status as VideoProcessingStatus;
     },

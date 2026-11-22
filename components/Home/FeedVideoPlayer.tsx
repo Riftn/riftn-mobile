@@ -10,7 +10,7 @@ import { MediaControlIcon as BareIcon, MediaControlLabel, MediaControlText } fro
 import { usePostVideoPlayer } from "../../hooks/usePostVideoPlayer";
 import { useVideoSoundtrack } from "../../hooks/useVideoSoundtrack";
 import { SoundtrackChip } from "../Post/SoundtrackBadge";
-import { markVideoProcessing, useVideoProcessingStatus } from "../../hooks/useVideoProcessingStatus";
+import { markVideoProcessing, useVideoProcessingProgress, useVideoProcessingStatus } from "../../hooks/useVideoProcessingStatus";
 import { useQueryClient } from "@tanstack/react-query";
 import { peekFeedVideoPlace, rememberFeedVideoPlace, usedFeedVideoPlace } from "../../libs/feedVideoResume";
 import { hasPostVideoSession, postMediaIsTransferring, preparePostMediaNavigation } from "../../libs/post-media-session";
@@ -1606,8 +1606,7 @@ const FeedVideoPlayerComponent: React.FC<FeedVideoPlayerProps> = ({
 
       {isProcessing && (
         <View style={styles.statusOverlay}>
-          <ActivityIndicator size="small" color="#fff" />
-          <Text style={styles.statusText}>{t("player.processing")}</Text>
+          <TranscodingStatus tokenId={tokenId} isOwner={!!isOwner} />
         </View>
       )}
 
@@ -1996,6 +1995,32 @@ const PAGE_FRAME_CLEAR = { backgroundColor: "transparent" } as const;
 // back gesture lives. Web pushes them in the same way (index.css, minimal).
 const MINIMAL_EDGE = 16;
 
+/**
+ * A video post that cannot play yet. Only its creator is shown one (the API
+ * holds it back from everyone else): "Transcoding 42%", a bar, and a line
+ * saying nobody else sees it until it plays.
+ */
+function TranscodingStatus({ tokenId, isOwner }: { tokenId?: number | string; isOwner: boolean }) {
+  const { t } = useTranslation();
+  const progress = useVideoProcessingProgress(tokenId);
+  const percent = typeof progress === "number" ? Math.max(0, Math.min(99, Math.round(progress))) : 0;
+  return (
+    <View style={styles.transcodingBox} accessibilityRole="progressbar" accessibilityValue={{ min: 0, max: 100, now: percent || undefined }}>
+      <View style={styles.transcodingRow}>
+        <ActivityIndicator size="small" color="#fff" />
+        <Text style={styles.transcodingTitle}>
+          {t("player.transcoding")}
+          {percent > 0 ? ` ${percent}%` : ""}
+        </Text>
+      </View>
+      <View style={styles.transcodingTrack}>
+        <View style={[styles.transcodingFill, { width: `${percent > 0 ? Math.max(4, percent) : 30}%`, opacity: percent > 0 ? 1 : 0.6 }]} />
+      </View>
+      {isOwner && <Text style={styles.statusHintText}>{t("player.transcodingOnlyYou")}</Text>}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   // Every box sets its own width and height from the clip's shape. No
   // aspectRatio here: Yoga sizes the cross axis from aspectRatio over an
@@ -2037,6 +2062,11 @@ const styles = StyleSheet.create({
     gap: 8,
     paddingHorizontal: 24,
   },
+  transcodingBox: { width: "70%", maxWidth: 240, alignItems: "center", gap: 8 },
+  transcodingRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  transcodingTitle: { color: "#fff", fontSize: 14, fontWeight: "600", fontVariant: ["tabular-nums"] },
+  transcodingTrack: { width: "100%", height: 4, borderRadius: 2, overflow: "hidden", backgroundColor: "rgba(255,255,255,0.25)" },
+  transcodingFill: { height: "100%", borderRadius: 2, backgroundColor: "#fff" },
   statusText: {
     color: "#fff",
     fontSize: 13,

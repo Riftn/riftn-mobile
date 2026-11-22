@@ -7931,6 +7931,8 @@
     "coverFailed": "Impossible de changer la couverture"
   },
   "player": {
+    "transcoding": "Transcodage",
+    "transcodingOnlyYou": "Vous seul pouvez la voir jusqu'à ce qu'elle soit prête",
     "fullscreen": "Plein écran",
     "segmentLabel": {
       "filler": "Remplissage",

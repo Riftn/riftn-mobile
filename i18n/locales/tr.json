@@ -7929,6 +7929,8 @@
     "coverFailed": "Kapak değiştirilemedi"
   },
   "player": {
+    "transcoding": "Dönüştürülüyor",
+    "transcodingOnlyYou": "Hazır olana kadar bunu yalnızca sen görebilirsin",
     "fullscreen": "Tam ekran",
     "segmentLabel": {
       "filler": "Dolgu",
