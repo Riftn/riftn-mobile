@@ -12,7 +12,7 @@ import GlassModal from "../ui/GlassModal";
 import Icon from "../ui/Icon";
 import ScheduleSheet from "../Upload/ScheduleSheet";
 import { KitButton, useKitColors } from "../page/PageKit";
-import { appLocale } from "../../libs/date.util";
+import { appLocale, formatMessageTime } from "../../libs/date.util";
 import { toastError, toastSuccess } from "../../libs/toast";
 import { useWebSocketApi } from "../../context/WebSocketContext";
 import { DMSocketEvent } from "../../services/enums/dm-socket-events.enum";
@@ -87,7 +87,7 @@ export function useScheduledDms(dmId: string | null | undefined, peerAddress?: s
 
 const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate()).getTime();
 
-/** "Today, 9:00 AM" / "Tomorrow, 9:00 AM" / "Fri 20 Nov, 9:00 AM", in the viewer's own zone. */
+/** "Today, 09:00" / "Tomorrow, 09:00" / "Fri 20 Nov, 09:00", in the viewer's own zone. */
 export function useWhenLabel() {
   const { t } = useTranslation();
   return (iso: string | Date) => {
@@ -99,7 +99,7 @@ export function useWhenLabel() {
       : days === 1
         ? t("whenSheet.tomorrow", { defaultValue: "Tomorrow" })
         : at.toLocaleDateString(locale, { weekday: "short", day: "numeric", month: "short", ...(at.getFullYear() !== new Date().getFullYear() ? { year: "numeric" as const } : {}) });
-    return `${day}, ${at.toLocaleTimeString(locale, { hour: "numeric", minute: "2-digit" })}`;
+    return `${day}, ${formatMessageTime(at)}`;
   };
 }
 

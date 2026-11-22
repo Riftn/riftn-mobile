@@ -3,7 +3,7 @@ import { outsideImage } from "../../libs/outside-image";
 import { ReactionChips } from "./MessageReactions";
 import { useReactionHost } from "../ChatReactions/ReactionArrival";
 import CallNoteCard from "./CallNoteCard";
-import { translateCopy as _translateCopy } from "../../i18n/copy";
+import { formatMessageTime } from "../../libs/date.util";
 import { useTranslation as _useCopy } from 'react-i18next';
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -120,16 +120,6 @@ const resolveUrl = (path: string): string => {
     return path;
   }
   return buildCdnPath(path) ?? path;
-};
-
-const formatTime = (date?: string): string => {
-  if (!date) return "";
-  const d = new Date(date);
-  const h = d.getHours();
-  const m = d.getMinutes().toString().padStart(2, "0");
-  const ampm = h >= 12 ? _translateCopy("copy.6b987654a411", { defaultValue: "PM" }) : _translateCopy("copy.c8f48a68649d", { defaultValue: "AM" });
-  const h12 = h % 12 || 12;
-  return `${h12}:${m} ${ampm}`;
 };
 
 const isImageMime = (mime?: string): boolean =>
@@ -650,7 +640,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
   }, [t]);
 
 
-  const timeStr = formatTime(message.createdAt);
+  const timeStr = formatMessageTime(message.createdAt);
 
   // Whether this message was sent with an on-chain payment (per-message fee or voluntary tip)
   const isPaidMsg = !!(message.paymentTxHash || message.paymentStatus || message.tipAmount);
@@ -742,7 +732,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     return (
       <CallNoteCard
         content={message.content || ""}
-        time={formatTime(message.createdAt)}
+        time={formatMessageTime(message.createdAt)}
         isMine={isMine}
         peerAddress={callPeerAddress}
       />

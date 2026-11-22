@@ -1409,8 +1409,8 @@ const FollowListScreen: React.FC = () => {
             <View className="px-4 pb-2">
               <Text className="text-gray-500 text-sm font-medium">
                 {activeTab === "followers"
-                  ? t("follow.countFollowers", { compact: formatCompactNumber(totalCount) })
-                  : t("follow.countFollowing", { compact: formatCompactNumber(totalCount) })}
+                  ? t("follow.countFollowers", { compact: totalCount.toLocaleString() })
+                  : t("follow.countFollowing", { compact: totalCount.toLocaleString() })}
               </Text>
               {isOwnFollowersList && (
                 <Text className="text-theme-neutrals-600 text-xs mt-0.5">
