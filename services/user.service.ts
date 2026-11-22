@@ -259,6 +259,12 @@ export async function getAccount(usernameOrAddress: string) {
   }
 }
 
+/** Account lookups are returned directly by the API or inside a legacy data envelope. */
+export async function getAccountProfile(identifier: string): Promise<User | undefined> {
+  const response: { result?: User; data?: AccountInfoResponse } = await getAccount(identifier);
+  return response?.data?.result ?? response?.result ?? undefined;
+}
+
 export interface AccountSummary {
   address: string;
   username?: string | null;

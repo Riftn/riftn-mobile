@@ -60,6 +60,9 @@ import { TopBuildersCard, TopBuildersProvider } from "../components/FeatureReque
 import GlassModal from "../components/ui/GlassModal";
 import { runWithPermissions } from "../libs/permissions.util";
 import { toastWarning } from "../libs/toast";
+import { useComposeTranslate, languageLabel } from "../hooks/useComposeTranslate";
+import LanguageSelectModal from "../components/Settings/LanguageSelectModal";
+import type { DraftSetter } from "../hooks/useDraftState";
 import { localFileSize } from "../libs/storage-upload";
 import { featurePromptFields, FEATURE_PROMPT_MAX_LENGTH as DESC_MAX } from "../libs/feature-prompt";
 import { optionalSkia } from "../libs/skia";
@@ -714,6 +717,34 @@ const PhotoStudio = optionalSkia(
   () => require("../components/Upload/PhotoStudio").default as typeof import("../components/Upload/PhotoStudio").default,
 );
 
+function TranslateRequestField({ text, setText, limit, disabled }: {
+  text: string;
+  setText: DraftSetter<string>;
+  limit: number;
+  disabled: boolean;
+}) {
+  const { t, i18n } = useTranslation();
+  const translator = useComposeTranslate(text, translated => {
+    if (translated.length > limit) {
+      toastWarning(t("articles.bodyTooLong", { count: translated.length - limit }));
+      return;
+    }
+    setText(current => current === text ? translated : current);
+  }, i18n.language?.split("-")[0] || "en");
+  if (!text.trim()) return null;
+  return (
+    <>
+      <Pressable accessibilityRole="button" onPress={translator.openPicker}
+        disabled={disabled || translator.busy} style={styles.promptDetails}>
+        {translator.busy ? <ActivityIndicator size="small" /> : <Icon name="Languages" size={16} color="#808089" />}
+        <Text style={styles.promptHint}>{t("common.translate")} · {languageLabel(translator.lang)}</Text>
+      </Pressable>
+      {translator.pickerOpen && <LanguageSelectModal visible selected={translator.lang}
+        title={t("common.translate")} subtitle="" onClose={translator.closePicker} onSelect={translator.choose} />}
+    </>
+  );
+}
+
 const PromptComposer: React.FC<{
   focusRequest: number;
   onSubmit: (v: { title: string; description: string; category: FeatureCategory; attachments: FeatureAttachment[] }) => Promise<unknown>;
@@ -784,6 +815,7 @@ const PromptComposer: React.FC<{
         placeholder={t("features.promptPlaceholder", "Describe an idea, improvement, or bug…")}
         placeholderTextColor="#808089" multiline maxLength={DESC_MAX} editable={!submitting}
         style={[styles.input, styles.promptInput]} textAlignVertical="top" />
+      <TranslateRequestField text={description} setText={setDescription} limit={DESC_MAX} disabled={submitting} />
       {attachments.length > 0 && <ScrollView horizontal showsHorizontalScrollIndicator={false} keyboardShouldPersistTaps="handled" style={styles.promptPreviews}>
         {attachments.map((attachment, index) => <View key={`${attachment.uri}-${index}`} style={styles.promptAttachment}>
           <ThemePanel style={styles.promptThumbnail}>
@@ -847,6 +879,7 @@ const PromptComposer: React.FC<{
       <Collapsible open={detailsOpen}>
         <Text style={styles.fieldLabel}>{t("features.titleLabel")}</Text>
         <TextInput value={title} onChangeText={setTitle} maxLength={TITLE_MAX} editable={!submitting} style={styles.input} />
+        <TranslateRequestField text={title} setText={setTitle} limit={TITLE_MAX} disabled={submitting} />
         <Text style={styles.fieldLabel}>{t("features.categoryLabel")}</Text>
         <View style={styles.catWrap}>{CATEGORY_KEYS.map(key => <Pressable key={key} onPress={() => setCategory(key)} disabled={submitting}
           accessibilityRole="button" accessibilityState={{ selected: category === key }} style={[styles.sheetChip, category === key && styles.sheetChipActive]}>
