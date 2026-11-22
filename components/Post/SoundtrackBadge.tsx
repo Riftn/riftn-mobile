@@ -214,9 +214,10 @@ const SoundtrackBadge: React.FC<Props> = ({ title, creator, url, isVisible = tru
 
   if (variant === "overlay" && open) {
     const ink = isLight ? "#0b0b0f" : "#fff";
-    const soft = isLight ? "rgba(0,0,0,0.55)" : "rgba(255,255,255,0.5)";
+    const soft = isLight ? "#41414B" : "#D0D0D8";
     return (
       <View
+        className="dark-surface"
         style={[styles.bar, { marginHorizontal: barInset }, isLight ? styles.barLight : styles.barDark]}
         onStartShouldSetResponder={() => true}
         onResponderRelease={(event) => event.stopPropagation?.()}
@@ -386,7 +387,7 @@ function ScrubBar({ current, duration, onSeek, isLight, label }: {
       onResponderRelease={(event) => { const f = fractionAt(event); setDrag(null); onSeek(f * duration); }}
       onResponderTerminate={() => setDrag(null)}
     >
-      <View style={[styles.scrubTrack, { backgroundColor: isLight ? "rgba(0,0,0,0.12)" : "rgba(255,255,255,0.15)" }]}>
+      <View style={[styles.scrubTrack, { backgroundColor: isLight ? "#858590" : "#85858F" }]}>
         <View style={[styles.scrubFill, { width: `${progress * 100}%`, backgroundColor: fill }]} />
       </View>
       <View style={[styles.scrubThumb, { left: `${progress * 100}%`, backgroundColor: fill, opacity: drag === null ? 0 : 1 }]} />
@@ -433,8 +434,8 @@ const styles = StyleSheet.create({
   chipText: { color: "#fff", fontSize: 10, flexShrink: 1 },
   capsuleTitle: { color: "#fff", fontSize: 12, fontWeight: "600", flexShrink: 1, textShadowColor: "rgba(0,0,0,0.35)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 3 },
   bar: { flexDirection: "row", alignItems: "center", gap: 12, marginTop: 8, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 12, borderWidth: StyleSheet.hairlineWidth },
-  barDark: { backgroundColor: "rgba(255,255,255,0.05)", borderColor: "rgba(255,255,255,0.1)" },
-  barLight: { backgroundColor: "rgba(0,0,0,0.03)", borderColor: "rgba(0,0,0,0.1)" },
+  barDark: { backgroundColor: "#202026", borderColor: "#52525B" },
+  barLight: { backgroundColor: "#F0F0F4", borderColor: "#B4B4BE" },
   barArt: { width: 44, height: 44, borderRadius: 8, alignItems: "center", justifyContent: "center" },
   barMeta: { flex: 1, minWidth: 0 },
   barTitle: { fontSize: 14, fontWeight: "600" },
