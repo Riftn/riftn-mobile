@@ -592,6 +592,7 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
         case NotificationType.FRACTION_OFFER_ACCEPTED:
         case NotificationType.FRACTION_OFFER_REJECTED:
         case NotificationType.FRACTION_PURCHASED:
+        case NotificationType.FRACTION_GIFT:
           if (tokenId) navigation.navigate(ScreenNames.FeedDetail, { tokenId });
           else navigation.navigate(ScreenNames.Notifications);
           break;

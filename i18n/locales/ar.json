@@ -2807,7 +2807,8 @@
       "governanceVotedPassed": "تمت الموافقة على اقتراح صوتّ عليه: \"{{title}}\"",
       "governanceVotedRejected": "لم يتم تمرير الاقتراح الذي صوتّ عليه: \"{{title}}\"",
       "governancePassed": "تمت الموافقة على اقتراحك \"{{title}}\" 🎉",
-      "governanceRejected": "لم يتم قبول اقتراحك \"{{title}}\""
+      "governanceRejected": "لم يتم قبول اقتراحك \"{{title}}\"",
+      "fractionGift": "{{name}} أرسل لك حصصًا"
     }
   },
   "leaderboard": {
@@ -12205,7 +12206,21 @@
     "offerSubmitted_other": "تم تقديم عرض لـ {{count}} كسور بسعر {{price}} رمز لكل منها",
     "yourOfferLabel": "عرضك (رموز لكل كسر)",
     "listedToast_one": "تم إدراج {{count}} كسر بسعر {{price}} رمز لكل منها",
-    "listedToast_other": "تم إدراج {{count}} كسور بسعر {{price}} رمز لكل منها"
+    "listedToast_other": "تم إدراج {{count}} كسور بسعر {{price}} رمز لكل منها",
+    "giftSend": "إرسال",
+    "giftTitle": "إرسال حصص",
+    "giftHint": "تنتقل مباشرة من محفظتك إلى محفظته.",
+    "giftYouOwn": "تملك {{count}} من {{total}}",
+    "giftListedNote": "{{count}} معروضة للبيع. ألغِ العرض لإرسالها.",
+    "giftTo": "إلى",
+    "giftChange": "تغيير",
+    "giftSearch": "ابحث عن أشخاص",
+    "giftNoOne": "لم يتم العثور على أحد",
+    "giftHowMany": "كم",
+    "giftAll": "الكل",
+    "giftSending": "جارٍ الإرسال…",
+    "giftButton": "إرسال {{count}} إلى {{name}}",
+    "giftSent": "تم إرسال {{count}} إلى {{name}}"
   },
   "moderation": {
     "appealDuplicate": "لقد استأنفت هذا بالفعل",

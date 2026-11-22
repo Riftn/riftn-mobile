@@ -2807,7 +2807,8 @@
       "governanceVotedPassed": "Se ha aprobado una propuesta en la que votó: «{{title}}»",
       "governanceVotedRejected": "Una propuesta por la que votó no ha sido aprobada: «{{title}}»",
       "governancePassed": "Su propuesta «{{title}}» se ha aprobado 🎉",
-      "governanceRejected": "Tu propuesta «{{title}}» no se ha aprobado"
+      "governanceRejected": "Tu propuesta «{{title}}» no se ha aprobado",
+      "fractionGift": "{{name}} te envió fracciones"
     }
   },
   "leaderboard": {
@@ -12181,7 +12182,21 @@
     "offerSubmitted_other": "Oferta enviada por {{count}} fracciones a {{price}} tokens cada una",
     "yourOfferLabel": "Tu Oferta (tokens por Fracción)",
     "listedToast_one": "Listada {{count}} fracción a {{price}} tokens cada una",
-    "listedToast_other": "Listadas {{count}} fracciones a {{price}} tokens cada una"
+    "listedToast_other": "Listadas {{count}} fracciones a {{price}} tokens cada una",
+    "giftSend": "Enviar",
+    "giftTitle": "Enviar fracciones",
+    "giftHint": "Pasan directamente de tu billetera a la suya.",
+    "giftYouOwn": "Tienes {{count}} de {{total}}",
+    "giftListedNote": "{{count}} están a la venta. Cancela el anuncio para enviarlas.",
+    "giftTo": "Para",
+    "giftChange": "Cambiar",
+    "giftSearch": "Buscar personas",
+    "giftNoOne": "No se encontró a nadie",
+    "giftHowMany": "Cuántas",
+    "giftAll": "Todas",
+    "giftSending": "Enviando…",
+    "giftButton": "Enviar {{count}} a {{name}}",
+    "giftSent": "Enviaste {{count}} a {{name}}"
   },
   "moderation": {
     "appealDuplicate": "Ya has apelado este",
