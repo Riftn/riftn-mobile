@@ -25,6 +25,9 @@ import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
 
 const TILE_W = 86;
 const TILE_H = 118;
+/** Rounded-square faces, as on web: 24 px with the 1 px rim, 8 px corners. */
+const FACE = 22;
+const FACE_R = 7;
 
 /** Moments on the shelf, refreshed every minute while Home is up. */
 function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean, enabled: boolean) {
@@ -47,9 +50,10 @@ function StoryShelf() {
   const canSeeMature = MATURE_CONTENT_ENABLED && user?.showMatureContent === true && !kidsMode;
   const liveHosts = [...new Set(live.map(item => (item.wallet || "").toLowerCase()).filter(Boolean))].sort().slice(0, 100).join(",");
   const { storiesEnabled } = useStoriesEnabled();
-  const { data } = useStoryShelf(me, liveHosts, canSeeMature, storiesEnabled || !!liveHosts);
+  const { data, isLoading } = useStoryShelf(me, liveHosts, canSeeMature, storiesEnabled || !!liveHosts);
   const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
+  const { isLight } = useAppTheme();
   const scrollGuard = useHorizontalScrollGuard();
   const shelfGuard = useHorizontalSectionGuard(scrollGuard);
 
@@ -95,6 +99,12 @@ function StoryShelf() {
       {eligibleLive.map((item) => (
         <LiveTile key={`${item.kind}-${item.id}`} item={item} onOpen={() => openLive(item)} />
       ))}
+      {storiesEnabled && me && isLoading ? [0, 1, 2, 3].map((index) => (
+        <View key={`loading-${index}`} style={[styles.tile, styles.loadingTile, isLight && styles.loadingTileLight]}>
+          <View style={[styles.loadingFace, isLight && styles.loadingBarLight]} />
+          <View style={[styles.loadingBar, isLight && styles.loadingBarLight]} />
+        </View>
+      )) : null}
       {storiesEnabled && others.map((entry) => (
         <PersonTile key={entry.author.address} entry={entry} onOpen={() => openEntry(entry)} />
       ))}
@@ -113,7 +123,7 @@ function StoryShelf() {
 
 function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
   cover?: string | null;
-  avatar: React.ReactNode;
+  avatar: React.ReactNode | null;
   label: string;
   onPress: () => void;
   badge?: React.ReactNode;
@@ -141,7 +151,7 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
           pointerEvents="none"
         />
         <View pointerEvents="none" style={[styles.frame, isLight && styles.lightFrame]} />
-        <View pointerEvents="none" style={styles.avatar}>{avatar}</View>
+        {avatar ? <View pointerEvents="none" style={styles.avatar}>{avatar}</View> : null}
         {badge}
         {children}
       </TouchableOpacity>
@@ -172,24 +182,24 @@ function MeTile({
   const caption = failed
     ? t("stories.tapRetry", { defaultValue: "Tap to retry" })
     : pending || processing
-      ? t("stories.sharing", { defaultValue: "Sharing…" })
+      ? t("stories.posting", { defaultValue: "Posting…" })
       : name;
   return (
     <ShelfTile
       cover={pending?.preview ?? (entry && coverOf(entry))}
-      avatar={<Avatar uri={avatar} size={22} radius={11} name={name} />}
+      avatar={failed ? null : <Avatar uri={avatar} size={FACE} radius={FACE_R} name={name} />}
       label={failed ? caption : name}
       onPress={failed ? () => pending?.retry?.() : entry ? onOpen : onAdd}
-      action={
+      action={failed ? null : (
         <TouchableOpacity onPress={onAdd} hitSlop={8} style={styles.plus}
           accessibilityRole="button" accessibilityLabel={t("stories.addMoment", { defaultValue: "Add a moment" })}>
-          <Icon name="Plus" size={16} color="#111" strokeWidth={2.6} />
+          <Icon name="Plus" size={15} color="#111" strokeWidth={2.6} />
         </TouchableOpacity>
-      }
+      )}
     >
       {pending && !failed ? (
         <View style={styles.progressTrack} pointerEvents="none">
-          <View style={[styles.progressFill, { width: `${Math.max(4, Math.round(pending.progress * 100))}%` }]} />
+          <View style={[styles.progressFill, { width: `${pending.state === "processing" ? 100 : Math.max(6, Math.round(pending.progress * 100))}%` }]} />
         </View>
       ) : null}
       {failed ? (
@@ -210,7 +220,7 @@ function LiveTile({ item, onOpen }: { item: LiveNowItem; onOpen: () => void }) {
   return (
     <ShelfTile
       cover={item.cover}
-      avatar={<LiveFace item={item} size={22} radius={11} live={false} />}
+      avatar={<LiveFace item={item} size={FACE} radius={FACE_R} live={false} />}
       label={`${item.title}, ${liveLabel}`}
       onPress={onOpen}
       badge={
@@ -253,7 +263,7 @@ function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }
   return (
     <ShelfTile
       cover={coverOf(entry)}
-      avatar={<Avatar uri={avatarOf(entry.author, 48)} size={22} radius={11} name={name} />}
+      avatar={<Avatar uri={avatarOf(entry.author, 48)} size={FACE} radius={FACE_R} name={name} />}
       label={name}
       onPress={onOpen}
       badge={age ? (
@@ -283,14 +293,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.18)",
   },
-  lightFrame: { borderWidth: StyleSheet.hairlineWidth, borderColor: "#d4d4d8" },
+  lightFrame: { borderColor: "rgba(113,113,122,0.24)" },
   avatar: {
     position: "absolute",
     top: 7,
     left: 7,
     borderColor: "rgba(255,255,255,0.7)",
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: 8,
+    overflow: "hidden",
+    backgroundColor: "#3c404a",
   },
   label: {
     position: "absolute",
@@ -339,6 +351,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  loadingTile: { backgroundColor: "rgba(255,255,255,0.04)" },
+  loadingTileLight: { backgroundColor: "rgba(0,0,0,0.04)" },
+  loadingFace: { position: "absolute", top: 7, left: 7, width: 24, height: 24, borderRadius: 8, backgroundColor: "rgba(255,255,255,0.1)" },
+  loadingBar: { position: "absolute", bottom: 8, left: 8, width: 40, height: 8, borderRadius: 4, backgroundColor: "rgba(255,255,255,0.1)" },
+  loadingBarLight: { backgroundColor: "rgba(0,0,0,0.1)" },
   progressTrack: { position: "absolute", left: 7, right: 6, bottom: 28, height: 3, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.3)", overflow: "hidden" },
   progressFill: { height: 3, backgroundColor: "#fff" },
   center: { ...StyleSheet.absoluteFillObject, alignItems: "center", justifyContent: "center" },

@@ -13,6 +13,7 @@ import { PointsIcon } from "./PointsIcon";
 import Avatar from "../common/Avatar";
 import { getAvatarUrl, getBadgeUrlFor, getInlineBadgeOpticalStyle } from "../../libs/misc";
 import BadgeArtwork from "../common/BadgeArtwork";
+import { renderLinkEmojis } from "../common/LinkEmoji";
 import { TEXT_SHADOW } from "../common/ViewerChrome";
 import { useTranslation } from "../../hooks/useTranslation";
 import { useTranslation as useI18n } from "react-i18next";
@@ -236,7 +237,7 @@ const ChatBubble: React.FC<ChatBubbleProps> = memo(({ a, onUserPress, onHold, on
               ) : null}
               {creatorBadges ? <Text accessibilityLabel={creatorBadges.label} style={{ fontSize: 12 }}>{" "}{creatorBadges.emojis}</Text> : null}{" "}
             </Text>
-            {!a.meta?.gifUrl ? <Text style={{ color: '#FFFFFF' }}>{translation.isTranslated ? translation.translatedTexts.content : a.meta?.content}</Text> : null}
+            {!a.meta?.gifUrl ? <Text style={{ color: '#FFFFFF' }}>{renderLinkEmojis(translation.isTranslated ? translation.translatedTexts.content : a.meta?.content, { onLongPress: onHold ? handleHold : undefined })}</Text> : null}
           </Text>
           {a.meta?.gifUrl ? <Image source={{ uri: outsideImage(a.meta.gifUrl) }} style={{ width: 160, height: 120, borderRadius: 8, marginTop: 4 }} contentFit="cover" /> : null}
           {translation.shouldShow && (

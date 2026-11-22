@@ -15,6 +15,7 @@ import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { stripSoundtrackTag } from "../../libs/parseSoundtrack";
 import { openCategoryFeed } from "../../libs/openCategoryFeed";
 import { expandEmojiTokens } from "../common/EmojiText";
+import { LINK_EMOJI } from "../common/LinkEmoji";
 import { getActiveTheme, LIGHT_INK } from "../../theme/colors";
 import { useAppTheme } from "../../context/ThemeContext";
 import { getThemeSkin, MONO_TEXT } from "../../theme/skins";
@@ -89,7 +90,8 @@ export const parseTextToSegments = (input: string): Segment[] => {
       }
       const url = ensureUrl(value);
       if (url && hasValidTLD(value)) {
-        segments.push({ type: "link", value, url });
+        // Shown as a tappable 🔗, like web posts; the card under the post says where it goes.
+        segments.push({ type: "link", value: LINK_EMOJI, url });
       } else {
         segments.push({ type: "text", value });
       }
@@ -259,6 +261,8 @@ const FeedCaptionComponent: React.FC<FeedCaptionProps> = ({
                   : "text-blue-400"
               }
               onPress={() => handleOpenLink(seg.url)}
+              accessibilityRole="link"
+              accessibilityLabel={seg.url}
               suppressHighlighting
             >
               {seg.value}
