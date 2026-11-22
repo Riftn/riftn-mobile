@@ -7819,7 +7819,14 @@
       "stop": "Dejar de compartir pantalla",
       "sharing": "Estás compartiendo tu pantalla",
       "hint": "Los espectadores ven tu pantalla. Toca el botón de pantalla para volver a la cámara.",
-      "iosHint": "Los espectadores ven Riftn mientras está abierto. El iPhone pausa la imagen cuando cambias de app; tu voz sigue."
+      "iosHint": "Los espectadores ven Riftn mientras está abierto. El iPhone pausa la imagen cuando cambias de app; tu voz sigue.",
+      "tapStart": "Toca Iniciar emisión para compartir tu pantalla",
+      "connecting": "Iniciando la pantalla compartida…",
+      "micTip": "Activa primero el Micrófono para que te oigan.",
+      "anyApp": "Los espectadores ven tu pantalla, en cualquier app, hasta que dejes de compartir.",
+      "micOn": "Tu micrófono está activado",
+      "micOff": "Tu micrófono está desactivado. Para hablar, deja de compartir y activa el Micrófono al volver a compartir.",
+      "failed": "La pantalla compartida no pudo conectar con el servidor del directo. Vuelves a la cámara."
     }
   },
   "liveShop": {

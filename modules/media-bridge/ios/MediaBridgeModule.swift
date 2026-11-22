@@ -35,15 +35,46 @@ public class MediaBridgeModule: Module {
         && Bundle.main.object(forInfoDictionaryKey: "RTCAppGroupIdentifier") is String
     }
 
-    AsyncFunction("showBroadcastPicker") { () -> Bool in
+    AsyncFunction("showBroadcastPicker") { (microphone: Bool?) -> Bool in
       guard let extensionId = Bundle.main.object(forInfoDictionaryKey: "RTCScreenSharingExtension") as? String else { return false }
       let picker = RPSystemBroadcastPickerView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
       picker.preferredExtension = extensionId
-      picker.showsMicrophoneButton = false
+      // When the extension publishes the share itself it also carries the
+      // voice, so the picker offers the Microphone switch.
+      picker.showsMicrophoneButton = microphone == true
       guard let button = picker.subviews.compactMap({ $0 as? UIButton }).first else { return false }
       button.sendActions(for: .touchUpInside)
       return true
     }.runOnQueue(.main)
+
+    // Live screen share published by the broadcast extension itself (see
+    // modules/screen-capture/ios/BroadcastUpload/LiveBroadcastSession.swift):
+    // the app leaves a ticket with the stream's RTMP ingest URL, reads the
+    // extension's status, and sets `stop` to end the share.
+    Constant("liveBroadcastPublish") { LiveShareFiles.folder() != nil }
+
+    Function("prepareLiveBroadcast") { (url: String) -> String? in
+      guard let folder = LiveShareFiles.folder() else { return nil }
+      let id = UUID().uuidString
+      let ticket: [String: Any] = ["id": id, "url": url, "createdAt": Date().timeIntervalSince1970, "stop": false]
+      guard LiveShareFiles.write(ticket, to: folder.appendingPathComponent("ticket.json")) else { return nil }
+      return id
+    }
+
+    Function("liveBroadcastStatus") { (id: String) -> [String: Any]? in
+      guard let folder = LiveShareFiles.folder(),
+        let status = LiveShareFiles.read(folder.appendingPathComponent("status.json")),
+        status["id"] as? String == id else { return nil }
+      return status
+    }
+
+    Function("stopLiveBroadcast") { (id: String) in
+      guard let folder = LiveShareFiles.folder() else { return }
+      let file = folder.appendingPathComponent("ticket.json")
+      guard var ticket = LiveShareFiles.read(file), ticket["id"] as? String == id else { return }
+      ticket["stop"] = true
+      _ = LiveShareFiles.write(ticket, to: file)
+    }
 
     // Watched from the moment the module loads, not only once JS subscribes,
     // so the first press after launch is not missed.
@@ -97,5 +128,26 @@ public class MediaBridgeModule: Module {
   private func activateIfHarmless(_ session: AVAudioSession) {
     let mixes = session.category == .ambient || session.categoryOptions.contains(.mixWithOthers)
     if mixes { try? session.setActive(true) }
+  }
+}
+
+/// The app group folder the app and the broadcast extension share for a live screen share.
+enum LiveShareFiles {
+  static func folder() -> URL? {
+    guard let group = Bundle.main.object(forInfoDictionaryKey: "RTCAppGroupIdentifier") as? String,
+      let container = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: group) else { return nil }
+    let folder = container.appendingPathComponent("live-share", isDirectory: true)
+    try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
+    return folder
+  }
+
+  static func read(_ file: URL) -> [String: Any]? {
+    guard let data = try? Data(contentsOf: file) else { return nil }
+    return (try? JSONSerialization.jsonObject(with: data)) as? [String: Any]
+  }
+
+  static func write(_ object: [String: Any], to file: URL) -> Bool {
+    guard let data = try? JSONSerialization.data(withJSONObject: object) else { return false }
+    return (try? data.write(to: file, options: .atomic)) != nil
   }
 }

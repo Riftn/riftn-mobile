@@ -7823,7 +7823,14 @@
       "stop": "Arrêter le partage d'écran",
       "sharing": "Vous partagez votre écran",
       "hint": "Les spectateurs voient votre écran. Touchez le bouton écran pour revenir à la caméra.",
-      "iosHint": "Les spectateurs voient Riftn tant qu'il est ouvert. L'iPhone met l'image en pause quand vous changez d'app ; votre voix continue."
+      "iosHint": "Les spectateurs voient Riftn tant qu'il est ouvert. L'iPhone met l'image en pause quand vous changez d'app ; votre voix continue.",
+      "tapStart": "Touchez Commencer la diffusion pour partager votre écran",
+      "connecting": "Démarrage du partage d'écran…",
+      "micTip": "Activez d'abord le Micro pour que les spectateurs vous entendent.",
+      "anyApp": "Les spectateurs voient votre écran, dans n'importe quelle app, jusqu'à ce que vous arrêtiez le partage.",
+      "micOn": "Votre micro est activé",
+      "micOff": "Votre micro est coupé. Pour parler, arrêtez le partage et activez le Micro en partageant à nouveau.",
+      "failed": "Le partage d'écran n'a pas pu joindre le serveur du live. Vous êtes de retour sur la caméra."
     }
   },
   "liveShop": {

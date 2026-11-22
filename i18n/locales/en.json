@@ -7516,7 +7516,14 @@
       "stop": "Stop sharing screen",
       "sharing": "You're sharing your screen",
       "hint": "Viewers see your screen. Tap the screen button to switch back to the camera.",
-      "iosHint": "Viewers see Riftn while it's open. iPhone pauses the picture when you switch apps; your voice keeps going."
+      "iosHint": "Viewers see Riftn while it's open. iPhone pauses the picture when you switch apps; your voice keeps going.",
+      "tapStart": "Tap Start Broadcast to share your screen",
+      "connecting": "Starting your screen share…",
+      "micTip": "Turn on Microphone first so viewers hear you.",
+      "anyApp": "Viewers see your screen, in any app, until you stop sharing.",
+      "micOn": "Your mic is on",
+      "micOff": "Your mic is off. To talk, stop sharing and turn on Microphone when you share again.",
+      "failed": "Screen share couldn't reach the live server. You're back on camera."
     },
     "streamFromEncoder": "Stream from OBS or another encoder",
     "ending": "Ending...",

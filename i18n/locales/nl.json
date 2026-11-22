@@ -7957,7 +7957,14 @@
       "stop": "Stoppen met scherm delen",
       "sharing": "Je deelt je scherm",
       "hint": "Kijkers zien je scherm. Tik op de schermknop om terug te gaan naar de camera.",
-      "iosHint": "Kijkers zien Riftn zolang het open is. iPhone pauzeert het beeld als je van app wisselt; je stem gaat door."
+      "iosHint": "Kijkers zien Riftn zolang het open is. iPhone pauzeert het beeld als je van app wisselt; je stem gaat door.",
+      "tapStart": "Tik op Start uitzending om je scherm te delen",
+      "connecting": "Scherm delen wordt gestart…",
+      "micTip": "Zet eerst Microfoon aan zodat kijkers je horen.",
+      "anyApp": "Kijkers zien je scherm, in elke app, tot je stopt met delen.",
+      "micOn": "Je microfoon staat aan",
+      "micOff": "Je microfoon staat uit. Stop met delen en zet Microfoon aan als je opnieuw deelt om te praten.",
+      "failed": "Scherm delen kon de liveserver niet bereiken. Je bent terug op de camera."
     }
   },
   "liveShop": {
