@@ -70,15 +70,32 @@ export function useKeyboardRide(): { ref: React.RefObject<View | null>; lift: Sh
 
   useEffect(() => {
     const timers: ReturnType<typeof setTimeout>[] = [];
+    // Android sends keyboardDidShow as the keys START to rise, not when they
+    // land. Measuring 80ms later caught the composer mid-ride, read it as
+    // "still under the keys" and pushed it the whole correction too high;
+    // the next check pulled it back down. That overshoot and snap back was
+    // the jitter on every tap into Public Chat. Measure only once the ride
+    // has stopped moving, and once more for keyboards that resize late.
     const settle = () => {
       timers.forEach(clearTimeout);
       timers.length = 0;
-      // After the keys finish moving, and once more for keyboards that resize late.
-      timers.push(setTimeout(check, 80), setTimeout(check, 450));
+      let last = Number.NaN;
+      let polls = 0;
+      const poll = () => {
+        const now = lift.value;
+        if (now > 0 && Math.abs(now - last) < 0.5) {
+          check();
+          timers.push(setTimeout(check, 400));
+          return;
+        }
+        last = now;
+        if (++polls < 24) timers.push(setTimeout(poll, 50));
+      };
+      timers.push(setTimeout(poll, 50));
     };
     const show = Keyboard.addListener("keyboardDidShow", settle);
     return () => { show.remove(); timers.forEach(clearTimeout); };
-  }, [check]);
+  }, [check, lift]);
 
   return { ref, lift };
 }
