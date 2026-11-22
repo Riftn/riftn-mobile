@@ -5,6 +5,7 @@ import {
   View,
   Text,
   Modal,
+  Alert,
   Platform,
   TouchableOpacity,
   ScrollView,
@@ -15,6 +16,7 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
 } from "react-native";
+import ShareToDmSheet from "../DM/ShareToDmSheet";
 import { shareWithRef } from "../../libs/shareRef";
 import SmartImage from "../common/SmartImage";
 import { storageImage } from "../../libs/cdnImage";
@@ -409,16 +411,30 @@ const LiveStageModal: React.FC = () => {
 
   const spaceTitle = currentSpace?.title ?? "";
   const { t } = useTranslation();
+  const [dmStageId, setDmStageId] = useState<string | null>(null);
+  useEffect(() => {
+    if (!isModalOpen) setDmStageId(null);
+  }, [isModalOpen]);
+
   const handleShare = useCallback(() => {
     if (!currentSpace) return;
     // The link is the point. This used to send "Join me on Riftn Stages" and
     // nothing to tap; it is the same link the stage cards share.
-    shareWithRef(
+    const shareLink = () => shareWithRef(
       { message: `${t("stages.joinMe", { title: spaceTitle })}\n\n${ShareLinks.stage(currentSpace)}`, title: spaceTitle },
       undefined,
       "stage",
     ).catch(() => {});
-  }, [currentSpace, spaceTitle, t]);
+    if (!user) {
+      void shareLink();
+      return;
+    }
+    Alert.alert(t("stages.share"), undefined, [
+      { text: t("feedCard.sendInMessage"), onPress: () => setDmStageId(currentSpace.id) },
+      { text: t("communities.shareLink"), onPress: shareLink },
+      { text: t("common.cancel"), style: "cancel" },
+    ]);
+  }, [currentSpace, spaceTitle, t, user]);
 
   // Front Row is the Blue Whale rung. `status.powers` decides whether this
   // account has it — the badge the client draws from a live wallet read
@@ -1139,6 +1155,10 @@ const LiveStageModal: React.FC = () => {
           </TouchableOpacity>
         </View>
         </KeyboardAvoidingView>
+        {dmStageId === currentSpace.id && (
+          <ShareToDmSheet visible url={ShareLinks.stage(currentSpace)} postTitle={spaceTitle}
+            onClose={() => setDmStageId(null)} />
+        )}
       </View>
     </Modal>
   );

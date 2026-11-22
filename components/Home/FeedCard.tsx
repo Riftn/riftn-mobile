@@ -147,7 +147,7 @@ import PollCard from "../DM/PollCard";
 import { getAvatarUrl, getBadgeUrlFor, getImageUrl, getImageUrlApiSimple, buildFeedImageUrls, getAudioUrl, getVideoUrl, getPlaybackUrl, getShortsThumbnailUrl, resolveThumbnail, DEFAULT_BANNER_SENTINEL } from "../../libs/misc";
 import { useHlsFallback } from "../../libs/hls-fallback";
 import { formatCompactNumber } from "../../libs/numbers.util";
-import { toastError, toastSuccess } from "../../libs/toast";
+import { toastError, toastSuccess, toastWithAction } from "../../libs/toast";
 import { copyToClipboard } from "../../libs/clipboard.utils";
 import {
   usePostLinkCopyCount,
@@ -1385,13 +1385,13 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               return;
             }
             if (willBeSaved) {
-              setShowAddToFolder(true);
+              toastWithAction("success", t("toasts.saved_to_bookmarks"), t("addToFolder.title"), () => setShowAddToFolder(true));
             }
           })
           .catch(rollback);
       }
     });
-  }, [tokenId, userAddress, saved, engagementKey, requireAuth, setShowAddToFolder]);
+  }, [tokenId, userAddress, saved, engagementKey, requireAuth, setShowAddToFolder, t]);
 
   // An off-chain post shares as its own slug (/newpost/<n>), never as the
   // NFT-style /app/post/<tokenId> it hasn't earned. The slug survives minting
