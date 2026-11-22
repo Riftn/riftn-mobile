@@ -1157,6 +1157,8 @@
     "postingChain": "Blockchain des publications",
     "showOnline": "Montrer quand je suis en ligne",
     "showOnlineDesc": "Les personnes que vous envoyez un message voient un point vert à côté de votre nom lorsque vous utilisez Riftn",
+    "showLastSeen": "Afficher ma dernière connexion",
+    "showLastSeenDesc": "Les personnes avec qui tu discutes voient quand tu étais sur Riftn pour la dernière fois, par exemple « Vu il y a 5 min »",
     "smartReplies": "Réponses suggérées",
     "smartRepliesDesc": "Rédige deux réponses à toucher dans une discussion. La × sur les suggestions désactive l'option.",
     "signIn": "Connexion",
@@ -3181,6 +3183,8 @@
   },
   "profile": {
     "localTime": "Heure locale {{time}}",
+    "lastSeen": "Vu {{when}}",
+    "lastSeenJustNow": "Vu à l'instant",
     "localTimeAhead": "{{hours}} h d’avance",
     "localTimeBehind": "{{hours}} h de retard",
     "shareLocalTime": "Afficher mon heure locale",
