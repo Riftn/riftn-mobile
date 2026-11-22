@@ -332,6 +332,7 @@ export default function StoryViewer({
   const remove = async () => {
     try {
       await deleteStory(item.id);
+      void queryClient.invalidateQueries({ queryKey: ["moment-archive", me] });
       toastSuccess(t("stories.deleted", { defaultValue: "Moment deleted" }));
       setSheet(null);
       const rest = entry.items.filter((x) => x.id !== item.id);
