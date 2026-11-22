@@ -53,6 +53,7 @@ import DmFeeBanner from "../components/DM/DmFeeBanner";
 import DmEncryptionBanner from "../components/DM/DmEncryptionBanner";
 import DmSafetyBanner from "../components/DM/DmSafetyBanner";
 import MessageRequestBar from "../components/DM/MessageRequestBar";
+import { collapsedUnreadableRows } from "../libs/dm-e2ee/collapsed-unreadable";
 import { DmUndecryptableRun } from "../components/DM/DmLockedState";
 import { useChatPrefs } from "../hooks/useChatPrefs";
 import NewChatIntro from "../components/DM/NewChatIntro";
@@ -950,18 +951,19 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
     if (on && e2eeStatus !== "ready") void retryEncryption();
   }, [currentConvId, chatEncrypted, updateChatPref, t, e2eeStatus, retryEncryption]);
 
-  // Lines encrypted for another device collapse into one row per run. Keyed by
-  // the run's first id in list order; 0 hides the rest of the run.
-  const undecryptableRuns = useMemo(() => {
-    const runs = new Map<string, number>();
-    for (let i = 0; i < messageList.length; i++) {
-      if (!messageList[i].undecryptable) continue;
-      if (messageList[i - 1]?.undecryptable) { runs.set(messageList[i]._id, 0); continue; }
-      let n = 1;
-      while (messageList[i + n]?.undecryptable) n++;
-      runs.set(messageList[i]._id, n);
-    }
-    return runs;
+  const [expandedUnreadable, setExpandedUnreadable] = useState<Set<string>>(() => new Set());
+  useEffect(() => { setExpandedUnreadable(new Set()); }, [currentConvId]);
+  const undecryptableRuns = useMemo(
+    () => collapsedUnreadableRows(messageList, expandedUnreadable),
+    [messageList, expandedUnreadable],
+  );
+  const expandUnreadable = useCallback((start: number, count: number) => {
+    const rows = messageList.slice(start, start + count);
+    setExpandedUnreadable(previous => {
+      const expanded = new Set(previous);
+      for (const row of rows) expanded.add(row._id);
+      return expanded;
+    });
   }, [messageList]);
 
   // Re-run the history fetch below once the identity comes online, so lines
@@ -2238,7 +2240,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         );
       }
       const run = undecryptableRuns.get(item._id);
-      if (run !== undefined) return run > 0 ? <>{dayPill}{unreadMarker}<DmUndecryptableRun count={run} /></> : null;
+      if (run !== undefined) return run > 0 ? (
+        <>{dayPill}{unreadMarker}<DmUndecryptableRun count={run} onExpand={() => expandUnreadable(index, run)} /></>
+      ) : null;
       // The long-press menu floats its own copy of this bubble over the list.
       // The copy is see-through, so the original underneath showed its text
       // and time a second time; hide it while the menu is open.
@@ -2292,7 +2296,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
         </View>
       );
     },
-    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, address, toggleReaction, liftedId, unreadAnchor, picking, pickedMsgs, togglePick],
+    [isMine, messageList, onLongPressMessage, handleSwipeToReply, handleReplyPress, highlightedId, undecryptableRuns, expandUnreadable, address, toggleReaction, liftedId, unreadAnchor, picking, pickedMsgs, togglePick],
   );
 
   // The temp id a line was drawn under stays its key after the send lands.
