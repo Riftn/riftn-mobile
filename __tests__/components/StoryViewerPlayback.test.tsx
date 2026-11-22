@@ -25,7 +25,9 @@ jest.mock('react-native-safe-area-context', () => ({ useSafeAreaInsets: () => ({
 jest.mock('react-i18next', () => ({ useTranslation: () => ({ t: (key: string, options?: { defaultValue?: string }) => options?.defaultValue ?? key }) }));
 jest.mock('@react-navigation/native', () => ({ useNavigation: () => ({}) }));
 jest.mock('../../context/AuthContext', () => ({ useUser: () => ({ address: 'owner' }), useAuthActions: () => ({ requireAuth: (fn: () => void) => fn() }) }));
-jest.mock('../../context/ThemeContext', () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children }));
+jest.mock('../../context/ThemeContext', () => ({ DarkRoomProvider: ({ children }: React.PropsWithChildren) => children, useAppTheme: () => ({ theme: 'system', colors: { accent: '#fff' } }) }));
+jest.mock('../../components/Stories/StoryRoom', () => ({ StoryRoomChat: () => null, FloatHearts: () => null, ReplyTo: () => null, TEXT_SHADOW: {}, useMomentComments: () => ({ data: undefined }) }));
+jest.mock('../../components/common/ViewerChrome', () => ({ ChromeFill: () => null, CHROME_HAIRLINE: 'rgba(255,255,255,0.15)' }));
 jest.mock('../../components/ui/Icon', () => 'Icon');
 jest.mock('../../components/common/Avatar', () => 'Avatar');
 jest.mock('../../components/DM/ShareToDmSheet', () => () => null);

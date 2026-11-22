@@ -128,7 +128,17 @@
       "violence": "Violence ou actes dangereux",
       "hate": "Discours haineux",
       "other": "Autre chose"
-    }
+    },
+    "agoLabel": "il y a {{time}}",
+    "momentTag": "MOMENT",
+    "hoursLeft": "encore {{n}} h",
+    "minutesLeft": "encore {{n}} min",
+    "watchedCount": "{{n}} vues",
+    "nOfM": "{{n}} sur {{m}}",
+    "toEveryone": "Tout le monde",
+    "toOnly": "Seulement {{name}}",
+    "signInToSay": "Connecte-toi pour écrire",
+    "saySomething": "Dis quelque chose…"
   },
   "dmVideo": {
     "cover": "Couverture",
