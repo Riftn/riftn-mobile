@@ -3023,6 +3023,8 @@
     "premium": "Premium",
     "pricing": "Çmimet",
     "reorderHint": "Mbaj dhe tërhiq çdo ikonë për të riorganizuar",
+    "reorderHintGroups": "Mbaj dhe tërhiq çdo ikonë për ta rirenditur, ose mbi një skedë tjetër për ta zhvendosur",
+    "moveGroupHint": "Lëshoje mbi një skedë tjetër për ta zhvendosur atje",
     "reorderReset": "Rivendos",
     "groups": {
       "create": "Krijo",

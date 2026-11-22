@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Preus",
     "reorderHint": "Mantingues i arrossega qualsevol icona per reorganitzar",
+    "reorderHintGroups": "Mantén premuda i arrossega qualsevol icona per reordenar-la, o bé porta-la a una altra pestanya per moure-la",
+    "moveGroupHint": "Deixa-ho anar en una altra pestanya per moure-ho allà",
     "reorderReset": "Reset",
     "groups": {
       "create": "Crear",

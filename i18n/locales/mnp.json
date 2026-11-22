@@ -2997,6 +2997,8 @@
     "premium": "会员",
     "pricing": "价钱",
     "reorderHint": "按住并拖动任意图标进行重新排列",
+    "reorderHintGroups": "按住並拖動任何圖示來重新排列，或者拖到另一個分頁來移動它",
+    "moveGroupHint": "搦去另外一个标签页放落去，就会搬过去囉。",
     "reorderReset": "重置",
     "groups": {
       "create": "创建",

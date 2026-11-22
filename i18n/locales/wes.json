@@ -2998,6 +2998,8 @@
     "pricing": "Price dem",
     "reorderReset": "Reset",
     "reorderHint": "Hold and drag any icon to rearrange am",
+    "reorderHintGroups": "Hold am, drag any icon make you arrange am, or put am for another tab make you move am.",
+    "moveGroupHint": "Drop am for anoda tab make e go deh",
     "groups": {
       "create": "Mek",
       "main": "Main",

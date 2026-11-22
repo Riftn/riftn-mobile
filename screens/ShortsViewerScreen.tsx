@@ -2983,6 +2983,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
           replyPolicy={(item as any).replyPolicy}
           forKids={!!(item as any).forKids}
           postCreator={{ address: minterAddress, displayName, username }}
+          placeholder={t("comments.shortsPlaceholder", { defaultValue: "Say something..." })}
         />
       )}
 

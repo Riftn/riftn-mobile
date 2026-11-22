@@ -301,11 +301,17 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
         </Pressable>
       ) : recorder.isRecording ? (
         <VoiceNoteRecordingOverlay recorder={recorder} />
-      ) : media ? (
+      ) : media && (media.type === "audio" || media.type === "audiofile") ? (
         <CommentMediaPreview media={media} onRemove={() => setMedia(null)} onSend={send} sending={submit.isPending} />
       ) : (
+        <>
+        {/* A picked photo, GIF or video sits above the text box instead of
+            replacing it, so it can go out with a message. */}
+        {media && (
+          <CommentMediaPreview media={media} onRemove={() => setMedia(null)} onSend={send} sending={submit.isPending} hideSend />
+        )}
         <View style={styles.composer}>
-          {!editing && (
+          {!editing && !media && (
             <>
               <Pressable
                 onPress={() => requireAuth(openAttachPicker)}
@@ -339,7 +345,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
               onSelectionChange={mentions.handleSelectionChange}
               onContentSizeChange={growing.onContentSizeChange}
               scrollEnabled={growing.scrollEnabled}
-              placeholder={editing ? t("comments.editPlaceholder") : replyTo ? t("comments.replyPlaceholder") : t("features.addComment")}
+              placeholder={editing ? t("comments.editPlaceholder") : media ? t("dm.addCaption") : replyTo ? t("comments.replyPlaceholder") : t("features.addComment")}
               placeholderTextColor="#6F7174"
               style={[styles.input, growing.sizeStyle()]}
               maxLength={500}
@@ -355,7 +361,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
               <Text style={{ fontSize: 18 }}>🙂</Text>
             </Pressable>
           </View>
-          {!text.trim() && !editing ? (
+          {!text.trim() && !editing && !media ? (
             <Pressable
               onPress={() => requireAuth(() => { Keyboard.dismiss(); void recorder.startRecording(); })}
               hitSlop={8}
@@ -381,6 +387,7 @@ const RequestComments: React.FC<Props> = ({ featureId, featureTitle, authorAddre
             </Pressable>
           )}
         </View>
+        </>
       )}
 
       {isAuthed && !!text.trim() && !media && !recorder.isRecording && (

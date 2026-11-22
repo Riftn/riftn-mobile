@@ -27,6 +27,8 @@ interface CommentMediaPreviewProps {
   onRemove: () => void;
   onSend: () => void;
   sending?: boolean;
+  /** The text box below carries its own send button (photo + message). */
+  hideSend?: boolean;
 }
 
 const CommentMediaPreviewComponent: React.FC<CommentMediaPreviewProps> = ({
@@ -34,6 +36,7 @@ const CommentMediaPreviewComponent: React.FC<CommentMediaPreviewProps> = ({
   onRemove,
   onSend,
   sending = false,
+  hideSend = false,
 }) => {
   const { t } = useTranslation();
   const handleRemove = useCallback(() => onRemove(), [onRemove]);
@@ -107,7 +110,7 @@ const CommentMediaPreviewComponent: React.FC<CommentMediaPreviewProps> = ({
 
       <View className="flex-1" />
 
-      <TouchableOpacity
+      {!hideSend && <TouchableOpacity
         onPress={handleSend}
         activeOpacity={0.7}
         disabled={sending}
@@ -121,7 +124,7 @@ const CommentMediaPreviewComponent: React.FC<CommentMediaPreviewProps> = ({
         ) : (
           <Icon name="Send" size={16} color="#000" />
         )}
-      </TouchableOpacity>
+      </TouchableOpacity>}
     </View>
   );
 };

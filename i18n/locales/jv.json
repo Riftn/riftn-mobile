@@ -2998,6 +2998,8 @@
     "pricing": "Rega",
     "reorderReset": "Reset",
     "reorderHint": "Tahan lan seret lambang apa wae kanggo nata ulang",
+    "reorderHintGroups": "Pencet lan seret lambang apa wae kanggo ngatur maneh, utawa lebokake menyang tab liyane kanggo mindhah.",
+    "moveGroupHint": "Selehna ing tab liyane kanggo mindhah menyang kana",
     "groups": {
       "create": "Gawe",
       "discover": "Temokake",

@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Cenas",
     "reorderHint": "Turiet un velciet jebkuru ikonu, lai pārkārtotu",
+    "reorderHintGroups": "Turiet un velciet jebkuru ikonu, lai mainītu tās novietojumu, vai uzvelciet to uz citas cilnes, lai pārvietotu",
+    "moveGroupHint": "Pārvilkt uz citu cilni, lai to pārvietotu turp",
     "reorderReset": "Atiestatīt",
     "groups": {
       "create": "Izveidot",

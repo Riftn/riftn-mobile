@@ -2997,6 +2997,8 @@
     "premium": "Premiyɔmu",
     "pricing": "Sɔngɔw",
     "reorderHint": "Bɛɛ kɔ kɔkɔ kɔ kɔkɔ",
+    "reorderHintGroups": "Ikon o bɛɛ minɛ ka sɔgɔ walasa ka u labɛn, walima ka u bila tab wɛrɛ kan walasa ka u feere.",
+    "moveGroupHint": "A ka don tab wɛrɛ kɔnɔ ka taa a la yen",
     "reorderReset": "Ka segi ka na",
     "groups": {
       "create": "Dilan",

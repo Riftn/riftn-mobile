@@ -3023,6 +3023,8 @@
     "premium": "Prémium",
     "pricing": "Árak",
     "reorderHint": "Tartsa lenyomva és húzza bármelyik ikont az átrendezéshez",
+    "reorderHintGroups": "Tartsd lenyomva és húzd az ikont az átrendezéshez, vagy egy másik lapra az áthelyezéséhez",
+    "moveGroupHint": "Húzd át egy másik lapra, hogy oda helyezd át",
     "reorderReset": "Visszaállítás",
     "groups": {
       "create": "Létrehozás",

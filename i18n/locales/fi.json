@@ -2997,6 +2997,8 @@
     "premium": "Premium",
     "pricing": "Hinnoittelu",
     "reorderHint": "Järjestä uudelleen pitämällä mitä tahansa kuvaketta painettuna ja vetämällä",
+    "reorderHintGroups": "Pidä kuvaketta painettuna ja raahaa sitä järjestääksesi sen uudelleen, tai raahaa se toiseen välilehteen siirtääksesi sen.",
+    "moveGroupHint": "Pudota toiseen välilehteen siirtääksesi sen sinne",
     "reorderReset": "Tyhjennä",
     "groups": {
       "create": "Luo",

@@ -68,6 +68,8 @@ interface CommentBottomSheetProps {
   tokenId: number | string;
   highlightCommentId?: number | string;
   contentType?: "video" | "feed";
+  /** Composer hint for a new comment, passed to the comment list. */
+  placeholder?: string;
   /** Creator turned replies off — swaps the composer for a notice. */
   commentsDisabled?: boolean;
   /** Who may reply, when replies are on; said above the composer. */
@@ -118,6 +120,7 @@ const CommentBottomSheetComponent: React.FC<CommentBottomSheetProps> = ({
   bottomOffset = 0,
   slideOffset,
   split = false,
+  placeholder,
 }) => {
   const insets = useSafeAreaInsets();
   const { t } = useTranslation();
@@ -380,6 +383,7 @@ const CommentBottomSheetComponent: React.FC<CommentBottomSheetProps> = ({
               postCreator={postCreator}
               onDirtyChange={onDirtyChange}
               keyboardHandled={inline}
+              placeholder={placeholder}
             />
           )}
 

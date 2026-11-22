@@ -2997,6 +2997,8 @@
     "premium": "Iyyennoo",
     "pricing": "Gatii",
     "reorderHint": "Irra deebi'ii qindeessuuf mallattoo kamiyyuu qabadhuu harkisi",
+    "reorderHintGroups": "Mallattoo kamiyyuu qabdee harkisuun bakka jijjiiruu dandeessa, ykn tab biraa irratti gadi dhiisuun gara achiitti geessuu dandeessa",
+    "moveGroupHint": "Tabii biraa irratti gadi dhiisi gara achiitti akka inni socho'uuf",
     "reorderReset": "Reset gochuu",
     "groups": {
       "create": "Uumi",

@@ -2997,6 +2997,8 @@
     "premium": "Daboolka",
     "pricing": "Qiimaha",
     "reorderHint": "Qabso oo jiido icon kasta si ay dib u abaabulaan",
+    "reorderHintGroups": "Hayso oo jiid astaam kasta si aad dib ugu habeyso, ama ku dul tab kale si aad u guurto",
+    "moveGroupHint": "Daji tab kale si aad ugu guurto halkaas",
     "reorderReset": "Dib u deji",
     "groups": {
       "create": "Samee",

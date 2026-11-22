@@ -3085,6 +3085,8 @@
     "premium": "Cao cấp",
     "pricing": "Bảng giá",
     "reorderHint": "Giữ và kéo bất kỳ biểu tượng nào để sắp xếp lại",
+    "reorderHintGroups": "Nhấn giữ và kéo bất kỳ biểu tượng nào để sắp xếp lại, hoặc kéo vào một tab khác để di chuyển biểu tượng đó",
+    "moveGroupHint": "Thả vào một tab khác để di chuyển nó đến đó",
     "reorderReset": "Đặt lại",
     "groups": {
       "main": "Chính",
