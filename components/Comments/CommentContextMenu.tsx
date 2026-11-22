@@ -66,6 +66,8 @@ interface CommentContextMenuProps {
    * thread owner's rather than the comment author's.
    */
   onPin?: () => void;
+  /** Hide this reply on the viewer's own post (or unhide). Post creator only, never their own. */
+  onHide?: () => void;
   onLike?: () => void;
   liked?: boolean;
   onDislike?: () => void;
@@ -112,6 +114,7 @@ const CommentContextMenuComponent: React.FC<CommentContextMenuProps> = ({
   onReport,
   onAnchor,
   onPin,
+  onHide,
   onLike,
   liked,
   onDislike,
@@ -181,6 +184,13 @@ const CommentContextMenuComponent: React.FC<CommentContextMenuProps> = ({
     icon: comment.isPinned ? "PinOff" : "Pin",
     label: comment.isPinned ? t("communities.unpin") : t("communities.pin"),
     onPress: () => run(onPin),
+  });
+  // The thread owner hides somebody else's reply: gone for everyone but its writer.
+  if (onHide && !isOwnComment) tiles.push({
+    key: "hide",
+    icon: comment.hiddenByCreator ? "Eye" : "EyeOff",
+    label: comment.hiddenByCreator ? t("hideReply.unhide") : t("hideReply.hide"),
+    onPress: () => run(onHide),
   });
   // Report: somebody else's comment only, the server refuses a self-report.
   if (!isOwnComment && onReport) tiles.push({ key: "report", icon: "Flag", label: t("postOptions.report"), onPress: () => run(onReport) });

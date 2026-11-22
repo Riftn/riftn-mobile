@@ -68,6 +68,7 @@ import type { Community } from "../../types/community";
 import { PinnedCommunityWash } from "../Communities/PinnedCommunityStage";
 import ProfileFieldsList from "./ProfileFieldsList";
 import { localTimeLine, useProfileLocalTime } from "../../hooks/useProfileLocalTime";
+import { readAccountCategory } from "../../libs/account-type";
 
 // Minimal header buttons: no glass slab, just a 1px outline, and a 44pt box so
 // losing the padded pill does not shrink the tap target.
@@ -534,6 +535,10 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             </View>
           )}
 
+          {/* Creator or Business category, Instagram style. */}
+          {!!readAccountCategory(user?.customs as Record<string, unknown> | undefined) && (
+            <Text className="mt-2 text-sm text-zinc-400">{t(`accountType.cat.${readAccountCategory(user?.customs as Record<string, unknown> | undefined)}`)}</Text>
+          )}
           <ProfileFieldsList fields={(user as any)?.profileFields} />
           {localTime ? (
             <Text className="mt-1 text-sm text-zinc-400">

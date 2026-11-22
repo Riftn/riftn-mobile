@@ -2,7 +2,8 @@ import { PROFILE_COVER_HEIGHT, useProfileIdentityLayout } from '../Profile/usePr
 import { useTranslation as _useCopy } from 'react-i18next';
 import BadgeArtwork from "../common/BadgeArtwork";
 import React, { useCallback, useMemo, useRef } from "react";
-import { View, Text, TouchableOpacity, Pressable, ActivityIndicator, StyleSheet, useWindowDimensions } from "react-native";
+import { View, Text, TouchableOpacity, Pressable, ActivityIndicator, StyleSheet, useWindowDimensions, Linking } from "react-native";
+import { readAccountCategory, readContactEmail } from "../../libs/account-type";
 import Animated from "react-native-reanimated";
 import { openBadgeShowcase } from "../../libs/badgeShowcase";
 import SmartImage from "../common/SmartImage";
@@ -73,6 +74,8 @@ export interface UserProfileHeaderProps {
   /** Label/value lines under the bio — see ProfileFieldsList. */
   profileFields?: ProfileField[] | null;
   publicTimeZone?: string;
+  /** The profile's `customs`: account type, category and business contact email. */
+  customs?: Record<string, unknown>;
   isFollowing?: boolean;
   isFollowRequestPending?: boolean;
   followLoading?: boolean;
@@ -124,6 +127,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
   bioLanguage,
   profileFields,
   publicTimeZone,
+  customs,
   isFollowing = false,
   isFollowRequestPending = false,
   followLoading = false,
@@ -360,6 +364,20 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
                   </View>
                 </TouchableOpacity>
               )}
+              {!isBlocked && !isOwnProfile && !!readContactEmail(customs) && (
+                <TouchableOpacity
+                  onPress={() => { void Linking.openURL(`mailto:${readContactEmail(customs)}`); }}
+                  activeOpacity={0.7}
+                  accessibilityRole="button"
+                  accessibilityLabel={t("accountType.contact")}
+                  style={[btn, s.iconBtn, isMinimal && s.minimalIconBtn]}
+                >
+                  {glassLayers}
+                  <View style={s.glassBtnContent}>
+                    <Icon name="Mail" size={16} color="#fff" />
+                  </View>
+                </TouchableOpacity>
+              )}
               {!!onOpenOptions && (
                 <TouchableOpacity
                   onPress={onOpenOptions}
@@ -434,6 +452,10 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             </View>
           )}
 
+          {/* Creator or Business category, Instagram style. */}
+          {!!readAccountCategory(customs) && (
+            <Text className="mt-2 text-sm text-zinc-400">{t(`accountType.cat.${readAccountCategory(customs)}`)}</Text>
+          )}
           <ProfileFieldsList fields={profileFields} />
           {localTime ? (
             <Text className="mt-1 text-sm text-zinc-400">

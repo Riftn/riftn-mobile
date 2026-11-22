@@ -143,6 +143,11 @@ import { appliedEngagementWeight } from "../../libs/engagement-weight";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { useCoAuthorState } from "../../libs/coAuthors";
 import PollCard from "../DM/PollCard";
+import QuizCard from "../Quiz/QuizCard";
+import QuizEditorSheet from "../Quiz/QuizEditorSheet";
+import PhotoTagsOverlay from "../PhotoTags/PhotoTagsOverlay";
+import PhotoTagSheet from "../PhotoTags/PhotoTagSheet";
+import { removeMyPhotoTag, setPhotoTags, type PhotoTag } from "../../services/photo-tags.service";
 // Direct module imports, not the `libs` barrel — it `export *`s the axios
 // client and auth utils into every card module.
 import { getAvatarUrl, getBadgeUrlFor, getImageUrl, getImageUrlApiSimple, buildFeedImageUrls, getAudioUrl, getVideoUrl, getPlaybackUrl, getShortsThumbnailUrl, resolveThumbnail, DEFAULT_BANNER_SENTINEL } from "../../libs/misc";
@@ -627,6 +632,16 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
   // A followers-only or direct post cannot be reposted, quoted, embedded or
   // sent in a message — each would hand it to people it was not written for.
   const isPublicPost = !item.visibility || item.visibility === "public";
+  // Quiz on the post, and people tagged on its photos (riftn-backend
+  // src/quiz, src/photo-tags). Tags change from this card's menu, so the card
+  // holds its own copy once edited.
+  const [quizAdded, setQuizAdded] = useState(false);
+  const hasQuiz = !!(item as any).hasQuiz || quizAdded;
+  const [showQuizEditor, setShowQuizEditor] = useState(false);
+  const [tagsOverride, setTagsOverride] = useState<PhotoTag[] | null>(null);
+  const photoTags: PhotoTag[] = tagsOverride ?? (Array.isArray((item as any).imageTags) ? (item as any).imageTags : []);
+  const [showPhotoTagger, setShowPhotoTagger] = useState(false);
+  const iAmTagged = !!userAddress && photoTags.some((tag) => tag.address?.toLowerCase() === userAddress.toLowerCase());
 
   // The shared frosted wallpaper (components/theme/CardFrost) is up: the card
   // paints its tint over that instead of over the sharp scene.
@@ -1583,6 +1598,25 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     navigation.navigate(ScreenNames.PostInfo, { tokenId: String(tokenId) });
   }, [navigation, tokenId, item]);
 
+  const savePhotoTags = useCallback(async (next: PhotoTag[]) => {
+    if (tokenId == null) return;
+    try {
+      const res = await setPhotoTags(Number(tokenId), next);
+      setTagsOverride(res?.imageTags ?? next);
+      toastSuccess(t("photoTags.saved"));
+    } catch (err: any) {
+      toastError(err?.message || t("photoTags.saveFailed"));
+      throw err;
+    }
+  }, [tokenId, t]);
+
+  const handleRemoveMyTag = useCallback(() => {
+    if (tokenId == null) return;
+    removeMyPhotoTag(Number(tokenId))
+      .then((res) => { setTagsOverride(res?.imageTags ?? []); toastSuccess(t("photoTags.removedMe")); })
+      .catch((err: any) => toastError(err?.message || t("photoTags.saveFailed")));
+  }, [tokenId, t]);
+
   const handleOpenOptions = useCallback(() => {
     perfMark("post:menu");
     setShowOptionsMenu(true);
@@ -2326,7 +2360,13 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       }
       case "image":
       default: {
-        const media = renderImageContent();
+        const rawMedia = renderImageContent();
+        const media = rawMedia && photoTags.length > 0 && !isActuallyGated ? (
+          <View>
+            {rawMedia}
+            <PhotoTagsOverlay tags={photoTags} onPressUser={showUserProfile} />
+          </View>
+        ) : rawMedia;
         if (!soundtrackOnMedia || !media) return bleed(media);
         // The badge sits beside the photo's clip, not inside it: idle it floats
         // on the photo's corner, playing it docks as a bar under the photo.
@@ -2576,6 +2616,9 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           onEditSuccess={handleEditSuccess}
           onDeleteSuccess={handleDeleteSuccess}
           onSendToDm={isSignedIn ? () => setShowShareToDm(true) : undefined}
+          onTagPeople={isOwnerPost && tokenId != null && galleryImages.length > 0 && !isVideo && !isLive ? () => setShowPhotoTagger(true) : undefined}
+          onRemoveMyTag={!isOwnerPost && iAmTagged && tokenId != null ? handleRemoveMyTag : undefined}
+          onAddQuiz={isOwnerPost && !hasQuiz && tokenId != null && /^\d+$/.test(String(tokenId)) && !isLive ? () => setShowQuizEditor(true) : undefined}
           quick={tokenId != null && !isLive ? {
             myReaction,
             onReact: handleReaction,
@@ -2683,7 +2726,29 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
     </>
     );
   };
-  const sheets = <CardSheets postKey={postKey} control={sheetControl} render={renderSheets} onAnyOpenChange={isMenuHost ? setAnySheetOpen : undefined} />;
+  const cardSheets = <CardSheets postKey={postKey} control={sheetControl} render={renderSheets} onAnyOpenChange={isMenuHost ? setAnySheetOpen : undefined} />;
+  const sheets = showPhotoTagger || showQuizEditor ? (
+    <>
+      {cardSheets}
+      {showPhotoTagger && (
+        <PhotoTagSheet
+          visible={showPhotoTagger}
+          images={galleryImages}
+          initialTags={photoTags}
+          onClose={() => setShowPhotoTagger(false)}
+          onDone={savePhotoTags}
+        />
+      )}
+      {showQuizEditor && tokenId != null && (
+        <QuizEditorSheet
+          visible={showQuizEditor}
+          tokenId={Number(tokenId)}
+          onClose={() => setShowQuizEditor(false)}
+          onSaved={() => setQuizAdded(true)}
+        />
+      )}
+    </>
+  ) : cardSheets;
 
   if (tabletPortrait) {
     return (
@@ -2733,6 +2798,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
               <LinkPreviewCard key={postKey} text={captionText} statsTokenId={tokenId} hidden={item?.hiddenLinkPreviews} />
               <AssetRefCards refs={assetRefs} />
               {tokenId != null && !(item as any).isQuotePost && <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />}
+              {tokenId != null && hasQuiz && <QuizCard key={`quiz-${postKey}`} tokenId={Number(tokenId)} />}
               <ShopBoard key={postKey} tokenId={tokenId} links={localShopLinks ?? (item as any).shopLinks} listingCount={localShopListingCount ?? (item as any).shopListingCount} />
               <View style={{ marginTop: 'auto', paddingTop: 16 }}>
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 }}>
@@ -2854,6 +2920,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
         {tokenId != null && !isLive && !(item as any).isQuotePost && (
           <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />
         )}
+        {tokenId != null && hasQuiz && !isLive && !(item as any).isQuotePost && <QuizCard key={`quiz-${postKey}`} tokenId={Number(tokenId)} />}
         {!isLive && (
           <ShopBoard
             key={postKey}
@@ -3206,6 +3273,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
           {tokenId != null && !isLive && !(item as any).isQuotePost && (
             <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />
           )}
+          {tokenId != null && hasQuiz && !isLive && !(item as any).isQuotePost && <QuizCard key={`quiz-${postKey}`} tokenId={Number(tokenId)} />}
           {!isLive && (
             <ShopBoard
               key={postKey}
@@ -3468,6 +3536,7 @@ const FeedCardComponent: React.FC<FeedCardProps> = ({
       {tokenId != null && !isLive && !desk && !(item as any).isQuotePost && (
         <PollCard key={postKey} tokenId={Number(tokenId)} pollOwnerAddress={minterAddress} />
       )}
+      {tokenId != null && hasQuiz && !isLive && !desk && !(item as any).isQuotePost && <QuizCard key={`quiz-${postKey}`} tokenId={Number(tokenId)} />}
 
       {/* The creator's Shop board — affiliate links, opened in a sheet. The
           live card links through to the player, which draws its own overlay

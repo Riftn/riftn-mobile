@@ -302,6 +302,7 @@ const UserProfileSheetContent: React.FC<UserProfileSheetContentProps> = ({
           bio={data?.aboutMe}
           profileFields={(data as any)?.profileFields}
           publicTimeZone={data?.customs?.publicTimeZone}
+          customs={data?.customs as Record<string, unknown> | undefined}
           bioLanguage={(data as any)?.detectedLanguage}
           isFollowing={isFollowing}
           isFollowRequestPending={isFollowRequestPending}
