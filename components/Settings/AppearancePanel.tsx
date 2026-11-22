@@ -339,6 +339,17 @@ const AppearancePanel: React.FC = () => {
           />
         </SettingsAnchor>
         <Divider />
+        {/* Messages tabs as filled pills, round unread counts (web's same switch). */}
+        <SettingsAnchor id="messages-pills">
+          <SettingsToggleRow
+            icon="MessageCircle"
+            label={t('settings.messagesPills', 'Pill tabs in Messages')}
+            description={t('settings.messagesPillsDesc', 'The open tab is a filled pill and unread counts are round')}
+            value={prefs.messagesPills}
+            onValueChange={(v) => setAppPref('messagesPills', v)}
+          />
+        </SettingsAnchor>
+        <Divider />
         {/* Saved answer to "Delete message?" (libs/chatDeleteChoice), also the
             "Remember my choice" tick in the delete sheet. */}
         <SettingsAnchor id="chat-delete-choice">

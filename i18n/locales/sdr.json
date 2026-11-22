@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "कवर", "trim": "काट-छाँट (ट्रिम)", "mirror": "आईना (मिरर)", "rotate": "घुमाएँ (रोटेट)", "hide": "लुकाएँ (हाइड)", "timer": "टाइमर", "close": "बंद करें", "photo": "फोटो", "remove": "हटाएँ", "pause": "रोकें (पॉज)", "play": "वीडियो चलाएँ", "hiddenUntilTap": "जब तक वे टैप न करें तब तक छिपा हुआ", "scrub": "वीडियो को आगे-पीछे करें", "addMore": "फोटो या वीडियो जोड़ें", "coverAria": "कवर सेट करने के लिए एक फ्रेम पर टैप करें", "trimHint": "काट-छाँट करने के लिए किनारों को खींचें", "coverHint": "कवर बनाने के लिए एक फ्रेम पर टैप करें", "uploadCover": "कवर फोटो अपलोड करें", "mirrored": "आईने जैसा (मिरर्ड)", "original": "असली (ओरिजिनल)", "rotate90": "90° घुमाएँ", "timerOff": "बंद", "showNormally": "सामान्य रूप से दिखाएँ", "showNormallyBody": "वे इसे तुरंत देख सकते हैं", "hideUntilTap": "टैप करने तक छिपाएँ", "hideUntilTapBody": "टैप करने तक धुंधला रखें", "hidePrice": "कीमत के पीछे छिपाएँ", "hidePriceBody": "भुगतान करने तक धुंधला रखें", "priceUnavailable": "इस चैट में नहीं", "priceLabelUsd": "कीमत", "priceHint": "उमन के धुंधला दिखेला जब तक उमन तोके पइसा न देवे। लॉक करल आइटम सब एंड-टू-एंड एन्क्रिप्टेड नइखे।", "timerOffBody": "ई चैट में रहेला।", "timerViewBody": "दुयो जने देख लेवे के बाद ई हट जाला।", "confirm": "कन्फर्म", "editItem": "आइटम एडिट कर {{value1}}", "coverSet": "{{value1}} पर कवर", "lockedForUsd": "{{value1}} के लिए अनलॉक कर", "timerTimeBody": "भेजे के बाद {{value1}} दुयो जने के लिए हट जाला।"},
+  "dmVideo": {
+    "cover": "कवर",
+    "trim": "काट-छाँट (ट्रिम)",
+    "mirror": "आईना (मिरर)",
+    "rotate": "घुमाएँ (रोटेट)",
+    "hide": "लुकाएँ (हाइड)",
+    "timer": "टाइमर",
+    "close": "बंद करें",
+    "photo": "फोटो",
+    "remove": "हटाएँ",
+    "pause": "रोकें (पॉज)",
+    "play": "वीडियो चलाएँ",
+    "hiddenUntilTap": "जब तक वे टैप न करें तब तक छिपा हुआ",
+    "scrub": "वीडियो को आगे-पीछे करें",
+    "addMore": "फोटो या वीडियो जोड़ें",
+    "coverAria": "कवर सेट करने के लिए एक फ्रेम पर टैप करें",
+    "trimHint": "काट-छाँट करने के लिए किनारों को खींचें",
+    "coverHint": "कवर बनाने के लिए एक फ्रेम पर टैप करें",
+    "uploadCover": "कवर फोटो अपलोड करें",
+    "mirrored": "आईने जैसा (मिरर्ड)",
+    "original": "असली (ओरिजिनल)",
+    "rotate90": "90° घुमाएँ",
+    "timerOff": "बंद",
+    "showNormally": "सामान्य रूप से दिखाएँ",
+    "showNormallyBody": "वे इसे तुरंत देख सकते हैं",
+    "hideUntilTap": "टैप करने तक छिपाएँ",
+    "hideUntilTapBody": "टैप करने तक धुंधला रखें",
+    "hidePrice": "कीमत के पीछे छिपाएँ",
+    "hidePriceBody": "भुगतान करने तक धुंधला रखें",
+    "priceUnavailable": "इस चैट में नहीं",
+    "priceLabelUsd": "कीमत",
+    "priceHint": "उमन के धुंधला दिखेला जब तक उमन तोके पइसा न देवे। लॉक करल आइटम सब एंड-टू-एंड एन्क्रिप्टेड नइखे।",
+    "timerOffBody": "ई चैट में रहेला।",
+    "timerViewBody": "दुयो जने देख लेवे के बाद ई हट जाला।",
+    "confirm": "कन्फर्म",
+    "editItem": "आइटम एडिट कर {{value1}}",
+    "coverSet": "{{value1}} पर कवर",
+    "lockedForUsd": "{{value1}} के लिए अनलॉक कर",
+    "timerTimeBody": "भेजे के बाद {{value1}} दुयो जने के लिए हट जाला।",
+    "destruct": {
+      "60": "१ मिनट",
+      "3600": "१ घंटा",
+      "43200": "१२ घंटा",
+      "86400": "१ दिन",
+      "604800": "१ हफ्ता",
+      "31536000": "१ बछर",
+      "view": "१ व्यू"
+    },
+    "destructShort": {
+      "60": "१मि",
+      "3600": "१घं",
+      "43200": "१२घं",
+      "86400": "१दि",
+      "604800": "१ह",
+      "31536000": "१ब",
+      "view": "१ व्यू"
+    },
+    "destructSecs": "{{n}} सेकंड",
+    "destructShortSecs": "{{n}}से"
+  },
   "accountConnect": {
     "allow": "Allow connection",
     "generatePrompt": "Riftn ker image models ke dekhau aur portrait generate kare se pehle okar quote batau.",
@@ -6452,12 +6511,41 @@
       "noInvites": "Abhi tak koi invite link nahi hai. Logo ko seedhe invite karne ke liye ek banayein.",
       "permissionsUpdated": "Permissions update ho gaye",
       "slowModeUpdated": "Slow mode update ho gaya",
-      "slowMode":{"off":"बंद","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 मिनट","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 ghanta"},"slowModeOffHint": "Members bina delay ke message bhej sakte hain.",
+      "slowMode": {
+        "off": "बंद",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 मिनट",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 ghanta"
+      },
+      "slowModeOffHint": "Members bina delay ke message bhej sakte hain.",
       "slowModeOnHint": "Members {{label}} mein ek message bhej sakte hain. Admins ko chhoot hai.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Yahan sab kya kar sakte hain jab tak koi admin right iske alawa kuch na kahe.",
       "slowModeTitle": "Slow mode",
-      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demoted","transfer_ownership":"ownership transfer kar delak","ban_member":"banned","unban_member":"unbanned","kick_member":"हटालक","mute_member":"चुप","unmute_member":"unmuted","approve_member":"स्वीकृत","reject_member":"rejected","delete_message":"ekta sandesh delete karlo","purge_messages":"sab message delete kar de gela","pin_message":"एगो मैसेज पिन करलक, जेकर से","unpin_message":"एगो मैसेज कर पिन हटालक, जेकर से","update_settings":"समुदाय सेटिंग अपडेट करलक","create_invite":"न्योता लिंक बनालक","revoke_invite":"invite link ke radd kar delak","invite_used":"आमंत्रित"},
+      "log": {
+        "verbs": {
+          "promote_admin": "promoted",
+          "demote_admin": "demoted",
+          "transfer_ownership": "ownership transfer kar delak",
+          "ban_member": "banned",
+          "unban_member": "unbanned",
+          "kick_member": "हटालक",
+          "mute_member": "चुप",
+          "unmute_member": "unmuted",
+          "approve_member": "स्वीकृत",
+          "reject_member": "rejected",
+          "delete_message": "ekta sandesh delete karlo",
+          "purge_messages": "sab message delete kar de gela",
+          "pin_message": "एगो मैसेज पिन करलक, जेकर से",
+          "unpin_message": "एगो मैसेज कर पिन हटालक, जेकर से",
+          "update_settings": "समुदाय सेटिंग अपडेट करलक",
+          "create_invite": "न्योता लिंक बनालक",
+          "revoke_invite": "invite link ke radd kar delak",
+          "invite_used": "आमंत्रित"
+        },
         "justNow": "Abhi",
         "minutesAgo": "{{value}}m pehle",
         "hoursAgo": "{{value}}h pehle",
@@ -6500,7 +6588,18 @@
       "durationLabel": "अवधि",
       "saveRules": "नियम सेव करें",
       "deleteRule": "नियम मिटाएँ",
-      "rights": {"sendMessages":"मैसेज भेजें","sendMessagesHint":"Community chat me post karu","sendMedia":"मीडिया भेजा","sendMediaHint":"फोटो और GIF जोड़ूँ","embedLinks":"लिंक एम्बेड करें","embedLinksHint":"Tregoj përdoruesit linket e paraqitur","addMembers":"Üyeleri ekle","addMembersHint":"समुदाय के दूसर मन के साथ शेयर करा","createEvents":"Events banau","createEventsHint":"समुदाय कार्यक्रम तय करा","changeInfoMemberHint":"Community name aur description ke edit karu",
+      "rights": {
+        "sendMessages": "मैसेज भेजें",
+        "sendMessagesHint": "Community chat me post karu",
+        "sendMedia": "मीडिया भेजा",
+        "sendMediaHint": "फोटो और GIF जोड़ूँ",
+        "embedLinks": "लिंक एम्बेड करें",
+        "embedLinksHint": "Tregoj përdoruesit linket e paraqitur",
+        "addMembers": "Üyeleri ekle",
+        "addMembersHint": "समुदाय के दूसर मन के साथ शेयर करा",
+        "createEvents": "Events banau",
+        "createEventsHint": "समुदाय कार्यक्रम तय करा",
+        "changeInfoMemberHint": "Community name aur description ke edit karu",
         "changeInfo": "Community info badlu",
         "deleteMessages": "मैसेज डिलीट करा",
         "restrictMembers": "यूजर मन के बैन करीं",
@@ -12745,39 +12844,38 @@
       "none": "कोनो निर्देसन नखे",
       "reset": "निर्देसन मेटावा",
       "camera": {
-        "label": "कैमरा लुक",
         "0": "डिजिटल सिनेमा",
         "1": "35mm फिल्म",
         "2": "16mm फिल्म",
         "3": "बड़ फॉर्मेट",
-        "4": "पुरान कैमकॉर्डर"
+        "4": "पुरान कैमकॉर्डर",
+        "label": "कैमरा लुक"
       },
       "lens": {
-        "label": "लेंस लुक",
         "0": "गोल",
         "1": "एनामॉर्फिक",
         "2": "पुरान नरम काँच",
         "3": "मैक्रो",
-        "4": "टिल्ट-सिफ्ट"
+        "4": "टिल्ट-सिफ्ट",
+        "label": "लेंस लुक"
       },
       "focalLength": {
-        "label": "फोकल लंबाई",
         "0": "18mm चौड़ा",
         "1": "24mm चौड़ा",
         "2": "35mm सहज",
         "3": "50mm साधारन",
         "4": "85mm पोर्ट्रेट",
-        "5": "135mm टेलीफोटो"
+        "5": "135mm टेलीफोटो",
+        "label": "फोकल लंबाई"
       },
       "aperture": {
-        "label": "फोकस गहराई",
         "0": "f/1.4 बहुत उथला",
         "1": "f/2.8 उथला",
         "2": "f/5.6 मध्यम",
-        "3": "f/11 गहिरा फोकस"
+        "3": "f/11 गहिरा फोकस",
+        "label": "फोकस गहराई"
       },
       "movement": {
-        "label": "कैमरा चाल",
         "0": "तिपाई में थिर",
         "1": "धीमा डॉली अंदर",
         "2": "धीमा डॉली बाहर",
@@ -12785,27 +12883,27 @@
         "4": "बिसय के चारों ओर घूमा",
         "5": "हाथ में पकड़ल",
         "6": "क्रेन से ऊपर",
-        "7": "धीमा पैन"
+        "7": "धीमा पैन",
+        "label": "कैमरा चाल"
       },
       "lighting": {
-        "label": "रोसनी",
         "0": "नरम दिन के रोसनी",
         "1": "सुनहरा घंटा",
         "2": "कम रोसनी छाया-प्रकास",
         "3": "तेज रोसनी स्टूडियो",
         "4": "नियॉन रोसनी",
         "5": "पीछे से रोसनी सिल्हूट",
-        "6": "बादल वाला फैलल रोसनी"
+        "6": "बादल वाला फैलल रोसनी",
+        "label": "रोसनी"
       },
       "tempo": {
-        "label": "सॉट के रफ्तार",
         "0": "एक लगातार सॉट",
         "1": "सांत, बिना जल्दी के काम",
         "2": "तेज, जोस वाला काम",
-        "3": "उथल-पुथल, बेचैन काम"
+        "3": "उथल-पुथल, बेचैन काम",
+        "label": "सॉट के रफ्तार"
       },
       "era": {
-        "label": "जमाना",
         "0": "1920 के दसक",
         "1": "1950 के दसक",
         "2": "1960 के दसक",
@@ -12813,10 +12911,10 @@
         "4": "1980 के दसक",
         "5": "1990 के दसक",
         "6": "आइज के जमाना",
-        "7": "नजदीक भविस"
+        "7": "नजदीक भविस",
+        "label": "जमाना"
       },
       "genre": {
-        "label": "सैली",
         "0": "डॉक्यूमेंट्री",
         "1": "ड्रामा",
         "2": "फिल्म न्वार",
@@ -12824,26 +12922,27 @@
         "4": "फैंटेसी",
         "5": "रोमांटिक कॉमेडी",
         "6": "थ्रिलर",
-        "7": "वेस्टर्न"
+        "7": "वेस्टर्न",
+        "label": "सैली"
       },
       "performance": {
-        "label": "अभिनय",
         "0": "खुस",
         "1": "उदास",
         "2": "बेचैन",
         "3": "भरोसा वाला",
         "4": "अचरज में",
         "5": "संयमी",
-        "6": "चंचल"
+        "6": "चंचल",
+        "label": "अभिनय"
       },
       "palette": {
-        "label": "रंग पैलेट",
         "0": "गरम अंबर",
         "1": "ठंडा नीला",
         "2": "फीका माटी रंग",
         "3": "पेस्टल",
         "4": "तेज कंट्रास्ट एक रंग",
-        "5": "गाढ़ा मूल रंग"
+        "5": "गाढ़ा मूल रंग",
+        "label": "रंग पैलेट"
       }
     },
     "audioNoSpeech": "Kəndə səslənən söhbət tapılmadı.",
@@ -13570,10 +13669,10 @@
         "title": "Getting Started",
         "steps": {
           "1": "riftn.com पर जाएँ — होम फ़ीड फ्रंट पेज है, इसलिए आप साइन इन करने से पहले चारों ओर देख सकते हैं।",
-          "3": "Google या Apple के साथ, प्रदाता के प्रवाह को पूरा करें। ईमेल या SMS के साथ, आने वाले कोड को दर्ज करें।",
-          "5": "Ek username chun. Ee ke dekhela aur ee tumar riftn.com/<username> profile link ke kaam karela.",
           "2": "'साइन इन' मे क्लिक करा। Google आउर Apple, ईमेल पता या फोन नंबर कर फील्ड, आउर पहिले कर वॉलेट ले 'वॉलेट जोड़ा' देखाई।",
+          "3": "Google या Apple के साथ, प्रदाता के प्रवाह को पूरा करें। ईमेल या SMS के साथ, आने वाले कोड को दर्ज करें।",
           "4": "पहिला साइन-इन मे तोहर ले एगो वॉलेट बनाल आउर सुरक्षित करल जाथे। आपन वॉलेट जोड़ले पता साबित करेक ले एगो हस्ताक्षर लागी।",
+          "5": "Ek username chun. Ee ke dekhela aur ee tumar riftn.com/<username> profile link ke kaam karela.",
           "6": "तोयँ भीतर आय गेले। फीड देखा, आपन प्रोफाइल सेट करा आउर पोस्ट करेक सुरू करा।"
         },
         "intro": "Riftn में प्रवेश करने के पाँच तरीके हैं और उनमें से किसी के लिए भी आपको पहले से वॉलेट रखने की आवश्यकता नहीं है: Google, Apple, आपके ईमेल पर भेजा गया कोड, SMS द्वारा भेजा गया कोड, या एक मौजूदा वॉलेट जिसे आप कनेक्ट करते हैं। वॉलेट मार्ग को छोड़कर सब कुछ पृष्ठभूमि में आपके लिए एक गैर-कस्टोडियल वॉलेट बनाता है — आप चाबियाँ रखते हैं, और Riftn गैस को प्रायोजित करता है ताकि आप पोस्ट, टिप और कलेक्ट कर सकें, बिना कभी मूल टोकन खरीदे।",
@@ -13642,17 +13741,17 @@
       },
       "bridge": {
         "steps": {
-          "7": "टीम टोकन के गंतव्य चेन में भेजेला, आमतौर में 1-5 काम कर दिन में।",
           "1": "साइडबार से 'ब्रिज' पेज मे जावा।",
           "2": "सोर्स चेन चुना (जहाँ अभी तोहर टोकन हय)।",
           "3": "ठिकाना चेन चुना (जहाँ भेजेक चाही)।",
           "4": "ब्रिज करेक वाला टोकन कर गिनती डाला।",
           "5": "ब्रिज फीस आउर पहुँचेक कर अंदाजन समय देखा।",
-          "6": "ब्रिज ट्रांजैक्सन पक्का करा।"
+          "6": "ब्रिज ट्रांजैक्सन पक्का करा।",
+          "7": "टीम टोकन के गंतव्य चेन में भेजेला, आमतौर में 1-5 काम कर दिन में।"
         },
         "tips": {
-          "2": "अभी ब्रिज कर भुगतान हाथ से करल जायला।",
           "1": "ब्रिज फीस चेन जोड़ी कर हिसाब से बदलेला।",
+          "2": "अभी ब्रिज कर भुगतान हाथ से करल जायला।",
           "3": "पक्का करेक से पहिले ठिकाना चेन हमेसा दुबारा जाँचा।"
         },
         "title": "ब्रिज",
@@ -13660,9 +13759,9 @@
       },
       "post-info": {
         "tips": {
-          "3": "Unlisted postman feed ma na dikhai, lekin direct link se access kar sakela.",
           "1": "नवा मिंट करल पोस्ट मे बनावेक वाला लगे सब 1,000 टुकड़ा (100% मालिकाना) रहेला।",
-          "2": "ट्रांजैक्सन हैस चेन कर हिसाब से BaseScan या BscScan से जुड़ेला।"
+          "2": "ट्रांजैक्सन हैस चेन कर हिसाब से BaseScan या BscScan से जुड़ेला।",
+          "3": "Unlisted postman feed ma na dikhai, lekin direct link se access kar sakela."
         },
         "title": "पोस्ट जानकारी आउर टुकड़ा",
         "intro": "मिंट करल पोस्ट 1,000 टुकड़ा मे बँटल NFT हय। पोस्ट जानकारी पेज ऑन-चेन डेटा, एंगेजमेंट आँकड़ा, मालिकाना हिसाब देखायला, आउर कोनो भी पोस्ट कर टुकड़ा कर लेन-देन करे देवेला — बिना मिंट कर पोस्ट मे मिंट करेक कर विकल्प देवेला।",
@@ -13678,15 +13777,15 @@
       "trading-fractions": {
         "title": "ट्रेडिंग फ्रॅक्शन्स",
         "steps": {
+          "1": "ब्राउजर में riftn.com खोलू आउर ओहे खाता से साइन इन करू।",
           "2": "Post Info page-da post-i kholun e Marketplase tab-e-shi berun.",
           "3": "Sfoglia gli annunci, fai un'offerta al tuo prezzo o elenca le frazioni che possiedi.",
-          "1": "ब्राउजर में riftn.com खोलू आउर ओहे खाता से साइन इन करू।",
           "4": "ट्रेड पूरा होले, बदलाव इहाँ मोबाइल में तोहर Fractions टैब में देखाई।"
         },
         "tips": {
           "1": "Post ke fraction owner hone ka matlab hai tui us on-chain NFT ke share holder hai.",
-          "3": "Creator ke rup me, fraction bechne se fan log tora content ke co-owner ban sakela.",
-          "2": "खरीदे से पहिले मालिकाना बँटवारा देखे ले वेब बजार में पोस्ट क होल्डर जाँचू।"
+          "2": "खरीदे से पहिले मालिकाना बँटवारा देखे ले वेब बजार में पोस्ट क होल्डर जाँचू।",
+          "3": "Creator ke rup me, fraction bechne se fan log tora content ke co-owner ban sakela."
         },
         "intro": "फ्रैक्सन ट्रेडिंग — लिस्टिंग देखेक, ऑफर देवेक, अपन लिस्ट करेक — riftn.com क वेब ऐप में, हर पोस्ट क Post Info पन्ना में होवेला।"
       },

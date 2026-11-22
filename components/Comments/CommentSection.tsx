@@ -66,6 +66,7 @@ import {
   editComment,
   deleteComment,
   pinComment,
+  hideReply,
   postImageComment,
   postGifComment,
   postAudioComment,
@@ -1401,6 +1402,25 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
     if (contextComment) void handlePinComment(contextComment);
   }, [contextComment, handlePinComment]);
 
+  /** Hide somebody's reply on your own post, or bring it back. Faded for you at once. */
+  const handleHideReply = useCallback(async (comment: Comment) => {
+    const id = comment.id;
+    if (id == null) return;
+    const wasHidden = comment.hiddenByCreator === true;
+    setFlatComments(prev => prev.map(c => (Number(c.id) === Number(id) ? { ...c, hiddenByCreator: !wasHidden } : c)));
+    try {
+      const res = await hideReply(id);
+      toastSuccess(res.hidden ? t("hideReply.hiddenToast") : t("hideReply.unhiddenToast"));
+    } catch (error: any) {
+      toastError(error?.message || t("hideReply.failed"));
+    }
+    await loadComments(true);
+  }, [loadComments, t]);
+
+  const handleContextHide = useCallback(() => {
+    if (contextComment) void handleHideReply(contextComment);
+  }, [contextComment, handleHideReply]);
+
   const closeContextMenu = useCallback(() => {
     setContextComment(null);
     setContextLayout(null);
@@ -1705,6 +1725,7 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
           onEdit={handleStartEdit}
           // Offered on the same terms as the long-press menu below.
           onPin={isOwnThread ? handlePinComment : undefined}
+          onHide={isOwnThread ? handleHideReply : undefined}
           onReport={userAddress ? handleReportComment : undefined}
           onDelete={handleDeleteComment}
           onLongPress={handleCommentLongPress}
@@ -2315,6 +2336,7 @@ const CommentSectionComponent: React.FC<CommentSectionProps> = ({
               // so pinning one would move nothing.
               isOwnThread && !contextMeta?.isReply ? handleContextPin : undefined
             }
+            onHide={isOwnThread && !contextMeta?.isOwnComment ? handleContextHide : undefined}
             onLike={handleContextLike}
             onDislike={handleContextDislike}
             onShowLikers={

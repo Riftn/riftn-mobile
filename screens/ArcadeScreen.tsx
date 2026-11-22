@@ -29,11 +29,16 @@ const GameCard = ({
   onPress,
   onPlayOnline,
   playOnlineLabel,
+  onSlow,
+  slowLabel,
 }: {
   game: ArcadeGame;
   onPress: (slug: string) => void;
   onPlayOnline?: () => void;
   playOnlineLabel?: string;
+  /** Correspondence play of the same game: days per move against a friend. */
+  onSlow?: () => void;
+  slowLabel?: string;
 }) => {
   const { theme } = useAppTheme();
   const glass = theme === 'glass';
@@ -81,6 +86,18 @@ const GameCard = ({
           <Text style={styles.onlineLabel}>{playOnlineLabel}</Text>
         </Pressable>
       ) : null}
+      {onSlow ? (
+        <Pressable
+          accessibilityRole="button"
+          onPress={onSlow}
+          style={({ pressed }) => [pressed && styles.cardPressed]}
+        >
+          <View style={styles.onlineButton}>
+            <Icon name="Hourglass" size={13} color="#FFFFFF" />
+            <Text style={styles.onlineLabel}>{slowLabel}</Text>
+          </View>
+        </Pressable>
+      ) : null}
     </View>
   </Pressable>
   </PageSection>
@@ -88,7 +105,6 @@ const GameCard = ({
 };
 
 const FRIEND_GAMES = [
-  { screen: ScreenNames.CorrespondenceChess, icon: "Crown", title: "games.chess.title", body: "games.chess.cardBlurb", tint: "hsla(30, 30%, 22%, 1)" },
   { screen: ScreenNames.Okey, icon: "Users", title: "games.okey.title", body: "games.okey.cardBlurb", tint: "hsla(155, 55%, 20%, 1)" },
 ] as const;
 
@@ -99,6 +115,10 @@ const ArcadeScreen = () => {
 
   const openGame = useCallback(
     (slug: string) => navigation.navigate(ScreenNames.ArcadeGame, { slug }),
+    [navigation],
+  );
+  const openSlowChess = useCallback(
+    () => navigation.navigate(ScreenNames.CorrespondenceChess),
     [navigation],
   );
   const openChessOnline = useCallback(
@@ -139,7 +159,7 @@ const ArcadeScreen = () => {
                 onPress={() => navigation.navigate(g.screen)}
                 style={({ pressed }) => [{ flex: 1 }, pressed && styles.cardPressed]}
               >
-                <View style={[styles.friendCard, { backgroundColor: g.tint }]}>
+                <View className="dark-surface" style={[styles.friendCard, { backgroundColor: g.tint }]}>
                   <Icon name={g.icon} size={18} color="#FFFFFF" />
                   <Text style={styles.friendTitle} numberOfLines={1}>{t(g.title)}</Text>
                   <Text style={styles.friendBody} numberOfLines={3}>{t(g.body)}</Text>
@@ -158,6 +178,8 @@ const ArcadeScreen = () => {
             // live duels against other players.
             onPlayOnline={game.slug === "kings-gambit" ? openChessOnline : undefined}
             playOnlineLabel={t("arcade.chessOnline.playOnline")}
+            onSlow={game.slug === "kings-gambit" ? openSlowChess : undefined}
+            slowLabel={t("games.chess.slowButton")}
           />
         ))}
       </ScrollView>

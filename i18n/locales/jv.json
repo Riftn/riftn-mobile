@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Sampul", "trim": "Potong", "mirror": "Cermin", "rotate": "Rotasi", "hide": "Singidake", "timer": "Timer", "close": "Tutup", "photo": "Foto", "remove": "Busak", "pause": "Jeda", "play": "Puter video", "hiddenUntilTap": "Singidake nganti diklik", "scrub": "Geser video", "addMore": "Tambah foto utawa video", "coverAria": "Klik pigura kanggo nyetel sampul", "trimHint": "Seret pucuk kanggo motong", "coverHint": "Klik pigura kanggo dadi sampul", "uploadCover": "Unggah gambar sampul", "mirrored": "Dicermin", "original": "Asli", "rotate90": "Rotasi 90°", "timerOff": "Mati", "showNormally": "Tampilake kaya biasane", "showNormallyBody": "Langsung katon", "hideUntilTap": "Singidake nganti diklik", "hideUntilTapBody": "Blur nganti diklik", "hidePrice": "Singidake ing mburi rega", "hidePriceBody": "Blur nganti mbayar", "priceUnavailable": "Ora ing obrolan iki", "priceLabelUsd": "Rega", "priceHint": "Dheweke ndeleng iku burem nganti mbayar sampeyan. Barang sing dikunci ora nganggo enkripsi end-to-end.", "timerOffBody": "Tetep ana ing obrolan.", "timerViewBody": "Ilang kanggo sampeyan sakloron sawise dideleng.", "confirm": "Konfirmasi", "editItem": "Sunting barang {{value1}}", "coverSet": "Sampul ing {{value1}}", "lockedForUsd": "Bukak kunci kanggo {{value1}}", "timerTimeBody": "Ilang kanggo sampeyan sakloron {{value1}} sawise dikirim."},
+  "dmVideo": {
+    "cover": "Sampul",
+    "trim": "Potong",
+    "mirror": "Cermin",
+    "rotate": "Rotasi",
+    "hide": "Singidake",
+    "timer": "Timer",
+    "close": "Tutup",
+    "photo": "Foto",
+    "remove": "Busak",
+    "pause": "Jeda",
+    "play": "Puter video",
+    "hiddenUntilTap": "Singidake nganti diklik",
+    "scrub": "Geser video",
+    "addMore": "Tambah foto utawa video",
+    "coverAria": "Klik pigura kanggo nyetel sampul",
+    "trimHint": "Seret pucuk kanggo motong",
+    "coverHint": "Klik pigura kanggo dadi sampul",
+    "uploadCover": "Unggah gambar sampul",
+    "mirrored": "Dicermin",
+    "original": "Asli",
+    "rotate90": "Rotasi 90°",
+    "timerOff": "Mati",
+    "showNormally": "Tampilake kaya biasane",
+    "showNormallyBody": "Langsung katon",
+    "hideUntilTap": "Singidake nganti diklik",
+    "hideUntilTapBody": "Blur nganti diklik",
+    "hidePrice": "Singidake ing mburi rega",
+    "hidePriceBody": "Blur nganti mbayar",
+    "priceUnavailable": "Ora ing obrolan iki",
+    "priceLabelUsd": "Rega",
+    "priceHint": "Dheweke ndeleng iku burem nganti mbayar sampeyan. Barang sing dikunci ora nganggo enkripsi end-to-end.",
+    "timerOffBody": "Tetep ana ing obrolan.",
+    "timerViewBody": "Ilang kanggo sampeyan sakloron sawise dideleng.",
+    "confirm": "Konfirmasi",
+    "editItem": "Sunting barang {{value1}}",
+    "coverSet": "Sampul ing {{value1}}",
+    "lockedForUsd": "Bukak kunci kanggo {{value1}}",
+    "timerTimeBody": "Ilang kanggo sampeyan sakloron {{value1}} sawise dikirim.",
+    "destruct": {
+      "60": "1 menit",
+      "3600": "1 jam",
+      "43200": "12 jam",
+      "86400": "1 dina",
+      "604800": "1 minggu",
+      "31536000": "1 taun",
+      "view": "1 tayangan"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1j",
+      "43200": "12j",
+      "86400": "1d",
+      "604800": "1mgg",
+      "31536000": "1t",
+      "view": "1 tayangan"
+    },
+    "destructSecs": "{{n}} detik",
+    "destructShortSecs": "{{n}}d"
+  },
   "comicBorder": {
     "title": "Pinggiran",
     "theme": "Tema",
@@ -7026,7 +7085,18 @@
       "moveRuleUp": "Pindhah aturan munggah",
       "moveRuleDown": "Pindhah aturan mudhun",
       "deleteRule": "Busak aturan",
-      "rights": {"sendMessages":"Kirim pesan","sendMessagesHint":"Paké ing obrolan komunitas","sendMedia":"Kirim media","sendMediaHint":"Tambah gambar lan GIF","embedLinks":"Embed tautan","embedLinksHint":"Tampilkan preview link","addMembers":"Tambah anggota","addMembersHint":"Nuduhake komunitas karo wong liya","createEvents":"Kawruh Acara","createEventsHint":"Ngatur acara komunitas","changeInfoMemberHint":"Edit nama lan deskripsi komunitas",
+      "rights": {
+        "sendMessages": "Kirim pesan",
+        "sendMessagesHint": "Paké ing obrolan komunitas",
+        "sendMedia": "Kirim media",
+        "sendMediaHint": "Tambah gambar lan GIF",
+        "embedLinks": "Embed tautan",
+        "embedLinksHint": "Tampilkan preview link",
+        "addMembers": "Tambah anggota",
+        "addMembersHint": "Nuduhake komunitas karo wong liya",
+        "createEvents": "Kawruh Acara",
+        "createEventsHint": "Ngatur acara komunitas",
+        "changeInfoMemberHint": "Edit nama lan deskripsi komunitas",
         "changeInfo": "Ganti info komunitas",
         "changeInfoHint": "Sunting jeneng, katrangan, avatar, lan banner",
         "deleteMessages": "Busak pesen",
@@ -7103,10 +7173,39 @@
       "noInvites": "Siji inggih punika link undangan.",
       "permissionsUpdated": "Ijin diupdate",
       "slowModeUpdated": "Mode inggih wis diupdate",
-      "slowMode":{"off":"Mati","tenSeconds":"10 detik","thirtySeconds":"Kita lanjep 30-an","oneMinute":"1 menit","fiveMinutes":"Ngisor 5 menit","fifteenMinutes":"15 menit","oneHour":"1 jam"},"slowModeOffHint": "Anggota bisa nulis pesan tanpa kena tunggu.",
+      "slowMode": {
+        "off": "Mati",
+        "tenSeconds": "10 detik",
+        "thirtySeconds": "Kita lanjep 30-an",
+        "oneMinute": "1 menit",
+        "fiveMinutes": "Ngisor 5 menit",
+        "fifteenMinutes": "15 menit",
+        "oneHour": "1 jam"
+      },
+      "slowModeOffHint": "Anggota bisa nulis pesan tanpa kena tunggu.",
       "defaultPermissionsHint": "Kajaba ana pangaturan saka pamong kang wis diatur, kabeh wong bisa ngelakoni ing ngisor iki.",
       "slowModeTitle": "Sedhèng",
-      "log": {"verbs":{"promote_admin":"dipromosikake","demote_admin":"diturunkan pangarahan","transfer_ownership":"ngalihake kepemilikan menyang","ban_member":"dilarang","unban_member":"dibebaskan","kick_member":"dipunbusak","mute_member":"muted","unmute_member":"dipungkasi","approve_member":"disetujui","reject_member":"ditujukan","delete_message":"nggaksa message","purge_messages":"Dipunhapus kabèh pesan saka","pin_message":"memencet pesan dari","unpin_message":"Kang ngelanturin pesan ing ngarso.","update_settings":"ngawaruwuh setting komunitas","create_invite":"membuat tautan undangan","revoke_invite":"mengguguraké link undangan","invite_used":"diundang"},
+      "log": {
+        "verbs": {
+          "promote_admin": "dipromosikake",
+          "demote_admin": "diturunkan pangarahan",
+          "transfer_ownership": "ngalihake kepemilikan menyang",
+          "ban_member": "dilarang",
+          "unban_member": "dibebaskan",
+          "kick_member": "dipunbusak",
+          "mute_member": "muted",
+          "unmute_member": "dipungkasi",
+          "approve_member": "disetujui",
+          "reject_member": "ditujukan",
+          "delete_message": "nggaksa message",
+          "purge_messages": "Dipunhapus kabèh pesan saka",
+          "pin_message": "memencet pesan dari",
+          "unpin_message": "Kang ngelanturin pesan ing ngarso.",
+          "update_settings": "ngawaruwuh setting komunitas",
+          "create_invite": "membuat tautan undangan",
+          "revoke_invite": "mengguguraké link undangan",
+          "invite_used": "diundang"
+        },
         "justNow": "Sekarang iki",
         "minutesAgo": "{{value}}m wengi",
         "daysAgo": "{{value}}d ago",
@@ -13566,53 +13665,52 @@
     "cinema": {
       "close": "Tutup",
       "performance": {
-        "label": "Kinerja",
         "0": "Bungah",
         "1": "Sedhih",
         "2": "Kuwatir",
         "3": "Yakin",
         "4": "Kagum",
         "5": "Ngempet",
-        "6": "Guyonan"
+        "6": "Guyonan",
+        "label": "Kinerja"
       },
       "title": "Arahan sinema",
       "hint": "Arahna gaya visual gambar utawa videomu sabanjure. Asile beda-beda gumantung model.",
       "none": "Tanpa arahan",
       "reset": "Busak arahan",
       "camera": {
-        "label": "Tampilan kamera",
         "0": "Sinema digital",
         "1": "Film 35mm",
         "2": "Film 16mm",
         "3": "Format gedhe",
-        "4": "Camcorder lawas"
+        "4": "Camcorder lawas",
+        "label": "Tampilan kamera"
       },
       "lens": {
-        "label": "Tampilan lensa",
         "0": "Sferis",
         "1": "Anamorfik",
         "2": "Kaca alus lawas",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Tampilan lensa"
       },
       "focalLength": {
-        "label": "Dawa fokus",
         "0": "18mm amba",
         "1": "24mm amba",
         "2": "35mm alami",
         "3": "50mm standar",
         "4": "85mm potret",
-        "5": "135mm telefoto"
+        "5": "135mm telefoto",
+        "label": "Dawa fokus"
       },
       "aperture": {
-        "label": "Jeroning fokus",
         "0": "f/1.4 cethek banget",
         "1": "f/2.8 cethek",
         "2": "f/5.6 sedheng",
-        "3": "f/11 fokus jero"
+        "3": "f/11 fokus jero",
+        "label": "Jeroning fokus"
       },
       "movement": {
-        "label": "Obahing kamera",
         "0": "Tripod mantep",
         "1": "Dolly mlebu alon",
         "2": "Dolly metu alon",
@@ -13620,27 +13718,27 @@
         "4": "Ngubengi subjek",
         "5": "Dicekel tangan",
         "6": "Crane munggah",
-        "7": "Pan alon"
+        "7": "Pan alon",
+        "label": "Obahing kamera"
       },
       "lighting": {
-        "label": "Pencahayaan",
         "0": "Srengenge alus",
         "1": "Golden hour",
         "2": "Chiaroscuro peteng",
         "3": "Studio padhang",
         "4": "Lampu neon",
         "5": "Siluet saka mburi",
-        "6": "Mendhung nyebar"
+        "6": "Mendhung nyebar",
+        "label": "Pencahayaan"
       },
       "tempo": {
-        "label": "Tempo shot",
         "0": "Siji shot terus-terusan",
         "1": "Aksi tenang, ora kesusu",
         "2": "Aksi dinamis, sregep",
-        "3": "Aksi kacau, rame"
+        "3": "Aksi kacau, rame",
+        "label": "Tempo shot"
       },
       "era": {
-        "label": "Jaman",
         "0": "Taun 1920-an",
         "1": "Taun 1950-an",
         "2": "Taun 1960-an",
@@ -13648,10 +13746,10 @@
         "4": "Taun 1980-an",
         "5": "Taun 1990-an",
         "6": "Jaman saiki",
-        "7": "Mangsa ngarep cedhak"
+        "7": "Mangsa ngarep cedhak",
+        "label": "Jaman"
       },
       "genre": {
-        "label": "Genre",
         "0": "Dokumenter",
         "1": "Drama",
         "2": "Film noir",
@@ -13659,16 +13757,17 @@
         "4": "Fantasi",
         "5": "Komedi romantis",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genre"
       },
       "palette": {
-        "label": "Palet werna",
         "0": "Amber anget",
         "1": "Biru adhem",
         "2": "Werna bumi kalem",
         "3": "Pastel",
         "4": "Monokrom kontras dhuwur",
-        "5": "Werna primer mencorong"
+        "5": "Werna primer mencorong",
+        "label": "Palet werna"
       }
     },
     "audioNoSpeech": "Belom ketemu omongan di rekaman itu.",
@@ -17161,5 +17260,100 @@
     "promptCatchUp": "Kabari aku apa sing dikirim {{handle}} akhir-akhir iki",
     "promptMessage": "Bantu aku nulis pesen kanggo {{handle}}",
     "promptAbout": "Babagan {{handle}}: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Singidake wangsulan",
+    "unhide": "Batal singidake",
+    "hiddenBadge": "Disingidake",
+    "hiddenTitle": "Mung sampeyan lan wong sing nulis sing bisa ndeleng iki",
+    "hiddenToast": "Wangsulan disingidake. Mung sampeyan lan wong sing nulis sing bisa ndeleng",
+    "unhiddenToast": "Wangsulan katon maneh",
+    "failed": "Gagal nyingidake wangsulan kasebut"
+  },
+  "accountType": {
+    "title": "Jinis akun",
+    "hint": "Akun kreator lan bisnis nampilake kategori ing ngisor jeneng sampeyan. Bisnis nambahake tombol Kontak. Saben fitur tetep mbukak kanggo saben akun.",
+    "type": {
+      "personal": "Pribadi",
+      "creator": "Kreator",
+      "business": "Bisnis"
+    },
+    "category": "Kategori",
+    "contactEmail": "Email kontak umum",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "Email kasebut katon ora bener",
+    "save": "Simpen jinis akun",
+    "saving": "Ngempen…",
+    "saved": "Jinis akun disimpen",
+    "saveFailed": "Gagal nyimpen jinis akun sampeyan",
+    "contact": "Kontak",
+    "cat": {
+      "artist": "Seniman",
+      "musician": "Musisi",
+      "gamer": "Gamer",
+      "streamer": "Streamer",
+      "writer": "Penulis",
+      "podcaster": "Podcaster",
+      "educator": "Pendidik",
+      "athlete": "Atlet",
+      "photographer": "Fotografer",
+      "video_creator": "Panyipta video",
+      "comedian": "Pelawak",
+      "developer": "Pangembang",
+      "public_figure": "Tokoh publik",
+      "other": "Liyane",
+      "brand": "Merek",
+      "shop": "Toko",
+      "restaurant": "Restoran",
+      "cafe": "Kafe",
+      "agency": "Agensi",
+      "community": "Komunitas",
+      "media": "Media",
+      "app": "Aplikasi",
+      "project": "Proyek",
+      "nonprofit": "Nirlaba",
+      "local_business": "Bisnis lokal"
+    }
+  },
+  "photoTags": {
+    "title": "Tag wong",
+    "hint": "Tutul foto ing panggonan wong kuwi, banjur pilih jenenge.",
+    "search": "Golek wong",
+    "remove": "Busak tag",
+    "done": "Rampung",
+    "taggedCount": "{{value}} ditag",
+    "showTags": "Tampilake sapa sing ditag",
+    "hideTags": "Singidake tag",
+    "saved": "Tag disimpen",
+    "saveFailed": "Gagal nyimpen tag",
+    "removeMe": "Busak aku saka foto iki",
+    "removedMe": "Tag sampeyan wis dibusak"
+  },
+  "quiz": {
+    "title": "Kuis",
+    "add": "Tambah kuis",
+    "remove": "Busak kuis",
+    "taken": "{{value}} wis nggarap",
+    "questionOf": "Pitakonan {{n}} saka {{total}}",
+    "pointsEach": "{{points}} poin saben pitakonan",
+    "badgeBoost": "Badge sampeyan menehi {{x}}x poin",
+    "earnedToast": "{{correct}} saka {{total}} bener, +{{points}} poin",
+    "noPointsToast": "{{correct}} saka {{total}} bener",
+    "answerFailed": "Gagal ngirim jawaban sampeyan",
+    "resultPoints": "{{correct}} saka {{total}} bener, sampeyan entuk {{points}} poin",
+    "result": "{{correct}} saka {{total}} bener",
+    "creatorNote": "Kuis sampeyan. Jawaban sing bener wis ditandhani; wong liya entuk poin saluran sampeyan.",
+    "writeFailed": "Gagal nulis pitakonan, coba tembung liyane",
+    "topicPlaceholder": "Jlentrehake kuis sampeyan nganggo sawetara tembung",
+    "rewrite": "Tulis maneh",
+    "write": "Tulis pitakonan",
+    "editorHint": "Priksa saben pitakonan sadurunge dikirim. Saben wong mung entuk sepisan kesempatan.",
+    "questionPlaceholder": "Pitakonan",
+    "removeQuestion": "Busak pitakonan",
+    "markRight": "Jawaban bener",
+    "optionPlaceholder": "Jawaban {{n}}",
+    "addQuestion": "Tambah pitakonan",
+    "pointsLabel": "Poin saben jawaban bener",
+    "attachFailed": "Kiriman sampeyan wis tayang, nanging kuis gagal ditambahake"
   }
 }

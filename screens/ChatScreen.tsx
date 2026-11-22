@@ -60,6 +60,8 @@ import NewChatIntro from "../components/DM/NewChatIntro";
 import TipAmountSheet from "../components/DM/TipAmountSheet";
 import PollCard from "../components/DM/PollCard";
 import CreatePollSheet from "../components/DM/CreatePollSheet";
+import NotesSheet from "../components/DM/NotesSheet";
+import { ScreenNames } from "../navigation/ScreenNames";
 import { ScheduledMessagesSheet, ScheduledStrip, scheduledDmKey, useScheduledDms, useWhenLabel } from "../components/DM/ScheduledMessages";
 import ScheduleSheet from "../components/Upload/ScheduleSheet";
 import { scheduleDm } from "../services/dm/dm.scheduled";
@@ -71,6 +73,8 @@ import { useVoiceRecorder, VoiceNoteRecordingOverlay } from "../components/Comme
 import type { VoiceNoteResult } from "../components/Comments/VoiceNoteRecorder";
 import Avatar from "../components/common/Avatar";
 import OnlineDot from "../components/common/OnlineDot";
+import { useIsOnline } from "../libs/online-presence";
+import { getShowLastSeen, lastSeenWhen, useLastSeen } from "../libs/last-seen";
 import ChatHeaderMenuButton from "../components/Chat/ChatHeaderMenuButton";
 import AssistantDmButtons from "../components/DM/AssistantDmButtons";
 import { isAssistantAddress } from "../libs/assistant";
@@ -199,7 +203,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const navigation = useNavigation<any>();
   const user = useUser();
   const { isSignedIn, needsUsername } = useAuthState();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   // A banned account keeps every conversation it has and can send into none.
   const { isBanned: accountBanned } = useBannedAccount();
   const { patchUser } = useAuthActions();
@@ -379,6 +383,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
 
   // Poll
   const [pollSheetVisible, setPollSheetVisible] = useState(false);
+  const [notesVisible, setNotesVisible] = useState(false);
 
   // Sending state — true while any job in the queue targets this conversation
   // (We keep this simple: the queue processes serially, so any active job = sending)
@@ -469,8 +474,32 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
   const peerLocalTime = useProfileLocalTime(
     target?.address?.toLowerCase() === peer.address?.toLowerCase() ? target?.customs?.publicTimeZone : undefined,
   );
+  // "Last seen 5 min ago", only for someone who opted in (libs/last-seen),
+  // and not while their online dot is showing.
+  const peerCustoms = useMemo(() => {
+    if (target?.address?.toLowerCase() !== peer.address?.toLowerCase()) return null;
+    const raw = (target as any)?.customs;
+    if (typeof raw !== "string") return raw ?? null;
+    try { return JSON.parse(raw); } catch { return null; }
+  }, [target, peer.address]);
+  const peerLastSeenOptIn = getShowLastSeen(peerCustoms);
+  const peerOnline = useIsOnline(peer.address, peerLastSeenOptIn);
+  const peerSeenAt = useLastSeen(peer.address, peerLastSeenOptIn);
+  const [seenTick, setSeenTick] = useState(Date.now);
+  useEffect(() => {
+    if (!peerSeenAt) return;
+    const timer = setInterval(() => setSeenTick(Date.now()), 30_000);
+    return () => clearInterval(timer);
+  }, [peerSeenAt]);
+  const peerSeenWhen = peerSeenAt ? lastSeenWhen(peerSeenAt, i18n.language, seenTick) : null;
+  const peerLastSeen = !peerLastSeenOptIn || !peerSeenAt || peerOnline
+    ? ""
+    : peerSeenWhen
+    ? t("profile.lastSeen", { defaultValue: "Last seen {{when}}", when: peerSeenWhen })
+    : t("profile.lastSeenJustNow", { defaultValue: "Last seen just now" });
   const peerSubtitle = [
     peer.username ? `@${peer.username}` : "",
+    peerLastSeen,
     localTimeLine(t as never, peerLocalTime, target?.customs?.publicTimeZone),
   ].filter(Boolean).join(" · ");
   const peerLabel = useMemo(
@@ -2600,6 +2629,7 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
                 onClearTip={handleClearTip}
                 dhbBalance={dhbBalance}
                 onPollPress={currentConvId ? () => setPollSheetVisible(true) : undefined}
+                onNotePress={() => setNotesVisible(true)}
                 initialText={route?.params?.sharedText}
                 autoFocus={!!route?.params?.focusComposer}
                 thread={smartReplyThread}
@@ -2768,6 +2798,22 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ route }) => {
             </WhenOpened>
           </>
         ) : null}
+
+        <WhenOpened open={notesVisible}>
+          {() => (
+            <NotesSheet
+              visible={notesVisible}
+              onClose={() => setNotesVisible(false)}
+              onMessage={(a, reply) => navigation.push(ScreenNames.Chat, {
+                targetAddress: a.address.toLowerCase(),
+                title: a.displayName || a.username || a.address,
+                targetUser: { ...a, walletAddress: a.address },
+                focusComposer: true,
+                ...(reply ? { autoSendText: reply } : {}),
+              })}
+            />
+          )}
+        </WhenOpened>
 
         <WhenOpened open={pollSheetVisible}>
           {() => (

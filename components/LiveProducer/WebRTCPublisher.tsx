@@ -8,11 +8,18 @@ import React, {
 import { AppState, View, Platform, Text } from "react-native";
 import { useTranslation } from "react-i18next";
 import { mediaDevices, RTCPeerConnection, RTCView } from "react-native-webrtc";
-import { showBroadcastPicker } from "../../modules/media-bridge";
+import {
+  liveBroadcastPublishSupported,
+  liveBroadcastStatus,
+  prepareLiveBroadcast,
+  showBroadcastPicker,
+  stopLiveBroadcast,
+} from "../../modules/media-bridge";
 import { holdLiveAudioSession } from "../../libs/liveAudioSession";
 import { runWithPermissions, type PermissionKind } from "../../libs/permissions.util";
 import {
   whipEndpointFor,
+  rtmpPublishUrlFor,
   edgeWhipEndpointFor,
   probeIngestReachable,
   fetchTurnServers,
@@ -120,6 +127,15 @@ function computeStreamURL(ms: any): string | null {
     }
   } catch {}
   return null;
+}
+
+/** A WHIP Location header (often a bare path) against the URL it answered. */
+function resolveResourceUrl(location: string, requestUrl: string): string {
+  if (/^https?:\/\//i.test(location)) return location;
+  const origin = requestUrl.match(/^https?:\/\/[^/]+/i)?.[0] ?? "";
+  if (location.startsWith("/")) return origin + location;
+  const dir = requestUrl.split("?")[0].replace(/[^/]*$/, "");
+  return dir + location;
 }
 
 /**
@@ -267,6 +283,21 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
   const [screenURL, setScreenURL] = useState<string | null>(null);
   const onScreenShareEndedRef = useRef(onScreenShareEnded);
   onScreenShareEndedRef.current = onScreenShareEnded;
+  /*
+   * iPhone share published by the broadcast extension itself (newer builds).
+   * The app hands it a ticket, keeps the camera on air until the extension
+   * reports it is connecting, then takes its own publish off the stream (the
+   * ingest allows one publisher per stream) and puts the camera back when the
+   * share ends.
+   */
+  const extShareRef = useRef<{ id: string; handedOff: boolean; startedAt: number } | null>(null);
+  const [extShare, setExtShare] = useState<{ phase: "waiting" | "connecting" | "live"; mic: boolean } | null>(null);
+  const [shareNotice, setShareNotice] = useState<string | null>(null);
+  // The WHIP session's own URL, so handing the stream over can end it at once
+  // instead of waiting for the server to notice the peer went quiet.
+  const whipResourceRef = useRef<{ url: string; token?: string } | null>(null);
+  const activeRef = useRef(active);
+  activeRef.current = active;
   // Re-acquires the camera; set by the background effect below.
   const reacquireCameraRef = useRef<() => Promise<void>>(async () => {});
   const localReadyRef = useRef(localReady);
@@ -492,6 +523,8 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
       try {
         if (pcRef.current) { dbg('start(): pc already exists; skipping', { gen: myGen }); return; }
         if (startingRef.current) { dbg('start(): already starting; skipping', { gen: myGen }); return; }
+        // The broadcast extension holds the stream while the screen is shared.
+        if (extShareRef.current?.handedOff) { dbg('start(): screen share extension is publishing; skipping', { gen: myGen }); return; }
         startingRef.current = true;
         // Only start once local preview is ready to avoid early Camera2 session races
         if (!streamRef.current || !localReady) {
@@ -725,6 +758,14 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         }
         if (myGen !== pcGenerationRef.current) { dbg('start(): stale or cancelled before applying answer', { gen: myGen, currentGen: pcGenerationRef.current }); return; }
         dbg('received WHIP answer', { gen: myGen });
+        try {
+          const location = resp.headers?.get?.("Location");
+          whipResourceRef.current = location
+            ? { url: resolveResourceUrl(location, redirectUrl), token: whipToken }
+            : null;
+        } catch {
+          whipResourceRef.current = null;
+        }
         const answer = await resp.text();
         // FEC and stereo only switch on when the REMOTE fmtp carries them.
         await pc.setRemoteDescription({ type: "answer", sdp: withOpusFec(answer) });
@@ -1012,7 +1053,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
       if (!local || replacingTrackRef.current) return;
       // Sharing the screen sends the app to the background on purpose; the
       // camera comes back when the share stops, not on every return.
-      if (screenTrackRef.current) return;
+      if (screenTrackRef.current || extShareRef.current) return;
       replacingTrackRef.current = true;
       try {
         const old: any = local.getVideoTracks?.()[0];
@@ -1101,7 +1142,24 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
     };
 
     const startShare = async () => {
-      if (screenTrackRef.current) return;
+      if (screenTrackRef.current || extShareRef.current) return;
+      // Newer iPhone builds: the extension publishes the share itself.
+      if (Platform.OS === "ios" && liveBroadcastPublishSupported()) {
+        const url = rtmpPublishUrlFor(currentCreds());
+        const id = url ? prepareLiveBroadcast(url) : null;
+        if (id) {
+          extShareRef.current = { id, handedOff: false, startedAt: Date.now() };
+          setShareNotice(null);
+          setSharingScreen(true);
+          setExtShare({ phase: "waiting", mic: false });
+          const shown = await showBroadcastPicker(true);
+          if (!shown) {
+            dbe('broadcast picker unavailable');
+            await finishExtShareRef.current(true);
+          }
+          return;
+        }
+      }
       try {
         const display: any = await (mediaDevices as any).getDisplayMedia({ video: true });
         const screen: any = display?.getVideoTracks?.()[0];
@@ -1133,13 +1191,152 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
 
     if (screenSharing) void startShare();
     else if (screenTrackRef.current) void stopShare(false);
+    else if (extShareRef.current) void finishExtShareRef.current(false);
     return () => { cancelled = true; };
   }, [screenSharing, localReady]);
+
+  /*
+   * iPhone: an app in the background cannot use the hardware video encoder.
+   * While a screen share has taken the creator into another app the encoder
+   * keeps being fed frames and emits broken video, which tears down the
+   * viewers' players and the recording (seen 2026-11-22: clean while Riftn was
+   * open, corrupt from the moment it was not). So the picture is taken off the
+   * sender while Riftn is in the background and put back on return; viewers
+   * keep the last frame and the voice carries on.
+   */
+  useEffect(() => {
+    if (Platform.OS !== "ios" || !sharingScreen) return;
+    let paused = false;
+    const sub = AppState.addEventListener("change", (state) => {
+      const sender: any = videoSenderRef.current;
+      const screen: any = screenTrackRef.current;
+      if (!sender || !screen) return;
+      if (state === "background" && !paused) {
+        paused = true;
+        sender.replaceTrack(null).catch(() => {});
+        dbg('screen share: video paused while in background');
+      } else if (state === "active" && paused) {
+        paused = false;
+        sender.replaceTrack(screen).catch(() => {});
+        dbg('screen share: video resumed');
+      }
+    });
+    return () => {
+      sub.remove();
+      if (paused && screenTrackRef.current) {
+        try { videoSenderRef.current?.replaceTrack(screenTrackRef.current).catch(() => {}); } catch {}
+      }
+    };
+  }, [sharingScreen]);
+
+  /*
+   * The extension took the share: end the app's own publish, so the stream's
+   * one publisher slot is free for it, and let go of the camera.
+   */
+  const handOffToExtension = useCallback(() => {
+    const ext = extShareRef.current;
+    if (!ext || ext.handedOff) return;
+    ext.handedOff = true;
+    const resource = whipResourceRef.current;
+    whipResourceRef.current = null;
+    pcGenerationRef.current += 1;
+    stopPeer();
+    if (resource) {
+      fetch(resource.url, {
+        method: "DELETE",
+        headers: resource.token ? { authorization: `Bearer ${resource.token}` } : {},
+      }).catch(() => {});
+    }
+    const local: any = streamRef.current;
+    const cam: any = local?.getVideoTracks?.()[0];
+    if (cam) {
+      try { local.removeTrack(cam); } catch {}
+      try { cam.stop(); } catch {}
+    }
+    dbg('screen share: extension is publishing; app publish stopped');
+  }, [stopPeer]);
+
+  /*
+   * The share is over (stopped here, from Control Center, or it failed):
+   * make sure the extension stops, wait for it to leave the stream, then put
+   * the camera back on air.
+   */
+  const finishExtShare = useCallback(async (fromSystem: boolean, notice?: string | null) => {
+    const ext = extShareRef.current;
+    if (!ext) return;
+    stopLiveBroadcast(ext.id);
+    extShareRef.current = null;
+    setExtShare(null);
+    setSharingScreen(false);
+    if (notice) setShareNotice(notice);
+    if (ext.handedOff) {
+      // The extension checks for the stop twice a second; give it time to
+      // disconnect so the stream is free for the camera again.
+      for (let i = 0; i < 10; i += 1) {
+        const st = liveBroadcastStatus(ext.id);
+        if (!st || st.state === "ended" || st.state === "failed") break;
+        await new Promise((r) => setTimeout(r, 400));
+      }
+      await new Promise((r) => setTimeout(r, 1500));
+      currentFacingRef.current = facingRef.current;
+      await reacquireCameraRef.current();
+      const local: any = streamRef.current;
+      const url = computeStreamURL(local);
+      if (url) setLocalURL(url);
+      if (activeRef.current) startPeerRef.current();
+    }
+    if (fromSystem) onScreenShareEndedRef.current?.();
+  }, []);
+  const finishExtShareRef = useRef(finishExtShare);
+  finishExtShareRef.current = finishExtShare;
+
+  // Follow the extension's status while a share is waiting or running.
+  const extShareOn = extShare != null;
+  useEffect(() => {
+    if (!extShareOn) return;
+    const id = setInterval(() => {
+      const ext = extShareRef.current;
+      if (!ext) return;
+      const st = liveBroadcastStatus(ext.id);
+      if (!st) {
+        // Never started: the creator closed the picker. Give up after a while.
+        if (!ext.handedOff && Date.now() - ext.startedAt > 3 * 60_000) void finishExtShareRef.current(true);
+        return;
+      }
+      // A status that stopped updating means the extension was shut down
+      // without saying so; treat it as the end of the share.
+      const stale = typeof st.at === "number" && Date.now() / 1000 - st.at > 10 && AppState.currentState === "active";
+      if (st.state === "ended" || st.state === "failed" || stale) {
+        const notice = st.state === "failed"
+          ? st.reason?.startsWith("refused")
+            ? null
+            : t("live.screenShare.failed", { defaultValue: "Screen share couldn't reach the live server. You're back on camera." })
+          : null;
+        void finishExtShareRef.current(true, notice);
+        return;
+      }
+      if (!ext.handedOff) handOffToExtension();
+      const phase = st.state;
+      const mic = !!st.mic;
+      setExtShare((prev) => (prev && prev.phase === phase && prev.mic === mic ? prev : { phase, mic }));
+    }, 800);
+    return () => clearInterval(id);
+  }, [extShareOn, handOffToExtension, t]);
+
+  useEffect(() => {
+    if (!shareNotice) return;
+    const id = setTimeout(() => setShareNotice(null), 7000);
+    return () => clearTimeout(id);
+  }, [shareNotice]);
 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       dbg('unmount cleanup start');
+      if (extShareRef.current) {
+        stopLiveBroadcast(extShareRef.current.id);
+        extShareRef.current = null;
+      }
       try { screenTrackRef.current?.stop(); } catch {}
       screenTrackRef.current = null;
       stopPeer();
@@ -1205,7 +1402,45 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         />
       ) : null}
 
-      {sharingScreen ? (
+      {sharingScreen && extShare ? (
+        <View
+          className="absolute inset-x-0 items-center"
+          style={{ top: extShare.phase === "waiting" ? 112 : 0, bottom: extShare.phase === "waiting" ? undefined : 0, justifyContent: "center" }}
+          pointerEvents="none"
+        >
+          <View className="bg-zinc-900/80 px-4 py-3 rounded-xl items-center mx-6">
+            <Text className="text-white text-sm font-semibold text-center">
+              {extShare.phase === "waiting"
+                ? t("live.screenShare.tapStart", { defaultValue: "Tap Start Broadcast to share your screen" })
+                : extShare.phase === "connecting"
+                  ? t("live.screenShare.connecting", { defaultValue: "Starting your screen share…" })
+                  : t("live.screenShare.sharing", { defaultValue: "You're sharing your screen" })}
+            </Text>
+            <Text className="text-white/60 text-xs mt-1 text-center">
+              {extShare.phase === "waiting"
+                ? t("live.screenShare.micTip", { defaultValue: "Turn on Microphone first so viewers hear you." })
+                : t("live.screenShare.anyApp", { defaultValue: "Viewers see your screen, in any app, until you stop sharing." })}
+            </Text>
+            {extShare.phase === "live" ? (
+              <Text className={`text-xs mt-2 text-center font-semibold ${extShare.mic ? "text-emerald-400" : "text-amber-400"}`}>
+                {extShare.mic
+                  ? t("live.screenShare.micOn", { defaultValue: "Your mic is on" })
+                  : t("live.screenShare.micOff", { defaultValue: "Your mic is off. To talk, stop sharing and turn on Microphone when you share again." })}
+              </Text>
+            ) : null}
+          </View>
+        </View>
+      ) : null}
+
+      {shareNotice ? (
+        <View className="absolute inset-x-0 items-center" style={{ top: 112 }} pointerEvents="none">
+          <View className="bg-zinc-900/80 px-4 py-2.5 rounded-xl items-center mx-6">
+            <Text className="text-white text-xs text-center">{shareNotice}</Text>
+          </View>
+        </View>
+      ) : null}
+
+      {sharingScreen && !extShare ? (
         <View
           className="absolute inset-x-0 items-center"
           // Under the header, so the shared picture itself stays in view.
@@ -1217,7 +1452,9 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
               {t("live.screenShare.sharing", { defaultValue: "You're sharing your screen" })}
             </Text>
             <Text className="text-white/60 text-xs mt-1 text-center">
-              {t("live.screenShare.hint", { defaultValue: "Viewers see your screen. Tap the screen button to switch back to the camera." })}
+              {Platform.OS === "ios"
+                ? t("live.screenShare.iosHint", { defaultValue: "Viewers see Riftn while it's open. iPhone pauses the picture when you switch apps; your voice keeps going." })
+                : t("live.screenShare.hint", { defaultValue: "Viewers see your screen. Tap the screen button to switch back to the camera." })}
             </Text>
           </View>
         </View>
@@ -1236,7 +1473,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
         </View>
       )}
 
-      {localReady && active && !connected && (
+      {localReady && active && !connected && !(extShare && extShare.phase !== "waiting") && (
         <View
           className="absolute inset-0 items-center justify-center"
           pointerEvents="none"

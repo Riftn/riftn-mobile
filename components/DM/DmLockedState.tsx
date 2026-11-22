@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { PageEmpty, KitButton, ThemeIcon } from "../page/PageKit";
 import { useAppTheme } from "../../context/ThemeContext";
+import { LIGHT_INK } from "../../theme/colors";
 import type { DmEncryptionStatus } from "../../libs/dm-e2ee/setup";
 
 interface DmLockedStateProps {
@@ -46,7 +47,7 @@ const DmLockedStateComponent: React.FC<DmLockedStateProps> = ({ status, busy, pe
         body={body}
         action={busy ? (
           <View className="h-[42px] items-center justify-center flex-row">
-            <ActivityIndicator size="small" color={isLight ? "#0B0B0D" : "#F4F4F5"} />
+            <ActivityIndicator size="small" color={isLight ? LIGHT_INK : "#F4F4F5"} />
             <Text className="text-[12px] text-theme-neutrals-400 ml-2">
               {t("messages.encryptionTurningOn", { defaultValue: "Waiting for your wallet to turn on encryption…" })}
             </Text>

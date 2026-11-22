@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Kaane", "trim": "Lõikamine", "mirror": "Peegel", "rotate": "Pööra", "hide": "Peida", "timer": "Taimer", "close": "Sulge", "photo": "Foto", "remove": "Eemalda", "pause": "Paus", "play": "Mängi video", "hiddenUntilTap": "Peidetud kuni nad selle puudutavad", "scrub": "Käi läbi video", "addMore": "Lisa fotosid või videoid", "coverAria": "Puuduta kaadrit kaane määramiseks", "trimHint": "Lõhenda lõpusid lõikamiseks", "coverHint": "Puuduta kaadrit, et teha see kaaneks", "uploadCover": "Laadi üles kaanepilt", "mirrored": "Peegeldatud", "original": "Algne", "rotate90": "Pööra 90°", "timerOff": "Lülita välja", "showNormally": "Näita tavaliselt", "showNormallyBody": "Nad näevad seda kohe", "hideUntilTap": "Peida kuni puudutatakse", "hideUntilTapBody": "Sume kuni nad seda puudutavad", "hidePrice": "Peida hinna taga", "hidePriceBody": "Sume kuni nad maksavad", "priceUnavailable": "Ei ole selles vestluses", "priceLabelUsd": "Hind", "priceHint": "Nad näevad seda ebaselge, kuni teid tasustate. Lukustatud üksused ei ole lõpust lõpuni krüpteeritud.", "timerOffBody": "See jääb vestlusesse.", "timerViewBody": "See on kaotanud mõlemale, kui nad seda näevad.", "confirm": "Kinnita", "editItem": "Muuda üksus {{value1}}", "coverSet": "Kaanna {{value1}}", "lockedForUsd": "Lukustamata {{value1}}", "timerTimeBody": "Kaotanud mõlemale {{value1}} pärast saatmist."},
+  "dmVideo": {
+    "cover": "Kaane",
+    "trim": "Lõikamine",
+    "mirror": "Peegel",
+    "rotate": "Pööra",
+    "hide": "Peida",
+    "timer": "Taimer",
+    "close": "Sulge",
+    "photo": "Foto",
+    "remove": "Eemalda",
+    "pause": "Paus",
+    "play": "Mängi video",
+    "hiddenUntilTap": "Peidetud kuni nad selle puudutavad",
+    "scrub": "Käi läbi video",
+    "addMore": "Lisa fotosid või videoid",
+    "coverAria": "Puuduta kaadrit kaane määramiseks",
+    "trimHint": "Lõhenda lõpusid lõikamiseks",
+    "coverHint": "Puuduta kaadrit, et teha see kaaneks",
+    "uploadCover": "Laadi üles kaanepilt",
+    "mirrored": "Peegeldatud",
+    "original": "Algne",
+    "rotate90": "Pööra 90°",
+    "timerOff": "Lülita välja",
+    "showNormally": "Näita tavaliselt",
+    "showNormallyBody": "Nad näevad seda kohe",
+    "hideUntilTap": "Peida kuni puudutatakse",
+    "hideUntilTapBody": "Sume kuni nad seda puudutavad",
+    "hidePrice": "Peida hinna taga",
+    "hidePriceBody": "Sume kuni nad maksavad",
+    "priceUnavailable": "Ei ole selles vestluses",
+    "priceLabelUsd": "Hind",
+    "priceHint": "Nad näevad seda ebaselge, kuni teid tasustate. Lukustatud üksused ei ole lõpust lõpuni krüpteeritud.",
+    "timerOffBody": "See jääb vestlusesse.",
+    "timerViewBody": "See on kaotanud mõlemale, kui nad seda näevad.",
+    "confirm": "Kinnita",
+    "editItem": "Muuda üksus {{value1}}",
+    "coverSet": "Kaanna {{value1}}",
+    "lockedForUsd": "Lukustamata {{value1}}",
+    "timerTimeBody": "Kaotanud mõlemale {{value1}} pärast saatmist.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 tund",
+      "43200": "12 tundi",
+      "86400": "1 päev",
+      "604800": "1 nädal",
+      "31536000": "1 aasta",
+      "view": "1 vaatamine"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1t",
+      "43200": "12t",
+      "86400": "1p",
+      "604800": "1n",
+      "31536000": "1a",
+      "view": "1 vaatamine"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Ääris",
     "theme": "Teema",
@@ -7026,7 +7085,18 @@
       "moveRuleUp": "Liiguta reeglit üles",
       "moveRuleDown": "Liiguta reeglit alla",
       "deleteRule": "Kustuta reegel",
-      "rights": {"sendMessages":"Saada meile","sendMessagesHint":"Postita kogukonna vestlusesse","sendMedia":"Saada media","sendMediaHint":"Lõigata pildid ja GIF-d","embedLinks":"Seob lingid","embedLinksHint":"Näita linki eeltõmbusi","addMembers":"Lisa liikmeid","addMembersHint":"Jagage ühiskonda teistega","createEvents":"Loo sündmused","createEventsHint":"Planeeri ühiskonnaüritusi","changeInfoMemberHint":"Muuda kogukonna nime ja kirjeldust",
+      "rights": {
+        "sendMessages": "Saada meile",
+        "sendMessagesHint": "Postita kogukonna vestlusesse",
+        "sendMedia": "Saada media",
+        "sendMediaHint": "Lõigata pildid ja GIF-d",
+        "embedLinks": "Seob lingid",
+        "embedLinksHint": "Näita linki eeltõmbusi",
+        "addMembers": "Lisa liikmeid",
+        "addMembersHint": "Jagage ühiskonda teistega",
+        "createEvents": "Loo sündmused",
+        "createEventsHint": "Planeeri ühiskonnaüritusi",
+        "changeInfoMemberHint": "Muuda kogukonna nime ja kirjeldust",
         "changeInfo": "Muuda kogukonna teavet",
         "changeInfoHint": "Muuda nime, kirjeldust, avatari ja bannerit",
         "deleteMessages": "Kustuta sõnumeid",
@@ -7104,12 +7174,41 @@
       "noInvites": "Kutselinke pole veel. Loo üks, et inimesi otse kutsuda.",
       "permissionsUpdated": "Õigused värskendatud",
       "slowModeUpdated": "Aeglane režiim värskendatud",
-      "slowMode":{"off":"Lülita välja","tenSeconds":"10 s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 tundi"},"slowModeOffHint": "Liikmed saavad sõnumeid saata ilma viivituseta.",
+      "slowMode": {
+        "off": "Lülita välja",
+        "tenSeconds": "10 s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 tundi"
+      },
+      "slowModeOffHint": "Liikmed saavad sõnumeid saata ilma viivituseta.",
       "slowModeOnHint": "Liikmed saavad saata ühe sõnumi iga {{label}}. Adminid on vabastatud.",
       "defaultPermissions": "Vaikimisi liikmeõigused",
       "defaultPermissionsHint": "Mida igaüks siin teha saab, välja arvatud juhul, kui administraatori õigus ütleb teisiti.",
       "slowModeTitle": "Aeglane režiim",
-      "log": {"verbs":{"promote_admin":"edutatud","demote_admin":"alandatud","transfer_ownership":"üleandas omanikuse","ban_member":"keelatud","unban_member":"vabastatud","kick_member":"Eemaldatud","mute_member":"vaigistatud","unmute_member":"mõlemas suunas","approve_member":"Kinnitanud","reject_member":"tagasi lülitatud","delete_message":"kustutasin sõnumit","purge_messages":"Kõik sõnumid kustutati","pin_message":"pinnis sõnumit","unpin_message":"väljapinnanud ülesande","update_settings":"värskendas kogukonna seadeid","create_invite":"loodi kutsuvink","revoke_invite":"tühistati kutsevõte","invite_used":"kutsutud"},
+      "log": {
+        "verbs": {
+          "promote_admin": "edutatud",
+          "demote_admin": "alandatud",
+          "transfer_ownership": "üleandas omanikuse",
+          "ban_member": "keelatud",
+          "unban_member": "vabastatud",
+          "kick_member": "Eemaldatud",
+          "mute_member": "vaigistatud",
+          "unmute_member": "mõlemas suunas",
+          "approve_member": "Kinnitanud",
+          "reject_member": "tagasi lülitatud",
+          "delete_message": "kustutasin sõnumit",
+          "purge_messages": "Kõik sõnumid kustutati",
+          "pin_message": "pinnis sõnumit",
+          "unpin_message": "väljapinnanud ülesande",
+          "update_settings": "värskendas kogukonna seadeid",
+          "create_invite": "loodi kutsuvink",
+          "revoke_invite": "tühistati kutsevõte",
+          "invite_used": "kutsutud"
+        },
         "justNow": "just nüüd",
         "minutesAgo": "{{value}}m tagasi",
         "hoursAgo": "{{value}}h tagasi",
@@ -13566,53 +13665,52 @@
     "cinema": {
       "close": "Sulge",
       "performance": {
-        "label": "Jõudlus",
         "0": "Rõõmus",
         "1": "Melanhoolne",
         "2": "Ärev",
         "3": "Enesekindel",
         "4": "Aukartlik",
         "5": "Vaoshoitud",
-        "6": "Mänguline"
+        "6": "Mänguline",
+        "label": "Jõudlus"
       },
       "title": "Kinematograafiline suund",
       "hint": "Suuna oma järgmise pildi või video visuaalset stiili. Tulemused sõltuvad mudelist.",
       "none": "Ilma suunata",
       "reset": "Tühjenda suund",
       "camera": {
-        "label": "Kaamera ilme",
         "0": "Digitaalne kino",
         "1": "35mm film",
         "2": "16mm film",
         "3": "Suurformaat",
-        "4": "Vana videokaamera"
+        "4": "Vana videokaamera",
+        "label": "Kaamera ilme"
       },
       "lens": {
-        "label": "Objektiivi stiil",
         "0": "Sfääriline",
         "1": "Anamorfne",
         "2": "Vana pehme klaas",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Objektiivi stiil"
       },
       "focalLength": {
-        "label": "Fookuskaugus",
         "0": "18 mm lainurk",
         "1": "24 mm lainurk",
         "2": "35 mm loomulik",
         "3": "50 mm standard",
         "4": "85 mm portree",
-        "5": "135 mm teleobjektiiv"
+        "5": "135 mm teleobjektiiv",
+        "label": "Fookuskaugus"
       },
       "aperture": {
-        "label": "Teravussügavus",
         "0": "f/1.4 väga madal",
         "1": "f/2.8 madal",
         "2": "f/5.6 mõõdukas",
-        "3": "f/11 sügav teravus"
+        "3": "f/11 sügav teravus",
+        "label": "Teravussügavus"
       },
       "movement": {
-        "label": "Kaamera liikumine",
         "0": "Statiivil paigal",
         "1": "Aeglane sõit sisse",
         "2": "Aeglane sõit välja",
@@ -13620,27 +13718,27 @@
         "4": "Tiir ümber objekti",
         "5": "Käsikaamera",
         "6": "Krana tõus",
-        "7": "Aeglane panoraam"
+        "7": "Aeglane panoraam",
+        "label": "Kaamera liikumine"
       },
       "lighting": {
-        "label": "Valgus",
         "0": "Pehme päevavalgus",
         "1": "Kuldne tund",
         "2": "Tume chiaroscuro",
         "3": "Hele stuudiovalgus",
         "4": "Neoonvalgustid",
         "5": "Siluett vastuvalguses",
-        "6": "Pilvine hajus valgus"
+        "6": "Pilvine hajus valgus",
+        "label": "Valgus"
       },
       "tempo": {
-        "label": "Kaadri tempo",
         "0": "Üks katkematu kaader",
         "1": "Rahulik, kiirustamata tegevus",
         "2": "Dünaamiline, energiline tegevus",
-        "3": "Kaootiline, meeletu tegevus"
+        "3": "Kaootiline, meeletu tegevus",
+        "label": "Kaadri tempo"
       },
       "era": {
-        "label": "Ajastu",
         "0": "1920. aastad",
         "1": "1950. aastad",
         "2": "1960. aastad",
@@ -13648,10 +13746,10 @@
         "4": "1980. aastad",
         "5": "1990. aastad",
         "6": "Tänapäev",
-        "7": "Lähitulevik"
+        "7": "Lähitulevik",
+        "label": "Ajastu"
       },
       "genre": {
-        "label": "Žanr",
         "0": "Dokumentaal",
         "1": "Draama",
         "2": "Film noir",
@@ -13659,16 +13757,17 @@
         "4": "Fantaasia",
         "5": "Romantiline komöödia",
         "6": "Põnevik",
-        "7": "Vestern"
+        "7": "Vestern",
+        "label": "Žanr"
       },
       "palette": {
-        "label": "Värvipalett",
         "0": "Soe merevaik",
         "1": "Jahe sinine",
         "2": "Summutatud maatoonid",
         "3": "Pastell",
         "4": "Suure kontrastiga mustvalge",
-        "5": "Küllastunud põhivärvid"
+        "5": "Küllastunud põhivärvid",
+        "label": "Värvipalett"
       }
     },
     "audioNoSpeech": "Puudub kõne selle salvestisele.",
@@ -17161,5 +17260,100 @@
     "promptCatchUp": "Too mind kursi, mida {{handle}} on viimasel ajal postitanud",
     "promptMessage": "Aita mul kirjutada sõnum kasutajale {{handle}}",
     "promptAbout": "Kasutajast {{handle}}: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Peida vastus",
+    "unhide": "Tühista peitmine",
+    "hiddenBadge": "Peidetud",
+    "hiddenTitle": "Seda näete ainult teie ja selle kirjutanud isik",
+    "hiddenToast": "Vastus on peidetud. Seda näete ainult teie ja selle kirjutanud isik",
+    "unhiddenToast": "Vastus on taas nähtav",
+    "failed": "Seda vastust ei õnnestunud peita"
+  },
+  "accountType": {
+    "title": "Konto tüüp",
+    "hint": "Looja- ja ärikontod kuvavad teie nime all kategooriat. Ärikonto lisab kontaktinupu. Kõik funktsioonid jäävad kõigile kontodele avatuks.",
+    "type": {
+      "personal": "Isiklik",
+      "creator": "Looja",
+      "business": "Äri"
+    },
+    "category": "Kategooria",
+    "contactEmail": "Avalik kontakti e-posti aadress",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "See e-posti aadress ei tundu õige",
+    "save": "Salvesta konto tüüp",
+    "saving": "Salvestamine…",
+    "saved": "Konto tüüp on salvestatud",
+    "saveFailed": "Konto tüüpi ei õnnestunud salvestada",
+    "contact": "Kontakt",
+    "cat": {
+      "artist": "Kunstnik",
+      "musician": "Muusik",
+      "gamer": "Mängur",
+      "streamer": "Striimija",
+      "writer": "Kirjanik",
+      "podcaster": "Taskuhäälingu tegija",
+      "educator": "Haridustöötaja",
+      "athlete": "Sportlane",
+      "photographer": "Fotograaf",
+      "video_creator": "Videolooja",
+      "comedian": "Koomik",
+      "developer": "Arendaja",
+      "public_figure": "Avaliku elu tegelane",
+      "other": "Muu",
+      "brand": "Bränd",
+      "shop": "Pood",
+      "restaurant": "Restoran",
+      "cafe": "Kohvik",
+      "agency": "Agentuur",
+      "community": "Kogukond",
+      "media": "Meedia",
+      "app": "Rakendus",
+      "project": "Projekt",
+      "nonprofit": "Mittetulundusühing",
+      "local_business": "Kohalik ettevõte"
+    }
+  },
+  "photoTags": {
+    "title": "Märgi inimesi",
+    "hint": "Puuduta fotol kohta, kus keegi on, ja vali siis tema nimi.",
+    "search": "Otsi inimesi",
+    "remove": "Eemalda märge",
+    "done": "Valmis",
+    "taggedCount": "{{value}} on märgitud",
+    "showTags": "Näita, kes on märgitud",
+    "hideTags": "Peida märked",
+    "saved": "Märked salvestatud",
+    "saveFailed": "Märkeid ei õnnestunud salvestada",
+    "removeMe": "Eemalda mind sellelt fotolt",
+    "removedMe": "Sinu märge eemaldati"
+  },
+  "quiz": {
+    "title": "Viktoriin",
+    "add": "Lisa viktoriin",
+    "remove": "Eemalda viktoriin",
+    "taken": "{{value}} tegi seda",
+    "questionOf": "Küsimus {{n}} / {{total}}",
+    "pointsEach": "{{points}} punkti igaüks",
+    "badgeBoost": "Sinu märk annab sulle {{x}}x punkti",
+    "earnedToast": "{{correct}} / {{total}} õigesti, +{{points}} punkti",
+    "noPointsToast": "{{correct}} / {{total}} õigesti",
+    "answerFailed": "Sinu vastuseid ei õnnestunud saata",
+    "resultPoints": "{{correct}} / {{total}} õigesti, teenisid {{points}} punkti",
+    "result": "{{correct}} / {{total}} õigesti",
+    "creatorNote": "Sinu viktoriin. Õiged vastused on märgitud; inimesed teenivad sinu kanali punkte.",
+    "writeFailed": "Küsimusi ei õnnestunud kirjutada, proovi teisi sõnu",
+    "topicPlaceholder": "Kirjelda oma viktoriini paari sõnaga",
+    "rewrite": "Kirjuta uuesti",
+    "write": "Kirjuta küsimused",
+    "editorHint": "Kontrolli iga küsimust enne postitamist. Iga inimene saab ühe korra vastata.",
+    "questionPlaceholder": "Küsimus",
+    "removeQuestion": "Eemalda küsimus",
+    "markRight": "Õige vastus",
+    "optionPlaceholder": "Vastus {{n}}",
+    "addQuestion": "Lisa küsimus",
+    "pointsLabel": "Punktid õige vastuse eest",
+    "attachFailed": "Sinu postitus on üleval, kuid viktoriini ei õnnestunud lisada"
   }
 }

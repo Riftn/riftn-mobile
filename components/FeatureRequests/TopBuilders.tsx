@@ -260,7 +260,6 @@ export function TopBuildersCard({ compact = false }: { compact?: boolean }) {
 export function TopBuildersPin({ bottom }: { bottom: number }) {
   const { t } = useTranslation();
   const shippedColor = useShippedColor();
-  const { isLight } = useAppTheme();
   const [period] = React.useContext(PeriodContext);
   const { builders, isLoading } = useTopBuilders(period);
   const me = useMyWallet();
@@ -271,7 +270,7 @@ export function TopBuildersPin({ bottom }: { bottom: number }) {
     : t("features.topBuilders.join", "Post a prompt that ships to join the board");
   return (
     <View pointerEvents="box-none" style={[styles.pinWrap, { bottom }]}>
-      <View style={[styles.pin, isLight && styles.pinLight]}>
+      <View style={styles.pin}>
         <Text style={[styles.rank, { width: 30 }]}>{pin.rank ? `#${pin.rank}` : "–"}</Text>
         <View style={styles.mid}>
           <View style={styles.topLine}>
@@ -341,6 +340,5 @@ const styles = StyleSheet.create({
   skeleton: { height: 36, borderRadius: 12, backgroundColor: "rgba(255,255,255,0.05)", marginVertical: 4 },
   pinWrap: { position: "absolute", left: 12, right: 12 },
   pin: { flexDirection: "row", alignItems: "center", gap: 10, padding: 10, borderRadius: 16, overflow: "hidden", borderWidth: 1, borderColor: "rgba(255,255,255,0.12)", backgroundColor: "rgba(24,24,27,0.96)" },
-  pinLight: { backgroundColor: "rgba(255,255,255,0.97)", borderColor: "rgba(0,0,0,0.08)" },
   pinBar: { height: 4, borderRadius: 2, overflow: "hidden", backgroundColor: "rgba(255,255,255,0.1)", marginTop: 5 },
 });

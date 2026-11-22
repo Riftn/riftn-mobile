@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Cover", "trim": "Potong", "mirror": "Cermin", "rotate": "Putar", "hide": "Sembunyikan", "timer": "Timer", "close": "Tutup", "photo": "Foto", "remove": "Hapus", "pause": "Jeda", "play": "Main video", "hiddenUntilTap": "Tersembunyi sampai mereka sentuhnya", "scrub": "Gesek melalui video", "addMore": "Tambahkan foto atau video", "coverAria": "Sentuh frame untuk menetapkan cover", "trimHint": "Seret ujung untuk memotong", "coverHint": "Sentuh frame untuk menjadikannya cover", "uploadCover": "Unggah gambar cover", "mirrored": "Dicerminkan", "original": "Asli", "rotate90": "Putar 90°", "timerOff": "Mati", "showNormally": "Tampilkan secara normal", "showNormallyBody": "Mereka melihatnya langsung", "hideUntilTap": "Sembunyikan sampai disentuh", "hideUntilTapBody": "Kabur sampai mereka sentuh", "hidePrice": "Sembunyikan di belakang harga", "hidePriceBody": "Kabur sampai mereka membayar Anda", "priceUnavailable": "Bukan di obrolan ini", "priceLabelUsd": "Harga", "priceHint": "Mereka melihatnya buram sampai mereka membayar Anda. Item yang dikunci tidak dienkripsi secara end-to-end.", "timerOffBody": "Itu tetap ada di obrolan.", "timerViewBody": "Habis untuk kalian berdua begitu mereka melihatnya.", "confirm": "Konfirmasi", "editItem": "Edit item {{value1}}", "coverSet": "Sampul di {{value1}}", "lockedForUsd": "Buka kunci untuk {{value1}}", "timerTimeBody": "Hilang untuk kalian berdua {{value1}} setelah kamu mengirimnya."},
+  "dmVideo": {
+    "cover": "Cover",
+    "trim": "Potong",
+    "mirror": "Cermin",
+    "rotate": "Putar",
+    "hide": "Sembunyikan",
+    "timer": "Timer",
+    "close": "Tutup",
+    "photo": "Foto",
+    "remove": "Hapus",
+    "pause": "Jeda",
+    "play": "Main video",
+    "hiddenUntilTap": "Tersembunyi sampai mereka sentuhnya",
+    "scrub": "Gesek melalui video",
+    "addMore": "Tambahkan foto atau video",
+    "coverAria": "Sentuh frame untuk menetapkan cover",
+    "trimHint": "Seret ujung untuk memotong",
+    "coverHint": "Sentuh frame untuk menjadikannya cover",
+    "uploadCover": "Unggah gambar cover",
+    "mirrored": "Dicerminkan",
+    "original": "Asli",
+    "rotate90": "Putar 90°",
+    "timerOff": "Mati",
+    "showNormally": "Tampilkan secara normal",
+    "showNormallyBody": "Mereka melihatnya langsung",
+    "hideUntilTap": "Sembunyikan sampai disentuh",
+    "hideUntilTapBody": "Kabur sampai mereka sentuh",
+    "hidePrice": "Sembunyikan di belakang harga",
+    "hidePriceBody": "Kabur sampai mereka membayar Anda",
+    "priceUnavailable": "Bukan di obrolan ini",
+    "priceLabelUsd": "Harga",
+    "priceHint": "Mereka melihatnya buram sampai mereka membayar Anda. Item yang dikunci tidak dienkripsi secara end-to-end.",
+    "timerOffBody": "Itu tetap ada di obrolan.",
+    "timerViewBody": "Habis untuk kalian berdua begitu mereka melihatnya.",
+    "confirm": "Konfirmasi",
+    "editItem": "Edit item {{value1}}",
+    "coverSet": "Sampul di {{value1}}",
+    "lockedForUsd": "Buka kunci untuk {{value1}}",
+    "timerTimeBody": "Hilang untuk kalian berdua {{value1}} setelah kamu mengirimnya.",
+    "destruct": {
+      "60": "1 menit",
+      "3600": "1 jam",
+      "43200": "12 jam",
+      "86400": "1 hari",
+      "604800": "1 minggu",
+      "31536000": "1 tahun",
+      "view": "1 tayangan"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1j",
+      "43200": "12j",
+      "86400": "1h",
+      "604800": "1mgg",
+      "31536000": "1th",
+      "view": "1 tayangan"
+    },
+    "destructSecs": "{{n}} detik",
+    "destructShortSecs": "{{n}}d"
+  },
   "comic": {
     "toComic": "Jadikan komik",
     "toCarousel": "Tampilkan sebagai carousel",
@@ -3196,7 +3255,26 @@
     "postCount_other": "{{count}} postingan"
   },
   "settings": {
-    "loginLook": {"title": "Layar masuk", "desc": "Cara logo dan slogan Riftn bergerak di layar masuk pada perangkat ini.", "tube": "TV tabung", "vhs": "Kaset VHS", "led": "Dinding LED", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Datar"}, "arrivalLook": {"title": "Setelah masuk", "desc": "Yang tampil saat akunmu dimuat, sebelum fotomu mendarat di halaman. Di perangkat ini.", "trace": "Jejak", "tune": "Sintonisasi", "rift": "Celah", "deck": "Tumpukan kartu", "glass": "Tetes kaca"},
+    "loginLook": {
+      "title": "Layar masuk",
+      "desc": "Cara logo dan slogan Riftn bergerak di layar masuk pada perangkat ini.",
+      "tube": "TV tabung",
+      "vhs": "Kaset VHS",
+      "led": "Dinding LED",
+      "holo": "Hologram",
+      "neon": "Neon",
+      "3d": "3D",
+      "flat": "Datar"
+    },
+    "arrivalLook": {
+      "title": "Setelah masuk",
+      "desc": "Yang tampil saat akunmu dimuat, sebelum fotomu mendarat di halaman. Di perangkat ini.",
+      "trace": "Jejak",
+      "tune": "Sintonisasi",
+      "rift": "Celah",
+      "deck": "Tumpukan kartu",
+      "glass": "Tetes kaca"
+    },
     "glass": "Berkaca - kaca",
     "shortsEnabled": "Celana pendek",
     "shortsEnabledDesc": "Tampilkan tab umpan Celana Pendek dan korsel Celana Pendek di Beranda.",
@@ -7053,7 +7131,18 @@
       "moveRuleUp": "Pindahkan aturan ke atas",
       "moveRuleDown": "Pindahkan aturan ke bawah",
       "deleteRule": "Hapus aturan",
-      "rights": {"sendMessages":"Kirim pesan","sendMessagesHint":"Posting di obrolan komunitas","sendMedia":"Kirim media","sendMediaHint":"Lampirkan gambar dan GIF","embedLinks":"Tautkan tautan","embedLinksHint":"Tampilkan pratinjau tautan","addMembers":"Tambahkan anggota","addMembersHint":"Bagikan komunitas dengan orang lain","createEvents":"Buat acara","createEventsHint":"Jadwalkan acara komunitas","changeInfoMemberHint":"Edit nama dan deskripsi komunitas",
+      "rights": {
+        "sendMessages": "Kirim pesan",
+        "sendMessagesHint": "Posting di obrolan komunitas",
+        "sendMedia": "Kirim media",
+        "sendMediaHint": "Lampirkan gambar dan GIF",
+        "embedLinks": "Tautkan tautan",
+        "embedLinksHint": "Tampilkan pratinjau tautan",
+        "addMembers": "Tambahkan anggota",
+        "addMembersHint": "Bagikan komunitas dengan orang lain",
+        "createEvents": "Buat acara",
+        "createEventsHint": "Jadwalkan acara komunitas",
+        "changeInfoMemberHint": "Edit nama dan deskripsi komunitas",
         "changeInfo": "Ubah info komunitas",
         "changeInfoHint": "Edit nama, deskripsi, avatar, dan banner",
         "deleteMessages": "Hapus pesan",
@@ -7131,12 +7220,41 @@
       "noInvites": "Belum ada tautan undangan. Buat satu untuk mengundang orang secara langsung.",
       "permissionsUpdated": "Izin diperbarui",
       "slowModeUpdated": "Mode lambat diperbarui",
-      "slowMode":{"off":"Mati","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 menit","fiveMinutes":"5 menit","fifteenMinutes":"15 menit","oneHour":"1 jam"},"slowModeOffHint": "Anggota dapat mengirim pesan tanpa penundaan.",
+      "slowMode": {
+        "off": "Mati",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 menit",
+        "fiveMinutes": "5 menit",
+        "fifteenMinutes": "15 menit",
+        "oneHour": "1 jam"
+      },
+      "slowModeOffHint": "Anggota dapat mengirim pesan tanpa penundaan.",
       "slowModeOnHint": "Anggota dapat mengirim satu pesan setiap {{label}}. Admin dikecualikan.",
       "defaultPermissions": "Izin anggota default",
       "defaultPermissionsHint": "Apa yang bisa dilakukan semua orang di sini kecuali hak admin mengatakan sebaliknya.",
       "slowModeTitle": "Mode lambat",
-      "log": {"verbs":{"promote_admin":"Promoted","demote_admin":"diturunkan","transfer_ownership":"mengalihkan kepemilikan ke","ban_member":"dilarang","unban_member":"tidak dilarang","kick_member":"dihapus","mute_member":"diamkan","unmute_member":"Tidak diam-diam","approve_member":"disetujui","reject_member":"ditolak","delete_message":"menghapus pesan dari","purge_messages":"menghapus semua pesan dari","pin_message":"memampatkan pesan dari","unpin_message":"membatalkan penyematan pesan dari","update_settings":"Memperbarui pengaturan komunitas","create_invite":"membuat tautan undangan","revoke_invite":"membatalkan tautan undangan","invite_used":"Diundang"},
+      "log": {
+        "verbs": {
+          "promote_admin": "Promoted",
+          "demote_admin": "diturunkan",
+          "transfer_ownership": "mengalihkan kepemilikan ke",
+          "ban_member": "dilarang",
+          "unban_member": "tidak dilarang",
+          "kick_member": "dihapus",
+          "mute_member": "diamkan",
+          "unmute_member": "Tidak diam-diam",
+          "approve_member": "disetujui",
+          "reject_member": "ditolak",
+          "delete_message": "menghapus pesan dari",
+          "purge_messages": "menghapus semua pesan dari",
+          "pin_message": "memampatkan pesan dari",
+          "unpin_message": "membatalkan penyematan pesan dari",
+          "update_settings": "Memperbarui pengaturan komunitas",
+          "create_invite": "membuat tautan undangan",
+          "revoke_invite": "membatalkan tautan undangan",
+          "invite_used": "Diundang"
+        },
         "justNow": "baru saja",
         "minutesAgo": "{{value}}m yang lalu",
         "hoursAgo": "{{value}}jam yang lalu",
@@ -13680,53 +13798,52 @@
     "cinema": {
       "close": "Tutup",
       "performance": {
-        "label": "Performa",
         "0": "Gembira",
         "1": "Melankolis",
         "2": "Cemas",
         "3": "Percaya diri",
         "4": "Terpukau",
         "5": "Tertahan",
-        "6": "Jenaka"
+        "6": "Jenaka",
+        "label": "Performa"
       },
       "title": "Arahan sinematik",
       "hint": "Pandu gaya visual gambar atau video Anda berikutnya. Hasil bervariasi tergantung model.",
       "none": "Tanpa arahan",
       "reset": "Hapus arahan",
       "camera": {
-        "label": "Tampilan kamera",
         "0": "Sinema digital",
         "1": "Film 35mm",
         "2": "Film 16mm",
         "3": "Format besar",
-        "4": "Camcorder vintage"
+        "4": "Camcorder vintage",
+        "label": "Tampilan kamera"
       },
       "lens": {
-        "label": "Tampilan lensa",
         "0": "Sferis",
         "1": "Anamorfik",
         "2": "Kaca lembut vintage",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Tampilan lensa"
       },
       "focalLength": {
-        "label": "Panjang fokus",
         "0": "18mm lebar",
         "1": "24mm lebar",
         "2": "35mm natural",
         "3": "50mm standar",
         "4": "85mm potret",
-        "5": "135mm telefoto"
+        "5": "135mm telefoto",
+        "label": "Panjang fokus"
       },
       "aperture": {
-        "label": "Kedalaman bidang",
         "0": "f/1.4 sangat dangkal",
         "1": "f/2.8 dangkal",
         "2": "f/5.6 sedang",
-        "3": "f/11 fokus dalam"
+        "3": "f/11 fokus dalam",
+        "label": "Kedalaman bidang"
       },
       "movement": {
-        "label": "Gerakan kamera",
         "0": "Tripod statis",
         "1": "Dolly in perlahan",
         "2": "Dolly out perlahan",
@@ -13734,27 +13851,27 @@
         "4": "Mengitari subjek",
         "5": "Genggam tangan",
         "6": "Crane naik",
-        "7": "Pan perlahan"
+        "7": "Pan perlahan",
+        "label": "Gerakan kamera"
       },
       "lighting": {
-        "label": "Pencahayaan",
         "0": "Cahaya siang lembut",
         "1": "Golden hour",
         "2": "Chiaroscuro low-key",
         "3": "Studio high-key",
         "4": "Lampu neon praktis",
         "5": "Siluet cahaya belakang",
-        "6": "Mendung tersebar"
+        "6": "Mendung tersebar",
+        "label": "Pencahayaan"
       },
       "tempo": {
-        "label": "Tempo shot",
         "0": "Satu shot berkelanjutan",
         "1": "Aksi tenang dan santai",
         "2": "Aksi dinamis dan energik",
-        "3": "Aksi kacau dan hiruk-pikuk"
+        "3": "Aksi kacau dan hiruk-pikuk",
+        "label": "Tempo shot"
       },
       "era": {
-        "label": "Era",
         "0": "1920-an",
         "1": "1950-an",
         "2": "1960-an",
@@ -13762,10 +13879,10 @@
         "4": "1980-an",
         "5": "1990-an",
         "6": "Masa kini",
-        "7": "Masa depan dekat"
+        "7": "Masa depan dekat",
+        "label": "Era"
       },
       "genre": {
-        "label": "Genre",
         "0": "Dokumenter",
         "1": "Drama",
         "2": "Film noir",
@@ -13773,16 +13890,17 @@
         "4": "Fantasi",
         "5": "Komedi romantis",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genre"
       },
       "palette": {
-        "label": "Palet warna",
         "0": "Amber hangat",
         "1": "Biru sejuk",
         "2": "Nuansa tanah yang lembut",
         "3": "Pastel",
         "4": "Monokrom kontras tinggi",
-        "5": "Warna primer yang jenuh"
+        "5": "Warna primer yang jenuh",
+        "label": "Palet warna"
       }
     },
     "audioNoSpeech": "Tidak ada ucapan yang ditemukan dalam rekaman tersebut.",
@@ -17162,5 +17280,100 @@
     "promptCatchUp": "Kabari aku apa yang diposting {{handle}} belakangan ini",
     "promptMessage": "Bantu aku menulis pesan untuk {{handle}}",
     "promptAbout": "Tentang {{handle}}: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Sembunyikan balasan",
+    "unhide": "Tampilkan kembali",
+    "hiddenBadge": "Disembunyikan",
+    "hiddenTitle": "Hanya Anda dan orang yang menulisnya yang dapat melihat ini",
+    "hiddenToast": "Balasan disembunyikan. Hanya Anda dan orang yang menulisnya yang dapat melihatnya",
+    "unhiddenToast": "Balasan kembali terlihat",
+    "failed": "Tidak dapat menyembunyikan balasan tersebut"
+  },
+  "accountType": {
+    "title": "Jenis akun",
+    "hint": "Akun Kreator dan Bisnis menampilkan kategori di bawah nama Anda. Bisnis menambahkan tombol Kontak. Setiap fitur tetap terbuka untuk setiap akun.",
+    "type": {
+      "personal": "Pribadi",
+      "creator": "Kreator",
+      "business": "Bisnis"
+    },
+    "category": "Kategori",
+    "contactEmail": "Email kontak publik",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "Email tersebut terlihat tidak benar",
+    "save": "Simpan jenis akun",
+    "saving": "Menyimpan…",
+    "saved": "Jenis akun disimpan",
+    "saveFailed": "Tidak dapat menyimpan jenis akun Anda",
+    "contact": "Kontak",
+    "cat": {
+      "artist": "Artis",
+      "musician": "Musisi",
+      "gamer": "Gamer",
+      "streamer": "Streamer",
+      "writer": "Penulis",
+      "podcaster": "Podcaster",
+      "educator": "Pendidik",
+      "athlete": "Atlet",
+      "photographer": "Fotografer",
+      "video_creator": "Pembuat video",
+      "comedian": "Komedian",
+      "developer": "Pengembang",
+      "public_figure": "Tokoh publik",
+      "other": "Lainnya",
+      "brand": "Merek",
+      "shop": "Toko",
+      "restaurant": "Restoran",
+      "cafe": "Kafe",
+      "agency": "Agensi",
+      "community": "Komunitas",
+      "media": "Media",
+      "app": "Aplikasi",
+      "project": "Proyek",
+      "nonprofit": "Nirlaba",
+      "local_business": "Bisnis lokal"
+    }
+  },
+  "photoTags": {
+    "title": "Tandai orang",
+    "hint": "Ketuk foto tempat seseorang berada, lalu pilih nama mereka.",
+    "search": "Cari orang",
+    "remove": "Hapus tag",
+    "done": "Selesai",
+    "taggedCount": "{{value}} ditandai",
+    "showTags": "Tampilkan siapa yang ditandai",
+    "hideTags": "Sembunyikan tag",
+    "saved": "Tag disimpan",
+    "saveFailed": "Tidak dapat menyimpan tag",
+    "removeMe": "Hapus saya dari foto ini",
+    "removedMe": "Tag Anda telah dihapus"
+  },
+  "quiz": {
+    "title": "Kuis",
+    "add": "Tambahkan kuis",
+    "remove": "Hapus kuis",
+    "taken": "{{value}} telah mengambilnya",
+    "questionOf": "Pertanyaan {{n}} dari {{total}}",
+    "pointsEach": "{{points}} poin masing-masing",
+    "badgeBoost": "Lencana Anda memberikan Anda {{x}}x poin",
+    "earnedToast": "{{correct}} dari {{total}} benar, +{{points}} poin",
+    "noPointsToast": "{{correct}} dari {{total}} benar",
+    "answerFailed": "Tidak dapat mengirim jawaban Anda",
+    "resultPoints": "{{correct}} dari {{total}} benar, Anda mendapatkan {{points}} poin",
+    "result": "{{correct}} dari {{total}} benar",
+    "creatorNote": "Kuis Anda. Jawaban yang benar ditandai; orang-orang mendapatkan poin saluran Anda.",
+    "writeFailed": "Tidak dapat menulis pertanyaan, coba kata-kata lain",
+    "topicPlaceholder": "Deskripsikan kuis Anda dalam beberapa kata",
+    "rewrite": "Tulis lagi",
+    "write": "Tulis pertanyaan",
+    "editorHint": "Periksa setiap pertanyaan sebelum memposting. Setiap orang mendapatkan satu kali kesempatan.",
+    "questionPlaceholder": "Pertanyaan",
+    "removeQuestion": "Hapus pertanyaan",
+    "markRight": "Jawaban benar",
+    "optionPlaceholder": "Jawaban {{n}}",
+    "addQuestion": "Tambahkan pertanyaan",
+    "pointsLabel": "Poin per jawaban benar",
+    "attachFailed": "Postingan Anda sudah terbit, tetapi kuis tidak dapat ditambahkan"
   }
 }

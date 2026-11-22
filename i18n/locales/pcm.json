@@ -1,5 +1,57 @@
 {
-  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "coverAria": "Tap one frame make you set di cover", "trimHint": "Drag the ends make you trim am", "coverHint": "Tap one frame make e bi di cover", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "Dem see am sharp sharp", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "E go blur until dem tap am", "priceUnavailable": "No bi for dis chat", "priceLabelUsd": "Price", "priceHint": "Dem dey see am blur until dem pay you. Locked items no dey end-to-end encrypted.", "timerOffBody": "E dey stay for di chat.", "timerViewBody": "E go comot for una two once dem don see am.", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover for {{value1}}", "timerTimeBody": "E go comot for una two {{value1}} after you send am."},
+  "dmVideo": {
+    "cover": "Cover",
+    "trim": "Trim",
+    "mirror": "Mirror",
+    "rotate": "Rotate",
+    "hide": "Hide",
+    "timer": "Timer",
+    "close": "Close",
+    "photo": "Photo",
+    "remove": "Remove",
+    "pause": "Pause",
+    "play": "Play video",
+    "coverAria": "Tap one frame make you set di cover",
+    "trimHint": "Drag the ends make you trim am",
+    "coverHint": "Tap one frame make e bi di cover",
+    "mirrored": "Mirrored",
+    "original": "Original",
+    "rotate90": "Rotate 90°",
+    "timerOff": "Off",
+    "showNormally": "Show normally",
+    "showNormallyBody": "Dem see am sharp sharp",
+    "hideUntilTap": "Hide until tapped",
+    "hideUntilTapBody": "E go blur until dem tap am",
+    "priceUnavailable": "No bi for dis chat",
+    "priceLabelUsd": "Price",
+    "priceHint": "Dem dey see am blur until dem pay you. Locked items no dey end-to-end encrypted.",
+    "timerOffBody": "E dey stay for di chat.",
+    "timerViewBody": "E go comot for una two once dem don see am.",
+    "confirm": "Confirm",
+    "editItem": "Edit item {{value1}}",
+    "coverSet": "Cover for {{value1}}",
+    "timerTimeBody": "E go comot for una two {{value1}} after you send am.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 hour",
+      "43200": "12 hours",
+      "86400": "1 day",
+      "604800": "1 week",
+      "31536000": "1 year",
+      "view": "1 view"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 view"
+    },
+    "destructSecs": "{{n}} sec",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Border",
     "theme": "Theme",
@@ -7034,7 +7086,18 @@
       "moveRuleUp": "Carry di rule go up",
       "moveRuleDown": "Carry di rule come down",
       "deleteRule": "Delete di rule",
-      "rights": {"sendMessages":"Send messages","sendMessagesHint":"Post for the community chat","sendMedia":"Send media","sendMediaHint":"Wetin you wan do? You dey wan attach images and GIFs?","embedLinks":"Embed links","embedLinksHint":"Show link previews","addMembers":"Add members","addMembersHint":"Share the community with other people","createEvents":"Create events","createEventsHint":"Schedule community events","changeInfoMemberHint":"Edit the community name and description",
+      "rights": {
+        "sendMessages": "Send messages",
+        "sendMessagesHint": "Post for the community chat",
+        "sendMedia": "Send media",
+        "sendMediaHint": "Wetin you wan do? You dey wan attach images and GIFs?",
+        "embedLinks": "Embed links",
+        "embedLinksHint": "Show link previews",
+        "addMembers": "Add members",
+        "addMembersHint": "Share the community with other people",
+        "createEvents": "Create events",
+        "createEventsHint": "Schedule community events",
+        "changeInfoMemberHint": "Edit the community name and description",
         "changeInfo": "Change di community info",
         "changeInfoHint": "Change di name, description, avatar and banner",
         "deleteMessages": "Delete messages dem",
@@ -7107,11 +7170,40 @@
       "createLink": "Create link",
       "permissionsUpdated": "Permissions updated",
       "slowModeUpdated": "Slow mode updated",
-      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 hour time"},"slowModeOffHint": "Members fit go send message without delay.",
+      "slowMode": {
+        "off": "Off",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 hour time"
+      },
+      "slowModeOffHint": "Members fit go send message without delay.",
       "defaultPermissions": "Default member permissions",
       "defaultPermissionsHint": "Wetin everybody fit do here unless admin say make you no dey do am.",
       "slowModeTitle": "Slow mode",
-      "log": {"verbs":{"promote_admin":"promoted","demote_admin":"demoted","transfer_ownership":"transferred ownership to","ban_member":"banned","unban_member":"unbanned","kick_member":"removed","mute_member":"muted","unmute_member":"unmuted","approve_member":"approved","reject_member":"rejected","delete_message":"delete message from","purge_messages":"delete all messages from","pin_message":"pin message from","unpin_message":"unpin one message from","update_settings":"update the community settings","create_invite":"create invite link","revoke_invite":"Revok an invit link.","invite_used":"invited"},
+      "log": {
+        "verbs": {
+          "promote_admin": "promoted",
+          "demote_admin": "demoted",
+          "transfer_ownership": "transferred ownership to",
+          "ban_member": "banned",
+          "unban_member": "unbanned",
+          "kick_member": "removed",
+          "mute_member": "muted",
+          "unmute_member": "unmuted",
+          "approve_member": "approved",
+          "reject_member": "rejected",
+          "delete_message": "delete message from",
+          "purge_messages": "delete all messages from",
+          "pin_message": "pin message from",
+          "unpin_message": "unpin one message from",
+          "update_settings": "update the community settings",
+          "create_invite": "create invite link",
+          "revoke_invite": "Revok an invit link.",
+          "invite_used": "invited"
+        },
         "empty": "Nothing dey here yet. Moderation actions go show as dem dey happen.",
         "forMinutes": "for {{value}} minutes",
         "restricted": "Na only moderators fit see di moderation log.",
@@ -13544,39 +13636,38 @@
       "none": "No direction",
       "reset": "Clear direction",
       "camera": {
-        "label": "Camera look",
         "0": "Digital cinema",
         "1": "35mm film",
         "2": "16mm film",
         "3": "Large format",
-        "4": "Old-school camcorder"
+        "4": "Old-school camcorder",
+        "label": "Camera look"
       },
       "lens": {
-        "label": "Lens look",
         "0": "Spherical",
         "1": "Anamorphic",
         "2": "Old soft glass",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Lens look"
       },
       "focalLength": {
-        "label": "Focal length",
         "0": "18mm wide",
         "1": "24mm wide",
         "2": "35mm natural",
         "3": "50mm standard",
         "4": "85mm portrait",
-        "5": "135mm telephoto"
+        "5": "135mm telephoto",
+        "label": "Focal length"
       },
       "aperture": {
-        "label": "Depth of field",
         "0": "f/1.4 very shallow",
         "1": "f/2.8 shallow",
         "2": "f/5.6 moderate",
-        "3": "f/11 deep focus"
+        "3": "f/11 deep focus",
+        "label": "Depth of field"
       },
       "movement": {
-        "label": "Camera movement",
         "0": "Tripod wey no dey move",
         "1": "Slow dolly in",
         "2": "Slow dolly out",
@@ -13584,27 +13675,27 @@
         "4": "Go round the subject",
         "5": "Handheld",
         "6": "Crane dey rise",
-        "7": "Slow pan"
+        "7": "Slow pan",
+        "label": "Camera movement"
       },
       "lighting": {
-        "label": "Lighting",
         "0": "Soft daylight",
         "1": "Golden hour",
         "2": "Low-key chiaroscuro",
         "3": "High-key studio",
         "4": "Neon practicals",
         "5": "Silhouette backlight",
-        "6": "Cloudy soft light"
+        "6": "Cloudy soft light",
+        "label": "Lighting"
       },
       "tempo": {
-        "label": "Shot tempo",
         "0": "One continuous shot",
         "1": "Calm action wey no dey rush",
         "2": "Dynamic action wey get energy",
-        "3": "Wild, scatter-scatter action"
+        "3": "Wild, scatter-scatter action",
+        "label": "Shot tempo"
       },
       "era": {
-        "label": "Era",
         "0": "1920s",
         "1": "1950s",
         "2": "1960s",
@@ -13612,10 +13703,10 @@
         "4": "1980s",
         "5": "1990s",
         "6": "Nowadays",
-        "7": "Near future"
+        "7": "Near future",
+        "label": "Era"
       },
       "genre": {
-        "label": "Genre",
         "0": "Documentary",
         "1": "Drama",
         "2": "Film noir",
@@ -13623,26 +13714,27 @@
         "4": "Fantasy",
         "5": "Romantic comedy",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Genre"
       },
       "performance": {
-        "label": "Performance",
         "0": "Happy well well",
         "1": "Sad",
         "2": "Worried",
         "3": "Confident",
         "4": "Shock and wonder",
         "5": "Calm, holding back",
-        "6": "Playful"
+        "6": "Playful",
+        "label": "Performance"
       },
       "palette": {
-        "label": "Color palette",
         "0": "Warm amber",
         "1": "Cool blue",
         "2": "Soft earth colors",
         "3": "Pastel",
         "4": "High contrast black and white",
-        "5": "Strong primary colors"
+        "5": "Strong primary colors",
+        "label": "Color palette"
       }
     },
     "audioNoSpeech": "We no see any speech for dat recording.",

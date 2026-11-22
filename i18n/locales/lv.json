@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Vāks", "trim": "Apgriezt", "mirror": "Spogulis", "rotate": "Pagriezt", "hide": "Paslēpt", "timer": "Taimeris", "close": "Aizvērt", "photo": "Foto", "remove": "Noņemt", "pause": "Pauze", "play": "Atskaņot video", "hiddenUntilTap": "Paslēpts, līdz uz tā uzspiež", "scrub": "Pārvietoties pa video", "addMore": "Pievienot fotoattēlus vai video", "coverAria": "Uzspied uz kadra, lai iestatītu vāku", "trimHint": "Velc galus, lai apgrieztu", "coverHint": "Uzspied uz kadra, lai padarītu to par vāku", "uploadCover": "Augšupielādēt vāka attēlu", "mirrored": "Spoguļattēls", "original": "Oriģināls", "rotate90": "Pagriezt par 90°", "timerOff": "Izslēgts", "showNormally": "Rādīt parasti", "showNormallyBody": "Viņi to redz uzreiz", "hideUntilTap": "Paslēpt, līdz uzspiež", "hideUntilTapBody": "Aizmiglots, līdz uz tā uzspiež", "hidePrice": "Paslēpt aiz cenas", "hidePriceBody": "Aizmiglots, līdz samaksā", "priceUnavailable": "Nav šajā čatā", "priceLabelUsd": "Cena", "priceHint": "Viņi to redz izplūdušu, līdz samaksā tev. Bloķētie vienumi nav aizsargāti ar pilnīgu šifrēšanu (end-to-end).", "timerOffBody": "Tas paliek čatā.", "timerViewBody": "Pazūd abiem, tiklīdz viņi to ir redzējuši.", "confirm": "Apstiprināt", "editItem": "Rediģēt vienumu {{value1}}", "coverSet": "Vāks {{value1}}", "lockedForUsd": "Atbloķēt par {{value1}}", "timerTimeBody": "Pazūd abiem {{value1}} pēc tam, kad to nosūtīji."},
+  "dmVideo": {
+    "cover": "Vāks",
+    "trim": "Apgriezt",
+    "mirror": "Spogulis",
+    "rotate": "Pagriezt",
+    "hide": "Paslēpt",
+    "timer": "Taimeris",
+    "close": "Aizvērt",
+    "photo": "Foto",
+    "remove": "Noņemt",
+    "pause": "Pauze",
+    "play": "Atskaņot video",
+    "hiddenUntilTap": "Paslēpts, līdz uz tā uzspiež",
+    "scrub": "Pārvietoties pa video",
+    "addMore": "Pievienot fotoattēlus vai video",
+    "coverAria": "Uzspied uz kadra, lai iestatītu vāku",
+    "trimHint": "Velc galus, lai apgrieztu",
+    "coverHint": "Uzspied uz kadra, lai padarītu to par vāku",
+    "uploadCover": "Augšupielādēt vāka attēlu",
+    "mirrored": "Spoguļattēls",
+    "original": "Oriģināls",
+    "rotate90": "Pagriezt par 90°",
+    "timerOff": "Izslēgts",
+    "showNormally": "Rādīt parasti",
+    "showNormallyBody": "Viņi to redz uzreiz",
+    "hideUntilTap": "Paslēpt, līdz uzspiež",
+    "hideUntilTapBody": "Aizmiglots, līdz uz tā uzspiež",
+    "hidePrice": "Paslēpt aiz cenas",
+    "hidePriceBody": "Aizmiglots, līdz samaksā",
+    "priceUnavailable": "Nav šajā čatā",
+    "priceLabelUsd": "Cena",
+    "priceHint": "Viņi to redz izplūdušu, līdz samaksā tev. Bloķētie vienumi nav aizsargāti ar pilnīgu šifrēšanu (end-to-end).",
+    "timerOffBody": "Tas paliek čatā.",
+    "timerViewBody": "Pazūd abiem, tiklīdz viņi to ir redzējuši.",
+    "confirm": "Apstiprināt",
+    "editItem": "Rediģēt vienumu {{value1}}",
+    "coverSet": "Vāks {{value1}}",
+    "lockedForUsd": "Atbloķēt par {{value1}}",
+    "timerTimeBody": "Pazūd abiem {{value1}} pēc tam, kad to nosūtīji.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 stunda",
+      "43200": "12 stundas",
+      "86400": "1 diena",
+      "604800": "1 nedēļa",
+      "31536000": "1 gads",
+      "view": "1 skatījums"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1h",
+      "43200": "12h",
+      "86400": "1d",
+      "604800": "1w",
+      "31536000": "1y",
+      "view": "1 skatījums"
+    },
+    "destructSecs": "{{n}} sek",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Apmale",
     "theme": "Motīvs",
@@ -7026,7 +7085,18 @@
       "moveRuleUp": "Pārvietot noteikumu uz augšu",
       "moveRuleDown": "Pārvietot noteikumu uz leju",
       "deleteRule": "Dzēst noteikumu",
-      "rights": {"sendMessages":"Sūtīt ziņas","sendMessagesHint":"Postēt kopienas chatā","sendMedia":"Nosūtīt mediju","sendMediaHint":"Pieliek attēlus un GIFus","embedLinks":"Iekļauk saites","embedLinksHint":"Rādīt saiti priekšskatījumu","addMembers":"Pievienot dalībniekus","addMembersHint":"Dalieties kopienā ar citiem","createEvents":"Izveidot notikumus","createEventsHint":"Plānot kopienas notikumus","changeInfoMemberHint":"Rediģēt kopienas nosaukumu un aprakstu",
+      "rights": {
+        "sendMessages": "Sūtīt ziņas",
+        "sendMessagesHint": "Postēt kopienas chatā",
+        "sendMedia": "Nosūtīt mediju",
+        "sendMediaHint": "Pieliek attēlus un GIFus",
+        "embedLinks": "Iekļauk saites",
+        "embedLinksHint": "Rādīt saiti priekšskatījumu",
+        "addMembers": "Pievienot dalībniekus",
+        "addMembersHint": "Dalieties kopienā ar citiem",
+        "createEvents": "Izveidot notikumus",
+        "createEventsHint": "Plānot kopienas notikumus",
+        "changeInfoMemberHint": "Rediģēt kopienas nosaukumu un aprakstu",
         "changeInfo": "Mainīt kopienas informāciju",
         "changeInfoHint": "Rediģēt nosaukumu, aprakstu, iemiesojumu un baneri",
         "deleteMessages": "Dzēst ziņojumus",
@@ -7104,12 +7174,41 @@
       "noInvites": "Pagaidām nav nevienas uzaicinājuma saites. Izveidojiet tādu, lai uzaicinātu cilvēkus tieši.",
       "permissionsUpdated": "Atļaujas atjauninātas",
       "slowModeUpdated": "Lēnais režīms atjaunināts",
-      "slowMode":{"off":"Izslēgts","tenSeconds":"10s","thirtySeconds":"30s","oneMinute":"1 min","fiveMinutes":"5 min","fifteenMinutes":"15 min","oneHour":"1 stunda"},"slowModeOffHint": "Dalībnieki var nosūtīt ziņojumus bez kavēšanās.",
+      "slowMode": {
+        "off": "Izslēgts",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 min",
+        "fiveMinutes": "5 min",
+        "fifteenMinutes": "15 min",
+        "oneHour": "1 stunda"
+      },
+      "slowModeOffHint": "Dalībnieki var nosūtīt ziņojumus bez kavēšanās.",
       "slowModeOnHint": "Dalībnieki var nosūtīt vienu ziņojumu katru {{label}}. Administratori ir atbrīvoti.",
       "defaultPermissions": "Noklusējuma dalībnieku atļaujas",
       "defaultPermissionsHint": "Ko šeit var darīt ikviens, ja vien administratora tiesības nenosaka citādi.",
       "slowModeTitle": "Lēnais režīms",
-      "log": {"verbs":{"promote_admin":"promotēts","demote_admin":"pazemināts","transfer_ownership":"nodeva īpašumtiesības","ban_member":"aizliegts","unban_member":"atbrīvots no aizlieguma","kick_member":"Noņemts","mute_member":"izslēgts","unmute_member":"bez šķērsjēdziena","approve_member":"apstiprināts","reject_member":"noraidīts","delete_message":"dzēsa ziņojumu no","purge_messages":"izdzēsa visus ziņojumus no","pin_message":"piedēļoja ziņu no","unpin_message":"Atjaunināts ziņojums no","update_settings":"atjaunoja kopienas iestatījumus","create_invite":"izveidoja uzaicinājuma saiti","revoke_invite":"atcēla uzvērtēšanas saiti","invite_used":"uzsvērts"},
+      "log": {
+        "verbs": {
+          "promote_admin": "promotēts",
+          "demote_admin": "pazemināts",
+          "transfer_ownership": "nodeva īpašumtiesības",
+          "ban_member": "aizliegts",
+          "unban_member": "atbrīvots no aizlieguma",
+          "kick_member": "Noņemts",
+          "mute_member": "izslēgts",
+          "unmute_member": "bez šķērsjēdziena",
+          "approve_member": "apstiprināts",
+          "reject_member": "noraidīts",
+          "delete_message": "dzēsa ziņojumu no",
+          "purge_messages": "izdzēsa visus ziņojumus no",
+          "pin_message": "piedēļoja ziņu no",
+          "unpin_message": "Atjaunināts ziņojums no",
+          "update_settings": "atjaunoja kopienas iestatījumus",
+          "create_invite": "izveidoja uzaicinājuma saiti",
+          "revoke_invite": "atcēla uzvērtēšanas saiti",
+          "invite_used": "uzsvērts"
+        },
         "justNow": "tikko",
         "minutesAgo": "pirms {{value}}m",
         "hoursAgo": "pirms {{value}}h",
@@ -13566,53 +13665,52 @@
     "cinema": {
       "close": "Aizvērt",
       "performance": {
-        "label": "Veiktspēja",
         "0": "Priecīgs",
         "1": "Melanholisks",
         "2": "Satraukts",
         "3": "Pārliecināts",
         "4": "Apbrīnas pilns",
         "5": "Atturīgs",
-        "6": "Rotaļīgs"
+        "6": "Rotaļīgs",
+        "label": "Veiktspēja"
       },
       "title": "Kino režija",
       "hint": "Vadiet nākamā attēla vai video vizuālo stilu. Rezultāti atšķiras atkarībā no modeļa.",
       "none": "Bez režijas",
       "reset": "Notīrīt režiju",
       "camera": {
-        "label": "Kameras izskats",
         "0": "Digitālais kino",
         "1": "35 mm filma",
         "2": "16 mm filma",
         "3": "Lielformāta",
-        "4": "Vintāžas videokamera"
+        "4": "Vintāžas videokamera",
+        "label": "Kameras izskats"
       },
       "lens": {
-        "label": "Objektīva izskats",
         "0": "Sfērisks",
         "1": "Anamorfisks",
         "2": "Vintāžas mīksts stikls",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Objektīva izskats"
       },
       "focalLength": {
-        "label": "Fokusa attālums",
         "0": "18 mm platleņķa",
         "1": "24 mm platleņķa",
         "2": "35 mm dabisks",
         "3": "50 mm standarta",
         "4": "85 mm portreta",
-        "5": "135 mm teleobjektīvs"
+        "5": "135 mm teleobjektīvs",
+        "label": "Fokusa attālums"
       },
       "aperture": {
-        "label": "Asuma dziļums",
         "0": "f/1.4 ļoti sekls",
         "1": "f/2.8 sekls",
         "2": "f/5.6 vidējs",
-        "3": "f/11 dziļš fokuss"
+        "3": "f/11 dziļš fokuss",
+        "label": "Asuma dziļums"
       },
       "movement": {
-        "label": "Kameras kustība",
         "0": "Nekustīgs statīvs",
         "1": "Lēna tuvināšanās ar ratiņiem",
         "2": "Lēna attālināšanās ar ratiņiem",
@@ -13620,27 +13718,27 @@
         "4": "Riņķot ap objektu",
         "5": "No rokas",
         "6": "Celtņa pacēlums",
-        "7": "Lēna panorāma"
+        "7": "Lēna panorāma",
+        "label": "Kameras kustība"
       },
       "lighting": {
-        "label": "Apgaismojums",
         "0": "Maiga dienasgaisma",
         "1": "Zelta stunda",
         "2": "Tumšs kjaroskuro",
         "3": "Gaišs studijas",
         "4": "Neona gaismas kadrā",
         "5": "Siluets pretgaismā",
-        "6": "Izkliedēts mākoņains"
+        "6": "Izkliedēts mākoņains",
+        "label": "Apgaismojums"
       },
       "tempo": {
-        "label": "Kadra temps",
         "0": "Viens nepārtraukts kadrs",
         "1": "Mierīga, nesteidzīga darbība",
         "2": "Dinamiska, enerģiska darbība",
-        "3": "Haotiska, drudžaina darbība"
+        "3": "Haotiska, drudžaina darbība",
+        "label": "Kadra temps"
       },
       "era": {
-        "label": "Laikmets",
         "0": "20. gadi",
         "1": "50. gadi",
         "2": "60. gadi",
@@ -13648,10 +13746,10 @@
         "4": "80. gadi",
         "5": "90. gadi",
         "6": "Mūsdienas",
-        "7": "Tuvā nākotne"
+        "7": "Tuvā nākotne",
+        "label": "Laikmets"
       },
       "genre": {
-        "label": "Žanrs",
         "0": "Dokumentālā filma",
         "1": "Drāma",
         "2": "Film noir",
@@ -13659,16 +13757,17 @@
         "4": "Fantāzija",
         "5": "Romantiskā komēdija",
         "6": "Trilleris",
-        "7": "Vesterns"
+        "7": "Vesterns",
+        "label": "Žanrs"
       },
       "palette": {
-        "label": "Krāsu palete",
         "0": "Silts dzintars",
         "1": "Vēsi zils",
         "2": "Klusināti zemes toņi",
         "3": "Pasteļtoņi",
         "4": "Kontrastains melnbalts",
-        "5": "Piesātinātas pamatkrāsas"
+        "5": "Piesātinātas pamatkrāsas",
+        "label": "Krāsu palete"
       }
     },
     "audioNoSpeech": "Šajā ierakstā netika atrasta neviena runa.",

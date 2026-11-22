@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Kulit", "trim": "Potong", "mirror": "Cermin", "rotate": "Putar", "hide": "Sembunyi", "timer": "Pemasa", "close": "Tutup", "photo": "Foto", "remove": "Buang", "pause": "Jeda", "play": "Mainkan video", "hiddenUntilTap": "Disembunyikan sehingga mereka mengetuknya", "scrub": "Tatal video", "addMore": "Tambah foto atau video", "coverAria": "Ketuk bingkai untuk menetapkan kulit", "trimHint": "Seret hujung untuk memotong", "coverHint": "Ketuk bingkai untuk menjadikannya kulit", "uploadCover": "Muat naik gambar kulit", "mirrored": "Dicerminkan", "original": "Asal", "rotate90": "Putar 90°", "timerOff": "Mati", "showNormally": "Tunjuk seperti biasa", "showNormallyBody": "Mereka melihatnya serta-merta", "hideUntilTap": "Sembunyi sehingga diketuk", "hideUntilTapBody": "Dikaburkan sehingga mereka mengetuknya", "hidePrice": "Sembunyi di sebalik harga", "hidePriceBody": "Dikaburkan sehingga mereka membayar anda", "priceUnavailable": "Tiada dalam sembang ini", "priceLabelUsd": "Harga", "priceHint": "Mereka melihatnya kabur sehingga mereka membayar anda. Item yang dikunci tidak disulitkan secara hujung-ke-hujung.", "timerOffBody": "Ia kekal dalam sembang.", "timerViewBody": "Hilang untuk anda berdua sebaik sahaja mereka melihatnya.", "confirm": "Sahkan", "editItem": "Edit item {{value1}}", "coverSet": "Kulit pada {{value1}}", "lockedForUsd": "Buka kunci untuk {{value1}}", "timerTimeBody": "Hilang untuk anda berdua {{value1}} selepas anda menghantarnya."},
+  "dmVideo": {
+    "cover": "Kulit",
+    "trim": "Potong",
+    "mirror": "Cermin",
+    "rotate": "Putar",
+    "hide": "Sembunyi",
+    "timer": "Pemasa",
+    "close": "Tutup",
+    "photo": "Foto",
+    "remove": "Buang",
+    "pause": "Jeda",
+    "play": "Mainkan video",
+    "hiddenUntilTap": "Disembunyikan sehingga mereka mengetuknya",
+    "scrub": "Tatal video",
+    "addMore": "Tambah foto atau video",
+    "coverAria": "Ketuk bingkai untuk menetapkan kulit",
+    "trimHint": "Seret hujung untuk memotong",
+    "coverHint": "Ketuk bingkai untuk menjadikannya kulit",
+    "uploadCover": "Muat naik gambar kulit",
+    "mirrored": "Dicerminkan",
+    "original": "Asal",
+    "rotate90": "Putar 90°",
+    "timerOff": "Mati",
+    "showNormally": "Tunjuk seperti biasa",
+    "showNormallyBody": "Mereka melihatnya serta-merta",
+    "hideUntilTap": "Sembunyi sehingga diketuk",
+    "hideUntilTapBody": "Dikaburkan sehingga mereka mengetuknya",
+    "hidePrice": "Sembunyi di sebalik harga",
+    "hidePriceBody": "Dikaburkan sehingga mereka membayar anda",
+    "priceUnavailable": "Tiada dalam sembang ini",
+    "priceLabelUsd": "Harga",
+    "priceHint": "Mereka melihatnya kabur sehingga mereka membayar anda. Item yang dikunci tidak disulitkan secara hujung-ke-hujung.",
+    "timerOffBody": "Ia kekal dalam sembang.",
+    "timerViewBody": "Hilang untuk anda berdua sebaik sahaja mereka melihatnya.",
+    "confirm": "Sahkan",
+    "editItem": "Edit item {{value1}}",
+    "coverSet": "Kulit pada {{value1}}",
+    "lockedForUsd": "Buka kunci untuk {{value1}}",
+    "timerTimeBody": "Hilang untuk anda berdua {{value1}} selepas anda menghantarnya.",
+    "destruct": {
+      "60": "1 min",
+      "3600": "1 jam",
+      "43200": "12 jam",
+      "86400": "1 hari",
+      "604800": "1 minggu",
+      "31536000": "1 tahun",
+      "view": "1 tontonan"
+    },
+    "destructShort": {
+      "60": "1m",
+      "3600": "1j",
+      "43200": "12j",
+      "86400": "1h",
+      "604800": "1m",
+      "31536000": "1t",
+      "view": "1 tontonan"
+    },
+    "destructSecs": "{{n}} saat",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Bingkai",
     "theme": "Tema",
@@ -3170,7 +3229,26 @@
     "postCount_other": "{{count}} siaran"
   },
   "settings": {
-    "loginLook": {"title": "Skrin log masuk", "desc": "Cara logo dan slogan Riftn bergerak pada skrin log masuk di peranti ini.", "tube": "TV tiub", "vhs": "Pita VHS", "led": "Dinding LED", "holo": "Hologram", "neon": "Neon", "3d": "3D", "flat": "Rata"}, "arrivalLook": {"title": "Selepas log masuk", "desc": "Apa yang dimainkan semasa akaun anda dimuatkan, sebelum gambar anda tiba di halaman. Pada peranti ini.", "trace": "Jejak", "tune": "Tala siaran", "rift": "Rekahan", "deck": "Dek kad", "glass": "Titisan kaca"},
+    "loginLook": {
+      "title": "Skrin log masuk",
+      "desc": "Cara logo dan slogan Riftn bergerak pada skrin log masuk di peranti ini.",
+      "tube": "TV tiub",
+      "vhs": "Pita VHS",
+      "led": "Dinding LED",
+      "holo": "Hologram",
+      "neon": "Neon",
+      "3d": "3D",
+      "flat": "Rata"
+    },
+    "arrivalLook": {
+      "title": "Selepas log masuk",
+      "desc": "Apa yang dimainkan semasa akaun anda dimuatkan, sebelum gambar anda tiba di halaman. Pada peranti ini.",
+      "trace": "Jejak",
+      "tune": "Tala siaran",
+      "rift": "Rekahan",
+      "deck": "Dek kad",
+      "glass": "Titisan kaca"
+    },
     "glass": "Berkaca-kaca",
     "shortsEnabled": "Seluar pendek",
     "shortsEnabledDesc": "Tunjukkan tab suapan Seluar Pendek dan karusel Seluar Pendek di Laman Utama.",
@@ -7283,7 +7361,18 @@
       "moveRuleUp": "Gerakkan peraturan ke atas",
       "moveRuleDown": "Gerakkan peraturan ke bawah",
       "deleteRule": "Padam peraturan",
-      "rights": {"sendMessages":"Hantar mesej","sendMessagesHint":"Kongsi di perbincangan komuniti","sendMedia":"Hantar media","sendMediaHint":"Sertakan gambar dan GIF","embedLinks":"Benamkan pautan","embedLinksHint":"Tunjukkan rangkaian pautan","addMembers":"Tambah ahli","addMembersHint":"Beri tahu komuniti kepada orang lain","createEvents":"Buat acara","createEventsHint":"Jadualkan acara komuniti","changeInfoMemberHint":"Sunting nama dan deskripsi komuniti",
+      "rights": {
+        "sendMessages": "Hantar mesej",
+        "sendMessagesHint": "Kongsi di perbincangan komuniti",
+        "sendMedia": "Hantar media",
+        "sendMediaHint": "Sertakan gambar dan GIF",
+        "embedLinks": "Benamkan pautan",
+        "embedLinksHint": "Tunjukkan rangkaian pautan",
+        "addMembers": "Tambah ahli",
+        "addMembersHint": "Beri tahu komuniti kepada orang lain",
+        "createEvents": "Buat acara",
+        "createEventsHint": "Jadualkan acara komuniti",
+        "changeInfoMemberHint": "Sunting nama dan deskripsi komuniti",
         "changeInfo": "Tukar maklumat komuniti",
         "changeInfoHint": "Edit nama, penerangan, avatar dan sepanduk",
         "deleteMessages": "Padam mesej",
@@ -7361,12 +7450,41 @@
       "noInvites": "Tiada pautan jemputan lagi. Cipta satu untuk menjemput orang secara terus.",
       "permissionsUpdated": "Kebenaran dikemas kini",
       "slowModeUpdated": "Mod perlahan dikemas kini",
-      "slowMode":{"off":"Mati","tenSeconds":"10-an","thirtySeconds":"30-an","oneMinute":"1 minit","fiveMinutes":"5 minit","fifteenMinutes":"15 minit","oneHour":"1 jam"},"slowModeOffHint": "Ahli boleh menghantar mesej tanpa kelewatan.",
+      "slowMode": {
+        "off": "Mati",
+        "tenSeconds": "10-an",
+        "thirtySeconds": "30-an",
+        "oneMinute": "1 minit",
+        "fiveMinutes": "5 minit",
+        "fifteenMinutes": "15 minit",
+        "oneHour": "1 jam"
+      },
+      "slowModeOffHint": "Ahli boleh menghantar mesej tanpa kelewatan.",
       "slowModeOnHint": "Ahli boleh menghantar satu mesej setiap {{label}}. Pentadbir dikecualikan.",
       "defaultPermissions": "Kebenaran ahli lalai",
       "defaultPermissionsHint": "Apa yang boleh dilakukan semua orang di sini kecuali ada hak pentadbir yang menyatakan sebaliknya.",
       "slowModeTitle": "Mod perlahan",
-      "log": {"verbs":{"promote_admin":"Promoted","demote_admin":"didegradasikan","transfer_ownership":"menukarkan kepemilikan kepada","ban_member":"diharamkan","unban_member":"dibatalkan sekatan","kick_member":"dibuang","mute_member":"diamkan","unmute_member":"dinyahbisukan","approve_member":"diluluskan","reject_member":"ditolak","delete_message":"menghapus pesanan daripada","purge_messages":"menghapus semua mesej daripada","pin_message":"menyepadukan pesanan daripada","unpin_message":"mesej yang tidak disematkan daripada","update_settings":"memperbarui tetapan komuniti","create_invite":"mencipta pautan undangan","revoke_invite":"membatalkan pautan undangan","invite_used":"Undangan diterima"},
+      "log": {
+        "verbs": {
+          "promote_admin": "Promoted",
+          "demote_admin": "didegradasikan",
+          "transfer_ownership": "menukarkan kepemilikan kepada",
+          "ban_member": "diharamkan",
+          "unban_member": "dibatalkan sekatan",
+          "kick_member": "dibuang",
+          "mute_member": "diamkan",
+          "unmute_member": "dinyahbisukan",
+          "approve_member": "diluluskan",
+          "reject_member": "ditolak",
+          "delete_message": "menghapus pesanan daripada",
+          "purge_messages": "menghapus semua mesej daripada",
+          "pin_message": "menyepadukan pesanan daripada",
+          "unpin_message": "mesej yang tidak disematkan daripada",
+          "update_settings": "memperbarui tetapan komuniti",
+          "create_invite": "mencipta pautan undangan",
+          "revoke_invite": "membatalkan pautan undangan",
+          "invite_used": "Undangan diterima"
+        },
         "justNow": "baru saja",
         "minutesAgo": "{{value}}m yang lalu",
         "hoursAgo": "{{value}}h yang lalu",
@@ -13823,53 +13941,52 @@
     "cinema": {
       "close": "Tutup",
       "performance": {
-        "label": "Prestasi",
         "0": "Gembira",
         "1": "Sayu",
         "2": "Cemas",
         "3": "Yakin",
         "4": "Kagum",
         "5": "Terkawal",
-        "6": "Ceria"
+        "6": "Ceria",
+        "label": "Prestasi"
       },
       "title": "Arahan sinematik",
       "hint": "Bimbing gaya visual imej atau video anda yang seterusnya. Hasil berbeza mengikut model.",
       "none": "Tiada arahan",
       "reset": "Kosongkan arahan",
       "camera": {
-        "label": "Rupa kamera",
         "0": "Sinema digital",
         "1": "Filem 35mm",
         "2": "Filem 16mm",
         "3": "Format besar",
-        "4": "Kamkoder vintaj"
+        "4": "Kamkoder vintaj",
+        "label": "Rupa kamera"
       },
       "lens": {
-        "label": "Rupa lensa",
         "0": "Sfera",
         "1": "Anamorfik",
         "2": "Kaca lembut vintaj",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Rupa lensa"
       },
       "focalLength": {
-        "label": "Panjang fokus",
         "0": "18mm lebar",
         "1": "24mm lebar",
         "2": "35mm semula jadi",
         "3": "50mm standard",
         "4": "85mm potret",
-        "5": "135mm telefoto"
+        "5": "135mm telefoto",
+        "label": "Panjang fokus"
       },
       "aperture": {
-        "label": "Kedalaman medan",
         "0": "f/1.4 sangat cetek",
         "1": "f/2.8 cetek",
         "2": "f/5.6 sederhana",
-        "3": "f/11 fokus dalam"
+        "3": "f/11 fokus dalam",
+        "label": "Kedalaman medan"
       },
       "movement": {
-        "label": "Pergerakan kamera",
         "0": "Tripod statik",
         "1": "Dolly masuk perlahan",
         "2": "Dolly keluar perlahan",
@@ -13877,27 +13994,27 @@
         "4": "Mengorbit subjek",
         "5": "Pegang tangan",
         "6": "Kren naik",
-        "7": "Pan perlahan"
+        "7": "Pan perlahan",
+        "label": "Pergerakan kamera"
       },
       "lighting": {
-        "label": "Pencahayaan",
         "0": "Cahaya siang lembut",
         "1": "Waktu keemasan",
         "2": "Chiaroscuro gelap",
         "3": "Studio terang",
         "4": "Lampu neon praktikal",
         "5": "Siluet cahaya belakang",
-        "6": "Mendung tersebar"
+        "6": "Mendung tersebar",
+        "label": "Pencahayaan"
       },
       "tempo": {
-        "label": "Tempo syot",
         "0": "Satu syot berterusan",
         "1": "Aksi tenang dan santai",
         "2": "Aksi dinamik dan bertenaga",
-        "3": "Aksi huru-hara dan pantas"
+        "3": "Aksi huru-hara dan pantas",
+        "label": "Tempo syot"
       },
       "era": {
-        "label": "Era",
         "0": "1920-an",
         "1": "1950-an",
         "2": "1960-an",
@@ -13905,10 +14022,10 @@
         "4": "1980-an",
         "5": "1990-an",
         "6": "Masa kini",
-        "7": "Masa depan terdekat"
+        "7": "Masa depan terdekat",
+        "label": "Era"
       },
       "genre": {
-        "label": "Genre",
         "0": "Dokumentari",
         "1": "Drama",
         "2": "Filem noir",
@@ -13916,16 +14033,17 @@
         "4": "Fantasi",
         "5": "Komedi romantik",
         "6": "Thriller",
-        "7": "Koboi"
+        "7": "Koboi",
+        "label": "Genre"
       },
       "palette": {
-        "label": "Palet warna",
         "0": "Ambar hangat",
         "1": "Biru sejuk",
         "2": "Warna tanah lembut",
         "3": "Pastel",
         "4": "Monokrom kontras tinggi",
-        "5": "Warna primer tepu"
+        "5": "Warna primer tepu",
+        "label": "Palet warna"
       }
     },
     "audioNoSpeech": "Tiada ucapan ditemui dalam rakaman itu.",

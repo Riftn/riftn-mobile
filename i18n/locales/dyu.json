@@ -1,5 +1,57 @@
 {
-  "dmVideo": {"cover": "Cover", "trim": "Trim", "mirror": "Mirror", "rotate": "Rotate", "hide": "Hide", "timer": "Timer", "close": "Close", "photo": "Photo", "remove": "Remove", "pause": "Pause", "play": "Play video", "hiddenUntilTap": "Kà kɛ̀ bɛ̀ nɛ̀ kɔ̀", "scrub": "Fɔlɔ video la", "addMore": "Kɛ foto kɛ video", "coverAria": "Kɔ̀nɲi kɛ̀nɛ kɔ̀nɔ̀ kɛ̀nɛ", "coverHint": "Kɔ̀lɔ̀ kɛ̀nɛ bɛɛ nɛ̀ kɛ́ bɔ̀ kɛ̀nɛ", "uploadCover": "Sɔrɔ kɛlɛ fɔlɔ", "mirrored": "Mirrored", "original": "Original", "rotate90": "Rotate 90°", "timerOff": "Off", "showNormally": "Show normally", "showNormallyBody": "A yi kaŋ", "hideUntilTap": "Hide until tapped", "hideUntilTapBody": "Bɔ̀lɔ kɔ̀n bɛ̀ kɔ̀n kɔ̀n", "priceUnavailable": "ma ni kɔ̀", "priceLabelUsd": "Price", "timerOffBody": "E nɔ kɔ̀ŋ kɔ̀ŋ", "confirm": "Confirm", "editItem": "Edit item {{value1}}", "coverSet": "Cover at {{value1}}"},
+  "dmVideo": {
+    "cover": "Cover",
+    "trim": "Trim",
+    "mirror": "Mirror",
+    "rotate": "Rotate",
+    "hide": "Hide",
+    "timer": "Timer",
+    "close": "Close",
+    "photo": "Photo",
+    "remove": "Remove",
+    "pause": "Pause",
+    "play": "Play video",
+    "hiddenUntilTap": "Kà kɛ̀ bɛ̀ nɛ̀ kɔ̀",
+    "scrub": "Fɔlɔ video la",
+    "addMore": "Kɛ foto kɛ video",
+    "coverAria": "Kɔ̀nɲi kɛ̀nɛ kɔ̀nɔ̀ kɛ̀nɛ",
+    "coverHint": "Kɔ̀lɔ̀ kɛ̀nɛ bɛɛ nɛ̀ kɛ́ bɔ̀ kɛ̀nɛ",
+    "uploadCover": "Sɔrɔ kɛlɛ fɔlɔ",
+    "mirrored": "Mirrored",
+    "original": "Original",
+    "rotate90": "Rotate 90°",
+    "timerOff": "Off",
+    "showNormally": "Show normally",
+    "showNormallyBody": "A yi kaŋ",
+    "hideUntilTap": "Hide until tapped",
+    "hideUntilTapBody": "Bɔ̀lɔ kɔ̀n bɛ̀ kɔ̀n kɔ̀n",
+    "priceUnavailable": "ma ni kɔ̀",
+    "priceLabelUsd": "Price",
+    "timerOffBody": "E nɔ kɔ̀ŋ kɔ̀ŋ",
+    "confirm": "Confirm",
+    "editItem": "Edit item {{value1}}",
+    "coverSet": "Cover at {{value1}}",
+    "destruct": {
+      "60": "miniti kelen",
+      "3600": "lɔrɔ kelen",
+      "43200": "lɔrɔ tan ni fila",
+      "86400": "tile kelen",
+      "604800": "karan kelen",
+      "31536000": "san kelen",
+      "view": "yɛlɛma kelen"
+    },
+    "destructShort": {
+      "60": "m1",
+      "3600": "h1",
+      "43200": "h12",
+      "86400": "d1",
+      "604800": "w1",
+      "31536000": "y1",
+      "view": "yɛlɛma kelen"
+    },
+    "destructSecs": "sekondi {{n}}",
+    "destructShortSecs": "s{{n}}"
+  },
   "comicBorder": {
     "title": "Dan",
     "theme": "Tɛmu",
@@ -7026,7 +7078,18 @@
       "moveRuleUp": "I ka kan ka to ka koo bɛɛ kɛ",
       "moveRuleDown": "Ka to ka to ka kuma",
       "deleteRule": "Fanga min be sɔrɔ a ka sariya la",
-      "rights": {"sendMessages":"Ka kumaɲɔgɔnya kɛ ni mɔgɔ dɔ ye","sendMessagesHint":"Sɛbɛn jamana ka chat kɔnɔ","sendMedia":"Send media","sendMediaHint":"O ye ɲɛyirali ɲuman ye.","embedLinks":"Ɛɛn fɔ a wì si kari wa kunwɔ","embedLinksHint":"O ye ɲɛyirali ɲuman ye.","addMembers":"Add members","addMembersHint":"I be se ka jɛn ni mɔgɔ wɛrɛw ye","createEvents":"Ka kɛwalew da","createEventsHint":"Schedule community events","changeInfoMemberHint":"Jamana tɔgɔ n'a ɲɛfɔliModifier",
+      "rights": {
+        "sendMessages": "Ka kumaɲɔgɔnya kɛ ni mɔgɔ dɔ ye",
+        "sendMessagesHint": "Sɛbɛn jamana ka chat kɔnɔ",
+        "sendMedia": "Send media",
+        "sendMediaHint": "O ye ɲɛyirali ɲuman ye.",
+        "embedLinks": "Ɛɛn fɔ a wì si kari wa kunwɔ",
+        "embedLinksHint": "O ye ɲɛyirali ɲuman ye.",
+        "addMembers": "Add members",
+        "addMembersHint": "I be se ka jɛn ni mɔgɔ wɛrɛw ye",
+        "createEvents": "Ka kɛwalew da",
+        "createEventsHint": "Schedule community events",
+        "changeInfoMemberHint": "Jamana tɔgɔ n'a ɲɛfɔliModifier",
         "changeInfo": "Ka kunnafoniw yɛlɛma",
         "changeInfoHint": "I tɔgɔ, i ka ɲɛfɔli, i ka avatar ani i ka pankarti yɛlɛma",
         "deleteMessages": "Cikanw jɔsi",
@@ -7100,11 +7163,40 @@
       "noInvites": "Mɔgɔ si tɛ yen Gayɛli gɛrɛfɛ. I yɛrɛ labɛn ka mɔgɔw weele ka na i ka soo.",
       "permissionsUpdated": "Ladili kuraw",
       "slowModeUpdated": "Modɛli kura",
-      "slowMode":{"off":"Off","tenSeconds":"10s","thirtySeconds":"30 Kalaya = 1 Muhur","oneMinute":"Miniti 1","fiveMinutes":"5 Dɔɔni","fifteenMinutes":"miniti 15","oneHour":"1 houru"},"slowModeOffHint": "Mɔgɔ minw be se ka kuma, u be se ka kuma u fɛ joona joona.",
+      "slowMode": {
+        "off": "Off",
+        "tenSeconds": "10s",
+        "thirtySeconds": "30 Kalaya = 1 Muhur",
+        "oneMinute": "Miniti 1",
+        "fiveMinutes": "5 Dɔɔni",
+        "fifteenMinutes": "miniti 15",
+        "oneHour": "1 houru"
+      },
+      "slowModeOffHint": "Mɔgɔ minw be se ka kuma, u be se ka kuma u fɛ joona joona.",
       "defaultPermissions": "Mɔgɔ minw be se ka baara kɛ ni mɔgɔ wɛrɛw ye, olu ka kan ka",
       "defaultPermissionsHint": "Mɔgɔ bɛɛ be se ka mun lo kɛ yan n'a ma fɔ ko a tɛ se ka koo dɔ kɛ min bɛnnin tɛ?",
       "slowModeTitle": "Modɛli min be yɛlɛma dɔɔni dɔɔni",
-      "log": {"verbs":{"promote_admin":"wuli","demote_admin":"o kɔ, a ye n' ka soow lɔ","transfer_ownership":"transferred ownership to","ban_member":"banned","unban_member":"unbanned","kick_member":"bɔra","mute_member":"ka to ka kuma","unmute_member":"fanga tɛ min na","approve_member":"mɔgɔ min sɔnna","reject_member":"Dɛɛ","delete_message":"a ka kuma bɔ","purge_messages":"ka kumaɲɔgɔnya kɛ ni mɔgɔ dɔ ye","pin_message":"a to ne ye kuma dɔ fɔ i ye.","unpin_message":"a y’a fɔ ko a bɛ bɔ a ka laada kɔnɔ","update_settings":"jamana ka laɲinitawModifier","create_invite":"ye weele siri dɔ dabɔ","revoke_invite":"n'i ye mɔgɔ dɔ weele ka na i ka soo","invite_used":"invited"},
+      "log": {
+        "verbs": {
+          "promote_admin": "wuli",
+          "demote_admin": "o kɔ, a ye n' ka soow lɔ",
+          "transfer_ownership": "transferred ownership to",
+          "ban_member": "banned",
+          "unban_member": "unbanned",
+          "kick_member": "bɔra",
+          "mute_member": "ka to ka kuma",
+          "unmute_member": "fanga tɛ min na",
+          "approve_member": "mɔgɔ min sɔnna",
+          "reject_member": "Dɛɛ",
+          "delete_message": "a ka kuma bɔ",
+          "purge_messages": "ka kumaɲɔgɔnya kɛ ni mɔgɔ dɔ ye",
+          "pin_message": "a to ne ye kuma dɔ fɔ i ye.",
+          "unpin_message": "a y’a fɔ ko a bɛ bɔ a ka laada kɔnɔ",
+          "update_settings": "jamana ka laɲinitawModifier",
+          "create_invite": "ye weele siri dɔ dabɔ",
+          "revoke_invite": "n'i ye mɔgɔ dɔ weele ka na i ka soo",
+          "invite_used": "invited"
+        },
         "forMinutes": "miniti {{value}} kama",
         "justNow": "sisan yɛrɛ",
         "minutesAgo": "{{value}} m ka kan ka kɛ",
@@ -13566,53 +13658,52 @@
     "cinema": {
       "close": "A datugu",
       "performance": {
-        "label": "Teliya",
         "0": "Nisɔndiya",
         "1": "Nimisa",
         "2": "Hamina",
         "3": "Dannaya",
         "4": "Kabakoya",
         "5": "Mineno",
-        "6": "Tulonkɛ"
+        "6": "Tulonkɛ",
+        "label": "Teliya"
       },
       "title": "Sinema ɲɛminɛli",
       "hint": "I ka ja walima videyo nata ka cogoya ɲɛminɛ. Jaabiw bɛ danfara model la.",
       "none": "Ɲɛminɛli si tɛ",
       "reset": "Ɲɛminɛli jɔsi",
       "camera": {
-        "label": "Kamera ka ɲɛ",
         "0": "Sinema numerikɛ",
         "1": "Filimu 35mm",
         "2": "Filimu 16mm",
         "3": "Cogoya belebele",
-        "4": "Kamescope kɔrɔ"
+        "4": "Kamescope kɔrɔ",
+        "label": "Kamera ka ɲɛ"
       },
       "lens": {
-        "label": "Lentiye ka ɲɛ",
         "0": "Kurulen",
         "1": "Anamorphique",
         "2": "Vɛrɛ kɔrɔ nɔgɔlen",
         "3": "Macro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Lentiye ka ɲɛ"
       },
       "focalLength": {
-        "label": "Focale janya",
         "0": "18mm bonba",
         "1": "24mm bonba",
         "2": "35mm ɲɔgɔnna",
         "3": "50mm standard",
         "4": "85mm portrait",
-        "5": "135mm télé"
+        "5": "135mm télé",
+        "label": "Focale janya"
       },
       "aperture": {
-        "label": "Dunya lajɛcogo",
         "0": "f/1.4 dunya dɔgɔman kosɛbɛ",
         "1": "f/2.8 dunya dɔgɔman",
         "2": "f/5.6 cɛmancɛ",
-        "3": "f/11 dunya bɛɛ jɛlen"
+        "3": "f/11 dunya bɛɛ jɛlen",
+        "label": "Dunya lajɛcogo"
       },
       "movement": {
-        "label": "Kamera taamacogo",
         "0": "Trepied jɔlen",
         "1": "Dolly ka don dɔɔni dɔɔni",
         "2": "Dolly ka bɔ dɔɔni dɔɔni",
@@ -13620,27 +13711,27 @@
         "4": "Fɛn lamini",
         "5": "Bolo la",
         "6": "Grue ka yɛlɛn",
-        "7": "Pan dɔɔni dɔɔni"
+        "7": "Pan dɔɔni dɔɔni",
+        "label": "Kamera taamacogo"
       },
       "lighting": {
-        "label": "Yeelen",
         "0": "Tile yeelen nɔgɔlen",
         "1": "Sanu waati",
         "2": "Chiaroscuro dibi",
         "3": "Studio yeelen kosɛbɛ",
         "4": "Néon yeelenw",
         "5": "Kɔfɛ yeelen siluwɛti",
-        "6": "Sankaba yeelen"
+        "6": "Sankaba yeelen",
+        "label": "Yeelen"
       },
       "tempo": {
-        "label": "Ja tali teliya",
         "0": "Ja tali kelen min tɛ tigɛ",
         "1": "Kɛwale lafiyalen, teliya tɛ",
         "2": "Kɛwale barikama, fanga b'a la",
-        "3": "Kɛwale ɲagamilen, kunfin"
+        "3": "Kɛwale ɲagamilen, kunfin",
+        "label": "Ja tali teliya"
       },
       "era": {
-        "label": "Waati",
         "0": "1920w",
         "1": "1950w",
         "2": "1960w",
@@ -13648,10 +13739,10 @@
         "4": "1980w",
         "5": "1990w",
         "6": "Bi waati",
-        "7": "Siniko surun"
+        "7": "Siniko surun",
+        "label": "Waati"
       },
       "genre": {
-        "label": "Sifa",
         "0": "Dokimanteri",
         "1": "Drama",
         "2": "Film noir",
@@ -13659,16 +13750,17 @@
         "4": "Fantezi",
         "5": "Kanu nyɛnajɛ",
         "6": "Thriller",
-        "7": "Western"
+        "7": "Western",
+        "label": "Sifa"
       },
       "palette": {
-        "label": "Kulɛrɛ ladɛ",
         "0": "Ambre goni",
         "1": "Bulama nɛnɛ",
         "2": "Dugukolo kulɛrɛ dɔgɔmanw",
         "3": "Pastel",
         "4": "Kulɛrɛ kelen danfara barika",
-        "5": "Kulɛrɛ fɔlɔw barikamaw"
+        "5": "Kulɛrɛ fɔlɔw barikamaw",
+        "label": "Kulɛrɛ ladɛ"
       }
     },
     "audioNoSpeech": "Kuma si tɛ nin kasetɛ in kɔnɔ.",
@@ -17161,5 +17253,100 @@
     "promptCatchUp": "{{handle}} ye min bila sisan in na, o fɔ n ye",
     "promptMessage": "N dɛmɛ ka bataki sɛbɛn {{handle}} ye",
     "promptAbout": "{{handle}} ko la: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Jabi kaɲi",
+    "unhide": "Jabi yira",
+    "hiddenBadge": "Jabi kɔnɔna",
+    "hiddenTitle": "I ni mɔgɔ min ka se ko kɛra, ale dɔrɔn de bɛ se ka nin ye",
+    "hiddenToast": "Jabi kɔnɔna. I ni mɔgɔ min ka se ko kɛra, ale dɔrɔn de bɛ se ka nin ye",
+    "unhiddenToast": "Jabi bɛ se ka ye tugun",
+    "failed": "Nin jabi kɔnɔna tɛ se ka kɛ"
+  },
+  "accountType": {
+    "title": "Kontu sugu",
+    "hint": "Kɛrɛtiyɛ ni Bizinesi kontu bɛ kategori dɔ yira i tɔgɔ kɔfɛ. Bizinesi bɛ kɔntaki butɔn dɔ fara a kan. Fɛn bɛɛ bɛ se ka kɛ kontu bɛɛ fɛ.",
+    "type": {
+      "personal": "Mɔgɔ kelen-kelen",
+      "creator": "Kɛrɛtiyɛ",
+      "business": "Bizinesi"
+    },
+    "category": "Kategori",
+    "contactEmail": "Mɔgɔ bɛɛ ka kɔntaki imɛli",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "O imɛli tɛ bɛn",
+    "save": "Kontu sugu mara",
+    "saving": "Ka mara…",
+    "saved": "Kontu sugu mara na",
+    "saveFailed": "Kontu sugu m'se ka mara",
+    "contact": "Kɔntaki",
+    "cat": {
+      "artist": "Artisiti",
+      "musician": "Fɔlikɛla",
+      "gamer": "Gamer",
+      "streamer": "Streamer",
+      "writer": "Writɛri",
+      "podcaster": "Podkastɛri",
+      "educator": "Karamɔgɔ",
+      "athlete": "Sɛbɛnni",
+      "photographer": "Fotografɛri",
+      "video_creator": "Video kɛla",
+      "comedian": "Fɛɛrɛkɛla",
+      "developer": "Developer",
+      "public_figure": "Mɔgɔba",
+      "other": "Wɛrɛ",
+      "brand": "Brand",
+      "shop": "Dɔgɔtoro",
+      "restaurant": "Dunjɛn",
+      "cafe": "Café",
+      "agency": "Agency",
+      "community": "Jɛkulu",
+      "media": "Media",
+      "app": "App",
+      "project": "Project",
+      "nonprofit": "Nonprofit",
+      "local_business": "Sɛnɛfɛn dɔgɔtoro"
+    }
+  },
+  "photoTags": {
+    "title": "Mɔgɔw tag",
+    "hint": "Mɔgɔ min bɛ yɔrɔ min, a tɛgɛ, o kɔfɛ i ka a tɔgɔ sugandi.",
+    "search": "Mɔgɔw ɲini",
+    "remove": "Tag bɔ",
+    "done": "A ban",
+    "taggedCount": "{{value}} tagged",
+    "showTags": "Mɔgɔ minw tagged, olu jira",
+    "hideTags": "Tagw nɔgɔ",
+    "saved": "Tagw kɛra",
+    "saveFailed": "Tagw ma se ka kɛ",
+    "removeMe": "N bɔ nin foto in kan",
+    "removedMe": "I ka tag bɔra"
+  },
+  "quiz": {
+    "title": "Quiz",
+    "add": "Quiz fara a kan",
+    "remove": "Quiz bɔɔ",
+    "taken": "{{value}} ye a ta",
+    "questionOf": "Sɛbɛnni {{n}} kɔnɔ {{total}}",
+    "pointsEach": "Pwen {{points}} kelen-kelen",
+    "badgeBoost": "I ka badge bɛ pwen {{x}}x di i ma",
+    "earnedToast": "{{correct}} kɔnɔ {{total}} teli, +{{points}} pwen",
+    "noPointsToast": "{{correct}} kɔnɔ {{total}} teli",
+    "answerFailed": "I ka jaabiw ma se ka ci",
+    "resultPoints": "{{correct}} kɔnɔ {{total}} teli, i sɔrɔla pwen {{points}} la",
+    "result": "{{correct}} kɔnɔ {{total}} teli",
+    "creatorNote": "I ka quiz. Jaabi teliw bɛ kɔrɔfɔ; mɔgɔw bɛ i ka channel pwenw sɔrɔ.",
+    "writeFailed": "Ma se ka sɛbɛnniw sɛbɛ, a ɲini ka kuma wɛrɛw fɔ",
+    "topicPlaceholder": "I ka quiz kofɔ kuma damadɔ la",
+    "rewrite": "Sɛbɛn tugun",
+    "write": "Sɛbɛnniw sɛbɛ",
+    "editorHint": "Sɛbɛnni kelen-kelen bɛɛ filɛ ka ɲɛ ka a bila. Mɔgɔ kelen-kelen bɛɛ bɛ se ka a ta siɲɛ kelen.",
+    "questionPlaceholder": "Sɛbɛnni",
+    "removeQuestion": "Sɛbɛnni bɔɔ",
+    "markRight": "Jaabi teli",
+    "optionPlaceholder": "Jaabi {{n}}",
+    "addQuestion": "Sɛbɛnni fara a kan",
+    "pointsLabel": "Pwen min bɛ sɔrɔ jaabi teli kelen bɛɛ la",
+    "attachFailed": "I ka post bɔra, nka quiz ma se ka fara a kan"
   }
 }

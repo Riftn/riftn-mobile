@@ -1,5 +1,62 @@
 {
-  "dmVideo": {"cover": "መሸፈኛ", "trim": "ቁረጥ", "mirror": "አንጸባራቂ", "rotate": "አሽከርክር", "hide": "ይደብቁ", "timer": "ቆጣሪ", "close": "ይዝጉ", "photo": "ፎቶ", "remove": "አስወግድ", "pause": "አቁም", "play": "ቪዲዮን አጫውት", "hiddenUntilTap": "እስከሚነኩት ድረስ የተደበቀ", "scrub": "በቪዲዮው ውስጥ ይሸብልሉ", "addMore": "ፎቶዎችን ወይም ቪዲዮዎችን ያክሉ", "coverAria": "ሽፋኑን ለማዘጋጀት አንድ ክፈፍን መታ ያድርጉ", "trimHint": "ለመቁረጥ ጫፎቹን ይጎትቱ", "coverHint": "ክፈፍን መታ በማድረግ ሽፋን ያድርጉት", "uploadCover": "የሽፋን ምስል ይስቀሉ", "mirrored": "ተንጸባርቋል", "original": "ዋናው", "rotate90": "በ90° ያዙሩ", "timerOff": "አጥፋ", "showNormally": "በተለመደው መንገድ ያሳዩ", "showNormallyBody": "ወዲያውኑ ያዩታል", "hideUntilTap": "እስኪታተም ድረስ ይደበቅ", "hidePrice": "በዋጋ ጀርባ ይደበቅ", "priceUnavailable": "በዚህ ውይይት ውስጥ የለም", "priceLabelUsd": "ዋጋ", "priceHint": "እስከሚከፍሉዎት ድረስ እነሱ የሚመለከቱት በደበዘዘ መልኩ ነው። የተቆለፉ ንጥል ነገሮች ከጫፍ እስከ ጫፍ የተመሰጠሩ አይደሉም።", "timerOffBody": "በቻት ውስጥ ይቆያል።", "timerViewBody": "አንዴ ካዩት በኋላ ለሁለታችሁም ይጠፋል።", "confirm": "ያረጋግጡ", "editItem": "ንጥል ነገርን ያርትዑ {{value1}}", "coverSet": "በ{{value1}} ላይ ይሸፍኑ", "lockedForUsd": "ለ{{value1}} ይክፈቱ", "timerTimeBody": "ከላኩት በኋላ ለሁለታችሁም {{value1}} ይጠፋል።"},
+  "dmVideo": {
+    "cover": "መሸፈኛ",
+    "trim": "ቁረጥ",
+    "mirror": "አንጸባራቂ",
+    "rotate": "አሽከርክር",
+    "hide": "ይደብቁ",
+    "timer": "ቆጣሪ",
+    "close": "ይዝጉ",
+    "photo": "ፎቶ",
+    "remove": "አስወግድ",
+    "pause": "አቁም",
+    "play": "ቪዲዮን አጫውት",
+    "hiddenUntilTap": "እስከሚነኩት ድረስ የተደበቀ",
+    "scrub": "በቪዲዮው ውስጥ ይሸብልሉ",
+    "addMore": "ፎቶዎችን ወይም ቪዲዮዎችን ያክሉ",
+    "coverAria": "ሽፋኑን ለማዘጋጀት አንድ ክፈፍን መታ ያድርጉ",
+    "trimHint": "ለመቁረጥ ጫፎቹን ይጎትቱ",
+    "coverHint": "ክፈፍን መታ በማድረግ ሽፋን ያድርጉት",
+    "uploadCover": "የሽፋን ምስል ይስቀሉ",
+    "mirrored": "ተንጸባርቋል",
+    "original": "ዋናው",
+    "rotate90": "በ90° ያዙሩ",
+    "timerOff": "አጥፋ",
+    "showNormally": "በተለመደው መንገድ ያሳዩ",
+    "showNormallyBody": "ወዲያውኑ ያዩታል",
+    "hideUntilTap": "እስኪታተም ድረስ ይደበቅ",
+    "hidePrice": "በዋጋ ጀርባ ይደበቅ",
+    "priceUnavailable": "በዚህ ውይይት ውስጥ የለም",
+    "priceLabelUsd": "ዋጋ",
+    "priceHint": "እስከሚከፍሉዎት ድረስ እነሱ የሚመለከቱት በደበዘዘ መልኩ ነው። የተቆለፉ ንጥል ነገሮች ከጫፍ እስከ ጫፍ የተመሰጠሩ አይደሉም።",
+    "timerOffBody": "በቻት ውስጥ ይቆያል።",
+    "timerViewBody": "አንዴ ካዩት በኋላ ለሁለታችሁም ይጠፋል።",
+    "confirm": "ያረጋግጡ",
+    "editItem": "ንጥል ነገርን ያርትዑ {{value1}}",
+    "coverSet": "በ{{value1}} ላይ ይሸፍኑ",
+    "lockedForUsd": "ለ{{value1}} ይክፈቱ",
+    "timerTimeBody": "ከላኩት በኋላ ለሁለታችሁም {{value1}} ይጠፋል።",
+    "destruct": {
+      "60": "1 ደቂቃ",
+      "3600": "1 ሰዓት",
+      "43200": "12 ሰዓታት",
+      "86400": "1 ቀን",
+      "604800": "1 ሳምንት",
+      "31536000": "1 ዓመት",
+      "view": "1 እይታ"
+    },
+    "destructShort": {
+      "60": "1ሚሊዮን",
+      "3600": "1 ሰዓት",
+      "43200": "12ሰዓት",
+      "86400": "1ቀን",
+      "604800": "1 ሳምንት",
+      "31536000": "1ዓመት",
+      "view": "1 እይታ"
+    },
+    "destructSecs": "{{n}} ሰከንድ",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "ጠርዝ",
     "theme": "ገጽታ",
@@ -7056,7 +7113,18 @@
       "moveRuleUp": "ደንቡን ወደ ላይ አንቀሳቅስ",
       "moveRuleDown": "ደንቡን ወደ ታች አንቀሳቅስ",
       "deleteRule": "ደንቡን ሰርዝ",
-      "rights": {"sendMessages":"መልዕክቶችን ላክ","sendMessagesHint":"በማህበረሰብ ውይይት ላይ ይለጥፉ","sendMedia":"ሚዲያ ላክ","sendMediaHint":"ምስሎችን እና ጂአይኤፎችን (GIFs) ያያይዙ","embedLinks":"አገናኞችን ይክተቱ","embedLinksHint":"የአገናኝ ቅድመ እይታዎችን አሳይ","addMembers":"አባላትን ያክሉ","addMembersHint":"ማህበረሰቡን ለሌሎች ያጋሩ","createEvents":"ክስተቶችን ይፍጠሩ","createEventsHint":"የማህበረሰብ ዝግጅቶችን ያቅዱ","changeInfoMemberHint":"የማህበረሰብ ስም እና መግለጫ አርትዕ",
+      "rights": {
+        "sendMessages": "መልዕክቶችን ላክ",
+        "sendMessagesHint": "በማህበረሰብ ውይይት ላይ ይለጥፉ",
+        "sendMedia": "ሚዲያ ላክ",
+        "sendMediaHint": "ምስሎችን እና ጂአይኤፎችን (GIFs) ያያይዙ",
+        "embedLinks": "አገናኞችን ይክተቱ",
+        "embedLinksHint": "የአገናኝ ቅድመ እይታዎችን አሳይ",
+        "addMembers": "አባላትን ያክሉ",
+        "addMembersHint": "ማህበረሰቡን ለሌሎች ያጋሩ",
+        "createEvents": "ክስተቶችን ይፍጠሩ",
+        "createEventsHint": "የማህበረሰብ ዝግጅቶችን ያቅዱ",
+        "changeInfoMemberHint": "የማህበረሰብ ስም እና መግለጫ አርትዕ",
         "changeInfo": "የማህበረሰብ መረጃን ቀይር",
         "changeInfoHint": "ስም፣ መግለጫ፣ አምሳያ እና ባነር ያርትዑ",
         "deleteMessages": "መልዕክቶችን ሰርዝ",
@@ -7134,12 +7202,41 @@
       "noInvites": "ገና የግብዣ አገናኞች የሉም። ሰዎችን በቀጥታ ለመጋበዝ አንዱን ፍጠር።",
       "permissionsUpdated": "ፈቃዶች ተዘምነዋል",
       "slowModeUpdated": "ቀርፋፋ ሁነታ ተዘምኗል",
-      "slowMode":{"off":"አጥፋ","tenSeconds":"10ሰ","thirtySeconds":"30 ሰከንድ","oneMinute":"1 ደቂቃ","fiveMinutes":"5 ደቂቃ","fifteenMinutes":"15 ደቂቃ","oneHour":"1 ሰዓት"},"slowModeOffHint": "አባላት ያለ መዘግየት መልዕክቶችን መላክ ይችላሉ።",
+      "slowMode": {
+        "off": "አጥፋ",
+        "tenSeconds": "10ሰ",
+        "thirtySeconds": "30 ሰከንድ",
+        "oneMinute": "1 ደቂቃ",
+        "fiveMinutes": "5 ደቂቃ",
+        "fifteenMinutes": "15 ደቂቃ",
+        "oneHour": "1 ሰዓት"
+      },
+      "slowModeOffHint": "አባላት ያለ መዘግየት መልዕክቶችን መላክ ይችላሉ።",
       "slowModeOnHint": "አባላት በየ {{label}} አንድ መልዕክት መላክ ይችላሉ። አስተዳዳሪዎች ከዚህ የተለየ ነው።",
       "defaultPermissions": "ነባሪ የአባል ፈቃዶች",
       "defaultPermissionsHint": "የአስተዳዳሪ መብት ሌላ እስካልተናገረ ድረስ ሁሉም ሰው እዚህ ምን ማድረግ ይችላል።",
       "slowModeTitle": "ቀርፋፋ ሁነታ",
-      "log": {"verbs":{"promote_admin":"የተስተዋወቀ","demote_admin":"ደረጃ ዝቅ ተደርጓል","transfer_ownership":"የባለቤትነት ማስተላለፍ ወደ","ban_member":"ታግደዋል","unban_member":"እገዳው ተነስቷል","kick_member":"ተወግዷል","mute_member":"ትግል","unmute_member":"ድምፅ ተከፍቷል","approve_member":"ጸድቋል","reject_member":"ተቀባይነት አላገኘም","delete_message":"መልዕክት ከ ተሰርዟል","purge_messages":"ሁሉንም መልዕክቶች ከ... ሰርዟል","pin_message":"መልእክት ተሰክቷል ከ","unpin_message":"መልእክት ከፒን አውርዷል","update_settings":"የማህበረሰብ ቅንብሮችን አዘምኗል","create_invite":"የመጋበዣ ሊንክ ፈጥሯል","revoke_invite":"የመጋበዣ ሊንክ ተሰርዟል","invite_used":"ተጋብዘዋል"},
+      "log": {
+        "verbs": {
+          "promote_admin": "የተስተዋወቀ",
+          "demote_admin": "ደረጃ ዝቅ ተደርጓል",
+          "transfer_ownership": "የባለቤትነት ማስተላለፍ ወደ",
+          "ban_member": "ታግደዋል",
+          "unban_member": "እገዳው ተነስቷል",
+          "kick_member": "ተወግዷል",
+          "mute_member": "ትግል",
+          "unmute_member": "ድምፅ ተከፍቷል",
+          "approve_member": "ጸድቋል",
+          "reject_member": "ተቀባይነት አላገኘም",
+          "delete_message": "መልዕክት ከ ተሰርዟል",
+          "purge_messages": "ሁሉንም መልዕክቶች ከ... ሰርዟል",
+          "pin_message": "መልእክት ተሰክቷል ከ",
+          "unpin_message": "መልእክት ከፒን አውርዷል",
+          "update_settings": "የማህበረሰብ ቅንብሮችን አዘምኗል",
+          "create_invite": "የመጋበዣ ሊንክ ፈጥሯል",
+          "revoke_invite": "የመጋበዣ ሊንክ ተሰርዟል",
+          "invite_used": "ተጋብዘዋል"
+        },
         "justNow": "አሁን",
         "minutesAgo": "{{value}}ሜትር በፊት",
         "hoursAgo": "{{value}}ሰዓት በፊት",
@@ -13595,53 +13692,52 @@
     "cinema": {
       "close": "ዝጋ",
       "performance": {
-        "label": "አፈጻጸም",
         "0": "ደስተኛ",
         "1": "ሀዘንተኛ",
         "2": "የተጨነቀ",
         "3": "በራስ የሚተማመን",
         "4": "የተደነቀ",
         "5": "የተገደበ",
-        "6": "ተጫዋች"
+        "6": "ተጫዋች",
+        "label": "አፈጻጸም"
       },
       "title": "የሲኒማ አቅጣጫ",
       "hint": "የቀጣዩን ምስልዎን ወይም ቪዲዮዎን የእይታ ስታይል ይምሩ። ውጤቶች እንደ ሞዴሉ ይለያያሉ።",
       "none": "ምንም አቅጣጫ የለም",
       "reset": "አቅጣጫውን አጽዳ",
       "camera": {
-        "label": "የካሜራ እይታ",
         "0": "ዲጂታል ሲኒማ",
         "1": "35mm ፊልም",
         "2": "16mm ፊልም",
         "3": "ትልቅ ቅርጸት",
-        "4": "የድሮ ካምኮርደር"
+        "4": "የድሮ ካምኮርደር",
+        "label": "የካሜራ እይታ"
       },
       "lens": {
-        "label": "የሌንስ እይታ",
         "0": "ሉላዊ",
         "1": "አናሞርፊክ",
         "2": "የድሮ ለስላሳ መስታወት",
         "3": "ማክሮ",
-        "4": "ቲልት-ሺፍት"
+        "4": "ቲልት-ሺፍት",
+        "label": "የሌንስ እይታ"
       },
       "focalLength": {
-        "label": "የትኩረት ርዝመት",
         "0": "18mm ሰፊ",
         "1": "24mm ሰፊ",
         "2": "35mm ተፈጥሯዊ",
         "3": "50mm መደበኛ",
         "4": "85mm የቁም ምስል",
-        "5": "135mm ቴሌፎቶ"
+        "5": "135mm ቴሌፎቶ",
+        "label": "የትኩረት ርዝመት"
       },
       "aperture": {
-        "label": "የትኩረት ጥልቀት",
         "0": "f/1.4 በጣም ጥልቀት የሌለው",
         "1": "f/2.8 ጥልቀት የሌለው",
         "2": "f/5.6 መካከለኛ",
-        "3": "f/11 ጥልቅ ትኩረት"
+        "3": "f/11 ጥልቅ ትኩረት",
+        "label": "የትኩረት ጥልቀት"
       },
       "movement": {
-        "label": "የካሜራ እንቅስቃሴ",
         "0": "የማይንቀሳቀስ ትሪፖድ",
         "1": "ቀስ ያለ ወደፊት ዶሊ",
         "2": "ቀስ ያለ ወደኋላ ዶሊ",
@@ -13649,27 +13745,27 @@
         "4": "በርዕሰ ጉዳዩ ዙሪያ መዞር",
         "5": "በእጅ የተያዘ",
         "6": "የክሬን ከፍታ",
-        "7": "ቀስ ያለ ፓን"
+        "7": "ቀስ ያለ ፓን",
+        "label": "የካሜራ እንቅስቃሴ"
       },
       "lighting": {
-        "label": "ብርሃን",
         "0": "ለስላሳ የቀን ብርሃን",
         "1": "ወርቃማ ሰዓት",
         "2": "ዝቅተኛ ቁልፍ ኪያሮስኩሮ",
         "3": "ከፍተኛ ቁልፍ ስቱዲዮ",
         "4": "የኒዮን መብራቶች",
         "5": "የጀርባ ብርሃን ጥላ ምስል",
-        "6": "የደመና የተበተነ ብርሃን"
+        "6": "የደመና የተበተነ ብርሃን",
+        "label": "ብርሃን"
       },
       "tempo": {
-        "label": "የቀረጻ ፍጥነት",
         "0": "አንድ ቀጣይ ቀረጻ",
         "1": "የተረጋጋ፣ ያልተቻኮለ ድርጊት",
         "2": "ተለዋዋጭ፣ ኃይለኛ ድርጊት",
-        "3": "የተመሰቃቀለ፣ የተጣደፈ ድርጊት"
+        "3": "የተመሰቃቀለ፣ የተጣደፈ ድርጊት",
+        "label": "የቀረጻ ፍጥነት"
       },
       "era": {
-        "label": "ዘመን",
         "0": "1920ዎቹ",
         "1": "1950ዎቹ",
         "2": "1960ዎቹ",
@@ -13677,10 +13773,10 @@
         "4": "1980ዎቹ",
         "5": "1990ዎቹ",
         "6": "የአሁኑ ዘመን",
-        "7": "የቅርብ ወደፊት"
+        "7": "የቅርብ ወደፊት",
+        "label": "ዘመን"
       },
       "genre": {
-        "label": "ዘውግ",
         "0": "ዘጋቢ ፊልም",
         "1": "ድራማ",
         "2": "ፊልም ኑዋር",
@@ -13688,16 +13784,17 @@
         "4": "ምናባዊ",
         "5": "የፍቅር ኮሜዲ",
         "6": "ትሪለር",
-        "7": "ዌስተርን"
+        "7": "ዌስተርን",
+        "label": "ዘውግ"
       },
       "palette": {
-        "label": "የቀለም ቤተ-ስብስብ",
         "0": "ሞቃታማ አምበር",
         "1": "ቀዝቃዛ ሰማያዊ",
         "2": "የደበዘዙ የመሬት ቀለሞች",
         "3": "ፓስቴል",
         "4": "ከፍተኛ ንፅፅር ያለው ባለአንድ ቀለም",
-        "5": "ደማቅ ዋና ቀለሞች"
+        "5": "ደማቅ ዋና ቀለሞች",
+        "label": "የቀለም ቤተ-ስብስብ"
       }
     },
     "audioNoSpeech": "በዚያ ቅጂ ውስጥ ምንም ንግግር አልተገኘም።",
@@ -17190,5 +17287,99 @@
     "promptCatchUp": "{{handle}} በቅርቡ ምን እንደለጠፈ ንገረኝ",
     "promptMessage": "ለ{{handle}} መልዕክት እንድጽፍ እርዳኝ",
     "promptAbout": "ስለ {{handle}}፦ {{question}}"
+  },
+  "hideReply": {
+    "hide": "መልስ ደብቅ",
+    "unhide": "አሳይ",
+    "hiddenBadge": "ተደብቋል",
+    "hiddenTitle": "ይህንን ማየት የሚችሉት እርስዎ እና የጻፈው ሰው ብቻ ናቸው",
+    "hiddenToast": "መልስ ተደብቋል። ይህንን ማየት የሚችሉት እርስዎ እና የጻፈው ሰው ብቻ ናቸው",
+    "unhiddenToast": "መልስ እንደገና ይታያል",
+    "failed": "ያንን መልስ መደበቅ አልተቻለም"
+  },
+  "accountType": {
+    "title": "የመለያ አይነት",
+    "hint": "የፈጣሪ እና የንግድ መለያዎች ከስምዎ በታች ምድብ ያሳያሉ። የንግድ መለያ የእውቂያ ቁልፍ ይጨምራል። ሁሉም ባህሪያት ለማንኛውም መለያ ክፍት ሆነው ይቆያሉ።",
+    "type": {
+      "personal": "የግል",
+      "creator": "ፈጣሪ",
+      "business": "ንግድ"
+    },
+    "category": "ምድብ",
+    "contactEmail": "የሕዝብ የእውቂያ ኢሜይል",
+    "badEmail": "ያ ኢሜይል ትክክል አይመስልም",
+    "save": "የመለያ አይነት አስቀምጥ",
+    "saving": "በማስቀመጥ ላይ…",
+    "saved": "የመለያ አይነት ተቀምጧል",
+    "saveFailed": "የመለያ አይነትዎን ማስቀመጥ አልተቻለም",
+    "contact": "እውቂያ",
+    "cat": {
+      "artist": "አርቲስት",
+      "musician": "ሙዚቀኛ",
+      "gamer": "ተጫዋች",
+      "streamer": "ዥረት አቅራቢ",
+      "writer": "ጸሐፊ",
+      "podcaster": "ፖድካስተር",
+      "educator": "አስተማሪ",
+      "athlete": "አትሌት",
+      "photographer": "ፎቶግራፍ አንሺ",
+      "video_creator": "የቪዲዮ ፈጣሪ",
+      "comedian": "አዝናኝ",
+      "developer": "ገንቢ",
+      "public_figure": "የህዝብ ሰው",
+      "other": "ሌላ",
+      "brand": "ብራንድ",
+      "shop": "ሱቅ",
+      "restaurant": "ሬስቶራንት",
+      "cafe": "ካፌ",
+      "agency": "ኤጀንሲ",
+      "community": "ማህበረሰብ",
+      "media": "ሚዲያ",
+      "app": "መተግበሪያ",
+      "project": "ፕሮጀክት",
+      "nonprofit": "ትርፍ ያልተቋቋመ ድርጅት",
+      "local_business": "አካባቢያዊ ንግድ"
+    }
+  },
+  "photoTags": {
+    "title": "ሰዎችን መታ ያድርጉ",
+    "hint": "አንድ ሰው ያለበትን ፎቶ ይንኩ፣ ከዚያ ስማቸውን ይምረጡ።",
+    "search": "ሰዎችን ይፈልጉ",
+    "remove": "መለያን ያስወግዱ",
+    "done": "ተጠናቀቀ",
+    "taggedCount": "{{value}} ተጠቅሷል",
+    "showTags": "የተጠቀሱትን ሰዎች ያሳዩ",
+    "hideTags": "መለያዎችን ይደብቁ",
+    "saved": "መለያዎች ተቀምጠዋል",
+    "saveFailed": "መለያዎችን ማስቀመጥ አልተቻለም",
+    "removeMe": "ከዚህ ፎቶ ላይ ያስወግዱኝ",
+    "removedMe": "መለያዎ ተወግዷል"
+  },
+  "quiz": {
+    "title": "ጥያቄ",
+    "add": "ጥያቄ ያክሉ",
+    "remove": "ጥያቄውን አስወግድ",
+    "taken": "{{value}} ወስዶታል",
+    "questionOf": "ጥያቄ {{n}} ከ {{total}}",
+    "pointsEach": "እያንዳንዳቸው {{points}} ነጥቦች",
+    "badgeBoost": "ባጅዎ {{x}} እጥፍ ነጥብ ይሰጥዎታል",
+    "earnedToast": "{{correct}} ከ {{total}} ትክክል፣ +{{points}} ነጥቦች",
+    "noPointsToast": "{{correct}} ከ {{total}} ትክክል",
+    "answerFailed": "መልሶችዎን መላክ አልተቻለም",
+    "resultPoints": "{{correct}} ከ {{total}} ትክክል፣ {{points}} ነጥቦችን አግኝተዋል",
+    "result": "{{correct}} ከ {{total}} ትክክል",
+    "creatorNote": "የእርስዎ ጥያቄ። ትክክለኛ መልሶች ምልክት ተደርጎባቸዋል፤ ሰዎች የሰርጥዎን ነጥቦች ያገኛሉ።",
+    "writeFailed": "ጥያቄዎችን መጻፍ አልተቻለም፣ ሌሎች ቃላትን ይሞክሩ",
+    "topicPlaceholder": "ስለ ጥያቄዎ በአጭሩ ይግለጹ",
+    "rewrite": "እንደገና ይጻፉ",
+    "write": "ጥያቄዎችን ይጻፉ",
+    "editorHint": "ከመለጠፍዎ በፊት እያንዳንዱን ጥያቄ ያረጋግጡ። እያንዳንዱ ሰው አንድ ጊዜ ብቻ መሞከር ይችላል።",
+    "questionPlaceholder": "ጥያቄ",
+    "removeQuestion": "ጥያቄውን አስወግድ",
+    "markRight": "ትክክለኛ መልስ",
+    "optionPlaceholder": "መልስ {{n}}",
+    "addQuestion": "ጥያቄ ያክሉ",
+    "pointsLabel": "ለአንድ ትክክለኛ መልስ የሚሰጥ ነጥብ",
+    "attachFailed": "ልጥፍዎ ተለጥፏል፣ ነገር ግን ጥያቄውን መጨመር አልተቻለም"
   }
 }

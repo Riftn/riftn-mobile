@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "Qapaq", "trim": "Kəsin", "mirror": "Güzgü", "rotate": "Fırlat", "hide": "Gizlət", "timer": "Taimer", "close": "Bağla", "photo": "Foto", "remove": "Sil", "pause": "Fasilə ver", "play": "Videonu göstər", "hiddenUntilTap": "Üzərinə toxunana qədər gizli qalır", "scrub": "Videonu sürüşdürün", "addMore": "Fotolar və ya videolar əlavə edin", "coverAria": "Kapağı təyin etmək üçün kadra basın", "trimHint": "Kəsmək üçün ucları sürüşdürün", "coverHint": "Kadrı üz qapağı etmək üçün ona basın", "uploadCover": "Əsas foto yükləyin", "mirrored": "Güzgülü", "original": "Orijinal", "rotate90": "90° fırladın", "timerOff": "Qeyri-aktiv", "showNormally": "Normal şəkildə göstər", "showNormallyBody": "Onlar bunu dərhal görürlər", "hideUntilTap": "Üzərinə toxunulana qədər gizlət", "hideUntilTapBody": "Üzərinə toxunana qədər bulanıq olacaq", "hidePrice": "Qiymətin arxasında gizlədin", "hidePriceBody": "Sizə ödəniş edənə qədər bulanıq olacaq", "priceUnavailable": "Bu söhbətdə deyil", "priceLabelUsd": "Qiymət", "priceHint": "Onlar sizə ödəniş edənə qədər onu bulanıq görürlər. Kilidli elementlər ucdan uca şifrələnmir.", "timerOffBody": "Söhbətdə qalır.", "timerViewBody": "O, bunu gördükdən sonra hər ikiniz üçün silinəcək.", "confirm": "Təsdiqlə", "editItem": "{{value1}} elementini redaktə et", "coverSet": "{{value1}} tarixində örtülür", "lockedForUsd": "{{value1}} üçün kilidi aç", "timerTimeBody": "Siz onu göndərdikdən sonra hər ikiniz üçün {{value1}} yox olacaq."},
+  "dmVideo": {
+    "cover": "Qapaq",
+    "trim": "Kəsin",
+    "mirror": "Güzgü",
+    "rotate": "Fırlat",
+    "hide": "Gizlət",
+    "timer": "Taimer",
+    "close": "Bağla",
+    "photo": "Foto",
+    "remove": "Sil",
+    "pause": "Fasilə ver",
+    "play": "Videonu göstər",
+    "hiddenUntilTap": "Üzərinə toxunana qədər gizli qalır",
+    "scrub": "Videonu sürüşdürün",
+    "addMore": "Fotolar və ya videolar əlavə edin",
+    "coverAria": "Kapağı təyin etmək üçün kadra basın",
+    "trimHint": "Kəsmək üçün ucları sürüşdürün",
+    "coverHint": "Kadrı üz qapağı etmək üçün ona basın",
+    "uploadCover": "Əsas foto yükləyin",
+    "mirrored": "Güzgülü",
+    "original": "Orijinal",
+    "rotate90": "90° fırladın",
+    "timerOff": "Qeyri-aktiv",
+    "showNormally": "Normal şəkildə göstər",
+    "showNormallyBody": "Onlar bunu dərhal görürlər",
+    "hideUntilTap": "Üzərinə toxunulana qədər gizlət",
+    "hideUntilTapBody": "Üzərinə toxunana qədər bulanıq olacaq",
+    "hidePrice": "Qiymətin arxasında gizlədin",
+    "hidePriceBody": "Sizə ödəniş edənə qədər bulanıq olacaq",
+    "priceUnavailable": "Bu söhbətdə deyil",
+    "priceLabelUsd": "Qiymət",
+    "priceHint": "Onlar sizə ödəniş edənə qədər onu bulanıq görürlər. Kilidli elementlər ucdan uca şifrələnmir.",
+    "timerOffBody": "Söhbətdə qalır.",
+    "timerViewBody": "O, bunu gördükdən sonra hər ikiniz üçün silinəcək.",
+    "confirm": "Təsdiqlə",
+    "editItem": "{{value1}} elementini redaktə et",
+    "coverSet": "{{value1}} tarixində örtülür",
+    "lockedForUsd": "{{value1}} üçün kilidi aç",
+    "timerTimeBody": "Siz onu göndərdikdən sonra hər ikiniz üçün {{value1}} yox olacaq.",
+    "destruct": {
+      "60": "1 dəqiqə",
+      "3600": "1 saat",
+      "43200": "12 saat",
+      "86400": "1 gün",
+      "604800": "1 həftə",
+      "31536000": "1 il",
+      "view": "1 baxış"
+    },
+    "destructShort": {
+      "60": "1d",
+      "3600": "1s",
+      "43200": "12s",
+      "86400": "1g",
+      "604800": "1h",
+      "31536000": "1i",
+      "view": "1 baxış"
+    },
+    "destructSecs": "{{n}} san",
+    "destructShortSecs": "{{n}}s"
+  },
   "comicBorder": {
     "title": "Haşiyə",
     "theme": "Mövzu",
@@ -7026,7 +7085,18 @@
       "moveRuleUp": "Qaydanı yuxarı apar",
       "moveRuleDown": "Qaydanı aşağı apar",
       "deleteRule": "Qaydanı sil",
-      "rights": {"sendMessages":"Söhbət göndərmək","sendMessagesHint":"Cəmiyyət çatıda mesaj yazın","sendMedia":"Mediayı göndər","sendMediaHint":"Şəkilləri və GIF-ləri əlavə edin","embedLinks":"Linkləri əsaslandırmaq","embedLinksHint":"Link ön görsüllərini göstər","addMembers":"Üzvlər əlavə edin","addMembersHint":"Cəmiyyəti başqalarına paylaşın","createEvents":"Hadisələr yaradın","createEventsHint":"İcma tədbirləri planlaşdırın","changeInfoMemberHint":"İcmanın adını və təsvirini redaktə edin",
+      "rights": {
+        "sendMessages": "Söhbət göndərmək",
+        "sendMessagesHint": "Cəmiyyət çatıda mesaj yazın",
+        "sendMedia": "Mediayı göndər",
+        "sendMediaHint": "Şəkilləri və GIF-ləri əlavə edin",
+        "embedLinks": "Linkləri əsaslandırmaq",
+        "embedLinksHint": "Link ön görsüllərini göstər",
+        "addMembers": "Üzvlər əlavə edin",
+        "addMembersHint": "Cəmiyyəti başqalarına paylaşın",
+        "createEvents": "Hadisələr yaradın",
+        "createEventsHint": "İcma tədbirləri planlaşdırın",
+        "changeInfoMemberHint": "İcmanın adını və təsvirini redaktə edin",
         "changeInfo": "İcmanın məlumatlarını dəyişdir",
         "changeInfoHint": "Adı, təsviri, avatarları və banneri redaktə et",
         "deleteMessages": "Mesajları sil",
@@ -7104,12 +7174,41 @@
       "noInvites": "Hələ dəvət linkləri yoxdur. İnsanları birbaşa dəvət etmək üçün bir link yaradın.",
       "permissionsUpdated": "İcazələr yeniləndi",
       "slowModeUpdated": "Yavaş rejim yeniləndi",
-      "slowMode":{"off":"Qeyri-aktiv","tenSeconds":"10-lar","thirtySeconds":"30s","oneMinute":"1 dəqiqə","fiveMinutes":"5 dəqiqə","fifteenMinutes":"15 dəqiqə","oneHour":"1 saat"},"slowModeOffHint": "Üzvlər gecikmə olmadan mesaj göndərə bilərlər.",
+      "slowMode": {
+        "off": "Qeyri-aktiv",
+        "tenSeconds": "10-lar",
+        "thirtySeconds": "30s",
+        "oneMinute": "1 dəqiqə",
+        "fiveMinutes": "5 dəqiqə",
+        "fifteenMinutes": "15 dəqiqə",
+        "oneHour": "1 saat"
+      },
+      "slowModeOffHint": "Üzvlər gecikmə olmadan mesaj göndərə bilərlər.",
       "slowModeOnHint": "Üzvlər hər {{label}} də bir mesaj göndərə bilərlər. Administratorlar istisna edilir.",
       "defaultPermissions": "Standart üzv icazələri",
       "defaultPermissionsHint": "Administrator hüququ başqa cür deyilsə, hər kəsin burada edə biləcəyi şeylər.",
       "slowModeTitle": "Yavaş rejim",
-      "log": {"verbs":{"promote_admin":"təşviq edildi","demote_admin":"Rütbə aşağı salındı","transfer_ownership":"mülkiyyəti köçürdü","ban_member":"Qadağan olunub","unban_member":"qadağanlı deyil","kick_member":"Silindi","mute_member":"Söndürülmüşdür","unmute_member":"Söndürülməyib","approve_member":"təsdiqləndi","reject_member":"rədd edildi","delete_message":"mesaj silindi","purge_messages":"bütün mesajları silindi","pin_message":"bir mesaj yığdı","unpin_message":"bir mesajı əldən çıxarıldı:","update_settings":"Cəmiyyət ayarlarını yenilədik","create_invite":"davət linki yaradıldı","revoke_invite":"təklif linkini ləğv etdi","invite_used":"Davət edildi"},
+      "log": {
+        "verbs": {
+          "promote_admin": "təşviq edildi",
+          "demote_admin": "Rütbə aşağı salındı",
+          "transfer_ownership": "mülkiyyəti köçürdü",
+          "ban_member": "Qadağan olunub",
+          "unban_member": "qadağanlı deyil",
+          "kick_member": "Silindi",
+          "mute_member": "Söndürülmüşdür",
+          "unmute_member": "Söndürülməyib",
+          "approve_member": "təsdiqləndi",
+          "reject_member": "rədd edildi",
+          "delete_message": "mesaj silindi",
+          "purge_messages": "bütün mesajları silindi",
+          "pin_message": "bir mesaj yığdı",
+          "unpin_message": "bir mesajı əldən çıxarıldı:",
+          "update_settings": "Cəmiyyət ayarlarını yenilədik",
+          "create_invite": "davət linki yaradıldı",
+          "revoke_invite": "təklif linkini ləğv etdi",
+          "invite_used": "Davət edildi"
+        },
         "justNow": "indi",
         "minutesAgo": "{{value}} dəqiqə əvvəl",
         "hoursAgo": "{{value}} saat əvvəl",
@@ -13566,53 +13665,52 @@
     "cinema": {
       "close": "Bağla",
       "performance": {
-        "label": "Performans",
         "0": "Şən",
         "1": "Həzin",
         "2": "Narahat",
         "3": "Özünəinamlı",
         "4": "Heyran",
         "5": "Təmkinli",
-        "6": "Oynaq"
+        "6": "Oynaq",
+        "label": "Performans"
       },
       "title": "Kino istiqaməti",
       "hint": "Növbəti şəkil və ya videonuzun vizual üslubunu istiqamətləndirin. Nəticələr modeldən asılı olaraq fərqlənir.",
       "none": "İstiqamət yoxdur",
       "reset": "İstiqaməti təmizlə",
       "camera": {
-        "label": "Kamera görünüşü",
         "0": "Rəqəmsal kino",
         "1": "35mm plyonka",
         "2": "16mm plyonka",
         "3": "Böyük format",
-        "4": "Köhnə videokamera"
+        "4": "Köhnə videokamera",
+        "label": "Kamera görünüşü"
       },
       "lens": {
-        "label": "Obyektiv görünüşü",
         "0": "Sferik",
         "1": "Anamorfik",
         "2": "Köhnə yumşaq şüşə",
         "3": "Makro",
-        "4": "Tilt-shift"
+        "4": "Tilt-shift",
+        "label": "Obyektiv görünüşü"
       },
       "focalLength": {
-        "label": "Fokus məsafəsi",
         "0": "18mm geniş",
         "1": "24mm geniş",
         "2": "35mm təbii",
         "3": "50mm standart",
         "4": "85mm portret",
-        "5": "135mm teleobyektiv"
+        "5": "135mm teleobyektiv",
+        "label": "Fokus məsafəsi"
       },
       "aperture": {
-        "label": "Sahənin dərinliyi",
         "0": "f/1.4 çox dayaz",
         "1": "f/2.8 dayaz",
         "2": "f/5.6 orta",
-        "3": "f/11 dərin fokus"
+        "3": "f/11 dərin fokus",
+        "label": "Sahənin dərinliyi"
       },
       "movement": {
-        "label": "Kamera hərəkəti",
         "0": "Sabit ştativ",
         "1": "Yavaş dolly yaxınlaşma",
         "2": "Yavaş dolly uzaqlaşma",
@@ -13620,27 +13718,27 @@
         "4": "Obyekt ətrafında fırlanma",
         "5": "Əldə",
         "6": "Kran qalxması",
-        "7": "Yavaş panorama"
+        "7": "Yavaş panorama",
+        "label": "Kamera hərəkəti"
       },
       "lighting": {
-        "label": "İşıqlandırma",
         "0": "Yumşaq gün işığı",
         "1": "Qızıl saat",
         "2": "Tünd kiaroskuro",
         "3": "Parlaq studiya",
         "4": "Neon işıqlar",
         "5": "Arxa işıqda siluet",
-        "6": "Buludlu səpələnmiş işıq"
+        "6": "Buludlu səpələnmiş işıq",
+        "label": "İşıqlandırma"
       },
       "tempo": {
-        "label": "Kadr tempi",
         "0": "Tək fasiləsiz kadr",
         "1": "Sakit, tələsiksiz hərəkət",
         "2": "Dinamik, enerjili hərəkət",
-        "3": "Xaotik, qızğın hərəkət"
+        "3": "Xaotik, qızğın hərəkət",
+        "label": "Kadr tempi"
       },
       "era": {
-        "label": "Dövr",
         "0": "1920-ci illər",
         "1": "1950-ci illər",
         "2": "1960-cı illər",
@@ -13648,10 +13746,10 @@
         "4": "1980-ci illər",
         "5": "1990-cı illər",
         "6": "Müasir dövr",
-        "7": "Yaxın gələcək"
+        "7": "Yaxın gələcək",
+        "label": "Dövr"
       },
       "genre": {
-        "label": "Janr",
         "0": "Sənədli",
         "1": "Dram",
         "2": "Film noir",
@@ -13659,16 +13757,17 @@
         "4": "Fantastika",
         "5": "Romantik komediya",
         "6": "Triller",
-        "7": "Vestern"
+        "7": "Vestern",
+        "label": "Janr"
       },
       "palette": {
-        "label": "Rəng palitrası",
         "0": "İsti kəhrəba",
         "1": "Soyuq mavi",
         "2": "Solğun torpaq tonları",
         "3": "Pastel",
         "4": "Yüksək kontrastlı monoxrom",
-        "5": "Doymuş əsas rənglər"
+        "5": "Doymuş əsas rənglər",
+        "label": "Rəng palitrası"
       }
     },
     "audioNoSpeech": "Həmin səs yazısında heç bir nitq tapılmadı.",
@@ -17161,5 +17260,100 @@
     "promptCatchUp": "{{handle}} son vaxtlar nə paylaşdığını de",
     "promptMessage": "{{handle}} üçün mesaj yazmağıma kömək et",
     "promptAbout": "{{handle}} haqqında: {{question}}"
+  },
+  "hideReply": {
+    "hide": "Cavabı gizlət",
+    "unhide": "Göstər",
+    "hiddenBadge": "Gizlədilib",
+    "hiddenTitle": "Bunu yalnız siz və onu yazan şəxs görə bilər",
+    "hiddenToast": "Cavab gizlədildi. Bunu yalnız siz və onu yazan şəxs görə bilər",
+    "unhiddenToast": "Cavab yenidən görünür",
+    "failed": "Həmin cavabı gizlətmək mümkün olmadı"
+  },
+  "accountType": {
+    "title": "Hesab növü",
+    "hint": "Yaradıcı və Biznes hesabları adınızın altında bir kateqoriya göstərir. Biznes hesabına Əlaqə düyməsi əlavə olunur. Bütün funksiyalar hər bir hesab üçün açıq qalır.",
+    "type": {
+      "personal": "Şəxsi",
+      "creator": "Yaradıcı",
+      "business": "Biznes"
+    },
+    "category": "Kateqoriya",
+    "contactEmail": "İctimai əlaqə e-poçtu",
+    "contactEmailPlaceholder": "hello@yourbusiness.com",
+    "badEmail": "Bu e-poçt ünvanı düzgün görünmür",
+    "save": "Hesab növünü yadda saxla",
+    "saving": "Yadda saxlanılır…",
+    "saved": "Hesab növü yadda saxlanıldı",
+    "saveFailed": "Hesab növünüzü yadda saxlamaq mümkün olmadı",
+    "contact": "Əlaqə",
+    "cat": {
+      "artist": "Rəssam",
+      "musician": "Musiqiçi",
+      "gamer": "Oyunçu",
+      "streamer": "Strimer",
+      "writer": "Yazıçı",
+      "podcaster": "Podkaster",
+      "educator": "Müəllim",
+      "athlete": "İdmançı",
+      "photographer": "Fotoqraf",
+      "video_creator": "Video yaradıcısı",
+      "comedian": "Komediya ustası",
+      "developer": "Proqramçı",
+      "public_figure": "İctimai xadim",
+      "other": "Digər",
+      "brand": "Brend",
+      "shop": "Mağaza",
+      "restaurant": "Restoran",
+      "cafe": "Kafe",
+      "agency": "Agentlik",
+      "community": "İcma",
+      "media": "Media",
+      "app": "Tətbiq",
+      "project": "Layihə",
+      "nonprofit": "Qeyri-kommersiya təşkilatı",
+      "local_business": "Yerli biznes"
+    }
+  },
+  "photoTags": {
+    "title": "İnsanları işarələ",
+    "hint": "Kimsənin olduğu yerə toxun, sonra adını seç.",
+    "search": "İnsanları axtar",
+    "remove": "İşarəni sil",
+    "done": "Hazırdır",
+    "taggedCount": "{{value}} işarələndi",
+    "showTags": "İşarələnənləri göstər",
+    "hideTags": "İşarələri gizlət",
+    "saved": "İşarələr yadda saxlanıldı",
+    "saveFailed": "İşarələr yadda saxlanıla bilmədi",
+    "removeMe": "Məni bu şəkildən çıxar",
+    "removedMe": "İşarəniz silindi"
+  },
+  "quiz": {
+    "title": "Viktorina",
+    "add": "Viktorina əlavə et",
+    "remove": "Viktorinanı sil",
+    "taken": "{{value}} iştirak etdi",
+    "questionOf": "Sual {{n}} / {{total}}",
+    "pointsEach": "Hər biri {{points}} xal",
+    "badgeBoost": "Nişanınız sizə {{x}}x xal verir",
+    "earnedToast": "{{correct}} / {{total}} düzgün, +{{points}} xal",
+    "noPointsToast": "{{correct}} / {{total}} düzgün",
+    "answerFailed": "Cavablarınızı göndərmək mümkün olmadı",
+    "resultPoints": "{{correct}} / {{total}} düzgün, siz {{points}} xal qazandınız",
+    "result": "{{correct}} / {{total}} düzgün",
+    "creatorNote": "Sizin viktorinanız. Düzgün cavablar işarələnib; insanlar kanal xallarınızı qazanır.",
+    "writeFailed": "Sualları yazmaq mümkün olmadı, başqa sözlərdən istifadə edin",
+    "topicPlaceholder": "Viktorinanızı bir neçə sözlə təsvir edin",
+    "rewrite": "Yenidən yaz",
+    "write": "Sualları yaz",
+    "editorHint": "Paylaşmazdan əvvəl hər sualı yoxlayın. Hər kəsin bir cəhd hüququ var.",
+    "questionPlaceholder": "Sual",
+    "removeQuestion": "Sualı sil",
+    "markRight": "Düzgün cavab",
+    "optionPlaceholder": "Cavab {{n}}",
+    "addQuestion": "Sual əlavə et",
+    "pointsLabel": "Düzgün cavab üçün xallar",
+    "attachFailed": "Paylaşımınız yerləşdirilib, lakin viktorinanı əlavə etmək mümkün olmadı"
   }
 }

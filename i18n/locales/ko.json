@@ -1,5 +1,64 @@
 {
-  "dmVideo": {"cover": "커버", "trim": "자르기", "mirror": "좌우 반전", "rotate": "회전", "hide": "숨기기", "timer": "타이머", "close": "닫기", "photo": "사진", "remove": "제거", "pause": "일시 정지", "play": "동영상 재생", "hiddenUntilTap": "탭할 때까지 숨김", "scrub": "동영상 탐색", "addMore": "사진 또는 동영상 추가", "coverAria": "프레임을 탭하여 커버로 설정", "trimHint": "양 끝을 드래그하여 자르기", "coverHint": "프레임을 탭하여 커버로 지정", "uploadCover": "커버 사진 업로드", "mirrored": "좌우 반전됨", "original": "원본", "rotate90": "90° 회전", "timerOff": "끄기", "showNormally": "일반적으로 표시", "showNormallyBody": "즉시 표시", "hideUntilTap": "탭할 때까지 숨김", "hideUntilTapBody": "탭할 때까지 흐리게 표시", "hidePrice": "가격 뒤에 숨기기", "hidePriceBody": "결제할 때까지 흐리게 표시", "priceUnavailable": "이 채팅에는 없음", "priceLabelUsd": "가격", "priceHint": "상대방이 결제하기 전까지는 흐릿하게 보입니다. 잠긴 항목은 종단간 암호화되지 않습니다.", "timerOffBody": "채팅에 그대로 유지됩니다.", "timerViewBody": "상대방이 확인하면 양쪽 모두에게서 사라집니다.", "confirm": "확인", "editItem": "항목 편집 {{value1}}", "coverSet": "커버 {{value1}}", "lockedForUsd": "잠금 해제 {{value1}}", "timerTimeBody": "전송 후 {{value1}} 지나면 양쪽 모두에게서 사라집니다."},
+  "dmVideo": {
+    "cover": "커버",
+    "trim": "자르기",
+    "mirror": "좌우 반전",
+    "rotate": "회전",
+    "hide": "숨기기",
+    "timer": "타이머",
+    "close": "닫기",
+    "photo": "사진",
+    "remove": "제거",
+    "pause": "일시 정지",
+    "play": "동영상 재생",
+    "hiddenUntilTap": "탭할 때까지 숨김",
+    "scrub": "동영상 탐색",
+    "addMore": "사진 또는 동영상 추가",
+    "coverAria": "프레임을 탭하여 커버로 설정",
+    "trimHint": "양 끝을 드래그하여 자르기",
+    "coverHint": "프레임을 탭하여 커버로 지정",
+    "uploadCover": "커버 사진 업로드",
+    "mirrored": "좌우 반전됨",
+    "original": "원본",
+    "rotate90": "90° 회전",
+    "timerOff": "끄기",
+    "showNormally": "일반적으로 표시",
+    "showNormallyBody": "즉시 표시",
+    "hideUntilTap": "탭할 때까지 숨김",
+    "hideUntilTapBody": "탭할 때까지 흐리게 표시",
+    "hidePrice": "가격 뒤에 숨기기",
+    "hidePriceBody": "결제할 때까지 흐리게 표시",
+    "priceUnavailable": "이 채팅에는 없음",
+    "priceLabelUsd": "가격",
+    "priceHint": "상대방이 결제하기 전까지는 흐릿하게 보입니다. 잠긴 항목은 종단간 암호화되지 않습니다.",
+    "timerOffBody": "채팅에 그대로 유지됩니다.",
+    "timerViewBody": "상대방이 확인하면 양쪽 모두에게서 사라집니다.",
+    "confirm": "확인",
+    "editItem": "항목 편집 {{value1}}",
+    "coverSet": "커버 {{value1}}",
+    "lockedForUsd": "잠금 해제 {{value1}}",
+    "timerTimeBody": "전송 후 {{value1}} 지나면 양쪽 모두에게서 사라집니다.",
+    "destruct": {
+      "60": "1분",
+      "3600": "1시간",
+      "43200": "12시간",
+      "86400": "1일",
+      "604800": "1주",
+      "31536000": "1년",
+      "view": "조회수 1회"
+    },
+    "destructShort": {
+      "60": "1분",
+      "3600": "1시간",
+      "43200": "12시간",
+      "86400": "1일",
+      "604800": "1주",
+      "31536000": "1년",
+      "view": "조회수 1회"
+    },
+    "destructSecs": "{{n}}초",
+    "destructShortSecs": "{{n}}초"
+  },
   "comic": {
     "toComic": "만화로 바꾸기",
     "toCarousel": "캐러셀로 보기",
@@ -3196,7 +3255,26 @@
     "postCount_other": "{{count}}개의 게시물"
   },
   "settings": {
-    "loginLook": {"title": "로그인 화면", "desc": "이 기기의 로그인 화면에서 Riftn 로고와 슬로건이 움직이는 방식.", "tube": "브라운관 TV", "vhs": "VHS 테이프", "led": "LED 월", "holo": "홀로그램", "neon": "네온", "3d": "3D", "flat": "플랫"}, "arrivalLook": {"title": "로그인 후", "desc": "계정을 불러오는 동안, 사진이 페이지에 도착하기 전에 재생되는 효과. 이 기기에서만.", "trace": "트레이스", "tune": "채널 맞추기", "rift": "균열", "deck": "카드 덱", "glass": "유리 방울"},
+    "loginLook": {
+      "title": "로그인 화면",
+      "desc": "이 기기의 로그인 화면에서 Riftn 로고와 슬로건이 움직이는 방식.",
+      "tube": "브라운관 TV",
+      "vhs": "VHS 테이프",
+      "led": "LED 월",
+      "holo": "홀로그램",
+      "neon": "네온",
+      "3d": "3D",
+      "flat": "플랫"
+    },
+    "arrivalLook": {
+      "title": "로그인 후",
+      "desc": "계정을 불러오는 동안, 사진이 페이지에 도착하기 전에 재생되는 효과. 이 기기에서만.",
+      "trace": "트레이스",
+      "tune": "채널 맞추기",
+      "rift": "균열",
+      "deck": "카드 덱",
+      "glass": "유리 방울"
+    },
     "glass": "유리",
     "shortsEnabled": "반바지",
     "shortsEnabledDesc": "홈에서 반바지 피드 탭과 반바지 회전 목마를 표시합니다.",
@@ -7057,7 +7135,18 @@
       "moveRuleUp": "규칙 위로 이동",
       "moveRuleDown": "규칙 아래로 이동",
       "deleteRule": "규칙 삭제",
-      "rights": {"sendMessages":"메시지를 보내세요","sendMessagesHint":"커뮤니티 채팅에 게시물 올리기","sendMedia":"미디어 전송","sendMediaHint":"이미지와 GIF를 첨부하세요","embedLinks":"링크 삽입","embedLinksHint":"링크 미리 보기 표시","addMembers":"멤버 추가","addMembersHint":"다른 사람들과 커뮤니티 공유하기","createEvents":"이벤트 만들기","createEventsHint":"커뮤니티 이벤트 일정 관리","changeInfoMemberHint":"커뮤니티 이름을 편집하세요",
+      "rights": {
+        "sendMessages": "메시지를 보내세요",
+        "sendMessagesHint": "커뮤니티 채팅에 게시물 올리기",
+        "sendMedia": "미디어 전송",
+        "sendMediaHint": "이미지와 GIF를 첨부하세요",
+        "embedLinks": "링크 삽입",
+        "embedLinksHint": "링크 미리 보기 표시",
+        "addMembers": "멤버 추가",
+        "addMembersHint": "다른 사람들과 커뮤니티 공유하기",
+        "createEvents": "이벤트 만들기",
+        "createEventsHint": "커뮤니티 이벤트 일정 관리",
+        "changeInfoMemberHint": "커뮤니티 이름을 편집하세요",
         "changeInfo": "커뮤니티 정보 변경",
         "changeInfoHint": "이름, 설명, 아바타 및 배너 편집",
         "deleteMessages": "메시지 삭제",
@@ -7135,12 +7224,41 @@
       "noInvites": "초대 링크가 아직 없습니다. 직접 사람들을 초대할 수 있도록 링크를 만들세요.",
       "permissionsUpdated": "권한 업데이트",
       "slowModeUpdated": "슬로우 모드 업데이트",
-      "slowMode":{"off":"끄기","tenSeconds":"10초","thirtySeconds":"30초","oneMinute":"1분","fiveMinutes":"5분","fifteenMinutes":"15분","oneHour":"1시간"},"slowModeOffHint": "회원은 지연 없이 메시지를 보낼 수 있습니다.",
+      "slowMode": {
+        "off": "끄기",
+        "tenSeconds": "10초",
+        "thirtySeconds": "30초",
+        "oneMinute": "1분",
+        "fiveMinutes": "5분",
+        "fifteenMinutes": "15분",
+        "oneHour": "1시간"
+      },
+      "slowModeOffHint": "회원은 지연 없이 메시지를 보낼 수 있습니다.",
       "slowModeOnHint": "회원은 {{label}}초에 한 번의 메시지만 보낼 수 있습니다. 관리자는 예외입니다.",
       "defaultPermissions": "기본 회원 권한",
       "defaultPermissionsHint": "이곳에서 관리자가 아니라면 누구나 할 수 있는 일입니다.",
       "slowModeTitle": "슬로우 모드",
-      "log": {"verbs":{"promote_admin":"승급됨","demote_admin":"하강","transfer_ownership":"소유권 이전 대상:","ban_member":"금지됨","unban_member":"제제해제됨","kick_member":"삭제됨","mute_member":"음소거됨","unmute_member":"소리 끄기 해제","approve_member":"승인됨","reject_member":"거부됨","delete_message":"메시지를 삭제했습니다","purge_messages":"에서 모든 메시지를 삭제했습니다.","pin_message":"님이 보낸 메시지를 고정했습니다.","unpin_message":"pinned 메시지를 해제했습니다","update_settings":"커뮤니티 설정 업데이트됨","create_invite":"초대 링크 생성","revoke_invite":"초대 링크의 권리를 박탈했습니다.","invite_used":"초대됨"},
+      "log": {
+        "verbs": {
+          "promote_admin": "승급됨",
+          "demote_admin": "하강",
+          "transfer_ownership": "소유권 이전 대상:",
+          "ban_member": "금지됨",
+          "unban_member": "제제해제됨",
+          "kick_member": "삭제됨",
+          "mute_member": "음소거됨",
+          "unmute_member": "소리 끄기 해제",
+          "approve_member": "승인됨",
+          "reject_member": "거부됨",
+          "delete_message": "메시지를 삭제했습니다",
+          "purge_messages": "에서 모든 메시지를 삭제했습니다.",
+          "pin_message": "님이 보낸 메시지를 고정했습니다.",
+          "unpin_message": "pinned 메시지를 해제했습니다",
+          "update_settings": "커뮤니티 설정 업데이트됨",
+          "create_invite": "초대 링크 생성",
+          "revoke_invite": "초대 링크의 권리를 박탈했습니다.",
+          "invite_used": "초대됨"
+        },
         "justNow": "지금",
         "minutesAgo": "{{value}}분 전",
         "hoursAgo": "{{value}}시간 전",
@@ -13684,53 +13802,52 @@
     "cinema": {
       "close": "닫기",
       "performance": {
-        "label": "성능",
         "0": "즐거운",
         "1": "우울한",
         "2": "불안한",
         "3": "자신감 있는",
         "4": "경외감에 찬",
         "5": "절제된",
-        "6": "장난스러운"
+        "6": "장난스러운",
+        "label": "성능"
       },
       "title": "시네마 연출",
       "hint": "다음 이미지나 동영상의 시각적 스타일을 안내합니다. 결과는 모델마다 다릅니다.",
       "none": "연출 없음",
       "reset": "연출 지우기",
       "camera": {
-        "label": "카메라 룩",
         "0": "디지털 시네마",
         "1": "35mm 필름",
         "2": "16mm 필름",
         "3": "대형 포맷",
-        "4": "빈티지 캠코더"
+        "4": "빈티지 캠코더",
+        "label": "카메라 룩"
       },
       "lens": {
-        "label": "렌즈 룩",
         "0": "구면 렌즈",
         "1": "아나모픽",
         "2": "빈티지 소프트 렌즈",
         "3": "매크로",
-        "4": "틸트 시프트"
+        "4": "틸트 시프트",
+        "label": "렌즈 룩"
       },
       "focalLength": {
-        "label": "초점 거리",
         "0": "18mm 광각",
         "1": "24mm 광각",
         "2": "35mm 자연스러운 화각",
         "3": "50mm 표준",
         "4": "85mm 인물",
-        "5": "135mm 망원"
+        "5": "135mm 망원",
+        "label": "초점 거리"
       },
       "aperture": {
-        "label": "피사계 심도",
         "0": "f/1.4 매우 얕음",
         "1": "f/2.8 얕음",
         "2": "f/5.6 보통",
-        "3": "f/11 깊은 초점"
+        "3": "f/11 깊은 초점",
+        "label": "피사계 심도"
       },
       "movement": {
-        "label": "카메라 움직임",
         "0": "삼각대 고정",
         "1": "느린 돌리 인",
         "2": "느린 돌리 아웃",
@@ -13738,27 +13855,27 @@
         "4": "피사체 주위 회전",
         "5": "핸드헬드",
         "6": "크레인 상승",
-        "7": "느린 팬"
+        "7": "느린 팬",
+        "label": "카메라 움직임"
       },
       "lighting": {
-        "label": "조명",
         "0": "부드러운 자연광",
         "1": "골든 아워",
         "2": "로우키 명암 대비",
         "3": "하이키 스튜디오",
         "4": "네온 실제 조명",
         "5": "실루엣 역광",
-        "6": "흐린 날 확산광"
+        "6": "흐린 날 확산광",
+        "label": "조명"
       },
       "tempo": {
-        "label": "샷 템포",
         "0": "단일 연속 샷",
         "1": "차분하고 여유로운 동작",
         "2": "역동적이고 활기찬 동작",
-        "3": "혼란스럽고 격렬한 동작"
+        "3": "혼란스럽고 격렬한 동작",
+        "label": "샷 템포"
       },
       "era": {
-        "label": "시대",
         "0": "1920년대",
         "1": "1950년대",
         "2": "1960년대",
@@ -13766,10 +13883,10 @@
         "4": "1980년대",
         "5": "1990년대",
         "6": "현대",
-        "7": "가까운 미래"
+        "7": "가까운 미래",
+        "label": "시대"
       },
       "genre": {
-        "label": "장르",
         "0": "다큐멘터리",
         "1": "드라마",
         "2": "필름 누아르",
@@ -13777,16 +13894,17 @@
         "4": "판타지",
         "5": "로맨틱 코미디",
         "6": "스릴러",
-        "7": "서부극"
+        "7": "서부극",
+        "label": "장르"
       },
       "palette": {
-        "label": "색상 팔레트",
         "0": "따뜻한 앰버",
         "1": "차가운 블루",
         "2": "차분한 어스 톤",
         "3": "파스텔",
         "4": "고대비 흑백",
-        "5": "채도 높은 원색"
+        "5": "채도 높은 원색",
+        "label": "색상 팔레트"
       }
     },
     "audioNoSpeech": "녹음 파일에서 발언이 발견되지 않았습니다.",
