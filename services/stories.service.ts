@@ -104,6 +104,10 @@ export function getStory(id: string, signedIn: boolean): Promise<{ author: Story
   return apiClient.get(`/stories/${enc(id)}`, { isAuthRequired: signedIn, quiet: true });
 }
 
+export function getStoryArchive(cursor?: string): Promise<{ items: StoryItem[]; next: string | null }> {
+  return apiClient.get("/stories/archive", { isAuthRequired: true, quiet: true, params: { cursor } });
+}
+
 export function deleteStory(id: string): Promise<{ ok: boolean }> {
   return apiClient.delete(`/stories/${enc(id)}`);
 }

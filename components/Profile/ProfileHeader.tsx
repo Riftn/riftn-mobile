@@ -54,6 +54,7 @@ import NewMemberChip from "../common/NewMemberChip";
 import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
 import TotalReachPill from "./TotalReachPill";
+import MomentArchive from "./MomentArchive";
 import ProfileLinksPill from "./ProfileLinksPill";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useCinematicPhone } from "../../hooks/useCinematicPhone";
@@ -561,6 +562,7 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
 
           {/* The streamer ladder. Renders nothing until a stream has ended,
               so a non-streamer's profile is unchanged. */}
+          <MomentArchive key={address} />
           <StreamerLevelCard address={address} className="mt-4" />
         </View>
       </View>
