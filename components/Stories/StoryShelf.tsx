@@ -147,8 +147,8 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, children }: {
             contentFit="cover" cachePolicy="memory-disk" />
         ) : null}
         <LinearGradient
-          colors={["rgba(0,0,0,0.44)", "transparent", "transparent", "rgba(0,0,0,0.83)"]}
-          locations={[0, 0.36, 0.5, 1]}
+          colors={TILE_SHADE}
+          locations={TILE_SHADE_AT}
           style={StyleSheet.absoluteFill}
           pointerEvents="none"
         />
@@ -270,27 +270,43 @@ function TileIdentity({ displayName, fallback, lookup, badge }: {
  * behind it on Android and iPhone alike without a live blur. Then a pale
  * sheen, a bright rim and a highlight along the top edge.
  */
+const TILE_SHADE = ["rgba(0,0,0,0.44)", "transparent", "transparent", "rgba(0,0,0,0.83)"] as const;
+const TILE_SHADE_AT = [0, 0.36, 0.5, 1] as const;
+
 function GlassTime({ label, seen, cover }: { label: string; seen?: boolean; cover?: string | null }) {
   const [chipW, setChipW] = useState(0);
   return (
     <View
       pointerEvents="none"
-      style={[styles.cornerBadge, styles.glassChip, cover ? styles.glassChipOverPhoto : null, seen && styles.glassChipSeen]}
+      style={[styles.cornerBadge, styles.glassChip, cover ? styles.glassChipOverPhoto : null]}
       onLayout={({ nativeEvent }) => setChipW(nativeEvent.layout.width)}
     >
       {cover && chipW > 0 ? (
-        <Image
-          source={{ uri: cover }}
-          recyclingKey={`glass-${cover}`}
-          blurRadius={10}
-          contentFit="cover"
-          cachePolicy="memory-disk"
-          style={{ position: "absolute", top: -(CHIP_INSET + 1), left: -(TILE_W - CHIP_INSET - chipW + 1), width: TILE_W, height: TILE_H }}
-        />
+        <>
+          <Image
+            source={{ uri: cover }}
+            recyclingKey={`glass-${cover}`}
+            blurRadius={10}
+            contentFit="cover"
+            cachePolicy="memory-disk"
+            style={[styles.glassBackdrop, { left: -(TILE_W - CHIP_INSET - chipW) }]}
+          />
+          {/* The tile's top shade sits over the photo, so the copy behind the
+              glass gets it too; without it the chip reads milky on bright skies. */}
+          <LinearGradient
+            colors={TILE_SHADE}
+            locations={TILE_SHADE_AT}
+            style={[styles.glassBackdrop, { left: -(TILE_W - CHIP_INSET - chipW) }]}
+          />
+        </>
       ) : null}
       <LinearGradient colors={["rgba(255,255,255,0.3)", "rgba(255,255,255,0.08)"]} style={StyleSheet.absoluteFill} />
       <View style={styles.glassSheen} />
       <Text style={[styles.badgeText, styles.glassText]} numberOfLines={1}>{label}</Text>
+      {/* The rim is drawn last, on top. A border on the chip itself sits under
+          the photo copy on Android, and with a drop shadow below it read as a
+          double line along the bottom. */}
+      <View style={[styles.glassRim, seen && styles.glassRimSeen]} />
     </View>
   );
 }
@@ -372,15 +388,13 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 1,
   },
-  glassChip: {
-    borderColor: "rgba(255,255,255,0.55)",
-    backgroundColor: "rgba(255,255,255,0.12)",
-    boxShadow: "0px 2px 8px rgba(0,0,0,0.22)",
-  },
+  glassChip: { borderWidth: 0, paddingHorizontal: 6, backgroundColor: "rgba(255,255,255,0.12)" },
   // Over the frosted photo the gradient alone is the fill, as on web.
   glassChipOverPhoto: { backgroundColor: "transparent" },
-  glassChipSeen: { borderColor: "rgba(255,255,255,0.3)" },
-  glassSheen: { position: "absolute", top: 0, left: 0, right: 0, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
+  glassRim: { ...StyleSheet.absoluteFillObject, borderRadius: 8, borderWidth: 1, borderColor: "rgba(255,255,255,0.55)" },
+  glassRimSeen: { borderColor: "rgba(255,255,255,0.3)" },
+  glassBackdrop: { position: "absolute", top: -CHIP_INSET, width: TILE_W, height: TILE_H },
+  glassSheen: { position: "absolute", top: 1, left: 6, right: 6, height: 1, backgroundColor: "rgba(255,255,255,0.45)" },
   glassText: { textShadowColor: "rgba(0,0,0,0.45)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 2 },
   liveBadge: { backgroundColor: "#BF303B", borderColor: "#D56E78" },
   badgeText: { color: "#fff", fontSize: 10, fontWeight: "700" },
