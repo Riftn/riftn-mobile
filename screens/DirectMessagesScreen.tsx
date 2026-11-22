@@ -36,7 +36,7 @@ import { ReactionArrivalScope } from "../components/ChatReactions/ReactionArriva
 import CreateCommunitySheet from "../components/Communities/CreateCommunitySheet";
 import { getUserCommunities } from "../services/communities.service";
 import { chatsFromMemberships } from "../libs/community-kinds";
-import { useChatPrefs, isPrefMuted } from "../hooks/useChatPrefs";
+import { useChatPrefs, isPrefMuted, isPrefArchived } from "../hooks/useChatPrefs";
 import { PUBLIC_CHAT_PREF_ID, roomChatId } from "../services/dm/dm.api";
 import { useQuery } from "@tanstack/react-query";
 import type { Community } from "../types/community";
@@ -184,7 +184,8 @@ const DirectMessagesInner: React.FC = () => {
   const [activeTabRaw, setActiveTab] = useState("all");
   const tabsOn = !!myAddress && !query.trim();
   const activeTabView = chatTabs.tabs.find((x) => x.id === activeTabRaw && !x.hidden);
-  const activeTab = tabsOn && activeTabView ? activeTabView.id : "all";
+  const showingArchive = tabsOn && activeTabRaw === "archived";
+  const activeTab = showingArchive ? "archived" : tabsOn && activeTabView ? activeTabView.id : "all";
   const customTab = tabsOn && activeTabView && !activeTabView.builtin ? activeTabView : null;
   const requestsTabShown = !chatTabs.tabs.find((x) => x.id === "requests")?.hidden;
   useEffect(() => {
@@ -204,7 +205,12 @@ const DirectMessagesInner: React.FC = () => {
     customTab ? customTab.chats.includes(c._id) : true, [customTab]);
   const roomInTab = useCallback((c: { id: string }) =>
     activeTab === "direct" ? false : customTab ? customTab.chats.includes(roomChatId(c.id)) : true, [activeTab, customTab]);
-  const publicInTab = activeTab === "direct" || activeTab === "communities" ? false : customTab ? customTab.chats.includes(PUBLIC_CHAT_TAB_ID) : true;
+  const publicInTab = showingArchive || activeTab === "direct" || activeTab === "communities" ? false : customTab ? customTab.chats.includes(PUBLIC_CHAT_TAB_ID) : true;
+
+  const archivedDm = useCallback((c: DmConversation) => isPrefArchived(
+    chatPrefs.get(c._id), c.messages?.[0]?.createdAt || c.lastMessageAt || c.updatedAt,
+  ), [chatPrefs]);
+  const archivedRoom = useCallback((c: { id: string }) => isPrefArchived(chatPrefs.get(roomChatId(c.id))), [chatPrefs]);
 
   // Filtered & sorted conversations
   const filtered = useMemo(() => {
@@ -227,6 +233,7 @@ const DirectMessagesInner: React.FC = () => {
     // search looks through both, so a request is never unfindable.
     const scoped = q ? list : list.filter((c) => !!c.isRequest === requestsMode);
     return scoped
+      .filter(c => q || requestsMode || archivedDm(c) === showingArchive)
       .filter((c) => !pendingDeletes.has(c._id))
       .filter((c) => !isAuthorBlocked(getOtherParticipant(c, myUserId, myAddress)?.address))
       .sort(
@@ -235,7 +242,7 @@ const DirectMessagesInner: React.FC = () => {
           +new Date(a.updatedAt || a.lastMessageAt || 0),
       );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, requestsMode]);
+  }, [conversations, query, myUserId, myAddress, pendingDeletes, blockedVersion, requestsMode, archivedDm, showingArchive]);
 
   const convHasUnread = useCallback(
     (c: DmConversation) => (c.unreadCount || 0) > 0 || !!chatPrefs.get(c._id)?.markedUnread || !!chatPrefs.get(c._id)?.reactions,
@@ -249,14 +256,14 @@ const DirectMessagesInner: React.FC = () => {
   const roomSummaries = useRoomChatSummaries(groupChats.map((c) => c.id), isSignedIn ? myAddress : null);
   const publicLastLine = usePublicChatLastLine(!!isSignedIn);
   const shownGroups = useMemo(
-    () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions || (roomSummaries[c.id]?.unread ?? 0) > 0) : groupChats).filter(roomInTab),
-    [groupChats, tabFilter, chatPrefs, roomInTab, roomSummaries],
+    () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions || (roomSummaries[c.id]?.unread ?? 0) > 0) : groupChats).filter(roomInTab).filter(c => query.trim() || archivedRoom(c) === showingArchive),
+    [groupChats, tabFilter, chatPrefs, roomInTab, roomSummaries, archivedRoom, showingArchive, query],
   );
-  const roomsUnread = groupChats.reduce((n, c) => n + (roomSummaries[c.id]?.unread ?? 0), 0);
+  const roomsUnread = groupChats.filter(c => !archivedRoom(c)).reduce((n, c) => n + (roomSummaries[c.id]?.unread ?? 0), 0);
   const inboxUnreadChats = useMemo(
-    () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id) && convHasUnread(c)).length
-      + groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions).length,
-    [conversations, pendingDeletes, convHasUnread, groupChats, chatPrefs],
+    () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id) && !archivedDm(c) && convHasUnread(c)).length
+      + groupChats.filter((c) => !archivedRoom(c) && (chatPrefs.get(roomChatId(c.id))?.markedUnread || chatPrefs.get(roomChatId(c.id))?.reactions)).length,
+    [conversations, pendingDeletes, convHasUnread, groupChats, chatPrefs, archivedDm, archivedRoom],
   );
 
   // Rows waiting out their undo window count as gone, so swiping away the last
@@ -299,7 +306,7 @@ const DirectMessagesInner: React.FC = () => {
   }), []);
   const endPicking = useCallback(() => setBulkIds(null), []);
   // Switching between the inbox and Requests, or searching, starts fresh.
-  useEffect(() => { setBulkIds(null); }, [showRequests]);
+  useEffect(() => { setBulkIds(null); }, [showRequests, activeTabRaw, myAddress]);
   // Android back leaves picking before it leaves the screen.
   useEffect(() => {
     if (!picking) return;
@@ -470,6 +477,17 @@ const DirectMessagesInner: React.FC = () => {
     && bulkChats.every((c) => (c.unreadCount || 0) > 0 || !!chatPrefs.get(c._id)?.markedUnread)
     && bulkRooms.every((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread);
 
+  const bulkAllArchived = bulkChats.every(archivedDm) && bulkRooms.every(archivedRoom);
+  const activeArchiveAccount = useRef(myAddress);
+  activeArchiveAccount.current = myAddress;
+  const bulkToggleArchive = async () => {
+    const ids = [...bulkChats.map(c => c._id), ...bulkRooms.map(c => roomChatId(c.id))];
+    setBulkIds(null);
+    for (const id of ids) {
+      if (activeArchiveAccount.current !== myAddress) break;
+      await updateChatPref(id, { archived: !bulkAllArchived });
+    }
+  };
   const bulkToggleUnread = useCallback(() => {
     const unread = !bulkAllUnread;
     for (const c of bulkChats) {
@@ -679,25 +697,30 @@ const DirectMessagesInner: React.FC = () => {
     () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id)),
     [conversations, pendingDeletes],
   );
+  const inboxActive = useMemo(() => inbox.filter(c => !archivedDm(c)), [inbox, archivedDm]);
   const tabUnread = useMemo(() => {
     const sum = (list: DmConversation[]) => list.reduce((n, c) => n + (c.unreadCount || 0), 0);
     const out: Record<string, number> = {
-      all: sum(inbox) + publicUnread + roomsUnread,
-      unread: sum(inbox) + publicUnread + roomsUnread,
-      direct: sum(inbox),
+      all: sum(inboxActive) + publicUnread + roomsUnread,
+      unread: sum(inboxActive) + publicUnread + roomsUnread,
+      direct: sum(inboxActive),
       communities: roomsUnread,
       requests: requestUnread,
     };
     for (const tab of chatTabs.tabs) {
       if (tab.builtin) continue;
-      out[tab.id] = sum(inbox.filter((c) => tab.chats.includes(c._id))) + (tab.chats.includes(PUBLIC_CHAT_TAB_ID) ? publicUnread : 0);
+      out[tab.id] = sum(inboxActive.filter((c) => tab.chats.includes(c._id))) + (tab.chats.includes(PUBLIC_CHAT_TAB_ID) ? publicUnread : 0);
     }
     return out;
-  }, [inbox, publicUnread, requestUnread, chatTabs.tabs, roomsUnread]);
+  }, [inboxActive, publicUnread, requestUnread, chatTabs.tabs, roomsUnread]);
   // An empty Requests tab stays out of the row.
   const tabRowTabs = requestChats.length
     ? chatTabs.tabs
     : chatTabs.tabs.map((x) => (x.id === "requests" && activeTab !== "requests" ? { ...x, hidden: true } : x));
+  const archiveTab = {
+    id: "archived", name: t("settings.archivedChats", { defaultValue: "Archived chats" }), emoji: "", chats: [],
+    builtin: true, hidden: !showingArchive && !inbox.some(archivedDm) && !groupChats.some(archivedRoom),
+  };
   const tabCandidates = useMemo<TabCandidate[]>(() => [
     { id: PUBLIC_CHAT_TAB_ID, name: t("publicChat.title"), source: require("../assets/web-icons/dehub-island-logo.png"), kind: t("chatTabs.kindPublic", { defaultValue: "Public" }) },
     ...chatsFromMemberships(memberships, (id) => !!chatPrefs.get(roomChatId(id))?.listedAt).map((c) => ({
@@ -867,7 +890,7 @@ const DirectMessagesInner: React.FC = () => {
           <View style={SEPARATOR} />
         </React.Fragment>
       ))}
-      {requestChats.length > 0 && !query.trim() && tabFilter === "all" && !customTab && activeTab !== "direct" && (!tabsOn || !requestsTabShown) && (
+      {!showingArchive && requestChats.length > 0 && !query.trim() && tabFilter === "all" && !customTab && activeTab !== "direct" && (!tabsOn || !requestsTabShown) && (
         <>
           <ChatCard unread={requestUnread > 0}>
           <TouchableOpacity
@@ -902,7 +925,7 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, requestsTabShown, SEPARATOR],
+    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, showingArchive, requestsTabShown, SEPARATOR],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, [SEPARATOR]);
@@ -935,13 +958,13 @@ const DirectMessagesInner: React.FC = () => {
             {tabsOn ? (
               <ChatTabBar
                 bare
-                tabs={tabRowTabs}
+                tabs={[...tabRowTabs, archiveTab]}
                 active={activeTab}
                 unread={tabUnread}
                 onSelect={(id) => { setShowRequests(false); setActiveTab(id); }}
                 onNew={() => setTabEditor({})}
                 onManage={() => setTabManager(true)}
-                onHold={(tab) => setTabActions({ kind: "tab", id: tab.id })}
+                onHold={(tab) => { if (tab.id !== "archived") setTabActions({ kind: "tab", id: tab.id }); }}
               />
             ) : (
               <Text className="flex-1 text-theme-neutrals-100 font-semibold" style={{ fontSize: 17, paddingLeft: 16 }} numberOfLines={1}>{t("messages.title")}</Text>
@@ -979,7 +1002,7 @@ const DirectMessagesInner: React.FC = () => {
           ListHeaderComponent={publicChatItem}
           renderScrollComponent={renderPullScroll}
           ListEmptyComponent={
-            query.trim().length >= 2 && groupChats.length === 0 ? (
+            showingArchive && shownGroups.length ? null : query.trim().length >= 2 && groupChats.length === 0 ? (
               <ChatSearchDiscover
                 query={query}
                 myAddress={myAddress}
@@ -1109,6 +1132,8 @@ const DirectMessagesInner: React.FC = () => {
           onDelete={handleCtxDelete}
           onSelectMany={handleCtxSelectMany}
           onAddToTab={ctxConv && !ctxConv.isRequest ? () => setTabActions({ kind: "chat", id: ctxConv._id }) : undefined}
+          archived={!!ctxConv && archivedDm(ctxConv)}
+          onToggleArchive={ctxConv && !ctxConv.isRequest ? () => void updateChatPref(ctxConv._id, { archived: !archivedDm(ctxConv) }) : undefined}
           muted={!!ctxConv && isPrefMuted(chatPrefs.get(ctxConv._id))}
           onToggleMute={ctxConv && !ctxConv.isRequest ? () => void updateChatPref(ctxConv._id, { mutedUntil: isPrefMuted(chatPrefs.get(ctxConv._id)) ? null : "forever" }) : undefined}
           onToggleFreeAccess={handleCtxToggleFreeAccess}
@@ -1126,6 +1151,8 @@ const DirectMessagesInner: React.FC = () => {
           deletableCount={bulkChats.length}
           allUnread={bulkAllUnread}
           onToggleUnread={bulkToggleUnread}
+          allArchived={bulkAllArchived}
+          onToggleArchive={bulkChats.some(c => c.isRequest) || inRequests ? undefined : bulkToggleArchive}
           onDelete={bulkDelete}
           onReply={bulkReply}
           onCancel={endPicking}

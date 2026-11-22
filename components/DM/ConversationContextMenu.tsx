@@ -43,6 +43,8 @@ interface ConversationContextMenuProps {
   muted?: boolean;
   /** Mute or unmute this chat's notifications. */
   onToggleMute?: () => void;
+  archived?: boolean;
+  onToggleArchive?: () => void;
 }
 
 
@@ -97,6 +99,8 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
   isCreator,
   muted,
   onToggleMute,
+  archived,
+  onToggleArchive,
 }) => {
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
@@ -249,6 +253,12 @@ const ConversationContextMenuComponent: React.FC<ConversationContextMenuProps> =
             )}
             {onAddToTab && (
               <ActionRow icon="folder-open-outline" label={t("chatTabs.addToTab", { defaultValue: "Add to tab" })} onPress={handleAddToTab} />
+            )}
+            {onToggleArchive && (
+              <ActionRow icon="archive-outline"
+                label={archived ? t("editor.cloud.restore", { defaultValue: "Restore" }) : t("stores.archive", { defaultValue: "Archive" })}
+                onPress={() => { onClose(); onToggleArchive(); }}
+              />
             )}
             {onToggleMute && (
               <ActionRow
