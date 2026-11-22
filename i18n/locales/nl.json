@@ -120,7 +120,17 @@
       "violence": "Geweld of gevaarlijke handelingen",
       "hate": "Haatzaaien",
       "other": "Iets anders"
-    }
+    },
+    "agoLabel": "{{time}} geleden",
+    "momentTag": "MOMENT",
+    "hoursLeft": "nog {{n}} u",
+    "minutesLeft": "nog {{n}} min",
+    "watchedCount": "{{n}} keer bekeken",
+    "nOfM": "{{n}} van {{m}}",
+    "toEveryone": "Iedereen",
+    "toOnly": "Alleen {{name}}",
+    "signInToSay": "Log in om iets te zeggen",
+    "saySomething": "Zeg iets…"
   },
   "dmVideo": {
     "cover": "Omslag",

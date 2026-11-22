@@ -120,7 +120,17 @@
       "violence": "Violencia o actos peligrosos",
       "hate": "Discurso de odio",
       "other": "Otra cosa"
-    }
+    },
+    "agoLabel": "hace {{time}}",
+    "momentTag": "MOMENTO",
+    "hoursLeft": "quedan {{n}} h",
+    "minutesLeft": "quedan {{n}} min",
+    "watchedCount": "{{n}} vistas",
+    "nOfM": "{{n}} de {{m}}",
+    "toEveryone": "Todos",
+    "toOnly": "Solo {{name}}",
+    "signInToSay": "Inicia sesión para escribir",
+    "saySomething": "Di algo…"
   },
   "dmVideo": {
     "cover": "Cubierta",
