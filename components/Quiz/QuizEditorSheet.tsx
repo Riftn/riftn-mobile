@@ -102,6 +102,7 @@ const QuizEditorSheet: React.FC<Props> = ({ visible, tokenId, onClose, onSaved }
               </Pressable>
             </View>
             <Text style={{ color: MUTED, fontSize: 12 }}>{t("quiz.editorHint")}</Text>
+            <Text style={{ color: MUTED, fontSize: 12 }}>{t("quiz.dailyHint")}</Text>
 
             {draft.questions.map((q, qi) => (
               <View key={qi} style={{ gap: 6, borderWidth: 1, borderColor: LINE, borderRadius: 12, padding: 10 }}>

@@ -43,6 +43,8 @@ const QuizCard: React.FC<{ tokenId: number }> = ({ tokenId }) => {
         attempts: old.attempts + 1,
         questions: result.questions,
         mine: { answers: result.answers, correct: result.correct, total: result.total, points: result.points, multiplier: result.multiplier },
+        streak: result.streak ?? old.streak,
+        bestStreak: result.bestStreak ?? old.bestStreak,
       } : old);
       toastSuccess(result.points > 0
         ? t("quiz.earnedToast", { correct: result.correct, total: result.total, points: formatCount(result.points) })
@@ -77,7 +79,15 @@ const QuizCard: React.FC<{ tokenId: number }> = ({ tokenId }) => {
           <Icon name="Trophy" size={16} color="#F4F4F5" />
           <Text className="text-white font-medium text-sm" style={{ flexShrink: 1 }}>{quiz.topic || t("quiz.title")}</Text>
         </View>
-        <Text className="text-zinc-400 text-[12px]">{t("quiz.taken", { value: formatCount(quiz.attempts) })}</Text>
+        <View style={{ alignItems: "flex-end", gap: 2 }}>
+          <Text className="text-zinc-400 text-[12px]">{t("quiz.taken", { value: formatCount(quiz.attempts) })}</Text>
+          {!quiz.isCreator && (quiz.streak ?? 0) > 0 && (
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 4 }}>
+              <Icon name="Flame" size={12} color="#F4F4F5" />
+              <Text className="text-white text-[12px]">{t("quiz.streak", { value: formatCount(quiz.streak ?? 0) })}</Text>
+            </View>
+          )}
+        </View>
       </View>
 
       {done ? (
@@ -87,7 +97,7 @@ const QuizCard: React.FC<{ tokenId: number }> = ({ tokenId }) => {
           <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
             <Text className="text-zinc-400 text-[12px]">{t("quiz.questionOf", { n: step + 1, total })}</Text>
             <Text className="text-zinc-400 text-[12px]">
-              {t("quiz.pointsEach", { points: formatCount(Math.round(quiz.pointsPerQuestion * (quiz.multiplier || 1))) })}
+              {t("quiz.pointsEach", { points: formatCount(Math.round(quiz.pointsPerQuestion * (quiz.multiplier || 1) * (quiz.streakBonus || 1))) })}
             </Text>
           </View>
           <Text className="text-white text-[15px]" style={{ lineHeight: 20 }}>{question?.q}</Text>
@@ -100,6 +110,9 @@ const QuizCard: React.FC<{ tokenId: number }> = ({ tokenId }) => {
               </View>
             </Pressable>
           ))}
+          {(quiz.streakBonus ?? 1) > 1 && (
+            <Text className="text-zinc-500 text-[12px]">{t("quiz.streakBonus", { pct: Math.round(((quiz.streakBonus ?? 1) - 1) * 100) })}</Text>
+          )}
           {quiz.multiplier > 1 && (
             <Text className="text-zinc-500 text-[12px]">{t("quiz.badgeBoost", { x: quiz.multiplier })}</Text>
           )}
