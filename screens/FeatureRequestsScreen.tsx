@@ -118,6 +118,7 @@ import {
 } from "../hooks/useFeatureRequests";
 import { Collapsible, CollapsibleChevron } from "../components/ui/Collapsible";
 import DeviceInfoPanel from "../components/FeatureRequests/DeviceInfoPanel";
+import HoldToTalkButton from "../components/FeatureRequests/HoldToTalkButton";
 import RequestStatusRow from "../components/FeatureRequests/RequestStatusRow";
 import { useOpenSignIn } from "../hooks/useOpenSignIn";
 
@@ -734,9 +735,18 @@ const PromptComposer: React.FC<{
   const inputRef = React.useRef<TextInput>(null);
   React.useEffect(() => { if (focusRequest) inputRef.current?.focus(); }, [focusRequest]);
   const { isSignedIn, needsUsername } = useAuthState();
+  const user = useUser();
   const navigation = useNavigation<any>();
   const openSignIn = useOpenSignIn();
   const valid = description.trim().length > 0 && description.length <= DESC_MAX;
+  const addSpoken = useCallback((spoken: string) => {
+    setDescription(previous => {
+      if (previous.length >= DESC_MAX) return previous;
+      const spacer = previous && !/\s$/.test(previous) ? " " : "";
+      return (previous + spacer + spoken).slice(0, DESC_MAX);
+    });
+    requestAnimationFrame(() => inputRef.current?.focus());
+  }, [setDescription]);
 
   const pickMedia = useCallback(async () => {
     if (submitting || attachments.length >= MAX_FEATURE_ATTACHMENTS) return;
@@ -833,6 +843,11 @@ const PromptComposer: React.FC<{
           <Icon name="ImagePlus" size={18} color="#A1A1AA" />
           <Text style={styles.promptAttachText}>{t("features.promptAttach", "Attach images")}</Text>
         </Pressable>
+        <HoldToTalkButton wallet={user ? (user.walletAddress || user.address)?.toLowerCase() : undefined}
+          disabled={submitting || description.length >= DESC_MAX}
+          beforeStart={() => { if (isSignedIn && !needsUsername) return false; openSignIn(); return true; }}
+          onText={addSpoken} />
+        <View style={{ flex: 1 }} />
         <Text style={styles.promptCount}>{description.length}/{DESC_MAX}</Text>
       </View>
       <Text style={[styles.promptCount, { marginBottom: 8 }]}>{t("features.deviceInfoNote", "Device info is attached to help us fix bugs.")}</Text>
@@ -1385,7 +1400,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   promptFilename: { fontSize: 10, color: "#A1A1AA", marginTop: 4 },
-  promptToolbar: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginVertical: 12, gap: 8 },
+  promptToolbar: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", marginVertical: 12, gap: 8 },
   promptAttach: { flexDirection: "row", alignItems: "center", gap: 6, paddingVertical: 8 },
   promptAttachText: { color: "#A1A1AA", fontSize: 13 },
   promptCount: { color: "#808089", fontSize: 11 },

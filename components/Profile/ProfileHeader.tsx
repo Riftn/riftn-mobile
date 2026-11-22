@@ -29,6 +29,7 @@ import {
   resolveBadgeUsername,
 } from "../../libs/misc";
 import StreamerLevelCard from "../Live/StreamerLevelCard";
+import ProfilePetCard from "../Pet/PetCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import { useBadgeCeremony } from "../../hooks/useBadgeCeremony";
 import { ensProfileUrl } from "../../libs/ens-handle";
@@ -584,6 +585,8 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
               so a non-streamer's profile is unchanged. */}
           <MomentArchive key={address} />
           <StreamerLevelCard address={address} className="mt-4" />
+          {/* The creator's stream pet. Nothing until they hatch one. */}
+          <ProfilePetCard address={address} own className="mt-4" />
         </View>
       </View>
 
