@@ -323,7 +323,7 @@ function withoutStaleDuplicates(profiles: StoredProfile[]): StoredProfile[] {
 /** The Supabase client persists its session under one of these keys. */
 const SB_KEY_PATTERN = /^sb-.+-auth-token$/;
 
-async function readSupabaseSession(): Promise<StoredProfileSession['supabase']> {
+async function readSupabaseSession(ownerUid: string | null): Promise<StoredProfileSession['supabase']> {
   try {
     const keys = await AsyncStorage.getAllKeys();
     for (const key of keys) {
@@ -331,6 +331,12 @@ async function readSupabaseSession(): Promise<StoredProfileSession['supabase']> 
       const raw = await AsyncStorage.getItem(key);
       if (!raw) continue;
       const parsed = JSON.parse(raw);
+      // A Google sign-in lands its session before the outgoing account's keys
+      // are cleared (stageIncomingIdentity keeps it on purpose). Filing that
+      // under the outgoing account made switching back to it fail with
+      // "Could not switch account": the restored session was someone else's.
+      const sessionUid = parsed?.user?.id ?? null;
+      if (sessionUid && ownerUid && sessionUid !== ownerUid) continue;
       if (parsed?.access_token && parsed?.refresh_token) {
         return {
           storageKey: key,
@@ -400,7 +406,7 @@ async function snapshotSession(adopt: boolean): Promise<void> {
     hideBadgeAndBalance: user?.hideBadgeAndBalance ?? existing?.hideBadgeAndBalance,
     session: {
       tokens,
-      supabase: await readSupabaseSession(),
+      supabase: (await readSupabaseSession(identity.uid)) ?? existing?.session?.supabase,
     },
   };
 
