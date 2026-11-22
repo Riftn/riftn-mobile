@@ -4,7 +4,9 @@ import { Platform, PermissionsAndroid, AppState } from "react-native";
 import createAgoraRtcEngine, {
   type IRtcEngine, type IRtcEngineEventHandler, type VideoCanvas,
   VideoSourceType, RenderModeType, ChannelProfileType, ClientRoleType, RawAudioFrameOpModeType,
+  BackgroundSourceType, BackgroundBlurDegree, SegModelType, FeatureType, type VirtualBackgroundSource,
 } from "react-native-agora";
+import { CALL_BACKGROUNDS, colorNumber, loadCallBackground, loadCallBackgroundPhoto, pathFromUri, saveCallBackground, type CallBackgroundId } from "../libs/callBackground";
 import { supabase, fetchAgoraToken, walletScopedClient } from "../services/supabase";
 import { AGORA_APP_ID } from "../config/agora.config";
 import { useAuth } from "../context/AuthContext";
@@ -16,6 +18,8 @@ import { revokeAudioFocus } from "../libs/audioFocus";
 import { revokeAllFeedVideo } from "../libs/feedVideoFocus";
 import { holdGroupCallPresence, groupCallChannel, groupCallUid, GROUP_CALL_MAX_RING } from "../libs/groupCall";
 import { stopCallRingtone } from "../libs/call-ringtone";
+import { toastError } from "../libs/toast";
+import i18n from "i18next";
 
 const log = createLogger("useCall");
 export interface CallSession {
@@ -79,6 +83,12 @@ export interface UseCallReturn {
   tapMicrophone: (onFrame: (pcm: Uint8Array) => void) => () => void;
   /** Everyone else's volume (100 = normal), lowered under a dubbed line. */
   setCallVolume: (volume: number) => void;
+  /** What is behind you on a video call: off, blur, a scene or your photo. Remembered between calls. */
+  callBackground: CallBackgroundId;
+  /** Whether this phone can run the background effect (known once a video call has started). */
+  callBackgroundSupported: boolean;
+  /** Pick a background. `photo` is a file:// uri, for 'photo'. */
+  setCallBackground: (id: CallBackgroundId, photo?: string | null) => void;
 }
 const LOCAL_CANVAS: VideoCanvas = {
   uid: 0, sourceType: VideoSourceType.VideoSourceCamera, renderMode: RenderModeType.RenderModeHidden,
@@ -105,6 +115,13 @@ export function useCall(): UseCallReturn {
   const [callSummary, setCallSummary] = useState<CallSummary | null>(null);
   const [groupParticipants, setGroupParticipants] = useState<GroupParticipant[]>([]);
   const [selfSpeaking, setSelfSpeaking] = useState(false);
+  const [callBackground, setCallBackgroundState] = useState<CallBackgroundId>(() => loadCallBackground());
+  const [callBackgroundSupported, setCallBackgroundSupported] = useState(true);
+  const callBackgroundRef = useRef<{ id: CallBackgroundId; photo: string | null } | null>(null);
+  if (!callBackgroundRef.current) {
+    const id = loadCallBackground();
+    callBackgroundRef.current = { id, photo: id === "photo" ? loadCallBackgroundPhoto() : null };
+  }
   const rosterRef = useRef<Map<number, string>>(new Map());
   const speakingRef = useRef<Set<number>>(new Set());
   /** Ring rows a group call's starter wrote, so an unanswered start can stop the phones. */
@@ -240,6 +257,32 @@ export function useCall(): UseCallReturn {
     })));
   }, []);
 
+  /**
+   * Puts the chosen background on the camera, or takes it off. Agora's virtual
+   * background runs inside the call SDK on the phone, before the picture is
+   * sent, so the other side sees the effect and nothing else changes. A phone
+   * the SDK says cannot run it gets `false` and the picker hides.
+   */
+  const applyBackground = useCallback((engine: IRtcEngine): boolean => {
+    const { id, photo } = callBackgroundRef.current ?? { id: "none" as const, photo: null };
+    try {
+      if (id === "none") { engine.enableVirtualBackground(false, {}, {}); return true; }
+      const choice = CALL_BACKGROUNDS.find(entry => entry.id === id);
+      const source: VirtualBackgroundSource = id === "blur"
+        ? { background_source_type: BackgroundSourceType.BackgroundBlur, blur_degree: BackgroundBlurDegree.BlurDegreeHigh }
+        : id === "photo" && photo
+          ? { background_source_type: BackgroundSourceType.BackgroundImg, source: pathFromUri(photo) }
+          : id === "photo"
+            ? { background_source_type: BackgroundSourceType.BackgroundBlur, blur_degree: BackgroundBlurDegree.BlurDegreeHigh }
+            : { background_source_type: BackgroundSourceType.BackgroundColor, color: colorNumber(choice?.color ?? "#111318") };
+      const result = engine.enableVirtualBackground(true, source, { modelType: SegModelType.SegModelAi });
+      if (result < 0) log.warn("Virtual background refused", { result, id });
+      return result >= 0;
+    } catch (error) {
+      log.warn("Virtual background failed", error);
+      return false;
+    }
+  }, []);
   const joinChannel = useCallback(async (call: CallSession, generation: number): Promise<boolean> => {
     const current = () => generationRef.current === generation && currentCallRef.current?.id === call.id;
     const groupId = call.group_id || null;
@@ -353,6 +396,11 @@ export function useCall(): UseCallReturn {
         engine.enableLocalVideo(true);
         engine.startPreview();
         engine.muteLocalVideoStream(false);
+        let supported = true;
+        try { supported = engine.isFeatureAvailableOnDevice(FeatureType.VideoVirtualBackground) !== false; } catch { supported = true; }
+        setCallBackgroundSupported(supported);
+        // The background picked on an earlier call comes back on its own.
+        if (supported && callBackgroundRef.current?.id !== "none" && !applyBackground(engine)) setCallBackgroundSupported(false);
       }
       if (!current() || media.closed) { disposeMedia(media); return false; }
       const joined = engine.joinChannel(token.token, channelName, groupId ? ownUid : token.uid ?? 0, {
@@ -374,7 +422,7 @@ export function useCall(): UseCallReturn {
       if (current()) log.error("Call connection failed", error);
       return false;
     }
-  }, [clearTimeouts, publishCall, disposeMedia, endCall, userAddress, syncGroup]);
+  }, [clearTimeouts, publishCall, disposeMedia, endCall, userAddress, syncGroup, applyBackground]);
 
   /** Nobody came: a group room you are alone in closes itself after the ring window. */
   const armGroupTimeout = useCallback((generation: number, outcome: "no_answer" | "missed") => {
@@ -635,6 +683,22 @@ export function useCall(): UseCallReturn {
     });
   }, []);
   const switchCamera = useCallback(() => { mediaRef.current?.engine.switchCamera(); }, []);
+  const setCallBackground = useCallback((id: CallBackgroundId, photo?: string | null) => {
+    const nextPhoto = id === "photo" ? photo ?? loadCallBackgroundPhoto() : null;
+    const next = { id: id === "photo" && !nextPhoto ? "blur" as const : id, photo: nextPhoto };
+    callBackgroundRef.current = next;
+    setCallBackgroundState(next.id);
+    saveCallBackground(next.id);
+    const media = mediaRef.current;
+    if (!media || media.closed) return;
+    if (!applyBackground(media.engine)) {
+      setCallBackgroundSupported(false);
+      callBackgroundRef.current = { id: "none", photo: null };
+      setCallBackgroundState("none");
+      saveCallBackground("none");
+      toastError(i18n.t("calls.backgroundFailed", "Background effects can't run on this device."));
+    }
+  }, [applyBackground]);
   const peerAddress = currentCall
     ? currentCall.caller_address === userAddress ? currentCall.recipient_address : currentCall.caller_address : "";
   const remoteCanvas = useMemo<VideoCanvas>(() => ({
@@ -685,7 +749,8 @@ export function useCall(): UseCallReturn {
     callStartedAt, remoteUid, peerAddress, localCanvas: LOCAL_CANVAS, remoteCanvas,
     startCall, endCall, acceptCall, rejectCall: endCall, acceptCallById, declineCallById, setNativeMute, toggleMute, toggleSpeaker, toggleCamera,
     switchCamera, setCallMessageHandler, isMinimized, setMinimized,
-  }), [captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
+    callBackground, callBackgroundSupported, setCallBackground,
+  }), [callBackground, callBackgroundSupported, setCallBackground, captionRoom, captionSpeakers, tapMicrophone, setCallVolume, isGroupCall, groupParticipants, selfSpeaking, startGroupCall, joinGroupCall,
     isRinging, callSummary, dismissCallSummary, isCallActive, isIncoming, currentCall, isConnecting, isMuted, isSpeakerOn, isCameraOff,
     callStartedAt, remoteUid, peerAddress, remoteCanvas, startCall, endCall, acceptCall, acceptCallById, declineCallById,
     setNativeMute, toggleMute, toggleSpeaker, toggleCamera, switchCamera, setCallMessageHandler, isMinimized]);

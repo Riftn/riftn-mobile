@@ -422,6 +422,11 @@ const isNotificationClickable = (notification: NotificationItem): boolean => {
     return !!(notification.actorAddress || notification.actorUsername);
   }
   
+  // Tagged in someone's bio: opens that profile.
+  if (type === NotificationType.MENTION && notification.metadata?.mentionContext === 'bio') {
+    return !!(notification.actorAddress || notification.actorUsername);
+  }
+
   // Content types - need tokenId
   if (type === NotificationType.LIKE ||
       type === NotificationType.COMMENT ||
@@ -1635,6 +1640,11 @@ const NotificationScreen = () => {
         break;
 
       case 'mention':
+        // Tagged in a bio: the profile whose bio names you ("Remove me" is in its menu).
+        if (metadata?.mentionContext === 'bio') {
+          openUserProfile(actorAddress, actorUsername, notification.actor);
+          break;
+        }
         // A tag in live or public chat opens that chat, not a post page.
         if (openChatMention(navigation.navigate as any, { mentionContext: metadata?.mentionContext, tokenId })) break;
         if (tokenId) navigateToFeed(tokenId, commentId, postType);

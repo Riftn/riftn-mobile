@@ -576,7 +576,7 @@ export default function PostInfoScreen() {
           initialSpoilerText={post.spoilerText}
           initialQuotePolicy={post.quotePolicy}
           initialReplyPolicy={post.replyPolicy}
-          initialVisibility={(post as any).visibility}
+          initialVisibility={(post as any).justMe ? "self" : (post as any).visibility}
           initialShopLinks={post.shopLinks}
           alwaysShowTitle={post.postType === "feed-audio"}
           onSuccess={(edited) => {

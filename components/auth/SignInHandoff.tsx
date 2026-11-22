@@ -89,6 +89,8 @@ const ACCOUNT_MAX_AGE_MS = 15_000;
 const WAIT_GRACE_MS = 1200;
 /** The veil behind the rift: the sign-in page dims to near black. */
 const VEIL = 'rgba(6,7,9,0.92)';
+/** Light themes: the sign-in page is light, so a near-black veil read as a dark wave sweeping over it. They get a pale veil and no rift. */
+const LIGHT_VEIL = 'rgba(247,248,250,0.96)';
 const VEIL_IN_MS = 220;
 const VEIL_OUT_MS = 260;
 /** The spin's ease, cubic-bezier(0.12, 0.7, 0.3, 1), as points (native-driven interpolation takes no easing). */
@@ -502,6 +504,7 @@ export const SignInWaitVeil: React.FC<{ label?: string; atRoot?: boolean }> = ({
 };
 
 const SheetWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
+  const { isLight } = useAppTheme();
   const fade = useRef(new Animated.Value(0)).current;
   const look = useArrivalLook();
   const arriving = useArriving();
@@ -549,14 +552,14 @@ const SheetWaitVeil: React.FC<{ label?: string }> = ({ label }) => {
     // must not flip these greys.
     <View className="dark-surface" style={styles.veilHost}>
       <Animated.View
-        style={[styles.veil, { opacity: fade }]}
+        style={[styles.veil, { opacity: fade }, isLight && { backgroundColor: LIGHT_VEIL }]}
         accessible
         accessibilityRole="progressbar"
         accessibilityLabel={label}
         testID="signin-wait-veil"
       >
-        <ArrivalMarks look={look} picture={picture} name={arriving?.name || ''} opened={opened} />
-        {nameOn && arriving?.name ? (
+        {!isLight && <ArrivalMarks look={look} picture={picture} name={arriving?.name || ''} opened={opened} />}
+        {!isLight && nameOn && arriving?.name ? (
           <ArrivalName name={arriving.name} badge={arriving.badge} color="#ffffff" style={{ top: '50%', marginTop: FRAME / 2 + 12 }} />
         ) : null}
       </Animated.View>
@@ -585,6 +588,7 @@ type Session = {
  * swapping in under it is never seen; it clears as the picture flies.
  */
 export const SignInArrival: React.FC = () => {
+  const { isLight } = useAppTheme();
   const { isSignedIn, needsUsername } = useAuthState();
   const user = useUser();
   const { width, height } = useWindowDimensions();
@@ -752,8 +756,8 @@ export const SignInArrival: React.FC = () => {
   if (!session) return null;
   return (
     <View className="dark-surface" style={styles.arrival} pointerEvents="none" testID="signin-arrival">
-      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: VEIL, opacity: veil }]} />
-      <Animated.View style={[styles.frame, { opacity, transform: [...move.getTranslateTransform(), { scale }] }]}>
+      <Animated.View style={[StyleSheet.absoluteFill, { backgroundColor: isLight ? LIGHT_VEIL : VEIL, opacity: veil }]} />
+      {!isLight && <Animated.View style={[styles.frame, { opacity, transform: [...move.getTranslateTransform(), { scale }] }]}>
         <ArrivalMarks
           key={session.at}
           look={look}
@@ -764,8 +768,8 @@ export const SignInArrival: React.FC = () => {
           skipIntro={session.skipIntro}
           introElapsed={session.introElapsed}
         />
-      </Animated.View>
-      {name && opened ? (
+      </Animated.View>}
+      {!isLight && name && opened ? (
         // White on the veil, which is up for as long as the name shows.
         <ArrivalName name={name} badge={badge} color="#ffffff" style={{ opacity: nameOpacity, top: height / 2 + FRAME / 2 + 12 }} />
       ) : null}

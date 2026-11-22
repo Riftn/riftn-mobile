@@ -424,6 +424,7 @@
     "failed": "Kaydedilmedi. Tekrar dene."
   },
   "postVisibility": {
+    "self": "Yalnızca ben",
     "label": "Bunu kimler görebilir",
     "public": "Herkes",
     "followers": "Yalnızca takipçiler",
@@ -1784,6 +1785,9 @@
     "tokenAmount": "{{amount}} token"
   },
   "postOptions": {
+    "notInterestedHint": "Bu gönderiyi gizle, benzerlerini daha az gör",
+    "notInterestedDone": "Anlaşıldı. Bunun gibi daha az gönderi göreceksin.",
+    "notInterested": "İlgilenmiyorum",
     "embed": "Yerleştir",
     "copyEmbedCode": "Yerleştirme kodunu kopyala",
     "embedCodeCopied": "Yerleştirme kodu kopyalandı",
@@ -2511,6 +2515,7 @@
     },
     "tokenAmount": "{{amount}} token",
     "custom": {
+      "bioMention": "{{name}} seni biyografisinde etiketledi",
       "featureLikeNamed": "{{name}} “{{title}}” isteğinizi beğendi",
       "featureLike": "{{name}} isteğinizi beğendi",
       "featureCommentNamed": "{{name}} “{{title}}” isteğinize yorum yaptı",
@@ -4197,6 +4202,9 @@
     "yourFractions": "{{total}} kesrin {{count}} tanesine sahipsiniz"
   },
   "profileOptions": {
+    "bioTagRemoved": "Artık bu biyografide etiketli değilsin",
+    "removeBioTagHint": "Adın kalır, etiket kalkar",
+    "removeBioTag": "Beni biyografisinden çıkar",
     "copyRssFeed": "RSS akışı bağlantısını kopyala",
     "copyRssFeedHint": "Bu gönderileri herhangi bir akış okuyucuda takip edin",
     "copyProfileUrl": "Profil URL'sini kopyala",
@@ -4225,6 +4233,7 @@
     "copyLinkHint": "Bağlantıyı panoya kopyala",
     "copyAddressHint": "Cüzdan adresini panoya kopyala",
     "removeFollower": "Takipçiyi kaldır",
+    "removeFollowerHint": "{{name}} kişisini takipçilerinden çıkar",
     "reportHint": "Bu hesabı kuralları ihlal ettiği için bildir",
     "removeFollowerTitle": "Takipçi kaldırılsın mı?",
     "removeFollowerBody": "{{name}} takipçilerinden çıkarıldığı konusunda bilgilendirilmeyecek.",
@@ -5224,6 +5233,7 @@
     "resolveFailed": "Anlaşmazlık çözülemedi"
   },
   "usernames": {
+    "swap": {"start": "Değişimi başlat", "placeholder": "@diger_hesabin", "sent": "Gönderildi. @{{name}} hesabına geç ve onayla.", "waiting": "@{{to}} onayı bekleniyor. Bitirmek için o hesaba geç.", "done": "Değiştirildi. Artık @{{name}} oldun.", "decline": "Reddet", "accept": "Şimdi değiştir", "incoming": "@{{from}} değiştirmek istiyor: bu hesap @{{from}} olur, o hesap @{{to}} olur.", "body": "İki hesabın mı var? Kullanıcı adlarını tek adımda değiştir. Buradan başlat, sonra diğer hesaba geç ve onayla. İki ad da hiçbir an başkasının alabileceği şekilde boşta kalmaz.", "title": "Diğer hesabınla değiştir"},
     "subtitle": "Satılık kullanıcı adları, USD cinsinden",
     "browse": "Göz at",
     "sell": "Sat",
@@ -8176,6 +8186,16 @@
     "camera": "Kamera",
     "cameraOff": "Kamera kapalı",
     "flip": "Kamerayı çevir",
+    "background": "Arka plan",
+    "backgroundOff": "Kapalı",
+    "backgroundBlur": "Bulanık",
+    "backgroundNight": "Gece",
+    "backgroundOcean": "Okyanus",
+    "backgroundSunset": "Gün batımı",
+    "backgroundForest": "Orman",
+    "backgroundPhoto": "Fotoğrafın",
+    "backgroundFailed": "Arka plan efektleri bu cihazda çalışmıyor.",
+    "backgroundPhotoFailed": "Bu resim açılamadı.",
     "end": "Kapat",
     "minimize": "Küçült",
     "expand": "Genişlet",
@@ -17387,5 +17407,24 @@
   "chatLink": {
     "gone": "Bu mesaj silindi ya da açılamayacak kadar eski.",
     "notInChat": "Bu bağlantı, içinde olmadığın özel bir sohbete ait."
+  },
+  "notes": {
+    "add": "Not",
+    "yourNote": "Notun",
+    "shared": "Notun 24 saat boyunca görünür",
+    "failed": "Notun paylaşılamadı. Tekrar dene.",
+    "placeholder": "Bir düşünce paylaş…",
+    "removeGif": "GIF'i kaldır",
+    "removeSong": "Şarkıyı kaldır",
+    "placePlaceholder": "Neredesin?",
+    "removePlace": "Yeri kaldır",
+    "song": "Şarkı",
+    "place": "Yer",
+    "gifHost": "Notlar için GIF sekmesinden bir GIF seç.",
+    "who": "Seni takip edenler 24 saat boyunca görebilir.",
+    "delete": "Notu sil",
+    "share": "Paylaş",
+    "message": "Mesaj",
+    "title": "Notlar"
   }
 }

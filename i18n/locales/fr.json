@@ -421,6 +421,7 @@
     "failed": "Ça n'a pas été enregistré. Réessayez."
   },
   "postVisibility": {
+    "self": "Moi uniquement",
     "label": "Qui peut voir ceci",
     "public": "Tout le monde",
     "followers": "Abonnés uniquement",
@@ -1781,6 +1782,9 @@
     "tokenAmount": "{{amount}} jetons"
   },
   "postOptions": {
+    "notInterestedHint": "Masquer cette publication et en voir moins comme elle",
+    "notInterestedDone": "Compris. Vous verrez moins de publications comme celle-ci.",
+    "notInterested": "Pas intéressé",
     "embed": "Intégrer",
     "copyEmbedCode": "Copier le code d'intégration",
     "embedCodeCopied": "Code d'intégration copié",
@@ -2508,6 +2512,7 @@
     },
     "tokenAmount": "{{amount}} jetons",
     "custom": {
+      "bioMention": "{{name}} vous a identifié dans sa bio",
       "featureLikeNamed": "{{name}} a aimé votre demande de fonctionnalité « {{title}} »",
       "featureLike": "{{name}} a aimé votre demande de fonctionnalité",
       "featureCommentNamed": "{{name}} a commenté votre demande de fonctionnalité « {{title}} »",
@@ -4198,6 +4203,9 @@
     "yourFractions": "Vous détenez {{count}} fractions sur {{total}}"
   },
   "profileOptions": {
+    "bioTagRemoved": "Vous n'êtes plus identifié dans cette bio",
+    "removeBioTagHint": "Votre nom reste, sans l'identification",
+    "removeBioTag": "Me retirer de sa bio",
     "copyRssFeed": "Copier le lien du flux RSS",
     "copyRssFeedHint": "Suivez ces publications dans n'importe quel lecteur de flux",
     "copyProfileUrl": "Copier l'URL du profil",
@@ -4226,6 +4234,7 @@
     "copyLinkHint": "Copier le lien dans le presse-papiers",
     "copyAddressHint": "Copier l'adresse du portefeuille dans le presse-papiers",
     "removeFollower": "Retirer l'abonné",
+    "removeFollowerHint": "Retirer {{name}} de vos abonnés",
     "reportHint": "Signalez ce compte pour non-respect des règles",
     "removeFollowerTitle": "Retirer l'abonné ?",
     "removeFollowerBody": "{{name}} ne sera pas informé de son retrait de vos abonnés.",
@@ -5226,6 +5235,7 @@
     "resolveFailed": "Échec de la résolution du litige"
   },
   "usernames": {
+    "swap": {"start": "Lancer l'échange", "placeholder": "@votre_autre_compte", "sent": "Envoyé. Passez sur @{{name}} et acceptez.", "waiting": "En attente de @{{to}}. Passez sur ce compte pour terminer.", "done": "Échangé. Vous êtes maintenant @{{name}}.", "decline": "Refuser", "accept": "Échanger maintenant", "incoming": "@{{from}} veut échanger : ce compte devient @{{from}} et l'autre @{{to}}.", "body": "Deux comptes ? Échangez leurs noms d'utilisateur en une étape. Commencez ici, passez à l'autre compte et acceptez. Aucun nom n'est jamais libre pour quelqu'un d'autre.", "title": "Échanger avec votre autre compte"},
     "subtitle": "Pseudos à vendre, en USD",
     "browse": "Parcourir",
     "sell": "Vendre",
@@ -8178,6 +8188,16 @@
     "camera": "Caméra",
     "cameraOff": "Caméra éteinte",
     "flip": "Caméra à bascule",
+    "background": "Arrière-plan",
+    "backgroundOff": "Aucun",
+    "backgroundBlur": "Flou",
+    "backgroundNight": "Nuit",
+    "backgroundOcean": "Océan",
+    "backgroundSunset": "Coucher de soleil",
+    "backgroundForest": "Forêt",
+    "backgroundPhoto": "Ta photo",
+    "backgroundFailed": "Les effets d'arrière-plan ne fonctionnent pas sur cet appareil.",
+    "backgroundPhotoFailed": "Impossible d'ouvrir cette image.",
     "end": "Raccrocher",
     "minimize": "Minimiser",
     "expand": "Développer",
@@ -17389,5 +17409,24 @@
   "chatLink": {
     "gone": "Ce message a été supprimé, ou il est trop ancien pour être ouvert.",
     "notInChat": "Ce lien mène à une discussion privée dont vous ne faites pas partie."
+  },
+  "notes": {
+    "add": "Note",
+    "yourNote": "Ta note",
+    "shared": "Ta note est visible pendant 24 heures",
+    "failed": "Ta note n'a pas été publiée. Réessaie.",
+    "placeholder": "Partage une pensée…",
+    "removeGif": "Retirer le GIF",
+    "removeSong": "Retirer la chanson",
+    "placePlaceholder": "Où es-tu ?",
+    "removePlace": "Retirer le lieu",
+    "song": "Chanson",
+    "place": "Lieu",
+    "gifHost": "Choisis un GIF dans l'onglet GIF pour les notes.",
+    "who": "Les personnes qui te suivent peuvent la voir pendant 24 heures.",
+    "delete": "Supprimer la note",
+    "share": "Partager",
+    "message": "Message",
+    "title": "Notes"
   }
 }
