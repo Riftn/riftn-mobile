@@ -62,7 +62,7 @@ import { useAppPrefs } from "../hooks/useAppPrefs";
 import { ScreenNames } from "../navigation/ScreenNames";
 import { getIsLooping, useMediaLooping, getVolume, setVolume as persistVolume, useMediaVolume } from '../libs/video-preferences';
 import { applyVideoVolume } from '../libs/dub-mix';
-import { feedVolumeResponder } from '../libs/feed-volume-responder';
+import { useFeedVolumeResponder } from '../libs/feed-volume-responder';
 import VolumeLevelTrack from '../components/VideoPlayerCore/VolumeLevelTrack';
 import { toStoryboard } from '../libs/storyboard';
 import StoryboardPreview from '../components/VideoPlayerCore/StoryboardPreview';
@@ -425,25 +425,19 @@ const FullscreenVideoScreen = () => {
     }
   }, [player, isMuted, stopPlayback]);
 
-  const volumePanResponder = useMemo(
-    () =>
-      PanResponder.create(
-        feedVolumeResponder({
-          onHoldStart: () => {
-            if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
-            setVolumeAdjusting(true);
-            return isMuted ? 0 : volumeRef.current;
-          },
-          onVolume: applyVolume,
-          onTap: handleToggleMute,
-          onEnd: () => {
-            setVolumeAdjusting(false);
-            resetControlsTimer();
-          },
-        }),
-      ),
-    [applyVolume, handleToggleMute, isMuted, resetControlsTimer],
-  );
+  const volumePanResponder = useFeedVolumeResponder({
+    onHoldStart: () => {
+      if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
+      setVolumeAdjusting(true);
+      return isMuted ? 0 : volumeRef.current;
+    },
+    onVolume: applyVolume,
+    onTap: handleToggleMute,
+    onEnd: () => {
+      setVolumeAdjusting(false);
+      resetControlsTimer();
+    },
+  });
 
   // Minimise always leaves full screen. It used to turn a sideways clip
   // upright and stay in full screen, which read as the screen flipping.

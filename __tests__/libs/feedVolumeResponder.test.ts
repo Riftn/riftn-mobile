@@ -1,8 +1,13 @@
+import { renderHook } from '@testing-library/react-native';
 import {
   feedVolumeResponder,
+  useFeedVolumeResponder,
   VOLUME_HOLD_MS,
   VOLUME_TRAVEL_PX,
 } from '../../libs/feed-volume-responder';
+
+// The shared setup stubs react-native; the hook only needs PanResponder.create.
+jest.mock('react-native', () => ({ PanResponder: { create: (config: object) => ({ panHandlers: config }) } }));
 
 const gesture = (dx: number, dy: number) => ({ dx, dy }) as any;
 const event = {} as any;
@@ -102,4 +107,22 @@ describe('feed volume responder', () => {
     expect(h.levels).toEqual([]);
   });
 
+});
+
+describe('useFeedVolumeResponder', () => {
+  it('keeps one responder when the callbacks change, so reaching mute mid-drag does not freeze the drag', () => {
+    const make = (muted: boolean) => ({
+      onHoldStart: () => (muted ? 0 : 0.5),
+      onVolume: () => {},
+      onTap: () => {},
+      onEnd: () => {},
+    });
+    const { result, rerender } = renderHook(
+      (props: { muted: boolean }) => useFeedVolumeResponder(make(props.muted)),
+      { initialProps: { muted: false } },
+    );
+    const first = result.current;
+    rerender({ muted: true });
+    expect(result.current).toBe(first);
+  });
 });
