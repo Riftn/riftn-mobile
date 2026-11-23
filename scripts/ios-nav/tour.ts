@@ -2334,7 +2334,7 @@ async function runMoments(): Promise<void> {
     };
   });
   queryClient.setQueriesData({ queryKey: ["story-shelf"] }, { shelf, signedIn: false });
-  queryClient.setQueryData(["story-shelf", ""], { shelf, signedIn: false });
+  queryClient.setQueryData(["story-shelf", "", false], { shelf, signedIn: false, askedHosts: "" });
   await sleep(4000);
   await shot("moments-0-shelf");
   await sleep(3000);

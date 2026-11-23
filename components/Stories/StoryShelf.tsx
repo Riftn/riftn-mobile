@@ -1,5 +1,5 @@
 /** Live broadcasts and Stories share a horizontal shelf at the top of Home. */
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GestureDetector } from "react-native-gesture-handler";
 import { Image } from "expo-image";
@@ -31,21 +31,46 @@ const FACE_R = 7;
 /** Face and corner chips sit this far in from the tile edge. */
 const CHIP_INSET = 7;
 
-/** Moments on the shelf, refreshed every minute while Home is up. */
+type ShelfData = Awaited<ReturnType<typeof getStoryShelf>> & { askedHosts?: string };
+
+/**
+ * Moments on the shelf, refreshed every minute while Home is up.
+ *
+ * One cache entry per viewer, not one per live list: the live list arrives
+ * after the feed (stages load on mount), and keying on it started a second,
+ * empty request that hid the row and dropped it in late, pushing the first
+ * post down. Live hosts only ask which faces may show as Live tiles, so a new
+ * list refetches in place while the row stays up. The single entry is also
+ * what the saved startup cache holds, so a launch paints the shelf with the
+ * feed from the first frame.
+ */
 function useStoryShelf(me: string, liveHosts: string, canSeeMature: boolean, enabled: boolean) {
-  return useQuery({
-    queryKey: ["story-shelf", me, canSeeMature, liveHosts],
-    queryFn: () => getStoryShelf(!!me, liveHosts),
+  const hostsRef = useRef(liveHosts);
+  hostsRef.current = liveHosts;
+  const query = useQuery<ShelfData>({
+    queryKey: ["story-shelf", me, canSeeMature],
+    queryFn: async () => {
+      const askedHosts = hostsRef.current;
+      return { ...(await getStoryShelf(!!me, askedHosts)), askedHosts };
+    },
     enabled,
+    // Signing in or a mature-content switch changes the key: keep the row up
+    // while the new shelf loads, minus a "Your day" that was someone else's.
+    placeholderData: (previous, previousQuery) =>
+      !previous || previousQuery?.queryKey[1] === me ? previous : { ...previous, shelf: previous.shelf.filter((entry) => !entry.own) },
     staleTime: 30_000,
     refetchInterval: 60_000,
   });
+  const { data, isFetching, isPlaceholderData, refetch } = query;
+  useEffect(() => {
+    if (enabled && data && !isFetching && !isPlaceholderData && (data.askedHosts ?? "") !== liveHosts) void refetch?.();
+  }, [enabled, data, isFetching, isPlaceholderData, liveHosts, refetch]);
+  return query;
 }
 
-function StoryShelf() {
-  const { t } = useTranslation();
+/** Everything the shelf reads, shared by the row and its early start on Home. */
+function useShelfState() {
   const user = useUser();
-  const { requireAuth } = useAuthActions();
   const me = (user?.walletAddress || user?.address || "").toLowerCase();
   const { items: live, open: openLive } = useLiveNowItems();
   const kidsMode = useKidsModeLock();
@@ -53,6 +78,24 @@ function StoryShelf() {
   const liveHosts = [...new Set(live.map(item => (item.wallet || "").toLowerCase()).filter(Boolean))].sort().slice(0, 100).join(",");
   const { storiesEnabled } = useStoriesEnabled();
   const { data, isLoading } = useStoryShelf(me, liveHosts, canSeeMature, storiesEnabled || !!liveHosts);
+  return { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading };
+}
+
+/**
+ * The shelf sits in the feed's first row, which only exists once the feed has
+ * its first page, so on its own it started loading after the feed had already
+ * painted. Home mounts this at once, so Moments load alongside the first feed
+ * page and are ready when the row is drawn.
+ */
+export function StoryShelfWarm() {
+  useShelfState();
+  return null;
+}
+
+function StoryShelf() {
+  const { t } = useTranslation();
+  const { requireAuth } = useAuthActions();
+  const { user, me, live, openLive, canSeeMature, storiesEnabled, data, isLoading } = useShelfState();
   const eligibleLive = live.filter(item => data?.liveHosts?.includes((item.wallet || "").toLowerCase()));
   const { pending } = useSnapshot(storiesState);
   const { isLight } = useAppTheme();
@@ -77,7 +120,9 @@ function StoryShelf() {
   );
   const add = useCallback(() => requireAuth(() => openStoryCreator()), [requireAuth]);
 
-  if ((!storiesEnabled || (!me && others.length === 0)) && eligibleLive.length === 0) return null;
+  // While the first load is still out the row keeps its seat with loading
+  // tiles, signed in or not, so the feed under it never jumps down.
+  if ((!storiesEnabled || (!me && others.length === 0 && !isLoading)) && eligibleLive.length === 0) return null;
 
   const shelfScroll = (
     <ScrollView
@@ -101,7 +146,7 @@ function StoryShelf() {
       {eligibleLive.map((item) => (
         <LiveTile key={`${item.kind}-${item.id}`} item={item} onOpen={() => openLive(item)} />
       ))}
-      {storiesEnabled && me && isLoading ? [0, 1, 2, 3].map((index) => (
+      {storiesEnabled && isLoading ? [0, 1, 2, 3].map((index) => (
         <View key={`loading-${index}`} style={[styles.tile, styles.loadingTile, isLight && styles.loadingTileLight]}>
           <View style={[styles.loadingFace, isLight && styles.loadingBarLight]} />
           <View style={[styles.loadingBar, isLight && styles.loadingBarLight]} />
