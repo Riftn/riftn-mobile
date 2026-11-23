@@ -10,9 +10,11 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
   useWindowDimensions,
+  StyleSheet,
 } from "react-native";
 import { FlashList, type FlashListRef, type ListRenderItem, type ViewToken } from "@shopify/flash-list";
 import { DeHubLoader } from "../DeHubLoader";
+import { useProfilePaneScroll } from "../Profile/profilePaneScroll";
 import { DeHubRefreshControl, DeHubRefreshMark } from "./DeHubRefreshControl";
 import Animated from "react-native-reanimated";
 import { feedRenderBudget } from "../../libs/feed-render-budget";
@@ -568,11 +570,18 @@ const InfiniteFeedBase: React.FC<
   // Callers pass their style as an inline literal. Every new prop on the list
   // re-renders it, and under FlashList that re-measures every mounted cell, so
   // the style is held until its contents actually change.
+  // Inside a profile tab: where the list starts and how tall it at least is,
+  // so switching tabs never moves the profile (profilePaneScroll).
+  const pane = useProfilePaneScroll();
   const contentStyleKey = JSON.stringify(contentContainerStyle ?? null);
+  const minContentHeight = pane.minHeightStyle?.minHeight ?? 0;
   const listContentStyle = useMemo(
-    () => contentContainerStyle || { paddingBottom: 80 },
+    () => {
+      const base = contentContainerStyle || { paddingBottom: 80 };
+      return minContentHeight > 0 ? { ...StyleSheet.flatten(base), minHeight: minContentHeight } : base;
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [contentStyleKey],
+    [contentStyleKey, minContentHeight],
   );
 
   const refreshControl = useMemo(
@@ -625,6 +634,7 @@ const InfiniteFeedBase: React.FC<
         drawDistance={drawDistance}
         maxItemsInRecyclePool={MAX_POOLED_CELLS}
         contentContainerStyle={listContentStyle}
+        contentOffset={pane.contentOffset}
         scrollEnabled={scrollEnabled ?? true}
         onScroll={onScroll ?? (enableBackToTop ? handleScroll : undefined)}
         // See InfiniteVideoFeed: 16 is below Android's 17ms throttle floor.

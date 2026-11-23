@@ -55,6 +55,7 @@ import ProfileTabBar, { type ProfileTabItem } from "../Profile/ProfileTabBar";
 import ProfileScrollViewport from "../Profile/ProfileScrollViewport";
 import ProfilePinnedBar, { type ProfilePinnedIdentity } from "../Profile/ProfilePinnedBar";
 import ProfileEmptyState from "../Profile/ProfileEmptyState";
+import { PaneAnimatedFlatList, PaneAnimatedScrollView, ProfilePaneScrollContext, profileTabTarget, useProfilePaneScrolls } from "../Profile/profilePaneScroll";
 import ProfileContentToolbar from "../Profile/ProfileContentToolbar";
 import ProfileArrangeSheet from "../Profile/ProfileArrangeSheet";
 import ProfileFilterDrawer from "../Profile/ProfileFilterDrawer";
@@ -458,7 +459,10 @@ const UserProfileBottomContentTabsInner: React.FC<
   const handleHeaderLayout = useCallback((e: LayoutChangeEvent) => {
     // A kept tab's copy of the header measures 0 while that tab is hidden.
     const height = e.nativeEvent.layout.height;
-    if (height > 0) headerHeightShared.value = height;
+    if (height > 0) {
+      headerHeightShared.value = height;
+      setHeaderH(Math.round(height));
+    }
   }, [headerHeightShared]);
 
   // Sticky bar + back-to-top, entirely on the UI thread. This used to be a
@@ -505,27 +509,28 @@ const UserProfileBottomContentTabsInner: React.FC<
   // The header stays where it is on a switch: above the pinned bar the new tab
   // opens at the same height; once the bar is pinned it stays pinned and the
   // new tab starts right under it (or where it was left, if further down).
+  // The spot is handed to the tab's list before it shows (profilePaneScroll),
+  // so it is drawn there from its first frame.
+  const [headerH, setHeaderH] = useState(0);
+  const [restores, setRestores] = useState<Record<string, { y: number; seq: number }>>({});
+  useEffect(() => { setRestores({}); }, [address]);
   const handleTabChange = useCallback(
     (tab: ContentTab) => {
       if (tab === activeTab) return;
       if (isFullScreen) {
         const offsets = tabOffsets.value;
-        const current = offsets[activeTab] ?? 0;
         const pinAt = headerHeightShared.value > 0 ? headerHeightShared.value + PROFILE_TABS_TOP_GAP : 0;
-        const target = pinAt > 0 && current >= pinAt - 4 ? Math.max(offsets[tab] ?? pinAt, pinAt) : current;
-        let tries = 0;
-        const place = () => {
-          const list = listRefFor(tab).current;
-          if (list) list.scrollToOffset({ offset: target, animated: false });
-          // A fresh tab may still be loading and too short to reach the spot; try again for a moment.
-          if (tries++ < 12 && Math.abs((tabOffsets.value[tab] ?? 0) - target) > 2) setTimeout(place, 50);
-        };
-        if (target > 0) requestAnimationFrame(place);
+        const target = profileTabTarget(offsets[activeTab] ?? 0, offsets[tab], pinAt);
+        tabOffsets.value = { ...offsets, [tab]: target };
+        activeTabShared.value = tab;
+        setRestores((prev) => ({ ...prev, [tab]: { y: target, seq: (prev[tab]?.seq ?? 0) + 1 } }));
       }
       setActiveTab(tab);
     },
-    [activeTab, isFullScreen, tabOffsets, headerHeightShared, listRefFor],
+    [activeTab, isFullScreen, tabOffsets, headerHeightShared, activeTabShared],
   );
+  const paneMinHeight = isFullScreen && headerH > 0 ? headerH + PROFILE_TABS_TOP_GAP + Dimensions.get("window").height : 0;
+  const paneScroll = useProfilePaneScrolls((key) => tabOffsets.value[key] ?? 0, restores, paneMinHeight);
 
   // Clean underline tab bar — horizontally scrollable so all content tabs fit.
   const TabBar = useMemo(
@@ -711,19 +716,19 @@ const UserProfileBottomContentTabsInner: React.FC<
         return (
           <View style={{ flex: 1, marginTop: mt }}>
             {imagesLoading ? (
-              <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16} scrollEnabled={scrollEnabled} showsVerticalScrollIndicator={false}>
+              <PaneAnimatedScrollView onScroll={scrollHandler} scrollEventThrottle={16} scrollEnabled={scrollEnabled} showsVerticalScrollIndicator={false}>
                 {isFullScreen && fullScreenListHeader}
                 <View style={{ alignItems: "center", paddingVertical: 40 }}><ActivityIndicator color="#fff" /></View>
-              </Animated.ScrollView>
+              </PaneAnimatedScrollView>
             ) : images.length === 0 ? (
-              <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16} scrollEnabled={scrollEnabled} showsVerticalScrollIndicator={false}>
+              <PaneAnimatedScrollView onScroll={scrollHandler} scrollEventThrottle={16} scrollEnabled={scrollEnabled} showsVerticalScrollIndicator={false}>
                 {isFullScreen && fullScreenListHeader}
               <ProfileEmptyState
                 kind="images"
                 title={t("profile.noImages")}
                 subtitle={t("profile.noImagesSub")}
               />
-              </Animated.ScrollView>
+              </PaneAnimatedScrollView>
             ) : (
               // onScroll was previously omitted here, so this tab alone never
               // drove the sticky bar / back-to-top button.
@@ -743,21 +748,21 @@ const UserProfileBottomContentTabsInner: React.FC<
         return (
           <View style={{ flex: 1, marginTop: mt }}>
             {plansLoading ? (
-              <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16} scrollEnabled={scrollEnabled} showsVerticalScrollIndicator={false}>
+              <PaneAnimatedScrollView onScroll={scrollHandler} scrollEventThrottle={16} scrollEnabled={scrollEnabled} showsVerticalScrollIndicator={false}>
                 {isFullScreen && fullScreenListHeader}
                 <View style={{ alignItems: "center", paddingVertical: 40 }}><ActivityIndicator color="#fff" /></View>
-              </Animated.ScrollView>
+              </PaneAnimatedScrollView>
             ) : plans.length === 0 ? (
-              <Animated.ScrollView onScroll={scrollHandler} scrollEventThrottle={16} scrollEnabled={scrollEnabled} showsVerticalScrollIndicator={false}>
+              <PaneAnimatedScrollView onScroll={scrollHandler} scrollEventThrottle={16} scrollEnabled={scrollEnabled} showsVerticalScrollIndicator={false}>
                 {isFullScreen && fullScreenListHeader}
               <ProfileEmptyState
                 kind="subscribers"
                 title={t("profile.noPlans")}
                 subtitle={t("profile.noPlansSub")}
               />
-              </Animated.ScrollView>
+              </PaneAnimatedScrollView>
             ) : (
-              <Animated.FlatList
+              <PaneAnimatedFlatList
                 ref={listRefFor(tab)}
                 ListHeaderComponent={isFullScreen ? fullScreenListHeader : undefined}
                 data={plans}
@@ -854,9 +859,11 @@ const UserProfileBottomContentTabsInner: React.FC<
     >
       {!isFullScreen && TabBar}
       {renderScrollViewport(paneTabs.map((tab) => (
-        <Activity key={`${address}:${tab}`} mode={tab === activeTab ? "visible" : "hidden"}>
-          {renderTabContent(tab)}
-        </Activity>
+        <ProfilePaneScrollContext.Provider key={`${address}:${tab}`} value={isFullScreen ? paneScroll(tab) : null}>
+          <Activity mode={tab === activeTab ? "visible" : "hidden"}>
+            {renderTabContent(tab)}
+          </Activity>
+        </ProfilePaneScrollContext.Provider>
       )))}
 
       {isFullScreen && (

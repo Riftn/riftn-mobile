@@ -23,6 +23,7 @@ import { padGrid } from "../Fractions/fractionFormat";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import { useUserProfileSheet } from "../../context/UserProfileSheetContext";
 import { useFractionPortfolio, livePositions, type PortfolioPosition } from "../../hooks/useFractionPortfolio";
+import { PaneAnimatedFlatList, PaneAnimatedScrollView } from "./profilePaneScroll";
 
 interface FractionsRouteProps {
   address?: string;
@@ -73,18 +74,18 @@ const FractionsRoute: React.FC<FractionsRouteProps> = ({
 
   if (isLoading) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={styles.center}>
           <DeHubLoader size={56} />
         </View>
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   if (isError) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={styles.center}>
           <Icon name="CircleAlert" size={40} color="#4B5563" />
@@ -93,13 +94,13 @@ const FractionsRoute: React.FC<FractionsRouteProps> = ({
             <Text style={styles.retryText}>{t("common.retry")}</Text>
           </TouchableOpacity>
         </View>
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   if (!address || everything.length === 0) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <ProfileEmptyState
           kind="fractions"
@@ -111,7 +112,7 @@ const FractionsRoute: React.FC<FractionsRouteProps> = ({
             <Text style={styles.retryText}>{t("fractions.browseTheMarket")}</Text>
           </TouchableOpacity>
         )}
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
@@ -119,7 +120,7 @@ const FractionsRoute: React.FC<FractionsRouteProps> = ({
 
   return (
     <View style={{ flex: 1 }}>
-      <Animated.FlatList
+      <PaneAnimatedFlatList
         ref={listRef}
         onScroll={onScroll}
         scrollEventThrottle={16}

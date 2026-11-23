@@ -9,6 +9,7 @@ import type { UnifiedFeedItem } from "../../services/feed.unified.service";
 import { useFeedCardVisibility } from "../../hooks/useFeedCardVisibility";
 import { useCinematicPhone } from "../../hooks/useCinematicPhone";
 import ProfileEmptyState from "./ProfileEmptyState";
+import { PaneAnimatedFlatList, PaneAnimatedScrollView } from "./profilePaneScroll";
 
 interface PinnedRouteProps {
   address?: string;
@@ -43,18 +44,18 @@ const PinnedRoute: React.FC<PinnedRouteProps> = ({ address, listRef, onScroll, l
 
   if (loading) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={{ alignItems: "center", justifyContent: "center", paddingVertical: 40 }}>
           <ActivityIndicator color="#fff" />
         </View>
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   if (error) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={{ alignItems: "center", justifyContent: "center", paddingVertical: 40, paddingHorizontal: 24, gap: 12 }}>
           <Icon name="WifiOff" size={48} color="#808089" />
@@ -67,25 +68,25 @@ const PinnedRoute: React.FC<PinnedRouteProps> = ({ address, listRef, onScroll, l
             <Text style={{ color: "#FFFFFF", fontSize: 14, fontWeight: "500" }}>{t("common.retry")}</Text>
           </Pressable>
         </View>
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   if (items.length === 0) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <ProfileEmptyState
           kind="pinned"
           title={t("profile.noPinnedPosts")}
           subtitle={t("profile.noPinnedPostsSub")}
         />
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   return (
-    <Animated.FlatList
+    <PaneAnimatedFlatList
       ref={listRef}
       data={items}
       keyExtractor={keyExtractor}

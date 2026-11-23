@@ -16,6 +16,7 @@ import {
   getPublicPlaylistItems,
   type PublicPlaylist,
 } from "../../services/bookmark.service";
+import { PaneAnimatedFlatList, PaneAnimatedScrollView } from "./profilePaneScroll";
 
 /**
  * Playlists tab — the profile's public bookmark folders.
@@ -174,7 +175,7 @@ const PlaylistsRoute: React.FC<PlaylistsRouteProps> = ({ address, isOwnProfile =
 
     if (itemsLoading || itemsError || items.length === 0) {
       return (
-        <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+        <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
           {header}
           {itemsLoading ? (
             <View style={styles.center}><ActivityIndicator color="#fff" /></View>
@@ -185,12 +186,12 @@ const PlaylistsRoute: React.FC<PlaylistsRouteProps> = ({ address, isOwnProfile =
               subtitle={itemsError ? t("bookmarks.playlist.unavailable") : t("bookmarks.playlist.noPosts")}
             />
           )}
-        </Animated.ScrollView>
+        </PaneAnimatedScrollView>
       );
     }
 
     return (
-      <Animated.FlatList
+      <PaneAnimatedFlatList
         // Keyed so closing the playlist mounts the grid below as a new list.
         // Reused in place, FlatList throws on the numColumns and
         // onViewableItemsChanged props changing under it.
@@ -233,16 +234,16 @@ const PlaylistsRoute: React.FC<PlaylistsRouteProps> = ({ address, isOwnProfile =
   // ── Playlist grid ──────────────────────────────────────────────────────
   if (loading) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={styles.center}><ActivityIndicator color="#fff" /></View>
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   if (error) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={[styles.center, { paddingHorizontal: 24, gap: 12 }]}>
           <Icon name="WifiOff" size={48} color="#808089" />
@@ -251,13 +252,13 @@ const PlaylistsRoute: React.FC<PlaylistsRouteProps> = ({ address, isOwnProfile =
             <Text style={styles.retryText}>{t("common.retry")}</Text>
           </Pressable>
         </View>
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   if (playlists.length === 0) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <ProfileEmptyState
           kind="playlists"
@@ -279,12 +280,12 @@ const PlaylistsRoute: React.FC<PlaylistsRouteProps> = ({ address, isOwnProfile =
             </Pressable>
           </View>
         )}
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   return (
-    <Animated.FlatList
+    <PaneAnimatedFlatList
       ref={listRef}
       data={playlists}
       keyExtractor={(item) => item.id}

@@ -26,12 +26,31 @@ describe("profile tabs switch without rebuilding", () => {
   it("ignores the zero measurements of hidden header copies", () => {
     expect(collapse).toContain("if (bottom > 0) identityBottom.value = bottom");
     expect(collapse).toContain("if (bottom > 0) actionsBottom.value = bottom");
-    expect(visitor).toContain("if (height > 0) headerHeightShared.value = height");
-    expect(own).toContain("if (height > 0) headerHeight.value = height");
+    expect(visitor).toMatch(/if \(height > 0\) \{\s*headerHeightShared\.value = height;/);
+    expect(own).toMatch(/if \(height > 0\) \{ headerHeight\.value = height;/);
   });
 
   it("keeps the images grid when coming back to the same query", () => {
     expect(visitor).toContain("imagesQueryRef.current === query");
+  });
+});
+
+describe("profile tab switch keeps the header still", () => {
+  const { profileTabTarget } = require("../../components/Profile/profileTabTarget");
+  it("opens the new tab at the same height while the header is in view", () => {
+    expect(profileTabTarget(180, 900, 500)).toBe(180);
+    expect(profileTabTarget(0, 700, 500)).toBe(0);
+  });
+  it("keeps the bar pinned once it is pinned, at the tab's own spot when lower", () => {
+    expect(profileTabTarget(1400, undefined, 500)).toBe(500);
+    expect(profileTabTarget(1400, 200, 500)).toBe(500);
+    expect(profileTabTarget(1400, 2600, 500)).toBe(2600);
+  });
+  it("places every tab's lists through the pane context on both profiles", () => {
+    for (const source of [visitor, own]) {
+      expect(source).toContain("ProfilePaneScrollContext.Provider");
+      expect(source).toContain("profileTabTarget(");
+    }
   });
 });
 

@@ -26,6 +26,7 @@ import { getUserVideos, getUserLiveVideos, getLikedNFTs } from "../../services/u
 import { GetNFTsResult } from "../../services/nft.service";
 import ProfileEmptyState from "../Profile/ProfileEmptyState";
 import { isTabListFresh, readTabList, writeTabList } from "../../libs/tab-list-cache";
+import { PaneAnimatedFlatList } from "../Profile/profilePaneScroll";
 
 interface CompactVideoInfiniteListProps {
   address: string; // user address to fetch videos for
@@ -230,7 +231,7 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
 
   return (
     <View className="flex-1">
-      <Animated.FlatList
+      <PaneAnimatedFlatList
         key={grid ? "grid" : "list"}
         numColumns={grid ? 3 : 1}
         ref={listRef}

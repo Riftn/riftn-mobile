@@ -11,6 +11,7 @@ import { getImageUrlApiSimple } from "../../libs/misc";
 import { useAppTheme } from "../../context/ThemeContext";
 import { useCinematicPhone } from "../../hooks/useCinematicPhone";
 import { TAB_BAR_CONTENT_INSET } from "../../navigation/tabBarLayout";
+import { PaneAnimatedFlatList } from "./profilePaneScroll";
 
 // Tile sizes follow from the outer padding and the gap, so each theme gets its
 // own set: the system grid sits 8pt in from each edge with 2pt gutters; the
@@ -177,7 +178,7 @@ const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, on
 
   if (viewMode === "list") {
     return (
-      <Animated.FlatList
+      <PaneAnimatedFlatList
         key="image-list"
         ref={listRef}
         data={images}
@@ -208,7 +209,7 @@ const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, on
 
   if (images.length < 4) {
     return (
-      <Animated.FlatList
+      <PaneAnimatedFlatList
         ref={listRef}
         data={[]}
         keyExtractor={() => "x"}
@@ -241,7 +242,7 @@ const ProfileImageGrid: React.FC<ProfileImageGridProps> = ({ images, listRef, on
   }
 
   return (
-    <Animated.FlatList
+    <PaneAnimatedFlatList
         ref={listRef}
       data={rows}
       keyExtractor={keyExtractor}
