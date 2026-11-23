@@ -35,9 +35,11 @@ interface Props {
   addReaction: (id: string, emoji: string) => void;
   removeReaction: (id: string, emoji: string) => void;
   deleteMessage: (id: string) => void;
+  /** Platform moderators can only be timed out or banned by a super moderator. */
+  canModerateUser?: (address?: string | null) => boolean;
 }
 
-export default function ProducerChatHold({ held, onClose, me, tokenId, reactionsOf, addReaction, removeReaction, deleteMessage }: Props) {
+export default function ProducerChatHold({ held, onClose, me, tokenId, reactionsOf, addReaction, removeReaction, deleteMessage, canModerateUser }: Props) {
   const { t } = useTranslation();
   const [moreFor, setMoreFor] = useState<string | null>(null);
   const [reactorsFor, setReactorsFor] = useState<string | null>(null);
@@ -67,7 +69,7 @@ export default function ProducerChatHold({ held, onClose, me, tokenId, reactions
   const tiles: HoldTile[] = [];
   if (held && id) {
     if (text) tiles.push({ key: "copy", icon: "Copy", label: t("common.copy"), onPress: () => { copyToClipboard(text); onClose(); } });
-    if (address && address !== me && tokenId != null) tiles.push({
+    if (address && address !== me && tokenId != null && (canModerateUser?.(address) ?? true)) tiles.push({
       key: "moderate", icon: "ShieldCheck", label: t("liveChatModeration.title"),
       onPress: () => after(() => setModFor({ address, name })),
     });
