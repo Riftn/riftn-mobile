@@ -8770,6 +8770,7 @@
     "streamKey": "Clave de retransmisión",
     "ingestUrl": "URL de ingesta",
     "encoderPermanentHint": "Esta clave nunca cambia. Configure su codificador una vez: la próxima vez solo presione Iniciar allí y Riftn creará la publicación para usted.",
+    "encoderSettingsTip": "Para que tu directo se abra rápido para los espectadores, pon el Intervalo de fotogramas clave (Keyframe Interval) en 2 segundos en tu codificador (OBS: Ajustes → Salida) y los B-frames en 0 si tiene esa opción. Si lo dejas en automático, los espectadores pueden esperar hasta 8 segundos para ver la imagen.",
     "externalLiveTitle": "TRANSMISIÓN DESDE UN DISPOSITIVO EXTERNO",
     "externalTitle": "Modo de transmisión externa",
     "externalLiveHint": "Tu transmisión se transmite en directo a través de un software externo. La cámara de la app está desactivada.",
