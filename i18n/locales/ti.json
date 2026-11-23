@@ -17260,5 +17260,8 @@
     "promptCatchUp": "{{handle}} ኣብዚ ቀረባ እዋን እንታይ ከም ዝለጠፈ ንገረኒ",
     "promptMessage": "ን{{handle}} መልእኽቲ ክጽሕፍ ሓግዘኒ",
     "promptAbout": "ብዛዕባ {{handle}}፦ {{question}}"
+  },
+  "notes": {
+    "replyTo": "ን{{name}}… መልሲ ሃብ"
   }
 }

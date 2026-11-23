@@ -10319,7 +10319,9 @@
     "hereNow": "Eto",
     "nobodyYet": "Tsy nisy na dia iray aza.",
     "startedAgo": "Nanomboka {{time}}",
-    "rotate": "Efijery"
+    "rotate": "Efijery",
+    "bannedHere": "Voarara tsy hiresaka amin’ity fandefasana mivantana ity ianao.",
+    "timedOutHere": "Tsy afaka mandray anjara amin’ity chat ity ianao amin’izao fotoana izao."
   },
   "search": {
     "endOfResults": "Faran'ny valiny",

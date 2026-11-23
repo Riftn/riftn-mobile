@@ -10366,7 +10366,9 @@
     "mostActive": "Am aktivsten",
     "hereNow": "Jetzt hier",
     "nobodyYet": "Noch niemand",
-    "rotate": "Bildschirm drehen"
+    "rotate": "Bildschirm drehen",
+    "bannedHere": "Du darfst in diesem Livestream nicht mehr chatten.",
+    "timedOutHere": "Du bist vorerst von diesem Chat ausgeschlossen."
   },
   "search": {
     "endOfResults": "Ende der Ergebnisse",

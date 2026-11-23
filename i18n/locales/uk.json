@@ -17762,5 +17762,8 @@
     "promptCatchUp": "Розкажи, що {{handle}} публікував останнім часом",
     "promptMessage": "Допоможи мені написати повідомлення для {{handle}}",
     "promptAbout": "Про {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Відповісти {{name}}…"
   }
 }

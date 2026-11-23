@@ -17366,5 +17366,8 @@
     "promptCatchUp": "Cập nhật cho tôi những gì {{handle}} đã đăng gần đây",
     "promptMessage": "Giúp tôi viết tin nhắn gửi {{handle}}",
     "promptAbout": "Về {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Trả lời {{name}}…"
   }
 }

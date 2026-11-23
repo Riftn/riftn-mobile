@@ -17460,5 +17460,8 @@
     "promptCatchUp": "Ibalita mo sa akin ang mga pinost ni {{handle}} kamakailan",
     "promptMessage": "Tulungan mo akong sumulat ng mensahe kay {{handle}}",
     "promptAbout": "Tungkol kay {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Sumagot kay {{name}}…"
   }
 }

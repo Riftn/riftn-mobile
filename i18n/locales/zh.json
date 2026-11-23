@@ -17284,5 +17284,8 @@
     "promptCatchUp": "告诉我{{handle}}最近发了什么",
     "promptMessage": "帮我给{{handle}}写一条消息",
     "promptAbout": "关于{{handle}}：{{question}}"
+  },
+  "notes": {
+    "replyTo": "回复 {{name}}…"
   }
 }

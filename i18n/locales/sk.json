@@ -10402,7 +10402,9 @@
     "mostActive": "Najaktívnejšie",
     "hereNow": "Tu a teraz",
     "nobodyYet": "Zatiaľ nikto",
-    "rotate": "Otočiť obrazovku"
+    "rotate": "Otočiť obrazovku",
+    "bannedHere": "Ste ste zakázaní na chatovaní v tomto živom streamu.",
+    "timedOutHere": "Steľový časový limit pre tento chat bol pre vás dočasne nastavený."
   },
   "search": {
     "endOfResults": "Koniec výsledkov",
@@ -17421,5 +17423,8 @@
     "promptCatchUp": "Zhrň mi, čo {{handle}} v poslednom čase zverejnil",
     "promptMessage": "Pomôž mi napísať správu pre {{handle}}",
     "promptAbout": "O {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Odpovedz na {{name}}…"
   }
 }

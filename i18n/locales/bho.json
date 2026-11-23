@@ -10296,7 +10296,9 @@
     "hereCount": "{{formatted}} here",
     "watchingCount": "{{formatted}} watching",
     "startedAgo": "Started {{time}}",
-    "rotate": "स्क्रीन समायोजित करें"
+    "rotate": "स्क्रीन समायोजित करें",
+    "bannedHere": "रउरा एह लाइव स्ट्रीम में बतियावे से बैन बानी।",
+    "timedOutHere": "अभी खातिर रउआ एह चैट से टाइम आउट कइल गइल बानी।"
   },
   "search": {
     "endOfResults": "नतीजा के अंत",

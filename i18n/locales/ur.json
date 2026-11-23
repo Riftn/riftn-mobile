@@ -17284,5 +17284,8 @@
     "promptCatchUp": "مجھے بتائیں کہ {{handle}} نے حال ہی میں کیا پوسٹ کیا ہے",
     "promptMessage": "{{handle}} کو پیغام لکھنے میں میری مدد کریں",
     "promptAbout": "{{handle}} کے بارے میں: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}} کو جواب دیں…"
   }
 }

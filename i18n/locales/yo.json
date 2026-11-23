@@ -17261,5 +17261,8 @@
     "promptCatchUp": "Sọ fún mi ohun tí {{handle}} ti fi síta láìpẹ́",
     "promptMessage": "Ràn mí lọ́wọ́ láti kọ ìfiranṣẹ́ sí {{handle}}",
     "promptAbout": "Nípa {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Fèsì sí {{name}}…"
   }
 }

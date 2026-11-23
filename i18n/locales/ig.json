@@ -10296,7 +10296,9 @@
     "hereNow": "Ebe a ugbu a",
     "nobodyYet": "Ọ dịghị onye ma",
     "hereCount": "{{formatted}} nọ ebe a",
-    "rotate": "Bugharịa inyogo"
+    "rotate": "Bugharịa inyogo",
+    "bannedHere": "Amachibidoro gị ikwu okwu na mgbasa ozi dị ndụ a.",
+    "timedOutHere": "A machibidoro gị iso na mkparịta ụka a nwa oge."
   },
   "search": {
     "endOfResults": "Njedebe nsonaazụ",

@@ -10323,7 +10323,9 @@
     "mostActive": "Herî çalak",
     "hereNow": "Niha li vir",
     "nobodyYet": "Hîn kes tune",
-    "rotate": "Ekranê bizivirîne"
+    "rotate": "Ekranê bizivirîne",
+    "bannedHere": "Tu ji axaftinê di vê weşana zindî de hatî qedexekirin.",
+    "timedOutHere": "Tu ji niha ve ji vê axaftinê demkî hatî derxistin."
   },
   "search": {
     "endOfResults": "Dawiya encaman",

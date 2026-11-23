@@ -109,7 +109,12 @@
     "addToMoment": "Ajouter à ton moment",
     "moreActions": "Options de la story",
     "remixing": "Remix de la story de {{name}}",
-    "watchOriginal": "Voir la story originale", "shareToMoment": "Partager en Moment", "goToPost": "Voir la publication", "fromYourPost": "De ta publication", "postNotPublic": "Seules les publications publiques peuvent être partagées en Moment.", "postNotMedia": "Seules les publications photo et vidéo peuvent être partagées en Moment.",
+    "watchOriginal": "Voir la story originale",
+    "shareToMoment": "Partager en Moment",
+    "goToPost": "Voir la publication",
+    "fromYourPost": "De ta publication",
+    "postNotPublic": "Seules les publications publiques peuvent être partagées en Moment.",
+    "postNotMedia": "Seules les publications photo et vidéo peuvent être partagées en Moment.",
     "translate": "Traduire",
     "seeOriginal": "Voir l'original",
     "translating": "Traduction…",
@@ -8469,7 +8474,9 @@
     "hereNow": "Ici maintenant",
     "nobodyYet": "Personne pour le moment",
     "rotate": "Faire pivoter l'écran",
-    "chatPlaceholder": "écris..."
+    "chatPlaceholder": "écris...",
+    "bannedHere": "Tu es banni de ce direct.",
+    "timedOutHere": "Vous êtes temporairement exclu de cette conversation."
   },
   "search": {
     "endOfResults": "Fin des résultats",

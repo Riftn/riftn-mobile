@@ -17483,5 +17483,8 @@
     "promptCatchUp": "{{handle}} হালে কিতা পোস্ট করছে আমারে কও",
     "promptMessage": "{{handle}}-রে মেসেজ লেখাত আমারে সাহায্য করো",
     "promptAbout": "{{handle}}-র বারে: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}-ত জবাব দাও…"
   }
 }

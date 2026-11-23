@@ -10322,7 +10322,9 @@
     "mostActive": "Najaktivniji",
     "hereNow": "Ovdje",
     "nobodyYet": "Još nitko",
-    "rotate": "Rotiraj zaslon"
+    "rotate": "Rotiraj zaslon",
+    "bannedHere": "Zabranjeno ti je chatati u ovom prijenosu uživo.",
+    "timedOutHere": "Trenutačno ste privremeno isključeni iz ovog chata."
   },
   "search": {
     "endOfResults": "Kraj rezultata",

@@ -17280,5 +17280,8 @@
     "promptCatchUp": "同我講吓{{handle}}最近post咗啲乜",
     "promptMessage": "幫我寫個訊息俾{{handle}}",
     "promptAbout": "關於{{handle}}：{{question}}"
+  },
+  "notes": {
+    "replyTo": "回覆 {{name}}…"
   }
 }

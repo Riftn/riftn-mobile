@@ -8437,6 +8437,8 @@
     "volume": "Ses düzeyi"
   },
   "liveViewer": {
+    "bannedHere": "Bu canlı yayında sohbet etmen yasaklandı",
+    "timedOutHere": "Şu an bu sohbette geçici olarak susturuldun",
     "loadingStream": "Yayın yükleniyor...",
     "streamPaused": "Yayın duraklatıldı",
     "connectionDropped": "Yayıncının bağlantısı koptu.\nYeniden bağlanmasını bekliyoruz...",

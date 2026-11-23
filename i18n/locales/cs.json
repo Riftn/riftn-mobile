@@ -10320,7 +10320,9 @@
     "mostActive": "Nejaktivnější",
     "hereNow": "Tady a teď",
     "nobodyYet": "Zatím nikdo",
-    "rotate": "Otočit obrazovku"
+    "rotate": "Otočit obrazovku",
+    "bannedHere": "Máte zakázáno psát do chatu tohoto živého přenosu.",
+    "timedOutHere": "Z tohoto chatu máš teď dočasný zákaz."
   },
   "search": {
     "endOfResults": "Konec výsledků",

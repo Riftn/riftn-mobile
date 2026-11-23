@@ -10433,7 +10433,9 @@
     "mostActive": "가장 활발한 체험",
     "hereNow": "지금 여기",
     "nobodyYet": "아직 아무도 없음",
-    "rotate": "화면 회전"
+    "rotate": "화면 회전",
+    "bannedHere": "이 라이브 스트림에서 채팅이 금지되었습니다.",
+    "timedOutHere": "현재 이 채팅에서 일시적으로 이용이 제한되었습니다."
   },
   "search": {
     "endOfResults": "결과 끝",

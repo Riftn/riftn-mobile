@@ -10326,7 +10326,8 @@
     "mostActive": "Legaktívabb",
     "hereNow": "Itt és most",
     "nobodyYet": "Még senki",
-    "rotate": "Képernyő elforgatása"
+    "rotate": "Képernyő elforgatása",
+    "timedOutHere": "A jelenlegi időszakon át ideiglenesen lezárták a beszélgetést veled."
   },
   "search": {
     "endOfResults": "A találatok vége",

@@ -10296,7 +10296,9 @@
     "mostActive": "Aktiivisin",
     "hereNow": "Tässä nyt",
     "nobodyYet": "Ei vielä ketään",
-    "rotate": "Kierrä näyttöä"
+    "rotate": "Kierrä näyttöä",
+    "bannedHere": "Sinut on estetty keskustelemasta tässä suoratoistolähetyksessä.",
+    "timedOutHere": "Olet nyt väliaikaisesti estetty tästä keskustelusta."
   },
   "search": {
     "endOfResults": "Tulosten loppu",

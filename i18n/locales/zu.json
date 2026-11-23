@@ -17291,5 +17291,8 @@
     "promptCatchUp": "Ngitshele lokho u-{{handle}} akuthumele muva nje",
     "promptMessage": "Ngisize ngibhalele u-{{handle}} umlayezo",
     "promptAbout": "Ngo-{{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Phendula ku-{{name}}…"
   }
 }

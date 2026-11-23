@@ -17260,5 +17260,8 @@
     "promptCatchUp": "Më informo për atë që ka postuar {{handle}} së fundmi",
     "promptMessage": "Më ndihmo të shkruaj një mesazh për {{handle}}",
     "promptAbout": "Për {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Përgjigje për {{name}}…"
   }
 }

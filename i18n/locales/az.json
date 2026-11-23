@@ -10296,7 +10296,9 @@
     "hereNow": "İndi burada",
     "nobodyYet": "Hələ heç kim yoxdur",
     "hereCount": "{{formatted}} here",
-    "rotate": "Ekranı fırlat"
+    "rotate": "Ekranı fırlat",
+    "bannedHere": "Bu canlı yayımda söhbət etmək qadağandır.",
+    "timedOutHere": "Hələlik bu söhbətdə iştirakınız məhdudlaşdırılıb."
   },
   "search": {
     "endOfResults": "Nəticələrin sonu",

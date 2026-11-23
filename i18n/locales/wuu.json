@@ -17260,5 +17260,8 @@
     "promptCatchUp": "讲拨我听{{handle}}最近发了啥",
     "promptMessage": "帮我写条消息拨{{handle}}",
     "promptAbout": "关于{{handle}}：{{question}}"
+  },
+  "notes": {
+    "replyTo": "回复 {{name}}…"
   }
 }

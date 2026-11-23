@@ -109,7 +109,12 @@
     "addToMoment": "Añadir a tu momento",
     "moreActions": "Opciones de la historia",
     "remixing": "Remix de la historia de {{name}}",
-    "watchOriginal": "Ver la historia original", "shareToMoment": "Compartir en Momento", "goToPost": "Ir a la publicación", "fromYourPost": "De tu publicación", "postNotPublic": "Solo las publicaciones públicas se pueden compartir en un Momento.", "postNotMedia": "Solo las publicaciones con foto o video se pueden compartir en un Momento.",
+    "watchOriginal": "Ver la historia original",
+    "shareToMoment": "Compartir en Momento",
+    "goToPost": "Ir a la publicación",
+    "fromYourPost": "De tu publicación",
+    "postNotPublic": "Solo las publicaciones públicas se pueden compartir en un Momento.",
+    "postNotMedia": "Solo las publicaciones con foto o video se pueden compartir en un Momento.",
     "translate": "Traducir",
     "seeOriginal": "Ver original",
     "translating": "Traduciendo…",
@@ -8465,7 +8470,9 @@
     "hereNow": "Aquí YA",
     "nobodyYet": "Nadie todavía",
     "rotate": "Girar pantalla",
-    "chatPlaceholder": "escribe..."
+    "chatPlaceholder": "escribe...",
+    "bannedHere": "Tienes prohibido chatear en esta transmisión en vivo.",
+    "timedOutHere": "Se te ha suspendido temporalmente de este chat."
   },
   "search": {
     "endOfResults": "Fin de los resultados",

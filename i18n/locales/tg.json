@@ -17260,5 +17260,8 @@
     "promptCatchUp": "Маро огоҳ кун, ки {{handle}} охирҳо чӣ нашр кардааст",
     "promptMessage": "Ба ман кӯмак кун, ки ба {{handle}} паём нависам",
     "promptAbout": "Дар бораи {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Ба {{name}} ҷавоб диҳед…"
   }
 }

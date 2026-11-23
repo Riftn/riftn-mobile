@@ -10300,7 +10300,9 @@
     "mostActive": "Mest aktive",
     "hereNow": "Her nu",
     "nobodyYet": "Ingen endnu",
-    "rotate": "Rotér skærm"
+    "rotate": "Rotér skærm",
+    "bannedHere": "Du er forbudt fra at chatte i denne live-stream.",
+    "timedOutHere": "Du er midlertidigt udelukket fra denne chat."
   },
   "search": {
     "endOfResults": "Slut på resultater",

@@ -17264,5 +17264,8 @@
     "promptCatchUp": "{{handle}} சமீபத்தில் என்ன பதிவிட்டார் என்று சொல்",
     "promptMessage": "{{handle}}-க்கு ஒரு செய்தி எழுத எனக்கு உதவு",
     "promptAbout": "{{handle}} பற்றி: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}-க்கு பதிலளிக்கவும்…"
   }
 }

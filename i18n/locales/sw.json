@@ -17281,5 +17281,8 @@
     "promptCatchUp": "Nipe habari za alichochapisha {{handle}} hivi karibuni",
     "promptMessage": "Nisaidie kumwandikia {{handle}} ujumbe",
     "promptAbout": "Kuhusu {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Jibu kwa {{name}}…"
   }
 }

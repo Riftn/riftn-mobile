@@ -10572,7 +10572,9 @@
     "mostActive": "Paling aktif",
     "hereNow": "Di sini sekarang",
     "nobodyYet": "Belum ada sesiapa",
-    "rotate": "Putar skrin"
+    "rotate": "Putar skrin",
+    "bannedHere": "Anda dilarang mengirim mesej dalam siaran langsung ini",
+    "timedOutHere": "Anda telah ditangguhkan daripada sembang ini buat masa sekarang"
   },
   "search": {
     "endOfResults": "Penghujung hasil",

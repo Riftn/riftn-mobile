@@ -17284,5 +17284,8 @@
     "promptCatchUp": "Uppdatera mig om vad {{handle}} har postat på sistone",
     "promptMessage": "Hjälp mig skriva ett meddelande till {{handle}}",
     "promptAbout": "Om {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Svara till {{name}}…"
   }
 }

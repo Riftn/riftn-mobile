@@ -17260,5 +17260,8 @@
     "promptCatchUp": "เล่าให้ฟังแหน่ว่า {{handle}} โพสต์หยังมาล่าสุด",
     "promptMessage": "ช่วยเขียนข้อความหา {{handle}} แหน่",
     "promptAbout": "เรื่อง {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "ตอบกลับ {{name}}…"
   }
 }

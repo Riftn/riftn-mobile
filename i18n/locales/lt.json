@@ -10322,7 +10322,9 @@
     "mostActive": "Aktyviausi",
     "hereNow": "Čia dabar",
     "nobodyYet": "Dar niekas",
-    "rotate": "Pasukti ekraną"
+    "rotate": "Pasukti ekraną",
+    "bannedHere": "Jums uždrausta rašyti į šios tiesioginės transliacijos pokalbį.",
+    "timedOutHere": "Šiuo metu jums neleidžiama dalyvauti šiame pokalbyje."
   },
   "search": {
     "endOfResults": "Rezultatų pabaiga",

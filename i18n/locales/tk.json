@@ -17257,5 +17257,8 @@
     "promptCatchUp": "{{handle}} soňky döwürde näme paýlaşandygyny aýt",
     "promptMessage": "{{handle}} üçin hat ýazmaga kömek et",
     "promptAbout": "{{handle}} barada: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}-a jogap ber…"
   }
 }

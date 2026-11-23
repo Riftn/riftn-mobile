@@ -17315,5 +17315,8 @@
     "promptCatchUp": "{{handle}} yaqinda nimalar joylaganini aytib ber",
     "promptMessage": "{{handle}}ga xabar yozishimga yordam ber",
     "promptAbout": "{{handle}} haqida: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Javob bering {{name}}…"
   }
 }

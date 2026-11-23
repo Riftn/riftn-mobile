@@ -10296,7 +10296,9 @@
     "watchingCount": "{{formatted}} देख रहा है",
     "startedAgo": "{{time}} से शुरू हुआ",
     "rotate": "स्क्रीन को हल करें (rotate screen)",
-    "topTippers": "ऊपरी उच्चारण के सदस्यता से"
+    "topTippers": "ऊपरी उच्चारण के सदस्यता से",
+    "bannedHere": "रउआ के एह लाइव स्ट्रीम में बतियावे से रोक देल गेल हइ।",
+    "timedOutHere": "अभी रउआ के एह चैट से कुछ देर खातिर टाइम आउट कर देल गेल हइ।"
   },
   "search": {
     "endOfResults": "नतीजा के अंत",

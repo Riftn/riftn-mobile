@@ -17257,5 +17257,8 @@
     "promptCatchUp": "Реци ми укратко шта је {{handle}} недавно објавио",
     "promptMessage": "Помози ми да напишем поруку за {{handle}}",
     "promptAbout": "О {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Одговори на {{name}}…"
   }
 }

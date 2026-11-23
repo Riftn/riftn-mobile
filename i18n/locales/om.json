@@ -10309,7 +10309,9 @@
     "mostActive": "Irra caalaa sochii kan qaban",
     "hereNow": "Kunoo amma",
     "nobodyYet": "Ammatti namni tokkollee hin jiru",
-    "rotate": "Iskiriinii naannessi"
+    "rotate": "Iskiriinii naannessi",
+    "bannedHere": "Tamsaasa kallattiin kana keessatti haasa'uu irraa dhorkamteetta.",
+    "timedOutHere": "Ammaaf yeroo muraasaaf haasawa kana irraa yeroo xumurtee jirta."
   },
   "search": {
     "endOfResults": "Dhuma bu'aawwanii",
@@ -17310,5 +17312,8 @@
     "promptCatchUp": "Wanta {{handle}} dhiyeenya maxxanse natti himi",
     "promptMessage": "Ergaa {{handle}}f barreessuuf na gargaari",
     "promptAbout": "Waa'ee {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}’f deebisi…"
   }
 }

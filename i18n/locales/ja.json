@@ -10302,7 +10302,9 @@
     "mostActive": "最もアクティブ",
     "hereNow": "今すぐこちら",
     "nobodyYet": "まだ誰もいません",
-    "rotate": "画面を回転"
+    "rotate": "画面を回転",
+    "bannedHere": "このライブ配信でチャットすることは禁止されています。",
+    "timedOutHere": "あなたは現在このチャットからタイムアウトされています"
   },
   "search": {
     "endOfResults": "結果はここまで",

@@ -17260,5 +17260,8 @@
     "promptCatchUp": "{{handle}} يېقىندا نېمىلەرنى يوللىغانلىقىنى ئېيتىپ بەر",
     "promptMessage": "{{handle}} غا ئۇچۇر يېزىشىمغا ياردەم قىل",
     "promptAbout": "{{handle}} توغرىسىدا: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}… غا جاۋاب قايتۇرۇڭ"
   }
 }

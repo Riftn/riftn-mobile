@@ -10296,7 +10296,9 @@
     "mostActive": "Més actius",
     "hereNow": "Aquí i ara",
     "nobodyYet": "Encara no hi ha ningú",
-    "rotate": "Gira la pantalla"
+    "rotate": "Gira la pantalla",
+    "bannedHere": "T'han prohibit xatejar en aquesta transmissió en directe.",
+    "timedOutHere": "T'han expulsat temporalment d'aquest xat."
   },
   "search": {
     "endOfResults": "Fi dels resultats",

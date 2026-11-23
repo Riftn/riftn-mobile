@@ -17320,5 +17320,8 @@
     "promptCatchUp": "สรุปให้ฟังหน่อยว่า {{handle}} โพสต์อะไรล่าสุด",
     "promptMessage": "ช่วยเขียนข้อความถึง {{handle}} หน่อย",
     "promptAbout": "เกี่ยวกับ {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "ตอบกลับถึง {{name}}…"
   }
 }

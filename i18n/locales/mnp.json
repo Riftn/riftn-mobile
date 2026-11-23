@@ -10296,7 +10296,9 @@
     "mostActive": "最活跃的",
     "hereNow": "现在在这里",
     "nobodyYet": "还没有人",
-    "rotate": "转屏"
+    "rotate": "转屏",
+    "bannedHere": "汝禁止佇這个直播中聊天。",
+    "timedOutHere": "你目前暫時無法參與這場聊天。"
   },
   "search": {
     "endOfResults": "结果到底了",
