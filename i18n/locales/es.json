@@ -200,7 +200,9 @@
       "view": "1 visualización"
     },
     "destructSecs": "{{n}} seg",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Permitir una repetición",
+    "timerReplayBody": "Pueden abrirlo una vez más. La cuenta atrás vuelve a empezar."
   },
   "assistantCards": {
     "requestDraft": "Borrador de solicitud pública",
@@ -2850,7 +2852,7 @@
     "ogHolders_one": "{{count}} holder OG",
     "ogHolders_other": "{{count}} holders OG",
     "ogChallengeTitle": "Trae de vuelta a los holders OG",
-    "ogChallengeBody": "Invita a quienes aún tienen DHB. Cuando se unan con tu enlace de invitación y mantengan su DHB en su billetera de Riftn, cuentan para ti aquí.",
+    "ogChallengeBody": "Invita a quienes aún tienen tokens. Si se unen mediante tu enlace de invitación y conservan sus tokens en su billetera de Riftn, contarán para ti aquí.",
     "ogChallengeCta": "Obtén tu enlace de invitación",
     "directReferrals_one": "{{count}} directos",
     "directReferrals_other": "{{count}} directos",
@@ -8117,7 +8119,13 @@
       "opened": "Abierto",
       "tapPhoto": "Toca para ver",
       "tapVideo": "Toca para reproducir",
-      "goneAfter": "Desaparece {{time}} después de abrirlo"
+      "goneAfter": "Desaparece {{time}} después de abrirlo",
+      "left": "{{n}} s",
+      "replayAllowed": "Se permite una repetición",
+      "tapReplay": "Toca para volver a ver",
+      "lastView": "Última vez, {{time}}",
+      "goneAfterReplay": "Desaparece {{time}} después de abrirlo. Una repetición.",
+      "replaying": "Repetición"
     },
     "messagePlaceholder": "Mensaje…",
     "voiceNoteEmoji": "🎤 Nota de voz",
@@ -8405,7 +8413,8 @@
     "mostActive": "Más activo",
     "hereNow": "Aquí YA",
     "nobodyYet": "Nadie todavía",
-    "rotate": "Girar pantalla"
+    "rotate": "Girar pantalla",
+    "chatPlaceholder": "escribe..."
   },
   "search": {
     "endOfResults": "Fin de los resultados",
@@ -12530,7 +12539,7 @@
           "4": "Para grabar una nota de voz, haz clic en el icono del micrófono.",
           "5": "Para añadir un GIF, haz clic en el icono de GIF y busca uno.",
           "6": "Usa #hashtags para categorizar tu publicación (por ejemplo, #crypto, #defi).",
-          "7": "Usa $cashtags para referenciar tokens (por ejemplo, $RIFT, $ETH).",
+          "7": "Usa $cashtags para referenciar tokens (por ejemplo, $BTC, $ETH).",
           "8": "Usa @menciones para etiquetar a otros usuarios (por ejemplo, @nombredeusuario).",
           "9": "Haz clic en 'Publicar' para publicar. Tu publicación aparece en el feed inmediatamente."
         },
@@ -12758,7 +12767,8 @@
           "3": "Cuando una publicación excede el límite, la aplicación la valora primero y verifica si tu billetera puede cubrirla antes de que se suba nada.",
           "4": "La publicación se muestra exactamente como lo haría dentro de la asignación; la publicación nunca espera un pago.",
           "5": "Luego, apruebas una transferencia solo para esa publicación, liquidada en la cadena Base o BNB que tenga suficientes tokens de Riftn.",
-          "6": "Ambos grupos se reinician a medianoche UTC."
+          "6": "Ambos grupos se reinician a medianoche UTC.",
+          "7": "Los minteos funcionan igual: tu insignia fija cuántos minteos al día llegan al feed de Inicio, el mismo número que tus publicaciones de texto. Los minteos extra se completan igual y aparecen en tu perfil, en Siguiendo y en el mercado de fracciones."
         },
         "tips": {
           "1": "El exceso es prorrateado: 200 MB por encima de tu asignación cuestan 200 MB, no un gigabyte completo.",
@@ -16997,6 +17007,7 @@
     "failed": "No se pudo guardar tu foto. Inténtalo de nuevo."
   },
   "mintChain": {
+    "homeAllowance": "{{left}} de {{total}} minteos de hoy llegan a Inicio. Los minteos extra van a tu perfil y al mercado.",
     "title": "Publicación de menta",
     "subtitle": "Elige una cadena. Los precios están disponibles y se actualizan cada minuto.",
     "free": "Gratis",

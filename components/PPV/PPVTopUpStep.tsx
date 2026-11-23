@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 /**
  * PPV Top-Up Step
  * ===============
@@ -106,20 +107,20 @@ const PPVTopUpStep: React.FC<PPVTopUpStepProps> = ({
         <View style={styles.summaryRow}>
           <Text style={styles.summaryLabel}>{t("ppv.unlockPrice")}</Text>
           <Text style={styles.summaryValue}>
-            {formatCompactNumber(shortfall.priceDhb)} {shortfall.symbol}
+            {formatCompactNumber(shortfall.priceDhb)} {tokenLabel(shortfall.symbol)}
           </Text>
         </View>
         <View style={styles.summaryRow}>
           <Text style={styles.summaryLabel}>{t("ppv.yourBalance")}</Text>
           <Text style={styles.summaryValue}>
-            {formatCompactNumber(shortfall.balanceDhb)} {shortfall.symbol}
+            {formatCompactNumber(shortfall.balanceDhb)} {tokenLabel(shortfall.symbol)}
           </Text>
         </View>
         <View style={styles.divider} />
         <View style={styles.summaryRow}>
           <Text style={styles.needLabel}>{t("ppv.youNeed")}</Text>
           <Text style={styles.needValue}>
-            {formatCompactNumber(shortfall.needDhb)} {shortfall.symbol}
+            {formatCompactNumber(shortfall.needDhb)} {tokenLabel(shortfall.symbol)}
           </Text>
         </View>
       </View>

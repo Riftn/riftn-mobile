@@ -200,7 +200,9 @@
       "view": "1 vue"
     },
     "destructSecs": "{{n}} sec",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Autoriser une relecture",
+    "timerReplayBody": "Ils peuvent l’ouvrir une fois de plus. Le compte à rebours repart."
   },
   "assistantCards": {
     "requestDraft": "Brouillon de demande publique",
@@ -2850,7 +2852,7 @@
     "ogHolders_one": "{{count}} holder OG",
     "ogHolders_other": "{{count}} holders OG",
     "ogChallengeTitle": "Faites revenir les holders OG",
-    "ogChallengeBody": "Invitez les personnes qui détiennent encore du DHB. Quand elles rejoignent avec votre lien d'invitation et gardent leur DHB dans leur portefeuille Riftn, elles comptent pour vous ici.",
+    "ogChallengeBody": "Invitez les personnes qui détiennent encore des jetons. Si elles rejoignent Riftn via votre lien d’invitation et conservent leurs jetons dans leur portefeuille Riftn, elles compteront pour vous ici.",
     "ogChallengeCta": "Obtenir votre lien d'invitation",
     "directReferrals_one": "{{count}} directs",
     "directReferrals_other": "{{count}} directs",
@@ -8121,7 +8123,13 @@
       "opened": "Ouvert",
       "tapPhoto": "Appuyez pour voir",
       "tapVideo": "Appuyez pour regarder",
-      "goneAfter": "Disparaît {{time}} après l’ouverture"
+      "goneAfter": "Disparaît {{time}} après l’ouverture",
+      "left": "{{n}} s",
+      "replayAllowed": "Une relecture autorisée",
+      "tapReplay": "Appuyez pour revoir",
+      "lastView": "Dernière vue, {{time}}",
+      "goneAfterReplay": "Disparaît {{time}} après l’ouverture. Une relecture.",
+      "replaying": "Relecture"
     },
     "messagePlaceholder": "Message",
     "voiceNoteEmoji": "🎤 Note vocale",
@@ -8409,7 +8417,8 @@
     "mostActive": "Les plus actifs",
     "hereNow": "Ici maintenant",
     "nobodyYet": "Personne pour le moment",
-    "rotate": "Faire pivoter l'écran"
+    "rotate": "Faire pivoter l'écran",
+    "chatPlaceholder": "écris..."
   },
   "search": {
     "endOfResults": "Fin des résultats",
@@ -12534,7 +12543,7 @@
           "4": "Pour enregistrer une note vocale, cliquez sur l'icône microphone.",
           "5": "Pour ajouter un GIF, cliquez sur l'icône GIF et recherchez-en un.",
           "6": "Utilisez des #hashtags pour catégoriser votre publication (par exemple, #crypto, #defi).",
-          "7": "Utilisez des $cashtags pour référencer des jetons (par exemple, $RIFT, $ETH).",
+          "7": "Utilisez des $cashtags pour référencer des jetons (par exemple, $BTC, $ETH).",
           "8": "Utilisez des @mentions pour taguer d'autres utilisateurs (par exemple, @username).",
           "9": "Cliquez sur 'Publier' pour publier. Votre publication apparaît immédiatement dans le flux."
         },
@@ -12762,7 +12771,8 @@
           "3": "Lorsqu'une publication dépasse le quota, l'application la tarifie d'abord et vérifie si votre portefeuille peut la couvrir avant toute téléversement.",
           "4": "La publication s'effectue exactement comme si elle était dans le quota — la publication n'attend jamais un paiement.",
           "5": "Ensuite, vous approuvez un transfert pour cette publication uniquement, réglé sur la chaîne Base ou BNB qui détient suffisamment de jetons Riftn.",
-          "6": "Les deux pools sont réinitialisés à minuit UTC."
+          "6": "Les deux pools sont réinitialisés à minuit UTC.",
+          "7": "Les mints fonctionnent pareil : ton badge fixe combien de mints par jour atteignent le fil d'Accueil, le même nombre que tes posts texte. Les mints en plus passent quand même et apparaissent sur ton profil, dans Abonnements et sur le marché des fractions."
         },
         "tips": {
           "1": "Le dépassement est au prorata : 200 Mo au-delà de votre quota coûtent 200 Mo, pas un gigaoctet entier.",
@@ -17001,6 +17011,7 @@
     "failed": "Impossible d'enregistrer ta photo. Réessaie."
   },
   "mintChain": {
+    "homeAllowance": "{{left}} mints sur {{total}} aujourd'hui atteignent l'Accueil. Les mints en plus vont sur ton profil et sur le marché.",
     "title": "Poste de menthe",
     "subtitle": "Choisissez une chaîne. Les prix sont en direct et mis à jour toutes les minutes.",
     "free": "Gratuit",

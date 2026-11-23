@@ -15,6 +15,7 @@ import {
   useWindowDimensions,
   StyleSheet,
   ActivityIndicator,
+  PanResponder,
 } from "react-native";
 import { useBackPress } from "../hooks/useBackPress";
 import { useRoute, useNavigation } from "@react-navigation/native";
@@ -59,7 +60,10 @@ import { PLAYER_CONSTANTS } from "../components/VideoPlayerCore/utils";
 import { isBrainrotSwipe } from "../libs/brainrotFeed";
 import { useAppPrefs } from "../hooks/useAppPrefs";
 import { ScreenNames } from "../navigation/ScreenNames";
-import { getIsLooping, useMediaLooping } from '../libs/video-preferences';
+import { getIsLooping, useMediaLooping, getVolume, setVolume as persistVolume, useMediaVolume } from '../libs/video-preferences';
+import { applyVideoVolume } from '../libs/dub-mix';
+import { feedVolumeResponder } from '../libs/feed-volume-responder';
+import VolumeLevelTrack from '../components/VideoPlayerCore/VolumeLevelTrack';
 import { toStoryboard } from '../libs/storyboard';
 import StoryboardPreview from '../components/VideoPlayerCore/StoryboardPreview';
 
@@ -211,6 +215,7 @@ const FullscreenVideoScreen = () => {
   const { player, session, ownsPlayer, active: ownsVideo } = usePostVideoPlayer(videoUrl || null, (p) => {
     p.loop = getIsLooping();
     p.muted = getCachedMuted();
+    applyVideoVolume(p, getVolume());
     p.timeUpdateEventInterval = 0.5;
     if (startTime > 0) p.currentTime = startTime;
     // The audio mode above already allows background playback, but that only
@@ -393,6 +398,53 @@ const FullscreenVideoScreen = () => {
     resetControlsTimer();
   }, [player, isMuted, resetControlsTimer, stopPlayback]);
 
+  // The saved level, the same one the feed card and Shorts play at. Press and
+  // hold the speaker, then drag up or down, to change it; a tap still mutes.
+  const volume = useMediaVolume();
+  const volumeRef = useRef(volume);
+  const [volumeAdjusting, setVolumeAdjusting] = useState(false);
+  useEffect(() => {
+    volumeRef.current = volume;
+    if (ownsVideo) { try { applyVideoVolume(player, volume); } catch {} }
+  }, [player, ownsVideo, volume]);
+
+  const applyVolume = useCallback((next: number) => {
+    const level = Math.max(0, Math.min(1, next));
+    volumeRef.current = level;
+    persistVolume(level);
+    try { applyVideoVolume(player, level); } catch {}
+    // Down to nothing is muted, and off the bottom is sound again, so the
+    // icon never disagrees with the level.
+    const shouldMute = level === 0;
+    if (shouldMute !== isMuted) {
+      player.muted = shouldMute;
+      setIsMuted(shouldMute);
+      setMutedState(shouldMute);
+      if (shouldMute) releaseAudioFocus(stopPlayback);
+      else requestAudioFocus(stopPlayback);
+    }
+  }, [player, isMuted, stopPlayback]);
+
+  const volumePanResponder = useMemo(
+    () =>
+      PanResponder.create(
+        feedVolumeResponder({
+          onHoldStart: () => {
+            if (controlsTimerRef.current) clearTimeout(controlsTimerRef.current);
+            setVolumeAdjusting(true);
+            return isMuted ? 0 : volumeRef.current;
+          },
+          onVolume: applyVolume,
+          onTap: handleToggleMute,
+          onEnd: () => {
+            setVolumeAdjusting(false);
+            resetControlsTimer();
+          },
+        }),
+      ),
+    [applyVolume, handleToggleMute, isMuted, resetControlsTimer],
+  );
+
   // Minimise always leaves full screen. It used to turn a sideways clip
   // upright and stay in full screen, which read as the screen flipping.
   const handleMinimise = useCallback(() => closeScreen(), [closeScreen]);
@@ -570,10 +622,17 @@ const FullscreenVideoScreen = () => {
               accessibilityRole="button" accessibilityLabel={t(isPlaying ? 'audioPost.pause' : 'audioPost.play')}>
               <MediaControlIcon name={isPlaying ? 'Pause' : 'Play'} plain />
             </Pressable>
-            <Pressable onPress={handleToggleMute} style={styles.plainButton}
-              accessibilityRole="button" accessibilityLabel={t(isMuted ? 'common.unmute' : 'common.mute')}>
+            <View style={styles.plainButton} {...volumePanResponder.panHandlers}
+              accessible accessibilityRole="button" accessibilityLabel={t(isMuted ? 'common.unmute' : 'common.mute')}
+              accessibilityActions={[{ name: 'activate' }, { name: 'increment' }, { name: 'decrement' }]}
+              onAccessibilityAction={event => {
+                const action = event.nativeEvent.actionName;
+                if (action === 'activate') handleToggleMute();
+                else if (action === 'increment') applyVolume((isMuted ? 0 : volumeRef.current) + 0.1);
+                else if (action === 'decrement') applyVolume((isMuted ? 0 : volumeRef.current) - 0.1);
+              }}>
               <MediaControlIcon name={isMuted ? 'VolumeX' : 'Volume2'} plain />
-            </Pressable>
+            </View>
             <Text style={styles.timeText}>{formatTime(currentTime)}</Text>
           </View>
           <View style={styles.splitGroup}>
@@ -591,7 +650,8 @@ const FullscreenVideoScreen = () => {
         </View>
       </Animated.View>
 
-      {/* A sibling of the strip rather than its child, so Android cannot clip it. */}
+      {/* Siblings of the strip rather than its children, so Android cannot clip them. */}
+      {volumeAdjusting && <VolumeLevelTrack level={isMuted ? 0 : volume} style={styles.volumeTrack} />}
       <StoryboardPreview
         storyboard={storyboard}
         fraction={videoDuration > 0 ? currentTime / videoDuration : 0}
@@ -626,6 +686,8 @@ const styles = StyleSheet.create({
   splitRow: { height: 44, paddingHorizontal: 8, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   splitGroup: { flexDirection: 'row', alignItems: 'center', gap: 2 },
   plainButton: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
+  // Rises above the speaker: row padding 8, Play 36, gap 2, then centred on the 36pt speaker.
+  volumeTrack: { left: 8 + 36 + 2 + 2, bottom: VIDEO_CONTROL_STRIP_HEIGHT + 6 },
   topClose: { position: 'absolute', left: 12, top: 12 },
   bottomSeek: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 24 },
   bottomLine: { position: 'absolute', left: 0, right: 0, bottom: 0, height: 3, backgroundColor: '#444' },

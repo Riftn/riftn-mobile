@@ -200,7 +200,9 @@
       "view": "1 görüntüleme"
     },
     "destructSecs": "{{n}} saniye",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Bir kez tekrara izin ver",
+    "timerReplayBody": "Bir kez daha açabilirler. Geri sayım yeniden başlar."
   },
   "assistantCards": {
     "requestDraft": "Herkese açık istek taslağı",
@@ -2850,7 +2852,7 @@
     "ogHolders_one": "{{count}} OG sahibi",
     "ogHolders_other": "{{count}} OG sahibi",
     "ogChallengeTitle": "OG sahiplerini geri getir",
-    "ogChallengeBody": "Hâlâ DHB tutan kişileri davet et. Davet bağlantınla katılıp DHB'lerini Riftn cüzdanlarında tuttuklarında burada senin için sayılırlar.",
+    "ogChallengeBody": "Hâlâ token tutan kişileri davet et. Davet bağlantınla katılır ve tokenlarını Riftn cüzdanlarında tutarlarsa, burada senin için sayılırlar.",
     "ogChallengeCta": "Davet bağlantını al",
     "directReferrals_one": "{{count}} doğrudan",
     "directReferrals_other": "{{count}} doğrudan",
@@ -8116,7 +8118,13 @@
       "opened": "Açıldı",
       "tapPhoto": "Görmek için dokun",
       "tapVideo": "İzlemek için dokun",
-      "goneAfter": "Açtıktan {{time}} sonra kaybolur"
+      "goneAfter": "Açtıktan {{time}} sonra kaybolur",
+      "left": "{{n}} sn",
+      "replayAllowed": "Bir kez tekrar açılabilir",
+      "tapReplay": "Tekrar açmak için dokun",
+      "lastView": "Son bakış, {{time}}",
+      "goneAfterReplay": "Açtıktan {{time}} sonra kaybolur. Bir kez tekrar açılabilir.",
+      "replaying": "Tekrar"
     },
     "messagePlaceholder": "Mesaj…",
     "voiceNoteEmoji": "🎤 Sesli not",
@@ -8404,7 +8412,8 @@
     "mostActive": "En aktif",
     "hereNow": "Şimdi burada",
     "nobodyYet": "Henüz hiç kimse",
-    "rotate": "Ekranı döndür"
+    "rotate": "Ekranı döndür",
+    "chatPlaceholder": "yaz..."
   },
   "search": {
     "open": "Ara",
@@ -12529,7 +12538,7 @@
           "4": "Sesli not kaydetmek için mikrofon simgesine tıklayın.",
           "5": "GIF eklemek için GIF simgesine tıklayın ve bir tane arayın.",
           "6": "Gönderinizi kategorize etmek için #hashtag'leri kullanın (örneğin, #crypto, #defi).",
-          "7": "Tokenlara referans vermek için $cashtag'leri kullanın (örneğin, $RIFT, $ETH).",
+          "7": "Tokenlara referans vermek için $cashtag'leri kullanın (örneğin, $BTC, $ETH).",
           "8": "Diğer kullanıcıları etiketlemek için @mention'ları kullanın (örneğin, @kullanıcıadı).",
           "9": "Yayınlamak için 'Post'a tıklayın. Gönderiniz hemen feed'de görünür."
         },
@@ -12757,7 +12766,8 @@
           "3": "Bir gönderi limiti aşacaksa, uygulama önce fiyatını belirler ve herhangi bir yüklemeden önce cüzdanınızın bunu karşılayıp karşılayamayacağını kontrol eder.",
           "4": "Gönderi, limit dahilindeymiş gibi yayınlanır — yayınlama asla ödeme beklemez.",
           "5": "Ardından, yalnızca o gönderi için bir transferi onaylarsınız, bu transfer Base veya BNB Chain'den hangisinde yeterli Riftn token'ı varsa orada gerçekleşir.",
-          "6": "Her iki havuz da UTC gece yarısı sıfırlanır."
+          "6": "Her iki havuz da UTC gece yarısı sıfırlanır.",
+          "7": "Mintler de aynı şekilde çalışır: rozetin günde kaç mintin Ana Sayfa akışına ulaşacağını belirler, bu sayı metin gönderilerinle aynıdır. Fazla mintler yine de gerçekleşir ve profilinde, Takip Edilenler'de ve kesir pazarında görünür."
         },
         "tips": {
           "1": "Aşım orantılıdır: Limitinizin 200 MB fazlası, tam bir gigabayt değil, 200 MB olarak ücretlendirilir.",
@@ -16996,6 +17006,7 @@
     "failed": "Fotoğrafın kaydedilemedi. Tekrar dene."
   },
   "mintChain": {
+    "homeAllowance": "Bugünkü {{total}} mint hakkının {{left}} tanesi Ana Sayfa'ya ulaşır. Fazla mintler profiline ve pazara gider.",
     "title": "Darphane postası",
     "subtitle": "Bir zincir seçin. Fiyatlar canlıdır ve her dakika güncellenir.",
     "free": "Ücretsiz",

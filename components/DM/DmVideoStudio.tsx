@@ -103,6 +103,9 @@ interface Props {
   onOptionsChange: (o: DmVideoOptions) => void;
   destruct: DmDestructChoice | null;
   onDestructChange: (c: DmDestructChoice | null) => void;
+  /** On-open timers: they can open it once more after the countdown runs out. */
+  destructReplay?: boolean;
+  onDestructReplayChange?: (on: boolean) => void;
   /** A still of the chosen cover frame, for the card and the encrypted preview. */
   onCoverFrame?: (uri: string) => void;
   /** Confirm: keeps the choices and goes back. */
@@ -183,7 +186,7 @@ function useFilmstrip(uri: string, duration: number, enabled: boolean) {
 
 export default function DmVideoStudio({
   visible, onClose, uri, duration = 0, width, height, size, options, onOptionsChange,
-  destruct, onDestructChange, onCoverFrame, onConfirm, confirmLabel, initialTab = "trim", onlyTabs,
+  destruct, onDestructChange, destructReplay = false, onDestructReplayChange, onCoverFrame, onConfirm, confirmLabel, initialTab = "trim", onlyTabs,
   lockPrice = null, onLockPriceChange, onEditPhoto,
   kind = "video", strip, active = 0, onSelect, onAddMore, onRemove, allowTimer = true,
   colour, onColourChange, postTimer, alt, onUploadCover, coverPictureUri,
@@ -505,6 +508,7 @@ export default function DmVideoStudio({
                 <View pointerEvents="none" style={{ position: "absolute", left: 8, top: 8, flexDirection: "row", alignItems: "center", gap: 4, borderRadius: 999, backgroundColor: "rgba(0,0,0,0.6)", paddingHorizontal: 7, paddingVertical: 3 }}>
                   <Icon name="Timer" size={12} color={WHITE} />
                   <Text style={{ color: WHITE, fontSize: 11, fontWeight: "600" }}>{isOpenChoice(destruct) ? destructLabel(destruct) : _copy(`dmVideo.destruct.${destruct}`, { defaultValue: destructLabel(destruct) })}</Text>
+                  {destructReplay && isOpenChoice(destruct) ? <Icon name="RotateCcw" size={12} color={WHITE} /> : null}
                 </View>
               )}
             </View>
@@ -894,6 +898,25 @@ export default function DmVideoStudio({
                     );
                   })}
                 </ScrollView>
+                {isOpenChoice(destruct) && onDestructReplayChange ? (
+                  <Pressable
+                    onPress={() => onDestructReplayChange(!destructReplay)}
+                    accessibilityRole="switch"
+                    accessibilityState={{ checked: destructReplay }}
+                    accessibilityLabel={_copy("dmVideo.timerReplay", { defaultValue: "Allow one replay" })}
+                  >
+                    <View style={{ flexDirection: "row", alignItems: "center", gap: 10, borderWidth: 1, borderColor: LINE, borderRadius: 14, paddingHorizontal: 12, paddingVertical: 9 }}>
+                      <Icon name="RotateCcw" size={16} color="#D4D4D8" />
+                      <View style={{ flex: 1 }}>
+                        <Text style={{ color: WHITE, fontSize: 13, fontWeight: "600" }}>{_copy("dmVideo.timerReplay", { defaultValue: "Allow one replay" })}</Text>
+                        <Text style={{ color: MUTED, fontSize: 11, lineHeight: 15 }}>{_copy("dmVideo.timerReplayBody", { defaultValue: "They can open it one more time. The countdown starts again." })}</Text>
+                      </View>
+                      <View style={{ width: 38, height: 22, borderRadius: 11, padding: 2, justifyContent: "center", backgroundColor: destructReplay ? WHITE : "hsla(0,0%,100%,0.2)" }}>
+                        <View style={{ width: 18, height: 18, borderRadius: 9, backgroundColor: destructReplay ? "#000" : WHITE, transform: [{ translateX: destructReplay ? 16 : 0 }] }} />
+                      </View>
+                    </View>
+                  </Pressable>
+                ) : null}
                 <Text style={{ color: MUTED, fontSize: 11, lineHeight: 15 }}>
                   {destruct == null
                     ? _copy("dmVideo.timerOffBody", { defaultValue: "It stays in the chat." })

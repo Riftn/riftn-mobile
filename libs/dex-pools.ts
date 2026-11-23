@@ -209,14 +209,14 @@ export const feeDhbUnits = (feeDhb: number) => BigInt(ethers.utils.parseUnits(St
 export async function planFee(asset: FeeAsset, feeDhb: number, assetUsd: number, walletAddress: string): Promise<FeePlan> {
   const dhbUnits = feeDhbUnits(feeDhb);
   if (asset.symbol === 'DHB') {
-    const balance = await readWithTimeout(new ethers.Contract(DHB_BASE, ERC20, evmProvider(ChainId.BASE_MAINNET)).balanceOf(walletAddress) as Promise<ethers.BigNumber>, 'DHB balance');
-    if (BigInt(balance.toString()) < dhbUnits) throw new Error(_translateCopy('copy.296fa7255dc3', { defaultValue: 'Not enough DHB on Base: {{value1}} needed', value1: ethers.utils.formatUnits(dhbUnits.toString(), 18) }));
+    const balance = await readWithTimeout(new ethers.Contract(DHB_BASE, ERC20, evmProvider(ChainId.BASE_MAINNET)).balanceOf(walletAddress) as Promise<ethers.BigNumber>, 'Token balance');
+    if (BigInt(balance.toString()) < dhbUnits) throw new Error(_translateCopy('copy.296fa7255dc3', { defaultValue: 'Not enough tokens on Base: {{value1}} needed', value1: ethers.utils.formatUnits(dhbUnits.toString(), 18) }));
     return { asset, feeDhb: dhbUnits, swap: null };
   }
   if (!(assetUsd > 0)) throw new Error(_translateCopy('copy.d7de421562cb', { defaultValue: 'No {{value1}} price is available right now', value1: asset.symbol }));
   const swapIn = BigInt(ethers.utils.parseUnits((POOL_FEE_USD * SWAP_HEADROOM / assetUsd).toFixed(asset.decimals === 6 ? 6 : 12), asset.decimals).toString());
   const swap = await quoteSwap({ chainId: ChainId.BASE_MAINNET, tokenIn: asset.address, tokenOut: DHB_BASE, amountIn: swapIn, recipient: walletAddress, slippageBps: 100 });
-  if (swap.minAmountOut < dhbUnits) throw new Error(_translateCopy('copy.2d34f6196636', { defaultValue: 'That {{value1}} does not swap into enough DHB right now', value1: asset.symbol }));
+  if (swap.minAmountOut < dhbUnits) throw new Error(_translateCopy('copy.2d34f6196636', { defaultValue: 'That {{value1}} does not swap into enough tokens right now', value1: asset.symbol }));
   return { asset, feeDhb: dhbUnits, swap };
 }
 
