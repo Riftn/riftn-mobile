@@ -27,7 +27,21 @@ import {
   Pressable,
   ScrollView,
   StyleSheet,
+  type LayoutChangeEvent,
 } from "react-native";
+import Animated, {
+  Easing,
+  FadeIn,
+  FadeOut,
+  ZoomIn,
+  ZoomOut,
+  useAnimatedStyle,
+  useReducedMotion,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
+import { useAppTheme } from "../../context/ThemeContext";
+import { launchFlight } from "../../libs/liveChatFlight";
 import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import type { ReactionType } from "../LiveProducer/ReactionOverlay";
@@ -53,6 +67,11 @@ const REACTION_OPTIONS: { type: ReactionType; emoji: string }[] = [
 ];
 
 const COOLDOWN_MS = 400;
+
+/** The house ease: the box grows and the buttons fold on it (web uses the same). */
+const EASE = Easing.bezier(0.25, 0.8, 0.25, 1);
+const GROW_MS = 200;
+const FOLD_MS = 300;
 
 /** The height of everything on the bottom row, and on the header above it. */
 const BAR_SIZE = 48;
@@ -135,6 +154,12 @@ const LiveViewerActionBar: React.FC<Props> = ({
   const lastTapRef = useRef(0);
   const composerKeyboard = useComposerKeyboard(viewportHeight);
   const inputRef = useRef<TextInput>(null);
+  const reduceMotion = useReducedMotion();
+  const { skin, accent } = useAppTheme();
+  // The send key: the theme's own colour on the deep themes, else white with
+  // dark ink (this row always sits on the picture).
+  const keyFill = skin ? `rgb(${accent[0]},${accent[1]},${accent[2]})` : "#fff";
+  const keyInk = skin ? "#fff" : "#0b0b0c";
   // Reply puts the caret straight in the box, keyboard up.
   const replyId = replyingTo?.id;
   useEffect(() => {
@@ -189,6 +214,10 @@ const LiveViewerActionBar: React.FC<Props> = ({
     // the sent words in it for the whole round trip. A failed send puts them
     // back unless something new has been typed since.
     const sent = message;
+    // Your words leave the box and fly into their line (LiveChatFlyer).
+    if (!reduceMotion) {
+      inputRef.current?.measureInWindow((x, y) => launchFlight(content, { x: x + 2, y: y + 4 }));
+    }
     setMessage("");
     mentions.reset();
     try {
@@ -196,7 +225,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
     } catch {
       setMessage((current) => (current.trim() ? current : sent));
     } finally { sending.current = false; }
-  }, [message, inputDisabled, onSendMessage, setMessage, mentions, editing, onSaveEdit, onCancelEdit, setEditText]);
+  }, [message, inputDisabled, onSendMessage, setMessage, mentions, editing, onSaveEdit, onCancelEdit, setEditText, reduceMotion]);
 
   const handleReact = useCallback(
     (type: ReactionType) => {
@@ -214,6 +243,41 @@ const LiveViewerActionBar: React.FC<Props> = ({
 
   const canSubmit = !!message.trim() && !inputDisabled;
   const typing = canSubmit || (focused && !inputDisabled);
+
+  // While typing the whole row is the box: the buttons fold into its end
+  // (width to nothing, sliding and shrinking toward the box) and unfold
+  // when the keyboard goes down and the box is empty.
+  const fold = useSharedValue(0);
+  const clusterW = useSharedValue(-1);
+  useEffect(() => {
+    fold.value = reduceMotion ? (typing ? 1 : 0) : withTiming(typing ? 1 : 0, { duration: FOLD_MS, easing: EASE });
+  }, [typing, fold, reduceMotion]);
+  const onClusterLayout = useCallback((e: LayoutChangeEvent) => {
+    clusterW.value = e.nativeEvent.layout.width;
+  }, [clusterW]);
+  const clusterStyle = useAnimatedStyle(() => (clusterW.value < 0
+    ? { marginLeft: 0 }
+    : { width: clusterW.value * (1 - fold.value), marginLeft: -8 * fold.value }));
+  const clusterInnerStyle = useAnimatedStyle(() => ({
+    opacity: 1 - fold.value,
+    transform: [{ translateX: -28 * fold.value }, { scale: 1 - 0.4 * fold.value }],
+  }));
+
+  // The box grows with its words (up to four lines) instead of snapping a
+  // line at a time: its height eases to whatever its contents measure.
+  const boxH = useSharedValue(BAR_SIZE);
+  const boxMeasured = useRef(false);
+  const onBoxContentLayout = useCallback((e: LayoutChangeEvent) => {
+    const next = Math.max(BAR_SIZE, Math.ceil(e.nativeEvent.layout.height));
+    if (!boxMeasured.current || reduceMotion) { boxMeasured.current = true; boxH.value = next; return; }
+    boxH.value = withTiming(next, { duration: GROW_MS, easing: EASE });
+  }, [boxH, reduceMotion]);
+  const boxStyle = useAnimatedStyle(() => ({ height: boxH.value }));
+  const quote = editing && !inputDisabled
+    ? { icon: "Pencil" as const, title: t("liveChat.editingMessage"), body: editing.content, close: () => { setEditText.clear(); onCancelEdit?.(); } }
+    : replyingTo && !inputDisabled
+      ? { icon: "Reply" as const, title: `${t("dm.replyingTo")} ${replyingTo.name}`, body: replyingTo.content, close: () => onCancelReply?.() }
+      : null;
 
   return (
     <View ref={composerKeyboard.ref} collapsable={false} onLayout={composerKeyboard.onLayout}
@@ -248,37 +312,6 @@ const LiveViewerActionBar: React.FC<Props> = ({
             </Pressable>
           ))}
         </Pressable>
-      ) : null}
-
-      {editing && !inputDisabled ? (
-        <View style={styles.replyStrip}>
-          <ChromeFill glass />
-          <Icon name="Pencil" size={14} color="rgba(255,255,255,0.8)" strokeWidth={1.8} />
-          <Text numberOfLines={1} style={styles.replyText}>
-            <Text style={{ fontWeight: "700" }}>{t("liveChat.editingMessage")}</Text>
-            {`  ${editing.content}`}
-          </Text>
-          <Pressable
-            onPress={() => { setEditText.clear(); onCancelEdit?.(); }}
-            hitSlop={10}
-            accessibilityRole="button"
-            accessibilityLabel={t("common.cancel")}
-          >
-            <Icon name="X" size={16} color="rgba(255,255,255,0.8)" />
-          </Pressable>
-        </View>
-      ) : replyingTo && !inputDisabled ? (
-        <View style={styles.replyStrip}>
-          <ChromeFill glass />
-          <Icon name="Reply" size={14} color="rgba(255,255,255,0.8)" strokeWidth={1.8} />
-          <Text numberOfLines={1} style={styles.replyText}>
-            <Text style={{ fontWeight: "700" }}>{t("dm.replyingTo")} {replyingTo.name}</Text>
-            {replyingTo.content ? `  ${replyingTo.content}` : ""}
-          </Text>
-          <Pressable onPress={onCancelReply} hitSlop={10} accessibilityRole="button" accessibilityLabel={t("common.close")}>
-            <Icon name="X" size={16} color="rgba(255,255,255,0.8)" />
-          </Pressable>
-        </View>
       ) : null}
 
       {!inputDisabled ? (
@@ -317,46 +350,74 @@ const LiveViewerActionBar: React.FC<Props> = ({
       ) : null}
 
       <View style={styles.row} pointerEvents="box-none">
-        <View style={styles.inputWrap}>
+        <Animated.View style={[styles.inputWrap, boxStyle]}>
           <ChromeFill glass />
-          <TextInput
-            ref={inputRef}
-            value={message}
-            onChangeText={mentions.handleChangeText}
-            onSelectionChange={mentions.handleSelectionChange}
-            placeholder={placeholderText}
-            placeholderTextColor="rgba(255,255,255,0.45)"
-            style={styles.input}
-            editable={!inputDisabled}
-            maxLength={500}
-            // Grows to four lines so the whole message stays readable; a
-            // one-line box scrolled the start of anything longer out of view.
-            multiline
-            submitBehavior="submit"
-            returnKeyType="send"
-            onSubmitEditing={handleSend}
-            onFocus={() => { setFocused(true); setReactionsOpen(false); }}
-            onBlur={() => setFocused(false)}
-          />
-          {typing ? (
-            <Pressable
-              onPress={handleSend}
-              disabled={!canSubmit}
-              hitSlop={8}
-              accessibilityRole="button"
-              accessibilityLabel={t("tip.send", { defaultValue: "Send" })}
-              style={[styles.sendButton, canSubmit ? null : styles.dim]}
-            >
-              <Icon name={editing ? "Check" : "Send"} size={17} color="#fff" strokeWidth={1.8} />
-            </Pressable>
-          ) : null}
-        </View>
+          {/* Drawn from the bottom and free to take its own height; the box
+              around it eases to that height, so it rises rather than jumps. */}
+          <View style={styles.boxContent} onLayout={onBoxContentLayout}>
+            {quote ? (
+              /* What you're answering (or fixing) sits inside the box, above
+                 your words, and goes with them when they're sent. */
+              <Animated.View entering={reduceMotion ? undefined : FadeIn.duration(180)}
+                exiting={reduceMotion ? undefined : FadeOut.duration(120)} style={styles.quote}>
+                <Icon name={quote.icon} size={13} color="rgba(255,255,255,0.75)" strokeWidth={1.8} />
+                <Text numberOfLines={1} style={styles.quoteText}>
+                  <Text style={{ fontWeight: "700" }}>{quote.title}</Text>
+                  {quote.body ? `  ${quote.body}` : ""}
+                </Text>
+                <Pressable onPress={quote.close} hitSlop={10} accessibilityRole="button" accessibilityLabel={t("common.close")}>
+                  <Icon name="X" size={15} color="rgba(255,255,255,0.75)" />
+                </Pressable>
+              </Animated.View>
+            ) : null}
+            <View style={styles.inputLine}>
+              <TextInput
+                ref={inputRef}
+                value={message}
+                onChangeText={mentions.handleChangeText}
+                onSelectionChange={mentions.handleSelectionChange}
+                placeholder={placeholderText}
+                placeholderTextColor="rgba(255,255,255,0.45)"
+                style={styles.input}
+                editable={!inputDisabled}
+                maxLength={500}
+                // Grows to four lines so the whole message stays readable; a
+                // one-line box scrolled the start of anything longer out of view.
+                multiline
+                submitBehavior="submit"
+                returnKeyType="send"
+                onSubmitEditing={handleSend}
+                onFocus={() => { setFocused(true); setReactionsOpen(false); }}
+                onBlur={() => setFocused(false)}
+              />
+              {typing ? (
+                /* The send key comes in where the buttons fold away. */
+                <Animated.View
+                  entering={reduceMotion ? undefined : ZoomIn.duration(200).easing(EASE)}
+                  exiting={reduceMotion ? undefined : ZoomOut.duration(150)}
+                >
+                  <Pressable
+                    onPress={handleSend}
+                    disabled={!canSubmit}
+                    hitSlop={8}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("tip.send", { defaultValue: "Send" })}
+                    style={[styles.sendButton, { backgroundColor: keyFill }, canSubmit ? null : styles.keyOff]}
+                  >
+                    <Icon name={editing ? "Check" : "ArrowUp"} size={17} color={keyInk} strokeWidth={2.2} />
+                  </Pressable>
+                </Animated.View>
+              ) : null}
+            </View>
+          </View>
+        </Animated.View>
 
-        {/* GIF · gift · share · thumb, on the composer's own row, always.
-            One layout whether or not the box is focused: hiding them while
-            typing made the bar swap between two looks as the keyboard came
-            and went, and the buttons moved under your thumb as you tapped. */}
-        <View style={styles.cluster} pointerEvents="box-none">
+        {/* GIF · gift · share · thumb. While you type they fold into the
+            box's end (one smooth motion, never a swap), and come back out
+            when the keyboard goes down with the box empty. */}
+        <Animated.View style={[styles.clusterClip, clusterStyle]} pointerEvents={typing ? "none" : "box-none"}
+          accessibilityElementsHidden={typing} importantForAccessibility={typing ? "no-hide-descendants" : "auto"}>
+        <Animated.View style={[styles.cluster, clusterInnerStyle]} onLayout={onClusterLayout} pointerEvents="box-none">
           {isLive && !inputDisabled ? (
             <Pressable onPress={() => setGifPickerVisible(true)} hitSlop={CHROME_HIT_SLOP}
               accessibilityRole="button" accessibilityLabel={t("comments.addGif")} style={styles.circle}>
@@ -409,7 +470,8 @@ const LiveViewerActionBar: React.FC<Props> = ({
                 each of three buttons is three more figures on somebody
                 else's broadcast — the counts live on the post. */}
           </Pressable>
-        </View>
+        </Animated.View>
+        </Animated.View>
       </View>
       <GifPicker visible={gifPickerVisible} onClose={() => setGifPickerVisible(false)}
         onPick={(url) => { setGifPickerVisible(false); onSendGif(url); }} />
@@ -438,7 +500,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: EDGE,
     gap: 8,
   },
+  /** Clips the buttons as they fold; its width eases to nothing while typing. */
+  clusterClip: {
+    flexDirection: "row",
+    height: BAR_SIZE,
+    overflow: "hidden",
+  },
   cluster: {
+    flexShrink: 0,
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
@@ -451,19 +520,36 @@ const styles = StyleSheet.create({
    */
   inputWrap: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    minHeight: BAR_SIZE,
     borderWidth: 1,
     borderColor: CHROME_HAIRLINE,
     borderRadius: CHROME_RADIUS,
-
-    paddingVertical: 6,
-    paddingLeft: 16,
-    paddingRight: 6,
-    gap: 4,
     overflow: "hidden",
   },
+  /** Bottom-anchored, so the box rises from the row as it grows. One line
+   *  (27) sits in the middle of the 46 inside the hairline. */
+  boxContent: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingTop: 9.5,
+    paddingBottom: 9.5,
+    paddingLeft: 16,
+    paddingRight: 7,
+  },
+  inputLine: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: 6,
+  },
+  quote: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingRight: 6,
+    marginBottom: 6,
+  },
+  quoteText: { flex: 1, color: "rgba(255,255,255,0.8)", fontSize: 12, ...TEXT_SHADOW },
   input: {
     flex: 1,
     color: "#fff",
@@ -478,12 +564,17 @@ const styles = StyleSheet.create({
     maxHeight: 19 * 4 + 8,
     textAlignVertical: "center",
   },
+  /** Centred on the last line (27): 32 inside the box's 46 leaves 7 a side,
+   *  and the negative margins keep it from making a one-line box taller. */
   sendButton: {
-    width: 30,
-    height: 30,
+    width: 32,
+    height: 32,
+    marginVertical: -2.5,
+    borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
   },
+  keyOff: { opacity: 0.4 },
   circle: {
     width: 42,
     height: BAR_SIZE,
@@ -506,20 +597,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     ...TEXT_SHADOW,
   },
-  replyStrip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    marginHorizontal: EDGE,
-    marginBottom: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: CHROME_HAIRLINE,
-    borderRadius: CHROME_RADIUS,
-    overflow: "hidden",
-  },
-  replyText: { flex: 1, color: "rgba(255,255,255,0.85)", fontSize: 12, ...TEXT_SHADOW },
   reactionStrip: {
     alignSelf: "flex-end",
     flexDirection: "row",
