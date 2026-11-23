@@ -41,6 +41,7 @@ export const SETTINGS_SEARCH_INDEX: SettingsSearchEntry[] = [
   // Profile
   { tab: 'profile', anchor: 'profile-settings', label: 'Profile Settings', labelKey: 'settings.profileSettings', keywords: 'edit avatar picture display name username bio' },
   { tab: 'profile', anchor: 'profile-settings', label: 'Social Links', labelKey: 'settings.socialLinks', keywords: 'twitter x instagram tiktok youtube discord telegram' },
+  { tab: 'profile', anchor: 'badge-museum', label: 'Badge Museum', labelKey: 'badgeMuseum.title', keywords: 'badges milestones museum medals trophies achievements show on my profile hide view my badges progress' },
   { tab: 'profile', anchor: 'sign-in', label: 'Sign-in email', labelKey: 'settings.emailSignIn', keywords: 'email login log in sign in code password without wallet' },
   { tab: 'profile', anchor: 'ens',label: 'ENS name', labelKey: 'settings.ensHandle', keywords: 'ens domain eth alias verified handle' },
   { tab: 'profile', anchor: 'fediverse', label: 'Fediverse', labelKey: 'fediverse.title', keywords: 'mastodon activitypub federation handle follow decentralised' },

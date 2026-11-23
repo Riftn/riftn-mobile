@@ -585,9 +585,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             <ProfileLinksPill source={user} style={{ marginLeft: "auto" }} />
           </View>
 
-          {/* Badge Museum: every earned badge in a framed grid under the
-              counts. Nothing until one is earned. */}
-          <BadgeMuseumPanel address={address} own />
+          {/* Badge Museum: the rarest earned medals under the counts, only
+              when the owner has switched it on in Settings (off by default). */}
+          <BadgeMuseumPanel address={address} />
 
           {/* The streamer ladder. Renders nothing until a stream has ended,
               so a non-streamer's profile is unchanged. */}
