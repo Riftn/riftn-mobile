@@ -8,7 +8,7 @@ import { Text, View } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { formatCount } from "../../libs/format-count";
-import { getCreatorPet, petMoodKey, PET_STAGES, type StreamPet } from "../../services/stream-pet.service";
+import { getCreatorPet, petMoodKey, petRequestKey, PET_STAGES, type StreamPet } from "../../services/stream-pet.service";
 import PetSprite from "./PetSprite";
 
 export function PetCard({ pet, own = false, className }: { pet: StreamPet; own?: boolean; className?: string }) {
@@ -18,6 +18,7 @@ export function PetCard({ pet, own = false, className }: { pet: StreamPet; own?:
   const toNext = pet.nextStageFood == null ? 0 : Math.max(0, pet.nextStageFood - pet.food);
   const nextStage = pet.nextStageFood == null ? null : PET_STAGES[pet.stageIndex + 1];
   const hours = Math.floor(pet.streamedMinutes / 60);
+  const requests = petRequestKey(pet, own);
 
   return (
     <View testID="stream-pet-card" className={`rounded-2xl border border-white/10 bg-white/5 p-4 ${className || ""}`}>
@@ -37,6 +38,13 @@ export function PetCard({ pet, own = false, className }: { pet: StreamPet; own?:
             {t("streamPet.snacks", { count: pet.food, formatted: formatCount(pet.food) })}
             {hours > 0 ? ` · ${t("streamPet.hoursStreamed", { count: hours, formatted: formatCount(hours) })}` : ""}
           </Text>
+          {requests ? (
+            <Text testID="stream-pet-requests" className="text-white/45 text-[11px] mt-0.5">
+              {requests.count != null
+                ? t(requests.key, { count: requests.count, formatted: formatCount(requests.count) })
+                : t(requests.key)}
+            </Text>
+          ) : null}
         </View>
       </View>
       {nextStage ? (

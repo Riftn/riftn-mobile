@@ -20,6 +20,8 @@ import { chainIcons, supportedChainIdsForMinting } from "../../config/constants"
 import { TIP_CHAIN_NAMES } from "../../libs/tip-funding";
 import { getAuthMethod } from "../../libs/auth.utils";
 import { getMintFee, type MintFeeQuoteResponse } from "../../services/nft.service";
+import MintHomeAllowance, { MintHomeAllowanceLine } from "./MintHomeAllowance";
+import type { PostQuotaStatus } from "../../services/post-quota.service";
 
 const usd = (n?: number) =>
   n == null || !Number.isFinite(n) ? null : n < 0.01 ? "< $0.01" : `$${n.toFixed(2)}`;
@@ -61,9 +63,11 @@ interface Props {
   onConfirm: (chainId: number) => void;
   /** Override for previews; otherwise read from the sign-in method. */
   sponsored?: boolean;
+  /** Override for previews; otherwise read from the creator's allowance. */
+  homeAllowance?: Pick<PostQuotaStatus, "mintsPerDay" | "homeMintsRemaining">;
 }
 
-export default function MintChainSheet({ visible, onClose, defaultChainId, isMinting, onConfirm, sponsored: sponsoredOverride }: Props) {
+export default function MintChainSheet({ visible, onClose, defaultChainId, isMinting, onConfirm, sponsored: sponsoredOverride, homeAllowance }: Props) {
   const { t } = useTranslation();
   const rootStyle = useThemeRootStyle();
   const chains = supportedChainIdsForMinting as number[];
@@ -151,6 +155,12 @@ export default function MintChainSheet({ visible, onClose, defaultChainId, isMin
             );
           })}
         </View>
+
+        {homeAllowance ? (
+          <MintHomeAllowanceLine quota={homeAllowance} style={{ textAlign: "center" }} />
+        ) : (
+          <MintHomeAllowance enabled={visible} style={{ textAlign: "center" }} />
+        )}
 
         <Pressable
           onPress={isMinting ? undefined : () => onConfirm(selected)}

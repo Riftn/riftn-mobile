@@ -128,7 +128,7 @@ const SECTIONS: GlossarySection[] = [
     get title() { return _translateCopy("copy.91f30ce5eeb9", { defaultValue: "Governance & Community" }); },
     entries: [
       { icon: "ShieldCheck", get title() { return _translateCopy("copy.86f8a694159b", { defaultValue: "Governance" }); }, description: { key: "screens.glossaryGovernanceDesc" } },
-      { icon: "Lightbulb", get title() { return _translateCopy("copy.d737b736eae8", { defaultValue: "Feature Requests" }); }, get description() { return _translateCopy("copy.ec9eff0f3f13", { defaultValue: "Suggest new features and vote on community ideas. Popular requests get prioritized for development." }); } },
+      { icon: "Lightbulb", get title() { return _translateCopy("copy.d737b736eae8", { defaultValue: "Build" }); }, get description() { return _translateCopy("copy.ec9eff0f3f13", { defaultValue: "Suggest new features and vote on community ideas. Popular requests get prioritized for development." }); } },
       { icon: "ChevronUp", get title() { return _translateCopy("copy.bc7b4fda29f9", { defaultValue: "Upvote" }); }, get description() { return _translateCopy("copy.a719eb990599", { defaultValue: "Vote in favor of a governance proposal or feature request. Helps signal community support." }); } },
       { icon: "ChevronDown", get title() { return _translateCopy("copy.adad75f48d49", { defaultValue: "Downvote" }); }, get description() { return _translateCopy("copy.ddea42290677", { defaultValue: "Vote against a governance proposal or feature request. Helps signal community opposition." }); } },
     ],

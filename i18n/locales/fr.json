@@ -72,6 +72,12 @@
     "moreActions": "Options de la story",
     "remixing": "Remix de la story de {{name}}",
     "watchOriginal": "Voir la story originale",
+    "translate": "Traduire",
+    "seeOriginal": "Voir l'original",
+    "translating": "Traduction…",
+    "alreadyYourLanguage": "Déjà dans votre langue",
+    "translateFailed": "Impossible de traduire pour le moment. Réessayez.",
+    "couldNotTranslate": "Impossible de traduire ce texte. C'est peut-être de l'argot ou un nom.",
     "originalUnavailable": "La story originale n'est plus disponible.",
     "copyLinkFailed": "Impossible de copier le lien de la story.",
     "linkCopied": "Lien copié",
@@ -200,11 +206,13 @@
       "view": "1 vue"
     },
     "destructSecs": "{{n}} sec",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Autoriser une relecture",
+    "timerReplayBody": "Ils peuvent l’ouvrir une fois de plus. Le compte à rebours repart."
   },
   "assistantCards": {
     "requestDraft": "Brouillon de demande publique",
-    "postRequest": "Publier dans Demandes",
+    "postRequest": "Publier dans Construire",
     "possibleDuplicates": "Doublons possibles",
     "viewPostedRequest": "Voir la demande publiée",
     "fitting": "Adaptée",
@@ -999,7 +1007,7 @@
     "wallet": "Portefeuille",
     "docs": "Documentation",
     "roadmap": "Feuille de Route",
-    "featureRequests": "Demandes",
+    "featureRequests": "Construire",
     "staking": "Staking",
     "superpowers": "Superpouvoirs",
     "governance": "Gouvernance",
@@ -2930,11 +2938,11 @@
     "global": "Mondial"
   },
   "features": {
-    "myRequests": "Mes demandes",
+    "myRequests": "Mes prompts",
     "prompts": "Propositions",
     "queued": "En attente",
-    "promptPageTitle": "Demandes",
-    "promptSubtitle": "Construisez Riftn avec une proposition",
+    "promptPageTitle": "Construire",
+    "promptSubtitle": "Construisez Riftn en lui parlant.",
     "promptNew": "Nouvelle proposition",
     "promptSearch": "Rechercher des propositions…",
     "promptHeading": "Que devrions-nous créer ensuite ?",
@@ -4304,11 +4312,11 @@
     "requestDraftMenu": "Ajouter {{query}} à Riftn",
     "requestDraftSettings": "Un réglage pour {{query}}",
     "requestSend": "Envoyer la demande",
-    "requestPostsTo": "Publié dans Demandes",
-    "requestHint": "Publié dans Demandes en ton nom. On te prévient quand c'est en ligne.",
-    "requestSent": "Envoyé dans Demandes",
+    "requestPostsTo": "Publié dans Construire",
+    "requestHint": "Publié dans Construire en votre nom. On vous prévient dès que c’est en ligne.",
+    "requestSent": "Envoyé dans Construire",
     "requestSentHint": "On te prévient quand c'est en ligne.",
-    "requestSeeIt": "Voir dans Demandes"
+    "requestSeeIt": "Voir dans Construire"
   },
   "comments": {
     "reportComment": "Signaler un commentaire",
@@ -8126,7 +8134,13 @@
       "opened": "Ouvert",
       "tapPhoto": "Appuyez pour voir",
       "tapVideo": "Appuyez pour regarder",
-      "goneAfter": "Disparaît {{time}} après l’ouverture"
+      "goneAfter": "Disparaît {{time}} après l’ouverture",
+      "left": "{{n}} s",
+      "replayAllowed": "Une relecture autorisée",
+      "tapReplay": "Appuyez pour revoir",
+      "lastView": "Dernière vue, {{time}}",
+      "goneAfterReplay": "Disparaît {{time}} après l’ouverture. Une relecture.",
+      "replaying": "Relecture"
     },
     "messagePlaceholder": "Message",
     "voiceNoteEmoji": "🎤 Note vocale",
@@ -12760,7 +12774,8 @@
           "3": "Lorsqu'une publication dépasse le quota, l'application la tarifie d'abord et vérifie si votre portefeuille peut la couvrir avant toute téléversement.",
           "4": "La publication s'effectue exactement comme si elle était dans le quota — la publication n'attend jamais un paiement.",
           "5": "Ensuite, vous approuvez un transfert pour cette publication uniquement, réglé sur la chaîne Base ou BNB qui détient suffisamment de jetons Riftn.",
-          "6": "Les deux pools sont réinitialisés à minuit UTC."
+          "6": "Les deux pools sont réinitialisés à minuit UTC.",
+          "7": "Les mints fonctionnent pareil : ton badge fixe combien de mints par jour atteignent le fil d'Accueil, le même nombre que tes posts texte. Les mints en plus passent quand même et apparaissent sur ton profil, dans Abonnements et sur le marché des fractions."
         },
         "tips": {
           "1": "Le dépassement est au prorata : 200 Mo au-delà de votre quota coûtent 200 Mo, pas un gigaoctet entier.",
@@ -15628,7 +15643,7 @@
     "31b471215872": "Classement",
     "0ad1b06f64f2": "Assistant IA",
     "86f8a694159b": "Gouvernance",
-    "d737b736eae8": "Demandes de fonctionnalités",
+    "d737b736eae8": "Construire",
     "e139251e4f5b": "Supprimer le post",
     "c0bc2a34abff": "Pour tous",
     "f416afe76d99": "Enregistrer la vidéo",
@@ -16243,10 +16258,10 @@
     "1a00975a0ac1": "@channel",
     "63eb38b938b8": "Marquer en file",
     "2fffca525795": "Marquer comme livré",
-    "3ee050a08bfa": "Retour aux demandes",
+    "3ee050a08bfa": "Retour à Construire",
     "ae6a0ffbe609": "Marqué en file",
     "366cb56b38ce": "Marqué comme livré",
-    "9db7b5ba03bb": "Renvoyé aux demandes",
+    "9db7b5ba03bb": "Revenu à Prompts",
     "bb2be752e079": "Impossible de modifier le statut",
     "2ab63e6ced90": "Pas faisable",
     "79688f176607": "Marqué comme pas faisable",
@@ -16999,6 +17014,7 @@
     "failed": "Impossible d'enregistrer ta photo. Réessaie."
   },
   "mintChain": {
+    "homeAllowance": "{{left}} mints sur {{total}} aujourd'hui atteignent l'Accueil. Les mints en plus vont sur ton profil et sur le marché.",
     "title": "Poste de menthe",
     "subtitle": "Choisissez une chaîne. Les prix sont en direct et mis à jour toutes les minutes.",
     "free": "Gratuit",
@@ -18147,6 +18163,9 @@
     "hoursStreamed_other": "{{formatted}} heures de live",
     "toNext_one": "{{formatted}} en-cas avant {{stage}}",
     "toNext_other": "{{formatted}} en-cas avant {{stage}}",
+    "requestsToday_one": "Demandes en attente : {{formatted}} en-cas aujourd'hui",
+    "requestsToday_other": "Demandes en attente : {{formatted}} en-cas aujourd'hui",
+    "requestsTomorrow": "Demandes en attente : premier en-cas demain",
     "open": "Ouvrir {{pet}}",
     "feed": "Donner un en-cas",
     "fed": "{{pet}} a mangé ton en-cas",
@@ -18177,6 +18196,7 @@
       "feeding": "Les spectateurs peuvent le nourrir avec leurs points de chaîne",
       "cost": "Points par en-cas",
       "rules": "Chaque spectateur peut lui donner jusqu'à 20 en-cas par jour. Les points n'ont aucune valeur en argent.",
+      "requests": "Tes demandes encore en attente sur le tableau des Demandes le nourrissent aussi : 1 en-cas par jour chacune, jusqu'à 3 par jour, une fois éclos.",
       "feeders": "L'ont le plus nourri"
     }
   },
@@ -18201,5 +18221,30 @@
     "offToast": "Tes messages ici partent tels que tu les écris",
     "onToast": "Tes messages ici partent maintenant en {{language}}",
     "noLanguage": "Cette personne n'a pas encore choisi de langue, tes messages partent donc tels que tu les écris pour l'instant"
+  },
+  "badgeMuseum": {
+    "title": "Musée des badges",
+    "open": "Ouvrir le Musée des badges",
+    "summary": "{{earned}} badges obtenus sur {{total}}",
+    "loading": "Chargement des badges…",
+    "earned": "Obtenu",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Les badges se débloquent tout seuls à chaque palier atteint.",
+    "name": {
+      "views": "{{value}} vues",
+      "videos": "{{value}} vidéos",
+      "followers": "{{value}} abonnés",
+      "likes": "{{value}} j'aime",
+      "firstLive": "Premier live",
+      "liveHours": "{{value}} heures de live"
+    },
+    "hint": {
+      "views": "Vues sur toutes les publications",
+      "videos": "Vidéos publiées",
+      "followers": "Abonnés",
+      "likes": "J'aime reçus",
+      "firstLive": "Faire un live une fois",
+      "liveHours": "Heures diffusées en live"
+    }
   }
 }

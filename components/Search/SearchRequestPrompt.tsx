@@ -63,12 +63,12 @@ export default function SearchRequestPrompt({ query, source, onOpenRequests }: P
       <View style={card} accessibilityLiveRegion="polite">
         <View className="flex-row items-center" style={{ gap: 8 }}>
           <Icon name="Check" size={16} color="#34D399" strokeWidth={2.4} />
-          <Text className="text-white text-[13px] font-semibold">{t("sidebar.requestSent", { defaultValue: "Sent to Requests" })}</Text>
+          <Text className="text-white text-[13px] font-semibold">{t("sidebar.requestSent", { defaultValue: "Sent to Build" })}</Text>
         </View>
         <Text className="text-theme-neutrals-500 text-xs mt-1">{t("sidebar.requestSentHint", { defaultValue: "We will tell you when it ships." })}</Text>
         {onOpenRequests ? (
           <Pressable accessibilityRole="link" onPress={onOpenRequests} hitSlop={8} style={{ marginTop: 8, alignSelf: "flex-start" }}>
-            <Text className="text-theme-neutrals-300 text-xs font-semibold underline">{t("sidebar.requestSeeIt", { defaultValue: "See it on Requests" })}</Text>
+            <Text className="text-theme-neutrals-300 text-xs font-semibold underline">{t("sidebar.requestSeeIt", { defaultValue: "See it on Build" })}</Text>
           </Pressable>
         ) : null}
       </View>
@@ -110,7 +110,7 @@ export default function SearchRequestPrompt({ query, source, onOpenRequests }: P
           </View>
         </Pressable>
       </View>
-      <Text className="text-theme-neutrals-500 text-xs mt-2">{t("sidebar.requestHint", { defaultValue: "Posts to Requests as you. We will tell you when it ships." })}</Text>
+      <Text className="text-theme-neutrals-500 text-xs mt-2">{t("sidebar.requestHint", { defaultValue: "Posts to Build as you. We will tell you when it ships." })}</Text>
     </View>
   );
 }

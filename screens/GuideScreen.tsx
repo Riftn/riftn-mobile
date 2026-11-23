@@ -58,7 +58,7 @@ const SECTION_DEFS: GuideSectionDef[] = [
   { id: "governance", icon: "Vote", steps: 6, tips: 3 },
   { id: "bookmarks", icon: "Bookmark", steps: 4, tips: 2 },
   { id: "settings", icon: "Settings", steps: 5, tips: 2 },
-  { id: "posting-allowance", icon: "SquarePen", steps: 6, tips: 4 },
+  { id: "posting-allowance", icon: "SquarePen", steps: 7, tips: 4 },
   { id: "reactions-and-safety", icon: "ThumbsUp", steps: 6, tips: 3 },
   { id: "stages", icon: "MessageCircle", steps: 6, tips: 4 },
   { id: "communities", icon: "Landmark", steps: 5, tips: 2 },

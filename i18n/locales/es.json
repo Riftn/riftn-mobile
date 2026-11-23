@@ -72,6 +72,12 @@
     "moreActions": "Opciones de la historia",
     "remixing": "Remix de la historia de {{name}}",
     "watchOriginal": "Ver la historia original",
+    "translate": "Traducir",
+    "seeOriginal": "Ver original",
+    "translating": "Traduciendo…",
+    "alreadyYourLanguage": "Ya está en tu idioma",
+    "translateFailed": "No se pudo traducir ahora. Inténtalo de nuevo.",
+    "couldNotTranslate": "No se pudo traducir. Puede ser jerga o un nombre.",
     "originalUnavailable": "La historia original ya no está disponible.",
     "copyLinkFailed": "No se pudo copiar el enlace de la historia.",
     "linkCopied": "Enlace copiado",
@@ -200,11 +206,13 @@
       "view": "1 visualización"
     },
     "destructSecs": "{{n}} seg",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Permitir una repetición",
+    "timerReplayBody": "Pueden abrirlo una vez más. La cuenta atrás vuelve a empezar."
   },
   "assistantCards": {
     "requestDraft": "Borrador de solicitud pública",
-    "postRequest": "Publicar en Solicitudes",
+    "postRequest": "Publicar en Construir",
     "possibleDuplicates": "Posibles duplicados",
     "viewPostedRequest": "Ver la solicitud publicada",
     "fitting": "Adecuada",
@@ -999,7 +1007,7 @@
     "wallet": "Billetera",
     "docs": "Documentación",
     "roadmap": "Hoja de Ruta",
-    "featureRequests": "Solicitudes",
+    "featureRequests": "Construir",
     "staking": "Estaking",
     "superpowers": "Superpoderes",
     "governance": "Gobernanza",
@@ -2930,11 +2938,11 @@
     "global": "Global"
   },
   "features": {
-    "myRequests": "Mis solicitudes",
+    "myRequests": "Mis prompts",
     "prompts": "Propuestas",
     "queued": "En cola",
-    "promptPageTitle": "Solicitudes",
-    "promptSubtitle": "Construye Riftn con una propuesta",
+    "promptPageTitle": "Construir",
+    "promptSubtitle": "Construye Riftn hablando con él.",
     "promptNew": "Nueva propuesta",
     "promptSearch": "Buscar propuestas…",
     "promptHeading": "¿Qué deberíamos crear ahora?",
@@ -4300,11 +4308,11 @@
     "requestDraftMenu": "Añadir {{query}} a Riftn",
     "requestDraftSettings": "Un ajuste para {{query}}",
     "requestSend": "Enviar petición",
-    "requestPostsTo": "Se publica en Peticiones",
-    "requestHint": "Se publica en Peticiones con tu cuenta. Te avisaremos cuando salga.",
-    "requestSent": "Enviado a Peticiones",
+    "requestPostsTo": "Se publica en Construir",
+    "requestHint": "Se publica en Construir a tu nombre. Te avisaremos cuando salga.",
+    "requestSent": "Enviado a Construir",
     "requestSentHint": "Te avisaremos cuando salga.",
-    "requestSeeIt": "Verlo en Peticiones"
+    "requestSeeIt": "Verlo en Construir"
   },
   "comments": {
     "reportComment": "Denunciar comentario",
@@ -8122,7 +8130,13 @@
       "opened": "Abierto",
       "tapPhoto": "Toca para ver",
       "tapVideo": "Toca para reproducir",
-      "goneAfter": "Desaparece {{time}} después de abrirlo"
+      "goneAfter": "Desaparece {{time}} después de abrirlo",
+      "left": "{{n}} s",
+      "replayAllowed": "Se permite una repetición",
+      "tapReplay": "Toca para volver a ver",
+      "lastView": "Última vez, {{time}}",
+      "goneAfterReplay": "Desaparece {{time}} después de abrirlo. Una repetición.",
+      "replaying": "Repetición"
     },
     "messagePlaceholder": "Mensaje…",
     "voiceNoteEmoji": "🎤 Nota de voz",
@@ -12756,7 +12770,8 @@
           "3": "Cuando una publicación excede el límite, la aplicación la valora primero y verifica si tu billetera puede cubrirla antes de que se suba nada.",
           "4": "La publicación se muestra exactamente como lo haría dentro de la asignación; la publicación nunca espera un pago.",
           "5": "Luego, apruebas una transferencia solo para esa publicación, liquidada en la cadena Base o BNB que tenga suficientes tokens de Riftn.",
-          "6": "Ambos grupos se reinician a medianoche UTC."
+          "6": "Ambos grupos se reinician a medianoche UTC.",
+          "7": "Los minteos funcionan igual: tu insignia fija cuántos minteos al día llegan al feed de Inicio, el mismo número que tus publicaciones de texto. Los minteos extra se completan igual y aparecen en tu perfil, en Siguiendo y en el mercado de fracciones."
         },
         "tips": {
           "1": "El exceso es prorrateado: 200 MB por encima de tu asignación cuestan 200 MB, no un gigabyte completo.",
@@ -15624,7 +15639,7 @@
     "31b471215872": "Tabla de clasificación",
     "0ad1b06f64f2": "Asistente de IA",
     "86f8a694159b": "Gobernanza",
-    "d737b736eae8": "Solicitudes de funciones",
+    "d737b736eae8": "Construir",
     "e139251e4f5b": "Eliminar publicación",
     "c0bc2a34abff": "Para todos",
     "f416afe76d99": "Guardar vídeo",
@@ -16239,10 +16254,10 @@
     "1a00975a0ac1": "@channel",
     "63eb38b938b8": "Marcar en cola",
     "2fffca525795": "Marcar como lanzado",
-    "3ee050a08bfa": "Volver a Solicitudes",
+    "3ee050a08bfa": "Volver a Construir",
     "ae6a0ffbe609": "Marcado en cola",
     "366cb56b38ce": "Marcado como lanzado",
-    "9db7b5ba03bb": "Devuelto a Solicitudes",
+    "9db7b5ba03bb": "Se ha vuelto a mover a «Sugerencias»",
     "bb2be752e079": "No se pudo cambiar el estado",
     "2ab63e6ced90": "No viable",
     "79688f176607": "Marcado como no viable",
@@ -16995,6 +17010,7 @@
     "failed": "No se pudo guardar tu foto. Inténtalo de nuevo."
   },
   "mintChain": {
+    "homeAllowance": "{{left}} de {{total}} minteos de hoy llegan a Inicio. Los minteos extra van a tu perfil y al mercado.",
     "title": "Publicación de menta",
     "subtitle": "Elige una cadena. Los precios están disponibles y se actualizan cada minuto.",
     "free": "Gratis",
@@ -18143,6 +18159,9 @@
     "hoursStreamed_other": "{{formatted}} horas en directo",
     "toNext_one": "{{formatted}} bocado para {{stage}}",
     "toNext_other": "{{formatted}} bocados para {{stage}}",
+    "requestsToday_one": "Solicitudes en espera: {{formatted}} bocado hoy",
+    "requestsToday_other": "Solicitudes en espera: {{formatted}} bocados hoy",
+    "requestsTomorrow": "Solicitudes en espera: primer bocado mañana",
     "open": "Abrir {{pet}}",
     "feed": "Dar un bocado",
     "fed": "{{pet}} se comió tu bocado",
@@ -18173,6 +18192,7 @@
       "feeding": "Los espectadores pueden alimentarla con puntos del canal",
       "cost": "Puntos por bocado",
       "rules": "Cada espectador puede darle hasta 20 bocados al día. Los puntos no tienen valor en dinero.",
+      "requests": "Tus solicitudes que siguen esperando en el tablero de Solicitudes también lo alimentan: 1 bocado al día cada una, hasta 3 al día, una vez que haya nacido.",
       "feeders": "Quién más la alimentó"
     }
   },
@@ -18197,5 +18217,30 @@
     "offToast": "Tus mensajes aquí se envían tal como los escribes",
     "onToast": "Tus mensajes aquí ahora se envían en {{language}}",
     "noLanguage": "Aún no han elegido un idioma en la app, así que por ahora tus mensajes se envían tal como los escribes"
+  },
+  "badgeMuseum": {
+    "title": "Museo de insignias",
+    "open": "Abrir el Museo de insignias",
+    "summary": "{{earned}} de {{total}} insignias conseguidas",
+    "loading": "Cargando insignias…",
+    "earned": "Conseguida",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Las insignias se desbloquean solas al alcanzar cada hito.",
+    "name": {
+      "views": "{{value}} visualizaciones",
+      "videos": "{{value}} vídeos",
+      "followers": "{{value}} seguidores",
+      "likes": "{{value}} me gusta",
+      "firstLive": "Primer directo",
+      "liveHours": "{{value}} horas en directo"
+    },
+    "hint": {
+      "views": "Visualizaciones en todas las publicaciones",
+      "videos": "Vídeos subidos",
+      "followers": "Seguidores",
+      "likes": "Me gusta recibidos",
+      "firstLive": "Haz un directo una vez",
+      "liveHours": "Horas emitidas en directo"
+    }
   }
 }

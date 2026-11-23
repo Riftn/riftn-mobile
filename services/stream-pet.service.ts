@@ -5,7 +5,8 @@ import { apiClient } from "../libs";
  * creator hatches one in Live Studio; it eats a snack for every five minutes
  * they stream, grows with what it ate, falls asleep after a hungry day and
  * never dies. While they are live, viewers can buy it a snack with their
- * channel points.
+ * channel points. Once it hatched, the owner's requests still waiting on the
+ * Requests board give it a snack a day each (up to 3 a day).
  */
 
 export const PET_NAME_MAX = 20;
@@ -37,6 +38,11 @@ export interface StreamPet {
   food: number;
   streamFood: number;
   viewerFood: number;
+  /** Snacks from the owner's waiting Requests board requests, all time and today (UTC). */
+  requestFood: number;
+  requestFoodToday: number;
+  /** The owner's waiting requests that can still feed it. */
+  requestsWaiting: number;
   stageFood: number;
   nextStageFood: number | null;
   progress: number;
@@ -76,6 +82,9 @@ export function parsePet(raw: any): StreamPet | null {
     food: num(raw.food),
     streamFood: num(raw.streamFood),
     viewerFood: num(raw.viewerFood),
+    requestFood: num(raw.requestFood),
+    requestFoodToday: num(raw.requestFoodToday),
+    requestsWaiting: num(raw.requestsWaiting),
     stageFood: num(raw.stageFood),
     nextStageFood: raw.nextStageFood == null ? null : num(raw.nextStageFood),
     progress: Math.min(1, Math.max(0, num(raw.progress))),
@@ -159,4 +168,11 @@ export function petMoodKey(pet: StreamPet, own: boolean): { key: string; hours?:
   if (pet.mood === "asleep") return { key: own ? "streamPet.mood.asleepOwn" : "streamPet.mood.asleep" };
   if (pet.mood === "hungry") return { key: "streamPet.mood.hungry", hours: hoursUntil(pet.sleepsAt) };
   return { key: "streamPet.mood.happy" };
+}
+
+/** What the owner's waiting Requests board requests fed it today. Null when there is nothing to say. */
+export function petRequestKey(pet: StreamPet, own: boolean): { key: string; count?: number } | null {
+  if (pet.requestFoodToday > 0) return { key: "streamPet.requestsToday", count: pet.requestFoodToday };
+  if (own && pet.mood !== "egg" && pet.requestsWaiting > 0) return { key: "streamPet.requestsTomorrow" };
+  return null;
 }

@@ -471,8 +471,8 @@ export async function unlockLockedMedia(messageId: ID, txHash: string): Promise<
  * both), or opened an on-open one (its countdown starts; `expiresAt` says when
  * it goes).
  */
-export async function markDmMessageViewed(messageId: string): Promise<{ status?: string; expiresAt?: string }> {
-  const res = await apiClient.post<{ status?: string; expiresAt?: string }>(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
+export async function markDmMessageViewed(messageId: string): Promise<{ status?: string; expiresAt?: string; replaysLeft?: number }> {
+  const res = await apiClient.post<{ status?: string; expiresAt?: string; replaysLeft?: number }>(`/dm/message/${encodeURIComponent(messageId)}/viewed`, {}, { isAuthRequired: true });
   return res && typeof res === "object" ? res : {};
 }
 
