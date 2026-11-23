@@ -70,13 +70,22 @@ interface Props {
   sponsored?: boolean;
   /** Override for previews; otherwise read from the creator's allowance. */
   homeAllowance?: Pick<PostQuotaStatus, "mintsPerDay" | "homeMintsRemaining">;
+  /** Sheet title; "Mint post" when left out. */
+  title?: string;
+  /** Not a post (NFT market Create): no home-feed mint allowance line. */
+  hideAllowance?: boolean;
+  /** Only these chains (the NFT market trades on a few). */
+  onlyChains?: readonly number[];
+  /** Open the copies and royalties box straight away. */
+  editionOpen?: boolean;
 }
 
-export default function MintChainSheet({ visible, onClose, defaultChainId, isMinting, onConfirm, sponsored: sponsoredOverride, homeAllowance, hideEdition }: Props) {
+export default function MintChainSheet({ visible, onClose, defaultChainId, isMinting, onConfirm, sponsored: sponsoredOverride, homeAllowance, hideEdition, title, hideAllowance, onlyChains, editionOpen }: Props) {
   const [edition, setEdition] = useState<{ value: EditionChoice; valid: boolean }>({ value: {}, valid: true });
   const { t } = useTranslation();
   const rootStyle = useThemeRootStyle();
-  const chains = supportedChainIdsForMinting as number[];
+  const allChains = supportedChainIdsForMinting as number[];
+  const chains = onlyChains ? allChains.filter((c) => onlyChains.includes(c)) : allChains;
   const fallback = chains.includes(Number(defaultChainId)) ? Number(defaultChainId) : (chains.includes(getDefaultChainId()) ? getDefaultChainId() : chains[0]);
   const [selected, setSelected] = useState(fallback);
   const [sessionSponsored, setSponsored] = useState(false);
@@ -110,7 +119,7 @@ export default function MintChainSheet({ visible, onClose, defaultChainId, isMin
           <View style={{ width: 40, height: 4, borderRadius: 2, backgroundColor: "rgba(255,255,255,0.2)" }} />
         </View>
         <View style={{ gap: 4 }}>
-          <Text className="text-white text-lg font-semibold">{t("mintChain.title", { defaultValue: "Mint post" })}</Text>
+          <Text className="text-white text-lg font-semibold">{title ?? t("mintChain.title", { defaultValue: "Mint post" })}</Text>
           <Text className="text-white/50 text-sm">
             {t("mintChain.subtitle", { defaultValue: "Choose a chain. Prices are live and update every minute." })}
           </Text>
@@ -163,10 +172,10 @@ export default function MintChainSheet({ visible, onClose, defaultChainId, isMin
         </View>
 
         {!hideEdition && visible ? (
-          <EditionOptions onChange={(value, valid) => setEdition({ value, valid })} disabled={isMinting} />
+          <EditionOptions onChange={(value, valid) => setEdition({ value, valid })} disabled={isMinting} defaultOpen={editionOpen} />
         ) : null}
 
-        {homeAllowance ? (
+        {hideAllowance ? null : homeAllowance ? (
           <MintHomeAllowanceLine quota={homeAllowance} style={{ textAlign: "center" }} />
         ) : (
           <MintHomeAllowance enabled={visible} style={{ textAlign: "center" }} />

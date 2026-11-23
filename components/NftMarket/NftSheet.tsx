@@ -15,6 +15,7 @@ import { ethers } from "ethers";
 import { FractionSheet as Sheet, Note, Panel, PanelRow, PrimaryButton, NumberField, sheetStyles } from "../Fractions/SheetParts";
 import { NftArt, formatPrice } from "./NftTile";
 import AuctionBox from "./AuctionBox";
+import CollectorPanel, { useEditionSupply } from "../Collect/CollectorPanel";
 import { toastError, toastSuccess } from "../../libs/toast";
 import { WEBSITE_LINK } from "../../config/links";
 import { useDebouncedValue } from "../../hooks/useDebouncedValue";
@@ -79,6 +80,8 @@ const NftSheet: React.FC<Props> = ({ target, onClose, onSignIn, signer, canTrade
     queryFn: () => nftMarket.nft(target!.chainId, target!.contract, target!.tokenId),
     enabled: visible,
   });
+  // Create-tab NFTs carry copies, royalties and owner extras; posts do not.
+  const edition = useEditionSupply(visible && detail.data?.isDehub ? target?.tokenId : undefined);
   const config = useQuery({ queryKey: ["nft-market", "config"], queryFn: nftMarket.config, staleTime: 10 * 60_000 });
   const held = useQuery({
     queryKey: ["nft-market", "held", key, me],
@@ -299,6 +302,8 @@ const NftSheet: React.FC<Props> = ({ target, onClose, onSignIn, signer, canTrade
           disabled={tradeLocked}
         />
       ) : null}
+
+      {target && detail.data?.isDehub && edition.data?.nftOnly ? <CollectorPanel tokenId={target.tokenId} /> : null}
 
       {offers.length ? (
         <Panel>

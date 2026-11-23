@@ -397,7 +397,9 @@ export default function PostInfoScreen() {
           </Section>
         )}
 
-        {isMinted && tokenId ? <CollectorPanel tokenId={tokenId} /> : null}
+        {/* Copies, royalties and owner extras belong to NFTs made in the
+            market's Create tab; a post's mint is its 1,000 fractions. */}
+        {isMinted && tokenId && (post as any)?.nftOnly ? <CollectorPanel tokenId={tokenId} /> : null}
 
         {!DIGITAL_PURCHASES_ENABLED && (isMinted || (isUnminted && isOwner)) && (
           <WebPurchaseLink path={`/app/post/${tokenId}/info`} style={{ marginHorizontal: 16, marginTop: 12 }} />
@@ -619,7 +621,7 @@ export default function PostInfoScreen() {
           onClose={() => setMintSheet(false)}
           defaultChainId={chainId}
           isMinting={isMinting}
-          hideEdition={!!(post as any)?.streamInfo?.isAddBounty}
+          hideEdition={!(post as any)?.nftOnly}
           onConfirm={handleMint}
         />
       )}

@@ -374,6 +374,7 @@
     "startHint": "Lista un NFT desde Tuyos para ser el primero.",
     "noSales": "Aún no hay ventas",
     "tabBrowse": "Explorar",
+    "tabCreate": "Crear",
     "tabMine": "Tuyos",
     "tabSales": "Ventas",
     "wrongChain": "Cambia tu wallet a {{chain}} para operar con esto",
@@ -18435,5 +18436,27 @@
     "shelfAll": "Todo",
     "shelfCreated": "Creados",
     "shelfCollected": "Coleccionados"
+  },
+  "nftCreate": {
+    "eyebrow": "Crear",
+    "title": "Crea un NFT",
+    "intro": "Un NFT no es una publicación. Vive aquí en el mercado: elige cuántas copias, quién gana en las reventas y extras que solo pueden abrir los dueños.",
+    "pickArt": "Elige la imagen",
+    "pickArtHint": "Imagen o GIF, 42 MB como máximo",
+    "removeArt": "Quitar",
+    "name": "Título",
+    "namePlaceholder": "Ponle nombre a tu NFT",
+    "description": "Descripción (opcional)",
+    "next": "Elegir copias y acuñar",
+    "yours": "Tus NFTs",
+    "none": "Nada todavía. Tus NFTs aparecerán aquí.",
+    "minting": "Acuñando…",
+    "finish": "Terminar de acuñar",
+    "sheetTitle": "Acuñar NFT",
+    "signIn": "Inicia sesión para crear un NFT",
+    "imageOnly": "Elige una imagen o GIF. Añade vídeo, música o archivos como extras para dueños después de acuñar.",
+    "tooBig": "Ese archivo pasa de 42 MB",
+    "minted": "NFT acuñado. Aparecerá en el mercado en un minuto.",
+    "failed": "No se pudo crear el NFT"
   }
 }

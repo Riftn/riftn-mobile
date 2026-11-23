@@ -374,6 +374,7 @@
     "startHint": "Mettez un NFT en vente depuis Les vôtres pour être le premier.",
     "noSales": "Aucune vente pour l'instant",
     "tabBrowse": "Parcourir",
+    "tabCreate": "Créer",
     "tabMine": "Les vôtres",
     "tabSales": "Ventes",
     "wrongChain": "Passez votre portefeuille sur {{chain}} pour échanger ceci",
@@ -18439,5 +18440,27 @@
     "shelfAll": "Tout",
     "shelfCreated": "Créés",
     "shelfCollected": "Collectionnés"
+  },
+  "nftCreate": {
+    "eyebrow": "Créer",
+    "title": "Créer un NFT",
+    "intro": "Un NFT n'est pas une publication. Il vit ici sur le marché : choisis le nombre d'exemplaires, qui gagne à la revente et des extras que seuls les propriétaires peuvent ouvrir.",
+    "pickArt": "Choisir l'image",
+    "pickArtHint": "Image ou GIF, 42 Mo max",
+    "removeArt": "Retirer",
+    "name": "Titre",
+    "namePlaceholder": "Nomme ton NFT",
+    "description": "Description (facultatif)",
+    "next": "Choisir les exemplaires et minter",
+    "yours": "Tes NFT",
+    "none": "Rien pour l'instant. Tes NFT apparaîtront ici.",
+    "minting": "Mint en cours…",
+    "finish": "Terminer le mint",
+    "sheetTitle": "Minter le NFT",
+    "signIn": "Connecte-toi pour créer un NFT",
+    "imageOnly": "Choisis une image ou un GIF. Ajoute vidéo, musique ou fichiers en extras pour les propriétaires après le mint.",
+    "tooBig": "Ce fichier dépasse 42 Mo",
+    "minted": "NFT minté. Il apparaît sur le marché d'ici une minute.",
+    "failed": "Impossible de créer le NFT"
   }
 }
