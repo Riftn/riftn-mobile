@@ -1161,7 +1161,10 @@ const AppDrawer: React.FC<AppDrawerProps> = ({ visible, onClose }) => {
                       style={styles.balanceEye}
                       testID="drawer-balance-eye"
                     >
-                      <Icon name={balanceHidden ? "EyeOff" : "Eye"} size={15} color="hsla(0, 0%, 100%, 0.6)" />
+                      {/* Plain white so it follows the number's colour in every theme (System Light turns it dark); dimmed a touch (Requests 70b20f3f). */}
+                      <View style={styles.balanceEyeIcon}>
+                        <Icon name={balanceHidden ? "EyeOff" : "Eye"} size={15} color="#FFFFFF" />
+                      </View>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -1547,6 +1550,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingLeft: 2,
     paddingRight: 10,
+  },
+  balanceEyeIcon: {
+    opacity: 0.8,
   },
   balanceText: {
     color: "#FFFFFF",
