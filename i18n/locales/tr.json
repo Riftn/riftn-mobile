@@ -200,7 +200,9 @@
       "view": "1 görüntüleme"
     },
     "destructSecs": "{{n}} saniye",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Bir kez tekrara izin ver",
+    "timerReplayBody": "Bir kez daha açabilirler. Geri sayım yeniden başlar."
   },
   "assistantCards": {
     "requestDraft": "Herkese açık istek taslağı",
@@ -8116,7 +8118,13 @@
       "opened": "Açıldı",
       "tapPhoto": "Görmek için dokun",
       "tapVideo": "İzlemek için dokun",
-      "goneAfter": "Açtıktan {{time}} sonra kaybolur"
+      "goneAfter": "Açtıktan {{time}} sonra kaybolur",
+      "left": "{{n}} sn",
+      "replayAllowed": "Bir kez tekrar açılabilir",
+      "tapReplay": "Tekrar açmak için dokun",
+      "lastView": "Son bakış, {{time}}",
+      "goneAfterReplay": "Açtıktan {{time}} sonra kaybolur. Bir kez tekrar açılabilir.",
+      "replaying": "Tekrar"
     },
     "messagePlaceholder": "Mesaj…",
     "voiceNoteEmoji": "🎤 Sesli not",
@@ -8404,7 +8412,8 @@
     "mostActive": "En aktif",
     "hereNow": "Şimdi burada",
     "nobodyYet": "Henüz hiç kimse",
-    "rotate": "Ekranı döndür"
+    "rotate": "Ekranı döndür",
+    "chatPlaceholder": "yaz..."
   },
   "search": {
     "open": "Ara",
