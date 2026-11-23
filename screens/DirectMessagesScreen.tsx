@@ -49,7 +49,7 @@ import { useUserProfileSheet } from "../context/UserProfileSheetContext";
 import { truncateAddress } from "../libs/strings.util";
 import { toastInfo, toastSuccess, toastError } from "../libs/toast";
 import { toast } from "sonner-native";
-import NotesSheet, { NotesStrip } from "../components/DM/NotesSheet";
+import NotesSheet, { useGroupNotes, useNotesByAuthor } from "../components/DM/NotesSheet";
 import type { NoteEntry } from "../services/notes.service";
 import { scheduleDelete, undoDelete, usePendingDeletes, UNDO_WINDOW_MS } from "../libs/undoable-delete";
 import { blockUser } from "../services/block.service";
@@ -124,6 +124,8 @@ const DirectMessagesInner: React.FC = () => {
   const [notesVisible, setNotesVisible] = useState(false);
   const [notesView, setNotesView] = useState<NoteEntry | null>(null);
   const openNotes = useCallback((entry: NoteEntry | null) => { setNotesView(entry); setNotesVisible(true); }, []);
+  // Notes ride in the chat cards: a person's in their chat, members' in a group's.
+  const notesByAuthor = useNotesByAuthor(!!myAddress);
   const { data: memberships } = useQuery({
     queryKey: ["communities", "user", myAddress],
     queryFn: () => getUserCommunities(myAddress),
@@ -264,6 +266,7 @@ const DirectMessagesInner: React.FC = () => {
     () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions || (roomSummaries[c.id]?.unread ?? 0) > 0) : groupChats).filter(roomInTab).filter(c => query.trim() || archivedRoom(c) === showingArchive),
     [groupChats, tabFilter, chatPrefs, roomInTab, roomSummaries, archivedRoom, showingArchive, query],
   );
+  const groupNotes = useGroupNotes(myAddress ? shownGroups.map((c) => c.id) : [], myAddress || null);
   const roomsUnread = groupChats.filter(c => !archivedRoom(c)).reduce((n, c) => n + (roomSummaries[c.id]?.unread ?? 0), 0);
   const inboxUnreadChats = useMemo(
     () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id) && !archivedDm(c) && convHasUnread(c)).length
@@ -678,9 +681,13 @@ const DirectMessagesInner: React.FC = () => {
         checked={!!bulkIds?.has(item._id)}
         markedUnread={!!chatPrefs.get(item._id)?.markedUnread}
         reactions={chatPrefs.get(item._id)?.reactions}
+        notesByAuthor={notesByAuthor}
+        onNotePress={openNotes}
       />
     ),
     [
+      notesByAuthor,
+      openNotes,
       picking,
       bulkIds,
       chatPrefs,
@@ -822,8 +829,6 @@ const DirectMessagesInner: React.FC = () => {
         </>
       ) : (
       <>
-      {/* Notes strip, only for people who have a note or see one. */}
-      {!!myAddress && tabFilter === "all" && !customTab && !showingArchive && !query.trim() && <NotesStrip onOpen={openNotes} />}
       {(tabFilter === "all" || (tabFilter === "unread" && (publicUnread > 0 || !!publicReactions))) && publicInTab && (
       <>
       <ChatCard unread={publicUnread > 0 || !!publicReactions}>
@@ -895,6 +900,8 @@ const DirectMessagesInner: React.FC = () => {
             reactions={chatPrefs.get(roomChatId(c.id))?.reactions}
             summary={roomSummaries[c.id]}
             me={myAddress}
+            notes={groupNotes[c.id]}
+            onNotePress={openNotes}
           />
           <View style={SEPARATOR} />
         </React.Fragment>
@@ -934,7 +941,7 @@ const DirectMessagesInner: React.FC = () => {
       )}
       </>
     ),
-    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, showingArchive, requestsTabShown, SEPARATOR, openNotes],
+    [handleOpenLiveChat, publicUnread, publicLastLine, roomSummaries, myAddress, t, shownGroups, openGroupChat, inRequests, requestChats.length, requestUnread, query, picking, bulkIds, chatPrefs, toggleBulk, tabsOn, tabRowTabs, activeTab, tabUnread, tabFilter, publicInTab, customTab, showingArchive, requestsTabShown, SEPARATOR, openNotes, groupNotes],
   );
 
   const itemSeparator = useCallback(() => <View style={SEPARATOR} />, [SEPARATOR]);
