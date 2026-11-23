@@ -109,7 +109,7 @@
     "addToMoment": "إضافة إلى لحظتك",
     "moreActions": "خيارات القصة",
     "remixing": "إعادة مزج قصة {{name}}",
-    "watchOriginal": "مشاهدة القصة الأصلية",
+    "watchOriginal": "مشاهدة القصة الأصلية", "hiddenCount": "مخفي ({{count}})", "showHidden": "إظهار المخفي ({{count}})", "mentionedYou": "ذكرك في لحظته",
     "shareToMoment": "مشاركة في لحظة",
     "goToPost": "الانتقال إلى المنشور",
     "fromYourPost": "من منشورك", "fromAPost": "من منشور",
@@ -2872,7 +2872,7 @@
       "governanceVotedRejected": "لم يتم تمرير الاقتراح الذي صوتّ عليه: \"{{title}}\"",
       "governancePassed": "تمت الموافقة على اقتراحك \"{{title}}\" 🎉",
       "governanceRejected": "لم يتم قبول اقتراحك \"{{title}}\"",
-      "fractionGift": "{{name}} أرسل لك حصصًا"
+      "fractionGift": "{{name}} أرسل لك حصصًا", "storyLiked": "أعجب {{name}} بلحظتك", "storyMention": "ذكرك {{name}} في لحظته"
     }
   },
   "leaderboard": {

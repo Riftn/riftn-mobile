@@ -33,6 +33,7 @@ import { isReplyAction } from './message-reply';
 import { noteNotificationMoment } from '../../libs/review-prompt';
 import { useOnboarding } from '../../context/OnboardingChecklistContext';
 import { listProfiles } from '../../libs/profiles';
+import { openMomentById } from '../../libs/open-moment';
 
 const logger = createLogger('PushProvider');
 
@@ -476,6 +477,14 @@ export const PushNotificationsProvider: React.FC<PushNotificationsProviderProps>
       }
 
       switch (type) {
+        // A like or mention on a moment opens the moment over whatever is showing.
+        case NotificationType.STORY_LIKE:
+        case NotificationType.STORY_MENTION:
+          void openMomentById((data as { storyId?: unknown }).storyId, userAddress).then((opened) => {
+            if (!opened) navigation.navigate(ScreenNames.Notifications);
+          });
+          break;
+
         case NotificationType.FOLLOWING:
           // One new follower opens that person, the same as their row in the
           // list does; a grouped "N people followed you" opens the list.

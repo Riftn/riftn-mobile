@@ -1164,7 +1164,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             {/* Shared Riftn link — rich preview card that opens it on tap */}
             {momentReply ? (
               <View style={{ maxWidth: MAX_IMAGE_WIDTH }}>
-                <MomentReplyPreview shared={"shared" in momentReply} id={momentReply.id} onLongPress={handleLongPress} />
+                <MomentReplyPreview shared={"shared" in momentReply} mention={"mention" in momentReply} id={momentReply.id} onLongPress={handleLongPress} />
                 {!!momentReply.text && <LinkedText text={translated ?? momentReply.text} onLongPress={handleLongPress}
                   className={`px-3 pt-2 text-[15px] ${isMine ? "text-white" : "text-theme-neutrals-100"}`}
                   style={chatTextStyle} fontSize={15 * textScale} />}
