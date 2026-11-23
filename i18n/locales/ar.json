@@ -2204,7 +2204,12 @@
     "any": "الكل",
     "resetFilters": "إعادة تعيين الفلاتر",
     "updatingFeed": "تحديث الشبكة",
-    "filters": "المفاصل"
+    "filters": "المفاصل",
+    "namedFeeds": "الخلاصات",
+    "namedPulse": "اقرأ وناقش",
+    "namedMotion": "شاهد",
+    "namedEcho": "استمع",
+    "namedClear": "إلغاء {{name}}"
   },
   "drawers": {
     "ppvTitle": "محتوى الدفع لكل مشاهدة",
