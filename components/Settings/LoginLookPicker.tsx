@@ -25,6 +25,7 @@ const LABELS: Record<LoginLook, [string, string]> = {
 
 /** The sign is drawn at this width, then shrunk to fit the card with room on both sides. */
 const SIGN_W = 360;
+const SIGN_H = 240;
 const CARD_PAD = 6;
 
 export default function LoginLookPicker() {
@@ -68,12 +69,18 @@ export default function LoginLookPicker() {
                 pointerEvents="none"
                 accessibilityElementsHidden
                 importantForAccessibility="no-hide-descendants"
-                style={{ height: Math.round(240 * scale), borderRadius: 12, overflow: "hidden", backgroundColor: isLight ? "hsla(240,12%,93%,1)" : "#08080B", alignItems: "center", justifyContent: "center" }}
+                style={{ height: Math.round(SIGN_H * scale), borderRadius: 12, overflow: "hidden", backgroundColor: isLight ? "hsla(240,12%,93%,1)" : "#08080B", alignItems: "center", justifyContent: "center" }}
               >
                 {seen ? (
-                  <View style={{ width: SIGN_W, paddingTop: 84, transform: [{ scale }] }}>
-                    {/* Moves only while it is in view. */}
-                    <LoginSign look={look} text={text} theme={theme} isLight={isLight} still={still || !inView} />
+                  // Laid out at full size (SIGN_W x SIGN_H), then shrunk. Without
+                  // the fixed height the sign was squeezed into the small card's
+                  // height before the shrink, and Android laid the headline out
+                  // as one line: "and be happy." went missing.
+                  <View style={{ width: SIGN_W, height: SIGN_H, justifyContent: "center", transform: [{ scale }] }}>
+                    <View style={{ paddingTop: 84 }}>
+                      {/* Moves only while it is in view. */}
+                      <LoginSign look={look} text={text} theme={theme} isLight={isLight} still={still || !inView} />
+                    </View>
                   </View>
                 ) : null}
               </View>
