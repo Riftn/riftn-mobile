@@ -33,6 +33,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import Avatar from "../common/Avatar";
 import Icon from "../ui/Icon";
+import { markDmMessageViewed } from "../../services/dm/dm.api";
 import { toastError } from "../../libs/toast";
 import { formatAttachmentSize, getAttachmentLabel } from "../../libs/attachments";
 import VoiceNotePlayer from "../Comments/VoiceNotePlayer";
@@ -645,6 +646,21 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     [navigation, onImagePress],
   );
 
+  // A view-once photo sent to me: open it once, tell the server (which removes
+  // it for both of us), and never show it again on this phone either.
+  const viewOnceForMe = message.destruct?.mode === "view" && !isMine;
+  const [viewOnceOpened, setViewOnceOpened] = useState(false);
+  const openViewOnce = useCallback(
+    (url: string) => {
+      if (viewOnceOpened) return;
+      setViewOnceOpened(true);
+      void markDmMessageViewed(message._id).catch(() => undefined);
+      // No save button on something meant to be seen once.
+      navigation.navigate("ImageViewer", { images: [url], initialIndex: 0, allowDownload: false });
+    },
+    [viewOnceOpened, message._id, navigation],
+  );
+
   const handleVideoTap = useCallback(
     (url: string) => {
       onVideoPress?.(url, {
@@ -750,7 +766,10 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
 
   // A tap-to-open timed photo is a text tile, not a picture: its time and ticks go
   // on their own line under it, never on top of the countdown words.
-  const isOpenTimerTile = message.destruct?.mode === "open" && mediaItems.some((m) => m.kind === "image" || m.kind === "video");
+  const isOpenTimerTile =
+    (message.destruct?.mode === "open" && mediaItems.some((m) => m.kind === "image" || m.kind === "video")) ||
+    (message.destruct?.mode === "open" && encVisual) ||
+    (viewOnceForMe && (mediaItems.some((m) => m.kind === "image") || encMedia?.kind === "image"));
   const isMediaOnly = (mediaItems.length > 0 || encVisual) && !hasText && !isVoice && !isOpenTimerTile;
   // Media-only paid msgs need a background for PaymentBadge; plain media-only don't
   const activeBubbleBg = isMediaOnly
@@ -1093,6 +1112,28 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
                       onPress={() => handleVideoTap(item.url)}
                       onLongPress={handleLongPress}
                     />
+                  ) : viewOnceForMe && item.kind !== "gif" ? (
+                    // View once: never drawn in the chat, opens one time, then gone.
+                    <Pressable
+                      key={idx}
+                      onPress={viewOnceOpened ? undefined : () => openViewOnce(item.url)}
+                      onLongPress={handleLongPress}
+                      delayLongPress={350}
+                      disabled={viewOnceOpened}
+                      accessibilityRole="button"
+                      className="flex-row items-center px-3 py-3"
+                      style={{ gap: 12, minWidth: 200 }}
+                    >
+                      <View className="w-10 h-10 rounded-full items-center justify-center" style={{ backgroundColor: "hsla(0,0%,100%,0.12)" }}>
+                        <Icon name={viewOnceOpened ? "Eye" : "Image"} size={20} color="#F4F4F5" />
+                      </View>
+                      <View style={{ flexShrink: 1 }}>
+                        <Text className="text-[14px] font-semibold text-white">
+                          {viewOnceOpened ? t("dm.openTimer.opened", "Opened") : t("dm.openTimer.tapPhoto", "Tap to view")}
+                        </Text>
+                        <Text className="text-[12px] text-theme-neutrals-400">{t("dmVideo.destruct.view", "1 view")}</Text>
+                      </View>
+                    </Pressable>
                   ) : (
                     <DmTimeLeft key={idx} destruct={message.destruct}>
                       <AutoImage
