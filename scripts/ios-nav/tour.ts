@@ -1512,7 +1512,7 @@ async function runLiveKeys(): Promise<void> {
   const where = () => new Promise<Record<string, unknown>>((resolve) => {
     const k = Keyboard.metrics();
     if (!box?.measureInWindow) return resolve({ box: false, keys: k });
-    box.measureInWindow((x, y, w, h) => resolve({ y: Math.round(y), h: Math.round(h), keysTop: k?.screenY, keysH: k?.height, up: Keyboard.isVisible() }));
+    box.measureInWindow((x, y, w, h) => resolve({ x: Math.round(x), y: Math.round(y), w: Math.round(w), h: Math.round(h), keysTop: k?.screenY, keysH: k?.height, up: Keyboard.isVisible() }));
   });
   const note = async (check: string) => {
     const at = await where();
@@ -1520,8 +1520,15 @@ async function runLiveKeys(): Promise<void> {
     console.error(`[perf-tour] livekeys ${check}: ${JSON.stringify(at)}`);
     await save(false);
   };
-  if (box) inputState.focusTextInput(box);
-  await sleep(3000);
+  // A real finger on the box, the way the keyboard comes up for people (a
+  // focus from code did not raise the keys on the simulator). The sheet
+  // starts about 50pt down the screen; the box is measured inside it.
+  const at0 = await where();
+  const tapY = Math.round(Number(at0.y ?? 748) + Number(at0.h ?? 27) / 2 + 50);
+  await AsyncStorage.setItem(SWIPE_KEY, `tap:live-box-1:120:${tapY}`);
+  await sleep(9000);
+  if (!Keyboard.isVisible() && box) inputState.focusTextInput(box);
+  await sleep(2500);
   await shot("live-1-keyboard");
   await sleep(700);
   await note("normal");
@@ -1532,7 +1539,7 @@ async function runLiveKeys(): Promise<void> {
   await shot("live-2-reply");
   await sleep(700);
   await note("reply");
-  await AsyncStorage.setItem(SWIPE_KEY, "type:live-long-3:this is a long message to see the box grow line by line while the keys stay up on a phone");
+  await AsyncStorage.setItem(SWIPE_KEY, "type:live-long-2:this is a long message to see the box grow line by line while the keys stay up on a phone");
   await sleep(14000);
   await shot("live-3-long");
   await sleep(700);

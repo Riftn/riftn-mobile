@@ -365,6 +365,9 @@ trap scrub EXIT
 if [ "$MODE" = keys ]; then
   # The on-screen keyboard has to stay up while idb types like a real one.
   xcrun simctl spawn "$UDID" defaults write com.apple.Preferences AutomaticMinimizationEnabled -bool NO >/dev/null 2>&1 || true
+  # Software keys on a tap, as on a phone (a connected Mac keyboard hides them).
+  defaults write com.apple.iphonesimulator ConnectHardwareKeyboard -bool false >/dev/null 2>&1 || true
+  xcrun simctl spawn "$UDID" defaults write com.apple.Preferences HardwareKeyboardLastSeen -bool NO >/dev/null 2>&1 || true
   for theme in ${KEYS_THEMES:-system hazy system-light osaka}; do
     run after "keys-$theme" "" keys "$theme"
   done
