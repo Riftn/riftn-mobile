@@ -468,7 +468,8 @@ const styles = StyleSheet.create({
   text: { color: "#FFFFFF", textAlign: "center" },
   glowRoom: { paddingVertical: 12, marginVertical: -12 },
   edge: { position: "absolute", left: 0, right: 0, top: 0 },
-  shadeRoom: { top: -12, paddingVertical: 12 },
+  // Room for the soft shadow (5 down, 14 blur) so Android does not cut it flat.
+  shadeRoom: { top: -24, paddingVertical: 24 },
   maskText: { color: "#000000" },
   roll: { position: "absolute", left: 0, right: 0, top: 0 },
   measure: { position: "absolute", left: 0, top: 0, width: 2000, opacity: 0, alignItems: "flex-start" },
