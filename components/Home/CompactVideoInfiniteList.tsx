@@ -26,6 +26,7 @@ import { getUserVideos, getUserLiveVideos, getLikedNFTs } from "../../services/u
 import { GetNFTsResult } from "../../services/nft.service";
 import ProfileEmptyState from "../Profile/ProfileEmptyState";
 import { isTabListFresh, readTabList, writeTabList } from "../../libs/tab-list-cache";
+import { PaneAnimatedFlatList } from "../Profile/profilePaneScroll";
 
 interface CompactVideoInfiniteListProps {
   address: string; // user address to fetch videos for
@@ -228,9 +229,17 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
     );
   }, [hasMore]);
 
+  // The top gap goes under a profile header, not above it, so the header sits
+  // at the same height as on every other profile tab.
+  const topGap = cinematic ? 0 : 8;
+  const header = useMemo(
+    () => (ListHeaderComponent ? <>{ListHeaderComponent}<View style={{ height: topGap }} /></> : undefined),
+    [ListHeaderComponent, topGap],
+  );
+
   return (
     <View className="flex-1">
-      <Animated.FlatList
+      <PaneAnimatedFlatList
         key={grid ? "grid" : "list"}
         numColumns={grid ? 3 : 1}
         ref={listRef}
@@ -249,7 +258,7 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
       initialNumToRender={10}
       windowSize={11}
       removeClippedSubviews={false}
-      ListHeaderComponent={ListHeaderComponent || undefined}
+      ListHeaderComponent={header}
       refreshControl={
         <DeHubRefreshControl
           refreshing={refreshing}
@@ -258,7 +267,7 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
         />
       }
       contentContainerStyle={{
-        paddingTop: cinematic ? 0 : 8,
+        paddingTop: ListHeaderComponent ? 0 : topGap,
         paddingBottom: bottomPadding,
       }}
       ListEmptyComponent={

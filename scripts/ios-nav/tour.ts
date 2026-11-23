@@ -2387,10 +2387,103 @@ async function runMoments(): Promise<void> {
   console.error("[perf-tour] moments done");
 }
 
+/**
+ * Profile tabs: real finger taps on a profile's tab bar, with the page at the
+ * top, part way down and with the bar pinned, filmed. Before and after each
+ * tap the script reads where the tab bar is drawn ("where:"), so a page that
+ * jumps on a tab switch shows as a moved bar. Signed in it walks your own
+ * profile; signed out, araf's.
+ */
+async function runProfileTabs(): Promise<void> {
+  extra = { startedAt: Date.now(), mode: "profiletabs" };
+  // The profile reports each switch and where each tab list is put (main's
+  // code has neither; then nothing is logged).
+  const g = globalThis as { __profileTabSwitch?: (info: unknown) => void; __profilePaneOffset?: (y: number, seq: number) => void };
+  g.__profileTabSwitch = (info) => console.error(`[perf-tour] switch ${JSON.stringify(info)}`);
+  g.__profilePaneOffset = (y, seq) => console.error(`[perf-tour] pane offset ${Math.round(y * 1000) / 1000} seq ${seq}`);
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  const signedIn = await hasSession();
+  extra.signedIn = signedIn;
+  if (signedIn) tab(ScreenNames.ProfileTab)();
+  else emitProfileDeepLink((await AsyncStorage.getItem(`${FLAG_KEY}.profile`)) || "araf");
+  await sleep(12000);
+  extra.opened = nav.getCurrentRoute()?.name;
+  const steps: { step: string; worstMs: number; slowFrames: number; wall: number }[] = [];
+  extra.tabSteps = steps;
+  let n = 0;
+  const ask = async (request: string, waitMs: number) => {
+    await AsyncStorage.setItem(SWIPE_KEY, request);
+    await sleep(waitMs);
+  };
+  const where = async (label: string) => {
+    n += 1;
+    await ask(`where:${String(n).padStart(2, "0")}-${label}:${label}`, 4500);
+  };
+  const act = async (step: string, request: string) => {
+    n += 1;
+    const name = `${String(n).padStart(2, "0")}-${step}`;
+    const stamps: number[] = [];
+    let alive = true;
+    const loop = () => {
+      if (!alive) return;
+      stamps.push(now());
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+    const wall = Date.now();
+    await ask(request.replace("@", name), 7000);
+    alive = false;
+    let worst = 0;
+    let slow = 0;
+    for (let i = 1; i < stamps.length; i++) {
+      const gap = stamps[i] - stamps[i - 1];
+      if (gap > worst) worst = gap;
+      if (gap > FRAME_MS * 2) slow += 1;
+    }
+    steps.push({ step: name, worstMs: Math.round(worst), slowFrames: slow, wall });
+    console.error(`[perf-tour] ${name}: worst frame ${Math.round(worst)} ms, ${slow} slow`);
+    await shot(name);
+    await sleep(700);
+    await save(false);
+  };
+  await shot("00-open");
+  await sleep(700);
+  await where("All");
+  await act("scroll-part", "scroll:@:-260");
+  await where("All");
+  await act("tap-images", "find:@:Images");
+  await where("Images");
+  await act("tap-videos", "find:@:Videos");
+  await where("Videos");
+  await act("tap-all", "find:@:All");
+  await where("All");
+  await act("scroll-pin", "scroll:@:-700");
+  await where("All");
+  await act("tap-images-pinned", "find:@:Images");
+  await where("Images");
+  await act("tap-posts-pinned", "find:@:Posts");
+  await where("Posts");
+  await act("tap-all-pinned", "find:@:All");
+  await where("All");
+  await act("scroll-top", "scroll:@:690");
+  await act("scroll-top-2", "scroll:@:690");
+  await act("tap-videos-top", "find:@:Videos");
+  await where("Videos");
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error(`[perf-tour] profiletabs done: opened ${String(extra.opened)}, signed in ${String(signedIn)}`);
+}
+
 void (async () => {
   try {
     const mode = await AsyncStorage.getItem(FLAG_KEY);
-    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments" && mode !== "sharelink") return;
+    if (mode !== "1" && mode !== "pages" && mode !== "probe" && mode !== "login" && mode !== "touch" && mode !== "shorts" && mode !== "wide" && mode !== "keys" && mode !== "shells" && mode !== "bones" && mode !== "wallet" && mode !== "loginsheet" && mode !== "player" && mode !== "menu" && mode !== "speed" && mode !== "livetheme" && mode !== "reactions" && mode !== "rowreactions" && mode !== "freeze" && mode !== "feedline" && mode !== "moments" && mode !== "sharelink" && mode !== "profiletabs") return;
     // One walk per launch the script asked for.
     await AsyncStorage.removeItem(FLAG_KEY);
     for (let i = 0; i < 300 && !nav.isReady(); i++) await sleep(200);
@@ -2415,6 +2508,7 @@ void (async () => {
     else if (mode === "feedline") await runFeedLine();
     else if (mode === "sharelink") await runShareLink();
     else if (mode === "moments") await runMoments();
+    else if (mode === "profiletabs") await runProfileTabs();
     else await run();
   } catch (error) {
     console.error(`[perf-tour] failed ${String(error)}`);

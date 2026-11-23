@@ -32,6 +32,7 @@ import Icon from "../ui/Icon";
 import { isTabListFresh, readTabList, writeTabList } from "../../libs/tab-list-cache";
 import { useFeedScrollLifecycle } from "../../hooks/useFeedScrollLifecycle";
 import { ProfileFeedOriginContext, useProvidedProfileFeed } from "../../libs/profileFeedOrigin";
+import { PaneAnimatedFlatList, PaneAnimatedScrollView } from "./profilePaneScroll";
 
 const noopScroll = () => {};
 
@@ -312,12 +313,12 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
 
   if (loading) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View className="items-center justify-center py-10">
           <ActivityIndicator color={theme.colors.accent} />
         </View>
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
@@ -325,7 +326,7 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
   // offer a retry, instead of "No posts or replies yet" with no way out.
   if (loadFailed && merged.length === 0) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={{ alignItems: "center", justifyContent: "center", paddingVertical: 40, paddingHorizontal: 24, gap: 12 }}>
           <Icon name="WifiOff" size={48} color="#808089" />
@@ -339,27 +340,27 @@ const PostsRoute: React.FC<PostsRouteProps> = ({
             <Text style={{ color: "#FFFFFF", fontSize: 14, fontWeight: "500" }}>{t("common.retry")}</Text>
           </Pressable>
         </View>
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   if (merged.length === 0) {
     return (
-      <Animated.ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneAnimatedScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <ProfileEmptyState
           kind="posts"
           title={t("profile.noPostsOrReplies")}
           subtitle={t("profile.noPostsOrRepliesSub")}
         />
-      </Animated.ScrollView>
+      </PaneAnimatedScrollView>
     );
   }
 
   return (
     <ProfileFeedOriginContext.Provider value={feedSource}>
     <View className="flex-1">
-      <Animated.FlatList
+      <PaneAnimatedFlatList
       ref={listRef}
         data={merged}
         keyExtractor={rowKeyExtractor}

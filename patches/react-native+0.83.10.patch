@@ -271,10 +271,10 @@ index eb0e1a9..9bfebc9 100644
          navigationBarTranslucent={this.props.navigationBarTranslucent}
          identifier={this._identifier}
 diff --git a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js
-index 98a91dc..8b6c3d7 100644
+index 98a91dc..5bca479 100644
 --- a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js
 +++ b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-dev.js
-@@ -15950,6 +15950,16 @@ __DEV__ &&
+@@ -15950,6 +15950,21 @@ __DEV__ &&
        return DefaultEventPriority;
      }
      function cloneHiddenInstance(instance) {
@@ -288,14 +288,19 @@ index 98a91dc..8b6c3d7 100644
 +        "ios" === ReactNativePrivateInterface.Platform.OS
 +      )
 +        return instance;
++      // A kept profile tab (nativeID "keep-mounted"): its views stay mounted
++      // and its owner takes it off screen, so its lists keep their scroll
++      // spot and are not rebuilt on the way back.
++      var hiddenProps = instance.canonical.currentProps;
++      if (hiddenProps && "keep-mounted" === hiddenProps.nativeID) return instance;
        var node = instance.node,
          updatePayload = ReactNativePrivateInterface.createAttributePayload(
            { style: { display: "none" } },
 diff --git a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-prod.js b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-prod.js
-index a5abb00..00e204a 100644
+index a5abb00..ac25b0e 100644
 --- a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-prod.js
 +++ b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-prod.js
-@@ -10400,6 +10400,16 @@ function resolveUpdatePriority() {
+@@ -10400,6 +10400,21 @@ function resolveUpdatePriority() {
  var scheduleTimeout = setTimeout,
    cancelTimeout = clearTimeout;
  function cloneHiddenInstance(instance) {
@@ -309,14 +314,19 @@ index a5abb00..00e204a 100644
 +    "ios" === ReactNativePrivateInterface.Platform.OS
 +  )
 +    return instance;
++  // A kept profile tab (nativeID "keep-mounted"): its views stay mounted
++  // and its owner takes it off screen, so its lists keep their scroll
++  // spot and are not rebuilt on the way back.
++  var hiddenProps = instance.canonical.currentProps;
++  if (hiddenProps && "keep-mounted" === hiddenProps.nativeID) return instance;
    var node = instance.node,
      updatePayload = ReactNativePrivateInterface.createAttributePayload(
        { style: { display: "none" } },
 diff --git a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-profiling.js b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-profiling.js
-index 9d49450..9355c0b 100644
+index 9d49450..691622a 100644
 --- a/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-profiling.js
 +++ b/node_modules/react-native/Libraries/Renderer/implementations/ReactFabric-profiling.js
-@@ -12203,6 +12203,16 @@ function resolveUpdatePriority() {
+@@ -12203,6 +12203,21 @@ function resolveUpdatePriority() {
  var scheduleTimeout = setTimeout,
    cancelTimeout = clearTimeout;
  function cloneHiddenInstance(instance) {
@@ -330,6 +340,11 @@ index 9d49450..9355c0b 100644
 +    "ios" === ReactNativePrivateInterface.Platform.OS
 +  )
 +    return instance;
++  // A kept profile tab (nativeID "keep-mounted"): its views stay mounted
++  // and its owner takes it off screen, so its lists keep their scroll
++  // spot and are not rebuilt on the way back.
++  var hiddenProps = instance.canonical.currentProps;
++  if (hiddenProps && "keep-mounted" === hiddenProps.nativeID) return instance;
    var node = instance.node,
      updatePayload = ReactNativePrivateInterface.createAttributePayload(
        { style: { display: "none" } },

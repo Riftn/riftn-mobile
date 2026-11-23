@@ -271,6 +271,19 @@ run() {
             if [ -n "$fx" ]; then
               idb ui swipe --udid "$UDID" --duration 0.35 "$fx" "$fy" "$fx" "$((fy + flick_dy))" >/dev/null 2>&1 || echo "$name: idb swipe failed"
             fi ;;
+          where:*)
+            # "where:<label>:<text>": only note where that text is drawn (in
+            # <name>-finds.txt), to tell whether the page moved.
+            IFS=: read -r _ where_name where_text <<< "$touch"
+            idb ui describe-all --udid "$UDID" > "$WORK/ax.json" 2>/dev/null || echo "[]" > "$WORK/ax.json"
+            python3 scripts/ios-nav/ax-find.py "$WORK/ax.json" "$where_text" "$OUT/nav/$name-finds.txt" "$where_name" >/dev/null ;;
+          scroll:*)
+            # "scroll:<label>:<dy>": a slow finger drag up (dy < 0) or down
+            # through the middle of the screen, slow enough not to fling.
+            IFS=: read -r _ scroll_name scroll_dy <<< "$touch"
+            python3 -c 'import sys, time; print(sys.argv[1], int(time.time()*1000))' "$scroll_name" >> "$OUT/nav/$name.taps"
+            scroll_from=760; [ "$scroll_dy" -gt 0 ] && scroll_from=130
+            idb ui swipe --udid "$UDID" --duration 1.4 200 "$scroll_from" 200 "$((scroll_from + scroll_dy))" >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           find:*)
             # "find:<label>:<button text>": tap the button with that text,
             # wherever it is drawn; nothing is tapped when it is not up.
@@ -285,6 +298,7 @@ run() {
               sleep 1.5
             done
             if [ -n "$tap_x" ]; then
+              python3 -c 'import sys, time; print(sys.argv[1], int(time.time()*1000))' "$find_name" >> "$OUT/nav/$name.taps"
               idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed"
             fi ;;
           *)
@@ -474,6 +488,20 @@ if [ "$MODE" = feedline ]; then
   done
   kill "$LOG_PID" 2>/dev/null
   grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  exit 0
+fi
+
+if [ "$MODE" = profiletabs ]; then
+  # Profile tab taps, filmed: main's code, then this checkout's. Signed in it
+  # walks your own profile (not filmed), signed out araf's.
+  for round in $(seq 1 "$ROUNDS"); do
+    run before "profiletabs-main-$round" record profiletabs system
+    run after "profiletabs-$round" record profiletabs system
+  done
+  kill "$LOG_PID" 2>/dev/null
+  grep -E '\[perf-tour\]|\[FatalJS\]|\[UncaughtJS\]' "$OUT/logs/app.log" | cut -c1-400 > "$OUT/logs/tour.txt" || true
+  for f in "$OUT"/nav/profiletabs-*-finds.txt; do echo "== $f"; cat "$f"; done | tee "$OUT/nav/summary.md"
+  [ -n "${GITHUB_STEP_SUMMARY:-}" ] && cat "$OUT/nav/summary.md" >> "$GITHUB_STEP_SUMMARY"
   exit 0
 fi
 

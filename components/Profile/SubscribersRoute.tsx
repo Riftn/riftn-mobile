@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import Icon from "../ui/Icon";
 import { getPlans, type SubscriptionPlan } from "../../services/subscription.service";
 import ProfileEmptyState from "./ProfileEmptyState";
+import { PaneFlatList, PaneScrollView } from "./profilePaneScroll";
 
 interface SubscribersRouteProps {
   address?: string;
@@ -78,18 +79,18 @@ const SubscribersRoute: React.FC<SubscribersRouteProps> = ({ address, isOwnProfi
 
   if (loading) {
     return (
-      <ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={{ alignItems: "center", justifyContent: "center", paddingVertical: 40 }}>
           <ActivityIndicator color="#fff" />
         </View>
-      </ScrollView>
+      </PaneScrollView>
     );
   }
 
   if (error) {
     return (
-      <ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={{ alignItems: "center", justifyContent: "center", paddingVertical: 40, paddingHorizontal: 24, gap: 12 }}>
           <Icon name="CircleAlert" size={40} color="#808089" />
@@ -102,13 +103,13 @@ const SubscribersRoute: React.FC<SubscribersRouteProps> = ({ address, isOwnProfi
             <Text style={{ color: "#FFFFFF", fontSize: 14, fontWeight: "600" }}>{t("common.retry")}</Text>
           </TouchableOpacity>
         </View>
-      </ScrollView>
+      </PaneScrollView>
     );
   }
 
   return (
     <>
-      <FlatList
+      <PaneFlatList
         data={plans}
         keyExtractor={(item) => String(item._id || item.id || Math.random())}
         renderItem={renderItem}

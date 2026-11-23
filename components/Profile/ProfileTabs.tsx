@@ -3,8 +3,10 @@ import ProfileScrollViewport from './ProfileScrollViewport';
 import { PROFILE_BAR_HEIGHT, PROFILE_TABS_TOP_GAP, useProfileCollapse } from './useProfileCollapse';
 import { getCoverUrl, getDefaultBanner } from '../../libs/misc';
 import ProfilePinnedBar from './ProfilePinnedBar';
+import { ProfilePane, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls } from './profilePaneScroll';
+import { runOnUISync } from 'react-native-worklets';
 import { useTranslation as _useCopy } from 'react-i18next';
-import React, { Activity, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { View, useWindowDimensions } from "react-native";
 import { useAuthActions } from "../../context/AuthContext";
 import { ProfilePullFrame, useProfilePullRefresh } from "./ProfilePullRefresh";
@@ -73,7 +75,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
   const collapse = useProfileCollapse(address);
   // Pull down at the top to reload your header, counts and every tab's posts.
   const { refreshUser } = useAuthActions();
-  const { width: windowWidth } = useWindowDimensions();
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const pull = useProfilePullRefresh(!!address, collapse.scrollY, refreshUser);
   const pullCover = user?.coverImageUrl ? { uri: getCoverUrl(user.coverImageUrl, windowWidth) } : getDefaultBanner(address || '');
   const profileScrollY = collapse.scrollY;
@@ -221,10 +223,33 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     return () => clearTimeout(timer);
   }, [address, tabItems, activeKey]);
 
+  // Switching tabs leaves the header where it is: while it is in view the
+  // new tab opens at the same height; once the bar is pinned it stays pinned
+  // and the new tab starts just under it (or where it was left, if lower).
+  // The spot is set before the tab shows, in the same update (profilePaneScroll).
+  const [headerH, setHeaderH] = useState(0);
+  const [restores, setRestores] = useState<Record<string, { y: number; seq: number }>>({});
+  useEffect(() => { setRestores({}); }, [address]);
   const handleTabChange = useCallback((key: string) => {
     if (key === activeKey) return;
+    // Read and written on the UI thread in one go, so the new tab's lists see
+    // the spot as they mount (a plain .value write from here lands later).
+    const placed = runOnUISync((from: string, to: string) => {
+      'worklet';
+      const offsets = tabOffsets.value;
+      const pinAt = headerHeight.value > 0 ? headerHeight.value + PROFILE_TABS_TOP_GAP : 0;
+      const current = offsets[from] ?? profileScrollY.value;
+      const y = profileTabTarget(current, offsets[to], pinAt);
+      tabOffsets.value = { ...offsets, [to]: y };
+      activeKeyShared.value = to;
+      return { y, pinAt, current };
+    }, activeKey, key);
+    noteProfileTabSwitch({ own: true, from: activeKey, to: key, ...placed });
+    setRestores((prev) => ({ ...prev, [key]: { y: placed.y, seq: (prev[key]?.seq ?? 0) + 1 } }));
     setActiveKey(key);
-  }, [activeKey]);
+  }, [activeKey, tabOffsets, headerHeight, profileScrollY, activeKeyShared]);
+  const paneMinHeight = headerH > 0 ? headerH + PROFILE_TABS_TOP_GAP + windowHeight : 0;
+  const paneScroll = useProfilePaneScrolls((key) => tabOffsets.value[key] ?? 0, restores, paneMinHeight);
 
   // The pinned bar and the collapse follow the tab now on screen: a kept tab
   // comes back at its own offset, a new one at the top.
@@ -245,7 +270,7 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
   const listHeader = useMemo(() => (
     <View>
       {/* A kept tab's copy of the header measures 0 while that tab is hidden. */}
-      <Animated.View style={expandedHeaderStyle} onLayout={(event) => { const height = event.nativeEvent.layout.height; if (height > 0) headerHeight.value = height; }}><PinnedCommunities
+      <Animated.View style={expandedHeaderStyle} onLayout={(event) => { const height = event.nativeEvent.layout.height; if (height > 0) { headerHeight.value = height; setHeaderH(Math.round(height)); } }}><PinnedCommunities
         walletAddress={address || ""}
         isOwnProfile
         renderHeader={(community) => <ProfileHeader featuredCommunity={community} onIdentityBottom={collapse.onIdentityBottom} onActionsBottom={collapse.onActionsBottom} />}
@@ -307,9 +332,9 @@ const ProfileTabs = ({ canGoBack, onBackPress }: { canGoBack: boolean; onBackPre
     <ProfilePullFrame pull={pull} cover={pullCover}>
     <ProfileScrollViewport {...collapse}>
       {paneKeys.map((key) => (
-        <Activity key={`${address}:${key}`} mode={key === activeKey ? "visible" : "hidden"}>
-          <View style={{ flex: 1 }}>{renderScene(key)}</View>
-        </Activity>
+        <ProfilePane key={`${address}:${key}`} active={key === activeKey} scroll={paneScroll(key)}>
+          {renderScene(key)}
+        </ProfilePane>
       ))}
     </ProfileScrollViewport>
     </ProfilePullFrame>

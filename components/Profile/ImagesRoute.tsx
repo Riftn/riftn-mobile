@@ -8,6 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { ScreenNames } from "../../navigation/ScreenNames";
 import ProfileEmptyState from "./ProfileEmptyState";
 import { isTabListFresh, readTabList, writeTabList } from "../../libs/tab-list-cache";
+import { PaneScrollView } from "./profilePaneScroll";
 
 interface ImagesRouteProps {
   /** Channel toolbar state, threaded to the API rather than applied on screen. */
@@ -131,18 +132,18 @@ const ImagesRoute: React.FC<ImagesRouteProps> = ({
 
   if (loading) {
     return (
-      <ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={{ alignItems: "center", justifyContent: "center", paddingVertical: 40 }}>
           <ActivityIndicator color="#fff" />
         </View>
-      </ScrollView>
+      </PaneScrollView>
     );
   }
 
   if (error) {
     return (
-      <ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <View style={{ alignItems: "center", justifyContent: "center", paddingVertical: 40, paddingHorizontal: 24, gap: 12 }}>
           <Icon name="WifiOff" size={48} color="#808089" />
@@ -155,20 +156,20 @@ const ImagesRoute: React.FC<ImagesRouteProps> = ({
             <Text style={{ color: "#FFFFFF", fontSize: 14, fontWeight: "500" }}>{t("common.retry")}</Text>
           </Pressable>
         </View>
-      </ScrollView>
+      </PaneScrollView>
     );
   }
 
   if (images.length === 0) {
     return (
-      <ScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
+      <PaneScrollView onScroll={onScroll} scrollEventThrottle={16} showsVerticalScrollIndicator={false}>
         {listHeader}
         <ProfileEmptyState
           kind="images"
           title={t("profile.noImages")}
           subtitle={t("profile.noImagesSub")}
         />
-      </ScrollView>
+      </PaneScrollView>
     );
   }
 

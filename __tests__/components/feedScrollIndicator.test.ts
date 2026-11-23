@@ -36,7 +36,7 @@ const FEED_FILES = [
 // useRef<FlatList<Item>>(null), where the name follows an identifier, and the
 // lookahead drops longer names such as FlashListRef.
 const LIST_TAG =
-  /(?<![\w$.])<(Animated\.FlatList|AnimatedFlatList|AnimatedFlashList|Animated\.ScrollView|FlatList|FlashList|ScrollView)(?=[\s>])/g;
+  /(?<![\w$.])<(Animated\.FlatList|AnimatedFlatList|AnimatedFlashList|Animated\.ScrollView|FlatList|FlashList|ScrollView|PaneAnimatedFlatList|PaneFlatList|PaneAnimatedScrollView|PaneScrollView)(?=[\s>])/g;
 
 const HORIZONTAL = /\shorizontal(?=[\s=/>])/;
 
