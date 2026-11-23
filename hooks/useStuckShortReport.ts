@@ -49,9 +49,11 @@ function read<T>(get: () => T, fallback: T): T {
 export function useStuckShortReport(player: VideoPlayer | null, active: boolean, options: {
   postId?: string | number | null;
   source?: string | null;
-  /** The viewer wants it playing and has not paused it. */
+  /** On screen, the viewer has not paused it and nothing is over it. */
   wanted: () => boolean;
   firstFrame: () => boolean;
+  /** More state for the report: whether the app itself asked it to play, and so on. */
+  detail?: () => Record<string, unknown>;
 }): void {
   const latest = useRef(options);
   latest.current = options;
@@ -85,6 +87,7 @@ export function useStuckShortReport(player: VideoPlayer | null, active: boolean,
           bankedAhead: Number.isFinite(ahead) ? Math.round(ahead * 100) / 100 : null,
           firstFrame: latest.current.firstFrame(),
           kind: /\.m3u8(\?|$)/i.test(source) ? 'hls' : 'mp4',
+          ...read(() => latest.current.detail?.() ?? {}, {}),
         },
       });
     };

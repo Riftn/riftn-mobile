@@ -1059,6 +1059,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   // mode and low-end phones keep the old one-view behaviour for memory.
   const warmView = isNearby && !liteMode && !isLowEndDevice();
   const viewMounted = !!player && ownsVideo && !noVideo && (isActive || warmView);
+  const viewMountedRef = useRef(viewMounted);
+  viewMountedRef.current = viewMounted;
   useEffect(() => {
     if (!viewMounted) setFirstFrameRendered(false);
   }, [viewMounted]);
@@ -1095,8 +1097,13 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   firstFrameRef.current = firstFrameRendered;
   useStuckShortReport(noVideo || !ownsVideo ? null : player, isActive, {
     postId: tokenId, source: videoUrl,
-    wanted: () => recovery.wanted && !pausedByUserRef.current && itemNavigation.isFocused(),
+    // Not "the app asked it to play": a Short the app forgot to ask is stuck too.
+    wanted: () => !pausedByUserRef.current && itemNavigation.isFocused(),
     firstFrame: () => firstFrameRef.current,
+    detail: () => ({
+      asked: recovery.wanted, phase: recovery.phase, owns: ownsPlayerRef.current(), canStart: canStartVideo(player),
+      peeking: peekingRef.current, viewMounted: viewMountedRef.current,
+    }),
   });
   // A lapsed signature fails like a broken file; fetch a fresh one.
   const refetchShortAccess = shortAccess.refetch;
