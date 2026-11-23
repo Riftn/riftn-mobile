@@ -346,6 +346,11 @@ function AppNavigatorContent() {
           name={ScreenNames.Okey}
           getComponent={() => deferredScreen('../screens/OkeyScreen#default', () => require("../screens/OkeyScreen").default)}
         />
+        {/* SillyCoin: tap-to-mine idle game, coins sent between friends. */}
+        <Stack.Screen
+          name={ScreenNames.SillyCoin}
+          getComponent={() => deferredScreen('../screens/SillyCoinScreen#default', () => require("../screens/SillyCoinScreen").default)}
+        />
         {/* The mini app store and player. The player is its own entry, like the
             arcade's, so the WebView is torn down on the way out. MiniAppDev is
             the same screen in developer mode. */}

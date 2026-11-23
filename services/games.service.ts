@@ -248,3 +248,67 @@ export function isPairTiles(tiles: number[], indicator: number): boolean {
   const fb = b >= 104 ? okeyOf(indicator) : tileFace(b);
   return fa.c === fb.c && fa.n === fb.n;
 }
+
+// ------------------------------------------------------------------ SillyCoin
+// Tap-to-mine idle game. SillyCoins are game points with no value: not a
+// token, never connected to a wallet. The server caps taps at 15 a second and
+// idle pay at 8 hours (riftn-backend src/games/sillycoin.service.ts).
+
+export type SillyUpgradeKind = 'pick' | 'miner' | 'rig';
+
+export interface SillyUpgrade {
+  kind: SillyUpgradeKind;
+  level: number;
+  cost: number | null;
+  maxed: boolean;
+  perTap: number;
+  perSecond: number;
+}
+
+export interface SillyMe {
+  balance: number;
+  totalMined: number;
+  totalSent: number;
+  totalReceived: number;
+  perTap: number;
+  perSecond: number;
+  upgrades: SillyUpgrade[];
+  awayEarned: number;
+  awaySeconds: number;
+  serverTime: string;
+}
+
+export interface SillyTransfer {
+  id: string;
+  direction: 'in' | 'out';
+  other: GamePlayer;
+  amount: number;
+  note: string | null;
+  createdAt: string;
+}
+
+export interface SillyBoardRow {
+  rank: number;
+  player: GamePlayer;
+  totalMined: number;
+}
+
+export interface SillyState {
+  rules: { maxTapsPerSecond: number; offlineCapHours: number; maxLevel: number };
+  me: SillyMe | null;
+  transfers: SillyTransfer[];
+  leaderboard: SillyBoardRow[];
+}
+
+export const sillyState = (signedIn: boolean) => get<SillyState>('/games/sillycoin', signedIn);
+export const sillyMine = (taps: number) => post<{ me: SillyMe; accepted: number }>('/games/sillycoin/mine', { taps });
+export const sillyUpgrade = (kind: SillyUpgradeKind, taps: number) => post<{ me: SillyMe }>('/games/sillycoin/upgrade', { kind, taps });
+export const sillySend = (body: { to: string; amount: number; note?: string; taps: number }) =>
+  post<{ me: SillyMe; transfer: SillyTransfer }>('/games/sillycoin/send', body);
+
+/** Starting prices, shown to signed-out players (same as the server's). */
+export const SILLY_UPGRADES: Record<SillyUpgradeKind, { base: number; perTap: number; perSecond: number }> = {
+  pick: { base: 20, perTap: 1, perSecond: 0 },
+  miner: { base: 50, perTap: 0, perSecond: 1 },
+  rig: { base: 1500, perTap: 0, perSecond: 10 },
+};
