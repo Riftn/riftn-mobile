@@ -11,6 +11,7 @@
  * number taken from its first 48 bits, and the map back lives next to the list.
  */
 import { ensureAiConsent, hasAiConsent } from "../libs/ai-consent";
+import { useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { supabase } from "../services/supabase";
@@ -25,6 +26,7 @@ import { isPositiveReaction, type PostReaction } from "../libs/reactions";
 import type { Comment } from "../services/nft.service";
 import type { MediaAttachment } from "../components/Comments/CommentMediaPreview";
 import { patchFeatureRow } from "./useFeatureRequests";
+import { pingFeatureComments, watchFeatureComments } from "../libs/feature-comment-live";
 
 const log = createLogger("useFeatureRequestThread");
 
@@ -120,12 +122,28 @@ function useWallet(): string | null {
   return wallet ? wallet.toLowerCase() : null;
 }
 
+/** How often an open thread re-reads, in case a ping was missed. */
+const POLL_MS = 15_000;
+
 export function useFeatureRequestThread(featureRequestId: string | null) {
   const viewer = useWallet();
+  const queryClient = useQueryClient();
+
+  // Someone else commented, edited, deleted or reacted: read the thread again.
+  useEffect(() => {
+    if (!featureRequestId) return;
+    return watchFeatureComments(featureRequestId, () => {
+      void queryClient.invalidateQueries({ queryKey: ["feature-request-thread", featureRequestId] });
+    });
+  }, [featureRequestId, queryClient]);
+
   return useQuery({
     queryKey: queryKey(featureRequestId, viewer),
     enabled: !!featureRequestId,
-    staleTime: 30_000,
+    staleTime: 10_000,
+    // The app never refetches on focus, so an open thread polls while the app
+    // is in the foreground. react-query pauses this in the background.
+    refetchInterval: POLL_MS,
     // A copy saved to disk by an older build has its rows Map turned into a
     // plain object; show nothing from it until the fresh fetch lands.
     select: (data: FeatureThreadData): FeatureThreadData =>
@@ -281,6 +299,11 @@ export function useFeatureThreadActions(featureRequestId: string, feature: { tit
   const user = useUser() as any;
   const key = queryKey(featureRequestId, wallet);
   const refresh = () => queryClient.invalidateQueries({ queryKey: ["feature-request-thread", featureRequestId] });
+  /** Refresh here and tell every other open copy of this thread. */
+  const changed = () => {
+    pingFeatureComments(featureRequestId);
+    return refresh();
+  };
 
   const submit = useMutation({
     mutationFn: async (input: { content: string; parent: Row | null; media: MediaAttachment | null }) => {
@@ -321,7 +344,7 @@ export function useFeatureThreadActions(featureRequestId: string, feature: { tit
       return data as Row;
     },
     onSuccess: (row, input) => {
-      void refresh();
+      void changed();
       patchFeatureRow(queryClient, featureRequestId, (fr) => ({ ...fr, comment_count: (fr.comment_count || 0) + 1 }));
       if (row?.id && wallet && ASSISTANT_MENTION_RE.test(input.content)) {
         void (async () => {
@@ -334,7 +357,7 @@ export function useFeatureThreadActions(featureRequestId: string, feature: { tit
             headers,
           });
           if (error) throw error;
-          void refresh();
+          void changed();
         })().catch((error) => log.warn("Assistant reply failed:", error));
       }
     },
@@ -356,7 +379,7 @@ export function useFeatureThreadActions(featureRequestId: string, feature: { tit
       );
       if (error) throw error;
     },
-    onSuccess: () => { void refresh(); },
+    onSuccess: () => { void changed(); },
     onError: (error) => toastError(error, t("feedCard.saveFailed")),
   });
 
@@ -370,7 +393,7 @@ export function useFeatureThreadActions(featureRequestId: string, feature: { tit
       if (error) throw error;
     },
     onSuccess: () => {
-      void refresh();
+      void changed();
       patchFeatureRow(queryClient, featureRequestId, (fr) => ({ ...fr, comment_count: Math.max(0, (fr.comment_count || 0) - 1) }));
     },
     onError: (error) => toastError(error, t("copy.c65a5314ca9e", { defaultValue: "Failed to delete comment" })),
@@ -393,6 +416,7 @@ export function useFeatureThreadActions(featureRequestId: string, feature: { tit
       toastError(error, t("copy.13931898084d", { defaultValue: "Failed to react" }));
       throw error;
     }
+    pingFeatureComments(featureRequestId);
     void queryClient.invalidateQueries({ queryKey: key });
   };
 
