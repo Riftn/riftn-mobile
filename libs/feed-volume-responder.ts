@@ -1,4 +1,5 @@
-import type { PanResponderCallbacks } from "react-native";
+import { useRef } from "react";
+import { PanResponder, type PanResponderCallbacks, type PanResponderInstance } from "react-native";
 
 /** How long a finger has to sit on the speaker before a drag means volume. */
 export const VOLUME_HOLD_MS = 220;
@@ -85,4 +86,29 @@ export function feedVolumeResponder(opts: FeedVolumeResponderOptions): PanRespon
     },
     onPanResponderTerminate: finish,
   };
+}
+
+/**
+ * One responder for the life of the button. Hitting the bottom mutes and
+ * leaving it unmutes, which changes the callers' callbacks; rebuilding the
+ * responder then would swap in a fresh one mid-drag that has not seen the
+ * hold, so the drag froze at either end. The latest callbacks are read
+ * through a ref instead.
+ */
+export function useFeedVolumeResponder(opts: FeedVolumeResponderOptions): PanResponderInstance {
+  const optsRef = useRef(opts);
+  optsRef.current = opts;
+  const responderRef = useRef<PanResponderInstance | null>(null);
+  if (!responderRef.current) {
+    responderRef.current = PanResponder.create(
+      feedVolumeResponder({
+        onHoldStart: () => optsRef.current.onHoldStart(),
+        onVolume: (v) => optsRef.current.onVolume(v),
+        onTap: () => optsRef.current.onTap(),
+        onEnd: () => optsRef.current.onEnd(),
+        onHoldRelease: () => optsRef.current.onHoldRelease?.(),
+      }),
+    );
+  }
+  return responderRef.current;
 }
