@@ -64,7 +64,7 @@ export interface DehubLinkMatch {
    * either shape, so the raw key is carried through rather than split in two.
    */
   bountyJobKey?: string;
-  /** `/features?feature=<uuid>` — one card on the Requests board. */
+  /** `/build?feature=<uuid>` — one card on the Build board. */
   featureRequestId?: string;
   /** Any other page of ours (Leaderboard, Shorts, an arcade game...). */
   pagePath?: string;
@@ -303,8 +303,9 @@ export function parseDehubLink(input: string): DehubLinkMatch | null {
     return { ...base, kind: 'bounty', bountyJobKey: scoped[1] };
   }
 
-  // ── /features?feature=<uuid> — one request on the Requests board ──
-  if (scoped[0] === 'features' && !scoped[1]) {
+  // ── /build?feature=<uuid> — one request on the Build board ──
+  // The board's older addresses, /features and /requests, still card.
+  if ((scoped[0] === 'build' || scoped[0] === 'features' || scoped[0] === 'requests') && !scoped[1]) {
     const id = queryParam(parts.search, 'feature') || queryParam(parts.search, 'request');
     if (id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
       return { ...base, kind: 'featureRequest', featureRequestId: id.toLowerCase() };

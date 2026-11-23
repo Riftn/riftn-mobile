@@ -32,7 +32,7 @@ export const LINKABLE_PAGES: LinkablePage[] = [
   { path: '/music', labelKey: 'feed.music', icon: 'Music' },
   { path: '/app/communities', labelKey: 'nav.communities', icon: 'Users' },
   { path: '/app/leaderboard', labelKey: 'nav.leaderboard', icon: 'Trophy' },
-  { path: '/features', labelKey: 'nav.featureRequests', icon: 'Lightbulb' },
+  { path: '/build', labelKey: 'nav.featureRequests', icon: 'Lightbulb' },
   { path: '/feedback', labelKey: 'stats.feedback.title', icon: 'MessageSquare' },
   { path: '/app/events', labelKey: 'nav.events', icon: 'CalendarDays' },
   { path: '/stages', labelKey: 'nav.stages', icon: 'Mic' },
