@@ -1937,7 +1937,9 @@
       "neon": "Neon ışık",
       "3d": "3D",
       "flat": "Düz"
-    }
+    },
+    "blurMoments": "Anı önizlemelerini bulanıklaştır",
+    "blurMomentsDesc": "Diğer kişilerin Anları, sen açana kadar Ana sayfada bulanık kalır."
   },
   "common": {
     "loadMore": "Daha fazla yükle",

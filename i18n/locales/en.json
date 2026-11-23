@@ -1622,6 +1622,8 @@
     "storiesSaveFailed": "Could not save your Stories setting.",
     "hideWatched": "Hide watched videos",
     "hideWatchedDesc": "Keep videos you have already played out of your feeds. Off by default.",
+    "blurMoments": "Blur Moment previews",
+    "blurMomentsDesc": "Other people's Moments stay blurred on Home until you open them.",
     "skipSegments": "Skip sponsors and intros",
     "skipSegmentsDesc": "Jump past sections other viewers have marked as sponsor reads, intros or outros. Every skip can be undone. Off by default.",
     "profiles": "Profiles",

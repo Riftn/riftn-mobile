@@ -1937,7 +1937,9 @@
       "neon": "Néon",
       "3d": "3D",
       "flat": "Plat"
-    }
+    },
+    "blurMoments": "Flouter les aperçus des Moments",
+    "blurMomentsDesc": "Les Moments des autres restent floutés sur l'accueil jusqu'à ce que tu les ouvres."
   },
   "common": {
     "loadMore": "Charger plus",

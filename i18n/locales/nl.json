@@ -1937,7 +1937,9 @@
       "neon": "Neon",
       "3d": "3D",
       "flat": "Plat"
-    }
+    },
+    "blurMoments": "Momentvoorbeelden vervagen",
+    "blurMomentsDesc": "Momenten van anderen blijven vaag op Home tot je ze opent."
   },
   "common": {
     "loadMore": "Meer laden",
