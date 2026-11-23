@@ -61,12 +61,12 @@ function Chip({ label, on, onPress, disabled }: { label: string; on: boolean; on
       disabled={disabled}
       accessibilityRole="button"
       accessibilityState={{ selected: on }}
-      style={({ pressed }) => [
-        styles.chip,
-        { backgroundColor: on ? c.activeBg : c.chipBg, borderColor: on ? "transparent" : c.hairline, opacity: pressed ? 0.85 : 1 },
-      ]}
+      style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
     >
-      <Text style={[styles.chipText, { color: on ? c.activeInk : c.chipInk }]}>{label}</Text>
+      {/* The inner view keeps theme material separate from the pressable, as in PageTabs. */}
+      <View style={[styles.chip, { backgroundColor: on ? c.activeBg : c.chipBg, borderWidth: c.isMinimal && !on ? 1 : 0, borderColor: c.hairline }]}>
+        <Text style={[styles.chipText, { color: on ? c.activeInk : c.chipInk }]}>{label}</Text>
+      </View>
     </Pressable>
   );
 }
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
   label: { color: "rgba(255,255,255,0.6)", fontSize: 12, fontWeight: "500" },
   input: { color: "#FFFFFF", fontSize: 15, borderRadius: 10, borderWidth: 1, backgroundColor: "rgba(255,255,255,0.05)", paddingHorizontal: 12, paddingVertical: 10 },
   chips: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
-  chip: { height: 32, paddingHorizontal: 12, borderRadius: 8, borderWidth: 1, alignItems: "center", justifyContent: "center" },
+  chip: { height: 32, paddingHorizontal: 12, borderRadius: 8, alignItems: "center", justifyContent: "center" },
   chipText: { fontSize: 13, fontWeight: "600" },
   chainRow: { flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 12, paddingVertical: 10, borderRadius: 12, borderWidth: 1 },
   chainIcon: { width: 28, height: 28, borderRadius: 8 },
