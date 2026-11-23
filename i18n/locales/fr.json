@@ -8774,6 +8774,7 @@
     "streamKey": "Clé de flux",
     "ingestUrl": "URL d'ingestion",
     "encoderPermanentHint": "Cette touche ne change jamais. Configurez votre encodeur une fois — la prochaine fois, appuyez simplement sur Démarrer là et Riftn crée la publication pour vous.",
+    "encoderSettingsTip": "Pour que votre live s’ouvre vite pour les spectateurs, réglez l’intervalle d’images clés (Keyframe Interval) sur 2 secondes dans votre encodeur (OBS : Paramètres → Sortie), et les B-frames sur 0 si ce réglage existe. Laissé sur auto, les spectateurs peuvent attendre jusqu’à 8 secondes avant de voir l’image.",
     "externalLiveTitle": "STREAMING À PARTIR D'UN APPAREIL EXTERNE",
     "externalTitle": "Mode de streaming externe",
     "externalLiveHint": "Votre flux est en direct via un logiciel externe. La caméra intégrée à l'application est désactivée.",

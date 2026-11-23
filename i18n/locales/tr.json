@@ -8769,6 +8769,7 @@
     "streamKey": "Yayın anahtarı",
     "ingestUrl": "Ingest adresi",
     "encoderPermanentHint": "Bu anahtar asla değişmez. Kodlayıcınızı bir kez ayarlayın — bir dahaki sefere buradan Başlat'a basmanız yeterlidir ve Riftn sizin için gönderiyi oluşturur.",
+    "encoderSettingsTip": "Yayınının izleyicilerde hızlı açılması için kodlayıcında Anahtar Kare Aralığını (Keyframe Interval) 2 saniye yap (OBS: Ayarlar → Çıkış), varsa B-frames ayarını da 0 yap. Otomatikte bırakılırsa izleyiciler görüntü için 8 saniyeye kadar bekleyebilir.",
     "externalLiveTitle": "HARİCİ CİHAZDAN AKIŞ",
     "externalTitle": "Harici Akış Modu",
     "externalLiveHint": "Akışınız harici yazılımlar aracılığıyla canlıdır. Uygulama içi kamera devre dışıdır.",
