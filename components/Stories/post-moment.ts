@@ -61,9 +61,13 @@ export async function loadPostMoment(tokenId: number): Promise<PostMomentMedia> 
     const duration = Number(post.videoDuration);
     return { kind: "video", uri, mimeType: "video/mp4", width: w, height: h, duration: Number.isFinite(duration) && duration > 0 ? duration : 0, postTokenId: tokenId };
   }
-  const image = (Array.isArray(post.imageUrls) && post.imageUrls[0]) || (PHOTO_TYPES.has(type) ? post.imageUrl : null);
+  // Photo posts' files live under feed-images/{filename}; the API's nfts/images/... path 403s.
+  const listed = Array.isArray(post.imageUrls) && typeof post.imageUrls[0] === "string" ? String(post.imageUrls[0]) : "";
+  const image = listed
+    ? (/^https?:\/\//i.test(listed) ? listed : `feed-images/${listed.split("/").pop()}`)
+    : PHOTO_TYPES.has(type) && post.imageUrl ? String(post.imageUrl) : "";
   if (PHOTO_TYPES.has(type) && image) {
-    const src = mediaUrl(String(image));
+    const src = mediaUrl(image);
     if (!src) throw new PostMomentError("load");
     const ext = (/\.(png|webp|jpe?g|gif)(\?|$)/i.exec(src)?.[1] || "jpg").toLowerCase();
     const local = `${FileSystem.cacheDirectory}moment-post-${tokenId}-${Date.now()}.${ext}`;
