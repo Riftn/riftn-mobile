@@ -96,7 +96,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
   const [arc, setArc] = useState<WalletToken | null>(null);
   const groups = useMemo(() => groupWalletTokens(wallet.tokens), [wallet.tokens]);
   const query = search.trim().toLowerCase();
-  const visible = groups.filter(item => !(appTokensOn && item.symbol === 'DHB') && `${item.symbol} ${item.name}`.toLowerCase().includes(query) && (item.amount > 0 || item.unknown || item.tokens.some(token => token.isCustom)));
+  const visible = groups.filter(item => !(appTokensOn && item.symbol === 'DHB') && `${item.symbol} ${item.name} ${tokenLabel(item.symbol)}`.toLowerCase().includes(query) && (item.amount > 0 || item.unknown || item.tokens.some(token => token.isCustom)));
   const position = appTokensOn ? appDhb : dhbPosition(user, groups.find(item => item.symbol === 'DHB')?.amount || 0);
   const rows = dhbBreakdown(user).rows;
   const staked = rows.reduce((sum, row) => sum + row.staked, 0);
@@ -165,15 +165,15 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
           <KitButton label={t('common.retry')} variant="quiet" onPress={() => { void wallet.refresh(); }} />
         </View>}
         {wallet.loading && wallet.tokens.length === 0 ? <ActivityIndicator style={s.loading} color="#aaa" /> : null}
-        {appTokensOn && (!query || 'dhb dehub'.includes(query)) && <Pressable accessibilityRole="button" accessibilityLabel={`DHB, ${format(appDhb)}`} onPress={() => setAppHistory(true)} style={s.tokenRow}>
+        {appTokensOn && (!query || `dhb dehub rift riftn tokens ${tokenLabel()}`.toLowerCase().includes(query)) && <Pressable accessibilityRole="button" accessibilityLabel={`${tokenLabel()}, ${format(appDhb)}`} onPress={() => setAppHistory(true)} style={s.tokenRow}>
           <TokenIcon symbol="DHB" />
-          <View style={s.tokenName}><Text style={s.label}>DHB</Text><Text numberOfLines={1} style={s.muted}>{t('appTokens.rowHint')}</Text></View>
+          <View style={s.tokenName}><Text style={[s.label, { textTransform: 'capitalize' }]}>{tokenLabel()}</Text><Text numberOfLines={1} style={s.muted}>{t('appTokens.rowHint')}</Text></View>
           <View style={s.tokenValue}><Text numberOfLines={1} adjustsFontSizeToFit style={s.label}>{format(appDhb)}</Text><Text style={s.muted}>{wallet.prices.DHB ? `$${(appDhb * wallet.prices.DHB).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—'}</Text></View>
           <Icon name="ChevronRight" size={16} color="#999" />
         </Pressable>}
-        {visible.map(item => <Pressable key={item.symbol} accessibilityRole="button" accessibilityLabel={`${item.symbol}, ${item.unknown ? t('common.failedToLoad') : format(item.amount)}`} onPress={() => setGroup(item)} style={s.tokenRow}>
+        {visible.map(item => <Pressable key={item.symbol} accessibilityRole="button" accessibilityLabel={`${tokenLabel(item.symbol)}, ${item.unknown ? t('common.failedToLoad') : format(item.amount)}`} onPress={() => setGroup(item)} style={s.tokenRow}>
           <TokenIcon symbol={item.symbol} />
-          <View style={s.tokenName}><Text style={s.label}>{item.symbol}</Text><Text numberOfLines={1} style={s.muted}>{[...new Set(item.tokens.filter(token => Number(token.balance) > 0 || token.isCustom).map(token => networkName(token.chainId)))].join(' · ') || item.name}</Text></View>
+          <View style={s.tokenName}><Text style={s.label}>{tokenLabel(item.symbol)}</Text><Text numberOfLines={1} style={s.muted}>{[...new Set(item.tokens.filter(token => Number(token.balance) > 0 || token.isCustom).map(token => networkName(token.chainId)))].join(' · ') || item.name}</Text></View>
           <View style={s.tokenValue}><Text numberOfLines={1} adjustsFontSizeToFit style={s.label}>{item.unknown ? (item.amount > 0 ? `≈ ${format(item.amount)}` : '—') : format(item.amount)}</Text><Text style={s.muted}>{!item.unknown && wallet.prices[item.symbol] ? `$${(item.amount * wallet.prices[item.symbol]).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—'}</Text></View>
           <Icon name="ChevronRight" size={16} color="#999" />
         </Pressable>)}
@@ -197,7 +197,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
     </GlassModal>
     <GlassModal visible={!!group} onClose={() => setGroup(null)} presentation="bottom" scrollable>
       {group && <View style={s.sheet}>
-        <Text style={s.title}>{group.symbol} · {format(group.amount)}</Text>
+        <Text style={s.title}>{tokenLabel(group.symbol)} · {format(group.amount)}</Text>
         {group.tokens.map(token => <View key={`${token.chainId}:${token.address}`} style={s.listRow}><Text style={s.label}>{networkName(token.chainId)}</Text><Text style={s.muted}>{token.balance === null ? '—' : format(Number(token.balance))}</Text></View>)}
         <View style={s.actions}>
           <Action label={t('wallet.send')} icon="Send" onPress={() => openSend(group.tokens)} />
@@ -208,7 +208,7 @@ export default function WalletOverview({ onBuy, onStake }: { onBuy: () => void; 
     </GlassModal>
     <GlassModal visible={!!sendPicker} onClose={() => setSendPicker(null)} presentation="bottom" scrollable>
       <View style={s.sheet}><Text style={s.title}>{t('wallet.send')} · {t('wallet.chooseNetwork')}</Text>
-        {sendPicker?.map(token => <Pressable key={`${token.chainId}:${token.address}`} onPress={() => selectSend(token)} style={s.tokenRow}><TokenIcon symbol={token.symbol} /><View style={s.tokenName}><Text style={s.label}>{token.symbol}</Text><Text style={s.muted}>{networkName(token.chainId)}</Text></View><Text style={s.label}>{format(Number(token.balance))}</Text></Pressable>)}
+        {sendPicker?.map(token => <Pressable key={`${token.chainId}:${token.address}`} onPress={() => selectSend(token)} style={s.tokenRow}><TokenIcon symbol={token.symbol} /><View style={s.tokenName}><Text style={s.label}>{tokenLabel(token.symbol)}</Text><Text style={s.muted}>{networkName(token.chainId)}</Text></View><Text style={s.label}>{format(Number(token.balance))}</Text></Pressable>)}
       </View>
     </GlassModal>
     {send && <SendTokenSheet key={`${send.chainId}:${send.address}`} token={send} owner={wallet.address} onClose={() => setSend(null)} onSent={() => { void wallet.refresh(); }} />}
@@ -235,7 +235,7 @@ function SendTokenSheet({ token, owner, onClose, onSent }: { token: WalletToken;
     let value: ethers.BigNumber;
     try { value = ethers.utils.parseUnits(amount, token.decimals); if (value.lte(0)) throw new Error(); }
     catch { setError(t('wallet.invalidAmount')); return; }
-    if (token.balance === null || value.gt(ethers.utils.parseUnits(token.balance, token.decimals))) { setError(t('wallet.insufficientBalance', { symbol: token.symbol })); return; }
+    if (token.balance === null || value.gt(ethers.utils.parseUnits(token.balance, token.decimals))) { setError(t('wallet.insufficientBalance', { symbol: tokenLabel(token.symbol) })); return; }
     setBusy(true);
     try {
       const provider = await signer(token.chainId, t('wallet.notReady'));
@@ -248,21 +248,21 @@ function SendTokenSheet({ token, owner, onClose, onSent }: { token: WalletToken;
       if (result.hash) setHash(result.hash);
       const receipt = await result.wait(1);
       if (receipt?.status != null && Number(receipt.status) === 0) throw new Error(t('wallet.transactionFailed'));
-      toastSuccess(t('wallet.sent', { amount, symbol: token.symbol }));
+      toastSuccess(t('wallet.sent', { amount, symbol: tokenLabel(token.symbol) }));
       setAmount.complete(amount, ''); onSent(); onClose();
     } catch (err) { setError(err instanceof Error ? err.message : t('wallet.transactionFailed')); }
     finally { setBusy(false); }
   }
   return <GlassModal visible onClose={onClose} presentation="bottom" scrollable dismissible={!busy}>
     <View style={s.sheet}>
-      <Text style={s.title}>{t('wallet.sendToken', { symbol: token.symbol })}</Text>
+      <Text style={s.title}>{t('wallet.sendToken', { symbol: tokenLabel(token.symbol) })}</Text>
       <Text style={s.muted}>{networkName(token.chainId)} · {format(Number(token.balance))} {tokenLabel(token.symbol)}</Text>
       <TextInput accessibilityLabel={t('wallet.recipientAddress')} placeholder={t('wallet.recipientAddress')} placeholderTextColor="#999" value={to} onChangeText={setTo} autoCapitalize="none" autoCorrect={false} editable={!busy && !hash} style={[s.input, FIELD_TEXT]} />
       <AddressInputTools onValue={setTo} scan disabled={busy || !!hash} />
       <TextInput accessibilityLabel={t('wallet.amount')} placeholder={t('wallet.amount')} placeholderTextColor="#999" value={amount} onChangeText={setAmount} keyboardType="decimal-pad" editable={!busy && !hash} style={[s.input, FIELD_TEXT]} />
       {!!hash && <Text selectable style={s.muted}>{hash}</Text>}
       {!!error && <Text accessibilityRole="alert" style={s.error}>{error}</Text>}
-      <KitButton label={busy ? t('wallet.sending') : hash ? t('common.done') : t('wallet.sendToken', { symbol: token.symbol })} disabled={busy || (!hash && (!to.trim() || !amount))} onPress={hash ? onClose : () => { void submit(); }} />
+      <KitButton label={busy ? t('wallet.sending') : hash ? t('common.done') : t('wallet.sendToken', { symbol: tokenLabel(token.symbol) })} disabled={busy || (!hash && (!to.trim() || !amount))} onPress={hash ? onClose : () => { void submit(); }} />
     </View>
   </GlassModal>;
 }
@@ -283,7 +283,7 @@ function ImportTokenSheet({ onClose, onImported }: { onClose: () => void; onImpo
   async function save() {
     if (!token || busy) return;
     setBusy(true);
-    try { await saveWalletToken(token); toastSuccess(t('wallet.imported', { symbol: token.symbol })); onImported(); }
+    try { await saveWalletToken(token); toastSuccess(t('wallet.imported', { symbol: tokenLabel(token.symbol) })); onImported(); }
     catch { setError(t('common.somethingWentWrong')); }
     finally { setBusy(false); }
   }
@@ -293,8 +293,8 @@ function ImportTokenSheet({ onClose, onImported }: { onClose: () => void; onImpo
       <PageTabs value={chain} onChange={id => { setChain(id); setToken(null); setError(''); }} tabs={WALLET_CHAINS.map(item => ({ id: String(item.id), label: item.name }))} />
       <TextInput accessibilityLabel={t('wallet.tokenContractAddress')} placeholder={t('wallet.tokenContractAddress')} placeholderTextColor="#999" value={address} onChangeText={value => { setAddress(value); setToken(null); }} editable={!busy} autoCapitalize="none" autoCorrect={false} style={[s.input, FIELD_TEXT]} />
       {!!error && <Text style={s.error}>{error}</Text>}
-      {token && <Text style={s.label}>{token.name} · {token.symbol} · {token.decimals} {t('wallet.decimals')}</Text>}
-      <KitButton label={busy ? t('wallet.lookingUp') : token ? t('wallet.importToken', { symbol: token.symbol }) : t('wallet.lookUpToken')} disabled={busy || !address.trim()} onPress={() => { void (token ? save() : lookup()); }} />
+      {token && <Text style={s.label}>{token.name} · {tokenLabel(token.symbol)} · {token.decimals} {t('wallet.decimals')}</Text>}
+      <KitButton label={busy ? t('wallet.lookingUp') : token ? t('wallet.importToken', { symbol: tokenLabel(token.symbol) }) : t('wallet.lookUpToken')} disabled={busy || !address.trim()} onPress={() => { void (token ? save() : lookup()); }} />
     </View>
   </GlassModal>;
 }

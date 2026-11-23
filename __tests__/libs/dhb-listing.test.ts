@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 /**
  * $DHB has no market yet, so the ticker sheet swaps its price lookup for the
  * listing-soon signup. These pin which symbols get that panel and which emails
@@ -81,5 +82,15 @@ describe('joinDhbListingWaitlist', () => {
   it('throws when the RPC refuses, so the sheet can say so', async () => {
     mockRpc.mockResolvedValue({ data: null, error: { message: 'invalid email' } });
     await expect(joinDhbListingWaitlist({ email: 'x@y.co' })).rejects.toEqual({ message: 'invalid email' });
+  });
+});
+
+describe('tokenLabel', () => {
+  it.each(['DHB', '$RIFT', 'DEHUB', ' RIFTN '])('labels %s as tokens', (symbol) => {
+    expect(tokenLabel(symbol)).toBe('tokens');
+  });
+
+  it('preserves other currency symbols', () => {
+    expect(tokenLabel('USDC')).toBe('USDC');
   });
 });

@@ -1,3 +1,4 @@
+import { tokenLabel } from '../libs/token-label';
 import i18n from "i18next";
 import { useEffect, useMemo, useState, useCallback } from "react";
 import STREAM_CONTROLLER_ABI from "../config/abis/stream-controller.json";
@@ -413,7 +414,7 @@ export async function prepareDhbSpend(
 
   const balance = await tokenContract.balanceOf(owner);
   if (ethers.BigNumber.from(balance).lt(amount)) {
-    throw new Error(i18n.t("wallet.insufficientBalance", { symbol: "DHB" }));
+    throw new Error(i18n.t("wallet.insufficientBalance", { symbol: tokenLabel() }));
   }
 
   const allowance = await tokenContract.allowance(owner, spender);
