@@ -2576,7 +2576,9 @@
     "solanaAddressHint": "Sadece SOL ve SPL tokenleri",
     "solanaAddressCopied": "Solana adresi kopyalandı",
     "chooseNetwork": "Ağ seçin",
-    "solanaSendUnavailable": "Solana'da gönderme henüz mevcut değil"
+    "solanaSendUnavailable": "Solana'da gönderme henüz mevcut değil",
+    "showBalance": "Bakiyeyi göster",
+    "hideBalance": "Bakiyeyi gizle"
   },
   "bookmarks": {
     "title": "Yer İmleriniz",

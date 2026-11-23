@@ -54,6 +54,8 @@ interface EmojiSheetProps {
   onSelect: (emoji: string) => void;
   /** Emoji to mark as already chosen (a message's existing reactions). */
   selected?: readonly string[];
+  /** Stay open after a pick so several emoji can be added to a message; the person closes it. */
+  keepOpen?: boolean;
 }
 
 type SectionKey = "recent" | "dehub" | "custom" | EmojiGroup;
@@ -109,7 +111,7 @@ function toCustomRows(prefix: string, items: CustomEmoji[], withAdd: boolean): R
  * viewer's language, a Riftn picks row, recents, a remembered skin tone and,
  * on long-press, Google's animated version of the emoji with its name.
  */
-export default function EmojiSheet({ visible, onClose, onSelect, selected }: EmojiSheetProps) {
+export default function EmojiSheet({ visible, onClose, onSelect, selected, keepOpen }: EmojiSheetProps) {
   const { t, i18n } = useTranslation();
   const maxV = useMemo(() => maxEmojiVersion(), []);
   const [ready, setReady] = useState(false);
@@ -136,6 +138,7 @@ export default function EmojiSheet({ visible, onClose, onSelect, selected }: Emo
   // Parse the dataset the first time the sheet opens, not at app boot.
   useEffect(() => {
     if (visible && !ready) setReady(true);
+    if (visible) setRecents(readRecents());
     if (visible && !customEmojisLoaded()) void loadCustomEmojis();
     if (!visible) {
       setQuery.initialize("");
@@ -246,11 +249,14 @@ export default function EmojiSheet({ visible, onClose, onSelect, selected }: Emo
 
   const choose = useCallback(
     (e: EmojiEntry) => {
-      setRecents(pushRecent(e.char));
+      // While the sheet stays open the Recent row keeps its order, so repeat
+      // taps land on the same emoji; it re-reads on the next open.
+      const nextRecents = pushRecent(e.char);
+      if (!keepOpen) setRecents(nextRecents);
       onSelect(withTone(e, tone, maxV));
-      onClose();
+      if (!keepOpen) onClose();
     },
-    [onSelect, onClose, tone, maxV],
+    [onSelect, onClose, tone, maxV, keepOpen],
   );
 
   // A custom emoji is inserted as `:shortcode:`, which every text surface
@@ -258,9 +264,9 @@ export default function EmojiSheet({ visible, onClose, onSelect, selected }: Emo
   const chooseCustom = useCallback(
     (c: CustomEmoji) => {
       onSelect(`:${c.shortcode}:`);
-      onClose();
+      if (!keepOpen) onClose();
     },
-    [onSelect, onClose],
+    [onSelect, onClose, keepOpen],
   );
 
   const jumpTo = (key: SectionKey) => {

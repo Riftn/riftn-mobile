@@ -2576,7 +2576,9 @@
     "solanaAddressLabel": "Solana",
     "solanaAddressHint": "Jetons SOL et SPL uniquement",
     "solanaAddressCopied": "Adresse Solana copiée",
-    "chooseNetwork": "Choisir le réseau"
+    "chooseNetwork": "Choisir le réseau",
+    "showBalance": "Afficher le solde",
+    "hideBalance": "Masquer le solde"
   },
   "bookmarks": {
     "title": "Vos signets",

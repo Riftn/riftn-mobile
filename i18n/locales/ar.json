@@ -2576,7 +2576,9 @@
     "solanaAddressCopied": "تم نسخ عنوان سولانا",
     "chooseNetwork": "اختيار الشبكة",
     "evmAddressLabel": "إي في إم",
-    "solanaSendUnavailable": "الإرسال على سولانا غير متاح بعد"
+    "solanaSendUnavailable": "الإرسال على سولانا غير متاح بعد",
+    "showBalance": "إظهار الرصيد",
+    "hideBalance": "إخفاء الرصيد"
   },
   "bookmarks": {
     "title": "الإشارات المرجعية",
