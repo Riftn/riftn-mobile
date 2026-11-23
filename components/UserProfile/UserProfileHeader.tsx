@@ -24,6 +24,7 @@ import ProfilePetCard from "../Pet/PetCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import BadgePatronChip from "../common/BadgePatronChip";
 import EarlySupporterChip from "../common/EarlySupporterChip";
+import MilestoneChips from "../Profile/BadgeMuseum";
 import { useTranslation as useI18n } from "react-i18next";
 import { formatCount } from "../../libs/format-count";
 import type { FollowListItem } from "../../services/user.service";
@@ -448,6 +449,9 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             <BadgePatronChip lookupId={address || username} />
             {/* One of their requests on the Requests board shipped. */}
             <EarlySupporterChip address={address} username={username} />
+            {/* Badge Museum: their three rarest milestone badges. Tapping one
+                opens the whole museum. */}
+            <MilestoneChips address={address || username} own={isOwnProfile} />
           </View>
 
           {!!displayBio && (

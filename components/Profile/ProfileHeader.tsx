@@ -57,6 +57,7 @@ import NewMemberChip from "../common/NewMemberChip";
 import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
 import EarlySupporterChip from "../common/EarlySupporterChip";
+import MilestoneChips from "./BadgeMuseum";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import ProfileBio from "./ProfileBio";
 import TotalReachPill from "./TotalReachPill";
@@ -509,6 +510,9 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
             <BadgePatronChip lookupId={address} />
             {/* One of their requests on the Requests board shipped. */}
             <EarlySupporterChip address={address} username={user?.username} />
+            {/* Badge Museum: their three rarest milestone badges. Tapping one
+                opens the whole museum. */}
+            <MilestoneChips address={address} own />
             {!!address && (
               <View className="flex-row items-center">
                 <Ionicons

@@ -200,7 +200,9 @@
       "view": "1 görüntüleme"
     },
     "destructSecs": "{{n}} saniye",
-    "destructShortSecs": "{{n}}s"
+    "destructShortSecs": "{{n}}s",
+    "timerReplay": "Bir kez tekrara izin ver",
+    "timerReplayBody": "Bir kez daha açabilirler. Geri sayım yeniden başlar."
   },
   "assistantCards": {
     "requestDraft": "Herkese açık istek taslağı",
@@ -8116,7 +8118,13 @@
       "opened": "Açıldı",
       "tapPhoto": "Görmek için dokun",
       "tapVideo": "İzlemek için dokun",
-      "goneAfter": "Açtıktan {{time}} sonra kaybolur"
+      "goneAfter": "Açtıktan {{time}} sonra kaybolur",
+      "left": "{{n}} sn",
+      "replayAllowed": "Bir kez tekrar açılabilir",
+      "tapReplay": "Tekrar açmak için dokun",
+      "lastView": "Son bakış, {{time}}",
+      "goneAfterReplay": "Açtıktan {{time}} sonra kaybolur. Bir kez tekrar açılabilir.",
+      "replaying": "Tekrar"
     },
     "messagePlaceholder": "Mesaj…",
     "voiceNoteEmoji": "🎤 Sesli not",
@@ -12750,7 +12758,8 @@
           "3": "Bir gönderi limiti aşacaksa, uygulama önce fiyatını belirler ve herhangi bir yüklemeden önce cüzdanınızın bunu karşılayıp karşılayamayacağını kontrol eder.",
           "4": "Gönderi, limit dahilindeymiş gibi yayınlanır — yayınlama asla ödeme beklemez.",
           "5": "Ardından, yalnızca o gönderi için bir transferi onaylarsınız, bu transfer Base veya BNB Chain'den hangisinde yeterli Riftn token'ı varsa orada gerçekleşir.",
-          "6": "Her iki havuz da UTC gece yarısı sıfırlanır."
+          "6": "Her iki havuz da UTC gece yarısı sıfırlanır.",
+          "7": "Mintler de aynı şekilde çalışır: rozetin günde kaç mintin Ana Sayfa akışına ulaşacağını belirler, bu sayı metin gönderilerinle aynıdır. Fazla mintler yine de gerçekleşir ve profilinde, Takip Edilenler'de ve kesir pazarında görünür."
         },
         "tips": {
           "1": "Aşım orantılıdır: Limitinizin 200 MB fazlası, tam bir gigabayt değil, 200 MB olarak ücretlendirilir.",
@@ -16989,6 +16998,7 @@
     "failed": "Fotoğrafın kaydedilemedi. Tekrar dene."
   },
   "mintChain": {
+    "homeAllowance": "Bugünkü {{total}} mint hakkının {{left}} tanesi Ana Sayfa'ya ulaşır. Fazla mintler profiline ve pazara gider.",
     "title": "Darphane postası",
     "subtitle": "Bir zincir seçin. Fiyatlar canlıdır ve her dakika güncellenir.",
     "free": "Ücretsiz",
@@ -18231,5 +18241,30 @@
     "offToast": "Mesajların burada yazdığın gibi gider",
     "onToast": "Mesajların burada artık {{language}} olarak gidiyor",
     "noLanguage": "Henüz bir uygulama dili seçmediler, bu yüzden mesajların şimdilik yazdığın gibi gider"
+  },
+  "badgeMuseum": {
+    "title": "Rozet Müzesi",
+    "open": "Rozet Müzesini aç",
+    "summary": "{{total}} rozetten {{earned}} tanesi kazanıldı",
+    "loading": "Rozetler yükleniyor…",
+    "earned": "Kazanıldı",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Rozetler, kilometre taşlarına ulaşıldıkça kendiliğinden açılır.",
+    "name": {
+      "views": "{{value}} görüntülenme",
+      "videos": "{{value}} video",
+      "followers": "{{value}} takipçi",
+      "likes": "{{value}} beğeni",
+      "firstLive": "İlk canlı yayın",
+      "liveHours": "{{value}} saat canlı yayın"
+    },
+    "hint": {
+      "views": "Tüm gönderilerdeki görüntülenmeler",
+      "videos": "Yüklenen videolar",
+      "followers": "Takipçiler",
+      "likes": "Alınan beğeniler",
+      "firstLive": "Bir kez canlı yayın yap",
+      "liveHours": "Canlı yayın saatleri"
+    }
   }
 }
