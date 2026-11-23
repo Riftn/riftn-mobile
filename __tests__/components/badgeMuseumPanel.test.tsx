@@ -57,7 +57,7 @@ const museum = (over: Record<string, unknown> = {}) => ({
 });
 
 const medalIcons = () =>
-  screen.UNSAFE_root.findAll((n: any) => n.type === 'Icon' && n.parent?.type === 'Animated.View').map((n: any) => n.props.name);
+  screen.UNSAFE_root.findAll((n: any) => n.type === 'Icon' && n.parent?.parent?.type === 'Animated.View').map((n: any) => n.props.name);
 
 it('is off until the owner switches it on', () => {
   expect(badgeMuseumIsShown(undefined)).toBe(false);

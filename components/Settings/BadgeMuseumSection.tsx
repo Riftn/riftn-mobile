@@ -76,14 +76,12 @@ export default function BadgeMuseumSection() {
   return (
     <SettingsSection label={t('badgeMuseum.title')} icon="Landmark" anchor="badge-museum">
       <View className="px-4 py-3.5 flex-row items-center" style={{ gap: 12 }}>
-        <View className="flex-1">
-          <Text className="text-white text-base leading-5 font-medium">{t('badgeMuseum.title')}</Text>
-          <Text className="text-theme-neutrals-500 text-sm leading-5 mt-0.5">
-            {data
-              ? t('badgeMuseum.summary', { earned: formatCount(data.earned), total: formatCount(data.total) })
-              : t('badgeMuseum.loading')}
-          </Text>
-        </View>
+        {/* The section label already says "Badge Museum", so the row leads with the count. */}
+        <Text className="flex-1 text-white text-base leading-5 font-medium">
+          {data
+            ? t('badgeMuseum.summary', { earned: formatCount(data.earned), total: formatCount(data.total) })
+            : t('badgeMuseum.loading')}
+        </Text>
         {earned.length ? <MedalPodium medals={earned.slice(0, 3)} sizes={[28, 36]} /> : null}
       </View>
       <Divider />

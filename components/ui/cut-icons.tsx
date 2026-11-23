@@ -1,6 +1,11 @@
 import React from "react";
 import Svg, { Path, G, Defs, Mask, Rect, ClipPath, type SvgProps } from "react-native-svg";
 type CutProps = Omit<SvgProps, "color"> & { size?: number; color?: string };
+// Mask colours (white shows, black hides) as hsla(), which System Light's tone
+// pass leaves alone. As "white"/"black" it turned them around and the masked
+// icons (EyeOff, MicOff, VideoOff, Handshake) lost their outline in light.
+const MASK_SHOW = "hsla(0, 0%, 100%, 1)";
+const MASK_HIDE = "hsla(0, 0%, 0%, 1)";
 
 // Shared 32-unit Cut artwork. Preserve explicit path fills and per-instance mask IDs.
 const CutHome = ({ size = 24, color = "currentColor", strokeWidth = 2, fill, ...props }: CutProps) => (
@@ -185,13 +190,13 @@ const CutMute = ({ size = 24, color = "currentColor", strokeWidth = 2, fill, ...
 const CutMicoff = ({ size = 24, color = "currentColor", strokeWidth = 2, fill, ...props }: CutProps) => {
   const maskId = React.useId().replace(/:/g, "");
   return (
-  <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><Defs ><Mask id={maskId}><Rect width="32" height="32" fill="white" /><Path d="M3 3L29 29" stroke="black" strokeWidth={Number(strokeWidth) * 3.0} /></Mask></Defs><G mask={`url(#${maskId})`}><Path d="M12 4H16Q20 4 20 8V15Q20 19 16 19Q12 19 12 15Z" fill={color} fillRule="evenodd" /><Path d="M6 12H7Q8.4 12 8.4 13.4V15Q8.4 23.6 16 23.6Q23.6 23.6 23.6 15V13.4Q23.6 12 25 12H26V15Q26 26 16 26Q6 26 6 15Z" fill={color} fillRule="evenodd" /><Path d="M14.8000 26.3920L14.8000 30.0000L15.8080 30.0000Q17.2000 30.0000 17.2000 28.6080L17.2000 25.0000L16.1920 25.0000Q14.8000 25.0000 14.8000 26.3920Z" fill={color} fillRule="evenodd" /></G><Path d="M4.1358 5.8328L27.1515 28.8485L27.8642 28.1358Q28.8485 27.1515 27.8642 26.1672L4.8485 3.1515L4.1358 3.8642Q3.1515 4.8485 4.1358 5.8328Z" fill={color} fillRule="evenodd" /></Svg>
+  <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><Defs ><Mask id={maskId}><Rect width="32" height="32" fill={MASK_SHOW} /><Path d="M3 3L29 29" stroke={MASK_HIDE} strokeWidth={Number(strokeWidth) * 3.0} /></Mask></Defs><G mask={`url(#${maskId})`}><Path d="M12 4H16Q20 4 20 8V15Q20 19 16 19Q12 19 12 15Z" fill={color} fillRule="evenodd" /><Path d="M6 12H7Q8.4 12 8.4 13.4V15Q8.4 23.6 16 23.6Q23.6 23.6 23.6 15V13.4Q23.6 12 25 12H26V15Q26 26 16 26Q6 26 6 15Z" fill={color} fillRule="evenodd" /><Path d="M14.8000 26.3920L14.8000 30.0000L15.8080 30.0000Q17.2000 30.0000 17.2000 28.6080L17.2000 25.0000L16.1920 25.0000Q14.8000 25.0000 14.8000 26.3920Z" fill={color} fillRule="evenodd" /></G><Path d="M4.1358 5.8328L27.1515 28.8485L27.8642 28.1358Q28.8485 27.1515 27.8642 26.1672L4.8485 3.1515L4.1358 3.8642Q3.1515 4.8485 4.1358 5.8328Z" fill={color} fillRule="evenodd" /></Svg>
   );
 };
 const CutVideooff = ({ size = 24, color = "currentColor", strokeWidth = 2, fill, ...props }: CutProps) => {
   const maskId = React.useId().replace(/:/g, "");
   return (
-  <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><Defs ><Mask id={maskId}><Rect width="32" height="32" fill="white" /><Path d="M3 3L29 29" stroke="black" strokeWidth={Number(strokeWidth) * 3.0} /></Mask></Defs><G mask={`url(#${maskId})`}><Path d="M4 7H15Q21 7 21 13V25H10Q4 25 4 19Z M21 13L28 9V24L21 20" fill="none" stroke={color} strokeWidth={Number(strokeWidth) * 1.2} strokeLinejoin="round" /></G><Path d="M4.1358 5.8328L27.1515 28.8485L27.8642 28.1358Q28.8485 27.1515 27.8642 26.1672L4.8485 3.1515L4.1358 3.8642Q3.1515 4.8485 4.1358 5.8328Z" fill={color} fillRule="evenodd" /></Svg>
+  <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><Defs ><Mask id={maskId}><Rect width="32" height="32" fill={MASK_SHOW} /><Path d="M3 3L29 29" stroke={MASK_HIDE} strokeWidth={Number(strokeWidth) * 3.0} /></Mask></Defs><G mask={`url(#${maskId})`}><Path d="M4 7H15Q21 7 21 13V25H10Q4 25 4 19Z M21 13L28 9V24L21 20" fill="none" stroke={color} strokeWidth={Number(strokeWidth) * 1.2} strokeLinejoin="round" /></G><Path d="M4.1358 5.8328L27.1515 28.8485L27.8642 28.1358Q28.8485 27.1515 27.8642 26.1672L4.8485 3.1515L4.1358 3.8642Q3.1515 4.8485 4.1358 5.8328Z" fill={color} fillRule="evenodd" /></Svg>
   );
 };
 const CutCaptions = ({ size = 24, color = "currentColor", strokeWidth = 2, fill, ...props }: CutProps) => (
@@ -227,7 +232,7 @@ const CutVisibility = ({ size = 24, color = "currentColor", strokeWidth = 2, fil
 const CutHidden = ({ size = 24, color = "currentColor", strokeWidth = 2, fill, ...props }: CutProps) => {
   const maskId = React.useId().replace(/:/g, "");
   return (
-  <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><Defs ><Mask id={maskId}><Rect width="32" height="32" fill="white" /><Path d="M3 3L29 29" stroke="black" strokeWidth={Number(strokeWidth) * 3.0} /></Mask></Defs><G mask={`url(#${maskId})`}><Path d="M3 16Q8 6 16 6Q24 6 29 16Q24 26 16 26Q8 26 3 16Z M20 16A4 4 0 1 1 12 16A4 4 0 1 1 20 16Z" fill="none" stroke={color} strokeWidth={Number(strokeWidth) * 1.2} strokeLinejoin="round" /></G><Path d="M4.1358 5.8328L27.1515 28.8485L27.8642 28.1358Q28.8485 27.1515 27.8642 26.1672L4.8485 3.1515L4.1358 3.8642Q3.1515 4.8485 4.1358 5.8328Z" fill={color} fillRule="evenodd" /></Svg>
+  <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><Defs ><Mask id={maskId}><Rect width="32" height="32" fill={MASK_SHOW} /><Path d="M3 3L29 29" stroke={MASK_HIDE} strokeWidth={Number(strokeWidth) * 3.0} /></Mask></Defs><G mask={`url(#${maskId})`}><Path d="M3 16Q8 6 16 6Q24 6 29 16Q24 26 16 26Q8 26 3 16Z M20 16A4 4 0 1 1 12 16A4 4 0 1 1 20 16Z" fill="none" stroke={color} strokeWidth={Number(strokeWidth) * 1.2} strokeLinejoin="round" /></G><Path d="M4.1358 5.8328L27.1515 28.8485L27.8642 28.1358Q28.8485 27.1515 27.8642 26.1672L4.8485 3.1515L4.1358 3.8642Q3.1515 4.8485 4.1358 5.8328Z" fill={color} fillRule="evenodd" /></Svg>
   );
 };
 const CutAddaccount = ({ size = 24, color = "currentColor", strokeWidth = 2, fill, ...props }: CutProps) => (
@@ -317,7 +322,7 @@ const CutExitFullscreen = ({ size = 24, color = "currentColor", strokeWidth = 2,
 );
 const CutHandshake = ({ size = 24, color = "currentColor", strokeWidth = 2, ...props }: CutProps) => {
   const maskId = React.useId().replace(/:/g, "");
-  return <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><G transform="translate(1.3 1.3) scale(1.225)"><Defs><Mask id={maskId} maskUnits="userSpaceOnUse" x="-2" y="-2" width="30" height="30"><Rect x="-2" y="-2" width="30" height="30" fill="white"/><Path transform="translate(14 14) rotate(43.73)" d="M-1 -2H1.05V-.9H.95Q0 -.9 0 .05V1H-1Z" fill="black"/><Path transform="translate(11 16.7) rotate(42.97)" d="M-1 -2H1.05V-.9H.95Q0 -.9 0 .05V1H-1Z" fill="black"/></Mask></Defs><G mask={`url(#${maskId})`}><Path d="M3 5H8.6Q10 5 11 6 M21 5L18.7 5.4Q17.8 5.5 17 5L16.5 4.7Q13.6 3 10.8 5.4L7.9 8.3Q6.6 9.6 7.9 10.9Q9.1 12.1 10.4 10.9L12 9.3Q13.4 8 15 9.5L19 13.5Q20.4 15 19 16.3Q17.7 17.6 16.3 16.2L14 14 M16.3 16.2Q18.1 18 16.6 19.4Q15.1 20.8 13.5 19.2L11 16.7 M13.5 19.2Q15 20.7 13.4 22Q12.1 23 10.8 21.7C7.8 19.4 3 18.2 3 14" fill="none" stroke={color} strokeWidth={Number(strokeWidth) * 0.9} strokeLinejoin="round"/><Path d="M1.15 3H2.15Q3.9 3 3.9 4.75V14.9H1.15ZM20.1 3H21.1Q22.85 3 22.85 4.75V14.9H20.1Z" fill={color}/></G></G></Svg>;
+  return <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><G transform="translate(1.3 1.3) scale(1.225)"><Defs><Mask id={maskId} maskUnits="userSpaceOnUse" x="-2" y="-2" width="30" height="30"><Rect x="-2" y="-2" width="30" height="30" fill={MASK_SHOW}/><Path transform="translate(14 14) rotate(43.73)" d="M-1 -2H1.05V-.9H.95Q0 -.9 0 .05V1H-1Z" fill={MASK_HIDE}/><Path transform="translate(11 16.7) rotate(42.97)" d="M-1 -2H1.05V-.9H.95Q0 -.9 0 .05V1H-1Z" fill={MASK_HIDE}/></Mask></Defs><G mask={`url(#${maskId})`}><Path d="M3 5H8.6Q10 5 11 6 M21 5L18.7 5.4Q17.8 5.5 17 5L16.5 4.7Q13.6 3 10.8 5.4L7.9 8.3Q6.6 9.6 7.9 10.9Q9.1 12.1 10.4 10.9L12 9.3Q13.4 8 15 9.5L19 13.5Q20.4 15 19 16.3Q17.7 17.6 16.3 16.2L14 14 M16.3 16.2Q18.1 18 16.6 19.4Q15.1 20.8 13.5 19.2L11 16.7 M13.5 19.2Q15 20.7 13.4 22Q12.1 23 10.8 21.7C7.8 19.4 3 18.2 3 14" fill="none" stroke={color} strokeWidth={Number(strokeWidth) * 0.9} strokeLinejoin="round"/><Path d="M1.15 3H2.15Q3.9 3 3.9 4.75V14.9H1.15ZM20.1 3H21.1Q22.85 3 22.85 4.75V14.9H20.1Z" fill={color}/></G></G></Svg>;
 };
 const CutHammer = ({ size = 24, color = "currentColor", ...props }: CutProps) => (
   <Svg width={size} height={size} viewBox="0 0 32 32" {...props}><Path d="M3 3H5L6.2 4.8H8L9.4 3H18C24.63 3 30 8.37 30 15H28.5C27.67 15 27 14.33 27 13.5C26.25 9.25 22.55 6 18 6H5V10H17C18.66 10 20 11.34 20 13V13.3H9.4L8 11.8H6.2L5 13.3H3L2 12.3V4Z" fill={color} fillRule="evenodd" /><Path d="M12 17.3C12 16.58 12.58 16 13.3 16H14.6V27.4H16C16.77 27.4 17.4 26.77 17.4 26V16H20V26C20 28.21 18.21 30 16 30H12Z" fill={color} fillRule="evenodd" /></Svg>

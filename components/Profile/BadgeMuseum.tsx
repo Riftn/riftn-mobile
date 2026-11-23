@@ -158,7 +158,7 @@ export const Medal: FC<{ m: Milestone; size: number; ring?: boolean; index?: num
   return (
     <Animated.View
       style={[
-        { width: size, height: size, alignItems: "center", justifyContent: "center" },
+        { width: size, height: size, borderRadius: size / 2, alignItems: "center", justifyContent: "center" },
         m.earned
           ? { shadowColor: hsla(ink.metal), shadowOpacity: 0.55, shadowRadius: size / 6, shadowOffset: { width: 0, height: 0 } }
           : null,
@@ -203,7 +203,10 @@ export const Medal: FC<{ m: Milestone; size: number; ring?: boolean; index?: num
           </>
         )}
       </Svg>
-      <Icon name={iconFor(m.id)} size={glyph} color={m.earned ? ink.on : ink.dim} />
+      {/* Its own view, so the glyph stacks above the absolutely placed face. */}
+      <View>
+        <Icon name={iconFor(m.id)} size={glyph} color={m.earned ? ink.on : ink.dim} />
+      </View>
     </Animated.View>
   );
 };
