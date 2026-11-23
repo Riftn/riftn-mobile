@@ -18,7 +18,7 @@ const SkiaArt = optionalSkia(() => require('./PinnedArtCanvas') as typeof import
 
 /** Paint only the details area; leave the overlapping avatar outside the clip. */
 export function PinnedCommunityWash({ community }: { community?: Community | null }) {
-  const { isMinimal, isLight } = useAppTheme();
+  const { isMinimal } = useAppTheme();
   const [height, setHeight] = useState(0);
   const [width, setWidth] = useState(0);
   if (!community?.banner_url) return null;
@@ -26,7 +26,7 @@ export function PinnedCommunityWash({ community }: { community?: Community | nul
     const uri = storageImageSource(community.banner_url, 480)?.uri;
     return (
       <KeepDarkScope>
-      <View pointerEvents="none" style={[styles.wash, isLight && styles.artBase]} onLayout={(event) => { setHeight(event.nativeEvent.layout.height); setWidth(event.nativeEvent.layout.width); }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      <View pointerEvents="none" style={styles.wash} onLayout={(event) => { setHeight(event.nativeEvent.layout.height); setWidth(event.nativeEvent.layout.width); }} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
         {uri ? <SkiaArt.PinnedWashCanvas uri={uri} width={width} height={height} opacity={isMinimal ? 0.3 : 0.5} /> : null}
       </View>
       </KeepDarkScope>
@@ -34,7 +34,7 @@ export function PinnedCommunityWash({ community }: { community?: Community | nul
   }
   return (
     <KeepDarkScope>
-    <View renderToHardwareTextureAndroid pointerEvents="none" style={[styles.wash, isLight && styles.artBase]} onLayout={(event) => setHeight(event.nativeEvent.layout.height)} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+    <View renderToHardwareTextureAndroid pointerEvents="none" style={styles.wash} onLayout={(event) => setHeight(event.nativeEvent.layout.height)} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
     <MaskedView style={StyleSheet.absoluteFillObject} maskElement={<LinearGradient colors={['#000', '#000', 'transparent']} locations={[0, Math.max(0, 1 - 80 / Math.max(height, 80)), 1]} style={StyleSheet.absoluteFillObject} />}>
       <BlurSafeImage
         source={storageImageSource(community.banner_url, 480)}
@@ -94,13 +94,12 @@ export function PinnedCommunityStrip({ community, onOpen, onManagePins, onMore }
 /** The static community art fades up behind the details instead of ending at a seam. */
 export function PinnedCommunityDissolve({ community }: { community: Community }) {
   const { width } = useWindowDimensions();
-  const { isLight } = useAppTheme();
   const [boxWidth, setBoxWidth] = useState(0);
   if (SkiaArt) {
     const uri = storageImageSource(community.banner_url, width)?.uri;
     return (
       <KeepDarkScope>
-      <View pointerEvents="none" style={[styles.dissolve, { height: SkiaArt.DISSOLVE_HEIGHT }, isLight && styles.artBase]} onLayout={(event) => setBoxWidth(event.nativeEvent.layout.width)} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      <View pointerEvents="none" style={[styles.dissolve, { height: SkiaArt.DISSOLVE_HEIGHT }]} onLayout={(event) => setBoxWidth(event.nativeEvent.layout.width)} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
         {uri ? <SkiaArt.PinnedDissolveCanvas uri={uri} width={boxWidth} /> : null}
       </View>
       </KeepDarkScope>
@@ -108,7 +107,7 @@ export function PinnedCommunityDissolve({ community }: { community: Community })
   }
   return (
     <KeepDarkScope>
-    <View renderToHardwareTextureAndroid pointerEvents="none" style={[styles.dissolve, isLight && styles.artBase]} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+    <View renderToHardwareTextureAndroid pointerEvents="none" style={styles.dissolve} accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
       <MaskedView style={StyleSheet.absoluteFillObject} maskElement={<LinearGradient colors={['transparent', '#000']} locations={[0, 0.9]} style={StyleSheet.absoluteFillObject} />}>
         <BlurSafeImage source={storageImageSource(community.banner_url, 480)} blurRadius={24} style={[StyleSheet.absoluteFillObject, { opacity: 0.62 }]} contentFit="cover" contentPosition={{ left: '50%', top: '60%' }} />
       </MaskedView>
@@ -124,7 +123,6 @@ export function PinnedCommunityDissolve({ community }: { community: Community })
 const LIFT = { textShadowColor: "rgba(0,0,0,0.55)", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 } as const;
 
 const styles = StyleSheet.create({
-  artBase: { backgroundColor: '#0b0b0d' },
   wash: { ...StyleSheet.absoluteFillObject, overflow: "hidden" },
   washImage: { position: "absolute", top: -64, bottom: -64, left: -64, right: -64 },
   dissolve: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 178, overflow: 'hidden' },
