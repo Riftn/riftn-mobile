@@ -150,7 +150,7 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
               <Text style={s.muted}>{t('assistantCards.possibleDuplicates', { defaultValue: 'Possible duplicates' })}</Text>
               {preview.duplicates.map((request) => (
                 <Text key={request.id} accessibilityRole="link" style={s.link}
-                  onPress={() => void openInApp(`https://riftn.com/app/features?request=${encodeURIComponent(request.id)}`)}>
+                  onPress={() => void openInApp(`https://riftn.com/build?request=${encodeURIComponent(request.id)}`)}>
                   {request.title}
                 </Text>
               ))}
@@ -209,7 +209,7 @@ export default function AssistantActionCard({ actionId, initial }: { actionId: s
         <View style={s.doneRow}>
           <Ionicons name="checkmark" size={14} color="rgba(255,255,255,0.85)" />
           <Text accessibilityRole="link" style={s.link}
-            onPress={() => void openInApp(`https://riftn.com/app/features?request=${encodeURIComponent(postedRequestId)}`)}>
+            onPress={() => void openInApp(`https://riftn.com/build?request=${encodeURIComponent(postedRequestId)}`)}>
             {t('assistantCards.viewPostedRequest', { defaultValue: 'View posted request' })}
           </Text>
         </View>

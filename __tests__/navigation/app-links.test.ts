@@ -115,6 +115,14 @@ describe('/app routes', () => {
     expect(target(resolve('/app/features')).name).toBe('FeatureRequests');
   });
 
+  it('opens the Build board from /build and every older address', () => {
+    for (const path of ['/build', '/app/build', '/features', '/requests', '/app/requests']) {
+      expect(target(resolve(path)).name).toBe('FeatureRequests');
+    }
+    expect(target(resolve('/build?feature=abc&comment=c9')).params).toEqual({ requestId: 'abc', commentId: 'c9' });
+    expect(target(resolve('/build?tab=shipped')).params).toEqual({ tab: 'shipped' });
+  });
+
   it('opens a request shared from web as /app/post/<request id> on the board', () => {
     const shared = target(resolve('/app/post/9cea24f0-db7e-498f-ad41-829bff08840e?ref=TJT66CWG'));
     expect(shared.name).toBe('FeatureRequests');
