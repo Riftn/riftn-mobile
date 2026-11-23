@@ -18358,6 +18358,8 @@
   },
   "notes": {
     "add": "Notitie",
+    "yourStatus": "Jouw status",
+    "whatsUp": "Hoe gaat het?",
     "yourNote": "Jouw notitie",
     "count": "Notities {{count}}",
     "hide": "Verbergen",

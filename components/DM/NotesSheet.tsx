@@ -422,6 +422,76 @@ export function NotesStrip({ onOpen }: { onOpen: (entry: NoteEntry | null) => vo
   );
 }
 
+// ── Status row ───────────────────────────────────────────────────────────
+// Statuses (notes) from people you follow sit in one row at the top of Chat,
+// under the tabs and above the chat cards: a white thought cloud over each
+// face, yours first so you can post one. Same as web's StatusRow.
+
+function cloudText(note: Note | null): string {
+  if (!note) return "";
+  if (note.text) return note.text;
+  if (note.song) return `🎧 ${note.song.title}`;
+  if (note.location) return `📍 ${note.location}`;
+  return note.gifUrl ? "GIF" : "";
+}
+
+const CLOUD = { backgroundColor: "#fff", shadowColor: "#000", shadowOpacity: 0.25, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 3 } as const;
+
+function StatusTile({ author, note, own, label, onPress }: { author: StoryAuthor; note: Note | null; own?: boolean; label: string; onPress: () => void }) {
+  const { t } = useTranslation();
+  const { isLight } = useAppTheme();
+  const avatar = getAvatarUrl(author.avatarImageUrl, 60);
+  const words = cloudText(note) || (own ? t("notes.whatsUp", { defaultValue: "What\u2019s up?" }) : "");
+  const gif = note?.gifUrl || null;
+  const hair = isLight ? { borderWidth: 1, borderColor: "rgba(0,0,0,0.08)" } : null;
+  return (
+    <Pressable onPress={onPress} style={{ width: 86, alignItems: "center" }} accessibilityRole="button" accessibilityLabel={words ? `${label}: ${words}` : label}>
+      <View style={{ height: 58, width: "100%", alignItems: "center", justifyContent: "flex-end" }}>
+        {words ? (
+          <>
+            <View style={[CLOUD, hair, { maxWidth: 84, borderRadius: 16, paddingHorizontal: 10, paddingVertical: 7 }]}>
+              <Text numberOfLines={2} style={{ fontSize: 11.5, lineHeight: 14, fontWeight: "600", textAlign: "center", color: own && !note ? "#71717a" : "#0b0b0c" }}>{words}</Text>
+            </View>
+            <View style={{ width: "100%", paddingLeft: 26 }}>
+              <View style={[CLOUD, hair, { width: 8, height: 8, borderRadius: 4, marginTop: 2 }]} />
+              <View style={[CLOUD, hair, { width: 4, height: 4, borderRadius: 2, marginTop: 1, marginLeft: 6 }]} />
+            </View>
+          </>
+        ) : null}
+      </View>
+      <View style={{ marginTop: 2 }}>
+        {gif
+          ? <SmartImage source={{ uri: gif }} style={{ width: 58, height: 58, borderRadius: 16 }} contentFit="cover" />
+          : <Avatar uri={avatar && avatar !== "default-avatar" ? avatar : undefined} size={58} radius={16} name={nameOf(author)} />}
+        {own ? (
+          <View style={{ position: "absolute", right: -4, bottom: -4, width: 22, height: 22, borderRadius: 8, backgroundColor: isLight ? "#111114" : "#fff", alignItems: "center", justifyContent: "center", borderWidth: 3, borderColor: isLight ? "#fff" : "#000" }}>
+            <Ionicons name="add" size={14} color={isLight ? "#fff" : "#0b0b0c"} />
+          </View>
+        ) : null}
+      </View>
+      <Text className={own ? "text-theme-neutrals-400" : "text-white"} numberOfLines={1} style={{ marginTop: 6, maxWidth: 82, fontSize: 11.5, fontWeight: "600" }}>{label}</Text>
+    </Pressable>
+  );
+}
+
+/** The Status row at the top of Chat, for signed-in people. */
+export function StatusRow({ me, onOpen }: { me: StoryAuthor | null; onOpen: (entry: NoteEntry | null) => void }) {
+  const { t } = useTranslation();
+  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000 });
+  const mine = data?.mine ?? null;
+  const notes = data?.notes ?? [];
+  const self = mine?.author ?? me;
+  if (!self) return null;
+  return (
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingHorizontal: 2, paddingBottom: 4 }} keyboardShouldPersistTaps="handled">
+      <StatusTile own author={self} note={mine?.note ?? null} label={t("notes.yourStatus", { defaultValue: "Your status" })} onPress={() => onOpen(null)} />
+      {notes.map((entry) => (
+        <StatusTile key={entry.note.id} author={entry.author} note={entry.note} label={nameOf(entry.author)} onPress={() => onOpen(entry)} />
+      ))}
+    </ScrollView>
+  );
+}
+
 // ── Notes in the chat list ───────────────────────────────────────────────
 // A person's note rides in their own chat card; notes from members of a
 // group ride in that group's card (and atop the open group chat). There is no
