@@ -610,12 +610,26 @@ export default function StoryViewer({
           importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
         >
           <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 20 }]} pointerEvents="box-none">
-          {item.caption || item.remixSourceId ? (
+          {item.caption || item.remixSourceId || item.postTokenId != null ? (
             <View style={styles.captionWrap} pointerEvents="box-none">
               {item.remixSourceId ? (
                 <TouchableOpacity style={[styles.original, styles.darkGlass]} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
                   <Icon name="Repeat2" size={16} color="#fff" />
                   <Text style={styles.originalText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
+                </TouchableOpacity>
+              ) : null}
+              {item.postTokenId != null ? (
+                <TouchableOpacity
+                  style={[styles.original, styles.darkGlass]}
+                  onPress={() => {
+                    const tokenId = String(item.postTokenId);
+                    onClose();
+                    navigation.navigate(ScreenNames.PostResolver as never, { tokenId } as never);
+                  }}
+                  accessibilityRole="link"
+                >
+                  <Text style={styles.originalText} numberOfLines={1}>{t("stories.goToPost", { defaultValue: "Go to post" })}</Text>
+                  <Icon name="ArrowUpRight" size={16} color="#fff" />
                 </TouchableOpacity>
               ) : null}
               {item.caption ? (
