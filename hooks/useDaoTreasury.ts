@@ -99,7 +99,7 @@ export function useContributeToDao(enabled: boolean): DaoContributeState {
       const amount = Math.floor(amountDhb);
       if (!Number.isFinite(amount) || amount <= 0) throw new Error(_copy("copy.8270c30be332", { defaultValue: "Nothing to send." }));
       if (walletDhb > 0 && amount > walletDhb) {
-        throw new Error(_copy("copy.4de6a6dfbfe9", { defaultValue: "Not enough DHB. You hold {{value1}}.", value1: Math.floor(walletDhb).toLocaleString() }));
+        throw new Error(_copy("copy.4de6a6dfbfe9", { defaultValue: "Not enough tokens. You hold {{value1}}.", value1: Math.floor(walletDhb).toLocaleString() }));
       }
       const ethers = (ethersImport as any).ethers || ethersImport;
       const amountWei = ethers.utils.parseUnits(String(amount), 18);

@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import ScreenBones, { screenBonesFor } from '../components/skeleton/ScreenBones';
 import SkeletonBlock from '../components/Feed/SkeletonBlock';
 import Shine from '../components/skeleton/Shine';
+import { useAppTheme } from '../context/ThemeContext';
 
 /**
  * What a page shows while it opens, before its own code has run: the page's
@@ -22,11 +23,12 @@ export default function RouteLoadingShell({ onBack, profile = false, route }: {
 }) {
   const navigation = useNavigation();
   const insets = useSafeAreaInsets();
+  const { pageColors } = useAppTheme();
   const { t } = useTranslation();
   const canBack = !!onBack || navigation.canGoBack?.();
   const bones = profile ? undefined : screenBonesFor(route?.name);
   return (
-    <View testID="route-loading-shell" className="flex-1 bg-theme-neutrals-900" style={{ paddingTop: insets.top }}>
+    <View testID="route-loading-shell" style={{ flex: 1, paddingTop: insets.top, backgroundColor: pageColors.background }}>
       {bones ? <ScreenBones entry={bones} /> : (
         <View accessible={false} accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={{ flex: 1 }}>
           <View style={{ height: 64, paddingHorizontal: 16, flexDirection: 'row', alignItems: 'center', gap: 12 }}>

@@ -23,5 +23,5 @@ it('uses the configured RPC and reads through a backup after rate limiting', asy
 });
 it('explains rate limits without declaring whether a transaction was submitted', () => {
   expect(dexActionError(new Error('exceeded maximum retry limit (429)'))).toContain('check your wallet activity');
-  expect(dexActionError(new Error('Insufficient DHB'))).toBe('Insufficient DHB');
+  expect(dexActionError(new Error('Insufficient DHB'))).toBe('Insufficient tokens');
 });
