@@ -16,7 +16,7 @@ import { formatCallDuration } from "../libs/callDuration";
 import { visualActivity } from "../libs/visualActivity";
 import { revokeAudioFocus } from "../libs/audioFocus";
 import { revokeAllFeedVideo } from "../libs/feedVideoFocus";
-import { holdGroupCallPresence, groupCallChannel, groupCallUid, GROUP_CALL_MAX_RING } from "../libs/groupCall";
+import { PUBLIC_CHAT_CALL_ID, holdGroupCallPresence, groupCallChannel, groupCallUid, GROUP_CALL_MAX_RING } from "../libs/groupCall";
 import { stopCallRingtone } from "../libs/call-ringtone";
 import { toastError } from "../libs/toast";
 import i18n from "i18next";
@@ -596,7 +596,8 @@ export function useCall(): UseCallReturn {
       const joined = await joinChannel(call, generation);
       if (generationRef.current !== generation) return;
       if (!joined) { await endCall(); return; }
-      if (startedAtRef.current == null) armGroupTimeout(generation, "no_answer");
+      // The Public Chat room is open to everyone and nobody is rung, so it stays up while you wait for people to join.
+      if (startedAtRef.current == null && group.id !== PUBLIC_CHAT_CALL_ID) armGroupTimeout(generation, "no_answer");
     } catch (error) {
       if (generationRef.current === generation) { log.error("Group call start failed", error); await endCall(); }
     }

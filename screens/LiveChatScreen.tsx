@@ -24,6 +24,8 @@ import {
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { DeHubLoader } from "../components/DeHubLoader";
 import Icon from "../components/ui/Icon";
+import GroupCallButtons from "../components/Call/GroupCallButtons";
+import { PUBLIC_CHAT_CALL_ID } from "../libs/groupCall";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import MessageSurface from "../components/DM/MessageSurface";
 import ScreenHeader from "../components/ScreenHeader";
@@ -1191,6 +1193,9 @@ const LiveChatScreen: React.FC = () => {
   const RightHeader = useMemo(
     () => (
       <View className="flex-row items-center gap-3">
+        {account && !isBanned ? (
+          <GroupCallButtons groupId={PUBLIC_CHAT_CALL_ID} groupName={t("publicChat.title")} members={[]} ring={false} />
+        ) : null}
         <View accessible accessibilityLabel={t("publicChat.onlineHint", { count: onlineCount, defaultValue: "{{count}} people are in this chat right now" })} className="flex-row items-center gap-1.5">
           <LiveChatLens />
           <Text className="text-white/60 text-xs" style={{ fontVariant: ["tabular-nums"] }}>{t("publicChat.online", { count: onlineCount, defaultValue: "{{count}} online" })}</Text>
@@ -1203,7 +1208,7 @@ const LiveChatScreen: React.FC = () => {
         </TouchableOpacity>
       </View>
     ),
-    [onlineCount, handleInfoPress, t, openSearch]
+    [onlineCount, handleInfoPress, t, openSearch, account, isBanned]
   );
 
   // Header subtitle
