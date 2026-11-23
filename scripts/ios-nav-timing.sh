@@ -200,8 +200,12 @@ run() {
   fi
   xcrun simctl launch "$UDID" "$BUNDLE" >/dev/null
   local result=""
+  # Shorts asks for a swipe every few seconds: look often enough to act on
+  # each one before the next replaces it.
+  local poll=2
+  if [ "$tour" = shorts ]; then poll=0.5; tries=$((tries * 4)); fi
   for _ in $(seq 1 "$tries"); do
-    sleep 2
+    sleep "$poll"
     # The tour asks for real touches, which only idb can make: a slow swipe
     # in from the left edge ("ready", "swipe:<label>"), a tap
     # ("tap:<label>:<x>:<y>") or a tap on a button found by its text
