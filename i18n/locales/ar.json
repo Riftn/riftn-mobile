@@ -112,7 +112,7 @@
     "watchOriginal": "مشاهدة القصة الأصلية",
     "shareToMoment": "مشاركة في لحظة",
     "goToPost": "الانتقال إلى المنشور",
-    "fromYourPost": "من منشورك",
+    "fromYourPost": "من منشورك", "fromAPost": "من منشور",
     "postNotPublic": "يمكن مشاركة المنشورات العامة فقط في لحظة.",
     "postNotMedia": "يمكن مشاركة منشورات الصور والفيديو فقط في لحظة.",
     "translate": "ترجمة",
@@ -8468,6 +8468,9 @@
     "volume": "مستوى الصوت"
   },
   "liveViewer": {
+    "showChat": "إظهار الدردشة",
+    "hideChat": "إخفاء الدردشة",
+    "saySomething": "قل شيئًا...",
     "loadingStream": "جارٍ تحميل البث...",
     "streamPaused": "البث متوقف مؤقتًا",
     "connectionDropped": "انقطع اتصال المذيع.\nفي انتظار عودته...",

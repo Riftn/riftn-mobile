@@ -112,7 +112,7 @@
     "watchOriginal": "Voir la story originale",
     "shareToMoment": "Partager en Moment",
     "goToPost": "Voir la publication",
-    "fromYourPost": "De ta publication",
+    "fromYourPost": "De ta publication", "fromAPost": "D'une publication",
     "postNotPublic": "Seules les publications publiques peuvent être partagées en Moment.",
     "postNotMedia": "Seules les publications photo et vidéo peuvent être partagées en Moment.",
     "translate": "Traduire",
@@ -8448,6 +8448,9 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "showChat": "Afficher le chat",
+    "hideChat": "Masquer le chat",
+    "saySomething": "Dis quelque chose...",
     "loadingStream": "Chargement de la diffusion...",
     "streamPaused": "Diffusion en pause",
     "connectionDropped": "La connexion du streamer a été coupée.\nEn attente de sa reconnexion...",

@@ -143,6 +143,10 @@ export default function StoryViewer({
   const [loadedId, setLoadedId] = useState<string | null>(null);
   const loaded = !!item && loadedId === item.id;
   const [held, setHeld] = useState(false);
+  // A Moment made from a post keeps "Go to post" out of the way until the
+  // viewer taps the post in the middle of the screen; that tap also holds
+  // the Moment so there is time to press it.
+  const [postPeekId, setPostPeekId] = useState<string | null>(null);
   const [typing, setTyping] = useState(false);
   const [sheet, setSheet] = useState<Sheet>(null);
   const [muted, setMuted] = useState(false);
@@ -156,7 +160,8 @@ export default function StoryViewer({
   const room = useMomentComments(item?.id, !!me, !!item && (item.commentCount ?? 1) > 0);
   const roomComments = room.data?.comments ?? [];
   const originalRequest = useRef<symbol | null>(null);
-  const paused = held || typing || sheet !== null || openingOriginal || !loaded;
+  const postPeek = item?.postTokenId != null && postPeekId === item.id;
+  const paused = held || postPeek || typing || sheet !== null || openingOriginal || !loaded;
   const pausedRef = useRef(paused);
   pausedRef.current = paused;
 
@@ -479,6 +484,17 @@ export default function StoryViewer({
           {/* Tap zones: left third back, the rest forward; hold anywhere pauses. */}
           <View style={styles.zones} pointerEvents={sheet || openingOriginal ? "none" : "auto"}>
             <Pressable style={{ width: width / 3 }} onPress={() => goItem(-1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
+            {item.postTokenId != null ? (
+              <Pressable
+                style={{ width: width / 3 }}
+                onPress={() => { const id = item.id; setPostPeekId((prev) => (prev === id ? null : id)); }}
+                onLongPress={() => setHeld(true)}
+                onPressOut={() => setHeld(false)}
+                delayLongPress={180}
+                accessibilityRole="button"
+                accessibilityLabel={t("stories.goToPost", { defaultValue: "Go to post" })}
+              />
+            ) : null}
             <Pressable style={{ flex: 1 }} onPress={() => goItem(1)} onLongPress={() => setHeld(true)} onPressOut={() => setHeld(false)} delayLongPress={180} />
           </View>
 
@@ -610,7 +626,7 @@ export default function StoryViewer({
           importantForAccessibility={sheet ? "no-hide-descendants" : "auto"}
         >
           <View style={[styles.bottomInner, { paddingBottom: typing ? 10 : insets.bottom + 20 }]} pointerEvents="box-none">
-          {item.caption || item.remixSourceId || item.postTokenId != null ? (
+          {item.caption || item.remixSourceId || postPeek ? (
             <View style={styles.captionWrap} pointerEvents="box-none">
               {item.remixSourceId ? (
                 <TouchableOpacity style={[styles.original, styles.darkGlass]} onPress={() => void openOriginal()} disabled={openingOriginal} accessibilityRole="button">
@@ -618,7 +634,7 @@ export default function StoryViewer({
                   <Text style={styles.originalText} numberOfLines={1}>{t("stories.watchOriginal", { defaultValue: "Watch original moment" })}</Text>
                 </TouchableOpacity>
               ) : null}
-              {item.postTokenId != null ? (
+              {postPeek ? (
                 <TouchableOpacity
                   style={[styles.original, styles.darkGlass]}
                   onPress={() => {
@@ -628,7 +644,10 @@ export default function StoryViewer({
                   }}
                   accessibilityRole="link"
                 >
-                  <Text style={styles.originalText} numberOfLines={1}>{t("stories.goToPost", { defaultValue: "Go to post" })}</Text>
+                  <Text style={styles.originalText} numberOfLines={1}>
+                    {t("stories.goToPost", { defaultValue: "Go to post" })}
+                    {item.postAuthorName ? <Text style={styles.postAuthor}>{`  @${item.postAuthorName}`}</Text> : null}
+                  </Text>
                   <Icon name="ArrowUpRight" size={16} color="#fff" />
                 </TouchableOpacity>
               ) : null}
@@ -999,6 +1018,7 @@ const styles = StyleSheet.create({
   sendFill: { ...StyleSheet.absoluteFillObject, borderRadius: 11 },
   captionWrap: { marginRight: 60, marginBottom: 10, alignItems: "flex-start" },
   original: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 11, paddingVertical: 7, borderRadius: 18, marginBottom: 6 },
+  postAuthor: { opacity: 0.75, fontWeight: "500" },
   originalText: { color: "#fff", fontSize: 14 },
   songArt: { width: 16, height: 16, borderRadius: 4 },
   repliesOff: { flex: 1, color: "rgba(255,255,255,0.6)", fontSize: 13 },
