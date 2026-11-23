@@ -187,7 +187,9 @@
     "toEveryone": "Iedereen",
     "toOnly": "Alleen {{name}}",
     "signInToSay": "Log in om iets te zeggen",
-    "saySomething": "Zeg iets…"
+    "saySomething": "Zeg iets…",
+    "momentEnded": "Dat Moment is voorbij",
+    "momentOpenFailed": "Kon dat Moment niet openen"
   },
   "dmVideo": {
     "cover": "Omslag",
@@ -17934,7 +17936,8 @@
     "deleted_other": "{{count}} berichten verwijderd"
   },
   "profileImage": {
-    "change": "Wijzigen"
+    "change": "Wijzigen",
+    "view": "Foto bekijken"
   },
   "resetWallet": {
     "mismatch": "Wachtwoorden komen niet overeen",

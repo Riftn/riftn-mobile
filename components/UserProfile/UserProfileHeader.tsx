@@ -12,6 +12,7 @@ import { ProfilePullRing, useProfileAvatarPop, useProfileCoverHidden } from "../
 import { LinearGradient } from "expo-linear-gradient";
 import Avatar from "../common/Avatar";
 import ProfileImageMenu, { useProfileImageMenu } from "../Profile/ProfileImageMenu";
+import { MomentPeekBadge, useFaceMoment, useOpenMoments } from "../Stories/MomentPeek";
 import Icon from "../ui/Icon";
 import { copyToClipboard, getBadgeHoverOpticalStyle as getBadgeOpticalStyle } from "../../libs";
 import { toastSuccess } from "../../libs/toast";
@@ -165,6 +166,9 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
   const { width: windowWidth } = useWindowDimensions();
   const badgeRef = useRef<View>(null);
   const liveTarget = useLiveTarget(address, username);
+  // A Moment up: the face shows it on its corner and a tap plays it; the photo moves to the hold menu.
+  const moment = useFaceMoment(address);
+  const openMoments = useOpenMoments(address);
   // The chips by the name (early supporter and the milestone badges) follow
   // the owner's Badge Museum switch: off means none.
   const { data: museum } = useMilestones(address || username);
@@ -350,9 +354,10 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             style={{ borderWidth: 1.5, borderColor: "#18181b", backgroundColor: "#18181b" }}
             live={live}
             liveQuiet
-            onPress={liveTarget ? () => openLiveTarget(liveTarget) : () => onOpenImage("avatar")}
+            onPress={liveTarget ? () => openLiveTarget(liveTarget) : moment ? () => void openMoments() : () => onOpenImage("avatar")}
             onLongPress={() => imageMenu.open("avatar")}
           />
+          <MomentPeekBadge peek={moment} size={96} big />
           <ProfilePullRing size={96} radius={Math.round(96 * 0.16)} color={colors.accent} />
           </Animated.View>
           {(!isBlocked || !!onOpenOptions) && (
@@ -593,6 +598,7 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
         target={imageMenu.target}
         onClose={imageMenu.close}
         canEdit={false}
+        onView={moment ? (kind) => onOpenImage(kind) : undefined}
         imageUrl={(kind) => {
           const url = kind === "avatar" ? (avatarFullUrl || avatarUrl) : coverUrl;
           return url && !url.startsWith("default") ? url : undefined;

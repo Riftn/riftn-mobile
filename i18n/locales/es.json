@@ -187,7 +187,9 @@
     "toEveryone": "Todos",
     "toOnly": "Solo {{name}}",
     "signInToSay": "Inicia sesión para escribir",
-    "saySomething": "Di algo…"
+    "saySomething": "Di algo…",
+    "momentEnded": "Ese Momento ya terminó",
+    "momentOpenFailed": "No se pudo abrir ese Momento"
   },
   "dmVideo": {
     "cover": "Cubierta",
@@ -17683,7 +17685,8 @@
     "deleted_other": "{{count}} mensajes eliminados"
   },
   "profileImage": {
-    "change": "Cambiar"
+    "change": "Cambiar",
+    "view": "Ver foto"
   },
   "resetWallet": {
     "mismatch": "Las contraseñas no coinciden",
