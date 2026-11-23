@@ -61,7 +61,7 @@ import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
 import StoryComments from "./StoryComments";
 import MomentCaption from "./MomentCaption";
 import { MomentComment, MomentHeart, MomentShare } from "./MomentIcons";
-import { FloatHearts, ReplyTo, StoryRoomChat, TEXT_SHADOW, useMomentComments } from "./StoryRoom";
+import { FloatHearts, StoryRoomChat, TEXT_SHADOW, useMomentComments } from "./StoryRoom";
 import { ChromeFill, CHROME_HAIRLINE } from "../common/ViewerChrome";
 
 /** Themes with their own key colour wear it on the MOMENT tag and Send, as on web. */
@@ -626,9 +626,6 @@ export default function StoryViewer({
           {!typing && roomComments.length > 0 ? (
             <StoryRoomChat comments={roomComments} onOpen={() => setSheet("comments")} />
           ) : null}
-          {typing && !own && me && item.allowReplies ? (
-            <ReplyTo value={replyTo} onChange={setReplyTo} name={nameOf(entry.author)} />
-          ) : null}
           <View style={styles.replyRow}>
             {own ? (
               <TouchableOpacity style={styles.field} onPress={() => setSheet("viewers")} accessibilityRole="button" accessibilityLabel={t("stories.whoWatched", { defaultValue: "Who watched" })}>
@@ -992,7 +989,8 @@ const styles = StyleSheet.create({
   songArt: { width: 16, height: 16, borderRadius: 4 },
   repliesOff: { flex: 1, color: "rgba(255,255,255,0.6)", fontSize: 13 },
   replyRow: { flexDirection: "row", alignItems: "center", gap: 8 },
-  replyInput: { flex: 1, color: "#fff", fontSize: 15, paddingVertical: 0 },
+  // Fills the field so the text and placeholder sit centred on iPhone too.
+  replyInput: { flex: 1, alignSelf: "stretch", height: "100%", color: "#fff", fontSize: 15, paddingTop: 0, paddingBottom: 0, textAlignVertical: "center", includeFontPadding: false },
   replyPlaceholder: { color: "rgba(255,255,255,0.8)", fontSize: 14 },
   countBadge: {
     position: "absolute",
