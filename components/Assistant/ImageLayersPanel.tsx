@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 import React, { useEffect, useRef, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -99,7 +100,7 @@ export function ImageLayersPanel({ wallet, source, onOpenEditor }: { wallet: str
     {!source.layerSetId && preparedSource && <Image source={{ uri: preparedSource.sourcePreviewUrl }} resizeMode="contain" style={{ height: 100 }} accessibilityLabel={t('creator.layerSource', { defaultValue: 'Original image' })} />}
     <Text className="text-theme-neutrals-100">{t('creator.layerDescription', { defaultValue: 'Four transparent PNG layers. Text remains part of each image.' })}</Text>
     {!!error && <Text accessibilityRole="alert" className="text-theme-neutrals-100">{error}</Text>}
-    {!pending && !source.layerSetId && DIGITAL_PURCHASES_ENABLED && (newAttempt||jobs.length===0) && <Button disabled={!preparedSource || quote.isLoading || !!quote.error || !quote.priceDhb} title={`${t('creator.layerSeparate', { defaultValue: 'Separate layers' })} · ${quote.priceDhb || '…'} DHB`} onPress={() => void run(separate)} />}
+    {!pending && !source.layerSetId && DIGITAL_PURCHASES_ENABLED && (newAttempt||jobs.length===0) && <Button disabled={!preparedSource || quote.isLoading || !!quote.error || !quote.priceDhb} title={`${t('creator.layerSeparate', { defaultValue: 'Separate layers' })} · ${quote.priceDhb || '…'} ${tokenLabel()}`} onPress={() => void run(separate)} />}
     {!newAttempt && !source.layerSetId && DIGITAL_PURCHASES_ENABLED && (jobs[0]?.delivered||jobs[0]?.paymentRestored) && <Button title={t('creator.layerNewAttempt',{defaultValue:'Review a new attempt'})} onPress={()=>void run(startNew)} />}
     {jobs.length > 0 && !set && <Text className="text-theme-neutrals-100">{t('creator.layerPending', { defaultValue: 'Saved job: {{status}}. Collect or retry saving without another payment.', status: jobs[0].status })}</Text>}
     <Button title={t('creator.layerCollect', { defaultValue: 'Collect / retry save' })} onPress={() => void run(refresh)} />

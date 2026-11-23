@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 /**
  * Live Studio's stream recap on a phone. The twin of dehubweb's RecapPanel:
  * what happened on the creator's last stream, or the one they just ended when
@@ -93,7 +94,7 @@ export function RecapSection({ address, streamId }: Props) {
       <View className="flex-row flex-wrap justify-between" style={{ rowGap: 8 }}>
         <Stat label={t("liveRecap.duration")} value={formatStreamDuration(r.durationSec)} />
         <Stat label={t("liveRecap.peakViewers")} value={formatCount(r.peakViewers)} />
-        <Stat label={t("liveRecap.gifts", { count: r.tips.count })} value={`${whole(r.tips.total)} DHB`} />
+        <Stat label={t("liveRecap.gifts", { count: r.tips.count })} value={`${whole(r.tips.total)} ${tokenLabel()}`} />
         <Stat label={t("liveRecap.newFollowers")} value={formatCount(r.newFollowers)} />
         <Stat label={t("liveRecap.chatMessages")} value={formatCount(r.chat.messages)} />
         <Stat label={t("liveRecap.chatters")} value={formatCount(r.chat.chatters)} />
@@ -111,7 +112,7 @@ export function RecapSection({ address, streamId }: Props) {
               <Text className="text-white text-sm flex-1" numberOfLines={1}>
                 {p.displayName || p.username || `${p.address.slice(0, 6)}…`}
               </Text>
-              <Text className="text-theme-neutrals-300 text-sm">{`${whole(p.total)} DHB`}</Text>
+              <Text className="text-theme-neutrals-300 text-sm">{`${whole(p.total)} ${tokenLabel()}`}</Text>
             </View>
           ))}
         </View>

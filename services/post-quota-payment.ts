@@ -164,7 +164,7 @@ export async function payPostQuota(
   });
   if (receipt && receipt.status !== undefined && receipt.status !== 1) {
     if (tx.hash) onReverted?.({ txHash: tx.hash, chainId: payable.chainId });
-    throw new Error(_translateCopy("copy.f22b5983f90d", { defaultValue: "The DHB transfer did not go through. Nothing has been charged." }));
+    throw new Error(_translateCopy("copy.f22b5983f90d", { defaultValue: "The token transfer did not go through. Nothing has been charged." }));
   }
 
   const txHash: string | undefined = receipt?.transactionHash || receipt?.hash || tx.hash;
