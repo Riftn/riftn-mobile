@@ -11,6 +11,8 @@ export interface LiveChatUser {
   displayName?: string;
   avatarUrl?: string;
   isModerator?: boolean;
+  /** Only a super moderator can ban, mute or kick another moderator. */
+  isSuperModerator?: boolean;
   isBanned?: boolean;
   followers?: number;
   followings?: number;
@@ -134,6 +136,8 @@ export interface LiveChatRoomJoinedPayload {
   room: LiveChatRoom;
   messages: LiveChatMessageData[];
   yourUser: LiveChatUser;
+  /** Platform chat staff: only a super moderator can ban, mute or kick them. */
+  staff?: string[];
   isBanned: boolean;
   canSendMessages: boolean;
   onlineCount?: number;
