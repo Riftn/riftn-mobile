@@ -242,6 +242,12 @@ jobs:
         run: |
           APP="$(find "$RUNNER_TEMP/sim/Build/Products/Release-iphonesimulator" -maxdepth 1 -name '*.app' | head -1)"
           scripts/ios-nav-timing.sh "${{ steps.sim.outputs.udid }}" "$APP" sim-check
+      # The results upload to GitHub over the same line: give it its speed back.
+      - name: Put the network back to full speed
+        if: always() && inputs.network == 'slow'
+        run: |
+          sudo pfctl -a shape -F all 2>/dev/null || true
+          sudo dnctl -q flush || true
       # iPad and iPhone Duo pictures are large (the Duo takes two per page):
       # as full-size PNGs the upload stalled and lost them all, so send JPEGs.
       - name: Shrink iPad and Duo pictures
