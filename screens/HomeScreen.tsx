@@ -26,7 +26,7 @@ import { Gesture, GestureDetector, type GestureType } from "react-native-gesture
 import { PagerGestureProvider } from "../context/PagerGestureContext";
 import InfiniteVideoFeed, { type InfiniteVideoFeedHandle } from "../components/Home/InfiniteVideoFeed";
 import { HomeShortcuts } from "../components/Home/AppDrawer";
-import StoryShelf from "../components/Stories/StoryShelf";
+import StoryShelf, { StoryShelfWarm } from "../components/Stories/StoryShelf";
 import HomeImageGrid, { type HomeImageGridHandle } from "../components/Home/HomeImageGrid";
 import ImageFeedDrawer, { type ImageFeedDrawerHandle } from "../components/Home/ImageFeedDrawer";
 import ShortsGrid, { type ShortsGridHandle } from "../components/Home/ShortsGrid";
@@ -1477,6 +1477,8 @@ export default function HomeScreen() {
 
   return (
     <View className="flex-1">
+      {/* Moments load with the first feed page, not after it paints. */}
+      <StoryShelfWarm />
       {(island && islandMenuOpen) || (theme === 'system' && filterPanelVisible) ? (
         // A tap anywhere outside the menu closes it, and does nothing else.
         <Pressable
