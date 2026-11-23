@@ -128,7 +128,7 @@ export function usePlaybackRecovery(player: VideoPlayer, source: string | null |
     play: async (reload, allowed) => {
       const position = player.currentTime;
       if (reload || player.status === 'error') {
-        await replaceVideoSource(player, source!);
+        await replaceVideoSource(player, source!, { immediate: !!latest.current.lateStallHandover });
         if (!allowed()) return;
         // A live has moved on while it was stuck: the old position is not
         // in the new window, and the edge (a little behind it) is the point.

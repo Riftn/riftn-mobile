@@ -15,6 +15,7 @@ type Bridge = {
   prepareLiveBroadcast?: (url: string) => string | null;
   liveBroadcastStatus?: (id: string) => Record<string, unknown> | null;
   stopLiveBroadcast?: (id: string) => void;
+  memoryFootprintMB?: () => number | null;
   addListener: (event: "onVolumeKey", fn: (e: { direction?: string }) => void) => { remove: () => void };
 };
 
@@ -121,4 +122,14 @@ export function liveBroadcastStatus(id: string): LiveBroadcastStatus | null {
 /** Asks the extension to end this share. */
 export function stopLiveBroadcast(id: string): void {
   try { bridge()?.stopLiveBroadcast?.(id); } catch {}
+}
+
+/** The app's memory in MB, or null on a binary built before this was added. */
+export function memoryFootprintMB(): number | null {
+  try {
+    const value = bridge()?.memoryFootprintMB?.();
+    return typeof value === "number" && Number.isFinite(value) ? value : null;
+  } catch {
+    return null;
+  }
 }

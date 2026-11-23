@@ -110,3 +110,18 @@ export function postMediaIsTransferring<T>(session: PostMediaSession<T>): boolea
 export function hasPostVideoSession(url: string | null | undefined): boolean {
   return !!url && !!sessions.get(`video:${url}`)?.value;
 }
+
+/**
+ * How many post players exist right now: `players` hold a native player,
+ * `held` are on a screen, `parked` wait out their grace before release. A
+ * number that keeps climbing through a long Shorts scroll is a leak.
+ */
+export function postMediaStats(): { players: number; held: number; parked: number } {
+  let players = 0, held = 0, parked = 0;
+  for (const session of sessions.values()) {
+    if (!session.value) continue;
+    players++;
+    if (session.claims.length) held++; else parked++;
+  }
+  return { players, held, parked };
+}
