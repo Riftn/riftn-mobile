@@ -1,5 +1,5 @@
-import React, { createContext, forwardRef, useContext, useEffect, useMemo, useRef } from "react";
-import { FlatList, ScrollView } from "react-native";
+import React, { Activity, createContext, forwardRef, useContext, useEffect, useMemo, useRef } from "react";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
 
 /**
@@ -104,3 +104,35 @@ export const PaneAnimatedFlatList = withPaneScroll(Animated.FlatList as unknown 
 export const PaneFlatList = withPaneScroll(FlatList as unknown as React.ComponentType<any>, "PaneFlatList");
 export const PaneAnimatedScrollView = withPaneScroll(Animated.ScrollView as unknown as React.ComponentType<any>, "PaneAnimatedScrollView");
 export const PaneScrollView = withPaneScroll(ScrollView as unknown as React.ComponentType<any>, "PaneScrollView");
+
+/**
+ * One profile tab. Tabs opened before stay mounted in a hidden Activity (their
+ * effects, players and viewability stopped, state kept), and their native
+ * views stay too: the renderer leaves a "keep-mounted" view in place instead
+ * of display:none (patches/react-native), and this wrapper takes it off
+ * screen. iOS used to throw a hidden tab's views away and rebuild them on the
+ * way back, which also put each list back at its old spot over the one asked
+ * for here.
+ */
+export function ProfilePane({ active, scroll, children }: { active: boolean; scroll: ProfilePaneScroll | null; children: React.ReactNode }) {
+  return (
+    <ProfilePaneScrollContext.Provider value={scroll}>
+      <View
+        style={active ? paneStyles.active : paneStyles.hidden}
+        pointerEvents={active ? "auto" : "none"}
+        accessibilityElementsHidden={!active}
+        importantForAccessibility={active ? "auto" : "no-hide-descendants"}
+      >
+        <Activity mode={active ? "visible" : "hidden"}>
+          <View nativeID="keep-mounted" style={paneStyles.fill}>{children}</View>
+        </Activity>
+      </View>
+    </ProfilePaneScrollContext.Provider>
+  );
+}
+
+const paneStyles = StyleSheet.create({
+  active: { flex: 1 },
+  hidden: { ...StyleSheet.absoluteFillObject, opacity: 0 },
+  fill: { flex: 1 },
+});

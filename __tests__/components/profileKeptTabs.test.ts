@@ -7,15 +7,22 @@ const visitor = read("components/UserProfile/UserProfileBottomContentTabs.tsx");
 const own = read("components/Profile/ProfileTabs.tsx");
 const collapse = read("components/Profile/useProfileCollapse.ts");
 const tabBar = read("components/Profile/ProfileTabBar.tsx");
+const pane = read("components/Profile/profilePaneScroll.tsx");
+const rnPatch = read("patches/react-native+0.83.10.patch");
 
 describe("profile tabs switch without rebuilding", () => {
   it("keeps opened tabs mounted in a hidden Activity on both profiles", () => {
+    expect(pane).toContain('mode={active ? "visible" : "hidden"}');
     for (const source of [visitor, own]) {
-      expect(source).toContain('mode={');
-      expect(source).toContain('"visible" : "hidden"');
+      expect(source).toContain("<ProfilePane");
       expect(source).toContain("MAX_KEPT_TABS");
       expect(source).toContain("tabOffsets");
     }
+  });
+
+  it("keeps a hidden tab's native views so its lists keep their spot", () => {
+    expect(pane).toContain('nativeID="keep-mounted"');
+    expect(rnPatch).toContain('"keep-mounted" === hiddenProps.nativeID');
   });
 
   it("gives each kept tab its own list ref", () => {
@@ -48,7 +55,7 @@ describe("profile tab switch keeps the header still", () => {
   });
   it("places every tab's lists through the pane context on both profiles", () => {
     for (const source of [visitor, own]) {
-      expect(source).toContain("ProfilePaneScrollContext.Provider");
+      expect(source).toContain("scroll={");
       expect(source).toContain("profileTabTarget(");
     }
   });

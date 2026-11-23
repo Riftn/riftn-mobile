@@ -5,7 +5,6 @@ import { useUser } from "../../context/AuthContext";
 import type { SharedValue } from 'react-native-reanimated';
 import { translateCopy as _translateCopy } from '../../i18n/copy';
 import React, {
-  Activity,
   useCallback,
   useEffect,
   useMemo,
@@ -55,7 +54,7 @@ import ProfileTabBar, { type ProfileTabItem } from "../Profile/ProfileTabBar";
 import ProfileScrollViewport from "../Profile/ProfileScrollViewport";
 import ProfilePinnedBar, { type ProfilePinnedIdentity } from "../Profile/ProfilePinnedBar";
 import ProfileEmptyState from "../Profile/ProfileEmptyState";
-import { PaneAnimatedFlatList, PaneAnimatedScrollView, ProfilePaneScrollContext, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls } from "../Profile/profilePaneScroll";
+import { PaneAnimatedFlatList, PaneAnimatedScrollView, ProfilePane, noteProfileTabSwitch, profileTabTarget, useProfilePaneScrolls } from "../Profile/profilePaneScroll";
 import { runOnUISync } from "react-native-worklets";
 import ProfileContentToolbar from "../Profile/ProfileContentToolbar";
 import ProfileArrangeSheet from "../Profile/ProfileArrangeSheet";
@@ -686,7 +685,7 @@ const UserProfileBottomContentTabsInner: React.FC<
    * Replies & Reposts tabs show placeholder empty states.
    */
   // Content for one tab. Only tabs already opened are mounted (see keptTabs),
-  // and every one but the active tab sits in a hidden Activity: off layout,
+  // and every one but the active tab sits in a hidden ProfilePane: off screen,
   // effects (players, viewability, view tracking) stopped, state kept.
   const renderTabContent = (tab: ContentTab) => {
     const mt = isFullScreen ? 0 : 4;
@@ -868,11 +867,9 @@ const UserProfileBottomContentTabsInner: React.FC<
     >
       {!isFullScreen && TabBar}
       {renderScrollViewport(paneTabs.map((tab) => (
-        <ProfilePaneScrollContext.Provider key={`${address}:${tab}`} value={isFullScreen ? paneScroll(tab) : null}>
-          <Activity mode={tab === activeTab ? "visible" : "hidden"}>
-            {renderTabContent(tab)}
-          </Activity>
-        </ProfilePaneScrollContext.Provider>
+        <ProfilePane key={`${address}:${tab}`} active={tab === activeTab} scroll={isFullScreen ? paneScroll(tab) : null}>
+          {renderTabContent(tab)}
+        </ProfilePane>
       )))}
 
       {isFullScreen && (
