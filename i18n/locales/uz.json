@@ -4874,7 +4874,7 @@
     "ogHolders_one": "{{count}} ta OG egasi",
     "ogHolders_other": "{{count}} ta OG egasi",
     "ogChallengeTitle": "OG egalarini qaytaring",
-    "ogChallengeBody": "Hali ham DHB saqlayotgan odamlarni taklif qiling. Ular taklif havolangiz orqali qo'shilib, DHB'ni Riftn hamyonida saqlasa, bu yerda siz uchun hisoblanadi.",
+    "ogChallengeBody": "Hali ham tokenlar saqlayotgan odamlarni taklif qiling. Ular taklif havolangiz orqali qo'shilib, tokenlar'ni Riftn hamyonida saqlasa, bu yerda siz uchun hisoblanadi.",
     "ogChallengeCta": "Taklif havolangizni oling"
   },
   "explorePage": {
@@ -14461,7 +14461,7 @@
           "4": "Ovozli xabar yozish uchun mikrofon belgisini bosing.",
           "5": "GIF qo'shish uchun GIF belgisini bosing va uni qidiring.",
           "6": "Postingizni toifalash uchun #hashtaglaridan foydalaning (masalan, #kripto, #defi).",
-          "7": "Tokenlarga murojaat qilish uchun $cashtaglaridan foydalaning (masalan, $RIFT, $ETH).",
+          "7": "Tokenlarga murojaat qilish uchun $cashtaglaridan foydalaning (masalan, $BTC, $ETH).",
           "8": "Boshqa foydalanuvchilarni belgilash uchun @mentionlardan foydalaning (masalan, @username).",
           "9": "Joylashtirish uchun \"Post\" tugmasini bosing. Postingiz darhol kanalda paydo bo'ladi."
         },

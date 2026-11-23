@@ -1225,7 +1225,7 @@
     "23e2e7fc9b2d": "Respekt",
     "247641921c80": "Blader svinger lett mens en sky drifter sakte",
     "2493f427a7d1": "Kinoskopisk 3D sjakk. Tre sivilisasjoner, ett brett.",
-    "24ccaa3af430": "Sjekk denne DHB-profilen {{value1}}",
+    "24ccaa3af430": "Sjekk denne Riftn-profilen {{value1}}",
     "24ee478fc4ee": "Mislyktes å lagre innlegg",
     "25038f9d0520": "Sesjonverifisering er midlertidig ikke tilgjengelig. Vennligst prøv igjen.",
     "25085aff20ef": "Det er ikke en Riftn-eksportfil.",
@@ -4856,7 +4856,7 @@
     "ogHolders_one": "{{count}} OG-innehaver",
     "ogHolders_other": "{{count}} OG-innehavere",
     "ogChallengeTitle": "Hent tilbake OG-innehaverne",
-    "ogChallengeBody": "Inviter folk som fortsatt har DHB. Når de blir med via invitasjonslenken din og beholder DHB i Riftn-lommeboken, teller de for deg her.",
+    "ogChallengeBody": "Inviter folk som fortsatt har tokens. Når de blir med via invitasjonslenken din og beholder tokens i Riftn-lommeboken, teller de for deg her.",
     "ogChallengeCta": "Hent invitasjonslenken din"
   },
   "explorePage": {
@@ -14406,7 +14406,7 @@
           "4": "For å ta opp en talemelding, klikk på mikrofonikonet.",
           "5": "For å legge til en GIF, klikk på GIF-ikonet og søk etter en.",
           "6": "Bruk #hashtags for å kategorisere innlegget ditt (f.eks. #krypto, #defi).",
-          "7": "Bruk $cashtags for å referere til tokens (f.eks. $RIFT, $ETH).",
+          "7": "Bruk $cashtags for å referere til tokens (f.eks. $BTC, $ETH).",
           "8": "Bruk @mentions for å tagge andre brukere (f.eks. @brukernavn).",
           "9": "Klikk 'Innlegg' for å publisere. Innlegget ditt vises i feeden umiddelbart."
         },
