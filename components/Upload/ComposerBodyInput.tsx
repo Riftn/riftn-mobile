@@ -11,9 +11,18 @@
  * A `value` from the screen that is not one of the box's own changes (a mention
  * filled in, an emoji, a draft loaded, the box cleared after posting) is taken
  * as is.
+ *
+ * On Android the box keeps one empty line of room below the text, so it no
+ * longer jumps on every new line (see hooks/useSpareLine).
  */
 import React, { memo, startTransition, useCallback, useEffect, useRef, useState } from "react";
-import { TextInput, type TextInputProps } from "react-native";
+import {
+  TextInput,
+  type NativeSyntheticEvent,
+  type TextInputContentSizeChangeEventData,
+  type TextInputProps,
+} from "react-native";
+import { useSpareLine } from "../../hooks/useSpareLine";
 
 type Props = Omit<TextInputProps, "value" | "onChangeText" | "defaultValue"> & {
   value: string;
@@ -21,10 +30,11 @@ type Props = Omit<TextInputProps, "value" | "onChangeText" | "defaultValue"> & {
   ref?: React.Ref<TextInput>;
 };
 
-const ComposerBodyInput = memo(function ComposerBodyInput({ value, onChangeText, ...rest }: Props) {
+const ComposerBodyInput = memo(function ComposerBodyInput({ value, onChangeText, onContentSizeChange, style, ...rest }: Props) {
   const [text, setText] = useState(value);
   // Changes sent up that the screen has not echoed back yet, oldest first.
   const pending = useRef<string[]>([]);
+  const spareLine = useSpareLine();
 
   useEffect(() => {
     const at = pending.current.indexOf(value);
@@ -47,7 +57,23 @@ const ComposerBodyInput = memo(function ComposerBodyInput({ value, onChangeText,
     [onChangeText],
   );
 
-  return <TextInput {...rest} value={text} onChangeText={handleChange} />;
+  const handleContentSize = useCallback(
+    (event: NativeSyntheticEvent<TextInputContentSizeChangeEventData>) => {
+      onContentSizeChange?.(event);
+      spareLine.onContentSizeChange(event);
+    },
+    [onContentSizeChange, spareLine.onContentSizeChange],
+  );
+
+  return (
+    <TextInput
+      {...rest}
+      style={spareLine.style ? [style, spareLine.style] : style}
+      value={text}
+      onChangeText={handleChange}
+      onContentSizeChange={handleContentSize}
+    />
+  );
 });
 
 export default ComposerBodyInput;

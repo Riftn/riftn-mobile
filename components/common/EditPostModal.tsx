@@ -18,6 +18,7 @@ import {
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import GlassModal from "../ui/GlassModal";
+import { useSpareLine } from "../../hooks/useSpareLine";
 import AccentButtonGradient from "../ui/AccentButtonGradient";
 import MentionSuggestions from "../common/MentionSuggestions";
 import CategoryDrawer from "../Upload/CategoryDrawer";
@@ -123,6 +124,8 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
   const audienceOptions: Audience[] = startVisibility === "direct" ? ["public", "followers", "direct", "self"] : ["public", "followers", "self"];
   const [shopLinks, setShopLinks] = useDraftState<ShopLink[]>(`post:edit:${tokenId}` + ":shopLinks", initialShopLinks ?? []);
   const [shopSheetVisible, setShopSheetVisible] = useState(false);
+  // The description grows with each line; a spare line stops it jumping.
+  const descSpareLine = useSpareLine(80, 200);
   /**
    * Common Ground mode lives in Supabase, not on the token, so it is read and
    * written beside the post edit rather than through it. Only fetched while
@@ -633,7 +636,8 @@ const EditPostModalComponent: React.FC<EditPostModalProps> = ({
               textAlignVertical="top"
               // Capped so long text scrolls inside the box and the count
               // under it never drops out of view.
-              style={{ maxHeight: 200 }}
+              style={[{ maxHeight: 200 }, descSpareLine.style]}
+              onContentSizeChange={descSpareLine.onContentSizeChange}
               className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm min-h-[80px] mb-1"
             />
             <MentionSuggestions
