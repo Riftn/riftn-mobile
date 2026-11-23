@@ -82,7 +82,7 @@ export interface FractionOffer {
   updated_at: string;
 }
 
-export type TradeStatus = "awaiting_delivery" | "awaiting_payment" | "settled" | "overdue";
+export type TradeStatus = "awaiting_delivery" | "awaiting_payment" | "settled" | "overdue" | "declined";
 
 export interface FractionTrade {
   id: string;
@@ -282,6 +282,7 @@ export function useRecentTrades(limit = 40) {
       const { data, error } = await supabase
         .from("fraction_trades")
         .select("*")
+        .neq("status", "declined")
         .order("created_at", { ascending: false })
         .limit(limit);
       if (error) throw error;
