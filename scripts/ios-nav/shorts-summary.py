@@ -16,6 +16,8 @@ import sys
 nav = sys.argv[1]
 # A start more than this long after the swipe belongs to nothing it did.
 WINDOW_MS = 4000
+# How long a swipe's new short is given to start.
+FRESH_MS = 10000
 
 
 def runs(side):
@@ -43,7 +45,21 @@ def runs(side):
             known = {m["player"] for m in motions if m["wall"] < sent - 2600}
             fresh = {m["player"] for m in motions if sent - 2600 <= m["wall"] <= sent + WINDOW_MS} - known
             turned.append(len(fresh) >= 2)
-        out.append({"name": name, "delays": delays, "turned": turned, "patched": result.get("patched"), "opened": result.get("opened")})
+        # The short each swipe landed on: a player whose clock had never run
+        # before the swipe and runs after it. None = no new short started
+        # within FRESH_MS (page not turned, or a start stuck on its first frame).
+        fresh_delays = []
+        for sent in swipes:
+            ran_before = {m["player"] for m in motions if m["wall"] < sent - 30}
+            first = [m for m in motions if sent - 30 <= m["wall"] <= sent + FRESH_MS and m["player"] not in ran_before]
+            fresh_delays.append(first[0]["wall"] - sent if first else None)
+        # play() asked of a player whose clock then did not run within 3 s.
+        plays = result.get("plays", [])
+        stuck = 0
+        for p in plays:
+            if not any(m["player"] == p["player"] and p["wall"] - 30 <= m["wall"] <= p["wall"] + 3000 for m in motions):
+                stuck += 1
+        out.append({"name": name, "fresh": fresh_delays, "plays": len(plays), "stuck": stuck, "delays": delays, "turned": turned, "patched": result.get("patched"), "opened": result.get("opened")})
     return out
 
 
@@ -70,6 +86,17 @@ for label, side in (("main", "before"), ("this branch", "after")):
     row, all_runs = line(label, side)
     print(row)
     details.extend(all_runs)
+print("\n## Shorts: the short swiped to, first frame moving\n")
+print("Time from the swipe to a player that had never run before it running. 'none' = nothing new ran within 10 s.\n")
+print("| Code | median | worst | none in 10 s | play() asks not moving within 3 s |")
+print("|---|---|---|---|---|")
+for label, side in (("main", "before"), ("this branch", "after")):
+    rs = runs(side)
+    fresh = [d for r in rs for d in r["fresh"]]
+    seen = sorted(d for d in fresh if d is not None)
+    med = f"{round(statistics.median(seen))} ms" if seen else "-"
+    worst = f"{seen[-1]} ms" if seen else "-"
+    print(f"| {label} | {med} | {worst} | {sum(1 for d in fresh if d is None)} of {len(fresh)} | {sum(r['stuck'] for r in rs)} of {sum(r['plays'] for r in rs)} |")
 print("\n## Shorts: a swipe that starts on the timeline row\n")
 print("Sent two seconds after landing on a short. It should bring the next short, not seek this one.\n")
 print("| Code | turned the page |")
@@ -80,4 +107,5 @@ for label, side in (("main", "before"), ("this branch", "after")):
 print("\n### Each run\n")
 for r in details:
     shown = ", ".join("-" if d is None else str(d) for d in r["delays"])
-    print(f"- {r['name']} (viewer opened: {r['opened']}, watched: {r['patched']}): {shown}")
+    fresh = ", ".join("none" if d is None else str(d) for d in r["fresh"])
+    print(f"- {r['name']} (viewer opened: {r['opened']}, watched: {r['patched']}): {shown}; new short: {fresh}")

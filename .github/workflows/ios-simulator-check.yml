@@ -39,6 +39,10 @@ on:
         description: "26.2 (the store build's Xcode today) or 27 (the newest Xcode 27 on the runner; duo always uses it)"
         required: false
         default: '26.2'
+      network:
+        description: "shorts only: '' = the runner's own fast line. slow = a weak phone connection for every HTTPS request the simulator makes (3 Mbit/s down, 1 Mbit/s up, 150 ms round trip)"
+        required: false
+        default: ''
       account:
         description: "nav, probe and speed: 'review' signs the simulator in with the sign-in Apple's reviewers use, so signed-in pages are covered (no films, personal pages not pictured, results kept 2 days)"
         required: false
@@ -53,7 +57,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: ios-simulator-check-${{ github.ref }}-${{ inputs.task || 'walk' }}-${{ inputs.device || 'iphone' }}
+  group: ios-simulator-check-${{ github.ref }}-${{ inputs.task || 'walk' }}-${{ inputs.device || 'iphone' }}-${{ inputs.network || 'fast' }}
   cancel-in-progress: true
 
 jobs:
@@ -206,6 +210,19 @@ jobs:
         env:
           THEMES: ${{ inputs.themes || 'dark light syslight' }}
           DEVICE: ${{ inputs.device || 'iphone' }}
+      # A real phone on mobile data is far from the runner's datacenter line:
+      # shorts that start at once here can sit on their first frame there.
+      - name: Slow the network down like a phone connection
+        if: inputs.network == 'slow'
+        run: |
+          sudo dnctl pipe 1 config bw 3Mbit/s delay 75
+          sudo dnctl pipe 2 config bw 1Mbit/s delay 75
+          printf 'dummynet in proto { tcp, udp } from any port 443 to any pipe 1\ndummynet out proto { tcp, udp } from any to any port 443 pipe 2\n' > "$RUNNER_TEMP/shape.conf"
+          (cat /etc/pf.conf; echo 'dummynet-anchor "shape"'; echo 'anchor "shape"') | sudo pfctl -f - 2>&1 | grep -v ALTQ || true
+          sudo pfctl -a shape -f "$RUNNER_TEMP/shape.conf"
+          sudo pfctl -E 2>&1 | tail -1 || true
+          sudo dnctl list
+          curl -s -o /dev/null -w 'shaped: ttfb %{time_starttransfer}s, 2 MB in %{time_total}s\n' -r 0-2097151 https://dehubcdn.ams3.cdn.digitaloceanspaces.com/videos/8096.mp4 || true
       - name: Time page switches, main against this branch
         if: inputs.task == 'nav' || inputs.task == 'probe' || inputs.task == 'touch' || inputs.task == 'shorts' || inputs.task == 'keys' || inputs.task == 'wide' || inputs.task == 'shells' || inputs.task == 'bones' || inputs.task == 'wallet' || inputs.task == 'loginsheet' || inputs.task == 'player' || inputs.task == 'menu' || inputs.task == 'speed' || inputs.task == 'livetheme' || inputs.task == 'reactions' || inputs.task == 'rowreactions' || inputs.task == 'freeze' || inputs.task == 'feedline' || inputs.task == 'moments' || inputs.task == 'sharelink'
         env:

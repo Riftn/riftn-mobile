@@ -212,18 +212,20 @@ run() {
             # Shorts: a quick upward flick in the middle of the screen; the
             # moment it was sent is what the next short's start is timed from.
             python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.swipes"
-            idb ui swipe --udid "$UDID" --duration 0.25 196 640 196 260 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+            # Long and fast: a 380 pt flick over 0.25 s dragged the page and
+            # let it snap back, so no short was ever turned to.
+            idb ui swipe --udid "$UDID" --duration 0.12 196 760 196 180 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           vpair:*)
             # Shorts: the same flick, then two seconds later one that starts
             # on the timeline row, a finger above the player's buttons.
             python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.swipes"
-            idb ui swipe --udid "$UDID" --duration 0.25 196 640 196 260 >/dev/null 2>&1 || echo "$name: idb swipe failed"
+            idb ui swipe --udid "$UDID" --duration 0.12 196 760 196 180 >/dev/null 2>&1 || echo "$name: idb swipe failed"
             sleep 2
             python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.lowswipes"
-            idb ui swipe --udid "$UDID" --duration 0.25 196 796 196 420 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+            idb ui swipe --udid "$UDID" --duration 0.12 196 796 196 220 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           vback:*)
             # Shorts: a quick downward flick, back to the short before.
-            idb ui swipe --udid "$UDID" --duration 0.25 196 260 196 640 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+            idb ui swipe --udid "$UDID" --duration 0.12 196 180 196 760 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           tap:*)
             IFS=: read -r _ _ tap_x tap_y <<< "$touch"
             idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;

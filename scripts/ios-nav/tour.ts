@@ -619,6 +619,9 @@ async function runShorts(): Promise<void> {
   const players = new Map<object, Watched>();
   const motions: { wall: number; player: number; at: number }[] = [];
   extra.motions = motions;
+  // Every play() asked of a player, so a start that never ran shows too.
+  const plays: { wall: number; player: number; at: number }[] = [];
+  extra.plays = plays;
   let nextId = 1;
   try {
     const probe = createVideoPlayer(null);
@@ -629,6 +632,11 @@ async function runShorts(): Promise<void> {
       if (typeof original !== "function") continue;
       proto[name] = function (this: object, ...args: unknown[]) {
         if (!players.has(this)) players.set(this, { id: nextId++, lastT: -1, lastChange: 0, moving: false });
+        if (name === "play") {
+          let at = -1;
+          try { at = Math.round((this as { currentTime: number }).currentTime * 1000); } catch {}
+          plays.push({ wall: Date.now(), player: players.get(this)!.id, at });
+        }
         return (original as (...a: unknown[]) => unknown).apply(this, args);
       };
       patched.push(name);
@@ -672,7 +680,10 @@ async function runShorts(): Promise<void> {
   const count = Number(await AsyncStorage.getItem(`${FLAG_KEY}.swipes`)) || 12;
   for (let i = 1; i <= count && extra.opened; i++) {
     await AsyncStorage.setItem(SWIPE_KEY, `vswipe:shorts-${i}`);
-    await sleep(5000);
+    // A picture of what the swipe landed on, while a slow start would still show.
+    await sleep(3000);
+    if (i <= 8) await shot(`shorts-swipe-${i}`);
+    await sleep(2000);
     await save(false);
   }
   // A swipe that starts on the timeline row, sent soon after landing on a
