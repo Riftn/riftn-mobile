@@ -8405,7 +8405,8 @@
     "mostActive": "Más activo",
     "hereNow": "Aquí YA",
     "nobodyYet": "Nadie todavía",
-    "rotate": "Girar pantalla"
+    "rotate": "Girar pantalla",
+    "chatPlaceholder": "escribe..."
   },
   "search": {
     "endOfResults": "Fin de los resultados",
