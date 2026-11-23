@@ -191,6 +191,7 @@ export function PetSection() {
               </View>
             ) : null}
             <Text className="text-theme-neutrals-500 text-xs">{t("streamPet.studio.rules")}</Text>
+            <Text className="text-theme-neutrals-500 text-xs">{t("streamPet.studio.requests")}</Text>
           </View>
           {data?.feeders.length ? (
             <View className="gap-2">
