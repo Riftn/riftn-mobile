@@ -23,6 +23,11 @@ import VideoLookSheet from "../components/LiveProducer/VideoLookSheet";
 import StudioSheet from "../components/LiveProducer/StudioSheet";
 import { usePhoneStudio } from "../hooks/usePhoneStudio";
 import { useLiveChat } from "../hooks/useLiveChat";
+import ProducerChatHold, { type ProducerHeld } from "../components/LiveProducer/ProducerChatHold";
+import type { ProducerChatActivity } from "../components/LiveProducer/ProducerFloatingChat";
+import type { ChatHoldLayout } from "../components/LiveViewer/LiveViewerChat";
+import CommentLikersSheet from "../components/Comments/CommentLikersSheet";
+import { useHiddenLines } from "../libs/public-chat-hidden";
 import { liveScreenShareSupported } from "../modules/media-bridge";
 import {
   videoLooksSupported,
@@ -242,10 +247,18 @@ const LiveProducerScreen: React.FC = () => {
   // showed here. Tips, joins and other stream events still come from there.
   const chatTokenId = tokenId ?? (streamEntity as any)?.tokenId;
   const liveChat = useLiveChat(chatTokenId != null ? `stream:${chatTokenId}` : undefined, { requireRoom: true });
+  // Hold a line in your own chat: reactions, who reacted, Copy, Moderate, Delete.
+  const me = String(user?.walletAddress || user?.address || "").toLowerCase();
+  const hiddenLines = useHiddenLines(me || null);
+  const [heldLine, setHeldLine] = useState<ProducerHeld | null>(null);
+  const [reactorsFor, setReactorsFor] = useState<string | null>(null);
+  const closeHeldLine = useCallback(() => setHeldLine(null), []);
+  const openHeldLine = useCallback((activity: ProducerChatActivity, layout: ChatHoldLayout | null) => setHeldLine({ activity, layout }), []);
+  const reactionsOf = useCallback((id: string) => liveChat.messages.find((m) => m._id === id)?.reactions, [liveChat.messages]);
   const roomChatActivities = useMemo(
     () =>
       liveChat.messages
-        .filter((m) => !m.isDeleted && m.messageType !== "system")
+        .filter((m) => !m.isDeleted && m.messageType !== "system" && !hiddenLines.has(m._id))
         .map((m) => {
           const sender = m.sender;
           const address = String(m.senderAddress || sender?.address || "").toLowerCase();
@@ -260,10 +273,12 @@ const LiveProducerScreen: React.FC = () => {
               ? { address, username: sender.username, displayName: sender.displayName, avatarImageUrl: sender.avatarUrl }
               : undefined,
             meta: { username: sender?.displayName || sender?.username, content, avatarImageUrl: sender?.avatarUrl, messageId: m._id },
+            id: m._id,
+            reactions: m.reactions,
           };
         })
         .filter((a) => !!a.meta.content),
-    [liveChat.messages],
+    [liveChat.messages, hiddenLines],
   );
   const mergedChatActivities = useMemo(
     () =>
@@ -1594,7 +1609,21 @@ const LiveProducerScreen: React.FC = () => {
                     stage === "live" ? handleToggleLiveChat : undefined
                   }
                   settingsUpdating={settingsUpdating}
+                  onHold={chatTokenId != null && me ? openHeldLine : undefined}
+                  onShowReactors={setReactorsFor}
+                  me={me}
                 />
+                <ProducerChatHold
+                  held={heldLine}
+                  onClose={closeHeldLine}
+                  me={me}
+                  tokenId={chatTokenId}
+                  reactionsOf={reactionsOf}
+                  addReaction={liveChat.addReaction}
+                  removeReaction={liveChat.removeReaction}
+                  deleteMessage={liveChat.deleteMessage}
+                />
+                <CommentLikersSheet visible={!!reactorsFor} onClose={() => setReactorsFor(null)} commentId={null} chatMessageId={reactorsFor} />
 
                 {/* Controls: flip, mic, camera, go live / end */}
                 {!uiHidden ? (
