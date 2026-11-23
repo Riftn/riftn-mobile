@@ -58,6 +58,7 @@ import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
 import EarlySupporterChip from "../common/EarlySupporterChip";
 import MilestoneChips, { BadgeMuseumPanel } from "./BadgeMuseum";
+import { useMilestones } from "../../hooks/useMilestones";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import ProfileBio from "./ProfileBio";
 import TotalReachPill from "./TotalReachPill";
@@ -110,6 +111,10 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
   const displayName = user?.displayName || t("copy.b764cdc0eab7", { defaultValue: "Unknown" });
   const username = user?.username || user?.address || "";
   const address = user?.walletAddress || user?.address || "";
+  // The chips by the name (new member, early supporter and the milestone
+  // badges) follow your Badge Museum switch: off means none.
+  const { data: museum } = useMilestones(address);
+  const showBadgeChips = !!museum && !museum.hidden;
   // An alias, not a rename — `username` above is untouched by it, and every
   // share link on this screen still points at the username URL.
   const ensName = user?.ensName || "";
@@ -502,17 +507,25 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                 </Text>
               </TouchableOpacity>
             )}
-            {/* Temporary — gone 30 days after signup, and immediately if they
-                switch it off in Settings › Privacy. Renders nothing otherwise. */}
-            <NewMemberChip address={address} />
+            {showBadgeChips && (
+              <>
+                {/* Temporary — gone 30 days after signup, and immediately if they
+                    switch it off in Settings › Privacy. Renders nothing otherwise. */}
+                <NewMemberChip address={address} />
+              </>
+            )}
             {/* A lent badge draws like any other badge everywhere else; this
                 is the one place that says whose it is. */}
             <BadgePatronChip lookupId={address} />
-            {/* One of their requests on the Requests board shipped. */}
-            <EarlySupporterChip address={address} username={user?.username} />
-            {/* Badge Museum: their three rarest milestone badges. Tapping one
-                opens the whole museum. */}
-            <MilestoneChips address={address} own />
+            {showBadgeChips && (
+              <>
+                {/* One of their requests on the Requests board shipped. */}
+                <EarlySupporterChip address={address} username={user?.username} />
+                {/* Badge Museum: their three rarest milestone badges. Tapping one
+                    opens the whole museum. */}
+                <MilestoneChips address={address} own />
+              </>
+            )}
             {!!address && (
               <View className="flex-row items-center">
                 <Ionicons
