@@ -1526,6 +1526,13 @@ const NotificationScreen = () => {
         break;
       }
 
+      // A sale or free claim waiting on this person: Approve / Send lives on
+      // Fractions > Portfolio.
+      case 'fraction_sold':
+      case 'fraction_delivered':
+        leaveTo(ScreenNames.Fractions as never, { tab: 'portfolio' } as never);
+        break;
+
       case 'fraction_settled': {
         const settledToken = Number((notification as CustomNotificationItem).customReferenceId);
         if (Number.isFinite(settledToken)) navigateToFeed(settledToken, undefined, postType);

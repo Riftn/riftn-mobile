@@ -53,6 +53,8 @@ interface Props {
   /** The number on the chip: fractions available, or held. */
   units: number;
   showYours?: boolean;
+  /** A free giveaway listing. */
+  showFree?: boolean;
   onPress: () => void;
   children?: React.ReactNode;
   footer?: React.ReactNode;
@@ -65,6 +67,7 @@ const FractionTile: React.FC<Props> = ({
   postType,
   units,
   showYours,
+  showFree,
   onPress,
   children,
   footer,
@@ -113,6 +116,11 @@ const FractionTile: React.FC<Props> = ({
               {units} / {TOTAL_FRACTIONS}
             </Text>
           </View>
+          {showFree && !showYours && (
+            <View style={[styles.chip, styles.chipRight, styles.chipFree]}>
+              <Text style={[styles.chipText, styles.chipFreeText]}>{t("fractions.freeBadge")}</Text>
+            </View>
+          )}
           {showYours && (
             <View style={[styles.chip, styles.chipRight, styles.chipYours]}>
               <Text style={[styles.chipText, styles.chipYoursText]}>{t("fractions.yours")}</Text>
@@ -169,6 +177,8 @@ const styles = StyleSheet.create({
   chipYours: { backgroundColor: "rgba(255,255,255,0.9)" },
   chipText: { color: "rgba(255,255,255,0.9)", fontSize: 10, fontWeight: "700", flexShrink: 0 },
   chipYoursText: { color: "#09090B" },
+  chipFree: { backgroundColor: "hsla(160, 84%, 39%, 0.92)" },
+  chipFreeText: { color: "#FFFFFF" },
   body: { padding: 10, gap: 3 },
   title: { color: "#FFFFFF", fontSize: 13, fontWeight: "600" },
 });

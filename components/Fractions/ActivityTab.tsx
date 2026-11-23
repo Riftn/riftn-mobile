@@ -40,7 +40,10 @@ const ActivityTab: React.FC<Props> = ({ onOpenPost }) => {
     const settled = trades.filter((trade) => trade.status === "settled");
     if (!settled.length) return null;
     const volume = settled.reduce((sum, trade) => sum + trade.quantity * trade.price_per_fraction, 0);
-    const fractions = settled.reduce((sum, trade) => sum + trade.quantity, 0);
+    // Free giveaways are trades too, but not a price anyone paid.
+    const fractions = settled
+      .filter((trade) => trade.price_per_fraction > 0)
+      .reduce((sum, trade) => sum + trade.quantity, 0);
     return { count: settled.length, volume, avgPrice: fractions > 0 ? volume / fractions : 0 };
   }, [trades]);
 
@@ -71,10 +74,14 @@ const ActivityTab: React.FC<Props> = ({ onOpenPost }) => {
             </View>
           </View>
           <View style={styles.rowRight}>
-            <View style={styles.inline}>
-              <DhbCoin size={13} />
-              <Text style={styles.total}>{fmt(item.quantity * item.price_per_fraction)}</Text>
-            </View>
+            {item.price_per_fraction > 0 ? (
+              <View style={styles.inline}>
+                <DhbCoin size={13} />
+                <Text style={styles.total}>{fmt(item.quantity * item.price_per_fraction)}</Text>
+              </View>
+            ) : (
+              <Text style={styles.total}>{t("fractions.freeBadge")}</Text>
+            )}
             <Text style={[styles.status, { color: status.color }]}>{t(status.key)}</Text>
           </View>
         </View>
