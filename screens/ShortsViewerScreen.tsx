@@ -4058,6 +4058,7 @@ const ShortsViewerScreen = () => {
           onClose={() => setShowOptionsMenu(false)}
           tokenId={activeTokenId}
           isOwner={isOwnerOfActive}
+          post={activeItem}
           canReplaceVideo={isOwnerOfActive}
           isHidden={activeIsHidden}
           player={!activeItem.imageUrls?.length && activeItem.postType !== "feed-images" ? {

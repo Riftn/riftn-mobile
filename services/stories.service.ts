@@ -55,6 +55,8 @@ export interface StoryItem {
   isMature?: boolean;
   caption: string | null;
   remixSourceId?: string | null;
+  /** Shared from this post ("Share to Moment"): viewers get "Go to post". */
+  postTokenId?: number | null;
   shareable?: boolean;
   mentions: StoryMention[];
   song: StorySong | null;
@@ -144,6 +146,9 @@ export interface CreateStoryFields {
   muted?: boolean;
   caption?: string;
   remixSourceId?: string;
+  /** One of your own photo or video posts. A video post sends no clip: the server cuts it from the post. */
+  postTokenId?: number;
+  type?: "photo" | "video";
   mentions?: StoryMention[];
   song?: StorySong | null;
   draftVideoId?: string;
@@ -159,7 +164,7 @@ export function createStory(
   onProgress?: (fraction: number) => void,
 ): Promise<StoryItem> {
   const fd = new FormData();
-  fd.append("type", fields.draftVideoId ? "video" : "photo");
+  fd.append("type", fields.type ?? (fields.draftVideoId ? "video" : "photo"));
   fd.append("audience", fields.audience);
   const customAudience = fields.audience === "selected" || fields.audience === "except";
   if (customAudience) fd.append("audienceAddresses", JSON.stringify(fields.audienceAddresses ?? []));
@@ -169,10 +174,11 @@ export function createStory(
   fd.append("muted", String(!!fields.muted));
   if (fields.caption) fd.append("caption", fields.caption);
   if (fields.remixSourceId) fd.append("remixSourceId", fields.remixSourceId);
+  if (fields.postTokenId != null) fd.append("postTokenId", String(fields.postTokenId));
   if (fields.mentions?.length) fd.append("mentions", JSON.stringify(fields.mentions));
   if (fields.song) fd.append("song", JSON.stringify(fields.song));
-  if (fields.draftVideoId) {
-    fd.append("draftVideoId", fields.draftVideoId);
+  if (fields.draftVideoId || (fields.type === "video" && fields.postTokenId != null)) {
+    if (fields.draftVideoId) fd.append("draftVideoId", fields.draftVideoId);
     if (fields.trimStart != null) fd.append("trimStart", String(fields.trimStart));
     if (fields.trimEnd != null) fd.append("trimEnd", String(fields.trimEnd));
   }

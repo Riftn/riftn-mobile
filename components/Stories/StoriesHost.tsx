@@ -32,13 +32,13 @@ export default function StoriesHost() {
     <Modal
       visible={!!viewer || !!creator}
       onDismiss={showPendingProfile}
-      animationType={creator && !creator.remixSource ? "slide" : "fade"}
+      animationType={creator && !creator.remixSource && creator.postTokenId == null ? "slide" : "fade"}
       presentationStyle="fullScreen"
       statusBarTranslucent
       onRequestClose={creator ? closeStoryCreator : closeStoryViewer}
     >
       {creator ? (
-        <StoryCreator onClose={closeStoryCreator} remixSource={creator.remixSource} />
+        <StoryCreator onClose={closeStoryCreator} remixSource={creator.remixSource} postTokenId={creator.postTokenId} />
       ) : viewer ? (
         <StoryViewer
           key={`${viewer.entries[viewer.index]?.items[0]?.id}-${viewer.standalone}`}

@@ -23,7 +23,7 @@ export interface StoryRemixSource {
 
 interface StoriesState {
   viewer: { entries: ShelfEntry[]; index: number; standalone: boolean } | null;
-  creator: { remixSource?: StoryRemixSource } | null;
+  creator: { remixSource?: StoryRemixSource; postTokenId?: number } | null;
   pending: PendingMoment | null;
 }
 
@@ -39,6 +39,12 @@ export function closeStoryViewer() {
 
 export function openStoryCreator(remixSource?: StoryRemixSource) {
   storiesState.creator = { remixSource };
+}
+
+/** "Share to Moment": the creator opens on one of your own posts. */
+export function openPostMoment(postTokenId: number) {
+  storiesState.viewer = null;
+  storiesState.creator = { postTokenId };
 }
 
 export function closeStoryCreator() {
