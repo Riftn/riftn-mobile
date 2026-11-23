@@ -1937,7 +1937,9 @@
       "neon": "Neón",
       "3d": "3D",
       "flat": "Plano"
-    }
+    },
+    "blurMoments": "Difuminar vistas previas de Momentos",
+    "blurMomentsDesc": "Los Momentos de otras personas se ven difuminados en Inicio hasta que los abras."
   },
   "common": {
     "loadMore": "Cargar más",

@@ -22,6 +22,7 @@ import { openStoryCreator, openStoryViewer, storiesState, type PendingMoment } f
 import { avatarOf, coverOf, nameOf, playable } from "./story-utils";
 import { useBadgeAccount } from "../../hooks/useAccountBadge";
 import { getAvatarUrl, getBadgeUrlFor } from "../../libs/misc";
+import { useMomentPreviewsBlurred } from "../../libs/momentPreviewBlur";
 
 const TILE_W = 86;
 const TILE_H = 118;
@@ -168,9 +169,11 @@ function StoryShelf() {
   );
 }
 
-function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, children }: {
+function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, blur, children }: {
   cover?: string | null;
   seen?: boolean;
+  /** Settings > Blur Moment previews: the picture stays blurred until opened. */
+  blur?: boolean;
   avatar: React.ReactNode | null;
   label: string;
   onPress: () => void;
@@ -190,7 +193,7 @@ function ShelfTile({ cover, avatar, label, onPress, badge, action, seen, childre
       >
         {cover ? (
           <Image source={{ uri: cover }} recyclingKey={cover} style={StyleSheet.absoluteFill}
-            contentFit="cover" cachePolicy="memory-disk" />
+            contentFit="cover" cachePolicy="memory-disk" blurRadius={blur ? 40 : undefined} />
         ) : null}
         <LinearGradient
           colors={TILE_SHADE}
@@ -316,10 +319,12 @@ const TILE_SHADE_AT = [0, 0.36, 0.5, 1] as const;
 
 function PersonTile({ entry, onOpen }: { entry: ShelfEntry; onOpen: () => void }) {
   const name = nameOf(entry.author);
+  const blurred = useMomentPreviewsBlurred();
   return (
     <ShelfTile
       cover={coverOf(entry)}
       seen={entry.seen}
+      blur={blurred}
       avatar={<Avatar uri={avatarOf(entry.author, 48)} size={FACE} radius={FACE_R} name={name} />}
       label={name}
       onPress={onOpen}
