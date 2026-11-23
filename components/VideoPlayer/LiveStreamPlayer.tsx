@@ -1880,6 +1880,16 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
   // The line a held "Reply" answers; shown over the composer until sent or cleared.
   const [replyingTo, setReplyingTo] = useState<{ id: string; name: string; content: string } | null>(null);
   useEffect(() => { setReplyingTo(null); }, [chatRoomId]);
+  // Simulator check only (scripts/ios-nav/tour.ts creates the set): puts the
+  // box in reply mode the way Reply on a held line does. Never set in the app.
+  useEffect(() => {
+    type ReplyTap = (reply: { id: string; name: string; content: string } | null) => void;
+    const taps = (globalThis as { __liveReplyTaps?: Set<ReplyTap> }).__liveReplyTaps;
+    if (!taps) return;
+    const tap: ReplyTap = (reply) => setReplyingTo(reply);
+    taps.add(tap);
+    return () => { taps.delete(tap); };
+  }, []);
   // Your own line being edited in the composer, the way a Requests comment is.
   const [editingLine, setEditingLine] = useState<{ id: string; content: string } | null>(null);
   useEffect(() => { setEditingLine(null); }, [chatRoomId]);

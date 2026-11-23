@@ -1317,6 +1317,8 @@ async function run(): Promise<void> {
  * can put the cursor in one without knowing where it is drawn.
  */
 const liveInputs: unknown[] = [];
+/** Branch-only switch: the keys task runs just the live chat box check. */
+const KEYS_LIVE_ONLY = true;
 const inputState = (require("react-native/Libraries/Components/TextInput/TextInputState").default ??
   require("react-native/Libraries/Components/TextInput/TextInputState")) as {
   registerInput(input: unknown): void;
@@ -1462,6 +1464,84 @@ async function runKeys(): Promise<void> {
   extra.finishedAt = Date.now();
   await save(true);
   console.error("[perf-tour] done");
+}
+
+/**
+ * The live chat box over the keys: a live opened signed in, the cursor put in
+ * its chat box, then a reply and a long message typed (never sent). Each
+ * picture has to show the whole box above the keyboard.
+ */
+async function runLiveKeys(): Promise<void> {
+  const { Keyboard } = require("react-native") as typeof import("react-native");
+  extra = { startedAt: Date.now(), mode: "livekeys" };
+  const root = nav.getRootState();
+  if (root?.routes[root.index]?.name !== ScreenNames.App) {
+    nav.navigate(ScreenNames.App);
+    await sleep(1500);
+  }
+  await sleep(12000);
+  extra.signedIn = await hasSession();
+  if (extra.signedIn) {
+    await sleep(14000);
+    await AsyncStorage.setItem(SWIPE_KEY, "tap:not-now-photo-1:201:802");
+    await sleep(9000);
+    await AsyncStorage.setItem(SWIPE_KEY, "tap:not-now-notifications-2:201:649");
+    await sleep(9000);
+  }
+  let streamId = "";
+  try {
+    const { getLiveVideos } = require("../../services/live.service") as { getLiveVideos(p: object): Promise<any> };
+    const res = await getLiveVideos({ unit: 50, sortMode: "recent" });
+    const rows: any[] = Array.isArray(res) ? res : Array.isArray(res?.result) ? res.result : [];
+    const onAir = rows.find((r) => String(r?.status).toLowerCase() === "live" || r?.isLive) ?? rows[0];
+    streamId = String(onAir?._id ?? onAir?.id ?? "");
+  } catch (error) {
+    console.error(`[perf-tour] live list failed ${String(error)}`);
+  }
+  extra.streamId = streamId;
+  const checks: Record<string, unknown>[] = [];
+  extra.livekeys = checks;
+  const had = new Set(liveInputs);
+  nav.navigate(ScreenNames.LiveViewer, { streamId });
+  await sleep(12000);
+  await shot("live-0-open");
+  await sleep(700);
+  const box = liveInputs.filter((input) => !had.has(input)).pop() as
+    | { measureInWindow?(cb: (x: number, y: number, w: number, h: number) => void): void }
+    | undefined;
+  const where = () => new Promise<Record<string, unknown>>((resolve) => {
+    const k = Keyboard.metrics();
+    if (!box?.measureInWindow) return resolve({ box: false, keys: k });
+    box.measureInWindow((x, y, w, h) => resolve({ y: Math.round(y), h: Math.round(h), keysTop: k?.screenY, keysH: k?.height, up: Keyboard.isVisible() }));
+  });
+  const note = async (check: string) => {
+    const at = await where();
+    checks.push({ check, ...at });
+    console.error(`[perf-tour] livekeys ${check}: ${JSON.stringify(at)}`);
+    await save(false);
+  };
+  if (box) inputState.focusTextInput(box);
+  await sleep(3000);
+  await shot("live-1-keyboard");
+  await sleep(700);
+  await note("normal");
+  // Reply: the same as Reply on a held line.
+  const replies = (globalThis as { __liveReplyTaps?: Set<(r: object | null) => void> }).__liveReplyTaps;
+  replies?.forEach((set) => set({ id: "tour-reply", name: "Luna", content: "gm chat, who is watching tonight?" }));
+  await sleep(3000);
+  await shot("live-2-reply");
+  await sleep(700);
+  await note("reply");
+  await AsyncStorage.setItem(SWIPE_KEY, "type:live-long-3:this is a long message to see the box grow line by line while the keys stay up on a phone");
+  await sleep(14000);
+  await shot("live-3-long");
+  await sleep(700);
+  await note("long");
+  Keyboard.dismiss();
+  await AsyncStorage.removeItem(SWIPE_KEY);
+  extra.finishedAt = Date.now();
+  await save(true);
+  console.error("[perf-tour] livekeys done");
 }
 
 /**
@@ -2170,6 +2250,7 @@ type ChatTap = (update: (prev: ChatLine[]) => ChatLine[]) => void;
 /** Each mounted live chat (hooks/useLiveChat) adds its line updater here. */
 const chatTaps = new Set<ChatTap>();
 (globalThis as { __liveChatTaps?: Set<ChatTap> }).__liveChatTaps = chatTaps;
+(globalThis as { __liveReplyTaps?: Set<unknown> }).__liveReplyTaps = new Set();
 
 /**
  * Reactions landing in a live's chat, signed out: opens a live, adds three
@@ -2402,7 +2483,7 @@ void (async () => {
     else if (mode === "shells") await runShells();
     else if (mode === "bones") await runBones();
     else if (mode === "wide") await runWide();
-    else if (mode === "keys") await runKeys();
+    else if (mode === "keys") await (KEYS_LIVE_ONLY ? runLiveKeys() : runKeys());
     else if (mode === "wallet") await runWallet();
     else if (mode === "loginsheet") await runLoginSheet();
     else if (mode === "player") await runPlayer();
