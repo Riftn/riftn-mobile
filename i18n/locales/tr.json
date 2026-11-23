@@ -18101,6 +18101,8 @@
   },
   "notes": {
     "add": "Not",
+    "yourStatus": "Durumun",
+    "whatsUp": "Neler oluyor?",
     "yourNote": "Notun",
     "count": "Notlar {{count}}",
     "hide": "Gizle",
