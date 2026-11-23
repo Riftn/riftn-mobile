@@ -13001,7 +13001,8 @@
           "3": "Wanneer een bericht de limiet zou overschrijden, berekent de app eerst de prijs en controleert of uw portemonnee dit kan dekken voordat er iets wordt geüpload.",
           "4": "Het bericht wordt exact gepubliceerd zoals het binnen de limiet zou zijn — publicatie wacht nooit op een betaling.",
           "5": "Vervolgens keurt u één overboeking goed voor dat specifieke bericht, afgerekend op de Base of BNB Chain die voldoende Riftn tokens bevat.",
-          "6": "Beide pools worden om middernacht UTC gereset."
+          "6": "Beide pools worden om middernacht UTC gereset.",
+          "7": "Mints werken hetzelfde: je badge bepaalt hoeveel mints per dag de Home-feed bereiken, hetzelfde aantal als je tekstposts. Extra mints gaan gewoon door en staan op je profiel, in Volgend en op de fractiemarkt."
         },
         "tips": {
           "1": "Overschrijding is pro rata: 200 MB boven uw limiet kost 200 MB, niet een hele gigabyte.",
@@ -17240,6 +17241,7 @@
     "failed": "Je foto kon niet worden opgeslagen. Probeer het opnieuw."
   },
   "mintChain": {
+    "homeAllowance": "{{left}} van {{total}} mints vandaag bereiken Home. Extra mints gaan naar je profiel en de markt.",
     "title": "Muntpaal",
     "subtitle": "Kies een keten. Prijzen zijn live en worden elke minuut bijgewerkt.",
     "free": "Gratis",
