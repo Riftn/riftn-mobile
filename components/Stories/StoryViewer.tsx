@@ -59,6 +59,7 @@ import {
 import { openStoryCreator, openStoryViewer } from "../../store/stories.store";
 import { ageLabel, avatarOf, nameOf, startIndex } from "./story-utils";
 import StoryComments from "./StoryComments";
+import MomentCaption from "./MomentCaption";
 import { MomentComment, MomentHeart, MomentShare } from "./MomentIcons";
 import { FloatHearts, ReplyTo, StoryRoomChat, TEXT_SHADOW, useMomentComments } from "./StoryRoom";
 import { ChromeFill, CHROME_HAIRLINE } from "../common/ViewerChrome";
@@ -618,9 +619,7 @@ export default function StoryViewer({
                 </TouchableOpacity>
               ) : null}
               {item.caption ? (
-                <Text style={styles.caption} numberOfLines={3}>
-                  {item.caption}
-                </Text>
+                <MomentCaption key={item.id} text={item.caption} publicContent={item.shareable === true} />
               ) : null}
             </View>
           ) : null}
@@ -988,7 +987,6 @@ const styles = StyleSheet.create({
   },
   sendFill: { ...StyleSheet.absoluteFillObject, borderRadius: 11 },
   captionWrap: { marginRight: 60, marginBottom: 10, alignItems: "flex-start" },
-  caption: { color: "#fff", fontSize: 15, fontWeight: "600", lineHeight: 20, ...TEXT_SHADOW },
   original: { flexDirection: "row", alignItems: "center", gap: 6, paddingHorizontal: 11, paddingVertical: 7, borderRadius: 18, marginBottom: 6 },
   originalText: { color: "#fff", fontSize: 14 },
   songArt: { width: 16, height: 16, borderRadius: 4 },
