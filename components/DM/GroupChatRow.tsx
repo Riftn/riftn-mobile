@@ -14,6 +14,8 @@ import { ChatCard } from "./ChatCard";
 import ReactionAlertBadge, { markChatRow, reactionAlertLine } from "./ReactionAlertBadge";
 import type { ChatReactionSummary } from "../../services/dm/dm.api";
 import UnreadCountChip from "./UnreadCountChip";
+import { GroupCardNotes } from "./NotesSheet";
+import type { NoteEntry } from "../../services/notes.service";
 import { formatShortAgo } from "../../libs/date.util";
 import { roomPreviewLine } from "../../libs/room-chat-read";
 import type { RoomSummary } from "../../hooks/useRoomChatSummaries";
@@ -21,7 +23,7 @@ import type { RoomSummary } from "../../hooks/useRoomChatSummaries";
 import { formatCount } from '../../libs/format-count';
 const DEHUB_COIN = require("../../assets/web-icons/dehub-coin.png");
 
-export default function GroupChatRow({ community, onPress, onLongPress, selecting = false, checked = false, markedUnread = false, reactions = null, summary, me = "" }: {
+export default function GroupChatRow({ community, onPress, onLongPress, selecting = false, checked = false, markedUnread = false, reactions = null, summary, me = "", notes, onNotePress }: {
   community: Community;
   /** Newest line and unread number (hooks/useRoomChatSummaries). */
   summary?: RoomSummary;
@@ -37,6 +39,9 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
   markedUnread?: boolean;
   /** Reactions to your messages here that you haven't seen yet. */
   reactions?: ChatReactionSummary | null;
+  /** Notes from members of this group (people you follow), last 24 hours. */
+  notes?: NoteEntry[];
+  onNotePress?: (entry: NoteEntry) => void;
 }) {
   const showPurchaseOffer = usePurchaseOfferVisible();
   markChatRow(`room:${community.id}`);
@@ -59,7 +64,7 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
       delayLongPress={400}
       activeOpacity={0.7}
       accessibilityState={selecting ? { selected: checked } : undefined}
-      className="flex-row items-center pl-3 pr-3.5 py-3 gap-3"
+      className={`flex-row ${notes?.length ? "items-start" : "items-center"} pl-3 pr-3.5 py-3 gap-3`}
       style={{ minHeight: 72 }}
       testID={`group-chat-row-${kind}`}
     >
@@ -102,6 +107,7 @@ export default function GroupChatRow({ community, onPress, onLongPress, selectin
           )}
         </View>
         )}
+        {!selecting && !!notes?.length && onNotePress && <GroupCardNotes notes={notes} onOpen={onNotePress} />}
       </View>
     </TouchableOpacity>
     </ChatCard>
