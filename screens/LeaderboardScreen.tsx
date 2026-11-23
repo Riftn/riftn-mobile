@@ -78,7 +78,7 @@ const OgChallengeNote: React.FC = () => {
       <Text className="text-theme-neutrals-300 text-sm mt-1">
         {t(
           "leaderboard.ogChallengeBody",
-          "Invite people who still hold DHB. When they join with your invite link and keep their DHB in their Riftn wallet, they count for you here.",
+          "Invite people who still hold tokens. When they join with your invite link and keep their tokens in their Riftn wallet, they count for you here.",
         )}
       </Text>
       <TouchableOpacity

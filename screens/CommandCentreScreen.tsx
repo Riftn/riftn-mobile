@@ -1,3 +1,4 @@
+import { tokenLabel } from '../libs/token-label';
 /**
  * CommandCentreScreen
  * ===================
@@ -263,7 +264,7 @@ const ActivityRow: React.FC<{ item: ActivityItem }> = ({ item }) => {
       </View>
       <Text style={[styles.activityAmount, { color: positive ? "#F4F4F5" : "#8B8D90" }]}>
         {positive ? "+" : ""}
-        {fmt(item.amount)} {item.currency}
+        {fmt(item.amount)} {tokenLabel(item.currency)}
       </Text>
     </View>
   );

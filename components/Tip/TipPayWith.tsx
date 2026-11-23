@@ -121,7 +121,7 @@ export default function TipPayWith({ visible, amountDhb, walletAddress, value, o
         <View style={styles.selected}>
           {!value && <Image source={DEHUB_COIN} style={styles.coin} resizeMode="contain" />}
           <Text style={styles.selectedText} numberOfLines={1}>
-            {value ? `${value.symbol} · ${TIP_CHAIN_NAMES[value.chainId] ?? ""}` : "DHB"}
+            {value ? `${value.symbol} · ${TIP_CHAIN_NAMES[value.chainId] ?? ""}` : tokenLabel()}
           </Text>
           <CollapsibleChevron open={open} size={16} color="rgba(255,255,255,0.5)" />
         </View>
