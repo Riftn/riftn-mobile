@@ -678,7 +678,8 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
       }
     }
 
-    // Feature requests, at /features or /app/features. The app's own Share
+    // The Build board, at /build (and its older /features and /requests
+    // addresses, with or without /app). The app's own Share
     // button hands out ?feature=<id>, web's notifications ?request=<id> and
     // &comment=<id>; the screen pins a request by requestId and opens its
     // thread at commentId, so the names are translated on the way in.
@@ -692,7 +693,7 @@ export const linkingConfig: LinkingOptions<RootStackParamList> = {
     if (appSegs.length === 1 && ['wallet', 'buy', 'stake'].includes(appSegs[0])) {
       return orOpenOnWeb(getStateFromPath(`/app/wallet?initialTab=${appSegs[0]}`, options));
     }
-    if (appSegs[0] === 'features' && appSegs.length === 1) {
+    if (['build', 'features', 'requests'].includes(appSegs[0]) && appSegs.length === 1) {
       const query = renameQueryParams(queryString, {
         request: 'requestId',
         feature: 'requestId',
