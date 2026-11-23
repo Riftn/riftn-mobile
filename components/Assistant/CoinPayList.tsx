@@ -25,7 +25,7 @@ const CHAIN_LOGOS: Record<number, any> = {
 };
 
 /**
- * "Not enough DHB": the coins that can pay the same amount instead, inside the
+ * "Not enough tokens": the coins that can pay the same amount instead, inside the
  * generation paywall. Coins the wallet can't cover are dimmed.
  */
 const CoinPayList: React.FC<{
@@ -59,12 +59,12 @@ const CoinPayList: React.FC<{
   return (
     <View style={s.coinWrap}>
       <Text style={s.coinTitle}>
-        {_copy("coinPay.title", { defaultValue: "Not enough DHB" })}
+        {_copy("coinPay.title", { defaultValue: "Not enough tokens" })}
       </Text>
       <Text style={s.coinSub}>
         {_copy("coinPay.subtitle", {
           defaultValue:
-            "This costs {{cost}} DHB and you hold {{held}}. Pay the same amount with another coin.",
+            "This costs {{cost}} tokens and you hold {{held}}. Pay the same amount with another coin.",
           cost: Math.round(priceDhb).toLocaleString(),
           held: Math.round(walletDhb).toLocaleString(),
         })}

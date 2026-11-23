@@ -1,3 +1,4 @@
+import { tokenLabel } from './token-label';
 /**
  * Pay-to-unlock DM media: the bits the bubble needs that live outside it.
  *
@@ -57,7 +58,7 @@ export function lockDhbForUsd(usd: number, rate = DHB_PRELISTING_USD): number {
 }
 
 export function formatLockDhb(dhb: number): string {
-  return `${dhb.toLocaleString(undefined, { maximumFractionDigits: 2 })} DHB`;
+  return `${dhb.toLocaleString(undefined, { maximumFractionDigits: 2 })} ${tokenLabel()}`;
 }
 
 /** The lock's USD price; locks made before dollar pricing were set at the fixed DHB price. */

@@ -30,7 +30,7 @@ function userOpError(reasonHex: string) {
 describe("parseTxError — an STF revert is not a sponsorship outage", () => {
   it("names the token transfer, not the paymaster", () => {
     expect(parseTxError(userOpError(PIMLICO_STF_HEX), "send")).toBe(
-      "Token transfer failed — check your DHB balance and approval",
+      "Token transfer failed — check your token balance and approval",
     );
   });
 
@@ -43,7 +43,7 @@ describe("parseTxError — an STF revert is not a sponsorship outage", () => {
   it("matches the bare hex when nothing decoded it", () => {
     const err: any = new Error("reverted: 535446 paymaster api.pimlico.io");
     expect(parseTxError(err, "send")).toBe(
-      "Token transfer failed — check your DHB balance and approval",
+      "Token transfer failed — check your token balance and approval",
     );
   });
 
@@ -51,7 +51,7 @@ describe("parseTxError — an STF revert is not a sponsorship outage", () => {
     const err: any = new Error("UserOperation failed. paymaster: 0x0");
     err.cause = { reason: "STF" };
     expect(parseTxError(err, "send")).toBe(
-      "Token transfer failed — check your DHB balance and approval",
+      "Token transfer failed — check your token balance and approval",
     );
   });
 

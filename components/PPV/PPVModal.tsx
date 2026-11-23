@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../libs/token-label';
 import WebPurchaseLink from "../common/WebPurchaseLink";
 import { DIGITAL_PURCHASES_ENABLED } from "../../config/storefront";
 import React, {
@@ -416,7 +417,7 @@ const PPVModal: React.FC<PPVModalProps> = ({
                   <Text className="text-base text-white mb-2">
                     <Trans
                       i18nKey="ppv.aboutToSpend"
-                      values={{ amount, symbol: tokenSymbol }}
+                      values={{ amount, symbol: tokenLabel(tokenSymbol) }}
                       components={{ accent: <Text className="text-theme-accent font-semibold" /> }}
                     />
                   </Text>
@@ -430,7 +431,7 @@ const PPVModal: React.FC<PPVModalProps> = ({
                   </View> */}
                   <View className="flex-row justify-between mt-1">
                     <Text className="text-[11px] text-white/50">
-                      {tokenSymbol}: {Number(userTokenBal).toFixed(4)}
+                      {tokenLabel(tokenSymbol)}: {Number(userTokenBal).toFixed(4)}
                     </Text>
                     <Text className="text-[11px] text-white/30">
                       {t("ppv.tokenBalance")}
@@ -444,7 +445,7 @@ const PPVModal: React.FC<PPVModalProps> = ({
                       short. */}
                   {insufficient && phase === "idle" && tokenSymbol === "DHB" && (
                     <Text className="text-xs text-white/60 mt-2">
-                      {t("ppv.lowTopUp", { symbol: tokenSymbol })}
+                      {t("ppv.lowTopUp", { symbol: tokenLabel(tokenSymbol) })}
                     </Text>
                   )}
                   {isSelf && (

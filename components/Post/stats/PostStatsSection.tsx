@@ -1,3 +1,4 @@
+import { tokenLabel } from '../../../libs/token-label';
 /**
  * Full post stats on the creator's own Post Info screen. Every number that
  * can be told apart is split into members (signed in) and signed out. Same
@@ -167,7 +168,7 @@ export default function PostStatsSection({ tokenId }: { tokenId: string | number
       </StatsCard>
 
       {money.topSupporters.length ? (
-        <StatsCard title={t("postStats.topSupporters")} aside={`${fmt(money.tips)} DHB`}>
+        <StatsCard title={t("postStats.topSupporters")} aside={`${fmt(money.tips)} ${tokenLabel()}`}>
           {money.topSupporters.map((p) => {
             const name = p.displayName || p.username || `${p.address.slice(0, 6)}…`;
             return (

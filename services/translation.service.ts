@@ -114,16 +114,14 @@ function setCache(text: string, targetLang: string, entry: CacheEntry): void {
 // us on anything the shared server cache has since evicted, and a visible
 // re-flicker either way. Persisting makes a relaunch cost nothing.
 //
-// The `-v2` suffix carries over from web, where v1 was populated while the
-// server could still cache a model's refusal prose as the "translation". This
-// client never wrote a v1, but keeping the names aligned means the next purge
-// is one shared decision rather than two.
-// ---------------------------------------------------------------------------
-
-const TRANSLATION_STORE_KEY = 'dehub-translation-cache-v3';
+// Older device caches can still hold segmented or otherwise rejected server
+// responses. Refill from the updated endpoint after the app upgrades.
+const TRANSLATION_STORE_KEY = 'dehub-translation-cache-v4';
+const LEGACY_TRANSLATION_STORE_KEY = 'dehub-translation-cache-v3';
 
 function loadPersistedTranslations(): void {
   try {
+    storage.delete(LEGACY_TRANSLATION_STORE_KEY);
     const raw = storage.getString(TRANSLATION_STORE_KEY);
     if (!raw) return;
     const entries = JSON.parse(raw) as [string, CacheEntry][];
