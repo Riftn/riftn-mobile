@@ -17878,6 +17878,13 @@
     "shelfCollected": "Collected"
   },
   "nftCreate": {
+    "newNft": "New NFT",
+    "untitled": "Untitled",
+    "addArt": "Add a picture or GIF",
+    "tileEarn": "{{pct}} to you on resales",
+    "otherCopies": "Other",
+    "otherPlaceholder": "Any number, like 250 or 50000",
+    "chain": "Chain",
     "eyebrow": "Create",
     "title": "Make an NFT",
     "intro": "An NFT is not a post. It lives here on the market: choose how many copies, who earns on resales, and extras only owners can open.",

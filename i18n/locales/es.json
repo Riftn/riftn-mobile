@@ -18443,6 +18443,13 @@
     "shelfCollected": "Coleccionados"
   },
   "nftCreate": {
+    "newNft": "Nuevo NFT",
+    "untitled": "Sin título",
+    "addArt": "Añade una imagen o un GIF",
+    "tileEarn": "{{pct}} para ti en reventas",
+    "otherCopies": "Otro",
+    "otherPlaceholder": "Cualquier número, como 250 o 50000",
+    "chain": "Cadena",
     "eyebrow": "Crear",
     "title": "Crea un NFT",
     "intro": "Un NFT no es una publicación. Vive aquí en el mercado: elige cuántas copias, quién gana en las reventas y extras que solo pueden abrir los dueños.",

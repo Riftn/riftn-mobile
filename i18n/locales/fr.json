@@ -18447,6 +18447,13 @@
     "shelfCollected": "Collectionnés"
   },
   "nftCreate": {
+    "newNft": "Nouveau NFT",
+    "untitled": "Sans titre",
+    "addArt": "Ajoute une image ou un GIF",
+    "tileEarn": "{{pct}} pour toi à la revente",
+    "otherCopies": "Autre",
+    "otherPlaceholder": "N’importe quel nombre, comme 250 ou 50000",
+    "chain": "Chaîne",
     "eyebrow": "Créer",
     "title": "Créer un NFT",
     "intro": "Un NFT n'est pas une publication. Il vit ici sur le marché : choisis le nombre d'exemplaires, qui gagne à la revente et des extras que seuls les propriétaires peuvent ouvrir.",

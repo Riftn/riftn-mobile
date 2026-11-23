@@ -18437,6 +18437,13 @@
     "shelfCollected": "Toplanan"
   },
   "nftCreate": {
+    "newNft": "Yeni NFT",
+    "untitled": "Adsız",
+    "addArt": "Bir resim veya GIF ekle",
+    "tileEarn": "Yeniden satışlarda sana {{pct}}",
+    "otherCopies": "Diğer",
+    "otherPlaceholder": "Herhangi bir sayı, örneğin 250 veya 50000",
+    "chain": "Zincir",
     "eyebrow": "Oluştur",
     "title": "NFT oluştur",
     "intro": "NFT bir gönderi değildir. Burada, pazarda yaşar: kaç kopya olacağını, yeniden satışlardan kimin kazanacağını ve yalnızca sahiplerin açabileceği ekstraları seç.",
