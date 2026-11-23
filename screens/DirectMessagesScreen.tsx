@@ -266,7 +266,18 @@ const DirectMessagesInner: React.FC = () => {
     () => (tabFilter === "unread" ? groupChats.filter((c) => !!chatPrefs.get(roomChatId(c.id))?.markedUnread || !!chatPrefs.get(roomChatId(c.id))?.reactions || (roomSummaries[c.id]?.unread ?? 0) > 0) : groupChats).filter(roomInTab).filter(c => query.trim() || archivedRoom(c) === showingArchive),
     [groupChats, tabFilter, chatPrefs, roomInTab, roomSummaries, archivedRoom, showingArchive, query],
   );
-  const groupNotes = useGroupNotes(myAddress ? shownGroups.map((c) => c.id) : [], myAddress || null);
+  const allGroupNotes = useGroupNotes(myAddress ? shownGroups.map((c) => c.id) : [], myAddress || null);
+  // Each note shows once in the list: someone you DM shows it on their own card, so their group cards skip it.
+  const groupNotes = useMemo(() => {
+    const dm = new Set<string>();
+    for (const c of conversations ?? []) {
+      const a = getOtherParticipant(c, myUserId, myAddress)?.address?.toLowerCase();
+      if (a) dm.add(a);
+    }
+    const out: Record<string, NoteEntry[]> = {};
+    for (const [id, list] of Object.entries(allGroupNotes)) out[id] = list.filter((e) => !dm.has(e.author.address.toLowerCase()));
+    return out;
+  }, [allGroupNotes, conversations, myUserId, myAddress]);
   const roomsUnread = groupChats.filter(c => !archivedRoom(c)).reduce((n, c) => n + (roomSummaries[c.id]?.unread ?? 0), 0);
   const inboxUnreadChats = useMemo(
     () => conversations.filter((c) => !c.isRequest && !pendingDeletes.has(c._id) && !archivedDm(c) && convHasUnread(c)).length

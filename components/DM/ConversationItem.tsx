@@ -261,7 +261,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
         {selecting && <BulkTick checked={checked} />}
         <TouchableOpacity
           disabled={selecting}
-          onPress={liveTarget ? () => openLiveTarget(liveTarget) : handleAvatarPress}
+          onPress={liveTarget ? () => openLiveTarget(liveTarget) : note && onNotePress ? () => onNotePress(note) : handleAvatarPress}
           activeOpacity={0.8}
           className="relative"
         >
