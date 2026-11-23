@@ -109,7 +109,7 @@
     "addToMoment": "Anına ekle",
     "moreActions": "Hikâye seçenekleri",
     "remixing": "{{name}} adlı kişinin hikâyesi remiksleniyor",
-    "watchOriginal": "Orijinal hikâyeyi izle", "shareToMoment": "An'a paylaş", "goToPost": "Gönderiye git", "fromYourPost": "Gönderinden", "postNotPublic": "Yalnızca herkese açık gönderiler An'a paylaşılabilir.", "postNotMedia": "Yalnızca fotoğraf ve video gönderileri An'a paylaşılabilir.",
+    "watchOriginal": "Orijinal hikâyeyi izle", "shareToMoment": "An'a paylaş", "goToPost": "Gönderiye git", "fromYourPost": "Gönderinden", "fromAPost": "Bir gönderiden", "postNotPublic": "Yalnızca herkese açık gönderiler An'a paylaşılabilir.", "postNotMedia": "Yalnızca fotoğraf ve video gönderileri An'a paylaşılabilir.",
     "translate": "Çevir",
     "seeOriginal": "Orijinali gör",
     "translating": "Çevriliyor…",
@@ -8438,6 +8438,9 @@
     "volume": "Ses düzeyi"
   },
   "liveViewer": {
+    "showChat": "Sohbeti göster",
+    "hideChat": "Sohbeti gizle",
+    "saySomething": "Bir şey söyle...",
     "bannedHere": "Bu canlı yayında sohbet etmen yasaklandı",
     "timedOutHere": "Şu an bu sohbette geçici olarak susturuldun",
     "loadingStream": "Yayın yükleniyor...",

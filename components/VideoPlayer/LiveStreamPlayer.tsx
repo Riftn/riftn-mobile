@@ -88,6 +88,7 @@ import { usePostLinkCopyCount, useTrackPostLinkCopy } from "../../libs/link-copy
 import { ShareLinks } from "../../navigation/linking.config";
 import LiveWhosHereSheet from "../LiveViewer/LiveWhosHereSheet";
 import LiveRotateButton from "../LiveViewer/LiveRotateButton";
+import LiveClearedChat from "../LiveViewer/LiveClearedChat";
 import { useLiveAudience } from "../../hooks/useLiveAudience";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { useLiveChat } from "../../hooks/useLiveChat";
@@ -2402,6 +2403,12 @@ const LiveStreamPlayer: React.FC<LiveStreamPlayerProps> = (props) => {
             <GestureDetector gesture={restoreGesture}>
               <View collapsable={false} style={StyleSheet.absoluteFill} testID="live-cleared" />
             </GestureDetector>
+            <LiveClearedChat
+              activities={chatActivities}
+              myAddress={me}
+              landscape={landscape}
+              onSay={() => setChromeHidden(false)}
+            />
             <LiveRotateButton onPress={() => setLandscape((v) => !v)} />
           </>
         )}

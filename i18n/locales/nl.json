@@ -112,7 +112,7 @@
     "watchOriginal": "Oorspronkelijk verhaal bekijken",
     "shareToMoment": "Delen als Moment",
     "goToPost": "Naar bericht",
-    "fromYourPost": "Uit je bericht",
+    "fromYourPost": "Uit je bericht", "fromAPost": "Uit een bericht",
     "postNotPublic": "Alleen openbare berichten kunnen als Moment worden gedeeld.",
     "postNotMedia": "Alleen foto- en videoberichten kunnen als Moment worden gedeeld.",
     "translate": "Vertalen",
@@ -8582,6 +8582,9 @@
     "volume": "Volume"
   },
   "liveViewer": {
+    "showChat": "Chat tonen",
+    "hideChat": "Chat verbergen",
+    "saySomething": "Zeg iets...",
     "loadingStream": "Stream laden...",
     "streamPaused": "Stream gepauzeerd",
     "connectionDropped": "De verbinding van de streamer is weggevallen.\nWachten tot ze terug zijn...",

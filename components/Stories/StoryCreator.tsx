@@ -85,7 +85,7 @@ export default function StoryCreator({ onClose, remixSource, postTokenId }: { on
   });
   const remixLabel = remixSource
     ? t("stories.remixing", { name: remixSource.name, defaultValue: "Remixing {{name}}'s moment" })
-    : postTokenId != null ? t("stories.fromYourPost", { defaultValue: "From your post" }) : undefined;
+    : postTokenId != null ? t("stories.fromAPost", { defaultValue: "From a post" }) : undefined;
 
   // "Share to Moment": start in the editor with the post already in it.
   React.useEffect(() => {
