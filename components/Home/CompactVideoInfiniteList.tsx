@@ -229,6 +229,14 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
     );
   }, [hasMore]);
 
+  // The top gap goes under a profile header, not above it, so the header sits
+  // at the same height as on every other profile tab.
+  const topGap = cinematic ? 0 : 8;
+  const header = useMemo(
+    () => (ListHeaderComponent ? <>{ListHeaderComponent}<View style={{ height: topGap }} /></> : undefined),
+    [ListHeaderComponent, topGap],
+  );
+
   return (
     <View className="flex-1">
       <PaneAnimatedFlatList
@@ -250,7 +258,7 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
       initialNumToRender={10}
       windowSize={11}
       removeClippedSubviews={false}
-      ListHeaderComponent={ListHeaderComponent || undefined}
+      ListHeaderComponent={header}
       refreshControl={
         <DeHubRefreshControl
           refreshing={refreshing}
@@ -259,7 +267,7 @@ const CompactVideoInfiniteList: React.FC<CompactVideoInfiniteListProps> = ({
         />
       }
       contentContainerStyle={{
-        paddingTop: cinematic ? 0 : 8,
+        paddingTop: ListHeaderComponent ? 0 : topGap,
         paddingBottom: bottomPadding,
       }}
       ListEmptyComponent={
