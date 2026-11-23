@@ -29,6 +29,8 @@ import { previewLinks } from "../../libs/dehub-links";
 import SwipeableRow, { type SwipeAction } from "../common/SwipeableRow";
 import { useAppTheme } from "../../context/ThemeContext";
 import { BulkTick, MarkedUnreadDot } from "./BulkChatBar";
+import { NoteFaceRing, NoteTag } from "./NotesSheet";
+import type { NoteEntry } from "../../services/notes.service";
 
 interface ConversationItemProps {
   conversation: DmConversation;
@@ -49,6 +51,9 @@ interface ConversationItemProps {
   markedUnread?: boolean;
   /** Reactions to your messages here that you haven't seen yet. */
   reactions?: ChatReactionSummary | null;
+  /** Notes up now, by author wallet: theirs shows on the preview line with a ring on the face. */
+  notesByAuthor?: Map<string, NoteEntry>;
+  onNotePress?: (entry: NoteEntry) => void;
 }
 
 const ConversationItemComponent: React.FC<ConversationItemProps> = ({
@@ -65,6 +70,8 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
   checked = false,
   markedUnread = false,
   reactions = null,
+  notesByAuthor,
+  onNotePress,
 }) => {
   usePerfProbe("ConversationRow");
   const { t } = useTranslation();
@@ -75,6 +82,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
   );
 
   const unreadCount = useUnreadCount(conversation._id, myUserId);
+  const note = other?.address ? notesByAuthor?.get(other.address.toLowerCase()) ?? null : null;
 
   /*
    * An unsent message left in this thread's composer, shown in place of the
@@ -267,6 +275,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
             name={displayName}
             live={live}
           />
+          {note && !live && <NoteFaceRing note={note.note} />}
         </TouchableOpacity>
 
         <View className="flex-1 min-w-0 justify-center">
@@ -309,6 +318,7 @@ const ConversationItemComponent: React.FC<ConversationItemProps> = ({
             ) : previewIcon && (
               <Icon name={previewIcon === "mic" ? "Mic" : previewIcon === "diamond" ? "Gem" : previewIcon === "videocam" ? "Video" : previewIcon === "image" ? "Image" : previewIcon === "arrow-redo" ? "Forward" : "MessageSquare"} size={13} color={colors.foreground} />
             ))}
+            {!draft && !reactionLine && note && onNotePress && <NoteTag entry={note} onPress={() => onNotePress(note)} />}
             {draft ? (
               <Text className="text-[14px] flex-1 text-white" numberOfLines={1}>
                 <Text className="text-white font-medium">{t("dm.draftLabel")} </Text>

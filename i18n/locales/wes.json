@@ -10272,7 +10272,9 @@
     "mostActive": "Most active",
     "hereNow": "Here now",
     "nobodyYet": "No wan go yet",
-    "rotate": "Turn di screen"
+    "rotate": "Turn di screen",
+    "bannedHere": "Dem don ban you make you no chat for dis live stream.",
+    "timedOutHere": "Dem don time you out for this chat for now."
   },
   "search": {
     "endOfResults": "Results don finish",

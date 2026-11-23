@@ -10327,7 +10327,9 @@
     "mostActive": "Okusebenzayo kakhulu",
     "hereNow": "Lapha manje",
     "nobodyYet": "Akekho okwamanje",
-    "rotate": "Jikelezisa isikrini"
+    "rotate": "Jikelezisa isikrini",
+    "bannedHere": "Uvinjelwe ukuxoxa kulolu sasazo olubukhoma.",
+    "timedOutHere": "Uvinjelwe okwesikhashana kule ngxoxo."
   },
   "search": {
     "endOfResults": "Ukuphela kwemiphumela",
@@ -17291,5 +17293,8 @@
     "promptCatchUp": "Ngitshele lokho u-{{handle}} akuthumele muva nje",
     "promptMessage": "Ngisize ngibhalele u-{{handle}} umlayezo",
     "promptAbout": "Ngo-{{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Phendula ku-{{name}}…"
   }
 }

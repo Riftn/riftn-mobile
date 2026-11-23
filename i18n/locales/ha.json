@@ -10292,7 +10292,9 @@
     "mostActive": "Mafi yawan aiki",
     "hereNow": "A nan yanzu",
     "nobodyYet": "Babu wanda har yanzu",
-    "rotate": "Juya allon"
+    "rotate": "Juya allon",
+    "bannedHere": "An hana ka yin hira a wannan watsa shirye-shiryen kai tsaye.",
+    "timedOutHere": "An dakatar da kai daga wannan tattaunawar na ɗan lokaci."
   },
   "search": {
     "endOfResults": "Ƙarshen sakamako",
@@ -17351,5 +17353,8 @@
     "addQuestion": "Kara tambaya",
     "pointsLabel": "Maki ga kowace amsa daidai",
     "attachFailed": "An tura sakonka, amma ba a iya kara tambayar ba"
+  },
+  "notes": {
+    "replyTo": "Ka ba da amsa ga {{name}}…"
   }
 }

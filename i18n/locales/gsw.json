@@ -10325,7 +10325,9 @@
     "mostActive": "Meischti aktiv",
     "hereNow": "Jetzt da",
     "nobodyYet": "No einisch no kei",
-    "rotate": "Bildschirm dräie"
+    "rotate": "Bildschirm dräie",
+    "bannedHere": "Du bisch vo däm Livestream usgschlosse.",
+    "timedOutHere": "Du bisch vorläufig us dem Chat usgschlosse."
   },
   "search": {
     "endOfResults": "Ändi vo de Ergebnis",
@@ -17384,5 +17386,8 @@
     "addQuestion": "Frag dezue tue",
     "pointsLabel": "Pünkt pro richtigi Antwort",
     "attachFailed": "Dis Post isch online, aber s'Quiz hät nöd chöne dezue gfüegt werde"
+  },
+  "notes": {
+    "replyTo": "Antworte uf {{name}}…"
   }
 }

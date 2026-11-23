@@ -61,6 +61,8 @@ interface Props {
   viewportHeight: number;
   /** Chat */
   canSend: boolean;
+  /** Why this viewer can't type here, when it isn't about being signed out. */
+  blockedReason?: "banned" | "timedOut" | null;
   chatEnabled: boolean;
   isLive: boolean;
   isEnded: boolean;
@@ -90,6 +92,7 @@ interface Props {
 const LiveViewerActionBar: React.FC<Props> = ({
   viewportHeight,
   canSend,
+  blockedReason,
   chatEnabled,
   isLive,
   isEnded,
@@ -159,8 +162,12 @@ const LiveViewerActionBar: React.FC<Props> = ({
         ? _copy("copy.489ef3352bdf", { defaultValue: "Waiting for stream..." })
         : !chatEnabled
           ? _copy("copy.7acfdcb49adf", { defaultValue: "Chat is disabled" })
-          : !canSend
-            ? _copy("copy.048ff525a56b", { defaultValue: "Sign in to chat" })
+          : blockedReason === "banned"
+            ? t("liveViewer.bannedHere", { defaultValue: "You are banned from chatting in this live stream" })
+            : blockedReason === "timedOut"
+              ? t("liveViewer.timedOutHere", { defaultValue: "You are timed out from this chat for now" })
+              : !canSend
+                ? _copy("copy.048ff525a56b", { defaultValue: "Sign in to chat" })
             : t("liveViewer.chatPlaceholder", { defaultValue: "type..." });
 
   const handleSend = useCallback(async () => {
@@ -345,16 +352,11 @@ const LiveViewerActionBar: React.FC<Props> = ({
           ) : null}
         </View>
 
-        {/* Gift · share · thumb, on the composer's own row after the send
-            button — the three things you do to a broadcast, where the thumb
-            already is.
-
-            They stand down while you are typing (box focused or holding a
-            message): the whole row goes to the text and the send button, and
-            they come back when the keyboard closes with the box empty. Nothing is ever on this row that
-            the viewer is not about to use. */}
-        {typing ? null : (
-          <View style={styles.cluster} pointerEvents="box-none">
+        {/* GIF · gift · share · thumb, on the composer's own row, always.
+            One layout whether or not the box is focused: hiding them while
+            typing made the bar swap between two looks as the keyboard came
+            and went, and the buttons moved under your thumb as you tapped. */}
+        <View style={styles.cluster} pointerEvents="box-none">
           {isLive && !inputDisabled ? (
             <Pressable onPress={() => setGifPickerVisible(true)} hitSlop={CHROME_HIT_SLOP}
               accessibilityRole="button" accessibilityLabel={t("comments.addGif")} style={styles.circle}>
@@ -407,8 +409,7 @@ const LiveViewerActionBar: React.FC<Props> = ({
                 each of three buttons is three more figures on somebody
                 else's broadcast — the counts live on the post. */}
           </Pressable>
-          </View>
-        )}
+        </View>
       </View>
       <GifPicker visible={gifPickerVisible} onClose={() => setGifPickerVisible(false)}
         onPick={(url) => { setGifPickerVisible(false); onSendGif(url); }} />
@@ -468,7 +469,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
     lineHeight: 19,
-    paddingVertical: 4,
+    // Explicit top/bottom (iOS multiline ignores paddingVertical and adds its
+    // own top inset) and no Android font padding, so the words and the
+    // placeholder sit in the middle of the box.
+    paddingTop: 4,
+    paddingBottom: 4,
+    includeFontPadding: false,
     maxHeight: 19 * 4 + 8,
     textAlignVertical: "center",
   },

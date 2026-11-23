@@ -10326,7 +10326,8 @@
     "mostActive": "Legaktívabb",
     "hereNow": "Itt és most",
     "nobodyYet": "Még senki",
-    "rotate": "Képernyő elforgatása"
+    "rotate": "Képernyő elforgatása",
+    "timedOutHere": "A jelenlegi időszakon át ideiglenesen lezárták a beszélgetést veled."
   },
   "search": {
     "endOfResults": "A találatok vége",
@@ -17359,5 +17360,8 @@
     "addQuestion": "Kérdés hozzáadása",
     "pointsLabel": "Pontok helyes válaszonként",
     "attachFailed": "A bejegyzésed kint van, de a kvízt nem sikerült hozzáadni"
+  },
+  "notes": {
+    "replyTo": "Válaszolj neki: {{name}}…"
   }
 }

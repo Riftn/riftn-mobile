@@ -7,6 +7,9 @@
  *
  * Uses GlassModal for the blurred glass aesthetic.
  */
+import { MomentAdd } from "../Stories/MomentIcons";
+import { canShareToMoment } from "../Stories/post-moment";
+import { openPostMoment } from "../../store/stories.store";
 import { usePerfProbe } from "../../libs/perfTrace";
 import SegmentMarkerSheet from "./SegmentMarkerSheet";
 import React, { memo, useCallback, useEffect, useRef, useState } from "react";
@@ -278,7 +281,7 @@ export interface PlayerRows {
 }
 
 interface OptionRowProps {
-  icon: IconName | "assistant-slim";
+  icon: IconName | "assistant-slim" | "moment-add";
   label: string;
   sublabel?: string;
   color?: string;
@@ -299,7 +302,7 @@ const OptionRow: React.FC<OptionRowProps> = memo(
         {loading ? (
           <ActivityIndicator size="small" color={color} />
         ) : (
-          icon === "assistant-slim" ? <AssistantNavIcon size={20} color={color} /> : <Icon name={icon} size={20} color={color} fill={filled ? color : undefined} />
+          icon === "assistant-slim" ? <AssistantNavIcon size={20} color={color} /> : icon === "moment-add" ? <MomentAdd size={20} color={color} /> : <Icon name={icon} size={20} color={color} fill={filled ? color : undefined} />
         )}
       </View>
       <View className="flex-1">
@@ -884,6 +887,16 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
                 if (togglePinMutation.isPending) return;
                 togglePinMutation.mutate({ tokenId: numericTokenId, post });
               }}
+            />
+          )}
+
+          {/* Share to Moment — your own public photo or video post, opened in
+              the Moment editor so text and stickers can go on top. */}
+          {isOwner && numericTokenId != null && !Number.isNaN(numericTokenId) && canShareToMoment(post) && (
+            <OptionRow
+              icon="moment-add"
+              label={t("stories.shareToMoment", "Share to Moment")}
+              onPress={() => { onClose(); setTimeout(() => openPostMoment(numericTokenId), 300); }}
             />
           )}
 

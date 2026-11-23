@@ -10429,7 +10429,9 @@
     "mostActive": "Paling aktif",
     "hereNow": "Di sini sekarang",
     "nobodyYet": "Belum ada",
-    "rotate": "Putar layar"
+    "rotate": "Putar layar",
+    "bannedHere": "Kamu dilarang mengobrol di siaran langsung ini.",
+    "timedOutHere": "Anda tidak dapat menggunakan chat ini untuk sementara waktu."
   },
   "search": {
     "endOfResults": "Akhir hasil",
@@ -17375,5 +17377,8 @@
     "addQuestion": "Tambahkan pertanyaan",
     "pointsLabel": "Poin per jawaban benar",
     "attachFailed": "Postingan Anda sudah terbit, tetapi kuis tidak dapat ditambahkan"
+  },
+  "notes": {
+    "replyTo": "Balas ke {{name}}…"
   }
 }

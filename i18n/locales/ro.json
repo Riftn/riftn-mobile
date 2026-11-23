@@ -10316,7 +10316,9 @@
     "mostActive": "Cele mai active",
     "hereNow": "Aici acum",
     "nobodyYet": "Nimeni încă",
-    "rotate": "Rotiți ecranul"
+    "rotate": "Rotiți ecranul",
+    "bannedHere": "Ți s-a interzis să discuți pe acest live stream.",
+    "timedOutHere": "Ai fost suspendat temporar din acest chat."
   },
   "search": {
     "endOfResults": "Sfârșitul rezultatelor",
@@ -17294,5 +17296,8 @@
     "promptCatchUp": "Pune-mă la curent cu ce a postat {{handle}} în ultima vreme",
     "promptMessage": "Ajută-mă să scriu un mesaj pentru {{handle}}",
     "promptAbout": "Despre {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Răspunde la {{name}}…"
   }
 }

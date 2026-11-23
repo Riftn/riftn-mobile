@@ -10290,7 +10290,9 @@
     "nobodyYet": "आज तक कोनो",
     "hereCount": "{{formatted}} यहीं",
     "watchingCount": "{{formatted}} देखर छु",
-    "rotate": "स्क्रीन घुमाव"
+    "rotate": "स्क्रीन घुमाव",
+    "bannedHere": "तेंहर ए लाइव स्ट्रीम मं चैट करे बर प्रतिबंधित असस।",
+    "timedOutHere": "तुमन अभी ए चैट ले कुछ बेरा बर टाइम आउट हो गे हवव।"
   },
   "search": {
     "endOfResults": "नतीजा के अंत",
@@ -17390,5 +17392,8 @@
     "addQuestion": "सवाल जोड़",
     "pointsLabel": "हर सही जवाब बर अंक",
     "attachFailed": "तोरे पोस्ट डल गे हे, फेर क्विज नइ जुड़ पाइस"
+  },
+  "notes": {
+    "replyTo": "{{name}} ला जवाब देवव…"
   }
 }

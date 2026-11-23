@@ -110,6 +110,11 @@
     "moreActions": "Options de la story",
     "remixing": "Remix de la story de {{name}}",
     "watchOriginal": "Voir la story originale",
+    "shareToMoment": "Partager en Moment",
+    "goToPost": "Voir la publication",
+    "fromYourPost": "De ta publication",
+    "postNotPublic": "Seules les publications publiques peuvent être partagées en Moment.",
+    "postNotMedia": "Seules les publications photo et vidéo peuvent être partagées en Moment.",
     "translate": "Traduire",
     "seeOriginal": "Voir l'original",
     "translating": "Traduction…",
@@ -1937,7 +1942,9 @@
       "neon": "Néon",
       "3d": "3D",
       "flat": "Plat"
-    }
+    },
+    "blurMoments": "Flouter les aperçus des Moments",
+    "blurMomentsDesc": "Les Moments des autres restent floutés sur l'accueil jusqu'à ce que tu les ouvres."
   },
   "common": {
     "loadMore": "Charger plus",
@@ -8467,7 +8474,9 @@
     "hereNow": "Ici maintenant",
     "nobodyYet": "Personne pour le moment",
     "rotate": "Faire pivoter l'écran",
-    "chatPlaceholder": "écris..."
+    "chatPlaceholder": "écris...",
+    "bannedHere": "Tu es banni de ce direct.",
+    "timedOutHere": "Vous êtes temporairement exclu de cette conversation."
   },
   "search": {
     "endOfResults": "Fin des résultats",
@@ -8653,6 +8662,7 @@
     "groupVoiceCall": "Appel vocal de groupe",
     "groupVideoCall": "Appel vidéo de groupe",
     "callingGroup": "Appel du groupe...",
+    "waitingForPeople": "En attente de participants...",
     "isCalling": "{{name}} vous appelle",
     "leave": "Quitter",
     "joinCall": "Rejoindre",
@@ -18098,6 +18108,9 @@
   "notes": {
     "add": "Note",
     "yourNote": "Ta note",
+    "count": "Notes {{count}}",
+    "hide": "Masquer",
+    "inGroup": "Notes de ce groupe",
     "shared": "Ta note est visible pendant 24 heures",
     "failed": "Ta note n'a pas été publiée. Réessaie.",
     "placeholder": "Partage une pensée…",
@@ -18110,7 +18123,7 @@
     "gifHost": "Choisis un GIF dans l'onglet GIF pour les notes.",
     "back": "Retour aux notes",
     "fromFollowing": "Des personnes que tu suis",
-    "replyTo": "Reply to {{name}}…",
+    "replyTo": "Répondre à {{name}}…",
     "send": "Send",
     "optionDetail": "Une courte phrase, une chanson ou un GIF pendant 24 heures",
     "who": "Les personnes qui te suivent peuvent la voir pendant 24 heures.",

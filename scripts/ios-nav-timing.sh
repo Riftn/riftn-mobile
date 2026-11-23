@@ -179,12 +179,15 @@ run() {
   use_bundle "$variant"
   storage drop dehub.perfTour.result dehub.perfTour.swipe dehub.perfTour.shot dehub.perfTour.sample
   storage set dehub.theme "$theme" dehub.perfTour "$tour"
+  [ "$tour" = shorts ] && [ -n "${SHORTS_SWIPES:-}" ] && storage set dehub.perfTour.swipes "$SHORTS_SWIPES"
   [ "$tour" = login ] && storage set dehub.perfTour.key "$LOGIN"
   # A real account on a public run: its personal pages are not pictured
   # (tour.ts) and nothing is filmed.
   if [ "$PRIVATE_RUN" = 1 ]; then storage set dehub.perfTour.private 1; record=""; fi
   if [ "$tour" != 1 ]; then
     tries=480
+    # A long Shorts scroll: about 6 s a swipe, plus the setup.
+    [ "$tour" = shorts ] && [ "${SHORTS_SWIPES:-0}" -gt 40 ] && tries=$((240 + SHORTS_SWIPES * 4))
     [ "$tour" = login ] && tries=45
     rm -f "$WORK/shots.stop"
     shots "$name" "$WORK/shots.stop" &
@@ -197,8 +200,12 @@ run() {
   fi
   xcrun simctl launch "$UDID" "$BUNDLE" >/dev/null
   local result=""
+  # Shorts asks for a swipe every few seconds: look often enough to act on
+  # each one before the next replaces it.
+  local poll=2
+  if [ "$tour" = shorts ]; then poll=0.5; tries=$((tries * 4)); fi
   for _ in $(seq 1 "$tries"); do
-    sleep 2
+    sleep "$poll"
     # The tour asks for real touches, which only idb can make: a slow swipe
     # in from the left edge ("ready", "swipe:<label>"), a tap
     # ("tap:<label>:<x>:<y>") or a tap on a button found by its text
@@ -212,18 +219,23 @@ run() {
             # Shorts: a quick upward flick in the middle of the screen; the
             # moment it was sent is what the next short's start is timed from.
             python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.swipes"
-            idb ui swipe --udid "$UDID" --duration 0.25 196 640 196 260 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+            # The app's resident memory (KB) at each swipe: a long scroll that
+            # piles players up shows as a climb.
+            ps -axo rss=,command= | grep -m1 "Containers/Bundle/Application/.*\.app/" | awk '{print $1}' >> "$OUT/nav/$name.rss" || true
+            # Long and fast: a 380 pt flick over 0.25 s dragged the page and
+            # let it snap back, so no short was ever turned to.
+            idb ui swipe --udid "$UDID" --duration 0.12 196 760 196 180 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           vpair:*)
             # Shorts: the same flick, then two seconds later one that starts
             # on the timeline row, a finger above the player's buttons.
             python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.swipes"
-            idb ui swipe --udid "$UDID" --duration 0.25 196 640 196 260 >/dev/null 2>&1 || echo "$name: idb swipe failed"
+            idb ui swipe --udid "$UDID" --duration 0.12 196 760 196 180 >/dev/null 2>&1 || echo "$name: idb swipe failed"
             sleep 2
             python3 -c 'import time; print(int(time.time()*1000))' >> "$OUT/nav/$name.lowswipes"
-            idb ui swipe --udid "$UDID" --duration 0.25 196 796 196 420 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+            idb ui swipe --udid "$UDID" --duration 0.12 196 796 196 220 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           vback:*)
             # Shorts: a quick downward flick, back to the short before.
-            idb ui swipe --udid "$UDID" --duration 0.25 196 260 196 640 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
+            idb ui swipe --udid "$UDID" --duration 0.12 196 180 196 760 >/dev/null 2>&1 || echo "$name: idb swipe failed" ;;
           tap:*)
             IFS=: read -r _ _ tap_x tap_y <<< "$touch"
             idb ui tap --udid "$UDID" "$tap_x" "$tap_y" >/dev/null 2>&1 || echo "$name: idb tap failed" ;;

@@ -110,6 +110,11 @@
     "moreActions": "Verhaalopties",
     "remixing": "Remix van het verhaal van {{name}}",
     "watchOriginal": "Oorspronkelijk verhaal bekijken",
+    "shareToMoment": "Delen als Moment",
+    "goToPost": "Naar bericht",
+    "fromYourPost": "Uit je bericht",
+    "postNotPublic": "Alleen openbare berichten kunnen als Moment worden gedeeld.",
+    "postNotMedia": "Alleen foto- en videoberichten kunnen als Moment worden gedeeld.",
     "translate": "Vertalen",
     "seeOriginal": "Origineel bekijken",
     "translating": "Vertalen…",
@@ -1937,7 +1942,9 @@
       "neon": "Neon",
       "3d": "3D",
       "flat": "Plat"
-    }
+    },
+    "blurMoments": "Momentvoorbeelden vervagen",
+    "blurMomentsDesc": "Momenten van anderen blijven vaag op Home tot je ze opent."
   },
   "common": {
     "loadMore": "Meer laden",
@@ -8601,7 +8608,9 @@
     "hereNow": "Nu hier",
     "nobodyYet": "Nog niemand",
     "rotate": "Scherm roteren",
-    "chatPlaceholder": "typ..."
+    "chatPlaceholder": "typ...",
+    "bannedHere": "Je mag niet meer chatten in deze livestream.",
+    "timedOutHere": "Je bent voorlopig uit deze chat verwijderd."
   },
   "search": {
     "endOfResults": "Einde van de resultaten",
@@ -8787,6 +8796,7 @@
     "groupVoiceCall": "Groepsspraakoproep",
     "groupVideoCall": "Groepsvideogesprek",
     "callingGroup": "Groep wordt gebeld...",
+    "waitingForPeople": "Wachten tot mensen meedoen...",
     "isCalling": "{{name}} belt",
     "leave": "Verlaten",
     "joinCall": "Deelnemen",
@@ -18345,6 +18355,9 @@
   "notes": {
     "add": "Notitie",
     "yourNote": "Jouw notitie",
+    "count": "Notities {{count}}",
+    "hide": "Verbergen",
+    "inGroup": "Notities uit deze groep",
     "shared": "Je notitie staat 24 uur online",
     "failed": "Je notitie is niet geplaatst. Probeer het opnieuw.",
     "placeholder": "Deel een gedachte…",
@@ -18357,7 +18370,7 @@
     "gifHost": "Kies een GIF uit het GIF-tabblad voor notities.",
     "back": "Terug naar notities",
     "fromFollowing": "Van mensen die je volgt",
-    "replyTo": "Reply to {{name}}…",
+    "replyTo": "Reageer op {{name}}…",
     "send": "Send",
     "optionDetail": "Een korte zin, nummer of GIF voor 24 uur",
     "who": "Mensen die jou volgen kunnen hem 24 uur zien.",

@@ -24,6 +24,7 @@ import { startsOnVideoPicture, commitsVideoMinimize, minimizeDrag, draggedPictur
 import { settlesSwipeBack, swipeBackProgress, SWIPE_BACK_SPRING } from '../libs/swipe-back';
 import { useOwnEdgeSwipe } from '../hooks/useSwipeBack';
 import { commitsDismiss, heldRate, holdSideAt, seekSideAt, HOLD_BASE_RATE, REWIND_TICK_MS, SEEK_JUMP_SECONDS } from '../libs/video-hold-gestures';
+import { noteShortsViewerOpened, useStuckShortReport } from "../hooks/useStuckShortReport";
 import { usePlaybackRecovery } from '../hooks/usePlaybackRecovery';
 import { markHlsFailed, useHlsFallback } from '../libs/hls-fallback';
 import { PersistentVideoView } from '../components/common/PersistentVideoView';
@@ -1058,6 +1059,8 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   // mode and low-end phones keep the old one-view behaviour for memory.
   const warmView = isNearby && !liteMode && !isLowEndDevice();
   const viewMounted = !!player && ownsVideo && !noVideo && (isActive || warmView);
+  const viewMountedRef = useRef(viewMounted);
+  viewMountedRef.current = viewMounted;
   useEffect(() => {
     if (!viewMounted) setFirstFrameRendered(false);
   }, [viewMounted]);
@@ -1089,6 +1092,18 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
   const { recovery, phase: playbackPhase } = usePlaybackRecovery(player, videoUrl, {
     component: 'ShortsViewer', postId: tokenId, lateStallHandover: true,
     allowed: () => ownsPlayerRef.current() && (isActiveRef.current && itemNavigation.isFocused() || isPictureInPicturePlayer(player)) && canStartVideo(player),
+  });
+  const firstFrameRef = useRef(firstFrameRendered);
+  firstFrameRef.current = firstFrameRendered;
+  useStuckShortReport(noVideo || !ownsVideo ? null : player, isActive, {
+    postId: tokenId, source: videoUrl,
+    // Not "the app asked it to play": a Short the app forgot to ask is stuck too.
+    wanted: () => !pausedByUserRef.current && itemNavigation.isFocused(),
+    firstFrame: () => firstFrameRef.current,
+    detail: () => ({
+      asked: recovery.wanted, phase: recovery.phase, owns: ownsPlayerRef.current(), canStart: canStartVideo(player),
+      peeking: peekingRef.current, viewMounted: viewMountedRef.current,
+    }),
   });
   // A lapsed signature fails like a broken file; fetch a fresh one.
   const refetchShortAccess = shortAccess.refetch;
@@ -1134,7 +1149,7 @@ const ShortItem = React.memo<ShortItemProps>(({ item, registerPeek, thumbnailOve
 
   useSettledVideoSource(player, isPictureInPicturePlayer(player) ? videoUrl || null : playerSource, isActive, () => {
     if (recovery.wanted && !pausedByUserRef.current && itemNavigation.isFocused()) playIfActive();
-  }, () => recovery.fail('source-rejected'), videoSession);
+  }, () => recovery.fail('source-rejected'), videoSession, true);
 
   useEffect(() => {
     if (!player || !ownsPlayerRef.current()) return;
@@ -3059,6 +3074,8 @@ const ShortsViewerScreen = () => {
   const itemsRef = useRef(items);
   itemsRef.current = items;
   const [activeIndex, setActiveIndex] = useState(initialIndex);
+  // Starts the scroll that stuck-Short reports are counted in.
+  useEffect(() => { noteShortsViewerOpened(); }, []);
   // The sound session is set up once for the viewer, not once per short.
   // Redoing it as each short landed re-routed the phone's audio under a clip
   // that was already playing, which froze it for a beat on every swipe.
@@ -4058,6 +4075,7 @@ const ShortsViewerScreen = () => {
           onClose={() => setShowOptionsMenu(false)}
           tokenId={activeTokenId}
           isOwner={isOwnerOfActive}
+          post={activeItem}
           canReplaceVideo={isOwnerOfActive}
           isHidden={activeIsHidden}
           player={!activeItem.imageUrls?.length && activeItem.postType !== "feed-images" ? {

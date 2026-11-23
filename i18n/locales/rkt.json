@@ -10446,7 +10446,9 @@
     "mostActive": "সবচে সক্রিয়",
     "hereNow": "এখন আইসে",
     "nobodyYet": "এখনো কেউ না",
-    "rotate": "স্ক্রিন ঘুরাই"
+    "rotate": "স্ক্রিন ঘুরাই",
+    "bannedHere": "এই লাইভ স্ট্রিমত চ্যাট করা তুমার নিষেধ করা হইছে।",
+    "timedOutHere": "তুমাক এই চ্যাট থেইকা আপাতত টাইম আউট করা হইছে।"
   },
   "search": {
     "endOfResults": "ফলাফলের শেষ",
@@ -17477,5 +17479,8 @@
     "promptCatchUp": "{{handle}} হালোত কী পোস্ট করছে মোক কও",
     "promptMessage": "{{handle}}-ক মেসেজ লেখিবার মোক সাহায্য করো",
     "promptAbout": "{{handle}}-র বিষয়ে: {{question}}"
+  },
+  "notes": {
+    "replyTo": "{{name}}-ত জবাব দে…"
   }
 }

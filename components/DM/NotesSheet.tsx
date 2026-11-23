@@ -17,6 +17,9 @@ import SmartImage from "../common/SmartImage";
 import GifPicker from "./GifPicker";
 import SoundPickerSheet from "../Post/SoundPickerSheet";
 import { DrawerSurface } from "../ui/SheetGlass";
+import { useAppTheme } from "../../context/ThemeContext";
+import { supabase } from "../../services/supabase";
+import { withWalletHeader } from "../../libs/supabase-wallet-client";
 import SheetBackdrop, { useSheetBackdrop } from "../ui/SheetBackdrop";
 import { getAvatarUrl } from "../../libs/misc";
 import { playableSoundUrl, soundWindow } from "../../libs/soundWindow";
@@ -31,8 +34,16 @@ import {
 export const NOTES_QUERY_KEY = ["dm-notes"] as const;
 
 const nameOf = (a: StoryAuthor) => a.displayName || a.username || `${a.address.slice(0, 6)}…`;
-const BUBBLE = "hsla(240, 5%, 96%, 0.12)";
-const FIELD = "hsla(240, 5%, 96%, 0.08)";
+/**
+ * Note colours follow the theme: on System Light the ink goes dark and the
+ * chip material goes to a faint ink wash, so nothing is white on white.
+ */
+function useNoteInk() {
+  const { isLight } = useAppTheme();
+  return isLight
+    ? { ink: "#0b0b0d", ink2: "rgba(11,11,13,0.62)", bubble: "rgba(0,0,0,0.06)", field: "rgba(0,0,0,0.05)", hairline: "rgba(0,0,0,0.08)", track: "rgba(0,0,0,0.14)", primaryBg: "#111114", primaryInk: "#fff" }
+    : { ink: "#fff", ink2: "hsla(240, 5%, 65%, 1)", bubble: "hsla(240, 5%, 96%, 0.12)", field: "hsla(240, 5%, 96%, 0.08)", hairline: "hsla(0, 0%, 100%, 0.10)", track: "hsla(0, 0%, 100%, 0.16)", primaryBg: "#fff", primaryInk: "#0b0b0c" };
+}
 
 function songFrom(sound: AttachedSound): StorySong | null {
   const audioUrl = playableSoundUrl(sound.url);
@@ -47,27 +58,28 @@ function songFrom(sound: AttachedSound): StorySong | null {
 }
 
 function NoteBubble({ note, placeholder }: { note: Note | null; placeholder: string }) {
+  const c = useNoteInk();
   if (!note) {
     return (
-      <View style={{ backgroundColor: FIELD, borderRadius: 14, paddingHorizontal: 8, paddingVertical: 4, maxWidth: 84, flexDirection: "row", alignItems: "center", gap: 2 }}>
-        <Ionicons name="add" size={12} color="hsla(240, 5%, 65%, 1)" />
+      <View style={{ backgroundColor: c.field, borderRadius: 10, paddingHorizontal: 8, paddingVertical: 4, maxWidth: 84, flexDirection: "row", alignItems: "center", gap: 2 }}>
+        <Ionicons name="add" size={12} color={c.ink2} />
         <Text className="text-theme-neutrals-400 text-[11px]" numberOfLines={1}>{placeholder}</Text>
       </View>
     );
   }
   return (
-    <View style={{ backgroundColor: BUBBLE, borderRadius: 14, paddingHorizontal: 8, paddingVertical: 4, maxWidth: 84, alignItems: "center", gap: 2 }}>
+    <View style={{ backgroundColor: c.bubble, borderRadius: 10, borderWidth: 1, borderColor: c.hairline, paddingHorizontal: 8, paddingVertical: 4, maxWidth: 84, alignItems: "center", gap: 2 }}>
       {!!note.gifUrl && <SmartImage source={{ uri: note.gifUrl }} style={{ width: 48, height: 32, borderRadius: 6 }} contentFit="cover" />}
       {!!note.text && <Text className="text-white text-[11px] text-center" numberOfLines={2}>{note.text}</Text>}
       {!note.text && !!note.song && (
         <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
-          <Ionicons name="musical-notes" size={11} color="#fff" />
+          <Ionicons name="musical-notes" size={11} color={c.ink} />
           <Text className="text-white text-[11px]" numberOfLines={1} style={{ maxWidth: 62 }}>{note.song.title}</Text>
         </View>
       )}
       {!note.text && !note.song && !!note.location && (
         <View style={{ flexDirection: "row", alignItems: "center", gap: 2 }}>
-          <Ionicons name="location" size={11} color="#fff" />
+          <Ionicons name="location" size={11} color={c.ink} />
           <Text className="text-white text-[11px]" numberOfLines={1} style={{ maxWidth: 62 }}>{note.location}</Text>
         </View>
       )}
@@ -76,7 +88,7 @@ function NoteBubble({ note, placeholder }: { note: Note | null; placeholder: str
 }
 
 /** Share of the 24 hours a note has left, 0..1. */
-function useNoteLeft(note: Note | null): number {
+export function useNoteLeft(note: Note | null): number {
   const calc = () => {
     if (!note) return 0;
     const start = Date.parse(note.postedAt);
@@ -104,9 +116,10 @@ const RING_R = 14;
  * Countdown ring around a note's face: a rounded-square line that drains as
  * the 24 hours run out. It sweeps in from empty when the row opens.
  */
-function NoteRing({ left }: { left: number }) {
-  const side = RING - RING_STROKE;
-  const r = RING_R;
+export function NoteRing({ left, size = RING, radius = RING_R }: { left: number; size?: number; radius?: number }) {
+  const c = useNoteInk();
+  const side = size - RING_STROKE;
+  const r = radius;
   const perimeter = 4 * (side - 2 * r) + 2 * Math.PI * r;
   const sweep = useRef(new Animated.Value(0)).current;
   useEffect(() => {
@@ -114,11 +127,11 @@ function NoteRing({ left }: { left: number }) {
   }, [left, sweep]);
   const offset = sweep.interpolate({ inputRange: [0, 1], outputRange: [perimeter, 0] });
   return (
-    <Svg width={RING} height={RING} style={{ position: "absolute", left: 0, top: 0 }} pointerEvents="none">
+    <Svg width={size} height={size} style={{ position: "absolute", left: 0, top: 0 }} pointerEvents="none">
       <Rect x={RING_STROKE / 2} y={RING_STROKE / 2} width={side} height={side} rx={r} ry={r}
-        fill="none" stroke="hsla(0, 0%, 100%, 0.14)" strokeWidth={RING_STROKE} />
+        fill="none" stroke={c.track} strokeWidth={RING_STROKE} />
       <AnimatedRect x={RING_STROKE / 2} y={RING_STROKE / 2} width={side} height={side} rx={r} ry={r}
-        fill="none" stroke="hsla(0, 0%, 100%, 0.92)" strokeWidth={RING_STROKE} strokeLinecap="round"
+        fill="none" stroke={c.ink} strokeWidth={RING_STROKE} strokeLinecap="round"
         strokeDasharray={`${perimeter} ${perimeter}`} strokeDashoffset={offset} />
     </Svg>
   );
@@ -129,7 +142,7 @@ function NoteRing({ left }: { left: number }) {
  * (empty when there are no words), the face inside its countdown ring, and
  * the name. A GIF note shows the GIF in place of the face.
  */
-function NoteTile({ author, note, label, onPress, placeholder }: { author: StoryAuthor; note: Note | null; label: string; onPress: () => void; placeholder: string }) {
+export function NoteTile({ author, note, label, onPress, placeholder }: { author: StoryAuthor; note: Note | null; label: string; onPress: () => void; placeholder: string }) {
   const avatar = getAvatarUrl(author.avatarImageUrl, 56);
   const left = useNoteLeft(note);
   const gif = note?.gifUrl || null;
@@ -151,6 +164,7 @@ function NoteTile({ author, note, label, onPress, placeholder }: { author: Story
 }
 
 function SongLine({ song, autoPlay, playToken = 0 }: { song: StorySong; autoPlay?: boolean; playToken?: number }) {
+  const c = useNoteInk();
   const player = useAudioPlayer({ uri: song.audioUrl });
   const [playing, setPlaying] = useState(false);
   const start = () => {
@@ -179,20 +193,21 @@ function SongLine({ song, autoPlay, playToken = 0 }: { song: StorySong; autoPlay
     start();
   };
   return (
-    <TouchableOpacity onPress={toggle} activeOpacity={0.8} style={{ flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: FIELD, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 8 }}>
+    <TouchableOpacity onPress={toggle} activeOpacity={0.8} style={{ flexDirection: "row", alignItems: "center", gap: 10, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline, borderRadius: 12, paddingHorizontal: 12, paddingVertical: 8 }}>
       {song.artworkUrl
         ? <SmartImage source={{ uri: song.artworkUrl }} style={{ width: 36, height: 36, borderRadius: 6 }} contentFit="cover" />
-        : <View style={{ width: 36, height: 36, borderRadius: 6, backgroundColor: BUBBLE, alignItems: "center", justifyContent: "center" }}><Ionicons name="musical-notes" size={16} color="#fff" /></View>}
+        : <View style={{ width: 36, height: 36, borderRadius: 6, backgroundColor: c.bubble, alignItems: "center", justifyContent: "center" }}><Ionicons name="musical-notes" size={16} color={c.ink} /></View>}
       <View style={{ flex: 1, minWidth: 0 }}>
         <Text className="text-white text-[13px] font-semibold" numberOfLines={1}>{song.title}</Text>
         {!!song.artist && <Text className="text-theme-neutrals-400 text-[12px]" numberOfLines={1}>{song.artist}</Text>}
       </View>
-      <Ionicons name={playing ? "pause" : "play"} size={16} color="#fff" />
+      <View style={{ width: 32, height: 32, borderRadius: 8, backgroundColor: c.bubble, alignItems: "center", justifyContent: "center" }}><Ionicons name={playing ? "pause" : "play"} size={14} color={c.ink} /></View>
     </TouchableOpacity>
   );
 }
 
 function PillButton({ icon, label, onPress, primary, disabled }: { icon?: keyof typeof Ionicons.glyphMap; label: string; onPress: () => void; primary?: boolean; disabled?: boolean }) {
+  const c = useNoteInk();
   return (
     <TouchableOpacity
       onPress={onPress}
@@ -200,15 +215,16 @@ function PillButton({ icon, label, onPress, primary, disabled }: { icon?: keyof 
       activeOpacity={0.8}
       style={{ flexGrow: primary ? 1 : 0, opacity: disabled ? 0.5 : 1 }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, height: 40, paddingHorizontal: 14, borderRadius: 20, backgroundColor: primary ? "#fff" : FIELD }}>
-        {icon && <Ionicons name={icon} size={16} color={primary ? "#000" : "#fff"} />}
-        <Text style={{ color: primary ? "#000" : "#fff", fontSize: 14, fontWeight: "600" }}>{label}</Text>
+      <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, height: 42, paddingHorizontal: 17, borderRadius: 10, backgroundColor: primary ? c.primaryBg : c.field, borderWidth: primary ? 0 : 1, borderColor: c.hairline }}>
+        {icon && <Ionicons name={icon} size={16} color={primary ? c.primaryInk : c.ink} />}
+        <Text style={{ color: primary ? c.primaryInk : c.ink, fontSize: 14, fontWeight: "600" }}>{label}</Text>
       </View>
     </TouchableOpacity>
   );
 }
 
 function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => void }) {
+  const c = useNoteInk();
   const { t } = useTranslation();
   const qc = useQueryClient();
   const [text, setText] = useState(mine?.text ?? "");
@@ -256,7 +272,7 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
           onSubmitEditing={share}
           placeholder={t("notes.placeholder", { defaultValue: "Share a thought…" })}
           placeholderTextColor="hsla(240, 4%, 46%, 1)"
-          style={{ backgroundColor: FIELD, borderRadius: 16, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 18, color: "#fff", fontSize: 16, textAlign: "center", minHeight: 64 }}
+          style={{ backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline, borderRadius: 12, paddingHorizontal: 16, paddingTop: 12, paddingBottom: 18, color: c.ink, fontSize: 16, textAlign: "center", minHeight: 64 }}
         />
         <Text className="text-theme-neutrals-500 text-[11px]" style={{ position: "absolute", right: 12, bottom: 4 }}>{NOTE_TEXT_MAX - text.length}</Text>
       </View>
@@ -273,23 +289,23 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
         <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
           <View style={{ flex: 1 }}><SongLine song={song} /></View>
           <TouchableOpacity onPress={() => setSong(null)} accessibilityLabel={t("notes.removeSong", { defaultValue: "Remove song" })} style={{ padding: 8 }}>
-            <Ionicons name="close" size={18} color="hsla(240, 5%, 65%, 1)" />
+            <Ionicons name="close" size={18} color={c.ink2} />
           </TouchableOpacity>
         </View>
       )}
       {showPlace && (
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: FIELD, borderRadius: 12, paddingHorizontal: 12 }}>
-          <Ionicons name="location-outline" size={16} color="hsla(240, 5%, 65%, 1)" />
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8, backgroundColor: c.field, borderWidth: 1, borderColor: c.hairline, borderRadius: 10, paddingHorizontal: 12 }}>
+          <Ionicons name="location-outline" size={16} color={c.ink2} />
           <TextInput
             value={location}
             onChangeText={setLocation}
             maxLength={NOTE_LOCATION_MAX}
             placeholder={t("notes.placePlaceholder", { defaultValue: "Where are you?" })}
             placeholderTextColor="hsla(240, 4%, 46%, 1)"
-            style={{ flex: 1, height: 40, color: "#fff", fontSize: 14 }}
+            style={{ flex: 1, height: 42, color: c.ink, fontSize: 14 }}
           />
           <TouchableOpacity onPress={() => { setLocation(""); setShowPlace(false); }} accessibilityLabel={t("notes.removePlace", { defaultValue: "Remove place" })}>
-            <Ionicons name="close" size={16} color="hsla(240, 5%, 65%, 1)" />
+            <Ionicons name="close" size={16} color={c.ink2} />
           </TouchableOpacity>
         </View>
       )}
@@ -336,6 +352,7 @@ function NoteComposer({ mine, onClose }: { mine: Note | null; onClose: () => voi
  */
 /** Reply to a note: a message box that sends straight into your chat with them. */
 function NoteReply({ note, name, onSend }: { note: Note; name: string; onSend: (text: string) => void }) {
+  const c = useNoteInk();
   const { t } = useTranslation();
   const [text, setText] = useState("");
   const send = () => {
@@ -356,16 +373,16 @@ function NoteReply({ note, name, onSend }: { note: Note; name: string; onSend: (
         placeholderTextColor="hsla(240, 5%, 55%, 1)"
         returnKeyType="send"
         onSubmitEditing={send}
-        style={{ flex: 1, minHeight: 44, borderRadius: 22, paddingHorizontal: 16, backgroundColor: FIELD, color: "#fff", fontSize: 15, borderWidth: 1, borderColor: "hsla(0, 0%, 100%, 0.1)" }}
+        style={{ flex: 1, minHeight: 42, borderRadius: 10, paddingHorizontal: 14, backgroundColor: c.field, color: c.ink, fontSize: 15, borderWidth: 1, borderColor: c.hairline }}
       />
       <TouchableOpacity
         onPress={send}
         disabled={!text.trim()}
         accessibilityRole="button"
         accessibilityLabel={t("notes.send", { defaultValue: "Send" })}
-        style={{ width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center", backgroundColor: "#fff", opacity: text.trim() ? 1 : 0.4 }}
+        style={{ width: 42, height: 42, borderRadius: 10, alignItems: "center", justifyContent: "center", backgroundColor: c.primaryBg, opacity: text.trim() ? 1 : 0.45 }}
       >
-        <Ionicons name="send" size={18} color="#000" />
+        <Ionicons name="send" size={17} color={c.primaryInk} />
       </TouchableOpacity>
     </View>
   );
@@ -373,9 +390,10 @@ function NoteReply({ note, name, onSend }: { note: Note; name: string; onSend: (
 
 /** The words of a note in a chat bubble; with a song, a tap plays it. */
 function NoteTextBubble({ text, onPress }: { text: string; onPress?: () => void }) {
+  const c = useNoteInk();
   return (
     <Pressable onPress={onPress} disabled={!onPress} style={{ alignSelf: "center", maxWidth: "100%" }} accessibilityRole={onPress ? "button" : "text"}>
-      <View style={{ backgroundColor: BUBBLE, borderRadius: 20, borderBottomLeftRadius: 6, paddingHorizontal: 16, paddingVertical: 10 }}>
+      <View style={{ backgroundColor: c.bubble, borderWidth: 1, borderColor: c.hairline, borderRadius: 16, borderBottomLeftRadius: 6, paddingHorizontal: 16, paddingVertical: 10 }}>
         <Text className="text-white text-[16px] font-semibold">{text}</Text>
       </View>
     </Pressable>
@@ -404,7 +422,147 @@ export function NotesStrip({ onOpen }: { onOpen: (entry: NoteEntry | null) => vo
   );
 }
 
+// ── Notes in the chat list ───────────────────────────────────────────────
+// A person's note rides in their own chat card; notes from members of a
+// group ride in that group's card (and atop the open group chat). There is no
+// separate strip, so the cards stay one clean stack. Same as web's NotesRow.
+
+const lower = (a?: string | null) => (a || "").toLowerCase();
+
+/** Notes by author wallet (lower case). */
+export function useNotesByAuthor(enabled = true): Map<string, NoteEntry> {
+  const { data } = useQuery({ queryKey: NOTES_QUERY_KEY, queryFn: getNotes, staleTime: 60_000, enabled });
+  return React.useMemo(() => new Map((data?.notes ?? []).map((e) => [lower(e.author.address), e])), [data]);
+}
+
+/** Notes of people you follow who are in each of these groups. */
+export function useGroupNotes(groupIds: string[], me: string | null): Record<string, NoteEntry[]> {
+  const byAuthor = useNotesByAuthor(!!me);
+  const ids = React.useMemo(() => groupIds.slice().sort(), [groupIds.join(",")]); // eslint-disable-line react-hooks/exhaustive-deps
+  const wallets = React.useMemo(() => [...new Set([...byAuthor.values()].flatMap((e) => [e.author.address, lower(e.author.address)]))], [byAuthor]);
+  const { data } = useQuery({
+    queryKey: ["dm-group-notes", ids.join(","), wallets.join(",")],
+    enabled: !!me && ids.length > 0 && wallets.length > 0,
+    staleTime: 60_000,
+    queryFn: async () => {
+      const { data: rows } = await withWalletHeader(
+        supabase.from("community_members").select("community_id, wallet_address").in("community_id", ids).in("wallet_address", wallets).eq("status", "active"),
+        me,
+      );
+      return (rows ?? []) as { community_id: string; wallet_address: string }[];
+    },
+  });
+  return React.useMemo(() => {
+    const out: Record<string, NoteEntry[]> = {};
+    for (const row of data ?? []) {
+      const entry = byAuthor.get(lower(row.wallet_address));
+      if (!entry) continue;
+      const list = (out[row.community_id] ||= []);
+      if (!list.includes(entry)) list.push(entry);
+    }
+    return out;
+  }, [data, byAuthor]);
+}
+
+const noteLine = (n: Note) => n.text || n.song?.title || n.location || (n.gifUrl ? "GIF" : "");
+
+/** The note as a small tag at the start of a chat's preview line. */
+export function NoteTag({ entry, onPress }: { entry: NoteEntry; onPress: () => void }) {
+  const c = useNoteInk();
+  const line = noteLine(entry.note);
+  if (!line) return null;
+  return (
+    <Pressable
+      onPress={onPress}
+      hitSlop={6}
+      accessibilityRole="button"
+      testID="note-tag"
+      style={{ flexDirection: "row", alignItems: "center", gap: 3, maxWidth: "60%", height: 20, paddingHorizontal: 6, borderRadius: 6, backgroundColor: c.bubble, borderWidth: 1, borderColor: c.hairline }}
+    >
+      {!entry.note.text && !!entry.note.song && <Ionicons name="musical-notes" size={11} color={c.ink} />}
+      {!entry.note.text && !entry.note.song && !!entry.note.location && <Ionicons name="location" size={11} color={c.ink} />}
+      <Text style={{ color: c.ink, fontSize: 12, fontWeight: "600", flexShrink: 1 }} numberOfLines={1}>{line}</Text>
+    </Pressable>
+  );
+}
+
+/** The 24h ring around a chat card's face (a 44px rounded square). */
+export function NoteFaceRing({ note }: { note: Note }) {
+  const left = useNoteLeft(note);
+  return (
+    <View pointerEvents="none" style={{ position: "absolute", left: -5, top: -5, width: 54, height: 54 }}>
+      <NoteRing left={left} size={54} radius={15} />
+    </View>
+  );
+}
+
+/**
+ * Notes from members of a group, inside its chat card: the newest one as a
+ * tag, and a Notes button that drops the card down to show them all.
+ */
+export function GroupCardNotes({ notes, onOpen }: { notes: NoteEntry[]; onOpen: (entry: NoteEntry) => void }) {
+  const { t } = useTranslation();
+  const c = useNoteInk();
+  const [open, setOpen] = useState(false);
+  if (!notes.length) return null;
+  const first = notes[0];
+  const placeholder = t("notes.add", { defaultValue: "Note" });
+  return (
+    <View testID={open ? "group-notes-open" : "group-notes-closed"} style={{ marginTop: 8, gap: 8 }}>
+      <View style={{ flexDirection: "row", alignItems: "center", gap: 6, minWidth: 0 }}>
+        {open ? (
+          <Text style={{ color: c.ink2, fontSize: 12, flex: 1 }} numberOfLines={1}>{t("notes.inGroup", { defaultValue: "Notes from this group" })}</Text>
+        ) : (
+          <View style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: 6, minWidth: 0 }}>
+            <Avatar uri={(() => { const u = getAvatarUrl(first.author.avatarImageUrl, 40); return u && u !== "default-avatar" ? u : undefined; })()} size={20} radius={6} name={nameOf(first.author)} />
+            <NoteTag entry={first} onPress={() => onOpen(first)} />
+          </View>
+        )}
+        <Pressable
+          onPress={() => setOpen((v) => !v)}
+          hitSlop={6}
+          accessibilityRole="button"
+          accessibilityState={{ expanded: open }}
+          testID="group-notes-toggle"
+          style={{ flexDirection: "row", alignItems: "center", gap: 4, height: 30, paddingHorizontal: 10, borderRadius: 10, backgroundColor: open ? c.primaryBg : c.field, borderWidth: open ? 0 : 1, borderColor: c.hairline }}
+        >
+          <Text style={{ color: open ? c.primaryInk : c.ink, fontSize: 12, fontWeight: "600" }}>
+            {open ? t("notes.hide", { defaultValue: "Hide" }) : t("notes.count", { defaultValue: "Notes {{count}}", count: notes.length })}
+          </Text>
+          <Ionicons name={open ? "chevron-up" : "chevron-down"} size={13} color={open ? c.primaryInk : c.ink} />
+        </Pressable>
+      </View>
+      {open && (
+        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 4, marginLeft: -4 }}>
+          {notes.map((e) => (
+            <NoteTile key={e.note.id} author={e.author} note={e.note} label={nameOf(e.author)} placeholder={placeholder} onPress={() => onOpen(e)} />
+          ))}
+        </View>
+      )}
+    </View>
+  );
+}
+
+/** Notes from the group's members, in a row across the top of the open group chat. */
+export function GroupChatNotesRow({ groupId, me, onOpen }: { groupId: string; me: string | null; onOpen: (entry: NoteEntry) => void }) {
+  const { t } = useTranslation();
+  const c = useNoteInk();
+  const notes = useGroupNotes(groupId ? [groupId] : [], me)[groupId] ?? [];
+  if (!notes.length) return null;
+  const placeholder = t("notes.add", { defaultValue: "Note" });
+  return (
+    <View testID="group-chat-notes" style={{ borderBottomWidth: 1, borderBottomColor: c.hairline }}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 4, paddingHorizontal: 12, paddingBottom: 8 }} keyboardShouldPersistTaps="handled">
+        {notes.map((e) => (
+          <NoteTile key={e.note.id} author={e.author} note={e.note} label={nameOf(e.author)} placeholder={placeholder} onPress={() => onOpen(e)} />
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+
 export default function NotesSheet({ visible, onClose, onMessage, initialView = null }: { visible: boolean; onClose: () => void; onMessage: (a: StoryAuthor, reply?: string) => void; initialView?: NoteEntry | null }) {
+  const c = useNoteInk();
   const { t } = useTranslation();
   const insets = useSafeAreaInsets();
   const backdrop = useSheetBackdrop(visible && Platform.OS !== "android");
@@ -434,7 +592,7 @@ export default function NotesSheet({ visible, onClose, onMessage, initialView = 
               {!!viewing.note.song && <SongLine song={viewing.note.song} autoPlay playToken={playToken} />}
               {!!viewing.note.location && (
                 <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4 }}>
-                  <Ionicons name="location-outline" size={14} color="hsla(240, 5%, 65%, 1)" />
+                  <Ionicons name="location-outline" size={14} color={c.ink2} />
                   <Text className="text-theme-neutrals-400 text-[13px]">{viewing.note.location}</Text>
                 </View>
               )}

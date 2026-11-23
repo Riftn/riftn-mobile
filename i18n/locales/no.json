@@ -10296,7 +10296,9 @@
     "mostActive": "Mest aktive",
     "hereNow": "Her nå",
     "nobodyYet": "Ingen ennå",
-    "rotate": "Roter skjermen"
+    "rotate": "Roter skjermen",
+    "bannedHere": "Du har fått forbud mot å chatte i denne direktesendingen.",
+    "timedOutHere": "Du er midlertidig utestengt fra denne chatten."
   },
   "search": {
     "endOfResults": "Slutt på resultatene",
@@ -17260,5 +17262,8 @@
     "promptCatchUp": "Oppdater meg på hva {{handle}} har lagt ut i det siste",
     "promptMessage": "Hjelp meg å skrive en melding til {{handle}}",
     "promptAbout": "Om {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Svar på {{name}}…"
   }
 }

@@ -11,7 +11,11 @@ import { useGroupCallRoster } from "../../libs/groupCall";
  * place while one is going. Starting rings every member; joining just steps
  * into the room.
  */
-const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: string[]; canStart?: boolean }> = ({ groupId, groupName, members, canStart = true }) => {
+/**
+ * `ring={false}` is an open room (Public Chat): starting opens the room
+ * without ringing anyone, and others join from the pill.
+ */
+const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: string[]; canStart?: boolean; ring?: boolean }> = ({ groupId, groupName, members, canStart = true, ring = true }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
   const { startGroupCall, joinGroupCall, currentCall } = useCall();
@@ -48,9 +52,9 @@ const GroupCallButtons: React.FC<{ groupId: string; groupName: string; members: 
       {(["audio", "video"] as const).map((callType) => (
         <TouchableOpacity
           key={callType}
-          onPress={() => { void startGroupCall(group, members, callType); }}
-          disabled={busy || members.length < 2}
-          style={[styles.btn, (busy || members.length < 2) && styles.dim]}
+          onPress={() => { void (ring ? startGroupCall(group, members, callType) : joinGroupCall(group, callType)); }}
+          disabled={busy || (ring && members.length < 2)}
+          style={[styles.btn, (busy || (ring && members.length < 2)) && styles.dim]}
           activeOpacity={0.6}
           hitSlop={4}
           accessibilityRole="button"

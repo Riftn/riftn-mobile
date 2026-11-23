@@ -17,8 +17,8 @@ import { useAppTheme } from "../context/ThemeContext";
 import { NAV_PILL_SIDE_INSET } from "./Home/FeedNavBar";
 import { HeaderAccountButton } from "./Home/HeaderAccountButton";
 
-/** Drawn height of the avatar, bell and mark, so the three read as one row. */
-const ICON = 26;
+/** Drawn size of the avatar: the bell's size, so it is easy to see and hit. */
+const ICON = 30;
 /** How far the avatar and bell sit inside the feed pill's side edges. */
 const PILL_INSET = 4;
 /** Web's avatar corner (rounded-lg), so the two match. */

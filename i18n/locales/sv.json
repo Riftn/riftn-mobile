@@ -10320,7 +10320,9 @@
     "mostActive": "Mest aktiv",
     "hereNow": "Här nu",
     "nobodyYet": "Ingen ännu",
-    "rotate": "Rotera skärm"
+    "rotate": "Rotera skärm",
+    "bannedHere": "Du är bannlyst från att chatta i den här direktsändningen.",
+    "timedOutHere": "Du har blivit tidsbegränsad från detta samtal för tillfället."
   },
   "search": {
     "endOfResults": "Slut på resultaten",
@@ -17284,5 +17286,8 @@
     "promptCatchUp": "Uppdatera mig om vad {{handle}} har postat på sistone",
     "promptMessage": "Hjälp mig skriva ett meddelande till {{handle}}",
     "promptAbout": "Om {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Svara till {{name}}…"
   }
 }

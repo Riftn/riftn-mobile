@@ -10382,7 +10382,9 @@
     "mostActive": "Najbardziej aktywny",
     "hereNow": "Tutaj teraz",
     "nobodyYet": "Jeszcze nikt",
-    "rotate": "Obróć ekran"
+    "rotate": "Obróć ekran",
+    "bannedHere": "Jesteś zablokowany w czacie podczas tego live streamu.",
+    "timedOutHere": "Na razie masz przerwę od tego czatu."
   },
   "search": {
     "endOfResults": "Koniec wyników",
@@ -17350,5 +17352,8 @@
     "promptCatchUp": "Streść mi, co {{handle}} ostatnio publikował",
     "promptMessage": "Pomóż mi napisać wiadomość do {{handle}}",
     "promptAbout": "O {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Odpowiedz na {{name}}…"
   }
 }

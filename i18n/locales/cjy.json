@@ -10296,7 +10296,9 @@
     "mostActive": "最活跃",
     "hereNow": "现在在这里",
     "nobodyYet": "还没有人",
-    "rotate": "旋转屏幕"
+    "rotate": "旋转屏幕",
+    "bannedHere": "你在这场直播里被禁言了。",
+    "timedOutHere": "你现在暂时被禁止参与这场聊天。"
   },
   "search": {
     "endOfResults": "结果到底了",
@@ -17396,5 +17398,8 @@
     "addQuestion": "添加问题",
     "pointsLabel": "每道题的积分",
     "attachFailed": "你的帖子已发布，但无法添加测验"
+  },
+  "notes": {
+    "replyTo": "回覆 {{name}}…"
   }
 }

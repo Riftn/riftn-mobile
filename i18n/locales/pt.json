@@ -10325,7 +10325,9 @@
     "mostActive": "Mais activo",
     "hereNow": "Aqui agora",
     "nobodyYet": "Ninguém ainda",
-    "rotate": "Rodar ecrã"
+    "rotate": "Rodar ecrã",
+    "bannedHere": "Você está banido de conversar nesta transmissão ao vivo.",
+    "timedOutHere": "Você foi temporariamente impedido de participar deste chat."
   },
   "search": {
     "endOfResults": "Fim dos resultados",
@@ -17305,5 +17307,8 @@
     "promptCatchUp": "Me atualize sobre o que {{handle}} publicou recentemente",
     "promptMessage": "Me ajude a escrever uma mensagem para {{handle}}",
     "promptAbout": "Sobre {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Responda a {{name}}…"
   }
 }

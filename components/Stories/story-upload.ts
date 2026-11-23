@@ -10,7 +10,7 @@ import { translateCopy as _translateCopy } from "../../i18n/copy";
 
 export interface MomentToShare {
   kind: "photo" | "video";
-  /** Photo: the flattened JPEG. Video: the clip as picked. */
+  /** Photo: the flattened JPEG. Video: the clip as picked, or "" for a video post (the server cuts it from the post). */
   uri: string;
   mimeType: string;
   overlayUri?: string | null;
@@ -37,6 +37,19 @@ export function shareMoment(moment: MomentToShare, onDone: () => void) {
           { photo: { uri: moment.uri, name: "moment.jpg", type: moment.mimeType || "image/jpeg" } },
           (f) => update({ progress: Math.max(0.02, f) }),
         );
+      } else if (!moment.uri && moment.fields.postTokenId != null) {
+        created = await createStory(
+          { ...moment.fields, type: "video" },
+          { overlay: moment.overlayUri ? { uri: moment.overlayUri, name: "layer.png", type: "image/png" } : null },
+          (f) => update({ progress: Math.max(0.02, f * 0.92) }),
+        );
+        update({ state: "processing", progress: 1 });
+        const started = Date.now();
+        while (created.status === "processing" && Date.now() - started < POLL_LIMIT_MS) {
+          await sleep(POLL_MS);
+          created = await getStory(created.id, true).then((r) => r.item).catch(() => created);
+        }
+        if (created.status === "failed") throw new Error(created.error || "failed");
       } else {
         const ext = moment.mimeType.includes("quicktime") ? "mov" : "mp4";
         const draftId = await uploadStoryClip(

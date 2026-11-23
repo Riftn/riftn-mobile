@@ -10267,7 +10267,8 @@
     "mostActive": "Most active",
     "hereNow": "Here now",
     "nobodyYet": "No one yet",
-    "rotate": "Turn di screen"
+    "rotate": "Turn di screen",
+    "bannedHere": "Dem don ban you make you no chat for this live stream."
   },
   "search": {
     "endOfResults": "Results don finish",
@@ -17253,5 +17254,8 @@
     "promptCatchUp": "Tell me wetin {{handle}} don post lately",
     "promptMessage": "Help me write message give {{handle}}",
     "promptAbout": "About {{handle}}: {{question}}"
+  },
+  "notes": {
+    "replyTo": "Reply to {{name}}…"
   }
 }

@@ -10316,7 +10316,9 @@
     "mostActive": "最活躍",
     "hereNow": "而家喺度",
     "nobodyYet": "仲未有人",
-    "rotate": "旋轉螢幕"
+    "rotate": "旋轉螢幕",
+    "bannedHere": "你已被禁止喺呢個直播入面聊天。",
+    "timedOutHere": "你而家暫時被禁止喺呢個聊天室發言。"
   },
   "search": {
     "endOfResults": "結果到底喇",
@@ -17280,5 +17282,8 @@
     "promptCatchUp": "同我講吓{{handle}}最近post咗啲乜",
     "promptMessage": "幫我寫個訊息俾{{handle}}",
     "promptAbout": "關於{{handle}}：{{question}}"
+  },
+  "notes": {
+    "replyTo": "回覆 {{name}}…"
   }
 }

@@ -10296,7 +10296,9 @@
     "mostActive": "Paling aktif",
     "hereNow": "Kene saiki",
     "nobodyYet": "Durung ana sapa-sapa",
-    "rotate": "Putar layar"
+    "rotate": "Putar layar",
+    "bannedHere": "Sampeyan dilarang ngobrol ing siaran langsung iki.",
+    "timedOutHere": "Sampeyan lagi ora bisa melu obrolan iki kanggo sementara."
   },
   "search": {
     "endOfResults": "Pungkasan asil",
@@ -17355,5 +17357,8 @@
     "addQuestion": "Tambah pitakonan",
     "pointsLabel": "Poin saben jawaban bener",
     "attachFailed": "Kiriman sampeyan wis tayang, nanging kuis gagal ditambahake"
+  },
+  "notes": {
+    "replyTo": "Kasih tau {{name}}…"
   }
 }

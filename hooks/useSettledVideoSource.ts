@@ -11,12 +11,14 @@ export const NEIGHBOUR_LOAD_DELAY_MS = 120;
 
 /** Keep one player per cell and cancel preloading of quickly passed pages. */
 export function useSettledVideoSource(
-  player: Pick<VideoPlayer, 'replaceAsync'>,
+  player: Pick<VideoPlayer, 'replaceAsync'> & Partial<Pick<VideoPlayer, 'replace'>>,
   source: string | null,
   active: boolean,
   onReady: () => void,
   onError?: () => void,
   sharedSource?: { loadedSource?: string | null },
+  /** Attach the item at once (see replaceVideoSource). */
+  immediate = false,
 ) {
   const loaded = useRef<string | null>(sharedSource?.loadedSource ?? null);
   const latest = useRef({ source, active, onReady, onError });
@@ -31,7 +33,7 @@ export function useSettledVideoSource(
     const load = () => {
       loaded.current = source;
       if (sharedSource) sharedSource.loadedSource = source;
-      replaceVideoSource(player, source).then(() => {
+      replaceVideoSource(player, source, { immediate }).then(() => {
         if (mounted.current && source && latest.current.source === source && latest.current.active) {
           latest.current.onReady();
         }
@@ -44,5 +46,5 @@ export function useSettledVideoSource(
     if (!source || active) { load(); return; }
     const timer = setTimeout(load, NEIGHBOUR_LOAD_DELAY_MS);
     return () => clearTimeout(timer);
-  }, [player, source, active]);
+  }, [player, source, active, immediate]);
 }

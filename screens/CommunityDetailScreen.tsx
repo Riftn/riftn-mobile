@@ -58,6 +58,8 @@ import CustomSwitch from "../components/ui/CustomSwitch";
 import { CommunityInfoEditor } from "../components/Communities/CommunityInfoEditor";
 import CommunityEventsTab from "../components/Events/CommunityEventsTab";
 import { CommunityChatPanel } from "../components/Communities/CommunityChatPanel";
+import NotesSheet, { GroupChatNotesRow } from "../components/DM/NotesSheet";
+import type { NoteEntry } from "../services/notes.service";
 import { CommunityManageSheet } from "../components/Communities/manage/CommunityManageSheet";
 import Avatar from "../components/common/Avatar";
 import { getAvatarUrl } from "../libs/misc";
@@ -97,6 +99,7 @@ const CommunityDetailScreen: React.FC = () => {
   const user = useUser() as any;
   const walletAddress = user?.address || user?.walletAddress || "";
   const walletRef = useRef(walletAddress);
+  const [noteView, setNoteView] = useState<NoteEntry | null>(null);
   walletRef.current = walletAddress;
   const { requireAuth } = useAuthActions();
   // While the saved sign-in is still being read there is no wallet yet, and
@@ -827,6 +830,8 @@ const CommunityDetailScreen: React.FC = () => {
       ) : tab === "chat" ? (
         <View className="flex-1">
           {TabBar}
+          {/* Notes from members of this group, across the top of the chat. */}
+          <GroupChatNotesRow groupId={community.id} me={walletAddress || null} onOpen={setNoteView} />
           <CommunityChatPanel
             community={community}
             membership={membership}
@@ -1015,6 +1020,20 @@ const CommunityDetailScreen: React.FC = () => {
       ) : null}
       <DeHubRefreshMark refreshing={refreshing} />
       <CommunityShareMenu open={shareOpen} onClose={() => setShareOpen(false)} community={community} wallet={walletAddress} canInvite={abilities.can('add_members')} isMember={isMember} />
+      {!!noteView && (
+        <NotesSheet
+          visible={!!noteView}
+          initialView={noteView}
+          onClose={() => setNoteView(null)}
+          onMessage={(a, reply) => navigation.push(ScreenNames.Chat, {
+            targetAddress: a.address.toLowerCase(),
+            title: a.displayName || a.username || a.address,
+            targetUser: { ...a, walletAddress: a.address },
+            focusComposer: true,
+            ...(reply ? { autoSendText: reply } : {}),
+          })}
+        />
+      )}
     </View>
   );
 };
