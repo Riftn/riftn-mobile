@@ -1109,7 +1109,7 @@ export default function HomeScreen() {
       key: "type",
       group: t("feedFilters.groupType", "Type"),
       // A named filter reads as its name and purpose: "Motion · Watch".
-      label: named ? `${named.name} · ${t(named.purposeKey, named.purpose)}` : homeFilterPostType === "article" ? t("articles.label") : t("filters.videos", "Videos"),
+      label: named ? `${named.name} · ${t(named.purposeKey)}` : homeFilterPostType === "article" ? t("articles.label") : t("filters.videos", "Videos"),
       onRemove: () => applyFilters({ ...filters, postType: "all" }),
     });
     if (selectedCategory) items.push({

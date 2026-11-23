@@ -192,7 +192,7 @@ export function NamedFeedsRow({
       <View style={{ flexDirection: "row", gap: 6 }}>
         {NAMED_FEEDS.map((feed) => {
           const active = feed.value === value;
-          const purpose = t(feed.purposeKey, feed.purpose);
+          const purpose = t(feed.purposeKey);
           return (
             <TouchableOpacity
               key={feed.value}
