@@ -768,10 +768,9 @@ const LiveProducerScreen: React.FC = () => {
     console.log("[LiveProducer] onStart invoked. Current stage:", stage);
     // Mark that this device started the stream
     startedFromThisDeviceRef.current = true;
-    if (!externalMode) {
-      // Ensure video is enabled before starting publishing to avoid blank preview
-      setCameraOff(false);
-    } else {
+    // Camera turned off in the preview stays off once live: the streamer
+    // chose to go live without video, so don't switch it back on.
+    if (externalMode) {
       // External mode: signal publisher as "connected" so live polling can begin
       // (The actual video ingest comes from external software)
       setPublisherConnected(true);
@@ -1005,10 +1004,10 @@ const LiveProducerScreen: React.FC = () => {
   const toggleExternal = useCallback(() => {
     setExternalMode((prev) => {
       const next = !prev;
-      if (next) {
-        setCameraOff(true);
-        setMicMuted(true);
-      }
+      // External software owns the picture and sound; coming back to the
+      // phone camera turns them back on (going live keeps the camera as set).
+      setCameraOff(next);
+      setMicMuted(next);
       return next;
     });
   }, []);

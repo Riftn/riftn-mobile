@@ -748,7 +748,10 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
     ? `bg-white/[0.11] rounded-xl ${tailCorner}${topCorner}`
     : `border border-white/[0.16] rounded-xl ${tailCorner}${topCorner}`;
 
-  const isMediaOnly = (mediaItems.length > 0 || encVisual) && !hasText && !isVoice;
+  // A tap-to-open timed photo is a text tile, not a picture: its time and ticks go
+  // on their own line under it, never on top of the countdown words.
+  const isOpenTimerTile = message.destruct?.mode === "open" && mediaItems.some((m) => m.kind === "image" || m.kind === "video");
+  const isMediaOnly = (mediaItems.length > 0 || encVisual) && !hasText && !isVoice && !isOpenTimerTile;
   // Media-only paid msgs need a background for PaymentBadge; plain media-only don't
   const activeBubbleBg = isMediaOnly
     ? (isPaidMsg
@@ -1306,7 +1309,7 @@ const MessageBubbleComponent: React.FC<MessageBubbleProps> = ({
             ) : (
               // Inside a run only the last line carries the time; a line that
               // is still sending, failed, or paid keeps its row.
-              groupLast || isPaidMsg || isUploadFailed || (message as OptimisticMessage)._optimistic ? (
+              groupLast || isOpenTimerTile || isPaidMsg || isUploadFailed || (message as OptimisticMessage)._optimistic ? (
                 <View className="px-3 pb-1.5">
                   <StatusRow />
                 </View>
