@@ -159,6 +159,7 @@ import { minimalFlat } from "../theme/minimal";
 import { uploadLocalFileToBucket, fileExtension, contentTypeForExtension } from "../libs/storage-upload";
 
 import { formatCount } from '../libs/format-count';
+import MintHomeAllowance from "../components/common/MintHomeAllowance";
 /** Same key web writes to localStorage — see hooks/useAppPrefs.ts on naming. */
 const SHOULD_MINT_KEY = "post_should_mint";
 
@@ -3411,6 +3412,9 @@ export default function UploadScreen() {
                   disabled={mintRequired}
                 />
               </View>
+            )}
+            {!isQuoteMode && DIGITAL_PURCHASES_ENABLED && effectiveShouldMint && (
+              <MintHomeAllowance style={{ marginLeft: 30, marginTop: -6, marginBottom: 4 }} />
             )}
 
             {/* Title is forced on for video/audio/live, toggleable for the

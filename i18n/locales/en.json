@@ -4271,6 +4271,7 @@
     "tabSearch": "Search"
   },
   "mintChain": {
+    "homeAllowance": "{{left}} of {{total}} mints today reach Home. Extra mints go to your profile and the market.",
     "title": "Mint post",
     "subtitle": "Choose a chain. Prices are live and update every minute.",
     "free": "Free",
@@ -12927,7 +12928,8 @@
           "3": "Media is one shared pool of data per day across video, images and audio, so lots of small posts all fit.",
           "4": "Once you pass either allowance, new posts of that kind go to your profile and your followers' Following feed.",
           "5": "Nothing is hidden: everything you post stays on your profile.",
-          "6": "Both allowances reset at midnight UTC."
+          "6": "Both allowances reset at midnight UTC.",
+          "7": "Mints work the same way: your badge sets how many mints a day reach the home feed, the same number as your text posts. Extra mints still go through and show on your profile, in Following and in the fractions market."
         },
         "tips": {
           "1": "A higher staking badge puts more of your posts on the home feed each day.",

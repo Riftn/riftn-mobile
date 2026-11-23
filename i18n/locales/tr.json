@@ -12758,7 +12758,8 @@
           "3": "Bir gönderi limiti aşacaksa, uygulama önce fiyatını belirler ve herhangi bir yüklemeden önce cüzdanınızın bunu karşılayıp karşılayamayacağını kontrol eder.",
           "4": "Gönderi, limit dahilindeymiş gibi yayınlanır — yayınlama asla ödeme beklemez.",
           "5": "Ardından, yalnızca o gönderi için bir transferi onaylarsınız, bu transfer Base veya BNB Chain'den hangisinde yeterli Riftn token'ı varsa orada gerçekleşir.",
-          "6": "Her iki havuz da UTC gece yarısı sıfırlanır."
+          "6": "Her iki havuz da UTC gece yarısı sıfırlanır.",
+          "7": "Mintler de aynı şekilde çalışır: rozetin günde kaç mintin Ana Sayfa akışına ulaşacağını belirler, bu sayı metin gönderilerinle aynıdır. Fazla mintler yine de gerçekleşir ve profilinde, Takip Edilenler'de ve kesir pazarında görünür."
         },
         "tips": {
           "1": "Aşım orantılıdır: Limitinizin 200 MB fazlası, tam bir gigabayt değil, 200 MB olarak ücretlendirilir.",
@@ -16997,6 +16998,7 @@
     "failed": "Fotoğrafın kaydedilemedi. Tekrar dene."
   },
   "mintChain": {
+    "homeAllowance": "Bugünkü {{total}} mint hakkının {{left}} tanesi Ana Sayfa'ya ulaşır. Fazla mintler profiline ve pazara gider.",
     "title": "Darphane postası",
     "subtitle": "Bir zincir seçin. Fiyatlar canlıdır ve her dakika güncellenir.",
     "free": "Ücretsiz",

@@ -33,6 +33,13 @@ export interface PostQuotaStatus {
    * older API does not send it. See `libs/post-text-limit`.
    */
   textCharsPerPost?: number;
+  /**
+   * Today's mints and how many of them reach the home feed. Only reach: a
+   * mint past the number still goes through. Optional for an older API.
+   */
+  mintsUsed?: number;
+  mintsPerDay?: number;
+  homeMintsRemaining?: number;
   dhbPerTextPost: number;
   dhbPerGb: number;
   discountRate: number;
