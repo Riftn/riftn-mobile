@@ -89,8 +89,8 @@ final class CaptureSampleHandler: RPBroadcastSampleHandler {
       guard !self.ending else { return }
       switch type {
       case .video:
-        let orientation = (CMGetAttachment(sampleBuffer, key: RPVideoSampleOrientationKey as CFString, attachmentModeOut: nil) as? NSNumber)?.int32Value ?? 1
-        movie.appendVideo(sampleBuffer, orientation: orientation)
+        let raw = (CMGetAttachment(sampleBuffer, key: RPVideoSampleOrientationKey as CFString, attachmentModeOut: nil) as? NSNumber)?.uint32Value ?? 1
+        movie.appendVideo(sampleBuffer, orientation: Int32(LiveBroadcastSession.upright(replayKit: raw).rawValue))
       case .audioApp: movie.appendAudio(sampleBuffer, source: "system")
       case .audioMic: movie.appendAudio(sampleBuffer, source: "microphone")
       @unknown default: break

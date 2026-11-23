@@ -11,6 +11,7 @@ export type VolumeKeyDirection = "up" | "down";
 type Bridge = {
   liveScreenShare?: boolean;
   liveBroadcastPublish?: boolean;
+  liveBroadcastUpright?: boolean;
   showBroadcastPicker?: (microphone?: boolean) => Promise<boolean>;
   prepareLiveBroadcast?: (url: string) => string | null;
   liveBroadcastStatus?: (id: string) => Record<string, unknown> | null;
@@ -77,6 +78,17 @@ export function liveBroadcastPublishSupported(): boolean {
     && typeof native.prepareLiveBroadcast === "function"
     && typeof native.liveBroadcastStatus === "function"
     && typeof native.stopLiveBroadcast === "function";
+}
+
+/**
+ * iPhone 1.20.1's extension sends landscape frames upside down. Its shares get
+ * a `flip=landscape` mark on the ingest URL and the server turns them upright.
+ * Builds that fix it natively say so with `liveBroadcastUpright`.
+ */
+export function liveBroadcastIngestUrl(url: string): string {
+  if (bridge()?.liveBroadcastUpright === true) return url;
+  // Only the self-hosted ingest reads the mark; Livepeer's key has no query.
+  return /-rtmp\?/.test(url) ? `${url}&flip=landscape` : url;
 }
 
 export type LiveBroadcastState = "connecting" | "live" | "ended" | "failed";

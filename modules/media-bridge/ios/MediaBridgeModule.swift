@@ -67,6 +67,9 @@ public class MediaBridgeModule: Module {
     // the app leaves a ticket with the stream's RTMP ingest URL, reads the
     // extension's status, and sets `stop` to end the share.
     Constant("liveBroadcastPublish") { LiveShareFiles.folder() != nil }
+    // This build's extension turns landscape frames the right way up itself.
+    // 1.20.1 did not, and the app marks its shares so the ingest fixes them.
+    Constant("liveBroadcastUpright") { true }
 
     Function("prepareLiveBroadcast") { (url: String) -> String? in
       guard let folder = LiveShareFiles.folder() else { return nil }

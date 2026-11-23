@@ -12,6 +12,7 @@ import {
   liveBroadcastPublishSupported,
   liveBroadcastStatus,
   prepareLiveBroadcast,
+  liveBroadcastIngestUrl,
   showBroadcastPicker,
   stopLiveBroadcast,
 } from "../../modules/media-bridge";
@@ -1146,7 +1147,7 @@ const WebRTCPublisher: React.FC<WebRTCPublisherProps> = ({
       // Newer iPhone builds: the extension publishes the share itself.
       if (Platform.OS === "ios" && liveBroadcastPublishSupported()) {
         const url = rtmpPublishUrlFor(currentCreds());
-        const id = url ? prepareLiveBroadcast(url) : null;
+        const id = url ? prepareLiveBroadcast(liveBroadcastIngestUrl(url)) : null;
         if (id) {
           extShareRef.current = { id, handedOff: false, startedAt: Date.now() };
           setShareNotice(null);
