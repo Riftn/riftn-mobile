@@ -28,8 +28,12 @@ for node in walk(items if isinstance(items, list) else [items]):
     if label:
         seen.append(label)
     frame = node.get("frame") or {}
+    # Only what a finger can reach: a copy scrolled up under the status bar
+    # (a profile's tab bar behind its pinned copy) is passed over.
     if hit is None and label == wanted and frame.get("width") and frame.get("height"):
-        hit = (round(frame["x"] + frame["width"] / 2), round(frame["y"] + frame["height"] / 2))
+        cx, cy = round(frame["x"] + frame["width"] / 2), round(frame["y"] + frame["height"] / 2)
+        if 50 <= cy <= 840:
+            hit = (cx, cy)
 
 with open(log, "a") as out:
     if hit:
