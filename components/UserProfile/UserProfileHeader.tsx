@@ -24,7 +24,7 @@ import ProfilePetCard from "../Pet/PetCard";
 import StreamerBadge from "../Live/StreamerBadge";
 import BadgePatronChip from "../common/BadgePatronChip";
 import EarlySupporterChip from "../common/EarlySupporterChip";
-import MilestoneChips from "../Profile/BadgeMuseum";
+import MilestoneChips, { BadgeMuseumPanel } from "../Profile/BadgeMuseum";
 import { useTranslation as useI18n } from "react-i18next";
 import { formatCount } from "../../libs/format-count";
 import type { FollowListItem } from "../../services/user.service";
@@ -541,6 +541,10 @@ const UserProfileHeader: React.FC<UserProfileHeaderProps> = ({
             </View>
           )}
         </View>
+
+        {/* Badge Museum: every earned badge in a framed grid under the
+            counts. Nothing until one is earned, or when the owner hides it. */}
+        {!isBlocked && <BadgeMuseumPanel address={address || username} own={isOwnProfile} />}
 
         {/* The streamer ladder. Renders nothing until a stream has ended,
             so a non-streamer's profile is unchanged. */}

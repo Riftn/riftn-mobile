@@ -32,6 +32,8 @@ import { AuthService } from "../services/auth.service";
 import { getAccountProfile } from "../services/user.service";
 import CustomSwitch from "../components/ui/CustomSwitch";
 import { readPublicTimeZone } from "../hooks/useProfileLocalTime";
+import { BADGE_MUSEUM_VISIBILITY_KEY, badgeMuseumIsShown } from "../hooks/useMilestones";
+import { useQueryClient } from "@tanstack/react-query";
 import { toastError, toastSuccess } from "../libs/toast";
 import ScreenHeader from "../components/ScreenHeader";
 import { useKeyboardOffset } from "../hooks/useKeyboardLayout";
@@ -111,6 +113,12 @@ const EditProfileScreen = () => {
   const selectedTimeZone = publicTimeZone ?? storedTimeZone;
   const timeZoneChanged = selectedTimeZone !== storedTimeZone;
   const deviceTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  // Badge Museum on the profile (customs.badgeMuseumVisibility). Off, only you see it.
+  const storedShowBadgeMuseum = badgeMuseumIsShown(user?.customs as Record<string, unknown> | undefined);
+  const [showBadgeMuseum, setShowBadgeMuseum] = useState<boolean | null>(null);
+  const selectedShowBadgeMuseum = showBadgeMuseum ?? storedShowBadgeMuseum;
+  const badgeMuseumChanged = selectedShowBadgeMuseum !== storedShowBadgeMuseum;
+  const queryClient = useQueryClient();
   // Self-reported follower counts for the linked socials, feeding the profile's
   // total reach. They live in `customs`, which the API replaces wholesale, so
   // a save resends the whole blob around the counts.
@@ -174,6 +182,7 @@ const EditProfileScreen = () => {
     return (
       fieldsChanged ||
       timeZoneChanged ||
+      badgeMuseumChanged ||
       displayName.trim() !== initial.displayName.trim() ||
       username.trim() !== initial.username.trim() ||
       aboutMe.trim() !== initial.aboutMe.trim() ||
@@ -193,7 +202,7 @@ const EditProfileScreen = () => {
   }, [
     displayName, username, aboutMe,
     twitterLink, instagramLink, tiktokLink, youtubeLink, discordLink, telegramLink, facebookLink,
-    socialFollowers, localAvatar, localCover, removeAvatar, removeCover, initial, fieldsChanged, timeZoneChanged,
+    socialFollowers, localAvatar, localCover, removeAvatar, removeCover, initial, fieldsChanged, timeZoneChanged, badgeMuseumChanged,
   ]);
 
   const runUsernameCheck = useDebounceCallback(async (name: string) => {
@@ -361,7 +370,7 @@ const EditProfileScreen = () => {
       // when a count changed, so an unrelated save cannot overwrite a blob
       // another screen has since written.
       let customsBase = user?.customs;
-      if (timeZoneChanged && user?.address) {
+      if ((timeZoneChanged || badgeMuseumChanged) && user?.address) {
         const account = await getAccountProfile(user.address);
         if (!account) throw new Error(t("settings.updateFailed"));
         customsBase = account.customs;
@@ -377,8 +386,12 @@ const EditProfileScreen = () => {
             telegram: tg.normalized,
             facebook: fb.normalized,
           });
-      const mergedCustoms = timeZoneChanged
-        ? { ...(socialCustoms ?? customsBase), publicTimeZone: selectedTimeZone || false }
+      const mergedCustoms = timeZoneChanged || badgeMuseumChanged
+        ? {
+            ...(socialCustoms ?? customsBase),
+            ...(timeZoneChanged ? { publicTimeZone: selectedTimeZone || false } : {}),
+            ...(badgeMuseumChanged ? { [BADGE_MUSEUM_VISIBILITY_KEY]: selectedShowBadgeMuseum ? "public" : "hidden" } : {}),
+          }
         : socialCustoms;
       if (mergedCustoms) payload.customs = JSON.stringify(mergedCustoms);
       await patchUser?.({
@@ -431,6 +444,8 @@ const EditProfileScreen = () => {
       setFacebookLink.complete(facebookLink, facebookLink);
       setSocialFollowers.complete(socialFollowers, socialFollowers);
       await refreshUser?.();
+      // The Badge Museum answer carries whether it is hidden from others.
+      if (badgeMuseumChanged) void queryClient.invalidateQueries({ queryKey: ["profile-milestones"] });
       toastSuccess(t("toasts.profile_updated"));
       navigation.goBack();
     } catch (e) {
@@ -657,6 +672,18 @@ const EditProfileScreen = () => {
                 value={!!selectedTimeZone}
                 disabled={!deviceTimeZone && !selectedTimeZone}
                 onValueChange={enabled => setPublicTimeZone(enabled ? deviceTimeZone || "" : "")}
+              />
+            </View>
+
+            <View className="flex-row items-center gap-4 py-2">
+              <View className="flex-1">
+                <Text className="text-white text-sm">{t("badgeMuseum.showSetting")}</Text>
+                <Text className="text-neutral-400 text-xs mt-1">{t("badgeMuseum.showSettingHint")}</Text>
+              </View>
+              <CustomSwitch
+                accessibilityLabel={t("badgeMuseum.showSetting")}
+                value={selectedShowBadgeMuseum}
+                onValueChange={setShowBadgeMuseum}
               />
             </View>
 

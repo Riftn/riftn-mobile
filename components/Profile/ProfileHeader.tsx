@@ -57,7 +57,7 @@ import NewMemberChip from "../common/NewMemberChip";
 import ImageViewerModal from "../common/ImageViewerModal";
 import BadgePatronChip from "../common/BadgePatronChip";
 import EarlySupporterChip from "../common/EarlySupporterChip";
-import MilestoneChips from "./BadgeMuseum";
+import MilestoneChips, { BadgeMuseumPanel } from "./BadgeMuseum";
 import ShareToDmSheet from "../DM/ShareToDmSheet";
 import ProfileBio from "./ProfileBio";
 import TotalReachPill from "./TotalReachPill";
@@ -584,6 +584,10 @@ const ProfileHeader = ({ featuredCommunity, onIdentityBottom, onActionsBottom }:
                 below when the line is genuinely full. */}
             <ProfileLinksPill source={user} style={{ marginLeft: "auto" }} />
           </View>
+
+          {/* Badge Museum: every earned badge in a framed grid under the
+              counts. Nothing until one is earned. */}
+          <BadgeMuseumPanel address={address} own />
 
           {/* The streamer ladder. Renders nothing until a stream has ended,
               so a non-streamer's profile is unchanged. */}
