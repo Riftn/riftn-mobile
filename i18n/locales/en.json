@@ -8420,6 +8420,7 @@
     "groupVoiceCall": "Group voice call",
     "groupVideoCall": "Group video call",
     "callingGroup": "Ringing the group...",
+    "waitingForPeople": "Waiting for people to join...",
     "isCalling": "{{name}} is calling",
     "leave": "Leave",
     "joinCall": "Join call",

@@ -8797,6 +8797,7 @@
     "groupVoiceCall": "Groepsspraakoproep",
     "groupVideoCall": "Groepsvideogesprek",
     "callingGroup": "Groep wordt gebeld...",
+    "waitingForPeople": "Wachten tot mensen meedoen...",
     "isCalling": "{{name}} belt",
     "leave": "Verlaten",
     "joinCall": "Deelnemen",
