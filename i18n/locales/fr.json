@@ -2028,6 +2028,9 @@
     "tokenAmount": "{{amount}} jetons"
   },
   "postOptions": {
+    "copyImage": "Copier l'image",
+    "copyGif": "Copier le GIF",
+    "copyVideo": "Copier la vidéo",
     "notInterestedHint": "Masquer cette publication et en voir moins comme elle",
     "notInterestedDone": "Compris. Vous verrez moins de publications comme celle-ci.",
     "notInterested": "Pas intéressé",

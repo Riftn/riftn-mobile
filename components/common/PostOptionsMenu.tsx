@@ -67,6 +67,7 @@ import { refreshLinkPreview } from "../../libs/link-preview";
 import { firstExternalUrl } from "./LinkPreviewCard";
 import { REACTION_LIST, type PostReaction } from "../../libs/reactions";
 import { copyToClipboard } from "../../libs/clipboard.utils";
+import { copyMessageMedia, type CopyMediaKind } from "../../libs/copyMessageMedia";
 
 export interface PostOptionsMenuProps {
   visible: boolean;
@@ -232,6 +233,7 @@ export interface PostOptionsMenuProps {
    * post opens this menu, so everything you can do to a post is in one place.
    */
   quick?: QuickActions;
+  copyMedia?: CopyMediaRow;
 }
 
 export interface QuickActions {
@@ -247,6 +249,16 @@ export interface QuickActions {
   text?: string | null;
   /** Your own text post or article on your profile: its look picker. */
   look?: PostLookRow;
+}
+
+/**
+ * Copy image / GIF / video. Open posts only: a paid, locked or hidden one
+ * leaves it out. `url` runs on the press, so a gallery copies the photo on
+ * screen right then.
+ */
+export interface CopyMediaRow {
+  kind: CopyMediaKind;
+  url: () => string | null | undefined;
 }
 
 export interface PostLookRow {
@@ -441,7 +453,7 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
   onInfoPress,
   onAskAi,
   linkText,
-  hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,  quick,}) => {
+  hideReportContent = false,  hideEdit = false,  isAudio = false,  canMarkSegments = false,  player,  quick,  copyMedia,}) => {
   const showPurchaseOffer = usePurchaseOfferVisible();
   usePerfProbe("PostOptionsMenu");
   const user = useUser();
@@ -811,6 +823,21 @@ const PostOptionsMenuComponent: React.FC<PostOptionsMenuProps> = ({
           {!!onClip && (
             <OptionRow icon="Scissors" label={t("liveClips.button", { defaultValue: "Clip this moment" })}
               onPress={() => { onClose(); onClip(); }} />
+          )}
+          {!!copyMedia && (
+            <OptionRow
+              icon={copyMedia.kind === "video" ? "Video" : "Images"}
+              label={copyMedia.kind === "video"
+                ? t("postOptions.copyVideo", { defaultValue: "Copy video" })
+                : copyMedia.kind === "gif"
+                  ? t("postOptions.copyGif", { defaultValue: "Copy GIF" })
+                  : t("postOptions.copyImage", { defaultValue: "Copy image" })}
+              onPress={() => {
+                onClose();
+                const url = copyMedia.url();
+                if (url) void copyMessageMedia(url, copyMedia.kind);
+              }}
+            />
           )}
           {!!onDownloadImage && (
             <OptionRow icon="Download" label={t("player.downloadImage")}

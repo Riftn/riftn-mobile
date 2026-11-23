@@ -2216,6 +2216,9 @@
     "tokenAmount": "{{amount}} tokens"
   },
   "postOptions": {
+    "copyImage": "Afbeelding kopiëren",
+    "copyGif": "GIF kopiëren",
+    "copyVideo": "Video kopiëren",
     "notInterestedHint": "Verberg dit bericht en zie er minder zoals dit",
     "notInterestedDone": "Begrepen. Je ziet minder berichten zoals deze.",
     "notInterested": "Niet geïnteresseerd",
