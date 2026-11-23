@@ -18453,5 +18453,30 @@
     "offToast": "Je berichten hier gaan zoals je ze typt",
     "onToast": "Je berichten hier gaan nu in het {{language}}",
     "noLanguage": "Ze hebben nog geen app-taal gekozen, dus je berichten gaan voorlopig zoals je ze typt"
+  },
+  "badgeMuseum": {
+    "title": "Badgemuseum",
+    "open": "Badgemuseum openen",
+    "summary": "{{earned}} van {{total}} badges verdiend",
+    "loading": "Badges laden…",
+    "earned": "Verdiend",
+    "progress": "{{value}} / {{goal}}",
+    "footer": "Badges worden vanzelf vrijgespeeld zodra een mijlpaal is bereikt.",
+    "name": {
+      "views": "{{value}} weergaven",
+      "videos": "{{value}} video's",
+      "followers": "{{value}} volgers",
+      "likes": "{{value}} likes",
+      "firstLive": "Eerste livestream",
+      "liveHours": "{{value}} uur live"
+    },
+    "hint": {
+      "views": "Weergaven op alle posts",
+      "videos": "Geüploade video's",
+      "followers": "Volgers",
+      "likes": "Ontvangen likes",
+      "firstLive": "Ga één keer live",
+      "liveHours": "Uren live gestreamd"
+    }
   }
 }
